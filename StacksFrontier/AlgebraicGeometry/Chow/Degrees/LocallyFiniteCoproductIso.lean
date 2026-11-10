@@ -123,7 +123,7 @@ theorem isIso_sigmaι_of_isZero {D : Type*} [Category D] [HasZeroMorphisms D] {J
     by_cases hj : j = j₀
     · subst hj
       simp
-    · simp only [Sigma.ι_desc_assoc, hj, ↓reduceDIte, zero_comp, Category.comp_id]
+    · simp only [Sigma.ι_comp_desc_assoc, hj, ↓reduceDIte, zero_comp, Category.comp_id]
       exact ((h j hj).eq_of_src _ _).symm
 
 /-! ### A locally finite direct sum near a point -/

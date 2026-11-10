@@ -83,7 +83,7 @@ public theorem eq_representationLAdicSheafMap_representationLAdicSheafHomMatrix
       rfl
     subst hy
     funext i
-    show representationLevelHomVec B X x hρ hρ'
+    change representationLevelHomVec B X x hρ hρ'
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) (n + 1) (θ.app n)
         (fun j => PadicInt.toZModPow (n + 1) (w j)) i =
       (((representationLAdicSheafHomMatrix B X x hρ hρ' θ).map (PadicInt.toZModPow (n + 1))) *ᵥ

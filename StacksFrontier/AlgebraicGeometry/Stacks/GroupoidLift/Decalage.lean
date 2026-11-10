@@ -21,19 +21,19 @@ codegeneracy contracts.
 
 ## Main definitions
 
-* `Stacks.Decalage.Decalage`: the structure.
-* `Stacks.Decalage.Decalage.diff`: the alternating sum of the faces.
+* `Stacks.Decalage`: the structure.
+* `Stacks.Decalage.diff`: the alternating sum of the faces.
 
 ## Main results
 
-* `Stacks.Decalage.Decalage.exists_diff_eq`: a cocycle in positive degree is a coboundary.
+* `Stacks.Decalage.exists_diff_eq`: a cocycle in positive degree is a coboundary.
 -/
 
 @[expose] public section
 
 open scoped TensorProduct
 
-namespace Stacks.Decalage
+namespace Stacks
 
 universe u v w
 
@@ -142,6 +142,6 @@ theorem exists_diff_eq [Module.FaithfullyFlat A' C'] (n : ℕ) (x : M (n + 1))
 
 end Decalage
 
-end Stacks.Decalage
+end Stacks
 
 end

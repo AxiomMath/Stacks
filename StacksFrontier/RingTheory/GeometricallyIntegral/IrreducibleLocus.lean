@@ -15,8 +15,9 @@ together with a statement about the generic fibre over an integral base — here
 the number of geometrically irreducible components of the fibres is constant on a nonempty open of
 any irreducible closed subset of the base. The criterion and the reduction to an integral base are
 carried out, once for any iso-invariant property of the fibres, in
-`StacksFrontier.RingTheory.GeometricallyIntegral.ReducedLocus`; this file instantiates that machinery
-at irreducibility of the spectrum, and then at being a domain, which is what Stacks 05FT needs.
+`StacksFrontier.RingTheory.GeometricallyIntegral.ReducedLocus`; this file instantiates that
+machinery at irreducibility of the spectrum, and then at being a domain, which is what Stacks
+05FT needs.
 
 The upshot is `Algebra.projective_of_geometricallyIntegral_fibres_of_spreadOut`: Stacks 05FT holds
 granted the single statement that over a Noetherian domain some nonempty basic open of the base

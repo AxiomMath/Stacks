@@ -76,8 +76,7 @@ theorem lTensor_smul_firstOrderExtension (phi : M →ₗ[(D : Type u)] N)
     (b : firstOrderExtension D Omega) (z : firstOrderExtension D Omega ⊗[D] M) :
     LinearMap.lTensor (firstOrderExtension D Omega) phi (b • z) =
       b • LinearMap.lTensor (firstOrderExtension D Omega) phi z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m => rw [TensorProduct.smul_tmul', LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
       TensorProduct.smul_tmul']
   | add x y hx hy => rw [smul_add, _root_.map_add, _root_.map_add, smul_add, hx, hy]
@@ -166,6 +165,8 @@ end Reduction
 /-! ### The datum at the coefficient sheaf `𝒪_{X/S}` -/
 
 section Unit
+
+omit [IsAffine S.X] [IsAffine S.S.scheme]
 
 /-- The limit of the modules of sections of `quasiCoherentCrystalUnit S` over a system of levels
 `T` is the limit of the section rings of `T`; the two are the same subtype of the same product,

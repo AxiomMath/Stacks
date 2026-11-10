@@ -76,7 +76,7 @@ theorem BigFppfOver.exists_map_of_toScheme_map_over (B : BigFppfSite.{u}) (S : S
   refine ⟨Over.homMk (B.inclusion.preimage m₀) hw, hn, ?_⟩
   refine (BigFppfOver.forget B S hS).map_injective ?_
   refine B.inclusion.map_injective ?_
-  show B.inclusion.map (B.inclusion.preimage m₀ ≫ k.left) = B.inclusion.map q.left
+  change B.inclusion.map (B.inclusion.preimage m₀ ≫ k.left) = B.inclusion.map q.left
   rw [B.inclusion.map_comp, hn]
   exact hm₀
 
@@ -131,7 +131,7 @@ theorem Space.exists_surjective_etale_sectionOverBase (B : BigFppfSite.{u}) (S :
   have hm₀ : (pullback.lift (G.map (pullback.snd r ζ)) (G.map (pullback.fst r ζ)) hcond ≫ t) ≫
       G.map f = G.map (pullback.snd r ζ) := by
     rw [Category.assoc]
-    show _ ≫ t ≫ fₛ = _
+    change _ ≫ t ≫ fₛ = _
     rw [ht]
     exact pullback.lift_fst _ _ _
   obtain ⟨m, -, hmf⟩ := BigFppfOver.exists_map_of_toScheme_map_over B S hS f (pullback.snd r ζ)

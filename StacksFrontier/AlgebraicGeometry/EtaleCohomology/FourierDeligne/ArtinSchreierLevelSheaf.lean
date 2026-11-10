@@ -57,14 +57,14 @@ def characterContinuousModule (χ : G →* Λˣ) (hχ : IsOpen (χ.ker : Set G))
           ⟨(fun h => g⁻¹ * h) ⁻¹' (χ.ker : Set G), ?_, ?_, ?_⟩
         · intro h hh
           simp only [Set.mem_preimage, SetLike.mem_coe, MonoidHom.mem_ker] at hh
-          simp only [Set.mem_setOf_eq] at hg ⊢
+          simp only [Set.mem_ofPred_eq] at hg ⊢
           have : χ h = χ g := by
             rw [show h = g * (g⁻¹ * h) by group, map_mul, hh, mul_one]
           change ((χ h : Λ) • x) = x
           rw [this]
           exact hg
         · exact hχ.preimage (continuous_const.mul continuous_id)
-        · simp [MonoidHom.mem_ker]),
+        · simp),
     (ModuleCat.isFG_iff _).2 (Module.Finite.equiv (ULift.moduleEquiv (R := Λ)).symm)⟩
 
 /-- The action on `Stacks.EtaleCohomology.characterContinuousModule` is multiplication by the
@@ -86,6 +86,7 @@ open Stacks.EtaleCohomology
 variable (k : Type u) [Field k] [Fintype k] (A : Type u) [CommRing A] [Algebra k A] (g : A)
   [ConnectedSpace (Spec (.of A))] (Λ : Type) [CommRing Λ] [Finite Λ] (ψ : AddChar k Λ)
 
+omit [Finite Λ] in
 /-- The kernel of the Artin–Schreier character is open: it contains the kernel of the character
 of the cover, which is continuous for the discrete topology on `k`. -/
 theorem isOpen_ker_artinSchreierCharacter (x : GeometricPoint (Spec (.of A)))

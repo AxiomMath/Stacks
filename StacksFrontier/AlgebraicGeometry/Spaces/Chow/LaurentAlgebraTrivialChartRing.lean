@@ -81,7 +81,7 @@ theorem isUnit_of_forall_isUnit_map_of_mem_topology (V : SmallEtale B S hS F)
     let gs := (BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map g)
     have hu : IsUnit (gs.appTop a') := h g hg
     rw [← hw]
-    show w ∈ gs ⁻¹ᵁ Y.basicOpen a'
+    change w ∈ gs ⁻¹ᵁ Y.basicOpen a'
     rw [Scheme.preimage_basicOpen_top, Scheme.basicOpen_of_isUnit _ hu]
     trivial
   have hres := Y.toRingedSpace.isUnit_res_basicOpen a'
@@ -92,7 +92,7 @@ theorem isUnit_of_forall_isUnit_map_of_mem_topology (V : SmallEtale B S hS F)
     rw [← CommRingCat.comp_apply, ← Functor.map_comp, ← op_comp, hcomp, op_id,
       CategoryTheory.Functor.map_id]
     rfl
-  show IsUnit a'
+  change IsUnit a'
   exact ha ▸ hres.map _
 
 end Units
@@ -190,7 +190,7 @@ theorem laurentChartStructureMap_eq (r : (tensorStructureRingPresheaf D p hp).ob
     laurentChartStructureMap D p hp L hL r =
       laurentChartIncl D p hp L hL 0
         (show (tensorStructureRingPresheaf D p hp).obj (op V) from r) := by
-  show (show (tensorStructureSheaf D p hp).obj.obj (op V) from r) •
+  change (show (tensorStructureSheaf D p hp).obj.obj (op V) from r) •
     (1 : (laurentGradedAlgebra D p hp L hL).toPresheafGradedAlgebra.Total (op V)) = _
   rw [Stacks.GradedAlgebra.one_eq_incl, ← Stacks.GradedAlgebra.incl_smul]
   exact congrArg _ (mul_one r)
@@ -291,7 +291,7 @@ a constant to its image under the structure map of the algebra sheaf. -/
 theorem laurentChartRingEquiv_C (r : (tensorStructureRingPresheaf D p hp).obj (op V)) :
     laurentChartRingEquiv D p hp L hL e hV (LaurentPolynomial.C r) =
       (laurentAlgebraSheaf D p hp L hL).algebraMap (op V) r := by
-  show ((laurentCommUnit D p hp L hL).app (op V)).hom
+  change ((laurentCommUnit D p hp L hL).app (op V)).hom
     (LaurentPolynomial.eval₂ (laurentChartStructureMap D p hp L hL (V := V))
       (laurentChartUnit D p hp L hL e) (LaurentPolynomial.C r)) = _
   rw [LaurentPolynomial.eval₂_C]
@@ -390,7 +390,7 @@ theorem isIrreducible_preimage_singleton_spec_map_laurentC (R : CommRingCat.{u})
       (LaurentPolynomial.C : R →+* LaurentPolynomial R) = algebraMap R (LaurentPolynomial R) :=
     RingHom.ext LaurentPolynomial.C_eq_algebraMap
   let p : PrimeSpectrum R := z
-  show IsIrreducible
+  change IsIrreducible
     (PrimeSpectrum.comap (LaurentPolynomial.C : R →+* LaurentPolynomial R) ⁻¹' {p})
   rw [hC]
   let e := PrimeSpectrum.preimageHomeomorphFiber R (LaurentPolynomial R) p

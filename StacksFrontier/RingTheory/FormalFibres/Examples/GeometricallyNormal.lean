@@ -323,7 +323,7 @@ private theorem isRegularRingHom_baseChange_of_essFiniteType
   rw [isRegularRingHom_iff_of_eq_algebraMap _ (by rfl)]
   constructor
   · let : Module.Flat R Λ := RingHom.flat_algebraMap_iff.mp h.1
-    show Module.Flat R' (Λ ⊗[R] R')
+    change Module.Flat R' (Λ ⊗[R] R')
     exact Module.Flat.of_linearEquiv
       (Algebra.TensorProduct.commRight R R' Λ).symm.toLinearEquiv
   · intro p' hp'
@@ -343,7 +343,7 @@ private theorem isRegularRingHom_baseChange_of_essFiniteType
     let e : p'.Fiber (Λ ⊗[R] R') ≃ₐ[p'.ResidueField]
         p'.ResidueField ⊗[p.ResidueField] (p.Fiber Λ) :=
       AlgEquiv.ofRingEquiv (f := e₁.toRingEquiv.trans e₂.toRingEquiv) (fun x => by
-        show e₂ (e₁ (algebraMap p'.ResidueField _ x)) = algebraMap p'.ResidueField _ x
+        change e₂ (e₁ (algebraMap p'.ResidueField _ x)) = algebraMap p'.ResidueField _ x
         rw [show e₁ (algebraMap p'.ResidueField _ x) =
             algebraMap p'.ResidueField _ x by
           simp [e₁, Algebra.TensorProduct.algebraMap_apply]]

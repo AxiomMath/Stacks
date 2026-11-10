@@ -100,7 +100,7 @@ theorem etale_quotient_span_singleton_of_span_D [FormallySmooth R P] [FinitePres
     let q' := q.comap (algebraMap P T)
     have : q'.IsPrime := Ideal.comap_isPrime _ _
     have hfq : f ∈ q' := by
-      show algebraMap P T f ∈ q
+      change algebraMap P T f ∈ q
       rw [Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem.2
         (Ideal.mem_span_singleton_self f)]
       exact q.zero_mem
@@ -132,8 +132,7 @@ theorem etale_quotient_span_singleton_of_span_D [FormallySmooth R P] [FinitePres
       exact this
     have hsub : Subsingleton (q'.ResidueField ⊗[P] Ω[P⁄R]) := by
       refine subsingleton_of_forall_eq 0 fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => rfl
+      induction z using TensorProduct.inductionOn with
       | tmul k ω =>
         have : k ⊗ₜ[P] ω = k • ((1 : q'.ResidueField) ⊗ₜ[P] ω) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -155,7 +154,7 @@ theorem etale_quotient_span_singleton_of_span_D [FormallySmooth R P] [FinitePres
       rw [← Ideal.Quotient.eq]
       exact hcd
     rw [← sub_eq_zero, ← sub_smul, ← map_smul, Ideal.toCotangent_eq_zero]
-    show (c - d) * f ∈ I ^ 2
+    change (c - d) * f ∈ I ^ 2
     rw [pow_two]
     exact Ideal.mul_mem_mul (hI ▸ hmem) hfI
   have hφsurj : Function.Surjective φ := by

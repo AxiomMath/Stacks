@@ -235,8 +235,7 @@ private lemma tensorProduct_subsingleton_of_subsingleton_left {R M N : Type u} [
     Subsingleton (M ⊗[R] N) := by
   have h : ∀ t : M ⊗[R] N, t = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rfl
+    induction t using TensorProduct.inductionOn with
     | add p q hp hq => rw [hp, hq, add_zero]
     | tmul a b => rw [Subsingleton.elim a 0, TensorProduct.zero_tmul]
   exact ⟨fun a b => (h a).trans (h b).symm⟩
@@ -613,7 +612,7 @@ theorem isIso_stalkMap_projectionFormulaMap'_of_memRange :
             (show E.val.obj (op ((opensMap f).obj U)) from mU) by
           rw [← hmU]
           exact stalkPushforwardEquiv_germ f E x hf U hU mU]
-    show eV (eT (pmap (eS.symm (m ⊗ₜ[↑R] n)))) = _
+    change eV (eT (pmap (eS.symm (m ⊗ₜ[↑R] n)))) = _
     rw [← hsY, eS.symm_apply_apply, hsX,
       stalkPushforwardEquiv_germ f ((((Stacks.SheafOfModules.Tensor.sheafTensor
           ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (E)).obj ((pullbackSheaf f K)))) x hf U hU
@@ -624,7 +623,7 @@ theorem isIso_stalkMap_projectionFormulaMap'_of_memRange :
   have hbij : Function.Bijective g := tensorProjectionMap_bijective eM eP g hg
   have hpmap : Function.Bijective pmap := by
     refine ⟨fun s t hst ↦ eS.injective (hbij.1 ?_), fun t ↦ ?_⟩
-    · show eV (eT (pmap (eS.symm (eS s)))) = eV (eT (pmap (eS.symm (eS t))))
+    · change eV (eT (pmap (eS.symm (eS s)))) = eV (eT (pmap (eS.symm (eS t))))
       simp only [eS.symm_apply_apply]
       exact congrArg (fun z ↦ eV (eT z)) hst
     · obtain ⟨z, hz⟩ := hbij.2 (eV (eT t))

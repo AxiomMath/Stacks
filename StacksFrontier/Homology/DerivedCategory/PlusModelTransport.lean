@@ -522,7 +522,7 @@ theorem mapDerivedCategoryPlusIso_fac (X : HomotopyCategory.Plus A) :
   ext
   have h := mapDerivedCategoryIso_hom_app hA₁ hA₂ hB₁ hB₂ F X.obj
   simp only [ObjectProperty.FullSubcategory.comp_hom]
-  show (fullFunctor hB₁ hB₂).map
+  change (fullFunctor hB₁ hB₂).map
       ((@Functor.mapDerivedCategoryFactorsh A _ _ hA₁ B _ _ hB₁ F _ _ _).inv.app X.obj) ≫
       (mapDerivedCategoryIso hA₁ hA₂ hB₁ hB₂ F).hom.app
         ((@DerivedCategory.Qh A _ _ hA₁).obj X.obj) ≫

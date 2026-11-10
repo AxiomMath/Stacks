@@ -135,8 +135,7 @@ noncomputable def diagonalDiagram (D : CartesianFiniteOrderDeformationDiagram.{u
         diagonalTargetMap D.iX D.f D.f' D.iY D.f_thickening_comm.symm := by
       apply pullback.hom_ext <;>
         simp [diagonalTargetMap, diagonalBaseComparison, diagonalTargetFst, diagonalTargetSnd,
-          pullback.map, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc]
+          pullback.map]
     rw [heq]
     exact isThickening_diagonalTargetMap D.iX D.f D.f' D.iY D.f_thickening_comm.symm
       D.iX_thickening D.iY_thickening
@@ -150,8 +149,7 @@ noncomputable def diagonalDiagram (D : CartesianFiniteOrderDeformationDiagram.{u
   f'_over_S' := by rw [← Category.assoc, pullback.diagonal_fst, Category.id_comp]
   f_thickening_comm := by
     apply pullback.hom_ext <;>
-      simp [pullback.map, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp [pullback.map]
   X_cartesian := D.X_cartesian
   Y_cartesian := by
     have _ : IsClosedImmersion D.iX := D.iX_thickening.1

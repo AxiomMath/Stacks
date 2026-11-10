@@ -128,8 +128,8 @@ noncomputable def counterexampleBaseChangeHom :
 theorem counterexampleBaseChangeHom_comp :
     counterexampleBaseChangeHom ≫ counterexampleCover = counterexampleHom := by
   refine Sigma.hom_ext _ _ fun p => ?_
-  rw [← Category.assoc, counterexampleBaseChangeHom, Sigma.ι_desc, counterexampleCover,
-    ← Spec.map_comp, counterexampleHom, Sigma.ι_desc, primeResidueHom]
+  rw [← Category.assoc, counterexampleBaseChangeHom, Sigma.ι_comp_desc, counterexampleCover,
+    ← Spec.map_comp, counterexampleHom, Sigma.ι_comp_desc, primeResidueHom]
   congr 1
   exact CommRingCat.hom_ext (RingHom.ext_int _ _)
 
@@ -168,7 +168,7 @@ theorem counterexampleBaseChangeHom_eq :
     counterexampleBaseChangeHom
       = padicIntSigmaReduce ≫ sigmaSpec fun q : Nat.Primes => CommRingCat.of ℤ_[q] := by
   refine Sigma.hom_ext _ _ fun p => ?_
-  rw [counterexampleBaseChangeHom, Sigma.ι_desc, ← Category.assoc, padicIntSigmaReduce,
+  rw [counterexampleBaseChangeHom, Sigma.ι_comp_desc, ← Category.assoc, padicIntSigmaReduce,
     Sigma.ι_map, Category.assoc, ι_sigmaSpec, ← Spec.map_comp]
   congr 1
 

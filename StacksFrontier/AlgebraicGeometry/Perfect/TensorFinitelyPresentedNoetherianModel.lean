@@ -255,7 +255,7 @@ theorem limit_isFlatOver_and_isProperOver (i : Jᵒᵖ) {X Y : Scheme.{u}} {f : 
   let γ := pullback.lift g (f ≫ 𝟙 c.pt) (by rw [Category.assoc, Category.id_comp, hsq.w])
   have : IsIso (𝟙 c.pt) := IsIso.id _
   have hsq' : IsPullback (inv γ) (pullback.snd p (c.π.app i)) f (𝟙 c.pt) :=
-    IsPullback.of_horiz_isIso ⟨by simp [IsIso.inv_comp_eq, γ, pullback.lift_snd]⟩
+    IsPullback.of_horiz_isIso ⟨by simp [IsIso.inv_comp_eq, γ]⟩
   let N' := (Scheme.Modules.pullback (pullback.fst p (c.π.app i))).obj N
   have eN : N' ≅ (Scheme.Modules.pullback (inv γ)).obj M :=
     (Scheme.Modules.pullbackId _).symm.app N' ≪≫
@@ -267,7 +267,7 @@ theorem limit_isFlatOver_and_isProperOver (i : Jᵒᵖ) {X Y : Scheme.{u}} {f : 
   convert isProperOver_preimage_baseChange (inv γ) (pullback.snd p (c.π.app i)) f (𝟙 c.pt)
     hsq' _ hsupp using 2
   ext x
-  show x ∈ SheafOfModules.supp N' ↔ x ∈ (inv γ) ⁻¹' SheafOfModules.supp M
+  change x ∈ SheafOfModules.supp N' ↔ x ∈ (inv γ) ⁻¹' SheafOfModules.supp M
   rw [SheafOfModules.supp_eq_of_iso eN, Stacks.Modules.supp_pullback]
 
 include hc in

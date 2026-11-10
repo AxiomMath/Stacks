@@ -152,7 +152,7 @@ private lemma stalkMap_comp_baseTarget_eq (R : IrreducibleComponentReduction C)
     have hcancel : eHy (eY a) = a := by
       simpa [RingHom.comp_apply] using DFunLike.congr_fun he a
     rwa [hcancel] at h
-  show qmap (dmap (pYmap (eY a))) = _
+  change qmap (dmap (pYmap (eY a))) = _
   rw [hdi_a]
   have hpx : (pX.stalkMap x).hom.comp
       (eqToHom (congrArg (fun z ↦ C.S.presheaf.stalk z) hsX).symm).hom =
@@ -189,7 +189,7 @@ private lemma stalkMap_comp_stalkIso_eq (R : IrreducibleComponentReduction C)
           f.stalkMap ⟨x, hxV⟩ ≫ (V.stalkIso ⟨x, hxV⟩).hom =
         di.stalkMap ≫ q.stalkMap x := by
     apply CommRingCat.hom_ext
-    show ((V.stalkIso ⟨x, hxV⟩).hom.hom.comp
+    change ((V.stalkIso ⟨x, hxV⟩).hom.hom.comp
           ((f.stalkMap ⟨x, hxV⟩).hom.comp
             (eqToHom (congrArg (fun y ↦ C.Y.presheaf.stalk y) hfy.symm)).hom)) =
         (q.stalkMap x).hom.comp di.stalkMap.hom
@@ -257,7 +257,7 @@ private theorem component_map_exists
   let z : m.domain := ⟨x, hxV⟩
   have hover : m.hom ≫ C.toBaseTarget =
       m.domain.ι ≫ D.ι ≫ R.denseOpen.ι ≫ C.toBaseSource := by
-    show f ≫ C.toBaseTarget = V.ι ≫ D.ι ≫ R.denseOpen.ι ≫ C.toBaseSource
+    change f ≫ C.toBaseTarget = V.ι ≫ D.ι ≫ R.denseOpen.ι ≫ C.toBaseSource
     simpa [pX, q, Category.assoc] using hf
   have hz : z.1.1.1 = C.genericPoint i := rfl
   have hpoint := R.componentGenericPointMap_point i r m rfl hover z hz

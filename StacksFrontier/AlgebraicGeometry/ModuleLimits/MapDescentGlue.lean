@@ -190,7 +190,7 @@ theorem exists_restrictFunctor_map_eq_of_cover_of_imageSections {ι : Type u} (W
     (fun a b U ha hb => hagree a b U ha hb)
   refine ⟨φ, fun a => Scheme.Modules.hom_ext _ _ fun P => ?_⟩
   ext (m : Γ(M, (W a).ι ''ᵁ P))
-  show φ.app ((W a).ι ''ᵁ P) m = (χ a).app P m
+  change φ.app ((W a).ι ''ᵁ P) m = (χ a).app P m
   rw [hφ a ((W a).ι ''ᵁ P) ((W a).ι_image_le P) m,
     imageSections_congr (χ a) _ (rfl : (W a).ι ''ᵁ P = (W a).ι ''ᵁ P) m,
     imageSections_rfl_app]

@@ -200,7 +200,7 @@ private theorem exists_isPerfect_lift_sup {X Y : Scheme.{u}} [QuasiSeparatedSpac
   have hTsets : ⇑f₀.base ⁻¹' (⇑(g.opensRange ⊔ V : X.Opens).ι.base ⁻¹' T) =
       ⇑hV.fromSpec.base ⁻¹' T := by
     ext z
-    show ⇑(g.opensRange ⊔ V : X.Opens).ι.base (⇑f₀.base z) ∈ T ↔ ⇑hV.fromSpec.base z ∈ T
+    change ⇑(g.opensRange ⊔ V : X.Opens).ι.base (⇑f₀.base z) ∈ T ↔ ⇑hV.fromSpec.base z ∈ T
     rw [comp_base_apply_eq hf₀]
   have hTf : IsCompact
       ((⇑f₀.base ⁻¹' (⇑(g.opensRange ⊔ V : X.Opens).ι.base ⁻¹' T))ᶜ) := by
@@ -223,7 +223,7 @@ private theorem exists_isPerfect_lift_sup {X Y : Scheme.{u}} [QuasiSeparatedSpac
   have hPsets : ⇑g₀.base ⁻¹' (⇑(g.opensRange ⊔ V : X.Opens).ι.base ⁻¹' T) =
       ⇑g.base ⁻¹' T := by
     ext y
-    show ⇑(g.opensRange ⊔ V : X.Opens).ι.base (⇑g₀.base y) ∈ T ↔ ⇑g.base y ∈ T
+    change ⇑(g.opensRange ⊔ V : X.Opens).ι.base (⇑g₀.base y) ∈ T ↔ ⇑g.base y ∈ T
     rw [comp_base_apply_eq hg₀]
   obtain ⟨R₁, β₁, hR₁p, hR₁T, -, hsplit⟩ :=
     exists_isPerfect_lift_of_cover_spec g₀ f₀ hcover

@@ -230,7 +230,7 @@ public theorem exists_etale_smooth_neighborhood_of_prop
   refine ⟨Y, AlgebraicSpaces.fiberProduct B S hS f (𝟙 Y), 𝟙 Y, 𝟙 _,
     pointsMap B S hS X.1 (pullback.lift (𝟙 X.1) f.hom (by simp)) x,
     isSmooth_id_presheaf B S hS Y.1, isEtale_id B S hS _, ?_, ?_⟩
-  · show pointsMap B S hS _ (pullback.fst f.hom (𝟙 Y.obj))
+  · change pointsMap B S hS _ (pullback.fst f.hom (𝟙 Y.obj))
         (pointsMap B S hS X.obj (pullback.lift (𝟙 X.obj) f.hom (by simp)) x) = x
     rw [← Function.comp_apply (f := pointsMap B S hS _ (pullback.fst f.hom (𝟙 Y.obj))),
       ← pointsMap_comp, pullback.lift_fst]

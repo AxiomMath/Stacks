@@ -153,7 +153,7 @@ theorem app_mem_pushforwardSubmodule (U : X.affineOpens) (x : Γ(idealPow I n, U
     (idealPowToPushforwardStructure h I n).app U.1 x ∈
       (pushforwardSubmodule h
         (idealPowerMultiple (I.comap h) n (structureModule Z))).toSubmodule.obj (op U.1) := by
-  show h.app U.1 (x.1 : Γ(X, U.1)) ∈
+  change h.app U.1 (x.1 : Γ(X, U.1)) ∈
     (idealPowerMultiple (I.comap h) n (structureModule Z)).toSubmodule.obj (op (h ⁻¹ᵁ U.1))
   refine mem_of_forall_affineOpens _ _ fun W hW ↦ ?_
   have key : (h.appLE U.1 W.1 hW) (x.1 : Γ(X, U.1)) ∈

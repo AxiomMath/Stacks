@@ -30,8 +30,8 @@ composition law is needed with its source open arbitrary, and that is what this 
 
 ## Implementation notes
 
-The proof is that of the global case with the global section replaced by a section over `U`, which costs
-two things.  The naturality of the adjunction unit **in the open**,
+The proof is that of the global case with the global section replaced by a section over `U`, which
+costs two things.  The naturality of the adjunction unit **in the open**,
 `Stacks.RingedSpace.pullbackUnit_restrict`, is needed to move the restriction from `g^{-1}(U)` to
 `⊤` past the second unit; and the two restriction maps that result have to be composed into the
 single one the statement names, which is

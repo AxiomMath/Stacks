@@ -41,8 +41,8 @@ ten objects of a category.
 The derived image of a square is built here in two steps at an arbitrary abelian category.  An
 isomorphism `F ⋙ G ≅ H` of exact functors induces `D(F) ⋙ D(G) ≅ D(H)`
 (`Stacks.Homology.mapDerivedCategoryCompIso`, from
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.OpenImmersionRestrictionNaturality`), and
-an isomorphism `H ≅ H'` induces `D(H) ≅ D(H')`
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.OpenImmersionRestrictionNaturality`),
+and an isomorphism `H ≅ H'` induces `D(H) ≅ D(H')`
 (`Stacks.Homology.mapDerivedCategoryIsoOfIso`).  Reading an invertible 2-square `T ⋙ R ≅ L ⋙ Bo`
 through the first at both composites and the second in between gives
 `Stacks.Homology.mapDerivedCategoryTwoSquareOfIso`.
@@ -231,7 +231,7 @@ theorem mapDerivedCategoryTwoSquareOfIso_natTrans (H₁ H₂ : A ⥤ E)
     [PreservesFiniteLimits H₁] [PreservesFiniteColimits H₁]
     [PreservesFiniteLimits H₂] [PreservesFiniteColimits H₂]
     (eT : T ⋙ R ≅ H₁) (eL : L ⋙ Bo ≅ H₂) (t : H₁ ≅ H₂) :
-    (mapDerivedCategoryTwoSquareOfIso T L R Bo (eT ≪≫ t ≪≫ eL.symm)).natTrans =
+    (mapDerivedCategoryTwoSquareOfIso T L R Bo (eT ≪≫ t ≪≫ eL.symm)) =
       (mapDerivedCategoryCompIso T R H₁ eT).hom ≫
         (mapDerivedCategoryIsoOfIso H₁ H₂ t).hom ≫
           (mapDerivedCategoryCompIso L Bo H₂ eL).inv := by
@@ -256,7 +256,7 @@ theorem mapDerivedCategoryTwoSquareOfIso_natTrans (H₁ H₂ : A ⥤ E)
       (mapDerivedCategoryIsoOfIso H₂ (L ⋙ Bo) eL.symm).inv ≫
         (mapDerivedCategoryCompIso L Bo H₂ eL).inv := by
     rw [s4, Iso.trans_inv]
-  dsimp only [mapDerivedCategoryTwoSquareOfIso, TwoSquare.mk, TwoSquare.natTrans]
+  dsimp only [mapDerivedCategoryTwoSquareOfIso, TwoSquare.mk]
   rw [← Category.assoc, s1h, s2h, s4h]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
 
@@ -318,7 +318,7 @@ def pullbackCompIso (w : i ≫ f = g ≫ j) :
 /-- `Stacks.Cohomology.pullbackCompIso` is the transformation of
 `Stacks.Cohomology.pullbackCompSquare`. -/
 theorem pullbackCompIso_hom (w : i ≫ f = g ≫ j) :
-    (pullbackCompIso f i j g w).hom = (pullbackCompSquare f i j g w).natTrans :=
+    (pullbackCompIso f i j g w).hom = (pullbackCompSquare f i j g w) :=
   rfl
 
 /-- `Stacks.Cohomology.pullbackCompIso` written in the orientation of
@@ -394,7 +394,7 @@ def mapDerivedCategoryPullbackCompSquare (w : i ≫ f = g ≫ j) :
 /-- `Stacks.Cohomology.mapDerivedCategoryPullbackCompSquare` read through the two composition
 isomorphisms of [Stacks, Tag 0096] and the transport along the commutativity of the square. -/
 theorem mapDerivedCategoryPullbackCompSquare_natTrans (w : i ≫ f = g ≫ j) :
-    (mapDerivedCategoryPullbackCompSquare f i j g w).natTrans =
+    (mapDerivedCategoryPullbackCompSquare f i j g w) =
       (Stacks.Homology.mapDerivedCategoryCompIso (modulePullback j) (modulePullback g)
           (modulePullback (g ≫ j))
           (Stacks.DerivedPullback.Composition.modulePullbackComp g j)).hom ≫
@@ -429,7 +429,7 @@ composite, and the compatibility of
 supplies the two triangles; the transport along the commutativity of the square is
 `Stacks.Cohomology.derivedPullbackIsoMapDerivedCategory_eqToHom`. -/
 theorem derivedPullbackSquare_eq_mapDerivedCategory (w : i ≫ f = g ≫ j) :
-    (DerivedBaseChange.derivedPullbackSquare i g f j w).natTrans ≫
+    (DerivedBaseChange.derivedPullbackSquare i g f j w) ≫
         Functor.whiskerRight
             (DerivedOpenImmersion.derivedPullbackIsoMapDerivedCategory f).hom
             (derivedPullback i) ≫
@@ -440,8 +440,8 @@ theorem derivedPullbackSquare_eq_mapDerivedCategory (w : i ≫ f = g ≫ j) :
             (derivedPullback g) ≫
           Functor.whiskerLeft (modulePullback j).mapDerivedCategory
             (DerivedOpenImmersion.derivedPullbackIsoMapDerivedCategory g).hom ≫
-        (mapDerivedCategoryPullbackCompSquare f i j g w).natTrans := by
-  have hsq : (DerivedBaseChange.derivedPullbackSquare i g f j w).natTrans =
+        (mapDerivedCategoryPullbackCompSquare f i j g w) := by
+  have hsq : (DerivedBaseChange.derivedPullbackSquare i g f j w) =
       ((Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical g j).hom ≫
         eqToHom (congrArg (fun q : U ⟶ Y => derivedPullback q) w.symm)) ≫
           (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical i f).inv := rfl

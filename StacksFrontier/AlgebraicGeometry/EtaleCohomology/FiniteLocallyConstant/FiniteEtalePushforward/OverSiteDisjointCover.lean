@@ -33,7 +33,9 @@ universe u v r
 
 namespace Stacks.ConstantSheaf
 
-private def constantSheaf_overPullback_iso
+/-- The constant sheaf on the localized site `J.over U` is the restriction of the constant
+sheaf on `J`. -/
+def constantSheaf_overPullback_iso
     {C : Type*} [Category* C] [CategoryTheory.Limits.HasFiniteLimits C]
     (J : GrothendieckTopology C) {A : Type*} [Category* A]
     [HasWeakSheafify J A] [∀ U : C, HasWeakSheafify (J.over U) A]
@@ -63,7 +65,8 @@ private lemma finite_intersection_covering
       simpa only [Finset.iInf_insert] using J.intersection_covering (hS component) hind
   simpa using hfinite Finset.univ
 
-private lemma module_product_isFG
+/-- A finite product of finitely generated modules is finitely generated. -/
+lemma module_product_isFG
     (R : Type r) [Ring R] {index : Type} [Finite index]
     (E : index → ModuleCat.{v} R) (hE : ∀ component, ModuleCat.isFG R (E component)) :
     ModuleCat.isFG R (∏ᶜ E) := by
@@ -89,7 +92,7 @@ private def smallEtaleOverInverse {X : Scheme.{u}} (U : X.Etale) :
     (B := U) V.hom)
   map {V W} g := Over.homMk (MorphismProperty.Over.homMk g.left (by
     change g.left ≫ (W.hom ≫ U.hom) = V.hom ≫ U.hom
-    have h : g.left ≫ W.hom = V.hom := by simpa using g.w
+    have h : g.left ≫ W.hom = V.hom := by simp
     rw [← Category.assoc, h])) (by
       apply MorphismProperty.Comma.Hom.ext
       · exact g.w
@@ -104,7 +107,7 @@ private def smallEtaleOverEquivalence {X : Scheme.{u}} (U : X.Etale) :
   unitIso := NatIso.ofComponents (fun V ↦ Over.isoMk
     (MorphismProperty.Over.isoMk (Iso.refl _) (by
       change 𝟙 _ ≫ (V.hom.left ≫ U.hom) = V.left.hom
-      simpa using V.hom.w)) (by
+      simp)) (by
         apply MorphismProperty.Comma.Hom.ext
         · change 𝟙 _ ≫ V.hom.left = V.hom.left
           simp
@@ -314,7 +317,7 @@ private theorem cofanFamily_compatible {C : Type*} [Category* C] [HasInitial C]
       _ = g ≫ d.2.1 ≫ c.inj d.1 := congrArg (fun k : T ⟶ c.pt ↦ g ≫ k) d.2.2
       _ = _ := by simp
   have heq' := eq_of_comp_inj_eq F c hmono s.proj hdisj hzero d'.2.1 (g ≫ d.2.1) heq
-  show s.proj d'.1 ≫ F.map d'.2.1.op = (s.proj d.1 ≫ F.map d.2.1.op) ≫ F.map g.op
+  change s.proj d'.1 ≫ F.map d'.2.1.op = (s.proj d.1 ≫ F.map d.2.1.op) ≫ F.map g.op
   calc s.proj d'.1 ≫ F.map d'.2.1.op = s.proj d.1 ≫ F.map (g ≫ d.2.1).op := heq'
     _ = (s.proj d.1 ≫ F.map d.2.1.op) ≫ F.map g.op := by
         simp [← Functor.map_comp]

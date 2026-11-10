@@ -206,7 +206,7 @@ theorem isFiniteLocallyFreeOfRank_familyOf {T : Over (Spec (.of k))} (g : T ⟶ 
       (Stacks.Bertini.isPullback_subschemeι_comap (familyOf k f L w g)
         (familyBaseChangeMap (curveOver f) (chartPreimageHom k g i))).flip
       (isPullback_familyBaseChangeMap (curveOver f) (chartPreimageHom k g i))
-  show (Stacks.Morphisms.IsFiniteLocallyFreeOfRank.property d)
+  change (Stacks.Morphisms.IsFiniteLocallyFreeOfRank.property d)
     (pullback.snd ((familyOf k f L w g).subschemeι ≫ pullback.snd f T.hom) U.ι)
   rwa [← (Stacks.Morphisms.IsFiniteLocallyFreeOfRank.property d).cancel_left_of_respectsIso
       hsq.isoPullback.hom, hsq.isoPullback_hom_snd]

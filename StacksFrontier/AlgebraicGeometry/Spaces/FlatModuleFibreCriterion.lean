@@ -145,7 +145,7 @@ theorem flatQuotSMul_iff_flat_quotient_smul_top {A C M : Type*} [CommRing A] [Co
         Submodule.Quotient.mk (p := (I.map (algebraMap A C)) • (⊤ : Submodule C M))
           (algebraMap A C a • m) := rfl
     rw [hl]
-    show e0 (Submodule.Quotient.mk (p := ((I.map (algebraMap A C)) •
+    change e0 (Submodule.Quotient.mk (p := ((I.map (algebraMap A C)) •
       (⊤ : Submodule C M)).restrictScalars A) (algebraMap A C a • m)) = _
     rw [Submodule.quotEquivOfEq_mk, algebraMap_smul]
     exact (Module.Quotient.mk_smul_mk M I a m).symm

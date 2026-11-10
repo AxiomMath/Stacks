@@ -144,7 +144,6 @@ theorem baseHomotopy_eq_of (p : ℤ) (x : K.X p) :
     prevD_eq H.hom (show (ComplexShape.up ℤ).Rel (p - 1) p from by simp)] at hc
   rw [← map_sub, ← map_add]
   congr 1
-  change f.f p x - g.f p x = _
   rw [hc]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   change (H.hom (p + 1) p) ((K.d p (p + 1)) x) + (L.d (p - 1) p) ((H.hom p (p - 1)) x) + g.f p x -
@@ -155,7 +154,8 @@ theorem baseHomotopy_eq (x : DirectSum ℤ fun n => K.X n) :
     DirectSum.lmap (fun n => (f.f n).hom) x - DirectSum.lmap (fun n => (g.f n).hom) x =
       _root_.DifferentialGradedModule.complexDifferential (R := ULift.{u} ℤ) L
           (baseHomotopyLin H x) +
-        baseHomotopyLin H (_root_.DifferentialGradedModule.complexDifferential (R := ULift.{u} ℤ) K x) := by
+        baseHomotopyLin H
+          (_root_.DifferentialGradedModule.complexDifferential (R := ULift.{u} ℤ) K x) := by
   induction x using DirectSum.induction_on with
   | zero => simp only [map_zero, sub_zero, add_zero]
   | add x y hx hy =>
@@ -165,7 +165,8 @@ theorem baseHomotopy_eq (x : DirectSum ℤ fun n => K.X n) :
   | of p x =>
     rw [DirectSum.lmap_of, DirectSum.lmap_of, baseHomotopyLin_of,
       complexDifferential_of' L (p - 1) p (by omega),
-      _root_.DifferentialGradedModule.complexDifferential_of, baseHomotopyLin_of' H (p + 1) p (by omega)]
+      _root_.DifferentialGradedModule.complexDifferential_of,
+      baseHomotopyLin_of' H (p + 1) p (by omega)]
     exact baseHomotopy_eq_of H p x
 
 /-- **A homotopy of maps of complexes of `R`-modules, read as a homotopy of differential graded
@@ -205,11 +206,12 @@ def extensionSystemHomotopy :
   naturality {U V} a z := by
     have key : (extensionRestr A L a).toFun.toAddMonoidHom.comp
         (tensorHomotopy (extensionBimodule A V) (baseModuleHomotopy H)).toLinearMap.toAddMonoidHom =
-        (tensorHomotopy (extensionBimodule A U) (baseModuleHomotopy H)).toLinearMap.toAddMonoidHom.comp
+        (tensorHomotopy (extensionBimodule A U)
+          (baseModuleHomotopy H)).toLinearMap.toAddMonoidHom.comp
           (extensionRestr A K a).toFun.toAddMonoidHom := by
       refine tensorObj_addHom_ext_homogeneous (extensionBimodule A V) (baseModule K) _ _
         fun p q x y => ?_
-      show (extensionRestr A L a).toFun ((tensorHomotopy (extensionBimodule A V)
+      change (extensionRestr A L a).toFun ((tensorHomotopy (extensionBimodule A V)
           (baseModuleHomotopy H)).toLinearMap (extensionPure A K V (x : (baseModule K).M) y)) =
         (tensorHomotopy (extensionBimodule A U) (baseModuleHomotopy H)).toLinearMap
           ((extensionRestr A K a).toFun (extensionPure A K V (x : (baseModule K).M) y))
@@ -238,12 +240,14 @@ def homotopyExtend :
       _root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.{u, u, u} A :=
   CategoryTheory.Quotient.lift _ (extendFunctor A ⋙
       _root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient A)
-    fun _ _ _ _ ⟨H⟩ => (_root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient_map_eq_iff
+    fun _ _ _ _ ⟨H⟩ =>
+      (_root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient_map_eq_iff
       _ _).2 (extendFunctor_map_homotopic A H)
 
 theorem quotient_comp_homotopyExtend :
     _root_.HomotopyCategory.quotient (ModuleCat.{u} R) (ComplexShape.up ℤ) ⋙ homotopyExtend A =
-      extendFunctor A ⋙ _root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient A :=
+      extendFunctor A ⋙
+        _root_.SheafOfModules.DifferentialGradedModule.HomotopyCategory.quotient A :=
   CategoryTheory.Quotient.lift_spec _ _ _
 
 variable (B : _root_.SheafOfModules.DifferentialGradedAlgebra.{u, u} (constRingSheaf (C := C) R))

@@ -264,7 +264,7 @@ theorem isZero_rightDerived_sheafPushforwardCocontinuous_snd_obj
   let : pE.IsFibered := hE.isFibered
   let JE := associatedTopology B S hS pE τ
   have hπg : (π ⋙ g') ⋙ p𝒳 = pE := by
-    show π ⋙ (g' ⋙ p𝒳) = π ⋙ pX'
+    change π ⋙ (g' ⋙ p𝒳) = π ⋙ pX'
     rw [TwoFibreProductOver.fst_comp_eq]
   let := isContinuous_of_isFiberedInGroupoids B S hS pE pX' π τ hX' rfl
   let : (π ⋙ g').Faithful :=
@@ -456,12 +456,12 @@ restricting it along `y ⟶ f' x'`, up to the identifications of the four preshe
 theorem pullbackPresheaf_baseChange_scalar
     (e₃ : ∀ x', pY.obj (g.obj (f'.obj x')) = pX'.obj x')
     (e₄ : ∀ x', pX'.obj x' = pY.obj (f.obj (g'.obj x')))
-    (hψ : ∀ x', pY.IsHomLift (𝟙 (pX'.obj x')) (w.natTrans.app x'))
+    (hψ : ∀ x', pY.IsHomLift (𝟙 (pX'.obj x')) (w.app x'))
     (hf : (f ⋙ pY).op ⋙ O = f.op ⋙ (pY.op ⋙ O)) (hg : (g ⋙ pY).op ⋙ O = g.op ⋙ (pY.op ⋙ O))
     (hf' : pX'.op ⋙ O = f'.op ⋙ ((g ⋙ pY).op ⋙ O))
     (hg' : pX'.op ⋙ O = g'.op ⋙ ((f ⋙ pY).op ⋙ O))
     (y : 𝒴'ᵒᵖ) (j : StructuredArrow y f'.op) :
-    (eqToHom hg).app y ≫ (pY.op ⋙ O).map (g.op.map j.hom ≫ w.op.natTrans.app j.right) ≫
+    (eqToHom hg).app y ≫ (pY.op ⋙ O).map (g.op.map j.hom ≫ w.op.app j.right) ≫
         (eqToHom hf.symm).app (g'.op.obj j.right) =
       ((g ⋙ pY).op ⋙ O).map j.hom ≫ (eqToHom hf'.symm).app j.right ≫
         (eqToHom hg').app j.right := by
@@ -470,13 +470,13 @@ theorem pullbackPresheaf_baseChange_scalar
     eqToHom_app_op_comp_eq_map_symm O hf'.symm e₃,
     eqToHom_app_op_comp_eq_map O hg' e₄]
   have hψ' := hψ j.right.unop
-  have hn : w.op.natTrans.app j.right = (w.natTrans.app j.right.unop).op := rfl
+  have hn : w.op.app j.right = (w.app j.right.unop).op := rfl
   rw [hn]
   simp only [Functor.comp_map, ← O.map_comp]
   congr 1
-  have key : pY.map (w.natTrans.app j.right.unop) =
+  have key : pY.map (w.app j.right.unop) =
       eqToHom ((e₄ _).symm.trans (e₃ _).symm) := by
-    rw [IsHomLift.fac' pY (𝟙 (pX'.obj j.right.unop)) (w.natTrans.app j.right.unop)]
+    rw [IsHomLift.fac' pY (𝟙 (pX'.obj j.right.unop)) (w.app j.right.unop)]
     simp
   apply Quiver.Hom.unop_inj
   simp only [Functor.op_map, unop_comp, Quiver.Hom.unop_op, Functor.map_comp, key, eqToHom_unop,
@@ -489,14 +489,14 @@ theorem pullbackPresheaf_baseChange_scalar_of_eq
     (hfc : f ⋙ pY = pX) (hgc : g ⋙ pY = pY')
     (e₃ : ∀ x', pY'.obj (f'.obj x') = pX'.obj x')
     (e₄ : ∀ x', pX'.obj x' = pX.obj (g'.obj x'))
-    (hψ : ∀ x', pY.IsHomLift (𝟙 (pX'.obj x')) (w.natTrans.app x'))
+    (hψ : ∀ x', pY.IsHomLift (𝟙 (pX'.obj x')) (w.app x'))
     {RX : 𝒳ᵒᵖ ⥤ D} {RY : 𝒴ᵒᵖ ⥤ D} {RY' : 𝒴'ᵒᵖ ⥤ D} {RX' : 𝒳'ᵒᵖ ⥤ D}
     (hRX : RX = pX.op ⋙ O) (hRY : RY = pY.op ⋙ O) (hRY' : RY' = pY'.op ⋙ O)
     (hRX' : RX' = pX'.op ⋙ O)
     (hf : RX = f.op ⋙ RY) (hg : RY' = g.op ⋙ RY)
     (hf' : RX' = f'.op ⋙ RY') (hg' : RX' = g'.op ⋙ RX)
     (y : 𝒴'ᵒᵖ) (j : StructuredArrow y f'.op) :
-    (eqToHom hg).app y ≫ RY.map (g.op.map j.hom ≫ w.op.natTrans.app j.right) ≫
+    (eqToHom hg).app y ≫ RY.map (g.op.map j.hom ≫ w.op.app j.right) ≫
         (eqToHom hf.symm).app (g'.op.obj j.right) =
       RY'.map j.hom ≫ (eqToHom hf'.symm).app j.right ≫ (eqToHom hg').app j.right := by
   subst hRX hRY hRY' hRX' hfc hgc
@@ -547,7 +547,7 @@ theorem structureSheaf_baseChange_scalar
     (eqToHom (ringStructureSheafCore_obj_eq B S hS p𝒳 p𝒴 h𝒳 h𝒴 f hfc τ hτ).symm).app
         ((TwoFibreProductOver.fst p𝒳 p𝒴' p𝒴 f g).op.obj j.right)
         ((ringStructureSheafCore B S hS p𝒴 h𝒴 τ hτ).obj.map (g.op.map j.hom ≫
-          (baseChangeTwoSquare p𝒳 p𝒴' p𝒴 f g).op.natTrans.app j.right)
+          (baseChangeTwoSquare p𝒳 p𝒴' p𝒴 f g).op.app j.right)
           ((eqToHom (ringStructureSheafCore_obj_eq B S hS p𝒴' p𝒴 h𝒴' h𝒴 g hgc τ hτ)).app y r)) =
       (eqToHom (ringStructureSheafCore_obj_eq B S hS
           (TwoFibreProductOver.structureFunctor p𝒳 p𝒴' p𝒴 f g) p𝒳

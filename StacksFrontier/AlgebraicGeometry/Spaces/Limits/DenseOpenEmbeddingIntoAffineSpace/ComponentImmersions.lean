@@ -65,6 +65,7 @@ attribute [local instance]
   AlgebraicGeometry.Space.preservesLimitsOfShape_walkingCospan_toScheme
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ComponentImmersions
@@ -287,7 +288,7 @@ private theorem quasiSeparated_of_mono
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : F ⟶ G) [Mono f] : AlgebraicGeometry.Space.IsQuasiSeparated B S hS f := by
-  show AlgebraicGeometry.Space.IsQuasiCompact B S hS (pullback.diagonal f)
+  change AlgebraicGeometry.Space.IsQuasiCompact B S hS (pullback.diagonal f)
   let : IsIso (pullback.diagonal f) := (pullback.isIso_diagonal_iff f).2 inferInstance
   intro Z hZ hZqc g
   have : IsIso (pullback.fst g (pullback.diagonal f)) := by infer_instance
@@ -377,7 +378,7 @@ private theorem exists_dense_open_factor_through_scheme_of_genericPoint
     ⟨p, hp⟩, hjdense, U, a, b, hb, ?_⟩
   dsimp only [a, b]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
-  show (pullback.snd g L.ι ≫ L.ι) ≫ W.ι = j ≫ f
+  change (pullback.snd g L.ι ≫ L.ι) ≫ W.ι = j ≫ f
   rw [← pullback.condition, Category.assoc, hfac]
   rfl
 
@@ -415,7 +416,7 @@ private theorem point_lift_of_schemePoint_mem_range
   let q : AlgebraicGeometry.Space.FieldValuedPoint B S hS (yoneda.obj A) :=
     ⟨p.carrier, p.contained, p.toBase, l⟩
   refine ⟨q.class B S hS (yoneda.obj A), ?_⟩
-  show Quot.mk _ (⟨p.carrier, p.contained, p.toBase, l ≫ k⟩ :
+  change Quot.mk _ (⟨p.carrier, p.contained, p.toBase, l ≫ k⟩ :
     AlgebraicGeometry.Space.FieldValuedPoint B S hS (yoneda.obj T)) = Quot.mk _ p
   rw [hl]
 
@@ -440,10 +441,10 @@ private theorem exists_affine_open_scheme_neighborhood
     let A : AlgebraicGeometry.BigFppfOver B S hS := Over.mk (i₀ ≫ T.hom)
     let i : A ⟶ T := Over.homMk i₀
     have hi : _root_.AlgebraicGeometry.IsOpenImmersion (G.map i) := by
-      show _root_.AlgebraicGeometry.IsOpenImmersion V.ι
+      change _root_.AlgebraicGeometry.IsOpenImmersion V.ι
       infer_instance
     exact ⟨A, i, hV, hi, point_lift_of_schemePoint_mem_range B S hS i hi p (by
-      show δ (IsLocalRing.closedPoint p.carrier) ∈ Set.range V.ι
+      change δ (IsLocalRing.closedPoint p.carrier) ∈ Set.range V.ι
       exact ⟨⟨_, hxV⟩, rfl⟩)⟩
 
 private theorem exists_affine_open_neighborhood_of_mem_schematicLocus
@@ -479,7 +480,7 @@ private theorem exists_affine_open_neighborhood_of_mem_schematicLocus
       (MorphismProperty.RespectsIso.precomp _ e.hom L.ι hL.2)
   refine ⟨A, j, hA, hj, r, ?_⟩
   rw [pointsMap_comp_point, pointsMap_comp_point, hr]
-  show AlgebraicGeometry.Space.pointsMap B S hS L.toFunctor L.ι
+  change AlgebraicGeometry.Space.pointsMap B S hS L.toFunctor L.ι
     (AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj T) e.hom
       (AlgebraicGeometry.Space.pointsMap B S hS L.toFunctor e.inv p)) = x
   rw [← pointsMap_comp_point B S hS e.inv e.hom p, e.inv_hom_id, pointsMap_id_point]
@@ -632,11 +633,11 @@ private theorem exists_affineSpace_immersion_of_affine_open_factorization
     AlgebraicGeometry.Etale.instIsMultiplicativeScheme
   let : Q.IsMultiplicative := {
     id_mem A := by
-      show Etale (T.map (𝟙 A))
+      change Etale (T.map (𝟙 A))
       rw [T.map_id]
       infer_instance
     comp_mem g h hg hh := by
-      show Etale (T.map (g ≫ h))
+      change Etale (T.map (g ≫ h))
       rw [T.map_comp]
       let : Etale (T.map g) := hg
       let : Etale (T.map h) := hh
@@ -731,11 +732,11 @@ private theorem exists_immersion_affineSpaceOver_of_scheme_immersion
     hprod.isoPullback ≪≫ hAff.isoPullback.symm
   have he : e.inv ≫ T.map (prod.fst : H ⟶ U) =
       (AffineSpace.over (ULift.{u} (Fin n)) (T.obj U)).hom := by
-    show (hAff.isoPullback.hom ≫ hprod.isoPullback.inv) ≫ _ = _
+    change (hAff.isoPullback.hom ≫ hprod.isoPullback.inv) ≫ _ = _
     rw [Category.assoc, IsPullback.isoPullback_inv_fst, IsPullback.isoPullback_hom_fst]
   let m : A ⟶ H := Over.homMk (ObjectProperty.homMk (i ≫ e.inv)) (by
     apply ObjectProperty.hom_ext
-    show (i ≫ e.inv) ≫ H.hom.hom = A.hom.hom
+    change (i ≫ e.inv) ≫ H.hom.hom = A.hom.hom
     have hh : H.hom.hom = T.map (prod.fst : H ⟶ U) ≫ U.hom.hom :=
       congrArg (fun g => g.hom) (Over.w (prod.fst : H ⟶ U)).symm
     rw [hh, ← Category.assoc, Category.assoc i, he, hifac]
@@ -743,13 +744,13 @@ private theorem exists_immersion_affineSpaceOver_of_scheme_immersion
   have hm : m ≫ prod.fst = a := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (i ≫ e.inv) ≫ T.map (prod.fst : H ⟶ U) = T.map a
+    change (i ≫ e.inv) ≫ T.map (prod.fst : H ⟶ U) = T.map a
     rw [Category.assoc, he, hifac]
   let Q := MorphismProperty.inverseImage (@AlgebraicGeometry.IsImmersion.{u}) T
   have : Q.IsStableUnderBaseChange := inverseImage_toScheme_isStableUnderBaseChange B S hS _
   have hmi : AlgebraicGeometry.Space.IsImmersion B S hS (yoneda.map m) := by
     apply MorphismProperty.relative_map (P := Q)
-    show _root_.AlgebraicGeometry.IsImmersion (i ≫ e.inv)
+    change _root_.AlgebraicGeometry.IsImmersion (i ≫ e.inv)
     let := hi
     infer_instance
   let eR := (restrictedYonedaIso F).app E
@@ -758,7 +759,7 @@ private theorem exists_immersion_affineSpaceOver_of_scheme_immersion
   let d : yoneda.obj H ≅ AlgebraicGeometry.Space.affineSpaceOver B S hS (yoneda.obj U) n :=
     c ≪≫ prod.mapIso (Iso.refl _) eR.symm
   have hd : d.hom ≫ prod.fst = yoneda.map (prod.fst : H ⟶ U) := by
-    show (prodComparison yoneda U E ≫ prod.map (𝟙 _) eR.inv) ≫ prod.fst = _
+    change (prodComparison yoneda U E ≫ prod.map (𝟙 _) eR.inv) ≫ prod.fst = _
     simp
   let q : AlgebraicGeometry.Space.affineSpaceOver B S hS (yoneda.obj U) n ⟶
       AlgebraicGeometry.Space.affineSpaceOver B S hS X n := prod.map b (𝟙 _)

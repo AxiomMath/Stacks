@@ -528,11 +528,11 @@ theorem exists_notMem_bijective_awayMap_of_etale_pair
     (t : Ideal F) [t.IsPrime] [t.LiesOver p'] (s : Ideal D) [s.IsPrime] [s.LiesOver t]
     [s.LiesOver p']
     [Algebra (Localization.AtPrime p') (Localization.AtPrime t)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' t]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime t)]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower F (Localization.AtPrime t) (Localization.AtPrime s)]
     [Algebra (Localization.AtPrime p') (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' s]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime s)]
     (huniq : ∀ q₁ q₂ : Ideal D, q₁.IsPrime → q₂.IsPrime → q₁.LiesOver p' → q₂.LiesOver p' →
       q₁ = q₂)
     (hsurj : Function.Surjective (PrimeSpectrum.comap (algebraMap F D)))
@@ -552,7 +552,7 @@ delivers it: `Stacks.EtaleCohomology.exists_etale_completeOrthogonalIdempotents_
 states pure inseparability under the same `letI`.
 
 The towers `κ(p') → κ(t) → κ(s)` and `κ(p') → κ(s)` are then recognised by instance search, which
-is the point of Mathlib's `Localization.AtPrime.IsLiesOverAlgebra` predicate. -/
+is the point of Mathlib's `IsScalarTower` instances between localizations at primes. -/
 theorem exists_notMem_bijective_awayMap_of_etale_pair_of_liesOver
     {A' P E F D : Type*} [CommRing A'] [CommRing P] [CommRing E] [CommRing F] [CommRing D]
     [Algebra A' P] [Algebra A' F] [Algebra A' D]
@@ -723,11 +723,11 @@ theorem exists_notMem_forall_dvd_bijective_awayMap_algebraMap_of_etale_pair
     (t : Ideal F) [t.IsPrime] [t.LiesOver p'] (s : Ideal D) [s.IsPrime] [s.LiesOver t]
     [s.LiesOver p']
     [Algebra (Localization.AtPrime p') (Localization.AtPrime t)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' t]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime t)]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower F (Localization.AtPrime t) (Localization.AtPrime s)]
     [Algebra (Localization.AtPrime p') (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' s]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime s)]
     (huniqF : ∀ u : Ideal F, u.IsPrime → u.LiesOver p' → u = t)
     (huniq : ∀ q₁ q₂ : Ideal D, q₁.IsPrime → q₂.IsPrime → q₁.LiesOver p' → q₂.LiesOver p' →
       q₁ = q₂)
@@ -776,11 +776,11 @@ theorem exists_notMem_bijective_awayMap_algebraMap_of_etale_pair
     (t : Ideal F) [t.IsPrime] [t.LiesOver p'] (s : Ideal D) [s.IsPrime] [s.LiesOver t]
     [s.LiesOver p']
     [Algebra (Localization.AtPrime p') (Localization.AtPrime t)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' t]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime t)]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower F (Localization.AtPrime t) (Localization.AtPrime s)]
     [Algebra (Localization.AtPrime p') (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' s]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime s)]
     (huniqF : ∀ u : Ideal F, u.IsPrime → u.LiesOver p' → u = t)
     (huniq : ∀ q₁ q₂ : Ideal D, q₁.IsPrime → q₂.IsPrime → q₁.LiesOver p' → q₂.LiesOver p' →
       q₁ = q₂)

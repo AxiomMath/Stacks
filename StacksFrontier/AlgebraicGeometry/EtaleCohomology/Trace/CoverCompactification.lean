@@ -88,7 +88,7 @@ theorem preimage_opensRange_eq_of_comp_eq {Vb : Scheme.{u}} [IrreducibleSpace Vb
   have hjW : Set.range j.base ⊆ Set.range W.ι.base := by
     rintro _ ⟨v, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show fb.base (j.base v) ∈ Set.range jU.base
+    change fb.base (j.base v) ∈ Set.range jU.base
     rw [← Scheme.Hom.comp_apply, hfb, Scheme.Hom.comp_apply]
     exact ⟨_, rfl⟩
   let j' : V ⟶ W.toScheme := IsOpenImmersion.lift W.ι j hjW
@@ -180,7 +180,7 @@ theorem exists_coverCompactification :
       refine ((f.finite_preimage_singleton u).image j.base).subset ?_
       intro z hz
       have hz' : z ∈ (fb ⁻¹ᵁ jU.opensRange : Set Vb) := by
-        show fb.base z ∈ Set.range jU.base
+        change fb.base z ∈ Set.range jU.base
         rw [Set.mem_preimage.1 hz]
         exact ⟨u, rfl⟩
       rw [hpre] at hz'

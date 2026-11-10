@@ -87,7 +87,7 @@ theorem det_one_sub_X_smul_blockMap_cyclicMatrix (d : ℕ) (g : R) :
     congr 2
     obtain ⟨x, k⟩ := p
     obtain ⟨y, j⟩ := q
-    show C (blockMap φ (Fin (d + 1)) (cyclicMatrix d g) (x, k) (y, j)) =
+    change C (blockMap φ (Fin (d + 1)) (cyclicMatrix d g) (x, k) (y, j)) =
       ProjectiveDeterminant.inducedEnd d ψ ((blockEquiv S r d).symm (Pi.single (y, j) 1)) k x
     simp only [blockMap, RingHom.coe_mk, MonoidHom.coe_mk, OneHom.coe_mk, Matrix.of_apply]
     refine Fin.cases ?_ (fun k' => ?_) k

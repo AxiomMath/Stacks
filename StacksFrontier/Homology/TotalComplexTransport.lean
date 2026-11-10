@@ -168,7 +168,7 @@ public lemma isIso_totalMapf (n : I₁₂)
     rw [Category.comp_id, ι_totalMapf_assoc]
     exact hψ ⟨(i₁, i₂), h⟩
   · refine Cofan.IsColimit.hom_ext hc _ _ (fun i => ?_)
-    show Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ ψ ≫ totalMapf Φ K n =
+    change Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ ψ ≫ totalMapf Φ K n =
       Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ 𝟙 _
     rw [← Category.assoc, hψ i, Category.comp_id]
     exact ι_totalMapf Φ K n _ _ i.2
@@ -199,13 +199,13 @@ public theorem totalMap_naturality {L : HomologicalComplex₂ D c₁ c₂} [L.Ha
   intro n
   apply HomologicalComplex₂.total.hom_ext c₁₂
   intro i₁ i₂ h
-  show (mapBicomplex Φ K).ιTotal c₁₂ i₁ i₂ n h ≫
+  change (mapBicomplex Φ K).ιTotal c₁₂ i₁ i₂ n h ≫
       ((HomologicalComplex₂.total.map _ c₁₂).f n ≫ totalMapf Φ L n) =
     (mapBicomplex Φ K).ιTotal c₁₂ i₁ i₂ n h ≫
       (totalMapf Φ K n ≫ Φ.map ((HomologicalComplex₂.total.map f c₁₂).f n))
   rw [← Category.assoc, HomologicalComplex₂.ιTotal_map, Category.assoc, ι_totalMapf,
     ← Category.assoc, ι_totalMapf]
-  show Φ.map ((f.f i₁).f i₂) ≫ Φ.map (L.ιTotal c₁₂ i₁ i₂ n h) =
+  change Φ.map ((f.f i₁).f i₂) ≫ Φ.map (L.ιTotal c₁₂ i₁ i₂ n h) =
     Φ.map (K.ιTotal c₁₂ i₁ i₂ n h) ≫ Φ.map ((HomologicalComplex₂.total.map f c₁₂).f n)
   rw [← Φ.map_comp, ← Φ.map_comp, HomologicalComplex₂.ιTotal_map]
 
@@ -342,7 +342,7 @@ public lemma ι_mapBifunctorTotalIso_hom (p : I₁) (q : I₂) (n : I₁₂)
         (((F.mapBifunctorHomologicalComplex c₁ c₂).obj K).obj L)).inv.f n =
       (HomologicalComplex₂.mapBicomplex Φ
         (((F.mapBifunctorHomologicalComplex c₁ c₂).obj K).obj L)).ιTotal c p q n h := by
-    show Φ.map ((((F.mapBifunctorHomologicalComplex c₁ c₂).obj K).obj L).ιTotal c p q n h) ≫
+    change Φ.map ((((F.mapBifunctorHomologicalComplex c₁ c₂).obj K).obj L).ιTotal c p q n h) ≫
       _ = _
     rw [← HomologicalComplex₂.ι_totalMapf Φ
       (((F.mapBifunctorHomologicalComplex c₁ c₂).obj K).obj L) (c₁₂ := c) n p q h,

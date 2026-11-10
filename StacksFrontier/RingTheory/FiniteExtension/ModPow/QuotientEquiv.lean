@@ -61,10 +61,10 @@ lemma bSubalg_psi_phi (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alg
   have hphi : (bSubalg_phiHom A' A f t n B' g φ' hinj ht0 ht hn2t hn2t1 hg hφ')
       (Ideal.Quotient.mk (Ideal.span {algebraMap A' A f}) a)
       = Ideal.Quotient.mk _ (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c hN) := by
-    show bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' a = _
+    change bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' a = _
     exact bSubalg_phiFun_eq A' A f t n B' g φ' hinj ht0 ht hn2t hφ' a a' c ha hc hN
   rw [hphi]
-  show bSubalg_psiFun A' A f t n B' g φ' hinj ht hn2t hφ'
+  change bSubalg_psiFun A' A f t n B' g φ' hinj ht hn2t hφ'
       (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c hN) = _
   refine bSubalg_psiFun_eq A' A f t n B' g φ' hinj hnzd ht0 ht hn2t hg hφ'
     (mkB A' A f t n B' g φ' hinj ht hn2t hφ' c hN) c a' a ?_ ?_ ha.symm
@@ -121,7 +121,7 @@ lemma bSubalg_phi_psi (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alg
       (Ideal.Quotient.mk _ x)
       = Ideal.Quotient.mk (Ideal.span {algebraMap A' A f}) aAx := rfl
   rw [hpsi]
-  show bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' aAx = _
+  change bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' aAx = _
   rw [bSubalg_phiFun_eq A' A f t n B' g φ' hinj ht0 ht hn2t hφ' aAx a'' c'
     haA hc' hc'N]
   congr 1
@@ -155,11 +155,11 @@ lemma bSubalg_square (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alge
       = Ideal.Quotient.mk
           (Ideal.span {algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ') g})
           (algebraMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ') c0) := by
-    show reductionMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ') g n hn
+    change reductionMap B' (bSubalg A' A f t n B' g φ' hinj ht hn2t hφ') g n hn
         (φ' (Ideal.Quotient.mk (Ideal.span {f ^ n}) a')) = _
     rw [← hc0]; rfl
   rw [hredB]
-  show bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' (algebraMap A' A a') = _
+  change bSubalg_phiFun A' A f t n B' g φ' hinj ht hn2t hφ' (algebraMap A' A a') = _
   have ha : algebraMap A' A f ^ t * algebraMap A' A a'
       = algebraMap A' A (f ^ t * a') := by rw [map_mul, map_pow]
   have hc : φ' (Ideal.Quotient.mk (Ideal.span {f ^ n}) (f ^ t * a'))
@@ -377,7 +377,7 @@ private lemma bSubalg_map_mem
     · intro y z _ _ hy hz
       simpa using Ideal.add_mem _ hy hz
     · intro r y _ hy
-      show qA (r * y) ∈ _
+      change qA (r * y) ∈ _
       rw [map_mul]
       exact Ideal.mul_mem_left _ _ hy
   have hs : φ₂' (qA z) = qB (φ₁' z) := DFunLike.congr_fun hφsq z
@@ -429,7 +429,7 @@ private lemma bSubalg_phiHom_comp_quotientMap
     Ideal.quotientMap _ b' (span_singleton_le_comap_span_singleton b' (map_pow b' g n))
   refine RingHom.ext fun z ↦ ?_
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-  show bSubalg_phiFun A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ hT₂ hn2t hφg₂
+  change bSubalg_phiFun A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ hT₂ hn2t hφg₂
       (a x) = Ideal.quotientMap _ b hIb
         (bSubalg_phiFun A₁' A₁ f t n B₁' g φ₁' iA₁ hT₁ hn2t hφg₁ x)
   obtain ⟨c, hc⟩ := hT₁ x
@@ -450,7 +450,7 @@ private lemma bSubalg_phiHom_comp_quotientMap
   rw [bSubalg_phiFun_eq A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ ht0 hT₂
     hn2t hφg₂ (a x) (a' c) (b' d) hac hd₂ hdN₂,
     bSubalg_phiFun_eq A₁' A₁ f t n B₁' g φ₁' iA₁ ht0 hT₁ hn2t hφg₁ x c d hc hd.symm hdN₁]
-  show Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ (b _)
+  change Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ (b _)
   congr 1
   apply Subtype.ext
   rw [hbL]

@@ -143,8 +143,7 @@ theorem supportDim_quotient_ker_diag (M N : Type u) [AddCommGroup M]
     intro b hb
     rw [Module.mem_annihilator]
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c q =>
       rw [← TensorProduct.tmul_smul,
         Module.mem_annihilator.mp (ker_le_annihilator_diag (diag K n) hb) q,
@@ -303,7 +302,7 @@ theorem supportDim_pair (M N : Type u) [AddCommGroup M] [Module (MvPowerSeries (
       (ker_pairQuot_le _ _ _ M N).trans (Submodule.smul_mono_left (hmap_le t))
     have key := Module.length_le_of_surjective (Submodule.factor hker)
       (Submodule.factor_surjective hker)
-    rw [hpair t (by rw [hlenN]; exact ENat.coe_ne_top pN), hlenC, hlenM, hlenN] at key
+    rw [hpair t (by rw [hlenN]; exact ENat.natCast_ne_top pN), hlenC, hlenM, hlenN] at key
     exact_mod_cast key
   have hPC2 : ∀ᶠ t : ℕ in atTop, ∃ p : ℕ, Module.length (MvPowerSeries (Fin n ⊕ Fin n) K)
       (C ⧸ mB ^ (t + t) • (⊤ : Submodule (MvPowerSeries (Fin n ⊕ Fin n) K) C)) = p ∧
@@ -320,7 +319,7 @@ theorem supportDim_pair (M N : Type u) [AddCommGroup M] [Module (MvPowerSeries (
       (Submodule.smul_mono_left (hle_map t)).trans (le_ker_pairQuot _ _ _ M N)
     have key := Module.length_le_of_surjective (Submodule.factor hle)
       (Submodule.factor_surjective hle)
-    rw [hpair t (by rw [hlenN]; exact ENat.coe_ne_top pN), hlenC, hlenM, hlenN] at key
+    rw [hpair t (by rw [hlenN]; exact ENat.natCast_ne_top pN), hlenC, hlenM, hlenN] at key
     exact_mod_cast key
   have hd1 := natDegree_le_of_eventually_le hlC h1
   have hd2 := natDegree_le_of_eventually_le hlMN h2

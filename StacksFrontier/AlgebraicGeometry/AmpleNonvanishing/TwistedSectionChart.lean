@@ -114,7 +114,7 @@ theorem exists_section_ne_zero_of_isAffineOpen {X : Scheme.{u}} (F : X.Modules)
     dsimp [Scheme.Modules.restrictFunctor, SheafOfModules.pushforward,
       PresheafOfModules.pushforward, PresheafOfModules.pushforward₀,
       PresheafOfModules.pushforward₀Obj]
-    show Subsingleton (F.val.obj (op (V.ι ''ᵁ (⊤ : (V : Scheme).Opens))))
+    change Subsingleton (F.val.obj (op (V.ι ''ᵁ (⊤ : (V : Scheme).Opens))))
     rw [Scheme.Opens.ι_image_top]
     exact hsub
   exact hFx (Stacks.AlgebraicGeometry.SchemeHigherDirectImage.isZero_stalk_of_isZero_restrict

@@ -175,7 +175,7 @@ theorem stalkSpecializesₗ_comp_exteriorPowerStalkEquivₗ_symm (F : X.Modules)
   refine exteriorPower.linearMap_ext (AlternatingMap.ext fun v ↦ ?_)
   obtain ⟨U, hxU, s, hs⟩ := exists_germ_eq_of_fin F x v
   obtain rfl : (fun i ↦ F.presheaf.germ U x hxU (s i)) = v := funext hs
-  show stalkSpecializesₗ (exteriorPower F (n : ℤ)) h
+  change stalkSpecializesₗ (exteriorPower F (n : ℤ)) h
       ((exteriorPowerStalkEquivₗ F n x).symm
         (exteriorPower.ιMulti _ n fun i ↦ F.presheaf.germ U x hxU (s i))) =
     (exteriorPowerStalkEquivₗ F n y).symm

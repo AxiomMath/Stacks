@@ -241,7 +241,7 @@ private theorem LimitBridge.exists_etale_map_pullback_snd [IsCofiltered (Over i�
   let cL := T.mapCone L.cone
   have hqL : cL.π.app j₀ ≫ T.map (yoneda.preimage (C.baseMap j₀)) =
       T.map (yoneda.preimage L.toBase) := by
-    show T.map (L.cone.π.app j₀) ≫ _ = _
+    change T.map (L.cone.π.app j₀) ≫ _ = _
     rw [← Functor.map_comp, L.π_app_comp_preimage_baseMap j₀]
   have : AlgebraicGeometry.Etale ((Over.pullback (cL.π.app j₀)).map φ₁).left := by
     refine (prop_overPullback_map_left_iff_pullback_snd _ fbase (cL.π.app j₀)).mpr ?_
@@ -251,7 +251,7 @@ private theorem LimitBridge.exists_etale_map_pullback_snd [IsCofiltered (Over i�
     X₁ Y₁ φ₁
   have hqj : C.schemeDiagram.map jj.hom ≫ T.map (yoneda.preimage (C.baseMap j₀)) =
       T.map (yoneda.preimage (C.baseMap jj.left)) := by
-    show T.map (C.siteDiagram.map jj.hom) ≫ _ = _
+    change T.map (C.siteDiagram.map jj.hom) ≫ _ = _
     rw [← Functor.map_comp, C.siteDiagram_map_comp_preimage_baseMap jj.hom]
   refine ⟨jj.left, (prop_iteratedPullback_snd_iff T _ r (yoneda.preimage (C.baseMap j₀))
     (yoneda.preimage (C.baseMap jj.left)) (C.schemeDiagram.map jj.hom) hqj).mp ?_⟩

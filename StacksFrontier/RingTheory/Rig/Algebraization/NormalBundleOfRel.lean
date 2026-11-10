@@ -55,12 +55,14 @@ omit [DecidableEq n] in
 theorem improvedLift_eq (u : R) (E : Matrix n n R) :
     improvedLift u E = u ^ 2 • E - 2 • (E * (E * E - u • E)) + u • (E * E - u • E) := rfl
 
+omit [DecidableEq n] in
 /-- The improved lift commutes with ring homomorphisms applied entrywise. -/
 theorem improvedLift_map {R' : Type*} [CommRing R'] (φ : R →+* R') (u : R) (E : Matrix n n R) :
     (improvedLift u E).map φ = improvedLift (φ u) (E.map φ) := by
+  classical
   have hsmul : ∀ (r : R) (M : Matrix n n R), φ.mapMatrix (r • M) = φ r • φ.mapMatrix M :=
     fun r M ↦ Matrix.map_smul' _ _ _ (map_mul φ)
-  show φ.mapMatrix (improvedLift u E) = improvedLift (φ u) (φ.mapMatrix E)
+  change φ.mapMatrix (improvedLift u E) = improvedLift (φ u) (φ.mapMatrix E)
   simp only [improvedLift, quasiDefect, map_add, map_sub, map_nsmul, map_mul, hsmul, map_pow]
 
 /-- The polynomial `X² − u X`, whose value at `E` is the defect `quasiDefect u E`. -/
@@ -108,11 +110,13 @@ private theorem mul_apply_mem {R : Type*} [CommRing R] {l m p : Type*} [Fintype 
     (M * N) i j ∈ I :=
   Ideal.sum_mem _ fun k _ ↦ Ideal.mul_mem_right _ _ (hM i k)
 
+omit [DecidableEq n] in
 /-- If the defect of `E` has entries in `J`, then `improvedLift u E − u² E` has entries in
 `J`. -/
 theorem improvedLift_sub_mem {J : Ideal R} {E : Matrix n n R} {u : R}
     (hΔ : ∀ i j, quasiDefect u E i j ∈ J) (i j : n) :
     (improvedLift u E - u ^ 2 • E) i j ∈ J := by
+  classical
   have hE : improvedLift u E - u ^ 2 • E =
       quasiDefect u E * Polynomial.aeval E (Polynomial.C u - 2 * Polynomial.X) := by
     rw [← aeval_quasiDefectPoly, ← map_mul, ← improvedLiftPoly_sub, map_sub,
@@ -120,11 +124,13 @@ theorem improvedLift_sub_mem {J : Ideal R} {E : Matrix n n R} {u : R}
   rw [hE]
   exact mul_apply_mem hΔ _ i j
 
+omit [DecidableEq n] in
 /-- If the defect of `E` for `u` has entries in `J`, then the defect of the improved lift for
 `u³` has entries in `J²`. -/
 theorem quasiDefect_improvedLift_mem {J : Ideal R} {E : Matrix n n R} {u : R}
     (hΔ : ∀ i j, quasiDefect u E i j ∈ J) (i j : n) :
     quasiDefect (u ^ 3) (improvedLift u E) i j ∈ J ^ 2 := by
+  classical
   set ev := Polynomial.aeval (R := R) E
   have hE : quasiDefect (u ^ 3) (improvedLift u E) = quasiDefect u E * (quasiDefect u E *
       ev ((2 * Polynomial.X - Polynomial.C u) ^ 2 - 4 * Polynomial.C u ^ 2)) := by

@@ -138,10 +138,10 @@ theorem exists_supportedGenerator_of_iso {W V Y' Y : AlgebraicSpaces B S hS} (r 
   let K := (etaleModulePullback.{u, u} B S hS r.inv hr').mapDerivedCategory.obj K'
   have hΦK : Φ.inverse.obj K' = K := rfl
   have : Φ.functor.PreservesZeroMorphisms := by
-    show ((etaleModulePullback.{u, u} B S hS r.hom hr).mapDerivedCategory).PreservesZeroMorphisms
+    change ((etaleModulePullback.{u, u} B S hS r.hom hr).mapDerivedCategory).PreservesZeroMorphisms
     infer_instance
   have : Φ.inverse.PreservesZeroMorphisms := by
-    show ((etaleModulePullback.{u, u} B S hS r.inv hr').mapDerivedCategory).PreservesZeroMorphisms
+    change ((etaleModulePullback.{u, u} B S hS r.inv hr').mapDerivedCategory).PreservesZeroMorphisms
     infer_instance
   have hsq' : i ≫ r.inv = s.inv ≫ i' := by
     rw [← cancel_epi s.hom, ← Category.assoc, hsq, Category.assoc, r.hom_inv_id,
@@ -163,7 +163,7 @@ theorem exists_supportedGenerator_of_iso {W V Y' Y : AlgebraicSpaces B S hS} (r 
     have hE'K : ∀ (n : ℤ) (g : K'⟦n⟧ ⟶ E'), g = 0 := by
       intro n g
       have : Φ.functor.CommShift ℤ := by
-        show ((etaleModulePullback.{u, u} B S hS r.hom hr).mapDerivedCategory).CommShift ℤ
+        change ((etaleModulePullback.{u, u} B S hS r.hom hr).mapDerivedCategory).CommShift ℤ
         infer_instance
       let α : K'⟦n⟧ ≅ Φ.functor.obj (K⟦n⟧) :=
         (shiftFunctor _ n).mapIso (eqToIso (congrArg Φ.functor.obj hΦK.symm) ≪≫
@@ -239,9 +239,9 @@ theorem exists_isPerfect_isZero_restrict_generator_of_isAffineSpace {V Y : Algeb
     apply ObjectProperty.hom_ext
     have hw := hpb.w
     simp only [Category.comp_id] at hw
-    show hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom = yoneda.map j ≫ r.hom.hom
+    change hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom = yoneda.map j ≫ r.hom.hom
     rw [← hw]
-    show hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom =
+    change hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ i.hom =
       hi₀.rep.fst (𝟙 (yoneda.obj T₀)) ≫ (i.hom ≫ r.inv.hom) ≫ r.hom.hom
     rw [Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom, r.inv_hom_id]
     rfl

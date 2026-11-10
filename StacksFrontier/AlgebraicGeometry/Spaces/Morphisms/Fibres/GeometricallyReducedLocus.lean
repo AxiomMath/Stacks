@@ -247,7 +247,7 @@ private theorem geometricallyReduced_fibreObject_iff
   have _ : MorphismProperty.RespectsIso (@GeometricallyReduced : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   let _ : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) := by
-    show PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
+    change PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
     apply comp_preservesLimitsOfShape
   have hsq : IsPullback
       ((BigFppfOver.toScheme B S hS).map
@@ -405,7 +405,7 @@ theorem geometricallyReducedFibreLocus_eq_preimage_chart
           (((BigFppfOver.toScheme B S hS).map hAU).fiberToSpecResidueField x)} := by
   ext y
   obtain ⟨x, rfl⟩ := (schemePointsHomeomorph B S hS U).symm.surjective y
-  simp only [Set.mem_preimage, Homeomorph.apply_symm_apply, Set.mem_setOf_eq]
+  simp only [Set.mem_preimage, Homeomorph.apply_symm_apply, Set.mem_ofPred_eq]
   rw [← class_schemePointRepresentative B S hS U x, mem_geometricallyReducedFibreLocus_iff]
   exact isGeometricallyReducedFibre_iff_geometricallyReduced_fiber B S hS f' hF i hAU hiE hiS
     hh x

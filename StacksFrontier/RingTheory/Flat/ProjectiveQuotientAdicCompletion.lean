@@ -75,7 +75,7 @@ private theorem isMittagLeffler_of_comp_eq_id {M : Type v} {F : Type w} [AddComm
   obtain ⟨Q, hQa, hQm, hQfp, g, hg⟩ :=
     (isMittagLeffler_def_iff.{u, uP, w, uQ, uN} R F).1 hF P (i ∘ₗ f)
   refine ⟨Q, hQa, hQm, hQfp, g, fun N _ _ => ?_⟩
-  show LinearMap.ker (f.rTensor N) = LinearMap.ker (g.rTensor N)
+  change LinearMap.ker (f.rTensor N) = LinearMap.ker (g.rTensor N)
   exact (ker_rTensor_comp_left_eq i f N (injective_rTensor_of_comp_eq_id hpi N)).symm.trans (hg N)
 
 variable (M : Type v) [AddCommGroup M] [Module R M]

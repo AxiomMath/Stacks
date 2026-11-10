@@ -193,7 +193,7 @@ private theorem completion_map_pow_isClosed
     continuous_invFun := u.uniformContinuous_invFun.continuous }
   have hecomp : e.toRingHom.comp UniformSpace.Completion.coeRingHom =
       algebraMap R (AdicCompletion I R) := RingHom.ext fun r => by
-    show AdicCompletionBridge.adicCompletionRingEquiv I hIadic
+    change AdicCompletionBridge.adicCompletionRingEquiv I hIadic
       (r : UniformSpace.Completion R) = algebraMap R (AdicCompletion I R) r
     rw [AdicCompletionBridge.adicCompletionRingEquiv_coe]
     exact (AdicCompletion.algebraMap_apply I r).symm
@@ -207,12 +207,12 @@ private theorem completion_map_pow_isClosed
         Ideal (AdicCompletion I R)) : Set (AdicCompletion I R)) =
         (LinearMap.ker (AdicCompletion.eval I R n) : Set (AdicCompletion I R)) := by
     ext x
-    show x ∈ Submodule.restrictScalars R
+    change x ∈ Submodule.restrictScalars R
         (Ideal.map (algebraMap R (AdicCompletion I R)) (I ^ n)) ↔
       x ∈ LinearMap.ker (AdicCompletion.eval I R n)
     rw [← Ideal.smul_top_eq_map, ← AdicCompletion.pow_smul_top_eq_ker_eval hI]
   have heval : Continuous (AdicCompletion.eval I R n) := by
-    show Continuous fun x : AdicCompletion I R => x.val n
+    change Continuous fun x : AdicCompletion I R => x.val n
     exact continuous_apply n |>.comp continuous_subtype_val
   have hclosedTarget : IsClosed
       ((Ideal.map (algebraMap R (AdicCompletion I R)) (I ^ n) :
@@ -239,6 +239,7 @@ private theorem completion_map_pow_isClosed
   exact (homeo.isClosed_image (s := _)).mp (himage.symm ▸ hclosedTarget)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over the completed tensor product's topological ring and algebra structures
 private theorem completedTensorProduct_adic_data
     {B A C : Type*} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
@@ -324,7 +325,7 @@ private theorem completedTensorProduct_adic_data
     apply closure_mono
     apply SetLike.coe_subset_coe.mpr
     have hKseq : Kseq p q ≤ Kseq m n := by
-      show Ideal.map (Algebra.TensorProduct.includeLeft.toRingHom) (I ^ p) ⊔
+      change Ideal.map (Algebra.TensorProduct.includeLeft.toRingHom) (I ^ p) ⊔
           Ideal.map (Algebra.TensorProduct.includeRight.toRingHom) (J ^ q) ≤
         Ideal.map (Algebra.TensorProduct.includeLeft.toRingHom) (I ^ m) ⊔
           Ideal.map (Algebra.TensorProduct.includeRight.toRingHom) (J ^ n)
@@ -358,6 +359,7 @@ private theorem completedTensorProduct_adic_data
   exact ⟨P, by simpa only [hP_eq] using hKfg.map ι, hPdef, hPadic⟩
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over the completed tensor product's topological ring and algebra structures
 /-- The completed tensor product of two pre-adic, linearly topologized algebras with finitely
 generated ideals of definition is adic. -/
 @[stacks 0GB4 "adic_finite"]
@@ -452,7 +454,7 @@ private lemma closure_map_eq_closure_image_of_dense
   have h₁ : Ideal.closure (I.map f) ≤ H :=
     closure_minimal (SetLike.coe_subset_coe.mpr hmap) isClosed_closure
   have h₂ : H ≤ Ideal.closure (I.map f) := by
-    show closure (f '' (I : Set R)) ⊆ closure (I.map f : Set S)
+    change closure (f '' (I : Set R)) ⊆ closure (I.map f : Set S)
     exact closure_mono (by rintro _ ⟨x, hx, rfl⟩; exact Ideal.mem_map_of_mem f hx)
   exact congrArg (fun K : Ideal S => (K : Set S)) (le_antisymm h₁ h₂)
 
@@ -603,7 +605,7 @@ private lemma tensorProduct_adic_of_adic_factors
     rw [hP_eq]
     apply Submodule.restrictScalars_mono
     rw [Ideal.map_pow, Ideal.map_pow]
-    show (I.map f) ^ m ⊔ (K.map g) ^ n ≤ L ^ min m n
+    change (I.map f) ^ m ⊔ (K.map g) ^ n ≤ L ^ min m n
     apply sup_le
     · exact (Ideal.pow_right_mono (le_sup_left : I.map f ≤ L) m).trans
         (Ideal.pow_le_pow_right (min_le_left m n))
@@ -648,6 +650,7 @@ private lemma tensorProduct_adic_of_adic_factors
       (by simpa only [hP_eq, Submodule.coe_restrictScalars] using hsub)⟩
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over the completed tensor product's topological ring and algebra structures
 /-- If the induced quotient map is of finite type, the completed tensor product
 of pre-adic Noetherian algebras is Noetherian. -/
 @[stacks 0GB4 "adic_noetherian"]
@@ -657,7 +660,6 @@ public theorem completedTensorProduct_isNoetherianRing
     [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
     [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
-    (hBA : Continuous (algebraMap B A)) (hBC : Continuous (algebraMap B C))
     [IsNoetherianRing A] [IsNoetherianRing C]
     (hA : TopologicalRing.IsPreAdic A) (hC : TopologicalRing.IsPreAdic C)
     (hFinite : ∃ h : topologicalNilradical B ≤
@@ -688,7 +690,6 @@ public theorem completedTensorProduct_isNoetherianRing
     exact UniformSpace.Completion.completeSpace T
   let : @CompleteSpace S (IsTopologicalAddGroup.rightUniformSpace S) := hCompleteS
   let φ : T →+* S := UniformSpace.Completion.coeRingHom
-  have hφ : Continuous (φ : T → S) := UniformSpace.Completion.continuous_coe T
   let fA : A →+* T :=
     (Algebra.TensorProduct.includeLeft : A →ₐ[B] T).toRingHom
   let fC : C →+* T :=
@@ -699,14 +700,13 @@ public theorem completedTensorProduct_isNoetherianRing
     tensorProduct_adic_of_adic_factors NA NC hNAadic hNCadic hNAfg hNCfg
   have hTaut : RingHom.IsTaut φ := completion_coe_isTaut
   obtain ⟨LI, hLIadic, hLImapAdic⟩ :=
-    RingHom.isAdic_of_isTaut φ hφ hTaut ⟨L, hLfg, hLadic⟩
+    RingHom.isAdic_of_isTaut φ hTaut ⟨L, hLfg, hLadic⟩
   have hJadic : _root_.IsAdic (L.map φ) :=
     isAdic_map_of_isAdic_of_isAdic φ LI L hLIadic hLadic hLImapAdic
   let J : Ideal S := L.map φ
   have hJfg : J.FG := hLfg.map φ
   have hJcomplete : IsAdicComplete J S :=
     (hJadic.isAdicComplete_iff).mpr ⟨inferInstance, inferInstance⟩
-
   obtain ⟨hNB_A, hFiniteBA⟩ := hFinite
   let qB : B →+* B ⧸ topologicalNilradical B :=
     Ideal.Quotient.mk (topologicalNilradical B)
@@ -759,7 +759,6 @@ public theorem completedTensorProduct_isNoetherianRing
       SetLike.coe_injective hclosureSet
     rw [hkerClosure, ← hJsum]
     exact Ideal.closure_eq_of_isClosed J hJclosed
-
   let : Algebra.FiniteType B (A ⧸ NA ^ 1) :=
     (RingHom.finiteType_algebraMap.mp hBAfinitePower)
   let : Algebra (C ⧸ NC ^ 1) D' := Algebra.TensorProduct.leftAlgebra
@@ -809,6 +808,7 @@ private theorem hasBasis_open_ideal_le {R : Type*} [CommRing R] [TopologicalSpac
     (fun i _ => ⟨i.1, i.2.1, le_rfl⟩)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over the completed tensor product's topological ring and algebra structures
 /-- The completed tensor product of pre-admissible linearly topologized
 algebras is admissible. -/
 @[stacks 0GB4 "admissible", ega "0 7.7.7" "admissibility"]
@@ -857,14 +857,14 @@ public theorem completedTensorProduct_isAdmissible
     let Q : Ideal T := TopologicalRing.projectionKernel I J bI bJ i j
     have hIimage : (I i).map φA ≤ Q := by
       intro x hx
-      show x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i j)
+      change x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i j)
       rw [TopologicalRing.projectionKernel_eq_closure I J bI bJ i j]
       exact subset_closure (by
         rw [Ideal.add_eq_sup]
         exact (le_sup_left : (I i).map φA ≤ (I i).map φA ⊔ (J j).map φC) hx)
     have hJimage : (J j).map φC ≤ Q := by
       intro x hx
-      show x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i j)
+      change x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i j)
       rw [TopologicalRing.projectionKernel_eq_closure I J bI bJ i j]
       exact subset_closure (by
         rw [Ideal.add_eq_sup]
@@ -891,7 +891,7 @@ public theorem completedTensorProduct_isAdmissible
     have hKeq : K = Ideal.closure (L + M) := by
       apply Ideal.ext
       intro x
-      show x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i₀ j₀) ↔
+      change x ∈ SetLike.coe (TopologicalRing.projectionKernel I J bI bJ i₀ j₀) ↔
         x ∈ SetLike.coe (Ideal.closure (L + M))
       rw [TopologicalRing.projectionKernel_eq_closure (B := B) I J bI bJ i₀ j₀]
     refine ⟨n + m, fun x hx => hp ?_⟩
@@ -900,9 +900,9 @@ public theorem completedTensorProduct_isAdmissible
       exact (closure_pow_le_closure_pow (L + M) (n + m)).trans hclosure
     simpa [Q, i, j] using hKpow hx
   · refine ⟨?_, ?_⟩
-    · show T2Space T
+    · change T2Space T
       infer_instance
-    · show @CompleteSpace T (IsTopologicalAddGroup.rightUniformSpace T)
+    · change @CompleteSpace T (IsTopologicalAddGroup.rightUniformSpace T)
       have hu : IsTopologicalAddGroup.rightUniformSpace T = (inferInstance : UniformSpace T) :=
         IsUniformAddGroup.rightUniformSpace_eq
       rw [hu]
@@ -945,6 +945,7 @@ open scoped TensorProduct Topology
 
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over the completed tensor product's topological ring and algebra structures
 /-- The completed tensor product of two weakly pre-admissible linearly
 topologized rings is weakly admissible. -/
 @[stacks 0GB4 "weakly_admissible"]

@@ -114,6 +114,8 @@ public abbrev pullbackDualIsoOf
   Stacks.FundamentalGroup.pullbackDualSheafIso f A hA ≪≫
     ((Stacks.AlgebraicGeometry.ReflexiveModules.dualFunctor X).mapIso α.op).symm
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} A]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} A'] in
 /-- `pullbackDualIsoOf` is compatible with the evaluations. -/
 public theorem pullbackDualIsoOf_unit
     (hA : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} A)
@@ -123,7 +125,7 @@ public theorem pullbackDualIsoOf_unit
         (op (Over.mk (𝟙 ((opensMap f.toLRSHom.toShHom).op.obj U).unop)))).hom
         (α.hom.val.app _ (pullbackUnit f.toLRSHom.toShHom A U a)) =
       sharp f.toLRSHom.toShHom U ((lam.app (op (Over.mk (𝟙 U.unop)))).hom a) := by
-  show (((Stacks.FundamentalGroup.pullbackDualSheafIso f A hA).hom.val.app (op (f ⁻¹ᵁ U.unop))
+  change (((Stacks.FundamentalGroup.pullbackDualSheafIso f A hA).hom.val.app (op (f ⁻¹ᵁ U.unop))
       (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app (dualSheaf A)).val.app U lam)).app
       (op (Over.mk (𝟙 (f ⁻¹ᵁ U.unop))))).hom (α.inv.val.app (op (f ⁻¹ᵁ U.unop))
         (α.hom.val.app (op (f ⁻¹ᵁ U.unop))
@@ -150,7 +152,7 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 public theorem tensorPullbackIso_refl_tensorMap (θ : (pullbackFunctor f).obj O ≅ O') :
     (tensorPullbackIso f (Iso.refl _) α).hom ≫ tensorMap θ.hom (𝟙 A') =
       (tensorPullbackIso f θ α).hom := by
-  show (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫ tensorMap θ.hom (𝟙 A') =
+  change (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫ tensorMap θ.hom (𝟙 A') =
     Stacks.RingedSpace.comparison f O A ≫ tensorMap θ.hom α.hom
   refine (Category.assoc _ _ _).trans (congrArg (Stacks.RingedSpace.comparison f O A ≫ ·) ?_)
   exact (tensorMap_comp _ _ _ _).trans
@@ -163,9 +165,8 @@ public theorem tensorPullbackIso_refl_tensorMap_map (φ : O ⟶ M)
     (tensorPullbackIso f (Iso.refl _) α).hom ≫ tensorMap ((pullbackFunctor f).map φ ≫ T) (𝟙 A') =
       (pullbackFunctor f).map (tensorMap φ (𝟙 A)) ≫ Stacks.RingedSpace.comparison f M A ≫
         tensorMap T α.hom := by
-  show (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫
+  change (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫
     tensorMap ((pullbackFunctor f).map φ ≫ T) (𝟙 A') = _
-
   refine Eq.trans ?_ ((comparison_naturality_assoc f φ (𝟙 A) (tensorMap T α.hom)).trans
     (Category.assoc _ _ _)).symm
   refine (Category.assoc _ _ _).trans (congrArg (Stacks.RingedSpace.comparison f O A ≫ ·) ?_)
@@ -179,7 +180,8 @@ public theorem tensorPullbackIso_refl_tensorMap_comp (θ : (pullbackFunctor f).o
     (v : O' ⟶ N) :
     (tensorPullbackIso f (Iso.refl _) α).hom ≫ tensorMap (θ ≫ v) (𝟙 A') =
       Stacks.RingedSpace.comparison f O A ≫ tensorMap θ α.hom ≫ tensorMap v (𝟙 A') := by
-  show (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫ tensorMap (θ ≫ v) (𝟙 A') = _
+  change (Stacks.RingedSpace.comparison f O A ≫ tensorMap (𝟙 _) α.hom) ≫
+    tensorMap (θ ≫ v) (𝟙 A') = _
   refine (Category.assoc _ _ _).trans (congrArg (Stacks.RingedSpace.comparison f O A ≫ ·) ?_)
   refine (tensorMap_comp _ _ _ _).trans (Eq.trans ?_ (tensorMap_comp _ _ _ _).symm)
   exact congrArg₂ tensorMap (Category.id_comp _) (Category.comp_id _)
@@ -297,6 +299,8 @@ variable {N' : S'.Modules} (σ : (Scheme.Modules.pullback g).obj N ≅ N')
   [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
     ((Scheme.Modules.pullback π').obj N')]
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    ((Scheme.Modules.pullback π').obj N')] in
 /-- **The dual base-change isomorphisms of a commutative square agree**, along `σ : g^* N ≅ N'`:
 `b^* π^*(N^∨) ⟶ b^*((π^* N)^∨) ⟶ (π'^* N')^∨` is
 `b^* π^*(N^∨) ≅ π'^* g^*(N^∨) ⟶ π'^*(N'^∨) ⟶ (π'^* N')^∨`. -/
@@ -549,7 +553,6 @@ private theorem tensorHomEquiv_symm_comp {Z : Scheme.{u}} {P Q B H : Z.Modules} 
 private theorem tensorMap_curry_contract
     (tp : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩)).obj (O, A) ⟶ L) :
-
     tensorMap (Stacks.SheafOfModules.tensorHomEquiv Y.toRingedSpace O A L tp ≫
         (sheafHomIsoTensorDual A L).hom) (𝟙 A) ≫ tensorDualContract A L = tp := by
   have h := tensorHomEquiv_symm_comp
@@ -733,7 +736,6 @@ public theorem pairing_pullback (ψ : A ⟶ Ok) (ψ' : A' ⟶ Ok')
     (μ' : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩)).obj (Od', Ok') ⟶ Os')
     (q : Os ⟶ Oe) (q' : Os' ⟶ Oe')
-
     (hψ : (Scheme.Modules.pullback f).map ψ ≫ θk.hom = α.hom ≫ ψ')
     (hμ : (pullbackFunctor f.toLRSHom.toShHom).map μ ≫ θs.hom =
       Stacks.RingedSpace.comparison f.toLRSHom.toShHom Od Ok ≫ tensorMap θd.hom θk.hom ≫ μ')
@@ -769,7 +771,6 @@ public theorem pairing_pullbackT (ψ : A ⟶ Ok) (ψ' : A' ⟶ Ok')
     (μ' : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩)).obj (Od', Ok') ⟶ Os')
     (q : Os ⟶ Oe) (q' : Os' ⟶ Oe')
-
     (hψ : (Scheme.Modules.pullback f).map ψ ≫ θk.hom = α.hom ≫ ψ')
     (hμ : (pullbackFunctor f.toLRSHom.toShHom).map μ ≫ θs.hom =
       Stacks.RingedSpace.comparison f.toLRSHom.toShHom Od Ok ≫ tensorMap θd.hom θk.hom ≫ μ')

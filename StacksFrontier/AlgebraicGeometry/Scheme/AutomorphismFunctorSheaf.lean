@@ -175,7 +175,7 @@ theorem baseChangeOpenCoverPairMap_fst (i j : 𝒰.I₀) :
     exact whisker_eq _ (pullbackLeftPullbackSndIso_hom_fst X.hom T.hom (𝒰.f i)).symm
   · rw [Category.assoc, baseChangeMap_snd, ← Category.assoc, baseChangeOpenCoverPairMap_snd',
       Category.assoc]
-    show pullback.lift _ _ _ ≫ pullback.fst (𝒰.f i) (𝒰.f j) = _
+    change pullback.lift _ _ _ ≫ pullback.fst (𝒰.f i) (𝒰.f j) = _
     rw [pullback.lift_fst]
     exact whisker_eq _ (pullbackLeftPullbackSndIso_hom_snd X.hom T.hom (𝒰.f i)).symm
 
@@ -190,7 +190,7 @@ theorem baseChangeOpenCoverPairMap_snd (i j : 𝒰.I₀) :
     exact whisker_eq _ (pullbackLeftPullbackSndIso_hom_fst X.hom T.hom (𝒰.f j)).symm
   · rw [Category.assoc, baseChangeMap_snd, ← Category.assoc, baseChangeOpenCoverPairMap_snd',
       Category.assoc]
-    show pullback.lift _ _ _ ≫ pullback.snd (𝒰.f i) (𝒰.f j) = _
+    change pullback.lift _ _ _ ≫ pullback.snd (𝒰.f i) (𝒰.f j) = _
     rw [pullback.lift_snd]
     exact whisker_eq _ (pullbackLeftPullbackSndIso_hom_snd X.hom T.hom (𝒰.f j)).symm
 
@@ -231,7 +231,7 @@ theorem endGlueFst_comp_hom :
   have h2 : pullback.fst X.hom (coverOverObj 𝒰 i).hom ≫ X.hom =
       pullback.snd X.hom (coverOverObj 𝒰 i).hom ≫ (coverOverObj 𝒰 i).hom := pullback.condition
   have hw : (φ i).left ≫ pullback.snd _ _ = pullback.snd _ _ := Over.w (φ i)
-  show pullback.fst (pullback.snd X.hom T.hom) (𝒰.f i) ≫ endGlueFst φ hφ ≫ X.hom =
+  change pullback.fst (pullback.snd X.hom T.hom) (𝒰.f i) ≫ endGlueFst φ hφ ≫ X.hom =
     pullback.fst (pullback.snd X.hom T.hom) (𝒰.f i) ≫ pullback.snd X.hom T.hom ≫ T.hom
   rw [baseChangeOpenCover_f_endGlueFst_assoc, h2, reassoc_of% hw]
   simp only [Over.mk_hom, pullbackLeftPullbackSndIso_hom_snd_assoc]

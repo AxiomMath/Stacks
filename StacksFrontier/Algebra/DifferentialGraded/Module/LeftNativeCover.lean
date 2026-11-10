@@ -703,7 +703,7 @@ theorem d_smul_eq (N : LeftModule A) {n : ℤ} {y : N.M} (hy : y ∈ N.grading n
   have h : N.d ∘ₗ smulRight N y
       = smulRight N y ∘ₗ A.d + smulRight N (N.d y) ∘ₗ DirectSum.parity A.grading :=
     DirectSum.linearMap_ext_of_mem A.grading fun p b hb => by
-      show N.d (b • y) = A.d b • y + (DirectSum.parity A.grading b) • N.d y
+      change N.d (b • y) = A.d b • y + (DirectSum.parity A.grading b) • N.d y
       rw [N.leibniz p n b y hb hy, DirectSum.parity_apply_of_mem A.grading hb,
         zsmul_smul_assoc N]
   simpa only [LinearMap.comp_apply, LinearMap.add_apply, smulRight_apply] using
@@ -818,14 +818,14 @@ theorem freeCoverMap_twoCellDiff (N : LeftModule A) {ι : Type u} [DecidableEq �
     refine DirectSum.linearMap_ext (R := R) fun c => LinearMap.ext fun a => ?_
     cases c with
     | inl i =>
-        show freeCoverMap N v (twoCellDiff A b
+        change freeCoverMap N v (twoCellDiff A b
           (DirectSum.lof R (ι ⊕ ι) (fun _ : ι ⊕ ι => A.A) (Sum.inl i) a))
           = N.d (freeCoverMap N v
             (DirectSum.lof R (ι ⊕ ι) (fun _ : ι ⊕ ι => A.A) (Sum.inl i) a))
         rw [twoCellDiff_lof_inl, map_add, freeCoverMap_lof_inl, freeCoverMap_lof_inr,
           freeCoverMap_lof_inl, cellParity_smul_d N b v hb i a, d_smul_eq N (hv i)]
     | inr i =>
-        show freeCoverMap N v (twoCellDiff A b
+        change freeCoverMap N v (twoCellDiff A b
           (DirectSum.lof R (ι ⊕ ι) (fun _ : ι ⊕ ι => A.A) (Sum.inr i) a))
           = N.d (freeCoverMap N v
             (DirectSum.lof R (ι ⊕ ι) (fun _ : ι ⊕ ι => A.A) (Sum.inr i) a))
@@ -947,7 +947,7 @@ theorem exists_cover (A : DifferentialGradedAlgebra R) (N : LeftModule A) :
       (Sum.inl (Sum.inr ⟨m, ⟨⟨y, hy⟩, hdy⟩⟩)) 1, ?_, ?_, ?_⟩
     · exact lof_inl_one_mem_grading A k b (Sum.inr ⟨m, ⟨⟨y, hy⟩, hdy⟩⟩)
     · exact twoCellDiff_lof_inl_one_of_bare A b (by simp [b])
-    · show freeCoverMap N v _ = y
+    · change freeCoverMap N v _ = y
       rw [freeCoverMap_lof_inl, one_smul]
       rfl
   refine ⟨I, inferInstance, k, b, freeCover N v k hv b hb, ?_, hhom, ?_,

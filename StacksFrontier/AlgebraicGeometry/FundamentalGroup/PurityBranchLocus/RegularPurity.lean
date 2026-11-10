@@ -93,7 +93,7 @@ theorem hasPurity_of_hasPurity_adicCompletion (A : Type u) [CommRing A] [IsLocal
     (essSurj_finiteEtaleBaseChange_iff_exists_isPullback _).1 hW _ (pihat ≫ e.inv)
   refine ⟨Y, f, g, hf, hf', ?_⟩
   refine hYpb.of_iso (Iso.refl _) e (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · show (pihat ≫ e.inv) ≫ e.hom = 𝟙 _ ≫ pihat
+  · change (pihat ≫ e.inv) ≫ e.hom = 𝟙 _ ≫ pihat
     simp
   · simp
   · exact hpb.isoPullback_hom_snd.symm
@@ -176,7 +176,7 @@ theorem exists_mem_maximalIdeal_isRegularLocalRing_quotient_of_ringKrullDim_eq_s
     rw [hdim]
     exact_mod_cast Nat.succ_ne_zero n
   obtain ⟨x, hx, hx2⟩ :=
-    SetLike.exists_of_lt (IsLocalRing.maximalIdeal_sq_lt_of_ringKrullDim_ne_zero hne)
+    IsConcreteLE.exists_of_lt (IsLocalRing.maximalIdeal_sq_lt_of_ringKrullDim_ne_zero hne)
   obtain ⟨hreg, hdrop⟩ := quotient_isRegularLocalRing A x hx hx2
   refine ⟨x, hx, hreg, ?_⟩
   rw [← IsRegularLocalRing.spanFinrank_maximalIdeal (R := A ⧸ Ideal.span {x})] at hdrop ⊢

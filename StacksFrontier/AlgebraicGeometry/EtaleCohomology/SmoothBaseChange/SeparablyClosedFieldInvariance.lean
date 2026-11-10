@@ -52,7 +52,8 @@ universe u
 namespace Stacks.EtaleCohomology
 
 -- The proof runs through the base change map `smallEtaleDerivedBaseChangeAb`
--- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`),
+-- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean`,
+-- line 220),
 -- which the base constructs under the standard model; that fixes the model here.
 attribute [local instance] HasDerivedCategory.standard
 

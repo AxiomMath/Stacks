@@ -237,7 +237,7 @@ theorem chartLocalApp_apply (hf : f ∈ 𝒜 e) (he : 0 < e) (n : ℤ)
       (chartSectionsIso 𝒜 (ψ.pushLaurent n) hf he).hom z)
     (chartRestrictHom_app_top 𝒜 ψ hf he n
       ((chartSectionsIso 𝒜 (twistM 𝒜 n) hf he).inv s))) ?_
-  show (chartSectionsIso 𝒜 (ψ.pushLaurent n) hf he).hom
+  change (chartSectionsIso 𝒜 (ψ.pushLaurent n) hf he).hom
       ((chartSectionsIso 𝒜 (ψ.pushLaurent n) hf he).inv
         ((ψ.chartTargetIso n f).inv
           (intChartSectionHom ψ hf (ψ.chartOpen_eq hf he).le he n

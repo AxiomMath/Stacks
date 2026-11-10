@@ -197,7 +197,7 @@ lemma blockInclusion_comp_blockRestriction_self
   ext L : 2
   have h : toBaseChangeTop Y kbar (etaleSectionObj _ y) ≫ baseChangeTopToTop Y kbar =
       etaleSectionToTop _ y := (isTerminalEtaleMkId _).hom_ext _ _
-  show (etaleSectionsInclusion Λ _ _ y ≫
+  change (etaleSectionsInclusion Λ _ _ y ≫
       ((etaleModuleInverseImage.{u, r} Λ (fieldBaseChangeProj Y kbar)).obj L).obj.map
         (baseChangeTopToTop Y kbar).op) ≫
       ((etaleModuleInverseImage.{u, r} Λ (fieldBaseChangeProj Y kbar)).obj L).obj.map
@@ -214,7 +214,7 @@ lemma blockInclusion_comp_blockRestriction_of_ne
   ext L : 2
   have h : toBaseChangeTop Y kbar (etaleSectionObj _ y') ≫ baseChangeTopToTop Y kbar =
       etaleSectionToTop _ y' := (isTerminalEtaleMkId _).hom_ext _ _
-  show (etaleSectionsInclusion Λ _ _ y ≫
+  change (etaleSectionsInclusion Λ _ _ y ≫
       ((etaleModuleInverseImage.{u, r} Λ (fieldBaseChangeProj Y kbar)).obj L).obj.map
         (baseChangeTopToTop Y kbar).op) ≫
       ((etaleModuleInverseImage.{u, r} Λ (fieldBaseChangeProj Y kbar)).obj L).obj.map
@@ -238,11 +238,11 @@ lemma sum_blockRestriction_comp_blockInclusion [Finite k] [IsFinite Y.hom] :
   have hsum := sum_etaleSections_restrict_inclusion Λ (pullback.snd Y.hom (specAlgebraMap k kbar))
     ((etaleModuleInverseImage.{u, r} Λ (fieldBaseChangeProj Y kbar)).obj L)
   rw [NatTrans.app_sum]
-  show ∑ y, G.map (toBaseChangeTop Y kbar (etaleSectionObj _ y)).op ≫
+  change ∑ y, G.map (toBaseChangeTop Y kbar (etaleSectionObj _ y)).op ≫
     (etaleSectionsInclusion Λ _ _ y ≫ G.map (baseChangeTopToTop Y kbar).op) = 𝟙 _
   simp_rw [h₁, op_comp, Functor.map_comp, Category.assoc, ← Preadditive.comp_sum,
     ← Category.assoc, ← Preadditive.sum_comp]
-  show G.map (toBaseChangeTop Y kbar _).op ≫ (∑ y, G.map (etaleSectionToTop _ y).op ≫
+  change G.map (toBaseChangeTop Y kbar _).op ≫ (∑ y, G.map (etaleSectionToTop _ y).op ≫
     etaleSectionsInclusion Λ _ _ y) ≫ G.map (baseChangeTopToTop Y kbar).op = 𝟙 _
   rw [hsum, Category.id_comp, ← Functor.map_comp, ← op_comp, h₂, op_id,
     CategoryTheory.Functor.map_id]
@@ -336,7 +336,7 @@ lemma sectionsTwistEndo_comp_blockRestriction
         (smallEtaleBaseChange (geometricFrobeniusBaseChange Y kbar p q hcard)).map
           (toBaseChangeTop Y kbar (etaleSectionObj _ y₂)) :=
     (isTerminalFrobeniusBaseChangeTop Y kbar p q hcard).hom_ext _ _
-  show (τ.app _ ≫ G.map (baseChangeTopFrobenius Y kbar p q hcard).op) ≫
+  change (τ.app _ ≫ G.map (baseChangeTopFrobenius Y kbar p q hcard).op) ≫
       G.map (toBaseChangeTop Y kbar (etaleSectionObj _ y)).op =
     G.map (toBaseChangeTop Y kbar (etaleSectionObj _ y₂)).op ≫ τ.app _ ≫
       G.map (sectionFrobeniusLift Y kbar p q hcard h).op

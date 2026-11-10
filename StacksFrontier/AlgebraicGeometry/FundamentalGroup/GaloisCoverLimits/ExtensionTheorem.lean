@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.GaloisCoverLimits.Extension
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityBranchLocus.RegularPurity
-public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.TameRamification.CodimensionOnePullbackRamification
+public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.TameRamification.CodimensionOnePullbackRamification
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -18,9 +17,8 @@ restriction to `X_η` is `Z`.
 
 The limit argument of the source is
 `AlgebraicGeometry.exists_finiteEtaleGaloisCover_extending_genericFiber`, which reduces to the
-Noetherian case [Stacks, Tag 0EYJ] and carries that case's two inputs. They are supplied here by
-proved theorems: purity for regular local rings [Stacks, Tag 0BMA] (1),
-`AlgebraicGeometry.purityAtRegularLocalRings`, and the tame half of [Stacks, Tag 0EYD],
+Noetherian case [Stacks, Tag 0EYJ] and carries that case's input. It is supplied here by a
+proved theorem, the tame half of [Stacks, Tag 0EYD],
 `Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`.
 
 ## Main results
@@ -68,7 +66,7 @@ theorem exists_extending_genericFiber
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
         e.hom = e.hom ≫ (Z.action g).asIso.hom :=
-  exists_finiteEtaleGaloisCover_extending_genericFiber purityAtRegularLocalRings
+  exists_finiteEtaleGaloisCover_extending_genericFiber
     (fun D hD ↦ Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne D hD)
     f σ hσ G hG Z z hz
 

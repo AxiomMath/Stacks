@@ -69,7 +69,8 @@ Stacks.Cohomology.CompareTopologies.imageOfLE bot_le 𝒪 (quasi-coherent module
 class — the image of the quasi-coherent modules under `ε_*` — and this file connects the right
 class to `qcohCohomologyProperty`. That equality is
 `AlgebraicGeometry.Scheme.imageOfLE_eq_isQuasicoherentOnSite_affineChaotic` of
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticQuasicoherentEquality.lean`, where it
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticQuasicoherentEquality.lean`, where
+it
 is combined with the chain (1) ≃ (2) ≃ (3) ≃ (4) proved here to discharge the hypothesis of
 `AlgebraicGeometry.exists_generating_family_quasiCoherentDerivedCategory_of_adjunction` and hence
 [Stacks, Tag 0A9E]. One of its two inclusions is proved below.

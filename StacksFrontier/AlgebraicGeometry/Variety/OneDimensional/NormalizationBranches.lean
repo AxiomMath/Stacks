@@ -64,7 +64,7 @@ private theorem Field.sepDegree_residueField_eq_of_comp_residue {A S : Type*} {K
     { e.trans (Ideal.quotientEquiv m _ σ.toRingEquiv rfl) with
       commutes' := fun c => ?_ }
   obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective c
-  show Ideal.quotientEquiv m _ σ.toRingEquiv rfl (e (φ (IsLocalRing.residue A a))) =
+  change Ideal.quotientEquiv m _ σ.toRingEquiv rfl (e (φ (IsLocalRing.residue A a))) =
     Ideal.quotientMap _ (algebraMap A T) hle (Ideal.Quotient.mk _ a)
   rw [show e (φ (IsLocalRing.residue A a)) = Ideal.Quotient.mk m (algebraMap A S a) from
     DFunLike.congr_fun h a, Ideal.quotientEquiv_mk, Ideal.quotientMap_mk]
@@ -141,7 +141,7 @@ public theorem numberOfGeometricBranches_eq_card_sigma_sepDegree_normalization
       (le_of_eq (hcontract m))
     let : Algebra (IsLocalRing.ResidueField A) (C ⧸ m.asIdeal) := f.toAlgebra
     (Field.sepDegree (IsLocalRing.ResidueField A) (C ⧸ m.asIdeal)).ord.ToType
-  show numberOfGeometricBranchesOfLocalRing A = _
+  change numberOfGeometricBranchesOfLocalRing A = _
   rw [numberOfGeometricBranchesOfLocalRing_eq_encard_minimalPrimes]
   exact hgeom.trans (ENat.card_congr <| (Equiv.sigmaCongrRight fun y =>
     Equiv.cast (congrArg (fun d : Cardinal => d.ord.ToType)

@@ -476,7 +476,7 @@ theorem isCartesian_fiberHomOfIsPullback {V : BigFppfOver B S hS}
       (fiberHomOfIsPullback x Q f ν hsq) :=
   isCartesian_of_isHomLift f _ (CategoryTheory.IsHomLift.of_fac'
     (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)) f _ x.2 rfl (by
-      show eqToHom x.2 ≫ f = eqToHom x.2 ≫ f ≫ eqToHom rfl
+      change eqToHom x.2 ≫ f = eqToHom x.2 ≫ f ≫ eqToHom rfl
       simp))
 
 /-- **The cover attached by the datum to an arbitrary arrow of the sieve is a base change of the
@@ -611,7 +611,7 @@ theorem isEffective_of_isPullback_of_compat {W : BigFppfOver B S hS} {w : W ⟶ 
       simp only [fiberPointHom_f, Over.mk_hom, Category.assoc, eqToHom_trans_assoc,
         eqToHom_refl, Category.id_comp]
       exact (pullback.condition (f := f₁) (g := f₂)).symm
-    show (Subtype.val (datumCoverIso D hf₁ hf₂ (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
+    change (Subtype.val (datumCoverIso D hf₁ hf₂ (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
             pullback.condition).hom).f ≫
           ((fiberPointHom (D.obj f₂ hf₂) (Over.mk (pullback.snd f₁ f₂))).f ≫
             (eqToHom (D.obj f₂ hf₂).2 ≫ f₂)) =
@@ -619,7 +619,7 @@ theorem isEffective_of_isPullback_of_compat {W : BigFppfOver B S hS} {w : W ⟶ 
           (eqToHom (D.obj f₁ hf₁).2 ≫ f₁)
     rw [h1]
     exact (Category.id_comp _).trans h2
-  · show (Subtype.val (datumCoverIso D hf₁ hf₂ (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
+  · change (Subtype.val (datumCoverIso D hf₁ hf₂ (pullback.fst f₁ f₂) (pullback.snd f₁ f₂)
             pullback.condition).hom).g ≫
           ((fiberPointHom (D.obj f₂ hf₂) (Over.mk (pullback.snd f₁ f₂))).g ≫ νν f₂ hf₂) =
         (fiberPointHom (D.obj f₁ hf₁) (Over.mk (pullback.fst f₁ f₂))).g ≫ νν f₁ hf₁

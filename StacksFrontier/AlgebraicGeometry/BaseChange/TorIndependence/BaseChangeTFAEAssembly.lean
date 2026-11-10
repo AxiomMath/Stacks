@@ -806,8 +806,7 @@ public theorem chartPushoutRingMap_eq (ch : BaseChangeChart f g f' g')
       (ToType (S'.presheaf.stalk (f' (ch.incU' y)))) :=
     IsScalarTower.of_algebraMap_eq' (ch.toStalkR'_b y w).symm
   refine RingHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁' h₂' => rw [map_add, map_add, h₁', h₂']
   | tmul a r =>
     have hc := DFunLike.congr_fun (ch.toStalkA'_c y ε' h₁ h₂) a

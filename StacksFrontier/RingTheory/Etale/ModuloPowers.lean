@@ -172,7 +172,7 @@ public theorem exists_sub_mem_maximalIdeal_of_surjective_residueFieldMap {A B : 
 private lemma mem_maximalIdeal_of_add_mul_eq_zero {t : R} {ξ u : S} (hξ : ξ ∈ maximalIdeal S)
     (heq : algebraMap R S t + ξ * u = 0) : t ∈ maximalIdeal R := by
   rw [← IsLocalRing.maximalIdeal_comap (algebraMap R S)]
-  show algebraMap R S t ∈ maximalIdeal S
+  change algebraMap R S t ∈ maximalIdeal S
   rw [show algebraMap R S t = -(ξ * u) by linear_combination heq]
   exact neg_mem ((maximalIdeal S).mul_mem_right _ hξ)
 
@@ -344,7 +344,7 @@ public theorem solution
   obtain ⟨Q₁, Q₂, hQ, hzz⟩ := hden z
   obtain ⟨r, hr⟩ := exists_dvd_sub_of_mul_aeval_eq htR hρ hQ hzz
   refine ⟨Ideal.Quotient.mk _ r, ?_⟩
-  show Ideal.Quotient.mk ((Ideal.span {t ^ n}).map (algebraMap R S)) (algebraMap R S r)
+  change Ideal.Quotient.mk ((Ideal.span {t ^ n}).map (algebraMap R S)) (algebraMap R S r)
     = Ideal.Quotient.mk _ z
   rw [Ideal.Quotient.eq, Ideal.map_span, Set.image_singleton, map_pow, Ideal.mem_span_singleton]
   exact dvd_sub_comm.mp hr

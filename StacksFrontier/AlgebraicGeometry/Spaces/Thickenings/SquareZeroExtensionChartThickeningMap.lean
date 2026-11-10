@@ -55,7 +55,7 @@ theorem eqToHom_comp_chartOpensRestrict_id (U : SmallEtale B S hS F)
     (chartOpens B S hS U).map (eqToHom p) ≫ chartOpensRestrict B S hS (𝟙 U) O = 𝟙 _ := by
   apply hom_ext_of_toScheme_map_eq
   rw [Functor.map_comp, Functor.map_comp, toScheme_map_chartOpensRestrict]
-  show (chartScheme U).homOfLE p.le ≫ _ = 𝟙 _
+  change (chartScheme U).homOfLE p.le ≫ _ = 𝟙 _
   rw [← cancel_mono (Scheme.Opens.ι O), Category.assoc, morphismRestrict_ι,
     Scheme.homOfLE_ι_assoc]
   exact (Category.comp_id _).trans (Category.id_comp _).symm
@@ -71,7 +71,7 @@ theorem eqToHom_comp_chartOpensRestrict_comp {U V W : SmallEtale B S hS F} (g : 
   rw [Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp,
     toScheme_map_chartOpensRestrict, toScheme_map_chartOpensRestrict,
     toScheme_map_chartOpensRestrict]
-  show (chartScheme W).homOfLE p.le ≫ _ = _
+  change (chartScheme W).homOfLE p.le ≫ _ = _
   refine (cancel_mono (Scheme.Opens.ι O)).1 ?_
   refine (Category.assoc _ _ _).trans ((congrArg ((chartScheme W).homOfLE p.le ≫ ·)
     (morphismRestrict_ι (chartSchemeMap (h ≫ g)) O)).trans ((Category.assoc _ _ _).symm.trans
@@ -202,7 +202,7 @@ theorem ker_chartInclusion_ideal_eq_map {U V : SmallEtale B S hS X.1} (g : V ⟶
   refine le_antisymm (E.ker_le_map_ker_of_isAffineChart hU hV k)
     (Ideal.map_le_iff_le_comap.mpr fun a ha => RingHom.mem_ker.mpr
       ((ConcreteCategory.congr_hom (E.π.hom.naturality k.op) a).trans ?_))
-  show (chartRestrict (hF := X.2) k) ((E.π.hom.app _).hom a) = 0
+  change (chartRestrict (hF := X.2) k) ((E.π.hom.app _).hom a) = 0
   exact (congrArg (chartRestrict (hF := X.2) k) (RingHom.mem_ker.mp ha)).trans (map_zero _)
 
 /-- **`V = U ×_{U'} V'`**: the square of chart thickenings over a morphism of étale charts is

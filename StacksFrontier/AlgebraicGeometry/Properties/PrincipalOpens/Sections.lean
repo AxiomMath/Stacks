@@ -87,7 +87,7 @@ theorem isLocalizedModule_restriction_basicOpen_of_qcqs {X : Scheme.{u}} (M : X.
       (X.presheaf.map (homOfLE (X.basicOpen_le f)).op).hom
   have : IsScalarTower Γ(X, U) Γ(X, X.basicOpen f) Γ(M, X.basicOpen f) :=
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
-  show IsLocalizedModule (Submonoid.powers f) (Scheme.Modules.restrictBasicOpenₗ M f)
+  change IsLocalizedModule (Submonoid.powers f) (Scheme.Modules.restrictBasicOpenₗ M f)
   exact Scheme.Modules.isLocalizedModule_basicOpen_of_isCompact M hU hU' f
 
 add_to_stacks 01P7 "the structure sheaf, for a quasi-compact quasi-separated open"

@@ -135,7 +135,7 @@ theorem sourceFunctor_map_id_right
         ((u, 𝟙 L) : ((K', L) : DerivedCategory (Modules X.O) × DerivedCategory (Modules X.O)) ⟶
           (K, L)) =
       (restriction X U).mapDerivedCategory.map ((T.tensor.map u).app L) := by
-  show (restriction X U).mapDerivedCategory.map
+  change (restriction X U).mapDerivedCategory.map
       ((T.tensor.map u).app L ≫ (T.tensor.obj K).map (𝟙 L)) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
@@ -154,7 +154,7 @@ theorem targetFunctor_map_id_right
           (K, L)) =
       (TU.tensor.map ((restriction X U).mapDerivedCategory.map u)).app
         ((restriction X U).mapDerivedCategory.obj L) := by
-  show (TU.tensor.map ((restriction X U).mapDerivedCategory.map u)).app
+  change (TU.tensor.map ((restriction X U).mapDerivedCategory.map u)).app
         ((restriction X U).mapDerivedCategory.obj L) ≫
       (TU.tensor.obj ((restriction X U).mapDerivedCategory.obj K)).map
         ((restriction X U).mapDerivedCategory.map (𝟙 L)) = _

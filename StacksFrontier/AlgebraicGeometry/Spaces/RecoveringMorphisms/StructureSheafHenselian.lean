@@ -70,7 +70,7 @@ theorem rootSieve_mem_topology_of_isAffine {F : (BigFppfOver B S hS)ᵒᵖ ⥤ T
 theorem chartFunctionRes_comp {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {U W W' : SmallEtale B S hS F}
     (j : W ⟶ U) (k : W' ⟶ W) :
     chartFunctionRes B S hS (k ≫ j) = chartFunctionRes B S hS j ≫ chartFunctionRes B S hS k := by
-  simp [chartFunctionRes, Scheme.Hom.comp_appTop]
+  simp [chartFunctionRes]
 
 /-- The root sieve of `(f, g f')` pulled back along a morphism of charts contains the root sieve
 of the restrictions. -/

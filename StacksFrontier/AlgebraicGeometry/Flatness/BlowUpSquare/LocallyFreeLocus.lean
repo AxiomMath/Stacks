@@ -333,7 +333,7 @@ private theorem isIso_pullback_snd_of_cover {X Y : Scheme.{u}} (f : X ⟶ Y) (W 
       exact ⟨⟨i, hUW⟩, ⟨x.1, hx⟩, Subtype.ext (by simp)⟩)
   refine IsZariskiLocalAtTarget.of_openCover (P := MorphismProperty.isomorphisms Scheme)
     cover fun i => ?_
-  show IsIso (Limits.pullback.snd (Limits.pullback.snd f W.ι) (Y.homOfLE i.2))
+  change IsIso (Limits.pullback.snd (Limits.pullback.snd f W.ι) (Y.homOfLE i.2))
   have h : IsIso (Limits.pullback.snd f (Y.homOfLE i.2 ≫ W.ι)) := by
     rw [Scheme.homOfLE_ι]
     exact hiso i.1 i.2
@@ -396,7 +396,7 @@ theorem isIso_resLE_of_isGoodOver (hb : S.IsGoodBlowup b) (V : S.X.Opens)
   obtain ⟨k, hk, -⟩ := hb.existsUnique_lift V.ι hV
   have hmem : ∀ v : V.toScheme, k.base v ∈ b ⁻¹ᵁ V := by
     intro v
-    show b.base (k.base v) ∈ V
+    change b.base (k.base v) ∈ V
     have h : b.base (k.base v) = V.ι.base v := by rw [← hk]; rfl
     rw [h]
     exact v.2

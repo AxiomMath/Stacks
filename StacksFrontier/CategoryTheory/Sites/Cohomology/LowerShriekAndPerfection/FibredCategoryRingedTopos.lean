@@ -14,8 +14,8 @@ morphism of ringed topoi, the structure map being the unit of `π⁻¹ ⊣ π_*`
 
 The standing data, the morphism of topoi and the inverse-image structure sheaf are
 `Stacks.Sites.FibredCategory.FibredCategorySituation`, `.inducedProjection` and
-`.totalRingedTopos`; the three `add_to_stacks` commands below record that they realise the
-first three clauses of the source. The fourth clause, `π` as a morphism of ringed topoi, is
+`.totalRingedTopos`, which already carry the tag for the first three clauses of the source
+where they are declared. The fourth clause, `π` as a morphism of ringed topoi, is
 stated here with the two-field `AlgebraicGeometry.RingedToposHom` of Stacks 01D3 part (2),
 whose structure map lives at the `CommRingCat` level.
 
@@ -47,15 +47,6 @@ open CategoryTheory AlgebraicGeometry
 open Stacks.Sheaves.ToposPushforward
 
 namespace Stacks.Sites.FibredCategory
-
-add_to_stacks 08P8 "standing data"
-  Stacks.Sites.FibredCategory.FibredCategorySituation
-
-add_to_stacks 08P8 "associated morphism of topoi"
-  Stacks.Sites.FibredCategory.FibredCategorySituation.inducedProjection
-
-add_to_stacks 08P8 "inverse-image structure sheaf"
-  Stacks.Sites.FibredCategory.FibredCategorySituation.totalRingedTopos
 
 universe uD vD uC vC w
 

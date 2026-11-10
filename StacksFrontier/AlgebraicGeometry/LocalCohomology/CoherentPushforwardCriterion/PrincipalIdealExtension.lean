@@ -112,7 +112,7 @@ makes the precomposition `G ⟶ (f)ᵏ G` below available. -/
 theorem support_compl_principalIdealSheaf (f : Γ(X, ⊤)) :
     (principalIdealSheaf f).support.compl = X.basicOpen f := by
   apply Opens.ext
-  show ((principalIdealSheaf f).support : Set X)ᶜ = _
+  change ((principalIdealSheaf f).support : Set X)ᶜ = _
   rw [principalIdealSheaf, Scheme.IdealSheafData.coe_support_ofIdealTop, Scheme.zeroLocus_span,
     Scheme.zeroLocus_singleton, compl_compl]
 
@@ -190,7 +190,7 @@ theorem exists_hom_app_eq_overApp_smul_pow [AlgebraicGeometry.IsNoetherian X]
     (op (Over.mk (homOfLE hV))) (restrictTop f V ^ k • g)
   rw [hφ] at h
   refine Eq.trans ?_ h.symm
-  show φ.app V ((smulPowToIdealPowSmul G f k).app V g) = _
+  change φ.app V ((smulPowToIdealPowSmul G f k).app V g) = _
   exact congrArg (φ.app V) (Subtype.ext (val_smulPowToIdealPowSmul_app G f k V g))
 
 /-- **A morphism defined on `D(f)` extends to `X` after multiplication by a power of `f`**, in

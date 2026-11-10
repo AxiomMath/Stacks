@@ -12,8 +12,8 @@ of the completed stable kernel images — is a coherent adic system.  **This fil
 the kernel of `α` in `Coh(F, 𝓘)`, and concludes that `Coh(F, 𝓘)` has all kernels.**
 
 The kernel is *not* the levelwise kernel; the module documentation of
-`StacksFrontier.AlgebraicGeometry.Spaces.CoherentAdicKernel` explains which clause of a coherent adic
-system the levelwise kernel fails.
+`StacksFrontier.AlgebraicGeometry.Spaces.CoherentAdicKernel` explains which clause of a coherent
+adic system the levelwise kernel fails.
 
 The universal property is proved directly, as at scheme level.  A morphism `β : H ⟶ E` of
 coherent adic systems killed by `α` factors through every stable kernel image: at a level `l`

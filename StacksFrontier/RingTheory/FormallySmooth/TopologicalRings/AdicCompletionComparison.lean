@@ -255,12 +255,12 @@ theorem of_denseRange (_hadic : IsAdic I) :
     have heval : (AdicCompletion.of I R (r m)).val i = x.val i := by
       have h1 := (AdicCompletion.of I R (r m)).property hle_m
       have h2 := x.property hle_m
-      show AdicCompletion.eval I R i (AdicCompletion.of I R (r m)) = x.val i
+      change AdicCompletion.eval I R i (AdicCompletion.of I R (r m)) = x.val i
       rw [show AdicCompletion.eval I R i (AdicCompletion.of I R (r m)) =
         (AdicCompletion.transitionMap I R hle_m)
           (AdicCompletion.eval I R m (AdicCompletion.of I R (r m))) from h1.symm,
         AdicCompletion.eval_of]
-      show (AdicCompletion.transitionMap I R hle_m) (Submodule.Quotient.mk (r m)) = x.val i
+      change (AdicCompletion.transitionMap I R hle_m) (Submodule.Quotient.mk (r m)) = x.val i
       rw [hr m, h2]
     exact heval.symm
   exact mem_closure_of_tendsto htendsto
@@ -425,7 +425,7 @@ theorem uniformCompletionRingEquiv_map_ideal {R : Type*} [CommRing R] (I : Ideal
     (I.map Completion.coeRingHom).map (uniformCompletionRingEquiv I) =
       I.map (algebraMap R (AdicCompletion I R)) := by
   let : WithIdeal R := ⟨I⟩
-  show (I.map Completion.coeRingHom).map (uniformCompletionRingEquiv I).toRingHom = _
+  change (I.map Completion.coeRingHom).map (uniformCompletionRingEquiv I).toRingHom = _
   rw [Ideal.map_map, uniformCompletionRingEquiv_comp_coeRingHom]
 
 /-- A uniform adic completion of a Noetherian ring is Noetherian (Tag 0316). -/

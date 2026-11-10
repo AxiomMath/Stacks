@@ -171,7 +171,8 @@ theorem sum_pow_eq_factorial_nsmul_listProd_of_commute {R : Type*} [Ring R] {n :
     exact hcomm i j
   let : CommRing (Subring.closure (Set.range c)) :=
     { (inferInstance : Ring (Subring.closure (Set.range c))) with
-      mul_comm := (Subring.isMulCommutative_closure fun x hx y hy _ => hpair x hx y hy).is_comm.comm }
+      mul_comm :=
+        (Subring.isMulCommutative_closure fun x hx y hy _ => hpair x hx y hy).is_comm.comm }
   let φ : Subring.closure (Set.range c) →+* R := (Subring.closure (Set.range c)).subtype
   let c' : Fin n → Subring.closure (Set.range c) :=
     fun i ↦ ⟨c i, Subring.subset_closure (Set.mem_range_self i)⟩

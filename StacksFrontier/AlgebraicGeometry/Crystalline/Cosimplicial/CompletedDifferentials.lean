@@ -143,10 +143,10 @@ private lemma dividedPowerDerivation_eq_of_eq_on_image
       intro x y
       apply TrivSqZeroExt.ext
       · rfl
-      · show TrivSqZeroExt.snd (rpfun d (x * y)) =
+      · change TrivSqZeroExt.snd (rpfun d (x * y)) =
           TrivSqZeroExt.snd (rpfun d x * rpfun d y)
         rw [TrivSqZeroExt.snd_mul]
-        show d (x * y) = _
+        change d (x * y) = _
         rw [d.leibniz]
         simp only [rpfun, TrivSqZeroExt.fst, TrivSqZeroExt.snd, op_smul_eq_smul]
     map_zero' := by
@@ -157,7 +157,7 @@ private lemma dividedPowerDerivation_eq_of_eq_on_image
       intro x y
       apply TrivSqZeroExt.ext
       · rfl
-      · show d (x + y) = d x + d y
+      · change d (x + y) = d x + d y
         exact d.map_add x y
   }
   let r (d : DividedPowerDerivation A D
@@ -183,24 +183,24 @@ private lemma dividedPowerDerivation_eq_of_eq_on_image
             have hfst : TrivSqZeroExt.fst (rfun d x) = x := rfl
             have hsnd : TrivSqZeroExt.snd (rfun d x) = d x := rfl
             apply TrivSqZeroExt.ext
-            · show TrivSqZeroExt.fst (δ.dpow n (rfun d x)) =
+            · change TrivSqZeroExt.fst (δ.dpow n (rfun d x)) =
                 D.dividedPowers.dpow n x
               simpa only [hfst] using hc.1
             · rw [show TrivSqZeroExt.snd (δ.dpow n (rfun d x)) =
                 D.dividedPowers.dpow (n - 1) x • d x by
                   simpa only [hfst, hsnd] using hc.2]
-              show D.dividedPowers.dpow (n - 1) x • d x =
+              change D.dividedPowers.dpow (n - 1) x • d x =
                 d (D.dividedPowers.dpow n x)
               exact (d.map_dpow n (by omega) x hx).symm)
   have hrA (d : DividedPowerDerivation A D
       E.structureMap.toRingHom M) : (r d).comp E.structureMap = baseDP := by
     apply DividedPowers.DPMorphism.ext
     ext x
-    · show E.structureMap.toRingHom x =
+    · change E.structureMap.toRingHom x =
         TrivSqZeroExt.fst (algebraMap D T (E.structureMap.toRingHom x))
       rw [TrivSqZeroExt.algebraMap_eq_inl]
       rfl
-    · show d (E.structureMap.toRingHom x) = 0
+    · change d (E.structureMap.toRingHom x) = 0
       exact d.map_ringHom x
   have hr : (r d₁).toRingHom = (r d₂).toRingHom := by
     refine congrArg DividedPowers.DPMorphism.toRingHom
@@ -599,8 +599,7 @@ private noncomputable def envelopeDifferentialsBaseChangeEquiv
   have hFG : F.comp g = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         simp only [map_add, hx, hy, LinearMap.id_apply]
     | tmul d w =>
@@ -954,7 +953,7 @@ private lemma completedTransition_smul (E : CosimplicialEnvelope s f hf) {m n : 
       E.ringEquiv n (E.ring.map φ ((E.ringEquiv m).symm r)) • completedTransition E φ x := by
   obtain ⟨r, rfl⟩ := (E.ringEquiv m).surjective r
   obtain ⟨x, rfl⟩ := (E.differentialsEquiv m).surjective x
-  show E.differentialsEquiv n (E.differentials.map φ.op.op
+  change E.differentialsEquiv n (E.differentials.map φ.op.op
       ((E.differentialsEquiv m).symm (E.ringEquiv m r • E.differentialsEquiv m x))) =
     E.ringEquiv n (E.ring.map φ ((E.ringEquiv m).symm (E.ringEquiv m r))) •
       E.differentialsEquiv n (E.differentials.map φ.op.op
@@ -971,7 +970,7 @@ private lemma completedTransition_generator (E : CosimplicialEnvelope s f hf) {m
     completedTransition E φ (completedGenerator s f m k) =
       completedGenerator s f n (tensorPowerVariableMap φ k) := by
   rw [← tensorPowerDerivation_variable s f hf]
-  show E.differentialsEquiv n (E.differentials.map φ.op.op
+  change E.differentialsEquiv n (E.differentials.map φ.op.op
     ((E.differentialsEquiv m).symm _)) = _
   rw [← (E.ringEquiv m).apply_symm_apply (tensorPowerEnvelopeMap s f hf m (MvPolynomial.X k))]
   rw [E.differentialsEquiv_naturality, E.ringEquiv_naturality, MvPolynomial.rename_X,
@@ -999,11 +998,11 @@ private lemma completedHomotopyLinearMap_naturality (E : CosimplicialEnvelope s 
         (f := Hm) (g := completedTransition E φ)
         (adicContinuous_adicCompletionMap _ _) (E.differentialsEquiv_adicContinuous φ)
     · intro r y hy
-      show Hn (completedTransition E φ (r • y)) = completedTransition E φ (Hm (r • y))
+      change Hn (completedTransition E φ (r • y)) = completedTransition E φ (Hm (r • y))
       rw [completedTransition_smul, map_smul, map_smul, completedTransition_smul]
       exact congrArg (_ • ·) hy
     · intro k
-      show Hn (completedTransition E φ (completedGenerator s f m k)) =
+      change Hn (completedTransition E φ (completedGenerator s f m k)) =
         completedTransition E φ (Hm (completedGenerator s f m k))
       dsimp only [Hn, Hm]
       rw [completedTransition_generator, completedHomotopyLinearMap_generator,
@@ -1047,7 +1046,7 @@ public theorem id_cosimplicialEnvelopeDifferentials_homotopic_zero
   · intro m n φ α
     ext x
     apply (E.differentialsEquiv n.len).injective
-    show E.differentialsEquiv n.len
+    change E.differentialsEquiv n.len
         (completedHomotopyComponent E n.len α (E.differentials.map φ.op.op x)) =
       E.differentialsEquiv n.len (E.differentials.map φ.op.op
         (completedHomotopyComponent E m.len ((Δ[1] : SSet.{0}).map φ.op α) x))
@@ -1061,16 +1060,16 @@ public theorem id_cosimplicialEnvelopeDifferentials_homotopic_zero
     exact h
   · intro n
     ext x
-    show completedHomotopyComponent E n.len
+    change completedHomotopyComponent E n.len
       (SSet.stdSimplex.const 1 0 (op n)) x = x
-    show (E.differentialsEquiv n.len).symm
+    change (E.differentialsEquiv n.len).symm
       (completedHomotopyLinearMap s f hf n.len _ (E.differentialsEquiv n.len x)) = x
     rw [completedHomotopyLinearMap_zero, LinearMap.id_apply, AddEquiv.symm_apply_apply]
   · intro n
     ext x
-    show completedHomotopyComponent E n.len
+    change completedHomotopyComponent E n.len
       (SSet.stdSimplex.const 1 1 (op n)) x = 0
-    show (E.differentialsEquiv n.len).symm
+    change (E.differentialsEquiv n.len).symm
       (completedHomotopyLinearMap s f hf n.len _ (E.differentialsEquiv n.len x)) = 0
     rw [completedHomotopyLinearMap_one, LinearMap.zero_apply, map_zero]
 

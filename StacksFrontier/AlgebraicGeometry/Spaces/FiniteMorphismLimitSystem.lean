@@ -156,7 +156,7 @@ theorem nonempty_isLimit_affineOverToOver_of_mono {Y : AlgebraicSpaces B S hS}
     set b' : W' ⟶ X := ObjectProperty.homMk (Over.homMk b) with hb'
     have he : a' = b' := by
       refine (cancel_mono g).mp (affineOver_hom_ext ?_)
-      show pullback.fst k k ≫ k = pullback.snd k k ≫ k
+      change pullback.fst k k ≫ k = pullback.snd k k ≫ k
       exact pullback.condition
     have he' : pullback.fst k k = pullback.snd k k :=
       congrArg (fun t : W' ⟶ X => t.hom.left.hom) he
@@ -254,12 +254,12 @@ theorem nonempty_isLimit_affineOverToOver_of_mono {Y : AlgebraicSpaces B S hS}
           (by apply ObjectProperty.hom_ext; exact hbY i))
         naturality := fun i j g => by
           refine affineOver_hom_ext ?_
-          show b j = b i ≫ (D.map g).hom.left.hom
+          change b j = b i ≫ (D.map g).hom.left.hom
           have := hmono j
           apply (cancel_mono (r j)).mp
           rw [hbr j, Category.assoc]
           have hrj : (D.map g).hom.left.hom ≫ r j = r i := by
-            show (D.map g ≫ D.map (hi₀.from j)).hom.left.hom = r i
+            change (D.map g ≫ D.map (hi₀.from j)).hom.left.hom = r i
             rw [← D.map_comp, hi₀.hom_ext (g ≫ hi₀.from j) (hi₀.from i)]
           rw [hrj, hbr i] } with hb'
     set L : W ⟶ c.pt := hc.lift (Cone.mk W b') with hL
@@ -272,13 +272,13 @@ theorem nonempty_isLimit_affineOverToOver_of_mono {Y : AlgebraicSpaces B S hS}
       rw [Category.assoc, hbr i, hpι]
       exact (ha i).symm
     refine ⟨Over.homMk (p ≫ L.hom.left.hom) ?_, fun i => ?_⟩
-    · show (p ≫ L.hom.left.hom) ≫ (c.pt).obj.hom.hom = q
+    · change (p ≫ L.hom.left.hom) ≫ (c.pt).obj.hom.hom = q
       have hw : L.hom.left.hom ≫ (c.pt).obj.hom.hom = M.ι ≫ (D.obj i₀).obj.hom.hom :=
         affineOver_hom_left_comp_hom L
       rw [Category.assoc, hw, ← Category.assoc, hpι]
       exact Over.w (a.app i₀)
     · apply Over.OverMorphism.ext
-      show (p ≫ L.hom.left.hom) ≫ (c.π.app i).hom.left.hom = (a.app i).left
+      change (p ≫ L.hom.left.hom) ≫ (c.π.app i).hom.left.hom = (a.app i).left
       have hl : L.hom.left.hom ≫ (c.π.app i).hom.left.hom = b i :=
         congrArg (fun t : W ⟶ D.obj i => t.hom.left.hom) (hc.fac (Cone.mk W b') i)
       rw [Category.assoc, hl]
@@ -350,7 +350,7 @@ theorem nonempty_isLimit_affineOverToOver_of_mono {Y : AlgebraicSpaces B S hS}
         (G := (D.obj i).obj.left.obj) l.left (c.π.app i).hom.left.hom
       exact h2.symm.trans h3
     refine ⟨yonedaEquiv l.left, fun i => ?_, fun y hy => ?_⟩
-    · show ((c.π.app i).hom.left.hom.app (op U)) (yonedaEquiv l.left) = s i
+    · change ((c.π.app i).hom.left.hom.app (op U)) (yonedaEquiv l.left) = s i
       exact hx' i
     · have hy' : ∀ i : J, ((c.π.app i).hom.left.hom.app (op U)) y = s i := fun i => hy i
       have hm : Mono ((c.π.app i₀).hom.left.hom.app (op U)) := inferInstance
@@ -438,7 +438,7 @@ theorem exists_integralFiniteSystem_of_isFinite_of_presentation
   set cu : Cone DA := c0.extend eZ.hom with hcu
   have hculim : IsLimit cu :=
     IsLimit.ofIsoLimit hlim0 (Cone.ext eZ.symm (fun j => by
-      show c0.π.app j = eZ.inv ≫ eZ.hom ≫ c0.π.app j
+      change c0.π.app j = eZ.inv ≫ eZ.hom ≫ c0.π.app j
       rw [← Category.assoc, eZ.inv_hom_id, Category.id_comp]))
   have hDAfin : ∀ i : Iᵒᵖ, IsFinite B S hS (DA.obj i).obj.hom.hom := by
     intro i
@@ -485,7 +485,7 @@ theorem exists_integralFiniteSystem_of_isFinite_of_presentation
       structureMap :=
         { app := fun i => (DA.obj i).obj.hom.hom
           naturality := fun i j g => by
-            show (DA.map g).hom.left.hom ≫ (DA.obj j).obj.hom.hom =
+            change (DA.map g).hom.left.hom ≫ (DA.obj j).obj.hom.hom =
               (DA.obj i).obj.hom.hom ≫ 𝟙 Y'.obj
             rw [Category.comp_id]
             exact affineOver_hom_left_comp_hom (DA.map g) }
@@ -494,7 +494,7 @@ theorem exists_integralFiniteSystem_of_isFinite_of_presentation
           naturality := fun i j g => by
             have h := congrArg (fun t : Z ⟶ DA.obj j => t.hom.left.hom) (cu.w g)
             simp only [ObjectProperty.FullSubcategory.comp_hom, Over.comp_left] at h
-            show 𝟙 X ≫ (cu.π.app j).hom.left.hom =
+            change 𝟙 X ≫ (cu.π.app j).hom.left.hom =
               (cu.π.app i).hom.left.hom ≫ (DA.map g).hom.left.hom
             rw [Category.id_comp]
             exact h.symm }

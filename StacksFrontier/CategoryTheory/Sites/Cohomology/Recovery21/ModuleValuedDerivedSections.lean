@@ -138,7 +138,7 @@ private theorem rightDerivedCompIso_naturality
   unfold Functor.rightDerived Functor.rightDerivedToHomotopyCategory
   simp only [Functor.comp_obj]
   unfold HomotopyCategory.homologyFunctor
-  show α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso H).inv =
+  change α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso H).inv =
     ((K.sc p).mapHomologyIso G).inv ≫
       ShortComplex.homologyMap ((K.sc p).mapNatTrans α)
   simp only [NatTrans.app_homology, Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -172,7 +172,7 @@ private theorem rightDerivedCompIso_app
         ((((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex).sc p).mapHomologyIso
           G).inv := by
   obtain ⟨φ, hφ⟩ := (HomotopyCategory.quotient A (ComplexShape.up ℕ)).map_surjective I.iso.hom
-  show (rightDerivedCompIso F G p).hom.app X ≫
+  change (rightDerivedCompIso F G p).hom.app X ≫
       (HomotopyCategory.homologyFunctor C (ComplexShape.up ℕ) p).map
           (((F ⋙ G).mapHomotopyCategory (ComplexShape.up ℕ)).map I.iso.hom ≫
             (((F ⋙ G).mapHomotopyCategoryFactors (ComplexShape.up ℕ)).app I.cocomplex).hom) ≫
@@ -187,7 +187,7 @@ private theorem rightDerivedCompIso_app
       ((((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex).sc p).mapHomologyIso G).inv
   rw [← hφ]
   with_unfolding_all
-    show ((((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj
+    change ((((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj
           (injectiveResolution X).cocomplex).sc p).mapHomologyIso G).inv ≫
         (HomologicalComplex.homologyMap
           (((F ⋙ G).mapHomologicalComplex (ComplexShape.up ℕ)).map φ ≫ 𝟙 _) p ≫ 𝟙 _) =

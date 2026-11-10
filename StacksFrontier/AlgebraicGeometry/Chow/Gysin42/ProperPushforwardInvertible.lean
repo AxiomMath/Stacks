@@ -283,7 +283,7 @@ theorem gysinHomomorphismOfInvertible_properPushforward_of_gysinCompatible [IsPr
           (zeroSchemePullbackHom_comp f L s C p p' hf) k)
         (gysinHomomorphismOfInvertible C p' k ((Scheme.Modules.pullback f).obj L)
           (AlgebraicGeometry.pullbackGlobalSections f L s) α) := by
-  show QuotientAddGroup.mk
+  change QuotientAddGroup.mk
       ((gysinRule C p k L s (firstChernComponentClass C p k L)).extendCycleGroup
         (properPushforward C p' p f hf (k + 1) α)) =
     QuotientAddGroup.mk (properPushforward C ((pullbackZeroScheme f L s).subschemeι ≫ p')

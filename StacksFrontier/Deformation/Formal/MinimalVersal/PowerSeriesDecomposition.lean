@@ -161,7 +161,7 @@ public theorem mvPowerSeriesEval_mem_maximalIdeal
       have hxpow : x i ^ d i ∈ maximalIdeal R :=
         (Ideal.pow_le_self (by omega)) (Ideal.pow_mem_pow (hx i) (d i))
       have hprod : d.prod (fun j n => x j ^ n) ∈ maximalIdeal R := by
-        show (∏ j ∈ d.support, x j ^ d j) ∈ maximalIdeal R
+        change (∏ j ∈ d.support, x j ^ d j) ∈ maximalIdeal R
         exact Ideal.prod_mem _ (Finsupp.mem_support_iff.mpr hdi) hxpow
       exact Ideal.mul_mem_left _ _ hprod
   rw [show mvPowerSeriesEval f x hx s = MvPowerSeries.eval₂ f.hom.toRingHom x s by
@@ -192,10 +192,10 @@ private theorem exists_fin_basis_mod_maximalIdeal_mul
   have hfinQ : Module.Finite R (I ⧸ (m • (⊤ : Submodule R I))) :=
     Module.Finite.of_surjective π (Submodule.mkQ_surjective _)
   let _ : Module κ Q := by
-    show Module (R ⧸ maximalIdeal R) Q
+    change Module (R ⧸ maximalIdeal R) Q
     infer_instance
   have : IsScalarTower R κ Q := by
-    show IsScalarTower R (R ⧸ maximalIdeal R) Q
+    change IsScalarTower R (R ⧸ maximalIdeal R) Q
     infer_instance
   have : Module.Finite κ Q := Module.Finite.of_restrictScalars_finite R κ Q
   have : Module.Free κ Q := Module.Free.of_basis (Module.Basis.ofVectorSpace κ Q)
@@ -203,7 +203,7 @@ private theorem exists_fin_basis_mod_maximalIdeal_mul
   choose x hx using
     (fun i => Submodule.mkQ_surjective _ (b i) : ∀ i, ∃ y : I, π y = b i)
   have hsmul (a : R) (z : I) : residue R a • π z = π (a • z) := by
-    show (algebraMap R κ a) • π z = a • π z
+    change (algebraMap R κ a) • π z = a • π z
     exact IsScalarTower.algebraMap_smul κ a (π z)
   have hπsum (a : Fin (Module.finrank κ Q) → R) :
       π (∑ i, a i • x i) = ∑ i, residue R (a i) • b i := by
@@ -358,7 +358,7 @@ private theorem ker_adicTruncation_map_le_maximalIdeal_sq
   have : IsLocalHom π.hom.toRingHom := π.isLocal
   have hsq : (maximalIdeal R ^ 2).comap φ.hom = maximalIdeal S ^ 2 := by
     rw [← map_maximalIdeal_of_surjective φ.hom.toRingHom hφ, ← Ideal.map_pow]
-    show Ideal.comap φ.hom (Ideal.map φ.hom (maximalIdeal S ^ 2)) = _
+    change Ideal.comap φ.hom (Ideal.map φ.hom (maximalIdeal S ^ 2)) = _
     rw [Ideal.comap_map_of_surjective' φ.hom hφ, sup_eq_left.mpr hker]
   intro b hb
   obtain ⟨s, rfl⟩ := (Ideal.Quotient.mk_surjective : Function.Surjective π.hom) b
@@ -403,7 +403,7 @@ private theorem adicTruncation_map_injective_of_lift
     obtain ⟨s, hs⟩ := hπsurj b
     have hsm : s ∈ maximalIdeal S := by
       rw [← maximalIdeal_comap π.hom.toRingHom]
-      show π.hom s ∈ maximalIdeal B
+      change π.hom s ∈ maximalIdeal B
       rw [hs]
       exact b.2
     have hφsm : φ.hom s ∈ maximalIdeal R := (maximalIdeal_comap φ.hom.toRingHom).ge hsm
@@ -411,7 +411,7 @@ private theorem adicTruncation_map_injective_of_lift
     rw [Ideal.mapCotangent_toCotangent]
     apply (maximalIdeal B).toCotangent_eq.mpr
     apply ker_adicTruncation_map_le_maximalIdeal_sq φ hφ hker n hn
-    show q.hom (t.hom (φ.hom s) - b.1) = 0
+    change q.hom (t.hom (φ.hom s) - b.1) = 0
     rw [map_sub, ht', ← hs, hπ, sub_self]
   have htsurj : Function.Surjective t.hom :=
     (surjective_iff_surjective_cotangentSpaceMap t).2 htcot
@@ -501,7 +501,7 @@ private theorem exists_quotient_retract_of_bijective
       exact e.apply_symm_apply a ▸ hu
     · rw [← hφ s]
       exact e.symm_apply_apply (Ideal.Quotient.mk _ s)
-    · show e.symm (algebraMap Λ (AdicTruncation.obj R n) a) = _
+    · change e.symm (algebraMap Λ (AdicTruncation.obj R n) a) = _
       rw [e.symm.commutes]
       simp only [AdicTruncation.obj, AdicTruncation.ideal]
       dsimp [mvPowerSeriesObject]
@@ -551,7 +551,7 @@ public theorem exists_mvPowerSeries_algEquiv_of_smallestDescent
     { toRingHom := F
       commutes' := by
         intro a
-        show F (algebraMap Λ (MvPowerSeries (Fin r) d.object.base) a) = algebraMap Λ ξ.base a
+        change F (algebraMap Λ (MvPowerSeries (Fin r) d.object.base) a) = algebraMap Λ ξ.base a
         rw [MvPowerSeries.algebraMap_apply, hF_C]
         exact f.hom.commutes a }
   let φ : mvPowerSeriesObject d.object.base r ⟶ ξ.base :=
@@ -563,7 +563,7 @@ public theorem exists_mvPowerSeries_algEquiv_of_smallestDescent
     ext a
     exact hF_C a
   exact ⟨r, AlgEquiv.ofBijective G
-    (mvPowerSeries_bijective_of_eventually_quotient_retract f I hdecomp x hspan hindep F
+    (mvPowerSeries_bijective_of_eventually_quotient_retract f I hdecomp x hspan F
       hF_C hF_X (exists_quotient_retract_of_bijective φ F (fun _ => rfl)
         (adicTruncation_map_bijective_of_isVersal hp ξ hξ d φ hsurj hker hφ))), hF_C⟩
 

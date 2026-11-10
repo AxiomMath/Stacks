@@ -200,7 +200,7 @@ theorem chartThickeningRingHom_arrow :
   have h := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom D.q)
   refine RingHom.ext fun r => ?_
   have hr := ConcreteCategory.congr_hom h r
-  show (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom
       ((Scheme.Γ.map (B.inclusion.map D.arrow.left).op).hom r) = _
   rw [D.arrow_spec]
   exact hr

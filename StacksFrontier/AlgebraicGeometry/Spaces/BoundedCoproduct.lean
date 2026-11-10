@@ -70,7 +70,7 @@ def sigmaInclOfContains (i : I) : U i ⟶ sigmaObjOfContains B S hS U hU :=
       B.inclusion.preimage (X := B.obj hU) (Y := B.obj hS)
         (Sigma.desc fun i ↦ B.inclusion.map (U i).hom)) = _
     rw [Functor.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
-    exact Sigma.ι_desc _ i)
+    exact Sigma.ι_comp_desc _ i)
 
 /-- The underlying scheme morphism of an inclusion into
 `AlgebraicGeometry.BigFppfOver.sigmaObjOfContains` is the coproduct inclusion. -/

@@ -172,9 +172,9 @@ private theorem extremallyDisconnected_closedPoints_primeSpectrum
   have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
   have hzero : PrimeSpectrum.zeroLocus (J : Set B) = closedPoints (PrimeSpectrum B) := by
     ext y
-    show I.map (algebraMap A B) ≤ y.asIdeal ↔ y ∈ closedPoints (PrimeSpectrum B)
+    change I.map (algebraMap A B) ≤ y.asIdeal ↔ y ∈ closedPoints (PrimeSpectrum B)
     rw [Ideal.map_le_iff_le_comap]
-    show I ≤ (PrimeSpectrum.comap (algebraMap A B) y).asIdeal ↔
+    change I ≤ (PrimeSpectrum.comap (algebraMap A B) y).asIdeal ↔
       y ∈ closedPoints (PrimeSpectrum B)
     rw [closedPoints_eq_comap_preimage (A := A), Set.mem_preimage, ← hAzero,
       PrimeSpectrum.mem_zeroLocus]
@@ -202,7 +202,7 @@ private lemma existsUnique_specializes_closedPoint_pi
     PrimeSpectrum.comap evali (IsLocalRing.closedPoint (R i))
   have hciClosed : IsClosed {ci} := by
     rw [PrimeSpectrum.isClosed_singleton_iff_isMaximal]
-    show (Ideal.comap evali (IsLocalRing.maximalIdeal (R i))).IsMaximal
+    change (Ideal.comap evali (IsLocalRing.maximalIdeal (R i))).IsMaximal
     exact Ideal.comap_isMaximal_of_surjective evali (Function.surjective_eval i)
   have hxIdeal : x.asIdeal = p.asIdeal.comap evali :=
     (congrArg PrimeSpectrum.asIdeal hxp).symm
@@ -235,7 +235,7 @@ private lemma existsUnique_specializes_closedPoint_pi
   subst j
   refine Subtype.ext (PrimeSpectrum.ext ?_)
   rw [hdIdeal]
-  show q.asIdeal.comap evali = (IsLocalRing.closedPoint (R i)).asIdeal.comap evali
+  change q.asIdeal.comap evali = (IsLocalRing.closedPoint (R i)).asIdeal.comap evali
   rw [hq]
   simp [IsLocalRing.closedPoint]
 
@@ -419,7 +419,7 @@ public theorem isWContractible_of_ringEquiv {A : Type u} {A' : Type v} [CommRing
   have hweakAT : Algebra.WeaklyEtale A T := Algebra.WeaklyEtale.trans A A' T
   obtain ⟨σ⟩ := hA T ⟨hweakAT.flat, hweakAT.flat_lmul'⟩ (Module.FaithfullyFlat.trans A A' T)
   refine ⟨{ toRingHom := f.comp σ.toRingHom, commutes' := fun a => ?_ }⟩
-  show f (σ (algebraMap A' T a)) = a
+  change f (σ (algebraMap A' T a)) = a
   have hmap : algebraMap A' T a = algebraMap A T (e a) := by
     rw [IsScalarTower.algebraMap_apply A A' T (e a)]
     exact congrArg (algebraMap A' T) (e.symm_apply_apply a).symm

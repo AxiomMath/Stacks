@@ -212,7 +212,7 @@ def totFunctorIsoTensorComplexObj
     CochainComplex.KFlatBifunctor.totFunctor (sheafTensor R) L ≅ (tensorComplex R).obj L :=
   NatIso.ofComponents (fun _ => Iso.refl _) (by
     intro K K' f
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
+    simp only [Iso.refl_hom]
     exact (HomologicalComplex.mapBifunctorMap_id_left (sheafTensor R) L f).symm)
 
 /-- **The Koszul symmetry of the total tensor complex as an isomorphism of functors.**
@@ -265,7 +265,7 @@ attribute [local instance] Stacks.SheafOfModules.Tensor.sheafTensorAdditiveLocal
 `Tot(- ⊗_𝒪 L)` followed by `Q`; this is `DerivedTensorProduct.comparisonRight` read as a
 natural isomorphism, its naturality field at the identity of `L`. -/
 def comparisonRightNatIso (L : CochainComplex (Modules R) ℤ)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     DerivedCategory.Q ⋙ T.tensor.flip.obj (DerivedCategory.Q.obj L) ≅
       (tensorComplex R).flip.obj L ⋙ DerivedCategory.Q :=
   NatIso.ofComponents (fun K => T.comparisonRight K L hL) (fun {_ _} f => by
@@ -283,7 +283,7 @@ theorem preservesColimitsCountable_tensorFlipObj
     PreservesColimitsOfShape (Discrete I) (T.tensor.flip.obj B) := by
   have hQ : PreservesColimitsOfShape (Discrete I) (DerivedCategory.Q (C := Modules R)) :=
     preservesColimitsOfShape_discrete_shrink.{u} _ I
-  have key : ∀ L : CochainComplex (Modules R) ℤ, Stacks.SheafOfModules.KFlat.KFlat R L →
+  have key : ∀ L : CochainComplex (Modules R) ℤ, Stacks.SheafOfModules.KFlat R L →
       PreservesColimitsOfShape (Discrete I) (T.tensor.flip.obj (DerivedCategory.Q.obj L)) := by
     intro L hL
     have h₁ : PreservesColimitsOfShape (Discrete I)

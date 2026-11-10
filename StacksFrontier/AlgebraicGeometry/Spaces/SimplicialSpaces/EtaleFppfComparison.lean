@@ -256,12 +256,12 @@ def etaleToSlicesSquare (n : SimplexCategory) :
 
 /-- The components of the 2-square `etaleToSlicesSquare` are identities. -/
 theorem etaleToSlicesSquare_app (n : SimplexCategory) (x : EtaleComponent A n) :
-    (etaleToSlicesSquare A n).natTrans.app x = 𝟙 _ :=
+    (etaleToSlicesSquare A n).app x = 𝟙 _ :=
   rfl
 
 /-- The natural transformation of the 2-square `etaleToSlicesSquare` is an isomorphism. -/
 instance isIso_etaleToSlicesSquare (n : SimplexCategory) :
-    IsIso (etaleToSlicesSquare A n).natTrans :=
+    IsIso (etaleToSlicesSquare A n) :=
   @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun _ ↦ inferInstanceAs (IsIso (𝟙 _))
 
 /-- The simplex map of a factorization through the square of component inclusions. -/
@@ -271,7 +271,7 @@ theorem etaleToSlicesSquare_factor_base {n : SimplexCategory} {W : Over (A.left.
     (b : (CoGrothendieck.ι (etaleSimplicialSite A).totalPseudofunctor (op n)).obj x ⟶ Y) :
     CategoryTheory.Grothendieck.Hom.base
         ((Grothendieck.ι (SimplicialOver.slices A.left) (op n)).map a ≫
-          (etaleToSlicesSquare A n).natTrans.app x ≫ (etaleToSlicesTotal A).map b) = b.base := by
+          (etaleToSlicesSquare A n).app x ≫ (etaleToSlicesTotal A).map b) = b.base := by
   rw [etaleToSlicesSquare_app]
   exact (Category.id_comp _).trans (Category.id_comp _)
 
@@ -282,7 +282,7 @@ theorem etaleToSlicesSquare_factor_left {n : SimplexCategory} {W : Over (A.left.
     (b : (CoGrothendieck.ι (etaleSimplicialSite A).totalPseudofunctor (op n)).obj x ⟶ Y) :
     Over.Hom.left (CategoryTheory.Grothendieck.Hom.fiber
       ((Grothendieck.ι (SimplicialOver.slices A.left) (op n)).map a ≫
-        (etaleToSlicesSquare A n).natTrans.app x ≫ (etaleToSlicesTotal A).map b)) =
+        (etaleToSlicesSquare A n).app x ≫ (etaleToSlicesTotal A).map b)) =
       a.left ≫ etaleTotalHomLeft A b := by
   rw [etaleToSlicesSquare_app]
   refine (slicesHom_comp_fiber_left A _ _).trans ?_
@@ -314,7 +314,7 @@ instance guitartExact_etaleToSlicesSquare (n : SimplexCategory) :
     ⟨g.base, 𝟙 _⟩
   have h3 : etaleTotalHomLeft A bP = comparison g.base.unop Y.fiber := Category.id_comp _
   have comm : (Grothendieck.ι (SimplicialOver.slices A.left) (op n)).map aP ≫
-      (etaleToSlicesSquare A n).natTrans.app x₁ ≫ (etaleToSlicesTotal A).map bP = g :=
+      (etaleToSlicesSquare A n).app x₁ ≫ (etaleToSlicesTotal A).map bP = g :=
     slicesHom_ext A _ _ (etaleToSlicesSquare_factor_base A aP bP)
       ((etaleToSlicesSquare_factor_left A aP bP).trans
         ((congrArg (fun t ↦ aP.left ≫ t) h3).trans (pb.lift_fst _ _ _)))

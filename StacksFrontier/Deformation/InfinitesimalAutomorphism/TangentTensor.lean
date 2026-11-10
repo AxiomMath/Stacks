@@ -473,7 +473,7 @@ public theorem existsUnique_prodAut (hp : SatisfiesRS p)
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show γ'.asIso.hom.val = g
+  change γ'.asIso.hom.val = g
   refine huniq _ _ ?_ ?_
   · exact ((transportAut_eq_iff P _ γ' α).mp hγ'.1).trans hg1.symm
   · exact ((transportAut_eq_iff P _ γ' β).mp hγ'.2).trans hg2.symm
@@ -519,7 +519,7 @@ public theorem bijective_infinitesimalAutomorphismModuleFunctor_prod (hp : Satis
     have hmem : γ ∈ MonoidHom.ker
         (P.transportAutHom (squareZeroUnderRed p x (FGModuleCat.of k (↥M × ↥N)))) := by
       refine MonoidHom.mem_ker.mpr ?_
-      show P.transportAut (squareZeroUnderRed p x (FGModuleCat.of k (↥M × ↥N))) γ = 1
+      change P.transportAut (squareZeroUnderRed p x (FGModuleCat.of k (↥M × ↥N))) γ = 1
       rw [← transportAut_red_transportAut_map P (FGModuleCat.ofHom (LinearMap.fst k M N)) γ,
         hγ1]
       exact MonoidHom.mem_ker.mp a.2
@@ -780,9 +780,9 @@ public theorem cast_lift_add (hp : SatisfiesRS p) (M : FGModuleCat.{max v w} k)
   have hmap : ∀ f : FGModuleCat.of k (↥M × ↥M) ⟶ M,
       cM ((Q.map f).hom (cP.symm γ)) = L.map f γ := by
     intro f
-    show cast (infinitesimalAutomorphismLinearLift_carrier P hp M) _ = _
+    change cast (infinitesimalAutomorphismLinearLift_carrier P hp M) _ = _
     rw [cast_lift_map P hp f (cP.symm γ)]
-    show L.map f (cP (cP.symm γ)) = _
+    change L.map f (cP (cP.symm γ)) = _
     rw [cP.apply_symm_apply]
   have hqa : (Q.map (FGModuleCat.ofHom (LinearMap.fst k M M))).hom (cP.symm γ) = a :=
     cM.injective ((hmap _).trans hγ1)
@@ -804,7 +804,7 @@ public theorem cast_lift_add (hp : SatisfiesRS p) (M : FGModuleCat.{max v w} k)
   rw [show cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (a + b) = cM (a + b)
     from rfl, hstep]
   refine Subtype.ext ?_
-  show P.transportAut (squareZeroUnderMap p x (prodSumMap M)) γ.1 = _
+  change P.transportAut (squareZeroUnderMap p x (prodSumMap M)) γ.1 = _
   exact transportAut_prodSumMap_eq_mul P hp M (cM a).1 (cM b).1
     (MonoidHom.mem_ker.mp (cM a).2) (MonoidHom.mem_ker.mp (cM b).2) γ.1
     (congrArg Subtype.val hγ1) (congrArg Subtype.val hγ2)
@@ -903,7 +903,7 @@ public theorem exists_tensorEquiv_infinitesimalAutomorphismKernel (hp : Satisfie
   let RR := C.trans R
   refine ⟨RR.toEquiv.trans (Equiv.cast
     (infinitesimalAutomorphismLinearLift_carrier P hp M)), fun s t => ?_⟩
-  show cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR (s + t)) =
+  change cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR (s + t)) =
     cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR s) *
       cast (infinitesimalAutomorphismLinearLift_carrier P hp M) (RR t)
   rw [RR.map_add]

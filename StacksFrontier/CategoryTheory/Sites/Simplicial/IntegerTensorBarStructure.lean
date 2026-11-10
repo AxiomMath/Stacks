@@ -112,7 +112,7 @@ def copowerReindexApp (X : Cᵒᵖ) :
 @[simp] theorem copowerReindexApp_single (X : Cᵒᵖ) (e : E.obj X) (m : (G.obj X : Type u₀)) :
     AddCommGrpCat.Hom.hom (copowerReindexApp ε G X) (Finsupp.single e m) =
       Finsupp.single (ConcreteCategory.hom (ε.app X) e) m := by
-  show Finsupp.mapDomain (ConcreteCategory.hom (ε.app X)) (Finsupp.single e m) = _
+  change Finsupp.mapDomain (ConcreteCategory.hom (ε.app X)) (Finsupp.single e m) = _
   rw [Finsupp.mapDomain_single]
 
 /-- The copower of a presheaf of abelian groups is functorial in the presheaf of labels: a map
@@ -149,7 +149,7 @@ theorem copowerReindex_copowerPresheafMap {H : Cᵒᵖ ⥤ AddCommGrpCat.{u₀}}
   apply AddCommGrpCat.hom_ext
   apply Finsupp.addHom_ext
   intro e m
-  show AddCommGrpCat.Hom.hom ((copowerPresheafMap E' α).app X)
+  change AddCommGrpCat.Hom.hom ((copowerPresheafMap E' α).app X)
       (AddCommGrpCat.Hom.hom ((copowerReindex ε G).app X) (Finsupp.single e m)) =
     AddCommGrpCat.Hom.hom ((copowerReindex ε H).app X)
       (AddCommGrpCat.Hom.hom ((copowerPresheafMap E α).app X) (Finsupp.single e m))
@@ -193,7 +193,7 @@ theorem freeTensorCopowerIso_reindex :
   have h4 : AddCommGrpCat.Hom.hom (freeTensorCopowerIsoApp E' R N X).inv
       (Finsupp.single (ConcreteCategory.hom (ε.app X) e) m) = _ :=
     freeTensorCopowerIsoApp_inv_single E' R N X _ m
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       (((toPresheaf (R ⋙ forget₂ CommRingCat RingCat)).map
         (tensorHom ((free (R ⋙ forget₂ CommRingCat RingCat)).map ε) (𝟙 N))).app X)
       (AddCommGrpCat.Hom.hom (freeTensorCopowerIsoApp E R N X).inv (Finsupp.single e m)) =
@@ -239,7 +239,7 @@ theorem freeObjToPresheafIso_naturality :
   apply AddCommGrpCat.hom_ext
   apply Finsupp.addHom_ext
   intro x c
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       (((toPresheaf (intRingPresheaf C)).map ((free (intRingPresheaf C)).map ε)).app X)
       (Finsupp.single x c) =
     AddCommGrpCat.Hom.hom ((Functor.whiskerRight ε AddCommGrpCat.freeIntModule.{u₀}).app X)
@@ -247,7 +247,7 @@ theorem freeObjToPresheafIso_naturality :
   have hl : AddCommGrpCat.Hom.hom
       (((toPresheaf (intRingPresheaf C)).map ((free (intRingPresheaf C)).map ε)).app X)
       (Finsupp.single x c) = Finsupp.single (ConcreteCategory.hom (ε.app X) x) c := by
-    show Finsupp.mapDomain (ConcreteCategory.hom (ε.app X)) (Finsupp.single x c) = _
+    change Finsupp.mapDomain (ConcreteCategory.hom (ε.app X)) (Finsupp.single x c) = _
     rw [Finsupp.mapDomain_single]
   have hr : AddCommGrpCat.Hom.hom
       ((Functor.whiskerRight ε AddCommGrpCat.freeIntModule.{u₀}).app X) (Finsupp.single x c) =
@@ -408,7 +408,7 @@ theorem copowerStdSimplexIso_simplexMap {n m : SimplexCategory} (θ : n ⟶ m)
   have h4 := ι_copowerMap (C := AddCommGrpCat.{u})
     (fun φ : m ⟶ (totalSimplexDegree S).leftOp.obj U => θ ≫ φ)
     (𝟙 (G.obj U)) (stdSimplexPresheafObjEquiv S m U x)
-  show AddCommGrpCat.Hom.hom ((copowerStdSimplexIso S n G).hom.app U)
+  change AddCommGrpCat.Hom.hom ((copowerStdSimplexIso S n G).hom.app U)
       (AddCommGrpCat.Hom.hom ((copowerReindex (stdSimplexPresheafMap' S θ) G).app U)
         (Finsupp.single x c)) =
     AddCommGrpCat.Hom.hom
@@ -616,7 +616,7 @@ theorem barTermIsoIntegerTensor_face {n m : SimplexCategory} (θ : n ⟶ m)
               (copowerReindex (stdSimplexPresheafMap' S θ) F.obj)
               (((simplexCoefficientDiagram' (totalSimplexDegree S).leftOp).obj F.obj).map θ.op)
               (copowerStdSimplexIso_simplexMap S θ F.obj)))))
-  show ((barSimplicial' S).obj F).map θ.op ≫ (barTermIsoAux S n F).inv =
+  change ((barSimplicial' S).obj F).map θ.op ≫ (barTermIsoAux S n F).inv =
     (barTermIsoAux S m F).inv ≫ (integerTensorFace S θ).app F
   exact (Iso.comp_inv_eq (barTermIsoAux S n F)).2
     (((Category.assoc _ _ _).trans
@@ -699,7 +699,7 @@ def copowerPointIso (G : S.totalCategoryᵒᵖ ⥤ AddCommGrpCat.{u}) :
 theorem copowerPointIso_hom_app_single (G : S.totalCategoryᵒᵖ ⥤ AddCommGrpCat.{u})
     (X : S.totalCategoryᵒᵖ) (e : PUnit.{u + 1}) (m : (G.obj X : Type u)) :
     AddCommGrpCat.Hom.hom ((copowerPointIso S G).hom.app X) (Finsupp.single e m) = m := by
-  show Finsupp.liftAddHom (fun _ : PUnit.{u + 1} => AddMonoidHom.id (G.obj X : Type u))
+  change Finsupp.liftAddHom (fun _ : PUnit.{u + 1} => AddMonoidHom.id (G.obj X : Type u))
       (Finsupp.single e m) = m
   rw [Finsupp.liftAddHom_apply_single]
   rfl
@@ -713,7 +713,7 @@ theorem copowerPointIso_naturality {G H : S.totalCategoryᵒᵖ ⥤ AddCommGrpCa
   apply AddCommGrpCat.hom_ext
   apply Finsupp.addHom_ext
   intro e m
-  show AddCommGrpCat.Hom.hom ((copowerPointIso S H).hom.app X)
+  change AddCommGrpCat.Hom.hom ((copowerPointIso S H).hom.app X)
       (AddCommGrpCat.Hom.hom ((copowerPresheafMap (pointPresheaf S) β).app X)
         (Finsupp.single e m)) =
     AddCommGrpCat.Hom.hom (β.app X)
@@ -964,8 +964,8 @@ theorem copowerPointIso_simplexCoefficientAugmentation (F : Sheaf S.totalTopolog
           (stdSimplexPresheafObjEquiv S ⦋0⦌ U x) ≫
       Limits.Sigma.desc (fun _ : ⦋0⦌ ⟶ (totalSimplexDegree S).leftOp.obj U =>
         𝟙 (F.obj.obj U)) = 𝟙 (F.obj.obj U) :=
-    Limits.Sigma.ι_desc _ _
-  show AddCommGrpCat.Hom.hom ((copowerPointIso S F.obj).hom.app U)
+    Limits.Sigma.ι_comp_desc _ _
+  change AddCommGrpCat.Hom.hom ((copowerPointIso S F.obj).hom.app U)
       (AddCommGrpCat.Hom.hom ((copowerReindex (stdSimplexPresheafToPoint' S ⦋0⦌) F.obj).app U)
         (Finsupp.single x c)) =
     AddCommGrpCat.Hom.hom
@@ -1057,7 +1057,7 @@ theorem barTermIsoIntegerTensor_augmentation (F : Sheaf S.totalTopology Ab.{u}) 
                 (barCounitIso S F).hom))
             hlast)))
   rw [haux]
-  show barAugmentation' S F =
+  change barAugmentation' S F =
     (barTermIsoAux S ⦋0⦌ F).inv ≫ (barTermIsoAux S ⦋0⦌ F).hom ≫ barAugmentation' S F
   rw [Iso.inv_hom_id_assoc]
 

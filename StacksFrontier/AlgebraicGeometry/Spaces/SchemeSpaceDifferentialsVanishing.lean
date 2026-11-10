@@ -150,7 +150,7 @@ theorem overDifferentialsComparison_app_overEtaleDifferential (a : Γ(Z.left, �
     (overDifferentialsComparison φ Z).app ⊤ (overEtaleDifferential φ Z a) =
       (universalRelativeDerivation (Z.hom ≫ φ)).d (X := op ⊤) a := by
   unfold overEtaleDifferential
-  show ((inv (overDifferentialsComparison φ Z) ≫ overDifferentialsComparison φ Z).app ⊤) _ = _
+  change ((inv (overDifferentialsComparison φ Z) ≫ overDifferentialsComparison φ Z).app ⊤) _ = _
   simp only [IsIso.inv_hom_id]
   rfl
 
@@ -248,7 +248,7 @@ theorem isZero_relativeDifferentials_of_d_eq_zero
   let : Algebra Γ(R, V) Γ(T, A) := (φ.appLE V A hAV).hom.toAlgebra
   rw [show (φ.appLE V A hAV).hom = algebraMap Γ(R, V) Γ(T, A) from rfl,
     RingHom.formallyUnramified_algebraMap, Algebra.formallyUnramified_iff]
-  show Subsingleton (CommRingCat.KaehlerDifferential (φ.appLE V A hAV))
+  change Subsingleton (CommRingCat.KaehlerDifferential (φ.appLE V A hAV))
   obtain ⟨e, he, -⟩ :=
     Stacks.AlgebraicGeometry.AffineDifferentialsIso.existsUnique_affineDifferentialsIso
       φ hA hAV hV
@@ -305,7 +305,7 @@ theorem derivationOfPushforward_map
     {X Y : Cᵒᵖ} (f : X ⟶ Y) (a : S₀.obj X) :
     d (F.op.obj Y) (φ.app Y (S₀.map f a)) =
       ((PresheafOfModules.pushforward φ).obj M).map f (d (F.op.obj X) (φ.app X a)) := by
-  show d (F.op.obj Y) (φ.app Y (S₀.map f a)) = M.map (F.op.map f) (d (F.op.obj X) (φ.app X a))
+  change d (F.op.obj Y) (φ.app Y (S₀.map f a)) = M.map (F.op.map f) (d (F.op.obj X) (φ.app X a))
   rw [← d_map]
   congr 1
   exact congrArg (fun g => g.hom a) (φ.naturality f)
@@ -391,7 +391,7 @@ theorem chartProjection_app_apply_general (f : X ⟶ Y) (V : SmallEtale B S hS Y
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app E).hom =
       (comparisonFunctor B S hS X).op.ranCounit.app E.obj := by
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit]
-  show (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
+  change (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app E).hom.app
       j.right (((comparisonFunctor B S hS X).op.ran.obj E.obj).map j.hom a) = _
   rw [h]
@@ -528,7 +528,7 @@ theorem schemeSpaceDifferentialFun_naturality {W W' : (SmallEtale B S hS (yoneda
         (schemeSpaceDifferentialFun B S hS ψ W a) =
       schemeSpaceDifferentialFun B S hS ψ W'
         ((structureSetSheaf B S hS (schemeSpace U)).obj.map g a) := by
-  show (schemeSpaceDifferentialsPresheaf B S hS ψ).map g
+  change (schemeSpaceDifferentialsPresheaf B S hS ψ).map g
     (schemeSpaceDifferentialFun B S hS ψ W a) = _
   have key := PresheafOfModules.derivationOfPushforward_map
       (representedSmallEtaleEquivalence B S hS U).functor
@@ -653,7 +653,7 @@ theorem isZero_relativeDifferentials_of_isZero_sheafOfDifferentials_schemeSpaceM
     IsZero (Scheme.Hom.relativeDifferentials ((BigFppfOver.toScheme B S hS).map ψ)) := by
   refine Scheme.Hom.isZero_relativeDifferentials_of_d_eq_zero _ fun A a => ?_
   have hZ : ((representedToOver B S hS).obj (openBaseChart B S hS U A)).hom = A.ι := by
-    show (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map (openSubHom U A))) = A.ι
+    change (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map (openSubHom U A))) = A.ι
     rw [yonedaEquiv_yoneda_map, toScheme_map_openSubHom]
   have h2 : Function.Injective
       (((Scheme.Modules.pullbackPushforwardAdjunction
@@ -692,7 +692,6 @@ differentials vanishes. -/
 theorem formallyUnramified_iff_isZero_sheafOfDifferentials' (f : X ⟶ Y) :
     FormallyUnramified f.hom ↔ IsZero (sheafOfDifferentials B S hS f) :=
   formallyUnramified_iff_isZero_sheafOfDifferentials_of_mp B S hS f
-    (sheafOfDifferentialsChartComparisonMp B S hS f)
 
 end ChartComparison
 

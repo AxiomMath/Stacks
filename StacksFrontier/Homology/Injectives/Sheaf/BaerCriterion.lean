@@ -159,7 +159,7 @@ theorem hmap_compat (g : F ⟶ 𝒥) (f : F ⟶ G) {P Q : PartialExt J g f}
     simp only [sob, Subobject.ofLE_arrow, Category.assoc, Subobject.underlyingIso_arrow,
       Subobject.underlyingIso_hom_comp_eq_mk, hkι]
   rw [key]
-  show ((Subobject.underlyingIso P.ιA).hom ≫ k ≫ (Subobject.underlyingIso Q.ιA).inv) ≫ hmap J g f
+  change ((Subobject.underlyingIso P.ιA).hom ≫ k ≫ (Subobject.underlyingIso Q.ιA).inv) ≫ hmap J g f
       Q
     = hmap J g f P
   rw [show hmap J g f Q = (Subobject.underlyingIso Q.ιA).hom ≫ Q.h from rfl,
@@ -296,7 +296,7 @@ theorem leg_h (g : F ⟶ 𝒥) (f : F ⟶ G) (c : Set (PartialExt J g f))
   set t : IdxT J g f c := ⟨sob J g f P, ⟨P, hP, rfl⟩⟩ with ht
   unfold hmapT
   rw [hmap_eq_transport J g f c hc hP (rep_mem J g f c t) (rep_sob J g f c t)]
-  show (Subobject.underlyingIso P.ιA).inv ≫ (Subobject.underlyingIso P.ιA).hom ≫ P.h = P.h
+  change (Subobject.underlyingIso P.ιA).inv ≫ (Subobject.underlyingIso P.ιA).hom ≫ P.h = P.h
   rw [Iso.inv_hom_id_assoc]
 
 -- this proof's elaboration needs more than the default heartbeat budget
@@ -330,7 +330,7 @@ theorem colimitDesc_DtoG_mono (g : F ⟶ 𝒥) (f : F ⟶ G) (c : Set (PartialEx
   have : Mono (DtoG J g f c) := by
     rw [NatTrans.mono_iff_mono_app]
     intro t
-    show Mono (t.1.arrow)
+    change Mono (t.1.arrow)
     infer_instance
   have hmono : Mono ((colim (J := IdxT J g f c) (C := Sheaf J Ab.{u})).map (DtoG J g f c)) :=
     preserves_mono_of_preservesLimit _ _
@@ -419,7 +419,7 @@ theorem freeAbSheaf_separating {A : Sheaf J Ab.{u}} (ι : A ⟶ G) [Mono ι]
   have ev_nat : ∀ {X : C} {G Z : Sheaf J Ab.{u}} (s : freeAbSheaf J X ⟶ G) (f : G ⟶ Z),
       ev (s ≫ f) = ((sheafToPresheaf J Ab.{u}).map f).app (Opposite.op X) (ev s) := by
     intro X G Z s f
-    show (((sheafificationAdjunction J Ab.{u}).unit.app (freeAbPresheaf X)) ≫
+    change (((sheafificationAdjunction J Ab.{u}).unit.app (freeAbPresheaf X)) ≫
         (sheafToPresheaf J Ab.{u}).map (s ≫ f)).app (Opposite.op X) _
       = ((sheafToPresheaf J Ab.{u}).map f).app (Opposite.op X)
         ((((sheafificationAdjunction J Ab.{u}).unit.app (freeAbPresheaf X)) ≫
@@ -436,7 +436,7 @@ theorem freeAbSheaf_separating {A : Sheaf J Ab.{u}} (ι : A ⟶ G) [Mono ι]
             ((sheafToPresheaf J Ab.{u}).obj G))).trans yonedaEquiv
     have hee : ∀ s, e s = ev (X := X) (G := G) s := by
       intro s
-      show ((((sheafificationAdjunction J Ab.{u}).homEquiv _ _).trans
+      change ((((sheafificationAdjunction J Ab.{u}).homEquiv _ _).trans
         ((Adjunction.whiskerRight Cᵒᵖ AddCommGrpCat.adj).homEquiv (yoneda.obj X)
             ((sheafToPresheaf J Ab.{u}).obj G))).trans yonedaEquiv) s
         = (((sheafificationAdjunction J Ab.{u}).unit.app (freeAbPresheaf X)) ≫
@@ -455,7 +455,7 @@ theorem freeAbSheaf_separating {A : Sheaf J Ab.{u}} (ι : A ⟶ G) [Mono ι]
     obtain ⟨t, ht⟩ := hcon X s
     have hsfg : s ≫ f = s ≫ g := by
       rw [← ht, Category.assoc, Category.assoc, hfg]
-    show ((sheafToPresheaf J Ab.{u}).map f).app (Opposite.op X) (ev s)
+    change ((sheafToPresheaf J Ab.{u}).map f).app (Opposite.op X) (ev s)
         = ((sheafToPresheaf J Ab.{u}).map g).app (Opposite.op X) (ev s)
     rw [← ev_nat s f, ← ev_nat s g, hsfg]
   exact hι (isIso_of_mono_of_epi ι)
@@ -531,7 +531,7 @@ theorem extend_step
   refine ⟨Limits.biprod.inl ≫ Limits.factorThruImage m ≫ k', ?_⟩
   show (Limits.biprod.inl ≫ Limits.factorThruImage m ≫ k') ≫ P.ιA = s
   rw [Category.assoc, Category.assoc, hk'ι]
-  show Limits.biprod.inl ≫ Limits.factorThruImage m ≫ Limits.image.ι m = s
+  change Limits.biprod.inl ≫ Limits.factorThruImage m ≫ Limits.image.ι m = s
   rw [Limits.image.fac, hm]
   simp
 

@@ -215,7 +215,7 @@ public theorem topologicalKrullDimAt_fiber_eq_zero_of_ringKrullDim_stalk_le_one
   refine le_antisymm ?_ ?_
   · -- the local dimension of the fibre is the largest dimension of a component through the point
     have hft : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-      show LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f x)))
+      change LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f x)))
       infer_instance
     rw [topologicalKrullDimAt_eq_iSup_irreducibleComponents (Y.residueField (f x))
       (f.fiber (f x)) (f.fiberToSpecResidueField (f x)) (f.asFiber x)]

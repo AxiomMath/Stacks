@@ -104,7 +104,7 @@ theorem nonempty_equivalenceOver_twoFibreProductSnd
           (CatFiberedInGroupoids.homFunctor
             (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f g).fst))) := by
   have hsw : Functor.IsEquivalence (twoFibreProductSwapMap B S hS f g).hom.toFunctor := by
-    show Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
+    change Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
     infer_instance
   exact fun W y hy => nonempty_equivalenceOver_fst_of_equivalence_source B S hS
     (twoFibreProductSwapMap B S hS f g).hom

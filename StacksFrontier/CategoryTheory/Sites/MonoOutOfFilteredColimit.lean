@@ -84,7 +84,7 @@ theorem mono_of_mono_colimit_ι_comp {C : Type u} [Category.{v} C] {J : Grothend
       rw [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app_apply,
         NatTrans.comp_app_apply, hak, hbk, m.hom.naturality_apply g.op x,
         m.hom.naturality_apply g.op y, hxy]
-    show (colimit F).obj.map g.op x = (colimit F).obj.map g.op y
+    change (colimit F).obj.map g.op x = (colimit F).obj.map g.op y
     rw [← hak, ← hbk, hab]
   exact Sheaf.mono_of_isLocallyInjective m
 

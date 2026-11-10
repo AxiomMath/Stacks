@@ -8,8 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.NeighborhoodsStal
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.UnboundedDerivedFunctor.LeftTExactness
 import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.LocalAcyclicity.StrictHenselizationDependence
-import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.LocalAcyclicity.StrictHenselizationLocallyConstant
+import StacksFrontier.AlgebraicGeometry.EtaleCohomology.LocalAcyclicity.StrictHenselizationLocallyConstant
 
 /-!
 # Local acyclicity relative to a locally constant torsion sheaf

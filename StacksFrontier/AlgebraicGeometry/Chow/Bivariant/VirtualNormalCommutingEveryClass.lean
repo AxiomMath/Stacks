@@ -146,7 +146,7 @@ theorem BivariantClass.cap_chowPushforwardOfIso_gysin
     (properPushforwardFactorsThroughRationalEquivalence_of_isIso C _ _ _ _ _) γ
   rw [properChowPushforward_eq_chowPushforwardOfIso] at hgn
   have hinv := eq_chowPushforwardOfIso_inv_of_eq _ _ _ _ (by rw [Iso.inv_comp_eq, hb]) _ hgn
-  show c.cap gV k (chowPushforwardOfIso C _ _ u huq k (G.onChow (g ≫ sX) L s k γ)) = _
+  change c.cap gV k (chowPushforwardOfIso C _ _ u huq k (G.onChow (g ≫ sX) L s k γ)) = _
   rw [BivariantClass.cap_chowPushforwardOfIso c gV u
     ((Stacks.Divisors.zeroScheme A L s).subschemeι ≫ g) hu
     ((Stacks.Divisors.zeroScheme A L s).subschemeι ≫ (g ≫ sX)) (Category.assoc _ _ _).symm k

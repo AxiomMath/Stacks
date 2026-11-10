@@ -173,7 +173,7 @@ theorem isCoordinateExpansion_crystalPairFormsConnection :
 
 /-- At each level only finitely many first-order Taylor operators do not land in `pⁿ M`. -/
 theorem finite_crystalTheta_single_notMem (m : wholeSpaceSections hp Fc ⦋0⦌) (n : ℕ) :
-    (setOf fun c : (wholeSpaceIndex S hp) ↦ -crystalTheta hp Fc (Finsupp.single c 1) m ∉
+    (Set.ofPred fun c : (wholeSpaceIndex S hp) ↦ -crystalTheta hp Fc (Finsupp.single c 1) m ∉
       pPowSmul S.p ((wholeSpaceDPAlgebra hp).completedRing S.p 0)
         (wholeSpaceSections hp Fc ⦋0⦌) n).Finite := by
   refine ((finite_crystalTheta_ne_zero hp Fc m n).preimage

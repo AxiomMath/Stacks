@@ -126,7 +126,7 @@ maps. -/
 lemma alternatingCofaceMapComplex_obj_d (X : CosimplicialObject C) (n : ℕ) :
     ((alternatingCofaceMapComplex C).obj X).d n (n + 1) =
       AlternatingCofaceMapComplex.objD X n := by
-  show (CochainComplex.of _ _ (AlternatingCofaceMapComplex.d_squared X)).d n (n + 1) = _
+  change (CochainComplex.of _ _ (AlternatingCofaceMapComplex.d_squared X)).d n (n + 1) = _
   exact CochainComplex.of_d (fun n : ℕ ↦ X.obj (.mk n))
     (AlternatingCofaceMapComplex.objD X) n
 
@@ -326,7 +326,7 @@ lemma amitsurShiftZeroEquiv_ladder :
 lemma amitsurCosimplicial_delta_mk_one (n : ℕ) (i : Fin (n + 2)) (m : M) :
     ((amitsurCosimplicial R A M).δ i).hom
         ((1 : ((algebraArrow R A).cechConerve.obj (.mk n) : Type u)) ⊗ₜ m) = 1 ⊗ₜ m := by
-  show ((algebraArrow R A).cechConerve.map (SimplexCategory.δ i)).hom 1 ⊗ₜ m = _
+  change ((algebraArrow R A).cechConerve.map (SimplexCategory.δ i)).hom 1 ⊗ₜ m = _
   rw [map_one]
 
 /-- The augmentation composed with the first Amitsur differential vanishes. -/
@@ -338,7 +338,7 @@ lemma objD_zero_mk_one (m : M) :
     rw [AlternatingCofaceMapComplex.objD, Fin.sum_univ_two]
     simp [sub_eq_add_neg]
   rw [h2]
-  show ((amitsurCosimplicial R A M).δ 0).hom (1 ⊗ₜ m) -
+  change ((amitsurCosimplicial R A M).δ 0).hom (1 ⊗ₜ m) -
     ((amitsurCosimplicial R A M).δ 1).hom (1 ⊗ₜ m) = 0
   rw [amitsurCosimplicial_delta_mk_one, amitsurCosimplicial_delta_mk_one]
   exact sub_self _
@@ -420,7 +420,7 @@ lemma amitsurExtendedCochainComplex_d_zero_one_apply (x : ULift.{max u v} M) :
       TensorProduct.mk (ULift.{v} R)
         ((algebraArrow (ULift.{v} R) (ULift.{u} A)).cechConerve.obj (.mk 0) :
           Type (max u v)) M 1 x.down := by
-  show (cechHead (f := algebraArrow (ULift.{v} R) (ULift.{u} A)) (.mk 0)).hom 1 ⊗ₜ x.down = _
+  change (cechHead (f := algebraArrow (ULift.{v} R) (ULift.{u} A)) (.mk 0)).hom 1 ⊗ₜ x.down = _
   rw [map_one]
   rfl
 

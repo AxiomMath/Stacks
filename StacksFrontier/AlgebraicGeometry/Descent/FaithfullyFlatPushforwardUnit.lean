@@ -60,7 +60,8 @@ theorem isIso_of_isIso_pullback_map_of_surjective {X Y : Scheme.{u}} (g : Y ⟶ 
   have : ∀ x : U, IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x.val).map ψ.1) :=
     fun x => hst x.val
   have h1 : IsIso (ψ.1.app (op U)) := TopCat.Presheaf.app_isIso_of_stalkFunctor_map_iso ψ U
-  rwa [ConcreteCategory.isIso_iff_bijective] at h1 ⊢
+  rw [ConcreteCategory.isIso_iff_bijective] at h1 ⊢
+  exact h1
 
 /-- **Pullback along a flat surjective morphism reflects zero modules.** -/
 theorem isZero_of_isZero_pullback_of_surjective {X Y : Scheme.{u}} (g : Y ⟶ X) [Flat g]

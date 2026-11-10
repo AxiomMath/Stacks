@@ -140,7 +140,7 @@ theorem yoneda_map_diagonalComplementSchemeAut_hom (σ : Equiv.Perm (Fin n)) :
     yoneda.map (diagonalComplementSchemeAut B S hS X U n hsep V e σ).asIso.hom =
       e.hom ≫ ((toSpaces B S hS X).map
         (diagonalComplementAut B S hS X U n hsep σ).asIso.hom).hom ≫ e.inv := by
-  show yoneda.map (Yoneda.fullyFaithful.preimage
+  change yoneda.map (Yoneda.fullyFaithful.preimage
       (e.hom ≫ (diagonalComplementPresheafAut B S hS X U n hsep σ).asIso.hom ≫ e.inv)) = _
   rw [Functor.FullyFaithful.map_preimage, diagonalComplementPresheafAut_hom]
 
@@ -324,7 +324,7 @@ theorem diagonalComplementPointsIso_hom_app_smul (T : (BigFppfOver B S hS)ᵒᵖ
     Iso.inv_hom_id_app_apply] at h
   rw [diagonalComplementPointsIso_hom_app, diagonalComplementPointsIso_hom_app,
     diagonalComplementMulAction_smul]
-  show _ = (Over.post B.inclusion).map (e.inv.app T x) ≫
+  change _ = (Over.post B.inclusion).map (e.inv.app T x) ≫
     (Over.post B.inclusion).map (diagonalComplementSchemeAut B S hS X U n hsep V e σ.down).asIso.hom
   rw [← Functor.map_comp]
   exact congrArg (Over.post B.inclusion).map h.symm

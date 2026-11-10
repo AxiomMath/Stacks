@@ -158,8 +158,8 @@ presentation over `T` for two objects `(T, E)`, `(T, E')` over one test scheme: 
 universe lifts, an algebraic space over `U` which is quasi-compact and quasi-separated. -/
 theorem exists_isomPresheaf_qcqs_smallModel_of_isom (D : ComplexesSituation B S hS)
     (h : Stack.IsAlgebraicStack.{u, w} B S hS (complexesBasedCategory D))
-    (hIsom : ∀ (A : ComplexesObject D) (E' : derivedModules B S hS (D.space A.T))
-      (h₁ : D.IsRelativelyPerfect A.T E') (h₂ : D.HasNoNegativeFibreExt A.T E'),
+    (hIsom : ∀ (A : ComplexesObject D) (E' : derivedModules B S hS (D.space A.T)),
+      D.IsRelativelyPerfect A.T E' → D.HasNoNegativeFibreExt A.T E' →
       IsFinitePresentationAlgebraicSpaceOver ((schemeSpaceFunctor B S hS).obj A.T.left)
         (relativeDerivedIsomFunctor (D.projection A.T) A.E E')) :
     letI : (complexesAlgebraicStack D h).val.val.p.IsFibered :=
@@ -210,8 +210,8 @@ is an algebraic space of finite presentation over `T` for any two objects `(T, E
 `Complexes_{X/B}` over one test scheme `T ⟶ B`. -/
 theorem isQuasiSeparated_complexesStructureMorphism_of_isom (D : ComplexesSituation B S hS)
     (h : Stack.IsAlgebraicStack.{u, w} B S hS (complexesBasedCategory D))
-    (hIsom : ∀ (A : ComplexesObject D) (E' : derivedModules B S hS (D.space A.T))
-      (h₁ : D.IsRelativelyPerfect A.T E') (h₂ : D.HasNoNegativeFibreExt A.T E'),
+    (hIsom : ∀ (A : ComplexesObject D) (E' : derivedModules B S hS (D.space A.T)),
+      D.IsRelativelyPerfect A.T E' → D.HasNoNegativeFibreExt A.T E' →
       IsFinitePresentationAlgebraicSpaceOver ((schemeSpaceFunctor B S hS).obj A.T.left)
         (relativeDerivedIsomFunctor (D.projection A.T) A.E E')) :
     Stack.AlgebraicStacks.IsQuasiSeparated B S hS (complexesStructureMorphism D h) := by

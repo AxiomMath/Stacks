@@ -106,7 +106,7 @@ theorem chowGroupRestrict_mk_cycleAssociatedToClosedSubscheme (k : ℤ) :
     chowGroupRestrict C sX sU j hj k
         (QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme C sX i k)) =
       QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme C sU (pullback.snd i j) k) := by
-  show chowGroupRestrict C sX sU j hj k (QuotientAddGroup.mk' _ _) = QuotientAddGroup.mk' _ _
+  change chowGroupRestrict C sX sU j hj k (QuotientAddGroup.mk' _ _) = QuotientAddGroup.mk' _ _
   rw [chowGroupRestrict_mk, cycleGroupRestrict_cycleAssociatedToClosedSubscheme]
 
 /-- `Stacks.Chow.chowGroupRestrict_mk_cycleAssociatedToClosedSubscheme` for any cartesian square
@@ -217,6 +217,7 @@ theorem pullbackFstPullbackFstIso_hom_bivariantBaseChangeMap (i : Z ⟶ Y) {Y' :
     rw [pullback.lift_snd, ← Category.assoc, pullback.lift_snd, pullback.lift_snd]
 
 set_option maxHeartbeats 800000 in
+-- large Chow-group rewrites (proper pushforward, cap product, Gysin map) along pullbacks
 /-- **The Gysin map caps the class of a smooth closed subscheme of a test scheme to the class of
 its inverse image.** Let `X`, `Y` be smooth over `k` of constant dimensions `d`, `e`, let
 `g : T ⟶ Y` be a test scheme and `Z ⊆ T` a closed subscheme smooth over `k` of constant dimension
@@ -258,7 +259,7 @@ theorem smoothGysinClass_cap_mk_cycleAssociatedToClosedSubscheme {d e : ℕ}
     (deltaDimension_irreducibleComponent_of_relativeDimension k sY e hY)
     (deltaDimension_irreducibleComponent_of_relativeDimension_eq k _ hZ hn) hdim
     (fun ξ _ ↦ isCohenMacaulayLocalRing_stalk_of_smooth k ((i ≫ g) ≫ sY) _)
-  show (properChowPushforward _ _ _ _ _ _ _
+  change (properChowPushforward _ _ _ _ _ _ _
     ((smoothGysinClass (fieldChowSituation k) sX sY hf ((e : ℤ) - d)).cap (i ≫ g) m'
       (fundamentalChowClass _ ((i ≫ g) ≫ sY) m'))) = _
   rw [h0FF7, mk_cycleAssociatedToClosedSubscheme_eq_properChowPushforward (fieldChowSituation k)

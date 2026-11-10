@@ -151,7 +151,7 @@ private theorem connectingHom_natural_raw
     rw [A.comp_add_left] at h
     have hkill : A.comp (by lia : (0 : ℤ) + 1 = 1)
         (E.b.1 ≫₀ (E.s ≫₀ (v.1 ≫₀ E'.π))) (A.d E.s) = 0 := by
-      show A.comp (by lia : (0 : ℤ) + 1 = 1)
+      change A.comp (by lia : (0 : ℤ) + 1 = 1)
           (A.comp (by lia : (0 : ℤ) + 0 = 0)
             (A.comp (by lia : (0 : ℤ) + 0 = 0)
               (A.comp (by lia : (0 : ℤ) + 0 = 0) E'.π v.1) E.s) E.b.1)
@@ -181,7 +181,7 @@ private theorem connectingHom_natural_raw
         A.comp (by lia : (1 : ℤ) + 0 = 1)
           (A.d (-E'.π)) (A.comp (by lia : (0 : ℤ) + 0 = 0) v.1 E.s) := by
     rw [hws]
-    show A.comp (by lia : (1 : ℤ) + 0 = 1)
+    change A.comp (by lia : (1 : ℤ) + 0 = 1)
         (GradedSplitShortExact.connectingHom E')
         (A.comp (by lia : (0 : ℤ) + 0 = 0)
           E'.b.1 (A.comp (by lia : (0 : ℤ) + 0 = 0) v.1 E.s)) = _
@@ -209,7 +209,7 @@ private theorem connectingHom_natural_raw
           (GradedSplitShortExact.connectingHom E) =
         A.comp (by lia : (0 : ℤ) + 1 = 1)
           (A.comp (by lia : (0 : ℤ) + 0 = 0) u.1 E.π) (A.d E.s) := by
-    show A.comp (by lia : (0 : ℤ) + 1 = 1) u.1
+    change A.comp (by lia : (0 : ℤ) + 1 = 1) u.1
         (A.comp (by lia : (0 : ℤ) + (0 + 1) = 1) E.π (A.d E.s)) = _
     exact A.assoc (by lia : (0 : ℤ) + 1 = 1)
       (by lia : (0 : ℤ) + 1 = 1) (by lia : (0 : ℤ) + 0 = 0)
@@ -256,7 +256,7 @@ private theorem connectingHom_natural_classes
         A.comp (by lia : (0 : ℤ) + 0 = 0)
           ((S.shiftFunctor 1).map u.1)
           (S.connectingCocycle E).1 := by
-    show S.toShift 1 z x' 0
+    change S.toShift 1 z x' 0
         (A.comp (by lia : (0 : ℤ) + 1 = 1) u.1
           (GradedSplitShortExact.connectingHom E)) =
       A.comp (by lia : (0 : ℤ) + 0 = 0)
@@ -282,7 +282,7 @@ private theorem connectingHom_natural_classes
       (A.compCocycle ((S.shiftFunctor 1).mapCocycle u)
         (S.connectingCocycle E)) := by
     refine ⟨h, ?_⟩
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         (S.connectingCocycle E').1 w.1 -
       A.comp (by lia : (0 : ℤ) + 0 = 0)
         ((S.shiftFunctor 1).map u.1) (S.connectingCocycle E).1 =
@@ -325,7 +325,7 @@ private theorem compositeProjection_closed
       A.comp (by lia : (1 : ℤ) + 0 = 1) (A.d E₄.s) E₃.b.1 := by
     simp [A.leibniz, E₃.b.2, pow_zero, A.comp_zero_right]
   rw [A.d_add]
-  show A.d (A.comp (by lia : (0 : ℤ) + 0 = 0)
+  change A.d (A.comp (by lia : (0 : ℤ) + 0 = 0)
       (A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.a.1 E₁.b.1) E₃.π) +
     A.d (A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.s E₃.b.1) = 0
   rw [hfirst, hsecond, hpi, ← GradedSplitShortExact.comp_connectingHom E₄, hδ]
@@ -419,7 +419,7 @@ private theorem composeGradedSplitShortExact
     π := π₂
     s := s₂
     π_a := by
-      show (E₁.a.1 ≫₀ E₃.a.1) ≫₀ (E₃.π ≫₀ E₁.π) = A.id x
+      change (E₁.a.1 ≫₀ E₃.a.1) ≫₀ (E₃.π ≫₀ E₁.π) = A.id x
       calc
         (E₁.a.1 ≫₀ E₃.a.1) ≫₀ (E₃.π ≫₀ E₁.π) =
             E₁.a.1 ≫₀ (E₃.a.1 ≫₀ (E₃.π ≫₀ E₁.π)) := by
@@ -429,19 +429,19 @@ private theorem composeGradedSplitShortExact
               exact (comp0_assoc E₃.a.1 E₃.π E₁.π).symm
         _ = A.id x := by rw [hπa₃, id_comp0, hπa₁]
     b_s := by
-      show s₂ ≫₀ b₂ = A.id q₂
+      change s₂ ≫₀ b₂ = A.id q₂
       simp [b₂, s₂, ← comp0_assoc, comp0_add, add_comp0,
         hcancel₁, hcancel₃, hzero₃, hzero₃', hcancel₃', hsplit₄]
     π_s := by
-      show s₂ ≫₀ π₂ = 0
+      change s₂ ≫₀ π₂ = 0
       simp [π₂, s₂, ← comp0_assoc, add_comp0,
         hcancel₃, hzero₁, hzero₃']
     a_π_add_s_b := by
-      show (π₂ ≫₀ a₂.1) + (b₂ ≫₀ s₂) = A.id z
+      change (π₂ ≫₀ a₂.1) + (b₂ ≫₀ s₂) = A.id z
       rw [hb₂s₂]
       have hfirst : π₂ ≫₀ a₂.1 =
           E₃.π ≫₀ (E₁.π ≫₀ E₁.a.1) ≫₀ E₃.a.1 := by
-        show (E₃.π ≫₀ E₁.π) ≫₀ (E₁.a.1 ≫₀ E₃.a.1) = _
+        change (E₃.π ≫₀ E₁.π) ≫₀ (E₁.a.1 ≫₀ E₃.a.1) = _
         simp only [comp0_assoc]
       rw [hfirst]
       have hfac :
@@ -482,7 +482,7 @@ private theorem composeGradedSplitShortExact
               comp0_assoc E₃.a.1 E₃.b.1 E₄.s]
       _ = E₁.b.1 ≫₀ E₄.a.1 := by
         rw [hπa₃, hab₃, id_comp0]
-        show E₁.b.1 ≫₀ E₄.a.1 + A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.s 0 = _
+        change E₁.b.1 ≫₀ E₄.a.1 + A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.s 0 = _
         rw [A.comp_zero_right, add_zero]
   · simp [E₂, b₂, ← comp0_assoc, add_comp0,
       hzero₄, hcancel₄]
@@ -533,7 +533,7 @@ theorem admissibleMonomorphisms_octahedronIso
     congrArg Subtype.val (S.cone_connecting f)
   have hmapcomp : F.map f.1 =
       F.map (S.shift.shiftedConnecting E₃).1 ≫₀ F.map E₁.b.1 := by
-    show F.map (A.comp (by lia : (0 : ℤ) + 0 = 0) E₁.b.1
+    change F.map (A.comp (by lia : (0 : ℤ) + 0 = 0) E₁.b.1
         (S.shift.shiftedConnecting E₃).1) =
       A.comp (by lia : (0 : ℤ) + 0 = 0) (F.map E₁.b.1)
         (F.map (S.shift.shiftedConnecting E₃).1)
@@ -541,7 +541,7 @@ theorem admissibleMonomorphisms_octahedronIso
   have hcollapse : A.comp (by lia : (0 : ℤ) + 0 = 0) (F.map f.1) e.inv.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) (F.map E₁.b.1)
         (S.shift.connectingCocycle E₃).1 := by
-    show e.inv.1 ≫₀ F.map f.1 = (S.shift.connectingCocycle E₃).1 ≫₀ F.map E₁.b.1
+    change e.inv.1 ≫₀ F.map f.1 = (S.shift.connectingCocycle E₃).1 ≫₀ F.map E₁.b.1
     rw [hmapcomp, hround, ← comp0_assoc, ← comp0_assoc, hinv0, id_comp0]
   have htrans : GradedSplitShortExact.connectingHom E₄ =
       A.comp (by lia : (1 : ℤ) + 0 = 1)
@@ -570,7 +570,7 @@ theorem admissibleMonomorphisms_octahedronIso
       _ = S.shift.toShift 1 q₃ q₁ 0
           (A.comp (by lia : (0 : ℤ) + 1 = 1) E₁.b.1
             (GradedSplitShortExact.connectingHom E₃)) := by
-              show A.comp (by lia : (0 : ℤ) + 0 = 0) (F.map E₁.b.1)
+              change A.comp (by lia : (0 : ℤ) + 0 = 0) (F.map E₁.b.1)
                   (S.shift.toShift 1 q₃ y 0 (GradedSplitShortExact.connectingHom E₃)) = _
               simpa [pow_zero, one_smul, Int.natAbs] using
                 (S.shift.toShift_comp_left (n := 1) (m := 0) (l := 0)
@@ -595,7 +595,7 @@ theorem admissibleMonomorphisms_octahedronIso
   let idQ₃ : A.Cocycle q₃ q₃ := ⟨A.id q₃, A.d_id q₃⟩
   have hu₁ : A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.a.1 E₁.a.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) E₂.a.1 idX.1 := by
-    show A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.a.1 E₁.a.1 =
+    change A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.a.1 E₁.a.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) E₂.a.1 (A.id x)
     rw [A.comp_id]
     exact h₂a.symm
@@ -610,7 +610,7 @@ theorem admissibleMonomorphisms_octahedronIso
     apply congrArg (Quotient.mk (A.homotopySetoid q₁
       ((S.shift.shiftFunctor 1).obj x)))
     apply Subtype.ext
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         ((S.shift.shiftFunctor 1).map (A.id x))
         (S.shift.connectingCocycle E₁).1 =
       (S.shift.connectingCocycle E₁).1
@@ -618,12 +618,12 @@ theorem admissibleMonomorphisms_octahedronIso
   have hn₁' := hn₁.trans hid₁
   have hu₂ : A.comp (by lia : (0 : ℤ) + 0 = 0) idZ.1 E₂.a.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.a.1 E₁.a.1 := by
-    show A.comp (by lia : (0 : ℤ) + 0 = 0) (A.id z) E₂.a.1 =
+    change A.comp (by lia : (0 : ℤ) + 0 = 0) (A.id z) E₂.a.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.a.1 E₁.a.1
     rw [A.id_comp, h₂a]
   have hn₂ := connectingHom_natural_classes S.shift E₂ E₃ E₁.a idZ E₄.b
     hu₂ (by
-      show A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.b.1 (A.id z) =
+      change A.comp (by lia : (0 : ℤ) + 0 = 0) E₃.b.1 (A.id z) =
         A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.b.1 E₂.b.1
       rw [A.comp_id]
       exact h₂b₂.symm)
@@ -632,7 +632,7 @@ theorem admissibleMonomorphisms_octahedronIso
     simpa [comp0] using h₂b₁.symm
   have hn₃ := connectingHom_natural_classes S.shift E₃ E₄ E₁.b E₂.b idQ₃
     hu₃ (by
-      show A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.b.1 E₂.b.1 =
+      change A.comp (by lia : (0 : ℤ) + 0 = 0) E₄.b.1 E₂.b.1 =
         A.comp (by lia : (0 : ℤ) + 0 = 0) (A.id q₃) E₃.b.1
       rw [A.id_comp]
       exact h₂b₂)
@@ -678,14 +678,14 @@ theorem admissibleMonomorphisms_octahedronIso
   refine ⟨q₂, E₂, E₄, ?_⟩
   simp only [ShiftAxiomBIso.associatedKTriangle, Pretriangulated.Triangle.mk]
   refine ⟨h₂a, ?_, ?_, ?_, ?_, ?_⟩
-  · show Quotient.mk (A.homotopySetoid x z)
+  · change Quotient.mk (A.homotopySetoid x z)
       (A.compCocycle E₃.a E₁.a) = Quotient.mk (A.homotopySetoid x z) E₂.a
     exact congrArg (Quotient.mk (A.homotopySetoid x z)) (Subtype.ext h₂a.symm)
-  · show Quotient.mk (A.homotopySetoid y q₂)
+  · change Quotient.mk (A.homotopySetoid y q₂)
       (A.compCocycle E₄.a E₁.b) = Quotient.mk (A.homotopySetoid y q₂)
       (A.compCocycle E₂.b E₃.a)
     exact congrArg (Quotient.mk (A.homotopySetoid y q₂)) (Subtype.ext h₂b₁)
-  · show Quotient.mk (A.homotopySetoid q₁ q₂) E₄.a ≫
+  · change Quotient.mk (A.homotopySetoid q₁ q₂) E₄.a ≫
         (Quotient.mk (A.homotopySetoid q₂ ((S.shift.shiftFunctor 1).obj x))
           (S.shift.connectingCocycle E₂) ≫ eqToHom hKx.symm) =
       Quotient.mk (A.homotopySetoid q₁ ((S.shift.shiftFunctor 1).obj x))
@@ -696,16 +696,16 @@ theorem admissibleMonomorphisms_octahedronIso
               (S.shift.connectingCocycle E₂)) ≫ eqToHom hKx.symm :=
           (category_assoc_generic _ _ _).symm
       _ = _ := by
-        show A.compK
+        change A.compK
             (Quotient.mk (A.homotopySetoid q₂ ((S.shift.shiftFunctor 1).obj x))
               (S.shift.connectingCocycle E₂))
             (Quotient.mk (A.homotopySetoid q₁ q₂) E₄.a) ≫ eqToHom hKx.symm = _
         exact congrArg (fun f => f ≫ eqToHom hKx.symm) hn₁K
-  · show Quotient.mk (A.homotopySetoid z q₃)
+  · change Quotient.mk (A.homotopySetoid z q₃)
       (A.compCocycle E₄.b E₂.b) = Quotient.mk (A.homotopySetoid z q₃) E₃.b
     exact congrArg (Quotient.mk (A.homotopySetoid z q₃)) (Subtype.ext h₂b₂)
   · constructor
-    · show (Quotient.mk (A.homotopySetoid q₂ ((S.shift.shiftFunctor 1).obj x))
+    · change (Quotient.mk (A.homotopySetoid q₂ ((S.shift.shiftFunctor 1).obj x))
           (S.shift.connectingCocycle E₂) ≫ eqToHom hKx.symm) ≫
         (CategoryTheory.shiftFunctor A.K (1 : ℤ)).map
           (Quotient.mk (A.homotopySetoid x y) E₁.a) =
@@ -732,7 +732,7 @@ theorem admissibleMonomorphisms_octahedronIso
                     (S.shift.connectingCocycle E₃) := hn₂K
             exact congrArg (fun f => f ≫ eqToHom hKy.symm) hn₂Cat
         _ = _ := category_assoc_generic _ _ _
-    · show Quotient.mk (A.homotopySetoid q₃ ((S.shift.shiftFunctor 1).obj q₁))
+    · change Quotient.mk (A.homotopySetoid q₃ ((S.shift.shiftFunctor 1).obj q₁))
         (S.shift.connectingCocycle E₄) ≫ eqToHom hKq₁.symm =
       (Quotient.mk (A.homotopySetoid q₃ ((S.shift.shiftFunctor 1).obj y))
           (S.shift.connectingCocycle E₃) ≫ eqToHom hKy.symm) ≫

@@ -186,7 +186,7 @@ theorem crisGlobalSectionsIso_hom_app_comp_ΓRes
   have h1 := smallRestrictionGlobalSectionsIso_hom_app_comp_ΓRes S'
     ((changeBaseDirectImage S S' fS fX hf).obj ((bigDirectImage S).obj F))
     ((changeBase S S' fS fX hf).obj A.obj)
-  show (Functor.isoWhiskerLeft (bigDirectImage S ⋙ changeBaseDirectImage S S' fS fX hf)
+  change (Functor.isoWhiskerLeft (bigDirectImage S ⋙ changeBaseDirectImage S S' fS fX hf)
         (smallRestrictionGlobalSectionsIso (S := S')) ≪≫
       Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft (bigDirectImage S)

@@ -94,7 +94,7 @@ theorem EquivalenceOver.isHomLift_counitIso_hom_app_of_isFiberedInSets {r : E �
     (e : EquivalenceOver p q) (y : D₂) :
     b.IsHomLift (𝟙 (b.obj ((e.inv.functor ⋙ e.hom.functor).obj y))) (e.counitIso.hom.app y) := by
   have hy : q.obj ((e.inv.functor ⋙ e.hom.functor).obj y) = q.obj y := by
-    show ((e.inv.functor ⋙ e.hom.functor) ⋙ q).obj y = _
+    change ((e.inv.functor ⋙ e.hom.functor) ⋙ q).obj y = _
     rw [Functor.assoc, e.hom.w, e.inv.w]
   exact isHomLift_of_isHomLift_comp_of_isFiberedInSets hb (e.counitIso.hom.app y)
     (hy ▸ e.isHomLift_counitIso_hom_app y)

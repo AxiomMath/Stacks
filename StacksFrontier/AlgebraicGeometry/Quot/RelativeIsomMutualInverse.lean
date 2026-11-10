@@ -268,7 +268,8 @@ algebraic spaces, which this library does not prove — only isAffineHom_comp an
 isLocallyOfFinitePresentation_of_comp exist — and which the fibre-product step needs. The \
 remaining inputs of the source's proof, Stacks 03KP parts (1)-(4) and Stacks 05WT, ARE \
 available, in StacksFrontier/AlgebraicGeometry/Spaces/SeparatedCriteria.lean and \
-StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/FinitePresentation.lean", sga "6 XII 2.4" "partial"]
+StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/FinitePresentation.lean",
+  sga "6 XII 2.4" "partial"]
 def mutualInverseFunctorIsoIsom : s.mutualInverseFunctor ≅ s.isomFunctor :=
   NatIso.ofComponents (fun V ↦ (s.mutualInverseEquivIsom V).toIso)
     (fun i ↦ ConcreteCategory.hom_ext _ _ fun q ↦ s.isomOfMutualInverse_naturality i q)

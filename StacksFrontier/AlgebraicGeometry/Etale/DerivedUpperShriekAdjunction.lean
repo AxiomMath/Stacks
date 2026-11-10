@@ -254,7 +254,7 @@ private theorem preservesFiniteLimits_sheafCompose {C : Type*} [Category* C]
   have : PreservesFiniteLimits ((Functor.whiskeringRight Cᵒᵖ A A').obj F) :=
     ⟨fun _ _ _ => inferInstance⟩
   have : PreservesFiniteLimits (sheafCompose J F ⋙ sheafToPresheaf J A') := by
-    show PreservesFiniteLimits (sheafToPresheaf J A ⋙ (Functor.whiskeringRight Cᵒᵖ A A').obj F)
+    change PreservesFiniteLimits (sheafToPresheaf J A ⋙ (Functor.whiskeringRight Cᵒᵖ A A').obj F)
     infer_instance
   exact preservesFiniteLimits_of_reflects_of_preserves _ (sheafToPresheaf J A')
 

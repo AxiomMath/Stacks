@@ -71,8 +71,8 @@ the identification of the two objects **in `D(R)`**, an isomorphism
 
 That identification is [Stacks, Tag 0BYV] followed by [Stacks, Tag 0BYW], and both are in the
 library: `DifferentialGraded.Bimodule.derivedPrecomp_isIso`
-(`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedHomPrecompositionIso.lean:134`) replaces the
-first argument by a quasi-isomorphic bimodule, and
+(`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedHomPrecompositionIso.lean:134`) replaces
+the first argument by a quasi-isomorphic bimodule, and
 `DifferentialGradedModule.DerivedHomData.comparisonNatIso`
 (`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedHomLeftOrthogonal.lean:258`) identifies
 derived Hom out of a property-(P) module with ordinary differential graded Hom. Neither applies

@@ -26,7 +26,8 @@ clause (3) of Tag 01N2, for an arbitrary graded algebra, an arbitrary base chang
   graded ring homomorphism whose domain of definition is everything.
 * `TwistChartLocality.isIso_pullback_awayι_map_twistMap_of_isIso_extension` and
   `isIso_transpose_chartAdjointTwistMap_of_isIso_extension`: the chart criterion of
-  `StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartGamma.lean` with the degree-one hypothesis
+  `StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartGamma.lean` with the degree-one
+  hypothesis
   traded for invertibility of the coefficient extension of the algebraic chart comparison.
 * `Stacks.ProjBaseChange.isPushout_chart`: the chart `(S ⊗ 𝒜)₍1 ⊗ a₎` of the base change is the
   base change `S ⊗_R 𝒜₍a₎` of the chart, as an `Algebra.IsPushout`.
@@ -308,7 +309,7 @@ cancellation `Algebra.IsPushout.cancelBaseChange` consumes. -/
 theorem isPushout_chart (ha : a ∈ 𝒜 d) :
     Algebra.IsPushout R S (Away 𝒜 a) (Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) := by
   refine ⟨IsBaseChange.of_equiv (awayBaseChangeAlgEquivBase 𝒜 S ha).toLinearEquiv fun z => ?_⟩
-  show awayBaseChange 𝒜 S ((1 : S) ⊗ₜ[R] z) = _
+  change awayBaseChange 𝒜 S ((1 : S) ⊗ₜ[R] z) = _
   rw [awayBaseChange_one_tmul]
   rfl
 
@@ -511,7 +512,7 @@ theorem chartTwistCompareEquiv_one_tmul (ha : a ∈ 𝒜 d) (hd : 0 < d) (n : �
       ((1 : Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) ⊗ₜ t) =
       chartTwistBaseChange 𝒜 S ha hd n
         ((1 : S) ⊗ₜ[R] twistAwayEquiv 𝒜 ha n t) := by
-    show chartTwistBaseChange 𝒜 S ha hd n
+    change chartTwistBaseChange 𝒜 S ha hd n
         (TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S)
           ((twistAwayEquiv 𝒜 ha n).restrictScalars R)
           (Algebra.IsPushout.cancelBaseChange R S (Away 𝒜 a)
@@ -554,12 +555,7 @@ theorem twistAwayEquiv_twistDegreeZeroExtension (ha : a ∈ 𝒜 d) (hd : 0 < d)
     twistAwayEquiv (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n
         (twistDegreeZeroExtension 𝒜 (grading 𝒜 S) (includeRight 𝒜 S) (f := a) n x) =
       chartTwistCompareEquiv 𝒜 S ha hd n x := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      refine Eq.trans (congrArg (twistAwayEquiv (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n)
-        (map_zero (ModuleCat.Hom.hom (twistDegreeZeroExtension 𝒜 (grading 𝒜 S)
-          (includeRight 𝒜 S) (f := a) n)))) ?_
-      exact Eq.trans (map_zero _) (map_zero (chartTwistCompareEquiv 𝒜 S ha hd n)).symm
+  induction x using TensorProduct.inductionOn with
   | tmul q t =>
       have hq : q • ((1 : Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) ⊗ₜ[Away 𝒜 a] t) =
           q ⊗ₜ[Away 𝒜 a] t := by

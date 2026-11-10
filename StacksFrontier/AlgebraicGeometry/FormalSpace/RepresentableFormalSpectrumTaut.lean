@@ -135,14 +135,14 @@ theorem isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isA
     intro I hI
     have hTaff : IsAffine ((BigFppfOver.toScheme B S hS).obj
         ((BigAffineFppf.inclusion B S hS).obj (D.stage ⟨I, hI⟩))) := by
-      show IsAffine ((BigAffineFppf.toScheme B S hS).obj (D.stage ⟨I, hI⟩))
+      change IsAffine ((BigAffineFppf.toScheme B S hS).obj (D.stage ⟨I, hI⟩))
       exact (D.stage ⟨I, hI⟩).property
     obtain ⟨W, q, p, -, -, hpb⟩ := exists_isAffineHom_isPullback_of_isRepresentable'
       B S hS (formalSpectrumMap hA f) hEaff hDaff hrep
       ((BigAffineFppf.inclusion B S hS).obj (D.stage ⟨I, hI⟩)) hTaff
       (formalSpectrumInclusion D ⟨I, hI⟩)
     exact isWeakIdealOfDefinition_closure_map_of_isPullback B S hS hA hC D E f ⟨I, hI⟩ W q p hpb
-  rw [RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition f.toRingHom f.continuous hA hC]
+  rw [RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition f.toRingHom f.continuous hA]
   refine ⟨hwid, (TopologicalRing.hasBasis_nhds_zero_isWeakIdealOfDefinition hC).to_hasBasis
     ?_ ?_⟩
   · intro L hL

@@ -158,7 +158,7 @@ theorem exists_good_quasiIso [HasWeakSheafify Y.J (Type w)]
   let gg (n : ℕ) : (r n).1.1 ⟶ (r (n + 1)).1.1 := transition (r n)
   let F : ℕ ⥤ DifferentialGradedModule.{w, w, w} A := Functor.ofSequence gg
   let c : Cocone F := ⟨M, NatTrans.ofSequence (F := F) (fun n ↦ (r n).1.2) fun n ↦ by
-    show F.map (homOfLE (Nat.le_succ n)) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
+    change F.map (homOfLE (Nat.le_succ n)) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
     rw [show F.map (homOfLE (Nat.le_succ n)) = gg n from
       Functor.ofSequence_map_homOfLE_succ gg n, Category.comp_id]
     exact hcomm (r n)⟩

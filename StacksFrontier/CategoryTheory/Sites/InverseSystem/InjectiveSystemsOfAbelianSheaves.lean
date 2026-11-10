@@ -133,7 +133,7 @@ lemma leftAdjointUniq_ofNatIsoRight_homEquiv_inv
   calc
     _ = adj.homEquiv X _ ((Adjunction.leftAdjointUniq adjE adj).inv.app X) ≫
           G.map f ≫ e.inv.app Y := by
-      show (adj.homEquiv X Y
+      change (adj.homEquiv X Y
         ((Adjunction.leftAdjointUniq adjE adj).inv.app X ≫ f)) ≫ e.inv.app Y = _
       rw [adj.homEquiv_naturality_right]
       exact Category.assoc _ _ _

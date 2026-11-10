@@ -59,7 +59,7 @@ namespace Stacks.AmpleSectionConnected
 theorem isZero_secF_top_of_forall_eq_zero (X : Scheme.{u}) (M : X.Modules)
     (h : ∀ t : Γ(M, ⊤), t = 0) : IsZero ((secF X.ringCatSheaf ⊤).obj M) := by
   refine AddCommGrpCat.isZero_iff_subsingleton.mpr ?_
-  show Subsingleton Γ(M, ⊤)
+  change Subsingleton Γ(M, ⊤)
   exact ⟨fun a b => by rw [h a, h b]⟩
 
 /-- **The twist of `𝒪_X` by `ℒ^{⊗ j}` is `ℒ^{⊗ j}`**, at the twisted-graded-module spelling of

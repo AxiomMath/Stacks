@@ -46,7 +46,7 @@ private theorem absoluteFrobenius_spec_eq {k : Type u} [Field k] (p : ℕ) [Fact
       Spec.map (CommRingCat.ofHom (frobenius k p)) := by
   let F := absoluteFrobenius (Spec (.of k)) p hS
   have hF : F = Spec.map (Spec.preimage F) := by simp
-  show F = Spec.map (CommRingCat.ofHom (frobenius k p))
+  change F = Spec.map (CommRingCat.ofHom (frobenius k p))
   rw [hF, Spec.map_inj]
   calc
     Spec.preimage F = Spec.preimage F ≫ (Scheme.ΓSpecIso (.of k)).inv ≫
@@ -56,7 +56,7 @@ private theorem absoluteFrobenius_spec_eq {k : Type u} [Field k] (p : ℕ) [Fact
       simp [Category.assoc]
     _ = CommRingCat.ofHom (frobenius k p) := by
       ext x
-      show (Scheme.ΓSpecIso (.of k)).hom.hom
+      change (Scheme.ΓSpecIso (.of k)).hom.hom
         ((absoluteFrobenius (Spec (.of k)) p hS).appLE ⊤ ⊤ (by simp)
           ((Scheme.ΓSpecIso (.of k)).inv.hom x)) = x ^ p
       rw [absoluteFrobenius_appLE_apply]
@@ -73,7 +73,7 @@ public theorem geometricallyReduced_iff_isReduced_frobeniusTwist
     GeometricallyReduced f ↔
       IsReduced (((frobeniusTwist (Spec (.of k)) p hS).obj (Over.mk f)).left) := by
   let hS := Stacks.Frobenius.isInCharacteristic_of_over (Over.mk (𝟙 (Spec (.of k))))
-  show GeometricallyReduced f ↔
+  change GeometricallyReduced f ↔
     IsReduced (((frobeniusTwist (Spec (.of k)) p hS).obj (Over.mk f)).left)
   let : ExpChar k p := inferInstance
   let kperf : Type u := PerfectClosure k p
@@ -92,7 +92,7 @@ public theorem geometricallyReduced_iff_isReduced_frobeniusTwist
     rw [absoluteFrobenius_spec_eq, ← Spec.map_comp]
     apply congrArg Spec.map
     ext x
-    show (AdjoinPthRoots.root k).symm (algebraMap k A x) = x ^ p
+    change (AdjoinPthRoots.root k).symm (algebraMap k A x) = x ^ p
     rw [← AdjoinPthRoots.root_pow p x, map_pow, RingEquiv.symm_apply_apply]
   have h₂ : g = e.inv ≫ F := by rw [← hcomp]; simp
   have hred : IsReduced (pullback f g) ↔ IsReduced (pullback f F) :=

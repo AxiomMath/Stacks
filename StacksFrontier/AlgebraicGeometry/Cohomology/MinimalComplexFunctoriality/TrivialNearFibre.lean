@@ -126,7 +126,7 @@ theorem mem_nonvanishingLocus_of_isUnit {X : RingedSpace.{u, u}}
     (hu : IsUnit (show X.presheaf.obj (op ⊤) from (e.hom.val.app (op ⊤)).hom ((φ.val.app (op ⊤)).hom
       (Stacks.SheafOfModules.unitSection X ⊤)))) (x : X.carrier) :
     x ∈ Stacks.SheafOfModules.nonvanishingLocus M (M.unitHomEquiv φ) := by
-  show grpGerm X M.val x ⊤ (Opens.mem_top x) ((M.unitHomEquiv φ).eval (op ⊤)) ∉ _
+  change grpGerm X M.val x ⊤ (Opens.mem_top x) ((M.unitHomEquiv φ).eval (op ⊤)) ∉ _
   rw [unitHomEquiv_eval_top, Stacks.SheafOfModules.mem_ideal_smul_top_iff_of_linearEquiv _
       (Stacks.SheafOfModules.stalkLinearEquiv X e x),
     Stacks.SheafOfModules.stalkLinearEquiv_germ,
@@ -152,9 +152,9 @@ theorem eq_zero_of_app_top_unitSection_eq_zero {X : RingedSpace.{u, u}}
     funext U
     have hU := (M.unitHomEquiv φ).property (homOfLE (le_top : U.unop ≤ ⊤)).op
     have htop : (M.unitHomEquiv φ).eval (op ⊤) = 0 := (unitHomEquiv_eval_top φ).trans h
-    show (M.unitHomEquiv φ).val U = 0
+    change (M.unitHomEquiv φ).val U = 0
     rw [← hU]
-    show (M.val.map _).hom ((M.unitHomEquiv φ).eval (op ⊤)) = 0
+    change (M.val.map _).hom ((M.unitHomEquiv φ).eval (op ⊤)) = 0
     rw [htop, map_zero]
   rw [hs]
   apply M.unitHomEquiv.injective
@@ -536,7 +536,7 @@ theorem exists_isTrivial_modulePullback_fst_ι_of_injective_H1
     (IsPullback.of_hasPullback p e) (_hpO e) _hfiber (fun k => pullback (i k ≫ p) e) isk
     (fun k => pullback.fst (i k ≫ p) e) hX hXF hXO _hinj
   refine ⟨U, hU ?_, hL⟩
-  show s ∈ Set.range (S.fromSpecResidueField s)
+  change s ∈ Set.range (S.fromSpecResidueField s)
   rw [Scheme.range_fromSpecResidueField]
   exact Set.mem_singleton s
 

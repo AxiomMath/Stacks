@@ -86,7 +86,7 @@ instance QuotKerSMulTop.module (M' : Type*) [AddCommGroup M'] [Module A' M'] :
       = Ideal.Quotient.mk (RingHom.ker π) a' := by
     apply (RingHom.quotientKerEquivOfSurjective π.surjective).injective
     rw [RingEquiv.apply_symm_apply]; rfl
-  show ((RingHom.quotientKerEquivOfSurjective π.surjective).symm (π a'))
+  change ((RingHom.quotientKerEquivOfSurjective π.surjective).symm (π a'))
         • (Submodule.Quotient.mk m' : QuotKerSMulTop π M') = _
   rw [h]
   exact Module.Quotient.mk_smul_mk M' (RingHom.ker π) a' m'
@@ -232,7 +232,7 @@ theorem fibreProdMap_surjective
     (a : N₁ →ₗ[B] N₂) (b : M₁' →ₗ[A'] M₂') (hab : IsMorphism π B N₁ N₂ M₁' M₂' φ₁ φ₂ a b)
     (ha : Function.Surjective a) (hb : Function.Surjective b) :
     Function.Surjective (Fmor π B N₁ N₂ M₁' M₂' φ₁ φ₂ a b hab) := by
-  show Function.Surjective (fibreProdMap π B φ₁ φ₂ a b hab)
+  change Function.Surjective (fibreProdMap π B φ₁ φ₂ a b hab)
   -- Key surjectivity for the ideal-smul submodules: `b (I • ⊤) ⊇ I • ⊤`.
   have key_image : ((RingHom.ker π) • (⊤ : Submodule A' M₂')) ≤
       Submodule.map b ((RingHom.ker π) • (⊤ : Submodule A' M₁')) := by
@@ -265,7 +265,7 @@ theorem fibreProdMap_surjective
     simp only [fibreProdMap_coe_apply]
     rw [Prod.ext_iff]
     refine ⟨rfl, ?_⟩
-    show b (mt + j) = m₂'
+    change b (mt + j) = m₂'
     rw [map_add, hbj]
     abel
 

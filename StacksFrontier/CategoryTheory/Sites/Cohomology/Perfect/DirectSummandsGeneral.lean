@@ -12,8 +12,8 @@ import StacksCore.Tactic.StacksAttribute
 # Perfectness passes to the direct summands of a biproduct, at arbitrary universes
 
 This file is the universe-general form of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.DirectSummands`, which states its results with
-the sections of the modules (and, where the ring universe enters, of the structure sheaf) in
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.DirectSummands`, which states its results
+with the sections of the modules (and, where the ring universe enters, of the structure sheaf) in
 universe `0`. The statements and proofs below are those of that file at the universes given
 in each declaration; each declaration has the name of its counterpart there with the suffix
 `_general` (`General` for definitions and instances).

@@ -126,7 +126,7 @@ theorem isRegularLocalRing_stalk_subscheme_of_eq_comap_zeroScheme
   let e : (Z.comap f).subscheme ≅ Z.subscheme :=
     Z.comapIso f ≪≫ asIso (CategoryTheory.Limits.pullback.snd f Z.subschemeι)
   have hcomp : e.hom ≫ Z.subschemeι = (Z.comap f).subschemeι ≫ f := by
-    show ((Z.comapIso f).hom ≫ CategoryTheory.Limits.pullback.snd f Z.subschemeι) ≫ _ = _
+    change ((Z.comapIso f).hom ≫ CategoryTheory.Limits.pullback.snd f Z.subschemeι) ≫ _ = _
     rw [Scheme.IdealSheafData.comapIso_hom_snd,
       Scheme.IdealSheafData.subschemeMap_subschemeι]
   have hpt : Z.subschemeι.base (e.hom.base z) = f.base ((Z.comap f).subschemeι.base z) := by
@@ -183,7 +183,7 @@ theorem surjective_algebraMap_residueFieldParameterBase [IsAlgClosed D.k]
             ↥(D.parameterBase.residueField ((D.universalFamilyMapOver W).base w)) c) =
         algebraMap D.k ↥((D.universalDivisorSchemeOver W).toScheme.residueField w) c := by
     intro c
-    show (D.universalFamilyMapOver W).residueFieldMap w
+    change (D.universalFamilyMapOver W).residueFieldMap w
         (D.parameterBase.Γevaluation ((D.universalFamilyMapOver W).base w)
           ((𝔸(D.basisIndex; Spec (.of D.k)) ↘ Spec (.of D.k)).appTop
             ((Scheme.ΓSpecIso (.of D.k)).inv c))) = _
@@ -228,7 +228,7 @@ theorem Γevaluation_evalCoordForm (M : D.basisIndex → Fin (n + 1) → D.k) (j
         D.parameterSpace.Γevaluation p
           ((𝔸(D.basisIndex; D.X) ↘ D.X).appTop (D.constSection t)) := by
     intro t
-    show (AffineSpace.map D.basisIndex D.toBase).residueFieldMap p
+    change (AffineSpace.map D.basisIndex D.toBase).residueFieldMap p
         (D.parameterBase.Γevaluation ((AffineSpace.map D.basisIndex D.toBase).base p)
           ((𝔸(D.basisIndex; Spec (.of D.k)) ↘ Spec (.of D.k)).appTop
             ((Scheme.ΓSpecIso (.of D.k)).inv t))) = _
@@ -238,7 +238,7 @@ theorem Γevaluation_evalCoordForm (M : D.basisIndex → Fin (n + 1) → D.k) (j
           (D.residueCoord ((AffineSpace.map D.basisIndex D.toBase).base p) i.down) =
         D.parameterSpace.Γevaluation p (AffineSpace.coord D.X i) := by
     intro i
-    show (AffineSpace.map D.basisIndex D.toBase).residueFieldMap p
+    change (AffineSpace.map D.basisIndex D.toBase).residueFieldMap p
         (D.parameterBase.Γevaluation ((AffineSpace.map D.basisIndex D.toBase).base p)
           (AffineSpace.coord (Spec (.of D.k)) (ULift.up i.down))) = _
     rw [Scheme.Γevaluation_naturality_apply, AffineSpace.map_appTop_coord]
@@ -314,7 +314,7 @@ theorem notMem_maximalSqSmul_constCoeffSection {m : ℕ}
       (fun i : D.basisIndex => baseGerm D.toBase x (c i) •
         (D.L.presheaf.Γgerm x).hom (D.sectionOf (D.basis i.down)))).symm
   rw [evalCoord_apply]
-  show Submodule.Quotient.mk (p := maximalSqSmul D.L x) _ = 0
+  change Submodule.Quotient.mk (p := maximalSqSmul D.L x) _ = 0
   rw [Submodule.Quotient.mk_eq_zero, hsum]
   exact hmem
 
@@ -484,7 +484,7 @@ theorem jacobianAtDivisor [IsAlgClosed D.k] [Smooth D.toBase] {n m : ℕ}
         (D.residueCoord ((D.universalFamilyMapOver W).base w)))).w, Category.assoc]
     rfl
   refine (congrArg (fun φ : _ ⟶ D.X => φ.base z) h1).trans ?_
-  show D.parameterProjection.base (D.universalDivisor.subschemeι.base
+  change D.parameterProjection.base (D.universalDivisor.subschemeι.base
     ((D.specializedToUniversal _
       (D.residueCoord ((D.universalFamilyMapOver W).base w))).base z)) = x
   rw [hz]

@@ -129,7 +129,7 @@ squares to one. -/
 theorem coeffSignPres_coeffSignPres (n : ℤ) :
     coeffSignPres S X n ≫ coeffSignPres S X n = 𝟙 (coeffPres S X n) := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffSignAddHom S X n U (coeffSignAddHom S X n U m) = m
+  change coeffSignAddHom S X n U (coeffSignAddHom S X n U m) = m
   induction m using coeffSections_induction with
   | hzero => rw [map_zero, map_zero]
   | hof i s hs x =>
@@ -142,7 +142,7 @@ sign depends only on the summand, which the induced map preserves. -/
 theorem coeffSignPres_coeffPresMap (g : ∀ k : ℤ, X k ⟶ Y k) (n : ℤ) :
     coeffSignPres S X n ≫ coeffPresMap S g n = coeffPresMap S g n ≫ coeffSignPres S Y n := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffPresAddHom S g n U (coeffSignAddHom S X n U m) =
+  change coeffPresAddHom S g n U (coeffSignAddHom S X n U m) =
     coeffSignAddHom S Y n U (coeffPresAddHom S g n U m)
   induction m using coeffSections_induction with
   | hzero => simp
@@ -225,11 +225,11 @@ theorem coeffPiece_exact_sign [HasSheafify J AddCommGrpCat.{a}]
         (coeffSignPiece_comp_eq_zero S X g h hgh n) :=
     ShortComplex.isoMk (coeffSignPieceIso S X n) (Iso.refl _) (coeffSignPieceIso S Z n)
       (by
-        show coeffSignPiece S X n ≫ coeffSignPiece S X n ≫ coeffPieceMap S g n =
+        change coeffSignPiece S X n ≫ coeffSignPiece S X n ≫ coeffPieceMap S g n =
           coeffPieceMap S g n ≫ 𝟙 _
         rw [← Category.assoc, coeffSignPiece_coeffSignPiece, Category.id_comp, Category.comp_id])
       (by
-        show 𝟙 _ ≫ coeffSignPiece S Y n ≫ coeffPieceMap S h n =
+        change 𝟙 _ ≫ coeffSignPiece S Y n ≫ coeffPieceMap S h n =
           coeffPieceMap S h n ≫ coeffSignPiece S Z n
         rw [Category.id_comp]
         exact coeffSignPiece_coeffPieceMap S Y h n)
@@ -463,7 +463,7 @@ noncomputable def coeffSignDiffAddHom (n : ℤ) (U : Cᵒᵖ) :
       coeffOf S W (n + 1) U i s hs ((Int.negOnePow i : ℤ) •
         castHom W (show n - i + 1 = n + 1 - i by omega) U
           (homSections (e (n - i) (n - i + 1)) U x)) := by
-  show coeffCastAddHom S W (fun k ↦ k + 1) (fun k ↦ k) n (n + 1) (fun j ↦ by omega) U
+  change coeffCastAddHom S W (fun k ↦ k + 1) (fun k ↦ k) n (n + 1) (fun j ↦ by omega) U
       (coeffPresAddHom S (X := W) (Y := fun k ↦ W (k + 1)) (fun k ↦ e k (k + 1)) n U
         (coeffSignAddHom S W n U (coeffOf S W n U i s hs x))) = _
   rw [coeffSignAddHom_coeffOf, coeffPresAddHom_coeffOf, coeffCastAddHom_coeffOf,
@@ -492,7 +492,7 @@ theorem coeffCastPres_coeffSignDiffPres (m : ℤ) :
             (fun k ↦ e (k - 1) k) (m + 1) =
       coeffSignDiffPres S W e m := by
   refine PresheafOfModules.hom_ext fun U ↦ ModuleCat.hom_ext (LinearMap.ext fun ζ ↦ ?_)
-  show coeffPresAddHom S (fun k ↦ e (k - 1) k) (m + 1) U
+  change coeffPresAddHom S (fun k ↦ e (k - 1) k) (m + 1) U
       (coeffSignAddHom S (fun k ↦ W (k - 1)) (m + 1) U
         (coeffCastAddHom S W (fun k ↦ k) (fun k ↦ k - 1) m (m + 1)
           (fun j ↦ by omega) U ζ)) =

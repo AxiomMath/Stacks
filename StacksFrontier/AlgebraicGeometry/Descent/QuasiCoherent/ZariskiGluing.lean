@@ -144,7 +144,7 @@ theorem pullHom_eq (g : X ⟶ S) (h : X' ⟶ X) {M N : S.Modules}
 theorem pullHom_id_eq (g : X ⟶ S) (h : X' ⟶ X) (N : S.Modules) :
     pullHom (F := modulePullbackPseudofunctor) (M₁ := N) (M₂ := N) (f₁ := g) (f₂ := g)
         (𝟙 ((pullback g).obj N)) h (h ≫ g) (h ≫ g) rfl rfl = 𝟙 _ := by
-  show (pullbackComp h g).inv.app N ≫ (pullback h).map (𝟙 _) ≫
+  change (pullbackComp h g).inv.app N ≫ (pullback h).map (𝟙 _) ≫
     (pullbackComp h g).hom.app N = 𝟙 _
   simp
 

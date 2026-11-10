@@ -59,7 +59,7 @@ public theorem exists_bounded_geometricPoint_extension_bigEtale (s : GeometricPo
         Cardinal.self_le_power _ Cardinal.one_le_aleph0
   refine ⟨t, Scheme.size_Spec_lt_of_mk_le B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit
     (.of K) hX hK, Spec.map (CommRingCat.ofHom φ.toRingHom), ?_⟩
-  show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
     (Spec.map (CommRingCat.ofHom (algebraMap (X.residueField x) K)) ≫
       X.fromSpecResidueField x) = s.hom
   rw [← Category.assoc, ← Spec.map_comp]

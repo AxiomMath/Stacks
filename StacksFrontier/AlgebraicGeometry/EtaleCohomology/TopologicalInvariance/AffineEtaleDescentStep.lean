@@ -398,10 +398,10 @@ theorem etaleDescentAlongAffineEtaleSurjection :
         · exact uCoord_comp_proj f w p q e he _ (k₁ ≫ a) (hdata₂ k₁ k₂ hkcond)
       rw [← Category.assoc, hγβ, ← hml₁, Category.assoc, hδβ', Category.comp_id]
       refine pullback.hom_ext ?_ ?_
-      · show (m ≫ β') ≫ a₀ = k₁ ≫ a₀
+      · change (m ≫ β') ≫ a₀ = k₁ ≫ a₀
         rw [Category.assoc, hβ'comp m β k₂ hml₁ hml₂ hm, hvv, Category.assoc,
           Iso.hom_inv_id_assoc, pullback.lift_fst]
-      · show (m ≫ β') ≫ a = k₁ ≫ a
+      · change (m ≫ β') ≫ a = k₁ ≫ a
         rw [Category.assoc, hβ'a, ← Category.assoc, hml₁, hβp]
   exact ⟨V₀, q₀, hq₀, ⟨γ, δ, hγδ, hδγ⟩, hγp⟩
 

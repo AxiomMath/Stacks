@@ -48,7 +48,7 @@ theorem isSheaf_shrink {J : GrothendieckTopology C} (hG : Presieve.IsSheaf J G) 
     NatIso.ofComponents (fun X => Equiv.toIso (Equiv.ulift.trans ((equivShrink _).symm.trans
       Equiv.ulift.symm))) (fun {X Y} g => by
         ext x
-        show ULift.up ((equivShrink _).symm
+        change ULift.up ((equivShrink _).symm
             (equivShrink _ (G.map g ((equivShrink _).symm x.down)))) =
           ULift.up (G.map g ((equivShrink _).symm x.down))
         rw [Equiv.symm_apply_apply])
@@ -110,7 +110,7 @@ object.** -/
 def preimageIsoRepresentableBy (F : Subfunctor G) (α : G' ≅ G) {Y : C}
     (e : F.toFunctor.RepresentableBy Y) : (F.preimage α.hom).toFunctor.RepresentableBy Y where
   homEquiv {X} := e.homEquiv.trans
-    { toFun := fun z => ⟨α.inv.app _ z.1, by simpa using z.2⟩
+    { toFun := fun z => ⟨α.inv.app _ z.1, by simp⟩
       invFun := fun z => ⟨α.hom.app _ z.1, z.2⟩
       left_inv := fun z => Subtype.ext (by simp)
       right_inv := fun z => Subtype.ext (by simp) }

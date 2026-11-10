@@ -89,7 +89,7 @@ theorem isIso_cyclesComparison_of_isLimit_rightExactHomologyComparison
   have hl' : l ≫ G.map (X.iCycles n) = Y.iCycles n := hl
   refine ⟨l, ?_, ?_⟩
   · refine Fork.IsLimit.hom_ext hG ?_
-    show (G.cyclesComparisonRightExactHomologyComparison X n ≫ l) ≫ G.map (X.iCycles n) =
+    change (G.cyclesComparisonRightExactHomologyComparison X n ≫ l) ≫ G.map (X.iCycles n) =
       𝟙 _ ≫ G.map (X.iCycles n)
     rw [Category.assoc, hl', cyclesComparison_comp_iCycles, Category.id_comp]
   · apply (cancel_mono (Y.iCycles n)).mp
@@ -98,7 +98,7 @@ theorem isIso_cyclesComparison_of_isLimit_rightExactHomologyComparison
 /-- **A split kernel is preserved**: if the differential `X^n ⟶ X^{n+1}` has a kernel split by
 `u, v, w`, the comparison on cycles is an isomorphism for every additive `G`. -/
 theorem isIso_cyclesComparison_of_splitting_rightExactHomologyComparison {K : C} (u : K ⟶ X.X n)
-    (v : X.X n ⟶ K) (w : X.X (n + 1) ⟶ X.X n) (h₁ : u ≫ v = 𝟙 K) (h₂ : u ≫ X.d n (n + 1) = 0)
+    (v : X.X n ⟶ K) (w : X.X (n + 1) ⟶ X.X n) (h₂ : u ≫ X.d n (n + 1) = 0)
     (h₃ : X.d n (n + 1) ≫ w + v ≫ u = 𝟙 _) :
     IsIso (G.cyclesComparisonRightExactHomologyComparison X n) := by
   let k := X.liftCycles u (n + 1) (by simp) h₂

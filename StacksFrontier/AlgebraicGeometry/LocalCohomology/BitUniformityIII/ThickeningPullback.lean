@@ -117,7 +117,7 @@ theorem globalSmulCenter_pullbackCoeff_app_thickeningSheaf (n : ℕ) {g : A} (hg
     rw [show ((thickeningIdeal I n).subschemeι.app ⊤).hom (pullbackCoeff I g) = 0 from h0,
       map_zero]
   change Γ((thickeningIdeal I n).subscheme, (thickeningIdeal I n).subschemeι ⁻¹ᵁ U) at m
-  show ((thickeningIdeal I n).subschemeι.app U
+  change ((thickeningIdeal I n).subschemeι.app U
       ((blowupScheme I).presheaf.map U.leTop.op (pullbackCoeff I g))) • m =
     (0 : Γ((thickeningIdeal I n).subscheme, (thickeningIdeal I n).subschemeι ⁻¹ᵁ U))
   rw [h1, zero_smul]
@@ -129,8 +129,8 @@ def thickeningFactor (n : ℕ) : ModuleCat.{u} A ⥤ (blowupScheme I).Modules :=
   geometricFactorFormula A (Stacks.Blowup.blowUpOver I) (thickeningSheaf I n)
 
 /-- **`N ↦ 𝒪_{Yₙ} ⊗ p^*(Ñ)` is built from the pullback `blowupPullback`** of
-`StacksFrontier/AlgebraicGeometry/LocalCohomology/BitUniformityIII/PullbackDictionary.lean`, followed
-by tensoring with `𝒪_{Yₙ}`: it is not a second model of `p^*`. -/
+`StacksFrontier/AlgebraicGeometry/LocalCohomology/BitUniformityIII/PullbackDictionary.lean`,
+followed by tensoring with `𝒪_{Yₙ}`: it is not a second model of `p^*`. -/
 theorem thickeningFactor_eq_comp (n : ℕ) :
     thickeningFactor I n = blowupPullback I ⋙
       Stacks.AlgebraicGeometry.TopDegreeBaseChange.tensorFactor A (Stacks.Blowup.blowUpOver I)
@@ -214,7 +214,7 @@ theorem thickeningPullback_map_smul (n : ℕ) {N N' : ModuleCat.{u} (A ⧸ I ^ n
     (thickeningPullback I n).map ((Ideal.Quotient.mk (I ^ n) a) • f) =
       (globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).app _ ≫
         (thickeningPullback I n).map f := by
-  show (thickeningFactor I n).map
+  change (thickeningFactor I n).map
     ((ModuleCat.restrictScalars.{u} (Ideal.Quotient.mk (I ^ n))).map _) = _
   rw [restrictScalars_map_mk_smul, thickeningFactor_map_smul]
   rfl
@@ -267,7 +267,7 @@ def quotPowPresentation (n : ℕ) :
 theorem ι_quotPowPresentation (n : ℕ) (k : (I ^ n : Ideal A)) :
     Sigma.ι (fun _ : (I ^ n : Ideal A) => ModuleCat.of A A) k ≫ quotPowPresentation I n =
       (k : A) • 𝟙 (ModuleCat.of A A) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `⨁_{g ∈ Iⁿ} A → A → A/Iⁿ` is zero. -/
 theorem quotPowPresentation_comp_quotPowMap (n : ℕ) :
@@ -275,7 +275,7 @@ theorem quotPowPresentation_comp_quotPowMap (n : ℕ) :
   refine Sigma.hom_ext _ _ fun k => ?_
   rw [reassoc_of% (ι_quotPowPresentation I n k), comp_zero]
   ext
-  show Ideal.Quotient.mk (I ^ n) ((k : A) * 1) = 0
+  change Ideal.Quotient.mk (I ^ n) ((k : A) * 1) = 0
   exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mul_mem_right _ _ k.2)
 
 /-- `⨁_{g ∈ Iⁿ} A → A → A/Iⁿ` is exact: an element of `A` with zero image in `A/Iⁿ` is some
@@ -286,10 +286,10 @@ theorem exact_quotPowPresentation (n : ℕ) :
   intro x hx
   have hx' : x ∈ I ^ n := Ideal.Quotient.eq_zero_iff_mem.1 hx
   refine ⟨(Sigma.ι (fun _ : (I ^ n : Ideal A) => ModuleCat.of A A) ⟨x, hx'⟩).hom 1, ?_⟩
-  show ((Sigma.ι (fun _ : (I ^ n : Ideal A) => ModuleCat.of A A) ⟨x, hx'⟩ ≫
+  change ((Sigma.ι (fun _ : (I ^ n : Ideal A) => ModuleCat.of A A) ⟨x, hx'⟩ ≫
     quotPowPresentation I n).hom) 1 = x
   rw [ι_quotPowPresentation]
-  show (x : A) * 1 = x
+  change (x : A) * 1 = x
   exact mul_one x
 
 /-- **The presentation map goes to zero.** `N ↦ 𝒪_{Yₙ} ⊗ p^*(Ñ)` commutes with direct sums, so it
@@ -298,7 +298,7 @@ theorem thickeningFactor_map_quotPowPresentation (n : ℕ) :
     (thickeningFactor I n).map (quotPowPresentation I n) = 0 := by
   refine (isColimitOfPreserves (thickeningFactor I n) (colimit.isColimit
     (Discrete.functor fun _ : (I ^ n : Ideal A) => ModuleCat.of A A))).hom_ext fun ⟨k⟩ => ?_
-  show (thickeningFactor I n).map (Sigma.ι _ k) ≫ (thickeningFactor I n).map _ =
+  change (thickeningFactor I n).map (Sigma.ι _ k) ≫ (thickeningFactor I n).map _ =
     (thickeningFactor I n).map (Sigma.ι _ k) ≫ 0
   rw [← CategoryTheory.Functor.map_comp, ι_quotPowPresentation, comp_zero,
     thickeningFactor_map_smul_id_eq_zero I n k.2]
@@ -345,7 +345,7 @@ theorem blowupΓmod_map_globalSmulCenter (a : A) (M : (blowupScheme I).Modules)
     (x : (blowupΓmod I).obj M) :
     (blowupΓmod I).map ((globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).app M) x =
       a • x := by
-  show (blowupScheme I).presheaf.map (⊤ : (blowupScheme I).Opens).leTop.op
+  change (blowupScheme I).presheaf.map (⊤ : (blowupScheme I).Opens).leTop.op
       (pullbackCoeff I a) • (show Γ(M, ⊤) from x) =
     (pullbackCoeff I a) • (show Γ(M, ⊤) from x)
   rw [show (⊤ : (blowupScheme I).Opens).leTop.op = 𝟙 _ from Subsingleton.elim _ _,
@@ -388,7 +388,7 @@ theorem resModulePointMap_comp (n : ℕ) {N N' : ModuleCat.{u} (A ⧸ I ^ n)} (f
       resModulePointMap I n N' (f m) := by
   have h : quotPointMap I n N m ≫ f = quotPointMap I n N' (f m) :=
     ModuleCat.hom_ext (LinearMap.ext_ring (by
-      show f ((1 : A ⧸ I ^ n) • m) = (1 : A ⧸ I ^ n) • f m
+      change f ((1 : A ⧸ I ^ n) • m) = (1 : A ⧸ I ^ n) • f m
       rw [one_smul, one_smul]))
   unfold resModulePointMap
   rw [Category.assoc, ← CategoryTheory.Functor.map_comp, h]
@@ -400,7 +400,7 @@ theorem resModulePointMap_one (n : ℕ) :
         quotPowMap I n := by
   have h : quotPointMap I n (ModuleCat.of (A ⧸ I ^ n) (A ⧸ I ^ n)) (1 : A ⧸ I ^ n) = 𝟙 _ :=
     ModuleCat.hom_ext (LinearMap.ext_ring (by
-      show (1 : A ⧸ I ^ n) * 1 = 1
+      change (1 : A ⧸ I ^ n) * 1 = 1
       rw [mul_one]))
   unfold resModulePointMap
   rw [h, CategoryTheory.Functor.map_id, Category.comp_id]

@@ -518,7 +518,8 @@ def mixedTensorBicomplexIso :
     mixedTensorBicomplexInverseImage f F G ≅ mixedTensorBicomplexPullback f F G :=
   (setupOfHom f).bicomplexIso F G
 
-omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The component of the double-complex identity in bidegree `(p, q)` is the underived identity
 of Stacks 08I6 at `(F^p, G^q)`. -/
 lemma mixedTensorBicomplexIso_hom_f_f (p q : ℤ) :
@@ -566,7 +567,8 @@ def mixedTensorTotalIso :
         (ComplexShape.up ℤ)) :=
   (setupOfHom f).totalComplexIso F G
 
-omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The identity of total tensor complexes acts on the summand of bidegree `(p, q)` by the
 underived identity of Stacks 08I6 at `(F^p, G^q)`. -/
 lemma ι_mixedTensorTotalIso_hom (p q n : ℤ) (hpq : p + q = n) :
@@ -587,7 +589,8 @@ variable {F F' : CochainComplex (SheafOfModules.{u}
   {G G' : CochainComplex (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ} (b : G ⟶ G')
 
-omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The identity of total tensor complexes is natural in the pair of complexes: for morphisms
 `a : F ⟶ F'` of cochain complexes of `O`-modules and `b : G ⟶ G'` of cochain complexes of
 `O'`-modules, the identity commutes with the total tensor product of `a` and `b`. -/

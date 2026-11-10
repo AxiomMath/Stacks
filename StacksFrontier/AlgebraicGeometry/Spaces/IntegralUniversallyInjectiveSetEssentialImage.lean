@@ -223,9 +223,9 @@ def isTerminal_of_forall_isTerminal_obj {C : Type*} [Category* C]
     {J : GrothendieckTopology C} (F : Sheaf J (Type w))
     (h : ∀ U : Cᵒᵖ, IsTerminal (F.obj.obj U)) : IsTerminal F :=
   IsTerminal.ofUniqueHom
-    (fun G ↦ ⟨{ app := fun U ↦ (h U).from _
+    (fun _ ↦ ⟨{ app := fun U ↦ (h U).from _
                 naturality := fun _ _ _ ↦ (h _).hom_ext _ _ }⟩)
-    (fun G m ↦ Sheaf.hom_ext (NatTrans.ext (funext fun U ↦ (h U).hom_ext _ _)))
+    (fun _ _ ↦ Sheaf.hom_ext (NatTrans.ext (funext fun U ↦ (h U).hom_ext _ _)))
 
 /-- An étale chart of the complement of the image of an integral morphism, read as a chart of
 the ambient space, has empty preimage of that image: its points lie in the complement. -/

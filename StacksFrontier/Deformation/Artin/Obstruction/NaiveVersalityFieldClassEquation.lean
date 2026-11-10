@@ -105,7 +105,7 @@ theorem squareZeroRingBaseMap_eq_comp_squareZeroRingMap (θ : Ω[A⁄Λ] →ₗ[
             (⟨ModuleCat.of A k, hk⟩ : SiteModule A B))).hom := by
   apply RingHom.ext
   intro z
-  show squareZeroRingBaseMap (M := differentialsModule Λ A) (N := ModuleCat.of k k)
+  change squareZeroRingBaseMap (M := differentialsModule Λ A) (N := ModuleCat.of k k)
       (algebraMap A k) θ.toAddMonoidHom (differential_toAddMonoidHom_smul Λ A k θ) z =
     squareZeroRingBaseMap (M := ModuleCat.of A k) (N := ModuleCat.of k k) (algebraMap A k)
       (coeffCompare A k) (coeffCompare_smul A k)
@@ -177,14 +177,14 @@ theorem squareZeroOverBaseMap_comp_squareZeroOverMap {M₀ N₀ : SiteModule A B
   apply CommRingCat.hom_ext
   apply RingHom.ext
   intro z
-  show squareZeroRingBaseMap (algebraMap A k) (ψ.comp g.hom.hom)
+  change squareZeroRingBaseMap (algebraMap A k) (ψ.comp g.hom.hom)
       (fun a m => by
-        show ψ (g.hom.hom (a • m)) = algebraMap A k a • ψ (g.hom.hom m)
+        change ψ (g.hom.hom (a • m)) = algebraMap A k a • ψ (g.hom.hom m)
         rw [map_smul, hψ]) z =
     squareZeroRingBaseMap (algebraMap A k) ψ hψ ((squareZeroRingMap A B g).hom z)
   have hLHS : squareZeroRingBaseMap (algebraMap A k) (ψ.comp g.hom.hom)
       (fun a m => by
-        show ψ (g.hom.hom (a • m)) = algebraMap A k a • ψ (g.hom.hom m)
+        change ψ (g.hom.hom (a • m)) = algebraMap A k a • ψ (g.hom.hom m)
         rw [map_smul, hψ]) z = (algebraMap A k z.fst, ψ (g.hom.hom z.snd)) := rfl
   exact hLHS.trans
     (squareZeroRingBaseMap_apply_squareZeroRingMap_hom A B g (algebraMap A k) ψ hψ z).symm
@@ -310,7 +310,7 @@ theorem canonicalDualNumbersConnectingArrow_mem_fiber (θ : Ω[A⁄Λ] →ₗ[A]
       (⟨ModuleCat.of k k, hkk⟩ : SiteModule k B))
     (canonicalDualNumbersConnectingArrow Λ A k B S hS toS hA hAk p x hx hp hRS hΩ hkk
       baseMap baseFactorization θ y φ hφ)) ?_
-  show p.map
+  change p.map
       (canonicalDualNumbersConnectingArrow Λ A k B S hS toS hA hAk p x hx hp hRS hΩ hkk
         baseMap baseFactorization θ y φ hφ) ≫
       eqToHom (IsHomLift.codomain_eq p
@@ -480,7 +480,7 @@ theorem canonicalFieldBaseChangeEquiv_canonicalTangentMap (θ : Ω[A⁄Λ] →�
     (Functor.Fiber.mk hx) b'
   have hkey : canonicalFieldBaseChangeEquiv A k B S hS toS hA p x hx hp hRS hk hAk hkk
       (Quotient.mk _ b') = Quotient.mk _ b₁ := by
-    show squareLiftClassesEquiv p (Functor.chosenPullbacks p)
+    change squareLiftClassesEquiv p (Functor.chosenPullbacks p)
         (algebraOverMapOfRingHom (algebraMap A k) B S hS toS
           (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) hA hAk rfl)
         (squareZeroArrow k B S hS (Spec.map (CommRingCat.ofHom (algebraMap A k)) ≫ toS) hAk

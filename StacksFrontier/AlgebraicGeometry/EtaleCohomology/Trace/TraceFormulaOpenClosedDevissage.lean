@@ -229,8 +229,9 @@ theorem canonicalCompactSupportLefschetzNumber_directImage_eq [Finite Λ]
       (Over.homMk (j.closedSpaceι i) rfl : Over.mk (j.restrictClosed i).toBase ⟶ Over.mk j.toBase)
       p q hcard kbar _ hY hZ)
 
+omit [Fintype k] in
 /-- Perfectness of `RΓ_c` transports between `i_* M` on `X` and `M` on `Z`. -/
-theorem isPerfect_compactSupport_directImage_iff
+theorem isPerfect_compactSupport_directImage_iff [Finite k]
     (M : CochainComplex.Plus (EtaleModules.{u, 0} Λ Z)) :
     StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
       (compactSupportFrobeniusCohomology.{u, 0} Λ f j kbar

@@ -232,7 +232,7 @@ theorem codimension_closureSingleton_eq_one_of_isEffectiveCartierDivisor (B : Bi
     have hz'scheme : pointsToScheme B S hS U z' = I.subschemeι z := by
       rw [hz', pointsToScheme_pointsMap_yoneda_map, ← schemePointsHomeomorph_apply,
         Homeomorph.apply_symm_apply, hmap]
-      show I.subschemeι ((e.inv ≫ e.hom) z) = I.subschemeι z
+      change I.subschemeι ((e.inv ≫ e.hom) z) = I.subschemeι z
       rw [e.inv_hom_id]
       rfl
     -- it specializes to the chart point above `ξ`, and lies over `|D|`

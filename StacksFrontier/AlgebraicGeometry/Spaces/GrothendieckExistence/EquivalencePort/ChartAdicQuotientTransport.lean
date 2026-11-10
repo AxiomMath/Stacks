@@ -195,7 +195,7 @@ theorem C1573.isIso_chartAdicQuotientHom (hJ : IsCartesianOnAffineCharts J.toShe
         F).ι).val.app (op (openChartOfComparison B S hS X ((smallBaseChange B S hS f hf).obj V) W))
           x :=
     fun x => ConcreteCategory.congr_hom hcomp x
-  show Function.Bijective ((chartAdicQuotientHom B S hS f hf V J F hF hJ n).app W)
+  change Function.Bijective ((chartAdicQuotientHom B S hS f hf V J F hF hJ n).app W)
   refine ⟨(injective_iff_map_eq_zero _).2 fun y hy => ?_, fun z => ?_⟩
   · obtain ⟨x, rfl⟩ := Stacks.Algebraization.completionProjection_app_surjective _
       (chartBaseChangeIdeal B S hS f hf V J) (chartCoherentModule B S hS f hf V F hF) n ⟨W, hW⟩ y

@@ -44,8 +44,8 @@ Both inputs are proved — `AlgebraicGeometry.derivedTilde_isEquivalence` in
 `StacksFrontier/AlgebraicGeometry/QuasiCoherent/Coherator/AffineDerivedPushforward.lean` — and the
 tag is placed where they are used to discharge the hypotheses, on
 `AlgebraicGeometry.derivedTilde_comp_rightAdjoint_derivedQuasicoherentPushforwardIsoDerivedHom` in
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/AffineRightAdjointDerivedHom.lean`. This
-file keeps the hypothesis form, which is the general transport and is what that statement uses.
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/AffineRightAdjointDerivedHom.lean`.
+This file keeps the hypothesis form, which is the general transport and is what that statement uses.
 
 Everything is stated at the *locally small* derived categories, `ModuleCat.hasDerivedCategory`
 and `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, which is the model

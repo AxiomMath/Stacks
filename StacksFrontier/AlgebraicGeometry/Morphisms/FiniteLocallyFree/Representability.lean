@@ -123,7 +123,7 @@ private lemma mem_goodOpen {T Y S X : Scheme.{u}} (a : T ⟶ S) (p : Y ⟶ T) (b
     (V : S.Opens) (U : X.Opens) [UniversallyClosed p] (t : T) :
     t ∈ goodOpen a p b V U ↔
       a.base t ∈ V ∧ ∀ y : Y, p.base y = t → b.base y ∈ U := by
-  show (t ∈ a.base ⁻¹' (V : Set S) ∧
+  change (t ∈ a.base ⁻¹' (V : Set S) ∧
       t ∉ p.base '' (b.base ⁻¹' (U : Set X)ᶜ)) ↔ _
   exact and_congr_right fun _ ↦ ⟨fun hnot y hxy ↦ Classical.byContradiction fun hy ↦
     hnot ⟨y, hy, hxy⟩, fun hall ⟨y, hy, hxy⟩ ↦ hy (hall y hxy)⟩
@@ -158,7 +158,7 @@ private lemma totalMapFst {S : Scheme.{u}} {F : (Over S)ᵒᵖ ⥤ Type u}
     (h : p.1 = A.hom) {q : (totalPresheaf F).obj (op B.left)}
     (hq : (totalPresheaf F).map b.left.op p = q) : q.1 = B.hom := by
   subst hq
-  show b.left ≫ p.1 = B.hom
+  change b.left ≫ p.1 = B.hom
   rw [h]
   exact Over.w b
 
@@ -180,7 +180,7 @@ private lemma totalMapMk {S : Scheme.{u}} {F : (Over S)ᵒᵖ ⥤ Type u}
     {A B : Over S} (b : B ⟶ A) (t : F.obj (op A)) :
     (totalPresheaf F).map b.left.op (⟨A.hom, t⟩ : (totalPresheaf F).obj (op A.left)) =
       ⟨B.hom, F.map b.op t⟩ := by
-  show (⟨b.left ≫ A.hom,
+  change (⟨b.left ≫ A.hom,
     F.map (Over.homMk b.left rfl : Over.mk (b.left ≫ A.hom) ⟶ Over.mk A.hom).op t⟩ :
       (totalPresheaf F).obj (op B.left)) = ⟨B.hom, F.map b.op t⟩
   exact totalSigmaMkEq t
@@ -291,11 +291,11 @@ private def productPullbackIso {S Z : Scheme.{u}} (f : Z ⟶ S) :
     · simp only [Over.mk_left, Over.mk_hom, Iso.trans_hom, Category.assoc,
         pullbackSymmetry_hom_comp_fst, hsnd, ← Over.comp_left, prod.map_snd,
         Over.pullback_obj_left, Over.pullback_map_left]
-      simp [pullback.lift_fst, reassoc_of% (hsnd A)]
+      simp [reassoc_of% (hsnd A)]
     · simp only [Over.mk_left, Over.mk_hom, Iso.trans_hom, Category.assoc,
         pullbackSymmetry_hom_comp_snd, hfst, ← Over.comp_left, prod.map_fst, Category.comp_id,
         Over.pullback_obj_left, Over.pullback_map_left]
-      simp [pullback.lift_snd, hfst]
+      simp [hfst]
 
 /-- **The relative morphism functor is a Zariski sheaf on the slice.**  The product-with-`Z`
 functor on the slice is `CategoryTheory.Over.star` followed by `CategoryTheory.Over.forget`, both
@@ -306,7 +306,7 @@ private lemma relativeHom_isSheaf {S : Scheme.{u}} (Z X : Over S) :
       ((prod.functor.obj Z).op ⋙ yoneda.obj X) := by
   let J := Scheme.zariskiTopology.over S
   have : (prod.functor.obj Z).IsContinuous J J := by
-    show (Over.star Z ⋙ Over.forget Z).IsContinuous J J
+    change (Over.star Z ⋙ Over.forget Z).IsContinuous J J
     exact Functor.isContinuous_comp _ _ J (J.over Z) J
   apply Functor.op_comp_isSheaf_of_isSheaf _ J J
   exact (isSheaf_iff_isSheaf_of_type _ _).mpr
@@ -522,7 +522,7 @@ private lemma totalChart_range {S Z X : Scheme.{u}} (f : Z ⟶ S) (g : X ⟶ S)
     apply congrArg (fun b ↦ (⟨a ≫ V.ι, b⟩ :
       (totalPresheaf (pullbackHom f g)).obj (op T)))
     apply Over.OverMorphism.ext
-    show e.inv ≫ n ≫ U.ι = b.left
+    change e.inv ≫ n ≫ U.ι = b.left
     rw [hn, Iso.inv_hom_id_assoc]
 
 /-- **The image of a chart, as an open condition on the test scheme.** A restriction of an
@@ -543,7 +543,7 @@ private lemma totalChart_range_map {S Z X T T' : Scheme.{u}}
   let k : Over.mk (e ≫ x.1) ⟶ Over.mk x.1 := Over.homMk e rfl
   let p : pullback (e ≫ x.1) f ⟶ pullback x.1 f :=
     ((Over.pullback f).map k).left
-  show (∀ t, x.1 (e t) ∈ V) ∧ (∀ z, x.2.left (p z) ∈ U) ↔ _
+  change (∀ t, x.1 (e t) ∈ V) ∧ (∀ z, x.2.left (p z) ∈ U) ↔ _
   have hfst : p ≫ pullback.fst x.1 f = pullback.fst (e ≫ x.1) f ≫ e := by
     simp only [p, k, Over.pullback_map_left]
     exact pullback.lift_fst _ _ _
@@ -612,14 +612,14 @@ private lemma exists_affineOpen_between {X : Scheme.{u}} {U V : X.Opens}
         zero_mem' := by simp
         add_mem' := fun hr hs ↦ (X.basicOpen_add_le _ _).trans (sup_le hr hs)
         smul_mem' := fun r s hs ↦ by
-          show X.basicOpen (r * s) ≤ V
+          change X.basicOpen (r * s) ≤ V
           rw [Scheme.basicOpen_mul]
           exact inf_le_of_right_le hs }
     let p : E → PrimeSpectrum Γ(X, U) := fun x ↦ hU.primeIdealOf ⟨x.1, hEU x.2⟩
     have hp (x : E) (r : Γ(X, U)) : r ∉ (p x).asIdeal ↔ x.1 ∈ X.basicOpen r := by
-      show p x ∈ PrimeSpectrum.basicOpen r ↔ _
+      change p x ∈ PrimeSpectrum.basicOpen r ↔ _
       rw [← hU.fromSpec_preimage_basicOpen]
-      show hU.fromSpec (p x) ∈ X.basicOpen r ↔ _
+      change hU.fromSpec (p x) ∈ X.basicOpen r ↔ _
       rw [IsAffineOpen.fromSpec_primeIdealOf]
     let x₀ : E := ⟨hne.choose, hne.choose_spec⟩
     have hn : ¬ (I : Set Γ(X, U)) ⊆ ⋃ x ∈ (Set.univ : Set E), ((p x).asIdeal : Set Γ(X, U)) := by
@@ -753,7 +753,7 @@ private lemma affineChartToTotal_range {S Z X : Scheme.{u}} (f : Z ⟶ S) (g : X
   · exact fun ⟨k, hk⟩ ↦ ⟨R.homEquiv k, hk⟩
   · rintro ⟨m, hm⟩
     refine ⟨R.homEquiv.symm m, ?_⟩
-    show (totalMap i.V.ι (chartHom f g i.V.ι i.U.ι
+    change (totalMap i.V.ι (chartHom f g i.V.ι i.U.ι
       (affineChartMapToBase i) (affineChartMapToBase_fac i))).app T
         (R.homEquiv (R.homEquiv.symm m)) = x
     rwa [Equiv.apply_symm_apply]
@@ -794,7 +794,7 @@ private lemma affineChart_cover {S Z X : Scheme.{u}} (f : Z ⟶ S) (g : X ⟶ S)
     rintro z ⟨y, hy, rfl⟩
     have hc : x.2.left ≫ g = pullback.fst x.1 f ≫ x.1 :=
       (Over.w x.2).trans pullback.condition.symm
-    show g (x.2.left y) = x.1 t
+    change g (x.2.left y) = x.1 t
     exact (congrArg (fun k : pullback x.1 f ⟶ S ↦ k y) hc).trans
         (congrArg (fun z ↦ x.1 z) hy)
   obtain ⟨V, hV, htV, hVfinite, hVfree⟩ :=
@@ -802,7 +802,7 @@ private lemma affineChart_cover {S Z X : Scheme.{u}} (f : Z ⟶ S) (g : X ⟶ S)
   obtain ⟨U₀, hU₀, hEU₀⟩ := hX (x.1 t) E hE hbase
   have hEV : E ⊆ g ⁻¹ᵁ V := by
     intro z hz
-    show g z ∈ V
+    change g z ∈ V
     rwa [hbase z hz]
   obtain ⟨U, hU, hEU, hUV⟩ := exists_affineOpen_between hU₀ hE hEU₀ hEV
   exact ⟨⟨V, hV, U, hU, hUV, hVfinite, hVfree⟩,
@@ -838,7 +838,7 @@ private lemma affineCharts_locallySurjective {S Z X : Scheme.{u}} (f : Z ⟶ S) 
   exact ⟨(Sigma.ι (fun i ↦ yoneda.obj (affineChartRepresentingData f g i).1) i).app _ k,
     (congrArg (fun n : yoneda.obj (affineChartRepresentingData f g i).1 ⟶
       totalPresheaf (pullbackHom f g) ↦ n.app (op (O i).toScheme) k)
-      (Sigma.ι_desc (affineChartToTotal f g) i)).trans hk⟩
+      (Sigma.ι_comp_desc (affineChartToTotal f g) i)).trans hk⟩
 
 /-- **Stacks Project, Tag 0BL4, with the representing object and the affine charts it is glued
 from.** If `Z` is finite locally free over `S` and every finite set of points in a fibre of `X`

@@ -130,6 +130,7 @@ theorem le_absEigenPart {ι : K →+* ℂ} {z : Module.End K V} {r : ℝ} {W : S
     rw [maxGenEigenspace, genEigenspace_restrict]
     exact Submodule.map_comap_le _ _
 
+omit [FiniteDimensional K V] [IsAlgClosed K] in
 /-- If `W₁ = W₂` are `U`-stable subspaces, the absolute values under `ι` of the determinants of
 the restrictions of `U` to `W₁` and to `W₂` agree. -/
 theorem norm_det_restrict_congr (ι : K →+* ℂ) (U : Module.End K V) {W₁ W₂ : Submodule K V}
@@ -186,7 +187,7 @@ theorem exists_forall_hasEigenvalue_norm_eq (ι : K →+* ℂ) (S : Set (Module.
     have hX'W : X' ≤ W₀ := by
       rintro _ ⟨x, hx, rfl⟩
       obtain ⟨w, hw, rfl⟩ := hx.1
-      show ((γ⁻¹ : (Module.End K V)ˣ) : Module.End K V) ((γ : Module.End K V) w) ∈ W₀
+      change ((γ⁻¹ : (Module.End K V)ˣ) : Module.End K V) ((γ : Module.End K V) w) ∈ W₀
       rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel, Units.val_one,
         Module.End.one_apply]
       exact hw

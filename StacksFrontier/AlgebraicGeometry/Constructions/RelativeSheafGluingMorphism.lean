@@ -320,7 +320,7 @@ private lemma isChartCompatible_pullbackChartHom (hom : dX.functor ⟶ dY.functo
           (A.localIso i).hom := by
     rw [← Category.assoc, hτ hij]
     simp only [Category.assoc]
-  show canHom (dX.functor.map hij) (colimit.ι dX.functor j) (colimit.ι dX.functor i)
+  change canHom (dX.functor.map hij) (colimit.ι dX.functor j) (colimit.ι dX.functor i)
         (colimit.w dX.functor hij)
         ((Scheme.Modules.pullback (colimMap hom)).obj B.sheaf) ≫
       pullbackChartHom hom A B τ i =

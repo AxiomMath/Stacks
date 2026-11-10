@@ -67,8 +67,7 @@ variable {M : Type v} [AddCommGroup M] [Module R M]
 `LinearMap.lTensor _ (LinearMap.proj j)`. -/
 theorem piRightHom_apply_eq_lTensor_proj (w : M ⊗[R] (∀ j, N j)) (j : J) :
     piRightHom R R M N w j = LinearMap.lTensor M (LinearMap.proj j) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x f => simp
   | add w w' hw hw' => simp [hw, hw']
 
@@ -83,8 +82,7 @@ variable {N : Type v} [AddCommGroup N] [Module R N]
 theorem lTensor_proj_comm_apply (i : I) (w : (∀ i, M i) ⊗[R] N) :
     LinearMap.lTensor N (LinearMap.proj i) (TensorProduct.comm R (∀ i, M i) N w)
       = TensorProduct.comm R (M i) N (LinearMap.rTensor N (LinearMap.proj i) w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y => simp
   | add w w' hw hw' => simp [hw, hw']
 
@@ -101,8 +99,7 @@ theorem lTensor_rTensor_proj_apply (i : I) (j : J) (w : (∀ i, M i) ⊗[R] (∀
     LinearMap.lTensor (M i) (LinearMap.proj j)
         (LinearMap.rTensor (∀ j, N j) (LinearMap.proj i) w)
       = TensorProduct.map (LinearMap.proj i) (LinearMap.proj j) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y => simp
   | add w w' hw hw' => simp [hw, hw']
 
@@ -177,8 +174,7 @@ theorem map_proj_map_pi_apply (f : ∀ i, M →ₗ[R] M' i) (g : ∀ j, N →ₗ
     TensorProduct.map (LinearMap.proj i) (LinearMap.proj j)
         (TensorProduct.map (LinearMap.pi f) (LinearMap.pi g) z)
       = TensorProduct.map (f i) (g j) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp
   | add z z' hz hz' => simp [hz, hz']
 

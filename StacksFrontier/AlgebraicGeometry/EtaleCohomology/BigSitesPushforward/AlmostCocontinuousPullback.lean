@@ -85,7 +85,7 @@ private lemma bot_mem_of_empty_cover_representative
       exact hEmpty.false i
     · simp
   have hEbot : E.2.sieve₀ = (⊥ : Sieve E.1) := by
-    show Sieve.generate E.2.presieve₀ = ⊥
+    change Sieve.generate E.2.presieve₀ = ⊥
     rw [hpresieve]
     simp
   rw [← hEbot]
@@ -97,12 +97,12 @@ private lemma syntomic_empty_bottom
     (⊥ : Sieve T) ∈ B.topology T := by
   have hτ : AlgebraicGeometry.SyntomicCovering B.cutoff
       ⟨T, PreZeroHypercover.empty T⟩ := by
-    show AlgebraicGeometry.IsSyntomicCovering _ _
+    change AlgebraicGeometry.IsSyntomicCovering _ _
     constructor
     · exact fun i => PEmpty.elim i
     · ext x
       constructor <;> intro _ <;> exact (hT.false x).elim
-  show (⊥ : Sieve T) ∈ (B.precoverage).toGrothendieck T
+  change (⊥ : Sieve T) ∈ (B.precoverage).toGrothendieck T
   exact bot_mem_of_empty_cover_representative B.precoverage T
     (fun E hE => B.has_coveringRepresentative E hE) hτ (fun E hE => ⟨E, rfl, hE⟩)
 
@@ -116,10 +116,10 @@ private lemma smooth_empty_bottom
     let I : B.category ⥤ Scheme := ObjectProperty.ι
       (fun X : Scheme.{u} => X.size < B.cutoff)
     let E := (PreZeroHypercover.empty T).map I
-    show E.presieve₀ ∈ Scheme.precoverage (@Smooth.{u}) (I.obj T)
+    change E.presieve₀ ∈ Scheme.precoverage (@Smooth.{u}) (I.obj T)
     exact (Scheme.presieve₀_mem_precoverage_iff E).2
       ⟨fun x => (hT.false x).elim, fun i => PEmpty.elim i⟩
-  show (⊥ : Sieve T) ∈ B.precoverage.toGrothendieck T
+  change (⊥ : Sieve T) ∈ B.precoverage.toGrothendieck T
   exact bot_mem_of_empty_cover_representative B.precoverage T
     (fun E hE => B.has_coveringRepresentative E hE) hτ (fun E hE => ⟨E, hE, rfl⟩)
 
@@ -129,12 +129,12 @@ private lemma etale_empty_bottom
     (⊥ : Sieve T) ∈ B.topology T := by
   have hτ : AlgebraicGeometry.IsEtaleCovering
       ⟨T, PreZeroHypercover.empty T⟩ := by
-    show ((PreZeroHypercover.empty T).map B.inclusion).presieve₀ ∈
+    change ((PreZeroHypercover.empty T).map B.inclusion).presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj T)
     exact (Scheme.presieve₀_mem_precoverage_iff
       ((PreZeroHypercover.empty T).map B.inclusion)).2
       ⟨fun x => (hT.false x).elim, fun i => PEmpty.elim i⟩
-  show (⊥ : Sieve T) ∈ B.precoverage.toGrothendieck T
+  change (⊥ : Sieve T) ∈ B.precoverage.toGrothendieck T
   exact bot_mem_of_empty_cover_representative B.precoverage T
     (fun E hE => B.exists_covering_rep E hE) hτ (fun E hE => ⟨E, rfl, hE⟩)
 
@@ -211,7 +211,7 @@ private theorem exists_sieve_of_subordinate_refinement
       _ = V.hom := g.w)
   have ha : a ≫ aj = g := by
     apply (Over.forget Y).map_injective
-    show k ≫ W.f j = g.left
+    change k ≫ W.f j = g.left
     exact hk.symm
   cases hfac k₀ with
   | inl hEmpty =>
@@ -259,7 +259,7 @@ public theorem bigSyntomicPullback_isAlmostCocontinuous
   let UX := B.obj X.1 X.2
   let J := B.topology
   let F := Over.pullback f
-  show ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
+  change ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
     S ∈ (J.over UX) (F.obj U) →
       ∃ T : Sieve U, T ∈ (J.over UY) U ∧
         ∀ ⦃V : Over UY⦄ (g : V ⟶ U), T g →
@@ -300,7 +300,7 @@ public theorem bigSmoothPullback_isAlmostCocontinuous
       exact ⟨E, rfl, hE⟩
     · rintro ⟨E, rfl, hE⟩
       exact ⟨E, hE, rfl⟩
-  show ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
+  change ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
     S ∈ (J.over UX) (F.obj U) →
       ∃ T : Sieve U, T ∈ (J.over UY) U ∧
         ∀ ⦃V : Over UY⦄ (g : V ⟶ U), T g →
@@ -350,7 +350,7 @@ public theorem bigEtalePullback_isAlmostCocontinuous
       _ = B.precoverage.toGrothendieck.over UX := by
         rw [← over_toGrothendieck_eq_toGrothendieck_comap_forget B.precoverage UX]
   rw [htopY, htopX]
-  show ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
+  change ∀ U : Over UY, ∀ {S : Sieve (F.obj U)},
     S ∈ (J.over UX) (F.obj U) →
       ∃ T : Sieve U, T ∈ (J.over UY) U ∧
         ∀ ⦃V : Over UY⦄ (g : V ⟶ U), T g →

@@ -87,12 +87,12 @@ theorem exists_epsilon (R : Type u) (G : Type v) [Ring R] [Group G] :
       (coeffOneToAdditiveCommutatorQuotient R G).ker := by
     unfold additiveCommutatorSubgroup; rw [AddSubgroup.closure_le]
     rintro z ⟨a, b, rfl⟩
-    show additiveCommutatorQuotientMk R ((a * b - b * a).coeff 1) = 0
+    change additiveCommutatorQuotientMk R ((a * b - b * a).coeff 1) = 0
     rw [← AddMonoidHom.mem_ker]
-    show (a * b - b * a).coeff 1 ∈
+    change (a * b - b * a).coeff 1 ∈
       (QuotientAddGroup.mk' (additiveCommutatorSubgroup R)).ker
     rw [QuotientAddGroup.ker_mk']; classical
-    show (a * b).coeff 1 - (b * a).coeff 1 ∈ additiveCommutatorSubgroup R
+    change (a * b).coeff 1 - (b * a).coeff 1 ∈ additiveCommutatorSubgroup R
     rw [MonoidAlgebra.coeff_mul_apply_left a b 1,
       MonoidAlgebra.coeff_mul_apply_right b a 1]
     simp only [Finsupp.sum, mul_one, one_mul, ← Finset.sum_sub_distrib]

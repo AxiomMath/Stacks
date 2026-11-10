@@ -12,8 +12,8 @@ public import StacksFrontier.AlgebraicGeometry.Constructions.ProjectiveSpaceChar
 Step 4 of the proof of [Stacks, Tag 01VS] reads: *comparing coordinates, `j⁻¹(D₊(Tᵢ)) = X_{aᵢ}`
 and `j` is a closed immersion into an affine open on each chart, hence an immersion.* This file
 performs the passage from chart-local immersions to `AlgebraicGeometry.IsImmersion`, which is the
-last of the conditions that `Stacks.AmpleImmersionReduction.ChartImmersion` requires, and supplies the
-one-chart case at the hypothesis step 2 actually produces — *algebra* generators rather than
+last of the conditions that `Stacks.AmpleImmersionReduction.ChartImmersion` requires, and supplies
+the one-chart case at the hypothesis step 2 actually produces — *algebra* generators rather than
 module generators.
 
 ## What is assembled, and out of what

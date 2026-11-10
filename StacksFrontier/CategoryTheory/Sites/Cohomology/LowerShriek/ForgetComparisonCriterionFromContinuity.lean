@@ -166,7 +166,7 @@ invertible: this discharges the hypothesis `hU` of `ForgetComparisonCriterion.le
 theorem isIso_derivedLowerShriekSingleComparison_of_continuous (U : C) :
     IsIso (derivedLowerShriekSingleComparison J K f (Stacks.SheafOfModules.Tensor.ringSheaf
       (targetRingedSite K O).O) U) := by
-  show IsIso (derivedLowerShriekSingleExtensionByZeroUnitIso J K f O U).hom
+  change IsIso (derivedLowerShriekSingleExtensionByZeroUnitIso J K f O U).hom
   infer_instance
 
 /-- **If the comparison of Stacks 07AE is invertible at `j_{U!}O_U`, its underlying abelian sheaf

@@ -39,7 +39,6 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : RingedToposHom X Y)
 
 /-- **The transpose of the unit comparison `f^*O_D ⟶ O_C` is the structure map**, on
@@ -119,7 +118,6 @@ theorem isIso_homEquiv_symm_of_eq_unit
   rw [CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp]
   exact eq_of_heq hβ
 
-omit [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}] in
 /-- Transposes along equal morphisms of ringed topoi, of morphisms with the same underlying
 morphism of sheaves of sets, are invertible together. -/
 theorem isIso_homEquiv_symm_iff_of_eq {g : RingedToposHom X Y} (hg : f = g)

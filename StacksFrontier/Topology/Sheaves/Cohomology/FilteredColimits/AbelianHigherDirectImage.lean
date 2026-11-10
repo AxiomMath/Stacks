@@ -118,7 +118,7 @@ theorem preservesColimit_higherDirectImage_of_isBasis
   -- The two spellings `X.Sheaf AddCommGrpCat` and `Sheaf (Opens.grothendieckTopology X) Ab`
   -- are the same category, but instance search does not connect them.
   have : EnoughInjectives (Sheaf (Opens.grothendieckTopology X) (Ab.{v})) := by
-    show EnoughInjectives (X.Sheaf AddCommGrpCat.{v}); infer_instance
+    change EnoughInjectives (X.Sheaf AddCommGrpCat.{v}); infer_instance
   apply Stacks.Cohomology.HigherDirectImage.preservesColimit_rightDerived_sheafPushforwardContinuous
     (J := Opens.grothendieckTopology X) (K := Opens.grothendieckTopology Y)
     (u := Opens.map f) (p := p) (F := F)

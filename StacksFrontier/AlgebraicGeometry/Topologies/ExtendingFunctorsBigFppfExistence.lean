@@ -116,7 +116,7 @@ lemma exists_comp_eq_of_toSchemes {X Y Y' : LocallyNoetherianOver B S hS} (g : Y
     ∃ k : Y ⟶ Y', k ≫ g' = g := by
   have hw : eqToHom hY ≫ Y'.obj.hom = Y.obj.hom := by
     rw [← Over.w g'.hom, ← Category.assoc]
-    show (eqToHom hY ≫ (toSchemes B S hS).map g') ≫ X.obj.hom = Y.obj.hom
+    change (eqToHom hY ≫ (toSchemes B S hS).map g') ≫ X.obj.hom = Y.obj.hom
     rw [← hg]
     exact Over.w g.hom
   refine ⟨ObjectProperty.homMk (Over.homMk (eqToHom hY) hw), ?_⟩
@@ -136,7 +136,7 @@ theorem exists_isEtaleCovering_generate_eq {X : LocallyNoetherianOver B S hS}
       Sieve.generate E'.presieve₀ = Sieve.generate E.presieve₀ := by
   have hEs := (Scheme.presieve₀_mem_precoverage_iff _).1 hE
   have hfppf : IsFppfCovering (κ := B.cutoff) ⟨_, E.map (toSchemes B S hS)⟩ := by
-    show Presieve.map B.inclusion (E.map (toSchemes B S hS)).presieve₀ ∈
+    change Presieve.map B.inclusion (E.map (toSchemes B S hS)).presieve₀ ∈
       Scheme.fppfPrecoverage.coverings _
     rw [← PreZeroHypercover.presieve₀_map]
     exact (Scheme.presieve₀_mem_precoverage_iff _).2 ⟨hEs.1, fun i =>
@@ -155,7 +155,7 @@ theorem exists_isEtaleCovering_generate_eq {X : LocallyNoetherianOver B S hS}
   refine ⟨E.restrictIndex β, ⟨?_, ?_⟩, ?_⟩
   · rw [← hFeq]
     exact hE₀
-  · show (((E.restrictIndex β).map (toSchemes B S hS)).map B.inclusion).presieve₀ ∈ _
+  · change (((E.restrictIndex β).map (toSchemes B S hS)).map B.inclusion).presieve₀ ∈ _
     rw [← hFeq, PreZeroHypercover.presieve₀_map, hpre, ← PreZeroHypercover.presieve₀_map]
     exact hE
   · apply le_antisymm
@@ -166,7 +166,7 @@ theorem exists_isEtaleCovering_generate_eq {X : LocallyNoetherianOver B S hS}
           (toSchemes B S hS).obj (E.X (β (α i))) := (hα i).trans (hβ (α i))
       have hg : (toSchemes B S hS).map (E.f i) =
           eqToHom hY ≫ (toSchemes B S hS).map (E.f (β (α i))) := by
-        show (E.map (toSchemes B S hS)).f i = _
+        change (E.map (toSchemes B S hS)).f i = _
         rw [hαf i, hβf (α i), ← Category.assoc, eqToHom_trans]
         rfl
       obtain ⟨k, hk⟩ := exists_comp_eq_of_toSchemes B S hS (E.f i) (E.f (β (α i))) hY hg
@@ -348,7 +348,7 @@ theorem hasCoveringPullbacks_etale_isContainedOver :
   intro X Y Z p q hY hZ _hq
   have hsq : IsPullback (pullback.fst p q).left (pullback.snd p q).left p.left q.left :=
     (IsPullback.of_hasPullback p q).map (Over.forget S)
-  show (pullback p q).left.size < B.cutoff
+  change (pullback p q).left.size < B.cutoff
   rw [Scheme.size_congr hsq.isoPullback]
   exact Scheme.size_pullback_lt p.left q.left hY hZ
 
@@ -388,7 +388,7 @@ theorem isSheaf_etaleTopology_extensionToBigFppfOver :
   let Φ := fromBigFppfOver B hS
   have hΦ : Φ.FullyFaithful := (bigFppfOverEquivalence B hS).fullyFaithfulFunctor
   have : Φ.EssSurj := (bigFppfOverEquivalence B hS).essSurj_functor
-  show Presieve.IsSheafFor (Φ.op ⋙ ((IsContainedOver B (S := S)).ι.op ⋙
+  change Presieve.IsSheafFor (Φ.op ⋙ ((IsContainedOver B (S := S)).ι.op ⋙
     extension (IsContainedLocallyNoetherianOver B (S := S))
       ((toLocallyNoetherianOver B hS).op ⋙ F))) (Presieve.ofArrows E.X E.f)
   apply Presieve.isSheafFor_ofArrows_op_comp_of_fullyFaithful hΦ

@@ -74,7 +74,7 @@ theorem additive_piObj {J A B : Type*} [Category A] [Category B] [Preadditive A]
     have h3 := (Pi.π F j).naturality g
     simp only [Functor.map_add] at h1
     dsimp [Pi.π] at *
-    show (∏ᶜ F).map (f + g) ≫ (limit.π (Discrete.functor F) { as := j }).app N
+    change (∏ᶜ F).map (f + g) ≫ (limit.π (Discrete.functor F) { as := j }).app N
         = ((∏ᶜ F).map f + (∏ᶜ F).map g) ≫ (limit.π (Discrete.functor F) { as := j }).app N
     rw [h1, Preadditive.add_comp, h2, h3, Preadditive.comp_add]
 

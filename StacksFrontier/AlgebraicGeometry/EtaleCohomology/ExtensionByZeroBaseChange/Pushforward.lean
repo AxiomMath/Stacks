@@ -199,9 +199,9 @@ public theorem smallEtaleGraph_lift
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply pullback.hom_ext
-  · show (c.hom.left ≫ pullback.lift (𝟙 _) W.obj.hom _) ≫ pullback.fst _ _ = _
+  · change (c.hom.left ≫ pullback.lift (𝟙 _) W.obj.hom _) ≫ pullback.fst _ _ = _
     simp [c, Category.assoc, smallEtalePostcompose]
-  · show (c.hom.left ≫
+  · change (c.hom.left ≫
       pullback.lift (𝟙 W.obj.left) W.obj.hom _) ≫
         pullback.snd ((smallEtalePostcompose B X hX U).obj W).obj.hom U.obj.hom = _
     rw [Category.assoc, pullback.lift_snd]
@@ -238,8 +238,8 @@ public theorem smallEtaleGraphExtension_disjoint
   | right =>
     change t.f ≫ g = a ≫ j at ha
     simp only [Category.assoc, ← Functor.map_comp, ← op_comp, ha]
-    show _ ≫ F.obj.map (a ≫ smallEtaleGraphComplementInto B X hX U W).op = _
-    show _ ≫ F.obj.map ((smallEtaleGraphComplementInto B X hX U W).op ≫ a.op) = _
+    change _ ≫ F.obj.map (a ≫ smallEtaleGraphComplementInto B X hX U W).op = _
+    change _ ≫ F.obj.map ((smallEtaleGraphComplementInto B X hX U W).op ≫ a.op) = _
     rw [Functor.map_comp, ← Category.assoc, smallEtaleGraphExtension_compl]
     simp
 
@@ -456,8 +456,8 @@ public theorem smallEtaleLiftGraph_comp_eq_iff
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply pullback.hom_ext
-    · show (a.hom.left ≫ _) ≫ _ = (b.hom.left ≫ _) ≫ _
-      show (a.hom.left ≫ (smallEtaleLiftGraph B X hX U V φ).hom.left) ≫
+    · change (a.hom.left ≫ _) ≫ _ = (b.hom.left ≫ _) ≫ _
+      change (a.hom.left ≫ (smallEtaleLiftGraph B X hX U V φ).hom.left) ≫
         pullback.fst V.obj.hom U.obj.hom =
         (b.hom.left ≫ (smallEtaleLiftGraph B X hX U V ψ).hom.left) ≫
         pullback.fst V.obj.hom U.obj.hom
@@ -574,7 +574,7 @@ public theorem hom_ext_of_equal_or_disjoint
       have he' := (smallEtaleLiftGraph_comp_eq_iff B X hX U V φ ψ t.Y t.f c).mp he
       apply ObjectProperty.hom_ext
       apply Over.OverMorphism.ext
-      show t.f.hom.left ≫ φ.hom.left = t.f.hom.left ≫ ψ.hom.left
+      change t.f.hom.left ≫ φ.hom.left = t.f.hom.left ≫ ψ.hom.left
       have hc : c.hom.left ≫ ψ.hom.left = t.Y.obj.hom := c.hom.w
       rw [← he'] at hc
       exact t.f.hom.w.trans hc.symm
@@ -595,16 +595,16 @@ public theorem hom_ext_of_equal_or_disjoint
       have he : (z ≫ t.f) ≫ smallEtaleLiftGraph B X hX U V φ =
           z' ≫ smallEtaleLiftGraph B X hX U V ψ := by
         apply (smallEtaleLiftGraph_comp_eq_iff B X hX U V φ ψ S _ _).2
-        show p.hom.left ≫ t.f.hom.left = q.hom.left ≫ t.f.hom.left
+        change p.hom.left ≫ t.f.hom.left = q.hom.left ≫ t.f.hom.left
         rw [hpq]
       apply smallEtaleGraphComplement_disjoint B X hX U Wψ S hn z' (z ≫ c)
       apply (cancel_mono (K.map (smallEtaleLiftPostIso B X hX U V ψ).hom)).1
-      show z' ≫ smallEtaleGraph B X hX U Wψ ≫ K.map _ = _
+      change z' ≫ smallEtaleGraph B X hX U Wψ ≫ K.map _ = _
       rw [← smallEtaleLiftGraph, ← he]
       rw [Category.assoc, key, htc]
       simp only [Category.assoc]
   have hh := hab (G.obj t.Y) f hsplit
-  show (a ≫ H.obj.map (smallEtaleLiftPostIso B X hX U V φ).hom.op) ≫
+  change (a ≫ H.obj.map (smallEtaleLiftPostIso B X hX U V φ).hom.op) ≫
     H.obj.map (G.map t.f).op =
     (b ≫ H.obj.map (smallEtaleLiftPostIso B X hX U V φ).hom.op) ≫
       H.obj.map (G.map t.f).op
@@ -746,9 +746,9 @@ public theorem image_lan_is_sum
           smallEtaleLiftUnit B X hX U F H η V
             (f ≫ smallEtaleStructureMap B X hX U W) := by
       rw [Category.assoc, δ.naturality, ← Category.assoc]
-      show (α.app (Opposite.op W) ≫ δ.app (Opposite.op (G.obj W))) ≫ _ = _
+      change (α.app (Opposite.op W) ≫ δ.app (Opposite.op (G.obj W))) ≫ _ = _
       rw [hη, smallEtaleLiftUnit_factor]
-    show T.map (smallEtaleLiftUnit B X hX U F H η V
+    change T.map (smallEtaleLiftUnit B X hX U F H η V
       (f ≫ smallEtaleStructureMap B X hX U W))
       (T.map (F.obj.map (smallEtaleArrowLift B X hX U V W f).op) a.2) =
       T.map (δ.app (Opposite.op V)) (T.map (α.app (Opposite.op W) ≫ P.map f.op) a.2)
@@ -865,7 +865,7 @@ public theorem mono_of_graph_unit
           (T.map (τ.app (Opposite.op V)) s) at he
       rwa [hs, map_zero] at he
     have hlzero := sum_unit_eq_zero B X hX U T F H η τ hτ V' l (by rw [hl]; exact hzero)
-    show T.map (H.obj.map f.op) s = T.map (H.obj.map f.op) 0
+    change T.map (H.obj.map f.op) s = T.map (H.obj.map f.op) 0
     rw [map_zero]
     exact ht.symm.trans (hl.symm.trans hlzero)
   have : ∀ V, Mono (τ.app V) := by
@@ -932,7 +932,7 @@ public theorem abelianExtensionByZeroToPushforward_mono
   let τ := ((abelianExtensionByZeroToPushforward B X hX U).app F).hom
   let δ := toSheafify J (G.op.lan.obj F.obj)
   have : Presheaf.IsLocallySurjective J (Functor.whiskerRight δ (𝟭 AddCommGrpCat.{u + 1})) := by
-    show Presheaf.IsLocallySurjective J δ
+    change Presheaf.IsLocallySurjective J δ
     infer_instance
   have hm : Mono τ := mono_of_graph_unit B X hX U (𝟭 AddCommGrpCat.{u + 1}) F H η τ
     (abelianExtensionByZeroToPushforward_unit B X hX U F) δ
@@ -954,7 +954,7 @@ public theorem abelianExtensionByZeroToPushforward_graph
         (Opposite.op V)
         (((abelianExtensionByZeroAdjunction
           B X hX U).unit.app F).hom.app (Opposite.op W) s)) = s := by
-  show ((((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (Opposite.op W) ≫
+  change ((((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (Opposite.op W) ≫
   ((abelianExtensionByZeroToPushforward B X hX U).app F).hom.app
     (Opposite.op ((smallEtalePostcompose B X hX U).obj W))) ≫
       F.obj.map (smallEtaleGraph B X hX U W).op) s = s
@@ -978,7 +978,7 @@ public theorem abelianExtensionByZeroToPushforward_graph_compl
         (Opposite.op V)
         (((abelianExtensionByZeroAdjunction
           B X hX U).unit.app F).hom.app (Opposite.op W) s)) = 0 := by
-  show ((((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (Opposite.op W) ≫
+  change ((((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (Opposite.op W) ≫
   ((abelianExtensionByZeroToPushforward B X hX U).app F).hom.app
     (Opposite.op ((smallEtalePostcompose B X hX U).obj W))) ≫
       F.obj.map g.op) s = 0
@@ -1073,7 +1073,7 @@ public theorem moduleExtensionByZeroToPushforward_graph
         (Opposite.op V)
       (((moduleExtensionByZeroAdjunction
           B X hX U Λ).unit.app F).hom.app (Opposite.op W) s)) = s := by
-  show ((((moduleExtensionByZeroAdjunction B X hX U Λ).unit.app F).hom.app (Opposite.op W) ≫
+  change ((((moduleExtensionByZeroAdjunction B X hX U Λ).unit.app F).hom.app (Opposite.op W) ≫
   ((moduleExtensionByZeroToPushforward B X hX U Λ).app F).hom.app
     (Opposite.op ((smallEtalePostcompose B X hX U).obj W))) ≫
       F.obj.map (smallEtaleGraph B X hX U W).op) s = s
@@ -1098,7 +1098,7 @@ public theorem moduleExtensionByZeroToPushforward_graph_compl
         (Opposite.op V)
       (((moduleExtensionByZeroAdjunction
           B X hX U Λ).unit.app F).hom.app (Opposite.op W) s)) = 0 := by
-  show ((((moduleExtensionByZeroAdjunction B X hX U Λ).unit.app F).hom.app (Opposite.op W) ≫
+  change ((((moduleExtensionByZeroAdjunction B X hX U Λ).unit.app F).hom.app (Opposite.op W) ≫
   ((moduleExtensionByZeroToPushforward B X hX U Λ).app F).hom.app
     (Opposite.op ((smallEtalePostcompose B X hX U).obj W))) ≫
       F.obj.map g.op) s = 0

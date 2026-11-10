@@ -342,7 +342,7 @@ theorem curveSpecializationMapInput : CurveSpecializationMapInput.{u} := by
       (1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] Fs v := fun v =>
     LAdicSheaf.rationalStalkEnd_tmul B W ℓ G.toLAdicSheaf
       (Stacks.Frobenius.frobeniusPointHom W.1 y) 1 v
-  exact exists_linearMap_invariants_of_integral b hOE
+  exact exists_linearMap_invariants_of_integral b
     (fun o => LAdicSheaf.stalkMap (G.act o).asHom s) hact sI (M + N) hker' N
     (fun o => isogenyCoefficientMatrix B V x FV ρ hρ φ ψ o) hO Pm Qm hPQ hα'
     (fun g => (ρ₀ g).val) τ hτ' (Stacks.FundamentalGroup.curvePointInertia V.1 L Ω A P) hinv

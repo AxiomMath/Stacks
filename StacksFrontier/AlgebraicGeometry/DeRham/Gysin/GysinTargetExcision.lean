@@ -114,7 +114,8 @@ Its proof consists of the following steps:
   `…supportedPullbackNatTrans_eq_derivedSupportedSectionsOnClosedPullbackNatIso` identifying the
   two factors of the fold-in. The degree-zero half was **not** missing: it is
   `Stacks.Cohomology.SupportedComplexes.closedSubsetPushforwardPullbackNatIso_comp_map_eq`, proved
-  in `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/LocalCohomologyExcisionCounit.lean`.
+  in `LocalCohomologyExcisionCounit.lean` of
+  `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/`.
 * `Stacks.Gysin.supportCohomologyOnIso_hom_app_eq_bridge` of
   `GysinSupportCohomologyOnBridge.lean`: `β` **is** the derived/classical bridge
   `Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived` for `H_T^{on T} ⋙ i_*`,

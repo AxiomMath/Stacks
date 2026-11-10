@@ -142,7 +142,7 @@ theorem full_toTwoFibreProductOver : (toTwoFibreProductOver p L D).Full where
       have hw : p.map m.a ≫ 𝟙 _ = 𝟙 _ ≫ m.b.left := m.w
       simpa only [Category.comp_id, Category.id_comp] using hw
     refine ⟨homMk m.a ?_, ?_⟩
-    · show L.map (p.map m.a) ≫ Y.hom = X.hom
+    · change L.map (p.map m.a) ≫ Y.hom = X.hom
       rw [hleft]
       exact CostructuredArrow.w m.b
     · exact TwoFibreProductOver.Hom.ext' rfl (hom_ext _ _ hleft)

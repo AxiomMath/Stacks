@@ -501,7 +501,7 @@ theorem baseChangeChartRestrict_chartRingTensorHom {U U' : SmallEtale B S hS D.X
   let := baseChartAlgebra B S hS D.g V₀ V₀'
   let := D.chartBaseChangeChartAlgebra hg' U
   let := D.chartBaseChangeChartAlgebra hg' U'
-  show D.baseChangeChartRestrict hg' k (c • D.baseChangeChartBaseHom hg' V₀' U b) =
+  change D.baseChangeChartRestrict hg' k (c • D.baseChangeChartBaseHom hg' V₀' U b) =
     chartRestrict (hF := D.X.2) k c • D.baseChangeChartBaseHom hg' V₀' U' b
   rw [Algebra.smul_def, Algebra.smul_def, map_mul, D.baseChangeChartRestrict_baseHom hg' V₀' k b,
     D.baseChangeChartRestrict_algebraMap hg' k c]
@@ -562,7 +562,7 @@ theorem pushforwardTensorAppLinear_naturality_tmul {U U' : SmallEtale B S hS D.X
   let := D.chartBaseChangeChartAlgebra hg' U'
   let := D.pushforwardSectionsModule hg' U
   let := D.pushforwardSectionsModule hg' U'
-  show ((modulePullback B S hS D.g').obj D.F).val.map (D.baseChangeChartMap hg' k).op
+  change ((modulePullback B S hS D.g').obj D.F).val.map (D.baseChangeChartMap hg' k).op
       (D.chartRingTensorHom hg' V₀ V₀' U (c ⊗ₜ[baseChartRing B S hS D.Y V₀] b) •
         D.unitSection hg' U s) =
     D.chartRingTensorHom hg' V₀ V₀' U'
@@ -656,14 +656,13 @@ theorem pushforwardTensorApp_naturality_tmul {W W' : (SmallEtale B S hS D.X.1)�
         (geometricCoefficientMap B S hS D.f V₀)).obj
       ((Stacks.TensorByBaseModule.constantModulePresheaf
         (baseChartRing B S hS D.Y V₀)).obj (D.baseModule V₀ V₀'))).obj W).isModule
-  induction n using TensorProduct.induction_on with
-  | zero =>
-    exact ((congrArg _ (TensorProduct.tmul_zero (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) _ s)).trans (map_zero _)).trans
-      (((congrArg _ (TensorProduct.tmul_zero (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) _ s)).trans (map_zero _)).symm)
+  induction n using TensorProduct.inductionOn with
   | add x y hx hy =>
-    exact ((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).trans
+    exact ((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙
+        forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).trans
       ((congrArg₂ (· + ·) hx hy).trans
-        (((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).symm))
+        (((congrArg _ (TensorProduct.tmul_add (R := ((structureSheaf B S hS D.X.1 D.X.2).obj ⋙
+          forget₂ CommRingCat.{u} RingCat.{u}).obj W) s x y)).trans (map_add _ _ _)).symm))
   | tmul c b => exact D.pushforwardTensorApp_naturality_tmul_tmul hg' V₀ V₀' h s c b
 
 /-- **The naturality square of the comparison.** -/

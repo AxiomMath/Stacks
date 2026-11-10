@@ -91,7 +91,7 @@ public theorem siteModuleInl_comp_codiag :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro m
-  show (m : M.obj) + (0 : M.obj) = m
+  change (m : M.obj) + (0 : M.obj) = m
   rw [add_zero]
 
 /-- The second inclusion followed by the codiagonal is the identity. -/
@@ -101,7 +101,7 @@ public theorem siteModuleInr_comp_codiag :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro m
-  show (0 : M.obj) + (m : M.obj) = m
+  change (0 : M.obj) + (m : M.obj) = m
   rw [zero_add]
 
 end Codiagonal
@@ -171,7 +171,7 @@ public theorem comp_comm_infinitesimalAutomorphism (hRS : SatisfiesRSStar B S hS
       (_hk : e ≫ k = 𝟙 M),
       G.map k (G.map e η) = η := by
     intro e η k hk
-    show (G.map e ≫ G.map k) η = η
+    change (G.map e ≫ G.map k) η = η
     rw [← G.map_comp, hk, G.map_id]
     rfl
   have hzero : ∀ (e : M ⟶ siteModuleProd A B hA M M)
@@ -180,7 +180,7 @@ public theorem comp_comm_infinitesimalAutomorphism (hRS : SatisfiesRSStar B S hS
       (_hk : e ≫ k = 0),
       G.map k (G.map e η) = 𝟙 (trivialDeformation A B S hS toS hA p x hx hp M) := by
     intro e η k hk
-    show (G.map e ≫ G.map k) η = 𝟙 (trivialDeformation A B S hS toS hA p x hx hp M)
+    change (G.map e ≫ G.map k) η = 𝟙 (trivialDeformation A B S hS toS hA p x hx hp M)
     rw [← G.map_comp, hk]
     exact infinitesimalAutomorphismSetFunctor_map_zero A B S hS toS hA p x hx hp M η
   have h₁ : G.map (siteModuleFst A B hA M M) u₁ = θ :=

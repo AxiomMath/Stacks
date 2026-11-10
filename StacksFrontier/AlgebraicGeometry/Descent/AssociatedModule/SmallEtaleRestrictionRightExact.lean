@@ -46,7 +46,8 @@ So nothing below is conditional, and the two tags are carried:
 `essImage_X₂_of_shortExact` is Stacks 06VE (10) at `τ = étale` and
 `isQuasicoherentOnSite_shortExact_X₂` is the third case of Stacks 0GNB (4).  The reductions in
 `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleExtensionReduction.lean` and
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQuasicoherentTransfer.lean` keep their hypothesised forms and keep carrying no
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQuasicoherentTransfer.lean`
+keep their hypothesised forms and keep carrying no
 attribute; the attributes sit on the discharged statements here.
 
 ## Main results
@@ -66,8 +67,8 @@ attribute; the attributes sit on the discharged statements here.
 * `AlgebraicGeometry.SmallEtale.isQuasicoherentOnSite_shortExact_X₂`: **the third case of
   Stacks 0GNB (4)**, now unconditional.  The
   `CategoryTheory.ObjectProperty.IsClosedUnderExtensions` instance it gives is
-  `AlgebraicGeometry.SmallEtale.isClosedUnderExtensions_isQuasicoherentOnSite`, in
-  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQuasicoherentExtensions.lean`.
+  `AlgebraicGeometry.SmallEtale.isClosedUnderExtensions_isQuasicoherentOnSite`, in the module
+  `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleQuasicoherentExtensions`.
 
 ## References
 
@@ -174,7 +175,7 @@ public theorem standardCoveringsAreCofinal : StandardCoveringsAreCofinal B S hS 
     obtain ⟨i, y, hy⟩ := jointlySurjective_of_isCovering B S hS hE₁ x
     obtain ⟨j, z, hz⟩ := exists_mem_range_affineSubordinateCover B S hS (E₁.X i) y
     refine ⟨⟨i, j⟩, z, ?_⟩
-    show ((toScheme B S hS).map
+    change ((toScheme B S hS).map
       ((affineSubordinateCover B S hS (E₁.X i)).f j ≫ E₁.f i)) z = x
     rwa [Functor.map_comp, Scheme.Hom.comp_apply, hz]
   have hcs : CompactSpace ((toScheme B S hS).obj T) :=
@@ -196,7 +197,7 @@ public theorem standardCoveringsAreCofinal : StandardCoveringsAreCofinal B S hS 
     obtain ⟨p, hp, hx⟩ := Set.mem_iUnion₂.mp (hT' (Set.mem_univ x))
     refine Set.mem_iUnion.mpr ⟨ULift.up (eFin ⟨p, hp⟩), ?_⟩
     have hc : c (ULift.up (eFin ⟨p, hp⟩)) = p := by simp [c]
-    show x ∈ Set.range ⇑((toScheme B S hS).map (a (c (ULift.up (eFin ⟨p, hp⟩)))))
+    change x ∈ Set.range ⇑((toScheme B S hS).map (a (c (ULift.up (eFin ⟨p, hp⟩)))))
     rwa [hc]
   · rintro Y f hf
     obtain ⟨i, g, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hf

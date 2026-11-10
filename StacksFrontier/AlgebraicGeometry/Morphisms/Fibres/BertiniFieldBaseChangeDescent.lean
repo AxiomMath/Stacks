@@ -121,7 +121,7 @@ theorem nonempty_preimage_parameterBaseReindex
     (D.parameterBaseReindex K ⁻¹ᵁ U).1.Nonempty := by
   obtain ⟨x, hx⟩ := hU
   refine ⟨(D.parameterBaseReindexInv K).base x, ?_⟩
-  show (D.parameterBaseReindex K).base ((D.parameterBaseReindexInv K).base x) ∈ U
+  change (D.parameterBaseReindex K).base ((D.parameterBaseReindexInv K).base x) ∈ U
   rw [← Scheme.Hom.comp_apply, D.parameterBaseReindexInv_comp_parameterBaseReindex K]
   exact hx
 

@@ -65,7 +65,7 @@ the product of the exceptional divisor of the second blowup with the inverse ima
 exceptional divisor of the first. -/
 theorem isCartierOver_sequentialBlowUpOver :
     Stacks.Blowup.IsCartierOver (I * J) (sequentialBlowUpOver I J) := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor
+  change Stacks.Divisors.IsEffectiveCartierDivisor
     ((I * J).comap (blowUpToBase (J.comap (blowUpToBase I)) ≫ blowUpToBase I))
   rw [comap_mul, Scheme.IdealSheafData.comap_comp, Scheme.IdealSheafData.comap_comp]
   refine isEffectiveCartierDivisor_mul _ _ ?_ ?_
@@ -114,7 +114,7 @@ theorem isTerminal_sequentialBlowUpOver :
     apply CommaMorphism.ext
     · have hfI : (ObjectProperty.homMk (Over.homMk (U := Z.obj) (V := Over.mk (blowUpToBase I))
           (f.hom.left ≫ blowUpToBase (J.comap (blowUpToBase I))) (by
-            show f.hom.left ≫ blowUpToBase (J.comap (blowUpToBase I)) ≫ blowUpToBase I =
+            change f.hom.left ≫ blowUpToBase (J.comap (blowUpToBase I)) ≫ blowUpToBase I =
               Z.obj.hom
             rw [← Category.assoc]
             exact Over.w f.hom)) :

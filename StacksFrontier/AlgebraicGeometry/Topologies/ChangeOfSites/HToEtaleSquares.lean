@@ -99,7 +99,7 @@ public theorem hEtaleCovering_isSite (B : BigHSite.{u}) :
   have : Precoverage.HasIsos Scheme.etalePrecoverage.{u} :=
     ⟨by
       intro S T f hf
-      show Presieve.singleton f ∈ Scheme.etalePretopology T
+      change Presieve.singleton f ∈ Scheme.etalePretopology T
       exact Scheme.etalePretopology.has_isos f⟩
   have : Scheme.etalePrecoverage.{u}.IsStableUnderComposition := by
     unfold Scheme.etalePrecoverage
@@ -169,7 +169,7 @@ public theorem bigEtaleOverTopology_le_bigHOverTopology (B : BigHSite.{u}) (X : 
     rw [← PreZeroHypercover.presieve₀_map]
   have heq : Sieve.overEquiv Y (Sieve.generate E.presieve₀) =
       Sieve.generate (E.presieve₀.map p) := by
-    show Sieve.functorPushforward p (Sieve.generate E.presieve₀) = _
+    change Sieve.functorPushforward p (Sieve.generate E.presieve₀) = _
     exact Sieve.generate_map_eq_functorPushforward p |>.symm
   rw [heq]
   exact hAssociatedEtaleTopology_le_hTopology B Y.left

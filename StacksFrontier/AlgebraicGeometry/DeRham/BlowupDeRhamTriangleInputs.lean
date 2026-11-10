@@ -91,7 +91,7 @@ the corresponding term of the complex. -/
 lemma extend_X_eq {C : Type*} [Category C] [HasZeroMorphisms C] [HasZeroObject C]
     {ι ι' : Type*} {c : ComplexShape ι} {c' : ComplexShape ι'} (K : HomologicalComplex C c)
     (e : c.Embedding c') {k : ι} {k' : ι'} (hk : e.f k = k') : (K.extend e).X k' = K.X k := by
-  show HomologicalComplex.extend.X K (e.r k') = _
+  change HomologicalComplex.extend.X K (e.r k') = _
   rw [e.r_eq_some hk]
   rfl
 

@@ -357,7 +357,7 @@ theorem setOf_isQuasiFiniteAt_eq_preimage_of_isPullback
           (congrFun (pointsMap_comp B S hS X₁.1 e.hom e.inv) x').symm
         rw [h₁, hz', h₂, e.hom_inv_id, pointsMap_id, id_eq] }
   have hsource : chartF.sourcePoint B S hS = T.map pU (chartF'.sourcePoint B S hS) := by
-    show (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
+    change (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
       T.map pU ((T.map r.value) (IsLocalRing.closedPoint r.carrier))
     rw [Functor.map_comp]
     exact Scheme.Hom.comp_apply _ _ _
@@ -482,7 +482,7 @@ theorem finite_setOf_mapsTo_and_isQuasiFiniteAt
   rintro x ⟨hxy, hxf⟩
   -- lift `x` through the two cartesian squares
   have hcomm : pointsMap B S hS AX.1 fsp.hom x = pointsMap B S hS AK.1 gsp.hom z := by
-    show pointsMap B S hS X f x = pointsMap B S hS (yoneda.obj K) α z
+    change pointsMap B S hS X f x = pointsMap B S hS (yoneda.obj K) α z
     rw [hzy]; exact hxy
   obtain ⟨v, hvX, hvK⟩ := exists_point_of_isPullback B S hS hsqF x z hcomm
   have hqFqf : IsQuasiFiniteAt B S hS qF.hom v :=
@@ -517,7 +517,7 @@ theorem finite_setOf_mapsTo_and_isQuasiFiniteAt
         (pointsMap B S hS P.1 qP.hom (pointsMap B S hS (yoneda.obj U) a wU)) :=
     (congrFun (pointsMap_comp B S hS (yoneda.obj U) a (qP.hom ≫ pF.hom)) wU).trans
       (congrFun (pointsMap_comp B S hS P.1 qP.hom pF.hom) _)
-  show pointsMap B S hS (yoneda.obj U) (a ≫ qP.hom ≫ pF.hom)
+  change pointsMap B S hS (yoneda.obj U) (a ≫ qP.hom ≫ pF.hom)
     ((pointsEquivScheme B S hS U).symm (schemePoint B S hS U ru)) = x
   rw [hclass, hru', hsplit, hwU, hwF, hvX]
 

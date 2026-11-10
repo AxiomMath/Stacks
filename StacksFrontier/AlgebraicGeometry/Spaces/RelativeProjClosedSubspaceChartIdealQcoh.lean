@@ -103,7 +103,7 @@ theorem chartDiagramPullback_selfOpensChartDiagram_top (V : SmallEtale B S hS X.
     chartDiagramPullback B S hS (pointHom V.1.hom) (selfOpensChartDiagram V ⊤) c =
       (selfOpensStructureMap B S hS V.1.left).hom.app (op ⊤) c := by
   refine Eq.trans ?_ (selfOpensStructureMap_hom_app V.1.left ⊤ c).symm
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (selfOpensChartDiagram V ⊤).g).op c =
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (selfOpensChartDiagram V ⊤).g).op c =
     Scheme.Γ.map ((associatedBigEtaleSite B).inclusion.map
           ((representedSmallEtaleEquivalence B S hS V.1.left).counit.app
             (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
@@ -113,7 +113,7 @@ theorem chartDiagramPullback_selfOpensChartDiagram_top (V : SmallEtale B S hS X.
     (inclusion_map_counit_comp_ι_eq_toScheme_map_selfOpensChartDiagram_g V)
   simp only [Scheme.Hom.comp_appTop] at h
   refine h.symm.trans ?_
-  show _ = Scheme.Hom.appTop _ _
+  change _ = Scheme.Hom.appTop _ _
   congr 1
 
 /-- **The reading over an étale chart `V = (T, v)` is `Γ(T, 𝒪_T)`-linear**: a function on `V`
@@ -198,7 +198,7 @@ theorem twistEquationSection_smul_eq_zero (n : ℕ) (c : Γ(T, ⊤)) (a : Γ(A.p
       (twistRestrictMapNat A (GluedTwistAlgebra.twistDataOfGradedAlgebra A) i n) ⊤ a = 0 :=
     (twistRestrictMapNat_app A _ i n ⊤ a).trans ha
   refine (twistRestrictMapNat_app A _ i n ⊤ (c • a)).symm.trans ?_
-  show Scheme.Modules.sectionsLinearMap
+  change Scheme.Modules.sectionsLinearMap
       (twistRestrictMapNat A (GluedTwistAlgebra.twistDataOfGradedAlgebra A) i n) ⊤ (c • a) = 0
   rw [map_smul, h1, smul_zero]
 

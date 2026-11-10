@@ -134,7 +134,7 @@ theorem deRhamClassToDirectImage_bijective (m : ℤ) :
     funext ξ
     refine e₃.injective (e₂.injective ?_)
     refine (lerayCohomologyIso_evalUnit_deRhamClassToDirectImage f m ξ).trans ?_
-    show _ = e₂ (e₃ (e₃.symm (e₂.symm (e₁ ξ))))
+    change _ = e₂ (e₃ (e₃.symm (e₂.symm (e₁ ξ))))
     rw [Equiv.apply_symm_apply]
     exact (e₂.apply_symm_apply (e₁ ξ)).symm
   rw [h]

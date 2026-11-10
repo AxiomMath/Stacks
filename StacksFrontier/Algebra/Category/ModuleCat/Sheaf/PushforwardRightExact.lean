@@ -128,8 +128,8 @@ unrelated universes, the value category of the core lemma and of the epimorphism
 statement is arbitrary, and in part (2) the module universe `m` and the ring universe `r` stay
 independent. The epimorphism/locally surjective dictionary for sheaves of modules that part (2)
 consumes is cited from `Stacks.SheafOfModules.EpiMono` in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EpiLocallySurjective.lean`, which states it with the
-module universe independent of the ring universe, so no copy of it is needed here.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EpiLocallySurjective.lean`, which states it with
+the module universe independent of the ring universe, so no copy of it is needed here.
 
 **Why `PreservesEpimorphisms` and not cokernels.**
 `CategoryTheory.Functor.preservesHomology_of_preservesEpis_and_kernels` needs the functor to
@@ -573,7 +573,7 @@ public theorem elementTopology_le_liftedTopology :
   intro Us R hR
   rw [Precoverage.mem_comap_iff, GrothendieckTopology.mem_toPrecoverage_iff,
     Sieve.generate_map_eq_functorPushforward] at hR
-  show underlyingSieve (Sieve.generate R) ∈ J Us.left
+  change underlyingSieve (Sieve.generate R) ∈ J Us.left
   refine J.superset_covering ?_ hR
   rintro _ g ⟨A, α, k, hα, rfl⟩
   exact (underlyingSieve (Sieve.generate R)).downward_closed

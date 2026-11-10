@@ -99,7 +99,7 @@ lemma overlapUnit_restrict (u : (X.presheaf.obj (op (U₀ ⊓ U₁)))ˣ) {V W : 
   have hcomp := X.presheaf.map_comp (homOfLE hV).op (homOfLE h).op
   rw [show (homOfLE hV).op ≫ (homOfLE h).op = (homOfLE (h.trans hV)).op from
     Subsingleton.elim _ _] at hcomp
-  show (X.presheaf.map (homOfLE h).op).hom ((X.presheaf.map (homOfLE hV).op).hom u.val) =
+  change (X.presheaf.map (homOfLE h).op).hom ((X.presheaf.map (homOfLE hV).op).hom u.val) =
     (X.presheaf.map (homOfLE (h.trans hV)).op).hom u.val
   simpa only [ConcreteCategory.comp_apply] using (congrArg (fun φ => φ u.val) hcomp).symm
 

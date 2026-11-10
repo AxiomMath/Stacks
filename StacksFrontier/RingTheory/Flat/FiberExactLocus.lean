@@ -547,8 +547,7 @@ private lemma matBaseChange_comp_tensorPiEquiv {S : Type*} [CommRing S] (T : Typ
       ((tensorPiEquiv S T a) : T ⊗[S] (Fin a → S) →ₗ[T] (Fin a → T)) ∘ₗ
         LinearMap.baseChange T f := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t v =>
     funext i

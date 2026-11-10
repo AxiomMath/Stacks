@@ -98,7 +98,8 @@ of algebraic spaces, and both are carried as hypotheses rather than quietly assu
   on an étale chart combinations of unit images of sections of `M`; that local generation
   statement *is* now available, as
   `AlgebraicGeometry.Space.spanSieve_modulePullbackUnitSections_mem`
-  (`StacksFrontier.AlgebraicGeometry.Spaces.ModulePullbackUnitGeneration`).  What is still missing is a *common
+  (`StacksFrontier.AlgebraicGeometry.Spaces.ModulePullbackUnitGeneration`).  What is still missing
+  is a *common
   chart*: the generators of `𝓘' ⁿ` and the unit sections generating `f^*M` arrive on the charts
   of different chart diagrams, and the identity that multiplies them,
   `AlgebraicGeometry.Space.modulePullbackUnitSection_smul`, is about one chart diagram.  So the
@@ -162,6 +163,7 @@ variable (𝓘 : (SheafOfModules.unit
   ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the preadditive structure and cokernels of `CoherentAdicSystems`
 /-- **The inclusion of `Coh(X, 𝓘)` into the inverse systems of `𝒪_X`-modules preserves finite
 colimits.**  Cokernels in `Coh(X, 𝓘)` are the levelwise ones
 (`AlgebraicGeometry.Space.preservesColimitParallelPairι`), and a functor between preadditive
@@ -240,7 +242,7 @@ theorem isCoherentAdicSystem_map (hw : IdealPowerMultipleCompatible B S hS L �
     (hcoh : ∀ n : ℕ, IsCoherent B S hS X'.1 X'.2 (L.obj (E.obj (op n)))) :
     IsCoherentAdicSystem B S hS X'.1 X'.2 𝓘' (E ⋙ L) := by
   refine ⟨hcoh, fun n => ?_, fun n => ?_⟩
-  · show idealPowerMultiple B S hS X'.1 X'.2 𝓘' (n + 1) (L.obj (E.obj (op n))) = ⊥
+  · change idealPowerMultiple B S hS X'.1 X'.2 𝓘' (n + 1) (L.obj (E.obj (op n))) = ⊥
     refine (submodule_ι_eq_zero_iff B S hS X'.1 X'.2 _).mp ?_
     have h := (hw (n + 1) (E.obj (op n)) (𝟙 _)).mp
       (by simp [(submodule_ι_eq_zero_iff B S hS X.1 X.2 _).mpr (hE.2.1 n)])
@@ -249,7 +251,7 @@ theorem isCoherentAdicSystem_map (hw : IdealPowerMultipleCompatible B S hS L �
       (E.obj (op (n + 1))) (hw (n + 1) (E.obj (op (n + 1))))
     obtain ⟨ei, hei⟩ := hE.2.2 n
     refine ⟨q.symm ≪≫ L.mapIso ei, ?_⟩
-    show cokernel.π _ ≫ (q.inv ≫ L.map ei.hom) = _
+    change cokernel.π _ ≫ (q.inv ≫ L.map ei.hom) = _
     rw [← hq, Category.assoc, Iso.hom_inv_id_assoc, ← L.map_comp, hei]
     rfl
 
@@ -296,7 +298,7 @@ theorem coherentAdicMap_rightExact [PreservesFiniteColimits L] :
   have hW := whiskeringRight_preservesFiniteColimits B S hS L (X' := X')
   have hcomp : PreservesFiniteColimits (coherentAdicMap B S hS L 𝓘 𝓘' hw hcoh ⋙
       ObjectProperty.ι (IsCoherentAdicSystem B S hS X'.1 X'.2 𝓘')) := by
-    show PreservesFiniteColimits (ObjectProperty.ι (IsCoherentAdicSystem B S hS X.1 X.2 𝓘) ⋙
+    change PreservesFiniteColimits (ObjectProperty.ι (IsCoherentAdicSystem B S hS X.1 X.2 𝓘) ⋙
       (Functor.whiskeringRight _ _ _).obj L)
     infer_instance
   exact preservesFiniteColimits_of_reflects_of_preserves _

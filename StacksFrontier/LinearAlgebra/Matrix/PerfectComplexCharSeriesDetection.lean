@@ -134,7 +134,7 @@ theorem coeff_alternatingCharSeries_functor_eq {N : ℕ}
       rw [zero_pow hm.ne', map_zero]
     have eA1 : ∀ a : {i // i ∈ S}, trq _ (blocksEven eO Q hQ g S dP (Sum.inl a) ^ m) =
         if Even a.1 then trq _ (degMatrix eO Q hQ g a.1 ^ m) else 0 := fun a => by
-      show trq (Fin (degRank eO Q hQ a.1))
+      change trq (Fin (degRank eO Q hQ a.1))
         ((if Even a.1 then degMatrix eO Q hQ g a.1 else 0) ^ m) = _
       split_ifs
       · rfl
@@ -143,14 +143,14 @@ theorem coeff_alternatingCharSeries_functor_eq {N : ℕ}
       hz (Fin (dP x + 1))
     have eB1 : ∀ a : {i // i ∈ S}, trq _ (blocksOdd eO Q hQ g S dP gP (Sum.inl a) ^ m) =
         if Even a.1 then 0 else trq _ (degMatrix eO Q hQ g a.1 ^ m) := fun a => by
-      show trq (Fin (degRank eO Q hQ a.1))
+      change trq (Fin (degRank eO Q hQ a.1))
         ((if Even a.1 then 0 else degMatrix eO Q hQ g a.1) ^ m) = _
       split_ifs
       · exact hz _
       · rfl
     have eB2 : ∀ x : P, trq _ (blocksOdd eO Q hQ g S dP gP (Sum.inr x) ^ m) =
         if (dP x + 1) ∣ m then (dP x + 1) • q R (gP x ^ (m / (dP x + 1))) else 0 := fun x => by
-      show trq (Fin (dP x + 1)) (cyclicMatrix (dP x) (gP x) ^ m) = _
+      change trq (Fin (dP x + 1)) (cyclicMatrix (dP x) (gP x) ^ m) = _
       rw [trq_apply, trace_cyclicMatrix_pow]
       split_ifs
       · rw [map_nsmul]
@@ -177,7 +177,7 @@ theorem coeff_alternatingCharSeries_functor_eq {N : ℕ}
   have fA1 : ∀ a : {i // i ∈ S}, (1 - (X : PowerSeries Λ) • (blockMap φ _
       (blocksEven eO Q hQ g S dP (Sum.inl a))).map (C (R := Λ))).det =
       if Even a.1 then d a.1 else 1 := fun a => by
-    show (1 - (X : PowerSeries Λ) • (blockMap φ (Fin (degRank eO Q hQ a.1))
+    change (1 - (X : PowerSeries Λ) • (blockMap φ (Fin (degRank eO Q hQ a.1))
       (if Even a.1 then degMatrix eO Q hQ g a.1 else 0)).map (C (R := Λ))).det = _
     split_ifs
     · rfl
@@ -188,7 +188,7 @@ theorem coeff_alternatingCharSeries_functor_eq {N : ℕ}
   have fB1 : ∀ a : {i // i ∈ S}, (1 - (X : PowerSeries Λ) • (blockMap φ _
       (blocksOdd eO Q hQ g S dP gP (Sum.inl a))).map (C (R := Λ))).det =
       if Even a.1 then 1 else d a.1 := fun a => by
-    show (1 - (X : PowerSeries Λ) • (blockMap φ (Fin (degRank eO Q hQ a.1))
+    change (1 - (X : PowerSeries Λ) • (blockMap φ (Fin (degRank eO Q hQ a.1))
       (if Even a.1 then 0 else degMatrix eO Q hQ g a.1)).map (C (R := Λ))).det = _
     split_ifs
     · exact e0 _
@@ -362,7 +362,7 @@ theorem alternatingTrace_eq_of_isZero {Q : CochainComplex (ModuleCat.{v} R) ℤ}
   · let : Module.Projective R (Q.X i) := (hQ.2 i).1
     let : Module.Finite R (Q.X i) := (hQ.2 i).2
     have := ModuleCat.subsingleton_of_isZero (hz i hi)
-    show (if Even i then Stacks.Trace.projectiveModuleTrace R (Q.X i) (g.f i).hom
+    change (if Even i then Stacks.Trace.projectiveModuleTrace R (Q.X i) (g.f i).hom
       else -Stacks.Trace.projectiveModuleTrace R (Q.X i) (g.f i).hom) = 0
     rw [projectiveModuleTrace_eq_zero_of_subsingleton, neg_zero, ite_self]
 

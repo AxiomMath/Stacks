@@ -30,7 +30,8 @@ arguments discharged; its hypotheses are those of the source together with the p
 What the library lacks for 09IS is narrower than the whole tag: a *compact* generator at a
 quasi-compact quasi-separated scheme **is** in the library, as
 `Stacks.Duality.QcqsGeneration.isCompactlyGenerated_quasiCoherentDerivedCategory` of
-`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsCompactGeneration.lean`, by induction
+`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/QcqsCompactGeneration.lean`, by
+induction
 over a finite affine cover. What is missing is only its *perfectness*, which is Stacks 09M1 — one
 property of an object that has already been constructed, and not a construction. That
 generator is at the locally small derived category, while this file is pinned to

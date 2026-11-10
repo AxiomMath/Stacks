@@ -88,8 +88,7 @@ theorem corrClass_tmul (X Y : (SmoothProjectiveScheme k).FullSubcategory) (e r c
 theorem corrClass_mem (X Y : (SmoothProjectiveScheme k).FullSubcategory) (e r c : ℤ)
     (t : Correspondence (fieldChowSituation k) X.obj.hom Y.obj.hom e r) :
     W.corrClass X Y e r c t ∈ W.grade (prod X Y) (2 * c) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul q α => exact Submodule.smul_mem _ _ (W.corrClassInt_mem _ _ _ _ _ _)
   | add t t' h h' => rw [map_add]; exact Submodule.add_mem _ h h'
 
@@ -97,8 +96,7 @@ theorem corrClass_mem (X Y : (SmoothProjectiveScheme k).FullSubcategory) (e r c 
 theorem corrClass_smul (X Y : (SmoothProjectiveScheme k).FullSubcategory) (e r c : ℤ) (q : ℚ)
     (t : Correspondence (fieldChowSituation k) X.obj.hom Y.obj.hom e r) :
     W.corrClass X Y e r c (q • t) = (q : F) • W.corrClass X Y e r c t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul q' α =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     rw [corrClass_tmul, corrClass_tmul, Rat.cast_mul, mul_smul]
@@ -145,7 +143,7 @@ private theorem pull_cycleClassRing_chowGroupToCodimension_flat {F : Type w} [Fi
 
 omit [CharZero F] in
 /-- **The class of a composite, on integral classes.** -/
-theorem traceProj_corrClassInt_compositionInt (hA : W.PoincareDuality) (hB : W.Kunneth)
+theorem traceProj_corrClassInt_compositionInt (hA : W.PoincareDuality)
     (hC : W.CycleClassAxiom hA.perfectPairing) {X Y Z : (SmoothProjectiveScheme k).FullSubcategory}
     {d e f : ℕ} (hX : IsNonemptyEquidimensional X d) (hY : IsNonemptyEquidimensional Y e)
     (hZ : IsNonemptyEquidimensional Z f)
@@ -235,7 +233,7 @@ theorem traceProj_corrClassInt_compositionInt (hA : W.PoincareDuality) (hB : W.K
 correspondences `c ∈ Corr⁰(X, Y)`, `c' ∈ Corr⁰(Y, Z)`,
 `∫_{X × Z} γ(c' ∘ c) ∪ v = ∫_{X × Y × Z} pr₁₂^*γ(c) ∪ pr₂₃^*γ(c') ∪ pr₁₃^*v`, the trace form of
 `γ(c' ∘ c) = pr₁₃,*(pr₁₂^*γ(c) ∪ pr₂₃^*γ(c'))`. -/
-theorem traceProj_corrClass_composition (hA : W.PoincareDuality) (hB : W.Kunneth)
+theorem traceProj_corrClass_composition (hA : W.PoincareDuality)
     (hC : W.CycleClassAxiom hA.perfectPairing) {X Y Z : (SmoothProjectiveScheme k).FullSubcategory}
     {d e f : ℕ} (hX : IsNonemptyEquidimensional X d) (hY : IsNonemptyEquidimensional Y e)
     (hZ : IsNonemptyEquidimensional Z f)
@@ -249,17 +247,15 @@ theorem traceProj_corrClass_composition (hA : W.PoincareDuality) (hB : W.Kunneth
         (isNonemptyEquidimensional_prod (isNonemptyEquidimensional_prod hX hY) hZ)
         (W.pull (fst (prod X Y) Z) (W.corrClass X Y e 0 d c) *
           W.pull (prodPr₂₃ X Y Z) (W.corrClass Y Z f 0 e c') * W.pull (prodPr₁₃ X Y Z) v) := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | add c₁ c₂ h₁ h₂ => simp only [map_add, LinearMap.add_apply, add_mul, h₁, h₂]
   | tmul q α =>
-    induction c' using TensorProduct.induction_on with
-    | zero => simp
+    induction c' using TensorProduct.inductionOn with
     | add c₁ c₂ h₁ h₂ => simp only [map_add, mul_add, add_mul, h₁, h₂]
     | tmul q' β =>
       rw [composition_tmul, corrClass_tmul, corrClass_tmul, corrClass_tmul]
       simp only [smul_mul_assoc, mul_smul_comm, map_smul, Rat.cast_mul, mul_smul]
-      rw [traceProj_corrClassInt_compositionInt hA hB hC hX hY hZ α β v, smul_comm (q : F)]
+      rw [traceProj_corrClassInt_compositionInt hA hC hX hY hZ α β v, smul_comm (q : F)]
 
 /-- **The class of a closed subscheme of a product** (Stacks 0FHG in trace form): for `X`, `Y`
 nonempty and equidimensional of dimensions `d`, `e` and a closed immersion `Γ : T ⟶ X × Y` with
@@ -310,7 +306,7 @@ theorem traceProj_corrClass_closedSubscheme (hA : W.PoincareDuality) (hB : W.Kun
 
 omit [CharZero F] in
 /-- **The class of a tensor product, on integral classes.** -/
-theorem corrClassInt_tensorInt (hA : W.PoincareDuality) (hB : W.Kunneth)
+theorem corrClassInt_tensorInt (hA : W.PoincareDuality)
     (hC : W.CycleClassAxiom hA.perfectPairing)
     {X X' Y Y' : (SmoothProjectiveScheme k).FullSubcategory}
     {d d' e e' : ℕ} (hX : IsNonemptyEquidimensional X d) (hX' : IsNonemptyEquidimensional X' d')
@@ -385,7 +381,7 @@ theorem corrClassInt_tensorInt (hA : W.PoincareDuality) (hB : W.Kunneth)
 
 /-- **The class of a tensor product of correspondences**: `γ(c ⊗ c') = pr₁₃^*γ(c) ∪ pr₂₄^*γ(c')`
 on `(X × X') × (Y × Y')`, for `X, X', Y, Y'` nonempty and equidimensional. -/
-theorem corrClass_tensorBlock (hA : W.PoincareDuality) (hB : W.Kunneth)
+theorem corrClass_tensorBlock (hA : W.PoincareDuality)
     (hC : W.CycleClassAxiom hA.perfectPairing)
     {X X' Y Y' : (SmoothProjectiveScheme k).FullSubcategory}
     {d d' e e' : ℕ} (hX : IsNonemptyEquidimensional X d) (hX' : IsNonemptyEquidimensional X' d')
@@ -398,14 +394,7 @@ theorem corrClass_tensorBlock (hA : W.PoincareDuality) (hB : W.Kunneth)
           0 0 c c') =
       W.pull (prodTensorPr₁₃ X X' Y Y') (W.corrClass X Y e 0 d c) *
         W.pull (prodTensorPr₂₄ X X' Y Y') (W.corrClass X' Y' e' 0 d' c') := by
-  induction c using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero (tensorBlock k X.obj.hom X'.obj.hom Y.obj.hom Y'.obj.hom
-        (canonicalDiagonalClassFamily k) hX.relativeDimension hX'.relativeDimension
-        hY.relativeDimension hY'.relativeDimension 0 0),
-      LinearMap.zero_apply]
-    refine (map_zero (W.corrClass _ _ _ _ _)).trans ?_
-    rw [map_zero, map_zero, zero_mul]
+  induction c using TensorProduct.inductionOn with
   | add c₁ c₂ h₁ h₂ =>
     rw [map_add (tensorBlock k X.obj.hom X'.obj.hom Y.obj.hom Y'.obj.hom
         (canonicalDiagonalClassFamily k) hX.relativeDimension hX'.relativeDimension
@@ -414,14 +403,7 @@ theorem corrClass_tensorBlock (hA : W.PoincareDuality) (hB : W.Kunneth)
     refine (map_add (W.corrClass _ _ _ _ _) _ _).trans ?_
     rw [h₁, h₂, map_add, map_add, add_mul]
   | tmul q α =>
-    induction c' using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero ((tensorBlock k X.obj.hom X'.obj.hom Y.obj.hom Y'.obj.hom
-        (canonicalDiagonalClassFamily k) hX.relativeDimension hX'.relativeDimension
-        hY.relativeDimension hY'.relativeDimension 0 0)
-        (q ⊗ₜ α))]
-      refine (map_zero (W.corrClass _ _ _ _ _)).trans ?_
-      rw [map_zero, map_zero, mul_zero]
+    induction c' using TensorProduct.inductionOn with
     | add c₁ c₂ h₁ h₂ =>
       rw [map_add ((tensorBlock k X.obj.hom X'.obj.hom Y.obj.hom Y'.obj.hom
         (canonicalDiagonalClassFamily k) hX.relativeDimension hX'.relativeDimension
@@ -432,7 +414,7 @@ theorem corrClass_tensorBlock (hA : W.PoincareDuality) (hB : W.Kunneth)
     | tmul q' β =>
       rw [tensorBlock_tmul, corrClass_tmul, corrClass_tmul]
       refine (W.corrClass_tmul _ _ _ _ _ _ _).trans ?_
-      rw [corrClassInt_tensorInt hA hB hC hX hX' hY hY' α β]
+      rw [corrClassInt_tensorInt hA hC hX hX' hY hY' α β]
       simp only [map_smul, smul_mul_assoc, mul_smul_comm, Rat.cast_mul, mul_smul]
       exact smul_comm _ _ _
 
@@ -441,7 +423,7 @@ omit [CharZero F] in
 `φ : M ⟶ N` over `k` of nonempty schemes equidimensional of the same dimension `n`, and a
 rational class `t` of dimension `m` on `M`, `∫_N γ(φ_*t) ∪ v = ∫_M γ(t) ∪ φ^*v`. -/
 theorem traceProj_cycleClassRing_properChowPushforward (hA : W.PoincareDuality)
-    (hB : W.Kunneth) (hC : W.CycleClassAxiom hA.perfectPairing)
+    (hC : W.CycleClassAxiom hA.perfectPairing)
     {M N : (SmoothProjectiveScheme k).FullSubcategory} {n : ℕ} (hM : IsNonemptyEquidimensional M n)
     (hN : IsNonemptyEquidimensional N n) (φ : M.obj.left ⟶ N.obj.left) [IsProper φ]
     (hφ : φ ≫ N.obj.hom = M.obj.hom) (m c : ℤ) (hc : c = n - m)

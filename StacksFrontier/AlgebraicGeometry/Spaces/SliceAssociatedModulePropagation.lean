@@ -64,7 +64,7 @@ public theorem coverByImage_isAffine_mem_slice (Z : Over X) :
     (coverByImage_affineEtale_mem_over B S hS F hF X Z)
   rintro W g ⟨⟨A, lift, map, fac⟩⟩
   refine ⟨⟨⟨Over.mk (map ≫ Z.hom), A.property⟩, Over.homMk lift ?_, Over.homMk map ?_, ?_⟩⟩
-  · show lift ≫ map ≫ Z.hom = W.hom
+  · change lift ≫ map ≫ Z.hom = W.hom
     rw [← Category.assoc, fac]
     exact Over.w g
   · rfl

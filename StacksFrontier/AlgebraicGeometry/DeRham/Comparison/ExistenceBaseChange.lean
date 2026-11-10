@@ -169,19 +169,7 @@ theorem chartTwistedEquiv_twistedPullbackFormsBaseChange
     have hx := H (f.twistedSectionsEquiv c.1.1.2.2 (f.detNL hf) p x)
     simpa only [LinearEquiv.symm_apply_apply] using hx
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    refine (congrArg (fun y => f'.chartTwistedEquiv hf' c' p
-        ((twistedPullbackFormsBaseChange (f.detNL hf) w (detNLPullbackIso w hf hf').hom p).val.app
-          (op c'.1.1.2.1) (Scheme.Modules.pullbackSection b (f.twistedPullbackForms (f.detNL hf) p)
-            c.1.1.2.1 c'.1.1.2.1 hV y))) (map_zero _)).trans ?_
-    refine (congrArg (fun y => f'.chartTwistedEquiv hf' c' p
-        ((twistedPullbackFormsBaseChange (f.detNL hf) w (detNLPullbackIso w hf hf').hom p).val.app
-          (op c'.1.1.2.1) y))
-      (Stacks.Conormal.pullbackSection_zero b _ _ _ hV)).trans ?_
-    refine (congrArg (f'.chartTwistedEquiv hf' c' p) (map_zero _)).trans ?_
-    refine (map_zero _).trans ?_
-    simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
     refine (congrArg (fun y => f'.chartTwistedEquiv hf' c' p
         ((twistedPullbackFormsBaseChange (f.detNL hf) w (detNLPullbackIso w hf hf').hom p).val.app

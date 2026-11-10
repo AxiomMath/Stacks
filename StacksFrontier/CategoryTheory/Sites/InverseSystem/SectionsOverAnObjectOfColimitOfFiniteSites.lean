@@ -519,7 +519,7 @@ theorem sectionOver_colimit_of_oneHypercoverOf [Finite κ'] [Finite ν']
   · have hfin := hsepMF n a (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a t)
       (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a t')
       (by
-        show σ a (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a t) =
+        change σ a (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a t) =
           σ a (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a t')
         rw [hkey n a t, hkey n a t', h])
     simpa only [levelSectionEquiv_apply_val D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn] using hfin

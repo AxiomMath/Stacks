@@ -62,6 +62,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut; a local instance below). -/
 theorem hasPullbacks_presheaf_noetherianValuativeSeparated :
@@ -156,7 +157,7 @@ theorem hasLift_of_isPullback_diagonal_of_discreteValuativeUniqueness
       W :=
     Over.homMk (ObjectProperty.homMk D.i₁ : B.obj hK ⟶ W.left) (by
       apply ObjectProperty.hom_ext
-      show D.i₁ ≫ (B.inclusion).map W.hom =
+      change D.i₁ ≫ (B.inclusion).map W.hom =
         Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ baseR
       rw [hWhom, ← Category.assoc, D.commSq.w, Category.assoc])
   obtain ⟨m, hmπ⟩ := exists_comp_eq_of_isPullback_diagonal B S hS hsq aV
@@ -164,7 +165,7 @@ theorem hasLift_of_isPullback_diagonal_of_discreteValuativeUniqueness
       (by
         apply Over.OverMorphism.ext
         apply ObjectProperty.hom_ext
-        show Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
+        change Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
           D.i₁ ≫ (BigFppfOver.toScheme B S hS).map π
         exact D.commSq.w.symm))
   have hlφ : (BigFppfOver.toScheme B S hS).map m ≫ (BigFppfOver.toScheme B S hS).map π =

@@ -49,7 +49,7 @@ theorem finiteTrace_app_one_of_linearEquiv (W : P.Opens) (hW : IsAffineOpen W) (
   have := f.moduleFinite_app W hW
   have := f.moduleProjective_app W hW
   refine (f.finiteTrace_app_of_isAffineOpen W hW 1).trans ?_
-  show Stacks.Discriminant.finiteProjectiveTrace Γ(P, W) Γ(X, f ⁻¹ᵁ W)
+  change Stacks.Discriminant.finiteProjectiveTrace Γ(P, W) Γ(X, f ⁻¹ᵁ W)
     (Algebra.lmul Γ(P, W) Γ(X, f ⁻¹ᵁ W) 1) = _
   rw [map_one, Module.End.one_eq_id,
     Stacks.Discriminant.finiteProjectiveTrace_eq_trace_of_split Γ(P, W) Γ(X, f ⁻¹ᵁ W)

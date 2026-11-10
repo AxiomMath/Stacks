@@ -179,8 +179,9 @@ def transitionRingedToposModulesPullback {n m : SimplexCategory} (φ : n ⟶ m) 
       SheafOfModules.{u} (S.componentRingSheaf (Stacks.SheafOfModules.Tensor.ringSheaf P) m) :=
   (S.transitionRingedToposHom P φ).toRingedToposModulesHom.pullbackModules
 
-/-- `transitionRingedToposModulesPullback` read through `AlgebraicGeometry.RingedToposHom.toModulesHom`
-rather than `toRingedToposModulesHom`: the spelling in which the module transitions of Stacks
+/-- `transitionRingedToposModulesPullback` read through
+`AlgebraicGeometry.RingedToposHom.toModulesHom` rather than `toRingedToposModulesHom`: the
+spelling in which the module transitions of Stacks
 09WF (`CategoryTheory.SimplicialSiteSituation.componentModuleTransition`) are stated, so that
 the direct-sum formula of Stacks 0D72 can be compared with them definitionally. The two readings
 are equal, by `AlgebraicGeometry.RingedToposHom.toModulesHom_eq_toRingedToposModulesHom`. -/
@@ -209,7 +210,8 @@ variable (n : SimplexCategory)
 components and restricts scalars along the identity, neither of which changes the underlying
 additive maps. -/
 local instance additive_componentModuleRestriction_ringSheaf (m : SimplexCategory) :
-    (S.componentModuleRestriction ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m).Additive where
+    (S.componentModuleRestriction
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m).Additive where
   map_add := rfl
 
 /-- The componentwise direct-sum formula of Stacks 0D72 (6): the summand at `φ` is the pullback

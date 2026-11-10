@@ -138,7 +138,7 @@ theorem bijective_coproductRestriction [EnoughInjectives C] (n : ℕ) (Y : C) :
       rw [← homEquiv₀_coproductRestriction, ← homEquiv₀_coproductRestriction, congrFun he i]
     · refine ⟨homEquiv₀.symm (Sigma.desc fun i => homEquiv₀ (y i)), funext fun i => ?_⟩
       refine homEquiv₀.injective ?_
-      rw [homEquiv₀_coproductRestriction, Equiv.apply_symm_apply, Sigma.ι_desc]
+      rw [homEquiv₀_coproductRestriction, Equiv.apply_symm_apply, Sigma.ι_comp_desc]
   | succ n ih =>
     exact bijective_coproductRestriction_succ X
       (S := ShortComplex.mk (Injective.ι Y) (cokernel.π (Injective.ι Y)) (cokernel.condition _))

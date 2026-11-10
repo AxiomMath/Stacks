@@ -76,6 +76,7 @@ noncomputable abbrev pullbackOneTmul
       ((Stacks.Sheaves.RingedToposModules.inverseImageModules f.toToposHom
         ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).obj G))
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The unit of `f^* ⊣ f_*` on underlying sheaves of sets is the transpose of `x ↦ 1 ⊗ x`. -/
 theorem moduleSheafFunctor_map_pullbackAdjPushforwardModules_unit_app_eq_homEquiv
     (G : SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))) :
@@ -151,6 +152,7 @@ theorem unit_comp_pushforwardModulesCompIso
     CategoryTheory.Functor.map_id, Category.id_comp,
     ← (pushforwardModulesCompIso f₁ f₂).hom.naturality, ← Category.assoc, ← h2, Category.assoc]
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The map `x ↦ 1 ⊗ x` of a morphism `f` 2-isomorphic to `f₂ ∘ f₁` factors as the comparison
 `f⁻¹ ≅ f₁⁻¹f₂⁻¹`, the inverse image along `f₁` of the map of `f₂`, the map of `f₁`, and the
 comparison `f₁^*f₂^* ≅ f^*`. -/
@@ -284,6 +286,7 @@ theorem _root_.ModuleCat.comp_apply_eq_of_apply_eq₅ {R : Type w} [Ring R]
   subst ha hb hc hd he
   rfl
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **Stacks 05V5 composes**, for an abstract composable pair of morphisms of ringed topoi and a
 third one 2-isomorphic to the composite, at points whose fibre comparisons compose. -/
 theorem stalkFunctorIso_inv_app_comp
@@ -406,6 +409,7 @@ theorem stalkFunctorIso_inv_app_comp
   exact congrArg (Stacks.Sheaves.StalkTransport.moduleStalkComparison Φ''
     ((Stacks.SheafOfModules.Tensor.ringSheaf X''.O)) (f.toModulesHom.pullbackModules.obj M)) hz
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- `AlgebraicGeometry.RingedToposHom.stalkFunctorIso_inv_app_comp` for the four-field forms
 `toRingedToposModulesHom`, whose underlying morphisms of topoi are those of the two-field ones. -/
 theorem stalkFunctorIso_inv_app_comp_toRingedToposModulesHom
@@ -469,6 +473,7 @@ theorem stalkFunctorIso_inv_app_comp_toRingedToposModulesHom
       (((conjugateIsoEquiv (f₂.comp f₁).toToposHom.adj f.toToposHom.adj).symm τ).inv.app F))
     _ _ _ (He F)
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- `AlgebraicGeometry.RingedToposHom.stalkFunctorIso_inv_app_comp_toRingedToposModulesHom` with
 the inverse-image comparison and the transported pullback given in any spelling. -/
 theorem stalkFunctorIso_inv_app_comp_of_eq

@@ -39,7 +39,7 @@ theorem singleFunctorIsoCompQh_hom_app (n : ℤ) (M : C) :
     (singleFunctorIsoCompQh C n).hom.app M =
       (quotientCompQhIso C).inv.app
         ((HomologicalComplex.single C (ComplexShape.up ℤ) n).obj M) := by
-  show (((CochainComplex.singleFunctors C).postcompIsoOfIso (quotientCompQhIso C).symm).hom.hom
+  change (((CochainComplex.singleFunctors C).postcompIsoOfIso (quotientCompQhIso C).symm).hom.hom
       n).app M ≫ (((CochainComplex.singleFunctors C).postcompPostcompIso _ _).inv.hom n).app M = _
   rw [SingleFunctors.postcompIsoOfIso_hom_hom_app, SingleFunctors.postcompPostcompIso_inv_hom_app]
   exact Category.comp_id _
@@ -49,7 +49,7 @@ theorem singleFunctorIsoCompQh_inv_app (n : ℤ) (M : C) :
     (singleFunctorIsoCompQh C n).inv.app M =
       (quotientCompQhIso C).hom.app
         ((HomologicalComplex.single C (ComplexShape.up ℤ) n).obj M) := by
-  show (((CochainComplex.singleFunctors C).postcompPostcompIso _ _).hom.hom n).app M ≫
+  change (((CochainComplex.singleFunctors C).postcompPostcompIso _ _).hom.hom n).app M ≫
     (((CochainComplex.singleFunctors C).postcompIsoOfIso (quotientCompQhIso C).symm).inv.hom
       n).app M = _
   rw [SingleFunctors.postcompIsoOfIso_inv_hom_app, SingleFunctors.postcompPostcompIso_hom_hom_app]
@@ -71,7 +71,7 @@ theorem singleFunctors_shiftIso_hom_app_f (C : Type*) [Category* C] [Preadditive
   simp only [NatIso.ofComponents_hom_app, HomologicalComplex.Hom.isoOfComponents_hom_f,
     eqToIso.hom]
   refine ⟨?_, trivial⟩
-  show (if i + n = a' then X else 0) = (if i = a then X else 0)
+  change (if i + n = a' then X else 0) = (if i = a then X else 0)
   exact if_congr (show i + n = a' ↔ i = a by omega) rfl rfl
 
 /-- The components of the inverse commutation of single complexes with the shift are identities
@@ -95,7 +95,7 @@ theorem singleMapHomologicalComplex_hom_app_f_eq {C D : Type*} [Category* C] [Ca
   subst h
   rw [HomologicalComplex.singleMapHomologicalComplex_hom_app_self]
   refine ⟨by
-    show G.obj (if i = i then X else 0) = (if i = i then G.obj X else 0)
+    change G.obj (if i = i then X else 0) = (if i = i then G.obj X else 0)
     simp, ?_⟩
   simp [HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq, eqToHom_map]
 
@@ -127,7 +127,7 @@ theorem mapHomologicalComplex_singleShift (M : A) (n : ℤ) :
     simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
       Functor.mapHomologicalComplex_commShiftIso_hom_app_f, shiftFunctor_map_f']
     rw [h₁, h₂, h₃, h₄, h₅, h₆]
-    simp only [Functor.map_comp, eqToHom_map, eqToHom_trans]
+    simp only [eqToHom_map, eqToHom_trans]
     refine (congrArg (_ ≫ ·) (Category.id_comp _)).trans
       (Eq.trans ?_ (Category.id_comp _).symm)
     rw [eqToHom_trans]

@@ -108,7 +108,7 @@ theorem generatesOnChart_of_chartRatio_eq_algebraMap
     GeneratesOnChart B S hS X.2 L t V := by
   refine ⟨fun Z j ↦ chartRestrict (hF := X.2) j y • e Z j, ?_, ?_, ?_⟩
   · intro Z Z' j g
-    show (L.val.map g.op).hom (chartRestrict (hF := X.2) j y • e Z j) =
+    change (L.val.map g.op).hom (chartRestrict (hF := X.2) j y • e Z j) =
       chartRestrict (hF := X.2) (g ≫ j) y • e Z' (g ≫ j)
     refine Eq.trans
       (L.val.map_smul g.op (chartRestrict (hF := X.2) j y) (e Z j)) ?_
@@ -116,7 +116,7 @@ theorem generatesOnChart_of_chartRatio_eq_algebraMap
     exact congrArg (fun v : chartRing B S hS X.1 X.2 Z' ↦ v • e Z' (g ≫ j))
       (DFunLike.congr_fun (chartRestrict_comp (hF := X.2) j g) y).symm
   · intro Z j
-    show Function.Bijective fun r : chartRing B S hS X.1 X.2 Z ↦
+    change Function.Bijective fun r : chartRing B S hS X.1 X.2 Z ↦
       r • (chartRestrict (hF := X.2) j y • e Z j)
     have huZ : IsUnit (chartRestrict (hF := X.2) j y) := hyu.map (chartRestrict (hF := X.2) j)
     have hmul : Function.Bijective
@@ -129,7 +129,7 @@ theorem generatesOnChart_of_chartRatio_eq_algebraMap
       funext fun r ↦ smul_smul r (chartRestrict (hF := X.2) j y) (e Z j)
     rw [heq]
     exact (hfree Z j).comp hmul
-  · show t.eval (op V) = toMeromorphicSectionSheaf B S hS X.1 X.2 L V
+  · change t.eval (op V) = toMeromorphicSectionSheaf B S hS X.1 X.2 L V
       ((1 : (Stacks.SheafOfModules.Tensor.ringSheaf
           (meromorphicRingedSite B S hS X.1 X.2).O).obj.obj (op V)) ⊗ₜ[
         chartRing B S hS X.1 X.2 V] (chartRestrict (hF := X.2) (𝟙 V) y • e V (𝟙 V)) :

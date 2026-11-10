@@ -99,7 +99,7 @@ theorem residueFibreOrdOfPoint_comap {X : Scheme.{u}} [AlgebraicGeometry.IsInteg
       residueFibreOrdOfPoint.{u, v} U x
         (Additive.ofMul (Units.map (etaleGenericFibreMap φ).appTop.hom.toMonoidHom a)) := by
   refine LocallyConstant.ext fun y => ?_
-  show ULift.up (etaleGenericFibreOrdOfPoint V
+  change ULift.up (etaleGenericFibreOrdOfPoint V
       ((pullback.fst V.hom (X.fromSpecResidueField x))
         (((smallEtaleBaseChange (X.fromSpecResidueField x)).map φ).left y))
       (Additive.ofMul a)) =

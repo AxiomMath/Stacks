@@ -124,7 +124,7 @@ lemma galoisAction_involutive [FiniteDimensional k K] [IsGalois k K]
     (hdegree : Module.finrank k K = 2) (σ : K ≃ₐ[k] K) :
     galoisAction k K σ ≫ galoisAction k K σ = 𝟙 _ := by
   have hσsq : σ.trans σ = 1 := by
-    show σ * σ = 1
+    change σ * σ = 1
     simpa only [IsGalois.card_aut_eq_finrank, hdegree, pow_two] using
       (pow_card_eq_one' (x := σ))
   have hσring : (σ : K →+* K).comp (σ : K →+* K) = RingHom.id K :=
@@ -242,21 +242,21 @@ theorem twistedRelation_source (σ : K ≃ₐ[k] K) :
 @[simp]
 theorem relationFirst_inl :
     (coprod.inl : cover K ⟶ relationScheme K) ≫ (relationFirst k K).left = 𝟙 (cover K) := by
-  simp [relationFirst, coprod.inl_desc]
+  simp [relationFirst]
 
 /-- The first projection restricts to the inclusion of the puncture on the punctured summand. -/
 @[simp]
 theorem relationFirst_inr :
     (coprod.inr : (puncturedCover K).toScheme ⟶ relationScheme K) ≫ (relationFirst k K).left =
       (puncturedCover K).ι := by
-  simp [relationFirst, coprod.inr_desc]
+  simp [relationFirst]
 
 /-- The second projection restricts to the identity on the diagonal summand. -/
 @[simp]
 theorem relationSecond_inl (σ : K ≃ₐ[k] K) :
     (coprod.inl : cover K ⟶ relationScheme K) ≫ (relationSecond k K σ).left =
       𝟙 (cover K) := by
-  simp [relationSecond, coprod.inl_desc]
+  simp [relationSecond]
 
 /-- The second projection restricts on the punctured summand to the inclusion of the puncture
 followed by the Galois automorphism. -/
@@ -265,7 +265,7 @@ theorem relationSecond_inr (σ : K ≃ₐ[k] K) :
     (coprod.inr : (puncturedCover K).toScheme ⟶ relationScheme K) ≫
         (relationSecond k K σ).left =
       (puncturedCover K).ι ≫ galoisAction k K σ := by
-  simp [relationSecond, coprod.inr_desc]
+  simp [relationSecond]
 
 /-- The quotient `X = U/R` of the affine line over a quadratic Galois extension by the diagonal
 together with the twisted diagonal away from zero. -/

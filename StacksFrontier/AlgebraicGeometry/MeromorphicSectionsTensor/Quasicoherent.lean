@@ -30,7 +30,8 @@ both as part
 The last three declarations of this file restate the two tagged results in the binder
 order of the reference statements, with every reference constant replaced by its own defining
 expression. The six `card…` abbreviations above them transcribe, one by one, the bodies of the
-reference constants the two statements use — the sheaf of total quotient rings and its structure map (Tag 01X4, by
+reference constants the two statements use — the sheaf of total quotient rings and its structure map
+(Tag 01X4, by
 sheafifying `AlgebraicGeometry.TopCat.Presheaf.totalQuotientPresheaf` and its unit), the
 `RingCat`-valued form of a sheaf of commutative rings (Tag 03ER/04BR), the extension-of-scalars
 functor (Tag 03CZ, whose body is
@@ -46,8 +47,8 @@ written down. Each abbreviation is the reference statement's own text.
 As for `Stacks.AlgebraicGeometry.GenericPointCoproduct`
 `.meromorphicFunctions_iso_coproduct_of_noEmbeddedPoints`, the embedded-point
 predicate is inlined down to `Stacks.Divisors.IsAssociatedPoint`, which is the
-associated-point predicate of Tag 02OJ with the same module structure on the stalk; the reference statement
-supplies that structure by a `letI` because typeclass resolution does not find it for an
+associated-point predicate of Tag 02OJ with the same module structure on the stalk; the reference
+statement supplies that structure by a `letI` because typeclass resolution does not find it for an
 `X.Modules`. The reference statement's `x' ⤳ x` is the specialization relation, which is how
 `AlgebraicGeometry.IsEmbeddedAssociatedPoint` states it.
 

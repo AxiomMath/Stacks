@@ -140,13 +140,13 @@ theorem exists_descentPushout_of_isQuasiAffineHom
     · simp
     · rw [Iso.refl_hom, Category.id_comp, ← hW']
       ext x
-      show (AlgEquiv.ofBijective _ hbij) (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
-      show Algebra.TensorProduct.productMap _ _ (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
+      change (AlgEquiv.ofBijective _ hbij) (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
+      change Algebra.TensorProduct.productMap _ _ (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
       rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, mul_one]
       rfl
     · rw [Iso.refl_hom, Category.id_comp]
       ext x
-      show Algebra.TensorProduct.productMap _ _ ((1 : ↥Γ(Sc, ⊤)) ⊗ₜ[↥Γ(Sa, ⊤)] x) = _
+      change Algebra.TensorProduct.productMap _ _ ((1 : ↥Γ(Sc, ⊤)) ⊗ₜ[↥Γ(Sa, ⊤)] x) = _
       rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, one_mul]
       rfl
   · have hsχ : π₁.appTop ≫ (Scheme.appTopIso φ).hom = s.appTop := by

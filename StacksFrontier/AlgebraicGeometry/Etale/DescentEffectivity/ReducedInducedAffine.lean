@@ -127,7 +127,7 @@ theorem exists_isIso_reducedInducedScheme_of_range_eq {X Y : Scheme.{u}} (T : Se
   have : Surjective g := ⟨hgsurj⟩
   have : IsIso g := isIso_of_isClosedImmersion_of_surjective g
   refine ⟨(asIso g).symm, ?_⟩
-  show CategoryTheory.inv g ≫ f = reducedInducedInclusion T hT
+  change CategoryTheory.inv g ≫ f = reducedInducedInclusion T hT
   rw [← hg, IsIso.inv_hom_id_assoc]
 
 /-! ### The identification bridge over an affine base -/

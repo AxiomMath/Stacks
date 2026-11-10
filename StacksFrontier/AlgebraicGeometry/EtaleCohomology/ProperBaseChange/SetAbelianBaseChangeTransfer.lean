@@ -55,10 +55,10 @@ lemma hComp_app_of_eq (w : TwoSquare G L₁ L₂ H) (τ₂ : TwoSquare ΦE L₂ 
     (τ₁ : TwoSquare ΦC L₁ L₁' ΦD) (w' : TwoSquare G' L₁' L₂' H')
     (σG : G ⋙ ΦE ⟶ ΦC ⋙ G') (σH : ΦD ⋙ H' ⟶ H ⋙ ΦF)
     (heq : w ≫ₕ τ₂ = ((τ₁ ≫ₕ w').whiskerTop σG).whiskerBottom σH) (c : C) :
-    τ₂.natTrans.app (G.obj c) ≫ ΦF.map (w.natTrans.app c) =
-      L₂'.map (σG.app c) ≫ w'.natTrans.app (ΦC.obj c) ≫ H'.map (τ₁.natTrans.app c) ≫
+    τ₂.app (G.obj c) ≫ ΦF.map (w.app c) =
+      L₂'.map (σG.app c) ≫ w'.app (ΦC.obj c) ≫ H'.map (τ₁.app c) ≫
         σH.app (L₁.obj c) := by
-  have := congrArg (fun z ↦ z.natTrans.app c) heq
+  have := congrArg (fun z ↦ z.app c) heq
   simpa [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom] using this
 
 end Abstract
@@ -81,7 +81,7 @@ abbrev etaleForgetPullback {S T : Scheme.{u}} (k : T ⟶ S) :
 
 /-- The comparison of inverse image with the forgetful functor is a natural isomorphism. -/
 private instance isIso_etaleForgetPullback_natTrans {S T : Scheme.{u}} (k : T ⟶ S) :
-    IsIso (etaleForgetPullback k).natTrans :=
+    IsIso (etaleForgetPullback k) :=
   isIso_coefficientPullbackTwoSquare _ _ _ _
 
 /-- The forgetful functor carries the composition comparison of direct images at abelian
@@ -144,7 +144,7 @@ lemma smallEtaleSetBaseChange_eq_mateEquiv_symm {X X' Y Y' : Scheme.{u}} (f : X 
           (smallEtaleInverseImageAdjunction.{u, 0} g)).symm
         (TwoSquare.mk _ _ _ _
           ((smallEtalePushforwardComp' g' f (g' ≫ f) rfl (Type (u + 1))).hom ≫
-            (smallEtalePushforwardComp' f' g (g' ≫ f) h (Type (u + 1))).inv))).natTrans := by
+            (smallEtalePushforwardComp' f' g (g' ≫ f) h (Type (u + 1))).inv))) := by
   rw [← smallEtaleSetBaseChange_twoSquare_eq]
   rfl
 
@@ -192,7 +192,7 @@ theorem forget_directImageSquare :
         Y.smallEtaleTopology Y'.smallEtaleTopology (forget AddCommGrpCat.{u + 1}) :=
     mateEquiv_coefficientPullbackTwoSquare _ _ _ _
   rw [h₁, h₂]
-  refine TwoSquare.ext _ _ fun M ↦ ?_
+  refine NatTrans.ext (funext fun M ↦ ?_)
   rfl
 
 /-- **The forgetful functor carries the abelian base change map to the set base change map**,
@@ -206,11 +206,11 @@ f'_* (g')^{-1} U M --> f'_* U (g')^{-1} M
 ```
 commutes, the vertical maps being the base change maps at set and at abelian coefficients. -/
 theorem forget_etaleAbelianBaseChange_app (M : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) :
-    (etaleForgetPullback g).natTrans.app ((etaleAbelianDirectImage.{u, 0} f).obj M) ≫
+    (etaleForgetPullback g).app ((etaleAbelianDirectImage.{u, 0} f).obj M) ≫
         (etaleForget Y').map ((etaleAbelianBaseChange.{u, 0} f g g' f' h).app M) =
       (smallEtaleSetBaseChange.{u, 0} g' f' f g h).app ((etaleForget X).obj M) ≫
         (smallEtalePushforward f' (Type (u + 1))).map
-          ((etaleForgetPullback g').natTrans.app M) := by
+          ((etaleForgetPullback g').app M) := by
   have key := hComp_app_of_eq _ _ _ _ _ _
     (Stacks.CategoryTheory.mateEquiv_symm_hComp_eq
       (G := etaleAbelianDirectImage.{u, 0} f) (H := etaleAbelianDirectImage.{u, 0} f')
@@ -239,10 +239,10 @@ theorem isIso_etaleAbelianBaseChange_app_iff
       IsIso ((smallEtaleSetBaseChange.{u, 0} g' f' f g h).app ((etaleForget X).obj M)) := by
   have key := forget_etaleAbelianBaseChange_app f g g' f' h M
   have : IsIso ((smallEtalePushforward f' (Type (u + 1))).map
-      ((etaleForgetPullback g').natTrans.app M)) := inferInstance
+      ((etaleForgetPullback g').app M)) := inferInstance
   rw [← isIso_iff_of_reflects_iso _ (etaleForget Y'),
     ← isIso_comp_left_iff
-      ((etaleForgetPullback g).natTrans.app ((etaleAbelianDirectImage.{u, 0} f).obj M)), key]
+      ((etaleForgetPullback g).app ((etaleAbelianDirectImage.{u, 0} f).obj M)), key]
   exact @isIso_comp_right_iff _ _ _ _ _ _ _ this
 
 /-- **Transport of base change from sheaves of sets to abelian sheaves.** If the base change map
@@ -268,7 +268,7 @@ lemma FreeAbelianGroup.exists_of_eq_of_of_eq_map {S : Type*} (x : FreeAbelianGro
   push Not at hne
   have h0 : (FreeAbelianGroup.coeff x).comp (FreeAbelianGroup.map FreeAbelianGroup.of) = 0 := by
     refine FreeAbelianGroup.lift_ext _ _ fun s ↦ ?_
-    simp [FreeAbelianGroup.coeff, Finsupp.single_apply, hne s]
+    simp [FreeAbelianGroup.coeff, hne s]
   have h1 := congrArg (FreeAbelianGroup.coeff x) h
   have h2 : FreeAbelianGroup.coeff x (FreeAbelianGroup.map FreeAbelianGroup.of x) = 0 := by
     rw [← AddMonoidHom.comp_apply, h0, AddMonoidHom.zero_apply]
@@ -343,11 +343,11 @@ lemma isIso_app_of_isLimit_fork {𝒞 𝒟 : Type*} [Category* 𝒞] [Category* 
   have hkι : k ≫ Φ.map ι = Ψ.map ι ≫ inv (β.app Y) := Fork.IsLimit.lift_ι hΦ
   refine ⟨k, ?_, ?_⟩
   · refine Fork.IsLimit.hom_ext hΦ ?_
-    show (β.app X ≫ k) ≫ Φ.map ι = 𝟙 _ ≫ Φ.map ι
+    change (β.app X ≫ k) ≫ Φ.map ι = 𝟙 _ ≫ Φ.map ι
     rw [Category.assoc, hkι, ← Category.assoc, ← β.naturality, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id, Category.id_comp]
   · refine Fork.IsLimit.hom_ext hΨ ?_
-    show (k ≫ β.app X) ≫ Ψ.map ι = 𝟙 _ ≫ Ψ.map ι
+    change (k ≫ β.app X) ≫ Ψ.map ι = 𝟙 _ ≫ Ψ.map ι
     rw [Category.assoc, ← β.naturality, ← Category.assoc, hkι, Category.assoc, IsIso.inv_hom_id,
       Category.comp_id, Category.id_comp]
 
@@ -437,11 +437,11 @@ theorem isIso_etaleAbelianInverseImage_map_iff {S T : Scheme.{u}} (k : T ⟶ S)
     {A B : Sheaf S.smallEtaleTopology AddCommGrpCat.{u + 1}} (m : A ⟶ B) :
     IsIso ((etaleAbelianInverseImage.{u, 0} k).map m) ↔
       IsIso ((smallEtaleInverseImage.{u, 0} k).map ((etaleForget S).map m)) := by
-  have hn := (etaleForgetPullback k).natTrans.naturality m
+  have hn := (etaleForgetPullback k).naturality m
   rw [← isIso_iff_of_reflects_iso _ (etaleForget T)]
-  show IsIso ((etaleForget T).map ((etaleAbelianInverseImage.{u, 0} k).map m)) ↔ _
-  rw [← isIso_comp_left_iff ((etaleForgetPullback k).natTrans.app A)]
-  show IsIso (_ ≫ ((etaleAbelianInverseImage.{u, 0} k ⋙ etaleForget T).map m)) ↔ _
+  change IsIso ((etaleForget T).map ((etaleAbelianInverseImage.{u, 0} k).map m)) ↔ _
+  rw [← isIso_comp_left_iff ((etaleForgetPullback k).app A)]
+  change IsIso (_ ≫ ((etaleAbelianInverseImage.{u, 0} k ⋙ etaleForget T).map m)) ↔ _
   rw [← hn]
   exact isIso_comp_right_iff _ _
 
@@ -459,17 +459,17 @@ theorem isIso_etaleAbelianInverseImage_map_etaleAbelianBaseChange_app {T : Schem
     IsIso ((etaleAbelianInverseImage.{u, 0} k).map
       ((etaleAbelianBaseChange.{u, 0} f g g' f' h).app M)) := by
   have : IsIso ((smallEtaleInverseImage.{u, 0} k).map
-      ((smallEtalePushforward f' (Type (u + 1))).map ((etaleForgetPullback g').natTrans.app M))) :=
+      ((smallEtalePushforward f' (Type (u + 1))).map ((etaleForgetPullback g').app M))) :=
     inferInstance
   have key := ((smallEtaleInverseImage.{u, 0} k).map_comp _ _).symm.trans
     ((congrArg (smallEtaleInverseImage.{u, 0} k).map
       (forget_etaleAbelianBaseChange_app f g g' f' h M)).trans
       ((smallEtaleInverseImage.{u, 0} k).map_comp
         ((smallEtaleSetBaseChange.{u, 0} g' f' f g h).app ((etaleForget X).obj M))
-        ((smallEtalePushforward f' (Type (u + 1))).map ((etaleForgetPullback g').natTrans.app M))))
+        ((smallEtalePushforward f' (Type (u + 1))).map ((etaleForgetPullback g').app M))))
   rw [isIso_etaleAbelianInverseImage_map_iff,
     ← isIso_comp_left_iff ((smallEtaleInverseImage.{u, 0} k).map
-      ((etaleForgetPullback g).natTrans.app ((etaleAbelianDirectImage.{u, 0} f).obj M))), key]
+      ((etaleForgetPullback g).app ((etaleAbelianDirectImage.{u, 0} f).obj M))), key]
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ hs this
 
 end StalkTransfer

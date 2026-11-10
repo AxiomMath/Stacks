@@ -104,7 +104,7 @@ theorem generic_residueField_essentiallyEtale {A : Type u} [CommRing A] [IsNoeth
     ⟨RingHom.injective _, X.residue_surjective x⟩
   have hφ : ((X.residue x).hom.comp (algebraMap A T)) =
       ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop ≫ X.Γevaluation x).hom := by
-    show (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appLE ⊤ U (by simp) ≫
+    change (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appLE ⊤ U (by simp) ≫
       X.presheaf.germ U x hxU) ≫ X.residue x).hom = _
     rw [Category.assoc, Hom.appLE_top_germ]
     rfl
@@ -153,7 +153,7 @@ theorem finite_integralClosure_generic_sections {A : Type u} [CommRing A] [IsLoc
     have hi := generic_residueField_essentiallyEtale f i.1.1 i.1.2 (hf i.1.1 i.1.2)
     have hc : algebraMap A (K i) =
         ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop ≫ X.Γevaluation i.1.1).hom := by
-      show ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appLE ⊤ U (by simp) ≫
+      change ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appLE ⊤ U (by simp) ≫
         X.evaluation U i.1.1 i.2).hom = _
       simp only [Scheme.evaluation, ← Category.assoc, Hom.appLE_top_germ]
       rfl
@@ -166,7 +166,7 @@ theorem finite_integralClosure_generic_sections {A : Type u} [CommRing A] [IsLoc
   let φ (i : ι) : L →ₐ[B] K i :=
     { toRingHom := (Pi.evalRingHom K i).comp e.toRingHom
       commutes' b := by
-        show e ((g.app U).hom b) i = (X.evaluation U i.1.1 i.2).hom b
+        change e ((g.app U).hom b) i = (X.evaluation U i.1.1 i.2).hom b
         exact congrArg (fun h : B →+* K i ↦ h b)
           (congrArg CommRingCat.Hom.hom (genericPreimageSectionsRingEquiv_comp_app X U i)) }
   exact finite_integralClosure_of_finite_family K φ fun _ _ h ↦ e.injective h
@@ -192,7 +192,7 @@ theorem normalization_isFinite_of_etaleAt_genericPoints (A : Type u) [CommRing A
   let g := fromGenericPointResidueFields X
   have : QuasiCompact g := quasiCompactFromGenericPointResidueFields X hX
   have : QuasiSeparated g := quasiSeparatedFromGenericPointResidueFields X
-  show IsFinite g.fromNormalization
+  change IsFinite g.fromNormalization
   constructor
   intro U hU
   have : Finite (genericPoints (U : Set X)) :=

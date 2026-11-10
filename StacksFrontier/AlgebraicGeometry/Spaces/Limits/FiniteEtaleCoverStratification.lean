@@ -111,7 +111,7 @@ theorem exists_finiteEtaleCoverStratification (hZ : B.Contains (⊤_ Scheme.{u})
         rw [← Category.assoc, hc, Category.assoc, sqZ.w, Category.assoc]
       obtain ⟨T, g, i, hg, hgfp, hi, hig⟩ :=
         exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariskiLocallyThrough
-          B S hS hZ X hX hXqc hXqs V hV p hpe' Y (f ≫ C₀.ι)
+          B S hS hZ X hX hXqc hXqs V p hpe' Y (f ≫ C₀.ι)
           (isFinite_comp B S hS hff (isFinite_of_isClosedImmersion B S hS _ hC₀.2)) hfac'
       have hsmall' : ∀ C' : Set (points B S hS X), IsClosed C' → C' ⊂ subspacePointSet B S hS X C₀ →
           ∃ W : Subfunctor X, IsClosedSubspace B S hS W ∧ IsFinitePresentation B S hS W.ι ∧

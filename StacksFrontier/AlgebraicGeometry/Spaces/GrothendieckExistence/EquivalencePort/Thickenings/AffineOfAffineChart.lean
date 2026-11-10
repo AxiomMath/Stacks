@@ -93,6 +93,7 @@ open _root_.AlgebraicGeometry.C1573 _root_.AlgebraicGeometry.Space.C1573
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaf and sheaf categories on the big fppf site (pullbacks, sheaves)
 /-- **Descent of a morphism to a representable along a surjective étale chart.** A morphism of
 the site out of a surjective étale chart `f : U ⟶ F` of an algebraic space which is invariant
 under the kernel pair of `f` is the restriction of a morphism `F ⟶ Y`. -/
@@ -119,7 +120,7 @@ theorem C1573.exists_desc_yoneda_of_surjectiveEtale {F : (BigFppfOver B S hS)ᵒ
   let k : UF ⟶ YF := ⟨yoneda.map g⟩
   have hw : sf ≫ k = tf ≫ k := by
     apply Sheaf.hom_ext
-    show yoneda.map s ≫ yoneda.map g = yoneda.map t ≫ yoneda.map g
+    change yoneda.map s ≫ yoneda.map g = yoneda.map t ≫ yoneda.map g
     rw [← Functor.map_comp, ← Functor.map_comp, hg]
   let c : Cofork sf tf := Cofork.ofπ k hw
   let d := hc.desc c
@@ -210,7 +211,7 @@ theorem C1573.isAffineSpace_of_isPullback_of_isThickeningHom {X G : AlgebraicSpa
   have := isEquivalence_spacesBaseChange_of_isThickeningHom B S hS i hi
   let φ : Fu.obj VP ≅ Fu.obj VW :=
     ObjectProperty.isoMk _ (Over.isoMk (e₁ ≪≫ e₂.symm) (by
-      show (e₁.hom ≫ e₂.inv) ≫ pullback.snd w'A i = pullback.snd aA i
+      change (e₁.hom ≫ e₂.inv) ≫ pullback.snd w'A i = pullback.snd aA i
       rw [Category.assoc, ← he₂, Iso.inv_hom_id_assoc, he₁]))
   let ψ : VP ≅ VW := (Functor.FullyFaithful.ofFullyFaithful Fu).preimageIso φ
   let χ : P ≅ yoneda.obj W' :=
@@ -218,6 +219,7 @@ theorem C1573.isAffineSpace_of_isPullback_of_isThickeningHom {X G : AlgebraicSpa
   exact ⟨W', inferInstance, ⟨χ⟩⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaf and sheaf categories on the big fppf site (pullbacks, sheaves)
 /-- **A thickening of an affine algebraic space with a nilpotent affine chart is affine**, over a
 terminal base. Let `i : G ⟶ X` be a thickening of algebraic spaces over a terminal scheme `S`
 with `G` affine, let `w' : U' ⟶ X` be a surjective étale chart from an affine object of the site,
@@ -276,7 +278,7 @@ theorem C1573.isAffineSpace_of_isThickeningHom_of_isNilpotent_chart_of_isTermina
   -- The spectrum of the equalizer ring and the descended morphism to it.
   let T' := chartEqualizerObj B S hS hterm q₁ q₂
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj T') := by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   let ψ : W' ⟶ T' := overMapOfSchemeHom B S hS hterm W' T'
     (toChartEqualizer ((BigFppfOver.toScheme B S hS).map q₁) ((BigFppfOver.toScheme B S hS).map q₂))
@@ -397,6 +399,7 @@ theorem C1573.isAffineSpace_of_isThickeningHom_of_isNilpotent_chart_of_isTermina
     (WA := ⟨T', inferInstance⟩) (WB := ⟨V, inferInstance⟩) f' q hqaff hqflat hqs hP hPaff
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaf and sheaf categories on the big fppf site (pullbacks, sheaves)
 /-- **A thickening of an affine algebraic space with a nilpotent affine chart is affine.** Let
 `i : G ⟶ X` be a thickening of algebraic spaces over `S` with `G` affine, let `w' : U' ⟶ X` be a
 surjective étale chart from an affine object of the site, and suppose the base change

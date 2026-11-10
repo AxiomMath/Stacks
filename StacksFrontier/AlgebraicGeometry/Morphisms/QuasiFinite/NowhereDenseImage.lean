@@ -76,9 +76,9 @@ private theorem isNowhereDense_image_of_quasiFinite_affineOpen
       ⟨f.isCompact_preimage U.2.isCompact, (f ⁻¹ᵁ (U : X.Opens)).2⟩
   let I := {V : Y.affineOpens // V ∈ s}
   have hle (V : I) : V.1.1 ≤ f ⁻¹ᵁ (U : X.Opens) := by
-    show (V.1.1 : Set Y) ⊆ f ⁻¹' (U : Set X)
+    change (V.1.1 : Set Y) ⊆ f ⁻¹' (U : Set X)
     intro y hy
-    show y ∈ ((f ⁻¹ᵁ (U : X.Opens)) : Set Y)
+    change y ∈ ((f ⁻¹ᵁ (U : X.Opens)) : Set Y)
     rw [hW]
     exact Set.mem_iUnion.2 ⟨V.1, Set.mem_iUnion.2 ⟨V.2, hy⟩⟩
   let A : I → Set (↥(U.1 : Set X)) := fun V =>

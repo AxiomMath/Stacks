@@ -91,7 +91,8 @@ missing for abelian sheaves.
    object `L` whose cohomology sheaves lie in `𝒜'` in the degrees `0, …, n`, as
    `Stacks.ComparingTopologies.isIso_homology_derivedCohomologyComparison`
    (`ChangeOfTopology/ComparingCohomology.lean:405`, tagged `@[stacks 0EZB]`). The paragraphs
-   below describe the ingredients of that proof. The dévissage along the truncation triangles of such an `L` is
+   below describe the ingredients of that proof. The dévissage along the truncation triangles of
+   such an `L` is
    available --
    the hypercohomology of a bounded below complex of abelian sheaves, with its long exact
    sequence, is available in

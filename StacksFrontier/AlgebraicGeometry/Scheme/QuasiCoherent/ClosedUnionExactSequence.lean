@@ -204,7 +204,8 @@ lemma ambientToClosedSubscheme_app_eq_zero_iff_mem_ideal {S : Scheme.{u}} (I : S
   rw [← I.ker_subschemeι_app U]
   exact Iff.rfl
 
-private alias ambientToClosedSubscheme_app_eq_zero_iff := ambientToClosedSubscheme_app_eq_zero_iff_mem_ideal
+private alias ambientToClosedSubscheme_app_eq_zero_iff :=
+  ambientToClosedSubscheme_app_eq_zero_iff_mem_ideal
 
 /-- Sections of the ambient structure sheaf lying in `I.ideal U` die under any map out of
 `ambientToClosedSubscheme I`. -/
@@ -273,7 +274,8 @@ lemma ambientToClosedSubscheme_comp_closedSubschemeRestriction {S : Scheme.{u}}
     (Scheme.IdealSheafData.inclusion h) I.subschemeι U) a).symm).trans
     (heq_scheme_app (Scheme.IdealSheafData.inclusion_subschemeι h) U a)
 
-private alias ambientToClosedSubscheme_comp_restriction := ambientToClosedSubscheme_comp_closedSubschemeRestriction
+private alias ambientToClosedSubscheme_comp_restriction :=
+  ambientToClosedSubscheme_comp_closedSubschemeRestriction
 
 /-- `ambientToClosedSubscheme_comp_closedSubschemeRestriction`, followed by a further morphism. -/
 lemma ambientToClosedSubscheme_comp_closedSubschemeRestriction_assoc {S : Scheme.{u}}
@@ -283,7 +285,8 @@ lemma ambientToClosedSubscheme_comp_closedSubschemeRestriction_assoc {S : Scheme
       ambientToClosedSubscheme J ≫ g := by
   rw [← Category.assoc, ambientToClosedSubscheme_comp_restriction]
 
-private alias ambientToClosedSubscheme_comp_restriction_assoc := ambientToClosedSubscheme_comp_closedSubschemeRestriction_assoc
+private alias ambientToClosedSubscheme_comp_restriction_assoc :=
+  ambientToClosedSubscheme_comp_closedSubschemeRestriction_assoc
 
 /-- The pair of canonical maps from the structure sheaf of the scheme-theoretic union to
 the two pushed-forward structure sheaves. -/
@@ -313,7 +316,8 @@ lemma ambientToClosedSubscheme_inf_comp_unionToBiprod {S : Scheme.{u}}
     simp only [unionToBiprod, Category.assoc, biprod.lift_fst, biprod.lift_snd,
       ambientToClosedSubscheme_comp_restriction]
 
-private alias ambientToClosedSubscheme_comp_unionToBiprod := ambientToClosedSubscheme_inf_comp_unionToBiprod
+private alias ambientToClosedSubscheme_comp_unionToBiprod :=
+  ambientToClosedSubscheme_inf_comp_unionToBiprod
 
 private lemma unionToBiprod_comp_biprodToIntersection {S : Scheme.{u}} (I J : S.IdealSheafData) :
     unionToBiprod I J ≫ biprodToIntersection I J = 0 := by
@@ -501,7 +505,7 @@ theorem isIso_ambientToPushforward {Z S : Scheme.{u}} (i : Z ⟶ S) [IsIso i] :
     IsIso (ambientToPushforward i) := by
   apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
   intro U
-  show IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat AddCommGrpCat).map (i.app U))
+  change IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat AddCommGrpCat).map (i.app U))
   infer_instance
 
 /-- **The structure sheaf of the closed subscheme cut out by the zero ideal sheaf is the ambient

@@ -78,7 +78,8 @@ such crossings occur here: the identification of
 `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection`, which is made on bare
 variables in `Stacks.RelativeProj.Situation.toTensorSheafSection_map`, and the decomposition of
 the chart member into its defining composite, which is made in
-`StacksFrontier/AlgebraicGeometry/RelativeProjLeftGradedTensorGlueChart.lean`. Making either inside a
+`StacksFrontier/AlgebraicGeometry/RelativeProjLeftGradedTensorGlueChart.lean`. Making either
+inside a
 statement about a relative projective spectrum exceeds the budget.
 
 `AlgebraicGeometry.ProjectiveSpectrum.isPrime` is installed as a local instance at file scope, as

@@ -111,7 +111,7 @@ theorem isPushout_map (hp : p.IsFiberedInGroupoids) {X Y Z P : AffineCategory B 
     IsPushout (R.map a.op) (R.map b.op) (R.map fst.op) (R.map snd.op) := by
   subst hR
   have := preservesPullbacks_toScheme B S hS p hp
-  show IsPushout ((toScheme B S hS p).map a).appTop ((toScheme B S hS p).map b).appTop
+  change IsPushout ((toScheme B S hS p).map a).appTop ((toScheme B S hS p).map b).appTop
     ((toScheme B S hS p).map fst).appTop ((toScheme B S hS p).map snd).appTop
   exact isPushout_appTop_of_isPullback (Functor.map_isPullback (toScheme B S hS p) h)
 
@@ -273,7 +273,7 @@ theorem isIso_restrictionBaseChange_of_isQuasicoherentOnSite_large
   have : K.IsStableUnderBaseChange := inferInstanceAs (Precoverage.IsStableUnderBaseChange
     ((Scheme.precoverage flatMorphismsOfSchemes.{u}).comap (toScheme B S hS p)))
   have he : E.presieve₀ ∈ K X.unop := by
-    show E.presieve₀.map (toScheme B S hS p) ∈ Scheme.precoverage @Flat _
+    change E.presieve₀.map (toScheme B S hS p) ∈ Scheme.precoverage @Flat _
     rwa [← PreZeroHypercover.presieve₀_map]
   have he' : (E.pullback₂ g).presieve₀ ∈ K Y.unop :=
     K.mem_coverings_of_isPullback _ he _ _ _
@@ -289,7 +289,7 @@ theorem isIso_restrictionBaseChange_of_isQuasicoherentOnSite_large
     (fun k => hflat _ (hfl k)) (fun k => ?_)
   have hcomp : f ≫ (pullback.snd (E.f k) g).op =
       (E.f k).op ≫ (pullback.fst (E.f k) g).op := by
-    show g.op ≫ _ = _
+    change g.op ≫ _ = _
     rw [← op_comp, ← op_comp, pullback.condition]
   rw [hcomp]
   refine isIso_restrictionBaseChange_comp N.val _ _ (hflat _ ?_) ?_

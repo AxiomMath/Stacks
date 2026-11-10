@@ -106,7 +106,7 @@ theorem transEquiv_matrixCocycleOfOverlap
   refine (freeCoordEquiv (op W)).injective (funext fun b => ?_)
   rw [MatrixCocycle.freeCoordEquiv_transEquiv]
   conv_rhs => rw [← freeMk_freeCoord (S := O) (op W) e]
-  show rowMul _ (freeCoord (op W) e) b
+  change rowMul _ (freeCoord (op W) e) b
     = freeCoord (op W) (overlapApp V m φ k l hk hl (freeMk (op W) (freeCoord (op W) e))) b
   rw [freeCoord_overlapApp_freeMk]
   rfl

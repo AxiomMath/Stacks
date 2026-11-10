@@ -98,7 +98,7 @@ theorem isIntegral_of_smooth_geometricallyIrreducible [Smooth f] [GeometricallyI
   have : GeometricallyIntegral f :=
     GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible f
   have : Subsingleton (Spec (CommRingCat.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   exact GeometricallyIntegral.isIntegral_of_subsingleton (f := f)
 
 /-- **A rigidified class of degree `g` on every fibre**: `g` times the class of the rational

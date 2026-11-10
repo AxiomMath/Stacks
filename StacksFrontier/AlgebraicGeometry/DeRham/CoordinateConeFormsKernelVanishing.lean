@@ -251,7 +251,7 @@ theorem restrictedKernelHom_restr {U' : Y.Opens} (h : U' ≤ U) {V' : X.Opens} (
         ((kernel ((Scheme.Modules.pushforward f).map ρ)).presheaf.map (homOfLE h).op x) =
       M.presheaf.map (homOfLE hVV).op (restrictedKernelHom f ρ U i x) := by
   have hn := app_naturality (kernel.ι ((Scheme.Modules.pushforward f).map ρ)) (homOfLE h) x
-  show M.presheaf.map i'.op (Scheme.Modules.Hom.app (kernel.ι _) U'
+  change M.presheaf.map i'.op (Scheme.Modules.Hom.app (kernel.ι _) U'
       ((kernel ((Scheme.Modules.pushforward f).map ρ)).presheaf.map (homOfLE h).op x)) =
     M.presheaf.map (homOfLE hVV).op (M.presheaf.map i.op
       (Scheme.Modules.Hom.app (kernel.ι ((Scheme.Modules.pushforward f).map ρ)) U x))
@@ -274,7 +274,7 @@ theorem exists_restrictedKernelHom_eq {N : X.Modules} {φ : M ⟶ N} (hV : V = f
     exact injective_map_eqToHom N hV (hn.symm.trans (map_zero _).symm)
   have h0 : Scheme.Modules.Hom.app ((Scheme.Modules.pushforward f).map ρ) U ω' = 0 := by
     subst hρ
-    show Scheme.Modules.Hom.app ψ (f ⁻¹ᵁ U) (Scheme.Modules.Hom.app φ (f ⁻¹ᵁ U) ω') = 0
+    change Scheme.Modules.Hom.app ψ (f ⁻¹ᵁ U) (Scheme.Modules.Hom.app φ (f ⁻¹ᵁ U) ω') = 0
     rw [hφ, map_zero]
   obtain ⟨x, hx⟩ := exists_kernel_section ((Scheme.Modules.pushforward f).map ρ) U ω' h0
   exact ⟨x, congrArg (M.presheaf.map (eqToHom hV).op) hx⟩

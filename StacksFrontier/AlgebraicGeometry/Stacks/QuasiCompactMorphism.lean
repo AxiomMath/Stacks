@@ -222,13 +222,13 @@ private theorem exists_localFibre_lift
       q.base := by
     refine Eq.trans ?_ q.hx
     exact CostructuredArrow.obj_ext _ _ rfl (by
-      show (𝟙 _) ≫ q.x.left.hom = q.x.hom.left ≫ U.hom
+      change (𝟙 _) ≫ q.x.left.hom = q.x.hom.left ≫ U.hom
       exact (Category.id_comp _).trans q.x.hom.w.symm)
   have heU : (Over.forget U).IsHomLift (𝟙 q.base) eU.hom := by
     refine IsHomLift.of_fac' (Over.forget U) (𝟙 q.base) eU.hom hx q.hx ?_
     refine PresheafOfCategories.over_hom_eq_conj hx q.hx
       (congrArg Over.left hx) (congrArg Over.left q.hx) _ _ ?_
-    show (𝟙 _) = eqToHom (congrArg Over.left hx) ≫ 𝟙 q.base.left ≫
+    change (𝟙 _) = eqToHom (congrArg Over.left hx) ≫ 𝟙 q.base.left ≫
       eqToHom (congrArg Over.left q.hx).symm
     simp only [Category.id_comp, eqToHom_trans]
     rfl
@@ -242,7 +242,7 @@ private theorem exists_localFibre_lift
   have ht : 𝒵.val.val.p.IsHomLift (𝟙 q.base) t.hom := by
     let _ := haU
     let _ := q.vertical
-    show 𝒵.val.val.p.IsHomLift (𝟙 q.base) (a.map eU.hom ≫ q.iso.hom)
+    change 𝒵.val.val.p.IsHomLift (𝟙 q.base) (a.map eU.hom ≫ q.iso.hom)
     infer_instance
   have hg : 𝒴.val.val.p.IsHomLift (𝟙 q.base) (g.hom.hom.map t.hom) := by
     let _ := ht
@@ -262,18 +262,18 @@ private theorem exists_localFibre_lift
     vertical := by
       let _ := hg
       let _ := hiy
-      show 𝒴.val.val.p.IsHomLift (𝟙 q.base)
+      change 𝒴.val.val.p.IsHomLift (𝟙 q.base)
         (g.hom.hom.map t.hom ≫ q.y.iso.hom)
       infer_instance }
   refine ⟨l, rfl, ⟨?_⟩⟩
   refine TwoFibreProductOver.Hom.mk' t.hom (𝟙 _) ?_ ?_
   · let _ := ht
-    show eqToHom _ ≫ 𝒳.val.val.p.map (𝟙 _) ≫ eqToHom _ =
+    change eqToHom _ ≫ 𝒳.val.val.p.map (𝟙 _) ≫ eqToHom _ =
       eqToHom _ ≫ 𝒵.val.val.p.map t.hom ≫ eqToHom _
     rw [IsHomLift.fac' 𝒵.val.val.p (𝟙 q.base) t.hom, CategoryTheory.Functor.map_id]
     simp only [Category.id_comp, eqToHom_trans]
     exact (eqToHom_trans _ _).trans (eqToHom_trans _ _).symm
-  · show g.hom.hom.map t.hom ≫ q.y.iso.hom =
+  · change g.hom.hom.map t.hom ≫ q.y.iso.hom =
       (g.hom.hom.map t.hom ≫ q.y.iso.hom) ≫ f.hom.hom.map (𝟙 q.y.y)
     simp
 
@@ -457,12 +457,12 @@ private theorem elementsToLocalSite_comp
   have hobj : ∀ x, (elementsToLocalSite U k ⋙ Over.map U.hom).obj x =
       (presheafOfCategories (H ⋙ typeToCat)).p.obj x := fun x =>
     CostructuredArrow.obj_ext _ _ rfl (by
-      show (𝟙 _) ≫ x.base.hom = (k.app _ x.fiber.as).left ≫ U.hom
+      change (𝟙 _) ≫ x.base.hom = (k.app _ x.fiber.as).left ≫ U.hom
       exact (Category.id_comp _).trans (k.app _ x.fiber.as).w.symm)
   refine CategoryTheory.Functor.ext hobj ?_
   intro x y g
   refine PresheafOfCategories.over_hom_eq_conj (hobj x) (hobj y) rfl rfl _ _ ?_
-  show g.base.left = (𝟙 _) ≫ g.base.left ≫ (𝟙 _)
+  change g.base.left = (𝟙 _) ≫ g.base.left ≫ (𝟙 _)
   simp
 
 /-- The structural morphism of a lower-shriek extension reads off the base of a relocalized
@@ -484,7 +484,7 @@ private theorem relocalize_elementSection_eq
       eqToHom hV.symm ≫ (Over.homMk V.hom rfl : (Over.map U.hom).obj V ⟶ U) := by
   subst V
   subst T
-  show q.app _ (((OverShriek.relocalizePresheafFunctor U.hom).obj F).map
+  change q.app _ (((OverShriek.relocalizePresheafFunctor U.hom).obj F).map
     (𝟙 _).op ((PresheafOfCategories.relocalizeToElements U.hom F).obj x).fiber.as) = _
   simp only [op_id]
   exact hq _ _
@@ -504,7 +504,7 @@ private theorem elementsToLocalSite_section
   simp only [elementSection, eqToHom_refl, op_id, CategoryTheory.Functor.map_id_apply]
   apply Over.OverMorphism.ext
   simp only [Over.comp_left, Over.eqToHom_left]
-  show (𝟙 _) ≫ (k.app _ x.fiber.as).left = (k.app _ x.fiber.as).left
+  change (𝟙 _) ≫ (k.app _ x.fiber.as).left = (k.app _ x.fiber.as).left
   exact Category.id_comp _
 
 /-- The functor from a 2-fibre product taken over a category over the big site of `U` to the one
@@ -668,7 +668,7 @@ private theorem representedPullbackFunctor_lift
   have hz : ψ.obj z = v.base := congrArg Over.mk (congrArg Over.Hom.left (hab.trans (hq _ b)))
   have hV : (Over.map U.hom).obj v.base = T :=
     CostructuredArrow.obj_ext _ _ rfl (by
-      show (𝟙 _) ≫ T.hom = b.1.1 ≫ U.hom
+      change (𝟙 _) ≫ T.hom = b.1.1 ≫ U.hom
       exact (Category.id_comp _).trans b.2.symm)
   have hlbase : l.base = T := l.hx.symm.trans ((congrArg (Over.map U.hom).obj hl).trans hV)
   let az : BasedCategory.ofFunctor (Over.map U.hom) ⥤ᵇ Y := ⟨y, hy⟩
@@ -689,22 +689,22 @@ private theorem representedPullbackFunctor_lift
     vertical := by
       let _ := hiy
       let _ := hil
-      show Y.p.IsHomLift (𝟙 T) (y.map jx ≫ l.iso.hom)
+      change Y.p.IsHomLift (𝟙 T) (y.map jx ≫ l.iso.hom)
       infer_instance }
   let L := localFibreFunctor U (presheafOfCategories (H ⋙ typeToCat)) X Y ψ
     (elementsToLocalSite_comp U k) y f
   let j : L.obj x ⟶ l := TwoFibreProductOver.Hom.mk' jx (𝟙 _) (by
-    show eqToHom _ ≫ X.p.map (𝟙 _) ≫ eqToHom _ =
+    change eqToHom _ ≫ X.p.map (𝟙 _) ≫ eqToHom _ =
       eqToHom _ ≫ (Over.map U.hom).map jx ≫ eqToHom _
     rw [IsHomLift.fac' (Over.map U.hom) (𝟙 T) jx, CategoryTheory.Functor.map_id]
     simp only [Category.id_comp, eqToHom_trans]
     exact (eqToHom_trans _ _).trans (eqToHom_trans _ _).symm) (by
-    show y.map jx ≫ l.iso.hom = (y.map jx ≫ l.iso.hom) ≫ f.map (𝟙 l.y)
+    change y.map jx ≫ l.iso.hom = (y.map jx ≫ l.iso.hom) ≫ f.map (𝟙 l.y)
     simp)
   have hj : (TwoFibreProductOver.fst (Over.map U.hom) X.p Y.p y f.toFunctor).IsHomLift
       (𝟙 v.base) j := by
     refine IsHomLift.of_fac' _ _ j hz hl ?_
-    show jx = eqToHom hz ≫ (𝟙 v.base) ≫ eqToHom hl.symm
+    change jx = eqToHom hz ≫ (𝟙 v.base) ≫ eqToHom hl.symm
     simp [jx]
   let eh : BasedCategory.ofFunctor
       (TwoFibreProductOver.fst (Over.map U.hom) X.p Y.p y f.toFunctor) ⥤ᵇ
@@ -717,14 +717,14 @@ private theorem representedPullbackFunctor_lift
     have _ : pF.IsHomLift (𝟙 v.base) (e.hom.functor.map j) := eh.preserves_isHomLift _ _
     let _ : pF.IsHomLift (𝟙 v.base) (e.counitIso.hom.app v) :=
       e.isHomLift_counitIso_hom_app v
-    show pF.IsHomLift (𝟙 v.base) (e.hom.functor.map j ≫ e.counitIso.hom.app v)
+    change pF.IsHomLift (𝟙 v.base) (e.hom.functor.map j ≫ e.counitIso.hom.app v)
     infer_instance
   have hR : (R.obj v).base = T := hV
   have hE : (R.obj (e.hom.functor.obj (L.obj x))).base = T :=
     (baseChangeToRepresentedSpace U _ X Y ψ (elementsToLocalSite_comp U k) y f F e).w_obj x
   have hm' : (presheafOfCategories (F' ⋙ typeToCat)).p.IsHomLift (𝟙 T) (R.map m) := by
     refine IsHomLift.of_fac' _ _ _ hE hR ?_
-    show (Over.map U.hom).map m.base = _
+    change (Over.map U.hom).map m.base = _
     let _ := hm
     rw [show m.base = _ from IsHomLift.fac' pF (𝟙 v.base) m]
     simp only [Category.id_comp, eqToHom_trans]
@@ -737,12 +737,12 @@ private theorem representedPullbackFunctor_lift
     change W ⟶ U.left at bmap
     change bmap ≫ U.hom = φ at hbmap
     subst φ
-    show F'.map (𝟙 _).op _ = _
+    change F'.map (𝟙 _).op _ = _
     exact Eq.trans (map_id_section F' _ _) rfl
   refine ⟨x, rfl, ?_⟩
-  show (pullback k q).map (𝟙 T).op _ = s
+  change (pullback k q).map (𝟙 T).op _ = s
   refine Eq.trans (map_id_section (pullback k q) T _) ?_
-  show ((representedPullbackFunctor U X Y y f F e k q hq).obj x).fiber.as = s
+  change ((representedPullbackFunctor U X Y y f F e k q hq).obj x).fiber.as = s
   apply Types.ext_of_isPullback (pullback_sections_isPullback k q _)
   · refine Eq.trans (pullbackSection_fst k q (Opposite.op T) _ _
       (representedPullback_sections_agree U X Y y f F e k q hq x)) ?_

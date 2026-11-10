@@ -78,8 +78,8 @@ def evalZero (hs : Transcendental F s) : Algebra.adjoin F {s} →ₐ[F] F :=
 
 /-- Evaluation at `s = 0` sends `s` to `0`. -/
 theorem evalZero_adjoinGen (hs : Transcendental F s) : evalZero hs (adjoinGen F s) = 0 := by
-  rw [evalZero, AlgHom.comp_apply, ← adjoinSingletonEquiv_X hs, AlgEquiv.toAlgHom_eq_coe,
-    AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply, aeval_X]
+  rw [evalZero, AlgHom.comp_apply, ← adjoinSingletonEquiv_X hs,
+    AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply, aeval_X]
 
 end Adjoin
 

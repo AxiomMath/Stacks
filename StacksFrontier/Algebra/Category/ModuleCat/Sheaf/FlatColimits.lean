@@ -219,6 +219,8 @@ end TensorColimitHelpers
 attribute [local instance 2000] hasColimitsOfShape_presheafOfModules
   hasColimitsOfShape_sheafOfModules
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+
 /-- **Stacks Project, Tag 03EU part (2), filtered colimits.** A filtered colimit of flat
 sheaves of modules is flat. -/
 @[stacks 03EU "part (2), filtered colimits", stacks 05NG "filtered_colimits_flat"]

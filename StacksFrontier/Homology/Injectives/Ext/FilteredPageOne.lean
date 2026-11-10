@@ -312,7 +312,7 @@ lemma isIso_filteredSpectralSequenceMap_hom_one
     IsIso ((CochainComplex.filteredSpectralSequenceMap f).hom 1 (by omega)) := by
   let ψ := (CochainComplex.filteredSpectralSequenceMap f).hom 1 (show (0 : ℤ) ≤ 1 by omega)
   have hc (pq : ℤ × ℤ) : IsIso (ψ.f pq) := by
-    show IsIso ((FilteredComplexSpectralSequence.pageHom f.hom
+    change IsIso ((FilteredComplexSpectralSequence.pageHom f.hom
       (CochainComplex.exists_filtrationSubobject_le f) 1).f pq)
     exact isIso_pageHom_one_f f hf pq.1 pq.2
   let : ∀ pq : ℤ × ℤ, IsIso (ψ.f pq) := hc

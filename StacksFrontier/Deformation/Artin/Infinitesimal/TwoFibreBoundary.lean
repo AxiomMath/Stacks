@@ -98,7 +98,7 @@ public theorem underPost_mem_fiber_of_isHomLift (p : X ⥤ C) {U V : C} {x x' : 
     (Under.post p).obj (Under.mk φ) = Under.mk (eqToHom hx ≫ a) := by
   have := hφ
   refine StructuredArrow.obj_ext _ _ (IsHomLift.codomain_eq p a φ) ?_
-  show p.map φ ≫ eqToHom (IsHomLift.codomain_eq p a φ) = eqToHom hx ≫ a
+  change p.map φ ≫ eqToHom (IsHomLift.codomain_eq p a φ) = eqToHom hx ≫ a
   rw [IsHomLift.fac' p a φ]
   simp
 
@@ -420,7 +420,7 @@ public theorem boundaryArrow_isHomLift (M : SiteModule A B)
       (squareZeroArrow A B S hS toS hA M)
       (boundaryArrow A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw M α) := by
   refine IsHomLift.of_fac' _ (squareZeroArrow A B S hS toS hA M) _ hw rfl ?_
-  show eqToHom hw ≫ squareZeroArrow A B S hS toS hA M =
+  change eqToHom hw ≫ squareZeroArrow A B S hS toS hA M =
     eqToHom hw ≫ squareZeroArrow A B S hS toS hA M ≫ eqToHom rfl
   simp
 
@@ -560,7 +560,7 @@ public theorem boundaryClass_isPullback {M N : SiteModule A B} (f : M ⟶ N)
   refine ⟨boundaryLift A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw M α,
     boundaryLift A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw N β, rfl, rfl,
     boundaryTransition A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw f α β hβ, ?_, ?_⟩
-  · show (TwoFibreProductOver.structureFunctor p𝒳 p𝒵 p𝒴 P Q).IsStronglyCartesian
+  · change (TwoFibreProductOver.structureFunctor p𝒳 p𝒵 p𝒴 P Q).IsStronglyCartesian
       (squareZeroOverMap A B S hS toS f)
       (boundaryTransition A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw f α β hβ)
     let := boundaryTransition_isHomLift A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw f α β hβ

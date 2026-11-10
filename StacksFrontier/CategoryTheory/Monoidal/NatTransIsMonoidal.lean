@@ -112,7 +112,7 @@ lemma reseatFunctorMonoidal_μ (F : C ⥤ D) [F.Monoidal] (e : curriedTensor C �
         (reseatFunctorMonoidal F e ε e' ε').toLaxMonoidal X Y =
       (reseatIso e' (F.obj X) (F.obj Y)).inv ≫ Functor.LaxMonoidal.μ F X Y ≫
         F.map (reseatIso e X Y).hom := by
-  show ((reseatIso e' (F.obj X) (F.obj Y)).inv ≫ Functor.LaxMonoidal.μ F X Y) ≫
+  change ((reseatIso e' (F.obj X) (F.obj Y)).inv ≫ Functor.LaxMonoidal.μ F X Y) ≫
     F.map (reseatIso e X Y).hom = _
   rw [Category.assoc]
 

@@ -32,16 +32,14 @@ universe v v₁ v₂ v₃ u u₁ u₂ u₃
 
 section HomBijection
 
-variable {D : Type u} [Category.{v} D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
-  [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
-  {D₁ : Type u₁} [Category.{v₁} D₁] [Preadditive D₁] [HasZeroObject D₁] [HasShift D₁ ℤ]
-  [∀ n : ℤ, (shiftFunctor D₁ n).Additive] [Pretriangulated D₁]
-  {D₂ : Type u₂} [Category.{v₂} D₂] [Preadditive D₂] [HasZeroObject D₂] [HasShift D₂ ℤ]
-  [∀ n : ℤ, (shiftFunctor D₂ n).Additive] [Pretriangulated D₂]
-  (E : D ⥤ D₁) (F : D ⥤ D₂) [E.CommShift ℤ] [F.CommShift ℤ] [E.IsTriangulated]
-  [F.IsTriangulated] {Z₁ : D₁} {Z₂ : D₂}
+variable {D : Type u} [Category.{v} D] {D₁ : Type u₁} [Category.{v₁} D₁]
+  {D₂ : Type u₂} [Category.{v₂} D₂] (E : D ⥤ D₁) (F : D ⥤ D₂) {Z₁ : D₁} {Z₂ : D₂}
   (ψ : ∀ L : D, (E.obj L ⟶ Z₁) → (F.obj L ⟶ Z₂))
   (hnat : ∀ {L L' : D} (ℓ : L ⟶ L') (x : E.obj L' ⟶ Z₁), ψ L (E.map ℓ ≫ x) = F.map ℓ ≫ ψ L' x)
+
+section Additive
+
+variable [Preadditive D₁] [Preadditive D₂]
   (hadd : ∀ (L : D) (x x' : E.obj L ⟶ Z₁), ψ L (x + x') = ψ L x + ψ L x')
 
 include hadd in
@@ -61,14 +59,7 @@ include hadd in
 theorem injective_of_eq_zero {L : D} (h : ∀ x, ψ L x = 0 → x = 0) : Function.Injective (ψ L) :=
   fun x x' hx => sub_eq_zero.mp (h _ (by rw [map_sub_of_add E F ψ hadd, hx, sub_self]))
 
-/-- The image of a distinguished triangle under an exact functor is exact for morphisms into a
-fixed object, at its second vertex. -/
-theorem exists_eq_map_comp_of_distTriang {D' : Type u₃} [Category.{v₃} D'] [Preadditive D']
-    [HasZeroObject D'] [HasShift D' ℤ] [∀ n : ℤ, (shiftFunctor D' n).Additive] [Pretriangulated D']
-    (G : D ⥤ D') [G.CommShift ℤ] [G.IsTriangulated] (T : Triangle D) (hT : T ∈ distTriang D)
-    {Z : D'} (x : G.obj T.obj₂ ⟶ Z) (hx : G.map T.mor₁ ≫ x = 0) :
-    ∃ y : G.obj T.obj₃ ⟶ Z, x = G.map T.mor₂ ≫ y :=
-  Triangle.yoneda_exact₂ _ (G.map_distinguished T hT) x hx
+end Additive
 
 /-- Injectivity of `ψ` at `L` gives injectivity at an isomorphic object `L'`. -/
 private theorem injective_of_iso_aux
@@ -98,6 +89,85 @@ include hnat in
 theorem bijective_of_iso {L L' : D} (e : L ≅ L') (h : Function.Bijective (ψ L)) :
     Function.Bijective (ψ L') :=
   ⟨injective_of_iso_aux E F ψ hnat e h.1, surjective_of_iso_aux E F ψ hnat e h.2⟩
+
+include hnat in
+/-- Injectivity of `ψ` transports along isomorphisms. -/
+theorem injective_of_iso {L L' : D} (e : L ≅ L') (h : Function.Injective (ψ L)) :
+    Function.Injective (ψ L') :=
+  injective_of_iso_aux E F ψ hnat e h
+
+include hnat in
+/-- Surjectivity of `ψ` transports along isomorphisms. -/
+theorem surjective_of_iso {L L' : D} (e : L ≅ L') (h : Function.Surjective (ψ L)) :
+    Function.Surjective (ψ L') :=
+  surjective_of_iso_aux E F ψ hnat e h
+
+include hnat in
+/-- `ψ` is bijective at a direct sum preserved by `E` and `F` as soon as it is bijective at each
+summand. -/
+theorem bijective_of_isColimit {J : Type*} {G : Discrete J ⥤ D} {c : Cocone G} (hc : IsColimit c)
+    [PreservesColimit G E] [PreservesColimit G F] (h : ∀ j, Function.Bijective (ψ (G.obj j))) :
+    Function.Bijective (ψ c.pt) := by
+  have hcE : IsColimit (E.mapCocone c) := isColimitOfPreserves E hc
+  have hcF : IsColimit (F.mapCocone c) := isColimitOfPreserves F hc
+  refine ⟨fun x x' hxx' => hcE.hom_ext fun j => (h j).1 ?_, fun b => ?_⟩
+  · exact (hnat (c.ι.app j) x).trans
+      ((congrArg (fun t => F.map (c.ι.app j) ≫ t) hxx').trans (hnat (c.ι.app j) x').symm)
+  · choose a ha using fun j => (h j).2 (F.map (c.ι.app j) ≫ b)
+    let s : Cocone (G ⋙ E) := ⟨Z₁, Discrete.natTrans a⟩
+    refine ⟨hcE.desc s, hcF.hom_ext fun j => ?_⟩
+    exact (hnat (c.ι.app j) _).symm.trans ((congrArg (ψ (G.obj j)) (hcE.fac s j)).trans (ha j))
+
+section Shift
+
+variable [HasShift D ℤ]
+
+/-- The objects all of whose shifts have `ψ` bijective. -/
+def shiftBijective : ObjectProperty D :=
+  fun L => ∀ n : ℤ, Function.Bijective (ψ (L⟦n⟧))
+
+include hnat in
+/-- The objects all of whose shifts have `ψ` bijective are closed under isomorphisms. -/
+theorem shiftBijective_isClosedUnderIsomorphisms :
+    (shiftBijective E F ψ).IsClosedUnderIsomorphisms :=
+  ⟨fun e h n => bijective_of_iso E F ψ hnat ((shiftFunctor D n).mapIso e) (h n)⟩
+
+include hnat in
+/-- The objects all of whose shifts have `ψ` bijective are closed under shifts. -/
+theorem shiftBijective_shift (L : D) (m : ℤ) (h : shiftBijective E F ψ L) :
+    shiftBijective E F ψ (L⟦m⟧) :=
+  fun n => bijective_of_iso E F ψ hnat ((shiftFunctorAdd' D m n (m + n) rfl).app L) (h (m + n))
+
+include hnat in
+/-- The objects all of whose shifts have `ψ` bijective are closed under direct sums indexed by `J`
+when `E` and `F` preserve them. -/
+theorem shiftBijective_of_colimitsOfShape {J : Type*} [PreservesColimitsOfShape (Discrete J) E]
+    [PreservesColimitsOfShape (Discrete J) F] (X : D)
+    (hX : (shiftBijective E F ψ).colimitsOfShape (Discrete J) X) : shiftBijective E F ψ X := by
+  obtain ⟨p⟩ := hX
+  intro n
+  exact bijective_of_isColimit E F ψ hnat (G := p.diag ⋙ shiftFunctor D n)
+    (isColimitOfPreserves (shiftFunctor D n) p.isColimit) fun j => p.prop_diag_obj j n
+
+end Shift
+
+section Triangulated
+
+variable [Preadditive D] [HasZeroObject D] [HasShift D ℤ] [∀ n : ℤ, (shiftFunctor D n).Additive]
+  [Pretriangulated D] [Preadditive D₁] [HasZeroObject D₁] [HasShift D₁ ℤ]
+  [∀ n : ℤ, (shiftFunctor D₁ n).Additive] [Pretriangulated D₁] [Preadditive D₂] [HasZeroObject D₂]
+  [HasShift D₂ ℤ] [∀ n : ℤ, (shiftFunctor D₂ n).Additive] [Pretriangulated D₂]
+  [E.CommShift ℤ] [F.CommShift ℤ] [E.IsTriangulated] [F.IsTriangulated]
+  (hadd : ∀ (L : D) (x x' : E.obj L ⟶ Z₁), ψ L (x + x') = ψ L x + ψ L x')
+
+/-- The image of a distinguished triangle under an exact functor is exact for morphisms into a
+fixed object, at its second vertex. -/
+theorem exists_eq_map_comp_of_distTriang {D' : Type u₃} [Category.{v₃} D'] [Preadditive D']
+    [HasZeroObject D'] [HasShift D' ℤ] [∀ n : ℤ, (shiftFunctor D' n).Additive] [Pretriangulated D']
+    (G : D ⥤ D') [G.CommShift ℤ] [G.IsTriangulated] (T : Triangle D) (hT : T ∈ distTriang D)
+    {Z : D'} (x : G.obj T.obj₂ ⟶ Z) (hx : G.map T.mor₁ ≫ x = 0) :
+    ∃ y : G.obj T.obj₃ ⟶ Z, x = G.map T.mor₂ ≫ y :=
+  Triangle.yoneda_exact₂ _ (G.map_distinguished T hT) x hx
 
 include hnat hadd in
 /-- **The five lemma.** For a distinguished triangle `A ⟶ B ⟶ C ⟶ A⟦1⟧`, if `ψ` is bijective at
@@ -135,34 +205,6 @@ theorem bijective_obj₂_of_distTriang (T : Triangle D) (hT : T ∈ distTriang D
     refine ⟨s + E.map T.mor₂ ≫ y, ?_⟩
     rw [hadd, hnat, ← hc, add_sub_cancel]
 
-include hnat in
-/-- Injectivity of `ψ` transports along isomorphisms. -/
-theorem injective_of_iso {L L' : D} (e : L ≅ L') (h : Function.Injective (ψ L)) :
-    Function.Injective (ψ L') :=
-  injective_of_iso_aux E F ψ hnat e h
-
-include hnat in
-/-- Surjectivity of `ψ` transports along isomorphisms. -/
-theorem surjective_of_iso {L L' : D} (e : L ≅ L') (h : Function.Surjective (ψ L)) :
-    Function.Surjective (ψ L') :=
-  surjective_of_iso_aux E F ψ hnat e h
-
-/-- The objects all of whose shifts have `ψ` bijective. -/
-def shiftBijective : ObjectProperty D :=
-  fun L => ∀ n : ℤ, Function.Bijective (ψ (L⟦n⟧))
-
-include hnat in
-/-- The objects all of whose shifts have `ψ` bijective are closed under isomorphisms. -/
-theorem shiftBijective_isClosedUnderIsomorphisms :
-    (shiftBijective E F ψ).IsClosedUnderIsomorphisms :=
-  ⟨fun e h n => bijective_of_iso E F ψ hnat ((shiftFunctor D n).mapIso e) (h n)⟩
-
-include hnat in
-/-- The objects all of whose shifts have `ψ` bijective are closed under shifts. -/
-theorem shiftBijective_shift (L : D) (m : ℤ) (h : shiftBijective E F ψ L) :
-    shiftBijective E F ψ (L⟦m⟧) :=
-  fun n => bijective_of_iso E F ψ hnat ((shiftFunctorAdd' D m n (m + n) rfl).app L) (h (m + n))
-
 include hnat hadd in
 /-- The objects all of whose shifts have `ψ` bijective are closed under cones. -/
 theorem shiftBijective_obj₃ (T : Triangle D) (hT : T ∈ distTriang D)
@@ -180,33 +222,6 @@ theorem shiftBijective_obj₃ (T : Triangle D) (hT : T ∈ distTriang D)
         (shiftFunctor D (-1)).mapIso ((shiftFunctorAdd' D 1 n (1 + n) rfl).app T.obj₁))
       (h₁ n)).1
 
-include hnat in
-/-- `ψ` is bijective at a direct sum preserved by `E` and `F` as soon as it is bijective at each
-summand. -/
-theorem bijective_of_isColimit {J : Type*} {G : Discrete J ⥤ D} {c : Cocone G} (hc : IsColimit c)
-    [PreservesColimit G E] [PreservesColimit G F] (h : ∀ j, Function.Bijective (ψ (G.obj j))) :
-    Function.Bijective (ψ c.pt) := by
-  have hcE : IsColimit (E.mapCocone c) := isColimitOfPreserves E hc
-  have hcF : IsColimit (F.mapCocone c) := isColimitOfPreserves F hc
-  refine ⟨fun x x' hxx' => hcE.hom_ext fun j => (h j).1 ?_, fun b => ?_⟩
-  · exact (hnat (c.ι.app j) x).trans
-      ((congrArg (fun t => F.map (c.ι.app j) ≫ t) hxx').trans (hnat (c.ι.app j) x').symm)
-  · choose a ha using fun j => (h j).2 (F.map (c.ι.app j) ≫ b)
-    let s : Cocone (G ⋙ E) := ⟨Z₁, Discrete.natTrans a⟩
-    refine ⟨hcE.desc s, hcF.hom_ext fun j => ?_⟩
-    exact (hnat (c.ι.app j) _).symm.trans ((congrArg (ψ (G.obj j)) (hcE.fac s j)).trans (ha j))
-
-include hnat in
-/-- The objects all of whose shifts have `ψ` bijective are closed under direct sums indexed by `J`
-when `E` and `F` preserve them. -/
-theorem shiftBijective_of_colimitsOfShape {J : Type*} [PreservesColimitsOfShape (Discrete J) E]
-    [PreservesColimitsOfShape (Discrete J) F] (X : D)
-    (hX : (shiftBijective E F ψ).colimitsOfShape (Discrete J) X) : shiftBijective E F ψ X := by
-  obtain ⟨p⟩ := hX
-  intro n
-  exact bijective_of_isColimit E F ψ hnat (G := p.diag ⋙ shiftFunctor D n)
-    (isColimitOfPreserves (shiftFunctor D n) p.isColimit) fun j => p.prop_diag_obj j n
-
 include hnat hadd in
 /-- **The dévissage.** Let `D` have direct sums and be generated by a family `G` of compact
 objects, and let `E` and `F` preserve direct sums. If `ψ` is bijective at every shift of every
@@ -223,6 +238,8 @@ theorem bijective_of_isCompactlyGenerated [HasCoproducts.{v} D]
     (shiftBijective_shift E F ψ hnat) (shiftBijective_obj₃ E F ψ hnat hadd)
     (fun J X hX => shiftBijective_of_colimitsOfShape E F ψ hnat X hX) G hGc hG hgen X
   exact bijective_of_iso E F ψ hnat ((shiftFunctorZero D ℤ).app X) (hP 0)
+
+end Triangulated
 
 end HomBijection
 

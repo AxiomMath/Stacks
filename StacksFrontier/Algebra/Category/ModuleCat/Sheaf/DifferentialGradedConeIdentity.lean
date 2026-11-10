@@ -195,7 +195,7 @@ private theorem actionCochain_delta {A : DifferentialGradedAlgebra.{t, a} R}
   have hleft : Function.LeftInverse
       ((ModuleCat.Hom.hom (ei.val.app U))) ((ModuleCat.Hom.hom (e.val.app U))) := by
     intro z
-    show ModuleCat.Hom.hom ((e.val ≫ ei.val).app U) z = z
+    change ModuleCat.Hom.hom ((e.val ≫ ei.val).app U) z = z
     rw [hcatVal]
     simp
   have he : Function.Injective ((e.val.app U).hom) := hleft.injective
@@ -430,7 +430,7 @@ private theorem actionCone_desc_condition {A : DifferentialGradedAlgebra.{t, a} 
   rw [actionCochainReg_delta y x h]
   rw [CochainComplex.HomComplex.Cochain.ofHom_comp]
   symm
-  show (CochainComplex.HomComplex.Cochain.ofHom
+  change (CochainComplex.HomComplex.Cochain.ofHom
       (𝟙 ((regularModule A).complex))).comp
       (CochainComplex.HomComplex.Cochain.ofHom β) (zero_add 0) = _
   rw [CochainComplex.HomComplex.Cochain.id_comp]
@@ -673,7 +673,7 @@ private theorem coneLeft_d {A : DifferentialGradedAlgebra.{t, a} R}
         n (n + 1) (by simp) :=
     fun n => eq_of_heq (hi n)
   simp only [coneLeft, coneRight, hi']
-  show (biprod.inl ≫ (HomologicalComplex.homotopyCofiber.XIsoBiprod
+  change (biprod.inl ≫ (HomologicalComplex.homotopyCofiber.XIsoBiprod
         (𝟙 (regularModule A) : regularModule A ⟶ regularModule A).toHomologicalComplex
           (-1) (-1 + 1) (by simp)).inv) ≫
       HomologicalComplex.homotopyCofiber.d
@@ -728,7 +728,7 @@ private theorem actionConeHom_left {A : DifferentialGradedAlgebra.{t, a} R}
   cases hc
   have hi' := eq_of_heq (hi n)
   simp only [coneLeft, hi']
-  show (CochainComplex.mappingCone.inl
+  change (CochainComplex.mappingCone.inl
     ((𝟙 (regularModule A) : regularModule A ⟶ regularModule A).toHomologicalComplex)).v
       (n + 1) n (by omega) ≫ _ = _
   dsimp only [actionConeComplexMap]
@@ -750,11 +750,11 @@ private theorem actionConeHom_right {A : DifferentialGradedAlgebra.{t, a} R}
       (𝟙 (regularModule A) : regularModule A ⟶ regularModule A).toHomologicalComplex
         n (n + 1) (by simp) := eq_of_heq (hi n)
   simp only [coneRight, hi']
-  show (biprod.inr ≫ (HomologicalComplex.homotopyCofiber.XIsoBiprod
+  change (biprod.inr ≫ (HomologicalComplex.homotopyCofiber.XIsoBiprod
         (𝟙 (regularModule A) : regularModule A ⟶ regularModule A).toHomologicalComplex
           n (n + 1) (by simp)).inv) ≫ _ = _
   simp only [HomologicalComplex.homotopyCofiber.inr_XIsoBiprod_inv]
-  show (CochainComplex.mappingCone.inr
+  change (CochainComplex.mappingCone.inr
     ((𝟙 (regularModule A) : regularModule A ⟶ regularModule A).toHomologicalComplex)).f n ≫ _ = _
   dsimp only [actionConeComplexMap]
   simp only [id_eq, CochainComplex.mappingCone.inr_f_desc_f]
@@ -771,14 +771,14 @@ private theorem actionConeHom_eval {A : DifferentialGradedAlgebra.{t, a} R}
     intro U
     have he := congrArg (fun t => (t.val.app U) (A.one.eval U))
       (actionConeHom_right (conePackage (𝟙 (regularModule A))) y x h 0)
-    show (coneEvalZero (actionConeHom y x h)).eval U = x.eval U
+    change (coneEvalZero (actionConeHom y x h)).eval U = x.eval U
     rw [show (coneEvalZero (actionConeHom y x h)).eval U = _ from he]
     exact eq_of_heq (M.mul_one 0 U (x.eval U))
   · apply PresheafOfModules.sections_ext
     intro U
     have he := congrArg (fun t : A.complex.X 0 ⟶ M.complex.X (-1) => (t.val.app U) (A.one.eval U))
       (actionConeHom_left (conePackage (𝟙 (regularModule A))) y x h (-1))
-    show (coneEvalMinusOne (actionConeHom y x h)).eval U = y.eval U
+    change (coneEvalMinusOne (actionConeHom y x h)).eval U = y.eval U
     rw [show (coneEvalMinusOne (actionConeHom y x h)).eval U = _ from he]
     exact eq_of_heq (M.mul_one (-1) U (y.eval U))
 
@@ -969,11 +969,11 @@ theorem coneIdentity_hom_equiv_sections (A : DifferentialGradedAlgebra.{t, a} R)
   · intro f
     apply cone_hom_ext (conePackage (𝟙 (regularModule A)))
     · intro U
-      show (coneEvalZero (actionConeHom (coneEvalMinusOne f) (coneEvalZero f)
+      change (coneEvalZero (actionConeHom (coneEvalMinusOne f) (coneEvalZero f)
         (fun U => (coneEval_d f U).symm))).eval U = (coneEvalZero f).eval U
       rw [(actionConeHom_eval _ _ _).1]
     · intro U
-      show (coneEvalMinusOne (actionConeHom (coneEvalMinusOne f) (coneEvalZero f)
+      change (coneEvalMinusOne (actionConeHom (coneEvalMinusOne f) (coneEvalZero f)
         (fun U => (coneEval_d f U).symm))).eval U = (coneEvalMinusOne f).eval U
       rw [(actionConeHom_eval _ _ _).2]
   · intro p

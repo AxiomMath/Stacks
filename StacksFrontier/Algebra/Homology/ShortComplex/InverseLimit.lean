@@ -127,10 +127,10 @@ private theorem isMittagLeffler_fibreTower {R : Type u} [Ring R]
   obtain ⟨a', ha'⟩ := hmem
   have ha'' : S.X₁.map (χ ≫ φ₀) a' = S.X₁.map φ₀ a := ha'
   refine ⟨⟨b' + S.f.app k a', ?_⟩, ?_⟩
-  · show S.g.app k (b' + S.f.app k a') = c.val k
+  · change S.g.app k (b' + S.f.app k a') = c.val k
     rw [_root_.map_add, hb', hzero k a', add_zero]
   · apply Subtype.ext
-    show S.X₂.map (χ ≫ φ₀) (b' + S.f.app k a') = S.X₂.map φ₀ b.1
+    change S.X₂.map (χ ≫ φ₀) (b' + S.f.app k a') = S.X₂.map φ₀ b.1
     have h1 : S.X₂.map (χ ≫ φ₀) (S.f.app k a') = S.X₂.map φ₀ (S.f.app m a) := by
       rw [← NatTrans.naturality_apply S.f (χ ≫ φ₀) a', ha'',
         NatTrans.naturality_apply S.f φ₀ a]

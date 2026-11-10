@@ -141,7 +141,7 @@ theorem exists_isMaximal_ringEquiv_stalk_compat_of_chart {C : CommRingCat.{u}}
     intro r hr
     have hr' : r ∈ (closedPoint A).asIdeal := hr
     rw [← hcomap] at hr'
-    show E (algebraMap A _ r) ∈ w.asIdeal
+    change E (algebraMap A _ r) ∈ w.asIdeal
     rwa [hE r]
   let ε : (blowUp (maximalIdealSheaf A)).presheaf.stalk (ι w) ≃+*
       Localization.AtPrime (w.asIdeal.comap E.toRingHom) :=
@@ -155,7 +155,7 @@ theorem exists_isMaximal_ringEquiv_stalk_compat_of_chart {C : CommRingCat.{u}}
     congrArg (fun f => f.hom ((Scheme.ΓSpecIso (.of A)).inv.hom a))
       (germ_stalkMap_stalkMap_of_chart (maximalIdealSheaf A) (specTopAffineOpen A) C ι φ hι w
         (show _ ∈ (⊤ : (Spec (.of A)).Opens) from trivial))
-  show (Localization.localRingEquiv _ w.asIdeal E rfl).symm
+  change (Localization.localRingEquiv _ w.asIdeal E rfl).symm
     ((Spec.stalkIso C w).hom ((ι.stalkMap w).hom (maximalIdealBlowUpStalkHom A (ι w) a))) = _
   rw [h3, Spec.stalkIso_hom_toStalk, ← hE a]
   exact (RingEquiv.symm_apply_eq _).2

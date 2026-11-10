@@ -272,7 +272,6 @@ variable (S : GlobalCrystallineSituation.{u}) {V : S.S.scheme.Opens} {W : S.X.Op
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 /-- **The ring map of the morphism of Čech systems `τ n e` is the map of finite levels**
@@ -286,8 +285,8 @@ theorem wholeSiteInverseSectionsRingEquiv_tauRing07Q9 (n e : ℕ)
     haveI := isAffine_restrictS07Q9 (overSituation S f) hV (preimage_le_overSituation07Q9 S hVW f)
     wholeSiteInverseSectionsRingEquiv (isNilpotent_prime_openSituation07Q9 (overSituation S f) hW₂
         (preimage_le_overSituation07Q9 S hVW f)) (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ n e)
-        ((tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)).hom x) =
-      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e
+        ((tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)).hom x) =
+      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e
         (haveI := isAffine_restrictX07Q9 S hW hVW
         haveI := isAffine_restrictS07Q9 S hV hVW
         wholeSiteInverseSectionsRingEquiv (isNilpotent_prime_openSituation07Q9 S hW hVW)
@@ -309,18 +308,18 @@ theorem wholeSiteInverseSectionsRingEquiv_tauRing07Q9 (n e : ℕ)
     @IsAffine.of_isIso _ _ _ (isIso_toX_openLocalSystem07Q9 S hV hW hVW g hg n _)
       (isAffine_restrictX07Q9 S hW hVW)
   have hb := congrArg (fun φ ↦ c₂ (φ.hom.toRingHom (c₁ x)))
-    (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)
-  have h2 : c₂ ((levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e).hom.toRingHom
-      (c₁ x)) = levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e (c₁ x) :=
+    (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)
+  have h2 : c₂ ((levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e).hom.toRingHom
+      (c₁ x)) = levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e (c₁ x) :=
     congrArg (fun φ ↦ φ.hom.hom.toRingHom
-        (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e (c₁ x)))
+        (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e (c₁ x)))
       ((wholeSiteEquivLittleAffine hp₂).counitIso.inv_hom_id_app
         (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ n e))
-  have h3 : (levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n
+  have h3 : (levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n
       e)).hom.toRingHom (c₁ x) =
-      (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)).hom x :=
+      (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)).hom x :=
     congrArg (fun y ↦ (wholeHomToAffine hp (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r
-        hrC hr n e)).hom.toRingHom y)
+        hr n e)).hom.toRingHom y)
       (congrArg (fun φ ↦ φ.hom.hom.toRingHom x)
         ((wholeSiteEquivLittleAffine hp).counitIso.hom_inv_id_app
           (levelObj07Q9 S hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂))))
@@ -331,24 +330,24 @@ the scalar `a ∈ D(n)` of the level `e + N'` of the system of `W` to the scalar
 the level `e` of the system of `f⁻¹(W)`, `g_n` the map of completed envelopes. -/
 theorem tauRing_openLevelScalars07Q9 (n e : ℕ)
     (a : pAdicCompletedTensorPowerEnvelope (openAffineSituation07Q9 S hW hVW) g hg n) :
-    (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)).hom
+    (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)).hom
         (openLevelScalars07Q9 S hV hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂) a) =
       openLevelScalars07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
         g₂ hg₂ n e
-        ((completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n).toRingHom a) := by
+        ((completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n).toRingHom a) := by
   have := isAffine_restrictX07Q9 (overSituation S f) hW₂ (preimage_le_overSituation07Q9 S hVW f)
   have := isAffine_restrictS07Q9 (overSituation S f) hV (preimage_le_overSituation07Q9 S hVW f)
   apply (wholeSiteInverseSectionsRingEquiv (isNilpotent_prime_openSituation07Q9 (overSituation S f)
     hW₂ (preimage_le_overSituation07Q9 S hVW f)) (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ n e)).injective
-  refine (wholeSiteInverseSectionsRingEquiv_tauRing07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e
+  refine (wholeSiteInverseSectionsRingEquiv_tauRing07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e
     _).trans ?_
-  refine (congrArg (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)
+  refine (congrArg (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e)
     (wholeSiteInverseSectionsRingEquiv_openLevelScalars07Q9 S hV hW hVW g hg n _ a)).trans
     (Eq.trans ?_ (wholeSiteInverseSectionsRingEquiv_openLevelScalars07Q9 (overSituation S f) hV hW₂
       (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂ n e _).symm)
   refine congrArg (Ideal.Quotient.mk _)
     ((tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ n).injective ?_)
-  refine (ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n _).trans ?_
+  refine (ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n _).trans ?_
   rw [RingEquiv.apply_symm_apply]
   exact (RingEquiv.apply_symm_apply _ _).symm
 
@@ -377,7 +376,7 @@ def extendScalarsLift07Q9 (f : B →+ M →+ P)
 theorem extendScalars_addHom_ext07Q9 {g g' : (ModuleCat.extendScalars φ).obj M →+ P}
     (h : ∀ (t : B) (s : M), g (Stacks.PullbackModel.tmul φ t s) =
       g' (Stacks.PullbackModel.tmul φ t s)) : g = g' :=
-  AddMonoidHom.ext fun x ↦ TensorProduct.induction_on x ((map_zero g).trans (map_zero g').symm)
+  AddMonoidHom.ext fun x ↦ TensorProduct.inductionOn x
     (fun t s ↦ h t s)
     (fun x y hx hy ↦ (map_add g x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add g' x y).symm))
 
@@ -395,7 +394,6 @@ variable (S : GlobalCrystallineSituation.{u}) {V : S.S.scheme.Opens} {W : S.X.Op
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial (openAffineSituation07Q9 S hW hVW).C (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp
     (canonicalPresentation (openAffineSituation07Q9 S hW hVW)).toRingHom)
   (F : SheafOfModules.{u} (structureSheaf S)) (hF : IsQuasiCoherentCrystal S F)
@@ -405,7 +403,7 @@ variable (S : GlobalCrystallineSituation.{u}) {V : S.S.scheme.Opens} {W : S.X.Op
       (canonicalPresentation _)).completedRing (restrict S V W hVW).p n),
     G.completedRingMap (restrict S V W hVW).p n x =
       (completedEnvelopeMap07Q9 S hW hVW f hW₂ (canonicalPresentation _)
-        (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n).toRingHom x)
+        (canonicalPresentation_surjective _) g₂ hg₂ r hr n).toRingHom x)
 
 /-- **The pulled back crystal `ℱ' = f_cris^*ℱ`** on `Cris(X'/S)`. -/
 abbrev sourceSheaf07Q9 : ModuleSheaf (overSituation S f) :=
@@ -425,16 +423,16 @@ def sourceRestrict07Q9 (n e : ℕ) (m : (openCosimplicialModule07Q9 S hV hW hVW 
   haveI := isAffine_restrictS07Q9 S hV hVW
   crisInverseImageRestrict (S := overSituation S f) (S' := S) (𝟙 S.S) f (overSituation_compat S f) F
     (openSystemMap07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-      (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e)
+      (canonicalPresentation_surjective _) g₂ hg₂ r hr n e)
     (wholeSpaceSectionsVal (isNilpotent_prime_openSituation07Q9 S hW hVW)
       (restrictCrystal07Q9 S V W hVW F hF) m (e + openSystemShift07Q9 S hVW f hW₂))
 
 /-- The restriction `M(n) → ℱ'(T(n)_e)` is additive. -/
 theorem sourceRestrict07Q9_add (n e : ℕ)
     (m m' : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
-    sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e (m + m') =
-      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m +
-        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m' :=
+    sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e (m + m') =
+      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m +
+        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m' :=
   lowerShriekRestrict_add _ _ _ _
 
 /-- The scalars of the level `e` in degree `n` of the system of `f⁻¹(W)`, in the ring the sections
@@ -452,24 +450,24 @@ theorem sourceRestrict07Q9_smul (n e : ℕ)
     (a : (envelopeDPAlgebra (openAffineSituation07Q9 S hW hVW)
       (canonicalPresentation _)).completedRing (restrict S V W hVW).p n)
     (m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
-    sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e (a • m) =
+    sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e (a • m) =
       sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e
           ((completedEnvelopeMap07Q9 S hW hVW f hW₂ (canonicalPresentation _)
-            (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n).toRingHom a) •
-        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m := by
+            (canonicalPresentation_surjective _) g₂ hg₂ r hr n).toRingHom a) •
+        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m := by
   have := isAffine_restrictX07Q9 S hW hVW
   have := isAffine_restrictS07Q9 S hV hVW
   have h1 := wholeSpaceSectionsVal_smul (isNilpotent_prime_openSituation07Q9 S hW hVW)
     (restrictCrystal07Q9 S V W hVW F hF) (n := ⦋n⦌) a m (e + openSystemShift07Q9 S hVW f hW₂)
   have h2 := tauRing_openLevelScalars07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-    (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e a
+    (canonicalPresentation_surjective _) g₂ hg₂ r hr n e a
   have h3 := (congrArg (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-      (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e)).hom
+      (canonicalPresentation_surjective _) g₂ hg₂ r hr n e)).hom
     (levelSectionsScalars_eq_openLevelScalars07Q9 S hV hW hVW n
       (e + openSystemShift07Q9 S hVW f hW₂) a)).trans h2
   refine (congrArg (crisInverseImageRestrict (S := overSituation S f) (S' := S) (𝟙 S.S) f
     (overSituation_compat S f) F (openSystemMap07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-      (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e)) h1).trans ?_
+      (canonicalPresentation_surjective _) g₂ hg₂ r hr n e)) h1).trans ?_
   refine (crisInverseImageRestrict_smul (S := overSituation S f) (S' := S) (𝟙 S.S) f
     (overSituation_compat S f) F _ _ _).trans ?_
   exact congrArg (fun t ↦ (show ((structureSheaf (overSituation S f)).obj.obj
@@ -485,11 +483,11 @@ def sourceLevelBil07Q9 (n e : ℕ) :
     (fun d ↦ AddMonoidHom.mk'
       (fun m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n ↦
         (sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e d •
-          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m :
+          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m :
             (sourceSheaf07Q9 S f F).val.obj (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ n e))))
       (fun m m' ↦ by rw [sourceRestrict07Q9_add, smul_add]))
     (fun d d' ↦ AddMonoidHom.ext fun m ↦
-      (congrArg (fun t ↦ (t • sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m :
+      (congrArg (fun t ↦ (t • sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m :
           (sourceSheaf07Q9 S f F).val.obj (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ n e))))
         (map_add (sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e) d d')).trans (add_smul _ _ _))
 
@@ -507,18 +505,18 @@ def sourceLevelMap07Q9 (n e : ℕ) :
     sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n →+
       (sourceSheaf07Q9 S f F).val.obj (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ n e)) :=
   letI := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  TensorProduct.liftAddHom (sourceLevelBil07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e)
+  TensorProduct.liftAddHom (sourceLevelBil07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e)
     (fun a d m ↦ by
       change sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e
           (G.completedRingMap (restrict S V W hVW).p n a * d) • _ =
         sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e d •
-          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e (a • m)
+          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e (a • m)
       rw [sourceRestrict07Q9_smul, ← hG]
       refine (congrArg (fun t ↦ (sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e t •
-          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m :
+          sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m :
             (sourceSheaf07Q9 S f F).val.obj (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ n e))))
         (mul_comm (G.completedRingMap (restrict S V W hVW).p n a) d)).trans ?_
-      refine (congrArg (fun t ↦ (t • sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n
+      refine (congrArg (fun t ↦ (t • sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n
           e m : (sourceSheaf07Q9 S f F).val.obj (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ n e))))
         (map_mul (sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e) d
           (G.completedRingMap (restrict S V W hVW).p n a))).trans (mul_smul _ _ _))
@@ -529,9 +527,9 @@ theorem sourceLevelMap07Q9_tmul (n e : ℕ)
       (restrict S V W hVW).p n)
     (m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
     letI := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e (d ⊗ₜ m) =
+    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e (d ⊗ₜ m) =
       sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e d •
-        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m :=
+        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m :=
   rfl
 
 /-- **The map `D'(n) ⊗_{D(n)} M(n) → ℱ'(T(n)_e)` is semilinear** over the scalars of the level. -/
@@ -539,12 +537,11 @@ theorem sourceLevelMap07Q9_smul (n e : ℕ)
     (a : (envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).completedRing
       (restrict S V W hVW).p n)
     (x : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
-    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e (a • x) =
+    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e (a • x) =
       sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e a •
-        sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x := by
+        sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x := by
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  induction x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul d m =>
     rw [TensorProduct.smul_tmul', sourceLevelMap07Q9_tmul, sourceLevelMap07Q9_tmul,
       smul_eq_mul]
@@ -555,9 +552,9 @@ theorem sourceLevelMap07Q9_smul (n e : ℕ)
 theorem sourceLevelMap07Q9_one_tmul (n e : ℕ)
     (m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
     letI := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e (1 ⊗ₜ m) =
-      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m := by
-  refine (sourceLevelMap07Q9_tmul S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e 1 m).trans ?_
+    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e (1 ⊗ₜ m) =
+      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m := by
+  refine (sourceLevelMap07Q9_tmul S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e 1 m).trans ?_
   erw [map_one, one_smul]
 
 /-- The scalars of the level `e` kill `(p)^{N' + e}`. -/
@@ -580,7 +577,7 @@ theorem sourceLevelMap07Q9_eq_zero (n e : ℕ) (x : sourceTensor07Q9 S hV hW hVW
         (openSystemShift07Q9 S hVW f hW₂ + e) • ⊤ :
           Submodule ((envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).completedRing
             (restrict S V W hVW).p n) (sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n))) :
-    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x = 0 := by
+    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x = 0 := by
   refine Submodule.smul_induction_on hx (fun a ha y _ ↦ ?_) (fun y z hy hz ↦ ?_)
   · rw [sourceLevelMap07Q9_smul, sourceScalars07Q9_eq_zero S hV hVW f hW₂ g₂ hg₂ n e a ha,
       zero_smul]
@@ -591,17 +588,17 @@ theorem sourceRestrict07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e')
     (m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
     (sourceSheaf07Q9 S f F).val.map (((openSystem07Q9 (overSituation S f) hV hW₂
         (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h)).op
-        (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e' m) =
-      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e m := by
+        (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e' m) =
+      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e m := by
   have := isAffine_restrictX07Q9 S hW hVW
   have := isAffine_restrictS07Q9 S hV hVW
   refine (crisInverseImageRestrict_naturality (S := overSituation S f) (S' := S) (𝟙 S.S) f
     (overSituation_compat S f) F _ _ _ _ (openSystemMap07Q9_naturality_tower S hV hW hVW f hW₂
-      (canonicalPresentation _) (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n h) _).trans
+      (canonicalPresentation _) (canonicalPresentation_surjective _) g₂ hg₂ r hr n h) _).trans
     ?_
   exact congrArg (crisInverseImageRestrict (S := overSituation S f) (S' := S) (𝟙 S.S) f
     (overSituation_compat S f) F (openSystemMap07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-      (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e))
+      (canonicalPresentation_surjective _) g₂ hg₂ r hr n e))
     (wholeSpaceSectionsVal_restrict (isNilpotent_prime_openSituation07Q9 S hW hVW)
       (restrictCrystal07Q9 S V W hVW F hF) (n := ⦋n⦌) m
       (homOfLE (Nat.add_le_add_right h (openSystemShift07Q9 S hVW f hW₂))))
@@ -622,11 +619,10 @@ theorem sourceLevelMap07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e')
     (x : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
     (sourceSheaf07Q9 S f F).val.map (((openSystem07Q9 (overSituation S f) hV hW₂
         (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h)).op
-        (sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e' x) =
-      sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x := by
+        (sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e' x) =
+      sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x := by
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction x using TensorProduct.inductionOn with
   | tmul d m =>
     rw [sourceLevelMap07Q9_tmul, sourceLevelMap07Q9_tmul, PresheafOfModules.map_smul,
       sourceRestrict07Q9_tower]
@@ -645,7 +641,7 @@ abbrev targetLevel07Q9 (n e : ℕ) : CrystallineThickening S :=
 /-- The morphism `τ n e` of the Čech systems. -/
 abbrev sourceTau07Q9 (n e : ℕ) :=
   openSystemMap07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-    (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e
+    (canonicalPresentation_surjective _) g₂ hg₂ r hr n e
 
 /-- The scalars of the level `e` in degree `n` of the system of `f⁻¹(W)`, in the commutative ring
 of global sections of its ambient scheme. -/
@@ -683,11 +679,11 @@ def sourceToBaseChangeBil07Q9 (n e : ℕ) :
     (envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).completedRing
         (restrict S V W hVW).p n →+
       ((openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n →+
-        (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n
+        (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n
           e)).hom).obj (sectionsOver F (targetLevel07Q9 S hV hW hVW f hW₂ n e))) :=
   AddMonoidHom.mk'
     (fun d ↦ AddMonoidHom.mk'
-      (fun m ↦ Stacks.PullbackModel.tmul (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr
+      (fun m ↦ Stacks.PullbackModel.tmul (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr
           n e)).hom (sourceScalarsTop07Q9 S hV hVW f hW₂ g₂ hg₂ n e d)
           (targetVal07Q9 S hV hW hVW f hW₂ F hF n e m))
       (fun m m' ↦ by
@@ -711,17 +707,17 @@ theorem tauRing_levelSectionsScalars07Q9 (n e : ℕ)
       (canonicalPresentation _)).completedRing (restrict S V W hVW).p n) :
     haveI := isAffine_restrictX07Q9 S hW hVW
     haveI := isAffine_restrictS07Q9 S hV hVW
-    (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n e)).hom
+    (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n e)).hom
         (levelSectionsScalars (isNilpotent_prime_openSituation07Q9 S hW hVW) ⦋n⦌
           (e + openSystemShift07Q9 S hVW f hW₂) a) =
       sourceScalarsTop07Q9 S hV hVW f hW₂ g₂ hg₂ n e
         ((completedEnvelopeMap07Q9 S hW hVW f hW₂ (canonicalPresentation _)
-          (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n).toRingHom a) :=
-  (congrArg (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n e)).hom
+          (canonicalPresentation_surjective _) g₂ hg₂ r hr n).toRingHom a) :=
+  (congrArg (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n e)).hom
     (levelSectionsScalars_eq_openLevelScalars07Q9 S hV hW hVW n
       (e + openSystemShift07Q9 S hVW f hW₂) a)).trans
     (tauRing_openLevelScalars07Q9 S hV hW hVW f hW₂ (canonicalPresentation _)
-      (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr n e a)
+      (canonicalPresentation_surjective _) g₂ hg₂ r hr n e a)
 
 /-- A scalar of `D(n)` acts on the reduction `m ↦ m_{e + N'}` through the scalars of the
 level. -/
@@ -747,10 +743,10 @@ include hG in
 `d ⊗ m ↦ d ⊗ m_{e + N'}`. -/
 def sourceToBaseChange07Q9 (n e : ℕ) :
     sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n →+
-      (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n
+      (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n
         e)).hom).obj (sectionsOver F (targetLevel07Q9 S hV hW hVW f hW₂ n e)) :=
   letI := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  TensorProduct.liftAddHom (sourceToBaseChangeBil07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e)
+  TensorProduct.liftAddHom (sourceToBaseChangeBil07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e)
     (fun a d m ↦ by
       change Stacks.PullbackModel.tmul _ (sourceScalarsTop07Q9 S hV hVW f hW₂ g₂ hg₂ n e
           (G.completedRingMap (restrict S V W hVW).p n a * d))
@@ -766,8 +762,8 @@ theorem sourceToBaseChange07Q9_tmul (n e : ℕ)
       (restrict S V W hVW).p n)
     (m : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
     letI := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-    sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e (d ⊗ₜ m) =
-      Stacks.PullbackModel.tmul (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr
+    sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e (d ⊗ₜ m) =
+      Stacks.PullbackModel.tmul (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr
           n e)).hom (sourceScalarsTop07Q9 S hV hVW f hW₂ g₂ hg₂ n e d)
           (targetVal07Q9 S hV hW hVW f hW₂ F hF n e m) :=
   rfl
@@ -777,12 +773,11 @@ theorem sourceToBaseChange07Q9_tmul (n e : ℕ)
 theorem crisInverseImageBaseChange_sourceToBaseChange07Q9 (n e : ℕ)
     (x : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
     crisInverseImageBaseChange (S := overSituation S f) (S' := S) (𝟙 S.S) f
-        (overSituation_compat S f) F (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n e)
-        (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x) =
-      sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x := by
+        (overSituation_compat S f) F (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n e)
+        (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x) =
+      sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x := by
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul d m => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -1030,7 +1025,7 @@ include hG in
 /-- **The inverse map `Γ(T(n)_e) ⊗_{Γ(T'(n)_{e + N'})} ℱ(T'(n)_{e + N'}) →
 (D'(n) ⊗_{D(n)} M(n))/(p)^{N' + e}`**, `λ(d) ⊗ m_{e + N'} ↦ d ⊗ m`. -/
 def baseChangeToSource07Q9 (n e : ℕ) :
-    (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n
+    (ModuleCat.extendScalars (tauRing (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n
         e)).hom).obj (sectionsOver F (targetLevel07Q9 S hV hW hVW f hW₂ n e)) →+
       sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n ⧸
         sourceTensorLevel07Q9 S hV hW hVW f hW₂ g₂ F hF G n e :=
@@ -1046,7 +1041,7 @@ def baseChangeToSource07Q9 (n e : ℕ) :
         exact ⟨a, (levelSectionsScalars_eq_openLevelScalars07Q9 S hV hW hVW n _ a).trans ha⟩
       obtain ⟨d, rfl⟩ := sourceScalarsTop07Q9_surjective S hV hVW f hW₂ g₂ hg₂ n e t
       obtain ⟨m, rfl⟩ := targetVal07Q9_surjective S hV hW hVW f hW₂ F hF n e y
-      have h1 := (tauRing_levelSectionsScalars07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n e a).trans
+      have h1 := (tauRing_levelSectionsScalars07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n e a).trans
         (congrArg (sourceScalarsTop07Q9 S hV hVW f hW₂ g₂ hg₂ n e) (hG n a).symm)
       refine (congrArg (fun t ↦ baseChangeToSourceBil07Q9 S hV hW hVW f hW₂ g₂ hg₂ F hF G n e t
         (targetVal07Q9 S hV hW hVW f hW₂ F hF n e m))
@@ -1064,14 +1059,11 @@ def baseChangeToSource07Q9 (n e : ℕ) :
 `(p)^{N' + e}`.** -/
 theorem baseChangeToSource07Q9_sourceToBaseChange (n e : ℕ)
     (x : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
-    baseChangeToSource07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e
-        (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x) =
+    baseChangeToSource07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e
+        (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x) =
       Submodule.Quotient.mk x := by
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero]
-    rfl
+  induction x using TensorProduct.inductionOn with
   | tmul d m => exact baseChangeToSourceBil07Q9_apply S hV hW hVW f hW₂ g₂ hg₂ F hF G n e d m
   | add x y hx hy =>
     rw [map_add, map_add, hx, hy]
@@ -1090,7 +1082,7 @@ abbrev sourceTower07Q9 (n : ℕ) : ℕᵒᵖ ⥤ AddCommGrpCat.{u + 1} :=
 abbrev sourceTowerMap07Q9 (n e : ℕ) :
     sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n →+
       (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n).obj (op e) :=
-  sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e
+  sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e
 
 /-- The maps into the tower kill `(p)^{N' + e}`. -/
 theorem sourceTowerMap07Q9_eq_zero (n e : ℕ)
@@ -1100,27 +1092,26 @@ theorem sourceTowerMap07Q9_eq_zero (n e : ℕ)
         (openSystemShift07Q9 S hVW f hW₂ + e) • ⊤ :
           Submodule ((envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).completedRing
             (restrict S V W hVW).p n) (sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n))) :
-    sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x = 0 :=
-  sourceLevelMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x hx
+    sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x = 0 :=
+  sourceLevelMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x hx
 
 /-- The maps into the tower are compatible with its transition maps. -/
 theorem sourceTowerMap07Q9_comp {n : ℕ} {e e' : ℕ} (h : e ≤ e')
     (x : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
     (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n).map (homOfLE h).op
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e' x) =
-      sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x :=
-  sourceLevelMap07Q9_tower S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n h x
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e' x) =
+      sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x :=
+  sourceLevelMap07Q9_tower S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n h x
 
 include hG in
 /-- The map `D'(n) ⊗_{D(n)} M(n) → Γ(T(n)_e) ⊗_{Γ(T'(n)_{e + N'})} ℱ(T'(n)_{e + N'})` is
 surjective. -/
 private theorem sourceToBaseChange07Q9_surjective (n e : ℕ) :
     Function.Surjective
-      (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e) := by
+      (sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e) := by
   intro x
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul t s =>
     obtain ⟨d, rfl⟩ := sourceScalarsTop07Q9_surjective S hV hVW f hW₂ g₂ hg₂ n e t
     obtain ⟨m, rfl⟩ := targetVal07Q9_surjective S hV hW hVW f hW₂ F hF n e s
@@ -1137,29 +1128,29 @@ theorem bijective_sourceLevelMap07Q9 (n e : ℕ) :
         (restrict S V W hVW).p n) (restrict S V W hVW).p)
       (sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) (openSystemShift07Q9 S hVW f hW₂)
       (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n)
-      (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-      (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e) := by
+      (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+      (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e) := by
   have := isAffine_target_openSystem07Q9 S hV hW hVW (canonicalPresentation _)
     (canonicalPresentation_surjective _) n (e + openSystemShift07Q9 S hVW f hW₂)
   have := isAffine_target_openSystem07Q9 (overSituation S f) hV hW₂
     (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂ n e
   have hBC := bijective_crisInverseImageBaseChange (S := overSituation S f) (S' := S) (𝟙 S.S) f
-    (overSituation_compat S f) F (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr n e)
+    (overSituation_compat S f) F (sourceTau07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr n e)
     (isLocallyQuasiCoherent_of_isQuasicoherentOnSite F hF.1) hF.2
   constructor
   · rw [injective_iff_map_eq_zero]
     intro z hz
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-    have h1 : sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e y = 0 :=
+    have h1 : sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e y = 0 :=
       hBC.1 (by rwa [map_zero, crisInverseImageBaseChange_sourceToBaseChange07Q9])
-    rw [← baseChangeToSource07Q9_sourceToBaseChange S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e,
+    rw [← baseChangeToSource07Q9_sourceToBaseChange S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e,
       h1, map_zero]
   · intro w
     obtain ⟨x, rfl⟩ := hBC.2 w
     obtain ⟨y, rfl⟩ :=
-      sourceToBaseChange07Q9_surjective S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e x
+      sourceToBaseChange07Q9_surjective S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e x
     exact ⟨Submodule.Quotient.mk y,
-      (crisInverseImageBaseChange_sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G
+      (crisInverseImageBaseChange_sourceToBaseChange07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G
         hG n e y).symm⟩
 
 /-! #### Compatibility with the cosimplicial structure -/
@@ -1169,14 +1160,14 @@ theorem sourceRestrict07Q9_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e 
     (x : (openCosimplicialModule07Q9 S hV hW hVW F hF).carrier n) :
     (sourceSheaf07Q9 S f F).val.map (((openSystem07Q9 (overSituation S f) hV hW₂
         (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂).map φ.op).app e).op
-        (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e x) =
-      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF m e
+        (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e x) =
+      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF m e
         ((openCosimplicialModule07Q9 S hV hW hVW F hF).map φ x) := by
   have := isAffine_restrictX07Q9 S hW hVW
   have := isAffine_restrictS07Q9 S hV hVW
   exact crisInverseImageRestrict_naturality (S := overSituation S f) (S' := S) (𝟙 S.S) f
     (overSituation_compat S f) F _ _ _ _ (openSystemMap07Q9_naturality_simplicial S hV hW hVW f
-      hW₂ (canonicalPresentation _) (canonicalPresentation_surjective _) g₂ hg₂ r hrC hr φ e) _
+      hW₂ (canonicalPresentation _) (canonicalPresentation_surjective _) g₂ hg₂ r hr φ e) _
 
 /-- The scalars of the levels of the system of `f⁻¹(W)` are compatible with the cosimplicial
 structure. -/
@@ -1197,29 +1188,28 @@ change `D'(n) ⊗ M(n) → D'(m) ⊗ M(m)` followed by the level map in degree `
 degree `n` followed by the restriction of `ℱ'` along `T(φ)_e`. -/
 theorem sourceLevelMap07Q9_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e : ℕ)
     (y : sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) :
-    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG m e
+    sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG m e
         ((openCosimplicialModule07Q9 S hV hW hVW F hF).pullbackTensorMap07Q9 G φ y) =
       (sourceSheaf07Q9 S f F).val.map (((openSystem07Q9 (overSituation S f) hV hW₂
         (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂).map φ.op).app e).op
-        (sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e y) := by
+        (sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e y) := by
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p n
   let := G.completedAlgebra07Q9 (restrict S V W hVW).p m
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction y using TensorProduct.inductionOn with
   | tmul d x =>
     refine Eq.trans (show _ = sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ m e
         ((envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).completedRingMap
           (restrict S V W hVW).p φ d) •
-        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF m e
+        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF m e
           ((openCosimplicialModule07Q9 S hV hW hVW F hF).map φ x) from rfl) ?_
     refine Eq.trans ?_ (PresheafOfModules.map_smul (sourceSheaf07Q9 S f F).val
       (((openSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f) g₂
         hg₂).map φ.op).app e).op (sourceScalars07Q9 S hV hVW f hW₂ g₂ hg₂ n e d)
-      (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e x)).symm
+      (sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e x)).symm
     rw [sourceRestrict07Q9_simplicial]
     exact congrArg (fun t ↦ (show ((structureSheaf (overSituation S f)).obj.obj
       (op (sourceLevel07Q9 S hV hVW f hW₂ g₂ hg₂ m e)) : Type u) from t) •
-        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF m e
+        sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF m e
           ((openCosimplicialModule07Q9 S hV hW hVW F hF).map φ x))
       (sourceScalars07Q9_simplicial S hV hVW f hW₂ g₂ hg₂ φ e d).symm
   | add x y hx hy => simp only [map_add, hx, hy]; rfl
@@ -1237,28 +1227,28 @@ abbrev sourceCone07Q9 (n : ℕ) : Cone (sourceTower07Q9 S hV hVW f hW₂ g₂ hg
         (restrict S V W hVW).p n) (restrict S V W hVW).p)
     (sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n) (openSystemShift07Q9 S hVW f hW₂)
     (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n)
-    (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-    (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-    (sourceTowerMap07Q9_comp S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG)
+    (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+    (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+    (sourceTowerMap07Q9_comp S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG)
 
 /-- **`M'(n) = lim_e ℱ'(T(n)_e)`**: the cone is a limit cone. -/
-def sourceConeIsLimit07Q9 (n : ℕ) : IsLimit (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G
+def sourceConeIsLimit07Q9 (n : ℕ) : IsLimit (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G
     hG n) :=
   AdicLevelCone07Q9.isLimit _ _ _ _ _ _ _
-    (bijective_sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
+    (bijective_sourceLevelMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
 
 /-- **The degree-`n` term of the Čech sections of `ℱ'` over the system of `f⁻¹(W)` is `M'(n)`.** -/
 def sourceSectionsLimitIso07Q9 (n : ℕ) :
     limit (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) ≅
-      (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n).pt :=
+      (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n).pt :=
   IsLimit.conePointUniqueUpToIso (limit.isLimit _)
-    (sourceConeIsLimit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
+    (sourceConeIsLimit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
 
 /-- The components of the inverse of `sourceSectionsLimitIso07Q9` are the level maps. -/
 theorem sourceSectionsLimitIso07Q9_inv_π (n e : ℕ) :
-    (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n).inv ≫
+    (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n).inv ≫
         limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e) =
-      (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n).π.app (op e) :=
+      (sourceCone07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n).π.app (op e) :=
   IsLimit.conePointUniqueUpToIso_inv_comp _ _ _
 
 /-- `sourceSectionsLimitIso07Q9_inv_π` on elements. -/
@@ -1269,28 +1259,28 @@ theorem sourceSectionsLimitIso07Q9_inv_π_apply (n e : ℕ)
       (sourceTensor07Q9 S hV hW hVW f hW₂ g₂ F hF G n))) :
     ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e))
         (ConcreteCategory.hom
-          (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n).inv x) =
+          (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n).inv x) =
       AdicLevelCone07Q9.levelMap _ _ _ _
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e
         (x.down.val (openSystemShift07Q9 S hVW f hW₂ + e)) :=
   ConcreteCategory.congr_hom
-    (sourceSectionsLimitIso07Q9_inv_π S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e) x
+    (sourceSectionsLimitIso07Q9_inv_π S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e) x
 
 /-- The transitions of `M'(•)` on the levels: they are induced by the transitions of the
 uncompleted base change. -/
 theorem levelMap_sourceModule07Q9_map {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e : ℕ)
     (x : (sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).carrier n) :
     AdicLevelCone07Q9.levelMap _ _ _ _
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG m)
-        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG m) e
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG m)
+        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG m) e
         (((sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).map φ x).val
           (openSystemShift07Q9 S hVW f hW₂ + e)) =
       (sourceSheaf07Q9 S f F).val.map (((openSystem07Q9 (overSituation S f) hV hW₂
         (preimage_le_overSituation07Q9 S hVW f) g₂ hg₂).map φ.op).app e).op
         (AdicLevelCone07Q9.levelMap _ _ _ _
-          (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-          (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e
+          (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+          (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e
           (x.val (openSystemShift07Q9 S hVW f hW₂ + e))) := by
   obtain ⟨y, hy⟩ := Submodule.Quotient.mk_surjective _ (x.val (openSystemShift07Q9 S hVW f hW₂ + e))
   have hx : ((sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).map φ x).val
@@ -1300,7 +1290,7 @@ theorem levelMap_sourceModule07Q9_map {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e 
     rw [← hy]
     rfl
   rw [hx, ← hy]
-  exact sourceLevelMap07Q9_simplicial S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG φ e y
+  exact sourceLevelMap07Q9_simplicial S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG φ e y
 
 /-- The abelian sheaf underlying `ℱ' = f_cris^*ℱ`. -/
 abbrev sourceAbelianSheaf07Q9 : Sheaf (smallTopology (overSituation S f)) AddCommGrpCat.{u + 1} :=
@@ -1318,29 +1308,29 @@ def sourceCarrierSectionsIso07Q9 :
       cosimplicialSections (sourceSystem07Q9 S hV hVW f hW₂ g₂ hg₂)
         (sourceAbelianSheaf07Q9 S f F).obj :=
   NatIso.ofComponents
-    (fun n ↦ (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n.len).symm)
+    (fun n ↦ (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n.len).symm)
     (fun {n m} φ ↦ by
       refine limit.hom_ext fun e ↦ AddCommGrpCat.ext fun x ↦ ?_
       change ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F m.len) e)
           (ConcreteCategory.hom
-            (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG m.len).inv
+            (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG m.len).inv
             (ULift.up ((sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).map φ x.down))) =
         ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F m.len) e)
           (ConcreteCategory.hom (limMap ((sectionSystem (sourceSystem07Q9 S hV hVW f hW₂ g₂ hg₂)
             (sourceAbelianSheaf07Q9 S f F).obj).map φ))
             (ConcreteCategory.hom
-              (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n.len).inv x))
+              (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n.len).inv x))
       rw [sourceSectionsLimitIso07Q9_inv_π_apply]
       have hl := ConcreteCategory.congr_hom (limMap_π ((sectionSystem (sourceSystem07Q9 S hV hVW f
         hW₂ g₂ hg₂) (sourceAbelianSheaf07Q9 S f F).obj).map φ) e)
         (ConcreteCategory.hom
-          (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n.len).inv x)
+          (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n.len).inv x)
       rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at hl
-      refine (levelMap_sourceModule07Q9_map S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG
+      refine (levelMap_sourceModule07Q9_map S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG
         (n := n.len) (m := m.len) φ e.unop x.down).trans (Eq.trans ?_ hl.symm)
       exact congrArg (fun z ↦ ConcreteCategory.hom (((sectionSystem (sourceSystem07Q9 S hV hVW f
         hW₂ g₂ hg₂) (sourceAbelianSheaf07Q9 S f F).obj).map φ).app e) z)
-        (sourceSectionsLimitIso07Q9_inv_π_apply S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n.len
+        (sourceSectionsLimitIso07Q9_inv_π_apply S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n.len
           e.unop x).symm)
 
 /-- **The Čech sections of `ℱ' = f_cris^*ℱ` over the system of `f⁻¹(W)` are the Moore complex of
@@ -1359,20 +1349,20 @@ def sourceSectionsMooreIso07Q9 :
       (Functor.isoWhiskerLeft
           (sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).carrierCosimplicialSmall
           addCommGrpUliftFunctorCompIso ≪≫
-        sourceCarrierSectionsIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG)).symm
+        sourceCarrierSectionsIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG)).symm
 
 /-- The level maps of the image of a compatible family under `sourceSectionsLimitIso07Q9` are
 the components of the family. -/
 theorem levelMap_sourceSectionsLimitIso07Q9_hom (n e : ℕ)
     (y : ↑(limit (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n))) :
     AdicLevelCone07Q9.levelMap _ _ _ _
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e
-        ((ConcreteCategory.hom (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e
+        ((ConcreteCategory.hom (sourceSectionsLimitIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF
           G hG n).hom y).down.val (openSystemShift07Q9 S hVW f hW₂ + e)) =
       ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e)) y :=
   ConcreteCategory.congr_hom (IsLimit.conePointUniqueUpToIso_hom_comp (limit.isLimit _)
-    (sourceConeIsLimit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) (op e)) y
+    (sourceConeIsLimit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) (op e)) y
 
 /-- **`sourceSectionsMooreIso07Q9` on elements**: the image of a compatible family of sections in
 the level `e` is the component of the family at `e`. -/
@@ -1380,19 +1370,19 @@ theorem levelMap_sourceSectionsMooreIso07Q9_hom (n e : ℕ)
     (y : ↑((sectionsComplex (sourceSystem07Q9 S hV hVW f hW₂ g₂ hg₂)
         (sourceAbelianSheaf07Q9 S f F).obj).X n)) :
     AdicLevelCone07Q9.levelMap _ _ _ _
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e
-        ((ConcreteCategory.hom ((sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e
+        ((ConcreteCategory.hom ((sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF
           G hG).hom.f n) y).down.down.val (openSystemShift07Q9 S hVW f hW₂ + e)) =
       ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e)) y :=
-  levelMap_sourceSectionsLimitIso07Q9_hom S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e y
+  levelMap_sourceSectionsLimitIso07Q9_hom S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e y
 
 /-! #### The square -/
 
 /-- The morphism of Čech systems over `f` from the system of `f⁻¹(W)` to the system of `W`. -/
 abbrev sourceCechSystemHom07Q9 :=
   openCechSystemHom07Q9 S hV hW hVW (canonicalPresentation _)
-    (canonicalPresentation_surjective _) f hW₂ g₂ hg₂ r hrC hr
+    (canonicalPresentation_surjective _) f hW₂ g₂ hg₂ r hr
 
 /-- The module unit `ℱ ⟶ f_{cris, *}f_cris^*ℱ` on underlying abelian sheaves. -/
 abbrev sourceUnit07Q9 :=
@@ -1406,12 +1396,12 @@ theorem π_sectionsMap_sourceUnit07Q9 (n e : ℕ)
       (canonicalPresentation_surjective _)) (abelianSheaf F).obj).X n)) :
     ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e))
         (ConcreteCategory.hom
-          (((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr).sectionsMap
+          (((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr).sectionsMap
             (sourceUnit07Q9 S f F)).f n) z) =
-      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e
+      sourceRestrict07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e
         (ConcreteCategory.hom ((openSectionsMooreIso07Q9 S hV hW hVW F hF).hom.f n)
           z).down.down := by
-  have h1 := ConcreteCategory.congr_hom ((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC
+  have h1 := ConcreteCategory.congr_hom ((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r
     hr).app_π (sourceAbelianSheaf07Q9 S f F) ⦋n⦌ e)
     (ConcreteCategory.hom (((cosimplicialSectionsFunctor (openSystem07Q9 S hV hW hVW
       (canonicalPresentation _) (canonicalPresentation_surjective _))).map
@@ -1421,7 +1411,7 @@ theorem π_sectionsMap_sourceUnit07Q9 (n e : ℕ)
     (sourceUnit07Q9 S f F).hom (op (e + openSystemShift07Q9 S hVW f hW₂))) z
   refine h1.trans ((ConcreteCategory.comp_apply _ _ _).trans ?_)
   refine (congrArg (ConcreteCategory.hom (crisDirectImageEval (overSituation S f) S (𝟙 S.S) f
-    (overSituation_compat S f) ((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr).τ ⦋n⦌
+    (overSituation_compat S f) ((sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr).τ ⦋n⦌
       e) (sourceAbelianSheaf07Q9 S f F)))
     (((ConcreteCategory.comp_apply _ _ _).symm.trans h2).trans
       (ConcreteCategory.comp_apply _ _ _))).trans ?_
@@ -1439,13 +1429,13 @@ theorem π_sourceSectionsMooreIso07Q9_inv (n e : ℕ)
         ((AlgebraicTopology.alternatingCofaceMapComplex AddCommGrpCat.{u}).obj
           (sourceModule07Q9 S hV hW hVW f hW₂ g₂ F hF G).carrierCosimplicial)).X n)) :
     ConcreteCategory.hom (limit.π (sourceTower07Q9 S hV hVW f hW₂ g₂ hg₂ F n) (op e))
-        (ConcreteCategory.hom ((sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF
+        (ConcreteCategory.hom ((sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF
           G hG).inv.f n) w) =
       AdicLevelCone07Q9.levelMap _ _ _ _
-        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n)
-        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n) e
+        (sourceTowerMap07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n)
+        (sourceTowerMap07Q9_eq_zero S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n) e
         (w.down.down.val (openSystemShift07Q9 S hVW f hW₂ + e)) :=
-  sourceSectionsLimitIso07Q9_inv_π_apply S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e
+  sourceSectionsLimitIso07Q9_inv_π_apply S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e
     (ULift.up w.down.down)
 
 /-- **The square of [Stacks, Tag 07Q9] on Čech sections over `W`**: the Čech pullback of the module
@@ -1453,9 +1443,9 @@ unit `ℱ ⟶ f_{cris, *}f_cris^*ℱ`, read through `sourceSectionsMooreIso07Q9`
 `openSectionsMooreIso07Q9`, is the Moore complex map of the morphism of cosimplicial modules
 `M(•) ⟶ M'(•)`, `m ↦ 1 ⊗ m`. -/
 theorem sectionsMap_sourceSectionsMooreIso07Q9 :
-    (sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr).sectionsMap
+    (sourceCechSystemHom07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr).sectionsMap
         (sourceUnit07Q9 S f F) ≫
-        (sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG).hom =
+        (sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG).hom =
       (openSectionsMooreIso07Q9 S hV hW hVW F hF).hom ≫
         (AddCommGrpCat.uliftFunctor.{u + 1, u}.mapHomologicalComplex (ComplexShape.up ℕ)).map
           ((AlgebraicTopology.alternatingCofaceMapComplex AddCommGrpCat.{u}).map
@@ -1464,10 +1454,10 @@ theorem sectionsMap_sourceSectionsMooreIso07Q9 :
               AddCommGrpCat.uliftFunctor)) := by
   refine (Iso.eq_comp_inv _).mp ?_
   refine HomologicalComplex.hom_ext _ _ fun n ↦ limit.hom_ext fun e ↦ AddCommGrpCat.ext fun z ↦ ?_
-  refine (π_sectionsMap_sourceUnit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF n e.unop z).trans ?_
-  refine Eq.trans ?_ (π_sourceSectionsMooreIso07Q9_inv S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG
+  refine (π_sectionsMap_sourceUnit07Q9 S hV hW hVW f hW₂ g₂ hg₂ r hr F hF n e.unop z).trans ?_
+  refine Eq.trans ?_ (π_sourceSectionsMooreIso07Q9_inv S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG
     n e.unop _).symm
-  exact (sourceLevelMap07Q9_one_tmul S hV hW hVW f hW₂ g₂ hg₂ r hrC hr F hF G hG n e.unop _).symm
+  exact (sourceLevelMap07Q9_one_tmul S hV hW hVW f hW₂ g₂ hg₂ r hr F hF G hG n e.unop _).symm
 
 end Source
 

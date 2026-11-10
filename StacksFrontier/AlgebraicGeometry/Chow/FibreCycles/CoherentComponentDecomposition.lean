@@ -203,7 +203,7 @@ theorem locallyFinite_support_coherentComponentFamily :
   have hj' : (((coherentComponentFamily C f k F j).support :
       Set (projectiveLineProduct f)) ∩ U).Nonempty := hj
   refine Set.mem_iUnion₂.mpr ⟨j.1, ?_, j.2, rfl⟩
-  show (closure {(reducedSupport F).subschemeι j.1.1.1} ∩ U).Nonempty
+  change (closure {(reducedSupport F).subschemeι j.1.1.1} ∩ U).Nonempty
   rwa [← coe_support_coherentComponentFamily C f k F j]
 
 /-- If the coefficient at `x` of the cycle of the inverse image of `W` along `g` is nonzero, then
@@ -520,7 +520,7 @@ theorem cycleAssociatedToCoherentPullback_apply_eq_finsum_coherentComponentFamil
           (reducedSupport F) hp
       refine ⟨⟨w, relativeDimension_of_mem_componentGenericPointsThrough C f k F g hgf hSupp hx
         hassoc hp w hw⟩, ?_, hw⟩
-      show (reducedSupport F).subschemeι w.1 ∈
+      change (reducedSupport F).subschemeι w.1 ∈
         componentGenericPointsThrough (reducedSupport F) (g x)
       rwa [hw]
     have hstep₂ : (∑ᶠ η ∈ {η : componentPoints C f k (reducedSupport F) |

@@ -145,7 +145,7 @@ theorem hasGenusTwoNoRationalTailNoRationalBridge_iff_of_isPullback
       HasGenusTwoNoRationalTailNoRationalBridge L f' := by
   let : Algebra K L := (Spec.preimage ι).hom.toAlgebra
   have hι : Spec.map (CommRingCat.ofHom (algebraMap K L)) = ι := by
-    show Spec.map (CommRingCat.ofHom (Spec.preimage ι).hom) = ι
+    change Spec.map (CommRingCat.ofHom (Spec.preimage ι).hom) = ι
     rw [CommRingCat.ofHom_hom, Spec.map_preimage]
   have h' : IsPullback g' f' f (Spec.map (CommRingCat.ofHom (algebraMap K L))) := by
     rwa [hι]

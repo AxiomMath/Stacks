@@ -121,7 +121,7 @@ theorem weaklyAssociatedPoints_pushforward_subset_image
     pushforward_isQuasicoherent f F
   let : Algebra Γ(S, U) Γ(X, V) := (f.app U).hom.toAlgebra
   let : Module Γ(X, V) Γ((Scheme.Modules.pushforward f).obj F, U) := by
-    show Module Γ(X, V) Γ(F, V)
+    change Module Γ(X, V) Γ(F, V)
     infer_instance
   let : IsScalarTower Γ(S, U) Γ(X, V)
       Γ((Scheme.Modules.pushforward f).obj F, U) :=
@@ -152,7 +152,7 @@ private theorem image_associatedPoints_subset_associatedPoints_pushforward
   have : IsNoetherianRing B := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
   let : Algebra A B := φ.toAlgebra
   let : Module A N := by
-    show Module A Γ((Scheme.Modules.pushforward f).obj F, U)
+    change Module A Γ((Scheme.Modules.pushforward f).obj F, U)
     infer_instance
   have hq := (isAssociatedPrime_sections_of_isAssociatedPoint_of_fg
     F V hV hxV (Ideal.FG.of_isNoetherianRing _))
@@ -168,7 +168,7 @@ private theorem image_associatedPoints_subset_associatedPoints_pushforward
       Γ((Scheme.Modules.pushforward f).obj F, U) p.asIdeal := by
     obtain ⟨-, m, hm⟩ := hq'
     refine ⟨p.isPrime, m, ?_⟩
-    show (⊥ : Submodule A N).colon (Submodule.span A {m}) = p.asIdeal
+    change (⊥ : Submodule A N).colon (Submodule.span A {m}) = p.asIdeal
     rw [hmap']
     ext a
     rw [Submodule.mem_colon_span_singleton, Submodule.mem_bot, Ideal.mem_comap,
@@ -232,7 +232,7 @@ theorem weaklyAssociatedPoints_pushforward_eq_image_of_isFinite
   have hV : IsAffineOpen V := hU.preimage f
   let : Algebra Γ(S, U) Γ(X, V) := (f.app U).hom.toAlgebra
   let : Module Γ(X, V) Γ((Scheme.Modules.pushforward f).obj F, U) := by
-    show Module Γ(X, V) Γ(F, V)
+    change Module Γ(X, V) Γ(F, V)
     infer_instance
   let : IsScalarTower Γ(S, U) Γ(X, V)
       Γ((Scheme.Modules.pushforward f).obj F, U) :=

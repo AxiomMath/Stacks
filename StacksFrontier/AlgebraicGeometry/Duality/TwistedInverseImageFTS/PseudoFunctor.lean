@@ -571,7 +571,7 @@ def openBaseChange :
     (quasiCoherentDerivedPullbackCompIso t f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
     (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
     (twistedInverseImageAdjunction f'
-      (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans
+      (isQuasicoherent_homology_derivedPushforward_of_qcqs f')))
 
 end OpenBaseChange
 

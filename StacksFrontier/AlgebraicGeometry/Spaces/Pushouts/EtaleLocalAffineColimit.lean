@@ -374,7 +374,7 @@ private lemma open_subspace_eq_top_of_cocone_maps_factor
                 (hmaps0 i).symm }
       overX := by
         intro i
-        show E.projection.app i ≫ (c.ι.app i).left =
+        change E.projection.app i ≫ (c.ι.app i).left =
           maps i ≫ incl
         simpa [E] using (hmaps i).symm
       isPullback := by
@@ -442,7 +442,7 @@ private lemma etale_family_covers_of_cocone_basechange_cover
           obtain ⟨a, y, hy⟩ := hcover i x
           have hV : pointsMap site S hS (D.obj i).left.1
               (c.ι.app i).left.hom x ∈ V.1 := by
-            show pointsMap site S hS (D.obj i).left.1
+            change pointsMap site S hS (D.obj i).left.1
                 (c.ι.app i).left.hom x ∈
               ⋃ a, Set.range (pointsMap site S hS (U a).1 (g a).hom)
             exact Set.mem_iUnion.mpr ⟨a, Set.mem_range.mpr ⟨y, hy⟩⟩
@@ -456,7 +456,7 @@ private lemma etale_family_covers_of_cocone_basechange_cover
   have hWtop : W.1 = ⊤ :=
     open_subspace_eq_top_of_cocone_maps_factor site S hS c h₁ W maps hmaps'
   have hW : e.symm ⊤ ≤ W := by
-    show (e.symm ⊤).1 ≤ W.1
+    change (e.symm ⊤).1 ≤ W.1
     rw [hWtop]
     exact le_top
   have hVtop : V = ⊤ := by
@@ -745,7 +745,7 @@ private lemma realizationMap_isPullback {c : Cocone D}
     IsPullback ((realizationMap r s f hf).app i) (r.baseChange.app i)
       (s.baseChange.app i) f := by
   apply IsPullback.of_right (t := s.isPullback i)
-  · show IsPullback (((realizationMap r s f hf).app i) ≫ F.projection.app i)
+  · change IsPullback (((realizationMap r s f hf).app i) ≫ F.projection.app i)
       (r.baseChange.app i) (c.ι.app i).left (f ≫ s.toX)
     rw [IsPullback.lift_fst, hf]
     exact r.isPullback i
@@ -888,9 +888,9 @@ private lemma affine_base_charts {Y : AlgebraicSpaces site S hS} (y : Y ⟶ B) :
   obtain ⟨wp, hw₁, _⟩ := exists_point_of_isPullback site S hS (hw a) x v hv.symm
   obtain ⟨j, t, ht⟩ := hsurj a wp
   refine ⟨⟨a, j⟩, t, ?_⟩
-  show pointsMap site S hS (Z a j).1 ((z a j).hom ≫ (p a).hom) t = x
+  change pointsMap site S hS (Z a j).1 ((z a j).hom ≫ (p a).hom) t = x
   rw [pointsMap_comp]
-  show pointsMap site S hS (W a).1 (p a).hom
+  change pointsMap site S hS (W a).1 (p a).hom
     (pointsMap site S hS (Z a j).1 (z a j).hom t) = x
   rw [ht, hw₁]
 
@@ -976,7 +976,7 @@ private lemma realization_hom_ext_target {c : Cocone D}
             (congrArg (fun k => s.baseChange.app i ≫ k) (hw a).w))
   obtain ⟨e, he, hei⟩ := realization_lift h₁ s t η (by
     intro i
-    show η.app i ≫ p' ≫ r.toX = _
+    change η.app i ≫ p' ≫ r.toX = _
     rw [← Category.assoc]
     simp only [η, pullbackNatTrans, NatTrans.comp_app, Functor.const_map_app,
       IsPullback.lift_fst, Category.assoc]
@@ -1051,12 +1051,12 @@ private lemma realization_glue {c : Cocone D}
     let t := canonicalRealization c W (p₁ ≫ (s a).toX)
       (isEtale_comp site S hS hp₁ (s a).etale)
     have ht₂ : p₂ ≫ (s b).toX = t.toX := by
-      show p₂ ≫ (s b).toX = p₁ ≫ (s a).toX
+      change p₂ ≫ (s b).toX = p₁ ≫ (s a).toX
       rw [← ho a, ← ho b, ← Category.assoc, ← Category.assoc, hw.w]
     apply realization_hom_ext_target h₁ h₂ t y
-    · show (p₁ ≫ q a) ≫ y = (p₁ ≫ (s a).toX) ≫ c.pt.hom
+    · change (p₁ ≫ q a) ≫ y = (p₁ ≫ (s a).toX) ≫ c.pt.hom
       rw [Category.assoc, hq, Category.assoc]
-    · show (p₂ ≫ q b) ≫ y = t.toX ≫ c.pt.hom
+    · change (p₂ ≫ q b) ≫ y = t.toX ≫ c.pt.hom
       rw [Category.assoc, hq, ← Category.assoc, ht₂]
     · intro i
       let α := realizationMap t (s a) p₁ rfl
@@ -1120,7 +1120,7 @@ private lemma affine_target_desc {c : Cocone D}
     · simpa only [s, canonicalRealization, Category.assoc] using
         congrArg (fun k => p a ≫ k) hu.symm
     · intro i
-      show (α a).app i ≫ η.app i ≫ z = _
+      change (α a).app i ≫ η.app i ≫ z = _
       rw [hη, realizationMap_baseChange_assoc (s a) r (p a) rfl]
   choose q hq hqi using hlocal
   exact realization_glue h₁ h₂ r (z ≫ b) η F s p hp hs (fun a => rfl) q (fun a => by
@@ -1148,10 +1148,10 @@ private lemma cocone_desc {c : Cocone D}
     let t := (P a).second ≫ (Functor.const I).map (C a).structureMap
     have ht i : t.app i ≫ (C a).toBase =
         (P a).diagram.projection.app i ≫ (D.obj i).hom := by
-      show ((P a).second.app i ≫ (C a).structureMap) ≫ (C a).toBase = _
+      change ((P a).second.app i ≫ (C a).structureMap) ≫ (C a).toBase = _
       rw [Category.assoc, ← (C a).comm, ← Category.assoc, ← (P a).isPullback i |>.w,
         Category.assoc]
-      show (P a).diagram.projection.app i ≫ (d.ι.app i).left ≫ y = _
+      change (P a).diagram.projection.app i ≫ (d.ι.app i).left ≫ y = _
       rw [cocone_w d i]
     obtain ⟨u, hu, _⟩ := etale_target_desc h₁ (r a) (C a).toBase (C a).base_etale t ht
     obtain ⟨f, hf, hfi⟩ := affine_target_desc h₁ h₂ (r a) (C a).toBase

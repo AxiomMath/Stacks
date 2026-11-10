@@ -133,7 +133,7 @@ public def ofPolyGrading :
 /-- `toPolyGrading` is a left inverse of `ofPolyGrading`. -/
 public theorem toPolyGrading_ofPolyGrading (p : MvPolynomial (Fin (n + 1)) Γ(S, V)) :
     toPolyGrading E hqc hV b (ofPolyGrading E hqc hV b p) = p := by
-  show SymmetricAlgebra.equivMvPolynomial b
+  change SymmetricAlgebra.equivMvPolynomial b
       ((Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc)
         ((Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).symm
           ((SymmetricAlgebra.equivMvPolynomial b).symm p))) = p
@@ -143,7 +143,7 @@ public theorem toPolyGrading_ofPolyGrading (p : MvPolynomial (Fin (n + 1)) Γ(S,
 public theorem ofPolyGrading_toPolyGrading
     (x : (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc).sectionRing V) :
     ofPolyGrading E hqc hV b (toPolyGrading E hqc hV b x) = x := by
-  show (Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).symm
+  change (Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).symm
       ((SymmetricAlgebra.equivMvPolynomial b).symm
         (SymmetricAlgebra.equivMvPolynomial b
           ((Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc) x))) = x

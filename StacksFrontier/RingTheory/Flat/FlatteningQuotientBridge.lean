@@ -105,7 +105,7 @@ theorem injective_baseChange_baseChange_iff {A : Type u} [CommRing A] (A' : Type
     Function.Injective ((α.baseChange A').baseChange R) ↔
       Function.Injective (α.baseChange R) := by
   rw [LinearMap.baseChange_baseChange (A := A') (B := R) α]
-  show Function.Injective
+  change Function.Injective
     (⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange A A' R R N).symm ∘
       ⇑(α.baseChange R) ∘ ⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange A A' R R P)) ↔ _
   rw [EquivLike.comp_injective _ (TensorProduct.AlgebraTensorModule.cancelBaseChange
@@ -122,7 +122,7 @@ theorem injective_rTensor_baseChange_iff {A : Type u} [CommRing A] (A' : Type v)
     (α : P →ₗ[A] N) :
     Function.Injective ((α.baseChange A').rTensor R) ↔ Function.Injective (α.rTensor R) := by
   rw [← LinearMap.lTensor_inj_iff_rTensor_inj, ← LinearMap.lTensor_inj_iff_rTensor_inj,
-    ← LinearMap.baseChange_eq_ltensor, ← LinearMap.baseChange_eq_ltensor]
+    ← LinearMap.baseChange_eq_lTensor, ← LinearMap.baseChange_eq_lTensor]
   exact injective_baseChange_baseChange_iff A' R α
 
 end LinearMap

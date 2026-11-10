@@ -104,7 +104,7 @@ theorem kernelIdeal_le_comap_germ (U : Opens X) (hx : x ∈ U) :
     kernelIdeal φ (op U) ≤ (stalkKernelIdeal φ x).comap (A.germ U x hx).hom := by
   intro a ha
   have h := TopCat.Presheaf.stalkFunctor_map_germ_apply U x hx φ a
-  show ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map φ).hom
+  change ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map φ).hom
     ((A.germ U x hx).hom a) = 0
   refine h.trans ?_
   rw [show φ.app (op U) a = 0 from ha]
@@ -144,7 +144,7 @@ theorem germCotangentMap_map {U V : Opens X} (i : V ⟶ U) (hV : x ∈ V)
     germCotangentMap φ x V hV ((conormalPresheafOverSource φ).map i.op c) =
       germCotangentMap φ x U (i.le hV) c := by
   obtain ⟨a, rfl⟩ := (kernelIdeal φ (op U)).toCotangent_surjective c
-  show (stalkKernelIdeal φ x).toCotangent ⟨(A.germ V x hV).hom ((A.map i.op).hom a), _⟩ =
+  change (stalkKernelIdeal φ x).toCotangent ⟨(A.germ V x hV).hom ((A.map i.op).hom a), _⟩ =
     (stalkKernelIdeal φ x).toCotangent ⟨(A.germ U x (i.le hV)).hom a, _⟩
   congr 1
   ext
@@ -199,7 +199,7 @@ theorem exists_germ_eq_of_mem_stalkKernelIdeal (y : ToType (A.stalk x))
   obtain ⟨W, hW, iU, iU', hWe⟩ := B.germ_eq x hU hU (φ.app (op U) a) 0
     (h0.trans (map_zero (B.germ U x hU).hom).symm)
   refine ⟨W, hW, (A.map iU.op).hom a, ?_, ?_⟩
-  · show φ.app (op W) ((A.map iU.op).hom a) = 0
+  · change φ.app (op W) ((A.map iU.op).hom a) = 0
     refine (φ.naturality_apply iU.op a).trans ?_
     exact hWe.trans (map_zero (B.map iU'.op).hom)
   · exact TopCat.Presheaf.germ_res_apply A iU x hW a
@@ -523,7 +523,7 @@ theorem conormalSheafStalkLinearEquiv_germ_toAssociatedModule (U : Opens X) (hx 
           kernelIdeal_le_comap_germ φ.hom x U hx a.2⟩ := by
   have hE := conormalSheafStalkSheafifyLinearEquiv_germ A B φ x U hx
     ((kernelIdeal φ.hom (op U)).toCotangent a)
-  show conormalPresheafStalkLinearEquiv φ.hom x
+  change conormalPresheafStalkLinearEquiv φ.hom x
     ((conormalSheafStalkSheafifyLinearEquiv A B φ x).symm _) = _
   rw [← hE, LinearEquiv.symm_apply_apply]
   exact conormalPresheafStalkLinearEquiv_germ_toCotangent φ.hom x U hx a

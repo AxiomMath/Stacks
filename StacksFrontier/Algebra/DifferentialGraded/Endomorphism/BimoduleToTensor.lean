@@ -278,7 +278,7 @@ theorem tensorAction_tmul_formula (M : Bimodule A B) {m n p : ℤ}
   let aa : A.grading m := ⟨(DifferentialGradedAlgebra.opposite R A).equiv (a : C.A),
     (DifferentialGradedAlgebra.opposite R A).mem_grading_iff m (a : C.A) |>.mp a.property⟩
   have hT := tensorActionAlgHom_tmul_smul A B M (a : C.A) (b : B.A) (x : M.rightModule.M)
-  show (MulOpposite.op (GradedTensorProduct.tmul (R := R)
+  change (MulOpposite.op (GradedTensorProduct.tmul (R := R)
       (𝒜 := C.grading) (ℬ := B.grading) (a : C.A) (b : B.A) : T.A) :
       MulOpposite T.A) • (x : M.rightModule.M) = _
   rw [hT, unop_transport_leftAction_apply A B M a x,
@@ -304,7 +304,7 @@ theorem tensorAction_smul_mem (M : Bimodule A B) {p q : ℤ} (t : (tensorAlgebra
     obtain ⟨i, j, a, b, ha, hb, hij, rfl⟩ := ht
     let aa : C.grading i := ⟨a, ha⟩
     let bb : B.grading j := ⟨b, hb⟩
-    show (MulOpposite.op (GradedTensorProduct.tmul (R := R)
+    change (MulOpposite.op (GradedTensorProduct.tmul (R := R)
       (𝒜 := C.grading) (ℬ := B.grading) a b) : MulOpposite T.A) • x ∈
       M.rightModule.grading (p + q)
     have hformula := tensorAction_tmul_formula A B M aa bb ⟨x, hx⟩
@@ -328,11 +328,11 @@ theorem tensorAction_smul_mem (M : Bimodule A B) {p q : ℤ} (t : (tensorAlgebra
     exact zsmul_mem (by simpa [hdeg] using hleft) _
   | zero => simp
   | add s t hs ht ihs iht =>
-    show (MulOpposite.op (s + t) : MulOpposite T.A) • x ∈ _
+    change (MulOpposite.op (s + t) : MulOpposite T.A) • x ∈ _
     simp only [MulOpposite.op_add, add_smul]
     exact (M.rightModule.grading (p + q)).add_mem ihs iht
   | smul r t ht ih =>
-    show (MulOpposite.op (r • t) : MulOpposite T.A) • x ∈ _
+    change (MulOpposite.op (r • t) : MulOpposite T.A) • x ∈ _
     have hscalar : (MulOpposite.op (r • t) : MulOpposite T.A) =
         algebraMap R (MulOpposite T.A) r * MulOpposite.op t := by
       simp [Algebra.smul_def, ← MulOpposite.op_mul, Algebra.commutes]
@@ -361,7 +361,7 @@ theorem tensorAction_tmul_leibniz (M : Bimodule A B) {m n p : ℤ}
   let F := tensorActionAlgHom A B M
   let _ := moduleOfAlgHom T M.rightModule.M F
   let _ := moduleOfAlgHom_isScalarTower T M.rightModule.M F
-  show M.rightModule.d
+  change M.rightModule.d
       ((MulOpposite.op (GradedTensorProduct.tmul (R := R)
         (𝒜 := C.grading) (ℬ := B.grading) (a : C.A) (b : B.A) : T.A) :
           MulOpposite T.A) • (x : M.rightModule.M)) =
@@ -439,7 +439,7 @@ theorem tensorAction_leibniz (M : Bimodule A B) {p q : ℤ} (t : (tensorAlgebra 
   let F := tensorActionAlgHom A B M
   let _ := moduleOfAlgHom T M.rightModule.M F
   let _ := moduleOfAlgHom_isScalarTower T M.rightModule.M F
-  show M.rightModule.d ((MulOpposite.op t : MulOpposite T.A) • x) =
+  change M.rightModule.d ((MulOpposite.op t : MulOpposite T.A) • x) =
     (MulOpposite.op t : MulOpposite T.A) • M.rightModule.d x +
       (p.negOnePow : ℤ) • ((MulOpposite.op (T.d t) : MulOpposite T.A) • x)
   change t ∈ DifferentialGradedAlgebra.tensorProductGrading C B q at ht
@@ -451,14 +451,14 @@ theorem tensorAction_leibniz (M : Bimodule A B) {p q : ℤ} (t : (tensorAlgebra 
     exact tensorAction_tmul_leibniz A B M aa bb ⟨x, hx⟩
   | zero => simp
   | add s t hs ht ihs iht =>
-    show M.rightModule.d (MulOpposite.op (s + t) • x) =
+    change M.rightModule.d (MulOpposite.op (s + t) • x) =
       MulOpposite.op (s + t) • M.rightModule.d x +
         (p.negOnePow : ℤ) • (MulOpposite.op (T.d (s + t)) • x)
     simp only [MulOpposite.op_add, add_smul, map_add, ihs, iht]
     simp only [smul_add]
     abel
   | smul r t ht ih =>
-    show M.rightModule.d (MulOpposite.op (r • t) • x) =
+    change M.rightModule.d (MulOpposite.op (r • t) • x) =
       MulOpposite.op (r • t) • M.rightModule.d x +
         (p.negOnePow : ℤ) • (MulOpposite.op (T.d (r • t)) • x)
     have hscalar : (MulOpposite.op (r • t) : MulOpposite T.A) =

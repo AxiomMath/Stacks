@@ -137,12 +137,10 @@ def tensorRingCongr {R₁ R₂ A₁ A₂ C₁ C₂ : Type*}
   refine { __ := e.toAddEquiv, map_mul' := ?_ }
   intro z w
   change e (z * w) = e z * e w
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ h₁ h₂ => simp [add_mul, h₁, h₂]
   | tmul a c =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w₁ w₂ h₁ h₂ => simp [mul_add, h₁, h₂]
     | tmul a' c' => simp [e, fA, fC, Algebra.TensorProduct.tmul_mul_tmul]
 
@@ -166,7 +164,7 @@ theorem weaklyEtale_of_comp_ringEquiv {A A' T T' : Type*} [CommRing A] [CommRing
   let : Algebra A A' := eA.symm.toRingHom.toAlgebra
   let : Algebra A T' := (eT.toRingHom.comp f).toAlgebra
   have : IsScalarTower A A' T' := IsScalarTower.of_algebraMap_eq fun a => by
-    show eT (f a) = eT (f (eA (eA.symm a)))
+    change eT (f a) = eT (f (eA (eA.symm a)))
     rw [eA.apply_symm_apply]
   have : Algebra.Etale A A' :=
     Algebra.Etale.of_equiv (R := A) (A := A)
@@ -175,7 +173,7 @@ theorem weaklyEtale_of_comp_ringEquiv {A A' T T' : Type*} [CommRing A] [CommRing
   let : Algebra A T := f.toAlgebra
   let : Algebra T' T := eT.symm.toRingHom.toAlgebra
   have : IsScalarTower A T' T := IsScalarTower.of_algebraMap_eq fun a => by
-    show f a = eT.symm (eT (f a))
+    change f a = eT.symm (eT (f a))
     rw [eT.symm_apply_apply]
   have : Algebra.Etale T' T :=
     Algebra.Etale.of_equiv (R := T') (A := T')
@@ -207,9 +205,7 @@ theorem weaklyEtale_pullbackMap {U V W X Y Z : Scheme.{u}}
       (inferInstance : WeaklyEtale a) (inferInstance : WeaklyEtale b) ha hb
   have heq : pullback.map p q f g a b c ha hb = j ≫ k := by
     apply pullback.hom_ext <;>
-      simp [j, k, pullback.mapDesc, pullback.map, Category.assoc,
-        pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp [j, k, pullback.mapDesc, pullback.map, Category.assoc]
   rw [heq]
   have := hj
   have := hk
@@ -232,7 +228,7 @@ theorem weaklyEtale_pullbackLift_of_cartesian_cube
   let j := pullback.map p q f g a c b hp hq ≫ h.isoPullback.inv
   have hj : WeaklyEtale j := by
     have := weaklyEtale_pullbackMap p q f g a c b hp hq
-    show WeaklyEtale (pullback.map p q f g a c b hp hq ≫ h.isoPullback.inv)
+    change WeaklyEtale (pullback.map p q f g a c b hp hq ≫ h.isoPullback.inv)
     infer_instance
   have hcomp : pullback.lift r s hrs ≫ j = d := by
     apply h.hom_ext
@@ -280,11 +276,11 @@ theorem tensorProductMap_weaklyEtale_of_cartesian_cube
   let s := Spec.map (CommRingCat.ofHom
     (φ.comp Algebra.TensorProduct.includeRight.toRingHom))
   have hk₁ : k ≫ pullback.fst p q = r := by
-    show (Spec.map (CommRingCat.ofHom φ) ≫ e.inv) ≫ pullback.fst p q = r
+    change (Spec.map (CommRingCat.ofHom φ) ≫ e.inv) ≫ pullback.fst p q = r
     rw [Category.assoc, pullbackSpecIso_inv_fst, ← Spec.map_comp]
     rfl
   have hk₂ : k ≫ pullback.snd p q = s := by
-    show (Spec.map (CommRingCat.ofHom φ) ≫ e.inv) ≫ pullback.snd p q = s
+    change (Spec.map (CommRingCat.ofHom φ) ≫ e.inv) ≫ pullback.snd p q = s
     rw [Category.assoc, pullbackSpecIso_inv_snd, ← Spec.map_comp]
     rfl
   have hrs : r ≫ p = s ≫ q := by
@@ -300,7 +296,7 @@ theorem tensorProductMap_weaklyEtale_of_cartesian_cube
     rw [hk]
     exact weaklyEtale_pullbackLift_of_cartesian_cube h p q r s a b c d hp hq hr hs hrs
   have heq : Spec.map (CommRingCat.ofHom φ) = k ≫ e.hom := by
-    show Spec.map (CommRingCat.ofHom φ) =
+    change Spec.map (CommRingCat.ofHom φ) =
       (Spec.map (CommRingCat.ofHom φ) ≫ e.inv) ≫ e.hom
     rw [Category.assoc, e.inv_hom_id, Category.comp_id]
   refine (weaklyEtale_specMap_iff (CommRingCat.ofHom φ)).mp ?_
@@ -349,7 +345,7 @@ theorem exists_lift_of_range_subset {U V W : BigFppfOver B S hS} (j : V ⟶ U) (
   let a : W.left ⟶ V.left := B.inclusion.preimage l
   have ha : a ≫ j.left = k.left := by
     apply B.inclusion.map_injective
-    show B.inclusion.map (B.inclusion.preimage l) ≫ H.map j = H.map k
+    change B.inclusion.map (B.inclusion.preimage l) ≫ H.map j = H.map k
     rw [Functor.map_preimage]
     exact IsOpenImmersion.lift_fac _ _ _
   exact ⟨Over.homMk a (by rw [← j.w, ← Category.assoc, ha, k.w]), Over.OverMorphism.ext ha⟩
@@ -415,8 +411,10 @@ structure PointedChartSquare {X Y X' Y' : AlgebraicSpaces B S hS}
   /-- The square of chart morphisms commutes. -/
   comm : r ≫ p = s ≫ q
 
-set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the pullback and chart categories on the big fppf site is slow
+set_option maxHeartbeats 1000000 in
+-- long proof building compatible étale charts and their pullback squares on the big fppf site
 /-- **A cartesian square of algebraic spaces has a pointed cartesian square of étale charts.**
 The compatible étale charts of the square are chosen first; the chart of the upper-left corner
 is a surjective étale atlas, so the geometric point lifts to it, and the three images of that
@@ -462,17 +460,17 @@ theorem exists_pointedChartSquare {X Y X' Y' : AlgebraicSpaces B S hS}
     ⟨CostructuredArrow.mk c₀, hc₀⟩ (isSurjective_of_presheafSurjective B S hS c₀ hc₀S) x
   have hl₀ : c₀.app (Opposite.op x.val.siteObject) l = x.val.value := hl'
   have hp : a₀ ≫ f.hom = yoneda.map p ≫ v := by
-    show (a ≫ pullback.snd v f.hom) ≫ f.hom = yoneda.map p ≫ v
+    change (a ≫ pullback.snd v f.hom) ≫ f.hom = yoneda.map p ≫ v
     rw [Category.assoc, ← pullback.condition, ← Category.assoc, hap]
   have hq : b₀ ≫ g.hom = yoneda.map q ≫ v := by
-    show (b ≫ pullback.snd v g.hom) ≫ g.hom = yoneda.map q ≫ v
+    change (b ≫ pullback.snd v g.hom) ≫ g.hom = yoneda.map q ≫ v
     rw [Category.assoc, ← pullback.condition, ← Category.assoc, hbq]
   have hr₀ : c₀ ≫ g'.hom = yoneda.map r ≫ a₀ := by
-    show (c ≫ e.inv) ≫ g'.hom = yoneda.map r ≫ a ≫ pullback.snd v f.hom
+    change (c ≫ e.inv) ≫ g'.hom = yoneda.map r ≫ a ≫ pullback.snd v f.hom
     rw [Category.assoc, hr.isoPullback_inv_fst]
     exact hcr
   have hs₀ : c₀ ≫ f'.hom = yoneda.map s ≫ b₀ := by
-    show (c ≫ e.inv) ≫ f'.hom = yoneda.map s ≫ b ≫ pullback.snd v g.hom
+    change (c ≫ e.inv) ≫ f'.hom = yoneda.map s ≫ b ≫ pullback.snd v g.hom
     rw [Category.assoc, hr.isoPullback_inv_snd]
     exact hcs
   have hcomm : r ≫ p = s ≫ q := by
@@ -500,7 +498,7 @@ theorem exists_pointedChartSquare {X Y X' Y' : AlgebraicSpaces B S hS}
             hp := hp, hq := hq, hr := hr₀, hs := hs₀
             pp := rfl
             pq := by
-              show (l ≫ s) ≫ q = (l ≫ r) ≫ p
+              change (l ≫ s) ≫ q = (l ≫ r) ≫ p
               rw [Category.assoc, ← hcomm, ← Category.assoc]
             pr := rfl, ps := rfl, comm := hcomm }, hc⟩
 
@@ -674,7 +672,7 @@ theorem spec_etaleLocalRingGerm_comp {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
   have hu := (etaleLocalRingEquivChart hF U E hU).2.1
     (((BigFppfOver.toScheme B S hS).map k).appTop a)
   have hv := (etaleLocalRingEquivChart hG V E hV).2.1 a
-  show eU (ψ (eV.symm ((structureSheafStalkFromLocalRing E
+  change eU (ψ (eV.symm ((structureSheafStalkFromLocalRing E
       (neighborhoodChartScheme V) hV (chartGeometricPoint V))
         ((neighborhoodChartScheme V).presheaf.germ ⊤
           ((chartGeometricPoint V).hom
@@ -687,7 +685,7 @@ theorem spec_etaleLocalRingGerm_comp {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
             (closedPoint (chartGeometricPoint U).residueField))
           trivial (((BigFppfOver.toScheme B S hS).map k).appTop a))
   rw [← hv, ← hu]
-  show eU (ψ (eV.symm (eV _))) = eU _
+  change eU (ψ (eV.symm (eV _))) = eU _
   rw [eV.symm_apply_apply]
   exact congrArg eU (hψ a)
 
@@ -857,11 +855,11 @@ theorem cartesian_etaleStalk_tensor_weaklyEtale {X' X Y' Y : AlgebraicSpaces B S
     (fun _ _ => Commute.all _ _)
   have hleft : τ.toRingHom.comp Algebra.TensorProduct.includeLeftRingHom = γ := by
     refine RingHom.ext fun a => ?_
-    show γ a * δ 1 = γ a
+    change γ a * δ 1 = γ a
     rw [map_one, mul_one]
   have hright : τ.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom = δ := by
     refine RingHom.ext fun c => ?_
-    show γ 1 * δ c = δ c
+    change γ 1 * δ c = δ c
     rw [map_one, one_mul]
   refine ⟨τ.toRingHom, hleft, hright, ?_⟩
   -- a pointed square of étale charts with affine lower corners
@@ -895,27 +893,27 @@ theorem cartesian_etaleStalk_tensor_weaklyEtale {X' X Y' Y : AlgebraicSpaces B S
         (chartGeometricPoint C.V')) := βs.toAlgebra
   have hαs : ∀ r, eU (algebraMap _ _ r) = algebraMap _ _ (eV r) := by
     intro r
-    show eU (α r) = eU (α (eV.symm (eV r)))
+    change eU (α r) = eU (α (eV.symm (eV r)))
     rw [eV.symm_apply_apply]
   have hβs : ∀ r, eV' (algebraMap _ _ r) = algebraMap _ _ (eV r) := by
     intro r
-    show eV' (β r) = eV' (β (eV.symm (eV r)))
+    change eV' (β r) = eV' (β (eV.symm (eV r)))
     rw [eV.symm_apply_apply]
   let eP := tensorRingCongr eV eU eV' hαs hβs
   let τs := eU'.toRingHom.comp (τ.toRingHom.comp eP.symm.toRingHom)
   have hτγ : τs.comp Algebra.TensorProduct.includeLeftRingHom = γs := by
     refine RingHom.ext fun w => ?_
-    show eU' (τ (eP.symm (w ⊗ₜ 1))) = eU' (γ (eU.symm w))
+    change eU' (τ (eP.symm (w ⊗ₜ 1))) = eU' (γ (eU.symm w))
     rw [tensorRingCongr_symm_tmul]
     simp only [map_one]
-    show eU' (γ (eU.symm w) * δ 1) = _
+    change eU' (γ (eU.symm w) * δ 1) = _
     rw [map_one, mul_one]
   have hτδ : τs.comp Algebra.TensorProduct.includeRight.toRingHom = δs := by
     refine RingHom.ext fun w => ?_
-    show eU' (τ (eP.symm (1 ⊗ₜ w))) = eU' (δ (eV'.symm w))
+    change eU' (τ (eP.symm (1 ⊗ₜ w))) = eU' (δ (eV'.symm w))
     rw [tensorRingCongr_symm_tmul]
     simp only [map_one]
-    show eU' (γ 1 * δ (eV'.symm w)) = _
+    change eU' (γ 1 * δ (eV'.symm w)) = _
     rw [map_one, one_mul]
   -- the four weakly étale morphisms from the strict henselizations of the charts
   let sa := strictHenselizationToBase E (neighborhoodChartScheme C.U) cU

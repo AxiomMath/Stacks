@@ -76,7 +76,7 @@ theorem conjugate_comp {E : Type*} [Category E] {F : C ⥤ D} {G : D ⥤ C} {P :
         P.map ((adjF.homEquiv A B).symm k) ≫ a = b := by
   apply (adjR.homEquiv A M).injective
   rw [mate_homEquiv, Adjunction.comp_homEquiv]
-  show adjF.homEquiv A (Q.obj M)
+  change adjF.homEquiv A (Q.obj M)
     (adjP.homEquiv (F.obj A) M (P.map ((adjF.homEquiv A B).symm k) ≫ a)) ≫
       β.hom.app M = adjR.homEquiv A M b
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right,
@@ -387,7 +387,7 @@ theorem spacesBaseChangeFiberIso_inv_app (d : ChartDiagram B S hS X.1 Y.1 f.hom)
       ((comparisonFunctor B S hS Y).obj d.V)
       ((spacesGeometricFiber x).map (baseChangeArrowOfChartDiagram B S hS f d) p) = q := by
     refine Subtype.ext ?_
-    show ((SpacesEtale.toSpaces B S hS X).map (baseChangeArrowOfChartDiagram B S hS f d) ≫
+    change ((SpacesEtale.toSpaces B S hS X).map (baseChangeArrowOfChartDiagram B S hS f d) ≫
       (spacesBaseChange B S hS f).projection.app
         ((comparisonFunctor B S hS Y).obj d.V)).hom.app (op x.val.siteObject) p.1 = q.1
     rw [yoneda_map_baseChangeArrowOfChartDiagram]

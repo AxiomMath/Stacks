@@ -81,13 +81,13 @@ private lemma datum_gluingPullback_proj (f : ∀ i, X i ⟶ S) (W : Over S) (i j
   simp only [DescentData.gluingPullbackIso, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom,
     Over.forget_map, Category.assoc]
   dsimp only [CanonicalDatum.datum]
-  show _ ≫ _ ≫ (Over.prodLeftIsoPullback (Over.mk (f i))
+  change _ ≫ _ ≫ (Over.prodLeftIsoPullback (Over.mk (f i))
       (CanonicalDatum.component W (f j))).hom ≫
     pullback.snd (Over.mk (f i)).hom (CanonicalDatum.component W (f j)).hom ≫ _ = _
   rw [Over.prodLeftIsoPullback_hom_snd_assoc]
   have h := congrArg Over.Hom.left (CanonicalDatum.transition_original W (f i) (f j))
   simp only [Over.comp_left] at h
-  show _ ≫ (CanonicalDatum.transition W (f i) (f j)).left ≫
+  change _ ≫ (CanonicalDatum.transition W (f i) (f j)).left ≫
     (prod.snd : Over.mk (f i) ⨯ CanonicalDatum.component W (f j) ⟶ _).left ≫
     (CanonicalDatum.originalProjection W (f j)).left = _
   rw [h]
@@ -210,14 +210,14 @@ lemma pullbackCompObjSchemeIso_hom_fst (W : Over S) {X Y : Scheme.{u}} (a : X �
     (b : X ⟶ S) (hw : a ≫ g = b) :
     (pullbackCompObjSchemeIso W a g b hw).hom ≫ pullback.fst W.hom b =
       pullback.fst (pullback.snd W.hom g) a ≫ pullback.fst W.hom g := by
-  simp [pullbackCompObjSchemeIso, pullback.congrHom, pullback.lift_fst]
+  simp [pullbackCompObjSchemeIso, pullback.congrHom]
 
 /-- The identification of `(W ×_S Y) ×_Y X` with `W ×_S X` preserves the projection to `X`. -/
 lemma pullbackCompObjSchemeIso_hom_snd (W : Over S) {X Y : Scheme.{u}} (a : X ⟶ Y) (g : Y ⟶ S)
     (b : X ⟶ S) (hw : a ≫ g = b) :
     (pullbackCompObjSchemeIso W a g b hw).hom ≫ pullback.snd W.hom b =
       pullback.snd (pullback.snd W.hom g) a := by
-  simp [pullbackCompObjSchemeIso, pullback.congrHom, pullback.lift_snd]
+  simp [pullbackCompObjSchemeIso, pullback.congrHom]
 
 /-- The identification of `(W ×_S Y) ×_Y X` with `W ×_S X` as schemes over `X`. -/
 def pullbackCompObjIso (W : Over S) {X Y : Scheme.{u}} (a : X ⟶ Y) (g : Y ⟶ S)

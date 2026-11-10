@@ -131,7 +131,7 @@ theorem genericPoint_mem_preimage_puncturedSpectrumOpen :
   have hmem := S.modification.isBirational.bijOn.mapsTo
     (show genericPoint S.X ∈ genericPoints S.X by simp [genericPoints_eq_singleton])
   rw [genericPoints_eq_singleton, Set.mem_singleton_iff] at hmem
-  show S.f (genericPoint S.X) ∈ ({S.closedPoint}ᶜ : Set S.base)
+  change S.f (genericPoint S.X) ∈ ({S.closedPoint}ᶜ : Set S.base)
   rw [hmem, Set.mem_compl_singleton_iff]
   intro h
   have hbot := genericPoint_eq_bot_of_affine (CommRingCat.of S.A)
@@ -162,7 +162,7 @@ theorem exists_preimage_eq_of_le_preimage_puncturedSpectrumOpen (W : S.X.Opens)
   constructor
   · rintro ⟨y, hy, hxy⟩
     have hxU : x ∈ S.f ⁻¹ᵁ S.puncturedSpectrumOpen := by
-      show S.f x ∈ S.puncturedSpectrumOpen
+      change S.f x ∈ S.puncturedSpectrumOpen
       rw [← hxy]
       exact y.2
     obtain rfl : y = ⟨x, hxU⟩ := h.isOpenEmbedding.injective hxy
@@ -193,7 +193,7 @@ theorem zero_le_of_iso_singleFunctor (ωA : ModuleCat.{u} S.A)
       ((Stacks.Duality.quasiCoherentDerivedPushforward S.f
           (isQuasicoherent_homology_derivedPushforward_of_qcqs S.f)).obj P)).IsLE
         n := by
-    show ((Stacks.Duality.derivedPushforward S.f).obj
+    change ((Stacks.Duality.derivedPushforward S.f).obj
       ((DerivedCategory.singleFunctor S.X.Modules n).obj O)).IsLE n
     rw [DerivedCategory.isLE_iff]
     intro i hi
@@ -205,7 +205,7 @@ theorem zero_le_of_iso_singleFunctor (ωA : ModuleCat.{u} S.A)
         (((DerivedCategory.homologyFunctor S.base.Modules 0).shiftIso (-n) i (-n + i) rfl).app _))
       ((DerivedCategory.homologyFunctor _ i).mapIso e2)
   have hGE : ((ObjectProperty.ι _).obj (S.baseDualizingComplex ωA)).IsGE 0 := by
-    show ((DerivedCategory.singleFunctor S.base.Modules 0).obj
+    change ((DerivedCategory.singleFunctor S.base.Modules 0).obj
       ((tilde.functor (CommRingCat.of S.A)).obj ωA)).IsGE 0
     infer_instance
   -- Hence every morphism `𝒪_X[-n] ⟶ f^!(ω_A)` vanishes.
@@ -261,7 +261,7 @@ theorem zero_le_of_iso_singleFunctor (ωA : ModuleCat.{u} S.A)
     refine ⟨fun a b => ?_⟩
     suffices hz : ∀ t : M.presheaf.stalk (genericPoint S.X), t = 0 by rw [hz a, hz b]
     intro t
-    obtain ⟨V, hV, s, rfl⟩ := TopCat.Presheaf.germ_exist M.presheaf t
+    obtain ⟨V, hV, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq M.presheaf t
     let W := V ⊓ S.f ⁻¹ᵁ S.puncturedSpectrumOpen
     have hηW : genericPoint S.X ∈ W := ⟨hV, S.genericPoint_mem_preimage_puncturedSpectrumOpen⟩
     rw [← TopCat.Presheaf.germ_res_apply M.presheaf (homOfLE inf_le_left : W ⟶ V) _ hηW s,

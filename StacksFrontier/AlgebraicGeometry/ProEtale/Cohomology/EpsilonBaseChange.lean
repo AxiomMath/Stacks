@@ -92,7 +92,7 @@ instance isIso_epsilonInverseImageSquareInv : IsIso (epsilonInverseImageSquareIn
   @conjugateEquiv_symm_iso _ _ _ _ _ _ _ _ _ _ _ (IsIso.id _)
 
 /-- The square of direct images `ε_* ⋙ h_{étale,*} = h_{proétale,*} ⋙ ε_*` is an isomorphism. -/
-instance isIso_epsilonDirectImageSquare : IsIso (epsilonDirectImageSquare h).natTrans :=
+instance isIso_epsilonDirectImageSquare : IsIso (epsilonDirectImageSquare h) :=
   IsIso.id _
 
 end Squares
@@ -122,8 +122,8 @@ variable {Z W : Scheme.{u}} (h : Z ⟶ W) [QuasiCompact h] [QuasiSeparated h]
 /-- **Stacks 09A6 (1) for abelian sheaves, the canonical map**: for `h` quasi-compact and
 quasi-separated, the canonical map `ε⁻¹ h_{étale,*} ⟶ h_{proétale,*} ε⁻¹` is invertible. -/
 instance isIso_epsilonDirectImageComparison :
-    IsIso (epsilonDirectImageComparison h).natTrans := by
-  have : ∀ c, IsIso ((epsilonDirectImageComparison h).natTrans.app c) := fun c =>
+    IsIso (epsilonDirectImageComparison h) := by
+  have : ∀ c, IsIso ((epsilonDirectImageComparison h).app c) := fun c =>
     isIso_of_isIso_map_of_mem_essImage (epsilonAdjunction.{u, 0} W) _
       (epsilonInverseImage_essImage_proetaleDirectImage.{u, 0} h c)
       (isIso_map_mateEquiv_symm_app_of_isIso_unit (epsilonAdjunction.{u, 0} Z)
@@ -188,7 +188,7 @@ theorem epsilon_pushforwardCube :
         (𝟙 _)).whiskerTop (𝟙 _) := by
   ext M : 3
   refine NatTrans.ext (funext fun U => ?_)
-  show 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫ M.obj.map _ ≫ 𝟙 _ =
+  change 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫ M.obj.map _ ≫ 𝟙 _ =
     𝟙 _ ≫ ((𝟙 _ ≫ ((𝟙 _ ≫ M.obj.map _) ≫ (M.obj.map _ ≫ 𝟙 _)) ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _)
   simp only [Category.id_comp, Category.comp_id]
   refine (congrArg M.obj.map ?_).trans (M.obj.map_comp _ _)
@@ -224,12 +224,12 @@ theorem epsilon_baseChange_cube [QuasiCompact f'] [QuasiSeparated f']
     (c : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) :
     (epsilonInverseImageSquare g).app ((etaleAbelianDirectImage.{u, 0} f).obj c) ≫
         (epsilonInverseImage.{u, 0} Y').map ((etaleAbelianBaseChange.{u, 0} f g g' f' h).app c) =
-      (proetaleAbelianInverseImage g).map ((epsilonDirectImageComparison f).natTrans.app c) ≫
+      (proetaleAbelianInverseImage g).map ((epsilonDirectImageComparison f).app c) ≫
         (proetaleAbelianBaseChange f g f' g' h.symm).app ((epsilonInverseImage.{u, 0} X).obj c) ≫
         (proetaleAbelianDirectImage f').map ((inv (epsilonInverseImageSquareInv g')).app c) ≫
-        (inv (epsilonDirectImageComparison f').natTrans).app
+        (inv (epsilonDirectImageComparison f')).app
           ((etaleAbelianInverseImage.{u, 0} g').obj c) := by
-  have e := congrArg (fun t => t.natTrans.app c) (epsilon_mateCube f g g' f' h)
+  have e := congrArg (fun t => t.app c) (epsilon_mateCube f g g' f' h)
   simp only [vComp_app, TwoSquare.whiskerLeft_app, TwoSquare.whiskerRight_app,
     Functor.comp_obj] at e
   rw [etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso f g g' f' h (g' ≫ f) rfl h,
@@ -237,7 +237,7 @@ theorem epsilon_baseChange_cube [QuasiCompact f'] [QuasiSeparated f']
   rw [Functor.map_inv]
   have e' := e =≫ (inv ((proetaleAbelianDirectImage f').map
       ((epsilonInverseImageSquareInv g').app c)) ≫
-    inv ((epsilonDirectImageComparison f').natTrans.app
+    inv ((epsilonDirectImageComparison f').app
       ((etaleAbelianInverseImage.{u, 0} g').obj c)))
   simp only [Category.assoc, IsIso.hom_inv_id_assoc, IsIso.hom_inv_id, Category.comp_id] at e'
   exact e'.symm

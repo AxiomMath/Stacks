@@ -73,7 +73,7 @@ theorem cocycleOfHom_homotopic {L M : DifferentialGradedModule A} {f g : Hom L M
   refine ⟨homotopyToHomogeneousMap A H, ?_⟩
   apply Subtype.ext
   ext x
-  show f.toFun x - g.toFun x = (homogeneousMapDifferential A (homotopyToHomogeneousMap A H)).1 x
+  change f.toFun x - g.toFun x = (homogeneousMapDifferential A (homotopyToHomogeneousMap A H)).1 x
   simpa [homogeneousMapDifferential_val, DifferentialGraded.gradedSign,
     homotopyToHomogeneousMap] using H.homotopy_eq x
 

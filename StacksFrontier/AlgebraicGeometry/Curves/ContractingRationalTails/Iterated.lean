@@ -151,7 +151,7 @@ private theorem standing {X Y : Scheme.{u}} {fX : X ⟶ Spec (.of k)} {fY : Y �
     have : IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop) := hglobal
     let g : complementaryCurve C ⟶ Spec (.of k) := complementaryCurveι C ≫ fX
     have hfY : fY = e.inv ≫ g := by
-      show fY = e.inv ≫ (complementaryCurveι C ≫ fX)
+      change fY = e.inv ≫ (complementaryCurveι C ≫ fX)
       rw [← iso_hom_comp_structureMorphism hC e hc hbase, Iso.inv_hom_id_assoc]
     -- the properties of the closure of the complement (Tag 0E3H)
     have : IsProper g := Stacks.Curves.isProper_complementaryCurve k X C
@@ -193,9 +193,9 @@ private theorem standing {X Y : Scheme.{u}} {fX : X ⟶ Spec (.of k)} {fY : Y �
 theorem _root_.AlgebraicGeometry.range_complementaryCurveι_base {X : Scheme.{u}}
     [IsNoetherian X] (C : X.IdealSheafData) :
     Set.range (complementaryCurveι C).base = closure (C.support : Set X)ᶜ := by
-  show Set.range (complementaryCurveIdeal C).subschemeι.base = _
+  change Set.range (complementaryCurveIdeal C).subschemeι.base = _
   rw [Scheme.IdealSheafData.range_subschemeι]
-  show ((Scheme.Opens.ι C.support.compl).ker.support : Set X) = _
+  change ((Scheme.Opens.ι C.support.compl).ker.support : Set X) = _
   rw [Scheme.Hom.support_ker, Scheme.Opens.range_ι]
   rfl
 

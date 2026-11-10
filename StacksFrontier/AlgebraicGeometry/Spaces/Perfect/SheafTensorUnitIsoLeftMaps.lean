@@ -50,7 +50,7 @@ theorem sheafTensorUnitIsoLeft_unit :
       (ρ_ (SheafOfModules.unit (ringSheaf R)).val).hom :=
     MonoidalCategory.unitors_equal
   apply Iso.ext
-  show (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
+  change (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
       (λ_ (SheafOfModules.unit (ringSheaf R)).val).hom ≫ _ =
     (PresheafOfModules.sheafification (R := ringSheaf R) (𝟙 (ringSheaf R).obj)).map
       (ρ_ (SheafOfModules.unit (ringSheaf R)).val).hom ≫ _

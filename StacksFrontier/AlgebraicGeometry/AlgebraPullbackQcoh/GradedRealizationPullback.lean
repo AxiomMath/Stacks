@@ -26,8 +26,10 @@ morphism of sheaves of commutative `𝒪_X`-algebras
 
 `Φ : (algebraPullback g).obj (⨁ₙ 𝒜ₙ) ⟶ ⨁ₙ g^*𝒜ₙ`.
 
-It is the morphism that `StacksFrontier/AlgebraicGeometry/SectionRingProjIso/GradedTwistAlgebra.lean`
-and `StacksFrontier/AlgebraicGeometry/SectionRingProjIso/Proper.lean` record as the one thing between
+It is the morphism that
+`StacksFrontier/AlgebraicGeometry/SectionRingProjIso/GradedTwistAlgebra.lean`
+and `StacksFrontier/AlgebraicGeometry/SectionRingProjIso/Proper.lean` record as the one thing
+between
 the comparisons of [Stacks, Tag 01QH] and the diagram clause of [Stacks, Tag 0EKI] — the transport
 of [Stacks, Tag 0EKG]'s two left-hand entries, which are relative spectra of the twist *algebras*
 over `Proj A`, to `X` along the identification `X ≅ Proj A`. Both left-hand entries are
@@ -84,7 +86,8 @@ algebra sheaves is produced from a ring homomorphism on global sections over an 
 
 **`Φ` is invertible**, and nothing in this file is registered for any tag. The invertibility is
 `Stacks.GradedRealizationPullback.isIso_comparison` in the sibling
-`StacksFrontier/AlgebraicGeometry/AlgebraPullbackQcoh/GradedRealizationPullbackIso.lean`, packaged as
+`StacksFrontier/AlgebraicGeometry/AlgebraPullbackQcoh/GradedRealizationPullbackIso.lean`, packaged
+as
 `…comparisonIso`, which is what the diagram clause of [Stacks, Tag 0EKI] consumes.
 
 The route there is not the stalkwise one that
@@ -346,7 +349,8 @@ def commPushforwardHom :
       (TopCat.Sheaf.pushforward CommRingCat.{u} g.base).obj
         ((pbGraded g 𝒜).ungradedCommSheaf (pbGraded_mul_comm g 𝒜 hc)) :=
   Stacks.CommRingSheaf.sheafMap (𝒜.mul_comm_ungradedSheaf hc)
-    (fun W a b => (pbGraded g 𝒜).mul_comm_ungradedSheaf (pbGraded_mul_comm g 𝒜 hc) _ a b)
+    (fun W a b => (pbGraded g 𝒜).mul_comm_ungradedSheaf (pbGraded_mul_comm g 𝒜 hc)
+      (op (g ⁻¹ᵁ W.unop)) a b)
     (ungradedPushforwardHom g 𝒜)
 
 /-- **`β : ⨁ₙ 𝒜ₙ ⟶ g_*(⨁ₙ g^*𝒜ₙ)`, as a morphism of algebra sheaves on `Y`.**

@@ -356,7 +356,7 @@ theorem isFormallySmoothOnObjects_baseChange
   let BCp := BC.val.p
   have : BCp.IsFibered := BC.isFiberedInGroupoids.isFibered
   have hθLift : BCp.IsHomLift i θ := by
-    show (TwoFibreProductOver.structureFunctor Xp Zp Yp Fp Gp).IsHomLift i θ
+    change (TwoFibreProductOver.structureFunctor Xp Zp Yp Fp Gp).IsHomLift i θ
     exact IsHomLift.of_fac' (TwoFibreProductOver.structureFunctor Xp Zp Yp Fp Gp)
       i θ rfl rfl (by simp [θ, TwoFibreProductOver.structureFunctor])
   have hθSC : BCp.IsStronglyCartesian i θ :=
@@ -379,7 +379,7 @@ theorem isFormallySmoothOnObjects_baseChange
       F.map (Functor.Fiber.fiberInclusion.map βprod.hom) :=
     Functor.Fiber.fiberInclusion_map_mapOfComp_map BCp Zp F hF P.base βprod.hom
   have hFθ : F.map θ = Functor.Fiber.fiberInclusion.map γ.hom ≫ pbZMap := by
-    show (TwoFibreProductOver.snd Xp Zp Yp Fp Gp).map θ = _
+    change (TwoFibreProductOver.snd Xp Zp Yp Fp Gp).map θ = _
     simp [θ, aZ]
   refine ⟨W', βprod, δ', ?_⟩
   apply Functor.fiber_hom_ext_of_cartesian (p := Zp) i pbProjMap
@@ -596,7 +596,7 @@ theorem isFormallySmoothOnObjects_comp
   have hqEq' : (qCompare U U' i y').hom ≫ (qMap U).map β.hom ≫ γ.hom =
       Functor.pullbackFiberHom γq.hom i := by
     have hγq₀ : γq₀.hom = γ.hom := by
-      show 𝟙 ((pUcomp U).obj x) ≫ γ.hom = γ.hom
+      change 𝟙 ((pUcomp U).obj x) ≫ γ.hom = γ.hom
       exact Category.id_comp _
     refine (Category.assoc _ _ _).symm.trans ?_
     simpa [qCompare, qMap, hγq₀] using hqEq
@@ -932,7 +932,7 @@ theorem isRelativelyFormallySmooth_of_isFormallySmoothOnObjects
   let aLift : F.obj (Opposite.op target) :=
     F.map (eqToHom hqbase.symm).op qLift.fiber.as
   have hcompLift : target.hom ≫ U.hom = T'.hom := by
-    show y'.left ≫ U.hom = T'.hom
+    change y'.left ≫ U.hom = T'.hom
     exact y'.w
   let sLift : ((OverShriek.relocalizePresheafFunctor U.hom).obj F).obj
       (Opposite.op T') :=
@@ -953,7 +953,7 @@ theorem isRelativelyFormallySmooth_of_isFormallySmoothOnObjects
             (eqToHom hq0base ≫ k ≫ eqToHom hqbase.symm) ≫ eqToHom hqbase := by rw [h']
         _ = k := by simp
     have hmFiber : q0.fiber.as = (F.map m.base.op) qLift.fiber.as := by
-      show q0.fiber.as =
+      change q0.fiber.as =
         (ConcreteCategory.hom (F.map m.base.op)) qLift.fiber.as
       exact m.fiber.eq
     let c := E.counitIso.hom.app q
@@ -973,7 +973,7 @@ theorem isRelativelyFormallySmooth_of_isFormallySmoothOnObjects
     have hfirst :
         (((OverShriek.relocalizePresheafFunctor U.hom).obj F).map i.op sLift).val.1 =
           sxPoint.val.1 := by
-      show i.left ≫ target.hom = ψ
+      change i.left ≫ target.hom = ψ
       simpa [target] using hψeq.symm
     subst ψ
     have hrestrict :
@@ -1047,10 +1047,10 @@ theorem isRelativelyFormallySmooth_of_isFormallySmoothOnObjects
           sxPoint at hrestrict'
     rw [hrestrict'] at hnat
     simpa [z] using hnat.symm.trans hsec
-  · show ((algebraicSpaceMap B S hS U Asp).hom.app (Opposite.op T')) z = y'
+  · change ((algebraicSpaceMap B S hS U Asp).hom.app (Opposite.op T')) z = y'
     have hz := spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B U.left.1 S
       U.left.2 hS U.hom ⟨F, hF⟩ (Opposite.op T') sLift
-    show (Asp.1.hom.app (Opposite.op T'))
+    change (Asp.1.hom.app (Opposite.op T'))
       ((spIso.inv.app ⟨F, hF⟩).app (Opposite.op T') sLift) = y'
     rw [hz]
     apply Over.OverMorphism.ext
@@ -1153,10 +1153,10 @@ theorem isFormallySmoothOnObjectsOn_of_formallySmoothOn
       hx := hbaseT
       hy := x0.2
       iso := by
-        show y.obj T ≅ Fp.obj x0.1
+        change y.obj T ≅ Fp.obj x0.1
         exact Functor.Fiber.fiberInclusion.mapIso gamma
       vertical := by
-        show 𝒴.val.p.IsHomLift (𝟙 U0)
+        change 𝒴.val.p.IsHomLift (𝟙 U0)
           (Functor.Fiber.fiberInclusion.map gamma.hom)
         exact gamma.hom.2 }
   let E := Classical.choice hE
@@ -1213,7 +1213,7 @@ theorem isFormallySmoothOnObjectsOn_of_formallySmoothOn
     rw [← hnat, hzrestr, hs0]
   have hnormalized : s1 =
       (⟨⟨𝟙 U1.left, a1⟩, by
-        show (𝟙 U1.left) ≫ U1.hom = U1.hom
+        change (𝟙 U1.left) ≫ U1.hom = U1.hom
         simp⟩ :
         ((OverShriek.relocalizePresheafFunctor U1.hom).obj F).obj
           (Opposite.op U1)) := by
@@ -1223,7 +1223,7 @@ theorem isFormallySmoothOnObjectsOn_of_formallySmoothOn
   have hmapnormalized :
       ((OverShriek.relocalizePresheafFunctor U1.hom).obj F).map i0.op
         (⟨⟨𝟙 U1.left, a1⟩, by
-          show (𝟙 U1.left) ≫ U1.hom = U1.hom
+          change (𝟙 U1.left) ≫ U1.hom = U1.hom
           simp⟩) =
       (⟨⟨i0.left, F.map k.op a1⟩, i0.w⟩ :
         ((OverShriek.relocalizePresheafFunctor U1.hom).obj F).obj
@@ -1236,7 +1236,7 @@ theorem isFormallySmoothOnObjectsOn_of_formallySmoothOn
     { base := eqToHom hq0base ≫ k
       fiber := eqToHom (by
         apply Discrete.ext
-        show q0.fiber.as = F.map (eqToHom hq0base ≫ k).op a1
+        change q0.fiber.as = F.map (eqToHom hq0base ≫ k).op a1
         rw [← OverShriek.map_op_comp, hsection]
         dsimp only [a0]
         rw [OverShriek.map_op_comp]
@@ -1244,7 +1244,7 @@ theorem isFormallySmoothOnObjectsOn_of_formallySmoothOn
   let proj := TwoFibreProductOver.fst (Over.map U1.hom) 𝒳.val.p 𝒴.val.p y Fp
   have hm : (presheafOfCategories (F ⋙ typeToCat)).p.IsHomLift k m := by
     apply IsHomLift.of_fac' _ k m hq0base rfl
-    show eqToHom hq0base ≫ k = eqToHom hq0base ≫ k ≫ eqToHom rfl
+    change eqToHom hq0base ≫ k = eqToHom hq0base ≫ k ≫ eqToHom rfl
     simp
   let φ : P0 ⟶ P' := E.unitIso.hom.app P0 ≫ E.inv.functor.map m
   have hφ : proj.IsHomLift k φ := by

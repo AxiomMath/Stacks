@@ -141,7 +141,7 @@ theorem mem_supportOfSheaf_cokernel_iff
     have h2 : E.functor.map (E.inverse.map f) ≫ E.counitIso.hom.app Y =
         E.counitIso.hom.app X ≫ f :=
       E.counitIso.hom.naturality f
-    show E.functor.map (A.map (Rm.map (E.inverse.map f))) ≫
+    change E.functor.map (A.map (Rm.map (E.inverse.map f))) ≫
         (E.functor.map (adj.counit.app (E.inverse.obj Y)) ≫ E.counitIso.hom.app Y) =
       (E.functor.map (adj.counit.app (E.inverse.obj X)) ≫ E.counitIso.hom.app X) ≫ f
     rw [← Category.assoc, ← E.functor.map_comp, h1, E.functor.map_comp, Category.assoc, h2]

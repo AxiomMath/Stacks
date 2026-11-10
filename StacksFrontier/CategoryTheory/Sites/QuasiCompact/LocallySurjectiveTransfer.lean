@@ -56,7 +56,7 @@ public lemma isLocallySurjective_of_fac {F₁ F₂ F₃ : Sheaf J (Type max u v)
 private theorem sigmaDesc_comp {I : Type max u v} {G : I → Sheaf J (Type max u v)}
     {F F' : Sheaf J (Type max u v)} (g : ∀ i, G i ⟶ F) (p : F ⟶ F') :
     Sigma.desc g ≫ p = Sigma.desc fun i ↦ g i ≫ p :=
-  Sigma.hom_ext _ _ fun i ↦ by rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+  Sigma.hom_ext _ _ fun i ↦ by rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
 
 /-- If every member of a family of morphisms of sheaves of sets factors through a common
 `p : F' ⟶ F`, and the family induces a surjection `∐_{i ∈ I} G_i ⟶ F`, then `p` is a surjection. -/
@@ -119,7 +119,8 @@ theorem isLocallySurjective_sigmaDesc_iff {I : Type max u v} {G : I → Sheaf J 
     refine J.superset_covering (fun V g hg ↦ ?_) hT
     obtain ⟨i, t, ht⟩ := hcov g hg
     refine ⟨(Sigma.ι G i).hom.app (op V) t, ?_⟩
-    rw [← ht, ← NatTrans.comp_app_apply, ← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+    rw [← ht, ← NatTrans.comp_app_apply, ← ObjectProperty.FullSubcategory.comp_hom,
+      Sigma.ι_comp_desc]
 
 /-- A family `(q_k : G_k ⟶ F)_{k ∈ K}` of morphisms of
 sheaves of sets which induces a surjection out of the coproduct, composed with a family over
@@ -132,9 +133,9 @@ theorem isLocallySurjective_sigmaDesc_comp {F : Sheaf J (Type max u v)}
     IsLocallySurjective (Sigma.desc fun p : Σ k, I k ↦ w p.1 p.2 ≫ q p.1) := by
   rw [isLocallySurjective_iff_epi]
   refine ⟨fun g h hgh ↦ (cancel_epi (Sigma.desc q)).1 (Sigma.hom_ext _ _ fun k ↦ ?_)⟩
-  rw [← Category.assoc, ← Category.assoc, Sigma.ι_desc]
+  rw [← Category.assoc, ← Category.assoc, Sigma.ι_comp_desc]
   refine (cancel_epi (Sigma.desc (w k))).1 (Sigma.hom_ext _ _ fun i ↦ ?_)
-  simpa only [← Category.assoc, Sigma.ι_desc] using
+  simpa only [← Category.assoc, Sigma.ι_comp_desc] using
     Sigma.ι (fun p : Σ k, I k ↦ H p.1 p.2) ⟨k, i⟩ ≫= hgh
 
 /-! ### Base change of a surjection along a morphism of sheaves -/
@@ -181,7 +182,7 @@ theorem isQuasiCompact_of_isLocallySurjective {F G : Sheaf J (Type max u v)} (φ
   refine ⟨T, hTfin, isLocallySurjective_of_sigmaDesc_fac
     (f := fun j : T ↦ pullback.snd (ψ j.1) φ ≫ φ) ?_
     (fun j : T ↦ pullback.fst (ψ j.1) φ ≫ Sigma.ι (fun j : T ↦ H j.1) j)
-    (fun j ↦ by rw [Category.assoc, Sigma.ι_desc]; exact pullback.condition)⟩
+    (fun j ↦ by rw [Category.assoc, Sigma.ι_comp_desc]; exact pullback.condition)⟩
   rw [← sigmaDesc_comp]
   infer_instance
 

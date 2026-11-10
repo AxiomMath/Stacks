@@ -97,7 +97,7 @@ theorem baseChangeGradedHom_strHom (W : X.AffineZariskiSite) (W' : X'.AffineZari
           W.toOpens r) =
       (schemeSheafGradedAlgebra E' (isQuasicoherentPieces_of_isQuasicoherent E')).strHom
         W'.toOpens ((g.appLE W.toOpens W'.toOpens h).hom r) := by
-  show situationSectionRingHomInv E' (isQuasicoherentPieces_of_isQuasicoherent E') W'.toOpens
+  change situationSectionRingHomInv E' (isQuasicoherentPieces_of_isQuasicoherent E') W'.toOpens
       (Stacks.RelativeProj.Situation.sectionRingBaseChange (s := symSituation E)
         (s' := symSituation E') g (Stacks.RelativeProj.symmetricSituationPullbackHom g E E' hE)
         W.toOpens W'.toOpens h (situationSectionRingHom E
@@ -272,7 +272,7 @@ theorem symGradedMapOfEpi_comp_baseChangeHom :
   · obtain ⟨W, W', h, hx⟩ := Stacks.ProjectiveBundle.exists_affineZariskiSite_le_preimage g x'
     exact ⟨⟨(W, W'), h⟩, hx⟩
   · obtain ⟨⟨W, W'⟩, h⟩ := p
-    show (symGradedBundle G').chart W'.toOpens W'.2 ≫ (symGradedMapOfEpi u' ≫ _) =
+    change (symGradedBundle G').chart W'.toOpens W'.2 ≫ (symGradedMapOfEpi u' ≫ _) =
       (symGradedBundle G').chart W'.toOpens W'.2 ≫ (_ ≫ symGradedMapOfEpi u)
     have c2 := Stacks.ProjectiveBundle.chart_baseChangeHom_scheme g F F' eF W W' h
     have c3 := Stacks.ProjectiveBundle.chart_baseChangeHom_scheme g G G' eG W W' h

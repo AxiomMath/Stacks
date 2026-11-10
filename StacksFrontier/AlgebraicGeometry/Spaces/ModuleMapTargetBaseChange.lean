@@ -62,6 +62,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasPullbacks_presheaf_moduleMapTargetBaseChange
@@ -457,7 +458,7 @@ private lemma isZeroAt_baseChangeTarget_iff_of (P : ModulePullbackSystem.{u, u} 
       P.functor c = modulePullback B S hS c)
     (T : (D.baseChangeTarget b).SchemesOver) :
     (D.baseChangeTarget b).IsZeroAt P T ↔ D.IsZeroAt P ((D.overTarget b).obj T) := by
-  show (P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
+  change (P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
         ((modulePullback B S hS (D.baseChangeTargetProjection b)).map D.u) = 0 ↔
       (P.functor (D.baseChangeProjection ((D.overTarget b).obj T))).map D.u = 0
   rw [← hP (D.baseChangeTargetProjection b)]
@@ -474,7 +475,7 @@ private lemma isSurjectiveAt_baseChangeTarget_iff_of (P : ModulePullbackSystem.{
     (T : (D.baseChangeTarget b).SchemesOver) :
     (D.baseChangeTarget b).IsSurjectiveAt P T ↔
       D.IsSurjectiveAt P ((D.overTarget b).obj T) := by
-  show Epi ((P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
+  change Epi ((P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
         ((modulePullback B S hS (D.baseChangeTargetProjection b)).map D.u)) ↔
       Epi ((P.functor (D.baseChangeProjection ((D.overTarget b).obj T))).map D.u)
   rw [← hP (D.baseChangeTargetProjection b)]
@@ -490,7 +491,7 @@ private lemma isIsoAt_baseChangeTarget_iff_of (P : ModulePullbackSystem.{u, u} B
       P.functor c = modulePullback B S hS c)
     (T : (D.baseChangeTarget b).SchemesOver) :
     (D.baseChangeTarget b).IsIsoAt P T ↔ D.IsIsoAt P ((D.overTarget b).obj T) := by
-  show IsIso ((P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
+  change IsIso ((P.functor ((D.baseChangeTarget b).baseChangeProjection T)).map
         ((modulePullback B S hS (D.baseChangeTargetProjection b)).map D.u)) ↔
       IsIso ((P.functor (D.baseChangeProjection ((D.overTarget b).obj T))).map D.u)
   rw [← hP (D.baseChangeTargetProjection b)]

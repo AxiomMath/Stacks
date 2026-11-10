@@ -103,12 +103,12 @@ theorem exists_ringHom_pow_mul_eq (π : (⨁ n, A n) →+* B) (t : B) (ht : t �
   refine ⟨DirectSum.liftRingHom ⟨f, ?_, ?_⟩, fun n a => ?_⟩
   · -- `ψ 1 = 1`
     refine hcancel (n := 0) ?_
-    show t ^ 0 * q 0 (GradedMonoid.GOne.one : A 0) = t ^ 0 * 1
+    change t ^ 0 * q 0 (GradedMonoid.GOne.one : A 0) = t ^ 0 * 1
     rw [hqspec, ← DirectSum.one_def, map_one, pow_zero, one_mul]
   · -- `ψ` is multiplicative on homogeneous elements
     intro i j a b
     refine hcancel (n := i + j) ?_
-    show t ^ (i + j) * q (i + j) (GradedMonoid.GMul.mul a b) = t ^ (i + j) * (q i a * q j b)
+    change t ^ (i + j) * q (i + j) (GradedMonoid.GMul.mul a b) = t ^ (i + j) * (q i a * q j b)
     rw [hqspec, ← DirectSum.of_mul_of, map_mul, ← hqspec, ← hqspec, pow_add]
     ring
   · rw [DirectSum.liftRingHom_apply, DirectSum.toSemiring_of]

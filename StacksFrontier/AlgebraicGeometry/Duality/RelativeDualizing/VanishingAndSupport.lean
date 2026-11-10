@@ -175,7 +175,7 @@ theorem supp_homology_neg_eq_setOf (hloc : HasNormalizedStalks K n) :
         ringKrullDim (X.presheaf.stalk x) = (n : WithBot ℕ∞)} := by
   ext x
   refine (_root_.SheafOfModules.mem_supp_iff_nontrivial_stalk _ x).trans ?_
-  show _ ↔ topologicalKrullDim (closure ({x} : Set X)) +
+  change _ ↔ topologicalKrullDim (closure ({x} : Set X)) +
     ringKrullDim (X.presheaf.stalk x) = (n : WithBot ℕ∞)
   constructor
   · intro hnt

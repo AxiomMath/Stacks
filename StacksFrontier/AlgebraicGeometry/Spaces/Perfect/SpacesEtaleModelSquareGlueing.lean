@@ -227,7 +227,7 @@ theorem spacesEtaleModelDerivedPullbackOfEtaleTransportIso_congr {X Y : Algebrai
       (NatTrans.mapDerivedCategory (etaleModulePullbackCongr B S hS h₁ h₂ hk).hom).app
         ((spacesEtaleModelModulesEquiv B S hS Y).functor.mapDerivedCategory.obj F) := by
   subst hk
-  show (spacesEtaleModelModulesEquiv B S hS X).functor.mapDerivedCategory.map (𝟙 _) ≫ _ =
+  change (spacesEtaleModelModulesEquiv B S hS X).functor.mapDerivedCategory.map (𝟙 _) ≫ _ =
     _ ≫ (NatTrans.mapDerivedCategory (𝟙 _)).app _
   rw [CategoryTheory.Functor.map_id, NatTrans.mapDerivedCategory_id, Category.id_comp,
     NatTrans.id_app, Category.comp_id]

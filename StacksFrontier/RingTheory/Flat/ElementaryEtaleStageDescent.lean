@@ -49,7 +49,8 @@ between `κ(𝔭_{B ⊗[C] E})` and `κ(𝔭_{(B ⊗[C] Λ) ⊗ G})`, and those 
 
 *The scheme-level statement of the first theorem is already in the library, and is not used.*
 `AlgebraicGeometry.pullback_snd_residueFieldMap_isIso`
-(`StacksFrontier/AlgebraicGeometry/Scheme/ResidueFieldMapPullback.lean`) says that residual triviality
+(`StacksFrontier/AlgebraicGeometry/Scheme/ResidueFieldMapPullback.lean`) says that residual
+triviality
 of one leg of a fibre product passes to the base change of the other leg, at every point; read at
 `Spec ρ : Spec Λ ⟶ Spec E` and `Spec (B ⊗[C] E) ⟶ Spec E`, with
 `B ⊗[C] Λ = (B ⊗[C] E) ⊗_E Λ`, that is the same mathematics as
@@ -188,14 +189,14 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
     { toRingHom := (algebraMap (B ⊗[C] E) Q.ResidueField).comp
         (Algebra.TensorProduct.includeLeft : B →ₐ[C] B ⊗[C] E).toRingHom
       commutes' := fun c => by
-        show algebraMap (B ⊗[C] E) Q.ResidueField
+        change algebraMap (B ⊗[C] E) Q.ResidueField
           ((Algebra.TensorProduct.includeLeft : B →ₐ[C] B ⊗[C] E) (algebraMap C B c)) = _
         rw [(Algebra.TensorProduct.includeLeft : B →ₐ[C] B ⊗[C] E).commutes c]
         exact (IsScalarTower.algebraMap_apply C (B ⊗[C] E) Q.ResidueField c).symm } with hf₁
   set f₂ : Λ →ₐ[C] Q.ResidueField :=
     { toRingHom := θ
       commutes' := fun c => by
-        show θ (algebraMap C Λ c) = _
+        change θ (algebraMap C Λ c) = _
         rw [show algebraMap C Λ c = ρ (algebraMap C E c) from (ρ.commutes c).symm, hθρ,
           show (Algebra.TensorProduct.includeRight : E →ₐ[C] B ⊗[C] E) (algebraMap C E c) =
             algebraMap C (B ⊗[C] E) c from
@@ -210,7 +211,7 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
     refine RingHom.ext fun z => ?_
     induction z with
     | tmul b y =>
-      show ψ (g (b ⊗ₜ[C] y)) = _
+      change ψ (g (b ⊗ₜ[C] y)) = _
       rw [show g (b ⊗ₜ[C] y) = b ⊗ₜ[C] ρ y from rfl, hψdef]
       rw [Algebra.TensorProduct.lift_tmul, hf₁apply b,
         show f₂ (ρ y) = algebraMap (B ⊗[C] E) Q.ResidueField
@@ -223,7 +224,7 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
   have hψright : ψ.toRingHom.comp
       (Algebra.TensorProduct.includeRight : Λ →ₐ[C] B ⊗[C] Λ).toRingHom = θ := by
     refine RingHom.ext fun l => ?_
-    show ψ ((1 : B) ⊗ₜ[C] l) = θ l
+    change ψ ((1 : B) ⊗ₜ[C] l) = θ l
     rw [hψdef, Algebra.TensorProduct.lift_tmul, hf₁apply, ← Algebra.TensorProduct.one_def,
       _root_.map_one, one_mul]
     rfl
@@ -268,7 +269,7 @@ private theorem exists_retraction_of_residueField_bijective {C : Type u} {B : Ty
     refine RingHom.ext fun z => ?_
     induction z with
     | tmul b l =>
-      show Ideal.ResidueField.map Q P g hQ (ψ (b ⊗ₜ[C] l)) = _
+      change Ideal.ResidueField.map Q P g hQ (ψ (b ⊗ₜ[C] l)) = _
       rw [hψdef, Algebra.TensorProduct.lift_tmul, map_mul, hf₁apply b,
         show f₂ l = θ l from rfl, hφθ l, Ideal.ResidueField.map_algebraMap, ← map_mul]
       congr 1

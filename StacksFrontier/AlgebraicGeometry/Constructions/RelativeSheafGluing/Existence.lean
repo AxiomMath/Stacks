@@ -161,7 +161,7 @@ private lemma chartProj_compat {i j : 𝒰.I₀} (hij : i ⟶ j) :
   have h2 : colimit.ι d.functor j ''ᵁ (d.functor.map hij ''ᵁ V) ≤
       (d.functor.map hij ≫ colimit.ι d.functor j) ''ᵁ V :=
     (Scheme.Hom.comp_image (d.functor.map hij) (colimit.ι d.functor j) V).ge
-  show ((Scheme.Modules.restrictFunctorCongr (colimit.w d.functor hij)).inv.app
+  change ((Scheme.Modules.restrictFunctorCongr (colimit.w d.functor hij)).inv.app
         (limit D.pushFunctor)).app V ≫
       (((Scheme.Modules.restrictFunctorComp (d.functor.map hij)
             (colimit.ι d.functor j)).hom.app (limit D.pushFunctor)).app V ≫

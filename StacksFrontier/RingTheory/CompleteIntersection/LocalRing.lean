@@ -265,7 +265,7 @@ theorem exists_surjective_algHom_ker_eq_map_ker {k : Type u} [Field k] {R : Type
   refine ⟨{ θ₀ with commutes' := fun r ↦ ?_ }, ?_, ?_⟩
   · rw [show (algebraMap k A) r = algebraMap R A (algebraMap k R r) from
         IsScalarTower.algebraMap_apply k R A r]
-    show θ₀ (algebraMap R A (algebraMap k R r)) = _
+    change θ₀ (algebraMap R A (algebraMap k R r)) = _
     rw [hcomp, hgS, ← IsScalarTower.algebraMap_apply k R S, IsScalarTower.algebraMap_apply k S Sq]
   · intro z
     obtain ⟨⟨s, t⟩, rfl⟩ := IsLocalization.mk'_surjective q.primeCompl z
@@ -277,7 +277,7 @@ theorem exists_surjective_algHom_ker_eq_map_ker {k : Type u} [Field k] {R : Type
     refine ⟨IsLocalization.mk' A r ⟨u, hu'⟩, ?_⟩
     have h1 := hmk r ⟨u, hu'⟩
     rw [hgS, hgS, hu, hr] at h1
-    show θ₀ (IsLocalization.mk' A r ⟨u, hu'⟩) = IsLocalization.mk' Sq s t
+    change θ₀ (IsLocalization.mk' A r ⟨u, hu'⟩) = IsLocalization.mk' Sq s t
     rw [eq_comm, IsLocalization.mk'_eq_iff_eq_mul, h1, mul_comm]
   · refine le_antisymm ?_ ?_
     · intro a ha
@@ -309,7 +309,7 @@ theorem exists_surjective_algHom_ker_eq_map_ker {k : Type u} [Field k] {R : Type
     · rw [Ideal.map_le_iff_le_comap]
       intro x hx
       rw [Ideal.mem_comap, RingHom.mem_ker]
-      show θ₀ (algebraMap R A x) = 0
+      change θ₀ (algebraMap R A x) = 0
       rw [hcomp, hgS, RingHom.mem_ker.mp hx, map_zero]
 
 end CompleteIntersection
@@ -493,7 +493,7 @@ private theorem exists_generators_isLocalization_atPrime_of_surjective {k : Type
   have hPker : P.ker = I := by
     have hk : P.ker = RingHom.ker (algebraMap P₀ T) := by
       refine Ideal.ext fun x ↦ ?_
-      show algebraMap P.Ring T x = 0 ↔ algebraMap P₀ T x = 0
+      change algebraMap P.Ring T x = 0 ↔ algebraMap P₀ T x = 0
       rw [hPmap x]
     rw [hk, Ideal.Quotient.algebraMap_eq, Ideal.mk_ker]
   have hunder : p.comap (algebraMap P.Ring T) = 𝔭 := by
@@ -577,7 +577,7 @@ public theorem IsCompleteIntersection.localization_atPrime_tfae (k : Type u) [Fi
     have hg₀ker : RingHom.ker g₀ = Ideal.ofList fs := by
       ext x
       simp only [RingHom.mem_ker]
-      show eqv.symm (Ideal.Quotient.mk (Ideal.ofList fs) x) = 0 ↔ x ∈ Ideal.ofList fs
+      change eqv.symm (Ideal.Quotient.mk (Ideal.ofList fs) x) = 0 ↔ x ∈ Ideal.ofList fs
       rw [map_eq_zero_iff _ eqv.symm.injective, Ideal.Quotient.eq_zero_iff_mem]
     obtain ⟨m, 𝔭, h𝔭, f₀, hf₀⟩ := CompleteIntersection.exists_atPrime_surjective k R₀
     have hrlB : IsRegularLocalRing (Localization.AtPrime 𝔭) :=

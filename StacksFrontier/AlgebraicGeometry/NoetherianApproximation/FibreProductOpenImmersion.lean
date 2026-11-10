@@ -121,7 +121,7 @@ lemma isOpenImmersion_iSup_basicOpen_comp_SpecMap_of_isPullback
     obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp
       (show y.1 ∈ ⨆ i, PrimeSpectrum.basicOpen (f i) from y.property)
     refine TopologicalSpace.Opens.mem_iSup.mpr ⟨i, ?_⟩
-    show r (q i) ∉ y.1.asIdeal
+    change r (q i) ∉ y.1.asIdeal
     simpa only [hqR i] using (PrimeSpectrum.mem_basicOpen (f i) y.1).mp hi
   · intro i
     have h₂ : IsOpenImmersion (Spec.map (CommRingCat.ofHom r) ∣_ V i) :=

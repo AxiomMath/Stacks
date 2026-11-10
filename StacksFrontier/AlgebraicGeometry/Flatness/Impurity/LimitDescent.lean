@@ -265,7 +265,7 @@ private noncomputable abbrev impurityBaseChangeCone
         (by rw [Category.assoc, (e.hom ≫ c.π.app i).w]; exact D.isPullback.w)
       naturality i j a := by
         apply pullback.hom_ext
-        · simp [impurityBaseChangeDiagram, pullback.map, Category.assoc, pullback.lift_fst]
+        · simp [impurityBaseChangeDiagram, pullback.map, Category.assoc]
         · simp only [impurityBaseChangeDiagram, pullback.map, Functor.const_obj_map,
             Category.assoc, pullback.lift_snd, pullback.lift_snd_assoc]
           change 𝟙 _ ≫ (D.toT ≫ (e.hom ≫ c.π.app j).left) =
@@ -282,7 +282,7 @@ private theorem impurityBaseChangeCone_isPullback
   apply IsPullback.of_right (h₁₂ := pullback.fst P.f (F.obj i).hom)
     (v₁₃ := P.f) (h₂₂ := (F.obj i).hom)
   · simpa [impurityBaseChangeCone, pullback.lift_fst, (e.hom ≫ c.π.app i).w] using D.isPullback
-  · simp [impurityBaseChangeCone, pullback.lift_snd]
+  · simp [impurityBaseChangeCone]
   · exact .of_hasPullback _ _
 
 /-- The base change of an impurity diagram is the limit of the base-changed system. -/
@@ -305,10 +305,10 @@ private noncomputable def isLimitImpurityBaseChangeCone
       (Cone.ext ((Over.forget P.S).mapIso e.symm) (fun i => by simp [cT]))
   let α : impurityBaseChangeDiagram P.f F ⟶ F ⋙ Over.forget P.S :=
     { app i := pullback.snd _ _
-      naturality i j a := by simp [impurityBaseChangeDiagram, pullback.lift_snd] }
+      naturality i j a := by simp [impurityBaseChangeDiagram] }
   exact isLimitOfIsPullbackOfIsConnected α _ cT
     { hom := D.toT
-      w i := by simp [α, cT, impurityBaseChangeCone, pullback.lift_snd] }
+      w i := by simp [α, cT, impurityBaseChangeCone] }
     (fun i => impurityBaseChangeCone_isPullback D F c e i) hcT
 
 /-- A cartesian square of schemes is surjective onto compatible pairs of points. -/
@@ -415,7 +415,7 @@ public theorem exists_isImpurity_mapBase_of_isLimit
         (v₁₃ := P.f) (h₂₂ := (F.obj j).hom)
       · simpa [m, impurityBaseChangeDiagram, pullback.lift_fst] using
           (IsPullback.of_hasPullback P.f (F.obj i).hom)
-      · simp [m, impurityBaseChangeDiagram, pullback.lift_snd]
+      · simp [m, impurityBaseChangeDiagram]
       · exact .of_hasPullback _ _
     exact MorphismProperty.of_isPullback hsq.flip
       (inferInstance : IsAffineHom (F.map a).left)
@@ -426,7 +426,7 @@ public theorem exists_isImpurity_mapBase_of_isLimit
       exact hD.2)
   let a := (impurityBaseChangeCone D F c e).π.app i
   have ha : a ≫ pullback.fst P.f (F.obj i).hom = D.toX := by
-    simp [a, impurityBaseChangeCone, pullback.lift_fst]
+    simp [a, impurityBaseChangeCone]
   let G := (Scheme.Modules.pullback (pullback.fst P.f (F.obj i).hom)).obj P.F
   let eG : D.pulledBack P ≅ (Scheme.Modules.pullback a).obj G :=
     (Scheme.Modules.pullbackCongr ha.symm).app P.F ≪≫

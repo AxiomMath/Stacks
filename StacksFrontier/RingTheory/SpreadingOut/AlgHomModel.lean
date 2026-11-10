@@ -63,12 +63,12 @@ theorem Algebra.exists_isPushout_finiteType_of_subring_le {A S : Type u} [CommRi
       (IsScalarTower.toAlgHom R₀ S₀ S)
   let : Algebra (R₂ ⊗[R₀] S₀) S := φ.toRingHom.toAlgebra
   have : IsScalarTower R₂ (R₂ ⊗[R₀] S₀) S := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R₂ S r = φ (r ⊗ₜ 1)
+    change algebraMap R₂ S r = φ (r ⊗ₜ 1)
     simp [φ]
   have : IsScalarTower R₀ (R₂ ⊗[R₀] S₀) S :=
     IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
   have : IsScalarTower S₀ (R₂ ⊗[R₀] S₀) S := IsScalarTower.of_algebraMap_eq fun s => by
-    show algebraMap S₀ S s = φ (1 ⊗ₜ s)
+    change algebraMap S₀ S s = φ (1 ⊗ₜ s)
     simp [φ]
   exact ⟨R₂ ⊗[R₀] S₀, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, (Algebra.IsPushout.comp_iff R₀ R₂ S₀ (R₂ ⊗[R₀] S₀)).mp inferInstance⟩
@@ -168,7 +168,7 @@ theorem Algebra.exists_flat_finiteType_model_algHom_family {A C D : Type u} [Com
   have hb := AlgHom.congr_fun (hψk m) b
   simp only [AlgHom.comp_apply, AlgHom.restrictScalars_apply, IsScalarTower.coe_toAlgHom',
     q, Algebra.TensorProduct.lift_tmul, Algebra.ofId_apply, map_mul] at hb ⊢
-  show algebraMap (Ring R₁ T₁ k) D (algebraMap (Base R₁ k) (Ring R₁ T₁ k) a) *
+  change algebraMap (Ring R₁ T₁ k) D (algebraMap (Base R₁ k) (Ring R₁ T₁ k) a) *
       ringToRing R₁ T₁ k (ψk m b) =
     p m (algebraMap (Base R₁ k) C a * algebraMap S₁ C b)
   rw [← IsScalarTower.algebraMap_apply, hb, map_mul, IsScalarTower.algebraMap_apply (Base R₁ k) A C,

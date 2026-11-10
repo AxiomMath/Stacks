@@ -142,7 +142,7 @@ lemma mono_sheafTensor_map (S : ShortComplex (Sheaf J AddCommGrpCat.{max r v}))
         ((AddCommGrpCat.mono_iff_injective _).mp hEm)
         ((ShortComplex.ab_exact_iff_function_exact (S.map E)).mp hE)
     exact @NatTrans.mono_of_mono_app _ _ _ _ _ _ _ this
-  show Mono ((presheafToSheaf J _).map (Functor.whiskerRight S.f.hom (tensorAb N)))
+  change Mono ((presheafToSheaf J _).map (Functor.whiskerRight S.f.hom (tensorAb N)))
   infer_instance
 
 variable [HasExt.{w'} (Sheaf J AddCommGrpCat.{max r v})]
@@ -169,7 +169,7 @@ lemma subsingleton_H_homSheaf (I : Sheaf J (ModuleCat.{max r v} R)) [Injective I
       (((constantSheaf J AddCommGrpCat.{max r v}).obj
         (AddCommGrpCat.of (ULift ℤ))).obj.obj U) :=
     ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun U => by
-      show Module.IsTorsionFree ℤ (ULift ℤ)
+      change Module.IsTorsionFree ℤ (ULift ℤ)
       exact Function.Injective.moduleIsTorsionFree (fun x : ULift ℤ => x.down)
         ULift.down_injective (fun _ _ => rfl))
   rw [ext_homSheaf_eq_zero_of_isTorsionFree J N I _ hX n a,

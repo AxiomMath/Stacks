@@ -70,8 +70,8 @@ def completion (S : RationalDoublePointSituation.{u}) : RationalDoublePointSitua
     (definesRationalSingularity_adicCompletion_and_isNormalDomain_stalk_blowUp S.A S.nagata
       S.dimension_two S.definesRationalSingularity).1
   completion_normalDomain := by
-    letI := S.completion_normalDomain
-    letI := isAdicComplete_maximalIdeal_adicCompletion S.A
+    let := S.completion_normalDomain
+    let := isAdicComplete_maximalIdeal_adicCompletion S.A
     let e := (AdicCompletion.ofAlgEquiv
       (IsLocalRing.maximalIdeal (AdicCompletion (IsLocalRing.maximalIdeal S.A) S.A))).toRingEquiv
     have : IsDomain (AdicCompletion

@@ -76,7 +76,7 @@ theorem LAdicSheaf.charpoly_rationalStalkEnd_of_isogeny {F G : LAdicSheaf B X �
     rw [← LAdicSheaf.rationalStalkMap_nsmul_id, ← h]
     simp only [LAdicSheaf.rationalStalkMap, LAdicSheaf.stalkMap_comp, LinearMap.baseChange_comp]
   let e : LAdicSheaf.rationalStalkLeft B X ℓ F s ≃ₗ[ℚ_[ℓ]] LAdicSheaf.rationalStalkLeft B X ℓ G s :=
-    LinearEquiv.ofLinear (LAdicSheaf.rationalStalkMap φ s)
+    LinearEquiv.ofLinearMap (LAdicSheaf.rationalStalkMap φ s)
       (((ℓ ^ N : ℕ) : ℚ_[ℓ])⁻¹ • LAdicSheaf.rationalStalkMap ψ s)
       (by rw [LinearMap.comp_smul, hcomp ψ φ h₂, smul_smul, inv_mul_cancel₀ hc, one_smul])
       (by rw [LinearMap.smul_comp, hcomp φ ψ h₁, smul_smul, inv_mul_cancel₀ hc, one_smul])
@@ -86,7 +86,7 @@ theorem LAdicSheaf.charpoly_rationalStalkEnd_of_isogeny {F G : LAdicSheaf B X �
     apply LinearMap.ext
     intro x
     obtain ⟨y, rfl⟩ := e.surjective x
-    show LAdicSheaf.rationalStalkEnd B X ℓ G a (LAdicSheaf.rationalStalkMap φ s y) =
+    change LAdicSheaf.rationalStalkEnd B X ℓ G a (LAdicSheaf.rationalStalkMap φ s y) =
       e (LAdicSheaf.rationalStalkEnd B X ℓ F a (e.symm (e y)))
     rw [LinearEquiv.symm_apply_apply]
     exact LinearMap.congr_fun (LAdicSheaf.rationalStalkEnd_comp_rationalStalkMap φ a) y
@@ -97,10 +97,13 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
   (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+namespace LAdicSheaf
+
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Isogenous ℓ-adic sheaves have the same Frobenius weights on `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)`**: the
 isomorphism of rational cohomology induced by the isogeny intertwines the geometric Frobenius
 endomorphisms, so their characteristic polynomials agree. -/
-theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_iff_of_isogeny
+theorem isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_iff_of_isogeny
     {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G) (ψ : G ⟶ F) (N : ℕ) (h₁ : φ ≫ ψ = (ℓ ^ N) • 𝟙 F)
     (h₂ : ψ ≫ φ = (ℓ ^ N) • 𝟙 G) (i : ℤ)
     [FiniteDimensional ℚ_[ℓ]
@@ -135,6 +138,8 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySuppo
         q hcard F i).hom.charpoly := by
     rw [hconj, LinearEquiv.charpoly_conj]
   simp only [IsCharpolyNormMixedOfWeightLE, hpoly]
+
+end LAdicSheaf
 
 end Isogeny
 

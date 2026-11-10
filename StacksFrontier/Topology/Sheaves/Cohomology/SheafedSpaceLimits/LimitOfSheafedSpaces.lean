@@ -227,7 +227,7 @@ theorem existsUnique_pull_eq (hc : IsLimit c)
   have hfac : ∀ k, hc.lift d ≫ c.π.app k = leg c H hH k (φ k) := hc.fac d
   have hbase : (hc.lift d).hom.base = 𝟙 _ := by
     refine (isLimit_mapCone_forget hc).hom_ext fun k => ?_
-    show (hc.lift d).hom.base ≫ (c.π.app k).hom.base = 𝟙 _ ≫ (c.π.app k).hom.base
+    change (hc.lift d).hom.base ≫ (c.π.app k).hom.base = 𝟙 _ ≫ (c.π.app k).hom.base
     rw [Category.id_comp]
     exact congrArg (fun m => m.hom.base) (hfac k)
   set f := hc.lift d

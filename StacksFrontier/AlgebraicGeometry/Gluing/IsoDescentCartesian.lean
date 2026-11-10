@@ -77,7 +77,7 @@ private theorem exists_stage_isPullback_aux (i₁ i : I) (j₁ : i₁ ⟶ i)
       ∃ fiso : (Over.pullback (c.π.app i₁)).obj X ≅ (Over.pullback (c.π.app i₁)).obj Y,
         fiso.hom.left = ψ.inv ≫ φ.hom :=
     ⟨Over.isoMk (ψ.symm ≪≫ φ) (by
-      show (ψ.inv ≫ φ.hom) ≫ pullback.snd Y.hom (c.π.app i₁)
+      change (ψ.inv ≫ φ.hom) ≫ pullback.snd Y.hom (c.π.app i₁)
         = pullback.snd X.hom (c.π.app i₁)
       rw [Category.assoc, hφsnd, hψinvsnd]), rfl⟩
   obtain ⟨j, e₀, g, α, β, hα, hβ, hcomm⟩ :=
@@ -190,7 +190,7 @@ private theorem exists_stage_isPullback_aux (i₁ i : I) (j₁ : i₁ ⟶ i)
     rw [overPullback_map_left_fst_assoc]
   have hlc : kj ≫ ((Over.pullback (D.map e₀)).obj X).hom
       = (plim ≫ c.π.app i₂) ≫ D.map e₂ := by
-    show kj ≫ pullback.snd X.hom (D.map e₀) = (plim ≫ c.π.app i₂) ≫ D.map e₂
+    change kj ≫ pullback.snd X.hom (D.map e₀) = (plim ≫ c.π.app i₂) ≫ D.map e₂
     rw [hkjsnd, Category.assoc, c.w e₂]
   obtain ⟨ki, hkifst, hkisnd⟩ :
       ∃ ki : Plim ⟶ pullback ((Over.pullback (D.map e₀)).obj X).hom (D.map e₂),

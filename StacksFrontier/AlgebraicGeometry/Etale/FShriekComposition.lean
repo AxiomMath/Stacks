@@ -70,7 +70,7 @@ theorem properOver_comp_iff_image
   · intro hT
     have hR : IsProper (I.subschemeι ≫ r) := by
       have hcomp : IsProper ((I.subschemeι ≫ r) ≫ q) := by
-        show IsProper (I.subschemeι ≫ (r ≫ q))
+        change IsProper (I.subschemeι ≫ (r ≫ q))
         exact hT
       exact IsProper.of_comp (I.subschemeι ≫ r) q
     have hImageClosed : IsClosed (r.base '' (T : Set A)) := by
@@ -78,7 +78,7 @@ theorem properOver_comp_iff_image
         (r ≫ q) q r (by simp) T
       exact hT
     refine ⟨?_, hImageClosed, ?_⟩
-    · show IsProper (I.subschemeι ≫ r)
+    · change IsProper (I.subschemeι ≫ r)
       exact hR
     · exact isProperOver_image
         (r ≫ q) q r (by simp) T hT
@@ -112,7 +112,7 @@ theorem properOver_comp_iff_image
     have hresult : IsProper (I.subschemeι ≫ (r ≫ q)) := by
       rw [← hfac]
       exact hcomp
-    show IsProper (I.subschemeι ≫ (r ≫ q))
+    change IsProper (I.subschemeι ≫ (r ≫ q))
     exact hresult
 
 /-- A closed subset `T` of `C` is proper over `S` along `p` if and only if its preimage under an
@@ -153,7 +153,7 @@ theorem properOver_preimage_iso
     simp [K, Scheme.IdealSheafData.subschemeMap_subschemeι]
   constructor
   · intro hI
-    show IsProper (J.subschemeι ≫ (e.hom ≫ p))
+    change IsProper (J.subschemeι ≫ (e.hom ≫ p))
     rw [← hKJ]
     rw [← Category.assoc, ← hdiag]
     exact (MorphismProperty.cancel_left_of_respectsIso (P := @IsProper)
@@ -306,7 +306,7 @@ theorem openEtaleInclusion_map (B : BigEtaleSite.{u})
     lt_of_le_of_lt (Scheme.size_coe_opens_le _ W) U.obj.left.property⟩
   let fscheme : B.inclusion.obj Vbase ⟶ B.inclusion.obj U.obj.left := W.ι
   let fbase : Vbase ⟶ U.obj.left := B.inclusion.preimage fscheme
-  show B.inclusion.map fbase = fscheme
+  change B.inclusion.map fbase = fscheme
   exact B.inclusion.map_preimage fscheme
 
 /-- For `a : A ⟶ X` and `b : X ⟶ S` with `a ≫ b = bA`, and `f : T ⟶ S`, the square formed by the
@@ -360,7 +360,7 @@ theorem smallEtaleBaseChange_isPullback
   let k := (Over.pullback f).map jOver
   have hpb : IsPullback k.left (CategoryTheory.Limits.pullback.fst V.obj.hom f)
       (CategoryTheory.Limits.pullback.fst U.obj.hom f) jOver.left := by
-    show IsPullback
+    change IsPullback
       (CategoryTheory.Limits.pullback.lift
         (CategoryTheory.Limits.pullback.fst V.obj.hom f ≫ jOver.left)
         (CategoryTheory.Limits.pullback.snd V.obj.hom f) ?_)
@@ -380,7 +380,7 @@ theorem smallEtaleBaseChange_isOpenImmersion
   let := hasPullbacks_bigEtaleSite B
   let := preservesPullbacks_bigEtaleSiteInclusion B
   have hpb := smallEtaleBaseChange_isPullback B f U V j
-  show IsOpenImmersion
+  change IsOpenImmersion
     (B.inclusion.map ((Over.pullback f).map
       ((SmallEtale.inclusion B S.obj S.property).map j)).left)
   exact MorphismProperty.of_isPullback hpb.flip
@@ -413,13 +413,13 @@ theorem smallEtaleBaseChange_openRange
   have htop : IsOpenImmersion (CategoryTheory.Limits.pullback.fst q jScheme) := by
     infer_instance
   have hk : IsOpenImmersion kScheme := by
-    show IsOpenImmersion
+    change IsOpenImmersion
       (B.inclusion.map ((Over.pullback f).map
         ((SmallEtale.inclusion B S.obj S.property).map j)).left)
     rw [← hpb.isoPullback_hom_fst]
     infer_instance
   let := hk
-  show (B.inclusion.map ((Over.pullback f).map
+  change (B.inclusion.map ((Over.pullback f).map
       ((SmallEtale.inclusion B S.obj S.property).map j)).left).opensRange =
     q ⁻¹ᵁ jScheme.opensRange
   have hcomp : hpb.isoPullback.hom ≫
@@ -574,7 +574,7 @@ theorem supportSection_smallEtalePushforward_eq_image
     ⟨sx, (SmallEtale.zeroOpen B X.obj X.property F
       ((smallEtaleBaseChange B f).obj V) s).isOpen.isClosed_compl⟩
   have hproper' : IsProperOver P T := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ P)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ P)
     exact hproper
   have hclosed : IsClosed (P.base '' (T : Set Xv)) := by
     exact isClosed_image_of_isProperOver P (𝟙 Yv) P
@@ -875,8 +875,6 @@ public noncomputable def properSupportSheaf_compIso
                 CategoryTheory.Limits.pullback.fst V.obj.hom g =
               CategoryTheory.Limits.pullback.fst V.obj.hom (f ≫ g) := by
           simp [Over.pullbackComp, Over.pullback, Category.assoc,
-            CategoryTheory.Limits.pullback.lift_fst,
-            CategoryTheory.Limits.pullback.lift_fst_assoc,
             Category.id_comp, Category.comp_id]
         rw [← hcomp, ← Category.assoc, ← Over.comp_left]
         simp [smallEtaleBaseChange_obj_obj,

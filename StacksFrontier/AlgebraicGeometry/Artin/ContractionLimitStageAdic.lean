@@ -103,7 +103,7 @@ theorem exists_pow_le_map_of_isAdicMorphism [IsNoetherianRing Bt]
   obtain ⟨-, hT2, hcompl⟩ := hAadic
   have : T2Space (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) := hT2
   have : CompleteSpace (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) := hcompl
-  obtain ⟨J, hJ, hJmap⟩ := RingHom.isAdic_of_isTaut φ.toRingHom φ.continuous htaut
+  obtain ⟨J, hJ, hJmap⟩ := RingHom.isAdic_of_isTaut φ.toRingHom htaut
     ⟨J₀, (IsNoetherian.noetherian J₀), hJ₀adic⟩
   -- `J A^∧` is open, so it contains a power of `I A^∧`
   have hopen : IsOpen ((J.map φ.toRingHom : Ideal _) : Set (AdicCompletion I

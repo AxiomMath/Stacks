@@ -108,7 +108,7 @@ theorem cls_divisorTwist (D : X.IdealSheafData) [Stacks.Divisors.IsEffectiveCart
     ∀ j : ℕ, cls (Stacks.Surfaces.divisorTwist D A j) =
       cls A + (j : ℤ) • Stacks.Divisors.picardClass D
   | 0 => by
-    show cls A = cls A + ((0 : ℕ) : ℤ) • Stacks.Divisors.picardClass D
+    change cls A = cls A + ((0 : ℕ) : ℤ) • Stacks.Divisors.picardClass D
     simp
   | j + 1 => by
     have ih := cls_divisorTwist D A j
@@ -300,7 +300,7 @@ public theorem isAmple_of_zsmul_schemePullbackClass_eq {X X' : Scheme.{u}} (b : 
   have hpow : Stacks.Picard.schemePullbackClass b (cls (Stacks.Ample.tensorPowModule X' L' d)) =
       Stacks.Picard.schemePullbackClass b (cls M) := by
     rw [cls_tensorPowModule]
-    show Stacks.Picard.schemePullbackClassHom b ((d : ℤ) • cls L') = _
+    change Stacks.Picard.schemePullbackClassHom b ((d : ℤ) • cls L') = _
     rw [map_zsmul]
     exact h
   obtain ⟨ι⟩ := nonempty_iso_of_cls_eq
@@ -375,9 +375,9 @@ public theorem exists_contraction_isProper_isAmple {R : Type u} [CommRing R] [Is
     omega
   set x := cls ((Scheme.Modules.pullback h).obj M₂) - cls M₁
   have hx : Stacks.Picard.schemePullbackClass b x = E' := by
-    show Stacks.Picard.schemePullbackClassHom b x = E'
+    change Stacks.Picard.schemePullbackClassHom b x = E'
     rw [map_sub]
-    show Stacks.Picard.schemePullbackClass b _ - Stacks.Picard.schemePullbackClass b _ = E'
+    change Stacks.Picard.schemePullbackClass b _ - Stacks.Picard.schemePullbackClass b _ = E'
     rw [hcl'', hcl₁]
     push_cast
     rw [add_smul, one_smul, add_sub_cancel_left]

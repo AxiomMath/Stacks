@@ -332,7 +332,7 @@ section `t` of `ℳ`, and read the refined Gysin cycle of `(ℳ, t)` on `Z(s)` t
 identification `Z(t) = Z(s)` (`AlgebraicGeometry.Space.vanishingLocus_eq_of_sectionsMap_eq`). For
 every `(k+1)`-cycle `α` it differs from the refined Gysin cycle of `(ℒ, s)` by a cycle
 canonically rationally equivalent to zero on `Z(s)`. -/
-theorem isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforward_gysinCycleMap_sectionGysinRule_sub_of_iso
+theorem isCanonicallyRationallyEquivalentToZeroWithin_closedPushforward_sectionGysinRule_sub_of_iso
     {L M : Modules.{u, u} D.site D.base D.base_mem X hp.1} (e : L ≅ M) {s : L.sections}
     {t : M.sections} (ht : SheafOfModules.sectionsMap e.hom s = t)
     (hL : IsInvertibleSheaf D p hp L) (hM : IsInvertibleSheaf D p hp M)
@@ -457,7 +457,7 @@ read the refined Gysin cycle of `((a ≫ b)^*ℒ, (a ≫ b)^*s)` on `Z(a^*(b^*s)
 `Z((a ≫ b)^*s) = Z(a^*(b^*s))`. For every `(k+1)`-cycle `α` on `X''` it differs from the refined
 Gysin cycle of `(a^*(b^*ℒ), a^*(b^*s))` by a cycle canonically rationally equivalent to zero on
 `Z(a^*(b^*s))`. -/
-theorem isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforward_gysinCycleMap_sectionGysinRule_comp_sub
+theorem isCanonicallyRationallyEquivalentToZeroWithin_closedPushforward_sectionGysinRule_comp_sub
     (hL : IsInvertibleSheaf D p hp L) (α : CycleGroup D p'' (k + 1)) :
     IsCanonicallyRationallyEquivalentToZeroWithin.{u, max (u + 1) v} D
       ((vanishingLocus D p'' hp''
@@ -500,7 +500,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforwar
             (isInvertibleSheaf_pullbackSheaf D p' hp' p'' hp'' a _
               (isInvertibleSheaf_pullbackSheaf D p hp p' hp' b L hL))) α)
       Set.univ :=
-  isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforward_gysinCycleMap_sectionGysinRule_sub_of_iso.{v}
+  isCanonicallyRationallyEquivalentToZeroWithin_closedPushforward_sectionGysinRule_sub_of_iso.{v}
     D p'' hp'' k ((modulePullbackCompIso D.site D.base D.base_mem a b).app L)
     (sectionsMap_modulePullbackCompIso_app_hom D.site D.base D.base_mem a b L s)
     (isInvertibleSheaf_pullbackSheaf D p' hp' p'' hp'' a _

@@ -99,8 +99,8 @@ abbrev sheafRestrictionSquare [q.GuitartExact] :
 /-- **On underlying presheaves, the mate of the square of direct images is restriction along the
 square of site functors.** -/
 theorem sheafRestrictionSquare_app_hom [q.GuitartExact] (F : Sheaf J₄ A) :
-    ((sheafRestrictionSquare J₁ J₂ J₃ J₄ q A).natTrans.app F).hom =
-      Functor.whiskerRight q.op.natTrans F.obj := by
+    ((sheafRestrictionSquare J₁ J₂ J₃ J₄ q A).app F).hom =
+      Functor.whiskerRight q.op F.obj := by
   have hR : ∀ {X : C₁ᵒᵖ ⥤ A} {Y : C₃ᵒᵖ ⥤ A} (y : i.op ⋙ Y ⟶ X),
       Functor.whiskerLeft i.op ((i.op.ranAdjunction A).homEquiv Y X y) ≫
         (i.op.ranAdjunction A).counit.app X = y := by
@@ -116,7 +116,7 @@ theorem sheafRestrictionSquare_app_hom [q.GuitartExact] (F : Sheaf J₄ A) :
   have hη : ((j.sheafAdjunctionCocontinuous A J₂ J₄).unit.app F).hom =
       (j.op.ranAdjunction A).unit.app F.obj :=
     Functor.sheafAdjunctionCocontinuous_unit_app_hom _ _ _ _ F
-  have e0 : (sheafRestrictionSquare J₁ J₂ J₃ J₄ q A).natTrans.app F =
+  have e0 : (sheafRestrictionSquare J₁ J₂ J₃ J₄ q A).app F =
       (i.sheafPushforwardContinuous A J₁ J₃).map ((w.sheafPushforwardContinuous A J₃ J₄).map
         ((j.sheafAdjunctionCocontinuous A J₂ J₄).unit.app F)) ≫
       (i.sheafPushforwardContinuous A J₁ J₃).map ((sheafRanBaseChangeIso J₁ J₂ J₃ J₄ q A).inv.app
@@ -125,7 +125,7 @@ theorem sheafRestrictionSquare_app_hom [q.GuitartExact] (F : Sheaf J₄ A) :
         ((j.sheafPushforwardContinuous A J₂ J₄).obj F)) := by
     simp [sheafRestrictionSquare, mateEquiv]
   rw [e0]
-  show Functor.whiskerLeft i.op (Functor.whiskerLeft w.op
+  change Functor.whiskerLeft i.op (Functor.whiskerLeft w.op
       ((j.sheafAdjunctionCocontinuous A J₂ J₄).unit.app F).hom) ≫
     Functor.whiskerLeft i.op ((sheafRanBaseChangeIso J₁ J₂ J₃ J₄ q A).inv.app
       ((j.sheafPushforwardContinuous A J₂ J₄).obj F)).hom ≫
@@ -138,22 +138,22 @@ theorem sheafRestrictionSquare_app_hom [q.GuitartExact] (F : Sheaf J₄ A) :
       ((Functor.RightExtension.mk _ (j.op.ranCounit.app (j.op ⋙ F.obj))).compTwoSquare
         q.op).hom :=
     hR _
-  show Functor.whiskerLeft i.op (Functor.whiskerLeft w.op
+  change Functor.whiskerLeft i.op (Functor.whiskerLeft w.op
       ((j.op.ranAdjunction A).unit.app F.obj)) ≫
     (Functor.whiskerLeft i.op (q.op.ranBaseChange.app (j.op ⋙ F.obj)) ≫
       (i.op.ranAdjunction A).counit.app (v.op ⋙ j.op ⋙ F.obj)) = _
   rw [hB]
   refine NatTrans.ext (funext fun X => ?_)
   have n1 : ((j.op.ranAdjunction A).unit.app F.obj).app (w.op.obj (i.op.obj X)) ≫
-      (j.op.ran.obj (j.op ⋙ F.obj)).map (q.op.natTrans.app X) =
-      F.obj.map (q.op.natTrans.app X) ≫
+      (j.op.ran.obj (j.op ⋙ F.obj)).map (q.op.app X) =
+      F.obj.map (q.op.app X) ≫
         ((j.op.ranAdjunction A).unit.app F.obj).app (j.op.obj (v.op.obj X)) :=
-    (((j.op.ranAdjunction A).unit.app F.obj).naturality (q.op.natTrans.app X)).symm
+    (((j.op.ranAdjunction A).unit.app F.obj).naturality (q.op.app X)).symm
   have t1 := Functor.ranCounit_app_app_ranAdjunction_unit_app_app j.op F.obj (v.op.obj X)
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app]
-  show ((j.op.ranAdjunction A).unit.app F.obj).app (w.op.obj (i.op.obj X)) ≫
+  change ((j.op.ranAdjunction A).unit.app F.obj).app (w.op.obj (i.op.obj X)) ≫
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight q.op.natTrans (j.op.ran.obj (j.op ⋙ F.obj)) ≫
+        Functor.whiskerRight q.op (j.op.ran.obj (j.op ⋙ F.obj)) ≫
         (Functor.associator _ _ _).hom ≫
         Functor.whiskerLeft v.op (j.op.ranCounit.app (j.op ⋙ F.obj))).app X = _
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
@@ -163,15 +163,15 @@ theorem sheafRestrictionSquare_app_hom [q.GuitartExact] (F : Sheaf J₄ A) :
 
 /-- The mate of the square of direct images is an isomorphism as soon as the square of site
 functors is. -/
-instance isIso_sheafRestrictionSquare [q.GuitartExact] [IsIso q.natTrans] :
-    IsIso (sheafRestrictionSquare J₁ J₂ J₃ J₄ q A).natTrans := by
+instance isIso_sheafRestrictionSquare [q.GuitartExact] [IsIso q] :
+    IsIso (sheafRestrictionSquare J₁ J₂ J₃ J₄ q A) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro F
   rw [← ObjectProperty.isIso_hom_iff, sheafRestrictionSquare_app_hom]
-  have : IsIso q.op.natTrans := by
-    change IsIso (NatTrans.op q.natTrans)
+  have : IsIso q.op := by
+    change IsIso (NatTrans.op q)
     infer_instance
-  exact (Functor.isoWhiskerRight (asIso q.op.natTrans) F.obj).isIso_hom
+  exact (Functor.isoWhiskerRight (asIso q.op) F.obj).isIso_hom
 
 variable {J₁ J₂ J₃ J₄ A}
 variable {L : Sheaf J₃ A ⥤ Sheaf J₄ A} {L' : Sheaf J₁ A ⥤ Sheaf J₂ A}
@@ -198,7 +198,7 @@ theorem mateEquiv_sheafBeckChevalley [q.GuitartExact] :
 iterated mate theorem its conjugate along the composite adjunctions is the inverse of the square
 of direct images, which is invertible. -/
 instance isIso_sheafBeckChevalley [q.GuitartExact] :
-    IsIso (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj').natTrans := by
+    IsIso (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj') := by
   let adj₃ := i.sheafAdjunctionCocontinuous A J₁ J₃
   let adj₄ := j.sheafAdjunctionCocontinuous A J₂ J₄
   have key := iterated_mateEquiv_conjugateEquiv adj adj' adj₃ adj₄
@@ -211,7 +211,7 @@ instance isIso_sheafBeckChevalley [q.GuitartExact] :
     Equiv.apply_symm_apply _ _
   rw [h₁, h₂] at key
   have : IsIso (conjugateEquiv (adj.comp adj₄) (adj₃.comp adj')
-      (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj').natTrans) := by
+      (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj')) := by
     rw [← key]
     exact inferInstanceAs (IsIso (sheafRanBaseChangeIso J₁ J₂ J₃ J₄ q A).inv)
   exact conjugateEquiv_of_iso (adj.comp adj₄) (adj₃.comp adj') _
@@ -219,12 +219,12 @@ instance isIso_sheafBeckChevalley [q.GuitartExact] :
 /-- The Beck–Chevalley comparison, as an isomorphism. -/
 def sheafBeckChevalleyIso [q.GuitartExact] :
     i.sheafPushforwardContinuous A J₁ J₃ ⋙ L' ≅ L ⋙ j.sheafPushforwardContinuous A J₂ J₄ :=
-  asIso (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj').natTrans
+  asIso (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj')
 
 /-- The mate of the Beck–Chevalley isomorphism is invertible. -/
-instance isIso_mateEquiv_sheafBeckChevalleyIso [q.GuitartExact] [IsIso q.natTrans] :
+instance isIso_mateEquiv_sheafBeckChevalleyIso [q.GuitartExact] [IsIso q] :
     IsIso (mateEquiv adj adj' (sheafBeckChevalleyIso q adj adj').hom) := by
-  change IsIso (mateEquiv adj adj' (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj')).natTrans
+  change IsIso (mateEquiv adj adj' (sheafBeckChevalley J₁ J₂ J₃ J₄ q adj adj'))
   rw [mateEquiv_sheafBeckChevalley]
   infer_instance
 

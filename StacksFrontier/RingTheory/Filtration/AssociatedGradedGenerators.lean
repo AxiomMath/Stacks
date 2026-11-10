@@ -100,7 +100,7 @@ theorem classOfPow_mem_span_degree_one (I : Ideal A) (n : ℕ) (hn : 0 < n) (a :
       rw [classOfPow_mul I 1 k ⟨x, hx⟩ ⟨y, hy⟩]
       exact mul_mem_right I _ _ _ (Submodule.subset_span (Set.mem_range_self _))
     | add x hx y hy ihx ihy =>
-      show classOfPow I (1 + k)
+      change classOfPow I (1 + k)
         ((⟨x, by simpa only [pow_add] using hx⟩ : ↥(I ^ (1 + k))) +
           ⟨y, by simpa only [pow_add] using hy⟩) ∈ _
       rw [map_add]
@@ -120,16 +120,16 @@ theorem homogeneousPart_of (B : ℕ → Type v) [∀ n, AddCommGroup (B n)] (n j
       if j = n then DirectSum.of B j x else 0 := by
   by_cases h : j = n
   · subst j
-    show DirectSum.of B n ((DirectSum.of B n x) n) = _
+    change DirectSum.of B n ((DirectSum.of B n x) n) = _
     simp
-  · show DirectSum.of B n ((DirectSum.of B j x) n) = _
+  · change DirectSum.of B n ((DirectSum.of B j x) n) = _
     simp [DirectSum.of_apply, h]
 
 /-- The homogeneous part of a homogeneous element in its own degree is the element itself. -/
 @[simp]
 theorem homogeneousPart_of_self (B : ℕ → Type v) [∀ n, AddCommGroup (B n)] (n : ℕ) (x : B n) :
     homogeneousPart B n (DirectSum.of B n x) = DirectSum.of B n x := by
-  show DirectSum.of B n ((DirectSum.of B n x) n) = _
+  change DirectSum.of B n ((DirectSum.of B n x) n) = _
   simp
 
 /-- **Homogeneous parts of a degree-`k` scalar multiple.** If `s` raises the degree of every
@@ -217,7 +217,7 @@ theorem homogeneousPart_mem_span_degree_one_smul (I : Ideal A) {B : ℕ → Type
     have hnot : n ∉ x.support := fun h =>
       (not_le_of_gt hn) (Finset.le_sup (f := id) (Finset.mem_biUnion.mpr ⟨x, hx, h⟩))
     have hz : x n = 0 := by simpa only [DFinsupp.mem_support_toFun, not_not] using hnot
-    show DirectSum.of B n (x n) = 0
+    change DirectSum.of B n (x n) = 0
     rw [hz, map_zero]
   have hmul (a : gradedRing I) (x : ⨁ j, B j) (hx : x ∈ E)
       (hlarge : ∀ n, c < n → homogeneousPart B n x ∈ J • E) :
@@ -235,7 +235,7 @@ theorem homogeneousPart_mem_span_degree_one_smul (I : Ideal A) {B : ℕ → Type
       induction a using Quotient.inductionOn with
       | _ a =>
         let a' : ↥(I ^ k) := ⟨a.1, by simpa only [ring_power_eq] using a.2⟩
-        show ∀ n, c < n → homogeneousPart B n (classOfPow I k a' • x) ∈ J • E
+        change ∀ n, c < n → homogeneousPart B n (classOfPow I k a' • x) ∈ J • E
         intro n hn
         by_cases hk : k = 0
         · subst k

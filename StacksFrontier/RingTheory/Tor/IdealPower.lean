@@ -84,7 +84,7 @@ public theorem torMap_idealPowerInclusion_eq_zero_of_data
     intro i
     by_cases hi : i = 0
     · subst hi
-      show Module.Finite A M
+      change Module.Finite A M
       infer_instance
     · have : Subsingleton (K.X i) := ModuleCat.subsingleton_of_isZero
         (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 M i hi)
@@ -110,12 +110,11 @@ public theorem torMap_idealPowerInclusion_eq_zero_of_data
       (MonoidalCategory.leftUnitor N).hom = 0 := by
     apply ModuleCat.hom_ext
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul j m =>
-        show (j : A) • m = 0
+        change (j : A) • m = 0
         apply Module.mem_annihilator.mp (hN ?_) m
-        show (j : A) ∈ I
+        change (j : A) ∈ I
         simpa using j.property
     | add x y hx hy => simp only [map_add, hx, hy]
   have heq : derivedToIdealPowerMap D symmetry K I 0 ≫

@@ -249,7 +249,7 @@ public theorem isLocallySurjective_unit_tensorTotalPresheaf :
         ((PresheafOfModules.sheafificationAdjunction
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
           ((tensorTotalPresheaf X A B).X n))) := by
-  show Presheaf.IsLocallySurjective X.J
+  change Presheaf.IsLocallySurjective X.J
     (CategoryTheory.toSheafify X.J
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj).obj
         ((tensorTotalPresheaf X A B).X n)))

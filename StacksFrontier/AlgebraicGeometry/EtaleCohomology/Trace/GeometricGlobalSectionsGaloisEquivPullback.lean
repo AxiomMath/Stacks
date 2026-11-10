@@ -64,6 +64,7 @@ def geometricGlobalSectionsTrivialEquivPullback
       ρ.obj.obj.obj.V :=
   geometricGlobalSectionsTrivialEquiv B X f kbar Λ y ρ hρ
 
+omit [Smooth f] in
 /-- **`Γ(X_k̄, ℱ_ρ|_{X_k̄}) ≅ M` is Galois-equivariant**, in the pullback form: the action of
 `σ ∈ Aut_k(k̄)` through the twist of `pr^{-1} ℱ_ρ` along `id_X × Spec σ` is `ρ(γ)` for `γ` lifting
 `σ`. -/
@@ -104,9 +105,10 @@ theorem geometricGlobalSectionsTrivialEquivPullback_galois
         (geometricGlobalSectionsTrivialEquivPullback B X f kbar Λ y ρ hρ z) :=
   geometricGlobalSectionsTrivialEquiv_galois B X f kbar Λ y ρ hρ γ z
 
+omit [Smooth f] [IsAlgClosed kbar] [Fintype Λ] in
 /-- `AlgebraicGeometry.isIso_constantSheafΓAdj_counit_geometricRepresentationSheaf` in the pullback
 form: `ℱ_ρ|_{X_k̄}` is the constant sheaf on its global sections when `π₁(X_k̄)` acts trivially. -/
-theorem isIso_constantSheafΓAdj_counit_geometricRepresentationSheafPullback
+theorem isIso_constantSheafΓAdj_counit_geometricRepresentationSheafPullback [Finite Λ]
     (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
         (y.map (fieldBaseChangeObjProj B X f kbar
@@ -122,11 +124,13 @@ theorem isIso_constantSheafΓAdj_counit_geometricRepresentationSheafPullback
       ((etaleModuleInverseImage.{u, 0} Λ (pullback.fst f (specAlgebraMap k kbar))).obj
         ((representationSheaf B X (y.map (fieldBaseChangeObjProj B X f kbar
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ).obj ρ))) :=
+  have := Fintype.ofFinite Λ
   isIso_constantSheafΓAdj_counit_geometricRepresentationSheaf B X f kbar Λ y ρ
     (fun g => CategoryTheory.End.ext (ModuleCat.hom_ext (hρ g)))
 
+omit [Smooth f] [IsAlgClosed kbar] [Fintype Λ] in
 /-- The global sections of `ℱ_ρ|_{X_k̄}` are finite when `π₁(X_k̄)` acts trivially. -/
-theorem finite_geometricGlobalSectionsPullback
+theorem finite_geometricGlobalSectionsPullback [Finite Λ]
     (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
         (y.map (fieldBaseChangeObjProj B X f kbar
@@ -141,6 +145,7 @@ theorem finite_geometricGlobalSectionsPullback
       ((etaleModuleInverseImage.{u, 0} Λ (pullback.fst f (specAlgebraMap k kbar))).obj
         ((representationSheaf B X (y.map (fieldBaseChangeObjProj B X f kbar
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ).obj ρ))) := by
+  have := Fintype.ofFinite Λ
   let := connectedSpace_of_isCurve B X f
   have : Module.Finite Λ ρ.obj.obj.obj.V := ρ.property
   have : Finite ρ.obj.obj.obj.V := Module.finite_of_finite Λ

@@ -78,7 +78,7 @@ theorem setOf_isPrime_le_le_eq_maximalIdeal {R : Type u} [CommRing R] [IsLocalRi
     (hdim : ringKrullDim (R ⧸ p) ≤ 1) :
     {q : Ideal R | q.IsPrime ∧ p ≤ q ∧ J ≤ q} = {maximalIdeal R} := by
   ext q
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hq, hpq, hJq⟩
     have hlt : p < q := lt_of_le_of_ne hpq (fun h => hJ (h ▸ hJq))
@@ -441,7 +441,7 @@ theorem extendsToX_of_blowUp_fiber_dim_lt (F : Stacks.Coherent.CoherentAdicSyste
       p' hne hf
     have h2 : ((2 : ℕ) : ℕ∞) ≤ _ := le_of_add_le_add_bound (k := 2) (l := 1)
       (by exact_mod_cast key) (by exact_mod_cast hδ')
-    exact_mod_cast (ENat.coe_lt_coe.mpr (show (1 : ℕ) < 2 by norm_num)).trans_le h2
+    exact_mod_cast (ENat.natCast_lt_natCast.mpr (show (1 : ℕ) < 2 by norm_num)).trans_le h2
   have hc : ∀ y' ∈ blowupT S 1, ∀ p' : PrimeSpectrum (completedLocalRing (blowupIdealU S) y'),
       ¬ completedLocalIdeal (blowupIdealU S) y' ≤ p'.asIdeal →
       adicClosedFibreThrough (blowupIdealU S) y' p' ≠
@@ -463,7 +463,7 @@ theorem extendsToX_of_blowUp_fiber_dim_lt (F : Stacks.Coherent.CoherentAdicSyste
       have h2 : ((2 : ℕ) : ℕ∞) < _ := lt_of_add_lt_add_bound (k := 2) (l := 1)
         (by exact_mod_cast h) (by exact_mod_cast hδ')
       rw [hD']
-      show enatToEInt ((2 : ℕ) : ℕ∞) < enatToEInt _ + enatToEInt ((D' : ℕ) : ℕ∞)
+      change enatToEInt ((2 : ℕ) : ℕ∞) < enatToEInt _ + enatToEInt ((D' : ℕ) : ℕ∞)
       rw [← Stacks.SectionPowerConeDepth.enatToEInt_add, enatToEInt_lt_iff]
       exact h2
   obtain ⟨G, σ, hσ⟩ := exists_blowup_extension_of_pullback S hdual F hb hc hd

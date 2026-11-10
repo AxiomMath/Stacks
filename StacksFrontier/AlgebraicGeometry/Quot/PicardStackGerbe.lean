@@ -254,7 +254,7 @@ theorem isGerbeOver_toPicardFunctorFibred :
     refine ⟨pullbackObject A g, pullbackObject A' g, pullbackHom A g, pullbackHom A' g, m,
       s.isHomLift_pullbackHom A g, s.isHomLift_pullbackHom A' g, hmlift, ?_⟩
     refine Pseudofunctor.CoGrothendieck.Hom.ext _ _ ?_ Discrete.hom_eq
-    show m.base ≫ g = g ≫ b.base
+    change m.base ≫ g = g ≫ b.base
     rw [hm', hbase]
     exact (Category.id_comp g).trans (Category.comp_id g).symm
 

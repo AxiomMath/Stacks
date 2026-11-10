@@ -81,7 +81,7 @@ private lemma forgetModule_preservesFilteredColimits (R : Type r) [Ring R] [Smal
     PreservesFilteredColimits (forget (ModuleCat.{m} R)) := by
   let e := ModuleCat.restrictScalarsEquivalenceOfRingEquiv
     (Shrink.ringEquiv R : Shrink.{m} R ≃+* R)
-  show PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} R)))
+  change PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} R)))
   infer_instance
 
 /-- Module-valued presheaves on a site can be sheafified in any module universe containing both
@@ -362,7 +362,7 @@ theorem exists_cover_constantComplex_representation'
         (finiteTypeLocallyConstantModuleSheaf_restrictScalars J er _ (hK n)))
   let K' : DerivedCategory.Bounded (Sheaf L (ModuleCat.{max u v r} Λ')) :=
     ⟨H.mapDerivedCategory.obj K.obj, isGE_isLE_mapDerivedCategory H K⟩
-  obtain ⟨T', a', I, U, f, hf, hU⟩ :=
+  obtain ⟨T', ⟨a'⟩, I, U, f, hf, hU⟩ :=
     exists_cover_constantComplex_representation.{max u v r, max u v r, max u v r}
       L Λ' (e.functor.obj X) K' hHK
   let T : CochainComplex (Sheaf J (ModuleCat.{max u v r} Λ)) ℤ :=

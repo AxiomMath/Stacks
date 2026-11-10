@@ -59,7 +59,7 @@ public lemma uncurry_Phi_postcomp {K L M : CochainComplex (ModuleCat.{u} R) ℤ}
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro a b
-  show (uncurry (Stacks.HomComplex.TensorHomMap.Phi R K L ≫
+  change (uncurry (Stacks.HomComplex.TensorHomMap.Phi R K L ≫
       Stacks.HomComplex.TensorHomMap.postcomp R L (K ⊗ L) M g)).f n
         ((ιTensorObj K L p q n hpq).hom (a ⊗ₜ[R] b)) =
     g.f n ((ιTensorObj K L p q n hpq).hom (a ⊗ₜ[R] b))

@@ -165,17 +165,17 @@ theorem opens_ofArrows_mem_zariskiPrecoverage
     (O : ι → Opens T.obj) (hcov : ∀ x : T.obj, ∃ i, x ∈ O i) :
     Presieve.ofArrows (fun i => S.opensObj T (O i)) (fun i => S.opensHom T (O i))
       ∈ S.zariskiPrecoverage T := by
-  show _ ∈ (TopCat.precoverage.comap
+  change _ ∈ (TopCat.precoverage.comap
     (S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop)) T
   rw [Precoverage.mem_comap_iff]
   simp only [Presieve.map_ofArrows]
-  show _ ∧ _
+  change _ ∧ _
   refine ⟨?_, ?_⟩
   · rw [Presieve.ofArrows_mem_comap_jointlySurjectivePrecoverage_iff]
     intro y
     obtain ⟨i, hi⟩ := hcov y
     refine ⟨i, ?_⟩
-    show y ∈ Set.range (S.opensHom T (O i) : (S.opensObj T (O i)).obj → T.obj)
+    change y ∈ Set.range (S.opensHom T (O i) : (S.opensObj T (O i)).obj → T.obj)
     rw [S.range_opensHom T (O i)]
     exact hi
   · rw [MorphismProperty.ofArrows_mem_precoverage]
@@ -289,7 +289,7 @@ theorem exists_properMorphisms_refinement_of_pieces
         ((hqcont.comp continuous_subtype_val).subtype_mk _)).subtype_val
     refine ⟨A (idx j), ⟨⟨TopCat.ofHom ⟨_, hifun⟩⟩⟩, a (idx j), hA (idx j), ?_⟩
     refine ConcreteCategory.hom_ext _ _ fun z => ?_
-    show (a (idx j) : (A (idx j)).obj → U.obj)
+    change (a (idx j) : (A (idx j)).obj → U.obj)
         ((ej.symm ⟨(q : Z.obj → Yob.obj) z.1, z.2⟩ : (E j)) : (A (idx j)).obj)
       = (vU : Vob.obj → U.obj) ((p : Z.obj → Vob.obj) z.1)
     have hgoal : ∀ x : (E j), (⟨j, x⟩ : (j : Fin m) × (E j)) = (q : Z.obj → Yob.obj) z.1 →

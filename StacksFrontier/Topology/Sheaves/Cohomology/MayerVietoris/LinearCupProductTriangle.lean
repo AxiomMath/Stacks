@@ -165,11 +165,11 @@ theorem shortExact_map_tensorLeft (hse : S.ShortExact)
   refine HomologicalComplex.shortExact_of_degreewise_shortExact _ (fun n => ?_)
   have h₁ : Mono ((S.map (TleftCochain L)).map
       (HomologicalComplex.eval (ModuleCat R) (ComplexShape.up ℤ) n)).f := by
-    show Mono ((L ◁ S.f).f n)
+    change Mono ((L ◁ S.f).f n)
     exact mono_tensorLeft_f L S hse hflat n
   have h₂ : Epi ((S.map (TleftCochain L)).map
       (HomologicalComplex.eval (ModuleCat R) (ComplexShape.up ℤ) n)).g := by
-    show Epi ((L ◁ S.g).f n)
+    change Epi ((L ◁ S.g).f n)
     exact tensor_g_epi L S hse n
   exact ShortComplex.ShortExact.mk (tensor_exact_at L S hse n)
 

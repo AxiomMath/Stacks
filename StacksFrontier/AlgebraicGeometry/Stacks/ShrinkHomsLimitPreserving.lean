@@ -136,7 +136,7 @@ theorem isLimitPreservingOnObjects_smallHomsModelMap
     isHomLift_map_shrinkHoms_functor _ β hβ, Functor.map_isIso jX β, ?_, ?_⟩
   · exact isStronglyCartesian_map_shrinkHoms_functor _ δ hδ.toIsHomLift
   · exact isStronglyCartesian_map_shrinkHoms_functor _ γ' hγ'.toIsHomLift
-  · show jY.map (f.hom.toFunctor.map (iX.map (jX.map δ))) ≫ jY.map γ' =
+  · change jY.map (f.hom.toFunctor.map (iX.map (jX.map δ))) ≫ jY.map γ' =
       jY.map (f.hom.toFunctor.map (iX.map (jX.map β))) ≫ γ
     rw [map_inverse_map_shrinkHoms_functor, map_inverse_map_shrinkHoms_functor, ← eY' γ]
     exact (jY.map_comp _ _).symm.trans ((congrArg jY.map hcomm).trans (jY.map_comp _ _))

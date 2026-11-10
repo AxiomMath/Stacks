@@ -62,8 +62,8 @@ ascription forces the `resRing` spelling on the target.  This is the pattern of
 isomorphisms are composed.
 
 Naturality in the complex is automatic: every statement is an isomorphism of functors.
-Naturality in the open subspace IS recorded, in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/OpenImmersionRestrictionNaturality.lean`:
+Naturality in the open subspace IS recorded, in the module
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.OpenImmersionRestrictionNaturality`:
 `derivedPullbackIsoMapDerivedCategory_comp` (line 402), `derivedPullbackOpenImmersionIso_comp`
 (line 466) and `derivedPullbackOpenImmersionIso_ofRestrict_comp` (line 491).  The composition
 coherence of Tag 0D5S it rests on is

@@ -136,7 +136,7 @@ theorem mem_fibreLocus_bot_baseChange_of_away (hg0 : g ≠ 0)
   have : IsScalarTower D E F := IsScalarTower.of_algebraMap_eq' rfl
   have hkerD :
       RingHom.ker (algebraMap D F) = (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum D).asIdeal := by
-    show RingHom.ker ((algebraMap E F).comp (algebraMap D E)) = ⊥
+    change RingHom.ker ((algebraMap E F).comp (algebraMap D E)) = ⊥
     rw [← RingHom.comap_ker, hker, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hinj
   exact (prop_baseChange_iff hP D T E F).mp (hgen F hkerD)

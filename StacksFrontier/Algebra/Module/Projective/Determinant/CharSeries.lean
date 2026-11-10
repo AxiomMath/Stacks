@@ -255,10 +255,10 @@ public theorem charSeries_of_exact {i : A →ₗ[Λ] E} {q : E →ₗ[Λ] B} (hi
     rwa [← LinearMap.comp_apply, ← LinearMap.comp_apply, ← LinearMap.baseChange_comp, hri,
       LinearMap.baseChange_id] at this
   have hex' : Function.Exact (i.baseChange (PowerSeries Λ)) (q.baseChange (PowerSeries Λ)) := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact (PowerSeries Λ) hex hq
   have hq' : Function.Surjective (q.baseChange (PowerSeries Λ)) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective (PowerSeries Λ) hq
   refine det_of_exact hi' hex' hq' _ _ _ ?_ ?_
   · exact one_sub_smul_baseChange_comp i α ε hα d

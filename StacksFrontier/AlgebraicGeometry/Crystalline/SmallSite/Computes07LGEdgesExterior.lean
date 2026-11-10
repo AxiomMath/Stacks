@@ -11,7 +11,7 @@ the two hypotheses that are **not** among the tag's own.
 
 * `...SmallSite.computes07LG_of_doubleComplexSmall_of_isGradedExterior` of
   `StacksFrontier/AlgebraicGeometry/Crystalline/Computes07LGSquareZero.lean` builds the square-zero
-  family `hsq` out of `[Fintype ι]`, `hext` and `hdx`, which are properties of the carried graded
+  family `hsq` out of `[Finite ι]`, `hext` and `hdx`, which are properties of the carried graded
   family of forms rather than assumptions about the coefficient sheaf.  It still carries `hker`.
 * `...SmallSite.computes07LG_of_doubleComplexSmall_of_edges` of
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Computes07LGWithoutHker.lean` discharges
@@ -22,7 +22,7 @@ module composes them: the statement below carries neither, and what is left of i
 six hypotheses of the source's own proof — the double complex `K`, the acyclicity `hcolumns` of
 its columns off zero, the row target and comparison `rowTarget` and `rowComparison`, their
 quasi-isomorphy `hrows`, and the two edge identifications `hrow0` and `hcolumn0` — together with
-`hext`, `hdx` and `[Fintype ι]`.
+`hext`, `hdx` and `[Finite ι]`.
 
 ## Main result
 
@@ -62,7 +62,7 @@ variable (S : GlobalCrystallineSituation.{u}) (A : Type u) [CommRing A]
   (Dr : DividedPowerRing.{u}) (g : A →+* Dr) (Om : ℕ → Type u) [∀ i, AddCommGroup (Om i)]
   [∀ i, Module (Dr : Type u) (Om i)] [Module (Dr : Type u)ᵐᵒᵖ (Om 1)]
   [IsCentralScalar (Dr : Type u) (Om 1)] (der : DividedPowerDerivation A Dr g (Om 1)) (p : ℕ)
-  {ι : Type uI} [Fintype ι] (dx : ι → Om 1)
+  {ι : Type uI} [Finite ι] (dx : ι → Om 1)
   (wedge : ∀ i, Om i →ₗ[(Dr : Type u)] Om 1 →ₗ[(Dr : Type u)] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1))
   (hleib : CompletedDeRham.IsGradedLeibniz Dr Om wedge deRham
@@ -84,7 +84,7 @@ What remains is the double complex and the five facts about it the source's proo
 the acyclicity of the columns off zero ([Stacks, Lemma 60.19.3, Tag 07LF]), the rowwise
 comparison with the completed de Rham complex of `(M, ∇)` and its quasi-isomorphy
 ([Stacks, Lemma 60.20.2, Tag 07LD]), and the two edge identifications.  The three further inputs
-`[Fintype ι]`, `hext` and `hdx` constrain the carried family of forms `Om`, `wedge`, `deRham`,
+`[Finite ι]`, `hext` and `hdx` constrain the carried family of forms `Om`, `wedge`, `deRham`,
 `dx` to be the divided power forms the tag is about; see the module documentation of
 `StacksFrontier/AlgebraicGeometry/Crystalline/Computes07LGSquareZero.lean`.
 

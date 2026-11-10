@@ -155,7 +155,7 @@ private theorem isIntegralClosure_tensorProduct_of_smooth
                 rw [← IsIntegrallyClosed.integralClosure_eq_bot R K]
                 exact hk))
           refine ⟨r • s, ?_⟩
-          show (r • s) ⊗ₜ[R] (1 : K) = s ⊗ₜ[R] k.val
+          change (r • s) ⊗ₜ[R] (1 : K) = s ⊗ₜ[R] k.val
           rw [← hr, TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
       obtain ⟨s, hs⟩ := hy'
       exact ⟨s, hs.trans (congrArg Subtype.val hy)⟩
@@ -170,7 +170,7 @@ private theorem isIntegral_pi_single
   obtain ⟨p, hp, hx⟩ := hx
   refine ⟨p * Polynomial.X, hp.mul Polynomial.monic_X, ?_⟩
   ext j
-  show Pi.evalAlgHom R E j (Polynomial.aeval (Pi.single i x) (p * Polynomial.X)) = 0
+  change Pi.evalAlgHom R E j (Polynomial.aeval (Pi.single i x) (p * Polynomial.X)) = 0
   rw [← Polynomial.aeval_algHom_apply, map_mul, Polynomial.aeval_X]
   by_cases hji : j = i
   · subst j

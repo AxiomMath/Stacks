@@ -181,11 +181,11 @@ theorem homologyMap_reductionTransition_eq_zero (I : Ideal A)
   rw [hmap] at hmem
   obtain ⟨y, hy, hxy⟩ := hmem
   have hker : x₀ - y ∈ LinearMap.ker (C.sc d).g.hom := by
-    show (C.d d d').hom (x₀ - y) = 0
+    change (C.d d d').hom (x₀ - y) = 0
     rw [map_sub, hxy, sub_self]
   obtain ⟨z, hz⟩ := hex hker
   refine ⟨Submodule.Quotient.mk z, ?_⟩
-  show Submodule.Quotient.mk (p := I ^ n • (⊤ : Submodule A (C.X d)))
+  change Submodule.Quotient.mk (p := I ^ n • (⊤ : Submodule A (C.X d)))
     ((C.sc d).f.hom z) = Submodule.Quotient.mk x₀
   rw [hz]
   refine (Submodule.Quotient.eq (I ^ n • (⊤ : Submodule A (C.X d)))).2 ?_
@@ -310,7 +310,7 @@ theorem trightCochain_map_f_eq_zero {F F' : CochainComplex (ModuleCat.{u} A) ℤ
     (t : ℕ) (hl : ∀ i : ℕ, t < i → l.f (-(i : ℤ)) = 0) (M : CochainComplex (ModuleCat.{u} A) ℤ)
     (a : ℤ) [M.IsStrictlyGE a] (i : ℤ) (hi : i ≤ a - t - 1) :
     ((TrightCochain M).map l).f i = 0 := by
-  show (HomologicalComplex.mapBifunctorMap l (𝟙 M) (MonoidalCategory.curriedTensor _)
+  change (HomologicalComplex.mapBifunctorMap l (𝟙 M) (MonoidalCategory.curriedTensor _)
     (ComplexShape.up ℤ)).f i = 0
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q hpq
@@ -411,7 +411,7 @@ theorem comp_Q_map_reductionTransition_eq_zero (I : Ideal A)
     rw [zero_comp, Category.assoc, ← Functor.map_comp, S3, Functor.map_comp, ← Category.assoc]
     exact DerivedCategory.comp_Q_map_eq_zero_of_f_eq_zero _ (a - t - 1)
       (fun i hi => trightCochain_map_f_eq_zero l t hz M a i hi) W hW _
-  show g ≫ DerivedCategory.Q.map τ = 0
+  change g ≫ DerivedCategory.Q.map τ = 0
   rw [hg, Category.assoc, ← Functor.map_comp, E₀, Functor.map_comp, ← Category.assoc, h₁,
     zero_comp]
 
@@ -486,7 +486,7 @@ theorem derivedReduction_hasUniformInverses [IsNoetherianRing A] (I : Ideal A)
     (fun n => hLE P hPb' n.unop)
     ⟨c₀, htail⟩ (coneTriangleSystem_homology_eq_zero I p (fun i => (hPfinite i).1) hMfinite hp)
   have := reduceComplex_isStrictlyGE (I ^ (n.unop + 1)) M a
-  show (DerivedCategory.Q.obj ((reduceComplex (I ^ (n.unop + 1))).obj M)).IsGE a
+  change (DerivedCategory.Q.obj ((reduceComplex (I ^ (n.unop + 1))).obj M)).IsGE a
   infer_instance
 
 omit [IsNoetherianRing A] in

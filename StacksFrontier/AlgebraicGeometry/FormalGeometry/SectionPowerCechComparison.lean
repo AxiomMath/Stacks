@@ -121,7 +121,7 @@ theorem orderedModuleMap_comp {G G' G'' : X.Modules} (φ : G ⟶ G') (φ' : G' �
   refine HomologicalComplex.hom_ext _ _ fun p => ?_
   refine ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
   funext k
-  show ConcreteCategory.hom ((Stacks.Cohomology.CechSheaf.abSectionsMap (φ ≫ φ')).app _) (y k) =
+  change ConcreteCategory.hom ((Stacks.Cohomology.CechSheaf.abSectionsMap (φ ≫ φ')).app _) (y k) =
     ConcreteCategory.hom ((Stacks.Cohomology.CechSheaf.abSectionsMap φ').app _)
       (ConcreteCategory.hom ((Stacks.Cohomology.CechSheaf.abSectionsMap φ).app _) (y k))
   rw [show Stacks.Cohomology.CechSheaf.abSectionsMap (φ ≫ φ') =

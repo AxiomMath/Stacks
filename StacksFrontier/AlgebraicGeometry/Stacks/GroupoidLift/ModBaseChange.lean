@@ -94,7 +94,7 @@ theorem derBC_tmul {w : P →ₐ[A'] X.obj} (ℓ : P →ₐ[A'] X'.obj) (hℓ : 
     ((derBC hB ℓ hℓ hw (f ⊗ₜ D) : Der e₂ w₂) : P →ₗ[A'] (X'.obj ⊗[A'] F)) =
       ((1 : X'.obj) ⊗ₜ[A'] f : X'.obj ⊗[A'] F) • postcomp φ D.1 := by
   ext x
-  show (D.1 x) ⊗ₜ[A'] f = ((1 : X'.obj) ⊗ₜ[A'] f) * φ.top.hom.hom (D.1 x)
+  change (D.1 x) ⊗ₜ[A'] f = ((1 : X'.obj) ⊗ₜ[A'] f) * φ.top.hom.hom (D.1 x)
   rw [hB.top_apply, Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
 
 /-- The flat base change of derivations `derBC` is bijective. -/
@@ -228,8 +228,7 @@ theorem modBC_comp_mk {w : P →ₐ[A'] X.obj} (ℓ : P →ₐ[A'] X'.obj) (hℓ
     {w₂ : P →ₐ[A'] Y.obj} (hw : φ.bot.hom.hom.comp w = w₂) (x : F ⊗[A'] Der e w) :
     modBC (G := G) (hY := hY) hw (LinearMap.lTensor F (modπ G e w) x) =
       modπ G e₂ w₂ (derBC hB ℓ hℓ hw x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul f D =>
     exact (congrArg (fun z : Der e₂ w₂ ↦ (Submodule.Quotient.mk z : Mod G e₂ w₂))
@@ -260,13 +259,12 @@ theorem derBC_precomp (σ : P →ₐ[A'] Q) {v : Q →ₐ[A'] X.obj} {w : P →�
     derBC hB (m.comp σ) (by rw [← AlgHom.comp_assoc, hm, h]) hw
         ((precompDer e σ h).restrictScalars A' |>.lTensor F x) =
       precompDer e₂ σ h₂ (derBC hB m hm hv x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul f E =>
     apply Subtype.ext
     rw [LinearMap.lTensor_tmul, derBC_tmul]
-    show _ = ((derBC hB m hm hv (f ⊗ₜ E) : Der e₂ v₂) : Q →ₗ[A'] (X'.obj ⊗[A'] F)).comp
+    change _ = ((derBC hB m hm hv (f ⊗ₜ E) : Der e₂ v₂) : Q →ₗ[A'] (X'.obj ⊗[A'] F)).comp
       σ.toLinearMap
     rw [derBC_tmul]
     rfl
@@ -293,8 +291,7 @@ theorem lTensor_modπ_S {w : P →ₐ[A'] X.obj}
     LinearMap.lTensor F (modπ G e w)
       (LinearMap.lTensor F (((S G e w).comap (Der e w).subtype).subtype.restrictScalars A') z₁) =
       0 := by
-  induction z₁ using TensorProduct.induction_on with
-  | zero => simp
+  induction z₁ using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, add_zero]
   | tmul f sv =>
     rw [LinearMap.lTensor_tmul, LinearMap.lTensor_tmul]
@@ -356,7 +353,7 @@ theorem modBC_key {w : P →ₐ[A'] X.obj} (ℓ : P →ₐ[A'] X'.obj)
     { toFun := fun E ↦ ⟨(precompDer e tV htv) E.1, hS E.1 E.2⟩
       map_add' := fun E E' ↦ Subtype.ext (map_add _ _ _)
       map_smul' := fun a E ↦ Subtype.ext (by
-        show (precompDer e tV htv) (a • E.1) = a • (precompDer e tV htv) E.1
+        change (precompDer e tV htv) (a • E.1) = a • (precompDer e tV htv) E.1
         rw [← IsScalarTower.algebraMap_smul (A := (X'.obj : Type u)) a E.1, map_smul,
           IsScalarTower.algebraMap_smul]) }
   refine ⟨LinearMap.lTensor F (((S G e w).comap (Der e w).subtype).subtype.restrictScalars A')

@@ -55,7 +55,7 @@ theorem bijective_sections_eval_of_isTerminal (M : PresheafOfModules.{u} R) :
     · intro Y Y' f
       refine (PresheafOfModules.map_comp_apply M _ _ x).symm.trans ?_
       exact congrArg (fun g : op x₀ ⟶ Y' => M.map g x) (eq_of_isTerminal_op hx _ _)
-    · show M.map (hx.from x₀).op x = x
+    · change M.map (hx.from x₀).op x = x
       refine (congrArg (fun g : op x₀ ⟶ op x₀ => M.map g x)
         (eq_of_isTerminal_op hx (hx.from x₀).op (𝟙 _))).trans ?_
       exact ConcreteCategory.congr_hom (M.map_id (op x₀)) x
@@ -82,7 +82,7 @@ theorem ranπ_terminalIndex_injective (N : Xᵒᵖ ⥤ AddCommGrpCat.{u})
   refine Concrete.isLimit_ext _ (ranIsLimit w.op N (op y₀)) z z' fun j => ?_
   have e : terminalIndex w hy x₀ ⟶ j :=
     StructuredArrow.homMk (hx.from j.right.unop).op (eq_of_isTerminal_op hy _ _)
-  show (ranπ w.op N (op y₀) j).hom z = (ranπ w.op N (op y₀) j).hom z'
+  change (ranπ w.op N (op y₀) j).hom z = (ranπ w.op N (op y₀) j).hom z'
   rw [← ranπ_naturality w.op N e]
   exact congrArg (N.map e.right).hom hzz
 
@@ -119,7 +119,7 @@ theorem isIso_homEquiv_symm_of_ranπ_one {L : SheafOfModules.{u} OY ⥤ SheafOfM
   constructor
   · intro g g' hgg
     refine hX.1 ?_
-    show (g.val.app (op x₀)).hom (1 : OX.obj.obj (op x₀)) =
+    change (g.val.app (op x₀)).hom (1 : OX.obj.obj (op x₀)) =
       (g'.val.app (op x₀)).hom (1 : OX.obj.obj (op x₀))
     exact (key g).symm.trans ((congrArg (fun t => (ranπ w.op N.val.presheaf (op y₀)
       (terminalIndex w hy x₀)).hom ((t.val.app (op y₀)).hom (1 : OY.obj.obj (op y₀)))) hgg).trans

@@ -33,7 +33,7 @@ omit [HasPullbacks C] in
 theorem augmentationFunctor_map_left_overSimplicialObjectAugmentationFunctorLeft
     {A A' : Grothendieck (slices U)} (f : A ⟶ A') :
     ((augmentationFunctor U a).map f).left = (Grothendieck.Hom.fiber f).left := by
-  show ((eqToHom (augmentationFibre_eq U a f.base)).app A.fiber ≫
+  change ((eqToHom (augmentationFibre_eq U a f.base)).app A.fiber ≫
     (augmentationFibre U a A'.base).map f.fiber).left = _
   exact (congrArg (· ≫ (Grothendieck.Hom.fiber f).left) ((congrArg Over.Hom.left
     (eqToHom_app (augmentationFibre_eq U a f.base) A.fiber)).trans

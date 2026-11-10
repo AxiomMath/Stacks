@@ -76,7 +76,7 @@ private lemma epi_homologyMap_of_epi_of_mono
   refine ⟨L.cyclesMk x hd, ?_⟩
   apply (ModuleCat.mono_iff_injective M.iCycles).mp inferInstance
   rw [← ModuleCat.comp_apply, ShortComplex.cyclesMap_i]
-  show f.τ₂ (L.iCycles (L.cyclesMk x hd)) = M.iCycles y
+  change f.τ₂ (L.iCycles (L.cyclesMk x hd)) = M.iCycles y
   have hx' : L.iCycles (L.cyclesMk x hd) = x := L.i_cyclesMk x hd
   rwa [hx']
 
@@ -88,7 +88,7 @@ private lemma homologyRange_of_termwise
   constructor
   · intro i hmi
     apply ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono'
-    · show Epi (f.f ((ComplexShape.up ℤ).prev i))
+    · change Epi (f.f ((ComplexShape.up ℤ).prev i))
       rw [ComplexShape.prev_eq' _ (show (ComplexShape.up ℤ).Rel (i - 1) i by simp)]
       by_cases h : i - 1 = m
       · rw [h]
@@ -96,7 +96,7 @@ private lemma homologyRange_of_termwise
       · have := hi (i - 1) (by omega)
         infer_instance
     · exact hi i hmi
-    · show Mono (f.f ((ComplexShape.up ℤ).next i))
+    · change Mono (f.f ((ComplexShape.up ℤ).next i))
       rw [ComplexShape.next_eq' _ (show (ComplexShape.up ℤ).Rel i (i + 1) from rfl)]
       have := hi (i + 1) (by omega)
       infer_instance
@@ -140,10 +140,10 @@ private lemma tensorSingleTermIso_d
         ((tensorWithCochainComplex E).obj N).d i j := by
   subst j
   dsimp [tensorSingleTermIso, tensorWithCochainComplex]
-  show _ = _ ≫ (HomologicalComplex.mapBifunctor E
+  change _ = _ ≫ (HomologicalComplex.mapBifunctor E
     ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj N)
     (curriedTensor (ModuleCat S)) (ComplexShape.up ℤ)).d i (i + 1)
-  simp only [tensorIso_hom, Iso.refl_hom, Iso.symm_hom, id_tensorHom,
+  simp only [id_tensorHom,
     Category.assoc, HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
     HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂]
   rw [HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ (show
@@ -225,7 +225,7 @@ private lemma moduleTensorRingPowerComparison_eq
   simp only [Category.assoc, termwiseProductIso_hom_π, Pi.map_π, piComparison_comp_π_assoc]
   ext i : 1
   simp only [HomologicalComplex.comp_f, NatTrans.mapHomologicalComplex_app_f]
-  show (moduleTensorRingPowerComparison S A).app (E.X i) ≫ Pi.π (fun _ : A => E.X i) a = _
+  change (moduleTensorRingPowerComparison S A).app (E.X i) ≫ Pi.π (fun _ : A => E.X i) a = _
   rw [moduleTensorRingPowerComparison_comp_pi]
   simp only [tensorSingleComplexIso, HomologicalComplex.Hom.isoOfComponents_hom_f]
   let G := tensorWithCochainComplex E
@@ -244,6 +244,9 @@ private lemma moduleTensorRingPowerComparison_eq
   ext x r
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the instance `HasProductsOfShape A (CochainComplex (ModuleCat S) ℤ)` needs a larger
+-- instance-synthesis budget than the default
 private lemma epi_homology_moduleTensorRingPowerComparison_iff
     (S : Type v) [CommRing S] (A : Type v) (E : CochainComplex (ModuleCat.{v} S) ℤ)
     (i : ℤ) :
@@ -255,15 +258,18 @@ private lemma epi_homology_moduleTensorRingPowerComparison_iff
   let H := HomologicalComplex.homologyFunctor (ModuleCat S) (ComplexShape.up ℤ) i
   have h := congrArg H.map (moduleTensorRingPowerComparison_eq S A E)
   simp only [Functor.map_comp] at h
-  show Epi (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
+  change Epi (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
     (ComplexShape.up ℤ)).app E)) ↔ _
   have : HasLimitsOfShape (Discrete A) (ModuleCat.{v} S) := ModuleCat.hasLimitsOfShape
   have : HasProductsOfShape A (CochainComplex (ModuleCat.{v} S) ℤ) := by
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    infer_instance
   rw [← epi_comp_iff_of_isIso _ (H.map (termwiseProductIso S A E).hom), h,
     epi_comp_iff_of_epi, epi_comp_iff_of_epi, epi_comp_iff_of_isIso]
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the instance `HasProductsOfShape A (CochainComplex (ModuleCat S) ℤ)` needs a larger
+-- instance-synthesis budget than the default
 lemma isIso_homology_moduleTensorRingPowerComparison_iff
     (S : Type v) [CommRing S] (A : Type v) (E : CochainComplex (ModuleCat.{v} S) ℤ)
     (i : ℤ) :
@@ -275,11 +281,11 @@ lemma isIso_homology_moduleTensorRingPowerComparison_iff
   let H := HomologicalComplex.homologyFunctor (ModuleCat S) (ComplexShape.up ℤ) i
   have h := congrArg H.map (moduleTensorRingPowerComparison_eq S A E)
   simp only [Functor.map_comp] at h
-  show IsIso (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
+  change IsIso (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
     (ComplexShape.up ℤ)).app E)) ↔ _
   have : HasLimitsOfShape (Discrete A) (ModuleCat.{v} S) := ModuleCat.hasLimitsOfShape
   have : HasProductsOfShape A (CochainComplex (ModuleCat.{v} S) ℤ) := by
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    infer_instance
   rw [← isIso_comp_right_iff _ (H.map (termwiseProductIso S A E).hom), h,
     isIso_comp_left_iff, isIso_comp_left_iff, isIso_comp_right_iff]
   rfl
@@ -296,7 +302,7 @@ private lemma homologyRange_tensorProductComparison_iff_of_iso
       (tensorProductComparison T P L A Q))) ∧
       Epi ((DerivedCategory.homologyFunctor _ m).map (tensorProductComparison T P L A Q))) := by
   let := hasProductsOfShape R P A
-  show ((∀ i, m < i → IsIso ((DerivedCategory.homologyFunctor _ i).map
+  change ((∀ i, m < i → IsIso ((DerivedCategory.homologyFunctor _ i).map
     (piComparison (T.tensor.obj K) _))) ∧ Epi ((DerivedCategory.homologyFunctor _ m).map
     (piComparison (T.tensor.obj K) _))) ↔ _
   exact and_congr (forall₂_congr fun i _ => isIso_map_piComparison_iff_of_natIso
@@ -525,14 +531,14 @@ private lemma homology_mapNatTrans_iff_of_quasiIso
   have := quasiIso_map_of_isKProjective G f
   let H := HomologicalComplex.homologyFunctor D (ComplexShape.up ℤ) i
   have hF : IsIso (H.map ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map f)) := by
-    show IsIso (HomologicalComplex.homologyMap _ i)
+    change IsIso (HomologicalComplex.homologyMap _ i)
     infer_instance
   have hG : IsIso (H.map ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map f)) := by
-    show IsIso (HomologicalComplex.homologyMap _ i)
+    change IsIso (HomologicalComplex.homologyMap _ i)
     infer_instance
   have h := congrArg H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).naturality f)
   simp only [Functor.map_comp] at h
-  show (IsIso (H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).app K)) ↔
+  change (IsIso (H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).app K)) ↔
     IsIso (H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).app L))) ∧
     (Epi (H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).app K)) ↔
       Epi (H.map ((α.mapHomologicalComplex (ComplexShape.up ℤ)).app L)))
@@ -546,7 +552,7 @@ private lemma productFunctor_additive
     (S : Type v) [Ring S] (A : Type v) :
     (piDiscreteFunctor (fun _ : A => 𝟭 (ModuleCat.{v} S)) ⋙ lim).Additive where
   map_add {X Y} f g := by
-    show Limits.Pi.map (fun _ : A => f + g) =
+    change Limits.Pi.map (fun _ : A => f + g) =
       Limits.Pi.map (fun _ : A => f) + Limits.Pi.map (fun _ : A => g)
     apply Pi.hom_ext
     intro a
@@ -612,7 +618,7 @@ private lemma finite_homology_of_ringPowerHomologyRange
   apply finite_homology_of_epi_tensorRingPowerComparison_of_zero_d S E b
     ((CochainComplex.isZero_of_isStrictlyLE E b (b + 1) (by omega)).eq_of_tgt _ _)
   intro A
-  show Epi (HomologicalComplex.homologyMap
+  change Epi (HomologicalComplex.homologyMap
     (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
       (ComplexShape.up ℤ)).app E) b)
   rcases hmb.eq_or_lt with rfl | hlt

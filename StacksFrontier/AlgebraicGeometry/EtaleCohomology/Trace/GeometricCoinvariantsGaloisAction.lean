@@ -39,7 +39,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (Λ : Type) [Ring Λ] [Fintype Λ]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
-omit [Fintype Λ] in
+omit [Smooth f] [IsAlgClosed kbar] [Fintype Λ] in
 /-- **The coinvariants of the restriction to `π₁(X_k̄)` are the coinvariants of its image.** -/
 theorem coinvariantsKer_geometricRepresentation_eq [Finite Λ]
     (ρ : letI := connectedSpace_of_isCurve B X f

@@ -450,7 +450,7 @@ private theorem setOf_prime_le_comap_eq_singleton {X Y : Type*} [CommRing X] [Co
     {r : Ideal X | r.IsPrime ∧ p.comap (Ψ : X →+* Y) ≤ r ∧ a ≤ r} =
       {m.comap (Ψ : X →+* Y)} := by
   ext r
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hr, hpr, har⟩
     have hmem : r.map (Ψ : X →+* Y) ∈

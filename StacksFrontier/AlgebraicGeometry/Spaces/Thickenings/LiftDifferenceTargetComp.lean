@@ -215,7 +215,7 @@ theorem eq_liftDifferenceDifferentialsHom_of_spec
     ((universalDerivation B S hS b).d t)
   have n2 := (universalDerivation B S hS b).d_map f.op t
   have n3 := QuotientDerivation.descend_map L.toQuotientDerivation f.op t
-  show ((modulePushforward B S hS a).obj C).val.map f.op _ =
+  change ((modulePushforward B S hS a).obj C).val.map f.op _ =
     ((modulePushforward B S hS a).obj C).val.map f.op _
   refine n1.symm.trans (Eq.trans ?_ n3)
   refine (congrArg (((modulePullbackAdjunction B S hS a).homEquiv _ C θ).val.app

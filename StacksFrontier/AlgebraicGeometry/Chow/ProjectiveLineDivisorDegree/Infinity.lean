@@ -54,7 +54,7 @@ theorem mem_range_puncturedChart_of_X_notMem
     (hx : (Polynomial.X : Polynomial (ULift.{u} ℤ)) ∉
       (x : PrimeSpectrum (Polynomial (ULift.{u} ℤ))).asIdeal) :
     x ∈ Set.range (projectiveLinePuncturedChart (ULift.{u} ℤ)).base := by
-  show (x : PrimeSpectrum (Polynomial (ULift.{u} ℤ))) ∈
+  change (x : PrimeSpectrum (Polynomial (ULift.{u} ℤ))) ∈
     Set.range (PrimeSpectrum.comap (Polynomial.toLaurent (R := ULift.{u} ℤ)))
   rw [show (Polynomial.toLaurent (R := ULift.{u} ℤ)) =
       algebraMap (Polynomial (ULift.{u} ℤ)) (LaurentPolynomial (ULift.{u} ℤ)) from rfl,
@@ -162,7 +162,7 @@ theorem residueDegree_eq_one_of_lineConstantSection (S : Scheme.{u})
     (relativeProjectiveLine S ↘ S).residueDegree ((lineConstantSection S e).base s) = 1 := by
   let _ := ((relativeProjectiveLine S ↘ S).residueFieldMap
     ((lineConstantSection S e).base s)).hom.toAlgebra
-  show Module.finrank
+  change Module.finrank
     (S.residueField ((relativeProjectiveLine S ↘ S).base ((lineConstantSection S e).base s)))
     ((relativeProjectiveLine S).residueField ((lineConstantSection S e).base s)) = 1
   exact Module.finrank_of_bijective_algebraMap

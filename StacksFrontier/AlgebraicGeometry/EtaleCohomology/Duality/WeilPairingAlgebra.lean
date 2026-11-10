@@ -52,7 +52,7 @@ theorem exists_pairing_of_cup (κ : H₁ ≃+ P) (T : H₂ →+ ZMod N) (hT : Fu
     refine hx (hT ?_)
     have := ha (κ x)
     simpa [e] using this
-  · show T (cup (κ.symm (σ b)) (κ.symm (σ a))) = (w * d) • T (cup (κ.symm b) (κ.symm a))
+  · change T (cup (κ.symm (σ b)) (κ.symm (σ a))) = (w * d) • T (cup (κ.symm b) (κ.symm a))
     simp only [hσ, map_zsmul, AddMonoidHom.zsmul_apply, hR]
     rw [hd, smul_smul]
 

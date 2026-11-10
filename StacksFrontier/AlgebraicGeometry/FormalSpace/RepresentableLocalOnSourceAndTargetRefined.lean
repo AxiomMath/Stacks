@@ -68,7 +68,7 @@ theorem isLocallySurjective_of_relative_surjective_etale
   let ξ : (uliftYoneda.{u + 1}).obj T ⟶ G := uliftYonedaEquiv.symm y
   let q := hs.rep.snd ξ
   have hcover : Sieve.generate (Presieve.singleton q) ∈ BigFppfOver.topology B S hS T := by
-    show Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
+    change Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
     rw [B.topology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
       Presieve.map_singleton]
@@ -88,7 +88,7 @@ representable by algebraic spaces, an object of the site being an algebraic spac
 theorem isRepresentableByAlgebraicSpacesULift_of_relativelyRepresentable
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)} {a : F ⟶ G}
     (ha : (uliftYoneda.{u + 1}).relativelyRepresentable a) :
-    Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS a := fun T ξ ↦
+    Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS a := fun _ ξ ↦
   Space.isAlgebraicSpaceULift_of_iso B S hS (ha.isPullback ξ).flip.isoPullback
     (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS (ha.pullback ξ))
 

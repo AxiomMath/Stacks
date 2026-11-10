@@ -308,7 +308,7 @@ private lemma eventually_notMem_range_of_isCompact_isOpen
       ∀ x ∈ V, X₀.hom.base x ∉ Set.range (D.system.map (homOfLE h).op).base := by
   let U : X₀.left.Opens := ⟨V, hV⟩
   have : CompactSpace (U : Scheme.{u}) := by
-    show CompactSpace ↥(U : Set X₀.left)
+    change CompactSpace ↥(U : Set X₀.left)
     exact isCompact_iff_compactSpace.mp hVc
   have hrange : Set.range (U.ι ≫ X₀.hom).base = X₀.hom.base '' V := by
     rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]

@@ -98,7 +98,7 @@ public lemma idealA_le_comap {k l : Λ} (h : k ⟶ l) :
     idealA ρ I k ≤ (idealA ρ I l).comap (A.map h).hom := by
   intro x hx
   rw [Ideal.mem_comap]
-  show (ρ.app l) ((A.map h) x) ∈ I
+  change (ρ.app l) ((A.map h) x) ∈ I
   rw [legA_map ρ h x]
   exact hx
 
@@ -128,7 +128,7 @@ public lemma idealB_le_comap {k l : Λ} (h : k ⟶ l) :
     idealB φ ρ I k ≤ (idealB φ ρ I l).comap (B.map h).hom := by
   refine Ideal.map_le_iff_le_comap.2 fun x hx => ?_
   rw [Ideal.mem_comap, Ideal.mem_comap]
-  show (B.map h) ((φ.app k) x) ∈ idealB φ ρ I l
+  change (B.map h) ((φ.app k) x) ∈ idealB φ ρ I l
   rw [← phi_map φ h x]
   exact mem_idealB φ ρ I (idealA_le_comap ρ I h hx)
 
@@ -145,7 +145,7 @@ public lemma idealB_le_comap_legB
     idealB φ ρ I k ≤ (I.map (algebraMap R S)).comap (σ.app k).hom := by
   refine Ideal.map_le_iff_le_comap.2 fun x hx => ?_
   rw [Ideal.mem_comap, Ideal.mem_comap]
-  show (σ.app k) ((φ.app k) x) ∈ I.map (algebraMap R S)
+  change (σ.app k) ((φ.app k) x) ∈ I.map (algebraMap R S)
   rw [sigma_phi_apply φ ρ σ hφ k x]
   exact Ideal.mem_map_of_mem _ hx
 
@@ -275,7 +275,7 @@ public lemma subN_le_comap {k l : Λ} (h : k ⟶ l) :
     subN φ ρ I mod k ≤ Submodule.comap (modMap mod hsmul h) (subN φ ρ I mod l) := by
   refine Submodule.smul_le.2 fun b hb n _ => ?_
   rw [Submodule.mem_comap]
-  show (N.map h) (b • n) ∈ subN φ ρ I mod l
+  change (N.map h) (b • n) ∈ subN φ ρ I mod l
   rw [hsmul h b n]
   exact Submodule.smul_mem_smul (idealB_le_comap φ ρ I h hb) Submodule.mem_top
 
@@ -339,7 +339,7 @@ public lemma subN_le_comap_leg
       = HSMul.hSMul (α := S) (β := M) (Stacks.SpreadingOut.LocalModuleSystem.legHom σ k b)
           (modLegHom ν k n) := hν k b n
   rw [Submodule.mem_comap]
-  show (modLegHom ν k) (b • n) ∈ (I.map (algebraMap R S)) • (⊤ : Submodule S M)
+  change (modLegHom ν k) (b • n) ∈ (I.map (algebraMap R S)) • (⊤ : Submodule S M)
   rw [key]
   exact Submodule.smul_mem_smul (idealB_le_comap_legB φ ρ σ I hφ k hb) Submodule.mem_top
 
@@ -438,7 +438,7 @@ public lemma exists_stage_mem_idealB
         legB_map σ (homOfLE h₂) b, hb, Algebra.smul_def]
     · refine Ideal.mul_mem_right _ _ (mem_idealB φ ρ I ?_)
       refine idealA_le_comap ρ I (homOfLE h₁) ?_
-      show ((ρ.app k₁) a : R) ∈ I
+      change ((ρ.app k₁) a : R) ∈ I
       rw [ha]; exact hr
   · rintro x y ⟨m₁, c₁, hc₁, hm₁⟩ ⟨m₂, c₂, hc₂, hm₂⟩
     obtain ⟨m, h₁, h₂⟩ := directed_of (· ≤ ·) m₁ m₂
@@ -573,7 +573,7 @@ public lemma hphiQ
       = (legA ρ I).app i ≫ CommRingCat.ofHom
           (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S))) := by
   refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun a => ?_))
-  show Ideal.Quotient.mk (I.map (algebraMap R S)) ((σ.app i) ((φ.app i) a))
+  change Ideal.Quotient.mk (I.map (algebraMap R S)) ((σ.app i) ((φ.app i) a))
     = Ideal.Quotient.mk (I.map (algebraMap R S)) (algebraMap R S ((ρ.app i) a))
   rw [sigma_phi_apply φ ρ σ hφ i a]
 
@@ -684,7 +684,7 @@ public lemma hphiftQ (hφft : ∀ i, (φ.app i).hom.EssFiniteType) (k : Λ) :
     Ideal.Quotient.algebraQuotientMapQuotient
   have h1 : Algebra.EssFiniteType (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k) :=
     Algebra.EssFiniteType.quotient_map ↑(A.obj k) ↑(B.obj k) (idealA ρ I k)
-  show RingHom.EssFiniteType
+  change RingHom.EssFiniteType
     (algebraMap (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k))
   exact (RingHom.essFiniteType_algebraMap
     (R := ↑(A.obj k) ⧸ idealA ρ I k) (S := ↑(B.obj k) ⧸ idealB φ ρ I k)).mpr h1
@@ -693,7 +693,7 @@ public lemma hphiftQ (hφft : ∀ i, (φ.app i).hom.EssFiniteType) (k : Λ) :
 public lemma hNfinQ (hNfin : ∀ i, Module.Finite ↑(B.obj i) ↑(N.obj i)) (k : Λ) :
     letI := modQ φ ρ I mod hsmul
     Module.Finite ↑((funB φ ρ I).obj k) ↑((funN φ ρ I mod hsmul).obj k) := by
-  show Module.Finite (↑(B.obj k) ⧸ idealB φ ρ I k)
+  change Module.Finite (↑(B.obj k) ⧸ idealB φ ρ I k)
     (↑(N.obj k) ⧸ (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k)))
   have := hNfin k
   have : Module.Finite ↑(B.obj k)
@@ -789,15 +789,14 @@ public lemma hBlocQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
         = (Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k]
             (Ideal.Quotient.mk (idealA ρ I l) a) := by
     intro b a
-    show Algebra.TensorProduct.productMap f₁ f₂ (b ⊗ₜ[↑(A.obj k)] a) = _
+    change Algebra.TensorProduct.productMap f₁ f₂ (b ⊗ₜ[↑(A.obj k)] a) = _
     rw [Algebra.TensorProduct.productMap_apply_tmul]
-    show ((Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k] 1)
+    change ((Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k] 1)
         * (1 ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k] (Ideal.Quotient.mk (idealA ρ I l) a)) = _
     rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   have hfCsurj : Function.Surjective fC := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction z using TensorProduct.inductionOn with
     | tmul s r =>
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective s
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective r
@@ -818,12 +817,11 @@ public lemma hBlocQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
       = (algebraMap ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
           (↑(A.obj l) ⧸ idealA ρ I l)) (↑(B.obj l) ⧸ idealB φ ρ I l)).comp fC := by
     refine RingHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b a =>
       simp only [RingHom.comp_apply]
       rw [hfC_tmul b a]
-      show Ideal.Quotient.mk (idealB φ ρ I l)
+      change Ideal.Quotient.mk (idealB φ ρ I l)
           (Algebra.TensorProduct.productMap
             (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) ↑(B.obj l))
             (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) ↑(B.obj l)) (b ⊗ₜ a))
@@ -846,7 +844,7 @@ public lemma hBlocQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
     have h1 : ((φ.app l).hom x : ↑(B.obj l))
         = algebraMap (↑(B.obj k) ⊗[↑(A.obj k)] ↑(A.obj l)) ↑(B.obj l)
             (1 ⊗ₜ[↑(A.obj k)] x) := by
-      show _ = Algebra.TensorProduct.productMap
+      change _ = Algebra.TensorProduct.productMap
         (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) ↑(B.obj l))
         (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) ↑(B.obj l)) (1 ⊗ₜ[↑(A.obj k)] x)
       rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, one_mul]

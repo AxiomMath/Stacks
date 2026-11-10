@@ -84,7 +84,7 @@ theorem isTorsionFree_freeYoneda {C : Type u} [Category.{v} C] (J : Grothendieck
     [HasSheafify J AddCommGrpCat.{max v t}] (U : C) (V : Cᵒᵖ) :
     Module.IsTorsionFree ℤ (((FreeYonedaUnivLE.freeYoneda.{t} J).obj U).obj.obj V) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun W => by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{t} (W.unop ⟶ U)))
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{t} (W.unop ⟶ U)))
     exact Module.Flat.isTorsionFree) V
 
 end Stacks.Cohomology

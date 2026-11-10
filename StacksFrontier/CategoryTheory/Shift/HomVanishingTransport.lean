@@ -45,7 +45,7 @@ theorem Functor.eq_zero_of_shift_hom_eq_zero_of_faithful (F : C ⥤ D) [F.Faithf
   calc F.map f = (F.commShiftIso t).hom.app A ≫ (shiftFunctor D t).map ι.hom ≫
         ((shiftFunctor D t).map ι.inv ≫ (F.commShiftIso t).inv.app A ≫ F.map f ≫ ι.hom) ≫
           ι.inv := by
-        simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.map_hom_inv_id_assoc,
+        simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.hom_inv_id_map_assoc,
           Iso.hom_inv_id_app_assoc]
     _ = 0 := by
         rw [hB (_ ≫ _ ≫ F.map f ≫ ι.hom), Limits.zero_comp, Limits.comp_zero, Limits.comp_zero]

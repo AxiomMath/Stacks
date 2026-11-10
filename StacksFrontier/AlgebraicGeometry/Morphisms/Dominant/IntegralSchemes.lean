@@ -85,7 +85,7 @@ public theorem Scheme.Hom.map_genericPoint_of_injective_appLE {X Y : Scheme.{u}}
       U.2.primeIdealOf_genericPoint, genericPoint_eq_bot_of_affine,
       genericPoint_eq_bot_of_affine]
     ext a
-    show f.appLE V.1 U.1 hUV a ∈ (⊥ : Ideal Γ(X, U.1)) ↔
+    change f.appLE V.1 U.1 hUV a ∈ (⊥ : Ideal Γ(X, U.1)) ↔
       a ∈ (⊥ : Ideal Γ(Y, V.1))
     simpa only [Ideal.mem_bot, map_zero] using (hinj.eq_iff (b := 0) (a := a))
   simpa [V.2.fromSpec_primeIdealOf] using congrArg V.2.fromSpec hp
@@ -142,7 +142,7 @@ public theorem tfae_isDominant_of_isIntegral
       (germ_injective_of_isIntegral X x hxV)
         (by simpa [Scheme.Hom.germ_stalkMap_apply] using hs)
     have happ : f.appLE V.1 U.1 hUV s = 0 := by
-      show X.presheaf.map (homOfLE hUV).op (f.app V.1 s) = 0
+      change X.presheaf.map (homOfLE hUV).op (f.app V.1 s) = 0
       rw [happ', map_zero]
     have hs0 : s = 0 := tfae_2_to_4 h U V ⟨⟨x, hxU⟩⟩ ⟨⟨f x, hxV⟩⟩ hUV (by simpa using happ)
     simp [hs0]

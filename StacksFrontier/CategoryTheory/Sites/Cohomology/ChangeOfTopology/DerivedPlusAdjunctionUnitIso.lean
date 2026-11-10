@@ -220,13 +220,13 @@ adjoints are fully faithful and the target lies in the essential image.** Let `L
 object `L₂ e`: `R₂ (β c)` is invertible by the unit identity of the mates correspondence, and the
 counit of `L₂ ⊣ R₂` is invertible on the essential image of the fully faithful `L₂`. -/
 theorem isIso_mateEquiv_symm_app (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    (α : TwoSquare R₁ H G R₂) [IsIso α.natTrans]
+    (α : TwoSquare R₁ H G R₂) [IsIso α]
     (h₁ : ∀ c, IsIso (adj₁.unit.app c)) (h₂ : ∀ e, IsIso (adj₂.unit.app e)) (c : C₁)
     {e : C₂} (φ : L₂.obj e ≅ H.obj (L₁.obj c)) :
-    IsIso (((mateEquiv adj₁ adj₂).symm α).natTrans.app c) := by
-  let β := ((mateEquiv adj₁ adj₂).symm α).natTrans.app c
+    IsIso (((mateEquiv adj₁ adj₂).symm α).app c) := by
+  let β := ((mateEquiv adj₁ adj₂).symm α).app c
   have hR : IsIso (R₂.map β) := by
-    have : IsIso (α.app (L₁.obj c)) := inferInstanceAs (IsIso (α.natTrans.app _))
+    have : IsIso (α.app (L₁.obj c)) := inferInstanceAs (IsIso (α.app _))
     have : IsIso (G.map (adj₁.unit.app c) ≫ α.app (L₁.obj c)) := inferInstance
     rw [unit_mateEquiv_symm adj₁ adj₂ α c] at this
     exact @IsIso.of_isIso_comp_left _ _ _ _ _ _ _ (h₂ _) this

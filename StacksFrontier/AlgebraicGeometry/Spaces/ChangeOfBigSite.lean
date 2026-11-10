@@ -70,8 +70,6 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits Opposite
 
 universe v₁ v₂ u₁ u₂ u
 
-add_to_stacks 03FP "part (1), canonical naturality" sheafPullback_sheafify_yoneda_natIso
-
 namespace CategoryTheory
 
 /-- For a subcanonical Grothendieck topology, sheafifying the Yoneda embedding of the site

@@ -103,7 +103,7 @@ public def localizationCoefficientMap (ι : V ≃ₗ[k] k) :
 public theorem localizationCoefficientMap_tmul (ι : V ≃ₗ[k] k) (p : P) (v : V) :
     localizationCoefficientMap k P S ι (p ⊗ₜ[k] v)
       = algebraMap P (Localization S) p ⊗ₜ[k] v := by
-  show (algebraMap P (Localization S) (ι v • p)) ⊗ₜ[k] ι.symm 1 = _
+  change (algebraMap P (Localization S) (ι v • p)) ⊗ₜ[k] ι.symm 1 = _
   rw [Algebra.smul_def, map_mul, ← IsScalarTower.algebraMap_apply k P (Localization S),
     ← Algebra.smul_def, TensorProduct.smul_tmul, ← map_smul ι.symm, smul_eq_mul, mul_one,
     ι.symm_apply_apply]

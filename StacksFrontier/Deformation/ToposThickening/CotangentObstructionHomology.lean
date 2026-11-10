@@ -105,12 +105,12 @@ theorem doubleHomologyIsoKernel_hom_comp_ι {X₀ X₁ : C} (f : X₀ ⟶ X₁) 
     (doubleHomologyIsoKernel f hi₀₁ h).hom ≫ kernel.ι f =
       (double f hi₀₁).homologyToX i₀ hd ≫ (doubleXIso₀ f hi₀₁).hom := by
   rw [← cancel_epi ((double f hi₀₁).homologyπ i₀), homologyπ_homologyToX_assoc]
-  show ((double f hi₀₁).sc i₀).homologyπ ≫ (ShortComplex.homologyMap (doubleScIso₀ f hi₀₁ h).hom ≫
+  change ((double f hi₀₁).sc i₀).homologyπ ≫ (ShortComplex.homologyMap (doubleScIso₀ f hi₀₁ h).hom ≫
       (ShortComplex.asIsoHomologyπ _ rfl).inv ≫ (ShortComplex.cyclesIsoKernel _).hom) ≫
         kernel.ι f = ((double f hi₀₁).sc i₀).iCycles ≫ (doubleXIso₀ f hi₀₁).hom
   rw [Category.assoc, Category.assoc, ShortComplex.homologyπ_naturality_assoc,
     ShortComplex.homologyπ_comp_asIsoHomologyπ_inv_assoc]
-  show ShortComplex.cyclesMap (doubleScIso₀ f hi₀₁ h).hom ≫
+  change ShortComplex.cyclesMap (doubleScIso₀ f hi₀₁ h).hom ≫
       kernel.lift _ (ShortComplex.iCycles _) _ ≫ kernel.ι f = _
   rw [kernel.lift_ι, ShortComplex.cyclesMap_i]
   congr 1
@@ -142,7 +142,7 @@ theorem exists_homologyToX_app_eq {ι : Type*} {c : ComplexShape ι}
       (by rw [← Functor.map_comp, K.iCycles_d, Functor.map_zero])) hk'
   obtain ⟨z, hz⟩ := (ShortComplex.moduleCat_exact_iff _).1 hex s hs
   refine ⟨((K.isoHomologyπ _ i rfl h).hom.val.app X) z, ?_⟩
-  show ((K.isoHomologyπ _ i rfl h).hom ≫ K.homologyToX i h).val.app X z = s
+  change ((K.isoHomologyπ _ i rfl h).hom ≫ K.homologyToX i h).val.app X z = s
   rw [homologyToX, Iso.hom_inv_id_assoc]
   exact hz
 

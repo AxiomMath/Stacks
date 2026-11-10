@@ -63,7 +63,7 @@ theorem exists_consecutive_poleOrders (P₀ : CurvePlace X) (hP₀ : curveDeg k 
   have hU : IsAffineOpen U := isAffineOpen_compl_singleton_of_isCurve k p inferInstance
     inferInstance hcl
   have hηU : genericPoint X ∈ U := by
-    show genericPoint X ∉ ({P₀.1} : Set X)
+    change genericPoint X ∉ ({P₀.1} : Set X)
     intro h
     have h' : genericPoint X = P₀.1 := h
     have key : ∀ y : X, y = P₀.1 → IsField (X.presheaf.stalk y) → False := by

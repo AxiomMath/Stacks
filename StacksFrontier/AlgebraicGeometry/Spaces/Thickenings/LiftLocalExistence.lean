@@ -198,7 +198,7 @@ theorem exists_isChartLift_at_point (p : X' ⟶ Bb) (q : Y ⟶ Bb)
   refine ⟨y₀, ?_⟩
   rw [Functor.map_comp, Functor.map_comp,
     toScheme_map_toOver_map_openChartInclusion C S hS X'.1 U' O]
-  show (Scheme.Opens.ι O) ((BigFppfOver.toScheme C S hS).map
+  change (Scheme.Opens.ι O) ((BigFppfOver.toScheme C S hS).map
     ((SmallEtale.toOver C S hS X'.1).map r₀) y₀) = x
   rw [hy₀, hx₀]
 

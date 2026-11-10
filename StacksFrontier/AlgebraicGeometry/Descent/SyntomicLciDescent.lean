@@ -272,7 +272,7 @@ theorem isLocalCompleteIntersection_of_faithfullyFlat_syntomic (k A B : Type u) 
     (Q.comap (Algebra.TensorProduct.includeRight : B →ₐ[A] q.Fiber B))
   set q' := Q.comap (Algebra.TensorProduct.includeRight : B →ₐ[A] q.Fiber B)
   have hlh : IsLocalHom (algebraMap (Localization.AtPrime q) (Localization.AtPrime q')) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     infer_instance
   have hflatAB' : Module.Flat A (Localization.AtPrime q') :=
     (Algebra.Syntomic.flat_localization_and_isCompleteIntersection_fiber (R := A) (S := B) q').1

@@ -42,7 +42,8 @@ import all StacksFrontier.AlgebraicGeometry.Scheme.Glueing.ProjectiveLineSection
 The gluing of `Spec A`, for `A` the subring of `K[X]` of polynomials whose constant
 coefficient lies in `k`, to `Spec K[Y]` along `Spec K[T, T⁻¹]`; its two charts and their
 gluing relations, its structure morphism to `Spec k`, and the morphism to it from the
-projective line over `K`. All declarations are private; they are used by
+projective line over `K`. All declarations except the general `eqToHom` lemma
+`AlgebraicGeometry.eqToHom_comp_comp_eqToHom_trans` are private; they are used by
 `AlgebraicGeometry.exists_pinchedProjectiveLine`.
 -/
 
@@ -73,7 +74,7 @@ attribute [local instance] isZariskiLocalAtSource_locallyQuasiFinite
 
 /-- A bridge for the `eqToHom` plumbing produced by `CategoryTheory.GlueData.ofGlueData'`:
 a morphism conjugated by two mutually inverse object identifications is unchanged. -/
-private theorem eqToHom_comp_comp_eqToHom_trans {C : Type*} [Category C] {X Y Z W : C}
+theorem eqToHom_comp_comp_eqToHom_trans {C : Type*} [Category C] {X Y Z W : C}
     (f : Y ⟶ Z) (p : X = Y) (q : Z = W) (r : W = Z) (s : X = Y) :
     eqToHom p ≫ f ≫ eqToHom q ≫ eqToHom r = eqToHom s ≫ f := by
   subst p q

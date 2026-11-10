@@ -404,7 +404,7 @@ theorem sectionRestriction_liftedPowSectionAlgebraHom {n m : ℕ} (h : n ≤ m)
     (A.map (liftedPowStageMap t h)).toAlgebraHom
       (sectionRingEquiv A V ((sectionRingEquiv A V).symm y)) at h₁
   rw [RingEquiv.apply_symm_apply] at h₁
-  show (systemAlgebra A).sectionRestrictRing (liftedPowStageMap t h)
+  change (systemAlgebra A).sectionRestrictRing (liftedPowStageMap t h)
       ((sectionRingEquiv A V).symm y) =
     (sectionRingEquiv A U).symm ((liftedPowStageAlgebraHom f ht n).toAlgebraHom
       ((powShiftTransition f ht h).toAlgebraHom c))

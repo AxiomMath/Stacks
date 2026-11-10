@@ -193,7 +193,7 @@ theorem chartRestrictionSheafMap_π_comp_chartRestrictionCompletionIso_hom (n : 
       (chartRestrictionCoherent B S hS Z M hM A) n := by
   have hiso := isIso_chartRestrictionQuotientHom B S hS Z 𝓘 M A Ibar hIbar (n + 1) hIcart
     hM.toIsQuasicoherentOnSite
-  show _ ≫ inv (chartRestrictionQuotientHom B S hS Z 𝓘 M A Ibar hIbar (n + 1)) ≫ _ = _
+  change _ ≫ inv (chartRestrictionQuotientHom B S hS Z 𝓘 M A Ibar hIbar (n + 1)) ≫ _ = _
   have h := π_comp_chartRestrictionQuotientHom B S hS Z 𝓘 M A Ibar hIbar (n + 1)
   refine (congrArg (· ≫ _) h.symm).trans ?_
   refine (Category.assoc _ _ _).trans ?_

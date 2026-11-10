@@ -71,10 +71,11 @@ sheaf as `w_restrictOpen_tensorDifferentialFormsSheaf`.
 That sheafifying the restricted presheaf tensor product gives the tensor product of those two
 sheaves is [Stacks, Tag 05NA], proved as
 `Stacks.SheafOfModules.TensorSheafification.tensorSheafifyIso` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorSheafificationComparison.lean`, for presheaves
-of modules over any site with a sheaf of commutative rings.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorSheafificationComparison.lean`, for
+presheaves of modules over any site with a sheaf of commutative rings.
 
-What remains for input (1) of [Stacks, Tag 07LF] is therefore a single step: the passage between the `ModuleCat`-valued picture in
+What remains for input (1) of [Stacks, Tag 07LF] is therefore a single step: the passage between
+the `ModuleCat`-valued picture in
 which [Stacks, Tag 05NA] is stated and the universe-lifted `AddCommGrpCat.{u + 1}`-valued presheaf
 that the coefficient sheaf of [Stacks, Tag 07LF] is a sheafification of.  Only with that does
 [Stacks, Tag 01X9] apply, which is the hypothesis of

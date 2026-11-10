@@ -197,7 +197,7 @@ private theorem zero_le_enatToEInt (n : ℕ∞) : ((0 : ℤ) : EInt) ≤ enatToE
   cases n using ENat.recTopCoe with
   | top => exact le_top
   | coe k =>
-    show ((0 : ℤ) : EInt) ≤ ((k : ℤ) : EInt)
+    change ((0 : ℤ) : EInt) ≤ ((k : ℤ) : EInt)
     exact WithBotTop.coe_le_coe.mpr (by positivity)
 
 /-- A lower bound `k ≤ n` in `ℕ∞` persists in the extended integers. -/
@@ -207,7 +207,7 @@ private theorem coe_le_enatToEInt {n : ℕ∞} {k : ℕ} (h : (k : ℕ∞) ≤ n
   | top => exact le_top
   | coe m =>
     have hm : k ≤ m := by exact_mod_cast h
-    show ((k : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
+    change ((k : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
     exact WithBotTop.coe_le_coe.mpr (by exact_mod_cast hm)
 
 /-- Every integer is below `⊤` in the extended integers. -/
@@ -219,7 +219,7 @@ private theorem add_top_eq_top_of_ne_bot {x : EInt} (hx : x ≠ ⊥) : x + ⊤ =
   cases x using WithBot.recBotCoe with
   | bot => exact absurd rfl hx
   | coe m =>
-    show ((m + ⊤ : WithTop ℤ) : EInt) = ((⊤ : WithTop ℤ) : EInt)
+    change ((m + ⊤ : WithTop ℤ) : EInt) = ((⊤ : WithTop ℤ) : EInt)
     rw [WithTop.add_top]
 
 /-- Lower bounds by integers add up in the extended integers. -/
@@ -397,8 +397,6 @@ private theorem one_le_completedStalkDepth_of_height_two
       Order.height (S.U.ι.base y') = 1 →
       IsPRing Stacks.AdicCompletionFibre.cohenMacaulayRingMapProperty.{u}
         (completedLocalRing (idealOnOpen S) y'))
-    (hcd : Stacks.LocalCohomology.cohomologicalDimension S.A S.I
-      (IsNoetherian.noetherian S.I) = 1)
     (F : Stacks.Coherent.CoherentAdicSystems (idealOnOpen S))
     (hH : ∀ (y : S.U.toScheme) (z : S.Y), S.U.ι.base y = S.Yι.base z →
       Order.height (S.U.ι.base y) = 1 →
@@ -413,7 +411,7 @@ private theorem one_le_completedStalkDepth_of_height_two
     (hp : ¬ completedLocalIdeal (idealOnOpen S) y ≤ p.asIdeal)
     (hdim1 : ringKrullDim (completedLocalRing (idealOnOpen S) y ⧸ p.asIdeal) = 1) :
     1 ≤ completedStalkDepth (idealOnOpen S) F y p := by
-  obtain ⟨y', z', hspec, q, hy'z', hheight', hqy, hqI, hqdim⟩ :=
+  obtain ⟨y', z', q, hspec, hy'z', hheight', hqy, hqI, hqdim⟩ :=
     exists_specializes_height_one S ha y z hyz hheight
   have hJmax' : IdealSheafData.stalk (idealOnOpen S) y' ≤
       maximalIdeal (S.U.toScheme.presheaf.stalk y') :=
@@ -486,7 +484,7 @@ public theorem satisfiesDepthInequalities_two_three_iff_two_lt_depth_add_dim
     have hdistpos : 1 ≤ S.distanceToZ z := S.one_le_distanceToZ y z hyz
     have hdh : (S.distanceToZ z : ℕ∞) = Order.height (S.U.ι.base y) := by
       rw [hyz]; exact distanceToZ_eq_height S ha hcat z
-    show ((3 : ℤ) : EInt) <
+    change ((3 : ℤ) : EInt) <
       enatToEInt (completedStalkDepth (idealOnOpen S) F y p) +
           krullDimToEInt (ringKrullDim (completedLocalRing (idealOnOpen S) y ⧸ p.asIdeal)) +
         enatToEInt (S.distanceToZ z)
@@ -496,7 +494,7 @@ public theorem satisfiesDepthInequalities_two_three_iff_two_lt_depth_add_dim
     · by_cases hdone :
           ringKrullDim (completedLocalRing (idealOnOpen S) y ⧸ p.asIdeal) = 1
       · have hdep : 1 ≤ completedStalkDepth (idealOnOpen S) F y p :=
-          one_le_completedStalkDepth_of_height_two S ha hcatStalk hCMStalk hcd F hH y z hyz
+          one_le_completedStalkDepth_of_height_two S ha hcatStalk hCMStalk F hH y z hyz
             (by rw [← hdh, htwo]) p hp hdone
         have hd1 : ((1 : ℤ) : EInt) ≤
             enatToEInt (completedStalkDepth (idealOnOpen S) F y p) :=

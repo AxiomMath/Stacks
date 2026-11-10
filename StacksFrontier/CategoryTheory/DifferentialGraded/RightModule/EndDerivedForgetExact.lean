@@ -185,7 +185,7 @@ def cochainComplexShiftIso (M : RightModule.{w} C) (X : C.Obj) (n : ℤ) :
         cochainComplex_d M X (show i + n + 1 = j + n by omega),
         cochainComplex_d (shift M n) X hij']
       ext a
-      show (n.negOnePow : ℤ) • M.d (show i + n + 1 = j + n by omega) a =
+      change (n.negOnePow : ℤ) • M.d (show i + n + 1 = j + n by omega) a =
         (-1 : R) ^ n.natAbs • M.d (show i + n + 1 = j + n by omega) a
       exact negOnePow_zsmul_eq R n _
     exact (Category.id_comp _).trans (hd.trans (Category.comp_id _).symm))
@@ -254,7 +254,7 @@ theorem cochainMap_mapCocycle_comm {M N : RightModule.{w} C}
       ((CategoryTheory.shiftFunctor (CochainComplex (ModuleCat.{w} R) ℤ) n).map
         (cochainMap φ X)).f i := by
     ext a
-    show (-1 : R) ^ (n * 0).natAbs • app φ.1 (show i + n + 0 = i + n by omega) a =
+    change (-1 : R) ^ (n * 0).natAbs • app φ.1 (show i + n + 0 = i + n by omega) a =
       app φ.1 (add_zero (i + n)) a
     rw [mul_zero, Int.natAbs_zero, pow_zero, one_smul]
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, cochainComplexShiftIso_hom_f,
@@ -388,7 +388,7 @@ noncomputable instance cochainComplexOnK_commShift (X : C.Obj) :
     have hnat := reassoc_of% (((HomotopyCategory.quotient (ModuleCat.{w} R)
       (ComplexShape.up ℤ)).commShiftIso b).hom.naturality (cochainComplexShiftIso M X a).hom)
     simp only [cochainComplexOnKCommShiftIso_hom_app, cochainComplexOnKShiftIsoApp_hom,
-      Functor.CommShift.isoAdd_hom_app, cochainComplexOnK_map_shiftFunctorAdd_hom_app,
+      Functor.CommShift.isoAdd_hom_app,
       Functor.commShiftIso_add, Functor.map_comp, Category.assoc,
       shiftFunctor_rightModuleHomotopyCategory_obj, cochainComplexOnK_obj, Functor.comp_obj,
       cochainComplexOnK_map_shiftIso_add_assoc, hnat]
@@ -419,9 +419,9 @@ theorem app_connectingCocycle (p : ℤ) (a : z.obj X p) :
       app E.π (add_zero (p + 1)) (y.d (rfl : p + 1 = p + 1) (app E.s (add_zero p) a)) := by
   have hzero : app E.π (add_zero (p + 1)) (app E.s (add_zero (p + 1)) (z.d rfl a)) = 0 :=
     (app_comp_eq E.π_s (p + 1) (z.d rfl a)).trans (zero_app _ _)
-  show app (toShiftHom 1 (GradedSplitShortExact.connectingHom E)) (add_zero p) a = _
+  change app (toShiftHom 1 (GradedSplitShortExact.connectingHom E)) (add_zero p) a = _
   rw [app_toShiftHom]
-  show app (homComp (show (0 : ℤ) + (0 + 1) = 0 + 1 by omega) E.π (homD E.s)) _ a = _
+  change app (homComp (show (0 : ℤ) + (0 + 1) = 0 + 1 by omega) E.π (homD E.s)) _ a = _
   rw [app_homComp, app_homD, Int.natAbs_zero, pow_zero, one_smul, app_sub, hzero, sub_zero,
     d_app E.s (add_zero p) (rfl : p + 1 = p + 1) (show p + 0 + 1 = p + 1 by omega) a]
 
@@ -450,9 +450,7 @@ theorem cochainMap_connectingCocycle_comp_shiftIso :
     homOfDegreewiseSplit_f_eq]
   refine (Category.comp_id _).trans ?_
   ext a
-  simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply,
-    cochainComplex_d y X (rfl : p + 1 = p + 1), ModuleCat.hom_ofHom, dLinear_apply,
-    hom_cochainMapComponent, coe_apply]
+  simp only [cochainComplex_d y X (rfl : p + 1 = p + 1), hom_cochainMapComponent]
   exact app_connectingCocycle E X p a
 
 /-- The third arrow of the triangle of an admissible short exact sequence is the class of the

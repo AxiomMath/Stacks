@@ -78,7 +78,7 @@ public theorem nonempty_finiteEtaleFiberFunctor_cover (x : GeometricPoint (Spec 
   have hlf : CommRingCat.ofHom (algebraMap A' (Ring κ g)) ≫ CommRingCat.ofHom lf = ρ := by
     ext a
     exact AdjoinRoot.lift_of hp
-  show Spec.map (CommRingCat.ofHom lf) ≫ Spec.map (CommRingCat.ofHom (algebraMap A' (Ring κ g))) =
+  change Spec.map (CommRingCat.ofHom lf) ≫ Spec.map (CommRingCat.ofHom (algebraMap A' (Ring κ g))) =
     x.hom
   rw [← Spec.map_comp, hlf, Spec.map_preimage]
 
@@ -167,7 +167,7 @@ public theorem continuous_restrictScalarsRep_comp_of_factor (h : X ⟶ Z) (gU : 
       (etaleFundamentalGroupMap h x').continuous))).mul continuous_const
   convert hcont using 1
   funext γ
-  show restrictScalarsRep b σ (Φ γ) = _
+  change restrictScalarsRep b σ (Φ γ) = _
   rw [hc γ, map_mul, map_mul, map_inv]
   rfl
 
@@ -192,12 +192,12 @@ public theorem exists_geometricPoint_polynomial_map_eq (x : GeometricPoint U) :
       ρ := by
     ext1
     refine Polynomial.ringHom_ext (fun a => ?_) ?_
-    · show ρ' (Polynomial.map (algebraMap k κ) (C a)) = ρ.hom (C a)
+    · change ρ' (Polynomial.map (algebraMap k κ) (C a)) = ρ.hom (C a)
       rw [Polynomial.map_C]
-      show eval₂ ι.toRingHom (ρ.hom Polynomial.X) (C (algebraMap k κ a)) = _
+      change eval₂ ι.toRingHom (ρ.hom Polynomial.X) (C (algebraMap k κ a)) = _
       rw [eval₂_C]
       exact ι.commutes a
-    · show ρ' (Polynomial.map (algebraMap k κ) Polynomial.X) = ρ.hom Polynomial.X
+    · change ρ' (Polynomial.map (algebraMap k κ) Polynomial.X) = ρ.hom Polynomial.X
       rw [Polynomial.map_X]
       exact eval₂_X _ _
   have key : Spec.map (CommRingCat.ofHom ρ') ≫
@@ -205,7 +205,7 @@ public theorem exists_geometricPoint_polynomial_map_eq (x : GeometricPoint U) :
     rw [← Category.assoc, ← Spec.map_comp, hρ, Spec.map_preimage, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
   refine ⟨⟨x.residueField, Spec.map (CommRingCat.ofHom ρ')⟩, ?_⟩
-  show (⟨x.residueField, Spec.map (CommRingCat.ofHom ρ') ≫
+  change (⟨x.residueField, Spec.map (CommRingCat.ofHom ρ') ≫
     (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k κ))) ≫ inv e)⟩ :
       GeometricPoint U) = x
   rw [key]

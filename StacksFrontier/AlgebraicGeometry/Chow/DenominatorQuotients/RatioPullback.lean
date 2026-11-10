@@ -179,7 +179,7 @@ theorem bijective_smul_of_isBaseChange {A B : Type*} [CommRing A] [CommRing B]
   have h1 : (fun z : B => z ⊗ₜ[A] m) =
       (LinearEquiv.lTensor B u) ∘ (TensorProduct.rid A B).symm := by
     funext z
-    show z ⊗ₜ[A] m = (LinearEquiv.lTensor B u) ((TensorProduct.rid A B).symm z)
+    change z ⊗ₜ[A] m = (LinearEquiv.lTensor B u) ((TensorProduct.rid A B).symm z)
     rw [TensorProduct.rid_symm_apply, LinearEquiv.lTensor_tmul, hu]
   have h2 : (fun z : B => z • j m) = h.equiv ∘ (fun z : B => z ⊗ₜ[A] m) :=
     funext fun z => (h.equiv_tmul z m).symm
@@ -228,7 +228,7 @@ theorem bijective_smul_germ_pullbackUnit' (f : X ⟶ Y)
         z • ((1 : ↑(X.presheaf.stalk x)) ⊗ₜ[↑(Y.presheaf.stalk (f.toShHom.hom.base x))]
           Stacks.ModuleStalk.germ (valOn G) V (f.toShHom.hom.base x) hx g)) := by
     funext c
-    show c • Stacks.ModuleStalk.germ
+    change c • Stacks.ModuleStalk.germ
           (valOn ((RingedSpaceModuleAdjunction.modulePullback f.toShHom).obj G))
           ((RingedSpaceModuleAdjunction.opensMap f.toShHom).obj V) x hx
           (Stacks.RingedSpace.pullbackUnit f.toShHom G (op V) g)

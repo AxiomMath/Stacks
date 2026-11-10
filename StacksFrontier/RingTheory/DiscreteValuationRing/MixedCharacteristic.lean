@@ -124,16 +124,16 @@ theorem hasMixedCharacteristic_iff_mixedCharZero_and_integerLocalization_extensi
       (IsLocalRing.ResidueField A) p).resolve_right (Nat.ne_of_gt h.1)⟩
     have heq : (IsLocalRing.maximalIdeal A).under ℤ = Ideal.span {(p : ℤ)} := by
       ext x
-      show algebraMap ℤ A x ∈ IsLocalRing.maximalIdeal A ↔ _
+      change algebraMap ℤ A x ∈ IsLocalRing.maximalIdeal A ↔ _
       rw [← IsLocalRing.residue_eq_zero_iff]
-      show algebraMap ℤ (IsLocalRing.ResidueField A) x = 0 ↔ _
+      change algebraMap ℤ (IsLocalRing.ResidueField A) x = 0 ↔ _
       rw [← RingHom.mem_ker]
       exact SetLike.ext_iff.mp
         (CharP.ker_intAlgebraMap_eq_span (R := IsLocalRing.ResidueField A) p) x
     refine ⟨heq, ?_, ?_, ?_⟩
     · have : CharZero (FractionRing A) := h.2.2
       have : CharZero A := (algebraMap A (FractionRing A)).charZero
-      show Function.Injective (IsLocalization.lift _)
+      change Function.Injective (IsLocalization.lift _)
       rw [IsLocalization.lift_injective_iff]
       refine fun x y => ⟨fun e => ?_, fun e =>
         congr_arg (algebraMap ℤ (integerLocalization A h)) (Int.cast_injective e)⟩
@@ -145,7 +145,7 @@ theorem hasMixedCharacteristic_iff_mixedCharZero_and_integerLocalization_extensi
       intro hr
       rw [mixedCharacteristicRingHom, IsLocalization.lift_mk', IsUnit.mul_iff] at hx
       exact IsLocalRing.notMem_maximalIdeal.mpr hx.1 ((SetLike.ext_iff.mp heq r).mpr hr)
-    · show IsDiscreteValuationRing (Localization.AtPrime (Ideal.span {(p : ℤ)}))
+    · change IsDiscreteValuationRing (Localization.AtPrime (Ideal.span {(p : ℤ)}))
       exact IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain
         (P := Ideal.span {(p : ℤ)}) ℤ
         (Ideal.span_singleton_eq_bot.not.mpr

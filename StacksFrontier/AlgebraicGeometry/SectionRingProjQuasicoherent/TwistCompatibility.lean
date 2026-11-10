@@ -25,8 +25,8 @@ single equation `θ_𝓕 ⊗ θ_{𝓛^{⊗n}} = f^*(mult) ≫ θ_{𝓕 ⊗ 𝓛^
 `M(n) = Γ_*(X, 𝓛, 𝓕 ⊗ 𝓛^{⊗n})` the Remark calls obvious.
 
 **This file does not prove that square, and it carries no `@[stacks 01QK]` attribute. It proves
-instead that the square cannot be proved from the library's statement of Tag 01QJ**, and the proof of
-that is the mathematical content here rather than a note in a docstring.
+instead that the square cannot be proved from the library's statement of Tag 01QJ**, and the proof
+of that is the mathematical content here rather than a note in a docstring.
 
 The library's form of Tag 01QJ is
 `Stacks.SectionRingProjQuasicoherent.pullbackComparison L hL c :
@@ -81,7 +81,8 @@ out as `f^*(moduleTwistMap) ≫ (identifications)`. That is not laziness: it mak
   this file's statements are the localized monoidal structure
   `Stacks.SheafInternalHom.schemeMonoidalCategory`. The two are related by
   `Stacks.SheafOfModules.tensorObjIso` with its coherence suite in
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalInduced.lean`. Any composite through either is still a `t`.
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalInduced.lean`. Any composite through
+  either is still a `t`.
 * The identification of the top-right corner **does** exist, at the level at which it is
   true. It is `Stacks.SectionRingProjTheta.twistShiftSheafIso` of
   `StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistShift.lean`: an isomorphism
@@ -131,8 +132,8 @@ missing, in increasing cost.
   the library too.**
   The maps are `Stacks.AlgebraicGeometry.ProjChartGradedThetaBuild.theta (grading L)
   (canonicalSections L)`, Tag 01NK's `θ` at `ψ` the identity map of `Γ_*(X, 𝓛)` — Situation
-  01QH equips `f` with them rather than Tag 01QI constructing them — and are also available under the
-  name `Stacks.SectionRingProjMorphism.Theta.projTheta` as clause (2) of Tag 01PZ, with
+  01QH equips `f` with them rather than Tag 01QI constructing them — and are also available under
+  the name `Stacks.SectionRingProjMorphism.Theta.projTheta` as clause (2) of Tag 01PZ, with
   `Stacks.SectionRingProjMorphism.Theta.homOfLE_projHom_eq_glued` identifying the morphism it is
   taken along with `Stacks.SectionRingProjMorphism.projHom`. Their degree-`n` components are the
   Remark's left-hand side. `StacksFrontier/AlgebraicGeometry/SectionRingProjGoodOpen/Basic.lean`
@@ -167,7 +168,8 @@ missing, in increasing cost.
   proves it abstractly, as `Stacks.Monoidal.ModuleSystem.powShiftEquiv` with
   `powShiftEquiv_sectionSMul`, for `Stacks.Monoidal.ModuleSystem` and its own `shift`, without
   instantiating it at `Stacks.TwistedSections.twistModule`; the comparison with
-  `Stacks.GradedModule.shiftedGrading` is what `twistShiftSheafMap` is stated against. What `moduleTwistMap` still
+  `Stacks.GradedModule.shiftedGrading` is what `twistShiftSheafMap` is stated against. What
+  `moduleTwistMap` still
   needs is the tensor-structure bridge of the first bullet above, not this one.
 
   **It cannot be instantiated at `Stacks.TwistedSections.twistModule` as a statement about

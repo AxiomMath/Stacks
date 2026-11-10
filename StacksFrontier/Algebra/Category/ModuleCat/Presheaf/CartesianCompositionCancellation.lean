@@ -43,7 +43,7 @@ theorem bijective_restrictionBaseChange_of_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) 
   let : Algebra (R.obj X) (R.obj Z) := (R.map (f ≫ g)).hom.toAlgebra
   let : IsScalarTower (R.obj X) (R.obj Y) (R.obj Z) := by
     refine IsScalarTower.of_algebraMap_eq (fun a => ?_)
-    show (R.map (f ≫ g)).hom a = (R.map g).hom ((R.map f).hom a)
+    change (R.map (f ≫ g)).hom a = (R.map g).hom ((R.map f).hom a)
     rw [R.map_comp]
     rfl
   let θ : TensorProduct (R.obj X) (R.obj Y) (M.obj X) →ₗ[R.obj Y] M.obj Y :=
@@ -56,12 +56,10 @@ theorem bijective_restrictionBaseChange_of_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) 
     (M.obj X)
   have key : ∀ z, θfg (c z) = θg (LinearMap.lTensor (R.obj Z) θ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz']
     | tmul d w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' => simp only [tmul_add, map_add, hw, hw']
       | tmul b x =>
         rw [AlgebraTensorModule.cancelBaseChange_tmul, LinearMap.lTensor_tmul]
@@ -77,7 +75,7 @@ theorem bijective_restrictionBaseChange_of_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) 
         have h5 : (M.map (f ≫ g) x : M.obj Z) = M.map g (M.map f x) := M.map_comp_apply f g x
         rw [h1, h2, h3, h4, h5, smul_smul]
         congr 1
-        show (R.map g).hom b * d = d * (R.map g).hom b
+        change (R.map g).hom b * d = d * (R.map g).hom b
         exact mul_comm _ _
   have hθ : Function.Bijective (LinearMap.lTensor (R.obj Z) θ) :=
     (LinearEquiv.lTensor (R.obj Z) (LinearEquiv.ofBijective θ hf)).bijective

@@ -43,8 +43,7 @@ private theorem tensor_apply_congr {R A M N F G : Type*} [CommSemiring R] {_ : A
     [FunLike G (TensorProduct R A M) N] [AddMonoidHomClass G (TensorProduct R A M) N]
     (f : F) (g : G) (h : ∀ (a : A) (x : M), f (TensorProduct.tmul R a x) = g (.tmul R a x))
     (z : TensorProduct R A M) : f z = g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | tmul a x => exact h a x
 
@@ -97,7 +96,7 @@ theorem bijective_app_of_isLocallyBijective_counit {J : GrothendieckTopology C}
   let e₂ := (baseChangeAdj.{t} O hX).homEquiv (P.obj (Opposite.op X)) Q
   have h : (fun g : P ⟶ Q => g.app (Opposite.op X)) = e₂ ∘ e₁ := by
     funext g
-    show g.app (Opposite.op X) =
+    change g.app (Opposite.op X) =
       (baseChangeAdj.{t} O hX).homEquiv _ Q ((baseChangeAdj.{t} O hX).counit.app P ≫ g)
     rw [Adjunction.homEquiv_unit, Functor.map_comp,
       Adjunction.right_triangle_components_assoc]

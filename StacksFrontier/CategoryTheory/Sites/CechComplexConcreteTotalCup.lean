@@ -79,13 +79,13 @@ theorem rightMul_apply_of_le (b : ℕ) (y : Cochain W (Q.X b) 0) {m N : ℤ} (hN
     rightMul W μc b y hN z ⟨(r, c), hj⟩ t =
       μc (c - b) b c (Nat.sub_add_cancel hc) (op (inter W t))
         (z ⟨(r, c - b), by omega⟩ t) (cres W (Q.X b) (fun _ : Fin 1 => Fin.last r) t (y _)) := by
-  simp only [rightMul, dif_pos hc]
+  simp only [rightMul, dite_eq_left hc]
 
 /-- Right multiplication vanishes on a summand of coefficient degree `c < b`. -/
 theorem rightMul_apply_of_lt (b : ℕ) (y : Cochain W (Q.X b) 0) {m N : ℤ} (hN : m + b = N)
     (z : TotX W P m) (r c : ℕ) (hj : (r : ℤ) + c = N) (hc : c < b) :
     rightMul W μc b y hN z ⟨(r, c), hj⟩ = 0 := by
-  simp only [rightMul, dif_neg (Nat.not_le.mpr hc)]
+  simp only [rightMul, dite_eq_right (Nat.not_le.mpr hc)]
 
 
 /-- Right multiplication sends `0` to `0`. -/
@@ -188,7 +188,7 @@ theorem π_cechAlexanderWhitney_zero {P' Q' T' : PresheafModules.{u} C R}
           ((π W Q' 0 (t ∘ Stacks.Cech.LinearCupProduct.backIdx r 0 r (by omega))).hom d)) := by
   have h := ConcreteCategory.congr_hom (cechAlexanderWhitney_comp_π W R μ r 0 t) (c ⊗ₜ d)
   refine h.trans ?_
-  show (μ.app (op (inter W t))).hom
+  change (μ.app (op (inter W t))).hom
       ((P'.map (interMap W t (Stacks.Cech.LinearCupProduct.frontIdx r (r + 0) (by omega))).op).hom
           ((π W P' r (t ∘ Stacks.Cech.LinearCupProduct.frontIdx r (r + 0) (by omega))).hom c) ⊗ₜ
         (Q'.map (interMap W t
@@ -235,7 +235,7 @@ theorem totalTo_ιTensorSource_cechCupProduct_zero
   rw [ConcreteCategory.comp_apply] at h3
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   refine h3.trans ?_
-  show (totSingle W T N r (a + b) _) ((cochainsIso W (T.X (a + b)) r).hom
+  change (totSingle W T N r (a + b) _) ((cochainsIso W (T.X (a + b)) r).hom
     ((cechCochainsMap W R (eM (a + b)).hom r).hom _)) = _
   congr 1
   funext t

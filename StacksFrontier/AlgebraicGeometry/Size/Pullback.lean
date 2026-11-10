@@ -54,8 +54,7 @@ lemma mk_tensorProduct_le {R : Type u} [CommSemiring R] {M : Type u} [AddCommMon
   have hsurj : Function.Surjective
       fun l : List (M × N) => (l.map fun (m, n) => m ⊗ₜ[R] n).sum := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨[], by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact ⟨[(m, n)], by simp⟩
     | add x y hx hy =>
       obtain ⟨lx, rfl⟩ := hx

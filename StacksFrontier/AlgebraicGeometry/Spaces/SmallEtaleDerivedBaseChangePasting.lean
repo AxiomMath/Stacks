@@ -57,8 +57,8 @@ theorem twoSquare_app_of_eq_hComp_whisker {C₁ C₂ C₃ C₄ C₅ C₆ : Type*
     {B' : C₄ ⥤ C₆} {Tc : C₁ ⥤ C₅} {Bc : C₃ ⥤ C₆} (So : TwoSquare Tc L R' Bc)
     (w : TwoSquare T L R B) (w' : TwoSquare T' R R' B') (dT : Tc ⟶ T ⋙ T') (dB : B ⋙ B' ⟶ Bc)
     (h : So = ((TwoSquare.hComp w w').whiskerTop dT).whiskerBottom dB) (K : C₁) :
-    So.natTrans.app K = R'.map (dT.app K) ≫ w'.natTrans.app (T.obj K) ≫
-      B'.map (w.natTrans.app K) ≫ dB.app (L.obj K) := by
+    So.app K = R'.map (dT.app K) ≫ w'.app (T.obj K) ≫
+      B'.map (w.app K) ≫ dB.app (L.obj K) := by
   subst h
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp]
 
@@ -96,7 +96,7 @@ theorem _root_.Stacks.CategoryTheory.BaseChange.map_vertical
       ((TwoSquare.vComp (Stacks.CategoryTheory.BaseChange.pullbackComparison egb efb)
           (Stacks.CategoryTheory.BaseChange.pullbackComparison egt eft)).whiskerLeft
         c.hom).whiskerRight c'.inv := by
-    refine TwoSquare.ext _ _ fun M => ?_
+    refine NatTrans.ext (funext fun M => ?_)
     have h := hpaste M
     rw [← hσr, ← hσb, ← hσt] at h
     simpa [Stacks.CategoryTheory.BaseChange.pullbackComparison, TwoSquare.vComp,

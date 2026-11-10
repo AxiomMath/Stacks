@@ -164,10 +164,10 @@ noncomputable def doubledPointProjection :
 theorem doubledPointChart_comp_projection (i : Fin 2) :
     doubledPointChart p i ≫ doubledPointProjection p = 𝟙 (space (ZMod 2)) := by
   have hJ : Fintype (doubledPointGlueData p).toGlueData.J := by
-    show Fintype (Fin 2); infer_instance
+    change Fintype (Fin 2); infer_instance
   have hJd : DecidableEq (doubledPointGlueData p).toGlueData.J := by
-    show DecidableEq (Fin 2); infer_instance
-  show CategoryTheory.Limits.Multicoequalizer.π
+    change DecidableEq (Fin 2); infer_instance
+  change CategoryTheory.Limits.Multicoequalizer.π
       (doubledPointGlueData p).toGlueData.diagram i ≫
     CategoryTheory.Limits.Multicoequalizer.desc (doubledPointGlueData p).toGlueData.diagram
       (space (ZMod 2)) (fun _ ↦ 𝟙 (space (ZMod 2))) _ = 𝟙 (space (ZMod 2))
@@ -290,7 +290,7 @@ private theorem doubledPoint_mem_chart_range_union (x : doubledPoint.source) :
 @[stacks 03HY "generic point of an irreducible component"]
 theorem doubledPoint_genericPoint :
     doubledPoint.point ∈ genericPoints (space (ZMod 2)) := by
-  show closure {doubledPoint.point} ∈ irreducibleComponents (space (ZMod 2))
+  change closure {doubledPoint.point} ∈ irreducibleComponents (space (ZMod 2))
   rw [doubledPoint.closed_point.closure_eq]
   refine ⟨isIrreducible_singleton, fun t ht hst y hy ↦ ?_⟩
   have hpt : doubledPoint.point ∈ t := hst (Set.mem_singleton _)
@@ -320,7 +320,7 @@ theorem doubledPoint_locallyOfFiniteType : LocallyOfFiniteType doubledPoint.proj
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @LocallyOfFiniteType)
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @LocallyOfFiniteType) C]
   intro i
-  show LocallyOfFiniteType (doubledPoint.chart i ≫ doubledPoint.projection)
+  change LocallyOfFiniteType (doubledPoint.chart i ≫ doubledPoint.projection)
   rw [doubledPoint.chart_projection i]
   infer_instance
 
@@ -395,7 +395,7 @@ theorem doubledPoint_noAffinePreimage (U : (space (ZMod 2)).Opens)
       ((doubledPoint.projection ⁻¹ᵁ U : doubledPoint.source.Opens) :
         Set doubledPoint.source) := by
     rintro _ ⟨z, hz, rfl⟩
-    show doubledPoint.projection.base ((doubledPoint.chart i).base z) ∈ U
+    change doubledPoint.projection.base ((doubledPoint.chart i).base z) ∈ U
     rw [doubledPoint_projection_chart]
     exact hVU hz
   have hopen (i : Fin 2) : IsOpen ((doubledPoint.chart i).base '' Vset) := by

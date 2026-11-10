@@ -111,8 +111,6 @@ universe w v u
 namespace SheafOfModules.GradedModule
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w}) (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
   {A : GradedAlgebra.{w, w} (⟨structureRingPresheaf 𝒪, h𝒪⟩ : Sheaf J RingCat.{w})}
   (F : SheafOfModules.{w} (⟨structureRingPresheaf 𝒪, h𝒪⟩ : Sheaf J RingCat.{w}))
@@ -223,8 +221,7 @@ theorem tensorLeftSmulApp_smul_right (n i : ℤ) (U : Cᵒᵖ) (r : (structureRi
     (x : tensorLeftSection 𝒪 h𝒪 F M n U) (y : (A.piece i).val.obj U) :
     tensorLeftSmulApp 𝒪 h𝒪 F M n i U x (r • y)
       = r • tensorLeftSmulApp 𝒪 h𝒪 F M n i U x y := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, AddMonoidHom.zero_apply, AddMonoidHom.zero_apply, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     rw [tensorLeftSmulApp_tmul, tensorLeftSmulApp_tmul, M.smul_smul_right]
     exact TensorProduct.tmul_smul r s _
@@ -237,8 +234,7 @@ theorem tensorLeftSmulApp_naturality (n i : ℤ) {U V : Cᵒᵖ} (f : U ⟶ V)
     tensorLeftRestr 𝒪 h𝒪 F M (n + i) f (tensorLeftSmulApp 𝒪 h𝒪 F M n i U x y)
       = tensorLeftSmulApp 𝒪 h𝒪 F M n i V (tensorLeftRestr 𝒪 h𝒪 F M n f x)
           (Stacks.restr (A.piece i).val f y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, AddMonoidHom.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     simp only [tensorLeftSmulApp_tmul, tensorLeftRestr_tmul]
     rw [smul_restr M n i f m y]
@@ -287,8 +283,7 @@ theorem tensorLeftSmulApp_assoc (n i j : ℤ) (U : Cᵒᵖ)
     Stacks.degCast (F := fun k => tensorLeftSection 𝒪 h𝒪 F M k U) (add_assoc n i j)
         (tensorLeftSmulApp 𝒪 h𝒪 F M (n + i) j U (tensorLeftSmulApp 𝒪 h𝒪 F M n i U x y) z)
       = tensorLeftSmulApp 𝒪 h𝒪 F M n (i + j) U x ((A.mul i j).app U y z) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [degCast_tensorLeft_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     rw [tensorLeftSmulApp_tmul, tensorLeftSmulApp_tmul, tensorLeftSmulApp_tmul]
     exact degCast_tensorLeft_tmul 𝒪 h𝒪 F M U (add_assoc n i j) s (M.smul_mul n i j U m y z)
@@ -299,12 +294,14 @@ unit law of `M`, carried through the second factor. -/
 theorem tensorLeftSmulApp_one (n : ℤ) (U : Cᵒᵖ) (x : tensorLeftSection 𝒪 h𝒪 F M n U) :
     Stacks.degCast (F := fun k => tensorLeftSection 𝒪 h𝒪 F M k U) (add_zero n)
         (tensorLeftSmulApp 𝒪 h𝒪 F M n 0 U x (A.one.eval U)) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [degCast_tensorLeft_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     rw [tensorLeftSmulApp_tmul]
     exact degCast_tensorLeft_tmul 𝒪 h𝒪 F M U (add_zero n) s (M.smul_one n U m)
   | add x x' hx hx' => simp [degCast_tensorLeft_add, hx, hx']
+
+variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
 /-- The sheafification map of a presheaf-level graded module is locally surjective. The
 instance of `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GradedModuleAbelian` is stated for an
@@ -340,6 +337,8 @@ noncomputable def preTensorLeft : PreGradedModule.{w, w, w} A where
   smulBil_assoc := tensorLeftSmulApp_assoc 𝒪 h𝒪 F M
   smulBil_one := tensorLeftSmulApp_one 𝒪 h𝒪 F M
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
 /-- The degree-`n` piece of `SheafOfModules.GradedModule.preTensorLeft` is the objectwise
 tensor product of `F` with `Mⁿ`. -/
 @[simp]
@@ -351,6 +350,7 @@ theorem preTensorLeft_piece (n : ℤ) :
 sheafification of `SheafOfModules.GradedModule.preTensorLeft`. -/
 noncomputable def tensorLeft : GradedModule.{w, w, w} A := (preTensorLeft 𝒪 h𝒪 F M).sheafify
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The degree-`n` piece of `F ⊗ M` is the tensor product sheaf `F ⊗ Mⁿ`**, on the nose: both
 are the sheafification of the objectwise tensor product of `F` with `Mⁿ`. -/
 @[simp]
@@ -373,6 +373,7 @@ noncomputable def tensorLeftMk (n : ℤ) (U : Cᵒᵖ) :
     tensorLeftSection 𝒪 h𝒪 F M n U →+ ((tensorLeft 𝒪 h𝒪 F M).piece n).val.obj U :=
   AddMonoidHom.mk' (fun t => (tensorLeftUnit 𝒪 h𝒪 F M n).app U t) (fun t t' => map_add _ t t')
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The action of `A` on `F ⊗ M`, on the image of a pure tensor**:
 `(x ⊗ m) · a = x ⊗ (m · a)`. This is `SheafOfModules.PreGradedModule.sheafify_smul` with the
 action of `preTensorLeft` computed. -/
@@ -385,6 +386,7 @@ theorem tensorLeft_smul_tmul (n i : ℤ) (U : Cᵒᵖ) (x : F.val.obj U)
         tensorLeftMk 𝒪 h𝒪 F M (n + i) U t)
       (tensorLeftSmulApp_tmul 𝒪 h𝒪 F M n i U x m y))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Two morphisms of sheaves of modules out of the degree-`n` piece of `F ⊗ M` which agree on
 the images of pure tensors of local sections are equal. -/
 theorem tensorLeft_hom_ext (n : ℤ)
@@ -407,6 +409,7 @@ noncomputable def tensorLeftDescApp (n : ℤ) : (tensorLeft 𝒪 h𝒪 F M).piec
       (preTensorLeft 𝒪 h𝒪 F M).toSheafifyPiece n (N.piece n)).symm
     (PresheafOfModules.ofBilinear (θ n))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The degree-`n` component `SheafOfModules.GradedModule.tensorLeftDescApp` sends the image of
 the pure tensor `x ⊗ m` to `θ n (x, m)`. -/
 @[simp]
@@ -421,6 +424,7 @@ theorem tensorLeftDescApp_tmul (n : ℤ) (U : Cᵒᵖ) (x : F.val.obj U)
       (N.piece n) (PresheafOfModules.ofBilinear (θ n)))).trans
     (PresheafOfModules.ofBilinear_tmul (θ n) U x m)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The compatibility with the two actions that
 `SheafOfModules.PreGradedModule.hom_map_smul` asks for, checked on the objectwise tensor
 product: on a pure tensor it is the hypothesis `hθ`. -/
@@ -434,8 +438,7 @@ theorem tensorLeftDescApp_map_smul
         (tensorLeftMk 𝒪 h𝒪 F M (n + i) U (tensorLeftSmulApp 𝒪 h𝒪 F M n i U t y))
       = N.smul n i U
           ((tensorLeftDescApp 𝒪 h𝒪 F M N θ n).val.app U (tensorLeftMk 𝒪 h𝒪 F M n U t)) y := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero, AddMonoidHom.zero_apply]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [tensorLeftSmulApp_tmul, tensorLeftDescApp_tmul, tensorLeftDescApp_tmul]
     exact hθ n i U s m y
@@ -456,6 +459,7 @@ noncomputable def tensorLeftDesc
       (preTensorLeft 𝒪 h𝒪 F M).toSheafifyPiece N (tensorLeftDescApp 𝒪 h𝒪 F M N θ)
       (tensorLeftDescApp_map_smul 𝒪 h𝒪 F M N θ hθ) n i U x y
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The degree-`n` component of `SheafOfModules.GradedModule.tensorLeftDesc` is
 `SheafOfModules.GradedModule.tensorLeftDescApp`. -/
 @[simp]
@@ -465,6 +469,7 @@ theorem tensorLeftDesc_app
       (θ (n + i)).app U x (M.smul n i U m y) = N.smul n i U ((θ n).app U x m) y) (n : ℤ) :
     (tensorLeftDesc 𝒪 h𝒪 F M N θ hθ).app n = tensorLeftDescApp 𝒪 h𝒪 F M N θ n := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The computation rule for the universal property**: the degree-`n` component of the
 descended homomorphism sends the image of the pure tensor `x ⊗ m` to `θ (x, m)`. -/
 @[simp]
@@ -479,6 +484,7 @@ theorem tensorLeftDesc_app_tmul
 
 /-! ### Quasi-coherence -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The pieces of `F ⊗ M` are quasi-coherent** as soon as `F` and every piece of `M` is: each
 piece is the tensor product sheaf `F ⊗ Mⁿ` on the nose, and a tensor product of quasi-coherent
 sheaves of modules on a site is quasi-coherent (Stacks 0GQM). -/

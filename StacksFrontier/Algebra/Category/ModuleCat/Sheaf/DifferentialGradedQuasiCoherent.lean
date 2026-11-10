@@ -105,8 +105,8 @@ The base-change square itself is *not* a hypothesis, although it is a field of
 restrictions of scalars, those two composites are derived restriction along the two composite
 homomorphisms of section algebras, and the naturality of `φ` makes those equal. The construction
 is `MorphismSectionData.baseChangeSquare` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedQuasiCoherentBaseChange.lean`, and
-`DerivedPullbackSectionData.ofSectionsIso` there builds the datum from `sectionsIso` and its
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedQuasiCoherentBaseChange.lean`,
+and `DerivedPullbackSectionData.ofSectionsIso` there builds the datum from `sectionsIso` and its
 compatibility alone. The derived base changes of a `MorphismSectionData` are not hypotheses
 either: they are the derived tensor products with the regular bimodules of the structure
 homomorphisms, by Tag 0BYX.
@@ -441,7 +441,8 @@ objects.
 
 Tag 0GZC itself, for the derived pullback along a functor of chaotic sites, is
 `SheafOfModules.DifferentialGradedModule.qc_chaoticDerivedPullback` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedChaoticPullbackQuasiCoherent.lean`,
+the module
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedChaoticPullbackQuasiCoherent`,
 where the derived pullback is constructed. -/
 theorem isQC_derivedPullback (dp : DerivedPullbackSectionData msd Lg) (K : D)
     (hK : IsQC sd K) : IsQC sd' (Lg.derived.obj K) := by

@@ -53,11 +53,11 @@ abbrev hodgeSingle (p : ℕ) :
 lemma isZero_hodgeSingleTensor_X (p q n : ℕ) (hn : n ≠ 0) :
     IsZero ((((tensorBifunctorNat (A := A)).obj (hodgeSingle B D p)).obj
       (hodgeSingle B D q)).X n) := by
-  show IsZero ((HomologicalComplex.mapBifunctor (hodgeSingle B D p)
+  change IsZero ((HomologicalComplex.mapBifunctor (hodgeSingle B D p)
     (hodgeSingle B D q) (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ)).X n)
   refine HomologicalComplex₂.isZero_total_X_of_isZero _ _ n fun a b hab => ?_
   have hab' : a + b = n := hab
-  show IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((hodgeSingle B D p).X a)).obj
+  change IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((hodgeSingle B D p).X a)).obj
     ((hodgeSingle B D q).X b))
   by_cases ha : a = 0
   · exact isZero_tensorFunctor_obj_obj_of_right _
@@ -333,18 +333,18 @@ lemma gradedPieceShiftIso_hom_f (k : ℕ) :
     Functor.mapIso_hom, Iso.symm_hom, CochainComplex.shiftFunctor_map_f']
   rw [singleFunctors_shiftIso_inv_app_f _ _ _ _ _ _
     ((HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) (k : ℤ) _).trans (by
-      show _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
+      change _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
         ((deRhamComplex B D).X k)).X ((k : ℤ) + -(k : ℤ))
       rw [add_neg_cancel]
       exact (HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) 0 _).symm))]
-  simp only [HomologicalComplex.extendSingleIso, HomologicalComplex.mkHomFromSingle,
-    HomologicalComplex.mkHomToSingle_f, dif_pos (show (k : ℤ) + -(k : ℤ) = 0 by omega),
+  · simp only [HomologicalComplex.extendSingleIso, HomologicalComplex.mkHomFromSingle,
+      HomologicalComplex.mkHomToSingle_f, dite_eq_left (show (k : ℤ) + -(k : ℤ) = 0 by omega),
       HomologicalComplex.singleObjXSelf,
-    HomologicalComplex.singleObjXIsoOfEq, HomologicalComplex.extendXIso,
-    HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq, eqToIso.hom, eqToIso.inv,
-    Category.assoc]
-  repeat (first | exact ⟨_, rfl⟩ | apply exists_eqToHom_comp)
-  all_goals omega
+      HomologicalComplex.singleObjXIsoOfEq, HomologicalComplex.extendXIso,
+      HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq, eqToIso.hom, eqToIso.inv,
+      Category.assoc]
+    repeat (first | exact ⟨_, rfl⟩ | apply exists_eqToHom_comp)
+  · omega
 
 /-- **The multiplications of the graded pieces and of the sheaves of forms in degree zero agree
 through the shifts.** The multiplication `Tot(Ω^a[-a] ⊗ Ω^b[-b]) ⟶ Ω^{a + b}[-(a + b)]`, extended

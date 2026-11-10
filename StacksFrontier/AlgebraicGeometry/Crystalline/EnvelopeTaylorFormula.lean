@@ -100,10 +100,10 @@ theorem envelope_dpMorphism_ext {C : DividedPowerRing.{u}}
     apply Subtype.ext
     apply IdealPair.Hom.ext_toRingHom
     rw [E.homEquiv_apply C _ ⟨q, hA⟩, E.homEquiv_apply C _ ⟨q', rfl⟩]
-    show q.toRingHom.comp E.algebraMap.toRingHom = q'.toRingHom.comp E.algebraMap.toRingHom
+    change q.toRingHom.comp E.algebraMap.toRingHom = q'.toRingHom.comp E.algebraMap.toRingHom
     apply MvPolynomial.ringHom_ext
     · intro r
-      show q (E.algebraMap.toRingHom (MvPolynomial.C r)) =
+      change q (E.algebraMap.toRingHom (MvPolynomial.C r)) =
         q' (E.algebraMap.toRingHom (MvPolynomial.C r))
       rw [envelope_algebraMap_C]
       exact congrArg (fun s : DPMorphism A.dividedPowers C.dividedPowers => s r) hA
@@ -151,7 +151,7 @@ theorem envelope_eval₂Hom_map_le_of_sub_mem (C : DividedPowerRing.{u})
   set w : MvPolynomial ι A →+* C := m.toRingHom.comp E.algebraMap.toRingHom with hwdef
   have hwC : ∀ r : A, w (MvPolynomial.C r) = (m.comp E.structureMap) r := by
     intro r
-    show m (E.algebraMap.toRingHom (MvPolynomial.C r)) = m (E.structureMap r)
+    change m (E.algebraMap.toRingHom (MvPolynomial.C r)) = m (E.structureMap r)
     rw [envelope_algebraMap_C]
     rfl
   have hwJ : ∀ x ∈ J, w x ∈ C.ideal := fun x hx =>
@@ -161,13 +161,13 @@ theorem envelope_eval₂Hom_map_le_of_sub_mem (C : DividedPowerRing.{u})
       (Ideal.Quotient.mk C.ideal).comp w := by
     apply MvPolynomial.ringHom_ext
     · intro r
-      show Ideal.Quotient.mk C.ideal (MvPolynomial.eval₂Hom (m.comp E.structureMap).toRingHom v
+      change Ideal.Quotient.mk C.ideal (MvPolynomial.eval₂Hom (m.comp E.structureMap).toRingHom v
         (MvPolynomial.C r)) = Ideal.Quotient.mk C.ideal (w (MvPolynomial.C r))
       rw [hwC r]
       simp only [MvPolynomial.eval₂Hom_C]
       rfl
     · intro i
-      show Ideal.Quotient.mk C.ideal (MvPolynomial.eval₂Hom (m.comp E.structureMap).toRingHom v
+      change Ideal.Quotient.mk C.ideal (MvPolynomial.eval₂Hom (m.comp E.structureMap).toRingHom v
         (MvPolynomial.X i)) = Ideal.Quotient.mk C.ideal (m (envelopeCoord E i))
       rw [MvPolynomial.eval₂Hom_X']
       exact (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).mpr (hv i)
@@ -325,13 +325,13 @@ theorem envelopeTaylor_formula (B : DividedPowerRing.{u})
       have h1 := congrArg (fun s : DPMorphism A.dividedPowers (envelopeTaylorRing E).dividedPowers
         => s r) (envelopeTaylorMap_comp_structureMap E)
       have h2 := congrArg (fun s : DPMorphism A.dividedPowers B.dividedPowers => s r) hFG
-      show h' (envelopeTaylorMap E (E.structureMap r)) = F (E.structureMap r)
+      change h' (envelopeTaylorMap E (E.structureMap r)) = F (E.structureMap r)
       change envelopeTaylorMap E (E.structureMap r) = envelopeTaylorNu E (E.structureMap r) at h1
       change F (E.structureMap r) = G (E.structureMap r) at h2
       rw [h1, hnu, h2]
-    · show h' (envelopeTaylorMap E (envelopeCoord E i)) = F (envelopeCoord E i)
+    · change h' (envelopeTaylorMap E (envelopeCoord E i)) = F (envelopeCoord E i)
       rw [envelopeTaylorMap_coord, map_add, hnu]
-      show G (envelopeCoord E i) + h (dividedPowerPolynomialVariable (E.object : Type u) i) = _
+      change G (envelopeCoord E i) + h (dividedPowerPolynomialVariable (E.object : Type u) i) = _
       rw [hh2 i]
       exact add_sub_cancel _ _
   have hmono : ∀ K, h' (taylorMonomial (envelopeTaylorRing E) (envelopeTaylorVar E) K) =
@@ -363,7 +363,7 @@ theorem presentationTaylorCoeff_zero : ⇑(presentationTaylorCoeff E 0) = id := 
   funext a
   have h := envelopeTaylor_formula E E.object (DPMorphism.id E.object.dividedPowers)
     (DPMorphism.id E.object.dividedPowers) rfl (fun i => by
-      show envelopeCoord E i - envelopeCoord E i ∈ _
+      change envelopeCoord E i - envelopeCoord E i ∈ _
       rw [sub_self]
       exact E.object.ideal.zero_mem) a
   change a = ∑ K ∈ envelopeTaylorSupport E a, presentationTaylorCoeff E K a *
@@ -436,7 +436,7 @@ private theorem taylorCoord₂_apply (K₀ L₀ : ι →₀ ℕ) (x : envelopeTa
     rw [Algebra.smul_def]
     rfl
   rw [h1]
-  show (envelopeTaylorBasis E).repr ((taylorBasis₂ E).repr (x • taylorBasis₂ E L) L₀) K₀ = _
+  change (envelopeTaylorBasis E).repr ((taylorBasis₂ E).repr (x • taylorBasis₂ E L) L₀) K₀ = _
   rw [basis_repr_smul_basis]
   split_ifs <;> simp
 
@@ -468,7 +468,7 @@ theorem presentationTaylorCoeff_add (K₀ L₀ : ι →₀ ℕ) :
     refine DFunLike.ext _ _ fun r => ?_
     have h1 := congrArg (fun s : DPMorphism A.dividedPowers (envelopeTaylorRing E).dividedPowers
       => s r) (envelopeTaylorMap_comp_structureMap E)
-    show taylorNu₂ E (envelopeTaylorMap E (E.structureMap r)) =
+    change taylorNu₂ E (envelopeTaylorMap E (E.structureMap r)) =
       taylorNu₂ E (envelopeTaylorNu E (E.structureMap r))
     exact congrArg (taylorNu₂ E) h1
   have hFG : ∀ i, F (envelopeCoord E i) - G (envelopeCoord E i) = taylorVar₂ E i := fun i => by
@@ -476,7 +476,7 @@ theorem presentationTaylorCoeff_add (K₀ L₀ : ι →₀ ℕ) :
   have hFH : ∀ i, F (envelopeCoord E i) - H (envelopeCoord E i) =
       taylorNu₂ E (envelopeTaylorVar E i) + taylorVar₂ E i := fun i => by
     rw [hF2]
-    show taylorNu₂ E (envelopeTaylorMap E (envelopeCoord E i)) + taylorVar₂ E i -
+    change taylorNu₂ E (envelopeTaylorMap E (envelopeCoord E i)) + taylorVar₂ E i -
       taylorNu₂ E (envelopeTaylorNu E (envelopeCoord E i)) = _
     rw [envelopeTaylorMap_coord, map_add]
     abel
@@ -498,7 +498,7 @@ theorem presentationTaylorCoeff_add (K₀ L₀ : ι →₀ ℕ) :
       presentationTaylorCoeff E K₀ (presentationTaylorCoeff E L₀ a) := by
     rw [hexp1, map_sum]
     simp_rw [taylorMonomial_taylorVar₂]
-    show ∑ L ∈ S, taylorCoord₂ E K₀ L₀ (taylorNu₂ E (envelopeTaylorMap E
+    change ∑ L ∈ S, taylorCoord₂ E K₀ L₀ (taylorNu₂ E (envelopeTaylorMap E
       (presentationTaylorCoeff E L a)) * taylorBasis₂ E L) = _
     simp_rw [taylorCoord₂_apply]
     rw [Finset.sum_ite_eq']
@@ -563,7 +563,7 @@ theorem isThetaMonomialFamily_presentationTaylorCoeff :
     IsThetaMonomialFamily (E.object : Type u) (fun i => ⇑(envelopeDelta E i))
       (fun K => ⇑(presentationTaylorCoeff E K)) :=
   ⟨presentationTaylorCoeff_zero E, fun i K => by
-    show ⇑(presentationTaylorCoeff E (K + Finsupp.single i 1)) =
+    change ⇑(presentationTaylorCoeff E (K + Finsupp.single i 1)) =
       ⇑(envelopeDelta E i) ∘ ⇑(presentationTaylorCoeff E K)
     rw [add_comm, presentationTaylorCoeff_add]
     rfl⟩
@@ -577,17 +577,19 @@ theorem envelopeDelta_coord (i j : ι) :
   have h1 : envelopeTaylorVar E j =
       envelopeTaylorNu E 1 * envelopeTaylorBasis E (Finsupp.single j 1) := by
     rw [map_one, one_mul, ← taylorMonomial_envelopeTaylorVar]
-    show envelopeTaylorVar E j = ∏ k ∈ (Finsupp.single j 1).support, _
-    rw [Finsupp.support_single_ne_zero _ one_ne_zero, Finset.prod_singleton,
+    change envelopeTaylorVar E j = ∏ k ∈ (Finsupp.single j 1).support, _
+    rw [Finsupp.support_single _ one_ne_zero, Finset.prod_singleton,
       Finsupp.single_eq_same, (envelopeTaylorRing E).dividedPowers.dpow_one
         (envelopeTaylorVar_mem E j)]
-  show (envelopeTaylorBasis E).repr (envelopeTaylorMap E (envelopeCoord E j))
+  change (envelopeTaylorBasis E).repr (envelopeTaylorMap E (envelopeCoord E j))
     (Finsupp.single i 1) = _
   rw [envelopeTaylorMap_coord, h0, h1, map_add, Finsupp.add_apply, envelopeTaylorBasis_repr_nu_mul,
-    envelopeTaylorBasis_repr_nu_mul, if_neg (Finsupp.single_ne_zero.mpr one_ne_zero).symm, zero_add]
+    envelopeTaylorBasis_repr_nu_mul, ite_eq_right (Finsupp.single_ne_zero.mpr one_ne_zero).symm,
+    zero_add]
   by_cases hij : i = j
   · subst hij; simp
-  · rw [if_neg (fun h => hij (Finsupp.single_left_injective one_ne_zero h).symm), if_neg hij]
+  · rw [ite_eq_right (fun h => hij (Finsupp.single_left_injective one_ne_zero h).symm),
+      ite_eq_right hij]
 
 end TaylorMap
 
@@ -610,7 +612,7 @@ private theorem inr_mem_firstOrderRing (m : M) :
 
 private theorem firstOrderRing_dpow_inr (n : ℕ) (m : M) :
     (firstOrderRing R M).dividedPowers.dpow (n + 2) (TrivSqZeroExt.inr m) = 0 := by
-  show squareZeroDpow R.dividedPowers (firstOrderEquiv R M) (firstOrderExtensionIdeal R M)
+  change squareZeroDpow R.dividedPowers (firstOrderEquiv R M) (firstOrderExtensionIdeal R M)
     (n + 1 + 1) (TrivSqZeroExt.inr m) = 0
   rw [squareZeroDpow_succ _ _ _ (n + 1) (inr_mem_firstOrderRing R M m), firstOrderEquiv_apply,
     TrivSqZeroExt.fst_inr, R.dividedPowers.dpow_eval_zero (by omega),
@@ -633,18 +635,18 @@ private theorem firstOrderRing_taylorMonomial_snd (m : ι → M) (K : ι →₀ 
   · subst h0
     rw [taylorMonomial_zero]
     refine (TrivSqZeroExt.snd_one).trans (Finset.sum_eq_zero fun i _ => ?_).symm
-    exact if_neg (Finsupp.single_ne_zero.mpr one_ne_zero).symm
+    exact ite_eq_right (Finsupp.single_ne_zero.mpr one_ne_zero).symm
   by_cases hs : ∃ j, K = Finsupp.single j 1
   · obtain ⟨j, rfl⟩ := hs
-    rw [Finset.sum_eq_single j (fun i _ hij => if_neg fun h => hij
-        (Finsupp.single_left_injective one_ne_zero h).symm) (by simp), if_pos rfl]
-    show TrivSqZeroExt.snd (R := R) (M := M) (∏ k ∈ (Finsupp.single j 1).support,
+    rw [Finset.sum_eq_single j (fun i _ hij => ite_eq_right fun h => hij
+        (Finsupp.single_left_injective one_ne_zero h).symm) (by simp), ite_eq_left rfl]
+    change TrivSqZeroExt.snd (R := R) (M := M) (∏ k ∈ (Finsupp.single j 1).support,
       (firstOrderRing R M).dividedPowers.dpow (Finsupp.single j 1 k) (TrivSqZeroExt.inr (m k))) =
         m j
-    rw [Finsupp.support_single_ne_zero _ one_ne_zero, Finset.prod_singleton, Finsupp.single_eq_same,
+    rw [Finsupp.support_single _ one_ne_zero, Finset.prod_singleton, Finsupp.single_eq_same,
       firstOrderRing_dpow_one_inr, TrivSqZeroExt.snd_inr]
   push Not at hs
-  rw [Finset.sum_eq_zero fun i _ => if_neg (hs i)]
+  rw [Finset.sum_eq_zero fun i _ => ite_eq_right (hs i)]
   suffices h : taylorMonomial (firstOrderRing R M) (fun i => TrivSqZeroExt.inr (m i)) K = 0 by
     rw [h]
     rfl
@@ -669,7 +671,7 @@ private theorem firstOrderRing_taylorMonomial_snd (m : ι → M) (K : ι →₀ 
       rw [Finsupp.single_eq_same, hone k hj]
     · rw [Finsupp.single_eq_of_ne hk]
       exact Finsupp.notMem_support_iff.mp fun hk' => hk (hcon k hk')
-  show ∏ k ∈ K.support, _ = 0
+  change ∏ k ∈ K.support, _ = 0
   rw [← Finset.mul_prod_erase _ _ hj,
     ← Finset.mul_prod_erase _ _ (Finset.mem_erase.mpr ⟨hlj, hl⟩), hone j hj, hone l hl,
     firstOrderRing_dpow_one_inr, firstOrderRing_dpow_one_inr, ← mul_assoc,
@@ -729,7 +731,7 @@ theorem envelopeTaylor_derivation (R : DividedPowerRing.{u})
       ∑ i, if K = Finsupp.single i 1 then
         φ (presentationTaylorCoeff E K a) • dd (φ (envelopeCoord E i)) else 0 := by
     intro K
-    show (algebraMap R (firstOrderExtension R M) (φ (presentationTaylorCoeff E K a)) * _).snd = _
+    change (algebraMap R (firstOrderExtension R M) (φ (presentationTaylorCoeff E K a)) * _).snd = _
     rw [TrivSqZeroExt.algebraMap_eq_inl, TrivSqZeroExt.inl_mul_eq_smul, TrivSqZeroExt.snd_smul,
       firstOrderRing_taylorMonomial_snd, Finset.smul_sum]
     exact Finset.sum_congr rfl fun i _ => by rw [smul_ite, smul_zero]

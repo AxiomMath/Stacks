@@ -200,7 +200,7 @@ theorem extOneEquivFirstCohomology_extClass (M E : SheafOfModules.{u} R) (f : M 
     (SheafOfModules.unitHomEquiv (SheafOfModules.unit R) (𝟙 _) :
       (SiteModules.globalSectionsFunctor R).obj (SheafOfModules.unit R))
   rw [extOneEquivFirstCohomology_apply]
-  show _ = (cohomologyIsoSiteCohomology R 1).hom.app M
+  change _ = (cohomologyIsoSiteCohomology R 1).hom.app M
       ((forgetGlobalSectionsModule R).map (siteConnectingMap R hS 0)
         ((cohomologyIsoSiteCohomology R 0).inv.app (SheafOfModules.unit R)
           (oneCohomologyClass R)))

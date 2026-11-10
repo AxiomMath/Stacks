@@ -257,7 +257,7 @@ theorem cechCohomologyIsZero_colimit
     CechCohomologyIsZero R (colimit E) W n := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, (Nat.succ_pred_eq_of_pos hn).symm⟩
   have hpres := preservesColimitsOfShape_cechComplexFunctor_comp R hBasis hInter W hW (I := I)
-  show IsZero (((cechComplexFunctor W.obj).obj
+  change IsZero (((cechComplexFunctor W.obj).obj
     ((SheafOfModules.toSheaf R).obj (colimit E)).obj).homology (m + 1))
   rw [← HomologicalComplex.exactAt_iff_isZero_homology]
   refine CechColimit.exactAt_succ_of_isColimit

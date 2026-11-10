@@ -123,7 +123,7 @@ theorem exists_smoothOfRelativeDimension_closedImmersion_of_isClosed {k : Type u
   obtain ⟨O, hO, hOpre⟩ := (ιZ.isClosedEmbedding.isInducing.isOpen_iff).1 ha
   let Y : W.Opens := ⟨O, hO⟩
   have hra : Set.range a.base = Z ∩ (Y : Set W) := by
-    show Set.range ((V.ι ≫ V₀.ι ≫ S.ι) ≫ ιZ).base = _
+    change Set.range ((V.ι ≫ V₀.ι ≫ S.ι) ≫ ιZ).base = _
     rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, ← hOpre,
       Set.image_preimage_eq_inter_range, hrange, Set.inter_comm]
     rfl

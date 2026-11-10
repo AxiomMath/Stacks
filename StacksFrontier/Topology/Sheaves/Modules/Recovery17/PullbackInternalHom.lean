@@ -94,11 +94,11 @@ private theorem finitePresentation_of_ringEquiv_linearPresentation
         ext i
         simp [eι, Finsupp.mapRange.addEquiv_apply, Finsupp.mapRange_apply,
           map_mul]
-      show eM (l (eι.symm (a • z))) = a • eM (l (eι.symm z))
+      change eM (l (eι.symm (a • z))) = a • eM (l (eι.symm z))
       rw [hc, map_smul, heM, e.apply_symm_apply] }
   let eKer : LinearMap.ker l ≃+ LinearMap.ker lS := {
     toFun := fun z => ⟨eι z.1, by
-      show eM (l (eι.symm (eι z.1))) = 0
+      change eM (l (eι.symm (eι z.1))) = 0
       rw [eι.symm_apply_apply]
       simp⟩
     invFun := fun z => ⟨eι.symm z.1,
@@ -111,7 +111,7 @@ private theorem finitePresentation_of_ringEquiv_linearPresentation
     map_add' := by
       intro z w
       apply Subtype.ext
-      show eι (r (eσ.symm (z + w))).1 =
+      change eι (r (eσ.symm (z + w))).1 =
         eι (r (eσ.symm z)).1 + eι (r (eσ.symm w)).1
       rw [eσ.symm.map_add, r.map_add]
       exact eι.map_add _ _
@@ -122,7 +122,7 @@ private theorem finitePresentation_of_ringEquiv_linearPresentation
         simp [eσ, Finsupp.mapRange.addEquiv_apply, Finsupp.mapRange_apply,
           map_mul]
       apply Subtype.ext
-      show eι ((r (eσ.symm (a • z))).1) = a • eι ((r (eσ.symm z)).1)
+      change eι ((r (eσ.symm (a • z))).1) = a • eι ((r (eσ.symm z)).1)
       rw [hc, r.map_smul]
       ext i
       simp [eσ, eι, Finsupp.mapRange.addEquiv_apply,
@@ -132,13 +132,13 @@ private theorem finitePresentation_of_ringEquiv_linearPresentation
     obtain ⟨m, hm⟩ := eM.surjective n
     obtain ⟨z, hz⟩ := hl m
     refine ⟨eι z, ?_⟩
-    show eM (l (eι.symm (eι z))) = n
+    change eM (l (eι.symm (eι z))) = n
     simpa [hz] using hm
   have hrS : Function.Surjective rS := by
     intro z
     obtain ⟨w, hw⟩ := hr (eKer.symm z)
     refine ⟨eσ w, ?_⟩
-    show eKer (r (eσ.symm (eσ w))) = z
+    change eKer (r (eσ.symm (eσ w))) = z
     rw [eσ.symm_apply_apply, hw, eKer.apply_symm_apply]
   exact finitePresentation_of_finite_linearPresentation lS rS hlS hrS
 
@@ -156,7 +156,7 @@ private theorem moduleStalkFunctor_preservesFiniteLimits
     let A := SheafOfModules.toSheaf O
     let B := TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x
-    show Limits.PreservesFiniteLimits (A ⋙ B)
+    change Limits.PreservesFiniteLimits (A ⋙ B)
     exact @Limits.comp_preservesFiniteLimits _ _ _ _ _ _ A B ⟨fun _ _ _ => inferInstance⟩
       (TopCat.Sheaf.instPreservesFiniteLimitsCompPresheafForgetStalkFunctor
         (C := AddCommGrpCat.{u}) (FC := fun A B => A →+ B) (CC := fun A => A) x)
@@ -208,7 +208,7 @@ private theorem addEquiv_smul_of_compHom {R K T : Type u} [Ring R] [Ring K] [Rin
     (hN : ∀ (c : K) (n : N), c • n = eT c • n)
     (eL : M ≃ₗ[K] N) (a : R) (m : M) :
     eL.toAddEquiv (a • m) = (e.trans eT) a • eL.toAddEquiv m := by
-  show eL (a • m) = (e.trans eT) a • eL m
+  change eL (a • m) = (e.trans eT) a • eL m
   rw [hM a m, eL.map_smul, hN (e a) (eL m)]
   rfl
 
@@ -323,7 +323,7 @@ private theorem exists_restrictStalk_semilinearEquiv (Y : RingedSpace.{u, u})
   exact ⟨eRing.trans eTag, eLocalGlobal.toAddEquiv, fun a m =>
     addEquiv_smul_of_compHom eRing eTag
       (fun a m => by
-        show a • m = (eRing.symm (eRing a)) • m
+        change a • m = (eRing.symm (eRing a)) • m
         rw [eRing.symm_apply_apply])
       (fun _ _ => rfl) eLocalGlobal a m⟩
 
@@ -726,14 +726,14 @@ private theorem pullbackSheafHomComparison_stalk_bijective
       hEG U hyU ((H.sectionsEquiv U sU).val.app (op (Over.mk (𝟙 U))) tU)
     have hsTrans : qsec =
         ((ringedSpaceModuleMap comparison.hom).app (op fU)).hom uH := by
-      show ((adj.homEquiv H.obj H'.obj comparison.hom).val.app (op U)).hom sU = _
+      change ((adj.homEquiv H.obj H'.obj comparison.hom).val.app (op U)).hom sU = _
       exact congrArg (fun m => (m.val.app (op U)).hom sU)
         (adj.homEquiv_unit (f := comparison.hom))
     let b' := stalkMapLinear (R := X.presheaf)
       (ringedSpaceModulePresheaf ((modulePullback f).obj H.obj))
       (ringedSpaceModulePresheaf H'.obj) (ringedSpaceModuleMap comparison.hom) x
     have hbz : b' zH = zH' := by
-      show stalkMapLinear (R := X.presheaf)
+      change stalkMapLinear (R := X.presheaf)
           (ringedSpaceModulePresheaf ((modulePullback f).obj H.obj))
           (ringedSpaceModulePresheaf H'.obj) (ringedSpaceModuleMap comparison.hom) x
           (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
@@ -758,14 +758,14 @@ private theorem pullbackSheafHomComparison_stalk_bijective
     have hsource : eHb.symm ((1 : S) ⊗ₜ[R] p) =
         (1 : S) ⊗ₜ[R]
           TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) Hsrc.presheaf U y hyU sU := by
-      show (eH.equiv.baseChange R S).symm ((1 : S) ⊗ₜ[R] p) = _
+      change (eH.equiv.baseChange R S).symm ((1 : S) ⊗ₜ[R] p) = _
       rw [LinearEquiv.baseChange_symm_tmul]
       exact congrArg (fun m => (1 : S) ⊗ₜ[R] m) hsU.symm
     have hsource' : EH.symm (eHb.symm ((1 : S) ⊗ₜ[R] p)) = zH := by
       rw [hsource]
       exact EH.injective ((EH.apply_symm_apply _).trans hEH'.symm)
     rw [hlhs ((1 : S) ⊗ₜ[R] p), hbBase ((1 : S) ⊗ₜ[R] p), hsource', hbz, ← htU, ← hEF']
-    show (LinearEquiv.arrowCongr EF EG (eH'linear zH')) (EF zF) = _
+    change (LinearEquiv.arrowCongr EF EG (eH'linear zH')) (EF zF) = _
     refine Eq.trans
       ((LinearEquiv.arrowCongr_apply EF EG (eH'linear zH') (EF zF)).trans
         (congrArg (fun t => EG ((eH'linear zH') t)) (EF.symm_apply_apply zF))) ?_
@@ -785,15 +785,13 @@ private theorem pullbackSheafHomComparison_stalk_bijective
   have hgen (p : M →ₗ[R] N) :
       lhs ((1 : S) ⊗ₜ[R] p) = bc ((1 : S) ⊗ₜ[R] p) := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul s m =>
         rw [TensorProduct.tmul_eq_smul_one_tmul (R := R) s m, map_smul, hgen1 p m, map_smul]
   have hEq : lhs = bc.toLinearMap := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [lhs, bc]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul s p =>
         rw [TensorProduct.tmul_eq_smul_one_tmul (R := R) s p, map_smul, hgen p, map_smul]

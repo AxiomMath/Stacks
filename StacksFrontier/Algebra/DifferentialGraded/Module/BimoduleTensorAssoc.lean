@@ -84,7 +84,7 @@ theorem compTensor_leftActionTotal_eq (N : Bimodule A B) (N' : Bimodule B C) {n 
     leftActionTotal A C (compTensor N N').rightModule (compTensor N N').leftAction.1 (a : A.A) =
       ((tensorDGFunctor N').functor.map (leftMulHomogeneous N a)).1 := by
   rw [leftActionTotal_apply A C (compTensor N N').rightModule (compTensor N N').leftAction.1 n a]
-  show totalizeCochain C (tensorObj N' N.rightModule) n (compAction N N' n a) = _
+  change totalizeCochain C (tensorObj N' N.rightModule) n (compAction N N' n a) = _
   rw [compAction_apply, totalizeCochain_homogeneousMapCochain]
 
 /-- The left action of a homogeneous `a : A^n` on a homogeneous `y : M^q` is the component of
@@ -117,7 +117,7 @@ theorem assocHomLeft_add (N : Bimodule A B) (M : DifferentialGradedModule.{u, u,
     (x x' : M.grading p) :
     assocHomLeft N M (x + x') = assocHomLeft N M x + assocHomLeft N M x' :=
   Subtype.ext (by
-    show (tensorPure N M).toLinearMap ((x : M.M) + (x' : M.M)) = _
+    change (tensorPure N M).toLinearMap ((x : M.M) + (x' : M.M)) = _
     rw [map_add]
     rfl)
 
@@ -126,7 +126,7 @@ theorem assocHomLeft_smul (N : Bimodule A B) (M : DifferentialGradedModule.{u, u
     (r : R) (x : M.grading p) :
     assocHomLeft N M (r • x) = r • assocHomLeft N M x :=
   Subtype.ext (by
-    show (tensorPure N M).toLinearMap (r • (x : M.M)) = _
+    change (tensorPure N M).toLinearMap (r • (x : M.M)) = _
     rw [map_smul]
     rfl)
 
@@ -138,11 +138,11 @@ theorem assocHomLeft_d (N : Bimodule A B) (M : DifferentialGradedModule.{u, u, u
       assocHomLeft N M (⟨M.d (x : M.M), M.d_mem p (x : M.M) x.property⟩ : M.grading (p + 1)) := by
   refine Subtype.ext (LinearMap.ext fun y => ?_)
   have hd := (tensorPure N M).map_d p x y
-  show (tensorObj N M).d ((tensorPure N M).toLinearMap (x : M.M) y) -
+  change (tensorObj N M).d ((tensorPure N M).toLinearMap (x : M.M) y) -
     DifferentialGraded.gradedSign R p •
       (tensorPure N M).toLinearMap (x : M.M) (N.rightModule.d y) = _
   rw [hd, ← Int.cast_smul_eq_zsmul R, DifferentialGraded.intCast_negOnePow]
-  show _ = (tensorPure N M).toLinearMap (M.d (x : M.M)) y
+  change _ = (tensorPure N M).toLinearMap (M.d (x : M.M)) y
   abel
 
 /-- Translating a homogeneous element of `M` by a homogeneous element of `A` composes the map
@@ -155,7 +155,7 @@ theorem assocHomLeft_op_smul (N : Bimodule A B) (M : DifferentialGradedModule.{u
       (dgCategory.{u, u, u} B).comp (rfl : p + n = p + n) (assocHomLeft N M x)
         (leftMulHomogeneous N a) := by
   refine Subtype.ext (LinearMap.ext fun y => ?_)
-  show (tensorPure N M).toLinearMap (MulOpposite.op (a : A.A) • (x : M.M)) y =
+  change (tensorPure N M).toLinearMap (MulOpposite.op (a : A.A) • (x : M.M)) y =
     (tensorPure N M).toLinearMap (x : M.M)
       (leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A) y)
   induction y using DirectSum.Decomposition.inductionOn N.rightModule.grading with
@@ -198,7 +198,7 @@ def assocTotal (N : Bimodule A B) (N' : Bimodule B C)
 theorem assocTotal_apply (N : Bimodule A B) (N' : Bimodule B C)
     (M : DifferentialGradedModule.{u, u, u} A) {p : ℤ} (x : M.grading p) :
     assocTotal N N' M (x : M.M) = ((tensorDGFunctor N').functor.map (assocHomLeft N M x)).1 := by
-  show (DirectSum.toModule R ℤ _ (assocRow N N' M))
+  change (DirectSum.toModule R ℤ _ (assocRow N N' M))
     ((DirectSum.decomposeLinearEquiv M.grading) (x : M.M)) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
   rfl

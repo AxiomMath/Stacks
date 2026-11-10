@@ -205,7 +205,7 @@ lemma smallTerminal_mapId_inv_app (stage : Index)
     Quiver.Hom.toLoc, AsSmall.up, AsSmall.down]
   simp only [Category.id_comp]
   erw [original.map₂_id, Cat.Hom₂.id_app]
-  show _ ≫ 𝟙 _ = _
+  change _ ≫ 𝟙 _ = _
   exact Category.comp_id _
 
 /-- On underlying objects, the inverse composition isomorphism of `smallTerminalDiagram original`
@@ -223,7 +223,7 @@ lemma smallTerminal_mapComp_inv_app {source middle target : Index}
     Quiver.Hom.toLoc, AsSmall.up, AsSmall.down]
   simp only [Category.id_comp]
   erw [original.map₂_id, Cat.Hom₂.id_app]
-  show _ ≫ 𝟙 _ = _
+  change _ ≫ 𝟙 _ = _
   exact Category.comp_id _
 
 /-- The equivalence between the stage of `strictDiagram (smallTerminalDiagram original)` at
@@ -721,7 +721,7 @@ public theorem relativelyPerfectComplexes_filteredColimit
               (fun first second object ↦ (hcomp first second object).symm)
               ringsWithLimit ((WithTerminal.incl : I ⥤ WithTerminal I).map arrow)
               (WithTerminal.homFrom later) object.obj
-          show ((ObjectProperty.ι Plim).mapIso (nativeComparison.app source)).inv ≫
+          change ((ObjectProperty.ι Plim).mapIso (nativeComparison.app source)).inv ≫
               (totalDerivedExtensionScalars.{max uR uA, max uR uA, uM}
                 (stageToLimitMap c A₀ later)).functor.map model ≫
               ((ObjectProperty.ι Plim).mapIso (nativeComparison.app target)).hom =

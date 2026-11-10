@@ -52,7 +52,7 @@ public lemma ιmap_liftToFinsetObj (F : Discrete J ⥤ C)
       (fun z : (liftToFinsetObj F).obj S ⟶ (liftToFinsetObj F).obj T =>
         Sigma.ι (fun x : S => F.obj x.val) y ≫ z)
       (liftToFinsetObj_map F h))
-    (Sigma.ι_desc _ _)
+    (Sigma.ι_comp_desc _ _)
 
 /-- The leg of the colimit of `liftToFinsetObj F` at the summand indexed by `j` does not depend
 on which finite subset containing `j` it is computed in. -/
@@ -87,11 +87,11 @@ public noncomputable def finiteSubcoproductsDescCocone (F : Discrete J ⥤ C) (s
               congrArg (fun z => z ≫ (Sigma.desc fun x : T => s.ι.app x.val))
                 (ιmap_liftToFinsetObj F h y)
           _ = s.ι.app y.val :=
-              Sigma.ι_desc (f := fun x : T => F.obj x.val)
+              Sigma.ι_comp_desc (f := fun x : T => F.obj x.val)
                 (fun x : T => s.ι.app x.val) ⟨y.val, h.down.down y.2⟩
           _ = Sigma.ι (fun x : S => F.obj x.val) y ≫
                 (Sigma.desc fun x : S => s.ι.app x.val) :=
-              (Sigma.ι_desc (f := fun x : S => F.obj x.val)
+              (Sigma.ι_comp_desc (f := fun x : S => F.obj x.val)
                 (fun x : S => s.ι.app x.val) y).symm
           _ = Sigma.ι (fun x : S => F.obj x.val) y ≫
                 ((Sigma.desc fun x : S => s.ι.app x.val) ≫
@@ -109,7 +109,7 @@ public lemma ι_colimit_desc_finiteSubcoproductsDescCocone (F : Discrete J ⥤ C
       (fun z : (liftToFinsetObj F).obj t ⟶ s.pt =>
         Sigma.ι (fun x : t => F.obj x.val) ⟨j, hj⟩ ≫ z)
       (colimit.ι_desc (finiteSubcoproductsDescCocone F s) t))
-    (Sigma.ι_desc (f := fun x : t => F.obj x.val) (fun x : t => s.ι.app x.val) ⟨j, hj⟩)
+    (Sigma.ι_comp_desc (f := fun x : t => F.obj x.val) (fun x : t => s.ι.app x.val) ⟨j, hj⟩)
 
 /-- The cocone on a discrete diagram whose point is the colimit of the finite subcoproducts. -/
 public noncomputable def finiteSubsetCoconeOfColimit (F : Discrete J ⥤ C)

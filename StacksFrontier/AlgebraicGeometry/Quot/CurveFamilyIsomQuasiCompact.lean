@@ -71,6 +71,7 @@ theorem exists_hom_baseMap_eq_of_comp {F F₁ F₂ : CurveFamily B hZ} (α : F�
   exact ⟨χ, hχ⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_CurveFamilyIsomQuasiCompact :

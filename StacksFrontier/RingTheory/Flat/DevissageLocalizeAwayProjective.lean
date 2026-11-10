@@ -222,10 +222,10 @@ private theorem rTensor_comp_funOnFinite_symm_bijective
     Function.Bijective
       ((alpha ∘ₗ (Finsupp.linearEquivFunOnFinite B B (Fin n)).symm.toLinearMap).rTensor k) := by
   set e := Finsupp.linearEquivFunOnFinite B B (Fin n) with he
-  rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_ltensor,
+  rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_lTensor,
     LinearMap.baseChange_comp]
   refine h.comp ?_
-  rw [LinearMap.baseChange_eq_ltensor, LinearMap.lTensor_bij_iff_rTensor_bij,
+  rw [LinearMap.baseChange_eq_lTensor, LinearMap.lTensor_bij_iff_rTensor_bij,
     ← LinearEquiv.coe_rTensor _ e.symm]
   exact (e.symm.rTensor _).bijective
 
@@ -926,7 +926,7 @@ public theorem exists_away_projective (E : NonemptyCompleteDevissageAt R S N q) 
   have : IsScalarTower R (Localization.Away a)
       (LocalizedModule (Algebra.algebraMapSubmonoid S (Submonoid.powers a)) N) :=
     IsScalarTower.of_algebraMap_smul fun x m => by
-      show algebraMap (Localization.Away a)
+      change algebraMap (Localization.Away a)
           (Localization (Algebra.algebraMapSubmonoid S (Submonoid.powers a)))
           (algebraMap R (Localization.Away a) x) • m = x • m
       rw [← IsScalarTower.algebraMap_apply R (Localization.Away a)

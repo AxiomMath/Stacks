@@ -370,7 +370,8 @@ the base that `AlgebraicGeometry.Space.sheafOfDifferentials` takes its different
 The underlying additive map is unchanged: only the vanishing condition differs between the two
 notions, and `AlgebraicGeometry.Space.structureSharpInverseImageSet_comp_eq_iff_chartPullback`
 turns the chartwise vanishing into the vanishing on the image of `f♯`. -/
-noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y) (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
+noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y)
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
     (h : ∀ (V : SmallEtale B S hS Y.1)
       (j : StructuredArrow (op (chartBaseChange B S hS f V)) (comparisonFunctor B S hS X).op)
       (g : (structureSetSheaf B S hS Y).obj.obj (op V)),
@@ -387,7 +388,8 @@ noncomputable def Derivation'.ofChartPullback (f : X ⟶ Y) (D : PresheafOfModul
 /-- The derivation of `AlgebraicGeometry.Space.Derivation'.ofChartPullback` has the same
 underlying additive map as the one it is built from. -/
 @[simp]
-theorem Derivation'.ofChartPullback_d (f : X ⟶ Y) (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
+theorem Derivation'.ofChartPullback_d (f : X ⟶ Y)
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val ψ)
     (h : ∀ (V : SmallEtale B S hS Y.1)
       (j : StructuredArrow (op (chartBaseChange B S hS f V)) (comparisonFunctor B S hS X).op)
       (g : (structureSetSheaf B S hS Y).obj.obj (op V)),

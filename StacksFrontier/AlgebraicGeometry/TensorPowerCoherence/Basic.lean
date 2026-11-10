@@ -87,16 +87,16 @@ private theorem powNatSuccIso_natural
       intro M N f
       cases n with
       | zero =>
-          show e.functor.map f ≫ 𝟙 _ = 𝟙 _ ≫ e.functor.map f
+          change e.functor.map f ≫ 𝟙 _ = 𝟙 _ ≫ e.functor.map f
           simp
       | succ n =>
           cases n with
           | zero =>
-              show e.functor.map (e.functor.map f) ≫ 𝟙 _ =
+              change e.functor.map (e.functor.map f) ≫ 𝟙 _ =
                 𝟙 _ ≫ e.functor.map (e.functor.map f)
               simp
           | succ k =>
-              show e.functor.map ((e.powNat (k + 1)).functor.map (e.functor.map f)) ≫
+              change e.functor.map ((e.powNat (k + 1)).functor.map (e.functor.map f)) ≫
                   (powNatSuccIso e (k + 1) (e.functor.obj N)).hom =
                 (powNatSuccIso e (k + 1) (e.functor.obj M)).hom ≫
                   (e.powNat (k + 2)).functor.map (e.functor.map f)
@@ -114,18 +114,18 @@ private theorem powNatInverseSuccIso_natural
       intro M N f
       cases n with
       | zero =>
-          show (e.inverse ⋙ e.functor).map f ≫ e.counitIso.hom.app N =
+          change (e.inverse ⋙ e.functor).map f ≫ e.counitIso.hom.app N =
             e.counitIso.hom.app M ≫ f
           exact e.counitIso.hom.naturality f
       | succ n =>
           cases n with
           | zero =>
-              show e.functor.map (e.inverse.map (e.inverse.map f)) ≫
+              change e.functor.map (e.inverse.map (e.inverse.map f)) ≫
                   e.counitIso.hom.app (e.inverse.obj N) =
                 e.counitIso.hom.app (e.inverse.obj M) ≫ e.inverse.map f
               exact e.counitIso.hom.naturality (e.inverse.map f)
           | succ k =>
-              show e.functor.map ((e.symm.powNat (k + 2)).functor.map (e.inverse.map f)) ≫
+              change e.functor.map ((e.symm.powNat (k + 2)).functor.map (e.inverse.map f)) ≫
                   (powNatInverseSuccIso e (k + 1) (e.inverse.obj N)).hom =
                 (powNatInverseSuccIso e (k + 1) (e.inverse.obj M)).hom ≫
                   (e.symm.powNat (k + 1)).functor.map (e.inverse.map f)
@@ -143,7 +143,7 @@ theorem powSuccIso_natural
   | negSucc k =>
       cases k with
       | zero =>
-          show (e.inverse ⋙ e.functor).map f ≫ e.counitIso.hom.app N =
+          change (e.inverse ⋙ e.functor).map f ≫ e.counitIso.hom.app N =
             e.counitIso.hom.app M ≫ f
           exact e.counitIso.hom.naturality f
       | succ k => exact powNatInverseSuccIso_natural e (k + 1) f
@@ -229,13 +229,13 @@ theorem tensorPowerCoherence_exists
   let := sheafTensorMonoidal O hO
   let := sheafTensorSymmetric O hO
   let : (MonoidalCategory.tensorRight L).Full := by
-    show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).Full
     exact ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
         L).asEquivalence.fullyFaithfulFunctor.full
   let : (MonoidalCategory.tensorRight L).Faithful := by
-    show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
         L).Faithful
     exact ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
@@ -248,7 +248,7 @@ theorem tensorPowerCoherence_exists
       (Stacks.Monoidal.IntPower.mulAt P L p (Iso.refl _) n 0 n (Int.add_zero n)).hom =
         (ρ_ (P n)).hom := by
     refine (Stacks.Monoidal.IntPower.mulAt_zero_hom P L p (Iso.refl _) n).trans ?_
-    show P n ◁ 𝟙 (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
+    change P n ◁ 𝟙 (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
       hO)) ≫
       (ρ_ (P n)).hom = (ρ_ (P n)).hom
     rw [MonoidalCategory.whiskerLeft_id, Category.id_comp]
@@ -266,12 +266,12 @@ theorem tensorPowerCoherence_exists
     mul_zero_left := by
       intro n
       rw [tensorPowerReindex_eq_eqToIso]
-      show Stacks.Monoidal.IntPower.mulAt P L p (Iso.refl _) 0 n n (Int.zero_add n) = λ_ (P n)
+      change Stacks.Monoidal.IntPower.mulAt P L p (Iso.refl _) 0 n n (Int.zero_add n) = λ_ (P n)
       simpa only [whiskerRightIso_refl, Iso.refl_trans] using hl n
     mul_zero_right := by
       intro n
       rw [tensorPowerReindex_eq_eqToIso]
-      show Stacks.Monoidal.IntPower.mulAt P L p (Iso.refl _) n 0 n (Int.add_zero n) = ρ_ (P n)
+      change Stacks.Monoidal.IntPower.mulAt P L p (Iso.refl _) n 0 n (Int.add_zero n) = ρ_ (P n)
       exact Iso.ext (h0 n)
     mul_one_right := by
       intro n
@@ -283,7 +283,7 @@ theorem tensorPowerCoherence_exists
       simp only [whiskerLeft_id, Stacks.Monoidal.IntPower.mulAt, Iso.trans_hom,
         eqToIso_refl, Iso.refl_hom, Category.comp_id] at h
       apply Iso.ext
-      show (μ n 1).hom = P n ◁ (λ_ L).hom ≫ (p n).hom
+      change (μ n 1).hom = P n ◁ (λ_ L).hom ≫ (p n).hom
       apply (cancel_epi (α_ (P n) (𝟙_ _) L).hom).mp
       calc
         _ = (ρ_ (P n)).hom ▷ L ≫ (p n).hom := h.symm
@@ -299,7 +299,7 @@ theorem tensorPowerCoherence_exists
       intro n m k
       rw [tensorPowerReindex_eq_eqToIso]
       apply Iso.ext
-      show (μ n m).hom ▷ P k ≫ (μ (n + m) k).hom =
+      change (μ n m).hom ▷ P k ≫ (μ (n + m) k).hom =
         (α_ (P n) (P m) (P k)).hom ≫ P n ◁ (μ m k).hom ≫
           (μ n (m + k)).hom ≫ (eqToIso (congrArg P (Int.add_assoc n m k).symm)).hom
       have ha := Stacks.Monoidal.IntPower.mulAt_assoc P L p (Iso.refl _) k n m (n + m) (m + k)
@@ -310,7 +310,7 @@ theorem tensorPowerCoherence_exists
   let : _root_.AlgebraicGeometry.SheafOfModules.IsInvertible O hO (P 1) :=
     tensorPower_isInvertible O hO L 1
   let : (MonoidalCategory.tensorRight (P 1)).Faithful := by
-    show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
         (P 1)).Faithful
     exact ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
@@ -320,7 +320,7 @@ theorem tensorPowerCoherence_exists
   intro n m
   rw [tensorPowerReindex_eq_eqToIso]
   apply Iso.ext
-  show (μ n m).hom = (β_ (P n) (P m)).hom ≫ (μ m n).hom ≫
+  change (μ n m).hom = (β_ (P n) (P m)).hom ≫ (μ m n).hom ≫
     (eqToIso (congrArg P (Int.add_comm m n))).hom
   have hc := Stacks.Monoidal.IntPower.mulAt_comm P L p (Iso.refl _) hl hb n m (n + m) rfl
   simpa only [Stacks.Monoidal.IntPower.mulAt, Iso.trans_hom, eqToIso_refl, Iso.refl_hom,

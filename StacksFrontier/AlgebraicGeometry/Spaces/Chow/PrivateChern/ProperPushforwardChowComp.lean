@@ -43,7 +43,7 @@ theorem properPushforwardChow_comp {f : X ⟶ Y} {g : Y ⟶ Z} (hfB : f ≫ sY =
         (properPushforwardChow.{u, u + 1} D sX hX sY hY f hfB hf β) =
       properPushforwardChow.{u, u + 1} D sX hX sZ hZ (f ≫ g) (by rw [Category.assoc, hgB, hfB])
         (isProper_comp D.site D.base D.base_mem hX.1 hY.1 hZ.1 f g hf hg) β := by
-  show ((properPushforwardChow.{u, u + 1} D sY hY sZ hZ g hgB hg).comp
+  change ((properPushforwardChow.{u, u + 1} D sY hY sZ hZ g hgB hg).comp
       (properPushforwardChow.{u, u + 1} D sX hX sY hY f hfB hf)) β = _
   congr 1
   refine chowHomology_hom_ext D sX hX fun k b => ?_

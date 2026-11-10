@@ -65,7 +65,7 @@ theorem pointsMap_yonedaEquiv_symm_comp_tautological {F G : (BigFppfOver B S hS)
   have hv : (yonedaEquiv.symm v ≫ α).app
       (Opposite.op (FieldValuedPoint.siteObject B S hS F ⟨k, c, tb, v⟩))
       (𝟙 (FieldValuedPoint.siteObject B S hS F ⟨k, c, tb, v⟩)) = α.app _ v := by
-    show yonedaEquiv (yonedaEquiv.symm v ≫ α) = _
+    change yonedaEquiv (yonedaEquiv.symm v ≫ α) = _
     rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
   exact congrArg (fun w => FieldValuedPoint.class B S hS G ⟨k, c, tb, w⟩) hv
 

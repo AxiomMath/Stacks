@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Perfect.DerivedStalk.DerivedPullb
 public import StacksFrontier.AlgebraicGeometry.Scheme.QuasiCoherent.AffineTildeComplexes
 public import StacksFrontier.Homology.KFlat.Flat
 public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.DerivedPullbackCompositionCanonical
+StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.DerivedPullbackCompositionCanonical
 
 /-!
 # The affine chart model under a morphism of affine charts

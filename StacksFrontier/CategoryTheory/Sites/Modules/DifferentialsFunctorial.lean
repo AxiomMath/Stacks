@@ -188,7 +188,7 @@ theorem mapDifferentials_id_apply {O₁ O₂ : Sheaf J CommRingCat.{w}} (a : O�
     symm
     apply d.unique
     ext Y y
-    show (universalDerivationOfSite.{v, u, w, m} O₁ O₂ a).d y = d.inducedDerivation.d y
+    change (universalDerivationOfSite.{v, u, w, m} O₁ O₂ a).d y = d.inducedDerivation.d y
     rw [d.inducedDerivation_apply]
     simp
   exact congrArg
@@ -224,7 +224,7 @@ theorem mapDifferentials_comp_apply {O₁ O₂ O₁' O₂' O₁'' O₂'' : Sheaf
   have he : h = sc.map := by
     apply sc.unique
     ext Y y
-    show (sg.map.val.app Y) ((sf.map.val.app Y)
+    change (sg.map.val.app Y) ((sf.map.val.app Y)
       ((universalDerivationOfSite.{v, u, w, m} O₁ O₂ a).d y)) = sc.inducedDerivation.d y
     rw [map_universalDerivation_apply, map_universalDerivation_apply, sc.inducedDerivation_apply]
     rfl

@@ -58,7 +58,7 @@ theorem toPresheafFiber_sheafFiberIsoOfAdjOfFiberIso_inv_sheafFiber_map
   let M' := q.sheafFiber.obj M
   let adj₁ := adj.comp q.skyscraperSheafAdjunction
   let ee := Functor.flipping.functor.mapIso
-    (Functor.isoWhiskerRight (NatIso.op e.symm) (piFunctor (C := A)).flip)
+    (Functor.isoWhiskerRight (NatIso.op e.symm) (piConst (C := A)).flip)
   let e' : q.skyscraperSheafFunctor ⋙ G.sheafPushforwardContinuous A J K ≅
       p.skyscraperSheafFunctor := NatIso.ofComponents
     (fun N => (fullyFaithfulSheafToPresheaf J A).preimageIso (ee.app N))
@@ -67,7 +67,7 @@ theorem toPresheafFiber_sheafFiberIsoOfAdjOfFiberIso_inv_sheafFiber_map
       ((conjugateIsoEquiv adj₁ p.skyscraperSheafAdjunction).symm e').hom.app F := rfl
   have he' : (e'.hom.app M').hom.app (op U) ≫ Pi.π (fun _ : p.fiber.obj U => M') w =
       Pi.π (fun _ : q.fiber.obj (G.obj U) => M') (e.inv.app U w) := by
-    show Pi.map' (f := fun _ : q.fiber.obj (G.obj U) => M') (g := fun _ : p.fiber.obj U => M')
+    change Pi.map' (f := fun _ : q.fiber.obj (G.obj U) => M') (g := fun _ : p.fiber.obj U => M')
       (fun w => e.inv.app U w) (fun _ => 𝟙 M') ≫ Pi.π (fun _ : p.fiber.obj U => M') w = _
     rw [Pi.map'_comp_π, Category.comp_id]
   let c := p.skyscraperSheafAdjunction.homEquiv F M'

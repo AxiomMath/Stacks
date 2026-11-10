@@ -83,6 +83,7 @@ theorem surjective_divisorBoundary : Function.Surjective (divisorBoundary g) := 
   change ((Sheaf.H.equiv₀ _ _).symm (Sheaf.H.equiv₀ _ _ x)).comp _ (zero_add 1) = c
   rwa [AddEquiv.symm_apply_apply]
 
+omit [IsAlgClosed k] in
 /-- **A global divisor has trivial class in `H¹(X, 𝐆_m)` exactly when it is the image of a global
 section of `j_* 𝐆_{m,K}`** under the second map of the divisor sequence. -/
 theorem divisorBoundary_eq_zero_iff

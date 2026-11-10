@@ -94,7 +94,7 @@ theorem familyOf_coordHom {T : Over (Spec (.of k))} (c : Fin (n + 1) → Γ(T.le
         (coordMor_unit_mul _ _ (span_range_comp_eq_top ι c hc) hunit.unit⁻¹ hc').symm
     have hpre : (coordHom k (T := restrictOver ι) c' hc').left ⁻¹ᵁ
         basicOpen (coordGrading k n) (MvPolynomial.X i) = ⊤ := by
-      show coordMor _ c' hc' ⁻¹ᵁ _ = ⊤
+      change coordMor _ c' hc' ⁻¹ᵁ _ = ⊤
       rw [coordMor_preimage_basicOpen, hc'i, Scheme.basicOpen_one]
     rw [← familyOf_comp, hcomp, hscale, familyOf_of_chart k f L w _ i hpre]
     have hch : chartCoords (coordHom k (T := restrictOver ι) c' hc').left i hpre = c' :=
@@ -123,7 +123,7 @@ theorem zeroScheme_zero {Y : Scheme.{u}} (M : Y.Modules)
     zeroScheme Y M 0 = ⊥ := by
   refine le_antisymm (fun U => ?_) bot_le
   refine le_trans (Scheme.IdealSheafData.ideal_ofIdeals_le _ U) ?_
-  show Ideal.span _ ≤ (⊥ : Ideal Γ(Y, U.1))
+  change Ideal.span _ ≤ (⊥ : Ideal Γ(Y, U.1))
   rw [Ideal.span_le]
   rintro a ⟨φ, rfl⟩
   rw [SetLike.mem_coe, Ideal.mem_bot, map_zero, map_zero]
@@ -136,9 +136,9 @@ theorem exists_coordDivisor_eq {V : Scheme.{u}} [IsAffine V] (h : V ⟶ Spec (.o
     (hZ : Stacks.Divisors.IsRelativeEffectiveCartierDivisor (pullback.snd f h) Z)
     (e : Stacks.Divisors.modulesInvertibleSheaf Z ≅
       (Scheme.Modules.pullback (pullback.fst f h)).obj L) :
-    ∃ (c : Fin (n + 1) → Γ(V, ⊤)) (hc : Ideal.span (Set.range c) = ⊤),
+    ∃ (c : Fin (n + 1) → Γ(V, ⊤)) (_ : Ideal.span (Set.range c) = ⊤),
       Z = coordDivisor k f L w h c := by
-  have := isQuasicoherent_of_curve k f L
+  have := isQuasicoherent_of_curve L
   have := compactSpace_of_curve k f
   have := quasiSeparatedSpace_of_curve k f
   have hgi : GeometricallyIntegral f := geometricallyIntegral k f
@@ -264,7 +264,7 @@ theorem exists_familyOf_eq {T : Over (Spec (.of k))}
     let pa : P ⟶ restrictOver (k := k) (T := T) (V a).ι := Over.homMk (pullback.fst _ _)
     let pb : P ⟶ restrictOver (k := k) (T := T) (V b).ι :=
       Over.homMk (pullback.snd (V a).ι (V b).ι) (by
-        show pullback.snd (V a).ι (V b).ι ≫ (V b).ι ≫ T.hom =
+        change pullback.snd (V a).ι (V b).ι ≫ (V b).ι ≫ T.hom =
           pullback.fst (V a).ι (V b).ι ≫ (V a).ι ≫ T.hom
         rw [← Category.assoc, ← Category.assoc, pullback.condition])
     have hab : pa ≫ restrictHom (V a).ι = pb ≫ restrictHom (V b).ι := by
@@ -279,7 +279,7 @@ theorem exists_familyOf_eq {T : Over (Spec (.of k))}
   have hG : ∀ t : T.left, (V t).ι ≫ G = (gl t).left := fun t => 𝒰.ι_glueMorphisms _ hcompat t
   have hGk : G ≫ projToSpec k n = T.hom := by
     refine 𝒰.hom_ext _ _ fun t => ?_
-    show (V t).ι ≫ G ≫ _ = (V t).ι ≫ T.hom
+    change (V t).ι ≫ G ≫ _ = (V t).ι ≫ T.hom
     rw [← Category.assoc, hG t]
     exact Over.w (gl t)
   refine ⟨Over.homMk G hGk, ?_⟩

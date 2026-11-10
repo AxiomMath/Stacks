@@ -100,7 +100,7 @@ theorem not_subset_range_genericStalk_of_not_le (X : Scheme.{u})
       _ = ι ≫ G := (hcan η₂).symm
   have hgeneric : ι (genericPoint (Spec X.functionField)) =
       genericPoint (Spec (X.presheaf.stalk η₂)) := by
-    show PrimeSpectrum.comap (CommRingCat.Hom.hom (CommRingCat.ofHom f₂))
+    change PrimeSpectrum.comap (CommRingCat.Hom.hom (CommRingCat.ofHom f₂))
       (genericPoint (Spec X.functionField)) = genericPoint (Spec (X.presheaf.stalk η₂))
     rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
     ext a
@@ -121,14 +121,14 @@ theorem not_subset_range_genericStalk_of_not_le (X : Scheme.{u})
         (ext_of_isDominant ι hmaps)
       calc X.fromSpecStalk η₁ (Spec.map (CommRingCat.ofHom q) p)
           = F p := by
-            show _ = (Spec.map (CommRingCat.ofHom q) ≫ X.fromSpecStalk η₁) p
+            change _ = (Spec.map (CommRingCat.ofHom q) ≫ X.fromSpecStalk η₁) p
             rw [Scheme.Hom.comp_apply]
         _ = G p := hp
         _ = η₂ := Scheme.fromSpecStalk_closedPoint
     rw [Scheme.range_fromSpecStalk] at hmem
     exact hmem
   refine hZ ?_
-  show (Z₁ : Set X) ⊆ (Z₂ : Set X)
+  change (Z₁ : Set X) ⊆ (Z₂ : Set X)
   rw [← Z₁.isIrreducible.isGenericPoint_genericPoint Z₁.isClosed,
     ← Z₂.isIrreducible.isGenericPoint_genericPoint Z₂.isClosed]
   exact closure_minimal (Set.singleton_subset_iff.mpr hspec.mem_closure) isClosed_closure

@@ -153,7 +153,7 @@ theorem lifts_localizationFunctorData [Algebra.FiniteType k P]
       (RingEquiv.refl (F.functor.obj X).left.fiber) (fun z => ?_) hliftC
     · rw [← hom_eqToHom_apply, RingHom.algebraMap_toAlgebra, RingHom.algebraMap_toAlgebra]
       exact congrArg (fun m : y'.left.base ⟶ X.left.base => m.hom a) hf₁₂
-    · show algebraMap ((F.functor.obj X).left.base : Type w) _ z = _
+    · change algebraMap ((F.functor.obj X).left.base : Type w) _ z = _
       rw [hbaseC, RingEquiv.symm_apply_apply]
   -- the structures of the deformation over its special fibre
   let : Algebra ((X.left.base : Type w)) k := X.hom.base.hom.toRingHom.toAlgebra

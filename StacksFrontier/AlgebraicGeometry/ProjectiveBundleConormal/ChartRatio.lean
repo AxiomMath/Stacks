@@ -40,8 +40,9 @@ connected by the defining factorization
 ## Implementation notes
 
 **Every comparison is cancelled forwards**, the discipline of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.PullbackTautologicalSection`: the proof is
-an `Eq.trans` of `congrArg`s and no `rw` occurs, each structural comparison being turned around by
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.PullbackTautologicalSection`: the proof
+is an `Eq.trans` of `congrArg`s and no `rw` occurs, each structural comparison being turned around
+by
 `Stacks.AlgebraicGeometry.PullbackUnit.natIso_inv_hom_app` or by
 `Stacks.ProjectiveBundleConormal.pullback_map_inv_hom_app` rather than by injectivity.
 

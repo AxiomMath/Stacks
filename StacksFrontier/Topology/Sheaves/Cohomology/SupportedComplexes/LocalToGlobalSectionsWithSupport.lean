@@ -148,7 +148,7 @@ theorem supportedSections_comp_restriction (F : ModuleSheaves X) :
     (SheafOfModules.evaluation (structureSheafRing X) (op ⊤)).map ((supportedSectionsι X Z).app F) ≫
       (restrictionToComplement X Z hZ).app F = 0 := by
   ext t
-  show F.val.presheaf.map (homOfLE (le_top : openComplement Z hZ ≤ ⊤)).op
+  change F.val.presheaf.map (homOfLE (le_top : openComplement Z hZ ≤ ⊤)).op
       ((supportedSectionsSheafι Z F).val.app (op ⊤) t) = 0
   refine (restriction_eq_zero_iff_suppSection_subset X Z hZ F _).2 ?_
   exact ((mem_supportedSectionsSheafι_range_iff Z F (op ⊤) _).1 ⟨t, rfl⟩).trans
@@ -216,7 +216,7 @@ theorem counit_app_eq (F : ModuleSheaves X) :
     (g := 𝟙 ((supportedSectionsOnClosedFunctor X Z hZ).obj F))
   rw [CategoryTheory.Functor.map_id, Category.id_comp] at h
   rw [← h]
-  show (modulePushforward (closedSubsetInclusion X Z)).map
+  change (modulePushforward (closedSubsetInclusion X Z)).map
       (𝟙 ((supportedSectionsOnClosedFunctor X Z hZ).obj F)) ≫
     (supportedSectionsOnClosedFunctor_comp_modulePushforward_iso X Z hZ).hom.app F ≫
       (supportedSectionsι X Z).app F = _

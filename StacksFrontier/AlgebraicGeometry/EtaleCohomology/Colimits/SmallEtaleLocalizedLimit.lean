@@ -43,7 +43,7 @@ universe v u
 
 namespace Stacks.EtaleCohomology.SmallEtaleLimitCohomology
 
-variable {I : Type v} [Preorder I] [IsDirected I (· ≤ ·)] (D : Iᵒᵖ ⥤ Scheme.{u}) (i₀ : I)
+variable {I : Type v} [Preorder I] (D : Iᵒᵖ ⥤ Scheme.{u}) (i₀ : I)
   {B : Scheme.{u}} (b : B ⟶ D.obj (op i₀))
 
 /-- The transition from an index above `i₀` to `i₀`. -/
@@ -61,8 +61,8 @@ abbrev localizedDiagram : (GeIndex i₀)ᵒᵖ ⥤ Scheme.{u} where
   map {j k} a := pullback.map _ _ _ _ (𝟙 B) (D.map ((geIndexOpFunctor i₀).map a)) (𝟙 _)
     (by simp) (by rw [Category.comp_id, ← D.map_comp, geIndexToBase_comp])
   map_id j := by ext <;> simp [pullback.map]
-  map_comp _ _ := pullback.hom_ext (by simp [pullback.map, pullback.lift_fst])
-    (by simp [pullback.map, pullback.lift_snd, pullback.lift_snd_assoc])
+  map_comp _ _ := pullback.hom_ext (by simp [pullback.map])
+    (by simp [pullback.map])
 
 /-- The level `j` of the localised inverse system is `B ×_{X_{i₀}} X_j`. -/
 theorem localizedDiagram_obj (j : (GeIndex i₀)ᵒᵖ) :
@@ -72,18 +72,18 @@ theorem localizedDiagram_obj (j : (GeIndex i₀)ᵒᵖ) :
 @[reassoc (attr := simp)]
 theorem localizedDiagram_map_fst {j k : (GeIndex i₀)ᵒᵖ} (a : j ⟶ k) :
     (localizedDiagram D i₀ b).map a ≫ pullback.fst _ _ = pullback.fst _ _ := by
-  simp [localizedDiagram, pullback.map, pullback.lift_fst]
+  simp [localizedDiagram, pullback.map]
 
 /-- The transitions of the localised inverse system lie over the transitions of `D`. -/
 @[reassoc (attr := simp)]
 theorem localizedDiagram_map_snd {j k : (GeIndex i₀)ᵒᵖ} (a : j ⟶ k) :
     (localizedDiagram D i₀ b).map a ≫ pullback.snd _ _ =
       pullback.snd _ _ ≫ D.map ((geIndexOpFunctor i₀).map a) := by
-  simp [localizedDiagram, pullback.map, pullback.lift_snd]
+  simp [localizedDiagram, pullback.map]
 
 /-- The projections `B ×_{X_{i₀}} X_i ⟶ X_i`, a morphism of inverse systems. -/
 abbrev localizedProj : localizedDiagram D i₀ b ⟶ geIndexOpFunctor i₀ ⋙ D where
-  app j := pullback.snd _ _
+  app _ := pullback.snd _ _
   naturality _ _ a := localizedDiagram_map_snd D i₀ b a
 
 variable (c : Cone D)
@@ -95,8 +95,8 @@ abbrev localizedCone : Cone (localizedDiagram D i₀ b) where
     { app := fun j => pullback.map _ _ _ _ (𝟙 B) (c.π.app ((geIndexOpFunctor i₀).obj j)) (𝟙 _)
         (by simp) (by rw [Category.comp_id]; exact (c.w (geIndexToBase i₀ j)).symm)
       naturality := fun _ _ _ => pullback.hom_ext
-        (by simp [localizedDiagram, pullback.map, pullback.lift_fst])
-        (by simp [localizedDiagram, pullback.map, pullback.lift_snd, pullback.lift_snd_assoc]) }
+        (by simp [localizedDiagram, pullback.map])
+        (by simp [localizedDiagram, pullback.map]) }
 
 /-- The projections of the localised cone commute with the projections to `B`. -/
 @[reassoc (attr := simp)]
@@ -126,7 +126,8 @@ abbrev geIndexBase : (GeIndex i₀)ᵒᵖ := op ⟨i₀, le_rfl⟩
 
 /-- **`B ×_{X_{i₀}} X` is the limit of the `B ×_{X_{i₀}} X_i`** when `X` is the limit of the
 `X_i`. -/
-def isLimitLocalizedCone (hc : IsLimit c) : IsLimit (localizedCone D i₀ b c) := by
+def isLimitLocalizedCone [IsDirected I (· ≤ ·)] (hc : IsLimit c) :
+    IsLimit (localizedCone D i₀ b c) := by
   let hcJ := isLimit_whisker_geIndexOpFunctor i₀ hc
   have hfst : ∀ (s : Cone (localizedDiagram D i₀ b)) (j : (GeIndex i₀)ᵒᵖ),
       s.π.app j ≫ pullback.fst _ _ = s.π.app (geIndexBase i₀) ≫ pullback.fst _ _ := by
@@ -139,7 +140,7 @@ def isLimitLocalizedCone (hc : IsLimit c) : IsLimit (localizedCone D i₀ b c) :
     { pt := s.pt
       π :=
         { app := fun j => s.π.app j ≫ pullback.snd _ _
-          naturality := fun _ _ a => by simp [← s.w a, pullback.map, pullback.lift_snd] } }
+          naturality := fun _ _ a => by simp [← s.w a, pullback.map] } }
   refine
     { lift := fun s => pullback.lift (s.π.app (geIndexBase i₀) ≫ pullback.fst _ _)
         (hcJ.lift (sJ s)) ?_

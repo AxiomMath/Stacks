@@ -135,8 +135,8 @@ theorem lineGenericPoint_mem_range :
     lineGenericPoint k ∈ Set.range (puncturedLineι k) := by
   have hmem : lineGenericPoint k ∈ (puncturedLineι k).opensRange := by
     rw [opensRange_puncturedLineι]
-    show X ∉ (⊥ : Ideal k[X])
-    simpa using X_ne_zero
+    change X ∉ (⊥ : Ideal k[X])
+    simp
   exact hmem
 
 /-- Every point of the line with infinitely many origins is a specialization of the image of the
@@ -175,7 +175,7 @@ instance isIntegral_base : IsIntegral (base k) :=
 
 /-- The affine line has dimension one. -/
 theorem topologicalKrullDim_line : topologicalKrullDim (line k) = 1 := by
-  show topologicalKrullDim (PrimeSpectrum k[X]) = 1
+  change topologicalKrullDim (PrimeSpectrum k[X]) = 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
   exact IsPrincipalIdealRing.ringKrullDim_eq_one _ (Polynomial.not_isField k)
 

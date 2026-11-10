@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.F6Rank89.ExtendRationalMap
 public import
   StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DominateRationalMap
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.PointBlowupChainDominating
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.PointBlowupChainDominating
 public import StacksCore.Tactic.StacksAttribute
 import all
   StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DominateRationalMap

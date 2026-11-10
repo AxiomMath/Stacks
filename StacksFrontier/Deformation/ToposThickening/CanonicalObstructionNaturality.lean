@@ -59,7 +59,7 @@ private lemma kernelTensorInclusion_map {R' R : Type u} [CommRing R'] [CommRing 
     simp only [kernelTensorInclusion, Category.assoc, ι_mapBifunctorMap,
       HomologicalComplex.id_f, curriedTensor_map_app, curriedTensor_obj_map]
     simp [← Category.assoc, whisker_exchange, kernelComplex,
-      CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+      CochainComplex.singleFunctor]
   exact ConcreteCategory.congr_hom h (x ⊗ₜ[R] a)
 
 private lemma kernelEmbedding_map {R' R : Type u} [CommRing R'] [CommRing R]
@@ -77,8 +77,7 @@ private lemma kernelEmbedding_map {R' R : Type u} [CommRing R'] [CommRing R]
   refine kernelTensor_induction LP n
     (fun z => cQ.kernelEmbedding n
       ((mapBifunctorMap u (𝟙 (kernelComplex f hf)) (curriedTensor (ModuleCat.{u} R))
-        (ComplexShape.up ℤ)).f n z) = U n (cP.kernelEmbedding n z)) ?_ ?_ ?_ z
-  · simp
+        (ComplexShape.up ℤ)).f n z) = U n (cP.kernelEmbedding n z)) ?_ ?_ z
   · intro z w hz hw
     simp only [map_add, hz, hw]
   · intro x a

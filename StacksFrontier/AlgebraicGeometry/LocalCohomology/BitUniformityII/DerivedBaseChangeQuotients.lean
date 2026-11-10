@@ -76,7 +76,7 @@ theorem quasiIsoAt_zero_map_of_isStrictlyLE (F : C ⥤ D) [F.Additive] [Preserve
   obtain ⟨hex, hepi⟩ := hπ
   rw [quasiIsoAt_iff]
   rw [ShortComplex.quasiIso_iff_of_zeros' _ (by
-    show F.map (K.d 0 _) = 0
+    change F.map (K.d 0 _) = 0
     rw [hK, F.map_zero]) (F.map_zero _ _) (F.map_zero _ _)]
   have : Epi (π.f 0) := hepi
   exact ⟨hex.map_of_epi_of_preservesCokernel F hepi inferInstance, F.map_epi _⟩
@@ -112,8 +112,7 @@ theorem extendScalars_map_apply {M N : ModuleCat.{u} P} (g : M ⟶ N)
     (x : (ModuleCat.extendScalars.{u, u, u} f).obj M) :
     ((ModuleCat.extendScalars.{u, u, u} f).map g).hom x =
       ((tensorLeft (restrictedRing f)).map g).hom x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul a m => rfl
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
@@ -179,7 +178,7 @@ theorem homologyMap_extendScalarsLarge_resolutionLift_eq_zero {X Y : ModuleCat.{
     ComplexShape.embeddingDownNat
   have h₄ := congrArg (fun g => HomologicalComplex.homologyMap g (-(p : ℤ))) hn
   simp only [HomologicalComplex.homologyMap_comp, h₃, comp_zero] at h₄
-  show HomologicalComplex.homologyMap ((G.mapHomologicalComplex _).map (resolutionLift β))
+  change HomologicalComplex.homologyMap ((G.mapHomologicalComplex _).map (resolutionLift β))
     (-(p : ℤ)) = 0
   exact (cancel_mono (HomologicalComplex.homologyMapIso
     (HomologicalComplex.mapHomologicalComplexExtendIso G R'.complex
@@ -295,7 +294,7 @@ theorem hasUniformInverses_extensionCounit_quotientSingleSystem [IsNoetherianRin
       (CochainComplex.singleFunctor _ 0).obj (torProZeroQuot J (n.unop + 1))
     have := isStrictlyGE_map_obj G K 0
     have := isStrictlyLE_map_obj G K 0
-    show (Q.obj ((G.mapHomologicalComplex _).obj K)).IsGE 0 ∧
+    change (Q.obj ((G.mapHomologicalComplex _).obj K)).IsGE 0 ∧
       (Q.obj ((G.mapHomologicalComplex _).obj K)).IsLE 0
     exact ⟨inferInstance, inferInstance⟩
   have hφ : ∀ n : ℕᵒᵖ, IsIso ((homologyFunctor (ModuleCat.{u} A) 0).map
@@ -314,7 +313,7 @@ theorem hasUniformInverses_extensionCounit_quotientSingleSystem [IsNoetherianRin
     have h₀ : IsIso ((homologyFunctor (ModuleCat.{u} A) 0).map (Q.map (E.map R.π'))) :=
       (NatIso.isIso_map_iff (homologyFunctorFactors (ModuleCat.{u} A) 0) _).2
         ((quasiIsoAt_iff_isIso_homologyMap _ 0).1 hq)
-    show IsIso ((homologyFunctor (ModuleCat.{u} A) 0).map
+    change IsIso ((homologyFunctor (ModuleCat.{u} A) 0).map
       (α.app ((CochainComplex.singleFunctor _ 0).obj X)))
     rw [hα, Functor.map_comp, Functor.map_comp]
     infer_instance
@@ -322,7 +321,7 @@ theorem hasUniformInverses_extensionCounit_quotientSingleSystem [IsNoetherianRin
       B.map (Q.map ((CochainComplex.singleFunctor _ 0).map
         (torProZeroTransition J (Nat.add_le_add_right h 1)))) := by
     intro n m h
-    show B.map (Q.map (S.map (homOfLE h).op)) = _
+    change B.map (Q.map (S.map (homOfLE h).op)) = _
     rw [quotientSingleSystem_map]
     rfl
   obtain ⟨t, gens, hgens⟩ :=
@@ -350,13 +349,13 @@ theorem hasUniformInverses_extensionCounit_quotientSingleSystem [IsNoetherianRin
       intro i hi
       have h₁ := hz (-i).toNat (by omega)
       rw [show (-(((-i).toNat : ℕ) : ℤ)) = i by omega] at h₁
-      show G.map (a.f i) = 0
+      change G.map (a.f i) = 0
       rw [h₁, G.map_zero]
     let g' : V ⟶ B.obj (Q.obj ((CochainComplex.singleFunctor _ 0).obj X)) := g
     have h₀ : (g' ≫ inv (B.map (Q.map R.π')) ≫ α.app R.cochainComplex) ≫ Q.map (E.map a) = 0 :=
       DerivedCategory.comp_Q_map_eq_zero_of_f_eq_zero _ _ hzero V hV _
     rw [hS, hsplit]
-    show g' ≫ B.map (Q.map ((CochainComplex.singleFunctor _ 0).map (β ≫ β'))) = 0
+    change g' ≫ B.map (Q.map ((CochainComplex.singleFunctor _ 0).map (β ≫ β'))) = 0
     rw [Functor.map_comp, Functor.map_comp, Functor.map_comp, hβ]
     simp only [Category.assoc] at h₀ ⊢
     rw [reassoc_of% h₀, zero_comp]
@@ -380,7 +379,7 @@ theorem hasUniformInverses_extensionCounit_quotientSingleSystem [IsNoetherianRin
     have := isIso_counit_resolution f B α (torProZeroQuot J (n + c' + 1))
     have := isIso_counit_resolution f B α (torProZeroQuot J (n + 1))
     rw [hS]
-    show (homologyFunctor (ModuleCat.{u} A) (-(p : ℤ))).map
+    change (homologyFunctor (ModuleCat.{u} A) (-(p : ℤ))).map
       (B.map (Q.map ((CochainComplex.singleFunctor _ 0).map β))) = 0
     rw [map_single_eq f B α β (resolutionLift β) (resolutionLift_comm β)]
     simp only [Functor.map_comp]

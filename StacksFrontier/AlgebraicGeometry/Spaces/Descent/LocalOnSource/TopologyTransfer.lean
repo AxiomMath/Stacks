@@ -113,8 +113,8 @@ end
 
 /-! ### Composition and base change of covering families -/
 
--- Instance search for these pullbacks times out at the default budget since Lean v4.35.0.
 set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for these pullbacks times out at the default budget since Lean v4.35.0.
 /-- The two stability properties of the `τ`-covering families of algebraic spaces over `S`
 which the transfer of source locality from schemes uses: a covering family composed with a
 one-member covering family of each of its members is a covering family, and the first
@@ -211,6 +211,7 @@ theorem Topology.isCovering_etaleAtlases_comp (τ : Topology)
       (isEtaleCovering_atlas B S hS (hbase.2.1 i) (hsurj i) (hetale i))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the fibre products of algebraic spaces in the statement is heavy
 /-- Base change of a `τ`-covering family of algebraic spaces over `S` along a chart of its
 target: the fibre products form a `τ`-covering family of the chart, and each of them sits in a
 pullback square over the chart and the corresponding member of the original family. -/
@@ -313,7 +314,7 @@ theorem Topology.holdsOnEveryEtaleChart_comp_of_isCovering (τ : Topology)
   refine (holdsOnEveryEtaleChart_iff_surjectiveChart B S hS P hP (Zi j).property
     Y.property _).2 ⟨W j, V, c j, b, d ⟨j, PUnit.unit⟩ ≫ alpha, hc j, hbEtale,
       hcSurj htSurj j, ?_, ?_⟩
-  · show _ = c j ≫ (gi j).hom ≫ f.hom
+  · change _ = c j ≫ (gi j).hom ≫ f.hom
     rw [Functor.map_comp, Category.assoc, ← hα, reassoc_of% hsq j]
   · rw [Functor.map_comp]
     exact (‹P.IsLocalAtSource τ.schemePrecoverage›).comp hcov

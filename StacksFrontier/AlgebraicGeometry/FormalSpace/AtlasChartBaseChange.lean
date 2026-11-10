@@ -129,7 +129,7 @@ theorem exists_isPullback_etale_isSeparated_of_chart {X U : FppfSheaf B S hS} (u
         (MorphismProperty.inverseImage (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
           (BigFppfOver.toScheme B S hS)) k := by
       intro A C k hk
-      show Etale ((BigFppfOver.toScheme B S hS).map k)
+      change Etale ((BigFppfOver.toScheme B S hS).map k)
       infer_instance
     exact hhold V T' hsq.flip.isoPullback.hom (𝟙 _) p
       (relative_of_isIso B S hS _ hP _) (relative_of_isIso B S hS _ hP _)

@@ -316,16 +316,19 @@ attribute [local instance] HasDerivedCategory.standard
 `ℱ ⊗_{𝒪_X} (𝒪_X --f^(n+1)--> 𝒪_X)`, realized as the tower of two-term complexes
 `ℱ --f^(n+1)--> ℱ`, is pro-isomorphic to the tower of honest quotients `ℱ/f^(n+1)ℱ`. -/
 theorem nonempty_proIso_koszulTower_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ)) :
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ)) :
     Nonempty
-      (InverseSequence.ProIso (Ksys ((baseSmul X ρ f).asHom.app ℱ)) (Csys ((baseSmul X ρ f).asHom.app ℱ))) :=
+      (InverseSequence.ProIso (Ksys ((baseSmul X ρ f).asHom.app ℱ))
+        (Csys ((baseSmul X ρ f).asHom.app ℱ))) :=
   proIso_Ksys_Csys ((baseSmul X ρ f).asHom.app ℱ) hstab
 
 /-- **The derived limits of the Koszul tower and of the quotient tower agree.** If the `f`-power
 torsion of `ℱ` stabilizes then any derived limit of the `f`-power Koszul tower is isomorphic to
 any derived limit of the tower of quotients `ℱ/f^(n+1)ℱ`. -/
 theorem nonempty_iso_isDerivedLimit_koszulTower_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Ehat Fhat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ)) Ehat)
     (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat) :
@@ -349,7 +352,8 @@ the corresponding sequence for the Koszul tower. -/
 the pro-isomorphism of Tag 0H3D; its two maps normalized by the Milnor triangle of the quotient
 tower itself"]
 theorem exists_shortExact_homology_derivedSections_quotientTower (f : A)
-    (ℱ : SheafOfModules.{u} (structureSheafRing X)) (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
+    (ℱ : SheafOfModules.{u} (structureSheafRing X))
+    (hstab : Stabilizes ((baseSmul X ρ f).asHom.app ℱ))
     (Fhat Ehat : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (hFhat : IsDerivedLimit (Csys ((baseSmul X ρ f).asHom.app ℱ)) Fhat)
     (hEhat : IsDerivedLimit (Ksys ((baseSmul X ρ f).asHom.app ℱ)) Ehat) :

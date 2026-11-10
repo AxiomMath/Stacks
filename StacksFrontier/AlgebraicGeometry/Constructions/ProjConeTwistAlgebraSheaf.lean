@@ -118,7 +118,7 @@ theorem heq_nonnegTwistMul_comm (i j : ℤ) (U : (Opens (ProjectiveSpectrum.top 
   obtain ⟨m, rfl⟩ : ∃ m : ℕ, i = (m : ℤ) := ⟨i.toNat, by omega⟩
   obtain ⟨k, rfl⟩ : ∃ k : ℕ, j = (k : ℤ) := ⟨j.toNat, by omega⟩
   refine twist_heq 𝒜 (add_comm (m : ℤ) (k : ℤ)) fun s => ?_
-  show a.1 s * b.1 s = b.1 s * a.1 s
+  change a.1 s * b.1 s = b.1 s * a.1 s
   exact mul_comm _ _
 
 /-! ### The algebra of nonnegative twists as a sheaf of algebras over the structure sheaf -/

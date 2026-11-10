@@ -224,7 +224,7 @@ theorem isZero_rightDerived_etaleComparisonPushforward_of_lqcFbc
   obtain ⟨j, b, rfl⟩ := hg
   have hsub : Subsingleton (ToType (P.obj (op (y j)))) :=
     ModuleCat.isZero_iff_subsingleton.1 (hPzero (y j) (hyaff j))
-  show P.presheaf.map (b ≫ ψ j).op x = P.presheaf.map (b ≫ ψ j).op 0
+  change P.presheaf.map (b ≫ ψ j).op x = P.presheaf.map (b ≫ ψ j).op 0
   rw [op_comp, P.presheaf.map_comp]
   simp only [ConcreteCategory.comp_apply,
     hsub.elim (P.presheaf.map (ψ j).op x) (P.presheaf.map (ψ j).op 0)]

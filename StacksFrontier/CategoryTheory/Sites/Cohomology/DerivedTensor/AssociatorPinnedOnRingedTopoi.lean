@@ -124,9 +124,9 @@ theorem totalComplexMapLeft_eq_mapBifunctorMap (A : Complexes W.O) {B B' : Compl
 /-- **The total tensor complex of two K-flat complexes is K-flat**, with the total tensor complex
 written through `Stacks.Cohomology.DerivedPullbackTensor.totalComplexPair`. -/
 theorem kFlat_totalComplexPair (K L : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L) :
-    Stacks.SheafOfModules.KFlat.KFlat W.O
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L) :
+    Stacks.SheafOfModules.KFlat W.O
       ((DerivedPullbackTensor.totalComplexPair
         (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.O)).obj (K, L)) :=
   kFlat_tensor_complexes W.O hK hL
@@ -197,8 +197,8 @@ theorem canonicalAssociatorHom_naturality {G G' G'' H H' H'' : DerivedModules W.
 /-- **The comparison of [Stacks, Tag 06YU], with its source read on the uncurried derived tensor
 bifunctor and its target at the pinned spelling of the total tensor complex.** -/
 def comparisonPair (K L : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L) :
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L) :
     (uncurriedDerivedTensor W).obj (DerivedCategory.Q.obj K, DerivedCategory.Q.obj L) ⟶
       DerivedCategory.Q.obj
         ((DerivedPullbackTensor.totalComplexPair
@@ -208,16 +208,16 @@ def comparisonPair (K L : Complexes W.O)
 /-- `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.comparisonPair` *is* the comparison of
 [Stacks, Tag 06YU] at the pinned spelling of [Stacks, Tag 0FPT]. -/
 theorem comparisonPair_eq (K L : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L) :
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L) :
     comparisonPair W K L hK hL = canonicalComparisonHom W.O K L hK hL :=
   rfl
 
 /-- `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.comparisonPair` is the `comparison` field
 of the canonical derived tensor product of [Stacks, Tag 06YU]. -/
 theorem comparisonPair_eq_comparison (K L : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L) :
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L) :
     comparisonPair W K L hK hL =
       ((Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct W.O).comparison
         K L hK hL).hom :=
@@ -226,17 +226,17 @@ theorem comparisonPair_eq_comparison (K L : Complexes W.O)
 /-- The comparison of [Stacks, Tag 06YU] is an isomorphism on K-flat complexes, at the pinned
 spelling. -/
 theorem isIso_comparisonPair (K L : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L) :
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L) :
     IsIso (comparisonPair W K L hK hL) :=
   (canonicalComparison W.O K L hK hL).isIso_hom
 
 /-- The comparison of [Stacks, Tag 06YU] is natural in a pair of cochain maps. -/
 private theorem comparisonPair_naturality {A A' B B' : Complexes W.O} (a : A ⟶ A')
-    (b : B ⟶ B') (hA : Stacks.SheafOfModules.KFlat.KFlat W.O A)
-    (hA' : Stacks.SheafOfModules.KFlat.KFlat W.O A')
-    (hB : Stacks.SheafOfModules.KFlat.KFlat W.O B)
-    (hB' : Stacks.SheafOfModules.KFlat.KFlat W.O B') :
+    (b : B ⟶ B') (hA : Stacks.SheafOfModules.KFlat W.O A)
+    (hA' : Stacks.SheafOfModules.KFlat W.O A')
+    (hB : Stacks.SheafOfModules.KFlat W.O B)
+    (hB' : Stacks.SheafOfModules.KFlat W.O B') :
     (uncurriedDerivedTensor W).map (DerivedCategory.Q.map a ×ₘ DerivedCategory.Q.map b) ≫
         comparisonPair W A' B' hA' hB' =
       comparisonPair W A B hA hB ≫ DerivedCategory.Q.map
@@ -249,9 +249,9 @@ private theorem comparisonPair_naturality {A A' B B' : Complexes W.O} (a : A ⟶
 
 /-- **The comparison of [Stacks, Tag 06YU] is natural in a cochain map of the first variable.** -/
 theorem comparisonPair_naturality_right {A A' B : Complexes W.O} (a : A ⟶ A')
-    (hA : Stacks.SheafOfModules.KFlat.KFlat W.O A)
-    (hA' : Stacks.SheafOfModules.KFlat.KFlat W.O A')
-    (hB : Stacks.SheafOfModules.KFlat.KFlat W.O B) :
+    (hA : Stacks.SheafOfModules.KFlat W.O A)
+    (hA' : Stacks.SheafOfModules.KFlat W.O A')
+    (hB : Stacks.SheafOfModules.KFlat W.O B) :
     (uncurriedDerivedTensor W).map
         (DerivedCategory.Q.map a ×ₘ 𝟙 (DerivedCategory.Q.obj B)) ≫
         comparisonPair W A' B hA' hB =
@@ -262,9 +262,9 @@ theorem comparisonPair_naturality_right {A A' B : Complexes W.O} (a : A ⟶ A')
 /-- **The comparison of [Stacks, Tag 06YU] is natural in a cochain map of the second
 variable.** -/
 theorem comparisonPair_naturality_left {A B B' : Complexes W.O} (b : B ⟶ B')
-    (hA : Stacks.SheafOfModules.KFlat.KFlat W.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat W.O B)
-    (hB' : Stacks.SheafOfModules.KFlat.KFlat W.O B') :
+    (hA : Stacks.SheafOfModules.KFlat W.O A)
+    (hB : Stacks.SheafOfModules.KFlat W.O B)
+    (hB' : Stacks.SheafOfModules.KFlat W.O B') :
     (uncurriedDerivedTensor W).map
         (𝟙 (DerivedCategory.Q.obj A) ×ₘ DerivedCategory.Q.map b) ≫
         comparisonPair W A B' hA hB' =
@@ -276,9 +276,9 @@ theorem comparisonPair_naturality_left {A B B' : Complexes W.O} (b : B ⟶ B')
 uncurried bifunctor applied to a pair and every total-complex term at the pinned spelling**, as a
 proposition about K-flat complexes `K`, `L`, `M`. -/
 def UncurriedComparisonAssociator (K L M : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat W.O M) : Prop :=
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L)
+    (hM : Stacks.SheafOfModules.KFlat W.O M) : Prop :=
   (uncurriedDerivedTensor W).map
         (comparisonPair W K L hK hL ×ₘ 𝟙 (DerivedCategory.Q.obj M)) ≫
       comparisonPair W
@@ -299,9 +299,9 @@ def UncurriedComparisonAssociator (K L M : Complexes W.O)
 `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.UncurriedComparisonAssociator` holds for all
 K-flat complexes `K`, `L`, `M`. -/
 theorem canonicalComparison_associator_uncurried (K L M : Complexes W.O)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat W.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat W.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat W.O M) :
+    (hK : Stacks.SheafOfModules.KFlat W.O K)
+    (hL : Stacks.SheafOfModules.KFlat W.O L)
+    (hM : Stacks.SheafOfModules.KFlat W.O M) :
     UncurriedComparisonAssociator W K L M hK hL hM := by
   unfold UncurriedComparisonAssociator
   rw [uncurry_derivedTensor_map_id_right, uncurry_derivedTensor_map_id_left]

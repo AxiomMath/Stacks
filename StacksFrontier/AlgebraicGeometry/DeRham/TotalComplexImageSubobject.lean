@@ -57,7 +57,7 @@ theorem sigma_desc_ιTotal_comp {Z : C} {i₁₂ : I₁₂} (W : (K.total c₁�
     Sigma.desc (f := K.toGradedObject.mapObjFun (ComplexShape.π c₁ c₂ c₁₂) i₁₂)
       (fun ij => K.ιTotal c₁₂ ij.1.1 ij.1.2 i₁₂ ij.2 ≫ W) = W := by
   refine (Sigma.hom_ext _ _ fun ij => ?_).symm
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   rfl
 
 /-- **The image of a morphism out of a term of a total complex is the least upper bound of the

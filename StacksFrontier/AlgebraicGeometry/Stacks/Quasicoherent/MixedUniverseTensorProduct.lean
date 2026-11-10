@@ -235,7 +235,7 @@ public theorem hom_ext_of_isLocallySurjective_ulift (b₀ : BilinearMap R F G T)
   apply hH.isSeparated _ _ (Presheaf.imageSieve_mem J (sectionTypesMap b₀.uliftTensorHom) s)
   rintro V g ⟨z, hz⟩
   have hz' : b₀.uliftTensorHom.app (Opposite.op V) z = T.map g.op s := hz
-  show H.map g.op (f.app U s) = H.map g.op (f'.app U s)
+  change H.map g.op (f.app U s) = H.map g.op (f'.app U s)
   rw [← PresheafOfModules.naturality_apply f g.op s, ← PresheafOfModules.naturality_apply f' g.op s,
     ← hz']
   exact congr(($hcomp).app (Opposite.op V) z)

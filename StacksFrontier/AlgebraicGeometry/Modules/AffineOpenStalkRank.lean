@@ -70,7 +70,7 @@ theorem finrank_tilde_stalk {A : CommRingCat.{u}} (N : ModuleCat.{u} A) (p : Pri
   have _htower : IsScalarTower A (Localization.AtPrime p.asIdeal)
       ((tilde N).presheaf.stalk p) :=
     .of_algebraMap_smul fun r m => by
-      show eR.symm (algebraMap A _ r) • m = r • m
+      change eR.symm (algebraMap A _ r) • m = r • m
       have hr : eR.symm (algebraMap A _ r) = (StructureSheaf.toStalk A p).hom r :=
         (StructureSheaf.stalkIso A p).commutes r
       rw [hr]

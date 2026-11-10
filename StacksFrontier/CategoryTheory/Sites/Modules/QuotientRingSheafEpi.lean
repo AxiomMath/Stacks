@@ -145,7 +145,6 @@ namespace Stacks.Sites
 
 
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {O : Sheaf J CommRingCat.{u}} [HasWeakSheafify J CommRingCat.{u}]
 
 /-- **The quotient map `O ⟶ O/I` is locally surjective.** It is the objectwise quotient map,
@@ -156,7 +155,7 @@ theorem isLocallySurjective_toQuotientRingSheaf (I : IdealSubsheaf O) :
   have h1 : Presheaf.IsLocallySurjective J (toQuotientPresheaf I) :=
     Presheaf.isLocallySurjective_of_surjective J (toQuotientPresheaf I)
       (toQuotientPresheaf_app_surjective I)
-  show Presheaf.IsLocallySurjective J
+  change Presheaf.IsLocallySurjective J
     (toQuotientPresheaf I ≫ toSheafify J (quotientPresheaf I))
   infer_instance
 
@@ -181,6 +180,8 @@ theorem isLocallySurjective_toAdicQuotient (I : IdealSubsheaf O) (n : ℕ) :
 theorem isLocallySurjective_adicQuotientMap (I : IdealSubsheaf O) {m n : ℕ} (h : m ≤ n) :
     Presheaf.IsLocallySurjective J (adicQuotientMap I h).hom :=
   isLocallySurjective_quotientRingSheafMapOfLE _
+
+variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 
 omit [HasWeakSheafify J CommRingCat.{u}] in
 /-- **Local surjectivity survives forgetting commutativity.** A locally surjective map of sheaves
@@ -213,12 +214,12 @@ theorem kerIdeal_quotientRingHom (I : IdealSubsheaf O) :
           (toSheafify J (quotientPresheaf I)) ((toQuotientPresheaf I).app X a) 0 (by
             simp only [map_zero]; exact ha)))
         intro V f hf
-        show (O.obj.map f.op) a ∈ I.obj (op V)
+        change (O.obj.map f.op) a ∈ I.obj (op V)
         rw [← mem_sectionIdeal, ← Ideal.Quotient.eq_zero_iff_mem]
         have hf' : (quotientPresheaf I).map f.op ((toQuotientPresheaf I).app X a) = 0 := by
           simpa using hf
         exact (ConcreteCategory.congr_hom ((toQuotientPresheaf I).naturality f.op) a).symm.trans hf'
-      · show (toSheafify J (quotientPresheaf I)).app X ((toQuotientPresheaf I).app X a) = 0
+      · change (toSheafify J (quotientPresheaf I)).app X ((toQuotientPresheaf I).app X a) = 0
         rw [show (toQuotientPresheaf I).app X a = 0 from Ideal.Quotient.eq_zero_iff_mem.2 ha,
           map_zero])
 

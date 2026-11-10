@@ -296,7 +296,7 @@ public theorem finiteDimensional_tangentSpace_presentationArrows
     [Fact (IsPredeformationCategory.{u, max v v₃, w}
       (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
       hR.predeformation.cofibered)))] :
@@ -314,7 +314,7 @@ public theorem finiteDimensional_tangentSpace_presentationArrows
     isDeformationCategory_comp_of_isDeformationFunctor.{u, max v v₃, w} U pF f hover hUdef
   let : Fact (IsPredeformationCategory.{u, max v v₃, w}
       (BasedCategory.ofFunctor (Functor.Elements.π U)).p) := ⟨hπU.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (Functor.Elements.π U))
       hπU.predeformation.cofibered))) := ⟨tangentConditionS2.{u, max v v₃, w} hπU⟩
   have hTU : FiniteDimensional k ↥(tangentModuleAt.{u, max v v₃, w}
@@ -380,7 +380,7 @@ public theorem isProrepresentable_presentationArrows
       (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows)).p) :=
     ⟨hR.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (Functor.Elements.π
         (presentationGroupoid pF U f hover hF.predeformation.cofibered).arrows))
       hR.predeformation.cofibered))) := ⟨tangentConditionS2.{u, max v v₃, w} hR⟩

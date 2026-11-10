@@ -124,13 +124,13 @@ theorem targetScalars_comp_ΓSpecIso_inv (Y : AlgebraicSpaces B (Spec (.of R)) h
     (targetScalars B (Spec (.of R)) hR f).comp (Scheme.ΓSpecIso (.of R)).inv.hom =
       baseRingHom R B hR Y.1 Y.2 := by
   ext a V
-  show ((BigFppfOver.toScheme B (Spec (.of R)) hR).map (chartToTarget B (Spec (.of R)) hR f
+  change ((BigFppfOver.toScheme B (Spec (.of R)) hR).map (chartToTarget B (Spec (.of R)) hR f
       V.unop)).appTop.hom ((Scheme.ΓSpecIso (.of R)).inv.hom a) =
     (((Scheme.ΓSpecIso (.of R)).inv ≫ Scheme.Γ.map ((B.inclusion.map
       ((SmallEtale.toOver B (Spec (.of R)) hR Y.1).obj V.unop).hom).op)).hom a)
   have h2 : (chartToTarget B (Spec (.of R)) hR f V.unop).left = V.unop.1.left.hom := by
     simpa using Over.w (chartToTarget B (Spec (.of R)) hR f V.unop)
-  show (B.inclusion.map (chartToTarget B (Spec (.of R)) hR f V.unop).left).appTop.hom
+  change (B.inclusion.map (chartToTarget B (Spec (.of R)) hR f V.unop).left).appTop.hom
     ((Scheme.ΓSpecIso (.of R)).inv.hom a) = _
   rw [h2]
   rfl

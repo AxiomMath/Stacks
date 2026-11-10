@@ -187,7 +187,7 @@ projection `(X ×_Y Y') ×_{Y'} (Y' ×_Y Y') ⟶ X ×_Y Y' ⟶ X`. -/
 theorem envelopeDescentSndIso_hom_fst :
     (envelopeDescentSndIso f g).hom ≫ pullback.fst f (pullback.fst g g ≫ g) =
       pullback.fst (pullback.snd f g) (pullback.snd g g) ≫ pullback.fst f g := by
-  simp [envelopeDescentSndIso, pullback.map, pullback.lift_fst]
+  simp [envelopeDescentSndIso, pullback.map]
 
 /-- The isomorphism `envelopeDescentSndIso` followed by the projection to `Y' ×_Y Y'` is the
 projection `(X ×_Y Y') ×_{Y'} (Y' ×_Y Y') ⟶ Y' ×_Y Y'`. -/
@@ -195,7 +195,7 @@ projection `(X ×_Y Y') ×_{Y'} (Y' ×_Y Y') ⟶ Y' ×_Y Y'`. -/
 theorem envelopeDescentSndIso_hom_snd :
     (envelopeDescentSndIso f g).hom ≫ pullback.snd f (pullback.fst g g ≫ g) =
       pullback.snd (pullback.snd f g) (pullback.snd g g) := by
-  simp [envelopeDescentSndIso, pullback.map, pullback.lift_snd]
+  simp [envelopeDescentSndIso, pullback.map]
 
 /-- The inverse of `envelopeDescentSndIso` followed by the composite projection to `X` is the
 projection `X ×_Y (Y' ×_Y Y') ⟶ X`. -/

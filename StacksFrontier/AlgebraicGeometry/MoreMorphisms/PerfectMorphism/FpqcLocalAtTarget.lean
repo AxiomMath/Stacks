@@ -314,7 +314,7 @@ private theorem perfectRingMap_of_faithfullyFlat_baseChange
     refine ⟨ePush.toAlgHom.comp (mapPoly.comp ePoly.symm.toAlgHom),
       ePush.surjective.comp ((Algebra.TensorProduct.map_surjective (AlgHom.id B B) α
         (fun x => ⟨x, rfl⟩) hα).comp ePoly.symm.surjective), fun p => ?_⟩
-    show ePush (mapPoly (ePoly.symm (MvPolynomial.map (algebraMap A B) p))) =
+    change ePush (mapPoly (ePoly.symm (MvPolynomial.map (algebraMap A B) p))) =
       algebraMap C D (α p)
     rw [show ePoly.symm (MvPolynomial.map (algebraMap A B) p) = 1 ⊗ₜ[A] p from
       MvPolynomial.algebraTensorAlgEquiv_symm_map A B p]

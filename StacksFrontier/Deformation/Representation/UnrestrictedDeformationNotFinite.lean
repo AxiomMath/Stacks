@@ -272,7 +272,7 @@ private lemma isConjugate_map_residue_scalarTwist {G : Type*} [Group G] {n : ℕ
   rw [one_mul, inv_one, mul_one, scalarTwist_apply, map_mul]
   ext i j
   simp only [Matrix.GeneralLinearGroup.map_apply, Units.coe_map, RingHom.toMonoidHom_eq_coe,
-    MonoidHom.coe_coe, MonoidHom.comp_apply, Matrix.scalar_apply, character_apply,
+    MonoidHom.coe_ofClass, MonoidHom.comp_apply, Matrix.scalar_apply, character_apply,
     Units.val_mul, Units.val_pow_eq_pow_val, Matrix.mul_apply, Matrix.diagonal_apply]
   simp [residue_oneAddT (k + 1) hN, residue_algebraMap hN,
     apply_ite (residue hN : TruncatedPowerSeries ℓ (ℓ ^ (k + 1)) → ZMod ℓ), ite_mul]

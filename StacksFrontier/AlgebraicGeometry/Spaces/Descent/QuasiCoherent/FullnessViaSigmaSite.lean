@@ -273,6 +273,7 @@ def memberChartForm {M N : Modules.{u, u} B S hS X.1 X.2}
       N.val.obj (Opposite.op ((smallEtalePostcomp B S hS (f i) (hf i)).obj V)) :=
   etaleModulePullbackHomApp B S hS (f i) (hf i) (etaleForm B S hS (f i) (hf i) (w i)) V
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- `AlgebraicGeometry.Space.QuasiCoherentDescent.memberChartForm` is the étale form read on
 sections over the chart. -/
 theorem memberChartForm_eq {M N : Modules.{u, u} B S hS X.1 X.2}
@@ -282,6 +283,7 @@ theorem memberChartForm_eq {M N : Modules.{u, u} B S hS X.1 X.2}
       (etaleForm B S hS (f i) (hf i) (w i)).val.app (.op V) :=
   etaleModulePullbackHomApp_eq B S hS (f i) (hf i) (etaleForm B S hS (f i) (hf i) (w i)) V
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- `AlgebraicGeometry.Space.QuasiCoherentDescent.memberChartForm` on a section. -/
 theorem memberChartForm_apply {M N : Modules.{u, u} B S hS X.1 X.2}
     (w : ∀ i, (modulePullback B S hS (f i)).obj M ⟶ (modulePullback B S hS (f i)).obj N)
@@ -292,6 +294,7 @@ theorem memberChartForm_apply {M N : Modules.{u, u} B S hS X.1 X.2}
   etaleModulePullbackHomApp_apply B S hS (f i) (hf i)
     (etaleForm B S hS (f i) (hf i) (w i)) V t
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The pairwise condition of a family of morphisms of the inverse images, read as naturality
 of the readings of their étale forms on the charts of the members.** -/
 theorem memberChartForm_naturality (hcomp : PairEtaleRestrictionComp B S hS Yi f hf)
@@ -340,6 +343,7 @@ theorem memberRestriction_map_val_app {M N : Modules.{u, u} B S hS X.1 X.2} (φ 
 
 /-! ### A pairwise compatible family as a morphism of the restrictions -/
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The pairwise condition of a family of morphisms of the inverse images, read as the
 commuting naturality square of the readings of their étale forms over two charts of two members
 of the family.**  This is

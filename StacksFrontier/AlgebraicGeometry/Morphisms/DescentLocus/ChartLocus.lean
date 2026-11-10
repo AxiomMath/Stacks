@@ -45,7 +45,7 @@ def fibreInsideOpen : Y.Opens :=
 
 theorem mem_fibreInsideOpen_iff {y : Y} :
     y ∈ fibreInsideOpen p U ↔ ∀ x : X, p x = y → x ∈ U := by
-  show y ∉ p '' (U : Set X)ᶜ ↔ _
+  change y ∉ p '' (U : Set X)ᶜ ↔ _
   simp only [Set.mem_image, Set.mem_compl_iff, SetLike.mem_coe, not_exists, not_and]
   exact ⟨fun h x hx ↦ by_contra fun hx' ↦ h x hx' hx, fun h x hx' hx ↦ hx' (h x hx)⟩
 
@@ -102,7 +102,7 @@ theorem exists_lift_chartOver_iff [Mono j] {T : Scheme.{u}} (t : T ⟶ W) :
     have hr : Set.range l ⊆ Set.range (fibreInsideOpen p U).ι := by
       rw [Scheme.Opens.range_ι]; exact hrange
     refine ⟨@IsOpenImmersion.lift _ _ _ (fibreInsideOpen p U).ι l this hr, ?_⟩
-    show @IsOpenImmersion.lift _ _ _ (fibreInsideOpen p U).ι l this hr ≫
+    change @IsOpenImmersion.lift _ _ _ (fibreInsideOpen p U).ι l this hr ≫
       (fibreInsideOpen p U).ι ≫ j = t
     rw [← Category.assoc, @IsOpenImmersion.lift_fac _ _ _ (fibreInsideOpen p U).ι l this hr, hl]
 

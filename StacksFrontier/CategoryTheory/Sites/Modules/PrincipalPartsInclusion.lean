@@ -205,7 +205,7 @@ theorem internalHomBracketApp_naturality (U : C) (b : (Oforget O₂).obj (op U))
   intro x
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, internalHomBracketApp]
   have hscalar : fRestr O₂ U b W = ((ORestr O₂ U).map g).hom (fRestr O₂ U b V) := by
-    show ((Oforget O₂).map W.unop.hom.op).hom b
+    change ((Oforget O₂).map W.unop.hom.op).hom b
         = ((Oforget O₂).map ((Over.forget U).map g.unop).op).hom
             (((Oforget O₂).map V.unop.hom.op).hom b)
     have hcomp : ((Over.forget U).map g.unop) ≫ V.unop.hom = W.unop.hom := Over.w g.unop
@@ -264,7 +264,7 @@ theorem internalHomBracket_restr {X Y : Cᵒᵖ} (f : X ⟶ Y) (b : (Oforget O�
   intro W
   have hscalar : fRestr O₂ Y.unop (((Oforget O₂).map f).hom b) W
       = fRestr O₂ X.unop b ((Over.map f.unop).op.obj W) := by
-    show ((Oforget O₂).map W.unop.hom.op).hom (((Oforget O₂).map f).hom b)
+    change ((Oforget O₂).map W.unop.hom.op).hom (((Oforget O₂).map f).hom b)
         = ((Oforget O₂).map ((Over.map f.unop).obj W.unop).hom.op).hom b
     have hcomp : ((Over.map f.unop).obj W.unop).hom = W.unop.hom ≫ f.unop := rfl
     rw [hcomp, op_comp, Functor.map_comp]
@@ -289,7 +289,7 @@ theorem internalHomBracket_base (U : C) (a : O₁.obj (op U)) :
   rw [PresheafOfModules.zero_app, internalHomBracket_app]
   have hb : fRestr O₂ U ((φ.app (op U)).hom a) V
       = (φ.app (op V.unop.left)).hom ((O₁.map V.unop.hom.op).hom a) := by
-    show ((Oforget O₂).map V.unop.hom.op).hom ((φ.app (op U)).hom a) = _
+    change ((Oforget O₂).map V.unop.hom.op).hom ((φ.app (op U)).hom a) = _
     exact congrFun (congrArg (fun g : O₁.obj (op U) ⟶ O₂.obj (op V.unop.left) =>
       (ConcreteCategory.hom g : O₁.obj (op U) → O₂.obj (op V.unop.left)))
       (φ.naturality V.unop.hom.op).symm) a

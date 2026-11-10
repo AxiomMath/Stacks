@@ -145,7 +145,7 @@ public lemma twistSections_mul_mem (n m : ℕ)
   refine ⟨U ⊓ V, ⟨hxU, hxV⟩, Opens.infLELeft _ _ ≫ iU, p + q, a * c, b * d, hout,
     SetLike.mul_mem_graded hb' hd', fun y => y.1.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem
       (hbU ⟨y.1, y.2.1⟩) (hdV ⟨y.1, y.2.2⟩), fun y => ?_⟩
-  show s.1 (iU (Opens.infLELeft U V y)) * t.1 (iV (Opens.infLERight U V y)) = _
+  change s.1 (iU (Opens.infLELeft U V y)) * t.1 (iV (Opens.infLERight U V y)) = _
   have hU := hrep (Opens.infLELeft U V y)
   have hV := hrep' (Opens.infLERight U V y)
   change s.1 (iU (Opens.infLELeft U V y)) = _ at hU

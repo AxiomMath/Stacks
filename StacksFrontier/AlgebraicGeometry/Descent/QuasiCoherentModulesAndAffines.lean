@@ -184,7 +184,8 @@ Comparison Lemma for sheaves of modules holds there.
 
 (Two remarks on where the difficulty does *not* lie. First, the reflection of quasi-coherence
 does not ask for the full Comparison Lemma at the raised module universe in which a global
-presentation lives, only for its *full faithfulness* half there, which holds at every universe of module sections —
+presentation lives, only for its *full faithfulness* half there, which holds at every universe of
+module sections —
 `Stacks.DenseSubsiteModules.fullyFaithful_moduleRestrictionRaised` — and the presentation is
 transported back without ever recognising anything as lying in the image of the restriction. Second,
 on the existence side, the limits over

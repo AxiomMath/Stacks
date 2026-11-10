@@ -115,7 +115,7 @@ theorem isIso_smul_id_of_isUnit (g : A) (N : ModuleCat.{max v u} A)
   rw [ConcreteCategory.isIso_iff_bijective]
   have he : (g • 𝟙 N).hom = algebraMap A (Module.End A N) g :=
     LinearMap.ext fun x => by simp [Module.algebraMap_end_apply]
-  show Function.Bijective (g • 𝟙 N).hom
+  change Function.Bijective (g • 𝟙 N).hom
   rw [he]
   exact (Module.End.isUnit_iff _).mp h
 

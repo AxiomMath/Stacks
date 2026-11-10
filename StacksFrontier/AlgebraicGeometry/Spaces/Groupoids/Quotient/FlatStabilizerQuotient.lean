@@ -77,6 +77,7 @@ noncomputable abbrev arrowsBetween {T : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
   pullback (prod.lift a b) (prod.lift G.target.hom G.source.hom)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for products of presheaves on the big fppf site is slow
 /-- Products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_FlatStabilizerQuotient
@@ -517,7 +518,7 @@ lemma source_toQuotientSpace_eq_target
     (hX : IsAlgebraicSpace C S hS (quotientSheaf (Space.groupoidPreRelation G)).obj) :
     G.source ≫ toQuotientSpace G hX = G.target ≫ toQuotientSpace G hX := by
   apply ObjectProperty.hom_ext
-  show G.source.hom ≫ _ = G.target.hom ≫ _
+  change G.source.hom ≫ _ = G.target.hom ≫ _
   rw [← groupoidPreRelation_source_left, ← groupoidPreRelation_target_left]
   exact (target_toQuotientSheaf_eq_source _).symm
 
@@ -545,10 +546,10 @@ theorem isGerbeOver_quotientStackToBase_quotientSheaf
     rw [groupoidPreRelation_source_left] at hra
     rw [groupoidPreRelation_target_left] at hrb
     refine ⟨G.arrows.obj.map h.op r, ?_, ?_⟩
-    · show G.source.hom.app _ (G.arrows.obj.map h.op r) = _
+    · change G.source.hom.app _ (G.arrows.obj.map h.op r) = _
       rw [NatTrans.naturality_apply, ← hra, op_comp, Functor.map_comp_apply]
       rfl
-    · show G.target.hom.app _ (G.arrows.obj.map h.op r) = _
+    · change G.target.hom.app _ (G.arrows.obj.map h.op r) = _
       rw [NatTrans.naturality_apply, ← hrb, op_comp, Functor.map_comp_apply]
       rfl
 

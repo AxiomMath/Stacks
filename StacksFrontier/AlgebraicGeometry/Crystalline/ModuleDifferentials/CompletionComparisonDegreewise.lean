@@ -86,7 +86,7 @@ theorem completedFormsFactor_one_tmul_ιMulti (i : ℕ)
           exteriorPower.ιMulti B i v) =
       exteriorPower.ιMulti (AdicCompletion (pAdicIdeal (A := B) p) B) i
         (completionDifferentialsMap (A := A) J delta p hp ∘ v) := by
-  show (exteriorPower.map i (completionDifferentialsBaseChange (A := A) J delta p hp))
+  change (exteriorPower.map i (completionDifferentialsBaseChange (A := A) J delta p hp))
       (ExteriorAlgebra.exteriorPowerBaseChange B (AdicCompletion (pAdicIdeal (A := B) p) B)
         (dividedPowerDifferentials (A := A) delta) i
         ((1 : AdicCompletion (pAdicIdeal (A := B) p) B) ⊗ₜ[B]
@@ -125,7 +125,7 @@ theorem completedDeRhamComparison_tmul_ιMulti (i : ℕ) (n : N)
         ⊗ₜ[AdicCompletion (pAdicIdeal (A := B) p) B]
           exteriorPower.ιMulti (AdicCompletion (pAdicIdeal (A := B) p) B) i
             (completionDifferentialsMap (A := A) J delta p hp ∘ v) := by
-  show (LinearMap.lTensor (AdicCompletion (pAdicIdeal (A := B) p) B ⊗[B] N)
+  change (LinearMap.lTensor (AdicCompletion (pAdicIdeal (A := B) p) B ⊗[B] N)
       (completedFormsFactor (A := A) J delta p hp i))
     (TensorProduct.AlgebraTensorModule.distribBaseChange B
       (AdicCompletion (pAdicIdeal (A := B) p) B) N
@@ -167,7 +167,7 @@ theorem bijective_reduceModIdeal_completedFormsFactor (i n : ℕ)
     (AdicCompletion (pAdicIdeal (A := B) p) B)
     (completedFormsFactor (A := A) J delta p hp i) n
     (AdicCompletion (pAdicIdeal (A := B) p) B) ?_
-  show Function.Bijective (PAdicCompletion.levelMap p
+  change Function.Bijective (PAdicCompletion.levelMap p
     (AdicCompletion (pAdicIdeal (A := B) p) B) (AdicCompletion (pAdicIdeal (A := B) p) B)
     ((exteriorPower.map i
         (completionDifferentialsBaseChange (A := A) J delta p hp)).toAddMonoidHom.comp
@@ -197,7 +197,7 @@ theorem bijective_mapAddHom_completedDeRhamComparison_of (i cutoff : ℕ)
       (completedDeRhamComparison (A := A) J delta p hp N i)) := by
   refine PAdicCompletion.bijective_mapAddHom_of_levelMap p B
     (AdicCompletion (pAdicIdeal (A := B) p) B) _ cutoff (fun n hn ↦ ?_)
-  show Function.Bijective (PAdicCompletion.levelMap p B
+  change Function.Bijective (PAdicCompletion.levelMap p B
     (AdicCompletion (pAdicIdeal (A := B) p) B)
     ((LinearMap.lTensor (AdicCompletion (pAdicIdeal (A := B) p) B ⊗[B] N)
         (completedFormsFactor (A := A) J delta p hp i)).toAddMonoidHom.comp

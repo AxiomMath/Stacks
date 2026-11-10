@@ -95,7 +95,8 @@ the third is proved.**
    target, `Stacks.ProjectivityLabelChoice.isImmersion_of_isImmersion_restrict` in the range form,
    `Stacks.ChartImmersionFinish.isImmersion_of_closure_subcover` for the coordinate charts, with
    `AlgebraicGeometry.Proj.isAffineOpen_basicOpen` and
-   `AlgebraicGeometry.Proj.iSup_basicOpen_eq_top'` supplying the cover. The restriction of the pinned morphism over a standard open `D₊(F_j)` of
+   `AlgebraicGeometry.Proj.iSup_basicOpen_eq_top'` supplying the cover. The restriction of the
+   pinned morphism over a standard open `D₊(F_j)` of
    `ℙⁿ_S`, for `F_j` homogeneous of degree `deg f_j`, is never identified: **no such standard
    open is needed.** The cut stays inside one coordinate chart
    `D₊(T_i)` and uses the standard open of a *section* of it, which is

@@ -90,7 +90,7 @@ theorem inclusionOver_full_and_faithful_sheafPullback :
     intro F Y
     have : HasLimitsOfShape (StructuredArrow Y i.op) (Type u) :=
       hasLimitsOfShape_of_essentiallySmall.{u} _ _
-    show HasLimit (StructuredArrow.proj Y i.op ⋙ F)
+    change HasLimit (StructuredArrow.proj Y i.op ⋙ F)
     infer_instance
   exact Functor.full_and_faithful_sheafPullback i (Type u) J K
 

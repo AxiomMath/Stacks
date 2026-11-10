@@ -482,8 +482,8 @@ noncomputable def singleCochainPlusFunctor
     {A : Type*} [Category A] [Abelian A] : A ⥤ CochainComplex.Plus A where
   obj M := ⟨(CochainComplex.singleFunctor A 0).obj M, 0, inferInstance⟩
   map f := ⟨(CochainComplex.singleFunctor A 0).map f⟩
-  map_id M := by ext j; simp
-  map_comp f g := by ext j; simp
+  map_id M := by ext; simp
+  map_comp f g := by ext; simp
 
 /-- The two constructions of a single complex in the bounded below homotopy category agree. -/
 noncomputable def singlePlusToCochainQuotientIso

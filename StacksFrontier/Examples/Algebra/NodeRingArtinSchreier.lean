@@ -142,6 +142,7 @@ public theorem artinSchreier_root_localizationAway_iff
   rw [map_add, map_pow]
   exact sq_add_self_eq_sq_add_self_iff
 
+omit [CharP k 2] in
 /-- The two solutions upstairs are distinct, because `B = k[t, 1/t]` is not the zero ring. -/
 public theorem algebraMap_X_ne_algebraMap_X_add_one :
     algebraMap (Polynomial k) (Localization.Away (X : Polynomial k)) X ≠

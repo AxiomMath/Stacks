@@ -52,8 +52,9 @@ conditional, whereas these three are standing hypotheses of the source.
 The fibre products themselves are **not** removable, and it is worth recording why, because the
 question will be asked again.
 
-* Deleting `[HasPullbacks 𝒮]` from `StacksFrontier/CategoryTheory/Sites/Stack/InheritedCoveringPullbacks.lean` fails in five places, all
-  of the same shape: `CategoryTheory.Functor.IsFibered.hasPullback_of_isStronglyCartesian`
+* Deleting `[HasPullbacks 𝒮]` from
+  `StacksFrontier/CategoryTheory/Sites/Stack/InheritedCoveringPullbacks.lean` fails in five places,
+  all of the same shape: `CategoryTheory.Functor.IsFibered.hasPullback_of_isStronglyCartesian`
   produces the pullback of a strongly cartesian arrow along an arbitrary arrow only from the
   pullback of their images in the base. It is used in the `pullback` case of the cofinality
   induction and twice in the covering-pullback instance, and the two continuity instances go
@@ -98,8 +99,8 @@ therefore a preference and not a constraint.
 **The preference: state Stacks 09DH against `SheafOfModules (projectionRing C J O)`**, because
 that is where every instance it needs is already supplied — the abelian structure, the
 Grothendieck abelianness and the derived category — so a consumer writes no ascriptions. The
-`SimplicialModule` spelling is workable but has a sharp edge, and it is worth stating exactly, because it is **not** a limit of the
-mathematics and **not** a heartbeat budget:
+`SimplicialModule` spelling is workable but has a sharp edge, and it is worth stating exactly,
+because it is **not** a limit of the mathematics and **not** a heartbeat budget:
 
 `Abelian` and `HasDerivedCategory` are arguments of `DerivedCategory`, so two sheaves of rings
 that are definitionally equal but differently *spelled* give two definitionally equal but

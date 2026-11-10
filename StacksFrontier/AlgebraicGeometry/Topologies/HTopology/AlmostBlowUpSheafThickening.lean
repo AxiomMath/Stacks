@@ -14,8 +14,8 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.HTopology.EqualizerTra
 # Thickenings and the almost blowup conditions
 
 The conditions of Stacks 0EVF on a presheaf `F` on the big h site over a scheme `S`, stated in
-`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.AlmostBlowUpSheafCriterion`, are that `F` be a
-sheaf for the Zariski topology (1), that it satisfy the equalizer condition for a flat proper
+`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.AlmostBlowUpSheafCriterion`, are that `F` be
+a sheaf for the Zariski topology (1), that it satisfy the equalizer condition for a flat proper
 surjective morphism of finite presentation onto an affine base (2), and that it send an almost
 blowup square with affine base to a cartesian square of sets (3).
 

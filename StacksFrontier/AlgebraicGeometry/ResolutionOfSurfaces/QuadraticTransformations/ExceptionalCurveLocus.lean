@@ -136,7 +136,7 @@ public theorem exists_maximal_isomorphism_open {X Y : Scheme.{u}} (f : Y ⟶ X) 
   refine ⟨U.ι ⁻¹ᵁ V, hxV, ?_⟩
   rw [(MorphismProperty.isomorphisms Scheme).arrow_mk_iso_iff
     (morphismRestrictRestrict f U (U.ι ⁻¹ᵁ V))]
-  show IsIso (f ∣_ U.ι ''ᵁ U.ι ⁻¹ᵁ V)
+  change IsIso (f ∣_ U.ι ''ᵁ U.ι ⁻¹ᵁ V)
   rw [Scheme.Hom.image_preimage_eq_opensRange_inf,
     Scheme.Opens.opensRange_ι, inf_eq_right.mpr (le_sSup hV)]
   exact hV
@@ -269,7 +269,7 @@ public theorem false_of_exceptionalCurvePair_of_notMem_isomorphismLocus
     intro z hz
     obtain ⟨w, rfl⟩ := hπ z
     have hbw : f' w ∈ (b ⁻¹' {y} : Set Y') := by
-      show b (f' w) = y
+      change b (f' w) = y
       rw [← Scheme.Hom.comp_apply, hsq, Scheme.Hom.comp_apply]
       exact hz
     obtain ⟨w₀, hw₀⟩ := hbfib hbw

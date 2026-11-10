@@ -55,7 +55,7 @@ stages, and the descent of regular functions on it to a stage.
 
 /-! ## The base changes of the charts of a stage to the limit -/
 
-noncomputable section
+@[expose] public noncomputable section
 
 open CategoryTheory Opposite Limits Cardinal
 
@@ -75,16 +75,16 @@ variable {I : Type u} [Category.{u} I] [IsCofiltered I]
 
 /-- The limit of the system, as an object of the category of algebraic spaces over `S`; it is
 an algebraic space by Stacks 07SF under the chapter's convention. -/
-private def convLimitSpace : AlgebraicSpaces B S hS :=
+def convLimitSpace : AlgebraicSpaces B S hS :=
   ⟨limit D, isAlgebraicSpace_limit_of_siteContainsBaseChangeLimits B S hS D hconv hD hAffine hQcL⟩
 
 /-- The projection of the limit to a stage, as a morphism of algebraic spaces over `S`. -/
-private def convLimitProjection (i : I) :
+def convLimitProjection (i : I) :
     convLimitSpace B S hS D hconv hQcL hD hAffine ⟶ stageAlgebraicSpace B S hS D hD i :=
   ObjectProperty.homMk (limit.π D i)
 
 include hAffine in
-private theorem Conv.rep_limitProjection (i : I) :
+theorem Conv.rep_limitProjection (i : I) :
     yoneda.relativelyRepresentable (convLimitProjection B S hS D hconv hQcL hD hAffine i).hom :=
   relativelyRepresentable_hom_of_isAffineHom B S hS _
     (isAffineHom_limitπ_of_siteContainsBaseChangeLimits B S hS D hconv hAffine i)
@@ -92,12 +92,12 @@ private theorem Conv.rep_limitProjection (i : I) :
 variable {j : I} (T : SmallEtale B S hS (D.obj j))
 
 /-- The base change of an étale chart of a stage to the limit. -/
-private abbrev Conv.limChart : SmallEtale B S hS (convLimitSpace B S hS D hconv hQcL hD hAffine).1
+abbrev Conv.limChart : SmallEtale B S hS (convLimitSpace B S hS D hconv hQcL hD hAffine).1
     :=
   (smallBaseChange B S hS (convLimitProjection B S hS D hconv hQcL hD hAffine j)
     (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j)).obj T
 
-private theorem Conv.limToStage_cond (s : Over j) :
+theorem Conv.limToStage_cond (s : Over j) :
     ((Conv.limChart B S hS D hconv hQcL hD hAffine T).obj.hom ≫ limit.π D s.left) ≫
         (stageTransition B S hS D hD s.hom).hom =
       yoneda.map (sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j) T) ≫
@@ -107,31 +107,31 @@ private theorem Conv.limToStage_cond (s : Over j) :
       (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j) T).symm)
 
 /-- The projection of the base change to the limit onto the base change to a stage. -/
-private def Conv.limToStage (s : Over j) :
+def Conv.limToStage (s : Over j) :
     (Conv.limChart B S hS D hconv hQcL hD hAffine T).obj.left ⟶
       (laterStageChart B S hS D hD hAffine T s).obj.left :=
   (rep_stageTransition B S hS D hD hAffine s.hom).lift _ _
     (Conv.limToStage_cond B S hS D hconv hQcL hD hAffine T s)
 
 @[reassoc]
-private theorem Conv.limToStage_proj (s : Over j) :
+theorem Conv.limToStage_proj (s : Over j) :
     Conv.limToStage B S hS D hconv hQcL hD hAffine T s ≫
         sbcProj _ (rep_stageTransition B S hS D hD hAffine s.hom) T =
       sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j) T :=
   Functor.relativelyRepresentable.lift_snd _ _ _ _
 
 @[reassoc]
-private theorem Conv.limToStage_chart (s : Over j) :
+theorem Conv.limToStage_chart (s : Over j) :
     yoneda.map (Conv.limToStage B S hS D hconv hQcL hD hAffine T s) ≫
         (laterStageChart B S hS D hD hAffine T s).obj.hom =
       (Conv.limChart B S hS D hconv hQcL hD hAffine T).obj.hom ≫ limit.π D s.left :=
   Functor.relativelyRepresentable.lift_fst _ _ _ _
 
-private theorem Conv.limToStage_stageToStage {s s' : Over j} (d : s' ⟶ s) :
+theorem Conv.limToStage_stageToStage {s s' : Over j} (d : s' ⟶ s) :
     Conv.limToStage B S hS D hconv hQcL hD hAffine T s' ≫ stageToStage B S hS D hD hAffine T d =
       Conv.limToStage B S hS D hconv hQcL hD hAffine T s := by
   refine Functor.relativelyRepresentable.hom_ext _ ?_ ?_
-  · show yoneda.map (Conv.limToStage B S hS D hconv hQcL hD hAffine T s' ≫
+  · change yoneda.map (Conv.limToStage B S hS D hconv hQcL hD hAffine T s' ≫
         stageToStage B S hS D hD hAffine T d) ≫ (laterStageChart B S hS D hD hAffine T s).obj.hom =
       yoneda.map (Conv.limToStage B S hS D hconv hQcL hD hAffine T s) ≫
         (laterStageChart B S hS D hD hAffine T s).obj.hom
@@ -149,13 +149,13 @@ private theorem Conv.limToStage_stageToStage {s s' : Over j} (d : s' ⟶ s) :
         (Conv.limToStage_proj B S hS D hconv hQcL hD hAffine T s).symm))
 
 /-- The base change to the limit of the base change to a stage. -/
-private abbrev Conv.stageLimChart (s : Over j) :
+abbrev Conv.stageLimChart (s : Over j) :
     SmallEtale B S hS (convLimitSpace B S hS D hconv hQcL hD hAffine).1 :=
   (smallBaseChange B S hS (convLimitProjection B S hS D hconv hQcL hD hAffine s.left)
     (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine s.left)).obj
     (laterStageChart B S hS D hD hAffine T s)
 
-private theorem Conv.stageToLim_cond (s : Over j) :
+theorem Conv.stageToLim_cond (s : Over j) :
     yoneda.map (sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine s.left)
         (laterStageChart B S hS D hD hAffine T s) ≫
         sbcProj _ (rep_stageTransition B S hS D hD hAffine s.hom) T) ≫ T.obj.hom =
@@ -185,13 +185,13 @@ private theorem Conv.stageToLim_cond (s : Over j) :
 
 /-- The comparison of the base change to the limit of the base change to a stage with the base
 change to the limit. -/
-private def Conv.stageToLim (s : Over j) :
+def Conv.stageToLim (s : Over j) :
     Conv.stageLimChart B S hS D hconv hQcL hD hAffine T s ⟶ Conv.limChart B S hS D hconv hQcL hD
         hAffine T :=
   sbcLift _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j) _
     (Conv.stageToLim_cond B S hS D hconv hQcL hD hAffine T s)
 
-private theorem Conv.stageToLim_proj (s : Over j) :
+theorem Conv.stageToLim_proj (s : Over j) :
     (Conv.stageToLim B S hS D hconv hQcL hD hAffine T s).hom.left ≫
         sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j) T =
       sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine s.left)
@@ -200,7 +200,7 @@ private theorem Conv.stageToLim_proj (s : Over j) :
   sbcLift_proj _ _ _ _
 
 /-- **The comparison followed by the projection to the stage is the projection.** -/
-private theorem Conv.stageToLim_limToStage (s : Over j) :
+theorem Conv.stageToLim_limToStage (s : Over j) :
     (Conv.stageToLim B S hS D hconv hQcL hD hAffine T s).hom.left ≫
         Conv.limToStage B S hS D hconv hQcL hD hAffine T s =
       sbcProj _ (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine s.left)
@@ -225,7 +225,7 @@ section Naturality
 
 variable {T} {T' : SmallEtale B S hS (D.obj j)} (h : T ⟶ T')
 
-private theorem Conv.limToStage_naturality (s : Over j) :
+theorem Conv.limToStage_naturality (s : Over j) :
     ((smallBaseChange B S hS (convLimitProjection B S hS D hconv hQcL hD hAffine j)
         (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j)).map h).hom.left ≫
         Conv.limToStage B S hS D hconv hQcL hD hAffine T' s =
@@ -256,7 +256,7 @@ private theorem Conv.limToStage_naturality (s : Over j) :
       ((congrArg (· ≫ h.hom.left) h2).symm.trans ((Category.assoc _ _ _).trans
       ((congrArg (_ ≫ ·) h4).symm.trans (Category.assoc _ _ _).symm)))))
 
-private theorem Conv.stageToLim_naturality (s : Over j) :
+theorem Conv.stageToLim_naturality (s : Over j) :
     (smallBaseChange B S hS (convLimitProjection B S hS D hconv hQcL hD hAffine s.left)
         (Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine s.left)).map
         ((smallBaseChange B S hS (stageTransition B S hS D hD s.hom)
@@ -288,12 +288,12 @@ end Naturality
 /-! ### The system of base changes as a diagram of presheaves -/
 
 /-- The base change to the limit represents the presheaf base change. -/
-private def Conv.limChartIso :
+def Conv.limChartIso :
     yoneda.obj (Conv.limChart B S hS D hconv hQcL hD hAffine T).obj.left ≅ (stageChartCone B S hS D
         T).pt :=
   ((Conv.rep_limitProjection B S hS D hconv hQcL hD hAffine j).isPullback T.obj.hom).isoPullback
 
-private theorem Conv.limChartIso_comp (s : Over j) :
+theorem Conv.limChartIso_comp (s : Over j) :
     (Conv.limChartIso B S hS D hconv hQcL hD hAffine T).hom ≫ (stageChartCone B S hS D T).π.app s =
       yoneda.map (Conv.limToStage B S hS D hconv hQcL hD hAffine T s) ≫
         (stageChartIso B S hS D hD hAffine T s).hom := by
@@ -319,9 +319,10 @@ variable (hZ : B.Contains (⊤_ Scheme.{u}))
   (hTqc : IsQuasiCompactSpace B S hS (yoneda.obj T.obj.left))
   (hTqs : IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj T.obj.left))
 
+omit [IsCofiltered I] in
 /-- The transition morphisms of the base changes of a chart to the later stages are base changes
 of the transition morphisms of the system. -/
-private theorem stageChartDiagram_isPullback {s s' : Over j} (d : s' ⟶ s) :
+theorem stageChartDiagram_isPullback {s s' : Over j} (d : s' ⟶ s) :
     IsPullback ((stageChartDiagram B S hS D T).map d) (pullback.fst _ _) (pullback.fst _ _)
       (D.map d.left) := by
   have t : IsPullback (pullback.snd _ _) (pullback.fst _ _) T.obj.hom (D.map s.hom) :=
@@ -329,16 +330,17 @@ private theorem stageChartDiagram_isPullback {s s' : Over j} (d : s' ⟶ s) :
   have outer : IsPullback ((stageChartDiagram B S hS D T).map d ≫ pullback.snd _ _)
       (pullback.fst _ _) T.obj.hom (D.map d.left ≫ D.map s.hom) := by
     rw [stageChartDiagram_map_snd]
-    show IsPullback (pullback.snd (D.map s'.hom) T.obj.hom)
+    change IsPullback (pullback.snd (D.map s'.hom) T.obj.hom)
       (pullback.fst (D.map s'.hom) T.obj.hom) T.obj.hom (D.map d.left ≫ D.map s.hom)
     rw [← D.map_comp, Over.w d]
     exact (IsPullback.of_hasPullback _ T.obj.hom).flip
   exact IsPullback.of_right outer (stageChartDiagram_map_fst B S hS D T d) t
 
+omit [IsCofiltered I] in
 /-- **The base changes of a chart to the later stages satisfy the chapter's convention**, when
 the system does: they form a cartesian system over the stages above `j`, and the slices of the
 stages above `j` are those of the index. -/
-private theorem stageChartDiagram_conv (hconv : SiteContainsBaseChangeLimits B S hS D)
+theorem stageChartDiagram_conv (hconv : SiteContainsBaseChangeLimits B S hS D)
     (hAffine : ∀ {i j : I} (f : i ⟶ j), IsAffineHom B S hS (D.map f)) :
     SiteContainsBaseChangeLimits B S hS (stageChartDiagram B S hS D T) := by
   have : ∀ s : Over j, (Over.post (X := s) (Over.forget j)).Initial := fun s =>
@@ -350,7 +352,7 @@ private theorem stageChartDiagram_conv (hconv : SiteContainsBaseChangeLimits B S
 
 include hconv hQcL hD hAffine hZ hQc hQs hTqc hTqs in
 /-- **Every regular function on the base change to the limit comes from a stage.** -/
-private theorem Conv.exists_gpb_limToStage_eq
+theorem Conv.exists_gpb_limToStage_eq
     (y : Γ((BigFppfOver.toScheme B S hS).obj (Conv.limChart B S hS D hconv hQcL hD hAffine
         T).obj.left, ⊤)) :
     ∃ (s : Over j) (x : Γ((BigFppfOver.toScheme B S hS).obj
@@ -389,7 +391,7 @@ private theorem Conv.exists_gpb_limToStage_eq
 include hconv hQcL hD hAffine hZ hQc hQs hTqc hTqs in
 /-- **Two regular functions on a stage which agree on the base change to the limit agree on a
 later stage.** -/
-private theorem Conv.exists_gpb_stageToStage_eq {s : Over j}
+theorem Conv.exists_gpb_stageToStage_eq {s : Over j}
     (x₁ x₂ : Γ((BigFppfOver.toScheme B S hS).obj (laterStageChart B S hS D hD hAffine T
         s).obj.left, ⊤))
     (h : gpb (Conv.limToStage B S hS D hconv hQcL hD hAffine T s) x₁ =

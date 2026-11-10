@@ -102,11 +102,11 @@ theorem preconnectedSpace_of_natCard_locallyConstant_le {T A : Type*} [Topologic
     have h1 := congrArg (fun f : LocallyConstant T A => f u) hab
     have h2 := congrArg (fun f : LocallyConstant T A => f v) hab
     have e1 : ∀ c d : A, (φ (c, d)) u = c := fun c d => by
-      show ![c, d] (if u ∈ U then 0 else 1) = c
+      change ![c, d] (if u ∈ U then 0 else 1) = c
       rw [ite_eq_left hu]
       rfl
     have e2 : ∀ c d : A, (φ (c, d)) v = d := fun c d => by
-      show ![c, d] (if v ∈ U then 0 else 1) = d
+      change ![c, d] (if v ∈ U then 0 else 1) = d
       rw [ite_eq_right hv]
       rfl
     simp only [e1, e2] at h1 h2
@@ -196,9 +196,11 @@ theorem comp_shift_eq_zero_of_comp_shift_sq_eq_zero [ConnectedSpace X] (hne : hS
       rw [← cancel_mono (cokernelShiftSqDesc hS), Category.assoc, Category.assoc, ← hιτ,
         IsIso.inv_hom_id_assoc, he₁]
     have hzero : Stacks.Abelian.cokernelPowι (shift hS) 1 ≫
-        Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) h2 ≫ (shift hS).asHom = 0 := by
-      rw [← cancel_epi (cokernel.π (shift hS).asHom), Stacks.Abelian.π_cokernelPowι_assoc, comp_zero]
-      show (shift hS ^ 1).asHom ≫ cokernel.π (shift hS ^ 2).asHom ≫ _ = 0
+        Stacks.Abelian.cokernelPowLift (shift hS) (shift_pow_self hS) h2 ≫
+          (shift hS).asHom = 0 := by
+      rw [← cancel_epi (cokernel.π (shift hS).asHom), Stacks.Abelian.π_cokernelPowι_assoc,
+        comp_zero]
+      change (shift hS ^ 1).asHom ≫ cokernel.π (shift hS ^ 2).asHom ≫ _ = 0
       rw [Stacks.Abelian.π_cokernelPowLift_assoc, ← End.mul_asHom,
         ← End.mul_asHom, pow_one, ← pow_succ', ← pow_succ, show ℓ - 2 + 1 + 1 = ℓ by omega,
         shift_pow_self, End.zero_asHom]
@@ -237,7 +239,8 @@ theorem finite_and_natCard_hom_unitSheaf_freeTorsor_le [ConnectedSpace X] (hne :
   have hp : ℓ.Prime := Fact.out
   obtain ⟨hlift, hcancel⟩ := exists_comp_cokernelPowLift_shift_and_cancel hS hp.one_le
   have := isIso_cokernelShiftDesc hS
-  have hg : ∀ g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w), g ≫ (shift hS ^ 1).asHom = 0 :=
+  have hg : ∀ g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w),
+      g ≫ (shift hS ^ 1).asHom = 0 :=
     fun g => by rw [pow_one]; exact comp_shift_eq_zero hS hne g
   choose ψ hψ using fun g : unitSheaf ℓ ⟶ freeTorsor (i := i) (ε := ε) (w := w) =>
     hlift g (hg g)

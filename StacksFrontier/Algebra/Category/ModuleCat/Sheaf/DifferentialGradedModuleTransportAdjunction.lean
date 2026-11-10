@@ -132,7 +132,7 @@ noncomputable def transportUnit :
 sheaves of modules. -/
 theorem transportUnit_f (i : ℤ) :
     (transportUnit adj hO hP B).toHomologicalComplex.f i = adj.unit.app (B.complex.X i) := by
-  show adj.homEquiv (B.complex.X i) (L.obj (B.complex.X i)) (𝟙 (L.obj (B.complex.X i))) = _
+  change adj.homEquiv (B.complex.X i) (L.obj (B.complex.X i)) (𝟙 (L.obj (B.complex.X i))) = _
   simp [Adjunction.homEquiv_unit]
 
 omit [L.Additive] [G.Additive] in

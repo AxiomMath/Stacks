@@ -321,7 +321,7 @@ theorem moduleFinite_spaceNaiveCotangentExt (hproper : Space.IsProper B (Spec (.
           (Stacks.SheafOfModules.Tensor.ringSheaf (Space.structureSheaf B (Spec (.of Λ)) hΛ X hX))))
         i) :=
     moduleFinite_spaceNaiveCotangentExt_structureSheaf B hΛ hSpec X hX toK hproper i
-  convert h using 3 <;> rfl
+  convert h using 3; rfl
 
 /-- **`Hom_{𝒪_X}(Ω_{X/k}, 𝒪_X)` is finite dimensional for `X` proper over `k`**, `k` acting
 through `Deformation.Examples.spaceResidueFieldRingHom`

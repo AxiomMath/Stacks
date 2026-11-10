@@ -104,7 +104,7 @@ theorem exists_moduliSquare_of_isEtale_of_isSeparated
   have hcomm' : F'.hom ≫ (associatedMap B S hS (yoneda.map (g ≫ e'.hom))).1 = h.hom ≫ f.hom := by
     rw [← hleg, ← heF]
     refine (hom_eq_of_hom₂ B S hS (Bicategory.associator _ _ _).inv).trans ?_
-    show (F'.hom ≫ (associatedMap B S hS (yoneda.map g)).1) ≫ _ = _
+    change (F'.hom ≫ (associatedMap B S hS (yoneda.map g)).1) ≫ _ = _
     rw [hcomm]
     exact hom_eq_of_hom₂ B S hS (Bicategory.associator _ _ _).hom
   refine ⟨M', F', g ≫ e'.hom, hcomm', ?_, ?_, ⟨?_⟩⟩

@@ -85,7 +85,7 @@ private theorem inverseArrow_eq_of_compose_eq_identity {J : Type u} [Category.{v
       _ = Groupoid.inv α ≫ α ≫ β := Category.assoc _ _ _
       _ = Groupoid.inv α ≫ 𝟙 x := by rw [hαβ]
       _ = Groupoid.inv α := Category.comp_id _
-  show (E₂ (Groupoid.inv α)).1 = b
+  change (E₂ (Groupoid.inv α)).1 = b
   rw [← hinv]
   exact hb
 

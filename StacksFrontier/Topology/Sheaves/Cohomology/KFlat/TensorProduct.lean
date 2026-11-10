@@ -98,10 +98,10 @@ lemma sheafifyMod_map_isIso_iff_W
     IsIso ((PresheafOfModules.sheafification (𝟙 (Tensor.ringSheaf R).obj)).map f) ↔
       J.W ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf R).obj).map f) :=
         by
-  show MorphismProperty.isomorphisms _
+  change MorphismProperty.isomorphisms _
     ((PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).map f) ↔
       _
-  show ((MorphismProperty.isomorphisms _).inverseImage
+  change ((MorphismProperty.isomorphisms _).inverseImage
     (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj))) f ↔ _
   rw [← PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms]
   rfl

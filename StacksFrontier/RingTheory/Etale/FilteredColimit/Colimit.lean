@@ -258,9 +258,9 @@ lemma filtered_factorization
     refine (CategoryTheory.isCardinalPresentable_iff_of_isEquivalence E Cardinal.aleph0
       (commAlgCatEquivUnder (CommRingCat.of R)).functor).mp ?_
     apply CommRingCat.isFinitelyPresentable_under
-    show (CommRingCat.Hom.hom
+    change (CommRingCat.Hom.hom
       ((commAlgCatEquivUnder (CommRingCat.of R)).functor.obj E).hom).FinitePresentation
-    show (algebraMap R (E : Type u)).FinitePresentation
+    change (algebraMap R (E : Type u)).FinitePresentation
     rw [RingHom.finitePresentation_algebraMap]
     exact hE
   refine ⟨?_, ?_⟩
@@ -427,7 +427,7 @@ lemma Kfiltered_cocone_maps (D : KData R) (S : KSetup D) (k₁ k₂ : KObj D)
     exact hbt
   · -- `u ≫ h = v ≫ h`.
     apply KHom_eq_of_u
-    show u.u ≫ (bt ≫ (D.F i₃).map m) = v.u ≫ (bt ≫ (D.F i₃).map m)
+    change u.u ≫ (bt ≫ (D.F i₃).map m) = v.u ≫ (bt ≫ (D.F i₃).map m)
     rw [← Category.assoc, ← Category.assoc]
     exact hm
 
@@ -514,7 +514,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
       have hãw : ã ≫ Kphi (⟨i', j'⟩ : KObj D) = Kphi (⟨i, j⟩ : KObj D) :=
         comp_Kphi_of_comp_leg D S (k := ⟨i, j⟩) g a ha ã hã
       -- Now compute both sides at leg `j`.
-      show (S.ccocone i).ι.app j ≫ (S.eC i).hom ≫ S.G.map g ≫ (S.eC i').inv ≫ ψi i'
+      change (S.ccocone i).ι.app j ≫ (S.eC i).hom ≫ S.G.map g ≫ (S.eC i').inv ≫ ψi i'
           = (S.ccocone i).ι.app j ≫ ψi i
       calc (S.ccocone i).ι.app j ≫ (S.eC i).hom ≫ S.G.map g ≫ (S.eC i').inv ≫ ψi i'
           = a ≫ ψi i' := by
@@ -525,7 +525,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
         _ = ιL ⟨i, j⟩ := hιLnat (k := ⟨i, j⟩) (k' := ⟨i', j'⟩) { u := ã, w := hãw }
         _ = (S.ccocone i).ι.app j ≫ ψi i := (hψi_fac i j).symm
     -- cancel `(eC i).inv`
-    show S.G.map g ≫ (S.eC i').inv ≫ ψi i' = (S.eC i).inv ≫ ψi i
+    change S.G.map g ≫ (S.eC i').inv ≫ ψi i' = (S.eC i).inv ≫ ψi i
     rw [← key]
     simp only [Iso.inv_hom_id_assoc]
     rfl
@@ -546,7 +546,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
   -- The key relation: `Kphi k ≫ ψ = ιL k`.
   have hkey : ∀ k : KObj D, Kphi k ≫ ψ = ιL k := by
     intro k
-    show Kphi k ≫ eqToHom S.hTd.symm ≫ ψT = ιL k
+    change Kphi k ≫ eqToHom S.hTd.symm ≫ ψT = ιL k
     rw [Kphi_factor D S k]
     calc (S.ccocone k.fst).ι.app k.snd ≫ (S.eC k.fst).hom
             ≫ S.dcocone.ι.app k.fst ≫ eqToHom S.hTd ≫ eqToHom S.hTd.symm ≫ ψT
@@ -564,7 +564,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
   have hθψ : θ ≫ ψ = 𝟙 L := by
     refine hcL.hom_ext ?_
     intro k
-    show ιL k ≫ θ ≫ ψ = ιL k ≫ 𝟙 L
+    change ιL k ≫ θ ≫ ψ = ιL k ≫ 𝟙 L
     rw [← Category.assoc, hθ_fac k, hkey k, Category.comp_id]
   -- `ψ ≫ θ = 𝟙 T`.
   have hψθ : ψ ≫ θ = 𝟙 D.T := by
@@ -572,7 +572,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
     have h1 : eqToHom S.hTd ≫ ψ ≫ θ = eqToHom S.hTd ≫ 𝟙 D.T := by
       refine S.hd.hom_ext ?_
       intro i
-      show S.dcocone.ι.app i ≫ eqToHom S.hTd ≫ ψ ≫ θ
+      change S.dcocone.ι.app i ≫ eqToHom S.hTd ≫ ψ ≫ θ
         = S.dcocone.ι.app i ≫ eqToHom S.hTd ≫ 𝟙 D.T
       -- precompose the iso `eC i` so we can use the inner colimit `ccocone i`
       refine (cancel_epi (S.eC i).hom).mp ?_
@@ -581,7 +581,7 @@ lemma Kcolimit (D : KData R) (S : KSetup D) :
       have hphi : Kphi (⟨i, j⟩ : KObj D)
           = (S.ccocone i).ι.app j ≫ (S.eC i).hom ≫ S.dcocone.ι.app i ≫ eqToHom S.hTd :=
         Kphi_factor D S ⟨i, j⟩
-      show (S.ccocone i).ι.app j ≫ (S.eC i).hom
+      change (S.ccocone i).ι.app j ≫ (S.eC i).hom
           ≫ S.dcocone.ι.app i ≫ eqToHom S.hTd ≫ ψ ≫ θ
         = (S.ccocone i).ι.app j ≫ (S.eC i).hom
           ≫ S.dcocone.ι.app i ≫ eqToHom S.hTd ≫ 𝟙 D.T
@@ -687,7 +687,7 @@ lemma L_compose {R : Type u} [CommRing R] {A : Type u} [CommRing A]
       eC := eC,
       hφ := by
         intro i j
-        show (c i).ι.app j ≫ (eC i).hom ≫ d.ι.app i
+        change (c i).ι.app j ≫ (eC i).hom ≫ d.ι.app i
           = (c i).ι.app j ≫ (eC i).hom ≫ d.ι.app i ≫ eqToHom rfl
         simp only [eqToHom_refl, Category.comp_id],
       hEt := hEt }
@@ -777,7 +777,7 @@ lemma L_outer_hG
           (TensorProduct (𝓡.obj i : CommRingCat).carrier (colimit 𝓡 : CommRingCat).carrier (Ai :
               Type u)) r := rfl
   rw [h1]
-  show ealg (algebraMap _ _ r) = _
+  change ealg (algebraMap _ _ r) = _
   rw [AlgEquiv.commutes]
   rfl
 
@@ -825,7 +825,7 @@ lemma L_outer_apex
       pushout.inl (α.app i) (colimit.ι 𝓡 i) ≫ GF.map h
         = 𝓐.map h ≫ pushout.inl (α.app i') (colimit.ι 𝓡 i') := by
     intro i i' h
-    show pushout.inl (α.app i) (colimit.ι 𝓡 i)
+    change pushout.inl (α.app i) (colimit.ι 𝓡 i)
         ≫ (Gunder I 𝓡 𝓐 α ⋙ Under.forget R).map h = _
     simp only [Functor.comp_map, Under.forget_map, Gunder, Under.homMk_right]
     rw [pushout.map, pushout.inl_desc]
@@ -833,7 +833,7 @@ lemma L_outer_apex
       pushout.inr (α.app i) (colimit.ι 𝓡 i) ≫ GF.map h
         = pushout.inr (α.app i') (colimit.ι 𝓡 i') := by
     intro i i' h
-    show pushout.inr (α.app i) (colimit.ι 𝓡 i)
+    change pushout.inr (α.app i) (colimit.ι 𝓡 i)
         ≫ (Gunder I 𝓡 𝓐 α ⋙ Under.forget R).map h = _
     simp only [Functor.comp_map, Under.forget_map, Gunder, Under.homMk_right]
     rw [pushout.map, pushout.inr_desc, Category.id_comp]
@@ -864,7 +864,7 @@ lemma L_outer_apex
                 rw [hinl h] } }
       fac := by
         intro s i
-        show pushout.desc (colimit.ι 𝓐 i) (colimMap α) (wsq i) ≫ colimit.desc 𝓐 _ = _
+        change pushout.desc (colimit.ι 𝓐 i) (colimMap α) (wsq i) ≫ colimit.desc 𝓐 _ = _
         refine pushout.hom_ext ?_ ?_
         · rw [pushout.inl_desc_assoc, colimit.ι_desc]
         · rw [pushout.inr_desc_assoc]
@@ -872,7 +872,7 @@ lemma L_outer_apex
           intro j
           rw [ι_colimMap_assoc, colimit.ι_desc]
           -- goal: colimit.ι 𝓡 j ≫ pushout.inr ... ≫ s.ι.app i = ... ; use s naturality
-          show α.app j ≫ pushout.inl (α.app j) (colimit.ι 𝓡 j) ≫ s.ι.app j
+          change α.app j ≫ pushout.inl (α.app j) (colimit.ι 𝓡 j) ≫ s.ι.app j
             = colimit.ι 𝓡 j ≫ pushout.inr (α.app i) (colimit.ι 𝓡 i) ≫ s.ι.app i
           -- `pushout.inr` composed with `s.ι` is independent of the index: prove it for `i = j`.
           have hconst : ∀ {a b : I} (h : a ⟶ b),
@@ -892,9 +892,9 @@ lemma L_outer_apex
         apply colimit.hom_ext
         intro i
         rw [colimit.ι_desc]
-        show colimit.ι 𝓐 i ≫ m = pushout.inl (α.app i) (colimit.ι 𝓡 i) ≫ s.ι.app i
+        change colimit.ι 𝓐 i ≫ m = pushout.inl (α.app i) (colimit.ι 𝓡 i) ≫ s.ι.app i
         rw [← hm i]
-        show _ = pushout.inl _ _ ≫ pushout.desc (colimit.ι 𝓐 i) (colimMap α) (wsq i) ≫ m
+        change _ = pushout.inl _ _ ≫ pushout.desc (colimit.ι 𝓐 i) (colimMap α) (wsq i) ≫ m
         rw [pushout.inl_desc_assoc] }
   -- `Under.forget R` preserves the colimit of `Gunder`, so its image cocone is a colimit.
   have pres : IsColimit ((Under.forget R).mapCocone (colimit.cocone (Gunder I 𝓡 𝓐 α))) :=
@@ -914,7 +914,7 @@ lemma L_outer_apex
       have hstruct : (colimit (Gunder I 𝓡 𝓐 α)).hom
           = pushout.inr (α.app i) (colimit.ι 𝓡 i) ≫ (colimit.ι (Gunder I 𝓡 𝓐 α) i).right :=
         (colimit.ι (Gunder I 𝓡 𝓐 α) i).w.symm
-      show (colimit (Gunder I 𝓡 𝓐 α)).hom ≫ fUnder.hom = colimMap α
+      change (colimit (Gunder I 𝓡 𝓐 α)).hom ≫ fUnder.hom = colimMap α
       rw [hstruct, Category.assoc, key, pushout.inr_desc])
   refine ⟨(commAlgCatEquivUnder R).inverse.mapIso isoUnder⟩
 

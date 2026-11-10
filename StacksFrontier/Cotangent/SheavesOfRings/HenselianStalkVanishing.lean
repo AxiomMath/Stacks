@@ -447,7 +447,7 @@ theorem isZero_pointCotangentComplexDerived_of_isCotangentAcyclicAt
     have := he (e₀.symm a)
     rw [RingEquiv.apply_symm_apply] at this
     rw [← this, RingEquiv.symm_apply_apply]
-  show (pointRingEquivStalk J Φ R)
+  change (pointRingEquivStalk J Φ R)
       ((pointRingEquivStalk J Φ R).symm (e.symm (algebraMap A₀ A a))) =
     (pointRingEquivStalk J Φ R) ((((sitePointToposMorphism J Φ).inverseImageRing.map g).hom.app
       (op pointSiteObj)) ((pointRingEquivStalk J Φ R₀).symm (e₀.symm a)))

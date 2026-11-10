@@ -262,14 +262,14 @@ private theorem linearMap_eq_zero_of_adicCompletion_of_eq_zero
     (f : AdicCompletion (I.map (algebraMap A B)) B →ₗ[A] M)
     (hf : ∀ b : B, f (algebraMap B _ b) = 0) : f = 0 := by
   refine LinearMap.ext fun x => ?_
-  show f x = 0
+  change f x = 0
   refine IsHausdorff.haus' (I := I) _ fun n => ?_
   let J := I.map (algebraMap A B)
   obtain ⟨b, hb⟩ := Submodule.Quotient.mk_surjective
     (J ^ n • (⊤ : Submodule B B)) (AdicCompletion.eval J B n x)
   have hmB : x - algebraMap B _ b ∈ J ^ n • (⊤ : Submodule B (AdicCompletion J B)) := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval (hI.map _)]
-    show AdicCompletion.eval J B n (x - AdicCompletion.of J B b) = 0
+    change AdicCompletion.eval J B n (x - AdicCompletion.of J B b) = 0
     rw [map_sub, AdicCompletion.eval_of]
     exact sub_eq_zero.mpr hb.symm
   have hmA : x - algebraMap B _ b ∈ I ^ n • (⊤ : Submodule A (AdicCompletion J B)) := by
@@ -377,10 +377,10 @@ private theorem cotangent_annihilated_of_adicCompletion_section
       IsScalarTower.toAlgHom A S (Q ⧸ J.cotangentIdeal) := by
     refine AlgHom.ext fun x => ?_
     apply Ideal.Quotient.eq.mpr
-    show Ideal.Quotient.mk (J ^ 2) (σ (φ x)) - Ideal.Quotient.mk (J ^ 2) x ∈
+    change Ideal.Quotient.mk (J ^ 2) (σ (φ x)) - Ideal.Quotient.mk (J ^ 2) x ∈
       J.cotangentIdeal
     rw [← map_sub, Ideal.mk_mem_cotangentIdeal]
-    show φ (σ (φ x) - x) = 0
+    change φ (σ (φ x) - x) = 0
     rw [map_sub, show φ (σ (φ x)) = φ x from AlgHom.congr_fun hσ (φ x), sub_self]
   let d : Derivation A S J.cotangentIdeal :=
     derivationToSquareZeroOfLift J.cotangentIdeal J.cotangentIdeal_square g hg
@@ -400,13 +400,13 @@ private theorem cotangent_annihilated_of_adicCompletion_section
   simp only [Submodule.coe_smul_of_tower, Submodule.coe_zero, d,
     derivationToSquareZeroOfLift_apply, Algebra.smul_def] at hd'
   have hgx : g x = 0 := by
-    show q (σ (φ x)) = 0
+    change q (σ (φ x)) = 0
     rw [hx, map_zero, map_zero]
   rw [hgx, zero_sub, mul_neg, neg_eq_zero] at hd'
   have hm : algebraMap A S a * (x : S) ∈ J ^ 2 := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     simpa only [map_mul, Ideal.Quotient.mk_algebraMap, Ideal.Quotient.algebraMap_eq] using hd'
-  show a • J.toCotangent x = 0
+  change a • J.toCotangent x = 0
   rwa [← IsScalarTower.algebraMap_smul S a (J.toCotangent x), ← map_smul,
     J.toCotangent_eq_zero]
 
@@ -440,12 +440,12 @@ private theorem ker_eval_adicCompletion
     RingHom.ker (AdicCompletion.evalₐ I n).toRingHom =
       (I ^ n).map (algebraMap R (AdicCompletion I R)) := by
   ext x
-  show AdicCompletion.evalₐ I n x = 0 ↔ _
-  show _ ↔ x ∈ ((I ^ n).map (algebraMap R (AdicCompletion I R))).restrictScalars R
+  change AdicCompletion.evalₐ I n x = 0 ↔ _
+  change _ ↔ x ∈ ((I ^ n).map (algebraMap R (AdicCompletion I R))).restrictScalars R
   rw [← Ideal.smul_top_eq_map]
-  show _ ↔ x ∈ I ^ n • (⊤ : Submodule R (AdicCompletion I R))
+  change _ ↔ x ∈ I ^ n • (⊤ : Submodule R (AdicCompletion I R))
   rw [AdicCompletion.pow_smul_top_eq_ker_eval hI]
-  show _ ↔ AdicCompletion.eval I R n x = 0
+  change _ ↔ AdicCompletion.eval I R n x = 0
   have h₁ := AdicCompletion.factor_evalₐ_eq_eval I x
     (show I ^ n ≤ I ^ n • (⊤ : Ideal R) by simp)
   have h₂ := AdicCompletion.factor_eval_eq_evalₐ I x
@@ -472,7 +472,7 @@ private theorem bijective_quotientMap_of_adicCompletion_equiv
   let J := I.map (algebraMap R S)
   have heI : (J ^ n).map (algebraMap S (AdicCompletion J S)) =
       ((I ^ n).map (algebraMap R (AdicCompletion I R))).map e.toRingHom := by
-    show _ = ((I ^ n).map (algebraMap R (AdicCompletion I R))).map e.toAlgHom.toRingHom
+    change _ = ((I ^ n).map (algebraMap R (AdicCompletion I R))).map e.toAlgHom.toRingHom
     rw [map_map_algebraMap_algHom (I ^ n) e.toAlgHom]
     dsimp only [J]
     rw [← Ideal.map_pow, Ideal.map_map, ← IsScalarTower.algebraMap_eq R S _]
@@ -485,7 +485,7 @@ private theorem bijective_quotientMap_of_adicCompletion_equiv
         (algebraMap R S) Ideal.le_comap_map x := by
     intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show E (algebraMap R (R ⧸ I ^ n) r) = _
+    change E (algebraMap R (R ⧸ I ^ n) r) = _
     rw [E.commutes]
     rfl
   have heq : (E : (R ⧸ I ^ n) → S ⧸ (I ^ n).map (algebraMap R S)) =
@@ -543,7 +543,7 @@ private theorem exists_annihilator_sub_one_of_surjective_quotientMap
     rw [Submodule.mem_comap] at hd
     change (KaehlerDifferential.D R S) (s - algebraMap R S r) ∈ _ at hd
     rw [map_sub, Derivation.map_algebraMap, sub_zero] at hd
-    show (KaehlerDifferential.D R S) s ∈ (J • (⊤ : Submodule S Ω)).restrictScalars R
+    change (KaehlerDifferential.D R S) s ∈ (J • (⊤ : Submodule S Ω)).restrictScalars R
     rwa [Submodule.restrictScalars_map_smul_eq, Submodule.restrictScalars_top]
   obtain ⟨g, hg, hz⟩ := Submodule.exists_sub_one_mem_and_smul_eq_zero_of_fg_of_le_smul
     J (⊤ : Submodule S Ω) Module.Finite.fg_top hle
@@ -653,7 +653,7 @@ private theorem unique_formallyUnramified_map_of_quotient
         map_one]
     have hm : θ e - 1 ∈ K := by
       apply (Ideal.Quotient.eq_zero_iff_mem).mp
-      show q (θ e - 1) = 0
+      change q (θ e - 1) = 0
       simp [hq]
     exact Ideal.isUnit_of_sub_one_mem_jacobson_bot _ (hK hm)
   refine AlgHom.ext fun x => ?_
@@ -680,7 +680,7 @@ private theorem exists_etale_lift_to_henselian
   let σH : H ⊗[R] S →ₐ[H] H ⧸ K :=
     { σR.toRingHom with
       commutes' := fun h => by
-        show σR (h ⊗ₜ[R] 1) = Ideal.Quotient.mk K h
+        change σR (h ⊗ₜ[R] 1) = Ideal.Quotient.mk K h
         simp [σR, q, Algebra.TensorProduct.lift_tmul] }
   have : Algebra.Etale H (H ⊗[R] S) := Algebra.Etale.baseChange R S H
   have hlift := ((henselianPair_tfae.{w, w} H K).out 1 2).mp hH
@@ -711,7 +711,7 @@ private theorem exists_extension_to_adicCompletion
   let F : AdicCompletion (I.map (algebraMap R S)) S →ₐ[R] T :=
     { __ := F₀
       commutes' := fun r => by
-        show F₀ (algebraMap R _ r) = _
+        change F₀ (algebraMap R _ r) = _
         rw [IsScalarTower.algebraMap_apply R S _, hF₀, f.commutes] }
   exact ⟨F, AlgHom.ext hF₀⟩
 
@@ -803,7 +803,7 @@ public theorem exists_algHom_henselization_of_algEquiv_adicCompletion
     I.fg_of_isNoetherianRing δg
   refine ⟨k.comp (IsScalarTower.toAlgHom R D (Localization.Away g)), AlgHom.ext fun d => ?_⟩
   refine (AlgHom.congr_fun hk (algebraMap D (Localization.Away g) d)).trans ?_
-  show δg (algebraMap D _ d) = δ d
+  change δg (algebraMap D _ d) = δ d
   dsimp only [δg]
   rw [IsLocalization.liftAlgHom_apply]
   exact IsLocalization.lift_eq _ _
@@ -888,13 +888,12 @@ public theorem pow_map_le_annihilator_kaehlerDifferential_tensorProduct
   obtain ⟨x, rfl⟩ := e.surjective m
   rw [← e.map_smul, ← e.map_zero]
   congr 1
-  induction x using TensorProduct.induction_on with
-  | zero => exact smul_zero _
+  induction x using TensorProduct.inductionOn with
   | tmul d m =>
     rw [TensorProduct.smul_tmul']
-    show (algebraMap A (C ⊗[A] B) a * d) ⊗ₜ[B] m = 0
+    change (algebraMap A (C ⊗[A] B) a * d) ⊗ₜ[B] m = 0
     rw [IsScalarTower.algebraMap_apply A B (C ⊗[A] B)]
-    show (algebraMap A B a • d) ⊗ₜ[B] m = 0
+    change (algebraMap A B a • d) ⊗ₜ[B] m = 0
     rw [TensorProduct.smul_tmul, hz, TensorProduct.tmul_zero]
   | add x y hx hy => rw [smul_add, hx, hy, add_zero]
 
@@ -930,7 +929,7 @@ public theorem exists_unique_algHom_henselization_of_algHom_adicCompletion
   let fC : D →ₐ[C] T :=
     { __ := fA.toRingHom
       commutes' := fun c => by
-        show algebraMap C T c * f 1 = algebraMap C T c
+        change algebraMap C T c * f 1 = algebraMap C T c
         rw [map_one, mul_one] }
   obtain ⟨c, hc⟩ :=
     exists_pow_le_annihilator_kaehlerDifferential_of_isEtaleOutside A B I hEtale
@@ -942,7 +941,7 @@ public theorem exists_unique_algHom_henselization_of_algHom_adicCompletion
   have hψ : ((henselizationToAdicCompletion C
       (I.map (algebraMap A C))).val.restrictScalars A).comp ψ = f := by
     refine AlgHom.ext fun b => (AlgHom.congr_fun hk (1 ⊗ₜ[A] b)).trans ?_
-    show algebraMap C T 1 * f b = f b
+    change algebraMap C T 1 * f b = f b
     rw [map_one, one_mul]
   exact ⟨ψ, hψ, fun ψ' hψ' =>
     eq_of_henselizationToAdicCompletion_comp_eq A B C I ψ' ψ (hψ'.trans hψ.symm)⟩

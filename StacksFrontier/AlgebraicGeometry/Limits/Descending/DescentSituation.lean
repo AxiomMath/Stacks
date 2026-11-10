@@ -62,7 +62,7 @@ private theorem preservesLimit_of_small_index
     [∀ {i j : J} (f : i ⟶ j), IsAffineHom (F.map f)] :
     PreservesLimit F G := by
   have : Small.{u} (ShrinkHoms J) := by
-    show Small.{u} J
+    change Small.{u} J
     infer_instance
   let E := (ShrinkHoms.equivalence J).trans (Shrink.equivalence.{u} (ShrinkHoms J))
   let F' : Shrink.{u} (ShrinkHoms J) ⥤ Scheme.{u} := E.inverse ⋙ F

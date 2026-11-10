@@ -132,7 +132,7 @@ theorem isRelativelyVeryAmple_of_cover (f : X ⟶ S) (M : X.Modules) [IsInvertib
         Scheme.Modules.Hom.app (Scheme.Modules.symmetricAlgebraGen S E) (V j) (σ j k) :=
       AddEquiv.apply_symm_apply _ _
     rw [GradedPowerMap.affineDatum_toFun_apply, h1]
-    show (Φ j).hom.app ⊤
+    change (Φ j).hom.app ⊤
       (Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection M (f ⁻¹ᵁ V j) 1
         ((Stacks.RelativeAmple.directImagePowerMap f M).value 1 (V j)
           (((Stacks.QuasiProjectiveCompactification.symLift E B (𝟙 E)).app 1).app (V j)

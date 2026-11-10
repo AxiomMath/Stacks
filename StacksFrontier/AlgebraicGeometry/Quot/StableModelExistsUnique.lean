@@ -67,7 +67,7 @@ theorem range_eq_preimage_of_isPullback {X S V : Scheme.{u}} {p : X ⟶ S} {s : 
   ext x
   constructor
   · rintro ⟨v, rfl⟩
-    show p (j v) = s
+    change p (j v) = s
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply]
   · intro hx
     obtain ⟨t⟩ : Nonempty (Spec (S.residueField s)) := inferInstance
@@ -128,7 +128,7 @@ theorem exists_comp_eq_of_specialFibre {V₀ : Scheme.{u}} {Y X X' : Scheme.{u}}
     refine ⟨jX' (εh x), fun w hw => ?_⟩
     obtain ⟨ws, rfl⟩ : w ∈ Set.range (q.fiberι s₀) := by
       rw [Scheme.Hom.range_fiberι]
-      show q w = s₀
+      change q w = s₀
       rwa [hqw, hw]
     have h₁ := congrArg (fun f => f ws) has
     have h₂ := congrArg (fun f => f ws) has'

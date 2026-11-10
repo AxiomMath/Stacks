@@ -194,12 +194,12 @@ theorem mono_coaugToOne : Mono (coaugToOne a ha) := by
   obtain ⟨T', π, hπ, p, hp⟩ := surjective_up_to_refinements_of_epi (cokernel.π a) t
   have : Mono (ShortComplex.mk a (K.d 0 1) ha).f := ‹Mono a›
   have h0 : p ≫ (ShortComplex.mk a (K.d 0 1) ha).g = 0 := by
-    show p ≫ K.d 0 1 = 0
+    change p ≫ K.d 0 1 = 0
     rw [← π_comp_coaugToOne a ha, ← assoc, ← hp, assoc, ht, comp_zero]
   obtain ⟨u, hu⟩ := hex.lift' p h0
   refine zero_of_epi_comp π ?_
   rw [hp, ← hu]
-  show (u ≫ a) ≫ cokernel.π a = 0
+  change (u ≫ a) ≫ cokernel.π a = 0
   rw [assoc, cokernel.condition, comp_zero]
 
 include hex in
@@ -222,7 +222,7 @@ theorem shortExact_cyclesOfCoaug :
     obtain ⟨T', π, hπ, x₁, hx₁⟩ :=
       (K.comp_homologyπ_eq_zero_iff_up_to_refinements 0 1 (by simp) x).1 hx
     refine ⟨T', π, hπ, x₁ ≫ cokernel.π a, ?_⟩
-    show π ≫ x = (x₁ ≫ cokernel.π a) ≫ cyclesOfCoaug a ha
+    change π ≫ x = (x₁ ≫ cokernel.π a) ≫ cyclesOfCoaug a ha
     rw [hx₁, assoc, π_comp_cyclesOfCoaug]
   mono_f := mono_cyclesOfCoaug a ha hex
   epi_g := inferInstance
@@ -527,7 +527,7 @@ theorem exact_map_g_deltaOne :
     simpa only [assoc] using h3
   refine ⟨T', π₁, hπ₁, x₁ ≫ Q.map (resolutionToX₂ S J) -
     π₁ ≫ x ≫ Q.map (sectionDefect hS J), ?_⟩
-  show π₁ ≫ x = (x₁ ≫ Q.map (resolutionToX₂ S J) - π₁ ≫ x ≫ Q.map (sectionDefect hS J)) ≫
+  change π₁ ≫ x = (x₁ ≫ Q.map (resolutionToX₂ S J) - π₁ ≫ x ≫ Q.map (sectionDefect hS J)) ≫
     Q.map S.g
   rw [Preadditive.sub_comp, ← hcomb]
   abel
@@ -725,7 +725,7 @@ theorem deltaOne_comp_edge_app_one :
     (RightDerivedCoEdge.augOf_comp_d _) φ
     (connectingMapAug P I)
     (comparisonDefect P I φ hφ) (connecting_comp_coaugToOne_comp_φ P I φ hφ)
-  show (Q.map (connectingMapAug P I) ≫
+  change (Q.map (connectingMapAug P I) ≫
       coaugClass Q (RightDerivedCoEdge.augOf (injectiveResolution (P.obj X)))
           (RightDerivedCoEdge.augOf_comp_d _) ≫
         ((injectiveResolution (P.obj X)).isoRightDerivedObj' Q 1).inv) ≫

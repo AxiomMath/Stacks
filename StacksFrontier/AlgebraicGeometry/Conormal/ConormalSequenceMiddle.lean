@@ -364,9 +364,9 @@ theorem ConormalChart.leftMap_toCotangent {i : Z ⟶ Y} {j : Y ⟶ X} [IsImmersi
         (C.idealZ.toCotangent ⟨(k : Γ(X, C.V)), C.idealY_le_idealZ k.2⟩) := by
   have hId : Scheme.Hom.appLE (𝟙 X) C.V C.V (by simp) = 𝟙 Γ(X, C.V) := by
     have e : C.V ≤ (𝟙 X) ⁻¹ᵁ C.V := by simp
-    show Scheme.Hom.app (𝟙 X) C.V ≫ X.presheaf.map (homOfLE e).op = _
+    change Scheme.Hom.app (𝟙 X) C.V ≫ X.presheaf.map (homOfLE e).op = _
     rw [Scheme.Hom.id_app]
-    show 𝟙 Γ(X, C.V) ≫ X.presheaf.map (𝟙 C.V).op = _
+    change 𝟙 Γ(X, C.V) ≫ X.presheaf.map (𝟙 C.V).op = _
     simp
   have h := isInducedConormalSheafMap_immersionConormalSheafMap (i ≫ j) j i (𝟙 X)
     (show (i ≫ j) ≫ 𝟙 X = i ≫ j by rw [Category.comp_id])

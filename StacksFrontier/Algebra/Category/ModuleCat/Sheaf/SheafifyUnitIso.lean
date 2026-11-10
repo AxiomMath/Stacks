@@ -61,7 +61,7 @@ theorem isIso_toPresheaf_map_unit_app (hM : Presheaf.IsSheaf J M.presheaf) :
     IsIso ((toPresheaf R₀).map ((sheafificationAdjunction α).unit.app M)) := by
   have : IsIso (CategoryTheory.toSheafify J M.presheaf) :=
     CategoryTheory.isIso_toSheafify J hM
-  show IsIso (CategoryTheory.toSheafify J M.presheaf)
+  change IsIso (CategoryTheory.toSheafify J M.presheaf)
   infer_instance
 
 /-- **The sheafification unit of a presheaf of modules that is already a sheaf is bijective on

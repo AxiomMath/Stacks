@@ -166,11 +166,8 @@ theorem span_range_le_spanRestrict (ℬ : AlgebraSheaf.{u, u} B S hS X.1 X.2)
     rintro _ ⟨e, rfl⟩
     obtain ⟨t, rfl⟩ := hGsurj e
     let _ := chartAlgebra (hF := X.2) f
-    show g.val.app (op V) (sectionsBaseChange G f t) ∈ T
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero, map_zero]
-      exact T.zero_mem
+    change g.val.app (op V) (sectionsBaseChange G f t) ∈ T
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb =>
       rw [map_add, map_add]
       exact T.add_mem ha hb
@@ -235,23 +232,22 @@ theorem mem_span_of_forall_restrict_mem_span_range (ℬ : AlgebraSheaf.{u, u} B 
       M.val.obj (op (z i)) := fun i => ((rN i).comp bT).liftBaseChange _
   have hsq : ∀ (i) (q : L), rN i (bT q) = bW i (rP i q) := by
     intro i q
-    show rN i (bT q) = ((rN i).comp bT).liftBaseChange _ ((1 : chartRing B S hS X.1 X.2 (z i))
+    change rN i (bT q) = ((rN i).comp bT).liftBaseChange _ ((1 : chartRing B S hS X.1 X.2 (z i))
       ⊗ₜ[A] q)
     rw [LinearMap.liftBaseChange_tmul, one_smul]
     rfl
   have hP : ∀ i, Function.Surjective ((rP i).liftBaseChange (chartRing B S hS X.1 X.2 (z i))) := by
     intro i w
     refine ⟨w, ?_⟩
-    induction w using TensorProduct.induction_on with
-    | zero => exact map_zero _
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, ha, hb]
     | tmul o q =>
       rw [LinearMap.liftBaseChange_tmul]
-      show o • ((1 : chartRing B S hS X.1 X.2 (z i)) ⊗ₜ[A] q) = o ⊗ₜ[A] q
+      change o • ((1 : chartRing B S hS X.1 X.2 (z i)) ⊗ₜ[A] q) = o ⊗ₜ[A] q
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
   have hn : ∀ i, rN i s ∈ LinearMap.range (bW i) := by
     intro i
-    show rN i s ∈ LinearMap.range (((rN i).comp bT).liftBaseChange _)
+    change rN i s ∈ LinearMap.range (((rN i).comp bT).liftBaseChange _)
     rw [LinearMap.range_liftBaseChange]
     refine Submodule.span_mono ?_ (span_range_le_spanRestrict ℬ g (φ i)
       (hM U (z i) hU (hz i) (φ i)).2 (hGc U (z i) hU (hz i) (φ i)).2 (hs i))
@@ -401,7 +397,7 @@ theorem fg_sectionIdeal_generatedIdeal (ℬ : AlgebraSheaf.{u, u} B S hS X.1 X.2
   classical
   obtain ⟨t, ht⟩ := (module_finite_sections_of_isFiniteTypeOnSite G hG hft W hW).fg_top
   refine ⟨t.image fun e => ofModuleSection ℬ (op W) (g.val.app (op W) e), ?_⟩
-  show _ = (generatedIdeal ℬ g).obj (op W)
+  change _ = (generatedIdeal ℬ g).obj (op W)
   rw [generatedIdeal_obj_of_isAffine ℬ hℬ hG g W hW, Finset.coe_image]
   refine le_antisymm (Ideal.span_mono ?_) (Ideal.span_le.mpr ?_)
   · rintro _ ⟨e, -, rfl⟩

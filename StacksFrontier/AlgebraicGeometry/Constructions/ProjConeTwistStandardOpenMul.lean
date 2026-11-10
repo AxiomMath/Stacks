@@ -176,7 +176,7 @@ theorem coe_associatedModuleSheafStandardOpenEquiv_twistMul {d : ℕ} (hf : f �
         ⟨(a : LocalizedModule.Away f A) * (b : LocalizedModule.Away f A), hmem⟩ =
       twistMulSection 𝒜 i j (op (ProjectiveSpectrum.basicOpen 𝒜 f)) x y := by
     refine twistSection_ext 𝒜 fun p => ?_
-    show moduleToFiber (M := A) 𝒜 f p
+    change moduleToFiber (M := A) 𝒜 f p
         ((a : LocalizedModule.Away f A) * (b : LocalizedModule.Away f A)) = x.1 p * y.1 p
     rw [← hfib i x p, ← hfib j y p]
     exact moduleToFiber_mul 𝒜 f p _ _

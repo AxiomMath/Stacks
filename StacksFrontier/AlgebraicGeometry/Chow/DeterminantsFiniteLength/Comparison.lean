@@ -619,7 +619,7 @@ private lemma compatible_middle {R : Type u} [CommRing R] [IsLocalRing R]
       (D.gamma_bijective (K := g.C) (L := g.F) (M := g.I)
         g.right.i g.right.p g.right.hi g.right.hp g.right.exact)).2.comp
         (interchangeD_surjective g D))).mp
-  show (e.toLinearMap.comp (g.middle.gammaD D)).comp
+  change (e.toLinearMap.comp (g.middle.gammaD D)).comp
       ((TensorProduct.map (g.left.gammaD D) (g.right.gammaD D)).comp (interchangeD g D)) = _
   calc
     _ = (e.toLinearMap.comp (g.center.gammaD D)).comp
@@ -680,7 +680,7 @@ private lemma naturalComparison_of_exact {R : Type u} [CommRing R] [IsLocalRing 
     t.hi t.hp t.exact u v w hu hw
   have hC := determinantExactSequenceMap_natural
     s.i s.p t.i t.p s.hi s.hp s.exact t.hi t.hp t.exact u v w hu hw
-  show (b'.toLinearMap.comp (D.toFunctor.map v).iso.hom.hom.hom).comp
+  change (b'.toLinearMap.comp (D.toFunctor.map v).iso.hom.hom.hom).comp
     (s.gammaD D) = _
   calc
     _ = (b'.toLinearMap.comp (t.gammaD D)).comp
@@ -870,7 +870,7 @@ private lemma comparison_exact {R : Type u} [CommRing R] [IsLocalRing R]
             rfl
           have heq : (socleSubmodule R L.of.obj).map s.p = socleSubmodule R M.of.obj :=
             socle_map_equiv (LinearEquiv.ofBijective s.p ⟨hp, s.hp⟩)
-          show (submoduleSequence M ((socleSubmodule R L.of.obj).map s.p)).Compatible
+          change (submoduleSequence M ((socleSubmodule R L.of.obj).map s.p)).Compatible
             (comparison D (finiteLengthSubmoduleObject M.of.property
               ((socleSubmodule R L.of.obj).map s.p)))
             (comparison D M)

@@ -170,7 +170,7 @@ private lemma restrictionBaseChange_isIso {Y T X S : Scheme.{u}}
     mate_sheafPushforward_app _ _ _ _ (smallEtaleComposeBaseChangeAdj f)
       (smallEtaleComposeBaseChangeAdj e) (siteSquare e h g f w).hom _
       (rightSquare_app.{u, v} e h g f w) F V.unop
-  show IsIso (((restrictionBaseChange.{u, v} e h g f w).app F).hom.app (op V.unop))
+  change IsIso (((restrictionBaseChange.{u, v} e h g f w).app F).hom.app (op V.unop))
   rw [hmate]
   exact Functor.map_isIso F.obj _
 
@@ -197,9 +197,8 @@ private lemma baseChange_isIso_of_etale {Y T X S : Scheme.{u}}
     (adj.{u, v} f) (restrictionAdjunction.{u, v} f) (rightSquare.{u, v} e h g f w).hom
     (rightSquare.{u, v} e h g f w).hom (Iso.refl _) (Iso.refl _) ?_ F).mpr
     (restrictionBaseChange_isIso e h g f w sq F)
-  apply TwoSquare.ext
-  intro P
-  show (rightSquare.{u, v} e h g f w).hom.app P =
+  refine NatTrans.ext (funext fun P => ?_)
+  change (rightSquare.{u, v} e h g f w).hom.app P =
     (push.{u, v} g).map (𝟙 ((push.{u, v} e).obj P)) ≫
       (rightSquare.{u, v} e h g f w).hom.app P
   rw [(push.{u, v} g).map_id, Category.id_comp]
@@ -334,7 +333,7 @@ public theorem isIso_smallEtaleSetsBaseChange_of_isIso_local
   have hone : IsTerminal one := by
     refine IsTerminal.ofUniqueHom (fun Z => MorphismProperty.Over.homMk Z.hom) fun Z m => ?_
     apply MorphismProperty.Over.Hom.ext
-    show m.left = Z.hom
+    change m.left = Z.hom
     simpa [one, Scheme.Etale.mk, MorphismProperty.Over.mk,
       MorphismProperty.Over.homMk, CategoryTheory.Over.homMk] using
       (MorphismProperty.Over.w m)
@@ -343,7 +342,7 @@ public theorem isIso_smallEtaleSetsBaseChange_of_isIso_local
     rw [GrothendieckTopology.coversTop_iff_of_isTerminal
       (J := smallEtaleTopology D.X) (X := one) (hX := hone),
       ← Sieve.ofArrows_eq_ofObjects hone U a, Scheme.ofArrows_mem_smallEtaleTopology_iff]
-    show (⋃ i, Set.range (D.u i)) = Set.univ
+    change (⋃ i, Set.range (D.u i)) = Set.univ
     exact Set.eq_univ_iff_forall.2 fun x => by
       simpa only [Set.mem_iUnion, Set.mem_range] using hcoverData.1 x
   refine Sheaf.isIso_of_coversTop hU fun i => ?_

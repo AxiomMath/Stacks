@@ -25,7 +25,7 @@ that the family of integral closed subspaces presenting the rational equivalence
   from one on `V` with the same pushforward to `X`.
 * `isRationallyEquivalentToZeroWithinCanonical_cycleGroupClosedPushforward`: if `β ∼_rat 0` at
   the canonical embeddings, then `i_*β ∼_rat 0` within `|Y|` at the canonical embeddings.
-* `isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward`:
+* `isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward`:
   if `i_*β ∼_rat 0` within `|Y|` at the canonical embeddings, then `β ∼_rat 0` at the canonical
   embeddings.
 
@@ -141,7 +141,7 @@ and let `β ∈ Z_k(Y)`. If the pushforward `i_*β` is rationally equivalent to 
 canonical embeddings of Stacks 0ENK within `|Y|`, that is, with a presenting family of integral
 closed subspaces inside `|Y|`, then `β` is rationally equivalent to zero on `Y` at the canonical
 embeddings. -/
-theorem isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward
+theorem isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward
     (k : ℤ) {β : CycleGroup D (Y.ι ≫ sX) k}
     (hβ : IsRationallyEquivalentToZeroWithinCanonical.{v} D sX hX k
       (cycleGroupClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2 sX hX.2.2
@@ -193,7 +193,7 @@ theorem isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWit
         (integralClosedSubspacePushforward D (Y.ι ≫ sX) hYgood (V j) k (c' j)).1 T := fun j =>
     (congrFun (hpush j) T).symm
   rw [finsum_congr hterm]
-  show _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
     (cycleFamilySum D (Y.ι ≫ sX) hYgood V hVfin k c').1 T
   by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
       (D.isDecentSpace_of_isGood sX hX) hY.2 T0 = T

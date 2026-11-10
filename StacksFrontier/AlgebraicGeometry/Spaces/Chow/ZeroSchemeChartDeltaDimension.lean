@@ -273,13 +273,13 @@ theorem schemeDeltaDimension_subschemeι_sectionEvaluationIdealAt_le
       fun r : chartRing D.site D.base D.base_mem X hX.1 V => r • t)
     (k : ℤ)
     (hdim : deltaDimensionClosed D sX hX Set.univ isClosed_univ ≤ ((k + 1 : ℤ) : EInt)) :
-    haveI hft := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
-    haveI hftD := locallyOfFiniteType_subschemeι_comp_id_chartChowSituation D sX hX V hs
-      (Scheme.IdealSheafData.ofIdealTop
-        (sectionEvaluationIdealAt D.site D.base D.base_mem ⟨X, hX.1⟩ L s V))
-    Stacks.Chow.schemeDeltaDimension (chartChowSituation D sX hX V hs)
+    @Stacks.Chow.schemeDeltaDimension (chartChowSituation D sX hX V hs) _
         ((Scheme.IdealSheafData.ofIdealTop (sectionEvaluationIdealAt D.site D.base D.base_mem
-          ⟨X, hX.1⟩ L s V)).subschemeι ≫ 𝟙 (chartScheme V)) ≤ (k : EInt) := by
+          ⟨X, hX.1⟩ L s V)).subschemeι ≫ 𝟙 (chartScheme V))
+        (locallyOfFiniteType_subschemeι_comp_id_chartChowSituation D sX hX V hs
+          (Scheme.IdealSheafData.ofIdealTop
+            (sectionEvaluationIdealAt D.site D.base D.base_mem ⟨X, hX.1⟩ L s V))) ≤
+      (k : EInt) := by
   have hft := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
   obtain ⟨g, hg, hgspan⟩ :=
     exists_mem_nonZeroDivisors_sectionEvaluationIdealAt_eq_span D sX hX L s hsreg V t hfree

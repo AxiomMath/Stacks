@@ -68,7 +68,8 @@ and the inclusion as a morphism of `FTS S`, which is what clause (5) consumes.
 
 *The model.* Everything is read at `HasDerivedCategory.standard`, which is the instance both inputs
 are stated at — `StacksFrontier/AlgebraicGeometry/Duality/ClosedImmersionRightAdjointPredicate.lean`
-for the first and `StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierNormalTensorIso.lean` for
+for the first and `StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierNormalTensorIso.lean`
+for
 the second. The local attribute carries priority `10000` for the same reason it does there: the
 import closure reaches `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, whose
 `HasDerivedCategory` instances are global and would otherwise displace the choice.

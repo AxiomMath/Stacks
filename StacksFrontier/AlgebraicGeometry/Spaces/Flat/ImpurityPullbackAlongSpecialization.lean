@@ -199,7 +199,7 @@ theorem exists_isImpurity_isLocallyQuasiFinite_of_isQuasiFiniteAt
     (hU.2.property_snd (𝟙 (yoneda.obj D.T))) t₀ D.t' (ht₀map ▸ D.specializes)
   obtain ⟨_, _, himp⟩ := D.exists_isImpurity_pullbackAlong hD (yoneda.map j) hs ht₀map ht₀'
   refine ⟨_, himp, ?_⟩
-  show IsLocallyQuasiFinite B S hS (yoneda.map j ≫ D.g)
+  change IsLocallyQuasiFinite B S hS (yoneda.map j ≫ D.g)
   rw [hjfst, Category.assoc]
   exact isLocallyQuasiFinite_comp B S hS (isAlgebraicSpace_yoneda B S hS T₀) hU.1 P.hY fst
     (U.ι ≫ D.g)

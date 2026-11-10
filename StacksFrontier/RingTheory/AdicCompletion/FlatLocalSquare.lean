@@ -108,7 +108,7 @@ public theorem flat_of_flat_of_bijective_adicCompletionMap
   let wc := adicCompletionMap w (maximalIdeal P) (maximalIdeal Q) (map_maximalIdeal_le w)
   let zc := adicCompletionMap z (maximalIdeal R) (maximalIdeal S) (map_maximalIdeal_le z)
   have hcomm : zc.comp uc = vc.comp wc := by
-    show (adicCompletionMap z _ _ _).comp (adicCompletionMap u _ _ _) =
+    change (adicCompletionMap z _ _ _).comp (adicCompletionMap u _ _ _) =
       (adicCompletionMap v _ _ _).comp (adicCompletionMap w _ _ _)
     rw [adicCompletionMap_comp_adicCompletionMap u z _ _ _ _ _ hzu,
       adicCompletionMap_comp_adicCompletionMap w v _ _ _ _ _ hvw]

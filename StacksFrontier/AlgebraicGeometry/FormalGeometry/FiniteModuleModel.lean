@@ -154,7 +154,7 @@ private theorem iPowerTorsion_tilde_restrict_isZero
   have hstalk (x : V) : Subsingleton (G.presheaf.stalk x) := by
     have hxI : ¬ I ≤ x.1.asIdeal := by
       have hxout : (x.1 : PrimeSpectrum R) ∉ PrimeSpectrum.zeroLocus (I : Set R) := by
-        show (x.1 : PrimeSpectrum R) ∈ (PrimeSpectrum.zeroLocus (I : Set R))ᶜ
+        change (x.1 : PrimeSpectrum R) ∈ (PrimeSpectrum.zeroLocus (I : Set R))ᶜ
         exact x.2
       intro hle
       exact hxout ((PrimeSpectrum.mem_zeroLocus x.1 (I : Set R)).mpr hle)
@@ -276,7 +276,7 @@ private lemma tilde_smul_eq_zero {R : CommRingCat.{u}}
     (U : (Spec R).Opens) (x : Γ(tilde M, U)) : a • x = 0 := by
   apply Subtype.ext
   funext p
-  show (algebraMap R (Localization.AtPrime p.val.asIdeal) a) • x.val p = 0
+  change (algebraMap R (Localization.AtPrime p.val.asIdeal) a) • x.val p = 0
   rw [algebraMap_smul]
   induction x.val p using LocalizedModule.induction_on with
   | h m s => simp [LocalizedModule.smul'_mk, ha]
@@ -309,7 +309,7 @@ private lemma tilde_map_smul_apply {R : CommRingCat.{u}} (M : ModuleCat.{u} R)
       a • x := by
   apply Subtype.ext
   funext p
-  show LocalizedModule.map p.val.asIdeal.primeCompl (a • LinearMap.id) (x.val p) =
+  change LocalizedModule.map p.val.asIdeal.primeCompl (a • LinearMap.id) (x.val p) =
     (algebraMap R (Localization.AtPrime p.val.asIdeal) a) • x.val p
   rw [algebraMap_smul]
   induction x.val p using LocalizedModule.induction_on with
@@ -352,7 +352,7 @@ private lemma hom_eq_zero_of_affine {X : Scheme.{u}} {M N : X.Modules}
   refine ⟨V, hVU, hpV, ?_⟩
   have hz : ∀ y : Γ(M, V), appHom f V y = 0 := fun y ↦
     (DFunLike.congr_fun (h ⟨V, hV⟩) y).trans (LinearMap.zero_apply y)
-  show N.val.map (homOfLE hVU).op ((f.val.app (op U)) x) = N.val.map (homOfLE hVU).op 0
+  change N.val.map (homOfLE hVU).op ((f.val.app (op U)) x) = N.val.map (homOfLE hVU).op 0
   rw [map_zero]
   exact (PresheafOfModules.naturality_apply f.val (homOfLE hVU).op x).symm.trans (hz _)
 
@@ -370,10 +370,10 @@ private lemma restrict_tilde_map_smul_apply
   apply (ConcreteCategory.bijective_of_isIso
     ((tilde (R := CommRingCat.of S.A) M).restrictAppIso S.U.ι U).hom).1
   rw [Scheme.Modules.smul_restrictAppIso_hom_apply]
-  show ((tilde.functor (.of S.A)).map (ModuleCat.ofHom (a • LinearMap.id))).val.app
+  change ((tilde.functor (.of S.A)).map (ModuleCat.ofHom (a • LinearMap.id))).val.app
       (op (S.U.ι ''ᵁ U)) x = _
   refine (tilde_map_smul_apply (R := CommRingCat.of S.A) M a (S.U.ι ''ᵁ U) x).trans ?_
-  show _ = ((tilde (R := CommRingCat.of S.A) M).smul
+  change _ = ((tilde (R := CommRingCat.of S.A) M).smul
     ((S.U.ι.appIso U).inv.hom ((S.U.ι.appIso U).hom.hom _))).asHom x
   simp only [← CommRingCat.comp_apply, Iso.hom_inv_id, CommRingCat.id_apply]
   rfl
@@ -393,7 +393,7 @@ private lemma smul_top_le_ker_iff {A B : Type u} [CommRing A] [CommRing B]
       rw [← map_smul]
       exact h a ha x trivial
     · intro h a ha x hx
-      show f (a • x) = 0
+      change f (a • x) = 0
       rw [map_smul]
       exact Submodule.mem_annihilator.mp (h ha) _ ⟨x, rfl⟩
   rw [h, Ideal.map_le_iff_le_comap]
@@ -549,7 +549,7 @@ private lemma idealPowerMultiple_restricted_comp_zero_iff
   · intro h a ha
     refine hom_eq_zero_of_affine _ fun U ↦ ?_
     ext x
-    show appHom f U.1
+    change appHom f U.1
       (((restrictedTildeFunctor S).map (ModuleCat.ofHom (a • LinearMap.id))).val.app
         (op U.1) x) = 0
     exact (congrArg (fun y ↦ appHom f U.1 y)
@@ -670,9 +670,9 @@ private lemma powerQuotient_congr {X : Scheme.{u}} (I : X.IdealSheafData) (n : �
     (fun {W} φ ↦ (idealPowerMultiple_comp_iso_iff I n e φ).symm)
   obtain ⟨i, hi⟩ := (exists_cokernel_iso_iff _ _).mpr ⟨_, ⟨hc'⟩⟩
   refine ⟨i ≪≫ d.symm, ?_⟩
-  show _ ≫ i.hom ≫ d.inv = f
+  change _ ≫ i.hom ≫ d.inv = f
   rw [← Category.assoc, hi]
-  show (e.hom ≫ g) ≫ d.inv = f
+  change (e.hom ≫ g) ≫ d.inv = f
   rw [← w]
   simp
 
@@ -748,7 +748,7 @@ private lemma ideal_smul_quotient_eq_bot {A : Type u} [CommRing A]
   intro x hx
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show (Submodule.Quotient.mk (a • x) : M ⧸ J • (⊤ : Submodule A M)) = 0
+    change (Submodule.Quotient.mk (a • x) : M ⧸ J • (⊤ : Submodule A M)) = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr (Submodule.smul_mem_smul ha trivial)
 
 private lemma ideal_smul_le_ker_of_annihilated {A : Type u} [CommRing A]
@@ -756,7 +756,7 @@ private lemma ideal_smul_le_ker_of_annihilated {A : Type u} [CommRing A]
     (h : J • (⊤ : Submodule A N) = ⊥) : J • (⊤ : Submodule A M) ≤ f.ker := by
   rw [Submodule.smul_le]
   intro a ha x hx
-  show f (a • x) = 0
+  change f (a • x) = 0
   rw [map_smul]
   exact Submodule.mem_annihilator.mp (Submodule.le_annihilator_iff.mpr h ha) _ trivial
 
@@ -785,7 +785,7 @@ private lemma exists_finite_extension_morphism (M : ModuleCat.{u} S.A)
   have : (tilde.functor (.of S.A)).Full := (tilde.fullyFaithfulFunctor (R := .of S.A)).full
   let f : N ⟶ M := (tilde.functor (.of S.A)).preimage (eN.hom ≫ ψ)
   refine ⟨N, inferInstance, f, (Scheme.Modules.restrictFunctor S.U.ι).mapIso eN ≪≫ e, ?_⟩
-  show (Scheme.Modules.restrictFunctor S.U.ι).map eN.hom ≫ e.hom ≫ φ = _
+  change (Scheme.Modules.restrictFunctor S.U.ι).map eN.hom ≫ e.hom ≫ φ = _
   refine (congrArg (fun k ↦ (Scheme.Modules.restrictFunctor S.U.ι).map eN.hom ≫ k) he).trans ?_
   refine ((Scheme.Modules.restrictFunctor S.U.ι).map_comp eN.hom ψ).symm.trans ?_
   exact congrArg (Scheme.Modules.restrictFunctor S.U.ι).map
@@ -837,13 +837,13 @@ private lemma exists_next_termModel
   -- Restate the goal without `Q`, whose `module` and `iso` fields are only definitionally the
   -- quotient and the composite below; a rewrite would build its motive at a transparency at
   -- which the composite is not type-correct.
-  show (restrictedTildeFunctor S).map (ModuleCat.ofHom f') ≫ M.iso.hom =
+  change (restrictedTildeFunctor S).map (ModuleCat.ofHom f') ≫ M.iso.hom =
     ((asIso ((restrictedTildeFunctor S).map (ModuleCat.ofHom P.mkQ))).inv ≫ e.hom) ≫ t
   apply (cancel_epi ((restrictedTildeFunctor S).map (ModuleCat.ofHom P.mkQ))).mp
   rw [← Category.assoc, ← Functor.map_comp]
-  show (restrictedTildeFunctor S).map (ModuleCat.ofHom (f'.comp P.mkQ)) ≫ M.iso.hom = _
+  change (restrictedTildeFunctor S).map (ModuleCat.ofHom (f'.comp P.mkQ)) ≫ M.iso.hom = _
   rw [Submodule.liftQ_mkQ]
-  show (restrictedTildeFunctor S).map f ≫ M.iso.hom =
+  change (restrictedTildeFunctor S).map f ≫ M.iso.hom =
     (restrictedTildeFunctor S).map (ModuleCat.ofHom P.mkQ) ≫
       (asIso ((restrictedTildeFunctor S).map (ModuleCat.ofHom P.mkQ))).inv ≫ e.hom ≫ t
   rw [← he]
@@ -889,7 +889,7 @@ private lemma reduction_torsion_of_powerQuotient
   have hcomp : e.hom ≫ (restrictedTildeFunctor S).map (ModuleCat.ofHom g) = d.hom := by
     apply (cancel_epi (cokernel.π _)).mp
     rw [← Category.assoc, he, ← Functor.map_comp, hd]
-    show (restrictedTildeFunctor S).map (ModuleCat.ofHom (g.comp P.mkQ)) = _
+    change (restrictedTildeFunctor S).map (ModuleCat.ofHom (g.comp P.mkQ)) = _
     rw [hg]
     rfl
   rw [← isIso_comp_left_iff e.hom, hcomp]

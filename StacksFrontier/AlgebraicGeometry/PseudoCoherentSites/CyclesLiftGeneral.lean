@@ -275,7 +275,7 @@ theorem exists_coveringSieve_lift_free
     PresheafOfModules.sectionsMk
       (fun Y => G.val.map Y.unop.hom.op (a k)) (by
         intro Y Z gg
-        show G.val.map (gg.unop.left.op) (G.val.map (Y.unop.hom.op) (a k)) =
+        change G.val.map (gg.unop.left.op) (G.val.map (Y.unop.hom.op) (a k)) =
           G.val.map (Z.unop.hom.op) (a k)
         rw [← G.val.map_comp_apply, ← op_comp, Over.w gg.unop])
   let H := SheafOfModules.overFunctor R V
@@ -295,16 +295,16 @@ theorem exists_coveringSieve_lift_free
   have hk : kk ≫ p.over V = q.over V := by
     apply hc.hom_ext
     intro i
-    show c.ι.app i ≫ kk ≫ pF = c.ι.app i ≫ q.over V
+    change c.ι.app i ≫ kk ≫ pF = c.ι.app i ≫ q.over V
     apply (cancel_epi η.hom).1
     have hsections : SheafOfModules.sectionsMap pF (t i.as) =
         (F.over V).unitHomEquiv (η.hom ≫ c.ι.app i ≫ q.over V) := by
       apply PresheafOfModules.sections_ext
       intro Y
-      show p.val.app (Opposite.op Y.unop.left)
+      change p.val.app (Opposite.op Y.unop.left)
         (G.val.map Y.unop.hom.op (a i.as)) = _
       rw [PresheafOfModules.naturality_apply, ha i.as]
-      show F.val.map Y.unop.hom.op
+      change F.val.map Y.unop.hom.op
         (F.val.map f.op ((s i.as).val (Opposite.op U))) = _
       have hsection := (s i.as).property Y.unop.hom.op
       rw [← (s i.as).property f.op] at hsection
@@ -336,7 +336,7 @@ theorem exists_coveringSieve_lift_free
       _ = η.hom ≫ c.ι.app i ≫ q.over V := (F.over V).unitHomEquiv.symm_apply_apply _
   refine ⟨j.over V ≫ kk, ?_⟩
   rw [Category.assoc, hk]
-  show (SheafOfModules.overFunctor R V).map (j ≫ r ≫ e) =
+  change (SheafOfModules.overFunctor R V).map (j ≫ r ≫ e) =
     (SheafOfModules.overFunctor R V).map e
   rw [← Category.assoc, hjr, Category.id_comp]
 

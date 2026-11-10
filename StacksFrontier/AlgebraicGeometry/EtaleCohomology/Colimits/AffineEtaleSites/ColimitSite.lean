@@ -266,7 +266,7 @@ public theorem affineEtaleSiteColimit_hom_descends
   have hδ (T : E.system.C i) :
       (Q.map (δ T)).left ≫ (E.toLimitFst i).app T =
         (E.toLimitFst j).app ((E.system.u a).obj T) ≫ (E.transitionFst a).app T := by
-    show (AlgebraicGeometry.SmallAffineEtale.toScheme B c.pt hX).map (δ T) ≫ _ = _
+    change (AlgebraicGeometry.SmallAffineEtale.toScheme B c.pt hX).map (δ T) ≫ _ = _
     rw [E.toLimitFst_transition a T]
     simp [δ, ← Category.assoc]
   have hpj : (E.toLimitFst j).app Xj ≫ (G.obj Xj).hom =
@@ -300,7 +300,7 @@ public theorem affineEtaleSiteColimit_hom_descends
     apply Q.map_injective
     apply Over.OverMorphism.ext
     apply (E.toLimit_isPullback i Y).hom_ext
-    · show ((Q.map ((E.toLimit j).map k)).left ≫ (Q.map (δ Y)).left) ≫
+    · change ((Q.map ((E.toLimit j).map k)).left ≫ (Q.map (δ Y)).left) ≫
           (E.toLimitFst i).app Y =
         ((Q.map (δ X)).left ≫ (Q.map f).left) ≫ (E.toLimitFst i).app Y
       have hsg : s ≫ g₀.left ≫ pullback.fst (F.obj Y).hom (D.map e) =
@@ -324,7 +324,7 @@ public theorem affineEtaleSiteColimit_hom_descends
       exact (Category.assoc _ _ _).symm
     · exact (Over.w _).trans (Over.w _).symm
   refine ⟨j, a, k, ?_⟩
-  show (E.toLimit j).map k = f
+  change (E.toLimit j).map k = f
   change (E.toLimit j).map k ≫ 𝟙 _ = 𝟙 _ ≫ f at hdesc
   simpa only [Category.comp_id, Category.id_comp] using hdesc
 
@@ -349,14 +349,14 @@ public theorem affineEtaleSiteColimit_hom_eventually_eq
       ((E.toLimitFst i).app X)
       (limitAffineEtaleStructureMorphism D c B hX ((E.toLimit i).obj X))
       (E.toLimit_isPullback i X)
-    show (E.toLimitFst i).app X ≫
+    change (E.toLimitFst i).app X ≫
         ((E.levelEquiv i).functor ⋙ AlgebraicGeometry.SmallAffineEtale.toScheme B
           (D.obj i₀) (hD i₀)).map f =
       (E.toLimitFst i).app X ≫
         ((E.levelEquiv i).functor ⋙ AlgebraicGeometry.SmallAffineEtale.toScheme B
           (D.obj i₀) (hD i₀)).map g
     rw [← (E.toLimitFst i).naturality f, ← (E.toLimitFst i).naturality g]
-    show (AlgebraicGeometry.SmallAffineEtale.toScheme B c.pt hX).map ((E.toLimit i).map f) ≫ _ = _
+    change (AlgebraicGeometry.SmallAffineEtale.toScheme B c.pt hX).map ((E.toLimit i).map f) ≫ _ = _
     rw [hfg]
     rfl
   obtain ⟨j₀, hij, heq⟩ :=
@@ -392,7 +392,7 @@ public theorem affineEtaleSiteColimit_hom_eventually_eq
     have hcomp : p ≫ (F.map f).left = p ≫ (F.map g).left := by
       have h := congrArg (fun z => pullback.lift p (t ≫ D.map b) hw ≫ z) heq'
       simpa only [← Category.assoc, pullback.lift_fst] using h
-    show ((E.system.u a ⋙ (E.levelEquiv j).functor ⋙
+    change ((E.system.u a ⋙ (E.levelEquiv j).functor ⋙
         AlgebraicGeometry.SmallAffineEtale.toScheme B _ _).map f) ≫
         (E.transitionFst a).app Y =
       ((E.system.u a ⋙ (E.levelEquiv j).functor ⋙
@@ -542,7 +542,7 @@ private lemma smallModel_family_descends (hc : IsLimit c)
       (Y := (smallModelRestrict D c B hD hX (b t)).obj A') (g t) }
   have hmap (t : E.I₀) : (smallModelToLimit D c B hD hX m).map (E'.f t) =
       eqToHom (hV t) ≫ E.f t := by
-    show (smallModelRestrict D c B hD hX (e t) ⋙ smallModelToLimit D c B hD hX m).map
+    change (smallModelRestrict D c B hD hX (e t) ⋙ smallModelToLimit D c B hD hX m).map
       (X := (smallModelRestrict D c B hD hX (b t)).obj (V t))
       (Y := (smallModelRestrict D c B hD hX (b t)).obj A') (g t) = _
     exact (smallModelRestrict_toLimit_map D c B hD hX (e t) (g t)).trans (hg t)
@@ -552,7 +552,7 @@ private lemma smallModel_family_descends (hc : IsLimit c)
   · rintro _ _ ⟨t⟩
     apply PreZeroHypercover.presieve₀_of_eq (E'.map (smallModelToLimit D c B hD hX m)) t
       (E.f t) (hV t).symm
-    show E.f t = eqToHom (hV t).symm ≫
+    change E.f t = eqToHom (hV t).symm ≫
       (smallModelToLimit D c B hD hX m).map (X := E'.X t) (Y := A'') (E'.f t)
     refine Eq.symm ?_
     refine (congrArg (fun z => eqToHom (hV t).symm ≫ z) (hmap t)).trans ?_
@@ -595,7 +595,7 @@ public theorem affineEtaleSiteColimit_mem_precoverage_iff
       E'.presieve₀.map (smallModelRestrict D c B hD hX a), ha,
       finite_presieve_map (smallModelRestrict D c B hD hX a)
         (Precoverage.ofArrows_mem_finite E'.X E'.f), ?_⟩
-    show E.presieve₀ = (E'.presieve₀.map (smallModelRestrict D c B hD hX a)).map
+    change E.presieve₀ = (E'.presieve₀.map (smallModelRestrict D c B hD hX a)).map
       (smallModelToLimit D c B hD hX j)
     rw [hEq]
     simp only [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
@@ -606,7 +606,7 @@ public theorem affineEtaleSiteColimit_mem_precoverage_iff
     subst Z
     have := smallModelToLimit_continuous D c B hD hX hc i
     apply affineEtale_topology_finite_cover B c.pt hX _ _ (finite_presieve_map _ hfin)
-    show S.map (smallModelToLimit D c B hD hX i) ∈
+    change S.map (smallModelToLimit D c B hD hX i) ∈
       (AlgebraicGeometry.SmallAffineEtale.topology B c.pt hX).toPrecoverage _
     rw [GrothendieckTopology.mem_toPrecoverage_iff]
     exact Set.mem_of_eq_of_mem

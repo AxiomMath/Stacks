@@ -151,7 +151,7 @@ theorem firstOrderBraidedProjectionFormula_tmul (W : (Opens ↑T.scheme)ᵒᵖ)
         (firstOrderIdealScalar T Y f W ω)
         (Stacks.RingedSpace.pullbackUnit
           (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom N W x) := a2
-  show (λ_ ((Scheme.Modules.pullback (firstOrderThickeningProjHom T Y f)).obj N)).hom.val.app
+  change (λ_ ((Scheme.Modules.pullback (firstOrderThickeningProjHom T Y f)).obj N)).hom.val.app
       ((RingedSpaceModuleAdjunction.opensMap
         (firstOrderThickeningProjHom T Y f).toLRSHom.toShHom).op.obj W)
       ((Stacks.AlgebraicGeometry.ProjectionFormula.projectionFormulaMap
@@ -175,7 +175,7 @@ theorem whiskerLeft_inrSheaf_comp_firstOrderThickeningProjectionFormulaMap :
         (β_ N (firstOrderThickeningUnitRestriction T Y f)).hom =
       (β_ N (dpDifferentialsSheaf T Y f)).hom ≫ (firstOrderThickeningInrSheaf T Y f ▷ N) :=
     BraidedCategory.braiding_naturality_right N (firstOrderThickeningInrSheaf T Y f)
-  show (N ◁ firstOrderThickeningInrSheaf T Y f) ≫
+  change (N ◁ firstOrderThickeningInrSheaf T Y f) ≫
       (β_ N (firstOrderThickeningUnitRestriction T Y f)).hom ≫
         Stacks.AlgebraicGeometry.ProjectionFormula.projectionFormulaMap
             (firstOrderThickeningProjHom T Y f)

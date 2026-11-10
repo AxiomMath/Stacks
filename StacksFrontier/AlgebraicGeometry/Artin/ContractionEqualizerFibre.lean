@@ -353,7 +353,7 @@ theorem preZ_eq_and_factors (A : BigFppfOver B V.left.obj V.left.property)
       rfl
     exact h0.trans (hl.trans (completionSheafToSmallerBase_yonedaOver A Zs))
   have h2 : Zs ⊆ d.preZ (toV A) :=
-    Space.subset_preimage_of_completionSheaf_hom B S hS hAs.isSheaf
+    Space.subset_preimage_of_completionSheaf_hom B S hS
       (isSheaf_comp_uliftFunctor B S hS hAs) hVs.isSheaf (isSheaf_comp_uliftFunctor B S hS hVs)
       (yoneda.map (toV A)) _ hl'
   have h1 : d.preZ (toV A) ⊆ Zs := by

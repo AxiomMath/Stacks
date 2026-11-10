@@ -172,11 +172,11 @@ lemma sum_selfMapBlockRestriction_comp_selfMapBlockInclusion [IsFinite f] :
     (eq_toPullbackTop f _).trans (eq_toPullbackTop f _).symm
   have hsum := sum_etaleSections_restrict_inclusion Λ f ((etaleModuleInverseImage.{u, r} Λ f).obj C)
   rw [NatTrans.app_sum]
-  show ∑ y, G.map (toPullbackTop f (etaleSectionObj f y)).op ≫
+  change ∑ y, G.map (toPullbackTop f (etaleSectionObj f y)).op ≫
     (etaleSectionsInclusion Λ f _ y ≫ G.map (pullbackTopToTop f).op) = 𝟙 _
   simp_rw [h₁, op_comp, Functor.map_comp, Category.assoc, ← Preadditive.comp_sum,
     ← Category.assoc, ← Preadditive.sum_comp]
-  show G.map (toPullbackTop f _).op ≫ (∑ y, G.map (etaleSectionToTop f y).op ≫
+  change G.map (toPullbackTop f _).op ≫ (∑ y, G.map (etaleSectionToTop f y).op ≫
     etaleSectionsInclusion Λ f _ y) ≫ G.map (pullbackTopToTop f).op = 𝟙 _
   rw [hsum, Category.id_comp, ← Functor.map_comp, ← op_comp, h₂, op_id,
     CategoryTheory.Functor.map_id]
@@ -253,7 +253,7 @@ lemma selfMapSectionsTwistEndo_comp_selfMapBlockRestriction {y y₂ : EtaleSecti
   set G := ((etaleModuleInverseImage.{u, r} Λ f).obj C).obj
   set t := (τ.app C).hom
   have hτ := t.naturality (toPullbackTop f (etaleSectionObj f y₂)).op
-  show (t.app _ ≫ G.map (pullbackTopSelfMap f φ w).op) ≫
+  change (t.app _ ≫ G.map (pullbackTopSelfMap f φ w).op) ≫
       G.map (toPullbackTop f (etaleSectionObj f y)).op =
     G.map (toPullbackTop f (etaleSectionObj f y₂)).op ≫ t.app _ ≫
       G.map (selfMapSectionLift f φ h).op

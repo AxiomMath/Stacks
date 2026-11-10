@@ -62,8 +62,8 @@ Noetherian local domain with `T` the closed point and `F = 𝒪_X`, the depth-on
 and `j_{V,*}(F|_V)` is the ring of sections over the punctured spectrum, which is not finite over
 a non-normal such ring.  So the statement below is conditional, not a weakening of the source,
 and no hypothesis of the source may be dropped on the strength of it.  See the implementation
-notes of
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence`
+notes of the sibling module `DepthTwoExtensionExistence` (in
+`StacksFrontier/AlgebraicGeometry/LocalCohomology/ImprovingCoherentModules/`)
 for the `Spec ℤ` witness showing the same for a merely specialization-stable `T`.
 
 ## References

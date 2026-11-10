@@ -129,7 +129,7 @@ theorem siteActionHom_comp (g h : G) :
       siteActionHom G B hS V a (h * g) :=
   (Over.post (X := B.obj hS) B.inclusion).map_injective <| by
     rw [CategoryTheory.Functor.map_comp, post_map_siteActionHom, post_map_siteActionHom,
-      post_map_siteActionHom, map_mul, Aut.Aut_mul_def]
+      post_map_siteActionHom, map_mul, Aut.mul_asIso]
     rfl
 
 variable (hR : B.Contains (actionRelationScheme (underlyingOver B hS V) G).left)

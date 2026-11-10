@@ -210,8 +210,13 @@ add_to_sga "6 I 1.1.3" "partial" CategoryTheory.Functor.Additive
 add_to_sga "6 I 1.1.3" "partial" CategoryTheory.Functor.IsTriangulated
 add_to_sga "6 I 1.1.3" "partial" CategoryTheory.Functor.mapTriangle
 add_to_sga "6 I 1.1.3" "partial" CategoryTheory.additiveFunctor
-add_to_sga "6 I 1.1.5" "f*"
-  CategoryTheory.Functor.instLiftingCochainComplexIntDerivedCategoryQQuasiIsoUpCompHomologicalComplexMapHomologicalComplexMapDerivedCategory
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `CategoryTheory.Functor <|
+    "instLiftingCochainComplexIntDerivedCategoryQQuasiIsoUpCompHomologicalComplex" ++
+      "MapHomologicalComplexMapDerivedCategory"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_sga "6 I 1.1.5" "f*" $decl:ident))
 add_to_sga "6 I 1.1.5" "partial" CategoryTheory.Functor.mapHomologicalComplex
 add_to_sga "6 I 1.1.5" "fiberwise D^b clause"
   CategoryTheory.Triangulated.TStructure.instIsTriangulatedBounded
@@ -367,8 +372,14 @@ add_to_sga "6 II 3.1" CategoryTheory.AB5OfSize
 add_to_sga "6 II 3.1" CategoryTheory.Abelian
 add_to_sga "6 II 3.1" "special case" instAB5AddCommGrpCat
 add_to_sga "6 II 3.1" "special case" instAB5ModuleCat
-add_to_sga "6 II 3.3" "more general"
-  CategoryTheory.Functor.instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlusRightDerivedFunctorPlusUnitQuasiIso
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `CategoryTheory.Functor <|
+    "instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlus" ++
+      "RightDerivedFunctorPlusUnitQuasiIso"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_sga "6 II 3.3" "more general" $decl:ident))
 add_to_sga "6 II 3.3" "more general" CategoryTheory.Functor.rightDerivedFunctorPlus
 add_to_sga "6 II 3.3" "more general" CategoryTheory.Injective.injective_of_adjoint
 add_to_sga "6 II AppI.1.2" "more general" AlgebraicGeometry.Scheme.GlueData.glued
@@ -522,8 +533,14 @@ add_to_sga "6 VIII 1.3" "VII 1.5, special case" RingTheory.Sequence.IsWeaklyRegu
 add_to_sga "6 VIII 1.3" "VII 1.5, special case"
   RingTheory.Sequence.IsWeaklyRegular.of_flat_of_isBaseChange
 add_to_sga "6 VIII 1.6" "special case" Algebra.IsStandardSmooth.baseChange
-add_to_sga "6 VIII 1.6" "more general"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismProperty" ++
+      "SurjectiveFlatQuasiCompact"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_sga "6 VIII 1.6" "more general" $decl:ident))
 add_to_sga "6 VIII 1.6" "special case"
   AlgebraicGeometry.smoothOfRelativeDimension_isStableUnderBaseChange
 add_to_sga "6 VIII 1.8" "special case" Algebra.IsStandardSmooth.baseChange

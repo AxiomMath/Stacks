@@ -77,7 +77,7 @@ theorem exists_section_of_finite_stage_univ
     ∃ (W : (geometricPointFiber B V.1 V.property w).Elements)
       (s : FV.obj.obj (op ((smallEtaleBaseChange B pk).obj ((smallEtaleBaseChange B zk).obj W.1)))),
       ∀ (x : {a : w.source ⟶ XV.1 // a ≫ B.inclusion.map pk ≫ B.inclusion.map zk = w.hom}),
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B XV.1 XV.property
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B XV.1 XV.property
             ⟨w.residueField, x.1⟩)).op ⋙ FV.obj)
           (op (Functor.elementsMk _
             ((smallEtaleBaseChange B pk).obj ((smallEtaleBaseChange B zk).obj W.1))
@@ -93,13 +93,13 @@ theorem exists_section_of_finite_stage_univ
   let H := (B.smallPushforward pk (Type (max (u + 1) v))).obj FV
   obtain ⟨ζ, hζ⟩ := (finitePushforwardStalkToProduct_bijective_univ B zk w H).2 t
   obtain ⟨W0, s, rfl⟩ := Types.jointly_surjective_of_isColimit (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B V.1 V.property w)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B V.1 V.property w)).op ⋙
       ((B.smallPushforward zk (Type (max (u + 1) v))).obj H).obj)) ζ
   refine ⟨W0.unop, s, fun x => ?_⟩
   let z : {a : w.source ⟶ Z.1 // a ≫ B.inclusion.map zk = w.hom} :=
     ⟨x.1 ≫ B.inclusion.map pk, (Category.assoc _ _ _).trans x.2⟩
   have h1 : finitePushforwardStalkComponentUniv B zk w H z
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B V.1 V.property w)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B V.1 V.property w)).op ⋙
         ((B.smallPushforward zk (Type (max (u + 1) v))).obj H).obj) (op W0.unop) s) = t z :=
     congrFun hζ z
   rw [← (finitePushforwardStalkComponent_germ_univ B zk w H z W0.unop s).symm.trans h1]
@@ -146,7 +146,7 @@ theorem exists_stage_section_cylinder_univ
           pullbackStalkComponentUniv B sq F y' c p := by
   let incl := B.inclusion
   obtain ⟨U0, τ0, hτ0⟩ := Types.jointly_surjective_of_isColimit (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) (y'.map (B.inclusion.map g))
         (cartesianLiftEquiv B g' f' f g sq y' p₀)))).op ⋙ F.obj))
     (pullbackStalkComponentUniv B sq F y' c p₀)
@@ -156,7 +156,8 @@ theorem exists_stage_section_cylinder_univ
         (cartesianLiftEquiv B g' f' f g sq y' p₀) :=
     congrArg (fun m => (⟨y'.residueField, m⟩ : GeometricPoint (B.inclusion.obj X))) hx₀
   let UV : (geometricPointFiber B XV.1 XV.property ⟨y'.residueField, x₀⟩).Elements :=
-    Functor.elementsMk _ ((smallEtaleBaseChange B ιX).obj U.1) (baseChangeEtalePoint B ιX hz U.1 U.2)
+    Functor.elementsMk _ ((smallEtaleBaseChange B ιX).obj U.1)
+      (baseChangeEtalePoint B ιX hz U.1 U.2)
   obtain ⟨i, W, φ, hφ⟩ := P.exists_stage_neighborhood ⟨y'.residueField, x₀⟩ UV
   let T := cylinderObjGeneral B ιX P y' i x₀ W
   let TSV := SmallEtale.toScheme B XV.1 XV.property
@@ -194,7 +195,7 @@ theorem exists_stage_section_cylinder_univ
   let ψe : Tel ⟶ U := ⟨ψ, Subtype.ext hcylψ⟩
   have H₀ : cylinderGermGeneral B sq F ιX P y' i x₀ W τ p₀ x₀ hx₀ rfl =
       pullbackStalkComponentUniv B sq F y' c p₀ :=
-    (ConcreteCategory.congr_hom (colimit.w ((CategoryOfElements.π (geometricPointFiber B X.1
+    (ConcreteCategory.congr_hom (colimit.w ((Functor.Elements.π (geometricPointFiber B X.1
       X.property pt)).op ⋙ F.obj) ψe.op) τ0).trans hτ0
   exact ⟨i, W, τ, exists_stage_forall_cylinderGerm_eq_univ B sq F ιX ι hV P y' i x₀ W c τ p₀ hx₀ H₀⟩
 
@@ -214,7 +215,7 @@ theorem smallEtaleRestrictionStalkMap_stageComponent_general
           ⟨y'.residueField, x₀ ≫ B.inclusion.map (P.proj.app i)⟩
           (congrArg (fun m => (⟨y'.residueField, m⟩ : GeometricPoint _)) hxi)
           ((smallEtaleRestrictionAlong B ιX _).obj F)
-          (colimit.ι ((CategoryOfElements.π (geometricPointFiber B (P.diagram.obj i).1
+          (colimit.ι ((Functor.Elements.π (geometricPointFiber B (P.diagram.obj i).1
             (P.diagram.obj i).property ⟨y'.residueField, x₀ ≫ B.inclusion.map (P.proj.app i)⟩)).op ⋙
             ((B.smallPushforward (P.proj.app i) _).obj
               ((smallEtaleRestrictionAlong B ιX _).obj F)).obj)
@@ -279,7 +280,7 @@ private theorem exists_stageStalk_eq_pullbackStalkComponent_univ
   let zp : GeometricPoint (B.inclusion.obj (P.diagram.obj k)) := ⟨y'.residueField, z⟩
   let sp : GeometricPoint (B.inclusion.obj (P.diagram.obj i)) :=
     ⟨y'.residueField, x₀ ≫ B.inclusion.map (P.proj.app i)⟩
-  let e0 := colimit.ι ((CategoryOfElements.π (geometricPointFiber B (P.diagram.obj i).1
+  let e0 := colimit.ι ((Functor.Elements.π (geometricPointFiber B (P.diagram.obj i).1
       (P.diagram.obj i).property sp)).op ⋙
     ((B.smallPushforward (P.proj.app i) (Type (max (u + 1) v))).obj FV).obj) (op W) τ
   let m2 := (etaleStalkFunctor.{u, max (u + 1) v} B (P.diagram.obj i).1
@@ -338,7 +339,7 @@ private theorem exists_pushforwardEtaleStalk_eq_restriction_stageGerm_univ
           (geometricPointLift_map (B.inclusion.map f) (y'.map (B.inclusion.map g))
             (cartesianLiftEquiv B g' f' f g sq y' p)) F ζ =
         smallEtaleRestrictionStalkMapUniv B ιX x (p.1 ≫ B.inclusion.map g') hx F
-          (colimit.ι ((CategoryOfElements.π (geometricPointFiber B XV.1 XV.property
+          (colimit.ι ((Functor.Elements.π (geometricPointFiber B XV.1 XV.property
               ⟨y'.residueField, x⟩)).op ⋙
               ((smallEtaleRestrictionAlong B ιX (Type (max (u + 1) v))).obj F).obj)
             (op (Functor.elementsMk _ ((smallEtaleBaseChange B (P.proj.app k)).obj
@@ -391,7 +392,7 @@ private theorem exists_pushforwardEtaleStalk_eq_restriction_stageGerm_univ
     ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk κs) (by
       apply ObjectProperty.hom_ext
       exact hκ))
-  refine ⟨colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property
+  refine ⟨colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property
     (y'.map (B.inclusion.map g)))).op ⋙ ((B.smallPushforward f (Type (max (u + 1) v))).obj F).obj)
     (op NY) (F.obj.map κ.op s), fun p x hx hxV => ?_⟩
   let zx : {a : y'.source ⟶ incl.obj (P.diagram.obj k) // a ≫ incl.map sJ = yV} :=
@@ -432,7 +433,7 @@ private theorem exists_pushforwardEtaleStalk_eq_restriction_stageGerm_univ
     rfl
   let qpt := geometricPointLift (B.inclusion.map f) (y'.map (B.inclusion.map g))
     (cartesianLiftEquiv B g' f' f g sq y' p)
-  let DF := (CategoryOfElements.π (geometricPointFiber B X.1 X.property qpt)).op ⋙ F.obj
+  let DF := (Functor.Elements.π (geometricPointFiber B X.1 X.property qpt)).op ⋙ F.obj
   have hκpt : (bcpY.1 ≫ κs) ≫ incl.map LT.obj.hom = qpt.hom :=
     (Category.assoc _ _ _).trans ((congrArg (bcpY.1 ≫ ·) hκ).trans bcpY.2)
   let BCel : (geometricPointFiber B X.1 X.property qpt).Elements :=
@@ -674,8 +675,8 @@ theorem isIso_smallEtaleBaseChangeNatTrans_of_isIntegralHom_univ
 
 /-- At the coefficient universe `u + 1` of the size-bounded small étale sites,
 `AlgebraicGeometry.smallEtaleBaseChangeNatTransUniv` is
-`AlgebraicGeometry.smallEtaleBaseChangeNatTrans`: the two comparisons `g⁻¹ f_* ⟶ f'_* (g')⁻¹` have the same definition, `max (u + 1) 0` being
-`u + 1`. -/
+`AlgebraicGeometry.smallEtaleBaseChangeNatTrans`: the two comparisons `g⁻¹ f_* ⟶ f'_* (g')⁻¹` have
+the same definition, `max (u + 1) 0` being `u + 1`. -/
 theorem smallEtaleBaseChangeNatTransUniv_eq_smallEtaleBaseChangeNatTrans (h : g' ≫ f = f' ≫ g) :
     smallEtaleBaseChangeNatTransUniv.{u, 0} B g' f' f g h =
       smallEtaleBaseChangeNatTrans B g' f' f g h :=

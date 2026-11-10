@@ -89,7 +89,7 @@ theorem milnorKTensorMap_milnorKSteinbergRelations (φ : k₁ →+* k₂)
         (Additive.ofMul (Units.mk0 (1 - a.1) (sub_ne_zero.mpr (Ne.symm a.2.2)))) =
       Additive.ofMul (Units.mk0 (1 - φ a.1) (sub_ne_zero.mpr (Ne.symm hne1))) := by
     refine congrArg Additive.ofMul (Units.ext ?_)
-    show φ (1 - a.1) = 1 - φ a.1
+    change φ (1 - a.1) = 1 - φ a.1
     rw [map_sub, map_one]
   refine ⟨⟨φ a.1, hne0, hne1⟩, ?_⟩
   symm
@@ -185,7 +185,7 @@ theorem milnorKTransport_coe (φ : k₁ →+* k₂) (n : ℕ) (y : MilnorKTheory
 theorem milnorKTensorMap_comp (φ : k₁ →+* k₂) (ψ : k₂ →+* k₃) :
     (milnorKTensorMap ψ).comp (milnorKTensorMap φ) = milnorKTensorMap (ψ.comp φ) := by
   refine TensorAlgebra.hom_ext (LinearMap.ext fun a ↦ ?_)
-  show milnorKTensorMap ψ (milnorKTensorMap φ (TensorAlgebra.ι ℤ a)) =
+  change milnorKTensorMap ψ (milnorKTensorMap φ (TensorAlgebra.ι ℤ a)) =
     milnorKTensorMap (ψ.comp φ) (TensorAlgebra.ι ℤ a)
   rw [milnorKTensorMap_ι, milnorKTensorMap_ι, milnorKTensorMap_ι]
   exact congrArg (TensorAlgebra.ι ℤ) (congrArg Additive.ofMul (Units.ext rfl))

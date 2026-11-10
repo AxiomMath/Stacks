@@ -3,7 +3,7 @@ module
 
 public import Mathlib.Algebra.Group.Subgroup.Actions
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.FieldTheory.Galois.Basic
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.FieldTheory.PurelyInseparable.Basic
@@ -126,7 +126,7 @@ private theorem finitePresentation_atPrime_of_finite_spectrum
     Algebra.FinitePresentation R (Localization.AtPrime p) := by
   classical
   let T := {q : PrimeSpectrum R // ¬ q.asIdeal ≤ p}
-  have hex (q : T) : ∃ x : R, x ∈ q.1.asIdeal ∧ x ∉ p := SetLike.not_le_iff_exists.mp q.2
+  have hex (q : T) : ∃ x : R, x ∈ q.1.asIdeal ∧ x ∉ p := IsConcreteLE.not_le_iff_exists.mp q.2
   choose x hx hxp using hex
   let := Fintype.ofFinite T
   let f := ∏ q : T, x q

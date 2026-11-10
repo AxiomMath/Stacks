@@ -109,7 +109,7 @@ theorem includeRight_mul_includeLeft {m n : ℤ} (a : C.grading m) (b : D.gradin
       (-1 : ℤˣ) ^ (n * m) •
         (GradedTensorProduct.includeLeft C.grading D.grading (a : C.A) *
           GradedTensorProduct.includeRight C.grading D.grading (b : D.A)) := by
-  show ((1 : C.A) ᵍ⊗ₜ[R] (b : D.A)) * ((a : C.A) ᵍ⊗ₜ[R] (1 : D.A)) =
+  change ((1 : C.A) ᵍ⊗ₜ[R] (b : D.A)) * ((a : C.A) ᵍ⊗ₜ[R] (1 : D.A)) =
     (-1 : ℤˣ) ^ (n * m) •
       (((a : C.A) ᵍ⊗ₜ[R] (1 : D.A)) * ((1 : C.A) ᵍ⊗ₜ[R] (b : D.A)))
   rw [GradedTensorProduct.tmul_coe_mul_coe_tmul C.grading D.grading
@@ -125,7 +125,7 @@ theorem op_includeLeft_mul_op_includeRight {m n : ℤ} (a : C.grading m) (b : D.
       (-1 : ℤˣ) ^ (m * n) •
         (MulOpposite.op (GradedTensorProduct.includeRight C.grading D.grading (b : D.A)) *
           MulOpposite.op (GradedTensorProduct.includeLeft C.grading D.grading (a : C.A))) := by
-  show MulOpposite.op
+  change MulOpposite.op
       (GradedTensorProduct.includeRight C.grading D.grading (b : D.A) *
         GradedTensorProduct.includeLeft C.grading D.grading (a : C.A)) = _
   rw [includeRight_mul_includeLeft C D a b]

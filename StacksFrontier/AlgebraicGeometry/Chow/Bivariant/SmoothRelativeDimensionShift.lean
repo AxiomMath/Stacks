@@ -274,6 +274,7 @@ def BivariantClass.CompFlatPullbackEqOne (D : BivariantClass C G (Δ ≫ sP) sP 
             (flatPullbackDescends C _ _ _ _ _ _ _) α)) =
       chowGroupDegreeEquiv C (t ≫ sY) (by ring) α
 
+omit [LocallyOfFiniteType sY] [LocallyOfFiniteType sP] [LocallyOfFiniteType Δ] in
 /-- The structure morphism of `Y ×_P W` over the base, through a section of `v`. -/
 theorem comp_fst_comp_structureMorphism_of_section {pr : P ⟶ Y} (hpr : pr ≫ sY = sP)
     (hdiag : Δ ≫ pr = 𝟙 Y) {T W : Scheme.{u}} (t : T ⟶ Y) (w : W ⟶ P)
@@ -719,14 +720,16 @@ theorem smoothShiftForward_apply (c : BivariantClass C (gysinSystemOfInvertible 
         (smoothShiftFlatPullbackClass C sY sZ g hg d hgd) :=
   rfl
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] [LocallyOfFiniteType f]
+    [LocallyOfFiniteType g] [Flat g] in
 include hf in
 /-- The morphism `f × 𝟙` is a morphism over the base. -/
 theorem smoothShiftBaseMap_comp_structureMorphism :
     smoothShiftBaseMap f g ≫ (pullback.fst g g ≫ sY) = pullback.fst (f ≫ g) g ≫ sX := by
   simp [hf]
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] [LocallyOfFiniteType sZ]
+    [LocallyOfFiniteType f] [LocallyOfFiniteType g] [Flat g] in
 include hf hg in
 /-- The second projection `X ×_Z Y ⟶ Y` is a morphism over the base. -/
 theorem smoothShift_snd_comp_structureMorphism :
@@ -796,7 +799,8 @@ theorem smoothShiftForward_cap
   refine c.cap_heq_congr (pullback.fst g u) (by ring) _ _ ?_
   exact flatPullbackBivariantCap_heq C sY sZ g hg d hgd (flatPullbackDescends C) u k α
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] [LocallyOfFiniteType f]
+    [LocallyOfFiniteType g] [Flat g] in
 include hf in
 /-- The test morphism `X ×_Z T ⟶ Y ×_Z Y` is a morphism over the base. -/
 theorem smoothShiftTestMap_comp_structureMorphism {T : Scheme.{u}} (t : T ⟶ Y) :
@@ -936,7 +940,7 @@ theorem smoothShiftBackward_cap
   · rw [hΞ₂]
     simp
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sY] [LocallyOfFiniteType sZ] [LocallyOfFiniteType g] [Flat g] in
 include hg in
 /-- The two projections of `Y ×_Z Y` agree over the base. -/
 theorem smoothShift_pullback_snd_comp_structureMorphism :
@@ -1021,7 +1025,7 @@ theorem smoothShiftForward_smoothShiftBackward
       smoothShiftForgetIso_snd_assoc, Category.id_comp, smoothShiftForgetSection,
       pullback.lift_snd_assoc, pullback.lift_snd]
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sY] [LocallyOfFiniteType sZ] [LocallyOfFiniteType g] [Flat g] in
 include hg in
 /-- The base change `Y ×_Z T ⟶ T` of `g` is a morphism over the base, `Y ×_Z T` being read over
 `Y ×_Z Y`. -/
@@ -1031,7 +1035,8 @@ theorem smoothShiftDiagonalTestMap_comp_structureMorphism {T : Scheme.{u}} (t : 
   simp only [pullbackMap_fst_assoc, Category.id_comp]
   rw [← hg, pullback.condition_assoc, Category.assoc]
 
-omit [Flat g] in
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] [LocallyOfFiniteType f]
+    [LocallyOfFiniteType g] [Flat g] in
 include hf in
 /-- The second projection `X ×_Y (Y ×_Z Y) ⟶ Y ×_Z Y` is a morphism over the base. -/
 theorem smoothShift_restriction_structureMorphism :
@@ -1163,6 +1168,7 @@ theorem smoothShiftForward_cap_eq_restriction
   exact chowPushforwardOfIso_heq_comp_of_comp_eq _ _ Φ (by simp) _ _ rfl
     (smoothShiftTestMap_comp_structureMorphism C sX sY f g hf t) rfl _ _ HEq.rfl
 
+omit [LocallyOfFiniteType sZ] in
 /-- **`D ∘ pr₂^* = 1` read through the restriction of `c`.** Capping `D` at `Y ×_Z T ⟶ Y ×_Z Y`
 with the flat pullback of `α` and then `res(c)` gives `c ∩ α`, carried along any isomorphism over
 the two projections. -/

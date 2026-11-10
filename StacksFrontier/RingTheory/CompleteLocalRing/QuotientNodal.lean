@@ -68,9 +68,9 @@ public theorem exists_eq_span_singleton_or_exists_eq_span_singleton_mul_of_ne_bo
     exact Ideal.subset_span hx
   let J : Ideal A := I.colon ({f} : Set A)
   have hmemJ : ∀ y, f * y ∈ I → y ∈ J := fun y hy => by
-    show y ∈ I.colon ({f} : Set A)
+    change y ∈ I.colon ({f} : Set A)
     rw [Submodule.mem_colon_singleton]
-    show y * f ∈ I
+    change y * f ∈ I
     rwa [mul_comm]
   have hIle : I ≤ Ideal.span {f} := by
     rw [← hIspan]
@@ -189,7 +189,7 @@ public theorem exists_ne_zero_mem_maximalIdeal_and_eq_span_singleton_of_quotient
              map_add' := by simp
              map_smul' := by
                intro c x
-               show (RingEquiv.quotientBot A)
+               change (RingEquiv.quotientBot A)
                    (Ideal.Quotient.mk (⊥ : Ideal A) c * x) = _
                rw [map_mul]
                simp } :
@@ -210,7 +210,7 @@ public theorem exists_ne_zero_mem_maximalIdeal_and_eq_span_singleton_of_quotient
     have hJann : J ≤ (A ∙ x).annihilator := by
       intro j hj
       rw [Submodule.mem_annihilator_span_singleton]
-      show Ideal.Quotient.mk I (j * f) = 0
+      change Ideal.Quotient.mk I (j * f) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem, hIfJ]
       simpa [mul_comm] using Ideal.mul_mem_mul (Ideal.mem_span_singleton_self f) hj
     obtain ⟨P, hP, hann⟩ := exists_le_isAssociatedPrime_of_isNoetherianRing A x hx

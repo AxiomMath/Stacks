@@ -118,7 +118,7 @@ public theorem brutalStep_factors (L : CochainComplex C ℕ) (k i j : ℕ) :
   · have hz : (brutalStep L k i).arrow ≫ L.d i j = 0 := by
       by_cases hi : k ≤ i
       · rw [L.shape i j (by simp only [ComplexShape.up_Rel]; omega), comp_zero]
-      · rw [brutalStep, if_neg hi, Subobject.bot_arrow, zero_comp]
+      · rw [brutalStep, ite_eq_right hi, Subobject.bot_arrow, zero_comp]
     rw [hz]
     exact Subobject.factors_zero
 
@@ -151,8 +151,8 @@ public theorem brutalMap_ι (L : CochainComplex C ℕ) {k k' : ℕ} (h : k ≤ k
 `⊥`. -/
 public theorem isZero_brutal_X (L : CochainComplex C ℕ) {k n : ℕ} (h : ¬ k ≤ n) :
     IsZero ((brutal L k).X n) := by
-  show IsZero ((brutalStep L k n : C))
-  rw [brutalStep, if_neg h]
+  change IsZero ((brutalStep L k n : C))
+  rw [brutalStep, ite_eq_right h]
   exact (isZero_zero C).of_iso Subobject.botCoeIsoZero
 
 /-- **A bifunctor that preserves zero morphisms kills a zero object in its first variable.**

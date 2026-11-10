@@ -72,7 +72,7 @@ theorem exists_eq_pullbackUnitApp (U : Opens X)
         hW (pullbackUnitApp f F W σ) := by
     apply (Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f F
       x).commRingCatIsoToRingEquiv.injective
-    show (Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f F x).hom _ =
+    change (Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f F x).hom _ =
       (Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f F x).hom _
     rw [stalkSheafPullbackIso_hom_germ_unit, hσ]
   obtain ⟨V, hxV, i₁, i₂, h⟩ := TopCat.Presheaf.germ_eq _ x hx hW _ _ hgerm

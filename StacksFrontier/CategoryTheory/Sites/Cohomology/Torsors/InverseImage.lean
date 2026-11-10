@@ -445,7 +445,7 @@ theorem unitApp_mul (G : SheafOfGroups.{w} J) (U : Cᵒᵖ) (a b : G.presheaf.ob
       (u.sheafPushforwardContinuous (Type w) J K).obj (L.obj G.sheaf) => f.hom.app U (a, b))
     (adj.unit.naturality μ[G.sheaf])
   refine h₁.trans ?_
-  show (L.map μ[G.sheaf]).hom.app (u.op.obj U) ((adj.unit.app (G.sheaf ⊗ G.sheaf)).hom.app U
+  change (L.map μ[G.sheaf]).hom.app (u.op.obj U) ((adj.unit.app (G.sheaf ⊗ G.sheaf)).hom.app U
       (a, b)) =
     (L.map μ[G.sheaf]).hom.app (u.op.obj U) ((Functor.LaxMonoidal.μ L G.sheaf G.sheaf).hom.app
       (u.op.obj U) (G.unitApp u adj U a, G.unitApp u adj U b))
@@ -532,14 +532,14 @@ theorem map_smul_comp_counit [IsIso adj.unit] (T : PseudoTorsor.{w} (G.map L)) :
       (show (L.obj G.sheaf ⊗ L.obj P).obj.obj (u.op.obj U) from
         ((adj.unit.app G.sheaf).hom.app U x.1, (adj.unit.app P).hom.app U x.2)))
       (Functor.Monoidal.μ_δ L G.sheaf P)
-  show (adj.counit.app T.sheaf).hom.app (u.op.obj U)
+  change (adj.counit.app T.sheaf).hom.app (u.op.obj U)
       ((L.map γ[G.sheaf, P]).hom.app (u.op.obj U) ((adj.unit.app (G.sheaf ⊗ P)).hom.app U x)) =
     γ[(G.map L).sheaf, T.sheaf].hom.app (u.op.obj U)
       ((L.obj G.sheaf ◁ T.counitSheafHom u adj).hom.app (u.op.obj U)
         ((Functor.OplaxMonoidal.δ L G.sheaf P).hom.app (u.op.obj U)
           ((adj.unit.app (G.sheaf ⊗ P)).hom.app U x)))
   rw [hδ]
-  show (adj.counit.app T.sheaf).hom.app (u.op.obj U)
+  change (adj.counit.app T.sheaf).hom.app (u.op.obj U)
       ((L.map γ[G.sheaf, P]).hom.app (u.op.obj U) ((adj.unit.app (G.sheaf ⊗ P)).hom.app U x)) =
     T.act (u.op.obj U) ((adj.unit.app G.sheaf).hom.app U x.1)
       ((adj.counit.app T.sheaf).hom.app (u.op.obj U) ((adj.unit.app P).hom.app U x.2))

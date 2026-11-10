@@ -166,7 +166,7 @@ theorem leftTmulHom_restrict (hY : IsTensorProduct P N Y) {i : ℤ} {U U' : C} (
     (x : (P.complex.X i).val.obj (op U)) :
     (hY.leftTmulHom x).restrict q = hY.leftTmulHom (restrictAlong (P.complex.X i) q x) :=
   LocalHom.ext fun j k hjk W n => by
-    show (hY.leftTmulHom x).app j k hjk (Over.mk (W.hom ≫ q)) n = _
+    change (hY.leftTmulHom x).app j k hjk (Over.mk (W.hom ≫ q)) n = _
     rw [leftTmulHom_app, leftTmulHom_app]
     congr 3
     exact (P.complex.X i).val.map_comp_apply q.op W.hom.op x
@@ -292,7 +292,7 @@ theorem assocTmul_smul_left (i j : ℤ) (U : Cᵒᵖ) (r : R.obj.obj U)
     LocalHom.app_congr (assocHom_smul hY hT hW (U := U.unop) r x), LocalHom.smul_app,
     castHom_smul]
   congr 2
-  show (R.obj.map (𝟙 (op U.unop))) r = r
+  change (R.obj.map (𝟙 (op U.unop))) r = r
   rw [R.obj.map_id]
   rfl
 
@@ -583,7 +583,7 @@ theorem assocCurry_restrict {i j k : ℤ} (hijk : i + j + n = k) {V V' : Over U}
       assocCurry hT β hijk V' (restrictAlong (P.complex.X i) q.left x)
         (restrictAlong (N.complex.X j) q.left m) :=
   LocalHom.ext fun j' k' hj'k' W y => by
-    show (assocCurry hT β hijk V x m).app j' k' hj'k' (Over.mk (W.hom ≫ q.left)) y = _
+    change (assocCurry hT β hijk V x m).app j' k' hj'k' (Over.mk (W.hom ≫ q.left)) y = _
     rw [assocCurry_app, assocCurry_app, restrictAlong_comp, restrictAlong_comp]
     exact β.app_mk_congr i (j' + j) k' _
       (show (W.hom ≫ q.left) ≫ V.hom = W.hom ≫ V'.hom by rw [Category.assoc, Over.w q]) _ _
@@ -686,7 +686,7 @@ theorem exists_localHom_assocTmul :
             (hY.tmul i j' (op W.left) (restrictAlong (P.complex.X i) W.hom x) m) y) := by
       rw [LocalHom.comp_app _ _ _ (show j' + j'' + i = j' + j'' + i from rfl)
         (show j' + j'' + i + n = k' by omega)]
-      show f.app (j' + j'' + i) k' _ (Over.mk (W.hom ≫ V.hom))
+      change f.app (j' + j'' + i) k' _ (Over.mk (W.hom ≫ V.hom))
         ((assocHom hY hT hW x).app (j' + j'') (j' + j'' + i) rfl W
           (hT.tmul j' j'' (op W.left) m y)) = _
       rw [assocHom_tmul]
@@ -723,7 +723,7 @@ theorem exists_localHom_assocTmul :
   refine Eq.trans ?_ (h₁.trans (β.app_top i j k hijk V x t))
   rw [assocTmul_apply]
   refine (f.toLocalGradedHom.app_castHom_source (add_comm j i) (by omega) hijk V _).trans ?_
-  show _ = f.app (j + i) k _ (Over.mk (𝟙 V.left ≫ V.hom)) _
+  change _ = f.app (j + i) k _ (Over.mk (𝟙 V.left ≫ V.hom)) _
   exact (f.toLocalGradedHom.app_mk_congr _ _ _ (Category.id_comp V.hom) _).symm
 
 end Surjective

@@ -109,7 +109,7 @@ theorem exists_ringEquiv_fibre_of_isPushout (Q : minimalPrimes Aₚ) {F T K L : 
     ext a
     have hw := congrArg (fun f => f.hom a) h2.w
     simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply] at hw
-    show ε' (dF (b a)) =
+    change ε' (dF (b a)) =
       algebraMap (fibreField Q) (fibreRing (D := Cₚ) Q) (ε (b a))
     rw [← hw, hε', hε, algebraMap_fibreField_fibreRing_algebraMap]
   · rfl
@@ -226,6 +226,8 @@ variable [IsAffine d.U.obj.left.left.1] [IsAffine d.V.obj.left.left.1]
   [IsReduced d.U.obj.left.left.1] [IsReduced d.V.obj.left.left.1]
   [IsLocallyNoetherian d.U.obj.left.left.1] [IsLocallyNoetherian d.V.obj.left.left.1]
 
+omit [IsReduced d.U.obj.left.left.1] [IsReduced d.V.obj.left.left.1]
+  [IsLocallyNoetherian d.U.obj.left.left.1] [IsLocallyNoetherian d.V.obj.left.left.1] in
 /-- The generic fibre `U ×_V Spec κ(w)` of an affine chart is affine. -/
 theorem isAffine_toScheme_chartGenericFibre (w : chartScheme d.V) :
     IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj (chartGenericFibre D d w)) := by
@@ -239,6 +241,8 @@ theorem isAffine_toScheme_chartGenericFibre (w : chartScheme d.V) :
       ‹IsAffine d.U.obj.left.left.1›
       (inferInstanceAs (IsAffine (Spec (CommRingCat.of _)))) ‹IsAffine d.V.obj.left.left.1›)
 
+omit [IsAffine d.U.obj.left.left.1] [IsReduced d.U.obj.left.left.1]
+  [IsLocallyNoetherian d.U.obj.left.left.1] in
 /-- **The reading of `R(Y)` in the field `O_Q` at a minimal prime of `Γ(V)_𝔭`**, through any
 identification `κ(w) ≃ O_Q` over `Γ(V)` at the generic point `w` of `V` cut out by `Q`. -/
 theorem locFracO_rationalFunctionsToTotalFractionRing_eq (𝔭 : Ideal Γ(chartScheme d.V, ⊤))
@@ -262,6 +266,7 @@ theorem locFracO_rationalFunctionsToTotalFractionRing_eq (𝔭 : Ideal Γ(chartS
     (Scheme.totalFractionRingToResidueField (T := d.V.obj.left.left.1) w hw)
     (fun a => Scheme.totalFractionRingToResidueField_algebraMap (T := d.V.obj.left.left.1) w hw a) _
 
+omit [IsReduced d.V.obj.left.left.1] [IsLocallyNoetherian d.V.obj.left.left.1] in
 /-- **The reading of `R(X)` in the generic fibre `D_Q` at a minimal prime of `Γ(V)_𝔭`**, through
 any identification of the global sections of `U ×_V Spec κ(w)` with `D_Q` over `Γ(U)`. -/
 theorem locFracD_rationalFunctionsToTotalFractionRing_eq
@@ -325,6 +330,9 @@ theorem locFracD_rationalFunctionsToTotalFractionRing_eq
       (genericPoint D.site D.base D.base_mem hX.1 hintX)).2.1 r hcomm f
   exact (hρread _).trans (congrArg ε' ((hk2 _).symm.trans hread.symm))
 
+omit [IsAffine d.U.obj.left.left.1] [IsAffine d.V.obj.left.left.1]
+  [IsReduced d.U.obj.left.left.1] [IsReduced d.V.obj.left.left.1]
+  [IsLocallyNoetherian d.U.obj.left.left.1] [IsLocallyNoetherian d.V.obj.left.left.1] in
 /-- Pulling back global sections along the field point `Spec κ(w) ⟶ V` is evaluation at `w`. -/
 theorem appTop_map_fibreChartFieldPoint_siteHom_comp_ΓSpecIso_hom (w : chartScheme d.V) :
     ((BigFppfOver.toScheme D.site D.base D.base_mem).map

@@ -423,7 +423,7 @@ theorem isFlat_of_hasLocalFiniteRelationFactorizations
       PreservesLimit (parallelPair f 0) T :=
     fun f => Functor.PreservesHomology.preservesKernels (F := T) f
   have hlim : PreservesFiniteLimits T := T.preservesFiniteLimits_of_preservesKernels
-  show exactFunctor _ _ T
+  change exactFunctor _ _ T
   exact (exactFunctor_iff T).2 ⟨hlim, inferInstance⟩
 
 /-- **Stacks 08FC, (2) implies (1).**  A sheaf of modules satisfying the single-relation form of

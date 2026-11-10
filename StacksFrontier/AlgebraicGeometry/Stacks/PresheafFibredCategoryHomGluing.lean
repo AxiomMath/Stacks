@@ -243,7 +243,7 @@ lemma glueFunctor_comp_p
   have h2' : 𝒳.val.p.IsHomLift m.base ((x (glueIndex U b)).hom.map rm) :=
     BasedFunctor.preserves_isHomLift (x (glueIndex U b)).hom m.base rm
   have h3 : 𝒳.val.p.IsHomLift m.base ((glueFunctor U x φ hlift hnat hcoc).map m) := by
-    show 𝒳.val.p.IsHomLift m.base (_ ≫ (x (glueIndex U b)).hom.map rm)
+    change 𝒳.val.p.IsHomLift m.base (_ ≫ (x (glueIndex U b)).hom.map rm)
     exact @IsHomLift.comp_lift_id_left' _ _ _ _ 𝒳.val.p _ _ _ a.base _ h1' _ _ m.base _ h2'
   rw [Functor.comp_map, IsHomLift.fac' 𝒳.val.p m.base ((glueFunctor U x φ hlift hnat hcoc).map m),
     fibredCategory_p_map]

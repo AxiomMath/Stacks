@@ -62,7 +62,7 @@ theorem isProper_of_refinedValuativeCriterion
       g ≫ h = q.generic →
         ∃ e : q.DominatingExtension, Nonempty e.square.Lift) :
     IsProper B S hS f :=
-  ⟨isSeparated_of_refinedValuativeCriterion B S hS hU hX hY h f hf hh hqs hdense hunique hexists,
+  ⟨isSeparated_of_refinedValuativeCriterion B S hS hU hX hY h f hh hqs hdense hunique hexists,
     ⟨hlft, hf⟩,
     universallyClosed_of_refinedValuativeCriterion B S hS hU hX hY h f hf hh hdense hunique
       hexists⟩

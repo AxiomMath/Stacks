@@ -43,8 +43,7 @@ theorem exists_unit_app_eq_of_surjective {A B : Type u} [CommRing A] [CommRing B
     (f : A →+* B) (hf : Function.Surjective f) (M : ModuleCat.{u} A)
     (t : (ModuleCat.extendScalars f).obj M) :
     ∃ m : M, (ModuleCat.extendRestrictScalarsAdj f).unit.app M m = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨a, ha⟩ := hf b
     refine ⟨a • m, ?_⟩
@@ -116,7 +115,7 @@ theorem isIso_of_isIso_homEquiv_symm_comp {A B : Type u} [CommRing A] [CommRing 
     obtain ⟨m, rfl⟩ := hψ p
     have h0 : θ (η m) = θ 0 := by
       rw [hθ1, map_zero]
-      show σ.hom (ζ.hom (ψ m)) = 0
+      change σ.hom (ζ.hom (ψ m)) = 0
       rw [hp, map_zero]
     have h2 : τ.hom (ψ m) = τ.hom 0 := by
       rw [← hψ'1, map_zero]
@@ -184,11 +183,11 @@ theorem isIso_of_bijective_app_preimage {X Y : Scheme.{u}} (i : Y ⟶ X) [IsAffi
     obtain ⟨U, hU, hyU, hUW⟩ :=
       exists_isAffineOpen_mem_and_subset (x := i y) (U := W) (hW ⟨y, rfl⟩)
     refine ⟨⟨⟨U, hU⟩, hUW⟩, ?_⟩
-    show i y ∈ U.ι ''ᵁ ⊤
+    change i y ∈ U.ι ''ᵁ ⊤
     rwa [Scheme.Opens.ι_image_top]
   refine Stacks.AlgebraicGeometry.AffineBaseChange.isIso_of_isIso_restrict c V hV fun u => ?_
   have hVa : IsAffineOpen (V u) := by
-    show IsAffineOpen (i ⁻¹ᵁ (u.1.1.ι ''ᵁ ⊤))
+    change IsAffineOpen (i ⁻¹ᵁ (u.1.1.ι ''ᵁ ⊤))
     rw [Scheme.Opens.ι_image_top]
     exact u.1.2.preimage i
   have : IsAffine (V u).toScheme := hVa
@@ -196,7 +195,7 @@ theorem isIso_of_bijective_app_preimage {X Y : Scheme.{u}} (i : Y ⟶ X) [IsAffi
   have := isQuasicoherent_restrict N (V u)
   refine Stacks.AlgebraicGeometry.AffineBaseChange.isIso_of_isIso_app_top _ ?_
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (c.val.app (op ((V u).ι ''ᵁ ⊤)))
+  change Function.Bijective (c.val.app (op ((V u).ι ''ᵁ ⊤)))
   rw [Scheme.Opens.ι_image_top]
   exact h u.1.1 u.1.2 u.2
 
@@ -374,7 +373,7 @@ theorem bijective_app_levelAdjoint (d : S.DerivedLimitQCoh)
     have hc := StacksDraft.TopDegreeExtendScalars.topDegreeComparison_comp f
       (S.sectionsOverToLevel d p U n) 0
     rw [← hrel, Adjunction.homEquiv_naturality_left_symm]
-    show IsIso (_ ≫ ((ModuleCat.extendRestrictScalarsAdj f).homEquiv _ _).symm
+    change IsIso (_ ≫ ((ModuleCat.extendRestrictScalarsAdj f).homEquiv _ _).symm
       (_ ≫ ((ModuleCat.restrictScalars f).mapDerivedCategoryHomologyIso 0).hom.app _))
     rw [← hc]
     have := S.isLE_sectionsOver d U hU 0 fun i hi => hvan i (by omega)

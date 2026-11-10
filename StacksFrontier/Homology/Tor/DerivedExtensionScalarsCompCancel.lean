@@ -70,7 +70,7 @@ theorem extendScalarsComp_eq_cancelIso_symm (f : R →+* A) (g : A →+* B) :
     (Stacks.ModuleCat.cancelIsoApp f g (g.comp f) (fun _ => rfl) M)).1 ?_))
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show (Stacks.ModuleCat.cancelIsoApp f g (g.comp f) (fun _ => rfl) M).hom
+  change (Stacks.ModuleCat.cancelIsoApp f g (g.comp f) (fun _ => rfl) M).hom
       ((extendScalarsComp.{u, u, u, u} f g).hom.app M ((1 : B) ⊗ₜ[R, g.comp f] m))
     = (1 : B) ⊗ₜ[R, g.comp f] m
   let _ : Algebra R A := f.toAlgebra
@@ -82,7 +82,7 @@ theorem extendScalarsComp_eq_cancelIso_symm (f : R →+* A) (g : A →+* B) :
   have h2 : LinearMap.rTensor (↑M) gAlg.toLinearMap
       (show (ModuleCat.extendScalars.{u, u, u} f).obj M from (1 : A) ⊗ₜ[R, f] m)
         = (1 : B) ⊗ₜ[R, g.comp f] m := by
-    show gAlg (1 : A) ⊗ₜ[R, g.comp f] m = _
+    change gAlg (1 : A) ⊗ₜ[R, g.comp f] m = _
     rw [map_one]
   rw [extendScalarsComp_hom_app_one_tmul]
   exact h1.trans h2

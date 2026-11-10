@@ -62,12 +62,12 @@ theorem exists_unitList_of_polyRep {e : ℕ} (φ : MonicIrreducibleOfDegree k (e
       refine ⟨w :: l, ?_, ?_⟩
       · rw [List.map_cons, List.map_cons, hl1]
         refine congrArg (· :: _) (Units.ext ?_)
-        show algebraMap (Localization.AtPrime (Ideal.span {poly φ})) (RatFunc k)
+        change algebraMap (Localization.AtPrime (Ideal.span {poly φ})) (RatFunc k)
           (w : Localization.AtPrime (Ideal.span {poly φ})) = _
         rw [hw, ← IsScalarTower.algebraMap_apply, coe_polyUnit]
       · rw [List.map_cons, hl2]
         refine congrArg (· :: _) (Units.ext ?_)
-        show (quotientRingEquivResidueField (Ideal.span {poly φ})).symm
+        change (quotientRingEquivResidueField (Ideal.span {poly φ})).symm
           (residue (Localization.AtPrime (Ideal.span {poly φ}))
             (w : Localization.AtPrime (Ideal.span {poly φ}))) = _
         rw [hw, residue_algebraMap_eq_quotientRingEquivResidueField,

@@ -58,7 +58,7 @@ theorem homWithComplexOver_map_dgFunctorToComplexes_toFun
     ((tensorWithComplexDG.{u, v, w, t, s, max u v w t s} X R K).functor.map (cocycleOfHom _ g).1) 1
     rfl ((tensorWithComplexDG.{u, v, w, t, s, max u v w t s} X R K).functor.map_cocycle
       (cocycleOfHom _ g))
-  show ((Rep.{u, v, w, t, s, max u v w t s} X R L).functor.map
+  change ((Rep.{u, v, w, t, s, max u v w t s} X R L).functor.map
     (Cochain.ofHom (Cocycle.homOf z))).1 = _
   rw [show Cochain.ofHom (Cocycle.homOf z) = (z : Cochain _ _ 0) from
     congrArg Subtype.val (Cocycle.ofHom_homOf_eq_self z)]
@@ -204,6 +204,7 @@ theorem leftOrthogonal_acyclic_shift_regularModule {S : Type*} [CommRing S]
   exact (General.isNullHomotopic_iff_homotopic_zero g).mp
     (General.isNullHomotopic_of_acyclic hN k g)
 
+omit [ScalarSections.{u, v, w, t, s, max u v w t s} X R] in
 /-- **`RHom(L, -)` is computed by `Hom(L, -)` on K-injective complexes**: the comparison of
 `Hom^•(L, -)` with its right derived functor is invertible at a K-injective complex. -/
 theorem isIso_derivedHomWithComplexOverUnit_app_of_isKInjective

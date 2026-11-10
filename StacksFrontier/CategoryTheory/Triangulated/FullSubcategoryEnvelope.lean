@@ -90,7 +90,7 @@ theorem extensionProductIter_map_ι_le (Q : ObjectProperty P.FullSubcategory) (n
     refine ⟨Y₂', ⟨Y₁', Y₃', f', g', h', H, hY₁', hY₃'⟩, ⟨?_⟩⟩
     exact Triangle.π₂.mapIso (isoTriangleOfIso₁₃ _ (Triangle.mk f g h)
       (P.ι.map_distinguished _ H) hT e₁ e₃ (by
-        show (P.ι.map h' ≫ (P.ι.commShiftIso (1 : ℤ)).hom.app Y₁') ≫ e₁.hom⟦(1 : ℤ)⟧' =
+        change (P.ι.map h' ≫ (P.ι.commShiftIso (1 : ℤ)).hom.app Y₁') ≫ e₁.hom⟦(1 : ℤ)⟧' =
           e₃.hom ≫ h
         rw [hh']
         simp only [Category.assoc, Iso.inv_hom_id_app_assoc, ← Functor.map_comp, Iso.inv_hom_id,

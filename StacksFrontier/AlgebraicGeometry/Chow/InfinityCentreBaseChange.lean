@@ -101,7 +101,7 @@ along `W' ⟶ 𝐏¹_{X'} ⟶ 𝐏¹_X`, an effective Cartier divisor. -/
 theorem isCartierOver_infinityCentreIdeal_blowupAtInfinityComap :
     Stacks.Blowup.IsCartierOver (infinityCentreIdeal ℐ)
       (Over.mk (blowupAtInfinityToLine ℐ' ≫ projectiveLineBaseChange f)) := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor
+  change Stacks.Divisors.IsEffectiveCartierDivisor
     ((infinityCentreIdeal ℐ).comap (blowupAtInfinityToLine ℐ' ≫ projectiveLineBaseChange f))
   rw [Scheme.IdealSheafData.comap_comp, comap_infinityCentreIdeal_projectiveLineBaseChange_eq,
     ← h]
@@ -170,7 +170,7 @@ theorem preimage_strictTransformComplAtInfinity_blowupAtInfinityComap :
     blowupAtInfinityComap f ℐ ℐ' h ⁻¹ᵁ strictTransformComplAtInfinity ℐ =
       strictTransformComplAtInfinity ℐ' := by
   refine TopologicalSpace.Opens.ext ?_
-  show (blowupAtInfinityComap f ℐ ℐ' h).base ⁻¹'
+  change (blowupAtInfinityComap f ℐ ℐ' h).base ⁻¹'
       ((strictTransformIdealAtInfinity ℐ).support : Set (blowupAtInfinity ℐ))ᶜ =
     ((strictTransformIdealAtInfinity ℐ').support : Set (blowupAtInfinity ℐ'))ᶜ
   rw [← comap_strictTransformIdealAtInfinity_blowupAtInfinityComap f ℐ ℐ' h,

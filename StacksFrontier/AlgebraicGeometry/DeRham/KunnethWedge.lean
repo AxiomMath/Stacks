@@ -59,7 +59,8 @@ those is `SheafOfModules.GradedAlgebra.mulSheaf_comp_eq_iff` in the form
 `AlgebraicGeometry.Scheme.Modules` is a semireducible definition whose sheaf of rings is written
 at the `CategoryTheory.Sheaf.toRingCat` spelling in the Künneth decomposition, so `rewrite` and
 `simp` fail to build a motive for the associativity steps and the reassociations are performed in
-term mode, as in `StacksFrontier.AlgebraicGeometry.DeRham.KunnethDegreewise`. For the same reason the
+term mode, as in `StacksFrontier.AlgebraicGeometry.DeRham.KunnethDegreewise`. For the same reason
+the
 two biproduct injections of the splitting are left to unification rather than written out: at the
 `toRingCat` spelling `CategoryTheory.Limits.HasZeroMorphisms` is not synthesizable, so
 `CategoryTheory.Limits.biprod.inl` cannot be elaborated there.
@@ -115,7 +116,7 @@ theorem ι_comp_exteriorPowerProdHom (iF : F ⟶ H) (iG : G ⟶ H) (n : ℕ)
     [HasCoproduct (exteriorPowerProdSummand AF AG n)] :
     Sigma.ι (exteriorPowerProdSummand AF AG n) i ≫ exteriorPowerProdHom AF AG A iF iG n =
       prodWedgeHomOfEq AF AG A iF iG i.down.1.1 i.down.1.2 n i.down.2 :=
-  Sigma.ι_desc _ i
+  Sigma.ι_comp_desc _ i
 
 /-- **Postcomposing the wedge-product component with the functorial map of a morphism `e` of the
 target composes `e` onto each of the two legs**: the functorial map on exterior powers is

@@ -129,8 +129,8 @@ transporting the degree along `i + n = n + i`.
 
 This is the module-side mirror of
 `Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.situationAlgebra`, and it is the form in which
-`StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.ChartDegreewiseFamily` feeds the module to the
-sheaf `ℳ̃_T` of Tag 01O6; the comparison of property (1) of Tag 01O7 built in
+`StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.ChartDegreewiseFamily` feeds the module to
+the sheaf `ℳ̃_T` of Tag 01O6; the comparison of property (1) of Tag 01O7 built in
 `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/` reads a graded module of
 `Stacks.RelativeProj.Situation` through `SheafOfModules.LeftGradedModule.toGradedModule` instead.
 Quasi-coherence of the pieces

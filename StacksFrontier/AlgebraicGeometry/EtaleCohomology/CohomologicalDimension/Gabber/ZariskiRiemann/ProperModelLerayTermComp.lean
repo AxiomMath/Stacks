@@ -280,7 +280,7 @@ theorem etaleAbelianRightDerivedBaseChangeMap_comp
   simp only [Functor.mapIso_hom, Functor.map_comp, Category.assoc, Iso.app_inv, Iso.app_hom,
     Functor.comp_obj]
   simp only [Functor.comp_obj] at hH hS
-  rw [Iso.map_inv_hom_id_assoc, pc_nI_assoc, pc_nI_assoc, pc_nB_assoc, pc_nR,
+  rw [Iso.inv_hom_id_map_assoc, pc_nI_assoc, pc_nI_assoc, pc_nB_assoc, pc_nR,
     reassoc_of% hS.symm, pc_nC_assoc, ← reassoc_of% hH]
 
 /-- **The pasting law for the base change map on higher direct images**, for

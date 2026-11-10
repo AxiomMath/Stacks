@@ -102,7 +102,7 @@ theorem hasStableContractionFibres_ofIsFppfCovering {X : CurveFamily B hZ}
   have hc' : (c i).hom ≫ ((Y i).toBase ≫ eqToHom (congrArg schemeSpace (hY i))).hom =
       fXi.hom := congrArg (fun m => m.hom) (hc i)
   refine h2 i p' VX VY vX vY qX' qY' a sqX sqY ha ?_
-  show qX' ≫ (c i).hom = yoneda.map a ≫ qY'
+  change qX' ≫ (c i).hom = yoneda.map a ≫ qY'
   apply hpY.hom_ext
   · rw [Category.assoc, Category.assoc, ← hcQ', ← Category.assoc, hqX₁, hqY₁, hqa]
   · rw [Category.assoc, Category.assoc, hc', hqX₂, hqY₂, ← Category.assoc, ← yoneda.map_comp,

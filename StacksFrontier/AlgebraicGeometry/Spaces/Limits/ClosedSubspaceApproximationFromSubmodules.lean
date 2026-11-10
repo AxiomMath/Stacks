@@ -136,7 +136,7 @@ theorem mem_localClosure_subobjectUnion
   have hr : hc.desc c ≫ P.ι = 𝟙 M := by
     refine hc.hom_ext fun G => ?_
     rw [← Category.assoc, hc.fac]
-    show lift G ≫ P.ι = G.obj.arrow ≫ 𝟙 M
+    change lift G ≫ P.ι = G.obj.arrow ≫ 𝟙 M
     rw [Category.comp_id]
     exact Stacks.SheafOfModules.sheafFactorThruSubmodule_ι G.obj.arrow P (hmem G)
   have e : (P.ι.val.app X) ((hc.desc c).val.app X s) = s :=
@@ -384,7 +384,7 @@ theorem isFinitePresentation_subobjectStage
   rw [← definingIdealAt_chartOpens_eq B S hS Y (subobjectStage G) U0 A]
   let W := (chartOpens B S hS U0).obj A.1
   have hW : IsAffine ((SmallEtale.toOver B S hS Y.1 ⋙ BigFppfOver.toScheme B S hS).obj W) := A.2
-  show ((definingIdealSheaf B S hS Y (subobjectStage G)).obj (op W)).FG
+  change ((definingIdealSheaf B S hS Y (subobjectStage G)).obj (op W)).FG
   rw [definingIdealSheaf_subobjectStage]
   exact Module.Finite.iff_fg.1 (module_finite_sections_of_isFiniteTypeOnSite
     (subobjectIdeal G).toSheafOfModules (isQuasicoherentOnSite_subobjectIdeal G)
@@ -406,7 +406,7 @@ theorem definingIdealAt_le_iSup_subobjectStage {ι : Type*}
   obtain ⟨G, hG⟩ := exists_mem_range_of_isAffine (definingIdealModule B S hS Y X) hc hW ⟨x, hx⟩
   obtain ⟨i, ⟨f⟩⟩ := hGs G
   refine Submodule.mem_iSup_of_mem i ?_
-  show x ∈ (definingIdealSheaf B S hS Y (subobjectStage (Gs i))).obj (op W)
+  change x ∈ (definingIdealSheaf B S hS Y (subobjectStage (Gs i))).obj (op W)
   rw [definingIdealSheaf_subobjectStage]
   exact mem_subobjectIdeal f (op W) ⟨x, hx⟩ hG
 

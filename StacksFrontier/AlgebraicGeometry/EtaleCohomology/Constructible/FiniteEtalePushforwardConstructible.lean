@@ -25,9 +25,9 @@ an affine object of the site surjecting onto `S`. The restriction of `p_*ℱ` to
 is the direct image of the restriction of `ℱ` along the base change of `p`
 (`AlgebraicGeometry.smallEtaleRestrictionPushforwardBaseChangeIso`), which is split, so it is a
 finite product of constructible sheaves by
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.SplitPushforwardProduct`. Stacks 095F
-again assembles those into constructibility of the inverse image of `p_*ℱ` on `Z`, and Stacks 095Q
-descends that along the surjection `Z ⟶ S`.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.SplitPushforwardProduct`. Stacks
+095F again assembles those into constructibility of the inverse image of `p_*ℱ` on `Z`, and Stacks
+095Q descends that along the surjection `Z ⟶ S`.
 
 ## Main results
 
@@ -176,11 +176,11 @@ public theorem exists_affine_smallEtale_isSplitOver [IsFinite (B.inclusion.map p
       S.property
   refine ⟨⟨Over.mk (ObjectProperty.homMk (W.affineOpenCover.openCover.f i ≫ g) :
       B.obj _ hWc ⟶ B.obj S.1 S.property), ?_⟩, ?_, ?_, ⟨hsp.comp _⟩⟩
-  · show Etale (W.affineOpenCover.openCover.f i ≫ g)
+  · change Etale (W.affineOpenCover.openCover.f i ≫ g)
     infer_instance
   · exact ‹IsAffine (W.affineOpenCover.openCover.X i)›
   · refine ⟨y, ?_⟩
-    show g (W.affineOpenCover.openCover.f i y) = s
+    change g (W.affineOpenCover.openCover.f i y) = s
     rw [hy, hw]
 
 /-- **A quasi-compact scheme of the site is covered by finitely many affine étale objects, whose
@@ -236,7 +236,7 @@ public theorem exists_affine_etale_surjection (X : B.Scheme)
   · intro a
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    exact Limits.Sigma.ι_desc _ _
+    exact Limits.Sigma.ι_comp_desc _ _
 
 section Restriction
 
@@ -333,6 +333,7 @@ variable (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
     HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
       (ModuleCat.{max (u + 1) w} Λ)]
 
+omit [IsNoetherianRing Λ] in
 /-- **Restriction to an object of the small étale site preserves constructibility of sheaves of
 modules over a Noetherian ring.** By Stacks 03S3 restriction along the structure morphism of `V`
 is the inverse image along it, and Stacks 095G for modules over a Noetherian ring says that

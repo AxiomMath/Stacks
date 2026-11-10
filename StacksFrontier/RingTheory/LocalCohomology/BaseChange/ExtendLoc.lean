@@ -70,7 +70,7 @@ lemma locLeg_naturality (a : A) {M N : ModuleCat.{max u w} A} (g : M ⟶ N) (n :
     g ≫ locLeg a N n = locLeg a M n ≫ (locFunctor.{u, w} a).map g := by
   apply ModuleCat.hom_ext
   ext m
-  show (locLeg a N n).hom (g.hom m) = ((locFunctor.{u, w} a).map g).hom ((locLeg a M n).hom m)
+  change (locLeg a N n).hom (g.hom m) = ((locFunctor.{u, w} a).map g).hom ((locLeg a M n).hom m)
   rw [locLeg_apply, locLeg_apply, locFunctor_map_mk]
 
 end Functor
@@ -86,7 +86,7 @@ lemma extendScalars_map_smulHom (c : A) (M : ModuleCat.{max uA uB v} A) :
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
   let := f.toAlgebra
-  show (1 : B) ⊗ₜ[A] (c • m) = f c • ((1 : B) ⊗ₜ[A] m)
+  change (1 : B) ⊗ₜ[A] (c • m) = f c • ((1 : B) ⊗ₜ[A] m)
   rw [show f c • ((1 : B) ⊗ₜ[A] (m : M)) = (f c * 1) ⊗ₜ[A] (m : M) from rfl, mul_one,
     ← TensorProduct.smul_tmul, Algebra.smul_def, RingHom.algebraMap_toAlgebra, mul_one]
 

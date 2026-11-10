@@ -211,8 +211,7 @@ private theorem semilinear_tensorEquiv_eq_map {R A B N M₁ M₂ : Type*} [CommR
     (ρ : M₁ →ₛₗ[(l : A →+* B)] M₂) (e₁ : A ⊗[R] N ≃ₗ[A] M₁) (e₂ : B ⊗[R] N ≃ₗ[B] M₂)
     (h : ∀ n, ρ (e₁ (1 ⊗ₜ n)) = e₂ (1 ⊗ₜ n)) (x : A ⊗[R] N) :
     ρ (e₁ x) = e₂ (TensorProduct.map l.toLinearMap LinearMap.id x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c n =>
     rw [TensorProduct.map_tmul, ← mul_one c, ← smul_eq_mul, ← TensorProduct.smul_tmul',
       map_smul, map_smulₛₗ, h, ← map_smul, TensorProduct.smul_tmul', smul_eq_mul]

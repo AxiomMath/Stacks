@@ -59,12 +59,12 @@ theorem curveMapDegree_of_not_constant [IsCurve k f] (φ : C ⟶ C) (w : φ ≫ 
     (hnc : ¬ ∃ y : C, ∀ x : C, φ.base x = y) :
     curveMapDegree f φ w = @degreeOver C C φ _ _ (locallyOfFiniteType_of_isCurve_comp k f f φ w)
       (isDominant_of_not_constant k f f φ hnc) := by
-  rw [curveMapDegree, dif_pos hnc]
+  rw [curveMapDegree, dite_eq_left hnc]
 
 /-- For a constant `φ`, `deg φ = 0`. -/
 theorem curveMapDegree_of_constant [IsCurve k f] (φ : C ⟶ C) (w : φ ≫ f = f)
     (hc : ∃ y : C, ∀ x : C, φ.base x = y) : curveMapDegree f φ w = 0 := by
-  rw [curveMapDegree, dif_neg (not_not.mpr hc)]
+  rw [curveMapDegree, dite_eq_right (not_not.mpr hc)]
 
 /-- **The degree of a Picard class is the degree of its chosen representative.** -/
 theorem picardDegree_eq_invertibleCurveDegree_rep [IsCurve k f] [IsProper f]

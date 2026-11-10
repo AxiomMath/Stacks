@@ -85,7 +85,7 @@ theorem evalRingHom_rationalFunctionNorm (f : rationalFunctions B S hS hX) :
   apply (residueFieldCongr B S hS hintY.2.1 hgen).injective
   refine (residueFieldCongr_evalRingHom B S hS hY hintY hgen _
     (genericRep_class B S hS hY hintY) _).trans ?_
-  show rationalFunctionsRingEquiv B S hS hY hintY
+  change rationalFunctionsRingEquiv B S hS hY hintY
       (rationalFunctionNorm B S hS hX hY hintX hintY p hgen f) = _
   unfold rationalFunctionNorm
   rw [RingEquiv.apply_symm_apply]
@@ -97,13 +97,13 @@ def rationalFunctionNormUnit (f : (rationalFunctions B S hS hX)ˣ) :
   val := rationalFunctionNorm B S hS hX hY hintX hintY p hgen f
   inv := rationalFunctionNorm B S hS hX hY hintX hintY p hgen ↑f⁻¹
   val_inv := by
-    letI := (residueFieldHom B S hS X Y hY hintX.2.1 hintY.2.1 p
+    let := (residueFieldHom B S hS X Y hY hintX.2.1 hintY.2.1 p
       (genericPoint B S hS hX hintX)).toAlgebra
     unfold rationalFunctionNorm
     rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, Units.mul_inv, map_one, map_one, map_one,
       map_one]
   inv_val := by
-    letI := (residueFieldHom B S hS X Y hY hintX.2.1 hintY.2.1 p
+    let := (residueFieldHom B S hS X Y hY hintX.2.1 hintY.2.1 p
       (genericPoint B S hS hX hintX)).toAlgebra
     unfold rationalFunctionNorm
     rw [← map_mul, ← map_mul, ← map_mul, ← map_mul, Units.inv_mul, map_one, map_one, map_one,
@@ -160,7 +160,8 @@ theorem ordTotalFracInt_chartPointRationalFunctionMap_eq_localization
     ((g.isUnit.map _).map _) ((g.isUnit.map _).map _)
   exact key
 
-omit [Ring.KrullDimLE 1 (V.obj.left.left.1.presheaf.stalk v)]
+omit [IsReduced V.obj.left.left.1] [IsLocallyNoetherian V.obj.left.left.1]
+  [Ring.KrullDimLE 1 (V.obj.left.left.1.presheaf.stalk v)]
   [IsNoetherianRing (chartRing B S hS F hF V)] in
 /-- At a point of an affine chart over the generic point of a prime divisor, the localization of
 the ring of the chart at the prime of the point has dimension one. -/
@@ -178,8 +179,6 @@ theorem ringKrullDim_localization_chartPrimeAt_eq_one (hdec : IsDecentSpace B S 
     (V.obj.left.left.1.presheaf.stalk v)).toRingEquiv]
   exact W.ringKrullDim_chartStalk B S hS hF hdec V v hv
 
-variable [_root_.IsReduced (chartRing B S hS F hF V)]
-
 /-- **The order of vanishing of a rational function at a point of an affine chart is
 `Stacks.NormBranches.ordAtPrime` at the prime of the point.** -/
 theorem ordTotalFracInt_chartPointRationalFunctionMap_eq_ordAtPrime
@@ -194,7 +193,7 @@ theorem ordTotalFracInt_chartPointRationalFunctionMap_eq_ordAtPrime
   have := @krullDimLE_localization_chartPrimeAt B S hS F hF V ‹IsAffine V.obj.left.left.1› v 1
       ‹Ring.KrullDimLE 1 (V.obj.left.left.1.presheaf.stalk v)›
   unfold Stacks.NormBranches.ordAtPrime
-  rw [dif_pos ⟨inferInstance, (g.isUnit.map _).map _⟩]
+  rw [dite_eq_left ⟨inferInstance, (g.isUnit.map _).map _⟩]
   exact ordTotalFracInt_chartPointRationalFunctionMap_eq_localization B S hS hF V v g
 
 end ChartOrder
@@ -324,7 +323,7 @@ theorem finsum_mem_chartScheme_fibre_eq_finsum_mem_primeSpectrum {Z Y : Algebrai
   have hbijV := bijective_chartPrimeAt B S hS Y.2 d.V hV
   refine finsum_mem_eq_of_bijOn (fun w => ⟨chartPrimeAt B S hS Z.2 d.U w, inferInstance⟩)
     ⟨fun w hw => ?_, hbij.1.injOn, fun Q hQ => ?_⟩ (fun w _ => rfl)
-  · show (chartPrimeAt B S hS Z.2 d.U w).comap (chartDiagramRestrict B S hS φ d) = _
+  · change (chartPrimeAt B S hS Z.2 d.U w).comap (chartDiagramRestrict B S hS φ d) = _
     rw [comap_chartPrimeAt B S hS φ d w, show ((BigFppfOver.toScheme B S hS).map d.g).base w = e
       from hw]
   · obtain ⟨w, rfl⟩ := hbij.2 Q
@@ -480,7 +479,7 @@ theorem finsum_chartFibre_mul_cycleResidueDegree_eq (hpB : p ≫ sY = sX)
     (Z := ⟨X, hX.1⟩) (Y := ⟨Y, hY.1⟩) hintX hintY (goodSpacesHom D sX hX sY hY p) hgen d hUa hVa
   have h𝔭 := ringKrullDim_localization_chartPrimeAt_eq_one D.site D.base D.base_mem hY.1 d.V e
     hintY.isDecentSpace W he
-  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem hXdec hYdec
+  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem
     (goodSpacesHom D sX hX sY hY p) d hd _ e he huniq hmono
   have : (show Ideal Γ(chartScheme d.V, ⊤) from
       chartPrimeAt D.site D.base D.base_mem hY.1 d.V e).IsPrime :=
@@ -591,7 +590,7 @@ theorem finsum_rationalFunctionPrincipalDivisorCycle_mul_properCycleMult_eq {p :
       pointsMap D.site D.base D.base_mem X p x = W.genericPoint D.site D.base D.base_mem Y}]
     refine finsum_mem_congr ?_ fun _ _ => rfl
     ext x
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Function.mem_support]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Function.mem_support]
     exact ⟨fun h => ⟨h.1.1, h.2⟩, fun h => ⟨⟨h.1, left_ne_zero_of_mul h.2⟩, h.2⟩⟩
   rw [hdrop]
   -- the chart at the generic point of `W`
@@ -614,7 +613,7 @@ theorem finsum_rationalFunctionPrincipalDivisorCycle_mul_properCycleMult_eq {p :
   have : IsLocallyNoetherian d.V.obj.left.left.1 := property_of_hasEtaleLocalProperty D.site
     D.base D.base_mem (fun T : Scheme.{u} => IsLocallyNoetherian T) hY.1
     (hasEtaleLocalProperty_isLocallyNoetherian_of_isGood D sY hY) d.V
-  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem hXdec hYdec
+  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem
     (goodSpacesHom D sX hX sY hY p) d hd _ e he huniq hmono
   rw [← finsum_mem_eq_of_bijOn (chartSchemeToPoints D.site D.base D.base_mem X d.U) hbijOn
     (fun w _ => rfl)]

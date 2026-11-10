@@ -74,7 +74,7 @@ description of the identification as the one induced by the bijection of Stacks 
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe h a w v u
+universe a w v u
 
 namespace Stacks.Cohomology.Torsors
 
@@ -138,10 +138,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {U : C}
   [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
   [HasSheafify J AddCommGrpCat.{max a u v w}]
   [HasSheafify (J.over U) AddCommGrpCat.{max a u v w}]
-  [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{max a u v w})]
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})] in
 /-- **A Čech `1`-cocycle is the Čech class of a locally trivial isomorphism class of
 torsors**, provided the coefficient sheaf sits in a short exact sequence whose middle term is
 injective: the cocycle becomes a Čech coboundary there, and the torsor of the cocycle is then
@@ -158,7 +155,6 @@ theorem exists_cechClass_eq_of_injective (hE : E.sieve₀ ∈ J U)
         fun i ↦ ⟨cocycleSection E S hS hE z b hb i⟩⟩⟩,
     cechClass_cocycleTorsor E S hS hE z b hb⟩
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})] in
 /-- **Every Čech `1`-cocycle is the Čech class of a locally trivial isomorphism class of
 torsors.** The coefficient sheaf is embedded in an injective abelian sheaf (Stacks 01DP) and
 the cokernel is formed there, which realizes the cocycle as a Čech coboundary of the middle
@@ -174,19 +170,17 @@ theorem exists_cechClass_eq (hE : E.sieve₀ ∈ J U) (G : Sheaf J AddCommGrpCat
     { exact := ShortComplex.exact_cokernel _
       mono_f := Injective.ι_mono G
       epi_g := inferInstance }
-  exact exists_cechClass_eq_of_injective.{h, a, w, v, u} E hE _ hS
+  exact exists_cechClass_eq_of_injective.{a, w, v, u} E hE _ hS
     (Injective.injective_under G) z
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})] in
 /-- **The Čech class map is surjective onto `Ȟ¹(𝒰, G)`.** -/
 theorem cechClass_surjective (hE : E.sieve₀ ∈ J U)
     (G : Sheaf J AddCommGrpCat.{max a u v w}) :
     Function.Surjective (cechClass E G) := by
   intro x
   obtain ⟨z, rfl⟩ := QuotientAddGroup.mk_surjective x
-  exact exists_cechClass_eq.{h, a, w, v, u} E hE G z
+  exact exists_cechClass_eq.{a, w, v, u} E hE G z
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})] in
 /-- **Stacks Project, Tag 0A6G.** The Čech class map is a bijection from the isomorphism
 classes of `G|_U`-torsors which restrict to trivial torsors over each member of the covering
 family onto first Čech cohomology. -/
@@ -194,7 +188,7 @@ family onto first Čech cohomology. -/
 theorem cechClass_bijective (hE : E.sieve₀ ∈ J U)
     (G : Sheaf J AddCommGrpCat.{max a u v w}) :
     Function.Bijective (cechClass E G) :=
-  ⟨cechClass_injective E G hE, cechClass_surjective.{h, a, w, v, u} E hE G⟩
+  ⟨cechClass_injective E G hE, cechClass_surjective.{a, w, v, u} E hE G⟩
 
 /-- **Stacks Project, Tag 0A6G.** First Čech cohomology of a covering family, as the set of
 isomorphism classes of `G|_U`-torsors which restrict to trivial torsors over each member of
@@ -204,7 +198,7 @@ the tag is Stacks.CechSite.cechH1ToSliceH_injective_and_range_eq", ega "IV 16.5.
 def locallyTrivialClassEquivCechH1 (hE : E.sieve₀ ∈ J U)
     (G : Sheaf J AddCommGrpCat.{max a u v w}) :
     LocallyTrivialClass E G ≃ cechH1 E G.obj :=
-  Equiv.ofBijective (cechClass E G) (cechClass_bijective.{h, a, w, v, u} E hE G)
+  Equiv.ofBijective (cechClass E G) (cechClass_bijective.{a, w, v, u} E hE G)
 
 end Bijection
 

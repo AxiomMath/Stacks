@@ -220,8 +220,8 @@ theorem isRationallyEquivalentToZeroWithinCanonical_properPushforward_firstChern
     (fun W => α.1 W ≠ 0)).symm
   refine finsum_congr fun W => ?_
   by_cases hW : α.1 W = 0
-  · rw [hW, zero_mul, finsum_eq_if, if_neg (not_not.2 rfl)]
-  · rw [finsum_eq_if, if_pos hW]
+  · rw [hW, zero_mul, finsum_eq_if, ite_eq_right (not_not.2 rfl)]
+  · rw [finsum_eq_if, ite_eq_left hW]
 
 end Carrier
 
@@ -317,7 +317,7 @@ theorem chowClassCanonical_gysin_properPushforward_eq_of_defects
   have hE' : D.IsGood (E'.1.ι ≫ p') := isGood_vanishingLocus D p' hp' L' s'
   set γ := gysinCycleMap D p' E' hE' k (sectionGysinRule D p' hp' L' s' k hL') α'
   rw [chowClassCanonical_eq_iff_rationallyEquivalentCanonical]
-  refine isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward
+  refine isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward
     D p hp E.1 E.2 k ?_
   -- the pushforward of the right-hand side to `X`
   have hEι := isProper_closedSubspaces_ι D hp.1 E
@@ -350,9 +350,9 @@ theorem chowClassCanonical_gysin_properPushforward_eq_of_defects
         (fun W' hW' => ?_)) ?_)
   · dsimp only
     by_cases hle' : W'.subspace ≤ E'.1
-    · rw [if_pos hle']
+    · rw [ite_eq_left hle']
       exact hle W' (α'.2.2 W' hW') hle' _
-    · rw [if_neg hle', hnot W' (α'.2.2 W' hW') hle', smul_zero]
+    · rw [ite_eq_right hle', hnot W' (α'.2.2 W' hW') hle', smul_zero]
       exact isRationallyEquivalentToZeroWithinCanonical_zero D p hp k ∅
   · refine Set.iUnion_subset fun j => ?_
     dsimp only

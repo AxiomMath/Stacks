@@ -359,7 +359,7 @@ def coproductFinSuccIso {C : Type u} [Category C]
   · apply Sigma.hom_ext
     intro j
     induction j using Fin.lastCases with
-    | last => simp [f, g, coprod.inr_desc]
+    | last => simp [f, g]
     | cast k => simp [f, g, coprod.inl_desc]
   · apply coprod.hom_ext
     · apply Sigma.hom_ext

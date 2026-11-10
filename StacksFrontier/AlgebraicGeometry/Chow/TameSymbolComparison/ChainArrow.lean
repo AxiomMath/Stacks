@@ -61,14 +61,14 @@ open Classical in
 theorem chainArrowTerm_of_specializes (j : ℤ) (ξ : DimMilnorChainGroup X δ (j + 1) (i + 1))
     (x : {x : X | δ x = j + 1}) (x' : {x : X | δ x = j}) (h : (x.1 : X) ⤳ (x'.1 : X)) :
     chainArrowTerm δ i Φ j ξ x x' = Φ x.1 x'.1 h (by rw [x.2, x'.2]) (ξ.1 x) := by
-  rw [chainArrowTerm, dif_pos h]
+  rw [chainArrowTerm, dite_eq_left h]
 
 open Classical in
 /-- If `x` does not specialize to `x'`, the contribution of `x` at `x'` is zero. -/
 theorem chainArrowTerm_of_not_specializes (j : ℤ) (ξ : DimMilnorChainGroup X δ (j + 1) (i + 1))
     (x : {x : X | δ x = j + 1}) (x' : {x : X | δ x = j}) (h : ¬(x.1 : X) ⤳ (x'.1 : X)) :
     chainArrowTerm δ i Φ j ξ x x' = 0 := by
-  rw [chainArrowTerm, dif_neg h]
+  rw [chainArrowTerm, dite_eq_right h]
 
 open Classical in
 /-- If the component `ξ_x` vanishes, the contribution of `x` at every `x'` is zero. -/

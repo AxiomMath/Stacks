@@ -97,7 +97,7 @@ theorem exists_algebraMap_eq_of_pow_eq {E S : Type*} [Field E] [Fintype E] [Comm
 section Uniqueness
 
 variable {B B₁ E₁ Ω : Type*} [CommRing B] [CommRing B₁] [IsDomain B₁] [Algebra B B₁] [Field E₁]
-  [Fintype E₁] [Algebra E₁ B₁] [Field Ω] (ι₁ : E₁ →+* Ω)
+  [Finite E₁] [Algebra E₁ B₁] [Field Ω] (ι₁ : E₁ →+* Ω)
   (Γ : Type*) [Group Γ] [Finite Γ] [MulSemiringAction Γ B₁] [SMulCommClass Γ B B₁]
   [Algebra.IsInvariant B B₁ Γ]
 
@@ -108,6 +108,7 @@ theorem eq_of_comp_algebraMap_eq
     (hfaith : ∀ g : Γ, (∀ c : E₁, g • algebraMap E₁ B₁ c = algebraMap E₁ B₁ c) → g = 1)
     (ψ ψ' : PointsOver B₁ ι₁) (h : ψ.1.comp (algebraMap B B₁) = ψ'.1.comp (algebraMap B B₁))
     [Finite (B₁ ⧸ RingHom.ker ψ.1)] : ψ = ψ' := by
+  have := Fintype.ofFinite E₁
   let : Algebra B Ω := (ψ.1.comp (algebraMap B B₁)).toAlgebra
   let a : B₁ →ₐ[B] Ω := { ψ.1 with commutes' := fun _ => rfl }
   let a' : B₁ →ₐ[B] Ω :=

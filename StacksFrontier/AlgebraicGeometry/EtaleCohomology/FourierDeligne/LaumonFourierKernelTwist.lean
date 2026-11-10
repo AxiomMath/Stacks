@@ -79,7 +79,7 @@ theorem matrixCharacterSMulBilinear_equivariant
   have hs : ∀ w : Fin m → Λ, Matrix.scalar (Fin m) (χ g : Λ) *ᵥ w = (χ g : Λ) • w := fun w => by
     ext i
     simp [Matrix.scalar_apply, Matrix.mulVec_diagonal]
-  show ((χ g : Λ) • b.down) • ((σ g).val *ᵥ a.down) =
+  change ((χ g : Λ) • b.down) • ((σ g).val *ᵥ a.down) =
     ((σ g).val * Matrix.scalar (Fin m) (χ g : Λ)) *ᵥ (b.down • a.down)
   rw [← Matrix.mulVec_mulVec, hs, Matrix.mulVec_smul, Matrix.mulVec_smul, smul_eq_mul, mul_smul]
 

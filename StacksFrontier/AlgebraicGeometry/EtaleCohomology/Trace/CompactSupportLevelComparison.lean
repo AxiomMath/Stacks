@@ -78,7 +78,7 @@ private lemma final_assembly {C D : Type*} [Category* C] [Category* D] (H : C �
   rw [hθΨ, ← Category.assoc θi, hθ', ← H.map_comp, ← H.map_comp, hμ, H.map_comp]
 
 variable {Λ Λ' : Type} [CommRing Λ] [CommRing Λ'] (ρ : Λ →+* Λ')
-  {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+  {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- The restriction to `X̄_k̄` of the extension by zero along the compactification, termwise on
@@ -256,7 +256,7 @@ instance etaleModuleRestrictScalars_reflectsIsomorphisms :
     have : IsIso ((sheafToPresheaf Y.smallEtaleTopology (ModuleCat.{u + 1} Λ')).map φ) := this
     exact isIso_of_reflects_iso φ (sheafToPresheaf _ _)
 
-variable {ℓ : ℕ} [Fact ℓ.Prime] (n : ℕ)
+variable {ℓ : ℕ} (n : ℕ)
 
 local notation "ρₙ" => Stacks.InverseSystem.levelCast ℓ n
 
@@ -358,7 +358,7 @@ theorem isIso_levelMultiplication_adjoint
         (levelTorsionLift Y n N).f i := by
       refine hk.eq_torsionLift (etaleModules_pow_nsmul_id _) (Nat.le_succ _) ?_
       have := HomologicalComplex.congr_hom hβ i
-      show t.f i ≫ (etaleModuleRestrictScalars ρₙ Y).map (β.f i) ≫
+      change t.f i ≫ (etaleModuleRestrictScalars ρₙ Y).map (β.f i) ≫
         (etaleModuleCoextendScalarsAdj ρₙ Y).counit.app (N.X i) = _
       rw [show (etaleModuleRestrictScalars ρₙ Y).map (β.f i) ≫
           (etaleModuleCoextendScalarsAdj ρₙ Y).counit.app (N.X i) = ν.f i from this]
@@ -460,7 +460,7 @@ section Main
 open Stacks.InverseSystem
 
 variable {ℓ : ℕ} [Fact ℓ.Prime] (n : ℕ)
-  {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+  {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 local notation "ρₙ" => Stacks.InverseSystem.levelCast ℓ n

@@ -193,7 +193,7 @@ lemma pullbackSectionsMap_baseChange_mk {A₀ B₀ : Scheme.{u}} (j : A₀ ⟶ B
     baseChangeSectionsIso_hom, baseChangeSectionsIso_hom, topUnitMap_comp, comp_topUnitMap]
   refine congrArg (topUnitMap j) ?_
   simp only [Category.assoc]
-  show (Scheme.Modules.pullbackComp j (h₂ ≫ X.hom)).hom.app F ≫
+  change (Scheme.Modules.pullbackComp j (h₂ ≫ X.hom)).hom.app F ≫
         (Scheme.Modules.pullbackCongr (Category.assoc j h₂ X.hom).symm).hom.app F ≫
         (Scheme.Modules.pullbackComp (j ≫ h₂) X.hom).inv.app F =
       (Scheme.Modules.pullback j).map ((Scheme.Modules.pullbackComp h₂ X.hom).inv.app F) ≫

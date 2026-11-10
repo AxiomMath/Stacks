@@ -707,7 +707,7 @@ private theorem cmHomologyDerivedIso_naturality
         congr 1
         rw [Category.assoc eM.inv (fD ≫ eN.hom) eN.inv, Category.assoc fD eN.hom eN.inv,
           eN.hom_inv_id, Category.comp_id]
-  show eM.hom ≫ S.map fG = fD ≫ eN.hom
+  change eM.hom ≫ S.map fG = fD ≫ eN.hom
   rw [hconj, Iso.hom_inv_id_assoc]
 
 /-- The value of `cmHomologyFunctor` is the degree `-d` cohomology of `RHom_A(M, ω)` on the
@@ -858,7 +858,7 @@ private theorem cmHomologyFunctor_full
     rw [congrArg (fun a => D.map a.op) hSingle]
     have htmp : ι.map (F.map fC) = q := by
       rw [hFmap, ι.map_preimage]
-    show D.map (ι.op.map fC) = q
+    change D.map (ι.op.map fC) = q
     simpa [F, ι, coherentDualizingDerivedHomFunctor] using htmp
   have hnat := cmHomologyDerivedIso_naturality omega homega d X.unop Y.unop fCM
   have hnat' : eM.hom ≫ S.map (G.map f).hom =

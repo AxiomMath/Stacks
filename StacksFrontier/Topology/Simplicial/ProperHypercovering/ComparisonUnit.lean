@@ -72,8 +72,8 @@ theorem sheafPushforwardContinuousSquareMateOfLarge_app_hom [w.GuitartExact]
             i.sheafPushforwardCocontinuous (Type u) JA JB ⋙
                 T.sheafPushforwardContinuous (Type u) JB' JB ≅
               v.sheafPushforwardContinuous (Type u) JA' JA ⋙
-                i'.sheafPushforwardCocontinuous (Type u) JA' JB').hom)).natTrans.app F).hom =
-      Functor.whiskerRight w.op.natTrans F.obj := by
+                i'.sheafPushforwardCocontinuous (Type u) JA' JB').hom)).app F).hom =
+      Functor.whiskerRight w.op F.obj := by
   have hR : ∀ {X : A'ᵒᵖ ⥤ Type u} {Y : B'ᵒᵖ ⥤ Type u} (y : i'.op ⋙ Y ⟶ X),
       Functor.whiskerLeft i'.op ((i'.op.ranAdjunction (Type u)).homEquiv Y X y) ≫
         (i'.op.ranAdjunction (Type u)).counit.app X = y := by
@@ -93,7 +93,7 @@ theorem sheafPushforwardContinuousSquareMateOfLarge_app_hom [w.GuitartExact]
     Functor.whiskerLeft_app, Functor.leftUnitor_inv_app, Functor.rightUnitor_hom_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.comp_map, Category.id_comp,
     Functor.map_id, ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.id_hom]
-  show Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
+  change Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
       ((i.sheafAdjunctionCocontinuous (Type u) JA JB).unit.app F).hom) ≫
     Functor.whiskerLeft i'.op (((Functor.fullyFaithfulCancelRight (sheafToPresheaf JB' (Type u))
         (Functor.isoWhiskerLeft (sheafToPresheaf JA (Type u))
@@ -122,22 +122,22 @@ theorem sheafPushforwardContinuousSquareMateOfLarge_app_hom [w.GuitartExact]
       ((Functor.RightExtension.mk _ (i.op.ranCounit.app (i.op ⋙ F.obj))).compTwoSquare
         w.op).hom :=
     hR _
-  show Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
+  change Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
       ((i.op.ranAdjunction (Type u)).unit.app F.obj)) ≫
     (Functor.whiskerLeft i'.op (w.op.ranBaseChange.app (i.op ⋙ F.obj)) ≫
       (i'.op.ranAdjunction (Type u)).counit.app (v.op ⋙ i.op ⋙ F.obj)) = _
   rw [hB]
   refine NatTrans.ext (funext fun X ↦ ?_)
   have n1 : ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
-      (i.op.ran.obj (i.op ⋙ F.obj)).map (w.op.natTrans.app X) =
-      F.obj.map (w.op.natTrans.app X) ≫
+      (i.op.ran.obj (i.op ⋙ F.obj)).map (w.op.app X) =
+      F.obj.map (w.op.app X) ≫
         ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (i.op.obj (v.op.obj X)) :=
-    (((i.op.ranAdjunction (Type u)).unit.app F.obj).naturality (w.op.natTrans.app X)).symm
+    (((i.op.ranAdjunction (Type u)).unit.app F.obj).naturality (w.op.app X)).symm
   have t1 := Functor.ranCounit_app_app_ranAdjunction_unit_app_app i.op F.obj (v.op.obj X)
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app]
-  show ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
+  change ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight w.op.natTrans (i.op.ran.obj (i.op ⋙ F.obj)) ≫
+        Functor.whiskerRight w.op (i.op.ran.obj (i.op ⋙ F.obj)) ≫
         (Functor.associator _ _ _).hom ≫
         Functor.whiskerLeft v.op (i.op.ranCounit.app (i.op ⋙ F.obj))).app X = _
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
@@ -148,7 +148,7 @@ theorem sheafPushforwardContinuousSquareMateOfLarge_app_hom [w.GuitartExact]
 /-- **Beck–Chevalley for a Guitart exact square with continuous horizontal functors and a large
 lower left corner.** The mate `T_* ⋙ i'^{-1} ⟶ i^{-1} ⋙ v_*` of the square of direct images is an
 isomorphism as soon as the square of site functors is. -/
-theorem isIso_sheafPushforwardContinuousSquareMateOfLarge [w.GuitartExact] [IsIso w.natTrans] :
+theorem isIso_sheafPushforwardContinuousSquareMateOfLarge [w.GuitartExact] [IsIso w] :
     IsIso ((mateEquiv (i.sheafAdjunctionCocontinuous (Type u) JA JB)
         (i'.sheafAdjunctionCocontinuous (Type u) JA' JB')).symm
         (TwoSquare.mk _ _ _ _
@@ -158,14 +158,14 @@ theorem isIso_sheafPushforwardContinuousSquareMateOfLarge [w.GuitartExact] [IsIs
             i.sheafPushforwardCocontinuous (Type u) JA JB ⋙
                 T.sheafPushforwardContinuous (Type u) JB' JB ≅
               v.sheafPushforwardContinuous (Type u) JA' JA ⋙
-                i'.sheafPushforwardCocontinuous (Type u) JA' JB').hom)).natTrans := by
+                i'.sheafPushforwardCocontinuous (Type u) JA' JB').hom)) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro F
   rw [← ObjectProperty.isIso_hom_iff, sheafPushforwardContinuousSquareMateOfLarge_app_hom]
-  have : IsIso w.op.natTrans := by
-    show IsIso (NatTrans.op w.natTrans)
+  have : IsIso w.op := by
+    change IsIso (NatTrans.op w)
     infer_instance
-  exact (Functor.isoWhiskerRight (asIso w.op.natTrans) F.obj).isIso_hom
+  exact (Functor.isoWhiskerRight (asIso w.op) F.obj).isIso_hom
 
 end ContinuousSquare
 
@@ -210,7 +210,7 @@ abbrev qcSmallLevelSquare (n : SimplexCategoryᵒᵖ) :
 
 /-- The square of component inclusions is invertible. -/
 instance isIso_qcSmallLevelSquare (n : SimplexCategoryᵒᵖ) :
-    IsIso (qcSmallLevelSquare S X U a n).natTrans :=
+    IsIso (qcSmallLevelSquare S X U a n) :=
   inferInstanceAs (IsIso (qcSmallLevelSquareIso S X U a n).hom)
 
 /-- Morphisms in the degree-`n` site into the value of `u_n` are unique. -/
@@ -240,7 +240,7 @@ theorem qcSmallLevelSquare_comp_base {n : SimplexCategoryᵒᵖ} {t : qcSmallDeg
     ((qcSmallTotalIota S X U a n).map a' ≫
       (qcSmallLevelSquare S X U a n).app V ≫ (qcSmallComparisonFunctor S X U a).map b').base =
         b'.base := by
-  show 𝟙 n ≫ 𝟙 n ≫ b'.base = b'.base
+  change 𝟙 n ≫ 𝟙 n ≫ b'.base = b'.base
   exact (Category.id_comp _).trans (Category.id_comp _)
 
 /-- The square of component inclusions is Guitart exact. -/
@@ -515,7 +515,7 @@ abbrev qcSmallComparisonRestrictSquare :
 
 /-- The commutation `r_n ∘ h_* ⟶ h_{n,*} ∘ ρ_n` is an isomorphism. -/
 instance isIso_qcSmallComparisonRestrictSquare :
-    IsIso (qcSmallComparisonRestrictSquare S X U a n).natTrans :=
+    IsIso (qcSmallComparisonRestrictSquare S X U a n) :=
   isIso_sheafPushforwardContinuousSquareMateOfLarge _ _ _ _ _ _ _ _ _
 
 /-- The Beck–Chevalley comparison of Stacks 0D96 for `h`: the comparison
@@ -542,7 +542,7 @@ abbrev qcSmallComparisonBeckChevalley :
 inverse image `h^{-1}G` to degree `n` is pulling back the restriction of `G` along the comparison
 of degree `n`. -/
 instance isIso_qcSmallComparisonBeckChevalley :
-    IsIso (qcSmallComparisonBeckChevalley S X U a n).natTrans := by
+    IsIso (qcSmallComparisonBeckChevalley S X U a n) := by
   let adj₁ := (qcSmallComparisonMorphism S X U a).adj
   let adj₂ := (qcSmallComparisonDegree S X U a n).sheafAdjunctionContinuous (Type u)
     (Opens.grothendieckTopology ((qcSimplicialSpace S U).obj n))
@@ -562,7 +562,7 @@ instance isIso_qcSmallComparisonBeckChevalley :
     Equiv.apply_symm_apply _ _
   rw [h₁, h₂] at key
   have : IsIso (conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂)
-      (qcSmallComparisonBeckChevalley S X U a n).natTrans) := by
+      (qcSmallComparisonBeckChevalley S X U a n)) := by
     rw [← key]
     exact inferInstanceAs (IsIso (qcSmallComparisonPushforwardSquareIso S X U a n).inv)
   exact conjugateEquiv_of_iso (adj₁.comp adj₄) (adj₃.comp adj₂) _
@@ -585,15 +585,15 @@ instance isIso_qcSmallComparisonMorphism_adj_unit :
         ((qcSmallComparisonDegree S X U a n).sheafPushforwardContinuous (Type u)
           (Opens.grothendieckTopology ((qcSimplicialSpace S U).obj n))
           (qcSmallDegreeTopology S X U a n)).map
-          ((qcSmallComparisonBeckChevalley S X U a n).natTrans.app G)) := inferInstance
+          ((qcSmallComparisonBeckChevalley S X U a n).app G)) := inferInstance
     have : IsIso (((levelFunctor (qcSimplicialSpace S U) n).sheafPushforwardContinuous (Type u)
         (Opens.grothendieckTopology ((qcSimplicialSpace S U).obj n))
         (SimplicialOpen.grothendieckTopology (qcSimplicialSpace S U))).map
           ((qcSmallComparisonMorphism S X U a).adj.unit.app G) ≫
-        (qcSmallComparisonRestrictSquare S X U a n).natTrans.app
+        (qcSmallComparisonRestrictSquare S X U a n).app
           ((qcSmallComparisonMorphism S X U a).inverseImage.obj G)) := by
       rwa [hf]
-    exact IsIso.of_isIso_comp_right _ ((qcSmallComparisonRestrictSquare S X U a n).natTrans.app _)
+    exact IsIso.of_isIso_comp_right _ ((qcSmallComparisonRestrictSquare S X U a n).app _)
   exact NatIso.isIso_of_isIso_app _
 
 end BeckChevalley

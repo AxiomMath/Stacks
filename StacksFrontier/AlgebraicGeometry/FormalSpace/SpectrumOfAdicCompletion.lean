@@ -299,7 +299,7 @@ theorem hasImageIn_adicCompletionQuotientObjHom
   have key : I ≤ (PrimeSpectrum.comap (Ideal.Quotient.mk (I ^ n)) p).asIdeal := by
     refine Ideal.IsPrime.le_of_pow_le (n := n) ?_
     intro a ha
-    show Ideal.Quotient.mk (I ^ n) a ∈ p.asIdeal
+    change Ideal.Quotient.mk (I ^ n) a ∈ p.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
     exact p.asIdeal.zero_mem
   exact (isoSpec_inv_mem_zeroLocus_iff I _).mpr key
@@ -496,12 +496,12 @@ private theorem adicCompletionObjLift_spec_of_isAffine
           (le_of_eq (Ideal.mul_top _).symm), hx, map_zero]
     refine Submodule.smul_induction_on (p := fun y => ψ.hom y = 0) hx'
       (fun r hr m _ => ?_) (fun y y' hy hy' => ?_)
-    · show ψ.hom (r • m) = 0
+    · change ψ.hom (r • m) = 0
       rw [Algebra.smul_def, map_mul]
       have hr' : ψ.hom (algebraMap Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
           (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) r) = 0 := hn hr
       rw [hr', zero_mul]
-    · show ψ.hom (y + y') = 0
+    · change ψ.hom (y + y') = 0
       rw [map_add, hy, hy', add_zero]
   -- the factorization `ψ = ψ' ∘ evalₐ`
   let ψ' : Γ((BigFppfOver.toScheme B S hS).obj V, ⊤) ⧸ I ^ n →+*
@@ -512,9 +512,9 @@ private theorem adicCompletionObjLift_spec_of_isAffine
       ψ := by
     ext x
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n x)
-    show ψ' (AdicCompletion.evalₐ I n x) = ψ.hom x
+    change ψ' (AdicCompletion.evalₐ I n x) = ψ.hom x
     rw [← ha]
-    show ψ.hom (algebraMap Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
+    change ψ.hom (algebraMap Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
       (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) a) = ψ.hom x
     rw [← sub_eq_zero, ← map_sub]
     refine hker _ ?_
@@ -530,7 +530,7 @@ private theorem adicCompletionObjLift_spec_of_isAffine
     Over.homMk (ObjectProperty.homMk ts)
       (by
         apply ObjectProperty.hom_ext
-        show ts ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (I ^ n))) ≫ _ = _
+        change ts ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (I ^ n))) ≫ _ = _
         rw [← specMap_evalₐ_comp_specMap_algebraMap_assoc, ← Category.assoc ts, hts]
         exact congrArg (fun k => k.hom) (Over.w z))
   have hzt : z = t ≫ adicCompletionQuotientObjToAdic B S hS V I n :=
@@ -575,7 +575,7 @@ theorem adicCompletionObjLift_spec [IsNoetherianRing Γ((BigFppfOver.toScheme B 
   have h1 := adicCompletionObjLift_spec_of_isAffine B S hS V W₀ I hTI O hO hVO hWO ŵ₀ Uj
     (uj ≫ z) hz'
   have h2 := app_comp_down B S hS ŵ₀ uj _ hz _ hz' (Category.assoc _ _ _).symm
-  show (BigFppfOver.toScheme B S hS).map uj ≫ _ = (BigFppfOver.toScheme B S hS).map uj ≫ _
+  change (BigFppfOver.toScheme B S hS).map uj ≫ _ = (BigFppfOver.toScheme B S hS).map uj ≫ _
   rw [← Functor.map_comp, ← Functor.map_comp, ← Category.assoc, h1, h2]
 
 end
@@ -607,7 +607,7 @@ theorem exists_adicCompletionObj_hom_app_eq {W : (BigFppfOver B S hS)ᵒᵖ ⥤ 
           ⟨ULift.up (z ≫ adicCompletionObjHom B S hS V I), hz⟩).down := by
   refine ⟨yoneda.map (adicCompletionObjLift B S hS V W₀ I hTI O hO hVO hWO ŵ₀) ≫ π,
     fun Zo z hz => ?_⟩
-  show π.app (op Zo) (z ≫ adicCompletionObjLift B S hS V W₀ I hTI O hO hVO hWO ŵ₀) =
+  change π.app (op Zo) (z ≫ adicCompletionObjLift B S hS V W₀ I hTI O hO hVO hWO ŵ₀) =
     π.app (op Zo) (ŵ₀.app (op Zo) ⟨ULift.up (z ≫ adicCompletionObjHom B S hS V I), hz⟩).down
   rw [adicCompletionObjLift_spec]
 

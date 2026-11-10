@@ -13,8 +13,8 @@ of [Stacks, Tag 0G0Y] and the Noetherian form
 [Stacks, Tag 0G0L] take the two halves of [Stacks, Tag 09RF] along the tower of fibre products as
 hypotheses `h09RFobj` and `h09RFiso`. Both are proved, for an index set in the universe of the
 schemes, as `AlgebraicGeometry.perfectDescendsAlongBaseChangedTower` and
-`AlgebraicGeometry.perfectIsoDescendsAlongBaseChangedTower`, in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceLimitDescent.lean`,
+`AlgebraicGeometry.perfectIsoDescendsAlongBaseChangedTower`, in the module
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.FourierMukai.RelativeEquivalenceLimitDescent`,
 from [Stacks, Tag 09RF] applied to the tower of fibre products. This file states the two results
 with those hypotheses discharged.
 

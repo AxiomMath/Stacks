@@ -168,7 +168,7 @@ theorem chart_oneHom_eq_twistUnitMap (D : TwistData A) (U : S.Opens) (hU : IsAff
   let := D.chartData.chart_isOpenImmersion U hU
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext
     (LinearMap.ext_ring ?_))
-  show (D.chartData.chartIso U hU 0).hom.val.app V
+  change (D.chartData.chartIso U hU 0).hom.val.app V
       (((Scheme.Modules.restrictFunctor ((relativeProj A).chart U hU)).map
         (SheafOfModules.GradedAlgebra.oneHom D.algebra)).val.app V
           ((Scheme.Modules.restrictUnitIso ((relativeProj A).chart U hU)).inv.val.app V

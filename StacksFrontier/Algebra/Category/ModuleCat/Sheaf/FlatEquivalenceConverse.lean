@@ -66,7 +66,8 @@ abelian structure on sheaves of modules is available at those hypotheses already
 AddCommGrpCat` from them.
 
 The universe of the sections is an independent `w`, not `max v w` as in
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FlatCriterionConverse`. Nothing here quantifies over
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.FlatCriterionConverse`. Nothing here quantifies
+over
 arrows of the site inside a module, so no constraint tying the section universe to the morphism
 universe arises, and the statement applies to a ringed site whose section universe is unrelated
 to its morphism universe.
@@ -124,7 +125,7 @@ lemma exists_relationData_of_rTensor_eq_zero {R M N H : Type w} [CommRing R] [Ad
     exact (Finset.sum_attach S _).symm
   · intro k
     rw [e.sum_comp (fun j : S => a k j.val • j.val)]
-    show (∑ j ∈ S.attach, a k j.val • j.val) = 0
+    change (∑ j ∈ S.attach, a k j.val • j.val) = 0
     rw [Finset.sum_attach S (fun j : H => a k j • j)]
     have h := hrel k
     rwa [Finsupp.linearCombination_apply, (a k).sum_of_support_subset (haS k) _
@@ -193,9 +194,9 @@ lemma equalizerSieve_tensor_mem_of_localFiniteRelationFactorizations
       exact Finset.sum_congr rfl fun j _ ↦ smul_smul _ _ _
     rw [Finset.sum_congr rfl fun i (_ : i ∈ Finset.univ) ↦ step i, Finset.sum_comm]
     simp only [← Finset.sum_smul, hB k, zero_smul, Finset.sum_const_zero]
-  show (tensorMap G N g.op) x = (tensorMap G N g.op) 0
+  change (tensorMap G N g.op) x = (tensorMap G N g.op) 0
   rw [hx, map_zero, map_sum]
-  show (∑ i, z' i ⊗ₜ[(ringPresheaf O).obj (op V)]
+  change (∑ i, z' i ⊗ₜ[(ringPresheaf O).obj (op V)]
     (show N.obj (op V) from N.map g.op (s i))) = 0
   simp only [hs, TensorProduct.tmul_sum]
   show (∑ i, ∑ k, z' i ⊗ₜ[(ringPresheaf O).obj (op V)] (B k i • u k)) = 0

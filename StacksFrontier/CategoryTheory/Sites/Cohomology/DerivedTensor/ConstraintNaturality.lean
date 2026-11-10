@@ -85,7 +85,7 @@ lemma tensorComplexFlipIso_hom_naturality
       HomologicalComplex.ι_mapBifunctorMap, HomologicalComplex.ι_mapBifunctorNatIso_hom]
     rw [reassoc_of% (((Tensor.sheafTensorBraiding R).hom.app (L₁.X i₁)).naturality (φ₂.f i₂)),
       reassoc_of% ha]
-  show HomologicalComplex.mapBifunctorMap φ₁ φ₂ (Tensor.sheafTensor R)
+  change HomologicalComplex.mapBifunctorMap φ₁ φ₂ (Tensor.sheafTensor R)
           (ComplexShape.up ℤ) ≫
         (HomologicalComplex.mapBifunctorNatIso L₁ L₂ (ComplexShape.up ℤ)
               (Tensor.sheafTensorBraiding R)).hom ≫
@@ -303,8 +303,8 @@ def braidingTrans : T.tensor ⟶ T.tensor.flip :=
 /-- At a pair of K-flat complexes the transformation is the K-flat comparison, the Koszul
 symmetry of complexes, and the inverse of the comparison of the exchanged pair. -/
 lemma braidingTrans_app_app (K L : CochainComplex (Modules X.O) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat X.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+    (hK : Stacks.SheafOfModules.KFlat X.O K)
+    (hL : Stacks.SheafOfModules.KFlat X.O L) :
     ((braidingTrans X T).app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) =
       (T.comparison K L hK hL).hom ≫
         DerivedCategory.Q.map

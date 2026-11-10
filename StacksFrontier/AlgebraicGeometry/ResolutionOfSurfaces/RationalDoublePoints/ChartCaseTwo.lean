@@ -142,6 +142,7 @@ section Local
 variable {B C : Type*} [CommRing B] [IsLocalRing B] [CommRing C] [IsLocalRing C]
   (φ : B →+* C) [IsLocalHom φ]
 
+omit [IsLocalRing B] [IsLocalRing C] [IsLocalHom φ] in
 /-- Two evaluations of a polynomial at families congruent modulo an ideal are congruent. -/
 theorem MvPolynomial.eval₂_sub_eval₂_mem {σ : Type*} (I : Ideal C) (Y Y' : σ → C)
     (h : ∀ i, Y i - Y' i ∈ I) (P : MvPolynomial σ B) :
@@ -151,6 +152,7 @@ theorem MvPolynomial.eval₂_sub_eval₂_mem {σ : Type*} (I : Ideal C) (Y Y' : 
   funext i
   exact Ideal.Quotient.eq.mpr (h i)
 
+omit [IsLocalRing B] [IsLocalRing C] [IsLocalHom φ] in
 /-- Substituting polynomials in one variable into a polynomial in several variables, then
 evaluating, is evaluating at the values of the substituted polynomials. -/
 theorem eval₂_eval₂_C {σ : Type*} (s : σ → B[X]) (v : C) (P : MvPolynomial σ B) :
@@ -166,6 +168,7 @@ theorem residue_eval₂ (v : C) (P : B[X]) :
       (P.map (residue B)).eval₂ (ResidueField.map φ) (residue C v) := by
   rw [Polynomial.eval₂_map, ResidueField.map_comp_residue, Polynomial.hom_eval₂]
 
+omit [IsLocalRing C] [IsLocalHom φ] in
 /-- A polynomial whose coefficients lie in the maximal ideal has its values in any ideal
 containing the image of the maximal ideal. -/
 theorem eval₂_mem_of_map_residue_eq_zero {I : Ideal C} (hφm : ∀ b ∈ maximalIdeal B, φ b ∈ I)
@@ -205,7 +208,7 @@ theorem maximalIdeal_eq_span_of_ker {t v w : C} (ht : t ∈ maximalIdeal C)
         ((Ideal.span_singleton_le_iff_mem _).mpr hw hP)
     have hker' : P.map (residue B) ∈ RingHom.ker (residuePolyEval φ v) := by
       rw [RingHom.mem_ker]
-      show (P.map (residue B)).eval₂ (ResidueField.map φ) (residue C v) = 0
+      change (P.map (residue B)).eval₂ (ResidueField.map φ) (residue C v) = 0
       rw [← residue_eval₂, IsLocalRing.residue_eq_zero_iff]
       exact hPm
     rw [hker, Ideal.mem_span_singleton'] at hker'
@@ -263,7 +266,7 @@ theorem surjective_residue_comp_of_residue_eq {v w : C} (hw : w ∈ maximalIdeal
   obtain ⟨b₀, hb₀⟩ := IsLocalRing.residue_surjective
     ((P.map (residue B)).eval μ / (Q.map (residue B)).eval μ)
   refine ⟨b₀, ?_⟩
-  show residue C (φ b₀) = residue C c
+  change residue C (φ b₀) = residue C c
   rw [← ResidueField.map_residue, hb₀, map_div₀, ← hbc, ← hb', map_mul]
   field_simp
 
@@ -276,6 +279,7 @@ section ChartZero
 variable {B C : Type*} [CommRing B] [IsLocalRing B] [CommRing C] [IsLocalRing C]
   (φ : B →+* C) [IsLocalHom φ]
 
+omit [IsLocalRing C] [IsLocalHom φ] in
 /-- If the images of generators of the maximal ideal lie in `t·C`, so does the image of the whole
 maximal ideal. -/
 theorem map_mem_span_of_generators {x : Fin 3 → B}
@@ -294,6 +298,7 @@ def chartQuadPoly (q : Fin 3 → Fin 3 → B) : B[X] :=
   Polynomial.C (q 0 0) + Polynomial.C (q 0 1 + q 1 0) * Polynomial.X +
     Polynomial.C (q 1 1) * Polynomial.X ^ 2
 
+omit [IsLocalRing B] [IsLocalRing C] [IsLocalHom φ] in
 /-- The dehomogenized quadratic expression `q(1, v, w)` is `q(1, v, 0)` plus `w` times a linear
 expression. -/
 theorem sum_quadratic_chartZero (q : Fin 3 → Fin 3 → B) (v w : C) :
@@ -305,6 +310,7 @@ theorem sum_quadratic_chartZero (q : Fin 3 → Fin 3 → B) (v w : C) :
   simp
   ring
 
+omit [IsLocalHom φ] in
 /-- A ring map between local rings sends elements outside the maximal ideal outside the maximal
 ideal. -/
 theorem notMem_maximalIdeal_map {b : B} (hb : b ∉ maximalIdeal B) : φ b ∉ maximalIdeal C :=
@@ -445,9 +451,9 @@ theorem isCaseOne_or_isUnitSpecialCoordinate_of_chartZero
     refine map_mem_span_of_generators φ hx fun i => ?_
     fin_cases i
     · exact Ideal.mem_span_singleton_self _
-    · show φ (x 1) ∈ _
+    · change φ (x 1) ∈ _
       rw [hv]; exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
-    · show φ (x 2) ∈ _
+    · change φ (x 2) ∈ _
       rw [hw]; exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
   rw [sum_quadratic_chartZero φ q v w] at hrel
   have hmapm : Ideal.map φ (maximalIdeal B) = Ideal.span {t} := by
@@ -646,6 +652,7 @@ section Charts
 variable {B C : Type*} [CommRing B] [IsLocalRing B] [CommRing C] [IsLocalRing C]
   (φ : B →+* C) [IsLocalHom φ]
 
+omit [IsLocalRing B] [IsLocalRing C] [IsLocalHom φ] in
 /-- Changing the chart coordinate `u` into its inverse: an element which is, up to a unit, a
 polynomial in `u` modulo `w` is, up to another unit, a polynomial in `u⁻¹` modulo `w`. -/
 theorem exists_polynomial_invOf {u w w' : C} [Invertible u]
@@ -671,6 +678,7 @@ theorem exists_polynomial_invOf {u w w' : C} [Invertible u]
   · rw [add_comm, key Q P.natDegree b]
     exact Ideal.mul_mem_left _ _ hQ
 
+omit [IsLocalRing B] [IsLocalRing C] [IsLocalHom φ] in
 /-- From a presentation of the elements of `C` as fractions of polynomials in a family `Y` to
 one by polynomials in one element `v` modulo another `w`. -/
 theorem exists_polynomial_of_mvPolynomial {σ : Type*} {Y : σ → C} {v w : C} (s : σ → B[X])
@@ -714,10 +722,10 @@ theorem isCaseOne_or_isUnitSpecialCoordinate_of_chartOne
     have hφm : ∀ b ∈ maximalIdeal B, φ b ∈ Ideal.span {t} := by
       refine map_mem_span_of_generators φ hx fun i => ?_
       fin_cases i
-      · show φ (x 0) ∈ _
+      · change φ (x 0) ∈ _
         rw [hu]; exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
       · exact Ideal.mem_span_singleton_self _
-      · show φ (x 2) ∈ _
+      · change φ (x 2) ∈ _
         rw [hw]; exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
     have hu0 : residue C u = 0 := (IsLocalRing.residue_eq_zero_iff _).mpr hum
     have hw0 : residue C w = 0 := (IsLocalRing.residue_eq_zero_iff _).mpr hwm
@@ -925,7 +933,7 @@ theorem exists_chartData {x : Fin 3 → A} (hx : Ideal.span (Set.range x) = maxi
   refine ⟨fun k => κ (fr k), ?_, fun k => ?_, ?_, fun c => ?_⟩
   · have : fr j = 1 := by
       apply Subtype.ext
-      show IsLocalization.mk' S (x j) ⟨x j, Submonoid.mem_powers (x j)⟩ = 1
+      change IsLocalization.mk' S (x j) ⟨x j, Submonoid.mem_powers (x j)⟩ = 1
       exact IsLocalization.mk'_self' (M := Submonoid.powers (x j)) S
         (x := ⟨x j, Submonoid.mem_powers (x j)⟩)
     simp only [this, map_one]

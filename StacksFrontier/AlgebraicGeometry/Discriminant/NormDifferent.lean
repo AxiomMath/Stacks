@@ -395,8 +395,7 @@ theorem smul_dualTensorBaseChange_tmul [Module.Finite R A] [Module.Projective R 
       dualTensorBaseChange R A S (s ⊗ₜ[R] (b • g)) := by
   classical
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul t y =>
     rw [algebraDualModule_smul_apply, Algebra.TensorProduct.tmul_mul_tmul,
       dualTensorBaseChange_tmul_apply, dualTensorBaseChange_tmul_apply]
@@ -414,8 +413,7 @@ theorem smul_dual_mem_range_baseChange [Module.Finite R A] [Module.Projective R 
       LinearMap.range (finiteProjectiveTraceForm S (S ⊗[R] A)) := by
   classical
   obtain ⟨z, rfl⟩ := (dualTensorBaseChange_bijective R A S).2 f
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s g =>
     obtain ⟨c, hc⟩ := hb g
     refine ⟨s ⊗ₜ[R] c, ?_⟩

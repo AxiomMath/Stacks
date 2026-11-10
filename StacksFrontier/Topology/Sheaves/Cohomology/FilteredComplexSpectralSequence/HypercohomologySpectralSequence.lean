@@ -236,7 +236,7 @@ theorem exists_canonicalTruncationSpectralSequence (X : RingedSpace.{u, u})
         (CochainComplex.filtrationSubobject (globalSectionsFilteredComplex X J)) r p (p + q) ≅
         cokernel (Subobject.ofLE (D r p (p + q) ⊓ Z r p (p + q)) (Z r p (p + q))
           inf_le_right) := by
-      show cokernel (Subobject.ofLE
+      change cokernel (Subobject.ofLE
         (FilteredComplexSpectralSequence.boundaries (globalSectionsFilteredComplex X J).X
             (CochainComplex.filtrationSubobject (globalSectionsFilteredComplex X J))
             r p (p + q) ⊓
@@ -262,7 +262,7 @@ theorem exists_canonicalTruncationSpectralSequence (X : RingedSpace.{u, u})
     underlyingIso := Iso.refl _
     stepIso := fun _ => Iso.refl _
     stepIso_hom_comp := fun p => by
-      show 𝟙 (K.truncLE (-p)) ≫ K.ιTruncLE (-p) = K.ιTruncLE (-p) ≫ 𝟙 K
+      change 𝟙 (K.truncLE (-p)) ≫ K.ιTruncLE (-p) = K.ιTruncLE (-p) ≫ 𝟙 K
       simp
     gradedPieceIso := fun p => CochainComplex.canonicalGradedPieceIso K p (-p) rfl
     injectiveReplacement := J
@@ -323,7 +323,7 @@ theorem exists_canonicalTruncationSpectralSequence (X : RingedSpace.{u, u})
 private lemma filtrationSubobject_eq_bot_of_isZero {A : Type*} [Category* A] [Abelian A]
     (M : CochainComplex.Filtered A) (p n : ℤ) (h : IsZero ((M.filtration.obj (op p)).X n)) :
     CochainComplex.filtrationSubobject M p n = ⊥ := by
-  show Subobject.mk ((M.filtration.ι.app (op p)).f n) = ⊥
+  change Subobject.mk ((M.filtration.ι.app (op p)).f n) = ⊥
   rw [Subobject.mk_eq_bot_iff_zero]
   exact h.eq_of_src _ _
 

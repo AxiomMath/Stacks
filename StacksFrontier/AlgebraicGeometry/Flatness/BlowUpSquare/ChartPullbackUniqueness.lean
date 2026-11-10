@@ -91,7 +91,7 @@ theorem isPrincipal_determinantalIdeal_of_eq_appLE (C : AffineChart S) {Y : Sche
     (hf : C'.f = (C.pullback h hD C'.U hV).f) (i : ℤ)
     (hp : (C.determinantalIdeal i).IsPrincipal) :
     (C'.determinantalIdeal i).IsPrincipal := by
-  show (idealI C'.complex C'.f i).IsPrincipal
+  change (idealI C'.complex C'.f i).IsPrincipal
   rw [hf]
   exact Stacks.Eta.DeterminantalIdeal.isPrincipal_idealI_of_derived_iso
     (C.pullback h hD C'.U hV).f

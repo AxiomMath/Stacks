@@ -53,7 +53,7 @@ private theorem koszul_isZero_X_of_lt {R : Type*} [CommRing R]
   let : Subsingleton (⋀[R]^i (Fin r → R)) :=
     exteriorPower.subsingleton_of_span_eq_top_of_card_lt
       (Pi.basisFun R (Fin r)) (Pi.basisFun R (Fin r)).span_eq i (by simpa using hi)
-  show CategoryTheory.Limits.IsZero (ModuleCat.of R (⋀[R]^i (Fin r → R)))
+  change CategoryTheory.Limits.IsZero (ModuleCat.of R (⋀[R]^i (Fin r → R)))
   exact ModuleCat.isZero_iff_subsingleton.mpr inferInstance
 
 /-- An isomorphism on cycles, when the source differential vanishes, is
@@ -76,7 +76,7 @@ private theorem injective_and_surjective_cycles
     let z := L.cyclesMk y j hj hy
     let x := (K.iCycles i).hom ((inv (HomologicalComplex.cyclesMap α i)).hom z)
     refine ⟨x, ?_⟩
-    show ((K.iCycles i ≫ α.f i).hom) _ = y
+    change ((K.iCycles i ≫ α.f i).hom) _ = y
     rw [← HomologicalComplex.cyclesMap_i]
     have h := ConcreteCategory.congr_hom
       (IsIso.inv_hom_id_assoc (HomologicalComplex.cyclesMap α i) (L.iCycles i)) z
@@ -101,7 +101,7 @@ private theorem tensorExtendXIso_d
       (tensorExtendXIso N K r).hom =
         (MonoidalCategory.tensorLeft N).map (K.d (r + 1) r) := by
   let T := MonoidalCategory.tensorLeft N
-  show T.map _ ≫ T.map _ ≫ T.map _ = _
+  change T.map _ ≫ T.map _ ≫ T.map _ = _
   rw [← T.map_comp, ← T.map_comp,
     K.extend_d_eq ComplexShape.embeddingDownNat (i := r + 1) (j := r)
       (i' := -((r + 1 : ℕ) : ℤ)) (j' := -(r : ℤ)) (by rfl) (by rfl)]
@@ -116,7 +116,7 @@ private theorem tensorExtendXIso_map
       (tensorExtendXIso N L r).hom =
         (MonoidalCategory.tensorLeft N).map (α.f r) := by
   let T := MonoidalCategory.tensorLeft N
-  show T.map _ ≫ T.map _ ≫ T.map _ = _
+  change T.map _ ≫ T.map _ ≫ T.map _ = _
   rw [← T.map_comp, ← T.map_comp,
     HomologicalComplex.extendMap_f α ComplexShape.embeddingDownNat (i := r)
       (i' := -(r : ℤ)) (by rfl)]
@@ -154,10 +154,10 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
         Ideal.Quotient.mk (RingHom.ker ρ)
           (algebraMap P (P ⊗[A] B) p) := by
     apply eR.injective
-    show eR (eR.symm
+    change eR (eR.symm
       (eP (Ideal.Quotient.mk (RingHom.ker q.toRingHom) p))) = _
     rw [eR.apply_symm_apply]
-    show q p = ρ (algebraMap P (P ⊗[A] B) p)
+    change q p = ρ (algebraMap P (P ⊗[A] B) p)
     exact (congrArg (fun h : P →+* B => h p) hρq).symm
   let eAlgQ :
       (P ⧸ RingHom.ker q.toRingHom) ≃ₐ[P]
@@ -265,7 +265,7 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
           apply ULift.ext
           have hs : (a • x).down = a • x.down := rfl
           rw [hs]
-          show eSpan (a • x.down) =
+          change eSpan (a • x.down) =
             (algebraMap P (P ⊗[A] B) a) • eSpan x.down
           rw [IsScalarTower.algebraMap_smul]
           exact eSpan.toLinearEquiv.map_smul a x.down }
@@ -283,12 +283,12 @@ private theorem quasiIso_coefficientBaseChangeKoszulChainMapULift
         K.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ K).inv ≫
           hK0.hom ≫ eULSpan.hom := by
     refine ModuleCat.hom_ext (LinearMap.ext fun z => ULift.ext ?_)
-    show ((L.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ L).inv ≫
+    change ((L.pOpcycles 0 ≫ (ChainComplex.isoHomologyι₀ L).inv ≫
         hL0.hom).hom ((α.f 0).hom z)).down =
       (eULSpan.hom.hom ((K.pOpcycles 0 ≫
         (ChainComplex.isoHomologyι₀ K).inv ≫ hK0.hom).hom z)).down
     rw [hLfac]
-    show Ideal.Quotient.mk (Ideal.span (Set.range g))
+    change Ideal.Quotient.mk (Ideal.span (Set.range g))
         (exteriorPower.zeroEquiv (P ⊗[A] B)
           (Fin (n + 2) → P ⊗[A] B) (((α.f 0).hom z).down)) =
       eSpan (((K.pOpcycles 0 ≫
@@ -391,7 +391,7 @@ private theorem isIso_cyclesMap_tensoredExtendedComparison
   have hprev : (ComplexShape.up ℤ).prev (-((n + 2 : ℕ) : ℤ)) =
       -((n + 3 : ℕ) : ℤ) := by
     apply (ComplexShape.up ℤ).prev_eq'
-    show (-((n + 3 : ℕ) : ℤ)) + 1 = -((n + 2 : ℕ) : ℤ)
+    change (-((n + 3 : ℕ) : ℤ)) + 1 = -((n + 2 : ℕ) : ℤ)
     omega
   have hCTd : CT.d (-((n + 3 : ℕ) : ℤ)) (-((n + 2 : ℕ) : ℤ)) = 0 :=
     hCTabove.eq_of_src _ _
@@ -433,7 +433,7 @@ private theorem tensoredExtendedKoszul_d_eq_zero
     (K.extend ComplexShape.embeddingDownNat)
   let uK (s : ℕ) : T.obj (K.X s) ≃ₗ[P] (B ⊗[P] (⋀[P]^s (Fin m → P))) :=
     by
-      show (ULift.{max v w} B ⊗[P] ULift.{max v w} (⋀[P]^s (Fin m → P))) ≃ₗ[P] _
+      change (ULift.{max v w} B ⊗[P] ULift.{max v w} (⋀[P]^s (Fin m → P))) ≃ₗ[P] _
       exact TensorProduct.congr ULift.moduleEquiv ULift.moduleEquiv
   let eK (s : ℕ) : CT.X (-(s : ℤ)) ≃ₗ[P] (B ⊗[P] (⋀[P]^s (Fin m → P))) :=
     (tensorExtendXIso N K s).toLinearEquiv.trans (uK s)
@@ -448,7 +448,7 @@ private theorem tensoredExtendedKoszul_d_eq_zero
     clear h
     induction x with
     | tmul b z =>
-        show b ⊗ₜ[P] ((K.d (s + 1) s).hom (ULift.up z)).down =
+        change b ⊗ₜ[P] ((K.d (s + 1) s).hom (ULift.up z)).down =
           b ⊗ₜ[P] Koszul.d (Koszul.seqDual f) s z
         simp only [K, Functor.mapHomologicalComplex_obj_d, Koszul.seqComplex_d]
         rfl
@@ -456,7 +456,7 @@ private theorem tensoredExtendedKoszul_d_eq_zero
   refine ModuleCat.hom_ext (LinearMap.ext fun x => (eK r).injective ?_)
   have h := hKd r (eK (r + 1) x)
   simp only [LinearEquiv.symm_apply_apply] at h
-  show eK r ((CT.d _ _).hom x) = eK r 0
+  change eK r ((CT.d _ _).hom x) = eK r 0
   rw [h, map_zero]
   exact lTensor_koszul_d_eq_zero f hfzero r (eK (r + 1) x)
 
@@ -499,13 +499,13 @@ private theorem lTensor_comparison_injective_and_surjective
   let uK (r : ℕ) : T.obj (K.X r) ≃ₗ[P]
       (B ⊗[P] (⋀[P]^r (Fin (n + 2) → P))) :=
     by
-      show (ULift.{max v w} B ⊗[P]
+      change (ULift.{max v w} B ⊗[P]
         ULift.{max v w} (⋀[P]^r (Fin (n + 2) → P))) ≃ₗ[P] _
       exact TensorProduct.congr ULift.moduleEquiv ULift.moduleEquiv
   let uL (r : ℕ) : T.obj (L.X r) ≃ₗ[P]
       (B ⊗[P] (⋀[P ⊗[A] B]^r (Fin (n + 2) → P ⊗[A] B))) :=
     by
-      show (ULift.{max v w} B ⊗[P]
+      change (ULift.{max v w} B ⊗[P]
         ULift.{v} (⋀[P ⊗[A] B]^r (Fin (n + 2) → P ⊗[A] B))) ≃ₗ[P] _
       exact TensorProduct.congr ULift.moduleEquiv ULift.moduleEquiv
   let eK (r : ℕ) : CT.X (-(r : ℤ)) ≃ₗ[P]
@@ -540,7 +540,7 @@ private theorem lTensor_comparison_injective_and_surjective
         let (j : ℕ) : Module P ((Koszul.seqComplex g).X j) :=
           inferInstanceAs (Module P
             (⋀[P ⊗[A] B]^j (Fin (n + 2) → P ⊗[A] B)))
-        show b ⊗ₜ[P] (((L.d (r + 1) r).hom (ULift.up z)).down :
+        change b ⊗ₜ[P] (((L.d (r + 1) r).hom (ULift.up z)).down :
             ⋀[P ⊗[A] B]^r (Fin (n + 2) → P ⊗[A] B)) =
           b ⊗ₜ[P] Koszul.d (Koszul.seqDual g) r z
         simp only [L, Functor.mapHomologicalComplex_obj_d, Koszul.seqComplex_d]
@@ -548,7 +548,7 @@ private theorem lTensor_comparison_injective_and_surjective
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have hnext : (ComplexShape.up ℤ).next (-((n + 2 : ℕ) : ℤ)) = -((n + 1 : ℕ) : ℤ) := by
     apply (ComplexShape.up ℤ).next_eq'
-    show -((n + 2 : ℕ) : ℤ) + 1 = -((n + 1 : ℕ) : ℤ)
+    change -((n + 2 : ℕ) : ℤ) + 1 = -((n + 1 : ℕ) : ℤ)
     omega
   have hKdzero : CT.d (-((n + 2 : ℕ) : ℤ)) (-((n + 1 : ℕ) : ℤ)) = 0 :=
     tensoredExtendedKoszul_d_eq_zero f hfzero (n + 1)
@@ -632,9 +632,9 @@ theorem exists_linearEquiv_annihilator_ker_lmul
     simp [ψ, Algebra.TensorProduct.lmul'_apply_tmul]
   have hkerφ : RingHom.ker φ =
       Ideal.span (Set.range (fun i : Fin n => f i ⊗ₜ[A] (1 : B))) := by
-    show RingHom.ker (Algebra.TensorProduct.map q (AlgHom.id A B)) = _
+    change RingHom.ker (Algebra.TensorProduct.map q (AlgHom.id A B)) = _
     rw [Algebra.TensorProduct.rTensor_ker q hq]
-    show Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker q.toRingHom) = _
+    change Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker q.toRingHom) = _
     rw [hkerq, Ideal.map_span]
     congr 1
     ext x

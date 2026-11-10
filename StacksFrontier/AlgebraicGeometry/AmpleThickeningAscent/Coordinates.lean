@@ -205,7 +205,7 @@ theorem exists_coordinates_pullback (m : ℕ) (σ : Γ(powObj (pullbackModule k 
       rw [nonvanishingLocusOn_res, he i]
       exact fun y hy => ⟨hy, hPi hy⟩
     refine (bijective_smul_of_nonvanishing (powObj L m) _ hnv).1 ?_
-    show Y.presheaf.map (homOfLE hPi).op (ρ i) • _ =
+    change Y.presheaf.map (homOfLE hPi).op (ρ i) • _ =
       ((k.app (U i ⊓ U j) (transition M τ i j)) ^ (m + 1) *
         Y.presheaf.map (homOfLE hPj).op (ρ j)) • _
     rw [mul_smul, smul_comm, ← htr, ← Scheme.Modules.map_smul, ← Scheme.Modules.map_smul,

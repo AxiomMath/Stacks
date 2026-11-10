@@ -213,7 +213,7 @@ private theorem fibre_kernel_isMaximal
   have hm := RingHom.ker_isMaximal_of_surjective ψ hψ
   have hker : RingHom.ker ψ = RingHom.ker φ := by
     ext x
-    show ψ x = 0 ↔ φ x = 0
+    change ψ x = 0 ↔ φ x = 0
     constructor
     · exact fun h => congrArg Subtype.val h
     · exact fun h => Subtype.ext h
@@ -226,10 +226,9 @@ private theorem tensor_includeRight_isIntegral
       (Algebra.TensorProduct.includeRight : C →ₐ[A] TensorProduct A B C).toRingHom := by
   let : Algebra C (TensorProduct A B C) :=
     (Algebra.TensorProduct.includeRight : C →ₐ[A] TensorProduct A B C).toRingHom.toAlgebra
-  show ∀ x : TensorProduct A B C, IsIntegral C x
+  change ∀ x : TensorProduct A B C, IsIntegral C x
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact isIntegral_zero
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact hx.add hy
   | tmul b c =>
       let : Algebra C (TensorProduct A C B) :=
@@ -340,7 +339,7 @@ private theorem geometricallyUnibranch_iff_unique_minimalPrime_core
         rw [Ideal.comap_comap]
         have hcomp : f.comp (algebraMap A A') = g.comp (algebraMap A Ash) := by
           ext x
-          show (algebraMap A A' x) ⊗ₜ[A] 1 = 1 ⊗ₜ[A] (algebraMap A Ash x)
+          change (algebraMap A A' x) ⊗ₜ[A] 1 = 1 ⊗ₜ[A] (algebraMap A Ash x)
           exact Algebra.TensorProduct.tmul_one_eq_one_tmul x
         rw [hcomp, ← Ideal.comap_comap, IsLocalRing.eq_maximalIdeal hcAsh]
         ext x
@@ -398,7 +397,7 @@ private theorem geometricallyUnibranch_iff_unique_minimalPrime_core
     obtain ⟨hm, hint, E, -, hmaxE⟩ := fib hfin m'
     let f₀ : IsLocalRing.ResidueField A →+* A' ⧸ m'.asIdeal :=
       Ideal.quotientMap m'.asIdeal (algebraMap A A') (le_of_eq hm)
-    show f₀.IsPurelyInseparable
+    change f₀.IsPurelyInseparable
     rw [RingHom.IsPurelyInseparable]
     let : Algebra (IsLocalRing.ResidueField A) (A' ⧸ m'.asIdeal) := f₀.toAlgebra
     let : Algebra.IsIntegral (IsLocalRing.ResidueField A) (A' ⧸ m'.asIdeal) := ⟨hint⟩

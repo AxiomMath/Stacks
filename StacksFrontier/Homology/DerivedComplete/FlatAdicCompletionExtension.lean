@@ -131,7 +131,7 @@ theorem isDerivedLimitWithProjections_Q_of_isLimit
     simp only [piComparison_comp_π_assoc]
     rw [← Functor.map_comp, CountableMilnorTower.oneMinusShift_π, Functor.map_sub,
       Functor.map_comp]
-  · show _ ≫ (shiftFunctor _ (1 : ℤ)).map (𝟙 _) = e.hom ≫ e.inv ≫ _
+  · change _ ≫ (shiftFunctor _ (1 : ℤ)).map (𝟙 _) = e.hom ≫ e.inv ≫ _
     simp only [CategoryTheory.Functor.map_id]
     exact (Category.comp_id _).trans (e.hom_inv_id_assoc _).symm
 
@@ -196,7 +196,7 @@ theorem extendSingleIso_embeddingDownNat_hom_naturality {C : Type*} [Category C]
     HomologicalComplex.extendMap_f _ _ (show ComplexShape.embeddingDownNat.f 0 = 0 by simp),
     HomologicalComplex.extendSingleIso_hom_f, HomologicalComplex.extendSingleIso_hom_f,
     HomologicalComplex.single_map_f_self]
-  simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+  simp only [CochainComplex.singleFunctor,
     HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
 
 /-- The comparison of the tower `n ↦ (R/Jⁿ⁺¹)[0]` of `D(R)` with the tower of modules
@@ -308,7 +308,7 @@ theorem down_mem_smul_top_iff (I : Ideal Λ) (n : ℕ) (A : ModuleCat.{u} Λ)
   constructor
   · intro hx
     refine Submodule.smul_induction_on hx (fun r hr y _ => ?_) (fun y z hy hz => ?_)
-    · show r.down • y.down ∈ _
+    · change r.down • y.down ∈ _
       exact Submodule.smul_mem_smul ((mem_uliftIdeal_pow_iff I n r).1 hr) trivial
     · exact add_mem hy hz
   · intro hx
@@ -317,7 +317,7 @@ theorem down_mem_smul_top_iff (I : Ideal Λ) (n : ℕ) (A : ModuleCat.{u} Λ)
       (p := fun a => (ULift.up a : (AdicKoszul.moduleUniverseLift.{u, u} Λ).obj A) ∈
         (uliftIdeal I ^ n • ⊤ : Submodule (ULift.{u} Λ) _)) hx
       (fun r hr y _ => ?_) (fun y z hy hz => ?_)
-    · show (ULift.up r : ULift.{u} Λ) •
+    · change (ULift.up r : ULift.{u} Λ) •
           (ULift.up y : (AdicKoszul.moduleUniverseLift.{u, u} Λ).obj A) ∈ _
       exact Submodule.smul_mem_smul ((mem_uliftIdeal_pow_iff I n _).2 hr) trivial
     · exact add_mem hy hz
@@ -395,7 +395,7 @@ private theorem mkQ_eq_map_comp_postcompose_π (I : Ideal Λ) (A : ModuleCat.{u}
   let a : A := ULift.down (x : ULift.{u} A)
   have h₁ : (c.π.app ⟨n⟩).hom (φ.hom a) = Submodule.Quotient.mk a :=
     congrArg (fun f => f.hom a) (hφ n)
-  show Submodule.Quotient.mk x = (adicQuotientUliftEquiv I A (n + 1)).symm
+  change Submodule.Quotient.mk x = (adicQuotientUliftEquiv I A (n + 1)).symm
     (ULift.up ((c.π.app ⟨n⟩).hom (φ.hom a)))
   rw [h₁]
   exact ((adicQuotientUliftEquiv I A (n + 1)).eq_symm_apply).2 rfl
@@ -476,7 +476,7 @@ private theorem whiskerLeft_mkQ_comp_adicQuotientSystemTensorIso_inv {R : Type u
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x r
-  show TensorProduct.tensorQuotEquivQuotSMul M (J ^ (n + 1))
+  change TensorProduct.tensorQuotEquivQuotSMul M (J ^ (n + 1))
       (x ⊗ₜ Ideal.Quotient.mk _ r) = Submodule.Quotient.mk (r • x)
   rw [TensorProduct.tensorQuotEquivQuotSMul_tmul_mk]
 

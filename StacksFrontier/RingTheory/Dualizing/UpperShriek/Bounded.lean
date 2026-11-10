@@ -75,7 +75,7 @@ theorem isGE_derivedHom_obj (g : R →+* A)
   let adj : F.mapDerivedCategory ⊣ derivedHom.{u, v, u} g :=
     Classical.choice (restrictScalarsDerived_adj_derivedHom.{u, v, u} g)
   let : X.IsGE n := hX
-  show DerivedCategory.TStructure.t.IsGE ((derivedHom.{u, v, u} g).obj X) n
+  change DerivedCategory.TStructure.t.IsGE ((derivedHom.{u, v, u} g).obj X) n
   rw [DerivedCategory.TStructure.t.isGE_iff_orthogonal (n - 1) n (by omega)]
   intro Y hom hY
   let : Y.IsLE (n - 1) := hY
@@ -194,7 +194,7 @@ private theorem isPerfect_singleFunctor_uLift (p : PolynomialPresentation f)
       ((CochainComplex.singleFunctor (ModuleCat.{max v u} p.Poly) 0).obj
         ((ModuleCat.restrictScalars p.toRingHom).obj (ModuleCat.of A (ULift.{v} A))))) := by
   let : Module p.Poly A := Module.compHom A p.toRingHom
-  show StacksDraft.Perfect.IsPerfectModule (R := p.Poly) (ULift.{v} A)
+  change StacksDraft.Perfect.IsPerfectModule (R := p.Poly) (ULift.{v} A)
   exact isPerfectModule_uLift.{u, v} A hperf
 
 /-- The polynomial extension of a bounded-above complex lies in the `t`-structure's `minus`. -/

@@ -427,7 +427,7 @@ theorem derivedQuasiCoherent_jStar_mapDerivedCategory
 theorem quasiCompact_ι_of_isRetrocompact (hU : IsRetrocompact (U : Set X)) :
     QuasiCompact U.ι :=
   quasiCompact_iff_isSpectralMap.mpr (by
-    show IsSpectralMap (Subtype.val : U → X)
+    change IsSpectralMap (Subtype.val : U → X)
     exact IsRetrocompact_iff_isSpectralMap_subtypeVal.mp hU)
 
 /-- **Stacks 08D5 for the inclusion of a retrocompact open.** `Rj_*(E|_U)` has quasi-coherent

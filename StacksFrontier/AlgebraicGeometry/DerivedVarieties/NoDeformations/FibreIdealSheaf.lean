@@ -125,7 +125,7 @@ theorem notMem_support_cohomologySupportIdeal_of_notMem_range_diagonal (hs : s �
     (Limits.pullback.diagonal
       (fibreAtRationalPointπ g s)).isClosedEmbedding.isClosed_range
   have hlc : IsLocallyClosed V := by
-    rw [hV, Set.diff_eq]
+    rw [hV, Set.sdiff_eq]
     exact hCclosed.isLocallyClosed.inter hDclosed.isOpen_compl.isLocallyClosed
   have hne : V.Nonempty := ⟨w, hmem, hw⟩
   obtain ⟨w', ⟨hw'C, hw'D⟩, hw'cp⟩ := nonempty_inter_closedPoints hne hlc

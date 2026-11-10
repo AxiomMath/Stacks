@@ -198,8 +198,6 @@ theorem exists_isIso_homologyMap_derivedSheafHomEvaluation_restrict [IsLocallyNo
         hK _ hZcoh)
       (hb' g _ _ hZcoh hZGE), by omega⟩
   case hK' =>
-    obtain ⟨bK, hbK⟩ :=
-      exists_isGE_overFunctor_of_isDualizingComplex (X.basicOpen g) (V.2.basicOpen g) hK
     have hepi : Epi ((DerivedCategory.homologyFunctor _
         (n - max 0 (b' - a') - 1)).map (DerivedCategory.Q.map α₀)) :=
       (DerivedCategory.epi_homologyFunctor_map_Q_map_iff α₀ _).2 hαepi
@@ -225,7 +223,7 @@ theorem exists_isIso_homologyMap_derivedSheafHomEvaluation_restrict [IsLocallyNo
     have h₀ := RingedSite.isIso_homologyMap_derivedSheafHomEvaluation_of_approximation_of_isLE
       ((Stacks.SheafOfModules.ringedSite X.sheaf).over (X.basicOpen g)) _ _ _ hP
       (DerivedCategory.Q.map α₀) (n - max 0 (b' - a') - 1) hαiso' hepi
-      bK (bK + max 0 (b' - a')) hbK
+      0 (max 0 (b' - a'))
       (isLE_derivedSheafHomSelf_restrict (X.basicOpen g) (V.2.basicOpen g) hK _ (by omega))
       (fun Z gz hz hTz => ?_) n (by omega)
     · exact (RingedSite.isIso_homologyMap_derivedSheafHomEvaluation_iff_of_iso

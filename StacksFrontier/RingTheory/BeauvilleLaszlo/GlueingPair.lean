@@ -348,10 +348,10 @@ private theorem awayDifference_exact_iff (f : R) (φ : R →+* S)
       rw [mem_powerTorsion_iff, map_sub, hxy, hyw, awayMap_algebraMap, sub_self]
     obtain ⟨z', hzφ', hz0'⟩ := lift _ ht'
     refine ⟨w + z', Prod.ext ?_ ?_⟩
-    · show φ (w + z') = x
+    · change φ (w + z') = x
       rw [map_add, hzφ']
       ring
-    · show algebraMap R (Localization.Away f) (w + z') = y
+    · change algebraMap R (Localization.Away f) (w + z') = y
       rw [map_add, hz0', add_zero, hyw]
 
 private theorem beauvilleLaszloSequence_epi_iff (f : R) (φ : R →+* S) :
@@ -417,7 +417,7 @@ private theorem quotientPowMap_adicCompletion_bijective_aux {R : Type*} [CommRin
     apply Ideal.Quotient.ringHom_ext
     apply RingHom.ext
     intro r
-    show quotientPowMap f n
+    change quotientPowMap f n
       (algebraMap R (AdicCompletion (Ideal.span {f}) R))
         (Ideal.Quotient.mk _ r) = e (Ideal.Quotient.mk _ r)
     rw [quotientPowMap_mk, he]
@@ -659,8 +659,7 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
       have hcommB : ∀ z, b (TensorProduct.lid R S z) =
           TensorProduct.lid R S ((g.rTensor S) z) := by
         intro z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul x y => simp [b, g, smul_smul, mul_comm]
         | add x y hx hy => simp [hx, hy]
       have hex : Function.Exact a b := by
@@ -687,7 +686,7 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
         rw [Ideal.span_singleton_pow] at hr
         obtain ⟨c, rfl⟩ := (Ideal.mem_span_singleton).mp hr
         apply Subtype.ext
-        show (f ^ n * c) * x.1 = 0
+        change (f ^ n * c) * x.1 = 0
         rw [mul_comm (f ^ n) c, mul_assoc, hxT x, mul_zero]
       have hmk :=
         (_root_.tensorProduct_mk_bijective_of_ideal_power_torsion.{u, u, u}
@@ -695,7 +694,7 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
       have hcanon : ∀ x : T,
           a (TensorProduct.mk R T S x 1) = φ x.1 := by
         intro x
-        show x.1 • (1 : S) = algebraMap R S x.1
+        change x.1 • (1 : S) = algebraMap R S x.1
         simp [Algebra.smul_def]
       refine ⟨hainj, hex, ?_, ?_⟩
       · intro x y hxy
@@ -706,9 +705,9 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
       · ext s
         constructor
         · rintro ⟨x, rfl⟩
-          show φ x.1 ∈ Submodule.torsionBy S S ((φ f) ^ n)
+          change φ x.1 ∈ Submodule.torsionBy S S ((φ f) ^ n)
           rw [Submodule.mem_torsionBy_iff]
-          show (φ f) ^ n * φ x.1 = 0
+          change (φ f) ^ n * φ x.1 = 0
           rw [← map_pow, ← map_mul]
           rw [hxT x, map_zero]
         · intro hs
@@ -729,17 +728,17 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
         let n := i + j + 1
         let tx : Submodule.torsionBy R R (f ^ n) := ⟨x.1, by
           rw [Submodule.mem_torsionBy_iff]
-          show f ^ n * x.1 = 0
+          change f ^ n * x.1 = 0
           rw [show n = (j + 1) + i by omega, pow_add, mul_assoc, hxi, mul_zero]⟩
         let ty : Submodule.torsionBy R R (f ^ n) := ⟨y.1, by
           rw [Submodule.mem_torsionBy_iff]
-          show f ^ n * y.1 = 0
+          change f ^ n * y.1 = 0
           rw [show n = (i + 1) + j by omega, pow_add, mul_assoc, hyj, mul_zero]⟩
         have hn : 0 < n := by omega
         have hi := (fixed n hn).2.2.1
         apply Subtype.ext
         have ht : tx = ty := hi (by
-          show φ tx.1 = φ ty.1
+          change φ tx.1 = φ ty.1
           exact congrArg Subtype.val hxy)
         exact congrArg (fun z => z.1) ht
       · intro y
@@ -747,7 +746,7 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
         change (φ f) ^ n * y.1 = 0 at hyn
         have hs : (y.1 : S) ∈ Submodule.torsionBy S S ((φ f) ^ (n + 1)) := by
           rw [Submodule.mem_torsionBy_iff]
-          show (φ f) ^ (n + 1) * y.1 = 0
+          change (φ f) ^ (n + 1) * y.1 = 0
           rw [pow_succ, mul_assoc, mul_comm (φ f) y.1, ← mul_assoc, hyn, zero_mul]
         have hs' : y.1 ∈ Set.range (fun x : Submodule.torsionBy R R (f ^ (n + 1)) => φ x.1) := by
           rw [(fixed (n + 1) (by omega)).2.2.2]
@@ -755,7 +754,7 @@ public theorem adicCompletion_isGlueingPair_of_flat {R : Type u} [CommRing R] (f
         obtain ⟨x, hx⟩ := hs'
         refine ⟨⟨x.1, ?_⟩, Subtype.ext hx⟩
         refine ⟨⟨f ^ (n + 1), ⟨n + 1, rfl⟩⟩, ?_⟩
-        show f ^ (n + 1) * x.1 = 0
+        change f ^ (n + 1) * x.1 = 0
         simpa [smul_eq_mul] using Submodule.smul_coe_torsionBy (f ^ (n + 1)) x
     have hquot : ∀ n : ℕ, 0 < n → Function.Bijective (quotientPowMap f n φ) :=
       fun n _ ↦ quotientPowMap_adicCompletion_bijective_aux f n
@@ -833,7 +832,7 @@ private lemma testHom_F_mul_T_zero :
   · simp only [testHom, MvPolynomial.coe_eval₂Hom, MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X,
       TrivSqZeroExt.snd_mul, TrivSqZeroExt.fst_inl, TrivSqZeroExt.snd_inr, TrivSqZeroExt.fst_inr,
       MulOpposite.op_zero, TrivSqZeroExt.snd_inl, smul_zero, add_zero, TrivSqZeroExt.snd_zero]
-    show (Polynomial.aeval (shift k) Polynomial.X) (Pi.single 0 1) = 0
+    change (Polynomial.aeval (shift k) Polynomial.X) (Pi.single 0 1) = 0
     simpa using shift_single_zero k
 
 private lemma testHom_rel (n : ℕ) :
@@ -845,7 +844,7 @@ private lemma testHom_rel (n : ℕ) :
       MvPolynomial.eval₂_X, TrivSqZeroExt.snd_sub, TrivSqZeroExt.snd_mul, TrivSqZeroExt.fst_inl,
       TrivSqZeroExt.snd_inr, TrivSqZeroExt.fst_inr, MulOpposite.op_zero, TrivSqZeroExt.snd_inl,
       smul_zero, add_zero, TrivSqZeroExt.snd_zero]
-    show (Polynomial.aeval (shift k) Polynomial.X) (Pi.single (n + 1) 1) - Pi.single n 1 = 0
+    change (Polynomial.aeval (shift k) Polynomial.X) (Pi.single (n + 1) 1) - Pi.single n 1 = 0
     simp [shift_single]
 
 private lemma testHom_T_zero_ne : testHom k (MvPolynomial.X (some 0)) ≠ 0 := by
@@ -913,7 +912,7 @@ theorem completion_zero_of_forall_pow_dvd {A : Type*} [CommRing A]
     AdicCompletion.of (Ideal.span {f}) A x = 0 := by
   apply AdicCompletion.ext
   intro n
-  show ((AdicCompletion.of (Ideal.span {f}) A) x).1 n = 0
+  change ((AdicCompletion.of (Ideal.span {f}) A) x).1 n = 0
   rw [AdicCompletion.of_apply]
   simp only [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   simpa only [smul_eq_mul, Ideal.mul_top, Ideal.span_singleton_pow,
@@ -941,7 +940,7 @@ private theorem mem_primaryComponent_of_smul_eq_zero {A M : Type*} [CommRing A]
   rintro ⟨r, hr⟩
   simp only [pow_one, SetLike.mem_coe, Ideal.mem_span_singleton] at hr
   obtain ⟨a, rfl⟩ := hr
-  show (f * a) • x = 0
+  change (f * a) • x = 0
   rw [mul_comm f a, mul_smul, h, smul_zero]
 
 private theorem first_t0_primary :
@@ -1069,13 +1068,13 @@ private theorem secondTestHom_snd_zero_of_not_var (n : ℕ)
     (secondTestHom k n p).snd = 0 := by
   have heq : secondTestHom k n p =
       TrivSqZeroExt.inl ((secondBaseHom k n) p) := by
-    show secondTestHom k n p =
+    change secondTestHom k n p =
       ((TrivSqZeroExt.inlHom (truncPoly k n) (truncPoly k n)).comp
         (secondBaseHom k n)) p
     apply MvPolynomial.hom_congr_vars
     · apply RingHom.ext
       intro r
-      show secondTestHom k n (MvPolynomial.C r) =
+      change secondTestHom k n (MvPolynomial.C r) =
         TrivSqZeroExt.inl (secondBaseHom k n (MvPolynomial.C r))
       simp [secondTestHom, secondBaseHom]
     · intro i hi _
@@ -1130,7 +1129,7 @@ private theorem secondQuotTestHom_Jpow_le_ker (n : ℕ) :
   rw [Ideal.span_singleton_pow]
   apply Ideal.span_le.mpr
   rintro a (rfl : a = _)
-  show secondQuotTestHom k n
+  change secondQuotTestHom k n
       ((Ideal.Quotient.mk _ (MvPolynomial.X none) :
         MvPolynomial (Option ℕ) k ⧸ _) ^ (n + 1)) = 0
   rw [map_pow]
@@ -1171,10 +1170,10 @@ private theorem secondQuotTestHom_series_snd (n : ℕ) :
     rw [map_sum]
     apply Finset.sum_eq_zero
     intro i hi
-    rw [map_mul, secondQuotTestHom_t k n i, if_neg (Nat.ne_of_lt (Finset.mem_range.mp hi))]
+    rw [map_mul, secondQuotTestHom_t k n i, ite_eq_right (Nat.ne_of_lt (Finset.mem_range.mp hi))]
     simp
   rw [hz, zero_add, map_mul, map_pow, secondQuotTestHom_f,
-    secondQuotTestHom_t k n n, if_pos rfl]
+    secondQuotTestHom_t k n n, ite_eq_left rfl]
   simp
 
 private theorem second_series_not_range :
@@ -1247,7 +1246,7 @@ private theorem flat_completion_covers_annihilator {R : Type*} [CommRing R]
   have hyf : f * y.1 = 0 := by
     simpa only [pow_one, smul_eq_mul] using Submodule.smul_coe_torsionBy (f ^ 1) y
   refine ⟨⟨y.1, mem_primaryComponent_of_smul_eq_zero f y.1 hyf⟩, ?_⟩
-  show AdicCompletion.of (Ideal.span {f}) R y.1 = x
+  change AdicCompletion.of (Ideal.span {f}) R y.1 = x
   simpa [AdicCompletion.algebraMap_apply] using hy
 
 private theorem second_series_witness :
@@ -1323,7 +1322,7 @@ public theorem adicCompletion_torsionMap_not_bijective_examples (k : Type*) [Fie
         first_t0_primary k⟩ : Ideal.primaryComponent _ _) = 0 := by
       apply hinj
       apply Subtype.ext
-      show (AdicCompletion.of _ _)
+      change (AdicCompletion.of _ _)
         (Ideal.Quotient.mk _ (MvPolynomial.X (some 0) : MvPolynomial (Option ℕ) k)) =
         (AdicCompletion.of _ _) 0
       have hc := first_completion_t0_zero k

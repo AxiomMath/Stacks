@@ -198,7 +198,7 @@ theorem unitLift_f_zero :
   have hn :=
     (modulePullbackAdjunction B S hS D.g').unit.naturality ((injectiveResolution D.F).ι.f 0)
   simp only [Functor.id_map, Functor.comp_map] at hn
-  show (injectiveResolution D.F).ι.f 0 ≫
+  change (injectiveResolution D.F).ι.f 0 ≫
       (modulePullbackAdjunction B S hS D.g').unit.app ((injectiveResolution D.F).cocomplex.X 0) ≫
         (modulePushforward B S hS D.g').map ((D.resolutionComparison hg).f 0) = _
   rw [← Category.assoc, hn, Category.assoc, ← Functor.map_comp, D.resolutionComparison_f_zero hg]

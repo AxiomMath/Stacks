@@ -147,7 +147,7 @@ theorem canonicalSourceDeRham_d_one_D (b : B) :
       exteriorPower.ιMulti B 1 (fun _ : Fin 1 ↦ KaehlerDifferential.D A B b) :=
     exteriorPower.oneEquiv_symm_apply _ _ _
   rw [h0]
-  show KaehlerDifferential.deRhamDifferential (A := A) 1 _ = 0
+  change KaehlerDifferential.deRhamDifferential (A := A) 1 _ = 0
   rw [hgen]
   exact (exteriorPower.ιMulti B 2).map_coord_zero (i := 0) (by simp)
 

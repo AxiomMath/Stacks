@@ -139,7 +139,7 @@ theorem free_completedStalk_of_hasFiniteFreeStalks
         RingHom.ker (AdicCompletion.evalOneₐ
           (IdealSheafData.stalk (idealOnOpen S) y)).toRingHom := by
       rw [hker]
-      show (1 : completedLocalRing (idealOnOpen S) y) ∈ completedLocalIdeal (idealOnOpen S) y
+      change (1 : completedLocalRing (idealOnOpen S) y) ∈ completedLocalIdeal (idealOnOpen S) y
       rw [htop]
       exact Submodule.mem_top
     rw [RingHom.mem_ker, map_one] at h1
@@ -437,7 +437,7 @@ theorem completionFullyFaithful_finiteLocallyFree_of_isLocalRing_of_eq_span_sing
     | coe n =>
       have h3' : ((3 : ℕ∞) : WithBot ℕ∞) ≤ ((n : ℕ∞) : WithBot ℕ∞) := h3
       have hn : (3 : ℕ) ≤ n := by exact_mod_cast WithBot.coe_le_coe.mp h3'
-      show ((c + 1 : ℤ) : EInt) < ((n : ℤ) : EInt)
+      change ((c + 1 : ℤ) : EInt) < ((n : ℤ) : EInt)
       exact WithBotTop.coe_lt_coe.mpr (by omega)
 
 /-! ### Stacks 0EKY -/

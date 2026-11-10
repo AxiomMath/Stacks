@@ -142,7 +142,7 @@ private theorem composable_fst (F : FinitePartUniversalOpen G)
       ((AlgebraicGeometry.composableToPullback F.source.hom F.target.hom).app T
         (⟨(a, b), h⟩ : (Deformation.composableArrows F.objects.obj F.arrows.obj
           F.source.hom F.target.hom).obj T)) = a := by
-  show (AlgebraicGeometry.composableToPullback F.source.hom F.target.hom ≫
+  change (AlgebraicGeometry.composableToPullback F.source.hom F.target.hom ≫
     pullback.fst F.source.hom F.target.hom).app T _ = a
   rw [AlgebraicGeometry.composableToPullback, pullback.lift_fst]
   rfl
@@ -155,7 +155,7 @@ private theorem composable_snd (F : FinitePartUniversalOpen G)
       ((AlgebraicGeometry.composableToPullback F.source.hom F.target.hom).app T
         (⟨(a, b), h⟩ : (Deformation.composableArrows F.objects.obj F.arrows.obj
           F.source.hom F.target.hom).obj T)) = b := by
-  show (AlgebraicGeometry.composableToPullback F.source.hom F.target.hom ≫
+  change (AlgebraicGeometry.composableToPullback F.source.hom F.target.hom ≫
     pullback.snd F.source.hom F.target.hom).app T _ = b
   rw [AlgebraicGeometry.composableToPullback, pullback.lift_snd]
   rfl
@@ -219,7 +219,7 @@ public theorem unitMap_arrowMap_app (F : FinitePartUniversalOpen G)
   have e := congrArg (fun z : F.objects ⟶ G.arrows => z.hom.app T x)
     F.unitMap_comp_arrowMap
   refine e.trans ?_
-  show F.unit.hom.app T (F.universalOpen.toBase.hom.app T x) = _
+  change F.unit.hom.app T (F.universalOpen.toBase.hom.app T x) = _
   rw [F.unit_identity]
   exact congrArg (fun z => G.toGroupoidInFunctors.identity T z)
     (congrArg (fun z => z.app T x) F.universalOpen_toBase_hom)
@@ -412,7 +412,7 @@ public theorem inverseMap_comp_target (F : FinitePartUniversalOpen G) :
     F.inverseMap ≫ F.target = F.source := by
   apply ObjectProperty.hom_ext
   ext T a
-  show F.target.hom.app T (F.inverseMap.hom.app T a) = F.source.hom.app T a
+  change F.target.hom.app T (F.inverseMap.hom.app T a) = F.source.hom.app T a
   calc F.target.hom.app T (F.inverseMap.hom.app T a)
       = F.target.hom.app T
           (F.compAt T (F.inverseMap.hom.app T a) a (F.inverseMap_source_app T a)) :=

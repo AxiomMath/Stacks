@@ -209,7 +209,7 @@ theorem exists_smoothOffSupport_sup_zeroScheme [Infinite k] (T : X.IdealSheafDat
     (v' : Stacks.Bertini.globalSections k f (tensorPowModule X L m))
   set E := Stacks.Divisors.zeroScheme X (tensorPowModule X L m) s
   have hdiv : Stacks.Divisors.zeroScheme D.X D.L (D.sectionOf v) = (E.comap U.ι).comap g := by
-    show Stacks.Divisors.zeroScheme _ _
+    change Stacks.Divisors.zeroScheme _ _
       (pullbackGlobalSections g _ (pullbackGlobalSections U.ι _ s)) = _
     rw [Stacks.Divisors.zeroScheme_pullback, Stacks.Divisors.zeroScheme_pullback]
   rw [hdiv] at hv

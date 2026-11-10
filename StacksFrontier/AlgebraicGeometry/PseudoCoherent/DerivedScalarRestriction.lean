@@ -135,12 +135,12 @@ public theorem exactFunctor_restrictScalars (Y : RingedSpace.{u, u})
   have := preservesFiniteColimits_toSheaf Y
   have hlim : PreservesFiniteLimits (SheafOfModules.restrictScalars.{u, u, u, u} a ⋙
       SheafOfModules.toSheaf.{u, u, u, u} R) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (SheafOfModules.toSheaf.{u, u, u, u} (structureSheafOfRings.{u} Y))
     infer_instance
   have hcolim : PreservesFiniteColimits (SheafOfModules.restrictScalars.{u, u, u, u} a ⋙
       SheafOfModules.toSheaf.{u, u, u, u} R) := by
-    show PreservesFiniteColimits
+    change PreservesFiniteColimits
       (SheafOfModules.toSheaf.{u, u, u, u} (structureSheafOfRings.{u} Y))
     infer_instance
   exact ⟨preservesFiniteLimits_of_reflects_of_preserves _

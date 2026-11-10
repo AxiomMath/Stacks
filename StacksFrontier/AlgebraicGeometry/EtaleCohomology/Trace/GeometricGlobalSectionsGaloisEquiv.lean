@@ -84,13 +84,13 @@ theorem map_add_of_naturality {C : Type*} [Category* C] [Preadditive C] [HasBina
     rfl
   let w := F.map (biprod.inl : X ⟶ X ⊞ X) a + F.map biprod.inr b
   have hfst : F.map biprod.fst w = a := by
-    show F.map biprod.fst (F.map biprod.inl a + F.map biprod.inr b) = a
+    change F.map biprod.fst (F.map biprod.inl a + F.map biprod.inr b) = a
     rw [_root_.map_add, hF, hF, biprod.inl_fst, biprod.inr_fst, hF1, hF0, add_zero]
   have hsnd : F.map biprod.snd w = b := by
-    show F.map biprod.snd (F.map biprod.inl a + F.map biprod.inr b) = b
+    change F.map biprod.snd (F.map biprod.inl a + F.map biprod.inr b) = b
     rw [_root_.map_add, hF, hF, biprod.inl_snd, biprod.inr_snd, hF1, hF0, zero_add]
   have hsum : F.map (biprod.desc (𝟙 X) (𝟙 X)) w = a + b := by
-    show F.map (biprod.desc (𝟙 X) (𝟙 X)) (F.map biprod.inl a + F.map biprod.inr b) = a + b
+    change F.map (biprod.desc (𝟙 X) (𝟙 X)) (F.map biprod.inl a + F.map biprod.inr b) = a + b
     rw [_root_.map_add, hF, hF, biprod.inl_desc, biprod.inr_desc, hF1, hF1]
   have hdec : ∀ c : G.obj (X ⊞ X),
       c = G.map biprod.inl (G.map biprod.fst c) + G.map biprod.inr (G.map biprod.snd c) := by
@@ -149,7 +149,7 @@ def geometricGlobalSectionsCoverEquiv
     (Equiv.ofBijective _ (bijective_map_moduleUnitSection Λ (fieldBaseChangeProj (Over.mk f) kbar)
       _ _ (isIso_sectionEquiv_symm_representationTautologicalSection B X _ Λ ρ) _)).symm
 
-omit [IsAlgClosed kbar] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- The defining property of `AlgebraicGeometry.geometricGlobalSectionsCoverEquiv`: a global
 section restricts, over the final object, to the pulled back tautological section restricted along
 the corresponding morphism; and that morphism is the only one with this property. -/
@@ -271,7 +271,7 @@ private theorem geometricGlobalSectionsEval_eq_of_coverEquiv_eq
         Vw) =
       (finiteEtaleFiberFunctor _).map m (geometricGlobalSectionsFibrePoint B X f kbar Λ y ρ t) := by
     refine Subtype.ext ?_
-    show y.hom ≫ 𝟙 _ ≫ (t.left ≫ ((Stacks.EtaleCohomology.smallEtaleBaseChange
+    change y.hom ≫ 𝟙 _ ≫ (t.left ≫ ((Stacks.EtaleCohomology.smallEtaleBaseChange
       (fieldBaseChangeProj (Over.mk f) kbar)).map Vw).left) ≫ pullback.fst _ _ =
       (y.hom ≫ 𝟙 _ ≫ t.left ≫ pullback.fst _ _) ≫ m.left
     rw [hm]
@@ -283,7 +283,7 @@ private theorem geometricGlobalSectionsEval_eq_of_coverEquiv_eq
     (geometricGlobalSectionsFibrePoint B X f kbar Λ y ρ' w)) hcov).trans
     (congrArg (representationFibreEquiv B X _ Λ ρ') hpt)
 
-omit [IsAlgClosed kbar] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- **The evaluation is `Λ`-linear.** Multiplication by `a` on a global section of `pr⁻¹ℱ_ρ`
 corresponds to composing the `X`-morphism to the representing cover with the endomorphism of the
 cover representing multiplication by `a`, which acts on the geometric fibre as multiplication by
@@ -328,7 +328,7 @@ theorem geometricGlobalSectionsEval_smul
     ((representingCover B X).map (representationSetSheafScalar B X _ Λ ρ a)) rfl hcov).trans
     h3
 
-omit [IsAlgClosed kbar] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- **The evaluation is natural in `ρ`.** For a morphism `φ : ρ ⟶ ρ'`, evaluating the image of a
 global section under `Γ(X_k̄, pr⁻¹ℱ_φ)` is `φ` applied to the evaluation. -/
 theorem geometricGlobalSectionsEval_naturality
@@ -383,7 +383,7 @@ theorem geometricGlobalSectionsEval_naturality
   rw [h4, h3]
   rfl
 
-omit [IsAlgClosed kbar] in
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- **The evaluation is additive.** Global sections of `pr⁻¹ℱ_ρ` form an additive functor of `ρ`
 (it is isomorphic, by Tags 0DV6 and 0DV5, to the invariants of the restriction to `π₁(X_k̄)`;
 that isomorphism is used here only to know additivity), the underlying module of `ρ` is one too,
@@ -459,6 +459,7 @@ theorem representationFibre_geometric_trivial [Finite Λ]
   rw [representationFibreEquiv_smul, hρ g]
   rfl
 
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- **For `ρ` trivial on `π₁(X_k̄)`, the evaluation is bijective.** Sections of the pulled back
 representing cover are its fibre points, because `π₁(X_k̄, η̄)` acts trivially on them
 (`AlgebraicGeometry.bijective_finiteEtaleFiber_map_terminalCoverPoint`, Tag 0BND (1)). -/
@@ -490,7 +491,7 @@ theorem bijective_geometricGlobalSectionsEval
       (p : (finiteEtaleFiberFunctor y).obj W), (σ.asIso.app W).hom p = p := by
     intro σ p
     apply (finiteEtaleFiberProjectionEquiv pr y V).injective
-    show finiteEtaleFiberProjection pr y V _ = finiteEtaleFiberProjection pr y V p
+    change finiteEtaleFiberProjection pr y V _ = finiteEtaleFiberProjection pr y V p
     rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection]
     exact representationFibre_geometric_trivial B X f kbar Λ y ρ hρ σ _
   have hfp : geometricGlobalSectionsFibrePoint B X f kbar Λ y ρ =
@@ -506,6 +507,7 @@ theorem bijective_geometricGlobalSectionsEval
       ((bijective_finiteEtaleFiber_map_terminalCoverPoint y W hW).comp (Equiv.bijective _))
   exact (Equiv.bijective _).comp (hfpb.comp (Equiv.bijective _))
 
+omit [Smooth f] in
 /-- **The evaluation intertwines the Galois action with `ρ`.** For `γ ∈ π₁(X, x̄)` with image
 `σ ∈ Aut(k̄/k)`, the action of `σ` on `Γ(X_k̄, pr⁻¹ℱ_ρ)` composes the `X`-morphism `X_k̄ ⟶ V` with
 `id × Spec σ` (`Stacks.EtaleCohomology.ΓRes_selfMapTwistAction_of_moduleUnitSection`), and on the
@@ -632,6 +634,7 @@ def geometricGlobalSectionsTrivialEquiv
       map_smul' := geometricGlobalSectionsEval_smul B X f kbar Λ y ρ }
     (bijective_geometricGlobalSectionsEval B X f kbar Λ y ρ hρ)
 
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- `AlgebraicGeometry.geometricGlobalSectionsTrivialEquiv` is the evaluation
 `AlgebraicGeometry.geometricGlobalSectionsEval`. -/
 theorem geometricGlobalSectionsTrivialEquiv_apply
@@ -653,6 +656,7 @@ theorem geometricGlobalSectionsTrivialEquiv_apply
       geometricGlobalSectionsEval B X f kbar Λ y ρ z :=
   rfl
 
+omit [Smooth f] in
 /-- **`Γ(X_k̄, pr⁻¹ℱ_ρ) ≅ M` is Galois-equivariant.** For `γ ∈ π₁(X, x̄)` with image
 `σ ∈ Aut(k̄/k)` under `AlgebraicGeometry.geometricQuotientGaloisEquiv`, the equivalence
 `AlgebraicGeometry.geometricGlobalSectionsTrivialEquiv` carries the action of `σ` on global
@@ -685,6 +689,7 @@ theorem geometricGlobalSectionsTrivialEquiv_galois
   rw [geometricGlobalSectionsTrivialEquiv_apply, geometricGlobalSectionsTrivialEquiv_apply]
   exact geometricGlobalSectionsEval_galois B X f kbar Λ y ρ hρ γ z
 
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- **`Γ(X_k̄, pr⁻¹ℱ_ρ) ≅ M` is natural in `ρ`.** For a morphism `φ : ρ ⟶ ρ'` of representations
 trivial on the geometric fundamental group, the equivalence carries `Γ(X_k̄, pr⁻¹ℱ_φ)` to the
 underlying linear map of `φ`. -/

@@ -99,7 +99,7 @@ public lemma mem_idealPowerMultiple_of_disjoint_support (I : X.IdealSheafData) (
   intro x hx
   obtain ⟨W, hW, hxW, hWV⟩ := exists_isAffineOpen_mem_and_subset hx
   refine ⟨W, homOfLE hWV, ?_, hxW⟩
-  show M.val.map (homOfLE hWV).op s ∈ (idealPowerMultiple I n M).toSubmodule.obj (op W)
+  change M.val.map (homOfLE hWV).op s ∈ (idealPowerMultiple I n M).toSubmodule.obj (op W)
   have hg := (idealPowerMultiple_le_iff I n M (idealPowerMultiple I n M)).mp le_rfl ⟨W, hW⟩
   rw [I.ideal_eq_top_of_disjoint_support ⟨W, hW⟩
     (Set.disjoint_left.mpr fun y hy => hV y (hWV hy)), Ideal.top_pow,

@@ -184,8 +184,7 @@ theorem isLocalizedModule_tensorMap {M N : Type u} [AddCommGroup M] [Module (B :
   have hsmul : ∀ (b : (B : Type u))
       (z : N ⊗[(C : Type u)] dividedPowerDifferentialForms (A := A) C.dividedPowers p),
       b • z = f b • z := fun b z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => exact (smul_zero b).trans (smul_zero (f b)).symm
+    induction z using TensorProduct.inductionOn with
     | tmul n ω => rfl
     | add x y hx hy => exact (smul_add b x y).trans ((congrArg₂ (· + ·) hx hy).trans
         (smul_add (f b) x y).symm)

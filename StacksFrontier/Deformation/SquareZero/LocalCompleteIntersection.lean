@@ -379,8 +379,7 @@ private theorem exists_functional_on_extended_ideal
         TensorProduct.AlgebraTensorModule.map (LinearMap.id : R →ₗ[R] R) S.I.subtype x =
           LinearMap.lTensor R S.I.subtype x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul r i => simp
       | add a b ha hb => rw [map_add, map_add, ha, hb]
     intro x y hxy
@@ -393,8 +392,7 @@ private theorem exists_functional_on_extended_ideal
     · rw [LinearMap.range_le_iff_comap]
       apply Submodule.eq_top_iff'.2
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul r i =>
           simp only [Submodule.mem_comap]
           rw [hμT]

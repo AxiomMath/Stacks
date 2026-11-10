@@ -159,7 +159,7 @@ being the inverse-image form of the structure map. -/
 theorem chartRingHom_apply (V : SmallEtale B S hS Y.1) (U : SmallEtale B S hS X.1)
     (s : (invRep g V).obj.obj (op U)) (b : (setO Y).obj.obj (op V)) :
     (chartRingHom g V U s).hom b = (invCoord g V b).hom.app (op U) s := by
-  show ((g.toToposHom.adj.homEquiv _ _).symm
+  change ((g.toToposHom.adj.homEquiv _ _).symm
       ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm
         ((RingedToposHom.forgetFSharp g).hom.app (op V) b))).hom.app (op U) s = _
   exact congrArg (fun φ ↦ φ.hom.app (op U) s) (homEquiv_symm_forgetFSharp g V b)
@@ -188,7 +188,7 @@ theorem chartRingHom_map (U : SmallEtale B S hS X.1) {V V' : SmallEtale B S hS Y
         chartRingHom g V' U s' := by
   ext b
   refine (chartRingHom_apply g V U _ b).trans (Eq.trans ?_ (chartRingHom_apply g V' U s' _).symm)
-  show (g.toToposHom.inverseImage.map ((SmallEtale.topology B S hS Y.1).yoneda.map c) ≫
+  change (g.toToposHom.inverseImage.map ((SmallEtale.topology B S hS Y.1).yoneda.map c) ≫
       g.toToposHom.inverseImage.map ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm b) ≫
         g.fSharpSet).hom.app (op U) s' = _
   have h := GrothendieckTopology.yonedaEquiv_symm_naturality_left

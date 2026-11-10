@@ -124,7 +124,7 @@ theorem correspondsToRigEtaleMap_pullback_snd_of_isNoetherian {U V W : FppfSheaf
     completedTensorQuotientSystem B₀ hAw hCw DA DC, hpb'.isoPullback.symm, eW,
     completedTensorRightHom B₀ hAw hCw DA DC hBw φ₁ φ₂ rfl rfl, ?_, ?_⟩
   · exact (Iso.eq_inv_comp _).mpr hpb'.isoPullback_hom_snd
-  · show RingHom.IsRigEtaleArrow (completedTensorRight B₀ A C)
+  · change RingHom.IsRigEtaleArrow (completedTensorRight B₀ A C)
     rwa [halg]
 
 /-- Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of locally Noetherian formal algebraic spaces
@@ -166,7 +166,8 @@ theorem correspondsToRigEtaleMapAfterSourceCover_pullback_snd {X Y Z : FppfSheaf
           Sigma.desc fun k : K x.1 ↦ pullback.snd (b x.1 k)
             (chartCompare B S hS f g (v x.1) (a x.1 x.2)) := by
       refine Sigma.hom_ext _ _ fun k ↦ ?_
-      rw [Sigma.ι_desc, Sigma.ι_mapIso_hom_assoc, Sigma.ι_desc, IsPullback.isoPullback_hom_snd]
+      rw [Sigma.ι_comp_desc, Sigma.ι_mapIso_hom_assoc, Sigma.ι_comp_desc,
+        IsPullback.isoPullback_hom_snd]
     rw [hfac]
     infer_instance
   have hcov := isLocallySurjective_sigmaDesc_comp_sigma B S hS r hr

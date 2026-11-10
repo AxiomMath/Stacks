@@ -114,7 +114,7 @@ private theorem exists_amalgamation (s t : R ⟶ U) (φ : U ⟶ F)
     have hnat : c.π.hom.app (op W) (U.obj.map (op g) (a k hk)) =
         c.pt.obj.map (op g) (c.π.hom.app (op V) (a k hk)) :=
       NatTrans.naturality_apply c.π.hom (op g) (a k hk)
-    show c.π.hom.app (op W) (a (g ≫ k) (S.downward_closed hk g)) =
+    change c.π.hom.app (op W) (a (g ≫ k) (S.downward_closed hk g)) =
       c.pt.obj.map (op g) (c.π.hom.app (op V) (a k hk))
     rw [← hnat]
     apply cofork_app_eq_of_app_eq s t φ hker c
@@ -202,7 +202,7 @@ private theorem exists_descent (s t : R ⟶ U) (φ : U ⟶ F)
       rw [show op ((k ≫ g.op).unop) = k ≫ g.op from Quiver.Hom.op_unop _,
         Functor.map_comp_apply]
       exact hb
-    show c.pt.obj.map g.op (c.pt.obj.map k (desc X.unop ξ)) = _
+    change c.pt.obj.map g.op (c.pt.obj.map k (desc X.unop ξ)) = _
     rw [← Functor.map_comp_apply]
     exact desc_spec X.unop ξ ((k ≫ g.op).unop) b hcomp
   refine ⟨⟨{ app := fun X ↦ ↾(fun ξ ↦ desc X.unop ξ), naturality := ?_ }⟩, ?_⟩

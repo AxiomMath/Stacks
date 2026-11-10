@@ -59,8 +59,9 @@ Because `hqcK` implies `hqcL`, the two restatements below are **not** generalisa
 statements they restate: they are those statements read in the case where `K` lies in `D_QCoh`.
 Nothing here subsumes the originals, which remain the general form.
 
-`hE` (perfectness of `E`), `hZ`, `hXqc`, `hXqs`, `hcount`, and in the second statement `hUqc` and
-`hUqs`, are carried unchanged from the two statements being restated; see their own files.
+`hE` (perfectness of `E`), `hZ`, `hcount`, in the first statement `hXqc` and `hXqs`, and in the
+second statement `hUqc` and `hUqs`, are carried unchanged from the two statements being
+restated; see their own files.
 
 ## Main results
 
@@ -166,8 +167,6 @@ The hypothesis on the cohomology of `E^∨ ⊗^𝐋 K` is supplied by
 `K` alone takes its place. -/
 theorem countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor_of_qcohDerived
     (X : AlgebraicSpaces B S hS) (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (E : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (hE : RingedSite.IsPerfect (smallEtaleRingedSite B S hS X.1 X.2) E)
@@ -182,7 +181,7 @@ theorem countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor_of_q
     Countable (DerivedCategory.Ext
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj E)
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj K) i) :=
-  countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor B S hS X hZ hXqc hXqs K E hE
+  countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor B S hS X hZ K E hE
     (qcohDerived_smallEtaleDerivedTensor_derivedDual_of_isPerfect B S hS X K E hE hqcK) hcount
     U hUqc hUqs i
 

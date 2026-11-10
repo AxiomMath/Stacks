@@ -98,6 +98,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {n : ℕ}
   (D : ClosedPointNeighborhoods B S hS n)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasPullbacks` for presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ModificationsAtClosedPointsSinglePoint :

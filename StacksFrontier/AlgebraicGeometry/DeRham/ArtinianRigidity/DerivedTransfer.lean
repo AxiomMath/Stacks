@@ -153,7 +153,7 @@ theorem isIso_Q_map_deRhamPushforwardInt (h : QuasiIso (deRhamPushforwardChain q
   have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map
       (X := deRhamPlusBase f) (Y := deRhamPushforwardPlus q f)
       (ObjectProperty.homMk (deRhamPushforwardInt q f)))) := by
-    show IsIso (DerivedCategory.Q.map (deRhamPushforwardInt q f))
+    change IsIso (DerivedCategory.Q.map (deRhamPushforwardInt q f))
     rw [DerivedCategory.isIso_Q_map_iff_quasiIso]
     infer_instance
   exact isIso_of_fully_faithful DerivedCategory.Plus.ι _

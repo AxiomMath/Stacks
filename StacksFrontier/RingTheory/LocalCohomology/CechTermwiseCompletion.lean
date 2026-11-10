@@ -136,7 +136,7 @@ theorem isIso_adicCompletionFunctor_map_toTermwiseAdicCompletion [IsNoetherianRi
   have hsupp : ∀ L : CochainComplex (ModuleCat.{u} A) ℤ,
       (∀ i : ℤ, i < 0 ∨ (r : ℤ) + 1 ≤ i → IsZero (L.X i)) → {i : ℤ | ¬ IsZero (L.X i)}.Finite :=
     fun L hL => (Set.finite_Icc (0 : ℤ) r).subset fun i hi => by
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       simp only [Set.mem_Icc]
       by_contra hc
       exact hi (hL i (by omega))
@@ -159,7 +159,7 @@ theorem isIso_adicCompletionFunctor_map_toTermwiseAdicCompletion [IsNoetherianRi
         Dualizing.isIso_derivedCompletion_map_adicCompletionOf _ hI (K.X p)
           (nonempty_derivedCompletion_iso_extendedCechComplex_X _ g M hI p).some
       rw [NatIso.isIso_map_iff eG]
-      show IsIso (P.ι.map ((Dualizing.derivedCompletion A (Ideal.span (Set.range f)) hI).map _))
+      change IsIso (P.ι.map ((Dualizing.derivedCompletion A (Ideal.span (Set.range f)) hI).map _))
       infer_instance
     · have hz : IsZero (K.X n) := isZero_extendedCechComplex_X g M n (Or.inl (by omega))
       have hz' : IsZero ((AdicCompletion.moduleCatFunctor (Ideal.span (Set.range f))).obj
@@ -170,7 +170,7 @@ theorem isIso_adicCompletionFunctor_map_toTermwiseAdicCompletion [IsNoetherianRi
       infer_instance
   have : IsIso ((S0 ⋙ G ⋙ shiftFunctor _ (-n)).map
       (ModuleCat.ofHom (AdicCompletion.of (Ideal.span (Set.range f)) (K.X n)))) := by
-    show IsIso ((shiftFunctor _ (-n)).map (G.map (S0.map _)))
+    change IsIso ((shiftFunctor _ (-n)).map (G.map (S0.map _)))
     infer_instance
   exact (NatIso.isIso_map_iff e₁ _).2 this
 

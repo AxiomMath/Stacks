@@ -158,14 +158,14 @@ private lemma hasGoingDown_of_isNormalRing [IsRegularLocalRing A] [IsNoetherianR
   have hcomp : algebraMap A (B ⧸ r) = π.comp (algebraMap A B) := by
     rw [IsScalarTower.algebraMap_eq A B (B ⧸ r), hπ, Ideal.Quotient.algebraMap_eq]
   have hunder : Ideal.under A Q' = Ideal.under A Q := by
-    show Q'.comap (algebraMap A (B ⧸ r)) = Q.comap (algebraMap A B)
+    change Q'.comap (algebraMap A (B ⧸ r)) = Q.comap (algebraMap A B)
     rw [hcomp, ← Ideal.comap_comap, hQ'comap]
   obtain ⟨P', hP'Q', hP'prime, hP'lies⟩ :=
     Algebra.HasGoingDown.exists_ideal_le_liesOver_of_lt (R := A) (S := B ⧸ r) Q'
       (by rwa [hunder])
   refine ⟨P'.comap π, (Ideal.comap_mono hP'Q').trans_eq hQ'comap, hP'prime.comap π, ?_⟩
   refine ⟨?_⟩
-  show p = (P'.comap π).comap (algebraMap A B)
+  change p = (P'.comap π).comap (algebraMap A B)
   rw [Ideal.comap_comap, ← hcomp]
   exact hP'lies.over
 
@@ -271,7 +271,7 @@ private lemma radical_map_under_eq_maximalIdeal [Algebra.IsIntegral A B]
     have hQ'eq : J.comap (algebraMap B (Localization.AtPrime Q)) = Q := by
       refine le_antisymm hQ'Q ?_
       by_contra hne
-      exact absurd hunder' (ne_of_lt (Ideal.IsIntegral.comap_lt_comap (R := A)
+      exact absurd hunder' (ne_of_lt (Ideal.IsIntegral.under_lt_under (R := A)
         (lt_of_le_of_ne hQ'Q (fun h => hne (le_of_eq h.symm)))))
     rw [← Localization.AtPrime.map_eq_maximalIdeal]
     calc Ideal.map (algebraMap B (Localization.AtPrime Q)) Q
@@ -380,7 +380,7 @@ private lemma etale_specMap_of_isNormalRing_of_ringKrullDim_eq_two
     intro y hy
     let : y.asIdeal.IsPrime := y.isPrime
     have hunder : Ideal.under A y.asIdeal = IsLocalRing.maximalIdeal A := by
-      show (f.base y).asIdeal = IsLocalRing.maximalIdeal A
+      change (f.base y).asIdeal = IsLocalRing.maximalIdeal A
       rw [hy]; rfl
     exact (height_eq_ringKrullDim_of_liesOver_maximalIdeal A B hB y.asIdeal hunder).trans hdimA
   have hunr : ∀ y : Spec (.of B), UnramifiedAt f y := by
@@ -409,7 +409,7 @@ private lemma etale_specMap_of_isNormalRing_of_ringKrullDim_eq_two
         ringKrullDim ((Spec (.of B)).presheaf.stalk y') = 1 → UnramifiedAt f y' := by
       intro y' _ hdim'
       refine hunrU y' ?_
-      show f.base y' ∉ ({IsLocalRing.closedPoint A} : Set (PrimeSpectrum A))
+      change f.base y' ∉ ({IsLocalRing.closedPoint A} : Set (PrimeSpectrum A))
       intro hmem'
       have hy'c : f.base y' = IsLocalRing.closedPoint A := Set.mem_singleton_iff.mp hmem'
       rw [ringKrullDim_stalk_spec (CommRingCat.of B) y', hheight y' hy'c] at hdim'

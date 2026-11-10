@@ -93,7 +93,7 @@ theorem globalFunctionsYonedaRingEquiv_globalFunctionsMap_schemeSpaceMap
         (globalFunctionsYonedaRingEquiv B S hS V s) := by
   have ht : yoneda.map g ≫ (idEtaleChart B S hS V).obj.hom =
       (idEtaleChart B S hS U).obj.hom ≫ (schemeSpaceMap g).hom := by
-    show yoneda.map g ≫ 𝟙 _ = 𝟙 _ ≫ yoneda.map g
+    change yoneda.map g ≫ 𝟙 _ = 𝟙 _ ≫ yoneda.map g
     rw [Category.comp_id, Category.id_comp]
   exact globalFunctionsMap_val_of_chartHom B S hS (schemeSpaceMap g) s (idEtaleChart B S hS U)
     (idEtaleChart B S hS V) (CostructuredArrow.homMk g ht)
@@ -135,7 +135,7 @@ theorem bijective_algebraMap_pushforwardAlgebra_of_genericChart {X Y : Algebraic
     (A := Γ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y.1).obj W), ⊤))
     (L := Γ((BigFppfOver.toScheme B S hS).obj K, ⊤)) _ hint φ hφ ?_
   ext r
-  show eK (gK.symm (globalFunctionsMap B S hS τ (directImageSectionsToGlobalFunctions B S hS f W
+  change eK (gK.symm (globalFunctionsMap B S hS τ (directImageSectionsToGlobalFunctions B S hS f W
     ((pushforwardAlgebra B S hS (Over.mk f)).algebraMap (op W) r)))) =
       ((BigFppfOver.toScheme B S hS).map ι).appTop.hom r
   rw [directImageSectionsToGlobalFunctions_algebraMap_eq_globalFunctionsMap]

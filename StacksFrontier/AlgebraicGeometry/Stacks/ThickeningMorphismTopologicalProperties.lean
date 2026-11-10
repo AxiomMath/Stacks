@@ -259,7 +259,7 @@ theorem universallyClosed_inner_of_outer (m : ThickeningMorphism i j hi hj)
   let _ := pointTopology B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS (d ≫ j) m.outer).pt.val
   let _ := pointTopology B S hS 𝒵.val
-  show IsClosedMap (AlgebraicStacks.pointsMap B S hS
+  change IsClosedMap (AlgebraicStacks.pointsMap B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS d m.inner).fst)
   rw [← hpm]
   exact IsClosedMap.comp (h 𝒵 (d ≫ j)) (isHomeomorphOnPoints_of_isThickening B S hS hc).isClosedMap
@@ -278,7 +278,7 @@ theorem universallyClosed_outer_of_inner (m : ThickeningMorphism i j hi hj)
   let _ := pointTopology B S hS W.pt.val
   have hP : IsClosedMap (AlgebraicStacks.pointsMap B S hS
       (AlgebraicStacks.twoFibreProductSquare B S hS W.snd m.inner).fst) := h W.pt W.snd
-  show IsClosedMap (AlgebraicStacks.pointsMap B S hS
+  change IsClosedMap (AlgebraicStacks.pointsMap B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS t m.outer).fst)
   exact IsClosedMap.of_comp_eq_comp_isHomeomorph hP
     (isHomeomorphOnPoints_of_isThickening B S hS hc) hqh hpm
@@ -307,7 +307,7 @@ theorem universallyOpen_inner_of_outer (m : ThickeningMorphism i j hi hj)
   let _ := pointTopology B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS (d ≫ j) m.outer).pt.val
   let _ := pointTopology B S hS 𝒵.val
-  show IsOpenMap (AlgebraicStacks.pointsMap B S hS
+  change IsOpenMap (AlgebraicStacks.pointsMap B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS d m.inner).fst)
   rw [← hpm]
   exact IsOpenMap.comp (h 𝒵 (d ≫ j)) (isHomeomorphOnPoints_of_isThickening B S hS hc).isOpenMap
@@ -326,7 +326,7 @@ theorem universallyOpen_outer_of_inner (m : ThickeningMorphism i j hi hj)
   let _ := pointTopology B S hS W.pt.val
   have hP : IsOpenMap (AlgebraicStacks.pointsMap B S hS
       (AlgebraicStacks.twoFibreProductSquare B S hS W.snd m.inner).fst) := h W.pt W.snd
-  show IsOpenMap (AlgebraicStacks.pointsMap B S hS
+  change IsOpenMap (AlgebraicStacks.pointsMap B S hS
     (AlgebraicStacks.twoFibreProductSquare B S hS t m.outer).fst)
   exact IsOpenMap.of_comp_eq_comp_isHomeomorph hP
     (isHomeomorphOnPoints_of_isThickening B S hS hc) hqh hpm

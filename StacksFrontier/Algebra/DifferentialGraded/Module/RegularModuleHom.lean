@@ -172,7 +172,7 @@ theorem isZero_hom_toHomotopyCategory_shift_regularModule (A : DifferentialGrade
   intro f
   induction f using Quot.inductionOn with
   | _ g =>
-    show (toHomotopyCategory A).map g = 0
+    change (toHomotopyCategory A).map g = 0
     exact (CategoryTheory.Quotient.sound (homotopyRel A) (homotopic_zero_of_acyclic hN k g)).trans
       ((toHomotopyCategory A).map_zero _ _)
 

@@ -126,7 +126,7 @@ theorem isSeparableExtension_functionField_of_smooth {X : Scheme.{u}} (pX : X ‚ü
       varietyFunctionFieldAlgebra ({ toScheme := X, structureMap := pX } : Variety k)
     Algebra.IsSeparableExtension k X.functionField := by
   let VX : Variety k := { toScheme := X, structureMap := pX }
-  show @Algebra.IsSeparableExtension k X.functionField _ _ (varietyFunctionFieldAlgebra VX)
+  change @Algebra.IsSeparableExtension k X.functionField _ _ (varietyFunctionFieldAlgebra VX)
   rw [varietyFunctionFieldAlgebra_eq_germToFunctionField VX]
   exact (geometricallyReduced_iff_isSeparableExtension_functionField pX).mp
     (geometricallyReduced_of_smooth pX)
@@ -149,7 +149,7 @@ theorem finrank_compositumFrobenius_functionField (p : ‚Ñï) [Fact p.Prime] [Char
       (isSeparableExtension_functionField_of_smooth pX)
   have htr : Algebra.trdeg k X.functionField = 1 :=
     (isCurve_iff_trdeg_functionField_eq_one VX).mp inferInstance
-  show Module.finrank (compositumFrobenius k X.functionField p) X.functionField = p
+  change Module.finrank (compositumFrobenius k X.functionField p) X.functionField = p
   rw [finrank_compositumFrobenius_eq_pow_trdeg p, Cardinal.toNat_eq_one.mpr htr, pow_one]
 
 /-- **A global function on a smooth proper variety lies in the compositum of the base field with

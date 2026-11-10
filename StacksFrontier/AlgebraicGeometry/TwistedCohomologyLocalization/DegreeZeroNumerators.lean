@@ -153,7 +153,7 @@ private theorem sectionPowerAction_twistedPowerAddIso_pure (n m : ℕ)
             ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
               (m : ℤ)).val.map (terminal.from U).op
               (PowerSection.powerSectionValue X L s m)) y)) := by
-    show (reindexTwist X L F (degree_add_swap n m)).val.app (op U)
+    change (reindexTwist X L F (degree_add_swap n m)).val.app (op U)
       ((twistActionHom (sectionSiteRing X) (sectionSiteSheaf X) L F (m : ℤ) (n : ℤ)
         (globalSectionHom (sectionSiteRing X) (sectionSiteSheaf X)
           (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (m : ℤ))

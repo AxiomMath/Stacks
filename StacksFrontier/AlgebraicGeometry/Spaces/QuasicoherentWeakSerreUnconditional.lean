@@ -53,7 +53,8 @@ closure classes as section variables at the free module universe `m`, and
 instantiation at `m := u` is not available there.  The arrangement is the one of
 `StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentKernelsUnconditional.lean`, which holds the
 kernel clause at `m := u` outside
-`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentKernelsOnSite.lean` for the same kind of reason.
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentKernelsOnSite.lean` for the same kind of
+reason.
 
 *The local priority raise is load-bearing.*  `CategoryTheory.SheafOfModules.instAbelian` is raised
 in priority, as in `StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherent.lean` and

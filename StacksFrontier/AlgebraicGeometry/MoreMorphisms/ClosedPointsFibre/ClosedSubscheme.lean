@@ -85,7 +85,7 @@ theorem exists_closedSubscheme_quasiFiniteAt_meeting_open
     rw [← RingHom.essFiniteType_algebraMap, RingHom.algebraMap_toAlgebra]
     exact LocallyOfFiniteType.stalkMap f x
   have hess : IsEssentiallyOfFiniteType A B φ := by
-    show IsEssentiallyOfFiniteType A B (algebraMap A B)
+    change IsEssentiallyOfFiniteType A B (algebraMap A B)
     rcases (Algebra.essFiniteType_iff_exists_subalgebra A B).mp inferInstance with
       ⟨T, M, hT, hLoc⟩
     exact ⟨T, inferInstance, (algebraMap A T).toAlgebra, hT, M,
@@ -227,7 +227,7 @@ theorem exists_closedSubscheme_quasiFiniteAt_meeting_open
         exact fun b hb => hqle (Ideal.Quotient.eq_zero_iff_mem.mp hb)
       let : IsLocalHom ψ := RingHom.isLocalHom_comp π φ
       have hrunder : Ideal.under A r = Ideal.under A (IsLocalRing.maximalIdeal D) := by
-        show r.comap ψ = (IsLocalRing.maximalIdeal D).comap ψ
+        change r.comap ψ = (IsLocalRing.maximalIdeal D).comap ψ
         calc
           r.comap ψ = (r.comap π).comap φ := by simp [ψ, Ideal.comap_comap]
           _ = IsLocalRing.maximalIdeal A := by rw [hrpre, hpc]

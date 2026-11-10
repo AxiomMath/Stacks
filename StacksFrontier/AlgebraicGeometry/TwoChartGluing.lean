@@ -248,7 +248,7 @@ lemma chartNat_equifibered [IsIso τ] : (chartNat Ω₁ Ω₂ p τ hτ).Equifibe
       cases k with
       | left => exact isPullback_homOfLE_morphismRestrict p (inf_le_left : Ω₁ ⊓ Ω₂ ≤ Ω₁)
       | right =>
-          show IsPullback (τ ≫ X.homOfLE (preimage_mono p (inf_le_right : Ω₁ ⊓ Ω₂ ≤ Ω₂)))
+          change IsPullback (τ ≫ X.homOfLE (preimage_mono p (inf_le_right : Ω₁ ⊓ Ω₂ ≤ Ω₂)))
             (p ∣_ (Ω₁ ⊓ Ω₂)) (p ∣_ Ω₂) (Z.homOfLE (inf_le_right : Ω₁ ⊓ Ω₂ ≤ Ω₂))
           have hsq : IsPullback τ (p ∣_ (Ω₁ ⊓ Ω₂)) (p ∣_ (Ω₁ ⊓ Ω₂)) (𝟙 _) :=
             IsPullback.of_horiz_isIso ⟨by rw [hτ, Category.comp_id]⟩

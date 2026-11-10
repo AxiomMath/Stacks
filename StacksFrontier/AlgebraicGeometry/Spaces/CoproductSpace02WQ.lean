@@ -229,7 +229,7 @@ theorem exists_atlas_of_isColimit_of_contains
       intro X Y k hk
       have _ : _root_.AlgebraicGeometry.IsOpenImmersion
         ((BigFppfOver.toScheme B S hS).map k) := hk
-      show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map k)
+      change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map k)
       infer_instance
     refine presheaf_inverseImage_of_isZariskiLocalAtSource B S hS
       (@_root_.AlgebraicGeometry.Etale.{u}) hrep inj hopeninj

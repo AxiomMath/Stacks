@@ -105,6 +105,7 @@ theorem limitCone_π_comp_laterStagesToBaseStage (i : {i : I // D.base ≤ i}ᵒ
   D.limitCone.w (homOfLE i.unop.2).op
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_LimitsBaseChange :

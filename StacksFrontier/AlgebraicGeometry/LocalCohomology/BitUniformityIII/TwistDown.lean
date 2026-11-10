@@ -168,7 +168,7 @@ theorem globalSmulCenter_mul_app_val_app (r r' : Γ(X, ⊤)) (M : X.Modules) (V 
 /-- A zero morphism of sheaves of modules is zero on sections. -/
 theorem zero_val_app_apply {M N : X.Modules} (V : X.Opensᵒᵖ) (m : M.val.obj V) :
     (((0 : M ⟶ N).val.app V).hom m) = 0 := by
-  show ((0 : M.val ⟶ N.val).app V).hom m = 0
+  change ((0 : M.val ⟶ N.val).app V).hom m = 0
   simp
 
 /-- Equal morphisms of sheaves of modules agree on sections. -/

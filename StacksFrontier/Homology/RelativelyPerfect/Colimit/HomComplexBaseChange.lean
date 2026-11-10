@@ -74,7 +74,7 @@ private lemma homCochainBaseChange_ofHom
       a • CochainComplex.HomComplex.Cochain.ofHom
         (((ModuleCat.extendScalars.{u, v, w} f).mapHomologicalComplex (.up ℤ)).map g) := by
   let := f.toAlgebra
-  show LinearMap.liftBaseChange B (homCochainExtendScalars f P F 0)
+  change LinearMap.liftBaseChange B (homCochainExtendScalars f P F 0)
     (a ⊗ₜ[A] CochainComplex.HomComplex.Cochain.ofHom g) = _
   rw [LinearMap.liftBaseChange_tmul]
   exact congrArg (a •
@@ -104,7 +104,7 @@ private lemma extendScalarsComp_inv_app_one_tmul_tmul
   have ht : (1 : C) ⊗ₜ[B] (b ⊗ₜ[A] m) =
       g b • ((1 : C) ⊗ₜ[B] ((1 : B) ⊗ₜ[A] m)) := by
     rw [hb, TensorProduct.tmul_smul]
-    show (g b * 1) ⊗ₜ[B, g] ((1 : B) ⊗ₜ[A, f] m) =
+    change (g b * 1) ⊗ₜ[B, g] ((1 : B) ⊗ₜ[A, f] m) =
       g b • ((1 : C) ⊗ₜ[B, g] ((1 : B) ⊗ₜ[A, f] m))
     rfl
   rw [ht, map_smul]
@@ -118,7 +118,7 @@ private lemma homComplexPrePostcomp_v {R : Type u} [CommRing R]
     (((Stacks.HomComplex.TensorHomMap.precomp R P' P F a ≫ Stacks.HomComplex.TensorHomMap.postcomp R
       P' F F' b).f n z).v p q hpq) =
       a.f p ≫ z.v p q hpq ≫ b.f q := by
-  show (((CochainComplex.HomComplex.Cochain.ofHom a).comp z (zero_add n)).comp
+  change (((CochainComplex.HomComplex.Cochain.ofHom a).comp z (zero_add n)).comp
     (CochainComplex.HomComplex.Cochain.ofHom b) (add_zero n)).v p q hpq = _
   simp only [CochainComplex.HomComplex.Cochain.comp_zero_cochain_v,
     CochainComplex.HomComplex.Cochain.zero_cochain_comp_v,
@@ -153,7 +153,7 @@ private lemma homComplexBaseChange_comp
   let Efg := (ModuleCat.extendScalars.{u, u, max u w} (g.comp f)).mapHomologicalComplex (.up ℤ)
   let e : Efg ≅ Ef ⋙ Eg :=
     NatIso.mapHomologicalComplex (ModuleCat.extendScalarsComp.{u, max u w} f g) (.up ℤ)
-  show ((Stacks.HomComplex.TensorHomMap.precomp C (Efg.obj P) (Eg.obj (Ef.obj P)) (Eg.obj (Ef.obj
+  change ((Stacks.HomComplex.TensorHomMap.precomp C (Efg.obj P) (Eg.obj (Ef.obj P)) (Eg.obj (Ef.obj
     F))
       (e.hom.app P) ≫
     Stacks.HomComplex.TensorHomMap.postcomp C (Efg.obj P) (Eg.obj (Ef.obj F)) (Efg.obj F) (e.inv.app
@@ -169,7 +169,7 @@ private lemma homComplexBaseChange_comp
   rw [homComplexPrePostcomp_v]
   apply ModuleCat.ExtendScalars.hom_ext
   intro x
-  show (ModuleCat.extendScalarsComp.{u, max u w} f g).inv.app (F.X q)
+  change (ModuleCat.extendScalarsComp.{u, max u w} f g).inv.app (F.X q)
     (((homCochainBaseChange g (Ef.obj P) (Ef.obj F) n)
       ((1 : C) ⊗ₜ[B, g] (homCochainBaseChange f P F n ((1 : B) ⊗ₜ[A, f] z)))).v p q hpq
         ((ModuleCat.extendScalarsComp.{u, max u w} f g).hom.app (P.X p)
@@ -260,7 +260,7 @@ private lemma homComplexPrePostcomp_ofHom {R : Type u} [CommRing R]
       P' F F' b).f 0)
       (CochainComplex.HomComplex.Cochain.ofHom g) =
         CochainComplex.HomComplex.Cochain.ofHom (a ≫ g ≫ b) := by
-  show ((CochainComplex.HomComplex.Cochain.ofHom a).comp
+  change ((CochainComplex.HomComplex.Cochain.ofHom a).comp
     (CochainComplex.HomComplex.Cochain.ofHom g) (zero_add 0)).comp
       (CochainComplex.HomComplex.Cochain.ofHom b) (add_zero 0) = _
   simp only [← CochainComplex.HomComplex.Cochain.ofHom_comp, Category.assoc]
@@ -304,9 +304,9 @@ private lemma extensionScalarsUnitComplex_homComplexBaseChange {A : Type u} {B :
         (homComplexBaseChange f P F) =
       homComplexMap (ModuleCat.extendScalars.{u, w, max w v} f) P F := by
   ext n z
-  show homCochainBaseChange f P F n ((1 : B) ⊗ₜ[A, f] z) = z.map _
+  change homCochainBaseChange f P F n ((1 : B) ⊗ₜ[A, f] z) = z.map _
   let := f.toAlgebra
-  show LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)
+  change LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)
     ((1 : B) ⊗ₜ[A] z) = _
   rw [LinearMap.liftBaseChange_tmul, one_smul]
   rfl
@@ -564,7 +564,7 @@ private lemma mapHomologyIso_cyclesMk {R : Type u} [Ring R]
   let h := S.homologyData.left
   let k := h.map U
   rw [h.mapHomologyIso_eq U]
-  show k.homologyIso.inv (h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx))) = _
+  change k.homologyIso.inv (h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx))) = _
   have hh := ConcreteCategory.congr_hom (h.homologyπ_comp_homologyIso_hom S)
     (S.cyclesMk x hx)
   change h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx)) =
@@ -632,7 +632,7 @@ private lemma homComplexRHomologyAddEquiv_cyclesMk {A : Type u} [CommRing A]
   let S := (CochainComplex.HomComplexR A P F).sc n
   simp only [homComplexRHomologyAddEquiv, homComplexRForgetIso,
     Functor.mapIso_refl]
-  show CochainComplex.HomComplex.homologyAddEquiv P F n
+  change CochainComplex.HomComplex.homologyAddEquiv P F n
     ((S.mapHomologyIso (forget₂ (ModuleCat.{v} A) Ab)).inv
       (S.homologyπ (S.cyclesMk z.val _))) = _
   rw [mapHomologyIso_cyclesMk]
@@ -650,12 +650,12 @@ private lemma homComplexRHomologyEquivDerivedHom_ofHom {A : Type u} [CommRing A]
         (((CochainComplex.HomComplexR A P F).sc 0).cyclesMk
           (CochainComplex.HomComplex.Cochain.ofHom g)
           (CochainComplex.HomComplex.δ_ofHom g))) = DerivedCategory.Q.map g := by
-  show (Iso.homCongr _ _)
+  change (Iso.homCongr _ _)
     (DerivedCategory.Qh.map (CochainComplex.HomComplex.CohomologyClass.homAddEquiv
       (homComplexRHomologyAddEquiv P F 0 _))) = _
   erw [homComplexRHomologyAddEquiv_cyclesMk P F 0
     (CochainComplex.HomComplex.Cocycle.ofHom g)]
-  show (DerivedCategory.quotientCompQhIso (ModuleCat.{v} A)).inv.app P ≫
+  change (DerivedCategory.quotientCompQhIso (ModuleCat.{v} A)).inv.app P ≫
     ((HomotopyCategory.quotient (ModuleCat.{v} A) (.up ℤ)) ⋙ DerivedCategory.Qh).map
       (CochainComplex.HomComplex.Cocycle.equivHomShift.symm
         (CochainComplex.HomComplex.Cocycle.ofHom g)) ≫

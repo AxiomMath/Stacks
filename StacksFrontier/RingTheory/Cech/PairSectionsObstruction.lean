@@ -175,7 +175,7 @@ theorem exists_smul_eq_of_injective {R : Type u} [CommRing R] {M : ModuleCat.{u}
 theorem intToTwo_two : intToTwo.{u}.toRingHom (2 : (intPair.{u}).ring) = 0 := by
   rw [show (2 : (intPair.{u}).ring) =
     Ideal.Quotient.mk (⊥ : Ideal (presentationRing.{u} 0)) 2 from (map_ofNat _ 2).symm]
-  show Ideal.Quotient.mk (Ideal.span {(2 : presentationRing.{u} 0)}) 2 = 0
+  change Ideal.Quotient.mk (Ideal.span {(2 : presentationRing.{u} 0)}) 2 = 0
   exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_span_singleton_self _)
 
 /-- **A map out of an injective module to the sections at `P` dies on restriction along a

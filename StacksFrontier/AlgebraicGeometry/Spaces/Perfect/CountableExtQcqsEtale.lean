@@ -298,8 +298,6 @@ affine `U`, where `Ext^i(E|_U, K|_U) = Hom_{D(R)}(RΓ(U, E), RΓ(U, K)[i])` with
 perfect complex of `R`-modules and `H^j(RΓ(U, K)) = Γ(U, H^j(K))` countable, and the
 Mayer–Vietoris step, which is the long exact sequence of Stacks 08H9. -/
 theorem countable_ext_of_qcqs_etale_of_countable_sections (X : AlgebraicSpaces B S hS)
-    (hXqc : IsQuasiCompactSpace B S hS X.obj)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS B.contains_terminal X.obj)
     (K : QuasicoherentDerivedCategory.{u, u} B S hS X.obj X.property)
     (hK : ∀ V : SmallEtale B S hS X.obj, IsAffineChart B S hS X.obj V → ∀ i : ℤ,
       Countable (((DerivedCategory.homologyFunctor _ i).obj K.obj).val.obj (op V)))
@@ -328,7 +326,7 @@ theorem countable_ext_of_qcqs_etale_of_countable_sections (X : AlgebraicSpaces B
       Pred Y g → Pred Y g' := by
     rintro _ _ _ rfl h
     exact h
-  refine qcqs_induction_on B S hS B.contains_terminal X hXqc hXqs Pred
+  refine qcqs_induction_on B S hS B.contains_terminal X Pred
     (fun V hV hY hg n => countable_hom_shift_etaleRestrict_of_isAffineSpace X ⟨_, hY⟩ hV _ hg
       E K.obj hE K.property hK n) ?_ U hUqc hUqs U.obj.left.property U.property i
   intro W V Uo f hcomm hsq _ _ _ _ hU hV hP hY hg n

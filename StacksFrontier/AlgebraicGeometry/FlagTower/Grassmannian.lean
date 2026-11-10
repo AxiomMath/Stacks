@@ -89,8 +89,9 @@ private theorem kernelSubobject_eq_of_comp_eq {L L' : T.Modules} {p : M ⟶ L} {
     (g : L ⟶ L') [Mono g] (h : p ≫ g = p') : kernelSubobject p = kernelSubobject p' := by
   subst h; exact (kernelSubobject_comp_mono p g).symm
 
-omit [Epi π] in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the kernels and cokernels in `T.Modules`
+omit [Epi π] in
 /-- Taking preimages along `π` is monotone. -/
 theorem comapSub_mono {S S' : Subobject Q} (h : S ≤ S') : comapSub π S ≤ comapSub π S' :=
   (kernelSubobject_comp_le (π ≫ cokernel.π S.arrow) _).trans_eq
@@ -221,7 +222,7 @@ theorem Flag.comap_pullback {M Q : T.Modules} {M' Q' : T'.Modules} (π : M ⟶ Q
       (cokernel S.arrow) (i + 1) := F.rank i
   have hCS : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       (cokernel (comapSub π S).arrow) (i + 1) := (rank_comapSub_iff π S _).mpr hS
-  show comapSub π' (have := mono_pullback_map_arrow k S _ hS;
+  change comapSub π' (have := mono_pullback_map_arrow k S _ hS;
       Subobject.mk ((Scheme.Modules.pullback k).map S.arrow ≫ e₁.inv)) =
     (have := mono_pullback_map_arrow k (comapSub π S) _ hCS;
       Subobject.mk ((Scheme.Modules.pullback k).map (comapSub π S).arrow ≫ e₀.inv))
@@ -259,7 +260,7 @@ def grassmannianPointsEquiv (T : Scheme.{u}) : (T ⟶ scheme.{u} l n) ≃ Points
 theorem grassmannianPointsEquiv_comp {T T' : Scheme.{u}} (k : T' ⟶ T) (g : T ⟶ scheme.{u} l n) :
     grassmannianPointsEquiv l n T' (k ≫ g) =
       pullbackPointsMap k l n (grassmannianPointsEquiv l n T g) := by
-  show (functorData l n).objEquiv T' ((schemeRepresentableBy l n).homEquiv (k ≫ g)) =
+  change (functorData l n).objEquiv T' ((schemeRepresentableBy l n).homEquiv (k ≫ g)) =
     pullbackPointsMap k l n ((functorData l n).objEquiv T ((schemeRepresentableBy l n).homEquiv g))
   rw [Functor.RepresentableBy.homEquiv_comp]
   generalize (schemeRepresentableBy l n).homEquiv g = x
@@ -269,9 +270,9 @@ theorem grassmannianPointsEquiv_comp {T T' : Scheme.{u}} (k : T' ⟶ T) (g : T �
     exact (Equiv.symm_apply_apply _ _).symm
   obtain ⟨q', hq', e, he⟩ := (functorData l n).map_isPullback k q
   rw [hx, Equiv.apply_symm_apply]
-  show _ = Quotient.mk _ (pullbackPresentation k q)
+  change _ = Quotient.mk _ (pullbackPresentation k q)
   refine hq'.trans (Quotient.sound (Relation.EqvGen.rel _ _ ⟨e.symm, ?_⟩))
-  show q'.map ≫ e.inv = (pullbackFreeIso k n).inv ≫ (Scheme.Modules.pullback k).map q.map
+  change q'.map ≫ e.inv = (pullbackFreeIso k n).inv ≫ (Scheme.Modules.pullback k).map q.map
   have h1 : (Scheme.Modules.pullback k).map q.map = (pullbackFreeIso k n).hom ≫ q'.map ≫ e.inv := by
     have h := congrArg (fun t => t ≫ e.inv) he
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id] at h
@@ -294,7 +295,7 @@ theorem grassmannianPointsEquiv_eq {T : Scheme.{u}} (g : T ⟶ scheme.{u} l n) :
         (pullbackPresentation g (universalPresentation l n)) := by
   conv_lhs => rw [← Category.comp_id g]
   rw [grassmannianPointsEquiv_comp]
-  show pullbackPointsMap g l n (universalPoint l n) = _
+  change pullbackPointsMap g l n (universalPoint l n) = _
   rw [← Quotient.out_eq (universalPoint l n)]
   rfl
 
@@ -328,7 +329,7 @@ theorem mk_pullbackPresentation_universalQuotient {T : Scheme.{u}} (h : T ⟶ sc
         (pullbackPresentation h (universalQuotient l n X)) =
       grassmannianPointsEquiv l n T (h ≫ pullback.snd _ _) := by
   rw [grassmannianPointsEquiv_eq]
-  show _ = pullbackPointsMap (h ≫ pullback.snd _ _) l n
+  change _ = pullbackPointsMap (h ≫ pullback.snd _ _) l n
     (Quotient.mk (quotientPresentationSetoid _ l n) (universalPresentation l n))
   rw [pullbackPointsMap_comp]
   rfl
@@ -580,14 +581,14 @@ theorem towerPointsEquiv_comp {T T' : Scheme.{u}} (k : T' ⟶ T) (f : T ⟶ X)
   rw [towerPointsEquiv, Equiv.trans_apply, Equiv.trans_apply, Equiv.apply_symm_apply]
   rw [towerBEquiv, @towerEquiv_comp (n - l) X (freeModule n X) (isFiniteLocallyFree_freeModule n X)
     _ _ k f _ f' hf']
-  show _ = Flag.pullback k _ ((towerBEquiv l n X f) ((towerBEquiv l n X f).symm
+  change _ = Flag.pullback k _ ((towerBEquiv l n X f) ((towerBEquiv l n X f).symm
     (compareEquiv l n hln f (towerAEquiv l n X f g))))
   rw [Equiv.apply_symm_apply]
   set h := g.1 ≫ (towerA l n X).2 with hh
   have hc : k ≫ h = (k ≫ g.1) ≫ (towerA l n X).2 := (Category.assoc _ _ _).symm
   have hA := @towerEquiv_comp (n - l) _ (universalQuotient l n X).target
     (isFiniteLocallyFree_universalQuotient l n X) _ _ k h ⟨g.1, rfl⟩ _ hc
-  show Flag.comap (presMap l n f' ((k ≫ g.1) ≫ (towerA l n X).2))
+  change Flag.comap (presMap l n f' ((k ≫ g.1) ≫ (towerA l n X).2))
       (@towerEquiv (n - l) _ (universalQuotient l n X).target
         (isFiniteLocallyFree_universalQuotient l n X) _ ((k ≫ g.1) ≫ (towerA l n X).2)
         ⟨k ≫ g.1, rfl⟩) =

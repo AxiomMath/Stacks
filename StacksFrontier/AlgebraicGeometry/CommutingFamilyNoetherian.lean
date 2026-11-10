@@ -77,8 +77,7 @@ theorem isZero_of_isQuasicoherent_of_finset_affine (C : Z.Modules) [C.IsQuasicoh
           (Z.basicOpen g) (AlgebraicGeometry.basicOpen_le_id_preimage g)).hom).obj
             (ModuleCat.of Γ(Z, (w : Z.Opens)) Γ(C, (w : Z.Opens))), z = 0 := by
         intro z
-        induction z using TensorProduct.induction_on with
-        | zero => rfl
+        induction z using TensorProduct.inductionOn with
         | tmul a m => rw [hC w hw m]; exact TensorProduct.tmul_zero _ _
         | add y z hy hz => rw [hy, hz]; exact zero_add _
       rw [hzero (e.toLinearEquiv.symm a), hzero (e.toLinearEquiv.symm b)]

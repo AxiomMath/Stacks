@@ -70,7 +70,7 @@ public theorem exists_lift_of_finitePresentation {R A : CommRingCat.{u}} {X : Sc
   have : Algebra.FinitePresentation R A := hφRA
   have htower : IsScalarTower R Γ(X, U₀) (X.presheaf.stalk x) := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show (φRA ≫ φ).hom r = X.presheaf.germ U₀ x hxU₀ (X.presheaf.map (homOfLE iU₀U).op (φRX r))
+    change (φRA ≫ φ).hom r = X.presheaf.germ U₀ x hxU₀ (X.presheaf.map (homOfLE iU₀U).op (φRX r))
     rw [e]
     simp [TopCat.Presheaf.germ_res_apply]
   have hloc : IsLocalization (hU₀.primeIdealOf ⟨x, hxU₀⟩).asIdeal.primeCompl
@@ -103,7 +103,7 @@ public theorem exists_lift_of_finitePresentation {R A : CommRingCat.{u}} {X : Sc
         (α : Localization.Away t →+* Γ(X, X.basicOpen t))) = (g : Localization.Away t →+* _) := by
       refine IsLocalization.ringHom_ext (Submonoid.powers t) ?_
       ext s
-      show X.presheaf.germ (X.basicOpen t) x hxV
+      change X.presheaf.germ (X.basicOpen t) x hxV
           (α (algebraMap Γ(X, U₀) (Localization.Away t) s)) =
         g (algebraMap Γ(X, U₀) (Localization.Away t) s)
       rw [α.commutes s, hgT s]
@@ -114,16 +114,16 @@ public theorem exists_lift_of_finitePresentation {R A : CommRingCat.{u}} {X : Sc
       (ψ : A →+* Localization.Away t)),
     (X.basicOpen_le t).trans iU₀U, hU₀.basicOpen t, ?_, ?_⟩
   · ext a
-    show φ a = X.presheaf.germ (X.basicOpen t) x hxV (α (ψ a))
+    change φ a = X.presheaf.germ (X.basicOpen t) x hxV (α (ψ a))
     rw [hα (ψ a)]
     exact (congrArg (fun h : A →ₐ[R] X.presheaf.stalk x => h a) hgψ).symm
   · ext r
-    show X.presheaf.map (homOfLE ((X.basicOpen_le t).trans iU₀U)).op (φRX r) = α (ψ (φRA r))
+    change X.presheaf.map (homOfLE ((X.basicOpen_le t).trans iU₀U)).op (φRX r) = α (ψ (φRA r))
     have : ψ (φRA r) = algebraMap Γ(X, U₀) (Localization.Away t) (algebraMap R Γ(X, U₀) r) := by
       rw [← IsScalarTower.algebraMap_apply]
       exact ψ.commutes r
     rw [this, α.commutes]
-    show _ = X.presheaf.map (homOfLE (X.basicOpen_le t)).op
+    change _ = X.presheaf.map (homOfLE (X.basicOpen_le t)).op
       (X.presheaf.map (homOfLE iU₀U).op (φRX r))
     exact (hmap _).symm
 

@@ -256,7 +256,7 @@ theorem vaddClass_isoClass (ξ : E) (Q : Sol) :
 theorem zero_vaddClass (q : T.IsomorphismClasses) : T.vaddClass 0 q = q :=
   Quotient.inductionOn q fun Q =>
     show T.isoClass (T.twist Q 0) = T.isoClass Q from Quotient.sound <| by
-      show T.o (T.twist Q 0) Q = 0
+      change T.o (T.twist Q 0) Q = 0
       rw [T.o_twist_left, neg_zero]
 
 /-- The action of the Ext group on isomorphism classes of solutions is additive. -/
@@ -265,7 +265,7 @@ theorem add_vaddClass (ξ η : E) (q : T.IsomorphismClasses) :
   Quotient.inductionOn q fun Q =>
     show T.isoClass (T.twist Q (ξ + η)) = T.isoClass (T.twist (T.twist Q η) ξ) from
       Quotient.sound <| by
-        show T.o (T.twist Q (ξ + η)) (T.twist (T.twist Q η) ξ) = 0
+        change T.o (T.twist Q (ξ + η)) (T.twist (T.twist Q η) ξ) = 0
         have h₂ : T.o Q (T.twist (T.twist Q η) ξ) = η + ξ := by
           rw [← T.o_add Q (T.twist Q η) (T.twist (T.twist Q η) ξ), T.o_twist, T.o_twist]
         rw [← T.o_add (T.twist Q (ξ + η)) Q (T.twist (T.twist Q η) ξ), T.o_twist_left, h₂,
@@ -291,7 +291,7 @@ theorem vsubClass_vaddClass (q₁ q₂ : T.IsomorphismClasses) :
     T.vaddClass (T.vsubClass q₁ q₂) q₂ = q₁ :=
   Quotient.inductionOn₂ q₁ q₂ fun Q₁ Q₂ =>
     show T.isoClass (T.twist Q₂ (T.o Q₂ Q₁)) = T.isoClass Q₁ from Quotient.sound <| by
-      show T.o (T.twist Q₂ (T.o Q₂ Q₁)) Q₁ = 0
+      change T.o (T.twist Q₂ (T.o Q₂ Q₁)) Q₁ = 0
       rw [← T.o_add (T.twist Q₂ (T.o Q₂ Q₁)) Q₂ Q₁, T.o_twist_left, neg_add_cancel]
 
 /-- The class separating the translate of an isomorphism class from the class itself is the

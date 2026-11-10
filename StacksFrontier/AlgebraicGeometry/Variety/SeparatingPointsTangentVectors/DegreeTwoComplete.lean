@@ -284,7 +284,7 @@ this argument appears; what makes it cheap is writing the equality of opens as `
 theorem pullbackGlobalSections_eq_pullbackSectionTop {X Y : Scheme.{u}} (f : X ⟶ Y)
     (M : Y.Modules) (s : Γ(M, ⊤)) :
     pullbackGlobalSections f M s = pullbackSectionTop f M s := by
-  show ((Scheme.Modules.pullback f).obj M).presheaf.map
+  change ((Scheme.Modules.pullback f).obj M).presheaf.map
       (eqToHom (show f ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op (pullbackSectionTop f M s) = _
   exact Functor.map_id_apply _ _ _
 

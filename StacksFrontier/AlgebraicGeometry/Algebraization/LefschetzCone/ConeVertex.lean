@@ -73,7 +73,7 @@ public theorem isMaximal_of_irrelevant_le [IsProper fX] (q : Ideal (sectionRing 
         (DirectSum.decompose (grading L) a 0 : sectionRing L) := by
       rw [Ideal.Quotient.eq]
       apply hq
-      show GradedRing.proj (grading L) 0 _ = 0
+      change GradedRing.proj (grading L) 0 _ = 0
       rw [GradedRing.proj_apply, DirectSum.decompose_sub,
         DirectSum.decompose_coe, DirectSum.sub_apply, DirectSum.of_eq_same,
         AddSubgroupClass.coe_sub, sub_self]

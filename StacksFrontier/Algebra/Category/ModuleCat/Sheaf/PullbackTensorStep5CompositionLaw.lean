@@ -64,7 +64,8 @@ inverse transposes is taken in the very adjunction that step 5 for `φ` is.
 only propositionally. The merge of the three restrictions of scalars into one *is* definitional,
 but no consumer can afford to leave it so: asking the elaborator to identify
 `N|_{(ψ ∘ φ)⁻¹O_E}` with `((N|_{φ⁻¹O_D})|_{φ⁻¹(ψ⁻¹O_E)})|_{(ψ ∘ φ)⁻¹O_E}` at these concrete
-morphisms of sheaves of rings is a deterministic 200000-heartbeat `whnf` timeout. Both transports are therefore `CategoryTheory.eqToHom` of a named
+morphisms of sheaves of rings is a deterministic 200000-heartbeat `whnf` timeout. Both transports
+are therefore `CategoryTheory.eqToHom` of a named
 equation — `Stacks.SheafOfModules.step5CompExtendEq` and
 `Stacks.SheafOfModules.step5CompValuesEq` — whose own proofs do the identification once, the
 second of them through `Stacks.Sheaves.RingedToposModules.restrictScalars_comp`, which is generic

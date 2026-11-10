@@ -120,7 +120,7 @@ theorem restrictSection_notMem_range_of_ker_eq [IsNoetherianRing A] (p : Ideal A
       map_add' := fun a b => by rw [map_add, map_add, map_add]
       map_smul' := fun a v => by
         rw [map_smul, RingHom.id_apply]
-        show ι (l ((algebraMap A p.ResidueField a) • ρκ' v)) = φ a * ι (l (ρκ' v))
+        change ι (l ((algebraMap A p.ResidueField a) • ρκ' v)) = φ a * ι (l (ρκ' v))
         rw [map_smul, smul_eq_mul, map_mul, hι] }
   let Λ := hbc'.lift G
   have hΛ : ∀ v, Λ (ρ' v) = G v := hbc'.lift_eq G
@@ -134,7 +134,7 @@ theorem restrictSection_notMem_range_of_ker_eq [IsNoetherianRing A] (p : Ideal A
     intro v
     refine ⟨E.restrictSection (Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField))) m v,
       ?_⟩
-    show mulSections _ _ _ = _
+    change mulSections _ _ _ = _
     rw [hρκ', restrictSection_mulSections, restrictSection_zeroSection]
   let fK := mulSectionsLinear (E.baseChange φ).map (E.baseChange φ).zeroSheaf
     (E.baseChange φ).zeroSection m
@@ -144,7 +144,7 @@ theorem restrictSection_notMem_range_of_ker_eq [IsNoetherianRing A] (p : Ideal A
     | tmul v =>
       refine (congrArg Λ (hmul v).symm).trans ?_
       rw [hΛ]
-      show ι (l (ρκ' _)) = 0
+      change ι (l (ρκ' _)) = 0
       rw [hl (hmulκ v), map_zero]
     | smul a v hv => rw [map_smul, map_smul, hv, smul_zero]
     | add a b ha hb => rw [map_add, map_add, ha, hb, add_zero]
@@ -194,9 +194,9 @@ theorem restrictSection_localization_notMem_range [IsNoetherianRing A] (p : Idea
   rw [(E.baseChange φ).restrictSection_smul ψ]
   rintro ⟨w, hw⟩
   refine hF ⟨(ψ ((u⁻¹ : Bˣ) : B)) • w, ?_⟩
-  show mulSectionsLinear ((E.baseChange φ).baseChange ψ).map _ _ m _ = _
+  change mulSectionsLinear ((E.baseChange φ).baseChange ψ).map _ _ m _ = _
   rw [map_smul]
-  show ψ ((u⁻¹ : Bˣ) : B) • mulSections _ _ w = _
+  change ψ ((u⁻¹ : Bˣ) : B) • mulSections _ _ w = _
   rw [hw, smul_smul, ← map_mul, Units.inv_mul, map_one, one_smul]
 
 /-- `PointedFamily.restrictSection_localization_notMem_range` at the residue field of a point of

@@ -40,16 +40,16 @@ def precompositionSquare :
     TwoSquare ((whiskeringLeft _ _ H).obj v.op) ((whiskeringLeft _ _ H).obj u.op)
       ((whiskeringLeft _ _ H).obj u'.op) ((whiskeringLeft _ _ H).obj v'.op) :=
   TwoSquare.mk _ _ _ _
-    { app := fun M => Functor.whiskerRight (twoSquare hsq).op.natTrans M
+    { app := fun M => Functor.whiskerRight (twoSquare hsq).op M
       naturality := fun M M' g => by
         ext X
         exact (g.naturality _).symm }
 
 /-- The natural transformation of the square of precomposition functors is an isomorphism. -/
-instance isIso_precompositionSquare : IsIso (precompositionSquare hsq H).natTrans := by
-  haveI : IsIso (twoSquare hsq).op.natTrans := inferInstance
-  haveI : ∀ M : Dᵒᵖ ⥤ H, IsIso ((precompositionSquare hsq H).natTrans.app M) := fun M =>
-    inferInstanceAs (IsIso (Functor.whiskerRight (twoSquare hsq).op.natTrans M))
+instance isIso_precompositionSquare : IsIso (precompositionSquare hsq H) := by
+  have : IsIso (twoSquare hsq).op := inferInstance
+  have : ∀ M : Dᵒᵖ ⥤ H, IsIso ((precompositionSquare hsq H).app M) := fun M =>
+    inferInstanceAs (IsIso (Functor.whiskerRight (twoSquare hsq).op M))
   exact NatIso.isIso_of_isIso_app _
 
 variable [∀ F : C'ᵒᵖ ⥤ H, u'.op.HasRightKanExtension F] [∀ F : Cᵒᵖ ⥤ H, u.op.HasRightKanExtension F]
@@ -59,7 +59,7 @@ of precomposition functors.** -/
 theorem ranBaseChange_eq_mateEquiv :
     (twoSquare hsq).op.ranBaseChange (D := H) =
       (mateEquiv (u.op.ranAdjunction H) (u'.op.ranAdjunction H)
-        (precompositionSquare hsq H)).natTrans := by
+        (precompositionSquare hsq H)) := by
   refine NatTrans.ext (funext fun F => ?_)
   rw [TwoSquare.ranBaseChange_app]
   refine ((u'.op.ranAdjunction H).homEquiv _ _).symm.injective ?_
@@ -77,10 +77,10 @@ variable [∀ F : C'ᵒᵖ ⥤ H, v'.op.HasRightKanExtension F]
 invertible.** -/
 theorem isIso_mateEquiv_ranBaseChange :
     IsIso (mateEquiv (v'.op.ranAdjunction H) (v.op.ranAdjunction H)
-      (TwoSquare.mk _ _ _ _ ((twoSquare hsq).op.ranBaseChange (D := H)))).natTrans := by
+      (TwoSquare.mk _ _ _ _ ((twoSquare hsq).op.ranBaseChange (D := H)))) := by
   rw [show TwoSquare.mk _ _ _ _ ((twoSquare hsq).op.ranBaseChange (D := H)) =
     mateEquiv (u.op.ranAdjunction H) (u'.op.ranAdjunction H) (precompositionSquare hsq H) from
       ranBaseChange_eq_mateEquiv hsq H, iterated_mateEquiv_conjugateEquiv]
-  exact conjugateEquiv_iso _ _ (precompositionSquare hsq H).natTrans
+  exact conjugateEquiv_iso _ _ (precompositionSquare hsq H)
 
 end Stacks.Sites.CocontinuousExchange

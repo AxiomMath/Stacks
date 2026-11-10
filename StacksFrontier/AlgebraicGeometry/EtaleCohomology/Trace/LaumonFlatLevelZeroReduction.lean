@@ -78,7 +78,7 @@ include hF in
 /-- **`Hⁱ_c(X_k̄, Fₙ) = 0` for all `n` once `Hⁱ_c(X_k̄, F₀) = 0`**, for an ℓ-adic sheaf with flat
 levels: `0 → Fₙ → Fₙ₊₁ → F₀ → 0` is exact. -/
 theorem LAdicSheaf.isZero_compactSupportSheafCohomology_padicTower {k : Type u} [Field k]
-    [Fintype k] (f : X.1 ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f)) (kbar : Type u)
+    [Finite k] (f : X.1 ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f)) (kbar : Type u)
     [Field kbar] [Algebra k kbar] (i : ℤ)
     (h0 : IsZero ((compactSupportSheafCohomology ℤ_[ℓ] f j kbar i).obj
       (towerObj (LAdicSheaf.padicTower B X ℓ F) 0))) (n : ℕ) :

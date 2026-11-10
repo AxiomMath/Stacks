@@ -195,7 +195,7 @@ theorem exists_affine_presieve_mem_smallEtaleTopology (V : X.Etale) :
   let f (i : V.left.affineCover.I₀) : W i ⟶ V :=
     MorphismProperty.Over.homMk (V.left.affineCover.f i) rfl
   refine ⟨Presieve.ofArrows W f, ?_, ?_⟩
-  · show Sieve.ofArrows W f ∈ _
+  · change Sieve.ofArrows W f ∈ _
     rw [Scheme.ofArrows_mem_smallEtaleTopology_iff]
     ext x
     simp only [Set.mem_iUnion, Set.mem_range, Set.mem_univ, iff_true]

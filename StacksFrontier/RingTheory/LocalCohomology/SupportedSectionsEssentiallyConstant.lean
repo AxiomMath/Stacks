@@ -87,11 +87,11 @@ theorem exists_primeSpectrum_adicCompletion_comap_eq (hI : I.FG) (p : PrimeSpect
   refine ⟨⟨(p.asIdeal.map (Ideal.Quotient.mk I)).comap e, Ideal.comap_isPrime _ _⟩, ?_, ?_⟩
   · rw [← hker]
     intro x hx
-    show e x ∈ p.asIdeal.map (Ideal.Quotient.mk I)
+    change e x ∈ p.asIdeal.map (Ideal.Quotient.mk I)
     rw [RingHom.mem_ker.mp hx]
     exact (p.asIdeal.map (Ideal.Quotient.mk I)).zero_mem
   · ext r
-    show e (algebraMap R _ r) ∈ p.asIdeal.map (Ideal.Quotient.mk I) ↔ r ∈ p.asIdeal
+    change e (algebraMap R _ r) ∈ p.asIdeal.map (Ideal.Quotient.mk I) ↔ r ∈ p.asIdeal
     have : e (algebraMap R _ r) = Ideal.Quotient.mk I r :=
       (AdicCompletion.evalOneₐ I).commutes r
     rw [this, ← Ideal.mem_comap, Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
@@ -276,7 +276,7 @@ omit [IsNoetherianRing R] in
 /-- The transition maps compose: `F_l → F_k → F_m` is the transition map `F_l → F_m`. -/
 theorem towerMap_towerMap {l k m : ℕ} (h₁ : m ≤ k) (h₂ : k ≤ l) (x : F.obj (op l)) :
     towerMap F h₁ (towerMap F h₂ x) = towerMap F (h₁.trans h₂) x := by
-  show (F.map (homOfLE h₂).op ≫ F.map (homOfLE h₁).op).hom x = _
+  change (F.map (homOfLE h₂).op ≫ F.map (homOfLE h₁).op).hom x = _
   rw [← F.map_comp]
   rfl
 
@@ -332,7 +332,7 @@ theorem exists_sectionsWithSupportIn_map_eq
       (Stacks.Coherent.moduleLimit_projection_ker F hsurj hker hIfg n)
   have hρtr : ∀ {m k : ℕ} (h : m ≤ k) (x : Mh), towerMap F h (ρ k x) = ρ m x := by
     intro m k h x
-    show (limit.π F (op k) ≫ F.map (homOfLE h).op).hom (e.symm x) = _
+    change (limit.π F (op k) ≫ F.map (homOfLE h).op).hom (e.symm x) = _
     rw [limit.w]
     rfl
   have hρzero : ∀ n (a : AdicCompletion I R) (y : Mh),
@@ -362,7 +362,7 @@ theorem exists_sectionsWithSupportIn_map_eq
   let Λ : ∀ n, Submodule R (F.obj (op n)) := fun n => (H.restrictScalars R).map (ρ n)
   have hΛmap : ∀ {m k : ℕ} (h : m ≤ k), (Λ k).map (towerMap F h) = Λ m := by
     intro m k h
-    show ((H.restrictScalars R).map (ρ k)).map (towerMap F h) = (H.restrictScalars R).map (ρ m)
+    change ((H.restrictScalars R).map (ρ k)).map (towerMap F h) = (H.restrictScalars R).map (ρ m)
     rw [← Submodule.map_comp]
     have hcomp : towerMap F h ∘ₗ ρ k = ρ m := LinearMap.ext fun x => hρtr h x
     rw [hcomp]
@@ -496,7 +496,7 @@ theorem exists_sectionsWithSupportIn_map_eq
       tr'' h₁ (tr'' h₂ x) = tr'' (h₁.trans h₂) x := by
     intro l k m h₁ h₂ x
     obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show Submodule.Quotient.mk (towerMap F h₁ (towerMap F h₂ x)) = Submodule.Quotient.mk _
+    change Submodule.Quotient.mk (towerMap F h₁ (towerMap F h₂ x)) = Submodule.Quotient.mk _
     rw [towerMap_towerMap]
   have hlocZ : ∀ q ∈ T, LocalProZeroAt M'' tr'' q := by
     intro q hq m
@@ -514,7 +514,7 @@ theorem exists_sectionsWithSupportIn_map_eq
       obtain ⟨t, ht, hta⟩ := he a ha
       exact ⟨t, ht, by rw [← mul_smul]; exact Submodule.mem_colon_singleton.mp hta⟩⟩
     refine ⟨t, ht, ?_⟩
-    show t • Submodule.Quotient.mk (towerMap F h x) = 0
+    change t • Submodule.Quotient.mk (towerMap F h x) = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     exact htx
   refine ⟨Λ, c, hΛann, fun n => ?_⟩

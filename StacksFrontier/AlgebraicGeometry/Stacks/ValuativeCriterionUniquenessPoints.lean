@@ -168,7 +168,7 @@ private theorem nonempty_iso_of_dottedArrowSection_iso
       (TwoFibreProductOver.fst (Over.map D.whole.hom) 𝒳.val.val.p 𝒴.val.val.p
         (valuativeDiagramTargetPoint B S hS D) f.hom.hom.toFunctor)
       (𝟙 V) (η.hom.app V)) ?_
-    show 𝟙 _ ≫ 𝟙 V ≫ 𝟙 _ = 𝟙 V
+    change 𝟙 _ ≫ 𝟙 V ≫ 𝟙 _ = 𝟙 V
     simp
   have hw : (valuativeDiagramTargetPoint B S hS D).map (η.hom.app V).a ≫
       b.β.hom.toNatTrans.app ((Over.iteratedSliceBackward D.whole).obj V) =
@@ -236,7 +236,7 @@ private theorem sectionOfBasedFunctor_dottedArrowSection_eq
   let ζ : I.obj V ≅ D.j.hom.toFunctor.obj z :=
     (show I.obj V ≅ (Over.map D.inclusion).obj z from
       Over.isoMk (Over.isoMk (Iso.refl _) (by
-        show 𝟙 _ ≫ D.generic.hom = D.inclusion.left ≫ D.whole.hom
+        change 𝟙 _ ≫ D.generic.hom = D.inclusion.left ≫ D.whole.hom
         simpa only [Category.id_comp] using (Over.w D.inclusion).symm))
         (by ext; simp [V, I, z, Over.iteratedSliceBackward])) ≪≫ (eqToIso hz).symm
   obtain ⟨θ, hθ⟩ := CategoryTheory.DottedArrow.exists_hom_beta_app_of_iso_image a b z ζ
@@ -303,7 +303,7 @@ private theorem nonempty_iso_of_baseChange_uniqueness
         D.whole_iso.inv) ⟶ Over.mk D.inclusion.left :=
     Over.homMk (ObjectProperty.homMk D.generic_iso.inv) (by
       apply ObjectProperty.hom_ext
-      show D.generic_iso.inv ≫ D.inclusion.left.hom = _
+      change D.generic_iso.inv ≫ D.inclusion.left.hom = _
       have hd := D.inclusion_spec
       change D.inclusion.left.hom = D.generic_iso.hom ≫
         Spec.map (CommRingCat.ofHom (algebraMap D.R (FractionRing D.R))) ≫
@@ -328,7 +328,7 @@ theorem eq_of_hom_sliceSectionOfHom {C : Type*} [Category C] {F : Cᵒᵖ ⥤ Ty
     (rfl : ((sliceSectionOfHom n₁).obj X).base = X.left)
     (rfl : ((sliceSectionOfHom n₂).obj X).base = X.left) (𝟙 X.left) ψ
     (IsHomLift.of_fac' (discreteProjection F) (𝟙 X.left) ψ rfl rfl (by
-      show ψ.base = 𝟙 _ ≫ 𝟙 X.left ≫ 𝟙 _
+      change ψ.base = 𝟙 _ ≫ 𝟙 X.left ≫ 𝟙 _
       simpa using hψ))
   have hval : n₁.app (op X.left) (𝟙 _ ≫ X.hom) = n₂.app (op X.left) (𝟙 _ ≫ X.hom) := by
     rw [Category.id_comp]
@@ -436,7 +436,7 @@ theorem subsingleton_lift_baseChange_point
       whole_iso := Iso.refl _
       inclusion := r.map i
       inclusion_spec := by
-        show Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) =
+        change Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) =
           Spec.map eC.hom ≫
             Spec.map (CommRingCat.ofHom (algebraMap q.R (FractionRing q.R))) ≫ 𝟙 _
         rw [Category.comp_id, ← Spec.map_comp]
@@ -460,7 +460,7 @@ theorem subsingleton_lift_baseChange_point
       compat := by
         refine InducedBicategory.hom₂_ext (BasedNatTrans.ext _ _ (NatTrans.ext ?_))
         funext z
-        show βa.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫ 𝟙 _ =
+        change βa.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫ 𝟙 _ =
           βb.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫ 𝟙 _ ≫
             f.hom.hom.toFunctor.map ((eqToHom hab.symm).hom.toNatTrans.app z)
         refine Eq.trans (Category.comp_id _) ?_
@@ -501,7 +501,7 @@ theorem subsingleton_lift_baseChange_point
     exact eq_id_of_conj_eqToHom (Functor.congr_obj hH z)
       (Functor.congr_obj hK z).symm ψ.base hh2
   have hi : IsIso (J.obj z).hom := by
-    show IsIso (Over.homMk (𝟙 A.left) : Over.mk (𝟙 A.left ≫ A.hom) ⟶ A)
+    change IsIso (Over.homMk (𝟙 A.left) : Over.mk (𝟙 A.left ≫ A.hom) ⟶ A)
     exact (Over.isoMk (Iso.refl _) (by simp) : Over.mk (𝟙 A.left ≫ A.hom) ≅ A).isIso_hom
   have hlm : l.map = m.map := eq_of_hom_sliceSectionOfHom l.map m.map (J.obj z) ψ hψ
   cases l

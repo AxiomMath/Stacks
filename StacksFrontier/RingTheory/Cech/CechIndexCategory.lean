@@ -369,7 +369,7 @@ theorem exists_hom {X Y : PairOver A I} (hY : Function.Injective Y.hom)
   have hsymm : ∀ z : (approx Y).sub, Y.hom (e.symm z) = (z : A) := fun z =>
     congrArg (fun w : (approx Y).sub => (w : A)) (e.apply_symm_apply z)
   have hw : Y.hom.comp f = X.hom := RingHom.ext fun a => by
-    show Y.hom (e.symm (incl (rangeRestrict X a))) = X.hom a
+    change Y.hom (e.symm (incl (rangeRestrict X a))) = X.hom a
     rw [hsymm]
     rfl
   have hcancel : (e.symm : (approx Y).sub →+* Y.pair.ring).comp (rangeRestrict Y) =
@@ -487,7 +487,7 @@ theorem existsUnique_ringHom (hI : I.FG) {T : Type*} [Ring T]
       (z : r.sub), (z : A) = X.hom a → G₀ r z = F X a := by
     intro r X hle a z hz
     obtain ⟨θ⟩ := exists_hom (pres r).inj (hle.trans (pres r).approx_eq.ge)
-    show F (pres r).obj ((pres r).equiv.symm z) = F X a
+    change F (pres r).obj ((pres r).equiv.symm z) = F X a
     rw [(pres r).inj (((pres r).hom_equiv_symm z).trans
       (hz.trans (hom_apply_toRingHom θ a).symm)), ← hF θ]
     rfl

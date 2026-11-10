@@ -91,7 +91,7 @@ theorem picardPreimageH2Vanishes_of_hasRelativeDimensionLE_one (D : CoherentSitu
   have hvan := isZero_rightDerived_globalSections_modulePullback_of_torAmplitude B S hS T.left hT
     p hppr.2.1.2 (isQuasiSeparated_of_isSeparated B S hS hppr.1) hpfl
     (fun K _ i hi =>
-      isZero_homology_derivedTensor_derivedModulePushforward_structureModule_of_hasRelativeDimensionLE_one
+      isZero_homology_derivedTensor_pushforward_structureModule_of_hasRelativeDimensionLE_one
         T.left p hppr hpfl hpfp hpd K i hi)
     K (isQuasicoherentOnSite_squareZeroConormalModule g.left hg) 2 le_rfl
   let Z := squareZeroPreimageSpace B S hS g.left hg q

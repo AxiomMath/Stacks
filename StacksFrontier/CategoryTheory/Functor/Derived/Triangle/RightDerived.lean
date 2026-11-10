@@ -339,7 +339,7 @@ private theorem exists_isEssentiallyConstantWith_obj₃ (F : C ⥤ H) [F.CommShi
     intro i j τ
     have hw : i.1.hom ≫ ((triangleIndex W T').ι.map τ).right = j.1.hom :=
       Under.w ((triangleIndex W T').ι.map τ)
-    show (φ₀ ≫ F.mapTriangle.map i.1.hom) ≫
+    change (φ₀ ≫ F.mapTriangle.map i.1.hom) ≫
         F.mapTriangle.map (((triangleIndex W T').ι.map τ).right) = _
     rw [Category.assoc, ← F.mapTriangle.map_comp, hw]
   -- the restriction of the two values to `ℐ`, and the comparison family out of the base object:

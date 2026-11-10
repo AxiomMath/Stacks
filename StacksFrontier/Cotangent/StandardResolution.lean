@@ -198,7 +198,7 @@ polynomial-algebra comonad, evaluated at `B`. -/
 theorem standardResolution_obj (A : Type u) [CommRing A] (B : CommAlgCat.{max u v} A) (n : ℕ) :
     (standardResolution A B).left.obj (op ⦋n⦌) =
       ((polynomialComonad.{u, v} A).toFunctor.iterate (n + 1)).obj B := by
-  show ((standardEndofunctor.{u, v} A).left.obj (op ⦋n⦌)).obj B = _
+  change ((standardEndofunctor.{u, v} A).left.obj (op ⦋n⦌)).obj B = _
   exact congrArg
     (fun F : CommAlgCat.{max u v} A ⥤ CommAlgCat.{max u v} A => F.obj B)
     (standardEndofunctor_obj.{u, v} A n)
@@ -229,7 +229,7 @@ theorem standardResolution_augmentation (A : Type u) [CommRing A]
     (standardResolution A B).hom.app (op ⦋0⦌) =
       eqToHom (standardResolution_zero A B) ≫
         CommAlgCat.ofHom (MvPolynomial.aeval (id : B → B)) := by
-  show (((standardEndofunctor.{u, v} A).hom.app (op ⦋0⦌)).app B ≫ 𝟙 _) ≫
+  change (((standardEndofunctor.{u, v} A).hom.app (op ⦋0⦌)).app B ≫ 𝟙 _) ≫
       eqToHom (congrArg
         (fun F : CommAlgCat.{max u v} A ⥤ CommAlgCat.{max u v} A => F.obj B)
         (standardEndofunctor_right.{u, v} A)) = _
@@ -244,7 +244,7 @@ theorem standardResolution_augmentation_X (A : Type u) [CommRing A]
     (B : CommAlgCat.{max u v} A) (b : B) :
     (standardResolution A B).hom.app (op ⦋0⦌)
       ((standardResolutionZeroAlgEquiv A B).symm (MvPolynomial.X b)) = b := by
-  show (standardResolution A B).hom.app (op ⦋0⦌)
+  change (standardResolution A B).hom.app (op ⦋0⦌)
     (eqToHom (standardResolution_zero A B).symm (MvPolynomial.X b)) = b
   rw [standardResolution_augmentation, ← CommAlgCat.comp_apply]
   simp
@@ -257,7 +257,7 @@ theorem standardResolution_face (A : Type u) [CommRing A] (B : CommAlgCat.{max u
       eqToHom (standardResolution_obj A B (n + 1)) ≫
         (Godement.face (polynomialComonad.{u, v} A).ε (n + 1) j).app B ≫
             eqToHom (standardResolution_obj A B n).symm := by
-  show ((standardEndofunctor.{u, v} A).left.δ j).app B = _
+  change ((standardEndofunctor.{u, v} A).left.δ j).app B = _
   rw [congrArg (fun f => f.app B) (standardEndofunctor_face.{u, v} A n j)]
   simp only [NatTrans.comp_app, eqToHom_app]
 
@@ -269,7 +269,7 @@ theorem standardResolution_degeneracy (A : Type u) [CommRing A]
       eqToHom (standardResolution_obj A B n) ≫
         (Godement.degeneracy (polynomialComonad.{u, v} A).δ n j).app B ≫
             eqToHom (standardResolution_obj A B (n + 1)).symm := by
-  show ((standardEndofunctor.{u, v} A).left.σ j).app B = _
+  change ((standardEndofunctor.{u, v} A).left.σ j).app B = _
   rw [congrArg (fun f => f.app B) (standardEndofunctor_degeneracy.{u, v} A n j)]
   simp only [NatTrans.comp_app, eqToHom_app]
 

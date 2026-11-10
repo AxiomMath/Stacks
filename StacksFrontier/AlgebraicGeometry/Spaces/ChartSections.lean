@@ -292,10 +292,7 @@ theorem bijective_chartBaseChange_id (G : Modules.{u, m} B S hS F hF)
       TensorProduct.tmul (chartRing B S hS F hF U) (1 : chartRing B S hS F hF U)
         (sectionsBaseChange G (𝟙 U) z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg (TensorProduct.tmul (chartRing B S hS F hF U)
-        (1 : chartRing B S hS F hF U)) (map_zero _)).trans (TensorProduct.tmul_zero _ _)
+    induction z using TensorProduct.inductionOn with
     | tmul b y =>
       have hb : b • (1 : chartRing B S hS F hF U) = b :=
         (by simp : chartRestrict (hF := hF) (𝟙 U) b * 1 = b)

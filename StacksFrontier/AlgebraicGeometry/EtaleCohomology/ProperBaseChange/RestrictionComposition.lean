@@ -76,7 +76,7 @@ public theorem etaleAbelianInverseImageConstantIso_inv_comp (a : Y ⟶ X) (b : Z
   simp only [← Iso.app_hom] at hc
   refine (Iso.comp_hom_eq_id ((etaleAbelianInverseImageConstantIso.{u, v} ba).app A)).mp ?_
   rw [Category.assoc, ← hc]
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id]
 
 variable [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
   [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]

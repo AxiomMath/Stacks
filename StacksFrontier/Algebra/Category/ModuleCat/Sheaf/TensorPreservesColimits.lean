@@ -135,7 +135,7 @@ theorem W_whiskerRight_isLocallySurjective
           (b ⊗ₜ[𝒪.obj (.op U)] x) := by
     intro U b x V φ ⟨a, ha⟩
     refine ⟨a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x, ?_⟩
-    show (ConcreteCategory.hom (f.app (.op V))) a ⊗ₜ[𝒪.obj (.op V)]
+    change (ConcreteCategory.hom (f.app (.op V))) a ⊗ₜ[𝒪.obj (.op V)]
           (ConcreteCategory.hom (X.map φ.op)) x
         = (ConcreteCategory.hom (B.map φ.op)) b ⊗ₜ[𝒪.obj (.op V)]
           (ConcreteCategory.hom (X.map φ.op)) x
@@ -143,12 +143,9 @@ theorem W_whiskerRight_isLocallySurjective
       (fun t => t ⊗ₜ[𝒪.obj (.op V)] (ConcreteCategory.hom (X.map φ.op)) x) ha
   constructor
   intro U t
-  show Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map
+  change Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map
     (tensorHom (O := 𝒪) f (𝟙 X))) t ∈ J U
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    refine J.superset_covering (le_top.trans ?_) (J.top_mem U)
-    intro V φ _; exact ⟨0, (map_zero _).symm⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
     exact J.superset_covering (simple b x) (hf.imageSieve_mem b)
   | add s t hs ht =>
@@ -166,7 +163,7 @@ theorem restrict_tmul_ker_eq_zero
     {V : C} (k : A.obj (.op V)) (y : X.obj (.op V)) {W : C} (ψ : W ⟶ V)
     (hψ : (ConcreteCategory.hom (A.map ψ.op)) k = 0) :
     ((tensorObj (O := 𝒪) A X).map ψ.op).hom (k ⊗ₜ[𝒪.obj (.op V)] y) = 0 := by
-  show (ConcreteCategory.hom (A.map ψ.op)) k ⊗ₜ[𝒪.obj (.op W)]
+  change (ConcreteCategory.hom (A.map ψ.op)) k ⊗ₜ[𝒪.obj (.op W)]
       (ConcreteCategory.hom (X.map ψ.op)) y = 0
   rw [hψ, TensorProduct.zero_tmul]
 
@@ -189,7 +186,7 @@ theorem c3_single
       k 0 ∈ J V := by
     apply Presheaf.IsLocallyInjective.equalizerSieve_mem
       (φ := (PresheafOfModules.toPresheaf _).map f)
-    show (f.app (.op V)).hom k = (f.app (.op V)).hom 0
+    change (f.app (.op V)).hom k = (f.app (.op V)).hom 0
     rw [hk, map_zero]
   refine J.superset_covering ?_ hcov
   intro W ψ hψ
@@ -408,7 +405,7 @@ theorem exists_locally_ker_decomp
   have hlift : ∀ b : ↥N',
       (B.restrictₛₗ ψ.op) (b : B.obj (.op U)) ∈ LinearMap.range (f.app (.op V)).hom := by
     rintro ⟨b, hb⟩
-    show (B.map ψ.op).hom b ∈ _
+    change (B.map ψ.op).hom b ∈ _
     rw [← hgens] at hb
     induction hb using Submodule.span_induction with
     | mem g hg => exact hliftgen g hg
@@ -580,8 +577,7 @@ public noncomputable def tensorCommIso (R : Sheaf J CommRingCat.{w})
       apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
       | tmul x y => rfl)) (by
@@ -590,8 +586,7 @@ public noncomputable def tensorCommIso (R : Sheaf J CommRingCat.{w})
         apply ModuleCat.hom_ext
         apply LinearMap.ext
         intro t
-        induction t using TensorProduct.induction_on with
-        | zero => exact (map_zero _).trans (map_zero _).symm
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
         | tmul x y => rfl)
@@ -618,8 +613,8 @@ public lemma sheafification_inverts_tensorLeft (R : Sheaf J CommRingCat.{w})
       (g : P ⟶ Q),
       IsIso (L.map g) ↔ J.W ((PresheafOfModules.toPresheaf _).map g) := by
     intro P Q g
-    show MorphismProperty.isomorphisms _ (L.map g) ↔ _
-    show ((MorphismProperty.isomorphisms _).inverseImage L) g ↔ _
+    change MorphismProperty.isomorphisms _ (L.map g) ↔ _
+    change ((MorphismProperty.isomorphisms _).inverseImage L) g ↔ _
     rw [← PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms]
     rfl
   have hright : IsIso (L.map

@@ -55,6 +55,9 @@ variable (φ : X ⟶ X) (w : φ ≫ B.inclusion.map f = B.inclusion.map f)
 abbrev curveEndo : curveOver B hX hk f ⟶ curveOver B hX hk f :=
   Over.homMk φ w
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 /-- **The base change `φ × 1` on `C^(m+1)`.** -/
 theorem endoBaseChangeMap_powerObj (m : ℕ) :
     endoBaseChangeMap B hX hk f φ w (powerObj B hX hk f m) =
@@ -72,6 +75,10 @@ theorem endoBaseChangeMap_powerObj (m : ℕ) :
       (fst (curveOver B hX hk f) (power (curveOver B hX hk f) m) ≫ curveEndo B hX hk f φ w)
       (snd (curveOver B hX hk f) (power (curveOver B hX hk f) m)))).symm
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 /-- `φ × 1` composed with the section through `c` is the section through `φ(c)`. -/
 theorem insertPoint_comp_endo (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f) :
     insertPoint (curveOver B hX hk f) c 1 0 ≫
@@ -85,7 +92,7 @@ theorem insertPoint_comp_endo (c : power (curveOver B hX hk f) 0 ⟶ curveOver B
   have h2 := insertPoint_coord_succAbove (curveOver B hX hk f) (c ≫ curveEndo B hX hk f φ w) 1 0 0
   rw [hsa, coord_succ] at h1 h2
   refine hom_ext 2 (Fin.cases ?_ (Fin.cases ?_ (fun i => i.elim0)))
-  · show _ ≫ fst _ _ = _ ≫ coord (curveOver B hX hk f) (1 + 1) 0
+  · change _ ≫ fst _ _ = _ ≫ coord (curveOver B hX hk f) (1 + 1) 0
     refine (congrArg (insertPoint (curveOver B hX hk f) c 1 0 ≫ ·) (lift_fst _ _)).trans ?_
     refine (insertPoint_coord_self_assoc (curveOver B hX hk f) c 1 0 _).trans ?_
     exact (Category.assoc _ _ _).trans
@@ -95,6 +102,9 @@ theorem insertPoint_comp_endo (c : power (curveOver B hX hk f) 0 ⟶ curveOver B
       (lift_snd_assoc _ _ (coord (curveOver B hX hk f) 1 0))).trans ?_)
     exact h1.trans h2.symm
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem sectionRestrict_endo (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f)
     (x : picardAt B hX hk f (powerObj B hX hk f 1)) :
     sectionRestrict B hX hk f c
@@ -106,6 +116,7 @@ theorem sectionRestrict_endo (c : power (curveOver B hX hk f) 0 ⟶ curveOver B 
   rw [endoBaseChangeMap_powerObj, ← Over.comp_left, insertPoint_comp_endo]
   rfl
 
+omit [IsAlgClosed k] in
 /-- **The seesaw on `C^2`, general form**: two classes with inverse classifying maps over `C^1`
 differ by a class pulled back from `C^1`. -/
 theorem exists_eq_pullSndP_sub {E R : picardAt B hX hk f (powerObj B hX hk f 1)}
@@ -223,6 +234,10 @@ abbrev diagRestrict :
     picardAt B hX hk f (powerObj B hX hk f 1) →+ PowerPic (curveOver B hX hk f) 1 :=
   Stacks.Picard.schemePullbackClassHom (doubleFirst (curveOver B hX hk f) 0).left
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem doubleFirst_comp_endo :
     doubleFirst (curveOver B hX hk f) 0 ≫
       (CartesianMonoidalCategory.lift
@@ -232,7 +247,7 @@ theorem doubleFirst_comp_endo :
       lift 2 (Fin.cons (coord (curveOver B hX hk f) 1 0 ≫ curveEndo B hX hk f φ w)
         fun _ => coord (curveOver B hX hk f) 1 0) := by
   refine hom_ext 2 (Fin.cases ?_ (Fin.cases ?_ (fun i => i.elim0)))
-  · show _ ≫ fst _ _ = _ ≫ coord (curveOver B hX hk f) 2 0
+  · change _ ≫ fst _ _ = _ ≫ coord (curveOver B hX hk f) 2 0
     refine (congrArg (doubleFirst (curveOver B hX hk f) 0 ≫ ·) (lift_fst _ _)).trans ?_
     rw [lift_coord]
     exact (lift_coord_assoc (C := curveOver B hX hk f) 2 _ 0 _)
@@ -244,6 +259,9 @@ theorem doubleFirst_comp_endo :
     exact lift_coord (C := curveOver B hX hk f) 2 (Fin.cons (coord (curveOver B hX hk f) 1 0)
       (coord (curveOver B hX hk f) 1)) (Fin.succ 0)
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem doubleFirst_comp_snd :
     (doubleFirst (curveOver B hX hk f) 0).left ≫
       baseChangeProj B hX hk f (powerObj B hX hk f 1) = 𝟙 _ := by
@@ -257,14 +275,17 @@ theorem doubleFirst_comp_snd :
       (Fin.succ 0)).trans (Category.id_comp _).symm)
   exact congrArg Over.Hom.left h
 
-omit [IsAlgClosed k] in
+omit [GeometricallyIrreducible (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem fibreP_eq : fibreP B hX hk f σ hσ = Stacks.Picard.schemePullbackClass
     (firstProj (curveOver B hX hk f) 1).left
       (pointClass (curveOver B hX hk f) (curvePowerZeroBasePoint B hX hk f σ hσ)) := by
-  show fibreClass (curveOver B hX hk f) (curvePowerZeroBasePoint B hX hk f σ hσ) 1 = _
+  change fibreClass (curveOver B hX hk f) (curvePowerZeroBasePoint B hX hk f σ hσ) 1 = _
   exact (schemePullbackClass_firstProj_pointClass (curveOver B hX hk f)
     (curvePowerZeroBasePoint B hX hk f σ hσ) 1).symm
 
+omit [GeometricallyIrreducible (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] in
 /-- **The diagonal restriction of the seesaw identity has degree `1 + deg φ - V(φ)`.** -/
 theorem curveDeg_diagRestrict_of_eq {E : picardAt B hX hk f (powerObj B hX hk f 1)}
     (hE : E = pullSndP B hX hk f (pointClass (curveOver B hX hk f)
@@ -322,7 +343,7 @@ theorem curveDeg_diagRestrict_of_eq {E : picardAt B hX hk f (powerObj B hX hk f 
       (curveDeg C (topologicalKrullDim_curveOver B hX hk f) _ -
         curveDeg C (topologicalKrullDim_curveOver B hX hk f) _) at hd
   rw [hd, curveDeg_pointClass, curveDeg_graph_diagClass, curveDeg_graph_pointClass]
-  show 1 - (CurveGraph.fixedPointIntersection (B.inclusion.map f) _ φ w -
+  change 1 - (CurveGraph.fixedPointIntersection (B.inclusion.map f) _ φ w -
     (CurveGraph.curveMapDegree (B.inclusion.map f) φ w : ℤ)) = _
   ring
 
@@ -352,7 +373,6 @@ theorem curveDeg_classYα_jacobianPullback :
     congr 2
     · exact lift_coord_assoc (C := C) 2 _ 1 _
     · exact lift_coord_assoc (C := C) 2 _ 0 _
-    · exact fun x y z => classQ_cube (jacobianGrp B hX hk f σ hσ).X L hL x y z
   rw [← e1]
   exact curveDeg_diagRestrict_of_eq B hX hk f σ hσ φ w
     (cubeBilin_jacobianPullback_eq B hX hk f σ hσ φ w hΛ hcl)

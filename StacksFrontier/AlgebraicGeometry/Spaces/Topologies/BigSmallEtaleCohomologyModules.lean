@@ -85,6 +85,7 @@ theorem restrictModulesAlong_comp_toSheaf :
     (restrictAlongSharp T f)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search on the derived categories of sheaves of modules on the two étale sites is deep
 /-- The same identification on the unbounded derived categories: both restriction of sheaves of
 modules along `i_f` and the forgetful functor to abelian sheaves are exact, so each acts on the
 derived category degreewise. -/

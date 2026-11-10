@@ -103,7 +103,7 @@ private lemma preservesFiniteLimits_quasicoherentRestriction {V Y : Scheme.{u}} 
     [IsOpenImmersion j] : PreservesFiniteLimits (quasicoherentRestriction j) := by
   have h2 : PreservesFiniteLimits
       (quasicoherentRestriction j ⋙ (SheafOfModules.isQuasicoherent V.ringCatSheaf).ι) := by
-    show PreservesFiniteLimits ((SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι ⋙
+    change PreservesFiniteLimits ((SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι ⋙
       Scheme.Modules.restrictFunctor j)
     exact @comp_preservesFiniteLimits _ _ _ _ _ _
       (SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι (Scheme.Modules.restrictFunctor j)
@@ -116,7 +116,7 @@ private lemma preservesFiniteColimits_quasicoherentRestriction {V Y : Scheme.{u}
     [IsOpenImmersion j] : PreservesFiniteColimits (quasicoherentRestriction j) := by
   have h2 : PreservesFiniteColimits
       (quasicoherentRestriction j ⋙ (SheafOfModules.isQuasicoherent V.ringCatSheaf).ι) := by
-    show PreservesFiniteColimits ((SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι ⋙
+    change PreservesFiniteColimits ((SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι ⋙
       Scheme.Modules.restrictFunctor j)
     exact @comp_preservesFiniteColimits _ _ _ _ _ _
       (SheafOfModules.isQuasicoherent Y.ringCatSheaf).ι (Scheme.Modules.restrictFunctor j)
@@ -280,7 +280,7 @@ private lemma restriction_isZero_iff_supportedOn (X : Scheme.{u}) (Z : Set X) (U
       simpa [hy] using h ⟨x, hxU⟩
     · intro h y
       refine h (j.base y) ?_
-      show y.val ∉ Z
+      change y.val ∉ Z
       have hy : y.val ∈ (U : Set X) := y.property
       rwa [hUZ] at hy
   calc
@@ -318,7 +318,7 @@ public theorem quasicoherentRestriction_isLocalization (X : Scheme.{u}) [Compact
         (((SheafOfModules.isQuasicoherent U.toScheme.ringCatSheaf).ι ⋙
           Scheme.Modules.pushforward U.ι).obj M) := by
     have hM : M.obj.IsQuasicoherent := M.property
-    show ((Scheme.Modules.pushforward U.ι).obj M.obj).IsQuasicoherent
+    change ((Scheme.Modules.pushforward U.ι).obj M.obj).IsQuasicoherent
     exact AlgebraicGeometry.pushforward_isQuasicoherent U.ι M.obj
   set F : (SheafOfModules.isQuasicoherent U.toScheme.ringCatSheaf).FullSubcategory ⥤
       (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory :=

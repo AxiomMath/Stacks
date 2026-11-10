@@ -94,7 +94,7 @@ theorem bigFppfPrecoverage_eq_comap (B : BigFppfSite.{u}) :
       rintro ⟨i⟩
       exact i.2
     have hEt : IsFppfCovering ⟨X, E⟩ := by
-      show E.presieve₀ ∈ (Scheme.fppfPrecoverage.comap B.inclusion).coverings X
+      change E.presieve₀ ∈ (Scheme.fppfPrecoverage.comap B.inclusion).coverings X
       rwa [Precoverage.mem_comap_iff, hE]
     obtain ⟨V, hV, hXV, hcomb⟩ := B.fppf_has_representative ⟨X, E⟩ hEt
     cases hXV

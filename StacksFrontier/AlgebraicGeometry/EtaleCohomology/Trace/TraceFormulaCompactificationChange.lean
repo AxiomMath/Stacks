@@ -49,6 +49,7 @@ variable (Λ : Type) [Ring Λ]
   {k : Type u} [Field k] [Fintype k] {Z Y : Over (Spec (.of k))} (i : Z ⟶ Y) [IsProper i.left]
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
+omit [Fintype k] in
 include hT in
 /-- **Proper base change along `Y_k̄ ⟶ Y`, at a bounded below complex of injectives.** -/
 theorem baseChangeQuasiIsoAt_fieldBaseChange_of_isProper
@@ -78,7 +79,7 @@ include hT in
 canonical Frobenius endomorphisms agree. -/
 theorem perfectDerivedTrace_frobeniusRestrictionCohomologyEndo_directImage_of_isProper_of_torsion
     (J : CochainComplex.Plus (EtaleModules.{u, 0} Λ Z.left)) (hJ : ∀ n, Injective (J.obj.X n)) :
-    ∃ (hiff : StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
+    (StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
         ((etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).obj
           ((etaleModuleDerivedDirectImage.{u, 0} Λ (pullback.snd Y.hom (specAlgebraMap k kbar))).obj
             (fieldBaseChangeRestriction.{u, 0} Λ Y kbar
@@ -86,14 +87,16 @@ theorem perfectDerivedTrace_frobeniusRestrictionCohomologyEndo_directImage_of_is
       StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
         ((etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).obj
           ((etaleModuleDerivedDirectImage.{u, 0} Λ (pullback.snd Z.hom (specAlgebraMap k kbar))).obj
-            (fieldBaseChangeRestriction.{u, 0} Λ Z kbar J))))),
+            (fieldBaseChangeRestriction.{u, 0} Λ Z kbar J))))) ∧
       ∀ hY hZ, perfectDerivedTrace Λ ⟨_, hY⟩ (DerivedCategory.Plus.ι.map
           (frobeniusRestrictionCohomologyEndo.{u, 0} Λ Y kbar p q hcard
             ((etaleModuleDirectImage.{u, 0} Λ i.left).mapCochainComplexPlus.obj J))) =
         perfectDerivedTrace Λ ⟨_, hZ⟩ (DerivedCategory.Plus.ι.map
-          (frobeniusRestrictionCohomologyEndo.{u, 0} Λ Z kbar p q hcard J)) :=
-  perfectDerivedTrace_frobeniusRestrictionCohomologyEndo_directImage_of_quasiIso Λ i p q hcard kbar
-    J (baseChangeQuasiIsoAt_fieldBaseChange_of_isProper Λ hT i kbar J hJ)
+          (frobeniusRestrictionCohomologyEndo.{u, 0} Λ Z kbar p q hcard J)) := by
+  obtain ⟨hiff, htr⟩ :=
+    perfectDerivedTrace_frobeniusRestrictionCohomologyEndo_directImage_of_quasiIso Λ i p q hcard
+      kbar J (baseChangeQuasiIsoAt_fieldBaseChange_of_isProper Λ hT i kbar J hJ)
+  exact ⟨hiff, htr⟩
 
 section Compactification
 
@@ -111,14 +114,14 @@ theorem canonicalCompactSupportLefschetzNumber_eq_directImage
     (I : CochainComplex.Plus (EtaleModules.{u, 0} Λ j.space))
     (ψ : (etaleModuleExtensionByZero.{u, 0} Λ j.immersion).mapCochainComplexPlus.obj K ⟶ I)
     [QuasiIso ψ.hom] (hI : ∀ n, Injective (I.obj.X n)) :
-    ∃ (hiff : StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
+    (StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
         (compactSupportFrobeniusCohomology.{u, 0} Λ f j kbar K)) ↔
       StacksDraft.Perfect.IsPerfect (DerivedCategory.Plus.ι.obj
         ((etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).obj
           ((etaleModuleDerivedDirectImage.{u, 0} Λ
               (pullback.snd (Over.mk (𝟙 (Spec (.of k)))).hom (specAlgebraMap k kbar))).obj
             (fieldBaseChangeRestriction.{u, 0} Λ (Over.mk (𝟙 (Spec (.of k)))) kbar
-              ((etaleModuleDirectImage.{u, 0} Λ j.toBase).mapCochainComplexPlus.obj I)))))),
+              ((etaleModuleDirectImage.{u, 0} Λ j.toBase).mapCochainComplexPlus.obj I)))))) ∧
       ∀ h₁ h₂, canonicalCompactSupportLefschetzNumber.{u, 0} Λ f j kbar p q hcard K h₁ =
         perfectDerivedTrace Λ ⟨_, h₂⟩ (DerivedCategory.Plus.ι.map
           (frobeniusRestrictionCohomologyEndo.{u, 0} Λ (Over.mk (𝟙 (Spec (.of k)))) kbar p q hcard
@@ -133,7 +136,7 @@ theorem canonicalCompactSupportLefschetzNumber_eq_directImage
   exact (perfectDerivedTrace_frobeniusRestrictionCohomologyEndo_eq_of_quasiIso_of_isPerfect Λ
     (Over.mk j.toBase) kbar p q hcard ψ h₁ hI').trans (htr₂ h₂ hI').symm
 
-omit [Finite Λ] in
+omit [Finite Λ] [Fintype k] in
 /-- **Step A2: `Rf_! K ≅ Q((π_X̄)_* I)`** on the unbounded derived category of `Spec k`, for a
 resolution `I` of `j_! K` by injectives. -/
 theorem nonempty_derivedLowerShriekUnboundedIsoDirectImage

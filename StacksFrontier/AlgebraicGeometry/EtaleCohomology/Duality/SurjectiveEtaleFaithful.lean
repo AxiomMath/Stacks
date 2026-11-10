@@ -50,7 +50,7 @@ theorem faithful_etaleModuleRestriction_of_surjective [Surjective j] :
     let Z' : U.Etale := Scheme.Etale.mk (pullback.snd W.hom j)
     let e : (Scheme.Etale.smallEtaleCompose j).obj Z' ≅ Z :=
       MorphismProperty.Over.isoMk (Iso.refl _) (by
-        show 𝟙 _ ≫ (pullback.fst W.hom j ≫ W.hom) = pullback.snd W.hom j ≫ j
+        change 𝟙 _ ≫ (pullback.fst W.hom j ≫ W.hom) = pullback.snd W.hom j ≫ j
         rw [Category.id_comp, pullback.condition])
     have hZ : φ.hom.app (op ((Scheme.Etale.smallEtaleCompose j).obj Z')) =
         ψ.hom.app (op ((Scheme.Etale.smallEtaleCompose j).obj Z')) :=

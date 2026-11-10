@@ -193,7 +193,7 @@ def transport : Pseudofunctor B Cat.{v', u'} where
       Cat.whiskerLeft_app, Functor.comp_obj, Functor.id_obj, F.map₂_whisker_left_app,
       Category.assoc, ← Functor.map_comp]
     congr 1
-    simp [Equivalence.map_unit_comp_map_unitInv_assoc]
+    simp
   map₂_whisker_right := by
     intro a b c f g η h
     ext M
@@ -217,7 +217,7 @@ def transport : Pseudofunctor B Cat.{v', u'} where
       ((e _).unitIso.hom.app ((F.map f).toFunctor.obj ((e _).inverse.obj M)))
     simp only [Functor.comp_obj, Functor.comp_map, Functor.id_obj, Cat.Hom.comp_toFunctor] at hnat
     simp only [Functor.map_comp, Category.assoc, reassoc_of% hnat]
-    simp [Equivalence.map_unit_comp_map_unitInv_assoc]
+    simp
   map₂_left_unitor := by
     intro a b f
     ext M

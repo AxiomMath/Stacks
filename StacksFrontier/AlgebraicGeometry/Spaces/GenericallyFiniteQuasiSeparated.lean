@@ -115,6 +115,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_GenericallyFiniteQuasiSeparated :
@@ -267,10 +268,10 @@ private theorem pointsMap_yoneda_eq_class
     yonedaEquiv.apply_symm_apply p.value
   have hdom : FieldValuedPoint.Dominates B S hS Y r p := by
     refine ⟨q.value, ?_⟩
-    show Y.map q.value.op p.value =
+    change Y.map q.value.op p.value =
       (FieldValuedPoint.map B S hS _ α q).value
     rw [← hpval]
-    show Y.map q.value.op
+    change Y.map q.value.op
         (α.app (Opposite.op (p.siteObject B S hS Y)) (𝟙 (p.siteObject B S hS Y))) =
       α.app (Opposite.op
         (q.siteObject B S hS (yoneda.obj (p.siteObject B S hS Y))))
@@ -352,7 +353,7 @@ public theorem exists_quasiCompact_openSubspace_covering_finite
         (MorphismProperty.inverseImage
           (@AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
           (BigFppfOver.toScheme B S hS))) U.ι at hopen
-      show (MorphismProperty.presheaf
+      change (MorphismProperty.presheaf
         (MorphismProperty.inverseImage
           (@AlgebraicGeometry.IsImmersion.{u} : MorphismProperty Scheme.{u})
           (BigFppfOver.toScheme B S hS))) U.ι
@@ -363,7 +364,7 @@ public theorem exists_quasiCompact_openSubspace_covering_finite
         ((BigFppfOver.toScheme B S hS).map snd) at ho
       let : AlgebraicGeometry.IsOpenImmersion
           ((BigFppfOver.toScheme B S hS).map snd) := ho
-      show AlgebraicGeometry.IsImmersion
+      change AlgebraicGeometry.IsImmersion
         ((BigFppfOver.toScheme B S hS).map snd)
       exact inferInstance
     have hEmb : @Topology.IsEmbedding _ _
@@ -400,7 +401,7 @@ public theorem locallyOfFiniteType_of_openImmersion
     intro A' B' f hf
     change AlgebraicGeometry.IsOpenImmersion (T.map f) at hf
     let : AlgebraicGeometry.IsOpenImmersion (T.map f) := hf
-    show LocallyOfFiniteType (T.map f)
+    change LocallyOfFiniteType (T.map f)
     infer_instance
   have hi' :
       ((MorphismProperty.inverseImage
@@ -518,10 +519,10 @@ theorem exists_isOpenSubspace_isFinite_openRestriction_of_finite_setFibre
     MorphismProperty.relative_isStableUnderBaseChange Popen
   let O := Popen.presheaf
   have hp₀open : IsOpenImmersion B S hS p₀ := by
-    show O p₀
+    change O p₀
     exact MorphismProperty.pullback_fst f₀ V.ι hV.2
   have heopen : IsOpenImmersion B S hS e := by
-    show O e
+    change O e
     exact MorphismProperty.comp_mem O p₀ U₀.ι hp₀open hU₀.2
   have : Mono e := by
     have : Mono V.ι := inferInstance
@@ -540,7 +541,7 @@ theorem exists_isOpenSubspace_isFinite_openRestriction_of_finite_setFibre
       _ = U.ι := by simp [eIso, r]
   have hUopen : IsOpenSubspace B S hS U := by
     refine ⟨hUalg, ?_⟩
-    show O U.ι
+    change O U.ι
     rw [← hincl]
     exact MorphismProperty.RespectsIso.precomp O eIso.inv e heopen
   let g₀ := q₀

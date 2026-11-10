@@ -100,7 +100,7 @@ theorem etale_toScheme_map_of_hasPropertyULift
     intro W w
     refine ⟨W, w, 𝟙 W, ?_, ?_⟩
     · simpa using (IsPullback.of_id_snd (f := w))
-    · show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 W))
+    · change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 W))
       rw [CategoryTheory.Functor.map_id]
       infer_instance
   have he : Q e.hom := by
@@ -251,7 +251,7 @@ theorem existsUnique_relativeEtale_lift_colimit
       ι :=
       { app := l
         naturality := fun i j g ↦ by
-          show F.map (P.map g) ≫ l j = l i ≫ 𝟙 Z
+          change F.map (P.map g) ≫ l j = l i ≫ 𝟙 Z
           rw [Category.comp_id]
           refine hu i _ ⟨?_, ?_⟩
           · rw [← F.map_comp_assoc, ← P.map_comp,
@@ -408,7 +408,7 @@ theorem exists_iso_of_isPullback_least_stage
   have hε₂ : ε₂.hom ≫ F.map (s.app i₀) = n₀ := hZ.isoIsPullback_hom_snd _ _ (hpbQ i₀)
   let e₀ : F.obj (P.obj i₀) ≅ F.obj (Q.obj i₀) := ε₁.symm ≪≫ ε₂
   have he₀ : e₀.hom ≫ F.map (s.app i₀) = F.map (r.app i₀) := by
-    show (ε₁.inv ≫ ε₂.hom) ≫ F.map (s.app i₀) = _
+    change (ε₁.inv ≫ ε₂.hom) ≫ F.map (s.app i₀) = _
     rw [Category.assoc, hε₂, ← hε₁, ← Category.assoc, ε₁.inv_hom_id, Category.id_comp]
   have hab : (e₀.hom ≫ b.app i₀) ≫ q = a.app i₀ ≫ p := by
     rw [Category.assoc, (hpbQ i₀).w, ← Category.assoc, he₀, (hpbP i₀).w]
@@ -424,13 +424,13 @@ theorem exists_iso_of_isPullback_least_stage
     (Cocone.mk Z b) hcQ q hqEt q (b.app i₀) rfl
   have hmn : m ≫ n = 𝟙 X := hpuniq.unique
     ⟨by
-      show a.app i₀ ≫ m ≫ n = a.app i₀
+      change a.app i₀ ≫ m ≫ n = a.app i₀
       rw [← Category.assoc, hm.1, Category.assoc, hn.1, e₀.hom_inv_id_assoc],
       by rw [Category.assoc, hn.2, hm.2]⟩
     ⟨Category.comp_id _, Category.id_comp _⟩
   have hnm : n ≫ m = 𝟙 Z := hquniq.unique
     ⟨by
-      show b.app i₀ ≫ n ≫ m = b.app i₀
+      change b.app i₀ ≫ n ≫ m = b.app i₀
       rw [← Category.assoc, hn.1, Category.assoc, hm.1, e₀.inv_hom_id_assoc],
       by rw [Category.assoc, hm.2, hn.2]⟩
     ⟨Category.comp_id _, Category.id_comp _⟩

@@ -45,8 +45,8 @@ What Tag 0EXD asserts is that
 faithfulness rests on the cartesianness of
 `colim_F Γ(X, 𝒪) → colim_F Γ(Z, 𝒪) ×_{colim_F Γ(E, 𝒪)} colim_F Γ(X', 𝒪)`, combined with
 internal Hom and Zariski glueing. That cartesianness is available unconditionally as
-`AlgebraicGeometry.isPullback_frobeniusColimit_twoGeneratorModel`
-(`StacksFrontier/AlgebraicGeometry/Topologies/WeakNormalization/FrobeniusColimitGlobalSections.lean`),
+`AlgebraicGeometry.isPullback_frobeniusColimit_twoGeneratorModel`, in the module
+`StacksFrontier.AlgebraicGeometry.Topologies.WeakNormalization.FrobeniusColimitGlobalSections`,
 proved site-free from the two assertions of Tag 0EVJ and the section of the exceptional
 projective line. The source cites Tag 0EVK for it, and that route is *not* available here:
 `AlgebraicGeometry.BigHOver.existsUnique_iso_frobeniusColimitSections` — and likewise Tag 0EVD,
@@ -82,8 +82,8 @@ the bijectivity full faithfulness asks for there —
 hypotheses of Example 0EVH. What a cartesian square of Hom-sets gives is full faithfulness of the
 comparison functor itself, by
 `CategoryTheory.Limits.CategoricalPullback.fullyFaithful_squareComparison_iff_isPullback`
-(`StacksFrontier/CategoryTheory/TwoFibreProduct/CategoricalPullbackHomSquare.lean`), which carries no
-groupoid hypothesis. Transporting the square to the canonical cospan `g ↦ e^*g ≫ α`,
+(`StacksFrontier/CategoryTheory/TwoFibreProduct/CategoricalPullbackHomSquare.lean`), which carries
+no groupoid hypothesis. Transporting the square to the canonical cospan `g ↦ e^*g ≫ α`,
 `k ↦ α ≫ d^*k` asks for the compatibility of
 `AlgebraicGeometry.frobeniusColimitVectorBundlesSquareIso` at a free module with the free
 identifications, and that is
@@ -91,7 +91,8 @@ identifications, and that is
 (`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitFreeComp.lean`). With it, the cartesian
 square of Hom-sets at a pair of free modules is
 `AlgebraicGeometry.isPullback_squareComparison_homSquare_free_twoGenerator`
-(`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitFreeHomFullyFaithful.lean`), under exactly
+(`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitFreeHomFullyFaithful.lean`), under
+exactly
 the hypotheses of Example 0EVH: that is the full faithfulness of the comparison functor **at free
 modules**.
 
@@ -295,8 +296,8 @@ assumed or proved in this file:
   `StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorNoetherianApproximation.lean` presents
   `Spec A` as the cofiltered limit of the spectra of the Noetherian stages
   `ℤ[i ∪ {f₁, f₂}] ⊆ A` and descends a vector bundle on the base to a stage by Tag 0B8W (1);
-  `StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean` identifies each of
-  the three other corners `Z`, `X'` and `E` over `A` with the base change of the corresponding
+  `StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean` identifies each
+  of the three other corners `Z`, `X'` and `E` over `A` with the base change of the corresponding
   corner over the initial stage `A₀ = ℤ[f₁,f₂]`, and
   `StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorNoetherianCorners.lean` turns those
   identifications into the three limit cones and applies Tag 0B8W (1) at each corner

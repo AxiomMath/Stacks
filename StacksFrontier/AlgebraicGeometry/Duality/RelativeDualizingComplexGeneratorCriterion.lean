@@ -63,7 +63,7 @@ theorem isPostcompGenerator_of_isIso_diagonalAction
   intro ζ
   obtain ⟨a, ha, -⟩ := D.existsUnique_eq_smul_of_isIso_diagonalAction h ζ
   refine ⟨a • 𝟙 _, ?_⟩
-  show (a • 𝟙 D.diagonalObject) ≫ ξ = ζ
+  change (a • 𝟙 D.diagonalObject) ≫ ξ = ζ
   rw [Linear.smul_comp, Category.id_comp]
   exact ha.symm
 

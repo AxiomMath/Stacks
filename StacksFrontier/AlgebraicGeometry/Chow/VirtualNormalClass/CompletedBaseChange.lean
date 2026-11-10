@@ -211,7 +211,7 @@ theorem preimage_midAmbient (k' : _root_.ConnectedComponents ↥(pullback i h)) 
     pullback.snd i h ⁻¹ᵁ midAmbient i h k' = (pullback i h).connectedComponentOpens k' := by
   refine le_antisymm (fun z hz => (preimage_componentAmbient (pullback.snd i h) k').le hz.1)
     fun z hz => ⟨(preimage_componentAmbient (pullback.snd i h) k').ge hz, ?_⟩
-  show (pullback.snd i h ≫ h).base z ∈ componentAmbient i _
+  change (pullback.snd i h ≫ h).base z ∈ componentAmbient i _
   rw [← pullback.condition]
   exact (preimage_componentAmbient i _).ge
     ((pullback.fst i h).connectedComponentOpens_le_preimage k' hz)
@@ -414,7 +414,7 @@ theorem midRestriction_degreeClass (p : ℤ) (k' : _root_.ConnectedComponents �
         (pullback i h).connectedComponentOpens (midAmbient i h) id (le_preimage_midAmbient i h) k'
         (bivariantRestrictionOfInvertible C sZ sX i hZ h p (𝒩.degreeClass C sX sZ hZ p)) := by
   refine BivariantClass.ext C _ _ _ _ _ _ fun s _ n β => ?_
-  show bivariantPieceRestrictionCap C (gysinSystemOfInvertible C) (pullback.fst i h ≫ sZ)
+  change bivariantPieceRestrictionCap C (gysinSystemOfInvertible C) (pullback.fst i h ≫ sZ)
       (h ≫ sX) (pullback.snd i h) (pullbackSnd_comp_structureMorphism_eq C sZ sX i hZ h) p
       (pullback i h).connectedComponentOpens (midAmbient i h) id (le_preimage_midAmbient i h) k'
       _ s n β =

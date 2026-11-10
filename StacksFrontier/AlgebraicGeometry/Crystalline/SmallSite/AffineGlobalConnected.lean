@@ -65,7 +65,6 @@ section RoundTrip
 variable [IsAffine S.X] [IsAffine S.S.scheme] (B : Thickening S) [IsAffine B.thickening.source]
   (T : DividedPowerThickening.{u, u, u} (affineSituation S hp))
   (φ : T ⟶ wholeThickeningToAffine hp B) (hT : Function.Bijective T.toQuotient)
-  [IsIso (specThickeningOfAffine hp T).toX]
 
 /-- **Taking global sections of `Spec` of a morphism gives the morphism back.**  For a morphism
 `φ : (B, J, δ) ⟶ Γ(T, ⊤)` of `CRIS(Γ(X, ⊤)/Γ(S, ⊤))` out of an object with bijective structural
@@ -82,7 +81,7 @@ theorem wholeHomToAffine_homOfAffineHom :
   apply DividedPowerThickening.Hom.ext
   apply DividedPowers.DPMorphism.ext
   funext z
-  show (specTargetHom hp B T φ).hom.appTop.hom z =
+  change (specTargetHom hp B T φ).hom.appTop.hom z =
     φ.hom ((Scheme.ΓSpecIso (CommRingCat.of ↥T.ring)).hom.hom z)
   rw [← (Scheme.ΓSpecIso (CommRingCat.of ↥T.ring)).hom_inv_id_apply z, specTargetHom_appTop_apply,
     DividedPowerScheme.ΓSpecIso_hom_inv_apply]

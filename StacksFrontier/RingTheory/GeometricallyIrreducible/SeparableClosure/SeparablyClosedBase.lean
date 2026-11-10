@@ -119,8 +119,7 @@ theorem perfectBase_fg_assemble
   have hgen : ∀ v,
       IsNilpotent (estar (LinearMap.lTensor Ebar (LinearMap.ker g.toLinearMap).subtype v)) := by
     intro v
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul e x =>
         rw [LinearMap.lTensor_tmul, Submodule.subtype_apply]
         have hxnil : IsNilpotent ((x : P ⊗[Ls] L)) := by
@@ -192,7 +191,7 @@ theorem reducedQuotient_isField_of_qpow
     · rw [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_C]
       have : (Ideal.Quotient.mk N) t ^ (q ^ n) = algebraMap L (T ⧸ N) a := by
         rw [← map_pow]
-        show (Ideal.Quotient.mk N) (t ^ (q^n)) = (Ideal.Quotient.mk N) (algebraMap L T a)
+        change (Ideal.Quotient.mk N) (t ^ (q^n)) = (Ideal.Quotient.mk N) (algebraMap L T a)
         rw [ha]
       rw [this]; ring
   exact (Algebra.IsIntegral.isField_iff_isField hinj).mp (Field.toIsField L)
@@ -211,8 +210,7 @@ theorem tensor_qpow_mem_rightRange
   have hqne : q ≠ 0 := (expChar_pos Ls q).ne'
   have e1 : ∀ (l : L), (algebraMap L R) l = 1 ⊗ₜ[Ls] l := fun l => rfl
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
       obtain ⟨n, c, hc⟩ := IsPurelyInseparable.pow_mem Ls q b
       refine ⟨n, c • x ^ (q ^ n), ?_⟩
@@ -306,8 +304,7 @@ theorem span_range_includeRight_map_eq_top
   rw [eq_top_iff]
   rintro y -
   obtain ⟨t, rfl⟩ := hg y
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul p l =>
       have hpt : (p ⊗ₜ[Ls] l : P ⊗[Ls] L) = p • (1 ⊗ₜ[Ls] l) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -410,11 +407,11 @@ theorem perfectBase_reducedQuotient_sepClosed
     obtain ⟨l, hl⟩ := ht
     refine ⟨l, ?_⟩
     rw [hLalgmap]
-    show ψ l = g t ^ (q ^ a)
+    change ψ l = g t ^ (q ^ a)
     rw [hψ]
-    show (g.restrictScalars Ls) (Algebra.TensorProduct.includeRight l) = g t ^ (q ^ a)
+    change (g.restrictScalars Ls) (Algebra.TensorProduct.includeRight l) = g t ^ (q ^ a)
     rw [← map_pow]
-    show g (Algebra.TensorProduct.includeRight l) = g (t ^ (q ^ a))
+    change g (Algebra.TensorProduct.includeRight l) = g (t ^ (q ^ a))
     have hcast : (Algebra.TensorProduct.includeRight l : P ⊗[Ls] L) = t ^ (q ^ a) := hl
     rw [hcast]
   rw [eq_bot_iff]
@@ -434,7 +431,7 @@ theorem perfectBase_reducedQuotient_sepClosed
     have e : x ^ (q ^ (a + b)) = (x ^ (q ^ a)) ^ (q ^ b) := by
       rw [← pow_mul, ← pow_add]
     rw [e, hxqa, ← map_pow, ← hc, hLalgmap]
-    show algebraMap P L' (algebraMap Ls P c) = ψ (algebraMap Ls L c)
+    change algebraMap P L' (algebraMap Ls P c) = ψ (algebraMap Ls L c)
     rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply Ls P L' c]
   rw [IntermediateField.mem_bot]
   exact qpow_mem_imp_mem_of_perfect P L' q x (a + b) hxP
@@ -478,7 +475,7 @@ theorem perfectBase_reducedQuotient_field_abstract
       rw [hg, AlgHom.toRingHom_eq_coe]
       ext x
       rw [RingHom.mem_ker]
-      show (Ideal.Quotient.mk _) x = 0 ↔ _
+      change (Ideal.Quotient.mk _) x = 0 ↔ _
       rw [Ideal.Quotient.eq_zero_iff_mem]
     rw [hk]
   refine ⟨(P ⊗[Ls] L) ⧸ nilradical (P ⊗[Ls] L), fieldInst, inferInstance, g, hsurj, hker, ?_, ?_⟩
@@ -488,7 +485,7 @@ theorem perfectBase_reducedQuotient_field_abstract
     · intro c
       refine ⟨algebraMap Ls P c, ?_⟩
       rw [RingHom.comp_apply]
-      show algebraMap P ((P ⊗[Ls] L) ⧸ nilradical (P ⊗[Ls] L)) (algebraMap Ls P c)
+      change algebraMap P ((P ⊗[Ls] L) ⧸ nilradical (P ⊗[Ls] L)) (algebraMap Ls P c)
         = g (Algebra.TensorProduct.includeRight (algebraMap Ls L c))
       have h1 : (Algebra.TensorProduct.includeRight (algebraMap Ls L c) : P ⊗[Ls] L)
           = algebraMap P (P ⊗[Ls] L) (algebraMap Ls P c) := by
@@ -563,15 +560,14 @@ theorem tensorAlgClosed_perfectBase_irreducible_colimit
     intro M₁ M₂ h
     have hfac : φ M₁ = (φ M₂).comp
         (Algebra.TensorProduct.map (AlgHom.id Ebar Ebar) (IntermediateField.inclusion h)) := by
-      show Algebra.TensorProduct.map (AlgHom.id Ebar Ebar) (M₁.val) = _
+      change Algebra.TensorProduct.map (AlgHom.id Ebar Ebar) (M₁.val) = _
       rw [← Algebra.TensorProduct.map_comp]; congr 1
     rw [hfac, AlgHom.range_comp]
     rintro x ⟨y, -, rfl⟩
     exact ⟨_, rfl⟩
   have hcov : ∀ x : Ebar ⊗[Ls] L, ∃ M : IntermediateField Ls L, M.FG ∧ x ∈ (φ M).range := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨⊥, IntermediateField.fg_bot, Subalgebra.zero_mem _⟩
+    induction x using TensorProduct.inductionOn with
     | tmul e s =>
         refine ⟨IntermediateField.adjoin Ls {s}, ?_, ?_⟩
         · have h := IntermediateField.fg_adjoin_finset (F := Ls) ({s} : Finset L)
@@ -579,7 +575,7 @@ theorem tensorAlgClosed_perfectBase_irreducible_colimit
           exact h
         · refine ⟨e ⊗ₜ[Ls] ⟨s, ?_⟩, ?_⟩
           · exact IntermediateField.subset_adjoin Ls {s} (Set.mem_singleton s)
-          · show Algebra.TensorProduct.map (AlgHom.id Ebar Ebar) _ _ = _
+          · change Algebra.TensorProduct.map (AlgHom.id Ebar Ebar) _ _ = _
             rw [Algebra.TensorProduct.map_tmul]; rfl
     | add a b ha hb =>
         obtain ⟨M₁, hM₁, haM₁⟩ := ha
@@ -593,7 +589,7 @@ theorem tensorAlgClosed_perfectBase_irreducible_colimit
     obtain ⟨n, hn⟩ := h
     refine ⟨n, hφinj M ?_⟩
     have e1 : (φ M).toRingHom (u ^ n) = ((φ M).toRingHom u) ^ n := map_pow (φ M).toRingHom u n
-    show (φ M).toRingHom (u ^ n) = (φ M).toRingHom 0
+    change (φ M).toRingHom (u ^ n) = (φ M).toRingHom 0
     rw [map_zero, e1]
     exact hn
   constructor

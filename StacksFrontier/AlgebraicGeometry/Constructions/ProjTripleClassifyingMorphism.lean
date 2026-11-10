@@ -203,7 +203,7 @@ theorem unitorPow_hom_app_natTensorPowCongr (β : L ≅ L') (x : Γ(natTensorPow
       = β.hom.app ⊤ ((unitorPow L).hom.app ⊤ x) := by
   have h : (natTensorPowCongr β 1).hom ≫ (unitorPow L').hom
       = (unitorPow L).hom ≫ β.hom := by
-    show (Iso.refl (𝟙_ Y.Modules) ⊗ᵢ β).hom ≫ (λ_ L').hom = (λ_ L).hom ≫ β.hom
+    change (Iso.refl (𝟙_ Y.Modules) ⊗ᵢ β).hom ≫ (λ_ L').hom = (λ_ L).hom ≫ β.hom
     simp
   simpa [Scheme.Modules.Hom.comp_app, CategoryTheory.comp_apply] using
     congrArg (fun φ : natTensorPow L 1 ⟶ L' => φ.app ⊤ x) h

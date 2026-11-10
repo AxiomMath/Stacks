@@ -202,7 +202,7 @@ private theorem exteriorBasis_coord_comp_koszul_d (n p : ℕ) (S : AlternatingCe
   by_cases h : T.1.erase k.1 = S.1
   · rw [ite_eq_left h, ite_eq_left (hiff.2 h)]
     congr 1
-    show g k.1 ^ (n + 1) = ∏ i, g i ^ koszulExp n S.1 T.1 i
+    change g k.1 ^ (n + 1) = ∏ i, g i ^ koszulExp n S.1 T.1 i
     rw [← h, prod_pow_koszulExp_erase g n T.1 k.1 k.2]
   · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.1 h'))]
 
@@ -228,7 +228,7 @@ theorem ringKoszulComplex_d_comp_coord (n p : ℕ) (S : AlternatingCech.Idx r (p
           (Set.powersetCard.ofCard (s := T.1) (by have := T.2; omega)) :=
     fun T => ringKoszulCoord_eq g n (p + 1) h1 _ _
   simp only [hT, Category.assoc, ← Preadditive.comp_sum]
-  show (K.extendXIso e h1).hom ≫ K.d (p + 1) p ≫ (K.extendXIso e h0).inv ≫
+  change (K.extendXIso e h1).hom ≫ K.d (p + 1) p ≫ (K.extendXIso e h0).inv ≫
       (K.extendXIso e h0).hom ≫ _ = _
   simp only [Iso.inv_hom_id_assoc]
   refine (cancel_epi (K.extendXIso e h1).hom).2 ?_
@@ -258,7 +258,7 @@ theorem ringKoszulTransition_f_comp_coord (n : ℕ) (j : ℤ) (S : AlternatingCe
   refine congrArg (fun φ => (HomologicalComplex.extendXIso
     (Koszul.seqComplex (fun i => g i ^ (n + 1 + 1))) ComplexShape.embeddingDownNat hj).hom ≫ φ) ?_
   refine ModuleCat.hom_ext ((Koszul.exteriorBasis Λ r S.1.card).ext fun T => ?_)
-  show (Koszul.exteriorBasis Λ r S.1.card).coord _
+  change (Koszul.exteriorBasis Λ r S.1.card).coord _
       (((NoetherianKoszulProIso.koszulPowerTransition g (n + 1) n (Nat.le_succ n)).f
         S.1.card).hom (Koszul.exteriorBasis Λ r S.1.card T)) =
     (∏ i ∈ S.1, g i) • (Koszul.exteriorBasis Λ r S.1.card).coord _
@@ -344,7 +344,7 @@ instance isIso_constantKoszulDualX (n : ℕ) (j : ℤ) : IsIso (constantKoszulDu
       (Pi.lift fun S : AlternatingCech.Idx r (-j) => Φ.map (ringKoszulCoord g n S)) ≫
         Limits.Pi.map p := by
     refine Pi.hom_ext _ _ fun S => (constantKoszulDualX_π J Λ g n j S).trans ?_
-    rw [Category.assoc, Limits.Pi.map_π, Pi.lift_π_assoc]
+    rw [Category.assoc, Limits.Pi.map_π, Pi.lift_comp_π_assoc]
     rfl
   rw [h]
   infer_instance
@@ -369,7 +369,7 @@ theorem constantModuleFunctorUnitIsoSign_hom_comp_constantScalar (σ : ℤˣ) (a
         (constantModuleFunctorUnitIsoSign J Λ σ).hom =
       (constantModuleFunctorUnitIsoSign J Λ σ).hom ≫ constantScalar J Λ a := by
   have h := constantModuleFunctor_map_smul_unitIso J Λ a
-  show (constantModuleFunctor J Λ).map (a • 𝟙 (ModuleCat.of Λ Λ)) ≫
+  change (constantModuleFunctor J Λ).map (a • 𝟙 (ModuleCat.of Λ Λ)) ≫
       ((σ : ℤ) • (constantModuleFunctorUnitIso J Λ).hom) =
     ((σ : ℤ) • (constantModuleFunctorUnitIso J Λ).hom) ≫ constantScalar J Λ a
   rw [Preadditive.comp_zsmul, Preadditive.zsmul_comp, h]
@@ -381,7 +381,7 @@ theorem koszulDualSign_hom_succ (p : ℕ) :
     (constantModuleFunctorUnitIsoSign J Λ (koszulDualSign (p + 1))).hom =
       (((-1 : ℤˣ) ^ p : ℤˣ) : ℤ) •
         (constantModuleFunctorUnitIsoSign J Λ (koszulDualSign p)).hom := by
-  show ((koszulDualSign (p + 1) : ℤˣ) : ℤ) • (constantModuleFunctorUnitIso J Λ).hom =
+  change ((koszulDualSign (p + 1) : ℤˣ) : ℤ) • (constantModuleFunctorUnitIso J Λ).hom =
     (((-1 : ℤˣ) ^ p : ℤˣ) : ℤ) • (((koszulDualSign p : ℤˣ) : ℤ) •
       (constantModuleFunctorUnitIso J Λ).hom)
   rw [smul_smul, koszulDualSign_succ, Units.val_mul]
@@ -465,7 +465,7 @@ theorem constantKoszulDualX_comm (n : ℕ) (i j : ℤ) (hij : i + 1 = j) :
   obtain rfl : i = -((p : ℤ) + 1) := by omega
   refine Pi.hom_ext _ _ fun S' => ?_
   let S : AlternatingCech.Idx r (p : ℤ) := ⟨S'.1, by have := S'.2; omega⟩
-  show _ ≫ Pi.π _ (idxNegEquiv (p : ℤ) (-(p : ℤ)) (by omega) S) =
+  change _ ≫ Pi.π _ (idxNegEquiv (p : ℤ) (-(p : ℤ)) (by omega) S) =
     _ ≫ Pi.π _ (idxNegEquiv (p : ℤ) (-(p : ℤ)) (by omega) S)
   clear_value S
   exact (constantKoszulDualX_comp_koszulPowerDualComplex_d_comp_π J Λ g n p S).trans
@@ -516,7 +516,7 @@ private theorem constantKoszulDualIso_hom_comp_koszulPowerDualComplexSystem_map_
     rw [koszulPowerDualComplexSystem_map]
     congr 1
     exact Functor.ofSequence_map_homOfLE_succ _ n
-  show ((constantKoszulDualIso J Λ g (n + 1)).hom ≫
+  change ((constantKoszulDualIso J Λ g (n + 1)).hom ≫
       (koszulPowerDualComplexSystem (constant J Λ) f').map (homOfLE (Nat.le_succ n)).op).f j ≫
         Pi.π _ S = _
   refine (Category.assoc _ _ _).trans ?_

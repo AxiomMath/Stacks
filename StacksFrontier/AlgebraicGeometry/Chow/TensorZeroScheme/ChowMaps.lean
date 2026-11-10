@@ -52,6 +52,7 @@ variable (C : Stacks.Chow.ChowSituation.{u}) (Y : Scheme.{u}) (L₁ L₂ : Y.Mod
 
 /-! ### The structure morphisms of the diagram over the base situation -/
 
+omit [LocallyOfFiniteType sY] in
 include h₁ h₂ in
 /-- **The two structure morphisms of `D₁` over the base situation agree**:
 `p₁ ≫ (i ≫ sY) = i₁ ≫ (p ≫ sY)`. -/

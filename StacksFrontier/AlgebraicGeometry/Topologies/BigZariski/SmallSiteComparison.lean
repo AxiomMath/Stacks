@@ -148,7 +148,7 @@ public theorem smallSiteArrow_fac
   let g := (BigZariskiOver.toScheme B S hS).map f
   have hset : Set.range (i ≫ g) ⊆ Set.range j := smallSiteArrow_range_subset B S hS f X Y hXY
   let ℓ := IsOpenImmersion.lift j (i ≫ g) hset
-  show B.inclusion.map (B.inclusion.preimage ℓ) ≫ j = i ≫ B.inclusion.map f.left
+  change B.inclusion.map (B.inclusion.preimage ℓ) ≫ j = i ≫ B.inclusion.map f.left
   rw [B.inclusion.map_preimage]
   exact IsOpenImmersion.lift_fac j (i ≫ g) hset
 
@@ -327,7 +327,7 @@ private theorem canonicalSmallOpenSectionsIso_map
   let ρ := j.sheafPushforwardContinuousCompSheafToPresheafIso
     (Type (max u v)) (SmallZariski.topology B T.left.1 T.left.2)
     (BigZariskiOver.topology B S hS)
-  show ((ρ.hom.app F).app (op (E.inverse.obj U)))
+  change ((ρ.hom.app F).app (op (E.inverse.obj U)))
       ((G.obj F).1.map (E.inverse.map (homOfLE hUV)).op s) =
     F.1.map (j.map (E.inverse.map (homOfLE hUV))).op
       (((ρ.hom.app F).app (op (E.inverse.obj V))) s)
@@ -363,11 +363,11 @@ private theorem canonicalSmallSiteSectionsIso_map
       F.1.map (j.map (E.inverse.map t)).op
         ((canonicalSmallOpenSectionsIso B S hS F T U).hom s) := by
     simpa [U, U', hfun, j] using hmap
-  show (F.1.mapIso (j.mapIso e').op).hom
+  change (F.1.mapIso (j.mapIso e').op).hom
       ((canonicalSmallOpenSectionsIso B S hS F T U').hom
         ((canonicalSmallSheaf B S hS F T).1.map t.op s)) = _
   rw [hmap']
-  show F.1.map (j.map e'.hom).op
+  change F.1.map (j.map e'.hom).op
       (F.1.map (j.map (E.inverse.map t)).op
         ((canonicalSmallOpenSectionsIso B S hS F T U).hom s)) = _
   have hn := E.unitIso.hom.naturality k
@@ -381,7 +381,7 @@ private theorem canonicalSmallSiteSectionsIso_map
       _ = F.1.map ((j.map (e'.hom ≫ E.inverse.map t)).op) := by simp
       _ = F.1.map ((j.map (k ≫ e.hom)).op) := by rw [← hn]
       _ = _ := by simp
-  show (F.1.map (j.map (E.inverse.map t)).op ≫
+  change (F.1.map (j.map (E.inverse.map t)).op ≫
       F.1.map (j.map e'.hom).op)
       ((canonicalSmallOpenSectionsIso B S hS F T U).hom s) =
     (F.1.map (j.map e.hom).op ≫ F.1.map (j.map k).op)
@@ -480,7 +480,7 @@ public theorem canonicalSmallTopSectionsIso_naturality
   have hrep := canonicalSmallRepresentativeSectionsIso_naturality B S hS α T ⊤ X
     (smallOpenObject_toOpens B S hS T ⊤)
   have hα := (α.1).naturality q
-  show (repF.hom ≫ F.1.map q) ≫ α.1.app (op T) =
+  change (repF.hom ≫ F.1.map q) ≫ α.1.app (op T) =
     ((canonicalSmallSheafFunctor B S hS T).map α).1.app (op ⊤) ≫
       (repG.hom ≫ G.1.map q)
   simp only [Category.assoc]
@@ -545,7 +545,7 @@ private theorem canonicalSmallRepresentativeSectionsIso_map
     rw [← (canonicalSmallSheaf B S hS F T).1.map_comp,
       ← (canonicalSmallSheaf B S hS F T).1.map_comp]
     exact congrArg ((canonicalSmallSheaf B S hS F T).1.map) hcatop
-  show (canonicalSmallSiteSectionsIso B S hS F T X).hom
+  change (canonicalSmallSiteSectionsIso B S hS F T X).hom
       ((canonicalSmallSheaf B S hS F T).1.map (eqToHom eX).op
         ((canonicalSmallSheaf B S hS F T).1.map (homOfLE hUV).op s)) =
     F.1.map (j.map g).op
@@ -759,7 +759,7 @@ public theorem canonicalSmallPairMap_naturality_in_F
         rw [hXα']
         exact Category.assoc _ _ _
       _ = _ := (Category.assoc _ _ _).symm
-  show ((canonicalSmallSheafFunctor B S hS T).map α).1.app (op V) ≫
+  change ((canonicalSmallSheafFunctor B S hS T).map α).1.app (op V) ≫
       (iGY.hom ≫ G.1.map a.op ≫ iGX.inv) =
       (iFY.hom ≫ F.1.map a.op ≫ iFX.inv) ≫
       ((canonicalSmallSheafFunctor B S hS T').map α).1.app (op U)
@@ -840,7 +840,7 @@ public theorem canonicalSmallPullbackFamily_comp
   have hXY := smallOpenObject_le_preimage B S hS (B.inclusion.map g.left) hWU
   have hYZ := smallOpenObject_le_preimage B S hS (B.inclusion.map f.left) hUV
   have hXZ := smallOpenObject_le_preimage B S hS (B.inclusion.map (g ≫ f).left) hWV
-  show (canonicalSmallPairMap B S hS F f U V Y Z hY hZ hYZ ≫
+  change (canonicalSmallPairMap B S hS F f U V Y Z hY hZ hYZ ≫
     canonicalSmallPairMap B S hS F g W U X Y hX hY hXY) s =
     (canonicalSmallPairMap B S hS F (g ≫ f) W V X Z hX hZ hXZ) s
   apply congrArg (fun k : (canonicalSmallSheaf B S hS F T).obj.obj (op V) ⟶

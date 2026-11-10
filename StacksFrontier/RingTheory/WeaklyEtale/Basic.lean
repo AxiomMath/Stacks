@@ -66,7 +66,7 @@ theorem MulFlat.baseChange {A B A' : Type*} [CommRing A] [CommRing B] [CommRing 
       (Algebra.TensorProduct.map (.id A' A')
         (Algebra.TensorProduct.lmul' A (S := B))).comp e.toAlgHom := by
     ext <;> simp [e, Algebra.TensorProduct.one_def]
-  show (Algebra.TensorProduct.lmul' A' (S := A' ⊗[A] B)).Flat
+  change (Algebra.TensorProduct.lmul' A' (S := A' ⊗[A] B)).Flat
   rw [heq]
   exact .comp (.of_bijective e.bijective)
     (.tensorProductMap (.of_bijective Function.bijective_id) h)
@@ -76,7 +76,7 @@ attribute [local instance] ULift.algebra' in
 a single universe, in which `RingHom.Flat.mapOfCompatibleSMul` is stated. -/
 theorem MulFlat.ulift_iff {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] :
     MulFlat (ULift.{u₁} R) (ULift.{u₂} S) ↔ MulFlat R S := by
-  show (Algebra.TensorProduct.lmul' (ULift.{u₁} R) (S := ULift.{u₂} S)).Flat ↔
+  change (Algebra.TensorProduct.lmul' (ULift.{u₁} R) (S := ULift.{u₂} S)).Flat ↔
     (Algebra.TensorProduct.lmul' R (S := S)).Flat
   conv_rhs => rw [← RingHom.Flat.ulift_iff.{u₁, u₂}]
   rw [Algebra.TensorProduct.lmul'_ulift, AlgHom.toRingHom_eq_coe, AlgHom.comp_toRingHom]
@@ -89,7 +89,7 @@ theorem MulFlat.trans (A : Type u₁) (B : Type u₂) (C : Type u₃) [CommRing 
     [CommRing C] [Algebra A B] [Algebra B C] [Algebra A C] [IsScalarTower A B C]
     (hAB : MulFlat A B) (hBC : MulFlat B C) : MulFlat A C := by
   rw [← MulFlat.ulift_iff.{max u₁ u₂ u₃, max u₁ u₂ u₃}] at hAB hBC ⊢
-  show (Algebra.TensorProduct.lmul' (ULift.{max u₁ u₂ u₃} A)
+  change (Algebra.TensorProduct.lmul' (ULift.{max u₁ u₂ u₃} A)
     (S := ULift.{max u₁ u₂ u₃} C)).Flat
   have heq : Algebra.TensorProduct.lmul' (S := ULift.{max u₁ u₂ u₃} C)
         (ULift.{max u₁ u₂ u₃} A) =

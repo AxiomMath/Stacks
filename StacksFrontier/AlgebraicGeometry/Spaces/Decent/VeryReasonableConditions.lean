@@ -89,7 +89,7 @@ theorem isVeryReasonableSpace_of_isZariskiCover
         rw [← hv] at ht
         change ((Sigma.ι (fun j ↦ yoneda.obj (U i j)) j ≫ Sigma.desc (φ i)).app
           (op T')) v = _ at ht
-        simpa only [Sigma.ι_desc, NatTrans.comp_app] using ht
+        simpa only [Sigma.ι_comp_desc, NatTrans.comp_app] using ht
       refine ⟨(Sigma.ι (fun k : K ↦ yoneda.obj (V k)) ⟨i, j⟩).app (op T') v, ?_⟩
       change d.app (op T')
         ((Sigma.ι (fun k : K ↦ yoneda.obj (V k)) ⟨i, j⟩).app (op T') v) = (∐ W₀).map f.op s
@@ -99,7 +99,7 @@ theorem isVeryReasonableSpace_of_isZariskiCover
             (Sigma.ι W₀ i).app (op T') ((φ i j).app (op T') v) := by
           change ((Sigma.ι (fun k : K ↦ yoneda.obj (V k)) ⟨i, j⟩ ≫
             Sigma.desc fun k : K ↦ φ k.1 k.2 ≫ Sigma.ι W₀ k.1).app (op T')) v = _
-          rw [Sigma.ι_desc]
+          rw [Sigma.ι_comp_desc]
           rfl
         _ = (Sigma.ι W₀ i).app (op T') ((Xᵢ i).toFunctor.map f.op y) := by rw [hlocal]
         _ = (∐ W₀).map f.op ((Sigma.ι W₀ i).app (op T) y) :=
@@ -109,7 +109,7 @@ theorem isVeryReasonableSpace_of_isZariskiCover
       refine Sigma.hom_ext _ _ fun k ↦ ?_
       calc
         Sigma.ι _ k ≫ d ≫ c = φ k.1 k.2 ≫ Sigma.ι W₀ k.1 ≫ c := by simp [hd]
-        _ = φ k.1 k.2 ≫ (Xᵢ k.1).ι := by simp [hc, Sigma.ι_desc]
+        _ = φ k.1 k.2 ≫ (Xᵢ k.1).ι := by simp [hc, Sigma.ι_comp_desc]
         _ = Sigma.ι _ k ≫ Sigma.desc ψ := by simp [hψ]
     have hglobal : Presheaf.IsLocallySurjective J (Sigma.desc ψ) := by
       rw [← hcomp]

@@ -186,7 +186,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
   let j₂ : Usp ⟶ Zsp := ObjectProperty.homMk uZ
   have hj : j₁ ≫ f₁ = j₂ ≫ f₂ := by
     refine ObjectProperty.hom_ext _ ?_
-    show U.ι ≫ f = uZ ≫ Zs.ι ≫ prod.fst
+    change U.ι ≫ f = uZ ≫ Zs.ι ≫ prod.fst
     rw [← Category.assoc, huZk, hiY]
   have hUιqc : IsQuasiCompact B S hS U.ι :=
     isQuasiCompact_of_isQuasiCompactSpace B S hS hZ hX hXqs hUqc U.ι
@@ -247,7 +247,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
   have hO : IsOpenSubspace B S hS O := isOpenSubspace_openComplement B S hS X₁'.2 C hCcl
   have hOpts : subspacePointSet B S hS X₁'.1 O = T := by
     refine (range_pointsMap_ι_openComplement B S hS C).trans ?_
-    show (subspacePointSet B S hS X₁'.1 C)ᶜ = T
+    change (subspacePointSet B S hS X₁'.1 C)ᶜ = T
     rw [hCpts, compl_compl]
   -- `C` is of finite presentation over `X₁'`.
   have hX₁'proper : IsProper B S hS b₁.hom := IsAdmissibleBlowup.isProper B S hS hb₁'
@@ -269,7 +269,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
   let c : X'' ⟶ X₁' := ObjectProperty.homMk O.ι
   have hcbl : IsBlowupAlong B S hS ⟨C, hCcl⟩ c :=
     isBlowupAlong_openComplement_ι_of_isOpen X₁' ⟨C, hCcl⟩ (by
-      show IsOpen (subspacePointSet B S hS X₁'.1 C)
+      change IsOpen (subspacePointSet B S hS X₁'.1 C)
       rw [hCpts]
       exact hTc.isOpen_compl)
   -- `X₁' ⟶ X` is an isomorphism over `U`, so the inverse image of `U` lands in `T`.
@@ -279,7 +279,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
     subspacePointSet_openComplement B S hS Xsp Zc
   have hUOZ : U ≤ OZ.1 := by
     refine le_of_range_pointsMap_ι_subset B S hS OZ.2 ?_
-    show subspacePointSet B S hS X U ⊆ subspacePointSet B S hS X OZ.1
+    change subspacePointSet B S hS X U ⊆ subspacePointSet B S hS X OZ.1
     rw [hOZpts]
     exact Set.disjoint_left.1 hZcdisj
   have hiso : IsIso (OZ.1.fromPreimage b₁.hom) := isIso_fromPreimage_openComplement hZcbl
@@ -292,7 +292,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
       have hb : b₁.hom.app T' (u₁.hom.app T' ⟨b₁.hom.app T' a.1, ha⟩) = b₁.hom.app T' a.1 :=
         congrFun (congrArg (fun φ => φ.app T') hu₁bh) ⟨b₁.hom.app T' a.1, ha⟩
       have h₁ : u₁.hom.app T' ⟨b₁.hom.app T' a.1, ha⟩ ∈ (OZ.1.preimage b₁.hom).obj T' := by
-        show b₁.hom.app T' (u₁.hom.app T' ⟨b₁.hom.app T' a.1, ha⟩) ∈ OZ.1.obj T'
+        change b₁.hom.app T' (u₁.hom.app T' ⟨b₁.hom.app T' a.1, ha⟩) ∈ OZ.1.obj T'
         rw [hb]
         exact hUOZ _ ha
       have h₂ : a.1 ∈ (OZ.1.preimage b₁.hom).obj T' := hUOZ _ ha
@@ -326,7 +326,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
       exact hp)
   let j : O.toFunctor ⟶ X₂'.1 := j₀ ≫ (asIso (Subfunctor.toRange i₂.hom)).inv
   have hji : j ≫ i₂.hom = O.ι ≫ i₁.hom := by
-    show (j₀ ≫ (asIso (Subfunctor.toRange i₂.hom)).inv) ≫ i₂.hom = _
+    change (j₀ ≫ (asIso (Subfunctor.toRange i₂.hom)).inv) ≫ i₂.hom = _
     rw [← hj₀, Category.assoc, inv_toRange_comp]
   have hjopen' : IsOpenImmersion B S hS j := by
     refine isOpenImmersion_of_comp_mono B S hS j i₂.hom ?_
@@ -338,7 +338,7 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
       rintro _ ⟨y, rfl⟩
       have hOpts' : Set.range (pointsMap B S hS O.toFunctor O.ι) = T := hOpts
       rw [hOpts']
-      show pointsMap B S hS _ i₁.hom (pointsMap B S hS _ u₁.hom y) ∈
+      change pointsMap B S hS _ i₁.hom (pointsMap B S hS _ u₁.hom y) ∈
         Set.range (pointsMap B S hS X₂'.1 i₂.hom)
       rw [← pointsMap_comp_apply, huh, pointsMap_comp_apply]
       exact ⟨_, rfl⟩)
@@ -352,12 +352,12 @@ theorem hasChowBlowupDiagram_of_commonAdmissibleBlowup (hZ : B.Contains (⊤_ Sc
   · exact MorphismProperty.comp_mem _ _ _ (relativelyRepresentable_of_isAdmissibleBlowup _ b₂ hb₂)
       (MorphismProperty.comp_mem _ _ _ hZcl.2.rep
         (relativelyRepresentable_projectiveSpaceOver_fst B S hS Y n))
-  · show uX' ≫ O.ι ≫ b₁.hom = U.ι
+  · change uX' ≫ O.ι ≫ b₁.hom = U.ι
     rw [← Category.assoc, huX', hu₁bh]
-  · show uX' ≫ j = u₂.hom
+  · change uX' ≫ j = u₂.hom
     refine (cancel_mono i₂.hom).1 ?_
     rw [Category.assoc, hji, ← Category.assoc, huX', huh]
-  · show (O.ι ≫ b₁.hom) ≫ f = j ≫ b₂.hom ≫ Zs.ι ≫ prod.fst
+  · change (O.ι ≫ b₁.hom) ≫ f = j ≫ b₂.hom ≫ Zs.ι ≫ prod.fst
     rw [Category.assoc, ← hc₁h, ← Category.assoc, ← hji, Category.assoc, hc₂h]
 
 end AlgebraicGeometry.Space

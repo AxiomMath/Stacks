@@ -282,8 +282,7 @@ private theorem apply_symm_eq_of_forall_tmul {R T M A B D : Type*} [CommSemiring
     (u : A ≃+ T ⊗[R] M) (Φ : G) (v : B ≃+ D) (F : H)
     (h : ∀ t m, v (Φ (u.symm (t ⊗ₜ[R] m))) = F (t ⊗ₜ[R] m)) (ζ : T ⊗[R] M) :
     v (Φ (u.symm ζ)) = F ζ := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | add ζ₁ ζ₂ h₁ h₂ => simp [h₁, h₂]
   | tmul t m => exact h t m
 

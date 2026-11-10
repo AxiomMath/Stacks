@@ -119,7 +119,7 @@ theorem exists_stage_hom_of_baseChange (i : I) (X : Over (D.obj i)) [CompactSpac
     (baseChangeDiagram D i X) (baseChangeStructureMap D i X) y (baseChangeCone D c i X)
     (baseChangeConeIsLimit D hc i X) a (by
       ext j
-      show baseChangeTransition (D.map j.hom) (c.π.app i) (c.π.app j.left) (by simp) X ≫
+      change baseChangeTransition (D.map j.hom) (c.π.app i) (c.π.app j.left) (by simp) X ≫
         (pullback.snd (D.map j.hom) X.hom ≫ X.hom) = a ≫ y
       rw [← Category.assoc, baseChangeTransition_snd, ha])
   exact ⟨j, g, hg₂, hg₁⟩
@@ -145,7 +145,7 @@ theorem exists_stage_eq_of_baseChange (i : I) (X : Over (D.obj i)) [CompactSpace
     (by change pullback.snd _ _ ≫ X.hom = (pullback.snd _ _ ≫ u) ≫ y; rw [Category.assoc, hu])
     (by change pullback.snd _ _ ≫ X.hom = (pullback.snd _ _ ≫ v) ≫ y; rw [Category.assoc, hv])
     (by
-      show baseChangeTransition (D.map (𝟙 i)) (c.π.app i) (c.π.app i) (by simp) X ≫
+      change baseChangeTransition (D.map (𝟙 i)) (c.π.app i) (c.π.app i) (by simp) X ≫
         pullback.snd _ _ ≫ u = baseChangeTransition (D.map (𝟙 i)) (c.π.app i) (c.π.app i)
           (by simp) X ≫ pullback.snd _ _ ≫ v
       rw [← Category.assoc, ← Category.assoc, baseChangeTransition_snd, h])

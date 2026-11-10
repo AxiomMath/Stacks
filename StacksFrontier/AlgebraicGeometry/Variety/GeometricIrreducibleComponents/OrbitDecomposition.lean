@@ -97,7 +97,7 @@ public theorem continuous_galoisActionOnGeometricIrreducibleComponents
   let : TopologicalSpace A.V := ⊥
   have : DiscreteTopology A.V := discreteTopology_bot A.V
   let : MulAction G A.V := Action.instMulAction A
-  show Continuous (fun p : G × A.V => p.1 • p.2)
+  change Continuous (fun p : G × A.V => p.1 • p.2)
   have hcont : ContinuousSMul G A.V := by
     rw [continuousSMul_iff_stabilizer_isOpen]
     intro T
@@ -106,11 +106,11 @@ public theorem continuous_galoisActionOnGeometricIrreducibleComponents
     apply Subgroup.isOpen_mono (H₁ := E.fixingSubgroup.op)
       (H₂ := MulAction.stabilizer G T)
     · intro g hg
-      show ConcreteCategory.hom (A.ρ g).asHom T = T
+      change ConcreteCategory.hom (A.ρ g).asHom T = T
       apply hfix (MulOpposite.unop g)
       intro x
       exact (IntermediateField.mem_fixingSubgroup_iff E (MulOpposite.unop g)).mp hg x x.2
-    · show IsOpen (MulOpposite.unop ⁻¹' (E.fixingSubgroup : Set (K ≃ₐ[k] K)))
+    · change IsOpen (MulOpposite.unop ⁻¹' (E.fixingSubgroup : Set (K ≃ₐ[k] K)))
       exact MulOpposite.continuous_unop.isOpen_preimage _ E.fixingSubgroup_isOpen
   exact hcont.continuous_smul
 
@@ -136,14 +136,14 @@ public theorem finite_range_galoisAction_of_stabilizing
     change σ.unop.symm x = τ.unop.symm x at hx
     simpa using congrArg τ.unop hx
   change (MulOpposite.op (τ.unop * σ.unop.symm)) • Z = Z at hstab
-  show (MulOpposite.op σ.unop) • Z = (MulOpposite.op τ.unop) • Z
+  change (MulOpposite.op σ.unop) • Z = (MulOpposite.op τ.unop) • Z
   calc
     (MulOpposite.op σ.unop) • Z =
         (MulOpposite.op σ.unop) • ((MulOpposite.op (τ.unop * σ.unop.symm)) • Z) := by rw [hstab]
     _ = (MulOpposite.op τ.unop) • Z := by
       rw [← mul_smul]
       congr 1
-      show σ * (σ⁻¹ * τ) = τ
+      change σ * (σ⁻¹ * τ) = τ
       simp
 
 /-- The Galois action on the base change commutes with the projection to the original scheme. -/
@@ -153,7 +153,7 @@ public theorem galoisActionOnBaseChange_ρ_comp_fst
     ((galoisActionOnBaseChange k K X).ρ σ).asHom ≫
         pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
-  show (pullback.lift _ _ _) ≫ _ = _
+  change (pullback.lift _ _ _) ≫ _ = _
   rw [pullback.lift_fst]
   simp
 
@@ -169,7 +169,7 @@ public theorem image_fst_galoisAction_component
         (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom
           ⟨Z, hZ⟩).1 =
       (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base '' Z := by
-  show _ '' ((galoisActionOnBaseChange k K X).ρ σ).asHom.base '' Z = _
+  change _ '' ((galoisActionOnBaseChange k K X).ρ σ).asHom.base '' Z = _
   have hfun : (fun x ↦ (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base
       (((galoisActionOnBaseChange k K X).ρ σ).asHom.base x)) =
         (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base := by
@@ -254,15 +254,15 @@ public theorem exists_finite_single_orbit_decomposition
     rw [← Set.image_preimage_eq W p.surjective, hWU, himageU]
   refine ⟨s, ?_, ?_, ?_⟩
   · refine ⟨Z, horbit.mem_toFinset.mpr ⟨1, ?_⟩⟩
-    show (1 : MulOpposite (K ≃ₐ[k] K)) • Z = Z
+    change (1 : MulOpposite (K ≃ₐ[k] K)) • Z = Z
     simp
-  · show p.base ⁻¹' (T : Set X.left) = U
+  · change p.base ⁻¹' (T : Set X.left) = U
     rwa [← hWT]
   · intro W hW W' hW'
     obtain ⟨σ, rfl⟩ := horbit.mem_toFinset.mp hW
     obtain ⟨τ, rfl⟩ := horbit.mem_toFinset.mp hW'
     refine ⟨τ * σ⁻¹, ?_⟩
-    show (τ * σ⁻¹) • (σ • Z) = τ • Z
+    change (τ * σ⁻¹) • (σ • Z) = τ • Z
     simp [mul_smul]
 
 end AlgebraicGeometry

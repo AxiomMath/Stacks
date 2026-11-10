@@ -110,7 +110,7 @@ theorem mapCochainComplexPlusDerivedUnit_comp_rightDerivedFunctorPlusIsoMapDeriv
     rw [hm0]
     exact DerivedCategory.Plus.Qh.map_id _
   rw [hm]
-  simp only [Category.comp_id, Category.id_comp, Category.assoc]
+  simp only [Category.comp_id, Category.assoc]
   refine congrArg (_ ≫ ·) ?_
   exact (congrArg (_ ≫ ·) h2).trans ((Category.assoc _ _ _).symm.trans
     ((congrArg (fun x => x ≫ F.mapDerivedCategoryPlus.map
@@ -235,13 +235,13 @@ theorem etaleModuleDirectImageCompGlobalSections_hom_app {X Y : Scheme.{u}} (g :
   have r2 := Sheaf.ΓRes_map ((etaleModuleDirectImage.{u, 0} Λ g).obj F) k.op
   have cR : (etaleModuleGlobalSectionsDirectImageIso g Λ).hom.app F ≫ ΓX₁.hom.app F =
       ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) := by
-    show (ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) ≫ ΓX₁.inv.app F) ≫
+    change (ΓY₁.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) ≫ ΓX₁.inv.app F) ≫
       ΓX₁.hom.app F = _
     exact (Category.assoc _ _ _).trans ((congrArg _ (Iso.inv_hom_id_app ΓX₁ F)).trans
       (Category.comp_id _))
   have cL : (etaleModuleDirectImageCompGlobalSections.{u, 0} Λ g).hom.app F ≫ ΓX₂.hom.app F =
       ΓY₂.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) := by
-    show (ΓY₂.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) ≫ 𝟙 _ ≫ ΓX₂.inv.app F) ≫
+    change (ΓY₂.hom.app ((etaleModuleDirectImage.{u, 0} Λ g).obj F) ≫ 𝟙 _ ≫ ΓX₂.inv.app F) ≫
       ΓX₂.hom.app F = _
     exact (Category.assoc _ _ _).trans ((congrArg _ ((Category.assoc _ _ _).trans
       ((Category.id_comp _).trans (Iso.inv_hom_id_app ΓX₂ F)))).trans (Category.comp_id _))
@@ -323,7 +323,7 @@ theorem mapCochainComplexPlusDerivedUnit_comp_galoisRestrictionCohomologyEndo
       (galoisBaseChange_comp_fst Y kbar σ) C)
   refine h.trans (congrArg (· ≫ _) (congrArg DerivedCategory.Plus.Q.map ?_))
   ext n : 2
-  show (etaleModuleGlobalSections.{u, 0} Λ (fieldBaseChange Y kbar)).map
+  change (etaleModuleGlobalSections.{u, 0} Λ (fieldBaseChange Y kbar)).map
       ((selfMapTwist.{u, 0} Λ (fieldBaseChangeProj Y kbar) (galoisBaseChange Y kbar σ)
         (galoisBaseChange_comp_fst Y kbar σ)).app (C.obj.X n)) ≫
     (etaleModuleDirectImageCompGlobalSections.{u, 0} Λ (galoisBaseChange Y kbar σ)).hom.app
@@ -403,7 +403,7 @@ theorem galoisDerivedGlobalSectionsForgetIso_fac
     rw [← Category.assoc, ← h1]
     exact (Category.assoc _ _ _).trans ((congrArg _ (c₁.hom_inv_id_app _)).trans
       (Category.comp_id _))
-  show U.mapDerivedCategoryPlus.map (Γg.mapCochainComplexPlusDerivedUnit.app C) ≫
+  change U.mapDerivedCategoryPlus.map (Γg.mapCochainComplexPlusDerivedUnit.app C) ≫
       U.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus.inv.app
         (Γg.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Q.obj C)) ≫
       c₁.inv.app (DerivedCategory.Plus.Q.obj C) ≫ c₂.hom.app (DerivedCategory.Plus.Q.obj C) ≫

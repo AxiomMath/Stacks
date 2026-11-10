@@ -110,7 +110,7 @@ theorem germ_globalSections_of_sheafFiberIso (hT : IsTerminal T) (hT' : IsTermin
   have hcomp : (inverseImageTerminalIso g).inv ≫
         g.inverseImage.map (terminalObjHomEquiv hT' F b) ≫ (g.adj.homEquiv F E).symm m =
       g.pushforwardTerminalHomEquiv E (terminalObjHomEquiv hT' F b ≫ m) := by
-    show _ = (inverseImageTerminalIso g).inv ≫
+    change _ = (inverseImageTerminalIso g).inv ≫
       (g.adj.homEquiv (⊤_ (Sheaf K (Type w))) E).symm (terminalObjHomEquiv hT' F b ≫ m)
     rw [g.adj.homEquiv_naturality_left_symm]
   have hmc := (Φ.sheafFiber (A := Type w)).map_comp_apply (inverseImageTerminalIso g).inv

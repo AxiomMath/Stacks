@@ -80,9 +80,11 @@ variable (A : Type u) [CommRing A] (f₁ f₂ : A)
 /-- The pair `(f₁, f₂)` of generators of the centre, as a family indexed by `Fin 2`. -/
 def centerGens : Fin 2 → A := ![f₁, f₂]
 
+omit [CommRing A] in
 /-- The first generator of the centre is `f₁`. -/
 @[simp] theorem centerGens_zero : centerGens A f₁ f₂ 0 = f₁ := rfl
 
+omit [CommRing A] in
 /-- The second generator of the centre is `f₂`. -/
 @[simp] theorem centerGens_one : centerGens A f₁ f₂ 1 = f₂ := rfl
 

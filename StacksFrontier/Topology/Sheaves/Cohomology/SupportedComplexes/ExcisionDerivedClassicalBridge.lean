@@ -117,8 +117,8 @@ but not spelled as, `w(-) ∘ Qh`. It is not used here: `Stacks.DerivedFunctor.p
 the naturality coherence are defined for.
 
 **The two composite `IsRightDerivedFunctor` statements are instance hypotheses** of the results
-below, exactly as in `StacksFrontier.Homology.DerivedIndexing.PostCompositionCoherence`: they occur in
-the *statements*, through the bridge, so they must be available when a statement is elaborated,
+below, exactly as in `StacksFrontier.Homology.DerivedIndexing.PostCompositionCoherence`: they occur
+in the *statements*, through the bridge, so they must be available when a statement is elaborated,
 and they cannot be synthesized from the K-injective-resolution hypotheses, which are not classes.
 `isRightDerivedFunctor_rightDerivedCompMapDerivedCategory` and
 `isRightDerivedFunctor_mapDerivedCategoryCompRightDerived` of this file supply them from the
@@ -200,6 +200,8 @@ def excisionHomotopyIso :
     ((Functor.mapHomotopyCategoryCompIso (Iso.refl (S ⋙ L)) (ComplexShape.up ℤ)).symm ≪≫
       Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)) DerivedCategory.Qh
 
+omit [EnoughInjectives A] [HasDerivedCategory A] [EnoughInjectives A'] [PreservesFiniteLimits L]
+  [PreservesFiniteColimits L] [L.PreservesInjectiveObjects] in
 /-- The components of `excisionHomotopyIso`: the comparison at `CategoryTheory.Iso.refl`
 contributes an identity morphism, so what is left is `e` applied degreewise, under
 `DerivedCategory.Qh`. -/
@@ -224,6 +226,8 @@ theorem excisionHomotopyIso_hom_app (K : HomotopyCategory A (ComplexShape.up ℤ
       h0).trans (Category.id_comp _)
   h1.trans (congrArg DerivedCategory.Qh.map h2)
 
+omit [EnoughInjectives A] [HasDerivedCategory A] [EnoughInjectives A'] [PreservesFiniteLimits L]
+  [PreservesFiniteColimits L] [L.PreservesInjectiveObjects] in
 /-- **`excisionHomotopyIso` is the datum the universal property of right derivation consumes.**
 Its `hom` is `Stacks.DerivedFunctor.mapHomotopyCategoryCompQhNatTrans` of `e.hom`, which is what
 makes `Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived_naturality` applicable
@@ -235,6 +239,7 @@ theorem excisionHomotopyIso_hom :
 
 /-! ### The two presuppositions -/
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [L.PreservesInjectiveObjects] in
 include hres in
 /-- **`RS ⋙ L.mapDerivedCategory` is a right derived functor of `S ⋙ L`.** `L` is exact, so this
 is absoluteness of a right derived functor computed by K-injective resolutions,
@@ -245,6 +250,7 @@ theorem isRightDerivedFunctor_rightDerivedCompMapDerivedCategory :
       (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) :=
   Stacks.DerivedFunctor.isRightDerivedFunctor_postcompose S L RS αS hres
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [L.PreservesInjectiveObjects] in
 include V adj hres hres' in
 /-- **`L.mapDerivedCategory ⋙ RṠ` is a right derived functor of `L ⋙ Ṡ`.** Unlike the
 post-composition statement this is not formal: it needs that `L` carries K-injective complexes to
@@ -285,6 +291,9 @@ def derivedExcisionNatIso : RS ⋙ L.mapDerivedCategory ≅ L.mapDerivedCategory
     (Stacks.DerivedFunctor.precomposeUnit L S' RS' αS')
     (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) (excisionHomotopyIso S S' L e)
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [L.PreservesInjectiveObjects]
+  [RS.IsRightDerivedFunctor αS (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
+  [RS'.IsRightDerivedFunctor αS' (HomotopyCategory.quasiIso A' (ComplexShape.up ℤ))] in
 /-- **The factorization that pins the derived excision down.** The unit exhibiting
 `RS ⋙ L.mapDerivedCategory` as a right derived functor, followed by the comparison, is the
 degreewise excision followed by the unit exhibiting `L.mapDerivedCategory ⋙ RṠ` as one. -/
@@ -299,6 +308,9 @@ theorem derivedExcisionNatIso_fac :
     (Stacks.DerivedFunctor.precomposeUnit L S' RS' αS')
     (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) (excisionHomotopyIso S S' L e).hom
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [L.PreservesInjectiveObjects]
+  [RS.IsRightDerivedFunctor αS (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
+  [RS'.IsRightDerivedFunctor αS' (HomotopyCategory.quasiIso A' (ComplexShape.up ℤ))] in
 /-- **The derived excision is the morphism the universal property produces from `e`.** Both are
 `CategoryTheory.Functor.rightDerivedNatTrans` at the same two units, and the degreewise data agree
 by `excisionHomotopyIso_hom`. This is what makes the naturality coherence of the bridge applicable
@@ -329,6 +341,9 @@ def derivedExcisionSingleHomologyNatTrans (n : ℤ) :
     (Functor.whiskerRight (derivedExcisionNatIso S S' L e RS αS RS' αS').hom
       (DerivedCategory.homologyFunctor A' n))
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [L.PreservesInjectiveObjects]
+  [RS.IsRightDerivedFunctor αS (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
+  [RS'.IsRightDerivedFunctor αS' (HomotopyCategory.quasiIso A' (ComplexShape.up ℤ))] in
 /-- **`Hⁿ` of the derived excision is the morphism the naturality coherence of the bridge is
 stated for.** -/
 theorem derivedExcisionSingleHomologyNatTrans_eq (n : ℤ) :

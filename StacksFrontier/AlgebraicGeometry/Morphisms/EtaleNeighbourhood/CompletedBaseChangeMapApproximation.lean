@@ -51,7 +51,7 @@ private theorem exists_approximationDiagram_over_base_of_span_truncationEquiv
     {X S Y T B : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [IsLocallyNoetherian T]
     (bS : S ⟶ B) (hTB : T ⟶ B) [LocallyOfFinitePresentation hTB]
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s)
+    {x : X} {s : S} {y : Y} {t : T}
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -169,31 +169,31 @@ private theorem exists_approximationDiagram_over_base_of_span_truncationEquiv
   obtain ⟨Dst, ρ, hρSm, τ, m, hmρ, hmτ, A, fD, gD, hfD₀, hgD, a, hτρ, hAa, hfa, hfres₀, hgres,
     hga, aσ, haσA, haσZ, Uaff, jUaff, hjUaff, eAff, heAffIso, a₀, hja₀, heAffa₀,
     hAffX, hAffY, hAffZ⟩ :=
-    exists_stage_etale_pair_of_pointed_span p q bS hTB hx hG
+    exists_stage_etale_pair_of_pointed_span p q bS hTB hG
       (relativeBaseChangeMorphism s σ) hβB xσ hxσX hxσZ yσ hyσZ Usch u fU
       hfU gU hgUEt hgU hgUres hUBase
   have := hρSm
   have : LocallyOfFiniteType ρ := inferInstance
   have hτm : τ (m (specCompletedStalkPoint S s)) = t := by
-    show (m ≫ τ) (specCompletedStalkPoint S s) = t
+    change (m ≫ τ) (specCompletedStalkPoint S s) = t
     rw [hmτ]
     exact relativeBaseChangeMorphism_specCompletedStalkPoint s σ
   have hσstage : (Scheme.stalkClosedPointTo m).hom.comp (τ.stalkHomAt hτm) = σ :=
     stalkClosedPointTo_comp_stalkHomAt m τ (CommRingCat.ofHom σ) hmτ hτm
   -- the two routes out of `𝒪_{A, a}`, and the point of the base change of `A` along `m`
   have hgYa : (gD.left ≫ pullback.fst q τ) a = y := by
-    show pullback.fst q τ (gD.left a) = y
+    change pullback.fst q τ (gD.left a) = y
     rw [hga]
-    show (baseChangeCompare q τ m (relativeBaseChangeMorphism s σ) hmτ ≫
+    change (baseChangeCompare q τ m (relativeBaseChangeMorphism s σ) hmτ ≫
       pullback.fst q τ) yσ = y
     rw [baseChangeCompare_fst]
     exact hyσY
   have hAσX : (pullback.fst A.hom m ≫ fD.left ≫ pullback.fst p ρ) aσ = x := by
-    show (fD.left ≫ pullback.fst p ρ) (pullback.fst A.hom m aσ) = x
+    change (fD.left ≫ pullback.fst p ρ) (pullback.fst A.hom m aσ) = x
     rw [haσA]
     exact hfa
   have hAσY : (pullback.fst A.hom m ≫ gD.left ≫ pullback.fst q τ) aσ = y := by
-    show (gD.left ≫ pullback.fst q τ) (pullback.fst A.hom m aσ) = y
+    change (gD.left ≫ pullback.fst q τ) (pullback.fst A.hom m aσ) = y
     rw [haσA]
     exact hgYa
   -- the Noetherian local rings in play
@@ -259,7 +259,7 @@ private theorem exists_approximationDiagram_over_base_of_span_truncationEquiv
       (hUcong α b hP)
   obtain ⟨V, τV, hτV, yτ, hyτY, hyτV, Wsch, w, pW, hpW, g, hgPoint, hgEt, hVel, hτVB, hresg,
     hover, hXcond, hc3, hc5, hgZθ, hfib⟩ :=
-    exists_approximationDiagram_of_stage p q hx hG N hN σ ρ τ bS hTB hτρ m
+    exists_approximationDiagram_of_stage p q hG N hN σ ρ τ bS hTB hτρ m
       hmρ (relativeBaseChangeMorphism s σ) hmτ hτm hσstage A fD gD hgD a hAa hfa
       hgres hgYa yσ hyσY hyσZ hga aσ haσA haσZ hAσX hAσY P hAcong
   obtain ⟨gZ, hgZ, hgZfst, hgZsnd, θ, hθY, hθS, hθsq⟩ := hgZθ
@@ -488,18 +488,18 @@ theorem exists_relativeMapApproximation
   have hfUsnd : fU ≫ pullback.snd p (specCompletedStalkTo S s) =
       U.toBase ≫ pullback.snd q (relativeBaseChangeMorphism s σ) := pullback.lift_snd _ _ _
   have hxσX : pullback.fst p (specCompletedStalkTo S s) (fU U.point) = x := by
-    show (fU ≫ pullback.fst p (specCompletedStalkTo S s)) U.point = x
+    change (fU ≫ pullback.fst p (specCompletedStalkTo S s)) U.point = x
     rwa [hfUfst]
   have hxσZ : pullback.snd p (specCompletedStalkTo S s) (fU U.point) =
       specCompletedStalkPoint S s := by
-    show (fU ≫ pullback.snd p (specCompletedStalkTo S s)) U.point = _
+    change (fU ≫ pullback.snd p (specCompletedStalkTo S s)) U.point = _
     rw [hfUsnd]
-    show pullback.snd q (relativeBaseChangeMorphism s σ) (U.toBase U.point) = _
+    change pullback.snd q (relativeBaseChangeMorphism s σ) (U.toBase U.point) = _
     rwa [U.map_point]
   have hUX : (fU ≫ pullback.fst p (specCompletedStalkTo S s)) U.point = x := by
     rwa [hfUfst]
   have hUY : (U.toBase ≫ pullback.fst q (relativeBaseChangeMorphism s σ)) U.point = y := by
-    show pullback.fst q (relativeBaseChangeMorphism s σ) (U.toBase U.point) = y
+    change pullback.fst q (relativeBaseChangeMorphism s σ) (U.toBase U.point) = y
     rwa [U.map_point]
   -- the congruence of Tag 0CAU, read as a congruence between `F^♯` and any lift of `φ`
   have hUsq : ∀ (α : X.presheaf.stalk x)
@@ -542,7 +542,7 @@ theorem exists_relativeMapApproximation
   -- the diagram, from the pointed span, with `B = S`
   obtain ⟨V, τV, hτV, yτ, hyτY, hyτV, Wsch, w, pW, hpW, g, hgPoint, hgEt, hVel, hτVB, hresg,
     hover, -, hc3, -, hgZθ, hfib⟩ :=
-    exists_approximationDiagram_over_base_of_span_truncationEquiv p q (𝟙 S) h hx hG N hN σ hσ
+    exists_approximationDiagram_over_base_of_span_truncationEquiv p q (𝟙 S) h hG N hN σ hσ
       (by rw [Category.comp_id]; exact relativeBaseChangeMorphism_comp h hts σ hσbase)
       (fU U.point) hxσX hxσZ yσ hyσY hyσZ U.scheme U.point fU rfl U.toBase inferInstance
       U.map_point hUres hfUsnd.symm

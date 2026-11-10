@@ -108,7 +108,7 @@ private lemma finite_range_of_affine_morphism
     exact h.symm
   have hf' : ∀ q : PrimeSpectrum Γ(S, ⊤), PrimeSpectrum.comap φ q ∈ E' := by
     intro q
-    show eT.symm (PrimeSpectrum.comap φ q) ∈ E
+    change eT.symm (PrimeSpectrum.comap φ q) ∈ E
     rw [← hpoint q]
     simpa using hf (eS.symm q)
   refine ((finite_range_comap_of_specializes_antichain φ E' hE' hf').image eT.symm).subset ?_
@@ -125,12 +125,12 @@ private theorem mono_residueField_coproduct (X : Scheme.{u}) (E : Set X) :
   have hcomponent (x : E) :
       Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) x ≫ i =
         X.fromSpecResidueField x.1 :=
-    Sigma.ι_desc _ x
+    Sigma.ι_comp_desc _ x
   have hbase (p : Σ x : E, Spec (.of (X.residueField x.1))) :
       i (e p) = p.1.1 := by
     rcases p with ⟨x, a⟩
     rw [sigmaMk_mk]
-    show (Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) x ≫ i) a = x.1
+    change (Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) x ≫ i) a = x.1
     rw [hcomponent]
     exact Scheme.fromSpecResidueField_apply _ _
   have hinj : Function.Injective i := by
@@ -143,11 +143,11 @@ private theorem mono_residueField_coproduct (X : Scheme.{u}) (E : Set X) :
     rw [IsZariskiLocalAtSource.iff_of_openCover (P := @SurjectiveOnStalks)
       (sigmaOpenCover (fun x : E ↦ Spec (.of (X.residueField x.1))))]
     intro x
-    show SurjectiveOnStalks
+    change SurjectiveOnStalks
       (Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) x ≫ i)
     rw [hcomponent x]
     infer_instance
-  show Mono i
+  change Mono i
   exact SurjectiveOnStalks.mono_of_injective hinj
 
 /-- Morphisms from the pieces of an open cover into a monomorphism `π` that agree with `f`
@@ -198,7 +198,7 @@ private lemma exists_factorization_of_finite_index
     mono_residueField_coproduct X E
   have hk (x : E) : (gi x ≫ Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) x) ≫
       Sigma.desc (fun x : E ↦ X.fromSpecResidueField x.1) = 𝒰.f x ≫ f := by
-    rw [Category.assoc, Sigma.ι_desc, hgi]
+    rw [Category.assoc, Sigma.ι_comp_desc, hgi]
   exact exists_comp_eq_of_openCover_of_mono f _ 𝒰 _ hk
 
 /-- A factorization through the residue-field points of a subset extends to any larger set of
@@ -216,7 +216,7 @@ private lemma factorization_include_finite_subset
       Sigma.ι (fun x : E ↦ Spec (.of (X.residueField x.1))) ⟨x.1, hFE x.2⟩
   have hlift : lift ≫ Sigma.desc (fun x : E ↦ X.fromSpecResidueField x.1) =
       Sigma.desc (fun x : F ↦ X.fromSpecResidueField x.1) :=
-    Sigma.hom_ext _ _ fun x ↦ by simp only [← Category.assoc, lift, Sigma.ι_desc]
+    Sigma.hom_ext _ _ fun x ↦ by simp only [← Category.assoc, lift, Sigma.ι_comp_desc]
   exact ⟨g ≫ lift, by rwa [Category.assoc, hlift]⟩
 
 /-- **Stacks Project, Tag 0H1N.** A morphism from a reduced scheme into a locally Noetherian
@@ -269,7 +269,7 @@ theorem exists_factorization_through_residueFields
         congrArg (fun k : 𝒰.X i ⟶ X => k z) (hcomp i)
     have hlocal : ∀ z : 𝒰.X i, r i z ∈ EU i := by
       intro z
-      show (U i).ι (r i z) ∈ E
+      change (U i).ι (r i z) ∈ E
       rw [hz]
       exact hf _
     have hrangeR : (Set.range (r i).base).Finite :=

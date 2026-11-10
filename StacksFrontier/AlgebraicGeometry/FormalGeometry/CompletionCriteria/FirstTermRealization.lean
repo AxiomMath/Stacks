@@ -136,9 +136,8 @@ theorem restrictFunctor_map_mulBySpec {R : CommRingCat.{u}} (W : (Spec R).Opens)
           ((W.toScheme.presheaf.map (homOfLE (le_top (a := V))).op).hom
             (((Scheme.ΓSpecIso R).inv ≫ W.ι.appTop).hom r)) := by
     rw [Scheme.Opens.ι_appIso]
-    simp only [Iso.refl_inv, CommRingCat.id_apply, CommRingCat.comp_apply,
-      Scheme.Opens.toScheme_presheaf_map, Scheme.Opens.ι_appTop, ← CommRingCat.comp_apply,
-      ← Functor.map_comp]
+    simp only [Iso.refl_inv, Scheme.Opens.toScheme_presheaf_map, Scheme.Opens.ι_appTop,
+      ← CommRingCat.comp_apply]
     rfl
   have hL : (Scheme.Modules.Hom.app
         ((Scheme.Modules.restrictFunctor W.ι).map ((mulBySpec R r).asHom.app N)) V) x
@@ -210,7 +209,7 @@ theorem exists_finiteModule_smul_eq_zero_tilde_restrict_iso
   have happ : φ = 0 := (cancel_mono e₀'.hom).1 (by rw [hn, hz, comp_zero, zero_comp])
   have hT : (tilde.functor (CommRingCat.of S.A) ⋙
       Scheme.Modules.restrictFunctor S.U.ι).map (f • 𝟙 M₀) = 0 := by
-    show (Scheme.Modules.restrictFunctor S.U.ι).map
+    change (Scheme.Modules.restrictFunctor S.U.ι).map
       ((tilde.functor (CommRingCat.of S.A)).map (f • 𝟙 M₀)) = 0
     rw [tilde_map_smul_id, restrictFunctor_map_mulBySpec]
     exact happ

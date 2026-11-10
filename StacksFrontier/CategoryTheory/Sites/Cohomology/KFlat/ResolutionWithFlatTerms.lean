@@ -57,7 +57,7 @@ lemma isIso_ιTruncLE_f {A : Type*} [Category* A] [Abelian A]
       Int.natAbs_eq_zero]
     omega
   have : IsIso ((K.op.πTruncGE e.op).f n) := by
-    show IsIso ((e.op.liftExtend _ _).f n)
+    change IsIso ((e.op.liftExtend _ _).f n)
     rw [e.op.isIso_liftExtend_f_iff _ _ hi]
     exact K.op.isIso_restrictionToTruncGE' e.op _ hb
   exact inferInstanceAs (IsIso ((K.op.πTruncGE e.op).f n).unop)

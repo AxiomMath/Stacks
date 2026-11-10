@@ -120,7 +120,7 @@ private theorem reduced_comparison_equiv_right
   intro d
   apply (reduced_comparison_equiv_of_bijective B (B ⊗[A] D) W g hnil hbase hbij).symm.injective
   simp only [AlgEquiv.symm_apply_apply]
-  show algebraMap D W d = g
+  change algebraMap D W d = g
     ((Algebra.TensorProduct.includeRight : D →ₐ[A] B ⊗[A] D) d)
   exact (hright d).symm
 
@@ -315,7 +315,7 @@ private theorem formallySmoothNAdic_of_mapped_uniformizer_and_separable
     RingHom.FormallySmoothNAdic.{max uA₁ uB₁} (algebraMap D C) (IsLocalRing.maximalIdeal C) := by
   apply (formallySmooth_iff_weaklyUnramified_and_isSeparableExtension D C).mpr
   refine ⟨?_, hsep⟩
-  show ramificationIndex D C = 1
+  change ramificationIndex D C = 1
   apply ((ramificationIndex_characterization D C).2.2.1 1 le_rfl ?_).symm
   simp [hπ.maximalIdeal_eq, hmax, Ideal.map_span]
 
@@ -329,14 +329,14 @@ private theorem localizationAtPrimeEquiv
     ext y
     constructor
     · rintro ⟨x, hx, rfl⟩
-      show e x ∉ q
+      change e x ∉ q
       change x ∉ p at hx
       rwa [← h] at hx
     · intro hy
       refine ⟨e.symm y, ?_, e.apply_symm_apply y⟩
-      show e.symm y ∉ p
+      change e.symm y ∉ p
       rw [← h]
-      show e (e.symm y) ∉ q
+      change e (e.symm y) ∉ q
       simpa using hy
   exact ⟨IsLocalization.ringEquivOfRingEquiv _ _ e hmap,
     IsLocalization.ringEquivOfRingEquiv_eq hmap⟩
@@ -438,7 +438,7 @@ theorem formallySmooth_localizations_after_finite_fraction_field_extension
       exact (hφcomp x).symm)
     let : IsScalarTower A D C := IsScalarTower.of_algebraMap_eq' (by
       ext x
-      show algebraMap A C x = algebraMap D C (algebraMap A D x)
+      change algebraMap A C x = algebraMap D C (algebraMap A D x)
       rw [IsScalarTower.algebraMap_apply A A₁ D, IsScalarTower.algebraMap_apply A A₁ C]
       exact (hφcomp (algebraMap A A₁ x)).symm)
     obtain ⟨hAD, hfinite⟩ := finite_residueField_localized_integralClosure A K K₁ A₁ eA₁ m
@@ -492,14 +492,14 @@ theorem formallySmooth_localizations_after_finite_fraction_field_extension
           @algebraMap D (Localization.AtPrime r) _ _ algebraLoc := by
         apply IsLocalization.ringHom_ext m.primeCompl
         ext a
-        show E (φ (algebraMap A₁ D a)) = _
+        change E (φ (algebraMap A₁ D a)) = _
         rw [hφcomp, hE]
-        show algebraMap R (Localization.AtPrime r) (eBred (algebraMap A₁ B₁ a)) = _
+        change algebraMap R (Localization.AtPrime r) (eBred (algebraMap A₁ B₁ a)) = _
         rw [hBredRight]
         exact (hcomp a).symm
       refine ⟨π, hπ, ?_⟩
       apply E.idealComapOrderIso.symm.injective
-      show (IsLocalRing.maximalIdeal C).map E.toRingHom =
+      change (IsLocalRing.maximalIdeal C).map E.toRingHom =
         (Ideal.span {algebraMap D C π}).map E.toRingHom
       rw [IsLocalRing.map_maximalIdeal_of_surjective E.toRingHom E.surjective,
         Ideal.map_span, Set.image_singleton]

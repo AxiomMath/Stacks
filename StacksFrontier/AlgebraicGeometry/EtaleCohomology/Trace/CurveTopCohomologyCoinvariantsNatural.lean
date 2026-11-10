@@ -49,15 +49,16 @@ private theorem levelCoinvariantsModule_ρ_eq_one_of_mem {G : Type (u + 1)} [Gro
     {r : ℕ} (ρ : G →* GL (Fin r) ℤ_[ℓ]) (hρ : Continuous ρ) (k : ℕ) [NeZero (ℓ ^ k)] {g : G}
     (hg : g ∈ H) : (levelCoinvariantsModule H ρ hρ k).obj.obj.obj.ρ g = 1 :=
   End.ext
-    (ModuleCat.hom_ext (LinearMap.ext fun v => levelCoinvariantsRepresentation_eq_of_mem H ρ k hg v))
+    (ModuleCat.hom_ext (LinearMap.ext fun v =>
+      levelCoinvariantsRepresentation_eq_of_mem H ρ k hg v))
 
 /-! ### Trivial geometric monodromy -/
 
 section Trivial
 
 variable (B : BigEtaleSite.{u}) (U : B.Scheme) [ConnectedSpace U.1] {k : Type u} [Field k]
-  [Fintype k] (f : U.1 ⟶ Spec (.of k)) [IsCurve k f] [Smooth f] [LocallyOfFiniteType f]
-  [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f)) (kbar : Type u)
+  [Fintype k] (f : U.1 ⟶ Spec (.of k)) [IsCurve k f] [Smooth f]
+  (j : CompactificationOf (Over.mk f)) (kbar : Type u)
   [Field kbar] [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime]
   [CharP k p] (hcard : Fintype.card k = p ^ q) (x : GeometricPoint U.1)
   (hs : Function.Surjective (etaleFundamentalGroupMap f x))

@@ -120,7 +120,6 @@ variable {X Y : RingedSite.{u, u, u}}
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [∀ V : X.C, HasSheafify (X.J.over V) AddCommGrpCat.{u}]
   [∀ V : X.C, (X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})]
   [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj A).Additive]
@@ -139,7 +138,8 @@ universe. Both the source and the base need them: the towers of part (4) live on
 pushforward and on the source before it. -/
 local instance hasProductsOfShape_nat_derivedCategory_ringSheaf_pushforwardAdicLimit
     (Z : RingedSite.{u, u, u}) :
-    HasProductsOfShape ℕ (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))) :=
+    HasProductsOfShape ℕ
+      (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))) :=
   hasProductsOfShape_nat_derivedCategory_ringSheaf.{u, u, u} Z
 
 /-- **Part (4) of [Stacks, Tag 099N], granted the pro-isomorphism of towers of
@@ -205,7 +205,8 @@ limit crosses that isomorphism by
   `n ↦ Lf^*M ⊗^𝐋_{𝒪'} 𝒪'/ℐ'ⁿ⁺¹`. ASSUMED: exactly what part (4) assumes — the pro-isomorphism
   `a` and the `HasCoproduct` instance — and nothing else"]
 theorem isDerivedLimit_adicReductionTower_derivedCompletePullback_of_proIso
-    (I : SheafOfModules.Submodule (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
+    (I : SheafOfModules.Submodule
+      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
     [HasCoproduct ((koszulPowerSystem X g ⋙ DerivedCategory.Q).obj)]
     (M : ObjectProperty.FullSubcategory (IsDerivedComplete.{u, u, u, u} Y I))
     (a : InverseSequence.ProIso (koszulPowerDualSystem X g)

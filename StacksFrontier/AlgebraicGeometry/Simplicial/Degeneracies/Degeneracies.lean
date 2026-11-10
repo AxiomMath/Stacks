@@ -461,7 +461,7 @@ private lemma exists_polynomial_extension {Q : SimplicialObject (CommAlgCat.{max
     fun j hj => isIso_attachCellsι_app b _ (by simpa using hj), ?_⟩
   intro t
   refine ⟨MvPolynomial.X (t, ⟨𝟙 _, Function.surjective_id⟩), ?_⟩
-  show cellDescApp b f _root_.id (op ⦋n + 1⦌) _ = t
+  change cellDescApp b f _root_.id (op ⦋n + 1⦌) _ = t
   rw [cellDescApp_X]
   simp
 
@@ -557,7 +557,7 @@ private lemma exists_polynomial_extension_over {B : Type (max u v)} [CommRing B]
         apply Over.OverMorphism.ext
         exact q.naturality g }
   have hiw (Δ : SimplexCategoryᵒᵖ) : i.app Δ ≫ (X'.obj Δ).hom = (X.obj Δ).hom := by
-    show i.app Δ ≫ q.app Δ ≫ (Y.obj Δ).hom = _
+    change i.app Δ ≫ q.app Δ ≫ (Y.obj Δ).hom = _
     rw [← Category.assoc, ← NatTrans.comp_app, hfac]
     exact Over.w (f.app Δ)
   let i' : X ⟶ X' :=
@@ -611,12 +611,12 @@ private lemma exists_cosk_lift {B : Type (max u v)} [CommRing B] [Algebra A B]
       CommAlgCat.isIso_cosk_unit_app X (n + 1) ⦋k⦌ (by simpa using Nat.le_succ_of_le hk)
     have hη := over_bijective_of_isIso (η.app (op ⦋k⦌))
     apply (Function.Bijective.of_comp_iff _ hη).mp
-    show Function.Bijective ((η.app (op ⦋k⦌) ≫ f.app (op ⦋k⦌)).left)
+    change Function.Bijective ((η.app (op ⦋k⦌) ≫ f.app (op ⦋k⦌)).left)
     rw [← NatTrans.comp_app, hf]
     exact hq k hk
   have hsurj : Function.Surjective (f.app (op ⦋n + 1⦌)).left := by
     apply Function.Surjective.of_comp (g := (η.app (op ⦋n + 1⦌)).left)
-    show Function.Surjective ((η.app (op ⦋n + 1⦌) ≫ f.app (op ⦋n + 1⦌)).left)
+    change Function.Surjective ((η.app (op ⦋n + 1⦌) ≫ f.app (op ⦋n + 1⦌)).left)
     rw [← NatTrans.comp_app, hf]
     exact hs
   have hR : R.IsCoskeletal (n + 1) := cosk_isCoskeletal X _
@@ -907,22 +907,22 @@ private noncomputable def relationOne : (relationModel p).obj (op ⦋1⦌) →�
 private lemma relationOne_C (a : ULift.{max u v w x, max u w} p.P0) :
     relationOne p (MvPolynomial.C a) = DegreeOne.degeneracyZero p a.down := by
   let D := DegreeOne.degreeOneCoskeleton p
-  show ULift.down (D.oneIso.hom (cellDescApp (relationBoundary p)
+  change ULift.down (D.oneIso.hom (cellDescApp (relationBoundary p)
     (constantToD p) (relationPoint p) (op ⦋1⦌) (MvPolynomial.C a))) = _
   rw [cellDescApp_C]
   have he : SimplexCategory.const ⦋1⦌ ⦋0⦌ 0 = SimplexCategory.σ (0 : Fin 1) :=
     Subsingleton.elim _ _
-  show ULift.down ((D.zeroIso.inv ≫ D.simplicial.map
+  change ULift.down ((D.zeroIso.inv ≫ D.simplicial.map
     (SimplexCategory.const ⦋1⦌ ⦋0⦌ 0).op ≫ D.oneIso.hom) a) = _
   rw [he]
-  show ULift.down ((D.zeroIso.inv ≫ D.simplicial.σ (0 : Fin 1) ≫ D.oneIso.hom) a) = _
+  change ULift.down ((D.zeroIso.inv ≫ D.simplicial.σ (0 : Fin 1) ≫ D.oneIso.hom) a) = _
   rw [D.degeneracyZero_eq]
   rfl
 
 private lemma relationOne_X (t : ULift.{max u v w x} p.relationIndex) :
     relationOne p (MvPolynomial.X (t, ⟨𝟙 ⦋1⦌, Function.surjective_id⟩)) =
       MvPolynomial.X (Sum.inr t.down) := by
-  show ULift.down ((DegreeOne.degreeOneCoskeleton p).oneIso.hom
+  change ULift.down ((DegreeOne.degreeOneCoskeleton p).oneIso.hom
     (cellDescApp (relationBoundary p) (constantToD p) (relationPoint p) (op ⦋1⦌)
       (MvPolynomial.X (t, ⟨𝟙 ⦋1⦌, Function.surjective_id⟩)))) = _
   rw [cellDescApp_X.{u, max u v w x}]
@@ -963,15 +963,15 @@ private lemma relationOneInv_degeneracy (a : p.P0) :
   exact DFunLike.congr_fun he a
 
 private lemma relationOne_left_inv : (relationOneInv p).comp (relationOne p) = AlgHom.id _ _ := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply MvPolynomial.ringHom_ext
   · intro a
-    show relationOneInv p (relationOne p (MvPolynomial.C a)) = MvPolynomial.C a
+    change relationOneInv p (relationOne p (MvPolynomial.C a)) = MvPolynomial.C a
     rw [relationOne_C, relationOneInv_degeneracy]
     rfl
   · rintro ⟨t, α, hα⟩
     obtain rfl := surjective_end_eq_id 1 α hα
-    show relationOneInv p (relationOne p (MvPolynomial.X _)) = MvPolynomial.X _
+    change relationOneInv p (relationOne p (MvPolynomial.X _)) = MvPolynomial.X _
     rw [relationOne_X]
     simp only [relationOneInv, MvPolynomial.aeval_X]
     rfl
@@ -1088,14 +1088,14 @@ private lemma polynomialTwoInv_base (a : p.P0) :
 private lemma polynomialTwo_left_inv :
     (polynomialTwoInv p).comp (polynomialTwo p) = AlgHom.id _ _ := by
   classical
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply MvPolynomial.ringHom_ext
   · have he : ((polynomialTwoInv p).comp (relationTwo p)).toRingHom =
         (MvPolynomial.C : ((relationModel p).obj (op ⦋2⦌)) →+*
           (polynomialModel p).obj (op ⦋2⦌)) := by
       apply MvPolynomial.ringHom_ext
       · intro a
-        show polynomialTwoInv p (relationTwo p (MvPolynomial.C a)) = _
+        change polynomialTwoInv p (relationTwo p (MvPolynomial.C a)) = _
         simp only [relationTwo, MvPolynomial.aevalTower_C, AlgHom.comp_apply]
         rw [polynomialTwoInv_base]
         rfl
@@ -1107,12 +1107,12 @@ private lemma polynomialTwo_left_inv :
           simp [polynomialTwoInv,
             show SimplexCategory.σ (1 : Fin 2) ≠ SimplexCategory.σ (0 : Fin 2) by decide]
     intro a
-    show polynomialTwoInv p (polynomialTwo p (MvPolynomial.C a)) = MvPolynomial.C a
+    change polynomialTwoInv p (polynomialTwo p (MvPolynomial.C a)) = MvPolynomial.C a
     simp only [polynomialTwo, MvPolynomial.aevalTower_C]
     exact DFunLike.congr_fun he a
   · rintro ⟨i, α, hα⟩
     obtain rfl := surjective_end_eq_id 2 α hα
-    show polynomialTwoInv p (polynomialTwo p (MvPolynomial.X _)) = MvPolynomial.X _
+    change polynomialTwoInv p (polynomialTwo p (MvPolynomial.X _)) = MvPolynomial.X _
     simp only [polynomialTwo, MvPolynomial.aevalTower_X]
     rcases i with ⟨r | ⟨t, t'⟩⟩ <;> simp [extraVariable, polynomialTwoInv]
 
@@ -1204,7 +1204,7 @@ private noncomputable def polynomialOneEquiv : (polynomialModel p).obj (op ⦋1�
 
 private lemma polynomialOneEquiv_C (z : (relationModel p).obj (op ⦋1⦌)) :
     polynomialOneEquiv p (MvPolynomial.C z) = ULift.up (relationOne p z) := by
-  show (DegreeOne.degreeOneCoskeleton p).oneIso.hom
+  change (DegreeOne.degreeOneCoskeleton p).oneIso.hom
     (cellDescApp (extraBoundary p) (relationToD p) (extraPoint p) (op ⦋1⦌)
       (MvPolynomial.C z)) = _
   rw [cellDescApp_C]
@@ -1252,7 +1252,7 @@ private lemma polynomialToD_one_inv (z : DegreeOne.P1 p) :
       (DegreeOne.degreeOneCoskeleton p).oneIso.inv (ULift.up z) := by
   let D := DegreeOne.degreeOneCoskeleton p
   apply D.oneIso.toAlgEquiv.injective
-  show polynomialOneEquiv p (MvPolynomial.C (relationOneInv p z)) =
+  change polynomialOneEquiv p (MvPolynomial.C (relationOneInv p z)) =
     D.oneIso.hom (D.oneIso.inv (ULift.up z))
   rw [polynomialOneEquiv_C]
   have hz : relationOne p (relationOneInv p z) = z :=
@@ -1291,7 +1291,7 @@ private lemma polynomialToD_two (z : DegreeTwo.P2 p) :
       (degeneracyOne_lifts p)
     apply MvPolynomial.algHom_ext
     intro i
-    show (polynomialToD p).app (op ⦋2⦌) (polynomialTwoInv p (MvPolynomial.X i)) =
+    change (polynomialToD p).app (op ⦋2⦌) (polynomialTwoInv p (MvPolynomial.X i)) =
       DegreeTwo.degreeTwoToCoskeleton p (ULift.up (MvPolynomial.X i))
     cases i with
     | base i =>
@@ -1391,7 +1391,7 @@ private lemma comparisonIso_map {J C : Type*} [Category J] [Category C]
   apply (cancel_epi (comparisonIso f g a).hom).mp
   apply (cancel_mono (g.app b)).mp
   simp only [Iso.hom_inv_id_assoc]
-  show (X.map α ≫ (f.app b ≫ inv (g.app b))) ≫ g.app b =
+  change (X.map α ≫ (f.app b ≫ inv (g.app b))) ≫ g.app b =
     ((f.app a ≫ inv (g.app a)) ≫ Y.map α) ≫ g.app b
   simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   rw [g.naturality]

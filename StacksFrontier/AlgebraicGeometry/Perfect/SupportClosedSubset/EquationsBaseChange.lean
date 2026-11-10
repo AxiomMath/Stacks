@@ -138,7 +138,7 @@ variable {X Y : Scheme.{u}}
 of the ambient global sections. -/
 public theorem ι_appTop_comp_topIso_hom (V : X.Opens) :
     V.ι.appTop ≫ V.topIso.hom = X.presheaf.map (homOfLE (le_top (a := V))).op := by
-  show X.presheaf.map (homOfLE (x := V.ι ''ᵁ ⊤) le_top).op ≫
+  change X.presheaf.map (homOfLE (x := V.ι ''ᵁ ⊤) le_top).op ≫
       X.presheaf.map (eqToHom V.ι_image_top.symm).op = _
   rw [← Functor.map_comp]
   congr 1
@@ -156,7 +156,7 @@ public theorem appTop_subschemeι_ofIdealTop_eq_zero (I : Ideal Γ(X, ⊤)) {a :
         (X.presheaf.map (homOfLE (le_top (a := V.1))).op).hom a := by
       rw [← CommRingCat.comp_apply, ι_appTop_comp_topIso_hom]
     rw [Scheme.IdealSheafData.subschemeCover_map_subschemeι, Scheme.Hom.comp_appTop]
-    show (((Scheme.IdealSheafData.ofIdealTop I).glueDataObjι V).appTop).hom
+    change (((Scheme.IdealSheafData.ofIdealTop I).glueDataObjι V).appTop).hom
       ((V.1.ι.appTop).hom a) = 0
     rw [← RingHom.mem_ker, Scheme.IdealSheafData.ker_glueDataObjι_appTop,
       Ideal.mem_comap, h3, Scheme.IdealSheafData.ofIdealTop_ideal]
@@ -278,9 +278,9 @@ public theorem isPullback_equationsClosedSubscheme :
       (equationsClosedSubschemeBaseChange g f) g (equationsClosedSubschemeι f) := by
   refine isPullback_of_isClosedImmersion _ _ _ _
     (equationsClosedSubschemeBaseChange_comp g f).symm ?_
-  show (Scheme.IdealSheafData.ofIdealTop (equationsIdeal f)).subschemeι.ker.comap g = _
+  change (Scheme.IdealSheafData.ofIdealTop (equationsIdeal f)).subschemeι.ker.comap g = _
   rw [Scheme.IdealSheafData.ker_subschemeι]
-  show _ = (Scheme.IdealSheafData.ofIdealTop
+  change _ = (Scheme.IdealSheafData.ofIdealTop
     (equationsIdeal (fun j => g.appTop (f j)))).subschemeι.ker
   rw [Scheme.IdealSheafData.ker_subschemeι]
   exact comap_equationsIdealSheaf g f
@@ -298,11 +298,11 @@ public def equationsClosedSubschemePullbackIso :
 public theorem range_equationsClosedSubschemeι_pullback :
     Set.range (equationsClosedSubschemeι (fun j => g.appTop (f j))) =
       g ⁻¹' Set.range (equationsClosedSubschemeι f) := by
-  show Set.range (Scheme.IdealSheafData.ofIdealTop
+  change Set.range (Scheme.IdealSheafData.ofIdealTop
     (equationsIdeal (fun j => g.appTop (f j)))).subschemeι = _
   rw [← comap_equationsIdealSheaf g f, Scheme.IdealSheafData.range_subschemeι,
     Scheme.IdealSheafData.support_comap]
-  show _ = g ⁻¹' Set.range (Scheme.IdealSheafData.ofIdealTop (equationsIdeal f)).subschemeι
+  change _ = g ⁻¹' Set.range (Scheme.IdealSheafData.ofIdealTop (equationsIdeal f)).subschemeι
   rw [Scheme.IdealSheafData.range_subschemeι]
   rfl
 

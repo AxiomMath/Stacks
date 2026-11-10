@@ -224,7 +224,7 @@ theorem schemeSpaceMap_testSiteHom_comp_eqToHom (D : ModuleMapSituation.{u, u} B
   have hid : eqToHom hDY ≫ eqToHom hDY.symm = CategoryStruct.id D.Y :=
     (eqToHom_trans hDY hDY.symm).trans (eqToHom_refl _ _)
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (testSiteHom B S hS D hDY T) ≫ (eqToHom hDY.symm).hom = T.hom.hom
+  change yoneda.map (testSiteHom B S hS D hDY T) ≫ (eqToHom hDY.symm).hom = T.hom.hom
   rw [yoneda_map_testSiteHom B S hS D hDY T]
   exact (congrArg (fun m : D.Y ⟶ D.Y => T.hom.hom ≫ m.hom) hid).trans (Category.comp_id _)
 

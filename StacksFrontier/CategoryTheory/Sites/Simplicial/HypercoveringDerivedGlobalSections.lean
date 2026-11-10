@@ -50,15 +50,17 @@ and `RΓ` is its total right derived functor on the unbounded derived category.
 
 ## The inputs of Stacks 0D8H for a hypercovering
 
-The general `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedGlobalSectionsInverseImageIso`
+The general
+`CategoryTheory.SimplicialSiteSituation.Augmentation.derivedGlobalSectionsInverseImageIso`
 takes three inputs, and for the augmentation of a hypercovering all three are proved, so
 `Stacks.CategoryTheory.Hypercovering.derivedGlobalSectionsInverseImageIsoOfHypercovering` carries
 no hypothesis beyond the hypercovering conditions on `K`.
 
 * `hunit` and `hacyclic` are the two inputs of Stacks 0D8G. The first is Stacks 0D8E in its
-  abelian form, `CategoryTheory.SimplicialSemiRepresentable.isIso_situationAbelianTotalAdjunctionUnit`;
+  abelian form,
+  `CategoryTheory.SimplicialSemiRepresentable.isIso_situationAbelianTotalAdjunctionUnit`;
   the second is the `R a_*`-acyclicity of `a⁻¹` of a K-injective complex,
-  `CategoryTheory.SimplicialSemiRepresentable.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`.
+  `SimplicialSemiRepresentable.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`.
 * `hΓ` is the **underived** identity `Γ(C, a_*F) = Γ((C/K)_total, F)` on which Stacks 08J6 rests,
   `CategoryTheory.SimplicialSemiRepresentable.abelianTotalPushforwardGammaIso`.
 
@@ -216,7 +218,7 @@ general `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedGlobalSectio
 are proved for this augmentation. The underived unit `F ⟶ a_*a⁻¹F` is invertible by
 `CategoryTheory.SimplicialSemiRepresentable.isIso_situationAbelianTotalAdjunctionUnit` (Stacks
 0D8E in its abelian form), `a⁻¹` of a K-injective complex computes `R a_*` by
-`CategoryTheory.SimplicialSemiRepresentable.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`,
+`SimplicialSemiRepresentable.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`,
 and the underived identity `Γ(C, a_*F) = Γ((C/K)_total, F)` is
 `CategoryTheory.SimplicialSemiRepresentable.abelianTotalPushforwardGammaIso`. -/
 @[stacks 0D8H "for the augmentation of Tag 0D8B attached to a hypercovering"]

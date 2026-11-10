@@ -36,12 +36,14 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for products of presheaves of sets times out
 /-- Products of presheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceMap
     (C : Type*) [Category C] : HasProducts.{0} (C ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for small products of presheaves of sets times out
 /-- Small products of presheaves of sets, supplied directly: instance search for them times
 out. -/
 local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceMap'
@@ -49,6 +51,7 @@ local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceMap'
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for finite limits of sheaves of sets times out
 /-- Finite limits of sheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceMap
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
@@ -56,6 +59,7 @@ local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceMap
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for the terminal sheaf of sets times out
 /-- The terminal sheaf of sets, supplied directly: instance search for it times out. -/
 local instance (priority := high) hasTerminal_sheaf_SpacesTangentSpaceMap
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
@@ -100,7 +104,7 @@ theorem spaceDefoMorphismSpaceMap_comp_retractedStructureMap
         spaceDefoRetractedStructureMap B hΛ hSpec X hX toK r =
       spaceDefoRetractedStructureMap B hΛ hSpec X hX toK r' := by
   apply ObjectProperty.hom_ext
-  show φ.left.map ≫ x.left.toBase ≫ yoneda.map r = x'.left.toBase ≫ yoneda.map r'
+  change φ.left.map ≫ x.left.toBase ≫ yoneda.map r = x'.left.toBase ≫ yoneda.map r'
   rw [← Category.assoc, φ.left.cartesian.w, Category.assoc, ← yoneda.map_comp, hrr]
 
 variable (hsq : IsLocalRing.maximalIdeal x.left.base ^ 2 = ⊥)

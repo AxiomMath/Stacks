@@ -163,8 +163,7 @@ theorem coeff_rationalLift_mem (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.Projectiv
     (X : (SmoothProjectiveScheme k).FullSubcategory)
     (x : ℚ ⊗[ℤ] VectorBundleKZero ((toScheme k).obj X)) (n : ℕ) :
     PowerSeries.coeff n (h.rationalLift X x) ∈ evenGrade (𝔇.grade X) n := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add]; exact add_mem hx hy
   | tmul q a =>
     rw [rationalLift_tmul, PowerSeries.coeff_smul]
@@ -177,8 +176,7 @@ theorem coeff_rationalLift_rationalSecondAdams (hA1 : 𝔇.CoproductAxiom)
     (n : ℕ) :
     PowerSeries.coeff n (h.rationalLift X (rationalSecondAdams ((toScheme k).obj X) x)) =
       (2 ^ n : ℕ) • PowerSeries.coeff n (h.rationalLift X x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add, map_add, smul_add]
   | tmul q a =>
     rw [rationalSecondAdams_tmul, rationalLift_tmul, rationalLift_tmul, PowerSeries.coeff_smul,
@@ -190,8 +188,7 @@ theorem map_rationalLift {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f :
     PowerSeries.map (𝔇.pullA f).toRingHom (h.rationalLift Y x) =
       h.rationalLift X ((VectorBundleKZero.pullback ((toScheme k).map f)).toIntLinearMap.baseChange
         ℚ x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul q a =>
     rw [LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap, rationalLift_tmul,
@@ -289,8 +286,7 @@ end IsCohomologicalChernCharacter
 theorem eq_of_eq_one_tmul {K M : Type*} [AddCommGroup K] [AddCommGroup M]
     (hM : ∀ (d : ℕ) (x : M), d ≠ 0 → d • x = 0 → x = 0) {φ ψ : ℚ ⊗[ℤ] K →+ M}
     (h : ∀ a : K, φ (1 ⊗ₜ a) = ψ (1 ⊗ₜ a)) (x : ℚ ⊗[ℤ] K) : φ x = ψ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul q a =>
     have hq : ((q.den : ℤ) • q : ℚ) = (q.num : ℤ) • (1 : ℚ) := by

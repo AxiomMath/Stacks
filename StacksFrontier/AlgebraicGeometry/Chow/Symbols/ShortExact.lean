@@ -119,13 +119,13 @@ private theorem quotient_short_exact
         obtain ⟨x, hx⟩ := (hip (y - f₂ y')).mp hyker
         refine ⟨Submodule.Quotient.mk x, ?_⟩
         have hy'' : y = i x + f₂ y' := by rw [hx]; abel
-        show Submodule.Quotient.mk (i x) = Submodule.Quotient.mk y
+        change Submodule.Quotient.mk (i x) = Submodule.Quotient.mk y
         rw [hy'', Submodule.Quotient.mk_add]
         simp
     · rintro ⟨r, rfl⟩
       induction r using Submodule.Quotient.induction_on with
       | _ x =>
-        show (Submodule.Quotient.mk (p (i x)) : M₃ ⧸ LinearMap.range f₃) = 0
+        change (Submodule.Quotient.mk (p (i x)) : M₃ ⧸ LinearMap.range f₃) = 0
         have hpi : p (i x) = 0 := (hip (i x)).2 ⟨x, rfl⟩
         rw [hpi]
         simp

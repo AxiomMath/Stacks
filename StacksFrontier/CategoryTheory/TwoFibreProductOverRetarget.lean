@@ -333,7 +333,7 @@ lemma representedFibre_structure_changeBase {S S' : 𝒞} (p : 𝒳 ⥤ Over S) 
   have hH := structureFibreEquivalenceOver_comp_structureFunctor p g
   have hd := structureFibreEquivalenceOver_comp_diagonal p g h₀ h₁
   refine ⟨y ⋙ H, ?_, ?_⟩
-  · show (y ⋙ (structureFibreEquivalenceOver p g).hom.functor) ⋙ _ = _
+  · change (y ⋙ (structureFibreEquivalenceOver p g).hom.functor) ⋙ _ = _
     rw [Functor.assoc, hH, ← Functor.assoc, hy, ← Over.mapComp_eq]
   · exact representedFibre_changeBase_and_target g U.hom p _ _ _ _ H hH hd rfl y hy q e
 

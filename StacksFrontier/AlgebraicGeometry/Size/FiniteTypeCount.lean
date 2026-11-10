@@ -208,11 +208,11 @@ theorem isoSetoid_ofAlgebra (V : AffineFiniteTypeOver T) (A : Type u) [CommRing 
   have hcomp : V.hom.appTop ≫ ε.inv = CommRingCat.ofHom (algebraMap Γ(T, ⊤) A) := by
     ext x
     rw [hε]
-    show e.symm (V.hom.appTop.hom x) = algebraMap Γ(T, ⊤) A x
+    change e.symm (V.hom.appTop.hom x) = algebraMap Γ(T, ⊤) A x
     rw [← halg]
     exact e.symm.commutes x
   refine ⟨(Scheme.Spec.mapIso ε.op).symm ≪≫ V.obj.isoSpec.symm, ?_⟩
-  show Spec.map ε.inv ≫ V.obj.isoSpec.inv ≫ V.hom
+  change Spec.map ε.inv ≫ V.obj.isoSpec.inv ≫ V.hom
       = Spec.map (CommRingCat.ofHom (algebraMap Γ(T, ⊤) A)) ≫ T.isoSpec.inv
   rw [← Scheme.isoSpec_inv_naturality, ← Spec.map_comp_assoc, hcomp]
 

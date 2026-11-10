@@ -209,7 +209,7 @@ theorem towerCotangentBaseChange_f_eq_homEquiv_symm (j : ℤ) :
           ((alternatingFaceMapComplex (targetModules.{u, v, w} J B)).obj
             (cotangentSimplicialModule.{u, v, w} J g).object)
           (ComplexShape.embeddingUpIntLE 0)))).mpr ?_
-      show _ = (HomologicalComplex.mapHomologicalComplexExtendIso _ _ _).hom.f _ ≫ _
+      change _ = (HomologicalComplex.mapHomologicalComplexExtendIso _ _ _).hom.f _ ≫ _
       rw [HomologicalComplex.mapHomologicalComplexExtendIso_hom_f _ _ _ hn,
         HomologicalComplex.extendMap_f _ _ hn]
       refine (Category.assoc _ _ _).trans (Eq.trans ?_ (Category.assoc _ _ _).symm)

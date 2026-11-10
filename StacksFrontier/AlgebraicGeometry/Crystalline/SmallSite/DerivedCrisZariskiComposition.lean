@@ -165,7 +165,7 @@ theorem derivedCrisDirectImageCompIso_eq :
       Functor.rightDerivedFunctorPlusNatIso (crisDirectImageComp h₁ h₂) ≪≫
         Functor.rightDerivedFunctorPlusCompIso (crisDirectImage S₂ S₁ f₁S f₁X h₁)
           (crisDirectImage S₁ S₀ f₂S f₂X h₂) := by
-  show (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso
+  change (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso
         (crisDirectImage S₂ S₁ f₁S f₁X h₁) (crisDirectImage S₁ S₀ f₂S f₂X h₂)
         (crisDirectImage S₂ S₀ (f₁S ≫ f₂S) (f₁X ≫ f₂X) (comp_closedFiber_compat h₁ h₂))
         (crisDirectImageComp h₁ h₂).symm).symm ≪≫ _ = _
@@ -184,7 +184,7 @@ theorem derivedZariskiPushforwardComp_eq :
           (zariskiPushforwardComp (f₁X := f₁X) (f₂X := f₂X))).symm ≪≫
         Functor.rightDerivedFunctorPlusCompIso (zariskiPushforward S₂ S₁ f₁X)
           (zariskiPushforward S₁ S₀ f₂X) := by
-  show (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso
+  change (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso
         (zariskiPushforward S₂ S₁ f₁X) (zariskiPushforward S₁ S₀ f₂X)
         (zariskiPushforward S₂ S₀ (f₁X ≫ f₂X))
         (zariskiPushforwardComp (f₁X := f₁X) (f₂X := f₂X))).symm ≪≫ _ = _

@@ -94,11 +94,11 @@ theorem singleFunctor_map_comp_ne_zero (A : X.Modules) [A.IsQuasicoherent]
     intro hv0
     apply hs
     have h2 : (e.app A).hom v = (A.unitHomEquiv s).val (op ⊤) := by
-      show (e.app A).hom (((e.inv.app _) ≫ (DerivedCategory.singleFunctor X.Modules 0 ⋙
+      change (e.app A).hom (((e.inv.app _) ≫ (DerivedCategory.singleFunctor X.Modules 0 ⋙
         derivedGlobalSectionsOver f ⋙ DerivedCategory.homologyFunctor (ModuleCat k)
           (-(-((0 : ℕ) : ℤ)))).map s) one) = _
       rw [← e.inv.naturality s]
-      show (e.inv.app A ≫ e.hom.app A) _ = _
+      change (e.inv.app A ≫ e.hom.app A) _ = _
       rw [Iso.inv_hom_id_app]
       rfl
     rw [← h2, hv0]

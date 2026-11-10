@@ -169,7 +169,7 @@ theorem frameInj_frameDesc (a : Fin n) :
   apply (SheafOfModules.unitHomEquiv _).injective
   ext Y
   rw [SheafOfModules.unitHomEquiv_apply_coe, SheafOfModules.unitHomEquiv_apply_coe]
-  show frameDescApp N he t Y ((frameInj N (e := e) a).val.app Y _) = _
+  change frameDescApp N he t Y ((frameInj N (e := e) a).val.app Y _) = _
   rw [frameDescApp, sliceCoord_frameInj, Finset.sum_eq_single a]
   · rw [Pi.single_eq_same, one_smul]
   · intro b _ hb
@@ -214,7 +214,7 @@ theorem exists_isFrame_of_finsuppEquiv
   have key : ∀ {T : C} (g : T ⟶ V) (a : Fin n),
       bas g a = (show (N.over V).val.obj (op (Over.mk g)) from res (valP N) g (e a)) := by
     intro T g a
-    show (ψ (op (Over.mk g))).symm (Finsupp.single a 1) = _
+    change (ψ (op (Over.mk g))).symm (Finsupp.single a 1) = _
     rw [LinearEquiv.symm_apply_eq]
     ext i
     have := hψ (Over.homMk g : Over.mk g ⟶ Over.mk (𝟙 V)).op ((ψ Y₀).symm (Finsupp.single a 1)) i
@@ -224,7 +224,7 @@ theorem exists_isFrame_of_finsuppEquiv
     · subst hai
       simp only [Finsupp.single_eq_same]
       exact (map_one _).symm
-    · simp only [Finsupp.single_apply, if_neg hai]
+    · simp only [Finsupp.single_apply, ite_eq_right hai]
       exact (map_zero _).symm
   refine ⟨e, ⟨fun {T} g => ?_, fun {T} g => ?_⟩⟩
   · rw [Fintype.linearIndependent_iff]

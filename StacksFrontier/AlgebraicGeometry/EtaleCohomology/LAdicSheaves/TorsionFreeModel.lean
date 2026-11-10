@@ -403,7 +403,7 @@ sheaf of `ℤ/ℓⁿ⁺¹ℤ`-modules. -/
 theorem powExact_torsionFreeModel_level (F : LAdicSheaf.{u, u + 1} B X ℓ) {N : ℕ}
     (hN : torsionBound F ≤ N) (n : ℕ) :
     PowExact ℓ (n + 1) ((torsionFreeModel F N).level n) := by
-  show PowExact ℓ (n + 1) (torsionFreeModelLevel F N n)
+  change PowExact ℓ (n + 1) (torsionFreeModelLevel F N n)
   refine PowExact.of_map (underlyingLevelFunctor B X ℓ n) ?_
     (powExact_of_image (torsionBound_divisible F hN n) (torsionFreeModelπ F N n)
       (torsionFreeModelι F N n) (torsionFreeModelπ_ι F N n))

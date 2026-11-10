@@ -144,7 +144,7 @@ theorem coneD_coneD {f : HomogeneousMap M N 0} (hf : homD f = 0) {x : C.Obj} {i 
     coneD f h₂ (coneD f h₁ a) = 0 := by
   have hsign : ((-1 : R) ^ (1 : ℤ).natAbs) = -1 := by norm_num
   refine Prod.ext ?_ ?_
-  · show _ = (0 : N.obj x k)
+  · change _ = (0 : N.obj x k)
     rw [coneD_fst, coneD_fst, coneD_snd, N.d_add, N.d_d h₁ h₂ a.1,
       d_app f (show i + 1 + 0 = j by omega) h₂ (show i + 1 + 0 + 1 = k by omega),
       d_app_eq_app_d hf (show i + 1 + 0 + 1 = k by omega)
@@ -154,7 +154,7 @@ theorem coneD_coneD {f : HomogeneousMap M N 0} (hf : homD f = 0) {x : C.Obj} {i 
         (show i + 1 + 1 + 0 = k by omega) a.2,
       hsign]
     module
-  · show _ = (0 : (shift M 1).obj x k)
+  · change _ = (0 : (shift M 1).obj x k)
     rw [coneD_snd, coneD_snd, (shift M 1).d_d h₁ h₂ a.2]
 
 /-- The twist commutes with the right action of `C`, which is what lets the Leibniz rule of the

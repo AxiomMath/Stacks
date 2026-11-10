@@ -1095,7 +1095,7 @@ theorem pointwisePresentationTwoArrow_app_identityArrow (Z : spaceCat G.objects)
         ((GroupoidInAlgebraicSpaces.identityArrow G).hom.app (op Z.base) Z.fiber.as) :=
     hs1.symm.trans (hs.trans (ht.symm.trans ht1))
   refine ⟨congrArg F.obj (congrArg (fun z => (⟨Z.base, z⟩ : PointwiseFibration G)) E), ?_⟩
-  show F.map (vertHom G Z.base
+  change F.map (vertHom G Z.base
     ((GroupoidInAlgebraicSpaces.identityArrow G).hom.app (op Z.base) Z.fiber.as) rfl rfl) = _
   rw [vertHom_congr' Z.base hid rfl rfl hs1 ht1,
     vertHom_identity G Z.base Z.fiber.as hs1 ht1 E]
@@ -1120,7 +1120,7 @@ theorem comp_hom_app_eq_compose (T : BigFppfOver C S hS)
     (pullbackToComposable_comp_composableSnd G.source.hom G.target.hom)
   change ((pullbackToComposable G.source.hom G.target.hom).app (op T) pt).1.1 = _ at h1
   change ((pullbackToComposable G.source.hom G.target.hom).app (op T) pt).1.2 = _ at h2
-  show G.comp.hom.app (op T) pt = G.comp.hom.app (op T)
+  change G.comp.hom.app (op T) pt = G.comp.hom.app (op T)
     ((composableToPullback G.source.hom G.target.hom).app (op T) ⟨(_, _), _⟩)
   conv_lhs => rw [← key]
   congr 2
@@ -1165,7 +1165,7 @@ theorem pointwisePresentationTwoArrow_app_comp
   refine ⟨congrArg F.obj (congrArg (fun z => (⟨Z.base, z⟩ : PointwiseFibration G)) e₁),
     congrArg F.obj (congrArg (fun z => (⟨Z.base, z⟩ : PointwiseFibration G)) h.symm),
     congrArg F.obj (congrArg (fun z => (⟨Z.base, z⟩ : PointwiseFibration G)) e₃), ?_⟩
-  show F.map (vertHom G Z.base (G.comp.hom.app (op Z.base) Z.fiber.as) rfl rfl) =
+  change F.map (vertHom G Z.base (G.comp.hom.app (op Z.base) Z.fiber.as) rfl rfl) =
     eqToHom _ ≫ F.map (vertHom G Z.base
       ((GroupoidInAlgebraicSpaces.secondArrow G).hom.app (op Z.base) Z.fiber.as) rfl rfl) ≫
       eqToHom _ ≫ F.map (vertHom G Z.base

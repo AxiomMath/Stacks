@@ -178,7 +178,7 @@ theorem exists_isAffineOpen_projective_sections_of_henselian {X S : Scheme.{u}} 
     let E₂' : Γ((Scheme.Modules.pullback j).obj F, W) ≃ₗ[Γ(S, ⊤)] Γ(G, W) :=
       { E₂ with
         map_smul' := fun r a => by
-          show E₂ (((j ≫ f).appLE ⊤ W (by simp)).hom r • a) =
+          change E₂ (((j ≫ f).appLE ⊤ W (by simp)).hom r • a) =
             (q.appLE ⊤ W (by simp)).hom r • E₂ a
           rw [E₂.map_smul, hring] }
     exact Module.Projective.of_equiv ((sectionsPullbackOpenImmersionLinearEquiv j f F W).trans

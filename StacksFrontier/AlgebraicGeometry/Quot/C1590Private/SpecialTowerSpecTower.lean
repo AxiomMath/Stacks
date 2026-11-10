@@ -77,7 +77,7 @@ theorem isThickening_specMap_of_isNilpotent {A A' : Type u} [CommRing A] [CommRi
     (φ : A →+* A') (hφ : Function.Surjective φ) (hker : ∀ a, φ a = 0 → IsNilpotent a) :
     Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom φ)) := by
   refine ⟨IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom φ) hφ, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap φ)
+  change Function.Surjective (PrimeSpectrum.comap φ)
   intro p
   have hp : p ∈ PrimeSpectrum.zeroLocus (RingHom.ker φ : Set A) := fun x hx =>
     nilradical_le_prime p.asIdeal (mem_nilradical.2 (hker x hx))
@@ -115,7 +115,7 @@ theorem isEtaleLimitTower_specSite (hf : ∀ n, Function.Surjective (f n))
       (fun n => specSite B hZ (R n) (hR n)) (fun n => specSiteMap (towerLimitProj f n))
       (fun n => specSiteMap (f n)) where
   comp n := (𝒯).map_injective (by
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     exact congrArg Spec.map (CommRingCat.hom_ext (towerLimitProj_comp f n)))
   isThickening_zero := isThickening_specMap_of_isNilpotent _ (towerLimitProj_zero_surjective f hf)
@@ -186,7 +186,7 @@ theorem isEtaleLimitTower_specSite (hf : ∀ n, Function.Surjective (f n))
         have e4 : (ε (n + 1)).hom (((𝒯).map (b (n + 1))).appTop ((γ (n + 1)).inv x)) =
             (1 : C) ⊗ₜ[limit f] x := ConcreteCategory.congr_hom (hε' (n + 1)) x
         simp only [CommRingCat.comp_apply] at e1 e2
-        show (ε n).hom (((𝒯).map (c n)).appTop (((𝒯).map (b (n + 1))).appTop
+        change (ε n).hom (((𝒯).map (c n)).appTop (((𝒯).map (b (n + 1))).appTop
             ((γ (n + 1)).inv x))) = (CommRingCat.ofHom (T n)) ((ε (n + 1)).hom
             (((𝒯).map (b (n + 1))).appTop ((γ (n + 1)).inv x)))
         rw [e1, e4]

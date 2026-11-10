@@ -185,9 +185,9 @@ private theorem formalObjectAtBase_eq {p : F ⥤ ArtinianLocalAlgCat.{u, max v w
 `1`-morphism of the categories of elements over `𝒞_Λ`. -/
 private def uliftElementsBasedFunctor'
     (U : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type (max v w)) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor
-        (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w}))) where
+        (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w}))) where
   toFunctor := (uliftElementsEquivalence U).functor
   w := rfl
 
@@ -197,28 +197,28 @@ private theorem isSmooth_uliftElementsBasedFunctor'
     IsSmooth (uliftElementsBasedFunctor'.{u, v, w, v₃} U) := by
   let e := uliftElementsEquivalence U
   intro B A f _ y x g hg
-  let : (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift f g := hg
+  let : (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift f g := hg
   refine ⟨e.inverse.obj y, e.inverse.map g, e.counitIso.hom.app y, ?_, ?_, ?_⟩
   · refine IsHomLift.of_fac _ _ _
       (by
-        show y.1 = B
+        change y.1 = B
         exact IsHomLift.domain_eq
-          (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
+          (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
       (by
-        show x.1 = A
+        change x.1 = A
         exact IsHomLift.codomain_eq
-          (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
-      (IsHomLift.fac (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
-  · show (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift
+          (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
+      (IsHomLift.fac (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g)
+  · change (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift
       (𝟙 B) (e.counitIso.hom.app y)
     have hy : y.1 = B :=
-      IsHomLift.domain_eq (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g
+      IsHomLift.domain_eq (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})) f g
     subst B
-    show (CategoryOfElements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift
+    change (Functor.Elements.π (U ⋙ uliftFunctor.{v₃, max v w})).IsHomLift
       (𝟙 y.1) (𝟙 y)
     exact IsHomLift.id rfl
-  · apply CategoryOfElements.ext
-    show g.hom = (𝟙 y.1) ≫ g.hom
+  · apply Functor.Elements.hom_ext
+    change g.hom = (𝟙 y.1) ≫ g.hom
     simp only [Category.id_comp]
 
 end Auxiliary
@@ -286,7 +286,7 @@ private theorem surjective_base_of_hom_to_descendedObject
     (hminimal : IsMinimalVersal hp ξ)
     {Q : Type u₄} [Category.{v₄} Q] {q : Q ⥤ ArtinianLocalAlgCat.{u, max v v₃ w, w} Λ k}
     (α : BasedFunctor (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base))) (BasedCategory.ofFunctor q))
+      (Functor.Elements.π (restrictedCoyoneda ξ.base))) (BasedCategory.ofFunctor q))
     (E : RepresentableMorphismFormalObjectEquivalence q ξ.base)
     (g : Q ⥤ F) (hg : g ⋙ p = q)
     (hgf : α.toFunctor ⋙ g =
@@ -321,13 +321,13 @@ private theorem surjective_base_of_hom_to_descendedObject
   have hpoint (n : ℕ) : E.quotientPoint n = Ep.quotientPoint n := by
     apply CompleteLocalAlgCat.Hom.ext
     rw [E.quotientPoint_hom n, Ep.quotientPoint_hom n]
-  let d (n : ℕ) : (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj :=
+  let d (n : ℕ) : (BasedCategory.ofFunctor (Functor.Elements.π U)).obj :=
     U.elementsMk (AdicTruncation.obj ξ.base n) (E.quotientPoint n)
-  let dP (n : ℕ) : (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj :=
+  let dP (n : ℕ) : (BasedCategory.ofFunctor (Functor.Elements.π U)).obj :=
     U.elementsMk (AdicTruncation.obj ξ.base n) (Ep.quotientPoint n)
   have hd (n : ℕ) : d n = dP n :=
     congrArg (fun z => (U.elementsMk (AdicTruncation.obj ξ.base n) z :
-      (BasedCategory.ofFunctor (CategoryOfElements.π U)).obj)) (hpoint n)
+      (BasedCategory.ofFunctor (Functor.Elements.π U)).obj)) (hpoint n)
   have hε (n : ℕ) : g.obj (α.toFunctor.obj (d n)) = f.toFunctor.obj (dP n) :=
     (Functor.congr_obj hgf (d n)).trans (congrArg f.toFunctor.obj (hd n))
   let J (n : ℕ) : g.obj (ξQ.level n) ≅ ξP.level n :=
@@ -376,12 +376,12 @@ private theorem surjective_base_of_hom_to_descendedObject
         have hval (m : ℕ) :
             (eqToHom (hd m) : d m ⟶ dP m).hom =
               𝟙 (AdicTruncation.obj ξ.base m) := by
-          have hfst : congrArg (CategoryOfElements.π U).obj (hd m) = rfl := by
+          have hfst : congrArg (Functor.Elements.π U).obj (hd m) = rfl := by
             simp [hd, d]
-          exact (eqToHom_map (CategoryOfElements.π U) (hd m)).trans (by rw [hfst]; rfl)
+          exact (eqToHom_map (Functor.Elements.π U) (hd m)).trans (by rw [hfst]; rfl)
         have hc : cE ≫ eqToHom (hd n) = eqToHom (hd (n + 1)) ≫ cP := by
           apply Functor.Elements.hom_ext
-          show cE.hom ≫ (eqToHom (hd n) : d n ⟶ dP n).hom =
+          change cE.hom ≫ (eqToHom (hd n) : d n ⟶ dP n).hom =
             (eqToHom (hd (n + 1)) : d (n + 1) ⟶ dP (n + 1)).hom ≫ cP.hom
           rw [hval, hval, Category.comp_id, Category.id_comp]
         have hE : α.map cE ≫ (E.levelIso α n).hom =
@@ -404,7 +404,7 @@ private theorem surjective_base_of_hom_to_descendedObject
           rw [hcongr]
           simp only [eqToHom_trans, Category.assoc]
           rw [hhd, ← Category.assoc, eqToHom_trans]
-        show g.map (ξQ.transition n) ≫
+        change g.map (ξQ.transition n) ≫
             (g.map (E.levelIso α n).inv ≫
               eqToHom (hε n) ≫ (Ep.levelIso f n).hom) =
           (g.map (E.levelIso α (n + 1)).inv ≫
@@ -415,9 +415,9 @@ private theorem surjective_base_of_hom_to_descendedObject
         rw [reassoc_of% hbridge, hEp] }
   let ht : H.obj η ⟶ ξ := H.map t ≫ θ ≫ hξPiso.hom
   have hb : ht.base = t.base := by
-    show t.base ≫ (𝟙 ξ.base) ≫ hξPiso.hom.base = t.base
+    change t.base ≫ (𝟙 ξ.base) ≫ hξPiso.hom.base = t.base
     rw [hbaseiso]
-    show t.base ≫ 𝟙 ξQ.base = t.base
+    change t.base ≫ 𝟙 ξQ.base = t.base
     exact Category.comp_id _
   rw [← hb]
   exact hminimal.2 (H.obj η) ht
@@ -447,17 +447,17 @@ private theorem isMinimal_presentationGroupoid
   -- gives, not at the universe-lifted functor it is built from. The two are definitionally
   -- equal, but only the first makes the composites below typecheck syntactically.
   let e : U.Elements ≌ G.objects.Elements := uliftElementsEquivalence U
-  let α : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+  let α : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor q) :=
     { toFunctor := e.functor ⋙ quotientMorphism G
       w := by
-        show (e.functor ⋙ quotientMorphism G) ⋙ q = CategoryOfElements.π U
+        change (e.functor ⋙ quotientMorphism G) ⋙ q = Functor.Elements.π U
         calc
           (e.functor ⋙ quotientMorphism G) ⋙ q =
               e.functor ⋙ (quotientMorphism G ⋙ q) := Functor.assoc _ _ _
-          _ = e.functor ⋙ CategoryOfElements.π G.objects :=
+          _ = e.functor ⋙ Functor.Elements.π G.objects :=
             congrArg (fun t => e.functor ⋙ t) (quotientMorphism_over G)
-          _ = CategoryOfElements.π U := rfl }
+          _ = Functor.Elements.π U := rfl }
   let E := representableMorphismFormalObjectEquivalence q
     (quotientProjection_cofibered G) ξ.base
   let ξQ' : FormalObject q := (E.equivalence.functor.obj α).1
@@ -467,7 +467,7 @@ private theorem isMinimal_presentationGroupoid
       (⟨ξQ, rfl⟩ : (FormalObject.projection (p := q)).Fiber ξ.base) :=
     Subtype.ext (formalObjectAtBase_eq ξQ' ξ.base hbase).symm
   let eQ : G.objects.Elements ≌ (restrictedCoyoneda ξQ.base).Elements := e.symm
-  show GroupoidInFunctors.IsMinimal.{u, max v v₃, w, v₃} G
+  change GroupoidInFunctors.IsMinimal.{u, max v v₃, w, v₃} G
   let hq := quotientProjection_cofibered G
   let pushQ : ChosenPushforwards q := chosenPushforwardsOfCofibered q hq
   let assoc := associatedMorphism hq ξQ pushQ
@@ -479,7 +479,7 @@ private theorem isMinimal_presentationGroupoid
   · have hquot : IsSmooth (quotientBasedFunctor G) :=
       (source_isSmooth_iff_quotient G).mp hsmooth.1
     have hα : IsSmooth α := by
-      show IsSmooth (BasedFunctor.comp
+      change IsSmooth (BasedFunctor.comp
         (uliftElementsBasedFunctor' U) (quotientBasedFunctor G))
       exact isSmooth_comp _ _ (isSmooth_uliftElementsBasedFunctor' U) hquot
     have hassoc : IsSmooth assoc.toBasedFunctor := isSmooth_of_iso β.symm hα
@@ -503,8 +503,8 @@ private theorem isMinimal_presentationGroupoid
         Functor.isoWhiskerRight e.counitIso.symm (quotientMorphism G) ≪≫
         Functor.isoWhiskerLeft e.inverse βU
     refine ⟨δ, fun X => ?_⟩
-    let _ : (CategoryOfElements.π G.objects).IsHomLift (𝟙 X.1) (e.counitIso.inv.app X) := by
-      show (CategoryOfElements.π G.objects).IsHomLift (𝟙 X.1) (𝟙 X)
+    let _ : (Functor.Elements.π G.objects).IsHomLift (𝟙 X.1) (e.counitIso.inv.app X) := by
+      change (Functor.Elements.π G.objects).IsHomLift (𝟙 X.1) (𝟙 X)
       exact IsHomLift.id rfl
     let _ : q.IsHomLift (𝟙 X.1) ((quotientMorphism G).map (e.counitIso.inv.app X)) :=
       Functor.isHomLift_map_of_comp_eq (quotientMorphism_over G) _ _
@@ -542,7 +542,7 @@ private theorem isEquivalence_presentationMorphism [IsNoetherianRing Λ] [Module
   obtain ⟨hUdef, -, -⟩ := (isProrepresentable_iff_isDeformationFunctor U).mp hU
   let K := residueFieldObject.{u, max v v₃, w} Λ k
   let uK : U.obj K := hUdef.1.some.default
-  let x : (CategoryOfElements.π U).Fiber K := ⟨U.elementsMk K uK, rfl⟩
+  let x : (Functor.Elements.π U).Fiber K := ⟨U.elementsMk K uK, rfl⟩
   have h₀ : (fiberFunctor f K).EssSurj := by
     let Esp := Classical.choice hpre.specialFiber
     refine ⟨fun y => ?_⟩
@@ -568,7 +568,7 @@ public theorem exists_minimalPresentation [IsNoetherianRing Λ] [Module.Finite �
     (p : F ⥤ ArtinianLocalAlgCat.{u, max v v₃ w, w} Λ k)
     (hp : IsDeformationCategory.{u, max v v₃, w} p)
     [h𝓕 : Fact (IsPredeformationCategory.{u, max v v₃, w} (BasedCategory.ofFunctor p).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor p) h𝓕.out.cofibered)))]
     [FiniteDimensional k (tangentSpaceArtinian.{u, w, max v v₃} Λ k
       (isomorphismClasses (BasedCategory.ofFunctor p) h𝓕.out.cofibered))]

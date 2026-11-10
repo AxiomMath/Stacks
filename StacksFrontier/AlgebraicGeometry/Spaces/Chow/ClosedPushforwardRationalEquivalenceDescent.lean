@@ -86,7 +86,7 @@ theorem IntegralClosedSubspace.pushforward_id_eq_self (hX : IsAlgebraicSpace B S
     IntegralClosedSubspace.pushforward B S hS hX hX hXdec hid Z = Z := by
   refine (eq_integralClosedSubspaceOfPoints B S hS hX hXdec Z
     (IntegralClosedSubspace.imagePoints B S hS hX hX hid Z) ?_).symm
-  show subspacePointSet B S hS X Z.subspace =
+  change subspacePointSet B S hS X Z.subspace =
     pointsMap B S hS X (𝟙 X) '' subspacePointSet B S hS X Z.subspace
   rw [pointsMap_id, Set.image_id]
 
@@ -288,7 +288,7 @@ theorem isRationallyEquivalentToZero_of_isRationallyEquivalentToZeroWithin_close
         (integralClosedSubspacePushforward D (Y.ι ≫ sX) hYgood (V j) k (c' j)).1 T := fun j =>
     (congrFun (hpush j) T).symm
   rw [finsum_congr hterm]
-  show _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
     (cycleFamilySum D (Y.ι ≫ sX) hYgood V hVfin k c').1 T
   by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
       (D.isDecentSpace_of_isGood sX hX) hY.2 T0 = T

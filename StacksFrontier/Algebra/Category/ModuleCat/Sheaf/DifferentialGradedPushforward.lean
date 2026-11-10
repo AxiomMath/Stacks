@@ -176,14 +176,14 @@ scalar multiplication of morphisms. -/
 theorem homSections_zsmul {S T : SheafOfModules.{m} R} (k : ℤ) (f : S ⟶ T) (U : Cᵒᵖ)
     (x : S.val.obj U) : homSections (k • f) U x = k • homSections f U x := by
   have hv : (k • f).val = k • f.val := by
-    show (SheafOfModules.forget R).map (k • f) = _
+    change (SheafOfModules.forget R).map (k • f) = _
     rw [Functor.map_zsmul]
     rfl
   have heval : (k • f.val).app U = k • f.val.app U := by
-    show (PresheafOfModules.evaluation R.obj U).map (k • f.val) = _
+    change (PresheafOfModules.evaluation R.obj U).map (k • f.val) = _
     rw [Functor.map_zsmul]
     rfl
-  show ConcreteCategory.hom ((k • f).val.app U) x = _
+  change ConcreteCategory.hom ((k • f).val.app U) x = _
   rw [hv, heval]
   simp
 

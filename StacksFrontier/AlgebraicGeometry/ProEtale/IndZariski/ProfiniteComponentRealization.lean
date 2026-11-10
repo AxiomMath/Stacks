@@ -8,7 +8,7 @@ public import Mathlib.RingTheory.Spectrum.Prime.Topology
 public import Mathlib.Topology.Category.TopCat.Limits.Basic
 public import Mathlib.Topology.Constructions.SumProd
 public import Mathlib.Topology.Homeomorph.Lemmas
-public import Mathlib.Topology.Separation.Profinite
+public import Mathlib.Topology.Separation.Regular
 public import StacksCore.Tactic.StacksAttribute
 public import StacksCore.Topology.Connected.ComponentSpace
 public import StacksFrontier.AlgebraicGeometry.ProEtale.WLocal.StratificationColimitIndZariski
@@ -75,7 +75,7 @@ private lemma isCoinducing_prodMap_id_mk
   let h : S × X → S × ConnectedComponents X := fun p => (p.1, p.2)
   have hc : Continuous h :=
     continuous_fst.prodMk (ConnectedComponents.continuous_coe.comp continuous_snd)
-  show IsCoinducing h
+  change IsCoinducing h
   rw [isCoinducing_iff]
   intro U
   constructor
@@ -85,13 +85,13 @@ private lemma isCoinducing_prodMap_id_mk
       apply (ConnectedComponents.isQuotientMap_coe.isCoinducing.isOpen_preimage).mp
       let k : X → S × X := fun x => (s, x)
       have hk : Continuous k := by
-        show Continuous (fun x : X => (s, x))
+        change Continuous (fun x : X => (s, x))
         exact (continuous_const : Continuous (fun _ : X => s)).prodMk continuous_id
       have heq : k ⁻¹' (h ⁻¹' U) =
           (fun x : X => (s, ConnectedComponents.mk x)) ⁻¹' U := by
         ext x
         simp [h, k]
-      show IsOpen ((fun x : X => (s, ConnectedComponents.mk x)) ⁻¹' U)
+      change IsOpen ((fun x : X => (s, ConnectedComponents.mk x)) ⁻¹' U)
       rw [← heq]
       exact hpre.preimage hk
     have hU : U = ⋃ s : S,
@@ -272,7 +272,7 @@ private lemma stageComponentIndexMap_mk
     stageComponentIndexMap A T q (ConnectedComponents.mk p) =
       stageSpectrumIndexMap A T q p := by
   dsimp [stageComponentIndexMap]
-  show (connectedComponentsDiscreteHomeo q).symm
+  change (connectedComponentsDiscreteHomeo q).symm
     (ConnectedComponents.mk (stageSpectrumIndexMap A T q p)) = _
   exact (connectedComponentsDiscreteHomeo q).symm_apply_apply _
 
@@ -639,7 +639,7 @@ private lemma componentPullbackStageAmbient_eq
     componentPullbackStageAmbient A T q f z =
       stageProductSpectrumPoint A T q (q.proj z.val.2) z.val.1 := by
   let : Finite q := inferInstance
-  show (PrimeSpectrum.sigmaToPiHomeo (fun _ : q => A))
+  change (PrimeSpectrum.sigmaToPiHomeo (fun _ : q => A))
     ⟨q.proj z.val.2, z.val.1⟩ = PrimeSpectrum.sigmaToPi (fun _ : q => A)
       ⟨q.proj z.val.2, z.val.1⟩
   exact PrimeSpectrum.sigmaToPiHomeo_apply _
@@ -717,7 +717,7 @@ private lemma chosenStagePointIndex_pullback
     (f : C(T, ConnectedComponents (PrimeSpectrum A)))
     (z : ComponentPullback A T f) :
     chosenStagePointIndex A T q f (componentPullbackStageMap A T q f z) = q.proj z.val.2 := by
-  show stageSpectrumIndexMap A T q
+  change stageSpectrumIndexMap A T q
     (PrimeSpectrum.comap (algebraMap (q → A) (chosenProfiniteStage A T q f).B)
       (componentPullbackStageMap A T q f z)) = _
   rw [componentPullbackStageMap_comap, componentPullbackStageAmbient_eq]
@@ -729,7 +729,7 @@ private lemma chosenStagePointBase_pullback
     (f : C(T, ConnectedComponents (PrimeSpectrum A)))
     (z : ComponentPullback A T f) :
     chosenStagePointBase A T q f (componentPullbackStageMap A T q f z) = z.val.1 := by
-  show stageSpectrumBaseMap A T q
+  change stageSpectrumBaseMap A T q
     (PrimeSpectrum.comap (algebraMap (q → A) (chosenProfiniteStage A T q f).B)
       (componentPullbackStageMap A T q f z)) = z.val.1
   rw [componentPullbackStageMap_comap, componentPullbackStageAmbient_eq]
@@ -770,7 +770,7 @@ private lemma chosenStagePointIndex_natural
     DiscreteQuotient.ofLE h (chosenStagePointIndex A T q f p) =
       chosenStagePointIndex A T q' f
         ((chosenStageTransitionPackage A T q q' h f).specMap p) := by
-  show DiscreteQuotient.ofLE h
+  change DiscreteQuotient.ofLE h
       (stageSpectrumIndexMap A T q
         (PrimeSpectrum.comap (algebraMap (q → A) (chosenProfiniteStage A T q f).B) p)) =
     stageSpectrumIndexMap A T q'
@@ -787,7 +787,7 @@ private lemma chosenStagePointBase_natural
     chosenStagePointBase A T q' f
         ((chosenStageTransitionPackage A T q q' h f).specMap p) =
       chosenStagePointBase A T q f p := by
-  show stageSpectrumBaseMap A T q'
+  change stageSpectrumBaseMap A T q'
       (PrimeSpectrum.comap (algebraMap (q' → A) (chosenProfiniteStage A T q' f).B)
         ((chosenStageTransitionPackage A T q q' h f).specMap p)) =
     stageSpectrumBaseMap A T q
@@ -814,7 +814,7 @@ private lemma stageAlgHom_unique_of_specTopMap_eq
     apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro p
-    show PrimeSpectrum.comap (algebraMap R B)
+    change PrimeSpectrum.comap (algebraMap R B)
         (PrimeSpectrum.comap (stageAlgHomRingHom R B C algB algC ψ) p) =
       PrimeSpectrum.comap (algebraMap R C) p
     have hcomp : RingHom.comp (stageAlgHomRingHom R B C algB algC ψ)
@@ -914,7 +914,7 @@ private lemma chosenStageTransition_id
       AlgHom.id A (chosenProfiniteStage A T q f).B := by
   apply AlgHom.ext
   intro x
-  show (chosenStageTransitionPackage A T q q le_rfl f).hom x = x
+  change (chosenStageTransitionPackage A T q q le_rfl f).hom x = x
   have h := congrArg (fun φ : @AlgHom (q → A)
       (chosenProfiniteStage A T q f).B (chosenProfiniteStage A T q f).B
       inferInstance inferInstance inferInstance (chosenStageAlgebra A T q f)
@@ -947,12 +947,12 @@ private lemma chosenStageTransition_comp
     simp [r₀₁, r₁₂, r₀₂, stageRestrictRingHom]
   have hbase₁ : algebraMap (q₂ → A) B₁ =
       (algebraMap (q₁ → A) B₁).comp (algebraMap (q₂ → A) (q₁ → A)) := by
-    show (algebraMap (q₁ → A) B₁).comp r₁₂ =
+    change (algebraMap (q₁ → A) B₁).comp r₁₂ =
       (algebraMap (q₁ → A) B₁).comp r₁₂
     rfl
   have hbase₀ : algebraMap (q₂ → A) B₀ =
       (algebraMap (q₁ → A) B₀).comp (algebraMap (q₂ → A) (q₁ → A)) := by
-    show (algebraMap (q₀ → A) B₀).comp r₀₂ =
+    change (algebraMap (q₀ → A) B₀).comp r₀₂ =
       ((algebraMap (q₀ → A) B₀).comp r₀₁).comp r₁₂
     rw [RingHom.comp_assoc, hr]
   let : IsScalarTower (q₂ → A) (q₁ → A) B₁ := .of_algebraMap_eq' hbase₁
@@ -976,20 +976,20 @@ private lemma chosenStageTransition_comp
     apply (chosenProfiniteStage A T q₂ f).isEmbedding.injective
     apply PrimeSpectrum.ext
     ext a
-    show a ∈ (PrimeSpectrum.comap (algebraMap (q₂ → A) B₂)
+    change a ∈ (PrimeSpectrum.comap (algebraMap (q₂ → A) B₂)
         (PrimeSpectrum.comap (stageAlgHomRingHom (q₂ → A) B₂ B₀
           inferInstance inferInstance (φ₀₁.comp φ₁₂)) p')).asIdeal ↔
       a ∈ (PrimeSpectrum.comap (algebraMap (q₂ → A) B₂)
         (PrimeSpectrum.comap (stageAlgHomRingHom (q₂ → A) B₂ B₀
           inferInstance inferInstance φ₀₂) p')).asIdeal
     simp only [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
-    show (φ₀₁.comp φ₁₂) (algebraMap (q₂ → A) B₂ a) ∈ p'.asIdeal ↔
+    change (φ₀₁.comp φ₁₂) (algebraMap (q₂ → A) B₂ a) ∈ p'.asIdeal ↔
       φ₀₂ (algebraMap (q₂ → A) B₂ a) ∈ p'.asIdeal
     rw [(φ₀₁.comp φ₁₂).commutes a, φ₀₂.commutes a]
   apply AlgHom.ext
   intro x
   have h := congrArg (fun ψ => ψ x) hcomp
-  show P₀₁.homOverStage (P₁₂.homOverStage x) = P₀₂.homOverStage x
+  change P₀₁.homOverStage (P₁₂.homOverStage x) = P₀₂.homOverStage x
   exact h
 
 private noncomputable def chosenStageSchemeDiagram
@@ -1013,7 +1013,7 @@ private theorem chosenStageSchemeDiagram_isAffine
     [CompactSpace T] (f : C(T, ConnectedComponents (PrimeSpectrum A)))
     (q : DiscreteQuotient T) :
     IsAffine ((chosenStageSchemeDiagram A T f).obj q) := by
-  show IsAffine (Spec (CommRingCat.of (chosenProfiniteStage A T q f).B))
+  change IsAffine (Spec (CommRingCat.of (chosenProfiniteStage A T q f).B))
   infer_instance
 
 attribute [local instance] chosenStageSchemeDiagram_isAffine
@@ -1119,7 +1119,7 @@ private lemma chosenStageSchemeDiagram_eq_lift
     [CompactSpace T] (f : C(T, ConnectedComponents (PrimeSpectrum A))) :
     chosenStageSchemeDiagram A T f =
       (chosenStageIndexEquiv A T).functor ⋙ chosenStageSchemeDiagramLift A T f :=
-  CategoryTheory.Functor.ext (fun q => rfl) (fun q q' h => rfl)
+  CategoryTheory.Functor.ext (by intros; rfl) (by intros; rfl)
 
 attribute [local instance] Cardinal.fact_isRegular_aleph0
 
@@ -1187,7 +1187,7 @@ private theorem chosenStageAlgColimit_isIndZariski
       chosenStage_isIndZariski_over_A A T q f
     have hAInd : IsIndZariski.{max u v, u, max u v}
         (ULift.{max u v} A) A := by
-      show ObjectProperty.ind.{max u v} P
+      change ObjectProperty.ind.{max u v} P
         (CommAlgCat.of (ULift.{max u v} A) (ULift.{max u v} A))
       exact ObjectProperty.le_ind P
         (CommAlgCat.of (ULift.{max u v} A) (ULift.{max u v} A)) inferInstance
@@ -1297,13 +1297,13 @@ private lemma chosenStageSchemeMap_eq_package
   have hs : (chosenStageSchemeDiagram A T f).map h =
       AlgebraicGeometry.Spec.map (CommRingCat.ofHom
         (chosenStageTransition A T q q' h.le f).toRingHom) := by
-    show AlgebraicGeometry.Spec.map (CommRingCat.ofHom
+    change AlgebraicGeometry.Spec.map (CommRingCat.ofHom
       (chosenStageTransition A T q q' h.le f).toRingHom) = _
     rfl
   rw [Functor.comp_map, hs]
   have ht : chosenStageTransition A T q q' h.le f = P.hom := rfl
   rw [ht]
-  show (AlgebraicGeometry.Spec.topMap
+  change (AlgebraicGeometry.Spec.topMap
     (CommRingCat.ofHom P.hom.toRingHom)).hom = P.specMap
   exact congrArg (fun g => g.hom) P.specMap_eq_overA
 
@@ -1376,7 +1376,7 @@ private lemma connectedComponents_mk_eq_of_limit_compat
   have hclosedPoint : IsClosed ({ConnectedComponents.mk p} :
       Set (ConnectedComponents (PrimeSpectrum A))) := isClosed_singleton
   have hmem : t ∈ f ⁻¹' ({ConnectedComponents.mk p}ᶜ) := hneq
-  obtain ⟨V, hV, htV, hVU⟩ := compact_exists_isClopen_in_isOpen
+  obtain ⟨V, hV, htV, hVU⟩ := exists_isClopen_mem_of_isOpen
     (hclosedPoint.isOpen_compl.preimage f.continuous) hmem
   let qV := DiscreteQuotient.ofIsClopen hV
   let xV := PrimeSpectrum.comap
@@ -1545,7 +1545,7 @@ private lemma chosenStageSchemeDiagram_preservesLimit
     PreservesLimit (chosenStageSchemeDiagram A T f) Scheme.forgetToTop := by
   let D := chosenStageSchemeDiagramLift A T f
   let : ∀ j, IsAffine (D.obj j) := fun j => by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   have : ∀ {i j} (g : i ⟶ j), IsAffineHom (D.map g) := fun g => by
     infer_instance
@@ -1611,11 +1611,11 @@ private lemma chosenStageSpectrumProjection_base
         PrimeSpectrum.comap (algebraMap A _) p := by
   let j := ((chosenStageIndexEquiv A T).functor.obj q).unop
   let φ := (colimit.ι (chosenStageAlgDiagramLift A T f) j).hom
-  show PrimeSpectrum.comap (algebraMap A (chosenProfiniteStage A T q f).B)
+  change PrimeSpectrum.comap (algebraMap A (chosenProfiniteStage A T q f).B)
     (PrimeSpectrum.comap φ.toRingHom p) = _
   apply PrimeSpectrum.ext
   ext a
-  show φ (algebraMap A (chosenProfiniteStage A T q f).B a) ∈ p.asIdeal ↔
+  change φ (algebraMap A (chosenProfiniteStage A T q f).B a) ∈ p.asIdeal ↔
     algebraMap A (chosenStageAlgColimit A T f) a ∈ p.asIdeal
   have h := φ.commutes (ULift.up a)
   change φ (algebraMap A (chosenProfiniteStage A T q f).B a) =
@@ -1657,7 +1657,7 @@ private lemma connectedComponents_snd_injective
   have hx : x ∈ Set.range k := by
     refine ⟨⟨(e x).val.1, ConnectedComponents.coe_eq_coe'.mp hcc⟩, ?_⟩
     apply e.injective
-    show e (e.symm _) = e x
+    change e (e.symm _) = e x
     rw [e.apply_symm_apply]
     exact Subtype.ext (Prod.ext rfl hab.symm)
   have hy : y ∈ Set.range k := by
@@ -1717,7 +1717,7 @@ private lemma isPullback_of_componentPullback_homeomorph
     apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro y
-    show ULift.up (ConnectedComponents.mk (a y)) = ULift.up (f (e y).val.2)
+    change ULift.up (ConnectedComponents.mk (a y)) = ULift.up (f (e y).val.2)
     rw [← ha y, (e y).property]
   refine IsPullback.of_isLimit (c := PullbackCone.mk l r hw) ?_
   refine PullbackCone.isLimitAux' _ fun s => ?_
@@ -1731,19 +1731,19 @@ private lemma isPullback_of_componentPullback_homeomorph
   · apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro z
-    show ULift.up (a (e.symm (k z))) = s.fst z
+    change ULift.up (a (e.symm (k z))) = s.fst z
     rw [← ha, e.apply_symm_apply]
     rfl
   · apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro z
-    show ULift.up (e (e.symm (k z))).val.2 = s.snd z
+    change ULift.up (e (e.symm (k z))).val.2 = s.snd z
     rw [e.apply_symm_apply]
     rfl
   · intro m hl hr
     ext z
     apply e.injective
-    show e (m z) = e (e.symm (k z))
+    change e (m z) = e (e.symm (k z))
     rw [e.apply_symm_apply]
     apply Subtype.ext
     apply Prod.ext

@@ -164,11 +164,13 @@ add_to_sga "4 XVII 1.1.15" "Vanishing clause" HomologicalComplex.instIsStrictlyS
 add_to_sga "4 XVII 1.1.15" "more general" HomologicalComplex.truncGE
 add_to_sga "4 XVII 1.1.15" "more general" HomologicalComplex.truncLE
 add_to_sga "4 XVII 1.1.16" "more general" HomologicalComplex.stupidTrunc
+open CategoryTheory.Functor in
 add_to_sga "4 XVII 1.2.3" "(i), special case"
-  CategoryTheory.Functor.instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlusRightDerivedFunctorPlusUnitQuasiIso
+  instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlusRightDerivedFunctorPlusUnitQuasiIso
 add_to_sga "4 XVII 1.2.3" "(i), special case" CategoryTheory.Functor.rightDerivedFunctorPlus
+open CategoryTheory.Functor in
 add_to_sga "4 XVII 1.2.8" "special case"
-  CategoryTheory.Functor.instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlusRightDerivedFunctorPlusUnitQuasiIso
+  instIsRightDerivedFunctorPlusPlusRightDerivedFunctorPlusRightDerivedFunctorPlusUnitQuasiIso
 add_to_sga "4 XVII 1.2.8" "(A), special case"
   HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 add_to_sga "4 XVII 2.2.3" "(ii)" CategoryTheory.IsTriangulated
@@ -193,8 +195,9 @@ add_to_sga "4 XVII 2.2.9" "(i), special case" HomotopyCategory.instIsTriangulate
 add_to_sga "4 XVII 2.2.9" "(i)" HomotopyCategory.instPretriangulatedIntUp
 add_to_sga "4 XVII 2.2.10" "(A), special case" HomotopyCategory.instIsTriangulatedIntUpPlus
 add_to_sga "4 XVII 2.2.10" "partial" HomotopyCategory.plus
+open CategoryTheory.Pseudofunctor.CoGrothendieck in
 add_to_sga "4 XVII 2.2.12" "partial"
-  CategoryTheory.Pseudofunctor.CoGrothendieck.instIsEquivalenceαCategoryObjLocallyDiscreteOppositeCatMkOpFiberForgetInducedFunctor
+  instIsEquivalenceαCategoryObjLocallyDiscreteOppositeCatMkOpFiberForgetInducedFunctor
 add_to_sga "4 XVII 2.2.13.1" "special case" CategoryTheory.Equivalence.inverse_additive
 add_to_sga "4 XVII 2.2.13.1" CategoryTheory.Functor.Additive
 add_to_sga "4 XVII 2.2.13.1" CategoryTheory.Functor.IsTriangulated

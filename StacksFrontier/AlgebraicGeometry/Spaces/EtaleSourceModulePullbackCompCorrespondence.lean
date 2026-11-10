@@ -311,7 +311,7 @@ theorem isIso_modulePullbackEtaleSourceComparison
   refine ⟨v, hv', ?_⟩
   refine (bijective_comp_modulePullbackEtaleSourceComparison B S hS pU f hU M
     ((etaleModulePullback B S hS pU hU).obj ((modulePullback B S hS f).obj M)) hco).1 ?_
-  show modulePullbackEtaleSourceComparison B S hS pU f hU (pU ≫ f) rfl M ≫ v ≫
+  change modulePullbackEtaleSourceComparison B S hS pU f hU (pU ≫ f) rfl M ≫ v ≫
       modulePullbackEtaleSourceComparison B S hS pU f hU (pU ≫ f) rfl M =
     modulePullbackEtaleSourceComparison B S hS pU f hU (pU ≫ f) rfl M ≫ 𝟙 _
   rw [← Category.assoc, hv', Category.id_comp, Category.comp_id]

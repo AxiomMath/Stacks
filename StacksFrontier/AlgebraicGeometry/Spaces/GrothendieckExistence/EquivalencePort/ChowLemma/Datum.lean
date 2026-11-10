@@ -146,7 +146,7 @@ theorem C1573.exists_isImmersion_projectiveSpacePresheaf {Y : (BigFppfOver B S h
   have hsqA := isPullback_pullbackMap_terminal (P := projectiveSpaceAtUniverse.{u} a) gT
   set prA : PT ⟶ PA := BigFppfOver.homMk B S hS (contains_projectiveSpaceOver B S hS a) _ mA
     (by
-      show mA ≫ pullback.fst _ _ = pullback.fst _ _ ≫ gT
+      change mA ≫ pullback.fst _ _ = pullback.fst _ _ ≫ gT
       exact hsqA.w)
   have yonedaPullback : ∀ {P A C : BigFppfOver B S hS} (p : P ⟶ A) (q : P ⟶ C)
       (f : A ⟶ Over.mk (𝟙 (B.obj hS))) (g : C ⟶ Over.mk (𝟙 (B.obj hS))),
@@ -158,7 +158,7 @@ theorem C1573.exists_isImmersion_projectiveSpacePresheaf {Y : (BigFppfOver B S h
     hsqA
   set w : W ⟶ PT := BigFppfOver.homMk B S hS hcPT _ iW (by
     rw [← Category.assoc, hiW]
-    show B.inclusion.map πT.left ≫ _ = _
+    change B.inclusion.map πT.left ≫ _ = _
     rw [← B.inclusion.map_comp, Over.w πT])
   have hw : IsImmersion B S hS (yoneda.map w) :=
     isImmersion_yoneda_map_of_isImmersion w (inferInstanceAs
@@ -317,11 +317,11 @@ theorem C1573.ChowDatum.exists_isAdmissibleBlowup {X : AlgebraicSpaces B S hS}
   let := pointTopology B S hS (yoneda.obj d.D)
   let := pointTopology B S hS (yoneda.obj (openSub d.D U'))
   have hdenseU : DenseRange (pointsMap B S hS U.1.toFunctor U.1.ι) := by
-    show Dense (Set.range _)
+    change Dense (Set.range _)
     rw [hrangeU, pointsMap_comp]
     have h1 : DenseRange (pointsMap B S hS _ (yoneda.map (openSubHom d.D U'))) := by
       rw [denseRange_pointsMap_yoneda_map_iff, toScheme_map_openSubHom]
-      show Dense (Set.range U'.ι.base)
+      change Dense (Set.range U'.ι.base)
       rw [Scheme.Opens.range_ι]
       exact hdense
     exact d.hdense.comp h1 (continuous_pointsMap B S hS d.u)
@@ -334,7 +334,7 @@ theorem C1573.ChowDatum.exists_isAdmissibleBlowup {X : AlgebraicSpaces B S hS}
   have hadm : IsAdmissibleBlowup B S hS U
       (schemeSpaceMap π ≫ (ObjectProperty.homMk d.τ : schemeSpace d.T₀ ⟶ X)) := by
     refine ⟨ZJ, hfp, ?_, hb⟩
-    show Disjoint (Set.range (pointsMap B S hS U.1.toFunctor U.1.ι)) _
+    change Disjoint (Set.range (pointsMap B S hS U.1.toFunctor U.1.ι)) _
     rw [hrangeU]
     exact hdisj
   have := d.hMi

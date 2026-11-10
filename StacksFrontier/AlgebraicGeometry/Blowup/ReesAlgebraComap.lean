@@ -75,20 +75,20 @@ public theorem comap_ambient_quotient_eq_zero {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hWV₀' : W ≤ f ⁻¹ᵁ V₀ := hWV₀
   have hWV : W ≤ f ⁻¹ᵁ V := le_trans hWV₀' fun _ hx => hV₀V hx
   refine ⟨W, hWV, hzW, ?_⟩
-  show ConcreteCategory.hom (Q.val.map (homOfLE hWV).op)
+  change ConcreteCategory.hom (Q.val.map (homOfLE hWV).op)
       ((q.val.app (op (f ⁻¹ᵁ V))).hom ((f.app V) a)) =
     ConcreteCategory.hom (Q.val.map (homOfLE hWV).op) 0
   rw [map_zero, ← PresheafOfModules.naturality_apply q.val (homOfLE hWV).op ((f.app V) a)]
   have hb : ConcreteCategory.hom ((SheafOfModules.unit X.ringCatSheaf).val.map (homOfLE hWV).op)
       ((f.app V) a) = (f.appLE V₀ W hWV₀') (Y.presheaf.map (homOfLE hV₀V').op a) := by
-    show X.presheaf.map (homOfLE hWV).op ((f.app V) a) = _
+    change X.presheaf.map (homOfLE hWV).op ((f.app V) a) = _
     simpa only [CommRingCat.comp_apply] using
       ConcreteCategory.congr_hom (appLE_factor f hV₀V' hWV₀' hWV) a
   rw [hb]
-  show ((I.comap f ^ n).subschemeι.app W).hom _ = 0
+  change ((I.comap f ^ n).subschemeι.app W).hom _ = 0
   rw [← RingHom.mem_ker,
     Scheme.IdealSheafData.ker_subschemeι_app (I.comap f ^ n) ⟨W, hWaff⟩]
-  show _ ∈ ((I.comap f).ideal ⟨W, hWaff⟩) ^ n
+  change _ ∈ ((I.comap f).ideal ⟨W, hWaff⟩) ^ n
   rw [Stacks.IdealSheaf.ideal_comap_appLE I f ⟨V₀, hV₀aff⟩ ⟨W, hWaff⟩ hWV₀', ← Ideal.map_pow]
   exact Ideal.mem_map_of_mem _ (ha ⟨V₀, hV₀aff⟩ hV₀V')
 
@@ -181,7 +181,7 @@ public theorem reesPieceAmbient_comap (n : ℤ) (V : Y.Opens)
   cases n with
   | ofNat k => exact idealPowerKernelAmbient_comap f I k V x
   | negSucc k =>
-      show (0 : Γ(X, f ⁻¹ᵁ V)) = (f.app V) (0 : Γ(Y, V))
+      change (0 : Γ(X, f ⁻¹ᵁ V)) = (f.app V) (0 : Γ(Y, V))
       rw [map_zero]
 
 /-- The inverse image `reesPieceComap` is multiplicative: the product of two homogeneous sections

@@ -89,12 +89,12 @@ theorem SpecMap_algebraMap_residueField {Z : Scheme.{u}} {A : CommRingCat.{u}} (
   let _ : Algebra A (Z.residueField z) :=
     ((Scheme.ΓSpecIso A).inv ≫ g.appTop ≫ Z.Γevaluation z).hom.toAlgebra
   rw [← cancel_mono (Spec A).isoSpec.hom]
-  show _ ≫ (Spec _).toSpecΓ = _ ≫ (Spec _).toSpecΓ
+  change _ ≫ (Spec _).toSpecΓ = _ ≫ (Spec _).toSpecΓ
   conv_rhs => rw [Category.assoc, Scheme.toSpecΓ_naturality]
   simp only [Scheme.fromSpecResidueField, Category.assoc,
     Scheme.fromSpecStalk_toSpecΓ_assoc, ← AlgebraicGeometry.Spec.map_comp]
   rw [← SpecMap_ΓSpecIso_hom, ← AlgebraicGeometry.Spec.map_comp, Spec.map_inj]
-  show (((Scheme.ΓSpecIso A).hom ≫ (Scheme.ΓSpecIso A).inv) ≫ g.appTop) ≫
+  change (((Scheme.ΓSpecIso A).hom ≫ (Scheme.ΓSpecIso A).inv) ≫ g.appTop) ≫
       Z.Γevaluation z = _
   rw [Iso.hom_inv_id, Category.id_comp]
   rfl

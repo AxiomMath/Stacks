@@ -140,7 +140,7 @@ private theorem bijective_localRingHom_toLocalization {R : Type*} [CommRing R] (
     Function.Bijective (Localization.localRingHom p P (algebraMap R (Localization M)) hp) := by
   have hpc : p.primeCompl = (P.comap (algebraMap R (Localization M))).primeCompl := by
     ext x
-    show x ∉ p ↔ x ∉ P.comap (algebraMap R (Localization M))
+    change x ∉ p ↔ x ∉ P.comap (algebraMap R (Localization M))
     rw [hp]
   have : IsLocalization p.primeCompl (Localization.AtPrime P) := by
     rw [hpc]

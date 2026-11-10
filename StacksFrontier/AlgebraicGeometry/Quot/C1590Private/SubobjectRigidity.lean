@@ -101,7 +101,7 @@ theorem unit_endo_apply (φ : SheafOfModules.unit R ⟶ SheafOfModules.unit R)
     (X : Cᵒᵖ) (y : (SheafOfModules.unit R).val.obj X) :
     φ.val.app X y = unitSectionEquiv R X y • φ.val.app X ((unitSectionEquiv R X).symm 1) := by
   have hy : y = unitSectionEquiv R X y • (unitSectionEquiv R X).symm 1 := by
-    show y = unitSectionEquiv R X y * (1 : R.obj.obj X)
+    change y = unitSectionEquiv R X y * (1 : R.obj.obj X)
     exact (mul_one (unitSectionEquiv R X y)).symm
   conv_lhs => rw [hy]
   exact (φ.val.app X).hom.map_smul _ _
@@ -120,7 +120,7 @@ theorem rangeSubmodule_comp_le (hR : ∀ (X : Cᵒᵖ) (a b : R.obj.obj X), a * 
     (rangeSubmodule (m ≫ φ)).obj X ≤ (rangeSubmodule m).obj X := by
   rintro s ⟨a, rfl⟩
   refine ⟨unitSectionEquiv R X (φ.val.app X ((unitSectionEquiv R X).symm 1)) • a, ?_⟩
-  show (m.val.app X).hom (_ • a) = φ.val.app X (m.val.app X a)
+  change (m.val.app X).hom (_ • a) = φ.val.app X (m.val.app X a)
   rw [(m.val.app X).hom.map_smul, unit_endo_apply φ X (m.val.app X a), unit_smul_comm hR]
 
 /-- **The structure sheaf of a sheaf of commutative rings is subobject-rigid.** -/

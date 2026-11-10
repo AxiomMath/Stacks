@@ -250,7 +250,7 @@ public theorem mate_eq_mateEquiv_symm {G : B ⥤ D} {P : D ⥤ B} (adj : G ⊣ P
     {G' : A ⥤ C} {P' : C ⥤ A} (adj' : G' ⊣ P') (F : A ⥤ B) (F' : C ⥤ D)
     (ε : P' ⋙ F ≅ F' ⋙ P) :
     mate adj adj' F F' ε =
-      ((mateEquiv adj' adj).symm (TwoSquare.mk P' F' F P ε.hom)).natTrans := by
+      (mateEquiv adj' adj).symm (TwoSquare.mk P' F' F P ε.hom) := by
   ext X
   simp [mate, mateEquiv]
 
@@ -277,7 +277,7 @@ public lemma mateEquiv_whisker {L₁ : A ⥤ B} {R₁ : B ⥤ A} {L₂ : C ⥤ D
     (α : TwoSquare G L₁ L₂ H) (φ : G' ⟶ G) (ψ : H ⟶ H') :
     mateEquiv adj₁ adj₂ ((α.whiskerTop φ).whiskerBottom ψ) =
       ((mateEquiv adj₁ adj₂ α).whiskerRight φ).whiskerLeft ψ := by
-  refine TwoSquare.ext _ _ fun d ↦ ?_
+  refine NatTrans.ext (funext fun d ↦ ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
 

@@ -270,9 +270,9 @@ lemma extCochainSimplexMap_apply {a b : SimplexCategory} (α : a ⟶ b)
 def extCochainCosimplicialObject : CosimplicialObject AddCommGrpCat.{max u m} where
   obj a := AddCommGrpCat.of (extCochain G F a.len)
   map α := AddCommGrpCat.ofHom (extCochainSimplexMap G F α)
-  map_id a := ConcreteCategory.hom_ext _ _ fun _ ↦ funext fun x ↦
+  map_id _ := ConcreteCategory.hom_ext _ _ fun _ ↦ funext fun x ↦
     extCochainRestrict_eq_self _ _ (map_comp_three x _ _ _ _) (x.map_id _) (x.map_id _) _
-  map_comp {a b c} α β := ConcreteCategory.hom_ext _ _ fun _ ↦ funext fun x ↦
+  map_comp _ β := ConcreteCategory.hom_ext _ _ fun _ ↦ funext fun x ↦
     (extCochainRestrict_comp _ _ (map_comp_three ((nerve C).map β.op x) _ _ _ _)
       _ _ (map_comp_three x _ _ _ _) _ _ (map_comp_three x _ _ _ _)
       (map_comp_two x _ _ _) (map_comp_two x _ _ _) _).symm
@@ -327,7 +327,7 @@ def extCochainCosimplicialBifunctor (C : Type u) [SmallCategory C] (O : Cᵒᵖ 
     ((PresheafOfModules.{m} O)ᵒᵖ × PresheafOfModules.{m} O) ⥤
       CosimplicialObject AddCommGrpCat.{max u m} where
   obj P := extCochainCosimplicialObject P.1.unop P.2
-  map {P Q} h :=
+  map h :=
     { app := fun a ↦ AddCommGrpCat.ofHom (extCochainMap h.1.unop h.2 a.len)
       naturality _ _ _ := ConcreteCategory.hom_ext _ _ fun _ ↦ funext fun x ↦
         extCochainHomMap_restrict h.1.unop h.2 _ _ (map_comp_three x _ _ _ _) _ }

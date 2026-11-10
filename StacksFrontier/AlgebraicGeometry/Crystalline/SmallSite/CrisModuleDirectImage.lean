@@ -440,7 +440,7 @@ underlying `F`**, as an equality of functors
 theorem crisModuleDirectImage_comp_toAbelianSheaf :
     crisModuleDirectImage S S' fS fX hf ⋙ toAbelianSheaf S' =
       toAbelianSheaf S ⋙ crisDirectImage S S' fS fX hf := by
-  show moduleRingULiftUp S ⋙ bigModuleDirectImage S ⋙
+  change moduleRingULiftUp S ⋙ bigModuleDirectImage S ⋙
       changeBaseModuleDirectImage S S' fS fX hf ⋙ smallModuleRestrictionULift S' ⋙
         moduleRingULiftDown S' ⋙ toAbelianSheaf S' = _
   rw [moduleRingULiftDown_comp_toSheaf, smallModuleRestrictionULift_comp_toSheaf,

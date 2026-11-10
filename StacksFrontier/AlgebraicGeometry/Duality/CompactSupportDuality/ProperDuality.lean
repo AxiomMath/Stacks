@@ -142,7 +142,7 @@ theorem bijective_compPairing_properTrace
       structureSheafHomAddEquiv_comp q a _
     have h2 := ConcreteCategory.congr_hom ((homologyZeroModelNatIso q).inv.naturality g')
       (structureSheafHomLinearEquiv q (G.functor.obj N') a)
-    show dualityEquiv q (ωLS) 0 e₀ (((homologyZeroModelNatIso q).app (ωLS).obj).inv.hom
+    change dualityEquiv q (ωLS) 0 e₀ (((homologyZeroModelNatIso q).app (ωLS).obj).inv.hom
       (structureSheafHomLinearEquiv q (standardRelativeDualizingComplex q)
         (a ≫ G.functor.map g'))) = _
     rw [h1]
@@ -156,7 +156,7 @@ theorem bijective_compPairing_properTrace
         L.dualMap ∘ dualityEquiv q K' 0 ∘ (· ≫ e₀) ∘ G.fullyFaithfulFunctor.preimage := by
       funext g
       ext a
-      show properTrace q (a ≫ g) = dualityEquiv q K' 0 (G.fullyFaithfulFunctor.preimage g ≫ e₀)
+      change properTrace q (a ≫ g) = dualityEquiv q K' 0 (G.fullyFaithfulFunctor.preimage g ≫ e₀)
         (L a)
       refine (congrArg (fun g₀ => properTrace q (a ≫ g₀))
         (G.fullyFaithfulFunctor.map_preimage g).symm).trans ?_

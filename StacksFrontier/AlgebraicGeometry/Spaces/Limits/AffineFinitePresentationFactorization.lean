@@ -212,7 +212,7 @@ theorem exists_affine_isLocallyOfFinitePresentation_factorization_of_terminal
   -- the affine open of `S` as a spectrum
   let R : CommRingCat.{u} := Γ(S₀.toScheme, ⊤)
   have hR : B.Contains (Spec R) := by
-    show (Spec R).size < B.cutoff
+    change (Spec R).size < B.cutoff
     rw [← Scheme.size_congr S₀.toScheme.isoSpec]
     exact Scheme.size_lt_of_isOpenImmersion S₀.ι hS
   let r : Spec R ⟶ S := S₀.toScheme.isoSpec.inv ≫ S₀.ι

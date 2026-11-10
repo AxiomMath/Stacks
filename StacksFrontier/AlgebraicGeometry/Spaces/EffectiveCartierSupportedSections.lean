@@ -99,7 +99,7 @@ theorem hasNoSectionsSupportedIn_structureSheaf_of_isEffectiveCartierDivisor
           (pointsMap B S hS (yoneda.obj (hU.rep.pullback W.1.hom))
             (hU.rep.fst W.1.hom) y) := by
       rw [← pointsMap_comp_apply, ← pointsMap_comp_apply, hU.rep.w W.1.hom]
-    show pointsMap B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj W)) W.1.hom
+    change pointsMap B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj W)) W.1.hom
         (pointsMap B S hS (yoneda.obj (hU.rep.pullback W.1.hom))
           (yoneda.map (hU.rep.snd W.1.hom)) y) ∈ (subspacePointSet B S hS X.1 D.1)ᶜ
     rw [key]

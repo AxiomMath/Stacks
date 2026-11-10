@@ -112,7 +112,9 @@ theorem isPullback_restrictionSource_of_preimage_le
   · simp only [Category.comp_id, Iso.refl_hom]
     exact (fiberProduct_condition (fiberProductSnd (subspaceInclusion G Z hZ) G.target)
       (fiberProductFst G.source (subspaceInclusion G Z hZ))).symm
-  all_goals simp <;> rfl
+  · simp
+    rfl
+  all_goals simp
 
 /-- The space of arrows of the restriction of a groupoid in algebraic spaces along the inclusion
 of a subspace `Z` of its object space satisfying `t⁻¹(Z) ≤ s⁻¹(Z)` is the inverse image of `Z`

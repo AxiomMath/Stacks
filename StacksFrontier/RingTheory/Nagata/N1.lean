@@ -262,7 +262,7 @@ private theorem exists_notMem_forall_exists_pow_smul_mem {B : Type*} [CommRing B
   have hnot : ¬ Ideal.comap (algebraMap R B) J ≤ 𝔪 := fun hle => by
     obtain ⟨Q, hQJ, hQp, hQm⟩ := Ideal.exists_ideal_over_prime_of_isIntegral 𝔪 J hle
     exact (hJ ⟨Q, hQp⟩).mpr hQJ (@hgood Q hQp hQm)
-  obtain ⟨g, hgJ, hgm⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨g, hgJ, hgm⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   refine ⟨g, hgm, fun x hx => ?_⟩
   have hmem : ∀ c : B, c ∈ (1 : Submodule B K).colon {x} ↔ IsLocalization.IsInteger B (c • x) :=
     fun c => by

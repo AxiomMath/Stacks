@@ -146,7 +146,7 @@ private lemma sections_colimit_baseChange_diagram
   have : ∀ {A B : Over i₀} (g : A ⟶ B), IsAffineHom (F.map g) := by
     intro A B g
     have : IsAffineHom ((Over.post D).map g).left := by
-      show IsAffineHom (D.map g.left)
+      change IsAffineHom (D.map g.left)
       infer_instance
     exact MorphismProperty.overPullbackMap (P := @IsAffineHom) X₀.hom
       ((Over.post D).map g) inferInstance
@@ -191,7 +191,7 @@ private theorem isDirectedColimit_of_ringCocone
   · intro i x hx
     have he : ((forget CommRingCat.{u}).mapCocone c).ι.app i x =
         ((forget CommRingCat.{u}).mapCocone c).ι.app i (0 : F.obj i) := by
-      show (c.ι.app i).hom x = (c.ι.app i).hom 0
+      change (c.ι.app i).hom x = (c.ι.app i).hom 0
       rw [← hg_apply, hx]
       simp
     obtain ⟨j, f, hf⟩ :=
@@ -271,10 +271,9 @@ private theorem tensor_module_colimit_data
     eB.symm_apply_eq.mpr (hrc.linearEquivDirectLimit_of R B f S g i x).symm
   have heN (i : α) (x : N i) : eN (ν i x) =
       Module.DirectLimit.of R α N (fun i j h => q i j h) i x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [eN, ν, q]
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
-        show (TensorProduct.directLimitLeft
+        change (TensorProduct.directLimitLeft
           (fun i j h => (f i j h).toLinearMap) M)
           (eB.symm (g i b) ⊗ₜ[R] m) = _
         rw [heB i b]
@@ -282,7 +281,7 @@ private theorem tensor_module_colimit_data
           (fun i j h => (f i j h).toLinearMap) M b m
     | add x y hx hy => simp [map_add, hx, hy]
   refine ⟨fun i j h x => ?_, fun y => ?_, fun i x hx => ?_⟩
-  · show LinearMap.rTensor M (g j).toLinearMap
+  · change LinearMap.rTensor M (g j).toLinearMap
         (LinearMap.rTensor M (f i j h).toLinearMap x) = _
     rw [← LinearMap.rTensor_comp_apply]
     have hgf : (g j).toLinearMap.comp (f i j h).toLinearMap =
@@ -357,17 +356,15 @@ private theorem tensor_module_eventually_flat
   have hn_eq : ∀ i j (h : i ≤ j) x,
       n i j h x = LinearMap.rTensor M₀ (bAlg i j h).toLinearMap x := by
     intro i j h x
-    induction x using TensorProduct.induction_on with
-    | zero => simp [n]
+    induction x using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add x y hx hy => simp [n, hx, hy]
   have hν_eq : ∀ i x,
       ν i x = LinearMap.rTensor M₀ (g i).toLinearMap x := by
     intro i x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul x y => rfl
-    | add x y _ _ => simp [ν]
+    | add x y => simp [ν]
   have hdata := tensor_module_colimit_data R₀ B bAlg S g hc M₀
   have hcompat : ∀ i j (h : i ≤ j) x, ν j (n i j h x) = ν i x := fun i j h x => by
     rw [hn_eq i j h x, hν_eq j, hν_eq i]; exact hdata.1 i j h x
@@ -611,8 +608,7 @@ private theorem isFlatOver_baseChangeNatTrans_iff
     pullback_isQuasicoherent (pullback.snd g X.hom) F
   have hp : ((Over.pullback g).map f).left ≫ b = a ≫ f' := by
     apply pullback.hom_ext <;>
-      simp [a, b, f', baseChangeNatTrans_app, baseChangeMap, Over.pullback_map_left,
-        pullback.lift_fst, pullback.lift_snd]
+      simp [a, b, f', baseChangeNatTrans_app, baseChangeMap, Over.pullback_map_left]
   have eq : a ≫ pullback.snd g X.hom = pullback.fst X.hom g := by
     simp [a]
   let ei : (Scheme.Modules.pullback a).obj F' ≅
@@ -624,7 +620,7 @@ private theorem isFlatOver_baseChangeNatTrans_iff
     (isFlatOverAt_chart_iff a b f' ((Over.pullback g).map f).left hp F' x).mpr (h (a x)),
     fun h y => ?_⟩
   have hy := apply_inv_apply_of_isIso a y
-  show IsFlatOverAt f'.toLRSHom.toShHom F' y
+  change IsFlatOverAt f'.toLRSHom.toShHom F' y
   have ht := (isFlatOverAt_chart_iff a b f' ((Over.pullback g).map f).left hp F'
     (inv a y)).mp (h (inv a y))
   rw [hy] at ht
@@ -706,14 +702,14 @@ private theorem flatOver_iff_flat_affineSections
       Module.compHom M f.appTop.hom := by
     apply Module.ext'
     intro r m
-    show ((X.isoSpec.inv ≫ f).appLE ⊤ ⊤ (by simp)).hom r • m = _
+    change ((X.isoSpec.inv ≫ f).appLE ⊤ ⊤ (by simp)).hom r • m = _
     have h : (X.isoSpec.inv ≫ f).appLE ⊤ ⊤ (by simp) =
         f.appTop ≫ (Scheme.ΓSpecIso Γ(X, ⊤)).inv := by
-      show (X.isoSpec.inv ≫ f).appTop = _
+      change (X.isoSpec.inv ≫ f).appTop = _
       rw [Scheme.Hom.comp_appTop, Stacks.RelativeSpec.isoSpec_inv_appTop]
     rw [h]
     rfl
-  show @Module.Flat _ _ _ _ (Module.compHom Γ(G, ⊤)
+  change @Module.Flat _ _ _ _ (Module.compHom Γ(G, ⊤)
       ((X.isoSpec.inv ≫ f).appLE ⊤ ⊤ (by simp)).hom) ↔
     @Module.Flat _ _ _ _ (Module.compHom M f.appTop.hom)
   rw [hm]
@@ -754,7 +750,7 @@ private theorem flatOver_pullback_iff_flat_tensor
       right_inv := e.right_inv
       map_add' := e.map_add
       map_smul' := fun c x => by
-        show e (f.appTop.hom c • x) = f.appTop.hom c • e x
+        change e (f.appTop.hom c • x) = f.appTop.hom c • e x
         exact e.map_smul _ _ }
   exact Module.Flat.equiv_iff e'
 
@@ -787,7 +783,7 @@ private theorem eventually_isFlatOver_affine_diagram
     { app := fun i => (q.app (e.obj i).unop).appTop
       naturality := by
         intro i j h
-        show (q.app (e.obj j).unop).appTop =
+        change (q.app (e.obj j).unop).appTop =
           (q.app (e.obj i).unop).appTop ≫
             (X.map (e.map h).unop).appTop
         rw [← Scheme.Hom.comp_appTop]
@@ -809,13 +805,13 @@ private theorem eventually_isFlatOver_affine_diagram
       ((Functor.Final.isColimitWhiskerEquiv e _).symm hcX)
   obtain ⟨i, hi⟩ := eventually_flat_tensor_of_cocones A B cA cB hcA hcB p fLimit.appTop
     (fun i => by
-      show (f.app (e.obj i).unop).appTop ≫ (cX.π.app (e.obj i).unop).appTop =
+      change (f.app (e.obj i).unop).appTop ≫ (cX.π.app (e.obj i).unop).appTop =
         (cY.π.app (e.obj i).unop).appTop ≫ fLimit.appTop
       simpa only [← Scheme.Hom.comp_appTop] using
         congrArg Scheme.Hom.appTop (hf (e.obj i).unop))
     Γ(X₀, ⊤) r qLimit.appTop
     (fun i => by
-      show (q.app (e.obj i).unop).appTop ≫ (cX.π.app (e.obj i).unop).appTop = _
+      change (q.app (e.obj i).unop).appTop ≫ (cX.π.app (e.obj i).unop).appTop = _
       rw [← Scheme.Hom.comp_appTop, hq]) M
     (fun i => (f.app (e.obj i).unop).finitePresentation_appTop)
     fLimit.finitePresentation_appTop
@@ -835,7 +831,7 @@ private lemma exists_small_directed_cofinal_over
     ∃ (α : Type u) (_ : PartialOrder α) (_ : IsDirected α (· ≤ ·))
       (_ : Nonempty α) (e : α ⥤ (Over i)ᵒᵖ), e.Final := by
   have : EssentiallySmall.{u} (Over i) := by
-    show EssentiallySmall.{u} (CostructuredArrow (𝟭 I) i)
+    change EssentiallySmall.{u} (CostructuredArrow (𝟭 I) i)
     infer_instance
   let E := equivSmallModel.{u} (Over i)
   have : IsCofiltered (SmallModel.{u} (Over i)) := IsCofiltered.of_equivalence E
@@ -937,7 +933,7 @@ theorem eventually_isFlatOver_modulePullback
   let a₀ (j : C.I₀) : U₀ j ⟶ X := Over.homMk (C.f j)
   let b₀ (j : C.I₀) : V₀ j ⟶ Y := Over.homMk (b j)
   let p₀ (j : C.I₀) : U₀ j ⟶ V₀ j := Over.homMk (p j) (by
-    show p j ≫ (b j ≫ Y.hom) = C.f j ≫ X.hom
+    change p j ≫ (b j ≫ Y.hom) = C.f j ≫ X.hom
     rw [← Category.assoc, hp, Category.assoc, Over.w])
   have (j : C.I₀) : IsAffine (U₀ j).left := hCaffine j
   have (j : C.I₀) : IsAffine (V₀ j).left := hVaffine j

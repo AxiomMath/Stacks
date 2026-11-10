@@ -180,7 +180,7 @@ theorem sortHomotopy_identity (p : ℕ) :
 theorem sortHomotopy_zero : sortHomotopy U P 0 = 0 := by
   refine hom_ext U P fun t => ?_
   rw [sortHomotopy, lift_comp_π, zero_comp]
-  show eval U P (inter U t) 1
+  change eval U P (inter U t) 1
     ((0 : SupportedChain U (inter U t) 0 →+ SupportedChain U (inter U t) 1) _) = 0
   rw [AddMonoidHom.zero_apply, map_zero]
 
@@ -198,7 +198,7 @@ theorem sortEnd_eq_zero [Fintype ι] (p : ℕ) (hp : Fintype.card ι < p + 1) :
   have hni : ¬ Function.Injective t := fun h =>
     absurd (Fintype.card_le_of_injective t h) (by simpa using hp)
   rw [sortEnd, lift_comp_π, zero_comp, Alternating.projection, FreeAbelianGroup.lift_apply_of,
-    dif_neg hni, map_zero]
+    dite_eq_right hni, map_zero]
 
 /-- **Signed sorting, as an endomorphism of the Čech complex.** -/
 def sortHom : (cechComplexFunctor U).obj P ⟶ (cechComplexFunctor U).obj P where

@@ -73,7 +73,7 @@ def etaleModuleForgetExtensionByZeroIso :
       etaleModuleForgetAb.{u, r} Λ U ⋙ extensionByZero.{u, r} j :=
   (asIso (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
     X.smallEtaleTopology
-    (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).natTrans).symm
+    (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r}))).symm
 
 /-- The comparison of the coefficient-functor formalism for `M ↦ j_!(M̲)`: the abelian sheaf
 underlying `j_!(M̲)` is `j_!` of the constant abelian sheaf on the underlying group of `M`. -/
@@ -122,7 +122,7 @@ theorem etaleModuleShriekConstant_map_smul_id (M : ModuleCat.{max (u + 1) r} Λ)
   have : Functor.Linear Λ (constantSheaf U.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)) :=
     inferInstanceAs (Functor.Linear Λ (Functor.const U.Etaleᵒᵖ ⋙
       presheafToSheaf U.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)))
-  show (etaleModuleExtensionByZero.{u, r} Λ j).map
+  change (etaleModuleExtensionByZero.{u, r} Λ j).map
     ((constantSheaf U.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).map (a • 𝟙 M)) = _
   rw [Functor.map_smul, CategoryTheory.Functor.map_id, etaleModuleExtensionByZero_map_smul_id]
   rfl

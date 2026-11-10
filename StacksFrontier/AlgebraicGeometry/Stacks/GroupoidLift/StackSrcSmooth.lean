@@ -112,7 +112,7 @@ theorem IsFormallySmoothOnObjects.exists_lift_of_obj_eq
     @IsHomLift.comp_lift_id_left _ _ _ _ 𝒜.val.p _ _ _ _ _ i pbX hpb (fA.map β.inv) hbi,
     fI.map γ'.hom, γ'.hom.2, ?_⟩
   refine (Iso.cancel_iso_hom_left Kiso _ _).1 ?_
-  show (fI.map comp.hom ≫ fI.map (mU.map β.hom)) ≫ (F.map (fA.map β.inv ≫ pbX) ≫
+  change (fI.map comp.hom ≫ fI.map (mU.map β.hom)) ≫ (F.map (fA.map β.inv ≫ pbX) ≫
     fI.map γ'.hom) = (fI.map comp.hom ≫ fI.map (mU.map β.hom)) ≫ ψ
   refine ((Category.assoc _ _ _).trans (congrArg (fI.map comp.hom ≫ ·)
     ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ fI.map γ'.hom) e)))).trans ?_

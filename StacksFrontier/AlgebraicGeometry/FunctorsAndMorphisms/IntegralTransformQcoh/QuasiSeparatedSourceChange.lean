@@ -3,7 +3,7 @@ module
 public import
   StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.IntegralTransformQcoh.AffineSourceCocycle
 public import
-  StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.IntegralTransformQcoh.CharacterizingProperties
+StacksFrontier.AlgebraicGeometry.FunctorsAndMorphisms.IntegralTransformQcoh.CharacterizingProperties
 
 /-!
 # Pseudo-functoriality of affine change of source with a quasi-separated source

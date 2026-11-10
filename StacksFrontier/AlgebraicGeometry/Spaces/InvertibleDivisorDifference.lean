@@ -227,7 +227,7 @@ theorem exists_isEffectiveCartierDivisor_iso_differenceDivisorSheaf_of_mono
         (structureCommRings B S hS X) (forget₂ CommRingCat RingCat)
         (structureRingSheaf B S hS X).property⟩).obj L).obj
           (associatedInvertibleSheaf B S hS X E hE)
-    show Mono (twist.unitHomEquiv.symm (twist.unitHomEquiv g))
+    change Mono (twist.unitHomEquiv.symm (twist.unitHomEquiv g))
     exact (congrArg (fun morphism => Mono morphism)
       (twist.unitHomEquiv.symm_apply_apply g)).mpr hg
   obtain ⟨D, hD, ⟨e⟩⟩ :=
@@ -281,7 +281,7 @@ theorem definingIdealSheaf_succMultipleClosedSubspaces (X : AlgebraicSpaces B S 
       ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 _ _).1
         (atlasHom_surjective B S hS X)) _ _ fun A hA m => ?_
     have : IsAffine ((BigFppfOver.toScheme B S hS).obj A.obj.left) := hA
-    show definingIdealAt B S hS X (sumClosedSubspaces B S hS X
+    change definingIdealAt B S hS X (sumClosedSubspaces B S hS X
       (succMultipleClosedSubspaces B S hS X D k) D) (op A) = _
     refine (definingIdealAt_sumClosedSubspaces_of_isAffine B S hS X _ D A m).trans ?_
     refine Eq.trans ?_ (hpow (k + 1 + 1) A hA).symm

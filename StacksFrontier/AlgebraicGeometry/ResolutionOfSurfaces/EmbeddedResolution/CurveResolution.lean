@@ -449,7 +449,7 @@ theorem exists_pointBlowupChain_isRegular_of_isResolution {X Y : Scheme.{u}} [Is
   have hsupp : (J.support : Set a.obj.left) ≠ Set.univ := by
     intro he
     refine genericPoint_notMem_supportSet J hJ ?_
-    show genericPoint a.obj.left ∈ (J.support : Set a.obj.left)
+    change genericPoint a.obj.left ∈ (J.support : Set a.obj.left)
     rw [he]
     trivial
   obtain ⟨l, hl⟩ := exists_lift_blowUpToBase_of_isRegular hXdim hreg J a.lift.left hsupp
@@ -457,7 +457,7 @@ theorem exists_pointBlowupChain_isRegular_of_isResolution {X Y : Scheme.{u}} [Is
     { obj := Over.mk (blowUpToBase J ≫ a.obj.hom)
       chain := a.chain.step y hy (Set.mem_univ _)
       lift := Over.homMk l (by
-        show l ≫ (blowUpToBase J ≫ a.obj.hom) = f
+        change l ≫ (blowUpToBase J ≫ a.obj.hom) = f
         rw [← Category.assoc, hl]
         exact Over.w a.lift)
       birational := isBirational_of_comp_blowUpToBase J hJ l (by rw [hl]; exact a.birational) }
@@ -503,7 +503,7 @@ theorem isFinite_of_isAlteration_of_topologicalKrullDim_le_one {X Y : Scheme.{u}
   have hηY : genericPoint Y ∈ U :=
     (genericPoint_spec Y).mem_open_set_iff U.2 |>.mpr (by simpa using hUne)
   have hηU : genericPoint X ∈ f ⁻¹ᵁ U := by
-    show f (genericPoint X) ∈ U
+    change f (genericPoint X) ∈ U
     rwa [hgen]
   have hqf : quasiFiniteAt f (genericPoint X) := by
     constructor

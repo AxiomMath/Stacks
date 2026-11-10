@@ -499,7 +499,7 @@ theorem chernCap_eq_sum_of_bundleIso (E E' : X.Modules) (r : ℕ)
     (k : ℤ) (i : Fin (r + 1)) (α : chowGroup C sX k) :
     chernCap C r sX E' k i α =
       ∑ j : Fin ((i : ℕ) + 1), ((r - i + j : ℕ).choose j : ℤ) •
-        chowGroupCast C sX (by simp only [Fin.val_mk]; omega)
+        chowGroupCast C sX (by simp only; omega)
           (chernCap C r sX E (k - (j : ℤ)) ⟨(i : ℕ) - j, by omega⟩
             (capPow C sX (invCap C sX L) j k (k - (j : ℤ)) (by ring) α)) := by
   obtain ⟨i, hi⟩ := i

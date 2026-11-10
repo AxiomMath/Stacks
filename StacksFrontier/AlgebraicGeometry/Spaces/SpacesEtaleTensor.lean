@@ -95,15 +95,13 @@ def presheafTensor {C : Type*} [Category C]
   map_id := by
     intro V
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul x y => simp
   map_comp := by
     intro V W Z f g
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul x y => simp [Functor.map_comp]
 
@@ -215,13 +213,11 @@ def tensorProductULiftIntEquiv (A B : Type v) [AddCommGroup A] [AddCommGroup B]
   toFun := tensorProductToULiftInt A B
   invFun := tensorProductOfULiftInt A B
   left_inv x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b => simp [tensorProductToULiftInt_tmul, tensorProductOfULiftInt_tmul]
     | add x y hx hy => simp only [AddMonoidHom.map_add, hx, hy]
   right_inv x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b => simp [tensorProductToULiftInt_tmul, tensorProductOfULiftInt_tmul]
     | add x y hx hy => simp only [AddMonoidHom.map_add, hx, hy]
   map_add' x y := (tensorProductToULiftInt A B).map_add x y
@@ -267,8 +263,7 @@ def presheafTensorIso {C : Type*} [Category C] (F G : Cᵒᵖ ⥤ AddCommGrpCat.
         inv := AddCommGrpCat.ofHom backward
         hom_inv_id := by
           ext x
-          induction x using TensorProduct.induction_on with
-          | zero => exact map_zero (backward.comp forward)
+          induction x using TensorProduct.inductionOn with
           | tmul x y =>
               change TensorProduct.map pA pB
                 (scalar.symm (scalar (TensorProduct.map iA iB (x ⊗ₜ[ℤ] y)))) = _
@@ -277,8 +272,7 @@ def presheafTensorIso {C : Type*} [Category C] (F G : Cᵒᵖ ⥤ AddCommGrpCat.
           | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
         inv_hom_id := by
           ext x
-          induction x using TensorProduct.induction_on with
-          | zero => exact map_zero (forward.comp backward)
+          induction x using TensorProduct.inductionOn with
           | tmul x y =>
               change scalar (TensorProduct.map iA iB
                 (TensorProduct.map pA pB (scalar.symm (x ⊗ₜ[ULiftInt.{u + 1}] y)))) = _
@@ -293,11 +287,7 @@ def presheafTensorIso {C : Type*} [Category C] (F G : Cᵒᵖ ⥤ AddCommGrpCat.
   refine NatIso.ofComponents app ?_
   intro V W f
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      exact ((AddCommGrpCat.Hom.hom
-        ((presheafTensor F G).map f ≫ (app W).hom)).map_zero).trans
-          ((AddCommGrpCat.Hom.hom ((app V).hom ≫ (F ⊗ G).map f)).map_zero).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       calc
         (AddCommGrpCat.Hom.hom ((presheafTensor F G).map f ≫ (app W).hom)) (x + y) =
@@ -391,7 +381,7 @@ lemma presheafTensorMap_app_tmul {C : Type*} [Category C]
     (x : F₁.obj V) (y : G₁.obj V) :
     (presheafTensorMap f g).app V (x ⊗ₜ[ℤ] y) = f.app V x ⊗ₜ[ℤ] g.app V y := by
   apply (ConcreteCategory.bijective_of_isIso ((presheafTensorIso F₂ G₂).hom.app V)).1
-  show ((presheafTensorIso F₂ G₂).hom.app V) (((presheafTensorIso F₂ G₂).inv.app V)
+  change ((presheafTensorIso F₂ G₂).hom.app V) (((presheafTensorIso F₂ G₂).inv.app V)
     ((f ⊗ₘ g).app V (((presheafTensorIso F₁ G₁).hom.app V) (x ⊗ₜ[ℤ] y)))) = _
   rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Iso.inv_hom_id]
   simp only [NatTrans.id_app, CategoryTheory.id_apply]
@@ -399,7 +389,7 @@ lemma presheafTensorMap_app_tmul {C : Type*} [Category C]
   let _ := (uliftIntEquivalence.inverse.obj (F₂.obj V)).isModule
   let _ := (uliftIntEquivalence.inverse.obj (G₁.obj V)).isModule
   let _ := (uliftIntEquivalence.inverse.obj (G₂.obj V)).isModule
-  show TensorProduct.map (uliftIntEquivalence.inverse.map (f.app V)).hom
+  change TensorProduct.map (uliftIntEquivalence.inverse.map (f.app V)).hom
       (uliftIntEquivalence.inverse.map (g.app V)).hom
       (tensorProductToULiftInt (uliftIntEquivalence.inverse.obj (F₁.obj V))
         (uliftIntEquivalence.inverse.obj (G₁.obj V))
@@ -425,8 +415,7 @@ lemma freeTensor_ext {α β : Type*} {M : Type*} [AddCommGroup M]
     (h : ∀ (a : α) (b : β), f (FreeAbelianGroup.of a ⊗ₜ[ℤ] FreeAbelianGroup.of b) =
       g (FreeAbelianGroup.of a ⊗ₜ[ℤ] FreeAbelianGroup.of b))
     (x : TensorProduct ℤ (FreeAbelianGroup α) (FreeAbelianGroup β)) : f x = g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a b =>
       induction a using FreeAbelianGroup.induction_on with
@@ -564,7 +553,7 @@ lemma freeAbelianRepresentableHomEquiv_comp (U : SpacesEtale B S hS X)
   dsimp only [freeAbelianRepresentableSheaf] at f
   change ((presheafToSheaf (topology B S hS X) AddCommGrpCat.{u + 1}).obj
     (yoneda.obj U ⋙ AddCommGrpCat.free) ⟶ F) at f
-  show yonedaEquiv
+  change yonedaEquiv
       (((AddCommGrpCat.adj.whiskerRight (SpacesEtale B S hS X)ᵒᵖ).homEquiv
         (yoneda.obj U) G.obj)
         ((sheafificationAdjunction (topology B S hS X) AddCommGrpCat.{u + 1}).homEquiv
@@ -586,7 +575,7 @@ lemma extensionByZeroConstantSectionEquiv_comp (U : SpacesEtale B S hS X)
     (f : extensionByZeroConstant B S hS X U ⟶ F) (g : F ⟶ G) :
     extensionByZeroConstantSectionEquiv B S hS X U G (f ≫ g) =
       (g.hom.app (Opposite.op U)) (extensionByZeroConstantSectionEquiv B S hS X U F f) := by
-  show (integerHomEquiv (G.obj.obj (Opposite.op U)))
+  change (integerHomEquiv (G.obj.obj (Opposite.op U)))
       (extensionByZeroConstantHomEquiv B S hS X U G (f ≫ g)) = _
   rw [extensionByZeroConstantHomEquiv_comp]
   simp [extensionByZeroConstantSectionEquiv, integerHomEquiv]
@@ -714,7 +703,7 @@ lemma freeRepresentableUnit_generator (U V : SpacesEtale B S hS X) (φ : V ⟶ U
       extensionByZeroConstantGenerator B S hS X U V φ := by
   have hn := congrArg (fun k => k (FreeAbelianGroup.of (𝟙 U)))
     ((toSheafify (topology B S hS X) (yoneda.obj U ⋙ AddCommGrpCat.free)).naturality φ.op)
-  show ((freeRepresentableToExtensionByZeroConstant B S hS X U).hom.app (Opposite.op V))
+  change ((freeRepresentableToExtensionByZeroConstant B S hS X U).hom.app (Opposite.op V))
       ((toSheafify (topology B S hS X) (yoneda.obj U ⋙ AddCommGrpCat.free)).app
         (Opposite.op V) (FreeAbelianGroup.of φ)) = _
   rw [← freeRepresentableToExtensionByZeroConstant_generatorAt B S hS X U V φ,
@@ -806,7 +795,7 @@ lemma freeRepresentableTensorIso_hom_app_tmul (U₁ U₂ U₁₂ : SpacesEtale B
     (freeRepresentableTensorIso B S hS X U₁ U₂ U₁₂ p₁ p₂ h).hom.app (Opposite.op V)
         (FreeAbelianGroup.of φ₁ ⊗ₜ[ℤ] FreeAbelianGroup.of φ₂) =
       FreeAbelianGroup.of (h.lift (BinaryFan.mk φ₁ φ₂)) := by
-  show FreeAbelianGroup.map (binaryFanHomEquiv B S hS X U₁ U₂ U₁₂ p₁ p₂ h V)
+  change FreeAbelianGroup.map (binaryFanHomEquiv B S hS X U₁ U₂ U₁₂ p₁ p₂ h V)
     (freeProdTensorForward _ _ (FreeAbelianGroup.of φ₁ ⊗ₜ[ℤ] FreeAbelianGroup.of φ₂)) = _
   rw [freeProdTensorForward_of_tmul_of, FreeAbelianGroup.map_of_apply]
   rfl

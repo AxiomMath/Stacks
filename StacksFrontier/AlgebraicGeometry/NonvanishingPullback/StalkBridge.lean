@@ -47,8 +47,8 @@ nonvanishing loci, and neither existed.
 
 **Every step out of the Tag 01CB spelling is term-mode.** `rw` and `simp` elaborate congruence
 motives at implicit transparency, and the two spellings of a `RingCat`-valued stalk —
-`Stacks.PullbackTensorIso.ringCatStalk` and `Stacks.ModuleSkyscraper.Stalk (structureSheafRing _)` — are
-one unfolding apart, so a rewrite whose motive mentions both reports that it cannot find its
+`Stacks.PullbackTensorIso.ringCatStalk` and `Stacks.ModuleSkyscraper.Stalk (structureSheafRing _)` —
+are one unfolding apart, so a rewrite whose motive mentions both reports that it cannot find its
 pattern. For instance, `rw [RingEquiv.apply_symm_apply]` fails on the goal of
 `commStalkRingMap_germ` for this reason. The cure is `congrArg` at an explicitly typed binder,
 which elaborates at default transparency.

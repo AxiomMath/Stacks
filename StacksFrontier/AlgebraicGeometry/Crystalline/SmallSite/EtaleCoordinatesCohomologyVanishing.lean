@@ -62,8 +62,7 @@ theorem subsingleton_tensorProduct_of_subsingleton_right {R M N : Type*} [CommRi
     [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N] [Subsingleton N] :
     Subsingleton (M ⊗[R] N) :=
   subsingleton_of_forall_eq 0 fun x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul m n => rw [Subsingleton.elim n 0, TensorProduct.tmul_zero]
     | add x y hx hy => rw [hx, hy, add_zero]
 
@@ -178,7 +177,7 @@ end SmoothLift
 section Restrict
 
 variable {S : GlobalCrystallineSituation.{u}} [IsAffine S.S.scheme]
-  (hp : IsNilpotent (S.p : Γ(S.S.scheme, ⊤))) (V : S.X.Opens) (hV : IsAffineOpen V)
+  (V : S.X.Opens) (hV : IsAffineOpen V)
   (hVW : V ≤ sourceToBase S ⁻¹ᵁ ⊤)
   (L : CechEnvelope.SmoothLift S V.ι) {d : ℕ} (t : Fin d → L.ring)
   (ht : (MvPolynomial.aeval (R := (baseSectionsRing S : Type u)) t).toRingHom.Etale)
@@ -205,7 +204,7 @@ theorem sourceToBase_overSituation_appTop (a : Γ(S.S.scheme, ⊤)) :
   rw [h', Scheme.Hom.comp_appTop, topRestrictRingEquiv_apply]
   exact (ConcreteCategory.congr_hom h a).symm
 
-include hp hV ht in
+include hV ht in
 /-- **The vanishing in the restricted-site form of `...SmallSite.LocallyVanishingAbove`**: for an
 affine open `V` of `X` with a smooth lift carrying `d` étale coordinates and a crystal `ℱ` in
 quasi-coherent modules on `Cris(X/S)`, `H^j(Cris(V/S|_⊤), ℱ|) = 0` for `j > d`.  The lift is
@@ -251,7 +250,7 @@ theorem subsingleton_cohomology_restrict_of_smoothLift (Fc : QuasiCoherentCrysta
     (restrictCrystal07Q9 S ⊤ V hVW Fc.obj Fc.property) f' L.surjective_toSections t ht' j hj)
 
 omit hVW in
-include hp hV ht in
+include hV ht in
 /-- **The hypothesis of `...SmallSite.CohomologicalDimensionFiniteCover` on one affine open**, for
 an affine open `V` of `X` carrying a smooth lift with `d` étale coordinates (for instance a
 nonempty finite intersection of coordinate charts,
@@ -261,7 +260,7 @@ theorem exists_restrict_subsingleton_cohomology_of_smoothLift (Fc : QuasiCoheren
     ∃ (W : S.S.scheme.Opens) (hVW : V ≤ sourceToBase S ⁻¹ᵁ W), ∀ j : ℕ, d < j →
       Subsingleton (cohomology (restrict S W V hVW)
         ((smallExtendAbelianRestriction S W V hVW).obj (abelianSheaf Fc.obj)) j) :=
-  ⟨⊤, by simp, fun j hj ↦ subsingleton_cohomology_restrict_of_smoothLift hp V hV _ L t ht Fc j hj⟩
+  ⟨⊤, by simp, fun j hj ↦ subsingleton_cohomology_restrict_of_smoothLift V hV _ L t ht Fc j hj⟩
 
 end Restrict
 

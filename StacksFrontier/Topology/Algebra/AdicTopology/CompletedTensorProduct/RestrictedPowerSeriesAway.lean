@@ -120,7 +120,7 @@ private theorem isLocalization_mvPolynomial_coefficientQuotientAway (I : Ideal A
   refine IsLocalization.isLocalization_of_algEquiv _
     (AlgEquiv.ofRingEquiv (f := MvPolynomial.mapEquiv σ (quotAwayPowEquiv I f n)) ?_)
   intro p
-  show MvPolynomial.map (quotAwayPowEquiv I f n).toRingHom
+  change MvPolynomial.map (quotAwayPowEquiv I f n).toRingHom
       (MvPolynomial.map (algebraMap (A ⧸ I ^ n)
         (Localization.Away f ⧸ (I ^ n).map (algebraMap A (Localization.Away f)))) p) =
     MvPolynomial.map (coefficientQuotientMap (B := Localization.Away f) I n) p
@@ -175,7 +175,7 @@ public theorem awayCoefficientProjection_algebraMap (I : Ideal A) (σ : Type v) 
           (Localization.Away (RestrictedPowerSeries.coefficientRingHom I σ f)) x) =
       MvPolynomial.map (coefficientQuotientMap (B := Localization.Away f) I n)
         (RestrictedPowerSeries.coefficientProjection I σ n x) := by
-  show RestrictedPowerSeries.coefficientProjection _ σ n
+  change RestrictedPowerSeries.coefficientProjection _ σ n
     (awayRestrictedPowerSeriesMap I σ f (algebraMap _ _ x)) = _
   rw [awayRestrictedPowerSeriesMap_algebraMap]
   exact coefficientProjection_restrictedPowerSeriesMap I σ n x
@@ -533,7 +533,7 @@ public theorem restrictedPowerSeriesMap_comp_completedAway_comp_algebraMap (I : 
           (I.map (algebraMap A (Localization.Away f))) σ).comp
         (restrictedPowerSeriesMap (B := Localization.Away f) I σ) := by
   refine RingHom.ext fun x => ?_
-  show restrictedPowerSeriesMap _ σ (completedAwayRestrictedPowerSeriesMap I hI σ f
+  change restrictedPowerSeriesMap _ σ (completedAwayRestrictedPowerSeriesMap I hI σ f
       (algebraMap (RestrictedPowerSeries I σ) _ x)) =
     restrictedPowerSeriesMap _ σ (restrictedPowerSeriesMap (B := Localization.Away f) I σ x)
   rw [IsScalarTower.algebraMap_apply (RestrictedPowerSeries I σ)

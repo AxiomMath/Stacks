@@ -164,7 +164,7 @@ public theorem exists_boundary_flag_of_no_component (S : AlgebraizationSituation
   -- The closed fibre minus `Z` is locally closed, so [Stacks, Tag 02IM] applies inside it.
   have hE : IsLocallyClosed ((S.Yι.base ⁻¹' closure ({p} : Set S.X)) \
       (S.closedSubsetZ : Set S.Y)) := by
-    rw [Set.diff_eq]
+    rw [Set.sdiff_eq]
     exact hW.isLocallyClosed.inter S.closedSubsetZ.isClosed.isOpen_compl.isLocallyClosed
   obtain ⟨y, hyE, hyimm⟩ :=
     AlgebraicGeometry.exists_isImmediateSpecialization_mem_of_isLocallyClosed S.Y hE

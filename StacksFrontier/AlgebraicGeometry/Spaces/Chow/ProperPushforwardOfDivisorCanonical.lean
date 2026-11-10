@@ -207,7 +207,7 @@ theorem canonicalDivisorCycle_apply_of_codimension_eq_one
   unfold canonicalDivisorCycle
   rw [divisorCycleOfSection_coe]
   unfold divisorCycleCoefficients
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 end Coefficient
@@ -291,7 +291,7 @@ theorem finsum_canonicalDivisorCycle_pullback_mul_properCycleMult_eq {f : X ⟶ 
       pointsMap D.site D.base D.base_mem X f x = W.genericPoint D.site D.base D.base_mem Y}]
     refine finsum_mem_congr ?_ fun _ _ => rfl
     ext x
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Function.mem_support]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Function.mem_support]
     exact ⟨fun h => ⟨h.1.1, h.2⟩, fun h => ⟨⟨h.1, left_ne_zero_of_mul h.2⟩, h.2⟩⟩
   rw [hdrop]
   have hfib := finite_fibre_primeDivisor_genericPoint D sX hX sY hY hintX hintY hfB hf hgen hdim W
@@ -300,7 +300,7 @@ theorem finsum_canonicalDivisorCycle_pullback_mul_properCycleMult_eq {f : X ⟶ 
       (W.genericPoint D.site D.base D.base_mem Y) hfib L hL
   have := hU
   have := hV
-  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem hXdec hYdec φ d hd _ e
+  have hbijOn := bijOn_chartSchemeToPoints_fibre D.site D.base D.base_mem φ d hd _ e
     he huniq hmono
   have hfinw : {w : chartScheme d.U | ((BigFppfOver.toScheme D.site D.base D.base_mem).map
       d.g).base w = e}.Finite :=

@@ -63,13 +63,13 @@ private theorem val_mapId {P Q : Submonoid S} (h : P ≤ Q)
     (HomogeneousLocalization.mapId 𝒰 h a).val =
       IsLocalization.map (M := P) (T := Q) _ (RingHom.id S) h a.val := by
   obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective a
-  show (HomogeneousLocalization.map (GradedRingHom.id 𝒰)
+  change (HomogeneousLocalization.map (GradedRingHom.id 𝒰)
       (show P ≤ Q.comap (GradedRingHom.id 𝒰) from h)
       (HomogeneousLocalization.mk c)).val = _
   rw [HomogeneousLocalization.map_mk]
   simp only [HomogeneousLocalization.val_mk, GradedRingHom.id_apply]
   have hh : P ≤ Q.comap (RingHom.id S) := fun _ hx => h hx
-  show Localization.mk _ _ =
+  change Localization.mk _ _ =
     IsLocalization.map (Localization Q) (RingHom.id S) hh (Localization.mk _ _)
   rw [Localization.mk_eq_mk', Localization.mk_eq_mk', IsLocalization.map_mk' (M := P)
     (S := Localization P) (T := Q) (Q := Localization Q) (hy := hh)]

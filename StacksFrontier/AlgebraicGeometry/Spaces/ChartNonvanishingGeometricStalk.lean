@@ -176,7 +176,7 @@ theorem chartZariskiStalkAddEquiv_germ (W : (chartScheme V.chart).Opens)
           (restrictToChart B S hS hX F V.chart) W ⟨⟨hw⟩⟩ t) =
       TopCat.Presheaf.germ (restrictToChart B S hS hX F V.chart).val.presheaf W
         (chartPoint B S hS X V) hw t := by
-  show Opens.pointFiberStalkHom (chartPoint B S hS X V)
+  change Opens.pointFiberStalkHom (chartPoint B S hS X V)
       (restrictToChart B S hS hX F V.chart).val.presheaf
       (Stacks.moduleStalkLargeFiberAddEquiv (chartZariskiPoint B S hS X V)
         (chartZariskiSheaf B S hS V) (restrictToChart B S hS hX F V.chart)
@@ -247,7 +247,7 @@ theorem surjective_chartRestrictionTopSection (F : Modules.{u, u} B S hS X.1 X.2
       (chartOpensTopHom B S hS X V).op s).symm.trans
       ((PresheafOfModules.congr_map_apply F.val hh s).trans
         (ConcreteCategory.congr_hom (F.val.presheaf.map_id _) s))
-  show (CategoryTheory.toSheafify J (chartRestrictionPresheaf B S hS X.2 F V).presheaf).app
+  change (CategoryTheory.toSheafify J (chartRestrictionPresheaf B S hS X.2 F V).presheaf).app
     (op ⊤) (ULift.up (F.val.map (chartOpensTopHom B S hS X V).op
       (F.val.map (inv (chartOpensTopHom B S hS X V)).op s))) = t
   rwa [e]
@@ -347,7 +347,7 @@ theorem chartPoint_push {x : GeometricPoint B S hS X.1} (N : SmallEtaleNeighborh
     chartPoint B S hS X.1 (SmallEtaleNeighborhood.push B S hS X N h) =
       ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map h)).base
         (chartPoint B S hS X.1 N) := by
-  show ((BigFppfOver.toScheme B S hS).map (N.point ≫ _)).base _ = _
+  change ((BigFppfOver.toScheme B S hS).map (N.point ≫ _)).base _ = _
   rw [Functor.map_comp]
   rfl
 

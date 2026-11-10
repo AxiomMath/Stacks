@@ -183,8 +183,7 @@ private lemma piScalarRightHom_eq (B : Type*) (N : Type*) [AddCommGroup N] [Modu
           ∘ (piRightHom R R N fun _ : B => R : _ → _) := by
   funext x
   funext α
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul y p => simp
   | add x y hx hy => simp_all
 
@@ -226,8 +225,7 @@ private lemma bijective_piRightHom_of_linearEquiv_right {Q' : A → Type*}
 private lemma piScalarLeft_piRightHom {ι : Type*} [Fintype ι] [DecidableEq ι]
     (x : (ι → R) ⊗[R] (∀ α, Q α)) (α : A) (i : ι) :
     piScalarLeft ι (Q α) (piRightHom R R (ι → R) Q x α) i = piScalarLeft ι (∀ α, Q α) x i α := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul y p => simp [piScalarLeft_tmul]
   | add x y hx hy => simp_all
 

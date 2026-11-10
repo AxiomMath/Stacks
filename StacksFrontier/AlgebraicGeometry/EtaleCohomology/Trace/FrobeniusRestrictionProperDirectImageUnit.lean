@@ -175,6 +175,7 @@ def frobeniusRestrictionProperDirectImageIsoOfIsIso
       ((etaleModuleDerivedDirectImage.{u, 0} Λ (pullback.snd Y.hom (specAlgebraMap k kbar))).mapIso
         (DerivedCategory.Plus.Q.mapIso (properFieldBaseChangeComplexIso Λ i kbar M)))).symm
 
+omit [Fintype k] in
 /-- **The identification is natural in the complex.** -/
 theorem frobeniusRestrictionProperDirectImageIsoOfIsIso_hom_naturality
     {M M' : CochainComplex.Plus (EtaleModules.{u, 0} Λ Z.left)} (φ : M ⟶ M')
@@ -209,7 +210,7 @@ theorem frobeniusRestrictionProperDirectImageIsoOfIsIso_hom_naturality
   rw [Category.assoc]
   refine (Iso.eq_inv_comp _).2 ?_
   symm
-  show (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
+  change (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
       (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ =
     (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
       (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _

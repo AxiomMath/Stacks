@@ -463,9 +463,10 @@ theorem squareZeroPointsDerivationsEquivHom_symm_apply
     (D : Derivations S V) (s : S) :
     e (((squareZeroPointsDerivationsEquivHom S A V e hΛ he).symm D).hom s) =
       (residueHom S s, D s) := by
-  simp [squareZeroPointsDerivationsEquivHom, squareZeroPointsHomSquareZeroPointEquiv,
-    squareZeroPointsDerivationsEquiv, squareZeroPointEquiv,
-    derivation_toSquareZeroPoint]
+  simp only [squareZeroPointsDerivationsEquivHom, squareZeroPointsHomSquareZeroPointEquiv,
+    squareZeroPointsDerivationsEquiv, squareZeroPointEquiv, Equiv.symm_trans, Equiv.symm_mk,
+    Equiv.trans_apply, Equiv.coe_fn_mk, derivation_toSquareZeroPoint, AlgHom.coe_mk,
+    RingHom.coe_mk, MonoidHom.coe_mk, OneHom.coe_mk, RingEquiv.apply_symm_apply]
   change (residueHom S s, D s) = (residueHom S s, D s)
   rfl
 

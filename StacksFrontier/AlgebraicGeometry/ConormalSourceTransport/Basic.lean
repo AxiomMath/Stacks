@@ -48,8 +48,8 @@ of [Stacks, Tag 01R3] compute with.
   transport in the shape it is actually handed over in — a commuting square `f ≫ β.hom = ε.hom ≫ k`
   with `ε` and `β` isomorphisms yields `idealSheaf f ≅ β.hom^* (idealSheaf k)`.
 * `idealSheafIsoAffineModelOfPullbackSnd` and `idealSheafIsoAffineModelOfMorphismRestrict`: that
-  square at the *hypotheses of [Stacks, Tag 01R3] itself*. The part (2) clauses of [Stacks, Tag 01R3] hand over an
-  affine open `V`, an ideal `I` of `Γ(X, V)`, an isomorphism
+  square at the *hypotheses of [Stacks, Tag 01R3] itself*. The part (2) clauses of
+  [Stacks, Tag 01R3] hand over an affine open `V`, an ideal `I` of `Γ(X, V)`, an isomorphism
   `e : Z ×_X V ≅ Spec (Γ(X, V) ⧸ I)` and a compatibility `he` with the projections to
   `Spec Γ(X, V)`; these two take that data unchanged and return the identification of the ideal
   sheaf of the fibre — of `pullback.snd i V.ι` and of `i ∣_ V` respectively — with the module
@@ -118,7 +118,8 @@ elaborator's implicit transparency, and here the split is sharp:
   `Stacks.IdealSheafRestrict.structureMap`. This is forced: the zero morphism needs
   `CategoryTheory.Limits.HasZeroMorphisms`, and instance search for it fails in the
   `SheafOfModules (structureSheafRing B.toSheafedSpace)` spelling.
-* The *results* are restated in the spelling of the Tag 01R3 statements, with `Stacks.ClosedImmersion.idealSheaf` and
+* The *results* are restated in the spelling of the Tag 01R3 statements, with
+  `Stacks.ClosedImmersion.idealSheaf` and
   `CategoryTheory.SheafOfModules.unitToPushforwardObjUnit`. The restatements are by application,
   using `Stacks.IdealSheafRestrict.kernel_structureMap`, which holds by `rfl`.
 * `idealSheafIsoOfIsoSource_hom_comp_ι` is proved by `CategoryTheory.Limits.kernel.lift_ι` with
@@ -149,8 +150,9 @@ than `rw`.
   formula each of those steps must preserve is available here as
   `idealSheafIsoOfIsoSource_hom_val_app`, but is not propagated.
 * **No reduction of the factorization quantifier.** Untouched here, as in
-  `StacksFrontier.AlgebraicGeometry.ConormalComparison.Locality`: the quantifier over closed-immersion
-  factorizations `(U, i')` in `affineConormalIsoCotangentWithQuotient` is a comparison of
+  `StacksFrontier.AlgebraicGeometry.ConormalComparison.Locality`: the quantifier over
+  closed-immersion factorizations `(U, i')` in `affineConormalIsoCotangentWithQuotient` is a
+  comparison of
   `Stacks.Conormal.conormalQuotientMap` for two factorizations, which is not an instance of the
   transport proved here.
 * **Nothing about `Ideal.Cotangent`**, the square of the ideal, or epimorphy of the quotient map.
@@ -187,7 +189,8 @@ by the forward direction of
 `Stacks.Conormal.AffineCotangent.Transport.mem_ker_app_comp_iso_iff`: precomposing with an
 isomorphism does not change the kernel on sections.
 
-Stated with `Stacks.IdealSheafRestrict.structureMap` rather than in the `Stacks.ClosedImmersion.idealSheaf` spelling of the
+Stated with `Stacks.IdealSheafRestrict.structureMap` rather than in the
+`Stacks.ClosedImmersion.idealSheaf` spelling of the
 ideal sheaf, because the zero morphism needs a `CategoryTheory.Limits.HasZeroMorphisms` instance
 that is found only in this spelling; see the module docstring. -/
 theorem ι_comp_structureMap_eq_zero :
@@ -234,7 +237,8 @@ canonically isomorphic, as a sheaf of `𝒪_B`-modules, to the ideal sheaf of `g
 
 This is the first of the two declarations that
 `StacksFrontier.AlgebraicGeometry.ConormalAffineCotangent.Transport` names as missing; it is
-`kernelStructureMapIsoOfIsoSource` restated in the vocabulary of Tag 01R3, the two statements agreeing
+`kernelStructureMapIsoOfIsoSource` restated in the vocabulary of Tag 01R3, the two statements
+agreeing
 by `Stacks.IdealSheafRestrict.kernel_structureMap`, which holds by `rfl`. -/
 noncomputable def idealSheafIsoOfIsoSource :
     Stacks.ClosedImmersion.idealSheaf (α.hom ≫ g).toLRSHom.toShHom ≅

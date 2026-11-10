@@ -125,7 +125,7 @@ private theorem differential_germ_eq_of_germ_eq
   have hi := TopCat.Presheaf.germ_res_apply M.val.presheaf i x hxT (d.d a)
   have hj := TopCat.Presheaf.germ_res_apply M.val.presheaf j x hxT (d.d b)
   have hres : M.val.presheaf.map i.op (d.d a) = M.val.presheaf.map j.op (d.d b) := by
-    show (M.val.map i.op).hom (d.d a) = (M.val.map j.op).hom (d.d b)
+    change (M.val.map i.op).hom (d.d a) = (M.val.map j.op).hom (d.d b)
     exact (d.d_map i.op a).symm.trans
       ((congrArg (fun c => d.d c) hT).trans (d.d_map j.op b))
   exact hi.symm.trans ((congrArg (TopCat.Presheaf.germ M.val.presheaf T x hxT) hres).trans hj)
@@ -202,7 +202,7 @@ private theorem fiberImage_nonzero_of_hasNonzeroRelativeDifferential
         ((AlgebraicGeometry.SheafOfModules.universalDerivation
           (inverseImageStructureMap f)).d a))
   refine ⟨W, hxW, a, ha, ?_, E.isCanonical⟩
-  show E.equiv.hom.hom v ≠ 0
+  change E.equiv.hom.hom v ≠ 0
   intro hz
   change E.equiv.toLinearEquiv v = 0 at hz
   have hz' : E.equiv.toLinearEquiv v = E.equiv.toLinearEquiv 0 := by
@@ -255,13 +255,13 @@ theorem fiberImage_ne_zero_of_hasNonzeroRelativeDifferential
   let i := f.fiberι (f x)
   let xf := f.asFiberHom x (IsLocalRing.closedPoint (X.residueField x))
   have hix : i xf = x := by
-    show (f.asFiberHom x ≫ f.fiberι (f x))
+    change (f.asFiberHom x ≫ f.fiberι (f x))
       (IsLocalRing.closedPoint (X.residueField x)) = x
     rw [Scheme.Hom.asFiberHom_fiberι]
     exact Scheme.fromSpecResidueField_apply x _
   let Wf := i ⁻¹ᵁ W
   have hxfW : xf ∈ Wf := by
-    show i xf ∈ W
+    change i xf ∈ W
     simpa only [hix] using hxW
   let fs := f.fiberToSpecResidueField (f x)
   let φ := inverseImageStructureMap fs
@@ -292,7 +292,7 @@ theorem fiberImage_ne_zero_of_hasNonzeroRelativeDifferential
   have hixW : i xf ∈ W := by simpa only [hix] using hxW
   refine ⟨W, hxW, a, ha, hixW, ?_, htarget⟩
   have hi := Scheme.Hom.germ_stalkMap_apply i W xf hixW a
-  show (i.stalkMap xf).hom
+  change (i.stalkMap xf).hom
     ((TopCat.Presheaf.germ X.presheaf W (i xf) hixW).hom a) ≠ 0
   rw [hi]
   intro hzImg
@@ -341,7 +341,7 @@ private theorem quotient_regularLocal_of_isUnit_derivation
   let p : Submodule A A := Ideal.ofList ([] : List A) • (⊤ : Submodule A A)
   have hp : p = ⊥ := by simp [p]
   have hreg0 : IsSMulRegular (A ⧸ p) a := by
-    show IsSMulRegular
+    change IsSMulRegular
       (A ⧸ (Ideal.ofList ([] : List A) • (⊤ : Submodule A A))) a
     exact hreg'.regular_mod_prev 0 (by simp : 0 < [a].length)
   exact (Submodule.quotEquivOfEqBot p hp).isSMulRegular_congr a |>.mp hreg0
@@ -415,7 +415,7 @@ private theorem formallySmooth_quotient_of_unit_derivation
   let l : P.CotangentSpace →ₗ[C] P.Cotangent :=
     (LinearMap.toSpanSingleton C P.Cotangent m).comp θ
   have hl : l (P.cotangentComplex m) = m := by
-    show θ (1 ⊗ₜ[A] KaehlerDifferential.D R A a) • m = m
+    change θ (1 ⊗ₜ[A] KaehlerDifferential.D R A a) • m = m
     rw [LinearMap.liftBaseChange_tmul, one_smul,
       Derivation.liftKaehlerDifferential_comp_D, hDa, one_smul]
   have hgen : ∀ z : P.Cotangent, ∃ c : C, z = c • m := by
@@ -432,7 +432,7 @@ private theorem formallySmooth_quotient_of_unit_derivation
   apply (Algebra.Extension.formallySmooth_iff_split_injection P).2
   refine ⟨l, LinearMap.ext fun z => ?_⟩
   obtain ⟨c, rfl⟩ := hgen z
-  show l (P.cotangentComplex (c • m)) = c • m
+  change l (P.cotangentComplex (c • m)) = c • m
   rw [map_smul, map_smul, hl]
 
 private theorem formallySmooth_quotient_of_nonzero_fiber_differential
@@ -446,12 +446,12 @@ private theorem formallySmooth_quotient_of_nonzero_fiber_differential
   obtain ⟨u, hu⟩ := hD
   let D' : Derivation R A A := (↑u⁻¹ : A) • D
   have hD' : D' a = 1 := by
-    show (↑u⁻¹ : A) * D a = 1
+    change (↑u⁻¹ : A) * D a = 1
     rw [← hu]
     exact Units.inv_mul u
   let q : A →ₗ[A] A ⧸ Ideal.span {a} := (Ideal.Quotient.mkₐ A (Ideal.span {a})).toLinearMap
   apply formallySmooth_quotient_of_unit_derivation a (q.compDer D')
-  show q (D' a) = 1
+  change q (D' a) = 1
   rw [hD']
   exact map_one (Ideal.Quotient.mkₐ A (Ideal.span {a}))
 
@@ -494,7 +494,7 @@ private theorem affineDifferential_ne_zero
         exact congrArg _ (map_add (TopCat.Presheaf.germ M.val.presheaf U.1 x hxU).hom m₁ m₂)
       map_smul' := by
         intro r m
-        show 1 ⊗ₜ[A] (TopCat.Presheaf.germ M.val.presheaf U.1 x hxU (r • m)) = _
+        change 1 ⊗ₜ[A] (TopCat.Presheaf.germ M.val.presheaf U.1 x hxU (r • m)) = _
         have hsm : (TopCat.Presheaf.germ M.val.presheaf U.1 x hxU).hom (r • m) =
             (X.presheaf.germ U.1 x hxU).hom r •
               (TopCat.Presheaf.germ M.val.presheaf U.1 x hxU).hom m :=
@@ -669,9 +669,9 @@ private theorem isSmoothAt_of_surjective_of_principal_ker
         (T := q.primeCompl) hle
       commutes' := by
         intro r
-        show (IsLocalization.map E f.toRingHom hle) (algebraMap R A r) = _
+        change (IsLocalization.map E f.toRingHom hle) (algebraMap R A r) = _
         rw [IsScalarTower.algebraMap_apply R B A, IsLocalization.map_eq]
-        show algebraMap C E (f (algebraMap R B r)) = _
+        change algebraMap C E (f (algebraMap R B r)) = _
         rw [f.commutes]
         exact (IsScalarTower.algebraMap_apply R C E r).symm }
   have hT : p.primeCompl.map f.toRingHom = q.primeCompl := by
@@ -686,7 +686,7 @@ private theorem isSmoothAt_of_surjective_of_principal_ker
     have : IsLocalization (p.primeCompl.map f.toRingHom) E := hT.symm ▸ inferInstance
     exact IsLocalization.map_surjective_of_surjective p.primeCompl A E hf
   have hKF : RingHom.ker F = Ideal.span {algebraMap B A a} := by
-    show RingHom.ker (IsLocalization.map E f.toRingHom
+    change RingHom.ker (IsLocalization.map E f.toRingHom
       (M := p.primeCompl) (T := q.primeCompl) hle) = _
     rw [IsLocalization.ker_map E f.toRingHom hT]
     change RingHom.ker f.toRingHom = Ideal.span {a} at hker
@@ -732,7 +732,7 @@ theorem formallySmooth_stalkMap_of_principal_ker
   have hpq : q.comap φ = p := by
     have hc := congrArg PrimeSpectrum.asIdeal
       (IsAffineOpen.comap_primeIdealOf_appLE U.1 U.2 W hW le_rfl hzW)
-    show Ideal.comap (i.app U.1).hom q = p
+    change Ideal.comap (i.app U.1).hom q = p
     change Ideal.comap (i.appLE U.1 W le_rfl).hom q = p at hc
     rwa [show i.appLE U.1 W le_rfl = i.app U.1 from i.appLE_eq_app] at hc
   have : Algebra.FinitePresentation R B := f.finitePresentation_appLE V.2 U.2 hUV

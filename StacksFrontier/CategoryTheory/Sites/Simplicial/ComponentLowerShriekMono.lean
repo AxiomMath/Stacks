@@ -148,7 +148,7 @@ theorem preservesMonomorphisms_sheafPullback_componentFunctor_of_lanSum
   refine mono_presheafToSheaf_map_totalTopology_of_forall_degree AddCommGrpCat.{u}
     (⟨Sum.inl Cs⟩ : SimplicialSiteSituation.{u}) _ fun m => ?_
   set L := presheafToSheaf (Cs.coverage m).toGrothendieck AddCommGrpCat.{u} with hLdef
-  show Mono (L.map
+  change Mono (L.map
     (Functor.whiskerLeft (CoGrothendieck.ι Cs.totalPseudofunctor (op m)).op
       ((CoGrothendieck.ι Cs.totalPseudofunctor (op n)).op.lan.map h₀)))
   have hmid : Mono (L.map
@@ -176,10 +176,10 @@ theorem preservesMonomorphisms_sheafPullback_componentFunctor_of_lanSum
     refine (congrArg (fun t => t ≫ Functor.whiskerLeft
       (CoGrothendieck.ι Cs.totalPseudofunctor (op m)).op
       ((CoGrothendieck.ι Cs.totalPseudofunctor (op n)).op.lan.map h₀))
-        (Limits.Sigma.ι_desc _ ψ)).trans ?_
+        (Limits.Sigma.ι_comp_desc _ ψ)).trans ?_
     refine (((Θ m ψ).naturality h₀).symm).trans ?_
     refine (congrArg (fun t => ((Cs.underlying.map ψ).toFunctor).op.lan.map h₀ ≫ t)
-      (Limits.Sigma.ι_desc (fun ψ : n ⟶ m => (Θ m ψ).app G'.obj) ψ).symm).trans ?_
+      (Limits.Sigma.ι_comp_desc (fun ψ : n ⟶ m => (Θ m ψ).app G'.obj) ψ).symm).trans ?_
     refine (Category.assoc _ _ _).symm.trans ?_
     exact (congrArg (fun t => t ≫ (Limits.Sigma.desc fun ψ : n ⟶ m => (Θ m ψ).app G'.obj))
       (Limits.Sigma.ι_map

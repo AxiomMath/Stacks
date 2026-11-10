@@ -69,7 +69,7 @@ lemma natCard_torsion_le (n : ℕ) (hn : 0 < n) :
     Nat.card {x : AddCircle (1 : ℚ) | n • x = 0} ≤ n := by
   have hsurj : Function.Surjective (fun m : Fin n ↦
       (⟨((m : ℚ) / n * 1 : ℚ), by
-        rw [Set.mem_setOf_eq, AddCircle.nsmul_eq_zero_iff hn]
+        rw [Set.mem_ofPred_eq, AddCircle.nsmul_eq_zero_iff hn]
         exact ⟨m, m.2, rfl⟩⟩ : {x : AddCircle (1 : ℚ) | n • x = 0})) := by
     rintro ⟨x, hx⟩
     obtain ⟨m, hm, rfl⟩ := (AddCircle.nsmul_eq_zero_iff hn).mp hx
@@ -165,7 +165,7 @@ theorem eval_bijective [Finite A] :
   have : Finite ((A →+ AddCircle (1 : ℚ)) →+ AddCircle (1 : ℚ)) :=
     inferInstanceAs (Finite (CharacterModule (CharacterModule A)))
   refine (eval_injective A).bijective_of_nat_card_le ?_
-  show Nat.card (CharacterModule (CharacterModule A)) ≤ Nat.card A
+  change Nat.card (CharacterModule (CharacterModule A)) ≤ Nat.card A
   rw [natCard_eq, natCard_eq]
 
 open scoped MulOppositeAction
@@ -217,13 +217,13 @@ noncomputable def piEquiv (ι : Type*) [Finite ι] [DecidableEq ι] (A : ι → 
     left_inv := fun c ↦ DFunLike.ext _ _ fun f ↦ by
       change (∑ i, dualMulOpposite (LinearMap.proj (R := R) (φ := A) i)
         (dualMulOpposite (LinearMap.single R A i) c)) f = c f
-      refine (AddMonoidHom.finset_sum_apply _ _ f).trans ?_
+      refine (AddMonoidHom.finsetSum_apply _ _ f).trans ?_
       change ∑ i, c (Pi.single i (f i)) = c f
       rw [← map_sum, Finset.univ_sum_single]
     right_inv := fun φ ↦ funext fun i ↦ DFunLike.ext _ _ fun a ↦ by
       change (∑ j, dualMulOpposite (LinearMap.proj (R := R) (φ := A) j) (φ j))
         (Pi.single i a) = φ i a
-      refine (AddMonoidHom.finset_sum_apply _ _ _).trans ?_
+      refine (AddMonoidHom.finsetSum_apply _ _ _).trans ?_
       rw [Finset.sum_eq_single i]
       · change φ i ((Pi.single i a : Π j, A j) i) = φ i a
         rw [Pi.single_eq_same]

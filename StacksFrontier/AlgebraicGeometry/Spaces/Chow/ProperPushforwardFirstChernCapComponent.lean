@@ -278,7 +278,7 @@ theorem properCycleDegree_eq_functionFieldDegreeAtGenericPoint {m : ℤ}
       finsum_eq_single _ W fun W₀ hW₀ => by rw [integralCycleCoeff_eq_zero D W hW₀, zero_mul],
       integralCycleCoeff_self, one_mul]
     unfold properCycleMult
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   -- `p_*[W] = i'_* g_*[W]`
   have h2 := integralClosedSubspacePushforward_integralCycle_top D sX hX W hW htop
   have h3 := properCyclePushforward_integralClosedSubspacePushforward_closureImage D sX hX sY hY

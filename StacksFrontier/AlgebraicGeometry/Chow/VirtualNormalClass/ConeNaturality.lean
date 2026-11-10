@@ -318,7 +318,7 @@ theorem normalConeMapOfSquare_comp_normalConeToNormalBundle :
         (normalConeToNormalBundleOver i)).symm
   have hl := congrArg (fun φ => φ.left) key
   refine hl.trans ?_
-  show (normalConeToNormalBundle i ≫ (Scheme.Modules.vectorBundleMap Z
+  change (normalConeToNormalBundle i ≫ (Scheme.Modules.vectorBundleMap Z
           (canonicalPullbackHomOne i i' f g comm)).left) ≫
       (Scheme.Modules.vectorBundleBaseChangeOver f (conormalSheafDegreeOne i')).left = _
   exact (Category.assoc _ _ _).trans (congrArg (normalConeToNormalBundle i ≫ ·)

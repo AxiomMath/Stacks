@@ -128,6 +128,7 @@ variable (F : DerivedCategory (ModuleCat.{max uR uA uM} R) ⥤
   [hF : F.IsLeftDerivedFunctor comparison
     (HomologicalComplex.quasiIso (ModuleCat.{max uR uA uM} R) (ComplexShape.up ℤ))]
 
+set_option linter.checkUnivs false in
 /-- The total tensor complex of two K-flat complexes is K-flat, in the sense of
 `CochainComplex.KFlat`. -/
 theorem kFlat_tensorComplex (K L : CochainComplex (ModuleCat.{max uR uA uM} R) ℤ)

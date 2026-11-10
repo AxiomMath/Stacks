@@ -97,7 +97,7 @@ theorem exists_finite_localization_coreflection_isIso_map
           exact hpres i j U (hU j hj)
     · have : IsIso (G.map T.mor₁) :=
         (Triangle.isZero₃_iff_isIso₁ _ (G.map_distinguished _ hT)).mp (by
-          show IsZero (G.obj T.obj₃)
+          change IsZero (G.obj T.obj₃)
           rw [h₃]
           exact hG i (Finset.mem_insert_self _ _) U)
       simp only [Functor.map_comp]

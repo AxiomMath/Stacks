@@ -76,7 +76,7 @@ theorem mem_locus_of_specializes_over_spec {X : Scheme.{u}} (A : CommRingCat.{u}
   let cBase := Scheme.Spec.mapCone A.finiteSubalgebrasCocone.op
   let c : Cone Dg := { pt := Spec A, π := cBase.π }
   have hc : IsLimit c := by
-    show IsLimit cBase
+    change IsLimit cBase
     exact isLimitOfPreserves _ A.finiteSubalgebrasIsColimit.op
   have : ∀ i, IsAffine (Dg.obj i) := fun i => inferInstanceAs (IsAffine (Spec _))
   obtain ⟨k, X₀, f₀, s₀, g', hfp₀, hflat₀, hs₀, hpb, hsc⟩ :=
@@ -88,7 +88,7 @@ theorem mem_locus_of_specializes_over_spec {X : Scheme.{u}} (A : CommRingCat.{u}
       (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_adjoin_finset _)
     have : IsNoetherianRing (Algebra.adjoin ℤ ((unop k : Finset A) : Set A)) :=
       Algebra.FiniteType.isNoetherianRing ℤ _
-    show IsNoetherian (Spec (CommRingCat.of (Algebra.adjoin ℤ ((unop k : Finset A) : Set A))))
+    change IsNoetherian (Spec (CommRingCat.of (Algebra.adjoin ℤ ((unop k : Finset A) : Set A))))
     exact AlgebraicGeometry.IsNoetherian.mk
   have : LocallyOfFinitePresentation f₀ := hfp₀.1
   have : QuasiCompact f₀ := hfp₀.2.1
@@ -107,7 +107,7 @@ theorem mem_locus_of_specializes_over_spec {X : Scheme.{u}} (A : CommRingCat.{u}
     have hmem : f x ∈ {y' : ↥(Spec A) | GeometricallyReduced (f.fiberToSpecResidueField y')} :=
       (inferInstance : GeometricallyReduced (f.fiberToSpecResidueField (f x)))
     rw [hset] at hmem
-    show GeometricallyReduced (f₀.fiberToSpecResidueField (f₀ (g' x)))
+    change GeometricallyReduced (f₀.fiberToSpecResidueField (f₀ (g' x)))
     rwa [hfib]
   -- Apply the locally Noetherian case to the model.
   rw [hloc]

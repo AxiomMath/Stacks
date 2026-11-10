@@ -323,8 +323,14 @@ add_to_sga "5 V 1.1.1" "(b), special case" ModuleCat.hasLimits'
 add_to_sga "5 V 1.1.1" "(b), special case" ModuleCat.hasLimitsOfShape
 add_to_sga "5 V 1.1.1" "(b), special case" ModuleCat.instHasFiniteColimits
 add_to_sga "5 V 1.1.1" "(b), special case" ModuleCat.instHasLimitsOfSize
-add_to_sga "5 V 1.1.1" "(a), special case"
-  ModuleCat.instPreservesColimitsOfSizeAddCommGrpCatForget₂LinearMapIdCarrierAddMonoidHomCarrierOfHasColimitsOfSizeAddCommGrpMax
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `ModuleCat <|
+    "instPreservesColimitsOfSizeAddCommGrpCatForget₂LinearMapIdCarrierAddMonoidHomCarrier" ++
+      "OfHasColimitsOfSizeAddCommGrpMax"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_sga "5 V 1.1.1" "(a), special case" $decl:ident))
 add_to_sga "5 V 1.1.1" "(b), special case" PresheafOfModules.hasLimit
 add_to_sga "5 V 1.1.1" "(a), special case" Rep.preservesColimits_forget
 add_to_sga "5 V 1.1.1" "(a), projective limits" Rep.preservesLimits_forget

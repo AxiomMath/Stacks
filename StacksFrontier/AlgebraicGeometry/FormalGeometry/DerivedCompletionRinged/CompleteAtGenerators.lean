@@ -125,7 +125,7 @@ attribute [local instance] linearCatCenterRingSheaf
 
 attribute [local instance] HasDerivedCategory.standard
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))

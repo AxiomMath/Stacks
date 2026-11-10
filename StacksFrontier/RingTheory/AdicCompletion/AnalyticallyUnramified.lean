@@ -532,7 +532,7 @@ lemma l3_uniformizer [IsDomain (Localization.AtPrime p)]
   have : IsScalarTower R Rp L := by
     apply IsScalarTower.of_algebraMap_eq
     intro r
-    show algebraMap R L r = φ (algebraMap R Rp r)
+    change algebraMap R L r = φ (algebraMap R Rp r)
     rw [hφeq]
   have halg : algebraMap Rp L = φ := rfl
   -- the DVR generator x ∈ p
@@ -546,7 +546,7 @@ lemma l3_uniformizer [IsDomain (Localization.AtPrime p)]
   -- GENERATION (A): span {algebraMap R L x} = maximalIdeal L.
   have hmaxL : Ideal.map (algebraMap R L) p = IsLocalRing.maximalIdeal L := by
     rw [← hmax]
-    show Ideal.map (algebraMap R L) p = Ideal.map (algebraMap (mCompletion R) L) (pCompletion p)
+    change Ideal.map (algebraMap R L) p = Ideal.map (algebraMap (mCompletion R) L) (pCompletion p)
     rw [pCompletion, Ideal.map_map]
     congr 1
   have hxgenL : Ideal.span {algebraMap R L x} = IsLocalRing.maximalIdeal L := by
@@ -734,7 +734,7 @@ theorem Φk_compat (m : Ideal R) (f : Fin n → R) (hf : ∀ i, f i ∈ m) {a b 
   have : DiscreteTopology (R ⧸ m ^ b) := ⟨rfl⟩
   apply RingHom.ext
   intro x
-  show (Ideal.Quotient.factorPow m h) (Φk m f hf b x) = Φk m f hf a x
+  change (Ideal.Quotient.factorPow m h) (Φk m f hf b x) = Φk m f hf a x
   have hcompeq :=
     MvPowerSeries.comp_eval₂ (φ := (Ideal.Quotient.mk (m ^ b))) (a := fun i =>
       (Ideal.Quotient.mk (m ^ b)) (f i)) (continuous_of_discreteTopology) (hev_aux m f hf b) (ε :=
@@ -975,7 +975,7 @@ theorem mpow_le_span (m : Ideal R) (f : Fin n → R) (hspan : Ideal.span (Set.ra
     apply Ideal.span_mono
     rintro x ⟨a, ⟨d, hd, rfl⟩, b, ⟨i, rfl⟩, rfl⟩
     refine ⟨d + Finsupp.single i 1, by rw [mdeg_add_single, hd], ?_⟩
-    show fmon f d * f i = _
+    change fmon f d * f i = _
     rw [mul_comm]; exact fmul f i d
 
 /-- **Lemma 1 (representation form).** Every `r ∈ m^k` is a finite `R`-combination of degree-`k`
@@ -1067,7 +1067,7 @@ theorem Gpoly_inv (m : Ideal R) (f : Fin n → R) (hspan : Ideal.span (Set.range
     ((Gpoly m f hspan a k).sum fun d c => c * fmon f d) = a (k + 1) := by
   induction k with
   | zero =>
-    show ((liftDeg m f hspan 0 (a 1)).sum fun d c => c * fmon f d) = a 1
+    change ((liftDeg m f hspan 0 (a 1)).sum fun d c => c * fmon f d) = a 1
     have h1 : a 1 ∈ m ^ 0 := by
       rw [pow_zero, Ideal.one_eq_top]; exact Submodule.mem_top
     exact (liftDeg_spec m f hspan 0 (a 1) h1).right
@@ -1114,7 +1114,7 @@ theorem Gpoly_stable (m : Ideal R) (f : Fin n → R) (hspan : Ideal.span (Set.ra
   | succ k ih =>
     intro h
     rcases Nat.lt_or_ge (mdeg d) (k + 1) with hlt | hge
-    · show (Gpoly m f hspan a k + _) d = _
+    · change (Gpoly m f hspan a k + _) d = _
       rw [Finsupp.add_apply, liftDeg_apply_eq_zero m f hspan (k + 1) _ d (by omega), add_zero]
       exact ih (by omega)
     · have : mdeg d = k + 1 := by omega

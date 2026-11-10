@@ -294,7 +294,7 @@ theorem GlobalCrystallineSituation.exists_isFiniteLocallyFreeOfRankLE_of_compact
     let c : (free S).obj Y ⟶ X₀.restrictOpen (O k) :=
       ((freeForgetAdjunction S).homEquiv Y (X₀.restrictOpen (O k))).symm
         (Over.homMk ((V' j).toX.resLE ((𝟙 S.X) ⁻¹ᵁ O k) O' fun _ h => h) (by
-          show (V' j).toX.resLE ((𝟙 S.X) ⁻¹ᵁ O k) O' (fun _ h => h) ≫
+          change (V' j).toX.resLE ((𝟙 S.X) ⁻¹ᵁ O k) O' (fun _ h => h) ≫
               ((𝟙 S.X) ⁻¹ᵁ O k).ι ≫ 𝟙 S.X = O'.ι ≫ (V' j).toX
           rw [Category.comp_id]
           exact Scheme.Hom.resLE_comp_ι _ _))

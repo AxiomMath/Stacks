@@ -138,7 +138,7 @@ theorem powMapₛₗ_exteriorPowerBaseChangeMap (φ : A →+* B)
     { toFun := fun y => powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n y)
       map_add' := fun y z => by simp only [map_add]
       map_smul' := fun r y => by
-        show powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n (r • y)) =
+        change powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n (r • y)) =
           r • powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n y)
         have h1 : exteriorPowerBaseChangeMap R A M n (r • y) =
             (algebraMap R A r) • exteriorPowerBaseChangeMap R A M n y := by
@@ -146,7 +146,7 @@ theorem powMapₛₗ_exteriorPowerBaseChangeMap (φ : A →+* B)
         rw [h1, map_smulₛₗ, hφ, algebraMap_smul] }
   have hG : G = exteriorPowerBaseChangeMap R B M n := by
     refine exteriorPower.linearMap_ext (AlternatingMap.ext fun v => ?_)
-    show powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n (exteriorPower.ιMulti R n v)) =
+    change powMapₛₗ n φ u (exteriorPowerBaseChangeMap R A M n (exteriorPower.ιMulti R n v)) =
       exteriorPowerBaseChangeMap R B M n (exteriorPower.ιMulti R n v)
     rw [exteriorPowerBaseChangeMap_ιMulti, exteriorPowerBaseChangeMap_ιMulti,
       powMapₛₗ_ιMulti (R := A) (M := A ⊗[R] M) n φ u]

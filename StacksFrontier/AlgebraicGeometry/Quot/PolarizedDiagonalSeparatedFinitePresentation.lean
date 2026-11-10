@@ -171,7 +171,7 @@ in the sense of Stacks 04XB. The local finite presentation of `Δ` is the first 
 source's proof (Stacks 0D43, 0CMW, 0CMY) and needs only `h`.
 
 The base is any terminal object of the site, which is `Spec(ℤ)` up to unique isomorphism. -/
-theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_polarizedAlgebraicStack_of_isomSpace
+theorem isSeparated_and_isRelFinitePresentation_relDiagonal_polarizedAlgebraicStack_of_isomSpace
     (h : Stack.IsAlgebraicStack.{u, w} B S hS (polarizedStackUnconditional B hS hT).val)
     (hsep : ∀ (U : BigFppfOver B S hS)
       (υ χ : (polarizedStackUnconditional B hS hT).val.p.Fiber U),
@@ -219,7 +219,7 @@ theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_polarize
       Stack.AlgebraicStacks.IsRelativelyFinitePresentation B S hS
         (Stack.AlgebraicStacks.relativeDiagonal B S hS
           (Stack.structureMorphism B S hS (polarizedAlgebraicStackOf B hS hT h))) :=
-  isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_polarizedAlgebraicStack_of_isomSpace
+  isSeparated_and_isRelFinitePresentation_relDiagonal_polarizedAlgebraicStack_of_isomSpace
     B hS hT h (isSeparated_relocalizeToYoneda_polarizedIsomSpace B hS hT)
     (isQuasiCompact_relocalizeToYoneda_polarizedIsomSpace B hS hT)
 

@@ -186,7 +186,7 @@ theorem geomIrred_atom_sepClosed_isDomain
     set gM := g.map (algebraMap K M) with hgM
     let f0 : AdjoinRoot g →ₐ[K] AdjoinRoot gM :=
       AdjoinRoot.liftAlgHom g (Algebra.ofId K _) (AdjoinRoot.root _) (by
-        show (Polynomial.aeval (AdjoinRoot.root gM)) g = 0
+        change (Polynomial.aeval (AdjoinRoot.root gM)) g = 0
         rw [AdjoinRoot.aeval_eq_of_algebra]; simp [hgM])
     have hf0root : f0 (AdjoinRoot.root g) = AdjoinRoot.root gM :=
       AdjoinRoot.liftAlgHom_root _ _ _ _
@@ -208,7 +208,7 @@ theorem geomIrred_atom_sepClosed_isDomain
       have hext : (AlgHom.restrictScalars K G).comp f0
           = (Algebra.TensorProduct.includeRight : AdjoinRoot g →ₐ[K] M ⊗[K] AdjoinRoot g) := by
         apply AdjoinRoot.algHom_ext
-        show G (f0 (AdjoinRoot.root g)) = Algebra.TensorProduct.includeRight (AdjoinRoot.root g)
+        change G (f0 (AdjoinRoot.root g)) = Algebra.TensorProduct.includeRight (AdjoinRoot.root g)
         rw [hf0root, hGroot2]; rfl
       intro b
       exact congrFun (congrArg
@@ -222,11 +222,11 @@ theorem geomIrred_atom_sepClosed_isDomain
       intro a; rw [AlgHom.commutes, Algebra.TensorProduct.algebraMap_apply]; simp
     refine AlgEquiv.ofAlgHom F G ?_ ?_
     · apply AdjoinRoot.algHom_ext
-      show F (G (AdjoinRoot.root gM)) = AdjoinRoot.root gM
+      change F (G (AdjoinRoot.root gM)) = AdjoinRoot.root gM
       rw [hGroot2, hFr]
     · apply Algebra.TensorProduct.ext'
       intro a b
-      show G (F (a ⊗ₜ[K] b)) = a ⊗ₜ[K] b
+      change G (F (a ⊗ₜ[K] b)) = a ⊗ₜ[K] b
       rw [hFtmul, map_mul, hGf0, hGa, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   -- assemble: `E ⊗[K] M ≃+* AdjoinRoot g_M`, a domain.
   let R : E ⊗[K] M ≃+* AdjoinRoot (g.map (algebraMap K M)) :=
@@ -457,7 +457,7 @@ lemma geomIrred_lemmaX_viaSubF
     have hcm : η₀.coeff m
         = Function.invFun (algebraMap L E) (η.coeff m) := by
       rw [hη₀def]
-      simp only [AddMonoidAlgebra.coeff_ofCoeff, Finsupp.mapRange_apply]
+      simp only [Finsupp.mapRange_apply]
     rw [hcm]
     exact Function.invFun_eq (hr m)
   -- ιE η = φ (ιL η₀) by hφ.
@@ -534,7 +534,7 @@ theorem geomIrred_cmp_P1
   let coeffincl : MvPolynomial σ L →+* MvRatFunc σ F :=
     (algebraMap (MvPolynomial σ F) (MvRatFunc σ F)).comp (MvPolynomial.map (algebraMap L F))
   have hcoeffinj : Function.Injective coeffincl := by
-    show Function.Injective
+    change Function.Injective
       ((algebraMap (MvPolynomial σ F) (MvRatFunc σ F)).comp (MvPolynomial.map (algebraMap L F)))
     exact (IsFractionRing.injective (MvPolynomial σ F) (MvRatFunc σ F)).comp
       (MvPolynomial.map_injective _ (algebraMap L F).injective)
@@ -550,7 +550,7 @@ theorem geomIrred_cmp_P1
   have hLcomm : ∀ c : L, φ (eK (algebraMap L K c)) = algebraMap L (MvRatFunc σ F) c := by
     intro c
     rw [IsScalarTower.algebraMap_apply L (MvPolynomial σ L) K c, hKbridge]
-    show (algebraMap (MvPolynomial σ F) (MvRatFunc σ F))
+    change (algebraMap (MvPolynomial σ F) (MvRatFunc σ F))
       (MvPolynomial.map (algebraMap L F) (algebraMap L (MvPolynomial σ L) c)) = _
     rw [MvPolynomial.algebraMap_eq, MvPolynomial.map_C,
       IsScalarTower.algebraMap_apply L F (MvRatFunc σ F) c,
@@ -576,7 +576,7 @@ theorem geomIrred_cmp_P2
   let fK : K →ₐ[L] MvRatFunc σ F :=
     AlgHom.mk' (φ.comp (eK : K →+* MvRatFunc σ L)) (by
       intro c x
-      show φ (eK (c • x)) = c • φ (eK x)
+      change φ (eK (c • x)) = c • φ (eK x)
       rw [Algebra.smul_def, map_mul, map_mul, hLcomm, Algebra.smul_def])
   let fF : F →ₐ[L] MvRatFunc σ F := IsScalarTower.toAlgHom L F (MvRatFunc σ F)
   let gKF : (K ⊗[L] F) →ₐ[L] MvRatFunc σ F :=
@@ -618,7 +618,7 @@ theorem geomIrred_cmp_P3
   have hmyequiv_tmul : ∀ (p : MvPolynomial σ L) (f : F),
       myequiv (p ⊗ₜ[L] f) = f • MvPolynomial.map (algebraMap L F) p := by
     intro p f
-    show (MvPolynomial.algebraTensorAlgEquiv L F)
+    change (MvPolynomial.algebraTensorAlgEquiv L F)
       ((Algebra.TensorProduct.comm L (MvPolynomial σ L) F) (p ⊗ₜ[L] f)) = _
     rw [Algebra.TensorProduct.comm_tmul, MvPolynomial.algebraTensorAlgEquiv_tmul]
   let mygD : (MvPolynomial σ L ⊗[L] F) →+* MvRatFunc σ F :=
@@ -629,7 +629,7 @@ theorem geomIrred_cmp_P3
       mygD (p ⊗ₜ[L] f) = (algebraMap (MvPolynomial σ F) (MvRatFunc σ F))
         (f • MvPolynomial.map (algebraMap L F) p) := by
     intro p f
-    show (algebraMap (MvPolynomial σ F) (MvRatFunc σ F)) (myequiv (p ⊗ₜ[L] f)) = _
+    change (algebraMap (MvPolynomial σ F) (MvRatFunc σ F)) (myequiv (p ⊗ₜ[L] f)) = _
     rw [hmyequiv_tmul]
   have hinjRD : Function.Injective (algebraMap (MvPolynomial σ L) (MvPolynomial σ L ⊗[L] F)) := by
     have : Function.Injective (algebraMap L F) := (algebraMap L F).injective
@@ -680,7 +680,7 @@ theorem geomIrred_cmp_P4
       efin ((p ⊗ₜ[L] f) ⊗ₜ[MvPolynomial σ L] k)
         = (algebraMap (MvPolynomial σ L) K p * k) ⊗ₜ[L] f := by
     intro p f k
-    show (Algebra.TensorProduct.cancelBaseChange L (MvPolynomial σ L) K K F)
+    change (Algebra.TensorProduct.cancelBaseChange L (MvPolynomial σ L) K K F)
       ((Algebra.TensorProduct.comm (MvPolynomial σ L) (MvPolynomial σ L ⊗[L] F) K)
         ((p ⊗ₜ[L] f) ⊗ₜ[MvPolynomial σ L] k)) = _
     rw [Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.cancelBaseChange_tmul,
@@ -717,8 +717,7 @@ theorem geomIrred_Lt_comparison_gKF
   have hkey : ∀ d : (MvPolynomial σ L ⊗[L] F),
       gKF (efin (Algebra.TensorProduct.includeLeftRingHom d)) = mygD d := by
     intro d
-    induction d using TensorProduct.induction_on with
-    | zero => simp
+    induction d using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, map_add, map_add, ha, hb]
     | tmul p f =>
       rw [show (Algebra.TensorProduct.includeLeftRingHom (p ⊗ₜ[L] f) :
@@ -735,14 +734,14 @@ theorem geomIrred_Lt_comparison_gKF
         G (Algebra.TensorProduct.includeLeftRingHom d) = mygD d := by
       intro d
       rw [hGdef]
-      show gKF (efin (Algebra.TensorProduct.includeLeftRingHom d)) = mygD d
+      change gKF (efin (Algebra.TensorProduct.includeLeftRingHom d)) = mygD d
       exact hkey d
     have hcompeq : G = gLoc := by
       apply IsLocalization.ringHom_ext
         (S := (MvPolynomial σ L ⊗[L] F) ⊗[MvPolynomial σ L] K)
         (Algebra.algebraMapSubmonoid (MvPolynomial σ L ⊗[L] F) (nonZeroDivisors (MvPolynomial σ L)))
       refine RingHom.ext fun d => ?_
-      show G (algebraMap (MvPolynomial σ L ⊗[L] F)
+      change G (algebraMap (MvPolynomial σ L ⊗[L] F)
           ((MvPolynomial σ L ⊗[L] F) ⊗[MvPolynomial σ L] K) d)
         = gLoc (algebraMap (MvPolynomial σ L ⊗[L] F)
           ((MvPolynomial σ L ⊗[L] F) ⊗[MvPolynomial σ L] K) d)

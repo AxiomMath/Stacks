@@ -195,8 +195,8 @@ private theorem exists_isFlatOver_modulePullback_pullback_snd
       ((Scheme.Modules.pullback (pullback.fst f (E.map e))).obj F) := by
   have fpX : FinitePresentation f := finitePresentation_of_compactSpace f inferInstance
   have fpY : FinitePresentation (𝟙 (E.obj i)) := ⟨inferInstance, inferInstance, inferInstance⟩
-  haveI : SheafOfModules.IsQuasicoherent (R := structureSheafRing X.toRingedSpace) F := ‹_›
-  haveI : SheafOfModules.IsFinitePresentation (R := structureSheafRing X.toRingedSpace) F := ‹_›
+  have : SheafOfModules.IsQuasicoherent (R := structureSheafRing X.toRingedSpace) F := ‹_›
+  have : SheafOfModules.IsFinitePresentation (R := structureSheafRing X.toRingedSpace) F := ‹_›
   obtain ⟨j, e, hj⟩ := eventually_isFlatOver_modulePullback E c hc i (Over.mk f)
     (Over.mk (𝟙 (E.obj i))) fpX fpY (Over.homMk f) F
     ((isFlatOver_overPullback_map_iff (Over.mk f) (c.π.app i) _).mpr flat)
@@ -1293,7 +1293,8 @@ theorem exists_isFlat_mapAt
     ∃ (i : I) (le : D.initial ≤ i), IsFlat B S hS (D.mapAt i le) :=
   D.toSituation.exists_isFlat_mapAt (IsSiteSmall.of_lt_cof_op D.indexSize) flat fp
 
-/-- **Stacks 08K0**, flatness of a module. In the situation of Stacks 084W, let `F₀` be a quasi-coherent
+/-- **Stacks 08K0**, flatness of a module. In the situation of Stacks 084W, let `F₀` be a
+quasi-coherent
 `𝒪_{X₀}`-module, with pullbacks `F_i` to `X_i` and `F` to `X`. If `F` is flat over `Y`, `F₀` is
 of finite presentation and `f₀` is locally of finite presentation, then `F_i` is flat over `Y_i`
 for some stage `i ≥ 0`. -/
@@ -1316,10 +1317,10 @@ theorem exists_isFlatOver_mapAt (D : MorphismDescentSystem B S hS hZ I)
   let H := BigFppfOver.toScheme B S hS
   let M : (H.obj ((BigAffineFppf.inclusion B S hS).obj C.sourceObj)).Modules :=
     restrictToChart B S hS D.source₀_isAlgebraicSpace F₀ C.sourceSmallEtale
-  haveI : M.IsQuasicoherent :=
+  have : M.IsQuasicoherent :=
     isQuasicoherent_restrictToChart B S hS ⟨D.source₀, D.source₀_isAlgebraicSpace⟩ F₀
       inferInstance C.sourceSmallEtale
-  haveI : M.IsFinitePresentation :=
+  have : M.IsFinitePresentation :=
     isFinitePresentation_restrictToChart B S hS ⟨D.source₀, D.source₀_isAlgebraicSpace⟩ F₀
       inferInstance inferInstance C.sourceSmallEtale
   let j₀ : Over (op D.initial) := Over.mk (𝟙 (op D.initial))

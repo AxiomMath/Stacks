@@ -281,7 +281,7 @@ theorem chartExteriorPower_map_ιMulti_of {V V' : SmallEtale B S hS X.1} (g : V'
     (chartExteriorPower B S hS X W c hc n).map g.op
         (exteriorPower.ιMulti ℤ (n + 1) fun i => FreeAbelianGroup.of (a i)) =
       exteriorPower.ιMulti ℤ (n + 1) fun i => FreeAbelianGroup.of (g ≫ a i) := by
-  show exteriorPower.map (n + 1)
+  change exteriorPower.map (n + 1)
       ((yoneda.obj (etaleChart B S hS X W c hc) ⋙ AddCommGrpCat.free).map g.op).hom.toIntLinearMap
       (exteriorPower.ιMulti ℤ (n + 1) fun i => FreeAbelianGroup.of (a i)) = _
   refine Eq.trans (exteriorPower.map_apply_ιMulti _ _) ?_
@@ -335,7 +335,7 @@ theorem exists_lift_diagonalComplementChart {V : SmallEtale B S hS X.1}
     intros
     simp
   refine (key _ _ _).trans ?_
-  show L ≫ SpacesEtale.diagonalComplementι B S hS X _ (n + 1) hsep ≫ Pi.π _ i = _
+  change L ≫ SpacesEtale.diagonalComplementι B S hS X _ (n + 1) hsep ≫ Pi.π _ i = _
   rw [← assoc, SpacesEtale.diagonalComplementLift_ι]
   exact Pi.lift_comp_π (fun i => (comparisonFunctor B S hS X).map (a i)) i
 
@@ -379,7 +379,7 @@ theorem isLocallySurjective_signTwistToWedge :
         (fun i => g ≫ a i) hempty
       refine ⟨twistedGenerator _ (diagonalComplementChartAut B S hS X W c hc hsep n)
         Equiv.Perm.sign ψ, ?_⟩
-      show signTwistToWedgeApp B S hS X W c hc hsep n (op V') _ = _
+      change signTwistToWedgeApp B S hS X W c hc hsep n (op V') _ = _
       rw [signTwistToWedgeApp_twistedGenerator, chartExteriorPower_map_ιMulti_of]
       exact congrArg (fun k => exteriorPower.ιMulti ℤ (n + 1) k)
         (funext fun i => congrArg FreeAbelianGroup.of (hψ i))
@@ -632,7 +632,7 @@ theorem eq_one_of_appTop_comp_eq {K : Type u} [Field K]
       (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom = ιT := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp]
-    show ι ≫ chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom = ι
+    change ι ≫ chartSchemeMap (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom = ι
     simp only [ι, assoc]
     rw [← Scheme.isoSpec_inv_naturality, ← assoc, ← Spec.map_comp, hfix]
   by_contra hσ
@@ -671,7 +671,7 @@ theorem eq_one_of_appTop_comp_eq {K : Type u} [Field K]
       (SpacesEtale.chartObj B S hS X W c hc) (n + 1) hsep (𝟙 _) σ i
     simp only [id_comp] at this
     exact congrArg (fun k => ((SpacesEtale.toSpaces B S hS X).map k).hom) this
-  show g ≫ πₚ i = g ≫ πₚ (σ⁻¹ i)
+  change g ≫ πₚ i = g ≫ πₚ (σ⁻¹ i)
   rw [← hπ, ← assoc, hg]
 
 /-- The pullback of functions along the action of a permutation on the chart of the complement
@@ -685,7 +685,7 @@ abbrev autPullback (σ : Equiv.Perm (Fin (n + 1))) :
 theorem autPullback_one : autPullback B S hS X W c hc hsep n 1 = RingHom.id _ := by
   ext a
   simp only [autPullback, map_one]
-  show (chartSchemeMap (𝟙 (diagonalComplementChart B S hS X W c hc hsep n))).appTop.hom a = a
+  change (chartSchemeMap (𝟙 (diagonalComplementChart B S hS X W c hc hsep n))).appTop.hom a = a
   simp [chartSchemeMap]
 
 /-- Pulling back along `σ * τ` is pulling back along `σ` and then along `τ`. -/
@@ -693,7 +693,7 @@ theorem autPullback_mul (σ τ : Equiv.Perm (Fin (n + 1))) (a) :
     autPullback B S hS X W c hc hsep n (σ * τ) a =
       autPullback B S hS X W c hc hsep n τ (autPullback B S hS X W c hc hsep n σ a) := by
   simp only [autPullback, map_mul, Aut.mul_asIso]
-  show (chartSchemeMap ((diagonalComplementChartAut B S hS X W c hc hsep n τ).asIso.hom ≫
+  change (chartSchemeMap ((diagonalComplementChartAut B S hS X W c hc hsep n τ).asIso.hom ≫
     (diagonalComplementChartAut B S hS X W c hc hsep n σ).asIso.hom)).appTop.hom a = _
   simp only [chartSchemeMap, Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
     RingHom.coe_comp, Function.comp_apply]
@@ -710,11 +710,11 @@ theorem exists_sum_autPullback_eq_one
   let act : MulSemiringAction (Equiv.Perm (Fin (n + 1))) A :=
     { smul := fun σ a => autPullback B S hS X W c hc hsep n σ⁻¹ a
       one_smul := fun a => by
-        show autPullback B S hS X W c hc hsep n 1⁻¹ a = a
+        change autPullback B S hS X W c hc hsep n 1⁻¹ a = a
         rw [inv_one, autPullback_one]
         rfl
       mul_smul := fun σ τ a => by
-        show autPullback B S hS X W c hc hsep n (σ * τ)⁻¹ a =
+        change autPullback B S hS X W c hc hsep n (σ * τ)⁻¹ a =
           autPullback B S hS X W c hc hsep n σ⁻¹ (autPullback B S hS X W c hc hsep n τ⁻¹ a)
         rw [mul_inv_rev, autPullback_mul]
       smul_zero := fun σ => map_zero _
@@ -732,7 +732,7 @@ theorem exists_sum_autPullback_eq_one
       refine eq_one_of_appTop_comp_eq B S hS X W c hc hsep n hW hcA σ⁻¹ ψ
         Ideal.Quotient.mk_surjective ?_
       ext a
-      show Ideal.Quotient.mk m (autPullback B S hS X W c hc hsep n σ⁻¹ a) =
+      change Ideal.Quotient.mk m (autPullback B S hS X W c hc hsep n σ⁻¹ a) =
         Ideal.Quotient.mk m a
       rw [Ideal.Quotient.eq]
       exact hle (Ideal.subset_span ⟨a, rfl⟩)
@@ -741,7 +741,7 @@ theorem exists_sum_autPullback_eq_one
   refine ⟨t, ?_⟩
   rw [← ht]
   exact Fintype.sum_equiv (Equiv.inv _) _ _ (fun σ => by
-    show autPullback B S hS X W c hc hsep n σ t = autPullback B S hS X W c hc hsep n σ⁻¹⁻¹ t
+    change autPullback B S hS X W c hc hsep n σ t = autPullback B S hS X W c hc hsep n σ⁻¹⁻¹ t
     rw [inv_inv])
 
 end AlgebraicGeometry.Space.SmallEtale

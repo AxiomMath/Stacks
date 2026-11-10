@@ -135,7 +135,7 @@ public theorem depth_eq_of_isLocalizedModule
   have _ := hf₂
   let _ : IsLocalRing R₁ := IsLocalization.AtPrime.isLocalRing R₁ p
   let _ : IsLocalRing R₂ := IsLocalization.AtPrime.isLocalRing R₂ p
-  show Module.depth R₁ (IsLocalRing.maximalIdeal R₁) M₁ =
+  change Module.depth R₁ (IsLocalRing.maximalIdeal R₁) M₁ =
       Module.depth R₂ (IsLocalRing.maximalIdeal R₂) M₂
   let e : R₁ ≃ₐ[A] R₂ := IsLocalization.algEquiv p.primeCompl R₁ R₂
   let _ : Algebra R₁ R₂ := RingHom.toAlgebra (e : R₁ →+* R₂)
@@ -143,7 +143,7 @@ public theorem depth_eq_of_isLocalizedModule
   have _ : IsScalarTower R₁ R₂ M₂ := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have _ : IsScalarTower A R₁ M₂ := by
     refine IsScalarTower.of_algebraMap_smul fun a m => ?_
-    show (algebraMap R₁ R₂) (algebraMap A R₁ a) • m = a • m
+    change (algebraMap R₁ R₂) (algebraMap A R₁ a) • m = a • m
     rw [show (algebraMap R₁ R₂) (algebraMap A R₁ a) = algebraMap A R₂ a from e.commutes a]
     exact algebraMap_smul R₂ a m
   have hsurj : Function.Surjective (algebraMap R₁ R₂) := e.surjective
@@ -181,7 +181,7 @@ public theorem depth_le_depth_of_isLocalization_atPrime
       Module.depth Bq (IsLocalRing.maximalIdeal Bq) Bq := by
   let _ : IsLocalRing Ap := IsLocalization.AtPrime.isLocalRing Ap p
   let _ : IsLocalRing Bq := IsLocalization.AtPrime.isLocalRing Bq q
-  show Module.depth Ap (IsLocalRing.maximalIdeal Ap) Bp ≤
+  change Module.depth Ap (IsLocalRing.maximalIdeal Ap) Bp ≤
       Module.depth Bq (IsLocalRing.maximalIdeal Bq) Bq
   have hL : Module.depth Ap (IsLocalRing.maximalIdeal Ap) Bp =
       Module.depth (Localization.AtPrime p) (IsLocalRing.maximalIdeal (Localization.AtPrime p))

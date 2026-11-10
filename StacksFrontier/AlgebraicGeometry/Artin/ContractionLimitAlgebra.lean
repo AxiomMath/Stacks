@@ -220,7 +220,7 @@ theorem exists_stage_ringHom
       map_add' := fun a b => (huniq (a + b) (w a + w b) (by rw [map_add, hw₁, hw₁, map_add])
         (by rw [map_add, hw₂, hw₂, map_add, map_add])).symm.trans (map_add _ _ _) }
   refine ⟨k₃, g₃ ≫ g₂ ≫ f₁, φk, fun b => ?_, fun b => ?_⟩
-  · show (ρA k₃).hom ((Ah.map g₃.op).hom (w b)) = φ b
+  · change (ρA k₃).hom ((Ah.map g₃.op).hom (w b)) = φ b
     rw [ρA_map_apply ρA hρA, hw₁]
   · exact α_map_apply_eq α g₃ _ (hw₂ b)
 

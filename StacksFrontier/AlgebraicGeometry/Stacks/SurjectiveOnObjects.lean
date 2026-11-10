@@ -121,7 +121,7 @@ theorem isSurjectiveOnObjects_twoFibreProductSnd
   have hevertical : 𝒴.val.p.IsHomLift (𝟙 V)
       (Functor.IsStronglyCartesian.domainIsoOfBaseIso 𝒴.val.p hbase
         ((CatFiberedInGroupoids.homFunctor q).map b) α).hom := by
-    show 𝒴.val.p.IsHomLift (Iso.refl V).hom _
+    change 𝒴.val.p.IsHomLift (Iso.refl V).hom _
     infer_instance
   let W : TwoFibreProductOver 𝒳.val.p 𝒵.val.p 𝒴.val.p
       (CatFiberedInGroupoids.homFunctor p) (CatFiberedInGroupoids.homFunctor q) :=
@@ -131,7 +131,7 @@ theorem isSurjectiveOnObjects_twoFibreProductSnd
         ((CatFiberedInGroupoids.homFunctor q).map b) α
       vertical := hevertical }
   refine ⟨V, hV, f, W, rfl, b, ?_⟩
-  show 𝒵.val.p.IsHomLift f b
+  change 𝒵.val.p.IsHomLift f b
   infer_instance
 
 /-- **Stacks 06D6.** A composite of two 1-morphisms surjective on objects is surjective on

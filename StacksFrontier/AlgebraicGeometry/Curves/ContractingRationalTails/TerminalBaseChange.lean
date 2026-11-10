@@ -304,7 +304,7 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
   have hDι (j : J) : Sigma.ι (fun j ↦ (D j).subscheme) j ≫ e.hom ≫ (C.comap pX).subschemeι =
       (D j).subschemeι :=
     (congrArg (fun m ↦ Sigma.ι (fun j ↦ (D j).subscheme) j ≫ m) he).trans
-      (Sigma.ι_desc _ _)
+      (Sigma.ι_comp_desc _ _)
   -- `ι_K ≫ cont_K = 𝟙`
   have hιc : ιK ≫ contK = 𝟙 _ := by
     apply pullback.hom_ext
@@ -317,9 +317,9 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
   have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace fX
   have : IsNoetherian X := ⟨⟩
   have hrangeι : Set.range ι = closure ((C.support : Set X)ᶜ) := by
-    show Set.range (complementaryCurveIdeal C).subschemeι = _
+    change Set.range (complementaryCurveIdeal C).subschemeι = _
     rw [Scheme.IdealSheafData.range_subschemeι]
-    show ((Scheme.Opens.ι C.support.compl).ker.support : Set X) = _
+    change ((Scheme.Opens.ι C.support.compl).ker.support : Set X) = _
     rw [Scheme.Hom.support_ker, Scheme.Opens.range_ι]
     rfl
   have hrangeιK : Set.range ιK = pX ⁻¹' Set.range ι := by
@@ -344,7 +344,7 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
     rw [sigmaι_eq_iff] at h1
     exact hij (Sigma.mk.inj_iff.mp h1).1
   have hrangeι' : Set.range ι = ((complementaryCurveIdeal C).support : Set X) := by
-    show Set.range (complementaryCurveIdeal C).subschemeι = _
+    change Set.range (complementaryCurveIdeal C).subschemeι = _
     exact Scheme.IdealSheafData.range_subschemeι _
   have : IsLocallyNoetherian (pullback fX (Spec.map (CommRingCat.ofHom (algebraMap k K))) :
       Scheme.{u}) :=
@@ -369,7 +369,7 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
     have hJcl : ((complementaryCurveIdeal (D j)).support : Set _) =
         closure (((D j).support : Set (pullback fX (Spec.map (CommRingCat.ofHom (algebraMap k K)))
             : Scheme.{u})))ᶜ := by
-      show ((Scheme.Opens.ι (D j).support.compl).ker.support :
+      change ((Scheme.Opens.ι (D j).support.compl).ker.support :
         Set (pullback fX (Spec.map (CommRingCat.ofHom (algebraMap k K))) : Scheme.{u})) = _
       rw [Scheme.Hom.support_ker, Scheme.Opens.range_ι]
       rfl
@@ -408,7 +408,7 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
       exact hw
     · obtain ⟨w, hw⟩ : z ∈ Set.range ιK := by
         rw [hrangeιK]
-        show pX z ∈ Set.range ι
+        change pX z ∈ Set.range ι
         rwa [hrangeι']
       refine ⟨(coprod.inl : pullback (ι ≫ fX) (Spec.map (CommRingCat.ofHom (algebraMap k K))) ⟶
         _ ⨿ _) w, ?_⟩
@@ -428,7 +428,7 @@ theorem comp_eq_of_isContractionOfRationalTail_baseChange (k K : Type u) [Field 
       (SheafOfModules.unit C.subscheme.ringCatSheaf)).toLinearEquiv
   have hfΓ : C.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k A)) =
       C.subschemeι ≫ fX := by
-    show C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
+    change C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
       (C.subschemeι ≫ fX).appTop) = C.subschemeι ≫ fX
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp

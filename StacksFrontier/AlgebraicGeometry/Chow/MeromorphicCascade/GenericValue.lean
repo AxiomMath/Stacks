@@ -16,8 +16,8 @@ thing as an element of `F_η`. This file names that element, the *generic value*
 and proves the formula characterizing it.
 
 The two models of a meromorphic section are used side by side in this library. The order of
-vanishing along a prime divisor (`StacksFrontier.AlgebraicGeometry.Chow.MeromorphicOrder`) is defined
-for an element of `F_η`, while the Stacks Project states its results for a global section of
+vanishing along a prime divisor (`StacksFrontier.AlgebraicGeometry.Chow.MeromorphicOrder`) is
+defined for an element of `F_η`, while the Stacks Project states its results for a global section of
 `𝒦_X(F)`. The generic value is the passage from the second model to the first, and is what lets
 those results be stated here.
 

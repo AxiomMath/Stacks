@@ -111,7 +111,8 @@ draft copy, so the choice is lossless.
 Both spellings of the structure sheaf of a scheme are served, which matters because instance
 search is syntactic even where the two are definitionally equal. The scheme corollary gives the
 conclusion at `R := X.ringCatSheaf`, the spelling of `AlgebraicGeometry.Scheme.Modules` and of the
-tagged statements; applying the ringed-space theorem to `X.toRingedSpace` with `h𝒪 := X.ringCatSheaf.2` gives
+tagged statements; applying the ringed-space theorem to `X.toRingedSpace` with
+`h𝒪 := X.ringCatSheaf.2` gives
 it at `R := Stacks.SheafOfModules.TensorSheafification.structureSheaf X.presheaf X.ringCatSheaf.2`,
   the spelling in which the
 `InvertibleLocallyFree` bridges to Stacks Tag 05P2's consequences are stated.
@@ -148,8 +149,8 @@ the module universe to be `max u v w`, because its dual quantifies over objects 
 the site. That is why the geometric sections are stated for `RingedSpace.{u, u}` — carrier and
 rings in one universe — which is what `Scheme.{u}` provides and what collapses `max u v w` to `u`.
 `RingedSpace` has two universe parameters, so `RingedSpace.{u}` leaves the second free. Whether
-that is fatal depends on how the structure sheaf is then written. At the `Stacks.SheafOfModules.TensorSheafification.structureSheaf
-  X.presheaf h𝒪` spelling used here the
+that is fatal depends on how the structure sheaf is then written. At the
+`Stacks.SheafOfModules.TensorSheafification.structureSheaf X.presheaf h𝒪` spelling used here the
 carrier universe is never mentioned, nothing collapses it, and the sheafification instances for the
 site are indeed not found. At the one-universe `structureSheaf` of
 `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SheafHomLeftExact`, which sends a
@@ -305,7 +306,7 @@ theorem eq_zero_of_contract_eq_zero
       ((congrArg (pairLeft η (op W) (L.map g.op (L.map f m))) h0).trans
         (map_zero (pairLeft η (op W) (L.map g.op (L.map f m)))))
   rw [map_zero]
-  show L.map g.op l = 0
+  change L.map g.op l = 0
   exact hum.smul_left_cancel.mp (h1.trans (smul_zero _).symm)
 
 /-- Contraction against a section with a unit value is bijective, over every restriction: the
@@ -382,7 +383,7 @@ theorem exists_localIso_of_isInvertible (L : SheafOfModules.{w} (structureSheaf 
   refine ⟨M.val, (tensorLeftFunctorUniversal 𝒪 h𝒪 L).ι.app M ≫ e.hom.val, ?_⟩
   refine (MorphismProperty.inverseImage_iff J.W
     (PresheafOfModules.toPresheaf (structureRingPresheaf 𝒪)) _).1 ?_
-  show J.W.inverseImage (PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj) _
+  change J.W.inverseImage (PresheafOfModules.toPresheaf (structureSheaf 𝒪 h𝒪).obj) _
   refine MorphismProperty.comp_mem _ _ _ ?_ ?_
   all_goals rw [hEq]
   exacts [h1, h3]

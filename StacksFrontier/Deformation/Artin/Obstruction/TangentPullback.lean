@@ -227,7 +227,7 @@ public theorem tangentPullbackFun_add {M : SiteModule A B} {N : SiteModule C B}
   rw [hz₂] at hn₂
   have hsum : F.functor.map (q₁ + q₂) z = z₁ + z₂ := by
     rw [F.functor.map_add]
-    show F.functor.map q₁ z + F.functor.map q₂ z = z₁ + z₂
+    change F.functor.map q₁ z + F.functor.map q₂ z = z₁ + z₂
     rw [hz₁, hz₂]
   rw [hsum, G.functor.map_add] at hns
   change tangentPullbackFun f hf hp φ hφ F G ψ (z₁ + z₂) =
@@ -251,7 +251,7 @@ public theorem tangentPullbackFun_smul {M : SiteModule A B} {N : SiteModule C B}
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro m
-    show ψ (a • m) = f a • ψ m
+    change ψ (a • m) = f a • ψ m
     exact restrictScalarsAddHom_smul f ψ a m
   have hn := tangentPullbackFun_natural f hf hp φ hφ F G (a • (𝟙 M)) (f a • (𝟙 N)) ψ ψ
     hcompat z
@@ -335,7 +335,7 @@ public theorem algebraOverMapOfRingHom_comp :
       algebraOverMapOfRingHom (f₂.comp f₁) B S hS toS toSE hA hE hf₁₂ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom f₂) ≫ Spec.map (CommRingCat.ofHom f₁) =
+  change Spec.map (CommRingCat.ofHom f₂) ≫ Spec.map (CommRingCat.ofHom f₁) =
     Spec.map (CommRingCat.ofHom (f₂.comp f₁))
   rw [← Spec.map_comp]
   rfl
@@ -350,7 +350,7 @@ public theorem tangentPullbackBase_comp {M : SiteModule A B} {N : SiteModule C B
       tangentPullbackBase (hS := hS) (f₂.comp f₁) hf₁₂ ψ₁₂ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (squareZeroRingBaseMap f₂ (restrictScalarsAddHom f₂ ψ₂)
+  change Spec.map (CommRingCat.ofHom (squareZeroRingBaseMap f₂ (restrictScalarsAddHom f₂ ψ₂)
       (restrictScalarsAddHom_smul f₂ ψ₂))) ≫
     Spec.map (CommRingCat.ofHom (squareZeroRingBaseMap f₁ (restrictScalarsAddHom f₁ ψ₁)
       (restrictScalarsAddHom_smul f₁ ψ₁))) =

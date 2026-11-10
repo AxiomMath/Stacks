@@ -213,7 +213,7 @@ universe w'
 variable (A : Type u) [Category.{0} A] [Abelian A] [HasDerivedCategory.{w'} A]
   (K : CochainComplex A ℤ)
 
-/--  **Tag 09LK's functor commutes with the translation, under a hypothesis stronger than the
+/-- **Tag 09LK's functor commutes with the translation, under a hypothesis stronger than the
 source's.** The right derived functor
 The right derived functor `R Hom(K, -) : D(A) ⥤ D(E, d)` inherits the commutation with the
 translation from the functor being derived, by Mathlib's
@@ -237,6 +237,7 @@ functor is also the step the Stacks Project's own proof of 09LK takes. A registr
 only on a declaration that proves its tag under the source's own hypotheses, so this one carries
 no attribute.
 -/
+@[instance_reducible]
 noncomputable def derivedHomFunctorCommShift
     (h : (homToDerivedCategory A K).IsRightDerivable
       (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))) :

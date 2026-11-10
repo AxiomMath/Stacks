@@ -56,9 +56,9 @@ end AlgebraicGeometry.Space.MorphismDescentSituation.C1573
 # DescendingMorphismProperties under the site convention
 
 The declarations below accompany
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.DescendingMorphismProperties`: they state its results
-under the chapter's standing convention of Section 70.2 (tag 07SD) on the size of the site, in the
-form the absolute Noetherian approximation of Stacks 07SU consumes.
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.DescendingMorphismProperties`: they state its
+results under the chapter's standing convention of Section 70.2 (tag 07SD) on the size of the
+site, in the form the absolute Noetherian approximation of Stacks 07SU consumes.
 
 ## Main results
 
@@ -133,6 +133,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasPullbacks_presheaf_descendingMorphismPropertiesSiteConvention :
@@ -385,7 +386,7 @@ private theorem cone_π_comp_map_stageChart {D : MorphismDescentSituation B S hS
     (C : BridgedSituationChartSquare D) (j : Over (op D.initial)) :
     C.cone.π.app j ≫ (BigFppfOver.toScheme B S hS).map (C.stageChart j) =
       (BigFppfOver.toScheme B S hS).map C.limitChart := by
-  show (BigFppfOver.toScheme B S hS).map (C.bridge.cone.π.app j) ≫ _ = _
+  change (BigFppfOver.toScheme B S hS).map (C.bridge.cone.π.app j) ≫ _ = _
   rw [← Functor.map_comp, C.cone_π_comp_stageChart j]
 
 /-- The transition morphisms of the diagram of charts are compatible with the charts of the
@@ -394,7 +395,7 @@ private theorem diagram_map_comp_map_stageChart {D : MorphismDescentSituation B 
     (C : BridgedSituationChartSquare D) {j k : Over (op D.initial)} (g : j ⟶ k) :
     C.diagram.map g ≫ (BigFppfOver.toScheme B S hS).map (C.stageChart k) =
       (BigFppfOver.toScheme B S hS).map (C.stageChart j) := by
-  show (BigFppfOver.toScheme B S hS).map (C.system.siteDiagram.map g) ≫ _ = _
+  change (BigFppfOver.toScheme B S hS).map (C.system.siteDiagram.map g) ≫ _ = _
   rw [← Functor.map_comp, C.siteDiagram_map_comp_stageChart g]
 
 end BridgedSituationChartSquare
@@ -646,6 +647,7 @@ private theorem exists_isSurjective_mapAt_of_limitBridges
       C.isLimit_cone j₀ X₀ Y₀ f₀
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the statement takes pullbacks of presheaves and modules on the big fppf site
 /-- **Stacks 08K0**, flatness of a module. In the situation of Stacks 084W, let `F₀` be a
 quasi-coherent `𝒪_{X₀}`-module, with pullbacks `F_i` to `X_i` and `F` to `X`. If `F` is flat over
 `Y`, `F₀` is of finite presentation and `f₀` is locally of finite presentation, then `F_i` is

@@ -156,7 +156,7 @@ theorem isFlatOverAt_of_flat_quotient_pow [IsNoetherianRing A] (I : Ideal A)
       IsLocalization.self fun _ hy => IsLocalRing.notMem_maximalIdeal.mp hy
     let : IsLocalizedModule.AtPrime (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
         (LinearMap.id : F.presheaf.stalk x →ₗ[X.presheaf.stalk x] F.presheaf.stalk x) := by
-      show IsLocalizedModule (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).primeCompl
+      change IsLocalizedModule (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).primeCompl
         (LinearMap.id : F.presheaf.stalk x →ₗ[X.presheaf.stalk x] F.presheaf.stalk x)
       exact isLocalizedModule_id (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).primeCompl
         (F.presheaf.stalk x) (X.presheaf.stalk x)
@@ -167,7 +167,7 @@ theorem isFlatOverAt_of_flat_quotient_pow [IsNoetherianRing A] (I : Ideal A)
     Module.compHom _ (g.stalkMap x).hom
   have : IsScalarTower A ((Spec (.of A)).presheaf.stalk (g.base x)) (F.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  show Module.Flat ((Spec (.of A)).presheaf.stalk (g.base x)) (F.presheaf.stalk x)
+  change Module.Flat ((Spec (.of A)).presheaf.stalk (g.base x)) (F.presheaf.stalk x)
   rw [Module.flat_iff_of_isLocalization ((Spec (.of A)).presheaf.stalk (g.base x))
     (g.base x).asIdeal.primeCompl]
   exact hA
@@ -282,7 +282,7 @@ theorem preimage_zeroLocus_subset_flatLocus [IsNoetherianRing A]
       (pointsMap B (Spec (.of A)) hA X f (pointOfEtaleChart B (Spec (.of A)) hA d.U u)) =
       (chartToAffineBase A B hA d.U).base u := by
     rw [← pointOfEtaleChart_map_g B (Spec (.of A)) hA (affineBaseChartDiagram A B hA f d.U) u]
-    show pointsToScheme B (Spec (.of A)) hA (baseObject A B hA)
+    change pointsToScheme B (Spec (.of A)) hA (baseObject A B hA)
         (pointsMap B (Spec (.of A)) hA (yoneda.obj (baseObject A B hA))
           (𝟙 (yoneda.obj (baseObject A B hA)))
           ((pointsEquivScheme B (Spec (.of A)) hA (baseObject A B hA)).symm

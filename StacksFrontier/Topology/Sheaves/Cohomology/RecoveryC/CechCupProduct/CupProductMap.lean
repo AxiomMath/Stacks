@@ -178,7 +178,7 @@ private theorem tensorModulesMap_ι_comp_moduleCoprodTensorCoprodIso_hom
       ext x y
       simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, tensorModulesMap]
       dsimp [eRight, eLeft, tensorModules]
-      show (eM.hom.hom ((Sigma.ι M i).hom x)) ⊗ₜ[R]
+      change (eM.hom.hom ((Sigma.ι M i).hom x)) ⊗ₜ[R]
           (eN.hom.hom ((Sigma.ι N j).hom y)) =
         (DirectSum.lof R ι (fun k => (M k).1) i x) ⊗ₜ[R]
           (DirectSum.lof R κ (fun k => (N k).1) j y)
@@ -199,7 +199,7 @@ private theorem tensorModulesMap_ι_comp_moduleCoprodTensorCoprodIso_hom
       simp [eDS, eMN, TensorProduct.directSum_lof_tmul_lof,
         ModuleCat.ι_coprodIsoDirectSum_hom, ModuleCat.hom_comp]
       rfl
-    show tensorModulesMap R (Sigma.ι M i) (Sigma.ι N j) ≫
+    change tensorModulesMap R (Sigma.ι M i) (Sigma.ι N j) ≫
       eRight.hom ≫ eLeft.hom ≫ eDS.toModuleIso.hom ≫ eMN.symm.hom ≫ eMN.hom = _
     rw [← Category.assoc, ← Category.assoc, hprefixL]
     rw [← hpost]
@@ -230,7 +230,7 @@ theorem moduleCoprodTensorCoprodDesc_ι
     (i : ι) (j : κ) :
     tensorModulesMap R (Sigma.ι M i) (Sigma.ι N j) ≫
       moduleCoprodTensorCoprodDesc M N f = f i j := by
-  show tensorModulesMap R (Sigma.ι M i) (Sigma.ι N j) ≫
+  change tensorModulesMap R (Sigma.ι M i) (Sigma.ι N j) ≫
       (moduleCoprodTensorCoprodIso M N).hom ≫ Sigma.desc (fun ij : ι × κ => f ij.1 ij.2) = _
   rw [← Category.assoc, tensorModulesMap_ι_comp_moduleCoprodTensorCoprodIso_hom]
   simp
@@ -258,7 +258,7 @@ theorem moduleCoprodTensorCoprod_hom_ext
   apply (cancel_epi e.symm.hom).1
   apply Sigma.hom_ext
   rintro ⟨i, j⟩
-  show (Sigma.ι P (i, j) ≫ e.symm.hom) ≫ f =
+  change (Sigma.ι P (i, j) ≫ e.symm.hom) ≫ f =
     (Sigma.ι P (i, j) ≫ e.symm.hom) ≫ g
   rw [hι i j]
   exact h i j
@@ -306,13 +306,13 @@ private theorem ιTotalCechTo_d
   rw [Category.assoc, totalCechComplex_d, HomologicalComplex₂.ιTotal_d_up_ℤ,
     Preadditive.comp_add, Linear.comp_units_smul]
   congr 1
-  · show _ ≫ (((CategoryTheory.cechComplexFunctor U).obj (F.X a)).extend
+  · change _ ≫ (((CategoryTheory.cechComplexFunctor U).obj (F.X a)).extend
       embeddingUpNat).d (p : ℤ) (p + 1) ≫ _ = _
     rw [cechExtend_d_eq X U (F.X a) p rfl (q' := (p : ℤ) + 1) (by push_cast; ring)]
     simp only [Iso.inv_hom_id_assoc, Category.assoc]
     congr 1
   · congr 1
-    show _ ≫ (HomologicalComplex.extendMap
+    change _ ≫ (HomologicalComplex.extendMap
       ((CategoryTheory.cechComplexFunctor U).map (F.d a (a + 1))) embeddingUpNat).f (p : ℤ) ≫ _ = _
     rw [cechExtendMap_f X U (F.d a (a + 1)) p rfl]
     simp only [Iso.inv_hom_id_assoc, Category.assoc]
@@ -336,7 +336,7 @@ private theorem ιTensorSheafTo_d
       ιTensorSheafTo X F G (a + 1) b (n + 1) (by omega) +
     a.negOnePow • (((tensorPresheaves ℤ X).obj (F.X a)).map (G.d b (b + 1)) ≫
       ιTensorSheafTo X F G a (b + 1) (n + 1) (by omega)) := by
-  show (_ ≫ toSheafify _ _) ≫ sheafifyMap _ _ = _
+  change (_ ≫ toSheafify _ _) ≫ sheafifyMap _ _ = _
   rw [Category.assoc, ← toSheafify_naturality, ← Category.assoc]
   rw [HomologicalComplex₂.ιTotal_d_up_ℤ]
   rw [Preadditive.add_comp, Category.assoc, Linear.units_smul_comp, Category.assoc]
@@ -359,7 +359,7 @@ private theorem cechCochainsMap_add {F G : ZPresheaf.{u, max v w} X}
   apply Pi.hom_ext (f := fun t : Fin (p + 1) → ι => G.obj (op (∏ᶜ (U ∘ t))))
   intro t
   simp only [cechCochainsMap_comp_π, Preadditive.add_comp]
-  show _ ≫ (f.app _ + g.app _) = _
+  change _ ≫ (f.app _ + g.app _) = _
   rw [Preadditive.comp_add]
 
 private theorem cechCochainsMap_zsmul {F G : ZPresheaf.{u, max v w} X}
@@ -477,13 +477,13 @@ private theorem tensorCechι_d
       (s : ℤ).negOnePow • (tensorModulesMap ℤ (𝟙 _)
           (cechCochainsMap.{u, v, w'} X U (G.d b (b + 1)) s) ≫
         tensorCechι.{u, v, w, w'} X U F G r s a (b + 1) (n + 1) (by omega))) := by
-  show (tensorModulesMap ℤ _ _ ≫ _) ≫ _ = _
+  change (tensorModulesMap ℤ _ _ ≫ _) ≫ _ = _
   rw [Category.assoc, tensorModules_ι_d]
   simp only [Units.smul_def]
   rw [Preadditive.comp_add, Preadditive.comp_zsmul,
     ← Category.assoc, tensorModulesMap_comp, Category.comp_id,
     ← Category.assoc, tensorModulesMap_comp, Category.comp_id]
-  show tensorModulesMap ℤ (ιTotalCechTo.{u, v, w} X U F r a (r + a) rfl ≫ _) _ ≫ _ +
+  change tensorModulesMap ℤ (ιTotalCechTo.{u, v, w} X U F r a (r + a) rfl ≫ _) _ ≫ _ +
     ((r + a).negOnePow : ℤ) •
       (tensorModulesMap ℤ _ (ιTotalCechTo.{u, v, w'} X U G s b (s + b) rfl ≫ _) ≫ _) = _
   rw [ιTotalCechTo_d, ιTotalCechTo_d]
@@ -672,7 +672,7 @@ theorem signed_four_terms {A : Type*} [AddCommGroup A]
     norm_cast
     simp only [← Int.negOnePow_add]
     apply (Int.negOnePow_eq_iff _ _).2
-    show ∃ k : ℤ, _ = k + k
+    change ∃ k : ℤ, _ = k + k
     refine ⟨-a, ?_⟩
     ring
   have hz : ((a * s).negOnePow : ℤ) * ((r + s).negOnePow : ℤ) =
@@ -699,7 +699,7 @@ theorem cupProductSign_summand (r s a : ℤ) :
   unfold cupProductSign
   norm_cast
   apply (Int.negOnePow_eq_iff _ _).2
-  show ∃ k : ℤ, _ = k + k
+  change ∃ k : ℤ, _ = k + k
   obtain ⟨k, hk⟩ := Int.even_mul_succ_self r
   refine ⟨k + r * r + r * s + r * a, ?_⟩
   calc
@@ -765,7 +765,7 @@ private theorem tensorCechι_hom_ext
     apply ModuleCat.hom_ext
     apply TensorProduct.ext'
     intro x y
-    show eF.inv.hom ((Sigma.ι M ⟨(r, a), by push_cast; rfl⟩).hom x) ⊗ₜ[ℤ]
+    change eF.inv.hom ((Sigma.ι M ⟨(r, a), by push_cast; rfl⟩).hom x) ⊗ₜ[ℤ]
           eG.inv.hom ((Sigma.ι N ⟨(s, b), by push_cast; rfl⟩).hom y) =
         (ιTotalCech.{u, v, max u w} X U F r a).hom x ⊗ₜ[ℤ]
           (ιTotalCech.{u, v, max u w'} X U G s b).hom y
@@ -842,7 +842,7 @@ theorem cechCupProduct_ι (F : CochainComplex (ZPresheaf.{u, max u v w} X) ℤ)
             (((totalCechComplexFunctor.{u, v, max u w w'} X U).obj
               (tensorSheafComplex.{u, max v w, max v w'} X F G)).X)
             (by push_cast; ring))) := by
-  show tensorCechι.{u, v, max u w, max u w'} X U F G r s a b _ rfl ≫
+  change tensorCechι.{u, v, max u w, max u w'} X U F G r s a b _ rfl ≫
     cechCupProductDegree.{u, v, w, w'} X U F G _ = _
   rw [tensorCechι_cechCupProductDegree]
   rfl

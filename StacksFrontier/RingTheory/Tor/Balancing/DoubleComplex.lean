@@ -309,7 +309,7 @@ def cmpRChainHom (A : DoubleCx R) :
       = A.RDiff n ((A.d 0 (n + 1)).range.mkQ (b (0 : Fin (n + 2))))
     simp only [Dtot, LinearMap.pi_apply, LinearMap.add_apply, LinearMap.comp_apply,
       LinearEquiv.coe_coe, LinearMap.proj_apply, map_add,
-      Fin.val_zero, Nat.sub_zero, pow_zero, one_smul]
+      Fin.val_zero, Nat.sub_zero, pow_zero]
     have hrhs : A.RDiff n ((A.d 0 (n + 1)).range.mkQ (b (0 : Fin (n + 2))))
         = (A.d 0 n).range.mkQ (A.δ 0 n (b (0 : Fin (n + 2)))) := by
       rw [Submodule.mkQ_apply, DoubleCx.RDiff_mk, Submodule.mkQ_apply]
@@ -377,7 +377,7 @@ theorem DoubleCx.stairCycle_step (A : DoubleCx R) (hrow : A.RowResolution)
   cases m with
   | zero => exact trivial
   | succ k =>
-      show A.δ 1 k (chooseLift (A.d 0 (k + 1)) hmem) ∈ LinearMap.range (A.d 1 k)
+      change A.δ 1 k (chooseLift (A.d 0 (k + 1)) hmem) ∈ LinearMap.range (A.d 1 k)
       rw [← hrow 0 k, LinearMap.mem_ker]
       have hc := congrArg (fun (g : _ →ₗ[R] _) => g (chooseLift (A.d 0 (k + 1)) hmem))
         (A.comm 0 k)

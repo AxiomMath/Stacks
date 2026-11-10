@@ -215,7 +215,7 @@ theorem formalSpectrumMap_comp_completionComparison_eq {A C : Type u} [CommRing 
       quotientStageToAffine B S hS hC sC I' D' hD' K ≫ α := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 χ.toRingHom hJw)) ≫
+    change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 χ.toRingHom hJw)) ≫
         Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk Jw.1).comp (algebraMap A _))) =
       Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp (algebraMap C _))) ≫
         (BigFppfOver.toScheme B S hS).map α
@@ -335,7 +335,7 @@ theorem correspondsToRigEtaleMap_completionSheafMap_of_isRigEtaleHom {A C : Type
     adicQuotientSystem B S hS hC sC (I.map φ) hI', eT ≪≫ (asIso cmp').symm, (asIso cmp).symm, χ,
     ?_, hrig⟩
   simp only [Iso.trans_hom, Iso.symm_hom, asIso_inv, Iso.symm_inv, asIso_hom, Category.assoc]
-  show _ = eT.hom ≫ inv cmp' ≫ formalSpectrumMap hwA χ ≫ cmp
+  change _ = eT.hom ≫ inv cmp' ≫ formalSpectrumMap hwA χ ≫ cmp
   rw [formalSpectrumMap_comp_completionComparison_eq B S hS hA s hC sC α φ hφ I hI hI' hwA χ hχ
     hT', IsIso.inv_hom_id_assoc]
   simp [eT]
@@ -396,7 +396,7 @@ theorem correspondsToRigEtaleMap_completionSheafMap_of_etaleAt {A C : Type u} [C
     { toRingHom := (AdicCompletion.completionMap (B := C) I).toRingHom
       continuous := hcont
       overS := fun J K h ↦ by
-        show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1
+        change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1
             (AdicCompletion.completionMap (B := C) I).toRingHom h)) ≫
             (Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk J.1).comp
               (algebraMap A (AdicCompletion I A)))) ≫ s) =
@@ -420,6 +420,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] Space.pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of fppf sheaves is deep
 /-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
 local instance hasPullbacks_fppfSheaf_CompletionRigEtaleCharts :
     HasPullbacks (FppfSheaf B S hS) := inferInstance
@@ -486,7 +487,7 @@ theorem isLocallySurjective_sigmaDesc_sheafifiedULiftMap_pullback_snd
       t ≫ Sigma.desc fun j : ULift.{u + 1} K ↦ pullback.snd
         (Space.sheafifiedULiftMap B S hS (a j.down)) (Space.sheafifiedULiftMap B S hS f) := by
     refine Sigma.hom_ext _ _ fun j ↦ ?_
-    simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+    simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
     exact ((Space.isPullback_sheafifiedULiftMap_of_isPullback B S hS
       (IsPullback.of_hasPullback (a j.down) f)).isoPullback_hom_snd).symm
   rw [hfac, Sheaf.isLocallySurjective_iff_epi]
@@ -596,7 +597,7 @@ theorem correspondsToRigEtaleMap_completionSheafMap_chart
         (hT.isOpen_compl.preimage (Space.continuous_pointsMap B S hS f)) hAf
         (b ≫ pullback.snd a f) hpr a ((Space.isEtale_iff_presheaf_of_yoneda B S hS _).1 ha) α
         hsq.symm p ?_
-  show Space.pointsMap B S hS X' f (Space.pointsMap B S hS _ (b ≫ pullback.snd a f) p) ∉ T
+  change Space.pointsMap B S hS X' f (Space.pointsMap B S hS _ (b ≫ pullback.snd a f) p) ∉ T
   rw [hpts]
   exact hp
 

@@ -53,6 +53,7 @@ section Value
 variable {Λ' : Type u} [CommRing Λ'] {j : Spec (.of Λ') ⟶ S} [IsOpenImmersion j]
   (c : AffineChart j (B.inclusion.map V.hom) ((pointMap hv₀).base (closedPt (.of k))))
 
+omit [IsOpenImmersion j] in
 theorem range_pointMap_anyBase
     (c : AffineChart j (B.inclusion.map V.hom) ((pointMap hv₀).base (closedPt (.of k)))) :
     Set.range (pointMap hv₀).base ⊆ c.U := by
@@ -61,6 +62,7 @@ theorem range_pointMap_anyBase
   rw [hz]
   exact c.mem
 
+omit [IsOpenImmersion j] in
 theorem range_chartPointMap_anyBase
     (c : AffineChart j (B.inclusion.map V.hom) ((pointMap hv₀).base (closedPt (.of k))))
     (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀)
@@ -70,6 +72,7 @@ theorem range_chartPointMap_anyBase
   rw [← closedPoint_eq A, ← Scheme.Hom.comp_apply, residue_chartPointMap]
   exact c.mem
 
+omit [IsOpenImmersion j] in
 /-- The ring map out of the chart is compatible with precomposition by a spectrum map. -/
 private theorem ringMap_comp_of_comp_eq {A A' : CommRingCat.{u}} (β : A ⟶ A')
     {g : Spec A ⟶ B.inclusion.obj V.left} {g' : Spec A' ⟶ B.inclusion.obj V.left}
@@ -85,6 +88,7 @@ def chartValueAnyBase
     c.ring ⟶ CommRingCat.of A :=
   c.ringMap (chartPointMap x hx) (range_chartPointMap_anyBase c x hx)
 
+omit [IsOpenImmersion j] in
 theorem chartValueAnyBase_of_morphism
     {x y : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀}
     {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) (hy : y.algebra = A')
@@ -106,6 +110,7 @@ theorem structureMap_chartValueAnyBase
     ← Category.assoc, ← Category.assoc, chartValueAnyBase, chartValueAnyBase, c.spec_ringMap,
     c.spec_ringMap, chartPointMap_comp, chartPointMap_comp]
 
+omit [IsOpenImmersion j] in
 theorem chartValueAnyBase_residue
     (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀)
     {A : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) :
@@ -113,6 +118,7 @@ theorem chartValueAnyBase_residue
       c.ringMap (pointMap hv₀) (range_pointMap_anyBase c) := by
   exact (ringMap_comp_of_comp_eq c _ _ _ (residue_chartPointMap x hx)).symm
 
+omit [IsOpenImmersion j] in
 theorem exists_morphism_of_chartValueAnyBase_eq
     {x x' : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀}
     {A : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) (hx' : x'.algebra = A)
@@ -148,6 +154,7 @@ def fiberValueAnyBase {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) : c.ring ⟶ CommRingCat.of A :=
   chartValueAnyBase c x.1 x.2
 
+omit [IsOpenImmersion j] in
 theorem fiberValueAnyBase_of_isHomLift {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) (y : (sliceBased iΛ v₀ hv₀).p.Fiber A')
     (β : A ⟶ A') (a : x.1 ⟶ y.1) [(sliceBased iΛ v₀ hv₀).p.IsHomLift β a] :
@@ -155,6 +162,7 @@ theorem fiberValueAnyBase_of_isHomLift {A A' : ArtinianLocalAlgCat.{u, u, u} Λ 
   apply chartValueAnyBase_of_morphism c x.2 y.2 a β
   exact IsHomLift.fac' (sliceBased iΛ v₀ hv₀).p β a
 
+omit [IsOpenImmersion j] in
 theorem fiberValueAnyBase_eq_of_classOf_eq {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (x y : (sliceBased iΛ v₀ hv₀).p.Fiber A)
@@ -174,6 +182,7 @@ def classValueAnyBase {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (z : (isomorphismClasses (sliceBased iΛ v₀ hv₀) h𝓕).obj A) : c.ring ⟶ CommRingCat.of A :=
   fiberValueAnyBase c (classOf_surjective (sliceBased iΛ v₀ hv₀) h𝓕 A z).choose
 
+omit [IsOpenImmersion j] in
 theorem classValueAnyBase_classOf {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) :
@@ -189,6 +198,7 @@ def tangentMapAnyBase (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀
     (powFunctor k gens).obj W :=
   fun i => TrivSqZeroExt.snd (R := k) (M := W) ((classValueAnyBase c h𝓕 z).hom i.1)
 
+omit [IsOpenImmersion j] in
 theorem tangentMapAnyBase_naturality (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (gens : Set c.ring) {W W' : FGModuleCat.{u} k} (f : W ⟶ W')
     (z : (associatedTangentSpaceSetFunctor (sliceBased iΛ v₀ hv₀) h𝓕).obj W) :
@@ -276,10 +286,10 @@ theorem finiteDimensional_artinianTangentSpace_sliceBased_anyBase {iΛ : Spec (.
     [LocallyOfFiniteType (B.inclusion.map V.hom)]
     (h : IsPredeformationCategory (sliceBased iΛ v₀ hv₀).p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) :
     letI : Fact (IsPredeformationCategory (sliceBased iΛ v₀ hv₀).p) := ⟨h⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) := ⟨hS2⟩
     FiniteDimensional k
       (artinianTangentSpace Λ k (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered)) := by
   let y₀ := (pointMap hv₀).base (closedPt (.of k))
@@ -290,7 +300,7 @@ theorem finiteDimensional_artinianTangentSpace_sliceBased_anyBase {iΛ : Spec (.
     rw [hW.range_fromSpec]
     exact hsW.1
   let jW : Spec (.of (Γ(S, W) : Type u)) ⟶ S := hW.fromSpec
-  haveI : IsOpenImmersion jW := hW.isOpenImmersion_fromSpec
+  have : IsOpenImmersion jW := hW.isOpenImmersion_fromSpec
   obtain ⟨c⟩ := nonempty_affineChart (s := B.inclusion.map V.hom) (iΛ := jW) hmem
   obtain ⟨t, ht⟩ := c.finiteType_structureMap.out
   exact finiteDimensional_artinianTangentSpace_of_natural_injection (sliceBased iΛ v₀ hv₀) h hS2

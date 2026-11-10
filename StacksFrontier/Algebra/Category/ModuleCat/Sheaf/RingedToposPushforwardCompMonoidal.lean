@@ -190,6 +190,8 @@ theorem prod_hom_ext_sections {P Q W : Sheaf X.J (Type w)} {m m' : P ⨯ Q ⟶ W
   rw [← Functor.prodObjMk_map_fst_map_snd (P := Sheaf.sectionsFunctor X.J U) s]
   exact h U _ _
 
+omit [X.J.HasSheafCompose (forget RingCat.{w})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 open Stacks.SheafOfModules in
 /-- The tensor product of two morphisms of sheaves of `O_C`-modules on the sheafification unit
 of a local pure tensor. -/

@@ -227,7 +227,7 @@ theorem restrict_restrict {Y'' : Scheme.{u}} {sY'' : Y'' ⟶ C.S} [LocallyOfFini
   have := locallyOfFiniteType_of_structure sY f hf
   ext T g _ k α
   rw [transport_cap, restrict_cap, restrict_cap, restrict_cap, chowGroupCongr_chowGroupCongr,
-    cap_congr_test c (Category.assoc g h' h) (by simp [pullback.lift_fst_assoc]) k α
+    cap_congr_test c (Category.assoc g h' h) (by simp) k α
       (by rw [Category.assoc, Category.assoc, hh, hh'])
       (by rw [Category.assoc, Category.assoc, hh, hh']),
     chowPushforwardOfIso_comp_apply C _ _ _ (pullbackLeftPullbackSndIso f h (g ≫ h')).inv

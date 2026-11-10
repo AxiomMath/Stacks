@@ -137,12 +137,13 @@ theorem map_mem_smulSpan (φ : W →ₗ[R] P) (f : Fin c → R) {x : W} (hx : x 
   rw [hη, map_sum]
   exact Finset.sum_congr rfl fun l _ => map_smul φ (f l) (η l)
 
-variable {ι : Type*} [Fintype ι] [DecidableEq ι]
+variable {ι : Type*}
 
 /-- A multilinear map vanishes modulo a family of scalars as soon as one of its arguments
 does. -/
 theorem map_mem_smulSpan_of_coord (Λ : MultilinearMap R (fun _ : ι => W) P) (f : Fin c → R)
     (m : ι → W) (j : ι) (hj : m j ∈ smulSpan R W f) : Λ m ∈ smulSpan R P f := by
+  classical
   obtain ⟨η, hη⟩ := (mem_smulSpan_iff R W f (m j)).mp hj
   have hm : Function.update m j (∑ l, f l • η l) = m := by
     rw [← hη, Function.update_eq_self]
@@ -152,10 +153,11 @@ theorem map_mem_smulSpan_of_coord (Λ : MultilinearMap R (fun _ : ι => W) P) (f
 
 /-- **Perturbing every argument of a multilinear map by something vanishing modulo a family of
 scalars perturbs the value by something vanishing modulo that family.** -/
-theorem map_add_sub_mem_smulSpan (Λ : MultilinearMap R (fun _ : ι => W) P) (f : Fin c → R)
-    (u v : ι → W) (hv : ∀ j, v j ∈ smulSpan R W f) :
+theorem map_add_sub_mem_smulSpan [Finite ι] (Λ : MultilinearMap R (fun _ : ι => W) P)
+    (f : Fin c → R) (u v : ι → W) (hv : ∀ j, v j ∈ smulSpan R W f) :
     Λ (u + v) - Λ u ∈ smulSpan R P f := by
   classical
+  have := Fintype.ofFinite ι
   have hsplit : Λ (u + v)
       = (∑ s ∈ (Finset.univ : Finset (Finset ι)).erase Finset.univ, Λ (s.piecewise u v))
         + Λ u := by
@@ -180,9 +182,10 @@ section Alternating
 variable {R M N : Type*} [CommRing R] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
   {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- An alternating map vanishes on a family reindexed by a map that is not a bijection: such a
 reindexing repeats an argument. -/
-private theorem map_comp_eq_zero_of_not_bijective (Λ : M [⋀^ι]→ₗ[R] N) (v : ι → M)
+private theorem map_comp_eq_zero_of_not_bijective [Finite ι] (Λ : M [⋀^ι]→ₗ[R] N) (v : ι → M)
     {r : ι → ι} (hr : ¬Function.Bijective r) : Λ (v ∘ r) = 0 := by
   refine Λ.map_eq_zero_of_not_injective _ fun hinj => hr ?_
   exact Finite.injective_iff_bijective.mp fun a b hab =>
@@ -411,7 +414,7 @@ theorem wedgeGenMulti_apply (π : X ⟶ S) (V : X.Opens) :
       wedgeGenMulti π V c m = wedgeGen π V c m
   | 0, _ => rfl
   | c + 1, m => by
-      show ((wedgeGenStep π V c) (wedgeGenMulti π V c (Fin.init m))) (m (Fin.last c)) = _
+      change ((wedgeGenStep π V c) (wedgeGenMulti π V c (Fin.init m))) (m (Fin.last c)) = _
       rw [wedgeGenMulti_apply π V c (Fin.init m)]
       rfl
 
@@ -449,7 +452,7 @@ def formMulLeft (π : X ⟶ S) (V : X.Opens) (p q : ℤ)
     Γ(relativeDifferentialForms π q, V) →ₗ[Γ(X, V)]
       Γ(relativeDifferentialForms π (p + q), V) where
   toFun η := ((relativeDifferentialFormsAlgebra π).mul p q).app (op V) ω η
-  map_add' η η' := map_add _ _ _
+  map_add' := map_add (((relativeDifferentialFormsAlgebra π).mul p q).app (op V) ω)
   map_smul' r η :=
     ((relativeDifferentialFormsAlgebra π).mul p q).map_smul_right (op V) r ω η
 

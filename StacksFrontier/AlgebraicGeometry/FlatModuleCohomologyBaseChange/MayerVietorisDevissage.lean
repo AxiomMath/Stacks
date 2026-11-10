@@ -348,7 +348,6 @@ theorem prop_of_top
       (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))))
     [P.IsTriangulated] [P.IsClosedUnderIsomorphisms]
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
-    (hK : ∀ n : ℤ, Injective (K.obj.as.X n))
     (h : P (DerivedCategory.Plus.Qh.obj ((modulePullback (⊤ : X.Opens).ι.toLRSHom.toShHom ⋙
       modulePushforward (⊤ : X.Opens).ι.toLRSHom.toShHom).mapHomotopyCategoryPlus.obj K))) :
     P (DerivedCategory.Plus.Qh.obj K) :=
@@ -369,7 +368,7 @@ theorem prop_of_isOpenCover_pair
     (hC : P (DerivedCategory.Plus.Qh.obj ((modulePullback (A ⊓ B).ι.toLRSHom.toShHom ⋙
       modulePushforward (A ⊓ B).ι.toLRSHom.toShHom).mapHomotopyCategoryPlus.obj K))) :
     P (DerivedCategory.Plus.Qh.obj K) := by
-  refine prop_of_top P K hK ?_
+  refine prop_of_top P K ?_
   rw [← hAB]
   exact prop_of_sup P A B K hK hA hB hC
 

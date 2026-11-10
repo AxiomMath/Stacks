@@ -282,7 +282,7 @@ theorem eq_ι_map_descentFiber_comp (j : J) :
   refine (hom_eq_mk_of_fiber_eq (θ.app j) _ ?_).trans
     (ι_map_comp_eq (F := G.op.toPseudofunctor.comp F) (descentFiber θ f hf j)
       ((inverseImage F G).map (descentCartesian θ f hf j))).symm
-  show (θ.app j).fiber = descentFiber θ f hf j ≫ ((F.map (s j).op.toLoc).toFunctor.map (𝟙 _) ≫
+  change (θ.app j).fiber = descentFiber θ f hf j ≫ ((F.map (s j).op.toLoc).toFunctor.map (𝟙 _) ≫
     (F.mapComp' f.op.toLoc (s j).op.toLoc (s j ≫ f).op.toLoc rfl).inv.toNatTrans.app Y'.fiber ≫
     (F.mapComp' (s' j).op.toLoc (G.map (θ.app j).base).op.toLoc (s j ≫ f).op.toLoc
       (descentFiber_square θ f hf j)).hom.toNatTrans.app Y'.fiber)
@@ -302,7 +302,7 @@ theorem eq_inverseImage_map_of_map_eq (φ : Y.fiber ⟶ (F.map f.op.toLoc).toFun
     (j : J) (h : (F.map (s j).op.toLoc).toFunctor.map φ = descentFiber θ f hf j) :
     θ.app j = (inverseImage F G).map (descentHom θ f hf φ j) := by
   refine hom_eq_mk_of_fiber_eq (θ.app j) (inverseImageFiber F G (descentHom θ f hf φ j)) ?_
-  show (θ.app j).fiber = (F.map (s j).op.toLoc).toFunctor.map φ ≫
+  change (θ.app j).fiber = (F.map (s j).op.toLoc).toFunctor.map φ ≫
     (F.mapComp' f.op.toLoc (s j).op.toLoc (s j ≫ f).op.toLoc rfl).inv.toNatTrans.app Y'.fiber ≫
     (F.mapComp' (s' j).op.toLoc (G.map (θ.app j).base).op.toLoc (s j ≫ f).op.toLoc
       (descentFiber_square θ f hf j)).hom.toNatTrans.app Y'.fiber

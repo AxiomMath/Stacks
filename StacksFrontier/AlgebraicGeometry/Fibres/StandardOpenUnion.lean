@@ -198,14 +198,14 @@ public theorem schemeTheoreticImage_iso_quotient [Finite ι] (f : ι → A) :
   let eQ : A ⧸ I ≃+* Γ(Spec (.of (A ⧸ I)), ⊤) :=
     (Scheme.ΓSpecIso (.of (A ⧸ I))).commRingCatIsoToRingEquiv.symm
   have hqker : RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫ q.appTop).hom) = I := by
-    show RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫
+    change RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).appTop).hom) = I
     rw [← Scheme.ΓSpecIso_inv_naturality]
-    show RingHom.ker (eQ.toRingHom.comp (Ideal.Quotient.mk I)) = I
+    change RingHom.ker (eQ.toRingHom.comp (Ideal.Quotient.mk I)) = I
     rw [RingHom.ker_equiv_comp, Ideal.mk_ker]
   have hcompKer : RingHom.ker (j.appTop.hom.comp eA.toRingHom) =
       RingHom.ker (q.appTop.hom.comp eA.toRingHom) := by
-    show RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫ j.appTop).hom) =
+    change RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫ j.appTop).hom) =
       RingHom.ker (((Scheme.ΓSpecIso (.of A)).inv ≫ q.appTop).hom)
     rw [kernel_restriction_standardOpenUnion (f := f), hqker]
   have htopKer : RingHom.ker j.appTop.hom = RingHom.ker q.appTop.hom := by
@@ -241,7 +241,7 @@ public theorem schemeTheoreticImage_iso_quotient [Finite ι] (f : ι → A) :
 public theorem quasiCompact_standardOpenUnion [Finite ι] (f : ι → A) :
     QuasiCompact (standardOpenUnion f).ι := by
   apply quasiCompact_iff_isSpectralMap.mpr
-  show IsSpectralMap (Subtype.val :
+  change IsSpectralMap (Subtype.val :
     ↥(standardOpenUnion f : Set (Spec (.of A))) → Spec (.of A))
   apply IsRetrocompact_iff_isSpectralMap_subtypeVal.mp
   have hcompact : IsCompact (standardOpenUnion f : Set (Spec (.of A))) := by

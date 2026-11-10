@@ -53,6 +53,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {U X Y : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom) (f : X ⟶ Y)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesFiniteProducts` of this pushforward on small étale sites is deep
 /-- Restriction of sheaves of sets along the postcomposition functor of an étale morphism
 preserves finite products (it is a right adjoint); found directly, as instance search times out
 on it under Lean v4.35.0. -/

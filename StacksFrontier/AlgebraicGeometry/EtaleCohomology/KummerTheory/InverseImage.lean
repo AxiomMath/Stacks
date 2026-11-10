@@ -150,7 +150,7 @@ theorem isIso_of_isRepresentedBy_transpose (J : GrothendieckTopology C)
       β V (B.obj.map g.op s) = H.obj.map g.op (β U s) := by
     have h : q V (B.obj.map g.op s) = g ≫ q U s := by
       apply hb.map_bijective.injective
-      show B.obj.map _ b = B.obj.map _ b
+      change B.obj.map _ b = B.obj.map _ b
       rw [hq, op_comp, B.obj.map_comp, AddCommGrpCat.comp_apply, hq]
     dsimp only [β]
     rw [h, op_comp, H.obj.map_comp, AddCommGrpCat.comp_apply]
@@ -160,7 +160,7 @@ theorem isIso_of_isRepresentedBy_transpose (J : GrothendieckTopology C)
     have hnα := ConcreteCategory.congr_hom (α.naturality g.op) a
     have hnη := ConcreteCategory.congr_hom (η.naturality g.op) a
     change α.app (op U) (A.obj.map g.op a) = B.obj.map (G.map g).op b at hnα
-    show β (G.obj U) (α.app (op U) (A.obj.map g.op a)) = η.app (op U) (A.obj.map g.op a)
+    change β (G.obj U) (α.app (op U) (A.obj.map g.op a)) = η.app (op U) (A.obj.map g.op a)
     rw [hnα, hβ]
     exact hnη.symm
   have hadd (U : D) (s t : ToType (B.obj.obj (op U))) : β U (s + t) = β U s + β U t := by
@@ -192,7 +192,7 @@ theorem isIso_of_isRepresentedBy_transpose (J : GrothendieckTopology C)
          exact hn g.unop s }⟩
   have hdc : d ≫ c = 𝟙 B := by
     ext U s
-    show c.hom.app U (H.obj.map (q U.unop s).op (η.app (op E) a)) = s
+    change c.hom.app U (H.obj.map (q U.unop s).op (η.app (op E) a)) = s
     rw [← AddCommGrpCat.comp_apply, c.hom.naturality]
     exact hq U.unop s
   have hcd : c ≫ d = 𝟙 H := by
@@ -362,7 +362,7 @@ theorem schemeHomSpecEquiv_comp (T : Scheme.{u}) {A R : Type u} [CommRing A] [Co
     (φ : R →+* A) (g : T ⟶ Spec (.of A)) :
     schemeHomSpecEquiv T R (g ≫ Spec.map (CommRingCat.ofHom φ)) =
       (schemeHomSpecEquiv T A g).comp φ := by
-  show ((Scheme.ΓSpecIso (.of R)).inv ≫ _).hom = _
+  change ((Scheme.ΓSpecIso (.of R)).inv ≫ _).hom = _
   rw [Scheme.Hom.comp_appTop, ← Scheme.ΓSpecIso_inv_naturality_assoc]
   rfl
 
@@ -401,7 +401,7 @@ def overSpecHomEquiv (Y : Scheme.{u}) (A : Type u) [CommRing A] [Algebra Γ(Y, �
     exact φ.comp_algebraMap
   · exact fun g => CategoryTheory.Over.OverMorphism.ext
       ((schemeHomSpecEquiv U.left A).symm_apply_apply g.left)
-  · exact fun φ => AlgHom.coe_ringHom_injective
+  · exact fun φ => AlgHom.toRingHom_injective
       ((schemeHomSpecEquiv U.left A).apply_symm_apply φ.toRingHom)
 
 variable (Y : Scheme.{u}) (n : ℕ) (hn : IsUnit ((n : ℕ) : Γ(Y, ⊤)))
@@ -516,7 +516,7 @@ theorem rootsOfUnitySection_bijective (U : X.Etaleᵒᵖ) :
         exact AddMonoidHom.mem_ker.mp z.property⟩
       invFun := fun x => ⟨ofUnit.{u, v} x.val, by
         rw [AddMonoidHom.mem_ker]
-        show (powMap.{u, v} X n).hom.app U (ofUnit x.val) = 0
+        change (powMap.{u, v} X n).hom.app U (ofUnit x.val) = 0
         rw [powMap_app_ofUnit, x.property, ofUnit_one]⟩
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
@@ -706,7 +706,7 @@ theorem multiplicativeInverseImageComparison_comm_powMap {X Y : Scheme.{u}} (π 
       multiplicativeInverseImageComparison.{u, v} π ≫ powMap.{u, v} X n := by
   let P := etaleAbelianInverseImage.{u, v} π
   let c := multiplicativeInverseImageComparison.{u, v} π
-  show P.map (n • 𝟙 (multiplicativeSheaf.{u, v} Y)) ≫ c =
+  change P.map (n • 𝟙 (multiplicativeSheaf.{u, v} Y)) ≫ c =
     c ≫ (n • 𝟙 (multiplicativeSheaf.{u, v} X))
   rw [P.map_nsmul]
   calc (n • P.map (𝟙 (multiplicativeSheaf.{u, v} Y))) ≫ c

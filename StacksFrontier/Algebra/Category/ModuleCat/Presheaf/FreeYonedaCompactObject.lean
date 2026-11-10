@@ -137,7 +137,7 @@ theorem isCompactObject_freeYoneda (X : C) :
   classical
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap ((free R).obj (yoneda.obj X)) (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap ((free R).obj (yoneda.obj X)) (Limits.Sigma.ι E))
   have hc : IsColimit (Cofan.mk ((∐ E).obj (op X))
       (fun i ↦ (Limits.Sigma.ι E i).app (op X))) :=
     isColimitMapCoconeCofanMkEquiv (evaluation R (op X)) E (Limits.Sigma.ι E)

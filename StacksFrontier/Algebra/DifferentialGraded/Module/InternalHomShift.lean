@@ -118,7 +118,7 @@ theorem isShiftComparison_shiftComparisonOf {k : ℤ} {H₀ : HomModuleData A B 
         (compareHom Hk₀ Hk).map_grading n _
           (e.hom.map_grading n _ (compareGraded H H₀ (n + k) f).property)⟩ := by
     apply Subtype.ext
-    show (compareHom Hk₀ Hk).toFun
+    change (compareHom Hk₀ Hk).toFun
       (e.hom.toFun ((compareHom H H₀).toFun (f : H.module.M))) = _
     rw [compareHom_apply_grading]
   rw [h1, compareHom_homogeneousEquiv Hk₀ Hk n

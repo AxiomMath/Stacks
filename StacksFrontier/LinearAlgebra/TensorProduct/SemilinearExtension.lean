@@ -111,8 +111,7 @@ theorem bijective_transport (τ : M ≃+ M') (hτ : ∀ (r : R) (m : M), τ (r �
     rw [AddEquiv.apply_symm_apply, hτ, RingEquiv.apply_symm_apply, AddEquiv.apply_symm_apply]
   refine Function.bijective_iff_has_inverse.mpr
     ⟨transport f' f hS' hS eR.symm eS.symm hsq' τ.symm hτ', fun z => ?_, fun z => ?_⟩ <;>
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s m => simp
   | add z w hz hw => rw [map_add, map_add, hz, hw]
 
@@ -126,8 +125,7 @@ include hcomm hΛ in
 /-- The extensions of `σ` and of `v` are compared by the transport of the tensor product. -/
 theorem extend_transport (z : S ⊗[R] M) :
     extend f' hS' v hv (transport f f' hS hS' eR eS hsq τ hτ z) = Λ (extend f hS σ hσ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s m => simp [hΛ, hcomm]
   | add z w hz hw => rw [map_add, map_add, hz, hw, map_add, map_add]
 

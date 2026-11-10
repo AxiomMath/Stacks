@@ -5,8 +5,7 @@ public import
 public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.TensorHomTorAmplitude
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.DerivedSymmetryAndUnit
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ProjectionFormula
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaDerived
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaDerived
 
 /-!
 # The canonical map `Li^*K ⊗^L R ℰom(𝒪_Z, 𝒪_X) ⟶ R ℰom(𝒪_Z, K)`

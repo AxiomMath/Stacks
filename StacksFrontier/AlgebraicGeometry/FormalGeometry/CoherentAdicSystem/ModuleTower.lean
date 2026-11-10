@@ -331,8 +331,8 @@ public theorem limit_lift_functorNatSection_π
   let sh := equivShrink (F ⋙ forget (ModuleCat A)).sections s
   let c : Cone F := ModuleCat.HasLimits.limitCone F
   have hs : (c.π.app (op n)).hom sh = x n := by
-    show ModuleCat.limitπLinearMap F (op n) sh = x n
-    show ((equivShrink (F ⋙ forget (ModuleCat A)).sections).symm
+    change ModuleCat.limitπLinearMap F (op n) sh = x n
+    change ((equivShrink (F ⋙ forget (ModuleCat A)).sections).symm
       (equivShrink (F ⋙ forget (ModuleCat A)).sections s)).val (op n) = x n
     rw [Equiv.symm_apply_apply]
     rfl
@@ -477,7 +477,7 @@ public theorem exists_desc_of_ker_le
   let f := (LinearMap.ker p.hom).liftQ q.hom hk
   refine ⟨ModuleCat.ofHom (f.comp e.symm.toLinearMap), ?_⟩
   ext x
-  show f (e.symm (e (Submodule.Quotient.mk x))) = q.hom x
+  change f (e.symm (e (Submodule.Quotient.mk x))) = q.hom x
   rw [e.symm_apply_apply]
   rfl
 
@@ -495,7 +495,7 @@ public theorem exists_natTrans_of_limitHom
   have hd (n : ℕᵒᵖ) : ∃ f : F.obj n ⟶ G.obj n,
       limit.π F n ≫ f = l ≫ limit.π G n := by
     apply exists_desc_of_ker_le _ _ (hs n.unop)
-    show LinearMap.ker (limit.π F (op n.unop)).hom ≤
+    change LinearMap.ker (limit.π F (op n.unop)).hom ≤
       LinearMap.ker ((limit.π G (op n.unop)).hom.comp l.hom)
     rw [hF, LinearMap.ker_comp, hG]
     exact Submodule.smul_top_le_comap_smul_top _ _
@@ -580,7 +580,7 @@ public theorem completion_exists_approximation {A : Type u} [CommRing A]
     (AdicCompletion.eval I A n r)
   refine ⟨a, ?_⟩
   rw [AdicCompletion.pow_smul_top_eq_ker_eval hI]
-  show AdicCompletion.eval I A n (r - AdicCompletion.of I A a) = 0
+  change AdicCompletion.eval I A n (r - AdicCompletion.of I A a) = 0
   rw [map_sub, AdicCompletion.eval_of, ha, sub_self]
 
 /-- Scaling by an element of the completion and by one of its approximations agree modulo

@@ -131,7 +131,7 @@ theorem IsGradedFlat.of_iso (e : P ≅ Q) (hP : IsGradedFlat P) : IsGradedFlat Q
   have hzQ : gradedTensorMap Q f n ≫ gradedTensorMap Q g n = 0 := by
     refine (cancel_epi (gradedTensorRightIso e N₁ n).hom).mp ?_
     rw [comp_zero]
-    show gradedTensorMapRight e.hom N₁ n ≫ gradedTensorMap Q f n ≫
+    change gradedTensorMapRight e.hom N₁ n ≫ gradedTensorMap Q f n ≫
       gradedTensorMap Q g n = 0
     rw [← Category.assoc, gradedTensorMapRight_gradedTensorMap e.hom f n, Category.assoc,
       gradedTensorMapRight_gradedTensorMap e.hom g n, ← Category.assoc, hz, zero_comp]

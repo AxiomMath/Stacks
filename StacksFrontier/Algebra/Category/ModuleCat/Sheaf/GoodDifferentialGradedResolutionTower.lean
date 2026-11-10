@@ -174,7 +174,7 @@ theorem exists_flat_quasiIso (M : DifferentialGradedModule.{t, m, m} A) :
   let F : ℕ ⥤ DifferentialGradedModule.{t, m, m} A := Functor.ofSequence gg
   have hF (n : ℕ) : F.map (homOfLE n.le_succ) = gg n := Functor.ofSequence_map_homOfLE_succ gg n
   let c : Cocone F := ⟨M, NatTrans.ofSequence (F := F) (fun n ↦ (r n).1.2) fun n ↦ by
-    show F.map (homOfLE n.le_succ) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
+    change F.map (homOfLE n.le_succ) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
     rw [hF, Category.comp_id]
     exact hcomm (r n)⟩
   refine exists_quasiIso_of_tower F c (fun i ↦ (r i).2)

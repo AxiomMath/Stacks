@@ -140,8 +140,8 @@ theorem exists_affine_frame_subset (X : Scheme.{u}) (L : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]
     (x : X) (V : X.Opens) (hx : x ∈ V) :
     ∃ (U : X.affineOpens)
-      (eU : L.over U.1 ≅ SheafOfModules.unit (X.ringCatSheaf.over U.1))
-      (e : Γ(L, U.1) ≃ₗ[Γ(X, U.1)] Γ(X, U.1)),
+      (_ : L.over U.1 ≅ SheafOfModules.unit (X.ringCatSheaf.over U.1))
+      (_ : Γ(L, U.1) ≃ₗ[Γ(X, U.1)] Γ(X, U.1)),
       x ∈ U.1 ∧ U.1 ≤ V := by
   classical
   have hfree :=
@@ -267,7 +267,7 @@ private lemma isCohenMacaulayAtMaximalIdeal_of_supportDim_eq_zero
     [AddCommGroup M] [Module R M] [Module.Finite R M] [Nontrivial M]
     (hM : Module.supportDim R M = 0) :
     Module.IsCohenMacaulayAtMaximalIdeal R M := by
-  show (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) =
+  change (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) =
     Module.supportDim R M
   rw [depth_eq_zero_of_supportDim_eq_zero hM, hM]
   norm_num
@@ -279,7 +279,7 @@ private lemma isCohenMacaulayAtMaximalIdeal_iff_quotSMulTop
     (hx : IsSMulRegular M x) :
     Module.IsCohenMacaulayAtMaximalIdeal R M ↔
       Module.IsCohenMacaulayAtMaximalIdeal R (QuotSMulTop x M) := by
-  show (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) =
+  change (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) =
       Module.supportDim R M ↔
     (Module.depth R (IsLocalRing.maximalIdeal R) (QuotSMulTop x M) : WithBot ℕ∞) =
       Module.supportDim R (QuotSMulTop x M)
@@ -394,7 +394,7 @@ private lemma point_is_generic_in_reducedPointClosure {Y : Scheme.{u}} (y : Y) :
   apply isGenericPoint_def.mpr
   rw [D.subschemeι.isEmbedding.closure_eq_preimage_closure_image,
     Set.image_singleton, hzy]
-  show D.subschemeι ⁻¹' closure ({y} : Set Y) = Set.univ
+  change D.subschemeι ⁻¹' closure ({y} : Set Y) = Set.univ
   rw [← hsup, ← D.range_subschemeι]
   simp
 
@@ -458,14 +458,14 @@ private lemma cycle_reducedPointClosure_apply
     obtain ⟨z, hz, hzg⟩ := point_is_generic_in_reducedPointClosure x
     change W.subschemeι z = x at hz
     let ξ : genericPoints W.subscheme := ⟨z, by
-      show closure ({z} : Set W.subscheme) ∈ irreducibleComponents W.subscheme
+      change closure ({z} : Set W.subscheme) ∈ irreducibleComponents W.subscheme
       rw [irreducibleComponents_eq_singleton, Set.mem_singleton_iff]
       exact hzg⟩
     have h := cycleAssociatedToClosedSubscheme_apply C p W.subschemeι k ξ
       (by simpa only [ξ, hz] using hx)
     rw [componentMultiplicity_eq_one_of_reduced] at h
     simpa only [ξ, hz, ite_true] using h
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
     apply cycleAssociatedToClosedSubscheme_apply_eq_zero
     rintro ⟨ξ, hξ, _⟩
     exact hxy ((hg ξ).symm.trans hξ)
@@ -498,12 +498,12 @@ lemma cycle_eq_finsum_reducedPointClosure
     symm
     apply finsum_eq_zero_of_forall_eq_zero
     intro y
-    rw [if_neg (fun (h : y.1 = x) => y.2 (by rw [h]; exact hx)), mul_zero]
+    rw [ite_eq_right (fun (h : y.1 = x) => y.2 (by rw [h]; exact hx)), mul_zero]
   · let y : {y : X // α.1 y ≠ 0} := ⟨x, hx⟩
     rw [finsum_eq_single _ y]
     · simp [y]
     · intro z hz
-      rw [if_neg (fun h => hz (Subtype.ext h)), mul_zero]
+      rw [ite_eq_right (fun h => hz (Subtype.ext h)), mul_zero]
 
 lemma locallyFinite_reducedPointClosure_support
     {X : Scheme.{u}} (α : AlgebraicCycle X ℤ) :
@@ -571,7 +571,7 @@ lemma gysinHomomorphism_eq_finsum_intersections
   apply finsum_congr
   intro y
   congr 2
-  simp only [gysinComponentCycle, W, dif_neg (havoid y.1 y.2)]
+  simp only [gysinComponentCycle, W, dite_eq_right (havoid y.1 y.2)]
 
 
 
@@ -601,7 +601,7 @@ lemma length_quotient_sup_ker_eq_length_quotient_map
     rw [RingHom.quotientKerEquivOfSurjective_apply_mk]
   have hcomp : (e0 : D →+* C).comp (Ideal.Quotient.mk q) = ψ := RingHom.ext he0
   have hIJ : JC = Ideal.map (e0 : D →+* C) I := by
-    show Ideal.map ψ J = Ideal.map (e0 : D →+* C) (Ideal.map (Ideal.Quotient.mk q) J)
+    change Ideal.map ψ J = Ideal.map (e0 : D →+* C) (Ideal.map (Ideal.Quotient.mk q) J)
     rw [Ideal.map_map, hcomp]
   let e1 : D ⧸ I ≃+* C ⧸ JC := Ideal.quotientEquiv I JC e0 hIJ
   let eDQ : D ⧸ I ≃+* B ⧸ (q ⊔ J) :=
@@ -617,10 +617,10 @@ lemma length_quotient_sup_ker_eq_length_quotient_map
   have he : ∀ b : B,
       e (algebraMap B (B ⧸ (q ⊔ J)) b) = algebraMap B (C ⧸ JC) b := by
     intro b
-    show e (Ideal.Quotient.mk (q ⊔ J) b) = Ideal.Quotient.mk JC (ψ b)
-    show e1 (eDQ.symm (Ideal.Quotient.mk (q ⊔ J) b)) = _
+    change e (Ideal.Quotient.mk (q ⊔ J) b) = Ideal.Quotient.mk JC (ψ b)
+    change e1 (eDQ.symm (Ideal.Quotient.mk (q ⊔ J) b)) = _
     rw [DoubleQuot.quotQuotEquivQuotSup_symm_quotQuotMk]
-    show (Ideal.quotientEquiv I JC e0 hIJ)
+    change (Ideal.quotientEquiv I JC e0 hIJ)
       (Ideal.Quotient.mk I (Ideal.Quotient.mk q b)) = _
     rw [Ideal.quotientEquiv_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
   let eA : (B ⧸ (q ⊔ J)) ≃ₐ[B] (C ⧸ JC) :=

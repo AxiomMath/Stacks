@@ -325,12 +325,10 @@ theorem commute_rationalChernCharacterComponentCap (p q : ℕ)
     (x y : ℚ ⊗[ℤ] VectorBundleKZero X) :
     Commute (rationalChernCharacterComponentCap C sX p x)
       (rationalChernCharacterComponentCap C sX q y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Commute.zero_left _
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add]; exact hx.add_left hx'
   | tmul r a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Commute.zero_right _
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [map_add]; exact hy.add_right hy'
     | tmul r' b =>
       rw [rationalChernCharacterComponentCap_tmul, rationalChernCharacterComponentCap_tmul]
@@ -352,8 +350,7 @@ theorem rationalChernCharacterCap_eq_sum {lo hi : ℤ}
       rw [Finset.mem_range]
       omega
   · have ht : t = 0 := by
-      induction t using TensorProduct.induction_on with
-      | zero => rfl
+      induction t using TensorProduct.inductionOn with
       | tmul q y =>
         rw [chowGroup_eq_zero C sX (fun x hx => hk (by have := (hb x).2; omega)) y,
           TensorProduct.tmul_zero]
@@ -368,8 +365,7 @@ theorem rationalChowCap_mem_codimensionChowSubmodule_add [IsNoetherian X]
     (c : rationalChowCohomologyComponent C G sX p) {i : ℕ} {v : CHQ}
     (hv : v ∈ codimensionChowSubmodule C sX i) :
     rationalChowCap C G sX p c v ∈ codimensionChowSubmodule C sX (i + p) := by
-  induction c using TensorProduct.induction_on with
-  | zero => rw [map_zero, LinearMap.zero_apply]; exact zero_mem _
+  induction c using TensorProduct.inductionOn with
   | add c c' hc hc' => rw [map_add, LinearMap.add_apply]; exact add_mem hc hc'
   | tmul r c =>
     refine apply_mem_codimensionChowSubmodule_add C sX G hX p c r _ (fun k α => ?_) hv
@@ -874,8 +870,7 @@ def codimensionRationalChowEquiv [CompactSpace X] :
         codimensionRationalChowMap_comp_rationalPartToCodimension k sX hd])
     (by
       refine LinearMap.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => rw [map_add, map_add, hz, hz']
       | tmul q x =>
         induction x using DirectSum.induction_on with

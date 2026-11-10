@@ -70,7 +70,7 @@ public theorem exists_restrict_basisMatrix (M : Matrix (Fin n) (Fin n) K)
     have h1 : (M * C) i j = (M *ᵥ (bZ j : Fin n → K)) i := by
       simp only [Matrix.mul_apply, Matrix.mulVec, dotProduct, C, Matrix.of_apply]
     have h2 : M *ᵥ (bZ j : Fin n → K) = ((f (bZ j) : Z) : Fin n → K) := by
-      rw [hf, LinearMap.restrict_coe_apply, Matrix.toLin'_apply]
+      rw [hf, LinearMap.coe_restrict_apply, Matrix.toLin'_apply]
     have h3 : (C * B) i j = (C *ᵥ fun l => B l j) i := by
       simp only [Matrix.mul_apply, Matrix.mulVec, dotProduct]
     have h4 : (fun l => B l j) = bZ.equivFun (f (bZ j)) := by
@@ -345,6 +345,8 @@ public theorem isCharpolyNormMixedOfWeightLE_invariants_of_weakInertiaBound
     ring
   exact (pow_left_inj₀ (norm_nonneg _) (Real.rpow_nonneg hq.le _) two_ne_zero).1 (e1.trans e2.symm)
 
+omit [P.IsMaximal] [Finite (IsLocalRing.ResidueField A)] [IsTopologicalGroup G]
+  [CompactSpace G] in
 /-- **The weak estimate from its `E`-linear form**: it suffices to bound, along `ι'`, the roots of
 the characteristic polynomial of `τ(φ Fr⁻¹)` restricted to the `E`-subspace of `φ(I)`-invariants,
 for every `τ` mixed of weights `≤ w'`, by `q ^ ((w' + 2) / 2)`. -/

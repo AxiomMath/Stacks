@@ -72,7 +72,7 @@ def fppfToSmallEtaleAbelianBaseChange :
         fppfAbelianPushforward T f :=
   ((mateEquiv (fppfToSmallEtaleAbelianAdjunction T E h Y)
     (fppfToSmallEtaleAbelianAdjunction T E h X)).symm
-    (TwoSquare.mk _ _ _ _ (fppfToSmallEtale_comp_fppfAbelianPushforwardIso T E h f).inv)).natTrans
+    (TwoSquare.mk _ _ _ _ (fppfToSmallEtale_comp_fppfAbelianPushforwardIso T E h f).inv))
 
 /-- For `f` proper, `f_{big,fppf,*}a_Y⁻¹F ≅ a_X⁻¹f_{small,*}F` for an abelian sheaf `F` on
 `Y_étale`. -/
@@ -99,7 +99,7 @@ theorem isIso_fppfToSmallEtaleAbelianBaseChange_of_isProper
     (hf : Space.IsProper T.schemeSite S T.scheme_mem f.hom) :
     IsIso (fppfToSmallEtaleAbelianBaseChange T E h f) := by
   have : IsIso (TwoSquare.mk _ _ _ _
-      (fppfToSmallEtale_comp_fppfAbelianPushforwardIso T E h f).inv).natTrans :=
+      (fppfToSmallEtale_comp_fppfAbelianPushforwardIso T E h f).inv) :=
     inferInstanceAs (IsIso (fppfToSmallEtale_comp_fppfAbelianPushforwardIso T E h f).inv)
   have := Stacks.Adjunction.isIso_unit_of_comp_iso_id (fppfToSmallEtaleAbelianAdjunction T E h Y)
     (fppfToSmallEtale_abelianInverseImage_comp_restrictionIso T E h Y)

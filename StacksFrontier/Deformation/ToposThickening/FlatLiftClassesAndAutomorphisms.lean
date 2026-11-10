@@ -377,6 +377,8 @@ theorem pullbackModules_map_autOverIdentityHom (hi : FirstOrderThickening i)
   rw [autOverIdentityHom_eq, CategoryTheory.Functor.map_add,
     CategoryTheory.Functor.map_id, hz, add_zero]
 
+omit [HasWeakSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- `1 + α` is an automorphism of `ℱ'`, being a lift of the identity. -/
 theorem isIso_autOverIdentityHom (hi : FirstOrderThickening i)
     (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
@@ -420,6 +422,8 @@ noncomputable def autOverIdentityEquiv (hi : FirstOrderThickening i)
         rw [autOverIdentityHom_eq, AddEquiv.apply_symm_apply, ← hg]
         abel)
 
+omit [HasWeakSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The identification of the automorphisms over the identity is multiplicative.** Two
 corrections compose to zero, so `(1 + α) ∘ (1 + β) = 1 + (α + β)`: the bijection
 `Deformation.ToposThickening.autOverIdentityEquiv` carries addition to composition. -/
@@ -430,7 +434,7 @@ theorem autOverIdentityEquiv_add (hi : FirstOrderThickening i)
     (autOverIdentityEquiv hi F' (α + β)).val =
       (autOverIdentityEquiv hi F' α).val ≪≫ (autOverIdentityEquiv hi F' β).val := by
   refine Iso.ext ?_
-  show autOverIdentityHom hi F' (α + β) =
+  change autOverIdentityHom hi F' (α + β) =
     autOverIdentityHom hi F' α ≫ autOverIdentityHom hi F' β
   have hab : (idealProductHomEquiv hi F' F' α ≫ (idealProductSubmodule hi F').ι) ≫
       (idealProductHomEquiv hi F' F' β ≫ (idealProductSubmodule hi F').ι) = 0 :=
@@ -482,7 +486,7 @@ theorem autOverIdentity_equiv_extZero (i : RingedToposHom X X') (t : RingedTopos
   let B := Abelian.Ext.addEquiv₀.trans
     (homAddEquivOfIso (T := (pullbackModules i.toRingedToposModulesHom).obj L.module') κ)
   refine ⟨B.toEquiv.trans (autOverIdentityEquiv hi L.module'), fun α β => Subtype.ext ?_⟩
-  show (autOverIdentityEquiv hi L.module' (B (α + β))).val =
+  change (autOverIdentityEquiv hi L.module' (B (α + β))).val =
     (autOverIdentityEquiv hi L.module' (B α)).val ≪≫
       (autOverIdentityEquiv hi L.module' (B β)).val
   rw [map_add, autOverIdentityEquiv_add]

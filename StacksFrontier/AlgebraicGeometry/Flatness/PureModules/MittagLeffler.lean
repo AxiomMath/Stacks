@@ -75,7 +75,7 @@ private lemma finiteDirectSumIncl_lof {R ι : Type*} [CommRing R]
     [DecidableEq ι] (s : Finset ι) (j : {i // i ∈ s}) (x : F j.1) :
     finiteDirectSumIncl (R := R) (F := F) s
       (DirectSum.lof R {i // i ∈ s} (fun i => F i.1) j x) = DirectSum.lof R ι F j.1 x := by
-  show DirectSum.toModule R {i // i ∈ s} (⨁ i : ι, F i)
+  change DirectSum.toModule R {i // i ∈ s} (⨁ i : ι, F i)
     (fun i => DirectSum.lof R ι F i.1)
     (DirectSum.lof R {i // i ∈ s} (fun i => F i.1) j x) = _
   exact DirectSum.toModule_lof (R := R) (M := fun i : {i // i ∈ s} => F i.1)
@@ -96,7 +96,7 @@ private lemma finiteDirectSumIncl_subtypeDomain {R ι : Type*} [CommRing R]
         have hsub : (DirectSum.lof R ι F i x).subtypeDomain (fun i => i ∈ s) =
             DirectSum.lof R {i // i ∈ s} (fun j => F j.1) hj x := by
           ext j
-          show DirectSum.component R ι F j.1 (DirectSum.lof R ι F i x) =
+          change DirectSum.component R ι F j.1 (DirectSum.lof R ι F i x) =
             DirectSum.component R {i // i ∈ s} (fun j => F j.1) j
               (DirectSum.lof R {i // i ∈ s} (fun j => F j.1) hj x)
           rw [DirectSum.component.of, DirectSum.component.of]
@@ -115,19 +115,19 @@ private lemma finiteDirectSumIncl_subtypeDomain {R ι : Type*} [CommRing R]
         by_cases hj : j ∈ s
         · rw [DFinsupp.filter_apply_pos _ hj]
         · rw [DFinsupp.filter_apply_neg _ hj]
-          show DirectSum.component R ι F j (DirectSum.lof R ι F i x) = 0
+          change DirectSum.component R ι F j (DirectSum.lof R ι F i x) = 0
           rw [DirectSum.component.of]
           simp [show i ≠ j from fun h => hj (h ▸ hi)]
       · have hsub : (DirectSum.lof R ι F i x).subtypeDomain (fun i => i ∈ s) = 0 := by
           ext j
-          show DirectSum.component R ι F j.1 (DirectSum.lof R ι F i x) = 0
+          change DirectSum.component R ι F j.1 (DirectSum.lof R ι F i x) = 0
           rw [DirectSum.component.of]
           simp [show i ≠ (j : ι) from fun h => hi (h ▸ j.2)]
         rw [hsub]
         ext j
         by_cases hj : j ∈ s
         · rw [DFinsupp.filter_apply_pos _ hj]
-          show 0 = DirectSum.component R ι F j (DirectSum.lof R ι F i x)
+          change 0 = DirectSum.component R ι F j (DirectSum.lof R ι F i x)
           rw [DirectSum.component.of]
           simp [show i ≠ j from fun h => hi (h ▸ hj)]
         · simp [DFinsupp.filter_apply_neg _ hj, finiteDirectSumIncl]
@@ -150,17 +150,17 @@ private lemma finiteDirectSumProj_comp_incl {R ι : Type*} [CommRing R]
   induction x using DirectSum.induction_on with
   | zero => simp
   | of i y =>
-      show finiteDirectSumProj (R := R) (F := F) s
+      change finiteDirectSumProj (R := R) (F := F) s
         (finiteDirectSumIncl (R := R) (F := F) s
           (DirectSum.lof R {i // i ∈ s} (fun j => F j.1) i y)) = _
       rw [finiteDirectSumIncl_lof, ← DirectSum.lof_eq_of R {i // i ∈ s} (fun j => F j.1) i y]
-      show DFinsupp.subtypeDomain (fun k => k ∈ s)
+      change DFinsupp.subtypeDomain (fun k => k ∈ s)
         (DirectSum.lof R ι F i.1 y) = DirectSum.lof R {i // i ∈ s} (fun j => F j.1) i y
       ext j
-      show (DFinsupp.subtypeDomain (fun k => k ∈ s) (DirectSum.lof R ι F i.1 y)) j =
+      change (DFinsupp.subtypeDomain (fun k => k ∈ s) (DirectSum.lof R ι F i.1 y)) j =
         (DirectSum.lof R {i // i ∈ s} (fun j => F j.1) i y) j
       rw [DFinsupp.subtypeDomain_apply]
-      show DirectSum.component R ι F j.1 (DirectSum.lof R ι F i.1 y) =
+      change DirectSum.component R ι F j.1 (DirectSum.lof R ι F i.1 y) =
         DirectSum.component R {i // i ∈ s} (fun j => F j.1) j
           (DirectSum.lof R {i // i ∈ s} (fun j => F j.1) i y)
       rw [DirectSum.component.of, DirectSum.component.of]
@@ -179,14 +179,13 @@ private lemma directSumLeft_comp_map_finiteDirectSumIncl {R ι : Type*} (M : Typ
       (finiteDirectSumIncl (R := R) (F := fun i => F i ⊗[R] M) s).comp
         (TensorProduct.directSumLeft R R (fun i : {i // i ∈ s} => F i.1) M).toLinearMap := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x m =>
       induction x using DirectSum.induction_on with
       | zero => simp
       | of j y =>
           rw [← DirectSum.lof_eq_of R {i // i ∈ s} (fun j => F j.1) j y]
-          show TensorProduct.directSumLeft R R F M
+          change TensorProduct.directSumLeft R R F M
               (finiteDirectSumIncl (R := R) (F := F) s
                 (DirectSum.lof R {i // i ∈ s} (fun j => F j.1) j y) ⊗ₜ[R] m) =
             finiteDirectSumIncl (R := R) (F := fun i => F i ⊗[R] M) s
@@ -205,8 +204,7 @@ private lemma tensorMap_comp_left {R A B C M : Type*} [CommRing R]
       (TensorProduct.map g (LinearMap.id : M →ₗ[R] M)).comp
         (TensorProduct.map f (LinearMap.id : M →ₗ[R] M)) := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -228,7 +226,7 @@ private lemma tensor_lift_finite_support {R ι M : Type*} [CommRing R]
   let k : (⨁ i : J, F i.1 ⊗[R] M) →ₗ[R] ⨁ i : ι, F i ⊗[R] M :=
     finiteDirectSumIncl (R := R) (F := fun i => F i ⊗[R] M) s
   have hk : k w₀ = v := by
-    show finiteDirectSumIncl (R := R) (F := fun i => F i ⊗[R] M) s
+    change finiteDirectSumIncl (R := R) (F := fun i => F i ⊗[R] M) s
       (v.subtypeDomain (fun i => i ∈ s)) = v
     rw [finiteDirectSumIncl_subtypeDomain]
     ext i
@@ -261,8 +259,7 @@ private lemma tensorMap_scalarEnd_eq_smul {R S N M : Type*} [CommRing R] [CommRi
     [AddCommGroup M] [Module R M] (s : S) (z : N ⊗[R] M) :
     TensorProduct.map (scalarEnd (R := R) (S := S) (N := N) s)
       (LinearMap.id : M →ₗ[R] M) z = s • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul n m => rfl
   | add x y hx hy => rw [map_add, smul_add, hx, hy]
 
@@ -315,7 +312,7 @@ private lemma surjective_of_add_eq_id_of_mem_maximalIdeal_smul {R P : Type*} [Co
     refine ⟨x, ?_⟩
     have hbzero : Q.mkQ (b x) = 0 := by
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-      show b x ∈ m • (⊤ : Submodule R P)
+      change b x ∈ m • (⊤ : Submodule R P)
       exact Submodule.set_smul_le _ _ _ (fun r y hr hy => Submodule.smul_mem_smul hr hy) (hb x)
     have hsumx : a x + b x = x := LinearMap.congr_fun hab x
     rw [LinearMap.comp_apply, ← congrArg Q.mkQ hsumx, map_add, hbzero, add_zero]
@@ -365,7 +362,7 @@ theorem associatedPrime_add_map_maximalIdeal_ne_top_of_directSum_finite
       finiteDirectSumProj_comp_incl (R := R) (F := F) s
   have hab : a + b = LinearMap.id := by
     refine LinearMap.ext fun x => ?_
-    show projN (f • incN x) + projN (g • incN x) = x
+    change projN (f • incN x) + projN (g • incN x) = x
     rw [← map_add, ← add_smul, hfg, one_smul]
     exact LinearMap.congr_fun hRetract x
   have hsurj : Function.Surjective a :=

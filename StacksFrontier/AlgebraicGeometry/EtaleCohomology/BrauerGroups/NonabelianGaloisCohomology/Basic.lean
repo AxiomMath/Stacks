@@ -276,8 +276,7 @@ private theorem tensorGaloisAut_mul (K : Type u) [Field K] (Ksep : Type v)
       tensorGaloisAut K Ksep A σ * tensorGaloisAut K Ksep A τ := by
   apply AlgEquiv.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul x y => simp [tensorGaloisAut]
 
@@ -288,11 +287,7 @@ private theorem tensorGaloisAut_eq_of_agree (K : Type u) [Field K]
       (∀ x ∈ S, σ x = τ x) →
         tensorGaloisAut K Ksep A σ z = tensorGaloisAut K Ksep A τ z := by
   classical
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      refine ⟨∅, ?_⟩
-      intro σ τ h
-      simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       obtain ⟨Sx, hSx⟩ := hx
       obtain ⟨Sy, hSy⟩ := hy

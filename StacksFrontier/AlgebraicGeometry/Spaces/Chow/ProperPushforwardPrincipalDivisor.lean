@@ -217,7 +217,7 @@ theorem rationalFunctionNorm_rationalFunctionMap (hX : IsAlgebraicSpace B S hS X
           (pointsMap B S hS X p (genericPoint B S hS hX hintX)))
           (residueField B S hS X hintX.2.1 (genericPoint B S hS hX hintX)) :=
     fun y => Algebra.norm_algebraMap y
-  show eY.symm (c (Algebra.norm _ (eX (eX.symm (residueFieldHom B S hS X Y hY hintX.2.1
+  change eY.symm (c (Algebra.norm _ (eX (eX.symm (residueFieldHom B S hS X Y hY hintX.2.1
     hintY.2.1 p (genericPoint B S hS hX hintX) (c.symm (eY g))))))) = g ^ _
   rw [eX.apply_symm_apply, key, map_pow, c.apply_symm_apply, ← map_pow, eY.symm_apply_apply]
 

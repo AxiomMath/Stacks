@@ -192,7 +192,7 @@ private theorem delta_epi {A : Type u} [CommRing A] (F : ℕᵒᵖ ⥤ ModuleCat
             F.map (homOfLE (Nat.le_succ n)).op :=
     CategoryTheory.Limits.Pi.lift_comp_π _ n
   rw [← ConcreteCategory.comp_apply, htarget]
-  show Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) n x' -
+  change Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) n x' -
       F.map (homOfLE (Nat.le_succ n)).op
         (Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) (n + 1) x') =
     Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) n y
@@ -329,7 +329,7 @@ public theorem quotientTransition_surjective {A : Type u} [CommRing A] (I : Idea
 /-- The kernel of the adjacent quotient transition has square zero. -/
 public theorem quotientTransition_ker_sq {A : Type u} [CommRing A] (I : Ideal A) (n : ℕ) :
     RingHom.ker (quotientTransition I n) ^ 2 = ⊥ := by
-  show RingHom.ker (Ideal.Quotient.factor
+  change RingHom.ker (Ideal.Quotient.factor
     (Ideal.pow_le_pow_right (Nat.le_succ (n + 1)))) ^ 2 = ⊥
   rw [Ideal.Quotient.factor_ker, ← Ideal.map_pow]
   apply le_bot_iff.mp
@@ -545,7 +545,7 @@ private theorem isDerivedComplete_of_milnorTriangle
       (by rw [productTriangle_mor₂]; exact (shiftSubMul_naturality _ _ f _).symm)
       (by
         rw [productTriangle_mor₃]
-        show (Limits.Pi.map (fun _ : ℕ => δ) ≫
+        change (Limits.Pi.map (fun _ : ℕ => δ) ≫
             inv (piComparison (shiftFunctor _ (1 : ℤ)) (fun _ : ℕ => K))) ≫
               (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) =
           shiftSubMul (∏ᶜ D) f ≫
@@ -583,15 +583,15 @@ private theorem pow_smul_id_restrictScalars_eq_zero (I : Ideal A) (n : ℕ)
   let _ : Algebra A (A ⧸ I ^ (n + 1)) := qn.toAlgebra
   let F := (ModuleCat.restrictScalars.{max u v} qn).mapDerivedCategory
   have hF : F.Linear A := by
-    show (ModuleCat.restrictScalars.{max u v} (Algebra.ofId A (A ⧸ I ^ (n + 1))).toRingHom)
+    change (ModuleCat.restrictScalars.{max u v} (Algebra.ofId A (A ⧸ I ^ (n + 1))).toRingHom)
       |>.mapDerivedCategory.Linear A
     infer_instance
-  show f ^ (n + 1) • 𝟙 (F.obj L) = 0
+  change f ^ (n + 1) • 𝟙 (F.obj L) = 0
   rw [← F.map_id, ← Functor.Linear.map_smul]
   have hq : algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.pow_mem_pow hf (n + 1))
   have hs : f ^ (n + 1) • 𝟙 L = 0 := by
-    show algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) • 𝟙 L = 0
+    change algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) • 𝟙 L = 0
     rw [hq, zero_smul]
   rw [hs, F.map_zero]
 
@@ -637,13 +637,12 @@ private theorem surjective_extendRestrictScalarsAdj_unit {R S : Type u} [CommRin
   intro y
   let _ := f.toAlgebra
   change TensorProduct R S X at y
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction y using TensorProduct.inductionOn with
   | tmul s x =>
     obtain ⟨r, rfl⟩ := hf s
     refine ⟨r • x, ?_⟩
     rw [ModuleCat.extendRestrictScalarsAdj_unit_app_apply]
-    show (1 : S) ⊗ₜ[R] (r • x) = f r ⊗ₜ[R] x
+    change (1 : S) ⊗ₜ[R] (r • x) = f r ⊗ₜ[R] x
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul', Algebra.smul_def, mul_one]
     rfl
   | add y z hy hz =>
@@ -669,7 +668,7 @@ private theorem surjective_f_of_isIso_adjoint {R S : Type u} [CommRing R] [CommR
     have : IsIso a := hg
     infer_instance
   rw [hga]
-  show Function.Surjective ((ModuleCat.restrictScalars.{max u v} f).map (a.f i) ∘
+  change Function.Surjective ((ModuleCat.restrictScalars.{max u v} f).map (a.f i) ∘
     (ModuleCat.extendRestrictScalarsAdj.{max u v} f).unit.app (P.X i))
   refine Function.Surjective.comp ?_ (surjective_extendRestrictScalarsAdj_unit f hf _)
   exact ((ConcreteCategory.isIso_iff_bijective _).mp
@@ -703,7 +702,7 @@ private lemma restrictedProjectiveTower_surjective
       (homOfLE (Nat.le_succ n)).op).f i) := by
   rw [show (restrictedProjectiveTower.{u, v} I P g).map (homOfLE (Nat.le_succ n)).op = _ from
     Functor.ofOpSequence_map_homOfLE_succ _ n]
-  show Function.Surjective ((g n).f i)
+  change Function.Surjective ((g n).f i)
   exact surjective_f_of_isIso_adjoint (quotientTransition I n)
     (quotientTransition_surjective I n) (g n) (hg n) i
 
@@ -823,7 +822,7 @@ private lemma isIso_derived_transpose_of_kFlat {R S : Type u}
   have htranspose : (adjD.homEquiv _ _).symm (DerivedCategory.Q.map g ≫ β.app E) =
       α.app P ≫ DerivedCategory.Q.map ((adjC.homEquiv _ _).symm g) := by
     rw [Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc]
-    show D.functor.map (DerivedCategory.Q.map g) ≫
+    change D.functor.map (DerivedCategory.Q.map g) ≫
       (D.functor.map (β.app E) ≫ (adjC.derivedε W_S α β).app (DerivedCategory.Q.obj E)) = _
     have hnat := α.naturality g
     simp only [Functor.comp_map] at hnat
@@ -914,7 +913,7 @@ private lemma flat_limit_and_preservesLimit_quotient
     let := qm n
     constructor
     intro r s m
-    show (quotientScalarLiftEquiv I n (Ideal.Quotient.mk _ r * s)) • m =
+    change (quotientScalarLiftEquiv I n (Ideal.Quotient.mk _ r * s)) • m =
       r.down • ((quotientScalarLiftEquiv I n s) • m)
     rw [map_mul, quotientScalarLiftEquiv_mk, mul_smul]
     exact IsScalarTower.algebraMap_smul (A ⧸ I ^ n) r.down
@@ -996,7 +995,7 @@ private lemma preservesLimit_of_prependZeroTower
   have : PreservesLimit (S.op ⋙ prependZeroTower M) H := inferInstance
   let f : M ⟶ S.op ⋙ prependZeroTower M :=
     NatTrans.ofOpSequence (fun _ => 𝟙 _) (fun n => by
-      show M.map (homOfLE (Nat.le_succ n)).op ≫ 𝟙 _ =
+      change M.map (homOfLE (Nat.le_succ n)).op ≫ 𝟙 _ =
         𝟙 _ ≫ (prependZeroTower M).map (homOfLE (Nat.le_succ (n + 1))).op
       simp [prependZeroTower, Functor.ofOpSequence_map_homOfLE_succ])
   have : ∀ n, IsIso (f.app n) := fun _ => inferInstanceAs (IsIso (𝟙 _))
@@ -1048,7 +1047,7 @@ private lemma flat_limit_and_preservesLimit_quotient_positive
     cases n with
     | zero => intro x; exact ⟨0, Subsingleton.elim _ _⟩
     | succ n =>
-      show Function.Surjective ((prependZeroTower M).map
+      change Function.Surjective ((prependZeroTower M).map
         (homOfLE (Nat.le_succ (n + 1))).op)
       rw [show (prependZeroTower M).map (homOfLE (Nat.le_succ (n + 1))).op =
         M.map (homOfLE (Nat.le_succ n)).op from Functor.ofOpSequence_map_homOfLE_succ _ (n + 1)]
@@ -1126,7 +1125,7 @@ private theorem bounded_complete_and_reductions_of_flat_models
   have hbound : (limit M).IsStrictlyLE b :=
     StacksDraft.DerivedInverseLimit.isStrictlyLE_limit M b (fun n => by
       have := hb n.unop
-      show CochainComplex.IsStrictlyLE
+      change CochainComplex.IsStrictlyLE
         (((ModuleCat.restrictScalars.{max u v}
           (Ideal.Quotient.mk (I ^ (n.unop + 1)))).mapHomologicalComplex
           (.up ℤ)).obj (P n.unop)) b
@@ -1210,7 +1209,7 @@ private lemma isIso_extendScalars_restrict_map_of_isIso_adjoint
     rwa [Adjunction.homEquiv_counit, isIso_comp_right_iff] at ha
   have : IsIso ((ModuleCat.extendScalars (h.comp g)).map a) :=
     (NatIso.isIso_map_iff (ModuleCat.extendScalarsComp g h) a).mpr (by
-      show IsIso ((ModuleCat.extendScalars h).map ((ModuleCat.extendScalars g).map a))
+      change IsIso ((ModuleCat.extendScalars h).map ((ModuleCat.extendScalars g).map a))
       infer_instance)
   exact (NatIso.isIso_map_iff (restrictExtendScalarsIso f hf (h.comp g)) a).mpr this
 
@@ -1299,13 +1298,13 @@ private lemma flat_limit_and_baseChange
       let := qm n
       constructor
       intro a b x
-      show ((Ideal.Quotient.mk (I ^ (n + 1)) a) * b) • x =
+      change ((Ideal.Quotient.mk (I ^ (n + 1)) a) * b) • x =
         (Ideal.Quotient.mk (I ^ (n + 1)) a) • (b • x)
       exact mul_smul _ _ _
     have hf (n : ℕ) : let := qm n
         Module.Flat (A ⧸ I ^ (n + 1)) (G.obj (.op n)) := by
       have := hP n i
-      show Module.Flat (A ⧸ I ^ (n + 1)) ((P n).X i)
+      change Module.Flat (A ⧸ I ^ (n + 1)) ((P n).X i)
       infer_instance
     obtain ⟨hF, hpres⟩ := flat_limit_and_preservesLimit_quotient_positive I G qm hs hf
       (fun n => restrictedProjectiveTower_surjective I P g hg n i)

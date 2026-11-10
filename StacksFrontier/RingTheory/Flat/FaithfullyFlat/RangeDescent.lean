@@ -66,8 +66,7 @@ theorem one_tmul_mem_baseChange_pi {ι : Type*} [Finite ι]
   have hsmul : ∀ (c : Ak k) (x : Ak k ⊗[A] B), ((LinearMap.single A Ak k).rTensor B) (c • x) =
       (Pi.single k c : (k : ι) → Ak k) • ((LinearMap.single A Ak k).rTensor B) x := by
     intro c x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a n => simp [TensorProduct.smul_tmul', ← Pi.single_mul]
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   have key : ∀ x : Ak k ⊗[A] B, x ∈ N.baseChange (Ak k) →

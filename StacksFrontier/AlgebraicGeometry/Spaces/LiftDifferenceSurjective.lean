@@ -217,7 +217,7 @@ theorem derivationActionData_descend [HasSheafify J AddCommGrpCat.{u}]
   refine hsep V.unop (Presheaf.imageSieve q.hom t)
     (Presheaf.imageSieve_mem J q.hom t) _ _ ?_
   rintro Y p ⟨x, hx⟩
-  show M.val.map p.op
+  change M.val.map p.op
       ((derivationActionData E f D hmul hmap ι_smul).toQuotientDerivation.descend t) =
     M.val.map p.op (D V t)
   rw [← QuotientDerivation.descend_map, ← hmap, ← hx, QuotientDerivation.descend_app]

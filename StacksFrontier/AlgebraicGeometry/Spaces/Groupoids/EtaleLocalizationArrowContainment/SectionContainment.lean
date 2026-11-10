@@ -325,13 +325,11 @@ theorem exists_arrows_of_cutsOut (F : FinitePartUniversalOpen G)
   exact ⟨n, by
       rw [← pullback.lift_fst μ ψ hs.symm, ← hn, Category.assoc]
       first
-        | (unfold FinitePartUniversalOpen.source; rfl)
-        | simp [FinitePartUniversalOpen.source],
+        | (unfold FinitePartUniversalOpen.source; rfl),
     by
       rw [← pullback.lift_snd μ ψ hs.symm, ← hn, Category.assoc]
       first
-        | (unfold FinitePartUniversalOpen.arrowMap; rfl)
-        | simp [FinitePartUniversalOpen.arrowMap]⟩
+        | (unfold FinitePartUniversalOpen.arrowMap; rfl)⟩
 
 /-! ### The target of a lift -/
 

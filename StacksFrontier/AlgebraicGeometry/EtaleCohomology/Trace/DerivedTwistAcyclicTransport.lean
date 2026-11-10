@@ -231,12 +231,12 @@ lemma acyclicTwistTransportIso_hom_comp_twistResolutionIso {K T : CochainComplex
       CategoryTheory.inv (twistComparison F₁' F₂ T) ≫
         DerivedCategory.Plus.Q.map (F₂.mapCochainComplexPlus.map mT) := by
     exact comp_inv_eq_inv_comp_of_comp_eq hc
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (F₂.mapCochainComplexPlus.map mT))
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
-  show (acyclicTwistTransportIso F₁ F₂ Φ F₁' κ K).hom ≫ (F₂.rightDerivedFunctorPlus.map
+  change (acyclicTwistTransportIso F₁ F₂ Φ F₁' κ K).hom ≫ (F₂.rightDerivedFunctorPlus.map
       (F₁.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Q.map (Φ.mapCochainComplexPlus.map ψ))) ≫
         CategoryTheory.inv (twistComparison F₁ F₂ (Φ.mapCochainComplexPlus.obj T))) =
@@ -278,7 +278,7 @@ lemma twistChainEndo_comp_map_acyclicTransport
   have hκ := κ.inv.naturality (g'.hom.f n)
   have hρn := hρ (T.obj.X n)
   dsimp at hκ hρn
-  show (F₁'.map (g'.hom.f n) ≫ θ'.hom.app (T.obj.X n)) ≫ κ.inv.app (T.obj.X n) =
+  change (F₁'.map (g'.hom.f n) ≫ θ'.hom.app (T.obj.X n)) ≫ κ.inv.app (T.obj.X n) =
     κ.inv.app (T.obj.X n) ≫ (F₁.map (Φ.map (g'.hom.f n) ≫ ρ.hom.app (T.obj.X n)) ≫
       θ.hom.app (Φ.obj (T.obj.X n)))
   have hρ' : θ'.hom.app (T.obj.X n) ≫ κ.inv.app (T.obj.X n) =
@@ -350,7 +350,7 @@ theorem derivedTwistEndo_acyclicTransport
     rw [Category.assoc, hnat, ← Category.assoc, ← Functor.map_comp, Functor.map_comp,
       h₁, ← Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp,
       Functor.map_comp, Category.assoc]
-    show _ = _ ≫ DerivedCategory.Plus.Q.map (Φ.mapCochainComplexPlus.map g' ≫ tw T)
+    change _ = _ ≫ DerivedCategory.Plus.Q.map (Φ.mapCochainComplexPlus.map g' ≫ tw T)
     rw [Functor.map_comp]
   have e₁ := twistResolutionIso_hom_comp P' F₁' F₂ θ' ψ hT τ' g' hg'
   have e₂ := twistResolutionIso_hom_comp P F₁ F₂ θ (Φ.mapCochainComplexPlus.map ψ) hΦT _ g hg

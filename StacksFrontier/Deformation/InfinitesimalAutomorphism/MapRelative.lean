@@ -157,10 +157,10 @@ public theorem pushforwardAutomorphism_pushforwardAutomorphism_inv
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show pushforwardEndomorphism hp e.hom u.hom hu
+  change pushforwardEndomorphism hp e.hom u.hom hu
     (pushforwardAutomorphism hp e.inv u.inv hui b) = b.asIso.hom.val
   rw [pushforwardEndomorphism_eq_conj hp e.hom u.hom hu u.inv u.inv_hom_id]
-  show u.inv ≫ pushforwardEndomorphism hp e.inv u.inv hui b ≫ u.hom = b.asIso.hom.val
+  change u.inv ≫ pushforwardEndomorphism hp e.inv u.inv hui b ≫ u.hom = b.asIso.hom.val
   rw [pushforwardEndomorphism_eq_conj hp e.inv u.inv hui u.hom u.hom_inv_id]
   simp
 
@@ -245,7 +245,7 @@ public theorem mapFiberAut_pushforwardAutomorphism (φ : BasedFunctor 𝓐 𝓑)
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show φ.map (pushforwardEndomorphism hA f r hr a) =
+  change φ.map (pushforwardEndomorphism hA f r hr a) =
     pushforwardEndomorphism (x' := fiberObj φ x') (x := fiberObj φ x) hB f (φ.map r) hrB
       ((mapFiberAut φ x') a)
   refine Functor.IsStronglyCocartesian.ext 𝓑.p f (φ.map r) (𝟙 S) ?_
@@ -470,7 +470,7 @@ public theorem surjective_mapFiberAut_of_fibreSquare (φ : BasedFunctor 𝓐 �
         (φ.map c₁) hc₁B ((mapFiberAut φ z) a) =
       pushforwardAutomorphismHom (x' := fiberObj φ z) (x := fiberObj φ x₁) hB π₁
         (φ.map c₁) hc₁B γ := by
-    show pushforwardAutomorphism (x' := fiberObj φ z) (x := fiberObj φ x₁) hB π₁
+    change pushforwardAutomorphism (x' := fiberObj φ z) (x := fiberObj φ x₁) hB π₁
       (φ.map c₁) hc₁B ((mapFiberAut φ z) a) = _
     rw [← mapFiberAut_pushforwardAutomorphism φ hA hB π₁ c₁ hc₁ a, ha]
     exact hα₁

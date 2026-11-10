@@ -69,7 +69,7 @@ def LAdicSheaf.lerayComplexLift
       Functor.map_zero]
 
 variable {k : Type u} [Field k] [Fintype k] (fW : W.1 ⟶ Spec (.of k)) [LocallyOfFiniteType fW]
-  [QuasiCompact fW] [IsSeparated fW] (jW : CompactificationOf (Over.mk fW))
+  [QuasiCompact fW] (jW : CompactificationOf (Over.mk fW))
   (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar] (p q : ℕ) [Fact p.Prime]
   [CharP k p] (hcard : Fintype.card k = p ^ q)
 

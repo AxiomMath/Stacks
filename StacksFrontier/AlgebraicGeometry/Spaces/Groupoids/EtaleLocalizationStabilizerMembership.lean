@@ -182,7 +182,7 @@ theorem exists_lift_of_immersion_of_isReduced {X Y Z : Scheme.{u}} (i : X ⟶ Y)
     rintro _ ⟨z, rfl⟩
     obtain ⟨x, hx⟩ := hrange ⟨z, rfl⟩
     refine ⟨x, i.coborderRange.ι.isEmbedding.injective ?_⟩
-    show (i.liftCoborder ≫ i.coborderRange.ι) x = (g ≫ i.coborderRange.ι) z
+    change (i.liftCoborder ≫ i.coborderRange.ι) x = (g ≫ i.coborderRange.ι) z
     rw [Scheme.Hom.liftCoborder_ι, hg]
     exact hx
   have hsurj : Surjective (pullback.snd i.liftCoborder g) := by
@@ -261,7 +261,7 @@ private theorem mem_range_fibreOpenImmersion_iff
   · rintro ⟨x, rfl⟩
     have h1 : (etaleLocalFibreIso G C hS hU hR u hK).hom
         ((fibreOpenImmersion G C hS hU hR u hK W) x) = W.ι x := by
-      show ((W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv) ≫
+      change ((W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv) ≫
         (etaleLocalFibreIso G C hS hU hR u hK).hom) x = W.ι x
       rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     rw [h1]
@@ -269,7 +269,7 @@ private theorem mem_range_fibreOpenImmersion_iff
     rwa [Scheme.Opens.range_ι] at hx
   · intro hy
     refine ⟨⟨(etaleLocalFibreIso G C hS hU hR u hK).hom y, hy⟩, ?_⟩
-    show (etaleLocalFibreIso G C hS hU hR u hK).inv
+    change (etaleLocalFibreIso G C hS hU hR u hK).inv
       ((etaleLocalFibreIso G C hS hU hR u hK).hom y) = y
     rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id]
     rfl

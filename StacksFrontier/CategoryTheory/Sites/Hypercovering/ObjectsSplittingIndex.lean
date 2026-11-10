@@ -388,7 +388,7 @@ theorem toSlot_map_f {x z : SimplexCategory.Truncated M} (e : x.obj ⟶ z.obj) [
       = S.toSlot z ≫ (⟨fun p ↦ ⟨EpiOut.comp e p.1, p.2⟩, fun _ ↦ 𝟙 _⟩ :
           S.slotObj z ⟶ S.slotObj x) := by
     refine Cofan.IsColimit.hom_ext (S.isColimit z) _ _ fun η ↦ ?_
-    show S.inj η ≫ Y.map (ObjectProperty.homMk e).op ≫ S.toSlot x
+    change S.inj η ≫ Y.map (ObjectProperty.homMk e).op ≫ S.toSlot x
         = S.inj η ≫ S.toSlot z ≫ _
     have hl : S.inj η ≫ Y.map (ObjectProperty.homMk e).op ≫ S.toSlot x
         = (⟨fun k ↦ ⟨EpiOut.comp e η, k⟩, fun _ ↦ 𝟙 _⟩ : S.N η.target ⟶ S.slotObj x) := by

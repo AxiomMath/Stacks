@@ -183,7 +183,7 @@ theorem dgTensorSummandDiff_tmul {n : ℤ} (p : TensorIndex n) (X : Cᵒᵖ)
 differential of that summand. -/
 theorem tensorSumι_dgTensorSumDiff {n : ℤ} (p : TensorIndex n) :
     tensorSumι (gP P) (gN N) p ≫ dgTensorSumDiff P N n = dgTensorSummandDiff P N p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The signed differential on the direct sum, applied to the image of `u ⊗ w` under the
 inclusion of a summand, is `du ⊗ w + (-1)^p u ⊗ dw`. -/
@@ -197,7 +197,7 @@ theorem dgTensorSumDiff_tensorSumι_apply {n : ℤ} (p : TensorIndex n) (X : C�
           PresheafOfModules.Hom.app (tensorSumι (gP P) (gN N) (tensorIndexShiftRight p)) X
             (u ⊗ₜ (N.complex.d p.1.2 (p.1.2 + 1)).val.app X w) := by
   refine (PresheafOfModules.hom_congr_apply'
-    (Sigma.ι_desc (f := fun p : TensorIndex n ↦ tensorSummand (gP P) (gN N) p)
+    (Sigma.ι_comp_desc (f := fun p : TensorIndex n ↦ tensorSummand (gP P) (gN N) p)
       (fun p ↦ dgTensorSummandDiff P N p) p) X (u ⊗ₜ w)).trans ?_
   exact PresheafOfModules.tensorSignedDiff_tmul _ _ _ _ _ X u w
 
@@ -240,7 +240,7 @@ noncomputable def relationSumDiff (n : ℤ) :
 signed differential of that summand. -/
 theorem relationSumι_relationSumDiff {n : ℤ} (i : RelationIndex n) :
     relationSumι (gP P) (gN N) i ≫ relationSumDiff P N n = relationSummandDiff P N i :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The signed differential applied to the local section `xa ⊗ y`, expanded by the Leibniz rule
 for the right action on `P`. -/

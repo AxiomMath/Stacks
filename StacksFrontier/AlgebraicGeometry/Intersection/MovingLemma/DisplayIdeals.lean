@@ -128,7 +128,7 @@ public theorem map_stalkMap_localIdealAt_projection_le (W : Submodule k V) {X : 
   refine Scheme.IdealSheafData.comap_mono j ?_
   refine Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal.mp (le_of_eq (Closeds.ext ?_).symm)
   rw [Scheme.IdealSheafData.support_comap]
-  show (projection k V W).base ⁻¹'
+  change (projection k V W).base ⁻¹'
     ((Stacks.Chow.integralComponentAt ((j ≫ projection k V W).base ζ)).support :
       Set (projectiveSpaceOfModule k ↥W)) = (projection k V W).base ⁻¹' Zi
   rw [Stacks.Chow.coe_support_integralComponentAt, hζ]

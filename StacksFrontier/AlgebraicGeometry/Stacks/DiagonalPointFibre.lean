@@ -144,13 +144,13 @@ lemma DiagonalPoint.exists_hom_of_twist_eq (x : 𝒯) (sP sQ : 𝒮) (hxP : pT.o
       hb := inferInstance
       w := by
         refine Hom.ext' ?_ ?_
-        · show (y.map (𝟙 x) ≫ iQ.hom).a = (iP.hom ≫ (diagonal _).map (iP.inv.a ≫ iQ.hom.a)).a
+        · change (y.map (𝟙 x) ≫ iQ.hom).a = (iP.hom ≫ (diagonal _).map (iP.inv.a ≫ iQ.hom.a)).a
           rw [comp_a, comp_a, Functor.map_id, id_a, diagonal_map_a]
-          show 𝟙 _ ≫ iQ.hom.a = iP.hom.a ≫ iP.inv.a ≫ iQ.hom.a
+          change 𝟙 _ ≫ iQ.hom.a = iP.hom.a ≫ iP.inv.a ≫ iQ.hom.a
           simp
-        · show (y.map (𝟙 x) ≫ iQ.hom).b = (iP.hom ≫ (diagonal _).map (iP.inv.a ≫ iQ.hom.a)).b
+        · change (y.map (𝟙 x) ≫ iQ.hom).b = (iP.hom ≫ (diagonal _).map (iP.inv.a ≫ iQ.hom.a)).b
           rw [comp_b, comp_b, Functor.map_id, id_b, diagonal_map_b]
-          show 𝟙 _ ≫ iQ.hom.b = iP.hom.b ≫ iP.inv.a ≫ iQ.hom.a
+          change 𝟙 _ ≫ iQ.hom.b = iP.hom.b ≫ iP.inv.a ≫ iQ.hom.a
           rw [Category.id_comp]
           exact hb }
   exact ⟨φ, rfl, rfl⟩

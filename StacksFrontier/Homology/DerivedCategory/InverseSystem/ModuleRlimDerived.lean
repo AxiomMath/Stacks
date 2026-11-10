@@ -115,7 +115,7 @@ private lemma pointwise_kFlat_resolution (A : ℕᵒᵖ ⥤ CommRingCat.{u})
         (PresheafOfModules.evaluation.{u} (Rsys A) (op n)).map_isZero
           ((CochainComplex.isStrictlyLE_iff (Q j) (j : ℤ)).mp (hle j) i hi)
     have (i : ℤ) : Module.Flat (A.obj (op n)) ((E.obj (Q j)).X i) := by
-      show Module.Flat (A.obj (op n)) (((Q j).X i).obj (op n))
+      change Module.Flat (A.obj (op n)) (((Q j).X i).obj (op n))
       have := hproj j i n
       have := (((Q j).X i).obj (op n)).projective_of_module_projective
       infer_instance

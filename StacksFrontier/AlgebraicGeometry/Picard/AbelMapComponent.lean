@@ -145,7 +145,7 @@ theorem homEquiv_comp_abelMap {T : BigFppfOver B (Spec (.of k)) hk} (t : T ⟶ H
       familyPoint B hX hk f hP T (hH.family (testMap B hk t)) := by
   rw [R.homEquiv_comp, abelMap, Equiv.apply_symm_apply]
   apply Subtype.ext
-  show (picardFunctor B hX hk f).map t.op
+  change (picardFunctor B hX hk f).map t.op
       ((toPicardFunctor B hX hk f).app (op H) (hH.family (𝟙 _)).picardClass) =
     (toPicardFunctor B hX hk f).app (op T) (hH.family (testMap B hk t)).picardClass
   rw [← picardMap_universal B hX hk f H hH t]

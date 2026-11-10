@@ -120,7 +120,7 @@ theorem unit_hom_eq_smul_id (φ : SheafOfModules.unit X.ringCatSheaf ⟶
   refine ⟨(φ.val.app (op ⊤)).hom (1 : X.ringCatSheaf.obj.obj (op ⊤)), ?_⟩
   refine (SheafOfModules.unitHomEquiv _).injective (Subtype.ext (funext fun U => ?_))
   rw [SheafOfModules.unitHomEquiv_apply_coe, SheafOfModules.unitHomEquiv_apply_coe]
-  show _ = X.ringCatSheaf.obj.map (isTerminalTop.from U.unop).op
+  change _ = X.ringCatSheaf.obj.map (isTerminalTop.from U.unop).op
     ((φ.val.app (op ⊤)).hom (1 : X.ringCatSheaf.obj.obj (op ⊤))) • (1 : X.ringCatSheaf.obj.obj U)
   have hn := LinearMap.congr_fun (congrArg ModuleCat.Hom.hom
     (φ.val.naturality (isTerminalTop.from U.unop).op)) (1 : X.ringCatSheaf.obj.obj (op ⊤))
@@ -145,9 +145,10 @@ theorem sheafTensor_map_smul_id_app (a : Γ(X, ⊤))
     (M N : SheafOfModules.{u} (Tensor.ringSheaf (ringedSite X.sheaf).O)) :
     ((Tensor.sheafTensor (ringedSite X.sheaf).O).map (a • 𝟙 M)).app N =
       a • 𝟙 (((Tensor.sheafTensor (ringedSite X.sheaf).O).obj M).obj N) := by
-  show ((Tensor.sheafTensor (ringedSite X.sheaf).O).map
+  change ((Tensor.sheafTensor (ringedSite X.sheaf).O).map
       ((Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf
-        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).asHom.app M)).app N =
+        (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).asHom.app
+          M)).app N =
     (Stacks.SheafOfModules.globalSectionToEnd X.ringCatSheaf
         (Stacks.SheafOfModules.terminalSection X.ringCatSheaf ⊤ isTerminalTop a)).asHom.app _
   exact AlgebraicGeometry.SheafOfModules.sheafTensorRight_map_globalSectionToEnd

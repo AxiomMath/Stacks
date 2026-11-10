@@ -60,6 +60,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_spaceFiniteDirectImage :
@@ -103,7 +104,7 @@ theorem finiteAffineTargetWeaklyAssociatedImage :
     ⟨sq.isoIsPullback _ _ sq2, sq.isoIsPullback_hom_snd _ _ sq2⟩
   let ψ : (⟨yoneda.obj W, _root_.AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS W⟩ :
       AlgebraicSpaces B S hS) ⟶ X := ObjectProperty.homMk e.hom
-  have : IsIso ψ := (ObjectProperty.isIso_hom_iff ψ).1 (by show IsIso e.hom; infer_instance)
+  have : IsIso ψ := (ObjectProperty.isIso_hom_iff ψ).1 (by change IsIso e.hom; infer_instance)
   let fV : X ⟶ (⟨yoneda.obj V, _root_.AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS V⟩ :
       AlgebraicSpaces B S hS) := ObjectProperty.homMk f.hom
   let g0 : (⟨yoneda.obj V, _root_.AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS V⟩ :
@@ -111,9 +112,9 @@ theorem finiteAffineTargetWeaklyAssociatedImage :
       ⟨yoneda.obj V, _root_.AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS V⟩ :=
     ObjectProperty.homMk (𝟙 (yoneda.obj V))
   have : IsIso g0 := (ObjectProperty.isIso_hom_iff g0).1
-    (by show IsIso (𝟙 (yoneda.obj V)); infer_instance)
+    (by change IsIso (𝟙 (yoneda.obj V)); infer_instance)
   have hid : IsEtale B S hS g0.hom := by
-    show IsEtale B S hS (𝟙 (yoneda.obj V))
+    change IsEtale B S hS (𝟙 (yoneda.obj V))
     exact fun _ _ hφ => by simpa using hφ
   have sqS : IsPullback ψ (representedSpaceMap B S hS p) fV g0 :=
     IsPullback.of_horiz_isIso ⟨ObjectProperty.hom_ext _ (hesnd.trans (Category.comp_id _).symm)⟩
@@ -130,7 +131,7 @@ theorem finiteAffineTargetWeaklyAssociatedImage :
     exact congrArg (fun k => pointsMap B S hS (yoneda.obj W) k w) hesnd
   have hinv : ∀ x : points B S hS X.1,
       pointsMap B S hS (yoneda.obj W) ψ.hom (pointsMap B S hS X.1 e.inv x) = x := fun x => by
-    show pointsMap B S hS (yoneda.obj W) e.hom (pointsMap B S hS X.1 e.inv x) = x
+    change pointsMap B S hS (yoneda.obj W) e.hom (pointsMap B S hS X.1 e.inv x) = x
     rw [← pointsMap_comp_apply, e.inv_hom_id, pointsMap_id, id_eq]
   have himg : pointsMap B S hS (yoneda.obj W) (yoneda.map p) ''
         weaklyAssociatedPoints B S hS

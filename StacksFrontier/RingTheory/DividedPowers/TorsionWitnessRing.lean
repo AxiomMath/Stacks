@@ -426,7 +426,8 @@ private lemma eta_mul_of_mem {k : Witness p} (hk : k ∈ K p) (a : Witness p) :
 public lemma u_mul_v_ne_zero [Fact p.Prime] : u p * v p ≠ 0 := by
   have hval : zeta p (u p * v p) = 1 := by
     rw [u_eq, v_eq, ← map_mul]
-    show (X 2 * X 3 : MvPolynomial (Fin 4) (ZMod p)).coeff (Finsupp.single 2 1 + Finsupp.single 3 1) = 1
+    change (X 2 * X 3 : MvPolynomial (Fin 4) (ZMod p)).coeff
+      (Finsupp.single 2 1 + Finsupp.single 3 1) = 1
     rw [coeff_X_mul]
     simp
   intro hzero
@@ -771,7 +772,7 @@ private lemma factorialInverse_one {A : Type*} [CommRing A] (q : ℕ) (hq : q.Pr
       rw [IsUnit.unit_spec, Nat.factorial_one, Nat.cast_one]
     rw [show (hA (Nat.factorial 1) h).unit = (1 : Aˣ) from Units.ext h1, inv_one,
       Units.val_one]
-  rw [_root_.DividedPowers.factorialInverse, dif_pos hq.one_lt]
+  rw [_root_.DividedPowers.factorialInverse, dite_eq_left hq.one_lt]
   exact key (by simpa using hq.ne_one)
 
 /-- The addition law for the corrected operation at `p = 2`. -/

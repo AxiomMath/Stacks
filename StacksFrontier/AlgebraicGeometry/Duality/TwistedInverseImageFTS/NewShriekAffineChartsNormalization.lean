@@ -202,11 +202,11 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
             (affineRestrictHom_comp hpe hWV)).compactification
           (F.compactification.precompOpen
             (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left)).app
-            ⟨dualizingQCoh (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y),
+            ⟨dualizingQCoh (isDualizing_stdComplex c hωS 𝒦Y),
               isBoundedBelow_dualizingQCoh (hp := hp) c 𝒦Y hωS⟩) ≪≫
       (upperShriekDualizingRestrictIso (affineRestrictHom (hp := hp) (hq := hq) hpe hWV)
         (affineHom (hp := hp) (hq := hq) hpe V) F.compactification
-        (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)).symm ≪≫
+        (isDualizing_stdComplex c hωS 𝒦Y)).symm ≪≫
       (pull (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left).mapIso
         (affineNormalizationAt c 𝒦X 𝒦Y hpe hωS V
           (affineChartNormalization c 𝒦X 𝒦Y hpe U V hVU) F) ≪≫
@@ -214,10 +214,10 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
   have := hq.source_noetherian
   intro F
   set D : quasiCoherentDerivedCategoryPlusOfModel (ftsOf (𝟙 Y) (isSeparatedFiniteType_id Y)).left :=
-    ⟨dualizingQCoh (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y),
+    ⟨dualizingQCoh (isDualizing_stdComplex c hωS 𝒦Y),
       isBoundedBelow_dualizingQCoh (hp := hp) c 𝒦Y hωS⟩
   set φ : D ⟶ 𝒦Y.complex := ObjectProperty.homMk
-    (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)).hom
+    (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c hωS 𝒦Y)).hom
   have hW := hp.isShriekable_ι_comp_of_isAffineOpen hq hpe W.2
   have hV := hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2
   have e₁ : X.homOfLE hWV ≫ V.1.ι = W.1.ι := X.homOfLE_ι hWV
@@ -299,7 +299,7 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
         D.obj).hom
     ((Stacks.Duality.derivedPullbackCompIso (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left
         F.compactification.immersion).inv.app ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))))
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))))
     (((DominatingCompactification.upperShriekPlusIso (affineHom (hp := hp) (hq := hq) hpe V)
         (c _ hV) F.compactification).inv.app
         D).hom.hom)
@@ -319,7 +319,7 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
           (affineRestrictHom_comp hpe hWV)).compactification).app
         D))
     ((ObjectProperty.ι _).mapIso ((upperShriek (ftsHomSelf hW) (c _ hW)).mapIso
-        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))) ≪≫
+        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c hωS 𝒦Y))) ≪≫
       (ObjectProperty.ι _).mapIso ((ObjectProperty.ι _).mapIso
         (affineChartNormalization c 𝒦X 𝒦Y hpe U W hWU).symm))
     ((ObjectProperty.ι _ ⋙ ObjectProperty.ι _ :
@@ -338,7 +338,7 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
         (c _ hV) F.compactification).app
         D))
     ((ObjectProperty.ι _).mapIso ((upperShriek (ftsHomSelf hV) (c _ hV)).mapIso
-        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))) ≪≫
+        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c hωS 𝒦Y))) ≪≫
       (ObjectProperty.ι _).mapIso ((ObjectProperty.ι _).mapIso
         (affineChartNormalization c 𝒦X 𝒦Y hpe U V hVU).symm))
     ((ObjectProperty.ι (DerivedCategoryB.derivedCategoryB
@@ -351,28 +351,28 @@ theorem affineNormalizationAt_chart_restrict (U : Y.affineOpens) {V W : X.affine
         (hp.isShriekable_ι W.1)).app 𝒦X.complex))
     ((pullModelConj F.compactification.immersion).app
       ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))))
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))))
     ((pullCompIso (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left
       F.compactification.immersion
       ((affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left ≫ F.compactification.immersion)
       rfl).app
       ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))))
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))))
     ((pullModelConj ((affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left ≫
         F.compactification.immersion)).app
       ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))))
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))))
     ((pullModelConj V.1.ι).app _)
     ((pullCompIso (X.homOfLE hWV) V.1.ι W.1.ι (X.homOfLE_ι hWV)).app (stdComplex c 𝒦X))
     ((pullModelConj W.1.ι).app _)
     ((Stacks.Duality.derivedPullbackCompIso (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left
         F.compactification.immersion).hom.app
       ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))) ≫ eqToHom rfl)
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))) ≫ eqToHom rfl)
     ((Stacks.Duality.derivedPullbackCompIso (affineRestrictHom (hp := hp) (hq := hq) hpe hWV).left
         F.compactification.immersion).inv.app
       ((rightAdjointStd F.compactification.toBase).obj
-        (dualizingObject (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))))
+        (dualizingObject (isDualizing_stdComplex c hωS 𝒦Y))))
     ((Stacks.Duality.derivedPullbackCompIso (X.homOfLE hWV) V.1.ι).hom.app 𝒦X.complex.obj.obj ≫
       eqToHom (congrArg (fun t => (Stacks.Duality.derivedPullback t).obj 𝒦X.complex.obj.obj)
         (X.homOfLE_ι hWV)))

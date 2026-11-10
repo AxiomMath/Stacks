@@ -162,7 +162,7 @@ theorem Hom.exists_natCast_eq_etaleCohomologyBound {X S : Scheme.{u}} (f : X ⟶
     sup_le (by positivity) (iSup_le hterm)
   obtain ⟨k, hk⟩ := exists_natCast_of_nonneg_of_le hsup0 hsupN
   refine ⟨1 + 2 * N + k, ?_⟩
-  show 1 + 2 * topologicalKrullDim S + (0 ⊔ ⨆ x : X, ((tr x : WithBot ℕ∞) +
+  change 1 + 2 * topologicalKrullDim S + (0 ⊔ ⨆ x : X, ((tr x : WithBot ℕ∞) +
       2 * ringKrullDim (X.presheaf.stalk x))) = _
   rw [hk, hN]
   push_cast
@@ -192,7 +192,7 @@ private lemma of_spec (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRin
   have hhomeo : IsHomeomorph e.hom.base :=
     (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso e)).isHomeomorph
   rw [hhomeo.topologicalKrullDim_eq]
-  show topologicalKrullDim (PrimeSpectrum A) ≠ ⊤
+  change topologicalKrullDim (PrimeSpectrum A) ≠ ⊤
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
   exact (ringKrullDim_lt_top (R := A)).ne
 

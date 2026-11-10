@@ -230,7 +230,7 @@ private lemma key_of_algClosed (k S K : Type*) [Field k] [CommRing S] [Algebra k
     have hinj : Function.Injective ψ := ψ.toRingHom.injective
     ext s
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show φ (algebraMap S (K ⊗[k] S) s) = 0 ↔ s ∈ x.asIdeal
+    change φ (algebraMap S (K ⊗[k] S) s) = 0 ↔ s ∈ x.asIdeal
     rw [hcomm s, ← map_zero ψ, hinj.eq_iff, ← RingHom.mem_ker,
       Ideal.ker_algebraMap_residueField]
   have : (RingHom.ker (φ : (K ⊗[k] S) →+* K)).LiesOver x.asIdeal := ⟨hcomap.symm⟩

@@ -110,7 +110,7 @@ public theorem res_res_subtype (W W' U : S.Opens) (hWW' : W ≤ W') (hW'U : W' �
     (⟨A.res hWW' (A.res hW'U c), (A.res hWW').map_mem ((A.res hW'U).map_mem c.2)⟩ :
         (A.grading W) k) = ⟨A.res hWU c, (A.res hWU).map_mem c.2⟩ := by
   apply Subtype.ext
-  show (A.resRingHom hWW') ((A.resRingHom hW'U) (c : A.sectionRing U)) =
+  change (A.resRingHom hWW') ((A.resRingHom hW'U) (c : A.sectionRing U)) =
     (A.resRingHom (hWW'.trans hW'U)) (c : A.sectionRing U)
   rw [A.resRingHom_comp hWW' hW'U]
   rfl

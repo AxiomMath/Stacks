@@ -115,7 +115,7 @@ public theorem schlessingerConditionS2_deformationProjection
 representation satisfies Schlessinger's condition (S2). -/
 public theorem schlessingerConditionS2_isomorphismClassFunctor
     (S : RepresentationDeformationSituation Λ k Γ V) :
-    SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor S.deformationProjection)
       S.isPredeformationCategory_deformationProjection.cofibered)) :=
   schlessingerConditionS2_of_isIsomorphismClasses _
@@ -138,14 +138,14 @@ public theorem exists_hull_isomorphismClassFunctor
       letI : Fact (IsPredeformationCategory.{u, w, w}
           (BasedCategory.ofFunctor S.deformationProjection).p) :=
         ⟨S.isPredeformationCategory_deformationProjection⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+      letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
           (BasedCategory.ofFunctor S.deformationProjection)
           S.isPredeformationCategory_deformationProjection.cofibered))) :=
         ⟨S.schlessingerConditionS2_isomorphismClassFunctor⟩
       FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k (isomorphismClasses
         (BasedCategory.ofFunctor S.deformationProjection)
         S.isPredeformationCategory_deformationProjection.cofibered))) :
-    ∃ ξ : FormalObject (CategoryOfElements.π S.isomorphismClassFunctor),
+    ∃ ξ : FormalObject (Functor.Elements.π S.isomorphismClassFunctor),
       IsVersal (categoryOfElements_projection_isCofibered S.isomorphismClassFunctor) ξ ∧
         HasBijectiveDifferential
           (categoryOfElements_projection_isCofibered S.isomorphismClassFunctor) ξ := by
@@ -155,7 +155,7 @@ public theorem exists_hull_isomorphismClassFunctor
   let : Fact (IsPredeformationCategory.{u, w, w}
       (BasedCategory.ofFunctor S.deformationProjection).p) :=
     ⟨S.isPredeformationCategory_deformationProjection⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor S.deformationProjection)
       S.isPredeformationCategory_deformationProjection.cofibered))) :=
     ⟨S.schlessingerConditionS2_isomorphismClassFunctor⟩

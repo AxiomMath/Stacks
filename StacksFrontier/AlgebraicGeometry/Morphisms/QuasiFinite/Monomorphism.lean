@@ -184,7 +184,7 @@ theorem isIso_of_forall_spec_factors_of_isLimit (hc : IsLimit c)
       (congrArg (fun q : Spec (F.obj (.op 0)) ⟶ W => q.base x) (hstageH 0)).symm⟩
   have hrange : Set.range h.base ⊆ Set.range j.base := by
     rintro _ ⟨y, rfl⟩
-    show y ∈ h ⁻¹ᵁ j.opensRange
+    change y ∈ h ⁻¹ᵁ j.opensRange
     simp [hopen]
   have : IsSplitEpi f :=
     IsSplitEpi.mk'

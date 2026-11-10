@@ -109,7 +109,7 @@ theorem pullbackUnitComparison_comp :
   refine ((pullbackCompIso f g).app
     (𝟙_ (SheafOfModules.{u} (structureRingSheaf Z)))).eq_inv_comp.mp
       (pullback_hom_ext (f ≫ g) fun U r ↦ ?_)
-  show (pullbackUnitComparison (f ≫ g)).val.app ((opensMap (f ≫ g)).op.obj U)
+  change (pullbackUnitComparison (f ≫ g)).val.app ((opensMap (f ≫ g)).op.obj U)
         (pullbackUnit (f ≫ g) (𝟙_ (SheafOfModules.{u} (structureRingSheaf Z))) U r) =
       (pullbackUnitComparison f).val.app ((opensMap f).op.obj ((opensMap g).op.obj U))
         (((pullbackFunctor f).map (pullbackUnitComparison g)).val.app

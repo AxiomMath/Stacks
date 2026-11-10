@@ -173,7 +173,7 @@ theorem exists_representsOn_chart (n : ℕ)
         obtain ⟨b, hb⟩ := (hrep _ a').mp h
         let pt := IsLocalRing.closedPoint (D.S.residueField s)
         have hpt : c.V.ι (a' pt) = s := by
-          show (a' ≫ c.V.ι).base pt = s
+          change (a' ≫ c.V.ι).base pt = s
           rw [ha']; exact Scheme.fromSpecResidueField_apply _ _
         obtain ⟨v, hv, hvs⟩ := hs
         have : v = a' pt := c.V.ι.isOpenEmbedding.injective (hvs.trans hpt.symm)
@@ -185,7 +185,7 @@ theorem exists_representsOn_chart (n : ℕ)
     refine ⟨Z', i', hrep'.of_le hW'V fun T a ha hP ↦ ?_, fun hF ↦ ?_⟩
     · rintro _ ⟨t, rfl⟩
       obtain ⟨a', rfl⟩ := c.exists_lift a ha
-      show c.V.ι (a' t) ∈ W'
+      change c.V.ι (a' t) ∈ W'
       rw [hmemW']
       rintro ⟨w, hw⟩
       obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback (f := a') (g := ic) t w hw.symm
@@ -232,7 +232,7 @@ theorem exists_representsOn_chart (n : ℕ)
     · rintro _ ⟨z, rfl⟩
       exact (ic z).2
     · obtain ⟨a', rfl⟩ := c.exists_lift a ha
-      show D.Condition c.n (Over.mk (a' ≫ c.V.ι)) ↔ _
+      change D.Condition c.n (Over.mk (a' ≫ c.V.ι)) ↔ _
       rw [hrep]
       constructor
       · rintro ⟨b, hb⟩; exact ⟨b, by rw [← hb, Category.assoc]⟩

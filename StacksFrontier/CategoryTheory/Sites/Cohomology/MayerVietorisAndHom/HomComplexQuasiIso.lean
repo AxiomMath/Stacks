@@ -132,7 +132,7 @@ private theorem inducedClassMap_bijective
     apply hI
     rw [← HomotopyCategory.quasiIso_eq_trW_subcategoryAcyclic,
       HomotopyCategory.quotient_map_mem_quasiIso_iff]
-    show QuasiIso f
+    change QuasiIso f
     infer_instance
   have hg : IsIso (Q.map (g⟦n⟧')) := by
     have hg0 : IsIso (Q.map g) :=
@@ -140,7 +140,7 @@ private theorem inducedClassMap_bijective
         ((CochainComplex.IsKInjective.quasiIso_iff g).1 inferInstance)
     rw [← Functor.comp_map]
     exact (NatIso.isIso_map_iff (Q.commShiftIso n) g).2 (by
-      show IsIso ((Q.map g)⟦n⟧')
+      change IsIso ((Q.map g)⟦n⟧')
       infer_instance)
   let F : ((Q.obj K) ⟶ (Q.obj (I'⟦n⟧))) → ((Q.obj K') ⟶ (Q.obj (I⟦n⟧))) :=
     fun x => Q.map f ≫ x ≫ Q.map (g⟦n⟧')
@@ -156,10 +156,10 @@ private theorem inducedClassMap_bijective
     funext x
     obtain ⟨z, rfl⟩ := CohomologyClass.mk_surjective x
     simp only [inducedClassMap]
-    show CohomologyClass.toHom ((CohomologyClass.mk ((inducedCocycleMap f g n) z))) = _
+    change CohomologyClass.toHom ((CohomologyClass.mk ((inducedCocycleMap f g n) z))) = _
     rw [CohomologyClass.toHom_mk]
     dsimp [F, CohomologyClass.homAddEquiv]
-    show Q.map (Cocycle.equivHomShift.symm ((inducedCocycleMap f g n) z)) =
+    change Q.map (Cocycle.equivHomShift.symm ((inducedCocycleMap f g n) z)) =
       Q.map f ≫ CohomologyClass.toHom (CohomologyClass.mk z) ≫ Q.map (g⟦n⟧')
     rw [CohomologyClass.toHom_mk]
     simp [inducedCocycleMap, Cocycle.equivHomShift_symm_precomp,
@@ -167,7 +167,7 @@ private theorem inducedClassMap_bijective
     rfl
   apply (Function.Bijective.of_comp_iff'
     (CohomologyClass.homAddEquiv (K := K') (L := I) (n := n)).bijective _).1
-  show Function.Bijective
+  change Function.Bijective
     ((CohomologyClass.homAddEquiv (K := K') (L := I) (n := n)).toFun ∘ inducedClassMap f g n)
   rw [hcomp]
   exact hF.comp (CohomologyClass.homAddEquiv (K := K) (L := I') (n := n)).bijective
@@ -276,7 +276,7 @@ private theorem local_section_map_quasiIso
   have heq : h = α.hom ≫ g ≫ β.inv := by
     rw [← Category.assoc, ← hconj]
     simp
-  show QuasiIso h
+  change QuasiIso h
   rw [heq]
   infer_instance
 
@@ -300,7 +300,7 @@ theorem sheafHomComplexMap_quasiIso
   have hφG : QuasiIso φG := by
     rw [HomologicalComplex.quasiIso_iff_evaluation φG]
     intro U
-    show QuasiIso (((sheafToPresheaf X.J AddCommGrpCat.{u} ⋙
+    change QuasiIso (((sheafToPresheaf X.J AddCommGrpCat.{u} ⋙
       (evaluation X.Cᵒᵖ AddCommGrpCat.{u}).obj U).mapHomologicalComplex
         (ComplexShape.up ℤ)).map
           (((SheafOfModules.toSheaf

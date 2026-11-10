@@ -134,7 +134,7 @@ private theorem derivedExtensionScalars_isGE
     (DerivedCategory.isGE_iff K a).1 hK i hi
   have hmap : IsZero (F.obj ((DerivedCategory.homologyFunctor
       (ModuleCat.{max v u w} A) i).obj K)) := by
-    show IsZero (ModuleCat.of B (TensorProduct A B
+    change IsZero (ModuleCat.of B (TensorProduct A B
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u w} A) i).obj K)))
     let : Subsingleton ((DerivedCategory.homologyFunctor
         (ModuleCat.{max v u w} A) i).obj K) := ModuleCat.isZero_iff_subsingleton.mp hzero
@@ -173,10 +173,10 @@ private lemma homComplexR_isStrictlyLE
   let := hG
   rw [CochainComplex.isStrictlyLE_iff]
   intro i hi
-  show IsZero (ModuleCat.of R
+  change IsZero (ModuleCat.of R
     ((CochainComplex.HomComplexR R F G).X i))
   have hs : Subsingleton ((CochainComplex.HomComplexR R F G).X i) := by
-    show Subsingleton (CochainComplex.HomComplex.Cochain F G i)
+    change Subsingleton (CochainComplex.HomComplex.Cochain F G i)
     let : Subsingleton (CochainComplex.HomComplex.Cochain F G i) :=
     ⟨fun x y => by
       apply CochainComplex.HomComplex.Cochain.ext
@@ -203,7 +203,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
   let Y' := e.inverse.obj Y
   obtain ⟨I, hIa, hIb, hIi, ⟨eI⟩⟩ := hY
   have hX' : X'.IsGE n := by
-    show (m.inverse.mapDerivedCategory.{(max u v) + 1, (max u v) + 1,
+    change (m.inverse.mapDerivedCategory.{(max u v) + 1, (max u v) + 1,
       max u v, max (u + 1) (v + 1), max u v, max (u + 1) (v + 1)}.obj X).IsGE n
     exact isGE_mapDerivedCategory m.inverse X n hX
   let I' : CochainComplex (ModuleCat.{max u v} (ULift.{max u v} R)) ℤ :=
@@ -215,7 +215,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
     (CochainComplex.isStrictlyLE_mapHomologicalComplex_obj_iff I m.inverse b).2 hIb
   have hI'inj : ∀ i : ℤ, Injective (I'.X i) := by
     intro i
-    show Injective (ModuleCat.of (ULift.{max u v} R) (I'.X i))
+    change Injective (ModuleCat.of (ULift.{max u v} R) (I'.X i))
     rw [← Module.injective_iff_injective_object]
     have hI : Module.Injective R (I.X i) :=
       Module.injective_module_of_injective_object R (I.X i)
@@ -229,7 +229,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
       __ := AddEquiv.refl _
       map_smul' := by
         intro r x
-        show r • x = ULift.ringEquiv (eR r) • x
+        change r • x = ULift.ringEquiv (eR r) • x
         rfl }
     exact Module.Injective.of_ringEquiv eR eI'
   have eI' : Nonempty (Y' ≅ DerivedCategory.Q.obj I') := by
@@ -254,7 +254,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
   have hUL : (dUL.hom.obj (Opposite.op X', Y')).IsLE (b - n) :=
     TStructure.t.isLE_of_iso eModel.symm (b - n)
   have hMap : (e.functor.obj (dUL.hom.obj (Opposite.op X', Y'))).IsLE (b - n) := by
-    show (m.functor.mapDerivedCategory.obj (dUL.hom.obj (Opposite.op X', Y'))).IsLE (b - n)
+    change (m.functor.mapDerivedCategory.obj (dUL.hom.obj (Opposite.op X', Y'))).IsLE (b - n)
     exact isLE_mapDerivedCategory m.functor _ _ hUL
   let eH : d.hom.obj (Opposite.op X, Y) ≅
       e.functor.obj (dUL.hom.obj (Opposite.op X', Y')) :=
@@ -320,14 +320,14 @@ private theorem injectiveAmplitude_shift
   obtain ⟨I, hIa, hIb, hIi, ⟨e⟩⟩ := hK
   let I' := I⟦i⟧
   have hI'a : I'.IsStrictlyGE (a - i) := by
-    show ((shiftFunctor (CochainComplex (ModuleCat.{max u v} R) ℤ) i).obj I).IsStrictlyGE _
+    change ((shiftFunctor (CochainComplex (ModuleCat.{max u v} R) ℤ) i).obj I).IsStrictlyGE _
     exact I.isStrictlyGE_shift a i (a - i) (by omega)
   have hI'b : I'.IsStrictlyLE (b - i) := by
-    show ((shiftFunctor (CochainComplex (ModuleCat.{max u v} R) ℤ) i).obj I).IsStrictlyLE _
+    change ((shiftFunctor (CochainComplex (ModuleCat.{max u v} R) ℤ) i).obj I).IsStrictlyLE _
     exact I.isStrictlyLE_shift b i (b - i) (by omega)
   have hI'i : ∀ n : ℤ, Injective (I'.X n) := by
     intro n
-    show Injective (I.X (n + i))
+    change Injective (I.X (n + i))
     exact hIi (n + i)
   have e' : K⟦i⟧ ≅ DerivedCategory.Q.obj I' :=
     (shiftFunctor (DerivedCategory (ModuleCat.{max u v} R)) i).mapIso e ≪≫
@@ -344,11 +344,11 @@ private theorem homComplex_represents_derivedHom_general
           (CochainComplex.HomComplex.CohomologyClass.homAddEquiv c)) := by
   let I' := I⟦n⟧
   have hI' : I'.IsStrictlyGE (a - n) := by
-    show ((shiftFunctor (CochainComplex (ModuleCat.{v} R) ℤ) n).obj I).IsStrictlyGE _
+    change ((shiftFunctor (CochainComplex (ModuleCat.{v} R) ℤ) n).obj I).IsStrictlyGE _
     exact I.isStrictlyGE_shift a n (a - n) (by omega)
   have hIi' : ∀ i : ℤ, Injective (I'.X i) := by
     intro i
-    show Injective (I.X (i + n))
+    change Injective (I.X (i + n))
     exact ‹∀ i : ℤ, Injective (I.X i)› (i + n)
   let : I'.IsStrictlyGE (a - n) := hI'
   let : ∀ i : ℤ, Injective (I'.X i) := hIi'
@@ -374,7 +374,7 @@ private theorem hom_ext_subsingleton_of_derivedHom_isLE
   let X' := e.inverse.obj X
   let Y' := e.inverse.obj Y
   have hY' : Y'.IsGE a := by
-    show (m.inverse.mapDerivedCategory.obj Y).IsGE a
+    change (m.inverse.mapDerivedCategory.obj Y).IsGE a
     exact isGE_mapDerivedCategory m.inverse Y a hY
   let E := dUL.hom.obj (Opposite.op X', Y')
   have hE : E.IsLE n := by
@@ -685,7 +685,7 @@ private lemma scalarHomMap_precomp {A : Type u} [CommRing A]
     scalarHomMap q ≫ Stacks.HomComplex.TensorHomMap.precomp A P L I p = scalarHomMap (p ≫ q) := by
   apply HomologicalComplex.from_single_hom_ext
   ext a
-  show (Cochain.ofHom p).comp (a.down • Cochain.ofHom q) (zero_add 0) =
+  change (Cochain.ofHom p).comp (a.down • Cochain.ofHom q) (zero_add 0) =
     a.down • Cochain.ofHom (p ≫ q)
   rw [Cochain.comp_smul, Cochain.ofHom_comp]
 
@@ -694,7 +694,7 @@ private lemma scalarHomMap_postcomp {A : Type u} [CommRing A]
     scalarHomMap p ≫ Stacks.HomComplex.TensorHomMap.postcomp A P I J q = scalarHomMap (p ≫ q) := by
   apply HomologicalComplex.from_single_hom_ext
   ext a
-  show (a.down • Cochain.ofHom p).comp (Cochain.ofHom q) (add_zero 0) =
+  change (a.down • Cochain.ofHom p).comp (Cochain.ofHom q) (add_zero 0) =
     a.down • Cochain.ofHom (p ≫ q)
   rw [Cochain.smul_comp, Cochain.ofHom_comp]
 
@@ -721,7 +721,7 @@ private lemma scalarHomMap_quasiIso_iff {A : Type u} [CommRing A]
     rfl
   rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology
     (scalarHomMap (𝟙 I)) (forget₂ (ModuleCat.{max u v} A) AddCommGrpCat)]
-  show QuasiIso (F.map (scalarHomMap (𝟙 I))) ↔ _
+  change QuasiIso (F.map (scalarHomMap (𝟙 I))) ↔ _
   rw [← quasiIso_iff_comp_left e.inv, ← heq]
   let : QuasiIso (homComplexUnliftIso I I).hom := quasiIso_of_isIso _
   exact quasiIso_iff_comp_right (homothety I) (homComplexUnliftIso I I).hom
@@ -747,7 +747,7 @@ private lemma unitBaseChangeIso_inv_zero_apply
     ((unitBaseChangeIso.{u, v, w} f).inv.f 0) x =
       x.down ⊗ₜ[A, f] (ULift.up (1 : A)) := by
   let := f.toAlgebra
-  show ((ULift.moduleEquiv (R := A) (M := A) : ULift.{max u v w} A ≃ₗ[A] A).baseChange A B).symm
+  change ((ULift.moduleEquiv (R := A) (M := A) : ULift.{max u v w} A ≃ₗ[A] A).baseChange A B).symm
     ((TensorProduct.AlgebraTensorModule.rid A B B).symm x.down) = _
   rw [TensorProduct.AlgebraTensorModule.rid_symm_apply,
     ← LinearEquiv.baseChange_symm, LinearEquiv.baseChange_tmul]
@@ -773,7 +773,7 @@ private lemma scalarHomMap_baseChange
   let g : ULift.{max u v w} A →ₗ[A] Cochain P I 0 :=
     (LinearMap.toSpanSingleton A (Cochain P I 0) (Cochain.ofHom p)).comp
       ULift.moduleEquiv.toLinearMap
-  show homCochainBaseChange f P I 0
+  change homCochainBaseChange f P I 0
       ((LinearMap.baseChange B g)
         (((unitBaseChangeIso.{u, v, w} f).inv.f 0) x)) =
     x.down • Cochain.ofHom (((ModuleCat.extendScalars f).mapHomologicalComplex (.up ℤ)).map p)
@@ -785,10 +785,10 @@ private lemma scalarHomMap_baseChange
   rw [LinearMap.baseChange_tmul]
   have hg : g (ULift.up (1 : A)) = Cochain.ofHom p := by simp [g]
   rw [hg]
-  show (LinearMap.liftBaseChange B (homCochainExtendScalars f P I 0))
+  change (LinearMap.liftBaseChange B (homCochainExtendScalars f P I 0))
     (x.down ⊗ₜ[A] Cochain.ofHom p) = _
   rw [LinearMap.liftBaseChange_tmul]
-  show x.down • (Cochain.ofHom p).map (ModuleCat.extendScalars f) =
+  change x.down • (Cochain.ofHom p).map (ModuleCat.extendScalars f) =
     x.down • Cochain.ofHom (((ModuleCat.extendScalars f).mapHomologicalComplex (.up ℤ)).map p)
   rw [Cochain.map_ofHom]
 
@@ -841,7 +841,7 @@ private lemma exists_quasiIso_to_kInjective_of_derived_iso
   refine ⟨q, ?_⟩
   rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
   refine (NatIso.isIso_map_iff ι q).1 ?_
-  show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient C (.up ℤ)).map q))
+  change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient C (.up ℤ)).map q))
   rw [hq, hf]
   infer_instance
 
@@ -866,7 +866,7 @@ private lemma homothetyQuasiIso_of_faithfullyFlat
       (ModuleCat.{max v u w} A) (.up ℤ)) (by
       intro X Y g hg
       let : QuasiIso g := hg
-      show IsIso (DerivedCategory.Q.map (Fc.map g))
+      change IsIso (DerivedCategory.Q.map (Fc.map g))
       infer_instance)
   obtain ⟨P, hP, ⟨eP⟩⟩ := hP
   obtain ⟨d, hd⟩ := hP.upperBound
@@ -875,7 +875,7 @@ private lemma homothetyQuasiIso_of_faithfullyFlat
   let (i : ℤ) : Module.Free A (P.X i) := (hP.finiteFree i).2
   let (i : ℤ) : Projective (P.X i) := inferInstance
   let (i : ℤ) : Projective ((Fc.obj P).X i) := by
-    show Projective (F.obj (P.X i))
+    change Projective (F.obj (P.X i))
     exact (ModuleCat.extendRestrictScalarsAdj f).map_projective (P.X i) inferInstance
   let : CochainComplex.IsStrictlyLE (Fc.obj P) d := inferInstance
   let : CochainComplex.IsKProjective (Fc.obj P) := CochainComplex.isKProjective_of_projective _ d
@@ -984,7 +984,7 @@ public theorem isDualizingComplex_of_faithfullyFlat
       dsimp [Q_A]
       infer_instance
     have hYgeA : Y_A.IsGE (aB - i) := by
-      show (K⟦i⟧).IsGE (aB - i)
+      change (K⟦i⟧).IsGE (aB - i)
       exact TStructure.t.isGE_shift K aB i (aB - i) (by omega)
     let D := CochainComplex.DerivedExtensionScalars.derivedExtensionScalarsGeneral.{u, v, w} f
     let Q_B := D.functor.obj Q_A
@@ -1018,7 +1018,7 @@ public theorem isDualizingComplex_of_faithfullyFlat
       hHomA
     have hExt := hom_ext_subsingleton_of_derivedHom_isLE.{u, max v u w} Q_A Y_A (aB - i)
       (bB - i) hYgeA hHomA' (by omega)
-    show Subsingleton (DerivedCategory.Ext Q_A K i)
+    change Subsingleton (DerivedCategory.Ext Q_A K i)
     exact hExt
   exact ⟨hFID, hcohA, homothetyQuasiIso_of_faithfullyFlat f hf K
     (pseudoCoherent_of_bounded_finite_cohomology.{u, max v w} K bB hcohA hLE_A) hK⟩

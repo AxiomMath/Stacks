@@ -43,6 +43,7 @@ variable {X}
       ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj X) ⟶ X)
   (hφ : ∀ i, φ.f i = adj.counit.app (X.X i))
 
+omit [PreservesFiniteColimits L] in
 include hφ in
 /-- The degreewise counit on cycles is `L` of the comparison of cycles of `G` followed by the
 counit, read through the comparison of cycles of `L`. -/
@@ -55,7 +56,7 @@ theorem cyclesComparison_comp_cyclesMap_counit_adjunctionCounitHomology :
   rw [Category.assoc, HomologicalComplex.cyclesMap_i, Category.assoc,
     ← adj.counit_naturality, Functor.cyclesComparisonRightExactHomologyComparison,
     HomologicalComplex.liftCycles_i_assoc, hφ]
-  show _ = L.map _ ≫ L.map (G.map _) ≫ _
+  change _ = L.map _ ≫ L.map (G.map _) ≫ _
   rw [← L.map_comp_assoc, HomologyComparison.cyclesComparison_comp_map_iCycles]
 
 include hφ in

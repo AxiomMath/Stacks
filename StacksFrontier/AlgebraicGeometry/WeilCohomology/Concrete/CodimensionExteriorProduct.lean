@@ -81,7 +81,7 @@ the structure morphism of `(X ×_k Y)_n`, it is the structure morphism of `X_d �
 theorem partProdIncl_comp_partBase (n : ℕ) (d : Fin (n + 1)) :
     partProdIncl k sX sY n d ≫ partBase (prodBase sX sY) n =
       prodBase (partBase sX d) (partBase sY (n - d)) := by
-  show partProdIncl k sX sY n d ≫ (dimPart (prodBase sX sY) n).ι ≫ prodBase sX sY = _
+  change partProdIncl k sX sY n d ≫ (dimPart (prodBase sX sY) n).ι ≫ prodBase sX sY = _
   rw [partProdIncl_ι_assoc, partProdMap_comp_prodBase]
 
 /-- For `X` and `Y` proper over `k`, the morphism `partProdIncl` is proper. -/

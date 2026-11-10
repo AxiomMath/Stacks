@@ -175,7 +175,7 @@ lemma exists_eq_denominatorIdealι_app {W : Opens X}
   obtain ⟨u, hu'⟩ := hu
   have hn : n = (n * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W)) • cm := by
     rw [hc, ← hu']
-    show n = n * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W) *
+    change n = n * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W) *
       (↑u : Stacks.DenominatorLocalRatio.oScalar X W)
     rw [mul_assoc, Units.inv_mul, mul_one]
   refine (denominatorIdeal_sections X L s W n).mpr

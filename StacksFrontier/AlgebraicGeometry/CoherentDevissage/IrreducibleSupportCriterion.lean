@@ -391,7 +391,7 @@ private theorem stalkMap_bijective_of_simple_codomain {X : Scheme.{u}}
   have hGlen' : Module.length (X.presheaf.stalk x) (G.presheaf.stalk x) = 1 := hGlen
   let : IsSimpleModule (X.presheaf.stalk x) (G.presheaf.stalk x) :=
     Module.length_eq_one_iff.mp hGlen'
-  show Function.Bijective (stalkLinearMap f x).toFun
+  change Function.Bijective (stalkLinearMap f x).toFun
   let Sh := SheafOfModules.toSheaf X.ringCatSheaf
   have hmonoPresheaf : Mono ((Scheme.Modules.toPresheaf X).map f) :=
     Functor.map_mono (Scheme.Modules.toPresheaf X) f
@@ -399,7 +399,7 @@ private theorem stalkMap_bijective_of_simple_codomain {X : Scheme.{u}}
     have : (TopCat.Sheaf.forget Ab (TopCat.of X)).ReflectsMonomorphisms :=
       Functor.reflectsMonomorphisms_of_faithful _
     apply (TopCat.Sheaf.forget Ab (TopCat.of X)).mono_of_mono_map
-    show Mono ((Scheme.Modules.toPresheaf X).map f)
+    change Mono ((Scheme.Modules.toPresheaf X).map f)
     exact hmonoPresheaf
   have hmonoStalk : Mono ((TopCat.Presheaf.stalkFunctor Ab x).map (Sh.map f).hom) :=
     (TopCat.Presheaf.mono_iff_stalk_mono (Sh.map f)).mp hmono x

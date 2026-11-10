@@ -146,7 +146,7 @@ public theorem distanceToZ_le_height_map_quotientMk (S : AlgebraizationSituation
   have hclos : (z' : S.Y) ∈ closure ({z} : Set S.Y) :=
     specializes_iff_mem_closure.mp ((specializes_iff_asIdeal_le z z').mpr hzz')
   have hZ : (z' : S.Y) ∈ (S.closedSubsetZ : Set S.Y) := by
-    show ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
+    change ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
       (z'.asIdeal : Set (S.A ⧸ S.I))
     exact Ideal.map_mono hq
   have hbound := distanceFunction_le_closureLocalDimension S.Y S.closedSubsetZ z z' hclos hZ
@@ -214,7 +214,7 @@ private theorem finite_localCohomologyModule_of_three_le_depth_add_distanceToZ
     · have htop' := htop y fun z hz => hY ⟨z, hz⟩
       rw [hdeq] at htop'
       rw [htop', top_add]
-      exact ENat.coe_lt_top 2
+      exact ENat.natCast_lt_top 2
   have hfin := (finite_localCohomologyWithSupportIn_iff_depth_add_dim S.A
     (PrimeSpectrum.zeroLocus (S.a : Set S.A))
     (PrimeSpectrum.isClosed_zeroLocus _).stableUnderSpecialization 2 M K hK).mpr hcond

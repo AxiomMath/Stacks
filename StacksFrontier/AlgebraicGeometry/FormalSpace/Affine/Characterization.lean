@@ -259,11 +259,11 @@ private theorem exists_affine_coproduct_desc (B : BigFppfSite.{u})
     · obtain ⟨k | k, y, hy⟩ := (coprodOpenCover.{u, u + 1} A C).exists_eq z
       · dsimp only [coprodOpenCover] at y hy
         exact ⟨Sum.inl k, y, by
-          show (H.map iO) y = z
+          change (H.map iO) y = z
           rwa [hi]⟩
       · dsimp only [coprodOpenCover] at y hy
         exact ⟨Sum.inr k, y, by
-          show (H.map jO) y = z
+          change (H.map jO) y = z
           rwa [hj]⟩
     · exact fun k ↦ (hP k).2
   have hmono : ∀ k, Mono (H.map (E.f k)) := fun k ↦ (hP k).1
@@ -394,7 +394,7 @@ private theorem ThickeningStage.factor_isThickening
       A.f C.f :=
     IsPullback.of_horiz_isIso_mono ⟨by
       simpa only [Category.id_comp] using (A.factor_spec h).symm⟩
-  show Stacks.Thickenings.IsThickening
+  change Stacks.Thickenings.IsThickening
     ((BigFppfOver.toScheme B S hS).map
       ((BigAffineFppf.inclusion B S hS).map (A.factor h)))
   exact A.isThickening.property C.f (𝟙 _) _ hpull
@@ -496,7 +496,7 @@ private theorem ThickeningStage.exists_upper_bound
       ∃ a : U' ⟶ T, F.map ((BigAffineFppf.inclusion B S hS).map a) ≫ D.f = f' := by
     intro U' k f' hk
     refine ⟨(BigAffineFppf.inclusion B S hS).preimage (F.preimage (K.map k ≫ g)), ?_⟩
-    show _ ≫ h = _
+    change _ ≫ h = _
     rw [(BigAffineFppf.inclusion B S hS).map_preimage, F.map_preimage, Category.assoc, hfac]
     exact hk
   exact ⟨D, key i A.f hf₀i, key j C.f hf₀j⟩

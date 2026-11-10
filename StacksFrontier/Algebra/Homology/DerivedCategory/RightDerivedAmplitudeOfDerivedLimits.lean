@@ -143,7 +143,7 @@ theorem isMittagLeffler_homology_rightDerived_truncGETower (E : DerivedCategory 
         (-((n + 1 : ℕ) : ℤ)) (-(n : ℤ)) (by omega)).app E))) :=
     ((DerivedCategory.homologyFunctor AddCommGrpCat.{w}
       0).homologySequence_epi_shift_map_mor₂_iff _ hTd i (i + 1) rfl).2 (hz.eq_of_tgt _ _)
-  show Function.Surjective ⇑((DerivedCategory.homologyFunctor AddCommGrpCat.{w} i).map
+  change Function.Surjective ⇑((DerivedCategory.homologyFunctor AddCommGrpCat.{w} i).map
     (RF.map ((truncGETower 𝒜 E).map (homOfLE (Nat.le_succ n)).op)))
   rw [truncGETower_map_homOfLE_succ]
   exact (AddCommGrpCat.epi_iff_surjective _).1 hepi

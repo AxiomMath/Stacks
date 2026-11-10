@@ -279,10 +279,10 @@ theorem isLimitPreserving_comp
           (Functor.SplitFiber.toFiberHom α)]
         rw [Functor.IsFibredOneMorphism.mapPullbackFiberIso_comp_inv hmapP hmapQ y.obj y.hom]
         simp only [Category.assoc]
-    show Tp.app (op i) ≫ Tq.app (op i) = _
+    change Tp.app (op i) ≫ Tq.app (op i) = _
     rw [hTp i, hTq i]
     apply Cat.Hom.ext
-    show (AsSmall.down.{vX, max (u + 1) uX, max v w} ⋙
+    change (AsSmall.down.{vX, max (u + 1) uX, max v w} ⋙
         splitFiberMap B S hS p (E.obj i) ⋙
         AsSmall.up.{vX, max (u + 1) uX, max v w} ⋙
           AsSmall.down.{vX, max (u + 1) uX, max v w} ⋙
@@ -296,7 +296,7 @@ theorem isLimitPreserving_comp
         AsSmall.up.{vX, max (u + 1) uX, max v w}) hsplit
   · dsimp only [H, T]
     rw [hHp, hHq]
-    show (colimMap Tp ≫ colimMap Tq).toFunctor = (colimMap (Tp ≫ Tq)).toFunctor
+    change (colimMap Tp ≫ colimMap Tq).toFunctor = (colimMap (Tp ≫ Tq)).toFunctor
     exact congrArg Cat.Hom.toFunctor (colimMap_comp_colimMap Tp Tq)
   · intro i x
     let a := (colimit.ι (Deformation.Artin.fiberDiagram 𝒳.val.p E)
@@ -315,7 +315,7 @@ theorem isLimitPreserving_comp
     have hY := Functor.congr_obj
       (Deformation.Artin.colimitComparison_ι 𝒴.val.p E d i)
         (AsSmall.up.{vX, max (u + 1) uX, max v w}.obj y)
-    show HEq (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u}.map
+    change HEq (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u}.map
       (((eqToIso hsourceR ≪≫ Cat.Hom.toNatIso R.iso).app a).hom)) _
     apply HEq.trans (map_eqToIso_trans_app_heq hsourceR _
       AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} a)
@@ -352,7 +352,7 @@ theorem isLimitPreserving_comp
         hmapP hmapQ x.obj (d.π.app i ≫ x.hom)).symm)
     let fp := Functor.fiberFunctorOfCompEq hmapP.comp_eq d.pt
     let fq := Functor.fiberFunctorOfCompEq hmapQ.comp_eq d.pt
-    show HEq (fq.map (AsSmall.down.map (ηp.app a).hom) ≫
+    change HEq (fq.map (AsSmall.down.map (ηp.app a).hom) ≫
         AsSmall.down.map (ηq.app (Hp.obj a)).hom)
       (fq.map (hmapP.mapPullbackFiberIso x.obj (d.π.app i ≫ x.hom)).inv ≫
         (hmapQ.mapPullbackFiberIso y.obj (d.π.app i ≫ y.hom)).inv)
@@ -364,7 +364,7 @@ theorem isLimitPreserving_comp
         (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} ⋙ Functor.fiberFunctorOfCompEq
           (CatFiberedInGroupoids.homFunctor_comp_p (p ≫ q)) d.pt ⋙
           AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}) = k.toFunctor ⋙ g.toFunctor := by
-      show (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} ⋙ Functor.fiberFunctorOfCompEq
+      change (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} ⋙ Functor.fiberFunctorOfCompEq
           (CatFiberedInGroupoids.homFunctor_comp_p (p ≫ q)) d.pt ⋙
           AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}) =
         (AsSmall.down.{vX, uX, max v w vX (u + 1) uX u} ⋙ Functor.fiberFunctorOfCompEq

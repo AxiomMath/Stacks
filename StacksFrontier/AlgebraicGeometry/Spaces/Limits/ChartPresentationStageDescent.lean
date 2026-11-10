@@ -126,7 +126,7 @@ theorem chartFunctionsTransition_chartRestrictionAt (i j : A.Stages) (h : i ≤ 
     (A.stageModelEquiv i x)
   rw [A.stageGlobalFunctionsEquiv_val hf₀ hsurj hpb j,
     A.stageGlobalFunctionsEquiv_val hf₀ hsurj hpb i] at key
-  show ((A.chartStagesDiagram U₀ f₀).map (homOfLE h).op).appTop.hom
+  change ((A.chartStagesDiagram U₀ f₀).map (homOfLE h).op).appTop.hom
       ((A.stageModelEquiv i x).val
         (op (A.stagesEtaleChart (A.chartSystem U₀ f₀) hf₀ i)))
     = (A.stageModelEquiv j (A.stageModelTransition i j h x)).val

@@ -1127,6 +1127,7 @@ theorem actionGroupoid_comp_hom (hU : 𝒞.Contains (Spec (.of (MvPolynomial ℕ
     (actionGroupoid_arrows_obj 𝒞 k p hU)).2 (actionGroupoidConstruction 𝒞 k p hU).comp_eq
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in a slice of presheaves on the big fppf site is deep
 /-- Pullbacks in a slice of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_over_GerbeStratificationChart {C : BigFppfSite.{u}} {S : Scheme.{u}}
@@ -1187,7 +1188,7 @@ theorem comp_hom_comp_gmCoord (hU : 𝒞.Contains (Spec (.of (MvPolynomial ℕ k
     have hl : tO.left ≫ (pullback.fst (snd (groupOver 𝒞) (spaceOver 𝒞 k hU))
         (ModObj.smul (M := groupOver 𝒞) (X := spaceOver 𝒞 k hU))).left =
         Y ≫ pullback.fst _ _ ≫ eqToHom (actionGroupoid_arrows_obj 𝒞 k p hU) := by
-      show (Y ≫ eqToHom (compositionDomain_eq 𝒞 (k := k) p hU) ≫
+      change (Y ≫ eqToHom (compositionDomain_eq 𝒞 (k := k) p hU) ≫
         (actionGroupoidConstruction 𝒞 k p hU).compositionDomainIso.hom) ≫ _ = _
       rw [Category.assoc, Category.assoc, hfst]
       exact congrArg (Y ≫ ·) (eqToHom_comp_pullback_fst_of_heq (actionGroupoid_arrows_obj 𝒞 k p hU)
@@ -1205,7 +1206,7 @@ theorem comp_hom_comp_gmCoord (hU : 𝒞.Contains (Spec (.of (MvPolynomial ℕ k
     have hl : tO.left ≫ (pullback.snd (snd (groupOver 𝒞) (spaceOver 𝒞 k hU))
         (ModObj.smul (M := groupOver 𝒞) (X := spaceOver 𝒞 k hU))).left =
         Y ≫ pullback.snd _ _ ≫ eqToHom (actionGroupoid_arrows_obj 𝒞 k p hU) := by
-      show (Y ≫ eqToHom (compositionDomain_eq 𝒞 (k := k) p hU) ≫
+      change (Y ≫ eqToHom (compositionDomain_eq 𝒞 (k := k) p hU) ≫
         (actionGroupoidConstruction 𝒞 k p hU).compositionDomainIso.hom) ≫ _ = _
       rw [Category.assoc, Category.assoc, hsnd]
       exact congrArg (Y ≫ ·) (eqToHom_comp_pullback_snd_of_heq (actionGroupoid_arrows_obj 𝒞 k p hU)

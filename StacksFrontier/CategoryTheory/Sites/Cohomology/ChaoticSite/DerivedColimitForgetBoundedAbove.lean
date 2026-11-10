@@ -7,7 +7,7 @@ public import
 /-!
 # Derived lower shriek and forgetting the module structure, for bounded above complexes
 
-`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/DerivedColimitForgetModuleStructure.lean`
+The file `ChaoticSite/DerivedColimitForgetModuleStructure.lean` (in this directory)
 compares the two derived lower shrieks of a `B̲`-module placed in cohomological degree zero. This
 file does the same for an arbitrary cochain complex of `B̲`-modules bounded above by `0`:
 

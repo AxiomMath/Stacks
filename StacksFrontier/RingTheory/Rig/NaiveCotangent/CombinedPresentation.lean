@@ -826,7 +826,7 @@ public theorem partialDeriv_combinedInclusion (i : Fin P.variableCount)
     refine Rig.eq_of_continuous_of_algebraMap I P.variableCount _ _
       ((P.continuous_combinedInclusion s).comp hD)
       (hE.comp (P.continuous_combinedInclusion s)) fun p => ?_
-    show P.combinedInclusion s (D (algebraMap _ _ p)) =
+    change P.combinedInclusion s (D (algebraMap _ _ p)) =
       E (P.combinedInclusion s (algebraMap _ _ p))
     rw [hDp, P.combinedInclusion_algebraMap, P.combinedInclusion_algebraMap, hEp,
       MvPolynomial.pderiv_rename (Fin.castAdd_injective ..) i p]
@@ -865,7 +865,7 @@ public theorem partialDeriv_natAdd_combinedInclusion (j : Fin s)
         (0 : AdicCompletion.completedMvPolynomial I (Fin (P.variableCount + s)))) := by
     refine Rig.eq_of_continuous_of_algebraMap I P.variableCount _ _
       (hE.comp (P.continuous_combinedInclusion s)) continuous_const fun p => ?_
-    show E (P.combinedInclusion s (algebraMap _ _ p)) = 0
+    change E (P.combinedInclusion s (algebraMap _ _ p)) = 0
     rw [P.combinedInclusion_algebraMap, hEp, pderiv_natAdd_rename_castAdd (A := A) j p, map_zero]
   exact congrFun hfun x
 
@@ -918,7 +918,7 @@ public theorem partialDeriv_combinedProjection (j : Fin s)
     refine Rig.eq_of_continuous_of_algebraMap I (P.variableCount + s) _ _
       ((P.continuous_combinedProjection s).comp hE)
       (hF.comp (P.continuous_combinedProjection s)) fun p => ?_
-    show P.combinedProjection s (E (algebraMap _ _ p)) =
+    change P.combinedProjection s (E (algebraMap _ _ p)) =
       F (P.combinedProjection s (algebraMap _ _ p))
     rw [hEp, P.combinedProjection_algebraMap, P.combinedProjection_algebraMap, hFp,
       P.pderiv_outerPolynomialMap s j p]
@@ -971,19 +971,19 @@ public noncomputable def _root_.Rig.tensorProductH0Equiv {R : Type*} [CommRing R
       have hx' : x ∈ LinearMap.ker
           (LinearMap.lTensor S (Submodule.mkQ (LinearMap.range d))) := by
         rw [LinearMap.mem_ker,
-          ← congrFun (LinearMap.baseChange_eq_ltensor
+          ← congrFun (LinearMap.baseChange_eq_lTensor
             (A := S) (Submodule.mkQ (LinearMap.range d))) x]
         exact hx
       rw [hb, LinearMap.mem_range] at hx'
       obtain ⟨y, hy⟩ := hx'
-      exact ⟨y, (congrFun (LinearMap.baseChange_eq_ltensor (A := S) d) y).trans hy⟩
+      exact ⟨y, (congrFun (LinearMap.baseChange_eq_lTensor (A := S) d) y).trans hy⟩
     · rintro ⟨y, rfl⟩
       have hmem : (LinearMap.lTensor S d) y ∈ LinearMap.ker
           (LinearMap.lTensor S (Submodule.mkQ (LinearMap.range d))) := by
         rw [hb]
         exact ⟨y, rfl⟩
-      rw [congrFun (LinearMap.baseChange_eq_ltensor (A := S) d) y,
-        congrFun (LinearMap.baseChange_eq_ltensor
+      rw [congrFun (LinearMap.baseChange_eq_lTensor (A := S) d) y,
+        congrFun (LinearMap.baseChange_eq_lTensor
           (A := S) (Submodule.mkQ (LinearMap.range d))) _]
       exact LinearMap.mem_ker.mp hmem
   have hE : (TensorProduct.piScalarRight R S S (Fin n)).toLinearMap ∘ₗ (d.baseChange S) =
@@ -1100,8 +1100,7 @@ public theorem combinedDifferential_comp_innerCotangentMap :
         P.innerBaseChangeDifferential (C := C) KB := by
   refine LinearMap.ext fun z => ?_
   simp only [LinearMap.comp_apply]
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add]; rw [hz, hw]
   | tmul c x =>
     obtain ⟨g, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective (P := P.extension) x
@@ -1112,7 +1111,7 @@ public theorem combinedDifferential_comp_innerCotangentMap :
     funext k
     refine Fin.addCases (fun i => ?_) (fun j => ?_) k
     · rw [NaiveCotangent.finInl_apply_castAdd]
-      show (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom
+      change (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom
           (KC.partialDeriv (Fin.castAdd s i)
             (P.combinedInclusion s (g : P.extension.ker).1)) = _
       have h1 := P.partialDeriv_combinedInclusion s i (KB.partialDeriv i)
@@ -1122,7 +1121,7 @@ public theorem combinedDifferential_comp_innerCotangentMap :
       exact (congrArg (fun z => (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom z)
         h1.symm).trans (P.toAlgHom_combinedInclusion s ψ hψ _)
     · rw [NaiveCotangent.finInl_apply_natAdd]
-      show (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom
+      change (P.combinedPresentation s (ψ.restrictScalars A) hψ).toAlgHom
           (KC.partialDeriv (Fin.natAdd P.variableCount j)
             (P.combinedInclusion s (g : P.extension.ker).1)) = _
       have h2 := P.partialDeriv_natAdd_combinedInclusion s j
@@ -1163,7 +1162,7 @@ public theorem outerDifferential_comp_outerCotangentMap
   funext j
   refine (cotangentMapOfDerivation_mk (Algebra.Extension.ofSurjective ψ hψ)
     (F j) _).trans ?_
-  show ψ (F j (P.combinedProjection s (g : (P.combinedPresentation s
+  change ψ (F j (P.combinedProjection s (g : (P.combinedPresentation s
       (ψ.restrictScalars A) hψ).extension.ker).1)) =
     ψ (P.combinedProjection s (KC.partialDeriv (Fin.natAdd P.variableCount j)
       (g : (P.combinedPresentation s (ψ.restrictScalars A) hψ).extension.ker).1))

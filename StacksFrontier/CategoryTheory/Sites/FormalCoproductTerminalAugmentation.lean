@@ -119,7 +119,7 @@ theorem cochainComplexObj_X_eq (P : Cᵒᵖ ⥤ A) (n : ℕ) :
 theorem cochainComplexObj_d_eq (P : Cᵒᵖ ⥤ A) (n : ℕ) :
     ((FormalCoproduct.cochainComplexFunctor E).obj P).d n (n + 1) =
       ∑ i : Fin (n + 2), ((-1 : ℤ) ^ (i : ℕ)) • cofaceMap E P n i := by
-  show ((alternatingCofaceMapComplex A).obj
+  change ((alternatingCofaceMapComplex A).obj
     ((FormalCoproduct.cosimplicialObjectFunctor E).obj P)).d n (n + 1) = _
   exact CochainComplex.of_d _
     (AlternatingCofaceMapComplex.objD ((FormalCoproduct.cosimplicialObjectFunctor E).obj P)) n

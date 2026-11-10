@@ -212,7 +212,7 @@ theorem unitFibreSection_range_le_of_mem :
   refine ⟨⟨(etaleLocalFibreIso G C hS hU hR u hK).hom
       ((BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y),
     hmem y⟩, ?_⟩
-  show (etaleLocalFibreIso G C hS hU hR u hK).inv
+  change (etaleLocalFibreIso G C hS hU hR u hK).inv
       ((etaleLocalFibreIso G C hS hU hR u hK).hom
         ((BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y)) =
     (BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y

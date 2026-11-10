@@ -76,7 +76,7 @@ public theorem exists_sub_algebraMap_mem_pow_map
   refine ⟨r, ?_⟩
   rw [← Ideal.map_pow, ← Submodule.restrictScalars_mem R, ← Ideal.smul_top_eq_map,
     AdicCompletion.pow_smul_top_eq_ker_eval hI]
-  show AdicCompletion.eval I R n (x - algebraMap R (AdicCompletion I R) r) = 0
+  change AdicCompletion.eval I R n (x - algebraMap R (AdicCompletion I R) r) = 0
   rw [map_sub, sub_eq_zero]
   exact hr.symm
 
@@ -112,14 +112,14 @@ public theorem formallySmoothNAdic_adicCompletion
   let ψB : B →ₐ[A] D ⧸ J :=
     { toRingHom := ψ.comp (algebraMap B C)
       commutes' := fun a => by
-        show ψ (algebraMap B C (algebraMap A B a)) = Ideal.Quotient.mk J (f a)
+        change ψ (algebraMap B C (algebraMap A B a)) = Ideal.Quotient.mk J (f a)
         rw [← IsScalarTower.algebraMap_apply]
         exact DFunLike.congr_fun hcomm a }
   obtain ⟨g, hg⟩ := Algebra.FormallySmooth.exists_lift J ⟨2, hJ⟩ ψB
   obtain ⟨k, hkpos, hk⟩ := hk
   have hgJ : I ^ k ≤ J.comap g.toRingHom := by
     intro b hb
-    show g b ∈ J
+    change g b ∈ J
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     have heq := DFunLike.congr_fun hg b
     change Ideal.Quotient.mk J (g b) = ψ (algebraMap B C b) at heq
@@ -141,22 +141,22 @@ public theorem formallySmoothNAdic_adicCompletion
   have hghatpow : (I.map (algebraMap B C)) ^ (k * 2) ≤ RingHom.ker ghat := by
     rw [← Ideal.map_pow, Ideal.map_le_iff_le_comap]
     intro b hb
-    show ghat (algebraMap B C b) = 0
+    change ghat (algebraMap B C b) = 0
     rw [hghat]
     exact hgker hb
   refine ⟨ghat, ?_, ?_⟩
   · apply adicCompletion_ringHom_ext_of_pow_le_ker I hI
       ((Ideal.Quotient.mk J).comp ghat) ψ (k * 2) k
     · intro x hx
-      show Ideal.Quotient.mk J (ghat x) = 0
+      change Ideal.Quotient.mk J (ghat x) = 0
       rw [show ghat x = 0 from hghatpow hx, map_zero]
     · exact hk
     · ext b
-      show Ideal.Quotient.mk J (ghat (algebraMap B C b)) = ψ (algebraMap B C b)
+      change Ideal.Quotient.mk J (ghat (algebraMap B C b)) = ψ (algebraMap B C b)
       rw [hghat]
       exact DFunLike.congr_fun hg b
   · ext a
-    show ghat (algebraMap A C a) = f a
+    change ghat (algebraMap A C a) = f a
     rw [IsScalarTower.algebraMap_apply A B C, hghat]
     exact g.commutes a
 
@@ -220,10 +220,10 @@ private theorem exists_derivation_adicCompletion_polynomial_eq_one
             map_smul' := fun a c => ?_
             map_one_eq_zero' := Dhat.map_one_eq_zero
             leibniz' := fun a b => Dhat.leibniz a b }, ?_⟩
-  · show Dhat (a • c) = a • Dhat c
+  · change Dhat (a • c) = a • Dhat c
     rw [Algebra.smul_def, Dhat.leibniz, h0, smul_zero, add_zero, smul_eq_mul,
       Algebra.smul_def]
-  · show Dhat _ = 1
+  · change Dhat _ = 1
     rw [hDhat, Polynomial.derivative_X, map_one]
 
 private noncomputable def tensorDerivation
@@ -233,12 +233,10 @@ private noncomputable def tensorDerivation
   let d := D.toLinearMap.lTensor L
   refine Derivation.mk' d fun a b => ?_
   change d (a * b) = a * d b + b * d a
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | add a a' ha ha' => simp only [add_mul, map_add, ha, ha', mul_add]; ring
   | tmul l b' =>
-    induction b using TensorProduct.induction_on with
-    | zero => simp
+    induction b using TensorProduct.inductionOn with
     | add c c' hc hc' => simp only [mul_add, map_add, hc, hc', add_mul]; ring
     | tmul l' c =>
       simp [d, Algebra.TensorProduct.tmul_mul_tmul, Derivation.leibniz,
@@ -311,8 +309,7 @@ private noncomputable def tensorProductPolynomialQuotientEquiv
   refine RingEquiv.ofRingHom Fbar g.toRingHom ?_ ?_
   · apply RingHom.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp_all
     | tmul l b =>
       change Fbar (algebraMap L Q l * π (1 ⊗ₜ[R] b)) = l ⊗ₜ[P] b
@@ -324,8 +321,7 @@ private noncomputable def tensorProductPolynomialQuotientEquiv
     intro z
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     change g (F z) = π z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp_all
     | tmul l b =>
       change algebraMap L Q l * π (1 ⊗ₜ[R] b) = π (l ⊗ₜ[R] b)
@@ -367,7 +363,7 @@ private theorem isRegularRing_tensorProduct_adicCompletion_polynomial_of_injecti
   have : IsLocalHom (algebraMap A B) := by
     apply ((IsLocalRing.local_hom_TFAE (algebraMap A B)).out 5 1).mp
     rw [IsScalarTower.algebraMap_eq A (Polynomial A) B, ← Ideal.comap_comap]
-    show ((maximalIdeal B).under (Polynomial A)).comap Polynomial.C = maximalIdeal A
+    change ((maximalIdeal B).under (Polynomial A)).comap Polynomial.C = maximalIdeal A
     rwa [IsLocalization.AtPrime.under_maximalIdeal B q]
   have hreg := isRegularRingHom_adicCompletion_of_formallySmooth (A := A) (B := B)
   have : Algebra.IsGeometricallyRegular F (F ⊗[A] C) :=
@@ -627,11 +623,11 @@ private lemma isGRing_polynomial
   let : Algebra Rp K := ((algebraMap A K).comp (algebraMap Rp A)).toAlgebra
   have : IsScalarTower Rp A K := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower R Rp K := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A K (algebraMap R A a) =
+    change algebraMap A K (algebraMap R A a) =
       algebraMap A K (algebraMap Rp A (algebraMap R Rp a))
     exact congrArg (algebraMap A K) (IsScalarTower.algebraMap_apply R Rp A a)
   have : IsScalarTower R (Polynomial R) K := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A K (algebraMap R A a) =
+    change algebraMap A K (algebraMap R A a) =
       algebraMap A K (algebraMap (Polynomial R) A (algebraMap R (Polynomial R) a))
     exact congrArg (algebraMap A K) (IsScalarTower.algebraMap_apply R (Polynomial R) A a)
   have : Algebra.EssFiniteType A K := .comp A L K
@@ -975,13 +971,13 @@ private lemma henselization_isGRing (R : Type u) [CommRing R] [IsLocalRing R]
         have hi : f i i le_rfl = RingHom.id (G i) := by
           ext y
           exact DirectedSystem.map_self (f := fun i j h => (f i j h : G i → G j)) y
-        show henselizationMap (f i i le_rfl) x = x
+        change henselizationMap (f i i le_rfl) x = x
         simp only [hi, henselizationMap_id, RingHom.id_apply]
       map_map := fun {k j i} hij hjk x => by
         have ht : (f j k hjk).comp (f i j hij) = f i k (hij.trans hjk) := by
           ext y
           exact DirectedSystem.map_map (f := fun i j h => (f i j h : G i → G j)) hij hjk y
-        show ((henselizationMap (f j k hjk)).comp
+        change ((henselizationMap (f j k hjk)).comp
           (henselizationMap (f i j hij))) x = _
         rw [henselizationMap_comp]
         simp only [ht] }
@@ -1018,7 +1014,7 @@ private lemma henselization_directLimit_equiv
   let : ∀ j, IsLocalHom (gh j) := fun j => (hgh j).1
   have hgcompat (i j : J) (h : i ≤ j) : (g j).comp (f i j h) = g i := by
     ext x
-    show g j (f i j h x) = g i x
+    change g j (f i j h x) = g i x
     rw [← he, ← he, Ring.DirectLimit.of_f]
   have hghcompat (i j : J) (h : i ≤ j) : (gh j).comp (fh i j h) = gh i := by
     let := hfh i j h
@@ -1045,7 +1041,7 @@ private lemma henselization_directLimit_equiv
   let α : A →+* B := α₀.comp e.symm.toRingHom
   have hα (j : J) (x : G j) : α (g j x) = ofh j (η j x) := by
     rw [← he]
-    show α₀ (e.symm (e _)) = _
+    change α₀ (e.symm (e _)) = _
     rw [e.symm_apply_apply]
     exact Ring.DirectLimit.lift_of _ _ _ _ _
   have hgrep (a : A) : ∃ j x, g j x = a := by

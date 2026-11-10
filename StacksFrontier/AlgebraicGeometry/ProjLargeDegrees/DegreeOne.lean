@@ -78,7 +78,7 @@ theorem exists_bijective_degreeNToGlobalSections_degreeOne [IsNoetherianRing (�
     ∃ n₀ : ℤ, ∀ n : ℤ, n₀ ≤ n → Function.Bijective (degreeNToGlobalSections 𝒜 𝒨 n) := by
   obtain ⟨m, yg, hyg, hygen⟩ :=
     Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 xg hxg hxgen
-  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 yg hyg hygen
+  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 yg hygen
   have hadj1 : Algebra.adjoin (𝒜 0) ((𝒜 1 : Set A)) = ⊤ :=
     Stacks.ProjCoherentDegreeOne.adjoin_degreeOne_eq_top 𝒜 yg hyg hygen
   obtain ⟨ck, x, dx, Nx, hxtors, hxgen'⟩ := exists_kernel_data 𝒜 𝒨 hadj1

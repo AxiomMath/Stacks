@@ -129,7 +129,7 @@ theorem existsUnique_sliceTestHom {Z₀ : BigFppfOver B S hS} (p : Z₀ ⟶ P.T.
   have hx : ∀ {W : Over P.T.left} (p₁ p₂ : W ⟶ Over.mk p), p₁ ≫ f = p₂ ≫ f →
       F.map p₁.op x = F.map p₂.op x := fun p₁ p₂ _ => by
     refine Subtype.ext ?_
-    show L.trans p₁ ≫ φ = L.trans p₂ ≫ φ
+    change L.trans p₁ ≫ φ = L.trans p₂ ≫ φ
     rw [sliceTestLiftFamily_trans, sliceTestLiftFamily_trans]
     exact hc _ p₁ p₂
   obtain ⟨y, hy, hyu⟩ := hsf x hx
@@ -140,7 +140,7 @@ theorem existsUnique_sliceTestHom {Z₀ : BigFppfOver B S hS} (p : Z₀ ⟶ P.T.
   refine ⟨y.1, sliceTest_base_eq_of_isHomLift P E' hE' hX' _ y.1 y.2, hyφ, fun θ' hθ' hθ'φ => ?_⟩
   have e := hyu ⟨θ', sliceTest_isHomLift_of_base_eq P E' hE' hX' _ θ' hθ'⟩ (by
     refine Subtype.ext ?_
-    show L.trans f ≫ θ' = φ
+    change L.trans f ≫ θ' = φ
     rw [sliceTestLiftFamily_trans]
     exact hθ'φ)
   exact congrArg Subtype.val e
@@ -187,7 +187,7 @@ theorem restrictComplexHom_comp_section {Z₀ : BigFppfOver B S hS} (p : Z₀ �
     have hl := congrArg CommaMorphism.left hb
     change σ.base.left ≫ 𝟙 P.T.left = 𝟙 P.T.left at hl
     have hl' : σ.base.left = 𝟙 P.T.left := (Category.comp_id _).symm.trans hl
-    show p ≫ σ.base.left = p
+    change p ≫ σ.base.left = p
     exact (congrArg (p ≫ ·) hl').trans (Category.comp_id p)
   · rw [ComplexesHom.assoc, hσ, ComplexesHom.comp_id]
     exact (sliceTestTrans_comp_lift P.T P.E P.relativelyPerfect P.noNegativeFibreExt
@@ -230,7 +230,7 @@ theorem exists_complexesHom_of_descent (b : P.T ⟶ G.T) {Z₀ : BigFppfOver B S
     have e := sliceTestTrans_comp_restrict_eq p p₁ p₂
     refine complexesHom_cancel_right (restrictComplexHom G b) ?_ ?_
     · have hb := congrArg ComplexesHom.base e
-      show (sliceTestTrans P.T P.E P.relativelyPerfect P.noNegativeFibreExt p₁).base ≫ φ.base =
+      change (sliceTestTrans P.T P.E P.relativelyPerfect P.noNegativeFibreExt p₁).base ≫ φ.base =
         (sliceTestTrans P.T P.E P.relativelyPerfect P.noNegativeFibreExt p₂).base ≫ φ.base
       rwa [hφb]
     · rw [ComplexesHom.assoc, ComplexesHom.assoc, hφ]
@@ -240,7 +240,7 @@ theorem exists_complexesHom_of_descent (b : P.T ⟶ G.T) {Z₀ : BigFppfOver B S
   obtain ⟨σ, hσ⟩ := exists_sliceTest_section (P := P)
   refine ⟨σ.comp (θ.comp (restrictComplexHom G b)), ?_, ?_⟩
   · have hb := congrArg ComplexesHom.base hσ
-    show σ.base ≫ θ.base ≫ b = b
+    change σ.base ≫ θ.base ≫ b = b
     change σ.base ≫ sliceTestHom D P.T (Over.mk (𝟙 P.T.left)) = 𝟙 P.T at hb
     rw [hθb, ← Category.assoc, hb, Category.id_comp]
   · rw [← ComplexesHom.assoc, restrictComplexHom_comp_section p σ hσ, ← ComplexesHom.assoc, hθ,
@@ -262,14 +262,14 @@ theorem complexesHom_ext_of_descent {Ψ₁ Ψ₂ : ComplexesHom P G} (hb : Ψ₁
   let lift₁ := restrictComplexHom P (sliceTestHom D P.T (Over.mk (𝟙 P.T.left)))
   have hρχ : ρ.comp χ₁ = ρ.comp χ₂ := by
     refine complexesHom_cancel_right (restrictComplexHom G Ψ₁.base) ?_ ?_
-    · show ρ.base ≫ χ₁.base = ρ.base ≫ χ₂.base
+    · change ρ.base ≫ χ₁.base = ρ.base ≫ χ₂.base
       rw [hχ₁b, hχ₂b]
     · rw [ComplexesHom.assoc, ComplexesHom.assoc, hχ₁, hχ₂, h]
   have hbase : ∀ (g : Over P.T.left) (χ : ComplexesHom P (restrictComplex G Ψ₁.base)),
       χ.base = 𝟙 P.T →
       ((restrictComplexHom P (sliceTestHom D P.T g)).comp χ).base = sliceTestHom D P.T g :=
     fun g χ hχ => by
-    show _ ≫ χ.base = _
+    change _ ≫ χ.base = _
     rw [hχ, Category.comp_id]
   have hcomp : ∀ χ : ComplexesHom P (restrictComplex G Ψ₁.base),
       (sliceTestTrans P.T P.E P.relativelyPerfect P.noNegativeFibreExt

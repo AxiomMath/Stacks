@@ -235,12 +235,10 @@ theorem projectionFormulaIso_natural_left (φ : R →+* R') {V V' : ModuleCat R'
       = (projectionFormulaIso φ V W).hom ≫ ((ModuleCat.restrictScalars φ).map f ▷ W) := by
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul v y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => simp only [TensorProduct.tmul_add, map_add, ha, hb]
     | tmul r' w =>
       rw [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_comp, LinearMap.comp_apply,
@@ -260,12 +258,10 @@ theorem projectionFormulaIso_natural_right (φ : R →+* R') (V : ModuleCat R') 
   let : Algebra R R' := φ.toAlgebra
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul v y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => simp only [TensorProduct.tmul_add, map_add, ha, hb]
     | tmul r' w =>
       rw [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_comp, LinearMap.comp_apply,
@@ -376,8 +372,8 @@ The tag itself sits on `CochainComplex.KFlat.ScalarBaseChange.kFlat_extendScalar
 `StacksFrontier.Homology.KFlat.ScalarBaseChange`, which states the same lemma with the two rings
 in independent universes, as the source has them — here `R` and `R'` are both forced into a
 single `Type u`, which the source does not ask for. This declaration is that statement's
-specialization to a common universe, kept because `StacksFrontier.Homology.Tor.FlatBaseChangeHomology`
-consumes it in that form.
+specialization to a common universe, kept because
+`StacksFrontier.Homology.Tor.FlatBaseChangeHomology` consumes it in that form.
 
 Explicitly: for every acyclic complex `L` of `R'`-modules, the total complex
 `Tot(L ⊗_{R'} (K ⊗_R R'))` is acyclic.

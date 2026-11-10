@@ -99,7 +99,7 @@ theorem qcLE_tensor (p q : ℤ) (E F : quasiCoherentDerivedCategory Z) (hE : QcL
     (hF : QcLE q F) : QcLE (p + q) (E ⊗ F) := by
   have h := @Stacks.DerivedTensor.RingedSite.isLE_derivedTensorProduct _ _ _ Z.sheaf _ _ _ _ _ _
     (Stacks.Cohomology.TorAmplitude.derTensor Z.toRingedSpace) E.obj F.obj p q hE hF
-  show (((@curriedTensor (DerivedCategory Z.Modules) _
+  change (((@curriedTensor (DerivedCategory Z.Modules) _
     (Scheme.Modules.canonicalDerivedMonoidal Z)).obj E.obj).obj F.obj).IsLE (p + q)
   rw [curriedTensor_canonicalDerivedMonoidal_eq]
   exact h
@@ -128,7 +128,7 @@ theorem qcGE_of_forall (m : ℤ) (E : quasiCoherentDerivedCategory Z)
       fun i => isQuasicoherent_homology_truncLE _ E.property d i⟩
   have hT : QcLE (d + 1 - 1) T := by
     rw [show d + 1 - 1 = d by omega]
-    show ((DerivedCategory.TStructure.t.truncLE d).obj E.obj).IsLE d
+    change ((DerivedCategory.TStructure.t.truncLE d).obj E.obj).IsLE d
     infer_instance
   have h0 := h T hT
     (ObjectProperty.homMk ((DerivedCategory.TStructure.t.truncLEι d).app E.obj))

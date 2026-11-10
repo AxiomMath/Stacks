@@ -174,7 +174,7 @@ theorem derivedPushforwardComparisonSquare_comp_leray :
           (Mate.derivedPushforwardComparisonSquare (derivedAdjunction f) (derivedAdjunction f')
               (derivedAdjunction g) (derivedAdjunction g')
               (derivedPullbackCompIsoLeft g' f' f g sq)
-              (derivedPullbackCompIsoCanonical g' f)).natTrans
+              (derivedPullbackCompIsoCanonical g' f))
           (derivedSectionsOverOpen S V) =
       eqToHom (congrArg (fun k : X' ⟶ S => derivedPreimageSections k V) sq) ≫
         lerayComparison (f' ≫ g) V ≫
@@ -213,7 +213,7 @@ theorem derivedPushforwardComparisonSquare_comp_lerayComposite :
           (Mate.derivedPushforwardComparisonSquare (derivedAdjunction f) (derivedAdjunction f')
               (derivedAdjunction g) (derivedAdjunction g')
               (derivedPullbackCompIsoLeft g' f' f g sq)
-              (derivedPullbackCompIsoCanonical g' f)).natTrans
+              (derivedPullbackCompIsoCanonical g' f))
           (derivedSectionsOverOpen S V) =
       eqToHom (congrArg (fun k : X' ⟶ S => derivedPreimageSections k V) sq) ≫
         lerayCompositeComparison f' g V ≫

@@ -122,7 +122,7 @@ public theorem isLocalRing_pointCompletion (hq : IB ≤ q.asIdeal) :
     IsLocalRing (pointCompletion IB q) :=
   Stacks.AdicCompletionDimension.isLocalRing_adicCompletion_of_le_maximalIdeal _ (by
     rw [Ideal.map_le_iff_le_comap]
-    exact hq.trans (IsLocalization.AtPrime.comap_maximalIdeal (Localization.AtPrime q.asIdeal)
+    exact hq.trans (IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime q.asIdeal)
       q.asIdeal).ge)
 
 /-- `(B_𝔮)^∧` is Noetherian. -/
@@ -267,7 +267,7 @@ public theorem exists_notMem_support_range_ker_of_localDuality (hq : IB ≤ q.as
     have h2 := congrArg (fun φ => φ.hom (u₂ K' ((θ₁.app (op K')).hom (u₁ K' y))))
       (θ₂.naturality (e₁.map g).op)
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp] at h1 h2
-    show (θ₂.app (op (e₁.obj K))).hom (u₂ K ((θ₁.app (op K)).hom
+    change (θ₂.app (op (e₁.obj K))).hom (u₂ K ((θ₁.app (op K)).hom
       (u₁ K (((dualizingExtFunctor ωB i).map g.op).hom y)))) = _
     have h1' : (θ₁.app (op K)).hom (u₁ K (((dualizingExtFunctor ωB i).map g.op).hom y)) =
         ((dualizingExtFunctor ωq i).map (e₁.map g).op).hom
@@ -299,7 +299,7 @@ public theorem exists_notMem_support_range_ker_of_localDuality (hq : IB ≤ q.as
       ((dualizingExtFunctor ωq i).obj (op (e₁.obj K)))) h2).trans (map_zero _)
     have h4 := eq_zero_of_one_tmul_adicCompletion (IB.map (algebraMap B Bq)) (by
       rw [Ideal.map_le_iff_le_comap]
-      exact hq.trans (IsLocalization.AtPrime.comap_maximalIdeal Bq q.asIdeal).ge) _ h3
+      exact hq.trans (IsLocalization.AtPrime.under_maximalIdeal Bq q.asIdeal).ge) _ h3
     have h5 : u₁ K z = 0 :=
       (ConcreteCategory.bijective_of_isIso (θ₁.app (op K))).1 (h4.trans (map_zero _).symm)
     exact (congrArg (extendScalarsToTensor (S := Bq)

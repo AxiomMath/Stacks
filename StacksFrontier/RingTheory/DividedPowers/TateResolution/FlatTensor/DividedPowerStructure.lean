@@ -137,7 +137,7 @@ private theorem dividedPowersOnBaseChangedEven_dpow_oddProduct_tmul
       (z : P ⊗[R] A) = (p ⊗ₜ[R] a) * (q ⊗ₜ[R] b) := hz
       _ = (p * q) ⊗ₜ[R] (a * b) := Algebra.TensorProduct.tmul_mul_tmul p q a b
       _ = ((E (c ⊗ₜ[R] (p * q)) : evenSubalgebra 𝒜') : P ⊗[R] A) := by
-        show (p * q) ⊗ₜ[R] (c : A) =
+        change (p * q) ⊗ₜ[R] (c : A) =
           ((evenSubalgebraTensorHom 𝒜 (c ⊗ₜ[R] (p * q)) :
             evenSubalgebra 𝒜') : P ⊗[R] A)
         exact (evenSubalgebraTensorHom_tmul 𝒜 c (p * q)).symm
@@ -155,7 +155,7 @@ private theorem oddProductEven_mul_eq_zero_of_same_left
     (hy : y ∈ 𝒜 (2 * e + 1)) (hz : z ∈ 𝒜 (2 * e + 1)) :
     oddProductEven 𝒜 x y hx hy * oddProductEven 𝒜 x z hx hz = 0 := by
   apply Subtype.ext
-  show (x * y) * (x * z) = 0
+  change (x * y) * (x * z) = 0
   have hcomm : y * x = -(x * y) := odd_mul_eq_neg_mul 𝒜 hy hx
   have hx2 := IsStrictlyGradedComm.odd_sq_zero hx
   calc
@@ -449,7 +449,7 @@ private theorem dividedPowerStructureOnBaseChange_dpow_tmul
   let : IsStrictlyGradedComm 𝒜' := strictlyGradedComm_baseChange 𝒜
   have hx' : (1 : P) ⊗ₜ[R] x ∈ positiveEvenPart 𝒜' :=
     one_tmul_mem_positiveEvenPart_baseChange 𝒜 hx
-  show baseChangedGradedDpow (P := P) 𝒜 γ n (1 ⊗ₜ[R] x) = _
+  change baseChangedGradedDpow (P := P) 𝒜 γ n (1 ⊗ₜ[R] x) = _
   rw [baseChangedGradedDpow_of_mem 𝒜 γ n (1 ⊗ₜ[R] x) hx']
   let b : evenSubalgebra 𝒜 :=
     ⟨x, positiveEvenPart_le_evenPart 𝒜 hx⟩
@@ -461,7 +461,7 @@ private theorem dividedPowerStructureOnBaseChange_dpow_tmul
     Subtype.ext (evenSubalgebraTensorHom_tmul 𝒜 b 1)
   rw [← hE, dividedPowersOnBaseChangedEven_dpow_tmul_one 𝒜
     (dividedPowersOnEven 𝒜 γ) n b hb]
-  show ((evenSubalgebraTensorHom 𝒜
+  change ((evenSubalgebraTensorHom 𝒜
     ((dividedPowersOnEven 𝒜 γ).dpow n b ⊗ₜ[R] (1 : P)) :
     evenSubalgebra 𝒜') : P ⊗[R] A) = 1 ⊗ₜ[R] γ.dpow n x
   simpa only [dividedPowersOnEven, evenDpow_coe] using
@@ -696,7 +696,7 @@ private theorem dividedPowerStructureOnBaseChange_isCompatible
   intro n x hn hx
   have hδ := H x hx
     (⟨x, positiveEvenPart_le_evenPart 𝒜' hx⟩ : evenSubalgebra 𝒜') rfl n hn
-  show d' (baseChangedGradedDpow 𝒜 γ n x) =
+  change d' (baseChangedGradedDpow 𝒜 γ n x) =
     d' x * baseChangedGradedDpow 𝒜 γ (n - 1) x
   rwa [baseChangedGradedDpow_of_mem 𝒜 γ n x hx,
     baseChangedGradedDpow_of_mem 𝒜 γ (n - 1) x hx]

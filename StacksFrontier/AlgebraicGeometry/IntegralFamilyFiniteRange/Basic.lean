@@ -104,7 +104,7 @@ public theorem finite_spec_adjoin_finset (k : Type v) (A : Type u) [Field k] [Co
     Stacks.RingTheory.IntegralApproximation.moduleFinite_adjoin_finset i
   have : IsArtinianRing (Algebra.adjoin k (i : Set A)) :=
     IsArtinianRing.of_finite k (Algebra.adjoin k (i : Set A))
-  show Finite (PrimeSpectrum (Algebra.adjoin k (i : Set A)))
+  change Finite (PrimeSpectrum (Algebra.adjoin k (i : Set A)))
   infer_instance
 
 /-- The image of an integral family of points of a scheme locally of finite presentation over the
@@ -123,7 +123,7 @@ public theorem finite_range_of_integral_of_locallyOfFinitePresentation
     { app := fun i => terminal.from (SF.obj i)
       naturality _ _ _ := terminal.hom_ext _ _ }
   have : ∀ i : (Finset A)ᵒᵖ, Finite (SF.obj i) := fun i => by
-    show Finite (PrimeSpectrum (Algebra.adjoin k ((i.unop : Finset A) : Set A)))
+    change Finite (PrimeSpectrum (Algebra.adjoin k ((i.unop : Finset A) : Set A)))
     exact finite_spec_adjoin_finset k A i.unop
   have : ∀ {i j : (Finset A)ᵒᵖ} (f : i ⟶ j), IsAffineHom (SF.map f) := by
     intro i j f
@@ -137,7 +137,7 @@ public theorem finite_range_of_integral_of_locallyOfFinitePresentation
   refine (Set.finite_range q.base).subset ?_
   rintro y ⟨z, rfl⟩
   refine ⟨(cF.π.app j).base z, ?_⟩
-  show q.base.hom ((cF.π.app j).base.hom z) = a.base.hom z
+  change q.base.hom ((cF.π.app j).base.hom z) = a.base.hom z
   exact congrArg (fun h : Spec (CommRingCat.of A) ⟶ T => h.base.hom z) hfactor
 
 /-- A scheme of finite type over the terminal scheme is quasi-compact and quasi-separated. -/

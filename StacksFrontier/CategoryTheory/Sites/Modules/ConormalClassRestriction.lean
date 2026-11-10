@@ -51,8 +51,7 @@ isomorphism after sheafification exactly when it is locally bijective. -/
 local instance [EssentiallySmall.{z} C] : J.WEqualsLocallyBijective AddCommGrpCat.{z} :=
   AlgebraicGeometry.SheafOfModules.siteWEqualsLocallyBijective (J := J)
 
-variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  (R A B : Sheaf J CommRingCat.{w}) (a : R ⟶ A) (φ : A ⟶ B)
+variable (R A B : Sheaf J CommRingCat.{w}) (a : R ⟶ A) (φ : A ⟶ B)
   [Presheaf.IsLocallySurjective J φ.hom]
 
 /-- The universal differential of a restriction is the restriction of the universal

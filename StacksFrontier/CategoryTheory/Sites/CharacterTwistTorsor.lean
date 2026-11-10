@@ -64,7 +64,8 @@ section Act
 variable (act : G →* Aut W)
 
 /-- Acting by a product is acting by the two factors in turn. -/
-theorem act_hom_mul (g g' : G) : (act (g * g')).asIso.hom = (act g').asIso.hom ≫ (act g).asIso.hom := by
+theorem act_hom_mul (g g' : G) :
+    (act (g * g')).asIso.hom = (act g').asIso.hom ≫ (act g).asIso.hom := by
   rw [map_mul]
   rfl
 

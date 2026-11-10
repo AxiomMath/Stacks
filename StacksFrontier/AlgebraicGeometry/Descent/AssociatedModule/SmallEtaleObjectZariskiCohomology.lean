@@ -330,7 +330,7 @@ public theorem objOpensSectionsInv_comp_objOpensSectionsMap (F : S.Modules)
       (homOfLE (Scheme.Opens.top_le_ι_preimage (U := V) (V := V) le_rfl)).op)
     ((((Scheme.Modules.pullbackPushforwardAdjunction V.ι).unit.app M).app V) s)
   have hu' := ConcreteCategory.congr_hom hu s
-  show (M.presheaf.map _) (((Scheme.Modules.restrictFunctorIsoPullback V.ι).inv.app M).app ⊤
+  change (M.presheaf.map _) (((Scheme.Modules.restrictFunctorIsoPullback V.ι).inv.app M).app ⊤
     (((Stacks.Sites.pullbackCompIso F V.ι (objHom B S hS U) _ rfl).inv.app ⊤)
       (((Stacks.Sites.pullbackCompIso F V.ι (objHom B S hS U) _ rfl).hom.app ⊤)
         (((Scheme.Modules.pullback V.ι).obj M).presheaf.map _
@@ -338,7 +338,7 @@ public theorem objOpensSectionsInv_comp_objOpensSectionsMap (F : S.Modules)
   rw [hpc]
   simp only at hn
   refine (congrArg (ConcreteCategory.hom (M.presheaf.map (eqToIso _).op.hom)) hn).trans ?_
-  show (M.presheaf.map _) ((M.presheaf.map _) (((Scheme.Modules.restrictFunctorIsoPullback
+  change (M.presheaf.map _) ((M.presheaf.map _) (((Scheme.Modules.restrictFunctorIsoPullback
     V.ι).inv.app M).app (V.ι ⁻¹ᵁ V)
       ((((Scheme.Modules.pullbackPushforwardAdjunction V.ι).unit.app M).app V) s))) = s
   refine (congrArg (fun z => (ConcreteCategory.hom (M.presheaf.map (eqToIso
@@ -526,7 +526,7 @@ public theorem objOpensPushforwardSectionsIso_hom_comp_map :
             AddCommGrpCat.{u}).obj (op ⊤)) ≫ (Functor.associator _ _ _).hom) ≫
         (objOpensPushforwardSectionsIso B S hS U₁).hom := by
   ext E : 2
-  show E.obj.map _ ≫ E.obj.map _ = E.obj.map _ ≫ E.obj.map _
+  change E.obj.map _ ≫ E.obj.map _ = E.obj.map _ ≫ E.obj.map _
   exact (E.obj.map_comp _ _).symm.trans
     ((congrArg (fun k => E.obj.map k.op) (comp_objOpensFunctorTopIso_inv h)).trans
       (E.obj.map_comp _ _))
@@ -551,7 +551,7 @@ public theorem rightDerivedSectionsObjOpensPushforwardIso_hom_naturality
   have key := objOpensPushforwardSectionsIso_hom_comp_map (B := B) (S := S) (hS := hS) h
   simp only [rightDerivedSectionsObjOpensPushforwardIso, objOpensCohomologyMap, Iso.trans_hom,
     Iso.app_hom, Stacks.Cohomology.RightDerivedEdgeIso.edgeAppIso_hom, Category.assoc]
-  show _ ≫ (NatTrans.rightDerived (objOpensPushforwardSectionsIso B S hS U₂).hom p).app _ ≫ _ =
+  change _ ≫ (NatTrans.rightDerived (objOpensPushforwardSectionsIso B S hS U₂).hom p).app _ ≫ _ =
     _ ≫ _ ≫ _ ≫ (NatTrans.rightDerived (objOpensPushforwardSectionsIso B S hS U₁).hom p).app _
   have step : NatTrans.rightDerived ((objOpensPushforwardSectionsIso B S hS U₂).hom ≫
       (sheafSections (topology B S hS) AddCommGrpCat.{u}).map h.op) p =
@@ -666,7 +666,7 @@ public theorem objOpensPushforwardMap_app_comp_associatedModuleIso (F : S.Module
     (objOpensPushforwardAssociatedModuleIso B S hS U₂ F).hom ≫
       (SheafOfModules.toSheaf (objScheme B S hS U₂).ringCatSheaf).map (objModuleMap h F) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun V => ?_))
-  show ((associatedModule B S hS).obj F).val.presheaf.map
+  change ((associatedModule B S hS).obj F).val.presheaf.map
       ((objOpensMapNatTrans h).app V.unop).op ≫
       (associatedModulePresheafIso B S hS F).hom.app
         (op ((objOpensFunctor B S hS U₁).obj ((Opens.map (objMap h).base).obj V.unop))) ≫
@@ -725,12 +725,12 @@ public theorem objCohomologyAssociatedModuleIso_hom_naturality (F : S.Modules)
     (objOpensPushforwardAssociatedModuleIso B S hS U₁ F).inv
   set R₂ := ((sheafSections (Opens.grothendieckTopology ↥(objScheme B S hS U₂))
     AddCommGrpCat.{u}).obj (op ⊤)).rightDerived p
-  show (R₂.map (objOpensPushforwardAssociatedModuleIso B S hS U₂ F).inv ≫
+  change (R₂.map (objOpensPushforwardAssociatedModuleIso B S hS U₂ F).inv ≫
       (rightDerivedSectionsObjOpensPushforwardIso B S hS U₂ _ _ p).hom) ≫ _ =
     (R₂.map ((SheafOfModules.toSheaf (objScheme B S hS U₂).ringCatSheaf).map (objModuleMap h F)) ≫
       _) ≫ _ ≫ (rightDerivedSectionsObjOpensPushforwardIso B S hS U₁ _ _ p).hom
   refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hN).trans ?_)
-  show R₂.map _ ≫ (R₂.map _ ≫ _) ≫ _ = _
+  change R₂.map _ ≫ (R₂.map _ ≫ _) ≫ _ = _
   refine ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _)
     ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) (R₂.map_comp _ _).symm)))).trans ?_
   refine (congrArg (fun t => (R₂.map t ≫ _) ≫ _) hG').trans ?_

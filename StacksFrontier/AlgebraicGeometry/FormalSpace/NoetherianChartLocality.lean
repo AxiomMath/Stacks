@@ -225,15 +225,16 @@ theorem property_of_finite_etale_family (hloc : PropertyIsLocalNoetherian.{u} P)
     [TopologicalSpace R₀] [IsTopologicalRing R₀] [IsLinearTopology R₀ R₀] [CommRing A]
     [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     (hR₀ : IsNoetherianAdic R₀) (hA : IsNoetherianAdic A)
-    (g : R₀ →+* A) (hg : Continuous g) {σ : Type u} [Fintype σ] (A' : σ → Type u)
+    (g : R₀ →+* A) (hg : Continuous g) {σ : Type u} [Finite σ] (A' : σ → Type u)
     [∀ s, CommRing (A' s)] [∀ s, Algebra A (A' s)] [∀ s, Algebra.Etale A (A' s)]
     (hff : Module.FaithfullyFlat A (∀ s, A' s))
     (hP : ∀ s, P ((CompletionOver.canonicalMap (algebraMap A (A' s))).comp g)) :
     P g := by
+  have := Fintype.ofFinite σ
   have : IsNoetherianRing A := hA.2
   have : IsNoetherianRing R₀ := hR₀.2
   have : ∀ s, IsNoetherianRing (A' s) := fun s ↦ Algebra.FiniteType.isNoetherianRing A (A' s)
-  let f : A →+* ∀ s, A' s := Pi.ringHom fun s ↦ algebraMap A (A' s)
+  let f : A →+* ∀ s, A' s := RingHom.pi fun s ↦ algebraMap A (A' s)
   have hT : ∀ s, IsNoetherianAdic (CompletionOver (algebraMap A (A' s))) :=
     fun s ↦ isNoetherianAdic_completionOver_algebraMap hA
   have hTf : IsNoetherianAdic (CompletionOver f) :=
@@ -497,7 +498,7 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_of_correspondsToNoetherianMapAfterS
       (Sigma.desc fun x : Ix ↦ formalSpectrumMap hRw (gw x.1 x.2.1 x.2.2)) := by
     have hfac : Sigma.desc p ≫ eU.hom =
         Sigma.desc fun x : Ix ↦ formalSpectrumMap hRw (gw x.1 x.2.1 x.2.2) :=
-      Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_desc_assoc, Sigma.ι_desc, hpE]
+      Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, hpE]
     rw [← hfac]
     have := (Sheaf.isLocallySurjective_iff_epi _).1 hsurjP
     exact (Sheaf.isLocallySurjective_iff_epi _).2 (epi_comp _ _)

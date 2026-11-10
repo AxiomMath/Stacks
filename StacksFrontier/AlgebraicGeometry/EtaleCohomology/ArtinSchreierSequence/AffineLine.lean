@@ -221,11 +221,11 @@ theorem not_sub_mem_range_ringArtinSchreier_map [IsAlgClosed k] {μ : k'}
   have hgood₁ : f₀.map (algebraMap k k') ∈ noCoeffPosDvdSubgroup k' p := fun n _ hn => by
     rw [coeff_map, hf₀ n hn, map_zero]
   have hgood₂ : C μ * Polynomial.X ∈ noCoeffPosDvdSubgroup k' p := fun n hn hpn => by
-    rw [coeff_C_mul_X, if_neg]
+    rw [coeff_C_mul_X, ite_eq_right]
     rintro rfl
     exact hp.out.one_lt.ne' (Nat.dvd_one.mp hpn)
   have h1 := ((sub_mem_range_ringArtinSchreier_iff hgood₁ hgood₂).mp hdiff).1 1 one_ne_zero
-  rw [coeff_map, coeff_C_mul_X, if_pos rfl] at h1
+  rw [coeff_map, coeff_C_mul_X, ite_eq_left rfl] at h1
   exact hμ ⟨_, h1⟩
 
 /-- **`H¹(𝐀¹_k, 𝐙/p𝐙) → H¹(𝐀¹_{k'}, 𝐙/p𝐙)` is not surjective.** Let `k` be an algebraically closed

@@ -101,7 +101,7 @@ theorem restrictToChartSchemeTopSectionsAddEquiv_smul (G : Modules.{u, u} B S hS
     (y : (Γ(restrictToChartSchemeModules B S hS X.1 X.2 G A, ⊤) : Type u)) :
     restrictToChartSchemeTopSectionsAddEquiv B S hS X G A (c • y) =
       c • restrictToChartSchemeTopSectionsAddEquiv B S hS X G A y := by
-  show (chartRestrictionSheafTopEquiv B S hS X G A).symm
+  change (chartRestrictionSheafTopEquiv B S hS X G A).symm
       (Scheme.Modules.sectionsAddEquiv
         (restrictToChartSchemeIsoChartRestrictionSheaf B S hS X G A) ⊤ (c • y)) =
     c • (chartRestrictionSheafTopEquiv B S hS X G A).symm

@@ -161,7 +161,7 @@ theorem bijective_tensorPairingExt (F G : EtaleModules.{u, 0} (ZMod N) Y)
   have : IsIso φ := inferInstanceAs (IsIso (λ_ F).inv)
   have hcounit : (MonoidalCategory.tensorRight G).map φ ≫
       adj.counit.app (unitSheaf (X := Y) N) = μ := by
-    show (λ_ F).inv ▷ G ≫ (𝟙 _ ▷ G ≫ (α_ _ _ _).hom ≫ _ ◁ μ ≫ (ρ_ _).hom) = μ
+    change (λ_ F).inv ▷ G ≫ (𝟙 _ ▷ G ≫ (α_ _ _ _).hom ≫ _ ◁ μ ≫ (ρ_ _).hom) = μ
     simp only [id_whiskerRight, Category.id_comp]
     monoidal
   have key : ∀ a : Ext (𝟙_ (EtaleModules.{u, 0} (ZMod N) Y)) F i,

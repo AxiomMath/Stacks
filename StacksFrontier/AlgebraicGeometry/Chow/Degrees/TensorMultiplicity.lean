@@ -33,8 +33,8 @@ neighbourhood. The two are equal, by
 on them. The length identity is therefore proved at the structures of Tag 01CB and transported by
 the `private` lemma below, whose two module structures are *bound variables* precisely so that
 `subst` applies to the equalities — the device of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorBifunctorStalk`, where the same obstruction is
-recorded.
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorBifunctorStalk`, where the same obstruction
+is recorded.
 
 **The cycle identity needs no statement about supports.** The coefficient of `[F]_k` at a point of
 delta-dimension `k` is the multiplicity there with no side condition

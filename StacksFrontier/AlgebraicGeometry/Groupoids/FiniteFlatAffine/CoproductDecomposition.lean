@@ -219,12 +219,12 @@ theorem IsCoproductDecomposition.mem_invariantRing_iff (h : IsCoproductDecomposi
   have hs₂ := RingHom.congr_fun (mapArrows_appTop_comp_sourceMap F₂) a
   have ht₂ := RingHom.congr_fun (mapArrows_appTop_comp_targetMap F₂) a
   simp only [RingHom.coe_comp, Function.comp_apply] at hs₁ ht₁ hs₂ ht₂
-  show sourceMap G a = targetMap G a
+  change sourceMap G a = targetMap G a
   refine h.bijective_arrows.1 (Prod.ext ?_ ?_)
-  · show F₁.mapArrows.left.appTop.hom (sourceMap G a) = _
+  · change F₁.mapArrows.left.appTop.hom (sourceMap G a) = _
     rw [hs₁, h₁]
     exact ht₁.symm
-  · show F₂.mapArrows.left.appTop.hom (sourceMap G a) = _
+  · change F₂.mapArrows.left.appTop.hom (sourceMap G a) = _
     rw [hs₂, h₂]
     exact ht₂.symm
 

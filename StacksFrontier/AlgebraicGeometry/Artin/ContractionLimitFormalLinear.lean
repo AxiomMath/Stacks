@@ -74,7 +74,7 @@ omit [IsTopologicalRing Bt] [IsLinearTopology Bt Bt] in
 theorem appTop_stageToOpen (J : WeakIdeals Bt) (r : Γ((O : Scheme.{u}), ⊤)) :
     ((BigFppfOver.toScheme B S hS).map (stageToOpen O hOC ρ hρ J)).appTop.hom r =
       stageRingHom DB J (ρ r) := by
-  show ((Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk (OrderDual.ofDual J).1).comp ρ)) ≫
+  change ((Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk (OrderDual.ofDual J).1).comp ρ)) ≫
     (O : Scheme.{u}).isoSpec.inv).appTop).hom r = _
   have hiso :
       (O : Scheme.{u}).isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ((O : Scheme.{u}), ⊤)).inv := by
@@ -99,7 +99,7 @@ theorem formalRingHom_ρ {X : AlgebraicSpaces B S hS} (hX : IsQuasiCompactSpace 
       pullbackRingHom B V (ObjectProperty.homMk g) (f.appTop.hom r) := by
   obtain ⟨J, t, ht⟩ := exists_isStageFactor hB X hX F
   rw [formalRingHom_eq hB X hX ht]
-  show pullbackRingHom B (stageObj DB J) (ObjectProperty.homMk t) (stageRingHom DB J (ρ r)) = _
+  change pullbackRingHom B (stageObj DB J) (ObjectProperty.homMk t) (stageRingHom DB J (ρ r)) = _
   rw [← appTop_stageToOpen O hOC ρ hρ J r]
   refine (pullbackRingHom_homMk_comp X t (stageToOpen O hOC ρ hρ J) r).symm.trans ?_
   have e := hom_ext_yoneda_openObj O hOC (t ≫ yoneda.map (stageToOpen O hOC ρ hρ J))
@@ -126,7 +126,7 @@ theorem towerRingHom_ρ (F : completionSheaf B S hS X.1 (pointsMap B S hS X.1 g 
     towerRingHom g hZI hqc hB F (ρ r) =
       towerOf I g (pullbackRingHom B V (spaceHom V g) (f.appTop.hom r)) := by
   refine Subtype.ext (funext fun n => ?_)
-  show formalRingHom hB _ (hqc (n + 1)) _ (ρ r) =
+  change formalRingHom hB _ (hqc (n + 1)) _ (ρ r) =
     globalSectionsRingHomSite B S hS (fibreInclusion V I (spaceHom V g) (n + 1))
       (pullbackRingHom B V (spaceHom V g) (f.appTop.hom r))
   rw [formalRingHom_ρ O hOC hB ρ hρ (hqc (n + 1)) _

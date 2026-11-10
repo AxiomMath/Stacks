@@ -78,7 +78,7 @@ theorem pullbackComp_inv_pullbackSection (f : Z ⟶ Y) (g : Y ⟶ X) (N : X.Modu
       Scheme.Modules.pullbackSection f ((Scheme.Modules.pullback g).obj N) W V hf
         (Scheme.Modules.pullbackSection g N U W hg x) := by
   rw [← Scheme.Modules.pullbackSection_comp f g N U W V hg hf h x]
-  show (((Scheme.Modules.pullbackComp f g).hom.app N ≫
+  change (((Scheme.Modules.pullbackComp f g).hom.app N ≫
     (Scheme.Modules.pullbackComp f g).inv.app N).val.app (op V)) _ = _
   rw [Iso.hom_inv_id_app]
   rfl
@@ -101,6 +101,7 @@ theorem restrict_cHom :
     gradedSectionRestriction s U'.1 U.1 hUU' (cHom U.1 c) = cHom U'.1 (resC hUU' c) :=
   gradedSectionRestriction_of s U'.1 U.1 hUU' d c
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- **The transition of the chart sheaves carries `x / c^n` to `x|_{U'} / c|_{U'}^n`**, in the
 fibre at a point. -/
 theorem pushforwardModuleMap_fracElt (n : ℤ) (x : sectionModulePieces ℳ U.1 (n * d))
@@ -139,7 +140,7 @@ theorem pushforwardModuleMap_fracElt (n : ℤ) (x : sectionModulePieces ℳ U.1 
     rfl
   congr 1
   apply Subtype.ext
-  show s.sectionRingRestrict U'.1 U.1 hUU' (cHom U.1 c ^ n.toNat) = _
+  change s.sectionRingRestrict U'.1 U.1 hUU' (cHom U.1 c ^ n.toNat) = _
   exact (map_pow (s.sectionRingRestrict U'.1 U.1 hUU') (cHom U.1 c) n.toNat).trans
     (congrArg (· ^ n.toNat) hc)
 
@@ -150,6 +151,7 @@ abbrev chartMap : (Scheme.Modules.pullback (projInclusionMap s U'.1 U.1 hUU' U'.
     (irrelevant_le_map_gradedSectionRestriction s U'.1 U.1 hUU' U'.2 U.2)
     (sectionModuleRestrictₛₗ ℳ hUU') (sectionModuleRestrictₛₗ_mem_grading ℳ hUU')
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- **The comparison of the chart sheaves on the unit of the adjunction** is the pointwise
 comparison. -/
 theorem chartMap_unit (V : (AlgebraicGeometry.Proj (s.sectionRingGrading U.1)).Opens)
@@ -176,6 +178,7 @@ theorem basicOpen_le_preimage :
   rw [← restrict_cHom hUU' c]
   exact le_rfl
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- **The transition of the chart sheaves carries `x / c^n` to `x|_{U'} / c|_{U'}^n`**, on the
 sections over `D₊(c|_{U'})`. -/
 theorem restrict_pushforward_fracElt (n : ℤ) (x : sectionModulePieces ℳ U.1 (n * d)) :
@@ -216,7 +219,7 @@ theorem hg_restrict :
   have h1 : g.base t ∈ Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c) := hg ht
   rw [← hgg] at h1
   change (projInclusionMap s U'.1 U.1 hUU' U'.2 U.2).base (g'.base t) ∈ _ at h1
-  show g'.base t ∈ Proj.basicOpen (s.sectionRingGrading U'.1) (cHom U'.1 (resC hUU' c))
+  change g'.base t ∈ Proj.basicOpen (s.sectionRingGrading U'.1) (cHom U'.1 (resC hUU' c))
   rw [← preimage_basicOpen_eq hUU' c]
   exact h1
 
@@ -274,7 +277,7 @@ theorem beta_restrict (n : ℤ) :
     l1.symm).trans (l2.trans (l3.trans (congrArg (Scheme.Modules.pullbackSection g'
       (moduleChart ℳ U') _ ⊤ hg') l4)))
   refine L.trans ?_
-  show _ = ((Scheme.Modules.pullback g').map (chartMap ℳ hUU')).val.app (op ⊤)
+  change _ = ((Scheme.Modules.pullback g').map (chartMap ℳ hUU')).val.app (op ⊤)
     (((Scheme.Modules.pullbackComp g' (projInclusionMap s U'.1 U.1 hUU' U'.2 U.2)).inv.app
       (moduleChart ℳ U)).val.app (op ⊤)
       (((Scheme.Modules.pullbackCongr hgg).inv.app (moduleChart ℳ U)).val.app (op ⊤)

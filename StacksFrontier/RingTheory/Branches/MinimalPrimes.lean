@@ -51,7 +51,6 @@ presented as a filtered colimit of etale algebras or by an integral closure of a
 universe u v w
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 open Topology
 open scoped TensorProduct
@@ -80,8 +79,7 @@ theorem integral_tensorProduct_right (R : Type u) (S : Type v) (T : Type w)
   let : Algebra T (S ⊗[R] T) := Algebra.TensorProduct.rightAlgebra
   constructor
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact isIntegral_zero
+  induction z using TensorProduct.inductionOn with
   | tmul s t =>
     have hs : IsIntegral T (s ⊗ₜ[R] (1 : T)) :=
       (Algebra.IsIntegral.isIntegral s).map_of_comp_eq
@@ -137,7 +135,7 @@ theorem comap_tensor_comm_right
         (Ideal.comap (Algebra.TensorProduct.comm R B C).symm.toRingHom P) =
       Ideal.comap Algebra.TensorProduct.includeLeftRingHom P := by
   ext b
-  show (Algebra.TensorProduct.comm R B C).symm (1 ⊗ₜ[R] b) ∈ P ↔
+  change (Algebra.TensorProduct.comm R B C).symm (1 ⊗ₜ[R] b) ∈ P ↔
     b ⊗ₜ[R] (1 : C) ∈ P
   simp
 
@@ -208,7 +206,7 @@ theorem bijOn_maximalIdeals_tensorProduct
       Ideal.comap_isMaximal_of_surjective e.toRingHom e.surjective
     refine ⟨P, hPmax, ?_⟩
     have hPQ : P.comap e.symm.toRingHom = Q.1 := by
-      show Ideal.comap e.symm.toRingHom (Ideal.comap e.toRingHom Q.1) = Q.1
+      change Ideal.comap e.symm.toRingHom (Ideal.comap e.toRingHom Q.1) = Q.1
       rw [Ideal.comap_comap]
       have he : e.toRingHom.comp e.symm.toRingHom = RingHom.id _ := by
         apply RingHom.ext
@@ -382,8 +380,7 @@ noncomputable def directLimitTensorProductAlgEquiv
     change Algebra.TensorProduct.map (AlgHom.id R' R') (ofAlg j)
         (Algebra.TensorProduct.map (AlgHom.id R' R') (f i j hij) x)
         = Algebra.TensorProduct.map (AlgHom.id R' R') (ofAlg i) x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       simp only [Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
       congr 1
@@ -442,8 +439,7 @@ noncomputable def directLimitTensorProductAlgEquiv
       rw [hΨ_of i w]
       change Φ (Algebra.TensorProduct.map (AlgHom.id R' R') (ofAlg i) w)
           = Ring.DirectLimit.of G' f'₀ i w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul r' y =>
         rw [Algebra.TensorProduct.map_tmul]
         simp only [AlgHom.id_apply]
@@ -459,8 +455,7 @@ noncomputable def directLimitTensorProductAlgEquiv
   · apply AlgHom.ext
     intro z
     change Ψ (Φ z) = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r' x =>
       rw [hΦ_tmul]
       induction x using Ring.DirectLimit.induction_on with
@@ -494,11 +489,11 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
     fun i j hij => (F.map (homOfLE hij)).hom
   let hsys : DirectedSystem G (fun i j h => f i j h) :=
     { map_self := fun i x => by
-        show (F.map (𝟙 i)).hom x = x
+        change (F.map (𝟙 i)).hom x = x
         rw [F.map_id]
         rfl
       map_map := fun i j k hij hjk x => by
-        show (F.map (homOfLE hij) ≫ F.map (homOfLE hjk)).hom x = _
+        change (F.map (homOfLE hij) ≫ F.map (homOfLE hjk)).hom x = _
         rw [← F.map_comp]
         rfl }
   let D := Ring.DirectLimit G (fun i j h => f i j h)
@@ -510,7 +505,7 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
       Ring.DirectLimit.of G (fun i j h => f i j h) i (algebraMap R (G i) r) =
         algebraMap R D r := by
     obtain ⟨j, hij, h₀j⟩ := exists_ge_ge i i₀
-    show _ = Ring.DirectLimit.of G (fun i j h => f i j h) i₀ _
+    change _ = Ring.DirectLimit.of G (fun i j h => f i j h) i₀ _
     rw [← Ring.DirectLimit.of_f (f := fun i j h => f i j h) hij,
       ← Ring.DirectLimit.of_f (f := fun i j h => f i j h) h₀j]
     congr 1
@@ -539,19 +534,19 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
       m ((c.ι.app i).hom x) = Ring.DirectLimit.of G (fun i j h => f i j h) i x :=
     ConcreteCategory.congr_hom (hc.fac d i) x
   have hlm : la.comp m = AlgHom.id R c.pt := by
-    show (CommAlgCat.ofHom (la.comp m)).hom =
+    change (CommAlgCat.ofHom (la.comp m)).hom =
       (CommAlgCat.ofHom (AlgHom.id R c.pt)).hom
     apply congrArg CommAlgCat.Hom.hom
     apply hc.hom_ext
     intro i
     ext x
-    show l (m ((c.ι.app i).hom x)) = (c.ι.app i).hom x
+    change l (m ((c.ι.app i).hom x)) = (c.ι.app i).hom x
     rw [hm, hl]
   have hml : m.toRingHom.comp l = RingHom.id D := by
     apply Ring.DirectLimit.hom_ext
     intro i
     ext x
-    show m (l (Ring.DirectLimit.of G (fun i j h => f i j h) i x)) = _
+    change m (l (Ring.DirectLimit.of G (fun i j h => f i j h) i x)) = _
     rw [hl, hm]
     rfl
   let e : D ≃+* c.pt := RingEquiv.ofRingHom l m.toRingHom
@@ -564,9 +559,8 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
   have hsys' : DirectedSystem G' f'₀ := by
     constructor
     · intro i x
-      show Algebra.TensorProduct.map (AlgHom.id N N) (f i i (le_refl i)) x = x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      change Algebra.TensorProduct.map (AlgHom.id N N) (f i i (le_refl i)) x = x
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
         rw [Algebra.TensorProduct.map_tmul]
         simp only [AlgHom.id_apply]
@@ -574,11 +568,10 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
         exact hsys.map_self b
       | add x y hx hy => simp only [map_add, hx, hy]
     · intro i j k hij hjk x
-      show Algebra.TensorProduct.map (AlgHom.id N N) (f j i hjk)
+      change Algebra.TensorProduct.map (AlgHom.id N N) (f j i hjk)
           (Algebra.TensorProduct.map (AlgHom.id N N) (f k j hij) x)
           = Algebra.TensorProduct.map (AlgHom.id N N) (f k i (le_trans hij hjk)) x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
         simp only [Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
         congr 1
@@ -606,7 +599,7 @@ theorem isNormalRing_tensorProduct_of_isColimit_directed
   have hof' : ∀ (i : ι) (r : N),
       Ring.DirectLimit.of G' f'₀ i (algebraMap N (G' i) r) = algebraMap N L' r := by
     intro i r
-    show Ring.DirectLimit.of G' f'₀ i (algebraMap N (G' i) r)
+    change Ring.DirectLimit.of G' f'₀ i (algebraMap N (G' i) r)
         = algNL' r
     simp only [algNL']
     exact hof_eq i i₀ r
@@ -660,7 +653,7 @@ theorem isIntegral_pi_iff_of_finite
     refine ⟨∏ i, p i, Polynomial.monic_prod_of_monic _ _ (fun i _ => hp i), ?_⟩
     apply funext
     intro i
-    show (Pi.evalAlgHom R K i) (Polynomial.aeval x (∏ j, p j)) = 0
+    change (Pi.evalAlgHom R K i) (Polynomial.aeval x (∏ j, p j)) = 0
     rw [← Polynomial.aeval_algHom_apply]
     simp only [Pi.evalAlgHom_apply, map_prod]
     exact Finset.prod_eq_zero (Finset.mem_univ i) (hz i)
@@ -761,7 +754,7 @@ theorem bijOn_minimalPrimes_tensorProduct_subalgebra_localization
   let : Algebra T U := f.toRingHom.toAlgebra
   have hcomp : (algebraMap T U).comp (algebraMap C T) = algebraMap C U := by
     ext c
-    show f (1 ⊗ₜ[R] c) = 1 ⊗ₜ[R] c
+    change f (1 ⊗ₜ[R] c) = 1 ⊗ₜ[R] c
     exact (Algebra.TensorProduct.map_tmul B.val (AlgHom.id R C) (1 : B) c).trans (by simp)
   let : IsScalarTower C T U := IsScalarTower.of_algebraMap_eq' hcomp.symm
   let MC : Submonoid C := M.map (algebraMap R C)
@@ -787,13 +780,13 @@ theorem bijOn_minimalPrimes_tensorProduct_subalgebra_localization
       exists_of_eq := by
         intro x y hxy
         refine ⟨1, ?_⟩
-        show (1 : T) * x = (1 : T) * y
+        change (1 : T) * x = (1 : T) * y
         simpa only [one_mul] using hf hxy }
   have hT := bijOn_minimalPrimes_of_injective_localization T U MT hf
   have hC := bijOn_minimalPrimes_of_injective_localization C U MC hiC
   have hc (q : Ideal U) : (q.comap (algebraMap T U)).comap (algebraMap C T) =
       q.comap (algebraMap C U) := by rw [Ideal.comap_comap, hcomp]
-  show Set.BijOn (Ideal.comap (algebraMap C T)) (minimalPrimes T) (minimalPrimes C)
+  change Set.BijOn (Ideal.comap (algebraMap C T)) (minimalPrimes T) (minimalPrimes C)
   refine ⟨?_, ?_, ?_⟩
   · intro p hp
     obtain ⟨q, hq, rfl⟩ := hT.surjOn hp
@@ -911,7 +904,7 @@ theorem bijOn_minimalPrimes_integralClosure_tensorProduct
         (Algebra.TensorProduct.includeRight : C →ₐ[A] D).toRingHom) =
       (Algebra.TensorProduct.includeRight : C →ₐ[A] T').toRingHom := by
     ext c
-    show e (1 ⊗ₜ[R] (1 ⊗ₜ[A] c)) = 1 ⊗ₜ[A] c
+    change e (1 ⊗ₜ[R] (1 ⊗ₜ[A] c)) = 1 ⊗ₜ[A] c
     have he1 : (Algebra.TensorProduct.cancelBaseChange A R R B C)
         ((1 : B) ⊗ₜ[R] ((1 : R) ⊗ₜ[A] c)) = (1 : B) ⊗ₜ[A] c :=
       (Algebra.TensorProduct.cancelBaseChange_tmul A R R B C 1 1 c).trans
@@ -921,7 +914,7 @@ theorem bijOn_minimalPrimes_integralClosure_tensorProduct
     rfl
   convert h using 1
   funext p
-  show p.comap _ = ((p.comap _).comap _).comap _
+  change p.comap _ = ((p.comap _).comap _).comap _
   rw [Ideal.comap_comap, Ideal.comap_comap, hcomp]
 
 end

@@ -93,7 +93,7 @@ theorem isRelativelyEtale_quotientStackProjection_realization
       (quotientStackProjectionHom (realization G C hS hU hR hP)) := by
   refine relativeProperty_quotientStackProjection_realization G C hS hU hR hP
     (Space.etaleMorphisms C S hS) ?_
-  show Space.IsEtale C S hS (realization G C hS hU hR hP).source.hom
+  change Space.IsEtale C S hS (realization G C hS hU hR hP).source.hom
   rw [realization_source G C hS hU hR hP]
   refine (Space.isEtale_yoneda_map_iff C S hS (Space.schemeSiteMap C hS hR hU G.source)).2 ?_
   rw [Space.toScheme_map_schemeSiteMap_eq C hS hR hU G.source]

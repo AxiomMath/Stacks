@@ -77,7 +77,7 @@ theorem etaleConstantCohomologyPullback_curveFundamentalClass :
           (locallyOfFiniteType_of_isCurve_comp K qB qA π w)
           (isDominant_of_not_constant K qB qA π hnc) : ℕ) : ℤ) •
         curveConstantTrace qA hn hζ (curveFundamentalClass qA hn hζ) := by
-    show Stacks.Kummer.smoothProperCurveTrace qB hn
+    change Stacks.Kummer.smoothProperCurveTrace qB hn
         (sheafHRootsOfUnityConstantAddEquiv qB hζ hn0 2
           (etaleConstantCohomologyPullback π (ZMod n) 2 (curveFundamentalClass qA hn hζ))) =
       _ • Stacks.Kummer.smoothProperCurveTrace qA hn
@@ -104,7 +104,7 @@ theorem etaleConstantCohomologyPullback_two_eq_zero_of_dvd {E : Type} [AddCommGr
     etaleConstantCohomologyPullback π E 2 x = 0 := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
   obtain ⟨φ, rfl⟩ := surjective_curveConstantClass qA hn hζ hE x
-  show etaleConstantCohomologyPullback π E 2
+  change etaleConstantCohomologyPullback π E 2
     (Sheaf.H.map (etaleConstantSheafMap A φ) 2 (curveFundamentalClass qA hn hζ)) = 0
   rw [etaleConstantCohomologyPullback_sheafHMap,
     etaleConstantCohomologyPullback_curveFundamentalClass qA qB π w hnc hn hζ]

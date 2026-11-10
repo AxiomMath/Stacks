@@ -335,7 +335,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
     exists_isAffineOpen_mem_and_subset (U := (⊤ : U.scheme.Opens)) (Set.mem_univ U.point)
   let pre : V.scheme.Opens := h ⁻¹ᵁ U₀
   have hvpre : V.point ∈ pre := by
-    show h V.point ∈ U₀
+    change h V.point ∈ U₀
     rwa [hpoint]
   obtain ⟨V₀, hV₀aff, hV₀, hV₀sub⟩ := exists_isAffineOpen_mem_and_subset (U := pre) hvpre
   have hV₀le : V₀ ≤ pre := hV₀sub
@@ -434,7 +434,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
   have hqPtInO : qPtInFiber ∈ O := by
     apply (hOfiber qPtFiber).2
     refine ⟨h₀.asFiber v₀, hT₀v, ?_⟩
-    show h₀.fiberι u₀ (h₀.asFiber v₀) = pullback.fst h₀ W.toBase qPtInFiber
+    change h₀.fiberι u₀ (h₀.asFiber v₀) = pullback.fst h₀ W.toBase qPtInFiber
     calc
       h₀.fiberι u₀ (h₀.asFiber v₀) = v₀ := Scheme.Hom.fiberι_asFiber h₀ v₀
       _ = pullback.fst h₀ W.toBase qPtInFiber := by
@@ -454,7 +454,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
   let Wimage : W.scheme.Opens := ⟨Set.range m, m.isOpenMap.isOpen_range⟩
   let o₀ : O₀.toScheme := ⟨qPtInFiber, hO₀⟩
   have hmPoint : m o₀ = W.point := by
-    show pullback.snd h₀ W.toBase (O₀.ι o₀) = W.point
+    change pullback.snd h₀ W.toBase (O₀.ι o₀) = W.point
     rw [show O₀.ι o₀ = qPtInFiber from rfl, hqPtFiberι]
     exact hqPtW
   have hWpoint : W.point ∈ Wimage := ⟨o₀, hmPoint⟩
@@ -511,7 +511,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
   have hjRaw_snd : jRaw ≫ pullback.snd h Wnew.toBase = wPart := pullback.lift_snd _ _ _
   have hO₁point : O₀.ι (O₁.ι o₁) = qPt := hqPtFiberι
   have hvPartPoint : vPart o₁ = V.point := by
-    show V₀.ι (pullback.fst h₀ W.toBase (O₀.ι (O₁.ι o₁))) = V.point
+    change V₀.ι (pullback.fst h₀ W.toBase (O₀.ι (O₁.ι o₁))) = V.point
     rw [hO₁point, pullbackPointOfIsIsoResidueFieldMap_fst h₀ W.toBase v₀ W.point u₀
       rfl W.map_point hW, hvu]
   have hwPartPoint : wPart o₁ = Wnew.point := by
@@ -567,7 +567,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
     have hrange : Set.range jO1 ⊆ Set.range fullOpen.ι := by
       rintro y ⟨x, rfl⟩
       rw [Scheme.Opens.range_ι]
-      show fullMap (rO (O₁.ι x)) ∈ Wsmall
+      change fullMap (rO (O₁.ι x)) ∈ Wsmall
       rw [← Scheme.Hom.comp_apply, hrO]
       exact x.property
     let jO : O₁.toScheme ⟶ fullOpen.toScheme :=
@@ -591,7 +591,7 @@ private theorem exists_etaleShrinking_of_oneStepDevissageAt {X S : Scheme.{u}} (
           congrArg (fun k => jO ≫ k) (morphismRestrict_ι fullMap Wsmall)
         _ = jO1 ≫ fullMap := by rw [← Category.assoc, hjO]
         _ = O₁.ι ≫ m := by
-          show (O₁.ι ≫ rO) ≫ fullMap = O₁.ι ≫ m
+          change (O₁.ι ≫ rO) ≫ fullMap = O₁.ι ≫ m
           rw [Category.assoc, hrO]
         _ = wPart ≫ Wsmall.ι := hwPart.symm
     have : Surjective (jO ≫ fFull) := by
@@ -811,7 +811,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
       D.y W_S.point hxy hfieldW (B.y_square.isoPullback.hom (u o₁)) yPB
       huPBfst huPBsnd hyPBfst hyPBsnd
   have huPoint : u o₁ = yE := by
-    show u o₁ = B.y_square.isoPullback.inv yPB
+    change u o₁ = B.y_square.isoPullback.inv yPB
     rw [← huPB]
     simp
   have hVraw : IsIso (V.toBase.residueFieldMap V.point) := V.isElementary_iff.1 hV
@@ -906,11 +906,11 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
         let : Etale (pullback.fst f W_S.toBase) := by infer_instance
         infer_instance
       map_point := by
-        show pullback.fst f W_S.toBase (q x₁) = x
+        change pullback.fst f W_S.toBase (q x₁) = x
         rw [hqX₁, hxE] }
   let b : A.scheme ⟶ Wnew.scheme := q ≫ pullback.snd f W_S.toBase
   have hbPoint : b A.point = Wnew.point := by
-    show pullback.snd f W_S.toBase (q x₁) = Wnew.point
+    change pullback.snd f W_S.toBase (q x₁) = Wnew.point
     rw [hqX₁, hxsE]
   have hp₀raw : IsIso (p₀.residueFieldMap z₁) :=
     isIso_residueFieldMap_pullback_fst_of_right B.devissage.π u z₁ (by rw [hπ₁]; exact huRaw)
@@ -921,7 +921,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
     let : IsClosedImmersion i₁ := hI₁closed
     exact isIso_residueFieldMap_of_isPreimmersion i₁ z₁
   have hcompPointR : (p₀ ≫ B.devissage.i) z₁ = xE := by
-    show B.devissage.i (p₀ z₁) = xE
+    change B.devissage.i (p₀ z₁) = xE
     rw [hz₁]
     exact hBix
   have hcompPointL : (i₁ ≫ q) z₁ = xE := hqX₁
@@ -958,7 +958,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
   have hAcompNorm := residueFieldCongr_inv_residueFieldMap_comp q
     (pullback.fst f W_S.toBase) x₁ xE x hqX₁ hxE hApt
   have hAelementary : A.IsElementary := by
-    show IsIso ((X.residueFieldCongr A.map_point).inv ≫
+    change IsIso ((X.residueFieldCongr A.map_point).inv ≫
       A.toBase.residueFieldMap A.point)
     have hnorm : (X.residueFieldCongr A.map_point).inv ≫
         A.toBase.residueFieldMap A.point =
@@ -1071,7 +1071,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
       quasi_coherent_G := hGqc
       finite_type_G := hGft
       over_base := by
-        show i₁ ≫ b = π₀ ≫ wPart
+        change i₁ ≫ b = π₀ ≫ wPart
         calc
           i₁ ≫ b = (i₁ ≫ q) ≫ pullback.snd f W_S.toBase := by cat_disch
           _ = (p₀ ≫ B.devissage.i) ≫ pullback.snd f W_S.toBase := by
@@ -1116,7 +1116,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
     i_z := rfl
     π_z := hπ₁
     g_y := by
-      show wPart o₁ = b x₁
+      change wPart o₁ = b x₁
       rw [hwPartPoint, hbPoint]
     fiber_eq_singleton := by
       refine preimage_singleton_of_isPullback (hZsq.paste_horiz B.z_square) D.z D.y
@@ -1140,7 +1140,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
   have hPBπ : IsPullback p₁ π₀ D.toOneStepDevissage.π
       (jRaw ≫ pullback.fst h Wnew.toBase ≫ V.toBase) := by
     rw [hbaseπ]
-    show IsPullback (p₀ ≫ B.pZ) π₀ D.toOneStepDevissage.π (u ≫ B.pY)
+    change IsPullback (p₀ ≫ B.pZ) π₀ D.toOneStepDevissage.π (u ≫ B.pY)
     exact hZsq.paste_horiz B.z_square
   have hbaseeq : A.toBase ≫ f = b ≫ Wnew.toBase ≫ U.toBase := by
     dsimp [A, b, W_S]
@@ -1154,7 +1154,7 @@ theorem exists_oneStepDevissageAt_of_etaleNeighborhood
   have hyFst : (jRaw ≫ pullback.fst h Wnew.toBase) o₁ = V.point := by
     rwa [hjRaw_fst]
   have hzFst : p₁ z₁ = D.z := by
-    show (p₀ ≫ B.pZ) z₁ = D.z
+    change (p₀ ≫ B.pZ) z₁ = D.z
     rw [Scheme.Hom.comp_apply, hz₁]
     exact hzE
   exact ⟨Wnew, hWnew, A, hAelementary, b, hbPoint, hbaseeq, hl, hFqc, hFft, D', j, p,

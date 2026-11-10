@@ -105,7 +105,7 @@ def pivot (e : E) : ι :=
 
 /-- If a weight leaves out some index, then its pivot is an index it does not need. -/
 theorem pivot_not_mem {e : E} (h : ∃ k, k ∉ N e) : pivot N e ∉ N e := by
-  rw [pivot, dif_pos h]
+  rw [pivot, dite_eq_left h]
   exact h.choose_spec
 
 open Classical in
@@ -118,10 +118,10 @@ def homotopy {p : ℕ} (c : (Fin (p + 2) → ι) → (E →₀ M)) (x : Fin (p +
 pivot of `e`. -/
 theorem homotopy_apply {p : ℕ} (c : (Fin (p + 2) → ι) → (E →₀ M)) (x : Fin (p + 1) → ι)
     (e : E) : homotopy N c x e = c (Fin.cons (pivot N e) x) e := by
-  rw [homotopy, Finsupp.finset_sum_apply, Finset.sum_eq_single (pivot N e)]
-  · rw [Finsupp.filter_apply, if_pos rfl]
+  rw [homotopy, Finsupp.finsetSum_apply, Finset.sum_eq_single (pivot N e)]
+  · rw [Finsupp.filter_apply, ite_eq_left rfl]
   · intro k _ hk
-    rw [Finsupp.filter_apply, if_neg (Ne.symm hk)]
+    rw [Finsupp.filter_apply, ite_eq_right (Ne.symm hk)]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -152,7 +152,7 @@ theorem cechCoboundary_homotopy {p : ℕ} {c : (Fin (p + 2) → ι) → (E →�
   have h := congrArg (Finsupp.applyAddHom e) (hcoc (Fin.cons (pivot N e) x))
   simp only [cechCoboundary_cons, map_sub, map_sum, map_zsmul, Finsupp.applyAddHom_apply,
     map_zero] at h
-  show (Finsupp.applyAddHom e) (cechCoboundary (homotopy N c) x) =
+  change (Finsupp.applyAddHom e) (cechCoboundary (homotopy N c) x) =
     (Finsupp.applyAddHom e) (c x)
   rw [cechCoboundary]
   simp only [map_sum, map_zsmul, Finsupp.applyAddHom_apply, homotopy_apply]

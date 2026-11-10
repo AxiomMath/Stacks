@@ -185,21 +185,21 @@ variable {X' X : AlgebraicSpaces B S hS} (g' : X' ⟶ X) (x' : GeometricPoint B 
 theorem pullbackStalkComplexNatIso_inv_app_f (K) (n : ℤ) :
     ((pullbackStalkComplexNatIso g' x').inv.app K).f n =
       (pullbackStalkFunctorIso g' x').inv.app (K.X n) := by
-  haveI := Stacks.instAdditiveSheafModuleFiberOfCommRing (etaleSitePoint B S hS X'.1 x' X'.2)
+  have := Stacks.instAdditiveSheafModuleFiberOfCommRing (etaleSitePoint B S hS X'.1 x' X'.2)
     (smallEtaleRingedTopos B S hS X').O
-  haveI := Stacks.instAdditiveSheafModuleFiberOfCommRing
+  have := Stacks.instAdditiveSheafModuleFiberOfCommRing
     (etaleSitePoint B S hS X.1 (geometricPointMap g'.hom x') X.2) (smallEtaleRingedTopos B S hS X).O
-  haveI := pullbackModules_smallEtale_additive g'
-  haveI := (ModuleCat.extendRestrictScalarsAdj
+  have := pullbackModules_smallEtale_additive g'
+  have := (ModuleCat.extendRestrictScalarsAdj
     (smallEtaleStalkPullbackRingMap B S hS g' x')).left_adjoint_additive
-  haveI : (Stacks.sheafModuleFiberOfCommRing
+  have : (Stacks.sheafModuleFiberOfCommRing
       (etaleSitePoint B S hS X.1 (geometricPointMap g'.hom x') X.2)
       (smallEtaleRingedTopos B S hS X).O ⋙
     ModuleCat.extendScalars (smallEtaleStalkPullbackRingMap B S hS g' x')).Additive :=
     inferInstance
   apply Stacks.Generic.mapHomologicalComplexCompIso_trans_symm_inv_app_f_of_eq
     (pullbackStalkComplexNatIso.eq_1 g' x')
-  all_goals first | assumption | infer_instance
+  all_goals assumption
 
 end
 
@@ -215,16 +215,16 @@ variable {U' U : BigFppfOver B S hS}
 theorem representedAffineComplexPullbackIso_hom_app_f (K) (n : ℤ) :
     ((representedAffineComplexPullbackIso B S hS g).hom.app K).f n =
       (representedAffineAssociatedPullbackIso B S hS g).hom.app (K.X n) := by
-  haveI := pullbackModules_smallEtale_additive (representedSpaceMap B S hS g)
-  haveI := additive_representedAffineAssociated B S hS U
-  haveI := additive_representedAffineAssociated B S hS U'
-  haveI := (ModuleCat.extendRestrictScalarsAdj
+  have := pullbackModules_smallEtale_additive (representedSpaceMap B S hS g)
+  have := additive_representedAffineAssociated B S hS U
+  have := additive_representedAffineAssociated B S hS U'
+  have := (ModuleCat.extendRestrictScalarsAdj
     (representedAffineCommRingCatHom B S hS g).hom).left_adjoint_additive
-  haveI : (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom ⋙
+  have : (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom ⋙
       representedAffineAssociated B S hS U').Additive := inferInstance
   apply Stacks.Generic.mapHomologicalComplexCompIso_trans_symm_hom_app_f_of_eq
     (representedAffineComplexPullbackIso.eq_1 B S hS g)
-  all_goals first | assumption | infer_instance
+  all_goals assumption
 
 end
 

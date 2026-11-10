@@ -63,7 +63,7 @@ public theorem ofArrows_mem_precoverage_of_isOpenImmersion {T : E.Scheme} {ι : 
     Presieve.ofArrows Y g ∈ E.precoverage T := by
   let W : Covering E.Scheme := ⟨T, ⟨ι, Y, g⟩⟩
   have hW : IsEtaleCovering W := by
-    show Presieve.ofArrows _ (fun i => E.inclusion.map (g i)) ∈
+    change Presieve.ofArrows _ (fun i => E.inclusion.map (g i)) ∈
       AlgebraicGeometry.Scheme.etalePrecoverage _
     unfold AlgebraicGeometry.Scheme.etalePrecoverage
     exact (AlgebraicGeometry.Scheme.ofArrows_mem_precoverage_iff (@Etale)).2

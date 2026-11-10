@@ -117,7 +117,7 @@ public def restrict (D : StrictTransformProblem.{u}) (W : D.S.Opens)
   quasicoherent := inferInstance
   U := W.ι ⁻¹ᵁ D.U
   compact_U := by
-    letI : CompactSpace W.toScheme := isCompact_iff_compactSpace.mp hW
+    let : CompactSpace W.toScheme := isCompact_iff_compactSpace.mp hW
     rw [W.ι.isEmbedding.isCompact_iff]
     change IsCompact (W.ι.base '' (W.ι.base ⁻¹' (D.U : Set D.S)))
     rw [Set.image_preimage_eq_inter_range, Scheme.Opens.range_ι]

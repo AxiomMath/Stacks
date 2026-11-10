@@ -51,7 +51,7 @@ public theorem exists_algebraMap_smul_eq_one_tmul_padic {St : Type*} [AddCommGro
 
 section Main
 
-variable {E : Type*} [Field E] [Algebra ℚ_[ℓ] E] {O : Type*} [CommRing O] [Algebra ℤ_[ℓ] O]
+variable {E : Type*} [Field E] [Algebra ℚ_[ℓ] E] {O : Type*} [CommRing O]
   [Algebra O E] [IsLocalization (Submonoid.powers (ℓ : O)) E]
   {d m r : ℕ} (b : Module.Basis (Fin d) ℚ_[ℓ] E)
   {St : Type*} [AddCommGroup St] [Module ℤ_[ℓ] St]
@@ -71,7 +71,6 @@ theorem rationalIntegralMap_tmul (s : St →ₗ[ℤ_[ℓ]] (Fin r → ℤ_[ℓ])
 
 /-- **An integral specialization map gives an `E`-linear injection into the invariants.** -/
 public theorem exists_linearMap_invariants_of_integral
-    (hOE : ∀ c : ℤ_[ℓ], algebraMap O E (algebraMap ℤ_[ℓ] O c) = algebraMap ℚ_[ℓ] E c)
     (act : O → St →ₗ[ℤ_[ℓ]] St)
     (hact : ∀ (o : O) (v : St), algebraMap O E o • ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] v) =
       (1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] act o v)
@@ -138,7 +137,7 @@ public theorem exists_linearMap_invariants_of_integral
     intro f g hf hg h z
     obtain ⟨σ, v, hσ0, hz⟩ := hσ z
     refine smul_right_injective _ (hσne σ hσ0) ?_
-    show algebraMap ℤ_[ℓ] ℚ_[ℓ] σ • f z = algebraMap ℤ_[ℓ] ℚ_[ℓ] σ • g z
+    change algebraMap ℤ_[ℓ] ℚ_[ℓ] σ • f z = algebraMap ℤ_[ℓ] ℚ_[ℓ] σ • g z
     rw [← hf, ← hg, hz, h]
   -- the action of `o ∈ O`
   have hΦO : ∀ (o : O) z, Φ₀ (algebraMap O E o • z) = algebraMap O E o • Φ₀ z := by
@@ -156,12 +155,12 @@ public theorem exists_linearMap_invariants_of_integral
     intro e z
     obtain ⟨⟨o, ⟨_, k, rfl⟩⟩, he⟩ := IsLocalization.mk'_surjective (Submonoid.powers (ℓ : O)) e
     have hℓk : algebraMap O E ((ℓ : O) ^ k) = algebraMap ℚ_[ℓ] E ((ℓ : ℚ_[ℓ]) ^ k) := by
-      simpa only [map_pow, map_natCast] using hOE ((ℓ : ℤ_[ℓ]) ^ k)
+      simp only [map_pow, map_natCast]
     have hmul : algebraMap ℚ_[ℓ] E ((ℓ : ℚ_[ℓ]) ^ k) * e = algebraMap O E o := by
       rw [← he, ← hℓk]
       exact IsLocalization.mk'_spec' (M := Submonoid.powers (ℓ : O)) E o ⟨(ℓ : O) ^ k, k, rfl⟩
     refine smul_right_injective _ (hℓne k) ?_
-    show ((ℓ : ℚ_[ℓ]) ^ k) • Φ₀ (e • z) = ((ℓ : ℚ_[ℓ]) ^ k) • (e • Φ₀ z)
+    change ((ℓ : ℚ_[ℓ]) ^ k) • Φ₀ (e • z) = ((ℓ : ℚ_[ℓ]) ^ k) • (e • Φ₀ z)
     rw [← Φ₀.map_smul, ← algebraMap_smul E ((ℓ : ℚ_[ℓ]) ^ k) (e • z), smul_smul, hmul, hΦO,
       ← algebraMap_smul E ((ℓ : ℚ_[ℓ]) ^ k) (e • Φ₀ z), smul_smul, hmul]
   -- invariance

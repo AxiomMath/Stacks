@@ -179,7 +179,7 @@ theorem map_comp_openPartToBase {U V : SmallEtale B (Spec (CommRingCat.of Λ)) h
     (f : U ⟶ V) :
     (smallEtaleToScheme Λ B hS X).map f ≫ openPartToBase Λ B hS X V =
       openPartToBase Λ B hS X U := by
-  show B.inclusion.map
+  change B.inclusion.map
       (((SmallEtale.toOver B (Spec (CommRingCat.of Λ)) hS X).map f).left ≫
         ((SmallEtale.toOver B (Spec (CommRingCat.of Λ)) hS X).obj V).hom) =
     B.inclusion.map (((SmallEtale.toOver B (Spec (CommRingCat.of Λ)) hS X).obj U).hom)
@@ -458,7 +458,7 @@ theorem basePresheafMap_evaluation (P : PolynomialChart Λ B hS X hX) :
       Scheme.Γ.map (openPartToBase Λ B hS X P.openPart).op := by
     rw [← Scheme.Γ.map_comp]
     exact congrArg Scheme.Γ.map (congrArg Quiver.Hom.op hcomm)
-  show ((Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫ Scheme.Γ.map P.toBase.op) ≫
+  change ((Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫ Scheme.Γ.map P.toBase.op) ≫
       Scheme.Γ.map P.toAffine.op =
     (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫
       Scheme.Γ.map (openPartToBase Λ B hS X P.openPart).op

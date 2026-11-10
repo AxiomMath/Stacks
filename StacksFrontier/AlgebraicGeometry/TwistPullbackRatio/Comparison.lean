@@ -193,7 +193,7 @@ theorem mem_nonvanishingLocus_pullbackGlobalSections {X Y : Scheme.{u}} (f : X �
       (pullbackGlobalSections f M s) := by
   have hsec : pullbackGlobalSections f M s =
       Stacks.NonvanishingPullback.pullbackGlobalSection f M s := by
-    show ((Scheme.Modules.pullback f).obj M).presheaf.map
+    change ((Scheme.Modules.pullback f).obj M).presheaf.map
         (eqToHom (show f ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op
         (Stacks.NonvanishingPullback.pullbackGlobalSection f M s) = _
     exact Functor.map_id_apply _ _ _
@@ -313,7 +313,7 @@ theorem appLE_top_coordFrac (t : Fin (n + 1) → Γ(V, ⊤)) (ht : Ideal.span (S
   rw [← hz]
   rw [CategoryTheory.ConcreteCategory.comp_apply, appLE_awayToSection' t ht i,
     projAwayHom_coordFrac t i j hti]
-  show V.presheaf.map (homOfLE hb.ge).op
+  change V.presheaf.map (homOfLE hb.ge).op
       (V.presheaf.map (homOfLE (le_top (a := V.basicOpen (sectionsHom t (MvPolynomial.X i))))).op
         (t j)) = t j
   rw [← CategoryTheory.Functor.map_comp_apply]
@@ -353,7 +353,7 @@ theorem pullbackSectionOn_res {T T' : Y.Opens} (h : T' ≤ T) (t : Γ(F, T)) :
 theorem pullbackSectionOn_top (t : Γ(F, ⊤)) :
     pullbackSectionOn f F ⊤ t = pullbackGlobalSections f F t := by
   refine Eq.symm ?_
-  show ((Scheme.Modules.pullback f).obj F).presheaf.map
+  change ((Scheme.Modules.pullback f).obj F).presheaf.map
       (eqToHom (show f ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op (pullbackSectionOn f F ⊤ t) = _
   exact Functor.map_id_apply _ _ _
 
@@ -709,7 +709,7 @@ theorem exists_iso_pullback_twistingSheafAtUniverse (hcov : IsOpenCover (nvCover
     (PresheafOfModules.app_resLE α.val le_top _).symm
   have happ := CategoryTheory.ConcreteCategory.congr_hom (hα k (nvCover s k.down) le_rfl)
     (resT (nvCover s k.down) (pullbackCoordSection.{u} g i))
-  show resM (le_top : nvCover s k.down ≤ ⊤) (α.app ⊤ (pullbackCoordSection.{u} g i)) =
+  change resM (le_top : nvCover s k.down ≤ ⊤) (α.app ⊤ (pullbackCoordSection.{u} g i)) =
     resT (nvCover s k.down) (s i)
   rw [hnat, happ, chartApp_apply, resT_pullbackCoordSection s g k.down i (hpin k.down),
     div_smul_self, ratio_smul]

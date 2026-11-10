@@ -71,11 +71,7 @@ public theorem fg_span_range_of_mem_cuspFormsCentralChar (hp : IsUnit (ringChar 
       ((e z : cuspFormsCentralChar K Λ) : GL (Fin 2) (AdeleRing K) → Λ) x ∈
         Submodule.span ↥(⊥ : Subfield Λ) (s : Set Λ) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine ⟨∅, fun x => ?_⟩
-      rw [e.map_zero, Submodule.coe_zero, Pi.zero_apply]
-      exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul c g =>
       refine ⟨{c}, fun x => ?_⟩
       rw [he]

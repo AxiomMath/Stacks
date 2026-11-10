@@ -125,7 +125,7 @@ theorem mem_range_ι_of_X_notMem (i₀ i : (projectiveLineGluingData k).J) (hne 
       projectiveLinePuncturedChart k z = x := hx'
   refine ⟨((projectiveLineGluingData k).t i₀ i ≫ (projectiveLineGluingData k).f i i₀) (u.inv z),
     (((projectiveLineGluingData k).ι_eq_iff i₀ i x _).mpr ⟨u.inv z, ?_, rfl⟩).symm⟩
-  show ((projectiveLineGluingData k).f i₀ i) (u.inv z) = x
+  change ((projectiveLineGluingData k).f i₀ i) (u.inv z) = x
   have h₂ : (u.hom ≫ projectiveLinePuncturedChart k) (u.inv z) = x := by
     rw [Scheme.Hom.comp_apply, Scheme.inv_hom_apply]
     exact hz'
@@ -180,7 +180,7 @@ theorem range_specMap_evalRingHom_zero :
         (Polynomial.evalRingHom (0 : ULift.{u} ℤ)))) =
       PrimeSpectrum.zeroLocus
         (RingHom.ker (Polynomial.evalRingHom (0 : ULift.{u} ℤ))) := by
-  show Set.range (PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ULift.{u} ℤ))) = _
+  change Set.range (PrimeSpectrum.comap (Polynomial.evalRingHom (0 : ULift.{u} ℤ))) = _
   exact range_comap_of_surjective _ _ fun a => ⟨Polynomial.C a, by simp⟩
 
 /-- The coordinate vanishes at every point of the origin of an affine-line chart. -/

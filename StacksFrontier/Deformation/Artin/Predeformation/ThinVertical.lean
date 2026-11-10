@@ -137,7 +137,7 @@ public theorem DeformationMorphism.eq_of_ringHom_eq
   refine DeformationMorphism.ext_of_components iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀ h ?_
   refine hthin u.arrow v.arrow
     (BigFppfOver.map_injective_post_inclusion B S hS (Over.OverMorphism.ext ?_))
-  show ((p ⋙ Over.post B.inclusion).map u.arrow).left =
+  change ((p ⋙ Over.post B.inclusion).map u.arrow).left =
     ((p ⋙ Over.post B.inclusion).map v.arrow).left
   rw [u.arrow_left_eq, v.arrow_left_eq, h]
 

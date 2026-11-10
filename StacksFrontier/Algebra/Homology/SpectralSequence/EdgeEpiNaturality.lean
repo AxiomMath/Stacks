@@ -8,11 +8,11 @@ public import StacksCore.Algebra.Homology.SpectralSequence.PageInfinity
 `StacksCore/Algebra/Homology/SpectralSequence/PageInfinity.lean` builds, for a position `pq` from
 which all differentials vanish on the page `r` on, the edge epimorphism
 `E.edgeEpi pq r : E_r^{pq} ⟶ E_∞^{pq}`, as the composite `E.edgeEpiSteps` of the one-step maps
-`E.edgeEpiStep` of `StacksCore/Algebra/Homology/SpectralSequence/EdgeStep.lean` followed by the identification of a late page with the
-infinity page.  It proves the naturality of the *monomorphism* side -- `edgeMonoStep_naturality`,
-`edgeMonoSteps_naturality` -- and leaves the epimorphism side as a `TODO`.  This file supplies
-it: a morphism of spectral sequences commutes with `edgeEpiStep`, with `edgeEpiSteps` and hence
-with `edgeEpi` and `SpectralSequence.Hom.mapPageInfinity`.
+`E.edgeEpiStep` of `StacksCore/Algebra/Homology/SpectralSequence/EdgeStep.lean` followed by the
+identification of a late page with the infinity page. It proves the naturality of the *monomorphism*
+side -- `edgeMonoStep_naturality`, `edgeMonoSteps_naturality` -- and leaves the epimorphism side as
+a `TODO`. This file supplies it: a morphism of spectral sequences commutes with `edgeEpiStep`, with
+`edgeEpiSteps` and hence with `edgeEpi` and `SpectralSequence.Hom.mapPageInfinity`.
 
 That last square is what makes the bottom-row comparison map
 `E_2^{n,0} ⟶ E_∞^{n,0} ⟶ \mathrm{gr}^n H^n ⟶ H^n` of a functorial first-quadrant abutment a

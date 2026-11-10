@@ -114,7 +114,7 @@ theorem free_quotient_of_ringEquiv {R R' : Type*} [CommRing R] [CommRing R'] (ε
       algebraMap_smul]
   refine free_of_ringEquiv_of_addEquiv εq.symm Gq.symm.toAddEquiv fun c' m => ?_
   apply Gq.injective
-  show Gq (Gq.symm (c' • m)) = Gq (εq.symm c' • Gq.symm m)
+  change Gq (Gq.symm (c' • m)) = Gq (εq.symm c' • Gq.symm m)
   rw [Gq.apply_symm_apply, hGq, Gq.apply_symm_apply, εq.apply_symm_apply]
 
 /-- **Freeness of the `I`-quotient transported along a linear isomorphism.** -/
@@ -179,7 +179,7 @@ theorem algebraMap_specStalk_eq_germ (r : S.A) :
       (AlgebraicGeometry.Spec (CommRingCat.of S.A)).presheaf.stalk (underlyingPrime S y) =>
     t.hom r) (AlgebraicGeometry.Spec.algebraMap_stalkIso_inv (R := CommRingCat.of S.A)
       (x := underlyingPrime S y))
-  simp only [CommRingCat.comp_apply, CommRingCat.hom_ofHom] at h2
+  simp only at h2
   exact ((AlgebraicGeometry.StructureSheaf.stalkIso S.A
     (underlyingPrime S y)).commutes r).symm.trans h2
 

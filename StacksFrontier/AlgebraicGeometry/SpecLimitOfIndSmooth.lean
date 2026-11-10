@@ -136,7 +136,7 @@ lemma specUnderLimitPresentation_π_comp_structureMap
     [PreservesColimitsOfShape J (Under.forget A)] (pres : ColimitPresentation J X) (j : Jᵒᵖ) :
     (specUnderLimitPresentation pres).π.app j ≫ (specUnderStructureMap pres.diag).app j =
       Spec.map X.hom := by
-  show Spec.map (pres.leg j.unop).right ≫ Spec.map (pres.diag.obj j.unop).hom = Spec.map X.hom
+  change Spec.map (pres.leg j.unop).right ≫ Spec.map (pres.diag.obj j.unop).hom = Spec.map X.hom
   rw [← Spec.map_comp]
   exact congrArg Spec.map (Under.w (pres.leg j.unop))
 

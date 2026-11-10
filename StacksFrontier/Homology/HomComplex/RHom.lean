@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.Homology.DerivedCategory.KInjective
 public import Mathlib.Algebra.Homology.DerivedCategory.KProjective
 public import Mathlib.Algebra.Homology.HomotopyCategory.HomComplexCohomology
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

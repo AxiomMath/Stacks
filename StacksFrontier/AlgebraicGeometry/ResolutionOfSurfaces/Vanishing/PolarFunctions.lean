@@ -62,7 +62,7 @@ abbrev stalkSubring (x : X) : Subring X.functionField :=
 lemma algebraMap_stalkSpecializes {x y : X} (h : y ⤳ x) (t : X.presheaf.stalk x) :
     algebraMap (X.presheaf.stalk y) X.functionField (X.presheaf.stalkSpecializes h t) =
       algebraMap (X.presheaf.stalk x) X.functionField t := by
-  show X.presheaf.stalkSpecializes _ (X.presheaf.stalkSpecializes h t) =
+  change X.presheaf.stalkSpecializes _ (X.presheaf.stalkSpecializes h t) =
     X.presheaf.stalkSpecializes _ t
   rw [← CommRingCat.comp_apply, TopCat.Presheaf.stalkSpecializes_comp]
 
@@ -95,7 +95,7 @@ lemma mem_stalkSubring_of_forall_coheight_eq_one (x : X) (U : X.Opens) (hxU : x 
     fun y hyW hy1 => h y (hWU hyW) hy1
   refine ⟨X.presheaf.germ W x hxW s, ?_⟩
   rw [← hs]
-  show X.presheaf.stalkSpecializes _ (X.presheaf.germ W x hxW s) = _
+  change X.presheaf.stalkSpecializes _ (X.presheaf.germ W x hxW s) = _
   rw [← CommRingCat.comp_apply, TopCat.Presheaf.germ_stalkSpecializes]
 
 /-- A nonzero rational function in the local ring at a codimension-one point has nonnegative
@@ -140,6 +140,7 @@ lemma ord_pos_iff {y : X} (hy : coheight y = 1) {t : X.presheaf.stalk y} (ht0 : 
     exact (mem_maximalIdeal t).mp hm (Ideal.span_singleton_eq_top.mp
       (Ideal.Quotient.subsingleton_iff.mp (Module.length_eq_zero_iff.mp hn0)))
 
+omit [IsNormal X] in
 /-- The order of vanishing of `1` is zero. -/
 lemma ord_one' (y : X) : X.ord (1 : X.functionField) y = 0 := by
   have h := Scheme.ord_mul (x := y) (one_ne_zero (α := X.functionField)) one_ne_zero
@@ -156,6 +157,7 @@ lemma ord_pow' (y : X) {z : X.functionField} (hz : z ≠ 0) (n : ℕ) :
     push_cast
     ring
 
+omit [IsNormal X] in
 /-- The order of vanishing of an inverse. -/
 lemma ord_inv' (y : X) {z : X.functionField} (hz : z ≠ 0) :
     X.ord z⁻¹ y = - X.ord z y := by
@@ -163,6 +165,7 @@ lemma ord_inv' (y : X) {z : X.functionField} (hz : z ≠ 0) :
   rw [mul_inv_cancel₀ hz, ord_one'] at h
   omega
 
+omit [IsNormal X] in
 /-- The order of vanishing of a negative. -/
 lemma ord_neg' (y : X) (z : X.functionField) : X.ord (-z) y = X.ord z y := by
   by_cases hz : z = 0

@@ -204,9 +204,9 @@ theorem nonempty_artinianTangentSpace_linearEquiv_of_iso {Λ₁ : Type u} {Λ₂
     (𝓖₂ : BasedCategory.{v₂, u₁} (ArtinianLocalAlgCat.{u', w, w} Λ₂ k))
     [h₁ : Fact (IsPredeformationCategory 𝓖₁.p)] [h₂ : Fact (IsPredeformationCategory 𝓖₂.p)]
     [hS₁ : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖₁ h₁.out.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓖₁ h₁.out.cofibered)))]
     [hS₂ : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖₂ h₂.out.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓖₂ h₂.out.cofibered)))]
     (α : squareZeroExtensionArtinian.{u, w, w} Λ₁ k ⋙ isomorphismClasses 𝓖₁ h₁.out.cofibered ≅
       squareZeroExtensionArtinian.{u', w, w} Λ₂ k ⋙ isomorphismClasses 𝓖₂ h₂.out.cofibered) :
     Nonempty (artinianTangentSpace Λ₁ k (isomorphismClasses 𝓖₁ h₁.out.cofibered) ≃ₗ[k]
@@ -543,9 +543,9 @@ linearly isomorphic**, for their canonical vector-space structures of Stacks 06I
 theorem nonempty_artinianTangentSpace_linearEquiv_of_presentations
     [h₁ : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₁.projection).p)]
     [h₂ : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₂.projection).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor D₁.projection) h₁.out.cofibered)))]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor D₂.projection) h₂.out.cofibered)))] :
     Nonempty (artinianTangentSpace Λ₁ k
         (isomorphismClasses (BasedCategory.ofFunctor D₁.projection) h₁.out.cofibered) ≃ₗ[k]
@@ -559,9 +559,9 @@ presentation of the point.** -/
 theorem finiteDimensional_artinianTangentSpace_of_presentation
     [h₁ : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₁.projection).p)]
     [h₂ : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₂.projection).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor D₁.projection) h₁.out.cofibered)))]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor D₂.projection) h₂.out.cofibered)))]
     [FiniteDimensional k (artinianTangentSpace Λ₁ k
       (isomorphismClasses (BasedCategory.ofFunctor D₁.projection) h₁.out.cofibered))] :
@@ -578,7 +578,7 @@ theorem finiteDimensional_artinianTangentSpace_of_isDeformationCategory_of_prese
     (hD₁ : IsDeformationCategory D₁.projection) (hD₂ : IsDeformationCategory D₂.projection)
     (h : letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₁.projection).p) :=
         ⟨hD₁.predeformation⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+      letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
           (isomorphismClasses (BasedCategory.ofFunctor D₁.projection)
             hD₁.predeformation.cofibered))) :=
         ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
@@ -588,7 +588,7 @@ theorem finiteDimensional_artinianTangentSpace_of_isDeformationCategory_of_prese
           hD₁.predeformation.cofibered))) :
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D₂.projection).p) :=
       ⟨hD₂.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor D₂.projection)
           hD₂.predeformation.cofibered))) :=
       ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory

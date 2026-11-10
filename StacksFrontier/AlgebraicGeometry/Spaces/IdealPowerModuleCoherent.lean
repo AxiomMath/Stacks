@@ -102,7 +102,7 @@ theorem sum_comb_mul {Rr : Type*} [Semiring Rr] (hcomm : ∀ a b : Rr, a * b = b
 section General
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+  {O : Sheaf J CommRingCat.{u}}
 
 /-! ### Sections of a submodule -/
 
@@ -126,7 +126,6 @@ variable {M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
 
 /-! ### The largest submodule -/
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The largest submodule of a module of finite type is of finite type.** -/
 theorem isFiniteType_top (h : PresheafOfModules.IsFiniteType J M.val) :
     PresheafOfModules.IsFiniteType J (⊤ : M.Submodule).toPresheafOfModules := by
@@ -138,7 +137,6 @@ theorem isFiniteType_top (h : PresheafOfModules.IsFiniteType J M.val) :
 
 /-! ### The product of a sheaf of ideals with a submodule -/
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **A section of the objectwise product `I(Y) · K(Y)` is, locally, a combination of the
 products of a generating family of `I` with a generating family of `K`.** -/
 theorem exists_comb_of_mem_ringSectionIdeal_smul (I : IdealSubsheaf O) (K : M.Submodule)

@@ -128,7 +128,7 @@ theorem isIteratedDivisorCut_familyCut_prefixFamily {k : Type u} [Field k] {X : 
         (familyCut M (prefixFamily s j hj)).subscheme
         (familyCut M (prefixFamily s j hj)).subschemeι
   | 0, hj => by
-    show IsIso _
+    change IsIso _
     rw [Scheme.isIso_subschemeι_iff_eq_bot]
     exact familyCut_prefixFamily_zero M s hj
   | j + 1, hj => by

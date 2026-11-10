@@ -44,7 +44,8 @@ missing is the construction, which needs two things recorded as unavailable in t
 implementation notes of `Stacks.Cohomology.LerayModules`: a *functorial*
 Cartan-Eilenberg resolution, since [Stacks, Tag 015N]
 (`CategoryTheory.Functor.exists_spectralSequence_rightDerivedFunctorPlus_comp` of
-`StacksFrontier/Algebra/Homology/SpectralSequence/Grothendieck.lean`) is an existence statement producing the
+`StacksFrontier/Algebra/Homology/SpectralSequence/Grothendieck.lean`) is an existence statement
+producing the
 spectral sequence one object at a time — so no functorial data can be extracted from it at
 all — and a construction of the abutment datum `E_∞^{p,q} ≅ gr^p H^{p+q}`, which no spectral
 sequence in the development currently satisfies even non-functorially.  So this file is the

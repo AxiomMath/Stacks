@@ -320,7 +320,7 @@ theorem exists_affine_smallEtale_pointOfEtaleChart_eq (X : AlgebraicSpaces B (Sp
   obtain ⟨W, b, hWaff, hb, w, hw⟩ :=
     exists_affine_etale_chart_at_point B (Spec (.of A)) hA X.1 X.2 x
   refine ⟨⟨CostructuredArrow.mk b, hb⟩, pointsEquivScheme B (Spec (.of A)) hA W w, hWaff, ?_⟩
-  show pointsMap B (Spec (.of A)) hA (yoneda.obj W) b
+  change pointsMap B (Spec (.of A)) hA (yoneda.obj W) b
     ((pointsEquivScheme B (Spec (.of A)) hA W).symm (pointsEquivScheme B (Spec (.of A)) hA W w)) = x
   rw [Equiv.symm_apply_apply, hw]
 

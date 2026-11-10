@@ -167,7 +167,7 @@ private theorem algebraic_of_injective_ringHom
   have : Algebra.IsAlgebraic K M := halg
   exact Algebra.IsAlgebraic.of_ringHom_of_comp_eq (RingHom.id K) β
     (fun x => ⟨x, rfl⟩) hinj (by
-      show γ.comp (RingHom.id K) = β.comp α
+      change γ.comp (RingHom.id K) = β.comp α
       simpa using hcomp)
 
 private theorem algebraic_trans_of_ringHom
@@ -431,7 +431,7 @@ private theorem exists_section_fromGenericStalk_of_isBirational
         hfiniteY y hy := by
   have hdenseX := hasDenseRepresentableOpenSubspace_of_isDecentSpace B S hS hX hdecentX
   have hdenseY := hasDenseRepresentableOpenSubspace_of_isDecentSpace B S hS hY hdecentY
-  show ∃ s : yoneda.obj (genericStalkSpec B S hS hY hdenseY hfiniteY y hy) ⟶ X,
+  change ∃ s : yoneda.obj (genericStalkSpec B S hS hY hdenseY hfiniteY y hy) ⟶ X,
     s ≫ f = fromGenericStalk B S hS hY hdenseY hfiniteY y hy
   obtain ⟨x, hx, hxy, _⟩ := exists_genericPoint_preimage_of_isBirational
     B S hS hY hfiniteY y hy hX hdecentX hdecentY hfiniteX f hf
@@ -591,7 +591,7 @@ private theorem exists_etale_chart_through_chart
     MorphismProperty.relative_map (show Etale (T.map j) from inferInstance)
   have : P.IsStableUnderComposition := ⟨by
     intro A₁ A₂ A₃ f₁ f₂ hf₁ hf₂
-    show Etale (T.map (f₁ ≫ f₂))
+    change Etale (T.map (f₁ ≫ f₂))
     rw [T.map_comp]
     have : Etale (T.map f₁) := hf₁
     have : Etale (T.map f₂) := hf₂
@@ -682,7 +682,7 @@ private theorem hom_ext_of_comp_eq_of_isIso_stalkMap
   apply LocallyRingedSpace.forgetToSheafedSpace.map_injective
   apply SheafedSpace.hom_stalk_ext _ _ hbase
   intro t
-  show a.stalkMap t = (U.presheaf.stalkCongr _).hom ≫ b.stalkMap t
+  change a.stalkMap t = (U.presheaf.stalkCongr _).hom ≫ b.stalkMap t
   have := hg t
   apply (cancel_epi (g.stalkMap (a t))).mp
   rw [← Category.assoc, g.stalkMap_congr_point (a t) (b t) (hpoint t),
@@ -719,7 +719,7 @@ private theorem pointsMap_fromGenericStalk
     ((pointTopologyFamily B S hS).continuous
       (isAlgebraicSpace_yoneda B S hS d.U) hY d.immersion)
   rw [d.mapsTo] at hsY
-  show pointsMap B S hS _ (yoneda.map q ≫ d.immersion) p = y
+  change pointsMap B S hS _ (yoneda.map q ≫ d.immersion) p = y
   rw [pointsMap_comp_apply]
   exact eq_of_specializes_genericPoint hy hsY
 
@@ -829,7 +829,7 @@ theorem isIso_pullback_snd_fromGenericStalk_of_isBirational
   let := pointTopology B S hS X
   have hdenseX := hasDenseRepresentableOpenSubspace_of_isDecentSpace B S hS hX hdecentX
   have hdenseY := hasDenseRepresentableOpenSubspace_of_isDecentSpace B S hS hY hdecentY
-  show IsIso (pullback.snd f (fromGenericStalk B S hS hY hdenseY hfiniteY y hy))
+  change IsIso (pullback.snd f (fromGenericStalk B S hS hY hdenseY hfiniteY y hy))
   obtain ⟨x, hx, hxy, _⟩ := exists_genericPoint_preimage_of_isBirational
     B S hS hY hfiniteY y hy hX hdecentX hdecentY hfiniteX f hf
   subst y

@@ -218,7 +218,7 @@ theorem transportTotalHom_comp_transportTotalInv :
   have key : Hom.lineBundleIso (x.transportTotalHom e ≫ x.transportTotalInv e) =
       eqToIso hobj ≪≫ (Scheme.Modules.pullbackId x.total).app x.lineBundle := by
     refine Iso.ext ?_
-    show (Scheme.Modules.pullbackComp e.hom e.inv).inv.app x.lineBundle ≫
+    change (Scheme.Modules.pullbackComp e.hom e.inv).inv.app x.lineBundle ≫
       (Scheme.Modules.pullback e.hom).map (𝟙 _) ≫
         ((Scheme.Modules.pullbackComp e.hom e.inv).hom.app x.lineBundle ≫
           (Scheme.Modules.pullbackCongr e.hom_inv_id).hom.app x.lineBundle ≫

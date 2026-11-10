@@ -43,6 +43,8 @@ variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrp
 variable {O₀ : Sheaf J CommRingCat.{u}}
   {M N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀)} (φ : M ⟶ N)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The map `O₀[M] ⟶ O₀[N]` carries the inclusion of the ideal `M` to the inclusion of the ideal
 `N` precomposed with `φ`. -/
 theorem sqZeroExtIdealInclusion_comp_unitToRestrictScalarsUnit :

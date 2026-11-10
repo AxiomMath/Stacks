@@ -40,8 +40,8 @@ identification `g'^*f^* ≅ f'^*g^*` of the two composite inverse images.
   isomorphism, and with that isomorphism carried as a variable.
 * `Stacks.AlgebraicGeometry.TopDegreeBaseChange.derivedToOrdinaryPullbackSingle_square` — **the
   theorem**.
-* `Stacks.SingleComparison.squareChain` and `Stacks.SingleComparison.squareChainIso` — the
-  composition bookkeeping, with no geometry in it.
+* `Stacks.AlgebraicGeometry.TopDegreeBaseChange.SingleComparison.squareChain` and
+  `...SingleComparison.squareChainIso` — the composition bookkeeping, with no geometry in it.
 
 ## Implementation notes
 
@@ -84,7 +84,7 @@ universe u
 
 /-! ### The composition bookkeeping -/
 
-namespace Stacks.SingleComparison
+namespace SingleComparison
 
 /-- **The bookkeeping of the square, with no geometry in it.**  Given the two factorizations of
 the two routes around the square (`hA` and `hB`), the transport between the two comparisons for
@@ -133,7 +133,7 @@ theorem squareChainIso {C : Type*} [Category C] {A B₂ A₂ Y₀ T R₀ R R' Z 
   simpa using squareChain (𝟙 A) d1 ci ch rS1 rS2 rX1 rX2 (c1h ≫ Da) Db sa sb m n s hA
     (by simpa using hB) (by simpa using hd1) hs hci hsa
 
-end Stacks.SingleComparison
+end SingleComparison
 
 /-! ### Transport along an equality of morphisms -/
 
@@ -264,7 +264,7 @@ theorem derivedToOrdinaryPullbackSingle_square (w : g' ≫ f = f' ≫ g)
           ((Stacks.DerivedPullback.Composition.modulePullbackComp g' f).hom.app M) = 𝟙 _ := by
     rw [← (singleFunctor (SheafOfModules.{u} (structureSheafRing X')) d).map_comp,
       Iso.inv_hom_id_app, CategoryTheory.Functor.map_id]
-  exact Stacks.SingleComparison.squareChain _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  exact SingleComparison.squareChain _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     (derivedToOrdinaryPullbackSingle_comp f' g d M)
     (derivedToOrdinaryPullbackSingle_comp g' f d M)
     (derivedToOrdinaryPullbackSingle_congr w M d) hs

@@ -193,7 +193,7 @@ theorem bivariantCommuteOverBase_of_forall_piece {I : Type u} (UX : I → W.Open
     refine chowGroupRestrict_eq_of_opensRange_le C _ _ _ _ rfl _ _ ?_ _ hxy
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.opensRange_ι]
-    show ((O.ι ≫ mixedCommuteInv sW sZ w t) ≫
+    change ((O.ι ≫ mixedCommuteInv sW sZ w t) ≫
       pullback.fst sW (pullback.fst w t ≫ (w ≫ sZ))).base z ∈ UX i
     rw [Category.assoc, mixedCommuteInv_fst]
     exact z.2
@@ -461,7 +461,7 @@ theorem exists_isChowOperationClassOverBase_cap_eq_of_closedPoint {C : ChowSitua
   have _ : LocallyOfFiniteType h := locallyOfFiniteType_of_comp h D.subschemeι
   have hnn : 0 ≤ 1 - p := by
     rw [← hδ]
-    show 0 ≤ C.dimensionFunction (sU'.base (genericPoint U')) +
+    change 0 ≤ C.dimensionFunction (sU'.base (genericPoint U')) +
       (Cardinal.toNat (residueTrdeg sU' (genericPoint U')) : ℤ)
     rw [hpt, hδs]
     omega
@@ -473,7 +473,7 @@ theorem exists_isChowOperationClassOverBase_cap_eq_of_closedPoint {C : ChowSitua
       Order.coheight_eq_zero.mpr fun b _ ↦ le_of_eq (Subsingleton.elim _ _)
     rw [hmax, zero_add, hh', hδ, relativeDimension_comp_closedImmersion, relativeDimension_id,
       hDpt]
-    show (r : ℕ∞) = ((1 - p - C.dimensionFunction s).toNat : ℕ∞)
+    change (r : ℕ∞) = ((1 - p - C.dimensionFunction s).toNat : ℕ∞)
     rw [hδs, sub_zero, ← hr1, Int.toNat_natCast]
   clear_value h
   clear hhdef

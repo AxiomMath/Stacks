@@ -102,8 +102,11 @@ of modules — agree.  Both sheafify a presheaf whose sections are `F(U) ⊗_{�
 the description of the restriction maps differs, and that difference is invisible on pure
 tensors. -/
 noncomputable def tensorSheafComparison (X : Scheme.{u}) (F G : X.Modules) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) := by
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
+          (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) := by
   apply (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X.toRingedSpace).mapIso
   refine PresheafOfModules.isoMk (fun _ => Iso.refl _) ?_
   intro V W f
@@ -116,8 +119,12 @@ noncomputable def tensorSheafComparison (X : Scheme.{u}) (F G : X.Modules) :
 arguments. -/
 noncomputable def tensorSheafificationIso (X : Scheme.{u}) {F F' G G' : X.Modules}
     (e : F ≅ F') (e' : G ≅ G') :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F')).obj (G')) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
+        (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F)).obj (G)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
+          (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (F')).obj (G')) :=
   (Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf X.ringCatSheaf.2).mapIso
     (MonoidalCategory.tensorIso
       (C := PresheafOfModules.{u} (X.presheaf ⋙ forget₂ CommRingCat RingCat))
@@ -127,15 +134,19 @@ noncomputable def tensorSheafificationIso (X : Scheme.{u}) {F F' G G' : X.Module
 /-- The tensor product of `𝒪_X`-modules is functorial in both arguments. -/
 noncomputable def tensorSheafIso (X : Scheme.{u}) {F F' G G' : X.Modules}
     (e : F ≅ F') (e' : G ≅ G') :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F')).obj (G')) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F')).obj (G')) :=
   tensorSheafComparison X F G ≪≫ tensorSheafificationIso X e e' ≪≫
     (tensorSheafComparison X F' G').symm
 
 /-- **The affine tensor comparison, Stacks Tag 01I8.**  On `Spec R` the tensor product of the
 sheaves associated to `M` and `N` is the sheaf associated to `M ⊗_R N`. -/
 noncomputable def tensorSheafTildeIso (R : CommRingCat.{u}) (M N : ModuleCat.{u} R) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tilde M))).obj ((tilde N))) ≅ tilde (M ⊗ N) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+        ((tilde M))).obj ((tilde N))) ≅ tilde (M ⊗ N) :=
   tensorSheafComparison (Spec R) (tilde M) (tilde N) ≪≫ (tildeTensorIso R M N).symm
 
 /-- **The affine dual comparison, Stacks Tag 01I8.**  On `Spec R` the dual of the sheaf
@@ -170,7 +181,9 @@ of the two modules. -/
 noncomputable def doubleDualTensorTildeIso (R : CommRingCat.{u}) [IsNoetherianRing R]
     {F G : (Spec R).Modules} {M N : ModuleCat.{u} R}
     [Module.Finite R M] [Module.Finite R N] (e : F ≅ tilde M) (e' : G ≅ tilde N) :
-    dualSheaf (dualSheaf ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)))) ≅
+    dualSheaf (dualSheaf ((((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj (F)).obj
+        (G)))) ≅
       tilde (ModuleCat.of R (Module.Dual R (Module.Dual R (M ⊗ N : ModuleCat.{u} R)))) :=
   haveI : Module.Finite R (M ⊗ N : ModuleCat.{u} R) := Module.Finite.tensorProduct R M N
   dualIso (dualIso (tensorSheafIso (Spec R) e e' ≪≫ tensorSheafTildeIso R M N)) ≪≫

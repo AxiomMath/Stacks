@@ -284,7 +284,7 @@ theorem componentModuleDirectTransition_systemModule {m n : SimplexCategory} (φ
         (Scheme.Modules.pushforward (X.map φ.op)).map (systemModuleComponentIso N n).inv := by
   refine Scheme.Modules.hom_ext _ _ fun W => ?_
   ext x
-  show systemPresheafMap N (SimplicialSheafSystem.transitionHom φ.op W) x =
+  change systemPresheafMap N (SimplicialSheafSystem.transitionHom φ.op W) x =
     systemDirectApp N φ W x
   unfold systemPresheafMap
   have key : systemDirectApp N φ W ≫ (N.obj n).presheaf.map
@@ -305,7 +305,7 @@ theorem componentModuleTransition_systemModule {m n : SimplexCategory} (φ : m �
 /-- **The glued module is cartesian.** -/
 theorem isCartesianModule_systemModule : IsCartesianModule X (systemModule N) := by
   intro a b ψ
-  show IsIso (componentModuleTransition X ψ.unop.op (systemModule N))
+  change IsIso (componentModuleTransition X ψ.unop.op (systemModule N))
   rw [componentModuleTransition_systemModule]
   infer_instance
 

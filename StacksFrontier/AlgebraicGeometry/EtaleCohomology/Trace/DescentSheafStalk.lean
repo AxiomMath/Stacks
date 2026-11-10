@@ -273,7 +273,7 @@ public theorem presheafFiber_smallEtalePointHom_comp_stalkToModule (a : x.source
     exact (Scheme.pointSmallEtale x.hom).toPresheafFiber_presheafFiberDesc _ _ W p
   rw [reassoc_of% hσ, toPresheafFiber_stalkToModule, toPresheafFiber_stalkToModule_assoc]
   refine ModuleCat.hom_ext (LinearMap.ext fun f => ?_)
-  show f.1 ((C.liftPoint a ha _).base default) =
+  change f.1 ((C.liftPoint a ha _).base default) =
     ρ (C.pointElement a ha σ) (f.1 ((C.liftPoint a ha p).base default))
   rw [← liftPoint_fiber_map, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply,
     Subsingleton.elim (σ.hom.base default) default]
@@ -297,7 +297,7 @@ public theorem restrictGraph_map {T T' : Over C.cover} (k : T' ⟶ T)
     C.restrictGraph Λ N ρ T' ((C.descentSheaf Λ N ρ).obj.map k.left.op f) =
       (C.restrictGraph Λ N ρ T f).comap k.left.left.base.hom := by
   refine LocallyConstant.ext fun y => ?_
-  show f.1 ((C.pullbackMap k.left).base ((C.graph T').base y)) =
+  change f.1 ((C.pullbackMap k.left).base ((C.graph T').base y)) =
     f.1 ((C.graph T).base (k.left.left.base y))
   rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, C.graph_naturality k]
 
@@ -331,7 +331,7 @@ public theorem injective_stalkToModule (a : x.source ⟶ C.cover.left)
   have : PreservesFilteredColimitsOfSize.{u, u} (forget AddCommGrpCat.{max (u + 1) v}) :=
     preservesFilteredColimitsOfSize_of_univLE.{max (u + 1) v, max (u + 1) v, u, u} _
   have : PreservesFilteredColimitsOfSize.{u, u} (forget (ModuleCat.{max (u + 1) v} Λ)) := by
-    show PreservesFilteredColimitsOfSize
+    change PreservesFilteredColimitsOfSize
       (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v} ⋙
         forget AddCommGrpCat.{max (u + 1) v})
     infer_instance
@@ -341,7 +341,7 @@ public theorem injective_stalkToModule (a : x.source ⟶ C.cover.left)
     (C.stalkToModule_toPresheafFiber_apply Λ N ρ a ha p f).symm.trans hz
   let W₁ := C.fiberObj W
   let p₁ : Φ.fiber.obj W₁ := Over.homMk (C.liftPoint a ha p) (by
-    show C.liftPoint a ha p ≫ pullback.fst _ _ ≫ W.hom = x.hom
+    change C.liftPoint a ha p ≫ pullback.fst _ _ ≫ W.hom = x.hom
     rw [liftPoint_fst_assoc]
     exact Over.w p)
   have hp₁ : Φ.fiber.map (C.fiberObjFst W) p₁ = p :=
@@ -369,7 +369,7 @@ public theorem injective_stalkToModule (a : x.source ⟶ C.cover.left)
   let q₂ : x.source ⟶ O.toScheme := IsOpenImmersion.lift O.ι (C.liftPoint a ha p) hrange
   have hq₂ : q₂ ≫ O.ι = C.liftPoint a ha p := IsOpenImmersion.lift_fac _ _ _
   let p₂ : Φ.fiber.obj W₂ := Over.homMk q₂ (by
-    show q₂ ≫ O.ι ≫ pullback.fst _ _ ≫ W.hom = x.hom
+    change q₂ ≫ O.ι ≫ pullback.fst _ _ ≫ W.hom = x.hom
     rw [reassoc_of% hq₂]
     exact (C.liftPoint_fst_assoc a ha p W.hom).trans (Over.w p))
   have hp₂ : Φ.fiber.map ι₂ p₂ = p₁ := Over.OverMorphism.ext hq₂
@@ -456,7 +456,7 @@ public theorem stalkLinearEquivOfIso_sheafFiber_map (e : F ≅ C.descentSheaf Λ
     C.stalkLinearEquivOfIso Λ N ρ e a ha
         (((GrothendieckTopology.Point.Hom.sheafFiber (smallEtalePointHom X σ)).app F).hom m) =
       ρ (C.pointElement a ha σ) (C.stalkLinearEquivOfIso Λ N ρ e a ha m) := by
-  show C.stalkLinearEquiv Λ N ρ a ha
+  change C.stalkLinearEquiv Λ N ρ a ha
       (((Scheme.pointSmallEtale x.hom).sheafFiber.map e.hom).hom
         (((GrothendieckTopology.Point.Hom.sheafFiber (smallEtalePointHom X σ)).app F).hom m)) = _
   rw [← ConcreteCategory.comp_apply,

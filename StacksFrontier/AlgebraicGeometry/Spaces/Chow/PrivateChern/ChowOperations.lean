@@ -106,7 +106,7 @@ theorem chowDescend_chowClass (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY : Y �
     (hφ : RespectsRationalEquivalence.{u, v} D sX hX sY hY φ) (α : CycleGroup D sX k) :
     chowDescend.{u, v} D sX hX sY hY φ (chowClass.{v} D sX hX k α) =
       chowClass.{v} D sY hY m (φ α) := by
-  rw [chowDescend, dif_pos hφ]
+  rw [chowDescend, dite_eq_left hφ]
   rfl
 
 /-- The identification of `CH_a(X)` with `CH_b(X)` along an equality of degrees `a = b`. -/

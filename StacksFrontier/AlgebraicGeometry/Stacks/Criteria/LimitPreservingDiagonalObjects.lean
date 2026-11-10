@@ -137,7 +137,7 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
   let y₀ : 𝒴.val.p.Fiber Ui := ⟨Fh.obj w.1.y, hy₀⟩
   let ypt := E ⋙ cy.sliceFunctor y₀
   have hyq : ypt ⋙ 𝒴.val.p = q := by
-    show E ⋙ cy.sliceFunctor y₀ ⋙ 𝒴.val.p = q
+    change E ⋙ cy.sliceFunctor y₀ ⋙ 𝒴.val.p = q
     rw [Functor.ChoiceOfPullbacks.sliceFunctor_comp]
     rfl
   obtain ⟨Fsp, hFsp, ⟨e⟩⟩ := hp Ui ypt hyq
@@ -158,12 +158,12 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
     fun j => (D.obj j.left).property
   have hpt₀ : IsAffine ((Over.forget Ui.left ⋙ B.inclusion).obj c₀.pt) := c.pt.property
   have hbase₀ : q.obj c₀.pt = cs.pt := by
-    show Over.mk ((cs.π.app i).left ≫ Ui.hom) = cs.pt
+    change Over.mk ((cs.π.app i).left ≫ Ui.hom) = cs.pt
     rw [(cs.π.app i).w]
     rfl
   have hbase₁ : ∀ j : Over i, q.obj (D₀.obj j) = Ds.obj j.left := by
     intro j
-    show Over.mk ((Ds.map j.hom).left ≫ Ui.hom) = Ds.obj j.left
+    change Over.mk ((Ds.map j.hom).left ≫ Ui.hom) = Ds.obj j.left
     rw [(Ds.map j.hom).w]
     rfl
   have hstage : ∀ j : Over i,
@@ -256,11 +256,11 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
       b := γ.b
       ha := inferInstance
       hb := by
-        show 𝒳.val.p.IsHomLift (q.map (c₀.π.app j₀)) γ.b
+        change 𝒳.val.p.IsHomLift (q.map (c₀.π.app j₀)) γ.b
         rw [hqleg₀]
         infer_instance
       w := by
-        show ypt.map (c₀.π.app j₀) ≫ κ = κ₂ ≫ Fh.map γ.b
+        change ypt.map (c₀.π.app j₀) ≫ κ = κ₂ ≫ Fh.map γ.b
         rw [hκeq, hκ₂fac]
         exact hsliceFac }
   let Φ₁ : C ⟶ A₁ :=
@@ -269,11 +269,11 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
       b := γ.a
       ha := inferInstance
       hb := by
-        show 𝒳.val.p.IsHomLift (q.map (c₀.π.app j₀)) γ.a
+        change 𝒳.val.p.IsHomLift (q.map (c₀.π.app j₀)) γ.a
         rw [hqleg₀]
         infer_instance
       w := by
-        show ypt.map (c₀.π.app j₀) ≫ ι₁ = κ₂ ≫ Fh.map γ.a
+        change ypt.map (c₀.π.app j₀) ≫ ι₁ = κ₂ ≫ Fh.map γ.a
         rw [← cancel_mono w.1.iso.hom, Category.assoc, Category.assoc, hι₁fac, hsliceFac,
           ← hκ₂fac]
         exact congrArg (κ₂ ≫ ·) hγw.symm }
@@ -344,15 +344,15 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
       a := ρ₁.b
       b := ψ.hom.1.b ≫ ρ₂.b
       ha := by
-        show 𝒳.val.p.IsHomLift
+        change 𝒳.val.p.IsHomLift
           (eqToHom x'.2 ≫ T.map (D.map aa.left) ≫ eqToHom hwbase.symm) ρ₁.b
         infer_instance
       hb := by
-        show 𝒳.val.p.IsHomLift
+        change 𝒳.val.p.IsHomLift
           (eqToHom x'.2 ≫ T.map (D.map aa.left) ≫ eqToHom hwbase.symm) (ψ.hom.1.b ≫ ρ₂.b)
         infer_instance
       w := by
-        show Fh.map ρ₁.b ≫ w.1.iso.hom =
+        change Fh.map ρ₁.b ≫ w.1.iso.hom =
           (Iso.refl (Fh.obj x'.1)).hom ≫ Fh.map (ψ.hom.1.b ≫ ρ₂.b)
         rw [Iso.refl_hom, Category.id_comp]
         exact hwsq }
@@ -378,7 +378,7 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
       _ γ'
   · refine TwoFibreProductOver.Hom.ext' ?_ ?_
     · exact hβfac.symm
-    · show δ ≫ (ψ.hom.1.b ≫ ρ₂.b) = β ≫ γ.b
+    · change δ ≫ (ψ.hom.1.b ≫ ρ₂.b) = β ≫ γ.b
       apply Fh.map_injective
       rw [Fh.map_comp, ← hwsq, ← Category.assoc, ← Fh.map_comp, ← hβfac, Fh.map_comp,
         Category.assoc, hγw]

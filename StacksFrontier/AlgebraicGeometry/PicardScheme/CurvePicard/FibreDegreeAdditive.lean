@@ -88,7 +88,7 @@ theorem classDegree_eq (x : Stacks.Picard.ofScheme Z) :
       (IsCurve.topologicalKrullDim_eq_one (k := K) (f := g)).le (rep x)
       (Stacks.TwoAffineCech.isInvertible_of_isInvertibleModule (rep x)) := by
   have h := Stacks.Picard.classOf_picardRepresentative Z.toRingedSpace x
-  show picardDegree K g (IsCurve.topologicalKrullDim_eq_one (k := K) (f := g)).le
+  change picardDegree K g (IsCurve.topologicalKrullDim_eq_one (k := K) (f := g)).le
     (Stacks.GluePicard.picardModelAddEquiv Z.toRingedSpace x) = _
   conv_lhs => rw [← h]
   rw [Stacks.GluePicard.picardModelAddEquiv_classOf]

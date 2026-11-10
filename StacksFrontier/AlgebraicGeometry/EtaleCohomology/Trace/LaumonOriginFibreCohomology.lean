@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LaumonOrigi
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.FibreFieldExtensionCohomologyLinear
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.RepresentationCoefficientInverseImageIsogeny
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.RepresentationCoefficientInverseImageIsogeny
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.RepresentationCoefficientBasePointIsogeny
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.GeometricLAdicLFunction
@@ -259,6 +259,7 @@ public theorem exists_fieldExtension_restrictScalarsRepCoefficientSheaf_linearEq
 end Chains
 
 set_option maxHeartbeats 4000000 in
+-- a long proof elaborating many instances over Laumon's fibre and its residue field
 /-- **The fibre of Laumon's family over the origin**
 ([Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)): `H¹_c(Y_k̄, K|_Y ⊗ ℚ_ℓ) ≃
 H¹_c(U_k̄, ℱ_σ ⊗ ℚ_ℓ)`, `E`-linearly, carrying the Frobenius of `κ(y)` to `(π_U^*) ^ {d_y}`. -/
@@ -348,7 +349,7 @@ public theorem laumonOriginFibreCohomologyInput : LaumonOriginFibreCohomologyInp
     intro γ
     have hχ := artinSchreierCharacter_laumonFibre_eq_one k' ψ' n₀ c z p₀ y hy i fY hY yb t₁ γ
     have h1 : ρK γ = σ (Φ₁ γ) := by
-      show (σ.comp M).comp (etaleFundamentalGroupMap (laumonFamilyPr₁ k') z).toMonoidHom
+      change (σ.comp M).comp (etaleFundamentalGroupMap (laumonFamilyPr₁ k') z).toMonoidHom
           (φ₁ (etaleFundamentalGroupMap i.hom yb γ)) *
         Units.map (Matrix.scalar (Fin m) : E →+* Matrix (Fin m) (Fin m) E).toMonoidHom
           (Stacks.ArtinSchreier.artinSchreierCharacter k' (Polynomial (Polynomial k'))
@@ -373,7 +374,7 @@ public theorem laumonOriginFibreCohomologyInput : LaumonOriginFibreCohomologyInp
         ((Stacks.ArtinSchreier.specObject (Polynomial k') B hL).1.residueField y)).hom
           (yb.map α.hom)).toMonoidHom).comp (etaleFundamentalGroupMap α.hom yb).toMonoidHom)
       hσ₄).rationalCohomologyModule fY jY kbar 1 E
-  show ∃ eY : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B Y ℓ fY jY kbar
+  change ∃ eY : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B Y ℓ fY jY kbar
       G0.toLAdicSheaf 1 ≃ₗ[E]
       LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f j kbar Fσ.toLAdicSheaf 1,
     ∀ v, eY (G0.rationalGeometricCompactlySupportedFrobenius fY jY kbar 1 E p (n * (m' + 1))

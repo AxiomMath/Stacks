@@ -67,7 +67,7 @@ theorem tensorProduct_map_subalgebra_val_injective
       = LinearMap.rTensor k' S'.val.toLinearMap := by
     ext x y
     simp [LinearMap.rTensor_tmul]
-  show Function.Injective (Algebra.TensorProduct.map S'.val (AlgHom.id k k')).toLinearMap
+  change Function.Injective (Algebra.TensorProduct.map S'.val (AlgHom.id k k')).toLinearMap
   rw [heq]
   exact Module.Flat.rTensor_preserves_injective_linearMap _ Subtype.val_injective
 
@@ -303,7 +303,7 @@ theorem dlAlg_of_apply
     Ring.DirectLimit.of G (fun i j h => (f i j h : G i → G j)) i (algebraMap k (G i) x)
       = algebraMap k (Ring.DirectLimit G (fun i j h => (f i j h : G i → G j))) x := by
   let := dlAlg k G (fun i j h => (f i j h : G i → G j))
-  show Ring.DirectLimit.of G (fun i j h => (f i j h : G i → G j)) i (algebraMap k (G i) x)
+  change Ring.DirectLimit.of G (fun i j h => (f i j h : G i → G j)) i (algebraMap k (G i) x)
       = Ring.DirectLimit.of G (fun i j h => (f i j h : G i → G j)) (Classical.arbitrary ι)
           (algebraMap k (G (Classical.arbitrary ι)) x)
   obtain ⟨m, him, ham⟩ := directed_of (· ≤ ·) i (Classical.arbitrary ι)
@@ -416,8 +416,7 @@ theorem dlTensorMap_surjective
          Ring.DirectLimit G (fun i j h => (f i j h : G i → G j)) ⊗[k] k') :
     ∃ (i : ι) (a₀ : G i ⊗[k] k'), dlTensorMap k G f hf k' i a₀ = a := by
   let := dlAlg k G (fun i j h => (f i j h : G i → G j))
-  induction a using TensorProduct.induction_on with
-  | zero => exact ⟨Classical.arbitrary ι, 0, map_zero _⟩
+  induction a using TensorProduct.inductionOn with
   | tmul g c =>
     obtain ⟨i, b, hb⟩ := Ring.DirectLimit.exists_of g
     refine ⟨i, b ⊗ₜ c, ?_⟩
@@ -539,12 +538,11 @@ theorem dlTensorInv_dlTensorMap (i : ι) (a : G i ⊗[k] k') :
     dlTensorInv k G f hf k' (dlTensorMap k G f hf k' i a) = dlTensorOf k G f hf k' i a := by
   let := dlAlg k G (fun i j h => (f i j h : G i → G j))
   let : Algebra k (dlTensorLimit k G f hf k') := dlAlg k _ _
-  induction a using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction a using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul b c =>
     obtain ⟨m, him, ham⟩ := directed_of (· ≤ ·) i (Classical.arbitrary ι)
-    show dlTensorInv k G f hf k'
+    change dlTensorInv k G f hf k'
       (Ring.DirectLimit.of G (fun i j h => (f i j h : G i → G j)) i b ⊗ₜ c) = _
     rw [dlTensorInv, Algebra.TensorProduct.lift_tmul, dlTensorInvLeft_of, AlgHom.comp_apply,
       Algebra.TensorProduct.includeRight_apply, ← dlTensorOf_one_tmul k G f hf k' ham,

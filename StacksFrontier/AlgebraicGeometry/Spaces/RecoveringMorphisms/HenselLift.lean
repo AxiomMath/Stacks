@@ -49,6 +49,7 @@ attribute [local instance] smallEtaleTopology_subcanonical
 open Sheaf
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasFiniteProducts` for sheaves on the small étale site exceeds the default
 /-- Finite products of sheaves of sets on a small étale site, supplied directly: under Lean
 v4.35.0 instance search for them times out in this file. -/
 local instance (priority := high) hasFiniteProducts_sheaf_henselLift
@@ -121,7 +122,7 @@ theorem stalk_chartFiberCoordinate_invRepComparison' (V : SmallEtale B S hS Y.1)
     (sitePt x).presheafFiber.obj (invRep g V).obj → _) σ) h1
   simp only [Functor.map_comp] at h2
   refine h2.trans ?_
-  show (sitePt x).sheafFiber.map (g.toToposHom.inverseImage.map
+  change (sitePt x).sheafFiber.map (g.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm b) ≫ g.fSharpSet) σ = _
   rw [Functor.map_comp_apply]
   rfl
@@ -212,7 +213,7 @@ theorem chartHomOver_comp {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       (BigFppfOver.toScheme B S hS).map t.hom.left) :
     chartHomOver c t v hv ≫ c = t :=
   smallEtale_hom_ext (by
-    show (BigFppfOver.toScheme B S hS).map ((chartHomOver c t v hv).hom.left ≫ c.hom.left) = _
+    change (BigFppfOver.toScheme B S hS).map ((chartHomOver c t v hv).hom.left ≫ c.hom.left) = _
     rw [Functor.map_comp, toScheme_map_chartHomOver, hv])
 
 variable {V₀ V' : SmallEtale B S hS Y.1} [IsAffine (chartSch V₀)] [IsAffine (chartSch V')]
@@ -316,7 +317,7 @@ theorem sectionsFunctor_map_presι_fst (U : SmallEtale B S hS Y.1)
     (s' : (sectionsFunctor _ (op U)).obj ((SmallEtale.topology B S hS Y.1).yoneda.obj V')) :
     (show U ⟶ V₀ from (sectionsFunctor _ (op U)).map prod.fst
       ((sectionsFunctor _ (op U)).map (presι c pres) s')) = (show U ⟶ V' from s') ≫ c := by
-  show (sectionsFunctor _ (op U)).map (presι c pres ≫ prod.fst) s' = _
+  change (sectionsFunctor _ (op U)).map (presι c pres ≫ prod.fst) s' = _
   rw [presι, prod.lift_fst]
   rfl
 
@@ -331,7 +332,7 @@ theorem sectionsFunctor_map_presι_snd (U : SmallEtale B S hS Y.1)
         ((sectionsFunctor _ (op U)).map (presι c pres) s')) =
       ((BigFppfOver.toScheme B S hS).map (show U ⟶ V' from s').hom.left).appTop.hom
         (presCoord c pres i) := by
-  show (sectionsFunctor _ (op U)).map (presι c pres ≫ prod.snd ≫ Pi.π _ i) s' = _
+  change (sectionsFunctor _ (op U)).map (presι c pres ≫ prod.snd ≫ Pi.π _ i) s' = _
   rw [presι, prod.lift_snd_assoc, Pi.lift_comp_π, sectionsFunctor_map_secToHom]
   rfl
 
@@ -396,7 +397,7 @@ theorem existsUnique_sectionsFunctor_presι (U : SmallEtale B S hS Y.1)
       · rw [← Functor.map_comp_apply]
         refine (sectionsFunctor_map_presι_snd c pres U s' i).trans ?_
         rw [h, hw i]
-        show _ = ((sectionsFunctor _ (op U)).map prod.snd ≫
+        change _ = ((sectionsFunctor _ (op U)).map prod.snd ≫
           (sectionsFunctor _ (op U)).map (Pi.π (fun _ : Fin n => ringSheaf (ringO Y)) i)) z
         rw [← Functor.map_comp]
   refine ⟨chartHomOver c t w.1 w.2, (key _).2 (toScheme_map_chartHomOver _ _ _ _), ?_⟩
@@ -444,7 +445,7 @@ theorem chartCoord_toPresheafFiber {V : SmallEtale B S hS Y.1} (W : SmallEtale B
     (b : Γ(chartSch V, ⊤)) :
     chartStalkCoord f x ((sitePt x).toPresheafFiber W w (chartFiber B S hS f V).toFunctor tW) b =
       germRingHom x W w (((BigFppfOver.toScheme B S hS).map tW.val).appTop.hom b) := by
-  show ((sitePt x).toPresheafFiber W w (chartFiber B S hS f V).toFunctor ≫
+  change ((sitePt x).toPresheafFiber W w (chartFiber B S hS f V).toFunctor ≫
     (sitePt x).presheafFiber.map (chartFiberCoordinate B S hS f V b)) tW = _
   rw [GrothendieckTopology.Point.toPresheafFiber_naturality]
   rfl
@@ -647,9 +648,9 @@ theorem exists_stalk_lift' (hφ : IsLocalHom (invStalkRingHom g x))
     rw [← invStalk_map_presι_fst g x c pres, hσ']
     exact Functor.map_fst_prodObjMk _ _
   refine ⟨σ', hσ₀, stalk_chartFiber_ext x c pres _ _ ?_ fun i ↦ ?_⟩
-  · show _ = chartStalkMap f x c t'
+  · change _ = chartStalkMap f x c t'
     rw [ht, ← hσ₀]
-    show ((sitePt x).presheafFiber.map (OverBase.invRepComparison hf V') ≫
+    change ((sitePt x).presheafFiber.map (OverBase.invRepComparison hf V') ≫
       (sitePt x).presheafFiber.map (chartFiberMap f c)) σ' =
       ((sitePt x).presheafFiber.map (g.toToposHom.inverseImage.map
         ((SmallEtale.topology B S hS Y.1).yoneda.map c)).hom ≫
@@ -690,7 +691,7 @@ theorem stalk_lift_unique' (hφ : IsLocalHom (invStalkRingHom g x))
       (fun i ↦ stalkCoordRingHom g x V' σ'' (presCoord c pres i)) :=
     (bijOn_solutions_of_etale (invStalkRingHom g x) hφ n
       (fun j => MvPolynomial.map ψ (P j))).2.1 (hsol σ' rfl) (hsol σ'' h₀.symm) (funext fun i ↦ by
-        show invStalkRingHom g x _ = invStalkRingHom g x _
+        change invStalkRingHom g x _ = invStalkRingHom g x _
         rw [← stalk_chartFiberCoordinate_invRepComparison' hf,
           ← stalk_chartFiberCoordinate_invRepComparison' hf, hc])
   have hzz : (invStalk g x).map (presι c pres) σ'' = (invStalk g x).map (presι c pres) σ' := by

@@ -665,7 +665,7 @@ theorem separablyGenerated_fg_exists_primitive_transcendence_basis
     rw [hbase]
     simp only [Fin.snoc_last]
     -- the base field equals `F`.
-    show IsSeparable (↥(IntermediateField.adjoin k (Set.range y))) θ
+    change IsSeparable (↥(IntermediateField.adjoin k (Set.range y))) θ
     rw [← hF]
     exact Algebra.IsSeparable.isSeparable' θ
 

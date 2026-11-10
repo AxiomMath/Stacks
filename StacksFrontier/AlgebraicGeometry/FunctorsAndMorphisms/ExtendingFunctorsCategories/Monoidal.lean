@@ -113,7 +113,7 @@ private lemma exists_iso_of_restriction₂ (A : Type u) [Ring A]
   obtain ⟨β, hβ⟩ := exists_iso_of_restriction.{u, v} A G H (NatIso.ofComponents i (by
     intro X X' f
     refine natTrans_ext_on_finitelyPresented.{u, v} A (G := G.obj X.obj) _ _ fun Y => ?_
-    show (G.map f.hom).app Y.obj ≫ (i X').hom.app Y.obj =
+    change (G.map f.hom).app Y.obj ≫ (i X').hom.app Y.obj =
       (i X).hom.app Y.obj ≫ (H.map f.hom).app Y.obj
     rw [hi, hi]
     exact nat_left f Y))
@@ -201,23 +201,23 @@ variable {R S} (Φ : ModuleCat.{max u v} R ⥤ ModuleCat.{max w x} S)
 private theorem tensorObjBifunctor_preservesFilteredColimits :
     PreservesFilteredColimitsOfSize.{max u v, max u v} (tensorObjBifunctor Φ) :=
   ⟨fun J _ _ => preservesColimitsOfShape_of_evaluation (tensorObjBifunctor Φ) J fun Y => by
-    show PreservesColimitsOfShape J (Φ ⋙ tensorRight (Φ.obj Y))
+    change PreservesColimitsOfShape J (Φ ⋙ tensorRight (Φ.obj Y))
     infer_instance⟩
 
 private theorem objTensorBifunctor_preservesFilteredColimits :
     PreservesFilteredColimitsOfSize.{max u v, max u v} (objTensorBifunctor Φ) :=
   ⟨fun J _ _ => preservesColimitsOfShape_of_evaluation (objTensorBifunctor Φ) J fun Y => by
-    show PreservesColimitsOfShape J (tensorRight Y ⋙ Φ)
+    change PreservesColimitsOfShape J (tensorRight Y ⋙ Φ)
     infer_instance⟩
 
 private theorem tensorObjBifunctor_obj_preservesFilteredColimits (X : ModuleCat.{max u v} R) :
     PreservesFilteredColimitsOfSize.{max u v, max u v} ((tensorObjBifunctor Φ).obj X) := by
-  show PreservesFilteredColimitsOfSize.{max u v, max u v} (Φ ⋙ tensorLeft (Φ.obj X))
+  change PreservesFilteredColimitsOfSize.{max u v, max u v} (Φ ⋙ tensorLeft (Φ.obj X))
   infer_instance
 
 private theorem objTensorBifunctor_obj_preservesFilteredColimits (X : ModuleCat.{max u v} R) :
     PreservesFilteredColimitsOfSize.{max u v, max u v} ((objTensorBifunctor Φ).obj X) := by
-  show PreservesFilteredColimitsOfSize.{max u v, max u v} (tensorLeft X ⋙ Φ)
+  change PreservesFilteredColimitsOfSize.{max u v, max u v} (tensorLeft X ⋙ Φ)
   infer_instance
 
 private lemma bifunctorμ_associativity (β : tensorObjBifunctor Φ ≅ objTensorBifunctor Φ)
@@ -247,15 +247,15 @@ private lemma bifunctorμ_associativity (β : tensorObjBifunctor Φ ≅ objTenso
   have hL : PreservesFilteredColimitsOfSize.{max u v, max u v} L :=
     ⟨fun J _ _ => preservesColimitsOfShape_of_evaluation L J fun Y =>
       preservesColimitsOfShape_of_evaluation _ J fun Z => by
-        show PreservesColimitsOfShape J (Φ ⋙ tensorRight (Φ.obj Y) ⋙ tensorRight (Φ.obj Z))
+        change PreservesColimitsOfShape J (Φ ⋙ tensorRight (Φ.obj Y) ⋙ tensorRight (Φ.obj Z))
         infer_instance⟩
   have hLx (X : C) : PreservesFilteredColimitsOfSize.{max u v, max u v} (L.obj X) :=
     ⟨fun J _ _ => preservesColimitsOfShape_of_evaluation (L.obj X) J fun Z => by
-      show PreservesColimitsOfShape J (Φ ⋙ tensorLeft (Φ.obj X) ⋙ tensorRight (Φ.obj Z))
+      change PreservesColimitsOfShape J (Φ ⋙ tensorLeft (Φ.obj X) ⋙ tensorRight (Φ.obj Z))
       infer_instance⟩
   have hLxy (X Y : C) :
       PreservesFilteredColimitsOfSize.{max u v, max u v} ((L.obj X).obj Y) := by
-    show PreservesFilteredColimitsOfSize.{max u v, max u v}
+    change PreservesFilteredColimitsOfSize.{max u v, max u v}
       (Φ ⋙ tensorLeft (Φ.obj X ⊗ Φ.obj Y))
     infer_instance
   have hlr : l = r := natTrans_ext_on_finitelyPresented.{u, v} R _ _ fun X =>
@@ -346,11 +346,11 @@ theorem filteredColimitExtension_monoidal
   let : E.functor.Monoidal := c.toMonoidal
   refine ⟨c.toMonoidal, ?_⟩
   refine { unit := ?_, tensor := ?_ }
-  · show (ε.hom ≫ E.functor.map (𝟙 _)) ≫ E.iso.hom.app (𝟙_ P.FullSubcategory) = _
+  · change (ε.hom ≫ E.functor.map (𝟙 _)) ≫ E.iso.hom.app (𝟙_ P.FullSubcategory) = _
     rw [CategoryTheory.Functor.map_id, Category.comp_id]
     exact he.unit
   · intro X Y
-    show ((bifunctorμ β X.obj Y.obj).hom ≫ E.functor.map (𝟙 _)) ≫ E.iso.hom.app (X ⊗ Y) = _
+    change ((bifunctorμ β X.obj Y.obj).hom ≫ E.functor.map (𝟙 _)) ≫ E.iso.hom.app (X ⊗ Y) = _
     rw [CategoryTheory.Functor.map_id, Category.comp_id, μ_fac]
     exact he.tensor X Y
 

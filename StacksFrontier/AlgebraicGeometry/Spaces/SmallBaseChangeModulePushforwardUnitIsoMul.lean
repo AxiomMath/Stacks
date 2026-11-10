@@ -81,7 +81,7 @@ private theorem eq_of_tensorHomPairing_eq {A B N : SheafOfModules.{w₀} (Tensor
     ((bilinearEquivPresheafTensorHom (hO := (Tensor.ringSheaf O).property)
       (A := A) (B := B) (N := N)).symm.injective (Subtype.ext h))
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)] in
 /-- The pairing of a composite `t ≫ m` is the pairing of `t` followed by `m`. -/
 private theorem tensorHomPairing_comp {A B N N' : SheafOfModules.{w₀} (Tensor.ringSheaf O)}
     (t : ((Tensor.sheafTensor O).obj A).obj B ⟶ N) (m : N ⟶ N') :
@@ -97,8 +97,8 @@ section Pairing
 variable {P : Cᵒᵖ ⥤ CommRingCat.{w₀}}
   {hP : Presheaf.IsSheaf J (Stacks.PresheafOfModules.ChangeOfRings.ringPresheaf P)}
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.WEqualsLocallyBijective AddCommGrpCat]
-  [HasWeakSheafify J AddCommGrpCat] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
+  [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- The pairing of `(u ⊗ v) ≫ t` is `u × v` followed by the pairing of `t`. -/
 private theorem pairingOfTensorHom_tensorHom_comp
     {A A' B B' N : SheafOfModules.{w₀} (commRingSheaf J P hP)}
@@ -132,7 +132,7 @@ private theorem pairingOfTensorHom_tensorHom_comp
 
 end Pairing
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)] in
 /-- The pairing of `(u ⊗ 𝟙) ≫ (𝟙 ⊗ v) ≫ t` is `u × v` followed by the pairing of `t`. -/
 private theorem tensorHomPairing_map_comp_obj_map_comp
     {A A' B B' N : SheafOfModules.{w₀} (Tensor.ringSheaf O)}

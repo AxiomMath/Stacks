@@ -180,7 +180,7 @@ private lemma lifts_small_chain
           (CommRingCat.ofHom
             (E.map' i (i + 1) (Nat.le_succ i) (Nat.succ_le_of_lt hi)).hom.toRingHom) := by
         intro i hi
-        show InfinitesimalLifting.IsSmallExtension
+        change InfinitesimalLifting.IsSmallExtension
           (CommRingCat.ofHom
             (D.map' (i + 1) (i + 2) (Nat.le_succ _)
               (Nat.succ_le_of_lt (Nat.succ_lt_succ hi))).hom.toRingHom)
@@ -219,7 +219,7 @@ private lemma artinianAdicQuotient_injective
     (A : ArtinianLocalAlgCat.{u, v, w} Λ k) (n : ℕ)
     (hA : maximalIdeal A ^ (n + 1) = ⊥) :
     Function.Injective (artinianAdicQuotient A n).hom := by
-  show Function.Injective (Ideal.Quotient.mkₐ Λ (maximalIdeal A ^ (n + 1)))
+  change Function.Injective (Ideal.Quotient.mkₐ Λ (maximalIdeal A ^ (n + 1)))
   rw [hA]
   exact (AlgEquiv.quotientBot Λ A).symm.injective
 
@@ -347,7 +347,7 @@ private lemma factor_comp_quotient
   apply ArtinianLocalAlgCat.hom_ext
   ext x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show Ideal.Quotient.mk _ (t.hom (Ideal.Quotient.mk _ r)) =
+  change Ideal.Quotient.mk _ (t.hom (Ideal.Quotient.mk _ r)) =
     Ideal.Quotient.mk _ (f.hom r)
   exact congrArg (Ideal.Quotient.mk _) (DFunLike.congr_fun ht r)
 
@@ -412,7 +412,7 @@ private lemma formal_hom_ext_of_stable_target
     apply Functor.IsStronglyCocartesian.ext p
       ((AdicTruncation.functor n).map i.base) (i.app n)
       ((AdicTruncation.functor n).map j.base)
-    show (i ≫ j).app n = (i ≫ l).app n
+    change (i ≫ j).app n = (i ≫ l).app n
     rwa [hij, hil]
   have he := hom_ext_stable_level hp hZ hY n hA hA hjln
   exact hij.symm.trans ((congrArg (i ≫ ·) he).trans hil)
@@ -442,9 +442,9 @@ private lemma pointInclusion_cancel
 
 private def artinianRepresentable (B : ArtinianLocalAlgCat.{u, v, w} Λ k) :
     BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π
+      (BasedCategory.ofFunctor (Functor.Elements.π
         (restrictedCoyoneda (artinianToComplete.obj B))))
-      (BasedCategory.ofFunctor (CategoryOfElements.π (coyoneda.obj (Opposite.op B)))) where
+      (BasedCategory.ofFunctor (Functor.Elements.π (coyoneda.obj (Opposite.op B)))) where
   obj α := .mk (obj := α.obj) (artinianMap α.val)
   map f := ⟨f.hom, ArtinianLocalAlgCat.hom_ext (congrArg CompleteLocalAlgCat.Hom.hom f.map_val)⟩
   map_id _ := rfl
@@ -606,8 +606,8 @@ private lemma lifts_artinian_of_smooth
     simpa only [g₀, Category.assoc, IsIso.hom_inv_id_assoc, IsIso.hom_inv_id,
       Category.comp_id] using h₂
   obtain ⟨β, h, t, hh, ht, hht⟩ := hφ f hf y α g₀ hg₀
-  have hh' : (CategoryOfElements.π (restrictedCoyoneda ξ.base)).IsHomLift f h := hh
-  have hβ : β.1 = B := IsHomLift.domain_eq (CategoryOfElements.π (restrictedCoyoneda ξ.base)) f h
+  have hh' : (Functor.Elements.π (restrictedCoyoneda ξ.base)).IsHomLift f h := hh
+  have hβ : β.1 = B := IsHomLift.domain_eq (Functor.Elements.π (restrictedCoyoneda ξ.base)) f h
   rcases β with @⟨B', β⟩
   dsimp at hβ
   subst B'
@@ -619,7 +619,7 @@ private lemma lifts_artinian_of_smooth
   have hdiso : IsIso d := isIso_of_lift_quotientTo hp hZ n hB d hd
   obtain ⟨k, hk⟩ := exists_hom_of_stable_level hp hZ hY n hB hB (inv d ≫ t ≫ j)
   refine ⟨i ≫ k, formal_hom_ext_of_stable_target hp hX n hA ?_⟩
-  show (i.app n ≫ k.app n) ≫ g.app n = a.app n
+  change (i.app n ≫ k.app n) ≫ g.app n = a.app n
   rw [hk, ← hid]
   calc
     (((transitionTo ξ hnβ ≫ φ.pointInclusion (.mk (obj := B) β)) ≫ d) ≫
@@ -684,7 +684,7 @@ private lemma smooth_of_lifts_artinian
     rw [← hi', ← he, hbaseG]
     simp [baseG, Category.assoc]
   let h : β ⟶ (.mk (obj := A) α) := ⟨f, hpoint⟩
-  have hh : (CategoryOfElements.π (restrictedCoyoneda ξ.base)).IsHomLift f h :=
+  have hh : (Functor.Elements.π (restrictedCoyoneda ξ.base)).IsHomLift f h :=
     IsHomLift.map _ h
   have hnβ : φ.level β ≤ n := (φ.factor_spec β).2.1 n hB
   obtain ⟨cb, hcb, hbcb⟩ := exists_point_comparison hp ξ φ hY b n hnβ

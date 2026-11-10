@@ -70,7 +70,8 @@ it is the one remaining input of the whole statement.
   Tag 0EY6 follows from, and is equivalent to, invertibility of the comparison.
 * `Stacks.FundamentalGroup.flatBaseChange_of_epi_comparison` and
   `Stacks.FundamentalGroup.isQuasicoherent_algebraPullback_of_epi_comparison` — **the one
-  remaining input gives the whole statement**: epimorphy of the comparison, for every flat morphism and every
+  remaining input gives the whole statement**: epimorphy of the comparison, for every flat morphism
+  and every
   quasi-compact quasi-separated scheme over the base, gives the base-change clause of Tag 0EY6
   in exactly the shape `isQuasicoherent_algebraPullback_of_flatBaseChange` takes as a hypothesis,
   and hence also the `algebraPullback_isQuasicoherent` clause of Tag 01SA along a flat morphism.
@@ -264,7 +265,7 @@ public theorem unit_comp_map_pullbackUnitIso :
         (Scheme.Modules.pushforward g').map (Scheme.Modules.pullbackUnitIso g').hom =
       SheafOfModules.unitToPushforwardObjUnit g'.toRingCatSheafHom := by
   have : (SheafOfModules.pushforward g'.toRingCatSheafHom).IsRightAdjoint := by
-    show (Scheme.Modules.pushforward g').IsRightAdjoint
+    change (Scheme.Modules.pushforward g').IsRightAdjoint
     infer_instance
   rw [← SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit
     g'.toRingCatSheafHom, Adjunction.homEquiv_unit]

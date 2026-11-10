@@ -94,7 +94,7 @@ theorem isColimit_mapCocone_evaluation_of_isAffine {K : Type u} [Category.{u} K]
   have ht : IsColimit t := (IsColimit.precomposeHomEquiv α _).symm (isColimitOfPreserves L hs)
   have hψ : ψ = ht.desc c := by
     refine ht.uniq c ψ fun k => ?_
-    show (α.hom.app k ≫ L.map (s.ι.app k)) ≫ ψ = c.ι.app k
+    change (α.hom.app k ≫ L.map (s.ι.app k)) ≫ ψ = c.ι.app k
     have h₁ : L.map (s.ι.app k) ≫ ψ = (adj.homEquiv _ _).symm (s.ι.app k ≫ φ) :=
       (adj.homEquiv_naturality_left_symm _ _).symm
     rw [Category.assoc, h₁, hφ, Adjunction.homEquiv_counit]
@@ -106,7 +106,7 @@ theorem isColimit_mapCocone_evaluation_of_isAffine {K : Type u} [Category.{u} K]
   let P := isColimitOfPreserves E hs
   have hd : P.desc ((U ⋙ E).mapCocone c) = E.map φ :=
     (P.uniq _ _ fun k => by
-      show E.map (s.ι.app k) ≫ E.map φ = E.map (U.map (c.ι.app k))
+      change E.map (s.ι.app k) ≫ E.map φ = E.map (U.map (c.ι.app k))
       rw [← E.map_comp, hφ]).symm
   have : IsIso (P.desc ((SheafOfModules.forget R ⋙ E).mapCocone c)) := hd ▸ hE
   exact ⟨IsColimit.ofPointIso P⟩

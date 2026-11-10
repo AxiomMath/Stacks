@@ -135,7 +135,6 @@ section Rings
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   {D : Type u'} [Category.{w} D] {K : GrothendieckTopology D}
   [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w})]
-  [J.HasSheafCompose (forget AddCommGrpCat.{w})] [K.HasSheafCompose (forget AddCommGrpCat.{w})]
   [K.Subcanonical]
   (g : MorphismOfTopoi (Sheaf J (Type w)) (Sheaf K (Type w)))
   (R : Sheaf J RingCat.{w}) {T : C} {T' : D}

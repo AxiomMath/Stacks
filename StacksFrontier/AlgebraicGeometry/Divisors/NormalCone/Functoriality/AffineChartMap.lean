@@ -83,7 +83,7 @@ lemma square_chart_preimage_le {Z X Z' X' : Scheme.{u}}
     (comm : f ≫ i' = i ≫ g) (U : X.Opens) (U' : X'.Opens)
     (hGU : U ≤ g ⁻¹ᵁ U') : i ⁻¹ᵁ U ≤ f ⁻¹ᵁ (i' ⁻¹ᵁ U') := by
   intro z hz
-  show i' (f z) ∈ U'
+  change i' (f z) ∈ U'
   rw [comm_apply_eq comm]
   exact hGU hz
 
@@ -100,8 +100,8 @@ private lemma exists_open_chart_neighborhood {Z X : Scheme.{u}}
   refine ⟨O, inf_le_left, ?_⟩
   apply TopologicalSpace.Opens.ext
   ext z
-  show i z ∈ O ↔ z ∈ V
-  show (i z ∈ i.coborderRange ∧ i z ∈ S) ↔ z ∈ V
+  change i z ∈ O ↔ z ∈ V
+  change (i z ∈ i.coborderRange ∧ i z ∈ S) ↔ z ∈ V
   have hfac : k (c z) = i z := by
     simpa only [Scheme.Hom.comp_apply] using
       congrArg (fun q : Z ⟶ X => q z) i.liftCoborder_ι
@@ -109,7 +109,7 @@ private lemma exists_open_chart_neighborhood {Z X : Scheme.{u}}
   · rintro ⟨_, hzS⟩
     have hzT : c z ∈ T := by
       have h : c z ∈ k.base ⁻¹' S := by
-        show k (c z) ∈ S
+        change k (c z) ∈ S
         simpa [hfac] using hzS
       rw [hSk] at h
       exact h
@@ -240,7 +240,7 @@ private lemma chartIdeal_map_le {Z X Z' X' : Scheme.{u}}
       Stacks.Conormal.chartIdeal i U := by
   rw [Ideal.map_le_iff_le_comap]
   intro r hr
-  show (i.app U.1).hom ((g.appLE U'.1 U.1 hGU).hom r) = 0
+  change (i.app U.1).hom ((g.appLE U'.1 U.1 hGU).hom r) = 0
   change (i'.app U'.1).hom r = 0 at hr
   have hval := congrArg (fun q : Γ(X', U'.1) ⟶ Γ(Z, i ⁻¹ᵁ U.1) => q.hom r)
     (square_sections_map_eq i i' f g comm U.1 U'.1 hGU hFU)
@@ -267,7 +267,7 @@ lemma chartIdealPow_map_mem {Z X Z' X' : Scheme.{u}}
     (a : ↥(Stacks.Conormal.chartIdeal i' U' ^ n)) :
     X.presheaf.map (homOfLE hGU).op ((g.app U'.1).hom (a : Γ(X', U'.1))) ∈
       Stacks.Conormal.chartIdeal i U ^ n := by
-  show (g.appLE U'.1 U.1 hGU).hom (a : Γ(X', U'.1)) ∈ _
+  change (g.appLE U'.1 U.1 hGU).hom (a : Γ(X', U'.1)) ∈ _
   exact (chartIdealPow_map_le i i' f g comm U U' hGU hFU n)
     (Ideal.mem_map_of_mem (g.appLE U'.1 U.1 hGU).hom a.property)
 
@@ -477,7 +477,7 @@ private theorem chartConormalMap_restrict_target
       have hpow := chartIdealPow_map_le i' i' (𝟙 Z' : Z' ⟶ Z')
         (𝟙 X' : X' ⟶ X') (by simp)
         U₂' U₁' hU₂U₁ hZU₂ n
-      show X'.presheaf.map (homOfLE hU₂U₁).op
+      change X'.presheaf.map (homOfLE hU₂U₁).op
           (a : Γ(X', U₁'.1)) ∈ Stacks.Conormal.chartIdeal i' U₂' ^ n
       exact hpow (Ideal.mem_map_of_mem _ a.property)⟩
   have hb := (Stacks.Conormal.conormalAlgebra i').localMap_naturality
@@ -485,7 +485,7 @@ private theorem chartConormalMap_restrict_target
   rw [chartConormalMap_localMap, hb, chartConormalMap_localMap]
   congr 1
   apply Subtype.ext
-  show (g.appLE U₁'.1 U.1 hGU₁).hom (a : Γ(X', U₁'.1)) =
+  change (g.appLE U₁'.1 U.1 hGU₁).hom (a : Γ(X', U₁'.1)) =
     (g.appLE U₂'.1 U.1 hGU₂).hom
       (X'.presheaf.map (homOfLE hU₂U₁).op (a : Γ(X', U₁'.1)))
   have hcomp := g.map_appLE hGU₂ (homOfLE hU₂U₁).op
@@ -519,11 +519,11 @@ private theorem chartConormalMap_restrict {Z X Z' X' : Scheme.{u}}
         (fun z hz => hFU (hVU hz)) n a⟩
   have hRestr : (aV : Γ(X, V.1)) =
       X.presheaf.map (homOfLE hVU).op (aU : Γ(X, U.1)) := by
-    show (g.appLE U'.1 V.1 (le_trans hVU hGU)).hom (a : Γ(X', U'.1)) =
+    change (g.appLE U'.1 V.1 (le_trans hVU hGU)).hom (a : Γ(X', U'.1)) =
       X.presheaf.map (homOfLE hVU).op
         ((g.appLE U'.1 U.1 hGU).hom (a : Γ(X', U'.1)))
     have heq := g.appLE_map hGU (homOfLE hVU).op
-    show (g.appLE U'.1 V.1 (le_trans hVU hGU)).hom (a : Γ(X', U'.1)) =
+    change (g.appLE U'.1 V.1 (le_trans hVU hGU)).hom (a : Γ(X', U'.1)) =
       ((g.appLE U'.1 U.1 hGU) ≫ X.presheaf.map (homOfLE hVU).op).hom
         (a : Γ(X', U'.1))
     rw [← heq]
@@ -606,7 +606,7 @@ private theorem chartConormalMap_mul_localMap
       chartIdealPow_map_mem i i' f g comm U U' hGU hFU (n + m) c⟩ :
       ↥(Stacks.Conormal.chartIdeal i U ^ (n + m))) = c' := by
     apply Subtype.ext
-    show (g.appLE U'.1 U.1 hGU).hom
+    change (g.appLE U'.1 U.1 hGU).hom
       ((a : Γ(X', U'.1)) * (b : Γ(X', U'.1))) = _
     simp [c', map_mul]
   have ha' : (⟨(g.appLE U'.1 U.1 hGU).hom (a : Γ(X', U'.1)),
@@ -691,7 +691,7 @@ theorem chartConormalMap_smul
   have hs : Z.presheaf.map (homOfLE hFU).op
         ((f.app (i' ⁻¹ᵁ U'.1)).hom ((i'.app U'.1).hom r')) =
       (i.app U.1).hom ((g.appLE U'.1 U.1 hGU).hom r') := by
-    show (f.appLE (i' ⁻¹ᵁ U'.1) (i ⁻¹ᵁ U.1) hFU).hom
+    change (f.appLE (i' ⁻¹ᵁ U'.1) (i ⁻¹ᵁ U.1) hFU).hom
         ((i'.app U'.1).hom r') = _
     exact congrArg (fun q : Γ(X', U'.1) ⟶ Γ(Z, i ⁻¹ᵁ U.1) => q.hom r')
       (square_sections_map_eq i i' f g comm U.1 U'.1 hGU hFU)

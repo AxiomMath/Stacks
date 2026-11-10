@@ -84,7 +84,7 @@ private theorem finite_toScheme_of_isPullback_fieldMorphism
       pointsMap B S hS (yoneda.obj W) (yoneda.map a) w ∈
         pointsMap B S hS (yoneda.obj V) ψ ⁻¹' {p.class B S hS X} := by
     intro w
-    show pointsMap B S hS (yoneda.obj V) ψ _ = p.class B S hS X
+    change pointsMap B S hS (yoneda.obj V) ψ _ = p.class B S hS X
     rw [pointsMap_apply_comm B S hS sq.w w]
     exact pointsMap_fieldMorphism_eq_class B S hS p _
   have _ : Finite (points B S hS (yoneda.obj W)) :=
@@ -149,7 +149,7 @@ theorem hasQuasiCompactMonomorphicFieldRepresentative_of_hasFiniteChartAndRelati
   have hrel : HasFiniteRelationFiberAt B S hS X x := by
     refine ⟨U, φ, a, a, (isEtale_iff_presheaf_of_yoneda B S hS φ).2 hφ, hax, hax, ?_⟩
     refine hfinR.subset fun r hr ↦ ?_
-    show pointsMap B S hS (pullback φ φ) (pullback.fst φ φ ≫ φ) r = x
+    change pointsMap B S hS (pullback φ φ) (pullback.fst φ φ ≫ φ) r = x
     rw [pointsMap_comp_apply, hr.1, hax]
   obtain ⟨p, hpx, hmono⟩ :=
     hasMonomorphicFieldRepresentative_of_hasEtaleQuasiCompactFieldRepresentative B S hS hX x

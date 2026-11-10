@@ -123,7 +123,7 @@ public theorem isBasis_affineChartPair (f : Y ⟶ X) (T : Y.Opens) :
 /-- Restriction of sections through an intermediate open is restriction to the smaller open. -/
 private theorem restrictₗ_trans (M : Y.Modules) {V W T : Y.Opens} (h₁ : T ≤ W) (h₂ : W ≤ V)
     (s : Γ(M, V)) : restrictₗ M h₁ (restrictₗ M h₂ s) = restrictₗ M (h₁.trans h₂) s := by
-  show ((M.presheaf.map (homOfLE h₂).op) ≫ (M.presheaf.map (homOfLE h₁).op)).hom s =
+  change ((M.presheaf.map (homOfLE h₂).op) ≫ (M.presheaf.map (homOfLE h₁).op)).hom s =
     (M.presheaf.map (homOfLE (h₁.trans h₂)).op).hom s
   rw [← M.presheaf.map_comp]
   congr 2
@@ -222,7 +222,7 @@ public theorem chartComparison_basicOpen (D D' : RelativeDualizingModuleData f)
   let : IsLocalization.Away g Γ(Y, W.1) := V.2.isLocalization_basicOpen g
   let : IsScalarTower Γ(X, U.1) Γ(Y, V.1) Γ(Y, W.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U W hWU).hom =
+      change (f.appLE U W hWU).hom =
         ((Y.presheaf.map (homOfLE (Y.basicOpen_le g)).op).hom).comp (f.appLE U V hVU).hom
       rw [← CommRingCat.hom_comp, ← f.appLE_map hVU (homOfLE (Y.basicOpen_le g)).op])
   let F : FiniteOpenFactorization.{u, u, u} Γ(X, U.1) Γ(Y, V.1) :=
@@ -286,7 +286,7 @@ public theorem chartComparison_restrict (D D' : RelativeDualizingModuleData f)
         (k.1).source (k.1).source_le g hg.symm a ha.symm hr.le t
     have hq := key q (k.2).2 (restrictₗ D.sheaf h s)
     have hp := key p (k.2).1 s
-    show restrictₗ D'.sheaf hk (chartComparison D D' (q.1).1 (q.1).2 q.2
+    change restrictₗ D'.sheaf hk (chartComparison D D' (q.1).1 (q.1).2 q.2
         (restrictₗ D.sheaf h s)) =
       restrictₗ D'.sheaf hk (restrictₗ D'.sheaf h (chartComparison D D' (p.1).1 (p.1).2 p.2 s))
     rw [restrictₗ_trans D'.sheaf hk h, ← hp, ← hq, restrictₗ_trans D.sheaf (k.2).2.le h]

@@ -67,16 +67,16 @@ namespace Stacks.FormsTrace
 section MapOfBasis
 
 variable {R S B C : Type*} [CommRing R] [CommRing S] [CommRing B] [CommRing C] [Algebra R B]
-  [Algebra S C] {ι : Type*} [Fintype ι] [DecidableEq ι]
+  [Algebra S C] {ι : Type*}
 
-omit [DecidableEq ι] in
 /-- **Coordinates along a ring map matching two bases.** If a ring map `q : B → C`, semilinear
 along `f : R → S`, carries a basis `b` of `B` over `R` to a basis `c` of `C` over `S`, then the
 coordinates of `q x` in `c` are the images under `f` of the coordinates of `x` in `b`. -/
-theorem repr_map_of_basis (f : R →+* S) (q : B →+* C)
+theorem repr_map_of_basis [Finite ι] (f : R →+* S) (q : B →+* C)
     (hq : ∀ r, q (algebraMap R B r) = algebraMap S C (f r))
     (b : Module.Basis ι R B) (c : Module.Basis ι S C) (hbc : ∀ i, q (b i) = c i)
     (x : B) (i : ι) : c.repr (q x) i = f (b.repr x i) := by
+  have := Fintype.ofFinite ι
   have hx : q x = ∑ j, f (b.repr x j) • c j := by
     conv_lhs => rw [← b.sum_repr x]
     rw [map_sum]
@@ -87,11 +87,12 @@ theorem repr_map_of_basis (f : R →+* S) (q : B →+* C)
 /-- **Traces along a ring map matching two bases.** If `q : B → C`, semilinear along
 `f : R → S`, carries a basis of `B` over `R` to a basis of `C` over `S`, then
 `Tr_{C/S}(q x) = f (Tr_{B/R}(x))`. -/
-theorem trace_map_of_basis (f : R →+* S) (q : B →+* C)
+theorem trace_map_of_basis [Finite ι] (f : R →+* S) (q : B →+* C)
     (hq : ∀ r, q (algebraMap R B r) = algebraMap S C (f r))
     (b : Module.Basis ι R B) (c : Module.Basis ι S C) (hbc : ∀ i, q (b i) = c i) (x : B) :
     Algebra.trace S C (q x) = f (Algebra.trace R B x) := by
   classical
+  have := Fintype.ofFinite ι
   rw [Algebra.trace_eq_matrix_trace b, Algebra.trace_eq_matrix_trace c, Matrix.trace,
     Matrix.trace, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -99,7 +100,7 @@ theorem trace_map_of_basis (f : R →+* S) (q : B →+* C)
   rw [← hbc i, ← map_mul, repr_map_of_basis f q hq b c hbc]
 
 /-- **Trace matrices along a ring map matching two bases.** -/
-theorem traceMatrix_map_of_basis (f : R →+* S) (q : B →+* C)
+theorem traceMatrix_map_of_basis [Finite ι] (f : R →+* S) (q : B →+* C)
     (hq : ∀ r, q (algebraMap R B r) = algebraMap S C (f r))
     (b : Module.Basis ι R B) (c : Module.Basis ι S C) (hbc : ∀ i, q (b i) = c i) :
     Algebra.traceMatrix S c = (Algebra.traceMatrix R b).map f := by
@@ -111,7 +112,7 @@ theorem traceMatrix_map_of_basis (f : R →+* S) (q : B →+* C)
 /-- **Discriminants along a ring map matching two bases.** If `q : B → C`, semilinear along
 `f : R → S`, carries a basis `b` of `B` over `R` to a basis `c` of `C` over `S`, then
 `disc_{C/S}(c) = f (disc_{B/R}(b))`. -/
-theorem discr_map_of_basis (f : R →+* S) (q : B →+* C)
+theorem discr_map_of_basis [Fintype ι] [DecidableEq ι] (f : R →+* S) (q : B →+* C)
     (hq : ∀ r, q (algebraMap R B r) = algebraMap S C (f r))
     (b : Module.Basis ι R B) (c : Module.Basis ι S C) (hbc : ∀ i, q (b i) = c i) :
     Algebra.discr S c = f (Algebra.discr R b) := by
@@ -138,7 +139,7 @@ theorem etale_tensor_of_isUnit_discr (e : Module.Basis ι R B) (h : IsUnit (Alge
     refine discr_map_of_basis (algebraMap R K)
       (Algebra.TensorProduct.includeRight : B →ₐ[R] K ⊗[R] B).toRingHom (fun r => ?_) e eK
       (fun i => ?_)
-    · show Algebra.TensorProduct.includeRight (algebraMap R B r) = _
+    · change Algebra.TensorProduct.includeRight (algebraMap R B r) = _
       rw [AlgHom.commutes, IsScalarTower.algebraMap_apply R K (K ⊗[R] B)]
     · simp [eK, Module.Basis.baseChange_apply]
   have : FiniteDimensional K (K ⊗[R] B) := Module.Finite.of_basis eK
@@ -283,8 +284,7 @@ theorem exists_pow_discr_smul_eq_zero_of_mapBaseChange (e : Module.Basis ι R B)
       KaehlerDifferential.mapBaseChange ℤ R BΔ (qt y) =
         KaehlerDifferential.map ℤ ℤ B BΔ (KaehlerDifferential.mapBaseChange ℤ R B y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul b ω =>
       simp only [qt, g, TensorProduct.AlgebraTensorModule.rTensor_tmul, Algebra.linearMap_apply,
         KaehlerDifferential.mapBaseChange_tmul, LinearMap.map_smul]

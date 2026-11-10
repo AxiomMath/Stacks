@@ -145,7 +145,7 @@ theorem yoneda_map_comp_eltInt {W W' : BigFppfOver B S hS} {Y : IntOver B} (k : 
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   apply (BigFppfOver.toScheme B _ _).map_injective
-  show (BigFppfOver.toScheme B _ _).map ((Over.map (toInt B S hS)).map k ≫ yonedaEquiv (eltInt t))
+  change (BigFppfOver.toScheme B _ _).map ((Over.map (toInt B S hS)).map k ≫ yonedaEquiv (eltInt t))
     = _
   rw [Functor.map_comp, toScheme_map_yonedaEquiv_eltInt, toScheme_map_yonedaEquiv_eltInt]
   rfl
@@ -159,7 +159,7 @@ theorem eltInt_comp_map {W : BigFppfOver B S hS} {Y Y' : IntOver B} (e : Y ⟶ Y
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
   apply (BigFppfOver.toScheme B _ _).map_injective
-  show (BigFppfOver.toScheme B _ _).map (yonedaEquiv (eltInt t) ≫ e) = _
+  change (BigFppfOver.toScheme B _ _).map (yonedaEquiv (eltInt t) ≫ e) = _
   rw [Functor.map_comp, toScheme_map_yonedaEquiv_eltInt, toScheme_map_yonedaEquiv_eltInt]
 
 /-- The component of `eltInt t` at `W'` sends `k : W' ⟶ W` to the composite of `k` and `t`. -/
@@ -204,18 +204,18 @@ theorem isPullback_eltInt {U' T' : BigFppfOver B S hS} {E Y : IntOver B} (π : U
     let ℓ := sq.lift _ _ hxt'
     let k : W.unop ⟶ U' := Over.homMk (ObjectProperty.homMk ℓ) (by
       apply ObjectProperty.hom_ext
-      show ℓ ≫ B.inclusion.map U'.hom = B.inclusion.map W.unop.hom
+      change ℓ ≫ B.inclusion.map U'.hom = B.inclusion.map W.unop.hom
       rw [← Over.w π, Functor.map_comp, ← Category.assoc]
-      show (ℓ ≫ (BigFppfOver.toScheme B S hS).map π) ≫ _ = _
+      change (ℓ ≫ (BigFppfOver.toScheme B S hS).map π) ≫ _ = _
       rw [sq.lift_snd]
-      show B.inclusion.map t.left ≫ _ = _
+      change B.inclusion.map t.left ≫ _ = _
       rw [← Functor.map_comp, Over.w t])
     have hk : (BigFppfOver.toScheme B S hS).map k = ℓ := rfl
     refine ⟨k, ?_, ?_⟩
     · apply (BigFppfOver.toScheme B _ _).map_injective
       rw [eltInt_app, hk, sq.lift_fst]
     · apply (BigFppfOver.toScheme B S hS).map_injective
-      show (BigFppfOver.toScheme B S hS).map (k ≫ π) = _
+      change (BigFppfOver.toScheme B S hS).map (k ≫ π) = _
       rw [Functor.map_comp, hk, sq.lift_snd]
 
 /-- The restriction to the site of `S` of an étale morphism of the site of `Spec ℤ` is étale after
@@ -247,7 +247,7 @@ theorem exists_iso_of_isPullback_of_isThickening {X : AlgebraicSpaces B S hS}
   let f := IsThickening.inclusion B S hS hG
   have _ : Mono f.hom := inferInstanceAs (Mono G.ι)
   have hT : IsThickening B S hS X (Subfunctor.range f.hom) := by
-    show IsThickening B S hS X (Subfunctor.range G.ι)
+    change IsThickening B S hS X (Subfunctor.range G.ι)
     rwa [Subfunctor.range_ι]
   have hV : IsAlgebraicSpace B S hS (yoneda.obj V) := isAlgebraicSpace_yoneda B S hS V
   obtain ⟨α, ⟨hα₁, hα₂⟩, -⟩ := existsUnique_hom_presheaf_of_isThickening B S hS f hT hV hE
@@ -277,7 +277,7 @@ theorem ker_appTop_le_nilradical_of_surjective {X Y : Scheme.{u}} [IsAffine X] [
   intro p hp
   obtain ⟨q, hq⟩ := hc ⟨p, hp⟩
   have : x ∈ (PrimeSpectrum.comap f.appTop.hom q).asIdeal := by
-    show f.appTop.hom x ∈ q.asIdeal
+    change f.appTop.hom x ∈ q.asIdeal
     rw [RingHom.mem_ker.mp hx]
     exact q.asIdeal.zero_mem
   rwa [hq] at this

@@ -153,7 +153,7 @@ theorem genericFibreToFunctionField_appTop_of_square {X X' U V : Scheme.{u}} [Ir
       (h.stalkMap (genericPoint U)).hom
         ((eqToHom (congrArg V.presheaf.stalk hη.symm)).hom
           ((genericFibreToFunctionField gV).hom a)) := by
-    show (hη ▸ h.stalkMap (genericPoint U)).hom _ = _
+    change (hη ▸ h.stalkMap (genericPoint U)).hom _ = _
     rw [← Stacks.Chow.stalkMap_eqToHom_eq_cast h (genericPoint U) (genericPoint V) hη]
     rfl
   rw [hdffm]
@@ -343,7 +343,7 @@ theorem genericFibreOrdOfPoint_square_eq {WY : Y.Opens} {WZ : Z.Opens} [IsIntegr
     genericFibreOrdOfOpen_apply_ofMul]
   congr 2
   refine Units.ext ?_
-  show (genericFibreOpensMap gY WY ≫ m).appTop (a : Γ(pullback gZ (genericPointInclusion X), ⊤)) =
+  change (genericFibreOpensMap gY WY ≫ m).appTop (a : Γ(pullback gZ (genericPointInclusion X), ⊤)) =
     (genericFibreSquareOpensMap gY gZ h m hm hle ≫ genericFibreOpensMap gZ WZ).appTop _
   rw [genericFibreSquareOpensMap_comp]
 

@@ -285,7 +285,7 @@ theorem compComparison_id :
       (Eq.symm (Eq.trans (congrArg G.mapHomotopyCategoryPlus.map
           (Functor.mapHomotopyCategoryPlusIdIsoOf_refl_inv_app K))
         (G.mapHomotopyCategoryPlus.map_id _)))
-  show DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
+  change DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusCompIso
           (Iso.refl ((𝟭 A) ⋙ G))).inv.app K) ≫
         G.rightDerivedFunctorPlusUnith.app ((𝟭 A).mapHomotopyCategoryPlus.obj K) ≫
           G.rightDerivedFunctorPlus.map ((𝟭 A).rightDerivedFunctorPlusUnith.app K) =
@@ -388,7 +388,7 @@ condition (i)) rests on where the map of obstruction modules is built from the T
 it is for the example of [Stacks, Tag 07YH]. -/
 theorem moduleCohomologyMap_id (i : ℤ) {G F : Modules X} (phi : G ⟶ F) :
     moduleCohomologyMap (𝟙 X) i phi = (spaceModuleCohomology X i).map phi := by
-  show (DerivedCategory.Plus.homologyFunctor
+  change (DerivedCategory.Plus.homologyFunctor
       (ModuleCat ((ringCatSheaf X).obj.obj (op ⊤))) i).map
         (derivedGlobalSectionsMap (𝟙 X) phi) = _
   rw [derivedGlobalSectionsMap_id]

@@ -453,7 +453,7 @@ lemma FilteredHomotopic.mapFilteredInjectiveMap (T : A ⥤ B) [T.Additive]
     FilteredHomotopic (mapFilteredInjectiveMap T γ hI hJ) (mapFilteredInjectiveMap T γ' hI hJ) := by
   obtain ⟨h, hh⟩ := h
   exact ⟨T.mapHomotopy h, fun i j p => ⟨T.map (hh i j p).choose, by
-    show T.map _ ≫ T.map _ = T.map _ ≫ T.map _
+    change T.map _ ≫ T.map _ = T.map _ ≫ T.map _
     rw [← T.map_comp, ← T.map_comp, (hh i j p).choose_spec]⟩⟩
 
 /-- [Stacks, Tag 05TY] in the form used for functoriality: maps from a filtered

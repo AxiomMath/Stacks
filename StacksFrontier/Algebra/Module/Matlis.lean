@@ -74,7 +74,7 @@ public lemma exists_smul_mem_range_of_isEssentialMono
     let e : M ≃ₗ[R] LinearMap.range i.hom :=
       LinearEquiv.ofInjective i.hom ((ModuleCat.mono_iff_injective i).mp inferInstance)
     have hs : (ModuleCat.subobjectModule N).symm (LinearMap.range i.hom) = Subobject.mk i := by
-      show Subobject.mk (ModuleCat.ofHom (LinearMap.range i.hom).subtype) = Subobject.mk i
+      change Subobject.mk (ModuleCat.ofHom (LinearMap.range i.hom).subtype) = Subobject.mk i
       apply Subobject.mk_eq_mk_of_comm _ _ e.symm.toModuleIso
       ext x
       simp [e]
@@ -174,7 +174,7 @@ private lemma injective_range_of_comp_self_eq {M : Type v} [AddCommGroup M] [Mod
   have hrj : r.comp j = LinearMap.id := by
     ext y
     obtain ⟨x, hx⟩ := y.property
-    show p y.val = y.val
+    change p y.val = y.val
     rw [← hx]
     exact LinearMap.congr_fun hp x
   refine ⟨?_⟩
@@ -204,7 +204,7 @@ theorem support_subset_of_isInjectiveHull_residueField [IsNoetherianRing R]
   obtain ⟨n, hn⟩ := (Ideal.primaryComponent_mem E p x).mp hxm
   have hpow : p ^ n ≤ Ideal.torsionOf R E x := by
     intro a ha
-    show a • x = 0
+    change a • x = 0
     simp only [Submodule.mem_torsionBySet_iff] at hn
     exact hn ⟨a, ha⟩
   have hn0 : n ≠ 0 := by

@@ -97,7 +97,7 @@ theorem isAffineSpace_of_isPushout_chart {W : (BigFppfOver B (⊤_ Scheme.{u}) h
   let SA : BigFppfOver B (⊤_ Scheme.{u}) hT := terminalObj B hT hA
   let a : V ⟶ SA := terminalHomMk B hT ((G.obj V).toSpecΓ ≫ Spec.map α)
   have happ : (G.map a).appTop = (Scheme.ΓSpecIso A).hom ≫ α := by
-    show ((G.obj V).toSpecΓ ≫ Spec.map α).appTop = _
+    change ((G.obj V).toSpecΓ ≫ Spec.map α).appTop = _
     rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop, Scheme.ΓSpecIso_naturality]
   have hSA : IsAffine (G.obj SA) := inferInstanceAs (IsAffine (Spec A))
   have hsa : s ≫ a = t ≫ a := by
@@ -334,8 +334,7 @@ theorem isAffineSpace_of_chartKer_pow_eq_bot
     (atlasRelationTarget B _ hT hs) hR.flip hs he A (RingHom.ext fun a => (hA a).symm) ?_
   convert hbij using 1
   funext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 

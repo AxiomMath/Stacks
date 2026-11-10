@@ -115,8 +115,8 @@ left-hand side as `H⁰(X, g'_* 𝒪_{X'})`, and
 identifies `g'_* 𝒪_{X'}` with `p^* A'~`. And then the tag asserts that the canonical comparison
 of *sheaves* is invertible, where everything below is a statement about modules. The comparison
 of this directory is `Stacks.AlgebraicGeometry.FlatBaseChange.pushforwardBaseChange`, for which
-the only invertibility criterion in the library is `isIso_pushforwardBaseChange_of_isAffine` — flat base
-change, which the base change of [Stacks, Tag 0E7K] is not. Passing from the affine computation
+the only invertibility criterion in the library is `isIso_pushforwardBaseChange_of_isAffine` — flat
+base change, which the base change of [Stacks, Tag 0E7K] is not. Passing from the affine computation
 to the sheaf statement needs the comparison's locality on the base, which is available for the
 *other* canonical comparison `Stacks.AlgebraicGeometry.AffinePushforward.baseChangeNatTrans`,
 together with the identification of the two maps, which is not available.

@@ -121,8 +121,7 @@ tensor factor. -/
 private theorem target_first_factor_smul (N : ModuleCat.{w} A) (a : A)
     (x : A ⊗[R] restrictModule R A N) :
     (a ⊗ₜ[R] (1 : A)) • x = a • x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul b n =>
       rw [targetTensor_smul_tmul]
@@ -135,8 +134,7 @@ private theorem map_smul_of_tmul {R A M N Y F : Type*} [CommSemiring R] [AddComm
     [DistribSMul A Y] [FunLike F (M ⊗[R] N) Y] [AddMonoidHomClass F (M ⊗[R] N) Y] (f : F)
     (a : A) (h : ∀ (m : M) (n : N), f (a • m ⊗ₜ[R] n) = a • f (m ⊗ₜ[R] n))
     (x : M ⊗[R] N) : f (a • x) = a • f x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul m n => exact h m n
 
@@ -145,7 +143,7 @@ private theorem descentComparisonLeft_add (D : DescentData.{u, v, w} R A)
     (x y : D.module) :
     descentComparisonLeft R A D (x + y) =
       descentComparisonLeft R A D x + descentComparisonLeft R A D y := by
-  show D.transition
+  change D.transition
       (((show restrictModule R A D.module from x) +
         (show restrictModule R A D.module from y)) ⊗ₜ[R] (1 : A)) =
     D.transition ((show restrictModule R A D.module from x) ⊗ₜ[R] (1 : A)) +
@@ -170,8 +168,7 @@ private theorem assoc_symm_first_smul (N : ModuleCat.{w} A) (a b : A)
     (TensorProduct.assoc R A A (restrictModule R A N)).symm
         ((a * b) ⊗ₜ[R] z) =
       a • (TensorProduct.assoc R A A (restrictModule R A N)).symm (b ⊗ₜ[R] z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [tmul_add, map_add, hz, hz', smul_add]
   | tmul c n => simp [TensorProduct.assoc_symm_tmul, smul_tmul']
 
@@ -350,8 +347,7 @@ private theorem rightComm_unit (D : DescentData.{u, v, w} R A)
     (x : A ⊗[R] restrictModule R A D.module) :
     (TensorProduct.rightComm R A (restrictModule R A D.module) A)
         (x ⊗ₜ[R] (1 : A)) = rightUnitBaseChange R A D x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [rightUnitBaseChange]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [add_tmul, map_add, hx, hy, map_add]
   | tmul a n =>
       simp [rightUnitBaseChange, TensorProduct.rightComm_tmul,
@@ -380,11 +376,10 @@ private theorem descentComparison_cocycle (D : DescentData.{u, v, w} R A)
 private theorem equalizerRightRetraction_unit (D : DescentData.{u, v, w} R A)
     (x : A ⊗[R] restrictModule R A D.module) :
     equalizerRightRetractionR R A D (rightUnitBaseChange R A D x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [rightUnitBaseChange, equalizerRightRetractionR]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul a n =>
-      show (a * 1) ⊗ₜ[R] n = a ⊗ₜ[R] n
+      change (a * 1) ⊗ₜ[R] n = a ⊗ₜ[R] n
       simp
 
 /-- Regrouping and then contracting the first two factors is the action on the first
@@ -394,11 +389,10 @@ private theorem equalizerRightRetraction_assoc (D : DescentData.{u, v, w} R A)
     equalizerRightRetractionR R A D
         ((TensorProduct.assoc R A A (restrictModule R A D.module)).symm
           (a ⊗ₜ[R] x)) = a • x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [equalizerRightRetractionR]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [tmul_add, map_add, map_add, hx, hy, smul_add]
   | tmul b n =>
-      show (a * b) ⊗ₜ[R] n = a • (b ⊗ₜ[R] n)
+      change (a * b) ⊗ₜ[R] n = a • (b ⊗ₜ[R] n)
       simp [smul_tmul']
 
 /-- The right retraction carries the first parallel arrow to the first arrow precomposed
@@ -407,13 +401,12 @@ private theorem equalizerRightRetraction_transition (D : DescentData.{u, v, w} R
     (x : A ⊗[R] restrictModule R A D.module) :
     equalizerRightRetractionR R A D (transition12AfterUnit R A D x) =
       descentComparisonLeft R A D (equalizerLeftRetractionR R A D x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [transition12AfterUnit, descentComparisonLeft]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, map_add, hx, hy, map_add]
       exact (descentComparisonLeft_add R A D _ _).symm
   | tmul a n =>
-      show equalizerRightRetractionR R A D
+      change equalizerRightRetractionR R A D
           ((TensorProduct.assoc R A A (restrictModule R A D.module)).symm
             (a ⊗ₜ[R] D.transition (n ⊗ₜ[R] (1 : A)))) =
         descentComparisonLeft R A D (a • n)
@@ -471,7 +464,7 @@ theorem isSplitEqualizer_descentComparison
     condition := by
       apply ModuleCat.hom_ext
       refine LinearMap.ext fun z => ?_
-      show transition12AfterUnitHom R A D (descentComparisonHom R A D z) =
+      change transition12AfterUnitHom R A D (descentComparisonHom R A D z) =
         rightUnitBaseChangeHom R A D (descentComparisonHom R A D z)
       rw [descentComparisonHom_apply, transition12AfterUnitHom_apply,
         rightUnitBaseChangeHom_apply]
@@ -481,7 +474,7 @@ theorem isSplitEqualizer_descentComparison
       refine LinearMap.ext fun z => ?_
       cases z with
       | up n =>
-          show ULift.up (equalizerLeftRetraction R A D
+          change ULift.up (equalizerLeftRetraction R A D
             (descentComparisonHom R A D (ULift.up n))) = ULift.up n
           rw [descentComparisonHom_apply]
           congr 1
@@ -489,18 +482,18 @@ theorem isSplitEqualizer_descentComparison
     bottom_rightRetraction := by
       apply ModuleCat.hom_ext
       refine LinearMap.ext fun x => ?_
-      show equalizerRightRetraction R A D
+      change equalizerRightRetraction R A D
         (rightUnitBaseChangeHom R A D x) = x
       rw [rightUnitBaseChangeHom_apply]
       exact equalizerRightRetraction_unit R A D x
     top_rightRetraction := by
       apply ModuleCat.hom_ext
       refine LinearMap.ext fun x => ?_
-      show equalizerRightRetraction R A D
+      change equalizerRightRetraction R A D
           (transition12AfterUnitHom R A D x) =
         descentComparisonHom R A D (equalizerLeftRetractionLift R A D x)
       rw [transition12AfterUnitHom_apply, equalizerLeftRetractionLift, descentComparisonHom_apply]
-      show equalizerRightRetractionR R A D (transition12AfterUnit R A D x) =
+      change equalizerRightRetractionR R A D (transition12AfterUnit R A D x) =
         descentComparisonLeft R A D (equalizerLeftRetraction R A D x)
       rw [equalizerLeftRetraction_apply]
       exact equalizerRightRetraction_transition R A D x

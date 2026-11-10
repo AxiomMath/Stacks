@@ -98,8 +98,8 @@ affordable.**  `AlgebraicGeometry.Space.Modules B S hS Z.1 Z.2` and
 underlying category, its `Category` instance and the topology through
 `AlgebraicGeometry.Space.smallEtaleRingedSite`, which is a plain definition, so none of the four
 implicit arguments of `SheafOfModules` agrees syntactically.  The module-category spelling is
-therefore recorded differently in different places, and without the pinning described below the final
-application records it differently at 19 of some 330 sites: the general lemma's type variables
+therefore recorded differently in different places, and without the pinning described below the
+final application records it differently at 19 of some 330 sites: the general lemma's type variables
 take their value from the two adjunctions of Stacks 03LU, whose functors are stated at `Modules`,
 while the four forgetful functors carry the other spelling into the same application.
 Reconciling those 19 sites is a kernel deterministic timeout (about 50.8 s of kernel time, with
@@ -411,7 +411,7 @@ noncomputable def moduleSheafTauFace (h : U ⟶ V) (hh : IsEtale B S hS h.hom) :
 
 /-- The τ-face is invertible: it is the forgetful image of the comparison of Stacks 03LW. -/
 theorem isIso_moduleSheafTauFace (h : U ⟶ V) (hh : IsEtale B S hS h.hom) :
-    IsIso (moduleSheafTauFace B S hS h hh).natTrans :=
+    IsIso (moduleSheafTauFace B S hS h hh) :=
   inferInstanceAs (IsIso (Functor.isoWhiskerRight
     (modulePullbackIsoEtaleModulePullback B S hS h hh).symm
     (moduleSetSheafFunctor B S hS U)).hom)
@@ -422,7 +422,7 @@ theorem mateEquiv_moduleSheafTauFace_app (h : U ⟶ V) (hh : IsEtale B S hS h.ho
     (M : Modules.{u, u} B S hS U.1 U.2) :
     (mateEquiv (modulePullbackAdjunction B S hS h)
         (smallEtaleSetRestrictionAdjunction B S hS h hh)
-        (moduleSheafTauFace B S hS h hh)).natTrans.app M =
+        (moduleSheafTauFace B S hS h hh)).app M =
       CategoryStruct.id ((moduleSetSheafFunctor B S hS V).obj
         ((modulePushforward B S hS h).obj M)) :=
   CategoryTheory.NatTrans.congr_app
@@ -506,28 +506,28 @@ theorem cubeComponents_moduleSheafFunctor (w : i ≫ f = f' ≫ g) (hg : IsEtale
         (smallEtaleDirectImage B S hS f).map
           ((mateEquiv (modulePullbackAdjunction B S hS i)
             (smallEtaleSetRestrictionAdjunction B S hS i hi)
-            (moduleSheafTauFace B S hS i hi)).natTrans.app N) ≫
+            (moduleSheafTauFace B S hS i hi)).app N) ≫
         (TwoSquare.mk (smallEtaleDirectImage B S hS i) (smallEtaleDirectImage B S hS f')
             (smallEtaleDirectImage B S hS f) (smallEtaleDirectImage B S hS g)
             ((smallEtaleDirectImageCompIso B S hS i f).hom ≫
               eqToHom (congrArg (fun k : X' ⟶ Y ↦ smallEtaleDirectImage B S hS k) w) ≫
-              (smallEtaleDirectImageCompIso B S hS f' g).inv)).natTrans.app
+              (smallEtaleDirectImageCompIso B S hS f' g).inv)).app
           ((moduleSetSheafFunctor B S hS X').obj N) ≫
         (smallEtaleDirectImage B S hS g).map
           ((moduleSheafVerticalFace' B S hS f').app N) =
       (moduleSetSheafFunctor B S hS Y).map
           ((TwoSquare.mk (modulePushforward B S hS i) (modulePushforward B S hS f')
             (modulePushforward B S hS f) (modulePushforward B S hS g)
-            (modulePushforwardSquareComparison B S hS i f' f g w)).natTrans.app N) ≫
+            (modulePushforwardSquareComparison B S hS i f' f g w)).app N) ≫
         (mateEquiv (modulePullbackAdjunction B S hS g)
           (smallEtaleSetRestrictionAdjunction B S hS g hg)
-          (moduleSheafTauFace B S hS g hg)).natTrans.app
+          (moduleSheafTauFace B S hS g hg)).app
           ((modulePushforward B S hS f').obj N) := by
   rw [mateEquiv_moduleSheafTauFace_app B S hS i hi N,
     mateEquiv_moduleSheafTauFace_app B S hS g hg ((modulePushforward B S hS f').obj N),
     moduleSheafVerticalFace_app B S hS f ((modulePushforward B S hS i).obj N),
     moduleSheafVerticalFace'_app B S hS f' N]
-  show CategoryStruct.id ((modulePushforward B S hS f ⋙
+  change CategoryStruct.id ((modulePushforward B S hS f ⋙
             (moduleSetSheafFunctor B S hS Y)).obj
           ((modulePushforward B S hS i).obj N)) ≫
         (smallEtaleDirectImage B S hS f).map
@@ -581,8 +581,18 @@ value from the adjunctions, whose functors are stated at `Modules`, while the fo
 functors carry the other spelling of the same type into the same application; the component
 hypothesis is then stated at one spelling and expected at the other, and the identification is
 what the kernel does not finish. -/
-@[instance_reducible] private def cubeStage1 (hi : IsEtale B S hS i.hom)
-    (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage1 (hi : IsEtale B S hS i.hom)
+    (hg : IsEtale B S hS g.hom) :
+    type_of% (Stacks.CategoryTheory.isIso_mateEquiv_symm_of_app
+        (C := Modules.{u, u} B S hS X.1 X.2) (D := Modules.{u, u} B S hS X'.1 X'.2)
+        (E := Modules.{u, u} B S hS Y.1 Y.2) (F := Modules.{u, u} B S hS Y'.1 Y'.2)
+        (ΦC := moduleSetSheafFunctor B S hS X) (ΦD := moduleSetSheafFunctor B S hS X')
+        (ΦE := moduleSetSheafFunctor B S hS Y) (ΦF := moduleSetSheafFunctor B S hS Y')
+        (G := modulePushforward B S hS f) (H := modulePushforward B S hS f')
+        (G' := smallEtaleDirectImage B S hS f) (H' := smallEtaleDirectImage B S hS f')
+        (modulePullbackAdjunction B S hS i) (modulePullbackAdjunction B S hS g)
+        (smallEtaleSetRestrictionAdjunction B S hS i hi)
+        (smallEtaleSetRestrictionAdjunction B S hS g hg)) :=
   Stacks.CategoryTheory.isIso_mateEquiv_symm_of_app
     (C := Modules.{u, u} B S hS X.1 X.2) (D := Modules.{u, u} B S hS X'.1 X'.2)
     (E := Modules.{u, u} B S hS Y.1 Y.2) (F := Modules.{u, u} B S hS Y'.1 Y'.2)
@@ -595,15 +605,27 @@ what the kernel does not finish. -/
     (smallEtaleSetRestrictionAdjunction B S hS g hg)
 
 /-- The cube, with the τ-faces and the vertical faces supplied. -/
-@[instance_reducible] private def cubeStage2 (hi : IsEtale B S hS i.hom)
-    (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage2 (hi : IsEtale B S hS i.hom)
+    (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage1 B S hS i f' f g hi hg (moduleSheafTauFace B S hS i hi)
+        (moduleSheafTauFace B S hS g hg) (moduleSheafVerticalFace B S hS f)
+        (moduleSheafVerticalFace' B S hS f')) :=
   cubeStage1 B S hS i f' f g hi hg (moduleSheafTauFace B S hS i hi)
     (moduleSheafTauFace B S hS g hg) (moduleSheafVerticalFace B S hS f)
     (moduleSheafVerticalFace' B S hS f')
 
 /-- The cube, with the two 2-cells supplied. -/
-@[instance_reducible] private def cubeStage3 (w : i ≫ f = f' ≫ g)
-    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage3 (w : i ≫ f = f' ≫ g)
+    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage2 B S hS i f' f g hi hg
+        (TwoSquare.mk (modulePushforward B S hS i) (modulePushforward B S hS f')
+          (modulePushforward B S hS f) (modulePushforward B S hS g)
+          (modulePushforwardSquareComparison B S hS i f' f g w))
+        (TwoSquare.mk (smallEtaleDirectImage B S hS i) (smallEtaleDirectImage B S hS f')
+          (smallEtaleDirectImage B S hS f) (smallEtaleDirectImage B S hS g)
+          ((smallEtaleDirectImageCompIso B S hS i f).hom ≫
+            eqToHom (congrArg (fun k : X' ⟶ Y ↦ smallEtaleDirectImage B S hS k) w) ≫
+            (smallEtaleDirectImageCompIso B S hS f' g).inv))) :=
   cubeStage2 B S hS i f' f g hi hg
     (TwoSquare.mk (modulePushforward B S hS i) (modulePushforward B S hS f')
       (modulePushforward B S hS f) (modulePushforward B S hS g)
@@ -616,28 +638,37 @@ what the kernel does not finish. -/
 
 /-- The cube, with the reflection of isomorphisms and the invertibility of the τ-faces
 supplied. -/
-@[instance_reducible] private def cubeStage4 (w : i ≫ f = f' ≫ g)
-    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage4 (w : i ≫ f = f' ≫ g)
+    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage3 B S hS i f' f g w hi hg (reflectsIsomorphisms_moduleSheafFunctor B S hS Y')
+        (isIso_moduleSheafTauFace B S hS i hi) (isIso_moduleSheafTauFace B S hS g hg)) :=
   cubeStage3 B S hS i f' f g w hi hg (reflectsIsomorphisms_moduleSheafFunctor B S hS Y')
     (isIso_moduleSheafTauFace B S hS i hi) (isIso_moduleSheafTauFace B S hS g hg)
 
 /-- The cube, with the invertibility of the vertical faces supplied. -/
-@[instance_reducible] private def cubeStage5 (w : i ≫ f = f' ≫ g)
-    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage5 (w : i ≫ f = f' ≫ g)
+    (hi : IsEtale B S hS i.hom) (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage4 B S hS i f' f g w hi hg (isIso_moduleSheafVerticalFace B S hS f)
+        (isIso_moduleSheafVerticalFace' B S hS f')) :=
   cubeStage4 B S hS i f' f g w hi hg (isIso_moduleSheafVerticalFace B S hS f)
     (isIso_moduleSheafVerticalFace' B S hS f')
 
 /-- The cube, with the back face supplied: Stacks 03LR, part (1) for the canonical map on the
 small étale sites at `Type u`. -/
-@[instance_reducible] private def cubeStage6 (sq : IsPullback i f' f g)
-    (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage6 (sq : IsPullback i f' f g)
+    (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage5 B S hS i f' f g sq.w (isEtale_of_isPullback B S hS f' i g f sq.flip hg) hg
+        (isIso_mateEquiv_symm_smallSetPushforwardCompSquare B S hS i f' f g sq hg)) :=
   cubeStage5 B S hS i f' f g sq.w (isEtale_of_isPullback B S hS f' i g f sq.flip hg) hg
     (isIso_mateEquiv_symm_smallSetPushforwardCompSquare B S hS i f' f g sq hg)
 
 /-- The cube, with the component hypothesis supplied: the application that the pinning of the
 four module categories makes affordable.  Its type is inferred, as the stages' are. -/
-@[instance_reducible] private def cubeStage7 (sq : IsPullback i f' f g)
-    (hg : IsEtale B S hS g.hom) :=
+private theorem cubeStage7 (sq : IsPullback i f' f g)
+    (hg : IsEtale B S hS g.hom) :
+    type_of% (cubeStage6 B S hS i f' f g sq hg
+        (cubeComponents_moduleSheafFunctor B S hS i f' f g sq.w hg
+          (isEtale_of_isPullback B S hS f' i g f sq.flip hg))) :=
   cubeStage6 B S hS i f' f g sq hg
     (cubeComponents_moduleSheafFunctor B S hS i f' f g sq.w hg
       (isEtale_of_isPullback B S hS f' i g f sq.flip hg))
@@ -674,12 +705,12 @@ the canonical base-change comparison
 
 of `AlgebraicGeometry.Space.moduleEtaleBaseChangeComparison` is an isomorphism.
 
-This is what `StacksFrontier/AlgebraicGeometry/Spaces/ModuleHigherPushforwardBaseChangeCanonical.lean`
-records as the single underived statement the canonical reading of Stacks 03LX and Stacks 071Z
-was owed.  It is `AlgebraicGeometry.Space.isIso_moduleBaseChangeMap_of_isEtale` conjugated into
-the étale-restriction spelling by Stacks 03LW,
-`AlgebraicGeometry.Space.modulePullbackIsoEtaleModulePullback`, which is canonical, so the
-conjugation introduces no twist.
+This is what
+`StacksFrontier/AlgebraicGeometry/Spaces/ModuleHigherPushforwardBaseChangeCanonical.lean` records as
+the single underived statement the canonical reading of Stacks 03LX and Stacks 071Z was owed.  It is
+`AlgebraicGeometry.Space.isIso_moduleBaseChangeMap_of_isEtale` conjugated into the étale-restriction
+spelling by Stacks 03LW, `AlgebraicGeometry.Space.modulePullbackIsoEtaleModulePullback`, which is
+canonical, so the conjugation introduces no twist.
 
 **This is the étale case and not Stacks 073K, part (1).**  Stacks 073K, part (1) asserts base
 change for `g` merely *flat* and `f` quasi-compact and quasi-separated; `hg` here is

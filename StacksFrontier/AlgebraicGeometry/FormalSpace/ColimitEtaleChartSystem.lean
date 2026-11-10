@@ -129,7 +129,7 @@ theorem isRepresentableEtale_of_etale_over_affinePoints
               (by rw [(hpb k).w, Category.assoc])).ι.app ⟨i⟩ from h1]
         exact (hleft i).w
       have h3 := map_comp_eq_map_comp J.uliftYoneda.{u + 1} (hmfac i)
-      show J.uliftYoneda.{u + 1}.map (jw i) ≫ eW.hom ≫ pullback.fst ξV Φ =
+      change J.uliftYoneda.{u + 1}.map (jw i) ≫ eW.hom ≫ pullback.fst ξV Φ =
         J.uliftYoneda.{u + 1}.map (jw i) ≫ J.uliftYoneda.{u + 1}.map m
       rw [h2, h3]
     have hPpre := (IsPullback.of_hasPullback ξV Φ).map (sheafToPresheaf J (Type (u + 1)))
@@ -140,7 +140,7 @@ theorem isRepresentableEtale_of_etale_over_affinePoints
       congrArg (fun t : J.uliftYoneda.{u + 1}.obj Wt ⟶ J.uliftYoneda.{u + 1}.obj V ↦ t.hom) hfstm
     have h5 : hPpre.isoPullback.hom ≫ pullback.fst ((uliftYoneda.{u + 1}).map q ≫ ξ) Φ.hom =
         (pullback.fst ξV Φ).hom := hPpre.isoPullback_hom_fst
-    show eW.hom.hom ≫ hPpre.isoPullback.hom ≫
+    change eW.hom.hom ≫ hPpre.isoPullback.hom ≫
         pullback.fst ((uliftYoneda.{u + 1}).map q ≫ ξ) Φ.hom = (uliftYoneda.{u + 1}).map m
     rw [h5]
     exact h4

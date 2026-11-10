@@ -15,8 +15,8 @@ canonical comparison `u_p [U/R] ⟶ [f⁻¹U/f⁻¹R]`: every morphism between i
 covering sieve of the base, the image of a morphism of `u_p [U/R]`.
 
 The generic reduction of
-`StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PullbackComparisonFull` turns that statement
-into one about a strongly cartesian morphism `μ : z ⟶ F(x₀)` of `[f⁻¹U/f⁻¹R]` over
+`StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PullbackComparisonFull` turns that
+statement into one about a strongly cartesian morphism `μ : z ⟶ F(x₀)` of `[f⁻¹U/f⁻¹R]` over
 `φ : V ⟶ i(p x₀)` and an arbitrary `Θ : z ⟶ F(y)`. What remains is geometry. The morphism `Θ` lies
 over some `ψ : V ⟶ i(p y)`, and `φ` and `ψ` factor through the image of a single test object of the
 smaller site, over which — locally on `V`, by part (1) of Stacks 044X — both `x₀` and `y` are

@@ -211,7 +211,7 @@ lemma isCovered_genClass (i : ι) :
           (polyHomTower q t hcart a ha m).app 1 = genHom q t hcart a ha m i :=
     (Category.assoc _ _ _).trans
       ((congrArg (fun g => Limits.Sigma.ι (fun _ : ι => SheafOfModules.unit (Xn 0).ringCatSheaf) i
-          ≫ g) (polyHomTower_extends q t hcart a ha m)).trans (Limits.Sigma.ι_desc _ _))
+          ≫ g) (polyHomTower_extends q t hcart a ha m)).trans (Limits.Sigma.ι_comp_desc _ _))
   refine ⟨(Limits.Sigma.ι (fun _ : ι => SheafOfModules.unit (Xn 0).ringCatSheaf) i ≫
       SheafOfModules.sheafifiedSymmetricGenerator (Opens.grothendieckTopology ↥(Xn 0))
         (SheafOfModules.free (R := (Xn 0).ringCatSheaf) ι)).val.app (op (chartOpen t m V))

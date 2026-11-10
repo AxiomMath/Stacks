@@ -581,8 +581,8 @@ variable (D : FlatThickeningComplexSituation i t)
 
 /-- The counit of `h^* ⊣ h_*` is an isomorphism. -/
 instance isIso_adjH_counit : IsIso D.adjH.counit := by
-  haveI := D.restrictScalarsHFullyFaithful.full
-  haveI := D.restrictScalarsHFullyFaithful.faithful
+  have := D.restrictScalarsHFullyFaithful.full
+  have := D.restrictScalarsHFullyFaithful.faithful
   exact D.adjH.counit_isIso_of_R_fully_faithful
 
 omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}] in

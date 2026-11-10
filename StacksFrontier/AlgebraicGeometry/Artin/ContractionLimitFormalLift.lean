@@ -101,7 +101,7 @@ theorem exists_chartAlgebraization {W₀ : FormalSpace.FppfSheaf B S hS} (ω : W
       pullback ω c.g := e.hom.hom.left
   have hε : ε ≫ pullback.snd ω c.g = Space.completionSheafMap B S hS ν c.T' := Over.w e.hom.hom
   have : IsIso ε := by
-    show IsIso ((ObjectProperty.ι _ ⋙ Over.forget _).mapIso e).hom
+    change IsIso ((ObjectProperty.ι _ ⋙ Over.forget _).mapIso e).hom
     infer_instance
   have hνet : Space.IsEtale B S hS ν := by
     have hrep : FormalSpace.IsRepresentableEtale B S hS
@@ -275,7 +275,7 @@ theorem exists_section_of_lift {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     sq.lift_snd _ _ _
   let T₁ := Space.pointsMap B S hS Y (𝟙 Y) ⁻¹' T
   have hT₀ : T ⊆ Space.pointsMap B S hS Y (𝟙 Y) ⁻¹' T := fun x hx => by
-    show Space.pointsMap B S hS Y (𝟙 Y) x ∈ T
+    change Space.pointsMap B S hS Y (𝟙 Y) x ∈ T
     rw [Space.pointsMap_id]
     exact hx
   have hT₁ : T ⊆ Space.pointsMap B S hS Y (𝟙 Y) ⁻¹' T₁ :=
@@ -284,7 +284,7 @@ theorem exists_section_of_lift {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let s' : (Space.completionOverFunctor B S hS T).obj (Over.mk (𝟙 Y)) ⟶
       (Space.completionOverFunctor B S hS T).obj (Over.mk f) :=
     Over.homMk (Space.completionSheafRestrict B S hS (𝟙 Y) T₁ T hT₂ ≫ s) (by
-      show (Space.completionSheafRestrict B S hS (𝟙 Y) T₁ T hT₂ ≫ s) ≫
+      change (Space.completionSheafRestrict B S hS (𝟙 Y) T₁ T hT₂ ≫ s) ≫
           Space.completionSheafMap B S hS f T = Space.completionSheafMap B S hS (𝟙 Y) T
       rw [← Space.completionSheafRestrict_self B S hS f T (fun _ h => h), Category.assoc, hs₂,
         Category.comp_id]
@@ -401,10 +401,10 @@ theorem exists_stage_hom_Xt {j : I} (M : StageModel c κ ξ w j) (y : M.Y ⟶ c.
     rw [← h3'', ← Category.assoc]
     congr 1
     apply pullback.hom_ext
-    · show pullback.lift _ _ _ ≫ _ = _
+    · change pullback.lift _ _ _ ≫ _ = _
       rw [pullback.lift_fst, Category.assoc, pullback.lift_fst, ← Category.assoc,
         IsPullback.isoPullback_hom_fst]
-    · show pullback.lift _ _ _ ≫ _ = _
+    · change pullback.lift _ _ _ ≫ _ = _
       rw [pullback.lift_snd, Category.assoc, pullback.lift_snd, IsPullback.isoPullback_hom_snd]
   refine ⟨k.left, k.hom, a'' ≫ pullback.fst _ _, (Category.assoc _ _ _).trans h2, ?_⟩
   rw [← Category.assoc, hak]
@@ -476,7 +476,7 @@ theorem StageWitness.exists_stage_lift {j : I} (W : StageWitness c κ ξ w j)
   refine (A.completionSheafRestrict_liftOfSection W'.y _ W'.subset_T' σk hσk W'.a TY
     W'.subset_preimage_preimage w.x' (hTY ▸ fun _ h => h) σ' hσ' ?_).trans hlift
   have hσkf : σk ≫ pullback.fst A.ν W'.y = sk := pullback.lift_fst _ _ _
-  show s = W'.a ≫ σk ≫ pullback.fst A.ν W'.y
+  change s = W'.a ≫ σk ≫ pullback.fst A.ν W'.y
   rw [hσkf]
   exact hsk₂.symm
 

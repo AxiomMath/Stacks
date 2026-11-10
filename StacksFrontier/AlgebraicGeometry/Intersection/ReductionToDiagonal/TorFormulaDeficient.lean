@@ -367,7 +367,7 @@ theorem torSubvarietyProductOfBound_eq_zero_of_lt (k : Type u) [Field k] [IsAlgC
   have hgenJ : genericPointOf (integralComponentAt b) hJ = b :=
     genericPointOf_integralComponentAt b
   refine Function.locallyFinsuppWithin.ext fun z => ?_
-  show TorFormula.torSubvarietyProductOfBound (fieldChowSituation k) f hX n hab z = 0
+  change TorFormula.torSubvarietyProductOfBound (fieldChowSituation k) f hX n hab z = 0
   by_cases hzn : relativeDimension (fieldChowSituation k).dimensionFunction f z = n
   · by_cases hzab : z ∈ closure ({a} : Set X) ∩ closure ({b} : Set X)
     · have hzsup : z ∈ (((integralComponentAt a ⊔ integralComponentAt b).support :
@@ -377,7 +377,7 @@ theorem torSubvarietyProductOfBound_eq_zero_of_lt (k : Type u) [Field k] [IsAlgC
           (fieldChowSituation k) f hX n hab dX hdX.le hzn hzab.1 hzab.2
       have hzero : (TorFormula.localIdealAt a z).localIntersectionMultiplicity
           (X.presheaf.stalk z ⧸ TorFormula.localIdealAt b z) = 0 := by
-        show Ideal.localIntersectionMultiplicity
+        change Ideal.localIntersectionMultiplicity
             (AlgebraicGeometry.IdealSheafData.stalk (integralComponentAt a) z)
             (X.presheaf.stalk z ⧸
               AlgebraicGeometry.IdealSheafData.stalk (integralComponentAt b) z) = 0

@@ -296,8 +296,8 @@ theorem unitTensorFibreIso_hom_pointSwapMap :
       pointPair_fst, pointPair_snd, pairPoint_fst, pairPoint_snd, pointSnd_fst, pointSnd_snd,
       fstPoint_fst, fstPoint_snd, Category.comp_id]
   all_goals first
-    | exact h₁ | exact h₁.symm | exact h₂ | exact h₂.symm | exact h₃ | exact h₃.symm
-    | exact h₂.trans h₃.symm | exact h₃.trans h₂.symm
+    | exact h₁
+    | exact h₂.trans h₃.symm
     | (rw [fst_comp_eq_snd_comp k sX]; done)
     | rw [reassoc_of% h₁]
 
@@ -351,7 +351,7 @@ theorem isClosedImmersion_tensorCounitMap : IsClosedImmersion (tensorCounitMap k
         Category.id_comp]
     · rw [Category.assoc, tensorCounitRetraction_snd, tensorCounitMap_fst_assoc,
         sndDiagPair_snd_assoc, pullback.diagonal_snd, Category.comp_id, Category.id_comp]
-  · show tensorCounitRetraction k sX ≫ pullback.fst sX sX ≫ sX = _
+  · change tensorCounitRetraction k sX ≫ pullback.fst sX sX ≫ sX = _
     rw [tensorCounitRetraction_fst_assoc]
 
 omit [LocallyOfFiniteType sX] [Smooth sX] in
@@ -392,12 +392,12 @@ theorem compositionInt_unitTensor_tensorCounit {d dU eY fZ : ℕ} (hX : Relative
     (unitTensorFibreIso_hom_pointSwapMap k sX) (qA := prodBase sX sX) (qB := prodBase sX sX)
     (qF := sX) ?_ ?_ ?_ (relativeDimension_prodBase k sX sX hX hX)
     (relativeDimension_prodBase k sX sX hX hX) hX hr hs hrs
-  · show unitTensorMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (pointBase k) sX ≫ 𝟙 _ = _
+  · change unitTensorMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (pointBase k) sX ≫ 𝟙 _ = _
     rw [unitTensorMap_fst_assoc, pointSnd_fst_assoc, Category.comp_id]
     exact (fst_comp_eq_snd_comp k sX).symm
-  · show tensorCounitMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (prodBase sX sX) ≫ sX = _
+  · change tensorCounitMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (prodBase sX sX) ≫ sX = _
     rw [tensorCounitMap_fst_assoc, sndDiagPair_fst_assoc]
-  · show pointSwapMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (pointBase k) sX ≫ 𝟙 _ = _
+  · change pointSwapMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (pointBase k) sX ≫ 𝟙 _ = _
     rw [pointSwapMap_fst_assoc, pointPair_fst_assoc, Category.comp_id]
 
 end FirstTriangle
@@ -551,8 +551,8 @@ def tensorUnitFibreIso : tensorUnitFibre k sX ≅ X where
       simp only [tensorUnitFibreInv, Category.assoc, pullback.lift_fst, pullback.lift_snd,
         pullback.diagonal_fst, pullback.diagonal_snd, Category.comp_id, Category.id_comp]
     all_goals first
-      | exact h₁ | exact h₁.symm | exact h₂ | exact h₂.symm | exact h₃ | exact h₃.symm
-      | exact h₁.trans h₂.symm | exact h₂.trans h₁.symm | exact (h₁.trans h₂.symm).trans h₃
+      | exact h₁
+      | exact h₁.trans h₂.symm | exact (h₁.trans h₂.symm).trans h₃
   inv_hom_id := by
     rw [tensorUnitFibreInv, pullback.lift_fst_assoc, pullback.diagonal_fst]
 
@@ -568,8 +568,7 @@ theorem tensorUnitFibreIso_hom_swapPointMap :
       pointPair_fst, pointPair_snd, pairPoint_fst, pairPoint_snd, pointSnd_fst, pointSnd_snd,
       fstPoint_fst, fstPoint_snd, Category.comp_id]
   all_goals first
-    | rfl | exact h₁ | exact h₁.symm | exact h₂ | exact h₂.symm | exact h₃ | exact h₃.symm
-    | exact (h₁.trans h₂.symm).trans h₃ | exact ((h₁.trans h₂.symm).trans h₃).symm
+    | exact (h₁.trans h₂.symm).trans h₃
     | (rw [fst_comp_eq_snd_comp k sX]; done)
     | (rw [reassoc_of% h₁]; done)
     | rw [reassoc_of% h₁, ← reassoc_of% h₂, reassoc_of% h₃]
@@ -622,7 +621,7 @@ theorem isClosedImmersion_counitTensorMap : IsClosedImmersion (counitTensorMap k
         diagPairFst_fst_assoc, pullback.diagonal_fst, Category.comp_id, Category.id_comp]
     · rw [Category.assoc, counitTensorRetraction_snd, counitTensorMap_fst_assoc, diagPairFst_snd,
         Category.id_comp]
-  · show counitTensorRetraction k sX ≫ pullback.fst sX sX ≫ sX = _
+  · change counitTensorRetraction k sX ≫ pullback.fst sX sX ≫ sX = _
     rw [counitTensorRetraction_fst_assoc]
 
 omit [LocallyOfFiniteType sX] [Smooth sX] in
@@ -663,12 +662,12 @@ theorem compositionInt_tensorUnit_counitTensor {d dU eY fZ : ℕ} (hX : Relative
     (tensorUnitFibreIso_hom_swapPointMap k sX) (qA := prodBase sX sX) (qB := prodBase sX sX)
     (qF := sX) ?_ ?_ ?_ (relativeDimension_prodBase k sX sX hX hX)
     (relativeDimension_prodBase k sX sX hX hX) hX hr hs hrs
-  · show tensorUnitMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (pointBase k) ≫ sX = _
+  · change tensorUnitMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (pointBase k) ≫ sX = _
     rw [tensorUnitMap_fst_assoc, fstPoint_fst_assoc]
-  · show counitTensorMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (prodBase sX sX) sX ≫
+  · change counitTensorMap k sX ≫ pullback.fst _ _ ≫ pullback.fst (prodBase sX sX) sX ≫
       pullback.fst sX sX ≫ sX = _
     rw [counitTensorMap_fst_assoc, diagPairFst_fst_assoc, pullback.diagonal_fst_assoc]
-  · show swapPointMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (pointBase k) ≫ sX = _
+  · change swapPointMap k sX ≫ pullback.fst _ _ ≫ pullback.fst sX (pointBase k) ≫ sX = _
     rw [swapPointMap_fst_assoc, pairPoint_fst_assoc]
 
 end SecondTriangle

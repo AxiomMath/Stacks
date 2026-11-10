@@ -115,7 +115,7 @@ theorem coversTop_affineObj (hp : p.IsFiberedInGroupoids) :
     obtain ⟨e, -⟩ := hβ j
     have : IsAffine
         ((B.inclusion.obj (p.obj W).left).affineOpenCover.openCover.X (β j)) := by
-      show IsAffine
+      change IsAffine
         (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     have hIso : IsIso e.hom := e.isIso_hom
@@ -125,9 +125,9 @@ theorem coversTop_affineObj (hp : p.IsFiberedInGroupoids) :
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .fppf (p.obj W) := by
-    show Sieve.ofArrows Vobj vmap ∈ (B.topology.over (B.obj hS)) (p.obj W)
+    change Sieve.ofArrows Vobj vmap ∈ (B.topology.over (B.obj hS)) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V.X V.f ∈ B.topology (p.obj W).left
+    change Sieve.ofArrows V.X V.f ∈ B.topology (p.obj W).left
     have hpre : V.presieve₀ ∈ B.precoverage (p.obj W).left := ⟨V, rfl, hV⟩
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   -- Lift the family along `p`.
@@ -159,7 +159,7 @@ theorem coversTop_affineObj (hp : p.IsFiberedInGroupoids) :
   have hrange : Set.range y ⊆ Set.range (affineObj B S hS p) := by
     rintro x ⟨j, rfl⟩
     refine ⟨⟨y j, ?_⟩, rfl⟩
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
     rw [hdom j]
     exact hVaff j
   exact (BigFppfOver.associatedTopology B S hS p .fppf).superset_covering

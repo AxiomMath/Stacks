@@ -127,7 +127,7 @@ def transportSection {Z : Over U} {φ : Z.left ⟶ U} (h : φ = Z.hom)
 /-- Transporting along the identity does nothing. -/
 lemma transportSection_mk {Y : C} {φ : Y ⟶ U} (h : φ = (Over.mk φ).hom)
     (s : G.obj (op (Over.mk φ))) : transportSection G h s = s := by
-  show G.map (transportHom h).op s = s
+  change G.map (transportHom h).op s = s
   rw [show transportHom (U := U) h = 𝟙 (Over.mk φ) from Over.OverMorphism.ext (by simp)]
   simp
 
@@ -160,7 +160,7 @@ lemma map_op_transportSection {Z Z' : Over U} (g : Z ⟶ Z') {φ : Z'.left ⟶ U
     G.map g.op (transportSection G h s)
       = transportSection G (show g.left ≫ φ = Z.hom by rw [h]; exact Over.w g)
           (G.map (Over.homMk g.left rfl : Over.mk (g.left ≫ φ) ⟶ Over.mk φ).op s) := by
-  show G.map g.op (G.map (transportHom h).op s) = G.map (transportHom _).op _
+  change G.map g.op (G.map (transportHom h).op s) = G.map (transportHom _).op _
   rw [map_op_comp, map_op_comp]
   exact congrArg (fun e : Z ⟶ Over.mk φ => G.map e.op s) (Over.OverMorphism.ext (by simp))
 
@@ -302,7 +302,7 @@ theorem Sheaf.isLocallySurjective_sigmaDesc_of_range_le {I : Type*} {F : I → S
     obtain ⟨y, hy⟩ := hg i U hx
     refine ⟨(Limits.Sigma.ι H i).app U y, ?_⟩
     rw [show ((Limits.Sigma.desc g).app U) ((Limits.Sigma.ι H i).app U y) =
-      ((Limits.Sigma.ι H i ≫ Limits.Sigma.desc g).app U) y from rfl, Limits.Sigma.ι_desc]
+      ((Limits.Sigma.ι H i ≫ Limits.Sigma.desc g).app U) y from rfl, Limits.Sigma.ι_comp_desc]
     exact hy
   rw [Presheaf.isLocallySurjective_iff_range_sheafify_eq_top']
   refine top_le_iff.mp ?_

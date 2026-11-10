@@ -245,6 +245,7 @@ theorem lineChartFunction_graphLineProjection
   exact ((graphClosure sX U ↑g).presheaf.germ_res_apply (homOfLE hWA)
     (genericPoint (graphClosure sX U ↑g)) hηW _).symm
 
+omit [QuasiCompact U.ι] in
 /-- A global function on the base, read as a rational function on the graph closure, is the
 pullback along `p` of that function read on `U`. -/
 theorem lineBaseFunction_graphLineProjection (t : Γ(S, ⊤))

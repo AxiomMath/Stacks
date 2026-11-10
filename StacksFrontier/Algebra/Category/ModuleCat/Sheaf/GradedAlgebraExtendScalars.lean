@@ -116,10 +116,7 @@ private lemma heq_cof_app_of_tmul {Q : ℤ → PMod O₁} {d₁ d₂ : ℤ} (hd 
       ∀ (a : O₂.obj X) (m : M.obj X), HEq (f (a ⊗ₜ[O₁.obj X] m)) (g (a ⊗ₜ[O₁.obj X] m))) :
     HEq (f x) (g x) := by
   let := (θ.app X).hom.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact (heq_of_eq (map_zero f)).trans
-      ((heq_cof_zero θ hd X).trans (heq_of_eq (map_zero g)).symm)
+  induction x using TensorProduct.inductionOn with
   | add x₁ x₂ h₁ h₂ =>
     exact (heq_of_eq (map_add f x₁ x₂)).trans
       ((heq_cof_add θ hd h₁ h₂).trans (heq_of_eq (map_add g x₁ x₂)).symm)

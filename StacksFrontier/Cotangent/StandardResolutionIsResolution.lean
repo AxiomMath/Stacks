@@ -173,7 +173,7 @@ public theorem standardResolution_isResolution (A : Type u) [CommRing A]
         Functor.whiskerRight a ((evaluation C (Type (max u v))).obj B) ≫ e.hom := by
       ext n x
       rw [hpoint]
-      show (V.map (eqToHom hB)) ((V.map ((X.hom.app n).app B)) x) =
+      change (V.map (eqToHom hB)) ((V.map ((X.hom.app n).app B)) x) =
         ((V.map ((X.hom.app n).app B)) ≫ V.map (eqToHom hB)) x
       rfl
     exact hmap.symm ▸ homotopyEquivalences_comp_iso hEval e

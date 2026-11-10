@@ -130,7 +130,7 @@ theorem δ_succ_standardResolutionContract_one (i : Fin 2)
 theorem standardResolutionContract_mem (n : ℕ) (p : (standardResolution A B).left.obj (op ⦋n⦌))
     (hp : p ∈ augmentationIdeal A B (op ⦋n⦌)) :
     standardResolutionContract A B n p ∈ augmentationIdeal A B (op ⦋n + 1⦌) := by
-  show (standardResolution A B).hom.app (op ⦋n + 1⦌) _ = 0
+  change (standardResolution A B).hom.app (op ⦋n + 1⦌) _ = 0
   rwa [standardResolutionContract, map_sub, standardResolution_augmentation_standardResolutionX,
     standardResolution_augmentation_standardResolutionX, map_zero, sub_zero]
 
@@ -166,7 +166,7 @@ theorem faceSumTwo_contract_mul (a b : (standardResolution A B).left.obj (op ⦋
 /-- The shuffle identity: for `d` with both faces zero and `y` with `d₁ y = 0`,
 `(d₀ - d₁ + d₂)(s₁ d · s₀ y) = -d y`. -/
 theorem faceSumTwo_σ_mul (d y : (standardResolution A B).left.obj (op ⦋1⦌))
-    (hd₀ : (standardResolution A B).left.δ 0 d = 0) (hd₁ : (standardResolution A B).left.δ 1 d = 0)
+    (hd₀ : (standardResolution A B).left.δ 0 d = 0)
     (hy : (standardResolution A B).left.δ 1 y = 0) :
     faceSumTwo A B ((standardResolution A B).left.σ 1 d * (standardResolution A B).left.σ 0 y) =
       -(d * y) := by
@@ -186,10 +186,10 @@ theorem faceSumTwo_σ_mul (d y : (standardResolution A B).left.obj (op ⦋1⦌))
   have h21 : X.δ (2 : Fin 3) (X.σ 1 d) = d :=
     δ_succ_σ_apply A B 1 1 d
   rw [faceSumTwo_apply, map_mul, map_mul, map_mul]
-  show X.δ 0 (X.σ 1 d) * X.δ 0 (X.σ 0 y) - X.δ 1 (X.σ 1 d) * X.δ 1 (X.σ 0 y) +
+  change X.δ 0 (X.σ 1 d) * X.δ 0 (X.σ 0 y) - X.δ 1 (X.σ 1 d) * X.δ 1 (X.σ 0 y) +
     X.δ 2 (X.σ 1 d) * X.δ 2 (X.σ 0 y) = _
   rw [h00, h10, h20, h01, h11, h21]
-  show X.σ 0 (X.δ 0 d) * y - d * y + d * X.σ 0 (X.δ 1 y) = _
+  change X.σ 0 (X.δ 0 d) * y - d * y + d * X.σ 0 (X.δ 1 y) = _
   rw [hd₀, hy, map_zero, zero_mul, mul_zero, zero_sub, add_zero]
 
 /-- The subgroup `(d₀ - d₁ + d₂)(J₂²)` of `P₁`. -/
@@ -206,10 +206,10 @@ theorem faceSumTwo_mem_boundaryOfSquares (y : (standardResolution A B).left.obj 
 square. -/
 theorem mul_mem_boundaryOfSquares (d y : (standardResolution A B).left.obj (op ⦋1⦌))
     (hd : d ∈ augmentationIdeal A B (op ⦋1⦌)) (hy : y ∈ augmentationIdeal A B (op ⦋1⦌))
-    (hd₀ : (standardResolution A B).left.δ 0 d = 0) (hd₁ : (standardResolution A B).left.δ 1 d = 0)
+    (hd₀ : (standardResolution A B).left.δ 0 d = 0)
     (hy₁ : (standardResolution A B).left.δ 1 y = 0) :
     d * y ∈ boundaryOfSquares A B := by
-  rw [← neg_neg (d * y), ← faceSumTwo_σ_mul A B d y hd₀ hd₁ hy₁]
+  rw [← neg_neg (d * y), ← faceSumTwo_σ_mul A B d y hd₀ hy₁]
   refine neg_mem (faceSumTwo_mem_boundaryOfSquares A B _ ?_)
   rw [pow_two]
   exact Ideal.mul_mem_mul (σ_mem_augmentationIdeal A B 1 1 d hd)
@@ -257,10 +257,10 @@ theorem contract_smul_sub (r a : (standardResolution A B).left.obj (op ⦋0⦌))
   have hra : r * a ∈ augmentationIdeal A B (op ⦋0⦌) := Ideal.mul_mem_left _ _ ha
   refine ⟨Ideal.sub_mem _ (standardResolutionContract_mem A B 0 _ hra)
     (Ideal.mul_mem_left _ _ (standardResolutionContract_mem A B 0 _ ha)), ?_, ?_⟩
-  · show X.δ 0 _ = 0
+  · change X.δ 0 _ = 0
     rw [map_sub, map_mul, h0, δ_zero_standardResolutionContract,
       δ_zero_standardResolutionContract, sub_self]
-  · show X.δ 1 _ = 0
+  · change X.δ 1 _ = 0
     rw [map_sub, map_mul, h1, δ_one_standardResolutionContract_zero A B _ hra,
       δ_one_standardResolutionContract_zero A B _ ha, mul_zero, sub_zero]
 
@@ -276,9 +276,9 @@ def squareClass :
           standardResolutionContract A B 0 b))
         (fun b b' => by
           rw [← QuotientAddGroup.mk_add, QuotientAddGroup.eq_iff_sub_mem]
-          obtain ⟨h1, h2, h3⟩ := contract_add_sub A B b b' b.2 b'.2
+          obtain ⟨h1, h2, -⟩ := contract_add_sub A B b b' b.2 b'.2
           convert mul_mem_boundaryOfSquares A B _ _ h1
-            (standardResolutionContract_mem A B 0 _ a.2) h2 h3
+            (standardResolutionContract_mem A B 0 _ a.2) h2
             (δ_one_standardResolutionContract_zero A B _ a.2) using 1
           rw [Submodule.coe_add]
           ring))
@@ -286,22 +286,22 @@ def squareClass :
         ext b
         simp only [AddMonoidHom.mk'_apply, AddMonoidHom.add_apply]
         rw [← QuotientAddGroup.mk_add, QuotientAddGroup.eq_iff_sub_mem]
-        obtain ⟨h1, h2, h3⟩ := contract_add_sub A B a a' a.2 a'.2
+        obtain ⟨h1, h2, -⟩ := contract_add_sub A B a a' a.2 a'.2
         convert mul_mem_boundaryOfSquares A B _ _ h1
-          (standardResolutionContract_mem A B 0 _ b.2) h2 h3
+          (standardResolutionContract_mem A B 0 _ b.2) h2
           (δ_one_standardResolutionContract_zero A B _ b.2) using 1
         rw [Submodule.coe_add]
         ring))
     (fun r a b => by
       simp only [AddMonoidHom.mk'_apply]
       rw [QuotientAddGroup.eq_iff_sub_mem]
-      obtain ⟨h1, h2, h3⟩ := contract_smul_sub A B r a a.2
-      obtain ⟨h1', h2', h3'⟩ := contract_smul_sub A B r b b.2
+      obtain ⟨h1, h2, -⟩ := contract_smul_sub A B r a a.2
+      obtain ⟨h1', h2', -⟩ := contract_smul_sub A B r b b.2
       have e1 := mul_mem_boundaryOfSquares A B _ _ h1
-        (standardResolutionContract_mem A B 0 _ b.2) h2 h3
+        (standardResolutionContract_mem A B 0 _ b.2) h2
         (δ_one_standardResolutionContract_zero A B _ b.2)
       have e2 := mul_mem_boundaryOfSquares A B _ _ h1'
-        (standardResolutionContract_mem A B 0 _ a.2) h2' h3'
+        (standardResolutionContract_mem A B 0 _ a.2) h2'
         (δ_one_standardResolutionContract_zero A B _ a.2)
       convert sub_mem e1 e2 using 1
       rw [Submodule.coe_smul, Submodule.coe_smul, smul_eq_mul, smul_eq_mul]
@@ -377,7 +377,7 @@ theorem squareClass_idealTensorMap_eq_of_homotopy {Q : Type w} [CommRing Q] [Alg
     (ξ : I ⊗[Q] I) (hξ : idealTensorMul I ξ = 0) :
     squareClass A B (idealTensorMap _ h₁ ξ) = squareClass A B (idealTensorMap _ h₂ ξ) := by
   have hEmem : ∀ a ∈ I, E a ∈ augmentationIdeal A B (op ⦋1⦌) := fun a ha => by
-    show (standardResolution A B).hom.app (op ⦋1⦌) (E a) = 0
+    change (standardResolution A B).hom.app (op ⦋1⦌) (E a) = 0
     rw [← standardResolution_augmentation_δ A B 0 0, hEd]
     exact h₁ a ha
   obtain ⟨S, rfl⟩ := TensorProduct.exists_finset ξ
@@ -426,12 +426,12 @@ theorem squareClass_idealTensorMap_eq {V : Type w} {I : Ideal (MvPolynomial V A)
       ((standardResolution A B).left.σ 0 r) = r := δ_succ_σ_apply A B 0 0
   have hE₀ : ((standardResolution A B).left.δ (0 : Fin 2)).hom.comp E = φ₁ := by
     refine MvPolynomial.algHom_ext fun i => ?_
-    show (standardResolution A B).left.δ 0 (E (MvPolynomial.X i)) = _
+    change (standardResolution A B).left.δ 0 (E (MvPolynomial.X i)) = _
     simp only [E, MvPolynomial.aeval_X, map_add, map_sub, standardResolution_δ_zero_X, hs0]
     abel
   have hE₁ : ((standardResolution A B).left.δ (1 : Fin 2)).hom.comp E = φ₂ := by
     refine MvPolynomial.algHom_ext fun i => ?_
-    show (standardResolution A B).left.δ 1 (E (MvPolynomial.X i)) = _
+    change (standardResolution A B).left.δ 1 (E (MvPolynomial.X i)) = _
     simp only [E, MvPolynomial.aeval_X, map_add, map_sub, standardResolution_δ_one_X, hs1]
     rw [show standardResolutionAugmentationHom A B (op ⦋0⦌) (φ₁ (MvPolynomial.X i)) =
       standardResolutionAugmentationHom A B (op ⦋0⦌) (φ₂ (MvPolynomial.X i)) from

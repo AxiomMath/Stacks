@@ -105,7 +105,7 @@ lemma pullbackTensorStep1_eq_inverseImageStep1
       inverseImageTensorStep1 f F G
         ((SheafOfModules.restrictScalars f.fSharpInverseImage).obj N)
         ((fSharpExtendRestrictAdjunction f).homEquiv _ N g) := by
-  show ((inverseImageAdjDirectImageModules f.toToposHom
+  change ((inverseImageAdjDirectImageModules f.toToposHom
       (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).comp
     (fSharpExtendRestrictAdjunction f)).homEquiv _ N g = _
   simp only [Adjunction.comp_homEquiv]

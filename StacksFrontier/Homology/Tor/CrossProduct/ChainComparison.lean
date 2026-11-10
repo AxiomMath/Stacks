@@ -84,7 +84,7 @@ private lemma projective_chainTensor
     Projective ((chainTensor.{uR, uA, v} K L).X n) := by
   have (p q : ℕ) : Projective
       (((ModuleCat.moduleTensorLarge.{uA, max uR v} S).obj (K.X p)).obj (L.X q)) := by
-    show Projective (ModuleCat.of S (K.X p ⊗[S] L.X q))
+    change Projective (ModuleCat.of S (K.X p ⊗[S] L.X q))
     infer_instance
   refine ⟨fun f e _ ↦ ⟨mapBifunctorDesc (fun p q h ↦
     Projective.factorThru (ιMapBifunctor K L _ _ p q n h ≫ f) e), ?_⟩⟩
@@ -173,7 +173,7 @@ private lemma chainTensor_augmentation_zero
     simp only [one_smul, zero_comp, comp_zero, zero_add, Category.assoc,
       ← (chainTensorZeroIso_inv.{uA, uR, v} P.complex Q.complex), Iso.inv_hom_id_assoc,
       moduleTensorMap_eq_tensorHom]
-    show (P.complex.X 0 ◁ Q.complex.d 1 0) ≫ (P.π.f 0 ⊗ₘ Q.π.f 0) = 0
+    change (P.complex.X 0 ◁ Q.complex.d 1 0) ≫ (P.π.f 0 ⊗ₘ Q.π.f 0) = 0
     simp [MonoidalCategory.tensorHom_def', ← MonoidalCategory.whiskerLeft_comp_assoc]
   · rw [mapBifunctor.d₁_eq P.complex Q.complex _ (ComplexShape.down ℕ)
         (show (ComplexShape.down ℕ).Rel 1 0 by simp) 0 0 rfl,
@@ -184,7 +184,7 @@ private lemma chainTensor_augmentation_zero
     simp only [one_smul, zero_comp, comp_zero, add_zero, Category.assoc,
       ← (chainTensorZeroIso_inv.{uA, uR, v} P.complex Q.complex), Iso.inv_hom_id_assoc,
       moduleTensorMap_eq_tensorHom]
-    show (P.complex.d 1 0 ▷ Q.complex.X 0) ≫ (P.π.f 0 ⊗ₘ Q.π.f 0) = 0
+    change (P.complex.d 1 0 ▷ Q.complex.X 0) ≫ (P.π.f 0 ⊗ₘ Q.π.f 0) = 0
     simp [MonoidalCategory.tensorHom_def, ← MonoidalCategory.comp_whiskerRight_assoc]
 
 private def chainTensorAugmentation
@@ -227,7 +227,7 @@ lemma exists_normalized_comparison
   · rw [hμ₀, hγ, ← (chainTensorZeroIso_inv.{uA, uR, v} P.complex Q.complex), Iso.inv_hom_id_assoc]
   · have hν' : ν ≫ T.π = γ := by
       apply to_single_hom_ext
-      show ν.f 0 ≫ T.π.f 0 = γ.f 0
+      change ν.f 0 ≫ T.π.f 0 = γ.f 0
       rw [hγ, ← cancel_epi (chainTensorZeroIso.{uA, uR, v} P.complex Q.complex).inv,
         Iso.inv_hom_id_assoc, (chainTensorZeroIso_inv.{uA, uR, v} P.complex Q.complex)]
       exact hν
@@ -275,7 +275,7 @@ lemma comparison_homotopy
   intro p q hpq
   obtain ⟨rfl, rfl⟩ := Nat.add_eq_zero_iff.mp hpq
   rw [hχ, reassoc_of% hμ, ι_mapBifunctorMap_assoc]
-  show moduleTensorMap.{uA, uR, v} _ _ ≫ _ = moduleTensorMap.{uA, uR, v} (φ.f 0) (ψ.f 0) ≫
+  change moduleTensorMap.{uA, uR, v} _ _ ≫ _ = moduleTensorMap.{uA, uR, v} (φ.f 0) (ψ.f 0) ≫
     ιMapBifunctor P'.complex Q'.complex _ _ 0 0 0 rfl ≫ μ'.f 0 ≫ T'.π.f 0
   rw [hμ', moduleTensorMap_comp, moduleTensorMap_comp, hφ, hψ]
 
@@ -447,7 +447,7 @@ private lemma chainTensorHomology_naturality {K' L' : ChainComplex (ModuleCat.{m
   apply Cofork.IsColimit.hom_ext (CokernelCofork.isColimitTensor
     (K.homologyIsCokernel (n + 1) n (by simp))
     (L.homologyIsCokernel (m + 1) m (by simp)))
-  show (K.homologyπ n ⊗ₘ L.homologyπ m) ≫ _ = (K.homologyπ n ⊗ₘ L.homologyπ m) ≫ _
+  change (K.homologyπ n ⊗ₘ L.homologyπ m) ≫ _ = (K.homologyπ n ⊗ₘ L.homologyπ m) ≫ _
   rw [tensorHom_comp_tensorHom_assoc, homologyπ_naturality, homologyπ_naturality,
     ← tensorHom_comp_tensorHom_assoc, homologyπ_chainTensorHomology,
     ← Category.assoc, chainTensorCycles_naturality, Category.assoc, ← homologyπ_naturality,

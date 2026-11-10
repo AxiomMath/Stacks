@@ -184,9 +184,9 @@ def glue (D₁ : Derivation k B₁ B₁) (D₂ : Derivation k B₂ B₂) (h₁ :
 theorem branchPair_glue (D₁ : Derivation k B₁ B₁) (D₂ : Derivation k B₂ B₂) (h₁ : Fixes ε₁ D₁)
     (h₂ : Fixes ε₂ D₂) : branchPair ε₁ ε₂ (glue ε₁ ε₂ D₁ D₂ h₁ h₂) = (D₁, D₂) := by
   ext b
-  · show (glue ε₁ ε₂ D₁ D₂ h₁ h₂ (sec₁ ε₁ ε₂ b) : B₁ × B₂).1 = D₁ b
+  · change (glue ε₁ ε₂ D₁ D₂ h₁ h₂ (sec₁ ε₁ ε₂ b) : B₁ × B₂).1 = D₁ b
     simp
-  · show (glue ε₁ ε₂ D₁ D₂ h₁ h₂ (sec₂ ε₁ ε₂ b) : B₁ × B₂).2 = D₂ b
+  · change (glue ε₁ ε₂ D₁ D₂ h₁ h₂ (sec₂ ε₁ ε₂ b) : B₁ × B₂).2 = D₂ b
     simp
 
 section Uniformizer

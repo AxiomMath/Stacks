@@ -154,7 +154,7 @@ private theorem regularRingHom_baseChange_essFiniteType
   rw [isRegularRingHom_iff_of_eq_algebraMap _ (by rfl)]
   constructor
   · let : Module.Flat R Λ := RingHom.flat_algebraMap_iff.mp h.1
-    show Module.Flat R' (Λ ⊗[R] R')
+    change Module.Flat R' (Λ ⊗[R] R')
     exact Module.Flat.of_linearEquiv
       (Algebra.TensorProduct.commRight R R' Λ).symm.toLinearEquiv
   · intro p' hp'
@@ -174,7 +174,7 @@ private theorem regularRingHom_baseChange_essFiniteType
     let e : p'.Fiber (Λ ⊗[R] R') ≃ₐ[p'.ResidueField]
         p'.ResidueField ⊗[p.ResidueField] (p.Fiber Λ) :=
       AlgEquiv.ofRingEquiv (f := e₁.toRingEquiv.trans e₂.toRingEquiv) (fun x => by
-        show e₂ (e₁ (algebraMap p'.ResidueField _ x)) = algebraMap p'.ResidueField _ x
+        change e₂ (e₁ (algebraMap p'.ResidueField _ x)) = algebraMap p'.ResidueField _ x
         rw [show e₁ (algebraMap p'.ResidueField _ x) = algebraMap p'.ResidueField _ x by
           simp [e₁, Algebra.TensorProduct.algebraMap_apply]]
         exact e₂.commutes x)
@@ -210,7 +210,7 @@ private theorem regularRingMap_residueFiber
   let e : (Λ ⊗[R] p.ResidueField) ≃ₐ[p.ResidueField] (p.ResidueField ⊗[R] Λ) :=
     AlgEquiv.ofRingEquiv (f := e₀.toRingEquiv) (by
       intro x
-      show e₀ (1 ⊗ₜ[R] x) = x ⊗ₜ[R] 1
+      change e₀ (1 ⊗ₜ[R] x) = x ⊗ₜ[R] 1
       exact Algebra.TensorProduct.comm_tmul R (1 : Λ) x)
   let : Algebra Λ (p.Fiber Λ) := Algebra.TensorProduct.rightAlgebra
   let : Algebra p.ResidueField (p.Fiber Λ) := Algebra.TensorProduct.leftAlgebra
@@ -276,7 +276,7 @@ private theorem indSmooth_quotient_of_maximal_bad
   let K : Ideal R := J.comap qR
   have hIK : I ≤ K := by
     intro r hr
-    show qR r ∈ J
+    change qR r ∈ J
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hr]
     exact J.zero_mem
   have hJI : K.map qR = J := Ideal.map_comap_of_surjective qR Ideal.Quotient.mk_surjective J
@@ -298,7 +298,7 @@ private theorem indSmooth_quotient_of_maximal_bad
     Ideal.Quotient.algebraQuotientOfLEComap Ideal.le_comap_map
   let f : R ⧸ I →+* Λ ⧸ M := algebraMap (R ⧸ I) (Λ ⧸ M)
   have hf : f.comp qR = qΛ.comp (algebraMap R Λ) := by
-    show (Ideal.quotientMap M (algebraMap R Λ) Ideal.le_comap_map).comp qR =
+    change (Ideal.quotientMap M (algebraMap R Λ) Ideal.le_comap_map).comp qR =
       qΛ.comp (algebraMap R Λ)
     exact Ideal.quotientMap_comp_mk Ideal.le_comap_map
   have hJmap : J.map (algebraMap (R ⧸ I) (Λ ⧸ M)) = N.map qΛ := by
@@ -317,13 +317,13 @@ private theorem indSmooth_quotient_of_maximal_bad
     intro x
     obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show eΛ' (Ideal.Quotient.mk _ (f (Ideal.Quotient.mk I r))) =
+    change eΛ' (Ideal.Quotient.mk _ (f (Ideal.Quotient.mk I r))) =
       algebraMap (R ⧸ K) (Λ ⧸ N) (eR (Ideal.Quotient.mk J (Ideal.Quotient.mk I r)))
     have hfr : f (Ideal.Quotient.mk I r) = qΛ (algebraMap R Λ r) := by
       simpa [RingHom.comp_apply, f, qR, qΛ] using
         congrArg (fun g : R →+* Λ ⧸ M => g r) hf
     rw [hfr]
-    show eΛ (eΛ₀ (Ideal.Quotient.mk _ (qΛ (algebraMap R Λ r)))) =
+    change eΛ (eΛ₀ (Ideal.Quotient.mk _ (qΛ (algebraMap R Λ r)))) =
       Ideal.Quotient.mk N (algebraMap R Λ r)
     simp only [eΛ₀]
     exact DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk (algebraMap R Λ r) hMN
@@ -455,7 +455,7 @@ private theorem indSmooth_totalFractionRing_of_field_case
       Algebra.TensorProduct.map_tmul, AlgEquiv.coe_toAlgHom, AlgHom.coe_id, id_eq,
       Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.piRight_tmul,
       RingEquiv.piCongrRight_apply, eA, e₁]
-    show eR x i ⊗ₜ[R] (1 : Λ) = algebraMap (K i) (L i) (eR x i)
+    change eR x i ⊗ₜ[R] (1 : Λ) = algebraMap (K i) (L i) (eR x i)
     rw [Algebra.TensorProduct.algebraMap_apply]
     rfl
   have he' : ∀ x : (∀ i, K i),
@@ -530,7 +530,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
   let Λ8 := Λ ⧸ I8.map (algebraMap R Λ)
   have hPT8 : IndSmooth R8 Λ8 := hquot I8 hI8
   have hmapI8 : I8.map (algebraMap R Λ) = Ideal.span {(algebraMap R Λ π) ^ 8} := by
-    show Ideal.map (algebraMap R Λ) (Ideal.span {π ^ 8}) = _
+    change Ideal.map (algebraMap R Λ) (Ideal.span {π ^ 8}) = _
     simp [Ideal.map_span, map_pow]
   let : Algebra R8 Λ8 := Ideal.Quotient.algebraQuotientOfLEComap Ideal.le_comap_map
   let : IsScalarTower R R8 Λ8 := IsScalarTower.of_algebraMap_eq' (by
@@ -569,7 +569,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
   have hquot8 : ∀ r : R, algebraMap R8 Λ8' (Ideal.Quotient.mk I8 r) =
       Ideal.Quotient.mk J8 (algebraMap R Λ r) := by
     intro r
-    show Ideal.quotientMap J8 (algebraMap R Λ) hI8comap (Ideal.Quotient.mk I8 r) = _
+    change Ideal.quotientMap J8 (algebraMap R Λ) hI8comap (Ideal.Quotient.mk I8 r) = _
     rw [Ideal.quotientMap_mk]
   let : IsScalarTower R Λ Λ8' := Ideal.Quotient.isScalarTower R Λ J8
   let : IsScalarTower R R8 Λ8' := IsScalarTower.of_algebraMap_eq fun r => by
@@ -584,7 +584,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
       commutes' := by
         intro x
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-        show eΛ8R (algebraMap R8 Λ8 (algebraMap R R8 r)) = algebraMap R8 Λ8' (algebraMap R R8 r)
+        change eΛ8R (algebraMap R8 Λ8 (algebraMap R R8 r)) = algebraMap R8 Λ8' (algebraMap R R8 r)
         calc
           eΛ8R (algebraMap R8 Λ8 (algebraMap R R8 r)) = eΛ8R (algebraMap R Λ8 r) := by
             rw [← IsScalarTower.algebraMap_apply R R8 Λ8 r]
@@ -609,7 +609,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
     { toRingHom := cD.comp gBC.toRingHom
       commutes' := by
         intro r
-        show cD (gBC (algebraMap R B r)) = algebraMap R D4 r
+        change cD (gBC (algebraMap R B r)) = algebraMap R D4 r
         calc
           cD (gBC (algebraMap R B r)) = cD (algebraMap R C r) := by rw [gBC.commutes]
           _ = cD (algebraMap R8 C (Ideal.Quotient.mk I8 r)) := by
@@ -618,12 +618,12 @@ private theorem exists_smooth_factorization_of_strictlyStandard
           _ = Ideal.Quotient.mk I_D4 (algebraMap R D r) := hcR r
           _ = algebraMap R D4 r := rfl }
   have hkerBD4 : I_B4 ≤ RingHom.ker fBD4.toRingHom := by
-    show Ideal.span {(algebraMap R B π) ^ 4} ≤ _
+    change Ideal.span {(algebraMap R B π) ^ 4} ≤ _
     rw [Ideal.span_le]
     rintro x ⟨rfl⟩
-    show fBD4 ((algebraMap R B π) ^ 4) = 0
+    change fBD4 ((algebraMap R B π) ^ 4) = 0
     rw [map_pow, fBD4.commutes]
-    show (Ideal.Quotient.mk I_D4 (algebraMap R D π)) ^ 4 = 0
+    change (Ideal.Quotient.mk I_D4 (algebraMap R D π)) ^ 4 = 0
     rw [← map_pow, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (Set.mem_singleton _)
   let bar : (B ⧸ I_B4) →ₐ[R] D4 := Ideal.Quotient.liftₐ I_B4 fBD4 hkerBD4
@@ -637,7 +637,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
         rw [hCfactor]
         exact congrArg eΛ8 ((AlgHom.liftEquiv_tmul fB 1 b).trans (one_smul _ _))
       _ = Ideal.Quotient.mk J8 (fBΛ b) := by
-        show eΛ8R (Ideal.Quotient.mk (I8.map (algebraMap R Λ)) (fBΛ b)) = _
+        change eΛ8R (Ideal.Quotient.mk (I8.map (algebraMap R Λ)) (fBΛ b)) = _
         exact Ideal.quotientEquivAlgOfEq_mk R hmapI8 (fBΛ b)
   have hcompat (b : B) : reduceD (cD (gBC b)) = Ideal.Quotient.mk I_Λ4 (fBΛ b) := by
     calc
@@ -649,7 +649,7 @@ private theorem exists_smooth_factorization_of_strictlyStandard
         Ideal.Quotient.mk I_Λ4 (fBΛ a) = Ideal.Quotient.mk I_Λ4 (gD y) := by
     intro a y hay
     have h0 : reduceD (bar (Ideal.Quotient.mk I_B4 a)) = Ideal.Quotient.mk I_Λ4 (fBΛ a) := by
-      show reduceD (cD (gBC a)) = _
+      change reduceD (cD (gBC a)) = _
       exact hcompat a
     rw [hay, hReduceD] at h0
     exact h0.symm
@@ -760,7 +760,7 @@ private theorem indSmooth_of_field_case_of_isReduced
     intro s
     obtain ⟨r, hr, hval⟩ := Submonoid.mem_map.mp s.2
     rw [← hval]
-    show IsUnit (gQ' ((Algebra.TensorProduct.includeRight (R := R) (A := Q) (B := A))
+    change IsUnit (gQ' ((Algebra.TensorProduct.includeRight (R := R) (A := Q) (B := A))
       (algebraMap R A r)))
     rw [hincl r, gQ'.commutes]
     exact IsUnit.map (algebraMap Q B') (IsLocalization.map_units Q ⟨r, hr⟩)
@@ -772,16 +772,16 @@ private theorem indSmooth_of_field_case_of_isReduced
     (IsLocalization.lift_comp hAunits).symm
   let : IsScalarTower R AS B' := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show algebraMap R B' r = algebraMap AS B' (algebraMap R AS r)
+    change algebraMap R B' r = algebraMap AS B' (algebraMap R AS r)
     rw [IsScalarTower.algebraMap_apply R A AS r]
-    show algebraMap R B' r = gAS (algebraMap A AS (algebraMap R A r))
+    change algebraMap R B' r = gAS (algebraMap A AS (algebraMap R A r))
     rw [← gA.commutes r]
     exact (congrArg (fun f : A →+* B' => f (algebraMap R A r))
       (IsLocalization.lift_comp hAunits)).symm)
   let : IsScalarTower Q AS B' := IsScalarTower.of_algebraMap_eq' (by
     apply IsLocalization.ringHom_ext S
     ext r
-    show algebraMap Q B' (algebraMap R Q r) =
+    change algebraMap Q B' (algebraMap R Q r) =
       algebraMap AS B' (algebraMap Q AS (algebraMap R Q r))
     calc
       algebraMap Q B' (algebraMap R Q r) = algebraMap R B' r :=
@@ -810,7 +810,7 @@ private theorem indSmooth_of_field_case_of_isReduced
           congrArg eQL (DFunLike.congr_fun hcompQ' _)
       _ = eQL ((1 : Q) ⊗ₜ[R] fA a) := by
           refine congrArg eQL ?_
-          show Algebra.TensorProduct.map (AlgHom.id Q Q) fA ((1 : Q) ⊗ₜ[R] a) = _
+          change Algebra.TensorProduct.map (AlgHom.id Q Q) fA ((1 : Q) ⊗ₜ[R] a) = _
           simp
       _ = algebraMap Λ ΛS (fA a) :=
           Localization.tensorRightAlgEquiv_apply_one_tmul (M := S) (x := fA a)
@@ -823,7 +823,7 @@ private theorem indSmooth_of_field_case_of_isReduced
           algebraMap Λ ΛS (fA a) • z = fA a • z :=
             IsScalarTower.algebraMap_smul (R := Λ) (A := ΛS) (M := ΛS) (r := fA a) (x := z)
           _ = a • z := by
-            show algebraMap A Λ a • z = a • z
+            change algebraMap A Λ a • z = a • z
             exact IsScalarTower.algebraMap_smul (R := A) (A := Λ) (M := ΛS) (r := a) (x := z)
   obtain ⟨B, hCommB, hAlgAB, hAlgBΛ, hAlgRB, hRAB, hABΛ, hRBΛ, ⟨sπ, hElem⟩⟩ :=
     exists_factorization_isElementaryStandard R A Λ S ⟨B', inferInstance, inferInstance,

@@ -85,7 +85,7 @@ theorem comp_projectiveSpaceOverSiteHom {Y T T' : BigFppfOver B S hS} (r : ℕ) 
       projectiveSpaceOverSiteHom B S hS r (h ≫ a) ((BigFppfOver.toScheme B S hS).map h ≫ g) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show (BigFppfOver.toScheme B S hS).map h ≫
+  change (BigFppfOver.toScheme B S hS).map h ≫
       Stacks.AmpleProjectiveImmersion.liftOver ((BigFppfOver.toScheme B S hS).map a) g =
     Stacks.AmpleProjectiveImmersion.liftOver ((BigFppfOver.toScheme B S hS).map (h ≫ a))
       ((BigFppfOver.toScheme B S hS).map h ≫ g)
@@ -282,7 +282,7 @@ theorem generatesStalks_pointBundleSection (T : BigFppfOver B S hS)
   refine Stacks.AmpleImmersionReduction.generatesStalks_of_forall_exists_mem _ fun z ↦ ?_
   obtain ⟨i, hi⟩ := x.2 z
   refine ⟨i, ?_⟩
-  show z ∈ Stacks.Ample.nonvanishingLocus _ _
+  change z ∈ Stacks.Ample.nonvanishingLocus _ _
   rwa [nonvanishingLocus_pointBundleSection]
 
 /-- **The generating pair read at a scheme point of the generation locus**: the read module, which

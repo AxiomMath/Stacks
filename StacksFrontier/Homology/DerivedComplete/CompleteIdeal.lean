@@ -110,11 +110,11 @@ theorem isUnit_one_sub_smul_of_bijective_recurrence {M : Type*} [AddCommGroup M]
     have hshift : (fun n ↦ φ (y n)) = fun n ↦ y (n + 1) := by
       apply h.1
       funext n
-      show φ (y n) - a • φ (y (n + 1)) = y (n + 1) - a • y (n + 1 + 1)
+      change φ (y n) - a • φ (y (n + 1)) = y (n + 1) - a • y (n + 1 + 1)
       rw [← map_smul, ← map_sub, ← recurrence_apply, congrFun hy,
         ← recurrence_apply, congrFun hy, pow_succ', Module.End.mul_apply]
     refine ⟨y 0, ?_⟩
-    show y 0 - a • φ (y 0) = x
+    change y 0 - a • φ (y 0) = x
     rw [congrFun hshift 0]
     simpa only [recurrence_apply, pow_zero, Module.End.one_apply] using congrFun hy 0
 

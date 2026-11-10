@@ -239,7 +239,7 @@ lemma directSumFreeEquiv_of {I : Type*} (A : I → Type*)
     [DecidableEq I] (i : I) (a : A i) :
     directSumFreeEquiv A (DirectSum.of _ i (FreeAbelianGroup.of a)) =
       FreeAbelianGroup.of ⟨i, a⟩ := by
-  show (DirectSum.toAddMonoid (fun i => FreeAbelianGroup.map (Sigma.mk i : A i → Σ i, A i)))
+  change (DirectSum.toAddMonoid (fun i => FreeAbelianGroup.map (Sigma.mk i : A i → Σ i, A i)))
     (DirectSum.of (fun i => FreeAbelianGroup (A i)) i (FreeAbelianGroup.of a)) = _
   rw [DirectSum.toAddMonoid_of]
   rfl
@@ -250,7 +250,7 @@ lemma mapRangeAddEquiv_of {I : Type*} {A B : I → Type*}
     [∀ i, AddCommMonoid (A i)] [∀ i, AddCommMonoid (B i)]
     (e : ∀ i, A i ≃+ B i) [DecidableEq I] (i : I) (a : A i) :
     DFinsupp.mapRange.addEquiv e (DirectSum.of A i a) = DirectSum.of B i (e i a) := by
-  show DFinsupp.mapRange (fun i => e i) (fun i => (e i).map_zero) (DFinsupp.single i a) =
+  change DFinsupp.mapRange (fun i => e i) (fun i => (e i).map_zero) (DFinsupp.single i a) =
     DFinsupp.single i (e i a)
   exact DFinsupp.mapRange_single
 
@@ -277,7 +277,7 @@ lemma replacementTermIso_generator (F : Cᵒᵖ ⥤ AddCommGrpCat.{u})
         ((e.inv.app (op x.right)) (FreeAbelianGroup.of f))) =
       FreeAbelianGroup.of (overSimplexEquiv U n ⟨x, f⟩) := by
   classical
-  show FreeAbelianGroup.equivOfEquiv (overSimplexEquiv U n)
+  change FreeAbelianGroup.equivOfEquiv (overSimplexEquiv U n)
     (directSumFreeEquiv _ (DFinsupp.mapRange.addEquiv
       (fun y : ComposableArrows C n => (e.app (op y.right)).addCommGroupIsoToAddEquiv)
       (DirectSum.of _ x ((e.inv.app (op x.right)) (FreeAbelianGroup.of f))))) = _
@@ -286,7 +286,7 @@ lemma replacementTermIso_generator (F : Cᵒᵖ ⥤ AddCommGrpCat.{u})
       ((e.inv.app (op x.right)) (FreeAbelianGroup.of f)) = FreeAbelianGroup.of f :=
     (e.app (op x.right)).addCommGroupIsoToAddEquiv.apply_symm_apply _
   rw [h]
-  show FreeAbelianGroup.equivOfEquiv (overSimplexEquiv U n)
+  change FreeAbelianGroup.equivOfEquiv (overSimplexEquiv U n)
     (directSumFreeEquiv (fun y : ComposableArrows C n => y.right ⟶ U)
       ((@DirectSum.of (ComposableArrows C n)
         (fun y => FreeAbelianGroup (y.right ⟶ U)) _ (Classical.decEq _) x)

@@ -111,7 +111,7 @@ theorem exists_chosen_etaleCovering (B : BigFppfSite.{u}) (E : Covering B.Scheme
   obtain ⟨T, E₀⟩ := E
   obtain ⟨T', E₀'⟩ := E'
   obtain rfl : T = T' := hbase
-  show IsEtaleCovering (⟨T, E₀'⟩ : Covering B.Schemes)
+  change IsEtaleCovering (⟨T, E₀'⟩ : Covering B.Schemes)
   change IsEtaleCovering (⟨T, E₀⟩ : Covering B.Schemes) at hE
   rw [IsEtaleCovering, PreZeroHypercover.presieve₀_map,
     ← PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hComb,
@@ -347,7 +347,7 @@ private theorem comparison_atlas_family_isEtaleCovering (U : SmallEtale B S hS X
     IsEtaleCovering (⟨U.1.left.left,
       ⟨E.I₀, fun i => (comparisonAtlasSource B S hS X (E.X i)).left,
         fun i => (comparisonAtlasRefinementMap B S hS X U E i).left⟩⟩ : Covering B.Schemes) := by
-  show Presieve.ofArrows
+  change Presieve.ofArrows
       (fun i => (comparisonAtlasSource B S hS X (E.X i)).left.1)
       (fun i => B.inclusion.map (comparisonAtlasRefinementMap B S hS X U E i).left) ∈
     Scheme.precoverage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -374,7 +374,7 @@ private theorem comparison_atlas_family_isEtaleCovering (U : SmallEtale B S hS X
         (((SpacesEtale.toSpaces B S hS X).map (E.f i)).hom) z).trans
         (by rwa [hz]))
   refine ⟨i, pointsToScheme B S hS (comparisonAtlasSource B S hS X (E.X i)) z, ?_⟩
-  show (BigFppfOver.toScheme B S hS).map (comparisonAtlasRefinementMap B S hS X U E i)
+  change (BigFppfOver.toScheme B S hS).map (comparisonAtlasRefinementMap B S hS X U E i)
       (pointsToScheme B S hS (comparisonAtlasSource B S hS X (E.X i)) z) = x
   exact ((pointsToScheme_pointsMap_yoneda B S hS
         (comparisonAtlasRefinementMap B S hS X U E i) z).symm.trans
@@ -415,7 +415,7 @@ private theorem comparison_exists_covering_refining_sieve
         (fun i ↦ ⟨E.X i, F i⟩) hF (fun _ ↦ rfl), ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((F i).f j ≫ E.f i)
+      change Q ((F i).f j ≫ E.f i)
       exact hFle i _ _ ⟨j⟩
 
 /-- **A covering sieve of the spaces-étale topology is refined by a jointly point-surjective
@@ -494,10 +494,10 @@ private theorem comparisonFunctor_isCocontinuous :
               congrArg (fun q => q ≫ U.1.hom) hyon))
   have hfactor : g ≫ E.f k = (comparisonFunctor B S hS X).map (Esource.f i) := by
     refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
-    show (yoneda.map f ≫ atlas) ≫ arrow = yoneda.map vmap
+    change (yoneda.map f ≫ atlas) ≫ arrow = yoneda.map vmap
     rw [Category.assoc, ← hmmap]
     exact hyon
-  show R.arrows ((comparisonFunctor B S hS X).map (Esource.f i))
+  change R.arrows ((comparisonFunctor B S hS X).map (Esource.f i))
   rw [← hfactor]
   exact R.downward_closed (hER _ _ ⟨k⟩) g
 
@@ -569,7 +569,7 @@ private theorem comparisonFunctor_mapsCoveringFamily (U : SmallEtale B S hS X.1)
   obtain ⟨w, hw⟩ := surjective_pointsToScheme B S hS
     ((SmallEtale.toOver B S hS X.1).obj (E.X i)) y
   refine ⟨i, w, injective_pointsToScheme B S hS U.1.left ?_⟩
-  show pointsToScheme B S hS U.1.left (pointsMap B S hS _
+  change pointsToScheme B S hS U.1.left (pointsMap B S hS _
       (yoneda.map ((SmallEtale.toOver B S hS X.1).map (E.f i))) w) = _
   rw [pointsToScheme_pointsMap_yoneda, hw]
   exact hy

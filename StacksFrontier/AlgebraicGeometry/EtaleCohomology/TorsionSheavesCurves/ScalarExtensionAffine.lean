@@ -156,7 +156,7 @@ theorem bijective_rootsOfUnityRestriction_scalarExtension_of_isAffine [IsAffine 
     (hℓ : IsUnit (ℓ : k)) (q : ℕ) (hq : 1 ≤ q) :
     Function.Bijective
       (rootsOfUnityRestriction.{u, u + 1, u + 1} (scalarExtensionFst k k' g) ℓ q) := by
-  have hℓ0 : ℓ ≠ 0 := ne_zero_of_isUnit_natCast g hℓ
+  have hℓ0 : ℓ ≠ 0 := ne_zero_of_isUnit_natCast hℓ
   have hℓX := isUnit_natCast_globalSections_of_isUnit g hℓ
   have hℓ' : IsUnit (ℓ : k') := by
     have h := hℓ.map (algebraMap k k')
@@ -169,7 +169,7 @@ theorem bijective_rootsOfUnityRestriction_scalarExtension_of_isAffine [IsAffine 
   let _ : Smooth qY := hsq
   let _ : IsProper qY := isProper_of_isProjectiveMorphism qY hproj
   subst hjq
-  have := isDominant_of_isOpenImmersion_of_isCurve (j ≫ qY) qY j
+  have := isDominant_of_isOpenImmersion_of_isCurve j
   obtain ⟨_, _, _, _⟩ :=
     isNormal_isLocallyNoetherian_noetherianSpace_quasiSeparatedSpace_of_isCurve (j ≫ qY)
   obtain ⟨_, _, _, _⟩ :=

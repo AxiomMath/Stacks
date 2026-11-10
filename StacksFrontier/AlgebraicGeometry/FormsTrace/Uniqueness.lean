@@ -107,7 +107,7 @@ theorem IsFormsTrace.eq_of_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
   have hB (p : ℕ) (a : A) (x : ⋀[B]^p Ω[B⁄ℤ]) :
       formsMap B B' p (a • x) = eA a • formsMap B B' p x := by
     rw [← algebraMap_smul B a x, map_smulₛₗ]
-    show eB (algebraMap A B a) • _ = _
+    change eB (algebraMap A B a) • _ = _
     rw [hcomm, algebraMap_smul]
   have hA (p : ℕ) (a' : A') (y : ⋀[A']^p Ω[A'⁄ℤ]) :
       formsMap A' A p (a' • y) = eA.symm a' • formsMap A' A p y :=
@@ -117,15 +117,15 @@ theorem IsFormsTrace.eq_of_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
     { toFun := fun x => formsMap A' A p (Θ p (formsMap B B' p x))
       map_add' := fun x y => by simp only [map_add]
       map_smul' := fun a x => by
-        show formsMap A' A p (Θ p (formsMap B B' p (a • x))) =
+        change formsMap A' A p (Θ p (formsMap B B' p (a • x))) =
           a • formsMap A' A p (Θ p (formsMap B B' p x))
         rw [hB, map_smul, hA, RingEquiv.symm_apply_apply] }
   have hconj : ∀ Θ, IsFormsTrace A' B' Θ → IsFormsTrace A B (conj Θ) := by
     intro Θ hΘ p b ω
-    show formsMap A' A p (Θ p (formsMap B B' p (b • formsMap A B p ω))) = _
+    change formsMap A' A p (Θ p (formsMap B B' p (b • formsMap A B p ω))) = _
     rw [map_smulₛₗ, formsMap_formsMap (A := A) (B := B) (C := B'),
       ← formsMap_formsMap (A := A) (B := A') (C := B')]
-    show formsMap A' A p (Θ p (eB b • formsMap A' B' p (formsMap A A' p ω))) = _
+    change formsMap A' A p (Θ p (eB b • formsMap A' B' p (formsMap A A' p ω))) = _
     rw [hΘ, hA, formsMap_formsMap (A := A) (B := A') (C := A), formsMap_self,
       trace_ringEquiv eA eB hcomm, RingEquiv.symm_apply_apply]
   have heq := (hconj Θ₁ h₁).eq_of_isNiceElement hh (hconj Θ₂ h₂)
@@ -294,7 +294,7 @@ theorem appLE_top_surjective {R S : CommRingCat.{u}} (φ : R ⟶ S) (hφ : Funct
   intro y
   obtain ⟨x, hx⟩ := hφ ((Scheme.ΓSpecIso S).hom y)
   refine ⟨(Scheme.ΓSpecIso R).inv x, ?_⟩
-  show (Scheme.ΓSpecIso S).inv (φ ((Scheme.ΓSpecIso R).hom ((Scheme.ΓSpecIso R).inv x))) = y
+  change (Scheme.ΓSpecIso S).inv (φ ((Scheme.ΓSpecIso R).hom ((Scheme.ΓSpecIso R).inv x))) = y
   rw [Iso.inv_hom_id_apply, hx, Iso.hom_inv_id_apply]
 
 /-- The map on sections of the canonical open immersion `Spec Γ(X, U) → X`, from `U` to the
@@ -406,7 +406,7 @@ private theorem app_eq_of_chartFrame (h₁ : Θ.IsTrace) (h₂ : Θ.IsBaseChange
     exact RingHom.finite_algebraMap.mpr inferInstance
   have hg : Syntomic g := by
     refine HasRingHomProperty.Spec_iff.mpr ?_
-    show RingHom.Syntomic (algebraMap F.Chart F.ChartAlgebra)
+    change RingHom.Syntomic (algebraMap F.Chart F.ChartAlgebra)
     rw [RingHom.syntomic_iff, toAlgebra_algebraMap]
     exact Stacks.FormsTrace.universalChartRing_syntomic.{u} Γ(X, U) F.good
   have : IsFinite gA := MorphismProperty.of_isPullback sq₁ inferInstance
@@ -437,7 +437,7 @@ theorem eq_of_isTrace_of_isBaseChange (h₁ : Θ.IsTrace) (h₂ : Θ.IsBaseChang
     exact Stacks.FormsTrace.isBasis_framedOpens f hf
   refine Scheme.Hom.formsMap_ext_of_isBasis f hB p _ _ fun U η => ?_
   obtain ⟨U, hUf⟩ := U
-  show (Θ f hf p).app U η = (Θ' f hf p).app U η
+  change (Θ f hf p).app U η = (Θ' f hf p).app U η
   rcases hUf.2 with hsub | ⟨d, hd, ⟨F⟩⟩
   · have : Subsingleton Γ(Scheme.absoluteDifferentialForms Y p, f ⁻¹ᵁ U) :=
       Module.subsingleton Γ(Y, f ⁻¹ᵁ U) _

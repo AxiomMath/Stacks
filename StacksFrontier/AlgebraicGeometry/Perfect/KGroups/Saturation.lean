@@ -63,7 +63,8 @@ attaches to `D_{Z, perf}(O_X)`: strictly full, saturated, triangulated. -/
   the source, which is closure under direct summands (Tag 05RB). The two other adjectives, \
   strict fullness and triangulatedness, and the definition of the subcategory itself, are in \
   `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Basic.lean`. The multiplication on \
-  `K_0(D_{Z, perf}(O_X))` is in `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Ring.lean` and the absence of a unit in general \
+  `K_0(D_{Z, perf}(O_X))` is in `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Ring.lean` \
+  and the absence of a unit in general \
   in `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/NoUnit.lean`"]
 instance isSaturated_supportedPerfect {X Z : Scheme.{u}} (i : Z ⟶ X)
     [IsClosedImmersion i] [HasDerivedCategory.{d} (OXMod.{u, u} X.toRingedSpace)] :

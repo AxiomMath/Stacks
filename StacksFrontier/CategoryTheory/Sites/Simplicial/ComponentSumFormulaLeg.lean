@@ -98,7 +98,7 @@ theorem map_sheafAdjunctionCocontinuous_unit_comp_ranRestrictSheafComparison (i 
   apply NatTrans.ext
   funext X
   obtain ⟨U⟩ := X
-  show ((vm.sheafAdjunctionCocontinuous A Jm L).unit.app B).hom.app (op (vn.obj U)) ≫
+  change ((vm.sheafAdjunctionCocontinuous A Jm L).unit.app B).hom.app (op (vn.obj U)) ≫
       ((ranRestrictComparison A vn vm t τ i).app
         ((vm.sheafPushforwardContinuous A Jm L).obj B).obj).app (op U) = _
   rw [Functor.sheafAdjunctionCocontinuous_unit_app_hom, ranRestrictComparison_app_app]

@@ -130,7 +130,7 @@ theorem smul_id_freeAmbientGen (r : R) (U : X.Cᵒᵖ) :
       ULift.up (ScalarSections.scalarSection (X := X) r U) := by
   rw [ScalarSections.smul_app r (𝟙 (freeAmbient.{u, v, w, t, s} X)) U
     (freeAmbientGen.{u, v, w, t, s} X U)]
-  show ULift.up (ScalarSections.scalarSection (X := X) r U * 1) = _
+  change ULift.up (ScalarSections.scalarSection (X := X) r U * 1) = _
   rw [mul_one]
 
 /-- **The sections by which a scalar multiplies are compatible with restriction.** They are the
@@ -221,10 +221,10 @@ theorem smul_eq_globalSections_smul {P Q : TensorModO.{u, v, w, t, s} X} (r : R)
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   ext y
   rw [ScalarSections.smul_app r f U y]
-  show _ = ((Stacks.Cohomology.SiteModules.globalSmul (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+  change _ = ((Stacks.Cohomology.SiteModules.globalSmul (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
     (toGlobalSections.{u, v, w, t, s, o} X R r) P ≫ f).val.app U) y
   rw [SheafOfModules.comp_val, PresheafOfModules.comp_app]
-  show _ = (f.val.app U) ((Stacks.Cohomology.SiteModules.globalSmul
+  change _ = (f.val.app U) ((Stacks.Cohomology.SiteModules.globalSmul
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
     (toGlobalSections.{u, v, w, t, s, o} X R r) P).val.app U y)
   rw [Stacks.Cohomology.SiteModules.globalSmul_app]

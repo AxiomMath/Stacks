@@ -153,7 +153,7 @@ theorem exists_mem_forall_exists_preimage_of_epi {F G : _root_.SheafOfModules.{r
       p.val.app (op V) t = (s k).val (op V) := by
   choose V hxV t ht using fun k : Fin n => exists_mem_exists_preimage_of_epi p (s k) x
   refine ⟨⨅ k, V k, ?_, fun k => ?_⟩
-  · show (x : Z) ∈ (↑(⨅ k, V k) : Set Z)
+  · change (x : Z) ∈ (↑(⨅ k, V k) : Set Z)
     rw [Opens.coe_iInf]
     exact Set.mem_iInter.2 hxV
   · exact ⟨_, app_map_eq_of_app_eq p (s k) (homOfLE (iInf_le V k)) (t k) (ht k)⟩
@@ -181,7 +181,7 @@ theorem exists_restrict_lift_unit {F G : _root_.SheafOfModules.{r} R'} (p : G �
   refine (_root_.SheafOfModules.unitHomEquiv_symm_comp (sectionOfTop _ (m k))
     ((restrictSheafOfModules.{r} V.isOpenEmbedding R').map p)).trans
       ((Equiv.symm_apply_eq _).2 (sections_ext_top ?_))
-  show p.val.app (op (V.isOpenEmbedding.functor.obj ⊤))
+  change p.val.app (op (V.isOpenEmbedding.functor.obj ⊤))
       ((sectionOfTop ((restrictSheafOfModules.{r} V.isOpenEmbedding R').obj G).val
         (m k)).val (op ⊤)) =
     (F.unitHomEquiv (σ k)).val (op (V.isOpenEmbedding.functor.obj ⊤))
@@ -264,8 +264,8 @@ a finite free `O_X`-module, a factorisation of `α` through `p` exists locally o
 has an open neighbourhood `U` and a morphism `β : E|_U ⟶ G|_U` with `β ≫ p|_U = α|_U`. -/
 @[stacks 08C6 "module universe = ring universe, space universe free, stated through \
 `restrictModules`. Strictly more general than the collapsed form in \
-`StacksFrontier/AlgebraicGeometry/PseudoCoherent/StrictlyPerfectLift.lean`, strictly less than the arbitrary-module-universe \
-form in `StrictlyPerfectLiftModuleUniverse.lean`."]
+`StacksFrontier/AlgebraicGeometry/PseudoCoherent/StrictlyPerfectLift.lean`, strictly less \
+than the arbitrary-module-universe form in `StrictlyPerfectLiftModuleUniverse.lean`."]
 theorem exists_local_lift_of_isDirectSummandOfFiniteFree {E F G : OXMod.{r, r} X}
     (hE : IsDirectSummandOfFiniteFree E) (α : E ⟶ F) (p : G ⟶ F) [Epi p] (x : X.carrier) :
     ∃ U : Opens X.carrier, x ∈ U ∧

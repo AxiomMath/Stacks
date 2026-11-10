@@ -80,7 +80,7 @@ private theorem restrict_isStronglyCartesian (Q : PolynomialChart Λ X structure
     { open_le := g.down.down
       affine := φ'.affine
       map_comm := by
-        show T.toAffine ≫ φ'.affine =
+        change T.toAffine ≫ φ'.affine =
           X.homOfLE g.down.down ≫ (X.homOfLE f.down.down ≫ Q.toAffine)
         rw [← Category.assoc, X.homOfLE_homOfLE]
         exact φ'.map_comm

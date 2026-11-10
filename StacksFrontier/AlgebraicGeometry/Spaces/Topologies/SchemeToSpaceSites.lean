@@ -123,7 +123,7 @@ private theorem represented_etale_cover_mem_precoverage
     intro X Y Y' T f g f' g' hpb hf
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (P := @Etale.{u}) (hpb.map G) hf
-  show (E.map G).presieve₀ ∈ Scheme.etalePrecoverage (G.obj V)
+  change (E.map G).presieve₀ ∈ Scheme.etalePrecoverage (G.obj V)
   apply (Scheme.presieve₀_mem_precoverage_iff (P := @Etale) (E.map G)).2
   constructor
   · intro x
@@ -135,7 +135,7 @@ private theorem represented_etale_cover_mem_precoverage
     have he' : PF.presheaf (𝟙 (yoneda.obj (E.X i)) ≫ yoneda.map (E.f i)) := by
       simpa using hE.etale i (E.X i) (𝟙 (yoneda.obj (E.X i)))
         (AlgebraicGeometry.Space.presheaf_etale_id B S hS (E.X i))
-    show Etale (G.map (E.f i))
+    change Etale (G.map (E.f i))
     exact (MorphismProperty.relative_map_iff (P := PF) (F := yoneda)
       (f := E.f i)).mp he'
 
@@ -267,7 +267,7 @@ private theorem exists_siteCover_refining_sieve
       refine ⟨EG, hEG, ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((G i).f j ≫ E.f i)
+      change Q ((G i).f j ≫ E.f i)
       exact hGle i _ _ ⟨j⟩
 
 open CategoryTheory.Limits
@@ -295,11 +295,11 @@ private theorem localYonedaFppfCovering
     ?_, ?_, ?_⟩
   · intro i
     exact AlgebraicGeometry.Space.isFlat_yoneda_map B S hS (g i) (by
-      show Flat ((E.f i).hom)
+      change Flat ((E.f i).hom)
       exact (hprop i).1)
   · intro i
     exact AlgebraicGeometry.Space.isLocallyOfFinitePresentation_yoneda_map B S hS (g i) (by
-      show LocallyOfFinitePresentation ((E.f i).hom)
+      change LocallyOfFinitePresentation ((E.f i).hom)
       exact (hprop i).2)
   · refine Set.eq_univ_of_forall fun x => Set.mem_iUnion.2 ?_
     obtain ⟨i, y, hy⟩ :=
@@ -384,7 +384,7 @@ private theorem fppf_yonedaSpace_isCoverPreserving {S : Scheme.{u}}
   have hle : Sieve.generate Espace.presieve₀ ≤ R.functorPushforward F := by
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
     intro i
-    show R.functorPushforward F (F.map (Eover.f i.down))
+    change R.functorPushforward F (F.map (Eover.f i.down))
     exact ⟨Eover.X i.down, Eover.f i.down, 𝟙 _, hERover _ _ (Eover.presieve₀_f i.down), by simp⟩
   exact T.topology.superset_covering hle (fppf_covering_generates_site_cover T Espace hEspace)
 
@@ -523,7 +523,7 @@ private theorem fppf_yonedaSpace_isCocontinuous {S : Scheme.{u}}
       ((Sieve.generate E.presieve₀).pullback f).functorPullback F := by
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
     intro i
-    show Sieve.generate E.presieve₀ (F.map (Esource.f i) ≫ f)
+    change Sieve.generate E.presieve₀ (F.map (Esource.f i) ≫ f)
     let j := Hslice.s₀ i
     have htriangle := Hslice.w₀ i
     have hmap : F.map (Hslice.h₀ i) ≫ F.map (Erep.f j) = F.map (Esource.f i) := by
@@ -532,7 +532,7 @@ private theorem fppf_yonedaSpace_isCocontinuous {S : Scheme.{u}}
     have hrep : F.map (Erep.f j) = atlasMap j.1 ≫ p₂ j.1 := by
       apply ObjectProperty.hom_ext
       cases j.2
-      show yoneda.map (yoneda.preimage (atlas j.1 ≫ (p₂ j.1).hom)) = _
+      change yoneda.map (yoneda.preimage (atlas j.1 ≫ (p₂ j.1).hom)) = _
       exact yoneda.map_preimage _
     have hsq := (hpb j.1).w.symm
     have hinner :
@@ -611,7 +611,7 @@ private theorem etale_scheme_cover_mem
     Sieve.generate E.presieve₀ ∈ AlgebraicGeometry.BigEtaleOver.topology B S hS Y := by
   let Ebase := E.map (Over.forget (B.obj S hS))
   have hbase : AlgebraicGeometry.IsEtaleCovering ⟨Y.left, Ebase.shrink⟩ := by
-    show (Ebase.shrink.map B.inclusion).presieve₀ ∈ _
+    change (Ebase.shrink.map B.inclusion).presieve₀ ∈ _
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_shrink,
       ← PreZeroHypercover.presieve₀_map]
     exact hE
@@ -635,7 +635,7 @@ private theorem etale_scheme_cover_mem
       ← Sieve.arrows_generate_map_eq_functorPushforward,
       Sieve.generate_sieve, Sieve.generate_sieve, ← PreZeroHypercover.presieve₀_map,
       ← PreZeroHypercover.presieve₀_map]
-    show Sieve.generate V.presieve₀ = Sieve.generate Ebase.presieve₀
+    change Sieve.generate V.presieve₀ = Sieve.generate Ebase.presieve₀
     rw [heq]
   rwa [hs] at hsite
 
@@ -678,16 +678,16 @@ private theorem etale_isCocontinuous {S : Scheme.{u}}
   refine (Sieve.generate_le_iff _ _).2 ?_
   refine Presieve.ofArrows_le_iff.2 ?_
   intro i
-  show Sieve.generate E.presieve₀ (F.map (H.map (Q.f i)) ≫ f)
+  change Sieve.generate E.presieve₀ (F.map (H.map (Q.f i)) ≫ f)
   have heq : F.map (H.map (Q.f i)) ≫ f =
       ObjectProperty.homMk (a i.1) ≫ p₁ i.1 ≫ E.f i.1 := by
     apply ObjectProperty.hom_ext
-    show yoneda.map (yoneda.preimage (a i.1 ≫ (p₂ i.1).hom)) ≫ f.hom = _
+    change yoneda.map (yoneda.preimage (a i.1 ≫ (p₂ i.1).hom)) ≫ f.hom = _
     rw [yoneda.map_preimage]
     have hh := congrArg (fun q => a i.1 ≫ q.hom) (hpb i.1).w.symm
     change a i.1 ≫ ((p₂ i.1).hom ≫ f.hom) =
       a i.1 ≫ ((p₁ i.1).hom ≫ (E.f i.1).hom) at hh
-    show (a i.1 ≫ (p₂ i.1).hom) ≫ f.hom =
+    change (a i.1 ≫ (p₂ i.1).hom) ≫ f.hom =
       a i.1 ≫ (p₁ i.1).hom ≫ (E.f i.1).hom
     simpa only [Category.assoc] using hh
   rw [heq]
@@ -818,7 +818,7 @@ private theorem etale_isCoverPreserving {S : Scheme.{u}}
   rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
   intro i
   refine ⟨E.X i.down, E.f i.down, 𝟙 _, Sieve.le_generate _ _ _ (E.presieve₀_f i.down), ?_⟩
-  show _ = 𝟙 _ ≫ F.map (E.f i.down)
+  change _ = 𝟙 _ ≫ F.map (E.f i.down)
   rw [Category.id_comp]
   rfl
 
@@ -897,7 +897,7 @@ private theorem ph_isCocontinuous {S : Scheme.{u}}
   have hlocal (i : A.I₀) : Q.pullback (A.f i) ∈ J (A.X i) := by
     let V := G.obj (A.X i)
     have : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme T.fppfSite S T.fppf_mem).obj V) := by
-      show IsAffine (U.X i)
+      change IsAffine (U.X i)
       infer_instance
     obtain ⟨C, hC, ⟨r⟩⟩ := hE.1.affine_refinement V (F.map (A.f i) ≫ f).hom
     have hCJ : Sieve.generate (C.map H).presieve₀ ∈ J (A.X i) :=
@@ -908,7 +908,7 @@ private theorem ph_isCocontinuous {S : Scheme.{u}}
     refine (Sieve.generate_le_iff _ _).2 ?_
     refine Presieve.ofArrows_le_iff.2 ?_
     intro j
-    show Sieve.generate E.presieve₀ (F.map (H.map (C.f j) ≫ A.f i) ≫ f)
+    change Sieve.generate E.presieve₀ (F.map (H.map (C.f j) ≫ A.f i) ≫ f)
     let a : F.obj (H.obj (C.X j)) ⟶ E.X (r.s₀ j) := ObjectProperty.homMk (r.h₀ j)
     have hw : a ≫ E.f (r.s₀ j) = F.map (H.map (C.f j)) ≫ (F.map (A.f i) ≫ f) := by
       apply ObjectProperty.hom_ext
@@ -1056,7 +1056,7 @@ private theorem yoneda_standardPHCovering_isPHCovering
       congrArg (fun q => q.hom) (D.f j).w
     have hfacg : toSch.map g ≫ (Z).hom.hom = V.hom.hom :=
       congrArg (fun q => q.hom) g.w
-    show pullback.fst ((D.map toSch).f j) (toSch.map g) ≫ (D.X j).hom.hom =
+    change pullback.fst ((D.map toSch).f j) (toSch.map g) ≫ (D.X j).hom.hom =
       pullback.snd ((D.map toSch).f j) (toSch.map g) ≫ V.hom.hom
     rw [← hfac, ← hfacg]
     exact pullback.condition_assoc _
@@ -1066,7 +1066,7 @@ private theorem yoneda_standardPHCovering_isPHCovering
     apply Functor.map_injective toSch
     rw [Functor.map_comp, Functor.map_comp, hk]
     exact pullback.condition
-  show yoneda.map (k j) ≫ yoneda.map (D.f j) = yoneda.map (A.f j) ≫ a
+  change yoneda.map (k j) ≫ yoneda.map (D.f j) = yoneda.map (A.f j) ≫ a
   rw [← hga, ← yoneda.map_comp, ← yoneda.map_comp, hsite j]
 
 /-- The inclusion of schemes into algebraic spaces sends covering sieves to covering sieves
@@ -1114,7 +1114,7 @@ private theorem ph_isCoverPreserving {S : Scheme.{u}}
       (fun i => yoneda.obj (AG.X i)) (fun i => yoneda.map (AG.f i)) := by
     refine AlgebraicGeometry.Space.isPHCovering_of_isEtaleCovering T.fppfSite S T.fppf_mem
       (yoneda_etale_isEtaleCovering T.fppfSite S T.fppf_mem AG (fun i => ?_) (fun x => ?_))
-    · show AlgebraicGeometry.Etale (i.down.1.ι)
+    · change AlgebraicGeometry.Etale (i.down.1.ι)
       infer_instance
     · obtain ⟨W, hWaff, hxW, -⟩ :=
         AlgebraicGeometry.exists_isAffineOpen_mem_and_subset
@@ -1180,7 +1180,7 @@ private theorem ph_isCoverPreserving {S : Scheme.{u}}
       B.inclusion.map_preimage _
     let m : C.X j.down ⟶ Eover.X (H.s₀ j.down) := Over.homMk mBase (by
       apply ObjectProperty.hom_ext
-      show mBase.hom ≫ (E.f (H.s₀ j.down)).hom ≫ Y.hom.hom =
+      change mBase.hom ≫ (E.f (H.s₀ j.down)).hom ≫ Y.hom.hom =
         𝒰.f j.down ≫ W.1.ι ≫ Y.hom.hom
       rw [hmBase, ← Category.assoc]
       exact congrArg (fun q => q ≫ Y.hom.hom) hmSch
@@ -1188,11 +1188,11 @@ private theorem ph_isCoverPreserving {S : Scheme.{u}}
     have hmsite : m ≫ Eover.f (H.s₀ j.down) = C.f j.down ≫ A.f W := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show mBase.hom ≫ (E.f (H.s₀ j.down)).hom = 𝒰.f j.down ≫ W.1.ι
+      change mBase.hom ≫ (E.f (H.s₀ j.down)).hom = 𝒰.f j.down ≫ W.1.ι
       rw [hmBase]
       exact hmSch
     refine ⟨Eover.X (H.s₀ j.down), Eover.f (H.s₀ j.down), F.map m, hEoverR _, ?_⟩
-    show F.map (C.f j.down) ≫ F.map (A.f W) = F.map m ≫ F.map (Eover.f (H.s₀ j.down))
+    change F.map (C.f j.down) ≫ F.map (A.f W) = F.map m ≫ F.map (Eover.f (H.s₀ j.down))
     rw [← Functor.map_comp, ← Functor.map_comp, hmsite]
   exact mem_of_pullback_mem_of_generate_mem T.topology (AG.map Fs) _ hA hlocal
 
@@ -1227,6 +1227,7 @@ public theorem etaleSchemeToSpace_isSpecialCocontinuous
     (etale_isCoverPreserving T h)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis over the big fppf scheme and algebraic-space sites
 /-- **Stacks 0DFV, fppf case.** The Yoneda inclusion of schemes into
 algebraic spaces is special cocontinuous for the big fppf sites. -/
 @[stacks 0DFV "fppf case"]
@@ -1270,6 +1271,7 @@ public theorem phSchemeToSpace_isSpecialCocontinuous
   exact specialCocontinuous_of_full_coverDense _ _ _ (ph_isCoverPreserving T)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- `Functor.IsDenseSubsite.sheafEquiv` synthesizes instances over the big étale sites
 /-- **Stacks 0DFV, étale case: the identification of topoi.** The inclusion of schemes into
 algebraic spaces induces an equivalence between the big étale topos of the scheme site and the
 big étale topos of the algebraic-space site. -/
@@ -1284,6 +1286,7 @@ public noncomputable def etaleSchemeToSpaceSheafEquiv {S : Scheme.{u}}
   Functor.IsDenseSubsite.sheafEquiv _ _ (etaleSchemeToSpace T h) _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- `Functor.IsDenseSubsite.sheafEquiv` synthesizes instances over the big fppf sites
 /-- **Stacks 0DFV, fppf case: the identification of topoi.** The Yoneda inclusion of schemes
 into algebraic spaces induces an equivalence between the big fppf topos of the scheme site and
 the big fppf topos of the algebraic-space site. -/
@@ -1298,6 +1301,7 @@ public noncomputable def fppfSchemeToSpaceSheafEquiv {S : Scheme.{u}}
     (AlgebraicGeometry.schemeSpaceFunctor T.schemeSite S T.scheme_mem) _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- `Functor.IsDenseSubsite.sheafEquiv` synthesizes instances over the big ph sites
 /-- **Stacks 0DFV, ph case: the identification of topoi.** The inclusion of schemes into
 algebraic spaces induces an equivalence between the big ph topos of the scheme site and the
 big ph topos of the algebraic-space site. -/

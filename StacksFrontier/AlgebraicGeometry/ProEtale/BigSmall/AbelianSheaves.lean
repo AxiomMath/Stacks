@@ -100,13 +100,13 @@ public lemma natural_map_add {C : Type*} [Category* C] [Preadditive C]
   calc
     a.app X (x + y) = a.app X (F.map (Limits.biprod.fst + Limits.biprod.snd) z) := by
       rw [F.map_add]
-      show _ = a.app X (_ + _)
+      change _ = a.app X (_ + _)
       rw [hfst, hsnd]
       rfl
     _ = G.map (Limits.biprod.fst + Limits.biprod.snd) (a.app (X ⊞ X) z) := hn _
     _ = a.app X x + a.app X y := by
       rw [G.map_add]
-      show G.map Limits.biprod.fst (a.app (X ⊞ X) z) +
+      change G.map Limits.biprod.fst (a.app (X ⊞ X) z) +
         G.map Limits.biprod.snd (a.app (X ⊞ X) z) = _
       rw [← hn Limits.biprod.fst, ← hn Limits.biprod.snd, hfst, hsnd]
       rfl

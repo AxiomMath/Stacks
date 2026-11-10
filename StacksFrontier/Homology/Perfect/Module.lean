@@ -137,7 +137,7 @@ private theorem exists_resolution_of_homology
     | zero =>
       rw [ChainComplex.quasiIsoAt₀_iff,
         ShortComplex.quasiIso_iff_of_zeros' _ (by simp) (by simp) (by simp)]
-      show (ShortComplex.mk (C.d 1 0) α hα).Exact ∧ Epi α
+      change (ShortComplex.mk (C.d 1 0) α hα).Exact ∧ Epi α
       refine ⟨?_, inferInstance⟩
       let S := ShortComplex.mk (C.d 1 0) (C.pOpcycles 0) (C.d_pOpcycles 1 0)
       let T := ShortComplex.mk (C.d 1 0) α hα
@@ -164,7 +164,7 @@ private theorem resolution_isPerfectModule
   refine ⟨P, -(d : ℤ), 0, ?_, inferInstance, ?_, ?_, ?_⟩
   · rw [CochainComplex.isStrictlyGE_iff]
     intro i hi
-    show IsZero (HomologicalComplex.extend.X F.complex
+    change IsZero (HomologicalComplex.extend.X F.complex
       (ComplexShape.embeddingDownNat.r i))
     cases hn : ComplexShape.embeddingDownNat.r i with
     | some n =>
@@ -174,13 +174,13 @@ private theorem resolution_isPerfectModule
       omega
     | none => exact isZero_zero _
   · intro i
-    show Module.Finite R ↑(HomologicalComplex.extend.X F.complex
+    change Module.Finite R ↑(HomologicalComplex.extend.X F.complex
       (ComplexShape.embeddingDownNat.r i))
     cases ComplexShape.embeddingDownNat.r i with
     | some n => exact (hF n).1
     | none => exact Module.Finite.of_finite
   · intro i
-    show Module.Projective R ↑(HomologicalComplex.extend.X F.complex
+    change Module.Projective R ↑(HomologicalComplex.extend.X F.complex
       (ComplexShape.embeddingDownNat.r i))
     cases ComplexShape.embeddingDownNat.r i with
     | some n => exact (hF n).2
@@ -281,8 +281,8 @@ theorem isPerfectModule_tensorProduct_of_flat
   have : G.PreservesHomology := (Functor.exact_tfae G).out 2 3 |>.mp (by
     intro S hS
     rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
-    show Function.Exact (LinearMap.baseChange B S.f.hom) (LinearMap.baseChange B S.g.hom)
-    simpa only [LinearMap.baseChange_eq_ltensor] using Module.Flat.lTensor_exact B hS)
+    change Function.Exact (LinearMap.baseChange B S.f.hom) (LinearMap.baseChange B S.g.hom)
+    simpa only [LinearMap.baseChange_eq_lTensor] using Module.Flat.lTensor_exact B hS)
   obtain ⟨d, F, hFP, hzero⟩ :=
     (isPerfectModule_iff_exists_finite_projective_resolution M).mp hM
   apply (isPerfectModule_iff_exists_finite_projective_resolution (B ⊗[A] M)).mpr

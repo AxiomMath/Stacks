@@ -105,7 +105,7 @@ public theorem rawKernelTransition_fac {F G : LAdicSheaf.{u, u + 1} B X ℓ} (f 
       kernel.ι (f.app (n + 1)) ≫ F.transition n := by
   have : (restrictScalarsFunctor B X ℓ n).IsRightAdjoint :=
     (scalarAdjunction B X ℓ n).isRightAdjoint
-  show (kernel.lift ((restrictScalarsFunctor B X ℓ n).map (f.app n))
+  change (kernel.lift ((restrictScalarsFunctor B X ℓ n).map (f.app n))
       (kernel.ι (f.app (n + 1)) ≫ F.transition n) _ ≫
       (PreservesKernel.iso (restrictScalarsFunctor B X ℓ n) (f.app n)).inv) ≫
       (restrictScalarsFunctor B X ℓ n).map (kernel.ι (f.app n)) = _
@@ -146,7 +146,7 @@ public theorem rawKernelReduction_epi {F G : LAdicSheaf.{u, u + 1} B X ℓ} (f :
       kernelComparison (f.app (n + 1)) (scalarReductionFunctor B X ℓ n) ≫ e.hom := by
     apply (cancel_mono (kernel.ι (f.app n))).1
     rw [rawKernelReduction_fac]
-    show _ = kernelComparison (f.app (n + 1)) (scalarReductionFunctor B X ℓ n) ≫
+    change _ = kernelComparison (f.app (n + 1)) (scalarReductionFunctor B X ℓ n) ≫
       kernel.map ((scalarReductionFunctor B X ℓ n).map (f.app (n + 1))) (f.app n) α β
         (reductionMap_naturality f n) ≫ _
     dsimp only [kernel.map]

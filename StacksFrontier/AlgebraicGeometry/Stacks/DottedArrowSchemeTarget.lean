@@ -64,7 +64,7 @@ theorem isSetoidCategory_dottedArrow_of_schemeTarget (q : ValuativeSquare B S hS
     IsSetoidCategory (CategoryTheory.DottedArrow q.x q.j f.hom q.y q.γ) := by
   refine ⟨fun _ => inferInstance, fun a θ => ?_⟩
   apply CategoryTheory.DottedArrow.Hom.ext
-  show θ.θ = 𝟙 a.a
+  change θ.θ = 𝟙 a.a
   have hαiso : IsIso a.α := (CatFiberedInGroupoids.homGroupoid _ _).all_isIso a.α
   refine hinj a.a a.α θ.θ ?_
   apply (cancel_mono a.α).1
@@ -158,7 +158,7 @@ theorem exists_whiskerLeft_eq_of_fibre (hj : j.hom.toFunctor = Over.map g)
   refine ⟨θ, ?_⟩
   apply (CatFiberedInGroupoids.homEquivBasedNatTrans _ _).injective
   refine Functor.TwoYoneda.hom_ext_of_app_unit 𝒳'.val.val.p 𝒳'.val.isFiberedInGroupoids _ _ ?_
-  show Functor.TwoYoneda.unitHomApp 𝒳'.val.val.p 𝒳'.val.isFiberedInGroupoids t ht
+  change Functor.TwoYoneda.unitHomApp 𝒳'.val.val.p 𝒳'.val.isFiberedInGroupoids t ht
     ((Over.map g).obj o) = e.hom.toNatTrans.app o
   have hcart := Functor.TwoYoneda.isStronglyCartesian_map_from_mkIdTerminal 𝒳'.val.val.p
     𝒳'.val.isFiberedInGroupoids _ a'.hom ((Over.map g).obj o)

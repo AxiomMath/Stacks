@@ -118,11 +118,11 @@ public theorem pushforwardEtaleStalkComponent_germ_univ
       eqToHom (congrArg (fun q : GeometricPoint Y.1 => q.source) h) ≫ U.2.1)
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj U.1))) :
     pushforwardEtaleStalkComponentUniv B f x y h F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
         (SmallEtale.topology B Y.1 Y.property)
         (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s) =
-      colimit.ι ((CategoryOfElements.π
+      colimit.ι ((Functor.Elements.π
         (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj) (op V) (F.obj.map t.op s) := by
   subst y
   let adj := (smallEtaleBaseChange B f).sheafAdjunctionContinuous (Type (max (u + 1) v))
@@ -130,12 +130,12 @@ public theorem pushforwardEtaleStalkComponent_germ_univ
   let P := ((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
         (SmallEtale.topology B Y.1 Y.property)
         (SmallEtale.topology B X.1 X.property)).obj F
-  let D := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.property
+  let D := (Functor.Elements.π (geometricPointFiber B Y.1 Y.property
     (x.map (B.inclusion.map f)))).op ⋙ P.obj
   let L := ((smallEtaleBaseChange B f).sheafPullback (Type (max (u + 1) v))
     (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj P
-  let E := (CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ L.obj
-  let Q := (CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj
+  let E := (Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ L.obj
+  let Q := (Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj
   let e := (smallEtalePullbackStalkIsoUniv B f x).app P
   simp only [eqToHom_refl, Category.id_comp] at ht
   have hg := smallEtalePullbackStalkIso_germ_univ B f x P V U t ht s
@@ -143,14 +143,14 @@ public theorem pushforwardEtaleStalkComponent_germ_univ
       colimit.ι E (op V) (pullbackSectionAlongUniv B f P U.1 V.1 t s) := by
     rw [← hg]
     exact ConcreteCategory.congr_hom e.hom_inv_id _
-  show (etaleStalkFunctor.{u, max (u + 1) v} B X.1 X.property x).map (adj.counit.app F)
+  change (etaleStalkFunctor.{u, max (u + 1) v} B X.1 X.property x).map (adj.counit.app F)
     (e.inv (colimit.ι D (op U) s)) = colimit.ι Q (op V) (F.obj.map t.op s)
   rw [hi]
-  show (colimit.ι E (op V) ≫ colim.map
-    (Functor.whiskerLeft (CategoryOfElements.π
+  change (colimit.ι E (op V) ≫ colim.map
+    (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.1 X.property x)).op (adj.counit.app F).hom)) _ = _
   rw [colimit.ι_map]
-  show colimit.ι Q (op V)
+  change colimit.ι Q (op V)
     ((adj.counit.app F).hom.app (op V.1) (pullbackSectionAlongUniv B f P U.1 V.1 t s)) = _
   congr 1
   unfold pullbackSectionAlongUniv
@@ -159,7 +159,7 @@ public theorem pushforwardEtaleStalkComponent_germ_univ
   have hn' := ConcreteCategory.congr_hom hn
   have htri' := ConcreteCategory.congr_hom htri s
   dsimp at hn' htri'
-  show (adj.counit.app F).hom.app (op V.1)
+  change (adj.counit.app F).hom.app (op V.1)
     (L.obj.map t.op ((adj.unit.app P).hom.app (op U.1) s)) = F.obj.map t.op s
   change (adj.counit.app F).hom.app (op ((smallEtaleBaseChange B f).obj U.1))
     ((adj.unit.app P).hom.app (op U.1) s) = s at htri'
@@ -197,7 +197,7 @@ public theorem pushforwardEtaleStalkComponent_natural_univ
       iso.inv.app (PF.obj F) ≫ SX.map (adj.counit.app F) ≫ SX.map α := by
     rw [← Category.assoc, iso.inv.naturality (PF.map α), Category.assoc]
     congr 1
-    show SX.map (PB.map (PF.map α)) ≫ SX.map (adj.counit.app G) = _
+    change SX.map (PB.map (PF.map α)) ≫ SX.map (adj.counit.app G) = _
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact congrArg SX.map (adj.counit.naturality α)
   exact congrArg (fun k => k z) key
@@ -239,11 +239,11 @@ private theorem finitePushforwardStalkComponent_germ_of_hom_general
       B.inclusion.map (pullback.fst V.1.obj.hom f) = V.2.1)
     (t : F.obj.obj (op ((smallEtaleBaseChange B f).obj V.1))) :
     finitePushforwardStalkComponentUniv B f y F x
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) (op V) t) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj) (op U)
         (F.obj.map a.op t) :=
   pushforwardEtaleStalkComponent_germ_univ B f (geometricPointLift (B.inclusion.map f) y x) y
@@ -259,11 +259,11 @@ public theorem finitePushforwardStalkComponent_germ_univ
     (U : (geometricPointFiber B Y.1 Y.property y).Elements)
     (s : F.obj.obj (op ((smallEtaleBaseChange B f).obj U.1))) :
     finitePushforwardStalkComponentUniv B f y F x
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj)
         (op (liftedEtaleNeighborhood B f y x U)) s := by
   have := hasPullbacks_bigEtaleSite B
@@ -313,7 +313,7 @@ private theorem finitePushforwardStalkComponent_germ_eq_iff_general
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom})
     (V : (geometricPointFiber B Y.1 Y.property y).Elements)
     (t t' : F.obj.obj (op ((smallEtaleBaseChange B f).obj V.1))) :
-    (let D := (CategoryOfElements.π
+    (let D := (Functor.Elements.π
       (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
         (SmallEtale.topology B Y.1 Y.property)
@@ -327,7 +327,7 @@ private theorem finitePushforwardStalkComponent_germ_eq_iff_general
   dsimp only
   rw [finitePushforwardStalkComponent_germ_univ,
     finitePushforwardStalkComponent_germ_univ]
-  let D := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let D := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj
   exact (Types.FilteredColimit.isColimit_eq_iff' (colimit.isColimit D)
     (i := op (liftedEtaleNeighborhood B f y x V)) t t').trans
@@ -365,7 +365,7 @@ private theorem sections_ext_of_range_subset_general
   let E : PreZeroHypercover.{u + 1} V :=
     { I₀ := I, X := fun i => pullback (b i) a, f := fun i => pullback.snd (b i) a }
   apply sections_ext_of_etale_covering_general B S hS F V E
-  · show (E.map T).presieve₀ ∈ Scheme.precoverage @Etale (T.obj V)
+  · change (E.map T).presieve₀ ∈ Scheme.precoverage @Etale (T.obj V)
     refine (Scheme.presieve₀_mem_precoverage_iff (P := @Etale) (E.map T)).2
       ⟨fun v ↦ ?_, fun i ↦ _root_.AlgebraicGeometry.etale_smallEtale_map B S hS (E.f i)⟩
     obtain ⟨i, w, hw⟩ := Set.mem_iUnion.mp (hcover (Set.mem_range_self v))
@@ -373,7 +373,7 @@ private theorem sections_ext_of_range_subset_general
       ((IsPullback.of_hasPullback (b i) a).map T) w v hw
     exact ⟨i, p, hp'⟩
   · intro i
-    show F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
+    change F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
       F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t')
     have he : a.op ≫ (pullback.snd (b i) a).op =
         (b i).op ≫ (pullback.fst (b i) a).op :=
@@ -392,7 +392,7 @@ public theorem finitePushforwardStalkComponent_injective_univ
     Function.Injective (fun z x => finitePushforwardStalkComponentUniv B f y F x z) := by
   classical
   intro z z' hz
-  let D := (CategoryOfElements.π
+  let D := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
         (SmallEtale.topology B Y.1 Y.property)
@@ -477,7 +477,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions_general
     Function.Surjective (fun z x => finitePushforwardStalkComponentUniv B f y F x z) := by
   classical
   intro t
-  let D (x) := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let D (x) := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj
   have hrep (x) := Types.jointly_surjective_of_isColimit (colimit.isColimit (D x)) (t x)
   choose U s hs using hrep
@@ -497,7 +497,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions_general
   obtain ⟨s', hs'⟩ := exists_section_of_disjoint_cover_general B X.1 X.property F _ E hE
     (fun i j hij => Q.disjoint (fun he => hij (ULift.ext he)))
     (fun i => F.obj.map (Q.toNeighborhood i.down).1.op (s i.down))
-  let D' := (CategoryOfElements.π
+  let D' := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (max (u + 1) v))
         (SmallEtale.topology B Y.1 Y.property)
@@ -506,7 +506,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions_general
   refine (finitePushforwardStalkComponent_germ_of_hom_general B f y F x
     (Q.neighborhood x) Q.base (Q.toBase x) (Q.point_toBase x) s').trans ?_
   rw [hs' ⟨x⟩]
-  show colimit.ι (D x) (op (Q.neighborhood x))
+  change colimit.ι (D x) (op (Q.neighborhood x))
       ((D x).map (Q.toNeighborhood x).op (s x)) = t x
   rw [← ConcreteCategory.comp_apply, colimit.w]
   exact hs x

@@ -206,14 +206,14 @@ theorem componentRestrictionTensorIso_inv_naturality_right (A : (S.totalRingedTo
       ((sheafTensor (S.componentRingedTopos O n).O).obj
         ((S.componentModulesRestriction O n).obj A)).map
           ((S.componentModulesRestriction O n).map f) := by
-    show ((sheafTensor (S.componentRingedTopos O n).O).map
+    change ((sheafTensor (S.componentRingedTopos O n).O).map
         ((S.componentModulesRestriction O n).map (𝟙 A))).app _ ≫ _ = _
     simp only [Functor.prod_obj, Functor.prod_map, Functor.map_id, NatTrans.id_app,
       Category.id_comp]
   have e₂ : (Functor.uncurry.obj (sheafTensor (S.totalRingedTopos O).O)).map
         ((𝟙 A, f) : (A, M) ⟶ (A, N)) =
       ((sheafTensor (S.totalRingedTopos O).O).obj A).map f := by
-    show ((sheafTensor (S.totalRingedTopos O).O).map (𝟙 A)).app _ ≫ _ = _
+    change ((sheafTensor (S.totalRingedTopos O).O).map (𝟙 A)).app _ ≫ _ = _
     simp only [Functor.map_id, NatTrans.id_app, Category.id_comp]
   have h := (S.componentRestrictionTensorIso O n).inv.naturality
     (X := (A, M)) (Y := (A, N)) (𝟙 A, f)

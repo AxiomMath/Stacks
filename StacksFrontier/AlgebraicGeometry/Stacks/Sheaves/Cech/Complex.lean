@@ -124,7 +124,7 @@ public theorem exists_vertical_comparison (p : Y ⥤ C) (g : V ⥤ Y)
   have hinv : p.IsHomLift (p.map β.inv) (g.map η.inv) :=
     IsHomLift.inv_lift_inv p (p.mapIso β) (g.mapIso η)
   refine ⟨v', η.symm, ?_⟩
-  show p.IsHomLift (𝟙 (p.obj y)) (g.map η.inv ≫ β.hom)
+  change p.IsHomLift (𝟙 (p.obj y)) (g.map η.inv ≫ β.hom)
   simpa only [← p.map_comp, β.inv_hom_id, p.map_id] using
     (IsHomLift.comp p (p.map β.inv) (p.map β.hom) (g.map η.inv) β.hom)
 
@@ -349,7 +349,7 @@ public theorem isIso_complexPullbackMap [h.IsEquivalence] [e.IsEquivalence]
       full := nerveMap_full pX pY f g h e α he hα n
       essSurj := nerveMap_essSurj pX pY f g h e α he hα hpV n }
   have (n : ℕ) : IsIso ((complexPullbackMap pX pY f g h e α he hα F).f n) := by
-    show IsIso (limit.pre ((Tuple.projection pX f n).op ⋙ F)
+    change IsIso (limit.pre ((Tuple.projection pX f n).op ⋙ F)
       (nerveMap pX pY f g h e α he hα n).op)
     infer_instance
   exact HomologicalComplex.Hom.isIso_of_components _

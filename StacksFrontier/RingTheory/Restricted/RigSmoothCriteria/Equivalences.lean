@@ -108,7 +108,7 @@ private lemma cotangentFactorizationIdeal_lifted
     ext x
     cases x with
     | up x =>
-      show h (K.differential x) = _
+      change h (K.differential x) = _
       have hp := congrArg (fun f : P.extension.Cotangent →ₗ[B.carrier]
         P.extension.Cotangent => f x) hh
       exact hp
@@ -116,7 +116,7 @@ private lemma cotangentFactorizationIdeal_lifted
     let hBase := eD.toLinearMap.comp (h.comp eE.symm.toLinearMap)
     refine ⟨hBase, ?_⟩
     ext x
-    show ULift.down (h (ULift.up (K.differential x))) = a • x
+    change ULift.down (h (ULift.up (K.differential x))) = a • x
     have hp := congrArg (fun f : LiftedCotangent →ₗ[B.carrier] LiftedCotangent =>
       f (ULift.up x)) hh
     simpa [LinearMap.comp_apply, K.liftedDifferential_up] using congrArg ULift.down hp
@@ -153,7 +153,7 @@ private lemma completedNaiveCotangent_factorizationOnComplex_iff
           simp [Linear.smul_comp, Linear.comp_smul]
         _ = a • 𝟙 (ModuleCat.of B.carrier LiftedCotangent) := by
           congr 1
-          show K.degreeNegOneIso.inv ≫ K.degreeNegOneIso.hom = _
+          change K.degreeNegOneIso.inv ≫ K.degreeNegOneIso.hom = _
           rw [Iso.inv_hom_id]
     have heq := congrArg (fun f => K.degreeNegOneIso.inv ≫ f ≫ K.degreeNegOneIso.hom) hg
     rw [hconj, hscalar] at heq
@@ -180,7 +180,7 @@ private lemma completedNaiveCotangent_factorizationOnComplex_iff
             simp [Linear.smul_comp, Linear.comp_smul]
           _ = _ := by
             congr 1
-            show K.degreeNegOneIso.hom ≫ K.degreeNegOneIso.inv = _
+            change K.degreeNegOneIso.hom ≫ K.degreeNegOneIso.inv = _
             rw [Iso.hom_inv_id]
 
 private lemma completedNaiveCotangent_degreeZero_free
@@ -214,7 +214,7 @@ private lemma jacobianChart_factorization
   let M : Matrix (Fin m) (Fin m) B.carrier := fun i j ↦ K.differential (u j) (T i)
   have hM : M = fun i j ↦ P.toAlgHom (K.partialDeriv (T i) (f j : P.completedPolynomialRing)) := by
     ext i j
-    show K.differential (Algebra.Extension.Cotangent.mk (hkerEq ▸ f j)) (T i) = _
+    change K.differential (Algebra.Extension.Cotangent.mk (hkerEq ▸ f j)) (T i) = _
     rw [K.differential_mk]
   have hdetM : M.det = P.toAlgHom (Matrix.det fun i j : Fin m ↦
       K.partialDeriv (T i) (f j : P.completedPolynomialRing)) := by
@@ -234,7 +234,7 @@ private lemma jacobianChart_factorization
     intro j
     have hcoord : coord (K.differential (u j)) = M.mulVec (Pi.single j (1 : B.carrier)) := by
       ext i
-      show (K.differential (u j)) (T i) = _
+      change (K.differential (u j)) (T i) = _
       simp [Matrix.mulVec, M]
     have hadj : adj (M.mulVec (Pi.single j (1 : B.carrier))) = M.det • Pi.single j 1 := by
       have hcol : M.mulVec (Pi.single j (1 : B.carrier)) = M.col j := by
@@ -270,7 +270,7 @@ private lemma jacobianChart_factorization
     obtain ⟨z, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective (P := P.extension) x
     let b' : P.extension.Ring := b
     have hzker : b' * z.val ∈ P.extension.ker := by
-      show algebraMap P.extension.Ring B.carrier (b' * z.val) = 0
+      change algebraMap P.extension.Ring B.carrier (b' * z.val) = 0
       rw [map_mul, z.property, mul_zero]
     have hzP : z.val ∈ P.ker := hkerEq.symm ▸ z.property
     obtain ⟨y, hy, w, hw, hsum⟩ := Submodule.mem_sup.mp (hrelations z.val hzP)
@@ -296,7 +296,7 @@ private lemma jacobianChart_factorization
         P.toAlgHom b • Algebra.Extension.Cotangent.mk (P := P.extension) z := by
       calc
         _ = b' • Algebra.Extension.Cotangent.mk (P := P.extension) z := by
-          show Algebra.Extension.Cotangent.mk (P := P.extension) (b' • z) = _
+          change Algebra.Extension.Cotangent.mk (P := P.extension) (b' • z) = _
           exact map_smul (Algebra.Extension.Cotangent.mk (P := P.extension)) b' z
         _ = _ := by
           rw [extension_cotangent_ring_smul_eq_algebraMap]
@@ -311,7 +311,7 @@ private lemma jacobianChart_factorization
   have hb' : P.toAlgHom b • h (K.differential x) =
       (M.det * P.toAlgHom b) • x := by
     simpa [map_smul, smul_smul, mul_comm, mul_left_comm, mul_assoc] using hb
-  show (P.toAlgHom b * q) • h (K.differential x) = (P.toAlgHom b ^ 2) • x
+  change (P.toAlgHom b * q) • h (K.differential x) = (P.toAlgHom b ^ 2) • x
   calc
     _ = q • (P.toAlgHom b • h (K.differential x)) := by
       rw [smul_smul]
@@ -392,7 +392,7 @@ public theorem isRigSmooth_iff_cotangentCohomologyCondition
     (exists_forall_ext_smul_eq_zero_iff B K).trans
       (exists_congr fun c => ⟨fun h N b hb x => h hb N x, fun h b hb N x => h N b hb x⟩)
   rw [Rig.isRigSmooth_iff B P]
-  show _ ↔ ∃ c : ℕ,
+  change _ ↔ ∃ c : ℕ,
     (∀ (a : B.carrier), a ∈ B.adicIdeal ^ c → ∀ x : Hneg, a • x = 0) ∧
       Module.IsIProjective B.carrier (B.adicIdeal ^ c) Hzero
   exact hExt.trans hcriterion
@@ -496,7 +496,7 @@ public theorem isRigSmooth_iff_hasJacobianCover
         simp [idx]
     have hcover : B.adicIdeal ≤
         (Ideal.span (Set.range fun i : Fin t.card => P.toAlgHom (b i))).radical := by
-      show B.adicIdeal ≤ (Ideal.span (Set.range fun i : Fin t.card => fchart (idx i))).radical
+      change B.adicIdeal ≤ (Ideal.span (Set.range fun i : Fin t.card => fchart (idx i))).radical
       rwa [hsets]
     exact ⟨t.card, b, hcover, fun i => (localData_spec (idx i)).2⟩
   · rintro ⟨s, b, hcover, hcharts⟩
@@ -509,7 +509,7 @@ public theorem isRigSmooth_iff_hasJacobianCover
         Ideal.span (Set.range fun l : Fin s => P.toAlgHom (b l)) ≤ F.radical := by
       apply Ideal.span_le.mpr
       rintro x ⟨l, rfl⟩
-      show P.toAlgHom (b l) ∈ F.radical
+      change P.toAlgHom (b l) ∈ F.radical
       rw [Ideal.mem_radical_iff]
       exact ⟨2, by simpa only [pow_two] using hchartFactor l⟩
     have hrad : B.adicIdeal ≤ F.radical :=

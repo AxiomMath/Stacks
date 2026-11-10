@@ -169,7 +169,7 @@ omit [HasWeakSheafify K AddCommGrpCat.{w}] [K.WEqualsLocallyBijective AddCommGrp
 left Kan extension of the underlying abelian presheaf. -/
 theorem moduleLanAdjunction_unit_app (M : PresheafOfModules.{w} (F.op ⋙ R.obj)) :
     (moduleLanAdjunction F R.obj).unit.app M = moduleLanUnit F R.obj M := by
-  show moduleLanUnit F R.obj M ≫ (PresheafOfModules.pushforward _).map (𝟙 _) = _
+  change moduleLanUnit F R.obj M ≫ (PresheafOfModules.pushforward _).map (𝟙 _) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 omit [HasWeakSheafify K AddCommGrpCat.{w}] [K.WEqualsLocallyBijective AddCommGrpCat.{w}] in
@@ -563,7 +563,8 @@ of a sheaf of rings on the target, the composite
 of the two comparison transformations is the adjoint transpose, under the composite of the two
 lower-shriek adjunctions for abelian sheaves, of the forgotten unit of the composite of the two
 lower-shriek adjunctions for modules, written with the two units separated. -/
-@[stacks 0798 "the composition law for the comparison transformation `g_!^{Ab} ∘ forget ⟶ forget ∘ g_!`"]
+@[stacks 0798 "the composition law for the comparison transformation \
+`g_!^{Ab} ∘ forget ⟶ forget ∘ g_!`"]
 theorem homEquiv_comp_lowerShriekForgetComparison
     (M : _root_.SheafOfModules.{w} (inverseImageRing JA JB a (inverseImageRing JB JE b O))) :
     ((a.sheafAdjunctionContinuous AddCommGrpCat.{w} JA JB).comp
@@ -1150,7 +1151,8 @@ is an isomorphism, as soon as, for every object `U` of the source site, the cano
 of `Stacks.SheafOfModules.localizedStructureSheafComparison` is an isomorphism, `g'` being the
 morphism of topoi induced by the localized functor `u' = Over.post u : C/U ⥤ D/u(U)` of Stacks
 03EG. -/
-@[stacks 0798 "the criterion: `g_! = g_!^{Ab}` if the canonical map of equation 0799 is an isomorphism for every object `U`"]
+@[stacks 0798 "the criterion: `g_! = g_!^{Ab}` if the canonical map of equation 0799 is an \
+isomorphism for every object `U`"]
 theorem isIso_lowerShriekForgetComparison_of_localizedStructureSheafComparison
     (h : ∀ V : C, IsIso (localizedStructureSheafComparison J K u O V)) :
     IsIso (lowerShriekForgetComparison u (structureMap J K u O)) := by

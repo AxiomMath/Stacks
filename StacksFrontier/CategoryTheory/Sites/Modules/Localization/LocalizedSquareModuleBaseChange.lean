@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.BaseChangeOfToposHomExactPullback
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.BaseChangeOfToposHomExactPullback
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.ElementRestrictionAdjunction
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.LocalizationSquareMate
 public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.RelocalizedMorphismComparison
@@ -240,7 +239,7 @@ theorem moduleBaseChange_app_eq
       g.toModulesHom.pullbackModules.map (f.toModulesPushforwardIso.inv.app M) ≫
         (mateEquiv (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
           (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-          (squarePullbackIso s).hom).natTrans.app M ≫
+          (squarePullbackIso s).hom).app M ≫
         f'.toModulesPushforwardIso.hom.app (g'.toModulesHom.pullbackModules.obj M) := by
   have h := mateEquiv_ofNatIsoRight
     (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
@@ -250,11 +249,11 @@ theorem moduleBaseChange_app_eq
         g.toModulesHom.pullbackModules ≫
       (mateEquiv (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
           (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-          (squarePullbackIso s).hom).natTrans ≫
+          (squarePullbackIso s).hom) ≫
       Functor.whiskerLeft g'.toModulesHom.pullbackModules f'.toModulesPushforwardIso.hom))
     (fun _ ↦ rfl)
   unfold moduleBaseChange
-  exact congrArg (fun t ↦ t.natTrans.app M) h.symm
+  exact NatTrans.congr_app h.symm M
 
 /-- The base change map of sheaves of modules of a 2-commutative square is invertible at `M` as
 soon as the base change map computed with the adjunctions of the four-field readings is. -/
@@ -263,7 +262,7 @@ theorem isIso_moduleBaseChange_app_of_isIso
     (h : IsIso ((mateEquiv
       (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
       (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-      (squarePullbackIso s).hom).natTrans.app M)) :
+      (squarePullbackIso s).hom).app M)) :
     IsIso ((moduleBaseChange s).app M) := by
   rw [moduleBaseChange_app_eq]
   infer_instance
@@ -280,7 +279,7 @@ theorem moduleSheafFunctor_map_mateEquiv_mateEquiv_squarePullbackIso_hom_app
           (mateEquiv
             (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
             (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-            (squarePullbackIso s).hom)).natTrans.app N) =
+            (squarePullbackIso s).hom)).app N) =
       s.e.inv.app
         ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X'.O)).obj N) :=
   (congrArg (fun t ↦ (Sheaf.moduleSheafFunctor
@@ -299,7 +298,7 @@ theorem moduleSheafFunctor_map_mateEquiv_mateEquiv_squarePullbackIso_hom_app'
           (mateEquiv
             (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
             (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-            (squarePullbackIso s).hom)).natTrans.app N) ≫
+            (squarePullbackIso s).hom)).app N) ≫
       (Stacks.Sheaves.RingedToposModules.pushforwardModulesUnderlyingIso g.toModulesHom).hom.app
           ((Stacks.Sheaves.RingedToposModules.pushforwardModules f'.toModulesHom).obj N) ≫
         g.toModulesHom.toToposHom.pushforward.map
@@ -312,7 +311,7 @@ theorem moduleSheafFunctor_map_mateEquiv_mateEquiv_squarePullbackIso_hom_app'
             g'.toModulesHom).hom.app N) ≫
         (TwoSquare.mk g'.toModulesHom.toToposHom.pushforward f'.toModulesHom.toToposHom.pushforward
           f.toModulesHom.toToposHom.pushforward g.toModulesHom.toToposHom.pushforward
-          s.e.inv).natTrans.app
+          s.e.inv).app
           ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X'.O)).obj N) := by
   have hE := moduleSheafFunctor_map_mateEquiv_mateEquiv_squarePullbackIso_hom_app s N
   have hL :
@@ -360,7 +359,7 @@ theorem isIso_moduleBaseChange_app_of_unit
           ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj N))
     (hset : ∀ S, IsIso (((mateEquiv g'.toToposHom.adj g.toToposHom.adj).symm
       (TwoSquare.mk g'.toToposHom.pushforward f'.toToposHom.pushforward f.toToposHom.pushforward
-        g.toToposHom.pushforward s.e.inv)).natTrans.app S))
+        g.toToposHom.pushforward s.e.inv)).app S))
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     IsIso ((moduleBaseChange s).app M) := by
   obtain ⟨ρ, hρ⟩ := hg
@@ -388,12 +387,12 @@ theorem isIso_moduleBaseChange_app_of_unit
   have hiso : IsIso ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O)).map
       ((mateEquiv (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f.toModulesHom)
         (Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules f'.toModulesHom)
-        (squarePullbackIso s).hom).natTrans.app M)) := by
+        (squarePullbackIso s).hom).app M)) := by
     rw [key]
     have : IsIso (((mateEquiv g'.toModulesHom.toToposHom.adj g.toModulesHom.toToposHom.adj).symm
         (TwoSquare.mk g'.toModulesHom.toToposHom.pushforward f'.toModulesHom.toToposHom.pushforward
           f.toModulesHom.toToposHom.pushforward g.toModulesHom.toToposHom.pushforward
-          s.e.inv)).natTrans.app
+          s.e.inv)).app
         ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj M)) :=
       hset ((Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj M)
     infer_instance
@@ -572,7 +571,7 @@ theorem isIso_mateEquiv_symm_localizedRingedToposSquare_app
         (X.localizationMorphism (f.toToposHom.inverseImage.obj G)).toToposHom.pushforward
         (f.localized G).toToposHom.pushforward f.toToposHom.pushforward
         (Y.localizationMorphism G).toToposHom.pushforward
-        (f.localizedRingedToposSquare G).e.inv)).natTrans.app S) := by
+        (f.localizedRingedToposSquare G).e.inv)).app S) := by
   rw [← mateEquiv_localizationCompPushforwardIso_inv, Equiv.symm_apply_apply]
   exact inferInstanceAs (IsIso ((f.localizationCompPushforwardIso G).inv.app S))
 

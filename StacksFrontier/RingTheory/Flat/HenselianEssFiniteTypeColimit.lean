@@ -72,7 +72,7 @@ theorem exists_polynomial_localizedModule_linearEquiv {A : Type u} {B : Type v} 
   let : Module R N := Module.compHom N (algebraMap R B)
   have : IsScalarTower R B N := IsScalarTower.of_compHom R B N
   have : IsScalarTower A R N := IsScalarTower.of_algebraMap_smul fun a y => by
-    show algebraMap R B (algebraMap A R a) • y = a • y
+    change algebraMap R B (algebraMap A R a) • y = a • y
     rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have hfrac : ∀ b : B, ∃ t c : R, IsUnit (algebraMap R B t) ∧
       b * algebraMap R B t = algebraMap R B c := by
@@ -109,7 +109,7 @@ theorem exists_polynomial_localizedModule_linearEquiv {A : Type u} {B : Type v} 
       · have h' : (algebraMap R B t) • y₁ = (algebraMap R B t) • y₂ := h
         rw [← hu] at h'
         simpa [smul_smul] using congrArg (fun z => (↑u⁻¹ : B) • z) h'
-      · show (algebraMap R B t) • ((↑u⁻¹ : B) • y) = y
+      · change (algebraMap R B t) • ((↑u⁻¹ : B) • y) = y
         rw [← hu, smul_smul, Units.mul_inv, one_smul]
     · -- every element of `N` has a multiple, by an element outside `q`, in `M₀`
       have key : ∀ y : N, ∃ t : q.primeCompl, (t : R) • y ∈ M₀ := by
@@ -137,7 +137,7 @@ theorem exists_polynomial_localizedModule_linearEquiv {A : Type u} {B : Type v} 
           rw [Submonoid.coe_mul, mul_smul]
           have : (t : R) • b • y = b • ((t : R) • y) := smul_comm _ _ _
           rw [this]
-          show algebraMap R B t' • b • ((t : R) • y) ∈ M₀
+          change algebraMap R B t' • b • ((t : R) • y) ∈ M₀
           rw [smul_smul, mul_comm, hbt']
           exact M₀.smul_mem c' ht
       obtain ⟨t, ht⟩ := key y

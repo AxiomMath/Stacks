@@ -209,7 +209,7 @@ public theorem idealSheafAsSubmodule_comap_open
     (U : X.affineOpens) (V : Y.affineOpens) (h : V.1 ≤ f ⁻¹ᵁ U.1) :
     (I.ideal U).map (f.appLE U.1 V.1 h).hom =
       Crystalline.sectionIdeal Y.sheaf (idealSheafAsSubmodule (I.comap f)) (op V.1) := by
-  show (I.ideal U).map (f.appLE U.1 V.1 h).hom =
+  change (I.ideal U).map (f.appLE U.1 V.1 h).hom =
     (idealSheafAsSubmodule (I.comap f)).toSubmodule.obj (op V.1)
   rw [idealSheafAsSubmodule_obj_affine, Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion]
   let W : X.affineOpens := ⟨f ''ᵁ V.1, V.2.image_of_isOpenImmersion f⟩
@@ -320,7 +320,7 @@ public theorem zeroIdeal_section_eq_bot (Z : Scheme.{u}) (U : Z.Opens) :
     have hker : (𝟙 Z : Z ⟶ Z).ker.ideal V = ⊥ := by
       rw [Scheme.Hom.ker_apply]
       ext y
-      show (CommRingCat.Hom.hom (𝟙 Γ(Z, V))) y = 0 ↔ y = 0
+      change (CommRingCat.Hom.hom (𝟙 Γ(Z, V))) y = 0 ↔ y = 0
       simp
     rw [hV, hker] at hm
     have hz : (Z.presheaf.map (homOfLE hVU).op).hom x = 0 := by
@@ -377,7 +377,7 @@ public theorem zeroDividedPowerScheme_map_kills
     (x : Γ(X.scheme, U)) (hx : x ∈ X.ideal.obj (op U)) :
     ((g ≫ closedFiberι X).app U) x = 0 := by
   rw [Scheme.Hom.comp_app]
-  show g.app (closedFiberι X ⁻¹ᵁ U)
+  change g.app (closedFiberι X ⁻¹ᵁ U)
     ((closedFiberι X).app U x) = 0
   rw [closedFiberι_app_eq_zero X U x hx]
   exact map_zero _
@@ -555,7 +555,7 @@ public theorem isInducedOpen_of_closedFiber_isPullback
   have hmap := idealSheafAsSubmodule_comap_open (closedFiberι Y).ker f.hom U V h
   rw [closedFiberι_ker_ideal] at hmap
   refine hmap.trans ?_
-  show (idealSheafAsSubmodule ((closedFiberι Y).ker.comap f.hom)).toSubmodule.obj (op V.1) = _
+  change (idealSheafAsSubmodule ((closedFiberι Y).ker.comap f.hom)).toSubmodule.obj (op V.1) = _
   rw [idealSheafAsSubmodule_obj_affine, Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion]
   exact hk.symm
 
@@ -857,9 +857,9 @@ public theorem DividedPowerOpenPresentation.basisDividedPowers_naturality
   have hyk : yk ∈ (d.functor.map ka).hom ⁻¹ᵁ a.2.1 ⊓
       (d.functor.map kb).hom ⁻¹ᵁ b.2.1 := by
     constructor
-    · show (d.functor.map ka).hom yk ∈ a.2.1
+    · change (d.functor.map ka).hom yk ∈ a.2.1
       rwa [hka]
-    · show (d.functor.map kb).hom yk ∈ b.2.1
+    · change (d.functor.map kb).hom yk ∈ b.2.1
       rwa [hkb]
   obtain ⟨W, hW, hyW, hWU⟩ := TopologicalSpace.Opens.isBasis_iff_nbhd.mp
     (d.functor.obj k).scheme.isBasis_affineOpens hyk
@@ -880,7 +880,7 @@ public theorem DividedPowerOpenPresentation.basisDividedPowers_naturality
     rw [← CategoryTheory.comp_apply, ← CategoryTheory.Functor.map_comp]
     rfl
   refine ⟨d.basisOpen c, hcb, hzc, ?_⟩
-  show X.presheaf.map (homOfLE hcb).op
+  change X.presheaf.map (homOfLE hcb).op
       ((d.basisDividedPowers b).dpow n (X.presheaf.map r.op x)) =
     X.presheaf.map (homOfLE hcb).op
       (X.presheaf.map r.op ((d.basisDividedPowers a).dpow n x))
@@ -923,7 +923,7 @@ public theorem DividedPowerOpenPresentation.glued_appIso_isDPMorphism
       (d.glued.dividedPowers.dividedPowers (op (d.basisOpen a)))
       ((d.functor.obj a.1).dividedPowers.dividedPowers (op a.2.1))
       ((d.ι.app a.1).appIso a.2.1).hom.hom := by
-  show DividedPowers.IsDPMorphism
+  change DividedPowers.IsDPMorphism
     (d.dividedPowerStructure.dividedPowers (op (d.basisOpen a))) _ _
   rw [d.dividedPowerStructure_dividedPowers a]
   exact d.basisDividedPowers_isDPMorphism a

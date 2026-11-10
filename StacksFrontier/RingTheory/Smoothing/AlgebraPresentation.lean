@@ -172,13 +172,13 @@ theorem generatorsToExtensionRingEquiv_map_ker {ι : Type*}
   constructor
   · rintro ⟨x, hx, rfl⟩
     change algebraMap G.Ring A x = 0 at hx
-    show algebraMap G.toExtension.Ring A (generatorsToExtensionRingEquiv G x) = 0
+    change algebraMap G.toExtension.Ring A (generatorsToExtensionRingEquiv G x) = 0
     rwa [generatorsToExtensionRingEquiv_algebraMap]
   · intro hy
     change algebraMap G.toExtension.Ring A y = 0 at hy
     refine ⟨(generatorsToExtensionRingEquiv G).symm y, ?_,
       (generatorsToExtensionRingEquiv G).apply_symm_apply y⟩
-    show algebraMap G.Ring A ((generatorsToExtensionRingEquiv G).symm y) = 0
+    change algebraMap G.Ring A ((generatorsToExtensionRingEquiv G).symm y) = 0
     rw [← generatorsToExtensionRingEquiv_algebraMap]
     simpa using hy
 

@@ -420,7 +420,7 @@ universal element of the glued relative spectrum. -/
 theorem gluedSpectrumIso_homEquiv {X : Scheme.{u}}
     (h : (relativeSpecFunctor s).RepresentableBy X) :
     h.homEquiv (gluedSpectrumIso s h).hom = universalRelativeSpecPair s := by
-  show h.homEquiv (h.homEquiv.symm
+  change h.homEquiv (h.homEquiv.symm
     ((relativeSpecRepresentableBy s).homEquiv (𝟙 _))) = universalRelativeSpecPair s
   rw [Equiv.apply_symm_apply]
   exact congrArg (Sigma.mk _) rfl

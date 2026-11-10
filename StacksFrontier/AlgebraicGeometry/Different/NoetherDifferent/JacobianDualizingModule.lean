@@ -100,8 +100,7 @@ theorem bijective_noetherPairingEquiv_of_invertible
   have key : ∀ z, _root_.contractLeft B (dualizingModule F) z ∈
       LinearMap.range (noetherPairingEquiv F (e 1)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul ψ x =>
         obtain ⟨c, hc⟩ := hgen ψ
         rw [contractLeft_apply]

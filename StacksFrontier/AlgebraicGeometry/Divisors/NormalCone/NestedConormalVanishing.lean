@@ -76,7 +76,7 @@ private theorem coborderRange_eq_top_of_isClosedImmersion {A B : Scheme.{u}} (i 
     [IsClosedImmersion i] : i.coborderRange = ⊤ := by
   ext x
   refine ⟨fun _ => trivial, fun _ => ?_⟩
-  show x ∈ coborder (Set.range i.base)
+  change x ∈ coborder (Set.range i.base)
   rw [IsClosed.coborder_eq i.isClosedEmbedding.isClosed_range]
   trivial
 
@@ -100,7 +100,7 @@ private theorem chartIdeal_le_chartIdeal_comp (U : X.affineOpens) :
     Stacks.Conormal.chartIdeal iY U ≤ Stacks.Conormal.chartIdeal (p ≫ iY) U := by
   intro a ha
   have h : (iY.app U.1).hom a = 0 := RingHom.mem_ker.mp ha
-  show ((p ≫ iY).app U.1).hom a = 0
+  change ((p ≫ iY).app U.1).hom a = 0
   have h2 : ((p ≫ iY).app U.1).hom a =
       (p.app (iY ⁻¹ᵁ U.1)).hom ((iY.app U.1).hom a) := rfl
   rw [h2, h, map_zero]
@@ -185,7 +185,7 @@ theorem conormalAlgebraHom_comp_map_eq_zero {iZ : Z ⟶ X} [IsClosedImmersion iZ
   have hker : (iY.app U'.1).hom
       ((show ↥(Stacks.Conormal.chartIdeal (p ≫ iY) U' ^ n) from ⟨_, hmem⟩ :
         Γ(X, U'.1))) = 0 := by
-    show (iY.app U'.1).hom ((X.presheaf.map (homOfLE hGU).op).hom
+    change (iY.app U'.1).hom ((X.presheaf.map (homOfLE hGU).op).hom
       (((𝟙 X : X ⟶ X).app U'.1).hom (a : Γ(X, U'.1)))) = 0
     rw [hba]
     exact RingHom.mem_ker.mp haY

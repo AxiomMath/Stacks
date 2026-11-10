@@ -145,7 +145,7 @@ private lemma localizationFunctor_eq (J : GrothendieckTopology C) (X : C)
     rcases U with ⟨i, U⟩
     cases f with
     | mk f =>
-      show (Over.map (K.obj i).hom).map f ≍
+      change (Over.map (K.obj i).hom).map f ≍
         (𝟭 (Over X)).map ((Over.map (K.obj i).hom).map f)
       simp
 
@@ -157,7 +157,7 @@ private lemma localizationTargetForget_isCocontinuous (J : GrothendieckTopology 
   refine ⟨?_⟩
   intro U R hR
   rcases U with ⟨i, U⟩
-  show R.functorPullback (localizationTargetForget X K) ∈
+  change R.functorPullback (localizationTargetForget X K) ∈
     componentwiseTopology J (localizationTarget X K) ⟨i, U⟩
   rw [mem_componentwiseTopology_iff]
   have hpull : (R.functorPullback (localizationTargetForget X K)).functorPullback
@@ -177,7 +177,7 @@ private lemma localizationTargetForget_isContinuous (J : GrothendieckTopology C)
   apply isSheaf_componentwise J ((localizationTargetForget X K).op ⋙ G.obj)
   intro i
   let incl := localizationTargetIncl X K i
-  show Presieve.IsSheaf (J.over X)
+  change Presieve.IsSheaf (J.over X)
     (incl.op ⋙ (localizationTargetForget X K).op ⋙ G.obj)
   have hG : Presieve.IsSheaf (J.over X) G.obj :=
     (isSheaf_iff_isSheaf_of_type (J.over X) G.obj).mp G.property

@@ -223,7 +223,7 @@ private lemma preservesProduct_single_of_isBasis (X : RingedSpace.{u, u})
   have : PreservesLimitsOfShape (Discrete ℕ) E := preservesProducts_extend
   have : ∀ n, CochainComplex.IsKInjective ((E.obj ∘ J) n) := by
     intro n
-    show CochainComplex.IsKInjective (I n).cochainComplex
+    change CochainComplex.IsKInjective (I n).cochainComplex
     exact CochainComplex.isKInjective_of_injective _ 0
   have : PreservesLimit (Discrete.functor (E.obj ∘ J)) DerivedCategory.Q :=
     preservesProduct_Q_of_isKInjective _
@@ -234,7 +234,7 @@ private lemma preservesProduct_single_of_isBasis (X : RingedSpace.{u, u})
   have : IsIso (T.map (productResolutionMap M I)) := by
     have : QuasiIso (productResolutionMap M I) :=
       (productInjectiveResolutionOfBasis X M I B hB hcoh).quasiIso
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       (HomologicalComplex.extendMap (productResolutionMap M I) ComplexShape.embeddingUpNat))
     infer_instance
   have hη : productResolutionMap M I =
@@ -251,7 +251,7 @@ private lemma preservesProduct_single_of_isBasis (X : RingedSpace.{u, u})
     exact IsIso.of_isIso_comp_left (T.map (piComparison (CochainComplex.single₀ A) M)) _
   have : ∀ n, IsIso (T.map (I n).ι) := by
     intro n
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       (HomologicalComplex.extendMap (I n).ι ComplexShape.embeddingUpNat))
     infer_instance
   have : IsIso (piComparison T S) := by
@@ -281,7 +281,7 @@ private lemma epi_sections_inverseLimitSequence_g (X : RingedSpace.{u, u})
   have : Epi (G.map (inverseLimitSequence F).g ≫
       piComparison G (fun n : ℕ => F.obj ⟨n⟩)) := by
     rw [map_inverseLimitSequence_g]
-    show Epi (piComparison G _ ≫ inverseLimitDifference (sectionsSystem X F U))
+    change Epi (piComparison G _ ≫ inverseLimitDifference (sectionsSystem X F U))
     infer_instance
   exact (epi_comp_iff_of_isIso _
     (piComparison G (fun n : ℕ => F.obj ⟨n⟩))).mp inferInstance

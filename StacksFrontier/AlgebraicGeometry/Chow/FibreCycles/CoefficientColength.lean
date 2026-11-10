@@ -159,7 +159,7 @@ private theorem length_quotient_map_eq_length_quotient_sup_ker
       map_add' := fun a b => by simp
       map_smul' := fun r a => by
         simp only [RingHom.id_apply]
-        show Ideal.Quotient.mk (I.map φ) (φ (r * a)) = r • Ideal.Quotient.mk (I.map φ) (φ a)
+        change Ideal.Quotient.mk (I.map φ) (φ (r * a)) = r • Ideal.Quotient.mk (I.map φ) (φ a)
         rw [map_mul]
         rfl }
   have hψsurj : Function.Surjective ψ := Ideal.Quotient.mk_surjective.comp hφ
@@ -172,7 +172,7 @@ private theorem length_quotient_map_eq_length_quotient_sup_ker
       exact Ideal.Quotient.eq_zero_iff_mem.mp ha
     · intro a ha
       have h2 : a ∈ (I.map φ).comap φ := hcm ▸ ha
-      show Ideal.Quotient.mk (I.map φ) (φ a) = 0
+      change Ideal.Quotient.mk (I.map φ) (φ a) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_comap.mp h2)
   have e : (A ⧸ (RingHom.ker φ ⊔ I)) ≃ₗ[A] (B ⧸ I.map φ) :=
     (Submodule.quotEquivOfEq _ _ hker.symm).trans (ψ.quotKerEquivOfSurjective hψsurj)

@@ -210,7 +210,7 @@ theorem mem_span_grading_of_mem_degreeOneSections
       Set (twistedGlobalSections 𝒮 F))).toAddSubgroup)).mpr ?_ hs
   rintro x ⟨a, t, rfl⟩
   refine AddSubgroup.mem_comap.mpr ?_
-  show (DirectSum.of (fun m : ℤ => twistedSectionsComponent 𝒮 F m) ((1 : ℤ) + d)
+  change (DirectSum.of (fun m : ℤ => twistedSectionsComponent 𝒮 F m) ((1 : ℤ) + d)
       (homogeneousScalarTwistedSections 𝒮 F 1 d a t)) ∈
     Submodule.span S (twistedGlobalSectionsGrading 𝒮 F d :
       Set (twistedGlobalSections 𝒮 F))

@@ -244,7 +244,7 @@ theorem isScalarTower_moduleOfAppLE_topIso (hUW : U ≤ a ⁻¹ᵁ W)
   let := moduleOfTopIso U M
   let := moduleOfAppLE (U.ι ≫ a) hUW' M
   refine IsScalarTower.of_algebraMap_smul fun r m ↦ ?_
-  show U.topIso.inv.hom ((a.appLE W U hUW).hom r) • m
+  change U.topIso.inv.hom ((a.appLE W U hUW).hom r) • m
     = ((U.ι ≫ a).appLE W (⊤ : (U : Scheme.{u}).Opens) hUW').hom r • m
   rw [← CommRingCat.comp_apply, appLE_comp_topIso_inv a U hUW hUW']
 

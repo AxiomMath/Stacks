@@ -93,7 +93,7 @@ private theorem krullDim_eq_of_bounded_grade
       | succ i ih =>
         have h : δ (t i.castSucc) = δ (t i.succ) + 1 := hstep (t.step i)
         change δ (t i.castSucc) = δ t.head - (i.val : ℤ) at ih
-        show δ (t i.succ) = δ t.head - ((i.val + 1 : ℕ) : ℤ)
+        change δ (t i.succ) = δ t.head - ((i.val + 1 : ℕ) : ℤ)
         omega
     have h : δ t.last = δ t.head - (t.length : ℤ) := hf (Fin.last t.length)
     rw [ht₀, ht₁] at h
@@ -207,7 +207,7 @@ public theorem krullDimToEInt_mono : Monotone krullDimToEInt := by
         cases b using ENat.recTopCoe with
         | top => exact le_top
         | coe b =>
-          show ((a : ℤ) : EInt) ≤ ((b : ℤ) : EInt)
+          change ((a : ℤ) : EInt) ≤ ((b : ℤ) : EInt)
           exact WithBotTop.coe_le_coe.mpr (by exact_mod_cast hab)
 
 /-- The residue field of a local ring has Krull dimension zero. -/
@@ -242,7 +242,7 @@ private theorem associatedPrime_map_localization
   have he := IsLocalization.under_map_of_isPrime_disjoint q.asIdeal.primeCompl
     (Localization.AtPrime q.asIdeal) p.isPrime
     (Set.disjoint_left.mpr fun x hx hxp => hx (hpq hxp))
-  show (p.asIdeal.map (algebraMap A (Localization.AtPrime q.asIdeal))).under A ∈
+  change (p.asIdeal.map (algebraMap A (Localization.AtPrime q.asIdeal))).under A ∈
     associatedPrimes A M
   rw [he]
   exact hp
@@ -262,7 +262,7 @@ public theorem ringKrullDim_localizedQuotient_le_supportDim
   rw [Submodule.annihilator_top] at h
   exact Order.krullDim_le_of_orderEmbedding
     (Subtype.orderEmbedding (fun t ht => by
-      show Module.annihilator _ _ ≤ t.asIdeal
+      change Module.annihilator _ _ ≤ t.asIdeal
       exact h.trans ht))
 
 /-- Every prime in the support of a finite module contains an associated prime. -/
@@ -294,7 +294,7 @@ public theorem krullDimToEInt_localizedQuotient_eq
       p.asIdeal.map (algebraMap A (Localization.AtPrime q.asIdeal)))) =
         ((δ p - δ q : ℤ) : EInt) := by
   rw [ringKrullDim_localizedQuotient_eq_dimensionFunction hδ p q hpq]
-  show ((((δ p - δ q).toNat : ℕ) : ℤ) : EInt) = _
+  change ((((δ p - δ q).toNat : ℕ) : ℤ) : EInt) = _
   rw [Int.toNat_of_nonneg (dimensionFunction_sub_nonneg hδ p q hpq)]
 
 /-- Comparing a sum of two integers with a third, inside the extended integers. -/
@@ -631,9 +631,9 @@ public theorem exists_submodule_support_subset_and_associatedPrimes_quotient
         obtain ⟨z, rfl⟩ := (N.submoduleOf P).mkQ_surjective z
         obtain ⟨n, hn, z', hz', he⟩ := Submodule.mem_sup.mp z.property
         obtain ⟨b, rfl⟩ := Submodule.mem_span_singleton.mp hz'
-        show (N.submoduleOf P).mkQ (a • z) = 0
+        change (N.submoduleOf P).mkQ (a • z) = 0
         apply (Submodule.Quotient.mk_eq_zero _).mpr
-        show a • z.val ∈ N
+        change a • z.val ∈ N
         rw [← he, smul_add]
         apply N.add_mem (N.smul_mem a hn)
         rw [smul_comm]

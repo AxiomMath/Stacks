@@ -73,7 +73,7 @@ def moduleBaseChange :
   (mateEquiv (modulePullbackPushforwardAdjunction f) (modulePullbackPushforwardAdjunction f')
     (TwoSquare.mk _ _ _ _ ((Stacks.DerivedPullback.Composition.modulePullbackComp f' g).hom ≫
       eqToHom (congrArg (fun h : X' ⟶ S => modulePullback h) sq.symm) ≫
-      (Stacks.DerivedPullback.Composition.modulePullbackComp g' f).inv))).natTrans
+      (Stacks.DerivedPullback.Composition.modulePullbackComp g' f).inv)))
 
 /-- The unit of the induced adjunction on homotopy categories, at an object. -/
 theorem homotopyPullbackPushforwardAdjunction_unit_app {A B : RingedSpace.{u, u}} (p : A ⟶ B)

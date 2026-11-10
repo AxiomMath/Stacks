@@ -194,7 +194,7 @@ theorem zeroScheme_ideal_chart (haff : IsAffineOpen (nvOpen L a)) (s : Γ(L, ⊤
       exact hiso.comp (bijective_smul_unitSec L hL hd a t hc hk hac)
     refine (Ideal.span_singleton_le_iff_mem _).2 (Ideal.subset_span ⟨
       (LinearEquiv.ofBijective μ hμ).symm.toLinearMap, ?_⟩)
-    show r₀ = (LinearEquiv.ofBijective μ hμ).symm _
+    change r₀ = (LinearEquiv.ofBijective μ hμ).symm _
     rw [hsU]
     exact ((LinearEquiv.ofBijective μ hμ).symm_apply_apply r₀).symm
 
@@ -357,7 +357,7 @@ theorem chartQuotientReduction_chartEquation_pow_smul (s : Γ(L, ⊤)) (m n : �
     refine (Submodule.Quotient.mk_eq_zero _).2 ?_
     rw [smul_eq_mul, mul_pow, mul_assoc]
     exact pow_mul_mem_powerSmulTop L f (n + 1) _
-  show LocalizedModule.map (Submonoid.powers A₀) g.hom (chartMap L hL hd a m _) = 0
+  change LocalizedModule.map (Submonoid.powers A₀) g.hom (chartMap L hL hd a m _) = 0
   exact (congrArg (LocalizedModule.map (Submonoid.powers A₀) g.hom) e1).trans
     ((LocalizedModule.map_mk _ g.hom _ _).trans
       ((congrArg (fun z => LocalizedModule.mk z _) hgz).trans (LocalizedModule.zero_mk _)))

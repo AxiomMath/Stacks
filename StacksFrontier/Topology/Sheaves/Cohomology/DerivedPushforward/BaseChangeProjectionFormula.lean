@@ -82,7 +82,7 @@ theorem derivedPushforward_map_derivedBaseChangeMap_eq
       (Stacks.CategoryTheory.BaseChange.projectionTwoSquare (derivedAdjunction f)
           (derivedAdjunction g) (derivedAdjunction g')
           (derivedPullbackCompIsoLeft g' f' f g sq)
-          (derivedPullbackCompIsoCanonical g' f)).natTrans.app K ≫
+          (derivedPullbackCompIsoCanonical g' f)).app K ≫
         (Stacks.CategoryTheory.BaseChange.rightCompositeIso (derivedAdjunction f)
           (derivedAdjunction f') (derivedAdjunction g) (derivedAdjunction g')
           (derivedPullbackCompIsoLeft g' f' f g sq)
@@ -101,7 +101,7 @@ theorem isIso_derivedPushforward_map_derivedBaseChangeMap_iff
       IsIso ((Stacks.CategoryTheory.BaseChange.projectionTwoSquare (derivedAdjunction f)
         (derivedAdjunction g) (derivedAdjunction g')
         (derivedPullbackCompIsoLeft g' f' f g sq)
-        (derivedPullbackCompIsoCanonical g' f)).natTrans.app K) := by
+        (derivedPullbackCompIsoCanonical g' f)).app K) := by
   rw [derivedBaseChangeMap_eq_baseChangeMap]
   exact Stacks.CategoryTheory.BaseChange.isIso_pushforward_map_iff (derivedAdjunction f)
     (derivedAdjunction f') (derivedAdjunction g) (derivedAdjunction g')

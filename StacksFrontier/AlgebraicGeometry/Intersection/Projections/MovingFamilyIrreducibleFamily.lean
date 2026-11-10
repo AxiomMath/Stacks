@@ -114,7 +114,7 @@ public theorem eq_of_isClosed_singleton_of_proj_eq {k : Type u} [Field k] [IsAlg
         exact hτ
       · rw [Category.assoc]
         exact hτ'
-      · show (pullback.fst f g).base (τ.base (IsLocalRing.closedPoint k)) =
+      · change (pullback.fst f g).base (τ.base (IsLocalRing.closedPoint k)) =
           (pullback.fst f g).base (τ'.base (IsLocalRing.closedPoint k))
         rw [hτval, hτ'val]
         exact h1
@@ -123,7 +123,7 @@ public theorem eq_of_isClosed_singleton_of_proj_eq {k : Type u} [Field k] [IsAlg
         exact hτ
       · rw [Category.assoc, ← pullback.condition, ← Category.assoc]
         exact hτ'
-      · show (pullback.snd f g).base (τ.base (IsLocalRing.closedPoint k)) =
+      · change (pullback.snd f g).base (τ.base (IsLocalRing.closedPoint k)) =
           (pullback.snd f g).base (τ'.base (IsLocalRing.closedPoint k))
         rw [hτval, hτ'val]
         exact h2
@@ -172,7 +172,7 @@ public theorem mem_movingGraphOver_iff {ι : Type*} [Fintype ι]
       t ∈ movingGraph k V L b ∧ (prSource k V L).base t ∈ C :=
   Iff.rfl
 
-omit [IsAlgClosed k] in
+omit [IsAlgClosed k] [Nontrivial (lineSpace k V L)] [Nontrivial V] in
 /-- That part of the graph is closed: the graph is closed and the preimage of a closed `C` is
 closed. -/
 public theorem isClosed_movingGraphOver {ι : Type*} [Fintype ι]
@@ -307,7 +307,7 @@ private theorem exists_mem_movingGraphOver {ι : Type*} [Fintype ι]
         hlamc _ hyc (IsLocalRing.closedPoint k)).trans hmudef
     · exact prTarget_prodPoint k V L ((ambPoint k V L).base z) hxc ((ambLine k V L).base z)
         hlamc _ hyc (IsLocalRing.closedPoint k)
-    · show fx (lineEnd k V L mu u) * fx (lineEnd k V L mu v) =
+    · change fx (lineEnd k V L mu u) * fx (lineEnd k V L mu v) =
         fx (lineEnd k V L mu v) * fx (lineEnd k V L mu u)
       ring
   · have h : (prSource k V L).base ((prodPoint k V L ((ambPoint k V L).base z) hxc
@@ -352,7 +352,7 @@ public theorem image_movingGraphOver {ι : Type*} [Fintype ι]
     (srcLineMap k V L).base '' movingGraphOver k V L b C = constantFamily k V L C := by
   refine Set.Subset.antisymm ?_ ?_
   · rintro _ ⟨t, htN, rfl⟩
-    show (ambPoint k V L).base ((srcLineMap k V L).base t) ∈ C
+    change (ambPoint k V L).base ((srcLineMap k V L).base t) ∈ C
     rw [ambPoint_srcLineMap]
     exact ((mem_movingGraphOver_iff k V L b C t).mp htN).2
   · refine Set.subset_of_isClosed_of_closedPoints_subset
@@ -394,7 +394,7 @@ public theorem isIrreducible_movingGraphOver {ι : Type*} [Fintype ι]
     have hz : (lineSection k V L (linearFunctionalPoint k (lineSpace k V L) (b.coord i) hmu)
         (linearFunctionalPoint_isClosed k (lineSpace k V L) (b.coord i) hmu)).base x ∈
           constantFamily k V L C := by
-      show (ambPoint k V L).base ((lineSection k V L _ _).base x) ∈ C
+      change (ambPoint k V L).base ((lineSection k V L _ _).base x) ∈ C
       rw [ambPoint_lineSection]
       exact hxC
     obtain ⟨t, htN, -⟩ := exists_mem_movingGraphOver k V L b hCg hz hzc

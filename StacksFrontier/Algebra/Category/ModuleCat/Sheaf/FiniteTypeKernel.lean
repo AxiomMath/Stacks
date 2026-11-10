@@ -199,7 +199,7 @@ theorem preservesLimitPushforwardPresheaf {F : C ⥤ D} {S : Cᵒᵖ ⥤ RingCat
     refine PresheafOfModules.evaluationJointlyReflectsLimits _ _ fun X => ?_
     have : PreservesLimit G (PresheafOfModules.pushforward.{u} φ ⋙
         PresheafOfModules.evaluation S X) := by
-      show PreservesLimit G (PresheafOfModules.evaluation R (F.op.obj X) ⋙
+      change PreservesLimit G (PresheafOfModules.evaluation R (F.op.obj X) ⋙
         ModuleCat.restrictScalars (RingCat.Hom.hom (φ.app X)))
       infer_instance
     exact isLimitOfPreserves (PresheafOfModules.pushforward.{u} φ ⋙
@@ -416,7 +416,7 @@ tautological sections. -/
 lemma free_hom_ext {M : SheafOfModules.{u} R} {I : Type u} {f g : free I ⟶ M}
     (h : ∀ i, ιFree i ≫ f = ιFree i ≫ g) : f = g :=
   (freeHomEquiv M).injective (funext fun i => by
-    show M.unitHomEquiv (ιFree i ≫ f) = M.unitHomEquiv (ιFree i ≫ g)
+    change M.unitHomEquiv (ιFree i ≫ f) = M.unitHomEquiv (ιFree i ≫ g)
     rw [h i])
 
 end Free

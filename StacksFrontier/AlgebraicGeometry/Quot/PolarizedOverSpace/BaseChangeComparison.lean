@@ -117,7 +117,7 @@ theorem fibreComparisonIso_naturality {a' a : (Points T).obj} (u : a' ⟶ a) :
   WideSubcategory.hom_ext _ (ObjectProperty.hom_ext _ (Comma.hom_ext _ _
     (ObjectProperty.hom_ext _ (pullback.hom_ext
       (by
-        show (yoneda.map (fibreMap ξ u) ≫ (fibreIsoPullback ξ a).hom) ≫ pullback.fst _ _ =
+        change (yoneda.map (fibreMap ξ u) ≫ (fibreIsoPullback ξ a).hom) ≫ pullback.fst _ _ =
           ((fibreIsoPullback ξ a').hom ≫
             (SpacesOverSpace.baseChangeCommaMap ξ.of.obj.base.obj.of u).left.hom) ≫
             pullback.fst _ _
@@ -131,7 +131,7 @@ theorem fibreComparisonIso_naturality {a' a : (Points T).obj} (u : a' ⟶ a) :
         refine Eq.trans ?_ (Category.assoc _ _ _)
         exact congrArg (· ≫ _) (fibreIsoPullback_hom_fst ξ a').symm)
       (by
-        show (yoneda.map (fibreMap ξ u) ≫ (fibreIsoPullback ξ a).hom) ≫ pullback.snd _ _ =
+        change (yoneda.map (fibreMap ξ u) ≫ (fibreIsoPullback ξ a).hom) ≫ pullback.snd _ _ =
           ((fibreIsoPullback ξ a').hom ≫
             (SpacesOverSpace.baseChangeCommaMap ξ.of.obj.base.obj.of u).left.hom) ≫
             pullback.snd _ _

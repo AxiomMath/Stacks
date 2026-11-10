@@ -72,7 +72,7 @@ infinity of `𝐏¹_Z` along the inclusion `𝐏¹_Z ⟶ 𝐏¹_X`. -/
 theorem comap_exceptionalIdealAtInfinity_lineToBlowupAtInfinity :
     (exceptionalIdealAtInfinity ℐ).comap (lineToBlowupAtInfinity ℐ) =
       lineInfinityDivisor ℐ.subscheme := by
-  show ((infinityCentreIdeal ℐ).comap (blowupAtInfinityToLine ℐ)).comap
+  change ((infinityCentreIdeal ℐ).comap (blowupAtInfinityToLine ℐ)).comap
     (lineToBlowupAtInfinity ℐ) = _
   rw [← Scheme.IdealSheafData.comap_comp, lineToBlowupAtInfinity_comp,
     comap_infinityCentreIdeal_projectiveLineBaseChange]
@@ -154,7 +154,7 @@ theorem lineInfinitySection_lineToBlowupAtInfinity :
   have hR : Set.range ψE ⊆ Set.range (exceptionalCompl i.ker).ι := by
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (exceptionalIdealAtInfinity i.ker).subschemeι (ψE z) ∈
+    change (exceptionalIdealAtInfinity i.ker).subschemeι (ψE z) ∈
       strictTransformComplAtInfinity i.ker
     rw [← Scheme.Hom.comp_apply, hψE', hψ, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
     exact lineToBlowupAtInfinity_notMem_support_strictTransformIdealAtInfinity i.ker _

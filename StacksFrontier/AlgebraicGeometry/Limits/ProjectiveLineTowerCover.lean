@@ -173,7 +173,7 @@ theorem exists_surjective_projectiveLineTower (S : Scheme.{u}) (n : ℕ) :
           (inferInstanceAs (Surjective (𝟙 _))) (terminal.hom_ext _ _) (by simp)
       have hm := surjective_mulOver n S
       refine ⟨c₁ ≫ mulOver n S, inferInstanceAs (Surjective (c₁ ≫ mulOver n S)), ?_⟩
-      show (c₁ ≫ mulOver n S) ≫ _ =
+      change (c₁ ≫ mulOver n S) ≫ _ =
         (ProjectiveSpace 1 (projectiveLineTower S n) ↘ projectiveLineTower S n) ≫
           projectiveLineTowerHom S n
       rw [Category.assoc, mulOver_over, ← hcS, over_hom]

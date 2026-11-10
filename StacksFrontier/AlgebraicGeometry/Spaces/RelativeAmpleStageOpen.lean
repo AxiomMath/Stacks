@@ -77,7 +77,7 @@ theorem isRelativelyAmple_preimage_open_of_stage {U T : BigFppfOver B S hS}
       (Subfunctor.range (yoneda.map (openSubHom T Vᵢ))).preimage aₛ.hom := by
     rintro Z _ ⟨x, rfl⟩
     refine ⟨x ≫ openSubLift T Vᵢ (openSubHom U V ≫ a) hmem, ?_⟩
-    show (x ≫ openSubLift T Vᵢ (openSubHom U V ≫ a) hmem) ≫ openSubHom T Vᵢ =
+    change (x ≫ openSubLift T Vᵢ (openSubHom U V ≫ a) hmem) ≫ openSubHom T Vᵢ =
       (x ≫ openSubHom U V) ≫ a
     rw [Category.assoc, openSubLift_comp_openSubHom, Category.assoc]
   exact hover _ p₁ f₁ hsq₁ ⟨Subfunctor.lift (yoneda.map (openSubHom U V)) hle,
@@ -96,7 +96,7 @@ def residueFieldPointAlong {U T : BigFppfOver B S hS} (a : U ⟶ T)
 theorem schemePoint_residueFieldPointAlong {U T : BigFppfOver B S hS} (a : U ⟶ T)
     (u : (BigFppfOver.toScheme B S hS).obj U) :
     schemePoint B S hS T (residueFieldPointAlong a u) = (BigFppfOver.toScheme B S hS).map a u := by
-  show (BigFppfOver.toScheme B S hS).map (residueFieldMap B S hS U u _ ≫ a) _ = _
+  change (BigFppfOver.toScheme B S hS).map (residueFieldMap B S hS U u _ ≫ a) _ = _
   rw [Functor.map_comp]
   exact congrArg _ (Scheme.fromSpecResidueField_apply _ _)
 
@@ -170,7 +170,7 @@ theorem exists_open_isRelativelyAmple_of_stage (hdesc : RelativeAmpleFpqcDescend
       (𝟙 _) r _ _ hsq' (hfib _ _ hsq) (X' := X₀) p₀ f₀ (by rwa [Category.comp_id])
   refine ⟨(BigFppfOver.toScheme B S hS).map a ⁻¹ᵁ V, ?_,
     isRelativelyAmple_preimage_open_of_stage hw ha hb Lᵢ hLᵢ e V hV⟩
-  show (BigFppfOver.toScheme B S hS).map a u ∈ V
+  change (BigFppfOver.toScheme B S hS).map a u ∈ V
   rw [← schemePoint_residueFieldPointAlong]
   exact hyV
 

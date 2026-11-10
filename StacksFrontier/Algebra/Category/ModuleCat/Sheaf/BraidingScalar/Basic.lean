@@ -76,8 +76,7 @@ namespace Stacks.SheafOfModules
 theorem tensorProduct_comm_eq_self_of_span_singleton {R : Type*} [CommRing R] {P : Type*}
     [AddCommGroup P] [Module R P] (e : P) (he : ∀ g : P, ∃ c : R, g = c • e)
     (z : P ⊗[R] P) : TensorProduct.comm R P P z = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
       obtain ⟨c, rfl⟩ := he a
       obtain ⟨d, rfl⟩ := he b

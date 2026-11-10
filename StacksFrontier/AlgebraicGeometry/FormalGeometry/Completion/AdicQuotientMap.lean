@@ -241,7 +241,7 @@ public theorem submodule_le_kernelSubmodule_cokernel_π {M : X.Modules} (S : M.S
     congrArg (fun t : (S.toSheafOfModules : X.Modules) ⟶ cokernel (C := X.Modules) S.ι ↦
       (t.val.app U).hom ⟨x, hx⟩) (cokernel.condition (C := X.Modules) S.ι)
   have hz : ((cokernel.π (C := X.Modules) S.ι).val.app U).hom x = 0 := key
-  show ((cokernel.π (C := X.Modules) S.ι).val.app U).hom x ∈
+  change ((cokernel.π (C := X.Modules) S.ι).val.app U).hom x ∈
     (⊥ : (cokernel (C := X.Modules) S.ι).Submodule).toSubmodule.obj U
   rw [hz]
   exact Submodule.zero_mem _

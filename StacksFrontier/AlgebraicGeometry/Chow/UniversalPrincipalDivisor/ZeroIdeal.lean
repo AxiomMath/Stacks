@@ -131,7 +131,7 @@ theorem ker_ideal_top_integralAffineZeroSection :
       Ideal.span {(Scheme.ΓSpecIso (.of (Polynomial (ULift.{u} ℤ)))).inv Polynomial.X} := by
   have hinj : Function.Injective
       ((AlgebraicGeometry.specULiftZIsTerminal.from (⊤_ Scheme.{u})).appTop).hom := by
-    show Function.Injective
+    change Function.Injective
       ((AlgebraicGeometry.specULiftZIsTerminal.from (⊤_ Scheme.{u})).app ⊤).hom
     exact (ConcreteCategory.bijective_of_isIso _).1
   have hinj' : Function.Injective
@@ -141,11 +141,11 @@ theorem ker_ideal_top_integralAffineZeroSection :
     (Scheme.ΓSpecIso (.of (Polynomial (ULift.{u} ℤ)))).symm (Ideal.span {Polynomial.X})
   simp only [Iso.symm_hom, Iso.symm_inv] at hcomap
   rw [Scheme.Hom.ker_apply]
-  show RingHom.ker (integralAffineZeroSection.{u}.appTop).hom = _
+  change RingHom.ker (integralAffineZeroSection.{u}.appTop).hom = _
   rw [integralAffineZeroSection, Scheme.Hom.comp_appTop, ker_comp_right _ _ hinj,
     ← ker_comp_right _ (Scheme.ΓSpecIso (.of (ULift.{u} ℤ))).hom hinj',
     Scheme.ΓSpecIso_naturality, CommRingCat.hom_comp, ← RingHom.comap_ker]
-  show Ideal.comap _ (RingHom.ker (Polynomial.evalRingHom (0 : ULift.{u} ℤ))) = _
+  change Ideal.comap _ (RingHom.ker (Polynomial.evalRingHom (0 : ULift.{u} ℤ))) = _
   rw [Polynomial.ker_evalRingHom, map_zero, sub_zero, ← hcomap, Ideal.map_span,
     Set.image_singleton]
 

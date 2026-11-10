@@ -57,7 +57,7 @@ theorem HasInverse.exists_whiskerLeft_tensorCancel {X : C} (h : HasInverse X) {L
   have hp : (tensorLeft X).map
         ((tensorLeft X).preimage ((ρ_ X).hom ≫ φ ≫ (h.tensorCancel L).inv)) =
       (ρ_ X).hom ≫ φ ≫ (h.tensorCancel L).inv := (tensorLeft X).map_preimage _
-  show (tensorLeft X).map _ ≫ (h.tensorCancel L).hom = _
+  change (tensorLeft X).map _ ≫ (h.tensorCancel L).hom = _
   rw [hp, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 end CategoryTheory.MonoidalCategory

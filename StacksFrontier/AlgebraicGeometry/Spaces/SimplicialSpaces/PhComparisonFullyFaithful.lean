@@ -111,14 +111,14 @@ instance phComparisonDegree_faithful (b : SimplexCategoryᵒᵖ) :
 @[simp]
 theorem phInclusionSquare_app (b : SimplexCategoryᵒᵖ)
     (y : (etaleSimplicialSite A).totalPseudofunctor.obj ⟨op b⟩) :
-    (phInclusionSquare A b).natTrans.app y = 𝟙 _ :=
+    (phInclusionSquare A b).app y = 𝟙 _ :=
   rfl
 
 /-- The underlying morphism of algebraic spaces of the 2-cell of `phInclusionSquare` is an
 identity. -/
 theorem phInclusionSquare_app_fiber_left (b : SimplexCategoryᵒᵖ)
     (y : (etaleSimplicialSite A).totalPseudofunctor.obj ⟨op b⟩) :
-    (Grothendieck.Hom.fiber ((phInclusionSquare A b).natTrans.app y)).left = 𝟙 _ := by
+    (Grothendieck.Hom.fiber ((phInclusionSquare A b).app y)).left = 𝟙 _ := by
   rw [phInclusionSquare_app]
   exact spacesTotal_id_fiber_left _
 
@@ -129,7 +129,7 @@ theorem phSquare_comp_fiber_left (b : SimplexCategoryᵒᵖ) {V : Over (A.left.o
     (a : V ⟶ (phComparisonDegree A b).obj z)
     (β : (Pseudofunctor.CoGrothendieck.ι (etaleSimplicialSite A).totalPseudofunctor b).obj z ⟶ Y) :
     (Grothendieck.Hom.fiber ((phDegreeInclusion A b).map a ≫
-      (phInclusionSquare A b).natTrans.app z ≫ (phComparisonFunctor A).map β)).left =
+      (phInclusionSquare A b).app z ≫ (phComparisonFunctor A).map β)).left =
       a.left ≫ (Grothendieck.Hom.fiber ((phComparisonFunctor A).map β)).left := by
   refine (spacesTotal_comp_fiber_left _ _).trans ?_
   refine congrArg₂ (· ≫ ·) (grothendieckι_map_fiber_left b a) ?_
@@ -177,7 +177,7 @@ theorem phFactor_comm {b c : SimplexCategoryᵒᵖ} (V : Over (A.left.obj b))
     (y : EtaleComponent A c.unop) (f : b ⟶ c)
     (k : (Over.map (A.left.map f)).obj V ⟶ (realize y).obj) :
     (phDegreeInclusion A b).map (phFactorLift V y f k) ≫
-      (phInclusionSquare A b).natTrans.app (y.push f.unop) ≫ (phComparisonFunctor A).map
+      (phInclusionSquare A b).app (y.push f.unop) ≫ (phComparisonFunctor A).map
         ((Pseudofunctor.CoGrothendieck.ιNatTrans (etaleSimplicialSite A).totalPseudofunctor
           f).app y) =
       (⟨f, k⟩ : (phDegreeInclusion A b).obj V ⟶
@@ -217,7 +217,7 @@ instance guitartExact_phInclusionSquare (b : SimplexCategoryᵒᵖ) :
   intro V Y g
   have comm : (phDegreeInclusion A b).map
       (phFactorLift V Y.fiber g.base g.fiber) ≫
-      (phInclusionSquare A b).natTrans.app (Y.fiber.push g.base.unop) ≫
+      (phInclusionSquare A b).app (Y.fiber.push g.base.unop) ≫
         (phComparisonFunctor A).map ((Pseudofunctor.CoGrothendieck.ιNatTrans
           (etaleSimplicialSite A).totalPseudofunctor g.base).app Y.fiber) = g :=
     phFactor_comm V Y.fiber g.base g.fiber

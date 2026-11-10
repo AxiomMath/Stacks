@@ -168,7 +168,7 @@ public theorem sum_finrank_residueField_le_of_degree_le
           CommRingCat.ofHom (algebraMap Γ(Z, ⊤) (m i).asIdeal.ResidueField) := by
       rw [← Category.assoc, ← Iso.eq_comp_inv]
       exact (Scheme.Spec.algebraMap_residueFieldIso_inv _ _).symm
-    show _ = e2 (e1.symm (Z.Γevaluation (x i) (φ a)))
+    change _ = e2 (e1.symm (Z.Γevaluation (x i) (φ a)))
     rw [h₁]
     exact (congrArg (fun f => f.hom (φ a)) h₂).symm
   calc

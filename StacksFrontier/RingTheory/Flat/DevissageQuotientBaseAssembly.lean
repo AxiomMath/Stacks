@@ -192,7 +192,7 @@ public theorem ker_quotBaseMapₐ (f : C →ₐ[R] D) (hsurj : Function.Surjecti
   · rw [Ideal.map_le_iff_le_comap]
     intro c hc
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show Ideal.Quotient.mk _ (f c) = 0
+    change Ideal.Quotient.mk _ (f c) = 0
     rw [show f c = 0 from RingHom.mem_ker.mp hc, map_zero]
 
 /-- **A surjection of finite presentation stays of finite presentation after the quotient base
@@ -446,7 +446,7 @@ public theorem range_alpha_le_ker_quot (i : Fin (D.stepCount + 1)) :
       (((LinearMap.range (D.quotAlpha J i)).mkQ).restrictScalars (D.B i) ∘ₗ D.quotMk J i) := by
   rintro y ⟨x, rfl⟩
   rw [LinearMap.mem_ker]
-  show Submodule.Quotient.mk (D.quotMk J i (D.alpha i x)) = 0
+  change Submodule.Quotient.mk (D.quotMk J i (D.alpha i x)) = 0
   rw [← D.quotAlpha_mapRange J i x]
   exact (Submodule.Quotient.mk_eq_zero _).mpr (LinearMap.mem_range_self _ _)
 
@@ -512,7 +512,7 @@ public theorem quotCokerForwardQ_mk (i : Fin D.stepCount) (z : D.quotM J i.castS
 public noncomputable def quotCokerEquiv (i : Fin D.stepCount) :
     (D.quotM J i.castSucc ⧸ LinearMap.range (D.quotAlpha J i.castSucc)) ≃ₗ[D.quotB J i.castSucc]
       D.quotM J i.succ := by
-  refine LinearEquiv.ofLinear (D.quotCokerForwardQ J i) (D.quotCokerBackward J i)
+  refine LinearEquiv.ofLinearMap (D.quotCokerForwardQ J i) (D.quotCokerBackward J i)
     (LinearMap.ext fun z => ?_) (LinearMap.ext fun w => ?_)
   · obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ z
     obtain ⟨x, hx⟩ := Submodule.Quotient.mk_surjective
@@ -594,7 +594,7 @@ public theorem quotInitialBackward_quotMk₀ (x : D.M 0) :
 public noncomputable def quotInitialEquiv :
     (N ⧸ (Ideal.map (algebraMap R S) J • (⊤ : Submodule S N)))
       ≃ₗ[S ⧸ Ideal.map (algebraMap R S) J] D.quotM J 0 := by
-  refine LinearEquiv.ofLinear (D.quotInitialForward J) (D.quotInitialBackward J)
+  refine LinearEquiv.ofLinearMap (D.quotInitialForward J) (D.quotInitialBackward J)
     (LinearMap.ext fun z => ?_) (LinearMap.ext fun w => ?_)
   · obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
     change D.quotInitialForward J (D.quotInitialBackward J (D.quotMk₀ J x)) = _

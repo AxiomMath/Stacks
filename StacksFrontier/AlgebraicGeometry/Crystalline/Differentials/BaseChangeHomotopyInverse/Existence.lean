@@ -275,13 +275,13 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_baseLinear
         (baseChange_isIntegrable S S' pi pi' hpi hgen hpi' hgen'
           psi hpsi nabla hintegrable) p) x
   have hd_a' : SourceDeRham.targetD pi' (algebraMap B B' a) = 0 := by
-    show pi' (KaehlerDifferential.D A' B' (algebraMap B B' a)) = 0
+    change pi' (KaehlerDifferential.D A' B' (algebraMap B B' a)) = 0
     rw [← hpsi]
-    show psi (SourceDeRham.targetD pi a) = 0
+    change psi (SourceDeRham.targetD pi a) = 0
     rw [hd_a_eq_zero, map_zero]
   have hs : ∀ p x, dY p (s p x) = s (p + 1) (dY p x) := by
     intro p x
-    show connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p
+    change connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p
         (algebraMap B B' a • (show (B' ⊗[B] M) ⊗[B'] (⋀[B']^p Omega') from x)) =
       algebraMap B B' a • connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p x
     rw [extendedConnection_leibniz, hd_a', formWedge_zero, add_zero]
@@ -310,7 +310,7 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_baseLinear
       hYzero hs hc hsc hc_injective hrange hzero
       (fun b _ y => smul_comm (algebraMap B B' a) (algebraMap B B' b) y)
       (fun b q y => by
-        show connectionDifferentialAddHom S' pi' hpi' hgen' nabla' q
+        change connectionDifferentialAddHom S' pi' hpi' hgen' nabla' q
             (algebraMap B B' b •
               (show (B' ⊗[B] M) ⊗[B'] (⋀[B']^q Omega') from y)) = _
         rw [extendedConnection_leibniz]
@@ -336,23 +336,23 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_baseLinear
   · intro x
     have hx := he 0 x
     change c 0 (e 0 x) = s 0 x - h 0 (dY 0 x) at hx
-    show h 0 (dY 0 x) = s 0 x - c 0 (e 0 x)
+    change h 0 (dY 0 x) = s 0 x - c 0 (e 0 x)
     rw [hx]
     abel
   · intro p x
     have hx := he (p + 1) x
     change c (p + 1) (e (p + 1) x) =
       s (p + 1) x - dY p (h p x) - h (p + 1) (dY (p + 1) x) at hx
-    show dY p (h p x) + h (p + 1) (dY (p + 1) x) =
+    change dY p (h p x) + h (p + 1) (dY (p + 1) x) =
       s (p + 1) x - c (p + 1) (e (p + 1) x)
     rw [hx]
     abel
   · exact fun q b y => integratingHomotopyAddHom_smul pi' psi z dec theta q b y
   · intro x
-    show 0 = t 0 x - e 0 (c 0 x)
+    change 0 = t 0 x - e 0 (c 0 x)
     rw [hec, sub_self]
   · intro p x
-    show dX p 0 + 0 = t (p + 1) x - e (p + 1) (c (p + 1) x)
+    change dX p 0 + 0 = t (p + 1) x - e (p + 1) (c (p + 1) x)
     rw [hec, sub_self, map_zero, add_zero]
   · intro q b x
     exact (map_zero (RestrictScalars.lsmul A B (M ⊗[B] (⋀[B]^q Omega)) b)).symm
@@ -503,7 +503,7 @@ public noncomputable def integratingHomotopyMap (N : Type w) [AddCommGroup N] [M
       RestrictScalars A B' ((B' ⊗[B] N) ⊗[B'] (⋀[B']^p Omega')) :=
   integratingHomotopy (A := A) (M := N) pi' psi z dec theta p
 
-omit [SMulCommClass A' B B'] in
+omit [Algebra A A'] [IsScalarTower A A' B'] [SMulCommClass A' B B'] in
 /-- The integrating homotopy kills a term with no `dz`. -/
 public theorem integratingHomotopyMap_base (N : Type w) [AddCommGroup N] [Module B N] (p : ℕ)
     (f : B') (m : N) (v : Fin (p + 1) → Omega) :
@@ -514,7 +514,7 @@ public theorem integratingHomotopyMap_base (N : Type w) [AddCommGroup N] [Module
   rw [baseTerm_tmul] at h
   exact h
 
-omit [SMulCommClass A' B B'] in
+omit [Algebra A A'] [IsScalarTower A A' B'] [SMulCommClass A' B B'] in
 /-- The integrating homotopy on a term with a `dz`: `(f ⊗ m) ⊗ (dz ∧ ψ ω) ↦ (θ f ⊗ m) ⊗ ψ ω`. -/
 public theorem integratingHomotopyMap_dz (N : Type w) [AddCommGroup N] [Module B N] (p : ℕ)
     (f : B') (m : N) (v : Fin p → Omega) :
@@ -527,7 +527,7 @@ public theorem integratingHomotopyMap_dz (N : Type w) [AddCommGroup N] [Module B
   rw [baseTerm_tmul, formWedge_tmul, leftWedge_ιMulti, baseTerm_tmul] at h
   exact h
 
-omit [SMulCommClass A' B B'] in
+omit [Algebra A A'] [IsScalarTower A A' B'] [SMulCommClass A' B B'] in
 /-- **The integrating homotopy is natural in the module**: it commutes with the map induced by
 any `B`-linear map `φ : N → N'` on the target terms. -/
 public theorem integratingHomotopyMap_naturality {N N' : Type w} [AddCommGroup N] [Module B N]
@@ -549,25 +549,25 @@ public theorem integratingHomotopyMap_naturality {N N' : Type w} [AddCommGroup N
         zero_mem' := by simp
         add_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq, map_add] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq, map_add] at ha hb ⊢
           rw [ha, hb]
         neg_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq, map_neg] at ha ⊢
+          simp only [Set.mem_ofPred_eq, map_neg] at ha ⊢
           rw [ha] }
   have hall := tensorExterior_dz_induction (M := N) pi' psi z dec H
     (fun q f m v => by
       cases q with
       | zero => exact AddSubgroup.mem_top _
       | succ k =>
-        show integratingHomotopyAddHom (M := N') pi' psi z dec theta k (F (k + 1) _) =
+        change integratingHomotopyAddHom (M := N') pi' psi z dec theta k (F (k + 1) _) =
           F k (integratingHomotopyAddHom (M := N) pi' psi z dec theta k _)
         have h1 := integratingHomotopyMap_base (A := A) pi' psi z dec theta N k f m v
         have h2 := integratingHomotopyMap_base (A := A) pi' psi z dec theta N' k f (φ m) v
         simp only [F, TensorProduct.map_tmul, LinearMap.baseChange_tmul, LinearMap.id_apply]
         exact h2.trans ((congrArg (F k) h1).trans (map_zero (F k))).symm)
     (fun q f m v => by
-      show integratingHomotopyAddHom (M := N') pi' psi z dec theta q (F (q + 1) _) =
+      change integratingHomotopyAddHom (M := N') pi' psi z dec theta q (F (q + 1) _) =
         F q (integratingHomotopyAddHom (M := N) pi' psi z dec theta q _)
       have h1 : integratingHomotopyAddHom (M := N) pi' psi z dec theta q
           ((f ⊗ₜ[B] m) ⊗ₜ[B'] exteriorPower.ιMulti B' (q + 1)
@@ -712,13 +712,13 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_integrating
         (baseChange_isIntegrable S S' pi pi' hpi hgen hpi' hgen'
           psi hpsi nabla hintegrable) p) x
   have hd_a' : SourceDeRham.targetD pi' (algebraMap B B' a) = 0 := by
-    show pi' (KaehlerDifferential.D A' B' (algebraMap B B' a)) = 0
+    change pi' (KaehlerDifferential.D A' B' (algebraMap B B' a)) = 0
     rw [← hpsi]
-    show psi (SourceDeRham.targetD pi a) = 0
+    change psi (SourceDeRham.targetD pi a) = 0
     rw [hd_a_eq_zero, map_zero]
   have hs : ∀ p x, dY p (s p x) = s (p + 1) (dY p x) := by
     intro p x
-    show connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p
+    change connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p
         (algebraMap B B' a • (show (B' ⊗[B] M) ⊗[B'] (⋀[B']^p Omega') from x)) =
       algebraMap B B' a • connectionDifferentialAddHom S' pi' hpi' hgen' nabla' p x
     rw [extendedConnection_leibniz, hd_a', formWedge_zero, add_zero]
@@ -747,7 +747,7 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_integrating
       hYzero hs hc hsc hc_injective hrange hzero
       (fun b _ y => smul_comm (algebraMap B B' a) (algebraMap B B' b) y)
       (fun b q y => by
-        show connectionDifferentialAddHom S' pi' hpi' hgen' nabla' q
+        change connectionDifferentialAddHom S' pi' hpi' hgen' nabla' q
             (algebraMap B B' b •
               (show (B' ⊗[B] M) ⊗[B'] (⋀[B']^q Omega') from y)) = _
         rw [extendedConnection_leibniz]
@@ -771,14 +771,14 @@ public theorem exists_homotopyInverse_baseChangeDeRhamMap_integrating
   · intro x
     have hx := he 0 x
     change c 0 (e 0 x) = s 0 x - h 0 (dY 0 x) at hx
-    show h 0 (dY 0 x) = s 0 x - c 0 (e 0 x)
+    change h 0 (dY 0 x) = s 0 x - c 0 (e 0 x)
     rw [hx]
     abel
   · intro p x
     have hx := he (p + 1) x
     change c (p + 1) (e (p + 1) x) =
       s (p + 1) x - dY p (h p x) - h (p + 1) (dY (p + 1) x) at hx
-    show dY p (h p x) + h (p + 1) (dY (p + 1) x) =
+    change dY p (h p x) + h (p + 1) (dY (p + 1) x) =
       s (p + 1) x - c (p + 1) (e (p + 1) x)
     rw [hx]
     abel

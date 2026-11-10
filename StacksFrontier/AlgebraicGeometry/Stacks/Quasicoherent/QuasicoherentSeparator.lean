@@ -186,9 +186,9 @@ theorem exists_isAffineBounded_hom (F : quasicoherentModules.{u, u + 1, u, u} B 
       (congrArg (fun φ => φ.val.app (affineRep B S hS p i)) e.inv_hom_id) ⟨s, hsK⟩
     simp only [SheafOfModules.comp_val, PresheafOfModules.comp_app,
       SheafOfModules.id_val, PresheafOfModules.id_app] at h2
-    show (Res.map g₀).val.app (affineRep B S hS p i) _ = s
+    change (Res.map g₀).val.app (affineRep B S hS p i) _ = s
     rw [show Res.map g₀ = e.hom ≫ ι from Res.map_preimage _]
-    show (ι.val.app (affineRep B S hS p i)) ((e.hom.val.app (affineRep B S hS p i))
+    change (ι.val.app (affineRep B S hS p i)) ((e.hom.val.app (affineRep B S hS p i))
       ((e.inv.val.app (affineRep B S hS p i)) ⟨s, hsK⟩)) = s
     exact congrArg (ι.val.app (affineRep B S hS p i)) h2
 
@@ -245,8 +245,8 @@ theorem hasSeparator_quasicoherentModules_of_essentiallySmall
     apply (ObjectProperty.ofObj_iff f A).2
     refine ⟨equivShrink.{u} (Subtype Q) ⟨A, hA⟩, ?_⟩
     exact congrArg Subtype.val ((equivShrink.{u} (Subtype Q)).symm_apply_apply ⟨A, hA⟩)
-  haveI : HasColimitsOfShape (Discrete β) C := HasColimitsOfSize.has_colimits_of_shape _
-  haveI : HasCoproduct f := HasColimitsOfShape.has_colimit _
+  have : HasColimitsOfShape (Discrete β) C := HasColimitsOfSize.has_colimits_of_shape _
+  have : HasCoproduct f := HasColimitsOfShape.has_colimit _
   exact ⟨∐ f, (isSeparator_sigma f).2 (ObjectProperty.IsSeparating.of_le hQsep hOf)⟩
 
 end AlgebraicGeometry.FibredSite

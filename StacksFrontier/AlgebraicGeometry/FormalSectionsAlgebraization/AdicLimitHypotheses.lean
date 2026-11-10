@@ -80,7 +80,7 @@ private theorem add_one_le_enatToEInt_of_lt {n : ℕ∞} {s : ℤ} (h : (s : EIn
   | top => exact le_top
   | coe k =>
     change ((s : ℤ) : EInt) < ((k : ℤ) : EInt) at h
-    show ((s + 1 : ℤ) : EInt) ≤ ((k : ℤ) : EInt)
+    change ((s + 1 : ℤ) : EInt) ≤ ((k : ℤ) : EInt)
     exact WithBotTop.coe_le_coe.2 (by have := WithBotTop.coe_lt_coe.1 h; omega)
 
 /-- A value of `enatToEInt` below `s + 1` comes from a depth at most `s`. -/

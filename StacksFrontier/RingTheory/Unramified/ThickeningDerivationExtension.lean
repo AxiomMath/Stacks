@@ -77,7 +77,7 @@ theorem FormallyUnramified.eq_of_leibniz [FormallyUnramified A B] (d₁ d₂ : B
     { toFun := d₁ - d₂
       map_add' := fun x y => map_add (d₁ - d₂) x y
       map_smul' := fun a x => by
-        show (d₁ - d₂) (a • x) = a • (d₁ - d₂) x
+        change (d₁ - d₂) (a • x) = a • (d₁ - d₂) x
         rw [Algebra.smul_def, hleib, hd0, smul_zero, add_zero]
         rfl }
   let D : Derivation A B N := Derivation.mk' L hleib
@@ -193,7 +193,7 @@ theorem existsUnique_leibniz_of_base (R : Type*) [CommRing R] [Algebra R A] [Alg
     rw [Algebra.smul_def, mul_smul, hsmul]⟩
   let : Module A N := Module.compHom N (algebraMap A P.Ring)
   have : IsScalarTower A B N := ⟨fun a b n => by
-    show (a • b) • n = algebraMap A P.Ring a • (b • n)
+    change (a • b) • n = algebraMap A P.Ring a • (b • n)
     rw [Algebra.smul_def, mul_smul, IsScalarTower.algebraMap_apply A P.Ring B, hsmul]⟩
   -- `δ` as a derivation, and the linear map out of `Ω_A` it induces.
   let : Module R N := Module.compHom N (algebraMap R A)
@@ -202,7 +202,7 @@ theorem existsUnique_leibniz_of_base (R : Type*) [CommRing R] [Algebra R A] [Alg
     { toFun := δ
       map_add' := map_add δ
       map_smul' := fun r a => by
-        show δ (r • a) = algebraMap R A r • δ a
+        change δ (r • a) = algebraMap R A r • δ a
         rw [Algebra.smul_def, hδ, hδR, smul_zero, add_zero]
         rfl } hδ
   let ψ := LinearEquiv.ofBijective _ hbij
@@ -211,13 +211,13 @@ theorem existsUnique_leibniz_of_base (R : Type*) [CommRing R] [Algebra R A] [Alg
     ((g'.restrictScalars P.Ring).comp (TensorProduct.mk P.Ring B Ω[P.Ring⁄R] 1)) δ fun a => ?_
   have hψ : ψ (1 ⊗ₜ KaehlerDifferential.D R A a) =
       1 ⊗ₜ KaehlerDifferential.D R P.Ring (algebraMap A P.Ring a) := by
-    show ((((TensorProduct.mk P.Ring B Ω[P.Ring⁄R] 1).restrictScalars A).comp
+    change ((((TensorProduct.mk P.Ring B Ω[P.Ring⁄R] 1).restrictScalars A).comp
       (KaehlerDifferential.map R R A P.Ring)).liftBaseChange B) _ = _
     rw [LinearMap.liftBaseChange_tmul, one_smul]
     simp
-  show g' (1 ⊗ₜ KaehlerDifferential.D R P.Ring (algebraMap A P.Ring a)) = δ a
+  change g' (1 ⊗ₜ KaehlerDifferential.D R P.Ring (algebraMap A P.Ring a)) = δ a
   rw [← hψ]
-  show (f.liftBaseChange B) (ψ.symm (ψ _)) = δ a
+  change (f.liftBaseChange B) (ψ.symm (ψ _)) = δ a
   rw [LinearEquiv.symm_apply_apply, LinearMap.liftBaseChange_tmul, one_smul]
   exact hf a
 
@@ -283,7 +283,7 @@ theorem of_ofSurjective [Algebra A B] (hφ : algebraMap A B = φ) {C : Type u} [
   rw [halg]
   let e : C ≃ₐ[A] B ⧸ RingHom.ker q := (Ideal.quotientKerAlgEquivOfSurjective hq).symm
   refine ⟨?_, ?_⟩
-  · show (RingHom.ker (Ideal.Quotient.mk (RingHom.ker q))) ^ 2 = ⊥
+  · change (RingHom.ker (Ideal.Quotient.mk (RingHom.ker q))) ^ 2 = ⊥
     rw [Ideal.mk_ker]
     exact h.ker_sq_eq_bot
   · intro T _ _ J hJ a

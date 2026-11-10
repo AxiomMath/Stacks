@@ -100,7 +100,7 @@ theorem eventuallyConst_subobject_of_antitone {U X : C} (hU : IsSeparator U)
     atTop.EventuallyConst f := by
   classical
   have : Nonempty α := by by_contra!; simp at hcof
-  show atTop.EventuallyConst (OrderDual.toDual ∘ f)
+  change atTop.EventuallyConst (OrderDual.toDual ∘ f)
   refine Filter.EventuallyConst.of_not_isCofinal_rangeSplitting hf.dual_right ?_
   intro hcofinal
   exact absurd hcof (not_lt_of_ge ((Cardinal.lift_le.mpr (Order.cof_le hcofinal)).trans

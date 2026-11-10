@@ -231,8 +231,7 @@ theorem bijective_boxSectionMapOpens_of_isAffineOpen (k : Type u) [Field k] {X Y
         rw [map_add e, c.boxSectionOfTensor_add hl hr P Q, map_add])
   have hval : ∀ z, boxSectionMapOpens k a b P Q U V W hW₁ hW₂ z = gh z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; rfl
+    induction z using TensorProduct.inductionOn with
     | tmul s t =>
       exact (c.presheaf_map_boxSectionOfTensor_tmul hl hr P Q himg.ge (himg.le.trans hW₁)
         (himg.le.trans hW₂) hW₁ hW₂ s t).symm

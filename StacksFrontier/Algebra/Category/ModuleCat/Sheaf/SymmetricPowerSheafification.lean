@@ -292,9 +292,9 @@ theorem exists_liftComm
   · have hone : ((Algebra.adjoin R (Set.range γ)).val.toRingHom.comp
         (SymmetricAlgebra.lift f).toRingHom) (algebraMap R (SymmetricAlgebra R M) r) =
         r • (1 : T) := by
-      show ((SymmetricAlgebra.lift f) (algebraMap R (SymmetricAlgebra R M) r) : T) = r • (1 : T)
+      change ((SymmetricAlgebra.lift f) (algebraMap R (SymmetricAlgebra R M) r) : T) = r • (1 : T)
       rw [AlgHom.commutes]
-      show ((algebraMap R (Algebra.adjoin R (Set.range γ)) r : Algebra.adjoin R (Set.range γ)) :
+      change ((algebraMap R (Algebra.adjoin R (Set.range γ)) r : Algebra.adjoin R (Set.range γ)) :
         T) = r • (1 : T)
       rw [Subalgebra.coe_algebraMap]
       exact Algebra.algebraMap_eq_smul_one (A := T) r
@@ -547,7 +547,7 @@ noncomputable def proj (X : Cᵒᵖ) (i : ℤ) :
 /-- Projecting the degree-`i` inclusion of `x` onto the degree-`i` component returns `x`. -/
 @[simp]
 theorem proj_incl (X : Cᵒᵖ) (i : ℤ) (x : (Pc i).obj X) : A.proj X i (A.incl i x) = x := by
-  show DirectSum.component _ ℤ (fun j => ((Pc j).obj X : Type (max w a))) i
+  change DirectSum.component _ ℤ (fun j => ((Pc j).obj X : Type (max w a))) i
     (DirectSum.of (fun j => ((Pc j).obj X : Type (max w a))) i x) = x
   rw [← DirectSum.lof_eq_of ((O ⋙ forget₂ _ RingCat).obj X)]
   exact DirectSum.component.lof_self (M := fun j => ((Pc j).obj X : Type (max w a)))
@@ -587,7 +587,7 @@ theorem homogeneousProd_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) (n : ℕ) (z : 
   induction n with
   | zero => exact PresheafOfModules.sections_property A.one f
   | succ n ih =>
-      show (Pc ((n : ℤ) + 1)).map f ((A.mul (n : ℤ) 1).app X _ _) = _
+      change (Pc ((n : ℤ) + 1)).map f ((A.mul (n : ℤ) 1).app X _ _) = _
       rw [(A.mul (n : ℤ) 1).naturality f, ih fun i => z i.castSucc]
       rfl
 
@@ -617,10 +617,10 @@ theorem cmpSections_prod_ι (hc : A.GenCommutes gen) (n : ℕ) (X : Cᵒᵖ) (s 
           SymmetricAlgebra.prod_ι_mem _ s⟩ =
       A.homogeneousProd X n fun i => gen.app X (s i) := by
   rw [cmpSections_apply]
-  show A.proj X (n : ℤ) (A.liftTotal gen hc X
+  change A.proj X (n : ℤ) (A.liftTotal gen hc X
     (∏ i : Fin n, SymmetricAlgebra.ι ((O ⋙ forget₂ _ RingCat).obj X) (F.obj X) (s i))) = _
   rw [liftTotal, SymmetricAlgebra.liftComm_prod_ι]
-  show A.proj X (n : ℤ) (List.ofFn fun i => A.incl 1 (gen.app X (s i))).prod = _
+  change A.proj X (n : ℤ) (List.ofFn fun i => A.incl 1 (gen.app X (s i))).prod = _
   rw [← A.incl_homogeneousProd X n fun i => gen.app X (s i), A.proj_incl]
 
 /-- The comparison map on sections commutes with restriction. -/
@@ -639,7 +639,7 @@ theorem cmpSections_naturality (hc : A.GenCommutes gen) (n : ℕ) {X Y : Cᵒᵖ
         ⟨∏ i : Fin n, SymmetricAlgebra.ι ((O ⋙ forget₂ _ RingCat).obj Y) (F.obj Y)
             (F.restrictₛₗ f (s i)), SymmetricAlgebra.prod_ι_mem _ _⟩ := by
       exact Subtype.ext (SymmetricAlgebra.mapₛₗ_prod_ι _ _ s)
-    show (Pc (n : ℤ)).map f (A.cmpSections gen hc n X _) =
+    change (Pc (n : ℤ)).map f (A.cmpSections gen hc n X _) =
       A.cmpSections gen hc n Y (SymPow.symMapₛₗ n _ (F.restrictₛₗ f) _)
     rw [cmpSections_prod_ι, A.homogeneousProd_naturality f n, himg, cmpSections_prod_ι]
     exact congrArg (A.homogeneousProd Y n)

@@ -82,6 +82,7 @@ defined by `S`: the fibre product of `R₁ x' ⟶ R₂ R G y ⟵ R₂ y`. -/
 abbrev gluingObj (x : F ⊡ G) : A :=
   pullback (gluingFst S adj₁ adj₂ adj x) (gluingSnd R₂ adj x)
 
+omit [HasPullbacks A] in
 /-- Two maps into `R₁ x'` and `R₂ y` agree in `R₂ R G y` exactly when their adjoints form a
 morphism of `F ⊡ G`. -/
 theorem gluing_condition_iff {a : A} (x : F ⊡ G) (p : a ⟶ R₁.obj x.fst)
@@ -103,6 +104,7 @@ theorem gluing_condition_iff {a : A} (x : F ⊡ G) (p : a ⟶ R₁.obj x.fst)
   rw [hp, hq, (adj₂.homEquiv _ _).injective.eq_iff, (adj.homEquiv _ _).injective.eq_iff,
     ← Iso.app_inv, Iso.inv_comp_eq, Iso.app_hom]
 
+omit [HasPullbacks A] in
 /-- `gluing_condition_iff` read on the adjoints: a pair of maps `S.fst a ⟶ x'` and `S.snd a ⟶ y`
 is a morphism of `F ⊡ G` exactly when its two adjoints agree in `R₂ R G y`. -/
 theorem gluing_condition_iff' {a : A} (x : F ⊡ G) (u : S.fst.obj a ⟶ x.fst)
@@ -198,12 +200,13 @@ theorem gluingAdjunction_unit_app_snd (a : A) :
   rw [pullback.lift_snd]
   exact adj₂.homEquiv_id a
 
+omit [HasPullbacks A] in
 /-- `S.snd` of the first map of the fibre product, followed by the counit of `S.snd ⊣ R₂`, is the
 base change map `R₁ ⋙ S.snd ⟶ F ⋙ R` (the mate of `S.iso⁻¹`) followed by `R` of the structure
 isomorphism of the triple. -/
 theorem map_gluingFst_comp_counit (x : F ⊡ G) :
     S.snd.map (gluingFst S adj₁ adj₂ adj x) ≫ adj₂.counit.app _ =
-      (mateEquiv adj₁ adj (TwoSquare.mk _ _ _ _ S.iso.inv)).natTrans.app x.fst ≫
+      (mateEquiv adj₁ adj (TwoSquare.mk _ _ _ _ S.iso.inv)).app x.fst ≫
         R.map x.iso.hom := by
   have h : S.snd.map (gluingFst S adj₁ adj₂ adj x) ≫ adj₂.counit.app _ =
       (adj₂.homEquiv _ _).symm (gluingFst S adj₁ adj₂ adj x) :=
@@ -217,7 +220,7 @@ is invertible at `x.fst` and the counit of `S.snd ⊣ R₂` is invertible at `R 
 `S.snd` carries the second projection out of `gluingObj` to an isomorphism. -/
 theorem isIso_map_pullbackSnd_gluingObj (x : F ⊡ G)
     [PreservesLimit (cospan (gluingFst S adj₁ adj₂ adj x) (gluingSnd R₂ adj x)) S.snd]
-    [IsIso ((mateEquiv adj₁ adj (TwoSquare.mk _ _ _ _ S.iso.inv)).natTrans.app x.fst)]
+    [IsIso ((mateEquiv adj₁ adj (TwoSquare.mk _ _ _ _ S.iso.inv)).app x.fst)]
     [IsIso (adj₂.counit.app (R.obj (G.obj x.snd)))] :
     IsIso (S.snd.map (pullback.snd (gluingFst S adj₁ adj₂ adj x) (gluingSnd R₂ adj x))) := by
   have : IsIso (S.snd.map (gluingFst S adj₁ adj₂ adj x)) := by

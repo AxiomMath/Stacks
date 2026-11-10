@@ -137,7 +137,7 @@ lemma isStronglyCartesian_overForget_comp_iff (p : C ⥤ D) (U : C) {X Y : Over 
     exact congrArg Over.Hom.left (hχuniq χ'U ⟨hχ'U, Over.OverMorphism.ext hχ'f⟩)
   · intro hf
     let : (Over.forget U).IsHomLift f.left f := by
-      show (Over.forget U).IsHomLift ((Over.forget U).map f) f
+      change (Over.forget U).IsHomLift ((Over.forget U).map f) f
       infer_instance
     let : (Over.forget U).IsStronglyCartesian f.left f := Over.isStronglyCartesian_forget f.left f
     exact IsStronglyCartesian.comp_functor (Over.forget U) p (p.map f.left) f.left f
@@ -278,11 +278,11 @@ lemma inheritedTopology_overPost (p : C ⥤ D) [p.IsFibered] (J : GrothendieckTo
     show p.inheritedTopology J = (inheritedCoverage p J).toPrecoverage.toGrothendieck from rfl,
     over_coverage_eq]
   congr 1
-  show (Over.post p).inheritedPrecoverage (J.over (p.obj U)).toPrecoverage =
+  change (Over.post p).inheritedPrecoverage (J.over (p.obj U)).toPrecoverage =
     (p.inheritedPrecoverage J.toPrecoverage).comap (Over.forget U)
   rw [← sliceInheritedPrecoverage_eq]
   ext X R
-  show _ ∧ _ ↔ _ ∧ _
+  change _ ∧ _ ↔ _ ∧ _
   refine and_congr (forall₃_congr fun Y f hf => ?_) ?_
   · simpa only [Over.post_forget_eq_forget_comp] using
       isStronglyCartesian_comp_forget_iff (Over.post p) f

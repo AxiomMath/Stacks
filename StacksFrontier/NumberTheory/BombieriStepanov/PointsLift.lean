@@ -35,16 +35,17 @@ theorem finite_quotient_ker {R S Ω : Type*} [CommRing R] [CommRing S] [Field Ω
   exact Module.finite_of_finite (R ⧸ p)
 
 /-- **Embeddings of a finite field differ by an automorphism.** -/
-theorem exists_algEquiv_comp_eq {E E₁ Ω : Type*} [Field E] [Field E₁] [Fintype E₁] [Field Ω]
+theorem exists_algEquiv_comp_eq {E E₁ Ω : Type*} [Field E] [Field E₁] [Finite E₁] [Field Ω]
     [Algebra E E₁] [Algebra E Ω] (u v : E₁ →ₐ[E] Ω) : ∃ τ : E₁ ≃ₐ[E] E₁, ∀ e, v e = u (τ e) := by
   classical
+  have := Fintype.ofFinite E₁
   have hn : 1 < Fintype.card E₁ := Fintype.one_lt_card
   obtain ⟨hfin, hle⟩ := setOf_pow_eq_self_finite_ncard_le (Ω := Ω) hn
   have hrange : ∀ w : E₁ →ₐ[E] Ω, Set.range w = {a : Ω | a ^ Fintype.card E₁ = a} := by
     intro w
     have hsub : Set.range w ⊆ {a : Ω | a ^ Fintype.card E₁ = a} := by
       rintro _ ⟨z, rfl⟩
-      simp only [Set.mem_setOf_eq, ← map_pow, FiniteField.pow_card]
+      simp only [Set.mem_ofPred_eq, ← map_pow, FiniteField.pow_card]
     refine Set.eq_of_subset_of_ncard_le hsub ?_ hfin
     rw [Set.ncard_range_of_injective (show Function.Injective w from w.toRingHom.injective),
       Nat.card_eq_fintype_card]

@@ -172,7 +172,7 @@ lemma tangentDerivationMap_add (h : f ≫ q = p) [IsIso (f.residueFieldMap x)]
     Module.compHom _ (Y.residue (f x)).hom
   refine Subtype.ext (Derivation.ext fun a ↦ ?_)
   rw [tangentDerivationMap_val_apply]
-  show (inv (f.residueFieldMap x)).hom (D.1 (f.stalkMap x a) + E.1 (f.stalkMap x a)) =
+  change (inv (f.residueFieldMap x)).hom (D.1 (f.stalkMap x a) + E.1 (f.stalkMap x a)) =
     (inv (f.residueFieldMap x)).hom (D.1 (f.stalkMap x a)) +
       (inv (f.residueFieldMap x)).hom (E.1 (f.stalkMap x a))
   exact map_add _ _ _
@@ -189,7 +189,7 @@ lemma tangentDerivationMap_smul (h : f ≫ q = p) [IsIso (f.residueFieldMap x)]
     Module.compHom _ (Y.residue (f x)).hom
   refine Subtype.ext (Derivation.ext fun a ↦ ?_)
   rw [tangentDerivationMap_val_apply]
-  show (inv (f.residueFieldMap x)).hom (r * D.1 (f.stalkMap x a)) =
+  change (inv (f.residueFieldMap x)).hom (r * D.1 (f.stalkMap x a)) =
     (inv (f.residueFieldMap x)).hom r *
       (inv (f.residueFieldMap x)).hom (D.1 (f.stalkMap x a))
   exact map_mul _ _ _
@@ -226,18 +226,18 @@ theorem tangentMap_apply (h : f ≫ q = p) (x : X) [IsIso (f.residueFieldMap x)]
       (tangentDerivationMap f p q x h (dottedToDerivation p x θ)) =
       f.stalkMap x ≫ dottedStalkHom p x θ ≫ CommRingCat.ofHom α := by
     ext a
-    · show Y.residue (f x) a =
+    · change Y.residue (f x) a =
         TrivSqZeroExt.fst (α (dottedStalkHom p x θ (f.stalkMap x a)))
       rw [hα₀, show TrivSqZeroExt.fst (dottedStalkHom p x θ (f.stalkMap x a)) =
         X.residue x (f.stalkMap x a) from congrArg
           (fun g : X.presheaf.stalk x ⟶ X.residueField x ↦ g (f.stalkMap x a))
           (dottedStalkHom_fst p x θ), inv_residueFieldMap_residue f x a]
-    · show (inv (f.residueFieldMap x)).hom
+    · change (inv (f.residueFieldMap x)).hom
           ((dottedToDerivation p x θ).1 (f.stalkMap x a)) =
         TrivSqZeroExt.snd (α (dottedStalkHom p x θ (f.stalkMap x a)))
       rw [hα₁]
       rfl
-  show Spec.map (derivationStalkHom q (f x)
+  change Spec.map (derivationStalkHom q (f x)
     (tangentDerivationMap f p q x h (dottedToDerivation p x θ))) ≫
       Y.fromSpecStalk (f x) = Spec.map (CommRingCat.ofHom α) ≫ θ.val ≫ f
   rw [hstalk, ← dottedStalkHom_spec p x θ, Category.assoc,

@@ -82,7 +82,7 @@ public theorem torsionSieve_map (P : Cᵒᵖ ⥤ AddCommGrpCat.{w}) {U V : C} (g
     intro W h
     rw [op_comp, P.map_comp, CategoryTheory.comp_apply]
   ext W h
-  show (∃ n : ℕ, 0 < n ∧ n • P.map h.op (P.map g.op y) = 0) ↔
+  change (∃ n : ℕ, 0 < n ∧ n • P.map h.op (P.map g.op y) = 0) ↔
     ∃ n : ℕ, 0 < n ∧ n • P.map (h ≫ g).op y = 0
   rw [hres h]
 
@@ -111,7 +111,7 @@ public theorem torsionSheafProperty_constantSheaf [HasWeakSheafify J AddCommGrpC
     torsionSheafProperty J ((constantSheaf J AddCommGrpCat.{w}).obj E) := by
   refine torsionSheafProperty_sheafify J ((Functor.const Cᵒᵖ).obj E) fun U y => ?_
   refine ⟨⊤, J.top_mem U, fun V g _ => ⟨Nat.card E, Nat.card_pos, ?_⟩⟩
-  show Nat.card E • y = 0
+  change Nat.card E • y = 0
   exact card_nsmul_eq_zero'
 
 /-- **A finite locally constant abelian sheaf is torsion.** -/
@@ -201,7 +201,7 @@ public theorem exists_nsmul_eq_zero_etaleStalk_of_isConstructibleAbelianSheaf (X
     exact Set.mem_iUnion.mp hx
   set t' := GeometricPoint.ofPoint (s.piece i).obj z with ht'
   have hbase : (t'.map (B.inclusion.map (s.inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
     rwa [show t'.hom default = z from GeometricPoint.ofPoint_liesOver (s.piece i).obj z]
   have hG : torsionSheafProperty
       (SmallEtale.topology B (s.piece i).obj (s.piece i).property)

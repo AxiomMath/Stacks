@@ -346,7 +346,7 @@ which are identities. -/
 theorem theta_neg_natCast : (k : ℕ) → theta 𝒮 (-(k : ℤ)) = negTheta 𝒮 k
   | 0 => by
       refine Iso.ext ?_
-      show (natTheta 𝒮 0).hom = 𝟙 _ ≫ (natTheta 𝒮 0).hom ≫ 𝟙 _
+      change (natTheta 𝒮 0).hom = 𝟙 _ ≫ (natTheta 𝒮 0).hom ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id]
   | (_ + 1) => rfl
 

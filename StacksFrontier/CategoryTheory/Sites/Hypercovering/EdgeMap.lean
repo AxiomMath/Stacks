@@ -312,7 +312,7 @@ lemma hypercoveringCohomologyFunctor_map_eq_id (n : ℕ)
     {K L : (HypercoveringCat X J)ᵒᵖ} (φ : K ⟶ L)
     (F : Sheaf J.toGrothendieck AddCommGrpCat.{v}) :
     (hypercoveringCohomologyFunctor X J n).map (φ ×ₘ 𝟙 F) = 𝟙 _ := by
-  show ((Sheaf.cohomologyPresheafFunctor J.toGrothendieck n).map (𝟙 F)).app (op X) = _
+  change ((Sheaf.cohomologyPresheafFunctor J.toGrothendieck n).map (𝟙 F)).app (op X) = _
   rw [CategoryTheory.Functor.map_id, NatTrans.id_app]
   rfl
 

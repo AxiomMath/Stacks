@@ -69,7 +69,7 @@ private theorem specMap_residueFieldAtClosedPointEquiv_comp_fromSpec
   apply Spec.map_inj.mpr
   apply CommRingCat.hom_ext
   ext a
-  show IsLocalRing.ResidueField.map (stalkClosedPointIso B).hom.hom
+  change IsLocalRing.ResidueField.map (stalkClosedPointIso B).hom.hom
     (IsLocalRing.residue _ ((stalkClosedPointIso B).inv.hom a)) =
       IsLocalRing.residue B a
   rw [IsLocalRing.ResidueField.map_residue]
@@ -234,7 +234,7 @@ private theorem Scheme.IdealSheafData.ideal_le_primeIdealOf_of_mem_support {Y : 
   intro a ha
   have hnot : V.2.primeIdealOf ⟨y, hyV⟩ ∉ PrimeSpectrum.basicOpen a := by
     rw [← V.2.fromSpec_preimage_basicOpen]
-    show ¬ (V.2.fromSpec _ ∈ Y.basicOpen a)
+    change ¬ (V.2.fromSpec _ ∈ Y.basicOpen a)
     rw [V.2.fromSpec_primeIdealOf ⟨y, hyV⟩]
     exact hz a ha
   by_contra hmem
@@ -267,7 +267,7 @@ private theorem ideal_pow_le_ker_app_of_closedPoint_mem {Y : Scheme.{u}} {R : Co
     simpa [hq, IsLocalRing.closedPoint] using hmaxpow
   have hcomap : q.comap (β.app V.1).hom = V.2.primeIdealOf
       ⟨β (IsLocalRing.closedPoint R), hyV⟩ := by
-    show q.comap (β.appLE V.1 W le_rfl).hom = _
+    change q.comap (β.appLE V.1 W le_rfl).hom = _
     exact IsAffineOpen.comap_primeIdealOf_appLE V.1 V.2 W hW le_rfl hWpoint
   have hmapK : Ideal.map (β.app V.1).hom (K.ideal V) ≤ q.asIdeal := by
     rw [Ideal.map_le_iff_le_comap, show Ideal.comap (β.app V.1).hom q.asIdeal =
@@ -322,12 +322,12 @@ public theorem exists_nthOrderToBase_factorization
         infer_instance
       have hkerTop : RingHom.ker (βo.app V.1).hom = ⊤ := by
         ext a
-        show ((βo.app V.1).hom a = 0) ↔ a ∈ (⊤ : Ideal Γ(i.coborderRange.toScheme, V.1))
+        change ((βo.app V.1).hom a = 0) ↔ a ∈ (⊤ : Ideal Γ(i.coborderRange.toScheme, V.1))
         exact ⟨fun _ => Set.mem_univ _, fun _ => Subsingleton.elim _ _⟩
       exact hkerTop ▸ le_top
   refine ⟨n, IsClosedImmersion.lift (K ^ (n + 1)).subschemeι βo
     (by rwa [Scheme.IdealSheafData.ker_subschemeι]), ?_⟩
-  show IsClosedImmersion.lift (K ^ (n + 1)).subschemeι βo _ ≫
+  change IsClosedImmersion.lift (K ^ (n + 1)).subschemeι βo _ ≫
     (K ^ (n + 1)).subschemeι ≫ j = β
   rw [← Category.assoc, IsClosedImmersion.lift_fac, hβo]
 
@@ -397,7 +397,7 @@ public theorem etaleAt_of_etale_infinitesimalNeighbourhoods
     rw [Scheme.Pullback.range_fst]
     obtain ⟨z, hz⟩ := hx
     refine ⟨Stacks.Thickenings.nthOrderInclusion i 0 z, ?_⟩
-    show (Stacks.Thickenings.nthOrderInclusion i 0 ≫ t) z = f x
+    change (Stacks.Thickenings.nthOrderInclusion i 0 ≫ t) z = f x
     rw [ht, Stacks.Thickenings.nthOrderInclusion_toBase]
     exact hz
   obtain ⟨x', hx'⟩ := hx0

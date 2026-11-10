@@ -121,7 +121,7 @@ theorem isAffineChart_cechNerve (hX : HasAffineIntersections B S hS X) {V : Smal
       (extendFanIsLimit (fun _ : Fin (m + 2) => V)
         (limit.isLimit (Discrete.functor fun _ : Fin (m + 1) => V))
         (limit.isLimit (pair V (∏ᶜ fun _ : Fin (m + 1) => V))))) ?_
-    show IsAffineChart B S hS X (V ⨯ ∏ᶜ fun _ : Fin (m + 1) => V)
+    change IsAffineChart B S hS X (V ⨯ ∏ᶜ fun _ : Fin (m + 1) => V)
     refine isAffineChart_of_iso B S hS X (IsLimit.conePointUniqueUpToIso
       (limit.isLimit (pair V (∏ᶜ fun _ : Fin (m + 1) => V)))
       (SmallEtale.prodIsLimit B S hS X V _)) ?_

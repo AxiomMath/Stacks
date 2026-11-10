@@ -10,8 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeNoetherianR
 /-!
 # Variants of the results of `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeNoetherian`
 
-The declarations below extend `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeNoetherian` and
-are kept in a module of their own so that that module stays unchanged. A primed name `X'` is a
+The declarations below extend `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeNoetherian`
+and are kept in a module of their own so that that module stays unchanged. A primed name `X'` is a
 variant of the declaration `X` there.
 
 ## Main declarations

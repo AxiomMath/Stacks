@@ -121,7 +121,7 @@ public lemma extendLinearMaps_monomial_of_restrictsSplitting (J : Ideal A) {c d 
       degreeMap (J ^ d) ψ n ⟨x, hxd⟩ := reesLinearMap_monomial (J ^ d) ψ n x hxd
   have h2 : reesLinearMap (J ^ c) φ ⟨Polynomial.monomial n x, pc⟩ =
       degreeMap (J ^ c) φ n ⟨x, hxc⟩ := reesLinearMap_monomial (J ^ c) φ n x hxc
-  show reesLinearMap (J ^ d) ψ ⟨Polynomial.monomial n x, pd⟩ =
+  change reesLinearMap (J ^ d) ψ ⟨Polynomial.monomial n x, pd⟩ =
     reesLinearMap (J ^ c) φ ⟨Polynomial.monomial n x, pc⟩
   rw [h1, h2, degreeMap_of_restrictsSplitting J hcd φ ψ h n x hxd hxc]
 
@@ -146,7 +146,7 @@ public lemma extendCoeff_apply (J : Ideal A) (d n : ℕ)
       (extendLinearMaps (J ^ d) φ ⟨Polynomial.monomial n x, p⟩).coeff σ := by
   have h1 : reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩ =
       degreeMap (J ^ d) φ n ⟨x, hx⟩ := reesLinearMap_monomial (J ^ d) φ n x hx
-  show _ = (reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩).coeff σ
+  change _ = (reesLinearMap (J ^ d) φ ⟨Polynomial.monomial n x, p⟩).coeff σ
   rw [h1]
   rfl
 
@@ -156,7 +156,7 @@ public lemma extendCoeff_of_restrictsSplitting (J : Ideal A) {c d : ℕ} (hcd : 
     (h : RestrictsSplitting J hcd φ ψ) (n : ℕ) (σ : Fin r →₀ ℕ) (x : A)
     (hxd : x ∈ (J ^ d : Ideal A) ^ n) (hxc : x ∈ (J ^ c : Ideal A) ^ n) :
     extendCoeff J d n ψ σ ⟨x, hxd⟩ = extendCoeff J c n φ σ ⟨x, hxc⟩ := by
-  show (degreeMap (J ^ d) ψ n ⟨x, hxd⟩).coeff σ =
+  change (degreeMap (J ^ d) ψ n ⟨x, hxd⟩).coeff σ =
     (degreeMap (J ^ c) φ n ⟨x, hxc⟩).coeff σ
   rw [degreeMap_of_restrictsSplitting J hcd φ ψ h n x hxd hxc]
 

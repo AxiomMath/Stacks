@@ -51,7 +51,7 @@ theorem flat_of_hasTorAmplitudeCanonical_single {R : Type u} [CommRing R] (N : M
     Module.Flat R N := by
   let P := FaithfullyFlat.projResComplex N
   have hPle : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((CategoryTheory.ProjectiveResolution.of N).complex.extend
         ComplexShape.embeddingDownNat) 0
     infer_instance
@@ -61,7 +61,7 @@ theorem flat_of_hasTorAmplitudeCanonical_single {R : Type u} [CommRing R] (N : M
     (CategoryTheory.ProjectiveResolution.of N).π'
   have hq : QuasiIso q := by
     dsimp [q]
-    show QuasiIso
+    change QuasiIso
       (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of N).π
         ComplexShape.embeddingDownNat ≫ _)
     have hπ' : QuasiIso (HomologicalComplex.extendMap

@@ -174,7 +174,7 @@ theorem extAddEquiv_map_smul (K M : DerivedCategory X.left.Modules) (a : A)
   have hsmul : ((extModuleFunctor X K).map (a • 𝟙 M)) x = a • x := by
     have hfun : (extModuleFunctor X K).map (a • 𝟙 M) =
         a • 𝟙 ((extModuleFunctor X K).obj M) := by
-      show (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
+      change (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
           ((derivedGlobalSectionsOver X.hom).map
             ((_root_.AlgebraicGeometry.derivedSheafHomFunctor X K).map (a • 𝟙 M))) = _
       rw [_root_.AlgebraicGeometry.derivedSheafHomFunctor_map_smul_id,

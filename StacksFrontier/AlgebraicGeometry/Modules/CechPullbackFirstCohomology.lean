@@ -52,7 +52,7 @@ theorem cochainPullback_eq_refinementMap (p : ℕ) (s : CechCochains.Cochain U F
         (cochainPullback g U (preimageFamily g U) id (fun _ => le_rfl) F p s) := by
   funext k
   rw [CechCochains.refinementMap_apply]
-  show _ = CechCochains.restr _ _ (CechCochains.restr _ _ _)
+  change _ = CechCochains.restr _ _ (CechCochains.restr _ _ _)
   rw [CechCochains.restr_restr]
   rfl
 
@@ -104,17 +104,17 @@ theorem exists_cechD_eq_push_of_cechD_eq (c : CechCochains.Cochain U F.presheaf 
       (preimage_inter_le g U i)
       (cochainPullback g U (preimageFamily g U) id (fun _ => le_rfl) F 1 c i) =
       pullbackSections g F (CechCochains.inter U i) (c i) := by
-    show CechCochains.restr _ _ (CechCochains.restr _ _ _) = _
+    change CechCochains.restr _ _ (CechCochains.restr _ _ _) = _
     rw [CechCochains.restr_restr, restr_self]
     rfl
-  show _ = pullbackSections g F (CechCochains.inter U i) (c i)
+  change _ = pullbackSections g F (CechCochains.inter U i) (c i)
   rw [← h2, ← h, CechCochains.cechD_apply, map_sum]
   refine (CechCochains.cechD_apply (U := U)
     (ℱ := ((Scheme.Modules.pushforward g).obj ((Scheme.Modules.pullback g).obj F)).presheaf)
     _ i).trans ?_
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_zsmul, CechCochains.restr_restr]
-  show (-1 : ℤ) ^ (j : ℕ) • CechCochains.restr ((Scheme.Modules.pullback g).obj F).presheaf
+  change (-1 : ℤ) ^ (j : ℕ) • CechCochains.restr ((Scheme.Modules.pullback g).obj F).presheaf
     (Scheme.Hom.preimage_mono g (CechCochains.inter_le_omit U i j))
     (CechCochains.restr _ (preimage_inter_le g U (i ∘ j.succAbove)) (b' (i ∘ j.succAbove))) = _
   rw [CechCochains.restr_restr]
@@ -242,7 +242,7 @@ theorem injective_rightDerived_unitAb (F : X.Modules)
   have h3 : Mono ((((SheafOfModules.evaluation X.ringCatSheaf (op ⊤)).rightDerived 1) ⋙
       forget₂ (ModuleCat.{u} (X.ringCatSheaf.obj.obj (op ⊤))) AddCommGrpCat.{u}).map
         ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F)) := by
-    show Mono ((forget₂ (ModuleCat.{u} (X.ringCatSheaf.obj.obj (op ⊤))) AddCommGrpCat.{u}).map _)
+    change Mono ((forget₂ (ModuleCat.{u} (X.ringCatSheaf.obj.obj (op ⊤))) AddCommGrpCat.{u}).map _)
     rw [AddCommGrpCat.mono_iff_injective]
     exact (ModuleCat.mono_iff_injective _).1 h2
   have h4 := @mono_map_of_iso _ _ _ _ _ _

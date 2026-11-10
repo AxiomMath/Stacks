@@ -84,11 +84,11 @@ noncomputable def abelFamily {T : Over (Spec (.of k))} (v : T ⟶ B₀) (hv : Se
         _ _ _).mp hL₀
     Stacks.Divisors.zeroScheme (bc f T) _ (abelSection f L₀ es v c)
   isFiniteLocallyFreeOfRank := by
-    haveI : SheafOfModules.IsInvertible (bc f B₀).sheaf.obj (bc f B₀).ringCatSheaf.property L₀ :=
+    have : SheafOfModules.IsInvertible (bc f B₀).sheaf.obj (bc f B₀).ringCatSheaf.property L₀ :=
       (Stacks.InvertiblePullback.stacksIsInvertible_iff_algebraicGeometryIsInvertible
         _ _ _).mp hL₀
-    haveI : Smooth f := SmoothOfRelativeDimension.smooth 1 f
-    haveI : SmoothOfRelativeDimension 1 (bcProj f T) :=
+    have : Smooth f := SmoothOfRelativeDimension.smooth 1 f
+    have : SmoothOfRelativeDimension 1 (bcProj f T) :=
       (smoothOfRelativeDimension_isStableUnderBaseChange 1).of_isPullback
         (IsPullback.of_hasPullback f T.hom) inferInstance
     have hM : Stacks.SheafOfModules.IsInvertible (bc f T).presheaf (bc f T).ringCatSheaf.2
@@ -198,7 +198,7 @@ theorem famHom_congr {T : Over (Spec (.of k))} (v : T ⟶ B₀) (hv : Set.range 
   obtain ⟨u, hu⟩ := (homOfCoords_eq_iff c c' hc hc').1 h
   have := isInvertible_sheaf_of_isInvertible f L₀ hL₀
   refine congrArg hH.family.symm (Stacks.Hilbert.HilbertFamily.ext ?_)
-  show Stacks.Divisors.zeroScheme (bc f T) _ (abelSection f L₀ es v c) =
+  change Stacks.Divisors.zeroScheme (bc f T) _ (abelSection f L₀ es v c) =
     Stacks.Divisors.zeroScheme (bc f T) _ (abelSection f L₀ es v c')
   rw [show c' = fun i => (u : Γ(T.left, ⊤)) * c i from funext hu, abelSection_smul]
   exact (Stacks.Divisors.zeroScheme_smul_of_isUnit _ _ (u.isUnit.map _)).symm
@@ -273,7 +273,6 @@ open Stacks.Picard Stacks.ProjectiveSpaceModuli
 
 variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   [SmoothOfRelativeDimension 1 f] [IsProper f] [GeometricallyIrreducible f]
-  [Flat f] [LocallyOfFinitePresentation f]
   {B₀ : Over (Spec (.of k))} (L₀ : (bc f B₀).Modules)
   (hL₀ : Stacks.SheafOfModules.IsInvertible (bc f B₀).presheaf (bc f B₀).ringCatSheaf.2 L₀)
   {m : ℕ} (es : Fin (m + 1) → Γ(L₀, ⊤)) {V : B₀.left.Opens} (hbasis : IsSectionBasis f L₀ es V)

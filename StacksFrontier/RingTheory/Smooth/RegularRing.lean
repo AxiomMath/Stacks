@@ -120,7 +120,8 @@ regular, over the residue fields.
 The ring map is an `Algebra R S` instance, so `φ` is `algebraMap R S` and smoothness of `φ` is
 `Algebra.Smooth R S` — `Algebra.FormallySmooth R S` together with `Algebra.FinitePresentation R S`
 — which `RingHom.smooth_algebraMap` identifies with `(algebraMap R S).Smooth`, the predicate on the
-bare ring map. This is the shape of the companion statements 033B and 033C, the reduced and the normal
+bare ring map. This is the shape of the companion statements 033B and 033C, the reduced and the
+normal
 analogues of this lemma, and the name mutates theirs (`Algebra.isReduced_of_smooth`,
 `Algebra.isNormalRing_of_smooth`) by swapping in the property that ascends.
 
@@ -181,11 +182,11 @@ regular ring, smooth ring map, smooth algebra, ascent
 ring map. If `R` is a regular ring, then `S` is a regular ring. -/
 @[stacks 07NF "The ring map is an `Algebra R S` instance and smoothness of it is Mathlib's \
   `Algebra.Smooth R S` (equivalently `(algebraMap R S).Smooth`, by `RingHom.smooth_algebraMap`), \
-  as in the companion statements 033B and 033C; regularity is Mathlib's `IsRegularRing`, Definition \
-  00OD verbatim, which already contains Noetherianness, so the source's standing convention that \
-  a regular ring is Noetherian is carried by the predicate on both sides. Mathlib has the \
-  polynomial case and transport along ring equivalences, but no ascent along a smooth map. See \
-  the module docstring.", sga "1 II 3.1" "regular, O_y ⇒ O_x"]
+  as in the companion statements 033B and 033C; regularity is Mathlib's `IsRegularRing`, \
+  Definition 00OD verbatim, which already contains Noetherianness, so the source's standing \
+  convention that a regular ring is Noetherian is carried by the predicate on both sides. \
+  Mathlib has the polynomial case and transport along ring equivalences, but no ascent along a \
+  smooth map. See the module docstring.", sga "1 II 3.1" "regular, O_y ⇒ O_x"]
 public theorem Algebra.isRegularRing_of_smooth (R S : Type*) [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.Smooth R S] [IsRegularRing R] : IsRegularRing S :=
   -- `R` does not occur in the conclusion `IsRegularRing S`, so `apply` would leave it a

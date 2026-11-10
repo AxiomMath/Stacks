@@ -64,7 +64,7 @@ transformation. -/
 theorem CategoryTheory.TwoSquare.mk_natTrans_app {C₁ C₂ C₃ C₄ : Type*} [Category* C₁]
     [Category* C₂] [Category* C₃] [Category* C₄] {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄}
     {Bo : C₃ ⥤ C₄} (α : T ⋙ R ⟶ L ⋙ Bo) (X : C₁) :
-    (TwoSquare.mk T L R Bo α).natTrans.app X = α.app X := rfl
+    (TwoSquare.mk T L R Bo α).app X = α.app X := rfl
 
 namespace AlgebraicGeometry
 
@@ -117,7 +117,7 @@ variable {X X' Y Y' : B.Scheme} (f : X ⟶ Y) (g : Y' ⟶ Y) (g' : X' ⟶ X) (f'
 /-- The component of `AlgebraicGeometry.SmallEtale.boundedBaseChangeMate` at a sheaf. -/
 theorem boundedBaseChangeMate_natTrans_app
     (F : Sheaf (SmallEtale.topology B X'.1 X'.property) A) :
-    (boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans.app F =
+    (boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).app F =
       (boundedPushforwardCompIso B A g' f P hP₁).hom.app F ≫
         (boundedPushforwardCompIso B A f' g P hP₂).inv.app F := rfl
 
@@ -129,7 +129,7 @@ theorem isIso_smallEtaleBaseChangeNatTrans_iff_boundedBaseChangeMate (h : g' ≫
     IsIso (smallEtaleBaseChangeNatTrans.{u} B g' f' f g h) ↔
       IsIso ((mateEquiv (B.smallPullbackAdjunction g' (Type (u + 1)))
         (B.smallPullbackAdjunction g (Type (u + 1)))).symm
-        (boundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)).natTrans := by
+        (boundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)) := by
   rw [smallEtaleBaseChangeNatTrans_eq_mateEquiv_symm,
     smallEtaleBaseChangeMate_eq_boundedBaseChangeMate B f g g' f' h P hP₁ hP₂]
 
@@ -227,7 +227,7 @@ theorem representedPushforwardIso_comp_app {X Y Z : BigFppfOver B S hS} (p : Y �
   rewrite [eqToHom_spacesPushforward_yonedaSpaceHom_comp_app_comp]
   apply ObjectProperty.hom_ext
   refine NatTrans.ext (funext fun U => ?_)
-  show (𝟙 _ ≫ M.obj.map ((representedChartBaseChangeIso (q ≫ p)).hom.app U.unop).op ≫ 𝟙 _) ≫
+  change (𝟙 _ ≫ M.obj.map ((representedChartBaseChangeIso (q ≫ p)).hom.app U.unop).op ≫ 𝟙 _) ≫
       (M.obj.map ((representedSchemeChartFunctor Z).map
         ((smallEtaleBaseChange_compIso (associatedBigEtaleSite B) _ _ _ q.left p.left).val.hom.app
           U.unop)).op ≫ 𝟙 _) =
@@ -574,7 +574,7 @@ theorem representedPushforwardCube (Q : W' ⟶ V) (e₁ : n' ≫ m = Q) (e₂ : 
       TwoSquare.mk _ _ _ _ (spacesPushforwardCompSquare_anyCoefficients B S hS (yonedaSpaceHom n')
         (yonedaSpaceHom m') (yonedaSpaceHom m) (yonedaSpaceHom n) w A) ≫ᵥ
         TwoSquare.mk _ _ _ _ (representedPushforwardIso n A).hom := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   rewrite [SmallEtale.ts_whiskerLeft_app, SmallEtale.ts_whiskerRight_app, SmallEtale.ts_vComp_app,
     SmallEtale.ts_vComp_app, TwoSquare.mk_natTrans_app, TwoSquare.mk_natTrans_app,
     TwoSquare.mk_natTrans_app, TwoSquare.mk_natTrans_app,
@@ -586,7 +586,9 @@ theorem representedPushforwardCube (Q : W' ⟶ V) (e₁ : n' ≫ m = Q) (e₂ : 
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search on the big fppf and bounded étale sites
 set_option maxHeartbeats 1000000 in
+-- instance search on the big fppf and bounded étale sites, and a long mate computation
 /-- **The base change map of a square of represented algebraic spaces is the scheme one.** For
 a commutative square `n' ≫ m = m' ≫ n` of the big fppf site whose image under the Yoneda embedding
 is cartesian, the spaces-étale base change map `g⁻¹ f_* ⟶ f'_* (g')⁻¹` of the square of represented
@@ -615,12 +617,12 @@ theorem isIso_spacesToposBaseChangeSquare_iff (h : n' ≫ m = m' ≫ n)
   have hτ : ∀ {V W : BigFppfOver B S hS} (p : W ⟶ V),
       IsIso ((mateEquiv (spacesToposAdjunction B S hS (yonedaSpaceHom p))
         ((associatedBigEtaleSite B).smallPullbackAdjunction p.left (Type (u + 1)))).symm
-        (TwoSquare.mk _ _ _ _ (representedPushforwardIso p (Type (u + 1))).hom)).natTrans :=
+        (TwoSquare.mk _ _ _ _ (representedPushforwardIso p (Type (u + 1))).hom)) :=
     fun p => @CategoryTheory.isIso_mateEquiv_symm_of_isEquivalence
       _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ (representedRestriction_isEquivalence _ _)
       (representedRestriction_isEquivalence _ _) _ (representedPushforwardIso p _).isIso_hom
-  have : IsIso τ₁.natTrans := hτ n'
-  have : IsIso τ₂.natTrans := hτ n
+  have : IsIso τ₁ := hτ n'
+  have : IsIso τ₂ := hτ n
   have hcube : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ
       SmallEtale.boundedBaseChangeMate (associatedBigEtaleSite B) (Type (u + 1)) m.left n.left
           n'.left m'.left (n' ≫ m).left hQ₁ hQ₂).whiskerRight
@@ -635,7 +637,7 @@ theorem isIso_spacesToposBaseChangeSquare_iff (h : n' ≫ m = m' ≫ n)
   · intro hfront
     have hfront' : IsIso ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _
         (spacesPushforwardCompSquare_anyCoefficients B S hS (yonedaSpaceHom n') (yonedaSpaceHom m')
-          (yonedaSpaceHom m) (yonedaSpaceHom n) sq.w (Type (u + 1))))).natTrans := hfront
+          (yonedaSpaceHom m) (yonedaSpaceHom n) sq.w (Type (u + 1))))) := hfront
     have := representedRestriction_isEquivalence W (Type (u + 1))
     have key : ∀ {C D E F C' D' E' F' : Type (u + 2)} [Category.{u + 1} C] [Category.{u + 1} D]
           [Category.{u + 1} E] [Category.{u + 1} F] [Category.{u + 1} C'] [Category.{u + 1} D']
@@ -648,47 +650,47 @@ theorem isIso_spacesToposBaseChangeSquare_iff (h : n' ≫ m = m' ≫ n)
           (τ₁ : TwoSquare ΦC L₁ L₁' ΦD) (τ₂ : TwoSquare ΦE L₂ L₂' ΦF)
           (σG : G ⋙ ΦE ⟶ ΦC ⋙ G') (σH : ΦD ⋙ H' ⟶ H ⋙ ΦF)
           (β : TwoSquare R₁ H G R₂) (β' : TwoSquare R₁' H' G' R₂') (hΦ : ΦC.EssSurj)
-          (hτ₁ : IsIso τ₁.natTrans) (hτ₂ : IsIso τ₂.natTrans) (hσG : IsIso σG) (hσH : IsIso σH)
-          (hβ : IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans)
+          (hτ₁ : IsIso τ₁) (hτ₂ : IsIso τ₂) (hσG : IsIso σG) (hσH : IsIso σH)
+          (hβ : IsIso ((mateEquiv adj₁ adj₂).symm β))
           (_ : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
             β ≫ᵥ mateEquiv adj₂ adj₂' τ₂),
-          IsIso ((mateEquiv adj₁' adj₂').symm β').natTrans := by
+          IsIso ((mateEquiv adj₁' adj₂').symm β') := by
         intro C D E F C' D' E' F' _ _ _ _ _ _ _ _ L₁ R₁ L₂ R₂ L₁' R₁' L₂' R₂' G H G' H' ΦC ΦD ΦE ΦF
           adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' hΦ hτ₁ hτ₂ hσG hσH hβ h
         have := hΦ; have := hτ₁; have := hτ₂; have := hσG; have := hσH
-        have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans := by
+        have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂) := by
           rw [NatTrans.isIso_iff_isIso_app]
           intro c
-          have e : ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans.app c =
-              τ₂.natTrans.app (G.obj c) ≫
-                ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c) := by
+          have e : ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).app c =
+              τ₂.app (G.obj c) ≫
+                ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c) := by
             simp [TwoSquare.hComp]
           rw [e]
           infer_instance
         rw [Stacks.CategoryTheory.mateEquiv_symm_hComp_eq adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' h]
           at hl
-        have hw : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans := by
+        have hw : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') := by
           generalize τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β' = w at hl ⊢
-          have : IsIso ((Functor.whiskerRight σG L₂' ≫ w.natTrans) ≫ Functor.whiskerLeft L₁ σH) :=
+          have : IsIso ((Functor.whiskerRight σG L₂' ≫ w) ≫ Functor.whiskerLeft L₁ σH) :=
             hl
-          have : IsIso (Functor.whiskerRight σG L₂' ≫ w.natTrans) :=
+          have : IsIso (Functor.whiskerRight σG L₂' ≫ w) :=
             IsIso.of_isIso_comp_right _ (Functor.whiskerLeft L₁ σH)
-          exact IsIso.of_isIso_comp_left (Functor.whiskerRight σG L₂') w.natTrans
+          exact IsIso.of_isIso_comp_left (Functor.whiskerRight σG L₂') w
         rw [NatTrans.isIso_iff_isIso_app]
         intro d
         obtain ⟨c, ⟨e⟩⟩ : ∃ c, Nonempty (ΦC.obj c ≅ d) :=
           ⟨ΦC.objPreimage d, ⟨ΦC.objObjPreimageIso d⟩⟩
-        have hc : IsIso (((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c)) := by
-          have := NatIso.isIso_app_of_isIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans c
-          have e' : (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans.app c =
-              ((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c) ≫
-                H'.map (τ₁.natTrans.app c) := by
+        have hc : IsIso (((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c)) := by
+          have := NatIso.isIso_app_of_isIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') c
+          have e' : (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').app c =
+              ((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c) ≫
+                H'.map (τ₁.app c) := by
             simp [TwoSquare.hComp]
           rw [e'] at this
-          exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.natTrans.app c))
-        have nat := ((mateEquiv adj₁' adj₂').symm β').natTrans.naturality e.hom
-        have h₂ : ((mateEquiv adj₁' adj₂').symm β').natTrans.app d =
-            inv ((G' ⋙ L₂').map e.hom) ≫ ((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c) ≫
+          exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.app c))
+        have nat := ((mateEquiv adj₁' adj₂').symm β').naturality e.hom
+        have h₂ : ((mateEquiv adj₁' adj₂').symm β').app d =
+            inv ((G' ⋙ L₂').map e.hom) ≫ ((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c) ≫
               (L₁' ⋙ H').map e.hom := by
           rw [← nat]
           simp

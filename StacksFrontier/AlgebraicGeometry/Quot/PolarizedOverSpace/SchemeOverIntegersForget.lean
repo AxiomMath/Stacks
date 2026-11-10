@@ -31,7 +31,7 @@ theorem schemeOverIntegers_obj_forget (V : BigFppfOver B integerBase B.contains_
     (schemeOverIntegers B).obj
       ((BigFppfOver.forget B integerBase B.contains_integerBase).obj V) = V := by
   obtain ⟨left, ⟨⟨⟩⟩, hom⟩ := V
-  show Over.mk _ = Over.mk hom
+  change Over.mk _ = Over.mk hom
   congr 1
   apply ObjectProperty.hom_ext
   exact specULiftZIsTerminal.hom_ext _ _

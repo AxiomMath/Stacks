@@ -118,7 +118,7 @@ public theorem constIntMap_app_eq_zero {C : Type u₁} [Category.{v₁} C]
     {P : Cᵒᵖ ⥤ CommRingCat.{u}} {W : Cᵒᵖ} {A : Type*} [AddCommGroup A] (d : (P.obj W) →+ A)
     (hone : d 1 = 0) (a : (constIntPresheaf.{u} C).obj W) :
     d ((constIntMap P).app W a) = 0 := by
-  show d (((a.down : ℤ) : P.obj W)) = 0
+  change d (((a.down : ℤ) : P.obj W)) = 0
   rw [show ((a.down : ℤ) : P.obj W) = a.down • (1 : P.obj W) by simp [zsmul_eq_mul],
     AddMonoidHom.map_zsmul, hone, smul_zero]
 

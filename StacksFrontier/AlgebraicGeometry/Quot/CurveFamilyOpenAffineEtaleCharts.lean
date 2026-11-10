@@ -93,7 +93,7 @@ theorem exists_affine_etale_charts_of_isPullback {X : CurveFamily B hZ}
     intro u
     have : Etale (𝒯.map (φ₀ u)) := hφ₀ u
     rw [Functor.map_comp]
-    show Etale ((A u).ι ≫ 𝒯.map (φ₀ u))
+    change Etale ((A u).ι ≫ 𝒯.map (φ₀ u))
     infer_instance
   refine ⟨𝒯.obj V, T, fun u => pullback (q₀ u) (ι u), fun u => ι u ≫ φ₀ u,
     fun u => pullback.snd (q₀ u) (ι u), fun u => schemeSpaceMap (pullback.fst (q₀ u) (ι u)) ≫ p₀ u,
@@ -114,10 +114,10 @@ theorem exists_affine_etale_charts_of_isPullback {X : CurveFamily B hZ}
     have hab : Space.pointsMap B integerBase hZ X₁.obj f₁.hom x =
         Space.pointsMap B integerBase hZ _ (schemeSpaceMap (ι u ≫ φ₀ u)).hom a := by
       apply (Space.pointsEquivScheme B integerBase hZ V).injective
-      show u = Space.pointsToScheme B integerBase hZ V
+      change u = Space.pointsToScheme B integerBase hZ V
         (Space.pointsMap B integerBase hZ _ (yoneda.map (ι u ≫ φ₀ u)) a)
       rw [Space.pointsToScheme_pointsMap_yoneda, ha]
-      show u = 𝒯.map (φ₀ u) ((A u).ι ⟨t₀ u, htA u⟩)
+      change u = 𝒯.map (φ₀ u) ((A u).ι ⟨t₀ u, htA u⟩)
       rw [Scheme.Opens.ι_apply]
       exact (ht₀ u).symm
     obtain ⟨w, hw, -⟩ := Space.exists_points_of_isPullback B integerBase hZ

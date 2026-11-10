@@ -140,7 +140,7 @@ private theorem basicOpen_le_nonvanishingOpen_of_smul_eq (s t : L.sections) (U :
     rw [← grpGerm_eval_eq L t U x hxU, ← grpGerm_eval_eq L s U x hxU]
     exact (congrArg (grpGerm X.toRingedSpace L.val x U hxU) hr).symm.trans
       (stalkModule_germ_smul X.toRingedSpace L.val x U hxU r _)
-  show grpGerm X.toRingedSpace L.val x ⊤ (Opens.mem_top x) (t.eval (op ⊤)) ∉ _
+  change grpGerm X.toRingedSpace L.val x ⊤ (Opens.mem_top x) (t.eval (op ⊤)) ∉ _
   change grpGerm X.toRingedSpace L.val x ⊤ (Opens.mem_top x) (s.eval (op ⊤)) ∉ _ at hs
   intro hm
   refine hs ?_
@@ -179,7 +179,7 @@ private theorem forall_mem_nonvanishingOpen_of_appTop_injective {Y Z : Scheme.{u
   have hab : bW * aW = 1 := by
     refine (bijective_smul_eval_of_le_nonvanishingOpen (X := X.toRingedSpace) L s (U ⊓ V)
       inf_le_left).injective ?_
-    show (bW * aW) • (show Γ(L, U ⊓ V) from s.eval (op (U ⊓ V))) =
+    change (bW * aW) • (show Γ(L, U ⊓ V) from s.eval (op (U ⊓ V))) =
       (1 : Γ(X, U ⊓ V)) • (show Γ(L, U ⊓ V) from s.eval (op (U ⊓ V)))
     calc (bW * aW) • (show Γ(L, U ⊓ V) from s.eval (op (U ⊓ V)))
         = bW • (aW • (show Γ(L, U ⊓ V) from s.eval (op (U ⊓ V)))) := mul_smul _ _ _
@@ -193,7 +193,7 @@ private theorem forall_mem_nonvanishingOpen_of_appTop_injective {Y Z : Scheme.{u
   have hkU : (⊤ : Z.Opens) ≤ (k ≫ f) ⁻¹ᵁ U := fun z _ => hf (k z)
   have hkV : (⊤ : Z.Opens) ≤ (k ≫ f) ⁻¹ᵁ V := by
     intro z _
-    show (k ≫ f) z ∈ V
+    change (k ≫ f) z ∈ V
     rw [hfg]
     exact hg (k z)
   have hkW : (⊤ : Z.Opens) ≤ (k ≫ f) ⁻¹ᵁ (U ⊓ V) := fun z hz => ⟨hkU hz, hkV hz⟩

@@ -83,7 +83,7 @@ private theorem exists_specializes_of_mem_target_image_source_preimage_closure
     rw [Scheme.IdealSheafData.range_subschemeι]
     simp [J, F]
   have hx' : x ∈ f.ker.support := by
-    show x ∈ (f.ker.support : Set G.objects.left)
+    change x ∈ (f.ker.support : Set G.objects.left)
     rw [Scheme.Hom.support_ker]
     simpa [hrange] using hx
   have hxrange : x ∈ Set.range f.imageι.base := by
@@ -96,7 +96,7 @@ private theorem exists_specializes_of_mem_target_image_source_preimage_closure
   refine ⟨j.base a, ?_, rfl⟩
   have hJ : (J.support : Set G.arrows.left) = (F : Set G.arrows.left) := by
     simp [J]
-  show j.base a ∈ (F : Set G.arrows.left)
+  change j.base a ∈ (F : Set G.arrows.left)
   rw [← hJ, ← Scheme.IdealSheafData.range_subschemeι]
   exact ⟨a, rfl⟩
 
@@ -178,13 +178,13 @@ theorem exists_invariant_open_between_compact_opens
     ⟨G.identity.left.base x, by simpa [source_identity_apply] using hx,
       target_identity_apply G x⟩
   refine ⟨V, W', ?_, (hK i).2, ?_, ?_⟩
-  · show IsInvariantSet G (V : Set G.objects.left)
+  · change IsInvariantSet G (V : Set G.objects.left)
     intro r hr
-    show G.target.left.base r ∈ (closure T)ᶜ
+    change G.target.left.base r ∈ (closure T)ᶜ
     by_contra htr
     exact hr (hClosureBack r (by simpa [V] using htr))
   · intro x hx
-    show x ∈ (closure T)ᶜ
+    change x ∈ (closure T)ᶜ
     intro hxClosure
     exact (Set.disjoint_left.mp hEdisjClosure) (hsubset _ hx) hxClosure
   · intro x hx

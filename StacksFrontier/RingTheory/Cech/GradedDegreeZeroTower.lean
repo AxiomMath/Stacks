@@ -100,7 +100,7 @@ theorem smul_mem_gradedCechTerm {p : ℕ} {m : ℤ} {z : Cech.cechTerm g M p}
   rw [hzx, LocalizedModule.smul'_mk]
   refine Stacks.GradedLocalization.mk_mem_gradedPiece 𝒜 𝒨 hprod ?_
   convert SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) hf hx using 2
-  show m + 1 + n • ((∑ i ∈ s.1, c i : ℕ) : ℤ) = ((1 : ℕ) : ℤ) + (m + n • _)
+  change m + 1 + n • ((∑ i ∈ s.1, c i : ℕ) : ℤ) = ((1 : ℕ) : ℤ) + (m + n • _)
   push_cast
   ring
 
@@ -120,7 +120,7 @@ theorem exists_pow_smul_torsion_bound [IsNoetherian R M] (f : R) :
   obtain ⟨t, ht⟩ := monotone_stabilizes_iff_noetherian.mpr inferInstance K
   refine ⟨t, fun x n hx => ?_⟩
   have hmem : x ∈ K (t + n) := by
-    show x ∈ LinearMap.ker ((f ^ (t + n)) • LinearMap.id)
+    change x ∈ LinearMap.ker ((f ^ (t + n)) • LinearMap.id)
     simpa using hx
   rw [← ht (t + n) (Nat.le_add_right t n)] at hmem
   change x ∈ LinearMap.ker ((f ^ t) • LinearMap.id) at hmem
@@ -217,7 +217,6 @@ theorem mem_bd_of_sub_pow_smul_mem_bd [IsNoetherian R M]
   exact DegreeZeroTower.mem_bd_of_sub_pow_smul_mem_bd
     (C := fun p => Cech.cechTerm g M (p + 1)) (d := cechDiff g) (D := degreePart 𝒜 𝒨 g) f
     (fun p x => LinearMap.congr_fun (Cech.cechD_comp_cechD g M (p + 1)) x)
-    (fun p m x hx => Cech.cechD_mem_gradedCechTerm 𝒜 𝒨 g hc m (p + 1) hx)
     (fun p m x hx => smul_mem_gradedCechTerm 𝒜 𝒨 g hc hf hx)
     (fun p x n hx => cechTerm_torsion_bound g f ht (p + 1) x n hx)
     (annihilation 𝒜 𝒨 g hc hf hneg hH) hp hN hz hdz hu hzu

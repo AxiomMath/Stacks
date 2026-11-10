@@ -39,7 +39,7 @@ theorem Prod.fst_finite (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
   rw [eq_top_iff]
   intro x _
   have hx : x = ((x, 0) : R1 × R2) • (1 : R1) := by
-    show x = (RingHom.fst R1 R2) (x, 0) * 1
+    change x = (RingHom.fst R1 R2) (x, 0) * 1
     simp
   rw [hx]
   exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
@@ -55,14 +55,14 @@ theorem Prod.fst_projective (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
       map_add' _ _ := by simp
       map_smul' := by
         intro c x
-        show (c.fst * x, 0) = c * (x, 0)
+        change (c.fst * x, 0) = c * (x, 0)
         ext <;> simp }
   let s : (R1 × R2) →ₗ[R1 × R2] R1 :=
     { toFun := fun p => p.fst
       map_add' _ _ := rfl
       map_smul' := by
         intro c x
-        show (c * x).fst = c.fst * x.fst
+        change (c * x).fst = c.fst * x.fst
         rfl }
   refine Module.Projective.of_split i s ?_
   ext x
@@ -79,7 +79,7 @@ theorem Prod.snd_finite (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
   rw [eq_top_iff]
   intro x _
   have hx : x = ((0, x) : R1 × R2) • (1 : R2) := by
-    show x = (RingHom.snd R1 R2) (0, x) * 1
+    change x = (RingHom.snd R1 R2) (0, x) * 1
     simp
   rw [hx]
   exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))
@@ -95,14 +95,14 @@ theorem Prod.snd_projective (R1 R2 : Type u) [CommRing R1] [CommRing R2] :
       map_add' _ _ := by simp
       map_smul' := by
         intro c x
-        show (0, c.snd * x) = c * (0, x)
+        change (0, c.snd * x) = c * (0, x)
         ext <;> simp }
   let s : (R1 × R2) →ₗ[R1 × R2] R2 :=
     { toFun := fun p => p.snd
       map_add' _ _ := rfl
       map_smul' := by
         intro c x
-        show (c * x).snd = c.snd * x.snd
+        change (c * x).snd = c.snd * x.snd
         rfl }
   refine Module.Projective.of_split i s ?_
   ext x
@@ -143,8 +143,7 @@ noncomputable def Prod.tensorFstEquiv (R1 R2 : Type u) [CommRing R1] [CommRing R
       map_add' := fun x y => by simp
       map_smul' := fun (r1 : R1) t => by
         simp only [RingHom.id_apply]
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul s n =>
           change fwdRaw ((r1 • s) ⊗ₜ[R1 × R2] n) = r1 • fwdRaw (s ⊗ₜ[R1 × R2] n)
           change ((r1 • s, 0) : R1 × R2) • n = r1 • (((s, 0) : R1 × R2) • n)
@@ -171,8 +170,7 @@ noncomputable def Prod.tensorFstEquiv (R1 R2 : Type u) [CommRing R1] [CommRing R
     simp
   have hbf : ∀ t : TensorProduct (R1 × R2) R1 N, bwd (fwd t) = t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul s n =>
       change bwd (fwdRaw (s ⊗ₜ[R1 × R2] n)) = s ⊗ₜ[R1 × R2] n
       change (1 : R1) ⊗ₜ[R1 × R2] (((s, 0) : R1 × R2) • n) = s ⊗ₜ[R1 × R2] n
@@ -219,8 +217,7 @@ noncomputable def Prod.tensorSndEquiv (R1 R2 : Type u) [CommRing R1] [CommRing R
       map_add' := fun x y => by simp
       map_smul' := fun (r2 : R2) t => by
         simp only [RingHom.id_apply]
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul s n =>
           change fwdRaw ((r2 • s) ⊗ₜ[R1 × R2] n) = r2 • fwdRaw (s ⊗ₜ[R1 × R2] n)
           change ((0, r2 • s) : R1 × R2) • n = r2 • (((0, s) : R1 × R2) • n)
@@ -247,8 +244,7 @@ noncomputable def Prod.tensorSndEquiv (R1 R2 : Type u) [CommRing R1] [CommRing R
     simp
   have hbf : ∀ t : TensorProduct (R1 × R2) R2 N, bwd (fwd t) = t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul s n =>
       change bwd (fwdRaw (s ⊗ₜ[R1 × R2] n)) = s ⊗ₜ[R1 × R2] n
       change (1 : R2) ⊗ₜ[R1 × R2] (((0, s) : R1 × R2) • n) = s ⊗ₜ[R1 × R2] n
@@ -270,14 +266,13 @@ theorem Prod.subsingleton_tensor_snd_of_fst (R1 R2 : Type u) [CommRing R1] [Comm
   let : Algebra (R1 × R2) R2 := (RingHom.snd R1 R2).toAlgebra
   let : Module (R1 × R2) N := Module.compHom N (RingHom.fst R1 R2)
   refine subsingleton_of_forall_eq 0 fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  induction t using TensorProduct.inductionOn with
   | tmul r2 n =>
     have hn : n = ((1, 0) : R1 × R2) • n := by
-      show n = (RingHom.fst R1 R2) (1, 0) • n
+      change n = (RingHom.fst R1 R2) (1, 0) • n
       simp
     have hz : ((1, 0) : R1 × R2) • r2 = (0 : R2) := by
-      show (RingHom.snd R1 R2) (1, 0) * r2 = 0
+      change (RingHom.snd R1 R2) (1, 0) * r2 = 0
       simp
     calc r2 ⊗ₜ[R1 × R2] n
         = r2 ⊗ₜ[R1 × R2] (((1, 0) : R1 × R2) • n) := by rw [← hn]
@@ -297,14 +292,13 @@ theorem Prod.subsingleton_tensor_fst_of_snd (R1 R2 : Type u) [CommRing R1] [Comm
   let : Algebra (R1 × R2) R1 := (RingHom.fst R1 R2).toAlgebra
   let : Module (R1 × R2) N := Module.compHom N (RingHom.snd R1 R2)
   refine subsingleton_of_forall_eq 0 fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  induction t using TensorProduct.inductionOn with
   | tmul r1 n =>
     have hn : n = ((0, 1) : R1 × R2) • n := by
-      show n = (RingHom.snd R1 R2) (0, 1) • n
+      change n = (RingHom.snd R1 R2) (0, 1) • n
       simp
     have hz : ((0, 1) : R1 × R2) • r1 = (0 : R1) := by
-      show (RingHom.fst R1 R2) (0, 1) * r1 = 0
+      change (RingHom.fst R1 R2) (0, 1) * r1 = 0
       simp
     calc r1 ⊗ₜ[R1 × R2] n
         = r1 ⊗ₜ[R1 × R2] (((0, 1) : R1 × R2) • n) := by rw [← hn]

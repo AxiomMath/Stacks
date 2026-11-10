@@ -172,7 +172,7 @@ is the sum of their sections. -/
 theorem degreeSection_add (n : ℕ) (b c : 𝒮 n) :
     degreeSection 𝒮 n (b + c) = degreeSection 𝒮 n b + degreeSection 𝒮 n c := by
   unfold degreeSection
-  show ProjStalkGlobalSections.degreeZeroToGlobalSections 𝒮
+  change ProjStalkGlobalSections.degreeZeroToGlobalSections 𝒮
     (twistGrading (S := S) 𝒮 (n : ℤ)) ⟨(b : S) + (c : S), _⟩ = _
   rw [← map_add]
   congr 1
@@ -216,7 +216,7 @@ private def vanishingSections {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) : AddSubmon
 private lemma vanishingSections_mul_homogeneous {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮)
     {j : ℕ} {c : S} (hc : c ∈ 𝒮 j) {x : S} (hx : x ∈ vanishingSections 𝒮 i) :
     c * x ∈ vanishingSections 𝒮 i := by
-  show ∀ n : ℕ, pullbackGlobalSections i (twistingSheaf 𝒮 (n : ℤ))
+  change ∀ n : ℕ, pullbackGlobalSections i (twistingSheaf 𝒮 (n : ℤ))
     (degreeSection 𝒮 n (DirectSum.decompose 𝒮 (c * x) n)) = 0
   intro n
   by_cases h : j ≤ n
@@ -245,11 +245,11 @@ theorem mem_idealOfClosedSubscheme_iff {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮)
   classical
   constructor
   · intro ha
-    show a ∈ vanishingSections 𝒮 i
+    change a ∈ vanishingSections 𝒮 i
     induction ha using Submodule.span_induction with
     | mem y hy =>
       obtain ⟨m, b, rfl, hb⟩ := hy
-      show ∀ n : ℕ, pullbackGlobalSections i (twistingSheaf 𝒮 (n : ℤ))
+      change ∀ n : ℕ, pullbackGlobalSections i (twistingSheaf 𝒮 (n : ℤ))
         (degreeSection 𝒮 n (DirectSum.decompose 𝒮 (b : S) n)) = 0
       intro n
       by_cases hn : n = m

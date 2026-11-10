@@ -75,7 +75,7 @@ private theorem restrictedRepresentableMap_isSmooth_iff_projection
     · exact IsHomLift.of_fac (p := (restrictedRepresentable R).p) q h rfl rfl rfl
     · exact IsHomLift.of_fac (p := (restrictedRepresentable L).p) (𝟙 B) a rfl rfl rfl
     · apply Functor.Elements.hom_ext
-      show q = (𝟙 B) ≫ g.hom
+      change q = (𝟙 B) ≫ g.hom
       rw [Category.id_comp]
       have he := IsHomLift.fac (p := (restrictedRepresentable L).p) q g
       change q = (𝟙 B) ≫ g.hom ≫ (𝟙 A) at he
@@ -142,7 +142,7 @@ private theorem smooth_iff_powerSeries_of_small_base
     { hom := (Algebra.ofId Λ X).comp e.toAlgHom
       isLocal := RingHom.isLocalHom_comp (algebraMap Λ X) e.toRingHom
       residue_comm := fun a => by
-        show X.residueEquiv (residue X (algebraMap Λ X (e a))) =
+        change X.residueEquiv (residue X (algebraMap Λ X (e a))) =
           eΛ (ResidueField.mapAlgEquiv e (residue _ a))
         rw [ResidueField.mapAlgEquiv_residue, residueEquiv_structureMap]
         exact (residueEquiv_structureMap eΛ (e a)).symm }
@@ -166,7 +166,7 @@ private theorem smooth_iff_powerSeries_of_small_base
     (fun a => (f.hom.commutes a).symm)
   have hsurj : Function.Surjective (algebraMap Λ L) := fun a =>
     ⟨e a, e.injective (e.commutes (e a))⟩
-  show (∃ n : ℕ, Nonempty (R ≃ₐ[L] MvPowerSeries (Fin n) L)) ↔ _
+  change (∃ n : ℕ, Nonempty (R ≃ₐ[L] MvPowerSeries (Fin n) L)) ↔ _
   constructor
   · rintro ⟨n, ⟨h⟩⟩
     exact ⟨n, ⟨(h.restrictScalars Λ).trans (mvPowerSeries_mapAlgEquiv (Fin n) e)⟩⟩

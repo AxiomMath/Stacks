@@ -254,7 +254,7 @@ theorem exists_subspaceInclusion_eq_comp :
       (isThickening_inclusion.{u, w, u} ξ)).1
   refine ⟨ObjectProperty.homMk (CategoryTheory.inv (Subfunctor.toRange ξ.inclusion.hom)), ?_⟩
   apply ObjectProperty.hom_ext
-  show (Subfunctor.range ξ.inclusion.hom).ι =
+  change (Subfunctor.range ξ.inclusion.hom).ι =
     CategoryTheory.inv (Subfunctor.toRange ξ.inclusion.hom) ≫ ξ.inclusion.hom
   rw [eq_comm, IsIso.inv_comp_eq]
   exact (Subfunctor.toRange_ι _).symm
@@ -440,7 +440,7 @@ theorem comp_comm_of_base_eq_id (σ τ : Hom ξ ξ) (hσ : σ.base = 𝟙 ξ.bas
   let M := {m : Hom ξ ξ // m.base = 𝟙 ξ.base}
   let xx : M → Lifts hι₁ ξ := fun m => autLiftLift hι₁ ξ m.1 m.2
   let mul : M → M → M := fun m n => ⟨m.1.comp n.1, by
-    show m.1.base ≫ n.1.base = _
+    change m.1.base ≫ n.1.base = _
     rw [m.2, n.2, Category.comp_id]⟩
   have key := AddAction.eq_of_translation (autLiftLift hι₁ ξ (Hom.id ξ) rfl)
     (fun θ₁ θ₂ h => hbij.1 h) xx (fun m => (hbij.2 (xx m)).choose)
@@ -454,7 +454,7 @@ theorem comp_comm_of_base_eq_id (σ τ : Hom ξ ξ) (hσ : σ.base = 𝟙 ξ.bas
       (Category.comp_id (obj := EtaleSmoothLift B S hS ι hι W x hx) (X := ξ) (Y := ξ) m.1)))
     ⟨σ, hσ⟩ ⟨τ, hτ⟩
   refine ξ.autLift_injective (congrArg Subtype.val key) ?_
-  show σ.base ≫ τ.base = τ.base ≫ σ.base
+  change σ.base ≫ τ.base = τ.base ≫ σ.base
   rw [hσ, hτ]
 
 end Setup
@@ -466,7 +466,7 @@ theorem base_eq_id_of_fiber {U : Space.SpacesEtale B S hS W}
     Hom.base (Functor.Fiber.fiberInclusion.map α) = 𝟙 _ := by
   have h := IsHomLift.fac' (p := (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _)) (𝟙 U)
     (Functor.Fiber.fiberInclusion.map α)
-  show (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).map _ = _
+  change (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).map _ = _
   rw [h]
   simp
   rfl

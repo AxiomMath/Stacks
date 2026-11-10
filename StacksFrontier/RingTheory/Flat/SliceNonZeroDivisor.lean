@@ -150,7 +150,7 @@ theorem mem_nonZeroDivisors_atPrime_and_flat_quotient_of_fibre (q : Ideal B) [q.
     rw [← Localization.AtPrime.map_eq_maximalIdeal, Ideal.map_map,
       ← IsScalarTower.algebraMap_eq A (Localization.AtPrime p) (Localization.AtPrime q)]
   have : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     infer_instance
   have key :=
     mem_nonZeroDivisors_and_flat_quotient_span_singleton_of_mem_nonZeroDivisors_maximalIdeal

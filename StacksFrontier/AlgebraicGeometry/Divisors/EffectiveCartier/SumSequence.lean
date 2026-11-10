@@ -36,11 +36,10 @@ scheme-theoretic intersection.  Correspondingly the inclusion `D ⊆ D'` of clos
 `D' ≤ D` on ideal sheaf data.  It follows from `D' = D * C`, but is taken as a hypothesis
 because the restriction morphism `𝒪_{D'} ⟶ 𝒪_D` is indexed by a proof of it.
 
-Of the three effective Cartier hypotheses only the one on `D` is used: the sequence exists for
-any ideal sheaf `C` with `D' = D * C`, since the left-hand term is the tensor product of the
-ideal sequence of `C` with the invertible sheaf `ℐ_D`, and only `ℐ_D` is required to be
-invertible.  The hypotheses on `D'` and on `C` are retained because they are part of the
-statement of the source, which obtains `C` from Tag 02ON as an effective Cartier divisor.
+Of the three effective Cartier hypotheses of the source only the one on `D` is needed, and only
+it is taken: the sequence exists for any ideal sheaf `C` with `D' = D * C`, since the left-hand
+term is the tensor product of the ideal sequence of `C` with the invertible sheaf `ℐ_D`, and
+only `ℐ_D` is required to be invertible.
 
 The proof follows the source in two steps.  Writing `i : C ⟶ X` for the inclusion:
 
@@ -193,7 +192,7 @@ private theorem shortExact_kernels_of_quotients {𝒜 : Type*} [Category* 𝒜] 
     inferInstanceAs (Mono R.g.op)
   have hdiag' : T.op.g ≫ eb.op.hom ≫ R.op.g = ea.op.hom ≫ S.op.g ≫ ec.op.hom :=
     Quiver.Hom.unop_inj (by
-      show (R.f ≫ eb.hom) ≫ T.f = (ec.hom ≫ S.f) ≫ ea.hom
+      change (R.f ≫ eb.hom) ≫ T.f = (ec.hom ≫ S.f) ≫ ea.hom
       rw [Category.assoc, Category.assoc]
       exact hdiag)
   have hρ' : ρ.op ≫ S.op.f = T.op.f ≫ ea.op.hom :=
@@ -333,7 +332,7 @@ lemma tensorUnitIso_hom_app_tmul
   let a := PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)
   have h : a.homEquiv _ _ (tensorUnitIso F).hom = (λ_ F.val).hom := by
-    show a.homEquiv _ _ ((PresheafOfModules.sheafification
+    change a.homEquiv _ _ ((PresheafOfModules.sheafification
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj)).map (λ_ F.val).hom ≫
         a.counit.app F) = _
     exact (a.homEquiv _ _).apply_symm_apply (λ_ F.val).hom
@@ -513,7 +512,7 @@ lemma epi_idealTensorMul (I J : X.IdealSheafData) : Epi (idealTensorMul I J) :=
 
 /-- The ideal sheaf of a closed subscheme is a subsheaf of the structure sheaf. -/
 lemma mono_idealInclusion (I : X.IdealSheafData) : Mono (idealInclusion I) := by
-  show Mono (kernel.ι _)
+  change Mono (kernel.ι _)
   infer_instance
 
 /-- **The tensor product of the ideal sheaves of two effective Cartier divisors is the ideal
@@ -545,7 +544,7 @@ lemma isIso_idealTensorMul (I J : X.IdealSheafData)
     mono_idealInclusion J
   let hmT : Mono (C := SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) (idealTensorInclusion I J) := by
-    show Mono (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
+    change Mono (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
       (idealSheafOfModules J)).map (idealInclusion I))
     exact Functor.map_mono
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
@@ -1049,8 +1048,8 @@ of `ℐ_D` is used, so the sequence exists for every sheaf of ideals `C`: for `D
 Cartier divisor and `C` any sheaf of ideals with `C · D ⊆ D` there is a short exact sequence
 `0 ⟶ 𝒪_X(-D)|_C ⟶ 𝒪_{C · D} ⟶ 𝒪_D ⟶ 0` of `𝒪_X`-modules.
 
-`Stacks.Divisors.addEffectiveCartierDivisor_shortExact` is this statement carrying the source's
-own hypotheses on the sum and on the complement. -/
+`Stacks.Divisors.addEffectiveCartierDivisor_shortExact` is this statement phrased with the
+source's sum `D' = D * C`. -/
 theorem exists_shortExact_mul (D C : X.IdealSheafData)
     (hD : IsEffectiveCartierDivisor D) (hsub : C * D ≤ D) :
     ∃ f : (Scheme.Modules.pushforward C.subschemeι).obj
@@ -1069,8 +1068,7 @@ and let `C` be an effective Cartier divisor with `D' = D + C`, which exists by
 `0 ⟶ 𝒪_X(-D)|_C ⟶ 𝒪_{D'} ⟶ 𝒪_D ⟶ 0` of `𝒪_X`-modules. -/
 @[stacks 0C4T]
 theorem addEffectiveCartierDivisor_shortExact (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsub : D' ≤ D) (hsum : D' = D * C) :
+    (hD : IsEffectiveCartierDivisor D) (hsub : D' ≤ D) (hsum : D' = D * C) :
     ∃ f : (Scheme.Modules.pushforward C.subschemeι).obj
           ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D)) ⟶
         Scheme.IdealSheafData.closedSubschemeStructureSheaf D',
@@ -1078,7 +1076,7 @@ theorem addEffectiveCartierDivisor_shortExact (D D' C : X.IdealSheafData)
         (ShortComplex.mk f (Scheme.IdealSheafData.closedSubschemeRestriction hsub)
           zero).ShortExact := by
   have hprod : D' = C * D := hsum.trans (mul_comm D C)
-  clear hsum hD' hC
+  clear hsum
   subst hprod
   exact exists_shortExact_mul D C hD hsub
 

@@ -132,7 +132,7 @@ private lemma adjointExtMap_naturality (adj : L ⊣ R) (X : C) {Y Z : D}
     (g : Y ⟶ Z) (n : ℕ) (x : Ext X (R.obj Y) n) :
     adjointExtMap adj X Z n (x.comp (Ext.mk₀ (R.map g)) (add_zero n)) =
       (adjointExtMap adj X Y n x).comp (Ext.mk₀ g) (add_zero n) := by
-  show ((x.comp (Ext.mk₀ (R.map g)) (add_zero n)).mapExactFunctor L).comp
+  change ((x.comp (Ext.mk₀ (R.map g)) (add_zero n)).mapExactFunctor L).comp
       (Ext.mk₀ (adj.counit.app Z)) (add_zero n) =
     ((x.mapExactFunctor L).comp (Ext.mk₀ (adj.counit.app Y)) (add_zero n)).comp
       (Ext.mk₀ g) (add_zero n)
@@ -152,7 +152,7 @@ private lemma adjointExtMap_delta (adj : L ⊣ R) (X : C)
       τ₃ := adj.counit.app T.X₃
       comm₁₂ := (adj.counit.naturality T.f).symm
       comm₂₃ := (adj.counit.naturality T.g).symm }
-  show ((x.comp hR.extClass rfl).mapExactFunctor L).comp
+  change ((x.comp hR.extClass rfl).mapExactFunctor L).comp
       (Ext.mk₀ (adj.counit.app T.X₁)) (add_zero (n + 1)) =
     ((x.mapExactFunctor L).comp (Ext.mk₀ (adj.counit.app T.X₃)) (add_zero n)).comp
       hT.extClass rfl
@@ -255,7 +255,7 @@ public theorem adjointExtComparisonMap_mk₀ (adj : L ⊣ R) {X : C} {Z : D} (e 
     (Y : D) (f : X ⟶ R.obj Y) :
     adjointExtComparisonMap adj e Y 0 (Ext.mk₀ f) =
       Ext.mk₀ (e.inv ≫ (adj.homEquiv X Y).symm f) := by
-  show (Ext.mk₀ e.inv).comp (adjointExtMap adj X Y 0 (Ext.mk₀ f)) (zero_add 0) = _
+  change (Ext.mk₀ e.inv).comp (adjointExtMap adj X Y 0 (Ext.mk₀ f)) (zero_add 0) = _
   rw [adjointExtMap_mk₀, Ext.mk₀_comp_mk₀]
 
 omit [R.Additive] in
@@ -264,7 +264,7 @@ public theorem adjointExtComparisonMap_naturality (adj : L ⊣ R) {X : C} {Z : D
     (e : L.obj X ≅ Z) {Y Y' : D} (g : Y ⟶ Y') (n : ℕ) (x : Ext X (R.obj Y) n) :
     adjointExtComparisonMap adj e Y' n (x.comp (Ext.mk₀ (R.map g)) (add_zero n)) =
       (adjointExtComparisonMap adj e Y n x).comp (Ext.mk₀ g) (add_zero n) := by
-  show (Ext.mk₀ e.inv).comp (adjointExtMap adj X Y' n
+  change (Ext.mk₀ e.inv).comp (adjointExtMap adj X Y' n
       (x.comp (Ext.mk₀ (R.map g)) (add_zero n))) (zero_add n) =
     ((Ext.mk₀ e.inv).comp (adjointExtMap adj X Y n x) (zero_add n)).comp
       (Ext.mk₀ g) (add_zero n)
@@ -491,7 +491,7 @@ public theorem BigSite.zariskiSheafHEquiv_naturality
     B.zariskiSheafHEquiv.{w} G' hG' q
         (Sheaf.H.map.{w, u} (B.zariskiRestriction.map f) q x) =
       Sheaf.H.map.{w, u} f q (B.zariskiSheafHEquiv.{w} G hG q x) := by
-  show Stacks.Cohomology.AdjointExt.adjointExtComparisonMap B.zariskiAdjunction
+  change Stacks.Cohomology.AdjointExt.adjointExtComparisonMap B.zariskiAdjunction
       B.constantSheafZariskiIso G' q
       (x.comp (Ext.mk₀ (B.zariskiRestriction.map f)) (add_zero q)) =
     (Stacks.Cohomology.AdjointExt.adjointExtComparisonMap B.zariskiAdjunction

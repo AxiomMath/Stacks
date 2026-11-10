@@ -123,7 +123,7 @@ abbrev dvrChowSituation : ChowSituation.{u} where
 @[simp]
 theorem dvrChowSituation_dimensionFunction_closedPoint :
     (dvrChowSituation R).dimensionFunction (IsLocalRing.closedPoint R) = 0 := by
-  show (if (IsLocalRing.maximalIdeal R) = ⊥ then (1 : ℤ) else 0) = 0
+  change (if (IsLocalRing.maximalIdeal R) = ⊥ then (1 : ℤ) else 0) = 0
   simp [maximalIdeal_ne_bot_of_isDiscreteValuationRing R]
 
 /-- The generic point of the spectrum of a domain is the zero ideal: the generic point
@@ -138,7 +138,7 @@ theorem asIdeal_genericPoint_spec :
 @[simp]
 theorem dvrChowSituation_dimensionFunction_genericPoint :
     (dvrChowSituation R).dimensionFunction (genericPoint (Spec (.of R))) = 1 := by
-  show (if (genericPoint (Spec (.of R)) : PrimeSpectrum R).asIdeal = ⊥ then (1 : ℤ) else 0) = 1
+  change (if (genericPoint (Spec (.of R)) : PrimeSpectrum R).asIdeal = ⊥ then (1 : ℤ) else 0) = 1
   simp
 
 /-- The base scheme of `Stacks.Chow.dvrChowSituation` is the spectrum of `R`. -/

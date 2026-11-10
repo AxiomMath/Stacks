@@ -169,7 +169,7 @@ theorem algebraMap_baseSectionsAlgebra_eq {R : Type u} [CommRing R] (W : Over (S
     rw [show (TopologicalSpace.Opens.leTop (⊤ : W.left.Opens)).op =
         𝟙 (Opposite.op (⊤ : W.left.Opens)) from rfl, CategoryTheory.Functor.map_id]
     rfl
-  show AlgebraicGeometry.baseRingToSections R W (Opposite.op ⊤) r = _
+  change AlgebraicGeometry.baseRingToSections R W (Opposite.op ⊤) r = _
   exact hres _
 
 /-- For a scheme over the spectrum of its affine base, the algebra map is the structure
@@ -247,7 +247,7 @@ theorem topDegreeCohomology_situation :
     (situation g d hvan).topDegreeCohomology (qcohObj F₀ hF₀) =
       (ModuleCat.restrictScalars g.appTop.hom).obj
         (((moduleGlobalSections X₀).rightDerived d).obj F₀) := by
-  show (ModuleCat.restrictScalars
+  change (ModuleCat.restrictScalars
       (algebraMap (Γ(Y₀, ⊤) : Type u) Γ((Over.mk (g ≫ Y₀.isoSpec.hom)).left, ⊤))).obj
       (((moduleGlobalSections X₀).rightDerived d).obj F₀) = _
   rw [algebraMap_over_isoSpec g]

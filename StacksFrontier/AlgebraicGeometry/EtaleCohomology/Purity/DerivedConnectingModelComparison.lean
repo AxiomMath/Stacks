@@ -46,6 +46,7 @@ def rightDerivedDeltaOfModel (I : HasDerivedCategory C) (J : HasDerivedCategory 
   letI := J
   Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives F
 
+omit [PreservesFiniteLimits F] in
 /-- In any models `I`, `J`, the degree-`n` functor of `rightDerivedDeltaOfModel F I J` is
 `F.rightDerived n`. -/
 theorem rightDerivedDeltaOfModel_functor (I : HasDerivedCategory C) (J : HasDerivedCategory D)
@@ -146,7 +147,7 @@ theorem exists_iso_rightDerivedConnecting_comp (I₁ : HasDerivedCategory C)
     (rightDerivedModelComparison F I₂ J₂ I₁ J₁ 1).app S.X₁,
     NatTrans.congr_app (rightDerivedModelComparison_comp F I₁ J₁ I₂ J₂ 1) S.X₁,
     NatTrans.congr_app (rightDerivedModelComparison_comp F I₂ J₂ I₁ J₁ 1) S.X₁⟩, ?_⟩
-  show _ = _ ≫ (rightDerivedModelComparison F I₁ J₁ I₂ J₂ (0 + 1)).app S.X₁
+  change _ = _ ≫ (rightDerivedModelComparison F I₁ J₁ I₂ J₂ (0 + 1)).app S.X₁
   rw [Category.assoc, δ_comp_rightDerivedModelComparison, rightDerivedModelComparison_zero,
     NatTrans.comp_app, Category.assoc, Iso.hom_inv_id_app_assoc]
 

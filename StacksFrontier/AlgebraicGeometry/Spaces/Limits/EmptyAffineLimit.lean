@@ -103,7 +103,7 @@ noncomputable def gen {s : Finset X} {j : X} (hj : j ∈ s) : (field k X).obj s 
 /-- The field extension `k(x_l : l ∈ s) → k(x_l : l ∈ t)` sends the variable `x_j` to `x_j`. -/
 theorem map_gen {s t : Finset X} (h : s ⟶ t) {j : X} (hj : j ∈ s) :
     (field k X).map h (gen k X hj) = gen k X (h.le hj) := by
-  show (IsFractionRing.map (polyMap_injective k X h.le) : FractionRing (MvPolynomial s k) →+*
+  change (IsFractionRing.map (polyMap_injective k X h.le) : FractionRing (MvPolynomial s k) →+*
       FractionRing (MvPolynomial t k)) (algebraMap (MvPolynomial s k) _ (MvPolynomial.X ⟨j, hj⟩)) =
     algebraMap (MvPolynomial t k) _ (MvPolynomial.X ⟨j, h.le hj⟩)
   rw [IsFractionRing.map, IsLocalization.map_eq]
@@ -126,7 +126,7 @@ of the constants `k`. -/
 theorem constants_comp_map {s t : Finset X} (h : s ⟶ t) :
     constants k X s ≫ (field k X).map h = constants k X t := by
   ext r
-  show (IsFractionRing.map (polyMap_injective k X h.le) : FractionRing (MvPolynomial s k) →+*
+  change (IsFractionRing.map (polyMap_injective k X h.le) : FractionRing (MvPolynomial s k) →+*
       FractionRing (MvPolynomial t k)) (algebraMap (MvPolynomial s k) _ (MvPolynomial.C r)) =
     algebraMap (MvPolynomial t k) _ (MvPolynomial.C r)
   rw [IsFractionRing.map, IsLocalization.map_eq]
@@ -395,7 +395,7 @@ theorem not_forall_exists_hom_after_baseChange_of_isAlgebraicSpace_limit
     (Over.mk (𝟙 _)) (RationalFunctionFieldSystem.emptyOver i)
     (isAlgebraicSpace_yoneda B _ hk _) (isAlgebraicSpace_yoneda B _ hk _)
     (by
-      show IsFinitePresentation B _ hk (𝟙 (D.obj i))
+      change IsFinitePresentation B _ hk (𝟙 (D.obj i))
       rw [show 𝟙 (D.obj i) = yoneda.map (𝟙 _) from (yoneda.map_id _).symm]
       exact hfp _ (T.map_id _))
     (hfp _ (hempty _ _))

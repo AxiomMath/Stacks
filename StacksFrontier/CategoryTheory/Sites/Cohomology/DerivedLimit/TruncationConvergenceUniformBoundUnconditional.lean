@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.TruncationTowerConvergenceUnconditional
+StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.TruncationTowerConvergenceUnconditional
 import StacksCore.Tactic.StacksAttribute
 
 /-!

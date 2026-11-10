@@ -200,7 +200,7 @@ theorem existsUnique_chartLift {W : BigFppfOver B S hS} (a : W ⟶ T)
     fun _ _ h => (BigFppfOver.toScheme B S hS).map_injective h
   refine ⟨Over.homMk (ObjectProperty.homMk c0) ?_, ?_, ?_⟩
   · apply ObjectProperty.hom_ext
-    show c0 ≫ ((chartOpens B S hS X V T x).ι ≫ B.inclusion.map T.hom) = _
+    change c0 ≫ ((chartOpens B S hS X V T x).ι ≫ B.inclusion.map T.hom) = _
     rw [← Category.assoc, hc0]
     exact congrArg B.inclusion.map (Over.w a)
   · refine Over.OverMorphism.ext ?_
@@ -246,7 +246,7 @@ theorem mem_chartOpens_of_lift (hV : IsFormalScheme (X.obj.restrict V))
   have h2 : (X.obj.ofRestrict V).toHom.base (b.hom.toHom.base w)
       = x.down.hom.toHom.base (((BigFppfOver.toScheme B S hS).map a).base w) :=
     congrFun (congrArg (fun k : _ ⟶ _ => (ConcreteCategory.hom k : _ → _)) hbase) w
-  show x.down.hom.toHom.base (((BigFppfOver.toScheme B S hS).map a).base w) ∈ V
+  change x.down.hom.toHom.base (((BigFppfOver.toScheme B S hS).map a).base w) ∈ V
   rw [← h2]
   exact base_comp_ofRestrict_mem V b.hom w
 
@@ -520,7 +520,7 @@ theorem relative_isOpenImmersion_openFormalSubschemePresheafHom :
     refine (uliftYoneda.{u + 1}).map_injective ?_
     rw [Functor.map_comp, hmap]
     exact hsq.isoIsPullback_hom_snd _ _ h2
-  show IsOpenImmersion ((BigFppfOver.toScheme B S hS).map psnd)
+  change IsOpenImmersion ((BigFppfOver.toScheme B S hS).map psnd)
   rw [← hfac, Functor.map_comp]
   have : IsIso ((BigFppfOver.toScheme B S hS).map
       ((uliftYoneda.{u + 1}).preimage e.hom)) := inferInstance
@@ -778,7 +778,7 @@ theorem isLocallySurjective_sigmaDesc_openFormalSubschemeSheafHom
     refine ⟨ULift.up i, ULift.up (schemeToFormalScheme.map
       ((BigFppfOver.toScheme B S hS).map k) ≫ chartFormalHom B S hS X (U i) T x (hU i)), ?_⟩
     refine congrArg ULift.up ?_
-    show schemeToFormalScheme.map ((BigFppfOver.toScheme B S hS).map k) ≫
+    change schemeToFormalScheme.map ((BigFppfOver.toScheme B S hS).map k) ≫
         (chartFormalHom B S hS X (U i) T x (hU i) ≫ openFormalSubschemeHom X (U i) (hU i))
       = schemeToFormalScheme.map ((BigFppfOver.toScheme B S hS).map g) ≫ x.down
     have hmap : (BigFppfOver.toScheme B S hS).map g

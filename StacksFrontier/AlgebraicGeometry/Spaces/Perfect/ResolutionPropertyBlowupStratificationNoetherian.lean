@@ -249,7 +249,7 @@ theorem isResolutionBlowupStratified_top_of_isNoetherian
         Set.range (pointsMap B S hS U.1.toFunctor (U.1.ι ≫ W.ι)) =
           pointsMap B S hS W.toFunctor W.ι ''
             (subspacePointSet B S hS W.toFunctor U.1)ᶜ := by
-      rw [hVeq, Set.compl_eq_univ_diff, Set.image_diff (hemb W hW).injective, Set.image_univ]
+      rw [hVeq, Set.compl_eq_univ_sdiff, Set.image_sdiff (hemb W hW).injective, Set.image_univ]
     rw [hTeq]
     exact (hemb W hW).isClosedMap _ hUopen.isClosed_compl
   -- `W₁`, the reduced closed subspace of `X` on `|W| ∖ |U|`
@@ -262,20 +262,20 @@ theorem isResolutionBlowupStratified_top_of_isNoetherian
           Set.range (pointsMap B S hS U.1.toFunctor (U.1.ι ≫ W.ι)) :=
     range_pointsMap_ι_reducedClosedSubspace B S hS X.1 X.2 _ _
   have hW₁W : reducedClosedSubspace B S hS X.1 X.2 _ hTclosed ≤ W :=
-    (reducedClosedSubspace_mono B S hS X.2 _ _ hTclosed _ Set.diff_subset).trans
+    (reducedClosedSubspace_mono B S hS X.2 _ _ hTclosed _ Set.sdiff_subset).trans
       (reducedClosedSubspace_le_of_isClosedSubspace B S hS X.2 W hW)
   -- the point set of `W₁` is strictly smaller than that of `W`, because `U` is dense and
   -- nonempty
   obtain ⟨x, hx⟩ := hUdense.nonempty
   have hlt : (⟨_, hTclosed⟩ : TopologicalSpace.Closeds (points B S hS X.1)) < C := by
-    refine lt_of_le_of_ne (SetLike.coe_subset_coe.mp (hWC ▸ Set.diff_subset)) fun h => ?_
+    refine lt_of_le_of_ne (SetLike.coe_subset_coe.mp (hWC ▸ Set.sdiff_subset)) fun h => ?_
     have hmem : pointsMap B S hS W.toFunctor W.ι x ∈ (C : Set _) :=
       hWC ▸ hVsub (hVeq ▸ Set.mem_image_of_mem _ hx)
     rw [← h] at hmem
     exact hmem.2 (hVeq ▸ Set.mem_image_of_mem _ hx)
   refine IsResolutionBlowupStratified.prepend hW (hfp W hW) le_rfl rfl hW₁W U ?_ f hf hres
     (IH _ hlt _ hW₁cl hW₁pts)
-  rw [hW₁pts, Set.diff_diff_right_self, Set.inter_eq_self_of_subset_right hVsub]
+  rw [hW₁pts, Set.sdiff_sdiff_right_self, Set.inter_eq_self_of_subset_right hVsub]
 
 /-- **The chain of Step 2 of Stacks 0GV6, in the words of the source.**  For a Noetherian
 algebraic space `X` over `S` — Stacks 03EA — and given the conclusion of Stacks 0GV5, there are

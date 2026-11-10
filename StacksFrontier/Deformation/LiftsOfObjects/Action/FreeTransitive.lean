@@ -76,7 +76,7 @@ public noncomputable def liftAction
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     AddAction
       (TensorProduct k
         (artinianTangentSpace Λ k
@@ -88,7 +88,7 @@ public noncomputable def liftAction
   letI : Module.Finite k (RingHom.ker f.hom.toRingHom) := kernelModule_finite f hann
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   let E := tangentPairEquiv 𝓕 h𝓕 f hf hann x
   exact addActionOfPairEquiv E.1 E.2.1 E.2.2.1 E.2.2.2.1
 
@@ -111,7 +111,7 @@ public noncomputable def liftDifference
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     LiftClasses 𝓕.p f x → LiftClasses 𝓕.p f x →
       TensorProduct k
         (artinianTangentSpace Λ k
@@ -141,7 +141,7 @@ public def IsPushforwardDifference
         (schlessingerConditionS2_of_satisfiesRS h𝓕.satisfiesRS)
         (.inl h𝓕.predeformation)
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+        (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
       TensorProduct k
         (artinianTangentSpace Λ k
           (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))
@@ -153,7 +153,7 @@ public def IsPushforwardDifference
     (.inl h𝓕.predeformation)
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   let p₁ := ArtinianLocalAlgCat.pullbackFst_of_surjective f f (.inl hf)
   let p₂ := ArtinianLocalAlgCat.pullbackSnd_of_surjective f f (.inl hf)
   let g := infinitesimalDifferenceMap f hf hann
@@ -195,7 +195,7 @@ public theorem liftDifference_isPushforward
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     ∀ a b : LiftClasses 𝓕.p f x,
       IsPushforwardDifference 𝓕 h𝓕 f hf hann x a b
         (liftDifference 𝓕 h𝓕 f hf hann x a b) := by
@@ -205,7 +205,7 @@ public theorem liftDifference_isPushforward
   let : Module.Finite k (RingHom.ker f.hom.toRingHom) := kernelModule_finite f hann
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   intro a b
   obtain ⟨a₀, rfl⟩ : ∃ a' : Lift 𝓕.p f x, ThinSkeleton.mk a' = a := Quotient.exists_rep a
   obtain ⟨b₀, rfl⟩ : ∃ b' : Lift 𝓕.p f x, ThinSkeleton.mk b' = b := Quotient.exists_rep b
@@ -266,7 +266,7 @@ public theorem liftAction_difference
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     letI := liftAction 𝓕 h𝓕 f hf hann x
     ∀ (a : LiftClasses 𝓕.p f x)
       (t : TensorProduct k
@@ -279,7 +279,7 @@ public theorem liftAction_difference
   let : Module.Finite k (RingHom.ker f.hom.toRingHom) := kernelModule_finite f hann
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   let E := tangentPairEquiv 𝓕 h𝓕 f hf hann x
   change tensorCoordinate 𝓕 h𝓕 _ (differenceClass 𝓕 h𝓕 f hf hann x a
     (E.1.symm (a, t)).2) = t
@@ -306,7 +306,7 @@ public theorem liftAction_bijective
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     letI := liftAction 𝓕 h𝓕 f hf hann x
     ∀ a : LiftClasses 𝓕.p f x,
       Function.Bijective
@@ -319,7 +319,7 @@ public theorem liftAction_bijective
   let : Module.Finite k (RingHom.ker f.hom.toRingHom) := kernelModule_finite f hann
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
   let E := tangentPairEquiv 𝓕 h𝓕 f hf hann x
   exact addActionOfPairEquiv_pointwiseBijective E.1 E.2.1 a
 

@@ -145,13 +145,13 @@ theorem exists_etale_chart_data (Z : SchemesOver X)
     ((T.map ((SmallEtale.toOver B S hS X.1).map h)).base y) hyu.symm
   let x' := (PreservesPullback.iso T fstW sV).inv.base x
   have hx' : (T.map pr1).base x' = w := by
-    show (T.map pr1).base ((PreservesPullback.iso T fstW sV).inv.base x) = w
+    change (T.map pr1).base ((PreservesPullback.iso T fstW sV).inv.base x) = w
     rw [← Scheme.Hom.comp_apply, PreservesPullback.iso_inv_fst, hx1]
   -- the local model on the fibre product
   have hcomm : (schemeSpaceFunctor B S hS).map (pr1 ≫ sndW) ≫ Z.hom =
       (schemeSpaceFunctor B S hS).map pr2 ≫ chartMorphism V := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map (pr1 ≫ sndW) ≫ g = yoneda.map pr2 ≫ V.1.hom
+    change yoneda.map (pr1 ≫ sndW) ≫ g = yoneda.map pr2 ≫ V.1.hom
     calc yoneda.map (pr1 ≫ sndW) ≫ g = yoneda.map pr1 ≫ yoneda.map fstW ≫ f₀ := by
           rw [sqW.w, Functor.map_comp, Category.assoc]
       _ = yoneda.map (pr2 ≫ sV) ≫ f₀ := by
@@ -182,7 +182,7 @@ theorem exists_etale_neighbourhood_representedOverLift (Z : SchemesOver X)
   obtain ⟨W', w', haff, hlfp, ⟨eW⟩⟩ := exists_matKerFunctor_iso d N
   have hk : (precompTest Z (t ≫ p)).hom =
       (schemeSpaceFunctor B S hS).map (t ≫ a) ≫ chartMorphism V := by
-    show (schemeSpaceFunctor B S hS).map (t ≫ p) ≫ Z.hom = _
+    change (schemeSpaceFunctor B S hS).map (t ≫ p) ≫ Z.hom = _
     rw [Functor.map_comp, Category.assoc, hcomm, ← Category.assoc, ← Functor.map_comp]
   refine ⟨d, t ≫ p, ?_, ⟨y', ?_⟩, W', w', haff, hlfp, ⟨eW ≪≫ eN.symm ≪≫
     eqToIso (congrArg (fun k => (CostructuredArrow.map k).op ⋙

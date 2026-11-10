@@ -124,7 +124,8 @@ variable {L : X.Modules}
 
 /-- **The glued section of `Stacks.RelativeProj.globalSection` classifies the quotient it was
 built from as soon as it does so locally on the base.** The section and the fact that it is a
-section are already established; what this statement asks for is only that the quotient it pulls back agree
+section are already established; what this statement asks for is only that the quotient it pulls
+back agree
 with the given one over the members of some open cover of `X`.
 
 This is the exact shape in which the remaining work on [Stacks, Tag 0B3V]'s bijection is owed;

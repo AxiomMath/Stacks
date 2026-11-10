@@ -151,7 +151,7 @@ def stalkBaseChangeNatTrans (sq : IsPullback i' g f i)
   (derivedStalkSourceIso w (ptEq sq w)).inv ≫
     Functor.whiskerRight
       (derivedBaseChangeSquare g.toLRSHom.toShHom i'.toLRSHom.toShHom i.toLRSHom.toShHom
-        f.toLRSHom.toShHom (comp_toShHom_of_isPullback sq)).natTrans
+        f.toLRSHom.toShHom (comp_toShHom_of_isPullback sq))
       (AlgebraicGeometry.derivedStalkFunctor (i' w)) ≫
     (derivedStalkTargetIso w).hom
 

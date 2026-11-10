@@ -82,7 +82,7 @@ theorem isRepresentableThickeningULift_of_isIso
   have h1 : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have h2 : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show Stacks.Thickenings.IsThickening ((BigFppfOver.toScheme B S hS).map snd)
+  change Stacks.Thickenings.IsThickening ((BigFppfOver.toScheme B S hS).map snd)
   have h3 : IsIso ((BigFppfOver.toScheme B S hS).map snd) := inferInstance
   exact ⟨inferInstance, ((BigFppfOver.toScheme B S hS).map snd).surjective⟩
 
@@ -261,7 +261,7 @@ theorem isFormalAlgebraicSpace_of_isAlgebraicSpace_of_affineFormal (Y : FppfShea
     (fun _ i ↦ ?_) (fun _ i ↦ ?_) (fun i ↦ ?_) (fun U ξ ↦ ?_) Y hYaff.1 ⟨eY⟩
   · -- the transition morphisms of the constant diagram are isomorphisms
     have h0 : IsIso (E.map g) := by
-      show IsIso (𝟙 Y)
+      change IsIso (𝟙 Y)
       infer_instance
     exact isRepresentableThickeningULift_of_isIso B S hS (E.map g).hom
   · -- the single chart morphism is the identity

@@ -138,7 +138,7 @@ theorem hom_app_mem_span_ev (V : X.Opens) (a : L.val.obj (op V))
   let θW : ((modulePullback (hom δ)).obj L).val.obj (op W) → Y.presheaf.obj (op W) := fun z =>
     θ.hom.val.app (op W) z
   let c := Y.presheaf.map i.op (ev L δ θ V a)
-  show θW z ∈ Ideal.span {c}
+  change θW z ∈ Ideal.span {c}
   refine Submodule.span_induction ?_ ?_ ?_ ?_ hz
   · rintro _ ⟨Z₀, g, x, ⟨V₁, g', s, rfl⟩, rfl⟩
     have hle : W ≤ δ ⁻¹ᵁ V₁.unop := (g' ≫ g).unop.le

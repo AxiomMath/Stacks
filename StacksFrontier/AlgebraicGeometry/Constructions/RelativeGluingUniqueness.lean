@@ -140,7 +140,7 @@ instance : Category G.cover.I₀ := inferInstanceAs <| Category 𝒰.I₀
 
 /-- The chart cover of a gluing is locally directed, with transition maps those of the datum. -/
 instance : G.cover.LocallyDirected where
-  trans {i j} hij := d.functor.map hij
+  trans hij := d.functor.map hij
   trans_id i := d.functor.map_id i
   trans_comp hij hjk := d.functor.map_comp hij hjk
   w hij := G.chart_trans hij

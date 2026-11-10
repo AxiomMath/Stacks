@@ -116,7 +116,7 @@ public theorem inv_hom_eq_finiteEtaleFiberMap_frobeniusPointHom
   ext q
   have hinv' : ∀ z, σ.asIso.inv.app V (σ.asIso.hom.app V z) = z := fun z =>
     ConcreteCategory.congr_hom (σ.asIso.app V).hom_inv_id z
-  show σ.asIso.inv.app V q = (finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q
+  change σ.asIso.inv.app V q = (finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q
   rw [← hinv' ((finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q)]
   congr 1
   apply Subtype.ext
@@ -150,15 +150,11 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
       (SmallEtale.topology B S.1 S.property)
       (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
-  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
-      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1]
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis through the sheaf instances over `ZMod (ℓ ^ (n + 1))`-modules is deep
 /-- **The geometric Frobenius on the stalk of `ℱ_ρ` at a closed point `y` with finite residue
 field has the characteristic polynomial of `ρ(F_y)`**, where `F_y` is the geometric Frobenius
 element (the inverse of the arithmetic Frobenius element `FrobeniusData.element`) determined by
@@ -213,16 +209,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
       (SmallEtale.topology B S.1 S.property)
       (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
-  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
-      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1]
   {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis through the sheaf instances over `ZMod (ℓ ^ (n + 1))`-modules is deep
 /-- **The geometric Frobenius `π_y^*` on the rational stalk of `ℱ_ρ` at a closed point `y` has the
 characteristic polynomial of `ρ(F_y)`**, for the geometric Frobenius elements
 `Stacks.EtaleCohomology.geometricFrobeniusFamily`. -/
@@ -234,6 +226,7 @@ public theorem charpoly_rationalStalkFrobenius_representationSheaf_eq (y : close
   charpoly_rationalStalkFrobenius_representationSheaf B X x ρ hρ y _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis through the sheaf instances over `ZMod (ℓ ^ (n + 1))`-modules is deep
 /-- **The geometric Frobenius on the stalk of the dual sheaf `ℱ_{ρ^∨}`**, the sheaf of the
 contragredient `ρ^∨`, has the dual characteristic polynomial of `ρ(F_y)`: its eigenvalues are the
 inverses of those of `π_y^*` on `ℱ_ρ`. -/

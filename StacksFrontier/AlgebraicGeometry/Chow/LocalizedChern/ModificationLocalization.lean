@@ -375,7 +375,7 @@ theorem modificationLocalization_cap (y : Y ⟶ X) [IsClosedImmersion y] {m : �
           (bivariantCompositeCap C _ _ _ _ _ _ rfl rfl (properPushforwardDescends C) m 0 a
             (gysinAtInfinityClass C f b hA) g k α) := rfl
   rw [hcomp, bivariantCompositeCap_apply, chowGroupDegreeEquiv_chowGroupDegreeEquiv]
-  show chowPush C _ _ (bivariantPushforwardBaseChange
+  change chowPush C _ _ (bivariantPushforwardBaseChange
       (pullback.snd (modificationProjectionAtInfinity f b) y) y g) _ (k - m)
     (chowPush C _ _ (pullback.congrHom
       (pullback.condition (f := modificationProjectionAtInfinity f b) (g := y))
@@ -835,7 +835,7 @@ theorem isModificationInfinityRestriction_bivariantProperPushforward (y : Y ⟶ 
           (modificationInfinityRestrictionMap_fst y).symm
           (by rw [← Category.assoc, modificationInfinityRestrictionMap_fst, Category.assoc]))) := by
   intro T t _ k x
-  show chowPush C _ _ (bivariantPushforwardBaseChange (modificationInfinityRestrictionMap y)
+  change chowPush C _ _ (bivariantPushforwardBaseChange (modificationInfinityRestrictionMap y)
     (pullback.fst (modificationProjectionAtInfinity f b) y) t) _ (k - m)
     (BivariantClass.cap _ t k x) = _
   have hres := bivariantClassCongrBase_cap C (gysinSystemOfInvertible C)

@@ -243,7 +243,7 @@ theorem imageRep_eq_internalEndCongr (h : a ≫ chat = 𝟙 (𝟙_ 𝒜)) (h' : 
     Mon.imageRep (internalEnd F) (curry' (ahat ≫ a))
       = (internalEndCongr (imageLeftMulCurry'Iso a ahat c chat h h')).hom := by
   apply Mon.Hom.ext'
-  show curry (Mon.imageActionRight (internalEnd F) (curry' (ahat ≫ a)))
+  change curry (Mon.imageActionRight (internalEnd F) (curry' (ahat ≫ a)))
     = internalEndCongrHom (imageLeftMulCurry'Iso a ahat c chat h h')
   apply uncurry_injective
   rw [uncurry_curry, uncurry_internalEndCongrHom, imageActionRight_curry'_eq a ahat c chat h h']

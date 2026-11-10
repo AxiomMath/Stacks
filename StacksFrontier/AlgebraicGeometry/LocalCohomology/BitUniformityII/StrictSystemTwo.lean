@@ -238,7 +238,7 @@ theorem hasUniformInverses_tensorResolution_reduction [IsNoetherianRing A] (I : 
     fun n ↦ singleQuotientTensorIsoReduction_hom_comp_map (I ^ (n.unop + 1)) p
   have hE : γ = n₃ ≫ δ := by
     ext n
-    show Q.map ((TrightCochain Pc).map (π.app n)) ≫
+    change Q.map ((TrightCochain Pc).map (π.app n)) ≫
         Q.map ((quotientSingleSystemTensorIso I Pc).hom.app n) ≫
           Q.map ((reductionComplexSystemMap I p).app n) =
       Q.map (trp.app (Rs.obj n)) ≫ Q.map ((TrightCochain M).map (π.app n)) ≫
@@ -271,7 +271,7 @@ theorem hasUniformInverses_systemTwoToOne [IsNoetherianRing A] (I : Ideal A)
     Functor.whiskerRight π (TrightCochain M ⋙ Q) ≫
       Functor.whiskerRight (quotientSingleSystemTensorIso I M).hom Q
   have hn₁ : HasUniformInverses n₁ := hasUniformInverses_of_isIso_app _ fun n ↦ by
-    show IsIso (T.G.map (Q.map (π.app n)))
+    change IsIso (T.G.map (Q.map (π.app n)))
     infer_instance
   have hn₂ : HasUniformInverses n₂ := hasUniformInverses_of_isIso_app _ fun n ↦
     isIso_alphaG_app_of_kFlat T _ (kFlat_resolutionSystem_obj X n)
@@ -279,7 +279,7 @@ theorem hasUniformInverses_systemTwoToOne [IsNoetherianRing A] (I : Ideal A)
     hasUniformInverses_tensorResolution_reduction M I hMbounded hMfinite
   have hE : n₁ ≫ systemTwoToOne f M I = n₂ ≫ δ := by
     ext n
-    show T.G.map (Q.map (π.app n)) ≫ T.alphaG.app (S.obj n) ≫
+    change T.G.map (Q.map (π.app n)) ≫ T.alphaG.app (S.obj n) ≫
         Q.map ((quotientSingleSystemTensorIso I M).hom.app n) =
       T.alphaG.app (Rs.obj n) ≫ Q.map ((TrightCochain M).map (π.app n)) ≫
         Q.map ((quotientSingleSystemTensorIso I M).hom.app n)

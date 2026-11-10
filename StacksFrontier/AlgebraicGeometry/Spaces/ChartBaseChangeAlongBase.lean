@@ -86,6 +86,7 @@ include hX'
 
 /-! ### The base change of a chart -/
 
+omit hX' in
 /-- The fibre-product square defining `U ×_S W` still commutes over `S` after its first
 projection is composed with a chart `a : U ⟶ X`. -/
 theorem siteBaseChangeChart_condition {U : BigFppfOver B S hS} (a : yoneda.obj U ⟶ X) :
@@ -102,7 +103,7 @@ def siteBaseChangeChartMap {U : BigFppfOver B S hS} (a : yoneda.obj U ⟶ X) :
   hX'.lift (yoneda.map (pullback.fst (siteTerminalHom B S hS U)
       (siteTerminalHom B S hS W)) ≫ a)
     (yoneda.map (pullback.snd (siteTerminalHom B S hS U) (siteTerminalHom B S hS W)))
-    (siteBaseChangeChart_condition B S hS f hX' a)
+    (siteBaseChangeChart_condition B S hS f a)
 
 /-- The base change of a chart `a`, followed by `q : X' ⟶ X`, is the first projection of
 `U ×_S W` followed by `a`. -/

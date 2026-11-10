@@ -270,7 +270,7 @@ private theorem stageLift_eq_isoPullback_hom_comp (l : K) {W V : Scheme.{u}} (v 
     Scheme.baseChangeCone_π_fst F l (Over.mk v) a j
   have hπ₂ : πj ≫ pullback.snd (F.map j.hom) v = pullback.snd (a.π.app l) v :=
     Scheme.baseChangeCone_π_snd F l (Over.mk v) a j
-  show stageLift F a j.hom v P h hP.w = hP.flip.isoPullback.hom ≫ πj
+  change stageLift F a j.hom v P h hP.w = hP.flip.isoPullback.hom ≫ πj
   apply pullback.hom_ext
   · rw [stageLift_fst, Category.assoc, hπ₁, ← Category.assoc, hP.flip.isoPullback_hom_fst]
   · rw [stageLift_snd, Category.assoc, hπ₂, hP.flip.isoPullback_hom_snd]
@@ -386,7 +386,7 @@ theorem exists_laterEndo_eq (ha : IsLimit a) (l : K) {W V : Scheme.{u}} (v : V �
       (hχ : χ ≫ pullback.fst (F.map jj.hom) v = pullback.fst (F.map jj.hom) v) :
       (Scheme.baseChangeStructureMap F l X).app jj =
         (χ ≫ pullback.snd (F.map jj.hom) v) ≫ v := by
-    show pullback.snd (F.map jj.hom) v ≫ v = (χ ≫ pullback.snd (F.map jj.hom) v) ≫ v
+    change pullback.snd (F.map jj.hom) v ≫ v = (χ ≫ pullback.snd (F.map jj.hom) v) ≫ v
     rw [Category.assoc, ← pullback.condition, ← Category.assoc, hχ]
   obtain ⟨m, hm, hmeq⟩ := Scheme.exists_hom_comp_eq_comp_of_locallyOfFiniteType G
     (Scheme.baseChangeStructureMap F l X) v c hc (χ₁ ≫ pullback.snd (F.map jj.hom) v)
@@ -492,7 +492,7 @@ private theorem exists_isIso_baseChange_galoisCoverComparisonOver (ha : IsLimit 
   have : Etale (galoisCoverComparisonOver V.hom act).left := by
     have : Etale ((galoisCoverComparisonOver V.hom act).left ≫
         pullback.fst V.hom V.hom ≫ V.hom) := by
-      show Etale (Stacks.Descent.galoisCoverComparison V.hom act ≫
+      change Etale (Stacks.Descent.galoisCoverComparison V.hom act ≫
         pullback.fst V.hom V.hom ≫ V.hom)
       rw [galoisCoverComparison_fst_comp]
       infer_instance
@@ -536,11 +536,11 @@ private theorem exists_torsor_model_of_endos (ha : IsLimit a) {G : Type v} [Grou
   have hχ₂₁ (g : Gᵐᵒᵖ) : χ₂ g ≫ pullback.fst (F.map e₂) v = pullback.fst (F.map e₂) v :=
     laterEndo_fst F eT e₂ g₂ rfl v (χT g) (hχT₁ g)
   have h2one : χ₂ 1 = 𝟙 _ := by
-    show laterEndo F eT e₂ g₂ rfl v (χT 1) (hχT₁ 1) = 𝟙 _
+    change laterEndo F eT e₂ g₂ rfl v (χT 1) (hχT₁ 1) = 𝟙 _
     simp only [hTone]
     exact laterEndo_id F eT e₂ g₂ rfl v _
   have h2mul (x y : Gᵐᵒᵖ) : χ₂ (x * y) = χ₂ y ≫ χ₂ x := by
-    show laterEndo F eT e₂ g₂ rfl v (χT (x * y)) (hχT₁ _) = _
+    change laterEndo F eT e₂ g₂ rfl v (χT (x * y)) (hχT₁ _) = _
     simp only [hTmul]
     exact laterEndo_comp F eT e₂ g₂ rfl v (χT y) (χT x) (hχT₁ y) (hχT₁ x) _
   let V₂ : FiniteEtaleOver (F.obj T₂) :=
@@ -590,7 +590,8 @@ theorem exists_torsor_model (ha : IsLimit a) {G : Type v} [Group G] [Finite G]
   have hZ1 : (aZ 1).asIso.hom.left = 𝟙 _ := by
     rw [map_one]
     rfl
-  have hZmul (x y : Gᵐᵒᵖ) : (aZ (x * y)).asIso.hom.left = (aZ y).asIso.hom.left ≫ (aZ x).asIso.hom.left := by
+  have hZmul (x y : Gᵐᵒᵖ) :
+      (aZ (x * y)).asIso.hom.left = (aZ y).asIso.hom.left ≫ (aZ x).asIso.hom.left := by
     rw [map_mul]
     rfl
   have : Finite Gᵐᵒᵖ := Finite.of_equiv G MulOpposite.opEquiv

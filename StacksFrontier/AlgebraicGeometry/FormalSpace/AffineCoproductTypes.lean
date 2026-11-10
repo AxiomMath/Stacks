@@ -113,7 +113,7 @@ theorem isPresentingRing_sigma_of_finite {I : Type (u + 1)} [Finite I] (A : I �
         IsPresentingRing B S hS (∀ k, A (g k)) (∐ Z) := by
   classical
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
-  show HasSomeSurjectivePresentation B S hS (∐ Z) ∧ _
+  change HasSomeSurjectivePresentation B S hS (∐ Z) ∧ _
   let : Small.{u} I := Countable.toSmall.{u} I
   have hfinK : Finite (Shrink.{u} I) := Finite.of_equiv _ (equivShrink.{u} I)
   set g : Shrink.{u} I → I := fun k ↦ (equivShrink.{u} I).symm k with hg

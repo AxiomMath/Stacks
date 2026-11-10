@@ -37,10 +37,10 @@ theorem isPowExact_finsupp_of (X : Type*) {M : Type*} [AddCommGroup M] (hM : IsP
   refine ⟨Finsupp.mapRange c hc0 x, ?_⟩
   ext i
   have hi : p ^ a • x i = 0 := by simpa using congrArg (fun z => z i) hx
-  simp only [Finsupp.smul_apply, Finsupp.mapRange_apply, c, dif_pos hi]
+  simp only [Finsupp.smul_apply, Finsupp.mapRange_apply, c, dite_eq_left hi]
   by_cases h0 : x i = 0
   · simp [h0]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     exact (hM a ha (x i) hi).choose_spec
 
 end Stacks.ZModPrimePower

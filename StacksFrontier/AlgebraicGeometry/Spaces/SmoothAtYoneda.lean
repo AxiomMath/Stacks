@@ -52,7 +52,7 @@ theorem isSmoothAt_yoneda_map_iff {U V : BigFppfOver B S hS} (g : U ⟶ V)
       (MorphismOfGerms.hasRepresentativeWithProperty_isEtaleLocalOnSourceAndTarget _
         Smooth.isEtaleLocalOnSourceAndTarget) g x,
     ← smoothAt_iff_hasRepresentativeWithProperty]
-  show Stacks.SmoothAtJacobian.Condition1 _ _ ↔ _
+  change Stacks.SmoothAtJacobian.Condition1 _ _ ↔ _
   exact Stacks.SmoothAtJacobian.condition1_iff_mem_smoothLocus _ _
 
 end AlgebraicGeometry.Space

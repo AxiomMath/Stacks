@@ -112,7 +112,8 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   (R A B : Sheaf J CommRingCat.{w}) (a : R ⟶ A) (φ : A ⟶ B)
   [Presheaf.IsLocallySurjective J φ.hom] (X : Cᵒᵖ)
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The local conormal class is additive. -/
 theorem conormalClass_add (x y : kernelIdeal φ.hom X) :
     conormalClass.{v, u, w, z} J R A B a φ X (x + y) =
@@ -122,7 +123,8 @@ theorem conormalClass_add (x y : kernelIdeal φ.hom X) :
     (map_add (kernelIdeal φ.hom X).toCotangent x y)).trans
     (toAssociatedModule_add.{v, u, w, z} J A B φ (conormalPresheaf φ.hom) X _ _)
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The local conormal class of the zero section is zero. -/
 theorem conormalClass_zero :
     conormalClass.{v, u, w, z} J R A B a φ X (0 : kernelIdeal φ.hom X) = 0 := by
@@ -144,7 +146,8 @@ theorem conormalClass_smul (p : A.obj.obj X) (x : kernelIdeal φ.hom X) :
       (quotient_mk_smul_cotangent (kernelIdeal φ.hom X) p _).symm
   · exact toAssociatedModule_smul.{v, u, w, z} J A B φ (conormalPresheaf φ.hom) X _ _
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The local conormal class commutes with restriction of local sections. -/
 theorem conormalClass_map {X Y : Cᵒᵖ} (g : X ⟶ Y) (x : kernelIdeal φ.hom X)
     (y : kernelIdeal φ.hom Y) (h : (y : A.obj.obj Y) = A.obj.map g (x : A.obj.obj X)) :

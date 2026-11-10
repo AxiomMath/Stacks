@@ -61,7 +61,7 @@ public lemma BigAffineH.isSite (B : BigHSite.{u}) (S : Scheme.{u}) (hS : B.Conta
     have hcov := hIso (G.map f)
     change B.IsCovering ⟨G.obj U, (PreZeroHypercover.singleton.{u + 1} f).map G⟩ at hcov
     refine ⟨hcov, ?_⟩
-    show AlgebraicGeometry.IsStandardHCovering (fun _ : PUnit.{u + 2} ↦ K.map f)
+    change AlgebraicGeometry.IsStandardHCovering (fun _ : PUnit.{u + 2} ↦ K.map f)
     exact isStandardHCovering_of_isHCovering inferInstance (fun _ ↦ inferInstance)
       (fun _ ↦ ⟨inferInstance, inferInstance, inferInstance⟩) hcov.h
   · intro E hE F hF h
@@ -84,7 +84,7 @@ public lemma BigAffineH.isSite (B : BigHSite.{u}) (S : Scheme.{u}) (hS : B.Conta
       (fun s ↦ ?_) hcov.h⟩
     obtain ⟨_, _, _⟩ := (hF s.1).2.2.2.1 s.2
     obtain ⟨_, _, _⟩ := hE.2.2.2.1 s.1
-    show FinitePresentation
+    change FinitePresentation
       (K.map ((F s.1).2.f s.2 ≫ eqToHom (h s.1)) ≫ K.map (E.2.f s.1))
     rw [Functor.map_comp]
     exact ⟨inferInstance, inferInstance, inferInstance⟩
@@ -111,7 +111,7 @@ public lemma BigAffineH.isSite (B : BigHSite.{u}) (S : Scheme.{u}) (hS : B.Conta
     let q₁ (i : E.2.I₀) : Q i ⟶ E.2.X i :=
       ObjectProperty.homMk (Over.homMk (X := B.obj S hS) (U := Q₀ i) (V := X₀ i)
         (π₁ i) (by
-          show π₁ i ≫ (X₀ i).hom = (Q₀ i).hom
+          change π₁ i ≫ (X₀ i).hom = (Q₀ i).hom
           simpa [G, U₀, V₀, X₀, Q₀, Category.assoc] using
             congrArg (fun t ↦ t ≫ U₀.hom) (hpb i).w))
     let q₂ (i : E.2.I₀) : Q i ⟶ V :=

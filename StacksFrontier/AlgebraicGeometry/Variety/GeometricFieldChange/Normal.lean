@@ -64,11 +64,11 @@ private lemma fieldToStalk_eq (k : Type u) [Field k] (X : Scheme.{u})
   let Rk := (Spec (.of k)).presheaf.stalk z
   let : Algebra k Rk := StructureSheaf.stalkAlgebra k z
   ext a
-  show (X.presheaf.germ ⊤ x trivial)
+  change (X.presheaf.germ ⊤ x trivial)
       (f.appTop ((Scheme.ΓSpecIso (.of k)).inv a)) =
     (f.stalkMap x).hom (algebraMap k Rk a)
   rw [show algebraMap k Rk a = StructureSheaf.toStalk k z a by rfl]
-  show (X.presheaf.germ ⊤ x trivial)
+  change (X.presheaf.germ ⊤ x trivial)
       (f.appTop ((Scheme.ΓSpecIso (.of k)).inv a)) =
     (f.stalkMap x).hom
       ((Spec (.of k)).presheaf.germ ⊤ z trivial ((Scheme.ΓSpecIso (.of k)).inv a))
@@ -157,7 +157,7 @@ lemma geometricallyNormalAt_tfae
         StructureSheaf.stalkAlgebra k (f.base x)
       ((f.stalkMap x).hom.comp
         (algebraMap k ((Spec (.of k)).presheaf.stalk (f.base x)))).toAlgebra
-    show Algebra.IsGeometricallyNormal k R
+    change Algebra.IsGeometricallyNormal k R
     obtain ⟨p, _⟩ := ExpChar.exists k
     have : ExpChar (AlgebraicClosure k) p := expChar_of_injective_algebraMap
       (algebraMap k (AlgebraicClosure k)).injective p
@@ -176,7 +176,7 @@ lemma geometricallyNormalAt_tfae
     let e : A ≃+* (R ⊗[k] K) := hpo.isoPushout.symm.commRingCatIsoToRingEquiv
     have heR (r : R) : e (algebraMap R A r) =
         Algebra.TensorProduct.includeLeftRingHom r := by
-      show (CommRingCat.Hom.hom
+      change (CommRingCat.Hom.hom
         (pushout.inl (fieldToStalk f x)
           (CommRingCat.ofHom (algebraMap k K)) ≫ hpo.isoPushout.inv)) r =
           Algebra.TensorProduct.includeLeftRingHom r
@@ -251,7 +251,7 @@ private theorem pointwise_backward
       IsGeometricallyNormalAt f x := by
   let φ : Spec (.of K) ⟶ Spec (.of k) :=
     Spec.map (CommRingCat.ofHom (algebraMap k K))
-  show IsGeometricallyNormalAt (pullback.snd f φ) x' →
+  change IsGeometricallyNormalAt (pullback.snd f φ) x' →
       IsGeometricallyNormalAt f x
   intro h
   apply ((geometricallyNormalAt_tfae k X f x).out 2 1).mp
@@ -299,7 +299,7 @@ theorem isGeometricallyNormalAt_iff_baseChange
         (pullback.snd f (Spec.map (ofHom (algebraMap k K)))) x' := by
   let φ : Spec (.of K) ⟶ Spec (.of k) :=
     Spec.map (CommRingCat.ofHom (algebraMap k K))
-  show IsGeometricallyNormalAt f x ↔
+  change IsGeometricallyNormalAt f x ↔
       IsGeometricallyNormalAt (pullback.snd f φ) x'
   constructor
   · intro h L hL hKL z hz
@@ -328,7 +328,7 @@ theorem isGeometricallyNormal_iff_baseChange_of_isGeometricallyNormalAt
         (pullback.snd f (Spec.map (ofHom (algebraMap k K)))) := by
   let φ : Spec (.of K) ⟶ Spec (.of k) :=
     Spec.map (CommRingCat.ofHom (algebraMap k K))
-  show IsGeometricallyNormal f ↔
+  change IsGeometricallyNormal f ↔
       IsGeometricallyNormal (pullback.snd f φ)
   rw [isGeometricallyNormal_iff, isGeometricallyNormal_iff]
   constructor

@@ -183,7 +183,7 @@ theorem cohomologyBaseChangeSurjective_zero (D : CochainComplex (ModuleCat.{u} R
       cyclesBaseChange φ P y := by
     apply injective_iCycles _ 0
     exact (HomologicalComplex.i_cyclesMk (extendScalarsCx φ P) _ _ _ _).trans hyc.symm
-  show (extendScalarsCx φ P).homologyπ 0
+  change (extendScalarsCx φ P).homologyπ 0
     ((extendScalarsCx φ P).cyclesMk (F.map (P.iCycles 0) y) (0 + 1) (by simp) hd) = _
   rw [hmk]
   simp only [ModuleCat.comp_apply] at hy
@@ -299,7 +299,7 @@ theorem injective_extendScalars_iCycles_of_splitting (D : CochainComplex (Module
   -- a surjective endomorphism of a finite module is injective
   have hfinψ : Module.Finite p.ResidueField (Fψ.obj H0g) := by
     let := ψ.toAlgebra
-    show Module.Finite p.ResidueField (p.ResidueField ⊗[Localization.Away g] H0g)
+    change Module.Finite p.ResidueField (p.ResidueField ⊗[Localization.Away g] H0g)
     infer_instance
   have hmD : Function.Surjective (cyclesBaseChange φ D) :=
     (ModuleCat.epi_iff_surjective _).1
@@ -309,14 +309,14 @@ theorem injective_extendScalars_iCycles_of_splitting (D : CochainComplex (Module
     intro z
     obtain ⟨w, hw⟩ := hmD (eT.inv z)
     refine ⟨eS.hom w, ?_⟩
-    show eT.hom (cyclesBaseChange φ D (eS.inv (eS.hom w))) = z
+    change eT.hom (cyclesBaseChange φ D (eS.inv (eS.hom w))) = z
     rw [eS.hom_inv_id_apply, hw, eT.inv_hom_id_apply]
   have hfi : Function.Injective f := OrzechProperty.injective_of_surjective_endomorphism f hf
   have hmDi : Function.Injective (cyclesBaseChange φ D) := by
     intro x y hxy
     apply eS.toLinearEquiv.injective
     apply hfi
-    show eT.hom (cyclesBaseChange φ D (eS.inv (eS.hom x))) =
+    change eT.hom (cyclesBaseChange φ D (eS.inv (eS.hom x))) =
       eT.hom (cyclesBaseChange φ D (eS.inv (eS.hom y)))
     rw [eS.hom_inv_id_apply, eS.hom_inv_id_apply, hxy]
   rw [← cyclesBaseChange_iCycles φ D]

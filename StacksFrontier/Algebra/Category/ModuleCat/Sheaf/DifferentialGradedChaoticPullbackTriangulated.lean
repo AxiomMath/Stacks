@@ -76,6 +76,8 @@ def pullbackHomogeneous {k : ℤ} (c : Cochain M.complex N.complex k)
   (DifferentialGraded.Bimodule.tensorDGFunctor (pullbackBimodule φ U')).functor.map
     (sectionHomogeneous c hc (F.op.obj U'))
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The pullback of a cochain on a pure tensor: `x ⊗ b ↦ c(x) ⊗ b`. -/
 theorem pullbackHomogeneous_pure {k : ℤ} (c : Cochain M.complex N.complex k)
     (hc : IsActionLinear (X := ⟨C, ⊥, Osharp⟩) A c) (U' : C'ᵒᵖ)
@@ -84,6 +86,8 @@ theorem pullbackHomogeneous_pure {k : ℤ} (c : Cochain M.complex N.complex k)
       pullbackPure φ N U' ((sectionHomogeneous c hc (F.op.obj U')).1 x) y :=
   (DifferentialGraded.Bimodule.tensorDGFunctor (pullbackBimodule φ U')).map_pure _ x y
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The pullbacks of a cochain commute with restriction.** -/
 theorem pullbackHomogeneous_naturality {k : ℤ} (c : Cochain M.complex N.complex k)
     (hc : IsActionLinear (X := ⟨C, ⊥, Osharp⟩) A c) {U' V' : C'ᵒᵖ} (a : V' ⟶ U')
@@ -95,7 +99,7 @@ theorem pullbackHomogeneous_naturality {k : ℤ} (c : Cochain M.complex N.comple
       (pullbackHomogeneous φ c hc U').1.toAddMonoidHom.comp
         (pullbackRestr φ M a).toFun.toAddMonoidHom := by
     refine tensorObj_addHom_ext _ _ _ _ fun x y => ?_
-    show (pullbackRestr φ N a).toFun ((pullbackHomogeneous φ c hc V').1
+    change (pullbackRestr φ N a).toFun ((pullbackHomogeneous φ c hc V').1
         (pullbackPure φ M V' x y)) =
       (pullbackHomogeneous φ c hc U').1 ((pullbackRestr φ M a).toFun (pullbackPure φ M V' x y))
     rw [pullbackHomogeneous_pure, pullbackRestr_pure, pullbackRestr_pure,
@@ -170,6 +174,8 @@ def pullbackConcreteDGFunctor :
       (DifferentialGraded.Bimodule.tensorDGFunctor (pullbackBimodule φ U')).functor.map
       (sectionHomogeneous_ofHom f _ (F.op.obj U'))).trans rfl
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The functor of homotopy categories induced by `pullbackConcreteDGFunctor` is the pullback on
 the homotopy categories. -/
 theorem pullbackConcreteDGFunctor_homotopyFunctor :

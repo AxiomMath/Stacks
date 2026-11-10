@@ -154,7 +154,7 @@ public theorem imageOpen_le_iff {V : SmallEtale B S hS} {U : S.Opens} :
 public theorem imageOpen_opensObj (U : S.Opens) :
     imageOpen B S hS (opensObj B S hS U) = U :=
   TopologicalSpace.Opens.ext (by
-    show Set.range ⇑(BigEtaleOver.opensObj B S hS U).hom.hom = _
+    change Set.range ⇑(BigEtaleOver.opensObj B S hS U).hom.hom = _
     rw [BigEtaleOver.opensObj_hom_hom, Scheme.Opens.range_ι])
 
 /-- A morphism of the small étale site of `S` is compatible with the structure morphisms, so it

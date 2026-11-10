@@ -203,7 +203,7 @@ theorem witness_pullback {f : T ⟶ S}
     witness h' = (pullbackFunctor (ringedSpaceHom g)).mapIso (witness h) :=
   witness_eq h' (γ := laurentPullbackIso g (laurentWitness h))
     (by
-      show laurentTransport g P.L Q.L 1 1 ((laurentWitness h).hom.app 1) = _
+      change laurentTransport g P.L Q.L 1 1 ((laurentWitness h).hom.app 1) = _
       rw [laurentWitness_app_one h]
       exact laurentTransport_tensorPowerOneIso g P.L Q.L (witness h).hom)
     fun n => Twisting.pullbackApp_comp_laurentTransport_of_app P.twisting Q.twisting g n

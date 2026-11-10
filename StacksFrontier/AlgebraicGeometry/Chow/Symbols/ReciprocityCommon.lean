@@ -51,8 +51,7 @@ noncomputable def localizedRingModuleEquiv
       map_add' := e₁₀.map_add
       map_smul' := by
         intro r z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy =>
           simp [hx, hy, smul_add]
           ring
@@ -140,12 +139,12 @@ private theorem subsingleton_homology_of_exact
   have h0 : C.ExactAt 0 := by
     rw [HomologicalComplex.exactAt_iff' C 1 0 1 hp0 hn0]
     apply ModuleCat.shortComplex_exact
-    show Function.Exact ψ φ
+    change Function.Exact ψ φ
     exact hψφ
   have h1 : C.ExactAt 1 := by
     rw [HomologicalComplex.exactAt_iff' C 0 1 0 hp1 hn1]
     apply ModuleCat.shortComplex_exact
-    show Function.Exact φ ψ
+    change Function.Exact φ ψ
     exact hφψ
   exact ModuleCat.isZero_iff_subsingleton.mp
     ((HomologicalComplex.exactAt_iff_isZero_homology C i).mp (by

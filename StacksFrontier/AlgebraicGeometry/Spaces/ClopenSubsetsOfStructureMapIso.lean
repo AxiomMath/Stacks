@@ -98,12 +98,12 @@ theorem exists_isIdempotentElem_sectionSupport_eq (hF : IsAlgebraicSpace B S hS 
     intro U U' g
     apply Scheme.eq_of_isIdempotentElem_of_basicOpen_eq ((hEidem U).map _) (hEidem U')
     rw [hEbasic U', ← Scheme.preimage_basicOpen_top]
-    show (BigFppfOver.toScheme B S hS).map g.hom.left ⁻¹'
+    change (BigFppfOver.toScheme B S hS).map g.hom.left ⁻¹'
       (((BigFppfOver.toScheme B S hS).obj U.obj.left).basicOpen (E U) : Set _) = _
     rw [hEbasic U]
     ext x
     obtain ⟨q, rfl⟩ := surjective_pointsToScheme B S hS U'.obj.left x
-    show (BigFppfOver.toScheme B S hS).map g.hom.left (pointsToScheme B S hS U'.obj.left q) ∈
+    change (BigFppfOver.toScheme B S hS).map g.hom.left (pointsToScheme B S hS U'.obj.left q) ∈
       V U ↔ _
     rw [← pointsToScheme_pointsMap_yoneda, hV U, pointsMap_chart_hom]
     exact (hV U' q).symm
@@ -112,7 +112,7 @@ theorem exists_isIdempotentElem_sectionSupport_eq (hF : IsAlgebraicSpace B S hS 
   ext x
   obtain ⟨U, q, rfl⟩ := exists_chart_point B S hS F hF x
   rw [mem_sectionSupport_iff]
-  show pointsToScheme B S hS U.obj.left q ∈ (((BigFppfOver.toScheme B S hS).obj
+  change pointsToScheme B S hS U.obj.left q ∈ (((BigFppfOver.toScheme B S hS).obj
     U.obj.left).basicOpen (E U) : Set _) ↔ _
   rw [hEbasic U]
   exact hV U q
@@ -157,7 +157,7 @@ theorem bijective_globalSectionsRingHom_of_isIso_fSharp (f : X ⟶ Y)
   let u := unitEndSection _ (E c.hom)
   let φ := globalSectionsRingHom (X := smallEtaleRingedTopos B S hS X)
     (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposModulesHom B S hS f)
-  show Function.Bijective φ
+  change Function.Bijective φ
   have hform : ∀ a, unitEndSection (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedTopos B S hS X).O) (E (unitEnd (Stacks.SheafOfModules.Tensor.ringSheaf
           (smallEtaleRingedTopos B S hS Y).O) a ≫ c.hom)) = φ a * u := by
@@ -232,7 +232,7 @@ theorem exists_preimage_eq_of_isClopen_of_isIso_fSharp {T : BigFppfOver B S hS}
   have ha : a = pullbackToGlobalFunctions B S hS (schemeSpace T) T (𝟙 _) ε := by
     apply injective_globalFunctions_val_of_isSurjective B S hS _ (schemeSpace T).property top
       (isSurjective_id B S hS _)
-    show ε = Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
+    change ε = Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (𝟙 (yoneda.obj T) ≫ 𝟙 _)))) ε
     rw [Category.comp_id, Functor.preimage_id, CategoryTheory.Functor.map_id]
     rfl

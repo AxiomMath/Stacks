@@ -114,7 +114,7 @@ theorem additive_of_finiteModuleRestriction
     refine ⟨ModuleCat.ofHom ((h.hom.comp ix.hom).codRestrict q fun x =>
       hle (LinearMap.mem_range_self _ x)), ?_⟩
     ext x
-    show (Module.fgSystem.equiv A Y).toLinearMap
+    change (Module.fgSystem.equiv A Y).toLinearMap
       (Module.DirectLimit.of A IY GY fy k (show GY k from _)) = h.hom (ix.hom x)
     rw [hqMap]
     rfl
@@ -128,7 +128,7 @@ theorem additive_of_finiteModuleRestriction
       (g := show X' ⟶ Y' from ObjectProperty.homMk ag)
   have hfg : ix ≫ (f + g) = (af + ag) ≫ yk := by
     rw [Preadditive.comp_add, Preadditive.add_comp, haf, hag]
-  show E.map ix ≫ E.map (f + g) =
+  change E.map ix ≫ E.map (f + g) =
     E.map ix ≫ (E.map f + E.map g)
   rw [← Functor.map_comp, hfg, Functor.map_comp, hstage, Preadditive.add_comp,
     ← Functor.map_comp, ← Functor.map_comp, haf, hag, Functor.map_comp,
@@ -163,7 +163,7 @@ theorem preservesCoproducts_of_finiteModuleRestriction
       refine (isColimitOfHasCoproductOfPreservesColimit E
         (fun y : S => K.obj y.val)).hom_ext fun j => ?_
       obtain ⟨x⟩ := j
-      show @Eq (E.obj (K.obj x.val) ⟶ ∐ fun y : T => E.obj (K.obj y.val))
+      change @Eq (E.obj (K.obj x.val) ⟶ ∐ fun y : T => E.obj (K.obj y.val))
         (E.map (Sigma.ι (fun y : S => K.obj y.val) x) ≫
           E.map (Sigma.desc fun y : S =>
               Sigma.ι (fun z : T => K.obj z.val) ⟨y.val, h.down.down y.2⟩) ≫
@@ -172,7 +172,7 @@ theorem preservesCoproducts_of_finiteModuleRestriction
           (PreservesCoproduct.iso E (fun y : S => K.obj y.val)).hom ≫
             Sigma.desc fun y : S =>
               Sigma.ι (fun z : T => E.obj (K.obj z.val)) ⟨y.val, h.down.down y.2⟩)
-      simp only [← Category.assoc, ← E.map_comp, Sigma.ι_desc,
+      simp only [← Category.assoc, ← E.map_comp, Sigma.ι_comp_desc,
         map_ι_comp_preservesCoproduct_iso_hom])
     let csrc := CoproductsFromFiniteFiltered.finiteSubcoproductsCocone f
     have hcsrc : IsColimit csrc :=
@@ -197,11 +197,11 @@ theorem preservesCoproducts_of_finiteModuleRestriction
           CoproductsFromFiniteFiltered.finiteSubcoproductsCocone] using e.symm
       intro j
       have hleg : colimit.ι D' {j} ≫ e.inv = cD.ι.app {j} := by
-        show (colimit.cocone D').ι.app {j} ≫ e.inv = cD.ι.app {j}
+        change (colimit.cocone D').ι.app {j} ≫ e.inv = cD.ι.app {j}
         rw [← IsColimit.comp_coconePointUniqueUpToIso_hom hcD
           (colimit.isColimit D') {j}]
         simp [e]
-      show (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
+      change (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
           ⟨j, Finset.mem_singleton_self j⟩ ≫ colimit.ι D' {j}) ≫ e.inv =
         E.map (Sigma.ι f j.as)
       refine (Category.assoc _ _ _).trans ?_
@@ -211,13 +211,13 @@ theorem preservesCoproducts_of_finiteModuleRestriction
       -- `cD.ι.app {j}` is the inverse comparison map followed by `E` applied to the inclusion
       -- of the singleton subcoproduct; both are definitional, and spelling them out turns the
       -- remaining goal into a composite of `Sigma`-inclusions.
-      show @Eq (E.obj (f j.as) ⟶ E.obj (∐ f))
+      change @Eq (E.obj (f j.as) ⟶ E.obj (∐ f))
         (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => E.obj (K.obj x.val))
             ⟨j, Finset.mem_singleton_self j⟩ ≫
           sigmaComparison E (fun x : ({j} : Finset (Discrete J)) => K.obj x.val) ≫
             E.map (Sigma.desc fun s : ({j} : Finset (Discrete J)) => Sigma.ι f s.val.as))
         (E.map (Sigma.ι f j.as))
-      rw [← Category.assoc, ι_comp_sigmaComparison, ← E.map_comp, Sigma.ι_desc]
+      rw [← Category.assoc, ι_comp_sigmaComparison, ← E.map_comp, Sigma.ι_comp_desc]
     exact Limits.preservesColimit_of_preserves_colimit_cocone (coproductIsCoproduct f) hmap
   exact Limits.preservesColimitsOfShape_of_discrete E
 

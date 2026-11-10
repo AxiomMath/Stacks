@@ -55,9 +55,9 @@ import all StacksFrontier.AlgebraicGeometry.Spaces.Limits.DescendingMorphismProp
 # DescendingMorphismProperties under the site convention
 
 The declarations below accompany
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.DescendingMorphismProperties`: they state its results
-under the chapter's standing convention of Section 70.2 (tag 07SD) on the size of the site, in the
-form the absolute Noetherian approximation of Stacks 07SU consumes.
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.DescendingMorphismProperties`: they state its
+results under the chapter's standing convention of Section 70.2 (tag 07SD) on the size of the
+site, in the form the absolute Noetherian approximation of Stacks 07SU consumes.
 -/
 
 @[expose] public section
@@ -135,8 +135,9 @@ end BridgedSituationChartSquare
 
 namespace MorphismDescentSituation
 
-add_to_stacks 08K0 "flatness of a module, under the convention of Section 70.2 (tag 07SD) and with no \
-  condition on the index" AlgebraicGeometry.Space.MorphismDescentSituation.C1573.exists_isFlatOver_mapAt_of_siteContainsBaseChangeLimits
+add_to_stacks 08K0 "flatness of a module, under the convention of Section 70.2 (tag 07SD) and \
+  with no condition on the index"
+  C1573.exists_isFlatOver_mapAt_of_siteContainsBaseChangeLimits
 
 /-! ### The covariant indexing of Stacks 07SK
 

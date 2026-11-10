@@ -108,7 +108,7 @@ private lemma envelopingBaseChange_eq_canonical (A : Type u) (B : Type v) (A' : 
     [CommRing A] [CommRing B] [CommRing A'] [Algebra A B] [Algebra A A'] :
     envelopingBaseChange A B A' = envelopingBaseChangeCanonical A B A' := by
   apply Algebra.TensorProduct.ext
-  · show (Algebra.TensorProduct.lift
+  · change (Algebra.TensorProduct.lift
       ((Algebra.TensorProduct.includeLeft.restrictScalars A).comp
         Algebra.TensorProduct.includeRight)
       ((Algebra.TensorProduct.includeRight.restrictScalars A).comp
@@ -120,7 +120,7 @@ private lemma envelopingBaseChange_eq_canonical (A : Type u) (B : Type v) (A' : 
       Algebra.TensorProduct.assoc_symm_tmul,
       Algebra.TensorProduct.cancelBaseChange_symm_tmul,
       Algebra.TensorProduct.one_def]
-  · show (AlgHom.restrictScalars A (Algebra.TensorProduct.lift
+  · change (AlgHom.restrictScalars A (Algebra.TensorProduct.lift
       ((Algebra.TensorProduct.includeLeft.restrictScalars A).comp
         Algebra.TensorProduct.includeRight)
       ((Algebra.TensorProduct.includeRight.restrictScalars A).comp
@@ -174,7 +174,7 @@ private lemma envelopingBaseChange_flat (A : Type u) (B : Type v) (A' : Type w)
   let e : (A' ⊗[A] R) ≃ₐ[R] R ⊗[A] A' :=
     AlgEquiv.ofRingEquiv (f := (Algebra.TensorProduct.comm A A' R).toRingEquiv) (by
       intro r
-      show Algebra.TensorProduct.comm A A' R (1 ⊗ₜ[A] r) = r ⊗ₜ[A] (1 : A')
+      change Algebra.TensorProduct.comm A A' R (1 ⊗ₜ[A] r) = r ⊗ₜ[A] (1 : A')
       simp [Algebra.TensorProduct.comm_tmul])
   let : Module.Flat R (R ⊗[A] A') := Module.Flat.baseChange A R A'
   exact Module.Flat.of_linearEquiv e.toLinearEquiv
@@ -200,7 +200,7 @@ private lemma map_diagonalKernel_baseChange (A : Type u) (B : Type v) (A' : Type
   have hsurj : Function.Surjective μ := by
     intro b
     refine ⟨(Algebra.TensorProduct.includeLeft : B →ₐ[A] R) b, ?_⟩
-    show (Algebra.TensorProduct.lmul' A) (Algebra.TensorProduct.includeLeft b) = b
+    change (Algebra.TensorProduct.lmul' A) (Algebra.TensorProduct.includeLeft b) = b
     simp
   exact (Algebra.TensorProduct.lTensor_ker (R := A) (A := A') (C := R) (D := B) μ hsurj).symm
 
@@ -259,7 +259,7 @@ theorem map_diagonalAnnihilator_eq (A : Type u) (B : Type v) (A' : Type w)
       (((e.toAlgHom.restrictScalars A).comp inc).toRingHom) =
         e.toRingEquiv.toRingHom.comp inc.toRingHom := rfl
   have hinc : (algebraMap R S : R →+* S) = inc.toRingHom := rfl
-  show Ideal.map (envelopingBaseChange A B A').toRingHom I.annihilator =
+  change Ideal.map (envelopingBaseChange A B A').toRingHom I.annihilator =
     (RingHom.ker μ'.toRingHom).annihilator
   rw [envelopingBaseChange_eq_canonical A B A',
     show envelopingBaseChangeCanonical A B A' =
@@ -284,10 +284,10 @@ theorem map_noetherDifferent_eq (A : Type u) (B : Type v) (A' : Type w)
     (noetherDifferent A B).map
         (Algebra.TensorProduct.includeRight : B →ₐ[A] A' ⊗[A] B) =
       noetherDifferent A' (A' ⊗[A] B) := by
-  show _ = Ideal.map (Algebra.TensorProduct.lmul' A').toRingHom
+  change _ = Ideal.map (Algebra.TensorProduct.lmul' A').toRingHom
     (diagonalAnnihilator A' (A' ⊗[A] B))
   rw [← map_diagonalAnnihilator_eq]
-  show (Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change (Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (diagonalAnnihilator A B)).map
         Algebra.TensorProduct.includeRight.toRingHom =
     Ideal.map (Algebra.TensorProduct.lmul' A').toRingHom

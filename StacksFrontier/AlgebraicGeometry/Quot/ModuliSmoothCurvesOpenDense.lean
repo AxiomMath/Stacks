@@ -135,7 +135,7 @@ theorem exists_curveFamilyOfScheme_hom
     ⟨e.hom.baseMap, congrArg CurveFamily.Hom.baseMap e.inv_hom_id,
       congrArg CurveFamily.Hom.baseMap e.hom_inv_id⟩
   refine ⟨p.carrier, inferInstance, hK, X, inferInstance, hdim, e.inv ≫ ψ, ?_, ?_⟩
-  · show IsIso (e.inv.baseMap ≫ ψ.baseMap)
+  · change IsIso (e.inv.baseMap ≫ ψ.baseMap)
     infer_instance
   · refine (Stack.class_eq_class_iff_hasCommonExtension B integerBase hZ _ _ _ _).2
       ⟨curvesFieldPoint hK (curveFamilyOfScheme X B hZ hK hdim) rfl, ⟨𝟙 _⟩, ⟨?_⟩⟩
@@ -338,7 +338,7 @@ theorem curvesPointSet_moduliSmoothOfGenus_isOpen_dense_in_stableOfGenus
       ext x
       rw [Set.mem_preimage, Set.mem_preimage, curvesPointSet_isSmoothH0FamilyOfGenus_eq hg]
       exact ⟨fun h => h.1, fun h => ⟨h, x.2⟩⟩
-    show IsOpen (Subtype.val ⁻¹' curvesPointSet B hZ (IsSmoothH0FamilyOfGenus g) :
+    change IsOpen (Subtype.val ⁻¹' curvesPointSet B hZ (IsSmoothH0FamilyOfGenus g) :
       Set (curvesPointSet B hZ (IsStableCurveFamilyOfGenus B hZ g)))
     rw [heq]
     exact (isOpen_curvesPointSet (isOpenCurvesLocus_isSmoothFamily B hZ)).preimage

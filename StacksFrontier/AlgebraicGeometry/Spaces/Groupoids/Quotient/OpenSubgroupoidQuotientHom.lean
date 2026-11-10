@@ -96,7 +96,7 @@ theorem map_map_surjective {D : Type u₁} [Category.{v₁} D]
   rintro ⟨g, f⟩
   obtain ⟨f', hf'⟩ := h g (f ≫ (α.naturality g.op.toLoc).inv.toNatTrans.app Y.fiber)
   refine ⟨⟨g, f'⟩, CoGrothendieck.Hom.ext _ _ rfl ?_⟩
-  show (α.app ⟨op X.base⟩).toFunctor.map f' ≫
+  change (α.app ⟨op X.base⟩).toFunctor.map f' ≫
       (α.naturality g.op.toLoc).hom.toNatTrans.app Y.fiber = f ≫ eqToHom rfl
   rw [hf', eqToHom_refl, Category.comp_id]
   exact (Category.assoc _ _ _).trans ((congrArg (f ≫ ·)
@@ -245,7 +245,7 @@ theorem quotientStackFiberHomEquiv_map (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : BigFppfOver C S hS) {x y : G.toGroupoidInFunctors.Evaluation (op T)} (f : x ⟶ y) :
     quotientStackFiberHomEquiv G T x y ((pointwiseToQuotientStackFiber G T).map f) =
       G.toGroupoidInFunctors.evaluationArrowEquiv (op T) x y f := by
-  show G.toGroupoidInFunctors.evaluationArrowEquiv (op T) x y
+  change G.toGroupoidInFunctors.evaluationArrowEquiv (op T) x y
       ((fullyFaithful_pointwiseToQuotientStackFiber G T).some.homEquiv.symm
         ((pointwiseToQuotientStackFiber G T).map f)) = _
   congr 1

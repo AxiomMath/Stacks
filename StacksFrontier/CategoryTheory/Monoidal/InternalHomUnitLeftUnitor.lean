@@ -41,7 +41,7 @@ theorem exists_isIso_comp_eq_of_whiskerRight_comp_eq_leftUnitor {K A : C} (c : A
   dsimp only at hv
   have huv : u ≫ v = 𝟙 _ := by
     refine hb.1 ?_
-    show (u ≫ v) ≫ b = 𝟙 _ ≫ b
+    change (u ≫ v) ≫ b = 𝟙 _ ≫ b
     rw [Category.assoc, hv, ← Category.assoc, hu, hab, Category.id_comp]
   exact ⟨u, ⟨v, huv, (comp_comm_tensorUnit v u).trans huv⟩, hu⟩
 

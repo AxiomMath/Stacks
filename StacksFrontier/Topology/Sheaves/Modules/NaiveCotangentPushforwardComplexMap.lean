@@ -139,7 +139,6 @@ theorem freeAlgebraPushMap_comp_presentation :
         α₁).symm).trans ?_
     exact Category.assoc _ _ _
 
-include hab in
 /-- The morphism of polynomial presentations lies under `ρ`. -/
 theorem freeAlgebraPushMap_coefficient :
     freeAlgebraSheafCoefficientMap (Opens.grothendieckTopology X) A₁ E₁ ≫
@@ -184,7 +183,7 @@ noncomputable abbrev presentationTensorPushMap :
     (freeAlgebraPushMap f A₁ E₁ A₂ E₂ ρ ε) (freeAlgebraPushMap_comp_presentation f hab hε) A₁ A₂
     (freeAlgebraSheafCoefficientMap (Opens.grothendieckTopology X) A₁ E₁)
     (freeAlgebraSheafCoefficientMap (Opens.grothendieckTopology Y) A₂ E₂) ρ
-    (freeAlgebraPushMap_coefficient f hab)
+    (freeAlgebraPushMap_coefficient f)
 
 /-- The maps `presentationConormalPushMap` and `presentationTensorPushMap` commute with the
 differentials in degree `-1` of `NL(α₁)` and of `f_*NL(α₂)`. -/
@@ -201,7 +200,7 @@ theorem presentationConormalPushMap_comm :
         (_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).map
           (eqToHom (presentationNaiveCotangentComplex_X_zero.{u, u, u, u}
             (Opens.grothendieckTopology Y) A₂ B₂ a₂ E₂ α₂).symm)) := by
-  show _ ≫ (_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).map
+  change _ ≫ (_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).map
     ((presentationNaiveCotangentComplex.{u, u, u, u}
       (Opens.grothendieckTopology Y) A₂ B₂ a₂ E₂ α₂).d (-1) 0) = _
   rw [presentationNaiveCotangentComplex_d_negOne_zero, Category.assoc, ← Functor.map_comp,
@@ -212,7 +211,7 @@ theorem presentationConormalPushMap_comm :
     (freeAlgebraPushMap f A₁ E₁ A₂ E₂ ρ ε) (freeAlgebraPushMap_comp_presentation f hab hε) A₁ A₂
     (freeAlgebraSheafCoefficientMap (Opens.grothendieckTopology X) A₁ E₁)
     (freeAlgebraSheafCoefficientMap (Opens.grothendieckTopology Y) A₂ E₂) ρ
-    (freeAlgebraPushMap_coefficient f hab)).symm
+    (freeAlgebraPushMap_coefficient f)).symm
 
 /-- The composite of `presentationTensorPushMap` with the differential of `f_*NL(α₂)` out of
 degree `0` is zero. -/
@@ -224,7 +223,7 @@ theorem presentationTensorPushMap_comp_d (k : ℤ) :
       (((_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj (presentationNaiveCotangentComplex.{u, u, u, u}
           (Opens.grothendieckTopology Y) A₂ B₂ a₂ E₂ α₂)).d 0 k = 0 := by
-  show _ ≫ (_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).map
+  change _ ≫ (_root_.SheafOfModules.pushforward.{u} (pushforwardRingHom f b)).map
     ((presentationNaiveCotangentComplex.{u, u, u, u}
       (Opens.grothendieckTopology Y) A₂ B₂ a₂ E₂ α₂).d 0 k) = 0
   rw [presentationNaiveCotangentComplex_d_zero, Functor.map_zero, Limits.comp_zero]
@@ -432,10 +431,7 @@ theorem presentationTensorPushMap_naturality :
     _).symm
   refine congrArg (toAssociatedModule.{u, u, u, u} (Opens.grothendieckTopology Y) _ B₂ _
     (tensorPresheaf _ _) ((Opens.map f).op.obj U)) ?_
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg _ (map_zero _)).trans ((map_zero _).trans
-      ((map_zero _).symm.trans (congrArg _ (map_zero _).symm)))
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (congrArg _ (map_add _ x y)).trans ((map_add _ _ _).trans ((congrArg₂ (· + ·) hx
       hy).trans ((map_add _ _ _).symm.trans (congrArg _ (map_add _ x y).symm))))
@@ -456,7 +452,7 @@ theorem presentationTensorPushMap_naturality :
     induction mem using Submodule.span_induction with
     | mem z hz =>
       obtain ⟨z, rfl⟩ := hz
-      show differentialsMapOfFac _ _ _ _ _ (differentialsMapPush _ _ _ _ _ _ _ _ _
+      change differentialsMapOfFac _ _ _ _ _ (differentialsMapPush _ _ _ _ _ _ _ _ _
           (CommRingCat.KaehlerDifferential.d z)) =
         differentialsMapPush _ _ _ _ _ _ _ _ _ (differentialsMapOfFac _ _ _ _ _
           (CommRingCat.KaehlerDifferential.d z))
@@ -493,8 +489,7 @@ theorem presentationNaiveCotangentPushMap_naturality :
       presentationNaiveCotangentComplexMap_f_negOne, Functor.mapHomologicalComplex_map_f,
       presentationNaiveCotangentComplexMap_f_negOne]
     simp only [Category.assoc, Functor.map_comp, eqToHom_map]
-    simp only [← Functor.map_comp_assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp,
-      eqToHom_trans, Functor.map_id]
+    simp only [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
     rw [← Category.assoc (presentationConormalPushMap f hab hε),
       presentationConormalPushMap_naturality f k₁ k₂ hcomm hk₁ hk₂ hab hε hε', Category.assoc]
   by_cases h0 : i = 0
@@ -504,8 +499,7 @@ theorem presentationNaiveCotangentPushMap_naturality :
       presentationNaiveCotangentComplexMap_f_zero, Functor.mapHomologicalComplex_map_f,
       presentationNaiveCotangentComplexMap_f_zero]
     simp only [Category.assoc, Functor.map_comp, eqToHom_map]
-    simp only [← Functor.map_comp_assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp,
-      eqToHom_trans, Functor.map_id]
+    simp only [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
     rw [← Category.assoc (presentationTensorPushMap f hab hε),
       presentationTensorPushMap_naturality f k₁ k₂ hcomm hk₁ hk₂ hab hε hε', Category.assoc]
   exact (presentationNaiveCotangentComplex_isZero_X.{u, u, u, u} (Opens.grothendieckTopology X)

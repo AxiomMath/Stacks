@@ -434,7 +434,7 @@ theorem graded_hom_ext {G : GradedModule.{t, a, m} A.toGradedAlgebra}
     α = β := by
   have key : Cofree.liftDgHom G α = Cofree.liftDgHom G β := by
     refine (PD.isPullback W).hom_ext (SemilinearHom.ext fun i V x => ?_)
-    show homSections (Cofree.liftHom G α i)
+    change homSections (Cofree.liftHom G α i)
         (u.op.obj V) ((PD.unit W).app i V x) =
       homSections (Cofree.liftHom G β i)
         (u.op.obj V) ((PD.unit W).app i V x)
@@ -471,7 +471,7 @@ theorem gradedMap_comp {X : DifferentialGradedModule.{t, a', m'} A'}
     (r' : (forgetToGradedModule A').obj Z ⟶ (forgetToGradedModule A').obj X) :
     PD.gradedMap (r ≫ r') = PD.gradedMap r ≫ PD.gradedMap r' := by
   refine PD.graded_hom_ext fun i V x => ?_
-  show homSections ((PD.gradedMap (r ≫ r')).app i) (u.op.obj V) ((PD.unit W).app i V x) =
+  change homSections ((PD.gradedMap (r ≫ r')).app i) (u.op.obj V) ((PD.unit W).app i V x) =
     homSections ((PD.gradedMap r').app i) (u.op.obj V)
       (homSections ((PD.gradedMap r).app i) (u.op.obj V) ((PD.unit W).app i V x))
   rw [PD.gradedMap_unit, PD.gradedMap_unit, PD.gradedMap_unit]
@@ -482,7 +482,7 @@ theorem gradedMap_add
     (r r' : (forgetToGradedModule A').obj W ⟶ (forgetToGradedModule A').obj Z) :
     PD.gradedMap (r + r') = PD.gradedMap r + PD.gradedMap r' := by
   refine PD.graded_hom_ext fun i V x => ?_
-  show homSections ((PD.gradedMap (r + r')).app i) (u.op.obj V) ((PD.unit W).app i V x) =
+  change homSections ((PD.gradedMap (r + r')).app i) (u.op.obj V) ((PD.unit W).app i V x) =
     homSections ((PD.gradedMap r).app i) (u.op.obj V) ((PD.unit W).app i V x) +
       homSections ((PD.gradedMap r').app i) (u.op.obj V) ((PD.unit W).app i V x)
   rw [PD.gradedMap_unit, PD.gradedMap_unit, PD.gradedMap_unit]

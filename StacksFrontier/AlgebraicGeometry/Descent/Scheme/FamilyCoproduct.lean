@@ -348,7 +348,7 @@ private lemma totalGluingPullback_ι (D : DescentData f) (i j : I) :
   dsimp only [Over.comp_left] at h
   simp only [DescentData.gluingPullbackIso, Iso.trans_hom, Iso.symm_hom,
     Functor.mapIso_hom, DescentData.gluingIso, Over.forget_map, Category.assoc]
-  show totalSourceMap f D i j ≫
+  change totalSourceMap f D i j ≫
       (Over.prodLeftIsoPullback ((Over.map (Sigma.desc f)).obj (totalObj D.obj))
         (Over.mk (Sigma.desc f))).inv ≫ (totalGluing f D).hom.left ≫
         (Over.prodLeftIsoPullback (Over.mk (Sigma.desc f))
@@ -433,7 +433,7 @@ private lemma restrictedObject_isPullback
   · have hs : s.fst.left ≫ (E.obj ()).hom = s.snd.left ≫ Sigma.ι X i :=
       (congrArg (fun t ↦ t.left) s.condition :)
     apply Over.homMk (pullback.lift s.fst.left s.snd.left hs) (by
-      show pullback.lift s.fst.left s.snd.left _ ≫
+      change pullback.lift s.fst.left s.snd.left _ ≫
         pullback.snd (E.obj ()).hom (Sigma.ι X i) ≫ f i = s.pt.hom
       rw [← Category.assoc, pullback.lift_snd]
       exact Over.w s.snd)

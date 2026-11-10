@@ -45,14 +45,14 @@ private theorem exists_formal_lift_square
   have hcomm' : ψ'.comp f = (Ideal.Quotient.mk _).comp g := by
     ext r
     apply e.injective
-    show e (e.symm (ψ (f r))) = e (Ideal.Quotient.mk _ (g r))
+    change e (e.symm (ψ (f r))) = e (Ideal.Quotient.mk _ (g r))
     rw [RingEquiv.apply_symm_apply, he]
     exact congrArg (fun h : R →+* B ↦ h r) hcomm
   have hψ' : ∃ k : ℕ, 1 ≤ k ∧ J ^ k ≤ RingHom.ker ψ' := by
     obtain ⟨k, hk, h⟩ := hψ
     refine ⟨k, hk, ?_⟩
     intro x hx
-    show e.symm (ψ x) = 0
+    change e.symm (ψ x) = 0
     rw [show ψ x = 0 from h hx, map_zero]
   obtain ⟨φ, hφ, hφf⟩ := hf E _ hker g ψ' hcomm' hψ'
   refine ⟨φ, ?_, hφf⟩
@@ -214,7 +214,7 @@ private theorem formallySmoothNAdic_int_cohenRing
   let Q := Λ ⧸ Ideal.span {(p : Λ) ^ (k * 2)}
   let : Algebra (ZMod (p ^ (k * 2))) Q :=
     ZMod.algebra' Q (ringChar Q) (ringChar.dvd (by
-      show ((p ^ (k * 2) : ℕ) : Λ ⧸ Ideal.span {(p : Λ) ^ (k * 2)}) = 0
+      change ((p ^ (k * 2) : ℕ) : Λ ⧸ Ideal.span {(p : Λ) ^ (k * 2)}) = 0
       rw [← map_natCast (Ideal.Quotient.mk _), Nat.cast_pow]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self _)))
   let : Algebra (ZMod (p ^ (k * 2))) E :=
@@ -358,7 +358,7 @@ private theorem exists_cohenRing_factorization
     (fun a ↦ (congrArg (fun h : A →+* B ↦ h a) hgf).symm)
   have : IsExtension C B := isExtension_of_injective_of_isLocalHom hginj hgloc
   have hres : Function.Surjective (ResidueField.map (algebraMap C B)) := by
-    show Function.Surjective (ResidueField.map g)
+    change Function.Surjective (ResidueField.map g)
     rw [residueField_map_eq_of_residue_comp_eq g e.toRingHom hgres]
     exact e.surjective
   exact ⟨C, hCcomm, hCdom, hCcohen, inferInstance, inferInstance, inferInstance,
@@ -452,7 +452,7 @@ private theorem residueFieldOfPowerSeries_residue
     {k : Type*} [Field k] (s : PowerSeries k) :
     PowerSeries.residueFieldOfPowerSeries (residue _ s) =
       PowerSeries.constantCoeff s := by
-  show (RingHom.quotientKerEquivOfSurjective PowerSeries.constantCoeff_surj)
+  change (RingHom.quotientKerEquivOfSurjective PowerSeries.constantCoeff_surj)
     (Ideal.quotEquivOfEq PowerSeries.ker_coeff_eq_max_ideal.symm
       (Ideal.Quotient.mk _ s)) = _
   rw [Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
@@ -476,7 +476,7 @@ private theorem exists_powerSeries_factorization
   let f : A →+* C := PowerSeries.map ψ
   have hFX : f PowerSeries.X = PowerSeries.X := PowerSeries.map_X ψ
   have hmap : (IsLocalRing.maximalIdeal A).map f = IsLocalRing.maximalIdeal C := by
-    show (IsLocalRing.maximalIdeal (PowerSeries k)).map f =
+    change (IsLocalRing.maximalIdeal (PowerSeries k)).map f =
       IsLocalRing.maximalIdeal (PowerSeries (ResidueField B))
     rw [PowerSeries.maximalIdeal_eq_span_X, PowerSeries.maximalIdeal_eq_span_X,
       Ideal.map_span, Set.image_singleton, hFX]
@@ -486,7 +486,7 @@ private theorem exists_powerSeries_factorization
   have : IsExtension A C := isExtension_of_injective_of_isLocalHom hfinj hfloc
   have hXC : Irreducible (PowerSeries.X : C) := PowerSeries.X_irreducible
   have hπC : Irreducible (algebraMap A C PowerSeries.X) := by
-    show Irreducible (f PowerSeries.X)
+    change Irreducible (f PowerSeries.X)
     rw [hFX]
     exact hXC
   have hweak : IsWeaklyUnramified A C :=
@@ -533,7 +533,7 @@ private theorem exists_powerSeries_factorization
     (fun a ↦ (congrArg (fun h : A →+* B ↦ h a) hgf).symm)
   have : IsExtension C B := isExtension_of_injective_of_isLocalHom hginj hgloc
   have hres : Function.Surjective (ResidueField.map (algebraMap C B)) := by
-    show Function.Surjective (ResidueField.map g)
+    change Function.Surjective (ResidueField.map g)
     rw [residueField_map_eq_of_residue_comp_eq g _ hgres]
     exact PowerSeries.residueFieldOfPowerSeries.surjective
   exact ⟨inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
@@ -623,7 +623,7 @@ private theorem exists_powerSeries_perfectCore_subring
   let φ : PowerSeries k →+* A :=
     e.toRingHom.comp (PowerSeries.map k.subtype)
   have hφX : φ PowerSeries.X = π := by
-    show e (PowerSeries.map k.subtype PowerSeries.X) = π
+    change e (PowerSeries.map k.subtype PowerSeries.X) = π
     rw [PowerSeries.map_X, heX]
   have hφinj : Function.Injective φ :=
     e.injective.comp (PowerSeries.map_injective k.subtype k.subtype.injective)
@@ -633,7 +633,7 @@ private theorem exists_powerSeries_perfectCore_subring
       hφX, ← hπ.maximalIdeal_eq]
   refine ⟨φ, hφX, hφinj, hφloc, ?_⟩
   ext c
-  show residue A (e (PowerSeries.map k.subtype (PowerSeries.C c))) = c
+  change residue A (e (PowerSeries.map k.subtype (PowerSeries.C c))) = c
   rw [PowerSeries.map_C, heC]
   rfl
 
@@ -660,11 +660,11 @@ private theorem eppCondition_of_perfectCore_base
       (algebraMap (ResidueField A) (ResidueField B)).comp
         (perfectCore (ResidueField A) p).subtype := by
     ext z
-    show algebraMap (ResidueField R) (ResidueField B) (e.symm z) =
+    change algebraMap (ResidueField R) (ResidueField B) (e.symm z) =
       algebraMap (ResidueField A) (ResidueField B) (z : ResidueField A)
     rw [IsScalarTower.algebraMap_apply (ResidueField R) (ResidueField A)
       (ResidueField B)]
-    show algebraMap (ResidueField A) (ResidueField B)
+    change algebraMap (ResidueField A) (ResidueField B)
       (ResidueField.map (algebraMap R A) (e.symm z)) = _
     rw [hmap]
     simp
@@ -710,28 +710,28 @@ private theorem isSeparable_adjoin_of_tensor_factor
       · apply IntermediateField.adjoin_le_iff.mpr
         intro x hx
         have hx' : x = α := Set.mem_singleton_iff.mp hx
-        show IsSeparable P (e x)
+        change IsSeparable P (e x)
         rw [hx']
         have hα : e α ∈ P := IntermediateField.subset_adjoin K {e α} (Set.mem_singleton _)
         simpa only [IntermediateField.algebraMap_apply] using
           (isSeparable_algebraMap (F := P) (K := F) ⟨e α, hα⟩)
       · intro x hx
-        show IsSeparable P (e x)
+        change IsSeparable P (e x)
         exact (hx.map e e.injective).tower_top P
     exact hle (hgen ▸ IntermediateField.mem_top)
   refine ⟨fun x ↦ ?_⟩
   obtain ⟨z, rfl⟩ := hg x
-  show g z ∈ T
+  change g z ∈ T
   induction z with
   | add x y hx hy => simpa only [map_add] using T.add_mem hx hy
   | tmul a b =>
     have ha : algebraMap K F a ∈ T := by
-      show IsSeparable P (algebraMap K F a)
+      change IsSeparable P (algebraMap K F a)
       rw [IsScalarTower.algebraMap_apply K P F]
       exact isSeparable_algebraMap _
     have he : g (a ⊗ₜ[k] b) = algebraMap K F a * e b := by
       rw [← Algebra.smul_def]
-      show g.toLinearMap (a ⊗ₜ[k] b) = a • g.toLinearMap (1 ⊗ₜ[k] b)
+      change g.toLinearMap (a ⊗ₜ[k] b) = a • g.toLinearMap (1 ⊗ₜ[k] b)
       rw [← g.toLinearMap.map_smul, TensorProduct.smul_tmul']
       simp
     rw [he]
@@ -839,7 +839,7 @@ theorem exists_finite_extension_isWeakSolution_of_complete_equalCharacteristic_p
       _ = algebraMap K F (algebraMap A K π) := by
         rw [← IsScalarTower.algebraMap_apply R k K,
           IsScalarTower.algebraMap_apply R A K]
-        show algebraMap K F (algebraMap A K (φ PowerSeries.X)) = _
+        change algebraMap K F (algebraMap A K (φ PowerSeries.X)) = _
         rw [hφX]
   have hρsep : Algebra.IsSeparable (IntermediateField.adjoin K {ρ}) F :=
     isSeparable_adjoin_of_tensor_factor k K E F α hgen g hg

@@ -408,10 +408,10 @@ private theorem map_shDelta_comp_delta_aux
           (pull α hO hP) ((Stacks.SheafOfModules.sheafifyFunctor O hO).obj Pp)
             ((Stacks.SheafOfModules.sheafifyFunctor O hO).obj Qq)),
       Functor.Monoidal.δ_μ, Category.id_comp]
-    exact Functor.Monoidal.map_δ_μ (Stacks.SheafOfModules.sheafifyFunctor O hO)
-      (pull α hO hP) Pp Qq
+    exact Functor.Monoidal.δ_μ_map (Stacks.SheafOfModules.sheafifyFunctor O hO) Pp Qq
+      (pull α hO hP)
   · rw [pullbackMonoidal_mu]
-    simp only [Category.assoc, Functor.Monoidal.map_δ_μ_assoc, Iso.inv_hom_id_app_assoc,
+    simp only [Category.assoc, Functor.Monoidal.δ_μ_map_assoc, Iso.inv_hom_id_app_assoc,
       Functor.Monoidal.μ_δ_assoc, MonoidalCategory.tensorHom_comp_tensorHom, Iso.hom_inv_id_app,
       MonoidalCategory.id_tensorHom_id]
     rfl

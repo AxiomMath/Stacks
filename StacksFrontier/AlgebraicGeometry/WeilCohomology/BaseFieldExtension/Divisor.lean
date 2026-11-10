@@ -99,8 +99,7 @@ theorem twistOne_tateCupLeft (X : (SmoothProjectiveScheme k).FullSubcategory) (a
     (x : tateTwist F 𝔇.tate (𝔇.H X) 1) :
     Φ.twistOne X (tateCupLeft (L := 𝔇.tate) (𝔇.cup X) 1 a x) =
       tateCupLeft (L := 𝔇'.tate) (𝔇'.cup _) 1 (Φ.ρ X a) (Φ.twistOne X x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [twistOne]
+  induction x using TensorProduct.inductionOn with
   | tmul v t =>
     simp only [twistOne, tateCupLeft, LinearMap.mk₂_apply, tateTwistMap, TensorProduct.map_tmul,
       LinearMap.id_coe, id_eq, FirstChernClassData.cup, LinearMap.mul_apply']

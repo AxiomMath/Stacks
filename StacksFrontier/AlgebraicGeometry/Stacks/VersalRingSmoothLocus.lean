@@ -187,7 +187,7 @@ theorem isFormallySmoothAtClosedPoint_iff_of_isVersalRingAt
     intro Λ₁ Λ₂ _ _ _ _ i₁ i₂ A₁ A₂ r e he
     refine (formallySmoothNAdic_stalkClosedPointTo_specMap_ringEquiv_comp_iff e
       (versalRingToBase D i₁ A₁)).symm.trans ?_
-    show IsFormallySmoothAtClosedPoint (Spec.map (CommRingCat.ofHom e.toRingHom) ≫ _) ↔ _
+    change IsFormallySmoothAtClosedPoint (Spec.map (CommRingCat.ofHom e.toRingHom) ≫ _) ↔ _
     rw [he, versalRingToBase_eq_specMap_comp D i₂ (MvPowerSeries.C (σ := Fin r) (R := A₂))
       (RingHom.ext fun a => MvPowerSeries.algebraMap_apply (σ := Fin r) (A := A₂) (r := a))]
     exact isFormallySmoothAtClosedPoint_specMap_C_comp_iff r _
@@ -320,7 +320,7 @@ theorem IsSmoothLocus.property_iff_of_smoothObject {𝒳 : AlgebraicStacks.{u, w
   have hp := 𝒳.val.isFiberedInGroupoids
   let c := Functor.TwoYoneda.chosenLift 𝒳.val.val.p hp (𝒳.val.val.p.obj x)
     (Functor.Fiber.mk (a := x) rfl) z
-  show W.property y ↔ W.property c.y
+  change W.property y ↔ W.property c.y
   have : 𝒳.val.val.p.IsStronglyCartesian (𝒳.val.val.p.map τ) τ :=
     hp.isStronglyCartesian_homLift _ _
   let φc : c.y ⟶ x := c.φ
@@ -363,7 +363,7 @@ theorem IsSmoothLocus.property_iff_isFormallySmoothAtClosedPoint
     (hA : IsVersalRingAt D iΛ hiΛ x₀ hx₀ hfinite A) :
     W.property x₀ ↔
       IsFormallySmoothAtClosedPoint (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) := by
-  show W.property x₀ ↔ IsFormallySmoothAtClosedPoint (versalRingToBase D iΛ A)
+  change W.property x₀ ↔ IsFormallySmoothAtClosedPoint (versalRingToBase D iΛ A)
   rw [← versalRingsFormallySmoothAt_iff D iΛ hiΛ x₀ hx₀ hfinite A hA]
   obtain ⟨l, _, _, _, _, hkl, xₗ, hxₗ, η, hη, xR, ξ, -, alg, hΛ,
     ⟨x', τ, hx'sm, hlft, u₀', hpt, e, hbase⟩, -, -, hξversal, _, _, hfin, η', hη'⟩ :=

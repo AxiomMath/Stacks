@@ -97,8 +97,7 @@ theorem bijective_of_tmul_of_of (φ : ∀ i j, P ⊗[R] M i j →+ N i j)
           (DFinsupp.mapRange.addEquiv fun j => AddEquiv.ofBijective (φ i j) (hφ i j)))
   have h : ⇑T = ⇑e := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht => rw [map_add, map_add, hs, ht]
     | tmul c a =>
       induction a using DirectSum.induction_on with
@@ -110,18 +109,18 @@ theorem bijective_of_tmul_of_of (φ : ∀ i j, P ⊗[R] M i j →+ N i j)
         | add a b ha hb => rw [map_add, TensorProduct.tmul_add, map_add, map_add, ha, hb]
         | of j x =>
           rw [hT]
-          show _ = DFinsupp.mapRange.addEquiv _
+          change _ = DFinsupp.mapRange.addEquiv _
             (TensorProduct.directSumRight R R P (fun i => ⨁ j, M i j)
               (c ⊗ₜ DirectSum.lof R ι (fun i => ⨁ j, M i j) i (DirectSum.lof R (κ i) (M i) j x)))
           rw [TensorProduct.directSumRight_tmul_lof]
-          show _ = DFinsupp.mapRange.addEquiv _
+          change _ = DFinsupp.mapRange.addEquiv _
             (DFinsupp.single (β := fun i => P ⊗[R] ⨁ j, M i j) i
               (c ⊗ₜ DirectSum.lof R (κ i) (M i) j x))
           rw [DFinsupp.mapRange.addEquiv_apply, DFinsupp.mapRange_single]
-          show _ = DirectSum.of (fun i => ⨁ j, N i j) i (DFinsupp.mapRange.addEquiv _
+          change _ = DirectSum.of (fun i => ⨁ j, N i j) i (DFinsupp.mapRange.addEquiv _
             (TensorProduct.directSumRight R R P (M i) (c ⊗ₜ DirectSum.lof R (κ i) (M i) j x)))
           rw [TensorProduct.directSumRight_tmul_lof]
-          show _ = DirectSum.of (fun i => ⨁ j, N i j) i
+          change _ = DirectSum.of (fun i => ⨁ j, N i j) i
             (DFinsupp.mapRange.addEquiv _ (DFinsupp.single (β := fun j => P ⊗[R] M i j) j (c ⊗ₜ x)))
           rw [DFinsupp.mapRange.addEquiv_apply, DFinsupp.mapRange_single]
           rfl
@@ -220,7 +219,7 @@ theorem bijective_hodgeAlgebraBaseChangeLinear_of_bijective
       (hodgeBaseChangeLinear K X i.1.1 (i.1.2 : ℤ)).toAddMonoidHom)
     (fun _ i => h i.1.1 (i.1.2 : ℤ)) (hodgeAlgebraBaseChangeLinear K X).toAddMonoidHom
     (fun c n i x => by
-      show hodgeAlgebraBaseChangeLinear K X (c ⊗ₜ _) = _
+      change hodgeAlgebraBaseChangeLinear K X (c ⊗ₜ _) = _
       rw [hodgeAlgebraBaseChangeLinear_tmul, hodgeAlgebraBaseChange_of_of]
       let : ∀ n, Module K (hodgePiece (formsAlgebras ((fieldBaseChange k K).obj X).obj.hom) n) :=
         hodgePieceModule _ (hodgeScalarsOverField ((fieldBaseChange k K).obj X).obj.hom)
@@ -346,7 +345,7 @@ theorem twistEquiv_hodgeFirstChernClassTw
       hodgeFirstChernClassTw ((fieldBaseChange k K).obj X)
         (picardClassOf _ ((Scheme.Modules.pullback (fieldBaseChangeProj X)).obj L)
           (isInvertible_pullback_obj _ L hL)) := by
-  show twistEquiv (hodgeFirstChernClassData k) (hodgeFirstChernClassData K)
+  change twistEquiv (hodgeFirstChernClassData k) (hodgeFirstChernClassData K)
         (TensorProduct.AlgebraTensorModule.rid k K K)
         (fun X => hodgeAlgebraBaseChangeAlgEquivOfBijective K X (hbij X)) X 1
         (1 ⊗ₜ (Stacks.DeRhamWeil.untwist (k := k) (hodgeAlgebraOf X) 1).symm
@@ -363,7 +362,7 @@ theorem twistEquiv_hodgeFirstChernClassTw
     intro F _ V _ _ v
     apply (Stacks.DeRhamWeil.untwist V 1).injective
     rw [LinearEquiv.apply_symm_apply, Stacks.DeRhamWeil.untwist, tateTwistCoordinates_tmul]
-    show v = tensorPowerCoordinates _ 1 _ • v
+    change v = tensorPowerCoordinates _ 1 _ • v
     simp [tensorPowerCoordinates]
   rw [untwist_symm_eq_tmul, untwist_symm_eq_tmul]
   refine (twistEquiv_one_tmul _ _ X _ _).trans ?_

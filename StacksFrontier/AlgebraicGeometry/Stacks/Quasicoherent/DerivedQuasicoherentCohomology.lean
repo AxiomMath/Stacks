@@ -132,7 +132,7 @@ theorem existsUnique_isoLift
   have h : ∀ X, (Localization.liftNatIso L W F F G (Localization.lift F hF L)
       (Iso.refl F)).hom.app (L.obj X) ≫ (Localization.fac F hF L).hom.app X = α.hom.app X := by
     intro X
-    show (Localization.liftNatTrans L W F F G (Localization.lift F hF L)
+    change (Localization.liftNatTrans L W F F G (Localization.lift F hF L)
       (Iso.refl F).hom).app (L.obj X) ≫ (Localization.fac F hF L).hom.app X = α.hom.app X
     rw [Localization.liftNatTrans_app L W F F G (Localization.lift F hF L) (Iso.refl F).hom X]
     have hL1 : Localization.Lifting.iso L W F G = α := rfl
@@ -307,7 +307,7 @@ theorem isInvertedBy_cohomologyQuasicoherent (i : ℤ)
     refine (MorphismProperty.IsInvertedBy.iff_of_iso _ fac).mp (fun X Y f hf => ?_)
     have : IsIso ((derivedParasiticSubcategory B E h S hS 𝒳).trW.Q.map f) :=
       Localization.inverts _ _ f hf
-    show IsIso (H.map ((derivedParasiticSubcategory B E h S hS 𝒳).trW.Q.map f))
+    change IsIso (H.map ((derivedParasiticSubcategory B E h S hS 𝒳).trW.Q.map f))
     infer_instance
   rw [show derivedQuasicoherentW B E h S hS 𝒳
       = (derivedParasiticSubcategory B E h S hS 𝒳).trW from by

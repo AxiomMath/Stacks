@@ -332,7 +332,7 @@ private lemma adic_to_top.{u,v,w} {A : Type v} {B : Type w}
   have hmap : Ideal.map g (n ^ k) ≤ J := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show g x ∈ J
+    change g x ∈ J
     rw [← Ideal.Quotient.eq_zero_iff_mem]
     have h := congrArg (fun h : B →+* T ⧸ J => h x) hπ
     simpa only [RingHom.comp_apply] using h.trans (RingHom.mem_ker.mp (hker hx))
@@ -397,7 +397,7 @@ private lemma isAdicComplete_of_surjective
   let := f.toAlgebra
   have h : IsPrecomplete (maximalIdeal S) S := by
     rw [← map_maximalIdeal_of_surjective f hf]
-    show IsPrecomplete ((maximalIdeal R).map (algebraMap R S)) S
+    change IsPrecomplete ((maximalIdeal R).map (algebraMap R S)) S
     rw [IsPrecomplete.map_algebraMap_iff]
     exact isPrecomplete_of_surjective (maximalIdeal R) (Algebra.linearMap R S) hf
   exact ⟨⟩
@@ -518,7 +518,7 @@ private theorem formallySmoothNAdic_of_isFormallySmooth.{u, v, w}
   have hmap : Ideal.map fA (m ^ k) ≤ J := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show fA x ∈ J
+    change fA x ∈ J
     rw [← Ideal.Quotient.eq_zero_iff_mem]
     have h := congrArg (fun h : A →+* T ⧸ J => h x) hcomm
     exact h.symm.trans (hbound x hx)
@@ -550,7 +550,7 @@ private theorem flat_of_isFormallySmooth_of_isAdicComplete.{v, w}
   have hJ : J ≤ RingHom.ker qB := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show qB (g r) = 0
+    change qB (g r) = 0
     rw [← RingHom.comp_apply, ← hcomm, RingHom.comp_apply]
     exact (congrArg f hr).trans (map_zero f)
   let C := S ⧸ J
@@ -579,7 +579,7 @@ private theorem flat_of_isFormallySmooth_of_isAdicComplete.{v, w}
     have he : e.symm (qA r) = Ideal.Quotient.mk I r := by
       apply e.injective
       simp [e, I]
-    show p (algebraMap (R ⧸ I) C (e.symm (qA r))) = f (qA r)
+    change p (algebraMap (R ⧸ I) C (e.symm (qA r))) = f (qA r)
     rw [he]
     exact (congrArg (fun h : R →+* B => h r) hcomm).symm
   let : Algebra A B := f.toAlgebra
@@ -729,7 +729,7 @@ public theorem h1Cotangent_map_injective_of_formallySmoothNAdic
     obtain ⟨k, hk, hn⟩ := hn
     refine ⟨k, hk, ?_⟩
     intro x hx
-    show e.symm (algebraMap B S x) = 0
+    change e.symm (algebraMap B S x) = 0
     rw [show algebraMap B S x = 0 from hn hx, map_zero]
   obtain ⟨g, hg, hgA⟩ := hf Q.Ring Q.ker
     (by rw [Extension.ker_infinitesimal]; exact Ideal.cotangentIdeal_square _)
@@ -784,12 +784,12 @@ public theorem exact_jacobiZariski_residueField_of_formallySmoothNAdic
   have hi : Function.Injective (Algebra.H1Cotangent.map A B K K) :=
     h1Cotangent_map_injective_of_formallySmoothNAdic (maximalIdeal B) hf
       ⟨1, le_rfl, by
-        show maximalIdeal B ^ 1 ≤ RingHom.ker (residue B)
+        change maximalIdeal B ^ 1 ≤ RingHom.ker (residue B)
         rw [pow_one, ker_residue]⟩
   refine ⟨e.injective.comp hi, ?_, ?_,
     KaehlerDifferential.mapBaseChange_surjective A B K residue_surjective⟩
   · intro y
-    show Algebra.H1Cotangent.δ A B K (e.symm y) = 0 ↔
+    change Algebra.H1Cotangent.δ A B K (e.symm y) = 0 ↔
       y ∈ Set.range (fun x ↦ e (Algebra.H1Cotangent.map A B K K x))
     rw [Algebra.H1Cotangent.exact_map_δ A B K]
     constructor
@@ -798,7 +798,7 @@ public theorem exact_jacobiZariski_residueField_of_formallySmoothNAdic
     · rintro ⟨x, rfl⟩
       exact ⟨x, (e.symm_apply_apply _).symm⟩
   · intro y
-    show KaehlerDifferential.mapBaseChange A B K y = 0 ↔
+    change KaehlerDifferential.mapBaseChange A B K y = 0 ↔
       y ∈ Set.range (fun x ↦ Algebra.H1Cotangent.δ A B K (e.symm x))
     rw [Algebra.H1Cotangent.exact_δ_mapBaseChange A B K]
     constructor
@@ -845,7 +845,7 @@ private lemma exists_derivation_extension_of_injective
   dsimp [f] at hgx
   simp only [KaehlerDifferential.mapBaseChange_tmul, KaehlerDifferential.map_D,
     one_smul] at hgx
-  show l (g (1 ⊗ₜ[A] KaehlerDifferential.D R A (algebraMap k A x))) = d x
+  change l (g (1 ⊗ₜ[A] KaehlerDifferential.D R A (algebraMap k A x))) = d x
   rw [hgx]
   simp [l]
 
@@ -893,7 +893,7 @@ private lemma exists_lift_of_injective_kaehlerDifferential
   let ψ' := liftOfDerivationToSquareZero J hJ D
   refine ⟨ψ'.toRingHom, ?_, ?_⟩
   · ext x
-    show (D (algebraMap k A x) : B) + ψ (algebraMap k A x) = φ x
+    change (D (algebraMap k A x) : B) + ψ (algebraMap k A x) = φ x
     rw [hD]
     exact sub_add_cancel _ _
   · ext x
@@ -1014,14 +1014,14 @@ private lemma exists_derivation_extension_of_formallySmoothNAdic
         intro x y
         apply TrivSqZeroExt.ext
         · exact map_mul (algebraMap k K) x y
-        · show d (x * y) = algebraMap k K x • d y + algebraMap k K y • d x
+        · change d (x * y) = algebraMap k K x • d y + algebraMap k K y • d x
           simpa only [IsScalarTower.algebraMap_apply k A K, IsScalarTower.algebraMap_smul]
             using d.leibniz x y }
   have hπ : Function.Surjective π := fun x => ⟨TrivSqZeroExt.inl x, rfl⟩
   obtain ⟨g, hg, hgf⟩ := RingHom.FormallySmoothNAdic.exists_lift_of_surjective
     (algebraMap k A) (maximalIdeal A) h π hπ (TrivSqZeroExt.kerIdeal_sq K M)
     f (algebraMap A K) (by ext; rfl) ⟨1, le_rfl, by
-      show maximalIdeal A ^ 1 ≤ RingHom.ker (residue A)
+      change maximalIdeal A ^ 1 ≤ RingHom.ker (residue A)
       rw [pow_one, IsLocalRing.ker_residue]⟩
   let gₐ : A →ₐ[ZMod p] B :=
     { g with
@@ -1035,7 +1035,7 @@ private lemma exists_derivation_extension_of_formallySmoothNAdic
       map_one_eq_zero' := by change (g 1).snd = 0; simp
       leibniz' := by
         intro a b
-        show (g (a * b)).snd = a • (g b).snd + b • (g a).snd
+        change (g (a * b)).snd = a • (g b).snd + b • (g a).snd
         rw [map_mul, TrivSqZeroExt.snd_mul, hgfst, hgfst]
         simp }
   refine ⟨D, fun x => ?_⟩
@@ -1270,7 +1270,7 @@ private theorem exists_kaehler_basis_powerSeries
         ← Nat.cast_smul_eq_nsmul (PowerSeries K), smul_smul, smul_eq_mul]⟩
   let e := LinearEquiv.ofBijective l ⟨hinj, hsurj⟩
   refine ⟨(Module.Basis.singleton Unit (PowerSeries K)).map e, ?_⟩
-  show l ((Module.Basis.singleton Unit (PowerSeries K)) ()) = D X
+  change l ((Module.Basis.singleton Unit (PowerSeries K)) ()) = D X
   simp [l, v, LinearMap.toSpanSingleton_apply]
 
 open scoped nonZeroDivisors
@@ -1287,14 +1287,14 @@ private theorem exists_ratFunc_to_powerSeries
   have hu : ∀ a : (Polynomial F)⁰, IsUnit (h a) := by
     intro a
     rw [PowerSeries.isUnit_iff_constantCoeff, isUnit_iff_ne_zero]
-    show (PowerSeries.constantCoeff.comp h) a ≠ 0
+    change (PowerSeries.constantCoeff.comp h) a ≠ 0
     rw [hc]
     apply (map_ne_zero i).2
     simpa only [map_zero] using (IsFractionRing.injective (Polynomial F) (RatFunc F)).ne
       (mem_nonZeroDivisors_iff_ne_zero.mp a.property)
   let f : RatFunc F →+* PowerSeries K := IsLocalization.lift hu
   refine ⟨f, ?_⟩
-  show f (algebraMap (Polynomial F) (RatFunc F) Polynomial.X) = _
+  change f (algebraMap (Polynomial F) (RatFunc F) Polynomial.X) = _
   rw [IsLocalization.lift_eq]
   simp [h]
 
@@ -1321,7 +1321,7 @@ private theorem injective_baseChange_kaehler_mapBaseChange_of_basis
   have he : KaehlerDifferential.mapBaseChange R A B = e.toLinearMap := by
     apply (a.baseChange B).ext
     intro i
-    show _ = ((a.baseChange B).equiv b (Equiv.refl ι)) ((a.baseChange B) i)
+    change _ = ((a.baseChange B).equiv b (Equiv.refl ι)) ((a.baseChange B) i)
     rw [Module.Basis.equiv_apply]
     simp [Module.Basis.baseChange_apply, KaehlerDifferential.mapBaseChange_tmul, h]
   rw [he]
@@ -1376,7 +1376,7 @@ private theorem exists_ratFunc_to_powerSeries_with_differential_bases (p : ℕ) 
       (KaehlerDifferential.D (ZMod p) k RatFunc.X) =
         KaehlerDifferential.D (ZMod p) A X := by
     rw [KaehlerDifferential.map_D]
-    show KaehlerDifferential.D (ZMod p) A (f RatFunc.X) = _
+    change KaehlerDifferential.D (ZMod p) A (f RatFunc.X) = _
     rw [hf, map_add]
     have hz := kaehler_D_map_perfect (R := ZMod p) (A := A) p
       (algebraMap k K RatFunc.X)
@@ -1498,6 +1498,7 @@ private theorem geometricallyRegular_of_formallySmooth_essFiniteType
       (IsLocalRing.maximalIdeal (Localization.AtPrime q)))
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for the algebra structures on quotients of `MvPolynomial (Fin 2) R` is heavy
 set_option backward.isDefEq.respectTransparency false in
 private theorem formallySmooth_quotient_X_pow_sub_C_sub_X
     {R : Type*} [CommRing R] (n : ℕ) (a : R) :
@@ -1564,12 +1565,12 @@ private theorem quotient_span_X_and_X_pow_sub_C_equiv_adjoinRoot
     MvPolynomial.aeval_X _ _
   refine ⟨AlgEquiv.ofAlgHom r l ?_ ?_⟩
   · apply AdjoinRoot.algHom_ext
-    show r (l (AdjoinRoot.root f)) = AdjoinRoot.root f
+    change r (l (AdjoinRoot.root f)) = AdjoinRoot.root f
     rw [hlroot, hrq, htX]
     rfl
   · apply Ideal.Quotient.algHom_ext
     ext i
-    show l (r (q (MvPolynomial.X i))) = q (MvPolynomial.X i)
+    change l (r (q (MvPolynomial.X i))) = q (MvPolynomial.X i)
     rw [hrq, htX]
     fin_cases i
     · simpa using hx.symm
@@ -1606,7 +1607,7 @@ private theorem exists_quotient_equiv_residueField_of_localization_surjective
   have : IsLocalHom (algebraMap B A) := IsLocalHom.of_surjective _ hsurj
   have hPB : Function.Surjective (algebraMap P (IsLocalRing.ResidueField B)) := by
     have hm : (Ideal.under P (IsLocalRing.maximalIdeal B)).IsMaximal := by
-      show (Ideal.under P (IsLocalRing.maximalIdeal (Localization.AtPrime m))).IsMaximal
+      change (Ideal.under P (IsLocalRing.maximalIdeal (Localization.AtPrime m))).IsMaximal
       rw [Localization.AtPrime.under_maximalIdeal]
       infer_instance
     have hle : m ≤ Ideal.under P (IsLocalRing.maximalIdeal B) := by
@@ -1632,7 +1633,7 @@ private theorem exists_quotient_equiv_residueField_of_localization_surjective
       show algebraMap A (IsLocalRing.ResidueField A) = IsLocalRing.residue A from rfl] using hh
   have hker : m ≤ RingHom.ker (algebraMap P (IsLocalRing.ResidueField A)) := by
     intro c hc
-    show IsLocalRing.residue A (algebraMap P A c) = 0
+    change IsLocalRing.residue A (algebraMap P A c) = 0
     apply (IsLocalRing.residue_eq_zero_iff _).mpr
     rw [IsScalarTower.algebraMap_apply P B A]
     apply IsLocalRing.map_maximalIdeal_le (algebraMap B A)
@@ -1658,7 +1659,7 @@ private theorem formallySmooth_quotient_map_of_isLocalization
     IsScalarTower.of_algebraMap_eq' (R := R) (S := P ⧸ I)
       (A := B ⧸ I.map (algebraMap P B)) (by
         ext r
-        show Ideal.Quotient.mk _ (algebraMap R B r) =
+        change Ideal.Quotient.mk _ (algebraMap R B r) =
           Ideal.Quotient.mk _ (algebraMap P B (algebraMap R P r))
         rw [IsScalarTower.algebraMap_apply R P B])
   exact Algebra.FormallySmooth.comp R (P ⧸ I) _
@@ -1699,7 +1700,7 @@ private theorem formallySmooth_localized_polynomial_example
   let I : Ideal P := Ideal.span {g}
   have hmap : I.map (algebraMap P B) = Ideal.span {algebraMap P B g} := by
     simp only [I, Ideal.map_span, Set.image_singleton]
-  show ∃ hlocal : IsLocalRing (B ⧸ Ideal.span {algebraMap P B g}), _
+  change ∃ hlocal : IsLocalRing (B ⧸ Ideal.span {algebraMap P B g}), _
   rw [← hmap]
   let A := B ⧸ I.map (algebraMap P B)
   have hg : g ∈ m := m.sub_mem
@@ -1813,7 +1814,7 @@ private theorem geometricallyRegular_iff_formallySmoothNAdic_of_charP
   let : TopologicalSpace C := (maximalIdeal C).adicTopology
   let : IsTopologicalRing C := (maximalIdeal C).ringFilterBasis.isTopologicalRing
   let : IsLinearTopology C C := (maximalIdeal C).isLinearTopology
-  show Algebra.IsGeometricallyRegular k C ↔
+  change Algebra.IsGeometricallyRegular k C ↔
     RingHom.FormallySmoothNAdic.{max u v} (algebraMap k C) (maximalIdeal C)
   rw [← isFormallySmooth_iff_formallySmoothNAdic
     (algebraMap k C) (maximalIdeal C) (by rfl)]
@@ -1845,7 +1846,7 @@ private theorem geometricallyRegular_iff_formallySmoothNAdic_of_charZero
   let : TopologicalSpace C := (maximalIdeal C).adicTopology
   let : IsTopologicalRing C := (maximalIdeal C).ringFilterBasis.isTopologicalRing
   let : IsLinearTopology C C := (maximalIdeal C).isLinearTopology
-  show Algebra.IsGeometricallyRegular k C ↔
+  change Algebra.IsGeometricallyRegular k C ↔
     RingHom.FormallySmoothNAdic.{max u v} (algebraMap k C) (maximalIdeal C)
   rw [← isFormallySmooth_iff_formallySmoothNAdic
     (algebraMap k C) (maximalIdeal C) (by rfl)]
@@ -1930,7 +1931,7 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
       { toFun := π
         map_add' := π.map_add
         map_smul' := fun r x => by
-          show π (ρ r * x) = f r * π x
+          change π (ρ r * x) = f r * π x
           rw [map_mul]; rfl }
     have key := LinearMap.ker_inf_smul_top_eq_smul_of_flat I πₗ hπ
     have hzero : I • LinearMap.ker πₗ = ⊥ := by
@@ -1939,16 +1940,16 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
       intro i hi x hx
       have hx1 : x.1.1 ∈ L := hkerL x hx
       have hx2 : x.1.2 = 0 := hx
-      show ρ i * x ∈ (⊥ : Submodule R D)
+      change ρ i * x ∈ (⊥ : Submodule R D)
       rw [Submodule.mem_bot]
       apply Subtype.ext
       apply Prod.ext
-      · show a i * x.1.1 = 0
+      · change a i * x.1.1 = 0
         have : a i * x.1.1 ∈ I.map a * L :=
           Ideal.mul_mem_mul (Ideal.mem_map_of_mem a hi) hx1
         rw [haL] at this
         exact this
-      · show f i * x.1.2 = 0
+      · change f i * x.1.2 = 0
         rw [hx2, mul_zero]
     rw [hzero, Ideal.smul_top_eq_map] at key
     rw [eq_bot_iff]
@@ -1976,7 +1977,7 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
     have : π (t' * y₀) = t * π y₀ := by rw [map_mul]; rfl
     rw [← this]
     refine Ideal.mem_map_of_mem π ⟨Ideal.mul_mem_left _ _ hy₀, ?_⟩
-    show (0 : E) * y₀.1.1 = 0
+    change (0 : E) * y₀.1.1 = 0
     rw [zero_mul]
   let N : Ideal D := RingHom.ker π₁ ⊓ (n ^ j).comap π
   let M : Ideal D := I.map ρ ⊔ N
@@ -2002,7 +2003,7 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
     rw [Submodule.mem_bot]
     apply Subtype.ext
     apply Prod.ext
-    · show y.1.1 + u.1.1 = 0
+    · change y.1.1 + u.1.1 = 0
       have h1 : y.1.1 = 0 := hy'1
       have h2 : u.1.1 = 0 := hu.1
       rw [h1, h2, add_zero]
@@ -2015,15 +2016,15 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
       rw [Submodule.mem_bot]
       apply Subtype.ext
       apply Prod.ext
-      · show x.1.1 * y.1.1 = 0
+      · change x.1.1 * y.1.1 = 0
         have : x.1.1 * y.1.1 ∈ L ^ 2 := by
           rw [pow_two]; exact Ideal.mul_mem_mul (hkerL x hx) (hkerL y hy)
         rw [hL] at this
         exact this
-      · show x.1.2 * y.1.2 = 0
+      · change x.1.2 * y.1.2 = 0
         have : x.1.2 = 0 := hx
         rw [this, zero_mul]
-    show ((RingHom.ker π).map (Ideal.Quotient.mk M)) ^ 2 = ⊥
+    change ((RingHom.ker π).map (Ideal.Quotient.mk M)) ^ 2 = ⊥
     rw [← Ideal.map_pow, hker, Ideal.map_bot]
   let α : R →+* D ⧸ M := (Ideal.Quotient.mk M).comp ρ
   have hαI : I ≤ RingHom.ker α := by
@@ -2046,7 +2047,7 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
     let t' : D := ⟨(0, t), hzeroD t htm⟩
     have ht'M : t' ∈ M := Ideal.mem_sup_right ⟨rfl, ht⟩
     rw [RingHom.mem_ker]
-    show β (π t') = 0
+    change β (π t') = 0
     rw [hβ, Ideal.Quotient.eq_zero_iff_mem.mpr ht'M, map_zero]
   obtain ⟨γ, hγK, hγf⟩ := H (D ⧸ M) K hK α hαI β hβf ⟨j, by omega, hβn⟩
   obtain ⟨s, hsπ, hsM⟩ := RingHom.section_of_disjoint π hπ M hdisj γ (fun e => by
@@ -2055,7 +2056,7 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
     intro r
     have hmem : s (f r) - ρ r ∈ RingHom.ker π ⊓ M := by
       constructor
-      · show π (s (f r) - ρ r) = 0
+      · change π (s (f r) - ρ r) = 0
         rw [map_sub, hsπ]
         exact sub_self _
       · apply Ideal.Quotient.eq_zero_iff_mem.mp
@@ -2065,11 +2066,11 @@ private theorem lift_of_annihilated {R : Type*} {S : Type v} {E : Type (max u v)
     exact sub_eq_zero.mp hmem
   refine ⟨π₁.comp s, ?_, ?_⟩
   · ext t
-    show Ideal.Quotient.mk L (s t).1.1 = φ t
+    change Ideal.Quotient.mk L (s t).1.1 = φ t
     rw [(memD (s t).1).mp (s t).2]
     exact congrArg φ (hsπ t)
   · ext r
-    show (s (f r)).1.1 = a r
+    change (s (f r)).1.1 = a r
     rw [hsf r]
     rfl
 
@@ -2103,7 +2104,7 @@ private theorem lift_through_specialFiber
     have hle : (maximalIdeal A).map f ≤ RingHom.ker β := by
       rw [Ideal.map_le_iff_le_comap]
       intro x hx
-      show β (f x) = 0
+      change β (f x) = 0
       rw [← RingHom.comp_apply, hβf, RingHom.comp_apply, RingHom.mem_ker.mp (hα hx), map_zero]
     exact hle hb'
   let βbar : Bbar →+* T ⧸ K := incl.liftOfSurjective hincl ⟨β, hker⟩
@@ -2112,29 +2113,29 @@ private theorem lift_through_specialFiber
   let αbar : k →+* T := Ideal.Quotient.lift (maximalIdeal A) α hα
   have halg : ∀ x : A, algebraMap k Bbar (residue A x) = incl (f x) := by
     intro x
-    show (residue A x) ⊗ₜ[A] (1 : B) = (1 : k) ⊗ₜ[A] (algebraMap A B x)
+    change (residue A x) ⊗ₜ[A] (1 : B) = (1 : k) ⊗ₜ[A] (algebraMap A B x)
     rw [Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
     rfl
   have hcomm : βbar.comp (algebraMap k Bbar) = (Ideal.Quotient.mk K).comp αbar := by
     apply Ideal.Quotient.ringHom_ext
     ext x
-    show βbar (algebraMap k Bbar (residue A x)) = Ideal.Quotient.mk K (α x)
+    change βbar (algebraMap k Bbar (residue A x)) = Ideal.Quotient.mk K (α x)
     rw [halg, hβbar, ← RingHom.comp_apply, hβf, RingHom.comp_apply]
   obtain ⟨j, hj, hjle⟩ := hβn
   have hpow : maximalIdeal Bbar ^ j ≤ RingHom.ker βbar := by
     rw [← map_maximalIdeal_of_surjective incl hincl, ← Ideal.map_pow, Ideal.map_le_iff_le_comap]
     intro b hb
-    show βbar (incl b) = 0
+    change βbar (incl b) = 0
     rw [hβbar]
     exact hjle hb
   obtain ⟨γbar, hγK, hγk⟩ := hbar T K hK αbar βbar hcomm ⟨j, hj, hpow⟩
   refine ⟨γbar.comp incl, ?_, ?_⟩
   · ext b
-    show Ideal.Quotient.mk K (γbar (incl b)) = β b
+    change Ideal.Quotient.mk K (γbar (incl b)) = β b
     rw [← hβbar, ← hγK]
     rfl
   · ext x
-    show γbar (incl (f x)) = α x
+    change γbar (incl (f x)) = α x
     rw [← halg, ← RingHom.comp_apply γbar, hγk]
     rfl
 
@@ -2181,18 +2182,18 @@ private theorem formallySmoothNAdic_of_flat_of_specialFiber
       let a' : A →+* E ⧸ L' := (Ideal.Quotient.mk L').comp a
       let φ' : B →+* (E ⧸ L') ⧸ L₁ := eq.symm.toRingHom.comp φ
       have hL₁ : L₁ ^ 2 = ⊥ := by
-        show (L.map (Ideal.Quotient.mk L')) ^ 2 = ⊥
+        change (L.map (Ideal.Quotient.mk L')) ^ 2 = ⊥
         rw [← Ideal.map_pow, hL, Ideal.map_bot]
       have hcomm' : φ'.comp f = (Ideal.Quotient.mk L₁).comp a' := by
         ext r
-        show eq.symm (φ (f r)) = Ideal.Quotient.mk L₁ (Ideal.Quotient.mk L' (a r))
+        change eq.symm (φ (f r)) = Ideal.Quotient.mk L₁ (Ideal.Quotient.mk L' (a r))
         rw [eq.symm_apply_eq, heq, ← RingHom.comp_apply, hcomm, RingHom.comp_apply]
       have hφ' : n ^ m ≤ RingHom.ker φ' := by
         intro x hx
-        show eq.symm (φ x) = 0
+        change eq.symm (φ x) = 0
         rw [RingHom.mem_ker.mp (hφ hx), map_zero]
       have hann' : (I.map a') ^ (t + 1) * L₁ = ⊥ := by
-        show (I.map ((Ideal.Quotient.mk L').comp a)) ^ (t + 1) *
+        change (I.map ((Ideal.Quotient.mk L').comp a)) ^ (t + 1) *
           L.map (Ideal.Quotient.mk L') = ⊥
         rw [← Ideal.map_map, ← Ideal.map_pow, ← Ideal.map_mul]
         exact Ideal.map_quotient_self L'
@@ -2202,7 +2203,7 @@ private theorem formallySmoothNAdic_of_flat_of_specialFiber
           intro x hx
           rw [Ideal.mem_comap]
           apply Ideal.Quotient.eq_zero_iff_mem.mp
-          show ((Ideal.Quotient.mk L₁).comp g') x = 0
+          change ((Ideal.Quotient.mk L₁).comp g') x = 0
           rw [hg'K]
           exact hφ' hx
         rw [pow_add, Ideal.mul_le]
@@ -2216,9 +2217,9 @@ private theorem formallySmoothNAdic_of_flat_of_specialFiber
         (m + m) (by omega) hg'n
       refine ⟨g, ?_, hgf⟩
       ext x
-      show Ideal.Quotient.mk L (g x) = φ x
+      change Ideal.Quotient.mk L (g x) = φ x
       rw [← heq, ← RingHom.comp_apply (Ideal.Quotient.mk L'), hgK]
-      show eq ((Ideal.Quotient.mk L₁).comp g' x) = φ x
+      change eq ((Ideal.Quotient.mk L₁).comp g' x) = φ x
       rw [hg'K]
       exact eq.apply_symm_apply (φ x)
   intro E _ J hJ a ψ hcomm ⟨m, hm, hk⟩
@@ -2227,7 +2228,7 @@ private theorem formallySmoothNAdic_of_flat_of_specialFiber
     intro x hx
     rw [Ideal.mem_comap]
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show ((Ideal.Quotient.mk J).comp a) x = 0
+    change ((Ideal.Quotient.mk J).comp a) x = 0
     rw [← hcomm]
     apply hk
     have : (I ^ m).map f ≤ n ^ m := by
@@ -2457,13 +2458,13 @@ private theorem nonempty_tensorProduct_equiv_of_ker
   have hqi : RingHom.ker q ≤ RingHom.ker i := by
     rw [hker, Ideal.map_le_iff_le_comap]
     intro r hr
-    show i (algebraMap R T r) = 0
+    change i (algebraMap R T r) = 0
     rw [i.commutes, IsScalarTower.algebraMap_apply R K (K ⊗[R] T), hr, map_zero]
   let ψ : B →+* K ⊗[R] T := q.toRingHom.liftOfSurjective hq ⟨i.toRingHom, hqi⟩
   have hψ : ∀ t, ψ (q t) = i t :=
     q.toRingHom.liftOfSurjective_comp_apply hq ⟨i.toRingHom, hqi⟩
   have hφ : ∀ t, φ (i t) = q t := fun t => by
-    show (AlgHom.liftEquiv R K T B q) (1 ⊗ₜ[R] t) = q t
+    change (AlgHom.liftEquiv R K T B q) (1 ⊗ₜ[R] t) = q t
     simp
   refine ⟨AlgEquiv.ofBijective φ ⟨?_, ?_⟩⟩
   · have hleft : Function.LeftInverse ψ φ := by
@@ -2553,9 +2554,9 @@ public theorem exists_completeLocal_formallySmooth_lift
   have hkill : (maximalIdeal R).map g ≤ RingHom.ker qB := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show qB (g r) = 0
+    change qB (g r) = 0
     rw [← RingHom.comp_apply, ← hcomm]
-    show algebraMap (ResidueField A) B (algebraMap R (ResidueField A) r) = 0
+    change algebraMap (ResidueField A) B (algebraMap R (ResidueField A) r) = 0
     have hr' : r ∈ RingHom.ker (algebraMap R (ResidueField A)) := by rwa [hresker]
     rw [show algebraMap R (ResidueField A) r = 0 from hr', map_zero]
   obtain ⟨J, hJq, hregT, hflat, hker⟩ :=
@@ -2595,7 +2596,7 @@ public theorem exists_completeLocal_formallySmooth_lift
   have : IsAdicComplete (maximalIdeal C) C := isAdicComplete_of_surjective i hi
   have : IsLocalHom (algebraMap A C) := by
     have hcomp : IsLocalHom (c.toRingHom.comp (algebraMap A C)) := by
-      show IsLocalHom ((c : C →+* B).comp (algebraMap A C))
+      change IsLocalHom ((c : C →+* B).comp (algebraMap A C))
       rw [c.comp_algebraMap]
       exact inferInstanceAs (IsLocalHom f)
     exact isLocalHom_of_comp (algebraMap A C) c.toRingHom
@@ -2646,13 +2647,13 @@ private theorem formallySmoothNAdic_comp_of_bijective
     ext s
     have hs : f (e.symm s) = s := e.apply_symm_apply s
     have hh := congrArg (fun h : R →+* A ⧸ J => h (e.symm s)) hcomm
-    show ψ (g s) = (Ideal.Quotient.mk J) (α (e.symm s))
+    change ψ (g s) = (Ideal.Quotient.mk J) (α (e.symm s))
     simpa only [RingHom.comp_apply, hs] using hh
   obtain ⟨γ, hγ, hγg⟩ := hg A J hJ β ψ hcomm' hk
   refine ⟨γ, hγ, ?_⟩
   ext r
   have hr := congrArg (fun h : S →+* A => h (f r)) hγg
-  show γ (g (f r)) = α r
+  change γ (g (f r)) = α r
   change γ (g (f r)) = α (e.symm (f r)) at hr
   rw [show f r = e r from rfl, e.symm_apply_apply] at hr
   exact hr
@@ -2719,7 +2720,7 @@ private theorem ideal_isClosed_maximal_adic
       Submodule.mem_map_of_mem hz'
     rw [Submodule.map_smul'', Submodule.map_top, Submodule.range_mkQ] at hzq
     have hsum : K.mkQ x + K.mkQ z = 0 := by
-      show K.mkQ (x + z) = 0
+      change K.mkQ (x + z) = 0
       exact (Submodule.Quotient.mk_eq_zero K).mpr hy
     have hxneg : K.mkQ x = -(K.mkQ z) := eq_neg_of_add_eq_zero_left hsum
     rw [hxneg]
@@ -2886,14 +2887,14 @@ private theorem exists_quotient_map_of_specialFiber_equiv
       (e.surjective.comp (Algebra.TensorProduct.includeRight_surjective C residue_surjective))
   · ext r
     apply eB.injective
-    show eB (eB.symm (e (ι (a r)))) = eB (Ideal.Quotient.mk J (g (f r)))
+    change eB (eB.symm (e (ι (a r)))) = eB (Ideal.Quotient.mk J (g (f r)))
     erw [eB.apply_symm_apply]
     have hι : ι (a r) = algebraMap (ResidueField A)
         (ResidueField A ⊗[A] C) (residue A r) := by
       exact (Algebra.TensorProduct.includeRight (R := A)
         (A := ResidueField A) (B := C)).commutes r
     rw [hι, e.commutes]
-    show algebraMap (ResidueField A') (ResidueField A' ⊗[A'] B)
+    change algebraMap (ResidueField A') (ResidueField A' ⊗[A'] B)
       (ResidueField.map f (residue A r)) = eB (Ideal.Quotient.mk J (g (f r)))
     rw [ResidueField.map_residue]
     symm
@@ -2971,7 +2972,7 @@ private theorem formallySmoothNAdic_universe_down
   have hc : (eqv.toRingHom.comp ψ).comp f =
       (Ideal.Quotient.mk K).comp (e.toRingHom.comp a) := by
     ext r
-    show eqv (ψ (f r)) = Ideal.Quotient.mk K (e (a r))
+    change eqv (ψ (f r)) = Ideal.Quotient.mk K (e (a r))
     rw [show ψ (f r) = Ideal.Quotient.mk J (a r) from DFunLike.congr_fun hcomm r]
     exact Ideal.quotientEquiv_mk J K e rfl _
   obtain ⟨b, hb, hba⟩ := h _ K hK (e.toRingHom.comp a)
@@ -2981,13 +2982,13 @@ private theorem formallySmoothNAdic_universe_down
   refine ⟨e.symm.toRingHom.comp b, ?_, ?_⟩
   · ext z
     apply eqv.injective
-    show eqv (Ideal.Quotient.mk J (e.symm (b z))) = eqv (ψ z)
+    change eqv (Ideal.Quotient.mk J (e.symm (b z))) = eqv (ψ z)
     rw [show eqv (Ideal.Quotient.mk J (e.symm (b z))) =
       Ideal.Quotient.mk K (e (e.symm (b z))) from Ideal.quotientEquiv_mk J K e rfl _,
       e.apply_symm_apply]
     exact DFunLike.congr_fun hb z
   · ext r
-    show e.symm (b (f r)) = a r
+    change e.symm (b (f r)) = a r
     rw [show b (f r) = e (a r) from DFunLike.congr_fun hba r]
     exact e.symm_apply_apply _
 
@@ -3045,13 +3046,13 @@ private theorem exists_extension_to_adicCompletion
       (Ideal.Quotient.factorPow J hmn).comp (qs n) = qs m := by
     intro m n hmn
     ext z
-    show (Ideal.Quotient.factorPow J hmn) (fs n (AdicCompletion.evalₐ I n z)) =
+    change (Ideal.Quotient.factorPow J hmn) (fs n (AdicCompletion.evalₐ I n z)) =
       fs m (AdicCompletion.evalₐ I m z)
     have hz : (Ideal.Quotient.factorPow I hmn) (AdicCompletion.evalₐ I n z) =
         AdicCompletion.evalₐ I m z := by
       rw [← AdicCompletion.factor_eval_eq_evalₐ I _ (le_of_eq (Ideal.mul_top _)),
         ← AdicCompletion.factor_eval_eq_evalₐ I _ (le_of_eq (Ideal.mul_top _))]
-      show (Ideal.Quotient.factorPow I hmn)
+      change (Ideal.Quotient.factorPow I hmn)
         (Submodule.factor _ (z.val n)) = Submodule.factor _ (z.val m)
       calc
         _ = Submodule.factor (le_of_eq (Ideal.mul_top (I ^ m)))
@@ -3068,10 +3069,10 @@ private theorem exists_extension_to_adicCompletion
   apply DFunLike.coe_injective
   apply IsHausdorff.funext' J
   intro n r
-  show Ideal.Quotient.mk (J ^ n)
+  change Ideal.Quotient.mk (J ^ n)
     (IsAdicComplete.liftRingHom J qs hqs (algebraMap R (AdicCompletion I R) r)) = _
   rw [IsAdicComplete.mk_liftRingHom]
-  show fs n (AdicCompletion.evalₐ I n (AdicCompletion.of I R r)) = _
+  change fs n (AdicCompletion.evalₐ I n (AdicCompletion.of I R r)) = _
   rw [AdicCompletion.evalₐ_of]
   rfl
 
@@ -3095,7 +3096,7 @@ private theorem exists_surjective_extension_to_adicCompletion
   intro y
   obtain ⟨r, hr⟩ := hf y
   refine ⟨algebraMap R (AdicCompletion I R) r, ?_⟩
-  show Ideal.Quotient.mk (I.map f) (q (algebraMap R (AdicCompletion I R) r)) = y
+  change Ideal.Quotient.mk (I.map f) (q (algebraMap R (AdicCompletion I R) r)) = y
   rw [show q (algebraMap R (AdicCompletion I R) r) = f r from DFunLike.congr_fun hq r]
   exact hr
 
@@ -3263,7 +3264,7 @@ private theorem exists_completeLocal_lift_with_local_map
       (A := ResidueField A') (B := B)
   refine ⟨{ __ := er, commutes' := ?_ }, ?_, ?_⟩
   · intro x
-    show er (algebraMap (ResidueField A) (ResidueField A ⊗[A] C) x) =
+    change er (algebraMap (ResidueField A) (ResidueField A ⊗[A] C) x) =
       (ResidueField.map f x) ⊗ₜ[A'] (1 : B)
     exact he x
   · intro x
@@ -3296,9 +3297,9 @@ private theorem exists_tensorProduct_quotient_equiv
   let e₃ := Algebra.TensorProduct.comm A C (ResidueField A)
   refine ⟨e₁.symm.toRingEquiv.trans (e₂.toRingEquiv.trans e₃.toRingEquiv), ?_⟩
   intro y
-  show e₃ (e₂ (e₁.symm (Ideal.Quotient.mk _ (y ⊗ₜ[A] (1 : A'))))) = _
+  change e₃ (e₂ (e₁.symm (Ideal.Quotient.mk _ (y ⊗ₜ[A] (1 : A'))))) = _
   rw [Algebra.TensorProduct.tensorQuotientEquiv_symm_apply_tmul]
-  show ek.symm 1 ⊗ₜ[A] y = (1 : ResidueField A) ⊗ₜ[A] y
+  change ek.symm 1 ⊗ₜ[A] y = (1 : ResidueField A) ⊗ₜ[A] y
   rw [map_one]
 
 /-- Quotients of a completed algebra by powers of an extended ideal agree
@@ -3448,7 +3449,7 @@ private theorem finite_of_finite_base_of_surjective_specialFiber
     intro z
     obtain ⟨y, hy⟩ := hψ z
     refine ⟨algebraMap C T y, ?_⟩
-    show Ideal.Quotient.mk _ (t (algebraMap C T y)) = z
+    change Ideal.Quotient.mk _ (t (algebraMap C T y)) = z
     rw [show t (algebraMap C T y) = c y from DFunLike.congr_fun htC y]
     exact hy
   rw [← htC]
@@ -3472,7 +3473,7 @@ private theorem mem_map_of_quotient_extension
   have hz : d - algebraMap R D r ∈ K := by
     dsimp only [K, D]
     rw [← AdicCompletion.ker_evalOneₐ_eq_map I hI, RingHom.mem_ker, map_sub]
-    show AdicCompletion.evalOneₐ I d - Ideal.Quotient.mk I r = 0
+    change AdicCompletion.evalOneₐ I d - Ideal.Quotient.mk I r = 0
     exact sub_eq_zero.mpr hr.symm
   have hzq : q d - f r ∈ I.map f := by
     have hh := Ideal.mem_map_of_mem q hz
@@ -3483,7 +3484,7 @@ private theorem mem_map_of_quotient_extension
   have hrI : r ∈ I := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     apply hf
-    show Ideal.Quotient.mk (I.map f) (f r) =
+    change Ideal.Quotient.mk (I.map f) (f r) =
       (Ideal.quotientMap (I.map f) f Ideal.le_comap_map) 0
     rw [map_zero]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hfr
@@ -3616,9 +3617,9 @@ public theorem exists_completeLocal_formallySmooth_lift_with_baseChange
     exact (heT y).trans hy
   have he₀ (y : C) : e₀ (Ideal.Quotient.mk J (algebraMap C T y)) =
       Ideal.Quotient.mk L (c y) := by
-    show eB.symm (e (eT (Ideal.Quotient.mk J (y ⊗ₜ[A] (1 : A'))))) = _
+    change eB.symm (e (eT (Ideal.Quotient.mk J (y ⊗ₜ[A] (1 : A'))))) = _
     rw [heT]
-    show eB.symm (e (Algebra.TensorProduct.includeRight y)) = _
+    change eB.symm (e (Algebra.TensorProduct.includeRight y)) = _
     rw [heC]
     exact eB.symm_apply_apply (Ideal.Quotient.mk L (c y))
   have hψ : Function.Surjective ((Ideal.Quotient.mk L).comp c) := by
@@ -3632,7 +3633,7 @@ public theorem exists_completeLocal_formallySmooth_lift_with_baseChange
     apply RingHom.ext
     intro z
     obtain ⟨y, rfl⟩ := hCT z
-    show Ideal.Quotient.mk L (t (algebraMap C T y)) =
+    change Ideal.Quotient.mk L (t (algebraMap C T y)) =
       e₀ (Ideal.Quotient.mk J (algebraMap C T y))
     rw [show t (algebraMap C T y) = c y from DFunLike.congr_fun htC y, he₀]
   have hnoethF : IsNoetherianRing (B ⧸ L) := inferInstance
@@ -3662,7 +3663,7 @@ public theorem exists_completeLocal_formallySmooth_lift_with_baseChange
     intro z
     obtain ⟨y, hy⟩ := hψ z
     refine ⟨algebraMap C T y, ?_⟩
-    show Ideal.Quotient.mk L (t (algebraMap C T y)) = z
+    change Ideal.Quotient.mk L (t (algebraMap C T y)) = z
     rw [show t (algebraMap C T y) = c y from DFunLike.congr_fun htC y]
     exact hy)
   have : Module.Flat A C := flat_of_isFormallySmooth_maximalIdeal_adic a ha
@@ -3694,7 +3695,7 @@ public theorem exists_completeLocal_formallySmooth_lift_with_baseChange
       have htinj (K : Ideal B) (hK : K = L) (h : J ≤ K.comap t) :
           Function.Injective (Ideal.quotientMap K t h) := by
         subst K
-        show Function.Injective t₀
+        change Function.Injective t₀
         rw [ht₀]
         exact e₀.injective
       exact htinj (J.map t) hJL Ideal.le_comap_map

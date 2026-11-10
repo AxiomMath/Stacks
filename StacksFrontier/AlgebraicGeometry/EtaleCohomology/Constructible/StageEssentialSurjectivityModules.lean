@@ -3,8 +3,7 @@ module
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.ConstructiblePresentation
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FilteredColimitsOfEtaleCohomology
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.LowerShriekAffineLine.RelativeCurveConstructibility
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.LowerShriekAffineLine.RelativeCurveConstructibility
 public import StacksFrontier.CategoryTheory.Sites.FreeModuleSheafSections
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.RelativeDimensionOne.LimitStages
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.AffineEtaleSites
@@ -96,7 +95,8 @@ variable [IsNoetherianRing Λ]
 modules), on a quasi-compact and quasi-separated scheme. -/
 theorem isConstructibleEtaleModule_freeModuleSheaf {X : Scheme.{u}} [CompactSpace X]
     [QuasiSeparatedSpace X] (W : X.Etale) [IsAffine W.left] :
-    IsConstructibleEtaleModule Λ ((Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj W) := by
+    IsConstructibleEtaleModule Λ
+      ((Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj W) := by
   let e : W.left ⟶ X := W.hom
   have : Etale e := W.prop
   exact (IsConstructibleEtaleModule Λ).prop_of_iso (freeModuleSheafIsoExtensionByZero Λ e).symm
@@ -151,7 +151,7 @@ private theorem epi_biproduct_desc_freeModuleSheaf_map {X : Scheme.{u}} {ι : Ty
   rw [← cancel_epi (Limits.Sigma.desc fun l : κ b ↦
     (freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).map (g ⟨b, l⟩))]
   refine Limits.Sigma.hom_ext _ _ fun l ↦ ?_
-  rw [Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc_assoc]
+  rw [Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc_assoc]
   simpa only [biproduct.ι_desc_assoc, Category.assoc] using
     biproduct.ι _ (⟨b, l⟩ : Σ b, κ b) ≫= hh
 
@@ -242,7 +242,7 @@ lemma isAffine_etale_overPullback {i j : Iᵒᵖ} (g : j ⟶ i) (B : Over (D.obj
       Etale ((Over.pullback (D.map g)).obj B).hom :=
   have : IsAffineHom (pullback.fst B.hom (D.map g)) := inferInstance
   ⟨isAffine_of_isAffineHom (pullback.fst B.hom (D.map g)), by
-    show Etale (pullback.snd B.hom (D.map g))
+    change Etale (pullback.snd B.hom (D.map g))
     infer_instance⟩
 
 include hc in
@@ -297,7 +297,7 @@ theorem exists_stage_affine_etale_models {O M : Type} [Finite O] [Finite M]
     exact (isAffine_etale_overPullback D h₀ (B₁ o)).2
   · have key := LimitStages.limitIso_transportHom D c (v m) (w m) h₀ (hwv m)
       ((e₁ (src m)).inv ≫ φ m ≫ (e₁ (tgt m)).hom) (G m) (hG m)
-    show φ m ≫ (e₁ (tgt m)).hom ≫ (LimitStages.limitIso D c h₀ (B₁ (tgt m))).inv =
+    change φ m ≫ (e₁ (tgt m)).hom ≫ (LimitStages.limitIso D c h₀ (B₁ (tgt m))).inv =
       ((e₁ (src m)).hom ≫ (LimitStages.limitIso D c h₀ (B₁ (src m))).inv) ≫ _
     rw [(Iso.eq_comp_inv _).2 key.symm]
     simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.hom_inv_id_assoc]
@@ -351,7 +351,7 @@ private theorem nonempty_etaleModuleInverseImage_cokernel_elementaryMatrix_iso {
     simp only [Iso.trans_hom]
     rw [← Category.assoc, hL']
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
-    show mS.hom ≫ bS.hom ≫ M' ≫ biproduct.map (fun a ↦ P.map (τ a).hom) = _
+    change mS.hom ≫ bS.hom ≫ M' ≫ biproduct.map (fun a ↦ P.map (τ a).hom) = _
     rw [hnat]
     rfl
   exact ⟨PreservesCokernel.iso L M₀ ≪≫ cokernel.mapIso _ _ _ _ hw⟩

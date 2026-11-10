@@ -136,7 +136,7 @@ theorem pointsToScheme_class_residueFieldMapPoint (V : BigFppfOver B S hS) (e : 
     (hu : B.Contains (Spec (.of (V.left.1.residueField e)))) :
     pointsToScheme B S hS V
         ((residueFieldMapPoint B S hS V e hu).class B S hS (yoneda.obj V)) = e := by
-  show V.left.1.fromSpecResidueField e (IsLocalRing.closedPoint _) = e
+  change V.left.1.fromSpecResidueField e (IsLocalRing.closedPoint _) = e
   exact Scheme.fromSpecResidueField_apply e _
 
 /-- A point of the representing scheme of an étale chart is a chart point above its image. -/
@@ -341,7 +341,7 @@ theorem localRingDimension_genericPoint_eq_zero {F : (BigFppfOver B S hS)ᵒᵖ 
     localRingDimension B S hS (genericPoint B S hS hF hint) = 0 := by
   let : IrreducibleSpace (points B S hS F) := hint.2.2
   refine (mem_genericPoints_iff_localRingDimension_eq_zero B S hS hF hint.2.1 _).1 ?_
-  show closure {genericPoint B S hS hF hint} ∈ irreducibleComponents (points B S hS F)
+  change closure {genericPoint B S hS hF hint} ∈ irreducibleComponents (points B S hS F)
   rw [isGenericPoint_genericPoint B S hS hF hint, irreducibleComponents_eq_singleton]
   exact rfl
 

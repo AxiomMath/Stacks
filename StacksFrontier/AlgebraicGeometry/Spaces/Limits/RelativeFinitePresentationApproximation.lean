@@ -48,6 +48,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 instance hasPullbacks_presheaf_relativeFinitePresentationApproximation :
@@ -105,12 +106,12 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_terminal (hZ : B.Contains (⊤
   refine ⟨Over.mk (𝟙 (B.obj hZ)), e.hom, ?_, ?_, ?_⟩
   · exact presheaf_of_isIso B (⊤_ Scheme.{u}) hZ (MorphismProperty.RespectsIso.inverseImage _ _)
       (fun U => by
-        show Surjective ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 U))
+        change Surjective ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 U))
         rw [CategoryTheory.Functor.map_id]
         infer_instance) _
   · exact presheaf_of_isIso B (⊤_ Scheme.{u}) hZ (MorphismProperty.RespectsIso.inverseImage _ _)
       (fun U => by
-        show Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 U))
+        change Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 U))
         rw [CategoryTheory.Functor.map_id]
         infer_instance) _
   · exact inferInstanceAs (IsLocallyNoetherian (⊤_ Scheme.{u}))
@@ -145,7 +146,7 @@ directed inverse system of algebraic spaces of finite presentation over `Y` with
 morphisms over `Y`. -/
 theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
-    (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
+    (hY : IsAlgebraicSpace B S hS Y)
     (hYqs : IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y)
     (V : Subfunctor (viewOverIntegers B S hS B.contains_terminal Y))
     (hV : IsOpenSubspace B (⊤_ Scheme.{u}) B.contains_terminal V)
@@ -217,7 +218,7 @@ theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
   let Aov : R.Iᵒᵖ ⥤ Over YS :=
     { obj := fun i => Over.mk (q i ≫ σY)
       map := fun {i j} a => Over.homMk (E.map a) (by
-        show E.map a ≫ q j ≫ σY = q i ≫ σY
+        change E.map a ≫ q j ≫ σY = q i ≫ σY
         rw [← Category.assoc, hqnat])
       map_id := fun i => Over.OverMorphism.ext (E.map_id i)
       map_comp := fun a b => Over.OverMorphism.ext (E.map_comp a b) }
@@ -225,7 +226,7 @@ theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
     { pt := Over.mk (OverShriek.relocalizeToYoneda g X)
       π :=
         { app := fun i => Over.homMk (s.π.app i) (by
-            show s.π.app i ≫ q i ≫ σY = OverShriek.relocalizeToYoneda g X
+            change s.π.app i ≫ q i ≫ σY = OverShriek.relocalizeToYoneda g X
             rw [← Category.assoc, hsq]
             exact relocalizeToYoneda_naturality B S _ hS hZ g f)
           naturality := fun i j a => Over.OverMorphism.ext (s.π.naturality a) } }
@@ -256,7 +257,7 @@ theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
   let t : D ⟶ (Functor.const R.Iᵒᵖ).obj Y :=
     { app := fun i => eqv.inverse.map (mOv i) ≫ eY.inv
       naturality := fun i j a => by
-        show eqv.inverse.map (Aov.map a) ≫ eqv.inverse.map (mOv j) ≫ eY.inv =
+        change eqv.inverse.map (Aov.map a) ≫ eqv.inverse.map (mOv j) ≫ eY.inv =
           (eqv.inverse.map (mOv i) ≫ eY.inv) ≫ 𝟙 Y
         rw [Category.comp_id, ← Category.assoc, ← eqv.inverse.map_comp]
         congr 2
@@ -277,7 +278,7 @@ theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
     fun i => ?_, fun {i j} a => ?_⟩
   · apply NatTrans.ext
     funext i
-    show (eX.hom ≫ eqv.inverse.map (cOv.π.app i)) ≫ eqv.inverse.map (mOv i) ≫ eY.inv = f
+    change (eX.hom ≫ eqv.inverse.map (cOv.π.app i)) ≫ eqv.inverse.map (mOv i) ≫ eY.inv = f
     have h1 : cOv.π.app i ≫ mOv i = φ := Over.OverMorphism.ext (hsq i)
     have key : eX.hom ≫ eqv.inverse.map φ = f ≫ eY.hom := by
       simp only [eX, eY, Iso.trans_hom, Iso.app_hom, Functor.mapIso_hom, Category.assoc,
@@ -291,7 +292,7 @@ theorem exists_isLimit_finitePresentation_of_hasRelativeApproximation
       (Aov.obj i) (hE i)
   · have hL : L.map (t.app i) = (α.inv.app (D.obj i) ≫ (eqv.counit.app (Aov.obj i)).left) ≫
         q i ≫ ((eqv.counitInv.app (Over.mk σY)).left ≫ α.hom.app _ ≫ L.map eY.inv) := by
-      show L.map (eqv.inverse.map (mOv i) ≫ eY.inv) = _
+      change L.map (eqv.inverse.map (mOv i) ≫ eY.inv) = _
       rw [L.map_comp, hnat, eqv.fun_inv_map]
       simp only [Over.comp_left]
       simp only [Category.assoc]

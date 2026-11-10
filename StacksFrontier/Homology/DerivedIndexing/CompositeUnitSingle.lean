@@ -104,6 +104,7 @@ public theorem quotient_map_mapSinglePlus_comp (G : C) :
   exact (congrArg (HomotopyCategory.quotient E (ComplexShape.up ℤ)).map
     (singleMapHomologicalComplex_inv_app_comp P Q 0 G)).trans (Functor.map_comp _ _ _)
 
+omit [HasDerivedCategory C] [HasDerivedCategory D] [EnoughInjectives C] [EnoughInjectives D] in
 /-- **The comparison `((Q ∘ P)ℱ)[0] ⟶ (Q ∘ P)(ℱ[0])` in `D⁺`** is the comparison for `Q` at `Pℱ`
 followed by the class of `Q` of the comparison for `P` at `ℱ`. -/
 public theorem mapSingleFunctorCompQhIso_inv_app_comp (G : C) :
@@ -179,7 +180,7 @@ public theorem quotient_map_mapSinglePlus_natTrans {F₁ F₂ : C ⥤ D} [F₁.A
   refine (HomotopyCategory.Plus.ι D).map_injective ?_
   refine ((HomotopyCategory.Plus.ι D).map_comp _ _).trans ?_
   refine Eq.trans ?_ ((HomotopyCategory.Plus.ι D).map_comp _ _).symm
-  show (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
         ((HomologicalComplex.singleMapHomologicalComplex F₁ (ComplexShape.up ℤ) 0).inv.app G) ≫
       (HomotopyCategory.quotient D (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app

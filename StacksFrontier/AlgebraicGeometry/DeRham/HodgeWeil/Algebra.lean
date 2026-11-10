@@ -153,7 +153,7 @@ theorem rightMulTensor_exteriorProductComponent_formsOne (p : ℕ) :
       (exteriorProductComponent B p 0) (formsOne B) = 𝟙 (deRhamTerm B p) := by
   refine _root_.SheafOfModules.Hom.ext (PresheafOfModules.hom_ext fun U => ?_)
   ext ω
-  show multValue B (exteriorProductComponent B p 0) U ω ((formsOne B).eval U) = ω
+  change multValue B (exteriorProductComponent B p 0) U ω ((formsOne B).eval U) = ω
   rw [multValue_exteriorProductComponent]
   exact eq_of_heq (B.exterior.mul_one (p : ℤ) U ω)
 
@@ -645,7 +645,7 @@ def hodgeScalarClass : k →+ hodgePiece B 0 :=
 theorem gradedMonoid_mk_hodgeScalarClass_mul (c : k) {i : ℤ} (x : hodgePiece B i) :
     (GradedMonoid.mk (0 + i) (hodgePieceMul B 0 i (hodgeScalarClass B σ c) x) :
         GradedMonoid (hodgePiece B)) = GradedMonoid.mk i (σ c • x) := by
-  show GradedMonoid.mk (0 + i) (hodgePieceMul B 0 i (σ c • hodgePieceOne B) x) = _
+  change GradedMonoid.mk (0 + i) (hodgePieceMul B 0 i (σ c • hodgePieceOne B) x) = _
   rw [hodgePieceMul_smul_left, gradedMonoid_mk_castHodgePiece B (zero_add i), castHodgePiece_smul,
     hodgePieceMul_one_left]
 
@@ -653,7 +653,7 @@ theorem gradedMonoid_mk_hodgeScalarClass_mul (c : k) {i : ℤ} (x : hodgePiece B
 theorem gradedMonoid_mk_mul_hodgeScalarClass (c : k) {i : ℤ} (x : hodgePiece B i) :
     (GradedMonoid.mk (i + 0) (hodgePieceMul B i 0 x (hodgeScalarClass B σ c)) :
         GradedMonoid (hodgePiece B)) = GradedMonoid.mk i (σ c • x) := by
-  show GradedMonoid.mk (i + 0) (hodgePieceMul B i 0 x (σ c • hodgePieceOne B)) = _
+  change GradedMonoid.mk (i + 0) (hodgePieceMul B i 0 x (σ c • hodgePieceOne B)) = _
   rw [hodgePieceMul_smul_right, gradedMonoid_mk_castHodgePiece B (add_zero i),
     castHodgePiece_smul, hodgePieceMul_one_right]
 

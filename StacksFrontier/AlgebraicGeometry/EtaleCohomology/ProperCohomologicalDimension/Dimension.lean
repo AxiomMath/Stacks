@@ -170,7 +170,7 @@ theorem topologicalKrullDim_fiber_add_one_le_of_isDominant {X P : AlgebraicGeome
     obtain ⟨y, hy, hyc⟩ := (isClosed_closure (s := ({x} : Set X))).exists_closed_singleton
       ⟨x, subset_closure rfl⟩
     refine ⟨y, specializes_iff_mem_closure.2 hy, hyc, fun hyS ↦ ht ?_⟩
-    exact (show f y = t from hyS) ▸ f.closePoints_subset_preimage_closedPoints hyc
+    exact (show f y = t from hyS) ▸ f.closedPoints_subset_preimage_closedPoints hyc
 
 end Stacks.EtaleCohomology
 

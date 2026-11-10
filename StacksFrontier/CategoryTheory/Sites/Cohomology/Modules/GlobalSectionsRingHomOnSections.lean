@@ -107,7 +107,7 @@ theorem globalSectionsRingHom_val_eq {W : Y.Cᵒᵖ} {Z : X.Cᵒᵖ}
   set c := pushforwardModulesUnitHomEquiv f U
     (unitEnd (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) b ≫ pushforwardUnitSection f)
   have h₁ : (globalSectionsRingHom f b).1 Z = c.hom.app Z (terminalSheafSection X.J Z) := by
-    show (pushforwardUnitEndMap f b).val.app Z (1 :
+    change (pushforwardUnitEndMap f b).val.app Z (1 :
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj Z) = _
     rw [pushforwardUnitEndMap_eq, pushforwardUnitHomEquiv_eq]
     exact unitTerminalHomEquiv_symm_val_app_one _ _ c Z

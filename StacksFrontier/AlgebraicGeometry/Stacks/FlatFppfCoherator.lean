@@ -102,7 +102,7 @@ theorem bijective_comp_coheratorCounit
         _ = (moduleInverseImageU B S hS 𝒳).map t₂ := by simp
     exact hom_ext_of_isQuasicoherentOnSite_of_flat 𝒳 hZ fun y hy ↦
       congrArg (fun φ ↦ φ.val.app (op (⟨y, hy⟩ : FlatFppf B S hS 𝒳))) h'
-  · show (inv ((coheratorCounit B S hS 𝒳).app Z) ≫ (lowerShriekInverseImageCoherator B S hS
+  · change (inv ((coheratorCounit B S hS 𝒳).app Z) ≫ (lowerShriekInverseImageCoherator B S hS
       𝒳).map t) ≫
       (coheratorCounit B S hS 𝒳).app K = t
     have hn : (lowerShriekInverseImageCoherator B S hS 𝒳).map t ≫ (coheratorCounit B S hS 𝒳).app K =

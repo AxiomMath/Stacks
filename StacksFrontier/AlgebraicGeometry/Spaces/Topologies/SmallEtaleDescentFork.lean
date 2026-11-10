@@ -171,11 +171,11 @@ theorem homEquiv_symm_comp_smallToposDescentMap {P Y X : AlgebraicSpaces B S hS}
       mp.inverseImage.map δ := by
     dsimp [base, B₀, δ]
     rw [Adjunction.comp_homEquiv]
-    show (mp.adj.homEquiv _ _).symm ((mf.adj.homEquiv _ _).symm base) = _
+    change (mp.adj.homEquiv _ _).symm ((mf.adj.homEquiv _ _).symm base) = _
     rw [hmf, Adjunction.homEquiv_naturality_left_symm, Adjunction.homEquiv_symm_unit,
       Category.comp_id]
   have hmateComp : (mf.adj.comp mp.adj).homEquiv G B₀ (mp.inverseImage.map δ) = base :=
-    (Equiv.apply_eq_iff_eq_symm_apply _).2 htranspose.symm
+    (Equiv.eq_symm_apply _).1 htranspose.symm
   have hmate' : (mg.adj.homEquiv G B₀) (c.hom.app G ≫ mp.inverseImage.map δ) =
       base ≫ d.hom.app B₀ := by
     simpa [MorphismOfTopoi.comp] using

@@ -129,25 +129,23 @@ noncomputable def relocalizeMorphismTopoiPullbackIso :
     unfold relocalizeHom relocalizeInv
     apply pullback.hom_ext
     · apply pullback.hom_ext
-      · simp [Category.id_comp, Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc]
+      · simp [Category.id_comp, Category.assoc]
       · have hY : pullback.fst (pullback.snd (F.map φ) s) a ≫
             pullback.snd (F.map φ) s
               = pullback.snd (pullback.snd (F.map φ) s) a ≫ a :=
           pullback.condition
-        simp [Category.id_comp, Category.assoc, pullback.lift_fst, pullback.lift_snd,
-          pullback.lift_snd_assoc, hY]
-    · simp [Category.id_comp, Category.assoc, pullback.lift_snd]
+        simp [Category.id_comp, Category.assoc, hY]
+    · simp [Category.id_comp, Category.assoc]
   inv_hom_id := by
     unfold relocalizeHom relocalizeInv
     apply pullback.hom_ext
     · apply (cancel_mono (PreservesPullback.iso F φ b).hom).mp
       apply pullback.hom_ext
-      · simp [Category.id_comp, Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc]
+      · simp [Category.id_comp, Category.assoc]
       · have hPb : pullback.fst (F.map (pullback.snd φ b)) s' ≫
             F.map (pullback.snd φ b)
               = pullback.snd (F.map (pullback.snd φ b)) s' ≫ s' :=
           pullback.condition
-        simp [Category.id_comp, Category.assoc, pullback.lift_fst, pullback.lift_snd,
-          pullback.lift_snd_assoc, hPb]
-    · simp [Category.id_comp, Category.assoc, pullback.lift_snd]
+        simp [Category.id_comp, Category.assoc, hPb]
+    · simp [Category.id_comp, Category.assoc]
 

@@ -71,12 +71,12 @@ public theorem isRationalPoint_of_isClosed (k : Type u) [Field k] [IsAlgClosed k
     AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   let : Algebra k (X.residueField x) := φ.hom.toAlgebra
   let : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     rw [RingHom.algebraMap_toAlgebra]
     exact hcomp
   let : Module.Finite k (X.residueField x) := finite_of_finite_type_of_isJacobsonRing _ _
   let : Algebra.IsIntegral k (X.residueField x) := Algebra.IsIntegral.of_finite _ _
-  show IsIso φ
+  change IsIso φ
   rw [ConcreteCategory.isIso_iff_bijective]
   exact IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k) (K := X.residueField x)
 

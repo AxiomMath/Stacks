@@ -62,8 +62,7 @@ variable {A C : Type*} [CommRing A] [CommRing C] [Algebra A C]
 against. -/
 theorem tensorContract_tmul_one_mul (f : Module.Dual A C) (a : C) (z : C ⊗[A] C) :
     tensorContract A C f ((a ⊗ₜ[A] (1 : C)) * z) = tensorContract A C (a • f) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [mul_add, map_add, map_add, hz, hw]
   | tmul x y =>
       simp [tensorContract, TensorProduct.lift.tmul, algebraDualModule_smul_apply]
@@ -71,8 +70,7 @@ theorem tensorContract_tmul_one_mul (f : Module.Dual A C) (a : C) (z : C ⊗[A] 
 /-- Multiplying a tensor on the left by `1 ⊗ a` rescales its contraction. -/
 theorem tensorContract_one_tmul_mul (f : Module.Dual A C) (a : C) (z : C ⊗[A] C) :
     tensorContract A C f (((1 : C) ⊗ₜ[A] a) * z) = a * tensorContract A C f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [mul_add, map_add, map_add, hz, hw, mul_add]
   | tmul x y => simp [tensorContract, TensorProduct.lift.tmul]
 
@@ -89,9 +87,8 @@ noncomputable def contractionEquiv :
 @[simp]
 theorem contractionEquiv_apply (z : C ⊗[A] C) (f : Module.Dual A C) :
     contractionEquiv (A := A) (C := C) z f = tensorContract A C f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
-  | tmul x y => simp [contractionEquiv, tensorContract, dualTensorHom_apply]
+  induction z using TensorProduct.inductionOn with
+  | tmul x y => simp [contractionEquiv, tensorContract]
   | add x y hx hy => simp [hx, hy]
 
 /-- Contracting a product against a functional, when the right factor represents a `C`-linear
@@ -101,8 +98,7 @@ private theorem tensorContract_mul_map (z j : C ⊗[A] C) (h : Module.Dual A C �
     (hj : contractionEquiv (A := A) (C := C) j = h)
     (f : Module.Dual A C) :
     tensorContract A C f (z * j) = (Algebra.TensorProduct.lmul' A z) * h f := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ hz₁ hz₂ => rw [add_mul, map_add, hz₁, hz₂, map_add, add_mul]
   | tmul x y =>
       have hx : tensorContract A C (x • f) j = x * h f := by
@@ -160,7 +156,7 @@ theorem diagonalContractionMap_bijective :
     have hsmul : ∀ (c : C) f, h (c • f) = c • h f := fun c f =>
       LinearMap.map_smul_of_tower φ c f
     have hj : jval ∈ diagonalAnnihilator A C := by
-      show jval ∈ (RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom).annihilator
+      change jval ∈ (RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom).annihilator
       rw [Submodule.mem_annihilator]
       intro z hz
       have hz0 : (Algebra.TensorProduct.lmul' A) z = 0 := RingHom.mem_ker.mp hz
@@ -173,7 +169,7 @@ theorem diagonalContractionMap_bijective :
       simpa [mul_comm] using hzmul
     refine ⟨⟨jval, hj⟩, ?_⟩
     ext f
-    show tensorContract A C f jval = φ f
+    change tensorContract A C f jval = φ f
     rw [← contractionEquiv_apply]
     exact LinearMap.congr_fun ((contractionEquiv (A := A) (C := C)).apply_symm_apply h) f
 
@@ -197,18 +193,18 @@ theorem noetherPairing_flip_bijective_selfFactorization [Module.Projective A C] 
       noetherPairing F (dualizingModule.tmul F f 1) j = tensorContract A C f j.1 := by
     simpa using noetherPairing_selfFactorization_tmul f 1 j
   have heω (f : Module.Dual A C) : eω.symm f = dualizingModule.tmul F f 1 := by
-    show comm.symm ((1 : C) ⊗ₜ[C] f) = f ⊗ₜ[C] (1 : C)
+    change comm.symm ((1 : C) ⊗ₜ[C] f) = f ⊗ₜ[C] (1 : C)
     rw [TensorProduct.comm_symm_tmul]
   have hdiag := diagonalContractionMap_bijective (A := A) (C := C)
   refine ⟨fun j k hjk => hdiag.1 ?_, fun φ => ?_⟩
   · ext f
-    show tensorContract A C f j.1 = tensorContract A C f k.1
+    change tensorContract A C f j.1 = tensorContract A C f k.1
     rw [← hformula j f, ← hformula k f]
     exact LinearMap.congr_fun hjk (dualizingModule.tmul F f 1)
   · obtain ⟨j, hj⟩ := hdiag.2 (eHom φ)
     refine ⟨j, eHom.injective ?_⟩
     ext f
-    show noetherPairing F (eω.symm f) j = φ (eω.symm f)
+    change noetherPairing F (eω.symm f) j = φ (eω.symm f)
     rw [heω, hformula j f]
     simpa [diagonalContractionMap, eHom, heω] using
       LinearMap.congr_fun hj f

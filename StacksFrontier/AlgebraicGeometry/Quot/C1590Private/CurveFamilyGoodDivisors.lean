@@ -216,7 +216,7 @@ theorem exists_finite_closure_eq_top {X Y : Scheme.{u}} [IsAffine Y] (f : X ⟶ 
   refine Subring.closure_mono (Set.union_subset_union ?_ ?_) hx
   · rintro _ ⟨y, rfl⟩
     refine ⟨f.appTop y, ?_⟩
-    show _ = (f.app ⊤ ≫ X.presheaf.map (homOfLE le_top).op).hom y
+    change _ = (f.app ⊤ ≫ X.presheaf.map (homOfLE le_top).op).hom y
     rfl
   · intro y hy
     exact ⟨⟨y, hy⟩, rfl⟩
@@ -281,7 +281,7 @@ theorem exists_isGoodDivisor_isAmpleDivisor {X : Scheme.{u}} {R : Type u} [CommR
     (c := ((n + p : ℕ) : ℤ)) (by push_cast; rfl)
   refine ⟨E, ?_, ?_, ?_, ?_⟩
   · refine isGoodDivisor_of_eq E hE U (Opens.ext ?_) haff ?_ g (fun i => ?_) hgen
-    · show ((E.support : Set X))ᶜ = U
+    · change ((E.support : Set X))ᶜ = U
       rw [hEU, compl_compl]
     · have hk : m₀ ≤ (m₀ + 1) * (n + p) := by nlinarith
       let i : Stacks.Divisors.divisorSheaf E ≅

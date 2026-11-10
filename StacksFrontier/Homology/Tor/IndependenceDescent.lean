@@ -96,8 +96,7 @@ theorem subsingleton_localizedModule_of_subsingleton_tensorProduct
   -- the base change to `C_𝔭` of `M` is trivial, `C_𝔭` being a `C`-algebra
   have hsubp : Subsingleton (Localization.AtPrime p ⊗[T] M) := by
     refine (subsingleton_iff_forall_eq 0).mpr fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul c m =>
       have h1 : (1 : Localization.AtPrime p) ⊗ₜ[T] m = 0 := by
         have h := congrArg
@@ -168,10 +167,9 @@ theorem subsingleton_localizedModule_torObj_of_flat_lifts
           fun _ _ => Commute.all _ _).toRingHom.comp
           (Algebra.TensorProduct.comm R₀ R' C₀).toRingHom := by
       refine RingHom.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul r c =>
-        show algebraMap R' C' r * fC c = _
+        change algebraMap R' C' r * fC c = _
         simpa using (mul_comm (algebraMap R' C' r) (fC c))
       | add x y hx hy => rw [map_add, map_add, hx, hy]
     rw [he]
@@ -195,7 +193,7 @@ theorem subsingleton_localizedModule_torObj_of_flat_lifts
     RingHom.flat_algebraMap_iff.mp
       (RingHom.Flat.tensorProduct_of_flat_lifts fA fC hR' hA hC
         (TorChangeOfRings.tensorProductMap R₀ R' A₀ C₀ A' C' fA fC) fun a c => by
-          show (fA a ⊗ₜ[R'] (1 : C')) * ((1 : A') ⊗ₜ[R'] fC c) = _
+          change (fA a ⊗ₜ[R'] (1 : C')) * ((1 : A') ⊗ₜ[R'] fC c) = _
           simp)
   exact subsingleton_localizedModule_of_subsingleton_tensorProduct hflat s p hsp hsub
 

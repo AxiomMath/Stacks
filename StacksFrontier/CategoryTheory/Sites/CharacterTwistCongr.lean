@@ -122,7 +122,7 @@ theorem characterTwistCongrHomCompare_section (F : Sheaf J AddCommGrpCat.{v})
     ((characterTwistHomEquiv W' act' χ J F
         (characterTwistCongrHomCompare i act act' hact χ J F u)) : F.obj.obj (op W')) =
       (F.obj.map i.inv.op) ((characterTwistHomEquiv W act χ J F u) : F.obj.obj (op W)) := by
-  show ((characterTwistHomEquiv W' act' χ J F ((characterTwistHomEquiv W' act' χ J F).symm
+  change ((characterTwistHomEquiv W' act' χ J F ((characterTwistHomEquiv W' act' χ J F).symm
     ((characterSectionsCongr i act act' hact χ F.obj).symm
       (characterTwistHomEquiv W act χ J F u)))).1) = _
   rw [Equiv.apply_symm_apply]

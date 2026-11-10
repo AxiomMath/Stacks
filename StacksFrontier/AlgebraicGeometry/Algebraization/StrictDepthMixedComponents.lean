@@ -94,7 +94,7 @@ public theorem not_le_asIdeal_of_mixed_irreducibleComponents (S : Algebraization
   dsimp only at hmixed
   intro hIp
   have hrange : Set.range S.Yι.base = PrimeSpectrum.zeroLocus (S.I : Set S.A) := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk S.I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk S.I)) = _
     rw [range_comap_of_surjective (S.A ⧸ S.I) (Ideal.Quotient.mk S.I)
       Ideal.Quotient.mk_surjective]
     simp [Ideal.mk_ker]

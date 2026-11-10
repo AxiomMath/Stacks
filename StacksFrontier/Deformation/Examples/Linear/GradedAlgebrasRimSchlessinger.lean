@@ -727,8 +727,7 @@ private theorem gradedPullbackLift_isBaseChange
   have hfst_add (p q : Q.carrier) : (p + q).1.1 = p.1.1 + q.1.1 := rfl
   have hsnd_add (p q : Q.carrier) : (p + q).1.2 = p.1.2 + q.1.2 := rfl
   have hcoordB (t : S ⊗[R] W.carrier) : (eQ t).1.1 = eB (θ t).1 := by
-    induction t using TensorProduct.induction_on with
-    | zero => rfl
+    induction t using TensorProduct.inductionOn with
     | add t u ht hu =>
         simpa only [map_add, hfst_add, Prod.fst_add] using congrArg₂ (· + ·) ht hu
     | tmul s x =>
@@ -738,8 +737,7 @@ private theorem gradedPullbackLift_isBaseChange
         rw [hs']
         exact (morphismPushoutEquiv_tmul a s.1.1 x).symm
   have hcoordC (t : S ⊗[R] W.carrier) : (eQ t).1.2 = eC (θ t).2 := by
-    induction t using TensorProduct.induction_on with
-    | zero => rfl
+    induction t using TensorProduct.inductionOn with
     | add t u ht hu =>
         simpa only [map_add, hsnd_add, Prod.snd_add] using congrArg₂ (· + ·) ht hu
     | tmul s x =>
@@ -750,8 +748,7 @@ private theorem gradedPullbackLift_isBaseChange
         exact (morphismPushoutEquiv_tmul b s.1.2 x).symm
   have hδ (t : (B × C) ⊗[R] W.carrier) :
       eA ((d.rTensor W.carrier) t) = f.map (eB (pr t).1) - g.map (eC (pr t).2) := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t u ht hu =>
         simp only [LinearMap.map_add, LinearEquiv.map_add, RingHom.map_add,
           Prod.fst_add, Prod.snd_add]

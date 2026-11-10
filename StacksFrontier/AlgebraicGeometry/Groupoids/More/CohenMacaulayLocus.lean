@@ -91,7 +91,7 @@ private theorem exists_greatest_cohenMacaulay_open {X Y : Scheme.{u}}
     let xU : U.1.toScheme := ⟨xV.1, hxU⟩
     have hxj : j xU = xV := by
       apply Subtype.ext
-      show (j ≫ V.ι) xU = V.ι xV
+      change (j ≫ V.ι) xU = V.ι xV
       rw [Scheme.homOfLE_ι]
       rfl
     have hcomp : j ≫ V.ι ≫ f = U.1.ι ≫ f := by simp [j]

@@ -209,7 +209,7 @@ private theorem chase_pushforward {𝒟 ℛ : Type*} [Category* 𝒟] [Category*
   have h3 : Fq.map c₃ ≫ ε.app x₂ = t ≫ s := by
     rw [hε, ← Fq.map_comp_assoc, hc₃, CategoryTheory.Functor.map_id, Category.id_comp]
   rw [hCI]
-  simp only [Fq.map_comp, Fq.map_id, Category.id_comp, Category.assoc, hn]
+  simp only [Fq.map_comp, Category.id_comp, Category.assoc, hn]
   rw [reassoc_of% h3, reassoc_of% hnat, reassoc_of% ha₂, reassoc_of% h₁, h₃]
 
 /-- The underived comparison `f_* ⋙ Θ_Y ≅ Θ_X ⋙ f_*` of the étale direct image with the direct
@@ -313,7 +313,7 @@ theorem etaleDerivedEquivalenceFactorsIso_hom_comp_map_etaleDerivedPushforwardCo
           (etaleRingedPushforwardCompIso.{u, r} Λ f) M)) := by
     rw [hr₂]
     refine comp_id_comp_eq _ _ _ ?_
-    show DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+    change DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         (((etaleModulesEquivalence.{u, r} Λ Y).functor.mapHomologicalComplex
           (ComplexShape.up ℤ)).map (x₁ ≫ x₂) ≫ εc)) ≫
       DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
@@ -386,8 +386,8 @@ theorem etaleRingedPushforwardModulesIso_hom_app
   simp only [etaleRingedPushforwardModulesIso, etaleRingedPushforwardComparison, Iso.trans_hom,
     NatTrans.comp_app, Iso.symm_hom, Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.rightUnitor_inv_app,
-    Functor.associator_hom_app, Functor.associator_inv_app, Functor.map_comp, Category.id_comp,
-    Category.assoc] at n ⊢
+    Functor.associator_hom_app, Functor.associator_inv_app, Functor.map_comp,
+    Category.id_comp] at n ⊢
   exact chase_comp_id _ _ _ _ _ n
 
 /-- **The pullback of sheaves of `Λ̲`-modules is the étale inverse image, through the conjugate of
@@ -426,7 +426,7 @@ theorem etaleRingedPullbackCompIso_hom_app (N : EtaleModules.{u, r} Λ Y) :
   simp only [etaleRingedPullbackCompIso, Iso.trans_hom, NatTrans.comp_app,
     Functor.isoWhiskerLeft_hom, Functor.whiskerLeft_app, Functor.associator_inv_app,
     Functor.isoWhiskerRight_hom, Functor.whiskerRight_app, Iso.symm_hom,
-    Functor.leftUnitor_hom_app, Category.id_comp, Category.comp_id, Functor.comp_map]
+    Functor.leftUnitor_hom_app, Category.id_comp, Functor.comp_map]
   rw [h, Category.assoc]
   exact congrArg (fun t => _ ≫ _ ≫ t) (Category.comp_id _)
 

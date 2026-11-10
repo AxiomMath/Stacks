@@ -320,7 +320,7 @@ theorem clo_base_eq (z : Spec quotRing.{u}) : clo.{u}.base z = augPt.{u} := by
   refine ((augIdeal_isMaximal.{u}).eq_of_le ?_ ?_).symm
   · exact (clo.{u}.base z).2.ne_top
   · intro x hx
-    show (Ideal.Quotient.mk augIdeal.{u}) x ∈ z.asIdeal
+    change (Ideal.Quotient.mk augIdeal.{u}) x ∈ z.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
     exact Submodule.zero_mem _
 
@@ -349,7 +349,7 @@ theorem punctured_eq_top_of_isCompact (W : (Spec baseRing.{u}).Opens)
   refine eq_top_of_isCompact_of_compl_singleton_le augPt.{u} eq_top_of_fg_of_zeroLocus_subset
     W hWc fun p hp ↦ ?_
   have hmem : p ∈ punctured.{u} := by
-    show p ∈ ({augPt.{u}}ᶜ : Set (PrimeSpectrum P.{u}))
+    change p ∈ ({augPt.{u}}ᶜ : Set (PrimeSpectrum P.{u}))
     exact hp
   exact hW hmem
 

@@ -537,7 +537,7 @@ private theorem exists_lift_abelPreimage (Ψ₀ : projectiveSpaceOver m V'.toSch
     rw [Scheme.Opens.range_ι]
     have hy := congrArg (fun g : projectiveSpaceOver m V'.toScheme ⟶ A.X.left => g y) hA
     change γ.left (Ψ₀ y) = V'.ι ((projectiveSpaceOver m V'.toScheme ↘ V'.toScheme) y) at hy
-    show γ.left (Ψ₀ y) ∈ V'
+    change γ.left (Ψ₀ y) ∈ V'
     rw [hy]
     exact ((projectiveSpaceOver m V'.toScheme ↘ V'.toScheme) y).2
   have hΨι : IsOpenImmersion.lift G.ι Ψ₀ hrange ≫ G.ι = Ψ₀ := IsOpenImmersion.lift_fac _ _ _
@@ -601,9 +601,9 @@ theorem exists_abelPreimage_iso : ∃ eI : (abelPreimage f hdim σ hσ A e θ h�
       V' jV hj hjV (O.ι ≫ Φ) O.ι (by rw [Category.assoc, hΦq]) c hc)
   have h2 : Ψ ≫ Φ = 𝟙 _ := by
     refine pullback.hom_ext ?_ ?_
-    · show (Ψ ≫ Φ) ≫ (P ↘ V'.toScheme) = 𝟙 _ ≫ (P ↘ V'.toScheme)
+    · change (Ψ ≫ Φ) ≫ (P ↘ V'.toScheme) = 𝟙 _ ≫ (P ↘ V'.toScheme)
       rw [Category.assoc, hΦq, hΨγ, Category.id_comp]
-    · show (Ψ ≫ Φ) ≫ s = 𝟙 _ ≫ s
+    · change (Ψ ≫ Φ) ≫ s = 𝟙 _ ≫ s
       rw [Category.id_comp]
       refine Scheme.hom_ext_of_forall _ _ fun x => ⟨U x, hxU x, ?_⟩
       have : IsAffine (U x).toScheme := hUaff x

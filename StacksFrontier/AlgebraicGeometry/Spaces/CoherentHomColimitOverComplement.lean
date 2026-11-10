@@ -147,7 +147,7 @@ private theorem mem_idealUnitLocus_pc
         V.1.hom y) ∈ idealUnitLocus B S hS X I :=
     (range_pointsMap_ι_openSubspaceOfPoints B S hS (F := X.1)
       (idealUnitLocus B S hS X I)).le ⟨_, rfl⟩
-  show pointsMap B S hS
+  change pointsMap B S hS
       (yoneda.obj ((SmallEtale.toOver B S hS (idealComplement B S hS X I).1).obj V))
       (V.1.hom ≫ (idealComplementι B S hS X I).hom) y ∈ idealUnitLocus B S hS X I
   rw [pointsMap_comp]
@@ -300,7 +300,7 @@ theorem homRestrict_add {G F : Modules.{u, u} B S hS X.1 X.2} {n : ℕ}
     (φ ψ : idealPowModule I n G ⟶ F) :
     homRestrict B S hS X I (φ + ψ) =
       homRestrict B S hS X I φ + homRestrict B S hS X I ψ := by
-  show (idealPowRestrictIso B S hS X I n G).inv ≫
+  change (idealPowRestrictIso B S hS X I n G).inv ≫
       ((restrictToIdealComplement B S hS X I).map φ
         + (restrictToIdealComplement B S hS X I).map ψ) = _
   rw [Preadditive.comp_add]

@@ -106,7 +106,7 @@ theorem rootEvalHom_naturality {W W' : U.Etale} (a : W ⟶ V) (b : W' ⟶ W)
     rootEvalHom N κ hζ G (b ≫ a)
         ((smallEtaleModuleSheafForgetAb (ZMod N) (twistNegOneModule.{u, 0} U N G)).obj.map b.op α) =
       (smallEtaleModuleSheafForgetAb (ZMod N) G).obj.map b.op (rootEvalHom N κ hζ G a α) := by
-  show twistNegOneModulePairing.{u, 0} U N G W' ((twistNegOneModule.{u, 0} U N G).obj.map b.op α)
+  change twistNegOneModulePairing.{u, 0} U N G W' ((twistNegOneModule.{u, 0} U N G).obj.map b.op α)
       ((rootsOfUnityModule.{u, 0} U N).obj.map (b ≫ a).op (rootSectionOver N κ hζ)) =
     G.obj.map b.op (twistNegOneModulePairing.{u, 0} U N G W α
       ((rootsOfUnityModule.{u, 0} U N).obj.map a.op (rootSectionOver N κ hζ)))
@@ -116,7 +116,7 @@ theorem rootEvalHom_naturality {W W' : U.Etale} (a : W ⟶ V) (b : W' ⟶ W)
 /-- Evaluation at `ζ` is bijective on every refinement of `V`. -/
 theorem bijective_rootEvalHom {W : U.Etale} (a : W ⟶ V) :
     Function.Bijective (rootEvalHom N κ hζ G a) := by
-  show Function.Bijective (fun α => twistNegOneModulePairing.{u, 0} U N G W α
+  change Function.Bijective (fun α => twistNegOneModulePairing.{u, 0} U N G W α
     ((rootsOfUnitySheaf.{u, 0} U N).obj.map a.op (rootSectionOver N κ hζ)))
   rw [rootsOfUnitySheaf_map_sliceRootSection N a κ hζ 1]
   exact bijective_twistNegOneModuleEvalRoot.{u, 0} W _ hζ G
@@ -249,7 +249,7 @@ theorem presheafFiber_map_classMap_eq
     (P := (smallEtaleModuleSheafForgetAb (ZMod N) (twistNegOneModule.{u, 0} U N G)).obj) p
   rw [Point.toPresheafFiber_naturality_apply, rootEvalGermMap_germ N Φ v κ hζ G w a ha,
     classMapGermMap_germ g q N s Φ v κ hζ G w a ha, classMapLocalHom_apply]
-  show _ = Φ.toPresheafFiber W w (((smallEtalePushforwardAb g).rightDerived q).obj
+  change _ = Φ.toPresheafFiber W w (((smallEtalePushforwardAb g).rightDerived q).obj
       ((smallEtalePullbackAb g).obj (smallEtaleModuleSheafForgetAb (ZMod N) G))).obj
     ((classMap g q N s G).hom.app (op W)
     ((rootEvalEquiv N κ hζ G a).symm (rootEvalEquiv N κ hζ G a α)))
@@ -281,7 +281,7 @@ theorem rootEvalHom_twistNegOneModuleMap {W : U.Etale} (a : W ⟶ V)
       ((sheafCompose U.smallEtaleTopology
         (forget₂ (ModuleCat.{u + 1} (ZMod N)) AddCommGrpCat.{u + 1})).map t).hom.app (op W)
           (rootEvalHom N κ hζ G a α) := by
-  show ((U.smallEtaleTopology.overPullback (ModuleCat.{u + 1} (ZMod N)) W).map (𝟙 _) ≫ α ≫
+  change ((U.smallEtaleTopology.overPullback (ModuleCat.{u + 1} (ZMod N)) W).map (𝟙 _) ≫ α ≫
       (U.smallEtaleTopology.overPullback (ModuleCat.{u + 1} (ZMod N)) W).map t).hom.app
         (op (Over.mk (𝟙 W))) _ = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp]

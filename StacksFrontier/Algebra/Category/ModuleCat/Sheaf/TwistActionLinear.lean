@@ -166,7 +166,7 @@ theorem actionOf_smul
           (tensorPowerMulSectionAt O hO U L n j
             ((TensorPower.tensorPower O hO L n).val.map (terminal.from U.unop).op a) y) := by
     intro a
-    show (twistActionHom O hO L F n j (globalSectionHom O hO _ a)).val.app U _ = _
+    change (twistActionHom O hO L F n j (globalSectionHom O hO _ a)).val.app U _ = _
     rw [twistActionHom_pure, globalSectionHom_app]
   let r' : (Stacks.SheafOfModules.Tensor.ringSheaf ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
       (forget₂ CommRingCat RingCat) (hO)⟩).obj.obj U := O.map (terminal.from U.unop).op r
@@ -270,7 +270,7 @@ theorem sectionSmul_mul (r r' : O.obj (op (⊤_ C)))
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     sectionSmul O hO (r * r') M = sectionSmul O hO r M ≫ sectionSmul O hO r' M := by
   ext U x
-  show _ = (sectionSmul O hO r' M).val.app U ((sectionSmul O hO r M).val.app U x)
+  change _ = (sectionSmul O hO r' M).val.app U ((sectionSmul O hO r M).val.app U x)
   rw [sectionSmul_app, sectionSmul_app, sectionSmul_app, map_mul, mul_comm, mul_smul]
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in

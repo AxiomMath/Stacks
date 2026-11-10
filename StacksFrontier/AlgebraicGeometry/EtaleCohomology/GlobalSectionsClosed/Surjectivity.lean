@@ -96,7 +96,7 @@ available: Tag 09Z0 is
 Tag 09Z3 is
 `Stacks.EtaleCohomology.globalSectionsPullback_isEqualizer_of_isFinite_surjective`.  That route
 is carried out in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/GlobalSectionsClosed/FiniteSurjectiveDescent.lean`,
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/GlobalSectionsClosed/FiniteSurjectiveDescent.lean`
 so the reduction in this file is a reduction and no longer a gap.
 
 ## References

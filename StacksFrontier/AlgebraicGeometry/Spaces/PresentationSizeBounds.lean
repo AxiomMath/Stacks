@@ -117,7 +117,7 @@ theorem size_le_of_compact_of_fppf_factorsThrough {V W U : Scheme.{u}} [CompactS
   have hfactors (i : Fin n) : Set.range ((A i).ι ≫ g (a i)) ⊆ (O : Set W) := by
     rintro _ ⟨x, rfl⟩
     have hx : (g (a i)) x.1 ∈ K := Set.mem_iUnion.mpr ⟨i, x.1, x.2, rfl⟩
-    show (g (a i)) ((A i).ι x) ∈ (O : Set W)
+    change (g (a i)) ((A i).ι x) ∈ (O : Set W)
     rw [(A i).ι_apply x]
     obtain ⟨j, hj⟩ := Set.mem_iUnion.mp (hKD hx)
     exact (le_iSup (fun j => (D j).1) j) hj
@@ -177,7 +177,7 @@ theorem exists_bounded_etale_neighborhood {W U V : Scheme.{u}} (p : W ⟶ U) (a 
   have hfac (A : U.affineOpens) : Set.range ((L A).ι ≫ a) ⊆ (N A : Set V) := by
     rintro _ ⟨x, rfl⟩
     have hx := hcover A (show a x.1 ∈ a '' (L A : Set W) from ⟨x.1, x.2, rfl⟩)
-    show a x.1 ∈ (N A : Set V)
+    change a x.1 ∈ (N A : Set V)
     simpa only [N, Opens.coe_iSup] using hx
   let b₀ (A : U.affineOpens) : (L A).toScheme ⟶ (N A).toScheme :=
     IsOpenImmersion.lift (N A).ι ((L A).ι ≫ a) (by simpa using hfac A)
@@ -199,7 +199,7 @@ theorem exists_bounded_etale_neighborhood {W U V : Scheme.{u}} (p : W ⟶ U) (a 
     obtain ⟨A, hx⟩ := Set.mem_iUnion.mp (show x ∈ ⋃ A : U.affineOpens, (A.1 : Set U) by
       simp only [← Opens.coe_iSup, iSup_affineOpens_eq_top, Opens.coe_top, Set.mem_univ])
     have hx' : x ∈ ⋃ j, p '' (D A j : Set W) := by
-      show x ∈ ⋃ j, (E.f (k A j)) '' (D A j : Set (E.X (k A j)))
+      change x ∈ ⋃ j, (E.f (k A j)) '' (D A j : Set (E.X (k A j)))
       rw [hc A]
       exact hx
     obtain ⟨j, y, hy, hyx⟩ := Set.mem_iUnion.mp hx'
@@ -377,7 +377,7 @@ theorem exists_atlas_size_le {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let w' := mkOverLift B S hS U p t hT w hwp
   let b' : T' ⟶ V' := Over.homMk ⟨b⟩ (by
     apply ObjectProperty.hom_ext
-    show b ≫ v ≫ V.hom.hom = t ≫ U.hom.hom
+    change b ≫ v ≫ V.hom.hom = t ≫ U.hom.hom
     rw [← Category.assoc, hbv, Category.assoc,
       show a.left.hom ≫ V.hom.hom = W.hom.hom from congrArg InducedCategory.Hom.hom (Over.w a)]
     exact congrArg InducedCategory.Hom.hom (Over.w w'))
@@ -452,7 +452,7 @@ theorem size_pullback_le {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z
     dsimp only [A, BigFppfOver.toScheme]
     infer_instance
   have hpb := (IsPullback.of_hasPullback f g).map A
-  show (A.obj (pullback f g)).size ≤ _
+  change (A.obj (pullback f g)).size ≤ _
   rw [Scheme.size_congr hpb.isoPullback]
   exact Scheme.size_pullback_le _ _
 

@@ -109,7 +109,7 @@ Directedness needs no hypothesis
 (`AlgebraicGeometry.Space.isFiltered_finiteTypeQuasicoherentSubobject`); the colimit assertion
 takes the images of a presentation of `G` by modules of finite presentation, which is the source's
 proof of Stacks 07V9 above. -/
-theorem isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_noetherianApproximation
+theorem isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_approximation
     (h07SU : ∀ Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u,
       IsAlgebraicSpace B (⊤_ Scheme.{u}) hZ Z → IsQuasiCompactSpace B (⊤_ Scheme.{u}) hZ Z →
         IsAbsolutelyQuasiSeparated B (⊤_ Scheme.{u}) hZ hZ Z →
@@ -150,7 +150,7 @@ theorem hasClosedSubspaceApproximation_of_noetherianApproximation
     HasClosedSubspaceApproximation B S hS Y X :=
   hasClosedSubspaceApproximation_of_isColimit_finiteTypeQuasicoherentSubobjectCocone B S hS Y
     (fun G _ =>
-      (isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_noetherianApproximation
+      (isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_approximation
         B S hS hZ h07SU Y.2 hqc hqs G).2) X
 
 end AlgebraicGeometry.Space

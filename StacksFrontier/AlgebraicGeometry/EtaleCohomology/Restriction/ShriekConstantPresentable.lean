@@ -30,9 +30,9 @@ composite left adjoint, so its finite presentability follows from the same two f
 that the right adjoint of that composite is sections over the étale object, and that sections over
 an object with a cofinal system of finite coverings with quasi-compact fibre products commute with
 filtered colimits of module sheaves (part (4) of Stacks 0738, proved in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Restriction.CompactModuleSheaves`). The free-module
-functor, and hence the tie of the ring universe to the module universe that it carries, does not
-enter.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Restriction.CompactModuleSheaves`). The
+free-module functor, and hence the tie of the ring universe to the module universe that it carries,
+does not enter.
 
 ## Main results
 

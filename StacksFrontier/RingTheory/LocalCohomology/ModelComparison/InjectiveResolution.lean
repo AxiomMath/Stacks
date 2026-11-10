@@ -292,7 +292,7 @@ lemma powerTorsionComplexComparison_comp_counit :
     (reassoc_of% ((DerivedCategory.Q.map_comp _ _).symm.trans
       (congrArg DerivedCategory.Q.map
         (powerTorsionComplexIso_hom_comp_subcomplexι A I R.cocomplex)))) eM
-  show (DerivedCategory.Q.map (powerTorsionComplexIso A I R.cocomplex).hom ≫
+  change (DerivedCategory.Q.map (powerTorsionComplexIso A I R.cocomplex).hom ≫
       qc.inv.app ts ≫ Ph.inv.app FhK ≫ Li.map (eta.app KK) ≫
         Li.map (T.map (qc.hom.app R.cocomplex ≫ eM)) ≫ Pc.inv.app (T.obj sfM)) ≫
       Pc.hom.app (T.obj sfM) ≫ eps.app sfM =

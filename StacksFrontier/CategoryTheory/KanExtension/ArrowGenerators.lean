@@ -334,19 +334,19 @@ theorem finallySmall_J : FinallySmall.{w} (J P φ) := by
     obtain ⟨k, α, hα⟩ := IsCardinalPresentable.exists_eq_of_isColimit' ℵ₀ pY.isColimit
       ((P.arrow.ι.obj c.left).hom ≫ g₂ ≫ pY.diag.map (IsFiltered.rightToMax i₁ i₂))
       (g₁ ≫ b ≫ pY.diag.map (IsFiltered.leftToMax i₁ i₂)) (by
-        show (_ ≫ _ ≫ _) ≫ pY.ι.app (IsFiltered.max i₁ i₂) =
+        change (_ ≫ _ ≫ _) ≫ pY.ι.app (IsFiltered.max i₁ i₂) =
           (_ ≫ _ ≫ _) ≫ pY.ι.app (IsFiltered.max i₁ i₂)
         rw [assoc, assoc, assoc, assoc, hnY, hnY, hg₂, hb, ← hw, ← assoc, hg₁])
     refine ⟨f ⟨i, k, ⟨(b ≫ pY.diag.map (IsFiltered.leftToMax i₁ i₂)) ≫ pY.diag.map α, ?_⟩⟩,
       Set.mem_range_self _, ⟨J.homMk (Arrow.homMk g₁
         ((g₂ ≫ pY.diag.map (IsFiltered.rightToMax i₁ i₂)) ≫ pY.diag.map α) ?_) ?_⟩⟩
     · rw [assoc, assoc, hnY, hnY, hb]
-    · show g₁ ≫ ((b ≫ pY.diag.map _) ≫ pY.diag.map α) =
+    · change g₁ ≫ ((b ≫ pY.diag.map _) ≫ pY.diag.map α) =
         (P.arrow.ι.obj c.left).hom ≫ ((g₂ ≫ pY.diag.map _) ≫ pY.diag.map α)
       simpa only [assoc] using hα.symm
     · ext
       · exact hg₁
-      · show ((g₂ ≫ pY.diag.map _) ≫ pY.diag.map α) ≫ pY.ι.app k = c.hom.right
+      · change ((g₂ ≫ pY.diag.map _) ≫ pY.diag.map α) ≫ pY.ι.app k = c.hom.right
         rw [assoc, assoc, hnY, hnY, hg₂]
   have : Small.{w} s := small_range f
   have : (ObjectProperty.ι (· ∈ s)).Final :=

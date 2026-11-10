@@ -135,7 +135,7 @@ theorem Algebra.trdeg_eq_of_ringEquiv
   have hAlgebraic : Algebra.IsAlgebraic K K' := by
     refine ⟨fun x => ⟨Polynomial.X - Polynomial.C (eK.symm x), Polynomial.X_sub_C_ne_zero _, ?_⟩⟩
     rw [Polynomial.aeval_sub, Polynomial.aeval_X, Polynomial.aeval_C]
-    show x - eK (eK.symm x) = 0
+    change x - eK (eK.symm x) = 0
     simp
   let := hAlgebraic
   have hIso : Algebra.trdeg K L = Algebra.trdeg K L' :=
@@ -238,7 +238,7 @@ private theorem trdeg_appLE_eq_functionField
       ((genericPoint_spec X).mem_open_set_iff V.2).mpr
         (by simpa using (‹Nonempty V› : Nonempty V))
     have hNat := appLE_germToFunctionField_commutes f (genericPoint X) U hηU V hηV hVU
-    show ((dominantFunctionFieldMap f).comp (S.germToFunctionField U).hom) a =
+    change ((dominantFunctionFieldMap f).comp (S.germToFunctionField U).hom) a =
       ((X.germToFunctionField V).hom.comp (f.appLE U V hVU).hom) a
     exact congrArg (fun g : A →+* L => g a) hNat.symm
   exact trdeg_eq_of_fraction_fields
@@ -304,7 +304,7 @@ theorem residueFieldMap_affine_compatible
       IsLocalRing.ResidueField.map (eXring.toRingHom.comp (f.stalkMap x).hom) := by
     ext z
     refine Quotient.inductionOn' z fun a => ?_
-    show IsLocalRing.ResidueField.map (localMap.comp eSring.toRingHom)
+    change IsLocalRing.ResidueField.map (localMap.comp eSring.toRingHom)
         (IsLocalRing.residue (S.presheaf.stalk (f x)) a) =
       IsLocalRing.ResidueField.map (eXring.toRingHom.comp (f.stalkMap x).hom)
         (IsLocalRing.residue (S.presheaf.stalk (f x)) a)
@@ -312,7 +312,7 @@ theorem residueFieldMap_affine_compatible
     exact congrArg (IsLocalRing.residue (Localization.AtPrime q))
       (RingHom.congr_fun hStalk a)
   rw [IsLocalRing.ResidueField.map_comp, IsLocalRing.ResidueField.map_comp] at hMap
-  show RingHom.comp (IsLocalRing.ResidueField.map eXring.toRingHom)
+  change RingHom.comp (IsLocalRing.ResidueField.map eXring.toRingHom)
         (IsLocalRing.ResidueField.map (f.stalkMap x).hom) =
       RingHom.comp (IsLocalRing.ResidueField.map localMap)
         (IsLocalRing.ResidueField.map eSring.toRingHom)
@@ -440,7 +440,7 @@ noncomputable def reducedPointClosure (X : Scheme.{u}) (z : X) : X.IdealSheafDat
 /-- The support of `reducedPointClosure X z` is the closure of `{z}`. -/
 theorem reducedPointClosure_support (X : Scheme.{u}) (z : X) :
     ((reducedPointClosure X z).support : Set X) = closure {z} := by
-  show ((Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({z} : Set X))).support :
+  change ((Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({z} : Set X))).support :
     Set X) = closure {z}
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   rfl
@@ -487,7 +487,7 @@ private theorem exists_map_reducedPointClosure {X S : Scheme.{u}} (f : X ⟶ S) 
     exact ⟨z, rfl⟩
   have hclosure := image_closure_subset_closure_image f.continuous
     (Set.mem_image_of_mem f hz)
-  show f ((reducedPointClosure X η).subschemeι z) ∈
+  change f ((reducedPointClosure X η).subschemeι z) ∈
     ((reducedPointClosure S (f η)).support : Set S)
   rw [reducedPointClosure_support]
   simpa using hclosure
@@ -660,7 +660,7 @@ private theorem ringKrullDim_stalk_subscheme_eq_ringKrullDim_quotient
         (genericPoint (Spec (I.subscheme.presheaf.stalk z)))))).asIdeal =
       RingHom.ker φcat.hom := by
     rw [genericPoint_eq_bot_of_affine]
-    show (PrimeSpectrum.comap φcat.hom
+    change (PrimeSpectrum.comap φcat.hom
       (⊥ : PrimeSpectrum (I.subscheme.presheaf.stalk z))).asIdeal = _
     rw [PrimeSpectrum.comap_asIdeal, RingHom.ker_eq_comap_bot]
     rfl
@@ -725,7 +725,7 @@ private theorem trdeg_residueField_eq_of_square
       (i.residueFieldMap a).hom ((f.residueFieldMap (i a)).hom
         (((S.residueFieldCongr hp).hom).hom (eBfwd.symm b))) :=
     DFunLike.congr_fun hring (eBfwd.symm b)
-  show eXfwd.symm ((g.residueFieldMap a).hom b) =
+  change eXfwd.symm ((g.residueFieldMap a).hom b) =
     (f.residueFieldMap (i a)).hom (((S.residueFieldCongr hp).hom).hom (eBfwd.symm b))
   calc eXfwd.symm ((g.residueFieldMap a).hom b)
       = eXfwd.symm ((g.residueFieldMap a).hom
@@ -770,7 +770,7 @@ theorem toENat_trdeg_functionField_eq_residueFieldTrdeg_genericPoint
       rw [Scheme.residue_residueFieldCongr S hgen.symm, Category.assoc,
         Scheme.residue_residueFieldMap g (genericPoint X), Category.assoc]
     have ha := congrArg (fun k => k.hom a) hmaps
-    show eX ((dominantFunctionFieldMap g) a) = _
+    change eX ((dominantFunctionFieldMap g) a) = _
     rw [heX, hcast]
     exact ha.symm
   have htr : Algebra.trdeg S.functionField X.functionField =

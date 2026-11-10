@@ -186,11 +186,11 @@ private theorem finitePresentation_overPullback {X Y : Scheme.{u}}
   have : QuasiCompact A.hom := hA.2.1
   have : QuasiSeparated A.hom := hA.2.2
   refine ⟨?_, ?_, ?_⟩
-  · show LocallyOfFinitePresentation (Limits.pullback.snd A.hom f)
+  · change LocallyOfFinitePresentation (Limits.pullback.snd A.hom f)
     infer_instance
-  · show QuasiCompact (Limits.pullback.snd A.hom f)
+  · change QuasiCompact (Limits.pullback.snd A.hom f)
     infer_instance
-  · show QuasiSeparated (Limits.pullback.snd A.hom f)
+  · change QuasiSeparated (Limits.pullback.snd A.hom f)
     infer_instance
 
 /-- Two schemes of finite presentation over the limit of a cofiltered system of quasi-compact,
@@ -319,11 +319,11 @@ private theorem exists_stage_fiber_iso
   let t : D' ⟶ (Functor.const _).obj (D.obj i) := {
     app j := D.map j.hom
     naturality j k f := by
-      show D.map f.left ≫ D.map k.hom = D.map j.hom ≫ 𝟙 _
+      change D.map f.left ≫ D.map k.hom = D.map j.hom ≫ 𝟙 _
       rw [← D.map_comp, f.w, Category.comp_id] }
   have : ∀ {j k} (f : j ⟶ k), IsAffineHom (D'.map f) := by
     intro j k f
-    show IsAffineHom (D.map f.left)
+    change IsAffineHom (D.map f.left)
     infer_instance
   have : ∀ j, CompactSpace (D'.obj j) := fun j => inferInstanceAs
     (CompactSpace (D.obj j.left))
@@ -360,7 +360,7 @@ private theorem finiteType_finGenSubalgebra_map {K : Type u} [CommRing K]
     {i j : FinGenSubalgebraIndex K} (f : i ⟶ j) :
     ((finGenSubalgebraDiagram K).map f).hom.FiniteType := by
   have : Algebra.FiniteType ℤ j.1 := (Subalgebra.fg_iff_finiteType j.1).mp j.2
-  show (Subalgebra.inclusion (leOfHom f)).toRingHom.FiniteType
+  change (Subalgebra.inclusion (leOfHom f)).toRingHom.FiniteType
   apply RingHom.FiniteType.of_comp_finiteType (f := algebraMap ℤ i.1)
   have he : (Subalgebra.inclusion (leOfHom f)).toRingHom.comp (algebraMap ℤ i.1) =
       algebraMap ℤ j.1 := RingHom.ext_int _ _
@@ -405,7 +405,7 @@ public theorem exists_countable_finiteType_isomorphism_families
     infer_instance
   have : ∀ i : Jᵒᵖ, CompactSpace (D.obj i) := by
     intro i
-    show CompactSpace (Spec (CommRingCat.of (↑i.unop.1)))
+    change CompactSpace (Spec (CommRingCat.of (↑i.unop.1)))
     infer_instance
   have : ∀ i : Jᵒᵖ, QuasiSeparatedSpace (D.obj i) := fun _ => inferInstance
   have hSfp := AlgebraicGeometry.finitePresentation_of_finiteType S.hom
@@ -424,14 +424,14 @@ public theorem exists_countable_finiteType_isomorphism_families
   have : QuasiCompact S₀.hom := hS₀.2.1
   have : QuasiSeparated S₀.hom := hS₀.2.2
   have : ∀ i, CompactSpace (D'.obj i) := fun i => by
-    show CompactSpace (pullback (D.map i.hom) S₀.hom : Scheme)
+    change CompactSpace (pullback (D.map i.hom) S₀.hom : Scheme)
     exact QuasiCompact.compactSpace_of_compactSpace (pullback.fst _ _)
   have : ∀ i, QuasiSeparatedSpace (D'.obj i) := fun i => by
-    show QuasiSeparatedSpace (pullback (D.map i.hom) S₀.hom : Scheme)
+    change QuasiSeparatedSpace (pullback (D.map i.hom) S₀.hom : Scheme)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.fst _ _)
   have : ∀ {i j} (f : i ⟶ j), IsAffineHom (D'.map f) := by
     intro i j f
-    show IsAffineHom ((Over.pullback S₀.hom).map ((Over.post D).map f)).left
+    change IsAffineHom ((Over.pullback S₀.hom).map ((Over.post D).map f)).left
     exact MorphismProperty.overPullbackMap (P := @IsAffineHom) _ _
       (inferInstanceAs (IsAffineHom (D.map f.left)))
   have : IsLocallyNoetherian S.left := LocallyOfFiniteType.isLocallyNoetherian S.hom
@@ -439,7 +439,7 @@ public theorem exists_countable_finiteType_isomorphism_families
       AlgebraicGeometry.FinitePresentation ((Over.map e.hom).obj Z).hom := by
     have := (AlgebraicGeometry.finitePresentation_of_finiteType Z.hom).1
     have := (AlgebraicGeometry.finitePresentation_of_finiteType Z.hom).2.2
-    show AlgebraicGeometry.FinitePresentation (Z.hom ≫ e.hom)
+    change AlgebraicGeometry.FinitePresentation (Z.hom ≫ e.hom)
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   obtain ⟨j, XoverS, YoverS, hX₂, hY₂, ⟨eX⟩, ⟨eY⟩⟩ :=
     exists_common_models D' c' hc' ((Over.map e.hom).obj X)
@@ -461,15 +461,15 @@ public theorem exists_countable_finiteType_isomorphism_families
     Over.mk (pullback.fst (D.map j.hom) S₀.hom)
   have hS₂X : AlgebraicGeometry.FinitePresentation Sbase.hom := by
     have : LocallyOfFinitePresentation S₀.hom := hS₀.1
-    show AlgebraicGeometry.FinitePresentation (pullback.fst (D.map j.hom) S₀.hom)
+    change AlgebraicGeometry.FinitePresentation (pullback.fst (D.map j.hom) S₀.hom)
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   have ha : a ≫ Sbase.hom = S.hom ≫ c.π.app j.left := by
     have hπ : c'.π.app j ≫ Sbase.hom =
         pullback.fst (c.π.app iS) S₀.hom ≫ c.π.app j.left := by
-      show pullback.lift _ _ _ ≫ pullback.fst _ _ = _
+      change pullback.lift _ _ _ ≫ pullback.fst _ _ = _
       exact pullback.lift_fst _ _ _
     have he : e.hom ≫ pullback.fst (c.π.app iS) S₀.hom = S.hom := by
-      show (eS.hom.left ≫ (pullbackSymmetry _ _).hom) ≫ _ = _
+      change (eS.hom.left ≫ (pullbackSymmetry _ _).hom) ≫ _ = _
       rw [Category.assoc, pullbackSymmetry_hom_comp_fst]
       exact eS.hom.w
     have h₁ : a ≫ Sbase.hom = e.hom ≫ c'.π.app j ≫ Sbase.hom := Category.assoc _ _ _
@@ -526,7 +526,7 @@ public theorem exists_countable_finiteType_isomorphism_families
       by change QuasiCompact f.left; infer_instance⟩
   let T (i : I) : Over S.left := (Over.pullback a).obj (Tbase i)
   have hT (i : I) : LocallyOfFiniteType (T i).hom ∧ QuasiCompact (T i).hom := by
-    show LocallyOfFiniteType (pullback.snd (Tbase i).hom a) ∧
+    change LocallyOfFiniteType (pullback.snd (Tbase i).hom a) ∧
       QuasiCompact (pullback.snd (Tbase i).hom a)
     exact ⟨locallyOfFiniteType_isStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback (Tbase i).hom a) (hTbase i).1,
@@ -561,7 +561,7 @@ public theorem exists_countable_finiteType_isomorphism_families
         (congrArg (fun t => t ≫ c.π.app j.left) (Over.w s)).trans (Category.id_comp _)
       exact k₁.trans (k₂.trans (k₃.trans k₄))) hs'
   have hkft : LocallyOfFiniteType (D.map f) := by
-    show LocallyOfFiniteType (Spec.map ((finGenSubalgebraDiagram K).map f.unop))
+    change LocallyOfFiniteType (Spec.map ((finGenSubalgebraDiagram K).map f.unop))
     exact HasRingHomProperty.Spec_iff.mpr (finiteType_finGenSubalgebra_map f.unop)
   have hkqc : QuasiCompact (D.map f) := inferInstance
   let Z : C := ⟨Over.mk (D.map f), hkft, hkqc⟩
@@ -573,7 +573,7 @@ public theorem exists_countable_finiteType_isomorphism_families
     (nonempty_iso_pullback_comp_iff _ _ XoverS YoverS).mpr ⟨(Over.pullback eq.hom.left).mapIso eh⟩
   let i : I := ⟨m, hm⟩
   have ht : (c.π.app k ≫ eq.inv.left) ≫ (Tbase i).hom = s.left ≫ a := by
-    show (c.π.app k ≫ eq.inv.left) ≫ (eq.hom.left ≫ b) = _
+    change (c.π.app k ≫ eq.inv.left) ≫ (eq.hom.left ≫ b) = _
     have heq : eq.inv.left ≫ eq.hom.left = 𝟙 _ :=
       congrArg Over.Hom.left eq.inv_hom_id
     have m₁ : (c.π.app k ≫ eq.inv.left) ≫ (eq.hom.left ≫ b)

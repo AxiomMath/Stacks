@@ -174,7 +174,7 @@ theorem underivedComparison_pasteBaseChange (w₁ : g' ≫ f = f' ≫ g) (w₂ :
   rw [Functor.map_comp, Functor.map_comp, Functor.map_comp]
   simp only [Category.assoc]
   rw [hnat]
-  simp only [Category.assoc, Functor.comp_obj]
+  simp only [Functor.comp_obj]
   exact congrArg (fun arrow =>
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           S''.toRingedSpace.sheaf).flip.obj M).map

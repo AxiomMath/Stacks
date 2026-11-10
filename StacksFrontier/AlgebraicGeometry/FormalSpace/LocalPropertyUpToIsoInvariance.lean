@@ -113,7 +113,7 @@ theorem propertyIsInvariantUnderSourceIso_of_localizationPreservesUpToIso
   beta_reduce at key
   convert key using 2
   ext x
-  show ψ (e x) = eR.symm (eR (ψ (eA.symm (eA (e x)))))
+  change ψ (e x) = eR.symm (eR (ψ (eA.symm (eA (e x)))))
   simp only [RingEquiv.symm_apply_apply]
 
 /-- **Invariance under isomorphism of targets, from axiom (1) of Situation 0CBA.** If the rings
@@ -137,7 +137,7 @@ theorem propertyIsInvariantUnderTargetIsoOn_of_localizationPreservesUpToIso
   beta_reduce at key
   convert key using 2
   ext x
-  show e (ψ x) = e (eR.symm (eR (ψ (eA.symm (eA x)))))
+  change e (ψ x) = e (eR.symm (eR (ψ (eA.symm (eA x)))))
   simp only [RingEquiv.symm_apply_apply]
 
 end AlgebraicGeometry.FormalSpace

@@ -131,10 +131,10 @@ Two of the four were, moreover, **not** missing, contrary to what that note says
    sibling, as that note predicted.
 
 The "What is and is not proved" note of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SheafifySections.lean` says that for input (1)
-of [Stacks, Tag 07LF] the exterior-power form of [Stacks, Tag 07KM] part (1) is owed — "the library
-has clause (1) only for `Ω_{X/S}` itself" — that quasi-coherence of a tensor product on an affine
-is owed, and that the passage between the `ModuleCat`-valued picture and the universe-lifted
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SheafifySections.lean` says that for input
+(1) of [Stacks, Tag 07LF] the exterior-power form of [Stacks, Tag 07KM] part (1) is owed — "the
+library has clause (1) only for `Ω_{X/S}` itself" — that quasi-coherence of a tensor product on an
+affine is owed, and that the passage between the `ModuleCat`-valued picture and the universe-lifted
 `AddCommGrpCat.{u + 1}`-valued picture is owed; and that "only with those does [Stacks, Tag 01X9]
 apply", which is the hypothesis of
 `vanishing07JJ_tensorDifferentialFormsSheaf_of_isZero_cechHomology`.  All three are
@@ -158,19 +158,21 @@ cosimplicial divided power envelope of the source's proof is
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/WholeSpaceEnvelope.lean`, a term of type
 `Crystalline.CosimplicialEnvelope`.  With
 `...SmallSite.vanishing07LF_of_levelCosimplicialSectionsIso` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelLimitAcyclicity.lean`, what the tag owes
-is exactly the hypothesis `hiso` of that lemma: a cosimplicial `D(*)`-module `L_*` and an
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelLimitAcyclicity.lean`, what the tag
+owes is exactly the hypothesis `hiso` of that lemma: a cosimplicial `D(*)`-module `L_*` and an
 isomorphism `M(•)_e ≅ L_* ⊗_{D(*)} Ω^i_{D(*)}` at each `p`-adic level `e`.  Its two equalities are
 available — `...SmallSite.bijective_toSheafify_app_tensorDifferentialFormsPresheaf_of_isAffine` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionLocalizes.lean` and `Crystalline.tensorFormsLevelEquiv` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/QuotientForms.lean` — and so is the cosimplicial comparison of the two
-`D(•)`, in `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/EnvelopeCosimplicialComparison.lean`.  Of the three things that used to
-be owed here all three are now available, and `L_*` itself is built; what was left is the
-isomorphism `ε` of `hiso` and nothing else, and that is now
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionLocalizes.lean` and
+`Crystalline.tensorFormsLevelEquiv` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/QuotientForms.lean` — and so is
+the cosimplicial comparison of the two `D(•)`, in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/EnvelopeCosimplicialComparison.lean`.  Of
+the three things that used to be owed here all three are now available, and `L_*` itself is built;
+what was left is the isomorphism `ε` of `hiso` and nothing else, and that is now
 `...SmallSite.levelCosimplicialSectionsFormsIso` of `SmallSite/LevelFormsCosimplicialIso.lean`.
-**[Stacks, Tag 07LF] is proved there**, as `...SmallSite.vanishing07LF`, which carries the tag;
-no tag attribute is placed in this file.  How `ε` was assembled is recorded, with citations, in
-"What `ε` owes" below.
+**[Stacks, Tag 07LF] is proved there**, as `...SmallSite.vanishing07LF`, which carries the tag; no
+tag attribute is placed in this file.  How `ε` was assembled is recorded, with citations, in "What
+`ε` owes" below.
 
 * **The sections of `Ω_{X/S}` as divided power differentials — available.**
   `Crystalline.GlobalCrystallineSituation.affineCrysDifferentialFormsIso` of
@@ -190,14 +192,14 @@ no tag attribute is placed in this file.  How `ε` was assembled is recorded, wi
   `Crystalline.dividedPowerDifferentialForms` of `D(n)`'s own divided powers, the universal
   object.  These two are not isomorphic, the universal one not being complete, but
   `Crystalline.completedDifferentialsLevelLinearEquiv` of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean` identifies them **modulo `pᵏ`**, over the
-  completion and with the quotients left uncompleted — which is what the source's level-`e`
-  argument uses, and is more than the `p`-adically completed and merely additive comparison of
-  `Crystalline.dividedPowerDifferentialsCompletionComparison`.
+  `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean` identifies
+  them **modulo `pᵏ`**, over the completion and with the quotients left uncompleted — which is what
+  the source's level-`e` argument uses, and is more than the `p`-adically completed and merely
+  additive comparison of `Crystalline.dividedPowerDifferentialsCompletionComparison`.
   `Crystalline.tensorPowerDifferentialsLevelLinearEquiv` of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/EnvelopeDifferentialsLevel.lean` reads it at `E(n)`, and
-  `Crystalline.completionDifferentialsModPow_tensorPowerEnvelope` there identifies its target with
-  `Crystalline.completedTensorPowerDifferentials` modulo `pᵏ` by `rfl`.
+  `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/EnvelopeDifferentialsLevel.lean` reads
+  it at `E(n)`, and `Crystalline.completionDifferentialsModPow_tensorPowerEnvelope` there identifies
+  its target with `Crystalline.completedTensorPowerDifferentials` modulo `pᵏ` by `rfl`.
 * **The cosimplicial module `L_*` — available.**
   `...SmallSite.levelSectionsCosimplicialModule` of
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelSectionsCosimplicialModule.lean` is
@@ -217,12 +219,13 @@ no tag attribute is placed in this file.  How `ε` was assembled is recorded, wi
   for out of the four pieces above.  Its degreewise value is forced — the two equalities compose
   to `Γ(T(n)_e, F ⊗ Ω^i) ≅ Γ(T(n)_e, F) ⊗_{D(n)} ⋀^i Ω̂_{E(n)}`, through
   `Crystalline.tensorFormsCompletionLevelEquiv` of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelForms.lean` for the last step — and what is not written
-  is that family *as a family*: each of its four steps is now natural in the cosimplicial
-  direction (see "What `ε` owes" below), and what is missing is the composite and the
-  `CategoryTheory.NatIso.ofComponents` assembling it in `AddCommGrpCat.{u + 1}` through the
-  universe lift.  The template for that assembly is
-  `Crystalline.generatorPowerSimplicialIso` of `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CechCohomologyGlue.lean`.
+  `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelForms.lean` for
+  the last step — and what is not written is that family *as a family*: each of its four steps is
+  now natural in the cosimplicial direction (see "What `ε` owes" below), and what is missing is the
+  composite and the `CategoryTheory.NatIso.ofComponents` assembling it in `AddCommGrpCat.{u + 1}`
+  through the universe lift.  The template for that assembly is
+  `Crystalline.generatorPowerSimplicialIso` of
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CechCohomologyGlue.lean`.
 
 ### What `ε` owes
 
@@ -261,16 +264,18 @@ out of the degreewise composite and the assembly described at the end of this se
      the square collapses to two applications of the composition law.
    * For `tensorFormsCompletionLevelEquiv` this is now
      `Crystalline.tensorFormsCompletionLevelEquivAt_naturality` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsNaturality.lean`: an equation of additive maps,
+     `CompletionLevelFormsNaturality.lean` in
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/`:
+     an equation of additive maps,
      with the two verticals given by what they do to a tensor of a wedge, which is all a map
      between modules over two different rings can be given by.  Its two inputs are the
      extensionality principle `Crystalline.tensorExteriorPower_addMonoidHom_ext` and the
      *degree-one* square
      `Crystalline.completionDifferentialsModPowMap_comp_completedDifferentialsLevelEquivAt` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean`, which is in turn the two generator
-     computations below read at a common level through the re-indexed
-     `Crystalline.completedDifferentialsLevelEquivAt`.  The three things that were once listed
-     here as missing are all gone, and two of the three entries were false absences.
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean`,
+     which is in turn the two generator computations below read at a common level through the
+     re-indexed `Crystalline.completedDifferentialsLevelEquivAt`.  The three things that were once
+     listed here as missing are all gone, and two of the three entries were false absences.
 
      The first said that the semilinear transition maps `Ω_{B̂}/pᵏ ⟶ Ω_{B̂'}/pᵏ` and
      `Ω̂_B/pᵏ ⟶ Ω̂_{B'}/pᵏ` along `B ⟶ B'` "are not in the library at all, so the naturality
@@ -284,7 +289,9 @@ out of the degreewise composite and the assembly described at the end of this se
      quotients.  The two maps are
      `Crystalline.completedDifferentialsModPowMap` and
      `Crystalline.completionDifferentialsModPowMap` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelTransition.lean`, and the two routes round the
+     `CompletionLevelTransition.lean` in
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/`,
+     and the two routes round the
      degree-one naturality square are computed there on the spanning classes by
      `Crystalline.completionDifferentialsModPowMap_completedDifferentialsLevelEquiv_mk_d` and
      `Crystalline.completedDifferentialsLevelEquiv_completedDifferentialsModPowMap_mk_d`: both
@@ -295,33 +302,34 @@ out of the degreewise composite and the assembly described at the end of this se
      It is absent, and it is not needed: such a square is an equation between two *additive*
      maps out of a tensor product of an exterior power, and
      `Crystalline.tensorExteriorPower_addMonoidHom_ext` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsExt.lean` reduces it to the tensors of wedges,
-     where `Crystalline.tensorExteriorPowerEquivOfBaseChange_tmul_ιMulti` and its `symm`
-     companion compute both sides.  No linearity is asked of either map, which is what the
-     semilinearity over two different rings requires.
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsExt.lean`
+     reduces it to the tensors of wedges, where
+     `Crystalline.tensorExteriorPowerEquivOfBaseChange_tmul_ιMulti` and its `symm` companion compute
+     both sides.  No linearity is asked of either map, which is what the semilinearity over two
+     different rings requires.
 
      The third said that `Crystalline.completedDifferentialsLevelLinearEquiv` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean` is built from a
-     `Crystalline.DifferentialsCompletionComparison`, a **datum** with no field relating two
-     different `B`'s, and that the derivation of naturality from
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean` is
+     built from a `Crystalline.DifferentialsCompletionComparison`, a **datum** with no field
+     relating two different `B`'s, and that the derivation of naturality from
      `...fromOriginalAt_d`, `...fromCompletionAt_d` and `...fromCompletionAt_smul` "needs the
      spanning lemma, which is also unwritten".  The spanning lemma is
      `Crystalline.span_completedDifferentialsModPow_mk_d_of` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelSpan.lean` — the classes of `d (of b)` for `b` in
-     the uncompleted `B` span `Ω_{B̂/A,γ̂} / pᵏ` over `B̂` — with the two extensionality
-     corollaries `Crystalline.completedDifferentialsModPow_ext` and
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelSpan.lean` —
+     the classes of `d (of b)` for `b` in the uncompleted `B` span `Ω_{B̂/A,γ̂} / pᵏ` over `B̂` —
+     with the two extensionality corollaries `Crystalline.completedDifferentialsModPow_ext` and
      `...completedDifferentialsModPow_ext_addMonoidHom`, the second of which is the semilinear
      form the cosimplicial direction needs.  In degree `i` after tensoring the corresponding
      determination is `Crystalline.tensorFormsCompletionLevelEquiv_unique`.
 
      The re-indexing that the pair of generator computations once stopped short of is
      `Crystalline.completedDifferentialsLevelEquivAt` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean`: the level identification stated at a
-     **bare** `k` carrying a proof `cmp.quotientSystem.cutoff + e = k`, so that two comparisons
-     with two cutoffs are read at one level and the square is an equation of maps between types
-     that are equal and not merely propositionally equal.
-     `Crystalline.completedDifferentialsLevelLinearEquivAt` is its `B̂`-linear form and
-     `Crystalline.tensorFormsCompletionLevelEquivAt` the degree-`i` one.
+     `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean`:
+     the level identification stated at a **bare** `k` carrying a proof
+     `cmp.quotientSystem.cutoff + e = k`, so that two comparisons with two cutoffs are read at one
+     level and the square is an equation of maps between types that are equal and not merely
+     propositionally equal. `Crystalline.completedDifferentialsLevelLinearEquivAt` is its
+     `B̂`-linear form and `Crystalline.tensorFormsCompletionLevelEquivAt` the degree-`i` one.
 
 3. **The two remaining naturalities of the degreewise composite — CLOSED, the second a false
    absence.**  A later survey found that the composite forcing `ε`'s degreewise value needs two
@@ -345,15 +353,15 @@ out of the degreewise composite and the assembly described at the end of this se
    * **The inverse of the sheafification bijection.**  The absence was **false**.  It was
      recorded that
      `...SmallSite.bijective_toSheafify_app_tensorDifferentialFormsPresheaf_of_isAffine` of
-     `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionLocalizes.lean` "is only a `Function.Bijective` with per-object
-     hypotheses `h`/`hV`, so no uniform-in-`n` form exists".  Both halves are wrong.  The map
-     is `.app` of `CategoryTheory.toSheafify`, a natural transformation, so its forward
-     naturality is `CategoryTheory.NatTrans.naturality` and its inverse's is the standard
-     consequence; and `V` is an open of the *base* `S.S.scheme`, not of the object, so `V = ⊤`,
-     `hV = AlgebraicGeometry.isAffineOpen_top _` and `h = le_rfl` discharge both hypotheses
-     uniformly under the standing `[IsAffine S.S.scheme]`.  The only genuinely per-object
-     hypothesis is the affineness of the ambient scheme, and that holds at every `(n, e)` by
-     `...SmallSite.isAffine_wholeSpaceSystem_target`, from
+     `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionLocalizes.lean` "is
+     only a `Function.Bijective` with per-object hypotheses `h`/`hV`, so no uniform-in-`n` form
+     exists".  Both halves are wrong.  The map is `.app` of `CategoryTheory.toSheafify`, a natural
+     transformation, so its forward naturality is `CategoryTheory.NatTrans.naturality` and its
+     inverse's is the standard consequence; and `V` is an open of the *base* `S.S.scheme`, not of
+     the object, so `V = ⊤`, `hV = AlgebraicGeometry.isAffineOpen_top _` and `h = le_rfl` discharge
+     both hypotheses uniformly under the standing `[IsAffine S.S.scheme]`.  The only genuinely
+     per-object hypothesis is the affineness of the ambient scheme, and that holds at every `(n, e)`
+     by `...SmallSite.isAffine_wholeSpaceSystem_target`, from
      `...SmallSite.isWholeSpaceSystem_wholeSpaceSystem` through
      `...SmallSite.isAffineObject_of_isOverWholeSpace`.  The uniform form is
      `...SmallSite.levelCosimplicialSectionsSheafifyIso` of
@@ -437,7 +445,8 @@ What is still owed is therefore:
 its sides: `(e e' k : ℕ)` with `hk : cmp.quotientSystem.cutoff + e = k` on the unprimed side and
 `hk' : cmp'.quotientSystem.cutoff + e' = k` on the primed one.  That is exactly right for two
 *fixed* rings with two different cutoffs, and it is what
-`Crystalline.completedDifferentialsLevelEquivAt` of `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean` was
+`Crystalline.completedDifferentialsLevelEquivAt` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelReindex.lean` was
 introduced for.  It is not enough for a *family*.  The degreewise
 `...SmallSite.levelTensorFormsCrossingEquiv` is read at `e := N + e` and
 `k := cmp.quotientSystem.cutoff + (N + e)` with `hk := rfl` for
@@ -448,10 +457,10 @@ degree and no `k` serves every degree at once.
 
 What closes it is the **level-independence lemma**
 `Crystalline.tensorFormsCompletionLevelEquivAt_level_independent` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelIndependence.lean`: at any two levels of one and the same
-comparison of [Stacks, Tag 07KK], `Crystalline.tensorFormsCompletionLevelEquivAt` — and hence
-`Crystalline.tensorFormsLevelComposite`, by
-`Crystalline.tensorFormsLevelComposite_level_independent` there — is the same additive map.  The
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelIndependence.lean`:
+at any two levels of one and the same comparison of [Stacks, Tag 07KK],
+`Crystalline.tensorFormsCompletionLevelEquivAt` — and hence `Crystalline.tensorFormsLevelComposite`,
+by `Crystalline.tensorFormsLevelComposite_level_independent` there — is the same additive map.  The
 source and target mention no level; only the `[Module (B̂ ⧸ (p)^k) M]` instance and the `≃ₗ`
 scalars do, so the statement is an equation of maps between the very same pair of types, with `M`
 asked to carry the module structure at both levels.  The two levels are **not** assumed
@@ -459,29 +468,33 @@ comparable: the ordered form is `..._level_independent_of_le` and the unordered 
 it by `le_total`.
 
 Its route goes through `Crystalline.completedDifferentialsLevelEquiv_transition`, the cross-level
-compatibility of `Crystalline.completedDifferentialsLevelEquiv` of `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean`, and
-**that needs no cross-level property of the comparison.**  Both routes round its square are
-`B̂`-linear, the classes of the differentials of elements of the uncompleted `B` span the source by
+compatibility of `Crystalline.completedDifferentialsLevelEquiv` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevel.lean`, and **that
+needs no cross-level property of the comparison.**  Both routes round its square are `B̂`-linear,
+the classes of the differentials of elements of the uncompleted `B` span the source by
 `Crystalline.span_completedDifferentialsModPow_mk_d_of`, and on such a class both compute to the
 class of the image of `d b` by `Crystalline.completedDifferentialsLevelEquiv_d` at the respective
-level — the transition maps being `Submodule.factor`s of the identity, which fix a class by
-`rfl` — so `Crystalline.completedDifferentialsModPow_ext` closes it.  The two cross-level fields
+level — the transition maps being `Submodule.factor`s of the identity, which fix a class by `rfl` —
+so `Crystalline.completedDifferentialsModPow_ext` closes it.  The two cross-level fields
 `fromOriginalAt_transition` and `fromCompletionAt_transition` of
-`Crystalline.DifferentialsCompletionComparison` of `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/Completion.lean` are
-the obvious route and are in the end **not used**: taking them would additionally need the
-cross-level compatibility of the identification of [Stacks, Tag 05GG] with the transition maps,
-which the library does not record.  Its consequence
-`Crystalline.completedDifferentialsLevelEquivAt_mk_of_le` says a witness at a larger level is a
-witness at a smaller one, so witnesses chosen at the larger level make
-`Crystalline.tensorFormsCompletionLevelEquivAt_tmul_ιMulti_of_mk` compute **both** levels'
-identifications on `m ⊗ ω₁ ∧ ⋯ ∧ ωᵢ` to the same value, and
-`Crystalline.tensorExteriorPower_addMonoidHom_ext` of `StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsExt.lean` finishes.
-The determination `Crystalline.tensorFormsCompletionLevelEquiv_unique` is stated at the level
-`cutoff + e` and was never by itself enough.
+`Crystalline.DifferentialsCompletionComparison` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/Completion.lean` are the obvious
+route and are in the end **not used**: taking them would additionally need the cross-level
+compatibility of the identification of [Stacks, Tag 05GG] with the transition maps, which the
+library does not record.  Its consequence `Crystalline.completedDifferentialsLevelEquivAt_mk_of_le`
+says a witness at a larger level is a witness at a smaller one, so witnesses chosen at the larger
+level make `Crystalline.tensorFormsCompletionLevelEquivAt_tmul_ιMulti_of_mk` compute **both**
+levels' identifications on `m ⊗ ω₁ ∧ ⋯ ∧ ωᵢ` to the same value, and
+`Crystalline.tensorExteriorPower_addMonoidHom_ext` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsExt.lean`
+finishes. The determination `Crystalline.tensorFormsCompletionLevelEquiv_unique` is stated at the
+level `cutoff + e` and was never by itself enough.
 
 The square in the shape the family consumes is
 `Crystalline.tensorFormsLevelComposite_naturality_of_levels` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/LevelFormsCompositeTwoLevels.lean`: the same square with the two sides at
+`LevelFormsCompositeTwoLevels.lean` in
+`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/`:
+the same square with the two sides at
 **two independent levels** `k` and `k'`, proved by reading both at a common level `K` and
 transporting each horizontal back by level independence.  `K` is an argument together with the
 two module structures and scalar towers reading the tensor products there — as a *number* it is
@@ -537,8 +550,9 @@ none is placed in this file.
 
 Three identifications of presheaves of rings are paid for once each, in a definition, and never
 inside a proof — the practice the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ExteriorPowerComparisonSurjectivity.lean` and
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionQuasicoherent.lean` record for this area.
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ExteriorPowerComparisonSurjectivity.lean`
+and `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionQuasicoherent.lean`
+record for this area.
 
 * `restrictedCommRing` fixes the restriction of the structure presheaf as
   `(restrictOpenFunctor A).op ⋙ structurePresheaf S`, *before* the forgetful functor to rings.
@@ -551,8 +565,9 @@ inside a proof — the practice the implementation notes of
   `...Thickening.ringRestrictionSheaf A.obj`.  The two sheaves of rings are equal by `rfl`
   (`toRingCat_restrictedCommRingSheaf`), but they are different `DiscrTree` keys, and a
   quasi-coherence instance declared at one is invisible at the other — the failure recorded as
-  cliff (ii) in `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionQuasicoherent.lean`.  This is **stuck elaboration, not a
-  genuine obstruction**: naming the renaming once removes it.
+  cliff (ii) in
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FormsRestrictionQuasicoherent.lean`.  This
+  is **stuck elaboration, not a genuine obstruction**: naming the renaming once removes it.
 * `isIso_toRingCatMap_id` is named, and proved by a `show` that unfolds to the identity, because
   `CategoryTheory.Sheaf.toRingCatMap _ (𝟙 _)` is the identity by `rfl` and not syntactically, so
   the local-bijectivity instances that [Stacks, Tag 0GMW] asks for are otherwise not found.
@@ -566,8 +581,9 @@ sheaf-level morphism identification, with the same remedy; no limit is raised an
 
 The local injectivity and surjectivity of the Zariski sheafification unit are taken from
 `CategoryTheory.GrothendieckTopology.W_toSheafify` rather than from Mathlib's global instances,
-which is cliff (iii) of `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SheafifySections.lean`: the global instances of
-`StacksFrontier/AlgebraicGeometry/Divisors/Meromorphic/RegularIdealSheaves.lean` carry a universe
+which is cliff (iii) of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SheafifySections.lean`: the global instances
+of `StacksFrontier/AlgebraicGeometry/Divisors/Meromorphic/RegularIdealSheaves.lean` carry a universe
 appearing nowhere in their statements and instance search reaches them first.
 
 ## References
@@ -807,7 +823,7 @@ theorem isQuasicoherentOnSite_tensorRestrictionSheaf
         (𝟙 (restrictedCommRingSheaf A).obj)).obj
           (restrictedModule A (crysDifferentialForms S i))) :=
     isQuasicoherentOnSite_crysDifferentialFormsRestriction S A.obj i
-  show ((PresheafOfModules.moduleSheafification
+  change ((PresheafOfModules.moduleSheafification
     (Opens.grothendieckTopology A.obj.thickening.target.scheme)
     (𝟙 (restrictedCommRingSheaf A).obj)).obj (tensorRestriction A F i)).IsQuasicoherentOnSite
   rw [tensorRestriction_eq]

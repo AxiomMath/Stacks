@@ -125,7 +125,7 @@ private lemma isIso_fromPreimage_of_factor {C : Type*} [Category C] {F G : Cᵒ�
   have hle : Subfunctor.range b ≤ Z.preimage a := by
     intro i x hx
     obtain ⟨z, rfl⟩ := hx
-    show a.app i (b.app i z) ∈ Z.obj i
+    change a.app i (b.app i z) ∈ Z.obj i
     have hb' : a.app i (b.app i z) = Z.ι.app i z := by
       simpa only [NatTrans.comp_app, comp_apply] using congrArg (fun k => k.app i z) hb
     rw [hb']
@@ -210,14 +210,13 @@ private lemma exists_finiteOpenSubspace_of_le_preimage {X Y : AlgebraicSpaces B 
   let c := Subfunctor.lift (q.subspace.ι ≫ pullback.snd q.toBase.hom f.hom) hfac
   let b := pullback.lift (f := q.toBase.hom) (g := j.hom ≫ f.hom)
     (q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom) c (by
-      show (q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom) ≫ q.toBase.hom =
+      change (q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom) ≫ q.toBase.hom =
         c ≫ U.1.ι ≫ f.hom
       rw [← Category.assoc c, Subfunctor.lift_ι, Category.assoc, Category.assoc,
         pullback.condition])
   have hb : b ≫ g = q.subspace.ι := by
     apply pullback.hom_ext <;>
-      simp [b, g, pullback.map, Category.assoc, c, j, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_snd_assoc]
+      simp [b, g, pullback.map, Category.assoc, c, j]
   have _ : Mono g := mono_pullbackMap_of_mono q.toBase.hom j.hom f.hom
   have hiso : IsIso (q.subspace.fromPreimage g) :=
     isIso_fromPreimage_of_factor q.subspace g b hb
@@ -225,10 +224,10 @@ private lemma exists_finiteOpenSubspace_of_le_preimage {X Y : AlgebraicSpaces B 
   have he : e.hom ≫ q.subspace.ι = W.ι ≫ g := Subfunctor.fromPreimage_ι _ _
   have hfst : e.hom ≫ q.subspace.ι ≫ pullback.fst q.toBase.hom f.hom =
       W.ι ≫ pullback.fst q.toBase.hom (j.hom ≫ f.hom) := by
-    rw [← Category.assoc, he, Category.assoc]; congr 1; simp [g, pullback.map, pullback.lift_fst]
+    rw [← Category.assoc, he, Category.assoc]; congr 1; simp [g, pullback.map]
   have hsnd : e.hom ≫ q.subspace.ι ≫ pullback.snd q.toBase.hom f.hom =
       W.ι ≫ pullback.snd q.toBase.hom (j.hom ≫ f.hom) ≫ j.hom := by
-    rw [← Category.assoc, he, Category.assoc]; congr 1; simp [g, pullback.map, pullback.lift_snd]
+    rw [← Category.assoc, he, Category.assoc]; congr 1; simp [g, pullback.map]
   have hfinite : IsFinite B S hS (W.ι ≫ pullback.fst q.toBase.hom (j.hom ≫ f.hom)) := by
     rw [← hfst]
     exact isFinite_iso_hom_comp B S hS e _ q.finite_projection

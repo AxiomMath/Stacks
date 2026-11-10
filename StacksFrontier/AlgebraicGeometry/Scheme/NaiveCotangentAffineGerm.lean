@@ -110,8 +110,7 @@ theorem cotangentSpace_hom_ext {R S : Type*} [CommRing R] [CommRing S] [Algebra 
         Ψ (b ⊗ₜ[P.Ring] KaehlerDifferential.D R P.Ring p)) :
     Φ = Ψ := by
   refine AddMonoidHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [map_add, map_add, hz, hw]
   | tmul b₀ ω₀ =>
       have hω : ∀ (ω : KaehlerDifferential R P.Ring) (b : S),

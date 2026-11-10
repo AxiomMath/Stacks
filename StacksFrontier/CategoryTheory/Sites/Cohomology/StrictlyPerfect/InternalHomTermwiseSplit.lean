@@ -64,8 +64,9 @@ no such higher-order problem arises.
 The four algebraic identities for `internalHomPre` restated here —
 `internalHomPre_id`, `internalHomPre_comp`, `internalHomPre_add` and `internalHomPre_zero` —
 duplicate `private` lemmas of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/HomComplex.lean`. A `private` declaration
-cannot be named from another module, so there is no way to reuse them; dropping `private` in that
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/HomComplex.lean`.
+A `private` declaration cannot be named from another module, so there is no way to reuse them;
+dropping `private` in that
 file is the one-line change that would retire these four.
 
 ## References

@@ -144,7 +144,7 @@ theorem projInclusionToOpen_eq (hU : IsAffineOpen U) :
     rw [AlgebraicGeometry.IsAffineOpen.isoSpec]
     simp only [Iso.trans_inv, Functor.mapIso_inv, Iso.op_inv, Scheme.Spec_map]
     rfl
-  show AlgebraicGeometry.Proj.toSpecZero (A.grading U)
+  change AlgebraicGeometry.Proj.toSpecZero (A.grading U)
       ≫ Spec.map (A.toGradedAlgebra.strZero ⟨U, hU⟩) ≫ hU.isoSpec.inv = _
   rw [hz, hiso, Spec.map_comp]
   exact congrArg (fun z => AlgebraicGeometry.Proj.toSpecZero (A.grading U) ≫ z)
@@ -192,7 +192,7 @@ theorem Fd.chartEquiv_comp_projInclusionToOpen (hU : IsAffineOpen U) {k : ℕ} (
       = toProj ((A.restrict U.ι).grading (⊤ : U.toScheme.Opens))
           (Quadruple.classifyingHomOfClass hk hqc ξ.2)
         ≫ eqToHom (restrict_ι_proj A U) := by
-    show (Quadruple.classifyingHomOfClass hk hqc ξ.2
+    change (Quadruple.classifyingHomOfClass hk hqc ξ.2
         ≫ eqToHom (SheafGradedAlgebra.restrict_ι_degreeOpen_toScheme A U k))
         ≫ (degreeOpen (A.grading U) k).ι = _
     rw [Category.assoc, eqToHom_comp_ι (restrict_ι_proj A U)

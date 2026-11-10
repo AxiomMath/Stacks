@@ -106,7 +106,7 @@ noncomputable def singleToConstant (A : C) :
     (CochainComplex.single₀ C).obj A ⟶ constantComplex A :=
   (CochainComplex.fromSingle₀Equiv _ A).symm
     ⟨𝟙 A, by
-      rw [constantComplex_d A 0, ite_eq_left (show Even 0 by first | exact even_zero | decide)]
+      rw [constantComplex_d A 0, ite_eq_left (show Even 0 by decide)]
       exact comp_zero⟩
 
 /-- The projection of `constantComplex A` onto `A[0]`, the identity in degree `0`. -/
@@ -135,7 +135,7 @@ noncomputable def constantHomotopy (A : C) :
     | zero =>
       rw [prevD_eq_zero _ 0 (by simp), HomologicalComplex.id_f,
         HomologicalComplex.comp_f, hz, hz', constantComplex_d A 0,
-        ite_eq_left (show Even 0 by first | exact even_zero | decide), ite_eq_left rfl]
+        ite_eq_left (show Even 0 by decide), ite_eq_left rfl]
       simp
     | succ n =>
       rw [prevD_eq _ (show (ComplexShape.up ℕ).Rel n (n + 1) from rfl),

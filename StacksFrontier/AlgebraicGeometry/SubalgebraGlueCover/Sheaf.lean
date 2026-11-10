@@ -97,7 +97,7 @@ theorem presheaf_isSheaf : (presheaf C).IsSheaf := by
     refine C.isSheaf s fun x hx ↦ ?_
     obtain ⟨i, hi⟩ := Opens.mem_iSup.mp hx
     refine ⟨U i, le_iSup U i, hi, ?_⟩
-    show (A.right.obj.map (Opens.leSupr U i).op) s ∈ C.obj (U i)
+    change (A.right.obj.map (Opens.leSupr U i).op) s ∈ C.obj (U i)
     rw [hs i]
     exact (sf i).2
   exact ⟨⟨s, hmem⟩, fun i ↦ Subtype.ext (hs i),

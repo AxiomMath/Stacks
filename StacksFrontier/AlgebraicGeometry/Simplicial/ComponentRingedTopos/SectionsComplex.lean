@@ -92,7 +92,7 @@ public lemma precompHom_comp {X Y Z : SheafOfModules.{u} O} (u : X ⟶ Y) (v : Y
 public lemma precompHom_zero {X Y : SheafOfModules.{u} O} (F : SheafOfModules.{u} O) :
     precompHom (0 : X ⟶ Y) F = 0 := by
   refine ConcreteCategory.ext_apply (fun ψ => ?_)
-  show (0 : X ⟶ Y) ≫ ψ = _
+  change (0 : X ⟶ Y) ≫ ψ = _
   rw [Limits.zero_comp]
   simp
 

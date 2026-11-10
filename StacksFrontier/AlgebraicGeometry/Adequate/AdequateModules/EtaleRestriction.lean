@@ -116,7 +116,7 @@ private theorem compatiblePreserving_smallEtaleInclusion :
         E.inclusion.map Y₁.obj.hom = E.inclusion.map (pullback g₁ g₂).obj.hom :=
       congrArg (fun k ↦ E.inclusion.map k) (Over.w (pullback.fst g₁ g₂).hom)
     apply ObjectProperty.hom_ext
-    show h.lift f₁.left.hom f₂.left.hom e' ≫ E.inclusion.map (pullback g₁ g₂).obj.hom =
+    change h.lift f₁.left.hom f₂.left.hom e' ≫ E.inclusion.map (pullback g₁ g₂).obj.hom =
       X.hom.hom
     rw [← hw]
     exact (h.lift_fst_assoc _ _ e' _).trans (congrArg (fun k : X.left ⟶ _ ↦ k.hom) (Over.w f₁))

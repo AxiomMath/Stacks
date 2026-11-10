@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProper
 # Stacks 0FBW through any classes characterized by the rule of Stacks 0B78
 
 The surjectivity half of Stacks 0FBW in
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ChowCohomologyOverFieldSurjective` uses the class of
-Stacks 0B78 for the structure morphism of each flat scheme `W` over the base, through its cap
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ChowCohomologyOverFieldSurjective` uses the class
+of Stacks 0B78 for the structure morphism of each flat scheme `W` over the base, through its cap
 operation alone. This file states it for any Gysin system over which those classes exist, in the
 sense of `Stacks.Chow.IsBivariantFlatPullback`, in place of the inputs Stacks 02RG and 0B71 of the
 construction `Stacks.Chow.flatPullbackBivariantClass`. Over the Gysin system of an invertible

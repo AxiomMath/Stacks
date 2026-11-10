@@ -59,14 +59,14 @@ theorem segreCap_succ_eq_of_divisor (P : ProjectiveBundleDatum D sX hX (d + 1))
     | succ k ih =>
       intro β
       rw [pow_succ, pow_succ]
-      show (P.twistCap ^ k) (P.twistCap (j β)) = j ((Q.twistCap ^ k) (Q.twistCap β))
+      change (P.twistCap ^ k) (P.twistCap (j β)) = j ((Q.twistCap ^ k) (Q.twistCap β))
       rw [hproj, ih]
   refine AddMonoidHom.ext fun α => ?_
-  show P.pushforwardChow ((P.twistCap ^ (d + 1 + (n + 1))) (P.pullbackChow α)) =
+  change P.pushforwardChow ((P.twistCap ^ (d + 1 + (n + 1))) (P.pullbackChow α)) =
     Q.pushforwardChow ((Q.twistCap ^ (d + (n + 1))) (Q.pullbackChow α)) +
       P.pushforwardChow ((P.twistCap ^ (d + 1 + n)) (P.pullbackChow (x α)))
   rw [show d + 1 + (n + 1) = d + (n + 1) + 1 by omega, pow_succ]
-  show P.pushforwardChow ((P.twistCap ^ (d + (n + 1))) (P.twistCap (P.pullbackChow α))) = _
+  change P.pushforwardChow ((P.twistCap ^ (d + (n + 1))) (P.twistCap (P.pullbackChow α))) = _
   rw [hstar, map_add, map_add, hpow, hpush, show d + 1 + n = d + (n + 1) by omega]
 
 end ProjectiveBundleDatum

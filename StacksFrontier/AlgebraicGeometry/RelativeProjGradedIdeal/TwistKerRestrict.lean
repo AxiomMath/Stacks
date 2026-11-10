@@ -218,7 +218,7 @@ theorem app_eq_zero_mem_span_of_isPullback {W : Y.Opens} {W₁ : Y'.Opens} (hW :
     intro a
     refine (h a).trans ?_
     have hq : q₁ ⁻¹ᵁ (hs ⁻¹ᵁ W) ≤ g ⁻¹ᵁ (q ⁻¹ᵁ W) := fun z hz => by
-      show (g ≫ q) z ∈ W
+      change (g ≫ q) z ∈ W
       rwa [hY.w]
     have hb :=
       Stacks.AlgebraicGeometry.FlatBaseChangeCohomology.baseChangeNatTrans_app_pullbackSection
@@ -273,7 +273,7 @@ theorem pullbackSection_psi_eq_pullbackSquareTwistMap
           (Scheme.Modules.pullbackSection i G (p ⁻¹ᵁ W) (i ⁻¹ᵁ (p ⁻¹ᵁ W)) le_rfl
             (ψ.val.app (op W) a))) := by
   have h' : p₁ ⁻¹ᵁ W₁ ≤ pc ⁻¹ᵁ (p ⁻¹ᵁ W) := fun x hx => by
-    show (pc ≫ p) x ∈ W
+    change (pc ≫ p) x ∈ W
     rw [hpcT]
     exact hW hx
   have h₁ : i₁ ⁻¹ᵁ (p₁ ⁻¹ᵁ W₁) ≤ (i₁ ≫ pc) ⁻¹ᵁ (p ⁻¹ᵁ W) := fun x hx => h' hx
@@ -281,7 +281,7 @@ theorem pullbackSection_psi_eq_pullbackSquareTwistMap
   have e1 : ψ₁.val.app (op W₁) a₁ = θ.val.app (op (p₁ ⁻¹ᵁ W₁))
       (Scheme.Modules.pullbackSection pc G (p ⁻¹ᵁ W) (p₁ ⁻¹ᵁ W₁) h' (ψ.val.app (op W) a)) := by
     rw [← hψ₁]
-    show θ.val.app (op (p₁ ⁻¹ᵁ W₁)) ((basePsi p p₁ hs pc hpcT ψ).val.app (op W₁)
+    change θ.val.app (op (p₁ ⁻¹ᵁ W₁)) ((basePsi p p₁ hs pc hpcT ψ).val.app (op W₁)
       (Φk.val.app (op W₁) a₁)) = _
     rw [ha, basePsi_pullbackSection p p₁ hs pc hpcT ψ W W₁ hW h' a]
   rw [e1, ← Scheme.Modules.pullbackSection_naturality i₁ θ]
@@ -291,13 +291,13 @@ theorem pullbackSection_psi_eq_pullbackSquareTwistMap
     (i₁ ⁻¹ᵁ (p₁ ⁻¹ᵁ W₁)) le_rfl hV h₂ (ψ.val.app (op W) a)
   have e4 := Scheme.Modules.pullbackSection_congr hw G (p ⁻¹ᵁ W) (i₁ ⁻¹ᵁ (p₁ ⁻¹ᵁ W₁)) h₂ h₁
     (ψ.val.app (op W) a)
-  show _ = ((Scheme.Modules.pullback i₁).map θ).val.app _
+  change _ = ((Scheme.Modules.pullback i₁).map θ).val.app _
     (((Scheme.Modules.pullbackComp i₁ pc).inv.app G).val.app _
       (((Scheme.Modules.pullbackCongr hw).hom.app G).val.app _
         (((Scheme.Modules.pullbackComp g i).hom.app G).val.app _ _)))
   rw [e3, e4, ← e2]
   refine congrArg (((Scheme.Modules.pullback i₁).map θ).val.app _) ?_
-  show _ = (((Scheme.Modules.pullbackComp i₁ pc).hom.app G ≫
+  change _ = (((Scheme.Modules.pullbackComp i₁ pc).hom.app G ≫
     (Scheme.Modules.pullbackComp i₁ pc).inv.app G).val.app _) _
   rw [Iso.hom_inv_id_app]
   rfl
@@ -375,7 +375,7 @@ theorem twistOpen_le_preimage
     (hw : g ≫ i = i₁ ≫ pc) {W : Y.Opens} {W₁ : Y'.Opens} (hW : W₁ ≤ hs ⁻¹ᵁ W) :
     i₁ ⁻¹ᵁ ((relativeProj A₁).toBase ⁻¹ᵁ W₁) ≤
       g ⁻¹ᵁ (i ⁻¹ᵁ ((relativeProj A).toBase ⁻¹ᵁ W)) := fun x hx => by
-  show (g ≫ i ≫ (relativeProj A).toBase) x ∈ W
+  change (g ≫ i ≫ (relativeProj A).toBase) x ∈ W
   rw [reassoc_of% hw, hpcT]
   exact hW hx
 

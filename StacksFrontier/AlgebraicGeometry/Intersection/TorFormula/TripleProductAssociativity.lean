@@ -194,7 +194,7 @@ private lemma intLength_spectralSequence_page_succ (R : Type u) [Ring R]
   have he := intLength_homology_euler R (E.page r hr) σ (fun _ => rfl)
     (fun i => ((i.1 + i.2).negOnePow : ℤ)) (by
       intro i
-      show (((i.1 + r) + (i.2 + (1 - r))).negOnePow : ℤ) = _
+      change (((i.1 + r) + (i.2 + (1 - r))).negOnePow : ℤ) = _
       rw [show (i.1 + r) + (i.2 + (1 - r)) = i.1 + i.2 + 1 by omega, Int.negOnePow_succ,
         Units.val_neg]) hf t ht
   refine he.trans (finsum_congr fun i => ?_)
@@ -203,7 +203,7 @@ private lemma intLength_spectralSequence_page_succ (R : Type u) [Ring R]
 private lemma length_homology_le (R : Type u) [Ring R]
     {ι : Type*} {c : ComplexShape ι} (K : HomologicalComplex (ModuleCat.{v} R) c)
     (i : ι) : Module.length R (K.homology i) ≤ Module.length R (K.X i) := by
-  show Module.length R (K.sc i).homology ≤ Module.length R (K.sc i).X₂
+  change Module.length R (K.sc i).homology ≤ Module.length R (K.sc i).X₂
   rw [length_shortComplex R (K.sc i)]
   exact le_trans le_self_add le_self_add
 
@@ -552,7 +552,7 @@ private lemma tensorSubobject_eq_top (R : Type u) [CommRing R]
       Subobject.factors_of_le _ (hS i j hij)
         (by simpa only [Category.id_comp] using
           imageSubobject_factors_comp_self (HomologicalComplex.ιTensorObj P Q i j n hij) (𝟙 _))
-    show HomologicalComplex.ιTensorObj P Q i j n hij ≫ f =
+    change HomologicalComplex.ιTensorObj P Q i j n hij ≫ f =
       HomologicalComplex.ιTensorObj P Q i j n hij ≫ g
     rw [← S.factorThru_arrow _ hf, Category.assoc, Category.assoc, hfg]⟩
   have : IsIso S.arrow := isIso_of_mono_of_epi _

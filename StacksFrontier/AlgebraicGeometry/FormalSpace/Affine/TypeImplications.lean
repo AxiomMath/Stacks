@@ -133,7 +133,7 @@ theorem isCountablyIndexed_of_isWeaklyAdic {X : FppfSheaf B S hS}
       TopologicalRing.isWeakIdealOfDefinition_inf_of_isOpen_right hW (hIopen n)⟩
   have hc : Monotone c := by
     intro n m hnm
-    show (c m).1 ≤ (c n).1
+    change (c m).1 ≤ (c n).1
     exact inf_le_inf_left W
       (Submodule.topologicalClosure_mono (Ideal.pow_le_pow_right hnm))
   let e := hc.functor
@@ -141,7 +141,7 @@ theorem isCountablyIndexed_of_isWeaklyAdic {X : FppfSheaf B S hS}
     intro K
     obtain ⟨n, -, hn⟩ := hIbasis.mem_iff.mp (K.2.1.mem_nhds K.1.zero_mem)
     refine ⟨n, ?_⟩
-    show (c n).1 ≤ K.1
+    change (c n).1 ≤ K.1
     exact le_trans inf_le_right fun _ hx ↦ hn hx
   let _ : Functor.Final e := hc.final_functor_iff.mpr hcof
   refine ⟨e ⋙ P.diagram, fun ⦃_ _⦄ f ↦ ?_, ?_⟩

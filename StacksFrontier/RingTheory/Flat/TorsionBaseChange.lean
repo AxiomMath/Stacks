@@ -54,10 +54,7 @@ multiplication by an element of `A` outside `p`. This is the module version of M
 public theorem exists_notMem_smul_eq_tmul_one {A M : Type*} [CommRing A] [AddCommGroup M]
     [Module A M] (p : Ideal A) [p.IsPrime] (z : M ⊗[A] p.ResidueField) :
     ∃ a ∉ p, ∃ m : M, a • z = m ⊗ₜ[A] 1 := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact ⟨1, fun h => (Ideal.IsPrime.ne_top ‹p.IsPrime›) (Ideal.eq_top_of_isUnit_mem p h
-        isUnit_one), 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul m k =>
       obtain ⟨y, rfl⟩ := IsLocalRing.residue_surjective (R := Localization.AtPrime p) k
       obtain ⟨⟨x, t⟩, rfl⟩ := IsLocalization.mk'_surjective p.primeCompl y
@@ -201,8 +198,7 @@ public theorem injective_lTensor_of_isFinitePresentationFreeAway
           (TensorProduct.map (LinearMap.id : P →ₗ[A] P)
             ((TensorProduct.mk B Bh X 1).restrictScalars A) w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul p x => simp [LinearMap.lTensor_tmul, TensorProduct.map_tmul]
     | add w₁ w₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   intro w₁ w₂ hw

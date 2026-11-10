@@ -139,7 +139,7 @@ private theorem artinian_local_of_trivial_idempotents
   intro q hq
   by_contra hne
   obtain ⟨e, hnotp, he, hother⟩ :=
-    IsArtinianRing.exists_not_mem_forall_mem_of_ne p
+    IsArtinianRing.exists_notMem_forall_mem_of_ne p
   rcases hid e he with hzero | hone
   · exact hnotp (hzero ▸ p.zero_mem)
   · have hmem : e ∈ q := hother q hq.isPrime hne

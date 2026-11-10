@@ -103,11 +103,7 @@ variable {Z X Q : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (z : Z ⟶ Q) (x : X �
 over `Q`.** -/
 theorem isAlgebraicSpace_relativeHom_of_quotAlgebraic (hx_fp : IsFinitePresentation B S hS x)
     (hx_sep : IsSeparated B S hS x) (hz_fp : IsFinitePresentation B S hS z)
-    (hz_flat : IsFlat B S hS z) (hz_proper : IsProper B S hS z)
-    (hquot : ∀ (W : AlgebraicSpaces B S hS) (f : W ⟶ (⟨Q, hQ⟩ : AlgebraicSpaces B S hS))
-      (hfp : IsFinitePresentation B S hS f.hom), IsSeparated B S hS f.hom →
-        ∀ N : QuotSitePresheafModel (structureSheafQuotSituation f hfp),
-          IsAlgebraicSpace B S hS N.presheaf) :
+    (hz_flat : IsFlat B S hS z) (hz_proper : IsProper B S hS z) :
     IsAlgebraicSpace B S hS (relativeHom B S hS Z X Q z x hZ hX hQ) :=
   isAlgebraicSpace_relativeHom z x hZ hX hQ hx_fp hx_sep hz_fp hz_flat hz_proper
 
@@ -116,11 +112,7 @@ functors of structure sheaves over `Q`.** -/
 theorem isLocallyOfFinitePresentation_relativeHomProjection_of_quotAlgebraic
     (hx_fp : IsFinitePresentation B S hS x) (hx_sep : IsSeparated B S hS x)
     (hz_fp : IsFinitePresentation B S hS z) (hz_flat : IsFlat B S hS z)
-    (hz_proper : IsProper B S hS z)
-    (hquot : ∀ (W : AlgebraicSpaces B S hS) (f : W ⟶ (⟨Q, hQ⟩ : AlgebraicSpaces B S hS))
-      (hfp : IsFinitePresentation B S hS f.hom), IsSeparated B S hS f.hom →
-        ∀ N : QuotSitePresheafModel (structureSheafQuotSituation f hfp),
-          IsAlgebraicSpace B S hS N.presheaf) :
+    (hz_proper : IsProper B S hS z) :
     IsLocallyOfFinitePresentation B S hS
       (relativeHomProjection B S hS Z X Q z x hZ hX hQ) :=
   isLocallyOfFinitePresentation_relativeHomProjection z x hZ hX hQ hx_fp hx_sep hz_fp hz_flat
@@ -131,15 +123,11 @@ With `Z ⟶ Q` of finite presentation, flat and proper and `X ⟶ Q` of finite p
 proper, the subfunctor `Isom_Q(Z, X) ⊆ Mor_Q(Z, X)` of isomorphisms is an open subspace. -/
 theorem isOpenSubspace_isomSubfunctor_of_quotAlgebraic (hx_fp : IsFinitePresentation B S hS x)
     (hx_proper : IsProper B S hS x) (hz_fp : IsFinitePresentation B S hS z)
-    (hz_flat : IsFlat B S hS z) (hz_proper : IsProper B S hS z)
-    (hquot : ∀ (W : AlgebraicSpaces B S hS) (f : W ⟶ (⟨Q, hQ⟩ : AlgebraicSpaces B S hS))
-      (hfp : IsFinitePresentation B S hS f.hom), IsSeparated B S hS f.hom →
-        ∀ N : QuotSitePresheafModel (structureSheafQuotSituation f hfp),
-          IsAlgebraicSpace B S hS N.presheaf) :
+    (hz_flat : IsFlat B S hS z) (hz_proper : IsProper B S hS z) :
     IsOpenSubspace B S hS (isomSubfunctor B S hS Z X Q z x hZ hX hQ) :=
   isOpenSubspace_isomSubfunctor B S hS Z X Q z x hZ hX hQ hz_fp hz_flat hz_proper hx_proper
     (isAlgebraicSpace_relativeHom_of_quotAlgebraic z x hZ hX hQ hx_fp hx_proper.1 hz_fp hz_flat
-      hz_proper hquot)
+      hz_proper)
 
 end RelativeHom
 

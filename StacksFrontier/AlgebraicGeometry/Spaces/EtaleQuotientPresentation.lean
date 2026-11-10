@@ -67,7 +67,7 @@ theorem relative_ulift_of_presheaf {C : Type w} [Category.{u} C] (P : MorphismPr
     (Functor.whiskeringRight Cᵒᵖ (Type u) (Type (max u v))).obj uliftFunctor.{v}
   have : H.Full := inferInstance
   have : H.Faithful := inferInstance
-  show P.relative (yoneda ⋙ H) (H.map f)
+  change P.relative (yoneda ⋙ H) (H.map f)
   refine ⟨?_, ?_⟩
   · intro a g
     obtain ⟨g₀, rfl⟩ := H.map_surjective g
@@ -217,7 +217,7 @@ theorem isPullback_uliftQuotientMap
       apply (yonedaEquiv (F := points F (F.obj U))).injective
       simp [e, pointsYonedaIso, points, Functor.FullyFaithful.homEquiv,
         Functor.FullyFaithful.ofFullyFaithful, yonedaEquiv]
-    show Functor.whiskerRight
+    change Functor.whiskerRight
         ((yonedaEquiv (F := points F (F.obj U))).symm (𝟙 (F.obj U)) ≫
           toQuotientPresheaf F j) uliftFunctor.{v} ≫ toSheafify J _ = _
     rw [he0]
@@ -225,12 +225,12 @@ theorem isPullback_uliftQuotientMap
   have ht : eR.inv ≫ Functor.whiskerRight (targetMap F j) uliftFunctor.{v} =
       uliftYoneda.{v}.map t ≫ eU.inv := by
     ext X ⟨x⟩
-    show ULift.up (F.map x ≫ j.target) = ULift.up (F.map (x ≫ t))
+    change ULift.up (F.map x ≫ j.target) = ULift.up (F.map (x ≫ t))
     rw [htarget, Functor.map_comp]
   have hs : eR.inv ≫ Functor.whiskerRight (sourceMap F j) uliftFunctor.{v} =
       uliftYoneda.{v}.map s ≫ eU.inv := by
     ext X ⟨x⟩
-    show ULift.up (F.map x ≫ j.source) = ULift.up (F.map (x ≫ s))
+    change ULift.up (F.map x ≫ j.source) = ULift.up (F.map (x ≫ s))
     rw [hsource, Functor.map_comp]
   exact hpts.of_iso' eR.symm eU.symm eU.symm (Iso.refl _) ht hs hcan.symm hcan.symm
 

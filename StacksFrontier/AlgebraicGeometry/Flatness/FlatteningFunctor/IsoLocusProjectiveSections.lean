@@ -177,7 +177,7 @@ theorem bijective_lTensor_iff_bijective_rTensor {A : Type*} [CommRing A] {M N B 
     funext x
     exact LinearMap.lTensor_comm v x
   rw [← (TensorProduct.comm A M B).toEquiv.bijective_comp]
-  show Function.Bijective ((v.lTensor B) ∘ (TensorProduct.comm A M B)) ↔ _
+  change Function.Bijective ((v.lTensor B) ∘ (TensorProduct.comm A M B)) ↔ _
   rw [h]
   exact Equiv.comp_bijective _ (TensorProduct.comm A N B).toEquiv
 
@@ -198,7 +198,7 @@ theorem exists_ideal_isIso_tilde_pullback_iff (A : CommRingCat.{u}) (M N : Modul
   refine ⟨I, fun B φ ↦ ?_⟩
   let _ : Algebra A B := φ.hom.toAlgebra
   rw [isIso_tilde_pullback_iff_isIso_extendScalars, ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (v.hom.lTensor B) ↔ _
+  change Function.Bijective (v.hom.lTensor B) ↔ _
   rw [Module.bijective_lTensor_iff_bijective_rTensor]
   exact hI B
 
@@ -389,7 +389,7 @@ theorem projective_moduleSpecΓ_pushforward {X S : Scheme.{u}} [IsAffine S] (f :
       map_add' := fun _ _ ↦ rfl
       map_smul' := by
         intro a m
-        show f.appTop.hom a • m =
+        change f.appTop.hom a • m =
           (((Scheme.ΓSpecIso Γ(S, ⊤)).inv ≫ (f ≫ S.isoSpec.hom).appTop).hom a) • m
         simp [Scheme.isoSpec, Scheme.toSpecΓ_appTop] }
   exact Module.Projective.of_equiv v

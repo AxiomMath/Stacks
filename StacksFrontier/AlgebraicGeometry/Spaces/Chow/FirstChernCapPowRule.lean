@@ -207,7 +207,7 @@ theorem isRationallyEquivalentToZeroCanonical_firstChernCapCycleMap_closedSubspa
             (closedSubspaceModuleRestrict D sX hX N Y)
             (modulePullbackInvertible (closedSubspaceHom D.site D.base D.base_mem hX.1 Y.1 Y.2)
               N hN) k) β) := by
-  refine isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward
+  refine isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward
     D sX hX Y.1 Y.2 k ?_
   rw [map_sub, cycleGroupClosedPushforward_firstChernCapCycleMap D sX hX Y.1 Y.2 k]
   obtain ⟨hk, g, heq⟩ :=

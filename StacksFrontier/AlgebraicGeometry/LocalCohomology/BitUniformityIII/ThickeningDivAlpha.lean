@@ -380,7 +380,7 @@ theorem twistedThickeningIdealMap_comp_ambientTwistMap_comp_thickeningTwistProj_
         (sectionOfUnit I U.unop ((thickeningIdealι I n).val.app U a))
         (app_thickeningProj_app_thickeningIdealι_eq_zero I n U a) c x hx)) ?_
   refine Eq.symm ?_
-  show ((0 : (thickeningIdealSheaf I n ⊗ blowupTwist I (q + 1) :
+  change ((0 : (thickeningIdealSheaf I n ⊗ blowupTwist I (q + 1) :
       (blowupScheme I).Modules).val ⟶ (thickeningTwist I (n + 1) q).val).app U).hom _ = 0
   rfl
 
@@ -398,7 +398,7 @@ theorem kernel_ι_comp_ambientTwistMap_comp_thickeningTwistProj_eq_zero (n q : �
       (twistedThickeningIdealMap I n (q + 1))
       (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I n (q + 1))) :=
     isIso_kernelLift_twistedThickeningIdealMap I n (q + 1)
-  haveI := @IsIso.epi_of_iso _ _ _ _ _ this
+  have := @IsIso.epi_of_iso _ _ _ _ _ this
   refine (cancel_epi (kernel.lift (thickeningTwistProj I n (q + 1))
     (twistedThickeningIdealMap I n (q + 1))
     (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I n (q + 1)))).mp ?_
@@ -456,7 +456,7 @@ theorem blowupΓMap_divα_thickeningSections (n q : ℕ) (x : (I ^ (q + 1) : Ide
     blowupΓMap I (divα I n q) (thickeningSections I n (q + 1) x) =
       thickeningSections I (n + 1) q
         ⟨(x : A), Ideal.pow_le_pow_right (Nat.le_succ q) x.2⟩ := by
-  show blowupΓMap I (divα I n q)
+  change blowupΓMap I (divα I n q)
     (blowupΓMap I (thickeningTwistProj I n (q + 1)) (ambientSections I (q + 1) x)) = _
   rw [← blowupΓMap_comp, thickeningTwistProj_comp_divα, blowupΓMap_comp,
     blowupΓMap_ambientTwistMap_ambientSections]
@@ -528,7 +528,7 @@ theorem exists_app_twistedDiv_eq_smul (n q : ℕ) (V : (blowupScheme I).affineOp
       (app_thickeningProj_eq_zero_of_mem_pow I n V u hu)
     refine ⟨tensorObjTmul (blowupScheme I).toRingedSpace (thickeningIdealSheaf I n)
       (blowupTwist I (q + 1)) (op V.1) y s', ?_⟩
-    show ((ambientTwistMap I q).val.app (op V.1))
+    change ((ambientTwistMap I q).val.app (op V.1))
         (((twistedThickeningIdealMap I n (q + 1)).val.app (op V.1))
           (tensorObjTmul (blowupScheme I).toRingedSpace (thickeningIdealSheaf I n)
             (blowupTwist I (q + 1)) (op V.1) y s')) = (u * v) • c

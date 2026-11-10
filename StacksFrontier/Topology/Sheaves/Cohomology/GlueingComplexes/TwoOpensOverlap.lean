@@ -36,7 +36,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 /-- The compatibility condition on the intersection, read through the two comparison isomorphisms
 of the iterated restrictions. -/
-private lemma overlap_mid_of_eq {X U V W : RingedSpace.{u, u}} (jU : U ⟶ X) (jV : V ⟶ X)
+lemma overlap_mid_of_eq {X U V W : RingedSpace.{u, u}} (jU : U ⟶ X) (jV : V ⟶ X)
     (iU : W ⟶ U) (iV : W ⟶ V) [SheafedSpace.IsOpenImmersion jU]
     [SheafedSpace.IsOpenImmersion jV] (h : iU ≫ jU = iV ≫ jV) {A : DerivedModules U}
     {B : DerivedModules V} (c : (derivedRestrict iU).obj A ≅ (derivedRestrict iV).obj B)

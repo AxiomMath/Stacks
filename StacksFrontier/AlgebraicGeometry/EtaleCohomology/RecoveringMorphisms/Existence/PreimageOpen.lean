@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.RecoveringMorphis
 
 Let `g` be a morphism of *locally* ringed topoi between the small étale ringed topoi of `X` and
 `Y`, and let `f : X ⟶ Y` be the morphism of schemes glued in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.RecoveringMorphisms.Existence.OpenRingMap` from the
-morphisms `f_V : W_V ⟶ V` over the affine opens `V` of `Y`.  This module proves
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.RecoveringMorphisms.Existence.OpenRingMap` from
+the morphisms `f_V : W_V ⟶ V` over the affine opens `V` of `Y`.  This module proves
 `f⁻¹(V) = W_V` (`AlgebraicGeometry.preimage_glueHom_eq`), i.e. `g⁻¹h_V ≅ h_{f⁻¹V}`.
 
 This is where local ringedness enters the Zariski part of the argument.  For a section `b` of
@@ -98,7 +98,7 @@ theorem basicOpenUnitsHom_comp_unitsι :
         (smallEtaleSectionRingEquiv B S hS ((opensToBoundedEtale B S hS).obj V)).symm b := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun T => TypeCat.homEquiv.injective
     (funext fun (m : T.unop ⟶ (opensToBoundedEtale B S hS).obj D) => ?_)))
-  show smallEtaleRestrict B S hS (m ≫ _) b =
+  change smallEtaleRestrict B S hS (m ≫ _) b =
     ((smallEtaleSectionRingEquiv B S hS ((opensToBoundedEtale B S hS).obj V)).symm b).hom.app T
       (m ≫ (opensToBoundedEtale B S hS).map (homOfLE hDV))
   rw [smallEtaleSectionRingEquiv_symm_hom_app]
@@ -237,7 +237,7 @@ theorem preimage_glueHom_eq (hg : g.IsLocallyRinged) (V : Y.obj.affineOpens) :
       (V'' : Y.obj.Opens).ι (openSchemeHom g V'' y) := by
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun m => m y) (glueHom_spec g V'')
   have hmem : openSchemeHom g V'' y ∈ (V'' : Y.obj.Opens).ι ⁻¹ᵁ (V : Y.obj.Opens) := by
-    show (V'' : Y.obj.Opens).ι (openSchemeHom g V'' y) ∈ (V : Y.obj.Opens)
+    change (V'' : Y.obj.Opens).ι (openSchemeHom g V'' y) ∈ (V : Y.obj.Opens)
     rwa [← hfy]
   obtain ⟨_, ⟨_, ⟨b, rfl⟩, rfl⟩, hyb, hbV⟩ :=
     (isBasis_basicOpen (V'' : Y.obj.Opens).toScheme).exists_subset_of_mem_open
@@ -253,7 +253,7 @@ theorem preimage_glueHom_eq (hg : g.IsLocallyRinged) (V : Y.obj.affineOpens) :
     ((V'' : Y.obj.Opens).ι.image_preimage_le _)
   refine inverseImageOpen_mono g hDbV ?_
   rw [hDb]
-  show W''.ι y ∈ W''.ι ''ᵁ _
+  change W''.ι y ∈ W''.ι ''ᵁ _
   rw [Scheme.Hom.apply_mem_image_iff]
   have hy : y ∈ (openSchemeHom g V'') ⁻¹ᵁ ((V'' : Y.obj.Opens).toScheme.basicOpen b) := hyb
   rwa [Scheme.preimage_basicOpen_top, openSchemeHom_appTop] at hy

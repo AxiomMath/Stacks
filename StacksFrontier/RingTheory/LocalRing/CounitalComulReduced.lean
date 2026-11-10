@@ -103,8 +103,7 @@ theorem sub_algebraMap_mem_ker (r : R) : r - algebraMap k R (ε r) ∈ RingHom.k
 /-- Every element of `R ⊗[k] R` is congruent to the scalar `(ε ⊗ ε) t` modulo `augIdeal ε`. -/
 theorem sub_algebraMap_mem_augIdeal (t : R ⊗[k] R) :
     t - algebraMap k (R ⊗[k] R) (counitTensor ε t) ∈ augIdeal ε := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     have h : a ⊗ₜ[k] b - algebraMap k (R ⊗[k] R) (counitTensor ε (a ⊗ₜ b)) =
         Algebra.TensorProduct.includeLeft (S := k) (a - algebraMap k R (ε a)) *
@@ -162,7 +161,7 @@ theorem mem_map_ker_of_isNilpotent {A L C : Type*} [CommRing A] [CommRing L] [Co
       IsLocalization.mk' L (1 : A) (u * ⟨v, hv⟩) := by
     rw [← IsLocalization.mk'_eq_mul_mk'_one, mul_comm v a]
     exact (IsLocalization.mk'_cancel (S := L) a u ⟨v, hv⟩).symm
-  show IsLocalization.mk' L a u ∈ _
+  change IsLocalization.mk' L a u ∈ _
   rw [hmk]
   exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ hva)
 
@@ -272,8 +271,7 @@ include hπ₁ in
 omit [IsLocalization.AtPrime S (counitTensorKer ε)] in
 /-- On the image of `R ⊗[k] R`, `ε ∘ π₁` is `ε ⊗ ε`. -/
 theorem ε_π₁_alg (t : R ⊗[k] R) : ε (π₁ (alg t)) = counitTensor ε t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => simp [hπ₁]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -282,10 +280,9 @@ include hπ₁ hπ₂ in
 theorem ε_π₂ (s : S) : ε (π₂ s) = ε (π₁ s) := by
   have : (ε : R →+* k).comp π₂ = (ε : R →+* k).comp π₁ :=
     IsLocalization.ringHom_ext (counitTensorKer ε).primeCompl (RingHom.ext fun t => by
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul a b =>
-        show ε (π₂ (alg (a ⊗ₜ b))) = ε (π₁ (alg (a ⊗ₜ b)))
+        change ε (π₂ (alg (a ⊗ₜ b))) = ε (π₁ (alg (a ⊗ₜ b)))
         rw [hπ₁, hπ₂]
         simp [mul_comm]
       | add x y hx hy =>
@@ -297,7 +294,7 @@ include hπ₁ in
 omit [IsLocalization.AtPrime S (counitTensorKer ε)] in
 /-- `ε ∘ π₁` is a left inverse of the scalar map `κ`. -/
 theorem ε_π₁_κ (c : k) : ε (π₁ (κ (R := R) (S := S) c)) = c := by
-  show ε (π₁ (alg _)) = c
+  change ε (π₁ (alg _)) = c
   rw [ε_π₁_alg ε π₁ hπ₁]
   simp
 
@@ -326,7 +323,7 @@ theorem maximalIdeal_le [IsLocalRing R] :
     rw [ht0, map_zero, sub_zero] at h
     have := Ideal.mem_map_of_mem alg h
     rwa [augIdeal, map_algebraMap_includes_sup, ker_eq_maximalIdeal] at this
-  show IsLocalization.mk' S t u ∈ _
+  change IsLocalization.mk' S t u ∈ _
   rw [IsLocalization.mk'_eq_mul_mk'_one]
   exact Ideal.mul_mem_right _ _ htmem
 
@@ -473,8 +470,7 @@ theorem tmul_notMem_map [IsLocalization.AtPrime S (counitTensorKer ε)] (I₁ I�
     exact hy a
   have hkey : ∀ t, φ t * φ (X ⊗ₜ Y) = counitTensor ε t • φ (X ⊗ₜ Y) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, add_mul, ha, hb, map_add, add_smul]
     | tmul a b =>
       simp only [φ, Algebra.TensorProduct.map_tmul, Ideal.Quotient.mkₐ_eq_mk,
@@ -484,7 +480,7 @@ theorem tmul_notMem_map [IsLocalization.AtPrime S (counitTensorKer ε)] (I₁ I�
         TensorProduct.smul_tmul']
   have hc : counitTensor ε (v * u) ≠ 0 := fun h =>
     (mul_mem hv hu : v * u ∈ (counitTensorKer ε).primeCompl) (by
-      show v * u ∈ RingHom.ker _
+      change v * u ∈ RingHom.ker _
       rw [RingHom.mem_ker]
       exact h)
   have hφw : φ (X ⊗ₜ Y) = 0 := by
@@ -559,7 +555,7 @@ theorem nilradical_eq_bot_of_counital_of_fg [CharZero k] [IsLocalRing R] (ε : R
       refine Ideal.mul_mono (Ideal.map_le_iff_le_comap.mpr fun a ha => ?_)
         (Ideal.pow_right_mono (Ideal.map_le_iff_le_comap.mpr fun a ha =>
           mem_nilIdeal_of_isNilpotent ε ((mem_nilradical.mp ha).map Δ)) _)
-      show ε (π₁ (Δ a)) = 0
+      change ε (π₁ (Δ a)) = 0
       rw [h₁]
       exact (hm a).mp ha
     exact this hq

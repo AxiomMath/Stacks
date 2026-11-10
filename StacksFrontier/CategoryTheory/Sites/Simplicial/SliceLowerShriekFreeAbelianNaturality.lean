@@ -42,8 +42,8 @@ input the set-level naturality square of
 
 The naturality in `L` of `CategoryTheory.SemiRepresentable.freeSheafPullbackIso` is not here: it
 is `CategoryTheory.Functor.freeLowerShriekIso_comp`, in
-`StacksFrontier/CategoryTheory/Sites/Continuous/FreeAbelianLowerShriekComp.lean`, whose comparison is
-a `CategoryTheory.Adjunction.leftAdjointUniq` and so needs the hexagon of
+`StacksFrontier/CategoryTheory/Sites/Continuous/FreeAbelianLowerShriekComp.lean`, whose comparison
+is a `CategoryTheory.Adjunction.leftAdjointUniq` and so needs the hexagon of
 `CategoryTheory.Adjunction.leftAdjointUniq_hom_comp_whisker` rather than the one used here. The
 naturality in `L` of `CategoryTheory.SemiRepresentable.freeYonedaSheafPushforwardPullbackIso`
 itself is not here either: it is `CategoryTheory.SemiRepresentable`

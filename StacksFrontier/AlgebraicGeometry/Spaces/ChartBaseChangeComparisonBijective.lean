@@ -250,7 +250,7 @@ theorem modulePullback_map_val_app_eq_zero_iff
       fun z ↦ by rw [h, LinearMap.zero_apply, map_zero]
     refine ModuleCat.hom_ext (LinearMap.ext fun w ↦ ?_)
     obtain ⟨z, rfl⟩ := hbM.2 w
-    show ((modulePullback B S hS g).map u).val.app (op e.U)
+    change ((modulePullback B S hS g).map u).val.app (op e.U)
       (modulePullbackChartBaseChange B S hS g M e z) = 0
     rw [key z]
     exact hz z
@@ -274,12 +274,12 @@ private theorem val_app_eq_zero_iff_of_natIso {Z W : AlgebraicSpaces B S hS}
     have h' : ∀ x, (Phi.map u).val.app (op V) x = 0 := fun x ↦ by rw [h]; rfl
     refine ModuleCat.hom_ext (LinearMap.ext fun y ↦ ?_)
     obtain ⟨x, rfl⟩ := hM.2 y
-    show (Psi.map u).val.app (op V) ((α.app M).hom.val.app (op V) x) = 0
+    change (Psi.map u).val.app (op V) ((α.app M).hom.val.app (op V) x) = 0
     rw [← hpt x, h' x, map_zero]
   · intro h
     have h' : ∀ x, (Psi.map u).val.app (op V) x = 0 := fun x ↦ by rw [h]; rfl
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-    show (Phi.map u).val.app (op V) x = 0
+    change (Phi.map u).val.app (op V) x = 0
     refine hM'.1 ?_
     rw [hpt x, h' _, map_zero]
 

@@ -324,7 +324,7 @@ private lemma continuousSMul
     ext g
     simp only [SetLike.mem_coe, MulAction.mem_stabilizer_iff]
     rw [← (FaithfulSMul.algebraMap_injective B L).eq_iff]
-    show algebraMap B L ((galRestrict A K L B g) b) = algebraMap B L b ↔
+    change algebraMap B L ((galRestrict A K L B g) b) = algebraMap B L b ↔
       g (algebraMap B L b) = algebraMap B L b
     rw [algebraMap_galRestrict_apply]
   rw [h]
@@ -382,7 +382,7 @@ theorem exists_smul_of_under_eq_and_residue_normal_stabilizerHom_surjective
         intro x
         simp only [IsFractionRing.stabilizerHom, MonoidHom.coe_comp,
           Function.comp_apply, IsFractionRing.fieldEquivOfAlgEquivHom_apply, hg]
-        show IsFractionRing.fieldEquivOfAlgEquiv k l l tau
+        change IsFractionRing.fieldEquivOfAlgEquiv k l l tau
             (algebraMap (B ⧸ Q) l x) = sigma (algebraMap (B ⧸ Q) l x)
         rw [IsFractionRing.fieldEquivOfAlgEquiv_algebraMap]
         exact htau x
@@ -457,7 +457,7 @@ theorem image_stabilizer_and_inertia_restrictNormalHom
       _ = g (algebraMap L M (algebraMap B L x)) :=
             AlgEquiv.restrictNormal_commutes g L _
       _ = algebraMap C M (g • algebraMap B C x) := by
-            show _ = algebraMap C M (galRestrict A K M C g (algebraMap B C x))
+            change _ = algebraMap C M (galRestrict A K M C g (algebraMap B C x))
             rw [algebraMap_galRestrict_apply A]
             congr 1
             rw [← IsScalarTower.algebraMap_apply B C M,
@@ -520,7 +520,7 @@ theorem image_stabilizer_and_inertia_restrictNormalHom
   refine ⟨hdecomp, ?_⟩
   apply Set.Subset.antisymm
   · rintro σ ⟨τ, hτ, rfl⟩ x
-    show algebraMap B C ((res τ • x) - x) ∈ r
+    change algebraMap B C ((res τ • x) - x) ∈ r
     rw [map_sub, hcompat]
     exact hτ (algebraMap B C x)
   · intro σ hσ

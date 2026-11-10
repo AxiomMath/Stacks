@@ -110,7 +110,7 @@ private theorem tensorLeft_right [Epi f] :
     ⟨tensorRight f ≫ toSheafify J (tensorPresheaf f)⟩
   have h : f ≫ a = f ≫ b := by
     apply ObjectProperty.hom_ext
-    show f.hom ≫ (tensorLeft f ≫ _) = f.hom ≫ (tensorRight f ≫ _)
+    change f.hom ≫ (tensorLeft f ≫ _) = f.hom ≫ (tensorRight f ≫ _)
     rw [← Category.assoc, ← Category.assoc]
     congr 1
     ext U r
@@ -175,7 +175,7 @@ private theorem restrictScalars_linear [Epi f]
       ((SheafOfModules.toSheaf _).obj N)).property
   apply (hsep T (tensor_relation_cover f U r)).ext
   intro V k hk
-  show N.val.map k.op (g.val.app U (r • x)) =
+  change N.val.map k.op (g.val.app U (r • x)) =
     N.val.map k.op (r • (show N.val.obj U from g.val.app U x))
   have hn : ∀ y : M.val.obj U,
       N.val.map k.op (g.val.app U y) = g.val.app (op V) (M.val.map k.op y) :=

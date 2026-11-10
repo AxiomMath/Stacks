@@ -216,7 +216,7 @@ theorem deRhamAbelianComplexPlusIso_inv_globalExtend (n : ℕ)
     ComplexShape.embeddingUpNat (rfl : ComplexShape.embeddingUpNat.f n = n)
   have h2 := congrArg (sectionsFunctor X.carrier ⊤).map h
   rw [Functor.map_comp] at h2
-  show ((sectionsFunctor X.carrier ⊤).map ((HomologicalComplex.mapHomologicalComplexExtendIso
+  change ((sectionsFunctor X.carrier ⊤).map ((HomologicalComplex.mapHomologicalComplexExtendIso
     (_root_.SheafOfModules.toSheaf.{u, u, u, u} (SheafOfModules.underlyingRingSheaf (baseSheaf p)))
     (SheafOfModules.deRhamComplex (Scheme.Hom.deRhamAlgebras p)
       (SheafOfModules.deRhamDifferential (Scheme.Hom.deRhamAlgebras p)))
@@ -371,7 +371,7 @@ theorem deRhamPullbackModule_classMap_restrictTot (b : ℕ)
     classMap_restrictTot_abelianCycle (f ≫ g) U hU b _ (pullbackGlobalForm_closed f g b σ hσ),
     ← cyclesMap_pushforwardMap_abelianCycle f g b σ hσ,
     ← Scheme.Hom.deRhamCohomologyPullback_abelianGlobalClass]
-  show ((SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology _ _ (b : ℤ)).hom.hom
+  change ((SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology _ _ (b : ℤ)).hom.hom
     ((Scheme.Hom.deRhamCohomologyPullback f g (f ≫ g) (𝟙 S) (by simp) b).hom
       ((SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology _ _ (b : ℤ)).inv.hom
         ((SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology _ _ (b : ℤ)).hom.hom _)))) = _

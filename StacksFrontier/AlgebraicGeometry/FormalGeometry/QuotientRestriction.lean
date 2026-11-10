@@ -453,7 +453,7 @@ theorem comparisonMap_restrict (V : OpensNearVanishing A I a) (n : ℕ) :
         ((quotientSystemNearVanishing A I a F).obj (op n)).presheaf.map
           (homOfLE (show V.openSet ≤ ⊤ from le_top)).op =
       (adicProj (idealSheafNearVanishing A I a) F (op n)).app V.openSet := by
-  show colimit.ι (sectionsNearVanishing A I a F) V ≫ comparisonMap A I a F ≫
+  change colimit.ι (sectionsNearVanishing A I a F) V ≫ comparisonMap A I a F ≫
       limit.π (formalSections A I a F) (op n) ≫ resNearVanishing A I a F V (op n) =
     projNearVanishing A I a F V (op n)
   rw [← Category.assoc, ← Category.assoc, colimit_ι_comp_comparisonMap, comparisonAt_π,

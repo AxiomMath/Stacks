@@ -277,7 +277,7 @@ variable {p A B} in
 /-- The only exact form of degree `0` is `0`. -/
 theorem twist_mem_exactForms_zero (x : ⋀[B]^0 (Ω[B⁄A])) :
     twist p x ∈ exactForms p A B 0 ↔ x = 0 := by
-  show twist p x ∈ (⊥ : Submodule B (twistedForms p A B 0)) ↔ _
+  change twist p x ∈ (⊥ : Submodule B (twistedForms p A B 0)) ↔ _
   rw [Submodule.mem_bot, AddEquivClass.map_eq_zero_iff]
 
 variable {p A B} in
@@ -285,7 +285,7 @@ variable {p A B} in
 degree `i`. -/
 theorem twist_mem_exactForms_succ {i : ℕ} (x : ⋀[B]^(i + 1) (Ω[B⁄A])) :
     twist p x ∈ exactForms p A B (i + 1) ↔ ∃ y, deRhamDifferential (A := A) i y = x := by
-  show twist p x ∈ LinearMap.range (twistedD p A B i) ↔ _
+  change twist p x ∈ LinearMap.range (twistedD p A B i) ↔ _
   rw [LinearMap.mem_range]
   constructor
   · rintro ⟨y, hy⟩

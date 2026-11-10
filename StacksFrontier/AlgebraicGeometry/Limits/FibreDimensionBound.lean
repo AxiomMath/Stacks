@@ -136,7 +136,7 @@ private lemma fiberDimensionAt_le_of_closedImmersion_over
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun q : A ⟶ T => q b) he.symm
   have hset : u ⁻¹' {u a} = e ⁻¹' Z := by
     ext b
-    show (u b = u a) ↔ (v (e b) = v (e a))
+    change (u b = u a) ↔ (v (e b) = v (e a))
     rw [hcomm b, hcomm a]
   let E : (u ⁻¹' {u a}) → Z :=
     fun x => (Z.restrictPreimage e) ((Homeomorph.setCongr hset) x)
@@ -148,7 +148,7 @@ private lemma fiberDimensionAt_le_of_closedImmersion_over
       apply Subtype.ext
       rfl
     apply Subtype.ext
-    show e (((Homeomorph.setCongr hset) ⟨a, rfl⟩).val) = _
+    change e (((Homeomorph.setCongr hset) ⟨a, rfl⟩).val) = _
     rw [hx]
     simp [Z, Scheme.Hom.fiberHomeo_apply, Scheme.Hom.fiberι_asFiber]
   have hsourcept : (u.fiberHomeo (u a)) (u.asFiber a) = ⟨a, rfl⟩ := by
@@ -623,7 +623,7 @@ private lemma isClosedImmersion_pullbackDiagramAlongLimit_map
       exact (IsPullback.of_hasPullback (f.app i) ti).flip
     have hp : ((pullbackDiagramAlongLimit f cS T t).map g) ≫ r =
         pullback.fst (f.app i) ti ≫ e := by
-      show pullbackDiagramAlongLimitMap f cS T t g ≫ r =
+      change pullbackDiagramAlongLimitMap f cS T t g ≫ r =
         pullback.fst (f.app i) ti ≫ e
       apply pullback.hom_ext
       · have hrfst : r ≫ pullback.fst (f.app j) (S.map g) =
@@ -716,7 +716,7 @@ private lemma exists_forall_topologicalKrullDim_fiber_le_of_isLimit_small
       simpa [p] using heq
     change ¬ topologicalKrullDimAt ((f.app i).fiber ((f.app i) x))
       ((f.app i).asFiber x) ≤ (d : WithBot ℕ∞) at hx
-    show ¬ topologicalKrullDimAt ((f.app j).fiber ((f.app j) (X.map g x)))
+    change ¬ topologicalKrullDimAt ((f.app j).fiber ((f.app j) (X.map g x)))
       ((f.app j).asFiber (X.map g x)) ≤ (d : WithBot ℕ∞)
     exact fun hj => hx (hle.trans (heq'.symm ▸ hj))
   have hbad_ne : ∀ i : I,
@@ -764,7 +764,7 @@ private lemma exists_forall_topologicalKrullDim_fiber_le_of_isLimit_small
   have hnoeth : IsNoetherian (D.obj i) := by
     let q : D.obj i ⟶ T := pullback.snd (f.app i) (t ≫ cS.π.app i)
     have : IsLocallyNoetherian (D.obj i) := by
-      show IsLocallyNoetherian (pullback (f.app i) (t ≫ cS.π.app i))
+      change IsLocallyNoetherian (pullback (f.app i) (t ≫ cS.π.app i))
       infer_instance
     have : QuasiCompact q := by
       dsimp [q]
@@ -784,7 +784,7 @@ private lemma exists_forall_topologicalKrullDim_fiber_le_of_isLimit_small
       (pullback.fst (f.app k) (t ≫ cS.π.app k)) (c.π.app k p) = cX.π.app k z := by
     have hh : c.π.app k ≫ pullback.fst (f.app k) (t ≫ cS.π.app k) =
         (fLimit.fiberι s) ≫ cX.π.app k := by
-      show pullback.lift (pullback.fst fLimit t ≫ cX.π.app k)
+      change pullback.lift (pullback.fst fLimit t ≫ cX.π.app k)
         (pullback.snd fLimit t) _ ≫ pullback.fst (f.app k) (t ≫ cS.π.app k) = _
       exact pullback.lift_fst _ _ _
     have hp := congrArg (fun q : c.pt ⟶ X.obj k => q p) hh
@@ -929,7 +929,7 @@ private lemma stageVarMap_injective {T T' : Finset BigIndex.{u}} (h : T ≤ T') 
 
 private lemma stageVarMap_id (T : Finset BigIndex.{u}) : stageVarMap (le_refl T) = id := by
   funext x
-  show equivShrink _ ⟨_, _⟩ = x
+  change equivShrink _ ⟨_, _⟩ = x
   rw [Subtype.coe_eta]
   exact (equivShrink (↑T : Type (u+1))).apply_symm_apply x
 
@@ -1141,7 +1141,7 @@ private lemma isPushout_polynomial {A B : Type u} [CommRing A] [CommRing B] (ρ 
       CommRingCat.ofHom ρ ≫ CommRingCat.ofHom (Polynomial.C (R := B)) := by
     apply CommRingCat.hom_ext
     refine RingHom.ext fun a => ?_
-    show Polynomial.map ρ (Polynomial.C a) = Polynomial.C (ρ a)
+    change Polynomial.map ρ (Polynomial.C a) = Polynomial.C (ρ a)
     rw [Polynomial.map_C]
   refine IsPushout.of_isColimit' ⟨hcomm⟩ (PushoutCocone.IsColimit.mk hcomm
     (fun s => CommRingCat.ofHom (Polynomial.eval₂RingHom s.inr.hom (s.inl.hom Polynomial.X)))
@@ -1152,21 +1152,21 @@ private lemma isPushout_polynomial {A B : Type u} [CommRing A] [CommRing B] (ρ 
     have hc : ∀ a : A, α (Polynomial.C a) = β (ρ a) := fun a =>
       congrArg (fun q : CommRingCat.of A ⟶ s.pt => q.hom a) s.condition
     apply CommRingCat.hom_ext
-    show (Polynomial.eval₂RingHom β (α Polynomial.X)).comp (Polynomial.mapRingHom ρ) = α
+    change (Polynomial.eval₂RingHom β (α Polynomial.X)).comp (Polynomial.mapRingHom ρ) = α
     refine Polynomial.ringHom_ext (fun a => ?_) ?_
-    · show Polynomial.eval₂ β (α Polynomial.X) (Polynomial.map ρ (Polynomial.C a)) =
+    · change Polynomial.eval₂ β (α Polynomial.X) (Polynomial.map ρ (Polynomial.C a)) =
         α (Polynomial.C a)
       rw [Polynomial.map_C, Polynomial.eval₂_C, hc a]
-    · show Polynomial.eval₂ β (α Polynomial.X) (Polynomial.map ρ Polynomial.X) =
+    · change Polynomial.eval₂ β (α Polynomial.X) (Polynomial.map ρ Polynomial.X) =
         α Polynomial.X
       rw [Polynomial.map_X, Polynomial.eval₂_X]
   · intro s
     set β : B →+* s.pt := s.inr.hom with hβ
     set α : Polynomial A →+* s.pt := s.inl.hom with hα
     apply CommRingCat.hom_ext
-    show (Polynomial.eval₂RingHom β (α Polynomial.X)).comp (Polynomial.C (R := B)) = β
+    change (Polynomial.eval₂RingHom β (α Polynomial.X)).comp (Polynomial.C (R := B)) = β
     refine RingHom.ext fun a => ?_
-    show Polynomial.eval₂ β (α Polynomial.X) (Polynomial.C a) = β a
+    change Polynomial.eval₂ β (α Polynomial.X) (Polynomial.C a) = β a
     rw [Polynomial.eval₂_C]
   · intro s m hl hr
     set β : B →+* s.pt := s.inr.hom with hβ
@@ -1177,11 +1177,11 @@ private lemma isPushout_polynomial {A B : Type u} [CommRing A] [CommRing B] (ρ 
     have hll : μ (Polynomial.map ρ Polynomial.X) = α Polynomial.X :=
       congrArg (fun q : CommRingCat.of (Polynomial A) ⟶ s.pt => q.hom Polynomial.X) hl
     apply CommRingCat.hom_ext
-    show μ = Polynomial.eval₂RingHom β (α Polynomial.X)
+    change μ = Polynomial.eval₂RingHom β (α Polynomial.X)
     refine Polynomial.ringHom_ext (fun b => ?_) ?_
-    · show μ (Polynomial.C b) = Polynomial.eval₂ β (α Polynomial.X) (Polynomial.C b)
+    · change μ (Polynomial.C b) = Polynomial.eval₂ β (α Polynomial.X) (Polynomial.C b)
       rw [Polynomial.eval₂_C, hrr b]
-    · show μ Polynomial.X = Polynomial.eval₂ β (α Polynomial.X) Polynomial.X
+    · change μ Polynomial.X = Polynomial.eval₂ β (α Polynomial.X) Polynomial.X
       rw [Polynomial.eval₂_X, ← hll, Polynomial.map_X]
 
 /-- Adjoining a variable commutes with the transitions of the system. -/
@@ -1260,7 +1260,7 @@ private lemma topologicalKrullDim_fiber_fMor (i : (Finset BigIndex.{u})ᵒᵖ) (
   have h1 : topologicalKrullDim ↥(Spec (CommRingCat.of (Polynomial (StageField i.unop)))) =
       ringKrullDim (Polynomial (StageField i.unop)) :=
     PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim _
-  show topologicalKrullDim ↥(Spec (CommRingCat.of (Polynomial (StageField i.unop)))) = 1
+  change topologicalKrullDim ↥(Spec (CommRingCat.of (Polynomial (StageField i.unop)))) = 1
   rw [h1, Polynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
   rfl
 

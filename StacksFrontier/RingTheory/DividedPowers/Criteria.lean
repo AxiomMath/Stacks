@@ -597,7 +597,7 @@ public theorem exists_dividedPowers_of_axioms_on_generators
     | smul a x hx ih =>
         intro m n
         have hxI : x ∈ I := hS.symm ▸ hx
-        show dpow m (a * x) * dpow n (a * x) =
+        change dpow m (a * x) * dpow n (a * x) =
           (choose (m + n) m : A) * dpow (m + n) (a * x)
         calc
           dpow m (a * x) * dpow n (a * x) =
@@ -651,7 +651,7 @@ public theorem exists_dividedPowers_of_axioms_on_generators
     | smul a x hx ih =>
         intro m n hn
         have hxI : x ∈ I := hS.symm ▸ hx
-        show dpow m (dpow n (a * x)) =
+        change dpow m (dpow n (a * x)) =
           (uniformBell m n : A) * dpow (m * n) (a * x)
         calc
           dpow m (dpow n (a * x)) = dpow m (a ^ n * dpow n x) := by

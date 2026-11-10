@@ -76,7 +76,7 @@ theorem isIso_unitHomEquiv_symm_of_bijective_smul_of_coversTop (L : SheafOfModul
     intro V
     refine ⟨Sieve.ofObjects Y V, hY V, ?_⟩
     rintro W f ⟨i, ⟨g⟩⟩
-    show Function.Bijective fun r : R.obj.obj (op W) ↦ r • s.eval (op W)
+    change Function.Bijective fun r : R.obj.obj (op W) ↦ r • s.eval (op W)
     exact hs i W g
   have hinj : PresheafOfModules.IsLocallyInjective J φ.val :=
     Presheaf.isLocallyInjective_of_exists_mem_sieve J _

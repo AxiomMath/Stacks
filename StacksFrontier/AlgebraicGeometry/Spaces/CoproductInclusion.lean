@@ -210,7 +210,7 @@ theorem isFppfCovering_doubleBaseCover :
   have hright : E0.f (ULift.up WalkingPair.right) = (coprod.inr : T0 ⟶ T0 ⨿ T0) :=
     doubleBaseInr_left_hom B S hS
   have hZ : E0.presieve₀ ∈ Scheme.zariskiPrecoverage (T0 ⨿ T0) := by
-    show Presieve.ofArrows E0.X E0.f ∈ Scheme.zariskiPrecoverage (T0 ⨿ T0)
+    change Presieve.ofArrows E0.X E0.f ∈ Scheme.zariskiPrecoverage (T0 ⨿ T0)
     apply (Scheme.ofArrows_mem_precoverage_iff
       (@IsOpenImmersion.{u} : MorphismProperty Scheme.{u})).2
     refine ⟨?_, ?_⟩

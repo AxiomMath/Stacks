@@ -131,7 +131,7 @@ def homotopy : Homotopy (𝟙 K) (0 : K ⟶ K) where
     have hc : (SSet.stdSimplex.objEquiv.{0} ((Δ[1] : SSet.{0}).map f.op α)).toOrderHom e =
         (SSet.stdSimplex.objEquiv.{0} α).toOrderHom (f.toOrderHom e) := rfl
     rw [hc]
-    simp only [if_true]
+    simp only [ite_true]
   app_zero n := by
     ext x
     change D.homotopyApp n _ x = x

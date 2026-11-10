@@ -268,7 +268,7 @@ theorem smallEtaleSetsBaseChange_vpaste :
       (smallEtaleSetsAdjunction.{u, v} g),
     mateEquiv_smallEtaleSetsBaseChange, mateEquiv_smallEtaleSetsBaseChange,
     mateEquiv_smallEtaleSetsBaseChange]
-  refine TwoSquare.ext _ _ fun 𝒢 => ?_
+  refine NatTrans.ext (funext fun 𝒢 => ?_)
   simpa using smallEtaleSquarePushforwardIsoAt_vpaste_app X X' Xi Xi' Y Y' g' p p' gi st st' g f
     hf f' hf' w₁ w₂ w (Type (max (u + 1) v)) 𝒢
 

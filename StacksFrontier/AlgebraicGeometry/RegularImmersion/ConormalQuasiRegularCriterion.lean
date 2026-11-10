@@ -130,8 +130,8 @@ associated with a module is a basis of that module. -/
 theorem exists_affineChart_basis_conormalPiece (i : Z ⟶ X) [IsImmersion i]
     (hflf : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} (conormalSheaf i))
     (V : Z.Opens) (z : Z) (hz : z ∈ V) :
-    ∃ (U : X.affineOpens) (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl))
-      (_ : z ∈ i ⁻¹ᵁ U.1) (_ : i ⁻¹ᵁ U.1 ≤ V) (c : ℕ),
+    ∃ (U : X.affineOpens), IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl) ∧
+      ∃ (_ : z ∈ i ⁻¹ᵁ U.1) (_ : i ⁻¹ᵁ U.1 ≤ V) (c : ℕ),
       Nonempty (Module.Basis (Fin c) Γ(Z, i ⁻¹ᵁ U.1) Γ(conormalPiece i 1, i ⁻¹ᵁ U.1)) := by
   have hqc : (conormalPiece i 1).IsQuasicoherent := (conormalAlgebra i).isQuasicoherent 1
   have : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} (conormalPiece i 1) :=
@@ -220,7 +220,7 @@ theorem chartIdeal_map_of_le (i : Z ⟶ X) [IsImmersion i] (U U' : X.affineOpens
   have hle' : U'.1 ≤ U.1 := hle
   have hU' := isClosedImmersion_resLE_of_le_of_isClosedImmersion_resLE i hU hle'
   have hW : coborderAffineChart i U' hU' ≤ coborderAffineChart i U hU := by
-    show (coborderAffineChart i U' hU').1 ≤ (coborderAffineChart i U hU).1
+    change (coborderAffineChart i U' hU').1 ≤ (coborderAffineChart i U hU).1
     rw [coborderAffineChart_coe, coborderAffineChart_coe]
     exact fun x hx => hle' hx
   have hnat : X.presheaf.map (homOfLE hle).op ≫ i.coborderRange.ι.app U'.1 =
@@ -290,8 +290,8 @@ chart of `X` around it is an affine open of `i.coborderRange` by
 `Stacks.Conormal.coborderAffineChart`, and `Stacks.Conormal.coborderSectionEquiv` carries the
 chart ideal and its generating sequence there. -/
 theorem isQuasiRegularImmersion_of_exists_quasiRegular_affineChart (i : Z ⟶ X) [IsImmersion i]
-    (h : ∀ z : Z, ∃ (U : X.affineOpens)
-      (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl)) (_ : z ∈ i ⁻¹ᵁ U.1) (c : ℕ)
+    (h : ∀ z : Z, ∃ (U : X.affineOpens),
+      IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl) ∧ ∃ (_ : z ∈ i ⁻¹ᵁ U.1) (c : ℕ)
       (f : Fin c → Γ(X, U.1)), chartIdeal i U = Ideal.span (Set.range f) ∧
         RingTheory.Sequence.IsQuasiRegular Γ(X, U.1) (List.ofFn f)) :
     Stacks.AlgebraicGeometry.RegularIdealSheaf.IsQuasiRegularImmersion i := by
@@ -329,8 +329,8 @@ theorem exists_quasiRegular_affineChart_of_isFiniteLocallyFree (i : Z ⟶ X) [Is
     (hfp : LocallyOfFinitePresentation i)
     (hflf : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} (conormalSheaf i))
     (hiso : ∀ n : ℤ, IsIso ((conormalSymmetricHom i).app n)) (z : Z) :
-    ∃ (U : X.affineOpens) (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl))
-      (_ : z ∈ i ⁻¹ᵁ U.1) (c : ℕ) (f : Fin c → Γ(X, U.1)),
+    ∃ (U : X.affineOpens), IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl) ∧
+      ∃ (_ : z ∈ i ⁻¹ᵁ U.1) (c : ℕ) (f : Fin c → Γ(X, U.1)),
       chartIdeal i U = Ideal.span (Set.range f) ∧
         RingTheory.Sequence.IsQuasiRegular Γ(X, U.1) (List.ofFn f) := by
   obtain ⟨U, hU, hzU, -, c, ⟨b⟩⟩ :=
@@ -345,7 +345,7 @@ theorem exists_quasiRegular_affineChart_of_isFiniteLocallyFree (i : Z ⟶ X) [Is
     rw [map_sub, map_one, sub_eq_zero] at h0
     exact h0
   have hpre : i ⁻¹ᵁ (X.affineBasicOpen r).1 = i ⁻¹ᵁ U.1 := by
-    show i ⁻¹ᵁ X.basicOpen r = i ⁻¹ᵁ U.1
+    change i ⁻¹ᵁ X.basicOpen r = i ⁻¹ᵁ U.1
     rw [Scheme.preimage_basicOpen, hres1, Scheme.basicOpen_one]
   have hunit : IsUnit ((X.presheaf.map (homOfLE hle).op).hom r) :=
     X.toRingedSpace.isUnit_res_basicOpen r

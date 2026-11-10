@@ -65,7 +65,7 @@ cartesian squares. -/
 @[stacks 0DJ9 "the conclusion over every cartesian square at once, in the spelling of \
 GlobalBaseChangeIsIsoOfPointwise, with the conditions of Tag 0DJ8 read in form (1)"]
 theorem globalBaseChangeIsIsoOfPointwise : GlobalBaseChangeIsIsoOfPointwise.{u} :=
-  fun f g f' g' hsq hqc hqs w _ K K' φ hK hK' hp =>
+  fun f g f' g' hsq hqc hqs _ _ K K' φ hK hK' hp =>
     @isIso_derivedBaseChangeComp_of_pointwiseBaseChange _ _ _ _ f g f' g' hsq hqc hqs K K' φ hK
       hK' hp
 

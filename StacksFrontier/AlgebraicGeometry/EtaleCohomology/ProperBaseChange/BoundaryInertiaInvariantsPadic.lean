@@ -157,6 +157,7 @@ theorem sheafCompose_forget₂_map_padicTransition (n : ℕ) :
   rfl
 
 set_option maxHeartbeats 1000000 in
+-- the final `change` unfolds composites of stalk isomorphisms of the `ℤ_ℓ`-level sheaves
 /-- **The transitions of the `ℤ_ℓ`-levels of `ℱ_ρ` are reduction on stalks.** -/
 theorem padicLevelStalkIso_padicTransition {s : GeometricPoint X.1}
     (p : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (n : ℕ)

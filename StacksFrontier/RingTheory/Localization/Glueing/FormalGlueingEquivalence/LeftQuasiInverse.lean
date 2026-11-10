@@ -130,8 +130,7 @@ private lemma tensorCechEquiv_comm (M : ModuleCat.{w} R) (i : Fin r) (x : S ⊗[
       (TensorProduct.comm R S M x)) =
     canonicalAlpha S f M i
       (LocalizedModule.mkLinearMap (Submonoid.powers (algebraMap R S (f i))) _ x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     exact (tensorCechEquiv_mk f S M i m s).trans (canonicalAlpha_mk S f M i s m).symm
   | add x y hx hy => simp only [map_add, hx, hy]
@@ -151,7 +150,7 @@ private lemma tensorCechEquiv_map (M : ModuleCat.{w} R) (i : Fin r)
       (fun a ↦ (isLocalized_lTensor S _ (canonicalLocalMk f M i)).map_units a)
     ext m
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, localCechEquiv_mk]
-    show tensorCechEquiv f S M i
+    change tensorCechEquiv f S M i
       (LocalizedModule.map _ _ (LocalizedModule.mk m 1)) = _
     rw [LocalizedModule.map_mk]
     exact tensorCechEquiv_mk f S M i m 1
@@ -249,7 +248,7 @@ private theorem canonicalToCompatibleSections_injective
   · funext s
     rcases s with ⟨s, hs⟩
     obtain ⟨i, rfl⟩ := Finset.card_eq_one.mp hs
-    show LocalizedModule.mkLinearMap (cechSub f {i}) M x =
+    change LocalizedModule.mkLinearMap (cechSub f {i}) M x =
       LocalizedModule.mkLinearMap (cechSub f {i}) M y
     rw [← localCechEquiv_mk f M i x, ← localCechEquiv_mk f M i y]
     exact congrArg (localCechEquiv f M i) (congrArg (fun z ↦ z.1.2 i) hxy)
@@ -273,7 +272,7 @@ public theorem canonicalSectionsUnit_isIso
   intro M
   rw [ConcreteCategory.isIso_iff_bijective]
   let e : TensorProduct R M S ≃ₗ[R] TensorProduct R S M := TensorProduct.comm R M S
-  show Function.Bijective (canonicalToCompatibleSections S f M)
+  change Function.Bijective (canonicalToCompatibleSections S f M)
   refine ⟨canonicalToCompatibleSections_injective R S f hflat hq M, fun x ↦ ?_⟩
   obtain ⟨y, hy⟩ := exists_singleton_family (cechMod f M)
     (fun i ↦ localCechEquiv f M i (x.1.2 i))
@@ -283,7 +282,7 @@ public theorem canonicalSectionsUnit_isIso
     · funext s
       rcases s with ⟨s, hs⟩
       obtain ⟨i, rfl⟩ := Finset.card_eq_one.mp hs
-      show LocalizedModule.mkLinearMap (cechSub f {i}) _ (e.symm x.1.1) -
+      change LocalizedModule.mkLinearMap (cechSub f {i}) _ (e.symm x.1.1) -
         LocalizedModule.map (cechSub f {i}) ((TensorProduct.mk R M S).flip 1)
           (y ⟨{i}, Finset.card_singleton i⟩) = 0
       apply sub_eq_zero.mpr
@@ -291,7 +290,7 @@ public theorem canonicalSectionsUnit_isIso
       rw [hy]
       exact (tensorCechEquiv_comm f S M i x.1.1).trans
         ((x.2.1 i).trans (tensorCechEquiv_map f S M i (x.1.2 i)).symm)
-    · show -(glueingDifferential f M 1 y) = 0
+    · change -(glueingDifferential f M 1 y) = 0
       have hcy : glueingDifferential f M 1 y = 0 := by
         refine (glueingDifferential_eq_zero_iff f y).mpr ?_
         intro i j
@@ -308,7 +307,7 @@ public theorem canonicalSectionsUnit_isIso
     exact h
   · funext i
     apply (localCechEquiv f M i).injective
-    show localCechEquiv f M i (canonicalLocalMk f M i m) = _
+    change localCechEquiv f M i (canonicalLocalMk f M i m) = _
     rw [localCechEquiv_mk]
     exact (congrArg (fun z ↦ z.2 (singletonIndex i)) hm).trans (hy i)
 
@@ -434,8 +433,7 @@ private noncomputable def sectionsCounit
     change X.alpha i (LocalizedModule.mkLinearMap _ _ (sectionsGenericCounit S f X m)) =
       TensorProduct.map _ _ (canonicalAlpha S f (ModuleCat.of R (sections S f X)) i
         (LocalizedModule.mkLinearMap _ _ m))
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul s x =>
       rw [sectionsGenericCounit_tmul, map_smul, map_smul, x.2.1 i]
       change s • ((1 : S) ⊗ₜ[R] x.1.2 i) =
@@ -547,7 +545,7 @@ private theorem sectionsGenericCounit_bijective_of_local
       LocalizedModule.mkLinearMap_apply, LocalizedModule.map_mk,
       LinearEquiv.coe_coe, LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply, e]
     exact (sectionsCounit S f X).alpha_compatibility i m
-  show Function.Bijective
+  change Function.Bijective
     ((LocalizedModule.map (Submonoid.powers (algebraMap R S (f i)))
       (sectionsGenericCounit S f X)).restrictScalars S)
   rw [h]
@@ -568,11 +566,11 @@ private theorem sectionsLocalCounit_bijective_of_isLocalized
     apply IsLocalizedModule.ext (Submonoid.powers (f i)) (canonicalLocalMk f M i)
       (localPiece_map_units S f X i)
     ext x
-    show sectionsLocalCounit S f X i (canonicalLocalMk f M i x) = e (canonicalLocalMk f M i x)
+    change sectionsLocalCounit S f X i (canonicalLocalMk f M i x) = e (canonicalLocalMk f M i x)
     rw [sectionsLocalCounit_mk]
     exact (IsLocalizedModule.linearEquiv_apply (Submonoid.powers (f i))
       (canonicalLocalMk f M i) (sectionsLocalProjection S f X i) x).symm
-  show Function.Bijective li
+  change Function.Bijective li
   rw [he]
   exact e.bijective
 
@@ -598,7 +596,7 @@ public theorem glueingMap_isIso_of_bijective
         have hc := g.alpha_compatibility i (eg.symm m)
         have hge : g.generic (eg.symm m) = m := eg.apply_symm_apply m
         rw [hge] at hc
-        show TensorProduct.map LinearMap.id (er i).toLinearMap
+        change TensorProduct.map LinearMap.id (er i).toLinearMap
             (X.alpha i (LocalizedModule.mkLinearMap _ _ (eg.symm m))) =
           TensorProduct.map LinearMap.id (er i).toLinearMap
             (TensorProduct.map LinearMap.id (er i).symm.toLinearMap
@@ -612,12 +610,12 @@ public theorem glueingMap_isIso_of_bijective
         have hc := g.alphaIJ_compatibility i j ((er i).symm m)
         have hle : g.localPiece i ((er i).symm m) = m := (er i).apply_symm_apply m
         rw [hle] at hc
-        show localizedMap f {i} (er j).toLinearMap
+        change localizedMap f {i} (er j).toLinearMap
             (X.alphaIJ i j (LocalizedModule.mkLinearMap _ _ ((er i).symm m))) =
           localizedMap f {i} (er j).toLinearMap
             (localizedMap f {i} (er j).symm.toLinearMap
               (Y.alphaIJ i j (LocalizedModule.mkLinearMap _ _ m)))
-        show _ = ((localizedMap f {i} (er j).toLinearMap).comp
+        change _ = ((localizedMap f {i} (er j).toLinearMap).comp
           (localizedMap f {i} (er j).symm.toLinearMap)) _
         rw [← localizedMap_comp, LinearEquiv.comp_symm, localizedMap_id, LinearMap.id_apply]
         exact hc.symm }

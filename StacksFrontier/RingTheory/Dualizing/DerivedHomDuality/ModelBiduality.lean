@@ -91,12 +91,12 @@ theorem bijective_derivedHom_map_of_finiteCohomology (ω K X : DerivedCategory (
         (T.map g).app L ≫ d.evaluation L M) := fun L M W => by
     convert (d.homEquiv W L M).bijective using 1
     funext g
-    show d.tensor.map (g, 𝟙 L) ≫ d.evaluation L M = d.homEquiv W L M g
+    change d.tensor.map (g, 𝟙 L) ≫ d.evaluation L M = d.homEquiv W L M g
     rw [DerivedHomAdjunction.evaluation, ← d.homEquiv_naturality_left, Category.comp_id]
   have hspec : (T.map (bidualityMor d ω K)).app (d.hom.obj (Opposite.op K, ω)) ≫
       d.evaluation (d.hom.obj (Opposite.op K, ω)) ω =
         (d.tensorSwap K (d.hom.obj (Opposite.op K, ω))).hom ≫ d.evaluation K ω := by
-    show d.tensor.map (show (K, d.hom.obj (Opposite.op K, ω)) ⟶
+    change d.tensor.map (show (K, d.hom.obj (Opposite.op K, ω)) ⟶
         (d.hom.obj (Opposite.op (d.hom.obj (Opposite.op K, ω)), ω),
           d.hom.obj (Opposite.op K, ω)) from (bidualityMor d ω K, 𝟙 _)) ≫ _ = _
     rw [DerivedHomAdjunction.evaluation, ← d.homEquiv_naturality_left, Category.comp_id,
@@ -104,7 +104,7 @@ theorem bijective_derivedHom_map_of_finiteCohomology (ω K X : DerivedCategory (
   refine (CategoryTheory.BidualityTransfer.bijective_comp_iff_bijective T
     d.tensorSwap
     (fun {Y Y'} f B => by
-      show d.tensor.map (show (Y, B) ⟶ (Y', B) from (f, 𝟙 B)) ≫ _ =
+      change d.tensor.map (show (Y, B) ⟶ (Y', B) from (f, 𝟙 B)) ≫ _ =
         _ ≫ d.tensor.map (show (B, Y) ⟶ (B, Y') from (𝟙 B, f))
       exact d.tensorSwap_naturality f (𝟙 B))
     (d.evaluation K ω) (d.evaluation X ω) (hbij X ω)

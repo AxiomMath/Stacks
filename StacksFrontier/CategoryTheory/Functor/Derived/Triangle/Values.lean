@@ -373,7 +373,7 @@ public lemma map_comp_ι_app_eq {X Y : C} (f : X ⟶ Y) {d : Cocone (indDiagram 
     refine ⟨MorphismProperty.Under.mk ⊤ (t₂.hom ≫ k ≫ q) hmem,
       MorphismProperty.Under.homMk (m ≫ q) key trivial,
       MorphismProperty.Under.homMk (k ≫ q) rfl trivial, ?_⟩
-    show f₁ ≫ m ≫ q = f₂ ≫ k ≫ q
+    change f₁ ≫ m ≫ q = f₂ ≫ k ≫ q
     rw [← Category.assoc, ← Category.assoc, hq']
   have hw₁ : F.map a.right ≫ d.ι.app t₃ = d.ι.app t₁ := d.w a
   have hw₂ : F.map b.right ≫ d.ι.app t₃ = d.ι.app t₂ := d.w b

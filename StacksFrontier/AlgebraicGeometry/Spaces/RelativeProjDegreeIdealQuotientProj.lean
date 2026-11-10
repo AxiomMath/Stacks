@@ -207,7 +207,7 @@ theorem epi_shrinkMap_app_of_surjective (n : ℤ) :
   refine epi_of_surjective_val_app_of_isAffine B S hS _ fun W hW y => ?_
   obtain ⟨z, hz⟩ := hsurj n W hW (SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₂ n (op W) y)
   refine ⟨(SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₁ n (op W)).symm z, ?_⟩
-  show (SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₂ n (op W)).symm
+  change (SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₂ n (op W)).symm
       ((ψ.app n).val.app (op W)
         (SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₁ n (op W)
           ((SheafOfModules.GradedAlgebra.smallPieceEquiv 𝒜₁ n (op W)).symm z))) = y
@@ -224,7 +224,7 @@ theorem epi_homPoints_hom_app_of_surjective (T : BigFppfOver B S hS) (f : yoneda
     Epi (((homPoints h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ).hom T f).app n) := by
   rw [homPoints_hom]
   refine (epi_restrictHom_app_iff h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ T f n).2 ?_
-  show Epi ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).map
+  change Epi ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).map
     ((etalePullHom (pointHom f) (shrinkMap h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ).toHom).app n))
   have h2 : (etalePullHom (pointHom f) (shrinkMap h₁c h₁n h₁q h₁k h₂c h₂n h₂q h₂k ψ).toHom).app n =
       (modulePullback B S hS (pointHom f)).map
@@ -449,7 +449,7 @@ theorem mul_mem_generatedByDegree {d : ℤ} (ℱ : (s.algebra.piece d).Submodule
   have h := (s.mem_mulStabilizer_iff ℱ i x).1 (s.generatedByDegree_le_mulStabilizer ℱ i U hx)
     (𝟙 U) j b
   have hid : (s.algebra.piece i).val.map (𝟙 U) x = x := by
-    show (s.algebra.piece i).val.presheaf.map (𝟙 U) x = x
+    change (s.algebra.piece i).val.presheaf.map (𝟙 U) x = x
     rw [CategoryTheory.Functor.map_id]
     rfl
   rwa [hid] at h

@@ -197,10 +197,10 @@ theorem exactAt_sectionsDoubleComplex_X (hinj : ∀ q : ℤ, Injective (Z.X q)) 
     (hp : p ≠ 0) : ((S.sectionsDoubleComplex Z).X q).ExactAt p := by
   rcases lt_trichotomy p 0 with h | h | h
   · exact HomologicalComplex.extend_exactAt _ ComplexShape.embeddingUpNat p
-      fun j => by show ((j : ℕ) : ℤ) ≠ p; omega
+      fun j => by change ((j : ℕ) : ℤ) ≠ p; omega
   · exact absurd h hp
   · have hk : ComplexShape.embeddingUpNat.f p.toNat = p := by
-      show ((p.toNat : ℕ) : ℤ) = p; omega
+      change ((p.toNat : ℕ) : ℤ) = p; omega
     refine (HomologicalComplex.extend_exactAt_iff _ ComplexShape.embeddingUpNat hk).2 ?_
     have := hinj q
     exact S.cechSectionsComplex_exactAt_of_injective (Z.X q) p.toNat (by omega)
@@ -281,7 +281,7 @@ abbrev injectiveResolutionZ : CochainComplex (Sheaf S.totalTopology Ab.{u}) ℤ 
 theorem isZero_injectiveResolutionZ_X (q : ℤ) (hq : q < 0) :
     IsZero ((S.injectiveResolutionZ F).X q) :=
   HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat q
-    fun i => by show ((i : ℕ) : ℤ) ≠ q; omega
+    fun i => by change ((i : ℕ) : ℤ) ≠ q; omega
 
 /-- **Every term of the extended chosen injective resolution is injective**: in the degrees
 coming from `ℕ` it is a term of the resolution, and elsewhere it is a zero object. -/

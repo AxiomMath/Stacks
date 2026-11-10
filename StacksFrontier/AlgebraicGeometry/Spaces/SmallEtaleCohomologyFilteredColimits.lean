@@ -141,7 +141,7 @@ lemma whiskeringRight_preservesInjectiveObjects
     have hh := congrArg (fun k : F ⟶ Q c ↦ k.app c) (Pi.lift_comp_π a c)
     change i.app c ≫ (Pi.π Q c).app c = (a c).app c at hh
     rw [hh]
-    show ((evaluationAdjunctionLeft A c).homEquiv F _).symm (a c) =
+    change ((evaluationAdjunctionLeft A c).homEquiv F _).symm (a c) =
       Injective.ι (F.obj c)
     exact ((evaluationAdjunctionLeft A c).homEquiv F _).symm_apply_apply
       (Injective.ι (F.obj c))
@@ -325,7 +325,7 @@ private lemma exists_quasiCompact_quasiSeparated_cover
       intro A D k hk
       have : AlgebraicGeometry.IsOpenImmersion
         ((BigFppfOver.toScheme B S hS).map k) := hk
-      show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map k)
+      change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map k)
       infer_instance
     intro A φ hφ
     exact hi A (φ ≫ f i) (isEtale_of_presheaf_etale B S hS (hEt i) A φ hφ)
@@ -349,11 +349,11 @@ private lemma exists_quasiCompact_quasiSeparated_cover
     obtain ⟨z, hz⟩ := (presheafSurjective_iff_isSurjective_yoneda
       B S hS (V i).toFunctor (hV.1 i).1 (T i) (f i)).mp (hSurj i) y
     refine ⟨⟨i⟩, z, ?_⟩
-    show pointsMap B S hS (yoneda.obj (T i)) (f i ≫ (V i).ι) z = x
+    change pointsMap B S hS (yoneda.obj (T i)) (f i ≫ (V i).ι) z = x
     rw [pointsMap_comp, Function.comp_apply, hz]
     exact hy
   · rintro ⟨i⟩
-    show IsQuasiCompactSpace B S hS (yoneda.obj (T i)) ∧
+    change IsQuasiCompactSpace B S hS (yoneda.obj (T i)) ∧
       IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T i))
     have := hAff i
     constructor
@@ -365,7 +365,7 @@ private lemma exists_quasiCompact_quasiSeparated_cover
         intro A φ
         refine ⟨A, φ, 𝟙 A, ?_, ?_⟩
         · simpa using IsPullback.id_vert φ
-        · show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 A))
+        · change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 A))
           simpa using (inferInstance : AlgebraicGeometry.Surjective (𝟙 _))
       · intro A φ hφ
         simpa using hφ
@@ -475,7 +475,7 @@ private lemma exists_finite_quasiCompact_quasiSeparated_refinement
       _ ⟨H, rfl, ht⟩
   · rintro ⟨⟨i, j⟩, hij⟩
     exact hqcqs i j
-  · show Sieve.generate H.presieve₀ ≤ R
+  · change Sieve.generate H.presieve₀ ≤ R
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
     rintro ⟨⟨i, j⟩, hij⟩
     exact R.downward_closed (hle _ _ ⟨i⟩) ((F i).f j)
@@ -490,6 +490,7 @@ private lemma spacesEtale_hom_ext
   ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ h))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for presheaf pullbacks on the big fppf site needs more than the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf (B : BigFppfSite.{u}) (S : Scheme.{u})
@@ -534,7 +535,7 @@ private lemma exists_quasiCompact_quasiSeparated_pullback
       simpa [Category.assoc] using U.property A (φ ≫ a.hom) (ha A φ hφ)⟩
   let a' : Q ⟶ U := ObjectProperty.homMk (Over.homMk a rfl)
   let b' : Q ⟶ V := ObjectProperty.homMk (Over.homMk b (by
-    show b ≫ V.obj.hom = a ≫ U.obj.hom
+    change b ≫ V.obj.hom = a ≫ U.obj.hom
     rw [← g.hom.w, ← f.hom.w, ← Category.assoc, ← Category.assoc, hab.w]))
   have hab' : a' ≫ f = b' ≫ g :=
     spacesEtale_hom_ext pullback.condition
@@ -545,19 +546,19 @@ private lemma exists_quasiCompact_quasiSeparated_pullback
         (ObjectProperty.homMk (pullback.lift s.fst.hom.left.hom s.snd.hom.left.hom
           (congrArg (fun f ↦ f.hom.left.hom) s.condition))) (by
             apply ObjectProperty.hom_ext
-            show pullback.lift _ _ _ ≫ (pullback.fst _ _ ≫ U.obj.hom.hom) = _
+            change pullback.lift _ _ _ ≫ (pullback.fst _ _ ≫ U.obj.hom.hom) = _
             rw [← Category.assoc, pullback.lift_fst]
             exact congrArg (fun f ↦ f.hom) s.fst.hom.w))
     refine PullbackCone.IsLimit.mk hab' lift
       (fun _ ↦ spacesEtale_hom_ext (pullback.lift_fst _ _ _))
       (fun _ ↦ spacesEtale_hom_ext (pullback.lift_snd _ _ _))
       fun s m hm₁ hm₂ ↦ spacesEtale_hom_ext (pullback.hom_ext ?_ ?_)
-    · show m.hom.left.hom ≫ pullback.fst f.hom.left.hom g.hom.left.hom =
+    · change m.hom.left.hom ≫ pullback.fst f.hom.left.hom g.hom.left.hom =
         pullback.lift s.fst.hom.left.hom s.snd.hom.left.hom _ ≫
           pullback.fst f.hom.left.hom g.hom.left.hom
       rw [pullback.lift_fst]
       exact congrArg (fun f ↦ f.hom.left.hom) hm₁
-    · show m.hom.left.hom ≫ pullback.snd f.hom.left.hom g.hom.left.hom =
+    · change m.hom.left.hom ≫ pullback.snd f.hom.left.hom g.hom.left.hom =
         pullback.lift s.fst.hom.left.hom s.snd.hom.left.hom _ ≫
           pullback.snd f.hom.left.hom g.hom.left.hom
       rw [pullback.lift_snd]
@@ -570,7 +571,7 @@ private lemma exists_quasiCompact_quasiSeparated_pullback
 -- The wide-pullback induction is
 -- `Stacks.Cohomology.exists_widePullback_in` of
 -- `StacksFrontier/CategoryTheory/Sites/Cohomology/FilteredColimits/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/FilteredColimits/SectionsOnALocallySmallSite.lean` (line 91); the private copy that used to stand here was
+-- SectionsOnALocallySmallSite.lean` (line 91); the private copy that used to stand here was
 -- the same statement.
 
 /-- Abelian sheaves on the site of algebraic spaces étale over `X` have enough injectives. -/
@@ -677,6 +678,7 @@ private lemma isIso_colimit_post_rightDerived_spacesGlobalSections
         Ab.{u + 1} (spacesTerminal_isTerminal B S hS X)).symm p)
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the dense-subsite comparison of the small étale site with the spaces étale site
 /-- Stacks 073E on the small étale site of schemes étale over `X`: that site is a dense
 subsite of the site of algebraic spaces étale over `X` by Stacks 03G1, so the two categories of
 abelian sheaves are equivalent compatibly with global sections. -/

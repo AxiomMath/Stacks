@@ -92,23 +92,19 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {U : C}
   (E : PreZeroHypercover.{w} U) (G : Sheaf J AddCommGrpCat.{t})
   [HasProducts.{w} AddCommGrpCat.{t}]
   [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
-  [HasSheafify (J.over U) AddCommGrpCat.{t}]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})]
 
 /-- The diagonal morphism from a member of the covering family to the one-member iterated
 fibre product of that member. -/
 def unaryLift (i : E.I₀) : Over.mk (E.f i) ⟶ (∏ᶜ fun _ : Fin 1 ↦ Over.mk (E.f i)) :=
   Pi.lift fun _ ↦ 𝟙 _
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] in
 /-- The diagonal of a one-member product is a section of each of its projections. -/
 lemma unaryLift_comp_π (i : E.I₀) (j : Fin 1) :
     unaryLift E i ≫ Pi.π (fun _ : Fin 1 ↦ Over.mk (E.f i)) j = 𝟙 _ :=
   Pi.lift_comp_π _ _
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] in
 /-- The diagonal of a one-member product is a retraction of each of its projections: a
 one-member product has a single projection, which is therefore an isomorphism. -/
 lemma π_comp_unaryLift (i : E.I₀) (j : Fin 1) :
@@ -201,14 +197,11 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {U : C}
   (E : PreZeroHypercover.{w} U) (G : Sheaf J AddCommGrpCat.{t})
   [HasProducts.{w} AddCommGrpCat.{t}]
   [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
-  [HasSheafify (J.over U) AddCommGrpCat.{t}]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})]
   (F F' : AbelianTorsor (G.over U))
   (s : ∀ i, F.1.presheaf.obj (op (Over.mk (E.f i))))
   (s' : ∀ i, F'.1.presheaf.obj (op (Over.mk (E.f i))))
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] in
 /-- Restricting the action of a section of the coefficient sheaf, in additive form. -/
 lemma map_act_ofAdd (T : AbelianTorsor (G.over U)) {W V : Over U} (r : V ⟶ W)
     (d : (G.over U).obj.obj (op W)) (y : T.1.presheaf.obj (op W)) :
@@ -315,8 +308,7 @@ def memberSieve (W : Over U) : Sieve W where
   downward_closed := fun ⟨i, hi⟩ q ↦ ⟨i, hi.map (fun g ↦ q ≫ g)⟩
 
 omit [HasProducts.{w} AddCommGrpCat.{t}]
-  [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
-  [HasSheafify (J.over U) AddCommGrpCat.{t}] [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
+  [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))] in
 /-- For a covering family, every object of `C/U` is covered by objects admitting a morphism to
 a member of the family. -/
 lemma memberSieve_mem (hE : E.sieve₀ ∈ J U) (W : Over U) :
@@ -336,8 +328,7 @@ def IsComparison {W : Over U} (x : F.1.presheaf.obj (op W)) (y : F'.1.presheaf.o
     F'.1.presheaf.map r.op y = compareValue E G F F' s s' (F.1.presheaf.map r.op x) g
 
 omit [HasProducts.{w} AddCommGrpCat.{t}]
-  [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
-  [HasSheafify (J.over U) AddCommGrpCat.{t}] [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
+  [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))] in
 /-- The comparison of a section is unique: two of them agree on a covering sieve. -/
 lemma isComparison_unique (hE : E.sieve₀ ∈ J U) {W : Over U} (x : F.1.presheaf.obj (op W))
     {y y' : F'.1.presheaf.obj (op W)} (hy : IsComparison E G F F' s s' x y)

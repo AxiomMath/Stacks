@@ -163,8 +163,7 @@ lemma thetaLin_δ (n m : ℤ) (x : RR ρ ⊗[A] (CochainComplex.HomComplexR A P 
     δ n m (thetaLin ρ P I n x) =
       thetaLin ρ P I m
         (LinearMap.lTensor (RR ρ) ((CochainComplex.HomComplexR A P I).d n m).hom x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b c =>
     rw [LinearMap.lTensor_tmul, thetaLin_tmul, thetaLin_tmul]
     exact (thetaCochain_δ ρ P I b c).symm

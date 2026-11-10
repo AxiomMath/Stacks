@@ -59,7 +59,7 @@ theorem CategoryTheory.isIso_of_isIso_map_comp_of_iso {C D : Type*} [Category C]
   have hst : s ≫ t = 𝟙 E := by
     apply hΦ.1
     have ht' : T.map t ≫ g = g ≫ inv (T.map a ≫ c) ≫ g := ht
-    show T.map (s ≫ t) ≫ g = T.map (𝟙 E) ≫ g
+    change T.map (s ≫ t) ≫ g = T.map (𝟙 E) ≫ g
     rw [T.map_comp, Category.assoc, ht', T.map_id, Category.id_comp, ← Category.assoc,
       ← hφ, IsIso.hom_inv_id_assoc]
   have hiso : IsIso s := ⟨t, hst, by rw [hE]; exact hst⟩

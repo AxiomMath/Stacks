@@ -150,14 +150,13 @@ theorem range_eval_eq_annihilator_quotient_span [Module.Invertible B ω] (τ : �
     have hmem : ∀ t : Module.Dual B ω ⊗[B] ω,
         b * contractLeft B ω t ∈ LinearMap.range ev := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul ψ z =>
         obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp (hspan z)
         refine ⟨a • ψ, ?_⟩
         have hψ := congrArg (fun y : ω ↦ ψ y) ha
         simp only [map_smul, smul_eq_mul] at hψ
-        show a * ψ τ = b * contractLeft B ω (ψ ⊗ₜ[B] z)
+        change a * ψ τ = b * contractLeft B ω (ψ ⊗ₜ[B] z)
         simpa using hψ
       | add s t hs ht =>
         simpa [mul_add] using Submodule.add_mem (LinearMap.range ev) hs ht

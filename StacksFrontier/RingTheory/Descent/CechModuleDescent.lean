@@ -145,6 +145,8 @@ include H
 noncomputable def comparisonEquiv : B₀ ⊗[A₀] N ≃ₗ[A₀] N₂ :=
   LinearEquiv.ofBijective (cechComparison φ₂) H.bijective_comparison
 
+omit [Module B₀ N] [IsScalarTower A₀ B₀ N] [AddCommGroup N₃] [Module A₀ N₃]
+  [Module (B₀ ⊗[A₀] (B₀ ⊗[A₀] B₀)) N₃] [IsScalarTower A₀ (B₀ ⊗[A₀] (B₀ ⊗[A₀] B₀)) N₃] H in
 /-- The comparison `cechComparison φ₂` is linear along `b ↦ b ⊗ 1`. -/
 lemma comparison_smul (b : B₀) (x : B₀ ⊗[A₀] N) :
     cechComparison φ₂ (b • x) = (b ⊗ₜ[A₀] (1 : B₀)) • cechComparison φ₂ x := by
@@ -162,10 +164,11 @@ noncomputable def coaction : N →ₗ[B₀] B₀ ⊗[A₀] N where
     apply H.comparisonEquiv.injective
     rw [LinearEquiv.apply_symm_apply, RingHom.id_apply]
     change φ₁ (b • n) = cechComparison φ₂ (b • H.comparisonEquiv.symm (φ₁ n))
-    rw [H.comparison_smul, H.φ₁_smul]
+    rw [comparison_smul, H.φ₁_smul]
     change _ = _ • H.comparisonEquiv (H.comparisonEquiv.symm (φ₁ n))
     rw [LinearEquiv.apply_symm_apply]
 
+omit [IsScalarTower A₀ B₀ N] in
 /-- The comparison `cechComparison φ₂` sends the coaction of `n` to `φ₁ n`. -/
 lemma comparison_coaction (n : N) : cechComparison φ₂ (H.coaction n) = φ₁ n :=
   H.comparisonEquiv.apply_symm_apply (φ₁ n)
@@ -212,10 +215,10 @@ noncomputable def datum : Datum A₀ B₀ N where
 `φ₁ n = φ₂ n`. -/
 lemma mem_descended_datum_iff (n : N) : n ∈ H.datum.descended ↔ φ₁ n = φ₂ n := by
   rw [Datum.mem_descended_iff]
-  show H.comparisonEquiv.symm (φ₁ n) = (1 : B₀) ⊗ₜ[A₀] n ↔ _
+  change H.comparisonEquiv.symm (φ₁ n) = (1 : B₀) ⊗ₜ[A₀] n ↔ _
   rw [LinearEquiv.symm_apply_eq]
   have h : H.comparisonEquiv ((1 : B₀) ⊗ₜ[A₀] n) = φ₂ n := by
-    show cechComparison φ₂ ((1 : B₀) ⊗ₜ[A₀] n) = φ₂ n
+    change cechComparison φ₂ ((1 : B₀) ⊗ₜ[A₀] n) = φ₂ n
     rw [cechComparison_tmul]
     exact one_smul _ _
   rw [h]

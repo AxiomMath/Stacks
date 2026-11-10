@@ -7,7 +7,8 @@ public import StacksFrontier.RingTheory.LocalCohomology.SectionsIso.Localization
 
 Let `R` be a commutative ring, `f : Fin r → R` a finite family, `I = (f₁, …, f_r)` and `M` an
 `R`-module whose universe is independent of the ring's. The sheaf axiom of
-`StacksFrontier/RingTheory/LocalCohomology/BasicOpenSections/Glue.lean` describes the sections of `M̃`
+`StacksFrontier/RingTheory/LocalCohomology/BasicOpenSections/Glue.lean`
+describes the sections of `M̃`
 on `U = Spec R \ V(I)` as the families of sections on the standard opens `D(f_i)` agreeing at every
 common point. This file translates that condition into the language of the Čech complex: a family
 `(m_i)` of elements of the localizations `M_{f_i}` is *Čech compatible* when the images of `m_a`

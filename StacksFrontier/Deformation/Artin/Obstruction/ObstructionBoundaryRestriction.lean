@@ -71,7 +71,7 @@ public theorem kernelMap_comp_eq_zero
   let := kerModule D₁.q D₁.squareZeroSurjection
   let := kerModule D₃.q D₃.squareZeroSurjection
   refine ModuleCat.hom_ext (LinearMap.ext fun z => Subtype.ext ?_)
-  show (g₂₁.kernelMap (g₃₂.kernelMap z)).1 = 0
+  change (g₂₁.kernelMap (g₃₂.kernelMap z)).1 = 0
   rw [g₂₁.kernelMap_spec]
   exact (hses.2.2.2.2.2.2.1 (g₃₂.kernelMap z)).2 ⟨z, (g₃₂.kernelMap_spec z).symm⟩
 
@@ -85,7 +85,7 @@ public theorem kernelSequenceShortExact
     rw [ModuleCat.mono_iff_injective]
     intro z z' hzz'
     apply hinj
-    show g₃₂.ringHom z.1 = g₃₂.ringHom z'.1
+    change g₃₂.ringHom z.1 = g₃₂.ringHom z'.1
     rw [← g₃₂.kernelMap_spec, ← g₃₂.kernelMap_spec, hzz']
   have hepi : Epi g₂₁.kernelMap := by
     rw [ModuleCat.epi_iff_surjective]
@@ -180,7 +180,7 @@ public theorem splitMap_fst
 public theorem splitMap_snd
     (hses : IsShortExactSequence D₁.q D₂.q D₃.q g₂₁.ringHom g₃₂.ringHom) (y : A₂) :
     ((splitMap hses y).snd).1 = g₂₁.ringHom y - baseSplitting hses (D₂.q y) := by
-  show g₂₁.ringHom y - baseSplitting hses (D₁.q (g₂₁.ringHom y)) = _
+  change g₂₁.ringHom y - baseSplitting hses (D₁.q (g₂₁.ringHom y)) = _
   rw [q_ringHom_apply hses]
 
 /-- The canonical isomorphism `A₁' = A[I₁]` carries the splitting to the inclusion of `A`. -/
@@ -192,7 +192,7 @@ public theorem ofHom_inlHom_eq
   ext a
   · exact (q_baseSplitting hses a).symm
   · refine Subtype.ext ?_
-    show (0 : A₁) = baseSplitting hses a - baseSplitting hses (D₁.q (baseSplitting hses a))
+    change (0 : A₁) = baseSplitting hses a - baseSplitting hses (D₁.q (baseSplitting hses a))
     rw [q_baseSplitting hses a, sub_self]
 
 /-! ### The morphism `Spec A[I₁] ⟶ Spec A₂'` over `S` -/
@@ -254,7 +254,7 @@ public theorem squareZeroArrow_comp_splitOver
     squareZeroArrow A B S hS toS hA (kernelSiteModule D₁) ≫ splitOver hses = D₂.arrow := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (TrivSqZeroExt.fstHom A A (kernelSiteModule D₁).obj).toRingHom) ≫
       Spec.map (CommRingCat.ofHom (splitMap hses)) = B.inclusion.map D₂.arrow.left
   rw [D₂.arrow_spec, ← Spec.map_comp]

@@ -60,7 +60,7 @@ theorem exists_isOpen_subset_closure_singleton_of_mem_genericPoints {α : Type*}
   have hfin := TopologicalSpace.NoetherianSpace.finite_irreducibleComponents (α := α)
   set C := closure ({v} : Set α) with hC
   set R := irreducibleComponents α \ {C} with hR
-  have hRfin : R.Finite := hfin.diff
+  have hRfin : R.Finite := hfin.sdiff
   refine ⟨(⋃₀ R)ᶜ, (hRfin.isClosed_sUnion fun D hD => isClosed_of_mem_irreducibleComponents D
     hD.1).isOpen_compl, ?_, ?_⟩
   · rintro ⟨D, ⟨hD, hDC⟩, hvD⟩
@@ -172,7 +172,7 @@ theorem exists_yoneda_isFiniteLocallyFree_of_restrict {X : (BigFppfOver B S hS)�
     rintro T _ ⟨s, rfl⟩
     have h1 : g.app T (σ.app T s.1) = p.app T (q.hom.app T s.1) :=
       congrFun (congrArg (fun φ => φ.app T) hσ) s.1
-    show g.app T (σ.app T s.1) ∈ N.obj T
+    change g.app T (σ.app T s.1) ∈ N.obj T
     rw [h1]
     exact s.2
   set τ := Subfunctor.lift (Ys.ι ≫ σ) hle with hτ

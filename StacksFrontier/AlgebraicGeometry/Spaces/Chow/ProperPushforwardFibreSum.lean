@@ -138,7 +138,7 @@ theorem bijOn_ambientGenericPoint_moduleSupport_fibre {f : X ⟶ Y} (hfB : f ≫
     have hxk := inducedDimensionValue_eq_of_mem_moduleSupport_of_pointsMap_eq D sX hX sY hY hfB F
       k hdimF W hW hx.2 hx.1
     have hZk : deltaDimension D sX Z = k := by
-      show inducedDimensionValue D.site D.base D.base_mem D.delta sX
+      change inducedDimensionValue D.site D.base D.base_mem D.delta sX
         (Z.ambientGenericPoint D.site D.base D.base_mem) = k
       rw [hξ, hxk]
     have himξ : (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1 hYdec f
@@ -151,7 +151,7 @@ theorem bijOn_ambientGenericPoint_moduleSupport_fibre {f : X ⟶ Y} (hfB : f ≫
       refine eq_of_mem_subspacePointSet_ambientGenericPoint D sY hY W _ ?_ ?_
       · rw [himξ]
         exact (W.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hY.1).mem
-      · show inducedDimensionValue D.site D.base D.base_mem D.delta sY
+      · change inducedDimensionValue D.site D.base D.base_mem D.delta sY
           ((IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1 hYdec f
             Z).ambientGenericPoint D.site D.base D.base_mem) =
           inducedDimensionValue D.site D.base D.base_mem D.delta sY

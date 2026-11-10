@@ -65,6 +65,7 @@ theorem ringOneHom_comp_map_unitToRestrictScalarsUnit :
       ringOneHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   hom_ext_sections fun U _ ↦ unitToRestrictScalarsUnit_val_app_one f.fSharpInverseImage U
 
+omit [HasWeakSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **The pullback of a global section, on underlying sheaves of sets** (Stacks 03CZ, 03LU): for
 `t : O_D ⟶ N`, the unit section followed by `f^*t : O_C ≅ f^*O_D ⟶ f^*N` is the image along
 `f⁻¹` of the global section `⊤ ⟶ O_D ⟶ N`, followed by the unit `c : f⁻¹N ⟶ f^*N` of extension
@@ -93,6 +94,7 @@ theorem ringOneHom_comp_map_pullbackModulesObjUnitIso_hom_comp_map
   exact (congrArg (fun x ↦ (((pullbackModulesObjUnitIso f).hom ≫ f.pullbackModules.map t).val.app
     U) x) (unitToRestrictScalarsUnit_val_app_one f.fSharpInverseImage U)).symm
 
+omit [HasWeakSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **The pullback of an endomorphism of the structure sheaf, on underlying sheaves of sets**:
 for `r : O_D ⟶ O_D`, the unit section followed by `O_C ≅ f^*O_D ⟶ f^*O_D ≅ O_C` is the image along
 `f⁻¹` of the global section `⊤ ⟶ O_D ⟶ O_D`, followed by `f♯ : f⁻¹O_D ⟶ O_C`. -/
@@ -140,6 +142,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the small étale site is deep (see the docstring)
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_ModulePullbackGlobalSectionSets
@@ -148,6 +151,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_ModulePullbackGlobal
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the small étale site is deep (see the docstring)
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasTerminal_topos_ModulePullbackGlobalSectionSets

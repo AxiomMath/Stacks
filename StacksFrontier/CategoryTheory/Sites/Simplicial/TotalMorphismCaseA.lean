@@ -246,7 +246,7 @@ def inclusionSquare (h : SimplicialSite.Morphism C C') (n : SimplexCategory) :
 /-- The components of the 2-cell of the square of the component inclusions are identities. -/
 @[simp]
 theorem inclusionSquare_app (h : SimplicialSite.Morphism C C') (n : SimplexCategory)
-    (V : C'.underlying.obj n) : (h.inclusionSquare n).natTrans.app V = 𝟙 _ :=
+    (V : C'.underlying.obj n) : (h.inclusionSquare n).app V = 𝟙 _ :=
   (eqToHom_app (h.ι_comp_totalFunctor (op n)).symm V).trans (eqToHom_refl _ _)
 
 /-- The 2-cell of the square of the component inclusions is an identity, so it drops out of any
@@ -254,7 +254,7 @@ composite. -/
 theorem inclusionSquare_app_comp (h : SimplicialSite.Morphism C C') (n : SimplexCategory)
     (V : C'.underlying.obj n) {W : CoGrothendieck C.totalPseudofunctor}
     (k : h.totalFunctor.obj ((CoGrothendieck.ι C'.totalPseudofunctor (op n)).obj V) ⟶ W) :
-    (h.inclusionSquare n).natTrans.app V ≫ k = k :=
+    (h.inclusionSquare n).app V ≫ k = k :=
   (congrArg (fun t => t ≫ k) (h.inclusionSquare_app n V)).trans (Category.id_comp k)
 
 /-- The factorization of an arrow of the total category out of a component of simplicial degree
@@ -265,7 +265,7 @@ private theorem inclusionSquare_factor (h : SimplicialSite.Morphism C C') (n : S
     {Z : C'.underlying.obj n} (a : X ⟶ (h.hom.app n).toFunctor.obj Z)
     (b : (CoGrothendieck.ι C'.totalPseudofunctor (op n)).obj Z ⟶ Y) :
     (CoGrothendieck.ι C.totalPseudofunctor (op n)).map a ≫
-        (h.inclusionSquare n).natTrans.app Z ≫ h.totalFunctor.map b =
+        (h.inclusionSquare n).app Z ≫ h.totalFunctor.map b =
       (⟨b.base, a ≫ (h.hom.app n).toFunctor.map b.fiber ≫
           eqToHom (h.app_obj_map b.base.unop Y.fiber)⟩ :
         (CoGrothendieck.ι C.totalPseudofunctor (op n)).obj X ⟶ h.totalFunctor.obj Y) :=
@@ -282,7 +282,7 @@ instance guitartExact_inclusionSquare (h : SimplicialSite.Morphism C C') (n : Si
   intro X Y g
   have comm : (CoGrothendieck.ι C.totalPseudofunctor (op n)).map
         (g.fiber ≫ eqToHom (h.app_obj_map g.base.unop Y.fiber).symm) ≫
-      (h.inclusionSquare n).natTrans.app _ ≫
+      (h.inclusionSquare n).app _ ≫
       h.totalFunctor.map (⟨g.base, 𝟙 ((C'.underlying.map g.base.unop).toFunctor.obj Y.fiber)⟩ :
         (CoGrothendieck.ι C'.totalPseudofunctor (op n)).obj
           ((C'.underlying.map g.base.unop).toFunctor.obj Y.fiber) ⟶ Y) = g := by

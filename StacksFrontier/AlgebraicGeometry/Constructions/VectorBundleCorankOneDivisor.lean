@@ -68,7 +68,7 @@ private theorem isRegular_vectorBundleSections {X : Scheme.{u}} (F : X.Modules) 
     {V : X.Opens} (hV : IsAffineOpen V) {s : SymmetricAlgebra Γ(X, V) Γ(F, V)}
     (hs : IsRegular s) : IsRegular (vectorBundleSections F hV s) := by
   let θF := RingEquiv.ofBijective (vectorBundleSections F hV) (vectorBundleSections_bijective F hV)
-  show IsRegular (θF s)
+  change IsRegular (θF s)
   refine (Commute.isRegular_iff fun _ => Commute.all _ _).2 fun z₁ z₂ hz => ?_
   obtain ⟨y₁, rfl⟩ := θF.surjective z₁
   obtain ⟨y₂, rfl⟩ := θF.surjective z₂
@@ -133,7 +133,7 @@ private theorem ker_symAlgMap_appₗ_eq_span_and_isRegular {r : ℕ} {V : X.Open
     Stacks.SectionEpiAffine.surjective_app_of_isAffineOpen X b V hV
   have hexL : ∀ z, Stacks.AlgebraicGeometry.QcohLimits.appₗ b V z = 0 ↔
       ∃ c : Γ(X, V), c • e = z := fun z => by
-    show b.app V z = 0 ↔ _
+    change b.app V z = 0 ↔ _
     rw [hex.2 z]
     constructor
     · rintro ⟨y, rfl⟩
@@ -149,16 +149,13 @@ private theorem ker_symAlgMap_appₗ_eq_span_and_isRegular {r : ℕ} {V : X.Open
     (Stacks.AlgebraicGeometry.QcohLimits.appₗ b V) hsurj e hexL hfree bQ
   set i : Γ(X, V) →ₗ[Γ(X, V)] Γ(F, V) := LinearMap.toSpanSingleton _ _ e with hi_def
   have hi1 : i 1 = e := by simp [hi_def]
-  have hinj : Function.Injective i := by
-    refine (injective_iff_map_eq_zero i).2 fun c hc => hfree c ?_
-    simpa [hi_def] using hc
   have hrange :
       LinearMap.range i = LinearMap.ker (Stacks.AlgebraicGeometry.QcohLimits.appₗ b V) := by
     ext z
     rw [LinearMap.mem_range, LinearMap.mem_ker, hexL z]
     simp [hi_def]
   obtain ⟨hker, hreg⟩ := Stacks.Chow.GenuineChern.ker_symAlgMap_eq_span_singleton_of_exact' i
-    (Stacks.AlgebraicGeometry.QcohLimits.appₗ b V) hinj hsurj hrange l (by rw [hi1, hl])
+    (Stacks.AlgebraicGeometry.QcohLimits.appₗ b V) hsurj hrange l (by rw [hi1, hl])
   rw [hi1] at hker hreg
   exact ⟨hker, hreg⟩
 
@@ -190,7 +187,7 @@ private theorem ideal_ker_vectorBundleMap_eq_span [Epi b] {V : X.Opens} (hV : Is
   rw [hker']
   ext y
   obtain ⟨t, rfl⟩ := θF.surjective y
-  show (vectorBundleMap X b).left.appLE _ _ hpre.ge (vectorBundleSections F hV t) = 0 ↔
+  change (vectorBundleMap X b).left.appLE _ _ hpre.ge (vectorBundleSections F hV t) = 0 ↔
     vectorBundleSections F hV t ∈ _
   rw [vectorBundleMap_appLE_vectorBundleSections b hV _ t]
   have hz : vectorBundleSections Q hV
@@ -202,7 +199,7 @@ private theorem ideal_ker_vectorBundleMap_eq_span [Epi b] {V : X.Opens} (hV : Is
       t ∈ Ideal.span {s} := by
     rw [← hs, RingHom.mem_ker]
   rw [hz, hk', Ideal.mem_span_singleton, Ideal.mem_span_singleton]
-  show _ ↔ θF s ∣ θF t
+  change _ ↔ θF s ∣ θF t
   exact ⟨map_dvd θF, fun h => by simpa using map_dvd θF.symm h⟩
 
 include hS in

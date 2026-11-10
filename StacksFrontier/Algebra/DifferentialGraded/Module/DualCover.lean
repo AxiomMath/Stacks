@@ -216,7 +216,7 @@ theorem exists_separating_char (M : DifferentialGradedModule A) {n : ℤ} {x : M
   refine ⟨CharacterModule.dual (LinearMap.range (dRestrictGrading M n)).mkQ c, fun z => ?_, hc⟩
   have hz : (LinearMap.range (dRestrictGrading M n)).mkQ (dRestrictGrading M n z) = 0 :=
     (Submodule.Quotient.mk_eq_zero _).mpr (LinearMap.mem_range_self _ z)
-  show c ((LinearMap.range (dRestrictGrading M n)).mkQ (dRestrictGrading M n z)) = 0
+  change c ((LinearMap.range (dRestrictGrading M n)).mkQ (dRestrictGrading M n z)) = 0
   rw [hz]
   exact map_zero c
 

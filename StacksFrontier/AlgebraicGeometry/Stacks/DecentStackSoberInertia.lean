@@ -184,7 +184,7 @@ theorem stacksSober_points_of_isDecent (𝒳 : AlgebraicStacks.{u, w} B S hS)
   refine ⟨AlgebraicStacks.pointsMap B S hS i (ψ η), ?_⟩
   have h1 := hη.image hψ.continuous
   rw [Set.image_univ, show closure (Set.range ψ) = Set.univ from hWdense.closure_eq] at h1
-  show closure {AlgebraicStacks.pointsMap B S hS i (ψ η)} = T
+  change closure {AlgebraicStacks.pointsMap B S hS i (ψ η)} = T
   rw [← hrange, ← Set.image_singleton, hφ.closure_image_eq, h1.def, Set.image_univ]
 
 end AlgebraicGeometry.Stack.AlgebraicStacks

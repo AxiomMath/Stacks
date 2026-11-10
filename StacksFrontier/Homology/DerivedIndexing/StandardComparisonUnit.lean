@@ -99,7 +99,7 @@ theorem ι_map_unit_comp_resolutionDerivedComparison_hom {M : A} (I : InjectiveR
       ((HomotopyCategory.Plus.quotient A).map (resolutionSinglePlusHom I))
     simp only [Functor.comp_map] at hn
     rw [Functor.mapCochainComplexPlusDerivedUnit_app]
-    show _ ≫ (F.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
+    change _ ≫ (F.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
       inv (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)))) = _
     exact unit_cancel F.rightDerivedFunctorPlus _ _ _ _ _ _ _ hJ hn
@@ -144,7 +144,7 @@ theorem map_resolutionSingleHom_f_zero (M : A) (I : InjectiveResolution M) :
     Category.id_comp,
     HomologicalComplex.extendMap_f _ _ hf,
     mapExtendIso_inv_f_eq F ComplexShape.embeddingUpNat I.cocomplex hf,
-    Iso.inv_hom_id, Category.comp_id, Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id, Category.comp_id, Iso.inv_hom_id_map_assoc]
   rw [← F.map_comp, ← F.map_comp, ← F.map_comp]
   exact congrArg F.map (cancel_aux _ _ _ _ _ (Iso.inv_hom_id _) (Iso.inv_hom_id _))
 

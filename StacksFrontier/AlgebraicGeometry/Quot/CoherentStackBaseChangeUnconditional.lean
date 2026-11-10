@@ -299,7 +299,7 @@ theorem coherentBaseChangeMap_comp_toBase' (hst : ModulePullbackStabilityOfFinit
         (BasedFunctor.comp (coherentToBase cd') (baseBasedMap g)).obj A := fun _ => rfl
   refine BasedCategory.BasedFunctor.ext'
     (CategoryTheory.Functor.hext hobj (fun A A' m => heq_of_eq ?_))
-  show ULift.up ((Equiv.cast (cd.hom_type _ _))
+  change ULift.up ((Equiv.cast (cd.hom_type _ _))
       ((D.baseChangeFunctor' hc hst g cd cd').map m)).base =
     ULift.up ((D.overBase g).map ((Equiv.cast (cd'.hom_type A A')) m).base)
   rw [D.baseChangeFunctor_cast' hc hst g cd cd' m]
@@ -456,7 +456,7 @@ theorem baseChangeSquare_hlift' (hst : ModulePullbackStabilityOfFinitePresentati
   intro A A' s t U V j hs ht
   let ce := Equiv.cast (cd.hom_type (D.baseChangeObject' hst g A) (D.baseChangeObject' hst g A'))
   have e : (ce s).base.left = t.down.left := by
-    show (coherentBasedCategory cd).p.map s =
+    change (coherentBasedCategory cd).p.map s =
       (baseBasedCategory (D.baseChange g).Y).p.map t
     rw [IsHomLift.fac' (coherentBasedCategory cd).p j s,
       IsHomLift.fac' (baseBasedCategory (D.baseChange g).Y).p j t]
@@ -465,12 +465,13 @@ theorem baseChangeSquare_hlift' (hst : ModulePullbackStabilityOfFinitePresentati
   obtain ⟨k, hkb, hks⟩ := D.exists_baseChangeHom' hc hst g t.down _ hβ
   refine ⟨(Equiv.cast (cd'.hom_type A A')).symm k, ?_, ?_⟩
   · refine ce.injective ?_
-    show ce ((D.baseChangeFunctor' hc hst g cd cd').map ((Equiv.cast (cd'.hom_type A A')).symm k)) =
+    change ce ((D.baseChangeFunctor' hc hst g cd cd').map
+        ((Equiv.cast (cd'.hom_type A A')).symm k)) =
       ce s
     refine (D.baseChangeFunctor_cast' hc hst g cd cd' _).trans ?_
     exact (congrArg (D.baseChangeHom' hst g (A := A) (A' := A'))
       (Equiv.apply_symm_apply (Equiv.cast (cd'.hom_type A A')) k)).trans hks
-  · show ULift.up ((Equiv.cast (cd'.hom_type A A'))
+  · change ULift.up ((Equiv.cast (cd'.hom_type A A'))
       ((Equiv.cast (cd'.hom_type A A')).symm k)).base = t
     rw [Equiv.apply_symm_apply, hkb]
     rfl

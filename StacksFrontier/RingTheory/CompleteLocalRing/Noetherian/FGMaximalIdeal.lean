@@ -140,7 +140,8 @@ private theorem homogeneousComponent_mul_of_isHomogeneous {K : Type*} [CommRing 
       = if D ≤ n then MvPolynomial.homogeneousComponent (n - D) p * g else 0 := by
   classical
   ext γ
-  rw [MvPolynomial.coeff_homogeneousComponent, apply_ite (fun q : MvPolynomial (Fin t) K => q.coeff γ),
+  rw [MvPolynomial.coeff_homogeneousComponent,
+    apply_ite (fun q : MvPolynomial (Fin t) K => q.coeff γ),
     AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, MvPolynomial.coeff_mul]
   have hterm : ∀ x ∈ Finset.antidiagonal γ,
       (if γ.degree = n then p.coeff x.1 * g.coeff x.2 else 0)

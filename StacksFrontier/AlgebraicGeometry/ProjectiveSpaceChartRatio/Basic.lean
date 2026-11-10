@@ -117,7 +117,7 @@ theorem appLE_top_top {Y Z : Scheme.{u}} (g : Y ⟶ Z)
     (e : (⊤ : Y.Opens) ≤ g ⁻¹ᵁ (⊤ : Z.Opens)) (z : Γ(Z, ⊤)) :
     g.appLE ⊤ ⊤ e z = g.appTop z := by
   rw [Scheme.Hom.appLE, CategoryTheory.ConcreteCategory.comp_apply]
-  show Y.presheaf.map (eqToHom (show g ⁻¹ᵁ (⊤ : Z.Opens) = ⊤ from rfl)).op _ = _
+  change Y.presheaf.map (eqToHom (show g ⁻¹ᵁ (⊤ : Z.Opens) = ⊤ from rfl)).op _ = _
   exact Functor.map_id_apply _ _ _
 
 section Coefficients

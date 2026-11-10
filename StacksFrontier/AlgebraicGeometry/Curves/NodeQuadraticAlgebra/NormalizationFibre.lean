@@ -79,7 +79,7 @@ private theorem specMapIso_algMap {R B C : Type u}
     (Scheme.Spec.mapIso e.toCommRingCatIso.op).hom ≫
         Spec.map (CommRingCat.ofHom (algebraMap R B)) =
       Spec.map (CommRingCat.ofHom (algebraMap R C)) := by
-  show Spec.map (CommRingCat.ofHom e.toRingEquiv.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom e.toRingEquiv.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R B)) =
     Spec.map (CommRingCat.ofHom (algebraMap R C))
   rw [← Spec.map_comp]
@@ -188,7 +188,7 @@ public theorem quadraticAlgebraSpecIsoNormalizationFiber
   have hbase : Spec.map (CommRingCat.ofHom (algebraMap A κ)) ≫ X.fromSpecStalk x =
       X.fromSpecResidueField x := by
     have hres : (algebraMap A κ) = (X.residue x).hom := IsLocalRing.ResidueField.algebraMap_eq A
-    show _ = Spec.map (X.residue x) ≫ X.fromSpecStalk x
+    change _ = Spec.map (X.residue x) ≫ X.fromSpecStalk x
     rw [show CommRingCat.ofHom (algebraMap A κ) = X.residue x from CommRingCat.hom_ext hres]
     rfl
   rw [hbase] at eBase

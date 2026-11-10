@@ -462,7 +462,7 @@ public theorem hasFiniteTorDimensionRingHom_of_forall_localizationAtPrime {A B :
   let algPB : Algebra (MvPolynomial (Fin n) A) B :=
     Algebra.ofModule (fun r x y => mul_assoc (α r) x y)
       (fun r x y => by
-        show x * (α r * y) = α r * (x * y)
+        change x * (α r * y) = α r * (x * y)
         ring)
   have hmap : algebraMap (MvPolynomial (Fin n) A) B = α.toRingHom :=
     RingHom.ext fun r => mul_one (α r)

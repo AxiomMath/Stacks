@@ -64,12 +64,12 @@ public theorem isIso_restrictFunctor_map_of_bijective_smul {Y Z : Scheme.{u}} (f
       rintro _ ⟨w, -, rfl⟩
       exact w.2
     obtain ⟨hp, hq⟩ := ha z _ hW
-    show IsIso (φ.app ((g ≫ f) ''ᵁ U))
+    change IsIso (φ.app ((g ≫ f) ''ᵁ U))
     rw [ConcreteCategory.isIso_iff_bijective]
     refine (Function.Bijective.of_comp_iff _ hp).mp ?_
     convert hq using 1
     funext c
-    show φ.app _ (c • A.presheaf.map (homOfLE hW).op (a z)) = _
+    change φ.app _ (c • A.presheaf.map (homOfLE hW).op (a z)) = _
     rw [Hom.app_smul]
     congr 1
     exact PresheafOfModules.naturality_apply φ.val (homOfLE hW).op (a z)

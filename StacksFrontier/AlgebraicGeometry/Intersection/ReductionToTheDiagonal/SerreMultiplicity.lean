@@ -123,8 +123,7 @@ private theorem annihilator_le_annihilator_tensorProduct_left {A : Type u} [Comm
   intro a ha
   rw [Module.mem_annihilator] at ha ⊢
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv => rw [smul_add, hu, hv, add_zero]
   | tmul m n => rw [TensorProduct.smul_tmul', ha m, TensorProduct.zero_tmul]
 
@@ -247,7 +246,8 @@ private theorem supportDim_le_zero_of_subset_closedPoint {A : Type u} [CommRing 
     Order.krullDim_le_of_strictMono (Set.inclusion hX) (Subtype.strictMono_coe _)
 
 /-- **A module supported in the closed point has support of dimension at most zero.** -/
-public alias supportDim_le_zero_of_support_subset_closedPoint := supportDim_le_zero_of_subset_closedPoint
+public alias supportDim_le_zero_of_support_subset_closedPoint :=
+  supportDim_le_zero_of_subset_closedPoint
 
 /-- **Each term of `χ(M, N)` is finite**, for `A` Noetherian local and `M ⊗_A N` supported in the
 maximal ideal. -/

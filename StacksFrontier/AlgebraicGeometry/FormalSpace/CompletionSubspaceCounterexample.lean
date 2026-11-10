@@ -263,7 +263,7 @@ private theorem appTop_specMap_varSection {S : CommRingCat.{0}} (f : polyRing �
 theorem appTop_mkVar_varSection (m : ℕ) :
     (Spec.map mkVar).appTop.hom (varSection m) = 0 := by
   rw [appTop_specMap_varSection]
-  show (Scheme.ΓSpecIso quotVar).inv.hom
+  change (Scheme.ΓSpecIso quotVar).inv.hom
     (Ideal.Quotient.mk varIdeal (MvPolynomial.X m : MvPolynomial ℕ ℤ)) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.2 (X_mem_varIdeal m), map_zero]
 
@@ -326,7 +326,7 @@ theorem pow_appTop_varSection_eq_zero
           ((toSch B hA).map (hG.1.2.rep.snd W.1.hom)).appTop.hom
             (((toSch B hA).map w).appTop.hom (varSection m)) := rfl
     rw [← h1, hcompmaps]
-    show ((toSch B hA).map l).appTop.hom ((Spec.map mkVar).appTop.hom (varSection m)) = 0
+    change ((toSch B hA).map l).appTop.hom ((Spec.map mkVar).appTop.hom (varSection m)) = 0
     rw [appTop_mkVar_varSection, map_zero]
   -- conclude from the vanishing of the power of the defining ideal
   have hpow := hid W
@@ -473,7 +473,7 @@ theorem exists_pow_appTop_mkPow_eq_zero
   rw [map_zero]
   funext i
   rw [Pi.algebraMap_apply]
-  show ((toSch B hA).map (coverHom B hA Q i)).appTop.hom
+  change ((toSch B hA).map (coverHom B hA Q i)).appTop.hom
     ((Spec.map mkPow).appTop.hom (varSection m) ^ (Finset.univ.sup n + 1)) = _
   rw [map_pow, hvan i]
   rfl

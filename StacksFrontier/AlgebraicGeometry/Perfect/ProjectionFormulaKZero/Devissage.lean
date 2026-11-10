@@ -365,7 +365,7 @@ theorem finite_setOf_two_mul_le (c : ℤ) :
     {k : ULift.{u} ℕ | 2 * (k.down : ℤ) ≤ c}.Finite := by
   refine ((Set.finite_Iic c.toNat).image fun n => (⟨n⟩ : ULift.{u} ℕ)).subset fun k hk => ?_
   refine ⟨k.down, ?_, rfl⟩
-  simp only [Set.mem_setOf_eq] at hk
+  simp only [Set.mem_ofPred_eq] at hk
   simp only [Set.mem_Iic]
   omega
 
@@ -373,7 +373,7 @@ theorem finite_setOf_two_mul_le (c : ℤ) :
 theorem finite_setOf_le_neg_two_mul (c : ℤ) :
     {k : ULift.{u} ℕ | c ≤ -(2 * (k.down : ℤ))}.Finite :=
   (finite_setOf_two_mul_le (-c)).subset fun k hk => by
-    simp only [Set.mem_setOf_eq] at hk ⊢
+    simp only [Set.mem_ofPred_eq] at hk ⊢
     omega
 
 end LocallyBounded
@@ -564,7 +564,7 @@ theorem map_truncGE_zero (M : DerivedCategory X.Modules) (hM : IsLocallyBoundedC
       fun n => (finite_setOf_two_mul_le n).subset fun k hk => by
         by_contra hlt
         exact hk (DerivedCategory.isZero_of_isGE _ (c k) n
-          (by simp only [Set.mem_setOf_eq, not_le] at hlt; linarith [hc k]))
+          (by simp only [Set.mem_ofPred_eq, not_le] at hlt; linarith [hc k]))
   have hA' : IsLocallyBoundedCoherent (∐ fun k : ULift.{u} ℕ => A ⟨k.down + 1⟩) :=
     hA (fun k => 2 * ((k.down + 1 : ℕ) : ℤ)) fun k => by push_cast; omega
   have hW : IsLocallyBoundedCoherent (∐ fun k => (T k).obj₁) :=
@@ -572,7 +572,7 @@ theorem map_truncGE_zero (M : DerivedCategory X.Modules) (hM : IsLocallyBoundedC
       (fun k n => homology_truncLT_truncGE M _ _ n)
       fun n => (finite_setOf_two_mul_le n).subset fun k hk => by
         by_contra hlt
-        simp only [Set.mem_setOf_eq, not_le] at hlt
+        simp only [Set.mem_ofPred_eq, not_le] at hlt
         have : DerivedCategory.IsGE ((T k).obj₁) (2 * (k.down : ℤ)) :=
           show t.IsGE ((t.truncLT _).obj (A k)) _ from inferInstance
         exact hk (DerivedCategory.isZero_of_isGE _ (2 * (k.down : ℤ)) n hlt)
@@ -602,7 +602,7 @@ theorem map_truncLT_zero (M : DerivedCategory X.Modules) (hM : IsLocallyBoundedC
     isLocallyBoundedCoherent_sigma_of_isZero_or_iso _ M hM (fun k n => homology_truncLT M _ n)
       fun n => (finite_setOf_le_neg_two_mul (n + 1)).subset fun k hk => by
         by_contra hlt
-        simp only [Set.mem_setOf_eq, not_le] at hlt
+        simp only [Set.mem_ofPred_eq, not_le] at hlt
         exact hk (DerivedCategory.isZero_of_isLE _ (c k - 1) n (by linarith [hc k]))
   have hA' : IsLocallyBoundedCoherent (∐ fun k : ULift.{u} ℕ => A ⟨k.down + 1⟩) :=
     hA (fun k => -(2 * ((k.down + 1 : ℕ) : ℤ))) fun k => by push_cast; omega
@@ -611,7 +611,7 @@ theorem map_truncLT_zero (M : DerivedCategory X.Modules) (hM : IsLocallyBoundedC
       (fun k n => homology_truncGE_truncLT M _ _ n)
       fun n => (finite_setOf_le_neg_two_mul (n + 1)).subset fun k hk => by
         by_contra hlt
-        simp only [Set.mem_setOf_eq, not_le] at hlt
+        simp only [Set.mem_ofPred_eq, not_le] at hlt
         have : DerivedCategory.IsLE ((T k).obj₃) (-(2 * (k.down : ℤ)) - 1) :=
           show t.IsLE ((t.truncGELT _ _).obj M) _ from inferInstance
         exact hk (DerivedCategory.isZero_of_isLE _ (-(2 * (k.down : ℤ)) - 1) n (by linarith))
@@ -742,14 +742,14 @@ theorem parityEulerClass_map_eq (M : DerivedCategory X.Modules)
       (fun k n => homology_truncLT_truncGE M _ _ n)
       fun n => (finite_setOf_two_mul_le n).subset fun k hk => by
         by_contra hlt
-        simp only [Set.mem_setOf_eq, not_le] at hlt
+        simp only [Set.mem_ofPred_eq, not_le] at hlt
         exact hk (hWz k n (Or.inl (by simpa [m] using hlt)))
   have hW's : IsLocallyBoundedCoherent (∐ W') :=
     isLocallyBoundedCoherent_sigma_of_isZero_or_iso _ M hM
       (fun k n => homology_truncGE_truncLT M _ _ n)
       fun n => (finite_setOf_le_neg_two_mul (n + 1)).subset fun k hk => by
         by_contra hlt
-        simp only [Set.mem_setOf_eq, not_le] at hlt
+        simp only [Set.mem_ofPred_eq, not_le] at hlt
         exact hk (hW'z k n (Or.inr (by simp only [m']; push_cast; omega)))
   let Q := (∐ V) ⊞ (∐ V')
   have hQ : IsLocallyBoundedCoherent Q := hV.biprod hV'

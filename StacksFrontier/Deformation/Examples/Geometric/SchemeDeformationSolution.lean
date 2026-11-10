@@ -317,10 +317,10 @@ theorem isIsomorphic_of_isomorphic_fiberSolution
     simp [← bh]
   refine ⟨⟨fiberHomOfShHom g th bh, fiberHomOfShHom (inv g) th' bh', ?_, ?_⟩⟩ <;>
     refine Functor.Fiber.hom_ext (SchemeDeformationCategory.Hom.ext ?_ (scheme_hom_ext_toShHom ?_))
-  · show eqToHom (x.2.trans y.2.symm) ≫ eqToHom (y.2.trans x.2.symm) = 𝟙 _
+  · change eqToHom (x.2.trans y.2.symm) ≫ eqToHom (y.2.trans x.2.symm) = 𝟙 _
     simp
   · exact IsIso.inv_hom_id g
-  · show eqToHom (y.2.trans x.2.symm) ≫ eqToHom (x.2.trans y.2.symm) = 𝟙 _
+  · change eqToHom (y.2.trans x.2.symm) ≫ eqToHom (x.2.trans y.2.symm) = 𝟙 _
     simp
   · exact IsIso.hom_inv_id g
 

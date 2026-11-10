@@ -128,7 +128,7 @@ lemma essFiniteType_stalkAlgebraOfHom [LocallyOfFiniteType f] :
     letI := stalkAlgebraOfHom f x
     Algebra.EssFiniteType (S.presheaf.stalk (f.base x)) (X.presheaf.stalk x) := by
   let := stalkAlgebraOfHom f x
-  show RingHom.EssFiniteType (f.stalkMap x).hom
+  change RingHom.EssFiniteType (f.stalkMap x).hom
   exact LocallyOfFiniteType.stalkMap f x
 
 /-- For `f` flat the composite of the stalk map with the map of `𝒪_{X, x}` into its fraction

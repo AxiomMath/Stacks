@@ -82,7 +82,7 @@ theorem exists_isAffineWContractible_cover_of_isAffine (T : S.ProEt) [IsAffine T
   let g₀ : Spec (CommRingCat.of D) ⟶ T.left := Spec.map r ≫ T.left.isoSpec.inv
   obtain ⟨hflat, hsurj⟩ := (flat_and_surjective_SpecMap_iff r).mpr hff
   have hdiag : Flat (pullback.diagonal (Spec.map r)) := by
-    show Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
+    change Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
     rw [diagonal_SpecMap A D]
     have hm : Flat (Spec.map (CommRingCat.ofHom
         (Algebra.TensorProduct.lmul' A (S := D)).toRingHom)) := by
@@ -104,7 +104,7 @@ theorem exists_isAffineWContractible_cover_of_isAffine (T : S.ProEt) [IsAffine T
     have hmap : (ProEt.forget S ⋙ Over.forget S).map p = g₀ := rfl
     rw [Presieve.map_singleton, hmap]
     exact @Scheme.Hom.singleton_mem_propQCPrecoverage @WeaklyEtale _ _ g₀ hweg hsurjg hqcg
-  show Sieve.generate (Presieve.ofArrows _ _) ∈ _
+  change Sieve.generate (Presieve.ofArrows _ _) ∈ _
   rw [Presieve.ofArrows_pUnit]
   exact Precoverage.generate_mem_toGrothendieck hmem
 
@@ -127,7 +127,7 @@ theorem hasEnoughObjects_isAffineWContractible :
       MorphismProperty.Comma.forget, Over.forget, ProEt.mk]
   have hE : E.presieve₀ ∈ ProEt.precoverage S T := by
     rw [ProEt.precoverage, Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map]
-    show (E.map (ProEt.forget S ⋙ Over.forget S)).presieve₀ ∈
+    change (E.map (ProEt.forget S ⋙ Over.forget S)).presieve₀ ∈
       Scheme.proetalePrecoverage T.left
     rw [hmap]
     exact ProEtale.zariskiPrecoverage_le_proetalePrecoverage T.left T.left.affineCover.mem₀
@@ -140,7 +140,7 @@ theorem hasEnoughObjects_isAffineWContractible :
       (Sieve.ofArrows V fun j ↦ p j ≫ E.f j).pullback (E.f j) := by
     intro Y a ha
     obtain ⟨_, b, hb⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 ha
-    show Sieve.ofArrows V _ (a ≫ E.f j)
+    change Sieve.ofArrows V _ (a ≫ E.f j)
     rw [hb, Category.assoc]
     exact Sieve.downward_closed _ (Sieve.ofArrows_mk V (fun j ↦ p j ≫ E.f j) j) b
   have hpb := (ProEt.topology S).pullback_stable i

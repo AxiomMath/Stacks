@@ -174,7 +174,7 @@ public theorem sheaf_iso_coproduct_skyscraper_of_closed_discrete_support
     obtain ⟨U, hyU, hU⟩ := exists_open_meets_closed_discrete_at_most_one Z hZ y
     apply stalk_map_isIso_of_locally_isIso (A.map c) y U hyU
     intro V hVU hyV
-    show IsIso ((G V).map c)
+    change IsIso ((G V).map c)
     apply map_coproductToProduct_isIso S (G V)
     intro i j hi hj
     have hiV : i.1 ∈ V := by_contra fun hcon => hi (hz V i hcon)
@@ -189,7 +189,7 @@ public theorem sheaf_iso_coproduct_skyscraper_of_closed_discrete_support
       have hp : IsIso (T.map (A.map (Pi.π S z))) := by
         apply stalk_map_isIso_of_locally_isIso _ y U hyU
         intro V hVU hyV
-        show IsIso ((G V).map (Pi.π S z))
+        change IsIso ((G V).map (Pi.π S z))
         exact isIso_fan_π_of_isZero _
           (isLimitOfPreserves (G V) (limit.isLimit (Discrete.functor S))) z fun j hj =>
             hz V j fun hjV => hj (Subtype.ext (hU j.1 j.2 (hVU hjV)))
@@ -215,7 +215,7 @@ public theorem sheaf_iso_coproduct_skyscraper_of_closed_discrete_support
     intro y
     let T := TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y
     have hisoP := isIso_stalkFunctor_map_sheafifyUnitPshMap y P
-    show IsIso (T.map (A.map f ≫ OXModule.sheafifyUnitPshMap P))
+    change IsIso (T.map (A.map f ≫ OXModule.sheafifyUnitPshMap P))
     have hcomp : T.map (A.map f ≫ OXModule.sheafifyUnitPshMap P) =
         T.map (A.map f) ≫ T.map (OXModule.sheafifyUnitPshMap P) := T.map_comp _ _
     rw [hcomp]

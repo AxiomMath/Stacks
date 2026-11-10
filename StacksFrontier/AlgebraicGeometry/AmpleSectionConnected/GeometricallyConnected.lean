@@ -13,7 +13,8 @@ have depth at least `2`, is connected. The Bertini induction of [Stacks, Tag 0FH
 than that topological conclusion: it needs `Z(s)` to be *geometrically* connected, and — once
 `Z(s)` is known to be smooth over the base field — irreducible.
 
-Both upgrades are available from results in the library, and this module performs the two compositions.
+Both upgrades are available from results in the library, and this module performs the two
+compositions.
 A connected scheme over a field with a rational point is geometrically connected
 ([Stacks, Tag 04KV]), and a connected scheme smooth over a field is irreducible
 ([Stacks, Tag 056S] and [Stacks, Tag 033M]).

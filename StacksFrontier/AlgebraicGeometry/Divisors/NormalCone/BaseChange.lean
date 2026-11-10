@@ -230,7 +230,7 @@ private lemma epi_of_span_on_basis {Z Z' : Scheme.{u}} (f : Z ⟶ Z')
   intro j
   ext y
   have hy := Submodule.eq_top_iff'.mp (hspan j) y
-  show p.app (B j) y = q.app (B j) y
+  change p.app (B j) y = q.app (B j) y
   induction hy using Submodule.span_induction with
   | mem y hy =>
     obtain ⟨a, rfl⟩ := hy
@@ -344,7 +344,7 @@ private theorem associatedGradedBaseChangeMap_surjective
   | _ b =>
     have hb : (b : S) ∈ Ideal.map (algebraMap R S) (I ^ n) := by
       simpa [← Ideal.map_pow] using b.property
-    show AssociatedGraded.mk _ n b ∈ F.range
+    change AssociatedGraded.mk _ n b ∈ F.range
     have hpow : ∀ {x : S}, x ∈ Ideal.map (algebraMap R S) (I ^ n) →
         x ∈ AssociatedGraded.power (M := S) (I.map (algebraMap R S)) n := fun h => by
       rwa [AssociatedGraded.ring_power_eq, ← Ideal.map_pow]
@@ -363,7 +363,7 @@ private theorem associatedGradedBaseChangeMap_surjective
       | zero =>
         intro hx
         exact ⟨0, by
-          show F 0 = AssociatedGraded.mk _ n 0
+          change F 0 = AssociatedGraded.mk _ n 0
           simp [AssociatedGraded.mk]⟩
       | add x y hx hy ihx ihy =>
         exact fun _ => F.range.add_mem (ihx (hpow hx)) (ihy (hpow hy))
@@ -391,7 +391,7 @@ private theorem associatedGradedToQuotient_injective {R : Type*} [CommRing R]
   | _ a =>
     change associatedGradedToQuotient I n (Submodule.Quotient.mk a) = 0 at hx
     change Submodule.Quotient.mk (a : R) = (0 : R ⧸ I ^ (n + 1)) at hx
-    show Submodule.Quotient.mk a = (0 : AssociatedGraded.piece (M := R) I n)
+    change Submodule.Quotient.mk a = (0 : AssociatedGraded.piece (M := R) I n)
     rw [Submodule.Quotient.mk_eq_zero]
     simpa using (Ideal.Quotient.eq_zero_iff_mem.mp hx)
 
@@ -421,7 +421,7 @@ private theorem associatedGradedBaseChangeMap_injective
       ((Submodule.quotEquivOfEq _ _ (Ideal.map_pow _ _ _)).restrictScalars R)
   have he (s : S) (r : R) : e (s ⊗ₜ[R] Ideal.Quotient.mk (I ^ (n + 1)) r) =
       Ideal.Quotient.mk J (s * algebraMap R S r) := by
-    show (Submodule.quotEquivOfEq _ _ (Ideal.map_pow _ _ _))
+    change (Submodule.quotEquivOfEq _ _ (Ideal.map_pow _ _ _))
       (tensorRingQuotientEquiv (I ^ (n + 1)) (s ⊗ₜ[R] Ideal.Quotient.mk _ r)) = _
     rw [tensorRingQuotientEquiv_tmul_mk]
     rfl
@@ -435,11 +435,11 @@ private theorem associatedGradedBaseChangeMap_injective
     intro s a
     induction a using Submodule.Quotient.induction_on with
     | _ a =>
-      show e (s ⊗ₜ[R] (associatedGradedToQuotient I n) (AssociatedGraded.mk I n a)) =
+      change e (s ⊗ₜ[R] (associatedGradedToQuotient I n) (AssociatedGraded.mk I n a)) =
         associatedGradedToQuotient (I.map (algebraMap R S)) n
           (associatedGradedBaseChangeMap I n (s ⊗ₜ[R] AssociatedGraded.mk I n a))
       rw [associatedGradedBaseChangeMap_tmul_mk, map_smul]
-      show e (s ⊗ₜ[R] Ideal.Quotient.mk (I ^ (n + 1)) (a : R)) =
+      change e (s ⊗ₜ[R] Ideal.Quotient.mk (I ^ (n + 1)) (a : R)) =
         s • Ideal.Quotient.mk J (algebraMap R S (a : R))
       rw [he]
       exact J.mkQ.map_smul s (algebraMap R S (a : R))
@@ -1044,7 +1044,7 @@ private lemma exists_chartDesc {Z X Z' X' : Scheme.{u}}
   · intro a
     obtain ⟨a, rfl⟩ := (chartSectionsEquiv i' C.target C.target_closed n).surjective a
     rw [← chartBaseChangeEquiv_tmul i i' f g sq.w.symm C n hker halg hsP a]
-    show (LinearMap.liftBaseChange Γ(X, C.source.1)
+    change (LinearMap.liftBaseChange Γ(X, C.source.1)
       (chartLinearMap i i' f g sq.w.symm C n ψ hsN))
         (E.symm (E ((1 : Γ(X, C.source.1)) ⊗ₜ[Γ(X', C.target.1)] a))) = _
     rw [E.symm_apply_apply, LinearMap.liftBaseChange_tmul, one_smul, chartLinearMap_mk]
@@ -1100,7 +1100,7 @@ private lemma exists_conormalDesc {Z X Z' X' : Scheme.{u}}
     refine sections_ext_of_cover N (fun z : i ⁻¹ᵁ D.source.1 => i ⁻¹ᵁ (E z).source.1)
       (fun z => i.preimage_mono (hED z)) (fun z hz => ⟨⟨z, hz⟩, hzE ⟨z, hz⟩⟩) fun z => ?_
     rw [← N.presheaf.map_comp_apply]
-    show N.presheaf.map (homOfLE (i.preimage_mono (hEC z))).op (d C a) = _
+    change N.presheaf.map (homOfLE (i.preimage_mono (hEC z))).op (d C a) = _
     rw [hn C (E z) (hEC z) (hTC z), hn D (E z) (hED z) (hTD z),
       ← (conormalPiece i (n : ℤ)).presheaf.map_comp_apply]
     rfl
@@ -1167,7 +1167,7 @@ theorem conormalAlgebraMap_isIso_of_flat {Z X Z' X' : Scheme.{u}}
   have : Epi φ := conormalAlgebraMap_epi i i' f g sq n
   refine ⟨⟨r, hφr, ?_⟩⟩
   apply (cancel_epi φ).mp
-  show φ ≫ (r ≫ φ) = φ ≫ 𝟙 _
+  change φ ≫ (r ≫ φ) = φ ≫ 𝟙 _
   rw [← Category.assoc, hφr, Category.id_comp, Category.comp_id]
 
 end AlgebraicGeometry

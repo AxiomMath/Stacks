@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.CountablePresentingRi
 
 An adic\* affine formal algebraic space over `S` is countably indexed: the powers of an ideal of
 definition of its presenting ring form a countable fundamental system of neighbourhoods of zero.
-These results are stated next to `StacksFrontier.AlgebraicGeometry.FormalSpace.CountablePresentingRing`
+These results are stated next to
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CountablePresentingRing`
 but kept in a module of their own, so that that module stays as it is on the base.
 
 ## Main definitions

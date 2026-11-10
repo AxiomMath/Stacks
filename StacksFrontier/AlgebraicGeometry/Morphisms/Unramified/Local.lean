@@ -68,7 +68,7 @@ public theorem unramified_ringHom_propertyIsLocal : RingHom.PropertyIsLocal
     funext R S iR iS g
     let := g.toAlgebra
     exact propext ⟨fun h => ⟨h.formallyUnramified, h.finiteType⟩, fun ⟨h1, h2⟩ => ⟨h1, h2⟩⟩
-  show RingHom.PropertyIsLocal Q
+  change RingHom.PropertyIsLocal Q
   rw [e]
   exact RingHom.FormallyUnramified.propertyIsLocal.and RingHom.finiteType_isLocal
 
@@ -178,7 +178,7 @@ public theorem unramified_tfae {X S : Scheme.{u}} (f : X ⟶ S) :
     unramified_ringHom_stableUnderCompositionWithLocalizationAwaySource
   tfae_have 1 ↔ 2 := by
     rw [h12]
-    show affineLocally Q f ↔ _
+    change affineLocally Q f ↔ _
     rw [affineLocally_iff_forall_isAffineOpen]
     constructor
     · intro h U hU V hV e
@@ -232,7 +232,7 @@ public theorem gUnramified_ringHom_propertyIsLocal : RingHom.PropertyIsLocal
     let := g.toAlgebra
     exact propext ⟨fun h => ⟨h.formallyUnramified, h.finitePresentation⟩,
       fun ⟨h1, h2⟩ => ⟨h1, h2⟩⟩
-  show RingHom.PropertyIsLocal Q
+  change RingHom.PropertyIsLocal Q
   rw [e]
   exact RingHom.FormallyUnramified.propertyIsLocal.and RingHom.finitePresentation_isLocal
 
@@ -328,7 +328,7 @@ public theorem gUnramified_tfae {X S : Scheme.{u}} (f : X ⟶ S) :
     gUnramified_ringHom_stableUnderCompositionWithLocalizationAwaySource
   tfae_have 1 ↔ 2 := by
     rw [h12]
-    show affineLocally Q f ↔ _
+    change affineLocally Q f ↔ _
     rw [affineLocally_iff_forall_isAffineOpen]
     constructor
     · intro h U hU V hV e

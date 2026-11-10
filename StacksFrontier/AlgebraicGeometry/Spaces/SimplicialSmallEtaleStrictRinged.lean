@@ -120,6 +120,7 @@ instance componentRealize_isDenseSubsite (n : SimplexCategory) :
   infer_instance
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance search for the dense-subsite instance `IsMorphismOfSites.ofIsDenseSubsite` needs
 /-- The realization of a strict component is a morphism of sites, being a dense subsite. -/
 theorem componentRealize_isMorphismOfSites (n : SimplexCategory) :
     IsMorphismOfSites.{u + 1} (componentRealize X n) ((strictSituation X).componentTopology n)
@@ -178,6 +179,7 @@ instance strictComponentRingedToposHom_isIso_fSharp (n : SimplexCategory) :
       (componentRealize X n) (SpacesEtale.structureSheaf B S hS (X.obj (op n)))).symm)
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance search for `IsEquivalence` of the sheaf pushforward along the realization
 /-- The direct image of `strictComponentRingedToposHom X n` is an equivalence of sheaf
 categories. -/
 instance strictComponentRingedToposHom_pushforward_isEquivalence (n : SimplexCategory) :

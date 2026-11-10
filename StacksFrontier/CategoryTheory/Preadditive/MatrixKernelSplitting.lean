@@ -86,7 +86,7 @@ theorem matrixHom_one_matrixKernelSplitting {n : ℕ} :
   by_cases h : i = j
   · subst h
     simp [End.one_asHom]
-  · rw [if_neg h, dif_neg (Ne.symm h), map_zero]
+  · rw [ite_eq_right h, dite_eq_right (Ne.symm h), map_zero]
     rfl
 
 /-- The zero matrix gives the zero morphism. -/
@@ -241,7 +241,7 @@ theorem app_freeObj_eq_matrixHom_smul_one_matrixKernelSplitting (n : ℕ) :
   by_cases h : j = i
   · subst h
     simp
-  · rw [dif_neg h, if_neg (Ne.symm h), comp_zero, smul_zero, map_zero]
+  · rw [dite_eq_right h, ite_eq_right (Ne.symm h), comp_zero, smul_zero, map_zero]
     rfl
 
 /-- **A scalar `x` with `N A = x · 1` kills the kernel of `A`**: an endomorphism of the identity

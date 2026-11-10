@@ -191,7 +191,7 @@ theorem gci_localization_dim_ge
   let φ : MvPolynomial (Fin n) k →+* S := (e.symm.toRingHom).comp mk
   obtain ⟨G, hG⟩ := Ideal.Quotient.mk_surjective (I := Ideal.span (Set.range f)) (e g)
   have hφG : φ G = g := by
-    show e.symm.toRingHom (mk G) = g
+    change e.symm.toRingHom (mk G) = g
     rw [show mk G = e g from hG]
     exact e.symm_apply_apply g
   set Q₀ : Ideal (MvPolynomial (Fin n) k) := 𝔮₀.comap φ with hQ₀def
@@ -199,9 +199,9 @@ theorem gci_localization_dim_ge
   have hkerle : Ideal.span (Set.range f) ≤ Q₀ := by
     rw [hQ₀def, Ideal.span_le]
     rintro x ⟨i, rfl⟩
-    show φ (f i) ∈ 𝔮₀
+    change φ (f i) ∈ 𝔮₀
     have hfi : φ (f i) = 0 := by
-      show e.symm.toRingHom (mk (f i)) = 0
+      change e.symm.toRingHom (mk (f i)) = 0
       have : mk (f i) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨i, rfl⟩)
       rw [this]; simp

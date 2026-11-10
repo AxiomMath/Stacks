@@ -132,7 +132,7 @@ theorem Functor.exists_conjSubobject_eq (e : P₂ ≅ P₁ ⋙ L) (hff : L.Fully
     simp
   refine ⟨kernelSubobject r, ?_,
     ⟨L.mapIso (Abelian.cokernelKernelSubobjectIso r) ≪≫ ψ⟩⟩
-  show kernelSubobject (Functor.conjQuotientProjection e (kernelSubobject r)) = K'
+  change kernelSubobject (Functor.conjQuotientProjection e (kernelSubobject r)) = K'
   exact (kernelSubobject_eq_of_comp_mono _ _ _ hkey).symm.trans (kernelSubobject_cokernel_π K')
 
 end Conjugation

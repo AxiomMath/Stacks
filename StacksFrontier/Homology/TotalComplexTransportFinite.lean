@@ -58,7 +58,7 @@ theorem preservesColimit_discrete_of_finite_support (G : C ⥤ D) [G.Additive] {
     fac t jj := ?_
     uniq t m hm := ?_ }⟩
   · obtain ⟨j⟩ := jj
-    show G.map (c.ι.app ⟨j⟩) ≫ _ = _
+    change G.map (c.ι.app ⟨j⟩) ≫ _ = _
     rw [comp_sum]
     simp_rw [← assoc, ← G.map_comp, hp]
     exact sum_map_dite_comp G X s hs (fun i => t.ι.app ⟨i⟩) j

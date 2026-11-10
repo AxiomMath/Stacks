@@ -82,7 +82,7 @@ theorem isPushout_pullback_pushout_of_flat (i : X ⟶ X') (f : X ⟶ Y) (hi : Is
   have := gluingHasPushout i f hi T₀
   let c := ((gluingAdjunction i f hi).counit.app W').left
   have hcl : IsIso c := by
-    show IsIso ((Over.forget _).map ((gluingAdjunction i f hi).counit.app W'))
+    change IsIso ((Over.forget _).map ((gluingAdjunction i f hi).counit.app W'))
     infer_instance
   have hc' : c = (gluingFromPair i f hi (𝟙 T₀)).left :=
     congrArg CommaMorphism.left (gluingAdjunction_counit_app_eq i f hi W')

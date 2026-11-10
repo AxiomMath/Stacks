@@ -171,8 +171,6 @@ theorem pullbackModulesIso_trans {f g h : RingedToposHom X Y} (s : TwoIso f g)
     conjugateEquiv_pullbackModulesIso_hom, conjugateEquiv_pullbackModulesIso_hom,
     conjugateEquiv_pullbackModulesIso_hom, pushforwardModulesIso_trans, Iso.trans_inv]
 
-variable [HasWeakSheafify Z.J AddCommGrpCat.{w''}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{w''}]
-
 /-- The composition isomorphism of pullbacks is natural in its first factor. For a
 2-isomorphism `s : f₁ ≅ f₂` and a morphism `g`, the square
 

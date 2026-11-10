@@ -158,7 +158,7 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_siteObject (Λ : Type u
   set k' : K ⟶ W' := Over.homMk (ObjectProperty.homMk kmap) (by
     have h := Over.w k
     refine Eq.trans ?_ h
-    show (ObjectProperty.homMk kmap : K.left ⟶ B.obj hΛ') ≫
+    change (ObjectProperty.homMk kmap : K.left ⟶ B.obj hΛ') ≫
       (ObjectProperty.homMk aW : B.obj hΛ' ⟶ W.left) ≫ W.hom = k.left ≫ W.hom
     rw [← Category.assoc]
     congr 1
@@ -168,7 +168,7 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_siteObject (Λ : Type u
     Scheme.Spec.mapIso e.toCommRingCatIso.op ≪≫ ι
   have hι' : ι'.hom ≫ (𝒯S).map k' ≫ (Iso.refl (Spec (.of Λ'))).hom =
       ContractionUniquenessComplete.closedPoint Λ' := by
-    show (Spec.map (CommRingCat.ofHom (e : ResidueField Λ →+* ResidueField Λ')) ≫ ι.hom) ≫
+    change (Spec.map (CommRingCat.ofHom (e : ResidueField Λ →+* ResidueField Λ')) ≫ ι.hom) ≫
       kmap ≫ 𝟙 _ = _
     simp only [kmap, Category.comp_id, Category.assoc, Iso.hom_inv_id_assoc]
     rw [← Spec.map_comp]
@@ -255,7 +255,7 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_siteObject (Λ : Type u
       (isQuasiCompact_yoneda_map_of_isAffineHom B S hS π ?_) (isFlat_yoneda_map B S hS π ?_)
       (isSurjective_yoneda_map B S hS π ?_)
     · have : IsAffine ((𝒯S).obj W) := .of_isIso ε.hom
-      show _root_.AlgebraicGeometry.IsAffineHom (Spec.map αΛ ≫ ε.inv)
+      change _root_.AlgebraicGeometry.IsAffineHom (Spec.map αΛ ≫ ε.inv)
       infer_instance
     · rw [hπ]; infer_instance
     · rw [hπ]; infer_instance
@@ -274,13 +274,13 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_siteObject (Λ : Type u
       (ObjectProperty.hom_ext _ hc₁'f) (ObjectProperty.hom_ext _ hc₁'s) hqc hdom ψ'b
       (ObjectProperty.hom_ext _ hψ'g)
       (ObjectProperty.hom_ext _ (by
-        show c₁' ≫ ψ'.hom ≫ pullback.fst g₂ yπ = pullback.fst fX yπ ≫ c₂
+        change c₁' ≫ ψ'.hom ≫ pullback.fst g₂ yπ = pullback.fst fX yπ ≫ c₂
         rw [reassoc_of% hψ'c, hc₂'f]))
   have hψp' : pullback.fst g₁ yπ ≫ ψ.hom.hom = ψ'.hom ≫ pullback.fst g₂ yπ :=
     congrArg (fun m => m.hom) hψp
   refine ⟨(ObjectProperty.ι _).mapIso ψ, congrArg (fun m => m.hom) hψg,
     congrArg (fun m => m.hom) hψc, ?_⟩
-  show i₁ ≫ ψ.hom.hom = yoneda.map φ.hom ≫ i₂
+  change i₁ ≫ ψ.hom.hom = yoneda.map φ.hom ≫ i₂
   have h₁ : i₁ = i₁' ≫ pullback.fst g₁ yπ := (pullback.lift_fst _ _ _).symm
   have h₂ : i₂ = i₂' ≫ pullback.fst g₂ yπ := (pullback.lift_fst _ _ _).symm
   rw [h₁, Category.assoc, hψp', reassoc_of% hψ'f, h₂]

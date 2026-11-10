@@ -175,8 +175,9 @@ add_to_sga "4 II 3.4" "more general" CategoryTheory.toSheafify_plusPlusIsoSheafi
 add_to_sga "4 II 3.5" CategoryTheory.presheafToSheaf
 add_to_sga "4 II 3.5" CategoryTheory.sheafification
 add_to_sga "4 II 3.5" CategoryTheory.sheafify
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "4 II 3.6" "more general"
-  CategoryTheory.GrothendieckTopology.instIsIsoSheafAppFunctorOppositeSheafComposeNatTransPlusPlusAdjunction
+  instIsIsoSheafAppFunctorOppositeSheafComposeNatTransPlusPlusAdjunction
 add_to_sga "4 II 3.6" "partial" CategoryTheory.GrothendieckTopology.sheafifyCompIso
 add_to_sga "4 II 4.1" "more general" CategoryTheory.Sheaf.createsLimitsOfShape
 add_to_sga "4 II 4.1" "special case" CategoryTheory.Sheaf.hasFilteredColimitsOfSize
@@ -369,8 +370,9 @@ add_to_sga "4 III 2.5" "(ii) ⇒ (i)" CategoryTheory.Adjunction.isContinuous_of_
 add_to_sga "4 III 2.5" "(ii) ⇒ (i)" CategoryTheory.instIsContinuousRightAdjointOfIsCocontinuous
 add_to_sga "4 III 2.6" "more general" CategoryTheory.Adjunction.Triple.fullyFaithfulEquiv
 add_to_sga "4 III 2.6" CategoryTheory.Functor.sheafAdjunctionCocontinuous
+open CategoryTheory.Functor.sheafPullbackConstruction in
 add_to_sga "4 III 2.6" "partial"
-  CategoryTheory.Functor.sheafPullbackConstruction.instIsRightAdjointSheafSheafPushforwardContinuousOfHasWeakSheafify
+  instIsRightAdjointSheafSheafPushforwardContinuousOfHasWeakSheafify
 add_to_sga "4 III 2.6" CategoryTheory.Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
 add_to_sga "4 III 2.7" "more general" CategoryTheory.Functor.sheafAdjunctionCocontinuous
 add_to_sga "4 III 2.7" "more general" IsOpenMap.adjunction

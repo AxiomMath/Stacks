@@ -98,7 +98,7 @@ theorem coherentDerivedComparison_mem
   let : PreservesFiniteColimits I :=
     ObjectProperty.preservesFiniteColimits_ι_of_isWeakSerreClass P
   let : I.Additive := I.additive_of_preserves_binary_products
-  show ∀ K : DerivedCategory P.FullSubcategory, ∀ i : ℤ,
+  change ∀ K : DerivedCategory P.FullSubcategory, ∀ i : ℤ,
     P ((DerivedCategory.homologyFunctor (_root_.SheafOfModules R) i).obj
       (I.mapDerivedCategory.obj K))
   intro K i

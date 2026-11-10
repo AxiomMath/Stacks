@@ -156,11 +156,11 @@ theorem isCountablyIndexed_and_isClassical_of_relative_isAffineHom
     IsCountablyIndexed B S hS X ∧ IsClassical B S hS X := by
   obtain ⟨hYmc, A, _, _, _, _, hA, hAadm⟩ := hYcl
   have hY : IsAffineFormalAlgebraicSpace B S hS Y := hYmc.1
-  obtain ⟨C, _, _, _, _, φ, hC, hXmc, hφc, hφt⟩ :=
+  obtain ⟨C, _, _, _, _, φ, hC, hXmc, -, hφt⟩ :=
     exists_taut_isPresentingRing_of_relative_isAffineHom B S hS f hf hY hYc A hA
   exact ⟨isCountablyIndexed_of_relative_isAffineHom B S hS f hf hYc,
     hXmc, C, _, _, _, _, hC,
-    RingHom.isPreAdmissible_of_isTaut φ hφc hφt hAadm.1, hC.1.2.2, hC.1.2.1⟩
+    RingHom.isPreAdmissible_of_isTaut φ hφt hAadm.1, hC.1.2.2, hC.1.2.1⟩
 
 /-- **Stacks 0AKP, part (6).** The source of a representable affine morphism of fppf sheaves
 which is locally of finite type and whose target is a Noetherian affine formal algebraic space
@@ -209,11 +209,11 @@ theorem isAdicStar_of_relative_isAffineHom'
   have hYc : IsCountablyIndexed B S hS Y := isCountablyIndexedOfIsAdicStar' B S hS Y hYa
   obtain ⟨hYmc, A, _, _, _, _, hA, hAadic, I, hIdef, hIfg⟩ := hYa
   have hY : IsAffineFormalAlgebraicSpace B S hS Y := hYmc.1
-  obtain ⟨C, _, _, _, _, φ, hC, hXmc, hφc, hφt⟩ :=
+  obtain ⟨C, _, _, _, _, φ, hC, hXmc, -, hφt⟩ :=
     exists_taut_isPresentingRing_of_relative_isAffineHom B S hS f hf hY hYc A hA
   let : @CompleteSpace C (IsTopologicalAddGroup.rightUniformSpace C) := hC.1.2.1
   let : T2Space C := hC.1.2.2
-  obtain ⟨J, hJfg, hJadic⟩ := RingHom.exists_fg_ideal_isAdic_of_isTaut φ hφc hφt
+  obtain ⟨J, hJfg, hJadic⟩ := RingHom.exists_fg_ideal_isAdic_of_isTaut φ hφt
     ⟨I, hIfg, Rig.idealOfDefinition_isAdic_of_isAdicRing hAadic I hIdef⟩
   have hJdef : TopologicalRing.IsIdealOfDefinition J :=
     TopologicalRing.isIdealOfDefinition_of_isAdic hJadic

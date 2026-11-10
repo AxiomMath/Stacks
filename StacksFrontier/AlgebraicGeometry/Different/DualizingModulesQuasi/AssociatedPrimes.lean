@@ -70,14 +70,14 @@ private theorem finiteDual_comap_associatedPrimes
       have hz' := congrArg (fun g : Module.Dual A C => g (s i)) hz
       have hz'' : f ((algebraMap A C a) * s i) = 0 := by
         simpa [algebraDualModule_smul_apply] using hz'
-      show a ∈ (⊥ : Submodule A A).colon {f (s i)}
+      change a ∈ (⊥ : Submodule A A).colon {f (s i)}
       rw [Submodule.mem_colon_singleton, Submodule.mem_bot]
       rwa [hsmul] at hz''
     · intro ha
-      show (algebraMap A C a) ∈ q
+      change (algebraMap A C a) ∈ q
       rw [hf, Submodule.mem_colon_singleton, Submodule.mem_bot]
       refine LinearMap.ext_on_range hs fun i => ?_
-      show f ((algebraMap A C a) * s i) = 0
+      change f ((algebraMap A C a) * s i) = 0
       have hz := ha i
       change a ∈ (⊥ : Submodule A A).colon {f (s i)} at hz
       rw [Submodule.mem_colon_singleton, Submodule.mem_bot] at hz
@@ -146,7 +146,7 @@ private theorem fieldFunctional_ann_eq_ker
     (ell : L →ₗ[K] K) (hell : ell ≠ 0) :
     {c : C | ∀ x : C, ell (φ (c * x)) = 0} = RingHom.ker φ.toRingHom := by
   ext c
-  show (∀ x : C, ell (φ (c * x)) = 0) ↔ φ c = 0
+  change (∀ x : C, ell (φ (c * x)) = 0) ↔ φ c = 0
   constructor
   · intro h
     by_contra hc
@@ -216,7 +216,7 @@ private theorem exists_nondegenerate_dual_of_finite_domain
   have hgen : ∀ i, g' (s i) ∈ S := by
     intro i
     rcases hden i with ⟨r, hr⟩
-    show ∃ r', algebraMap R K r' = g' (s i)
+    change ∃ r', algebraMap R K r' = g' (s i)
     refine ⟨r, ?_⟩
     simpa [g', LinearMap.smulRight_apply, dK, mul_comm] using hr
   have hall : ∀ z : D, g' z ∈ S := by
@@ -280,7 +280,7 @@ private theorem finiteDual_mem_associatedPrimes_of_comap_mem
   let m : A →ₗ[A] A := LinearMap.mulLeft A x
   have hmker : m.ker = p := by
     ext a
-    show m a = 0 ↔ a ∈ q.comap (algebraMap A C)
+    change m a = 0 ↔ a ∈ q.comap (algebraMap A C)
     rw [LinearMap.mulLeft_apply, hx]
     simp [Submodule.mem_colon_singleton, Submodule.mem_bot, mul_comm]
   let j : R →ₗ[A] A := p.liftQ m hmker.ge
@@ -291,9 +291,9 @@ private theorem finiteDual_mem_associatedPrimes_of_comap_mem
   have hcolon' : (⊥ : Submodule C (Module.Dual A C)).colon {f} = q := by
     ext c
     rw [Submodule.mem_colon_singleton, Submodule.mem_bot]
-    show (c • f = 0) ↔ c ∈ q
+    change (c • f = 0) ↔ c ∈ q
     rw [LinearMap.ext_iff]
-    show (∀ y : C, f (c * y) = 0) ↔ c ∈ q
+    change (∀ y : C, f (c * y) = 0) ↔ c ∈ q
     constructor
     · intro hc
       have hc' : ∀ z : D, hD ((Ideal.Quotient.mk q c) * z) = 0 := by
@@ -331,7 +331,7 @@ private theorem associatedPrimes_comap_ringEquiv
     rw [hx]
     ext r
     simp only [Ideal.mem_comap]
-    show e r ∈ (⊥ : Submodule S M).colon {x} ↔
+    change e r ∈ (⊥ : Submodule S M).colon {x} ↔
       r ∈ (⊥ : Submodule R M).colon {x}
     simp only [Submodule.mem_colon_singleton, Submodule.mem_bot]
     exact Iff.rfl
@@ -345,7 +345,7 @@ private theorem associatedPrimes_comap_ringEquiv
         simp [htop]
       · intro a b hab
         have habR : e.symm a * e.symm b ∈ p.comap e := by
-          show e (e.symm a * e.symm b) ∈ p
+          change e (e.symm a * e.symm b) ∈ p
           simpa using hab
         rcases hpR.mem_or_mem habR with ha | hb
         · left
@@ -358,7 +358,7 @@ private theorem associatedPrimes_comap_ringEquiv
     ext s
     obtain ⟨r, hr⟩ := e.surjective s
     rw [← hr]
-    show r ∈ p.comap e ↔ r ∈ (⊥ : Submodule R M).colon {x}
+    change r ∈ p.comap e ↔ r ∈ (⊥ : Submodule R M).colon {x}
     rw [← hxR]
     rfl
 
@@ -417,8 +417,7 @@ private noncomputable def awayTensorEquiv
     map_add' := swapMap0.map_add
     map_smul' := by
       intro a z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [swapMap0]
+      induction z using TensorProduct.inductionOn with
       | tmul b n => simp [swapMap0, TensorProduct.smul_tmul']
       | add z w hz hw => simp [map_add, hz, hw] }
   let swapMapInv : Bg ⊗[B] (B ⊗[C] M) →ₗ[Bg] Bg ⊗[B] N := {
@@ -426,8 +425,7 @@ private noncomputable def awayTensorEquiv
     map_add' := swapMapInv0.map_add
     map_smul' := by
       intro a z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [swapMapInv0]
+      induction z using TensorProduct.inductionOn with
       | tmul b n => simp [swapMapInv0, TensorProduct.smul_tmul']
       | add z w hz hw => simp [map_add, hz, hw] }
   let eSwapTensor : Bg ⊗[B] N ≃ₗ[Bg] Bg ⊗[B] (B ⊗[C] M) :=
@@ -445,8 +443,7 @@ private noncomputable def awayTensorEquiv
     map_add' := map0.map_add
     map_smul' := by
       intro a z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [map0]
+      induction z using TensorProduct.inductionOn with
       | tmul x m =>
         change e (a * x) ⊗ₜ[C] m = a • (e x ⊗ₜ[C] m)
         rw [map_mul]
@@ -458,8 +455,7 @@ private noncomputable def awayTensorEquiv
     map_add' := mapInv0.map_add
     map_smul' := by
       intro a z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [mapInv0]
+      induction z using TensorProduct.inductionOn with
       | tmul x m =>
         change e.symm (e a * x) ⊗ₜ[C] m = (a * e.symm x) ⊗ₜ[C] m
         rw [map_mul]
@@ -469,14 +465,12 @@ private noncomputable def awayTensorEquiv
     LinearEquiv.ofLinearMap mapF mapInv (by
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul x m => simp [mapF, mapInv, map0, mapInv0, TensorProduct.map_tmul]
       | add x y hx hy => simp [map_add, hx, hy]) (by
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul x m => simp [mapF, mapInv, map0, mapInv0, TensorProduct.map_tmul]
       | add x y hx hy => simp [map_add, hx, hy])
   let eTgtCg : LocalizedModule (.powers (algebraMap C B g)) N ≃ₗ[Cg]
@@ -545,9 +539,9 @@ public theorem mem_associatedPrimes_dualizingModule_iff
       ext c
       exact (IsScalarTower.algebraMap_apply C B Bg c).symm.trans (e.commutes c).symm
     have hcontract : q'.comap (algebraMap C B) = p := by
-      show qBg.comap ((algebraMap B Bg).comp (algebraMap C B)) = p
+      change qBg.comap ((algebraMap B Bg).comp (algebraMap C B)) = p
       rw [hsquare, Ideal.comap_comap]
-      show (qBg.comap e.toRingHom).comap (algebraMap C Cg) = p
+      change (qBg.comap e.toRingHom).comap (algebraMap C Cg) = p
       rw [hqBgE, hpunder]
     have hq'prime : q'.IsPrime := hqBgPrime.comap (algebraMap B Bg)
     have hpoint :
@@ -567,7 +561,7 @@ public theorem mem_associatedPrimes_dualizingModule_iff
       pCg ∈ associatedPrimes Cg (LocalizedModule (Submonoid.powers g) M) ↔
         pCg ∈ associatedPrimes Cg
           (LocalizedModule (Submonoid.powers (algebraMap C B g)) N) := by
-    show IsAssociatedPrime pCg (LocalizedModule (Submonoid.powers g) M) ↔
+    change IsAssociatedPrime pCg (LocalizedModule (Submonoid.powers g) M) ↔
       IsAssociatedPrime pCg
         (LocalizedModule (Submonoid.powers (algebraMap C B g)) N)
     exact awayEquiv.isAssociatedPrime_iff
@@ -598,13 +592,13 @@ public theorem mem_associatedPrimes_dualizingModule_iff
       _ ↔ p.comap (algebraMap A C) ∈ associatedPrimes A A := hfinite
   have hpA : p.comap (algebraMap A C) = q.asIdeal.comap (algebraMap A B) := by
     ext a
-    show algebraMap C B (algebraMap A C a) ∈ q.asIdeal ↔
+    change algebraMap C B (algebraMap A C a) ∈ q.asIdeal ↔
       algebraMap A B a ∈ q.asIdeal
     rw [← IsScalarTower.algebraMap_apply A C B a]
   let eN : N ≃ₗ[B] dualizingModule F := LinearEquiv.refl B N
   have hN : q.asIdeal ∈ associatedPrimes B N ↔
       q.asIdeal ∈ associatedPrimes B (dualizingModule F) := by
-    show IsAssociatedPrime q.asIdeal N ↔
+    change IsAssociatedPrime q.asIdeal N ↔
       IsAssociatedPrime q.asIdeal (dualizingModule F)
     exact eN.isAssociatedPrime_iff
   exact hN.symm.trans (by simpa [hpA] using hscalar)

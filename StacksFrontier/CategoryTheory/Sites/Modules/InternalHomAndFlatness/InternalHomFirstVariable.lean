@@ -80,6 +80,7 @@ private noncomputable def sheafTranspose
     (f : A ⟶ siteSheafInternalHom J O B G) : B ⟶ siteSheafInternalHom J O A G :=
   ⟨Stacks.PresheafOfModules.InternalHom.transposeHom O.obj f.val⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private lemma sheafTranspose_involutive
     {A B G : _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)}
     (f : A ⟶ siteSheafInternalHom J O B G) :
@@ -87,6 +88,7 @@ private lemma sheafTranspose_involutive
   _root_.SheafOfModules.hom_ext
     (Stacks.PresheafOfModules.InternalHom.transposeHom_involutive O.obj f.val)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private lemma sheafTranspose_comp
     {A A' B G :
       _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)}
@@ -120,6 +122,7 @@ noncomputable instance siteInternalHomFirstFunctor_preservesColimitsOfShape
   infer_instance
 
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 private theorem siteInternalHomFirstFunctor_preservesZeroMorphisms
     (G : _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)) :
     (siteInternalHomFirstFunctor J O G).PreservesZeroMorphisms :=
@@ -144,6 +147,7 @@ local instance wEqualsLocallyBijective_addCommGrpCat :
   GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{v, max u v, u,
     max (u + 1) (v + 1), max u v} J
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Precomposition along an epimorphism is a monomorphism of internal Hom sheaves. -/
 theorem sheafInternalHomMapLeft_mono_of_epi
     {F₁ F G : _root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J)) O)}
@@ -156,6 +160,7 @@ theorem sheafInternalHomMapLeft_mono_of_epi
       (siteInternalHomFirstFunctor J O G)
   exact (op_epi_iff _).1 hepi
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- If `S` is an exact sequence of sheaves of modules with `S.g` an epimorphism, then
 precomposition with `S.g` and `S.f` gives a sequence of internal Hom sheaves with zero composite,
 exact at its middle term. -/

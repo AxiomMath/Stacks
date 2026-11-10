@@ -153,11 +153,11 @@ theorem minimalPrimesSplitAtIdentityArrow_of_isAlgClosed (G : GroupoidInAlgebrai
   have hfst : y₁ = identityArrowPoint G z := geometricPointMap_fst_identityPairPoint G z
   have hsnd : y₂ = identityArrowPoint G z := geometricPointMap_snd_identityPairPoint G z
   have hy₁ : Space.geometricPointMap (identityArrow G).hom w₀ = y₁ := by
-    show Space.geometricPointMap (identityArrow G).hom (Space.geometricPointMap G.source.hom y₁)
+    change Space.geometricPointMap (identityArrow G).hom (Space.geometricPointMap G.source.hom y₁)
       = y₁
     rw [hfst, geometricPointMap_source_identityArrowPoint]
   have hy₂ : Space.geometricPointMap (identityArrow G).hom w₂ = y₂ := by
-    show Space.geometricPointMap (identityArrow G).hom (Space.geometricPointMap G.target.hom y₂)
+    change Space.geometricPointMap (identityArrow G).hom (Space.geometricPointMap G.target.hom y₂)
       = y₂
     rw [hsnd, geometricPointMap_target_identityArrowPoint]
   -- the base field and the two factors

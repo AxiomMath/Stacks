@@ -85,10 +85,10 @@ theorem isQuasicoherent_restrict_fromSpec_of_basis (N : X.Modules) {U : X.Opens}
       rwa [hU.range_fromSpec] at hp'
     obtain ⟨a, has, hya, haW⟩ := hs _ hpU (hU.fromSpec ''ᵁ W) ⟨p, hp, rfl⟩
     refine ⟨_, ⟨⟨a, has⟩, rfl⟩, ?_, ?_⟩
-    · show p ∈ (PrimeSpectrum.basicOpen a : (Spec Γ(X, U)).Opens)
+    · change p ∈ (PrimeSpectrum.basicOpen a : (Spec Γ(X, U)).Opens)
       rw [← hU.fromSpec_preimage_basicOpen]
       exact hya
-    · show (PrimeSpectrum.basicOpen a : (Spec Γ(X, U)).Opens) ≤ W
+    · change (PrimeSpectrum.basicOpen a : (Spec Γ(X, U)).Opens) ≤ W
       rw [← hU.fromSpec_preimage_basicOpen]
       exact (Scheme.Hom.preimage_mono _ haW).trans (hU.fromSpec.preimage_image_eq W).le
   have hWb : (hU.fromSpec ⁻¹ᵁ X.basicOpen a) = PrimeSpectrum.basicOpen a :=
@@ -109,7 +109,7 @@ theorem isQuasicoherent_restrict_fromSpec_of_basis (N : X.Modules) {U : X.Opens}
       restrictₗ N (X.basicOpen_le a) ∘ₗ ι₁.toLinearMap := by
     refine LinearMap.ext fun x ↦ ?_
     obtain ⟨y, rfl⟩ : ∃ y : Γ(N, hU.fromSpec ''ᵁ (⊤ : (Spec Γ(X, U)).Opens)), y = x := ⟨x, rfl⟩
-    show N.presheaf.map _ (N.presheaf.map _ y) = N.presheaf.map _ (N.presheaf.map _ y)
+    change N.presheaf.map _ (N.presheaf.map _ y) = N.presheaf.map _ (N.presheaf.map _ y)
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply]
     rfl
   exact (isLocalizedModule_iff_of_comp_equiv_eq (Submonoid.powers a) _ _ ι₁ ι₂ heq).mpr (h a has)
@@ -157,7 +157,7 @@ theorem isLocalizedModule_restrictₗ {e c : I.ι} (h : I.Refines e c) (a : Γ(Y
   have heq : restrictₗ S.sheaf (I.le_of_refines h) ∘ₗ (S.sectionsEquiv c).symm.toLinearMap =
       σe.toLinearMap ∘ₗ (S.ρ h).restrictScalarsAlong := by
     refine LinearMap.ext fun x => (S.sectionsEquiv e).injective ?_
-    show S.sectionsEquiv e (S.sheaf.presheaf.map _ ((S.sectionsEquiv c).symm x)) =
+    change S.sectionsEquiv e (S.sheaf.presheaf.map _ ((S.sectionsEquiv c).symm x)) =
       S.sectionsEquiv e ((S.sectionsEquiv e).symm (S.ρ h x))
     rw [sectionsEquiv_restrict, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
   exact (isLocalizedModule_iff_of_comp_equiv_eq (Submonoid.powers a) _ _ (S.sectionsEquiv c).symm

@@ -224,7 +224,7 @@ theorem generic_map_smul_conj {R R' : Type u} [CommRing R] [CommRing R'] (ρ : R
   simp only [Category.assoc]
   rw [hQ, reassoc_of% hn, ← F'.map_comp_assoc,
     ModuleCat.ExtendScalars.map_smul_id_comp_objSelfIso_hom, F'.map_comp_assoc, reassoc_of% hP]
-  simp only [Iso.map_inv_hom_id_assoc, Iso.hom_inv_id_assoc]
+  simp only [Iso.inv_hom_id_map_assoc, Iso.hom_inv_id_assoc]
 
 end GenericSmul
 

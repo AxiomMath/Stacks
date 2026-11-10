@@ -59,7 +59,8 @@ an affine open around `x`. What the dichotomy below contributes there is the hyp
 makes the spread-out subalgebra quasi-coherent, `m_x·(f_*𝒪_{X'})_x ⊆ E`: its first branch gives it
 for every `E`, and in its second branch `𝒪_{X,x} + m_x·(f_*𝒪_{X'})_x` is an `E` that satisfies it.
 
-**For the one subalgebra this file produces the passage is explicit.** `𝒪_{X,x} + m_x·(f_*𝒪_{X'})_x` is spread out to the quasi-coherent
+**For the one subalgebra this file produces the passage is explicit.** `𝒪_{X,x} + m_x·(f_*𝒪_{X'})_x`
+is spread out to the quasi-coherent
 `𝒪_X + ℐ_x · f_*𝒪_{X'}` by `Stacks.GlueSquishFactor.idealSmulSubalg` in
 `StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.SpreadOutSubalgebra`, which is
 `Stacks.AlgebraicGeometry.SubalgebraGeneratedByModule.genSubalg` composed with

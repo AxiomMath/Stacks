@@ -243,14 +243,14 @@ theorem adjoin_range_eq_adjoin_range_X (k K : Type*) [Field k] [Field K] [Algebr
   · rintro x ⟨f, rfl⟩
     induction f using MvPolynomial.induction_on with
     | C a =>
-        show ψ (MvPolynomial.C a) ∈ adjoin k S
+        change ψ (MvPolynomial.C a) ∈ adjoin k S
         have hc : ψ (MvPolynomial.C a) = algebraMap k K a := by
           rw [← MvPolynomial.algebraMap_eq]; exact ψ.commutes a
         rw [hc]
         exact (adjoin k S).algebraMap_mem a
     | add f g hf hg => simpa using add_mem hf hg
     | mul_X f i hf =>
-        show ψ (f * MvPolynomial.X i) ∈ adjoin k S
+        change ψ (f * MvPolynomial.X i) ∈ adjoin k S
         rw [map_mul]
         exact mul_mem hf (subset_adjoin k S ⟨i, rfl⟩)
   · rintro x ⟨i, rfl⟩

@@ -124,14 +124,14 @@ lemma kernel_section_lift
     map_add' := by intro m n; simp [add_zsmul] }
   have hs : s ≫ E.map g = 0 := by
     ext n
-    show (ConcreteCategory.hom (g.hom.app U)) ((n.down : ℤ) • x) = 0
+    change (ConcreteCategory.hom (g.hom.app U)) ((n.down : ℤ) • x) = 0
     rw [map_zsmul, hx]
     simp
   let f := hE'.lift (KernelFork.ofι s hs)
   refine ⟨(ConcreteCategory.hom f) (ULift.up 1), ?_⟩
   have hf' := ConcreteCategory.congr_hom
     (hE'.fac (KernelFork.ofι s hs) WalkingParallelPair.zero) (ULift.up 1)
-  show (ConcreteCategory.hom ((kernel.ι g).hom.app U))
+  change (ConcreteCategory.hom ((kernel.ι g).hom.app U))
       ((ConcreteCategory.hom f) (ULift.up 1)) = x
   calc
     _ = (ConcreteCategory.hom (E.map (kernel.ι g)))

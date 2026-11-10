@@ -225,7 +225,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
   let O₀ : OpenSubspaces B S hS W.1 := openSubspaceUnion B S hS W U₀ ⟨U, hUo⟩
   have hO₀qc : IsQuasiCompactSpace B S hS O₀.1.toFunctor := by
     refine isQuasiCompactSpace_of_isCompact_range B S hS W.2 O₀.2 ?_
-    show IsCompact (subspacePointSet B S hS W.1 O₀.1)
+    change IsCompact (subspacePointSet B S hS W.1 O₀.1)
     rw [subspacePointSet_openSubspaceUnion]
     refine IsCompact.union ?_ ?_
     · have := compactSpace_points_of_isQuasiCompactSpace B S hS U₀.2.1 hU₀qc
@@ -307,13 +307,13 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
         rintro (_ | _) (_ | _) <;> simp only [← Category.assoc, pullback.condition])
     have h1 := hd (σ ≫ f.hom) (by
       rintro (_ | _)
-      · show Pa.ι ≫ σ ≫ f.hom = _
+      · change Pa.ι ≫ σ ≫ f.hom = _
         rw [← Category.assoc, hσ false]
-        show ga ≫ f.hom = _
+        change ga ≫ f.hom = _
         rw [hga, Subfunctor.fromPreimage_ι]
-      · show Pb.ι ≫ σ ≫ f.hom = _
+      · change Pb.ι ≫ σ ≫ f.hom = _
         rw [← Category.assoc, hσ true]
-        show gb ≫ f.hom = _
+        change gb ≫ f.hom = _
         rw [hgb, Subfunctor.fromPreimage_ι])
     have h2 := hd (O.1.ι ≫ p) (by rintro (_ | _) <;> rfl)
     exact h1.trans h2.symm
@@ -330,7 +330,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
   let UW₁ : AlgebraicSpaces B S hS := ⟨(U.preimage b₁.hom).toFunctor, sq₁.isOpenSubspace.1⟩
   let E := emptyClosedSubspace UW₁
   have hptsUO : subspacePointSet B S hS V₁.1 (U.preimage p) ⊆ subspacePointSet B S hS V₁.1 O.1 := by
-    show subspacePointSet B S hS V₁.1 (U.preimage p) ⊆
+    change subspacePointSet B S hS V₁.1 (U.preimage p) ⊆
       subspacePointSet B S hS V₁.1 (O₀.1.preimage p)
     rw [subspacePointSet_preimage B S hS, subspacePointSet_preimage B S hS,
       subspacePointSet_openSubspaceUnion]
@@ -361,9 +361,9 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
             rw [← pointsMap_comp_apply, Subfunctor.homOfLe_ι]⟩
         exact Set.disjoint_left.1 hZ₂disj (hptsUO (hmem inf_le_right)) (hmem inf_le_left)
       have hbU : b ∈ (U.preimage p).obj (Opposite.op Y) := by
-        show p.app (Opposite.op Y) b ∈ U.obj (Opposite.op Y)
+        change p.app (Opposite.op Y) b ∈ U.obj (Opposite.op Y)
         rw [hp]
-        show b₁.hom.app (Opposite.op Y) ((pullback.snd φ b₁.hom).app (Opposite.op Y) b) ∈ _
+        change b₁.hom.app (Opposite.op Y) ((pullback.snd φ b₁.hom).app (Opposite.op Y) b) ∈ _
         rw [← hab]
         exact a.2
       exact hAE _ ⟨hb, hbU⟩
@@ -386,7 +386,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
     · have hv₂ : v ∈ subspacePointSet B S hS V₁.1 Z₂.1 := by
         rwa [← hZV, subspacePointSet_preimage B S hS]
       have hv₀ : v ∈ subspacePointSet B S hS V₁.1 O.1 := by
-        show v ∈ subspacePointSet B S hS V₁.1 (O₀.1.preimage p)
+        change v ∈ subspacePointSet B S hS V₁.1 (O₀.1.preimage p)
         rw [subspacePointSet_preimage B S hS, subspacePointSet_openSubspaceUnion]
         left
         rw [subspacePointSet_preimage B S hS] at hx₀
@@ -445,7 +445,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
     have hkO : kO ≫ O.1.ι = m ≫ b₂.hom := Subfunctor.lift_ι _ _
     let kb : pullback Aset.ι sndC ⟶ Pb.toFunctor := Subfunctor.lift kO (by
       rintro Y _ ⟨x, rfl⟩
-      show (O.1.ι ≫ p).app Y (kO.app Y x) ∈ U.obj Y
+      change (O.1.ι ≫ p).app Y (kO.app Y x) ∈ U.obj Y
       rw [← NatTrans.comp_app_apply, ← Category.assoc, hkO]
       simpa [Category.assoc] using hmemU Y x)
     have hkb : kb ≫ Pb.ι = kO := Subfunctor.lift_ι _ _
@@ -455,7 +455,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
     have hkpre₂ : kpre ≫ O.1.fromPreimage b₂.hom = kO := IsPullback.lift_fst _ _ _ _
     have hC : t₂ ≫ gC = kb ≫ ℓb ≫ gU.hom ≫ pullback.fst f.hom U.ι := by
       have h1 : t₂ ≫ gC = kO ≫ σ := by
-        show m ≫ g₂.hom ≫ pullback.fst f.hom p = _
+        change m ≫ g₂.hom ≫ pullback.fst f.hom p = _
         rw [← hkpre₁, Category.assoc, ← Category.assoc _ g₂.hom, hext₂, Category.assoc,
           (show σ₁ ≫ pullback.fst f.hom p = σ from pullback.lift_fst _ _ _),
           ← Category.assoc, hkpre₂]
@@ -466,7 +466,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
       simp only [Category.assoc]
       rw [he₁'.lift_snd, he₁'.lift_snd, Subfunctor.fromPreimage_ι, ← Category.assoc kb,
         hkb, ← Category.assoc kO, hkO]
-      show ((t₂ ≫ e₂.hom.hom) ≫ b₂.hom) ≫ pullback.snd φ b₁.hom = _
+      change ((t₂ ≫ e₂.hom.hom) ≫ b₂.hom) ≫ pullback.snd φ b₁.hom = _
       rw [Category.assoc, Category.assoc, ← Category.assoc e₂.hom.hom, he₂', pullback.condition,
         ← Category.assoc, ← pullback.condition, Category.assoc]
     rw [hC, ← Category.assoc kb, hℓ]
@@ -488,13 +488,13 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
   refine hpo.hom_ext ?_ ?_
   · rw [← Category.assoc, hpo.inl_desc]
     refine ObjectProperty.hom_ext _ ?_
-    show (e₂.hom.hom ≫ g₂.hom ≫ pullback.fst f.hom p) ≫ f.hom = sndC ≫ c.hom ≫ b₁.hom
+    change (e₂.hom.hom ≫ g₂.hom ≫ pullback.fst f.hom p) ≫ f.hom = sndC ≫ c.hom ≫ b₁.hom
     simp only [Category.assoc]
     rw [pullback.condition, ← Category.assoc g₂.hom, hg₂', ← Category.assoc, he₂', hp,
       ← Category.assoc, pullback.condition, Category.assoc]
   · rw [← Category.assoc, hpo.inr_desc]
     refine ObjectProperty.hom_ext _ ?_
-    show ((U.preimage b₁.hom).fromPreimage c.hom ≫ ℓ₁ ≫ gU.hom ≫ pullback.fst f.hom U.ι) ≫
+    change ((U.preimage b₁.hom).fromPreimage c.hom ≫ ℓ₁ ≫ gU.hom ≫ pullback.fst f.hom U.ι) ≫
       f.hom = Aset.ι ≫ c.hom ≫ b₁.hom
     simp only [Category.assoc]
     rw [hgUf, ← Category.assoc ℓ₁, he₁'.lift_fst,

@@ -153,7 +153,7 @@ theorem weaklyAssociatedPoints_modulePushforward_representedSpaceMap_eq_image_of
     (pointsMap B S hS (yoneda.obj T') (yoneda.map g) t')).2 ?_
   refine (hiso (pointsEquivScheme B S hS T
     (pointsMap B S hS (yoneda.obj T') (yoneda.map g) t'))).2 ?_
-  show pointsEquivScheme B S hS T (pointsMap B S hS (yoneda.obj T') (yoneda.map g) t') ∈
+  change pointsEquivScheme B S hS T (pointsMap B S hS (yoneda.obj T') (yoneda.map g) t') ∈
     Stacks.Divisors.weaklyAssociatedPoints
       ((Scheme.Modules.pushforward (_root_.AlgebraicGeometry.SmallEtale.schemeHom
           (associatedBigEtaleSite B) g.left)).obj

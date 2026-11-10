@@ -71,7 +71,7 @@ theorem subobjectIsoEquiv_apply {X Y : 𝒜} (e : X ≅ Y) (K : Subobject X) :
 transported map. -/
 theorem subobjectIsoEquiv_kernelSubobject {X X' Y : 𝒜} (e : X ≅ X') (f : X ⟶ Y) :
     subobjectIsoEquiv e (kernelSubobject f) = kernelSubobject (e.inv ≫ f) := by
-  show (Subobject.map e.hom).obj (Subobject.mk (kernel.ι f)) =
+  change (Subobject.map e.hom).obj (Subobject.mk (kernel.ι f)) =
     Subobject.mk (kernel.ι (e.inv ≫ f))
   rw [Subobject.map_mk]
   refine (Subobject.mk_eq_mk_of_comm _ _ (kernelIsIsoComp e.inv f) ?_).symm
@@ -226,7 +226,7 @@ theorem pullbackCompIso_hom_twistedFreeIso {T T'' : Scheme.{u}} (g : T ⟶ T'') 
       ((Scheme.Modules.pullback (projectiveSpaceOverMap n a'')).obj (freeModule n r W))).hom ≫
       (Scheme.Modules.pullback (projectiveSpaceOverMap n g)).map
         (twistPullbackIso a'' (-(d : ℤ)) (freeModule n r W)).hom)]
-  simp only [Category.assoc, Iso.map_hom_inv_id_assoc]
+  simp only [Category.assoc, Iso.hom_inv_id_map_assoc]
   rw [← hnat, reassoc_of% hcomp.symm, Iso.hom_inv_id_assoc, hfree']
   simp only [Functor.map_comp, Category.assoc]
 
@@ -253,7 +253,7 @@ theorem twistedFreeSubobjectEquiv_subobjectPullback {T T'' : Scheme.{u}} (g : T 
         (twistPullbackIso g (-(d : ℤ)) (freeModule n r T'')).hom) ≫
       (Scheme.Modules.pullback (projectiveSpaceOverMap n g)).map (twistedFreeIso c a'').inv := by
     rw [← Category.assoc, ← pullbackCompIso_hom_twistedFreeIso c g a'' h, Category.assoc,
-      Iso.map_hom_inv_id, Category.comp_id]
+      Iso.hom_inv_id_map, Category.comp_id]
   rw [key']
   simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom, Functor.map_comp, Category.assoc,
     Iso.inv_hom_id_assoc]

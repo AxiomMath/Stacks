@@ -133,14 +133,12 @@ def algebraBaseChange : ModuleCat.{u} R ⥤ ModuleCat.{u} S where
   map f := ModuleCat.ofHom (LinearMap.baseChange S f.hom)
   map_id M := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m => simp
     | add x y hx hy => simp only [map_add, hx, hy]
   map_comp f g := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m => simp
     | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -150,7 +148,7 @@ theorem algebraBaseChange_hom_ext {M : ModuleCat.{u} R} {N : ModuleCat.{u} S}
     {f g : (algebraBaseChange R S).obj M ⟶ N}
     (h : ∀ (s : S) (m : (M : Type u)), f.hom (s ⊗ₜ[R] m) = g.hom (s ⊗ₜ[R] m)) : f = g :=
   ModuleCat.hom_ext (LinearMap.ext fun z =>
-    TensorProduct.induction_on z ((map_zero f.hom).trans (map_zero g.hom).symm) h
+    TensorProduct.inductionOn z h
       (fun x y ihx ihy =>
         (map_add f.hom x y).trans
           (((congrArg (· + f.hom y) ihx).trans (congrArg (g.hom x + ·) ihy)).trans
@@ -256,7 +254,7 @@ theorem mem_smallPolynomialAugmentationIdealPowSubmodule_one
     (x : ((smallPolynomialQuotientAlgebra A B κ).obj X : Type u)) :
     x ∈ smallPolynomialAugmentationIdealPowSubmodule A B κ 1 X ↔
       smallPolynomialQuotientAug A B κ X x = 0 := by
-  show x ∈ smallPolynomialAugmentationIdeal A B κ X ^ 1 ↔ _
+  change x ∈ smallPolynomialAugmentationIdeal A B κ X ^ 1 ↔ _
   rw [pow_one]
   exact mem_smallPolynomialAugmentationIdeal A B κ x
 
@@ -265,7 +263,7 @@ augmentation. -/
 theorem smallPolynomialAugmentationIdealPowι_comp_aug :
     smallPolynomialAugmentationIdealPowι A B κ 1 ≫ smallPolynomialQuotientModuleAug A B κ = 0 := by
   refine NatTrans.ext (funext fun X => ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
-  show smallPolynomialQuotientAug A B κ X x.1 = 0
+  change smallPolynomialQuotientAug A B κ X x.1 = 0
   exact (mem_smallPolynomialAugmentationIdealPowSubmodule_one A B κ _).1 x.2
 
 /-- **The augmentation sequence `0 → 𝒦 → Ō → B̲ → 0`** of presheaves of `B`-modules on the small
@@ -458,7 +456,7 @@ lemma algebraBaseChange_map_smallPolynomialStructureModulePresheaf_map
         ((smallPolynomialStructureModulePresheaf A B κ).map f) =
       (smallPolynomialQuotientModule A B κ).map f :=
   Stacks.algebraBaseChange_hom_ext A (B : Type u) fun b p => by
-    show LinearMap.baseChange (B : Type u)
+    change LinearMap.baseChange (B : Type u)
         ((smallPolynomialStructureModulePresheaf A B κ).map f).hom (b ⊗ₜ[A] p) =
       ((smallPolynomialQuotientModule A B κ).map f).hom (b ⊗ₜ[A] p)
     rw [LinearMap.baseChange_tmul]

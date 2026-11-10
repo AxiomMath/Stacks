@@ -79,7 +79,7 @@ theorem closedUnionIdeal_le_ker_coverMap (i : Z ⟶ X) [IsClosedImmersion i] [No
   cases b with
   | true => exact closedUnionIdeal_le_ker i
   | false =>
-    show closedUnionIdeal i ≤
+    change closedUnionIdeal i ≤
       Scheme.Hom.ker (vanishingIdeal (complementaryClosed i)).subschemeι
     rw [Scheme.IdealSheafData.ker_subschemeι]
     exact closedUnionIdeal_le_vanishingIdeal i
@@ -116,7 +116,7 @@ how `Stacks.LiftInvertible.closedUnionIdeal` was defined. -/
 theorem iInf_ker_coverMap (i : Z ⟶ X) [IsClosedImmersion i] [NoetherianSpace X] :
     (⨅ b, Scheme.Hom.ker (coverMap i b)) = closedUnionIdeal i := by
   rw [iInf_bool_eq]
-  show Scheme.Hom.ker i ⊓
+  change Scheme.Hom.ker i ⊓
     Scheme.Hom.ker (vanishingIdeal (complementaryClosed i)).subschemeι = _
   rw [Scheme.IdealSheafData.ker_subschemeι]
   rfl

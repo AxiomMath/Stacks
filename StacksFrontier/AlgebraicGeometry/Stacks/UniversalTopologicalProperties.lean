@@ -199,6 +199,7 @@ attribute [local instance] Space.pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_UniversalTopologicalProperties :
@@ -568,7 +569,7 @@ private theorem relativeUniversally_of_pointMapProperty_fst (Q : PointMapPropert
       hZU.hom Sq.fst) hQrep (isRepresentableByAlgebraicSpace_fibredCategory B S hS Z hZ)
   have h3 := (pointMapProperty_representingMap_iff B S hS Q hQconj R.pt
     (fibredCategory B S hS Z) W Z hW hZ eW (spaceEquivalenceOver B S hS Z) R.fst).mpr h2
-  show Q (Space.points B S hS (pullback k (OverShriek.relocalizeToYoneda U.hom T)))
+  change Q (Space.points B S hS (pullback k (OverShriek.relocalizeToYoneda U.hom T)))
       (Space.points B S hS Z)
       (Space.pointTopology B S hS (pullback k (OverShriek.relocalizeToYoneda U.hom T)))
       (Space.pointTopology B S hS Z)
@@ -613,7 +614,7 @@ private theorem relativeUniversally_of_pointMapProperty_fst (Q : PointMapPropert
           (relocalizeFibreEquivalence B S hS U f.hom y T eT)
           (schemeSliceEquivalenceOver B S hS U) hZU.hom Sq.fst W eW)) (Iso.refl _) ?_
     apply ObjectProperty.hom_ext
-    show ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
+    change ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
         fibreProductIsoRepresenting B S hS (fibredCategory B S hS Z) Sq.pt
           (schemeSlice B S hS U) Z ((OverShriek.relocalizePresheafFunctor U.hom).obj T)
           (yoneda.obj U) (spaceEquivalenceOver B S hS Z)

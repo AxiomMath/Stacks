@@ -130,11 +130,11 @@ private theorem traceDual_comp_appLEAlgHom (U : X.Opens)
   let : Algebra Γ(X, U) Γ(Y₂, (h ≫ g₁) ⁻¹ᵁ U) :=
     ((h ≫ g₁).appLE U ((h ≫ g₁) ⁻¹ᵁ U) le_rfl).hom.toAlgebra
   refine LinearMap.ext fun c => ?_
-  show traceApp (h ≫ g₁) t₂ U (appLEAlgHom h U c • s) =
+  change traceApp (h ≫ g₁) t₂ U (appLEAlgHom h U c • s) =
     traceApp g₁ t₁ U (c • τ.app (g₁ ⁻¹ᵁ U) s)
   refine (htr (appLEAlgHom h U c • s)).trans (congrArg (traceApp g₁ t₁ U) ?_)
   have hrc : appLEAlgHom h U c = (h.app (g₁ ⁻¹ᵁ U)).hom c := by
-    show (h.appLE (g₁ ⁻¹ᵁ U) (h ⁻¹ᵁ (g₁ ⁻¹ᵁ U)) le_rfl).hom c = _
+    change (h.appLE (g₁ ⁻¹ᵁ U) (h ⁻¹ᵁ (g₁ ⁻¹ᵁ U)) le_rfl).hom c = _
     rw [Scheme.Hom.app_eq_appLE]
   refine (congrArg (fun a : Γ(Y₂, (h ≫ g₁) ⁻¹ᵁ U) => τ.app (g₁ ⁻¹ᵁ U) (a • s)) hrc).trans ?_
   exact Scheme.Modules.Hom.app_smul (U := g₁ ⁻¹ᵁ U) τ c s
@@ -179,13 +179,12 @@ private theorem chartEquiv_dualizingModuleEquiv_of_map [IsLocallyNoetherian X]
   intro x
   change Module.Dual _ (chartFactorization hig₂ U V hVU).middle ⊗[(chartFactorization hig₂ U V
     hVU).middle] Γ(Y, V.1) at x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ((congrArg _ (map_zero _)).trans (map_zero _)).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' =>
     exact ((congrArg _ (map_add _ x x')).trans ((map_add _ _ _).trans
       (congrArg₂ (· + ·) hx hx'))).trans (map_add _ x x').symm
   | tmul φ b =>
-    show chartEquiv hig₁ M₁ t₁ hbij₁ e₁ U V hVU
+    change chartEquiv hig₁ M₁ t₁ hbij₁ e₁ U V hVU
         (dualizingModuleEquiv (chartFactorization hig₂ U V hVU) (chartFactorization hig₁ U V hVU)
           (dualizingModule.tmul (chartFactorization hig₂ U V hVU) φ b)) =
       chartEquiv hig₂ M₂ t₂ hbij₂ e₂ U V hVU
@@ -245,7 +244,7 @@ theorem ofFiniteTraceLocalEquiv_eq_of_map [IsLocallyNoetherian X]
   intro F
   have hig₂ := comp_comp_of_map h hig₁ hih
   refine LinearEquiv.ext fun n => ?_
-  show dualizingModuleEquiv (chartFactorization hig₂ U V hVU) F
+  change dualizingModuleEquiv (chartFactorization hig₂ U V hVU) F
       ((chartEquiv hig₂ M₂ t₂ hbij₂ e₂ U V hVU).symm n) =
     dualizingModuleEquiv (chartFactorization hig₁ U V hVU) F
       ((chartEquiv hig₁ M₁ t₁ hbij₁ e₁ U V hVU).symm n)

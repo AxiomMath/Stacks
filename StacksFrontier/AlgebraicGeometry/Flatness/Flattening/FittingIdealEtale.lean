@@ -121,19 +121,19 @@ private theorem fittingIdeal_split_quotient
   let ψ : T ≃+* L × D := ψ₀.trans (RingEquiv.prodCongr q1 (RingEquiv.refl _))
   have hproj₀ : (RingHom.fst (T ⧸ I) D).comp ψ₀.toRingHom = Ideal.Quotient.mk I := by
     ext x
-    show ((AlgEquiv.prodQuotientOfIsIdempotentElem T he.one_sub he (by ring)
+    change ((AlgEquiv.prodQuotientOfIsIdempotentElem T he.one_sub he (by ring)
       hmul) x).1 = _
     rw [AlgEquiv.prodQuotientOfIsIdempotentElem_apply]
   have hprojD₀ : (RingHom.snd (T ⧸ I) D).comp ψ₀.toRingHom =
       Ideal.Quotient.mk (Ideal.span {e}) := by
     ext x
-    show ((AlgEquiv.prodQuotientOfIsIdempotentElem T he.one_sub he (by ring)
+    change ((AlgEquiv.prodQuotientOfIsIdempotentElem T he.one_sub he (by ring)
       hmul) x).2 = _
     rw [AlgEquiv.prodQuotientOfIsIdempotentElem_apply]
   have hprojD : (RingHom.snd L D).comp ψ.toRingHom =
       Ideal.Quotient.mk (Ideal.span {e}) := by
     ext x
-    show (RingHom.snd (T ⧸ I) D) (ψ₀ x) = _
+    change (RingHom.snd (T ⧸ I) D) (ψ₀ x) = _
     exact DFunLike.congr_fun hprojD₀ x
   let s : L →+* D := (RingHom.snd L D).comp (ψ.toRingHom.comp (algebraMap L T))
   let : Algebra L D := s.toAlgebra
@@ -148,14 +148,14 @@ private theorem fittingIdeal_split_quotient
   let ψA : T ≃ₐ[L] L × D := AlgEquiv.ofRingEquiv (f := ψ) (by
     intro x
     apply Prod.ext
-    · show ((RingHom.fst L D).comp ψ.toRingHom) (algebraMap L T x) = x
+    · change ((RingHom.fst L D).comp ψ.toRingHom) (algebraMap L T x) = x
       rw [hfirst]
       simp
     · rfl)
   let Q' : Ideal (L × D) := Ideal.map ψ.toRingHom Q
   let K : Ideal D := Ideal.map (RingHom.snd L D) Q'
   have hs (r : L) : s r = Ideal.Quotient.mk (Ideal.span {e}) (algebraMap L T r) := by
-    show (RingHom.snd L D) (ψ (algebraMap L T r)) = _
+    change (RingHom.snd L D) (ψ (algebraMap L T r)) = _
     exact DFunLike.congr_fun hprojD (algebraMap L T r)
   have hsmul (r : L) (y : D) : r • y = s r * y := by
     induction y using Submodule.Quotient.induction_on with
@@ -185,16 +185,16 @@ private theorem fittingIdeal_split_quotient
   have hqTotal_mk (x : T) : qTotalRing (Ideal.Quotient.mk Q x) =
       (Ideal.Quotient.mk (Ideal.map μ.toRingHom Q) (μ x),
         Ideal.Quotient.mk K ((RingHom.snd L D) (ψ x))) := by
-    show pRing (Ideal.Quotient.mk (Ideal.prod (Ideal.map μ.toRingHom Q) K)
+    change pRing (Ideal.Quotient.mk (Ideal.prod (Ideal.map μ.toRingHom Q) K)
       (ψ x)) = _
-    show (pRing.toRingHom.comp
+    change (pRing.toRingHom.comp
       (Ideal.Quotient.mk (Ideal.prod (Ideal.map μ.toRingHom Q) K))) (ψ x) = _
     rw [hpRing]
     apply Prod.ext
     · have hx := DFunLike.congr_fun hfirst x
       have hx' : (RingHom.fst L D) (ψ.toRingHom x) = μ.toRingHom x := by
         simpa only [RingHom.comp_apply] using hx
-      show Ideal.Quotient.mk (Ideal.map μ.toRingHom Q)
+      change Ideal.Quotient.mk (Ideal.map μ.toRingHom Q)
           ((RingHom.fst L D) (ψ.toRingHom x)) = _
       exact congrArg (Ideal.Quotient.mk (Ideal.map μ.toRingHom Q)) hx'
     · rfl
@@ -210,7 +210,7 @@ private theorem fittingIdeal_split_quotient
                 algebraMap L (D ⧸ K) r) := by
             have hμr : μ (algebraMap L T r) = r := by simp
             have hψr : ψ (algebraMap L T r) = (r, algebraMap L D r) := by
-              show ψA (algebraMap L T r) = (r, algebraMap L D r)
+              change ψA (algebraMap L T r) = (r, algebraMap L D r)
               rw [ψA.commutes r]
               rfl
             rw [← Ideal.Quotient.mk_algebraMap L Q r, hqTotal_mk]
@@ -227,7 +227,7 @@ private theorem fittingIdeal_split_quotient
           · simp only [Prod.fst_mul, Prod.smul_fst, Algebra.smul_def,
               RingHom.id_apply]
           · simp only [Prod.snd_mul, Prod.smul_snd]
-            show (algebraMap L (D ⧸ K) r) *
+            change (algebraMap L (D ⧸ K) r) *
                 (Ideal.Quotient.mk K ((RingHom.snd L D) (ψ x))) =
               r • (Submodule.Quotient.mk ((RingHom.snd L D) (ψ x)))
             rw [← Submodule.Quotient.mk_smul K r ((RingHom.snd L D) (ψ x))]
@@ -284,7 +284,7 @@ theorem map_fittingIdealZero_quotient_eq_mul_of_etale_away
   let ecomm : C ⊗[A] L ≃ₐ[C] T := AlgEquiv.ofRingEquiv
     (f := (Algebra.TensorProduct.comm A C L).toRingEquiv) (by
       intro x
-      show (Algebra.TensorProduct.comm A C L) (x ⊗ₜ[A] (1 : L)) =
+      change (Algebra.TensorProduct.comm A C L) (x ⊗ₜ[A] (1 : L)) =
         (1 : L) ⊗ₜ[A] x
       rw [Algebra.TensorProduct.comm_tmul])
   let : Algebra.Etale C T := Algebra.Etale.of_equiv ecomm
@@ -323,7 +323,7 @@ theorem map_fittingIdealZero_quotient_eq_mul_of_etale_away
   have hμsurj : Function.Surjective (algebraMap T L) := by
     intro x
     refine ⟨algebraMap L T x, ?_⟩
-    show (μ.comp (Algebra.TensorProduct.includeLeft (R := A) (S := L)
+    change (μ.comp (Algebra.TensorProduct.includeLeft (R := A) (S := L)
       (A := L) (B := C))) x = x
     rw [hsec]
     rfl
@@ -347,7 +347,7 @@ theorem map_fittingIdealZero_quotient_eq_mul_of_etale_away
   obtain ⟨J', hsplit, hfg⟩ :=
     fittingIdeal_split_quotient μ hμsurj e he hker Q
   have hmap : Ideal.map μ.toRingHom Q = J.map (algebraMap C L) := by
-    show (J.map (Algebra.TensorProduct.includeRight
+    change (J.map (Algebra.TensorProduct.includeRight
       (R := A) (A := L) (B := C)).toRingHom).map μ.toRingHom =
       J.map (algebraMap C L)
     rw [Ideal.map_map, hcomp]
@@ -431,7 +431,7 @@ theorem exists_ideal_map_eq_mul_after_localization
   let K : Ideal C := K₀ ⊔ Ideal.span {algebraMap A C (a ^ n)}
   have hpowJC : algebraMap A (Localization.Away h) (a ^ n) ∈ JC := by
     rw [← e.commutes]
-    show e (algebraMap B (Localization.Away g) (algebraMap A B (a ^ n))) ∈ JC
+    change e (algebraMap B (Localization.Away g) (algebraMap A B (a ^ n))) ∈ JC
     apply Ideal.mem_map_of_mem
     exact Ideal.mem_map_of_mem _ (by simpa using hn)
   have hKmap : K.map (algebraMap C (Localization.Away h)) = JC := by
@@ -466,7 +466,7 @@ theorem exists_ideal_map_eq_mul_after_localization
   have hbase : e.symm.toRingHom.comp (algebraMap A (Localization.Away h)) =
       (algebraMap B (Localization.Away g)).comp (algebraMap A B) := by
     ext x
-    show e.symm (algebraMap A (Localization.Away h) x) = _
+    change e.symm (algebraMap A (Localization.Away h) x) = _
     rw [e.symm.commutes]
     exact IsScalarTower.algebraMap_apply A B (Localization.Away g) x
   have hcancelB : e.symm.toRingHom.comp

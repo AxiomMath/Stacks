@@ -232,7 +232,7 @@ theorem exists_etaleNeighborhood_completeDevissageAt_of_cokernelDevissage {X S :
       refine ⟨S₂ ⊓ E.S', X₂ ⊓ f ⁻¹ᵁ (S₂ ⊓ E.S'),
         A.restrict (S₂ ⊓ E.S') (A.base_section * E.base_section) hSU inf_le_left
           ⟨A.mem_base, hbaseE⟩ D.g_y, ?_, inf_le_right, ?_⟩
-      · show A.Y' ⊓ D.toOneStepDevissage.g ⁻¹ᵁ (S₂ ⊓ E.S') = _
+      · change A.Y' ⊓ D.toOneStepDevissage.g ⁻¹ᵁ (S₂ ⊓ E.S') = _
         rw [hAY, inf_assoc,
           inf_eq_right.mpr (D.toOneStepDevissage.g.preimage_mono (inf_le_left :
             S₂ ⊓ E.S' ≤ S₂))]

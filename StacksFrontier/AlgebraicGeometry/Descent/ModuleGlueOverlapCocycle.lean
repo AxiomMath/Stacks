@@ -97,7 +97,7 @@ lemma localApp_restrictLocal_le {V' V W : X.Opens}
     (eqToHom himg.symm).op]
   have hU : W.ι ⁻¹ᵁ V' = X.homOfLE hV ''ᵁ (V.ι ⁻¹ᵁ V') :=
     Scheme.Hom.image_injective W.ι (by
-      show W.ι ''ᵁ (W.ι ⁻¹ᵁ V') = W.ι ''ᵁ (X.homOfLE hV ''ᵁ (V.ι ⁻¹ᵁ V'))
+      change W.ι ''ᵁ (W.ι ⁻¹ᵁ V') = W.ι ''ᵁ (X.homOfLE hV ''ᵁ (V.ι ⁻¹ᵁ V'))
       rw [himg, Stacks.AlgebraicGeometry.ModuleLimits.image_preimage_of_le (hV'.trans hV),
         Stacks.AlgebraicGeometry.ModuleLimits.image_preimage_of_le hV'])
   exact (conj_app_eq₃ φ (homOfLE (le_of_eq hU)) _ _ _ _ _ _).symm

@@ -147,7 +147,7 @@ theorem Lifting₂.curryProd_iso_hom_app_app (F : C₁ × C₂ ⥤ E) (F' : D₁
     letI := Lifting₂.curryProd L₁ L₂ W₁ W₂ F F'
     ((Lifting₂.iso L₁ L₂ W₁ W₂ (Functor.curry.obj F) (Functor.curry.obj F')).hom.app X₁).app X₂ =
       (Lifting.iso (L₁.prod L₂) (W₁.prod W₂) F F').hom.app (X₁, X₂) := by
-  show ((((Functor.curryObjProdComp L₁ L₂ F').symm ≪≫
+  change ((((Functor.curryObjProdComp L₁ L₂ F').symm ≪≫
     Functor.curry.mapIso (Lifting.iso (L₁.prod L₂) (W₁.prod W₂) F F')).hom.app X₁).app X₂) = _
   simp
 
@@ -158,7 +158,7 @@ theorem Lifting₂.curryProd_iso_inv_app_app (F : C₁ × C₂ ⥤ E) (F' : D₁
     letI := Lifting₂.curryProd L₁ L₂ W₁ W₂ F F'
     ((Lifting₂.iso L₁ L₂ W₁ W₂ (Functor.curry.obj F) (Functor.curry.obj F')).inv.app X₁).app X₂ =
       (Lifting.iso (L₁.prod L₂) (W₁.prod W₂) F F').inv.app (X₁, X₂) := by
-  show ((((Functor.curryObjProdComp L₁ L₂ F').symm ≪≫
+  change ((((Functor.curryObjProdComp L₁ L₂ F').symm ≪≫
     Functor.curry.mapIso (Lifting.iso (L₁.prod L₂) (W₁.prod W₂) F F')).inv.app X₁).app X₂) = _
   simp
 
@@ -312,7 +312,7 @@ theorem lift₂NatTrans_commShift_flipApp
   let _ := Lifting₂.snd L₁ L₂ W₁ W₂ F₂ F₂' X₂
   let _ := hι₁ X₂
   let _ := hι₂ X₂
-  show NatTrans.CommShift
+  change NatTrans.CommShift
     ((lift₂NatTrans L₁ L₂ W₁ W₂ F₁ F₂ F₁' F₂' τ).flipApp (L₂.obj X₂)) M
   rw [lift₂NatTrans_flipApp_eq_liftNatTrans L₁ L₂ W₁ W₂ F₁ F₂ F₁' F₂' τ X₂]
   exact liftNatTrans_commShift L₁ W₁ _ _ _ _ (τ.flipApp X₂)

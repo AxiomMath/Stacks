@@ -88,7 +88,7 @@ theorem spacesEtaleModelSharpMap_id (V : SmallModel.{u} (SpacesEtale B S hS X)) 
   rw [hinv, spacesEtaleModelSharpMap, Functor.map_comp, Functor.map_comp, Category.assoc,
     ← Functor.map_comp_assoc T (E.inverse.map (E.functor.map _)), ← Equivalence.unitInv,
     hnat]
-  show T.map (E.inverse.map (E.counitInv.app V)) ≫
+  change T.map (E.inverse.map (E.counitInv.app V)) ≫
       T.map (E.unitInv.app (E.inverse.obj V) ≫ ε.inv.app (E.inverse.obj V)) ≫
         (spacesBaseChange B S hS (𝟙 X)).projection.app (E.inverse.obj V) = 𝟙 _
   rw [T.map_comp, Category.assoc, hε, Category.comp_id, ← T.map_comp, E.inverse_counitInv_comp V]

@@ -77,7 +77,7 @@ private theorem continuous_pderiv {n : ℕ} [TopologicalSpace k] [DiscreteTopolo
     Continuous (pderiv (R := k) i : MvPowerSeries (Fin n) k → MvPowerSeries (Fin n) k) := by
   classical
   refine continuous_pi_iff.mpr fun d => ?_
-  show Continuous (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv (R := k) i f))
+  change Continuous (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv (R := k) i f))
   have heq : (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv (R := k) i f)) =
       fun f : MvPowerSeries (Fin n) k =>
         coeff (d + Finsupp.single i (1 : ℕ)) f * ((d i + 1 : ℕ) : k) := by
@@ -146,7 +146,7 @@ private theorem pderiv_subst_chain {n : ℕ}
       (fun z => ∑ j, subst a (pderiv (R := k) j z) * pderiv (R := k) i (a j)) ∘
         MvPolynomial.toMvPowerSeries := by
     funext p
-    show pderiv (R := k) i (subst a (MvPolynomial.toMvPowerSeries p)) =
+    change pderiv (R := k) i (subst a (MvPolynomial.toMvPowerSeries p)) =
       ∑ j, subst a (pderiv (R := k) j (MvPolynomial.toMvPowerSeries p)) * pderiv (R := k) i (a j)
     rw [subst_coe]
     simp only [pderiv_coe, subst_coe]
@@ -166,7 +166,7 @@ private theorem jacobianMinorIdealModulo_eq_quotientMatrix {n m : ℕ}
     jacobianMinorIdealModulo I f r =
       minorIdeal (fun i j => Ideal.Quotient.mk I (pderiv (R := k) i (f j))) r := by
   unfold jacobianMinorIdealModulo
-  show (minorIdeal (Matrix.of fun i j => pderiv (R := k) i (f j)) r).map (Ideal.Quotient.mk I) =
+  change (minorIdeal (Matrix.of fun i j => pderiv (R := k) i (f j)) r).map (Ideal.Quotient.mk I) =
     minorIdeal (Matrix.of fun i j => Ideal.Quotient.mk I (pderiv (R := k) i (f j))) r
   rw [minorIdeal_map_matrix]
   rfl
@@ -251,7 +251,7 @@ private theorem jacobianMinorIdealModuloInParameters_eq_quotientMatrix {n m : �
           ((powerSeriesCoordinateEquiv y hy)
             (pderiv (R := k) i ((powerSeriesCoordinateEquiv y hy).symm (f j))))) r := by
   unfold jacobianMinorIdealModuloInParameters
-  show (minorIdeal (Matrix.of fun i j =>
+  change (minorIdeal (Matrix.of fun i j =>
       (powerSeriesCoordinateEquiv y hy)
         (pderiv (R := k) i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) r).map
         (Ideal.Quotient.mk I) = _
@@ -274,7 +274,7 @@ private theorem jacobianMinorIdealModuloInParameters_eq {n m : ℕ}
   have hb : HasSubst b := hasSubst_of_constantCoeff_zero hb0
   let e := powerSeriesCoordinateEquiv y hy
   have he_apply (z : R) : e z = subst y' z := by
-    show MvPowerSeries.substAlgHom hySub z = subst y' z
+    change MvPowerSeries.substAlgHom hySub z = subst y' z
     exact MvPowerSeries.substAlgHom_apply hySub z
   have hcomp : (subst y' : R → R) ∘ subst b = id := by
     rw [subst_comp_subst hb hySub]
@@ -328,7 +328,7 @@ private theorem jacobianMinorIdealModuloInParameters_eq {n m : ℕ}
     exact (RingHom.map_det (Ideal.Quotient.mk I) E).symm ▸ hdetE.map (Ideal.Quotient.mk I)
   rw [jacobianMinorIdealModuloInParameters_eq_quotientMatrix,
     jacobianMinorIdealModulo_eq_quotientMatrix]
-  show minorIdeal B r = minorIdeal A r
+  change minorIdeal B r = minorIdeal A r
   rw [hB, minorIdeal_mul_left_eq C hC A r]
 
 /-- The ideal of Jacobian minors in a quotient of a finite-variable formal power-series

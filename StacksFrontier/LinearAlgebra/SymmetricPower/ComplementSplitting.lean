@@ -116,7 +116,7 @@ private theorem isPrime_map_symAlgMap_subtype_of_isCompl (h : IsCompl N P)
         = (MvPolynomial.rename (R := R) (Sum.inr : ιN → ιP ⊕ ιN)).comp
           (equivMvPolynomial bN).toAlgHom := by
       refine algHom_ext (bN.ext fun j => ?_)
-      show equivMvPolynomial bM ((symAlgMap N.subtype) (ι R ↥N (bN j)))
+      change equivMvPolynomial bM ((symAlgMap N.subtype) (ι R ↥N (bN j)))
           = MvPolynomial.rename Sum.inr (equivMvPolynomial bN (ι R ↥N (bN j)))
       rw [symAlgMap_ι, ← hbM j, equivMvPolynomial_ι_apply, equivMvPolynomial_ι_apply,
         MvPolynomial.rename_X]

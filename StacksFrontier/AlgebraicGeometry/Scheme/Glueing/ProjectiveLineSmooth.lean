@@ -48,7 +48,7 @@ smooth. -/
 theorem projectiveLineAffineStructureMorphism_smooth :
     Smooth (projectiveLineAffineStructureMorphism k) := by
   apply (HasRingHomProperty.Spec_iff (P := @Smooth)).mpr
-  show RingHom.Smooth (algebraMap k (Polynomial k))
+  change RingHom.Smooth (algebraMap k (Polynomial k))
   rw [RingHom.smooth_algebraMap]
   have : Algebra.Smooth k (MvPolynomial PUnit.{1} k) :=
     { formallySmooth := inferInstance, finitePresentation := inferInstance }
@@ -95,7 +95,7 @@ theorem projectiveLine_relativeDimension :
   have : IsIso ((Spec (CommRingCat.of k)).fromSpecResidueField s) :=
     isIso_fromSpecResidueField_spec_field k s
   have hiso : IsIso ((projectiveLine k ↘ Spec (.of k)).fiberι s) := by
-    show IsIso (pullback.fst (projectiveLine k ↘ Spec (.of k))
+    change IsIso (pullback.fst (projectiveLine k ↘ Spec (.of k))
       ((Spec (CommRingCat.of k)).fromSpecResidueField s))
     infer_instance
   have _ : IrreducibleSpace (projectiveLine k) := projectiveLine_irreducibleSpace k

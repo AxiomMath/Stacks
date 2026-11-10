@@ -75,7 +75,7 @@ theorem baseToStalk_specializes {A : Type u} [CommRing A] {X : Scheme.{u}}
 theorem baseToStalk_comp {A : Type u} [CommRing A] {X Z : Scheme.{u}} (j : Z ⟶ X)
     (f : X ⟶ Spec (.of A)) (z : Z) :
     (j.stalkMap z).hom.comp (toStalkStalkMap f (j z)) = toStalkStalkMap (j ≫ f) z := by
-  simp only [toStalkStalkMap, Scheme.Hom.stalkMap_comp, CommRingCat.hom_comp, RingHom.comp_assoc]
+  simp only [toStalkStalkMap, Scheme.Hom.stalkMap_comp]
   rfl
 
 /-- The structure map for a base changed along a ring map is the composite with that map. -/
@@ -141,7 +141,7 @@ theorem baseToStalk_injective_of_etaleAt {A : Type u} [CommRing A] [IsDomain A] 
   have _ : IsLocalization.AtPrime ((Spec (.of A)).presheaf.stalk (g xU)) (g xU).asIdeal :=
     StructureSheaf.IsLocalization.to_stalk A (g xU)
   have hA : Function.Injective (StructureSheaf.toStalk A (g xU)).hom := by
-    show Function.Injective (algebraMap A ((Spec (.of A)).presheaf.stalk (g xU)))
+    change Function.Injective (algebraMap A ((Spec (.of A)).presheaf.stalk (g xU)))
     exact IsLocalization.injective _ ((g xU).asIdeal.primeCompl_le_nonZeroDivisors)
   have hinj : Function.Injective (toStalkStalkMap g xU) := hg.comp hA
   rw [← baseToStalk_comp U.ι f xU] at hinj
@@ -167,7 +167,7 @@ theorem baseToStalk_pullback_quotient_eq_zero {A : Type u} [CommRing A] {X : Sch
           (Ideal.Quotient.mk (Ideal.span {t})))) : _ ⟶ X) x) t) = 0 := by
   let q := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {t})))
   let j : pullback f q ⟶ X := pullback.fst f q
-  show (j.stalkMap x).hom.comp (toStalkStalkMap f (j x)) t = 0
+  change (j.stalkMap x).hom.comp (toStalkStalkMap f (j x)) t = 0
   rw [baseToStalk_comp, pullback.condition, baseToStalk_specMap]
   simp only [RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem.mpr
     (Ideal.subset_span (Set.mem_singleton t)), map_zero]
@@ -253,7 +253,7 @@ theorem ringKrullDim_stalk_pullback_quotient_add_one {A : Type u} [CommRing A] {
     have e := (asIso (k.stalkMap (IsLocalRing.closedPoint (R ⧸ J)))).commRingCatIsoToRingEquiv
     exact e.ringKrullDim.trans
       (stalkClosedPointIso (.of (R ⧸ J))).commRingCatIsoToRingEquiv.ringKrullDim
-  show ringKrullDim ((pullback f q).presheaf.stalk z) + 1 = ringKrullDim R
+  change ringKrullDim ((pullback f q).presheaf.stalk z) + 1 = ringKrullDim R
   rw [heq]
   exact ringKrullDim_quotient_span_singleton_succ_eq_ringKrullDim_of_mem_nonZeroDivisors hnz ht
 
@@ -264,7 +264,7 @@ theorem exists_regular_parameter_notMem_sq_map_ne_zero {A R : Type u} [CommRing 
     (hpos : ringKrullDim A ≠ 0) :
     ∃ t : A, t ∈ IsLocalRing.maximalIdeal A ∧
       t ∉ (IsLocalRing.maximalIdeal A) ^ 2 ∧ φ t ≠ 0 := by
-  obtain ⟨t, ht, ht2⟩ := SetLike.exists_of_lt
+  obtain ⟨t, ht, ht2⟩ := IsConcreteLE.exists_of_lt
     (IsLocalRing.maximalIdeal_sq_lt_of_ringKrullDim_ne_zero hpos)
   exact ⟨t, ht, ht2, fun hzero ↦ ht2 ((hφ (hzero.trans φ.map_zero.symm)) ▸ Ideal.zero_mem _)⟩
 

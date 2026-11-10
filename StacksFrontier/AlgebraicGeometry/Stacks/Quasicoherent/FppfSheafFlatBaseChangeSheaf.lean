@@ -15,7 +15,8 @@ In the source `a_{small}^*` is the pullback of *sheaves* of modules along the mo
 sites `ε_a` of **Stacks 070R (2)**, so `c_φ` is the comparison map read on sheaves of modules,
 `AlgebraicGeometry.Stack.sheafifiedRestrictComparisonNatTrans`.
 
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FppfSheafFlatBaseChangeProved.lean` proves the
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FppfSheafFlatBaseChangeProved.lean` proves
+the
 statement with `c_φ` computed in *presheaves* of modules, which is a strictly stronger hypothesis
 (see `AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheaf_of_hasFlatBaseChangeProperty`, and the
 counterexample recorded in

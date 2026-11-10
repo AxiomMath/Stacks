@@ -103,7 +103,7 @@ theorem exists_isIso_generatedSubobject_arrow [CompactSpace X] {M : X.Modules}
     (generatedSubobjectDiagram σ) hmono hftcol
   refine ⟨J, ?_⟩
   have hι : IsIso ((colimit.cocone (generatedSubobjectDiagram σ)).ι.app J) := hJ
-  show IsIso ((generatedSubobjectCocone σ).ι.app J)
+  change IsIso ((generatedSubobjectCocone σ).ι.app J)
   rw [← IsColimit.comp_coconePointUniqueUpToIso_hom
     (colimit.isColimit (generatedSubobjectDiagram σ)) hcol J]
   infer_instance

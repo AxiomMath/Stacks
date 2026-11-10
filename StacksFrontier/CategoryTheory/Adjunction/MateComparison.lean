@@ -80,12 +80,12 @@ theorem mateEquiv_symm_app_comp
     (hS : ∀ N : HZ, σ.app (QZ.obj N) ≫ Lu'.map (ct.app N) ≫ cu'.app (ht.obj N) =
       Lt'.map (cu.app N) ≫ ct'.app (hu.obj N) ≫ QT'.map (hσ.app N))
     (M : HU) :
-    ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)).natTrans.app (QU.obj M) ≫
+    ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)).app (QU.obj M) ≫
         Lt.map (e.hom.app M) ≫ ct.app (hE.obj M) =
       E'.map (ct'.app M) ≫ e'.hom.app (ht'.obj M) ≫
-        QT.map (((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)).natTrans.app M) := by
-  set β := ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)).natTrans with hβdef
-  set hβ := ((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)).natTrans with hhβdef
+        QT.map (((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)).app M) := by
+  set β := ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)) with hβdef
+  set hβ := ((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)) with hhβdef
   apply (adj'.homEquiv _ _).injective
   simp only [homEquiv_unit, Functor.map_comp]
   -- the two mates, transposed
@@ -126,9 +126,9 @@ theorem mateEquiv_symm_app_comp
 /-- `CategoryTheory.Adjunction.mateEquiv_symm_app_comp` for natural transformations `β` and `hβ`
 given together with equations identifying them with the two mates. -/
 theorem mateEquiv_symm_app_comp_of_eq
-    (β : Lt' ⋙ E' ⟶ E ⋙ Lt) (hβ : β = ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)).natTrans)
+    (β : Lt' ⋙ E' ⟶ E ⋙ Lt) (hβ : β = ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ σ)))
     (βh : ht' ⋙ hE' ⟶ hE ⋙ ht)
-    (hβh : βh = ((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)).natTrans)
+    (hβh : βh = ((mateEquiv hadj hadj').symm (TwoSquare.mk _ _ _ _ hσ)))
     (hunit : ∀ M : HU, adj.unit.app (QU.obj M) ≫ Lu.map (e.hom.app M) ≫ cu.app (hE.obj M) =
       QU.map (hadj.unit.app M))
     (hunit' : ∀ M : HT', adj'.unit.app (QT'.obj M) ≫ Lu'.map (e'.hom.app M) ≫

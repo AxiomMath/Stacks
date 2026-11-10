@@ -143,7 +143,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_separated_mode
     (hsq : IsPullback g f P.hom (c₀.π.app (op s)))
     (j : CompactificationOf (Over.mk f)) (F : EtaleModules.{u, 0} Λ X.obj)
     (hF : IsBigSiteConstructibleEtaleModule B X Λ F) (k : ℤ) :
-    IsBigSiteConstructibleEtaleModule B (B.obj c₀.pt hY) Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
+    IsBigSiteConstructibleEtaleModule B (B.obj c₀.pt hY) Λ
+      ((DerivedCategory.Plus.homologyFunctor _ k).obj
       ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj
           F))) := by
   classical
@@ -254,7 +255,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_adjoinFinset_l
     (X : B.Scheme) (f : X.obj ⟶ c₀.pt) [IsSeparated f]
     [LocallyOfFinitePresentation f] [QuasiCompact f] (j : CompactificationOf (Over.mk f))
     (F : EtaleModules.{u, 0} Λ X.obj) (hF : IsBigSiteConstructibleEtaleModule B X Λ F) (k : ℤ) :
-    IsBigSiteConstructibleEtaleModule B (B.obj c₀.pt hY) Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
+    IsBigSiteConstructibleEtaleModule B (B.obj c₀.pt hY) Λ
+      ((DerivedCategory.Plus.homologyFunctor _ k).obj
       ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj
           F))) := by
   classical
@@ -318,7 +320,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_adjoinFinset_l
 and quasi-compact, `Λ` a Noetherian ring with `m = 0` in `Λ` for some `m > 0`, and `F` a
 constructible sheaf of `Λ`-modules on `X`. Then every cohomology sheaf of `Rf_! F` is
 constructible: `Y` is the limit of the spectra of the finitely generated subrings of `Γ(Y, ⊤)`
-(`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_adjoinFinset_limit`). -/
+(`isConstructibleEtaleModule_homology_derivedLowerShriek_of_adjoinFinset_limit`). -/
 theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base
     (Λ : Type) [CommRing Λ] [IsNoetherianRing Λ] (m : ℕ) (hm : 0 < m) (hΛ : (m : Λ) = 0)
     (h0GKV : ∀ (X S : B.Scheme) (f : X.obj ⟶ S.obj) [IsProper f] [Smooth f]

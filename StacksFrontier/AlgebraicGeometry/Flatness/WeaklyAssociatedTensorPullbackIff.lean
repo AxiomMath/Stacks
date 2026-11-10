@@ -80,7 +80,7 @@ theorem isWeaklyAssociatedPoint_tensorPullback_of_mem_relativeAssassin_of_finite
       (B ⧸ Ideal.map (algebraMap R B) (maximalIdeal R)) := by
     have : IsLocallyNoetherian (f.fiber (f x)) := by
       have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-        show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+        change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
         infer_instance
       exact LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField (f x))
     rw [RingHom.algebraMap_toAlgebra]

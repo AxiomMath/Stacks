@@ -159,14 +159,14 @@ private theorem baseChange_comm {S : Scheme.{u}} (G : GroupoidScheme S)
       bc.groupoid.arrows.hom ≫ AffineSpace.toSpecMvPoly (ULift.{u} PUnit) S :=
     isoPullback_comp_affineLineBaseChangeIso_toSpecMvPoly bc.isPullback_arrows
   refine pullback.hom_ext ?_ ?_
-  · show (k'.left ≫ (baseChangeObjectsIso G bc).hom) ≫
+  · change (k'.left ≫ (baseChangeObjectsIso G bc).hom) ≫
         (AffineSpace (ULift.{u} PUnit) G.objects.left ↘ G.objects.left) =
       ((baseChangeArrowsIso G bc).hom ≫ AffineSpace.map _ k.left) ≫
         (AffineSpace (ULift.{u} PUnit) G.objects.left ↘ G.objects.left)
     rw [Category.assoc, hobjfst, Category.assoc, AffineSpace.map_over, ← Category.assoc,
       harrfst]
     exact hk.symm
-  · show (k'.left ≫ (baseChangeObjectsIso G bc).hom) ≫
+  · change (k'.left ≫ (baseChangeObjectsIso G bc).hom) ≫
         AffineSpace.toSpecMvPoly (ULift.{u} PUnit) G.objects.left =
       ((baseChangeArrowsIso G bc).hom ≫ AffineSpace.map _ k.left) ≫
         AffineSpace.toSpecMvPoly (ULift.{u} PUnit) G.objects.left
@@ -191,7 +191,7 @@ private theorem baseChangeSections_map {S : Scheme.{u}} (G : GroupoidScheme S)
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id, hc, Iso.inv_hom_id_assoc]
   have hs := congrArg (fun g => Scheme.Hom.appTop g x) hi
   simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] at hs
-  show affineLineSectionsEquiv (X := G.arrows.left)
+  change affineLineSectionsEquiv (X := G.arrows.left)
       ((baseChangeArrowsIso G bc).inv.appTop (k'.left.appTop x)) = _
   rw [hs]
   have hm := RingHom.congr_fun (affineLineSectionsEquiv_map k.left)
@@ -255,7 +255,7 @@ theorem isIntegral_invariantRing {S : Scheme.{u}} (G : GroupoidScheme S)
   have hlin : Algebra.lmul A' B' (t y) =
       LinearMap.id + (-z) • Algebra.lmul A' B' (t a) := by
     ext v
-    show t y * v = v + s (-z) * (t a * v)
+    change t y * v = v + s (-z) * (t a * v)
     dsimp only [y]
     rw [map_sub, map_one, map_mul, ← hz, map_neg]
     ring
@@ -276,13 +276,13 @@ theorem isIntegral_invariantRing {S : Scheme.{u}} (G : GroupoidScheme S)
   have hpdiv : 1 - Polynomial.C x * Polynomial.X ∣ p := by
     obtain ⟨q, hq⟩ := hdiv
     refine ⟨eO q, ?_⟩
-    show eO d = _
+    change eO d = _
     rw [hq, map_mul]
     congr 1
     simp only [y, map_sub, map_one, map_mul, a, z, RingEquiv.apply_symm_apply]
   obtain ⟨N, hmonic, hroot⟩ := Polynomial.monic_relation_of_divisor x p hp0 hpdiv
   refine RingHom.isIntegral_of_monic_polynomial_invariant _ _ x (p.reflect N) hmonic hroot ?_
-  show (p.reflect N).map G.source.left.appTop.hom =
+  change (p.reflect N).map G.source.left.appTop.hom =
     (p.reflect N).map G.target.left.appTop.hom
   rw [← Polynomial.reflect_map, ← Polynomial.reflect_map, hpInv]
 

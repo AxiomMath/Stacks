@@ -156,7 +156,7 @@ theorem isIso_derivedModuleGlobalSectionsSmallEtale_map (Y : AlgebraicSpaces B S
   have hαJ : IsIso (α.app (q.obj J)) :=
     Stacks.Cohomology.UnboundedComplexes.isIso_app_of_isKInjective Γh DerivedCategory.Qh _ α J hJ
   have hΓ : IsIso (Γh.map (q.map s)) := by
-    show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map
+    change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map
       (((moduleGlobalSectionsSmallEtale.{u, u} B S hS Y.1 Y.2).mapHomologicalComplex
         (ComplexShape.up ℤ)).map s)))
     rwa [DerivedCategory.isIso_Qh_map_iff, HomotopyCategory.quotient_map_mem_quasiIso_iff,

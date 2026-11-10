@@ -441,7 +441,7 @@ theorem isRelativeWeaklyAssociatedPoint_of_mem_relativeWeaklyAssociatedPoints
     rw [pointsMap_projection_pointsMap_representedFibreSpaceMap B S hS α q,
       pointsMap_yoneda_map_symm B S hS (representedFibreProjection B S hS α q) t]
     apply (pointsEquivScheme B S hS W).symm_apply_eq.2
-    show ((BigFppfOver.toScheme B S hS).map (representedFibreProjection B S hS α q)) t =
+    change ((BigFppfOver.toScheme B S hS).map (representedFibreProjection B S hS α q)) t =
       pointsToScheme B S hS W w
     rw [← hθw, ← hti, ← Scheme.Hom.comp_apply,
       residueFibreSchemeIso_hom_comp B S hS α v]
@@ -449,7 +449,7 @@ theorem isRelativeWeaklyAssociatedPoint_of_mem_relativeWeaklyAssociatedPoints
       pointsMap B S hS (yoneda.obj W) (representedSpaceMap B S hS α).hom w := by
     apply (injective_pointsToScheme B S hS V)
     rw [pointsToScheme_class]
-    show schemePoint B S hS V q = pointsToScheme B S hS V
+    change schemePoint B S hS V q = pointsToScheme B S hS V
       (pointsMap B S hS (yoneda.obj W) (yoneda.map α) w)
     rw [pointsToScheme_pointsMap_yoneda B S hS α w,
       schemePointRepresentative_point B S hS V v, ← hθw]
@@ -519,7 +519,7 @@ theorem isRelativeWeaklyAssociatedPoint_iff_mem_relativeWeaklyAssociatedPoints
     (representedFibreIso B S hS α p).inv θs
   have hEθ : pointsMap B S hS (yoneda.obj (representedFibreObject B S hS α p))
       (representedFibreSpaceMap B S hS α p).hom θ' = θs := by
-    show pointsMap B S hS (yoneda.obj (representedFibreObject B S hS α p))
+    change pointsMap B S hS (yoneda.obj (representedFibreObject B S hS α p))
       (representedFibreIso B S hS α p).hom (pointsMap B S hS _
         (representedFibreIso B S hS α p).inv θs) = θs
     rw [← Function.comp_apply (f := pointsMap B S hS _
@@ -580,9 +580,9 @@ theorem locallyOfFinitePresentation_map_of_isLocallyOfFinitePresentation
     ((isEtale_iff_presheaf_of_yoneda B S hS φ.hom).1 hφ)
     (presheaf_id_of_iso B S hS _ (fun _ _ g hg => ?_) V₀) ?_
   · have hiso : IsIso g := hg
-    show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map g)
+    change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map g)
     infer_instance
-  · show yoneda.map α₀ ≫ 𝟙 (yoneda.obj V₀) = φ.hom ≫ f.hom
+  · change yoneda.map α₀ ≫ 𝟙 (yoneda.obj V₀) = φ.hom ≫ f.hom
     rw [Category.comp_id]
     exact (congrArg InducedCategory.Hom.hom hα).symm
 

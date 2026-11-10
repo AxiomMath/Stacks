@@ -124,7 +124,7 @@ public theorem forget₂_map_moduleFiberStalksIso_hom_fiberStalkOf (s : Geometri
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) X
             (x.toGeometricPoint B f s)).hom.app F z) := by
   let : DecidableEq (GeometricFiberPoint B f s) := Classical.decEq _
-  show DirectSum.congrLinearEquiv
+  change DirectSum.congrLinearEquiv
       (fun y : GeometricFiberPoint B f s =>
         ((moduleEtaleStalkIso.{u, v, max (u + 1) v} B
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) X
@@ -272,12 +272,14 @@ public theorem etaleStalkSmallEtalePullObjIso_hom_eq_modPullbackStalk
       (x.map (B.inclusion.map f))).toPresheafFiber V v F.obj :=
     (Category.assoc _ _ _).trans
       (etaleStalkSmallEtalePullObjIso_germ B f x AddCommGrpCat.{max (u + 1) v} F
-        (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V) (geometricPointFiberBaseChangeEquiv B f x V v))
+        (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V)
+          (geometricPointFiberBaseChangeEquiv B f x V v))
         (Functor.elementsMk _ V v) (𝟙 _) ha)
   have hmd := etaleStalkSmallEtalePullObjIso_germ B f x
     (ModuleCat.{max (u + 1) v} (AddCommGrpCat.ULiftInt.{max (u + 1) v}))
     ((intModuleSheaf.{u, v} B Y).obj F)
-    (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V) (geometricPointFiberBaseChangeEquiv B f x V v))
+    (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V)
+      (geometricPointFiberBaseChangeEquiv B f x V v))
     (Functor.elementsMk _ V v) (𝟙 _) ha
   have hA := comp_inv_eq_of_comp_hom_eq
     (etaleStalkSmallEtalePullObjIso B f x AddCommGrpCat.{max (u + 1) v} F) hab
@@ -605,7 +607,7 @@ public theorem fShriekStalkIso_inv_comp_stalkMap_forgetModWeightedTrace (w : X.o
     (s : GeometricPoint Y.obj) :
     (fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (forgetModWeightedTrace.{u, v} B f Tr F).hom) =
       AddCommGrpCat.ofHom (fiberStalksMap.{u, max (u + 1) v} B f s
           ((modPullbackForget_natIso.{u, v} B f).inv.app
@@ -636,7 +638,7 @@ public theorem fShriekStalkIso_inv_comp_stalkMap_forgetModWeightedTrace (w : X.o
             ((intModuleSheaf.{u, v} B Y).obj F)) :=
     CategoryTheory.whisker_eq _ (Category.id_comp _)
   have hK : colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         (forgetModWeightedTrace.{u, v} B f Tr F).hom) =
       (geometricPointSitePoint B Y.obj Y.property s).presheafFiber.map
           ((fShriekFunctor.{u, v} B f).map
@@ -649,7 +651,7 @@ public theorem fShriekStalkIso_inv_comp_stalkMap_forgetModWeightedTrace (w : X.o
               ((intModuleSheaf.{u, v} B Y).obj F))).hom :=
     (congrArg (fun φ : (fShriekFunctor.{u, v} B f).obj ((abPullback.{u, v} B f).obj F) ⟶ F =>
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.hom))
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.hom))
         hsplit).trans
       ((geometricPointSitePoint B Y.obj Y.property s).presheafFiber.map_comp _ _)
   have h1 := (inv_comp_eq_comp_inv

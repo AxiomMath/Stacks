@@ -362,7 +362,7 @@ public theorem completionProjection_comp_restrictedSystemMapDual {X Y : Scheme.{
     completionProjection Y (I.comap f) (restrictCoherentModules f G) n ≫
         (restrictedSystemMapDual f I G Fsys α).app (op n) =
       (Scheme.Modules.restrictFunctor f).map (completionProjection X I G n ≫ α.app (op n)) := by
-  show completionProjection Y (I.comap f) (restrictCoherentModules f G) n ≫
+  change completionProjection Y (I.comap f) (restrictCoherentModules f G) n ≫
       (completionRestrictOpenIso f I G).inv.app (op n) ≫
         (Scheme.Modules.restrictFunctor f).map (α.app (op n)) =
     (Scheme.Modules.restrictFunctor f).map (completionProjection X I G n ≫ α.app (op n))
@@ -424,7 +424,7 @@ public theorem completionProjection_comp_restrictedCompletionCompIso {X Y V : Sc
           (completionProjection_comp_completionRestrictOpenIso f I G n)))
       (completionProjection_comp_completionRestrictOpenIso g (I.comap f)
         (restrictCoherentModules f G) n)
-  show completionProjection V (I.comap (g ≫ f)) (restrictCoherentModules (g ≫ f) G) n ≫
+  change completionProjection V (I.comap (g ≫ f)) (restrictCoherentModules (g ≫ f) G) n ≫
       (completionRestrictOpenIso (g ≫ f) I G).inv.app (op n) ≫
         (Scheme.Modules.restrictFunctorComp g f).hom.app
             (((completionFunctor X I).obj G).obj.obj (op n)) ≫
@@ -539,7 +539,7 @@ public theorem completionRestrictOpenIso_inv_naturality {X Y : Scheme.{u}} (f : 
     comp_assoc_eq_comp_of_eq₂
       (completionFunctor_map_quotient Y (I.comap f) (restrictCoherentModulesMap f b) n)
       (completionProjection_comp_completionRestrictOpenIso_inv f I F n)
-  show completionProjection Y (I.comap f) (restrictCoherentModules f G) n ≫
+  change completionProjection Y (I.comap f) (restrictCoherentModules f G) n ≫
       (completionRestrictOpenIso f I G).inv.app (op n) ≫
         (Scheme.Modules.restrictFunctor f).map
           (((completionFunctor X I).map b).hom.app (op n)) =
@@ -584,7 +584,7 @@ public theorem restrictedSystemMapDual_eq_of_algebraization {Y V : Scheme.{u}} (
       ((completionFunctor V (K.comap g)).map (restrictCoherentModulesMap g b)).hom ≫
         (restrictedAlgebraizationIsoDual g K Ssys F β).hom := by
   rw [hβ]
-  show (completionRestrictOpenIso g K G).inv ≫
+  change (completionRestrictOpenIso g K G).inv ≫
       Functor.whiskerRight (((completionFunctor Y K).map b).hom ≫ β.hom)
         (Scheme.Modules.restrictFunctor g) =
     ((completionFunctor V (K.comap g)).map (restrictCoherentModulesMap g b)).hom ≫

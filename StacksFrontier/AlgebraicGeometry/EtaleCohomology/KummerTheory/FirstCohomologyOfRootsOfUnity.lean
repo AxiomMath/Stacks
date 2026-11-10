@@ -122,7 +122,7 @@ theorem terminalFamily_naturality (A : Cᵒᵖ ⥤ AddCommGrpCat.{t}) {T : C} (h
 theorem terminalFamily_terminal (A : Cᵒᵖ ⥤ AddCommGrpCat.{t}) {T : C} (hT : IsTerminal T)
     (x : A.obj (op T)) : terminalFamily A hT x (op T) = x := by
   have h : (hT.from T).op = 𝟙 (op T) := Quiver.Hom.unop_inj (hT.hom_ext _ _)
-  show A.map (hT.from T).op x = x
+  change A.map (hT.from T).op x = x
   rw [h, A.map_id]
   rfl
 
@@ -153,9 +153,9 @@ theorem terminalSectionMorphism_add (A : Cᵒᵖ ⥤ AddCommGrpCat.{t}) {T : C} 
       terminalSectionMorphism A hT x + terminalSectionMorphism A hT y := by
   refine constInt_hom_ext _ _ fun U => ?_
   rw [terminalSectionMorphism_one]
-  show A.map _ (x + y) = _
+  change A.map _ (x + y) = _
   rw [map_add]
-  show _ = (terminalSectionMorphism A hT x).app U ⟨1⟩ +
+  change _ = (terminalSectionMorphism A hT x).app U ⟨1⟩ +
     (terminalSectionMorphism A hT y).app U ⟨1⟩
   rw [terminalSectionMorphism_one, terminalSectionMorphism_one]
   rfl
@@ -230,7 +230,7 @@ theorem terminalBoundary_eq_zero_iff (S : ShortComplex (Sheaf J AddCommGrpCat.{t
   · rintro ⟨y, hy⟩
     refine ⟨terminalSectionMorphism S.X₂.obj hT y, ?_⟩
     refine constInt_hom_ext _ _ fun U => ?_
-    show S.g.hom.app U ((terminalSectionMorphism S.X₂.obj hT y).app U ⟨1⟩) = _
+    change S.g.hom.app U ((terminalSectionMorphism S.X₂.obj hT y).app U ⟨1⟩) = _
     rw [terminalSectionMorphism_one, terminalSectionMorphism_one, terminalFamily,
       terminalFamily, ← hy]
     exact NatTrans.naturality_apply S.g.hom (hT.from U.unop).op y

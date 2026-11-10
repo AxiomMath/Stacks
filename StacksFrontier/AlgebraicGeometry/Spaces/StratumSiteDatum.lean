@@ -164,7 +164,7 @@ theorem exists_fieldValuedPoint_comp_eq
     Over.mk (⟨e.inv ≫ T.hom.hom⟩ : B.obj hk ⟶ B.obj hS)
   have hw : eB.hom ≫ A.hom = T.hom := by
     ext
-    show e.hom ≫ e.inv ≫ T.hom.hom = T.hom.hom
+    change e.hom ≫ e.inv ≫ T.hom.hom = T.hom.hom
     rw [← Category.assoc, e.hom_inv_id, Category.id_comp]
   set ε : T ≅ A := Over.isoMk eB hw
   refine ⟨{ carrier := k, contained := hk, toBase := e.inv ≫ T.hom.hom,

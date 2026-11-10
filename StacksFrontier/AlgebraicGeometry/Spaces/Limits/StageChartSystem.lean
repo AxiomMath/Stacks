@@ -373,6 +373,7 @@ theorem stageToStage_naturality {s s' : Over j} (d : s' ⟶ s) :
 end Naturality
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasPullbacks` instance for presheaves on the big fppf site needs a deep instance search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_StageChartSystem :
@@ -543,7 +544,7 @@ theorem stageChartDiagram_affine {s s' : Over j} (d : s' ⟶ s) :
   have outer : IsPullback ((stageChartDiagram B S hS D T).map d ≫ pullback.snd _ _)
       (pullback.fst _ _) T.obj.hom (D.map d.left ≫ D.map s.hom) := by
     rw [stageChartDiagram_map_snd]
-    show IsPullback (pullback.snd (D.map s'.hom) T.obj.hom)
+    change IsPullback (pullback.snd (D.map s'.hom) T.obj.hom)
       (pullback.fst (D.map s'.hom) T.obj.hom) T.obj.hom (D.map d.left ≫ D.map s.hom)
     rw [← D.map_comp, Over.w d]
     exact (IsPullback.of_hasPullback _ T.obj.hom).flip

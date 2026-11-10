@@ -107,7 +107,7 @@ private theorem finite_of_dedekind {B : Type u} [CommRing B] [IsDedekindDomain B
   refine ⟨P, ?_, rfl⟩
   rcases lt_or_gt_of_ne hP with h | h
   · right
-    show 1 < P.valuation K y⁻¹
+    change 1 < P.valuation K y⁻¹
     rw [map_inv₀]
     exact one_lt_inv_iff₀.2 ⟨zero_lt_iff.2 ((_root_.map_ne_zero _).2 hy), h⟩
   · exact Or.inl h
@@ -328,7 +328,7 @@ public theorem mem_polySubalg_gen_inter {z : K} (h₁ : z ∈ polySubalg k (gen 
     exact h1
   have hf0 : f.natDegree = 0 := by omega
   refine ⟨f.coeff 0, ?_⟩
-  show _ = aeval t f
+  change _ = aeval t f
   conv_rhs => rw [eq_C_of_natDegree_eq_zero hf0]
   rw [aeval_C]
 

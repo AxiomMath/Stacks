@@ -240,10 +240,10 @@ theorem affineChartCov_cofinal (U : SmallEtale B S hS F)
     rw [Sieve.ofArrows, hpre]
   refine ⟨⟨{ I₀ := ULift.{u} ι, X := fun j ↦ V j.down, f := fun j ↦ f j.down }, ?_⟩,
     ⟨hU, inferInstance, fun j ↦ hVaff j.down⟩, ?_⟩
-  · show Sieve.generate (Presieve.ofArrows _ _) ∈ _
+  · change Sieve.generate (Presieve.ofArrows _ _) ∈ _
     rw [hsieve]
     exact hcov
-  · show Sieve.generate (Presieve.ofArrows _ _) ≤ R
+  · change Sieve.generate (Presieve.ofArrows _ _) ≤ R
     rw [hsieve]
     exact hle
 

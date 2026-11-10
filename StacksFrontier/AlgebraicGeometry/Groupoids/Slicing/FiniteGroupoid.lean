@@ -49,7 +49,7 @@ private lemma eq_of_specializes_same_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
     [IsIntegralHom f] {x y : X} (hxy : x ⤳ y) (hfy : f x = f y) : x = y := by
   let yF : f.fiber (f x) := (f.fiberHomeo (f x)).symm ⟨y, hfy.symm⟩
   have hF : f.asFiber x ⤳ yF := by
-    show (f.fiberHomeo (f x)).symm ⟨x, rfl⟩ ⤳ yF
+    change (f.fiberHomeo (f x)).symm ⟨x, rfl⟩ ⤳ yF
     exact ((subtype_specializes_iff ..).2 hxy).map
       (f.fiberHomeo (f x)).symm.continuous
   have := congrArg (f.fiberι (f x)) (Set.mem_singleton_iff.mp

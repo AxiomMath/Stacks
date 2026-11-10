@@ -280,7 +280,7 @@ theorem map_ker_le_of_sub_mem {n : ℕ} (param : P →ₐ[ℂ] MvPolynomial (Fin
   rw [Ideal.mem_comap, ← Ideal.Quotient.eq_zero_iff_mem]
   have := congrArg (fun F : P →ₐ[ℂ] A ⧸ J => F f) hext
   simp only [AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk] at this
-  show Ideal.Quotient.mk J (polyToSeries f) = 0
+  change Ideal.Quotient.mk J (polyToSeries f) = 0
   rw [this, show param f = 0 from hf, map_zero, map_zero]
 
 /-- The ideal of `V` lies in any ideal containing `c - ε a` and `d - ε b` for a square root `ε`

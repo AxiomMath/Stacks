@@ -55,11 +55,12 @@ def directImageSingleIso {X Y : Scheme.{u}} (g : X ⟶ Y) (A : EtaleModules.{u, 
   ObjectProperty.isoMk _ ((HomologicalComplex.singleMapHomologicalComplex
     (etaleModuleDirectImage.{u, 0} Λ g) (ComplexShape.up ℤ) 0).app A)
 
-omit [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU] [IsAlgClosed kbar] in
+omit [Fintype k] [Smooth fU] [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU]
+  [IsAlgClosed kbar] in
 /-- **`H⁰_c(U_k̄, G) = 0`** for a sheaf `G` on a smooth curve `U` which becomes constant on a
 connected finite étale cover `f : V ⟶ U` with `V` affine, given the smooth projective
 compactification `V̄` of `V` over the compactification of `U`. -/
-theorem isZero_compactSupportFrobeniusCohomologyGroup_zero_of_cover [PerfectField k]
+theorem isZero_compactSupportFrobeniusCohomologyGroup_zero_of_cover [Finite k] [PerfectField k]
     [LocallyOfFiniteType (f ≫ fU)] [QuasiCompact (f ≫ fU)] [IsSeparated (f ≫ fU)]
     (C : CoverCompactification k j.toBase j.immersion f) (G : EtaleModules.{u, 0} Λ U)
     (M : ModuleCat.{u + 1} Λ)
@@ -107,7 +108,7 @@ theorem isZero_compactSupportFrobeniusCohomologyGroup_zero_of_cover [PerfectFiel
         (-1)) := by
     have : CochainComplex.IsStrictlyGE ((CochainComplex.singleFunctor
         (EtaleModules.{u, 0} Λ U) 0).obj (cokernel η)) 0 := by
-      show CochainComplex.IsStrictlyGE ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
+      change CochainComplex.IsStrictlyGE ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
         (cokernel η)) 0
       infer_instance
     have : (compactSupportFrobeniusCohomology.{u, 0} Λ fU j kbar

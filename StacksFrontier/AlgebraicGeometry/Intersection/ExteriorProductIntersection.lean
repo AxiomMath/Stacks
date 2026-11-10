@@ -654,9 +654,9 @@ theorem snd_eq_of_exteriorProductWeight_ne_zero (x : X) (y : Y) (r s : ℕ)
         h'.symm)
   have hdimlt := topologicalKrullDim_lt_of_lt_irreducibleCloseds _ _
     hlt (by
-      show topologicalKrullDim (closure ({y'} : Set Y)) ≠ ⊤
+      change topologicalKrullDim (closure ({y'} : Set Y)) ≠ ⊤
       rw [ht]
-      exact (WithBot.coe_lt_coe.mpr (ENat.coe_lt_top t)).ne)
+      exact (WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top t)).ne)
   change topologicalKrullDim (closure ({y'} : Set Y)) <
     topologicalKrullDim (closure ({y} : Set Y)) at hdimlt
   rw [ht, hsy, Nat.cast_lt] at hdimlt

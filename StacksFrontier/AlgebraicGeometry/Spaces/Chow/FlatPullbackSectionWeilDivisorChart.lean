@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormula.GenericRes
 /-!
 # The coefficients of the right-hand side of Stacks 0EQQ, read on a chart
 
-In the situation of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.FlatPullbackSectionWeilDivisorLocal`
+In the situation of
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.FlatPullbackSectionWeilDivisorLocal`
 let `U ⟶ V` be a diagram of affine étale charts over `f`, with `ℒ` free over `V` on a generator
 `e`, and `u` a point of `U`. Write `O = 𝒪_{U, u}` and
 
@@ -272,7 +273,7 @@ theorem componentDivisor_apply_eq_ordTotalFracInt
           (closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1 W.subspace
             W.isClosedSubspace d.U q)).hom := by
     rw [closedSubspaceBaseChangeStalkMap_rfl]
-    show ((closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1 W.subspace
+    change ((closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1 W.subspace
       W.isClosedSubspace d.U ≫ (BigFppfOver.toScheme D.site D.base D.base_mem).map d.g).stalkMap
         q).hom = _
     rw [Scheme.Hom.stalkMap_comp]

@@ -73,7 +73,7 @@ instance isReduced_reduction : IsReduced X.reduction :=
 /-- The image of the closed immersion `X_red ⟶ X` is all of `X`. -/
 @[simp]
 theorem range_reductionι : Set.range X.reductionι = Set.univ := by
-  show Set.range X.nilradical.subschemeι = Set.univ
+  change Set.range X.nilradical.subschemeι = Set.univ
   rw [IdealSheafData.range_subschemeι, support_nilradical]
   simp
 

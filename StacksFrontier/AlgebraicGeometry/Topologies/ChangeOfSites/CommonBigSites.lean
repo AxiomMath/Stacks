@@ -66,7 +66,7 @@ private noncomputable def smallSumCardinal {ι : Type v} [Small.{u} ι]
 
 private lemma le_smallSumCardinal {ι : Type v} [Small.{u} ι]
     (f : ι → Cardinal.{u}) (i : ι) : f i ≤ smallSumCardinal f := by
-  show f i ≤ sum (fun j : Shrink ι => f ((equivShrink ι).symm j))
+  change f i ≤ sum (fun j : Shrink ι => f ((equivShrink ι).symm j))
   simpa only [Equiv.symm_apply_apply] using
     (le_sum (fun j : Shrink ι => f ((equivShrink ι).symm j)) (equivShrink ι i))
 
@@ -90,7 +90,7 @@ private lemma covBounded_isSite_of_isSite {C : Type (u + 1)} [Category.{u} C]
   refine ⟨?_, ?_, ?_⟩
   · intro U V f hf
     refine ⟨hIso f, ?_⟩
-    show #(PUnit.{u + 2}) ≤ κ
+    change #(PUnit.{u + 2}) ≤ κ
     rw [mk_punit]
     exact Cardinal.one_le_aleph0.trans hκ
   · intro 𝒰 h𝒰 𝒱 h𝒱 htargets
@@ -148,7 +148,7 @@ private lemma isSite_zariskiCutoff (κ : Cardinal.{u}) :
     schemePrecoverage_stableUnderBaseChange P
   have : Precoverage.HasIsos Q := ⟨fun f _ ↦ Scheme.zariskiPretopology.has_isos f⟩
   have h := isSite_of_cutoff_precoverage (Q := Q) κ
-  show IsSite (fun E =>
+  change IsSite (fun E =>
     (E.2.map (AlgebraicGeometry.schemeBelowInclusion κ)).presieve₀ ∈
       Scheme.zariskiPretopology E.1.1)
   simpa [Q, Scheme.zariskiPretopology] using h
@@ -166,7 +166,7 @@ public theorem isSite_etaleCutoff (κ : Cardinal.{u}) :
   have : Precoverage.HasIsos Scheme.etalePrecoverage :=
     ⟨fun f _ ↦ Scheme.etalePretopology.has_isos f⟩
   have h := isSite_of_cutoff_precoverage (Q := Scheme.etalePrecoverage) κ
-  show IsSite (fun E : Covering (AlgebraicGeometry.SchemeBelow κ) =>
+  change IsSite (fun E : Covering (AlgebraicGeometry.SchemeBelow κ) =>
     (E.2.map (AlgebraicGeometry.schemeBelowInclusion κ)).presieve₀ ∈
       Scheme.etalePrecoverage
         ((AlgebraicGeometry.schemeBelowInclusion κ).obj E.1))
@@ -205,7 +205,7 @@ public lemma isSite_fppfCutoff (κ : Cardinal.{u}) :
   have : Scheme.fppfPrecoverage.IsStableUnderBaseChange :=
     schemePrecoverage_stableUnderBaseChange P
   have h := isSite_of_cutoff_precoverage (Q := Scheme.fppfPrecoverage) κ
-  show IsSite (fun E : Covering (AlgebraicGeometry.SchemeBelow κ) =>
+  change IsSite (fun E : Covering (AlgebraicGeometry.SchemeBelow κ) =>
     E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap
       (AlgebraicGeometry.schemeBelowInclusion κ) E.1)
   simpa [AlgebraicGeometry.IsFppfCovering, Precoverage.mem_comap_iff,

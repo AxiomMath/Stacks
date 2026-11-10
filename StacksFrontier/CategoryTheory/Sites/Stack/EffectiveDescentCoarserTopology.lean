@@ -178,7 +178,6 @@ lemma glueIso_pullback {V W Z Z' : 𝒮} {f : V ⟶ U} (hf : D.effectiveSieve f)
       refine IsStronglyCartesian.ext p ε (IsPreFibered.pullbackMap (D.effObj hf).2 ε)
         (f'' ≫ γ) ?_
       simp only [Category.assoc, pullbackFiberCompIso'_inv_fac, EffectiveAlong.pullback_ζ_fac]
-      try exact (D.effAlong hf).ζ_congr (Category.assoc _ _ _).symm _ _ hb
     simp only [L, Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Category.assoc,
       pullbackFiberCompIso, pullbackFiberCompIso'_hom_fac, pullbackFiberIso_hom,
       pullbackFiberHom_fac_assoc]
@@ -266,7 +265,7 @@ theorem isEffective_of_effectiveSieve_mem {J : GrothendieckTopology 𝒮} (hJK :
       (by rw [Category.id_comp])
     have hcoc' := congrArg (Fiber.fiberInclusion.map ·) hcoc
     simp only [Functor.map_comp] at hcoc'
-    show Fiber.fiberInclusion.map (D.iso hf₁ hg₁ ε ε' heq).hom ≫
+    change Fiber.fiberInclusion.map (D.iso hf₁ hg₁ ε ε' heq).hom ≫
         IsPreFibered.pullbackMap (D.obj g hg₁).2 ε' ≫
           ((D.effAlong hg₂).ζ (𝟙 W) g (Category.id_comp g) hg₁ ≫ ξ g hg₂) =
       IsPreFibered.pullbackMap (D.obj f hf₁).2 ε ≫
@@ -337,7 +336,7 @@ theorem nonempty_effectiveAlong_of_coarseGlueDatum (hRE : R ≤ D.effectiveSieve
     (by rw [Category.id_comp])
   have hcoc' := congrArg (Fiber.fiberInclusion.map ·) hcoc
   simp only [Functor.map_comp] at hcoc'
-  show Fiber.fiberInclusion.map (D.iso hb hb' ε ε' heqb).hom ≫
+  change Fiber.fiberInclusion.map (D.iso hb hb' ε ε' heqb).hom ≫
       IsPreFibered.pullbackMap (D.obj b' hb').2 ε' ≫
         ((D.effAlong hg₂).ζ (𝟙 Y') b' (Category.id_comp b') hb' ≫ ξ f' b' hfb' hg₂) =
     IsPreFibered.pullbackMap (D.obj b hb).2 ε ≫

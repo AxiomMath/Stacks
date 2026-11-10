@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -341,7 +341,7 @@ theorem numerical_polynomial_of_difference (f : ℕ → ℤ)
   rw [Filter.eventually_atTop]
   refine ⟨N + 1, fun n hn => ?_⟩
   have := hconst n hn
-  show f n = F n + K
+  change f n = F n + K
   linarith [this]
 
 /-! ### The analytic core: the generalized graded-module Hilbert–Serre induction
@@ -419,7 +419,7 @@ theorem AdmissibleGradedModule.hilb_eventually_eq_zero (A : AdmissibleGradedModu
     by_contra h
     have : n ≤ N := hN h
     omega
-  show (Module.finrank k (A.Mgr n) : ℤ) = 0
+  change (Module.finrank k (A.Mgr n) : ℤ) = 0
   rw [hbot]
   simp [finrank_bot]
 
@@ -503,25 +503,25 @@ theorem ker_homogeneous {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
             Π₀ n, ↥(p n))
           (i + 1)
       have hpush := map_dfinsuppSum (AddSubmonoidClass.subtype (p (i + 1))) f h₀
-      show (AddSubmonoidClass.subtype (p (i + 1))) (f.sum h₀) = T (f i : M)
+      change (AddSubmonoidClass.subtype (p (i + 1))) (f.sum h₀) = T (f i : M)
       rw [hpush]
       rw [show
           (f.sum fun j (fj : p j) => (AddSubmonoidClass.subtype (p (i + 1))) (h₀ j fj)) =
             ∑ j ∈ f.support, (AddSubmonoidClass.subtype (p (i + 1))) (h₀ j (f j))
           from rfl]
       rw [Finset.sum_eq_single i]
-      · show ((h₀ i (f i) : p (i + 1)) : M) = T (f i : M)
+      · change ((h₀ i (f i) : p (i + 1)) : M) = T (f i : M)
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_left rfl]
       · intro j _ hji
-        show ((h₀ j (f j) : p (i + 1)) : M) = 0
+        change ((h₀ j (f j) : p (i + 1)) : M) = 0
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_right (by omega)]
         simp
       · intro hni
         rw [DFinsupp.mem_support_toFun] at hni
         have hfi0 : f i = 0 := by simpa using hni
-        show ((h₀ i (f i) : p (i + 1)) : M) = 0
+        change ((h₀ i (f i) : p (i + 1)) : M) = 0
         simp only [h₀]
         rw [DFinsupp.single_apply, dite_eq_left rfl]
         rw [hfi0]
@@ -637,7 +637,7 @@ theorem exists_kernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 1)
   let moduleS₀ : Module (MvPolynomial (Fin d) k) K := Module.compHom (M := K) ren.toRingHom
   let tower₀ : IsScalarTower k (MvPolynomial (Fin d) k) K := by
     refine ⟨fun c r x => ?_⟩
-    show (ren (c • r)) • x = c • ((ren r) • x)
+    change (ren (c • r)) • x = c • ((ren r) • x)
     rw [map_smul, smul_assoc]
   -- grading
   set Kgr : ℕ → Submodule k K := fun m =>
@@ -701,7 +701,7 @@ theorem exists_kernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 1)
     exact Module.Finite.of_injective e he
   · -- smul_mem
     intro i n x hx
-    show (MvPolynomial.X i • x) ∈ Submodule.comap ((K.subtype).restrictScalars k) (A.Mgr (n + 1))
+    change (MvPolynomial.X i • x) ∈ Submodule.comap ((K.subtype).restrictScalars k) (A.Mgr (n + 1))
     rw [Submodule.mem_comap]
     have hxmem : (x : A.M) ∈ A.Mgr n := hx
     have hcoe1 :
@@ -722,7 +722,7 @@ theorem exists_kernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 1)
     have hkey : ∀ (s : MvPolynomial (Fin (d + 1)) k) (x : K), ((qmap k d s) • x : K) = s • x := by
       intro s x
       apply Subtype.ext
-      show ren (qmap k d s) • (x : A.M) = s • (x : A.M)
+      change ren (qmap k d s) • (x : A.M) = s • (x : A.M)
       have hxk : (MvPolynomial.X (Fin.last d) : MvPolynomial (Fin (d + 1)) k) • (x : A.M) = 0 := by
         have hx2 : lXS (x : A.M) = 0 := LinearMap.mem_ker.mp x.property
         rwa [hlXS] at hx2
@@ -780,7 +780,7 @@ theorem exists_kernel_admissible {d : ℕ} (A : AdmissibleGradedModule k (d + 1)
           rw [hK, LinearMap.mem_ker, hlXS]
           exact congrArg (Subtype.val) (LinearMap.mem_ker.mp z.property)
         · -- ∈ Kgr m
-          show ι _ ∈ A.Mgr m
+          change ι _ ∈ A.Mgr m
           exact (z : A.Mgr m).property
       · -- right inverse
         apply LinearMap.ext; intro z

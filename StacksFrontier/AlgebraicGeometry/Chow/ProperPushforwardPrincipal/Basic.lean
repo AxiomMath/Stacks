@@ -132,7 +132,7 @@ theorem relativeDimension_id {S : Scheme.{u}} (δ : DimensionFunction S) (s : S)
     refine ⟨fun x ↦ ?_⟩
     obtain ⟨y, rfl⟩ : ∃ y, algebraMap ↑(S.residueField (((𝟙 S) : S ⟶ S) s))
         ↑(S.residueField s) y = x := ⟨x, by
-      show ((Scheme.Hom.residueFieldMap (𝟙 S) s).hom) x = x
+      change ((Scheme.Hom.residueFieldMap (𝟙 S) s).hom) x = x
       rw [Scheme.residueFieldMap_id]
       rfl⟩
     exact isAlgebraic_algebraMap y
@@ -199,7 +199,7 @@ theorem properPushforward_principalDivisorCycle_apply [Subsingleton C.S]
     (properPushforward C c (𝟙 C.S) c (by simp) 0
         (principalDivisorCycle C c hdim f) : AlgebraicCycle C.S ℤ) y =
       principalDivisorDegree c f := by
-  show AlgebraicCycle.map c (relativeDimension C.dimensionFunction c)
+  change AlgebraicCycle.map c (relativeDimension C.dimensionFunction c)
       (relativeDimension C.dimensionFunction (𝟙 C.S))
       (principalDivisorCycle C c hdim f).1 y = _
   rw [AlgebraicCycle.map_apply_of_subsingleton, principalDivisorDegree]

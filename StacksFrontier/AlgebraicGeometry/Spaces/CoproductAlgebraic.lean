@@ -240,7 +240,7 @@ theorem BigFppfOver.exists_coproduct_of_size_le (B : BigFppfSite.{u}) (S : Schem
   have hc : ∀ k, ∃ ψ : R k ⟶ Z, (BigFppfOver.toScheme B S hS).map ψ = Sigma.ι Y k := by
     intro k
     refine BigFppfOver.exists_hom_of_comp_eq B S hS (X := R k) (Y := Z) (Sigma.ι Y k) ?_
-    rw [hZhom, hτdef, Sigma.ι_desc]
+    rw [hZhom, hτdef, Sigma.ι_comp_desc]
   choose c hcmap using hc
   refine ⟨Z, c, fun k => ?_, fun k k' hkk' y y' => ?_, fun z => ?_⟩
   · rw [hcmap k]
@@ -290,7 +290,7 @@ theorem BigFppfOver.hom_ext_of_openCover {T X : BigFppfOver B S hS} {K : Type w}
   refine ((isSheaf_yoneda_obj_type X _
     (BigFppfOver.ofArrows_mem_topology_of_isOpenImmersion B S hS p hoi hcov)).isSeparatedFor).ext ?_
   rintro T' e ⟨Z, l, e', ⟨k⟩, hcomp⟩
-  show e ≫ h₁ = e ≫ h₂
+  change e ≫ h₁ = e ≫ h₂
   rw [← hcomp, Category.assoc, Category.assoc, h k]
 
 /-! ### The chart of a coproduct of sheaves is a fibre product -/
@@ -548,7 +548,7 @@ theorem exists_isPullback_of_isColimit_cofan {I : Type w}
       Functor.map_comp_apply, hRw (ix n)]
   have hwglob : yoneda.map πa ≫ g = yoneda.map πc ≫ k := by
     refine yonedaEquiv.injective ?_
-    show g.app (op Z) (𝟙 Z ≫ πa) = k.app (op Z) (𝟙 Z ≫ πc)
+    change g.app (op Z) (𝟙 Z ≫ πa) = k.app (op Z) (𝟙 Z ≫ πc)
     rw [Category.id_comp, Category.id_comp, app_eq_map_app_id g, app_eq_map_app_id k, hsec]
   -- every object of the site over `a` and `c` is covered by pieces of the fibre product
   have hdecomp : ∀ (T : BigFppfOver B S hS) (sT : T ⟶ a) (tT : T ⟶ c),
@@ -592,7 +592,7 @@ theorem exists_isPullback_of_isColimit_cofan {I : Type w}
       intro i
       have hwi : yoneda.map (γ i) ≫ gc i = yoneda.map (α i) ≫ ga i := by
         refine yonedaEquiv.injective ?_
-        show (gc i).app (op (D i)) (𝟙 (D i) ≫ γ i)
+        change (gc i).app (op (D i)) (𝟙 (D i) ≫ γ i)
           = (ga i).app (op (D i)) (𝟙 (D i) ≫ α i)
         rw [Category.id_comp, Category.id_comp, hgaapp, hgcapp, hzda i, hzdc i]
       refine ⟨yoneda.preimage ((hRpb i).lift (yoneda.map (γ i)) (yoneda.map (α i)) hwi),
@@ -757,12 +757,12 @@ theorem presheaf_inverseImage_of_isColimit_cofan {I : Type w}
   have hgaι : ∀ i, yoneda.map (pa i) ≫ kk = ga i ≫ (ι i).hom := by
     intro i
     refine yonedaEquiv.injective ?_
-    show kk.app (op (A i)) (𝟙 (A i) ≫ pa i)
+    change kk.app (op (A i)) (𝟙 (A i) ≫ pa i)
       = (ι i).hom.app (op (A i)) ((ga i).app (op (A i)) (𝟙 (A i)))
     rw [Category.id_comp, app_eq_map_app_id kk, hgaapp]
     simp only [op_id, CategoryTheory.Functor.map_id_apply]
     exact (hza i).symm
-  show P₀ ((BigFppfOver.toScheme B S hS).map (hvrep.snd kk))
+  change P₀ ((BigFppfOver.toScheme B S hS).map (hvrep.snd kk))
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (K := Scheme.zariskiPrecoverage)
     (R := Presieve.ofArrows (fun i => (BigFppfOver.toScheme B S hS).obj (A i))

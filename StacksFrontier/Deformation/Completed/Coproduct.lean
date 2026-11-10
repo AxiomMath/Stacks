@@ -382,8 +382,7 @@ private theorem binaryTensorMap_residue {Λ : Type u} {k : Type w} [CommRing Λ]
     (residueAlgHom D).comp (binaryTensorMap A B f g) = tensorResidueMap A B := by
   apply AlgHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a b =>
     simp [binaryTensorMap, tensorResidueMap, residueTensorMap, f.residue_comm a,
@@ -499,8 +498,7 @@ private theorem tensor_algHom_ext {Λ A B C : Type*} [CommRing Λ] [CommRing A] 
       g.comp (Algebra.TensorProduct.includeRight (R := Λ) (A := A) (B := B))) : f = g := by
   apply AlgHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a b =>
       have hmul : a ⊗ₜ[Λ] b =

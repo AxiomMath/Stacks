@@ -177,7 +177,7 @@ theorem base_genericPoint_integralComponentAt (sX : X ⟶ Spec (.of R)) {x₀ : 
     letI := isIntegral_integralComponentAt x₀
     ((integralComponentAt x₀).subschemeι ≫ sX).base
         (genericPoint (integralComponentAt x₀).subscheme) = genericPoint (Spec (.of R)) := by
-  show sX.base ((integralComponentAt x₀).subschemeι.base _) = _
+  change sX.base ((integralComponentAt x₀).subschemeι.base _) = _
   rw [subschemeι_genericPoint_integralComponentAt x₀]
   exact hx₀
 

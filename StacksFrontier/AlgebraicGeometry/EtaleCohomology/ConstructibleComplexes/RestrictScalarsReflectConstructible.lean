@@ -103,7 +103,7 @@ def etaleStalkRestrictScalarsIso (t : GeometricPoint X.obj)
   haveI : PreservesColimitsOfSize.{u, u + 1} (ModuleCat.restrictScalars.{u + 1} ρ) :=
     (ModuleCat.restrictCoextendScalarsAdj.{u + 1} ρ).leftAdjoint_preservesColimits
   (preservesColimitIso (ModuleCat.restrictScalars.{u + 1} ρ)
-    ((CategoryOfElements.π (geometricPointFiber B X.obj X.property t)).op ⋙ G.obj)).symm
+    ((Functor.Elements.π (geometricPointFiber B X.obj X.property t)).op ⋙ G.obj)).symm
 
 /-- **Constructibility over a finite ring is detected after restriction of scalars.** Let
 `ρ : R →+* Λ` be a homomorphism of finite rings, `R` Noetherian, `Λ` not necessarily commutative,

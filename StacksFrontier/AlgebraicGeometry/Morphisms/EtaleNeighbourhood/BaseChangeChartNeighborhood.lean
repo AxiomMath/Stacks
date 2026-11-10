@@ -245,13 +245,13 @@ theorem exists_point_etale_chart_pullback_tensorProduct {T Y : Scheme.{u}} (g : 
     (Algebra.TensorProduct.comm Γ(T, WT) Γ(Y, VY) Λ).toRingEquiv.trans χ₀
   have hχL : ∀ a : Γ(Y, VY), χ (a ⊗ₜ 1) =
       ((pullback.fst g b).appLE VY (pullback.fst g b ⁻¹ᵁ VY) le_rfl).hom a := fun a => by
-    show χ₀ ((Algebra.TensorProduct.comm Γ(T, WT) Γ(Y, VY) Λ) (a ⊗ₜ 1)) = _
+    change χ₀ ((Algebra.TensorProduct.comm Γ(T, WT) Γ(Y, VY) Λ) (a ⊗ₜ 1)) = _
     rw [Algebra.TensorProduct.comm_tmul]
     exact hχr a
   have hχR : ∀ l : Λ, χ (1 ⊗ₜ l) =
       ((pullback.snd g b).appLE ⊤ (pullback.fst g b ⁻¹ᵁ VY) le_top).hom
         ((Scheme.ΓSpecIso Λ).inv.hom l) := fun l => by
-    show χ₀ ((Algebra.TensorProduct.comm Γ(T, WT) Γ(Y, VY) Λ) (1 ⊗ₜ l)) = _
+    change χ₀ ((Algebra.TensorProduct.comm Γ(T, WT) Γ(Y, VY) Λ) (1 ⊗ₜ l)) = _
     rw [Algebra.TensorProduct.comm_tmul]
     exact hχl l
   -- the prime of the chart ring, and the point of the fibre product it cuts out

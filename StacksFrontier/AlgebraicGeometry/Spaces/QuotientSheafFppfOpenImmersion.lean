@@ -87,14 +87,14 @@ theorem restrictionMap_comp_fst :
 /-- The comparison of restrictions commutes with the source maps. -/
 theorem restrictionMap_comp_source :
     restrictionMap j j' r f hrel hg ≫ (restrict j' g').source = (restrict j g).source := by
-  show restrictionMap j j' r f hrel hg ≫ pullback.fst (prod.map g' g') j' ≫ prod.snd =
+  change restrictionMap j j' r f hrel hg ≫ pullback.fst (prod.map g' g') j' ≫ prod.snd =
     pullback.fst (prod.map g g) j ≫ prod.snd
   rw [← Category.assoc, restrictionMap_comp_fst]
 
 /-- The comparison of restrictions commutes with the target maps. -/
 theorem restrictionMap_comp_target :
     restrictionMap j j' r f hrel hg ≫ (restrict j' g').target = (restrict j g).target := by
-  show restrictionMap j j' r f hrel hg ≫ pullback.fst (prod.map g' g') j' ≫ prod.fst =
+  change restrictionMap j j' r f hrel hg ≫ pullback.fst (prod.map g' g') j' ≫ prod.fst =
     pullback.fst (prod.map g g) j ≫ prod.fst
   rw [← Category.assoc, restrictionMap_comp_fst]
 
@@ -164,7 +164,7 @@ theorem restrictQuotientSheafMap_property_of_extendsRelation
     (by simp) (by simp)
   have hfactor : isoRest.hom ≫ restrictQuotientSheafMap J F jG (g ≫ e) ≫ isoBase.hom =
       restrictQuotientSheafMap J F j g := by
-    show (quotientSheafMap J F (PreRelation.restrict j g) (PreRelation.restrict jG (g ≫ e))
+    change (quotientSheafMap J F (PreRelation.restrict j g) (PreRelation.restrict jG (g ≫ e))
           cFwd (𝟙 U') _ _ ≫
         quotientSheafMap J F (PreRelation.restrict jG (g ≫ e)) jG
           (pullback.snd (prod.map (g ≫ e) (g ≫ e)) jG) (g ≫ e) _ _) ≫
@@ -233,24 +233,24 @@ theorem isOpenImmersion_restrictedQuotientMap (B : BigFppfSite.{u}) (hS : B.Cont
   let Wover : Over S := CategoryTheory.Over.mk (W.ι ≫ G.objects.hom)
   let i : Wover ⟶ G.objects := CategoryTheory.Over.homMk W.ι (by simp [Wover])
   have : IsOpenImmersion i.left := by
-    show IsOpenImmersion W.ι; infer_instance
+    change IsOpenImmersion W.ι; infer_instance
   let kScheme : (pullback gg G.target).left ⟶ Wover.left := IsOpenImmersion.lift W.ι q.left hW
   let k : pullback gg G.target ⟶ Wover := CategoryTheory.Over.homMk kScheme (by
-    show kScheme ≫ W.ι ≫ G.objects.hom = (pullback gg G.target).hom
+    change kScheme ≫ W.ι ≫ G.objects.hom = (pullback gg G.target).hom
     calc kScheme ≫ W.ι ≫ G.objects.hom = q.left ≫ G.objects.hom := by
           rw [← Category.assoc, IsOpenImmersion.lift_fac (f := W.ι) (g := q.left) hW]
       _ = (pullback gg G.target).hom := q.w)
   have hk : k ≫ i = q := by
     ext
-    show kScheme ≫ W.ι = q.left
+    change kScheme ≫ W.ι = q.left
     exact IsOpenImmersion.lift_fac (f := W.ι) (g := q.left) hW
   have hcore := corestriction_flat_locallyOfFinitePresentation_surjective q.left W hW hWsurj
   have : Flat k.left := by change Flat kScheme; exact hcore.1
   have : LocallyOfFinitePresentation k.left := by
-    show LocallyOfFinitePresentation kScheme; exact hcore.2.1
+    change LocallyOfFinitePresentation kScheme; exact hcore.2.1
   have : Surjective k.left := by change Surjective kScheme; exact hcore.2.2
   have hrange : Set.range i.left.base = Set.range q.left.base := by
-    show Set.range W.ι.base = Set.range q.left.base
+    change Set.range W.ι.base = Set.range q.left.base
     rw [Scheme.Opens.range_ι]
     rfl
   have hGroup := GroupoidScheme.isOpenImmersion_restrictionQuotientMap_of_open_image B S hS G

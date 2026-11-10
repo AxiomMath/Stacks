@@ -56,7 +56,7 @@ theorem bijective_of_isFibreProduct (N : ModuleCat.{max u v w} R)
         rfl
       map_smul' := fun c k => by
         rw [TensorProduct.tmul_smul]
-        show T (c • ((1 : S) ⊗ₜ[R] k)) = algebraMap R S c • T ((1 : S) ⊗ₜ[R] k)
+        change T (c • ((1 : S) ⊗ₜ[R] k)) = algebraMap R S c • T ((1 : S) ⊗ₜ[R] k)
         rw [← IsScalarTower.algebraMap_smul S c ((1 : S) ⊗ₜ[R] k), LinearMap.map_smul] }
   let Ψ : K →ₗ[R] pullbackSections S N P Q a b :=
     LinearMap.codRestrict (pullbackSections S N P Q a b) (LinearMap.prod κ τ)
@@ -72,12 +72,11 @@ theorem bijective_of_isFibreProduct (N : ModuleCat.{max u v w} R)
   have hT : T = (pullbackGenericMap S N P Q a b).comp
       ((e.baseChange R S K (pullbackSections S N P Q a b)).toLinearMap) := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul s k =>
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.baseChange_tmul]
       rw [pullbackGenericMap_tmul]
-      show T (s ⊗ₜ[R] k) = s • T ((1 : S) ⊗ₜ[R] k)
+      change T (s ⊗ₜ[R] k) = s • T ((1 : S) ⊗ₜ[R] k)
       rw [← LinearMap.map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   exact hT ▸ h.comp (e.baseChange R S K (pullbackSections S N P Q a b)).bijective

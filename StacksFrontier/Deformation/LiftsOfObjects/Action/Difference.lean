@@ -79,7 +79,7 @@ public noncomputable def tangentLiftCoord
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
     (V : FGModuleCat.{w} k) :
     (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
         ((squareZeroExtensionArtinian Λ k).obj V) ≃
@@ -95,7 +95,7 @@ public lemma tangentLiftCoord_map
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
     {V₁ V₂ : FGModuleCat.{w} k} (h : V₁ ⟶ V₂)
     (y : (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
       ((squareZeroExtensionArtinian Λ k).obj V₁)) :
@@ -120,7 +120,7 @@ public noncomputable def tensorCoordinate
       (.inl h𝓕.predeformation)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2⟩
     (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
       ((squareZeroExtensionArtinian Λ k).obj V) ≃
       TensorProduct k (artinianTangentSpace Λ k
@@ -137,7 +137,7 @@ public lemma iso_tensorCoordinate
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
     (V : FGModuleCat.{w} k)
     (y : (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
       ((squareZeroExtensionArtinian Λ k).obj V)) :
@@ -153,7 +153,7 @@ public lemma tensorCoordinate_map_add
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
     (V W : FGModuleCat.{w} k) (f g : V ⟶ W)
     (z : (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
       ((squareZeroExtensionArtinian Λ k).obj V)) :

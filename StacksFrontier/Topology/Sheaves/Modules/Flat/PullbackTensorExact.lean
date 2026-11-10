@@ -124,7 +124,7 @@ private theorem pullbackTensorFunctor_map {G G' : SheafOfModules.{u} (structureS
           ((pullbackFunctor f).map φ, 𝟙 F) := by
   refine Eq.trans ?_ (Tensor.sheafTensor_uncurry_map.{u, u, u, u, u}
     ⟨X.presheaf, X.IsSheaf⟩ ((pullbackFunctor f).map φ) (𝟙 F)).symm
-  show (sheafifyFunctor X).map
+  change (sheafifyFunctor X).map
       ((Stacks.tensorRight (O := X.presheaf) F.val).map ((pullbackFunctor f).map φ).val) =
     (sheafifyFunctor X).map
       (PresheafOfModules.tensorHom (O := X.presheaf)
@@ -321,7 +321,7 @@ private theorem pullbackTensorStalkAddEquiv_natural
         (pullbackSheaf f G') F ((pullbackFunctor f).map φ) (𝟙 F)) z
     rw [hid] at hz
     exact hz.symm
-  show TensorProduct.AlgebraTensorModule.cancelBaseChange R S S M _
+  change TensorProduct.AlgebraTensorModule.cancelBaseChange R S S M _
       (TensorProduct.congr (LinearEquiv.refl S M) eP'
         (TensorProduct.comm S ↑(grpStalk X (pullbackSheaf f G').val x) M
           (eT' (stalkMapL X _ _
@@ -339,8 +339,7 @@ private theorem pullbackTensorStalkAddEquiv_natural
           (TensorProduct.AlgebraTensorModule.map (LinearMap.id : S →ₗ[S] S) β)
           (TensorProduct.congr (LinearEquiv.refl S M) eP w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add a b ha hb => simp [ha, hb]
     | tmul m p =>
       simp only [TensorProduct.map_tmul, TensorProduct.congr_tmul, LinearMap.id_apply,

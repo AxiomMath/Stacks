@@ -123,7 +123,7 @@ theorem gysinSystemOfInvertible_isNaturalUnderProperPushforward (C : ChowSituati
   intro A B pA _ pB _ u _ hu L _ s k j _ hj hfacu hfacj α
   induction α using QuotientAddGroup.induction_on with
   | H α =>
-    show gysinHomomorphismOfInvertible C pB k L s
+    change gysinHomomorphismOfInvertible C pB k L s
         (properPushforward C pA pB u hu (k + 1) α) =
       properChowPushforward C ((pullbackZeroScheme u L s).subschemeι ≫ pA)
         ((zeroScheme B L s).subschemeι ≫ pB) j

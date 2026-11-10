@@ -41,17 +41,17 @@ identifies the glued morphism with `m`.
 
 The other half of Stacks 02ZP, its closing sentence that the target is *determined up to unique
 2-isomorphism* by the two clauses, is not here: it is
-`StacksFrontier/CategoryTheory/Sites/Stackification/Uniqueness.lean`. The results below carry the two
-clauses from hypothesis to conclusion, so they cannot by themselves identify two stackifications
+`StacksFrontier/CategoryTheory/Sites/Stackification/Uniqueness.lean`. The results below carry the
+two clauses from hypothesis to conclusion, so they cannot by themselves identify two stackifications
 of one fibred category; that is what the determinacy clause does, and it is the direction a
 consumer checking the two clauses for a functor of its own needs.
 
 ## Implementation notes
 
 "Stack in groupoids" is spelled, as in
-`StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyGroupoid.lean` (Stacks 0436) and
-`StacksFrontier/CategoryTheory/Sites/Stackification/TwoFibreProductGroupoid.lean` (Stacks 04Y2), as
-`CategoryTheory.Functor.IsFiberedInGroupoids` (Stacks 003S) together with
+`StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyGroupoid.lean` (Stacks 0436)
+and `StacksFrontier/CategoryTheory/Sites/Stackification/TwoFibreProductGroupoid.lean` (Stacks 04Y2),
+as `CategoryTheory.Functor.IsFiberedInGroupoids` (Stacks 003S) together with
 `CategoryTheory.Functor.IsStack` (Stacks 026F). That is reading (3) of Stacks 02ZJ; the other
 rendering in the tree, `CategoryTheory.Functor.IsStackInGroupoids` (Stacks 02ZI), is not used,
 only the implication 026F ⟹ 02ZI being available.

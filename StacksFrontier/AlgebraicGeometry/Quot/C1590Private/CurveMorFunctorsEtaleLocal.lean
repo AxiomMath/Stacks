@@ -79,7 +79,7 @@ theorem exists_isPullback_relativeHom_of_isPullback (z : Z ⟶ Q) (x : X ⟶ Q) 
       projection_sections T p :=
         (Space.relativeHomData B S hS Z' X' Q' z' x' hZ' hX' hQ').projection_sections T p
       sections_map {T U} f p := Space.sections_map_of_eq_restrict f (by
-        show Space.RelativeMorphism.transport e he ε hε
+        change Space.RelativeMorphism.transport e he ε hε
             (Space.relativeHomSections B S hS Z' X' Q' z' x' hZ' hX' hQ' U
               ((Space.relativeHom B S hS Z' X' Q' z' x' hZ' hX' hQ').map f.op p)) =
           Space.RelativeMorphism.restrict (yoneda.map f)
@@ -227,7 +227,7 @@ theorem curveMorFunctorsAlgebraic_of_projectiveMorFunctorsBounded
     rintro b V Z rfl φ p q hpq
     have hid : G.toBase ≫ schemeSpaceMap (eqToHom (rfl : G.base = G.base)) = G.toBase := by
       apply ObjectProperty.hom_ext
-      show G.toBase.hom ≫ yoneda.map (𝟙 _) = _
+      change G.toBase.hom ≫ yoneda.map (𝟙 _) = _
       rw [CategoryTheory.Functor.map_id]
       exact Category.comp_id _
     rw [hid]

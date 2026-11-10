@@ -330,7 +330,7 @@ private theorem productPullbackToIterated_essSurj :
       TwoFibreProductOver.Hom.mk' (𝟙 P.x.x) (𝟙 P.x.y)
         (by simp [productPullbackToIterated, A, y])
         (by
-          show (G.map (𝟙 P.x.x)).a ≫ P.x.iso.hom =
+          change (G.map (𝟙 P.x.x)).a ≫ P.x.iso.hom =
             P.x.iso.hom ≫ F₁.map (𝟙 P.x.y)
           simp)
     have hm₁ : IsIso m₁ := TwoFibreProductOver.isIso_of_isIso_components _ _ _ _ _ m₁
@@ -341,7 +341,7 @@ private theorem productPullbackToIterated_essSurj :
         (by simp [productPullbackToIterated, m₁, A, y,
           TwoFibreProductOver.Hom.mk'])
         (by
-          show (G.map (𝟙 P.x.x)).b ≫ P.iso.hom =
+          change (G.map (𝟙 P.x.x)).b ≫ P.iso.hom =
             P.iso.hom ≫ F₂.map (𝟙 P.y)
           simp)
     have hm : IsIso m := TwoFibreProductOver.isIso_of_isIso_components _ _ _ _ _ m

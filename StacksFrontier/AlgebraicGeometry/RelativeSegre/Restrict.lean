@@ -138,10 +138,10 @@ theorem map_fromZero_strZero (a : (alg E).grading U 1) (r : Γ(X, U)) :
         (Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) W
           (X.presheaf.map (homOfLE hWU).op r)) := by
   apply HomogeneousLocalization.val_injective
-  show (HomogeneousLocalization.mk _).val = (HomogeneousLocalization.mk _).val
+  change (HomogeneousLocalization.mk _).val = (HomogeneousLocalization.mk _).val
   rw [HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk]
   refine congrArg₂ Localization.mk ?_ (Subtype.ext ?_)
-  · show (alg E).res hWU ((Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) U
+  · change (alg E).res hWU ((Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) U
         r : (alg E).grading U 0) : (alg E).sectionRing U) = _
     rw [Stacks.AlgebraicGeometry.ProjBundleSurjection.coe_strZeroSheaf_apply,
       Stacks.AlgebraicGeometry.ProjBundleSurjection.coe_strZeroSheaf_apply]
@@ -204,8 +204,7 @@ theorem pieceSegre_compat_res (a : (alg H).grading U 1) (b : (alg G).grading U 1
       fn_algebraMap, hL, fn_comp_SpecMap]
     exact congrArg (fn _) (map_fromZero_strZero H hWU a r)
   · obtain ⟨t, rfl⟩ := (Stacks.SectionTensorFormula.tensorSectionEquiv H G hU).surjective m
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero, deg1]
+    induction t using TensorProduct.inductionOn with
     | tmul h g =>
       rw [Stacks.SectionTensorFormula.tensorSectionEquiv_tmul]
       simp only [RingHom.comp_apply, GradedRingHom.coe_toRingHom, segreRingHom_deg1,

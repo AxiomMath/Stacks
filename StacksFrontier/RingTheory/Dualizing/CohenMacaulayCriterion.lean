@@ -273,7 +273,7 @@ private theorem ext_unique_imp_cm
     .symm <| Submodule.top_ne_ideal_smul_of_le_jacobson_annihilator <| by
       rw [IsLocalRing.jacobson_eq_maximalIdeal _
         (mt Module.annihilator_eq_top_iff.mp (not_subsingleton M))]
-  show ((Module.depth A (IsLocalRing.maximalIdeal A) M : ℕ∞) : WithBot ℕ∞) =
+  change ((Module.depth A (IsLocalRing.maximalIdeal A) M : ℕ∞) : WithBot ℕ∞) =
     Module.supportDim A M
   refine le_antisymm
     (mod_cast Module.depth_le_supportDim A (IsLocalRing.maximalIdeal A) M hMproper) ?_

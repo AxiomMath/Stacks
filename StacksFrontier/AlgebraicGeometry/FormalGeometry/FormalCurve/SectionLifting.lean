@@ -137,7 +137,7 @@ theorem isBasis_affineBasis (Y : Scheme.{u}) : Opens.IsBasis (Set.range (affineB
 theorem globalRestrict_mem_ker (hg : ∀ k, (i.appTop (g k)) = 0) (k : Fin r) (V : Y.Opens) :
     globalRestrict Y (g k) V ^ 1 ∈ RingHom.ker (i.app V).hom := by
   rw [pow_one, RingHom.mem_ker, globalRestrict, ← CommRingCat.comp_apply, i.naturality]
-  show (Z.presheaf.map _).hom (i.appTop (g k)) = 0
+  change (Z.presheaf.map _).hom (i.appTop (g k)) = 0
   rw [hg k, map_zero]
 
 /-- Multiplication by the `k`-th generator, as a morphism from `𝒪_Y` into the ideal sheaf. -/
@@ -161,7 +161,7 @@ theorem generator_mul_eq_zero
   induction hx' using Submodule.span_induction with
   | mem z hz =>
     obtain ⟨j, rfl⟩ := hz
-    show (Y.presheaf.map _).hom (g k) * (Y.presheaf.map _).hom (g j) = 0
+    change (Y.presheaf.map _).hom (g k) * (Y.presheaf.map _).hom (g j) = 0
     rw [← map_mul, hsq k j, map_zero]
   | zero => exact mul_zero _
   | add a b _ _ ha hb => rw [mul_add, ha, hb, add_zero]
@@ -265,7 +265,7 @@ theorem epi_generatorsLift : Epi (generatorsLift i g hg) := by
         (c k), ?_⟩
   apply injective_idealSheafι_val_app i.toLRSHom.toShHom V
   rw [map_sum, map_sum]
-  show _ = (idealSheafι i.toLRSHom.toShHom).val.app (op V) t'
+  change _ = (idealSheafι i.toLRSHom.toShHom).val.app (op V) t'
   rw [← hc]
   refine Finset.sum_congr rfl fun k _ => ?_
   have h1 : (biproduct.ι _ k ≫ generatorsLift i g hg ≫ idealSheafι i.toLRSHom.toShHom) =
@@ -291,9 +291,10 @@ end Generators
 
 /-- An additive functor killing every summand kills a finite biproduct. -/
 theorem isZero_map_biproduct {C D : Type*} [Category* C] [Preadditive C] [Category* D]
-    [Preadditive D] (H : C ⥤ D) [H.Additive] {J : Type} [Fintype J]
+    [Preadditive D] (H : C ⥤ D) [H.Additive] {J : Type} [Finite J]
     (f : J → C) {hf : HasBiproduct f} (h : ∀ j, IsZero (H.obj (f j))) :
     IsZero (H.obj (⨁ f)) := by
+  have := Fintype.ofFinite J
   rw [IsZero.iff_id_eq_zero, ← H.map_id, ← biproduct.total, H.map_sum]
   exact Finset.sum_eq_zero fun j _ => by
     rw [H.map_comp, (h j).eq_of_src (H.map (biproduct.ι f j)) 0, comp_zero]

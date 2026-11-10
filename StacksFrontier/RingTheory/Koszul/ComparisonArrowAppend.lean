@@ -139,7 +139,7 @@ theorem appendBeta_includeLeft (c : D.carrier.A) :
     (appendBeta D E).toAlgebraHom
         (GradedTensorProduct.includeLeft D.carrier.grading E.carrier.grading c) =
       (appendBetaLeft h D).toAlgebraHom c := by
-  show tensorLiftAlgebraHom (anticommutesAlong_of_isGradedCommutative
+  change tensorLiftAlgebraHom (anticommutesAlong_of_isGradedCommutative
     (isGradedCommutative_powTensor (Fin.append g h) n t) (appendBetaLeft h D)
     (appendBetaRight g E)) (c ᵍ⊗ₜ[R] (1 : E.carrier.A) :
       D.carrier.grading ᵍ⊗[R] E.carrier.grading) = _
@@ -150,7 +150,7 @@ theorem appendBeta_includeRight (e : E.carrier.A) :
     (appendBeta D E).toAlgebraHom
         (GradedTensorProduct.includeRight D.carrier.grading E.carrier.grading e) =
       (appendBetaRight g E).toAlgebraHom e := by
-  show tensorLiftAlgebraHom (anticommutesAlong_of_isGradedCommutative
+  change tensorLiftAlgebraHom (anticommutesAlong_of_isGradedCommutative
     (isGradedCommutative_powTensor (Fin.append g h) n t) (appendBetaLeft h D)
     (appendBetaRight g E)) ((1 : D.carrier.A) ᵍ⊗ₜ[R] e :
       D.carrier.grading ᵍ⊗[R] E.carrier.grading) = _
@@ -243,7 +243,7 @@ theorem powMul_comp_appendBeta :
     have hright : (appendEps D E).toAlgebraHom
         (GradedTensorProduct.includeLeft D.carrier.grading E.carrier.grading c) =
         (appendFromLeft g h t).toAlgebraHom (D.eps.toAlgebraHom c) := by
-      show (powAppendFromTensor g h t).toAlgebraHom
+      change (powAppendFromTensor g h t).toAlgebraHom
         ((tensorHomPair D.eps E.eps).toAlgebraHom
           (c ᵍ⊗ₜ[R] (1 : E.carrier.A) : D.carrier.grading ᵍ⊗[R] E.carrier.grading)) = _
       rw [tensorHomPair_tmul, map_one, powAppendFromTensor_tmul, map_one, mul_one]
@@ -260,7 +260,7 @@ theorem powMul_comp_appendBeta :
     have hright : (appendEps D E).toAlgebraHom
         (GradedTensorProduct.includeRight D.carrier.grading E.carrier.grading e) =
         (appendFromRight g h t).toAlgebraHom (E.eps.toAlgebraHom e) := by
-      show (powAppendFromTensor g h t).toAlgebraHom
+      change (powAppendFromTensor g h t).toAlgebraHom
         ((tensorHomPair D.eps E.eps).toAlgebraHom
           ((1 : D.carrier.A) ᵍ⊗ₜ[R] e : D.carrier.grading ᵍ⊗[R] E.carrier.grading)) = _
       rw [tensorHomPair_tmul, map_one, powAppendFromTensor_tmul, map_one, one_mul]
@@ -283,7 +283,7 @@ theorem appendOddHom_add_include (x : D.odd.A) (y : E.odd.A) :
           (D.oddHom.toAlgebraHom x) +
         GradedTensorProduct.includeRight D.carrier.grading E.carrier.grading
           (E.oddHom.toAlgebraHom y) := by
-  show (tensorHomPair D.oddHom E.oddHom).toAlgebraHom
+  change (tensorHomPair D.oddHom E.oddHom).toAlgebraHom
     (GradedTensorProduct.includeLeft D.odd.grading E.odd.grading x +
       GradedTensorProduct.includeRight D.odd.grading E.odd.grading y) = _
   rw [map_add, tensorHomPair_includeLeft, tensorHomPair_includeRight]
@@ -386,7 +386,7 @@ theorem appendBeta_comp_appendKappa :
           (powAlgebra (Fin.append g h) t).grading).comp
         (powTransition (Fin.append g h) (ht.trans htn) hnN).toAlgebraHom := by
   refine ExteriorAlgebra.hom_ext (LinearMap.ext fun v => ?_)
-  show (appendBeta D E).toAlgebraHom ((appendOddHom D E).toAlgebraHom
+  change (appendBeta D E).toAlgebraHom ((appendOddHom D E).toAlgebraHom
       ((appendKappaOdd D E).toAlgebraHom (powVec (Fin.append g h) N v))) =
     GradedTensorProduct.includeLeft (powAlgebra (Fin.append g h) n).grading
         (powAlgebra (Fin.append g h) t).grading
@@ -403,7 +403,7 @@ theorem appendBeta_comp_appendXi :
       GradedTensorProduct.includeRight (powAlgebra (Fin.append g h) n).grading
         (powAlgebra (Fin.append g h) t).grading := by
   refine ExteriorAlgebra.hom_ext (LinearMap.ext fun v => ?_)
-  show (appendBeta D E).toAlgebraHom ((appendOddHom D E).toAlgebraHom
+  change (appendBeta D E).toAlgebraHom ((appendOddHom D E).toAlgebraHom
       ((appendXiOdd D E).toAlgebraHom (powVec (Fin.append g h) t v))) =
     GradedTensorProduct.includeRight (powAlgebra (Fin.append g h) n).grading
         (powAlgebra (Fin.append g h) t).grading (powVec (Fin.append g h) t v)

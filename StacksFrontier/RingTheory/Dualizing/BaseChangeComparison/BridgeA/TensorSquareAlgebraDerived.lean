@@ -166,7 +166,7 @@ theorem pushoutAlgebraIsoComplex_hom_eq (hp : MilnorPatching.IsPushoutSquare g p
   · subst hn
     simp only [pushoutAlgebraIsoComplex, Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom,
       Functor.mapCochainComplexSingleFunctor,
-      CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+      CochainComplex.singleFunctor,
       HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
       NatTrans.mapHomologicalComplex_app_f,
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
@@ -293,7 +293,7 @@ theorem pushoutAlgebraIsoComplex_hom_eq_single
     pushoutAlgebraIsoComplex_hom_eq g p w h comm hp, hs,
     ← CategoryTheory.Functor.map_comp DerivedCategory.Q, key,
     ← CategoryTheory.Functor.map_comp DerivedCategory.Q]
-  simp only [Category.assoc, CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+  simp only [Category.assoc, CochainComplex.singleFunctor]
 
 end Square
 

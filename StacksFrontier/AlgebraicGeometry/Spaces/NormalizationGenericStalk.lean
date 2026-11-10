@@ -148,7 +148,7 @@ theorem isNormal_yoneda_siteObject {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (p : FieldValuedPoint B S hS F) :
     IsNormal B S hS (yoneda.obj (p.siteObject B S hS F)) := by
   refine (isNormal_iff_of_representable B S hS _ (p.siteObject B S hS F) (Iso.refl _)).2 ?_
-  show _root_.AlgebraicGeometry.IsNormal (Spec (.of p.carrier))
+  change _root_.AlgebraicGeometry.IsNormal (Spec (.of p.carrier))
   constructor
   · intro x
     obtain rfl : x = IsLocalRing.closedPoint p.carrier := Subsingleton.elim _ _
@@ -224,7 +224,7 @@ theorem exists_lift_fieldPoint_of_isOpenImmersion
     let : Field p.carrier := p.field
     let : Field r.carrier := r.field
     refine ⟨fun x => ⟨T.map t (IsLocalRing.closedPoint r.carrier), ?_⟩⟩
-    show (_ : Spec (.of p.carrier)) = x
+    change (_ : Spec (.of p.carrier)) = x
     exact Subsingleton.elim _ _
   have : IsIso (T.map j) := (isIso_iff_isOpenImmersion_and_surjective _).2 ⟨hj, hjSurj⟩
   have : IsIso j := isIso_of_reflects_iso j T
@@ -412,7 +412,7 @@ theorem exists_lift_genericChart (D : NormalizationData B S hS F)
   have : Mono c.immersion := mono_of_presheaf_isOpenImmersion c.isOpen
   refine ⟨b, ?_, pointsMap_injective_of_mono B S hS c.immersion ?_⟩
   · rw [← Category.assoc, hb]
-    show (yonedaEquiv.symm (yonedaEquiv a)) ≫ D.hom = _
+    change (yonedaEquiv.symm (yonedaEquiv a)) ≫ D.hom = _
     rw [Equiv.symm_apply_apply, ha]
   · exact (FieldValuedPoint.pointsMap_class_ofHom_eq B S hS pn b c.immersion hb).trans
       (hpn.trans c.mapsTo.symm)
@@ -442,7 +442,7 @@ theorem surjective_stalkMap_of_genericChart (D : NormalizationData B S hS F)
       pointsMap B S hS _ (yoneda.map j) (c.point.class B S hS (yoneda.obj c.U)) :=
     schemePointRepresentative_class_map B S hS j c.point
   have hp : p.class B S hS F = pointsMap B S hS D.space D.hom z := by
-    show pointsMap B S hS _ e.immersion (r.class B S hS (yoneda.obj e.U)) = _
+    change pointsMap B S hS _ e.immersion (r.class B S hS (yoneda.obj e.U)) = _
     rw [hr]
     have h := congrArg (fun k => pointsMap B S hS _ k (c.point.class B S hS (yoneda.obj c.U)))
       hcomm
@@ -464,13 +464,13 @@ theorem surjective_stalkMap_of_genericChart (D : NormalizationData B S hS F)
       rw [yonedaEquiv_comp] at h
       exact h.trans ((yonedaEquiv (X := r.siteObject B S hS (yoneda.obj e.U))
         (F := yoneda.obj e.U)).apply_symm_apply r.value)
-    show T.map k₀ ≫ T.map j = _
+    change T.map k₀ ≫ T.map j = _
     rw [← Functor.map_comp, hk₀]
     exact B.inclusion.map_preimage _
   let q : T.obj (p.siteObject B S hS F) := IsLocalRing.closedPoint p.carrier
   have hkt : k q = t :=
     schemePoint_eq_of_class_eq B S hS c.U (FieldValuedPoint.ofHom B S hS p b) c.point hcp
-  show Function.Surjective ((T.map j).stalkMap t).hom
+  change Function.Surjective ((T.map j).stalkMap t).hom
   rw [← hkt]
   refine Scheme.Hom.surjective_stalkMap_of_comp k (T.map j) q (hkt ▸
     isField_genericChart_localRing_of_isNormal B S hS D.isAlgebraicSpace (D.isNormal hF) z hz c) ?_

@@ -344,6 +344,8 @@ variable (D : MorphismOfFirstOrderThickenings i) (E : MorphismOfFirstOrderThicke
       RingedToposHom (reshape Y D.O₂) (reshape B' E.O₂)).comp (reshapeHom i D.O₂ D.fSharp₂) =
     (reshapeHom t E.O₂ E.fSharp₂).comp f)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- **The map of defining ideals `f⁻¹𝒥 ⟶ I` of Situation 08M7 is natural along a morphism of
 first order thickenings**, granted the horizontal square of structure maps. -/
 theorem inverseImageBaseIdealToIdeal_naturality
@@ -446,6 +448,8 @@ theorem inverseImageBaseIdealToIdeal_naturality
   refine Eq.trans ?_ (congrArg (fun y ↦ D.ringMapH.hom.app U y) hR.symm)
   exact (hsqU _).symm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- **The first factor `f^*𝒥 ⊗_O ℱ ⟶ I ⊗_O ℱ` of the canonical map of Stacks 08MQ is natural
 along a morphism of first order thickenings**, granted the horizontal square of structure maps:
 it is the map of defining ideals `f⁻¹𝒥 ⟶ I`, which is natural, tensored with `ℱ`, followed by
@@ -603,6 +607,8 @@ variable (P : MorphismOfTopoi Y.Topos B'.Topos) (f : RingedToposHom X B)
       RingedToposHom (reshape Y S.O₃) (reshape B' T.O₃)).comp S.thirdHom = T.thirdHom.comp f)
   (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- **The naturality square of the first factors over the first horizontal arrow**, in the
 vocabulary of the first column: the three columns share one base ring, one base module and one
 structure map, because the squares force the three vertical arrows to have one underlying
@@ -624,6 +630,8 @@ theorem canonicalFirstFactor_square_lower
   (canonicalFirstFactor_naturality S.lower T.lower f P s₁ s₂ commf₁ commf₂
     (S.fSharpInverseImage_lowerSquare T P s₁ s₂ hsq₁) F).symm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- **The naturality square of the first factors over the second horizontal arrow**, in the
 vocabulary of the first column. -/
 theorem canonicalFirstFactor_square_upper

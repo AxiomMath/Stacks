@@ -210,7 +210,7 @@ private theorem _root_.Ideal.quotientMap_comp_mk_comp_of_comp_eq {R R' P Q : Typ
     (Ideal.quotientMap K g h).comp ((Ideal.Quotient.mk J).comp α) =
       ((Ideal.Quotient.mk K).comp β).comp ψ := by
   refine RingHom.ext fun a => ?_
-  show Ideal.quotientMap K g h (Ideal.Quotient.mk J (α a)) = Ideal.Quotient.mk K (β (ψ a))
+  change Ideal.quotientMap K g h (Ideal.Quotient.mk J (α a)) = Ideal.Quotient.mk K (β (ψ a))
   rw [Ideal.quotientMap_mk]
   exact congrArg (Ideal.Quotient.mk K) (RingHom.congr_fun hg a)
 
@@ -255,7 +255,7 @@ theorem stageMap_comp_quotientStageToAffine
   subst hspec
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hJ)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hJ)) ≫
       Spec.map (CommRingCat.ofHom
         ((Ideal.Quotient.mk J.1).comp (algebraMap A (AdicCompletion I A)))) =
     Spec.map (CommRingCat.ofHom
@@ -451,7 +451,7 @@ theorem completionComparison_naturality
     obtain ⟨L, hL⟩ := hwa.1
     refine ⟨⟨L ⊓ Ideal.comap g.toRingHom K.1,
       TopologicalRing.isWeakIdealOfDefinition_inf_of_isOpen_right hL ?_⟩, inf_le_right⟩
-    show IsOpen (g.toRingHom ⁻¹' (K.1 : Set (AdicCompletion I' C)))
+    change IsOpen (g.toRingHom ⁻¹' (K.1 : Set (AdicCompletion I' C)))
     exact K.2.1.preimage g.continuous
   let sYm := (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map
     ((BigAffineFppf.inclusion B S hS).map (g.stageMap J K hJ))

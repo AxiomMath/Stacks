@@ -131,7 +131,7 @@ the coefficient field: the unit of `H^0(Y)` is nonzero by
 theorem one_lt_finrank_cohomology_of_pos_dim [CharZero F]
     {Y : Scheme.{u}} [Nonempty (Y : Type u)]
     (pY : Y ⟶ (fieldChowSituation k).S) [Smooth pY] [IsProper pY]
-    (d : ℕ) (hd : AlgebraicGeometry.RelativeDimension pY d) (hd0 : d ≠ 0)
+    (d : ℕ) (hd0 : d ≠ 0)
     {HYtot : Type w} [AddCommGroup HYtot] [Module F HYtot] [FiniteDimensional F HYtot]
     (HY : ℤ → Type w) [∀ i, AddCommGroup (HY i)] [∀ i, Module F (HY i)]
     (grading : DirectSum ℤ HY ≃ₗ[F] HYtot)
@@ -248,7 +248,7 @@ theorem subsingleton_cohomology_of_empty [CharZero F]
     finiteDimensional (projectiveLine k) pY hsmY hprY
   have hY : 1 < Module.finrank F (H (projectiveLine k)) :=
     one_lt_finrank_cohomology_of_pos_dim Hpt HptZero degreeZeroPoint kunnethPoint cycleClassPoint
-      integrationPoint integration_cycleClassPoint cycleClassPoint_mul pY 1 hdY one_ne_zero
+      integrationPoint integration_cycleClassPoint cycleClassPoint_mul pY 1 one_ne_zero
       (Hgr (projectiveLine k)) (grading (projectiveLine k))
       (pairing (projectiveLine k) pY hsmY hprY 1 hdY)
       (pairing_perfect (projectiveLine k) pY hsmY hprY 1 hdY) (one (projectiveLine k))

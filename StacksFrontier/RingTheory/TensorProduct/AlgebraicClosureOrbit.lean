@@ -70,7 +70,7 @@ theorem exists_algEquiv_comp_eq
   refine ⟨(AlgEquiv.ofInjectiveField ψ).trans
     ((Subalgebra.equivOfEq _ _ hrange).trans (AlgEquiv.ofInjectiveField φ).symm), ?_⟩
   ext b
-  show φ ((AlgEquiv.ofInjectiveField φ).symm
+  change φ ((AlgEquiv.ofInjectiveField φ).symm
     ((Subalgebra.equivOfEq _ _ hrange) (AlgEquiv.ofInjectiveField ψ b))) = ψ b
   have key : ∀ y : φ.range, φ ((AlgEquiv.ofInjectiveField φ).symm y) = (y : Ω) :=
     fun y => congrArg Subtype.val ((AlgEquiv.ofInjectiveField φ).apply_symm_apply y)
@@ -108,7 +108,7 @@ theorem exists_algHom_eq_zero_iff [Algebra.IsAlgebraic k K]
   let L : ((κ ⊗[k] K) ⧸ P) →ₐ[κ] Ω := IsAlgClosed.lift
   let _ : Field ((κ ⊗[k] K) ⧸ P) := hfield.toField
   refine ⟨L.comp (Ideal.Quotient.mkₐ κ P), fun x => ?_⟩
-  show L (Ideal.Quotient.mk P x) = 0 ↔ x ∈ P
+  change L (Ideal.Quotient.mk P x) = 0 ↔ x ∈ P
   rw [map_eq_zero_iff L (L : ((κ ⊗[k] K) ⧸ P) →+* Ω).injective]
   exact Ideal.Quotient.eq_zero_iff_mem
 
@@ -131,8 +131,7 @@ theorem exists_algEquiv_comap_eq [IsAlgClosure k K]
   have hpt : ∀ x, α ((Algebra.TensorProduct.congr (AlgEquiv.refl (R := κ) (A₁ := κ)) σ) x)
       = β x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       rw [show (Algebra.TensorProduct.congr (AlgEquiv.refl (R := κ) (A₁ := κ)) σ)
             (a ⊗ₜ[k] b) = a ⊗ₜ[k] σ b by simp,
@@ -142,7 +141,7 @@ theorem exists_algEquiv_comap_eq [IsAlgClosure k K]
     | add x y hx hy => simp only [map_add, hx, hy]
   ext x
   rw [Ideal.mem_comap, ← hα, ← hβ]
-  show α ((Algebra.TensorProduct.congr (AlgEquiv.refl (R := κ) (A₁ := κ)) σ) x) = 0 ↔ _
+  change α ((Algebra.TensorProduct.congr (AlgEquiv.refl (R := κ) (A₁ := κ)) σ) x) = 0 ↔ _
   rw [hpt]
 
 end Stacks.AlgClosureOrbit

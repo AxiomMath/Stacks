@@ -89,7 +89,7 @@ theorem exists_iso_toScheme_map_chartPairToAffineLine :
       Sigma.desc fun b : Bool =>
         (BigFppfOver.toScheme B (Spec (.of k)) hk).map (chartTwist k B hk b) := by
     refine Sigma.hom_ext _ _ fun b => ?_
-    rw [Sigma.ι_desc, ← Category.assoc]
+    rw [Sigma.ι_comp_desc, ← Category.assoc]
     refine (congrArg (· ≫ (BigFppfOver.toScheme B (Spec (.of k)) hk).map
       (chartPairToAffineLine k B hk)) (he b)).trans ?_
     rw [← Functor.map_comp, chartPairIncl_comp_chartPairToAffineLine]

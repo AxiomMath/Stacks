@@ -604,7 +604,7 @@ private theorem exists_perturbation_not_mem_symbolic_sq
       exact hcnot q t (Finset.ne_of_mem_erase ht).symm
   have hh : φ h = u * φ (c q) := by
     rw [hprod q, map_mul]
-  show φ (f + h) ∉ IsLocalRing.maximalIdeal A ^ 2
+  change φ (f + h) ∉ IsLocalRing.maximalIdeal A ^ 2
   rw [map_add, hh]
   by_cases hft : f ∈ T q
   · have hfn : φ f ∈ IsLocalRing.maximalIdeal A ^ 2 := hft
@@ -1218,7 +1218,7 @@ private theorem exists_perturbation_mem_notMem_local_sq
       (Ideal.pow_le_self (I := m i) (by omega : 2 ≠ 0)) hrest
     have hgmem : φ i g ∈ m i :=
       (IsLocalization.AtPrime.to_map_mem_maximal_iff (A i) (p i) g).mpr (hg i)
-    show φ i (g + ∑ j, t j) ∈ m i ∧ φ i (g + ∑ j, t j) ∉ m i ^ 2
+    change φ i (g + ∑ j, t j) ∈ m i ∧ φ i (g + ∑ j, t j) ∉ m i ^ 2
     rw [map_add, map_sum, ← Finset.sum_erase_add _ _ (Finset.mem_univ i)]
     by_cases hgi : φ i g ∈ m i ^ 2
     · have hti : t i = w i := ite_eq_left hgi

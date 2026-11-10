@@ -101,7 +101,7 @@ theorem exists_lof_eq_smul_unitCycleClass (K : Type u) [Field K] (n j : ℤ)
     obtain ⟨y, hy⟩ := exists_ne_zero_of_finrank_eq_one K _ hrank
     apply hy
     obtain ⟨a, rfl⟩ := evalUnit_surjective _ n y
-    show ((DerivedCategory.homologyFunctor _ n).map ((baseSections _).map a)).hom
+    change ((DerivedCategory.homologyFunctor _ n).map ((baseSections _).map a)).hom
       (unitCycleClass (Spec (CommRingCat.of K)).toRingedSpace n) = 0
     rw [h, map_zero]
   refine exists_lof_eq_smul_of_finrank_eq_one K (fun k => (restrictToField K).obj (cohomologyModule

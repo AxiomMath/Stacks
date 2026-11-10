@@ -133,7 +133,7 @@ theorem cohomologySupportedOn_singleFunctor_skyscraperObj
   · let _ : HasZeroMorphisms (TopCat.Presheaf AddCommGrpCat.{u} X) :=
       inferInstanceAs (HasZeroMorphisms ((Opens X)ᵒᵖ ⥤ AddCommGrpCat.{u}))
     have hpres : (ExtensionByZeroModules.toAb O).PreservesZeroMorphisms := by
-      show (_root_.SheafOfModules.forget O ⋙
+      change (_root_.SheafOfModules.forget O ⋙
         PresheafOfModules.toPresheaf O.obj).PreservesZeroMorphisms
       infer_instance
     let _ := hpres

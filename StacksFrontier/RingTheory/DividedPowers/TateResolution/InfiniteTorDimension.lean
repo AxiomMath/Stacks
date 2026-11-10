@@ -109,7 +109,7 @@ private theorem Resolution.tensorComplex_d_apply
     ((((tensoringRight (ModuleCat.{u} R)).obj (ModuleCat.of R (R ⧸ I))).mapHomologicalComplex
       (ComplexShape.down ℕ)).obj T.complex).d (i + 1) i v =
       LinearMap.rTensor (R ⧸ I) (T.differentialAt i) v := by
-  show ((T.complex.d (i + 1) i ▷ ModuleCat.of R (R ⧸ I)).hom) v = _
+  change ((T.complex.d (i + 1) i ▷ ModuleCat.of R (R ⧸ I)).hom) v = _
   rw [ModuleCat.hom_whiskerRight]
   simp only [Resolution.complex, ChainComplex.of_d, ModuleCat.hom_ofHom]
   rfl
@@ -167,7 +167,7 @@ private theorem Resolution.exists_differential_mk_eq_of_isZero_tor
         exact (DirectSum.decompose T.grade a n).property
     have hp : p (T.differential x) = T.differentialAt n xs := by
       apply Subtype.ext
-      show GradedAlgebra.proj T.grade n (T.differential x) = T.differential x
+      change GradedAlgebra.proj T.grade n (T.differential x) = T.differential x
       simp [GradedAlgebra.proj_apply, DirectSum.decompose_of_mem T.grade
         (IsDifferentialGradedAlgebra.d_mem (𝒜 := T.grade) (d := T.differential) hx)]
     rw [← hp]
@@ -207,9 +207,9 @@ private theorem Resolution.augmentation_mem_map_of_mem_smul_top
   intro x hx
   refine Submodule.smul_induction_on hx ?_ ?_
   · intro r hr a _
-    show T.augmentation.toLinearMap (r • a) ∈ I.map (algebraMap R S)
+    change T.augmentation.toLinearMap (r • a) ∈ I.map (algebraMap R S)
     rw [map_smul]
-    show r • T.augmentation a ∈ I.map (algebraMap R S)
+    change r • T.augmentation a ∈ I.map (algebraMap R S)
     simpa only [← Algebra.smul_def] using
       Ideal.mul_mem_right (T.augmentation a) _ (Ideal.mem_map_of_mem (algebraMap R S) hr)
   · intro x₁ x₂ hx₁ hx₂

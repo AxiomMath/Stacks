@@ -293,7 +293,7 @@ theorem subsingleton_compactSupportSheafCohomology_constantSheaf_affineLine_zmod
       rw [← hn]
       have hS : S ≠ ⊥ := mt Submodule.span_singleton_eq_bot.1 hv
       have := Submodule.card_eq_card_quotient_mul_card S
-      show Nat.card (M ⧸ S) < Nat.card M
+      change Nat.card (M ⧸ S) < Nat.card M
       have hS1 : 1 < Nat.card S := by
         have : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS
         exact Finite.one_lt_card
@@ -330,7 +330,7 @@ theorem nontrivial_compactSupportSheafCohomology_two_constantSheaf_affineLine_zm
     ModuleCat.ofHom ((ULift.moduleEquiv (R := ZMod ℓ)).symm.toLinearMap.comp b₀)
   have hab : a ≫ b = 𝟙 _ := by
     ext x
-    show b₀ (a₀ x.down) = x.down
+    change b₀ (a₀ x.down) = x.down
     rw [← LinearMap.comp_apply, hb₀]
     rfl
   have hinj := injective_compactSupportSheafCohomology_map_constantSheaf_of_retract k (ZMod ℓ) j
@@ -389,13 +389,13 @@ theorem nonempty_equiv_compactSupportSheafCohomology_constantSheaf_zmod [Finite 
     apply CategoryTheory.End.ext
     apply ModuleCat.hom_ext
     refine LinearMap.ext fun v => ?_
-    show (((1 : G →* Λˣ) g : Λˣ) : Λ) • (v : W) = v
+    change (((1 : G →* Λˣ) g : Λˣ) : Λ) • (v : W) = v
     rw [MonoidHom.one_apply, Units.val_one, one_smul]
   obtain ⟨eV⟩ := nonempty_lisseEtaleSheaf_iso_constantSheaf_of_trivial B 𝕌 x (ZMod ℓ) V fun g => by
     apply CategoryTheory.End.ext
     apply ModuleCat.hom_ext
     refine LinearMap.ext fun v => ?_
-    show (((1 : G →* (ZMod ℓ)ˣ) g : (ZMod ℓ)ˣ) : ZMod ℓ) • (v : W) = v
+    change (((1 : G →* (ZMod ℓ)ˣ) g : (ZMod ℓ)ˣ) : ZMod ℓ) • (v : W) = v
     rw [MonoidHom.one_apply, Units.val_one, one_smul]
   let e : finiteTypeContinuousModuleRestrictScalars ρ₂ V ≅
       finiteTypeContinuousModuleRestrictScalars ρ₁ P :=
@@ -404,12 +404,12 @@ theorem nonempty_equiv_compactSupportSheafCohomology_constantSheaf_zmod [Finite 
         invFun := fun v => (v : W)
         map_add' := fun _ _ => rfl
         map_smul' := fun c v => by
-          show ρ₂ c • (@id W v) = ρ₁ c • (@id W v)
+          change ρ₂ c • (@id W v) = ρ₁ c • (@id W v)
           rw [zmod_smul_eq_val_nsmul_of_ringHom ρ₂, zmod_smul_eq_val_nsmul_of_ringHom ρ₁]
         left_inv := fun _ => rfl
         right_inv := fun _ => rfl }
       fun g v => by
-        show (((1 : G →* (ZMod ℓ)ˣ) g : (ZMod ℓ)ˣ) : ZMod ℓ) • (@id W v) =
+        change (((1 : G →* (ZMod ℓ)ˣ) g : (ZMod ℓ)ˣ) : ZMod ℓ) • (@id W v) =
           (((1 : G →* Λˣ) g : Λˣ) : Λ) • (@id W v)
         rw [MonoidHom.one_apply, Units.val_one, one_smul, MonoidHom.one_apply, Units.val_one,
           one_smul]

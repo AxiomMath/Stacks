@@ -123,6 +123,7 @@ local instance (priority := high) hasLimitsOfShape_presheaf_MapsToAlgebraicSpace
     HasLimitsOfShape J ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_MapsToAlgebraicSpace :
@@ -1691,7 +1692,7 @@ private lemma exists_finite_separable_point_of_etale_surjective
   let i : I := ((sigmaMk (fun i => Spec (.of (K i)))).symm (e.hom v)).1
   refine ⟨K i, inferInstance, inferInstance, inferInstance, inferInstance,
     Sigma.ι (fun i => Spec (.of (K i))) i ≫ e.inv, ?_⟩
-  rw [Category.assoc, ← he, e.inv_hom_id_assoc, Sigma.ι_desc]
+  rw [Category.assoc, ← he, e.inv_hom_id_assoc, Sigma.ι_comp_desc]
 
 attribute [-instance] CategoryTheory.catToReflQuiver in
 private lemma exists_finite_etale_residue_point
@@ -2399,7 +2400,7 @@ private lemma algebraicSpace_section_ext_of_pi
     refine Sigma.hom_ext _ _ fun i ↦ ?_
     change Sigma.ι _ i ≫ (Sigma.desc ls ≫ π.left.hom) =
       Sigma.ι _ i ≫ sigmaSpec (fun i ↦ CommRingCat.of (A i))
-    rw [Sigma.ι_desc_assoc, ι_sigmaSpec]
+    rw [Sigma.ι_comp_desc_assoc, ι_sigmaSpec]
     exact congrArg (fun z ↦ z.left.hom) (hl i)
   let t : U ⟶ T := Over.homMk (ObjectProperty.homMk t₀) (by
     apply ObjectProperty.hom_ext

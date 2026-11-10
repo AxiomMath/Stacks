@@ -253,7 +253,7 @@ theorem canonicalStalkRingEquiv_comp_squareFreeAlgebraMap :
   let := algebraStalk β.hom z
   apply MvPolynomial.ringHom_ext
   · intro r
-    show canonicalStalkRingEquiv A' B' z
+    change canonicalStalkRingEquiv A' B' z
         (((TopCat.Presheaf.stalkFunctor CommRingCat.{u} z).map
           (squareFreeAlgebraMap A A' B B' f β).hom).hom
           ((canonicalStalkRingEquiv A B z).symm (MvPolynomial.C r))) =
@@ -279,7 +279,7 @@ theorem canonicalStalkRingEquiv_comp_squareFreeAlgebraMap :
     exact (squareRingHom_C r).symm
   · intro σ
     obtain ⟨U, hz, t, rfl⟩ := TopCat.Presheaf.exists_germ_eq B.obj σ
-    show canonicalStalkRingEquiv A' B' z
+    change canonicalStalkRingEquiv A' B' z
         (((TopCat.Presheaf.stalkFunctor CommRingCat.{u} z).map
           (squareFreeAlgebraMap A A' B B' f β).hom).hom
           ((canonicalStalkRingEquiv A B z).symm

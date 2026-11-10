@@ -357,7 +357,7 @@ private theorem ext_descend_short
     Ext.contravariant_sequence_exact₃ hS Y x (Ext.eq_zero_of_projective _) (add_comm 1 q)
   have hk : d.ker ≤ (d'.comp r₁).ker := by
     intro x hx
-    show d' (r₁ x) = 0
+    change d' (r₁ x) = 0
     obtain ⟨y, hy⟩ := Ext.contravariant_sequence_exact₁ hS Y x (add_comm 1 q) hx
     rw [← hy, hcomm]
     exact hS'.extClass_comp_assoc (r₂ y) (h := add_comm 1 q)
@@ -370,10 +370,10 @@ private theorem ext_descend_short
   · apply AddMonoidHom.ext
     intro z
     obtain ⟨x, rfl⟩ := hd z
-    show (l (d x)).comp (Ext.mk₀ b) (add_zero (q + 1)) =
+    change (l (d x)).comp (Ext.mk₀ b) (add_zero (q + 1)) =
       (Ext.mk₀ τ.τ₃).comp (d x) (zero_add (q + 1))
     rw [hl]
-    show (hS'.extClass.comp (r₁ x) (add_comm 1 q)).comp
+    change (hS'.extClass.comp (r₁ x) (add_comm 1 q)).comp
         (Ext.mk₀ b) (add_zero (q + 1)) =
       (Ext.mk₀ τ.τ₃).comp (hS.extClass.comp x (add_comm 1 q))
         (zero_add (q + 1))
@@ -454,13 +454,13 @@ private theorem ext_ideal_power_restriction_factors_all
     let κ : g.ker →ₗ[A] f.ker :=
       LinearMap.codRestrict f.ker (φ.domRestrict g.ker) (by
         intro x
-        show f (φ x) = 0
+        change f (φ x) = 0
         have hh := LinearMap.congr_fun hsq (x : F')
         simpa [x.property] using hh)
     have hκ : κ.range ≤ I ^ (n - c) • ⊤ :=
       hc n hcn g φ (by
         intro x hx
-        show f (φ x) = 0
+        change f (φ x) = 0
         have hh := LinearMap.congr_fun hsq x
         have hx0 : g x = 0 := hx
         simpa [hx0] using hh) hφ
@@ -510,12 +510,12 @@ private theorem ext_ideal_power_restriction_factors_all
                 (add_zero (p + 1)) =
               (Ext.mk₀ (ModuleCat.ofHom Kpow.subtype)).comp x
                 (zero_add (p + 1)) := hL
-          show ((Ext.mk₀ (ModuleCat.ofHom κpow)).comp (lK x) (zero_add (p + 1))).comp
+          change ((Ext.mk₀ (ModuleCat.ofHom κpow)).comp (lK x) (zero_add (p + 1))).comp
               (Ext.mk₀ (ModuleCat.ofHom Y.subtype)) (add_zero (p + 1)) =
             (Ext.mk₀ τ.τ₁).comp x (zero_add (p + 1))
           rw [Ext.comp_assoc_of_third_deg_zero, hL',
             ← Ext.comp_assoc_of_second_deg_zero, Ext.mk₀_comp_mk₀]
-          show (Ext.mk₀ (ModuleCat.ofHom (Kpow.subtype.comp κpow))).comp x
+          change (Ext.mk₀ (ModuleCat.ofHom (Kpow.subtype.comp κpow))).comp x
             (zero_add (p + 1)) =
             (Ext.mk₀ (ModuleCat.ofHom κ)).comp x (zero_add (p + 1))
           congr 1)
@@ -665,7 +665,7 @@ private lemma cocycle_equivHomShift_symm_smul
       r • (Cocycle.equivHomShift.symm z : E ⟶ L⟦p⟧) := by
   have hz : z.postcomp (r • 𝟙 L) = r • z := by
     ext i j hij
-    simp [Cocycle.postcomp, Linear.comp_smul]
+    simp [Cocycle.postcomp]
   rw [← hz, Cocycle.equivHomShift_symm_postcomp]
   simp
 
@@ -677,7 +677,7 @@ private noncomputable def cocycleToDerived
     Cocycle E L p →ₗ[A] ShiftedHom (DerivedCategory.Q.obj E) (DerivedCategory.Q.obj L) p where
   toFun z := ShiftedHom.map (Cocycle.equivHomShift.symm z) DerivedCategory.Q
   map_add' x y := by simp
-  map_smul' r x := by simp [cocycle_equivHomShift_symm_smul]
+  map_smul' r x := by simp
 
 private theorem cocycleToDerived_surjective
     {A : Type*} [CommRing A]
@@ -696,7 +696,7 @@ private theorem cocycleToDerived_surjective
   refine ⟨Cocycle.equivHomShift g, ?_⟩
   dsimp [cocycleToDerived]
   simp only [AddEquiv.symm_apply_apply]
-  show DerivedCategory.Q.map g ≫ sL.hom = x
+  change DerivedCategory.Q.map g ≫ sL.hom = x
   dsimp [xh] at hh
   apply (cancel_epi iE.hom).mp
   calc
@@ -804,7 +804,7 @@ private theorem range_of_resolution
   obtain ⟨f, hf, hzf⟩ := Cocycle.toSingleMk_surjective z (-p)
     (by omega : -p + p = 0) (-p - 1) (by omega)
   let q : N := ⟨f ≫ j, by
-    show E.d (-p - 1) (-p) ≫ (f ≫ j) = 0
+    change E.d (-p - 1) (-p) ≫ (f ≫ j) = 0
     simp [← Category.assoc, hf]⟩
   have hqPow : (q : E.X (-p) ⟶ M) ∈ I ^ n • (⊤ : Submodule A (E.X (-p) ⟶ M)) :=
     mem_ideal_smul_catHom_of_free (E.X (-p)) M I n f
@@ -817,7 +817,7 @@ private theorem range_of_resolution
     have hco : (cyclesToCocycle E M p) q =
         (Cocycle.toSingleMk f (by omega : -p + p = 0) (-p - 1) (by omega) hf).postcomp
           ((CochainComplex.singleFunctor (ModuleCat A) 0).map j) := by
-      show Cocycle.toSingleMk (f ≫ j) (by omega : -p + p = 0) (-p - 1)
+      change Cocycle.toSingleMk (f ≫ j) (by omega : -p + p = 0) (-p - 1)
         (by omega : (-p - 1) + 1 = -p) (by simp [← Category.assoc, hf]) = _
       exact Cocycle.toSingleMk_postcomp f (by omega : -p + p = 0)
         (-p - 1) (by omega : (-p - 1) + 1 = -p) hf j
@@ -826,7 +826,7 @@ private theorem range_of_resolution
           e.inv ≫ (cocycleToDerived E ((CochainComplex.singleFunctor (ModuleCat A) 0).obj M) p)
             ((Cocycle.toSingleMk f (by omega : -p + p = 0) (-p - 1) (by omega) hf).postcomp
               ((CochainComplex.singleFunctor (ModuleCat A) 0).map j)) := by
-                show e.inv ≫ (cocycleToDerived E
+                change e.inv ≫ (cocycleToDerived E
                   ((CochainComplex.singleFunctor (ModuleCat A) 0).obj M) p)
                     ((cyclesToCocycle E M p) q) = _
                 rw [hco]
@@ -901,7 +901,7 @@ private theorem cyclesToExt_surjective
   obtain ⟨f, hf, hzf⟩ := Cocycle.toSingleMk_surjective z (-p)
     (by omega : -p + p = 0) (-p - 1) (by omega)
   refine ⟨⟨f, hf⟩, ?_⟩
-  show e.inv ≫ (Stacks.ExtIdealPowerImage.cocycleToDerived E
+  change e.inv ≫ (Stacks.ExtIdealPowerImage.cocycleToDerived E
     ((CochainComplex.singleFunctor (ModuleCat A) 0).obj M) p)
       (Cocycle.toSingleMk f (by omega) (-p - 1) (by omega) hf) = x
   rw [hzf, hz]
@@ -1215,7 +1215,7 @@ private theorem ext_quotient_transition_factors
     ShortComplex.ShortExact.singleTriangle.map hSm hSn
       (quotientPowShortComplexMap I M hnm)
   have : Mono ((F.shift p).map Tn.mor₂) := by
-    show Mono (ModuleCat.ofHom (Linear.rightComp A K
+    change Mono (ModuleCat.ofHom (Linear.rightComp A K
       (((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map
         (ModuleCat.ofHom (I ^ n • (⊤ : Submodule A M)).mkQ))⟦p⟧')))
     infer_instance
@@ -1277,7 +1277,7 @@ private theorem quotientPowExtDiagram_map
         (((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map
           (ModuleCat.ofHom (Submodule.factorPow I M hnm)))⟦p⟧')) := by
   intro D E
-  show ModuleCat.ofHom (Linear.rightComp A K
+  change ModuleCat.ofHom (Linear.rightComp A K
       ((D.map (homOfLE hnm).op)⟦p⟧')) = _
   rw [quotientPowDiagram_map I M hnm]
   rfl
@@ -1357,7 +1357,7 @@ public theorem ext_quotient_ideal_pow_essentially_constant
     finite_ext_of_pseudoCoherent K hK M p
   obtain ⟨n₀, hz₀⟩ := exists_zero_ext_inclusion I K hK p M (h M p hp)
   have hmono₀ : Mono (π.app (op n₀)) := by
-    show Mono (ModuleCat.ofHom (Linear.rightComp A K
+    change Mono (ModuleCat.ofHom (Linear.rightComp A K
       (((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map
         (ModuleCat.ofHom (I ^ n₀ • (⊤ : Submodule A M)).mkQ))⟦p⟧')))
     exact mono_ext_quotient_of_zero_inclusion I K M p n₀ hz₀
@@ -1377,11 +1377,11 @@ public theorem ext_quotient_ideal_pow_essentially_constant
     have : Mono (ModuleCat.ofHom (Linear.rightComp A K
         (((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map
           (ModuleCat.ofHom (I ^ j • (⊤ : Submodule A M)).mkQ))⟦p⟧'))) := by
-      show Mono (π.app (op j))
+      change Mono (π.app (op j))
       exact hjmono
     obtain ⟨r, hr⟩ := ext_quotient_transition_factors I K M p hjk hzk
     refine ⟨k, hjk, r, ?_⟩
-    show E.map (homOfLE hjk).op =
+    change E.map (homOfLE hjk).op =
       r ≫ ModuleCat.ofHom (Linear.rightComp A K
         (((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map
           (ModuleCat.ofHom (I ^ j • (⊤ : Submodule A M)).mkQ))⟦p⟧'))

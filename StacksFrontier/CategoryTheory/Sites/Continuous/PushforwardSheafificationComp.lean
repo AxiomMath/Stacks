@@ -99,7 +99,7 @@ theorem pushforwardContinuousSheafificationCompatibility_comp' (P : C₃ᵒᵖ �
         Functor.whiskerRight (NatTrans.op eFG.inv) (sheafify J₃ P) = 𝟙 _ := by
     rw [← Functor.whiskerRight_comp, ← NatTrans.op_comp, eFG.inv_hom_id, NatTrans.op_id,
       Functor.whiskerRight_id']
-  show Functor.whiskerLeft FG.op (toSheafify J₃ P) =
+  change Functor.whiskerLeft FG.op (toSheafify J₃ P) =
     Functor.whiskerRight (NatTrans.op eFG.hom) P ≫
       Functor.whiskerLeft F.op (toSheafify J₂ (G.op ⋙ P)) ≫
         Functor.whiskerLeft F.op

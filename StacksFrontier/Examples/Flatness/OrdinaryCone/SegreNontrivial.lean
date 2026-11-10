@@ -81,7 +81,8 @@ variable (k : Type*) [Field k]
 /-- The `k`-subspace of `G[s, t]` of the polynomials all of whose coefficients have degree `d`. -/
 private noncomputable def coeffComponent (d : ℕ) : Submodule k (MvPolynomial (Fin 2) (Cone k)) where
   carrier := {A | ∀ m, A.coeff m ∈ Cone.component k d}
-  add_mem' ha hb m := by rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply]; exact add_mem (ha m) (hb m)
+  add_mem' ha hb m := by
+    rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply]; exact add_mem (ha m) (hb m)
   zero_mem' m := by rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]; exact zero_mem _
   smul_mem' c A hA m := by rw [coeff_smul]; exact Submodule.smul_mem _ c (hA m)
 

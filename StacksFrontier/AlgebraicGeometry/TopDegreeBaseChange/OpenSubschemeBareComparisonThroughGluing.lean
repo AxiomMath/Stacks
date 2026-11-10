@@ -24,7 +24,8 @@ factor brick (i) of the 2b(B) match of [Stacks, Tag 0EX3] (c) carries, through
 and `C₄` are isomorphisms by construction, and `C₁` is one unconditionally — this file proves
 that. `C₂` is **not**: it is `CategoryTheory.Functor.rightDerivedNatTrans` along the
 degreewise `Stacks.EdgeCompat.preimageSectionsRestrictSource f V e`, the restriction of sections
-from `f⁻¹V` down to `U`, which at a proper `U < f⁻¹V` is not invertible — the same phenomenon as for `…TopDegreeBaseChange.preimageSectionsOpenSubschemeLE` — and no `IsIso`
+from `f⁻¹V` down to `U`, which at a proper `U < f⁻¹V` is not invertible — the same phenomenon as for
+`…TopDegreeBaseChange.preimageSectionsOpenSubschemeLE` — and no `IsIso`
 instance for it is synthesisable. At the instance the 2b(B) match meets, `U` **is**
 proper: the gluing enters there at `(f, V, U, e) := (h', f'⁻¹V, f''⁻¹W, hle)`, whose
 `f''⁻¹W ⊊ (h')⁻¹(f'⁻¹V)` is what makes the transport of the match a morphism and not an

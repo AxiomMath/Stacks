@@ -158,7 +158,7 @@ lemma isPseudoCoherentFrom_restrictScalars_of_ringEquiv
     { __ := Equiv.refl _
       map_add' := fun _ _ ↦ rfl
       map_smul' := fun s a ↦ by
-        show s • a = e (e.symm s) • a
+        change s • a = e (e.symm s) • a
         rw [e.apply_symm_apply] }
   exact ⟨Module.Finite.of_surjective j.toLinearMap j.surjective, Module.Free.of_equiv j⟩
 
@@ -175,7 +175,7 @@ private lemma polynomial_C_mul_X_sub_one_regular
     {R : Type u} [CommRing R] (r : R) :
     ∀ p : Polynomial R, (Polynomial.C r * Polynomial.X - 1) * p = 0 → p = 0 := by
   have h : Polynomial.C r * Polynomial.X - 1 ∈ nonZeroDivisors (Polynomial R) :=
-    Polynomial.mem_nonzeroDivisors_of_coeff_mem 0 (by
+    Polynomial.mem_nonZeroDivisors_of_coeff_mem 0 (by
       simpa using (isUnit_neg_one : IsUnit (-1 : R)).mem_nonZeroDivisors)
   exact fun p hp ↦ h.1 p hp
 
@@ -231,7 +231,7 @@ lemma relativelyPseudoCoherentFrom_of_baseRingEquiv
   let g : MvPolynomial (Fin n) R →ₐ[R] A :=
     { toRingHom := f.toRingHom.comp (MvPolynomial.map e.symm.toRingHom)
       commutes' := fun r ↦ by
-        show f (MvPolynomial.map e.symm.toRingHom (MvPolynomial.C r)) = _
+        change f (MvPolynomial.map e.symm.toRingHom (MvPolynomial.C r)) = _
         rw [MvPolynomial.map_C]
         exact (f.commutes (e.symm r)).trans ((he (e.symm r)).trans (by simp)) }
   have hg : Function.Surjective g :=
@@ -285,15 +285,15 @@ private lemma isPseudoCoherentFrom_restrictScalars_localizationAway_of_relative
   let k := Localization.awayMap f.toRingHom g
   have hj (a : MvPolynomial (Fin n) R) :
       j (Polynomial.C a) = algebraMap _ (Localization.Away g) a := by
-    show (Localization.awayEquivAdjoin g).symm (AdjoinRoot.of _ a) = _
+    change (Localization.awayEquivAdjoin g).symm (AdjoinRoot.of _ a) = _
     exact (Localization.awayEquivAdjoin g).symm.commutes a
   let b : MvPolynomial (Fin (n + 1)) R →ₐ[R] Localization.Away (f g) :=
     { toRingHom := (k.comp j).comp e.toRingHom
       commutes' := fun r ↦ by
-        show k (j (e (MvPolynomial.C r))) = _
+        change k (j (e (MvPolynomial.C r))) = _
         rw [show e (MvPolynomial.C r) = Polynomial.C (MvPolynomial.C r) from
           (MvPolynomial.finSuccEquiv R n).commutes r, hj]
-        show IsLocalization.map _ _ _ (algebraMap _ _ (MvPolynomial.C r)) = _
+        change IsLocalization.map _ _ _ (algebraMap _ _ (MvPolynomial.C r)) = _
         rw [IsLocalization.map_eq,
           show f.toRingHom (MvPolynomial.C r) = algebraMap R A r from f.commutes r]
         exact (IsScalarTower.algebraMap_apply R A (Localization.Away (f g)) r).symm }
@@ -387,7 +387,7 @@ private lemma localizedTensorEquiv_tmul
   let : Algebra (Localization.Away g) B := q.toAlgebra
   let : IsScalarTower R (Localization.Away g) B :=
     IsScalarTower.of_algebraMap_eq (fun r ↦ by
-      show algebraMap R B r = q (algebraMap R (Localization.Away g) r)
+      change algebraMap R B r = q (algebraMap R (Localization.Away g) r)
       dsimp [q, Localization.awayMap, IsLocalization.Away.map]
       rw [IsLocalization.map_eq]
       rfl)
@@ -409,7 +409,7 @@ private lemma localizedTensorEquiv_one_tmul
   refine (localizedTensorEquiv_tmul (A := A) g M 1 x).trans ?_
   rw [TensorProduct.smul_tmul']
   congr 1
-  show (Localization.awayMap (algebraMap R A) g) 1 * 1 = 1
+  change (Localization.awayMap (algebraMap R A) g) 1 * 1 = 1
   rw [map_one, one_mul]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -555,7 +555,8 @@ private lemma relativelyPseudoCoherentFrom_iff_localizationAway_of_common_univer
 
 /-- Transport a small base ring into the module universe; otherwise finite free approximations
 vanish and local detection of homology vanishing gives the same equivalence. -/
-private alias relativelyPseudoCoherentFrom_iff_localizationAway := relativelyPseudoCoherentFrom_iff_localizationAway_of_common_universe
+private alias relativelyPseudoCoherentFrom_iff_localizationAway :=
+    relativelyPseudoCoherentFrom_iff_localizationAway_of_common_universe
 
 /-- **Stacks 067E.** Relative `m`-pseudo-coherence and relative pseudo-coherence are local on
 a finite principal cover of a finite-type algebra. -/

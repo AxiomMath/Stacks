@@ -150,7 +150,7 @@ lemma coneOfInvertedMorphisms_isLeftDerivedValueAt
   let s₀ : W.Over ⊤ X := MorphismProperty.Over.mk ⊤ (𝟙 X) (MorphismProperty.id_mem W X)
   let v : ∀ s : W.Over ⊤ X, s ⟶ s₀ := fun s =>
     MorphismProperty.Over.homMk (A := s) (B := s₀) s.hom (by
-      show s.hom ≫ 𝟙 X = s.hom
+      change s.hom ≫ 𝟙 X = s.hom
       simp)
   refine ⟨s₀, F.map s₀.hom, ?_, fun s ↦ ?_⟩
   · dsimp [coneOfInvertedMorphisms]
@@ -180,7 +180,7 @@ lemma coconeOfTerminalUnder_isRightDerivedValueAt
         (MorphismProperty.Under.forget W ⊤ X ⋙ Under.forget X ⋙ F)) := by
   refine ⟨t₀, 𝟙 _, (Category.id_comp _).trans (by simp), fun s => ?_⟩
   refine ⟨t₀, ht.from s, ht.from t₀, ?_⟩
-  show F.map (ht.from s).right =
+  change F.map (ht.from s).right =
     F.map (ht.from s).right ≫ 𝟙 _ ≫ F.map (ht.from t₀).right
   simp
 
@@ -298,7 +298,7 @@ theorem restrictScalarsDerived_adj_derivedHom
         RF.map (Q.map ((ht.from s).right)) ≫ eRF.inv ≫ RF.map (Q.map s.hom) = 𝟙 _ := by
       rw [← cancel_epi (RF.map (Q.map s.hom)), reassoc_of% hComp, Iso.hom_inv_id_assoc]
       exact (Category.comp_id _).symm
-    show Q'.map (F.map (ht.from s).right) ≫ (β.app t₀.right ≫ eRF.inv) ≫
+    change Q'.map (F.map (ht.from s).right) ≫ (β.app t₀.right ≫ eRF.inv) ≫
       RF.map (Q.map s.hom) = _
     rw [Category.assoc, reassoc_of% hnat, hcancel, Category.comp_id]
   have hLG : ∀ M : HomotopyCategory BMod (ComplexShape.up ℤ),
@@ -315,9 +315,9 @@ theorem restrictScalarsDerived_adj_derivedHom
     have : IsIso ((G ⋙ Q).map t.hom) := hInv t.hom t.prop
     have hn : LG.map (Q'.map t.hom) ≫ α.app M = α.app t.left ≫ (G ⋙ Q).map t.hom :=
       α.naturality t.hom
-    show LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = _
+    change LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = _
     rw [reassoc_of% hn, ← Functor.comp_map, IsIso.hom_inv_id, Category.comp_id]
-  show Nonempty (LG ⊣ RF)
+  change Nonempty (LG ⊣ RF)
   obtain ⟨adjDerived, _, _⟩ :=
     CategoryTheory.Adjunction.exists_derived_of_isRightDerivedValueAt_of_isLeftDerivedValueAt
       adj W W' Q Q' RF β LG α hRF hLG

@@ -142,7 +142,7 @@ theorem continuous_adicCompletion_ofAlgEquiv_symm (hIadic : _root_.IsAdic I) (hI
   have hsurj : Function.Surjective (algebraMap A (AdicCompletion I A)) := fun y =>
     ⟨(AdicCompletion.ofAlgEquiv I).symm y, AdicCompletion.of_ofAlgEquiv_symm I y⟩
   obtain ⟨x, hx, rfl⟩ := (Ideal.mem_map_iff_of_surjective _ hsurj).mp hy
-  show (AdicCompletion.ofAlgEquiv I).symm (AdicCompletion.of I A x) ∈ (I ^ n : Ideal A)
+  change (AdicCompletion.ofAlgEquiv I).symm (AdicCompletion.of I A x) ∈ (I ^ n : Ideal A)
   rwa [AdicCompletion.ofAlgEquiv_symm_of]
 
 end Rings

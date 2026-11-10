@@ -139,6 +139,7 @@ noncomputable def pairCoordE (c : wholeSpaceIndex S hp) :
   map_add' := (pairCoord hp c).map_add
   map_smul' := (pairCoord hp c).map_smul
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The coordinates `pairCoordE` are dual to the differentials `d x_c`. -/
 theorem isCoordinateDual_pairCoordE : IsCoordinateDual (pairDx hp) (pairCoordE hp) where
   self := (isCoordinateDual_pairDx hp).self
@@ -355,10 +356,13 @@ noncomputable abbrev crystalPairFunctorE : QuasiCoherentCrystal S ⥤ PairE hp :
 /-- **The functor of [Stacks, Tag 07JG] is faithful**: a morphism of crystals in quasi-coherent
 modules is determined by the map it induces on `M = lim_e Γ(T_e, ℱ)`. -/
 instance faithful_crystalPairFunctorE : (crystalPairFunctorE hp).Faithful where
-  map_injective {Fc Gc} {ψ χ} h :=
-    eq_of_wholeSpaceSectionsMap_eq hp (LinearMap.ext fun m ↦
-      congrArg (fun f : (crystalPairFunctorE hp).obj Fc ⟶ (crystalPairFunctorE hp).obj Gc ↦
-        f.toLinearMap m) h)
+  map_injective {Fc Gc} := Function.Injective.of_comp
+    (f := fun f : (crystalPairFunctorE hp).obj Fc ⟶ (crystalPairFunctorE hp).obj Gc ↦
+      ⇑f.toLinearMap)
+    (Function.Injective.comp
+      (f := fun ψ : Fc ⟶ Gc ↦ (wholeSpaceLevelScalars hp 0).sectionsMap ψ)
+      DFunLike.coe_injective
+      (@eq_of_wholeSpaceSectionsMap_eq S _ _ hp _ Fc Gc))
 
 /-- On limit modules, the map of `α.hom` undoes the map of `α.inv`. -/
 theorem sectionsMap_inv_hom_apply {Fc Gc : QuasiCoherentCrystal S} (α : Fc ≅ Gc)
@@ -442,7 +446,7 @@ theorem sectionsMap_crystalPairPreimage {Fc Gc : QuasiCoherentCrystal S}
 induced by the morphism of crystals `α_𝒢 ∘ G(φ) ∘ α_ℱ⁻¹`, where `G` is the quasi-inverse and `α`
 the counit. -/
 instance full_crystalPairFunctorE : (crystalPairFunctorE hp).Full where
-  map_surjective {Fc Gc} φ := ⟨crystalPairPreimage hp φ, PairHom.ext (LinearMap.ext fun m ↦
+  map_surjective φ := ⟨crystalPairPreimage hp φ, PairHom.ext (LinearMap.ext fun m ↦
     (crystalPairFunctorE_map_apply hp _ m).trans (sectionsMap_crystalPairPreimage hp φ m))⟩
 
 end FullyFaithful
@@ -486,23 +490,20 @@ end Unit
 
 section TaylorStratified
 
-open scoped Classical
-
-variable {M : Type u} [AddCommGroup M] [Module (envD S hp) M]
-  (E : Stratification (wholeSpaceDescentSystem S hp) M)
-  (hM : IsPAdicallyComplete S.p (envD S hp) M)
-  (θ : (wholeSpaceIndex S hp →₀ ℕ) → M →+ M)
-  (hE : ∀ e m, E.str e m = TaylorStratification.taylorMap
-    ((wholeSpaceDescentSystem S hp).ptRing ((wholeSpaceDescentSystem S hp).v e 0))
-    ((wholeSpaceTaylorData S hp).xi e) θ m)
-  (hfin : ∀ e m, {L | θ L m ∉ pPowSmul S.p (envD S hp) M
-    (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)}.Finite)
-
-include hE hfin in
+open scoped Classical in
 /-- **The Taylor operators of the crystal of a stratified module whose stratification is the Taylor
 map of a family `θ` are `θ`**, at each level: by uniqueness of the coefficients of the Taylor
 expansion of the crystal over `T(1)_e`. -/
-theorem levelTheta_stratCrystal (e : ℕ) (K : wholeSpaceIndex S hp →₀ ℕ) (m : M) :
+theorem levelTheta_stratCrystal {M : Type u} [AddCommGroup M] [Module (envD S hp) M]
+    (E : Stratification (wholeSpaceDescentSystem S hp) M)
+    (hM : IsPAdicallyComplete S.p (envD S hp) M)
+    (θ : (wholeSpaceIndex S hp →₀ ℕ) → M →+ M)
+    (hE : ∀ e m, E.str e m = TaylorStratification.taylorMap
+      ((wholeSpaceDescentSystem S hp).ptRing ((wholeSpaceDescentSystem S hp).v e 0))
+      ((wholeSpaceTaylorData S hp).xi e) θ m)
+    (hfin : ∀ e m, {L | θ L m ∉ pPowSmul S.p (envD S hp) M
+      (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)}.Finite)
+    (e : ℕ) (K : wholeSpaceIndex S hp →₀ ℕ) (m : M) :
     levelTheta hp (stratCrystal E) e K
         (wholeSpaceSectionsVal hp (stratCrystal E) ((stratLimitEquiv E hM).symm m) e) =
       wholeSpaceSectionsVal hp (stratCrystal E) ((stratLimitEquiv E hM).symm (θ K m)) e := by
@@ -510,7 +511,7 @@ theorem levelTheta_stratCrystal (e : ℕ) (K : wholeSpaceIndex S hp →₀ ℕ) 
   set ι := stratLimitEquiv E hM
   set s := (hfin e m).toFinset
   have hout : ∀ L ∉ s, θ L m ∈ pPowSmul S.p (envD S hp) M n := fun L hL ↦ by
-    rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_not] at hL
+    rw [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, not_not] at hL
     exact hL
   have hterm : ∀ L ∉ s, TaylorStratification.term
       ((wholeSpaceDescentSystem S hp).ptRing ((wholeSpaceDescentSystem S hp).v e 0))
@@ -553,7 +554,7 @@ theorem levelTheta_stratCrystal (e : ℕ) (K : wholeSpaceIndex S hp →₀ ℕ) 
     rw [ha₀]
     rfl
   rw [levelTheta, TaylorExpansion.theta_apply, T.coeffs_eq_of_taylorSum hg]
-  simp only [g, Finsupp.finset_sum_apply, Finsupp.single_apply]
+  simp only [g, Finsupp.finsetSum_apply, Finsupp.single_apply]
   rw [Finset.sum_ite_eq']
   split_ifs with hK
   · rfl

@@ -220,7 +220,7 @@ public theorem mapQ_injective_of_residue_injective
       apply isUnit_iff_ne_zero.mpr
       simpa [K] using fun h => s.2 (hpq h)
     apply (Module.End.isUnit_iff _).mpr
-    show Function.Bijective (fun z : K ⊗[S] N => (s : S) • z)
+    change Function.Bijective (fun z : K ⊗[S] N => (s : S) • z)
     have he : (fun z : K ⊗[S] N => (s : S) • z) =
         (fun z : K ⊗[S] N => algebraMap S K s • z) := by
       funext z
@@ -398,7 +398,7 @@ public theorem Algebra.isGeometricallyIntegral_tensorProduct_residueField
       (@GeometricallyIntegral : MorphismProperty Scheme.{u}) := by
     rw [GeometricallyIntegral.eq_geometrically, geometrically_eq_universally]
     exact MorphismProperty.universally_respectsIso _
-  show GeometricallyIntegral (Spec.map (CommRingCat.ofHom
+  change GeometricallyIntegral (Spec.map (CommRingCat.ofHom
     (Algebra.TensorProduct.includeRight : p.ResidueField →ₐ[R]
       S ⊗[R] p.ResidueField).toRingHom))
   have h : GeometricallyIntegral ((pullbackSpecIso R S p.ResidueField).inv ≫

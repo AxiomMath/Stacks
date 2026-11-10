@@ -98,7 +98,7 @@ theorem pow_maximalIdeal_eq_span_monomials
         have h1 := hsplit e.val k
         have h2 := e.property
         omega
-      · show ∏ j, ω j ^ (Function.update e.val k (e.val k + 1) j) = ω k * ∏ j, ω j ^ (e.val j)
+      · change ∏ j, ω j ^ (Function.update e.val k (e.val k + 1) j) = ω k * ∏ j, ω j ^ (e.val j)
         exact hmono k e.val
     · rw [Ideal.span_le]
       rintro z ⟨e, rfl⟩
@@ -280,7 +280,8 @@ theorem reprMap_add_defect (R : Type*) [CommRing R] [IsLocalRing R] {t n : ℕ} 
     (fun α => residueSection R ((p + q).coeff α)
       - residueSection R (p.coeff α) - residueSection R (q.coeff α))
     (fun α _ => by
-      simpa only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply] using residueSection_add_sub_sub_mem_maximalIdeal R _ _)
+      simpa only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply] using
+        residueSection_add_sub_sub_mem_maximalIdeal R _ _)
     hdeg
   simp only [sub_mul, Finset.sum_sub_distrib] at hdefect
   convert Ideal.add_mem _ (Ideal.sub_mem _ (Ideal.sub_mem _ e1 e2) e3) hdefect using 1

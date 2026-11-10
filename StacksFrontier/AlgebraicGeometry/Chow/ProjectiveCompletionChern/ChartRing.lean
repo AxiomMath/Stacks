@@ -199,7 +199,7 @@ variable [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} 𝒞] {
 theorem chartRingHom_chartT :
     chartRingHom 𝒞 hV ((chartT 𝒞 V : (symAlg 𝒞).grading V 1) : (symAlg 𝒞).sectionRing V) =
       Stacks.SymAdjoinChart.adjoinedGen Γ(X, V) Γ(𝒞, V) := by
-  show SymPow.symAlgMap (sectionsSplit 𝒞 V).toLinearMap
+  change SymPow.symAlgMap (sectionsSplit 𝒞 V).toLinearMap
     (AffinePieces.symSectionRingEquiv (module 𝒞) hV (bundlePieces (module 𝒞))
       (DirectSum.of ((symAlg 𝒞).sectionPieces V) 1
         ((Scheme.Modules.symmetricAlgebraGen X (module 𝒞)).val.app (op V)
@@ -238,7 +238,7 @@ theorem powers_chartT_le_comap :
         (chartGradedHom 𝒞 hV) := by
   rintro _ ⟨n, rfl⟩
   refine ⟨n, ?_⟩
-  show _ = chartRingHom 𝒞 hV _
+  change _ = chartRingHom 𝒞 hV _
   rw [map_pow, chartRingHom_chartT]
 
 /-- `chartGradedInv` maps the powers of the adjoined generator into the powers of `T`. -/
@@ -248,7 +248,7 @@ theorem powers_adjoinedGen_le_comap :
         (symAlg 𝒞).sectionRing V)).comap (chartGradedInv 𝒞 hV) := by
   rintro _ ⟨n, rfl⟩
   refine ⟨n, ?_⟩
-  show _ = chartRingInv 𝒞 hV _
+  change _ = chartRingInv 𝒞 hV _
   rw [map_pow, chartRingInv_adjoinedGen]
 
 /-- Mapping a fraction `x / f ^ n` along a graded ring homomorphism. -/
@@ -305,14 +305,14 @@ def chartE (m : Γ(𝒞, V)) : (symAlg 𝒞).grading V 1 :=
 theorem chartRingInv_ι (m : Γ(𝒞, V)) :
     chartRingInv 𝒞 hV (SymmetricAlgebra.ι Γ(X, V) (Γ(𝒞, V) × Γ(X, V)) (m, 0)) =
       ((chartE 𝒞 m : (symAlg 𝒞).grading V 1) : (symAlg 𝒞).sectionRing V) := by
-  show (AffinePieces.symSectionRingEquiv (module 𝒞) hV (bundlePieces (module 𝒞))).symm
+  change (AffinePieces.symSectionRingEquiv (module 𝒞) hV (bundlePieces (module 𝒞))).symm
     (SymPow.symAlgMap (sectionsSplit 𝒞 V).symm.toLinearMap
       (SymmetricAlgebra.ι Γ(X, V) (Γ(𝒞, V) × Γ(X, V)) (m, 0))) = _
   rw [SymPow.symAlgMap_ι, RingEquiv.symm_apply_eq]
   refine Eq.trans ?_ (AffinePieces.symSectionRingEquiv_of_symmetricAlgebraGen (module 𝒞) hV
     (bundlePieces (module 𝒞)) (Scheme.Modules.Hom.app (inl 𝒞) V m)).symm
   congr 1
-  show Scheme.Modules.Hom.app (inl 𝒞) V m + Scheme.Modules.Hom.app (inr 𝒞) V (toUnitM V 0) = _
+  change Scheme.Modules.Hom.app (inl 𝒞) V m + Scheme.Modules.Hom.app (inr 𝒞) V (toUnitM V 0) = _
   rw [show toUnitM V (0 : Γ(X, V)) = 0 from rfl, map_zero, add_zero]
 
 /-- **The fraction `m / T` corresponds to the generator `m` of `Sym_R(M)`.** -/
@@ -325,7 +325,7 @@ theorem chartAwayEquiv_symm_ι (m : Γ(𝒞, V)) :
       chartAwayInv 𝒞 hV (Stacks.SymAdjoinChart.prodChartAlgEquiv Γ(X, V) Γ(𝒞, V)
         (SymmetricAlgebra.ι Γ(X, V) Γ(𝒞, V) m)) := rfl
   rw [hs, Stacks.SymAdjoinChart.prodChartAlgEquiv_apply, Stacks.SymAdjoinChart.toChart_ι]
-  show HomogeneousLocalization.map (chartGradedInv 𝒞 hV) (powers_adjoinedGen_le_comap 𝒞 hV)
+  change HomogeneousLocalization.map (chartGradedInv 𝒞 hV) (powers_adjoinedGen_le_comap 𝒞 hV)
     (HomogeneousLocalization.Away.mk _ (Stacks.SymAdjoinChart.adjoinedGen_mem_one _ _) 1 _ _) = _
   rw [HomogeneousLocalization.map_away_mk (chartGradedInv 𝒞 hV) (chartRingInv_adjoinedGen 𝒞 hV)
     _ (chartT 𝒞 V).2]

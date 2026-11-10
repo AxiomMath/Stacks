@@ -107,7 +107,7 @@ theorem simple_of_isDualizingComplex_field
     refine ⟨c, ?_⟩
     change DerivedCategory.Qh.map
       (CochainComplex.HomComplex.CohomologyClass.homAddEquiv c) = g at hc
-    show q0.inv ≫
+    change q0.inv ≫
       DerivedCategory.Qh.map
         (CochainComplex.HomComplex.CohomologyClass.homAddEquiv c) ≫
       q1.hom = f
@@ -207,7 +207,7 @@ theorem simple_of_isDualizingComplex_field
         rw [hleft, hright]
         apply CochainComplex.HomComplex.Cochain.ext₀
         intro p
-        simp [HomologicalComplex.smul_f_apply]
+        simp
       have hc := congrArg (fun f : B ⟶ F.obj (H.homology 0) => f x) hcat
       have hc' :
           (uiso.hom

@@ -88,7 +88,7 @@ theorem subsingleton_localizedAutomorphismFunctorTangent_of_faithful {Λ l : Typ
     apply hpp
     have := α.2
     have := β.2
-    show pp.map α.1 = pp.map β.1
+    change pp.map α.1 = pp.map β.1
     rw [IsHomLift.fac' pp (𝟙 A) α.1, IsHomLift.fac' pp (𝟙 A) β.1]⟩
   refine (localizedTangentEquivKernel Q).subsingleton_congr.mpr ⟨fun a b => ?_⟩
   exact Subtype.ext (Aut.ext (Iso.ext (Subsingleton.elim _ _)))
@@ -163,7 +163,7 @@ theorem exists_finiteDimensional_localized_of_smoothChart [IsLocallyNoetherian S
   let w₀ : TwoFibreProductOver 𝒰.val.p 𝒰.val.p 𝒳.val.p (CatFiberedInGroupoids.homFunctor f)
       (CatFiberedInGroupoids.homFunctor f) :=
     ⟨u₀.left, u₀, u₀, rfl, rfl, Iso.refl _, by
-      show 𝒳.val.p.IsHomLift (𝟙 u₀.left) (𝟙 ((CatFiberedInGroupoids.homFunctor f).obj u₀))
+      change 𝒳.val.p.IsHomLift (𝟙 u₀.left) (𝟙 ((CatFiberedInGroupoids.homFunctor f).obj u₀))
       rw [← hbase]; infer_instance⟩
   have hw₀ : (TwoFibreProductOver.structureFunctor 𝒰.val.p 𝒰.val.p 𝒳.val.p
       (CatFiberedInGroupoids.homFunctor f) (CatFiberedInGroupoids.homFunctor f) ⋙

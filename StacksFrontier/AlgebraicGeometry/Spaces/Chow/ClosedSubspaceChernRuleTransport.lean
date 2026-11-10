@@ -164,7 +164,7 @@ theorem cycleGroupClosedPushforward_firstChernCapCycleMap
   refine Subtype.ext (funext fun V => ?_)
   rw [firstChernCapCycleMap_cycleGroupClosedPushforward_apply D sX hX hY.1 hY.2 (Y.ι ≫ sX) rfl
     k chern β V]
-  show cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
       (firstChernCapCycleMap D (Y.ι ≫ sX) hYgood k
         (closedSubspaceChernRule D sX hX Y hY k chern) β).1 V = _
   rw [show (firstChernCapCycleMap D (Y.ι ≫ sX) hYgood k

@@ -85,7 +85,7 @@ public lemma completionComparison_composite_smul
   let Q := QuotientDifferentialsSystem.functor (A := A) J delta p hcmp.quotientSystem
   have hlim (z : AdicCompletion (DividedPowers.pAdicIdeal (A := D) p) Mc) :
       hcmp.fromCompletionLimit z = hcmp.fromOriginalLimit (Fadd z) := by
-    show hcmp.fromCompletionLimit z =
+    change hcmp.fromCompletionLimit z =
       hcmp.fromOriginalLimit
         (hcmp.fromOriginalLimit.symm (hcmp.fromCompletionLimit z))
     exact (hcmp.fromOriginalLimit.apply_symm_apply _).symm
@@ -122,7 +122,7 @@ public lemma completionComparison_composite_smul
           hcmp.fromCompletionAt e (x.val n) := by
             have hcoord : (r • x).val n =
                 r • x.val n := by
-              show ((algebraMap D
+              change ((algebraMap D
                 (AdicCompletion (DividedPowers.pAdicIdeal (A := D) p) D) r) • x).val n = _
               rw [AdicCompletion.smul_eval,
                 AdicCompletion.val_smul_eq_evalₐ_smul]
@@ -152,7 +152,7 @@ public lemma polynomialDividedPowerEnvelope_prime_nilpotent
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
   have hker : algebraMap s.A (MvPolynomial ι s.A) ((s.p : s.A) ^ N) ∈
       RingHom.ker f.toRingHom := by
-    show f (algebraMap s.A (MvPolynomial ι s.A) ((s.p : s.A) ^ N)) = 0
+    change f (algebraMap s.A (MvPolynomial ι s.A) ((s.p : s.A) ^ N)) = 0
     rw [f.commutes]
     simpa using hN
   have hmem : env.algebraMap.toRingHom

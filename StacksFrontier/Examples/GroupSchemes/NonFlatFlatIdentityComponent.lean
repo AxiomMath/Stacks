@@ -156,13 +156,13 @@ public instance isIso_pairDesc (i : X ⟶ S) : IsIso (pairDesc i) := by
 public lemma sigmaι_comp_pairDesc (i : X ⟶ S) (b c : Bool) :
     Sigma.ι (fun p : Bool × Bool => pairPiece i p.1 p.2) (b, c) ≫ pairDesc i =
       pairHom i b c :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The inclusion of a summand followed by the structure morphism of the disjoint union is the
 structure morphism of the summand. -/
 private theorem sigmaι_comp_total_hom (i : X ⟶ S) (b : Bool) :
     Sigma.ι (piece S X) b ≫ (total i).hom = pieceMap i b :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The multiplication of the group law on a summand of the fibre square. -/
 public noncomputable def pairMul (i : X ⟶ S) [Mono i] (b c : Bool) :
@@ -179,7 +179,7 @@ public noncomputable def mulOnPullback (i : X ⟶ S) [Mono i] :
 public lemma pairHom_comp_mulOnPullback (i : X ⟶ S) [Mono i] (b c : Bool) :
     pairHom i b c ≫ mulOnPullback i = (pairMul i b c).left := by
   rw [← sigmaι_comp_pairDesc i b c, mulOnPullback, Category.assoc, IsIso.hom_inv_id_assoc]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- The multiplication on the fibre square is a morphism over the base. -/
 public lemma mulOnPullback_comp_hom (i : X ⟶ S) [Mono i] :
@@ -253,7 +253,7 @@ public lemma total_hom_ext (i : X ⟶ S) {T Z : CategoryTheory.Over S} (f : T �
     (fun b => Sigma.ι (piece S X) b) f.left hπ
   refine (cancel_epi (Sigma.desc fun b => pullback.fst f.left (Sigma.ι (piece S X) b))).mp ?_
   refine Sigma.hom_ext _ _ fun b => ?_
-  simp only [Sigma.ι_desc_assoc]
+  simp only [Sigma.ι_comp_desc_assoc]
   have ht : pullback.snd f.left (Sigma.ι (piece S X) b) ≫ (part i b).hom =
       (Over.mk (pullback.fst f.left (Sigma.ι (piece S X) b) ≫ T.hom)).hom := by
     change pullback.snd f.left (Sigma.ι (piece S X) b) ≫ pieceMap i b =

@@ -113,7 +113,7 @@ private lemma eq_zero_of_isGeneratorRegularOn {I : SheafOfModules.{u} Oₓ} (i :
     (hc : c * genSection X i V hVU f = 0) : c = 0 := by
   refine hreg V hVU (a₁ := c) (a₂ := 0) ?_
   simp only [smul_zero]
-  show genSection X i V hVU f * c = 0
+  change genSection X i V hVU f * c = 0
   exact (mul_comm _ _).trans hc
 
 /-- The image under `i` of a multiple of the restricted generator is the product in the ring of
@@ -167,7 +167,7 @@ private lemma isGeneratorRegularOn_of_bijective_smul {I : SheafOfModules.{u} O�
       Function.Bijective fun c : X.presheaf.obj (op V) => c • resGen X V hVU f) :
     IsGeneratorRegularOn X i 𝒪 U f := by
   intro V hVU
-  show Function.Injective fun c : (O X).obj (op V) => genSection X i V hVU f * c
+  change Function.Injective fun c : (O X).obj (op V) => genSection X i V hVU f * c
   intro c₁ c₂ hc
   refine sub_eq_zero.1 (eq_zero_of_bijective_smul X i f V hVU (hbij V hVU) (c₁ - c₂) ?_)
   rw [mul_comm, mul_sub]

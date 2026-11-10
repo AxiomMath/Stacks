@@ -128,6 +128,7 @@ local instance (priority := high) hasPullback_presheaf_quotientStackSeparation
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves on the big fppf site in the statement
 /-- The structure morphism of the square of the object space, composed with `(t, s)`, is the
 structure morphism of the arrow space. -/
 theorem sourceTarget_comp_objectPairs_toBase {A : AlgebraicSpaces B S hS}
@@ -139,6 +140,7 @@ theorem sourceTarget_comp_objectPairs_toBase {A : AlgebraicSpaces B S hS}
   simpa using congrArg (fun k : G.arrows ⟶ A => k.hom) G.target_over
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves on the big fppf site in the statement
 /-- The source projection of the square of the object space is separated when the structure
 morphism of the object space is: it is a base change of that morphism. -/
 theorem isSeparated_objectPairsSource {A : AlgebraicSpaces B S hS}

@@ -98,7 +98,7 @@ theorem exists_finset_degreeOne_span_irrelevant [IsNoetherianRing S]
   obtain ⟨t, ht⟩ := Ideal.fg_of_isNoetherianRing (HomogeneousIdeal.irrelevant 𝒮).toIdeal
   have hsub : (t : Set S) ⊆ Submodule.span S (𝒮 1 : Set S) := by
     intro x hx
-    show x ∈ Ideal.span (𝒮 1 : Set S)
+    change x ∈ Ideal.span (𝒮 1 : Set S)
     rw [hspan1, ← ht]
     exact Ideal.subset_span hx
   obtain ⟨s, hs, hts⟩ := Submodule.subset_span_finite_of_subset_span hsub

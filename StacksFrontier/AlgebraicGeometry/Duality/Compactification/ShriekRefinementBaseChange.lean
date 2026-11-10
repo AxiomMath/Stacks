@@ -85,7 +85,7 @@ theorem isIso_refinementBaseChange_app (hg : CompactificationOf.PreservesInterio
 instance isIso_refinementBaseChangePlus (hg : CompactificationOf.PreservesInterior g) :
     IsIso (refinementBaseChangePlus f g hg) := by
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun K => ?_
-  letI := AlgebraicGeometry.isLeftAdjoint_qcqsQuasiCoherentDerivedPushforward k.toBase
+  let := AlgebraicGeometry.isLeftAdjoint_qcqsQuasiCoherentDerivedPushforward k.toBase
   exact isIso_refinementBaseChange_app f g hg _
     (isBoundedBelow_twistedInverseImage_obj k.toBase K.obj K.property)
 

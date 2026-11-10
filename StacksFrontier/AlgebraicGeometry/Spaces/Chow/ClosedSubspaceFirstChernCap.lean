@@ -62,7 +62,8 @@ theorem locallyFinite_closedSubspaceComponentImage_of_ne_zero {k : ℤ}
     ((injective_closedSubspaceComponentImage D sX hX Y).comp Subtype.val_injective)).subset
     fun V => ?_
   simp only [Function.comp_apply,
-    closedSubspaceCyclePushforward_apply_closedSubspaceComponentImage, if_neg V.2, subset_refl]
+    closedSubspaceCyclePushforward_apply_closedSubspaceComponentImage, ite_eq_right V.2,
+    subset_refl]
 
 /-- **The cap product along the inclusion of a closed subspace, at the level of cycles.** Let
 `Y ⊆ X` be a closed subspace with inclusion `i`, `c₁ ∩ -` on `X` and `c₁' ∩ -` on `Y` cap
@@ -111,7 +112,7 @@ theorem firstChernCapCycleMap_closedSubspaceCyclePushforward_sub_eq_cycleFamilyS
     · intro Z' hZ'
       by_contra hne
       refine hZ' ?_
-      show (push (k + 1) β).1 Z' * _ = 0
+      change (push (k + 1) β).1 Z' * _ = 0
       rw [hpush0 _ _ Z' fun V hV => hne ⟨V, hV⟩, zero_mul]
   have hfinX : Function.HasFiniteSupport fun V =>
       β.1 V * (firstChernComponentCycle D sX hX k chern (img V)).1 Z := by
@@ -131,7 +132,7 @@ theorem firstChernCapCycleMap_closedSubspaceCyclePushforward_sub_eq_cycleFamilyS
         β.1 V ≠ 0}, (integralClosedSubspacePushforward D sX hX (img j.1) k (c j)).1 Z = g j.1 := by
       intro j
       rw [hc j]
-      show (β.1 j.1 • (firstChernComponentCycle D sX hX k chern (img j.1) -
+      change (β.1 j.1 • (firstChernComponentCycle D sX hX k chern (img j.1) -
         push k (firstChernComponentCycle D (Y.1.ι ≫ sX) hYg k chernY j.1))).1 Z = _
       simp [g, mul_sub]
     rw [finsum_congr hg, finsum_subtype_eq_finsum_cond fun V => β.1 V ≠ 0]
@@ -141,7 +142,7 @@ theorem firstChernCapCycleMap_closedSubspaceCyclePushforward_sub_eq_cycleFamilyS
     · rfl
     · simp only [not_not.1 h, zero_mul]
   rw [hrhs]
-  show (firstChernCapCycleMap D sX hX k chern (push (k + 1) β)).1 Z -
+  change (firstChernCapCycleMap D sX hX k chern (push (k + 1) β)).1 Z -
       (push k (firstChernCapCycleMap D (Y.1.ι ≫ sX) hYg k chernY β)).1 Z = _
   rw [firstChernCapCycleMap_apply, hreindex]
   by_cases hZ : ∃ V₀, img V₀ = Z

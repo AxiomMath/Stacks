@@ -144,7 +144,7 @@ theorem exists_thickeningAffineGluingChart_of_isFiniteOrderThickening
     intro A C g fst snd sq
     have : IsIso (yoneda.map snd) := sq.isIso_snd_of_isIso
     have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map _
-    show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map snd)
+    change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   have hisoE : ∀ {P Q : AlgebraicSpaces B S hS} (e : P ≅ Q),
       (MorphismProperty.presheaf (MorphismProperty.inverseImage

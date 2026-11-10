@@ -148,7 +148,7 @@ theorem isEtaleChart_isClosedUnderLimitsOfShape_walkingCospan
         G).presheaf.RespectsIso :=
       MorphismProperty.relative_respectsIso _
     rw [hP]
-    show ((MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
+    change ((MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       G).presheaf.costructuredArrowObj yoneda (X := F)).IsClosedUnderIsomorphisms
     infer_instance
   set K := CostructuredArrow.proj (yoneda : BigFppfOver B S hS ⥤ _) F ⋙ G with hK
@@ -171,7 +171,7 @@ theorem isEtaleChart_isClosedUnderLimitsOfShape_walkingCospan
   have hpl : Etale (G.map (limit.π D WalkingCospan.left).left) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback hpb.flip hr
   rw [hP]
-  show (MorphismProperty.presheaf
+  change (MorphismProperty.presheaf
     (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) G))
     (limit D).hom
   rw [show (limit D).hom =
@@ -184,7 +184,7 @@ theorem isEtaleChart_isClosedUnderLimitsOfShape_walkingCospan
 theorem hasPullbacks (hF : IsAlgebraicSpace B S hS F) :
     HasPullbacks (SmallEtale B S hS F) := by
   let _ := isEtaleChart_isClosedUnderLimitsOfShape_walkingCospan B S hS F hF
-  show HasPullbacks (IsEtaleChart B S hS F).FullSubcategory
+  change HasPullbacks (IsEtaleChart B S hS F).FullSubcategory
   infer_instance
 
 /-- The fibre products of the small étale site of an algebraic space are the fibre products of
@@ -194,7 +194,7 @@ theorem preservesPullbacks_toScheme (hF : IsAlgebraicSpace B S hS F) :
       (toOver B S hS F ⋙ BigFppfOver.toScheme B S hS) := by
   let _ := isEtaleChart_isClosedUnderLimitsOfShape_walkingCospan B S hS F hF
   let _ : PreservesLimitsOfShape WalkingCospan (inclusion B S hS F) := by
-    show PreservesLimitsOfShape WalkingCospan (IsEtaleChart B S hS F).ι
+    change PreservesLimitsOfShape WalkingCospan (IsEtaleChart B S hS F).ι
     infer_instance
   apply comp_preservesLimitsOfShape
 

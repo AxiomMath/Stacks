@@ -149,8 +149,8 @@ def ofExistsProInverse {D : Type u} [Category.{v} D] {X Y : ℕᵒᵖ ⥤ D} (α
   fwd i := X.map (homOfLE (eventualIdx_odd_le_even g i)).op ≫
     α.app (op (eventualIdx g (2 * i + 1)))
   bwd i := Y.map (homOfLE (le_eventualIdx_odd g i)).op ≫ s (eventualIdx g (2 * i))
-  fwd_bwd i := comp_eventualInverse_fwd_bwd α hg s hs₁ _ _ _
-  bwd_fwd i := comp_eventualInverse_bwd_fwd α hg s hs₂ _ _ _
+  fwd_bwd _ := comp_eventualInverse_fwd_bwd α hg s hs₁ _ _ _
+  bwd_fwd _ := comp_eventualInverse_bwd_fwd α hg s hs₂ _ _ _
 
 end Interleaving
 

@@ -394,7 +394,7 @@ theorem freeDGModuleHomToClosed_comp_ι_inclusion (h : cone (𝟙 (freeDGModule 
         closedSectionι Q i =
       coneIdentityHomEquiv S D Q h i ≫ (toSetSheaf R).map (Q.complex.d (i - 1) i) := by
   refine hom_ext_sections fun U z => ?_
-  show ((Hom.toHomologicalComplex
+  change ((Hom.toHomologicalComplex
         ((conePackage (𝟙 (freeDGModule S D))).inclusion ≫ h)).f i).val.app U
       (freeGeneratorSection D.toGradedAlgebra S i U z.1 z.2) =
     homSections (Q.complex.d (i - 1) i) U ((coneIdentityFamily S D Q h).app i U z.1 z.2)

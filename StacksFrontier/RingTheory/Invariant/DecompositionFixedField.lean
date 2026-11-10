@@ -266,6 +266,7 @@ def localizedSubringEquivOfStabilizes (q : Ideal (integralClosure A L)) [q.IsPri
     rw [coe_algebraMap_localizedSubringBase q a, IsScalarTower.algebraMap_apply A K L a]
     exact σ.commutes _)
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 include K in
 /-- The restriction of `σ` to `B_q` is `σ`, read inside `L`. -/
 theorem coe_localizedSubringEquivOfStabilizes (q : Ideal (integralClosure A L)) [q.IsPrime]
@@ -333,6 +334,7 @@ theorem henselizationToField_apply (x : Ah) :
     henselizationToField A K L q Ah x =
       ((henselizationToLocalizedSubring A K L q Ah x : localizedSubring q) : L) := rfl
 
+omit [IsIntegrallyClosed A] in
 /-- **The decomposition group fixes `K^h` pointwise.** An automorphism stabilizing `q` restricts
 to an `A`-algebra automorphism of `B_q`, and composing the canonical map `A^h → B_q` with it
 gives another local `A`-algebra map, hence the same one. -/
@@ -367,7 +369,7 @@ theorem stabilizes_of_apply_henselizationToField {σ : Gal(L/K)}
     ⟨(isLocalHom_henselizationToLocalizedSubring A K L q Ah).map_nonunit⟩
   let : HenselianLocalRing Ah :=
     IsLocalRing.IsHenselization.henselian (R := A) (L := ResidueField A) (Rh := Ah)
-  let := isIntegrallyClosed_localizedSubring A K L q
+  let := isIntegrallyClosed_localizedSubring A L q
   let := isFractionRing_localizedSubring A K L q
   let σ' : L ≃ₐ[Ah] L := { σ.toRingEquiv with commutes' := hσ }
   have hmem : ∀ b : integralClosure A L, σ • b ∈ q ↔ b ∈ q := by
@@ -385,7 +387,7 @@ theorem stabilizes_of_apply_henselizationToField {σ : Gal(L/K)}
         algebraMap (localizedSubring q) L
           (algebraMap (integralClosure A L) (localizedSubring q) (σ • b)) := by
       rw [hcoe b, hcoe (σ • b)]
-      show σ (b : L) = ((σ • b : integralClosure A L) : L)
+      change σ (b : L) = ((σ • b : integralClosure A L) : L)
       exact (coe_smul A K L σ b).symm
     have hunit := isUnit_iff_isUnit_of_algEquiv (R := Ah) (T := localizedSubring q) (E := L) σ'
       (algebraMap (integralClosure A L) (localizedSubring q) b)
@@ -400,6 +402,7 @@ theorem stabilizes_of_apply_henselizationToField {σ : Gal(L/K)}
   rw [Ideal.mem_pointwise_smul_iff_inv_smul_mem]
   simpa only [smul_inv_smul] using (hmem (σ⁻¹ • b)).symm
 
+omit [IsIntegrallyClosed A] in
 include K in
 /-- **Stacks Project, Tag 0BSW: `K^h = (K^sep)^D`, in the form of the fixing subgroup.** An
 automorphism of `K^sep` over `K` lies in the decomposition group `D` at `𝔪^sep` exactly when it
@@ -453,7 +456,7 @@ theorem exists_algHom_fieldRange_eq_fixedField_stabilizer
     have h : ∀ a : A, (j0.toRingHom.comp (algebraMap K Kh)) (algebraMap A K a) =
         (algebraMap K L : K →+* L) (algebraMap A K a) := by
       intro a
-      show j0 (algebraMap K Kh (algebraMap A K a)) = algebraMap K L (algebraMap A K a)
+      change j0 (algebraMap K Kh (algebraMap A K a)) = algebraMap K L (algebraMap A K a)
       rw [← IsScalarTower.algebraMap_apply A K Kh a, ← IsScalarTower.algebraMap_apply A K L a]
       exact j0.commutes a
     have hK : j0.toRingHom.comp (algebraMap K Kh) = (algebraMap K L : K →+* L) :=

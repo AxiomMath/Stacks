@@ -85,7 +85,7 @@ private lemma isFiniteTypePoint_of_locallyOfFiniteType_specField
       ⟨s, CommRingCat.ofHom (RingHom.id k')⟩ := by
     apply (Scheme.SpecToEquivOfField k' S).symm.injective
     rw [(Scheme.SpecToEquivOfField k' S).symm_apply_apply]
-    show g' = Spec.map (𝟙 (.of k')) ≫ S.fromSpecResidueField s
+    change g' = Spec.map (𝟙 (.of k')) ≫ S.fromSpecResidueField s
     rw [Spec.map_id]
     exact (Category.id_comp _).symm
   apply ((finiteType_specField_tfae g').out 4 1).mp
@@ -93,15 +93,15 @@ private lemma isFiniteTypePoint_of_locallyOfFiniteType_specField
     ((finiteType_specField_tfae g).out 2 4).mp hg
   refine ⟨U, ?_, x, ?_, hxc, ?_⟩
   · refine (Scheme.preimage_eq_top_of_closedPoint_mem g' ?_).ge
-    show ((Scheme.SpecToEquivOfField k' S) g').1 ∈ U.1
+    change ((Scheme.SpecToEquivOfField k' S) g').1 ∈ U.1
     rw [hg', ← hx]
     exact x.property
   · simpa only [hg'] using hx
-  · show let q := (Scheme.SpecToEquivOfField k' S) g'
+  · change let q := (Scheme.SpecToEquivOfField k' S) g'
       let := q.2.hom.toAlgebra
       Module.Finite (S.residueField q.1) k'
     rw [hg']
-    show Module.Finite k' k'
+    change Module.Finite k' k'
     infer_instance
 
 /-- A locally finite type morphism of schemes sends finite type points to finite type
@@ -116,10 +116,10 @@ theorem mapsTo_finiteTypePoints {T S : Scheme.{u}} (f : T ⟶ S)
       (AlgebraicGeometry.locallyOfFiniteType_comp (hf := ht.1) (hg := inferInstance) _ _)
   have heq : ((Scheme.SpecToEquivOfField (T.residueField t) S)
       (T.fromSpecResidueField t ≫ f)).1 = f t := by
-    show f (T.fromSpecResidueField t (IsLocalRing.closedPoint (T.residueField t))) = f t
+    change f (T.fromSpecResidueField t (IsLocalRing.closedPoint (T.residueField t))) = f t
     congr 1
     exact Scheme.fromSpecResidueField_apply t _
-  show AlgebraicGeometry.IsFiniteTypePoint (f t)
+  change AlgebraicGeometry.IsFiniteTypePoint (f t)
   rwa [← heq]
 
 /-- A point of a scheme that is closed in some affine open neighbourhood is a finite type
@@ -133,23 +133,23 @@ private theorem finiteTypePoint_of_closed_in_affineOpen {S : Scheme.{u}} {x : S}
       ⟨x, CommRingCat.ofHom (RingHom.id (S.residueField x))⟩ := by
     apply (Scheme.SpecToEquivOfField (S.residueField x) S).symm.injective
     rw [(Scheme.SpecToEquivOfField (S.residueField x) S).symm_apply_apply]
-    show f = Spec.map (𝟙 (.of (S.residueField x))) ≫ S.fromSpecResidueField x
+    change f = Spec.map (𝟙 (.of (S.residueField x))) ≫ S.fromSpecResidueField x
     rw [Spec.map_id, Category.id_comp]
   have hcoord : ((Scheme.SpecToEquivOfField (S.residueField x) S) f).1 = x := by
     rw [hspec]
   have hclosedmem : f (IsLocalRing.closedPoint (S.residueField x)) ∈ U := by
-    show ((Scheme.SpecToEquivOfField (S.residueField x) S) f).1 ∈ U
+    change ((Scheme.SpecToEquivOfField (S.residueField x) S) f).1 ∈ U
     rw [hspec]
     exact hx
   have hpre : (⊤ : (Spec (.of (S.residueField x))).Opens) ≤ f ⁻¹ᵁ U :=
     (Scheme.preimage_eq_top_of_closedPoint_mem f hclosedmem).ge
   apply ((finiteType_specField_tfae f).out 4 1).mp
   refine ⟨⟨U, hU⟩, hpre, ⟨x, hx⟩, hcoord.symm, hclosed, ?_⟩
-  show let q := (Scheme.SpecToEquivOfField (S.residueField x) S) f
+  change let q := (Scheme.SpecToEquivOfField (S.residueField x) S) f
     let := q.2.hom.toAlgebra
     Module.Finite (S.residueField q.1) (S.residueField x)
   rw [hspec]
-  show Module.Finite (S.residueField x) (S.residueField x)
+  change Module.Finite (S.residueField x) (S.residueField x)
   infer_instance
 
 /-- Every nonempty locally closed subset of a scheme contains a finite type point. -/
@@ -174,7 +174,7 @@ theorem inter_finiteTypePoints_nonempty {S : Scheme.{u}} {T : Set S}
   have hspecV : xv ⤳ yv := by
     apply (e.isInducing.specializes_iff).mp
     have hpq : p ≤ qps := by
-      show p.asIdeal ≤ qps.asIdeal
+      change p.asIdeal ≤ qps.asIdeal
       simpa [qps] using hpm
     have hpq' := (PrimeSpectrum.le_iff_specializes p qps).mp hpq
     have heq₁ : e xv = p := rfl
@@ -188,10 +188,10 @@ theorem inter_finiteTypePoints_nonempty {S : Scheme.{u}} {T : Set S}
     rw [hTU]
     exact ⟨hVU yv.property, hyclosure⟩
   have hqclosed : IsClosed ({q} : Set (Spec Γ(S, V))) := by
-    show IsClosed ({qps} : Set (PrimeSpectrum Γ(S, V)))
+    change IsClosed ({qps} : Set (PrimeSpectrum Γ(S, V)))
     exact (PrimeSpectrum.isClosed_singleton_iff_isMaximal qps).mpr hm
   have hyclosed : IsClosed ({yv} : Set (↑V)) := by
-    show IsClosed ({e.symm q} : Set (↑V))
+    change IsClosed ({e.symm q} : Set (↑V))
     simpa only [Set.image_singleton] using e.symm.isClosedMap ({q} : Set (Spec Γ(S, V))) hqclosed
   exact ⟨yv, hyT, finiteTypePoint_of_closed_in_affineOpen hV yv.property hyclosed⟩
 

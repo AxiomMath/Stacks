@@ -478,7 +478,7 @@ theorem cycleAssociatedToCoherentSheaf_eq_zero_of_lt (C : ChowSituation.{u}) {X 
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (cycleAssociatedToCoherentSheaf C f M k hk).1 x = 0
+  change (cycleAssociatedToCoherentSheaf C f M k hk).1 x = 0
   by_cases hx : relativeDimension C.dimensionFunction f x = k
   · rw [cycleAssociatedToCoherentSheaf_apply_of_relativeDimension_eq C f M k hk hx]
     refine sheafMultiplicity_eq_zero_of_notMem_supp M fun hmem => ?_

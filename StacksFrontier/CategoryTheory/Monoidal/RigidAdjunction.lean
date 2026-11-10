@@ -191,7 +191,7 @@ theorem tensorRightAdjunction_tensorEvaluation (X Y : C) [ExactPairing X Y] :
   have hcoh : (λ_ Y).inv ▷ X ≫ (α_ (𝟙_ C) Y X).hom ≫ (λ_ (Y ⊗ X)).hom = 𝟙 (Y ⊗ X) := by
     monoidal
   rw [Adjunction.tensorEvaluation_def, tensorRightAdjunction_homEquiv]
-  show (λ_ Y).inv ▷ X ≫ (α_ _ _ _).hom ≫ _ ◁ ε_ X Y ≫ (ρ_ (𝟙_ C)).hom = ε_ X Y
+  change (λ_ Y).inv ▷ X ≫ (α_ _ _ _).hom ≫ _ ◁ ε_ X Y ≫ (ρ_ (𝟙_ C)).hom = ε_ X Y
   rw [← unitors_equal, leftUnitor_naturality, reassoc_of% hcoh]
 
 /-- **The evaluation of an exact pairing is an isomorphism as soon as tensoring on the right by

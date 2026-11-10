@@ -200,7 +200,7 @@ private theorem exists_differenceSequences_core (k : Type u) [Field k] {X : Sche
       Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_cokernel
         (M := tensorModulesDecl X (denominatorIdeal X L s) G) (N := G)
         (denominatorIdealAction X L G s)
-    show (kernel (cokernel.π (denominatorIdealAction X L G s))).IsQuasicoherent
+    change (kernel (cokernel.π (denominatorIdealAction X L G s))).IsQuasicoherent
     exact @Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel X G _
       (cokernel.π (denominatorIdealAction X L G s)) inferInstance hcoker
   have hιmono : Mono (denominatorIdealTimesModuleι X L G s) :=

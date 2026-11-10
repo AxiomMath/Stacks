@@ -54,7 +54,7 @@ theorem pointEquivOver_fibreToSpace :
       {u : yoneda.obj (d.fibre T f) ⟶ Q // u ≫ πQ = yoneda.map (d.fibreHom T f) ≫ f}) =
       (d.pointEquivOver T f (d.fibreHom T f)).symm ⟨𝟙 _, Category.id_comp _⟩ := by
     apply Subtype.ext
-    show _ = yoneda.map (𝟙 _) ≫ _
+    change _ = yoneda.map (𝟙 _) ≫ _
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
   rw [h, Equiv.apply_symm_apply]
 
@@ -74,14 +74,14 @@ include hdom
 theorem relativeMapSubfunctor_eq_top_of_relativeMapDomain_eq_top :
     hψ.relativeMapSubfunctor = ⊤ :=
   top_le_iff.1 fun Y y _ => by
-    show _ ⁻¹ᵁ _ = ⊤
+    change _ ⁻¹ᵁ _ = ⊤
     rw [hdom, Scheme.Hom.preimage_top]
 
 /-- The projection `T ×_X Q ⟶ Q` lies in the domain of definition. -/
 theorem isDefinedOn_fibreToSpace (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X) :
     IsDefinedOn dP dQ hψ.hom T f (dQ.fibreHom T f) (dQ.fibreToSpace T f)
       (dQ.isPullback T f).w := by
-  show _ ⁻¹ᵁ _ = ⊤
+  change _ ⁻¹ᵁ _ = ⊤
   rw [hdom T f, Scheme.Hom.preimage_top]
 
 /-- The projection `T ×_X Q ⟶ Q`, as a point of `U(ψ)`. -/

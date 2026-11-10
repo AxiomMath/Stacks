@@ -275,7 +275,7 @@ theorem eqToHom_deRhamUnit_eq_formsZeroOne :
         (((deRhamAlgebras p).exteriorPieceZeroIsoUnit.hom.val.app (op ⊤)).hom
           ((deRhamAlgebras p).exterior.one.eval (op ⊤))) =
         (deRhamAlgebras p).exterior.one.eval (op ⊤) := by
-      show (((deRhamAlgebras p).exteriorPieceZeroIsoUnit.hom ≫
+      change (((deRhamAlgebras p).exteriorPieceZeroIsoUnit.hom ≫
         (deRhamAlgebras p).exteriorPieceZeroIsoUnit.inv).val.app (op ⊤)).hom _ = _
       rw [Iso.hom_inv_id]
       rfl
@@ -319,7 +319,7 @@ theorem deRhamCohomologyEquivFormsZero_deRhamUnit :
     (relativeDifferentialForms p 0) 0 (cechComputes_restrictScalars_formsZero p)
     (cechComputesSheaf_formsZero p) 0) ?_
   refine eq_of_heq ((heq (add_zero ((0 : ℕ) : ℤ)).symm _).trans (heq_of_eq ?_))
-  show hypercohomologyMap _ (eqToIso _).hom 0 (hypercohomologyMap _ (truncPlusπ _ 0) 0
+  change hypercohomologyMap _ (eqToIso _).hom 0 (hypercohomologyMap _ (truncPlusπ _ 0) 0
     (hypercohomologyMap _ (truncPlusIso _ _ 0).inv 0
       ((SheafOfModules.hypercohomologyIsoDeRhamCohomology (deRhamAlgebras p)
         (SheafOfModules.deRhamDifferential (deRhamAlgebras p)) 0).inv
@@ -328,7 +328,7 @@ theorem deRhamCohomologyEquivFormsZero_deRhamUnit :
           (differentialGradedUnitClass (SheafOfModules.deRhamDifferentialGradedAlgebra
             (deRhamAlgebras p) (SheafOfModules.deRhamDifferential (deRhamAlgebras p))) 0))))) = _
   rw [h1]
-  show hypercohomologyMap _ (eqToIso _).hom 0 (hypercohomologyMap _ (truncPlusπ _ 0) 0
+  change hypercohomologyMap _ (eqToIso _).hom 0 (hypercohomologyMap _ (truncPlusπ _ 0) 0
     (SheafOfModules.truncatedUnitClass (deRhamAlgebras p)
       (SheafOfModules.deRhamDifferential (deRhamAlgebras p)))) = _
   rwa [hypercohomologyMap_truncPlusπ_truncatedUnitClass_zero p, eqToIso.hom,

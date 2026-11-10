@@ -60,6 +60,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
 local instance hasPullbacks_presheaf_inertiaQuotientStackSquare :
     HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance

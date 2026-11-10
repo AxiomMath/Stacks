@@ -74,8 +74,7 @@ universe w v₁ u₁ u
 
 namespace Stacks.Sites
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
 
 /-- **A morphism of sheaves of modules carries `I · M` into `I · N`.**  A section of `I · M` is
 locally a combination of products `a · m`, and a morphism of modules carries such a combination
@@ -241,7 +240,7 @@ theorem mem_idealUnitLocus_inf (W : AlgebraicSpaces B S hS)
   obtain ⟨V, hV, y, rfl⟩ := hI
   obtain ⟨V', g, hV', y', rfl⟩ := (mem_idealUnitLocus_iff_exists_over B S hS W J V y).1 hJ
   refine ⟨V', ?_, y', ?_⟩
-  · show I.obj (op V') ⊓ J.obj (op V') = ⊤
+  · change I.obj (op V') ⊓ J.obj (op V') = ⊤
     rw [SheafOfModules.Submodule.unit_obj_eq_top_of_map I g.op hV, hV', inf_top_eq]
   · rw [← pointsMap_comp_apply, yoneda_map_toOver_map_comp_hom g]
 
@@ -361,7 +360,7 @@ theorem surjective_smallBaseChangeModulePushforward_map_pullbackIdealSubsheaf_ι
   have h1 : chartIdealPullbackHom B S hS f hf V 1 ∈
       N.obj (op ((smallBaseChange B S hS f hf).obj V)) :=
     chartIdealPullbackHom_mem_pullbackIdealSubsheaf B S hS f hf K V (by
-      show _ ∈ K.obj (op V)
+      change _ ∈ K.obj (op V)
       rw [hV]
       trivial)
   rw [map_one] at h1

@@ -110,7 +110,7 @@ theorem exists_affine_pullback_presentation_of_isPullback
         exact ht_fst i i (𝟙 i)
       · simp only [InducedCategory.homMk_hom, ObjectProperty.FullSubcategory.id_hom, F.map_id,
           Category.id_comp]
-        show F.map (t i i (𝟙 i)) ≫ F.map (q i) = F.map (q i)
+        change F.map (t i i (𝟙 i)) ≫ F.map (q i) = F.map (q i)
         rw [← Functor.map_comp, ht_snd i i (𝟙 i)]
         simp only [D₀, Functor.comp_map, CategoryTheory.Functor.map_id]
         rw [Category.comp_id]
@@ -132,7 +132,7 @@ theorem exists_affine_pullback_presentation_of_isPullback
     ι := {
       app i := a i
       naturality i j g := by
-        show F.map (t i j g) ≫ a j = a i ≫ 𝟙 X
+        change F.map (t i j g) ≫ a j = a i ≫ 𝟙 X
         rw [Category.comp_id]
         exact ht_fst i j g } }
   let cY : Cocone G := {
@@ -149,7 +149,7 @@ theorem exists_affine_pullback_presentation_of_isPullback
     have houter : IsPullback (F.map (t i j g) ≫ a j) (F.map (q i)) f (G.map g ≫ gi j) := by
       simpa only [ht_fst i j g, hgi i j g] using hpb i
     have hsq : (E ⋙ K ⋙ F).map g ≫ α.app j = α.app i ≫ G.map g := by
-      show F.map (t i j g) ≫ F.map (q j) = F.map (q i) ≫ F.map (D₀.map g)
+      change F.map (t i j g) ≫ F.map (q j) = F.map (q i) ≫ F.map (D₀.map g)
       rw [← Functor.map_comp, ← Functor.map_comp, ht_snd i j g]
     exact IsPullback.of_right houter hsq (hpb j)
   have hpb' (i : I) : IsPullback (cX.ι.app i) (α.app i) f (cY.ι.app i) := hpb i

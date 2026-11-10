@@ -86,7 +86,7 @@ section Conjugation
 theorem unitFixingMatrix_map_inv_apply {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)
     (g : UnitFixingMatrix R d) (k l : Fin d) :
     (UnitFixingMatrix.map f g).1⁻¹ k l = f (g.1⁻¹ k l) := by
-  show (Matrix.GeneralLinearGroup.map f g.1)⁻¹ k l = _
+  change (Matrix.GeneralLinearGroup.map f g.1)⁻¹ k l = _
   rw [← Matrix.GeneralLinearGroup.map_inv]
   rfl
 
@@ -99,7 +99,7 @@ theorem map_conjugationAction (f : R →+* S) (g : UnitFixingMatrix R d)
       conjugationAction conjugationPreservesAlgebraLaws (UnitFixingMatrix.map f g)
         (FiniteFreeAlgebra.map f m) := by
   refine ext_coeff fun i j k => ?_
-  show f (conjugationCoefficients g m i j k) =
+  change f (conjugationCoefficients g m i j k) =
     conjugationCoefficients (UnitFixingMatrix.map f g) (FiniteFreeAlgebra.map f m) i j k
   simp only [conjugationCoefficients, map_sum, map_mul, unitFixingMatrix_map_inv_apply,
     FiniteFreeAlgebra.map_coeff]
@@ -185,14 +185,14 @@ theorem carrierLift_apply (ψ : R →+* A) (m : FiniteFreeAlgebra R d)
     (b : Module.Basis (Fin d) A B) (hb : b 0 = 1) (h : FiniteFreeAlgebra.map ψ m = ofBasis b hb)
     (x : Carrier m) : carrierLift ψ m b hb h x = ∑ k, ψ (x k) • b k := by
   classical
-  show (algEquivCarrierOfBasis b hb).symm (carrierCongr h (Carrier.mapRingHom ψ m x)) = _
+  change (algEquivCarrierOfBasis b hb).symm (carrierCongr h (Carrier.mapRingHom ψ m x)) = _
   rw [AlgEquiv.symm_apply_eq]
   refine Carrier.ext fun j => ?_
   refine (carrierCongr_apply h _ j).trans ((Carrier.mapRingHom_apply ψ m x j).trans ?_)
-  show ψ (x j) = b.repr (∑ k, ψ (x k) • b k) j
-  simp only [map_sum, map_smul, b.repr_self, Finsupp.coe_finset_sum, Finset.sum_apply,
+  change ψ (x j) = b.repr (∑ k, ψ (x k) • b k) j
+  simp only [map_sum, map_smul, b.repr_self, Finsupp.coe_finsetSum, Finset.sum_apply,
     Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- `Stacks.FormsTrace.carrierLift` is semilinear along `ψ`. -/
 theorem carrierLift_algebraMap (ψ : R →+* A) (m : FiniteFreeAlgebra R d)
@@ -326,7 +326,7 @@ theorem comparisonAct_comp :
       (algebraMap (comparisonBase.{u} g) (comparisonRing.{u} g g')).comp (comparisonAct₀.{u} g) :=
           by
   refine RingHom.ext fun a => ?_
-  show comparisonAct.{u} g g' (algebraMap _ _ (ULift.up a)) = _
+  change comparisonAct.{u} g g' (algebraMap _ _ (ULift.up a)) = _
   exact IsLocalization.Away.lift_eq (ULift.up g')
     (IsLocalization.Away.algebraMap_isUnit (comparisonAct₀.{u} g g')) (ULift.up a)
 
@@ -390,14 +390,14 @@ theorem comparisonAct_discr :
     refine Carrier.ext fun k => ?_
     rw [Function.comp_apply, comparisonEquiv_apply]
     simp only [carrier_basis_apply_coord, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
-    show _ = (∑ j, Carrier.basis T₂ j * algebraMap R'' (Carrier T₂) (M j i)) k
+      Finset.mem_univ, ite_true]
+    change _ = (∑ j, Carrier.basis T₂ j * algebraMap R'' (Carrier T₂) (M j i)) k
     rw [Carrier.sum_apply]
     have hterm : ∀ j, (Carrier.basis T₂ j * algebraMap R'' (Carrier T₂) (M j i)) k =
         M j i * (if k = j then 1 else 0) := fun j => by
       rw [mul_comm, ← Algebra.smul_def, Carrier.smul_apply,
         carrier_basis_apply_coord]
-    simp only [hterm, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [hterm, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rfl
   have hdisc : Algebra.discr R'' (Carrier.basis T₁) =
       M.det ^ 2 * Algebra.discr R'' (Carrier.basis T₂) := by
@@ -407,7 +407,7 @@ theorem comparisonAct_discr :
     ((Matrix.isUnit_iff_isUnit_det M).mp (Units.isUnit _)).pow 2
   rw [discr_tableOfHom, discr_tableOfHom] at hdisc
   refine ⟨↑hunit.unit⁻¹, hunit.unit⁻¹.isUnit, ?_⟩
-  show (comparisonAct.{u} g g').comp (universalChartBaseClassify.{u} g') (universalDiscr d) = _
+  change (comparisonAct.{u} g g').comp (universalChartBaseClassify.{u} g') (universalDiscr d) = _
   rw [show (comparisonPr.{u} g g') (universalChartBaseClassify.{u} g (universalDiscr d)) =
     ((comparisonPr.{u} g g').comp (universalChartBaseClassify.{u} g)) (universalDiscr d) from rfl,
     hdisc, ← mul_assoc, hunit.val_inv_mul, one_mul]
@@ -447,7 +447,7 @@ theorem comparisonPsi₀_left :
     (comparisonPsi₀ e e' he he' hu).comp
         (algebraMap (universalChartBase.{u} g) (comparisonBase.{u} g)) = chartOfBasis e he hu := by
   refine RingHom.ext fun x => ?_
-  show (Algebra.TensorProduct.lift (chartOfBasis e he hu).toIntAlgHom
+  change (Algebra.TensorProduct.lift (chartOfBasis e he hu).toIntAlgHom
     (changeMatrixHom e e' he he').toIntAlgHom (fun _ _ => Commute.all _ _)) (x ⊗ₜ 1) = _
   rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
   rfl
@@ -462,7 +462,7 @@ theorem comparisonPsi₀_matrix :
         (unitFixingRingEquiv.{u} d).toRingHom) =
       (unitFixingHomEquiv d A).symm (changeMatrix e e' he he') := by
     refine RingHom.ext fun y => ?_
-    show (Algebra.TensorProduct.lift (chartOfBasis e he hu).toIntAlgHom
+    change (Algebra.TensorProduct.lift (chartOfBasis e he hu).toIntAlgHom
       (changeMatrixHom e e' he he').toIntAlgHom (fun _ _ => Commute.all _ _))
         (1 ⊗ₜ (unitFixingRingEquiv.{u} d y)) = _
     rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
@@ -516,7 +516,7 @@ theorem comparisonPsi_comp_act :
   have h4 := congrArg (fun φ => φ (comparisonAct₀.{u} g a.down))
     (comparisonPsi_comp_algebraMap e e' he he' hu hu')
   simp only [RingHom.comp_apply] at h1 h2 h3 h4
-  show comparisonPsi e e' he he' hu hu' (comparisonAct.{u} g g'
+  change comparisonPsi e e' he he' hu hu' (comparisonAct.{u} g g'
     (universalChartBaseClassify.{u} g' a.down)) =
       chartOfBasis e' he' hu' (universalChartBaseClassify.{u} g' a.down)
   rw [h1, h4, h3, h2]

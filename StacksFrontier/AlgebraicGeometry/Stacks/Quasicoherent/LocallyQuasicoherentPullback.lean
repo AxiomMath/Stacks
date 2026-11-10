@@ -236,7 +236,7 @@ theorem restrictModuleToSmallEtaleInverseImageMap_smul
         ((eqToHom (ringStructureSheafCore_obj_eq_comp B S hS q hq f hp)).app
           (Opposite.op bb.left))) (Isrc.hom.app W r)) = Itar.hom.app W r := by
     simp only [Isrc, Itar, eqToHom_app]
-    show (Scheme.Γ.map (B.inclusion.map (q.map φ).left).op).hom
+    change (Scheme.Γ.map (B.inclusion.map (q.map φ).left).op).hom
       ((Scheme.Γ.map (B.inclusion.map ((Over.post (X := x)
         ((f ⋙ q) ⋙ Over.forget (B.obj hS))).objObjPreimageIso V).hom.left).op).hom r) =
         (Scheme.Γ.map (B.inclusion.map ((Over.post (X := f.obj x)
@@ -254,7 +254,7 @@ theorem restrictModuleToSmallEtaleInverseImageMap_smul
     ((eqToHom (ringStructureSheafCore_obj_eq_comp B S hS q hq f hp)).app
       (Opposite.op bb.left))) (Isrc.hom.app W r)
   let aG : G.obj (Opposite.op (f.obj bb.left)) := a
-  show G.map φ.op (s • aG) = (Itar.hom.app W r) • G.map φ.op aG
+  change G.map φ.op (s • aG) = (Itar.hom.app W r) • G.map φ.op aG
   rw [G.map_smul, hring]
 
 /-- The restriction at an object `x` of `𝒳` of the inverse image of a presheaf of modules on

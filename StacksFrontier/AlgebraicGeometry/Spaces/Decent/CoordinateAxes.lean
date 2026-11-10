@@ -236,7 +236,7 @@ private lemma originRingMap_surjective (S : CoordinateAxesQuotientSetup.{u}) :
 private lemma origin_asIdeal (S : CoordinateAxesQuotientSetup.{u}) :
     (origin S).asIdeal = RingHom.ker (originRingMap S) := by
   ext a
-  show (originRingMap S) a ∈ (⊥ : Ideal S.k) ↔ (originRingMap S) a = 0
+  change (originRingMap S) a ∈ (⊥ : Ideal S.k) ↔ (originRingMap S) a = 0
   simp
 
 /-- A point of `U` containing both coordinates is the origin. -/
@@ -257,11 +257,11 @@ private lemma origin_eq_of_mem (S : CoordinateAxesQuotientSetup.{u})
       cases i
       · simp only [RingHom.comp_apply, originPolynomialMap,
           MvPolynomial.eval₂Hom_X', Pi.zero_apply, map_zero]
-        show (Ideal.Quotient.mk p.asIdeal) (xClass S.k) = 0
+        change (Ideal.Quotient.mk p.asIdeal) (xClass S.k) = 0
         exact (Ideal.Quotient.eq_zero_iff_mem).mpr hx
       · simp only [RingHom.comp_apply, originPolynomialMap,
           MvPolynomial.eval₂Hom_X', Pi.zero_apply, map_zero]
-        show (Ideal.Quotient.mk p.asIdeal) (yClass S.k) = 0
+        change (Ideal.Quotient.mk p.asIdeal) (yClass S.k) = 0
         exact (Ideal.Quotient.eq_zero_iff_mem).mpr hy
   have hle : RingHom.ker (originRingMap S) ≤ p.asIdeal := by
     intro a ha
@@ -283,10 +283,10 @@ theorem coe_puncturedCoordinateAxes (S : CoordinateAxesQuotientSetup.{u}) :
   have hyopen : (coordinateAxes S).basicOpen (ySection S) =
       PrimeSpectrum.basicOpen (yClass S.k) := basicOpen_eq_of_affine _
   ext p
-  show p ∈ ((coordinateAxes S).basicOpen (xSection S) ⊔
+  change p ∈ ((coordinateAxes S).basicOpen (xSection S) ⊔
     (coordinateAxes S).basicOpen (ySection S)) ↔ p ≠ origin S
   rw [TopologicalSpace.Opens.mem_sup, hxopen, hyopen]
-  show (xClass S.k ∉ p.asIdeal ∨ yClass S.k ∉ p.asIdeal) ↔ _
+  change (xClass S.k ∉ p.asIdeal ∨ yClass S.k ∉ p.asIdeal) ↔ _
   constructor
   · rintro (hx | hy) rfl
     · exact hx (by simp [origin_asIdeal, originRingMap, originPolynomialMap, xClass])
@@ -358,7 +358,7 @@ private lemma coordinateSwap_eq_origin_of_fixed (S : CoordinateAxesQuotientSetup
   have hxy : xClass S.k ∈ p.asIdeal ↔ yClass S.k ∈ p.asIdeal := by
     rw [← hswapX, ← Ideal.mem_comap (f := (swapRingEquiv S).toRingEquiv), hp']
   have hmul : xClass S.k * yClass S.k = 0 := by
-    show Ideal.Quotient.mk (nodalRelationIdeal S.k)
+    change Ideal.Quotient.mk (nodalRelationIdeal S.k)
       (xVariable S.k * yVariable S.k) = 0
     exact (Ideal.Quotient.eq_zero_iff_mem).mpr (Ideal.subset_span (by simp))
   obtain hx | hy := Ideal.IsPrime.mem_or_mem_of_mul_eq_zero p.2 hmul

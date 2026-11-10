@@ -570,7 +570,7 @@ theorem diagonal_projectiveBundle_eq_sum (m : ℤ) :
       ((Scheme.Modules.pullback (pullback.snd (bundleProj E ≫ sX) (bundleProj E ≫ sX))).obj
         (bundleTwist E))) :=
     GenuineChern.isInvertible_pullback _ _
-  show _ = chowGroupCast _ _ _ (GenuineChern.chernFamily _ _ _ n _ _ (capPow _ _ _ _ _ _ _
+  change _ = chowGroupCast _ _ _ (GenuineChern.chernFamily _ _ _ n _ _ (capPow _ _ _ _ _ _ _
     (flatPullbackChow _ _ _ _ _ _ _ _ _ _)))
   rw [hA, ← properChowPushforward_capPow, GenuineChern.capPow_invCap_congr _ _ eL₂,
     chernFamily_properChowPushforward _ _ _ hj _ n _ eE, properChowPushforward_chowGroupCast]

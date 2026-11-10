@@ -170,6 +170,8 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   [IsSeparated (B.inclusion.map g)]
   (jg : CompactificationOf (Over.mk (B.inclusion.map g)))
 
+omit [LocallyOfFiniteType (B.inclusion.map g)] [QuasiCompact (B.inclusion.map g)]
+  [IsSeparated (B.inclusion.map g)] in
 /-- **`Rʳ g_! G` is lisse as soon as every `Rʳ g_! G'ₘ` is locally constant of finite type**,
 `G'` the flat model of `G`. Its levels are the stable images of the `Rʳ g_! G'ₘ`, which are then
 locally constant of finite type, and local constancy descends to the levels as sheaves of

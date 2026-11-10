@@ -93,7 +93,7 @@ theorem etale_field_map_factors_of_isSepClosed
           (fun j => Spec.map (CommRingCat.ofHom (algebraMap k (K j)))) := by
             rw [← Category.assoc, ← ht, Category.assoc]
       _ = t ≫ b := by
-        rw [Sigma.ι_desc]
+        rw [Sigma.ι_comp_desc]
   let l : Spec (.of k) ⟶ V := eSpec.inv ≫ Sigma.ι Y i ≫ e.inv
   have hinv : e.inv ≫ f = Sigma.desc (fun j =>
       Spec.map (CommRingCat.ofHom (algebraMap k (K j)))) := by
@@ -109,7 +109,7 @@ theorem etale_field_map_factors_of_isSepClosed
               dsimp [l]
               rw [Category.assoc, Category.assoc, hinv]
       _ = eSpec.inv ≫ b := by
-        rw [Sigma.ι_desc]
+        rw [Sigma.ι_comp_desc]
       _ = 𝟙 _ := by rw [← hbIso, eSpec.inv_hom_id]
   have hle : l ≫ e.hom = eSpec.inv ≫ Sigma.ι Y i := by
     simp only [l, Category.assoc, Iso.inv_hom_id, Category.comp_id]

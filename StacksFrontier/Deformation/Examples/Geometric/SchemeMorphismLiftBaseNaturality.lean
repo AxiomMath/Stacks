@@ -179,7 +179,7 @@ theorem globalLiftsOverBasePushforward_comp {P₃ : SchemeDeformationCategory (�
       globalLiftsOverBasePushforward f pX pY hf φ' ψ' hb'
         (globalLiftsOverBasePushforward f pX pY hf φ ψ hb ℓ) := by
   refine (eq_globalLiftsOverBasePushforward f pX pY hf (φ ≫ φ') (ψ ≫ ψ') hb'' ℓ _ ?_).symm
-  show _ ≫ ψ'.map ≫ ψ.map = (φ'.map ≫ φ.map) ≫ ℓ.1
+  change _ ≫ ψ'.map ≫ ψ.map = (φ'.map ≫ φ.map) ≫ ℓ.1
   rw [← Category.assoc, globalLiftsOverBasePushforward_fac, Category.assoc,
     globalLiftsOverBasePushforward_fac, Category.assoc]
 
@@ -327,7 +327,7 @@ theorem liftActionTransport_eq_of_vadd (ℓ₁ : globalLiftsOverBase f P₁ Q₁
     ℓ₁ ℓ₁ (globalLiftsOverBasePushforward f pX pY hf φ ψ hb ℓ₁)
   rw [globalLiftsOverBaseVAdd_base f pX pY hf hm₂
     (globalLiftsOverBasePushforward f pX pY hf φ ψ hb ℓ₁)] at h₁
-  show (globalLiftsOverBaseDerivationEquiv f pX pY hf hm₂
+  change (globalLiftsOverBaseDerivationEquiv f pX pY hf hm₂
     (globalLiftsOverBasePushforward f pX pY hf φ ψ hb ℓ₁)).symm _ = _
   rw [h₁, Equiv.symm_apply_apply]
 

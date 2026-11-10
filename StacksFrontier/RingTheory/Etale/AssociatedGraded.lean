@@ -141,7 +141,7 @@ theorem quotMap_one_bijective
     rw [RingHom.comp_apply] at hr
     refine ⟨Ideal.Quotient.mk _ r, ?_⟩
     rw [quotMap, Ideal.quotientMap_mk]
-    show Ideal.Quotient.mk (J ^ 1) (φ r) = Ideal.Quotient.mk (J ^ 1) s
+    change Ideal.Quotient.mk (J ^ 1) (φ r) = Ideal.Quotient.mk (J ^ 1) s
     rw [pow_one, hr]
 
 /-- If `φ` is formally étale and `φ̄ₙ : R/I^n → S/J^n` is bijective for some `n ≥ 1`, then so
@@ -171,7 +171,7 @@ theorem quotMap_succ_bijective
   have hdcomm : ∀ (x : R), (DoubleQuot.quotQuotEquivQuotOfLE hle_pow) (algebraMap R _ x)
       = algebraMap R (R ⧸ I^n) x := by
     intro x
-    show (DoubleQuot.quotQuotEquivQuotOfLE hle_pow) (DoubleQuot.quotQuotMk (I^(n+1)) (I^n) x)
+    change (DoubleQuot.quotQuotEquivQuotOfLE hle_pow) (DoubleQuot.quotQuotMk (I^(n+1)) (I^n) x)
       = Ideal.Quotient.mk (I^n) x
     rw [DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk]
   let d : ((R ⧸ I^(n+1)) ⧸ K) ≃ₐ[R] (R ⧸ I^n) := AlgEquiv.ofRingEquiv hdcomm
@@ -186,7 +186,7 @@ theorem quotMap_succ_bijective
     intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
     rw [Ideal.Quotient.factor_mk]
-    show _ = (DoubleQuot.quotQuotEquivQuotOfLE hle_pow) (DoubleQuot.quotQuotMk (I^(n+1)) (I^n) r)
+    change _ = (DoubleQuot.quotQuotEquivQuotOfLE hle_pow) (DoubleQuot.quotQuotMk (I^(n+1)) (I^n) r)
     rw [DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk]
   have hp_psit : ∀ s : S, p (psit s) = e_n.symm (mkJn s) := by
     intro s
@@ -195,8 +195,8 @@ theorem quotMap_succ_bijective
       have := AlgHom.congr_fun hcomp_lift s
       simpa using this
     rw [this]
-    show d (g s) = e_n.symm (mkJn s)
-    show d ((d.symm.toAlgHom).comp ((e_n.symm.toAlgHom).comp mkJn) s) = e_n.symm (mkJn s)
+    change d (g s) = e_n.symm (mkJn s)
+    change d ((d.symm.toAlgHom).comp ((e_n.symm.toAlgHom).comp mkJn) s) = e_n.symm (mkJn s)
     simp
   have hkill : ∀ s ∈ J^(n+1), psit s = 0 := by
     have hJle : J ≤ (Ideal.map φ I) ⊔ J^n := by
@@ -220,7 +220,7 @@ theorem quotMap_succ_bijective
     have hpsitφ : psit.toRingHom.comp φ = Bmk1 := by
       apply RingHom.ext
       intro r
-      show psit (φ r) = Bmk1 r
+      change psit (φ r) = Bmk1 r
       have : psit (φ r) = psit (algebraMap R S r) := rfl
       rw [this, AlgHom.commutes]
       rfl
@@ -235,7 +235,7 @@ theorem quotMap_succ_bijective
       rw [Ideal.mem_comap]
       apply hKK1
       rw [hK, ← Ideal.Quotient.factor_ker hle_pow, RingHom.mem_ker]
-      show p (psit s) = 0
+      change p (psit s) = 0
       rw [hp_psit]
       have : (mkJn s) = Ideal.Quotient.mk (J^n) s := rfl
       rw [this, (Ideal.Quotient.eq_zero_iff_mem).mpr hs]
@@ -259,12 +259,12 @@ theorem quotMap_succ_bijective
     apply Ideal.Quotient.ringHom_ext
     ext r
     simp only [RingHom.comp_apply]
-    show psi (quotMap φ J (n+1) (Ideal.Quotient.mk (I^(n+1)) r)) = Ideal.Quotient.mk (I^(n+1)) r
+    change psi (quotMap φ J (n+1) (Ideal.Quotient.mk (I^(n+1)) r)) = Ideal.Quotient.mk (I^(n+1)) r
     rw [quotMap, Ideal.quotientMap_mk]
-    show psi (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
-    show Ideal.Quotient.lift (J^(n+1)) psit.toRingHom _ (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
+    change psi (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
+    change Ideal.Quotient.lift (J^(n+1)) psit.toRingHom _ (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
     rw [Ideal.Quotient.lift_mk]
-    show psit (φ r) = _
+    change psit (φ r) = _
     have : psit (φ r) = psit (algebraMap R S r) := rfl
     rw [this, AlgHom.commutes]
     rfl
@@ -281,7 +281,7 @@ theorem quotMap_succ_bijective
     have hdtgt_comm : ∀ (x : S), (DoubleQuot.quotQuotEquivQuotOfLE hleJ) (algebraMap S _ x)
         = algebraMap S (S ⧸ J^n) x := by
       intro x
-      show (DoubleQuot.quotQuotEquivQuotOfLE hleJ) (DoubleQuot.quotQuotMk (J^(n+1)) (J^n) x)
+      change (DoubleQuot.quotQuotEquivQuotOfLE hleJ) (DoubleQuot.quotQuotMk (J^(n+1)) (J^n) x)
         = Ideal.Quotient.mk (J^n) x
       rw [DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk]
     let dtgt : ((S ⧸ J^(n+1)) ⧸ Ktgt) ≃ₐ[S] (S ⧸ J^n) := AlgEquiv.ofRingEquiv hdtgt_comm
@@ -289,17 +289,17 @@ theorem quotMap_succ_bijective
       intro x
       obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective x
       rw [Ideal.Quotient.factor_mk]
-      show _ = (DoubleQuot.quotQuotEquivQuotOfLE hleJ) (DoubleQuot.quotQuotMk (J^(n+1)) (J^n) s)
+      change _ = (DoubleQuot.quotQuotEquivQuotOfLE hleJ) (DoubleQuot.quotQuotMk (J^(n+1)) (J^n) s)
       rw [DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk]
     have hsq : ∀ x, pS (quotMap φ J (n+1) x) = quotMap φ J n (p x) := by
       intro x
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show pS (quotMap φ J (n+1) (Ideal.Quotient.mk (I^(n+1)) r)) = quotMap φ J n (p
+      change pS (quotMap φ J (n+1) (Ideal.Quotient.mk (I^(n+1)) r)) = quotMap φ J n (p
           (Ideal.Quotient.mk (I^(n+1)) r))
       rw [quotMap, Ideal.quotientMap_mk]
-      show pS (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
+      change pS (Ideal.Quotient.mk (J^(n+1)) (φ r)) = _
       rw [Ideal.Quotient.factor_mk]
-      show _ = quotMap φ J n (Ideal.Quotient.factor hle_pow (Ideal.Quotient.mk (I^(n+1)) r))
+      change _ = quotMap φ J n (Ideal.Quotient.factor hle_pow (Ideal.Quotient.mk (I^(n+1)) r))
       rw [Ideal.Quotient.factor_mk, quotMap, Ideal.quotientMap_mk]
     have hen_eq : ∀ x, e_n x = quotMap φ J n x := fun x => rfl
     have hkey : ∀ s : S, quotMap φ J (n+1) (psit s) = Ideal.Quotient.mk (J^(n+1)) s := by
@@ -309,10 +309,10 @@ theorem quotMap_succ_bijective
         apply Algebra.FormallyUnramified.lift_unique Ktgt hKtgt_nil g1 g2
         apply AlgHom.ext
         intro s
-        show (Ideal.Quotient.mk Ktgt) (g1 s) = (Ideal.Quotient.mk Ktgt) (g2 s)
+        change (Ideal.Quotient.mk Ktgt) (g1 s) = (Ideal.Quotient.mk Ktgt) (g2 s)
         apply dtgt.injective
         rw [← hpSd, ← hpSd]
-        show pS (quotMap φ J (n+1) (psit s)) = pS (Ideal.Quotient.mk (J^(n+1)) s)
+        change pS (quotMap φ J (n+1) (psit s)) = pS (Ideal.Quotient.mk (J^(n+1)) s)
         rw [hsq, Ideal.Quotient.factor_mk, hp_psit, ← hen_eq, AlgEquiv.apply_symm_apply]
         rfl
       exact fun s => AlgHom.congr_fun heq s
@@ -320,8 +320,8 @@ theorem quotMap_succ_bijective
     apply RingHom.ext
     intro s
     simp only [RingHom.comp_apply, RingHom.id_apply]
-    show quotMap φ J (n+1) (psi (Ideal.Quotient.mk (J^(n+1)) s)) = Ideal.Quotient.mk (J^(n+1)) s
-    show quotMap φ J (n+1) (Ideal.Quotient.lift (J^(n+1)) psit.toRingHom _ (Ideal.Quotient.mk
+    change quotMap φ J (n+1) (psi (Ideal.Quotient.mk (J^(n+1)) s)) = Ideal.Quotient.mk (J^(n+1)) s
+    change quotMap φ J (n+1) (Ideal.Quotient.lift (J^(n+1)) psit.toRingHom _ (Ideal.Quotient.mk
         (J^(n+1)) s)) = _
     rw [Ideal.Quotient.lift_mk]
     exact hkey s

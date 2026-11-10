@@ -108,7 +108,7 @@ theorem fittingIdeal_quotient_span_singleton (Ψ : M →+ R) (hΨ : Function.Bij
     (Ideal.span {e z₀})).trans ?_
   ext a
   rw [Ideal.mem_comap, Ideal.mem_span_singleton, Ideal.mem_span_singleton]
-  show ρe.symm (Ψ z₀) ∣ a ↔ Ψ z₀ ∣ ρ a
+  change ρe.symm (Ψ z₀) ∣ a ↔ Ψ z₀ ∣ ρ a
   rw [← map_dvd_iff ρe, ρe.apply_symm_apply]
   rfl
 
@@ -128,7 +128,7 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (fX : X ⟶ Spec (.of k)) [IsPr
 
 /-- The image of the cocycles of `C.X₂` in those of `C.X₃` is spanned by the cocycle of `β(s)`
 when the cocycle of `s` spans the cocycles of `C.X₂`. -/
-private theorem range_kerMap_eq_span_sectionCocycle (C : ShortComplex XA.Modules) (s : Γ(C.X₂, ⊤))
+theorem range_kerMap_eq_span_sectionCocycle (C : ShortComplex XA.Modules) (s : Γ(C.X₂, ⊤))
     (hs : Submodule.span A {sectionCocycle fA (sqCover U gA) C.X₂ s} = ⊤) :
     LinearMap.range (Stacks.TwoTermComplex.kerMap (cechD_comp_cechMap fA (sqCover U gA) C.g)) =
       Submodule.span A {sectionCocycle fA (sqCover U gA) C.X₃ (C.g.app ⊤ s)} := by
@@ -217,7 +217,7 @@ private theorem exists_bijective_semilinear_sectionCocycle (F : Z.Modules) {R : 
   obtain ⟨q, rfl⟩ := Φ.surjective z
   have h2 : a • Φ q = Φ ((Stacks.Cech.baseRingHom fZ ⊤).hom a • q) :=
     (sectionCocycle_smul fZ V F a q).symm
-  show e (Φ.symm (a • Φ q)) = _ * e (Φ.symm (Φ q))
+  change e (Φ.symm (a • Φ q)) = _ * e (Φ.symm (Φ q))
   rw [h2, Φ.symm_apply_apply, Φ.symm_apply_apply]
   exact hsmul a q
 
@@ -297,7 +297,7 @@ theorem divisorRingHom_eq :
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫ (D.subschemeι ≫ fA).appTop).hom := by
   rw [Scheme.Hom.comp_appTop]
   ext a
-  show D.subschemeι.appTop ((Stacks.Cech.globalRingHom fA ≫
+  change D.subschemeι.appTop ((Stacks.Cech.globalRingHom fA ≫
     XA.presheaf.map (homOfLE le_top).op) a) = _
   rw [show (homOfLE (le_top : (⊤ : XA.Opens) ≤ ⊤)).op = 𝟙 _ from rfl, CategoryTheory.Functor.map_id,
     Category.comp_id]
@@ -549,7 +549,7 @@ theorem nonempty_chartMap_pullback_tensor_iso [IsEffectiveCartierDivisor (diagId
         x from Stacks.Picard.classOf_picardRepresentative _ _,
     picardClass_pullback_module (pullback.fst fX (j ≫ fX)) N
       ‹SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property N› hP]
-  show _ + Stacks.Divisors.picardClass DA = _
+  change _ + Stacks.Divisors.picardClass DA = _
   rw [← picardClass_congr hDA, ← Stacks.Divisors.schemePullbackClass_picardClass,
     ← Stacks.Picard.schemePullbackClass_add, hx, Stacks.Picard.schemePullbackClass_comp]
   congr 1

@@ -194,14 +194,14 @@ theorem isTorsionFreeOver_restrictToChart_of_injective_smul {W : BigFppfOver B S
     rw [IsLocalization.mk'_zero] at hts
     exact not_isRegular_zero (show _root_.IsRegular (0 : Ws.presheaf.stalk (α' u)) from hts ▸ ha)
   refine ⟨⊤, trivial, t, ⟨algebraMap Γ(Ws, ⊤) (Ws.presheaf.stalk (α' u)) (s : Γ(Ws, ⊤)), ?_⟩, ?_⟩
-  · show Ws.presheaf.germ ⊤ (α' u) trivial t = _
+  · change Ws.presheaf.germ ⊤ (α' u) trivial t = _
     rw [← hts]
     exact (IsLocalization.mk'_spec (Ws.presheaf.stalk (α' u)) t s).symm
   · intro O huO hO
     let β : (SmallEtale.toOver B S hS X.1).obj ((chartOpens B S hS U).obj O) ⟶ W :=
       chartOpenOverι B S hS U O ≫ α
     have hβ : ((chartOpens B S hS U).obj O).1.hom ≫ f.hom = yoneda.map β := by
-      show (yoneda.map (chartOpenOverι B S hS U O) ≫ U.obj.hom) ≫ f.hom = _
+      change (yoneda.map (chartOpenOverι B S hS U O) ≫ U.obj.hom) ≫ f.hom = _
       rw [Category.assoc, hα]
       exact (yoneda.map_comp _ _).symm
     have e2 : ((BigFppfOver.toScheme B S hS).map β).appTop t =

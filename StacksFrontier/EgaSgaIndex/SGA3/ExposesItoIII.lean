@@ -204,6 +204,14 @@ The `add_to_sga` registrations of SGA 3, Exposés I, II and III, re-exported by
 `StacksFrontier.EgaSgaIndex.SGA3`.
 -/
 
+/-- `add_to_sga_long "ref" "comment" "Full.Name"` is `add_to_sga "ref" "comment" Full.Name`,
+with the declaration named by a string literal, which can be wrapped with `\` gaps: for
+Mathlib's generated instance names that do not fit on one line. -/
+local syntax "add_to_sga_long " str ppSpace str ppSpace str : command
+
+macro_rules
+  | `(add_to_sga_long $r $c $n) => `(add_to_sga $r $c $(Lean.mkIdent n.getString.toName))
+
 add_to_sga "3 I 1.1" CategoryTheory.Functor
 add_to_sga "3 I 1.1" CategoryTheory.Functor.IsRepresentable
 add_to_sga "3 I 1.1" CategoryTheory.Functor.RepresentableBy
@@ -542,11 +550,13 @@ add_to_sga "3 I 4.2" "base Spec ℤ" AlgebraicGeometry.AffineScheme.ΓIsEquiv
 add_to_sga "3 I 4.2" AlgebraicGeometry.IsAffineHom
 add_to_sga "3 I 4.2" "base Spec ℤ" AlgebraicGeometry.Spec
 add_to_sga "3 I 4.2" "affine base" AlgebraicGeometry.algSpec
-add_to_sga "3 I 4.2" "partial"
-  AlgebraicGeometry.instBialgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfMonObjOverSchemeSpecAsOverOfIsAffine
+add_to_sga_long "3 I 4.2" "partial"
+  "AlgebraicGeometry.instBialgebraCarrierObjOppositeOpensCarrierCarrierCommRingCat\
+    PresheafOpOpensTopOfMonObjOverSchemeSpecAsOverOfIsAffine"
 add_to_sga "3 I 4.2" "partial" AlgebraicGeometry.instCommGrpObjSpecAsOverSpec
-add_to_sga "3 I 4.2" "affine base, partial"
-  AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine
+add_to_sga_long "3 I 4.2" "affine base, partial"
+  "AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCat\
+    PresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine"
 add_to_sga "3 I 4.2" "partial"
   AlgebraicGeometry.instIsIsoSchemeAppUnitOppositeCommRingCatAdjunctionOfIsAffine
 add_to_sga "3 I 4.2" "partial" AlgebraicGeometry.instMonObjSpecAsOverSpec
@@ -785,8 +795,9 @@ add_to_sga "3 III 0.1.7" "(1), special case" Algebra.Extension.toInfinitesimal
 add_to_sga "3 III 0.1.7" "special case" AlgebraicGeometry.AffineScheme.equivCommRingCat
 add_to_sga "3 III 0.1.7" "partial" AlgebraicGeometry.IsAffine.of_isPullback
 add_to_sga "3 III 0.1.7" "(a)" AlgebraicGeometry.ext_of_isAffine
-add_to_sga "3 III 0.1.7" "(a), special case"
-  AlgebraicGeometry.instAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfOverSpecOfIsAffine
+add_to_sga_long "3 III 0.1.7" "(a), special case"
+  "AlgebraicGeometry.instAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCat\
+    PresheafOpOpensTopOfOverSpecOfIsAffine"
 add_to_sga "3 III 0.1.7" "(a), special case"
   AlgebraicGeometry.instIsAffinePullbackSchemeOfIsAffineHom
 add_to_sga "3 III 0.1.7" "(a), special case"

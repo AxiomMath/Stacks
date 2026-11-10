@@ -124,7 +124,7 @@ theorem isEtaleChart_chartHom {U : BigFppfOver B S hS} (φ : yoneda.obj U ⟶ X.
     (hφ : IsEtaleChart B S hS X.obj (CostructuredArrow.mk φ)) :
     IsEtaleChart B' S (largerContains h hS) ((changeBigSite B B' h S hS).obj X).obj
       (CostructuredArrow.mk (chartHom B B' h S hS X φ)) := by
-  show MorphismProperty.presheaf _ (chartHom B B' h S hS X φ)
+  change MorphismProperty.presheaf _ (chartHom B B' h S hS X φ)
   refine (isEtale_iff_presheaf_of_yoneda B' S (largerContains h hS) _).mp ?_
   refine (chartHom_eq B B' h S hS X φ).symm ▸ ?_
   refine isEtale_comp _ _ _ (@isEtale_of_isIso _ _ _ _ _ _ (Iso.isIso_hom _)) ?_

@@ -386,7 +386,7 @@ theorem pullbackHgroup_sectionGysinClass_ne_zero (hσ : σ ≫ f = 𝟙 _) (m : 
       (isKoszulRegularImmersion_of_smooth_of_smooth σ f)
       (isKoszulRegularImmersion_of_smooth_of_smooth σ' f') 0 0)
   simp only [AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply] at key
-  show (pullbackHgroup _ _ _ _ _ _).hom ((gysinCohomologyMap _ _ _ _ _ _ _ 0).hom
+  change (pullbackHgroup _ _ _ _ _ _).hom ((gysinCohomologyMap _ _ _ _ _ _ _ 0).hom
     (subschemeUnitClass f σ)) ≠ 0
   rw [key]
   -- the Gysin map of the rational point is injective on `H⁰`, by duality
@@ -584,7 +584,7 @@ generates the top Čech cohomology `H^{0+(e+1)}(Č(𝒰, Ω^{0+(e+1)}_{X/A}))` a
 theorem span_sectionGysinClass_eq_top [IsNoetherianRing A] [IsProper f] [IsIso f.appTop]
     (e : ℕ) [SmoothOfRelativeDimension (e + 1) f] (σ : Spec (.of A) ⟶ X) [IsClosedImmersion σ]
     [LocallyOfFinitePresentation σ] [Smooth (σ ≫ f)] [FormallyUnramified (σ ≫ f)]
-    (hσ : σ ≫ f = 𝟙 _) {I : Type u} [Fintype I] [LinearOrder I] (U : I → X.Opens)
+    (hσ : σ ≫ f = 𝟙 _) {I : Type u} [Finite I] [LinearOrder I] (U : I → X.Opens)
     (hU : (⊤ : X.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i)) :
     Submodule.span A {(show ↑((alternatingCechModuleComplex f U
         (f.relativeDifferentialForms (((0 : ℕ) : ℤ) + ((e + 1 : ℕ) : ℤ)))).homology (0 + (e + 1)))

@@ -29,8 +29,8 @@ transported comorphisms have equal comorphisms on the ambient site, and converse
 This is where the uniqueness half of [Stacks Project, Tag 0CKE] starts: two sections of `Γ₀` with
 the same difference have, by [Stacks Project, Tag 0618], the same transported comorphism; this
 file carries that equality back to the site of `W`, where
-`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/ThickeningSharpChartProjection.lean` reads it on
-étale scheme charts.
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/ThickeningSharpChartProjection.lean` reads it
+on étale scheme charts.
 
 ## Main results
 

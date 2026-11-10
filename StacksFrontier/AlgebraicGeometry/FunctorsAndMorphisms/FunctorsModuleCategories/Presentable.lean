@@ -65,7 +65,7 @@ public lemma finiteFree_isFinitelyPresentable (A : Type u) [Ring A] (n : ℕ) :
     (ModuleCat.adj A).isCardinalPresentable_leftAdjoint_obj _ _
   have : IsCardinalPresentable (ModuleCat.of A (ULift.{u} (Fin n) →₀ A))
       (Cardinal.aleph0 : Cardinal.{u}) := by
-    show IsCardinalPresentable ((ModuleCat.free A).obj (ULift.{u} (Fin n))) _
+    change IsCardinalPresentable ((ModuleCat.free A).obj (ULift.{u} (Fin n))) _
     infer_instance
   exact isCardinalPresentable_of_iso
     (((Finsupp.domLCongr (R := A) (M := A)

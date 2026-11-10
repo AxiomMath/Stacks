@@ -57,15 +57,15 @@ private theorem map_shortExactResolutionUnit_quasiIsoAt_zero_aux
         (show (ComplexShape.up ℤ).Rel 0 1 by rfl))).symm
       (F.mapIso (HomologicalComplex.doubleXIso₁ S.g
         (show (ComplexShape.up ℤ).Rel 0 1 by rfl) (by norm_num))).symm ?_ ?_) hS
-    · show F.map _ ≫ F.map _ = F.map _ ≫ F.map _
+    · change F.map _ ≫ F.map _ = F.map _ ≫ F.map _
       rw [← F.map_comp, ← F.map_comp]
       congr 1
       simp [shortExactResolutionUnit_f_zero]
-    · show F.map _ ≫ F.map _ = F.map _ ≫ F.map _
+    · change F.map _ ≫ F.map _ = F.map _ ≫ F.map _
       rw [← F.map_comp, ← F.map_comp]
       congr 1
       simp [HomologicalComplex.double_d]
-  · show Mono (F.map ((shortExactResolutionUnit S).f 0))
+  · change Mono (F.map ((shortExactResolutionUnit S).f 0))
     rw [shortExactResolutionUnit_f_zero, F.map_comp, F.map_comp]
     infer_instance
 
@@ -92,7 +92,7 @@ private theorem map_shortExactResolutionUnit_quasiIso_aux
       apply ((G.obj L).exactAt_iff' 0 1 2 (by simp) (by simp)).2
       apply (((G.obj L).sc' 0 1 2).exact_iff_epi (by
         simp [G, L, HomologicalComplex.double_d_eq_zero₀])).2
-      show Epi (F.map (L.d 0 1))
+      change Epi (F.map (L.d 0 1))
       dsimp [L]
       rw [HomologicalComplex.double_d _ _ (by norm_num), F.map_comp, F.map_comp]
       infer_instance

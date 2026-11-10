@@ -149,7 +149,7 @@ field is dominant: the inclusion is injective, so its kernel is contained in the
 theorem isDominant_specMap_algebraMap_fractionRing (A : Type u) [CommRing A] [IsDomain A] :
     IsDominant (Spec.map (CommRingCat.ofHom (algebraMap A (FractionRing A)))) := by
   rw [isDominant_iff, DenseRange]
-  show DenseRange (PrimeSpectrum.comap (algebraMap A (FractionRing A)))
+  change DenseRange (PrimeSpectrum.comap (algebraMap A (FractionRing A)))
   rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical,
     (RingHom.injective_iff_ker_eq_bot _).mp (IsFractionRing.injective A (FractionRing A))]
   exact bot_le

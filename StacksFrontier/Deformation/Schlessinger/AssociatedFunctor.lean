@@ -461,13 +461,12 @@ public theorem schlessingerConditionS2_of_isIsomorphismClasses
             (𝓕.p.map b.hom = 𝟙 (𝓕.p.obj xε)) ∧
               (b.hom ≫ e = e ≫ a.hom))) :
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕)) := by
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕)) := by
   classical
   let data := isomorphismClassesData 𝓕 h𝓕
   have : (BasedCategory.ofFunctor (Functor.Elements.π data.classes)).p.Faithful :=
     inferInstanceAs (Functor.Elements.π data.classes).Faithful
-  have : (BasedCategory.ofFunctor (CategoryOfElements.π data.classes)).p.Faithful := this
-  show SchlessingerConditionS2 (BasedCategory.ofFunctor (Functor.Elements.π data.classes)).p
+  change SchlessingerConditionS2 (BasedCategory.ofFunctor (Functor.Elements.π data.classes)).p
   exact ⟨completion_of_isIsomorphismClasses data.quotient hS2,
     comparison_of_isIsomorphismClasses data.quotient h𝓕 hS2 hSpecial⟩
 

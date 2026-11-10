@@ -340,9 +340,9 @@ theorem powFunctorIsoApp_zero_hom (X : D) :
 constraint of `L`. It is the triangle identity. -/
 theorem powAppOne_eq (X : D) : powAppOne L X = whiskerLeftIso X (powOneIso L).symm := by
   apply Iso.ext
-  show (powFunctorIsoApp L 1 X).hom = X ◁ (powOneIso L).inv
+  change (powFunctorIsoApp L 1 X).hom = X ◁ (powOneIso L).inv
   refine (powFunctorIsoApp_succ_hom L 0 1 rfl X).trans ?_
-  show 𝟙 (X ⊗ L) ≫ ((ρ_ X).inv ▷ L) ≫ (α_ X (𝟙_ D) L).hom ≫ (X ◁ 𝟙 (𝟙_ D ⊗ L)) =
+  change 𝟙 (X ⊗ L) ≫ ((ρ_ X).inv ▷ L) ≫ (α_ X (𝟙_ D) L).hom ≫ (X ◁ 𝟙 (𝟙_ D ⊗ L)) =
     X ◁ (λ_ L).inv
   monoidal
 
@@ -364,7 +364,7 @@ theorem powAddIso_zero_left_hom (n : ℤ) (h : 0 + n = n) :
 theorem mul_zero_right (n : ℤ) (h : n + 0 = n) :
     mul L n 0 n h = powRightUnitor L (pow L n) := by
   apply Iso.ext
-  show (powRightUnitor L (pow L n)).hom ≫ (powAddIso L n 0 n h).hom =
+  change (powRightUnitor L (pow L n)).hom ≫ (powAddIso L n 0 n h).hom =
     (powRightUnitor L (pow L n)).hom
   rw [powAddIso_zero_right_hom]
   simp
@@ -400,7 +400,7 @@ theorem leftUnitor_powSucc (n p : ℤ) (h : n + 1 = p) :
     ((powLeftUnitor L (pow L n)).inv ▷ L) ≫ (α_ (pow L 0) (pow L n) L).hom ≫
         (pow L 0 ◁ (powSuccIso L n p h).hom) =
       (powSuccIso L n p h).hom ≫ (powLeftUnitor L (pow L p)).inv := by
-  show ((λ_ (pow L n)).inv ▷ L) ≫ (α_ (𝟙_ D) (pow L n) L).hom ≫
+  change ((λ_ (pow L n)).inv ▷ L) ≫ (α_ (𝟙_ D) (pow L n) L).hom ≫
       (𝟙_ D ◁ (powSuccIso L n p h).hom) = (powSuccIso L n p h).hom ≫ (λ_ (pow L p)).inv
   simp only [MonoidalCategory.leftUnitor_inv_whiskerRight_assoc, Iso.inv_hom_id_assoc]
   rw [← MonoidalCategory.leftUnitor_inv_naturality]
@@ -414,7 +414,7 @@ private theorem powAppUnit_hom_iff (n p : ℤ) (h : n + 1 = p) :
   constructor
   · intro H
     apply (CategoryTheory.MonoidalCategory.tensorRight L).map_injective
-    show (powAppUnit L n).hom ▷ L = (powLeftUnitor L (pow L n)).inv ▷ L
+    change (powAppUnit L n).hom ▷ L = (powLeftUnitor L (pow L n)).inv ▷ L
     rw [← cancel_mono ((α_ (pow L 0) (pow L n) L).hom ≫ (pow L 0 ◁ (powSuccIso L n p h).hom)),
       key, ← H, Iso.hom_inv_id_assoc]
   · intro H
@@ -429,7 +429,7 @@ theorem powAppUnit_hom (n : ℤ) :
     (powAppUnit L n).hom = (powLeftUnitor L (pow L n)).inv := by
   induction n using Int.induction_on with
   | zero =>
-      show (ρ_ (𝟙_ D)).inv = (λ_ (𝟙_ D)).inv
+      change (ρ_ (𝟙_ D)).inv = (λ_ (𝟙_ D)).inv
       exact MonoidalCategory.unitors_inv_equal.symm
   | succ i ih =>
       exact (powAppUnit_hom_iff L i (i + 1) rfl).2 ih
@@ -453,7 +453,7 @@ theorem mul_zero_left (n : ℤ) (h : 0 + n = n) :
     mul L 0 n n h = powLeftUnitor L (pow L n) := by
   rw [mul_zero_left_eq, powAddZeroLeftIso_eq, Iso.trans_refl]
   apply Iso.ext
-  show (powAppUnit L n).inv = (powLeftUnitor L (pow L n)).hom
+  change (powAppUnit L n).inv = (powLeftUnitor L (pow L n)).hom
   rw [← cancel_epi (powAppUnit L n).hom, Iso.hom_inv_id, powAppUnit_hom]
   simp
 
@@ -624,7 +624,7 @@ theorem mulConj_eq (m k : ℤ) : ∀ (t : ℤ) (h : m + k = t) (X : D),
           𝟙 (((tensorRightEquiv L) ^ t).functor.obj X) :=
         powAdd_zero_right_app L t h X
       rw [mulConj, mulFunctorConj, mul_zero_right]
-      show (α_ X (pow L t) (𝟙_ D)).hom ≫ (X ◁ (ρ_ (pow L t)).hom) ≫
+      change (α_ X (pow L t) (𝟙_ D)).hom ≫ (X ◁ (ρ_ (pow L t)).hom) ≫
           (powFunctorIsoApp L t X).inv =
         ((powFunctorIsoApp L t X).inv ▷ 𝟙_ D) ≫
           ((ρ_ (((tensorRightEquiv L) ^ t).functor.obj X)).hom ≫
@@ -691,7 +691,7 @@ theorem tensorRightFunctor_eq : (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v,
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L =
     CategoryTheory.MonoidalCategory.tensorRight L := by
   refine CategoryTheory.Functor.ext (fun X => rfl) (fun X Y f => ?_)
-  show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+  change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
         L).map f = 𝟙 _ ≫ (CategoryTheory.MonoidalCategory.tensorRight L).map f ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
@@ -756,7 +756,7 @@ theorem mulIso_one_right (n p : ℤ) (h : n + 1 = p) :
         Stacks.MonoidalCategory.powSuccIso L n p h := by
   rw [mulIso, Stacks.MonoidalCategory.mul_one_right]
   apply Iso.ext
-  show _ = (tensorSheafMapIso O hO (Iso.refl (pow L n)) (powOneIso L)).hom ≫ _
+  change _ = (tensorSheafMapIso O hO (Iso.refl (pow L n)) (powOneIso L)).hom ≫ _
   rw [Stacks.SheafOfModules.tensorSheafMapIso_hom_eq]
   simp
   rfl

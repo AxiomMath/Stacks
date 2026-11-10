@@ -112,7 +112,7 @@ private lemma exists_clopen_cover_of_hasPropertyA {X Y : Scheme.{u}} (f : X ⟶ 
     MorphismProperty.Over.homMk
       (coprod.inl (X := W x) (Y := W' x) ≫ (e x).hom ≫ (pullbackSymmetry f (g x)).hom)
       (by
-        show (coprod.inl (X := W x) (Y := W' x) ≫ (e x).hom ≫
+        change (coprod.inl (X := W x) (Y := W' x) ≫ (e x).hom ≫
           (pullbackSymmetry f (g x)).hom) ≫ pullback.snd (g x) f = h x ≫ U.hom
         rw [← Category.assoc, Category.assoc, pullbackSymmetry_hom_comp_snd]
         exact (hbase x).symm)
@@ -120,7 +120,7 @@ private lemma exists_clopen_cover_of_hasPropertyA {X Y : Scheme.{u}} (f : X ⟶ 
     MorphismProperty.Over.homMk
       (coprod.inr ≫ (e x).hom ≫ (pullbackSymmetry f (g x)).hom)
       (by
-        show (coprod.inr ≫ (e x).hom ≫ (pullbackSymmetry f (g x)).hom) ≫
+        change (coprod.inr ≫ (e x).hom ≫ (pullbackSymmetry f (g x)).hom) ≫
           pullback.snd (g x) f = coprod.inr ≫ (e x).hom ≫ pullback.fst f (g x)
         rw [← Category.assoc, Category.assoc, pullbackSymmetry_hom_comp_snd]
         rfl)
@@ -203,12 +203,12 @@ private lemma exists_section_of_coprod {X : Scheme.{u}}
     cases q' with
     | inl v =>
         refine ⟨false, v, ?_⟩
-        show a.left v = y
+        change a.left v = y
         rw [← hq, ← hq']
         simp only [he, coprodMk_inl, ← Scheme.Hom.comp_apply, coprod.inl_desc]
     | inr v =>
         refine ⟨true, v, ?_⟩
-        show b.left v = y
+        change b.left v = y
         rw [← hq, ← hq']
         simp only [he, coprodMk_inr, ← Scheme.Hom.comp_apply, coprod.inr_desc]
   have hinj : ∀ {C : X.Etale} (c : C ⟶ P) (ι : C.left ⟶ A.left ⨿ B.left) [Mono ι],

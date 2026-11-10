@@ -39,8 +39,9 @@ right unit one below.
 
 The two crossings between the spelling of the general statement and the spelling of the base site
 are paid in `private` lemmas rather than inside the proof, for the reason recorded at the head of
-`StacksFrontier/AlgebraicGeometry/Picard/BaseAssociatedModuleCoherenceComplete.lean`: each crosses on
-its own by `rfl`, and the recursion of a `have` is measured on top of the enclosing elaboration.
+`StacksFrontier/AlgebraicGeometry/Picard/BaseAssociatedModuleCoherenceComplete.lean`: each crosses
+on its own by `rfl`, and the recursion of a `have` is measured on top of the enclosing
+elaboration.
 Nothing here raises a compiler limit or disables a linter.
 
 ## References

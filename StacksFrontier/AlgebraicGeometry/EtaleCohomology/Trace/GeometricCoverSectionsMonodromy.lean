@@ -116,13 +116,13 @@ theorem selfMapPathAut_app_section (V : FiniteEtaleOver S)
   have hpt : π.hom.app (terminalCover Y) (terminalCoverPoint y) = terminalCoverPoint (y.map s) :=
     Subsingleton.elim (α := (finiteEtaleFiberFunctor (y.map s)).obj (terminalCover Y)) _ _
   rw [hpt] at hπ
-  show ((finiteEtaleFiberProjectionEquiv pr (y.map s) V)
+  change ((finiteEtaleFiberProjectionEquiv pr (y.map s) V)
       (π.hom.app ((finiteEtaleBaseChange pr).obj V)
         ((finiteEtaleFiberProjectionEquiv pr y V).symm
           ((finiteEtaleFiberProjectionEquiv pr y V)
             ((finiteEtaleFiberFunctor y).map t (terminalCoverPoint y)))))).1 = _
   rw [Equiv.symm_apply_apply, hπ]
-  show ((y.hom ≫ s) ≫ t.left) ≫ pullback.fst V.hom pr = _
+  change ((y.hom ≫ s) ≫ t.left) ≫ pullback.fst V.hom pr = _
   exact (Category.assoc _ _ _).trans (Category.assoc _ _ _)
 
 end Path
@@ -130,7 +130,7 @@ end Path
 section Galois
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
-  [IsCurve k f] [Smooth f] [GeometricallyConnected f] (kbar : Type u) [Field kbar]
+  [IsCurve k f] [GeometricallyConnected f] (kbar : Type u) [Field kbar]
   [Algebra k kbar] [IsAlgClosed kbar] [Algebra.IsAlgebraic k kbar]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
@@ -157,7 +157,7 @@ def fieldBaseChangeCoverPoint (V : FiniteEtaleOver X.1)
     change (y.hom ≫ s ≫ τ) ≫ V.hom = y.hom ≫ fieldBaseChangeProj (Over.mk f) kbar
     rw [Category.assoc, Category.assoc, hτ, hs]⟩
 
-omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
+omit [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- **The monodromy of a path on the point of an `X`-morphism.** For an endomorphism `s` of `X_k̄`
 over `X` and an `X`-morphism `τ : X_k̄ ⟶ W`, the monodromy `selfMapPathAut` of a path from `η̄` to
 its translate by `s` carries the point `τ` of the fibre of `W` to the point `τ ∘ s`. -/
@@ -180,15 +180,15 @@ theorem selfMapPathAut_app_fieldBaseChangeCoverPoint [ConnectedSpace X.1]
         (terminalCoverPoint y)) =
       fieldBaseChangeCoverPoint B X f kbar y W (𝟙 _) (Category.id_comp _) τ hτ :=
     Subtype.ext (by
-      show (y.hom ≫ pullback.lift τ (𝟙 _) _) ≫ pullback.fst W.hom _ = y.hom ≫ 𝟙 _ ≫ τ
+      change (y.hom ≫ pullback.lift τ (𝟙 _) _) ≫ pullback.fst W.hom _ = y.hom ≫ 𝟙 _ ≫ τ
       exact (Category.assoc _ _ _).trans (congrArg (y.hom ≫ ·)
         ((pullback.lift_fst _ _ _).trans (Category.id_comp τ).symm)))
   rw [hp] at h
   refine Subtype.ext (h.trans ?_)
-  show y.hom ≫ s ≫ pullback.lift τ (𝟙 _) _ ≫ pullback.fst W.hom _ = y.hom ≫ s ≫ τ
+  change y.hom ≫ s ≫ pullback.lift τ (𝟙 _) _ ≫ pullback.fst W.hom _ = y.hom ≫ s ≫ τ
   exact congrArg (fun z => y.hom ≫ s ≫ z) (pullback.lift_fst _ _ _)
 
-omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
+omit [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- A point `q` of the fibre of a finite étale `k`-scheme `Y` at the image of `η̄` which factors
 through a `k̄`-point `e` of `Y` corresponds, in the fibre of the base change of `Y` to `X`, to the
 point of the `X`-morphism `X_k̄ ⟶ X ×_k Y` induced by `e`. -/
@@ -207,12 +207,12 @@ theorem finiteEtaleFiberProjectionEquiv_symm_eq_fieldBaseChangeCoverPoint
           ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) he).trans pullback.condition.symm)))
         (pullback.lift_snd _ _ _) := by
   refine Subtype.ext (pullback.hom_ext ?_ ?_)
-  · show pullback.lift q.1 _ _ ≫ pullback.fst Y.hom f =
+  · change pullback.lift q.1 _ _ ≫ pullback.fst Y.hom f =
       (y.hom ≫ 𝟙 _ ≫ _) ≫ pullback.fst Y.hom f
     refine (pullback.lift_fst _ _ _).trans (hq.trans ?_)
-    show y.hom ≫ pullback.snd (Over.mk f).hom (specAlgebraMap k kbar) ≫ e = _
+    change y.hom ≫ pullback.snd (Over.mk f).hom (specAlgebraMap k kbar) ≫ e = _
     rw [Category.id_comp, Category.assoc, pullback.lift_fst]
-  · show pullback.lift q.1 _ _ ≫ pullback.snd Y.hom f =
+  · change pullback.lift q.1 _ _ ≫ pullback.snd Y.hom f =
       (y.hom ≫ 𝟙 _ ≫ _) ≫ pullback.snd Y.hom f
     rw [pullback.lift_snd, Category.id_comp, Category.assoc, pullback.lift_snd]
     rfl
@@ -226,7 +226,8 @@ theorem etaleFundamentalGroupMap_eq_of_app_fieldBaseChangeCoverPoint
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))
     (hδ : ∀ (W : FiniteEtaleOver X.1) (τ : fieldBaseChange (Over.mk f) kbar ⟶ W.left)
       (hτ : τ ≫ W.hom = fieldBaseChangeProj (Over.mk f) kbar),
-      (δ.asIso.hom.app W).hom (fieldBaseChangeCoverPoint B X f kbar y W (𝟙 _) (Category.id_comp _) τ hτ) =
+      (δ.asIso.hom.app W).hom
+          (fieldBaseChangeCoverPoint B X f kbar y W (𝟙 _) (Category.id_comp _) τ hτ) =
         fieldBaseChangeCoverPoint B X f kbar y W
           (galoisBaseChange (Over.mk f) kbar
             (geometricQuotientGaloisEquiv B X f kbar y (QuotientGroup.mk γ)))
@@ -314,7 +315,8 @@ theorem fieldBaseChangeCoverPoint_galoisBaseChange
     selfMapPathAut (fieldBaseChangeProj (Over.mk f) kbar) s hs y π
   have hδ : ∀ (W : FiniteEtaleOver X.1) (τ' : fieldBaseChange (Over.mk f) kbar ⟶ W.left)
       (hτ' : τ' ≫ W.hom = fieldBaseChangeProj (Over.mk f) kbar),
-      (δ.asIso.hom.app W).hom (fieldBaseChangeCoverPoint B X f kbar y W (𝟙 _) (Category.id_comp _) τ' hτ') =
+      (δ.asIso.hom.app W).hom
+          (fieldBaseChangeCoverPoint B X f kbar y W (𝟙 _) (Category.id_comp _) τ' hτ') =
         fieldBaseChangeCoverPoint B X f kbar y W s hs τ' hτ' :=
     selfMapPathAut_app_fieldBaseChangeCoverPoint B X f kbar y s hs π
   have : CompactSpace X.1 := QuasiCompact.compactSpace_of_compactSpace f

@@ -42,8 +42,9 @@ local surjectivity, exactly as the vanishing over `ε⁻¹𝒪_{S_Zar}` is.
 
 ## Implementation notes
 
-The specialization at `𝒢 = 𝒪_{S_Zar}` of everything here is definitionally the existing structure-sheaf
-version: `AlgebraicGeometry.SmallEtale.imageSectionsPresheafOf_zariskiCommRingSheaf` and
+The specialization at `𝒢 = 𝒪_{S_Zar}` of everything here is definitionally the existing
+structure-sheaf version:
+`AlgebraicGeometry.SmallEtale.imageSectionsPresheafOf_zariskiCommRingSheaf` and
 `AlgebraicGeometry.SmallEtale.imageSectionsToInverseImageOf_zariskiCommRingSheaf` record that by
 `rfl`.  So the structure-sheaf map `AlgebraicGeometry.SmallEtale.imageSectionsToInverseImage` is not
 restated, and lemmas proved about it — in particular

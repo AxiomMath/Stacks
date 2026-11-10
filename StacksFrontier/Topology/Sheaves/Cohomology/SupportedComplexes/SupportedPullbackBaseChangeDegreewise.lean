@@ -157,7 +157,7 @@ theorem mapDerivedCategoryTwoSquareOfIso_eq (T : A ⥤ B) (L : A ⥤ C) (R : B �
     (α : T ⋙ R ≅ L ⋙ Bo) :
     mapDerivedCategoryTwoSquareOfIso T L R Bo α =
       CategoryTheory.TwoSquare.mapDerivedCategory (TwoSquare.mk _ _ _ _ α.hom) := by
-  show (mapDerivedCategoryCompIso T R (T ⋙ R) (Iso.refl _)).hom ≫
+  change (mapDerivedCategoryCompIso T R (T ⋙ R) (Iso.refl _)).hom ≫
         (mapDerivedCategoryIsoOfIso (T ⋙ R) (L ⋙ Bo) α).hom ≫
         (mapDerivedCategoryCompIso L Bo (L ⋙ Bo) (Iso.refl _)).inv =
       (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso T R).inv ≫
@@ -232,7 +232,7 @@ theorem _root_.CategoryTheory.TwoSquare.mapDerivedCategory_app_Qh
         R.mapDerivedCategoryFactorsh.hom.app
             ((T.mapHomotopyCategory (ComplexShape.up ℤ)).obj M) ≫
           DerivedCategory.Qh.map
-              ((NatTrans.mapHomotopyCategory α.natTrans (ComplexShape.up ℤ)).app M) ≫
+              ((NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)).app M) ≫
             Bo.mapDerivedCategoryFactorsh.inv.app
                 ((L.mapHomotopyCategory (ComplexShape.up ℤ)).obj M) ≫
               Bo.mapDerivedCategory.map (L.mapDerivedCategoryFactorsh.inv.app M) := by
@@ -240,11 +240,11 @@ theorem _root_.CategoryTheory.TwoSquare.mapDerivedCategory_app_Qh
       Bo.mapDerivedCategory.map (L.mapDerivedCategoryFactorsh.inv.app M) = 𝟙 _ := by
     rw [← Functor.map_comp, Iso.hom_inv_id_app]
     exact Bo.mapDerivedCategory.map_id _
-  show (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso T R).inv.app _ ≫
-      (NatTrans.mapDerivedCategory α.natTrans).app _ ≫
+  change (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso T R).inv.app _ ≫
+      (NatTrans.mapDerivedCategory α).app _ ≫
       (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso L Bo).hom.app _ = _
   exact qh_chase _ _ _ _ _ _ _ _ _ _ _ _ _ (compIso_inv_app_comp_factorsh T R M)
-    (NatTrans.mapDerivedCategory_factorsh_hom α.natTrans M) (compIso_inv_app_comp_factorsh L Bo M)
+    (NatTrans.mapDerivedCategory_factorsh_hom α M) (compIso_inv_app_comp_factorsh L Bo M)
     ((Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso L Bo).hom_inv_id_app _)
     (Bo.mapDerivedCategoryFactorsh.hom_inv_id_app _) hb1
 
@@ -285,18 +285,18 @@ theorem mateEquiv_transport_app (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂
         R₂.map (eH.hom.app Y) ≫ d₂.hom.app (H'.obj Y) := by
   have hleft : mateEquiv (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂) α₂ =
       mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _
-        (Functor.whiskerRight eG.inv L₂ ≫ α.natTrans ≫ Functor.whiskerLeft L₁ eH.hom)) :=
+        (Functor.whiskerRight eG.inv L₂ ≫ α ≫ Functor.whiskerLeft L₁ eH.hom)) :=
     mateEquiv_ofNatIsoLeft adj₁ adj₂ e₁ e₂ _ α₂ fun a => by
       rw [hα₂]; simp only [TwoSquare.mk, NatTrans.comp_app, Functor.whiskerRight_app,
         Functor.whiskerLeft_app, Category.assoc]
   have hcv : TwoSquare.mk _ _ _ _ (Functor.whiskerLeft R₁ eG.inv ≫
-        (mateEquiv adj₁ adj₂ α).natTrans ≫ Functor.whiskerRight eH.hom R₂) =
+        (mateEquiv adj₁ adj₂ α) ≫ Functor.whiskerRight eH.hom R₂) =
       mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _
-        (Functor.whiskerRight eG.inv L₂ ≫ α.natTrans ≫ Functor.whiskerLeft L₁ eH.hom)) :=
+        (Functor.whiskerRight eG.inv L₂ ≫ α ≫ Functor.whiskerLeft L₁ eH.hom)) :=
     mateEquiv_conj_vertical adj₁ adj₂ eG eH α _ (fun _ => rfl) _ fun _ => rfl
   have hright := mateEquiv_ofNatIsoRight (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂) d₁ d₂ α₂
     (TwoSquare.mk _ _ _ _ (Functor.whiskerRight d₁.inv G' ≫
-      (mateEquiv (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂) α₂).natTrans ≫
+      (mateEquiv (adj₁.ofNatIsoLeft e₁) (adj₂.ofNatIsoLeft e₂) α₂) ≫
         Functor.whiskerLeft H' d₂.hom)) fun _ => rfl
   rw [← hright, hleft, ← hcv]
   simp only [TwoSquare.mk, NatTrans.comp_app, Functor.whiskerRight_app,
@@ -402,6 +402,7 @@ attribute [local instance] preservesFiniteLimits_modulePullback_closedSubsetIncl
 variable {X' X : RingedSpace.{u, u}} (f : X' ⟶ X) [SheafedSpace.IsOpenImmersion f]
   (Z : Set X.carrier)
 
+omit [SheafedSpace.IsOpenImmersion f] in
 /-- `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeSquare_eq_mateEquiv` at an object:
 the base-change map of [Stacks, Tag 08HY] for the restriction square is a component of that
 mate. -/

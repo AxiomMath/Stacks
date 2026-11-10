@@ -74,7 +74,7 @@ theorem eq_zero_iff_stalkMap_apply_eq_zero {M N : _root_.SheafOfModules.{u} O} (
     f = 0 ↔ ∀ (x : Z) m, (stalkMap O x f).hom m = 0 := by
   constructor
   · rintro rfl x m
-    show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+    change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf O.obj).map (0 : M.val ⟶ N.val))).hom m = 0
     simp only [Functor.map_zero]
     rfl
@@ -184,13 +184,12 @@ private theorem modulePullback_stalkMapLinear_transfer
       rw [← hs]
       exact stalkMapLinear_germ (R := Y.presheaf) (M := G.val) (N := H.val) φ.val
         (f.hom.base x) V hxV s
-    show E' (b (E.symm (1 ⊗ₜ[R] m))) = qS (1 ⊗ₜ[R] m)
+    change E' (b (E.symm (1 ⊗ₜ[R] m))) = qS (1 ⊗ₜ[R] m)
     rw [hz, hmap, hsec, hunitH, ← hφgerm]
     rfl
   have hmaps : ∀ z : TensorProduct R S M, lhs z = qS z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul s m => rw [TensorProduct.tmul_eq_smul_one_tmul, map_smul, map_smul, hgen]
   have hcomm : ∀ n : N, E' (b n) = qS (E n) := fun n ↦
@@ -211,7 +210,7 @@ private theorem modulePullback_stalkMapLinear_transfer
     · rw [(Module.FaithfullyFlat.zero_iff_lTensor_zero R S a).mpr (LinearMap.ext h)]
       simp
     · have ha0 : a = 0 := LinearMap.ext fun m ↦ h m
-      show LinearMap.baseChange S a z = 0
+      change LinearMap.baseChange S a z = 0
       rw [ha0, LinearMap.baseChange_zero]
       rfl
 

@@ -96,7 +96,7 @@ theorem Scheme.exists_valuationRing_of_specializes (G : Scheme.{u}) {x y : G} (h
     have h1 : f (G.presheaf.germ ⊤ y hy r) = 0 := congrArg Subtype.val h0
     have h2 : f (G.presheaf.germ ⊤ y hy r) =
         G.residue x (G.presheaf.germ ⊤ x hx r) := by
-      show (G.presheaf.germ ⊤ y hy ≫ G.presheaf.stalkSpecializes h ≫ G.residue x) r = _
+      change (G.presheaf.germ ⊤ y hy ≫ G.presheaf.stalkSpecializes h ≫ G.residue x) r = _
       rw [← Category.assoc, TopCat.Presheaf.germ_stalkSpecializes]
       rfl
     rw [h2] at h1
@@ -184,7 +184,7 @@ theorem mem_coincidenceLocus_or_of_specializes (C L : ClosedSubspaces B S hS X.1
     · rw [chartKer_ideal_top_schemeTheoreticIntersection]
       exact le_sup_left
     · refine IsLeftCancelMulZero.mul_left_cancel_of_ne_zero (hφ0 _ ?_)
-      show x ∈ G.basicOpen (m.app ⊤ t)
+      change x ∈ G.basicOpen (m.app ⊤ t)
       rw [← Scheme.preimage_basicOpen]
       exact hm
     · have e : Ideal.map (φ.comp m.appTop.hom)

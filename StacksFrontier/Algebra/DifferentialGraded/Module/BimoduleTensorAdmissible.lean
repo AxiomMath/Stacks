@@ -147,7 +147,7 @@ theorem nonempty_compatibleSplittings {K L M : Bimodule A B} (f : K ⟶ L) (g : 
         f.rightHom.toFun.comp (π.rightHom.toFun.comp s₀.rightHom.toFun)
       map_smul := by
         intro x a
-        show s₀.rightHom.toFun (MulOpposite.op a • x) -
+        change s₀.rightHom.toFun (MulOpposite.op a • x) -
             f.rightHom.toFun (π.rightHom.toFun (s₀.rightHom.toFun
               (MulOpposite.op a • x))) =
           MulOpposite.op a • (s₀.rightHom.toFun x -
@@ -166,11 +166,11 @@ theorem nonempty_compatibleSplittings {K L M : Bimodule A B} (f : K ⟶ L) (g : 
       sFun.toFun (leftActionTotal A B M.rightModule M.leftAction.1 a y) =
         leftActionTotal A B L.rightModule L.leftAction.1 a (sFun.toFun y) := by
     intro a y
-    show s₀.rightHom.toFun _ - f.rightHom.toFun (π.rightHom.toFun
+    change s₀.rightHom.toFun _ - f.rightHom.toFun (π.rightHom.toFun
         (s₀.rightHom.toFun _)) = _
     rw [GradedHom.map_leftActionTotal s₀ a y, GradedHom.map_leftActionTotal π a _,
       hf a _]
-    show _ = leftActionTotal A B L.rightModule L.leftAction.1 a
+    change _ = leftActionTotal A B L.rightModule L.leftAction.1 a
       (s₀.rightHom.toFun y - f.rightHom.toFun (π.rightHom.toFun (s₀.rightHom.toFun y)))
     rw [map_sub]
   let s : GradedHom A B M L := gradedHomOfLeftActionTotal sFun hsFun
@@ -276,7 +276,7 @@ theorem tensorDecomposition {f : K ⟶ L} {g : L ⟶ M}
     ((((tensorHomOfBimoduleHom f X).toFun).comp (tensorGradedHomOfBimodule L K X c.π).toFun) +
       (((tensorGradedHomOfBimodule M L X c.s).toFun).comp (tensorHomOfBimoduleHom g X).toFun))
     LinearMap.id fun x y => ?_) z
-  show (tensorHomOfBimoduleHom f X).toFun
+  change (tensorHomOfBimoduleHom f X).toFun
       ((tensorGradedHomOfBimodule L K X c.π).toFun ((tensorPure L X).toLinearMap x y)) +
     (tensorGradedHomOfBimodule M L X c.s).toFun
       ((tensorHomOfBimoduleHom g X).toFun ((tensorPure L X).toLinearMap x y)) = _

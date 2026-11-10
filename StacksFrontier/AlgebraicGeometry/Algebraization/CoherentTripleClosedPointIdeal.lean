@@ -121,11 +121,11 @@ public theorem exists_idealPow_hom_of_preparedExtension
     {T : CoherentTriple A f} (P : PreparedExtension A f T)
     (s : Γ(P.F', Stacks.LocalCohomology.idealComplement
       (Scheme.Hom.ker (Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)))))) :
-    ∃ (ι : Type u) (_ : Fintype ι) (a : ι → Γ(Spec (CommRingCat.of A), ⊤))
-      (hspan : (Scheme.Hom.ker
+    ∃ (ι : Type u) (_ : Fintype ι) (a : ι → Γ(Spec (CommRingCat.of A), ⊤)),
+      (Scheme.Hom.ker
         (Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)))).ideal
-          ⟨⊤, isAffineOpen_top (Spec (CommRingCat.of A))⟩ = Ideal.span (Set.range a))
-      (ha : ∀ i, a i ∈ (Scheme.Hom.ker
+          ⟨⊤, isAffineOpen_top (Spec (CommRingCat.of A))⟩ = Ideal.span (Set.range a) ∧
+      ∃ (ha : ∀ i, a i ∈ (Scheme.Hom.ker
         (Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)))).ideal
           ⟨⊤, isAffineOpen_top (Spec (CommRingCat.of A))⟩)
       (N : ℕ)

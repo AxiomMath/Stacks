@@ -97,7 +97,7 @@ theorem injective_sectionsMap_of_pointwise (U : Opens (ProjectiveSpectrum.top �
   refine Subtype.ext (funext fun x => ?_)
   obtain ⟨y, hy⟩ := hpt x
   have hyU : y ∈ U.comap (ProjectiveSpectrum.comap φ hφ) := by
-    show ProjectiveSpectrum.comapFun φ hφ y ∈ U
+    change ProjectiveSpectrum.comapFun φ hφ y ∈ U
     rw [hy]
     exact x.2
   have hval := congrFun (congrArg Subtype.val hyp) ⟨y, hyU⟩

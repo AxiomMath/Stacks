@@ -349,7 +349,7 @@ theorem properPushforward_pulledBackComponentCycle_of_eq (x : X)
     ((integralComponentAt (p.base x)).subschemeι ≫ sY) (integralComponentMap p x)
     (integralComponentMap_comp_base C sX sY p hp x) _ _ hX.symm).trans ?_
   refine (congrArg Subtype.val h02ST).trans ?_
-  show pushforwardWeight C sX sY p x • _ = pushforwardWeight C sX sY p x • _
+  change pushforwardWeight C sX sY p x • _ = pushforwardWeight C sX sY p x • _
   exact congrArg _ hY
 
 include hp in
@@ -494,7 +494,7 @@ theorem properChowPushforward_invCap_capOnChow (a : chowGroup C sX (k + 1)) :
           a) := by
   induction a using QuotientAddGroup.induction_on with
   | H α =>
-    show properChowPushforward C sX sY p hp k _
+    change properChowPushforward C sX sY p hp k _
         ((invCap C sX ((Scheme.Modules.pullback p).obj L)).capOnChow C sX k
           (QuotientAddGroup.mk' _ α)) =
       (invCap C sY L).capOnChow C sY k
@@ -517,10 +517,10 @@ theorem iteratedChernCapOnChow_cons_eq {P : Scheme.{u}} (sP : P ⟶ C.S) [Locall
     (y : chowGroup C sP (d + 1 + (Os.length : ℤ))) (hxy : x ≍ y) :
     iteratedChernCapOnChow C sP (O :: Os) d x =
       O.capOnChow C sP d (iteratedChernCapOnChow C sP Os (d + 1) y) := by
-  show chowGroupDegreeCast C sP _ ((O.capOnChow C sP d).comp
+  change chowGroupDegreeCast C sP _ ((O.capOnChow C sP d).comp
     (iteratedChernCapOnChow C sP Os (d + 1))) x = _
   rw [chowGroupDegreeCast_apply]
-  show O.capOnChow C sP d (iteratedChernCapOnChow C sP Os (d + 1) _) = _
+  change O.capOnChow C sP d (iteratedChernCapOnChow C sP Os (d + 1) _) = _
   congr 2
   exact chowGroup_eq_of_heq C sP ((chowGroupCast_heq C sP _ x).trans hxy)
 
@@ -528,7 +528,7 @@ theorem iteratedChernCapOnChow_cons_eq {P : Scheme.{u}} (sP : P ⟶ C.S) [Locall
 theorem iteratedChernCapOnChow_nil_heq {P : Scheme.{u}} (sP : P ⟶ C.S) [LocallyOfFiniteType sP]
     (d : ℤ) (x : chowGroup C sP (d + (([] : List (ChernCapOperator C sP)).length : ℤ))) :
     iteratedChernCapOnChow C sP [] d x ≍ x := by
-  show chowGroupDegreeCast C sP _ (AddMonoidHom.id _) x ≍ x
+  change chowGroupDegreeCast C sP _ (AddMonoidHom.id _) x ≍ x
   rw [chowGroupDegreeCast_apply]
   exact chowGroupCast_heq C sP _ x
 

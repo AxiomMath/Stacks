@@ -156,7 +156,7 @@ theorem chartBaseMap_natural {U V : SmallEtaleNeighborhood x} (f : U ⟶ V) (a :
   have hcomp : gV ≫ Scheme.Γ.map (B.inclusion.map f.hom.hom.left.left).op = gU := by
     simpa [gV, gU, Functor.map_comp, hspec] using
       congrArg (fun q => (Scheme.ΓSpecIso (.of R)).inv ≫ q) (congrArg Scheme.Γ.map hpaths)
-  show (gV ≫ Scheme.Γ.map (B.inclusion.map f.hom.hom.left.left).op) a = gU a
+  change (gV ≫ Scheme.Γ.map (B.inclusion.map f.hom.hom.left.left).op) a = gU a
   exact congrArg (fun q : CommRingCat.of R ⟶ _ => q a) hcomp
 
 /-- The pullbacks of a global function on the base to two small étale neighbourhoods have the
@@ -168,7 +168,7 @@ theorem chartBaseMap_germ_eq {U V : SmallEtaleNeighborhood x} (f : U ⟶ V) (a :
         (chartBaseMap R B hR X x V a) := by
   let D := SmallEtaleNeighborhood.sections
     (x := x) (liftedStructurePresheaf B (Spec (.of R)) hR X)
-  show (CategoryTheory.Limits.colimit.ι D (Opposite.op U)).hom
+  change (CategoryTheory.Limits.colimit.ι D (Opposite.op U)).hom
       (ULift.up (chartBaseMap R B hR X x U a)) =
     (CategoryTheory.Limits.colimit.ι D (Opposite.op V)).hom
       (ULift.up (chartBaseMap R B hR X x V a))
@@ -309,14 +309,14 @@ private theorem isGeometricallyReduced_strictHenselization_iff
   have : IsScalarTower A T.strictHenselization (K ⊗[k] T.strictHenselization) :=
     IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show φ ((1 : K) ⊗ₜ[k] a) = (1 : K) ⊗ₜ[k] (algebraMap A T.strictHenselization a)
+      change φ ((1 : K) ⊗ₜ[k] a) = (1 : K) ⊗ₜ[k] (algebraMap A T.strictHenselization a)
       simp [φ, Algebra.TensorProduct.map_tmul])
   have : IsScalarTower k T.strictHenselization (K ⊗[k] T.strictHenselization) :=
     Algebra.TensorProduct.right_isScalarTower
   have : IsScalarTower k A (K ⊗[k] T.strictHenselization) :=
     IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show (algebraMap k K a) ⊗ₜ[k] (1 : T.strictHenselization) =
+      change (algebraMap k K a) ⊗ₜ[k] (1 : T.strictHenselization) =
         φ ((1 : K) ⊗ₜ[k] (algebraMap k A a))
       rw [Algebra.TensorProduct.tmul_one_eq_one_tmul]
       simp [φ, Algebra.TensorProduct.map_tmul,
@@ -324,7 +324,7 @@ private theorem isGeometricallyReduced_strictHenselization_iff
   have : IsScalarTower k (K ⊗[k] A) (K ⊗[k] T.strictHenselization) :=
     IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show (algebraMap k K a) ⊗ₜ[k] (1 : T.strictHenselization) =
+      change (algebraMap k K a) ⊗ₜ[k] (1 : T.strictHenselization) =
         φ ((algebraMap k K a) ⊗ₜ[k] (1 : A))
       exact (φ.commutes _).symm)
   have : IsScalarTower K (K ⊗[k] A) (K ⊗[k] T.strictHenselization) :=

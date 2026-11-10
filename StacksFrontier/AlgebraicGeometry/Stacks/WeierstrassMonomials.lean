@@ -151,7 +151,7 @@ omit [Stacks.Ample.IsInvertibleModule Y L] in
 to `s`. -/
 theorem toSectionRing_cube (s : Γ(natTensorPow L 1, ⊤)) :
     toSectionRing L 3 (cube L s) = toSectionRing L 1 s ^ 3 := by
-  show toSectionRing L (2 + 1) (mulSections L (sq L s) s) = _
+  change toSectionRing L (2 + 1) (mulSections L (sq L s) s) = _
   rw [toSectionRing_mulSections, toSectionRing_sq, pow_succ _ 2]
 
 omit [Stacks.Ample.IsInvertibleModule Y L] in
@@ -172,24 +172,24 @@ theorem toSectionRing_weierstrassMonomials (s : Γ(natTensorPow L 1, ⊤))
         toSectionRing L 2 x ^ 3] := by
   funext i
   fin_cases i
-  · show toSectionRing L (3 + 3) (mulSections L (cube L s) (cube L s)) = _
+  · change toSectionRing L (3 + 3) (mulSections L (cube L s) (cube L s)) = _
     rw [toSectionRing_mulSections, toSectionRing_cube]
     simp only [Fin.zero_eta, Fin.isValue, Matrix.cons_val_zero]
     ring
-  · show toSectionRing L ((3 + 1) + 2) (mulSections L (mulSections L (cube L s) s) x) = _
+  · change toSectionRing L ((3 + 1) + 2) (mulSections L (mulSections L (cube L s) s) x) = _
     rw [toSectionRing_mulSections, toSectionRing_mulSections, toSectionRing_cube]
     simp only [Fin.mk_one, Fin.isValue, Matrix.cons_val_one, Matrix.cons_val_zero]
     ring
-  · show toSectionRing L (3 + 3) (mulSections L (cube L s) y) = _
+  · change toSectionRing L (3 + 3) (mulSections L (cube L s) y) = _
     rw [toSectionRing_mulSections, toSectionRing_cube]
     rfl
-  · show toSectionRing L (2 + (2 + 2)) (mulSections L (sq L s) (mulSections L x x)) = _
+  · change toSectionRing L (2 + (2 + 2)) (mulSections L (sq L s) (mulSections L x x)) = _
     rw [toSectionRing_mulSections, toSectionRing_mulSections_self, toSectionRing_sq]
     rfl
-  · show toSectionRing L ((1 + 2) + 3) (mulSections L (mulSections L s x) y) = _
+  · change toSectionRing L ((1 + 2) + 3) (mulSections L (mulSections L s x) y) = _
     rw [toSectionRing_mulSections, toSectionRing_mulSections]
     rfl
-  · show toSectionRing L ((2 + 2) + 2) (mulSections L (mulSections L x x) x) = _
+  · change toSectionRing L ((2 + 2) + 2) (mulSections L (mulSections L x x) x) = _
     rw [toSectionRing_mulSections, toSectionRing_mulSections, ← pow_two, ← pow_succ]
     rfl
 

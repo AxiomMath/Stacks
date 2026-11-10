@@ -86,7 +86,7 @@ theorem IsPairingBy.preimage {D : Type*} [Category* D] [CartesianMonoidalCategor
     {h : F.obj X ⊗ F.obj Y ⟶ F.obj Z} {f : Ψ.obj (F.obj X) → Ψ.obj (F.obj Y) → Ψ.obj (F.obj Z)}
     (hf : IsPairingBy Ψ h f) :
     IsPairingBy (F ⋙ Ψ) (hF.preimage (Functor.OplaxMonoidal.δ F X Y ≫ h)) f := fun w => by
-  show Ψ.map (F.map _) w = f (Ψ.map (F.map (fst X Y)) w) (Ψ.map (F.map (snd X Y)) w)
+  change Ψ.map (F.map _) w = f (Ψ.map (F.map (fst X Y)) w) (Ψ.map (F.map (snd X Y)) w)
   rw [hF.map_preimage, hf.map_comp_apply, Functor.OplaxMonoidal.δ_fst, Functor.OplaxMonoidal.δ_snd]
 
 end IsPairingBy
@@ -103,6 +103,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 attribute [local instance] braidedFiniteLocallyConstantSetSheaf
   braidedι_finiteLocallyConstantSetSheaf
 
+set_option linter.checkUnivs false in
 /-- The underlying set of a finite continuous `G`-set. -/
 abbrev finiteGSetForget (G : Type u') [Group G] [TopologicalSpace G] :
     (AlgebraicGeometry.ContinuousGSet.isFinite.{u', max u v} G).FullSubcategory ⥤ Type (max u v) :=
@@ -184,7 +185,8 @@ on elements. -/
 theorem isPairingBy_gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsPairingBy (AlgebraicGeometry.ContinuousGSet.forget G)
       (gsetPresheafFullyFaithful.preimage
         (Functor.OplaxMonoidal.δ gsetPresheaf (internalGModule M).X (internalGModule N).X ≫
@@ -215,7 +217,8 @@ theorem commGrpContinuousGSetEquivalenceInverseIso_hom_hom (M : ContinuousGAddCo
 theorem commGrpPairing_isPairingBy (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsPairingBy (AlgebraicGeometry.ContinuousGSet.forget G) (commGrpPairing M N L P hP)
       (fun a b => (AlgebraicGeometry.ContinuousGSet.forget G).map
         (commGrpContinuousGSetEquivalenceInverseIso L).inv.hom.hom.hom

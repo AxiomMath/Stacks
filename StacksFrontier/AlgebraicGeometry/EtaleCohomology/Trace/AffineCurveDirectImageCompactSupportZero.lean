@@ -41,7 +41,7 @@ lemma mono_map_of_adjunction {C D : Type*} [Category* C] [Category* D] {F : C �
   have := adj.isRightAdjoint
   inferInstance
 
-variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar]
   [Algebra k kbar]
 

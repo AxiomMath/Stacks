@@ -104,10 +104,10 @@ private theorem exists_bounded_faithfullyFlat_indEtale_extension {A D : Type u} 
     (indEtale_of_isSplitEpiFactorization (CommRingCat.ofHom (g.comp f))
       (CommRingCat.ofHom (e.comp (g.comp f))) (CommRingCat.ofHom e)
       (CommRingCat.ofHom r.toRingHom) ?_ ?_ ?_)
-  · show CommRingCat.ofHom (e.comp (g.comp f)) =
+  · change CommRingCat.ofHom (e.comp (g.comp f)) =
       CommRingCat.ofHom (g.comp f) ≫ CommRingCat.ofHom e
     rfl
-  · show CommRingCat.ofHom (r.toRingHom.comp e) = CommRingCat.ofHom (RingHom.id E)
+  · change CommRingCat.ofHom (r.toRingHom.comp e) = CommRingCat.ofHom (RingHom.id E)
     rw [hRetract]
   · exact (MorphismProperty.ind_iff_ind_underMk
       (CommRingCat.ofHom (e.comp (g.comp f)))).2 hindAE'
@@ -150,7 +150,7 @@ private theorem exists_cover_affine [IsAffine S.obj]
   let p : P ⟶ S.obj := q ≫ fX
   have hκbound : Cardinal.aleph0 ≤ Cardinal.proetaleBound U.size := by
     have hbound : U.size ^ Cardinal.aleph0 ≤ Cardinal.proetaleBound U.size := by
-      show U.size ^ Cardinal.aleph0 ≤
+      change U.size ^ Cardinal.aleph0 ≤
         max (U.size ^ ((2 : Cardinal.{u}) ^ ((2 : Cardinal.{u}) ^ ((2 : Cardinal.{u}) ^ U.size))))
           (max (U.size ^ Cardinal.aleph0) (Order.succ U.size))
       exact (le_max_left _ _).trans (le_max_right _ _)
@@ -176,7 +176,7 @@ private theorem exists_cover_affine [IsAffine S.obj]
       (fun C : Under (CommRingCat.of A) ↦ C.hom.hom.Etale) (Under.mk p.appTop) := by
     let e := (Scheme.ΓSpecIso (CommRingCat.of E)).commRingCatIsoToRingEquiv
     have heq : p.appTop ≫ (Scheme.ΓSpecIso (CommRingCat.of E)).hom = φ := by
-      show (fX.appTop ≫ q.appTop) ≫ (Scheme.ΓSpecIso (CommRingCat.of E)).hom = φ
+      change (fX.appTop ≫ q.appTop) ≫ (Scheme.ΓSpecIso (CommRingCat.of E)).hom = φ
       have hinv : U.isoSpec.inv.appTop = (Scheme.ΓSpecIso D).inv := by
         apply (cancel_mono (Scheme.ΓSpecIso D).hom).1
         have hh : U.isoSpec.hom.appTop = (Scheme.ΓSpecIso D).hom := Scheme.toSpecΓ_appTop U
@@ -184,7 +184,7 @@ private theorem exists_cover_affine [IsAffine S.obj]
         rfl
       have hqmap : q.appTop ≫ (Scheme.ΓSpecIso (CommRingCat.of E)).hom =
           CommRingCat.ofHom g := by
-        show (U.isoSpec.inv.appTop ≫ (Scheme.Spec.map (CommRingCat.ofHom g).op).appTop) ≫
+        change (U.isoSpec.inv.appTop ≫ (Scheme.Spec.map (CommRingCat.ofHom g).op).appTop) ≫
           (Scheme.ΓSpecIso (CommRingCat.of E)).hom = CommRingCat.ofHom g
         rw [hinv]
         have hnat := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom g)
@@ -199,11 +199,11 @@ private theorem exists_cover_affine [IsAffine S.obj]
     let _ : Algebra A Γ(P, ⊤) := p.appTop.hom.toAlgebra
     have hcomm : ∀ a : A, e.symm (algebraMap A E a) = algebraMap A (Γ(P, ⊤)) a := by
       intro a
-      show e.symm ((g.comp fr) a) = p.appTop.hom a
+      change e.symm ((g.comp fr) a) = p.appTop.hom a
       apply e.injective
       rw [RingEquiv.apply_symm_apply]
       symm
-      show (Scheme.ΓSpecIso (CommRingCat.of E)).hom (p.appTop.hom a) = (g.comp fr) a
+      change (Scheme.ΓSpecIso (CommRingCat.of E)).hom (p.appTop.hom a) = (g.comp fr) a
       have := congrArg (fun h : CommRingCat.of A ⟶ CommRingCat.of E => h.hom a) heq
       simpa [CommRingCat.comp_apply, φ, e] using this
     refine (indEtale_iff_ind_etale_underMk (R := CommRingCat.of A) (B := Γ(P, ⊤))).1 ?_
@@ -228,16 +228,16 @@ private theorem exists_cover_affine [IsAffine S.obj]
     simpa using (B.covering_isSite.1 (𝟙 X.obj.left)).2
   let raw : PreZeroHypercover X.obj.left := { I₀ := PUnit, X _ := YB, f _ := qB }
   have hraw : B.IsProetaleCovering ⟨X.obj.left, raw⟩ := by
-    show (raw.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage X.obj.left.obj
+    change (raw.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage X.obj.left.obj
     have heq : (raw.map B.inclusion).presieve₀ = Presieve.singleton q := by
-      show Presieve.ofArrows (fun _ : PUnit => B.inclusion.obj YB)
+      change Presieve.ofArrows (fun _ : PUnit => B.inclusion.obj YB)
         (fun _ => B.inclusion.map qB) = _
       rw [hqB, Presieve.ofArrows_pUnit]
     rw [heq]
     exact Scheme.Hom.singleton_mem_propQCPrecoverage hweakq
   let Vsmall : SmallProetale B S.obj S.property :=
     ⟨Over.mk pB, by
-      show WeaklyEtale (B.inclusion.map pB)
+      change WeaklyEtale (B.inclusion.map pB)
       rw [hpB]
       exact inferInstance⟩
   have hVind : ObjectProperty.ind.{u} (fun C : Under Γ(S.obj, ⊤) ↦ C.hom.hom.Etale)
@@ -247,13 +247,13 @@ private theorem exists_cover_affine [IsAffine S.obj]
     exact hindP
   let V : AffineIndEtaleProetale B S := ⟨Vsmall, ⟨isAffine_Spec _, hVind⟩⟩
   let aSmall : Vsmall ⟶ X := ObjectProperty.homMk <| Over.homMk qB (by
-    show qB ≫ X.obj.hom = pB
+    change qB ≫ X.obj.hom = pB
     apply B.inclusion.map_injective
     rw [Functor.map_comp, hqB, hpB])
   let f : (inclusion B S).obj V ⟶ X := ObjectProperty.homMk aSmall.hom
   let ESmall : PreZeroHypercover X := { I₀ := PUnit, X _ := Vsmall, f _ := aSmall }
   have hESmall : SmallProetale.IsCovering B S.obj S.property ⟨X, ESmall⟩ := by
-    show B.covering ⟨X.obj.left,
+    change B.covering ⟨X.obj.left,
       (ESmall.map (SmallProetale.inclusion B S.obj S.property)).map
         (BigProetaleOver.forget B S.obj S.property)⟩
     have hMap : ((ESmall.map (SmallProetale.inclusion B S.obj S.property)).map
@@ -267,7 +267,7 @@ private theorem exists_cover_affine [IsAffine S.obj]
       (SmallProetale.precoverage B S.obj S.property).toGrothendieck X :=
     Precoverage.generate_mem_toGrothendieck ⟨ESmall, rfl, hESmall⟩
   have heq : ESmall.presieve₀ = Presieve.singleton aSmall := by
-    show Presieve.ofArrows (fun _ : PUnit => Vsmall) (fun _ => aSmall) = _
+    change Presieve.ofArrows (fun _ : PUnit => Vsmall) (fun _ => aSmall) = _
     rw [Presieve.ofArrows_pUnit]
   rw [heq] at hgen
   have hf : aSmall = f := by
@@ -309,7 +309,7 @@ private theorem finite_pullback_refinement [IsAffine S.obj] (X : AffineIndEtaleP
   let W (i : Fstd.I₀) : SmallProetale B S.obj S.property :=
     { obj := Over.mk (Fstd.f i ≫ (G.obj X).obj.hom)
       property := by
-        show WeaklyEtale (B.inclusion.map (Fstd.f i ≫ (G.obj X).obj.hom))
+        change WeaklyEtale (B.inclusion.map (Fstd.f i ≫ (G.obj X).obj.hom))
         rw [Functor.map_comp]
         exact inferInstance }
   choose V g hEi hEiGen using fun i => exists_cover_affine B S (W i) (hFaff i)
@@ -329,7 +329,7 @@ private theorem finite_pullback_refinement [IsAffine S.obj] (X : AffineIndEtaleP
     cases j
     rfl
   have hF'cover : SmallProetale.IsCovering B S.obj S.property ⟨G.obj X, Fapp.map G⟩ := by
-    show B.covering ⟨T, (Fapp.map G).map forget⟩
+    change B.covering ⟨T, (Fapp.map G).map forget⟩
     rw [hmap]
     exact B.covering_isSite.2.1 ⟨T, Fstd⟩ hF (fun i => ⟨Fstd.X i, (Ei i).map forget⟩) hEi
       (fun _ => rfl)
@@ -370,7 +370,7 @@ private theorem finite_pullback_refinement [IsAffine S.obj] (X : AffineIndEtaleP
       _ = (G.obj (V ij.1)).obj.hom := by
         simp [forget, SmallProetale.inclusion, BigProetaleOver.forget, Fapp]
   let lSmall : G.obj (V ij.1) ⟶ E.X j := ObjectProperty.homMk (Over.homMk l hOver)
-  show (Sieve.generate E.presieve₀) ((G.map (Fapp.f ij)) ≫ a)
+  change (Sieve.generate E.presieve₀) ((G.map (Fapp.f ij)) ≫ a)
   have hfactor' : lSmall ≫ E.f j = G.map (Fapp.f ij) ≫ a := by
     apply forget.map_injective
     calc
@@ -438,24 +438,24 @@ theorem inclusion_isCoverDense [IsAffine S.obj] :
     · rw [Presieve.ofArrows_le_iff]
       intro i
       have heq : B.inclusion.map (Q.f i) = A.toPreZeroHypercover.f i.down := by
-        show B.inclusion.map (B.inclusion.preimage (show
+        change B.inclusion.map (B.inclusion.preimage (show
           B.inclusion.obj (Q.X i) ⟶ B.inclusion.obj X.obj.left from A.f i.down)) = _
         rw [Functor.map_preimage]
-      show A.toPreZeroHypercover.presieve₀ (B.inclusion.map (Q.f i))
+      change A.toPreZeroHypercover.presieve₀ (B.inclusion.map (Q.f i))
       rw [heq]
       exact A.toPreZeroHypercover.presieve₀_f _
     · rw [Presieve.ofArrows_le_iff]
       intro i
       have heq : B.inclusion.map (Q.f (ULift.up i)) = A.toPreZeroHypercover.f i := by
-        show B.inclusion.map (B.inclusion.preimage (show
+        change B.inclusion.map (B.inclusion.preimage (show
           B.inclusion.obj (Q.X (ULift.up i)) ⟶ B.inclusion.obj X.obj.left from A.f i)) = _
         rw [Functor.map_preimage]
-      show (Q.map B.inclusion).presieve₀ (A.toPreZeroHypercover.f i)
+      change (Q.map B.inclusion).presieve₀ (A.toPreZeroHypercover.f i)
       rw [← heq]
       exact (Q.map B.inclusion).presieve₀_f _
   have hzle : Scheme.zariskiPrecoverage ≤ Scheme.proetalePrecoverage := by
     rw [Scheme.proetalePrecoverage]
-    show Scheme.zariskiPrecoverage ≤ Scheme.qcPrecoverage ⊓ Scheme.precoverage @WeaklyEtale
+    change Scheme.zariskiPrecoverage ≤ Scheme.qcPrecoverage ⊓ Scheme.precoverage @WeaklyEtale
     refine le_inf Scheme.zariskiPrecoverage_le_qcPrecoverage ?_
     exact Scheme.precoverage_mono fun Y Z f hf => by infer_instance
   have hQ : B.IsProetaleCovering ⟨X.obj.left, Q⟩ := by
@@ -468,10 +468,10 @@ theorem inclusion_isCoverDense [IsAffine S.obj] :
   let EObj (i : F.I₀) : SmallProetale B S.obj S.property :=
     { obj := Over.mk (F.f i ≫ X.obj.hom)
       property := by
-        show WeaklyEtale (B.inclusion.map (F.f i ≫ X.obj.hom))
+        change WeaklyEtale (B.inclusion.map (F.f i ≫ X.obj.hom))
         rw [Functor.map_comp]
         have hopen : IsOpenImmersion (B.inclusion.map (Q.f (β i))) := by
-          show IsOpenImmersion (B.inclusion.map (B.inclusion.preimage (show
+          change IsOpenImmersion (B.inclusion.map (B.inclusion.preimage (show
             B.inclusion.obj (Q.X (β i)) ⟶ B.inclusion.obj X.obj.left from A.f (β i).down)))
           rw [Functor.map_preimage]
           exact A.map_prop (β i).down
@@ -488,7 +488,7 @@ theorem inclusion_isCoverDense [IsAffine S.obj] :
     apply PreZeroHypercover.ext rfl
     all_goals simp [E, EObj, SmallProetale.inclusion, Over.forget]
   have hE : SmallProetale.IsCovering B S.obj S.property ⟨X, E⟩ := by
-    show B.covering ⟨X.obj.left,
+    change B.covering ⟨X.obj.left,
       (E.map (SmallProetale.inclusion B S.obj S.property)).map
         (BigProetaleOver.forget B S.obj S.property)⟩
     rw [hmapE]
@@ -498,7 +498,7 @@ theorem inclusion_isCoverDense [IsAffine S.obj] :
   let T := Sieve.coverByImage G X
   have hAffine (i : F.I₀) : IsAffine (B.inclusion.obj (F.X i)) := by
     rw [hX i]
-    show IsAffine (A.X (β i).down)
+    change IsAffine (A.X (β i).down)
     infer_instance
   have hpull (i : F.I₀) : T.pullback (E.f i) ∈ K (E.X i) := by
     obtain ⟨V, g, -, hg⟩ := exists_cover_affine B S (E.X i) (hAffine i)

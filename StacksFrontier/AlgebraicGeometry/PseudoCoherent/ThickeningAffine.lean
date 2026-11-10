@@ -93,7 +93,8 @@ needed for the dévissage: any isomorphism of the two objects does, since only m
 Everything is at `CategoryTheory.HasDerivedCategory.standard`, the model of the pseudo-coherence
 development, and the local instance carries a high priority because the import closure also
 supplies the *global* locally small instances of
-`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, which a default-priority local attribute
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, which a default-priority local
+attribute
 would not beat.
 
 No transport between the two models is needed, and none is performed: all four inputs are
@@ -238,7 +239,7 @@ public theorem exists_restrictScalars_iso_of_smul_eq_bot
       map_smul' := by
         intro r x
         refine Quotient.inductionOn x fun y => ?_
-        show (RingHom.quotientKerEquivOfSurjective hf).symm (f r) •
+        change (RingHom.quotientKerEquivOfSurjective hf).symm (f r) •
           (Submodule.Quotient.mk y : N ⧸ (RingHom.ker f • (⊤ : Submodule R N))) = _
         have hr : (RingHom.quotientKerEquivOfSurjective hf).symm (f r) =
             Ideal.Quotient.mk (RingHom.ker f) r := by
@@ -284,7 +285,7 @@ public theorem prop_of_isNilpotent_of_smul_eq_bot
         rw [Submodule.mem_bot]
         have hx : r • (x : N) ∈ I ^ (n + 1) • J := Submodule.smul_mem_smul hr x.2
         have hJ : I ^ (n + 1) • J = ⊥ := by
-          show I ^ (n + 1) • (I • (⊤ : Submodule R N)) = ⊥
+          change I ^ (n + 1) • (I • (⊤ : Submodule R N)) = ⊥
           rw [← Submodule.mul_smul, ← pow_succ, hN]
         exact Submodule.coe_eq_zero.mp ((Submodule.mem_bot R).mp (hJ.le hx))
       · refine le_antisymm (Submodule.smul_le.2 fun r hr y _ => ?_) bot_le

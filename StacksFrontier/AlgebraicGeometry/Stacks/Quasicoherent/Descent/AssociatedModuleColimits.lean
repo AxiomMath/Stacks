@@ -89,7 +89,8 @@ and the pullback along it is `AlgebraicGeometry.BigFppfOver.baseAssociatedModule
 `baseAssociatedModule .fppf = associatedModule` by `rfl`.
 
 **The inputs are not fppf-specific either, and clauses (2), (3), (4) are proved at every
-`τ`** in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.BaseAssociatedModuleColimits`,
+`τ`** in
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.BaseAssociatedModuleColimits`,
 as `AlgebraicGeometry.BigFppfOver.preservesColimitsOfShape_discrete_baseAssociatedModuleQcoh`,
 `…preservesColimitsOfSize_baseAssociatedModuleQcoh` and
 `…preservesFiniteColimits_baseAssociatedModuleQcoh`.  The adjunction, and with it cocontinuity

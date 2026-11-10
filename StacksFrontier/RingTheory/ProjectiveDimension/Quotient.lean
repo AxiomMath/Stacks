@@ -145,7 +145,7 @@ private lemma projectiveDimension_restrictScalars_ne_top_of_projective
       r := F.map (ModuleCat.ofHom π')
       retract := by
         rw [← F.map_comp]
-        show F.map (ModuleCat.ofHom (π' ∘ₗ σ)) = _
+        change F.map (ModuleCat.ofHom (π' ∘ₗ σ)) = _
         rw [hσ]
         simp }
   have hFree : CategoryTheory.projectiveDimension (F.obj Free) ≠ ⊤ := by
@@ -298,7 +298,7 @@ theorem projectiveDimension_restrictScalars_quotient_ne_top
   have hperfectE' : StacksDraft.Perfect.IsPerfectModule (R := R ⧸ I) (ULift.{max u v} E) :=
     (RestrictScalarsPerfect.isPerfectModule_iff_projectiveDimension_ne_top
       (ULift.{max u v} E)).mpr <| by
-      show CategoryTheory.projectiveDimension
+      change CategoryTheory.projectiveDimension
         (ModuleCat.of (R ⧸ I) (ULift.{max u v} E)) ≠ ⊤
       rwa [ModuleCat.projectiveDimension_eq_of_linearEquiv
         (M := ModuleCat.of (R ⧸ I) (ULift.{max u v} E))
@@ -307,13 +307,13 @@ theorem projectiveDimension_restrictScalars_quotient_ne_top
     (ModuleCat.of (R ⧸ I) (ULift.{max u v} E))
   have eER : ER' ≃ₗ[R] E_R := by
     dsimp [ER', E_R]
-    show ULift.{max u v} E ≃ₗ[R] E
+    change ULift.{max u v} E ≃ₗ[R] E
     exact ULift.moduleEquiv (R := R) (M := E)
   have : Module.Finite R ER' := Module.Finite.equiv eER.symm
   have hperfectER' : StacksDraft.Perfect.IsPerfectModule (R := R) ER' :=
     RestrictScalarsPerfect.isPerfectModule_restrictScalars I hRI'
       (ModuleCat.of (R ⧸ I) (ULift.{max u v} E)) hperfectE'
-  show CategoryTheory.projectiveDimension (ModuleCat.of R E_R) ≠ ⊤
+  change CategoryTheory.projectiveDimension (ModuleCat.of R E_R) ≠ ⊤
   rw [← ModuleCat.projectiveDimension_eq_of_linearEquiv
     (M := ModuleCat.of R ER') (N := ModuleCat.of R E_R) eER]
   exact (RestrictScalarsPerfect.isPerfectModule_iff_projectiveDimension_ne_top
@@ -367,7 +367,7 @@ theorem projectiveDimension_restrictScalars_quotient_eq_add
   have habE' := Module.projectiveDimension_add_depth_eq_depth_self E hE
   rw [depth_maximalIdeal_eq_depth_quotient I E] at habE
   rw [depth_maximalIdeal_eq_depth_quotient I (R ⧸ I)] at habRI
-  show Module.projectiveDimension R E =
+  change Module.projectiveDimension R E =
     Module.projectiveDimension R (R ⧸ I) + Module.projectiveDimension (R ⧸ I) E
   exact add_depth_right_cancel (d := Module.depth (R ⧸ I) (IsLocalRing.maximalIdeal (R ⧸ I)) E)
     (Module.depth_lt_top (R ⧸ I) _ E (Module.maximalIdeal_smul_top_ne_top E)).ne

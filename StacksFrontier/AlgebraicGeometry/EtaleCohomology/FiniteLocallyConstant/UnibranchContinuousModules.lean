@@ -100,7 +100,8 @@ on 03RV, 0245 and 03QW.
 ## Implementation notes
 
 The approach of Tag 0DV5, which is carried in
-`StacksFrontier.CategoryTheory.Sites.LocallyConstant.AbelianFiniteGModules` for abelian sheaves, does
+`StacksFrontier.CategoryTheory.Sites.LocallyConstant.AbelianFiniteGModules` for abelian sheaves,
+does
 not apply: the source observes that "a finite `Λ`-module may not have a finite underlying set", so
 the finiteness condition on the two sides of 0GIY is not the one 0DV5 transports. Accordingly
 nothing here is obtained from that module, and the finiteness property used on the module side is

@@ -182,7 +182,7 @@ private theorem tensorLimEquiv_canonMod [DecidableEq J] (i : J) (y : S i ⊗[A] 
         (fun i j h ↦ LinearMap.rTensor P (transLin f i j h)) i y := by
   induction y using TensorProduct.inductionOn with
   | tmul s p =>
-      show tensorLimEquiv f hf hsurj hinj P (algebraMap (S i) R s ⊗ₜ[A] p) = _
+      change tensorLimEquiv f hf hsurj hinj P (algebraMap (S i) R s ⊗ₜ[A] p) = _
       rw [tensorLimEquiv]
       simp only [LinearEquiv.trans_apply, TensorProduct.congr_tmul, LinearEquiv.refl_apply,
         limEquiv_symm_algebraMap, TensorProduct.directLimitLeft_tmul_of]

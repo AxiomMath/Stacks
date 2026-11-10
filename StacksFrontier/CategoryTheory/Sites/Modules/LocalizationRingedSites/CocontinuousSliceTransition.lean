@@ -78,7 +78,7 @@ theorem moduleAddObj_sheafOfModulesPushforward_cocontinuousSliceTransition
     (a b : P.obj (Sheaf.moduleSheaf S ((SheafOfModules.pushforward.{w} φ).obj M))) :
     Sheaf.moduleAddObj O M (G.sheafPushforwardContinuous (Type w) J K ⋙ P) a b =
       Sheaf.moduleAddObj S ((SheafOfModules.pushforward.{w} φ).obj M) P a b := by
-  show _ = Sheaf.moduleAddObj S
+  change _ = Sheaf.moduleAddObj S
     ((SheafOfModules.restrictScalars φ).obj ((restrictionModules J K G O).obj M)) P a b
   exact moduleAddObj_restrictionModules J K G O M P _ _
 
@@ -90,7 +90,7 @@ theorem moduleSMulObj_sheafOfModulesPushforward_cocontinuousSliceTransition
     Sheaf.moduleSMulObj O M (G.sheafPushforwardContinuous (Type w) J K ⋙ P)
         (P.map ((sheafCompose J (forget RingCat.{w})).map φ) r) a =
       Sheaf.moduleSMulObj S ((SheafOfModules.pushforward.{w} φ).obj M) P r a := by
-  show _ = Sheaf.moduleSMulObj S
+  change _ = Sheaf.moduleSMulObj S
     ((SheafOfModules.restrictScalars φ).obj ((restrictionModules J K G O).obj M)) P r a
   exact (moduleSMulObj_restrictionModules J K G O M P _ _).trans
     (moduleSMulObj_restrictScalars φ ((restrictionModules J K G O).obj M) P r a).symm
@@ -351,7 +351,7 @@ theorem cocontinuousRingCompatible_localized_cocontinuousSliceTransition
       ((Sheaf.sectionsFunctor Y.J (Opposite.op Z.unop.left)).map
         ((sheafCompose Y.J (forget CommRingCat.{u})).map fsharp) r))
     ((Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J)
-      (K := Y.J)).natTrans.naturality
+      (K := Y.J)).naturality
       ((sheafCompose X.J (forget RingCat.{u})).map ψ))
   refine h1.trans ?_
   refine (congrArg (fun y => (Sheaf.sectionsFunctor _ Z).map
@@ -398,7 +398,7 @@ noncomputable abbrev cocontinuousBaseChangeModulesCocontinuousSliceTransition :=
   baseChangeModulesCocontinuousLocalizedMate V (v.obj V)
     (cocontinuousRingedToposHomCocontinuousMorphism v hv fsharp)
     (localizedCocontinuousRingedToposHomCocontinuousMorphism v V fsharp)
-    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J)).natTrans
+    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J))
     (forgetFSharp_localizedCocontinuousRingedToposHom_cocontinuousMorphism v V fsharp)
 
 /-- On sections, the localized transition at `M|_{G'(v(V))}` is the restriction of the
@@ -437,12 +437,14 @@ noncomputable abbrev cocontinuousLocalizedPullbackMateCocontinuousSliceTransitio
   baseChangePullbackMateCocontinuousLocalizedMate V (v.obj V)
     (cocontinuousRingedToposHomCocontinuousMorphism v hv fsharp)
     (localizedCocontinuousRingedToposHomCocontinuousMorphism v V fsharp)
-    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J)).natTrans
+    (Functor.overPostSheafBaseChangeCocontinuousBaseChange v V (J := X.J) (K := Y.J))
     (forgetFSharp_localizedCocontinuousRingedToposHom_cocontinuousMorphism v V fsharp)
 
+omit [HasWeakSheafify (X.J.over V) AddCommGrpCat.{u}]
+  [(X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The localization mate of the morphism given by a cocontinuous functor is invertible.** -/
 theorem isIso_cocontinuousLocalizedPullbackMate_cocontinuousSliceTransition :
-    IsIso (cocontinuousLocalizedPullbackMateCocontinuousSliceTransition v fsharp V).natTrans :=
+    IsIso (cocontinuousLocalizedPullbackMateCocontinuousSliceTransition v fsharp V) :=
   isIso_baseChangePullbackMate_cocontinuousLocalizedMate _ _ _ _ _ _
     (Functor.isIso_mateEquiv_overPostSheafBaseChange_cocontinuousBaseChange v V)
 
@@ -513,8 +515,7 @@ variable {T : Type u} [SmallCategory T] {JT : GrothendieckTopology T} (R : Sheaf
 
 section Slice
 
-variable (V : X.C) [HasWeakSheafify (X.J.over V) AddCommGrpCat.{u}]
-  [(X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+variable (V : X.C)
 
 /-- **The localized transposed transition** `f'^*(q^*N) ⟶ p^*N` of modules on the slice
 `T/G'(v(V))`. -/
@@ -562,7 +563,7 @@ theorem isIso_cocontinuousSliceTransitionPullback_app_iff_cocontinuousSliceTrans
   have : IsIso ((cocontinuousLocalizedPullbackMateCocontinuousSliceTransition v fsharp V).app
       ((SheafOfModules.pushforward.{u} (F := G') ψ').obj M)) :=
     inferInstanceAs (IsIso
-      ((cocontinuousLocalizedPullbackMateCocontinuousSliceTransition v fsharp V).natTrans.app _))
+      ((cocontinuousLocalizedPullbackMateCocontinuousSliceTransition v fsharp V).app _))
   rw [e₁, ← isIso_comp_right_iff _
       (eqToHom (cocontinuousSliceRight_obj_restriction_cocontinuousSliceTransition R v τ ψ V M)),
     ← h, isIso_comp_left_iff, isIso_comp_left_iff]
@@ -585,9 +586,7 @@ theorem isIso_cocontinuousSliceTransitionPullback_app_unit_cocontinuousSliceTran
     ((cocontinuousSliceTransitionPullbackCocontinuousSliceTransition R v fsharp τ ψ ψ' hτ V).app
       A)) hA) h
 
-omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasWeakSheafify (X.J.over V) AddCommGrpCat.{u}]
-  [(X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The localized transition carries invertibility from `q^*` to `p^*`.** For a morphism
 `c : P ⟶ N` of modules on `T/G'(v(V))` at whose ends the localized transition is invertible, if
 the restriction `q^*c` is invertible then so is `p^*c`. -/
@@ -631,7 +630,7 @@ variable [hGc : G.IsCocontinuous X.J JT] [hG'c : G'.IsCocontinuous Y.J JT]
 
 /-- **The localized transition is invertible on globally presented modules**, once the
 transition is invertible at the structure sheaf and `G`, `G'` are cocontinuous. -/
-theorem isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation_cocontinuousSliceTransition
+theorem isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation
     (hunit : IsIso
       ((cocontinuousSiteTransitionPullbackCocontinuousSliceTransition R v fsharp τ ψ ψ' hτ).app
         (SheafOfModules.unit R)))
@@ -691,7 +690,7 @@ theorem isIso_cocontinuousSiteTransitionPullback_app_of_coversTop_cocontinuousSl
   refine Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_of_coversTop hV _ fun i W g ↦ ?_
   have h := (isIso_cocontinuousSliceTransitionPullback_app_iff_cocontinuousSliceTransition R v
     fsharp τ ψ ψ' hτ (V i) M).mp
-    (isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation_cocontinuousSliceTransition
+    (isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation
       R v fsharp τ ψ ψ' hτ (V i) hunit (hM i))
   exact Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_val_app_of_isIso_pushforward _ _ h
     (op (Over.mk g))

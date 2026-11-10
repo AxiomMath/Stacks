@@ -100,8 +100,7 @@ theorem tensorTotEquiv_tmul (n : ℤ) (ν : N) (x : TotX U Q n) :
 theorem tensorTotEquiv_comm (n m : ℤ) (h : n + 1 = m) (z : N ⊗[A] TotX U Q n) :
     tensorTotEquiv U N Q m ((TensorProduct.map LinearMap.id (totDTo U Q n m h)) z) =
       totDTo U (tensorCoeff N Q) n m h (tensorTotEquiv U N Q n z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul ν x =>
     rw [TensorProduct.map_tmul, LinearMap.id_apply, tensorTotEquiv_tmul, tensorTotEquiv_tmul]
@@ -349,7 +348,7 @@ theorem graded_d_mk (n m : ℤ) (h : n + 1 = m) (y : F.totStep (U := U) k n) :
         rw [← cechTot_d_apply' U P h]
         exact (F.totFiltration (U := U)).map_d_le k n m (Submodule.mem_map_of_mem y.2)⟩ :
           F.totStep (U := U) k m) := by
-  show Submodule.Quotient.mk (⟨((cechTot U P).d n m).hom y, _⟩ : F.totStep (U := U) k m) = _
+  change Submodule.Quotient.mk (⟨((cechTot U P).d n m).hom y, _⟩ : F.totStep (U := U) k m) = _
   congr 2
   exact cechTot_d_apply' U P h y
 

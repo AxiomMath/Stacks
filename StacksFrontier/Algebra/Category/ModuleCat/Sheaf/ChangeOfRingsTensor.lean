@@ -117,8 +117,7 @@ private theorem linearMap_ext_tmul_aux {R S : Type w} [CommRing R] [CommRing S] 
     {M P : Type w} [AddCommGroup M] [Module R M] [AddCommGroup P] [Module S P]
     {α β : (S ⊗[R] M) →ₗ[S] P} (h : ∀ (a : S) (m : M), α (a ⊗ₜ m) = β (a ⊗ₜ m)) : α = β :=
   LinearMap.ext fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add p q hp hq => simp [hp, hq]
     | tmul a m => exact h a m
 
@@ -129,8 +128,7 @@ private theorem apply_tmul_eq_of_tmul_tmul {R S : Type w} [CommRing R] [CommRing
     [AddCommGroup P] [Module S P] {α β : (S ⊗[R] (M ⊗[R] N)) →ₗ[S] P} {a : S}
     (h : ∀ (m : M) (n : N), α (a ⊗ₜ (m ⊗ₜ n)) = β (a ⊗ₜ (m ⊗ₜ n))) (t : M ⊗[R] N) :
     α (a ⊗ₜ t) = β (a ⊗ₜ t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add p q hp hq => simp [tmul_add, hp, hq]
   | tmul m n => exact h m n
 
@@ -176,7 +174,7 @@ theorem changeOfRingsTensorAppIso_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
   let : Algebra (O₁.obj Y) ((ringPresheaf O₂).obj Y) := (θ.app Y).hom.toAlgebra
   refine ModuleCat.hom_ext (linearMap_ext_tmul_tmul fun a x y => ?_)
   have h1 : ((ringPresheaf O₂).map f).hom (1 : (ringPresheaf O₂).obj X) = 1 := map_one _
-  show ((((ringPresheaf O₂).map f).hom a) ⊗ₜ[(ringPresheaf O₁).obj Y]
+  change ((((ringPresheaf O₂).map f).hom a) ⊗ₜ[(ringPresheaf O₁).obj Y]
           (show A.obj Y from A.map f x)) ⊗ₜ[(ringPresheaf O₂).obj Y]
         ((1 : (ringPresheaf O₂).obj Y) ⊗ₜ[(ringPresheaf O₁).obj Y]
           (show B.obj Y from B.map f y)) =
@@ -281,8 +279,7 @@ theorem linearMap_ext_one_tmul_tmul_tmul {R S : Type w} [CommRing R] [CommRing S
     (h : ∀ (m : M) (n : N) (p : P),
       α ((1 : S) ⊗ₜ ((m ⊗ₜ n) ⊗ₜ p)) = β ((1 : S) ⊗ₜ ((m ⊗ₜ n) ⊗ₜ p))) : α = β :=
   linearMap_ext_one_tmul_tmul fun u p => by
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | add x y hx hy => simp [TensorProduct.add_tmul, tmul_add, hx, hy]
     | tmul m n => exact h m n p
 

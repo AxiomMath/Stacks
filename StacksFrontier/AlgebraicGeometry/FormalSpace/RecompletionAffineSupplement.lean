@@ -304,7 +304,7 @@ theorem isLocallyInjective_completionSubfunctorColimitComparison {I : Type (u + 
       (colimit.ι (completionSubfunctorDiagram B S hS E Y c hc W) k) g.op z]
     exact (ConcreteCategory.congr_hom (NatTrans.congr_app
       (colimit.w (completionSubfunctorDiagram B S hS E Y c hc W) w) (Opposite.op V)) _).symm
-  show (colimit (completionSubfunctorDiagram B S hS E Y c hc W)).map g.op x =
+  change (colimit (completionSubfunctorDiagram B S hS E Y c hc W)).map g.op x =
     (colimit (completionSubfunctorDiagram B S hS E Y c hc W)).map g.op y
   rw [← ha', ← hb', key a, key b]
   exact congrArg _ (Subtype.ext hw)
@@ -1038,10 +1038,6 @@ on `isAffineFormalAlgebraicSpace_completionAlong'` above"]
 theorem completionOfAffineIsAffine : CompletionOfAffineIsAffine' B S hS := fun Y hY W hW ↦
   ⟨satisfiesSetTheoreticCondition_completionSheafULift B S hS Y hY W hW,
     exists_affinePresentation_completionSheafULift' B S hS Y hY W hW⟩
-
-add_to_stacks 0GVS "the completion of a formal algebraic space along a closed subset of its \
-reduction, defined for an arbitrary morphism into the space and an arbitrary subset of the \
-points of its source" AlgebraicGeometry.FormalSpace.completionAlong
 
 end AlgebraicGeometry.FormalSpace
 

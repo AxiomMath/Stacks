@@ -37,10 +37,10 @@ unconditionally.
 
 ## Implementation notes
 
-*Why the library's general form of Stacks 072Z does not apply.* The small étale site of an algebraic space over a
-`Scheme.{u}` has its objects in `Type (u + 1)` and its morphisms, structure sheaf and modules at
-`u`. `Stacks.Cohomology.isTotallyAcyclic_pushforwardModules_of_injective` needs a source ringed
-topos with all three universes equal, and
+*Why the library's general form of Stacks 072Z does not apply.* The small étale site of an algebraic
+space over a `Scheme.{u}` has its objects in `Type (u + 1)` and its morphisms, structure sheaf and
+modules at `u`. `Stacks.Cohomology.isTotallyAcyclic_pushforwardModules_of_injective` needs a source
+ringed topos with all three universes equal, and
 `Stacks.Cohomology.isTotallyAcyclic_rightAcyclic_globalSections` needs a small site. Both
 obstructions are removed without any universe transport:
 `Stacks.Cohomology.isTotallyAcyclic_abelianPushforward_of_injective` is Stacks 072Z for a morphism

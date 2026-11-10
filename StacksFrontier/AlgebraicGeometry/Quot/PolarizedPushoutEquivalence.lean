@@ -111,25 +111,25 @@ theorem exists_glue_family {xS xT' xT : PolarizedFamily B} {S' : B.Schemes}
   let v0 : yT ⟶ yT' := xT.transportTotalInv ξT ≫ ⟨i, vt, vc, vl⟩ ≫ xT'.transportTotalHom ξT'
   have hu0t : u0.totalMap = commonToTarget (B.inclusion.map i) (B.inclusion.map f) q := by
     apply pullback.hom_ext
-    · show (ξT.inv ≫ ut ≫ ξS.hom) ≫ _ = _
+    · change (ξT.inv ≫ ut ≫ ξS.hom) ≫ _ = _
       rw [commonToTarget, pullback.lift_fst, Category.assoc, Category.assoc,
         IsPullback.isoPullback_hom_fst, uc.w, ← Category.assoc, IsPullback.isoPullback_inv_fst]
-    · show (ξT.inv ≫ ut ≫ ξS.hom) ≫ _ = _
+    · change (ξT.inv ≫ ut ≫ ξS.hom) ≫ _ = _
       rw [commonToTarget, pullback.lift_snd, Category.assoc, Category.assoc,
         IsPullback.isoPullback_hom_snd, hP.w, IsPullback.isoPullback_inv_snd]
   have hv0t : v0.totalMap = commonToAmbient (B.inclusion.map i) (B.inclusion.map f) q := by
     apply pullback.hom_ext
-    · show (ξT.inv ≫ vt ≫ ξT'.hom) ≫ _ = _
+    · change (ξT.inv ≫ vt ≫ ξT'.hom) ≫ _ = _
       rw [commonToAmbient, pullback.lift_fst, Category.assoc, Category.assoc,
         IsPullback.isoPullback_hom_fst, vc.w, ← Category.assoc, IsPullback.isoPullback_inv_fst]
-    · show (ξT.inv ≫ vt ≫ ξT'.hom) ≫ _ = _
+    · change (ξT.inv ≫ vt ≫ ξT'.hom) ≫ _ = _
       rw [commonToAmbient, pullback.lift_snd, Category.assoc, Category.assoc,
         IsPullback.isoPullback_hom_snd, IsPullback.isoPullback_inv_snd]
   have hu0b : u0.baseMap = f := by
-    show 𝟙 _ ≫ f ≫ 𝟙 _ = f
+    change 𝟙 _ ≫ f ≫ 𝟙 _ = f
     rw [Category.id_comp, Category.comp_id]
   have hv0b : v0.baseMap = i := by
-    show 𝟙 _ ≫ i ≫ 𝟙 _ = i
+    change 𝟙 _ ≫ i ≫ 𝟙 _ = i
     rw [Category.id_comp, Category.comp_id]
   have hxu : xT.transportTotalHom ξT ≫ u0 = (⟨f, ut, uc, ul⟩ : xT ⟶ xS) ≫
       xS.transportTotalHom ξS := by

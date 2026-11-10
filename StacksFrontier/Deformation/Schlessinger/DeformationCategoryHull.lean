@@ -131,7 +131,7 @@ public theorem isDeformationFunctor_isomorphismClasses_of_infinitesimalAutomorph
   have ha : a.hom = 𝟙 x :=
     ((isThin_fiber_of_infinitesimalAutomorphisms_eq_bot hD g e hpair i hi htriv A) x x).elim _ _
   rw [Iso.refl_hom, ha]
-  show 𝟙 x'.1 ≫ φ = φ ≫ 𝟙 x.1
+  change 𝟙 x'.1 ≫ φ = φ ≫ 𝟙 x.1
   simp
 
 end Thin
@@ -149,12 +149,12 @@ public theorem exists_hull_isomorphismClasses_of_isDeformationCategory (hΛ : Is
     (hfin :
       letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
+        (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
         ⟨Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
       FiniteDimensional k
         (artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :
     let G := isomorphismClasses 𝓕 hD.predeformation.cofibered
-    ∃ ξ : FormalObject (CategoryOfElements.π G),
+    ∃ ξ : FormalObject (Functor.Elements.π G),
       IsHull (categoryOfElements_projection_isCofibered G) ξ := by
   intro G
   let : IsNoetherianRing Λ := hΛ.isNoetherianRing
@@ -163,7 +163,7 @@ public theorem exists_hull_isomorphismClasses_of_isDeformationCategory (hΛ : Is
   let hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
   let : Fact (IsPredeformationCategory.{u, w, w} 𝓕.p) := ⟨hD.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
   let : FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
       (isomorphismClasses 𝓕 hD.predeformation.cofibered)) :=
     finiteDimensional_tangentSpaceArtinian_of_artinianTangentSpace 𝓕 hD.predeformation hS2 hfin
@@ -183,7 +183,7 @@ public theorem isProrepresentableULift_isomorphismClasses_of_infinitesimalAutomo
     (hfin :
       letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
+        (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
         ⟨Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
       FiniteDimensional k
         (artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered)))
@@ -200,7 +200,7 @@ public theorem isProrepresentableULift_isomorphismClasses_of_infinitesimalAutomo
       (p := 𝓕.p) hD g e hpair i hi htriv
   refine (isProrepresentableULift_iff_isDeformationFunctor _).2 ⟨hDF, ?_, ?_⟩
   · let G := isomorphismClasses 𝓕 hD.predeformation.cofibered
-    let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π G)
+    let 𝓖 := BasedCategory.ofFunctor (Functor.Elements.π G)
     let hDel := (isDeformationCategory_iff G).2 hDF
     let hS2el := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓖 hDel
     let hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD

@@ -81,7 +81,7 @@ variable {k k' : Type u} [Field k] [Field k'] [Algebra k k']
 def traceFormPairing (l : k' →ₗ[k] k) : k' →ₗ[k] Module.Dual k k' where
   toFun c := l ∘ₗ LinearMap.mulRight k c
   map_add' c d := by ext a; simp [mul_add]
-  map_smul' r c := by ext a; simp [mul_smul_comm]
+  map_smul' r c := by ext a; simp
 
 /-- The pairing evaluates as `c ↦ (a ↦ l(a c))`. -/
 theorem traceFormPairing_apply (l : k' →ₗ[k] k) (c a : k') :
@@ -203,7 +203,7 @@ theorem restrictScalarsDualMap_inv (l : k' →ₗ[k] k) (hl : l ≠ 0) {V : Modu
     restrictScalarsDualMap l (restrictScalarsDualInv l hl g) = g := by
   let : Module k V := Module.compHom V (algebraMap k k')
   have : IsScalarTower k k' V := ⟨fun r a v => by
-    show (r • a) • v = algebraMap k k' r • (a • v)
+    change (r • a) • v = algebraMap k k' r • (a • v)
     rw [Algebra.smul_def, mul_smul]⟩
   ext v
   exact congrArg (fun h => h v)
@@ -214,7 +214,7 @@ theorem restrictScalarsDualInv_map (l : k' →ₗ[k] k) (hl : l ≠ 0) {V : Modu
     (ψ : V ⟶ of k' k') : restrictScalarsDualInv l hl (restrictScalarsDualMap l ψ) = ψ := by
   let : Module k V := Module.compHom V (algebraMap k k')
   have : IsScalarTower k k' V := ⟨fun r a v => by
-    show (r • a) • v = algebraMap k k' r • (a • v)
+    change (r • a) • v = algebraMap k k' r • (a • v)
     rw [Algebra.smul_def, mul_smul]⟩
   ext v
   exact congrArg (fun h => h v)
@@ -467,7 +467,7 @@ theorem finite_of_isProper_comp [Nonempty X]
       map_add' c d := ψ.map_add c d
       map_smul' a c := by
         rw [Algebra.smul_def, map_mul, RingHom.id_apply]
-        show ψ (algebraMap k k' a) * ψ c = r a * ψ c
+        change ψ (algebraMap k k' a) * ψ c = r a * ψ c
         rw [hr]
         rfl }
   exact Module.Finite.of_injective L ψ.injective

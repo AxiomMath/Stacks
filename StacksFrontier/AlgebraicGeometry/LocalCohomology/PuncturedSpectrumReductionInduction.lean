@@ -403,7 +403,7 @@ theorem reductionBoundedBy_of_forall_lt (d : ℕ)
       Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
         (Localization.AtPrime p.asIdeal))) ⁻¹ᵁ (hV.fromSpec ⁻¹ᵁ j'.opensRange),
       p ∉ hV.fromSpec ⁻¹ᵁ j'.opensRange := fun hcp hc => hcp (by
-    show Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
+    change Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
       (Localization.AtPrime p.asIdeal))) (IsLocalRing.closedPoint
         (Localization.AtPrime p.asIdeal)) ∈ hV.fromSpec ⁻¹ᵁ j'.opensRange
     rw [hclp]
@@ -461,7 +461,7 @@ theorem puncturedSpectrumReduction {W Z : Scheme.{u}} (j' : W ⟶ Z) [IsOpenImme
       Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
         (Localization.AtPrime p.asIdeal))) ⁻¹ᵁ (hV.fromSpec ⁻¹ᵁ j'.opensRange),
       p ∉ hV.fromSpec ⁻¹ᵁ j'.opensRange := fun hcp hc => hcp (by
-    show Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
+    change Spec.map (CommRingCat.ofHom (algebraMap (ToType Γ(Z, V))
       (Localization.AtPrime p.asIdeal))) (IsLocalRing.closedPoint
         (Localization.AtPrime p.asIdeal)) ∈ hV.fromSpec ⁻¹ᵁ j'.opensRange
     rw [hclp]

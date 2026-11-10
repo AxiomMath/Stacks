@@ -78,7 +78,7 @@ theorem isUnit_of_isRegularSectionOn_top_of_ringKrullDim_stalk_eq_zero (X : Sche
   refine isUnit_of_mem_nonZeroDivisors_of_subsingleton_primeSpectrum _
     (mem_nonZeroDivisors_iff.mpr ⟨fun a ha => hreg ?_, fun a ha => hreg ?_⟩)
   all_goals
-    show _ • a = _ • (0 : X.presheaf.stalk x)
+    change _ • a = _ • (0 : X.presheaf.stalk x)
     simpa only [smul_eq_mul, mul_comm, mul_zero, zero_mul] using ha
 
 /-- **A flat preimmersion from a scheme with zero-dimensional local rings lands in the generic
@@ -133,7 +133,7 @@ theorem bijective_pi_germ_of_discreteTopology (X : Scheme.{u}) [DiscreteTopology
     · rfl
     · have he : V x ⊓ V y = ⊥ := by
         ext z
-        show (z = x ∧ z = y) ↔ False
+        change (z = x ∧ z = y) ↔ False
         exact ⟨fun h => hxy (h.1.symm.trans h.2), False.elim⟩
       have : Subsingleton Γ(X, V x ⊓ V y) := by
         rw [he]
@@ -144,7 +144,7 @@ theorem bijective_pi_germ_of_discreteTopology (X : Scheme.{u}) [DiscreteTopology
   obtain ⟨g, hg, -⟩ := X.sheaf.existsUnique_gluing' V ⊤
     (fun x => homOfLE le_top) hcover s hcompat
   refine ⟨g, funext fun x => ?_⟩
-  show (X.presheaf.germ ⊤ x trivial) g = t x
+  change (X.presheaf.germ ⊤ x trivial) g = t x
   calc _ = X.presheaf.germ (V x) x (hV x)
           (X.presheaf.map (homOfLE (show V x ≤ ⊤ from le_top)).op g) :=
         (X.presheaf.germ_res_apply (homOfLE (show V x ≤ ⊤ from le_top)) x (hV x) g).symm
@@ -230,7 +230,7 @@ theorem isLocalization_pi_sections_of_genericPoints {ι : Type*} (X : Scheme.{u}
       commutes' := by
         intro r
         refine G.injective ?_
-        show G (G.symm (a (algebraMap Γ(X, ⊤) _ r))) = G (algebraMap Γ(X, ⊤) _ r)
+        change G (G.symm (a (algebraMap Γ(X, ⊤) _ r))) = G (algebraMap Γ(X, ⊤) _ r)
         rw [G.apply_symm_apply]
         funext z
         exact (f z.1).germ_stalkMap_apply ⊤ z.2 trivial r }

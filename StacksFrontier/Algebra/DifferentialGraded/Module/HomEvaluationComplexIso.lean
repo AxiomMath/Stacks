@@ -154,7 +154,7 @@ def homEvaluationComparisonApp (Y : CochainComplex B ℤ) :
   comm' i j hij := by
     obtain rfl : i + 1 = j := hij
     have h₁ : ((homEvaluationComplexFunctor B K).obj Y).d i (i + 1) =
-        homEvaluationDiff B K Y i := dif_pos rfl
+        homEvaluationDiff B K Y i := dite_eq_left rfl
     have h₂ : ((homModuleComplexFunctor B K).obj Y).d i (i + 1) =
         ModuleCat.ofHom
           ((DGCategory.representableModule (dgCategory B) K Y).gradedDifferential i) :=

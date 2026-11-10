@@ -143,8 +143,8 @@ affine.
 
 `Stacks.AmpleTheory.IsAffineOfLeAffine` was isolated as a hypothesis in
 `StacksFrontier/AlgebraicGeometry/AmpleTheory/Basic.lean` on the ground that Tag 01PV was "not
-available", and `StacksFrontier/AlgebraicGeometry/AmpleLocallyClosed/Basic.lean` once called Tag 01PV
-"the keystone the ample theory in this repository is missing". **Both claims have been
+available", and `StacksFrontier/AlgebraicGeometry/AmpleLocallyClosed/Basic.lean` once called Tag
+01PV "the keystone the ample theory in this repository is missing". **Both claims have been
 withdrawn in those files:** Tag 01PV is proved and tagged, as
 `Stacks.NonvanishingAffineIntersection.isAffineOpen_inf_nonvanishingOpen`, and it gives the full
 statement `X_s ⊓ U` affine for every affine `U`. The containment hypothesis then turns `X_s ⊓ U`

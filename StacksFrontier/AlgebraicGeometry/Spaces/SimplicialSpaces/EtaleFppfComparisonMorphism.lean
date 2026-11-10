@@ -122,7 +122,7 @@ instance guitartExact_slicesToAssociatedSquare (n : SimplexCategory) :
       (SimplicialOver.componentOverEquivalence A.left A.hom (op n)).inverse.IsEquivalence
   haveI : (Grothendieck.map (SimplicialOver.toSlices A.left A.hom)).IsEquivalence :=
     Functor.isEquivalence_of_iso (SimplicialOver.associatedTotalEquivalenceInverseIso A.left A.hom)
-  haveI : IsIso (slicesToAssociatedSquare A n).natTrans :=
+  haveI : IsIso (slicesToAssociatedSquare A n) :=
     inferInstanceAs
       (IsIso (Grothendieck.ιCompMap (SimplicialOver.toSlices A.left A.hom) (op n)).inv)
   TwoSquare.guitartExact_of_isEquivalence_of_isIso' _
@@ -145,22 +145,22 @@ instance guitartExact_etaleToFppfSquare (n : SimplexCategory) :
 
 /-- The natural transformation of the square of component inclusions of `u` is an isomorphism. -/
 instance isIso_etaleToFppfSquare (n : SimplexCategory) :
-    IsIso (etaleToFppfSquare A n).natTrans := by
-  have h₁ : IsIso (slicesToAssociatedSquare A n).natTrans :=
+    IsIso (etaleToFppfSquare A n) := by
+  have h₁ : IsIso (slicesToAssociatedSquare A n) :=
     inferInstanceAs
       (IsIso (Grothendieck.ιCompMap (SimplicialOver.toSlices A.left A.hom) (op n)).inv)
   have key : ∀ x, IsIso (((etaleToSlicesSquare A n).hComp (slicesToAssociatedSquare A n)).app x) :=
     fun x ↦ by
       have e := TwoSquare.hComp_app (etaleToSlicesSquare A n) (slicesToAssociatedSquare A n) x
-      have a₁ : IsIso ((slicesToAssociatedSquare A n).natTrans.app ((etaleToSlice A n).obj x)) :=
+      have a₁ : IsIso ((slicesToAssociatedSquare A n).app ((etaleToSlice A n).obj x)) :=
         @NatIso.isIso_app_of_isIso _ _ _ _ _ _ _ h₁ _
-      have a₂ : IsIso ((etaleToSlicesSquare A n).natTrans.app x) :=
+      have a₂ : IsIso ((etaleToSlicesSquare A n).app x) :=
         NatIso.isIso_app_of_isIso _ _
       have a₃ : IsIso ((Grothendieck.map (SimplicialOver.toSlices A.left A.hom)).map
-          ((etaleToSlicesSquare A n).natTrans.app x)) := Functor.map_isIso _ _
-      have : IsIso ((slicesToAssociatedSquare A n).natTrans.app ((etaleToSlice A n).obj x) ≫
+          ((etaleToSlicesSquare A n).app x)) := Functor.map_isIso _ _
+      have : IsIso ((slicesToAssociatedSquare A n).app ((etaleToSlice A n).obj x) ≫
           (Grothendieck.map (SimplicialOver.toSlices A.left A.hom)).map
-            ((etaleToSlicesSquare A n).natTrans.app x)) := IsIso.comp_isIso
+            ((etaleToSlicesSquare A n).app x)) := IsIso.comp_isIso
       exact (congrArg (fun f ↦ IsIso f) e).mpr this
   exact @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ key
 

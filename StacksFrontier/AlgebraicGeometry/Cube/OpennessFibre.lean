@@ -90,7 +90,7 @@ theorem h0_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
     have := congrArg (fun φ => φ.hom z) (D.alternatingIso.hom.comm 0 1)
     simp only [ModuleCat.hom_comp] at this
     refine this.trans ?_
-    show (D.alternatingIso.hom.f 1).hom
+    change (D.alternatingIso.hom.f 1).hom
       (((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 0 1)).hom z) = 0
     rw [show ((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 0 1)).hom z = 0 from hz,
       map_zero]
@@ -165,7 +165,7 @@ theorem h0_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
     have h := congrArg (fun φ => φ.hom z) key
     simp only [ModuleCat.hom_comp] at h
     refine h.symm.trans ?_
-    show Λ.hom (((ModuleCat.extendScalars ρ).map ((ΦX f g y hy R UX UY L).f 0)).hom z) = 0
+    change Λ.hom (((ModuleCat.extendScalars ρ).map ((ΦX f g y hy R UX UY L).f 0)).hom z) = 0
     rw [show ((ModuleCat.extendScalars ρ).map ((ΦX f g y hy R UX UY L).f 0)).hom z = 0 from hΦ,
       map_zero]
   have hface0 : (Φκ.f 0).hom zκ = 0 := by
@@ -173,7 +173,7 @@ theorem h0_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
       (Vκ f g y hy R UX UY 𝔭.asIdeal) Tiso).inv.f 0).hom hT
     rw [map_zero] at h
     refine Eq.trans ?_ h
-    show _ = ((T ≫ (alternatingCechModuleComplexMapIso (qXκ f R 𝔭.asIdeal)
+    change _ = ((T ≫ (alternatingCechModuleComplexMapIso (qXκ f R 𝔭.asIdeal)
       (Vκ f g y hy R UX UY 𝔭.asIdeal) Tiso).inv.f 0).hom ((Φκ.f 0).hom zκ))
     rw [← HomologicalComplex.comp_f, Iso.hom_inv_id, HomologicalComplex.id_f]
     rfl
@@ -208,7 +208,7 @@ theorem h0_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
     (Vκ_eq f g y hy R UX UY 𝔭.asIdeal) σ (by rw [← hface, ← hσ]; rfl)
   have hzκ : zκ = 0 := by rw [← hσ, hσ0, map_zero]; rfl
   have e : (D.alternatingIso.inv.f 0).hom zκ = z := by
-    show ((D.alternatingIso.hom.f 0 ≫ D.alternatingIso.inv.f 0).hom z) = z
+    change ((D.alternatingIso.hom.f 0 ≫ D.alternatingIso.inv.f 0).hom z) = z
     rw [← HomologicalComplex.comp_f, Iso.hom_inv_id, HomologicalComplex.id_f]
     rfl
   rw [← e, hzκ, map_zero]
@@ -254,7 +254,7 @@ theorem h1_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
     have := congrArg (fun φ => φ.hom c) (D.alternatingIso.hom.comm 1 2)
     simp only [ModuleCat.hom_comp] at this
     refine this.trans ?_
-    show (D.alternatingIso.hom.f 2).hom
+    change (D.alternatingIso.hom.f 2).hom
       (((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 1 2)).hom c) = 0
     rw [show ((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 1 2)).hom c = 0 from hc,
       map_zero]
@@ -291,17 +291,17 @@ theorem h1_fibre (𝔭 : PrimeSpectrum R) (hfib : Nonempty ((Scheme.Modules.pull
   refine ⟨(D.alternatingIso.inv.f 0).hom c'', ?_⟩
   have hcomm := congrArg (fun φ => φ.hom c'') (D.alternatingIso.inv.comm 0 1)
   simp only [ModuleCat.hom_comp] at hcomm
-  show ((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 0 1)).hom
+  change ((ModuleCat.extendScalars ρ).map ((C f g R UX UY L).d 0 1)).hom
     ((D.alternatingIso.inv.f 0).hom c'') = c
   refine hcomm.trans ?_
   have hd' : ((alternatingCechModuleComplex (qκ f g R 𝔭.asIdeal) (Wκ f g R UX UY 𝔭.asIdeal)
       ((Scheme.Modules.pullback (gQ f g R 𝔭.asIdeal)).obj L)).d 0 1).hom c'' = cκ :=
     Subtype.ext hc'κ
-  show (D.alternatingIso.inv.f 1).hom
+  change (D.alternatingIso.inv.f 1).hom
     (((alternatingCechModuleComplex (qκ f g R 𝔭.asIdeal) (Wκ f g R UX UY 𝔭.asIdeal)
       ((Scheme.Modules.pullback (gQ f g R 𝔭.asIdeal)).obj L)).d 0 1).hom c'') = c
   rw [hd']
-  show ((D.alternatingIso.hom.f 1 ≫ D.alternatingIso.inv.f 1).hom c) = c
+  change ((D.alternatingIso.hom.f 1 ≫ D.alternatingIso.inv.f 1).hom c) = c
   rw [← HomologicalComplex.comp_f, Iso.hom_inv_id, HomologicalComplex.id_f]
   rfl
 

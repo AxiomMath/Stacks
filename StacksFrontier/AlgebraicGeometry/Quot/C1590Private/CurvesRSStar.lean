@@ -156,11 +156,11 @@ theorem faithful_fiberSquareComparison_of_hasUniqueSquareCocones
       { θ := Fiber.fiberInclusion.map γ
         isHomLift_θ := γ.2
         comm_ξ := by
-          show c.map i x ≫ _ = Fiber.fiberInclusion.map (c.homMap i γ₁) ≫ c.map i y
+          change c.map i x ≫ _ = Fiber.fiberInclusion.map (c.homMap i γ₁) ≫ c.map i y
           rw [← e₁]
           exact (c.homMap_fac i γ).symm
         comm_η := by
-          show c.map j x ≫ _ = Fiber.fiberInclusion.map (c.homMap j γ₁) ≫ c.map j y
+          change c.map j x ≫ _ = Fiber.fiberInclusion.map (c.homMap j γ₁) ≫ c.map j y
           rw [← e₂]
           exact (c.homMap_fac j γ).symm }
     exact Fiber.hom_ext ((hu _ _ K).2 (key γ₁ rfl rfl) (key γ₂ h₁.symm h₂.symm))
@@ -237,7 +237,7 @@ theorem nonempty_cocone (w : f ≫ i = g ≫ j) (hsq : RSSquare g f j i)
   · exact (IsHomLift.lift_eqToHom_comp_iff (p := curvesP B hZ) i ξ hx).1 (IsHomLift.map _ ξ)
   · exact (IsHomLift.lift_eqToHom_comp_iff (p := curvesP B hZ) j η hy).1 (IsHomLift.map _ η)
   · refine CurveFamily.Hom.ext ?_ hcomm
-    show s.α.baseMap ≫ b' = s.β.baseMap ≫ a'
+    change s.α.baseMap ≫ b' = s.β.baseMap ≫ a'
     rw [baseMap_eq_of_isHomLift f s.α, baseMap_eq_of_isHomLift g s.β]
     simpa only [a', b', Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
       using congrArg (fun φ => eqToHom hu ≫ φ) w
@@ -289,7 +289,7 @@ theorem hasUniqueSquareCocones (hsq : RSSquare g f j i) :
   let θ : K₁.z ⟶ K₂.z := ⟨eqToHom e, t, IsPullback.of_horiz_isIso ⟨hcomm⟩⟩
   have hθ : (curvesP B hZ).IsHomLift (𝟙 Z) θ := by
     refine IsHomLift.of_fac' (curvesP B hZ) (𝟙 Z) θ hz₁ hz₂ ?_
-    show (eqToHom e : K₁.z.base ⟶ K₂.z.base) = eqToHom hz₁ ≫ 𝟙 Z ≫ eqToHom hz₂.symm
+    change (eqToHom e : K₁.z.base ⟶ K₂.z.base) = eqToHom hz₁ ≫ 𝟙 Z ≫ eqToHom hz₂.symm
     simp only [Category.id_comp, eqToHom_trans]
   refine ⟨⟨{ θ := θ, isHomLift_θ := hθ, comm_ξ := ?_, comm_η := ?_ }⟩, ?_⟩
   · exact CurveFamily.Hom.ext (cocone_ξ_baseMap_eq K₁ K₂ e).symm ht₂

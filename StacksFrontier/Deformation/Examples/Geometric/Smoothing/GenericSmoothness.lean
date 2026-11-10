@@ -101,7 +101,7 @@ private theorem evaluation_of_quotient_eq {k F : Type u} [Field k] [Field F]
         _ = algebraMap (parameterRing k n c) F a := by rw [hθ]; rfl
         _ = φ (Ideal.Quotient.mk (Ideal.span (Set.range
           (deformedEquation k n c f))) (MvPolynomial.C a)) := by
-          show algebraMap (parameterRing k n c) F a =
+          change algebraMap (parameterRing k n c) F a =
             φ (algebraMap (parameterRing k n c)
               (deformedCoordinateRing k n c f) a)
           exact (AlgHom.commutes φ a).symm
@@ -138,7 +138,7 @@ private theorem deformationPresentation_jacobian_eval {k F : Type u} [Field k] [
   calc
     φ P.jacobian = eval P.jacobiMatrix.det := by
       rw [P.jacobian_eq_jacobiMatrix_det]
-      show φ (Ideal.Quotient.mkₐ (parameterRing k n c)
+      change φ (Ideal.Quotient.mkₐ (parameterRing k n c)
         (Ideal.span (Set.range (deformedEquation k n c f))) P.jacobiMatrix.det) = _
       rw [← heval]
     _ = (eval.mapMatrix P.jacobiMatrix).det := RingHom.map_det eval P.jacobiMatrix
@@ -235,7 +235,7 @@ private theorem deformation_minors_span_good_open {k : Type u} [Field k]
       IsLocalization.Away.algebraMap_isUnit (algebraMap R S p)
     have hu' : IsUnit (algebraMap T F (algebraMap R T p)) := hu.map (algebraMap T F)
     have hθ : θ p = algebraMap T F (algebraMap R T p) := by
-      show algebraMap R F p = ((algebraMap T F).comp (algebraMap R T)) p
+      change algebraMap R F p = ((algebraMap T F).comp (algebraMap R T)) p
       rw [@IsScalarTower.algebraMap_eq R T F _ _ _ _ _ _ hRTF]
     rw [hθ]
     exact hu'.ne_zero
@@ -259,14 +259,14 @@ private theorem deformation_minors_span_good_open {k : Type u} [Field k]
     have hq : algebraMap T F (algebraMap S T
         (deformationPresentation f a ha).jacobian) = 0 :=
       Ideal.Quotient.eq_zero_iff_mem.mpr hvan
-    show algebraMap S F (deformationPresentation f a ha).jacobian = 0
+    change algebraMap S F (deformationPresentation f a ha).jacobian = 0
     rwa [@IsScalarTower.algebraMap_apply S T F _ _ _ _ _ _ hSTF]
   have hdet' : φ (deformationPresentation f a ha).jacobian = (J.submatrix id a).det := by
     have hmat : J.submatrix id a = Matrix.of fun j i =>
         MvPolynomial.aeval x (MvPolynomial.map θ.toRingHom
           (MvPolynomial.pderiv (a i) (deformedEquation k n c f j))) := by
       ext j i
-      show MvPolynomial.aeval x
+      change MvPolynomial.aeval x
           (MvPolynomial.pderiv (a i)
             (MvPolynomial.map θ.toRingHom (deformedEquation k n c f j))) =
         MvPolynomial.aeval x (MvPolynomial.map θ.toRingHom
@@ -299,7 +299,7 @@ private theorem smooth_of_preSubmersive_family_jacobians_span {R S : Type u}
       exact (IsLocalization.Away.algebraMap_isUnit ((P i).jacobian)).mul Q.jacobian_isUnit
     let Q' : Algebra.SubmersivePresentation R T (Unit ⊕ ι) (Unit ⊕ σ) :=
       ⟨P', hunit⟩
-    show RingHom.IsStandardSmooth ((algebraMap S T).comp (algebraMap R S))
+    change RingHom.IsStandardSmooth ((algebraMap S T).comp (algebraMap R S))
     rw [← IsScalarTower.algebraMap_eq R S T]
     exact (RingHom.isStandardSmooth_algebraMap).mpr Q'.isStandardSmooth
   exact (RingHom.smooth_iff_locally_isStandardSmooth).2 hloc
@@ -442,7 +442,7 @@ private theorem localized_deformation_awayMap_smooth {k : Type u} [Field k]
     IsLocalization.algEquiv (Submonoid.powers (algebraMap R A p)) T T'
   have hcomp : e.toRingEquiv.toRingHom.comp (algebraMap Q T) =
       localizedAwayMapRingHom (algebraMap R A) p := by
-    show e.toRingEquiv.toRingHom.comp (algebraMap Q T) =
+    change e.toRingEquiv.toRingHom.comp (algebraMap Q T) =
       IsLocalization.Away.map Q T' (algebraMap R A) p
     have hmap' : IsLocalization.Away.map Q T' (algebraMap R A) p =
         algebraMap Q T' := by
@@ -507,7 +507,7 @@ public theorem exists_nonempty_open_smooth_projection
       exact (MorphismProperty.arrow_mk_iso_iff (P := @Smooth)
         (SpecMapRestrictBasicOpenIso
           (CommRingCat.ofHom (algebraMap R A)) p)).mpr hspec
-    show Smooth (π.resLE U (π ⁻¹ᵁ U) le_rfl)
+    change Smooth (π.resLE U (π ⁻¹ᵁ U) le_rfl)
     rw [Scheme.Hom.resLE_eq_morphismRestrict]
     exact hrestrict
 

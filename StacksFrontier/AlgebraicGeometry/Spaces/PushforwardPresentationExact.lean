@@ -107,7 +107,7 @@ variable {X : AlgebraicSpaces B S hS}
 spaces-étale site of `X` to the terminal object is the structure morphism of that object. -/
 theorem toSpaces_map_from_idObj (W : SpacesEtale B S hS X) :
     (SpacesEtale.toSpaces B S hS X).map ((isTerminal_idObj B S hS X).from W) = W.1.hom := by
-  show W.obj.hom ≫ inv (𝟙 X) = W.1.hom
+  change W.obj.hom ≫ inv (𝟙 X) = W.1.hom
   simp
 
 /-- The spaces-étale site of `X` has binary products. -/

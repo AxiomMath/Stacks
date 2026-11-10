@@ -212,7 +212,7 @@ theorem isOpenSubspace_puncturedSubfunctor :
     have h := congrArg Over.Hom.left ((Over.post (X := B.obj hk) B.inclusion).map_preimage
       (X := puncturedAffineLineChart k B hk) (Y := affineLineChart k B hk)
       (puncturedAffineLineInclusion k))
-    show AlgebraicGeometry.IsOpenImmersion ((Over.post (X := B.obj hk) B.inclusion).map
+    change AlgebraicGeometry.IsOpenImmersion ((Over.post (X := B.obj hk) B.inclusion).map
       ((Over.post (X := B.obj hk) B.inclusion).preimage (X := puncturedAffineLineChart k B hk)
         (Y := affineLineChart k B hk) (puncturedAffineLineInclusion k))).left
     rw [h, puncturedAffineLineInclusion_left]
@@ -328,7 +328,7 @@ theorem pointsMap_originChartPoint :
   rw [originObjectPoint, Space.pointsMap_class]
   refine Space.FieldValuedPoint.class_eq_class_of_hasCommonExtension B (Spec (.of k)) hk _
     ⟨_, Space.FieldValuedPoint.dominates_refl B (Spec (.of k)) hk _ _, 𝟙 _, ?_⟩
-  show (Over.post (X := B.obj hk) B.inclusion).map (𝟙 _) ≫ affineLineZero k _ =
+  change (Over.post (X := B.obj hk) B.inclusion).map (𝟙 _) ≫ affineLineZero k _ =
     (Over.post (X := B.obj hk) B.inclusion).map (𝟙 _ ≫ originChart k B hk)
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp, originChart]
   exact ((Over.post (X := B.obj hk) B.inclusion).map_preimage (X := originObject k B hk)
@@ -434,7 +434,7 @@ theorem isResidualSpaceAt_range_quotientOrigin :
   intro z
   obtain ⟨y, rfl⟩ := @Space.pointsMap_surjective_of_isIso B (Spec (.of k)) hk _ _ e.hom hr z
   rw [← Space.pointsMap_comp_apply]
-  show Space.pointsMap B (Spec (.of k)) hk _
+  change Space.pointsMap B (Spec (.of k)) hk _
     (Subfunctor.toRange (originChartPoint k B hk ≫ quotientChart k B hk) ≫
       (Subfunctor.range (originChartPoint k B hk ≫ quotientChart k B hk)).ι) y = _
   rw [Subfunctor.toRange_ι, Subsingleton.elim y (originObjectPoint k B hk)]

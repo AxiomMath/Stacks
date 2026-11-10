@@ -80,7 +80,7 @@ private theorem stalkIso_toStalk_eq_algebraMap {R : Type u} [CommRing R]
     (Spec.stalkIso (CommRingCat.of R) x).hom.hom.comp
       (StructureSheaf.toStalk R x).hom = algebraMap R (Localization.AtPrime x.asIdeal) := by
   ext r
-  show (StructureSheaf.stalkIso R x).symm (StructureSheaf.toStalk R x r) =
+  change (StructureSheaf.stalkIso R x).symm (StructureSheaf.toStalk R x r) =
     algebraMap R (Localization.AtPrime x.asIdeal) r
   rw [← StructureSheaf.stalkAlgebra_map]
   exact (StructureSheaf.stalkIso R x).symm.commutes r
@@ -146,7 +146,7 @@ public theorem stalkMap_quotient_ker {R : Type u} [CommRing R]
       (IsLocalization.ker_map (Localization.AtPrime q.asIdeal)
         (Ideal.Quotient.mk I) hT)
   rw [← hcomp]
-  show RingHom.ker (e₂.inv.hom.comp (g.hom.comp e₁.hom.hom)) =
+  change RingHom.ker (e₂.inv.hom.comp (g.hom.comp e₁.hom.hom)) =
     Ideal.map (StructureSheaf.toStalk R x).hom I
   rw [RingHom.ker_comp_of_injective (g.hom.comp e₁.hom.hom)
       e₂.commRingCatIsoToRingEquiv.symm.bijective.1,

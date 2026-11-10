@@ -109,8 +109,7 @@ public theorem exists_list_of_isPushout {R B C Q : CommRingCat.{u}} {f : R ⟶ B
   have key : ∀ t : B ⊗[R] C, ∃ L : List (B × C),
       e.hom.hom t = (L.map (fun p => h.hom p.1 * k.hom p.2)).sum := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨[], by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul b c =>
         refine ⟨[(b, c)], ?_⟩
         have ht : (b ⊗ₜ[R] c : B ⊗[R] C) =

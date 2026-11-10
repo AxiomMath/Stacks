@@ -235,7 +235,7 @@ private theorem exists_ringHom_from_adicCompletion
       ext a
       simp
     ext x
-    show ((Ideal.Quotient.factorPow J hmn).comp
+    change ((Ideal.Quotient.factorPow J hmn).comp
       (Ideal.quotientMap (J ^ n) f (hle n))) _ = _
     rw [hq, RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
       AdicCompletion.factorPow_evalₐ]
@@ -282,7 +282,7 @@ private theorem isRegularLocalRing_of_formallySmooth_of_subsingleton_hom.{u, v, 
       intro b
       change ResidueField B at b
       refine ⟨e.symm b, ?_⟩
-      show residue B (c (e (e.symm b))) = b
+      change residue B (c (e (e.symm b))) = b
       rw [e.apply_symm_apply]
       exact congrArg (fun f : ResidueField B →+* ResidueField B => f b) hc)
   let P := MvPowerSeries (Fin n) K
@@ -353,7 +353,7 @@ private theorem isRegularLocalRing_of_formallySmooth_of_subsingleton_hom.{u, v, 
       apply (Ideal.map_le_iff_le_comap.mp ?_) hSa
       rw [Ideal.map_pow, map_maximalIdeal_of_surjective π hπ]
     apply Ideal.Quotient.eq.mpr
-    show π (S x) - x ∈ maximalIdeal B ^ t
+    change π (S x) - x ∈ maximalIdeal B ^ t
     have haB : x - j a ∈ maximalIdeal B ^ t := by
       rwa [AdicCompletion.maximalIdeal_eq_map]
     simpa only [sub_sub_sub_cancel_right] using (maximalIdeal B ^ t).sub_mem hπSa haB

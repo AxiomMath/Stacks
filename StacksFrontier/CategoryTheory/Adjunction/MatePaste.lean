@@ -77,7 +77,7 @@ theorem mateEquiv_symm_paste_app (adjc : cI ⊣ cS) (adjb : bI ⊣ bS) (adja : a
   have hwhisker : mateEquiv adjc adja δ = (γ.whiskerRight μ.hom).whiskerLeft μ'.inv := by
     have hγ : γ = mateEquiv adjc adja β := ((mateEquiv adjc adja).apply_symm_apply γ).symm
     rw [hγ]
-    refine TwoSquare.ext _ _ fun d => ?_
+    refine NatTrans.ext (funext fun d => ?_)
     simp [δ, TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
       TwoSquare.whiskerRight, mateEquiv]
   have hpaste : mateEquiv adjc adja (β₁ ≫ₕ β₂) = γ₁ ≫ᵥ γ₂ := by
@@ -86,7 +86,7 @@ theorem mateEquiv_symm_paste_app (adjc : cI ⊣ cS) (adjb : bI ⊣ bS) (adja : a
   have hδ : δ = β₁ ≫ₕ β₂ := by
     apply (mateEquiv adjc adja).injective
     rw [hpaste, hwhisker]
-    refine TwoSquare.ext _ _ fun d => ?_
+    refine NatTrans.ext (funext fun d => ?_)
     have hd := h d
     simp only [TwoSquare.whiskerLeft, TwoSquare.whiskerRight, TwoSquare.vComp,
       NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.comp_obj,

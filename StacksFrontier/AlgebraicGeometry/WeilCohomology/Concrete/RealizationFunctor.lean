@@ -173,7 +173,7 @@ theorem blockMap_of_nonempty {X Y : (SmoothProjectiveScheme k).FullSubcategory} 
         (isNonemptyEquidimensional_part Y hY) (W.corrClass (part X d) (part Y e) e r d c) n ∘ₗ
       W.pullDeg (partι X d) n := by
   classical
-  rw [blockMap, dif_pos ⟨hX, hY⟩]
+  rw [blockMap, dite_eq_left ⟨hX, hY⟩]
   rfl
 
 /-- `blockMap` vanishes when `X_d` is empty. -/
@@ -181,14 +181,14 @@ theorem blockMap_of_isEmpty_left {X Y : (SmoothProjectiveScheme k).FullSubcatego
     {r : ℤ} (n : ℤ) (hX : ¬ Nonempty (part X d).obj.left) :
     blockMap hA hB hC X Y d e r n = 0 := by
   classical
-  rw [blockMap, dif_neg fun h ↦ hX h.1]
+  rw [blockMap, dite_eq_right fun h ↦ hX h.1]
 
 /-- `blockMap` vanishes when `Y_e` is empty. -/
 theorem blockMap_of_isEmpty_right {X Y : (SmoothProjectiveScheme k).FullSubcategory} {d e : ℕ}
     {r : ℤ} (n : ℤ) (hY : ¬ Nonempty (part Y e).obj.left) :
     blockMap hA hB hC X Y d e r n = 0 := by
   classical
-  rw [blockMap, dif_neg fun h ↦ hY h.2]
+  rw [blockMap, dite_eq_right fun h ↦ hY h.2]
 
 /-- The blocks `Corrʳ(X_d, Y_e)` of `Corrʳ(X, Y)` are the correspondences between the smooth
 projective schemes `X_d`, `Y_e`: the identity, between the two ways of writing the parts. -/
@@ -254,8 +254,7 @@ theorem blockMap_composition (X Y Z : (SmoothProjectiveScheme k).FullSubcategory
   by_cases hY : Nonempty (part Y e).obj.left
   swap
   · have hx : x = 0 := by
-      induction x using TensorProduct.induction_on with
-      | zero => rfl
+      induction x using TensorProduct.inductionOn with
       | tmul q α =>
         rw [chowGroup_eq_zero_of_isEmpty
           (fun z ↦ hY ⟨(Limits.pullback.snd (part X d).obj.hom (part Y e).obj.hom) z⟩) α,
@@ -271,7 +270,7 @@ theorem blockMap_composition (X Y Z : (SmoothProjectiveScheme k).FullSubcategory
   have hcomp := blockAct_comp hA.perfectPairing hB.kunnethIsomorphism hB.kunnethTrace hXd hYe hZf
     (W.corrClass_mem (part X d) (part Y e) e 0 d x)
     (W.corrClass_mem (part Y e) (part Z f) f 0 e y) _
-    (traceProj_corrClass_composition hA hB hC hXd hYe hZf x y) n
+    (traceProj_corrClass_composition hA hC hXd hYe hZf x y) n
   refine LinearMap.ext fun a ↦ ?_
   have h₁ := LinearMap.congr_fun (pullDeg_extendDeg hA hB hC (partι Y e) n)
     (W.blockAct hA.perfectPairing hXd hYe (W.corrClass (part X d) (part Y e) e 0 d x) n
@@ -443,7 +442,7 @@ by Lemmas 0FHH and 0FHC" of the proof of Stacks 0FHL), the parts being a finite 
 theorem corrMap_diagonalCorr (X : (SmoothProjectiveScheme k).FullSubcategory) (n : ℤ) :
     corrMap hA hB hC X X 0 n (diagonalCorr k X.obj.hom) = LinearMap.id := by
   have : CompactSpace X.obj.left := QuasiCompact.compactSpace_of_compactSpace X.obj.hom
-  show corrMap hA hB hC X X 0 n (∑ d ∈ partSupport X, diagonalBlock k X.obj.hom d) = _
+  change corrMap hA hB hC X X 0 n (∑ d ∈ partSupport X, diagonalBlock k X.obj.hom d) = _
   rw [map_sum]
   refine LinearMap.ext fun a ↦ Subtype.ext ?_
   rw [LinearMap.sum_apply, Submodule.coe_sum, LinearMap.id_apply]
@@ -518,7 +517,7 @@ theorem val_eq_homOf {X Y : DegreeZero ℚ (CorrespondenceCategory k)} (f : X �
 theorem corrHomMap_id (X : DegreeZero ℚ (CorrespondenceCategory k)) (n : ℤ) :
     corrHomMap hA hB hC (𝟙 X) n = LinearMap.id := by
   rw [corrHomMap, DegreeZero.id_val]
-  show corrMap hA hB hC X.as X.as 0 n (SmoothProjectiveCorr.toCorr X.as X.as 0
+  change corrMap hA hB hC X.as X.as 0 n (SmoothProjectiveCorr.toCorr X.as X.as 0
     (ChowMotiveCat.component 0 (𝟙 (GradedCompositionData.Obj.mk X.as :
       (canonicalCorrespondenceCompositionData k).Obj)))) = _
   rw [ChowMotiveCat.id_eq_homOf, ChowMotiveCat.component_homOf]

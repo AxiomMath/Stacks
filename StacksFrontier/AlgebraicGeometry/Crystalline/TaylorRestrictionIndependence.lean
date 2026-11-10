@@ -122,7 +122,7 @@ This is additivity of `a` and nothing else, and it is the first of the two ident
 the choice of `f` immaterial for the restriction maps. -/
 theorem pointedDiff_comp (f g : Dt ⟶ X) (u : X ⟶ X') (x : ι → Dt.ring.carrier) (i : ι) :
     pointedDiff (f ≫ u) (g ≫ u) x i = u.hom (pointedDiff f g x i) := by
-  show _ = u.hom.toRingHom (pointedDiff f g x i)
+  change _ = u.hom.toRingHom (pointedDiff f g x i)
   simp only [pointedDiff_apply, map_sub]
   rfl
 
@@ -219,8 +219,7 @@ theorem pointedRestriction_pointedComparison (f g : Dt ⟶ X) (u : X ⟶ X')
     pointedRestriction M (pushPoint g u) (pointedComparison M f g T z) =
       pointedComparison M (f ≫ u) (g ≫ u) (pushedPointedComparisonMap M f g u T)
         (pointedRestriction M (pushPoint f u) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [pointedRestriction_tmul, pointedComparison, pointedComparison,
         semilinearBaseChange_tmul, semilinearBaseChange_tmul, pointedRestriction_smul,

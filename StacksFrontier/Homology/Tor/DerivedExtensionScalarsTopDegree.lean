@@ -174,7 +174,7 @@ theorem isIso_homologyComparison (K : CochainComplex C ℤ) (t : ℤ) (hK : IsZe
   have : F.PreservesEpimorphisms := inferInstance
   have hfac := map_topHomologyπ_comp_homologyComparison adj K t hK hFK
   let ψ := h2.desc (CokernelCofork.ofπ (F.map (topHomologyπ K t hK)) (by
-    show F.map (K.d (t - 1) t) ≫ _ = 0
+    change F.map (K.d (t - 1) t) ≫ _ = 0
     rw [← F.map_comp, d_comp_topHomologyπ, F.map_zero]))
   have hψ : topHomologyπ ((F.mapHomologicalComplex _).obj K) t hFK ≫ ψ =
       F.map (topHomologyπ K t hK) :=

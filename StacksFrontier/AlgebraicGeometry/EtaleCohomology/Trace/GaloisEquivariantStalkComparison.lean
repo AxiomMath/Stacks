@@ -23,7 +23,8 @@ geometric point `Spec K ⟶ Spec k` in every degree `j`,
 and proves that it carries the Galois action of Étale Cohomology Section 03QW on the stalk to the
 action `σ ↦ (Spec σ × id_X)^*` on cohomology, for every `σ ∈ Aut(K/k)` and every `j`. That it is
 an isomorphism, for `α` quasi-compact and quasi-separated and `K` separable over `k`, is in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/GaloisModuleHigherDirectImageStalk.lean`, which registers Tag 03ST.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/GaloisModuleHigherDirectImageStalk.lean`,
+which registers Tag 03ST.
 
 ## Main definitions
 
@@ -138,7 +139,7 @@ theorem fieldGaloisStalkAction_mul (σ τ : K ≃ₐ[k] K) :
   rw [fieldGaloisStalkAction, fieldGaloisStalkAction, fieldGaloisStalkAction,
     smallEtalePointHom_comp (fieldGaloisPointHom K σ) (fieldGaloisPointHom K τ)
       (fieldGaloisPointHom K (σ * τ)) (by
-        show Spec.map _ = Spec.map _ ≫ Spec.map _
+        change Spec.map _ = Spec.map _ ≫ Spec.map _
         rw [← Spec.map_comp]
         rfl)]
   exact GrothendieckTopology.Point.Hom.sheafFiber_comp _ _

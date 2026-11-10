@@ -238,13 +238,13 @@ theorem algebraicPointExtensionEquiv_map
       g ≫ Y.hom = Spec.map (CommRingCat.ofHom (algebraMap K L))}) :
     algebraicPointExtensionEquiv K L Ω Z
         ⟨p.1 ≫ f.left, by
-          have hcomp : f.left ≫ Z.hom = Y.hom := by simpa using f.hom.w
+          have hcomp : f.left ≫ Z.hom = Y.hom := by simp
           calc
             p.1 ≫ f.left ≫ Z.hom = p.1 ≫ (f.left ≫ Z.hom) := by cat_disch
             _ = p.1 ≫ Y.hom := by rw [hcomp]
             _ = _ := p.2⟩ =
       ⟨(algebraicPointExtensionEquiv K L Ω Y p).1 ≫ f.left, by
-        have hcomp : f.left ≫ Z.hom = Y.hom := by simpa using f.hom.w
+        have hcomp : f.left ≫ Z.hom = Y.hom := by simp
         calc
           ((algebraicPointExtensionEquiv K L Ω Y p).1 ≫ f.left) ≫ Z.hom =
               (algebraicPointExtensionEquiv K L Ω Y p).1 ≫
@@ -297,7 +297,7 @@ public noncomputable def finiteEtaleFiberIso
           (ConcreteCategory.hom
             ((finiteEtaleEquivalenceGaloisSets K L Ω).functor.map f) y) =
         ⟨(finiteEtalePointEquiv K L Y y).1 ≫ f.left, by
-          rw [Category.assoc, show f.left ≫ Z.hom = Y.hom by simpa using f.hom.w]
+          rw [Category.assoc, show f.left ≫ Z.hom = Y.hom by simp]
           exact (finiteEtalePointEquiv K L Y y).2⟩ :=
     Subtype.ext (finiteEtalePointEquiv_map K L Ω f y)
   rw [hp]
@@ -395,7 +395,7 @@ public theorem finiteEtaleFiberIso_apply
         (separableFiberEquiv K L Ω Y y).1 := by
   classical
   let : Etale Y.hom := Y.prop.2
-  show (algebraicPointExtensionEquiv K L Ω Y
+  change (algebraicPointExtensionEquiv K L Ω Y
       (finiteEtalePointEquiv K L Y y)).1 = _
   rw [separableFiberEquiv_apply_eq_pointEquiv K L Ω Y]
   rfl

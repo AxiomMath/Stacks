@@ -158,10 +158,10 @@ public theorem det_of_exact {i : A →ₗ[R] E} {q : E →ₗ[R] B} (hi : Functi
     have h1 := LinearMap.congr_fun hα a
     simp only [LinearMap.comp_apply] at h1
     have h2 : γ b = γf b := rfl
-    simp only [e, LinearEquiv.ofBijective_apply, LinearMap.coprod_apply, LinearMap.add_apply,
+    simp only [e, LinearMap.add_apply,
       LinearMap.comp_apply, LinearMap.inl_apply, LinearMap.inr_apply, LinearMap.fst_apply,
-      LinearMap.snd_apply, Prod.mk_add_mk, add_zero, zero_add, map_add, h1, h2, hγf]
-    show ε (i a + s b) = i (α a + γf b) + s (β b)
+      LinearMap.snd_apply, Prod.mk_add_mk, add_zero, zero_add, map_add, h2]
+    change ε (i a + s b) = i (α a + γf b) + s (β b)
     rw [map_add, h1, map_add, hγf]
     abel
   rw [← det_linearEquiv_conj e.symm ε, hconj, det_blockTriangular]

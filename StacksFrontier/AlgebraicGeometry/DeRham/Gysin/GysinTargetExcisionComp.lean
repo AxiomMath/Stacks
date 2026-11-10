@@ -103,7 +103,8 @@ degreewise.
 **Formal chases are isolated at abstract categories.**  Each of `chase`…`chase6`, `map_comp2`
 and `map_comp4` is the formal identity left over once the naturality squares are inserted,
 stated for arbitrary categories.  This is deliberate and follows
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/OpenImmersionRestrictionNaturality.lean`:
+`OpenImmersionRestrictionNaturality.lean` in
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/`:
 `rw` and `simp` re-typecheck their goals at a transparency at which the two spellings
 `Stacks.Perfect.SupportedQuasicoherent.derivedSupportedPushforward` and
 `R𝓗_T ⋙ i_*` of one functor are not interchangeable, and at which the heartbeat budget of a
@@ -367,8 +368,7 @@ private theorem chase2 {C : Type*} [Category* C] {a₀ a₁ a₂ a₃ a₄ a₅ 
     (hb : a₅ ⟶ a₆) (σ : a₆ ⟶ a₄) (Lep : a₁ ⟶ a₅) (Dep : a₀ ⟶ a₆)
     (n1 : Sφ ≫ ep = ep' ≫ hb ≫ σ) (n2 : E ≫ ep' = Lep) (n3 : Lep ≫ hb = ha ≫ Dep) :
     (i ≫ E ≫ Sφ) ≫ ep = Dep ≫ σ := by
-  simp only [Category.assoc, n1, reassoc_of% n2, reassoc_of% n3, reassoc_of% hi,
-    Category.id_comp]
+  simp only [Category.assoc, n1, reassoc_of% n2, reassoc_of% n3, reassoc_of% hi]
 
 variable {X' X : RingedSpace.{u, u}} (f : X' ⟶ X) [SheafedSpace.IsOpenImmersion f]
   (T : Set X.carrier) (hT : IsClosed T)
@@ -682,7 +682,7 @@ theorem mapDerivedCategorySingleFunctor_comp [HasDerivedCategory A] [HasDerivedC
   have hnatG := G.mapDerivedCategoryFactors.hom.naturality
     ((F.mapCochainComplexSingleFunctor 0).hom.app M)
   dsimp only [Functor.comp_map] at hnatG
-  show (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).inv.app
+  change (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).inv.app
         (DerivedCategory.Q.obj ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M)) ≫
       (Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso (F ⋙ G) H e).hom.app
           (DerivedCategory.Q.obj ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M)) ≫
@@ -721,8 +721,7 @@ theorem mapDerivedCategoryHomologyIso_eq {A B : Type*} [Category* A] [Category* 
   refine Iso.ext (Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso A (ComplexShape.up ℤ)) fun P => ?_)
   rw [Functor.mapDerivedCategoryHomologyFunctorIso_hom_app_Q]
-  simp [mapDerivedCategoryHomologyIso, mapHomologicalComplexHomologyIso,
-    DerivedCategory.liftingHomologyFunctor_iso, Functor.lifting_iso_mapDerivedCategory]
+  simp [mapDerivedCategoryHomologyIso, mapHomologicalComplexHomologyIso]
   rfl
 
 /-- Inverting a three-factor factorization of isomorphisms, with the result right-associated.
@@ -888,7 +887,7 @@ theorem mapDerivedCategoryHomologyIso_comp (n : ℤ)
     ((Stacks.DerivedPullback.Composition.modulePullbackComp f g).app
       ((DerivedCategory.homologyFunctor (SheafOfModules.{u} (structureSheafRing X)) n).obj A)) ?_
   simp only [mapDerivedCategoryHomologyIso_eq, Iso.app_hom, Functor.mapIso_hom]
-  show (DerivedCategory.homologyFunctor (SheafOfModules.{u} (structureSheafRing X'')) n).map
+  change (DerivedCategory.homologyFunctor (SheafOfModules.{u} (structureSheafRing X'')) n).map
         ((mapDerivedCategoryCompIso (modulePullback g) (modulePullback f)).inv.app A ≫
           (mapDerivedCategoryIsoOfNatIso (modulePullback g ⋙ modulePullback f)
               (modulePullback (f ≫ g))

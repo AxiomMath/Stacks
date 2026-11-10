@@ -187,7 +187,7 @@ theorem precoverage_eq_comap :
     refine ⟨E, ?_, ?_⟩
     · refine toSchemes_presieve_map_injective B S hS F ?_
       rw [hRG, ← hEmap, PreZeroHypercover.presieve₀_map]
-    · show B.etaleCovering ⟨(toSchemes B S hS F).obj A, E.map (toSchemes B S hS F)⟩
+    · change B.etaleCovering ⟨(toSchemes B S hS F).obj A, E.map (toSchemes B S hS F)⟩
       rw [hEmap]
       exact hG
 
@@ -408,7 +408,7 @@ theorem smallEtaleEquivalenceOverChart
       obtain ⟨E, rfl, hE⟩ := (SmallEtale.mem_precoverage_iff B S hS (yoneda.obj U)).mp hR
       rw [← Sieve.generate_map_eq_functorPushforward]
       refine Precoverage.generate_mem_toGrothendieck ?_
-      show Presieve.map (Over.forget X) (Presieve.map Φ E.presieve₀) ∈
+      change Presieve.map (Over.forget X) (Presieve.map Φ E.presieve₀) ∈
         PF ((Over.forget X).obj (Φ.obj A))
       refine (SmallEtale.mem_precoverage_iff B S hS F).2
         ⟨E.map (Φ ⋙ Over.forget X), ?_, ?_⟩
@@ -460,7 +460,7 @@ theorem smallEtaleEquivalenceOverChart
     rw [SmallEtale.over_topology_eq B S hS F X]
     exact Φ.restrictedTopology_eq_inducedTopology_of_isContinuous hrestricted
   · exact SmallEtale.chartLocalization_comp_forget_comp_toOver B S hS F X
-  · show SmallEtale.chartLocalization B S hS F X ⋙
+  · change SmallEtale.chartLocalization B S hS F X ⋙
       Over.post (SmallEtale.toOver B S hS F ⋙ yoneda) =
         SmallEtale.inclusion B S hS (yoneda.obj ((SmallEtale.toOver B S hS F).obj X)) ⋙
           CostructuredArrow.toOver yoneda
@@ -497,7 +497,7 @@ theorem smallEtaleEquivalenceOverChart
         Functor.comp_map, Over.post_map, ObjectProperty.ι_map, CostructuredArrow.proj_map,
         Over.homMk_left, yoneda_map_app, TypeCat.Fun.toFun_apply,
         CostructuredArrow.toOver_map_left]
-      show x ≫ m = (yoneda.map m).app Z x
+      change x ≫ m = (yoneda.map m).app Z x
       rfl
     exact (conj_eqToHom_iff_heq _ _ hA hA').mp hMap
 

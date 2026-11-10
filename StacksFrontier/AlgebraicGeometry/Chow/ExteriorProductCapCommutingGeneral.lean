@@ -90,7 +90,7 @@ theorem exteriorProductWeight_dedekindPointFibre (k : ℤ) (x : X) (y : Y)
       (exteriorProductIdeal f g x y).subschemeι =
       ((exteriorProductIdeal f g x y).comap (dedekindPointFibre f g x).subschemeι).subschemeι ≫
         (dedekindPointFibre f g x).subschemeι := by
-    show (((exteriorProductIdeal f g x y).comapIso (dedekindPointFibre f g x).subschemeι).hom ≫
+    change (((exteriorProductIdeal f g x y).comapIso (dedekindPointFibre f g x).subschemeι).hom ≫
       pullback.snd _ _) ≫ _ = _
     rw [Category.assoc, ← pullback.condition, ← Category.assoc,
       Scheme.IdealSheafData.comapIso_hom_fst]
@@ -141,10 +141,10 @@ theorem properPushforward_flatPullback_dedekindPointFibre (α : CycleGroup C f n
       rw [hdeg, exteriorProductWeight_dedekindPointFibre, flatPullbackWeight]
     rw [hsmul, hwt]
     by_cases hw : (pullback.fst f g).base ((dedekindPointFibre f g x).subschemeι.base w) = x
-    · rw [if_pos hw, exteriorProductCoeff, hw, hpt]
-    · rw [if_neg hw, exteriorProductWeight_eq_zero_of_ne C f g (n + m) x _ _ hw, mul_zero]
+    · rw [ite_eq_left hw, exteriorProductCoeff, hw, hpt]
+    · rw [ite_eq_right hw, exteriorProductWeight_eq_zero_of_ne C f g (n + m) x _ _ hw, mul_zero]
   · rw [properPushforward_apply_of_notMem_range C _ _ _ rfl _ _ hz]
-    refine (if_neg ?_).symm
+    refine (ite_eq_right ?_).symm
     intro hzx
     refine hz ?_
     rw [(dedekindPointFibre f g x).range_subschemeι]
@@ -178,16 +178,16 @@ theorem exteriorProduct_apply_eq_finsum (α : CycleGroup C f n) (β : CycleGroup
           else 0) = 0 := by
       intro x
       by_cases hx : (pullback.fst f g).base z = x.1
-      · rw [if_pos hx, exteriorProductCoeff, hz, zero_mul, zero_mul]
-      · rw [if_neg hx]
+      · rw [ite_eq_left hx, exteriorProductCoeff, hz, zero_mul, zero_mul]
+      · rw [ite_eq_right hx]
     rw [finsum_eq_zero_of_forall_eq_zero hterm]
-    show exteriorProductCoeff C f g n m α β z = 0
+    change exteriorProductCoeff C f g n m α β z = 0
     rw [exteriorProductCoeff, hz, zero_mul, zero_mul]
   · rw [finsum_eq_single _ (⟨(pullback.fst f g).base z, hz⟩ : α.1.support)]
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       rfl
     · intro x hx
-      exact if_neg fun hxx ↦ hx (Subtype.ext hxx.symm)
+      exact ite_eq_right fun hxx ↦ hx (Subtype.ext hxx.symm)
 
 end Decomposition
 
@@ -511,8 +511,8 @@ theorem commutesExteriorProductCap_of_subsingleton (c : BivariantClass C G sY sZ
       hinvbase (n + (m - p)) E)) (fun z ↦ ?_)
   · simp only [exteriorProductCap, capExteriorProduct, exteriorProductOnTarget]
     rw [← hγ₀]
-    show QuotientAddGroup.mk' _ E = _
-    show _ = chowPushforwardOfIso C _ _ _ _ _ (chowGroupDegreeEquiv C _ _ (c.cap _ _
+    change QuotientAddGroup.mk' _ E = _
+    change _ = chowPushforwardOfIso C _ _ _ _ _ (chowGroupDegreeEquiv C _ _ (c.cap _ _
       (chowGroupCongr C _ (n + m) (QuotientAddGroup.mk' _ (exteriorProduct C sX sZ n m a₀ b₀)))))
     have hD : chowGroupDegreeEquiv C (pullback.fst u (pullback.snd sX sZ) ≫ (u ≫ sZ))
         hdq.symm (QuotientAddGroup.mk' _ (cycleOfDegreeEq _ hdq

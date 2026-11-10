@@ -61,7 +61,7 @@ private lemma sheafSections_preservesFiniteLimits (X : TopCat.{u})
     [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}]
     (U : Opens X) : PreservesFiniteLimits
       ((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}).obj (op U)) := by
-  show PreservesFiniteLimits (sheafToPresheaf (Opens.grothendieckTopology X)
+  change PreservesFiniteLimits (sheafToPresheaf (Opens.grothendieckTopology X)
     AddCommGrpCat.{max u v} ⋙ (evaluation (Opens X)ᵒᵖ AddCommGrpCat.{max u v}).obj (op U))
   infer_instance
 
@@ -107,13 +107,13 @@ private lemma resolutionShortComplex_shortExact {C : Type u} [Category.{v} C] [A
           rw [Category.id_comp, Category.comp_id]
         comm₂₃ := by simp [S, resolutionShortComplex] }
     have : Epi φ.τ₁ := by
-      show Epi (𝟙 S.X₁)
+      change Epi (𝟙 S.X₁)
       infer_instance
     have : IsIso φ.τ₂ := by
-      show IsIso (𝟙 S.X₂)
+      change IsIso (𝟙 S.X₂)
       infer_instance
     have : Mono φ.τ₃ := by
-      show Mono (J.cocomplex.iCycles 1)
+      change Mono (J.cocomplex.iCycles 1)
       infer_instance
     exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ).2 J.exact₀
   have hmono : Mono S.f := by
@@ -184,7 +184,7 @@ private lemma exists_extEquivResolutionHomology {C : Type u} [Category.{v} C] [A
   let S := resolutionShortComplex J
   let hS := resolutionShortComplex_shortExact J
   let : Injective (resolutionShortComplex J).X₂ := by
-    show Injective (J.cocomplex.X 0)
+    change Injective (J.cocomplex.X 0)
     infer_instance
   let K := (Γ.mapHomologicalComplex (.up ℕ)).obj J.cocomplex
   let η := resolutionCyclesIso J Γ
@@ -203,7 +203,7 @@ private lemma exists_extEquivResolutionHomology {C : Type u} [Category.{v} C] [A
     obtain ⟨z, hz⟩ := (AddCommGrpCat.epi_iff_surjective (K.homologyπ 1)).mp inferInstance (-a)
     obtain ⟨q, hq⟩ := (ConcreteCategory.bijective_of_isIso ((ψ.hom.app _) ≫ η.hom)).2 z
     refine ⟨q, ?_⟩
-    show -(K.homologyπ 1 (η.hom ((ψ.hom.app _) q))) = a
+    change -(K.homologyπ 1 (η.hom ((ψ.hom.app _) q))) = a
     change η.hom ((ψ.hom.app _) q) = z at hq
     rw [hq, hz, neg_neg]
   have hf0 (q : c ⟶ J.cocomplex.cycles 1) :
@@ -215,10 +215,10 @@ private lemma exists_extEquivResolutionHomology {C : Type u} [Category.{v} C] [A
       obtain ⟨t, rfl⟩ := (Abelian.Ext.mk₀_bijective _ _).2 t
       exact ⟨t, (Abelian.Ext.mk₀_bijective _ _).1 (by simpa using ht)⟩
     · rintro ⟨t, rfl⟩
-      show (Abelian.Ext.mk₀ (t ≫ S.g)).comp hS.extClass (zero_add 1) = 0
+      change (Abelian.Ext.mk₀ (t ≫ S.g)).comp hS.extClass (zero_add 1) = 0
       rw [← Abelian.Ext.mk₀_comp_mk₀,
         Abelian.Ext.comp_assoc (h₂₃ := zero_add 1) (h := (rfl : 0 + 0 + 1 = 1))]
-      show (Abelian.Ext.mk₀ t).comp
+      change (Abelian.Ext.mk₀ t).comp
         ((Abelian.Ext.mk₀ (resolutionShortComplex J).g).comp hS.extClass (zero_add 1))
           (zero_add 1) = 0
       rw [hS.comp_extClass, Abelian.Ext.comp_zero]
@@ -230,7 +230,7 @@ private lemma exists_extEquivResolutionHomology {C : Type u} [Category.{v} C] [A
     have ht (t : c ⟶ J.cocomplex.X 0) :
         K.toCycles 0 1 ((ψ.hom.app _) t) = η.hom ((ψ.hom.app _) (t ≫ S.g)) := by
       rw [← resolutionCyclesIso_toCycles J Γ]
-      show η.hom (Γ.map S.g ((ψ.hom.app _) t)) = _
+      change η.hom (Γ.map S.g ((ψ.hom.app _) t)) = _
       congr 1
       exact ConcreteCategory.congr_hom (ψ.hom.naturality S.g) t |>.symm
     constructor
@@ -243,7 +243,7 @@ private lemma exists_extEquivResolutionHomology {C : Type u} [Category.{v} C] [A
       apply (ConcreteCategory.bijective_of_isIso η.hom).1
       exact (ht t).symm.trans ht'
     · rintro ⟨t, rfl⟩
-      show -(K.homologyπ 1 (η.hom ((ψ.hom.app _) (t ≫ S.g)))) = 0
+      change -(K.homologyπ 1 (η.hom ((ψ.hom.app _) (t ≫ S.g)))) = 0
       rw [← ht, ← ConcreteCategory.comp_apply, K.toCycles_comp_homologyπ]
       simp
   obtain ⟨e, he⟩ := exists_equiv_of_surjections f g hf hg (fun a b => by
@@ -275,7 +275,7 @@ private lemma globalSectionsCoyonedaIso_apply (X : TopCat.{u})
       (((sheafificationAdjunction (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}).homEquiv _
         _ q).app
         (op (⊤ : Opens X))) ⟨1⟩ := by
-  show ((constantSheafAdj (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}
+  change ((constantSheafAdj (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}
     (Limits.isTerminalTop : IsTerminal (⊤ : Opens X))).homEquiv _ _ q) ⟨1⟩ = _
   rfl
 
@@ -349,7 +349,7 @@ private lemma resolution_affine_fiber (X : TopCat.{u})
     apply abelianSheaf_eq_of_cover B Ui hUi V
     intro i
     rw [abelianSheafHom_naturality, abelianSheaf_res_comp]
-    show d.hom.app (op (V ⊓ Ui i))
+    change d.hom.app (op (V ⊓ Ui i))
       ((abelianSheafOfSets A).res inf_le_left (g.app V t)) = _
     rw [← g.naturality, hg i (V ⊓ Ui i) inf_le_right, map_add, hdφ,
       zero_add, ← abelianSheafHom_naturality, hb, abelianSheaf_res_comp]
@@ -408,7 +408,7 @@ private theorem nonempty_torsorCohomologyClassification (X : TopCat.{u})
     have hqi : Γ.map (J.cocomplex.iCycles 1) ((ψ.hom.app Q) q) =
         -((CechOne.abelianResolutionSections X ⊤ J).iCycles 1 r.cycle) := by
       rw [← resolutionCyclesIso_hom_i J Γ]
-      show (CechOne.abelianResolutionSections X ⊤ J).iCycles 1
+      change (CechOne.abelianResolutionSections X ⊤ J).iCycles 1
         (η.hom ((ψ.hom.app Q) q)) = _
       rw [hq, hη, map_neg]
     have hqres (V : Opens X) :
@@ -416,7 +416,7 @@ private theorem nonempty_torsorCohomologyClassification (X : TopCat.{u})
           (J.cocomplex.X 1).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
             (-((CechOne.abelianResolutionSections X ⊤ J).iCycles 1 r.cycle)) := by
       rw [globalSectionsCoyonedaIso_restrict X Q q V, ← abelianSheafHom_naturality]
-      show (J.cocomplex.X 1).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
+      change (J.cocomplex.X 1).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
         (Γ.map (J.cocomplex.iCycles 1) ((ψ.hom.app Q) q)) = _
       rw [hqi]
     have hfiber (V : Opens X) (a : (J.cocomplex.X 0).presheaf.obj (op V)) :
@@ -451,7 +451,7 @@ private theorem nonempty_torsorCohomologyClassification (X : TopCat.{u})
           · intro U t t' ht
             exact ULift.down_injective (hginj U.unop ht)
           · intro U a
-            show (resolutionShortComplex J).g.hom.app U a = q'.app U ⟨1⟩ ↔
+            change (resolutionShortComplex J).g.hom.app U a = q'.app U ⟨1⟩ ↔
               ∃ t : ULift (F.F.obj U.unop), g.app U.unop t.down = a
             rw [hfiber U.unop a]
             exact ⟨fun ⟨t, ht⟩ => ⟨⟨t⟩, ht⟩, fun ⟨t, ht⟩ => ⟨t.down, ht⟩⟩)
@@ -461,7 +461,7 @@ private theorem nonempty_torsorCohomologyClassification (X : TopCat.{u})
     refine Eq.trans (congrArg (fun y => (J.isoRightDerivedObj Γ 1).inv y)
       ((congrArg (fun y => e y) hclass).trans (he q))) ?_
     rw [hr]
-    show (J.isoRightDerivedObj Γ 1).inv
+    change (J.isoRightDerivedObj Γ 1).inv
       (-((CechOne.abelianResolutionSections X ⊤ J).homologyπ 1
         (η.hom ((ψ.hom.app Q) q)))) = _
     rw [hq, hη]

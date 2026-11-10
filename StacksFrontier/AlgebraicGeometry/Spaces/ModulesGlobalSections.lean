@@ -65,7 +65,7 @@ injectives, at the universe of the structure rings. -/
 theorem enoughInjectives_modules (hF : IsAlgebraicSpace B S hS F) :
     EnoughInjectives (Modules.{u, u} B S hS F hF) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

@@ -180,11 +180,11 @@ theorem isRationallyEquivalentToZeroCanonical_add (sX : X ⟶ D.space) (hX : D.I
       Sum.elim (fun j => (integralClosedSubspacePushforward D sX hX (W j) k (c j)).1 Z)
         (fun l => (integralClosedSubspacePushforward D sX hX (V l) k (e l)).1 Z) :=
     funext fun s => by cases s <;> rfl
-  show (α + β).1 Z = _
+  change (α + β).1 Z = _
   rw [cycleFamilySum_apply, hsplit, Stacks.Chow.finsum_sum_elim _ _
       (finite_support_cycleFamilyCoeff D sX hX W hWfin k c Z)
       (finite_support_cycleFamilyCoeff D sX hX V hVfin k e Z), hWsum, hVsum]
-  show (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX V hVfin k e).1 Z = _
+  change (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX V hVfin k e).1 Z = _
   rw [cycleFamilySum_apply, cycleFamilySum_apply]
 
 /-- The negative of a cycle rationally equivalent to zero is rationally equivalent to zero, via
@@ -197,7 +197,7 @@ theorem isRationallyEquivalentToZeroCanonical_neg (sX : X ⟶ D.space) (hX : D.I
     (fun j => isPrincipalDivisorCycleOfGood_neg D _
       (isGood_integralClosedSubspace D sX hX (W j)) (W j).isIntegralSpace k (hWprin j)), ?_⟩
   refine Subtype.ext (funext fun Z => ?_)
-  show -α.1 Z = _
+  change -α.1 Z = _
   rw [hWsum, cycleFamilySum_apply, cycleFamilySum_apply, ← finsum_neg_distrib]
   refine finsum_congr fun j => ?_
   rw [map_neg]

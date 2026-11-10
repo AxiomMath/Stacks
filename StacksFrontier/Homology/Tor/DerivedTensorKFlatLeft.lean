@@ -113,7 +113,7 @@ theorem kFlatLeftComparison_app_of_kFlat (E : CochainComplex (ModuleCat.{u} R) �
     (T.tensor.obj (DerivedCategory.Q.obj E)) (kFlatLeftLift E hE)
     (fun X hX => T.kFlatLeftLiftComponent E hE X hX)
     (fun X Y hX hY g => T.kFlatLeftLiftComponent_naturality E hE X Y hX hY g) X hX
-  show (T.kFlatLeftLiftIso E hE).hom.app (DerivedCategory.Q.obj X) ≫ _ = _
+  change (T.kFlatLeftLiftIso E hE).hom.app (DerivedCategory.Q.obj X) ≫ _ = _
   rw [kFlatLeftLiftIso, h]
   simp
 

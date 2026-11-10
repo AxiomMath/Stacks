@@ -84,7 +84,7 @@ indexed by `η` to the residue-field morphism at `η`. -/
 public theorem ι_fromGenericPointResidueFields (X : Scheme.{u}) (η : genericPoints X) :
     Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) η ≫
       fromGenericPointResidueFields X = X.fromSpecResidueField η.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The canonical morphism from the generic-point residue fields is dominant: its range is the
 set of generic points of `X`, and that set is dense because a scheme is quasi-sober. -/
@@ -119,7 +119,7 @@ public theorem quasiCompact_fromGenericPointResidueFields (X : Scheme.{u})
     simp only [Set.mem_preimage, Set.mem_sigma_iff, Set.mem_ofPred_eq, Set.mem_univ, and_true]
     rw [show e ⟨η, z⟩ =
       Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) η z by simp [e]]
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc, X.fromSpecResidueField_apply]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, X.fromSpecResidueField_apply]
     rfl
   · intro η _
     infer_instance

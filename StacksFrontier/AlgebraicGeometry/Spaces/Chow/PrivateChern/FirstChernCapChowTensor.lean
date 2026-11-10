@@ -63,7 +63,7 @@ theorem firstChernCapChow_tensorObj (L N : Modules.{u, u} D.site D.base D.base_m
   rw [AddMonoidHom.add_apply, firstChernCapChow_of_chowClass, firstChernCapChow_of_chowClass,
     firstChernCapChow_of_chowClass, ← map_add]
   refine congrArg _ ?_
-  show canonicalFirstChernCap.{u, u + 1} D sX hX (L ⊗ N) hLN j b =
+  change canonicalFirstChernCap.{u, u + 1} D sX hX (L ⊗ N) hLN j b =
     canonicalFirstChernCap.{u, u + 1} D sX hX L hL j b +
       canonicalFirstChernCap.{u, u + 1} D sX hX N hN j b
   rw [canonicalFirstChernCap_picardTensorModule hX L N hL hN j b,

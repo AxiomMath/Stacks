@@ -74,8 +74,8 @@ these hypotheses is part of its standing data and not a weakening of its conclus
 **The universes, and why the instances are seated by name.** The sections are taken in
 `AddCommGrpCat.{max w u₀ u₁ u₂ v₀ v₁ v₂}`, the universe in which Stacks 08PA forms the three
 morphisms of topoi and in which Stacks 08PC states the lower-shriek functors. The generic machinery
-of `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` is stated
-with coefficients `AddCommGrpCat.{max v w'}` for a free `w'`, and is applied here with
+of `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` is
+stated with coefficients `AddCommGrpCat.{max v w'}` for a free `w'`, and is applied here with
 `w' := max w u₀ u₁ u₂ v₀ v₁ v₂`. Solving `max v ?w' =?= max w u₀ u₁ u₂ v₀ v₁ v₂` is beyond Lean's
 level unifier, so instance search does not find those instances on its own: every application below
 writes its universes explicitly, and the side conditions they need — sheafification on the three

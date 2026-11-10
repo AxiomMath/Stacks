@@ -49,7 +49,7 @@ private theorem closedSupport_subset_localizedSupport
   have hc : PrimeSpectrum.comap (algebraMap A (Localization.AtPrime q.asIdeal))
       (closedPoint (Localization.AtPrime q.asIdeal)) = q :=
     PrimeSpectrum.ext (IsLocalization.AtPrime.under_maximalIdeal _ _)
-  show PrimeSpectrum.comap _ _ ∈ T
+  change PrimeSpectrum.comap _ _ ∈ T
   rw [hc]
   exact hq
 
@@ -148,7 +148,7 @@ private theorem localized_submodule_le_sections_of_dimension
       (by
         intro p r hpr hp
         change maximalIdeal B ≤ p.asIdeal at hp
-        show maximalIdeal B ≤ r.asIdeal
+        change maximalIdeal B ≤ r.asIdeal
         exact hp.trans ((PrimeSpectrum.le_iff_specializes p r).mpr hpr))
     intro P hP
     let r : PrimeSpectrum B := ⟨P, hP.isPrime⟩
@@ -168,10 +168,10 @@ private theorem localized_submodule_le_sections_of_dimension
     have heq : r = closedPoint B := by
       apply e.injective
       apply Subtype.ext
-      show p = PrimeSpectrum.comap (algebraMap A B) (closedPoint B)
+      change p = PrimeSpectrum.comap (algebraMap A B) (closedPoint B)
       rw [hp_eq]
       exact (PrimeSpectrum.ext (IsLocalization.AtPrime.under_maximalIdeal B q.asIdeal)).symm
-    show maximalIdeal B ≤ r.asIdeal
+    change maximalIdeal B ≤ r.asIdeal
     rw [heq]
     exact le_rfl
   have htop := (sectionsWithSupportIn_eq_top_iff B Z N').mpr hsupport
@@ -332,7 +332,7 @@ private theorem localCohomology_isZero_of_global_annihilator
     Dualizing.dualizingDerivedHom_finiteCohomology A ω hω K.obj hK j
   have hAnn : J ^ (n + 1) ≤ Module.annihilator A (LocalizedModule q.asIdeal.primeCompl E) := by
     rw [← map_le_annihilator_iff (B := Localization.AtPrime q.asIdeal), Ideal.map_pow]
-    show (J.map (algebraMap A (Localization.AtPrime q.asIdeal))) ^ (n + 1) ≤ _
+    change (J.map (algebraMap A (Localization.AtPrime q.asIdeal))) ^ (n + 1) ≤ _
     rw [annihilator_localizedDualCohomology_eq_localCohomology q K hK ω hω j]
     have heq : -Dualizing.dualizingDimension ω q - j = i := by dsimp [j]; omega
     rw [heq]
@@ -400,11 +400,11 @@ private theorem eint_lt_add_iff (d : WithTop ℤ) (s c : ℤ) :
     (s : EInt) < (d : EInt) + (c : EInt) ↔ ((s - c : ℤ) : EInt) < (d : EInt) := by
   cases d using WithTop.recTopCoe with
   | top =>
-      show (WithBot.some (s : WithTop ℤ) : EInt) < WithBot.some (⊤ + (c : WithTop ℤ)) ↔
+      change (WithBot.some (s : WithTop ℤ) : EInt) < WithBot.some (⊤ + (c : WithTop ℤ)) ↔
         (WithBot.some ((s - c : ℤ) : WithTop ℤ) : EInt) < WithBot.some ⊤
       simp only [WithBot.coe_lt_coe, top_add, WithTop.coe_lt_top]
   | coe d =>
-      show (s : EInt) < ((d + c : ℤ) : EInt) ↔ ((s - c : ℤ) : EInt) < (d : EInt)
+      change (s : EInt) < ((d + c : ℤ) : EInt) ↔ ((s - c : ℤ) : EInt) < (d : EInt)
       simp only [WithBotTop.coe_lt_coe]
       omega
 
@@ -436,7 +436,7 @@ private theorem depth_add_dim_gt_iff_shift_lt_depth
     · simp [heq]
     · exact (δ.strictAnti_specializes ((PrimeSpectrum.le_iff_specializes _ _).mp hpq) heq).le
   rw [ringKrullDim_localizedQuotient_eq_dimensionFunction δ p q hpq]
-  show (s : EInt) < _ + (((δ p - δ q).toNat : ℤ) : EInt) ↔ _
+  change (s : EInt) < _ + (((δ p - δ q).toNat : ℤ) : EInt) ↔ _
   rw [Int.toNat_of_nonneg (sub_nonneg.mpr hδpq), eint_lt_add_iff, ← hδ p, ← hδ q,
     sub_sub_eq_add_sub, sub_add_eq_add_sub]
 

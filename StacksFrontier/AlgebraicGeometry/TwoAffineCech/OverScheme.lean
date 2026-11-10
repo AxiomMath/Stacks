@@ -120,7 +120,7 @@ theorem isOpen_setOf_fibreCohomology_affine
           Module.finrank ((Spec (.of A')).residueField x') (fibreCohomology fA' L' x' 1) = 0 ∧
           Module.finrank ((Spec (.of A')).residueField x') (fibreCohomology fA' L' x' 0) = r} := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_preimage]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage]
     rw [htr x 1, htr x 0]
   rw [this]
   exact hO.preimage (Spec.map _).continuous
@@ -228,7 +228,7 @@ theorem exists_affineChart (x : T) :
   let φ : CommRingCat.of k ⟶ CommRingCat.of R := Spec.preimage (ι' ≫ a)
   let : Algebra k R := φ.hom.toAlgebra
   have hmap : Spec.map (CommRingCat.ofHom (algebraMap k R)) = ι' ≫ a := by
-    show Spec.map (CommRingCat.ofHom φ.hom) = _
+    change Spec.map (CommRingCat.ofHom φ.hom) = _
     rw [CommRingCat.ofHom_hom, Spec.map_preimage]
   let q := hT.lift (pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap k R))) fX)
     (pullback.fst _ fX ≫ ι') (by rw [← pullback.condition, hmap, Category.assoc])
@@ -264,7 +264,7 @@ theorem isOpen_setOf_fibreCohomology_of_isPullback (r : ℕ) :
           (fibreCohomology (pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap k R))) fX)
             ((Scheme.Modules.pullback q).obj L) z 0) = r} := by
     ext z
-    simp only [S, Set.mem_preimage, Set.mem_setOf_eq]
+    simp only [S, Set.mem_preimage, Set.mem_ofPred_eq]
     rw [finrank_fibreCohomology_eq_of_isPullback fT L q _ ι hsq _ (Iso.refl _) z 1,
       finrank_fibreCohomology_eq_of_isPullback fT L q _ ι hsq _ (Iso.refl _) z 0]
   refine ⟨ι.base '' (ι.base ⁻¹' S), Set.image_preimage_subset _ _, ?_, ⟨y, ?_, hy⟩⟩

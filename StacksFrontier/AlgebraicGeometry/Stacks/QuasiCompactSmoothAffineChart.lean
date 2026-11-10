@@ -81,7 +81,7 @@ theorem exists_affine_smooth_refinement_of_isOpenMap_surjective
     exact IsZariskiLocalAtSource.sigmaDesc (fun i => inferInstance)
   · intro z
     obtain ⟨i, hi, x, hx, hmx⟩ := Set.mem_iUnion₂.mp (hs (Set.mem_univ z))
-    have hdesc : Limits.Sigma.ι Y (⟨i, hi⟩ : s) ≫ d = i.1.ι := Limits.Sigma.ι_desc _ _
+    have hdesc : Limits.Sigma.ι Y (⟨i, hi⟩ : s) ≫ d = i.1.ι := Limits.Sigma.ι_comp_desc _ _
     refine ⟨(Limits.Sigma.ι Y (⟨i, hi⟩ : s)).base ⟨x, hx⟩, ?_⟩
     have hbase : d.base ((Limits.Sigma.ι Y (⟨i, hi⟩ : s)).base ⟨x, hx⟩) = x :=
       congrArg (fun φ : Y (⟨i, hi⟩ : s) ⟶ X => φ.base ⟨x, hx⟩) hdesc

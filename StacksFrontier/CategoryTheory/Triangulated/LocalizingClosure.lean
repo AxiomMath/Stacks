@@ -196,7 +196,7 @@ private lemma small_of_exact {A B D : Type*} [AddCommGroup B] [AddCommGroup D]
   have hsφ : ∀ b : B, φ (s (φ b)) = φ b := by
     intro b
     have h : ∃ b' : B, φ b' = φ b := ⟨b, rfl⟩
-    simp only [hs, dif_pos h]
+    simp only [hs, dite_eq_left h]
     exact h.choose_spec
   have hker : ∀ b : B, φ (b - s (φ b)) = 0 := by
     intro b

@@ -56,12 +56,14 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FinitePresentationModuleFullnessUnderConvention :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
-local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleFullnessUnderConvention
+local instance (priority := high)
+    hasPullback_presheaf_FinitePresentationModuleFullnessUnderConvention
     {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
@@ -340,7 +342,7 @@ private theorem bsM_naturality {r r' : Over a} (d : r' ⟶ r) :
   have hnat : yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r =
       C.iso.hom.app r' ≫ (stageBaseChangeDiagram B S hS a D U₀ g₀).map d :=
     C.iso.hom.naturality d
-  show yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r ≫
+  change yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r ≫
       stageBaseChangeSnd B S hS a D U₀ g₀ r =
     C.iso.hom.app r' ≫ stageBaseChangeSnd B S hS a D U₀ g₀ r'
   rw [← Category.assoc, hnat, Category.assoc, stageBaseChangeDiagram_map_comp_snd]
@@ -351,7 +353,7 @@ private theorem stM_naturality {r r' : Over a} (d : r' ⟶ r) :
   have hnat : yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r =
       C.iso.hom.app r' ≫ (stageBaseChangeDiagram B S hS a D U₀ g₀).map d :=
     C.iso.hom.naturality d
-  show yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r ≫
+  change yoneda.map (C.siteDiagram.map d) ≫ C.iso.hom.app r ≫
       stageBaseChangeFst B S hS a D U₀ g₀ r =
     (C.iso.hom.app r' ≫ stageBaseChangeFst B S hS a D U₀ g₀ r') ≫ D.map d.left
   rw [← Category.assoc, hnat, Category.assoc, stageBaseChangeDiagram_map_comp_fst,
@@ -421,7 +423,7 @@ omit [IsCofiltered I] in
 private theorem chCone_chMap {r r' : Over a} (d : r' ⟶ r) :
     chCone L r' ≫ chMap C d = chCone L r := by
   apply ObjectProperty.hom_ext
-  show yoneda.map (L.cone.π.app r') ≫ yoneda.map (C.siteDiagram.map d) =
+  change yoneda.map (L.cone.π.app r') ≫ yoneda.map (C.siteDiagram.map d) =
     yoneda.map (L.cone.π.app r)
   rw [← Functor.map_comp, L.cone.w d]
 
@@ -468,7 +470,7 @@ private theorem eventually_restrict_eq {a : I} {T W : AlgebraicSpaces B S hS}
   let m : ∀ r : Over a, chSp C r ⟶ T := fun r => ObjectProperty.homMk (bsM C r ≫ w₀')
   have hm : ∀ r, m r ≫ τ ≫ ρ = chartToTarget hD C ρ r := fun r => by
     apply ObjectProperty.hom_ext
-    show (bsM C r ≫ w₀') ≫ τ.hom ≫ ρ.hom = stM C r ≫ D.map r.hom ≫ ρ.hom
+    change (bsM C r ≫ w₀') ≫ τ.hom ≫ ρ.hom = stM C r ≫ D.map r.hom ≫ ρ.hom
     rw [← Category.assoc (stM C r), (isPullback_stM C r).w]
     simp only [Category.assoc]
   let r₀ : Over a := Over.mk (𝟙 a)
@@ -481,13 +483,13 @@ private theorem eventually_restrict_eq {a : I} {T W : AlgebraicSpaces B S hS}
   have hκl : κl ≫ fiberFst τ (limProj B S hS D hD hXl a) ≫ τ ≫ ρ =
       chartLim L hXl ≫ limProj B S hS D hD hXl a ≫ ρ := by
     apply ObjectProperty.hom_ext
-    show pullback.lift (L.toBase ≫ w₀') L.toLimit wl ≫ pullback.fst _ _ ≫ τ.hom ≫ ρ.hom =
+    change pullback.lift (L.toBase ≫ w₀') L.toLimit wl ≫ pullback.fst _ _ ≫ τ.hom ≫ ρ.hom =
       L.toLimit ≫ (limProj B S hS D hD hXl a).hom ≫ ρ.hom
     rw [pullback.condition_assoc, pullback.lift_snd_assoc]
   have habl : chCone L r₀ ≫ m r₀ =
       κl ≫ fiberFst τ (limProj B S hS D hD hXl a) := by
     apply ObjectProperty.hom_ext
-    show yoneda.map (L.cone.π.app r₀) ≫ bsM C r₀ ≫ w₀' =
+    change yoneda.map (L.cone.π.app r₀) ≫ bsM C r₀ ≫ w₀' =
       pullback.lift (L.toBase ≫ w₀') L.toLimit wl ≫ pullback.fst _ _
     rw [pullback.lift_fst, ← Category.assoc, cone_bsM]
   have key₀ : ∀ ξ : (modulePullback B S hS (τ ≫ ρ)).obj E ⟶ (modulePullback B S hS (τ ≫ ρ)).obj G,
@@ -518,13 +520,13 @@ private theorem eventually_restrict_eq {a : I} {T W : AlgebraicSpaces B S hS}
   obtain ⟨hκet, hκs⟩ := isEtale_and_presheafSurjective_of_isPullback hpb.flip he₀' hs₀'
   have hκ : κ ≫ fiberFst τ (stTr B S hS D hD r.hom) ≫ τ ≫ ρ = chartToTarget hD C ρ r := by
     apply ObjectProperty.hom_ext
-    show pullback.lift (bsM C r ≫ w₀') (stM C r) wr ≫ pullback.fst _ _ ≫ τ.hom ≫ ρ.hom =
+    change pullback.lift (bsM C r ≫ w₀') (stM C r) wr ≫ pullback.fst _ _ ≫ τ.hom ≫ ρ.hom =
       stM C r ≫ (stTr B S hS D hD r.hom).hom ≫ ρ.hom
     rw [pullback.condition_assoc, pullback.lift_snd_assoc]
   have habr : chMap C e ≫ m r₀ =
       κ ≫ fiberFst τ (stTr B S hS D hD r.hom) := by
     apply ObjectProperty.hom_ext
-    show yoneda.map (C.siteDiagram.map e) ≫ bsM C r₀ ≫ w₀' =
+    change yoneda.map (C.siteDiagram.map e) ≫ bsM C r₀ ≫ w₀' =
       pullback.lift (bsM C r ≫ w₀') (stM C r) wr ≫ pullback.fst _ _
     rw [pullback.lift_fst, ← Category.assoc, bsM_naturality C e]
   refine restrict_injective κ hκ hκet hκs ?_
@@ -655,7 +657,7 @@ private theorem exists_restrict_eq_of_stage (hZ : B.Contains (⊤_ Scheme.{u}))
     have hℓu : ℓ ≫ chartLim L hXl = sl := ObjectProperty.hom_ext _ (L.isPullback.lift_fst _ _ _)
     have hℓc : fl ≫ o = ℓ ≫ chCone L s := by
       apply ObjectProperty.hom_ext
-      show fl.hom ≫ o.hom = L.isPullback.lift sl.hom (fl.hom ≫ o.hom ≫ bsM C s) wℓ ≫
+      change fl.hom ≫ o.hom = L.isPullback.lift sl.hom (fl.hom ≫ o.hom ≫ bsM C s) wℓ ≫
         yoneda.map (L.cone.π.app s)
       refine (isPullback_stM C s).hom_ext ?_ ?_
       · simp only [Category.assoc]
@@ -694,7 +696,7 @@ private theorem exists_restrict_eq_of_stage (hZ : B.Contains (⊤_ Scheme.{u}))
   have hμTsnd : μT.hom ≫ (fiberSnd cs cs).hom = o₂.hom ≫ yoneda.map (C.siteDiagram.map d) :=
     pullback.lift_snd _ _ _
   have wμ₂ : μT.hom ≫ τ.hom = (o₁.hom ≫ stM C s') ≫ D.map r.hom := by
-    show μT.hom ≫ (fiberFst cs cs).hom ≫ stM C s = _
+    change μT.hom ≫ (fiberFst cs cs).hom ≫ stM C s = _
     rw [← Category.assoc, hμTfst, Category.assoc, hnat, Category.assoc]
   let μ : overlapSpace c PUnit.unit PUnit.unit ⟶
       AlgebraicSpaces.fiberProduct B S hS τ (stTr B S hS D hD r.hom) :=
@@ -713,12 +715,12 @@ private theorem exists_restrict_eq_of_stage (hZ : B.Contains (⊤_ Scheme.{u}))
     rfl
   have hμ₁ : o₁ ≫ chMap C d = μ ≫ fiberFst τ (stTr B S hS D hD r.hom) ≫ fiberFst cs cs := by
     apply ObjectProperty.hom_ext
-    show o₁.hom ≫ yoneda.map (C.siteDiagram.map d) =
+    change o₁.hom ≫ yoneda.map (C.siteDiagram.map d) =
       μ.hom ≫ (fiberFst τ (stTr B S hS D hD r.hom)).hom ≫ (fiberFst cs cs).hom
     rw [← Category.assoc, hμfst, hμTfst]
   have hμ₂ : o₂ ≫ chMap C d = μ ≫ fiberFst τ (stTr B S hS D hD r.hom) ≫ fiberSnd cs cs := by
     apply ObjectProperty.hom_ext
-    show o₂.hom ≫ yoneda.map (C.siteDiagram.map d) =
+    change o₂.hom ≫ yoneda.map (C.siteDiagram.map d) =
       μ.hom ≫ (fiberFst τ (stTr B S hS D hD r.hom)).hom ≫ (fiberSnd cs cs).hom
     rw [← Category.assoc, hμfst, hμTsnd]
   let β' := restrictPullbackHom (chMap C d) (chartToTarget_naturality hD C (𝟙 X) d) β

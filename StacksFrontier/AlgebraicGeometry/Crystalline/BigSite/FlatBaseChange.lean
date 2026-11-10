@@ -262,7 +262,7 @@ private theorem exists_dividedPowerStructure_of_basis (X : Scheme.{u})
     intro k hk
     have hUf : B k ≤ U.unop := hk.trans (leOfHom f.unop)
     have hxV : X.presheaf.map f x ∈ I.obj V := I.map_mem f hx
-    show X.presheaf.map (homOfLE hk).op (d V.unop n (X.presheaf.map f x)) =
+    change X.presheaf.map (homOfLE hk).op (d V.unop n (X.presheaf.map f x)) =
       X.presheaf.map (homOfLE hk).op (X.presheaf.map f (d U.unop n x))
     rw [hdmap _ _ _ hxV]
     simp only [← CommRingCat.comp_apply, ← Functor.map_comp]
@@ -272,7 +272,7 @@ private theorem exists_dividedPowerStructure_of_basis (X : Scheme.{u})
     apply DividedPowers.ext
     intro n x hx
     have hm := hdmap (B k) n x hx k le_rfl
-    show d (B k) n x = (δ k).dpow n x
+    change d (B k) n x = (δ k).dpow n x
     have he' : X.presheaf.map (homOfLE (le_rfl : B k ≤ B k)).op =
         𝟙 Γ(X, B k) := by
       rw [show (homOfLE (le_rfl : B k ≤ B k)).op = 𝟙 (op (B k)) from Subsingleton.elim _ _]
@@ -362,7 +362,7 @@ private theorem exists_dividedPowerStructure_of_flat
     have hbc := hres b c (hVU.trans inf_le_right) hcb
     have hecomp := presheaf_map_map_eq X r.op (homOfLE hcb).op (homOfLE hca).op
     refine ⟨W, hcb, hzW, ?_⟩
-    show X.presheaf.map (homOfLE hcb).op ((δ b).dpow n (X.presheaf.map r.op x)) =
+    change X.presheaf.map (homOfLE hcb).op ((δ b).dpow n (X.presheaf.map r.op x)) =
       X.presheaf.map (homOfLE hcb).op (X.presheaf.map r.op ((δ a).dpow n x))
     exact (hbc.map_dpow (n := n) (I.map_mem r.op hx)).trans
       ((congrArg ((δ c).dpow n) (hecomp x)).trans
@@ -415,7 +415,7 @@ private theorem definingIdeal_map_of_isPullback
     have hz' := hW hz
     have he := congrArg (fun k : Y₀ ⟶ X => k z) h.w
     change f (iY z) = iX (g z) at he
-    show iX (g z) ∈ V.1
+    change iX (g z) ∈ V.1
     rwa [← he]
   have hUY : iY ⁻¹ᵁ W.1 = g ⁻¹ᵁ (iX ⁻¹ᵁ V.1) ⊓ iY ⁻¹ᵁ W.1 :=
     (inf_eq_right.mpr hle).symm
@@ -424,7 +424,7 @@ private theorem definingIdeal_map_of_isPullback
       V.2 W.2 (V.2.preimage iX))
   have he := CommRingCat.ker_inr_of_isPushout _ _ _ _ hp
     (by simpa [Scheme.Hom.appLE] using iX.app_surjective V.1 V.2)
-  show Ideal.map _ ((definingIdeal iX).obj (op V.1) : Ideal Γ(X, V.1)) = _
+  change Ideal.map _ ((definingIdeal iX).obj (op V.1) : Ideal Γ(X, V.1)) = _
   rw [definingIdeal_obj iX V, definingIdeal_obj iY W, Scheme.Hom.ker_apply,
     Scheme.Hom.ker_apply]
   rw [Scheme.Hom.appLE_eq_app, Scheme.Hom.appLE_eq_app] at he
@@ -515,7 +515,7 @@ private theorem isDPMorphism_app_of_comp_cartesian
   apply DividedPowers.IsDPMorphism.of_comp
     (hI := A.target.dividedPowers.dividedPowers (op V₀))
     (f := (f.hom.appLE V₀ V (hVU.trans inf_le_right)).hom)
-  · show (B.target.ideal.obj (op V) : Ideal Γ(B.target.scheme, V)) = _
+  · change (B.target.ideal.obj (op V) : Ideal Γ(B.target.scheme, V)) = _
     have he := definingIdeal_map_of_isPullback A.immersion B.immersion f.hom s h
       ⟨V₀, hV₀⟩ ⟨V, hV⟩ (hVU.trans inf_le_right)
     change Ideal.map _ ((definingIdeal A.immersion).obj (op V₀) :
@@ -548,7 +548,7 @@ private theorem exists_dividedPowerStructure_baseChange
           (γ.dividedPowers (op W.1)) (q.appLE V.1 W.1 h).hom := by
   apply exists_dividedPowerStructure_of_flat
   intro V W hW
-  show Ideal.map _ (C.target.ideal.obj (op V.1) : Ideal Γ(C.target.scheme, V.1)) = _
+  change Ideal.map _ (C.target.ideal.obj (op V.1) : Ideal Γ(C.target.scheme, V.1)) = _
   rw [C.ideal_eq_ker V, ← definingIdeal_obj C.immersion V]
   exact definingIdeal_map_of_isPullback C.immersion (pullback.snd C.immersion q)
     q (pullback.fst C.immersion q) (IsPullback.of_hasPullback _ _).flip V W hW
@@ -738,7 +738,7 @@ theorem GlobalCrystallineSituation.Thickening.isPullback_targetHom_of_flat
           congrArg (fun z ↦ E.thickening.immersion ≫ z) hpq
       _ = (E.thickening.immersion ≫ q) ≫ g.targetHom.hom := (Category.assoc _ _ _).symm
       _ = (b.sourceHom ≫ g.sourceHom) ≫ A.thickening.immersion := by
-          show (E.thickening.immersion ≫ b.targetHom.hom) ≫ g.targetHom.hom = _
+          change (E.thickening.immersion ≫ b.targetHom.hom) ≫ g.targetHom.hom = _
           rw [b.immersion_naturality, Category.assoc, g.immersion_naturality,
             Category.assoc]
   let a : E ⟶ B :=
@@ -748,7 +748,7 @@ theorem GlobalCrystallineSituation.Thickening.isPullback_targetHom_of_flat
       immersion_naturality := (hB.lift_fst _ _ hs).symm
       base_naturality := by
         apply DividedPowerScheme.Hom.ext
-        show p ≫ B.toBase.hom = E.toBase.hom
+        change p ≫ B.toBase.hom = E.toBase.hom
         have hfbase := congrArg DividedPowerScheme.Hom.hom f.base_naturality
         have hgbase := congrArg DividedPowerScheme.Hom.hom g.base_naturality
         change f.targetHom.hom ≫ A.toBase.hom = B.toBase.hom at hfbase

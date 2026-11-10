@@ -81,8 +81,7 @@ private theorem addMonoidHom_ext_tmul {R M N P : Type*} [CommSemiring R] [AddCom
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] {f g : TensorProduct R M N →+ P}
     (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) : f = g := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
 

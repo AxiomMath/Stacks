@@ -133,13 +133,13 @@ private theorem not_isPreconnected_compl_closedPoint {A : Type u} [CommRing A] {
   have hPmem : e.symm ⟨P, hPz.le⟩ ∈ ({closedPoint B}ᶜ : Set (PrimeSpectrum B)) ∩
       f ⁻¹' zeroLocus (I : Set A) := by
     refine ⟨fun hx => hPz.ne (by rw [← hsymm P hPz.le, hx, hfc]), ?_⟩
-    show f _ ∈ zeroLocus (I : Set A)
+    change f _ ∈ zeroLocus (I : Set A)
     rw [hsymm P hPz.le]
     exact (mem_zeroLocus _ _).2 hPI
   have hQmem : e.symm ⟨Q, hQz.le⟩ ∈ ({closedPoint B}ᶜ : Set (PrimeSpectrum B)) ∩
       f ⁻¹' zeroLocus (J : Set A) := by
     refine ⟨fun hx => hQz.ne (by rw [← hsymm Q hQz.le, hx, hfc]), ?_⟩
-    show f _ ∈ zeroLocus (J : Set A)
+    change f _ ∈ zeroLocus (J : Set A)
     rw [hsymm Q hQz.le]
     exact (mem_zeroLocus _ _).2 hQJ
   rcases isPreconnected_iff_subset_of_disjoint_closed.mp hconn _ _

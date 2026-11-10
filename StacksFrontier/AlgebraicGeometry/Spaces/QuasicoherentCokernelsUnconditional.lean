@@ -90,7 +90,7 @@ theorem hasGlobalPresentation_cokernel_over_of_isAffineChart
   have hEzero : E.PreservesZeroMorphisms := ⟨fun _ _ => rfl⟩
   have hshAll : ∀ U : (smallEtaleRingedSite B S hS F hF).C,
       HasSheafify ((smallEtaleRingedSite B S hS F hF).J.over U) AddCommGrpCat.{u} := by
-    show ∀ U : SmallEtale B S hS F,
+    change ∀ U : SmallEtale B S hS F,
       HasSheafify ((SmallEtale.topology B S hS F).over U) AddCommGrpCat.{u}
     infer_instance
   have hshV := hshAll V

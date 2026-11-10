@@ -144,7 +144,7 @@ private theorem depth_stalk_bound_of_isReflexive (X : Scheme.{u}) [IsLocallyNoet
       (2 : ℕ∞) ≤ Module.depth (ringStalk X.sheaf x)
         (IsLocalRing.maximalIdeal (ringStalk X.sheaf x)) (modStalk F x)) := by
   have hnoe : IsNoetherianRing (ringStalk X.sheaf x) := by
-    show IsNoetherianRing (X.presheaf.stalk x); infer_instance
+    change IsNoetherianRing (X.presheaf.stalk x); infer_instance
   have : (dualSheaf F).IsFiniteType :=
     SheafOfModules.instIsFiniteTypeOfIsFinitePresentation (dualSheaf F)
   have hfin : Module.Finite (ringStalk X.sheaf x) (modStalk (dualSheaf F) x) :=
@@ -174,7 +174,7 @@ public theorem two_le_depth_stalk_of_isReflexive (X : Scheme.{u}) [IsLocallyNoet
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
       (↑(TopCat.Presheaf.stalk F.val.presheaf x)) :=
   have : IsLocalRing (ringStalk X.sheaf x) := by
-    show IsLocalRing (X.presheaf.stalk x); infer_instance
+    change IsLocalRing (X.presheaf.stalk x); infer_instance
   (depth_stalk_bound_of_isReflexive X F hF x).2 hx
 
 /-- **Stacks, Tag 0EBI part (1), the depth-one half**, with the finite presentation of the dual
@@ -192,7 +192,7 @@ public theorem one_le_depth_stalk_of_isReflexive (X : Scheme.{u}) [IsLocallyNoet
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
       (↑(TopCat.Presheaf.stalk F.val.presheaf x)) :=
   have : IsLocalRing (ringStalk X.sheaf x) := by
-    show IsLocalRing (X.presheaf.stalk x); infer_instance
+    change IsLocalRing (X.presheaf.stalk x); infer_instance
   (depth_stalk_bound_of_isReflexive X F hF x).1 hx
 
 /-! ### Serre's condition for the module -/

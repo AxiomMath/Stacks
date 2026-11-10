@@ -70,10 +70,11 @@ theorem exists_comp_eq_of_isIso_appTop {X Y Y' : Scheme.{u}} [IsAffine Y'] (p : 
     Category.id_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
     Scheme.toSpecΓ_isoSpec_inv, Category.comp_id]
 
+open Stacks.AlgebraicGeometry in
 /-- **The global functions on projective space over a ring are the coefficients**: the
 structure morphism of `ℙⁿ_R` is an isomorphism on global functions. -/
 alias isIso_appTop_projectiveSpaceOverRing :=
-  Stacks.AlgebraicGeometry.ProjectiveSpaceHigherDirectImage.isIso_appTop_structureMorphism_projectiveSpaceOverRing
+  ProjectiveSpaceHigherDirectImage.isIso_appTop_structureMorphism_projectiveSpaceOverRing
 
 /-- **The base change of projective space along an isomorphism of base schemes is an
 isomorphism**: projective space is stable under base change, and in a cartesian square opposite

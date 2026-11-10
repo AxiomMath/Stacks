@@ -94,7 +94,7 @@ theorem spacesTransition_comp {l m n : SimplexCategory} (ψ : l ⟶ m) (φ : m �
   dsimp only [spacesTransition, Functor.comp_obj]
   simp only [Functor.map_comp, Category.assoc, eqToHom_app, eqToHom_trans_assoc, eqToHom_refl,
     Category.id_comp, Iso.inv_hom_id_app_assoc]
-  rw [← Iso.app_hom (transInvIso ψ), ← Iso.app_inv (transInvIso ψ), Iso.map_hom_inv_id_assoc]
+  rw [← Iso.app_hom (transInvIso ψ), ← Iso.app_inv (transInvIso ψ), Iso.hom_inv_id_map_assoc]
   have hn := (transInvIso φ).hom.naturality (((situation A).fiberTransition ψ).app G)
   dsimp only [Functor.comp_obj, Functor.comp_map] at hn
   rw [← reassoc_of% hn, Iso.hom_inv_id_app_assoc]

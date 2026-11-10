@@ -428,7 +428,8 @@ statements rather than one: see the witness in the implementation notes below.
 `exists_isIntegral_leadingCoeff_pow_smul_sub_of_isIntegralElem_of_mul_mem_range` carries the tag
 00PV already, stated for `φ : R[X] →ₐ[R] S` with conclusion `IsIntegral R (a ^ n • t - φ q)`; that
 form presupposes an `Algebra R S` structure and asserts integrality over `R` with respect to *it*.
-Here, as in the companion statement of Tag 00PT, integrality over `R` is integrality along `φ.comp Polynomial.C`,
+Here, as in the companion statement of Tag 00PT, integrality over `R` is integrality along
+`φ.comp Polynomial.C`,
 so no algebra structure on `S` is assumed and none has to be compatible with `φ`. The two
 statements are inter-derivable — the algebra form is this one along
 `(φ : R[X] →+* S).comp C = algebraMap R S`, and this one is the algebra form for the structure

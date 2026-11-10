@@ -235,8 +235,7 @@ public theorem addHom_ext_tmul {Rr Mm : Type u} {Nn Pp : Type*} [CommRing Rr]
     [AddCommGroup Mm] [Module Rr Mm] [AddCommGroup Nn] [Module Rr Nn] [AddCommGroup Pp]
     {f h : Mm ⊗[Rr] Nn →+ Pp} (hfh : ∀ a m, f (a ⊗ₜ[Rr] m) = h (a ⊗ₜ[Rr] m)) : f = h := by
   refine AddMonoidHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a m => exact hfh a m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

@@ -85,7 +85,7 @@ theorem fromSpecResidueField_comp_eq_specMap_sectionResidueFieldEquiv_symm :
   congr 1
   ext z
   apply (sectionResidueFieldEquiv p σ hσ).injective
-  show _ = sectionResidueFieldEquiv p σ hσ ((sectionResidueFieldEquiv p σ hσ).symm z)
+  change _ = sectionResidueFieldEquiv p σ hσ ((sectionResidueFieldEquiv p σ hσ).symm z)
   rw [RingEquiv.apply_symm_apply, sectionResidueFieldEquiv_apply]
   simpa using congrArg (fun φ => φ.hom z) (fromSpecResidueField_comp_eq_specMap_preimage p σ hσ)
 

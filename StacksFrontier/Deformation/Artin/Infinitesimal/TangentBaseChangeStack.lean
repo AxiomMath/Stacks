@@ -196,8 +196,7 @@ private theorem cancelTensorAddEquiv_tmul_eq_smul (A C R M : Type u) [CommRing A
     [Module A M] (ψ : C ⊗[A] M →+ R ⊗[A] M)
     (hψ : ∀ (c : C) (m : M), ψ (c ⊗ₜ m) = algebraMap C R c ⊗ₜ m)
     (r : R) (n : C ⊗[A] M) : cancelTensorAddEquiv A C R M (r ⊗ₜ[C] n) = r • ψ n := by
-  induction n using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.tmul_zero, map_zero, smul_zero]
+  induction n using TensorProduct.inductionOn with
   | tmul c m =>
     rw [cancelTensorAddEquiv_tmul, hψ, TensorProduct.smul_tmul', smul_eq_mul, Algebra.smul_def,
       mul_comm]
@@ -280,8 +279,7 @@ theorem liftClassRowExact_of_tensorProduct_base (h𝒳 : IsAlgebraicStack.{u, w}
         (Algebra.TensorProduct.includeRight : A₁ →ₐ[A] A₁ ⊗[A] A₁) (AlgHom.id A C)) M.obj)
         (restrictScalarsAddHom _ (tensorCoeffMap
           (Algebra.TensorProduct.includeRight : C →ₐ[A] A₁ ⊗[A] C) M.obj) n) := fun n ↦ by
-    induction n using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction n using TensorProduct.inductionOn with
     | tmul c m =>
       change TensorProduct.map _ LinearMap.id (TensorProduct.map _ LinearMap.id (c ⊗ₜ m)) =
         TensorProduct.map _ LinearMap.id (TensorProduct.map _ LinearMap.id (c ⊗ₜ m))

@@ -52,8 +52,8 @@ on the stalk, which also makes the statement apply to modules that are not quasi
 
 The fibre condition is the geometric-stalk condition of Stacks 05WY part (1) rather than
 flatness of a pullback of `F` to a genuine fibre product; the identification of the two is
-conditions (1) and (2) of Stacks 05WY, which is
-`AlgebraicGeometry.Space.isFlatOverAtGeometricPoint_fieldFibreSpace_iff_isFibreFlatOverAtGeometricPoint`
+conditions (1) and (2) of Stacks 05WY, which is, in the namespace `AlgebraicGeometry`,
+`Space.isFlatOverAtGeometricPoint_fieldFibreSpace_iff_isFibreFlatOverAtGeometricPoint`
 of `StacksFrontier/AlgebraicGeometry/Spaces/FibreFlatnessFieldFibre.lean`.  The condition is
 written with `𝔪_{z̄}F_{x̄}` computed over `𝒪_{Y, ȳ}`, the spelling that Stacks 00MP consumes.
 

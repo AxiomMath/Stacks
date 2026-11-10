@@ -110,7 +110,7 @@ theorem height_eq_zero_or_eq_one_of_ne_maximalIdeal [IsNoetherianRing A]
   have h := Ideal.height_strict_mono_of_isPrime_of_isPrime
     (lt_of_le_of_ne (IsLocalRing.le_maximalIdeal (Ideal.IsPrime.ne_top ‹_›)) hp)
   rw [hmax] at h
-  exact ENat.le_one_iff_eq_zero_or_eq_one.mp (ENat.lt_two_iff.mp h)
+  exact Order.le_one_iff.mp (ENat.lt_two_iff.mp h)
 
 omit [IsLocalRing A] in
 /-- The dimension of the local ring of `Spec A`, as an algebraic space, at a point is the
@@ -128,7 +128,7 @@ theorem localRingDimension_yoneda_baseTerminal
     (presheaf_etale_of_iso B (Spec (.of A)) hS (Iso.refl _)) _ y hu]
   let q : PrimeSpectrum A :=
     pointsToScheme B (Spec (.of A)) hS (baseTerminal B (Spec (.of A)) hS) y
-  show ringKrullDim ((Spec (.of A)).presheaf.stalk q) = _
+  change ringKrullDim ((Spec (.of A)).presheaf.stalk q) = _
   let _ : Algebra A ((Spec (.of A)).presheaf.stalk q) := StructureSheaf.stalkAlgebra A q
   have : IsLocalization.AtPrime ((Spec (.of A)).presheaf.stalk q) q.asIdeal :=
     StructureSheaf.IsLocalization.to_stalk A q
@@ -155,7 +155,7 @@ theorem hasNormalLocalRingAtPoint_yoneda_baseTerminal
       presheaf_etale_of_iso B (Spec (.of A)) hS (Iso.refl _), p, by rw [pointsMap_id, id_eq], ?_⟩
     let q : PrimeSpectrum A := schemePoint B (Spec (.of A)) hS _ p
     have hq : q ∈ Stacks.puncturedSpectrum A := hy
-    show IsNormalDomain ((Spec (.of A)).presheaf.stalk q)
+    change IsNormalDomain ((Spec (.of A)).presheaf.stalk q)
     have : IsNormalDomain ((Stacks.puncturedSpectrum A).toScheme.presheaf.stalk ⟨q, hq⟩) :=
       ⟨IsNormal.stalk_isDomain _, IsNormal.stalk_normal _⟩
     exact isNormalDomain_of_ringEquiv
@@ -181,7 +181,7 @@ theorem isProperModification_of_isIntegralModification [IsDomain A] [IsNoetheria
   have hYint := isIntegralSpace_yoneda_baseTerminal A B hS
   have hXint := hf.isIntegralSpace B (Spec (.of A)) hS
   refine (isProperModification_iff B _ hS _ _ _).mpr ⟨hX, hf.isProper B _ hS, ?_⟩
-  show IsIso (pullback.snd f (puncturedSpectrumSubfunctor A B hS).ι)
+  change IsIso (pullback.snd f (puncturedSpectrumSubfunctor A B hS).ι)
   -- The largest open subspace of `Spec A` over which `f` is an isomorphism.
   obtain ⟨W, hW⟩ := exists_isGreatest_isIso_pullback_snd B (Spec (.of A)) hS hX hY f
   have hBir : ∃ (hDY : IsDecentSpace B (Spec (.of A)) hS X)

@@ -121,7 +121,7 @@ theorem exists_specialization_planeCurve {n : ℕ} (P : Polynomial (MvPolynomial
     intro a ha
     obtain ⟨r, hr⟩ := hZ a ha
     refine ⟨IsLocalization.mk' S r (⟨Δ, 1, pow_one Δ⟩ : Submonoid.powers Δ), ?_⟩
-    show IsLocalization.lift _ _ = a
+    change IsLocalization.lift _ _ = a
     rw [IsLocalization.lift_mk'_spec, hr, Algebra.smul_def]
   have hlift : ∀ m : MvPolynomial (Fin 2) E, (∀ a ∈ m.coeffs, a ∈ Z) →
       ∃ mS : MvPolynomial (Fin 2) S, mS.map (algebraMap S E) = m := fun m hm ↦
@@ -196,7 +196,7 @@ theorem exists_specialization_planeCurve {n : ℕ} (P : Polynomial (MvPolynomial
   let φS : S →ₐ[k] F := IsLocalization.liftAlgHom (M := Submonoid.powers Δ) (f := φ)
     fun ⟨x, hx⟩ ↦ by
       obtain ⟨m, rfl⟩ := hx
-      show IsUnit (φ (Δ ^ m))
+      change IsUnit (φ (Δ ^ m))
       rw [map_pow]
       exact (isUnit_iff_ne_zero.mpr hφΔ).pow m
   have hφS : ∀ (a : D) (s : Submonoid.powers Δ), φ a ≠ 0 →
@@ -213,7 +213,7 @@ theorem exists_specialization_planeCurve {n : ℕ} (P : Polynomial (MvPolynomial
   have hgF0 : gF ≠ 0 := by
     intro h
     have := congrArg (fun p : MvPolynomial (Fin 2) _ ↦ p.coeff m0) h
-    simp only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at this
+    simp only [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at this
     exact hφSc this
   refine ⟨fF, gF, MvPolynomial.totalDegree_map_le _ _, MvPolynomial.totalDegree_map_le _ _, ?_,
     ?_, ?_⟩
@@ -251,7 +251,7 @@ theorem exists_specialization_planeCurve {n : ℕ} (P : Polynomial (MvPolynomial
       rfl
     refine ⟨ψ, ?_, ?_⟩
     · rw [hψ, ← Bivariate.map_equivMvPolynomial, hid, map_mul, map_mul]
-      show MvPolynomial.eval x fF * _ = 0
+      change MvPolynomial.eval x fF * _ = 0
       rw [hx0, zero_mul]
     · rw [hψ, ← Bivariate.map_equivMvPolynomial, Polynomial.map_C]
       exact hx1

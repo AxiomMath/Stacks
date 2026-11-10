@@ -88,7 +88,7 @@ theorem existsUnique_lift_localizationPresheaf (S : O.SubmonoidPresheaf) (f : O 
         apply CommRingCat.hom_ext
         apply IsLocalization.ringHom_ext (M := S.obj U)
         ext x
-        show (IsLocalization.lift (M := S.obj V) (g := (f.app V).hom) (hf V))
+        change (IsLocalization.lift (M := S.obj V) (g := (f.app V).hom) (hf V))
             (IsLocalization.map (Localization (S.obj V)) (O.map i).hom (S.map i)
               (algebraMap (O.obj U) (Localization (S.obj U)) x)) =
           (A.map i).hom ((IsLocalization.lift (M := S.obj U) (g := (f.app U).hom) (hf U))
@@ -150,7 +150,7 @@ theorem existsUnique_lift_localizationSheaf (S : O.SubmonoidPresheaf) (A : X.She
     existsUnique_lift_localizationPresheaf S (toSheafify J O ≫ f.hom) hf
   refine ⟨⟨sheafifyLift J g₀ A.property⟩, ?_, ?_⟩
   · apply CategoryTheory.Sheaf.hom_ext
-    show sheafifyMap J S.toLocalizationPresheaf ≫ sheafifyLift J g₀ A.property = f.hom
+    change sheafifyMap J S.toLocalizationPresheaf ≫ sheafifyLift J g₀ A.property = f.hom
     rw [sheafifyMap_sheafifyLift]
     refine CategoryTheory.sheafify_hom_ext _ _ _ A.property ?_
     simpa only [toSheafify_sheafifyLift] using hg₀
@@ -158,7 +158,7 @@ theorem existsUnique_lift_localizationSheaf (S : O.SubmonoidPresheaf) (A : X.She
     apply CategoryTheory.Sheaf.hom_ext
     refine CategoryTheory.sheafify_hom_ext _ _ _ A.property ?_
     refine (huniq₀ _ ?_).trans (toSheafify_sheafifyLift J g₀ A.property).symm
-    show S.toLocalizationPresheaf ≫ toSheafify J S.localizationPresheaf ≫ h.hom =
+    change S.toLocalizationPresheaf ≫ toSheafify J S.localizationPresheaf ≫ h.hom =
       toSheafify J O ≫ f.hom
     rw [← Category.assoc, ← toSheafify_comp_toLocalizationSheaf, Category.assoc]
     exact congrArg (fun k : _ ⟶ A => toSheafify J O ≫ k.hom) hh

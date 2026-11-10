@@ -8,7 +8,8 @@ public import StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorMat
 `Dualizing.derivedTensorBaseChange` is the lax monoidal structure map
 `μ_{X,Y} : F X ⊗ᴸ_A F Y ⟶ F (X ⊗ᴸ_R Y)` of a model `F` of derived extension of scalars along
 `f : R → A`, built in
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorMate` as a *double* adjoint transpose
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorMate` as a *double* adjoint
+transpose
 through the derived-Hom base-change morphism of [stacks 0E1X].  Being a double transpose through a
 morphism that is itself a mate, it is opaque, and in particular it is not known to be invertible:
 the note in `…BaseChangeComparison.TensorMate` records that invertibility "would have to come from

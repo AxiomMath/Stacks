@@ -89,7 +89,7 @@ theorem isPushout_toScheme_of_isFlat (hatlas : HasThickeningAffineAtlases B S hS
     simpa only [ObjectProperty.FullSubcategory.comp_hom] using congrArg (fun φ => φ.hom) hE.w
   have hsides' : (schemeSpaceMap jY).hom ≫ (schemeSpaceMap cY).hom =
       (schemeSpaceMap jX').hom ≫ (schemeSpaceMap cX').hom := by
-    show yoneda.map jY ≫ yoneda.map cY = yoneda.map jX' ≫ yoneda.map cX'
+    change yoneda.map jY ≫ yoneda.map cY = yoneda.map jX' ≫ yoneda.map cX'
     rw [← Functor.map_comp, ← Functor.map_comp, hsides]
   have hWpush : IsPushout (schemeSpaceMap jX') (schemeSpaceMap jY) (schemeSpaceMap cX')
       (schemeSpaceMap cY) :=

@@ -70,7 +70,7 @@ theorem pullbackTensorBifunctor_flip_obj (M : SheafOfModules.{u} (structureSheaf
 
 /-- The bifunctor `(ℱ, ℳ) ↦ f^*ℱ ⊗_{𝒪_X} ℳ` is additive in `ℱ`. -/
 instance pullbackTensorBifunctor_additive : (pullbackTensorBifunctor f).Additive := by
-  letI := Stacks.SheafOfModules.Tensor.sheafTensor_additive.{u, u, u, u, u} X.sheaf
+  let := Stacks.SheafOfModules.Tensor.sheafTensor_additive.{u, u, u, u, u} X.sheaf
   exact @Functor.instAdditiveComp _ _ _ _ _ _ (modulePullback f) (modulePullback_additive f) _
     _ _ (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) this
 
@@ -85,9 +85,9 @@ instance pullbackTensorBifunctor_hasMapBifunctor
     (K₁ : CochainComplex (SheafOfModules.{u} (structureSheafRing Y)) ℤ)
     (K₂ : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) :
     HomologicalComplex.HasMapBifunctor K₁ K₂ (pullbackTensorBifunctor f) (ComplexShape.up ℤ) := by
-  haveI : HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u} :=
+  have : HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u} :=
     hasSheafifyEssentiallySmallSite.{_, _, _, _, u} _ _
-  haveI : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} :=
+  have : (Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u} :=
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{_, _, _, _, u} _
   infer_instance
 
@@ -256,8 +256,7 @@ theorem pullbackTensorComplexFunctor_map_descShortComplex :
   · rw [HomologicalComplex.comp_f]
     simp only [Stacks.SheafOfModules.Tensor.Reduction.bifunctorMappingConeIsoR,
       CochainComplex.mappingCone.descShortComplex,
-      CochainComplex.mappingCone.inl_v_desc_f_assoc, CochainComplex.mappingCone.inl_v_desc_f,
-      CochainComplex.HomComplex.Cochain.zero_v]
+      CochainComplex.mappingCone.inl_v_desc_f_assoc]
     have := congrArg (fun z => z.v (n + 1) n (by omega)) hcomp
     simp only [CochainComplex.HomComplex.Cochain.comp_zero_cochain_v,
       CochainComplex.HomComplex.Cochain.ofHom_v, CochainComplex.HomComplex.Cochain.zero_v,
@@ -268,7 +267,7 @@ theorem pullbackTensorComplexFunctor_map_descShortComplex :
   · rw [HomologicalComplex.comp_f]
     simp only [Stacks.SheafOfModules.Tensor.Reduction.bifunctorMappingConeIsoR,
       CochainComplex.mappingCone.descShortComplex,
-      CochainComplex.mappingCone.inr_f_desc_f_assoc, CochainComplex.mappingCone.inr_f_desc_f]
+      CochainComplex.mappingCone.inr_f_desc_f_assoc]
     rw [CochainComplex.mappingCone.descShortComplex] at hinr
     refine (congrArg (fun φ => HomologicalComplex.Hom.f φ n) hinr).trans ?_
     exact (CochainComplex.mappingCone.inr_f_desc_f (S.map (pullbackTensorComplexFunctor f G)).f

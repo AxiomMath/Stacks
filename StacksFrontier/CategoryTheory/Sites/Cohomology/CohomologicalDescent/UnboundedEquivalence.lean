@@ -192,7 +192,8 @@ variable (hA : ∀ M, A' M → A (f.pullbackTopos.obj M))
 include hA in
 omit [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
   [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
-  [A'.IsWeakSerreClass] in
+  [A'.IsWeakSerreClass] [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`: its cohomology objects are `f^*` of those of the
 source, and `f^*` carries `𝒜'` into `𝒜`. -/
 theorem derivedCategoryB_derivedPullback_obj_of_exact
@@ -297,7 +298,7 @@ theorem isIso_derivedCounit_app_of_derivedCategoryB_of_exact
     (NatIso.isIso_map_iff (derivedPullbackCompHomologyFunctorIso f j)
       ((derivedPushforward f).map
         ((DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K))).2 (by
-      show IsIso (f.pullbackTopos.map
+      change IsIso (f.pullbackTopos.map
         ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
             (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) j).map
           ((derivedPushforward f).map
@@ -356,10 +357,10 @@ theorem isIso_of_isIso_pullbackTopos_map
   let g' : (⟨M, hM⟩ : A'.FullSubcategory) ⟶ ⟨N, hN⟩ := ObjectProperty.homMk g
   have : IsIso (F.map g') := by
     refine (ObjectProperty.isIso_hom_iff (F.map g')).1 ?_
-    show IsIso (f.pullbackTopos.map g)
+    change IsIso (f.pullbackTopos.map g)
     exact inferInstance
   have : IsIso g' := isIso_of_reflects_iso g' F
-  show IsIso g'.hom
+  change IsIso g'.hom
   exact inferInstance
 
 include hmos hA hEquiv hUnit basisCover vanishing basisCover' vanishing' in
@@ -409,7 +410,7 @@ theorem isIso_derivedUnit_app_of_derivedCategoryB_of_exact
         ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K))) :=
     (NatIso.isIso_map_iff (derivedPullbackCompHomologyFunctorIso f j)
       ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K)).1 (by
-      show IsIso ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
+      change IsIso ((DerivedCategory.homologyFunctor (SheafOfModules.{w}
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) j).map
         ((derivedPullback f).map
           ((derivedPullbackPushforwardAdjunctionOfExact f).unit.app K)))
@@ -504,7 +505,7 @@ variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 include hmos hf hA in
 omit [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
   [EnoughInjectives (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
-  [A'.IsWeakSerreClass] in
+  [A'.IsWeakSerreClass] [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Stacks 0D7V**, the assertion that derived pullback restricts. Let `f` be a flat morphism of
 ringed topoi and let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories with
 `f^*𝒜' ⊂ 𝒜`. Then `Lf^*` carries `D_{𝒜'}(𝒪')` into `D_𝒜(𝒪)`. -/

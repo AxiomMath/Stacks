@@ -173,7 +173,7 @@ theorem unitFixingHomEquiv_comp {A B : Type u} [CommRing A] [CommRing B]
     unitFixingHomEquiv d B (ρ.comp f) =
       UnitFixingMatrix.map ρ (unitFixingHomEquiv d A f) := by
   apply Subtype.ext
-  show localizedPolynomialHomEquiv d B ((ρ.comp f).comp (Ideal.Quotient.mk _)) =
+  change localizedPolynomialHomEquiv d B ((ρ.comp f).comp (Ideal.Quotient.mk _)) =
     Matrix.GeneralLinearGroup.map ρ
       (localizedPolynomialHomEquiv d A (f.comp (Ideal.Quotient.mk _)))
   rw [← localizedPolynomialHomEquiv_comp]
@@ -202,7 +202,7 @@ theorem unitFixingSchemeHomEquiv_comp {X Y : Scheme.{u}} (f : X ⟶ Y)
     (g : Y ⟶ unitFixingScheme.{u} d) :
     unitFixingSchemeHomEquiv d X (f ≫ g) =
       UnitFixingMatrix.map (Scheme.Γ.map f.op).hom (unitFixingSchemeHomEquiv d Y g) := by
-  show unitFixingHomEquiv d _ (specRingHomEquiv _ X (f ≫ g)) = _
+  change unitFixingHomEquiv d _ (specRingHomEquiv _ X (f ≫ g)) = _
   rw [specRingHomEquiv_comp, unitFixingHomEquiv_comp]
   rfl
 

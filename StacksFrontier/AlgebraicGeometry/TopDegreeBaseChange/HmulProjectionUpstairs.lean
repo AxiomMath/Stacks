@@ -190,8 +190,8 @@ theorem sectionScalar_comp_restrictPullbackRightDerivedPlusIso_inv {V : Y'.Opens
           (sectionScalar (f'' ⁻¹ᵁ W : Scheme) c
             ((Scheme.Modules.pullback (h'.resLE (f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W) hle)).obj
               ((Scheme.Modules.restrictFunctor (f' ⁻¹ᵁ V).ι).obj F'))) ≫
-        (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv =
-      (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv ≫
+        (restrictPullbackRightDerivedPlusIso h' hle F' d).inv =
+      (restrictPullbackRightDerivedPlusIso h' hle F' d).inv ≫
         (c • 𝟙 (((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerivedPlus (d : ℤ)).obj
           ((Scheme.Modules.restrictFunctor (f'' ⁻¹ᵁ W).ι).obj
             ((Scheme.Modules.pullback h').obj F')))) := by
@@ -200,11 +200,11 @@ theorem sectionScalar_comp_restrictPullbackRightDerivedPlusIso_inv {V : Y'.Opens
     fun M => sectionScalar_eq_preimageScalar f'' W a c hc M
   refine Eq.trans (congrArg
     (fun z => ((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerived d).map z ≫
-      (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv) (hbr _)) ?_
+      (restrictPullbackRightDerivedPlusIso h' hle F' d).inv) (hbr _)) ?_
   refine Eq.trans
-    (preimageScalar_comp_restrictPullbackRightDerivedPlusIso_inv (h := h) h' hle F' d a) ?_
+    (preimageScalar_comp_restrictPullbackRightDerivedPlusIso_inv h' hle F' d a) ?_
   refine congrArg
-    (fun z => (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv ≫ z) ?_
+    (fun z => (restrictPullbackRightDerivedPlusIso h' hle F' d).inv ≫ z) ?_
   refine Eq.trans (congrArg
     (fun z => ((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerivedPlus (d : ℤ)).map z)
     (hbr _).symm) ?_

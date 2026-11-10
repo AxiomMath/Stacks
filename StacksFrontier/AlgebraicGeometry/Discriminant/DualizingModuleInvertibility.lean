@@ -139,7 +139,7 @@ private theorem module_rankAtStalk_eq_one_of_fiberwise_invertible
   let qf : PrimeSpectrum (p.asIdeal.Fiber B) :=
     PrimeSpectrum.preimageEquivFiber A B p ⟨q, rfl⟩
   have hqf : qf.comap (algebraMap B (p.asIdeal.Fiber B)) = q := by
-    show qf.comap Algebra.TensorProduct.includeRight.toRingHom = q
+    change qf.comap Algebra.TensorProduct.includeRight.toRingHom = q
     have h := congrArg Subtype.val
       ((PrimeSpectrum.preimageEquivFiber A B p).left_inv ⟨q, rfl⟩)
     simpa [qf, PrimeSpectrum.preimageEquivFiber] using h
@@ -156,7 +156,7 @@ private theorem module_rankAtStalk_eq_one_of_fiberwise_invertible
       Module.rankAtStalk (R := p.asIdeal.Fiber B)
           ((p.asIdeal.Fiber B) ⊗[B] M) qf = 1 := by
     simpa only [Function.const_apply] using congrFun hrank.2.2 qf
-  show Module.rankAtStalk (R := B) M q = 1
+  change Module.rankAtStalk (R := B) M q = 1
   exact hbase.symm.trans hfiberRank
 
 /-- Invertibility of a base change is inherited by any further base change along a tower. -/
@@ -219,7 +219,7 @@ private theorem free_localized_of_flat_of_fiberwise_invertible
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A (Localization.AtPrime p) N :=
     IsScalarTower.of_algebraMap_smul fun a n => by
-      show algebraMap (Localization.AtPrime p) S
+      change algebraMap (Localization.AtPrime p) S
         (algebraMap A (Localization.AtPrime p) a) • n = a • n
       rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have : Module.Flat A N := Module.Flat.of_isLocalizedModule_of_tower q.primeCompl
@@ -229,12 +229,12 @@ private theorem free_localized_of_flat_of_fiberwise_invertible
       inferInstance
   have hker : p ≤ RingHom.ker (algebraMap A T) := by
     intro a ha
-    show algebraMap A T a = 0
+    change algebraMap A T a = 0
     rw [← Ideal.Quotient.mk_algebraMap A J, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.mem_map_of_mem _ ha
   have hunits : p.primeCompl ≤ Submonoid.comap (algebraMap A T) (IsUnit.submonoid T) := by
     intro a ha
-    show IsUnit (algebraMap A T a)
+    change IsUnit (algebraMap A T a)
     rw [IsScalarTower.algebraMap_apply A S T, IsScalarTower.algebraMap_apply A B S]
     exact (IsLocalization.map_units (M := q.primeCompl) S ⟨algebraMap A B a, ha⟩).map _
   let φ := Ideal.ResidueField.lift p (algebraMap A T) hker hunits
@@ -248,7 +248,7 @@ private theorem free_localized_of_flat_of_fiberwise_invertible
   let : Algebra (p.Fiber B) T := ψ.toRingHom.toAlgebra
   have : IsScalarTower B (p.Fiber B) T :=
     IsScalarTower.of_algebraMap_eq fun b => by
-      show algebraMap B T b = ψ (1 ⊗ₜ[A] b)
+      change algebraMap B T b = ψ (1 ⊗ₜ[A] b)
       simp [ψ]
   have : Module.Invertible (p.Fiber B) ((p.Fiber B) ⊗[B] M) := hfiber ⟨p, inferInstance⟩
   have : Module.Invertible T (T ⊗[B] M) := invertible_tensor_tower (S := p.Fiber B)
@@ -390,8 +390,7 @@ private def tensorSemilinearEquivOfAlgEquiv
   let eT := TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl R M)
   refine { eT.toAddEquiv with map_smul' := ?_ }
   intro s m
-  induction m using TensorProduct.induction_on with
-  | zero => simp
+  induction m using TensorProduct.inductionOn with
   | tmul t m => simp [eT, TensorProduct.smul_tmul', map_mul]
   | add x y hx hy =>
       change eT (s • (x + y)) = e s • eT (x + y)
@@ -422,7 +421,7 @@ private theorem awayMap_bijective_of_ringEquiv
     apply IsLocalization.ringHom_ext (Submonoid.powers g)
     apply RingHom.ext
     intro x
-    show eL (Localization.awayMap φ g (algebraMap C (Localization.Away g) x)) =
+    change eL (Localization.awayMap φ g (algebraMap C (Localization.Away g) x)) =
       Localization.awayMap (e.toRingHom.comp φ) g (algebraMap C (Localization.Away g) x)
     rw [h1, h2]
     simp only [eL, IsLocalization.ringEquivOfRingEquiv_eq]
@@ -486,9 +485,6 @@ private def dualizingModuleMapTargetEquiv
   refine { eD with map_smul' := ?_ }
   intro b m
   induction m using dualizingModule.induction_on with
-  | zero =>
-      change eD (b • (0 : dualizingModule F)) = e b • eD (0 : dualizingModule F)
-      rw [smul_zero, map_zero, smul_zero]
   | tmul d x =>
       change eD (b • dualizingModule.tmul F d x) = e b • eD (dualizingModule.tmul F d x)
       rw [dualizingModule.smul_tmul, hmap, hmap]
@@ -521,7 +517,7 @@ private theorem dualizingModule_invertible_iff_baseChange_of_isPushout
   let eB : K ⊗[A] B ≃ₐ[B] T :=
     { e.toRingEquiv with
       commutes' := fun b => by
-        show e (1 ⊗ₜ[A] b) = _
+        change e (1 ⊗ₜ[A] b) = _
         simp [e, Algebra.IsPushout.equiv_tmul] }
   let H := FiniteOpenFactorization.baseChange F K
   let J := factorizationMapTarget H e
@@ -586,7 +582,7 @@ private theorem top_le_preimage_fromSpecResidueField {X : Scheme.{u}} {U : X.Ope
   rwa [Scheme.fromSpecResidueField_apply]
 
 omit [AlgebraicGeometry.IsNoetherian X] [AlgebraicGeometry.IsNoetherian Y] [LocallyOfFiniteType f]
-  [LocallyQuasiFinite f] [Flat f] in
+  [QuasiCompact f] [LocallyQuasiFinite f] [Flat f] in
 /-- The chart of the fibre over `x` cut out by an affine chart `V` of the source is affine. -/
 theorem isAffineOpen_fiber_preimage
     (U : X.affineOpens) (V : Y.affineOpens) (hVU : V.1 ≤ f ⁻¹ᵁ U.1)
@@ -610,7 +606,7 @@ private theorem fiber_isInvertible_of_isInvertible
   obtain ⟨-, ⟨U, hU, rfl⟩, hxU, -⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open
     (show x ∈ (⊤ : X.Opens) from trivial) (⊤ : X.Opens).isOpen
   have hzU : f.fiberι x z ∈ f ⁻¹ᵁ U := by
-    show f (f.fiberι x z) ∈ U
+    change f (f.fiberι x z) ∈ U
     have hz := (f.fiberHomeo x z).property
     change f (f.fiberι x z) = x at hz
     rwa [hz]

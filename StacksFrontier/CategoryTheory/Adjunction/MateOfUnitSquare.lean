@@ -85,7 +85,7 @@ theorem mateEquiv_eq_of_unit (α : TwoSquare G L₁ L₂ H) (β : TwoSquare R₁
     (h : ∀ c : C, adj₂.unit.app (G.obj c) ≫ R₂.map (α.app c) =
       G.map (adj₁.unit.app c) ≫ β.app (L₁.obj c)) :
     mateEquiv adj₁ adj₂ α = β := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   have key : adj₂.unit.app (G.obj (R₁.obj d)) ≫
       R₂.map (α.app (R₁.obj d) ≫ H.map (adj₁.counit.app d)) = β.app d := by
     rw [Functor.map_comp, ← assoc, h (R₁.obj d), assoc]
@@ -132,7 +132,7 @@ theorem unit_square_whisker (cG : G ≅ G') (cH : H ≅ H') (α : TwoSquare G L�
       G'.map (adj₁.unit.app c) ≫
         (Functor.whiskerLeft R₁ cG.inv ≫ β ≫ Functor.whiskerRight cH.hom R₂).app
           (L₁.obj c) := by
-  show adj₂.unit.app (G'.obj c) ≫
+  change adj₂.unit.app (G'.obj c) ≫
       R₂.map (L₂.map (cG.inv.app c) ≫ α.app c ≫ cH.hom.app (L₁.obj c)) =
     G'.map (adj₁.unit.app c) ≫ cG.inv.app (R₁.obj (L₁.obj c)) ≫
       β.app (L₁.obj c) ≫ R₂.map (cH.hom.app (L₁.obj c))

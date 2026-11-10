@@ -430,7 +430,7 @@ theorem perfectPowerSumComponent_derivedDual
     (h : HasDefinedChernClasses E) (p : ℕ) :
     perfectPowerSumComponent C sX (hasDefinedChernClasses_derivedDual hE h) p =
       ((-1 : ℤ) ^ p) • perfectPowerSumComponent C sX h p := by
-  show perfectPowerSum C sX (hasDefinedChernClasses_derivedDual hE h) p p =
+  change perfectPowerSum C sX (hasDefinedChernClasses_derivedDual hE h) p p =
     ((-1 : ℤ) ^ p) • perfectPowerSum C sX h p p
   rw [perfectPowerSum_derivedDual C sX hE h p, TotalChowClass.signScale_apply]
 
@@ -443,7 +443,7 @@ theorem perfectChernCharacterComponent_derivedDual
     (h : HasDefinedChernClasses E) (p : ℕ) :
     perfectChernCharacterComponent C sX (hasDefinedChernClasses_derivedDual hE h) p =
       ((-1 : ℤ) ^ p) • perfectChernCharacterComponent C sX h p := by
-  show ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ]
+  change ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ]
       perfectPowerSumComponent C sX (hasDefinedChernClasses_derivedDual hE h) p =
     ((-1 : ℤ) ^ p) • (((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] perfectPowerSumComponent C sX h p)
   rw [perfectPowerSumComponent_derivedDual C sX hE h p, TensorProduct.tmul_smul]

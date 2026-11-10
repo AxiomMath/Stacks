@@ -160,9 +160,9 @@ theorem subsingleton_obj_of_mono_algebraicSpaceMap
     (mono_iff_injective _).mp ((NatTrans.mono_iff_mono_app _).mp hm (op U))
   let secRel (s : F.obj (op (Over.mk (𝟙 U.left) : BigFppfOver B U.left.1 U.left.2))) :
       ((OverShriek.relocalizePresheafFunctor U.hom).obj F).obj (op U) := by
-    show {z // _}
+    change {z // _}
     exact ⟨⟨𝟙 U.left, s⟩, by
-      show 𝟙 U.left ≫ U.hom = U.hom
+      change 𝟙 U.left ≫ U.hom = U.hom
       exact Category.id_comp _⟩
   let iSpace := (spacesOverSmallerBaseFunctorForgetIso B U.left.1 S U.left.2 hS U.hom).app ⟨F, hF⟩
   have hmap (s) : m.hom.app (op U) (iSpace.inv.app (op U) (secRel s)) = 𝟙 U :=
@@ -176,7 +176,7 @@ theorem subsingleton_obj_of_mono_algebraicSpaceMap
 private theorem map_hom_obj_mk_id (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (U : BigFppfOver B S hS) :
     (Over.map U.hom).obj (Over.mk (𝟙 U.left) : BigFppfOver B U.left.1 U.left.2) = U := by
-  show Over.mk (𝟙 U.left ≫ U.hom) = U
+  change Over.mk (𝟙 U.left ≫ U.hom) = U
   simp only [Category.id_comp]
   rfl
 

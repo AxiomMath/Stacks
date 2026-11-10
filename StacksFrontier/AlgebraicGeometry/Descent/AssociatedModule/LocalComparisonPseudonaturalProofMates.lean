@@ -108,7 +108,7 @@ public theorem rightAdjointUniq_pushforwardPushforwardAdj (adj₁ : F ⊣ G₁) 
         (Adjunction.rightAdjointUniq adj₁ adj₂).symm he := by
   refine (Stacks.Mates.rightAdjointUniq_eq_of_counit _ _ _ fun M => ?_).symm
   ext U x
-  show (M.val.presheaf.map
+  change (M.val.presheaf.map
       ((Adjunction.rightAdjointUniq adj₁ adj₂).inv.app (F.obj U.unop)).op ≫
       M.val.presheaf.map (adj₂.unit.app U.unop).op) _ = _
   rw [← Functor.map_comp, ← op_comp,
@@ -164,7 +164,7 @@ public theorem rightAdjointUniq_comp_pushforwardPushforwardAdj (adj₁ : F₁ �
       SheafOfModules.pushforwardComp.{v} ψ₁ ψ₂ := by
   refine (Stacks.Mates.rightAdjointUniq_eq_of_counit _ _ _ fun M => ?_).symm
   ext U x
-  show M.val.presheaf.map ((adj₂.comp adj₁).unit.app U.unop).op x =
+  change M.val.presheaf.map ((adj₂.comp adj₁).unit.app U.unop).op x =
       (M.val.presheaf.map (G₂.map (adj₁.unit.app (F₂.obj U.unop))).op ≫
         M.val.presheaf.map (adj₂.unit.app U.unop).op) x
   rw [Adjunction.comp_unit_app, op_comp, Functor.map_comp]

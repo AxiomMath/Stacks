@@ -49,7 +49,7 @@ theorem cohomologicalDimension_lt_of_le_of_le_jacobson
   have hdim_ne_bot : ringKrullDim A ≠ ⊥ := by simp [hd]
   have hdim_ne_top : ringKrullDim A ≠ ⊤ := by
     rw [hd]
-    show ((d : ℕ∞) : WithBot ℕ∞) ≠ ⊤
+    change ((d : ℕ∞) : WithBot ℕ∞) ≠ ⊤
     intro h
     exact ENat.natCast_ne_top d (by injection h)
   have : FiniteRingKrullDim A :=

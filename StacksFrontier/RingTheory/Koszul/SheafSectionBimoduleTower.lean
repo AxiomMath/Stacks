@@ -60,12 +60,12 @@ theorem Hom.bijective_cohomologyMap_of_leftInverse (ψ : A.Hom B) (ψ' : B.Hom A
   · intro x
     induction x using Quotient.inductionOn with
     | h a =>
-      show Quotient.mk _ (ψ'.cocycleMap k (ψ.cocycleMap k a)) = Quotient.mk _ a
+      change Quotient.mk _ (ψ'.cocycleMap k (ψ.cocycleMap k a)) = Quotient.mk _ a
       exact congrArg _ (Subtype.ext (Subtype.ext (h₁ _)))
   · intro x
     induction x using Quotient.inductionOn with
     | h b =>
-      show Quotient.mk _ (ψ.cocycleMap k (ψ'.cocycleMap k b)) = Quotient.mk _ b
+      change Quotient.mk _ (ψ.cocycleMap k (ψ'.cocycleMap k b)) = Quotient.mk _ b
       exact congrArg _ (Subtype.ext (Subtype.ext (h₂ _)))
 
 end DifferentialGradedAlgebra
@@ -109,13 +109,13 @@ theorem bijective_cohomologyMap_liftedPowSectionAlgebraHom (n : ℕ) (k : ℤ) :
     Function.Bijective ((liftedPowSectionAlgebraHom f ht n).cohomologyMap k) := by
   refine Hom.bijective_cohomologyMap_of_leftInverse _ (liftedPowSectionAlgebraInv f ht n)
     (fun a => ?_) (fun b => ?_) k
-  · show (liftedPowStageAlgebraInv f ht n).toAlgebraHom
+  · change (liftedPowStageAlgebraInv f ht n).toAlgebraHom
       (sectionRingEquiv (liftedPowDiagram f) (liftedPowStage t n)
         ((sectionRingEquiv (liftedPowDiagram f) (liftedPowStage t n)).symm
           ((liftedPowStageAlgebraHom f ht n).toAlgebraHom a))) = a
     rw [RingEquiv.apply_symm_apply]
     exact powTransition_apply_apply_self f _ _ _ _ a
-  · show (sectionRingEquiv (liftedPowDiagram f) (liftedPowStage t n)).symm
+  · change (sectionRingEquiv (liftedPowDiagram f) (liftedPowStage t n)).symm
       ((liftedPowStageAlgebraHom f ht n).toAlgebraHom
         ((liftedPowStageAlgebraInv f ht n).toAlgebraHom
         (sectionRingEquiv (liftedPowDiagram f) (liftedPowStage t n) b))) = b
@@ -177,7 +177,7 @@ theorem isIso_liftedPowSectionTower_map_zero
   · simp only [homOfLE_refl, op_id]
     infer_instance
   · have h0 : 0 < n + 1 := Nat.zero_lt_succ n
-    show IsIso (InverseSequence.tr (liftedPowSectionTower f ht 𝓜) h0.le)
+    change IsIso (InverseSequence.tr (liftedPowSectionTower f ht 𝓜) h0.le)
     rw [BimoduleSystem.tr_tower _ _ h0]
     exact isIso_flipTowerMap_of_isIso_derivedTranspose (powShiftTransition f ht h0.le)
       (powTransition f ht (Nat.le_add_right t (n + 1)) :

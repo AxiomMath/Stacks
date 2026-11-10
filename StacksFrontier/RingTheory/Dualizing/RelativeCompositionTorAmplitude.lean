@@ -226,7 +226,7 @@ theorem flat_restrictScalars_diagonalExtendScalars [Module.Flat A B] (M : Module
   have : IsScalarTower A B (M : Type u) := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R B (M : Type u) := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R A (M : Type u) := IsScalarTower.of_algebraMap_smul fun r m => by
-    show (algebraMap A B (algebraMap R A r)) • m = (algebraMap R B r) • m
+    change (algebraMap A B (algebraMap R A r)) • m = (algebraMap R B r) • m
     rw [← IsScalarTower.algebraMap_apply]
   have : Module.Flat A (M : Type u) := hM
   let := extTensorModule R A A (M : Type u) B

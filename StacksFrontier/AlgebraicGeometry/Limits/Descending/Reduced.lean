@@ -47,7 +47,7 @@ theorem isReduced_filteredColimit_of_isReduced
   obtain ⟨i, a, rfl⟩ := Types.jointly_surjective_of_isColimit hcT x
   obtain ⟨j, f, hf⟩ :=
     (Types.FilteredColimit.isColimit_eq_iff' hcT (a ^ n) 0).mp (by
-      show (c.ι.app i).hom (a ^ n) = (c.ι.app i).hom 0
+      change (c.ι.app i).hom (a ^ n) = (c.ι.app i).hom 0
       rw [map_pow, map_zero]
       exact hn)
   have hnil : (F.map f).hom a ^ n = 0 := by
@@ -91,7 +91,7 @@ theorem isReduced_cofilteredLimit_of_isReduced
     let q := Scheme.Γ.mapCocone oC.op
     have hq : IsColimit q := Classical.choice (nonempty_isColimit_Γ_mapCocone O oC hoC)
     have (j : (Over i)ᵒᵖ) : _root_.IsReduced (F.obj j) := by
-      show _root_.IsReduced Γ(O.obj j.unop, ⊤)
+      change _root_.IsReduced Γ(O.obj j.unop, ⊤)
       exact IsReduced.component_reduced ⊤
     have : IsAffine oC.pt := Scheme.isAffine_of_isLimit oC hoC
     have : _root_.IsReduced Γ(oC.pt, ⊤) :=
@@ -99,9 +99,9 @@ theorem isReduced_cofilteredLimit_of_isReduced
     let W : c.pt.Opens := c.π.app i ⁻¹ᵁ U
     have : IsReduced W := isReduced_of_isAffine_isReduced oC.pt
     have hxW : x ∈ c.π.app i ⁻¹ᵁ U := by
-      show c.π.app i x ∈ U.1
+      change c.π.app i x ∈ U.1
       rw [← hxi]
-      show (E.obj i).affineCover.f j xj ∈ ((E.obj i).affineCover.f j).opensRange
+      change (E.obj i).affineCover.f j xj ∈ ((E.obj i).affineCover.f j).opensRange
       exact ⟨xj, rfl⟩
     let y : W := ⟨x, hxW⟩
     have hopen : IsOpenImmersion W.ι := by

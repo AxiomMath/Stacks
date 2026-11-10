@@ -85,7 +85,7 @@ theorem ord_algebraMap_of_isUnit {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoeth
       (IsFractionRing.injective (X.presheaf.stalk ξ) X.functionField)).mpr hu.ne_zero
   rw [Scheme.ord_eq_iff hξ h0]
   have : Ring.KrullDimLE 1 (X.presheaf.stalk ξ) := krullDimLE_of_coheight_le hξ.le
-  show Ring.ordFrac (X.presheaf.stalk ξ) _ = _
+  change Ring.ordFrac (X.presheaf.stalk ξ) _ = _
   rw [Ring.ordFrac_of_isUnit hu]
   simp
 
@@ -128,7 +128,7 @@ theorem IsStalkBasis.smul_of_isUnit {x : X} {m : L.presheaf.stalk x} (hm : IsSta
   · obtain ⟨r, hr⟩ := hm.surjective n
     replace hr : r • m = n := hr
     refine ⟨r * w, ?_⟩
-    show (r * w) • u • m = n
+    change (r * w) • u • m = n
     rwa [smul_smul, mul_assoc, hwu, mul_one]
 
 /-! ### Local trivializations -/
@@ -177,7 +177,7 @@ theorem isStalkBasis_germ_of_bijective_smul {W : X.Opens} (e : Γ(L, W))
     obtain ⟨c, hc⟩ := h V hVW |>.surjective g
     replace hc : c • L.presheaf.map (homOfLE hVW).op e = g := hc
     refine ⟨X.presheaf.germ V y hyV c, ?_⟩
-    show X.presheaf.germ V y hyV c • L.presheaf.germ W y hy e = m
+    change X.presheaf.germ V y hyV c • L.presheaf.germ W y hy e = m
     rw [← L.presheaf.germ_res_apply (homOfLE hVW) y hyV e, ← Scheme.Modules.germ_smul L hyV, hc,
       hg]
 

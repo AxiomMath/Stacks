@@ -327,8 +327,6 @@ theorem PrimeDivisor.ord_eq_ordTotalFracInt_genericEtaleChart (hInt : IsIntegral
         (chartPointRationalFunctionMap B S hS hX (Z.genericEtaleChart B S hS hX hdec) u
           (f : rationalFunctions B S hS hX)) (f.isUnit.map _) := by
   subst hu
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
   have : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
   have := Z.nontrivial_genericHenselianLocalRing B S hS hX hdec hInt hN
@@ -346,13 +344,13 @@ theorem PrimeDivisor.ord_eq_ordTotalFracInt_genericEtaleChart (hInt : IsIntegral
     with hρ
   have hemb : (genericFractionEmbedding B S hS hX hdec hInt hN).emb Z
       (f : rationalFunctions B S hS hX) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
         (ρ (f : rationalFunctions B S hS hX)) := rfl
   have hφ' : (↥(U.scheme.left.1.presheaf.stalk U.point))⁰ ≤
       (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰.comap
         (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U) :=
-    fun _ hr => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z hCof U hr
-  have hN' : Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof =
+    fun _ hr => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z U hr
+  have hN' : Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U =
       (IsLocalization.map (Z.genericTotalFractionRing B S hS hX hdec)
         (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U) hφ').comp
         (U.scheme.left.1.totalFractionRingToStalkFractionRing U.point) := by
@@ -364,7 +362,7 @@ theorem PrimeDivisor.ord_eq_ordTotalFracInt_genericEtaleChart (hInt : IsIntegral
   calc (genericFractionEmbedding B S hS hX hdec hInt hN).ord f Z
       = Z.ord B S hS hX hdec ((genericFractionEmbedding B S hS hX hdec hInt hN).emb Z
           (f : rationalFunctions B S hS hX)) hunit := rfl
-    _ = Z.ord B S hS hX hdec (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof
+    _ = Z.ord B S hS hX hdec (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
           (ρ (f : rationalFunctions B S hS hX))) (hemb ▸ hunit) :=
         Z.ord_congr B S hS hX hdec _ _ hemb
     _ = _ := by
@@ -381,7 +379,7 @@ theorem PrimeDivisor.ord_eq_ordTotalFracInt_genericEtaleChart (hInt : IsIntegral
           (Z.genericChart B S hS hX hdec).point))
         (L := Z.genericTotalFractionRing B S hS hX hdec) (RingHom.id _)
         (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U) le_rfl hφ'
-        (fun _ => rfl) (ord_stalkToHenselianLocalRing B S hS hX hdec Z hCof U) _ _ ?_
+        (fun _ => rfl) (ord_stalkToHenselianLocalRing B S hS hX hdec Z U) _ _ ?_
       rw [IsLocalization.map_id, hN']
       rfl
 

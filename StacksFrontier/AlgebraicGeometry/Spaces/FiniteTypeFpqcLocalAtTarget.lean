@@ -33,7 +33,8 @@ inputs Stacks 041U asks for are now available at the same precoverage. The combi
 itself is available, property-agnostically, as
 `AlgebraicGeometry.Space.finiteTypeProperty_isLocalAtTarget`
 (`StacksFrontier/AlgebraicGeometry/Spaces/SeparationMorphismProperties.lean`), which takes the two
-atomic localities as hypotheses and so proves no tag on its own. Its quasi-compact input is the tagged `@[stacks 041L]`
+atomic localities as hypotheses and so proves no tag on its own. Its quasi-compact input is the
+tagged `@[stacks 041L]`
 `AlgebraicGeometry.Space.isQuasiCompact_isLocalAtTarget_fpqc`, and its locally-of-finite-type
 input is the content of **Stacks 041S**, proved untagged as
 `AlgebraicGeometry.Space.isLocallyOfFiniteType_isLocalAtTarget_fpqc` in

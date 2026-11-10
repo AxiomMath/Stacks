@@ -210,7 +210,7 @@ theorem projective_etaObject_X (C : BoundedComplex A) (f : A) (hf : IsRegular f)
   have hmod : Module.Projective A (EtaComplex.term f C.toCochainComplex i) := by
     rw [hterm]
     exact hpr
-  show Projective (ModuleCat.of A (EtaComplex.term f C.toCochainComplex i))
+  change Projective (ModuleCat.of A (EtaComplex.term f C.toCochainComplex i))
   infer_instance
 
 /-- **`η_f C` is strictly bounded above**, because `C` is: in a degree `i` where `C` has rank `0`
@@ -224,10 +224,10 @@ theorem exists_isStrictlyLE_etaObject_toCochainComplex (C : BoundedComplex A) (f
   intro i hi
   have hr : C.rank i = 0 := by_contra fun h => not_le_of_gt hi (hb h)
   have hsub : Subsingleton (C.toCochainComplex.X i) := by
-    show Subsingleton (Fin (C.rank i) → A)
+    change Subsingleton (Fin (C.rank i) → A)
     rw [hr]
     infer_instance
-  show IsZero (ModuleCat.of A (EtaComplex.term f C.toCochainComplex i))
+  change IsZero (ModuleCat.of A (EtaComplex.term f C.toCochainComplex i))
   rw [ModuleCat.isZero_iff_subsingleton]
   exact ⟨fun x y => Subtype.ext (Subsingleton.elim _ _)⟩
 
@@ -262,7 +262,7 @@ theorem kFlat_toCochainComplex (C : BoundedComplex A) :
   obtain ⟨-, b, -, hb⟩ := Stacks.Eta.DeterminantalIdeal.toCochainComplex_bounded C
   have := hb
   refine StacksDraft.TorAmplitude.kFlat_of_isStrictlyLE_projective _ b fun i => ?_
-  show Projective (ModuleCat.of A (Fin (C.rank i) → A))
+  change Projective (ModuleCat.of A (Fin (C.rank i) → A))
   infer_instance
 
 /-! ## The general form of Tag 0F7X at the ring level -/

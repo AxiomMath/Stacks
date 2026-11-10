@@ -223,7 +223,7 @@ public theorem isLocalCompleteIntersectionRing_and_hasFiniteTorDimension_iff
               (ModuleCat.of B B))
             (TensorProduct.AlgebraTensorModule.rid B (Localization.AtPrime q)
               (Localization.AtPrime q))).toModuleIso
-        show restr.obj (ext.obj (ModuleCat.of B B)) ≅
+        change restr.obj (ext.obj (ModuleCat.of B B)) ≅
           restr.obj (ModuleCat.of (Localization.AtPrime q) (Localization.AtPrime q))
         exact restr.mapIso eExt
       have hTor₁ : IsZero (((Tor (ModuleCat (Localization.AtPrime p)) j).obj

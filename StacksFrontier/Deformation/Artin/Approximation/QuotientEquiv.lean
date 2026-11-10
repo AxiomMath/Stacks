@@ -248,10 +248,11 @@ private theorem quotientEquivOfRelationsCongruent_specMap_comp_symm
 /-- A vector in a finite product whose coordinates lie in an ideal belongs to
 the ideal filtration of that product. -/
 private theorem mem_ideal_smul_top_pi
-    {A : Type u} [CommRing A] {ι : Type v} [Fintype ι]
+    {A : Type u} [CommRing A] {ι : Type v} [Finite ι]
     (I : Ideal A) (x : ι → A) (hx : ∀ i, x i ∈ I) :
     x ∈ I • (⊤ : Submodule A (ι → A)) := by
   classical
+  have := Fintype.ofFinite ι
   rw [← Finset.univ_sum_single x]
   apply Submodule.sum_mem
   intro i hi

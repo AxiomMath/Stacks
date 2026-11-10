@@ -9,7 +9,8 @@ The double complex `K^{a,b} = M ⊗̂_D Ω^a_{D(b)}` of [Stacks, Proposition 60.
 the forms of the cosimplicial ring `D(*)` in *two* gradings at once: the cosimplicial degree `b`
 and the exterior degree `a`.  This file builds the bigraded family, its de Rham differential
 `Ω^a_{D(b)} → Ω^{a+1}_{D(b)}` and its wedge product from the exterior calculus of a *fixed*
-divided power ring in `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedDividedPowerForms.lean`.
+divided power ring in
+`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedDividedPowerForms.lean`.
 
 ## What the family is built from
 

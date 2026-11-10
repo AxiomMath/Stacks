@@ -136,7 +136,7 @@ theorem prop_pullbackSnd_of_smooth
       AlgebraicSpaces.fiberProduct B S hS b f :=
     ObjectProperty.homMk (Limits.pullbackSymmetry f.hom b.hom).hom
   have : IsIso σ := (ObjectProperty.isIso_hom_iff σ).mp (by
-    show IsIso (Limits.pullbackSymmetry f.hom b.hom).hom
+    change IsIso (Limits.pullbackSymmetry f.hom b.hom).hom
     infer_instance)
   have hcomp : σ ≫ ObjectProperty.homMk (Limits.pullback.fst b.hom f.hom) =
       ObjectProperty.homMk (Limits.pullback.snd f.hom b.hom) :=

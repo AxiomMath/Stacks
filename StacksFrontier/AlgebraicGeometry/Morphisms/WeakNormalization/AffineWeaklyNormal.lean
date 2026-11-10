@@ -81,7 +81,7 @@ private theorem specMap_specHomRingHom {A B : Type u} [CommRing A] [CommRing B]
 
 private theorem specHomRingHom_specMap {A B : Type u} [CommRing A] [CommRing B]
     (f : A →+* B) : specHomRingHom (Spec.map (CommRingCat.ofHom f)) = f := by
-  show specHomRingHom (Scheme.Spec.map (CommRingCat.ofHom f).op) = f
+  change specHomRingHom (Scheme.Spec.map (CommRingCat.ofHom f).op) = f
   simp [specHomRingHom]
 
 private theorem specHomRingHom_comp {A B C : Type u} [CommRing A] [CommRing B] [CommRing C]
@@ -154,7 +154,7 @@ private theorem exists_comp_squareCubeSpecMap {A : Type u} [CommRing A] (x y : A
     ext b
     exact φ.commutes b
   refine ⟨Spec.map (CommRingCat.ofHom φ.toRingHom), ?_⟩
-  show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
     Spec.map (CommRingCat.ofHom (algebraMap A (SquareCubeAlgebra A x y))) = g
   rw [← Spec.map_comp, hcomp]
   exact specMap_specHomRingHom g
@@ -190,12 +190,12 @@ private theorem affineNormalizationIso_hom_map (A : Type u) [CommRing A]
   let f := Scheme.normalization X hA
   let epre : (f ⁻¹ᵁ U).toScheme ≅ N :=
     Scheme.isoOfEq N (Scheme.Hom.preimage_top f) ≪≫ N.topIso
-  show (epre.symm ≪≫ preimageNormalizationIsoSpecIntegralClosure hA U X.topIso.symm).hom ≫
+  change (epre.symm ≪≫ preimageNormalizationIsoSpecIntegralClosure hA U X.topIso.symm).hom ≫
     Spec.map (CommRingCat.ofHom (algebraMap A (integralClosure A (FractionRing A)))) = f
   rw [Iso.trans_hom, Category.assoc,
     preimageNormalizationIsoSpecIntegralClosure_hom_comp hA U X.topIso.symm,
     ← Scheme.Hom.resLE_eq_morphismRestrict (f := f) (U := U)]
-  show epre.inv ≫ f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ U.ι = f
+  change epre.inv ≫ f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ U.ι = f
   rw [Scheme.Hom.resLE_comp_ι]
   simp [epre, f, U]
 
@@ -364,7 +364,7 @@ private theorem exists_sq_cube_of_isWeaklyNormal (A : Type u) [CommRing A]
   have hlift : lift ≫ cX = f := by
     apply Sigma.hom_ext
     intro η
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     refine (Classical.choose_spec (exists_comp_squareCubeSpecMap x y h
       ((Spec (CommRingCat.of A)).fromSpecResidueField η.1))).trans ?_
     exact ((Spec (CommRingCat.of A)).genericPointResidueSpectrum_ι_fromGenericPointResidueFields
@@ -704,7 +704,7 @@ private theorem exists_retraction_of_relativeWeakNormalization_le_bot (A : Type 
   have hFmap : Spec.map (CommRingCat.ofHom (algebraMap A D)) = t := specMap_specHomRingHom t
   have hADuh : UniversalHomeomorphism
       (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A D)).op) := by
-    show UniversalHomeomorphism (Spec.map (CommRingCat.ofHom (algebraMap A D)))
+    change UniversalHomeomorphism (Spec.map (CommRingCat.ofHom (algebraMap A D)))
     rwa [hFmap]
   let gDB : D →+* B := specHomRingHom ((affineNormalizationIso A hA).inv ≫ m)
   have hMapComp : ((affineNormalizationIso A hA).inv ≫ m) ≫ t =
@@ -795,7 +795,7 @@ private theorem isWeaklyNormal_spec_of_isWeaklyNormalRing (A : Type u) [CommRing
   have hαβ : α.hom ≫ β.hom = 𝟙 W.middle :=
     congrArg (fun m : UniversalHomeomorphismFactorization.Hom W W => m.hom)
       (hWinit.hom_ext (α ≫ β) (𝟙 W))
-  show IsIso W.toBase
+  change IsIso W.toBase
   exact Iso.isIso_hom
     { hom := W.toBase, inv := β.hom, hom_inv_id := by rw [← hαbase]; exact hαβ,
       inv_hom_id := hβBase }

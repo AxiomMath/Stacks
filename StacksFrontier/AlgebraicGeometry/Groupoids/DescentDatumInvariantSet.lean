@@ -122,7 +122,7 @@ theorem isTransitionInvariantSet_of_subset
       (D.transitionPullbackIso.hom ((pullbackSymmetry f (D.over.hom ≫ f)).hom z)) ∈ E :=
     hle ⟨_, hz', rfl⟩
   refine ⟨D.transitionPullbackIso.inv z, ?_, ?_⟩
-  · show pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv z) ∈ E
+  · change pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv z) ∈ E
     rw [D.transitionPullbackIso_inv_eq]
     simpa only [Scheme.Hom.comp_apply, hswap] using hmem
   · exact iso_hom_inv_apply _ z

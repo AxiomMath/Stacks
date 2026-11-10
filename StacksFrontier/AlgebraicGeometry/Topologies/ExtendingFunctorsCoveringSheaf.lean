@@ -491,7 +491,7 @@ theorem isSheafFor_extension_of_memUpToIso (τ : CoveringTopology)
     ObjectProperty.homMk ((dd i).inv ≫ f i ≫ e.hom) with hf'
   have hdcomp : ∀ i, (dd i).hom ≫ P.ι.map (f' i) = f i ≫ e.hom := by
     intro i
-    show (dd i).hom ≫ (dd i).inv ≫ f i ≫ e.hom = f i ≫ e.hom
+    change (dd i).hom ≫ (dd i).inv ≫ f i ≫ e.hom = f i ≫ e.hom
     rw [Iso.hom_inv_id_assoc]
   refine isSheafFor_ofArrows_of_iso e dd f (fun i => P.ι.map (f' i)) hdcomp ?_
   exact isSheafFor_extension_of_isCoveringSheafOnSubcategory τ F hP1 hP2 haF hbF hF V W' f'

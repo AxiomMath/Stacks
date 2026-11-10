@@ -124,7 +124,7 @@ private lemma isPolynomialAlgebra_of_rename {A : Type u} [CommRing A] {R : Type 
     apply MvPolynomial.algHom_ext
     intro r
     rw [AlgHom.comp_apply, MvPolynomial.rename_X]
-    show (MvPolynomial.sumAlgEquiv A U R)
+    change (MvPolynomial.sumAlgEquiv A U R)
       ((MvPolynomial.renameEquiv A e) (MvPolynomial.X (g r))) = _
     rw [MvPolynomial.renameEquiv_apply, MvPolynomial.rename_X,
       show e (g r) = Sum.inr r from congrFun he r]

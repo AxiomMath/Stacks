@@ -139,7 +139,7 @@ def closedFiberRestrict (V : (DividedPowerScheme.closedFiber S.S).Opens) :
 theorem range_closedFiberRestrict_toX (V : (DividedPowerScheme.closedFiber S.S).Opens) :
     Set.range (closedFiberRestrict hlocnil hthick V).toX.base =
       (V : Set (DividedPowerScheme.closedFiber S.S)) := by
-  show Set.range ((DividedPowerScheme.closedFiberι S.S ⁻¹ᵁ closedFiberOpen hthick V).ι ≫
+  change Set.range ((DividedPowerScheme.closedFiberι S.S ⁻¹ᵁ closedFiberOpen hthick V).ι ≫
     𝟙 (DividedPowerScheme.closedFiber S.S)).base = _
   rw [Category.comp_id, Scheme.Opens.range_ι, preimage_closedFiberOpen]
 
@@ -203,8 +203,8 @@ involved have at most one element. -/
 def closedFiberRestrictFunctor :
     (DividedPowerScheme.closedFiber S.S).Opens ⥤ Thickening (closedFiberSituation S hlocnil) where
   obj V := closedFiberRestrict hlocnil hthick V
-  map {V V'} h := toClosedFiberRestrict hlocnil hthick
-    ((range_closedFiberRestrict_toX hlocnil hthick V).trans_subset (leOfHom h))
+  map h := toClosedFiberRestrict hlocnil hthick
+    ((range_closedFiberRestrict_toX hlocnil hthick _).trans_subset (leOfHom h))
   map_id _ := Subsingleton.elim _ _
   map_comp _ _ := Subsingleton.elim _ _
 
@@ -257,7 +257,7 @@ adjointable one.  The remark's upper square does not need this; see the module d
 def forgetToOpensClosedFiberAdjunction :
     forgetToOpens (closedFiberSituation S hlocnil) ⊣ closedFiberRestrictCris hlocnil hthick :=
   Adjunction.mkOfHomEquiv
-    { homEquiv := fun A V ↦
+    { homEquiv := fun _ _ ↦
         { toFun := fun h ↦ ObjectProperty.homMk
             (toClosedFiberRestrict hlocnil hthick (leOfHom h))
           invFun := fun a ↦ homOfLE

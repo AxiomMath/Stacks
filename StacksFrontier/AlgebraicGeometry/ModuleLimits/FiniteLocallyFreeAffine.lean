@@ -173,13 +173,13 @@ theorem exists_isFiniteLocallyFree_pullback_of_isLimit (hc : IsLimit c) (i : I)
   have haR : ∀ (l : (Over i)ᵒᵖ) (x : Γ(D.obj i, ⊤)),
       d.ι.app l (algebraMap Γ(D.obj i, ⊤) (G.obj l) x) = algebraMap Γ(D.obj i, ⊤) d.pt x := by
     intro l x
-    show (G.map (ιmap l) ≫ d.ι.app l) x = d.ι.app l₀ x
+    change (G.map (ιmap l) ≫ d.ι.app l) x = d.ι.app l₀ x
     rw [d.w]
   have ha : ∀ {l m : (Over i)ᵒᵖ} (e : l ⟶ m) (x : Γ(D.obj i, ⊤)),
       G.map e (algebraMap Γ(D.obj i, ⊤) (G.obj l) x)
         = algebraMap Γ(D.obj i, ⊤) (G.obj m) x := by
     intro l m e x
-    show (G.map (ιmap l) ≫ G.map e) x = G.map (ιmap m) x
+    change (G.map (ιmap l) ≫ G.map e) x = G.map (ιmap m) x
     rw [← G.map_comp, hιcomp e]
   obtain ⟨M, hMfp, ⟨eE⟩⟩ := exists_iso_tildeOf (D.obj i) Eᵢ
   have hM : Module.FinitePresentation Γ(D.obj i, ⊤) M := hMfp

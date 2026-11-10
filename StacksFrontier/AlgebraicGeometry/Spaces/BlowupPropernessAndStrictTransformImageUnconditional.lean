@@ -374,7 +374,7 @@ theorem kernelIdealSheaf_le_supportedSectionsSubmodule {V P : AlgebraicSpaces B 
     rw [Category.assoc, hwCι, pullback.condition]
   have hbcQc : IsQuasiCompact B S hS bc.hom := by
     rw [hbcDef]
-    show IsQuasiCompact B S hS (pullback.snd w.hom can.hom)
+    change IsQuasiCompact B S hS (pullback.snd w.hom can.hom)
     rw [← hfstwC]
     exact isQuasiCompact_isIso_comp B S hS (pullback.fst w.hom can.hom) hqc
   -- The kernel ideal of the base change vanishes on every chart of `Co`.
@@ -476,7 +476,7 @@ theorem exceptionalPreimage_preimage_eq {A Xs A' : AlgebraicSpaces B S hS} (f : 
     (b : A' ⟶ A) (Zc : Subfunctor A.1) :
     exceptionalPreimage B S hS f b (Zc.preimage b.hom) =
       Zc.preimage ((strictTransformPullbackToSource B S hS f b).hom ≫ f.hom) := by
-  show (Zc.preimage b.hom).preimage (pullback.snd f.hom b.hom) = _
+  change (Zc.preimage b.hom).preimage (pullback.snd f.hom b.hom) = _
   rw [← Subfunctor.preimage_comp, ← pullback.condition]
   rfl
 
@@ -943,7 +943,7 @@ theorem strictTransformInAmbient_le_schemeTheoreticImageSubfunctor (p : X ⟶ T)
         (strictTransformPullback B S hS
           (closedSubspaceFirst B S hS p q Zs) b))).Submodule => N.obj (op Uc)) hid
     exact h1.le.trans ((hker (op Uc)).trans h2.ge)
-  show Subfunctor.range ((strictTransform B S hS (closedSubspaceFirst B S hS p q Zs) b
+  change Subfunctor.range ((strictTransform B S hS (closedSubspaceFirst B S hS p q Zs) b
     (Zc.1.preimage b.hom)).1.ι ≫ strictTransformToAmbient B S hS p q b Zs) ≤ _
   rw [Subfunctor.range_comp, Subfunctor.range_ι, Subfunctor.image_le_iff]
   exact hZple.trans (schemeTheoreticImageSubfunctor_le_preimage B S hS
@@ -1016,8 +1016,8 @@ Step (3) of the source's proof, the quasi-compactness of the lift, is supplied b
 `AlgebraicGeometry.Space.isQuasiCompact_of_comp_fiberProductFirst_unconditional`, which needs
 the properness of the admissible blowup, Stacks 085Z.  That is now *proved*, in
 `AlgebraicGeometry.Space.isProper_of_isBlowupAlong_of_isFinitePresentation`, and carries no side
-condition, so **nothing is assumed here beyond the source's own hypotheses**.  In particular the density
-statement, part of the tag's own conclusion, is the theorem
+condition, so **nothing is assumed here beyond the source's own hypotheses**.  In particular the
+density statement, part of the tag's own conclusion, is the theorem
 `AlgebraicGeometry.Space.strictTransformInAmbient_le_schemeTheoreticImageSubfunctor`, and neither
 the existence of a proper blowup nor a surjective étale chart of `X` with the size conditions of
 Stacks 085Q is assumed. -/

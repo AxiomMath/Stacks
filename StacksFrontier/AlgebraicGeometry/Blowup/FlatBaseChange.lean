@@ -104,7 +104,7 @@ theorem isPullback_of_isTerminal {X₁ X₂ : Scheme.{u}} (g : X₁ ⟶ X₂) (I
     ∃ h : Y₁ ⟶ Y₂, IsPullback b₁ h g b₂ := by
   -- `Y₁` is an object of the category for `I` over `X₂`, via the composite `b₁ ≫ g`.
   have h₁₂ : IsCartierOver I (Over.mk (b₁ ≫ g)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (b₁ ≫ g))
+    change Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (b₁ ≫ g))
     rw [Scheme.IdealSheafData.comap_comp]
     exact h₁
   -- the classifying morphism `f : Y₁ ⟶ Y₂` over `X₂`
@@ -121,7 +121,7 @@ theorem isPullback_of_isTerminal {X₁ X₂ : Scheme.{u}} (g : X₁ ⟶ X₂) (I
   have hk : k ≫ b₁ = pullback.fst g b₂ := Over.w κ.hom
   -- the fibre product is also an object of the category for `I` over `X₂`
   have hP₂ : IsCartierOver I (Over.mk (pullback.snd g b₂ ≫ b₂)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (pullback.snd g b₂ ≫ b₂))
+    change Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (pullback.snd g b₂ ≫ b₂))
     rw [← pullback.condition, Scheme.IdealSheafData.comap_comp]
     exact hP
   -- `k ≫ f` and `pullback.snd` are two morphisms in that category to the terminal object
@@ -129,7 +129,7 @@ theorem isPullback_of_isTerminal {X₁ X₂ : Scheme.{u}} (g : X₁ ⟶ X₂) (I
     have := t₂.hom_ext
       (ObjectProperty.homMk (X := (⟨Over.mk (pullback.snd g b₂ ≫ b₂), hP₂⟩ : CartierOver I))
         (Over.homMk (k ≫ f) (by
-          show (k ≫ f) ≫ b₂ = pullback.snd g b₂ ≫ b₂
+          change (k ≫ f) ≫ b₂ = pullback.snd g b₂ ≫ b₂
           rw [Category.assoc, hf, ← Category.assoc, hk, pullback.condition])))
       (ObjectProperty.homMk (Over.homMk (pullback.snd g b₂) rfl))
     exact congrArg (fun q => q.hom.left) this
@@ -141,7 +141,7 @@ theorem isPullback_of_isTerminal {X₁ X₂ : Scheme.{u}} (g : X₁ ⟶ X₂) (I
     have := t₁.hom_ext
       (ObjectProperty.homMk (X := (⟨Over.mk b₁, h₁⟩ : CartierOver (I.comap g)))
         (Over.homMk (h ≫ k) (by
-          show (h ≫ k) ≫ b₁ = b₁
+          change (h ≫ k) ≫ b₁ = b₁
           rw [Category.assoc, hk, hfst])))
       (𝟙 _)
     simpa using congrArg (fun q => q.hom.left) this

@@ -122,8 +122,8 @@ theorem nonempty_algEquiv_of_cardinal_eq_of_max_lt {R K L : Type u}
   let _ := isAlgClosure_of_transcendence_basis _ ht
   let g := IsAlgClosure.equivOfEquiv K L f.toRingEquiv
   refine ⟨{ g with commutes' := fun x => ?_ }⟩
-  show IsAlgClosure.equivOfEquiv K L f.toRingEquiv (algebraMap R K x) = algebraMap R L x
-  simpa only [AlgEquiv.coe_ringEquiv, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply] using
+  change IsAlgClosure.equivOfEquiv K L f.toRingEquiv (algebraMap R K x) = algebraMap R L x
+  simpa only [AlgEquiv.coe_toRingEquiv, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply] using
     IsAlgClosure.equivOfEquiv_algebraMap K L f.toRingEquiv
       (algebraMap R (Algebra.adjoin R (Set.range ((↑) : s → K))) x)
 
@@ -215,7 +215,7 @@ cutoff of a big fppf site, is an object of that site: the cutoff is a strong pre
 private lemma contains_spec_of_mk_le_two_pow (C : BigFppfSite.{u}) {k : Type u} [Field k]
     {c : Cardinal.{u}} (hc : c < C.cutoff) (hk : #k ≤ 2 ^ c) :
     C.Contains (Spec (CommRingCat.of k)) := by
-  show (Spec (CommRingCat.of k)).size < C.cutoff
+  change (Spec (CommRingCat.of k)).size < C.cutoff
   rw [Scheme.size_Spec]
   exact max_lt C.aleph0_lt_cutoff (hk.trans_lt (C.cutoff_isStrongPrelimit hc))
 
@@ -259,7 +259,7 @@ private lemma spec_map_comp_eq {k E K : Type u} [Field k] [Field E] [Field K]
     (⟨Scheme.Spec.map (CommRingCat.ofHom j).op⟩ : C.obj hK ⟶ C.obj hE) ≫ m =
       ⟨Scheme.Spec.map (CommRingCat.ofHom (j.comp a)).op⟩ := by
   apply C.inclusion.map_injective
-  show Scheme.Spec.map (CommRingCat.ofHom j).op ≫ C.inclusion.map m =
+  change Scheme.Spec.map (CommRingCat.ofHom j).op ≫ C.inclusion.map m =
     Scheme.Spec.map (CommRingCat.ofHom (j.comp a)).op
   rw [← hm, ← Scheme.Spec.map_comp]
   rfl
@@ -273,7 +273,7 @@ private lemma isIso_overHomMk_spec_ringEquiv {k : Type u} [Field k]
       ⟨Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op⟩ w) := by
   let z0 : C.obj hk ⟶ C.obj hk := ⟨Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op⟩
   have : IsIso (C.inclusion.map z0) := by
-    show IsIso (Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op)
+    change IsIso (Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op)
     have : IsIso (CommRingCat.ofHom τ.toRingHom) := τ.toCommRingCatIso.isIso_hom
     infer_instance
   have : IsIso z0 :=
@@ -281,7 +281,7 @@ private lemma isIso_overHomMk_spec_ringEquiv {k : Type u} [Field k]
   have : IsIso ((Over.forget (C.obj hS)).map
       (Over.homMk (U := Over.mk X) (V := Over.mk X) z0 w)) := by
     rw [Over.forget_map]
-    show IsIso z0
+    change IsIso z0
     infer_instance
   exact isIso_of_reflects_iso _ (Over.forget (C.obj hS))
 
@@ -396,7 +396,7 @@ theorem exists_isIso_source_target_over_isAlgClosed {k : Type u} [Field k]
     rw [← Over.w sourceMap, ← Category.assoc, hSourceComp]
     rfl
   have hzOver : z0 ≫ T'.hom = T'.hom := by
-    show z0 ≫ d0 ≫ T.hom = T'.hom
+    change z0 ≫ d0 ≫ T.hom = T'.hom
     rw [← Category.assoc, ← hTargetComp, Category.assoc, Over.w targetMap, hlw]
   let l : T' ⟶ P := Over.homMk l0 hlw
   let z : T' ⟶ T' := Over.homMk z0 hzOver

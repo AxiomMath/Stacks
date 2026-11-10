@@ -104,7 +104,7 @@ def pointsSchemeHom : pointsScheme k T ⟶ X := Sigma.desc (pointHom k T e)
 theorem ι_pointsSchemeHom (z : T) :
     Sigma.ι (fun _ : T ↦ Spec (CommRingCat.of k)) z ≫ pointsSchemeHom k T e =
       pointHom k T e z :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `pointsSchemeHom` sends every point of the copy of `Spec k` indexed by `z` to `z`. -/
 private theorem pointsSchemeHom_base_sigmaMk (z : T) (w : Spec (CommRingCat.of k)) :
@@ -196,7 +196,7 @@ theorem pointsSchemeToSpec_eq :
       sigmaSpec (fun _ : T ↦ CommRingCat.of k) ≫ Spec.map (constRingHom k T) := by
   have : Finite T := hT
   refine Sigma.hom_ext _ _ fun z ↦ ?_
-  rw [pointsSchemeToSpec, Sigma.ι_desc, ← Category.assoc, ι_sigmaSpec, ← Spec.map_comp,
+  rw [pointsSchemeToSpec, Sigma.ι_comp_desc, ← Category.assoc, ι_sigmaSpec, ← Spec.map_comp,
     show constRingHom k T ≫ CommRingCat.ofHom (Pi.evalRingHom (fun _ : T ↦ k) z) =
       𝟙 (CommRingCat.of k) by ext; rfl, Spec.map_id]
 

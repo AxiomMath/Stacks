@@ -258,7 +258,6 @@ theorem baseChangeMapOfComparison_f_negOne_unit_scheme
           (inverseImageSheaf (ringedSpaceHom f')) X'.sheaf
           (ringedSpaceStructureMap (ringedSpaceHom f')))
         (naiveCotangentComplex_X_negOne.{u, u, u, u} _ _ _ _) _ t' :=
-
   baseChangeMapOfComparison_f_negOne_unit_conormalClassX_naiveCotangentComplex f f' g' bc hbc U t
       t' ht'
 
@@ -307,7 +306,6 @@ theorem baseChangeMapOfComparison_f_negOne_unit_of_eq
           (inverseImageSheaf (ringedSpaceHom f')) X'.sheaf
           (ringedSpaceStructureMap (ringedSpaceHom f')))
         (naiveCotangentComplex_X_negOne.{u, u, u, u} _ _ _ _) _ t' :=
-
   hy ▸ baseChangeMapOfComparison_f_negOne_unit_scheme f f' g' bc hbc U t t' ht'
 
 end BaseChangeMapSpelling

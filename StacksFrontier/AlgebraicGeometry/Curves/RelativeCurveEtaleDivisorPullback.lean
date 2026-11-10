@@ -122,9 +122,9 @@ theorem exists_etale_divisor_pullback_of_smoothOfRelativeDimension_one {U W : Sc
   have : IsScalarTower Γ(W, W₀) Γ(U, g ⁻¹ᵁ W₀) Γ(U, Ua) :=
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower Γ(W, W₀) Γ(W, Wa) Γ(U, Ua) := IsScalarTower.of_algebraMap_eq fun x => by
-    show _ = (g.appLE Wa Ua hle).hom ((W.presheaf.map (homOfLE (W.basicOpen_le a)).op).hom x)
+    change _ = (g.appLE Wa Ua hle).hom ((W.presheaf.map (homOfLE (W.basicOpen_le a)).op).hom x)
     rw [← CommRingCat.comp_apply, Scheme.Hom.map_appLE]
-    show (U.presheaf.map (homOfLE (U.basicOpen_le s)).op).hom
+    change (U.presheaf.map (homOfLE (U.basicOpen_le s)).op).hom
       ((g.appLE W₀ (g ⁻¹ᵁ W₀) le_rfl).hom x) = _
     rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_map]
   obtain ⟨hEt', hFin'⟩ := hEt Γ(W, Wa) Γ(U, Ua)
@@ -157,7 +157,7 @@ theorem exists_etale_divisor_pullback_of_smoothOfRelativeDimension_one {U W : Sc
   -- the set `S`
   set tq : Γ(U, Ua) := algebraMap Γ(U, g ⁻¹ᵁ W₀) Γ(U, Ua) r with htq
   have hZ0 : Set.range iZs.base = PrimeSpectrum.zeroLocus {tq} := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective,
       Ideal.mk_ker, hI, PrimeSpectrum.zeroLocus_span]
   let S : Set U := hUa.fromSpec.base '' PrimeSpectrum.zeroLocus {tq}
@@ -175,16 +175,16 @@ theorem exists_etale_divisor_pullback_of_smoothOfRelativeDimension_one {U W : Sc
     rw [← hZ0] at hq
     obtain ⟨q, rfl⟩ := hq
     refine ⟨q, ?_, rfl⟩
-    show hWa.fromSpec.base (gs.base (iZs.base q)) = w
+    change hWa.fromSpec.base (gs.base (iZs.base q)) = w
     rw [← hw]
-    show (iZs ≫ gs ≫ hWa.fromSpec).base q = (iZs ≫ hUa.fromSpec ≫ g).base q
+    change (iZs ≫ gs ≫ hWa.fromSpec).base q = (iZs ≫ hUa.fromSpec ≫ g).base q
     rw [hchart.w]
   intro V' U' jV jU g' _ hrange hpb
   have : IsOpenImmersion jU := MorphismProperty.of_isPullback hpb.flip inferInstance
   have hrangeU : Set.range jU.base ⊆ Ua := by
     rintro _ ⟨y, rfl⟩
     rw [← hpre]
-    show g.base (jU.base y) ∈ Wa
+    change g.base (jU.base y) ∈ Wa
     rw [← Scheme.Hom.comp_apply, hpb.w, Scheme.Hom.comp_apply]
     exact hrange ⟨_, rfl⟩
   -- factor `jV` and `jU` through the charts over `W_a`
@@ -250,7 +250,7 @@ theorem exists_etale_divisor_pullback_of_smoothOfRelativeDimension_one {U W : Sc
     have h4 : a ∉ ((Spec.map (CommRingCat.ofHom (algebraMap Γ(W, W₀) Ω))).base pt).asIdeal :=
       this
     exact h4 (by
-      show algebraMap Γ(W, W₀) Ω a ∈ (⊥ : Ideal Ω)
+      change algebraMap Γ(W, W₀) Ω a ∈ (⊥ : Ideal Ω)
       rw [h0]
       exact Submodule.zero_mem _)
   -- the fibre is `Spec (Ω ⊗_A B)`
@@ -302,9 +302,9 @@ theorem exists_etale_divisor_pullback_of_smoothOfRelativeDimension_one {U W : Sc
     have hPq := ((PrimeSpectrum.le_iff_specializes P q).mp hPQ).map e.inv.base.hom.continuous
     rwa [hP, Scheme.hom_inv_apply] at hPq
   · -- and over `S`
-    show (pullback.fst g' w).base (e.inv.base q) ∈ Set.range i'.base
+    change (pullback.fst g' w).base (e.inv.base q) ∈ Set.range i'.base
     rw [hrange_i]
-    show jU.base ((pullback.fst g' w).base (e.inv.base q)) ∈ S
+    change jU.base ((pullback.fst g' w).base (e.inv.base q)) ∈ S
     have hmemU := hrangeU ⟨(pullback.fst g' w).base (e.inv.base q), rfl⟩
     rw [key] at hmemU ⊢
     exact mem_image_zeroLocus_of_fromSpec hU₀ s r _ hmem hmemU

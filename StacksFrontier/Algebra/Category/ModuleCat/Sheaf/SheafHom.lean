@@ -413,7 +413,7 @@ noncomputable def dualEval {U : C} (lam : (dualSheaf 𝒪 h𝒪 L).val.obj (op U
 lemma resSection_self {U : C} (x : L.val.obj (op U)) :
     resSection (L := L) (op (Over.mk (𝟙 U))) x = x := by
   have hop : ((𝟙 U).op : op U ⟶ op U) = 𝟙 (op U) := rfl
-  show (L.val.map ((𝟙 U).op)).hom x = x
+  change (L.val.map ((𝟙 U).op)).hom x = x
   rw [hop, PresheafOfModules.map_id]
   rfl
 
@@ -483,7 +483,7 @@ lemma eq_zero_of_eval_e (b : DualBasisOne 𝒪 h𝒪 L U)
     (μ : (dualSheaf 𝒪 h𝒪 L).val.obj (op U)) (hμ : dualEval μ b.e = 0) : μ = 0 := by
   refine eq_zero_of_dualApp μ fun V g => ?_
   rw [← b.span V g, dualApp_smul, dualApp_resSection, hμ]
-  show _ * ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.map
+  change _ * ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.map
     V.unop.hom.op).hom 0 = 0
   rw [map_zero, mul_zero]
 
@@ -511,8 +511,7 @@ theorem bijective_evaluationPresheaf_app_of_dualBasisOne {U : C}
         t = μ ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U)]
           b.e := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, (TensorProduct.zero_tmul _ _).symm⟩
+    induction t using TensorProduct.inductionOn with
     | tmul μ g =>
       refine ⟨dualEval b.lam g • μ, ?_⟩
       simp only [TensorProduct.smul_tmul, b.coord_smul g]
@@ -542,7 +541,7 @@ theorem bijective_evaluationPresheaf_app_of_dualBasisOne {U : C}
         evalSection_smul_left 𝒪 L.val
           (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)).val
             (op U) r b.lam b.e
-      show dualEval (r • b.lam) b.e = r
+      change dualEval (r • b.lam) b.e = r
       exact h3.trans ((congrArg
         (fun coefficient :
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U) =>
@@ -552,7 +551,7 @@ theorem bijective_evaluationPresheaf_app_of_dualBasisOne {U : C}
 /-- Restricting a section twice is restricting along the relocalized object. -/
 lemma resSection_map {U W : C} (k : W ⟶ U) (V : (Over W)ᵒᵖ) (x : L.val.obj (op U)) :
     resSection V ((L.val.map k.op).hom x) = resSection (op ((Over.map k).obj V.unop)) x := by
-  show (L.val.map V.unop.hom.op).hom ((L.val.map k.op).hom x)
+  change (L.val.map V.unop.hom.op).hom ((L.val.map k.op).hom x)
     = (L.val.map (k.op ≫ V.unop.hom.op)).hom x
   rw [PresheafOfModules.map_comp_apply]
 
@@ -616,7 +615,7 @@ theorem isLocallyInjective_evaluationPresheaf {I : Type*} {X : I → C} (hX : J.
             (((evaluationPresheaf 𝒪 h𝒪 L).app Z).hom t) :=
     fun t => PresheafOfModules.naturality_apply (evaluationPresheaf 𝒪 h𝒪 L) p.op t
   apply hbij.injective
-  show ((evaluationPresheaf 𝒪 h𝒪 L).app (op W)).hom
+  change ((evaluationPresheaf 𝒪 h𝒪 L).app (op W)).hom
       ((((dualSheaf 𝒪 h𝒪 L).val ⊗ L.val).map p.op).hom x)
     = ((evaluationPresheaf 𝒪 h𝒪 L).app (op W)).hom
       ((((dualSheaf 𝒪 h𝒪 L).val ⊗ L.val).map p.op).hom y)

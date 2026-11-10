@@ -305,8 +305,7 @@ theorem traceProj_pull_fst_mul_eq (hA : W.PerfectPairing) (hBa : W.KunnethIsomor
         (isNonemptyEquidimensional_prod (isNonemptyEquidimensional_prod hX hY) hZ)
         (W.pull (fst (prod X Y) Z) (z * W.pull (fst X Y) a) * W.pull (prodPr₂₃ X Y Z) v) := by
   obtain ⟨t, rfl⟩ := (hBa Y Z).2 v
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, mul_add, map_add, ht, ht', map_add, mul_add, map_add]
   | tmul y c =>
     have hXY := isNonemptyEquidimensional_prod hX hY
@@ -446,7 +445,7 @@ theorem traceProj_tensorPr (hA : W.PoincareDuality) (hB : W.Kunneth)
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   | @homogeneous m x =>
     obtain ⟨x, hxm⟩ := x
-    show W.traceProj _ _ _ (W.pull _ x) = W.traceProj _ _ hP x
+    change W.traceProj _ _ _ (W.pull _ x) = W.traceProj _ _ hP x
     by_cases hm : m = 2 * ((d + e + (d' + e') : ℕ) : ℤ)
     · subst hm
       have h := W.trace_pullTw_of_isIso hA hB hC (prodTensorShuffle X X' Y Y') h₄ hP
@@ -514,8 +513,7 @@ theorem blockAct_tensor (hA : W.PoincareDuality) (hB : W.Kunneth)
   rw [← ht']
   clear ht' b
   dsimp only
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' h₁ h₂ => rw [map_add, mul_add, map_add, h₁, h₂, map_add, mul_add, map_add]
   | tmul y y' =>
     induction y using DirectSum.Decomposition.inductionOn (W.grade Y) with
@@ -524,7 +522,7 @@ theorem blockAct_tensor (hA : W.PoincareDuality) (hB : W.Kunneth)
       rw [TensorProduct.add_tmul, map_add, mul_add, map_add, h₁, h₂, map_add, mul_add, map_add]
     | @homogeneous p y =>
       obtain ⟨y, hyp⟩ := y
-      show W.traceProj _ _ _ (_ * W.kunnethMap Y Y' (y ⊗ₜ y')) =
+      change W.traceProj _ _ _ (_ * W.kunnethMap Y Y' (y ⊗ₜ y')) =
         W.traceProj _ _ _ (_ * _ * W.pull _ (W.kunnethMap Y Y' (y ⊗ₜ y')))
       rw [kunnethMap_tmul, pull_fst_mul_pull_snd_mul Y Y' _ hu' hyp, map_zsmul,
         traceProj_pull_fst_mul_pull_snd hB.kunnethTrace hY hY',

@@ -57,8 +57,8 @@ Part (3), the ample case, is
 it is available: the source's route — an ample invertible module presents the scheme as an open
 subscheme of a `Proj`, by Stacks Tag 01Q3 — is still not formalized here, and the graded ring
 `Γ_*(X, L) = ⨁_n Γ(X, L ^⊗ n)` of Stacks Tag 01CV is available only as a plain commutative ring with
-no `GradedRing` instance. The proof of part (3) uses part (1) of this file instead: an ample `L` puts
-the finite set inside a single `X_a`, that `X_a` is quasi-affine, and part (1) shrinks it to an
+no `GradedRing` instance. The proof of part (3) uses part (1) of this file instead: an ample `L`
+puts the finite set inside a single `X_a`, that `X_a` is quasi-affine, and part (1) shrinks it to an
 affine open. So the obstruction recorded here — that
 `Stacks.Ample.nonvanishingLocus_add_subset` bounds `X_{s + t}` above by `X_s ∪ X_t` and so points
 the wrong way, and that `Stacks.Ample.IsAmple` may serve two points by sections of two different

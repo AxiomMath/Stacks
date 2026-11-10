@@ -169,7 +169,7 @@ public theorem baseChangeComposite_of_tmul (b'' : D'') (z : baseChangeCarrier p 
       b'' • carrierMap p D D' D'' M z := by
   let : IsAdicComplete (pAdicIdeal (A := D'') p) (baseChangeCarrier p D D'' M) :=
     isPAdicallyComplete_baseChangeCarrier p D D'' M
-  show (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := D'') p)
+  change (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := D'') p)
       (baseChangeCarrier p D D'' M)).symm
       (adicCompletionMapLinear ((carrierMapLinear p D D' D'' M).liftBaseChange D'')
         (pAdicIdeal (A := D'') p)
@@ -213,7 +213,7 @@ public theorem adicContinuous_baseChangeComposite :
         (pAdicIdeal (A := D'') p) x :=
     AdicCompletion.of_ofLinearEquiv_symm _ _
   rw [hof]
-  show adicQuotientMap ((carrierMapLinear p D D' D'' M).liftBaseChange D'')
+  change adicQuotientMap ((carrierMapLinear p D D' D'' M).liftBaseChange D'')
     (le_of_eq (Ideal.map_id _)) n (x.val n) = 0
   rw [show x.val n = 0 from hx, map_zero]
 
@@ -242,7 +242,7 @@ public theorem adicContinuous_baseChange :
       (baseChange p D D' M Omega Omega' d' psi nabla hadd' hleib' hpsi) := by
   intro n
   refine ⟨n, fun x hx ↦ ?_⟩
-  show (baseChange p D D' M Omega Omega' d' psi nabla hadd' hleib' hpsi x).val n = 0
+  change (baseChange p D D' M Omega Omega' d' psi nabla hadd' hleib' hpsi x).val n = 0
   rw [baseChange_val, show x.val n = 0 from hx, map_zero]
 
 /-- **The comparison of base-changed modules along `D' → D''` is adically continuous**: it is
@@ -280,8 +280,7 @@ private theorem eq_of_forall_of_tmul {A B N T Q : Type*} [CommRing A] [CommRing 
   let G := AddMonoidHom.mk' g hg
   have hgen : ∀ y, F (AdicCompletion.of I _ y) = G (AdicCompletion.of I _ y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [_root_.map_zero, _root_.map_zero, _root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul a n => exact h a n
     | add a b ha hb => rw [_root_.map_add, _root_.map_add, _root_.map_add, ha, hb]
   exact DFunLike.congr_fun (adicCompletion_addMonoidHom_ext hfc hgc hgen) z
@@ -577,7 +576,7 @@ public theorem baseChangeComplexHom_comp
   refine HomologicalComplex.hom_ext _ _ (fun i ↦ ?_)
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f]
   refine AddCommGrpCat.ext fun x ↦ ?_
-  show horizontalTerm p D''
+  change horizontalTerm p D''
       (CompletedConnection.baseChangeCarrier p D' D''
         (CompletedConnection.baseChangeCarrier p D D' M))
       (CompletedConnection.baseChangeCarrier p D D'' M) Om''

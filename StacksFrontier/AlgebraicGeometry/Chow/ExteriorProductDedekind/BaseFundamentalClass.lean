@@ -232,7 +232,7 @@ theorem BivariantChowClass.cap_integral_eq_zero_of_cap_baseFundamentalChowClass_
     have hker : (Stacks.Divisors.zeroScheme C.S L σ).subschemeι.ker ≤ g.ker := by
       rw [Scheme.IdealSheafData.ker_subschemeι, hσ, Scheme.Hom.ker_eq_vanishingIdeal_closure_range]
       refine Scheme.IdealSheafData.vanishingIdeal_antimono ?_
-      show closure (Set.range g.base) ⊆ {g.base (genericPoint T)}
+      change closure (Set.range g.base) ⊆ {g.base (genericPoint T)}
       exact closure_minimal hrange hscl
     set a := IsClosedImmersion.lift (Stacks.Divisors.zeroScheme C.S L σ).subschemeι g hker with had
     have ha : a ≫ (Stacks.Divisors.zeroScheme C.S L σ).subschemeι = g :=
@@ -432,7 +432,7 @@ theorem baseSummandData_of_not_dominates (x : X) (hx : a₀.1 x ≠ 0)
         exact schemeDeltaDimension_le_zero_of_support_eq hC hscl _ hDYsupp)
   refine (QuotientAddGroup.eq_zero_iff _).1 ?_
   rw [QuotientAddGroup.mk_sub, sub_eq_zero]
-  show QuotientAddGroup.mk' (rationalEquivalences C _ (n + 1 - 1)) _ =
+  change QuotientAddGroup.mk' (rationalEquivalences C _ (n + 1 - 1)) _ =
     QuotientAddGroup.mk' (rationalEquivalences C _ (n + 1 - 1)) _
   apply eq_of_heq
   refine (mk_heq_of_val_eq _ hdeg.symm _ _ rfl).trans ?_
@@ -506,10 +506,10 @@ theorem mk_properPushforward_exteriorProductDedekindCycles_fundamentalCycle_of_d
       x.1).subschemeι ≫ pullback.fst sX (𝟙 C.S)) (Category.assoc _ _ _) (n + 1 - 1)) (a₀.1 x)
       (fundamentalCycle C ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
           (pullback.fst sX (𝟙 C.S) ≫ sX)) (n + 1 - 1))
-    show (properPushforwardHom C _ sX ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
+    change (properPushforwardHom C _ sX ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
       pullback.fst sX (𝟙 C.S)) (Category.assoc _ _ _) (n + 1 - 1) _).1 z = _
     rw [hpush]
-    show a₀.1 x * (properPushforward C _ sX ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
+    change a₀.1 x * (properPushforward C _ sX ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
       pullback.fst sX (𝟙 C.S)) (Category.assoc _ _ _) (n + 1 - 1) _).1 z = _
     rw [properPushforward_fundamentalCycle_of_isClosedImmersion,
       cycleAssociatedToClosedSubscheme_eq_of_iso C sX _ _ _ hcomp, show n + 1 - 1 = n by ring]
@@ -539,7 +539,7 @@ theorem mk_properPushforward_exteriorProductDedekindCycles_fundamentalCycle_of_d
       (n + 1 - 1) (A x)).1)
     (fun x ↦ support_properPushforward_subset C _ _ _ _ _ _)
     (exteriorProductDedekindCycles C sX (𝟙 C.S) n 1 a₀ (fundamentalCycle C (𝟙 C.S) 1)).1 hE z
-  show (properPushforward C (pullback.fst sX (𝟙 C.S) ≫ sX) sX (pullback.fst sX (𝟙 C.S)) rfl
+  change (properPushforward C (pullback.fst sX (𝟙 C.S) ≫ sX) sX (pullback.fst sX (𝟙 C.S)) rfl
     (n + 1 - 1) (exteriorProductDedekindCycles C sX (𝟙 C.S) n 1 a₀
       (fundamentalCycle C (𝟙 C.S) 1))).1 z - a₀.1 z = _
   change (properPushforward C (pullback.fst sX (𝟙 C.S) ≫ sX) sX (pullback.fst sX (𝟙 C.S)) rfl
@@ -554,7 +554,7 @@ theorem mk_properPushforward_exteriorProductDedekindCycles_fundamentalCycle_of_d
       (properPushforward C _ sX ((dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι ≫
           pullback.fst sX (𝟙 C.S)) (Category.assoc _ _ _) (n + 1 - 1) (A x)).1 z := by
     intro x
-    show (properPushforward C (pullback.fst sX (𝟙 C.S) ≫ sX) sX (pullback.fst sX (𝟙 C.S)) rfl
+    change (properPushforward C (pullback.fst sX (𝟙 C.S) ≫ sX) sX (pullback.fst sX (𝟙 C.S)) rfl
       (n + 1 - 1) (properPushforward C _ _ (dedekindPointFibre sX (𝟙 C.S) x.1).subschemeι rfl
         (n + 1 - 1) (A x))).1 z = _
     rw [properPushforward_properPushforward]

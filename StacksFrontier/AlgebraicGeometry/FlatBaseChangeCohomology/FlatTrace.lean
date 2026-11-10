@@ -226,7 +226,7 @@ theorem bijective_sectionsBaseChangeMap_of_cover (H : IsPullback p k iX q) [IsAf
     (fun a => homOfLE (Scheme.Hom.preimage_mono p (hVle a)))
     (by rw [← Scheme.Hom.preimage_iSup]; exact Scheme.Hom.preimage_mono p hcover)
     (sectionsBaseChangeMap H F U w) t fun a => ?_⟩
-  show pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
+  change pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
   rw [← sectionsBaseChangeMap_comm_res H F (hVle a) w, ← piRight_lTensor_pi_apply
     (fun a : ι => ↑Γ(F, V a)) (fun a => baseResHom iX F (hVle a)) a w, ← hedef, hw, hZ, hz a]
   rfl
@@ -319,9 +319,9 @@ theorem sectionsBaseChangeEquivOf_symm_smul (U : X.Opens) (r : Γ(X, U))
   induction z with
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, sectionsBaseChangeEquivOf_tmul, sectionsBaseChangeEquivOf_tmul]
-    show (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
+    change (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
     rw [pullbackUnitSections_smul p F U r x]
-    show (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
+    change (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         pullbackUnitSections p F U x) =
       (k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         ((p.app U).hom r • pullbackUnitSections p F U x)
@@ -389,7 +389,7 @@ theorem traceSectionsOf_apply_tmul (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ
   let := baseAlgebra q
   let := baseModule iX F U
   let := baseModule k ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
-  show TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
+  change TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
     ((sectionsBaseChangeEquivOf H F hbij U).symm (b • pullbackUnitSections p F U x))) = _
   rw [← sectionsBaseChangeEquivOf_tmul H F hbij U b x, LinearEquiv.symm_apply_apply,
     LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
@@ -442,7 +442,7 @@ theorem twistedUnit_comp_traceOf (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[�
   ext U x
   let := baseModule iX F U
   refine (traceOf_app_twistedUnit_app H F hbij f b U x).trans ?_
-  show (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
+  change (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
     X.presheaf.map (isTerminalTop.from U).op ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b)) • x
   congr 1
   exact (congrArg (fun m : Γ(S, ⊤) ⟶ Γ(X, U) => m.hom (f b))
@@ -484,7 +484,7 @@ theorem eq_zero_of_forall_traceOf_app_eq_zero
       ((sectionsBaseChangeEquivOf H F hbij U).symm (Stacks.Tag0CKW.pushforwardSection y))) = 0
       at this
     rwa [← hz, LinearEquiv.symm_apply_apply] at this
-  show Stacks.Tag0CKW.pushforwardSection y = 0
+  change Stacks.Tag0CKW.pushforwardSection y = 0
   rw [← hz, hz0, map_zero]
 
 omit [IsAffine S] [IsAffine T] [SheafOfModules.IsQuasicoherent F] in

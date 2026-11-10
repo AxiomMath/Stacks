@@ -128,7 +128,7 @@ public theorem nsmul_eq_zero_of_iso {A D : AddCommGrpCat.{w}} (e : A ≅ D) (n :
 public theorem nsmul_id_uliftZMod_eq_zero (N : ℕ) :
     N • (𝟙 (AddCommGrpCat.of (ULift.{w} (ZMod N)))) = 0 := by
   ext y
-  show N • y.down = (0 : ZMod N)
+  change N • y.down = (0 : ZMod N)
   rw [nsmul_eq_mul, ZMod.natCast_self, zero_mul]
 
 /-- Reduction of `ULift ℤ` modulo `N`, as a morphism of abelian groups. -/
@@ -167,17 +167,17 @@ public def cokernelNsmulUliftIntIso (N : ℕ) :
           simpa using ConcreteCategory.congr_hom w (ULift.up (1 : ℤ))
         have hup : (ULift.up ((N : ℕ) : ℤ) : ULift.{w} ℤ) = N • (ULift.up (1 : ℤ)) := by
           refine ULift.ext ?_
-          show ((N : ℕ) : ℤ) = N • (1 : ℤ)
+          change ((N : ℕ) : ℤ) = N • (1 : ℤ)
           simp
         have hf : (k.hom.comp (AddEquiv.ulift (α := ℤ)).symm.toAddMonoidHom)
             ((N : ℕ) : ℤ) = 0 := by
-          show k.hom (ULift.up ((N : ℕ) : ℤ)) = 0
+          change k.hom (ULift.up ((N : ℕ) : ℤ)) = 0
           rw [hup, _root_.map_nsmul, hz]
         refine ⟨ofHom ((ZMod.lift N
           ⟨k.hom.comp (AddEquiv.ulift (α := ℤ)).symm.toAddMonoidHom, hf⟩).comp
             (AddEquiv.ulift (α := ZMod N)).toAddMonoidHom), ?_⟩
         ext x
-        show ZMod.lift N ⟨k.hom.comp (AddEquiv.ulift (α := ℤ)).symm.toAddMonoidHom, hf⟩
+        change ZMod.lift N ⟨k.hom.comp (AddEquiv.ulift (α := ℤ)).symm.toAddMonoidHom, hf⟩
           ((x.down : ZMod N)) = k.hom x
         rw [ZMod.lift_coe]
         rfl))
@@ -283,7 +283,7 @@ public theorem nsmul_id_eq_zero_of_cover (F : Sheaf J AddCommGrpCat.{w}) (T : C)
   have h := congrArg
     (fun t : F.over (V i) ⟶ F.over (V i) => t.hom.app (Opposite.op (Over.mk g))) (hn i)
   change n • (𝟙 (F.obj.obj (Opposite.op a.Y))) = 0 at h
-  show (n • 𝟙 (F.obj.obj U)) ≫ F.obj.map a.f.op = 0 ≫ F.obj.map a.f.op
+  change (n • 𝟙 (F.obj.obj U)) ≫ F.obj.map a.f.op = 0 ≫ F.obj.map a.f.op
   simpa only [Preadditive.comp_nsmul, Preadditive.nsmul_comp, Category.id_comp, Category.comp_id,
     comp_zero, zero_comp] using congrArg (fun t => F.obj.map a.f.op ≫ t) h
 
@@ -402,7 +402,7 @@ public def cokernelNsmulAbelianShriekConstantIso (M : AddCommGrpCat.{u + 1})
   let H := constantSheaf (SmallEtale.topology B U.obj.left.obj U.obj.left.property)
       AddCommGrpCat.{u + 1} ⋙ abelianExtensionByZero B X.obj X.property U
   letI : H.Additive := by
-    letI := preservesBinaryBiproducts_of_preservesBinaryCoproducts H
+    let := preservesBinaryBiproducts_of_preservesBinaryCoproducts H
     exact Functor.additive_of_preservesBinaryBiproducts H
   exact (cokernelIsoOfEq (show H.map (n • (𝟙 M)) = n • (𝟙 (H.obj M)) by
     rw [Functor.map_nsmul, H.map_id])).symm ≪≫ (PreservesCokernel.iso H _).symm
@@ -416,18 +416,12 @@ public def cokernelNsmulAbelianShriekZModIso (U : SmallEtale B X.obj X.property)
       ((constantSheaf (SmallEtale.topology B U.obj.left.obj U.obj.left.property)
         AddCommGrpCat.{u + 1}).mapIso (AddCommGrpCat.cokernelNsmulUliftIntIso.{u + 1} N))
 
-variable
-  [∀ (S T : B.Scheme) (f : T ⟶ S),
-    ((smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
-      (SmallEtale.topology B S.obj S.property)
-      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
-  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) AddCommGrpCat.{u + 1}]
-
 /-- **A finite locally constant abelian sheaf on the small étale site of a quasi-compact scheme is
 annihilated by a positive integer.** The final object of the site is the scheme itself, which is
 a quasi-compact object of the site. -/
 public theorem exists_nsmul_id_eq_zero_of_isFiniteLocallyConstant_smallEtale
+    [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+      HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) AddCommGrpCat.{u + 1}]
     (hXc : CompactSpace X.obj)
     (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{u + 1})
     (hF : IsFiniteLocallyConstant (SmallEtale.topology B X.obj X.property) F) :
@@ -448,7 +442,7 @@ public theorem nsmul_id_eq_zero_of_forall_etaleStalk
   apply NatTrans.ext
   funext W
   ext σ
-  show n • σ = 0
+  change n • σ = 0
   have hsubset : Set.range ((SmallEtale.toScheme B X.obj X.property).map (𝟙 W.unop)).base ⊆
       (SmallEtale.zeroOpen B X.obj X.property F W.unop (n • σ) :
         Set ((SmallEtale.toScheme B X.obj X.property).obj W.unop)) := by
@@ -464,6 +458,14 @@ public theorem nsmul_id_eq_zero_of_forall_etaleStalk
     rwa [geometricPointOfEtalePointLift_base B X.obj X.property W.unop x] at hmem
   simpa using (SmallEtale.map_eq_zero_iff_range_subset_zeroOpen B X.obj X.property F W.unop
     (n • σ) W.unop (𝟙 _)).mpr hsubset
+
+variable
+  [∀ (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) AddCommGrpCat.{u + 1}]
 
 /-- **A constructible abelian étale sheaf on a quasi-compact quasi-separated scheme is annihilated
 by a positive integer.** This is the input the source of Stacks 09YT leaves to the reader.
@@ -500,7 +502,7 @@ public theorem exists_nsmul_id_eq_zero_of_isConstructibleAbelianSheaf
     rw [hd, mul_nsmul, hann i, smul_zero]
   set t' := GeometricPoint.ofPoint (s.piece i).obj z
   have hbase : (t'.map (B.inclusion.map (s.inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
     rwa [show t'.hom default = z from GeometricPoint.ofPoint_liesOver (s.piece i).obj z]
   refine AddCommGrpCat.nsmul_eq_zero_of_iso
     ((etaleStalkPresheafFunctorIsoOfEqBase B X.obj X.property hbase

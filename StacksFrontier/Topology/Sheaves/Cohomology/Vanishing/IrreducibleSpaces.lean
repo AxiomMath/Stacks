@@ -144,7 +144,7 @@ theorem irreducibleConstantModel_isSheaf (X : TopCat.{u}) [PreirreducibleSpace X
         apply AddCommGrpCat.hom_ext
         apply AddMonoidHom.ext
         intro e
-        show (fun q : PLift (∃ z : X, z ∈ W) =>
+        change (fun q : PLift (∃ z : X, z ∈ W) =>
           gl.hom e ⟨⟨q.down.choose, g.le q.down.choose_spec⟩⟩) = (x g hg).hom e
         funext qW
         have hpoint := congrArg
@@ -156,11 +156,12 @@ theorem irreducibleConstantModel_isSheaf (X : TopCat.{u}) [PreirreducibleSpace X
       apply AddCommGrpCat.hom_ext
       apply AddMonoidHom.ext
       intro e
-      show (y.hom e) = (gl.hom e)
+      change (y.hom e) = (gl.hom e)
       funext qU
       have h := congrArg
         (fun q : E ⟶ (irreducibleConstantModel X A).obj (op V) => q.hom e hV) (hy f hf)
-      convert h using 1 <;> congr 1
+      convert h using 1
+      congr 1
   · have hs := subsingleton_irreducibleConstantModel_obj X A hU
     refine ⟨(0 : E ⟶ (irreducibleConstantModel X A).obj (op U)), ?_, fun y _ =>
       AddCommGrpCat.hom_ext <| AddMonoidHom.ext fun _ => @Subsingleton.elim _ hs _ _⟩
@@ -379,7 +380,7 @@ private lemma irreducibleConstantModel_injective (A : AddCommGrpCat.{v})
   have : Mono f' := by
     apply (NatTrans.mono_iff_mono_app _).2
     intro U
-    show Mono (L.map (f.app (e.obj U)))
+    change Mono (L.map (f.app (e.obj U)))
     dsimp [L]
     infer_instance
   obtain ⟨b, hb⟩ := Injective.factors g' f'
@@ -514,7 +515,7 @@ theorem subsingleton_sheafH_constantSheaf_of_irreducibleSpace (A : AddCommGrpCat
       rw [← Sheaf.H.equiv₀_naturality]
       simpa [z] using hb
     rw [← hy, ← hz]
-    show (z.comp (Abelian.Ext.mk₀ (S.map K).g) (add_zero 0)).comp
+    change (z.comp (Abelian.Ext.mk₀ (S.map K).g) (add_zero 0)).comp
       hKS.extClass (zero_add 1) = 0
     rw [Abelian.Ext.comp_assoc_of_second_deg_zero, hKS.comp_extClass,
       Abelian.Ext.comp_zero]

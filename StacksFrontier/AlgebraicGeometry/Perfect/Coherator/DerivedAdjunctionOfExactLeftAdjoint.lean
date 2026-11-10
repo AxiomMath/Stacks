@@ -319,7 +319,7 @@ private lemma coconeOfTerminalUnder_isRightDerivedValueAt
         (MorphismProperty.Under.forget W ⊤ X ⋙ Under.forget X ⋙ Φ)) := by
   refine ⟨t₀, 𝟙 _, (Category.id_comp _).trans (by simp), fun s => ?_⟩
   refine ⟨t₀, ht.from s, ht.from t₀, ?_⟩
-  show Φ.map (ht.from s).right =
+  change Φ.map (ht.from s).right =
     Φ.map (ht.from s).right ≫ 𝟙 _ ≫ Φ.map (ht.from t₀).right
   simp
 
@@ -475,7 +475,7 @@ public lemma coneOfInvertedMorphisms_isLeftDerivedValueAt
   let s₀ : W.Over ⊤ X := MorphismProperty.Over.mk ⊤ (𝟙 X) (MorphismProperty.id_mem W X)
   let v : ∀ s : W.Over ⊤ X, s ⟶ s₀ := fun s =>
     MorphismProperty.Over.homMk (A := s) (B := s₀) s.hom (by
-      show s.hom ≫ 𝟙 X = s.hom
+      change s.hom ≫ 𝟙 X = s.hom
       simp)
   refine ⟨s₀, Φ.map s₀.hom, ?_, fun s => ?_⟩
   · dsimp [coneOfInvertedMorphisms]
@@ -642,7 +642,7 @@ public lemma homotopyUnitOfComplex_isRightDerivedFunctor
   refine (Functor.isLeftKanExtension_iff_postcompose (rightDerivedSourceIso F).inv
     DerivedCategory.Q (DerivedCategory.quotientCompQhIso A)
     (homotopyUnitOfComplex F RF α) α ?_).2 h₂
-  show (rightDerivedSourceIso F).inv ≫
+  change (rightDerivedSourceIso F).inv ≫
     ((Functor.whiskeringLeft _ _ (DerivedCategory B)).obj
       (HomotopyCategory.quotient A (ComplexShape.up ℤ))).map
         (homotopyUnitOfComplex F RF α) ≫ (quotientFactorIso RF).hom = α

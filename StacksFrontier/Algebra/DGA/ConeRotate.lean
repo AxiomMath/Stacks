@@ -107,7 +107,7 @@ theorem coneIncl_coneD_apply (f : K ⟶ L) (x : (L.M × K.M) × L.M) :
     (coneObject (coneIncl f)).d x =
       ((L.d x.1.1 + f.toFun x.1.2 + x.2, -K.d x.1.2), -L.d x.2) := by
   refine Prod.ext (Prod.ext rfl ?_) rfl
-  show -K.d x.1.2 + (0 : K.M) = -K.d x.1.2
+  change -K.d x.1.2 + (0 : K.M) = -K.d x.1.2
   rw [add_zero]
 
 /-- The homomorphism `K[1] ⟶ C(L ⟶ C(f))` of the rotation equivalence: in the coordinates
@@ -279,7 +279,7 @@ theorem rotateConeHom_coneProj (f : K ⟶ L) :
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
   rw [Hom.comp_toFun_apply, Hom.hom_neg_toFun, rotateConeHom_toFun_apply]
-  show -f.toFun x = -(shiftMap f 1).toFun x
+  change -f.toFun x = -(shiftMap f 1).toFun x
   rw [shiftMap_toFun]
 
 /-- The first square of the rotation isomorphism: both sides are the class of the inclusion. -/

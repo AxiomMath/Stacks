@@ -147,7 +147,7 @@ theorem nonempty_baseChange_over (hg : g.IsLocallyRinged) (k : V' ⟶ openObj B 
   let U := (smallEtaleBaseChange B (glueHom g)).obj V'
   have hz := congrArg (fun m => m z) (baseChangeSchemeHom_comp (glueHom g) U V' (𝟙 U))
   simp only [Scheme.Hom.comp_apply] at hz
-  show B.inclusion.map (glueHom g) (B.inclusion.map U.obj.hom z) ∈ (V : Y.obj.Opens)
+  change B.inclusion.map (glueHom g) (B.inclusion.map U.obj.hom z) ∈ (V : Y.obj.Opens)
   rw [← hz]
   exact (nonempty_hom_opensToBoundedEtale_iff B Y.obj Y.property V' V).1 ⟨k⟩ ⟨_, rfl⟩
 

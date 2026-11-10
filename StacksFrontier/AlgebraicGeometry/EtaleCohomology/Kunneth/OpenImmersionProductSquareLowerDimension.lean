@@ -70,8 +70,8 @@ universe u
 
 namespace Stacks.EtaleCohomology.OpenImmersionProductSquare
 
--- `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb`
--- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`)
+-- `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb`, at
+-- `StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`,
 -- is formed for the standard model of the derived categories; the base change to `L` of
 -- [Stacks, Tag 0F1C] is read off it. The statements involve no derived category.
 attribute [local instance] HasDerivedCategory.standard
@@ -130,7 +130,7 @@ theorem trdeg_residueField_pos_of_not_isClosed (k : Type u) [Field k] (X : Schem
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom.toAlgebra
   refine pos_iff_ne_zero.2 fun h0 =>
     hx (isClosed_singleton_of_natTrdegResidueField_eq_zero k X f x ?_)
-  show Cardinal.toNat (Algebra.trdeg k (X.residueField x)) = 0
+  change Cardinal.toNat (Algebra.trdeg k (X.residueField x)) = 0
   rw [h0]
   simp
 
@@ -176,7 +176,7 @@ theorem isIso_higherBaseChangeMapAb_of_isPullback_of_productSquare {L : Type u} 
     · rw [Category.assoc, IsPullback.isoPullback_hom_fst, hr, Category.assoc, h_comp_fst,
         IsPullback.isoPullback_hom_fst]
     · rw [Category.assoc, IsPullback.isoPullback_hom_snd, w, Category.assoc]
-      show _ = ψ.hom ≫ (h sX₁ sU₁ sY₁ j₁ hj₁ ≫ q sX₁ sY₁)
+      change _ = ψ.hom ≫ (h sX₁ sU₁ sY₁ j₁ hj₁ ≫ q sX₁ sY₁)
       rw [h_comp_q, ← Category.assoc, IsPullback.isoPullback_hom_snd]
   exact (isIso_higherBaseChangeMapAb_app_iff_of_iso (q sX₁ sY₁) j₁ (h sX₁ sU₁ sY₁ j₁ hj₁)
     (p sU₁ sY₁) (h_comp_q sX₁ sU₁ sY₁ j₁ hj₁) φ ψ hQP hφψ fP
@@ -388,7 +388,7 @@ theorem isIso_stalk_higherBaseChangeMapAb_of_not_isClosed_fst_of_lt
   have hy : ∀ i', pc.app i' ≫ gL.app i' = gY := fun i' =>
     (hkey (IsCofiltered.minToLeft i' i₀)).trans (hkey (IsCofiltered.minToRight i' i₀)).symm
   have hgY : gY ≫ extensionMap K L = b ≫ sY := by
-    show (pc.app i₀ ≫ gL.app i₀) ≫ extensionMap K L = b ≫ sY
+    change (pc.app i₀ ≫ gL.app i₀) ≫ extensionMap K L = b ≫ sY
     rw [Category.assoc, hcompat i₀, ← Category.assoc, hπ i₀]
   -- the square of `Y' ×_L X_L` over `X_L ⟵ U_L`, as a limit
   have hQ : IsPullback (pullback.fst gY (pullback.fst (extensionMap K L) sU))
@@ -438,7 +438,7 @@ theorem isIso_stalk_higherBaseChangeMapAb_of_not_isClosed_fst_of_lt
           (extensionOpen K L sX sU j hj) (pullback.fst (extensionMap K L) sX)).app i')
           ((baseChangeHorizontal D gL (extensionOpen K L sX sU j hj ≫
             pullback.fst (extensionMap K L) sX)).app i') sUL₁ (gL.app i') := by
-        show IsPullback _ _ (pullback.fst (extensionMap K L) sU) _
+        change IsPullback _ _ (pullback.fst (extensionMap K L) sU) _
         rw [← extensionOpen_fst K L sX sU j hj]
         exact (isPullback_baseChangeStage D gL _ i').flip
       refine isIso_higherBaseChangeMapAb_of_isPullback_of_productSquare (X₁ := XL₁) (U₁ := UL₁)
@@ -449,7 +449,7 @@ theorem isIso_stalk_higherBaseChangeMapAb_of_not_isClosed_fst_of_lt
           (pullback.fst (extensionMap K L) sX) i') i _ ?_
       refine IH L XL₁ UL₁ (D.obj i') sXL₁ sUL₁ (gL.app i') jL₁ hj₁ ?_ n hnL _
         (SmoothBaseChange.zsmul_pullbackAb_eq_zero _ 𝓕 n h𝓕) i
-      show topologicalKrullDim (pullback (extensionMap K L) sX : Scheme.{u}) +
+      change topologicalKrullDim (pullback (extensionMap K L) sX : Scheme.{u}) +
         topologicalKrullDim (D.obj i') < d
       rw [hXL, add_comm]
       exact (withBotENat_add_lt_add_right (hdim i') hXd.1 hXd.2).trans_le
@@ -488,7 +488,7 @@ theorem isIso_stalk_higherBaseChangeMapAb_of_not_isClosed_fst_of_lt
         h_comp_fst, IsPullback.isoPullback_hom_fst]
     · rw [Category.assoc, IsPullback.isoPullback_hom_snd, ← Category.assoc, pullback.lift_snd,
         Category.assoc, Category.assoc, FieldExtensionBaseChange.baseChangeMap_snd]
-      show _ = ψ.hom ≫ (h sX sU (b ≫ sY) j hj ≫ q sX (b ≫ sY))
+      change _ = ψ.hom ≫ (h sX sU (b ≫ sY) j hj ≫ q sX (b ≫ sY))
       rw [h_comp_q, ← Category.assoc ψ.hom, IsPullback.isoPullback_hom_snd, Category.assoc]
   exact (isIso_higherBaseChangeMapAb_app_iff_of_iso (q sX (b ≫ sY)) j (h sX sU (b ≫ sY) j hj)
     (p sU (b ≫ sY)) (h_comp_q sX sU (b ≫ sY) j hj) φ ψ hL hφψ _

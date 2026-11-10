@@ -76,13 +76,12 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u
 
--- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
-set_option synthInstance.maxHeartbeats 200000
-
 namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
 /-- The relative property on morphisms of presheaves induced by a property of morphisms of
 schemes stable under base change is again stable under base change. -/
 private theorem presheaf_inverseImage_isStableUnderBaseChange (P : MorphismProperty Scheme.{u})
@@ -92,6 +91,8 @@ private theorem presheaf_inverseImage_isStableUnderBaseChange (P : MorphismPrope
     inverseImage_isStableUnderBaseChange B S hS hP
   exact MorphismProperty.relative_isStableUnderBaseChange _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
 /-- The relative property on morphisms of presheaves induced by a property of morphisms of
 schemes stable under composition is again stable under composition. -/
 private theorem presheaf_inverseImage_isStableUnderComposition (P : MorphismProperty Scheme.{u})
@@ -101,6 +102,8 @@ private theorem presheaf_inverseImage_isStableUnderComposition (P : MorphismProp
     inverseImage_isStableUnderComposition B S hS hP
   exact MorphismProperty.relative_isStableUnderComposition _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
 /-- A morphism of schemes whose composite with a second morphism is locally of finite
 presentation is locally of finite type. -/
 private theorem locallyOfFiniteType_of_comp_eq_of_lfp {X Y Z : Scheme.{u}} (g : X ⟶ Y) (h : Y ⟶ Z)
@@ -114,7 +117,10 @@ private theorem locallyOfFiniteType_of_comp_eq_of_lfp {X Y Z : Scheme.{u}} (g : 
     infer_instance
   exact _root_.AlgebraicGeometry.locallyOfFiniteType_of_comp g h
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
 set_option maxHeartbeats 1000000 in
+-- a proof of about 250 lines building and comparing étale charts of several fibre products
 /-- **The Koszul locus commutes with base change.** In a commutative triangle of algebraic
 spaces over `S` with `p : X ⟶ Z` and `q : Y ⟶ Z` flat and locally of finite presentation, the
 set of points at which the base change of `f : X ⟶ Y` along an arbitrary `z : Z' ⟶ Z` is Koszul
@@ -363,11 +369,11 @@ theorem setOf_koszulAt_pullbackMap
           ← Function.comp_apply (f := pointsMap B S hS (yoneda.obj U) (u ≫ pX)),
           ← pointsMap_comp, ← hu'pr, pointsMap_comp, Function.comp_apply, hx0] } with hc
   have hsrcpt : c.sourcePoint B S hS = (T.map uU).base (c'.sourcePoint B S hS) := by
-    show (T.map (pt.value ≫ uU)).base (IsLocalRing.closedPoint pt.carrier) =
+    change (T.map (pt.value ≫ uU)).base (IsLocalRing.closedPoint pt.carrier) =
       (T.map uU).base ((T.map pt.value).base (IsLocalRing.closedPoint pt.carrier))
     rw [T.map_comp]
     rfl
-  show KoszulAt B S hS f' x' ↔ KoszulAt B S hS f (pointsMap B S hS X' pr x')
+  change KoszulAt B S hS f' x' ↔ KoszulAt B S hS f (pointsMap B S hS X' pr x')
   rw [koszulAt_iff_koszulAt_chart B S hS hsrc hX'alg hY'alg f' x' c' hlftα',
     koszulAt_iff_koszulAt_chart B S hS hsrc hX hY f _ c hlftα,
     show c'.h = α' from rfl, show c.h = α from rfl, hsrcpt]
@@ -375,6 +381,8 @@ theorem setOf_koszulAt_pullbackMap
     hTαβ (T.map γ) (T.map α') sqUT sqVT (by rw [← T.map_comp, ← T.map_comp, hα'V])
     (by rw [← T.map_comp, hα'W]) _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
 /-- **Stacks 06CA, part (2).** The open subspace `U(f')` of the Koszul points of the base change
 `f'` of `f` along an arbitrary `Z' ⟶ Z` is the inverse image of `U(f)` under the projection
 `X' ⟶ X`.

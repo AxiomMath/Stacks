@@ -85,7 +85,7 @@ public theorem exists_squareZeroLift
     have hfi : algebraMap R S (f i) ∉ p.asIdeal := by
       intro hmem
       apply hp
-      show algebraMap R S (∏ j ∈ s, f j) ∈ p.asIdeal
+      change algebraMap R S (∏ j ∈ s, f j) ∈ p.asIdeal
       rw [← Finset.mul_prod_erase s f hi, map_mul]
       exact Ideal.mul_mem_right _ _ hmem
     apply hfi
@@ -116,7 +116,7 @@ public theorem exists_squareZeroLift
           Algebra.Etale R Y.carrier := by
       rintro X _ rfl h
       exact h
-    exact key _ (L s) (dif_pos hs).symm (hex s hs).choose_spec
+    exact key _ (L s) (dite_eq_left hs).symm (hex s hs).choose_spec
   have : Algebra.FiniteType R
       (SquareZeroLift.TT (RingHom.ker (algebraMap R R₀)) hsq f S H e L hL) :=
     SquareZeroLift.finiteType_glued (RingHom.ker (algebraMap R R₀)) hsq f S H e L hL hNS hflat

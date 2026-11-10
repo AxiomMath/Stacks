@@ -18,8 +18,8 @@ This module builds the chain map of step 2 of the proof of Stacks 0D0X,
 out of the complex that Modules on Sites, Lemma 08TZ identifies with `ε⁻¹\NL_{X₀/Y₀}` and into the
 naive cotangent complex of `h_φ`.  Both halves of the square of sheaves of commutative rings it is
 attached to are now available: the `ε^♯` half was already in
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiNaiveCotangentComplex.lean`, and the other
-half comes from the square of Derived Categories of Spaces, Remark 08GH, which is
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiNaiveCotangentComplex.lean`, and the
+other half comes from the square of Derived Categories of Spaces, Remark 08GH, which is
 `AlgebraicGeometry.Space.representedEpsilonSquareTwoIso` in
 `StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiEpsilonSquare.lean`.
 
@@ -256,7 +256,8 @@ reached through two different spellings of the Zariski topology of `Y₀` — th
 `TopologicalSpace.Opens.grothendieckTopology` on the other — so the composites are not
 type-correct at the transparency `rewrite` works at and no rewriting can be done in the goal.  The
 implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiEpsilonSquare.lean` record the discipline:
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiEpsilonSquare.lean` record the
+discipline:
 state the step over abstract objects and apply it with `exact`. -/
 theorem eq_comp_of_retraction_factorizations {D : Type*} [Category D] {A L R P Q T : D}
     (h : A ⟶ L) (hinv : L ⟶ A) (mi : L ⟶ R) (p : R ⟶ P) (q : P ⟶ Q) (s : Q ⟶ T)

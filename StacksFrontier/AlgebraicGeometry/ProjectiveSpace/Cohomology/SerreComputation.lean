@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.ProjectiveSpace.Cohomology.ChartS
 public import StacksFrontier.AlgebraicGeometry.ProjectiveSpace.Cohomology.OrderedCechMonomialModel
 public import StacksFrontier.AlgebraicGeometry.ProjectiveSpace.Cohomology.TwistCechComplex
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
+ StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.SliceScalarAction
 import StacksCore.Tactic.EgaSgaAttribute
 

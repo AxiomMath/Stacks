@@ -74,7 +74,7 @@ theorem isIso_derivedBaseChange_of_isIso_Q_map_comp (α : F ⋙ G ⟶ G' ⋙ F')
   have hC : IsIso (DerivedCategory.Qh.map (H.app K₀) ≫
       DerivedCategory.Qh.map ((F'.mapHomotopyCategory (ComplexShape.up ℤ)).map qb)) := by
     rw [← Functor.map_comp, hH]
-    show IsIso (DerivedCategory.Qh.map
+    change IsIso (DerivedCategory.Qh.map
       ((HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app K) ≫
       (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map

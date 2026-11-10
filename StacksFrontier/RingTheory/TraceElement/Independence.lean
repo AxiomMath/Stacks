@@ -68,14 +68,14 @@ theorem exists_tensorEquiv_of_isEpi {R B H C : Type*}
   let μH : H ⊗[R] C →ₗ[H] C := LinearMap.liftBaseChange H (LinearMap.id : C →ₗ[R] C)
   have hcomp : (μB.toLinearMap.restrictScalars R).comp j = μH.restrictScalars R := by
     ext h c
-    show μB (f h ⊗ₜ[R] c) = μH (h ⊗ₜ[R] c)
+    change μB (f h ⊗ₜ[R] c) = μH (h ⊗ₜ[R] c)
     simp only [μB, μH, TensorProduct.lid'_apply_tmul, LinearMap.liftBaseChange_tmul,
       LinearMap.id_apply, Algebra.smul_def, hcompat]
   have hμH : Function.Injective μH := by
     rw [← LinearMap.coe_restrictScalars R μH, ← hcomp, LinearMap.coe_comp]
     exact μB.injective.comp hj
   refine ⟨LinearEquiv.ofBijective μH ⟨hμH, fun c => ⟨1 ⊗ₜ[R] c, by simp [μH]⟩⟩, fun h c => ?_⟩
-  show μH (h ⊗ₜ[R] c) = _
+  change μH (h ⊗ₜ[R] c) = _
   simp [μH, Algebra.smul_def]
 
 /-- For a refinement `H` of a factorization `F`, the module `C` absorbs the scalar extension from
@@ -150,21 +150,18 @@ theorem factorRestriction_congr
   have : Module.Projective H.middle C := Module.Projective.of_equiv' e
   obtain ⟨η, rfl⟩ := (dualizingModuleEquiv H F).surjective ω
   rw [← LinearEquiv.trans_apply, dualizingModuleEquiv_trans]
-  refine dualizingModule.induction_on H (motive := fun θ =>
-    lG (dualizingModuleEquiv H G θ) = lF (dualizingModuleEquiv H F θ)) η ?_ ?_ ?_
-  · simp
-  · intro f b
+  induction η using dualizingModule.induction_on with
+  | tmul f b =>
     have hF := dualizingModuleEquiv_tmul H F H hH (AlgHom.id A H.middle) rF (fun _ => rfl) hrF f b
     have hG := dualizingModuleEquiv_tmul H G H hH (AlgHom.id A H.middle) rG (fun _ => rfl) hrG f b
     simp only [AlgHom.toLinearMap_id, LinearMap.comp_id] at hF hG
     rw [hF, hG]
     ext c
     rw [hlF, hlG]
-    show f (rG _) = f (rF _)
+    change f (rG _) = f (rF _)
     rw [← finiteProjectiveTrace_lmul_of_refinement G H hH rG hrG hGC hHC,
       ← finiteProjectiveTrace_lmul_of_refinement F H hH rF hrF hFC hHC]
-  · intro η θ hη hθ
-    simp only [map_add, hη, hθ]
+  | add η θ hη hθ => simp only [map_add, hη, hθ]
 
 /-- The trace-element condition is carried along the canonical comparison of dualizing
 modules in one direction; `Stacks.Discriminant.isTraceElement_congr` upgrades this to an
@@ -182,7 +179,7 @@ theorem isTraceElement_of_dualizingModuleEquiv
   have : Module.Finite A₁ C := hfinite
   let : Algebra (A₁ ⊗[A] B) C := ((RingHom.fst C D).comp e.toRingEquiv.toRingHom).toAlgebra
   have : IsScalarTower A₁ (A₁ ⊗[A] B) C := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A₁ C a = (e (algebraMap A₁ (A₁ ⊗[A] B) a)).1
+    change algebraMap A₁ C a = (e (algebraMap A₁ (A₁ ⊗[A] B) a)).1
     rw [e.commutes]
     rfl
   let : Algebra F₁.middle C :=
@@ -192,12 +189,12 @@ theorem isTraceElement_of_dualizingModuleEquiv
   let : Algebra G₁.middle D :=
     ((RingHom.snd C D).comp (e.toRingEquiv.toRingHom.comp G₁.algebraTarget.algebraMap)).toAlgebra
   have : IsScalarTower A₁ G₁.middle C := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A₁ C a =
+    change algebraMap A₁ C a =
       (e (algebraMap G₁.middle (A₁ ⊗[A] B) (algebraMap A₁ G₁.middle a))).1
     rw [← IsScalarTower.algebraMap_apply A₁ G₁.middle (A₁ ⊗[A] B), e.commutes]
     rfl
   have : IsScalarTower A₁ G₁.middle D := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A₁ D a =
+    change algebraMap A₁ D a =
       (e (algebraMap G₁.middle (A₁ ⊗[A] B) (algebraMap A₁ G₁.middle a))).2
     rw [← IsScalarTower.algebraMap_apply A₁ G₁.middle (A₁ ⊗[A] B), e.commutes]
     rfl

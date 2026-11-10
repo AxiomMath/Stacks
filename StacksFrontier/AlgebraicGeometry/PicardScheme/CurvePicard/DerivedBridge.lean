@@ -98,7 +98,7 @@ abbrev chartAlgebra : Algebra k Γ(T, V) :=
 theorem specMap_chartAlgebra :
     letI := chartAlgebra a V hV
     Spec.map (CommRingCat.ofHom (algebraMap k Γ(T, V))) = hV.isoSpec.inv ≫ V.ι ≫ a := by
-  show Spec.map (CommRingCat.ofHom (Spec.preimage (hV.isoSpec.inv ≫ V.ι ≫ a)).hom) = _
+  change Spec.map (CommRingCat.ofHom (Spec.preimage (hV.isoSpec.inv ≫ V.ι ≫ a)).hom) = _
   rw [CommRingCat.ofHom_hom, Spec.map_preimage]
 
 /-- The structure morphism of the preimage of an affine open, to the spectrum of its ring. -/
@@ -169,7 +169,7 @@ theorem finrank_fibreCohomology_one_eq_zero_of_isZero_homology
   have htr := finrank_fibreCohomology_eq_of_isPullback fT L (fT ⁻¹ᵁ V).ι (chartMap fT V hV)
     (hV.isoSpec.inv ≫ V.ι) (isPullback_chart_family fT V hV) L' (Iso.refl _) (specPoint p) 1
   have ht : (hV.isoSpec.inv ≫ V.ι) (specPoint p) = t := by
-    show V.ι ((hV.isoSpec.hom ≫ hV.isoSpec.inv) ⟨t, htV⟩) = t
+    change V.ι ((hV.isoSpec.hom ≫ hV.isoSpec.inv) ⟨t, htV⟩) = t
     rw [Iso.hom_inv_id]
     rfl
   rw [← hdim] at htr

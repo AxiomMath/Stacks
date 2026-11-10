@@ -175,7 +175,7 @@ private lemma kunnethReindex_eventually_d_eq_zero
   intro p q
   obtain ⟨b, hb⟩ := hE (-q) (p + 2 * q)
   refine ⟨b + 1, fun r hr hbr ↦ ?_⟩
-  show (E.page (r - 1) (by omega)).d
+  change (E.page (r - 1) (by omega)).d
     (SpectralSequence.truncationRenumberingEquiv (p, q))
     (SpectralSequence.truncationRenumberingEquiv (p + r, q - r + 1)) = 0
   have hi : SpectralSequence.truncationRenumberingEquiv (p + r, q - r + 1) =
@@ -217,7 +217,7 @@ private lemma canonicalTruncationFiltration_eventually_quasiIso
     ∃ a : ℤ, ∀ i : ℤ, i < a →
       QuasiIso ((canonicalTruncationFiltration K).filtration.ι.app (op i)) := by
   refine ⟨-b, fun i hi ↦ ?_⟩
-  show QuasiIso (K.ιTruncLE (-i))
+  change QuasiIso (K.ιTruncLE (-i))
   rw [K.quasiIso_ιTruncLE_iff]
   exact K.isLE_of_le b (-i) (by omega)
 
@@ -305,7 +305,7 @@ private lemma filtered_cycles_succ
   · refine sup_le (fun x hx ↦ ?_) le_sup_right
     have hdx : d x ∈ G (p + r) ⊓ (H (p + r + 1)).comap e := by
       refine ⟨hx.2, ?_⟩
-      show e (d x) ∈ H (p + r + 1)
+      change e (d x) ∈ H (p + r + 1)
       have hz := LinearMap.congr_fun hed x
       simpa using (hz ▸ (H (p + r + 1)).zero_mem)
     obtain ⟨z, hz, y', hy', hzy⟩ := Submodule.mem_sup.mp (hex hdx)
@@ -513,7 +513,7 @@ private lemma filtered_boundaries_inf_cycles_sup
   have h₂ : (F (p - r + 1)).map d ⊓ G p ≤ G p ⊓ (H (p + r)).comap e := by
     rintro _ ⟨⟨x, hx, rfl⟩, hy⟩
     refine ⟨hy, ?_⟩
-    show e (d x) ∈ H (p + r)
+    change e (d x) ∈ H (p + r)
     have hz := LinearMap.congr_fun hed x
     simpa using hz ▸ (H (p + r)).zero_mem
   rw [inf_eq_left.mpr (sup_le h₁ h₂), sup_right_comm,
@@ -718,7 +718,7 @@ private lemma nonempty_homology_tensor_iso_projectiveResolution
   let A' := A⟦-i⟧
   have hle : A'.IsStrictlyLE i := A.isStrictlyLE_shift 0 (-i) i (by omega)
   have hproj (m : ℤ) : Projective (A'.X m) := by
-    show Projective (A.X (m + -i))
+    change Projective (A.X (m + -i))
     infer_instance
   have hkp : A'.IsKProjective := CochainComplex.isKProjective_of_projective A' i
   have hflat : ∀ m : ℤ, Module.Flat R (A'.X m) := fun m => by
@@ -1569,7 +1569,7 @@ public theorem tor_isZero_and_exists_kunneth_shortExact
     (ShortComplex.isoMk (S₂ := ShortComplex.mk ι π hιπ)
       (e₀.symm ≪≫ eTensor) eH.symm (e₁.symm ≪≫ eTor) ?_ ?_) hseq
   · simp [ι, Category.assoc]
-  · show eH.inv ≫ (eH.hom ≫ cokernel.π (FH n (-n)).arrow ≫ e₁.inv ≫ eTor.hom) =
+  · change eH.inv ≫ (eH.hom ≫ cokernel.π (FH n (-n)).arrow ≫ e₁.inv ≫ eTor.hom) =
       cokernel.π (FH n (-n)).arrow ≫ (e₁.inv ≫ eTor.hom)
     exact eH.inv_hom_id_assoc _
 

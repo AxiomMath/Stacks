@@ -120,7 +120,7 @@ include hK in
 public theorem actsAsOne_homology (n : ℤ) : L.ActsAsOne n (K.homology n) := by
   intro U m
   have h := hK n n
-  rw [if_pos rfl, smulNatTrans_app] at h
+  rw [ite_eq_left rfl, smulNatTrans_app] at h
   exact ConcreteCategory.congr_hom (congrArg (fun f => f.val.app U) h) m
 
 /-- **Clause (2) of Stacks 0FPG from global idempotents.** Let `(e_n)` be a locally finite

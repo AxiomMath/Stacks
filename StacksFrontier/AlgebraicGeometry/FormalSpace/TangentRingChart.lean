@@ -290,7 +290,7 @@ theorem pointStage_comp : B.inclusion.map (pointStage l hl hA pres hI z).left �
     B.inclusion.map (sqStage pres hI).hom =
       Spec.map (CommRingCat.ofHom ((algebraMap k l).comp (algebraMap Λ k))) ≫ iΛ := by
   rw [← Functor.map_comp, Over.w]
-  show B.inclusion.map (_ ≫ T₀.hom) = _
+  change B.inclusion.map (_ ≫ T₀.hom) = _
   rw [Functor.map_comp, Functor.map_preimage, Category.assoc, h₀, eqToHom_trans_assoc,
     eqToHom_refl, Category.id_comp, ← Category.assoc, ← Spec.map_comp]
   rfl
@@ -420,6 +420,7 @@ theorem TestDatum.Hom.ringValue_eq {V V' : FGModuleCat.{u} k} {g : V ⟶ V'}
       Functor.map_comp, toScheme_baseChangeMorph]
   exact ringMap_eq_comp c _ _ _ _ _ e
 
+omit [IsOpenImmersion iΛ] in
 /-- A deformation of `p₀` over a test datum is determined by its ring map. -/
 theorem TestDatum.ringValue_injective [Module.Finite k l] {V : FGModuleCat.{u} k}
     (d : TestDatum iΛ T₀ e₀ V) (p : P.obj.obj (op d.T)) (hp : P.obj.map d.j.op p = p₀)

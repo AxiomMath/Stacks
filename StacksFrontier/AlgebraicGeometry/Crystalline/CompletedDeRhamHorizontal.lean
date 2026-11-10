@@ -156,7 +156,7 @@ theorem isSquareZero_of_horizontalEquiv
   intro i
   refine AddMonoidHom.ext fun y ↦ ?_
   obtain ⟨x, rfl⟩ := (horizontalTerm_bijective p D M N Om e i).2 y
-  show differential p D Om wedge deRham N nablaN hleib (i + 1)
+  change differential p D Om wedge deRham N nablaN hleib (i + 1)
       (differential p D Om wedge deRham N nablaN hleib i
         (horizontalTerm p D M N Om (e : M →ₗ[D] N) i x)) = 0
   rw [horizontalTerm_comm p D M N Om (e : M →ₗ[D] N) wedge deRham nablaM nablaN hleib hnabla,
@@ -202,7 +202,7 @@ variable (p : ℕ) (D : Type uD) [CommRing D] (Om : ℕ → Type uO) [∀ i, Add
 /-- The `D`-linear equivalence underlying an isomorphism of pairs. -/
 def pairIsoLinearEquiv {P Q : Pair.{uD, uO, uI, uM} p D (Om 1) dx dmap} (f : P ≅ Q) :
     P.carrier ≃ₗ[D] Q.carrier :=
-  LinearEquiv.ofLinear f.hom.toLinearMap f.inv.toLinearMap
+  LinearEquiv.ofLinearMap f.hom.toLinearMap f.inv.toLinearMap
     (congrArg PairHom.toLinearMap f.inv_hom_id) (congrArg PairHom.toLinearMap f.hom_inv_id)
 
 /-- **An isomorphism of pairs gives an isomorphism of their completed de Rham complexes.** -/

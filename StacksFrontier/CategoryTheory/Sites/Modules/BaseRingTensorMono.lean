@@ -58,7 +58,7 @@ theorem isLocallyInjective_of_injective_of_ofArrows_mem {C : Type u} [Category.{
     rw [Sieve.ofArrows, Sieve.generate_le_iff]
     rintro _ _ ⟨i⟩
     apply hinj i
-    show φ.app (op (Ui i)) (F₁.map (f i).op x) = φ.app (op (Ui i)) (F₁.map (f i).op y)
+    change φ.app (op (Ui i)) (F₁.map (f i).op x) = φ.app (op (Ui i)) (F₁.map (f i).op y)
     rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h]
 
 end CategoryTheory.Presheaf
@@ -80,8 +80,7 @@ private theorem tensorProduct_addMonoidHom_ext {S M N T : Type*} [CommSemiring S
     [AddCommMonoid M] [AddCommMonoid N] [AddCommMonoid T] [Module S M] [Module S N]
     {f g : TensorProduct S M N →+ T} (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) : f = g :=
   AddMonoidHom.ext fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact h m n
     | add x y hx hy => simp [hx, hy]
 

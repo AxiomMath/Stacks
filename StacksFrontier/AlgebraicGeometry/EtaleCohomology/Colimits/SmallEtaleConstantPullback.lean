@@ -156,7 +156,7 @@ theorem constPullbackIso_comp {W X Y : Scheme.{u}} (g : W ⟶ X) (f : X ⟶ Y) (
           (op (Scheme.Etale.mk (𝟙 Y))) (constGen Y (Scheme.Etale.mk (𝟙 Y))) =
         ((smallEtalePullbackAb h).obj (constZ Y)).obj.map
           ((smallEtaleBaseChangeComp' g f h hh).inv.app (Scheme.Etale.mk (𝟙 Y))).op (pbGen h) := by
-      show ((smallEtalePushforwardAbCompIso' g f h hh).inv.app _).hom.app
+      change ((smallEtalePushforwardAbCompIso' g f h hh).inv.app _).hom.app
         (op (Scheme.Etale.mk (𝟙 Y))) (pbGen h) = _
       rw [smallEtalePushforwardAbCompIso'_inv_app_hom_app]
       rfl

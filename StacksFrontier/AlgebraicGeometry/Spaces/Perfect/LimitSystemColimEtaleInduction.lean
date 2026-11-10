@@ -21,8 +21,8 @@ pullbacks is `AlgebraicGeometry.Space.DescentSituation.IsHomColimit`.
 This file runs the dévissage of the source's proof: the induction principle of Stacks 08GP over
 the quasi-compact quasi-separated objects of `(X₀)_{spaces, étale}`.  Following the
 treatment of the relative tag 0DKV in
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/`
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativelyPerfectHomDescentInduction.lean`,
+`RelativelyPerfectHomDescentInduction.lean` in
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/`,
 the induction is carried out on `X₀` alone: for an étale `w : W ⟶ X₀` the predicate is the
 colimit statement for the *object* `w_!(w^*E₀)` of `D(𝒪_{X₀})`, at every shift, so that the
 system itself never moves and the Mayer–Vietoris step is closure of the predicate under
@@ -121,7 +121,8 @@ spelling `CategoryTheory.PullbackData.pull` of the pseudofunctor datum.
 
 The statement itself is the base's
 `AlgebraicGeometry.Space.smallEtaleDerivedPullbackData_pull_additive`
-(`StacksFrontier/AlgebraicGeometry/Quot/RelHomStructureRepresentable.lean`), which is a `theorem` and
+(`StacksFrontier/AlgebraicGeometry/Quot/RelHomStructureRepresentable.lean`), which is a `theorem`
+and
 so is not found by instance search; this is the instance wrapper, and it is deliberately anonymous
 so as not to shadow that name. -/
 instance {X Y : AlgebraicSpaces B S hS}

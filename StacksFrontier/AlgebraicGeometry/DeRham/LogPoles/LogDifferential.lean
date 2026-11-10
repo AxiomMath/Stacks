@@ -257,7 +257,7 @@ theorem LeibnizRel.of_local {p : ℕ} {W : X.Opens} {φ : (logPolesForms f I p).
   refine ⟨V' ⊓ V₁, inf_le_left, ⟨hy, hy₁⟩, ?_⟩
   have key := hrel (V' ⊓ V₁) inf_le_right (idealRes inf_le_left a)
   rw [forms_map_map] at key
-  show (relativeDifferentialForms f ((p + 1 : ℕ) : ℤ)).presheaf.map
+  change (relativeDifferentialForms f ((p + 1 : ℕ) : ℤ)).presheaf.map
       (homOfLE (inf_le_left : V' ⊓ V₁ ≤ V')).op
       (idealFn a • (relativeDifferentialForms f ((p + 1 : ℕ) : ℤ)).presheaf.map
         (homOfLE hV').op ψ) =
@@ -627,7 +627,7 @@ theorem logD_map_eq_logOfCoord (hI : Stacks.Divisors.IsEffectiveCartierDivisor I
     logD hI hlog ((logPolesForms f I p).val.map (homOfLE hVW).op φ) =
       e.logOfCoord hVU (e.equationAt hVU • deRhamD f p V α + deRhamD f p V ε) hd.formRes_next := by
   refine logD_eq hI hlog _ _ fun W' hW' b => ?_
-  show LeibnizRel _ hW' b W' le_rfl (e.coordLE (hW'.trans hVU) b •
+  change LeibnizRel _ hW' b W' le_rfl (e.coordLE (hW'.trans hVU) b •
     (relativeDifferentialForms f ((p + 1 : ℕ) : ℤ)).presheaf.map (homOfLE hW').op
       (e.equationAt hVU • deRhamD f p V α + deRhamD f p V ε))
   have hd' := IsChartDecomp.res e hd hW'
@@ -654,7 +654,7 @@ theorem logEval_logOfCoord_basisLE {p : ℕ} {W : X.Opens} (hW : W ≤ U)
     (z : Γ(relativeDifferentialForms f (p : ℤ), W))
     (hz : formRes I.subschemeι (p : ℤ) W z = 0) :
     logEval f I (e.logOfCoord hW z hz) (le_refl W) (e.basisLE hW) = z := by
-  show e.coordLE ((le_refl W).trans hW) (e.basisLE hW) •
+  change e.coordLE ((le_refl W).trans hW) (e.basisLE hW) •
     (relativeDifferentialForms f (p : ℤ)).presheaf.map (homOfLE (le_refl W)).op z = z
   rw [coordLE_basisLE, forms_map_refl, one_smul]
 
@@ -663,7 +663,7 @@ theorem logOfCoord_zero {p : ℕ} {W : X.Opens} (hW : W ≤ U)
     (hz : formRes I.subschemeι (p : ℤ) W 0 = 0) :
     e.logOfCoord hW (0 : Γ(relativeDifferentialForms f (p : ℤ), W)) hz = 0 := by
   refine logEval_ext fun W' h a => ?_
-  show e.coordLE (h.trans hW) a •
+  change e.coordLE (h.trans hW) a •
     (relativeDifferentialForms f (p : ℤ)).presheaf.map (homOfLE h).op 0 = logEval f I 0 h a
   rw [map_zero, smul_zero, logEval_zero]
 

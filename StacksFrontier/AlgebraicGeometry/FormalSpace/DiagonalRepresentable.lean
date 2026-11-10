@@ -802,7 +802,7 @@ theorem exists_isPullback_locallyOfFiniteType_of_isFormalAlgebraicSpace
       Space.openSubobjectHom B S hS (Wm (idx x)) (Aff x).1.ι hoi, ?_, ?_, ?_⟩
     · rw [Space.toScheme_map_openSubobjectHom B S hS (Wm (idx x)) (Aff x).1.ι hoi]
       exact hoi
-    · show ((Aff x).1.toScheme).size ≤ _
+    · change ((Aff x).1.toScheme).size ≤ _
       exact (Scheme.size_le_of_locallyOfFiniteType
         ((Aff x).1.ι ≫ (BigFppfOver.toScheme B S hS).map (wm (idx x)))).trans
         (Cardinal.cantor _).le
@@ -851,7 +851,7 @@ theorem exists_isPullback_locallyOfFiniteType_of_isFormalAlgebraicSpace
     intro x
     have := hkcopen x
     have := hlftm (idx x)
-    show LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map (kk x) ≫
+    change LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map (kk x) ≫
       (BigFppfOver.toScheme B S hS).map wc)
     rw [← Functor.map_comp, hkkwc x, Functor.map_comp]
     infer_instance
@@ -1212,7 +1212,7 @@ theorem relative_isSeparated_diag_of_isFormalAlgebraicSpace
     fun _ _ g fst snd sq => ?_⟩
   have _ : Mono ((BigFppfOver.toScheme B S hS).map snd) :=
     mono_toScheme_map_of_isPullback_diag_sheaf B S hS g fst snd sq
-  show AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- **Stacks 0AN2, local finite type, for a morphism whose source is an *arbitrary* formal

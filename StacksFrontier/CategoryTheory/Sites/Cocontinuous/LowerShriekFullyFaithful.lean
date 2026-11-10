@@ -112,6 +112,7 @@ variable (u : C ⥤ D) (J : GrothendieckTopology C) (K : GrothendieckTopology D)
 
 -- Main Definition(s)
 
+set_option linter.checkUnivs false in
 /-- The coefficient category of abelian groups in which we take sheaves; `Sheaf J AbCat`
 is the category of abelian sheaves on the site `(C, J)`. -/
 @[ega "III 7.1.1", sga "4 I 2.3.2"]

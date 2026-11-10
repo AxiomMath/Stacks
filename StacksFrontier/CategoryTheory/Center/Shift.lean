@@ -379,7 +379,7 @@ lemma centerToCatCenterDerived_app_single (a : Subalgebra.center R A) (n : ℤ)
     (centerToCatCenterDerived R A a).app ((DerivedCategory.singleFunctor _ n).obj M) =
       (DerivedCategory.singleFunctor _ n).map
         ((ModuleCat.centerToCatCenter R A a).app M) := by
-  show (((ModuleCat.centerToCatCenter R A a).homologicalComplex
+  change (((ModuleCat.centerToCatCenter R A a).homologicalComplex
         (ComplexShape.up ℤ)).localization _ _).app
       (DerivedCategory.Q.obj ((HomologicalComplex.single (ModuleCat.{u} A)
         (ComplexShape.up ℤ) n).obj M)) =

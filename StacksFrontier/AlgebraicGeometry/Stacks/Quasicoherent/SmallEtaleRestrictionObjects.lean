@@ -151,7 +151,7 @@ theorem isOpenImmersion_toScheme_map_smallEtaleToStackArrow_open
   rw [toScheme_map_smallEtaleToStackArrow]
   have : _root_.AlgebraicGeometry.IsOpenImmersion
       (E.inclusion.map (smallEtaleOpen B E h S hS p x W).obj.hom) := by
-    show _root_.AlgebraicGeometry.IsOpenImmersion (W.ι ≫ 𝟙 _)
+    change _root_.AlgebraicGeometry.IsOpenImmersion (W.ι ≫ 𝟙 _)
     infer_instance
   infer_instance
 
@@ -163,7 +163,7 @@ theorem range_toScheme_map_smallEtaleToStackArrow_open (W : ((p.obj x).left.1).O
   rw [toScheme_map_smallEtaleToStackArrow]
   have hW : Set.range (E.inclusion.map (smallEtaleOpen B E h S hS p x W).obj.hom) =
       (W : Set (p.obj x).left.1) := by
-    show Set.range (W.ι ≫ 𝟙 _) = _
+    change Set.range (W.ι ≫ 𝟙 _) = _
     rw [Category.comp_id, Scheme.Opens.range_ι]
   rw [← hW, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp,
     Set.range_eq_univ.mpr (ConcreteCategory.bijective_of_isIso _).2, Set.image_univ]
@@ -181,7 +181,7 @@ theorem ofArrows_smallEtaleToStackArrow_affineOpens_mem :
   refine ⟨fun t => ?_, fun W => ?_⟩
   · obtain ⟨W, hW, htW, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (x := t) trivial
     refine ⟨⟨W, hW⟩, ?_⟩
-    show t ∈ Set.range ((BigFppfOver.toScheme B S hS).map
+    change t ∈ Set.range ((BigFppfOver.toScheme B S hS).map
       (p.map (smallEtaleToStackArrow B E h S hS p hp x (smallEtaleOpen B E h S hS p x W))))
     rw [range_toScheme_map_smallEtaleToStackArrow_open]
     exact htW

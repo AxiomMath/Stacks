@@ -85,7 +85,7 @@ theorem commute_homComponent_totalChern (F : Y.Modules) (r : ℕ)
     (F' : Y.Modules) (s : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} F' s] (i j : ℕ) :
     Commute (homComponent i (totalChern C sY F r)) (homComponent j (totalChern C sY F' s)) := by
-  show _ * _ = _ * _
+  change _ * _ = _ * _
   refine ext_op fun g _ ↦ ?_
   rw [op_mul, op_mul, op_homComponent, op_homComponent]
   have hu := Stacks.Chow.isHomogeneous_homComponent i ((totalChern C sY F r).op g)
@@ -152,7 +152,7 @@ that of `1`. -/
 theorem apply_zero_of_homComponent_zero {c : TotalChowClass C sY} (hc : homComponent 0 c = 1) :
     c 0 = (1 : TotalChowClass C sY) 0 := by
   have h := congrFun hc 0
-  rwa [homComponent_apply, if_pos rfl] at h
+  rwa [homComponent_apply, ite_eq_left rfl] at h
 
 /-- **Additivity of the power sums of total classes** whose homogeneous components commute. -/
 theorem newtonComponents_mul {c d : TotalChowClass C sY} (hc : homComponent 0 c = 1)
@@ -193,7 +193,7 @@ theorem homComponent_zero_of_mul_eq_one {c d : TotalChowClass C sY}
 theorem newtonComponents_one (p : ℕ) : newtonComponents (1 : TotalChowClass C sY) p = 0 := by
   have h : (fun i : ℕ+ ↦ homComponent (i : ℕ) (1 : TotalChowClass C sY)) = 0 := by
     funext i
-    rw [homComponent_one, if_neg i.ne_zero, Pi.zero_apply]
+    rw [homComponent_one, ite_eq_right i.ne_zero, Pi.zero_apply]
   rw [newtonComponents, h, newtonPowerSum_zero_family]
 
 /-- **The power sums of an inverse** are the negatives of the power sums. -/
@@ -210,7 +210,7 @@ component `1` in degree `0`. -/
 theorem homComponent_zero_list_prod (l : List (TotalChowClass C sY))
     (h : ∀ c ∈ l, homComponent 0 c = 1) : homComponent 0 l.prod = 1 := by
   induction l with
-  | nil => rw [List.prod_nil, homComponent_one, if_pos rfl]
+  | nil => rw [List.prod_nil, homComponent_one, ite_eq_left rfl]
   | cons a l ih =>
     rw [List.forall_mem_cons] at h
     rw [List.prod_cons, homComponent_mul, Finset.sum_range_one, Nat.sub_zero, h.1, ih h.2, one_mul]

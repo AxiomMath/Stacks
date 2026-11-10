@@ -9,7 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.ModuleLimits.RestrictPullbackCohe
 `AlgebraicGeometry.RestrictIsoGlueData` asks, for charts `a : A ⟶ S` and `b : B ⟶ S` and an open
 `V` of `S` inside both ranges, for an isomorphism `a_* M |_V ≅ b_* N |_V`, compatible with
 shrinking `V` and satisfying the cocycle condition on triple overlaps.
-`StacksFrontier/AlgebraicGeometry/Descent/ModuleRestrictPushforward.lean` reduces the datum itself to
+`StacksFrontier/AlgebraicGeometry/Descent/ModuleRestrictPushforward.lean` reduces the datum itself
+to
 an isomorphism of the *inverse images* of `M` and `N` along the factorisations
 `AlgebraicGeometry.openLift` of `V` through the two charts.  The two compatibilities, however, are
 not visible on the inverse image: `AlgebraicGeometry.Scheme.Modules.pullback` is defined by a

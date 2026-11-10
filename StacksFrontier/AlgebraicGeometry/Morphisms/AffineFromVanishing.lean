@@ -124,7 +124,7 @@ theorem isAffineOpen_preimage_of_isZero_rightDerived_ideal
   have hcs : CompactSpace (f ⁻¹ᵁ V).toScheme :=
     isCompact_iff_compactSpace.mp ((quasiCompact_iff_forall_isAffineOpen.mp inferInstance) V hV)
   have hVaff : IsAffine V.toScheme := hV
-  show IsAffine (f ⁻¹ᵁ V).toScheme
+  change IsAffine (f ⁻¹ᵁ V).toScheme
   refine Stacks.SerreCriterion.isAffine_of_forall_isZero_H1_ideal (f ⁻¹ᵁ V).toScheme
     fun I hI => ?_
   have hfac : (I.arrow ≫ (Scheme.Modules.restrictUnitIso ((f ⁻¹ᵁ V).ι)).inv) ≫

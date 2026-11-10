@@ -56,12 +56,12 @@ theorem topologicalKrullDim_relativeProjectiveLine_spec :
     (fun _ _ => rfl) (relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k))
     (𝟙 _) (genericPoint (relativeProjectiveLine (Spec (.of k))))
     ((genericPoint_spec (relativeProjectiveLine (Spec (.of k)))).trans (by simp))]
-  show ((relativeDimension (fieldChowSituation k).dimensionFunction
+  change ((relativeDimension (fieldChowSituation k).dimensionFunction
     (relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k))
     (genericPoint (relativeProjectiveLine (Spec (.of k))))).toNat : WithBot ℕ∞) = 1
   rw [relativeDimension_relativeProjectiveLine_genericPoint (CommRingCat.of k)
       (fieldChowSituation k).dimensionFunction]
-  show (((fieldChowSituation k).dimensionFunction (genericPoint (Spec (.of k))) + 1).toNat :
+  change (((fieldChowSituation k).dimensionFunction (genericPoint (Spec (.of k))) + 1).toNat :
     WithBot ℕ∞) = 1
   rw [fieldChowSituation_dimensionFunction k (genericPoint (Spec (.of k)))]
   rfl
@@ -94,7 +94,7 @@ theorem relativeDimension_relativeProjectiveLine_spec :
   have : IsIso ((Spec (CommRingCat.of k)).fromSpecResidueField s) :=
     isIso_fromSpecResidueField_spec_field k s
   have hiso : IsIso ((relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k)).fiberι s) := by
-    show IsIso (pullback.fst (relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k))
+    change IsIso (pullback.fst (relativeProjectiveLine (Spec (.of k)) ↘ Spec (.of k))
       ((Spec (CommRingCat.of k)).fromSpecResidueField s))
     infer_instance
   let e := Scheme.homeoOfIso

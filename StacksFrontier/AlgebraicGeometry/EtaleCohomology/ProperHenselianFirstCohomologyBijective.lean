@@ -152,7 +152,7 @@ def directImageCompTwoSquare {X Y : Scheme.{u}} (i : Z ⟶ X) (f : Y ⟶ X) :
 /-- The comparison of the two composite direct images around the base change square of
 `f : Y ⟶ X` along `i : Z ⟶ X` is an isomorphism. -/
 instance {X Y : Scheme.{u}} (i : Z ⟶ X) (f : Y ⟶ X) :
-    IsIso (directImageCompTwoSquare i f).natTrans :=
+    IsIso (directImageCompTwoSquare i f) :=
   inferInstanceAs (IsIso ((etaleAbelianDirectImageCompIso'.{u, 0} (pullback.fst f i) f
       (pullback.fst f i ≫ f) rfl).hom ≫
     (etaleAbelianDirectImageCompIso'.{u, 0} (pullback.snd f i) i
@@ -165,7 +165,7 @@ theorem etaleAbelianDirectImage_map_unit_comp_directImageCompTwoSquare {X Y : Sc
     (i : Z ⟶ X) (f : Y ⟶ X) (Q : Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1}) :
     (etaleAbelianDirectImage.{u, 0} f).map
         ((etaleAbelianInverseImageDirectImageAdj.{u, 0} (pullback.fst f i)).unit.app Q) ≫
-        (directImageCompTwoSquare i f).natTrans.app
+        (directImageCompTwoSquare i f).app
           ((etaleAbelianInverseImage.{u, 0} (pullback.fst f i)).obj Q) =
       (etaleAbelianInverseImageDirectImageAdj.{u, 0} i).unit.app
           ((etaleAbelianDirectImage.{u, 0} f).obj Q) ≫
@@ -204,7 +204,7 @@ theorem etaleAbelianDirectImage_map_unit_comp_directImageCompTwoSquare_app {X Y 
     ((etaleAbelianDirectImage.{u, 0} f).map
         ((etaleAbelianInverseImageDirectImageAdj.{u, 0} (pullback.fst f i)).unit.app Q)).hom.app
           (op (⊤_ X.Etale)) ≫
-      ((directImageCompTwoSquare i f).natTrans.app
+      ((directImageCompTwoSquare i f).app
         ((etaleAbelianInverseImage.{u, 0} (pullback.fst f i)).obj Q)).hom.app (op (⊤_ X.Etale)) =
     ((etaleAbelianInverseImageDirectImageAdj.{u, 0} i).unit.app
         ((etaleAbelianDirectImage.{u, 0} f).obj Q)).hom.app (op (⊤_ X.Etale)) ≫
@@ -217,7 +217,7 @@ theorem etaleAbelianDirectImage_map_unit_comp_directImageCompTwoSquare_app {X Y 
 /-- The comparison of the two composite direct images is bijective on global sections. -/
 theorem bijective_directImageCompTwoSquare_app {X Y : Scheme.{u}} (i : Z ⟶ X) (f : Y ⟶ X)
     (Q : Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1}) :
-    Function.Bijective (((directImageCompTwoSquare i f).natTrans.app
+    Function.Bijective (((directImageCompTwoSquare i f).app
       ((etaleAbelianInverseImage.{u, 0} (pullback.fst f i)).obj Q)).hom.app (op (⊤_ X.Etale))) :=
   bijective_hom_app_of_isIso _ _
 

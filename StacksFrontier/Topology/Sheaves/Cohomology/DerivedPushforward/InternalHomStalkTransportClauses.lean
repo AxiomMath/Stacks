@@ -41,8 +41,8 @@ spellings is paid inside `InternalHomEquivalenceTransport`, over arbitrary categ
 its companion; paying it here instead makes each of the three declarations exceed the
 elaborator's recursion depth.
 
-*Why each clause is closed by `convert … using 1` and not by `exact`.*  Each clause of the library is
-stated at a predicate of its own — `Transpose.TensorHomEquivNaturalLeft` against
+*Why each clause is closed by `convert … using 1` and not by `exact`.*  Each clause of the library
+is stated at a predicate of its own — `Transpose.TensorHomEquivNaturalLeft` against
 `EquivalenceTranspose.CurriedSourceNatural`, and likewise for the other two — and at the
 *unapplied* family `fun A B C => (RingedSite.derivedCurryHomEquiv _ A B C).toEquiv` rather than at
 `tensorHomBijection`.  Either difference alone is free: swapping the predicate at a literally
@@ -74,8 +74,8 @@ budget, so the clauses below are stated at the site-level spelling, which is the
 proved at; see the implementation notes of
 `StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackInvertibility`.
 
-No `@[stacks …]` attribute is attached: each clause below is one already in the library, restated at the
-predicate the transport consumes, and the tags stay where they are.
+No `@[stacks …]` attribute is attached: each clause below is one already in the library, restated at
+the predicate the transport consumes, and the tags stay where they are.
 -/
 
 @[expose] public noncomputable section

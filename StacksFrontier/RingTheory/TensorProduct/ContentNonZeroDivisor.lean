@@ -90,7 +90,7 @@ theorem Matrix.exists_det_submatrix_ne_zero {K ι L : Type*} [Field K] [Fintype 
       funext fun l => funext fun l' => by simp [Matrix.submatrix, he]]
     exact hbli.comp eqv eqv.injective
   exact ⟨e, ((Matrix.isUnit_iff_isUnit_det _).mp
-    (Matrix.linearIndependent_rows_iff_isUnit.mp hli)).ne_zero⟩
+    (Matrix.linearIndependent_row_iff_isUnit.mp hli)).ne_zero⟩
 
 namespace TensorProduct.ContentNonZeroDivisor
 
@@ -136,8 +136,7 @@ lemma eq_sum_coord (t : C ⊗[k] M) :
 /-- Coordinates are natural in `M`. -/
 lemma coord_lTensor (g : M →ₗ[k] N) (t : C ⊗[k] M) (i : ι k C) :
     coord C N (g.lTensor C t) i = g (coord C M t i) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul c m => simp [coord_tmul]
   | add s t hs ht => simp [hs, ht]
 
@@ -146,8 +145,7 @@ variable {A A' : Type*} [CommRing A] [Algebra k A] [CommRing A'] [Algebra k A']
 /-- Multiplication by `1 ⊗ a` multiplies every coordinate by `a`. -/
 lemma coord_one_tmul_mul (a : A) (t : C ⊗[k] A) (i : ι k C) :
     coord C A ((1 ⊗ₜ a) * t) i = a * coord C A t i := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul c a' =>
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, coord_tmul, coord_tmul, mul_smul_comm]
   | add s t hs ht => simp [mul_add, hs, ht]
@@ -155,8 +153,7 @@ lemma coord_one_tmul_mul (a : A) (t : C ⊗[k] A) (i : ι k C) :
 /-- Coordinates commute with base change along a `k`-algebra map `A → A'`. -/
 lemma coord_map (g : A →ₐ[k] A') (t : C ⊗[k] A) (i : ι k C) :
     coord C A' (Algebra.TensorProduct.map (AlgHom.id k C) g t) i = g (coord C A t i) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul c a => simp [coord_tmul]
   | add s t hs ht => simp [hs, ht]
 
@@ -309,7 +306,7 @@ theorem mem_nonZeroDivisors_of_forall_residueField (β : C ⊗[k] A)
   mem_nonZeroDivisors_of_forall_isMaximal β fun m hm =>
     ⟨m.ResidueField, inferInstance, inferInstance, IsScalarTower.toAlgHom k A m.ResidueField,
       fun a ha => by
-        show algebraMap A m.ResidueField a = 0
+        change algebraMap A m.ResidueField a = 0
         rwa [← RingHom.mem_ker, Ideal.ker_algebraMap_residueField],
       h ⟨m, hm.isPrime⟩⟩
 

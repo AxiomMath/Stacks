@@ -292,7 +292,7 @@ private lemma isRegular_and_flat_localization (f : Fin c → MvPolynomial ι R�
     IsLocalization.isNoetherianRing (Q.under R₀).primeCompl
       (Localization.AtPrime (Q.under R₀)) inferInstance
   have : IsLocalHom (algebraMap (Localization.AtPrime (Q.under R₀)) (Localization.AtPrime Q)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom _ _ _ _
   have : Module.Flat (Localization.AtPrime (Q.under R₀)) (Localization.AtPrime Q) := by
     have h1 : Module.Flat R₀ (Localization.AtPrime Q) := Module.Flat.trans R₀ (MvPolynomial ι R₀) _

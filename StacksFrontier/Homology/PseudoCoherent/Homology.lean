@@ -5,7 +5,7 @@ public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksFrontier.Algebra.Homology.PseudoCoherent
 import StacksCore.Tactic.EgaSgaAttribute
 

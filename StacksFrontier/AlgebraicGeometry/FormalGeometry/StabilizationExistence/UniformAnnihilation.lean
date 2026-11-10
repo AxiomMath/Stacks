@@ -63,7 +63,7 @@ private theorem depth_add_dimension_gt_of_depth_or_dimension_bound
           have hy : 0 < y := by
             change (0 : EInt) < (y : EInt) at hdimension
             exact WithBotTop.coe_lt_coe.mp hdimension
-          show ((x + y : ℤ) : EInt) > (s : EInt)
+          change ((x + y : ℤ) : EInt) > (s : EInt)
           refine WithBotTop.coe_lt_coe.mpr ?_
           rcases h with h | h
           · have hx : (s : ℤ) ≤ x := WithBotTop.coe_le_coe.mp (by
@@ -113,7 +113,7 @@ private theorem depth_add_dimension_gt_of_stabilizationHypotheses
   have hdepth' := lt_of_not_ge hdepth
   obtain ⟨n, hn, -⟩ := (enatToEInt_le_intCast_iff _ s).mp hdepth'.le
   rw [hn]
-  show (s : EInt) < (((n : ℤ) + (δ p - δ q) : ℤ) : EInt)
+  change (s : EInt) < (((n : ℤ) + (δ p - δ q) : ℤ) : EInt)
   refine WithBotTop.coe_lt_coe.mpr ?_
   have hbound := (H.depthOrDimensionBound p hpI hpT).resolve_left hdepth
   by_cases hqI : q ∈ PrimeSpectrum.zeroLocus (I : Set A)

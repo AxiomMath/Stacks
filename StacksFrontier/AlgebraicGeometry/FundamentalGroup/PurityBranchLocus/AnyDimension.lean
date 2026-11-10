@@ -274,7 +274,7 @@ private lemma exists_apply_fromSpecStalk_eq_of_specializes_of_etale {W V' : Sche
     Stacks.PurityBranchLocus.exists_isPrime_liesOver_of_hasGoingDown hunder P.asIdeal
   have hmapQ : (Spec.map (r.stalkMap v)) Q = P := by
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap (r.stalkMap v).hom Q.asIdeal = P.asIdeal
+    change Ideal.comap (r.stalkMap v).hom Q.asIdeal = P.asIdeal
     rw [← halgr]
     exact (hQover.over).symm
   exact ⟨Q, by rw [apply_fromSpecStalk_eq, hmapQ, hP]⟩
@@ -399,7 +399,7 @@ private lemma primesOver_eq_singleton_primeIdealOf_of_unique_preimage {W Bs : Sc
   have hunder : (hUa.primeIdealOf ⟨p y, hyVa⟩) = (hUa.primeIdealOf ⟨p v, hvUa⟩) := by
     rw [← hcomapv y hyVa, ← hcomapv v hvUa, hyJ]
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap (p.appLE Ua (p ⁻¹ᵁ Ua) le_rfl).hom J = _
+    change Ideal.comap (p.appLE Ua (p ⁻¹ᵁ Ua) le_rfl).hom J = _
     rw [← halgTC, ← Ideal.under, ← (hJ.2).over, halgTC]
     exact (congrArg PrimeSpectrum.asIdeal (hcomapv v hvUa)).symm
   have hpy : p y = p v := by
@@ -495,7 +495,7 @@ private lemma isCohenMacaulayLocalRing_stalk_of_purityFiniteNormal
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have _ : IsScalarTower Γ(Bs, Ua) (Bs.presheaf.stalk (p v)) (W.presheaf.stalk v) :=
     IsScalarTower.of_algebraMap_eq fun y => by
-      show (W.presheaf.germ (p ⁻¹ᵁ Ua) v hvVa).hom ((p.appLE Ua (p ⁻¹ᵁ Ua) le_rfl).hom y) =
+      change (W.presheaf.germ (p ⁻¹ᵁ Ua) v hvVa).hom ((p.appLE Ua (p ⁻¹ᵁ Ua) le_rfl).hom y) =
         (p.stalkMap v).hom ((Bs.presheaf.germ Ua (p v) hbUa).hom y)
       rw [Scheme.Hom.appLE_eq_app, Scheme.Hom.germ_stalkMap_apply]
   have huniq : 𝔭.primesOver Γ(W, p ⁻¹ᵁ Ua) = {𝔮} :=

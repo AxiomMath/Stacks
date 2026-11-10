@@ -141,8 +141,7 @@ private theorem tensorRightMap_ext
     {f g : CharacterModule (M ⊗[R] Q) →ₗ[R] CharacterModule (N ⊗[R] Q)}
     (H : ∀ χ n q, f χ (n ⊗ₜ[R] q) = g χ (n ⊗ₜ[R] q)) : f = g := by
   ext χ x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul n q => exact H χ n q
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -151,7 +150,7 @@ theorem tensorRightMap_dual (u : N →ₗ[R] M) :
     tensorRightMap (dual u) Q = dual (u.rTensor Q) := by
   refine tensorRightMap_ext Q fun χ n q => ?_
   rw [tensorRightMap_apply_tmul]
-  show tensorRightHomEquiv M Q χ q (u n) = χ (u.rTensor Q (n ⊗ₜ[R] q))
+  change tensorRightHomEquiv M Q χ q (u n) = χ (u.rTensor Q (n ⊗ₜ[R] q))
   rw [tensorRightHomEquiv_apply_apply, LinearMap.rTensor_tmul]
 
 /-- Tensoring with `Q` inside `C` takes the identity to the identity. -/

@@ -127,7 +127,7 @@ theorem isLocallySurjective_sigmaDesc_ι_of_iUnion_range_pointsMap
   obtain ⟨i, a, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ g).mp hg
   refine ⟨(Sigma.ι (fun k ↦ (X k).toFunctor) i).app (Opposite.op Y)
     (yonedaEquiv (yoneda.map a ≫ (hX i).2.rep.fst ξ)), ?_⟩
-  rw [← NatTrans.comp_app_apply, Sigma.ι_desc, ← yonedaEquiv_comp, Category.assoc, (hsq i).w,
+  rw [← NatTrans.comp_app_apply, Sigma.ι_comp_desc, ← yonedaEquiv_comp, Category.assoc, (hsq i).w,
     ← Category.assoc, ← Functor.map_comp, yonedaEquiv_naturality]
 
 /-! ### Locally surjective implies point sets cover -/
@@ -163,7 +163,7 @@ theorem iUnion_range_pointsMap_of_isLocallySurjective_sigmaDesc_ι
   have hfac : (Sigma.desc fun i ↦ Subfunctor.homOfLe (hle i)) ≫ G.ι =
       Sigma.desc fun i ↦ (X i).ι := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc, Subfunctor.homOfLe_ι, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Subfunctor.homOfLe_ι, Sigma.ι_comp_desc]
   have hGls : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) G.ι :=
     Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hfac
   -- `G.ι` is mono and epi among sheaves of types, hence an isomorphism.

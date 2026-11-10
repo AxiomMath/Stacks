@@ -112,7 +112,7 @@ private theorem map_comp_eq_map_comp_of_readings {E C C' : Type*} [Category E] [
   rw [ρ.map_comp, ρ.map_comp, e1, e2, hA, hx]
   simp only [Functor.mapIso_hom, Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc,
     ← n3]
-  rw [Iso.map_inv_hom_id_assoc]
+  rw [Iso.inv_hom_id_map_assoc]
 
 attribute [local implicit_reducible] AlgebraicGeometry.Space.smallEtaleRingedSite
 
@@ -536,6 +536,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X : Algebra
   (P : Presentation B S hS X.obj X.property)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaves on `BigFppfOver B S hS` exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_PresentationSchemeDescent :
@@ -587,14 +588,14 @@ theorem composableToPresentationDouble_comp_comp :
   refine presentationGroupoid_hom_ext P ?_ ?_
   · rw [comp_comp_target, ← composableToPresentationDouble_comp_fst, Category.assoc,
       Category.assoc]
-    show _ ≫ representedSpaceMap B S hS (presentationComp P) ≫
+    change _ ≫ representedSpaceMap B S hS (presentationComp P) ≫
         representedSpaceMap B S hS P.target =
       _ ≫ representedSpaceMap B S hS (presentationDoubleFst P) ≫
         representedSpaceMap B S hS P.target
     rw [representedSpaceMap_comp, representedSpaceMap_comp, presentationComp_comp_target]
   · rw [comp_comp_source, ← composableToPresentationDouble_comp_snd, Category.assoc,
       Category.assoc]
-    show _ ≫ representedSpaceMap B S hS (presentationComp P) ≫
+    change _ ≫ representedSpaceMap B S hS (presentationComp P) ≫
         representedSpaceMap B S hS P.source =
       _ ≫ representedSpaceMap B S hS (presentationDoubleSnd P) ≫
         representedSpaceMap B S hS P.source
@@ -605,12 +606,12 @@ theorem identityArrow_presentationGroupoid :
     identityArrow (presentationGroupoid P) = representedSpaceMap B S hS (presentationDiag P) := by
   refine presentationGroupoid_hom_ext P ?_ ?_
   · rw [identityArrow_comp_target]
-    show 𝟙 _ = representedSpaceMap B S hS (presentationDiag P) ≫
+    change 𝟙 _ = representedSpaceMap B S hS (presentationDiag P) ≫
       representedSpaceMap B S hS P.target
     rw [representedSpaceMap_comp, presentationDiag_comp_target]
     exact ObjectProperty.hom_ext _ (yoneda.map_id _).symm
   · rw [identityArrow_comp_source]
-    show 𝟙 _ = representedSpaceMap B S hS (presentationDiag P) ≫
+    change 𝟙 _ = representedSpaceMap B S hS (presentationDiag P) ≫
       representedSpaceMap B S hS P.source
     rw [representedSpaceMap_comp, presentationDiag_comp_source]
     exact ObjectProperty.hom_ext _ (yoneda.map_id _).symm

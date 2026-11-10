@@ -30,7 +30,8 @@ one is the rational point, in three steps.
   its restriction along the point, by
   `Stacks.Picard.existsUnique_sectionPullback_mapIso`.
 * The family normalised against the trivialisation is a cocycle,
-  `Stacks.Picard.twistNormalizedIso_mul` of `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/NormalizedPullback.lean`. The point is
+  `Stacks.Picard.twistNormalizedIso_mul` of
+  `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/NormalizedPullback.lean`. The point is
   equivariant — the twist `id_X × Spec(σ)` moves it by `Spec σ` — which is what puts the
   normalisation in the shape that lemma takes.
 

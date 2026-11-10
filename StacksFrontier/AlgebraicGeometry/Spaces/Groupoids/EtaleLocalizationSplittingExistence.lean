@@ -165,7 +165,8 @@ qualified attribute is used where a declaration proves one of a tag's separable 
 `@[stacks 0FSC "condition (1) only — flatness of the underlying right graded module"]` or
 `@[stacks 0BGY "the base-change functor is faithful"]`. The attribute is *withheld* where what is
 proved is an input or a strictly weaker statement: see
-`StacksFrontier/AlgebraicGeometry/ProjTwists/Basic.lean`, whose implementation notes say that tagging
+`StacksFrontier/AlgebraicGeometry/ProjTwists/Basic.lean`, whose implementation notes say that
+tagging
 such inputs "would report the tag as formalized when its assertions are not", and
 `StacksFrontier/AlgebraicGeometry/SectionExtensionAffineCover/Basic.lean`, which withholds
 `@[stacks 01PW]` because one half of that tag is unproved. This file is the second case.
@@ -262,6 +263,7 @@ def realizationFinitePart [AlgebraicGeometry.IsSeparated G.source.left]
 /-! ### Restated private helpers -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_EtaleLocalizationSplittingExistence
@@ -423,7 +425,7 @@ theorem fibreIso_hom_comp_fiberι :
     (etaleLocalFibreIso G C hS hU hR u hK).hom ≫ G.source.left.fiberι u =
       (BigFppfOver.toScheme C S hS).map
         (pullback.snd (residueSiteMap G C hS hU u hK) (sourceSiteMap G C hS hU hR)) := by
-  show (PreservesPullback.iso (BigFppfOver.toScheme C S hS)
+  change (PreservesPullback.iso (BigFppfOver.toScheme C S hS)
       (residueSiteMap G C hS hU u hK) (sourceSiteMap G C hS hU hR)).hom ≫
     (pullbackSymmetry _ _).hom ≫ pullback.fst _ _ = _
   rw [pullbackSymmetry_hom_comp_fst, PreservesPullback.iso_hom_snd]
@@ -434,7 +436,7 @@ theorem fibreIso_hom_comp_fiberToSpecResidueField :
     (etaleLocalFibreIso G C hS hU hR u hK).hom ≫ G.source.left.fiberToSpecResidueField u =
       (BigFppfOver.toScheme C S hS).map
         (pullback.fst (residueSiteMap G C hS hU u hK) (sourceSiteMap G C hS hU hR)) := by
-  show (PreservesPullback.iso (BigFppfOver.toScheme C S hS)
+  change (PreservesPullback.iso (BigFppfOver.toScheme C S hS)
       (residueSiteMap G C hS hU u hK) (sourceSiteMap G C hS hU hR)).hom ≫
     (pullbackSymmetry _ _).hom ≫ pullback.snd _ _ = _
   rw [pullbackSymmetry_hom_comp_snd, PreservesPullback.iso_hom_fst]
@@ -598,7 +600,7 @@ theorem fibreOpenImmersion_comp_fst :
         (pullback.fst (residueSiteMap G C hS hU u hK) (sourceSiteMap G C hS hU hR)) =
       W.ι ≫ G.source.left.fiberToSpecResidueField u := by
   rw [← fibreIso_hom_comp_fiberToSpecResidueField G C hS hU hR u hK]
-  show W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv ≫
+  change W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv ≫
     (etaleLocalFibreIso G C hS hU hR u hK).hom ≫ G.source.left.fiberToSpecResidueField u = _
   rw [Iso.inv_hom_id_assoc]
 
@@ -711,7 +713,7 @@ theorem unitFibreSection_range_le
   refine ⟨⟨(etaleLocalFibreIso G C hS hU hR u hK).hom
       ((BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y),
     unitFibrePoint_mem G C hS hU hR u hK hP F W hW y⟩, ?_⟩
-  show (etaleLocalFibreIso G C hS hU hR u hK).inv
+  change (etaleLocalFibreIso G C hS hU hR u hK).inv
       ((etaleLocalFibreIso G C hS hU hR u hK).hom
         ((BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y)) =
     (BigFppfOver.toScheme C S hS).map (unitFibreSection G C hS hU hR u hK hP F) y

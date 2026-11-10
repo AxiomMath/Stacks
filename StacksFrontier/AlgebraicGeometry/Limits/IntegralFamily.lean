@@ -116,7 +116,7 @@ theorem Scheme.finite_range_of_integral_of_locallyOfFinitePresentation
     { app := fun i => terminal.from (S.obj i)
       naturality _ _ _ := terminal.hom_ext _ _ }
   have : ∀ i : (Finset A)ᵒᵖ, Finite (S.obj i) := fun i => by
-    show Finite (PrimeSpectrum (Algebra.adjoin k ((i.unop : Finset A) : Set A)))
+    change Finite (PrimeSpectrum (Algebra.adjoin k ((i.unop : Finset A) : Set A)))
     exact Stacks.IntegralFamilyFiniteRange.finite_spec_adjoin_finset k A i.unop
   have : ∀ {i j : (Finset A)ᵒᵖ} (f : i ⟶ j), IsAffineHom (S.map f) := by
     intro i j f
@@ -130,7 +130,7 @@ theorem Scheme.finite_range_of_integral_of_locallyOfFinitePresentation
   refine (Set.finite_range q.base).subset ?_
   rintro y ⟨z, rfl⟩
   refine ⟨(c.π.app j).base z, ?_⟩
-  show q.base.hom ((c.π.app j).base.hom z) = a.base.hom z
+  change q.base.hom ((c.π.app j).base.hom z) = a.base.hom z
   exact congrArg (fun h : Spec (CommRingCat.of A) ⟶ X => h.base.hom z) hfactor
 
 namespace Scheme.Modules

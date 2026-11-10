@@ -279,13 +279,13 @@ theorem isFlat_over_of_isFlat_over_associatedModule (N : S.Modules) (W : S.Opens
     have hHι : H.map ι = H.map (e.inv.app A) ≫ H.map (GW.map ι') ≫ H.map (e.hom.app A') := by
       conv_lhs => rw [hι]
       exact (H.map_comp _ _).trans (congrArg _ (H.map_comp _ _))
-    show Mono (H.map ι)
+    change Mono (H.map ι)
     rw [hHι]
     exact @mono_comp _ _ _ _ _ _
       (SplitMono.mono ⟨(H.mapIso (e.app A)).hom, (H.mapIso (e.app A)).inv_hom_id⟩)
       _ (@mono_comp _ _ _ _ _ _ h₂ _
         (SplitMono.mono ⟨(H.mapIso (e.app A')).inv, (H.mapIso (e.app A')).hom_inv_id⟩))
-  show exactFunctor _ _ (TW.flip.obj (N.over W))
+  change exactFunctor _ _ (TW.flip.obj (N.over W))
   exact Stacks.Sites.AbelianLowerShriek.exactFunctor_of_preservesMonomorphisms _
 
 end AlgebraicGeometry.SmallEtale

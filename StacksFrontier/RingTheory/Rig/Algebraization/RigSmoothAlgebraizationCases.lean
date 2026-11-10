@@ -22,8 +22,8 @@ universe `u` of `A`; the statement below uses `max u v`, lifting the second alon
 The remaining claims of the remark — [Gabber–Zavyalov, Theorem 1.2] in general, and the principal
 case [Elkik, III Theorem 7] — are proved elsewhere; the remark is registered on
 `Rig.isRigSmooth_algebraization` in
-`StacksFrontier/RingTheory/Rig/Algebraization/RigSmoothAlgebraizationGZ.lean`, which uses the lemma of
-this file for its first two partial results.
+`StacksFrontier/RingTheory/Rig/Algebraization/RigSmoothAlgebraizationGZ.lean`, which uses the lemma
+of this file for its first two partial results.
 
 ## Main results
 

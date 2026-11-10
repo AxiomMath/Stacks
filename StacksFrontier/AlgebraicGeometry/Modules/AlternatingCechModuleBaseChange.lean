@@ -181,9 +181,9 @@ theorem pullbackSections_restr {V W : X.Opens} (h : V ≤ W) {V' : X'.Opens}
         (pullbackSections g F W s) := by
   have hnat := congr($(map_comp_pullbackSections' g F (homOfLE h)) s)
   rw [CategoryTheory.comp_apply, CategoryTheory.comp_apply] at hnat
-  show CechCochains.restr _ hV' (pullbackSections g F V (F.presheaf.map (homOfLE h).op s)) = _
+  change CechCochains.restr _ hV' (pullbackSections g F V (F.presheaf.map (homOfLE h).op s)) = _
   rw [hnat]
-  show (((Scheme.Modules.pullback g).obj F).presheaf.map (homOfLE hV').op) _ = _
+  change (((Scheme.Modules.pullback g).obj F).presheaf.map (homOfLE hV').op) _ = _
   rw [← CategoryTheory.comp_apply, ← Functor.map_comp, ← op_comp]
   rfl
 
@@ -286,7 +286,7 @@ theorem cochainBaseChange_smul
   rw [cochainBaseChange_apply, cochainBaseChange_apply, cochain_smul_apply, pullbackSections_smul]
   have hb := congr($(hbase (CechCochains.inter U (e ∘ i))).hom a)
   rw [CommRingCat.hom_comp, CommRingCat.hom_comp] at hb
-  show ((Scheme.Modules.pullback g).obj F).presheaf.map
+  change ((Scheme.Modules.pullback g).obj F).presheaf.map
       (homOfLE (inter_eq_preimage g U U' e hU' i).le).op (_ • _) = _
   rw [show (g.app (CechCochains.inter U (e ∘ i))).hom
       ((baseRingHom f (CechCochains.inter U (e ∘ i))).hom a) =
@@ -371,7 +371,7 @@ theorem isBaseChange_pullbackSectionsBaseₗ [F.IsQuasicoherent] {W : X.Opens}
     IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have _ : IsScalarTower A Γ(X, W) Γ((Scheme.Modules.pullback g).obj F, g ⁻¹ᵁ W) :=
     IsScalarTower.of_algebraMap_smul fun a x ↦ by
-      show ((g.app W).hom ((baseRingHom f W).hom a)) • x =
+      change ((g.app W).hom ((baseRingHom f W).hom a)) • x =
         ((baseRingHom f' (g ⁻¹ᵁ W)).hom (φ a)) • x
       exact congrArg (· • x) (DFunLike.congr_fun hw a)
   have hps : Algebra.IsPushout A Γ(X, W) A' Γ(X', g ⁻¹ᵁ W) := by
@@ -580,7 +580,7 @@ theorem cechModuleObjBaseChangeIso_comm (p : ℕ) :
       (ModuleCat.extendScalars φ).map (cechModuleDiff f U F p) ≫
         (cechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff (p + 1)).hom := by
   refine ModuleCat.ExtendScalars.hom_ext fun s ↦ ?_
-  show cechModuleDiff f' U' ((Scheme.Modules.pullback g).obj F) p
+  change cechModuleDiff f' U' ((Scheme.Modules.pullback g).obj F) p
       ((cechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff p).hom
         ((1 : A') ⊗ₜ[A] s)) =
     (cechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff (p + 1)).hom
@@ -649,7 +649,7 @@ theorem isBaseChange_alternatingCochainBaseChangeₗ (p : ℕ) :
       Γ((Scheme.Modules.pullback g).obj F, CechCochains.inter U' j.1)))
   have hmono : StrictMono e := fun _ _ h ↦ h
   have hmono' : StrictMono e.symm := fun a b h ↦ by
-    show e (e.symm a) < e (e.symm b)
+    change e (e.symm a) < e (e.symm b)
     rwa [e.apply_symm_apply, e.apply_symm_apply]
   have _ : Finite I' := Finite.of_equiv I e.symm
   let c : ∀ j : CechCochains.OrdIndex (I := I') p, Γ(F, CechCochains.inter U (e ∘ j.1)) →ₗ[A]
@@ -711,7 +711,7 @@ theorem alternatingCechModuleObjBaseChangeIso_comm (p : ℕ) :
         (alternatingCechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff
           (p + 1)).hom := by
   refine ModuleCat.ExtendScalars.hom_ext fun s ↦ ?_
-  show alternatingCechModuleDiff f' U' ((Scheme.Modules.pullback g).obj F) p
+  change alternatingCechModuleDiff f' U' ((Scheme.Modules.pullback g).obj F) p
       ((alternatingCechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff p).hom
         ((1 : A') ⊗ₜ[A] s)) =
     (alternatingCechModuleObjBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff (p + 1)).hom
@@ -750,7 +750,7 @@ theorem baseChangeIso_inclusion_commutes :
       alternatingCechModuleComplex_inclusion f' U' ((Scheme.Modules.pullback g).obj F) := by
   refine HomologicalComplex.hom_ext _ _ (fun p ↦ ?_)
   refine ModuleCat.ExtendScalars.hom_ext fun s ↦ ?_
-  show (cechModuleComplexBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff).hom.f p
+  change (cechModuleComplexBaseChangeIso g U U' e F hU' φ f f' hbase hsq hUaff).hom.f p
       ((ModuleCat.extendScalars φ).map (alternatingCechModuleSubtype f U F p)
         ((1 : A') ⊗ₜ[A] s)) =
     alternatingCechModuleSubtype f' U' ((Scheme.Modules.pullback g).obj F) p

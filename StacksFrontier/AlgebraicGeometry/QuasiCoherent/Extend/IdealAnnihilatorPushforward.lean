@@ -204,7 +204,7 @@ private lemma comp_sectionAction_eq_zero_iff {X : Scheme.{u}} (I F : X.Modules)
       (prod.lift g (𝟙 V)) g _ _ h'
   · intro h
     ext V r
-    show (X.presheaf.map (prod.snd : U ⨯ V ⟶ V).op (i.app V r)) •
+    change (X.presheaf.map (prod.snd : U ⨯ V ⟶ V).op (i.app V r)) •
       F.presheaf.map (prod.fst : U ⨯ V ⟶ U).op s = 0
     have hn := PresheafOfModules.naturality_apply i.val
       (prod.snd : U ⨯ V ⟶ V).op r
@@ -278,7 +278,7 @@ private lemma comp_pushforward_sectionAction_eq_zero_iff {X Y : Scheme.{u}} (f :
     have h' := h (U ⊓ V) (homOfLE inf_le_left)
       (I.presheaf.map (homOfLE (inf_le_right : U ⊓ V ≤ V)).op r)
     rw [hn] at h'
-    show (X.presheaf.map (prod.snd : (f ⁻¹ᵁ U) ⨯ (f ⁻¹ᵁ V) ⟶ f ⁻¹ᵁ V).op (j.app V r)) •
+    change (X.presheaf.map (prod.snd : (f ⁻¹ᵁ U) ⨯ (f ⁻¹ᵁ V) ⟶ f ⁻¹ᵁ V).op (j.app V r)) •
       F.presheaf.map (prod.fst : (f ⁻¹ᵁ U) ⨯ (f ⁻¹ᵁ V) ⟶ f ⁻¹ᵁ U).op s = 0
     have hc : ((f ⁻¹ᵁ U) ⨯ (f ⁻¹ᵁ V) : X.Opens) ⟶ f ⁻¹ᵁ (U ⊓ V) :=
       homOfLE (le_inf (leOfHom (prod.fst : (f ⁻¹ᵁ U) ⨯ (f ⁻¹ᵁ V) ⟶ f ⁻¹ᵁ U))

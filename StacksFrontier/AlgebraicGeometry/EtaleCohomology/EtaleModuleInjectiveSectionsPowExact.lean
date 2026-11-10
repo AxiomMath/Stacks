@@ -52,7 +52,7 @@ theorem exact_freeYonedaSheaf_pow (U : X.Etale) (a : ℕ) (ha : a ≤ m)
   have hP : (p ^ (m - a) * p ^ a) • 𝟙 P = 0 := by
     rw [mul_comm, ← pow_add, Nat.add_sub_cancel' ha]
     ext V x
-    show (p ^ m) • x = 0
+    change (p ^ m) • x = 0
     rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ m)), ZMod.natCast_self, zero_smul]
   have hpre : (powShortComplex P a hP).Exact := by
     apply (ShortComplex.exact_iff_isZero_homology _).mpr
@@ -83,7 +83,7 @@ theorem isPowExact_sections_of_injective (I : EtaleModules.{u, 0} (ZMod (p ^ m))
     rw [mul_comm, ← pow_add, Nat.add_sub_cancel' ha]
     apply Sheaf.hom_ext
     ext V x
-    show (p ^ m) • x = 0
+    change (p ^ m) • x = 0
     rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ m)), ZMod.natCast_self, zero_smul]
   have hhom : IsPowExact p m (P ⟶ I) := by
     intro a ha f hf

@@ -195,7 +195,7 @@ public theorem exceptionalDegreeHom_negativeExceptionalMultiple
       φ ((-n) • (-1 : ℤ)) := by
     rw [map_zsmul, hφ]
     exact exceptionalRestrictionHom_negativeExceptionalMultiple D k e hE n
-  show φ.symm (exceptionalRestrictionHom D k e (negativeExceptionalMultipleHom D n)) = n
+  change φ.symm (exceptionalRestrictionHom D k e (negativeExceptionalMultipleHom D n)) = n
   rw [h, φ.symm_apply_apply]
   simp
 

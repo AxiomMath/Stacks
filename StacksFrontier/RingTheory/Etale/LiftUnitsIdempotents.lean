@@ -319,7 +319,7 @@ private lemma complete_lifts_of_nonempty
     | none =>
       dsimp [d']
       rw [E.symm_apply_apply]
-      show q x = e j₀
+      change q x = e j₀
       dsimp [x]
       rw [map_sub, map_one, map_sum]
       simp_rw [hmapK]
@@ -334,7 +334,7 @@ private lemma complete_lifts_of_nonempty
     | some k =>
       dsimp [d']
       rw [E.symm_apply_apply]
-      show q (dK k) = e k
+      change q (dK k) = e k
       exact hmapK k
 
 /-- **Stacks 07LZ.** A finite disjoint open covering of `Spec(A ⧸ I)` lifts to a finite disjoint

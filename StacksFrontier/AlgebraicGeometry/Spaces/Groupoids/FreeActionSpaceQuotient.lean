@@ -804,7 +804,7 @@ theorem twistRelation_point_ext {T : BigFppfOver B S hS}
           (isOpenImmersion_twistRelationIncl hnat φ hrep hfree k') x).2 ⟨y', hy'⟩)
     refine ⟨(k, k'), v, ?_⟩
     rw [Functor.map_comp]
-    show ((BigFppfOver.toScheme B S hS).map
+    change ((BigFppfOver.toScheme B S hS).map
       (pullback.fst r (twistRelationIncl hnat φ hrep hfree k))).base
         (((BigFppfOver.toScheme B S hS).map (pullback.fst _ _)).base v) = x
     rw [hv, hz]
@@ -875,7 +875,7 @@ theorem twistRelation_comp_quotientChart :
   have hnat₂ := NatTrans.naturality_apply (twistQuotientChart hnat φ) e.op
     (twistRelationSource hnat φ hrep hfree)
   rw [← hnat₁, ← hnat₂]
-  show (toOrbitQuotient B S hS G X hnat).app (Opposite.op W)
+  change (toOrbitQuotient B S hS G X hnat).app (Opposite.op W)
       (φ.app (Opposite.op W) (e ≫ twistRelationTarget hnat φ hrep hfree)) =
     (toOrbitQuotient B S hS G X hnat).app (Opposite.op W)
       (φ.app (Opposite.op W) (e ≫ twistRelationSource hnat φ hrep hfree))
@@ -924,7 +924,7 @@ theorem isPullback_twistRelation :
       (fun _ f hf => ρ f hf) := by
     intro W₁ W₂ Z g₁ g₂ f₁ f₂ h₁ h₂ hcomm
     refine twistRelation_point_ext hnat φ hrep hfree ?_ ?_ <;>
-    · show (g₁ ≫ ρ f₁ h₁) ≫ _ = (g₂ ≫ ρ f₂ h₂) ≫ _
+    · change (g₁ ≫ ρ f₁ h₁) ≫ _ = (g₂ ≫ ρ f₂ h₂) ≫ _
       simp only [Category.assoc, hρt, hρs]
       rw [← Category.assoc, ← Category.assoc, hcomm]
   obtain ⟨σ, hσ, -⟩ := (isSheaf_iff_isSheaf_of_type _ _).1
@@ -937,10 +937,10 @@ theorem isPullback_twistRelation :
         (φ.app (Opposite.op T) y) hq)).isSeparatedFor
   refine ⟨σ, hsepU.ext ?_, hsepU.ext ?_⟩
   · intro W f hf
-    show f ≫ σ ≫ twistRelationTarget hnat φ hrep hfree = f ≫ x
+    change f ≫ σ ≫ twistRelationTarget hnat φ hrep hfree = f ≫ x
     rw [← Category.assoc, show f ≫ σ = ρ f hf from hσ f hf, hρt f hf]
   · intro W f hf
-    show f ≫ σ ≫ twistRelationSource hnat φ hrep hfree = f ≫ y
+    change f ≫ σ ≫ twistRelationSource hnat φ hrep hfree = f ≫ y
     rw [← Category.assoc, show f ≫ σ = ρ f hf from hσ f hf, hρs f hf]
 
 /-- **The relation of Tag 071S is an étale equivalence relation on the chart.** Its two

@@ -706,7 +706,7 @@ private lemma hom_last_eq_of_hom_shift_obj_last_eq_zero
         intro v
         exact eq_zero_of_iso ((shiftFunctorZero D ℤ).app (X i.succ)).symm (Iso.refl V)
           (hV i.succ (by omega) (by omega) 0 (by omega)) v
-      · show S.δ i ≫ _ = S.δ i ≫ _
+      · change S.δ i ≫ _ = S.δ i ≫ _
         simp only [← Category.assoc, hgδ i, hg'δ i]
         simp only [Category.assoc]
         refine ih (V⟦(1 : ℤ)⟧) ?_ (S'.δ i ≫ q⟦(1 : ℤ)⟧')

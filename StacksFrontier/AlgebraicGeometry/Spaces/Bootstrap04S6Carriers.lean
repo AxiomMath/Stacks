@@ -115,7 +115,7 @@ theorem _root_.FppfCovering.flat_lfp_surjective_of_iso_sigmaDesc {Y Z : Scheme.{
     obtain ⟨i, a, ha⟩ := W.jointly_surjective t
     refine ⟨e.hom ((Sigma.ι W.X i) a), ?_⟩
     exact (congrArg (fun q : W.X i ⟶ Y => q a)
-      (show Sigma.ι W.X i ≫ e.hom ≫ φ = W.f i by rw [hφ, Sigma.ι_desc])).trans ha
+      (show Sigma.ι W.X i ≫ e.hom ≫ φ = W.f i by rw [hφ, Sigma.ι_comp_desc])).trans ha
 
 /-- **A section of a sheaf which is locally in the image of a map of sheaves lifts along a single
 surjective, flat, locally finitely presented morphism of the site.**
@@ -161,7 +161,7 @@ theorem exists_single_fppf_lift_of_isLocallySurjective
     change B.inclusion.map (j i).left ≫ B.inclusion.map f.left = _
     rw [← B.inclusion.map_comp]
     change B.inclusion.map (j i ≫ f).left = _
-    rw [hfac, Sigma.ι_desc]
+    rw [hfac, Sigma.ι_comp_desc]
     exact B.inclusion.map_preimage (X := B.obj (hW i)) (Y := T.left) (W.f i)
   obtain ⟨hfFlat, hfLfp, hfSurj⟩ := W.flat_lfp_surjective_of_iso_sigmaDesc e hmap
   choose a ha using hfi

@@ -115,10 +115,6 @@ add_to_ega "IV 17.2.5" "affine middle exactness"
 add_to_stacks 00RU "surjectivity onto `Ω[B⁄R]`"
   KaehlerDifferential.mapBaseChange_surjective
 add_to_ega "IV 17.13.1" "special case" KaehlerDifferential.mapBaseChange_surjective
-add_to_ega "0 20.6.17" "second assertion"
-  KaehlerDifferential.exact_mapBaseChange_map
-add_to_ega "IV 16.4.19" "second assertion"
-  KaehlerDifferential.exact_mapBaseChange_map
 
 -- The former @[stacks 00RX] declarations are now the Mathlib basis and its `apply` lemma;
 -- freeness and finiteness of `Ω[R[x_1, …, x_n]⁄R]` follow and are already instances in Mathlib.
@@ -135,10 +131,6 @@ add_to_stacks 00RX "the basis consists of the `d x_i`"
 add_to_ega "0 20.4.13" KaehlerDifferential.mvPolynomialBasis_apply
 add_to_ega "0 21.2.5" "special case" KaehlerDifferential.mvPolynomialBasis_apply
 add_to_sga "1 II 4.2" "second assertion" KaehlerDifferential.mvPolynomialBasis_apply
-add_to_sga "1 II 4.2" "exact at Ω¹_{C/A}"
-  KaehlerDifferential.mvPolynomialBasis
-add_to_sga "1 II 4.2" "exact at Ω, affine"
-  KaehlerDifferential.mvPolynomialBasis_apply
 
 -- The former @[stacks 00RY] declaration is now the Mathlib instance.
 add_to_stacks 00RY "`Ω[S⁄R]` is finitely presented when `S` is a finitely presented algebra"
@@ -269,7 +261,7 @@ theorem map_comp_map (R B C E : Type*) [CommRing R] [CommRing B] [CommRing C] [C
     [IsScalarTower R B C] [IsScalarTower R B E] [IsScalarTower B C E] [IsScalarTower R C E] :
     (map R R C E).restrictScalars B ∘ₗ map R R B C = map R R B E := by
   refine LinearMap.ext_on_range (span_range_derivation R B) fun x => ?_
-  show map R R C E (map R R B C (D R B x)) = _
+  change map R R C E (map R R B C (D R B x)) = _
   rw [map_D R R B C, map_D R R C E, ← IsScalarTower.algebraMap_apply B C E x, map_D R R B E]
 
 /-- **The base of a map of relative differentials can be enlarged after the fact.**  For a tower
@@ -289,7 +281,7 @@ theorem map_base_comp_map (R S T B C : Type*) [CommRing R] [CommRing S] [CommRin
     [SMulCommClass S B C] [SMulCommClass T B C] :
     (map S T C C).restrictScalars B ∘ₗ map R S B C = map R T B C := by
   refine LinearMap.ext_on_range (span_range_derivation R B) fun x => ?_
-  show map S T C C (map R S B C (D R B x)) = _
+  change map S T C C (map R S B C (D R B x)) = _
   rw [map_D R S B C, map_D S T C C, Algebra.algebraMap_self_apply, map_D R T B C]
 
 /-- **Generators of a module of differentials survive an enlargement of the base.** If the

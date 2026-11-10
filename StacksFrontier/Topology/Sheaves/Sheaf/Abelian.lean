@@ -109,7 +109,7 @@ theorem exact_of_local {X : TopCat.{u}}
     simpa using hij
   obtain ⟨W, l, hxW, t, ht⟩ := h V (S.X₂.obj.map i.op s) hv x hxV
   refine ⟨(TopCat.Presheaf.germ S.X₁.obj) W x hxW t, ?_⟩
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
     ((TopCat.Presheaf.germ S.X₁.obj) W x hxW t) = _
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply, ht,
     TopCat.Presheaf.germ_res_apply, TopCat.Presheaf.germ_res_apply]
@@ -151,7 +151,7 @@ theorem restrict_eq_zero_of_germ_eq_zero {Y : TopCat.{u}} {P : TopCat.Presheaf A
     (h : ∀ (x : Y) (hx : x ∈ W'), P.germ W x (i.le hx) s = 0) :
     P.map i.op s = 0 := by
   refine TopCat.Presheaf.section_ext ⟨P, hP⟩ W' _ 0 fun x hx => ?_
-  show P.germ W' x hx (P.map i.op s) = P.germ W' x hx 0
+  change P.germ W' x hx (P.map i.op s) = P.germ W' x hx 0
   rw [map_zero, TopCat.Presheaf.germ_res_apply]
   exact h x hx
 

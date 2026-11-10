@@ -177,7 +177,7 @@ theorem exists_isExistenceNeighbourhood_hasProperSupport
   -- the comparison `i₁^* H⁰(K) ⟶ F₁` is an isomorphism, `W₁ ⟶ X₁` having a section
   have hle₀ : Subfunctor.range (𝟙 (D.stage 0).1) ≤ D.stagePreimage W 0 := by
     rintro U _ ⟨x, rfl⟩
-    show (D.closedImmersion 0).hom.app U x ∈ W.obj U
+    change (D.closedImmersion 0).hom.app U x ∈ W.obj U
     rw [← hg]
     exact (g.app U x).2
   let s : D.stage 0 ⟶ openSubspaceSpace D.B D.S D.containsLimitBase (D.stagePreimage W 0)

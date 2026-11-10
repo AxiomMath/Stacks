@@ -9,8 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Properties.RegularCharacterizatio
 public import StacksFrontier.AlgebraicGeometry.Variety.Defs.Dimension.Trdeg
 public import
   StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DominateRationalMap
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
 
 /-!
 # Factorization of a birational map of regular surfaces by blowups at closed points

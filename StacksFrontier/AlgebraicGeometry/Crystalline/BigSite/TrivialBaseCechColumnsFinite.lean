@@ -98,8 +98,7 @@ def baseChangeCrossInv :
 /-- `baseChangeCross` is bijective. -/
 theorem bijective_baseChangeCross : Function.Bijective (baseChangeCross N h) := by
   refine Function.bijective_iff_has_inverse.2 ⟨baseChangeCrossInv N h, fun z ↦ ?_, fun z ↦ ?_⟩ <;>
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul q m => rfl
 
@@ -147,8 +146,7 @@ theorem isBaseChange_restrict (hW : IsAffineOpen W) (hV : IsAffineOpen V) :
       (sectionsDPRing T ((openTrivialThickening T).obj W).obj : Type u)
   have hL : ∀ z, L z = crysBaseChange (restrictSheafOfModules N)
       ((openTrivialThickening T).map (homOfLE h)) (baseChangeCross N h z) := fun z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul q m => rfl
   have hLb : Function.Bijective L := by
@@ -205,7 +203,7 @@ theorem isLocalizing_trivialColumnModule
       (sectionsDPRing T ((openTrivialThickening T).obj V).obj : Type u)
       (term N a ((openTrivialThickening T).obj (T.X.basicOpen g))) :=
     IsScalarTower.of_algebraMap_smul fun r x ↦ by
-      show ringMap hWV (sectionsHom T V r) • x =
+      change ringMap hWV (sectionsHom T V r) • x =
         sectionsHom T (T.X.basicOpen g) (T.X.presheaf.map (homOfLE hWV).op r) • x
       exact congrArg (fun c : (sectionsDPRing T ((openTrivialThickening T).obj
         (T.X.basicOpen g)).obj : Type u) ↦ c • x) (sectionsDPRingMap_sectionsHom hWV r)
@@ -380,7 +378,7 @@ theorem subsingleton_term_of_basicOpen {V : T.X.Opens} (hV : IsAffineOpen V)
   have hI : I = ⊤ := by
     refine eq_top_iff.2 (hspan ▸ Ideal.span_le.2 ?_)
     rintro _ ⟨x, rfl⟩
-    show f x x.2 ^ (n x + 1) • z = 0
+    change f x x.2 ^ (n x + 1) • z = 0
     rw [pow_succ', mul_smul, hn x, smul_zero]
   exact (one_smul _ z).symm.trans (hI ▸ Submodule.mem_top : (1 : Γ(T.X, V)) ∈ I)
 

@@ -57,6 +57,7 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_Empty {B : BigFppfSite.{u}} {S : Scheme.{u}}
@@ -122,7 +123,7 @@ theorem isFiniteType_viewOverIntegers_of_forall_isEmpty (hZ : B.Contains (⊤_ S
     IsFiniteType B (⊤_ Scheme.{u}) hZ (terminal.from (viewOverIntegers B S hS hZ F)) := by
   refine ⟨fun U V a b k _ _ _ => ?_, fun Z hZalg _ g => ?_⟩
   · have := isEmpty_of_viewOverIntegers h (yonedaEquiv a)
-    show LocallyOfFiniteType ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map k)
+    change LocallyOfFiniteType ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map k)
     infer_instance
   · have hview : IsAlgebraicSpace B (⊤_ Scheme.{u}) hZ (viewOverIntegers B S hS hZ F) :=
       isAlgebraicSpace_relocalize B (B.obj hS) (B.obj hZ) ⟨terminal.from S⟩ F hF

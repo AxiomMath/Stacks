@@ -138,14 +138,14 @@ theorem exists_isLocalization_atPrime_stalk_pullback_tensorProduct
     have h : IsIso (Scheme.stalkClosedPointTo (Spec.map Φ ≫ v)) := by
       rw [hfac, Scheme.stalkClosedPointTo_fromSpecStalk]
       infer_instance
-    show IsIso (v.stalkMap ((Spec.map Φ) (IsLocalRing.closedPoint (W.presheaf.stalk w))) ≫
+    change IsIso (v.stalkMap ((Spec.map Φ) (IsLocalRing.closedPoint (W.presheaf.stalk w))) ≫
       Scheme.stalkClosedPointTo (Spec.map Φ))
     rwa [← Scheme.stalkClosedPointTo_comp]
   have : IsIso ρ := (isIso_comp_left_iff _ _).mp hρcomp
   let : Algebra P ((Spec P).presheaf.stalk q) := StructureSheaf.stalkAlgebra P q
   have hmap : CommRingCat.ofHom (algebraMap P ((Spec P).presheaf.stalk q)) ≫ ρ = Φ := by
-    show StructureSheaf.toStalk P q ≫ ρ = Φ
-    show ((Scheme.ΓSpecIso P).inv ≫ (Spec P).presheaf.germ ⊤ q trivial) ≫ ρ = Φ
+    change StructureSheaf.toStalk P q ≫ ρ = Φ
+    change ((Scheme.ΓSpecIso P).inv ≫ (Spec P).presheaf.germ ⊤ q trivial) ≫ ρ = Φ
     rw [Category.assoc, Scheme.germ_stalkClosedPointTo_Spec]
     simp
   let e : ((Spec P).presheaf.stalk q : Type u) ≃+* W.presheaf.stalk w :=

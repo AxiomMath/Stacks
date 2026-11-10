@@ -159,7 +159,7 @@ public theorem affineHomComplexTildeMap_toOpen (R : CommRingCat.{u})
   have he : affineHomSectionsLinearMap R P L n
       (((affineHomComplexTildeMap R P L).f n).val.app (op ⊤)
         (tilde.toOpen ((CochainComplex.HomComplexR R P L).X n) ⊤ α)) = α := by
-    show e _ = α
+    change e _ = α
     convert e.apply_symm_apply α using 1
     exact congrArg e hc
   have hv : (fullyFaithfulTildeOverTop R).preimage

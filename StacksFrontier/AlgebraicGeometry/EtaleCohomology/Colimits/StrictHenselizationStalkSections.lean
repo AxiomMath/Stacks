@@ -61,7 +61,7 @@ theorem sheafPullbackIso_unit_apply (W : S'.Etale) (x : M.obj.obj (op W)) :
           (op ((smallEtaleBaseChange q).obj W))
       (((smallEtaleAdjunctionAb q).unit.app M).hom.app (op W) x) =
     ((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-        T.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M).hom.app
+        T.smallEtaleTopology (forget Ab.{u + 1})).app M).hom.app
           (op ((smallEtaleBaseChange q).obj W))
       (((smallEtaleInverseImageAdjunction.{u, 0} q).unit.app
         ((sheafCompose S'.smallEtaleTopology (forget Ab.{u + 1})).obj M)).hom.app (op W) x) := by
@@ -83,7 +83,7 @@ theorem sheafPullbackIso_restrictedUnit_apply (W : S'.Etale) (r : T ⟶ W.left)
       (((smallEtalePullbackAb q).obj M).obj.map (smallEtaleBaseChangeLift q W r hr).op
         (((smallEtaleAdjunctionAb q).unit.app M).hom.app (op W) x)) =
     ((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-        T.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M).hom.app
+        T.smallEtaleTopology (forget Ab.{u + 1})).app M).hom.app
           (op (Scheme.Etale.mk (𝟙 T)))
       (((smallEtaleInverseImage.{u, 0} q).obj
           ((sheafCompose S'.smallEtaleTopology (forget Ab.{u + 1})).obj M)).obj.map
@@ -98,7 +98,7 @@ theorem sheafPullbackIso_restrictedUnit_apply (W : S'.Etale) (r : T ⟶ W.left)
   have n2 := congrArg (fun φ => φ (((smallEtaleInverseImageAdjunction.{u, 0} q).unit.app
           ((sheafCompose S'.smallEtaleTopology (forget Ab.{u + 1})).obj M)).hom.app (op W) x))
     (((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-        T.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M).hom.naturality
+        T.smallEtaleTopology (forget Ab.{u + 1})).app M).hom.naturality
       (smallEtaleBaseChangeLift q W r hr).op)
   exact n1.trans ((congrArg (ConcreteCategory.hom
     (((Functor.sheafPullbackConstruction.sheafPullback (smallEtaleBaseChange q) Ab.{u + 1}
@@ -167,7 +167,7 @@ theorem sheafPullbackIso_limitSectionsAb_apply (i : Iᵒᵖ) (x : M.obj.obj (op 
         S'.smallEtaleTopology c.pt.smallEtaleTopology).hom.app M).hom.app
           (op (Scheme.Etale.mk (𝟙 c.pt))) (limitSectionsAb W c hq M i x) =
     ((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-        c.pt.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M).hom.app
+        c.pt.smallEtaleTopology (forget Ab.{u + 1})).app M).hom.app
           (op (Scheme.Etale.mk (𝟙 c.pt)))
       (limitSections W c hq ((sheafCompose S'.smallEtaleTopology (forget Ab.{u + 1})).obj M) i x) :=
   sheafPullbackIso_restrictedUnit_apply q M (W.obj i) (c.π.app i) (hq i) x
@@ -192,14 +192,14 @@ theorem limitSectionsAb_colimit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom 
     S'.smallEtaleTopology c.pt.smallEtaleTopology).hom.app M).hom.app
       (op (Scheme.Etale.mk (𝟙 c.pt)))
   let b := ((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-    c.pt.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M).hom.app
+    c.pt.smallEtaleTopology (forget Ab.{u + 1})).app M).hom.app
       (op (Scheme.Etale.mk (𝟙 c.pt)))
   have ha : Function.Bijective a := ConcreteCategory.bijective_of_isIso a
   have hb : Function.Bijective b := by
     have := isIso_coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
       c.pt.smallEtaleTopology (forget Ab.{u + 1})
     have : IsIso ((coefficientPullbackTwoSquare (smallEtaleBaseChange q) S'.smallEtaleTopology
-        c.pt.smallEtaleTopology (forget Ab.{u + 1})).natTrans.app M) :=
+        c.pt.smallEtaleTopology (forget Ab.{u + 1})).app M) :=
       NatIso.isIso_app_of_isIso _ _
     rw [← isIso_iff_bijective]
     infer_instance
@@ -275,11 +275,11 @@ theorem isIso_pushforwardStalkToStrictHenselizationSectionsAb_app [QuasiCompact 
   have hcpt : CompactSpace (W.obj (op ⊥)).left := inferInstance
   have hqs : QuasiSeparatedSpace (W.obj (op ⊥)).left := inferInstance
   have : CompactSpace ((baseChangeSystem W f).obj (op ⊥)).left := by
-    show CompactSpace ↥(Limits.pullback (W.obj (op ⊥)).hom f)
+    change CompactSpace ↥(Limits.pullback (W.obj (op ⊥)).hom f)
     exact @AlgebraicGeometry.instCompactSpaceCarrierCarrierCommRingCatPullbackSchemeOfQuasiCompact_1
       _ _ _ (W.obj (op ⊥)).hom f _ hcpt
   have : QuasiSeparatedSpace ((baseChangeSystem W f).obj (op ⊥)).left := by
-    show QuasiSeparatedSpace ↥(Limits.pullback (W.obj (op ⊥)).hom f)
+    change QuasiSeparatedSpace ↥(Limits.pullback (W.obj (op ⊥)).hom f)
     exact @quasiSeparatedSpace_of_quasiSeparated _ _ (pullback.fst (W.obj (op ⊥)).hom f) hqs _
   let Fp := (smallEtalePushforwardAb f).obj F
   obtain ⟨hAs, -, hAt⟩ := limitSectionsAb_colimit W c hπ1 Fp hc

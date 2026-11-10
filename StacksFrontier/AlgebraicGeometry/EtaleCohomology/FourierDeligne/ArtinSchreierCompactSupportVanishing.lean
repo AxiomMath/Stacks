@@ -57,13 +57,13 @@ theorem nsmul_id_etaleModules_zmod (m : ℕ) {X : Scheme.{u}} (G : EtaleModules.
     m • 𝟙 G = 0 := by
   apply Sheaf.hom_ext
   ext V x
-  show m • x = 0
+  change m • x = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod m), ZMod.natCast_self, zero_smul]
 
 section Endomorphism
 
 variable (B : BigEtaleSite.{u}) (U : B.Scheme) [ConnectedSpace U.1] {k : Type u} [Field k]
-  [Fintype k] (f : U.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Finite k] (f : U.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   [IsCurve k f] [Smooth f] (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar]
   [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m]
   (g : U ⟶ U) [IsFinite (B.inclusion.map g)] [Etale (B.inclusion.map g)] (hgf : g.hom ≫ f = f)
@@ -133,7 +133,7 @@ end Endomorphism
 section Torsor
 
 variable (B : BigEtaleSite.{u}) (U : B.Scheme) [ConnectedSpace U.1] {k : Type u} [Field k]
-  [Fintype k] (f : U.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Finite k] (f : U.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   [IsCurve k f] [Smooth f] (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar]
   [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m]
   (g : U ⟶ U) [IsFinite (B.inclusion.map g)] [Etale (B.inclusion.map g)] (hgf : g.hom ≫ f = f)
@@ -153,7 +153,7 @@ theorem subsingleton_compactSupportSheafCohomology_of_torsor_character (x : Geom
     (hM : ∀ (σ : EtaleFundamentalGroup U.1 x) (v : M.obj.obj.obj.V),
       (M.obj.obj.obj.ρ σ).asHom.hom v = ρ (T.character x p₀ σ) v)
     (hfix : ∀ v, ∑ a : K, ρ (Multiplicative.ofAdd a) v = 0)
-    {ι : Type (u + 1)} [Fintype ι] [DecidableEq ι]
+    {ι : Type (u + 1)} [Finite ι]
     (bM : Module.Basis ι (ZMod m) M.obj.obj.obj.V) (i : ℤ) :
     Subsingleton ((compactSupportSheafCohomology (ZMod m) f j kbar i).obj
       ((lisseEtaleSheaf B U x (ZMod m)).obj M)) := by
@@ -188,7 +188,7 @@ theorem subsingleton_compactSupportSheafCohomology_of_torsor_character (x : Geom
   have htr : ∀ z z' : Y, ∃! a : K, τ' a z = z' := fun z z' => by
     obtain ⟨a, ha, hu⟩ := T.existsUnique (y.map g.hom) (F.map ε.inv z) (F.map ε.inv z')
     refine ⟨a, ?_, fun b hb => hu b ?_⟩
-    · show F.map ε.hom (F.map (T.τ a) (F.map ε.inv z)) = z'
+    · change F.map ε.hom (F.map (T.τ a) (F.map ε.inv z)) = z'
       rw [ha, hεε]
     · change F.map ε.hom (F.map (T.τ b) (F.map ε.inv z)) = z' at hb
       rw [← hb, hεε']
@@ -197,7 +197,7 @@ theorem subsingleton_compactSupportSheafCohomology_of_torsor_character (x : Geom
   let κ := T.character (y.map g.hom) p₀
   have hκ : ∀ (σ : EtaleFundamentalGroup U.1 (y.map g.hom)) (z : Y),
       σ • z = τ' (Multiplicative.toAdd (κ σ)) z := fun σ z => by
-    show σ • z = F.map ε.hom (F.map (T.τ _) (F.map ε.inv z))
+    change σ • z = F.map ε.hom (F.map (T.τ _) (F.map ε.inv z))
     rw [← T.smul_eq_character (y.map g.hom) p₀ σ (F.map ε.inv z), hnat, hεε]
   let TF := lisseEtaleSheaf B U (y.map g.hom) Λ ⋙ compactSupportSheafCohomology Λ f j kbar i
   have : (lisseEtaleSheaf B U (y.map g.hom) Λ).Additive := by
@@ -238,7 +238,7 @@ abbrev affineLineASMap : k[X] →ₐ[k] k[X] :=
 theorem eval₂_poly_affineLineASMap :
     (poly k (Polynomial.X : k[X])).eval₂ (affineLineASMap k : k[X] →+* k[X]) Polynomial.X = 0 := by
   simp only [poly, eval₂_sub, eval₂_X_pow, eval₂_add, eval₂_X, eval₂_C]
-  show Polynomial.X ^ Fintype.card k - (Polynomial.X +
+  change Polynomial.X ^ Fintype.card k - (Polynomial.X +
     aeval ((Polynomial.X : k[X]) ^ Fintype.card k - Polynomial.X) Polynomial.X) = 0
   rw [aeval_X]
   ring
@@ -310,7 +310,7 @@ theorem affineLineASHom_comp_structureMap :
   congr 1
   apply CommRingCat.hom_ext
   refine RingHom.ext fun c => ?_
-  show (affineLineRingEquiv k) (algebraMap k[X] (Ring k (Polynomial.X : k[X]))
+  change (affineLineRingEquiv k) (algebraMap k[X] (Ring k (Polynomial.X : k[X]))
     (algebraMap k k[X] c)) = algebraMap k k[X] c
   rw [← IsScalarTower.algebraMap_apply, AlgEquiv.commutes]
 
@@ -418,7 +418,7 @@ theorem subsingleton_compactSupportSheafCohomology_artinSchreierSheaf_etaleLevel
     simp only [h3]
     rw [← map_sum, ← map_sum, h2, map_zero, map_zero]
   have hfix : ∀ v, ∑ a : k, ρK (Multiplicative.ofAdd a) v = 0 := fun v => by
-    show ∑ a : k, L.symm (Matrix.toLin' (A (Multiplicative.ofAdd a)) (L v)) = 0
+    change ∑ a : k, L.symm (Matrix.toLin' (A (Multiplicative.ofAdd a)) (L v)) = 0
     simp only [Matrix.toLin'_apply]
     rw [← map_sum, ← Matrix.sum_mulVec, hsum, Matrix.zero_mulVec, map_zero]
   let bM : Module.Basis (ULift.{u + 1} (Fin d)) Λ (ULift.{u + 1} (Fin d → Λ)) :=

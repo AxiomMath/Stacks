@@ -257,7 +257,7 @@ theorem exists_smoothSurjectivePresentation_lift
     rw [← map_yonedaEquiv b k]
     rw [congrArg Over.Hom.left (NatTrans.naturality_apply Fy.1.hom k.op t)]
     have hkleft : k.left = 𝟙 T.left := Over.eqToHom_left hTbase
-    show k.left ≫ (Fy.1.hom.app (op T) t).left = Wslice.hom.left
+    change k.left ≫ (Fy.1.hom.app (op T) t).left = Wslice.hom.left
     refine (congrArg (fun l : T.left ⟶ T.left =>
       l ≫ (Fy.1.hom.app (op T) t).left) hkleft).trans ((Category.id_comp _).trans ?_)
     exact spacesOverSmallerBaseFunctor_hom_app_left B W.left.1 S W.left.2 hS W.hom F (op T) t
@@ -333,7 +333,7 @@ theorem exists_smoothSurjectivePresentation_lift
         inv_hom_id := Functor.Fiber.hom_ext (by simp [yFun]) }
     have hHval : evY.obj H = Functor.Fiber.mk hGbase := by
       apply Subtype.ext
-      show zf.toFunctor.obj ((Over.map Wslice.hom).obj (Over.mk (𝟙 U))) =
+      change zf.toFunctor.obj ((Over.map Wslice.hom).obj (Over.mk (𝟙 U))) =
         zf.toFunctor.obj ((Over.iteratedSliceBackward W).obj z₀.x)
       rw [hxbase]
       exact congrArg zf.toFunctor.obj (show Over.mk (𝟙 U ≫ Wslice.hom) = Wslice from rfl)

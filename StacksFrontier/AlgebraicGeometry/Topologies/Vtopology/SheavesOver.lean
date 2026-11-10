@@ -128,7 +128,7 @@ private noncomputable def overTopIso (T : Over S) : T ≅ overLift T (⊤ : T.le
 private lemma overTopIso_hom_comp (T : Over S) :
     (overTopIso T).hom ≫ overLiftι T (⊤ : T.left.Opens).ι = 𝟙 T := by
   apply Over.OverMorphism.ext
-  show T.left.topIso.inv ≫ (⊤ : T.left.Opens).ι = 𝟙 T.left
+  change T.left.topIso.inv ≫ (⊤ : T.left.Opens).ι = 𝟙 T.left
   rw [← Scheme.topIso_hom]
   exact T.left.topIso.inv_hom_id
 
@@ -224,7 +224,7 @@ private lemma exists_localDescentData {T : Over S} {I : Type v} {G : (Over S)ᵒ
       overLiftι (overLift T U.ι) (E.f j) ≫ overLiftι T U.ι := by
     intro j
     apply Over.OverMorphism.ext
-    show (h₀ j ≫ pullback.fst (f (idx j)).left U.ι) ≫ (f (idx j)).left = E.f j ≫ U.ι
+    change (h₀ j ≫ pullback.fst (f (idx j)).left U.ι) ≫ (f (idx j)).left = E.f j ≫ U.ι
     simp only [← hsnd j, Category.assoc, pullback.condition]
   let y : ∀ j, G.obj (op (overLift (overLift T U.ι) (E.f j))) := fun j ↦
     G.map (orig j).op (x (idx j))
@@ -297,7 +297,7 @@ private lemma localSection_matchesOnAffine {T : Over S} {I : Type v} {G : (Over 
   let Z : D.E.I₀ → Over S := fun j ↦ overLift V (pullback.snd (D.E.f j) g.left)
   let k : ∀ j, Z j ⟶ V := fun j ↦ overLiftι V (pullback.snd (D.E.f j) g.left)
   have : ∀ j, IsAffine (Z j).left := fun j ↦ by
-    show IsAffine (pullback (D.E.f j) g.left)
+    change IsAffine (pullback (D.E.f j) g.left)
     infer_instance
   have hs := hstd V D.E.I₀ Z k
     (AlgebraicGeometry.isStandardVCovering_pullback D.E.X D.E.f g.left D.standard)
@@ -515,7 +515,7 @@ private noncomputable def overSigmaι {ι : Type*} (X : ι → Over S) [Small.{u
     X i ⟶ overSigma X :=
   Over.homMk (Sigma.ι (fun i ↦ (X i).left) i)
     (by change Sigma.ι (fun i ↦ (X i).left) i ≫ Sigma.desc (fun i ↦ (X i).hom) = (X i).hom
-        exact Sigma.ι_desc _ i)
+        exact Sigma.ι_comp_desc _ i)
 
 /-- The coproduct cofan of a family of objects of `Sch/S`. -/
 private noncomputable def overCofan {ι : Type*} (X : ι → Over S) [Small.{u} ι] : Cofan X :=
@@ -551,7 +551,7 @@ private lemma preservesDiscreteOfZariski {G : (Over S)ᵒᵖ ⥤ Type w}
     {I : Type (max u v)} [Finite I] (X : I → Over S) :
     PreservesLimit (Discrete.functor (fun i ↦ op (X i))) G := by
   have hIE : IsEmpty ↥(overInitial S).left := by
-    show IsEmpty ↥(⊥_ Scheme.{u})
+    change IsEmpty ↥(⊥_ Scheme.{u})
     infer_instance
   let 𝒰₀ : (overInitial S).left.OpenCover.{max u v} :=
     Scheme.Cover.mkOfCovers (ULift.{max u v} Empty) (fun i ↦ i.down.elim)
@@ -604,11 +604,11 @@ theorem isStandardVSheafOver_iff_singleton (G : (Over S)ᵒᵖ ⥤ Type w)
     have hcu : IsUniversalColimit (overCofan Y) :=
       (isVanKampenColimit_of_isColimit hc).isUniversal
     have : IsAffine (overCofan Y).pt.left := by
-      show IsAffine (∐ fun i ↦ (Y i).left)
+      change IsAffine (∐ fun i ↦ (Y i).left)
       infer_instance
     have hdleft : (Cofan.IsColimit.desc hc f).left = Sigma.desc (fun i ↦ (f i).left) := by
       refine Sigma.hom_ext _ _ fun i ↦ ?_
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       exact (Over.forget S).congr_map (Cofan.IsColimit.fac hc f i)
     have hstdSigma : IsStandardVCovering (fun _ : Unit ↦ (overCofan Y).pt.left)
         (fun _ ↦ (Cofan.IsColimit.desc hc f).left) := by

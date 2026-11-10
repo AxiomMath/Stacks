@@ -105,7 +105,7 @@ theorem nsmul_id_forgetZMod_eq_zero (G : Sheaf X.smallEtaleTopology (ModuleCat.{
     ℓ • 𝟙 ((forgetZMod ℓ X).obj G) = 0 := by
   have h : ℓ • 𝟙 G = 0 := by
     ext U x
-    show (ℓ : ℕ) • x = 0
+    change (ℓ : ℕ) • x = 0
     rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul]
   simpa using congrArg (forgetZMod ℓ X).map h
 

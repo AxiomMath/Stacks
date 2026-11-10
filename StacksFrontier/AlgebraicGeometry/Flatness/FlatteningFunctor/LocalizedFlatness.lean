@@ -49,7 +49,7 @@ public theorem Flat.localizedModule_of_isScalarTower {R A M : Type*} [CommRing R
   intro P _ _ Q
   have hi : Function.Injective (Q.subtype.lTensor M) :=
     Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.val_injective
-  show Function.Injective
+  change Function.Injective
     (TensorProduct.AlgebraTensorModule.lTensor A (LocalizedModule T M) Q.subtype)
   rw [← (inferInstance : IsLocalizedModule T (LocalizedModule.mkLinearMap T M)).map_lTensor A T
     Q.subtype (LocalizedModule.mkLinearMap T M)]

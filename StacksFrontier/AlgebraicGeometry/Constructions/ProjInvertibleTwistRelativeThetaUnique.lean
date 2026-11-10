@@ -115,10 +115,10 @@ theorem eq_twistTheta_hom
     have hle : (relativeTwistIso L 𝒜).hom ''ᵁ ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ V) ≤
         (relativeProj 𝒜).toBase ⁻¹ᵁ V := by
       rintro _ ⟨x, hx, rfl⟩
-      show ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) x ∈ V
+      change ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) x ∈ V
       rw [relativeTwistIso_hom_comp_toBase]
       exact hx
-    show ((restrictBack (relativeTwistIso L 𝒜) α).app k).val.app
+    change ((restrictBack (relativeTwistIso L 𝒜) α).app k).val.app
         (op ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ V))
         (((GluedTwistAlgebra.twistDataOfGradedAlgebra (twist 𝒜 L)).ψ k).val.app (op V) b) =
       (transportedPsi L 𝒜 k).val.app (op V) b

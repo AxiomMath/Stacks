@@ -249,7 +249,7 @@ theorem exists_ne_zero_of_flatPullbackCoeff_ne_zero (m : ℤ) (α : CycleGroup D
     rcases not_and_or.1 (not_exists.1 hall W) with h | h
     · rw [not_not.1 h, zero_mul]
     · rw [not_not.1 h, mul_zero]
-  show (∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem Y,
+  change (∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem Y,
     α.1 W * flatPullbackMult D sX hX sY hY f hbase r hflat hr W T) = 0
   rw [hzero, finsum_zero]
 

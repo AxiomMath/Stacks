@@ -284,7 +284,7 @@ theorem comparisonChartHom_chartDiagram_comp
         comparisonChartHom B S hS q t eV eW b bSpace hb ⟨V', W', β, hβ⟩ := by
   have hn := hb.hom.naturality (chartDiagramChartHom B S hS aSpace ⟨U', V', α, hα⟩)
   simp only [Functor.comp_map] at hn
-  show (comparisonChartFunctorIsoComp B S hS p q t eU eV eW a b aSpace bSpace ha hb).hom.app
+  change (comparisonChartFunctorIsoComp B S hS p q t eU eV eW a b aSpace bSpace ha hb).hom.app
         U'.1 ≫ (schemeChartFunctor B S hS W.1 t eW).map
           (chartDiagramChartHom B S hS (aSpace ≫ bSpace)
             (ChartDiagram.comp B S hS aSpace bSpace α β hα hβ)) =
@@ -572,7 +572,7 @@ diagram is.** A diagram of étale scheme charts over `𝟙 U` is a morphism of �
 theorem comparisonChartHom_id (d : ChartDiagram B S hS U.1 U.1 (𝟙 U : U ⟶ U).hom) :
     comparisonChartHom B S hS p p eU eU (𝟭 𝒰) (𝟙 U) (comparisonChartFunctorIsoId B S hS p eU) d =
       (restrictionFunctor B S hS U.1 p eU).map (chartMapOfIdChartDiagram B S hS U d) := by
-  show (comparisonChartFunctorIsoId B S hS p eU).hom.app d.U.1 ≫
+  change (comparisonChartFunctorIsoId B S hS p eU).hom.app d.U.1 ≫
       (schemeChartFunctor B S hS U.1 p eU).map (chartDiagramChartHom B S hS (𝟙 U) d) =
     (schemeChartFunctor B S hS U.1 p eU).map
       ((SmallEtale.inclusion B S hS U.1).map (chartMapOfIdChartDiagram B S hS U d))
@@ -679,7 +679,7 @@ theorem etaleChartStructureHom_comp_sheafPushforwardContinuousNatTrans :
       etaleChartStructureHom B S hS p r hp hr eU f' hf' := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun W ↦ RingCat.hom_ext (RingHom.ext fun ρ ↦ ?_)))
   have := ht ((restrictionFunctor B S hS U.1 p eU).obj W.unop)
-  show (FibredSite.ringStructureSheafCore B S hS r hr .etale).obj.map
+  change (FibredSite.ringStructureSheafCore B S hS r hr .etale).obj.map
       (t.app ((restrictionFunctor B S hS U.1 p eU).obj W.unop)).op
       ((etaleChartStructureHom B S hS p r hp hr eU f hf).hom.app W ρ) =
     (etaleChartStructureHom B S hS p r hp hr eU f' hf').hom.app W ρ

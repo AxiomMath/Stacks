@@ -206,6 +206,7 @@ def ofIsPullbackHom (y : CartesianProperFlatSpaces B S hS) {W : BigFppfOver B S 
   homOfIsPullback (x := ofIsPullback y X hX h a g sq) a g sq
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ProperFlatFamilyCartesian :

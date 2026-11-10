@@ -197,7 +197,7 @@ theorem wEqualsLocallyBijective_addCommGrpCat_of_over :
     rw [e.hom.naturality]
     simp
   rw [he, isIso_comp_left_iff, isIso_comp_right_iff]
-  show IsIso ((presheafToSheaf J AddCommGrpCat.{max u v w}).map
+  change IsIso ((presheafToSheaf J AddCommGrpCat.{max u v w}).map
     (Functor.whiskerRight f U)) ↔ _
   rw [← J.W_iff, J.W_iff_isLocallyBijective]
   refine ⟨fun ⟨hi, hs⟩ => ⟨⟨fun {X} x y hxy => ?_⟩, ⟨fun {X} x => ?_⟩⟩, fun ⟨_, _⟩ =>

@@ -132,7 +132,7 @@ theorem milnorChainComap_pointwiseMilnorBoundary (k : ℤ) :
           (bijective_residueFieldMap_openImmersion j) (k + 1) 1).comp
         (pointwiseMilnorBoundary C p k) := by
   refine AddMonoidHom.ext fun a ↦ Subtype.ext (funext fun u ↦ ?_)
-  show pointwiseMilnorBoundaryCoeff C (j ≫ p) k _ u =
+  change pointwiseMilnorBoundaryCoeff C (j ≫ p) k _ u =
     milnorKTransport
       (immersionResidueFieldEquiv j (bijective_residueFieldMap_openImmersion j) u.1 : _ →+* _) 1
       (pointwiseMilnorBoundaryCoeff C p k a
@@ -262,7 +262,7 @@ theorem pointwiseMilnorBoundary_milnorChainExtend (k : ℤ) :
   by_cases hx' : (x'.1 : X) ∈ Set.range i.base
   · obtain ⟨y, rfl⟩ :=
       exists_immersionPoint_eq C p i (bijective_residueFieldMap_closedImmersion i) x' hx'
-    show pointwiseMilnorBoundaryCoeff C p k _
+    change pointwiseMilnorBoundaryCoeff C p k _
         (immersionPoint C p i (bijective_residueFieldMap_closedImmersion i) (k + 1) y) =
       (milnorChainExtend C p i (injective_base_of_isClosedImmersion i)
         (bijective_residueFieldMap_closedImmersion i) inferInstance (k + 1) 1
@@ -289,7 +289,7 @@ theorem pointwiseMilnorBoundary_milnorChainExtend (k : ℤ) :
       rw [milnorChainExtend_apply,
         milnorChainExtendAtHom_of_notMem_range C p i
           (bijective_residueFieldMap_closedImmersion i) x hxrange, AddMonoidHom.zero_apply]
-  · show pointwiseMilnorBoundaryCoeff C p k
+  · change pointwiseMilnorBoundaryCoeff C p k
         (milnorChainExtend C p i (injective_base_of_isClosedImmersion i)
           (bijective_residueFieldMap_closedImmersion i) inferInstance (k + 2) 2 b) x' =
       (milnorChainExtend C p i (injective_base_of_isClosedImmersion i)

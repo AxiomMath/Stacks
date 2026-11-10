@@ -85,7 +85,7 @@ theorem IsBaseChange.restrictScalars_of_surjective
   apply IsBaseChange.of_equiv
     ((TensorProduct.equivOfCompatibleSMul B A S S P).trans hf.equiv)
   intro x
-  show hf.equiv (1 ⊗ₜ[B] x) = f x
+  change hf.equiv (1 ⊗ₜ[B] x) = f x
   simpa only [one_smul] using hf.equiv_tmul 1 x
 
 /-- **Restricting the initial corner of a pushout square along a surjection.** If the square
@@ -186,7 +186,7 @@ theorem Module.Flat.exists_small_finiteType_model
   have : IsScalarTower C' D' D := .of_algebraMap_eq fun x => (eD.commutes x).symm
   have : IsScalarTower D' D S := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower C' D' S := .of_algebraMap_eq fun x => by
-    show algebraMap C' S x = algebraMap D S (eD (algebraMap C' D' x))
+    change algebraMap C' S x = algebraMap D S (eD (algebraMap C' D' x))
     rw [eD.commutes, ← IsScalarTower.algebraMap_apply C' D S]
   let : Module C' P := Module.compHom P eC.toRingHom
   let : Module D' P := Module.compHom P eD.toRingHom
@@ -195,13 +195,13 @@ theorem Module.Flat.exists_small_finiteType_model
   have : IsScalarTower D' D P := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower D' D M := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower D' S M := .of_algebraMap_smul fun x m => by
-    show algebraMap D S (eD x) • m = eD x • m
+    change algebraMap D S (eD x) • m = eD x • m
     exact IsScalarTower.algebraMap_smul S (eD x) m
   have : IsScalarTower C' D P := .of_algebraMap_smul fun x m => by
-    show algebraMap C D (eC x) • m = eC x • m
+    change algebraMap C D (eC x) • m = eC x • m
     exact IsScalarTower.algebraMap_smul D (eC x) m
   have : IsScalarTower C' D' P := .of_algebraMap_smul fun x m => by
-    show eD (algebraMap C' D' x) • m = eC x • m
+    change eD (algebraMap C' D' x) • m = eC x • m
     rw [eD.commutes]
     exact IsScalarTower.algebraMap_smul D (eC x) m
   have heP (c : C') (p : P') :
@@ -234,7 +234,7 @@ theorem Module.Flat.exists_small_finiteType_model
       ((TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl R R) eD.toLinearEquiv).trans
         (Algebra.IsPushout.equiv C' R D S).toLinearEquiv)
     intro d
-    show (Algebra.IsPushout.equiv C' R D S) (1 ⊗ₜ[C'] eD d) = algebraMap D' S d
+    change (Algebra.IsPushout.equiv C' R D S) (1 ⊗ₜ[C'] eD d) = algebraMap D' S d
     simp only [Algebra.IsPushout.equiv_tmul, map_one, one_mul]
     rfl
   have hf' := IsBaseChange.restrictScalars_of_surjective hD.surjective f hf
@@ -244,7 +244,7 @@ theorem Module.Flat.exists_small_finiteType_model
     apply IsBaseChange.of_equiv
       ((TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S) eP).trans hf'.equiv)
     intro p
-    show hf'.equiv (1 ⊗ₜ[D'] eP p) = f (eP p)
+    change hf'.equiv (1 ⊗ₜ[D'] eP p) = f (eP p)
     simpa only [one_smul, LinearMap.restrictScalars_apply] using hf'.equiv_tmul 1 (eP p)
   exact ⟨C', D', P', inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
@@ -286,17 +286,17 @@ theorem Module.Flat.exists_small_finitePresentation_model
   have : IsScalarTower C D' D := .of_algebraMap_eq fun x => (eD.commutes x).symm
   have : IsScalarTower D' D S := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower C D' S := .of_algebraMap_eq fun x => by
-    show algebraMap C S x = algebraMap D S (eD (algebraMap C D' x))
+    change algebraMap C S x = algebraMap D S (eD (algebraMap C D' x))
     rw [eD.commutes, ← IsScalarTower.algebraMap_apply C D S]
   let : Module D' P := Module.compHom P eD.toRingHom
   let : Module D' M := Module.compHom M eD.toRingHom
   have : IsScalarTower D' D P := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower D' D M := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower D' S M := .of_algebraMap_smul fun x m => by
-    show algebraMap D S (eD x) • m = eD x • m
+    change algebraMap D S (eD x) • m = eD x • m
     exact IsScalarTower.algebraMap_smul S (eD x) m
   have : IsScalarTower C D' P := .of_algebraMap_smul fun x m => by
-    show eD (algebraMap C D' x) • m = x • m
+    change eD (algebraMap C D' x) • m = x • m
     rw [eD.commutes]
     exact IsScalarTower.algebraMap_smul D x m
   have heP (c : C) (p : P') :
@@ -319,7 +319,7 @@ theorem Module.Flat.exists_small_finitePresentation_model
       ((TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl R R) eD.toLinearEquiv).trans
         (Algebra.IsPushout.equiv C R D S).toLinearEquiv)
     intro d
-    show (Algebra.IsPushout.equiv C R D S) (1 ⊗ₜ[C] eD d) = algebraMap D' S d
+    change (Algebra.IsPushout.equiv C R D S) (1 ⊗ₜ[C] eD d) = algebraMap D' S d
     simp only [Algebra.IsPushout.equiv_tmul, map_one, one_mul]
     rfl
   have hf' := IsBaseChange.restrictScalars_of_surjective hD.surjective f hf
@@ -328,7 +328,7 @@ theorem Module.Flat.exists_small_finitePresentation_model
     apply IsBaseChange.of_equiv
       ((TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S) eP).trans hf'.equiv)
     intro p
-    show hf'.equiv (1 ⊗ₜ[D'] eP p) = f (eP p)
+    change hf'.equiv (1 ⊗ₜ[D'] eP p) = f (eP p)
     simpa only [one_smul, LinearMap.restrictScalars_apply] using hf'.equiv_tmul 1 (eP p)
   exact ⟨D', P', inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, (inferInstance : Module D' P'), (inferInstance : Module C P'),

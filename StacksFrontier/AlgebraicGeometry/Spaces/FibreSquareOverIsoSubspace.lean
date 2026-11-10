@@ -202,7 +202,7 @@ theorem le_preimage_openComplement_of_disjoint_diagonal (f : V ⟶ W) (T : Subfu
   have hdiag : (pullback f f).map a x
       ∈ (Subfunctor.range ((T.preimage f).ι ≫ pullback.diagonal f)).obj A' := by
     rw [← preimage_fst_comp_eq_range_diagonal B S hS f T hT]
-    show (pullback.fst f f ≫ f).app A' ((pullback f f).map a x) ∈ T.obj A'
+    change (pullback.fst f f ≫ f).app A' ((pullback f f).map a x) ∈ T.obj A'
     rw [NatTrans.naturality_apply]
     exact ha
   have hbot : (pullback f f).map a x ∈ (⊥ : Subfunctor (pullback f f)).obj A' := by

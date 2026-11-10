@@ -10,7 +10,7 @@ Let `r` and `r'` be two arrows over the Čech nerve `C' ⊗ C'` from the lifted 
 exactly. Their quotient `r⁻¹ r'` is an infinitesimal automorphism of the last vertex, a
 derivation in the module `N 1` of the décalage
 `AlgebraicGeometry.Stack.GroupoidLift.NerveDatum.infDecalage` twisted by `r`. It is a
-`1`-cocycle, hence a coboundary (`Stacks.Decalage.Decalage.exists_diff_eq` in degree `0`): an
+`1`-cocycle, hence a coboundary (`Stacks.Decalage.exists_diff_eq` in degree `0`): an
 infinitesimal automorphism `η` of the lifted point `u` over `C'` with `r' = η₀⁻¹ r η₁`, where
 `η₀`, `η₁` are its pullbacks to the two vertices.
 
@@ -167,7 +167,7 @@ theorem mapPt_quot {m : ℕ} (g : cech A' C' 1 →ₐ[A'] cech A' C' m)
   (mapPt_comp (I := I) (hI := hI) g h₁ h₀ h₁ _ _).trans
     (congrArg (· ≫ _) (mapPt_inv (I := I) (hI := hI) g h₀ h₁ _))
 
-include hrq hrq' in
+include hrq in
 /-- **The quotient of two exact lifts of the descent arrow is a `1`-cocycle** of the Čech
 complex of infinitesimal automorphisms twisted by the first one. -/
 theorem diff_one_quot (hd : defectH (I := I) (hI := hI) r hrs hrt = 𝟙 _)
@@ -178,7 +178,7 @@ theorem diff_one_quot (hd : defectH (I := I) (hI := hI) r hrs hrt = 𝟙 _)
         G.toHom (x := ptAt (G := G) (hκ := hκ) (hC := hC) u (v₀ A' C' 1))
           (y := ptAt (G := G) (hκ := hκ) (hC := hC) u (vₗ A' C' 1)) r' hrs' hrt') :
     (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).diff 1 E = 0 := by
-  rw [Stacks.Decalage.Decalage.diff_one_apply]
+  rw [Stacks.Decalage.diff_one_apply]
   have h0 : (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).face 1 0 E =
       infFacePlain sV tV εbar 1 0 E :=
     congrArg (· E) (D.infFace_castSucc sV tV εbar hsV htV hε hb hu hrs hrt 1 0)
@@ -291,8 +291,8 @@ theorem exists_infH_eq_conj (hd : defectH (I := I) (hI := hI) r hrs hrt = 𝟙 _
           (y := ptAt (G := G) (hκ := hκ) (hC := hC) u (vₗ A' C' 1)) r' hrs' hrt' :=
     Subtype.ext hEq
   obtain ⟨y, hy⟩ := (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).exists_diff_eq
-    0 x (D.diff_one_quot sV tV εbar hsV htV hε hb hu hrs hrt hrq hrs' hrt' hrq' ε₀ hε₀ hd hd' x hx)
-  rw [Stacks.Decalage.Decalage.diff_zero_apply] at hy
+    0 x (D.diff_one_quot sV tV εbar hsV htV hε hb hu hrs hrt hrq hrs' hrt' ε₀ hε₀ hd hd' x hx)
+  rw [Stacks.Decalage.diff_zero_apply] at hy
   have e0 : (D.infDecalage sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt hrq).face 0 0 y =
       infFacePlain sV tV εbar 0 0 y :=
     congrArg (· y) (D.infFace_castSucc sV tV εbar hsV htV hε hb hu hrs hrt 0 0)

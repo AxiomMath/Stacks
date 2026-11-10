@@ -82,7 +82,7 @@ private theorem constTowerSection_comp_delta (Y : D) :
     constTowerSection Y ≫ Rlim.Hom.systemDelta ((Functor.const ℕᵒᵖ).obj Y) = 𝟙 _ := by
   apply Pi.hom_ext
   intro n
-  show _ ≫ constTowerπ Y n = 𝟙 _ ≫ constTowerπ Y n
+  change _ ≫ constTowerπ Y n = 𝟙 _ ≫ constTowerπ Y n
   rw [Category.assoc, constTowerDelta_π, Preadditive.comp_sub, constTowerSection_π,
     constTowerSection_π, Finset.sum_range_succ, Category.id_comp]
   abel
@@ -93,7 +93,7 @@ private theorem diag_comp_constTowerDelta (Y : D) :
     constTowerDiag Y ≫ Rlim.Hom.systemDelta ((Functor.const ℕᵒᵖ).obj Y) = 0 := by
   apply Pi.hom_ext
   intro n
-  show _ ≫ constTowerπ Y n = 0 ≫ constTowerπ Y n
+  change _ ≫ constTowerπ Y n = 0 ≫ constTowerπ Y n
   rw [Category.assoc, constTowerDelta_π, Preadditive.comp_sub, constTowerDiag_π,
     constTowerDiag_π, sub_self, zero_comp]
 
@@ -104,7 +104,7 @@ private theorem constTowerDelta_comp_section (Y : D) :
       Rlim.Hom.systemDelta ((Functor.const ℕᵒᵖ).obj Y) ≫ constTowerSection Y = 𝟙 _ := by
   apply Pi.hom_ext
   intro n
-  show _ ≫ constTowerπ Y n = 𝟙 _ ≫ constTowerπ Y n
+  change _ ≫ constTowerπ Y n = 𝟙 _ ≫ constTowerπ Y n
   rw [Preadditive.add_comp, Category.assoc, Category.assoc, constTowerDiag_π, constTowerSection_π,
     Category.comp_id, Category.id_comp, Preadditive.comp_neg, Preadditive.comp_sum]
   simp only [constTowerDelta_π]
@@ -137,15 +137,15 @@ private theorem constTower_triangle_distinguished (Y : D) :
   refine isomorphic_distinguished _ (binaryBiproductTriangle_distinguished Y P) _ ?_
   refine Triangle.isoMk _ _ (Iso.refl _) e (Iso.refl _) ?_ ?_ ?_
   · apply biprod.hom_ext
-    · show (constTowerDiag Y ≫ biprod.lift (constTowerπ Y 0) d) ≫ biprod.fst =
+    · change (constTowerDiag Y ≫ biprod.lift (constTowerπ Y 0) d) ≫ biprod.fst =
         (𝟙 Y ≫ biprod.inl) ≫ biprod.fst
       rw [Category.assoc, biprod.lift_fst, constTowerDiag_π, Category.id_comp, biprod.inl_fst]
-    · show (constTowerDiag Y ≫ biprod.lift (constTowerπ Y 0) d) ≫ biprod.snd =
+    · change (constTowerDiag Y ≫ biprod.lift (constTowerπ Y 0) d) ≫ biprod.snd =
         (𝟙 Y ≫ biprod.inl) ≫ biprod.snd
       rw [Category.assoc, biprod.lift_snd, h₂, Category.id_comp, biprod.inl_snd]
-  · show d ≫ 𝟙 P = biprod.lift (constTowerπ Y 0) d ≫ biprod.snd
+  · change d ≫ 𝟙 P = biprod.lift (constTowerπ Y 0) d ≫ biprod.snd
     rw [biprod.lift_snd, Category.comp_id]
-  · show (0 : P ⟶ Y⟦(1 : ℤ)⟧) ≫ (𝟙 Y)⟦(1 : ℤ)⟧' = 𝟙 P ≫ 0
+  · change (0 : P ⟶ Y⟦(1 : ℤ)⟧) ≫ (𝟙 Y)⟦(1 : ℤ)⟧' = 𝟙 P ≫ 0
     rw [zero_comp, comp_zero]
 
 /-- **The derived limit of a constant tower.** The constant tower with value `Y` and identity

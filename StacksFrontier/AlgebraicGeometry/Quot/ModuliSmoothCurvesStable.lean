@@ -119,7 +119,7 @@ theorem isAtWorstNodalOfRelativeDimensionOne_of_isSmooth {f : F ⟶ G}
         point := IsLocalRing.closedPoint r.carrier
         maps_to := by rw [hr] }
     have hsrc : c.sourcePoint B S hS = x := by
-      show pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
+      change pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
       rw [hr, hp]
       exact pointsToScheme_pointsEquivScheme_symm B S hS U x
     have hc := (hasFiberDimensionAt_ofSchemeHom_iff _ _ _).1 (hd _ c)

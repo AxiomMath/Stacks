@@ -67,7 +67,7 @@ theorem ranBaseChange_unit_comp_eq {P₁ : D₁ᵒᵖ ⥤ A} {P₂ : D₂ᵒᵖ 
   refine Functor.hom_ext_of_isRightKanExtension _ (q₂.op.ranCounit.app _) _ _ ?_
   ext U
   have fac := Stacks.SheafOfModules.ranBaseChange_fac w.op (q₁.op ⋙ P₁) U
-  have u₁ := ((q₁.op.ranAdjunction A).unit.app P₁).naturality (w.op.natTrans.app U)
+  have u₁ := ((q₁.op.ranAdjunction A).unit.app P₁).naturality (w.op.app U)
   dsimp only [Functor.id_obj, Functor.comp_obj, Functor.whiskeringLeft_obj_obj] at u₁
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Category.assoc,
     ran_map_app_ranCounit_app]
@@ -78,8 +78,10 @@ theorem ranBaseChange_unit_comp_eq {P₁ : D₁ᵒᵖ ⥤ A} {P₂ : D₂ᵒᵖ 
 
 end Generic
 
-variable (X) in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pointwise right Kan extensions of presheaves along the degree
+-- inclusion is deep
+variable (X) in
 /-- Right Kan extensions along the inclusion of a degree exist. -/
 instance hasPointwiseRightKanExtension_degreeInclusion (n : SimplexCategory)
     (G : (SpacesEtale B S hS (X.obj (op n)))ᵒᵖ ⥤ Type (u + 1)) :

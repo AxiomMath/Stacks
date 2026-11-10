@@ -74,7 +74,7 @@ theorem exists_comp_eq_id_of_etale_of_isSepClosed (k : Type u) [Field k] [IsSepC
       (RingEquiv.ofBijective (algebraMap k (K i)) hbij).symm.toRingHom) ≫
     Sigma.ι (fun j ↦ Spec (CommRingCat.of (K j))) i ≫ e.inv, ?_⟩
   rw [← he]
-  simp only [Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_desc, ← Spec.map_comp, hid,
+  simp only [Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc, ← Spec.map_comp, hid,
     Spec.map_id]
 
 end AlgebraicGeometry

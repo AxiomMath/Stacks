@@ -386,7 +386,7 @@ theorem finitePresentation_sections_spaceChartFunctor
   have hnoeth : IsNoetherianRing
       (fibredSectionRing B S hS 𝒳.val.val.p ((spaceChartFunctor B S hS 𝒳 F hF f).obj A)) := by
     have e := Functor.congr_obj (spaceChartFunctor_comp B S hS 𝒳 F hF f) A
-    show IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj
+    change IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj
       ((spaceChartFunctor B S hS 𝒳 F hF f ⋙ 𝒳.val.val.p).obj A), ⊤)
     rw [e]
     exact IsLocallyNoetherian.component_noetherian ⟨⊤, isAffineOpen_top _⟩

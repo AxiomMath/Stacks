@@ -139,7 +139,7 @@ instance full_restrict : (restrict X h).Full := by
 theorem nsmul_id_restrict (G : EtaleModules.{u, 0} (ZMod d) X) :
     d • 𝟙 ((restrict X h).obj G) = 0 := by
   ext U x
-  show d • (show G.obj.obj U from x) = 0
+  change d • (show G.obj.obj U from x) = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod d), ZMod.natCast_self, zero_smul]
 
 /-- The short complex `ℤ/N_X --d--> ℤ/N_X --π--> R(ℤ/d_X)`. -/
@@ -164,17 +164,17 @@ theorem function_exact_reductionLinearMap [NeZero N] :
   · intro hy
     obtain ⟨m, hm⟩ := exists_val_eq_mul_of_castHom_eq_zero h (congrArg ULift.down hy)
     refine ⟨ULift.up (m : ZMod N), ULift.ext ?_⟩
-    show d • (m : ZMod N) = y.down
+    change d • (m : ZMod N) = y.down
     rw [nsmul_eq_mul, ← Nat.cast_mul, ← hm, ZMod.natCast_zmod_val]
   · rintro ⟨x, rfl⟩
     refine ULift.ext ?_
-    show ZMod.castHom h (ZMod d) (d • x.down) = 0
+    change ZMod.castHom h (ZMod d) (d • x.down) = 0
     rw [map_nsmul, nsmul_eq_mul, ZMod.natCast_self, zero_mul]
 
 /-- Multiplication by `N` vanishes on `ℤ/N_X`. -/
 theorem nsmul_id_unitSheaf : N • 𝟙 (unitSheaf (X := X) N) = 0 := by
   ext U x
-  show N • x = 0
+  change N • x = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod N), ZMod.natCast_self, zero_smul]
 
 /-- **`ℤ/N_X --d--> ℤ/N_X --π--> R(ℤ/d_X)` is exact.** -/
@@ -201,7 +201,7 @@ theorem bijective_reduction_comp_map [NeZero N] (G : EtaleModules.{u, 0} (ZMod d
   refine ⟨fun f f' e => (restrict X h).map_injective ((cancel_epi (reduction X h)).1 e),
     fun g => ?_⟩
   have hg : (reductionShortComplex X h).f ≫ g = 0 := by
-    show (d • 𝟙 _) ≫ g = 0
+    change (d • 𝟙 _) ≫ g = 0
     have e := Preadditive.comp_nsmul g (𝟙 _) d
     rw [Category.comp_id] at e
     rw [Preadditive.nsmul_comp, Category.id_comp, ← e, nsmul_id_restrict, comp_zero]
@@ -284,9 +284,9 @@ theorem inclusionLinearMap_apply_natCast (m : ℕ) :
       ULift.up ((d * m : ℕ) : ZMod N) := by
   rw [show (m : ZMod e) = ((m : ℤ) : ZMod e) from (Int.cast_natCast m).symm]
   refine ULift.ext ?_
-  show ZMod.lift e ⟨zmultiplesHom (ZMod N) (d : ZMod N), _⟩ (((m : ℤ) : ZMod e)) = _
+  change ZMod.lift e ⟨zmultiplesHom (ZMod N) (d : ZMod N), _⟩ (((m : ℤ) : ZMod e)) = _
   rw [ZMod.lift_coe]
-  show (m : ℤ) • (d : ZMod N) = _
+  change (m : ℤ) • (d : ZMod N) = _
   rw [natCast_zsmul, nsmul_eq_mul, Nat.cast_mul, mul_comm]
 
 include hde in
@@ -337,7 +337,7 @@ theorem function_exact_inclusionLinearMap [NeZero N] :
     have hx' := eq_up_natCast_val x
     rw [hx', inclusionLinearMap_apply_natCast]
     refine ULift.ext ?_
-    show ZMod.castHom (Dvd.intro e hde) (ZMod d) ((d * x.down.val : ℕ) : ZMod N) = 0
+    change ZMod.castHom (Dvd.intro e hde) (ZMod d) ((d * x.down.val : ℕ) : ZMod N) = 0
     rw [map_natCast, Nat.cast_mul, ZMod.natCast_self, zero_mul]
 
 /-- `ℤ/N ↠ ℤ/e --d--> ℤ/N` is multiplication by `d`. -/
@@ -346,7 +346,7 @@ theorem reductionLinearMap_comp_inclusionLinearMap [NeZero N] :
       d • 𝟙 (ModuleCat.of (ZMod N) (ULift.{u + 1} (ZMod N))) := by
   have := neZero_right_of_mul_eq hde
   ext y
-  show ((inclusionLinearMap.{u} hde).hom (ULift.up (ZMod.castHom (dvd_of_mul_eq_left hde)
+  change ((inclusionLinearMap.{u} hde).hom (ULift.up (ZMod.castHom (dvd_of_mul_eq_left hde)
     (ZMod e) y.down))).down = d • y.down
   rw [ZMod.castHom_apply, ← ZMod.natCast_val, inclusionLinearMap_apply_natCast, nsmul_eq_mul,
     Nat.cast_mul, ZMod.natCast_zmod_val]

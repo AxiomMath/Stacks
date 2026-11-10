@@ -130,7 +130,7 @@ theorem idealPowerSubsheaf_le_iff (n : ℕ) (M : Modules.{u, m} B S hS F hF) (N 
   constructor
   · intro h U
     refine le_trans ?_ (h (op U))
-    show _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
+    change _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
       { P : M.Submodule | ∀ V : SmallEtale B S hS F,
         chartIdeal B S hS ⟨F, hF⟩ 𝓘 V ^ n • (⊤ : Submodule (chartRing B S hS F hF V)
           (M.val.obj (op V))) ≤ P.toSubmodule.obj (op V) })).obj (op U)
@@ -267,11 +267,11 @@ theorem smul_smallEtaleInternalHom_eq_zero (k : ℕ) (M N : Modules.{u, u} B S h
     (hN : IsPowAnnihilated B S hS F hF 𝓘 k N) (U : (smallEtaleRingedSite B S hS F hF).C)
     (r : chartRing B S hS F hF U) (hr : r ∈ chartIdeal B S hS ⟨F, hF⟩ 𝓘 U ^ k)
     (α : (smallEtaleInternalHom B S hS F hF M N).val.obj (op U)) : r • α = 0 := by
-  show α ≫ multEndoHom (smallEtaleRingedSite B S hS F hF).O.obj N.val U r = 0
+  change α ≫ multEndoHom (smallEtaleRingedSite B S hS F hF).O.obj N.val U r = 0
   refine PresheafOfModules.hom_ext fun V => ?_
   rw [PresheafOfModules.zero_app]
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show fRestr (smallEtaleRingedSite B S hS F hF).O.obj U r V • (α.app V).hom x = 0
+  change fRestr (smallEtaleRingedSite B S hS F hF).O.obj U r V • (α.app V).hom x = 0
   exact hN V.unop.left (chartRestrict (hF := hF) V.unop.hom r)
     (chartRestrict_mem_chartIdeal_pow B S hS F hF 𝓘 V.unop.hom k hr) _
 
@@ -366,9 +366,9 @@ theorem bijective_adicSectionsMap_of_bijective_adicSectionsMapAt
             ⟨fun n => (X n).val.map g ((t U).1 n), hw⟩ =
           adicSectionsFibre B S hS F hF Y trY t' V := by
         refine Subtype.ext (funext fun n => ?_)
-        show (β n).val.app V ((X n).val.map g ((t U).1 n)) = _
+        change (β n).val.app V ((X n).val.map g ((t U).1 n)) = _
         rw [PresheafOfModules.naturality_apply (β n).val g]
-        show (Y n).val.map g
+        change (Y n).val.map g
           ((adicSectionsMapAt B S hS F hF X Y trX trY β hβ U (t U)).1 n) = _
         rw [hte U]
         exact PresheafOfModules.sections_property (t'.1 n) g
@@ -568,7 +568,7 @@ theorem bijective_smallEtaleInternalHomAdicSection :
     · refine transition_comp_eq_of_projection_comp B S hS F hF 𝓘 _ (n + 1) _ _ _ ?_
       simpa [hπ] using hαtr n
     · refine Subtype.ext (funext fun n => ?_)
-      show (smallEtaleInternalHomSectionsEquiv B S hS F hF M
+      change (smallEtaleInternalHomSectionsEquiv B S hS F hF M
         (smallEtaleAdicQuotient B S hS F hF 𝓘 (n + 1) N)).symm
           (smallEtaleAdicQuotientProjection B S hS F hF 𝓘 (n + 1) M ≫
             cokernel.desc _ (smallEtaleInternalHomSectionsEquiv B S hS F hF M

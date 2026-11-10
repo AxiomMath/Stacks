@@ -124,7 +124,7 @@ private theorem codimension_singleton_eq_sub_dimensionFunction {A : Type*} [Topo
     ξ z hspec
   have htop : ∀ V : IrreducibleCloseds A, V ≤ closureSingleton ξ := by
     intro V
-    show (V : Set A) ⊆ closure ({ξ} : Set A)
+    change (V : Set A) ⊆ closure ({ξ} : Set A)
     rw [hξ]
     exact Set.subset_univ _
   rw [← codimension_eq_topCodim_of_isTop _ _ htop] at hc
@@ -139,7 +139,7 @@ private theorem topologicalKrullDim_eq_of_forall_codimension_singleton {A : Type
     (hcod : ∀ (z : A) (hz : IsClosed ({z} : Set A)),
       codimension (⟨{z}, isIrreducible_singleton, hz⟩ : IrreducibleCloseds A) = n) :
     topologicalKrullDim A = (n : WithBot ℕ∞) := by
-  show Order.krullDim (IrreducibleCloseds A) = _
+  change Order.krullDim (IrreducibleCloseds A) = _
   apply le_antisymm
   · rw [Order.krullDim_eq_iSup_coheight]
     refine iSup_le fun W => ?_
@@ -190,7 +190,7 @@ private theorem deltaValue_eq_zero_of_isClosed_singleton
       D.isAlgebraicSpace D.quasiSeparated) hJac] at hyft
   have htrdeg := hasTranscendenceDegreeAt_zero_of_isFiniteTypePoint D.site D.base D.base_mem
     hX.1 D.isAlgebraicSpace sX hX.2.2 hJac x hxft
-  show inducedDimensionValue D.site D.base D.base_mem D.delta.toFun sX x = 0
+  change inducedDimensionValue D.site D.base D.base_mem D.delta.toFun sX x = 0
   rw [inducedDimensionValue_eq D.site D.base D.base_mem hX.1 D.isAlgebraicSpace D.delta.toFun
     sX hX.2.2 x 0 htrdeg]
   simpa using hδ _ hyft
@@ -238,7 +238,7 @@ value of the dimension function of Situation 0EDT for the structure morphism `Z 
 theorem subspaceDeltaDimensionFunction_eq_deltaValue
     (x : points D.site D.base D.base_mem Z.subspace.toFunctor) :
     subspaceDeltaDimensionFunction D sX hX d Z x = D.deltaValue (Z.subspace.ι ≫ sX) x := by
-  show d _ = _
+  change d _ = _
   exact (hd _).trans (D.deltaValue_comp_of_isLocallyQuasiFinite Z.isClosedSubspace.1 hX.1
     Z.subspace.ι sX
     (isLocallyQuasiFinite_of_isImmersion D.site D.base D.base_mem Z.subspace.ι
@@ -259,7 +259,7 @@ private theorem deltaDimensionFunction_eq_zero_of_isClosed_singleton
                               Z.subspace.ι z} : Set (points D.site D.base D.base_mem X)) := by
     simpa only [Set.image_singleton] using
       ((Z.isClosedEmbedding_pointsMap D.site D.base D.base_mem hX.1).isClosedMap _ hz)
-  show d _ = 0
+  change d _ = 0
   exact hdz.trans (deltaValue_eq_zero_of_isClosed_singleton D sX hX hJac hδ _ hclosed)
 
 omit hJac hδ in

@@ -122,7 +122,7 @@ variable {C : Type u₁} [Category.{v₁} C] [HasZeroObject C] [HasShift C ℤ] 
   [L.IsTriangulated]
 
 omit [HasZeroObject D] [Preadditive D] [∀ (n : ℤ), (shiftFunctor D n).Additive]
-  [Pretriangulated D] [L.IsTriangulated] in
+  [Pretriangulated D] [L.IsTriangulated] [A.IsClosedUnderIsomorphisms] in
 /-- `CategoryTheory.ObjectProperty.homEquivVerdierEmbeddingShift` is natural in the target
 variable. -/
 theorem homEquivVerdierEmbeddingShift_naturality [A.IsVerdierLeftLocalizing N]
@@ -231,7 +231,7 @@ theorem homEquivDerivedYonedaOnK_naturality {DA : Type u'} [Category.{v'} DA] [H
           ((yonedaLocalizing C G).trW.Q.map (((yonedaDGFunctor C).onK).map s)) := by
   have := isLocalization_yonedaLift_comp C G
   have := isVerdierLeftLocalizing_yonedaImage C G
-  show homEquivYonedaImageVerdier C G ((yonedaLift C).obj x) ((yonedaLift C).obj y₂) n
+  change homEquivYonedaImageVerdier C G ((yonedaLift C).obj x) ((yonedaLift C).obj y₂) n
       (homShiftEquivOfIsLocalization (yonedaInverseImage C G).trW q
         (yonedaLift C ⋙ yonedaImageQ C G) x y₂ n
         (h ≫ (shiftFunctor DA n).map (q.map s))) = _
@@ -319,7 +319,7 @@ variable {R : Type r} [CommRing R]
 attribute [local implicit_reducible] DGCategory.K
 
 omit [HasZeroObject DA] [HasShift DA ℤ] [Preadditive DA] [∀ n : ℤ, (shiftFunctor DA n).Additive]
-  [Pretriangulated DA] [q.CommShift ℤ] [q.IsTriangulated] in
+  [Pretriangulated DA] [q.CommShift ℤ] [q.IsTriangulated] [IsTriangulated C.K] in
 /-- `DGCategory.derivedHomReflectorGradedCohomologyIso` is natural in the source variable: for
 `s : y₁ ⟶ y₂` in `K(C)` the map that `R̃(q s)` induces on the degree-`n` homology of the forgetful
 image corresponds to the map that `ev_x (L h_s)` induces on the explicit cohomology. -/
@@ -401,7 +401,7 @@ theorem derivedHomPhi_injective
   (derivedHomPhi C G L q hL hη hΦ x y e n).injective
 
 omit [HasZeroObject DA] [Preadditive DA] [∀ n : ℤ, (shiftFunctor DA n).Additive]
-  [Pretriangulated DA] [q.IsTriangulated] in
+  [Pretriangulated DA] [q.IsTriangulated] [IsTriangulated C.K] in
 /-- **The covariant naturality square of `(*)`.** For every morphism `s : y₁ ⟶ y₂` of `K(C)` —
 not only for a quasi-isomorphism —
 
@@ -431,7 +431,7 @@ theorem derivedHomPhi_covariant
   exact RightModule.chainEquivReflectorEvaluation_naturality C G hL hη q x s e n _
 
 omit [HasZeroObject DA] [Preadditive DA] [∀ n : ℤ, (shiftFunctor DA n).Additive]
-  [Pretriangulated DA] [q.IsTriangulated] in
+  [Pretriangulated DA] [q.IsTriangulated] [IsTriangulated C.K] in
 /-- **`(*)` at one reflector.** There is a triangulated endofunctor `L` of the homotopy category
 of right modules with `L h_X` zero for every `X` in `Z = Φ⁻¹ N`, together with bijections
 `φ : H^n(U(R̃(q y))) ≃ Hom_{DA}(q x, (q y)⟦n⟧)` natural in every morphism `s : y₁ ⟶ y₂` of

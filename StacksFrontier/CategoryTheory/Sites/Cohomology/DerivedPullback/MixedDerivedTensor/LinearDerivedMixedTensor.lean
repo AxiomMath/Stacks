@@ -117,6 +117,10 @@ lemma ι_transportTotalIso_hom (p q n : ℤ) (h : p + q = n) :
 
 end Pair
 
+omit [HasZeroMorphisms A] [HasZeroMorphisms E] [M.PreservesZeroMorphisms]
+  [∀ X, (M.obj X).PreservesZeroMorphisms] [T.PreservesZeroMorphisms]
+  [∀ X, (T.obj X).PreservesZeroMorphisms] [Φ.PreservesZeroMorphisms]
+  [Ψ.PreservesZeroMorphisms] [HasZeroMorphisms B] [HasZeroMorphisms B'] [Preadditive D] in
 include h₁ h₂ in
 /-- The two naturality squares of `ε`, merged. -/
 lemma transport_square {a a' : A} (u : a ⟶ a') {e e' : E} (v : e ⟶ e') :
@@ -206,6 +210,7 @@ def mixedTensorExtendIso (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.r
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.mapIso
       ((extendScalarsIsoPullbackAuxHomH f).app N)).app H
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `mixedTensorExtendIso` is natural in the sheaf of `O`-modules. -/
 lemma mixedTensorExtendIso_naturality_fst
     {H H' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (φ : H ⟶ H')
@@ -219,6 +224,7 @@ lemma mixedTensorExtendIso_naturality_fst
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).flip.mapIso
       ((extendScalarsIsoPullbackAuxHomH f).app N)).hom.naturality φ)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `mixedTensorExtendIso` is natural in the sheaf of `f⁻¹O'`-modules. -/
 lemma mixedTensorExtendIso_naturality_snd
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -250,6 +256,7 @@ def mixedTensorPullbackIso (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj H).mapIso
       ((pullbackFactorIso f).app G)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The underived identity is natural in the sheaf of `O`-modules. -/
 lemma mixedTensorPullbackIso_naturality_fst
     {H H' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (φ : H ⟶ H')
@@ -264,6 +271,7 @@ lemma mixedTensorPullbackIso_naturality_fst
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).map φ).naturality
       ((pullbackFactorIso f).hom.app G)).symm
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The underived identity is natural in the sheaf of `O'`-modules. -/
 lemma mixedTensorPullbackIso_naturality_snd
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -359,7 +367,14 @@ omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrp
   [∀ (A B : CochainComplex (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
     HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf (invRing f))) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)) (ComplexShape.up ℤ)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).obj M).Additive] in
 /-- `mixedTotalExtendIso` is natural in both complexes. -/
 lemma mixedTotalExtendIso_hom_naturality
     {K K' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
@@ -384,6 +399,21 @@ abbrev mixedModelsRight :
       (ComplexShape.up ℤ)) :=
   IsKFlat (Y := auxTopos f)
 
+omit
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf (invRing f))) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)) (ComplexShape.up ℤ)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).obj M).Additive]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The mixed tensor product with a K-flat complex of `f⁻¹O'`-modules with flat terms is
 K-flat in the first variable.**  `Tot(G ⊗_{f⁻¹O'} N) ≅ Tot(G ⊗_O h^*N)`, and `h^*N` is K-flat
 over `O` by Stacks 0G7E. -/
@@ -394,6 +424,15 @@ theorem mixedModelsRight_le :
   exact (kFlat_pullbackComplex' (auxHomH f) (isMorphismOfSites_auxHomH f) N.as hN.1 hN.2 G hG
     n).of_iso (mixedTotalExtendIso f G N.as).symm
 
+omit
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The mixed tensor product with a fixed complex of `O`-modules carries quasi-isomorphisms
 between K-flat complexes of `f⁻¹O'`-modules with flat terms to quasi-isomorphisms.**  After
 `Tot(- ⊗_{f⁻¹O'} -) ≅ Tot(- ⊗_O h^*-)`, this is the invariance of the one-sided K-flat
@@ -468,6 +507,15 @@ def mixedDerivedTensorComparison
     (mixedModelsRight f) (mixedModelsRight_le f)
     (fun K _ _ b hN hN' hb ↦ quasiIso_mixedTensor_map f K b hN hN' hb) K N hN
 
+omit
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The comparison is natural in both complexes. -/
 lemma mixedDerivedTensorComparison_naturality
     {K K' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
@@ -547,6 +595,27 @@ def mixedTotalPullbackIso
     (fun u e ↦ mixedTensorPullbackIso_naturality_fst f u e)
     (fun a _ _ v ↦ mixedTensorPullbackIso_naturality_snd f a v) F G
 
+omit
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf (invRing f))) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)) (ComplexShape.up ℤ)]
+  [(pullbackOnHomotopy f).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
+  [(pullbackOnHomotopy (auxHomG f)).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).obj M).Additive]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The identification of total complexes is natural in both complexes. -/
 lemma mixedTotalPullbackIso_hom_naturality
     {F F' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
@@ -566,7 +635,21 @@ lemma mixedTotalPullbackIso_hom_naturality
 
 variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
+omit
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [(pullbackOnHomotopy f).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
+  [(pullbackOnHomotopy (auxHomG f)).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))] in
 include hmos in
+omit
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive] in
 /-- The inverse image of a K-flat complex of `O'`-modules with flat terms is a K-flat complex of
 `f⁻¹O'`-modules with flat terms. -/
 theorem mixedModelsRight_pullbackComplex
@@ -638,7 +721,13 @@ variable {F F' : CochainComplex (SheafOfModules.{u}
 
 omit [(pullbackOnHomotopy (auxHomG f)).HasLeftDerivedFunctor
   (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
-    (ComplexShape.up ℤ))] in
+    (ComplexShape.up ℤ))]
+  [∀ (A B : CochainComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf (invRing f))) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)) (ComplexShape.up ℤ)]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (invRing f)).obj M).Additive] in
 /-- The left-hand side of Stacks 08I6 at the models is natural in the pair of complexes. -/
 lemma linearModelLeft_naturality :
     (linearDerivedTensorPullback f).map
@@ -674,6 +763,10 @@ lemma linearModelLeft_naturality :
   rw [Functor.comp_map]
   exact trans_naturality h1 h2
 
+omit
+  [(pullbackOnHomotopy f).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))] in
 /-- The right-hand side of Stacks 08I6 at the models is natural in the pair of complexes. -/
 lemma linearModelRight_naturality :
     (linearMixedDerivedTensorInverseImage f).map

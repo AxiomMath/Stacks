@@ -305,7 +305,7 @@ public theorem extensionByZeroOpenCovariance_conj_eq_ofMap_of_compat
   ext L g
   let A := (D.valueOfIso K e).pointsIso
   let A' := (D'.valueOfIso _ e').pointsIso
-  show A'.hom.app L (((extensionByZeroOpenCovariance h).app K).unop.hom.app L
+  change A'.hom.app L (((extensionByZeroOpenCovariance h).app K).unop.hom.app L
       (A.inv.app L ((colimit.ι ((Pro.liftedInverseSequence D.system).op ⋙ coyoneda) i).app L g))) =
     (colimit.ι ((Pro.liftedInverseSequence D'.system).op ⋙ coyoneda) i).app L
       (τ.app (Pro.liftedIndexDown i) ≫ g)
@@ -320,7 +320,7 @@ public theorem extensionByZeroOpenCovariance_conj_eq_ofMap_of_compat
   let n := Pro.liftedIndexDown i
   let Ri := (Scheme.Modules.restrictFunctor (X.homOfLE h)).mapDerivedCategory
   let ρ := restrictDerivedHomOfLEIso h
-  show Ri.map (e.inv.app n ≫ (restrictBoundedCoherent U.ι).map g) ≫ ρ.inv.app L.obj =
+  change Ri.map (e.inv.app n ≫ (restrictBoundedCoherent U.ι).map g) ≫ ρ.inv.app L.obj =
     e'.inv.app n ≫ (restrictBoundedCoherent U'.ι).map (τ.app n ≫ g)
   calc Ri.map (e.inv.app n ≫ (restrictBoundedCoherent U.ι).map g) ≫ ρ.inv.app L.obj
       = Ri.map (e.inv.app n) ≫ Ri.map ((restrictBoundedCoherent U.ι).map g) ≫

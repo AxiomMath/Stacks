@@ -57,11 +57,11 @@ variable {A : Type u₁} {B : Type u₂} {C : Type u₃} {D : Type u₄}
 `α : R₁ ⋙ F₁ ⟶ F₂ ⋙ R₂`, the mate `U₂ ⋙ R₁ ⟶ R₂ ⋙ U₁` taken along `adj₃` and `adj₄` is an
 isomorphism if and only if the mate `F₁ ⋙ L₂ ⟶ L₁ ⋙ F₂` taken along `adj₁` and `adj₂` is. -/
 theorem isIso_mateEquiv_iff_isIso_mateEquiv_symm (α : TwoSquare R₁ F₂ F₁ R₂) :
-    IsIso (mateEquiv adj₄ adj₃ α).natTrans ↔
-      IsIso ((mateEquiv adj₁ adj₂).symm α).natTrans := by
-  have key : (mateEquiv adj₄ adj₃ α).natTrans =
+    IsIso (mateEquiv adj₄ adj₃ α) ↔
+      IsIso ((mateEquiv adj₁ adj₂).symm α) := by
+  have key : (mateEquiv adj₄ adj₃ α) =
       conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂)
-        ((mateEquiv adj₁ adj₂).symm α).natTrans := by
+        ((mateEquiv adj₁ adj₂).symm α) := by
     conv_lhs => rw [← (mateEquiv adj₁ adj₂).apply_symm_apply α]
     exact iterated_mateEquiv_conjugateEquiv adj₁ adj₂ adj₃ adj₄ _
   rw [key]
@@ -102,7 +102,7 @@ def inverseImageTwoSquare :
 
 /-- The 2-cell `CategoryTheory.Sites.inverseImageTwoSquare` is an isomorphism. -/
 instance isIso_inverseImageTwoSquare :
-    IsIso (inverseImageTwoSquare J' K' J K a b c d A hsq).natTrans :=
+    IsIso (inverseImageTwoSquare J' K' J K a b c d A hsq) :=
   inferInstanceAs (IsIso (inverseImageSquareIso J' K' J K a b c d A hsq).hom)
 
 section
@@ -119,7 +119,7 @@ def pushforwardBaseChange :
     c.sheafPushforwardCocontinuous A J K ⋙ d.sheafPushforwardContinuous A K' K ⟶
       b.sheafPushforwardContinuous A J' J ⋙ a.sheafPushforwardCocontinuous A J' K' :=
   (mateEquiv (c.sheafAdjunctionCocontinuous A J K) (a.sheafAdjunctionCocontinuous A J' K')
-    (inverseImageTwoSquare J' K' J K a b c d A hsq)).natTrans
+    (inverseImageTwoSquare J' K' J K a b c d A hsq))
 
 variable {shriekX : Sheaf J' A ⥤ Sheaf J A} {shriekY : Sheaf K' A ⥤ Sheaf K A}
   (adjX : shriekX ⊣ b.sheafPushforwardContinuous A J' J)
@@ -133,7 +133,7 @@ def lowerShriekBaseChange :
     a.sheafPushforwardContinuous A J' K' ⋙ shriekX ⟶
       shriekY ⋙ c.sheafPushforwardContinuous A J K :=
   ((mateEquiv adjY adjX).symm
-    (inverseImageTwoSquare J' K' J K a b c d A hsq)).natTrans
+    (inverseImageTwoSquare J' K' J K a b c d A hsq))
 
 /-- **The two base-change comparisons of a commuting square of site functors are invertible
 together.** The comparison `c_* ∘ d^{-1} ⟶ b^{-1} ∘ a_*` of the direct images is an isomorphism

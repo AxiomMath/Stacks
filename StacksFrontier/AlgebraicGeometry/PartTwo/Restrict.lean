@@ -39,8 +39,8 @@ No affineness of `U` or `V` beyond that of the statement is used, and no hypothe
 
 ## Main results
 
-* `Stacks.Tag01R3PartTwo.affineConormalIsoCotangent_restrict`: **the statement of Tag 01R3 (part 2)**, carrying
-  the `stacks` attribute.
+* `Stacks.Tag01R3PartTwo.affineConormalIsoCotangent_restrict`:
+  **the statement of Tag 01R3 (part 2)**, carrying the `stacks` attribute.
 
 ## Universe situation
 

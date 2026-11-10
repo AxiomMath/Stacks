@@ -24,8 +24,8 @@ of genus `g` over a separably closed field `k`,
 The Picard scheme exists by [Stacks, Tag 0B9Z]
 (`Stacks.PicardFunctor.isRepresentable_picardFunctor_of_isSepClosed`); its degree components are
 taken at a rational point of `X` ([Stacks, Tag 056U]). The two inputs of
-`StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurveOf.lean` are discharged here: the conclusion
-of [Stacks, Tag 0B9Y]
+`StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurveOf.lean` are discharged here: the
+conclusion of [Stacks, Tag 0B9Y]
 (`AlgebraicGeometry.exists_invertible_baseChangeTwist_finrank_eq_one_of_isSepClosed`)
 and the vanishing of [Stacks, Tag 0B90] (in the namespace `AlgebraicGeometry`,
 `isZero_cohomologyOverField_one_of_two_mul_genus_sub_one_le_invertibleCurveDegree`).

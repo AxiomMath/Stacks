@@ -529,8 +529,8 @@ complex of flat modules there. -/
 private theorem exists_sliceKFlat_representative
     (K : DerivedCategory (_root_.SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     ∃ A : CochainComplex (_root_.SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat X.O A ∧
-      (∀ W : X.C, Stacks.SheafOfModules.KFlat.KFlat (X.O.over W) (X.restrictComplex A W)) ∧
+      Stacks.SheafOfModules.KFlat X.O A ∧
+      (∀ W : X.C, Stacks.SheafOfModules.KFlat (X.O.over W) (X.restrictComplex A W)) ∧
       Nonempty (DerivedCategory.Q.obj A ≅ K) := by
   obtain ⟨Kc, ⟨eKc⟩⟩ : ∃ P, Nonempty (DerivedCategory.Q.obj P ≅ K) :=
     ⟨_, ⟨DerivedCategory.Q.objObjPreimageIso K⟩⟩
@@ -559,8 +559,8 @@ private theorem hasApprox_tensorComplex
     (A B :
       CochainComplex (_root_.SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
     (W : X.C)
-    (hAW : Stacks.SheafOfModules.KFlat.KFlat (X.O.over W) (X.restrictComplex A W))
-    (hBW : Stacks.SheafOfModules.KFlat.KFlat (X.O.over W) (X.restrictComplex B W))
+    (hAW : Stacks.SheafOfModules.KFlat (X.O.over W) (X.restrictComplex A W))
+    (hBW : Stacks.SheafOfModules.KFlat (X.O.over W) (X.restrictComplex B W))
     (n m a b : ℤ) (hna : n ≤ a)
     (hA : (DerivedCategory.Q.obj (X.restrictComplex A W)).IsLE a)
     (hB : (DerivedCategory.Q.obj (X.restrictComplex B W)).IsLE b)
@@ -619,8 +619,8 @@ theorem isPseudoCoherentFrom_tensor
       (_root_.SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (c : ℤ),
       K'.IsLE c → ∃ A : CochainComplex
         (_root_.SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat X.O A ∧
-      (∀ W : X.C, Stacks.SheafOfModules.KFlat.KFlat (X.O.over W) (X.restrictComplex A W)) ∧
+      Stacks.SheafOfModules.KFlat X.O A ∧
+      (∀ W : X.C, Stacks.SheafOfModules.KFlat (X.O.over W) (X.restrictComplex A W)) ∧
       (DerivedCategory.Q.obj A).IsLE c ∧ Nonempty (DerivedCategory.Q.obj A ≅ K') := by
     intro K' c hK'
     obtain ⟨A, hAflat, hALE, ⟨eA⟩⟩ :=

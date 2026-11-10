@@ -140,7 +140,7 @@ private theorem equationsOpen_eq_basicOpen_finsetProd
     Stacks.Perfect.ExtendedAlternatingCech.equationsOpen f p s =
       X.basicOpen (∏ i ∈ (orderedIndexEquivFinset c p s).1, f i) := by
   rw [equationsOpen_eq_basicOpen_prod]
-  show X.basicOpen (∏ k, f (s.1 k)) =
+  change X.basicOpen (∏ k, f (s.1 k)) =
     X.basicOpen (∏ i ∈ Finset.image s.1 Finset.univ, f i)
   rw [Finset.prod_image fun _ _ _ _ hab => s.2.injective hab]
 
@@ -215,7 +215,7 @@ private theorem cechD_component {R : Type u} [CommRing R] {r p : ℕ}
   | add x y hx hy => simp only [map_add, DirectSum.add_apply, hx, hy, zsmul_add,
       Finset.sum_add_distrib]
   | of S m =>
-    show Cech.cechD f M p (DirectSum.lof R _ _ S m) T = _
+    change Cech.cechD f M p (DirectSum.lof R _ _ S m) T = _
     rw [Cech.cechD_lof]
     simp only [DirectSum.sum_apply, DirectSum.smul_apply,
       DirectSum.lof_eq_of, DirectSum.of_apply]
@@ -247,7 +247,7 @@ private theorem cechD_component {R : Type u} [CommRing R] {r p : ℕ}
       rw [Finset.sum_eq_single k', Finset.sum_eq_single k]
       · rw [dite_eq_left hI, dite_eq_left rfl,
           cechι_cast_target f M hI _ (show (T.erase k).1 ⊆ T.1 from Finset.erase_subset _ _)]
-        show Cech.cechSign (T.1.erase k) k • _ = _
+        change Cech.cechSign (T.1.erase k) k • _ = _
         rw [Cech.cechSign_erase]
       · intro l _ hl
         simp only [hE l hl, dite_false, map_zero, zsmul_zero]
@@ -266,7 +266,7 @@ private theorem cechD_component {R : Type u} [CommRing R] {r p : ℕ}
           rw [← congrArg Subtype.val he]
           exact Finset.mem_insert_self _ _
         refine h ⟨⟨k, hk⟩, Subtype.ext ?_⟩
-        show S.1 = T.1.erase k
+        change S.1 = T.1.erase k
         rw [← congrArg Subtype.val he]
         exact (Finset.erase_insert (Finset.mem_compl.mp k.2)).symm
       simp only [hI, hE, dite_false, map_zero, zsmul_zero, Finset.sum_const_zero]
@@ -330,14 +330,14 @@ private theorem cechModSectionsEquiv_naturality {X : Scheme.{u}} [IsAffine X] {c
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, Cech.cechι_mk]
     apply eT.injective
     simp only [LinearEquiv.apply_symm_apply]
-    show cechModSectionsEquiv f F t _ =
+    change cechModSectionsEquiv f F t _ =
       F.presheaf.map (homOfLE (basicOpen_prod_antitone f h)).op
         (cechModSectionsEquiv f F s _)
     rw [cechModSectionsEquiv_mk, cechModSectionsEquiv_mk]
     exact ConcreteCategory.congr_hom (F.presheaf.map_comp
       (homOfLE (X.basicOpen_le (∏ j ∈ s, f j))).op
       (homOfLE (basicOpen_prod_antitone f h)).op) m
-  show eT (Cech.cechι f Γ(F, ⊤) h x) = ρ (eS x)
+  change eT (Cech.cechι f Γ(F, ⊤) h x) = ρ (eS x)
   rw [LinearMap.congr_fun he x]
   exact eT.apply_symm_apply _
 
@@ -384,7 +384,7 @@ private theorem cechTermSectionsEquiv_apply {X : Scheme.{u}} [IsAffine X] {c p :
     (x : Cech.cechTerm f Γ(F, ⊤) (p + 1)) (s : CechCochains.OrdIndex (I := Fin c) p) :
     (extendedAlternatingCech f F).sectionsIso p ⊤ (cechTermSectionsEquiv f F p x) s =
       cechOrderedSectionsEquiv f F s (x (orderedIndexEquivFinset c p s)) := by
-  show (extendedAlternatingCech f F).sectionsIso p ⊤
+  change (extendedAlternatingCech f F).sectionsIso p ⊤
       (((extendedAlternatingCech f F).sectionsIso p ⊤).symm
         (fun s => cechOrderedSectionsEquiv f F s (x (orderedIndexEquivFinset c p s)))) s = _
   exact congrArg (fun z : CechCochains.OrdCochain
@@ -419,7 +419,7 @@ private theorem cechOrderedSectionsEquiv_naturality {X : Scheme.{u}} [IsAffine X
     (x : Cech.cechMod f Γ(F, ⊤) (orderedIndexEquivFinset c p s).1) :
     cechOrderedSectionsEquiv f F t (Cech.cechι f Γ(F, ⊤) h x) =
       F.presheaf.map (homOfLE hU).op (cechOrderedSectionsEquiv f F s x) := by
-  show F.presheaf.map _
+  change F.presheaf.map _
       (cechModSectionsEquiv f F _ (Cech.cechι f Γ(F, ⊤) h x)) =
     F.presheaf.map (homOfLE hU).op
       (F.presheaf.map _ (cechModSectionsEquiv f F _ x))
@@ -437,7 +437,7 @@ private theorem cechTermSectionsEquiv_comm_d {X : Scheme.{u}} [IsAffine X] {c : 
   apply ((extendedAlternatingCech f F).sectionsIso (p + 1) ⊤).injective
   funext s
   rw [cechTermSectionsEquiv_apply, (extendedAlternatingCech f F).differential_succ]
-  show cechOrderedSectionsEquiv f F s
+  change cechOrderedSectionsEquiv f F s
       (Cech.cechD f Γ(F, ⊤) (p + 1) x (orderedIndexEquivFinset c (p + 1) s)) =
     ∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
       F.presheaf.map (homOfLE (CechCochains.inter_le_omit _ s.1 j)).op
@@ -447,7 +447,7 @@ private theorem cechTermSectionsEquiv_comm_d {X : Scheme.{u}} [IsAffine X] {c : 
   rw [cechD_component, map_sum, ← (orderedElementEquiv s).sum_comp]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_zsmul]
-  show Cech.cechSign (Finset.image s.1 Finset.univ) (s.1 j) • _ = _
+  change Cech.cechSign (Finset.image s.1 Finset.univ) (s.1 j) • _ = _
   rw [cechSign_image_univ s.1 s.2 j]
   congr 1
   let t : CechCochains.OrdIndex (I := Fin c) p :=
@@ -482,7 +482,7 @@ private theorem cechZeroSectionsEquiv_symm_apply {X : Scheme.{u}} [IsAffine X] {
     (s : _root_.ExtendedAlternatingCech.Idx c 0) :
     (cechZeroSectionsEquiv f F).symm x s =
       LocalizedModule.mk ((extendedAlternatingCech f F).zeroIso.hom.app ⊤ x) 1 := by
-  show ((_root_.ExtendedAlternatingCech.cechZeroEquiv f Γ(F, ⊤)).symm _) s = _
+  change ((_root_.ExtendedAlternatingCech.cechZeroEquiv f Γ(F, ⊤)).symm _) s = _
   rw [_root_.ExtendedAlternatingCech.cechZeroEquiv_symm_apply]
   rfl
 
@@ -493,7 +493,7 @@ private theorem cechOrderedSectionsEquiv_mk {X : Scheme.{u}} [IsAffine X] {c p :
     cechOrderedSectionsEquiv f F s (LocalizedModule.mk m 1) =
       F.presheaf.map (homOfLE (show CechCochains.inter
         (fun i => (⊤ : X.Opens) ⊓ X.basicOpen (f i)) s.1 ≤ ⊤ from le_top)).op m := by
-  show F.presheaf.map _ (cechModSectionsEquiv f F _ _) = _
+  change F.presheaf.map _ (cechModSectionsEquiv f F _ _) = _
   rw [show (LocalizedModule.mk m 1 : Cech.cechMod f Γ(F, ⊤) _) =
     LocalizedModule.mkLinearMap _ _ m from rfl, cechModSectionsEquiv_mk,
     ← F.presheaf.map_comp_apply]
@@ -513,11 +513,11 @@ private theorem cechZeroSectionsEquiv_comm_d {X : Scheme.{u}} [IsAffine X] {c : 
     cechD_component]
   simp only [cechZeroSectionsEquiv_symm_apply]
   rw [← (orderedElementEquiv s).sum_comp, Fin.sum_univ_one]
-  show cechOrderedSectionsEquiv f F s
+  change cechOrderedSectionsEquiv f F s
     (Cech.cechSign (Finset.image s.1 Finset.univ) (s.1 0) • _) = _
   rw [cechSign_image_univ s.1 s.2 0]
   simp only [Fin.val_zero, pow_zero, one_zsmul]
-  show cechOrderedSectionsEquiv f F s
+  change cechOrderedSectionsEquiv f F s
     (Cech.cechι f Γ(F, ⊤) _ (LocalizedModule.mkLinearMap _ _ _)) = _
   rw [Cech.cechι_mk]
   exact cechOrderedSectionsEquiv_mk f F s _
@@ -573,7 +573,7 @@ private theorem image_top_of_iso {X Y : Scheme.{u}} (e : X ≅ Y) :
     e.inv ''ᵁ (⊤ : Y.Opens) = ⊤ := by
   rw [Scheme.Hom.image_top_eq_opensRange]
   ext x
-  show (∃ y, e.inv y = x) ↔ True
+  change (∃ y, e.inv y = x) ↔ True
   exact iff_true_intro ⟨e.hom x, congrArg (fun f : X ⟶ X => f x) e.hom_inv_id⟩
 
 /-- Transport of global sections along an isomorphism of schemes. -/
@@ -587,7 +587,7 @@ private theorem restrictTopIso_naturality {X Y : Scheme.{u}} (e : X ≅ Y)
     {M N : X.Modules} (φ : M ⟶ N) :
     (((Scheme.Modules.restrictFunctor e.inv).map φ).app ⊤) ≫
       (restrictTopIso e N).hom = (restrictTopIso e M).hom ≫ φ.app ⊤ := by
-  show (φ.app (e.inv ''ᵁ ⊤)) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ φ.app ⊤
+  change (φ.app (e.inv ''ᵁ ⊤)) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ φ.app ⊤
   exact (φ.mapPresheaf.naturality _).symm
 
 /-- Restriction along the inverse of an isomorphism of schemes is an equivalence of categories of

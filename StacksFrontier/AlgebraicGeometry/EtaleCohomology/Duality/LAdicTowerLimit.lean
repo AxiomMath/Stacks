@@ -216,7 +216,7 @@ theorem finite : Module.Finite ℤ_[p] ↑(limit F) := by
     simp only [Φ, Pi.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
   have hΦsingle : ∀ g, Φ (Pi.single g 1) = xg g := fun g => by
     simp only [Φ, Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
   refine ⟨⟨Finset.univ.image xg, ?_⟩⟩
   rw [eq_top_iff]
   rintro x -
@@ -249,13 +249,13 @@ theorem finite : Module.Finite ℤ_[p] ↑(limit F) := by
     exact (this.isClopen_fiber 0).isClosed
   have hdec : ∀ N, t (N + 1) ⊆ t N := by
     intro N a ha
-    simp only [t, Set.mem_setOf_eq] at ha ⊢
+    simp only [t, Set.mem_ofPred_eq] at ha ⊢
     rw [← π_tr F (Nat.le_succ N), ha, map_zero]
   have hne : ∀ N, (t N).Nonempty := by
     intro N
     obtain ⟨a, y, hy⟩ := happrox (N + 1)
     refine ⟨a, ?_⟩
-    simp only [t, Set.mem_setOf_eq]
+    simp only [t, Set.mem_ofPred_eq]
     rw [hy, map_smul, hkill]
   obtain ⟨a, ha⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed t hdec hne
     (hlc 0).isCompact hlc

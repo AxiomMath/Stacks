@@ -373,7 +373,7 @@ theorem affineBasicOpenLifts_of_isFirstOrderThickening_of_isQuasiAffine
     (isAffineOpen_iff_isAffineOpen_preimage hT (U i)).mpr (by rw [hUpre i]; exact hAaff i)
   have hPaff : ∀ i j, IsAffineOpen (U i ⊓ U j) := fun i j =>
     (isAffineOpen_iff_isAffineOpen_preimage hT _).mpr (by
-      show IsAffineOpen (k ⁻¹ᵁ U i ⊓ k ⁻¹ᵁ U j)
+      change IsAffineOpen (k ⁻¹ᵁ U i ⊓ k ⁻¹ᵁ U j)
       rw [hUpre i, hUpre j]
       exact hAinter i j)
   have hVaff : IsAffineOpen V :=
@@ -389,7 +389,7 @@ theorem affineBasicOpenLifts_of_isFirstOrderThickening_of_isQuasiAffine
   have hWpre : ∀ i, k ⁻¹ᵁ (V ⊓ U i) = Y.basicOpen (r |_ (k ⁻¹ᵁ U i)) := by
     intro i
     rw [basicOpen_restrict_eq]
-    show k ⁻¹ᵁ V ⊓ k ⁻¹ᵁ U i = _
+    change k ⁻¹ᵁ V ⊓ k ⁻¹ᵁ U i = _
     rw [hVpre]
     exact inf_comm _ _
   have hWeq : ∀ i, V ⊓ U i = Y'.basicOpen (b i) := fun i =>
@@ -473,7 +473,7 @@ theorem affineBasicOpenLifts_of_isFirstOrderThickening_of_isQuasiAffine
   have himg : (k.app ⊤) r' = r ^ (K + M + 1) := by
     refine Y.sheaf.eq_of_locally_eq' (fun i => k ⁻¹ᵁ U i) ⊤ (fun _ => homOfLE le_top)
       (Scheme.Hom.iSup_preimage_eq_top k hUcover).ge _ _ fun i => ?_
-    show ((k.app ⊤) r') |_ (k ⁻¹ᵁ U i) = (r ^ (K + M + 1)) |_ (k ⁻¹ᵁ U i)
+    change ((k.app ⊤) r') |_ (k ⁻¹ᵁ U i) = (r ^ (K + M + 1)) |_ (k ⁻¹ᵁ U i)
     rw [← app_restrict k le_top (k.preimage_mono le_top) r', hr' i]
     simp only [map_sub, map_mul, map_pow, map_natCast]
     rw [hG0 i, mul_zero, mul_zero, sub_zero, hb i, restrict_pow le_top]

@@ -198,18 +198,18 @@ private lemma isZero_koszul_X
   by_cases hi₀ : i ≤ 0
   · let j := (-i).toNat
     have hj : ComplexShape.embeddingDownNat.f j = i := by
-      show -(j : ℤ) = i
+      change -(j : ℤ) = i
       dsimp [j]
       omega
     apply IsZero.of_iso _ (HomologicalComplex.extendXIso _ _ hj)
-    show IsZero (ModuleCat.of A (⋀[A]^j (Fin r → A)))
+    change IsZero (ModuleCat.of A (⋀[A]^j (Fin r → A)))
     have := exteriorPower.subsingleton_of_span_eq_top_of_card_lt
       (Pi.basisFun A (Fin r)) (Pi.basisFun A (Fin r)).span_eq j
       (by simp only [Nat.card_fin]; dsimp [j]; omega)
     exact ModuleCat.isZero_of_subsingleton _
   · apply HomologicalComplex.isZero_extend_X
     intro j
-    show -(j : ℤ) ≠ i
+    change -(j : ℤ) ≠ i
     omega
 
 /-- The exterior powers in a Koszul complex are finite free, so vanishing on the ring implies
@@ -225,7 +225,7 @@ private lemma isZero_single_koszul_X
         (Koszul.seqComplex f)).X i))) := by
   let j := (-i).toNat
   have hj : ComplexShape.embeddingDownNat.f j = i := by
-    show -(j : ℤ) = i
+    change -(j : ℤ) = i
     dsimp [j]
     omega
   apply IsZero.of_iso _ (H.mapIso ((DerivedCategory.singleFunctor _ i).mapIso
@@ -319,7 +319,7 @@ private lemma koszulPowerTransition_f_zero
   have ht := (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
     (Classical.choose_spec (_root_.koszulPowerComplexes_form_inverseSystem f))))).2.2.2.2.1
       m n h 0 v
-  show (AdicKoszul.koszulPowerTransition f m n h).f 0
+  change (AdicKoszul.koszulPowerTransition f m n h).f 0
     ⟨ExteriorAlgebra.ιMulti A 0 v, _⟩ = ⟨ExteriorAlgebra.ιMulti A 0 v, _⟩
   have hv : (fun (k : Fin 0) (i : Fin r) ↦ f i ^ (m - n) * v k i) = v :=
     funext fun k ↦ Fin.elim0 k
@@ -336,14 +336,14 @@ private lemma koszulTensorTower_boundary_epi
   have : IsIso (τ.f 0) := by
     dsimp [τ]
     rw [koszulPowerTransition_f_zero]
-    show IsIso (𝟙 (ModuleCat.of A (⋀[A]^0 (Fin r → A))))
+    change IsIso (𝟙 (ModuleCat.of A (⋀[A]^0 (Fin r → A))))
     infer_instance
   let φ := (ComplexShape.embeddingDownNat.extendFunctor (ModuleCat.{u} A)).map τ
   have : IsIso (φ.f 0) := by
-    show IsIso ((HomologicalComplex.extendMap τ ComplexShape.embeddingDownNat).f 0)
+    change IsIso ((HomologicalComplex.extendMap τ ComplexShape.embeddingDownNat).f 0)
     rw [HomologicalComplex.extendMap_f _ _ (show ComplexShape.embeddingDownNat.f 0 = 0 from rfl)]
     infer_instance
-  show Epi ((T.tensor.obj K ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) b).map
+  change Epi ((T.tensor.obj K ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) b).map
     ((AdicKoszul.canonicalKoszulPowerSystem f).map (homOfLE (Nat.le_succ n)).op))
   rw [Functor.ofOpSequence_map_homOfLE_succ]
   apply epi_map_of_bounded_single _ r 0 φ
@@ -375,12 +375,12 @@ private lemma epi_pi_lift_sub
   have he (z : ↑(∏ᶜ X)) : e.hom z n = (Pi.π X n) z :=
     congrArg (fun f ↦ (ConcreteCategory.hom f) z) (ModuleCat.piIsoPi_hom_ker_subtype X n)
   rw [he, he, ← ModuleCat.comp_apply, Pi.lift_comp_π]
-  show (Pi.π X n) (e.inv v) - (τ n) ((Pi.π X (n + 1)) (e.inv v)) = (Pi.π X n) y
+  change (Pi.π X n) (e.inv v) - (τ n) ((Pi.π X (n + 1)) (e.inv v)) = (Pi.π X n) y
   have hv (k : ℕ) : (Pi.π X k) (e.inv v) = v k := by
     rw [← ModuleCat.comp_apply, ModuleCat.piIsoPi_inv_kernel_ι]
     rfl
   rw [hv, hv]
-  show v n - (τ n) (s n (v n - (Pi.π X n) y)) = (Pi.π X n) y
+  change v n - (τ n) (s n (v n - (Pi.π X n) y)) = (Pi.π X n) y
   rw [hs n]
   abel
 

@@ -104,7 +104,7 @@ private theorem truncDirectSum_component
     DirectSum.component R ℕ (fun _ : ℕ => R) i (truncDirectSum R k) =
       if i < k then 1 else 0 := by
   classical
-  show Finsupp.lapply (R := R) (M := R) i
+  change Finsupp.lapply (R := R) (M := R) i
     (∑ j ∈ Finset.range k, Finsupp.single j (1 : R)) = _
   rw [map_sum]
   simp [Finsupp.lapply_apply, Finsupp.single_apply, Finset.sum_ite_eq']
@@ -145,12 +145,12 @@ theorem not_abelian_iAdicallyCompleteModuleCat_of_principal
       map_add' := by
         intro x y
         funext i
-        show π ^ i • (x i + y i) = π ^ i • x i + π ^ i • y i
+        change π ^ i • (x i + y i) = π ^ i • x i + π ^ i • y i
         exact smul_add _ _ _
       map_smul' := by
         intro r x
         funext i
-        show π ^ i • (r • x i) = r • (π ^ i • x i)
+        change π ^ i • (r • x i) = r • (π ^ i • x i)
         rw [smul_comm] }
   let g : M →ₗ[R] N := d.comp f
   have h1not : (1 : R) ∉ I := by
@@ -212,7 +212,7 @@ theorem not_abelian_iAdicallyCompleteModuleCat_of_principal
   have hcoord (z : M) (i : ℕ) : eER (f z i) = fBase z i :=
     congrFun (show ePi (f z) = fBase z by simp [f]) i
   have hweight (z : M) (i : ℕ) : eER (g z i) = π ^ i * fBase z i := by
-    show eER (π ^ i • f z i) = π ^ i * fBase z i
+    change eER (π ^ i • f z i) = π ^ i * fBase z i
     rw [eER.map_smul]
     simp [smul_eq_mul, hcoord]
   have hqg (z : M) : q (g z) = 0 := by
@@ -229,14 +229,14 @@ theorem not_abelian_iAdicallyCompleteModuleCat_of_principal
     let xk : M := eC.symm (AdicCompletion.of I D (truncDirectSum R k))
     let wk : N := fun i ↦ eER.symm (if k ≤ i then π ^ (i - k) else 0)
     have hbasek (i : ℕ) : fBase xk i = if i < k then 1 else 0 := by
-      show AdicCompletion.directSumToPi R I ℕ
+      change AdicCompletion.directSumToPi R I ℕ
         (eC (eC.symm (AdicCompletion.of I D (truncDirectSum R k)))) i = _
       rw [eC.apply_symm_apply, directSumToPi_of_apply]
       exact truncDirectSum_component (R := R) k i
     have hclose : y - g xk = π ^ k • wk := by
       funext i
       apply eER.injective
-      show eER (y i - g xk i) = eER (π ^ k • wk i)
+      change eER (y i - g xk i) = eER (π ^ k • wk i)
       rw [map_sub, hweight xk i, eER.map_smul]
       simp only [y, wk, eER.apply_symm_apply]
       by_cases hik : i < k
@@ -273,7 +273,7 @@ theorem not_abelian_iAdicallyCompleteModuleCat_of_principal
     intro r
     rw [ObjectProperty.FullSubcategory.comp_hom, ModuleCat.hom_comp,
       LinearMap.comp_apply]
-    show q (eER r • y) =
+    change q (eER r • y) =
       ModuleCat.Hom.hom ((@Zero.zero _ (hzm.zero W nm.Z)).hom) r
     rw [hzeroMap W nm.Z, map_smul, hqzero, smul_zero]
     simp
@@ -333,7 +333,7 @@ theorem exists_not_abelian_iAdicallyCompleteModuleCat :
   have hIspan : I = Ideal.span {π} := by
     simp [I, I₀, π, Ideal.map_span]
   have hR : IsAdicComplete I R := by
-    show IsAdicComplete (I₀.map eRP) R
+    change IsAdicComplete (I₀.map eRP) R
     exact (IsAdicComplete.congr_ringEquiv I₀ eRP).mpr hP
   have : IsNoetherianRing R :=
     isNoetherianRing_of_surjective P R eRP.toRingHom eRP.surjective
@@ -348,7 +348,7 @@ theorem exists_not_abelian_iAdicallyCompleteModuleCat :
       map_add' := fun x y ↦ map_add eRP x.down y.down
       map_smul' := by
         intro r x
-        show eRP (eRP.symm r * x.down) = r * eRP x.down
+        change eRP (eRP.symm r * x.down) = r * eRP x.down
         simp }
   have hIFG : I.FG := hIspan ▸ Submodule.fg_span (Set.finite_singleton π)
   have hπ : π ≠ 0 := fun h ↦ by

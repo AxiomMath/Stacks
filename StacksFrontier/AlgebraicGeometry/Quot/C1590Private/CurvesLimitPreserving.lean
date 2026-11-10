@@ -317,7 +317,7 @@ theorem descentObj_curvesProjectionOver :
     IsStronglyCartesian.map_isHomLift (cartesianProperFlatProjection B integerBase hZ)
       (ι.map (D.map e)) (CartesianProperFlatSpaces.baseChangeHom xi₀ (ι.map (D.map e))) hw δ
   refine ⟨j, ⟨Cj, rfl⟩, F.preimage δj, ?_⟩
-  show (F ⋙ cartesianProperFlatProjection B integerBase hZ).IsHomLift (ι.map (c.π.app j))
+  change (F ⋙ cartesianProperFlatProjection B integerBase hZ).IsHomLift (ι.map (c.π.app j))
     (F.preimage δj)
   exact (isHomLift_comp_iff F (cartesianProperFlatProjection B integerBase hZ) _ _).2
     (by rwa [F.map_preimage])

@@ -395,7 +395,7 @@ private theorem punctured_eq_complement_origin (k : Type u) [Field k] :
   have hm : m.IsMaximal := isMaximal_span_range_X k
   rw [Scheme.Opens.range_ι]
   ext p
-  show p ∈ puncturedInfiniteAffineSpace k ↔ _
+  change p ∈ puncturedInfiniteAffineSpace k ↔ _
   simp only [puncturedInfiniteAffineSpace, infiniteAffineSpace, Opens.mem_iSup]
   constructor
   · rintro ⟨i, hi⟩ heq

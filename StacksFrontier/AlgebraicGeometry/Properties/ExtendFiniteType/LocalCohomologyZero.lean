@@ -182,7 +182,7 @@ noncomputable def ofTorsion (I : Ideal A) (M : ModuleCat.{u} A) (n : ℕ)
 theorem evalOne_ofTorsion (I : Ideal A) (M : ModuleCat.{u} A) (n : ℕ)
     (x : M) (hx : x ∈ Submodule.torsionBySet A M ((I ^ n : Ideal A) : Set A)) :
     (ofTorsion I M n x hx).hom (Submodule.Quotient.mk 1) = x := by
-  show (LinearMap.toSpanSingleton A (M : Type u) x) 1 = x
+  change (LinearMap.toSpanSingleton A (M : Type u) x) 1 = x
   exact one_smul A x
 
 /-- A homomorphism out of `A / Iⁿ` vanishing on the class of `1` is zero. -/

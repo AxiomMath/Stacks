@@ -156,7 +156,7 @@ public theorem maximalIdeal_sq_truncation (R : CompleteLocalAlgCat.{u, v, w} Λ 
   have ha := hmem hx
   have hb := hmem hy
   have hab : a * b ∈ AdicTruncation.ideal R 1 := by
-    show a * b ∈ maximalIdeal (R : Type _) ^ (1 + 1)
+    change a * b ∈ maximalIdeal (R : Type _) ^ (1 + 1)
     rw [show (1 : ℕ) + 1 = 2 from rfl, pow_two]
     exact Ideal.mul_mem_mul ha hb
   have h0 : truncationHom R 1 (a * b) = 0 := (truncationHom_eq_zero_iff R 1 _).mpr hab
@@ -200,7 +200,7 @@ public theorem exists_pointDerivation (A : ArtinianLocalAlgCat.{u, max v w, w} �
   intro a b
   have h := d.leibniz a b
   rw [Algebra.smul_def, Algebra.smul_def] at h
-  show d (a * b) = _ * d b + _ * d a
+  change d (a * b) = _ * d b + _ * d a
   rw [h]
   congr 1
 
@@ -356,7 +356,7 @@ public theorem isDualNumberProjection_residueMorphism_dualNumbers :
       (residueMorphism.{u, v, w} (artinianDualNumbers.{u, w, v} Λ k)) := by
   refine ⟨residueFieldCoordinates.{u, v, w} (Λ := Λ) (k := k), dualNumbersEquiv, ?_⟩
   ext z
-  show aug.{u, v, w} (artinianDualNumbers.{u, w, v} Λ k) z =
+  change aug.{u, v, w} (artinianDualNumbers.{u, w, v} Λ k) z =
     TrivSqZeroExt.fst (dualNumbersEquiv z)
   rw [dualNumbersEquiv_fst]
   exact aug_dualNumbers.{u, v, w} z
@@ -511,7 +511,7 @@ public theorem eq_zero_on_maximalIdeal_of_derivationToTangent_eq
     · rw [hαfst, residueHom_eq_zero_of_mem_maximalIdeal _ hzm]
       rfl
     · apply ULift.down_injective
-      show ULift.down (TrivSqZeroExt.snd (α.hom z)) = (0 : k)
+      change ULift.down (TrivSqZeroExt.snd (α.hom z)) = (0 : k)
       rw [hαsnd z, derivation_eq_zero_of_mem_maximalIdeal_sq ξ.base d hz2]
   obtain ⟨χ, hχ⟩ := exists_descend_dualNumberPoint.{u, v, w} ξ.base α hker
   obtain ⟨D, hD, hDχ⟩ := exists_pointDerivation.{u, v, w} (AdicTruncation.obj ξ.base 1) χ
@@ -569,7 +569,7 @@ public theorem eq_zero_on_maximalIdeal_of_derivationToTangent_eq
   have hclass1 : derivationToTangent.{u, v, w} hp.cofibered ξ P d =
       classOf (BasedCategory.ofFunctor p) hp.cofibered ⟨xεF.1, xεF.2⟩ := by
     rw [derivationToTangent_eq_pointClass hp.cofibered ξ P d]
-    show pointClass hp.cofibered ξ P _ α = _
+    change pointClass hp.cofibered ξ P _ α = _
     rw [hpt]
     exact pointClass_of_lift hp.cofibered ξ P 1 χ xεF.2 b hlb
   let χ0 : (AdicTruncation.obj ξ.base 1 : ArtinianLocalAlgCat.{u, max v w, w} Λ k) ⟶
@@ -635,7 +635,7 @@ public theorem eq_zero_on_maximalIdeal_of_derivationToTangent_eq
     obtain ⟨z2, hz2⟩ := hsurjs z1
     obtain ⟨z3, hz3⟩ := eqToHom_hom_surjective.{u, v, w} xF.2.symm z2
     refine ⟨z3, ?_⟩
-    show (eqToHom (ξ.level_eq 1)).hom ((p.map s).hom ((eqToHom xF.2.symm).hom z3)) = z
+    change (eqToHom (ξ.level_eq 1)).hom ((p.map s).hom ((eqToHom xF.2.symm).hom z3)) = z
     rw [hz3, hz2, hz1]
 
 end StepB

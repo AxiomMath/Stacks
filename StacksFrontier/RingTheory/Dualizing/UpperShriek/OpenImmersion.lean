@@ -115,9 +115,9 @@ theorem upperShriekFunctor_iso_derivedExtensionScalars_of_bijective
       toRingHom := g
       commutes := by
         ext r
-        show f (e₀ (MvPolynomial.C r)) = f r
+        change f (e₀ (MvPolynomial.C r)) = f r
         congr 1
-        show (MvPolynomial.C r).coeff 0 = r
+        change (MvPolynomial.C r).coeff 0 = r
         simp
       surjective := hg.2 }
   let F := p₀.derivedExtension.{u, v}
@@ -136,7 +136,7 @@ theorem upperShriekFunctor_iso_derivedExtensionScalars_of_bijective
   let adjC' : F ⊣ ResC := adjC
   let eGMod := ModuleCat.restrictScalarsEquivalenceOfRingEquiv (RingEquiv.ofBijective g hg)
   let : Resg.IsEquivalence := by
-    show eGMod.functor.mapDerivedCategory.IsEquivalence
+    change eGMod.functor.mapDerivedCategory.IsEquivalence
     exact mapDerivedCategory_isEquivalence eGMod
   let adjGRight : Resg ⊣ RH :=
     (restrictScalarsDerived_adj_derivedHom.{u, v} g).some

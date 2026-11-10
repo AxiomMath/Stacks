@@ -99,6 +99,7 @@ theorem finiteType : Algebra.FiniteType (𝒜 0) A := by
 
 include hx
 
+omit hx in
 /-- **`A` is Noetherian** when `A₀` is: it is a finitely generated `A₀`-algebra, so the Hilbert
 basis theorem applies. -/
 theorem isNoetherianRing [IsNoetherianRing (𝒜 0)] : IsNoetherianRing A :=
@@ -120,6 +121,7 @@ theorem adjoin_degreeOne_eq_top : Algebra.adjoin (𝒜 0) ((𝒜 1 : Set A)) = �
 theorem iSup_basicOpen_eq_top : (⨆ i, AlgebraicGeometry.Proj.basicOpen 𝒜 (x i)) = ⊤ :=
   AlgebraicGeometry.Proj.iSup_basicOpen_eq_top' 𝒜 x (fun i => ⟨1, hx i⟩) hgen
 
+omit hx in
 /-- **`Proj A` is quasi-compact**: the structure morphism to `Spec A₀` is quasi-compact, `A`
 being a finitely generated `A₀`-algebra, and `Spec A₀` is quasi-compact. -/
 theorem compactSpace : CompactSpace (AlgebraicGeometry.Proj 𝒜) :=
@@ -163,7 +165,7 @@ theorem isAmple_twistingSheaf_one :
     letI := isInvertibleModule_twistingSheaf 𝒜 x hx hgen 1
     Stacks.Ample.IsAmple (AlgebraicGeometry.Proj 𝒜) (twistingSheaf 𝒜 1) :=
   let := isInvertibleModule_twistingSheaf 𝒜 x hx hgen 1
-  let := compactSpace 𝒜 x hx hgen
+  let := compactSpace 𝒜 x hgen
   Stacks.ProjectiveSpace.isAmple_twistingSheaf_of_commonDegreeCover 𝒜
     (commonDegreeCover 𝒜 x hx hgen) (by norm_num)
 
@@ -177,10 +179,11 @@ theorem isQuotientOfNegativeTwists :
     (X := AlgebraicGeometry.Proj 𝒜) (twistingSheaf 𝒜 1)
     (isAmple_twistingSheaf_one 𝒜 x hx hgen)
 
+omit hx in
 /-- **`Proj A` is a Noetherian scheme**, the opening assertion of [Stacks, Tag 0AG6]. -/
 theorem isNoetherian_proj [IsNoetherianRing (𝒜 0)] :
     AlgebraicGeometry.IsNoetherian (AlgebraicGeometry.Proj 𝒜) :=
-  have := isNoetherianRing 𝒜 x hx hgen
+  have := isNoetherianRing 𝒜 x hgen
   Stacks.AlgebraicGeometry.Proj.isNoetherian_proj 𝒜
 
 /-- **Every twist `𝒪(d)` is coherent**: it is the sheaf associated with the finite graded module
@@ -188,7 +191,7 @@ theorem isNoetherian_proj [IsNoetherianRing (𝒜 0)] :
 @[ega "III 2.3.4" "special case"]
 theorem isCoherent_twistingSheaf [IsNoetherianRing (𝒜 0)] (d : ℤ) :
     _root_.SheafOfModules.IsCoherent (twistingSheaf 𝒜 d) :=
-  have := isNoetherianRing 𝒜 x hx hgen
+  have := isNoetherianRing 𝒜 x hgen
   AlgebraicGeometry.ProjectiveSpectrum.Proj.isCoherent_twistingSheaf 𝒜
     (adjoin_degreeOne_eq_top 𝒜 x hx hgen) d
 

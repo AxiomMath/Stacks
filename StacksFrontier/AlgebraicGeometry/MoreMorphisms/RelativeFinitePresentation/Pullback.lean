@@ -114,7 +114,7 @@ private theorem finitePresentationRel_pullback_chart
   let GS : (Spec (.of Γ(Y, W))).Modules := (Scheme.Modules.restrictFunctor hW.fromSpec).obj G
   let N : ModuleCat Γ(Y, W) := ModuleCat.of Γ(Y, W) Γ(G, W)
   let eGS : (moduleSpecΓFunctor (R := .of Γ(Y, W))).obj GS ≃ₗ[Γ(Y, W)] N := by
-    show Γ(G.restrict hW.fromSpec, ⊤) ≃ₗ[Γ(Y, W)] Γ(G, W)
+    change Γ(G.restrict hW.fromSpec, ⊤) ≃ₗ[Γ(Y, W)] Γ(G, W)
     exact affineSectionsLinearEquiv G hW
   let eSheaf : (tilde.functor (R := .of Γ(Y, W))).obj N ≅ GS :=
     (tilde.functor (R := .of Γ(Y, W))).mapIso eGS.symm.toModuleIso ≪≫

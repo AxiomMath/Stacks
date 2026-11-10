@@ -79,7 +79,7 @@ theorem small_quotientStack_fiberHom (G : GroupoidInAlgebraicSpaces C S hS B)
   let g : Over T := (Over.iteratedSliceBackward T).obj (Over.mk (𝟙 T.left))
   have hg : IsIso g.hom := by
     have : IsIso ((Over.forget _).map g.hom) := by
-      show IsIso (𝟙 T.left)
+      change IsIso (𝟙 T.left)
       infer_instance
     exact isIso_of_reflects_iso _ (Over.forget _)
   have hgroupoid := (isFiberedInGroupoids_quotientStack G).fiber_isGroupoid g.left

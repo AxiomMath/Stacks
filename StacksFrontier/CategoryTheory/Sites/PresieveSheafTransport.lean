@@ -134,7 +134,7 @@ theorem Arrows.compatible_over_iff {W : Over X} {I : Type*} {Z : I → Over X} (
     hx i j T.left ai.left aj.left (by simpa using congrArg CommaMorphism.left h)⟩
   have h' : ai ≫ (g i).left = aj ≫ (g j).left := h
   have haj : aj ≫ (Z j).hom = (Over.mk (ai ≫ (Z i).hom)).hom := by
-    show aj ≫ (Z j).hom = ai ≫ (Z i).hom
+    change aj ≫ (Z j).hom = ai ≫ (Z i).hom
     rw [← Over.w (g i), ← Over.w (g j), ← assoc, ← assoc, h']
   exact hx i j (Over.mk (ai ≫ (Z i).hom)) (Over.homMk ai rfl) (Over.homMk aj haj)
     (by ext; simpa using h)
@@ -147,7 +147,7 @@ theorem functorPullback_overForget_ofArrows (W : Over X) {I : Type*} {Y : I → 
       ofArrows (fun i ↦ Over.mk (f i ≫ W.hom))
         fun i ↦ (Over.homMk (f i) rfl : Over.mk (f i ≫ W.hom) ⟶ W) := by
   refine (Presieve.overEquiv W).injective ?_
-  show map (Over.forget X) _ = map (Over.forget X) _
+  change map (Over.forget X) _ = map (Over.forget X) _
   rw [map_functorPullback_overForget, map_ofArrows]
   rfl
 

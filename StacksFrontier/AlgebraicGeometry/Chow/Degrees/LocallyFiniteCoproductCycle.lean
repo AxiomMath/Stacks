@@ -75,38 +75,38 @@ omit [DecidablePred p] in
 @[reassoc (attr := simp)]
 theorem ι_sigmaSubtypeIncl (j : {j // p j}) :
     Sigma.ι (fun j : {j // p j} ↦ F j) j ≫ sigmaSubtypeIncl F p = Sigma.ι F j.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 omit [DecidablePred p] in
 /-- The inclusion `Stacks.Chow.sigmaSubtypeSect` restricts to the coprojection on each summand. -/
 @[reassoc (attr := simp)]
 theorem ι_sigmaSubtypeSect (j : {j // ¬ p j}) :
     Sigma.ι (fun j : {j // ¬ p j} ↦ F j) j ≫ sigmaSubtypeSect F p = Sigma.ι F j.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The projection `Stacks.Chow.sigmaSubtypeProj` vanishes on a summand `F_j` with `p j`. -/
 @[reassoc]
 theorem ι_sigmaSubtypeProj_of_pos (j : J) (h : p j) : Sigma.ι F j ≫ sigmaSubtypeProj F p = 0 := by
-  rw [sigmaSubtypeProj, Sigma.ι_desc, dif_pos h]
+  rw [sigmaSubtypeProj, Sigma.ι_comp_desc, dite_eq_left h]
 
 /-- The projection `Stacks.Chow.sigmaSubtypeProj` is the coprojection on a summand `F_j` with
 `¬ p j`. -/
 @[reassoc]
 theorem ι_sigmaSubtypeProj_of_neg (j : J) (h : ¬ p j) :
     Sigma.ι F j ≫ sigmaSubtypeProj F p = Sigma.ι (fun j : {j // ¬ p j} ↦ F j) ⟨j, h⟩ := by
-  rw [sigmaSubtypeProj, Sigma.ι_desc, dif_neg h]
+  rw [sigmaSubtypeProj, Sigma.ι_comp_desc, dite_eq_right h]
 
 /-- The retraction `Stacks.Chow.sigmaSubtypeRetr` is the coprojection on a summand `F_j` with
 `p j`. -/
 @[reassoc]
 theorem ι_sigmaSubtypeRetr_of_pos (j : J) (h : p j) :
     Sigma.ι F j ≫ sigmaSubtypeRetr F p = Sigma.ι (fun j : {j // p j} ↦ F j) ⟨j, h⟩ := by
-  rw [sigmaSubtypeRetr, Sigma.ι_desc, dif_pos h]
+  rw [sigmaSubtypeRetr, Sigma.ι_comp_desc, dite_eq_left h]
 
 /-- The retraction `Stacks.Chow.sigmaSubtypeRetr` vanishes on a summand `F_j` with `¬ p j`. -/
 @[reassoc]
 theorem ι_sigmaSubtypeRetr_of_neg (j : J) (h : ¬ p j) : Sigma.ι F j ≫ sigmaSubtypeRetr F p = 0 := by
-  rw [sigmaSubtypeRetr, Sigma.ι_desc, dif_neg h]
+  rw [sigmaSubtypeRetr, Sigma.ι_comp_desc, dite_eq_right h]
 
 /-- The composite `⨁_{p j} F_j ⟶ ⨁_j F_j ⟶ ⨁_{¬ p j} F_j` is zero. -/
 theorem sigmaSubtypeIncl_comp_proj : sigmaSubtypeIncl F p ≫ sigmaSubtypeProj F p = 0 :=
@@ -187,9 +187,9 @@ theorem shortExact_sigmaShortComplex (hE : ∀ j, (E j).ShortExact) :
     (fun {W} g' hg' ↦ Sigma.desc fun j ↦
       (hE j).exact.desc (Sigma.ι (fun j ↦ (E j).X₂) j ≫ g') (hk g' hg' j))
     (fun {W} g' hg' ↦ Sigma.hom_ext _ _ fun j ↦ by
-      rw [Limits.Sigma.ι_map_assoc, Sigma.ι_desc, (hE j).exact.g_desc])
+      rw [Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc, (hE j).exact.g_desc])
     (fun {W} g' hg' m hm' ↦ Sigma.hom_ext _ _ fun j ↦ by
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       refine (cancel_epi (E j).g).1 ?_
       rw [(hE j).exact.g_desc, ← hm', Limits.Sigma.ι_map_assoc])
 

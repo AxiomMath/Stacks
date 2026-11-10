@@ -58,12 +58,12 @@ theorem notMem_of_mem_closure_of_mem_closure {P X : Type*} [TopologicalSpace P]
     Set.disjoint_left.1 hΔ hw (hKΔ w hwK (hTV ⟨h₁, (hKV hwK).1⟩) (hTV ⟨h₂, (hKV hwK).2⟩))
   exact ⟨fun hv => key (hK₁ ⟨hw, hv⟩), fun hv => key (hK₂ ⟨hw, hv⟩)⟩
 
-/-- **Closed images from a closure condition.** Let `ι : R → P` be continuous and injective, and
-closed onto an open set `A ⊆ P` (it maps closed sets to sets closed in `A`). Let `O' ⊆ R` be
+/-- **Closed images from a closure condition.** Let `ι : R → P` be closed onto a set `A ⊆ P`
+(it maps closed sets to sets closed in `A`). Let `O' ⊆ R` be
 closed and `N ⊆ P` with `closure (ι '' O') ∩ N ⊆ A`. Then `ι` maps closed subsets of `O'` to sets
 whose closure meets `N` only inside them. -/
 theorem closure_image_inter_subset_of_closure_inter_subset {R P : Type*} [TopologicalSpace R]
-    [TopologicalSpace P] (ι : R → P) {A N : Set P} (hA : IsOpen A) (hιA : Set.range ι ⊆ A)
+    [TopologicalSpace P] (ι : R → P) {A N : Set P}
     (hι : ∀ K, IsClosed K → closure (ι '' K) ∩ A ⊆ ι '' K) {O' : Set R}
     (hN : closure (ι '' O') ∩ N ⊆ A) {K : Set R} (hK : IsClosed K) (hKO : K ⊆ O') :
     closure (ι '' K) ∩ N ⊆ ι '' K := by

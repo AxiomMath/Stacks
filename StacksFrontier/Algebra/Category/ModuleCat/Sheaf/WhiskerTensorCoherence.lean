@@ -340,6 +340,7 @@ public theorem whiskerTensorUnit_comp_braiding
   exact whiskerSheafifyUnit_naturality O hO H (β_ M.val N.val).hom
 
 set_option maxHeartbeats 1600000 in
+-- unifying the sheafified braidings over the restricted site is expensive
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The symmetry constraint formed on the smaller site, read on its sheafification unit**, the
@@ -365,6 +366,7 @@ public theorem whiskerTensorUnit'_comp_braiding
         ((whiskerRestriction (J' := J') O hO H).obj N).val).hom
 
 set_option maxHeartbeats 1600000 in
+-- the `rfl` unfolds the sheafification unit of a tensor product over the restricted site
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The sheafification unit of the objectwise tensor product with the unit on the left**, in the
@@ -387,6 +389,7 @@ public theorem whiskerTensorUnit'_unit_left
           ((whiskerRestriction (J' := J') O hO H).obj M).val) := rfl
 
 set_option maxHeartbeats 1600000 in
+-- the `rfl` unfolds the sheafification unit of a tensor product over the restricted site
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat]
   [H.IsCocontinuous J' J] in
 /-- **The sheafification unit of the objectwise tensor product with the unit on the right**, the

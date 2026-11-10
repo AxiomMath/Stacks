@@ -235,7 +235,7 @@ private lemma homotopyExtensionRestrictionInclusion_counit {X : TopCat.{u}}
     homotopyExtensionRestrictionInclusion O W U hWU ≫
         homotopyExtensionRestrictionCounit O U =
       homotopyExtensionRestrictionCounit O W := by
-  show Functor.whiskerRight
+  change Functor.whiskerRight
       (NatTrans.mapHomotopyCategory (extensionRestrictionInclusion O W U hWU)
         (ComplexShape.up ℤ)) DerivedCategory.Qh ≫
     Functor.whiskerRight
@@ -356,7 +356,7 @@ private lemma isIso_stalk_extensionRestrictionCounit_of_mem {X : TopCat.{u}}
     (Functor.whiskerLeft (TopCat.Presheaf.imF U).op ((toAb O).map φ))
   have hpoint := (TopCat.Presheaf.isIso_stalkFunctor_map_whiskerLeft_iff U _ _
     ((toAb O).map φ) ⟨x, hx⟩).mp hw
-  show IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     ((toAb O).map φ))
   simpa [toAb, Functor.comp_map] using hpoint
 
@@ -365,7 +365,7 @@ private lemma isZero_stalk_extensionRestriction_of_not_mem {X : TopCat.{u}}
     (E : SheafOfModules.{u} O) (x : X) (hx : x ∉ U) :
     IsZero ((AlgebraicGeometry.SheafOfModules.stalkAddCommGroupFunctor O x).obj
       ((jStar U O ⋙ jShriek U O).obj E)) := by
-  show IsZero ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).obj
+  change IsZero ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).obj
     ((toAb O).obj ((jShriek U O).obj ((jStar U O).obj E))))
   exact isZero_stalk_jShriek U O ((jStar U O).obj E) x hx
 
@@ -431,7 +431,7 @@ private lemma stalkAddCommGroupFunctor_additive {X : TopCat.{u}}
     (AlgebraicGeometry.SheafOfModules.stalkAddCommGroupFunctor O x).Additive := by
   constructor
   intro A B f g
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     ((PresheafOfModules.toPresheaf O.obj).map
       ((SheafOfModules.forget O).map (f + g))) =
     (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
@@ -548,7 +548,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
       (F.map ((jShriekAdjunction V O).counit.app E))) → S.ShortExact := fun hX₁ h => by
     have : IsIso (Functor.biprodComparison F B C) := (additiveBiprodComparisonIso F B C).isIso_hom
     have hg : IsIso S.g := by
-      show IsIso (F.map (biprod.desc ((jShriekAdjunction U O).counit.app E)
+      change IsIso (F.map (biprod.desc ((jShriekAdjunction U O).counit.app E)
         ((jShriekAdjunction V O).counit.app E)))
       rw [← additiveBiprodComparison_map_desc F B C]
       infer_instance
@@ -587,7 +587,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
       let e : S ≅ T := ShortComplex.isoMk (Iso.refl _) e₂ (Iso.refl _) (by
         simp only [Iso.refl_hom]
         dsimp [S, AlgebraicGeometry.SheafOfModules.stalkShortComplex, T]
-        show biprod.lift iU (-iV) = F.map (biprod.lift
+        change biprod.lift iU (-iV) = F.map (biprod.lift
           ((extensionRestrictionInclusion O W U inf_le_left).app E)
           (-((extensionRestrictionInclusion O W V inf_le_right).app E))) ≫
           Functor.biprodComparison F ((jStar U O ⋙ jShriek U O).obj E)
@@ -595,7 +595,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
         rw [additiveBiprodComparison_map_lift]
         simp [iU, iV]) (by
         simp only [Iso.refl_hom]
-        show Functor.biprodComparison F ((jStar U O ⋙ jShriek U O).obj E)
+        change Functor.biprodComparison F ((jStar U O ⋙ jShriek U O).obj E)
             ((jStar V O ⋙ jShriek V O).obj E) ≫ biprod.desc cU cV =
           F.map (biprod.desc ((jShriekAdjunction U O).counit.app E)
             ((jShriekAdjunction V O).counit.app E))
@@ -607,7 +607,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
         biprod.desc_eq
       have hs : T.Splitting := by
         refine ⟨r, s, ?_, ?_, ?_⟩
-        · show biprod.lift iU (-iV) ≫
+        · change biprod.lift iU (-iV) ≫
             (-(biprod.snd ≫ cV ≫ inv cW)) = 𝟙 _
           have hlift : biprod.lift iU (-iV) ≫
               (biprod.snd ≫ cV ≫ inv cW) = -iV ≫ cV ≫ inv cW := by
@@ -666,7 +666,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
           let sndBC : F.obj B ⊞ F.obj C ⟶ F.obj C := biprod.snd
           have hgs_fst : (T.g ≫ s) ≫ biprod.fst =
               biprod.fst + biprod.snd ≫ cV ≫ inv cU := by
-            show (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ fstBC = _
+            change (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ fstBC = _
             calc
               (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ fstBC =
                   (biprod.desc cU cV ≫ inv cU) ≫
@@ -676,7 +676,7 @@ private lemma extensionRestrictionCoverShortComplex_stalk_exact {X : TopCat.{u}}
                     (inlBC ≫ fstBC) := by rw [hgcU]
               _ = biprod.fst + biprod.snd ≫ cV ≫ inv cU := by simp [inlBC, fstBC]
           have hgs_snd : (T.g ≫ s) ≫ biprod.snd = 0 := by
-            show (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ sndBC = _
+            change (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ sndBC = _
             calc
               (biprod.desc cU cV ≫ (inv cU ≫ inlBC)) ≫ sndBC =
                   (biprod.desc cU cV ≫ inv cU) ≫
@@ -736,10 +736,10 @@ private lemma extensionRestrictionCoverShortComplex_shortExact {X : TopCat.{u}}
         dsimp [T₀, L, AlgebraicGeometry.SheafOfModules.stalkShortComplex]
         exact Functor.map_isZero _ (isZero_zero _)
       have hf : T₀.f = 0 := by
-        show F.map (0 : L.X₁ ⟶ L.X₂) = 0
+        change F.map (0 : L.X₁ ⟶ L.X₂) = 0
         exact F.map_zero L.X₁ L.X₂
       have hmono' : Mono T₀.g := by
-        show Mono T.f
+        change Mono T.f
         exact hT.mono_f
       exact (T₀.exact_iff_mono hf).2 hmono')
     exact (L.exact_iff_mono (by simp [L])).1 hL
@@ -764,10 +764,10 @@ private lemma extensionRestrictionCoverShortComplex_shortExact {X : TopCat.{u}}
         dsimp [T₀, R, AlgebraicGeometry.SheafOfModules.stalkShortComplex]
         exact Functor.map_isZero _ (isZero_zero _)
       have hg : T₀.g = 0 := by
-        show F.map (0 : R.X₂ ⟶ R.X₃) = 0
+        change F.map (0 : R.X₂ ⟶ R.X₃) = 0
         exact F.map_zero R.X₂ R.X₃
       have epi' : Epi T₀.f := by
-        show Epi T.g
+        change Epi T.g
         exact hT.epi_g
       exact (T₀.exact_iff_epi hg).2 epi')
     exact (R.exact_iff_epi (by simp [R])).1 hR
@@ -852,7 +852,7 @@ private lemma extensionRestrictionCoverComplexShortComplex_shortExact {X : TopCa
   have e : S ≅ T := ShortComplex.isoMk (Iso.refl _) e₂ (Iso.refl _) (by
     dsimp [S, T, extensionRestrictionCoverComplexShortComplex,
       extensionRestrictionCoverShortComplex, A, B, C, e₂]
-    show biprod.lift
+    change biprod.lift
         ((extensionRestrictionInclusion O (U ⊓ V) U inf_le_left).app (K.X n))
         (-((extensionRestrictionInclusion O (U ⊓ V) V inf_le_right).app (K.X n))) =
       F.map (biprod.lift (fU.app K) (-fV.app K)) ≫
@@ -861,7 +861,7 @@ private lemma extensionRestrictionCoverComplexShortComplex_shortExact {X : TopCa
     simp [F, fU, fV, NatTrans.mapHomologicalComplex]) (by
     dsimp [S, T, extensionRestrictionCoverComplexShortComplex,
       extensionRestrictionCoverShortComplex, B, C, e₂]
-    show Functor.biprodComparison F B C ≫ biprod.desc
+    change Functor.biprodComparison F B C ≫ biprod.desc
         (F.map (cU'.app K)) (F.map (cV'.app K)) =
         F.map (biprod.desc (cU'.app K) (cV'.app K))
     exact additiveBiprodComparison_map_desc F B C _ _)
@@ -968,7 +968,7 @@ private lemma isIso_exactExtensionRestriction_comparison_app {X : TopCat.{u}}
     ((jStar U O ⋙ jShriek U O).mapDerivedCategory) α
     (HomotopyCategory.quasiIso (SheafOfModules.{u} O) (ComplexShape.up ℤ)) DU aU
   have h : α.app K ≫ e.app (DerivedCategory.Qh.obj K) = aU.app K := by
-    show α.app K ≫
+    change α.app K ≫
       (((jStar U O ⋙ jShriek U O).mapDerivedCategory).rightDerivedDesc α
         (HomotopyCategory.quasiIso (SheafOfModules.{u} O) (ComplexShape.up ℤ)) DU aU).app
           (DerivedCategory.Qh.obj K) = aU.app K
@@ -1319,7 +1319,7 @@ private lemma derivedExtensionRestrictionComparisonIso_hom_inclusion {X : TopCat
     i.naturality (e.hom.app K)
   have he : DerivedCategory.Q.map f ≫ e.inv.app KU =
       e.inv.app KW ≫ DerivedCategory.Qh.map (q.map f) := e.inv.naturality f
-  show (e.inv.app KW ≫ aW.app (q.obj K) ≫ DW.map (e.hom.app K)) ≫
+  change (e.inv.app KW ≫ aW.app (q.obj K) ≫ DW.map (e.hom.app K)) ≫
       i.app (DerivedCategory.Q.obj K) =
     DerivedCategory.Q.map f ≫ e.inv.app KU ≫ aU.app (q.obj K) ≫ DU.map (e.hom.app K)
   exact comp_eq_of_three_squares hi hn he
@@ -1354,7 +1354,7 @@ private lemma derivedExtensionRestrictionComparisonIso_hom_counit {X : TopCat.{u
   let KU := ((jStar U O ⋙ jShriek U O).mapHomologicalComplex (ComplexShape.up ℤ)).obj K
   have hid : q.map ((Functor.mapHomologicalComplexIdIso (SheafOfModules.{u} O)
       (ComplexShape.up ℤ)).hom.app K) = 𝟙 (q.obj K) := by
-    show q.map (𝟙 K) = _
+    change q.map (𝟙 K) = _
     exact q.map_id K
   have hc : aU.app (q.obj K) ≫ c.app (DerivedCategory.Qh.obj (q.obj K)) =
       DerivedCategory.Qh.map (q.map f) := by
@@ -1370,7 +1370,7 @@ private lemma derivedExtensionRestrictionComparisonIso_hom_counit {X : TopCat.{u
     c.naturality (e.hom.app K)
   have he : DerivedCategory.Q.map f ≫ e.inv.app K =
       e.inv.app KU ≫ DerivedCategory.Qh.map (q.map f) := e.inv.naturality f
-  show (e.inv.app KU ≫ aU.app (q.obj K) ≫ DU.map (e.hom.app K)) ≫
+  change (e.inv.app KU ≫ aU.app (q.obj K) ≫ DU.map (e.hom.app K)) ≫
       c.app (DerivedCategory.Q.obj K) = DerivedCategory.Q.map f
   exact (comp_eq_of_three_squares (ι' := e.inv.app K) (α' := 𝟙 _) (δ' := e.hom.app K)
     (hc.trans (Category.comp_id _).symm) hn he).trans (by simp)
@@ -1458,14 +1458,14 @@ public theorem distinguished_extensionRestriction_triangle {X : TopCat.{u}}
           (extensionRestrictionInclusion O W U inf_le_left) (ComplexShape.up ℤ)).app K
         let fV := (NatTrans.mapHomologicalComplex
           (extensionRestrictionInclusion O W V inf_le_right) (ComplexShape.up ℤ)).app K
-        show DerivedCategory.Q.map (biprod.lift fU (-fV)) ≫
+        change DerivedCategory.Q.map (biprod.lift fU (-fV)) ≫
             (Functor.biprodComparison DerivedCategory.Q A B ≫ biprod.map eU.hom eV.hom) =
           eW.hom ≫ biprod.lift (iU.app E) (iV.app E)
         refine map_biprod_lift_compatibility DerivedCategory.Q fU (-fV)
           eU.hom eV.hom eW.hom (iU.app E) (iV.app E) ?_ ?_
         · exact (derivedExtensionRestrictionComparisonIso_hom_inclusion
             O W U inf_le_left DUV DU aUV aU K).symm
-        · show DerivedCategory.Q.map (-fV) ≫ eV.hom = eW.hom ≫
+        · change DerivedCategory.Q.map (-fV) ≫ eV.hom = eW.hom ≫
             (-((derivedExtensionRestrictionInclusion O W V inf_le_right
               DUV DV aUV aV).app E))
           simpa only [Functor.map_neg, Preadditive.neg_comp, Preadditive.comp_neg] using
@@ -1479,7 +1479,7 @@ public theorem distinguished_extensionRestriction_triangle {X : TopCat.{u}}
           (ComplexShape.up ℤ)).app K) ≫
           (Functor.mapHomologicalComplexIdIso (SheafOfModules.{u} O)
             (ComplexShape.up ℤ)).hom.app K
-        show DerivedCategory.Q.map (biprod.desc cU cV) ≫ 𝟙 E =
+        change DerivedCategory.Q.map (biprod.desc cU cV) ≫ 𝟙 E =
           (Functor.biprodComparison DerivedCategory.Q A B ≫ biprod.map eU.hom eV.hom) ≫
             biprod.desc ((derivedExtensionRestrictionCounit O U DU aU).app E)
               ((derivedExtensionRestrictionCounit O V DV aV).app E)
@@ -1502,7 +1502,7 @@ public theorem distinguished_extensionRestriction_triangle {X : TopCat.{u}}
         let a₃ := DerivedCategory.Qh.map (factors.inv.app K)
         let a₄ := aUV.app (q.obj K)
         let a₅ := DUV.map (qe.hom.app K)
-        show DerivedCategory.triangleOfSESδ hS ≫ sh.map eW.hom =
+        change DerivedCategory.triangleOfSESδ hS ≫ sh.map eW.hom =
           𝟙 (DerivedCategory.Q.obj K) ≫
             (derivedExtensionRestrictionConnecting O U V hUV DUV aUV).app
               (DerivedCategory.Q.obj K)
@@ -1529,7 +1529,7 @@ public theorem distinguished_extensionRestriction_triangle {X : TopCat.{u}}
             (extensionRestrictionCoverComplexShortComplex_X3 O U V K).symm) =
             𝟙 (DerivedCategory.Q.obj K) := DerivedCategory.Q.map_id K
         have h₂ : a₂ = 𝟙 _ := by
-          show DerivedCategory.Qh.map (q.map (eqToHom
+          change DerivedCategory.Qh.map (q.map (eqToHom
             (extensionRestrictionCoverComplexShortComplex_X1 O U V K))) = _
           have hq : q.map (eqToHom
               (extensionRestrictionCoverComplexShortComplex_X1 O U V K)) =
@@ -1538,12 +1538,12 @@ public theorem distinguished_extensionRestriction_triangle {X : TopCat.{u}}
           rw [hq]
           exact DerivedCategory.Qh.map_id _
         have h₃ : a₃ = 𝟙 _ := by
-          show DerivedCategory.Qh.map (factors.inv.app K) = _
+          change DerivedCategory.Qh.map (factors.inv.app K) = _
           exact DerivedCategory.Qh.map_id _
         have hs₂ : sh.map a₂ = 𝟙 _ := by rw [h₂]; exact sh.map_id _
         have hs₃ : sh.map a₃ = 𝟙 _ := by rw [h₃]; exact sh.map_id _
         have hsplit : sh.map a₁ ≫ sh.map a₄ ≫ sh.map a₅ = sh.map eW.hom := by
-          show sh.map a₁ ≫ sh.map a₄ ≫ sh.map a₅ = sh.map (a₁ ≫ a₄ ≫ a₅)
+          change sh.map a₁ ≫ sh.map a₄ ≫ sh.map a₅ = sh.map (a₁ ≫ a₄ ≫ a₅)
           exact ((sh.map_comp a₁ (a₄ ≫ a₅)).trans
             (congrArg (sh.map a₁ ≫ ·) (sh.map_comp a₄ a₅))).symm
         have hcomp' : (extensionRestrictionCoverConnectingHomotopy O U V hUV DUV aUV).app K =

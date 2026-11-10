@@ -56,8 +56,9 @@ leaves the instance resolution where it already works.
 `Stacks.Cohomology.KFlatDerivedPullback.KFlatComplex Y K`,
 `Stacks.SheafOfModules.IsKFlat Y.sheaf K` and
 `AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Y K` are the same predicate (see the
-implementation notes of `StacksFrontier/Topology/Sheaves/Cohomology/KFlatAndDerivedPullback/ResolvingDatumUnconditional.lean`), so the
-hypothesis crosses between the two developments by a term-mode application and no transport.
+implementation notes of the module
+`StacksFrontier.Topology.Sheaves.Cohomology.KFlatAndDerivedPullback.ResolvingDatumUnconditional`),
+so the hypothesis crosses between the two developments by a term-mode application and no transport.
 
 The derived-stalk computation is one of the inputs of Stacks 0E23, the assertion that a base
 change comparison is an isomorphism; it is itself Stacks 0098 transported to the derived category.

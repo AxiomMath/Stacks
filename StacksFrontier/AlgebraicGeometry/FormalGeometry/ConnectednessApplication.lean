@@ -138,7 +138,7 @@ private lemma germ_eq_zero_of_forall_mem_pow_smul {X : Scheme.{u}} [IsLocallyNoe
     (IsLocalRing.isUnit_or_isUnit_one_sub_self _).resolve_left hnr
   have heq : (1 - X.presheaf.germ W.1 x hx r.1) * X.presheaf.germ W.1 x hx s = 0 := by
     rw [sub_mul, one_mul, ← map_mul]
-    show X.presheaf.germ W.1 x hx s - X.presheaf.germ W.1 x hx (r.1 • s) = 0
+    change X.presheaf.germ W.1 x hx s - X.presheaf.germ W.1 x hx (r.1 • s) = 0
     rw [hr, sub_self]
   exact hunit.mul_left_cancel (by simpa using heq :
     (1 - X.presheaf.germ W.1 x hx r.1) * X.presheaf.germ W.1 x hx s =
@@ -372,7 +372,7 @@ private lemma isPreconnected_support_of_realizable {X : Scheme.{u}} [IsLocallyNo
   have hV : V₁ ⊔ V₂ = ⊤ := by
     refine top_le_iff.mp fun x _ => ?_
     have hc := @hcover x
-    show x ∉ (J.support : Set X) \ P ∨ x ∉ (J.support : Set X) \ Q
+    change x ∉ (J.support : Set X) \ P ∨ x ∉ (J.support : Set X) \ Q
     simp only [Set.mem_sdiff, Set.mem_union] at hc ⊢
     tauto
   have hdisj : Disjoint ((V₁ ⊓ V₂ : X.Opens) : Set X) (J.support : Set X) := by
@@ -499,7 +499,7 @@ private lemma closureLocalDimension_quotientMk {A : Type u} [CommRing A]
       right_inv := fun r => Subtype.ext (e.apply_symm_apply r.1)
       map_rel_iff' := by
         intro r s
-        show e r.1 ≤ e s.1 ↔ r.1 ≤ s.1
+        change e r.1 ≤ e s.1 ↔ r.1 ≤ s.1
         exact e.le_iff_le }
   exact Order.krullDim_eq_of_orderIso e'
 
@@ -734,7 +734,7 @@ public theorem eq_empty_or_isConnected_zeroLocus_sdiff (A : Type u) [CommRing A]
         H p ∈ PrimeSpectrum.zeroLocus (I : Set A) \
           PrimeSpectrum.zeroLocus (a : Set A) := by
     intro p
-    show (I.map φ ≤ p.asIdeal ∧ ¬ a.map φ ≤ p.asIdeal) ↔
+    change (I.map φ ≤ p.asIdeal ∧ ¬ a.map φ ≤ p.asIdeal) ↔
       (I ≤ p.asIdeal.comap φ ∧ ¬ a ≤ p.asIdeal.comap φ)
     simp only [Ideal.map_le_iff_le_comap]
   have himage : H '' (PrimeSpectrum.zeroLocus ((I.map φ : Ideal B) : Set B) \

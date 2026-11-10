@@ -86,7 +86,7 @@ theorem existsUnique_hom_over_of_compatible_truncations_of_finite [p.IsFibered]
       have : p.IsHomLift (ι n) (r n ≫ φ') := by simpa using this
       refine hp.hom_ext (f := m) (ι n) c ?_
       rw [Category.assoc, hφ'c, hψ'c, hrφ]⟩
-    show φ = φ₀ ≫ c
+    change φ = φ₀ ≫ c
     rw [← this, hφ'c]
 
 section Relative

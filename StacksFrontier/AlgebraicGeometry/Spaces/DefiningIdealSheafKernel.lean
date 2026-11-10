@@ -37,7 +37,8 @@ object**, with the categorical kernel of the structure projection `𝒪_X ⟶ i_
 
 ## Implementation notes
 
-Both inputs are in the library and carry no hypothesis: `AlgebraicGeometry.Space.ker_structureProjection`
+Both inputs are in the library and carry no hypothesis:
+`AlgebraicGeometry.Space.ker_structureProjection`
 says that the sectionwise kernel `CategoryTheory.SheafOfModules.Submodule.ker` of the structure
 projection *is* the defining ideal sheaf, and
 `CategoryTheory.SheafOfModules.Submodule.kerIsoKernel` identifies a sectionwise kernel on an
@@ -53,7 +54,8 @@ inclusion.
 
 This supplies what the implementation notes of
 `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleFunctorial.lean` and of the module
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection.Conormal`
+`Conormal` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection`
 record as unavailable — a presentation of the defining ideal sheaf as a kernel on the small étale
 site.  On the scheme side the corresponding comparison is
 `Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHomIso`, which identifies the
@@ -71,7 +73,8 @@ with an equivalence.
 
 The comparison of the two ideal sheaves of a closed subspace of a *representable* algebraic space
 as **objects** — the clause (2) of the module
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection.Conormal`
+`Conormal` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection`
 — is *not* proved here, and this file does not reduce it to nothing.  What it reduces it to is one
 square: both ideal sheaves are now kernels of a structure projection, and the transport carries the
 scheme-side kernel to the kernel of the transported projection, so what remains is to identify that

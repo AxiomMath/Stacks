@@ -130,7 +130,7 @@ theorem exists_monic_separable_isCoprime_map (A K : Type*) [CommRing A] [IsDomai
     have hfin : {c : A | b.IsRoot (algebraMap A K c)}.Finite :=
       (b.roots.toFinset.finite_toSet.preimage hinj.injOn).subset fun c hc => by
         simpa [Multiset.mem_toFinset, mem_roots hb] using hc
-    obtain ⟨c, hc⟩ := (Set.infinite_univ (α := A)).diff hfin |>.nonempty
+    obtain ⟨c, hc⟩ := (Set.infinite_univ (α := A)).sdiff hfin |>.nonempty
     refine ⟨X - C c, monic_X_sub_C c, by rw [natDegree_X_sub_C]; exact one_pos,
       separable_X_sub_C, ?_⟩
     rw [Polynomial.map_sub, map_X, map_C, (irreducible_X_sub_C _).coprime_iff_not_dvd,

@@ -84,7 +84,7 @@ instance SmoothProjective.isIso_specPoint_hom (k : Type u) [Field k] :
 /-- The point has dimension zero. -/
 theorem SmoothProjective.topologicalKrullDim_specPoint (k : Type u) [Field k] :
     topologicalKrullDim (SmoothProjective.specPoint k).obj.left = 0 := by
-  show topologicalKrullDim (PrimeSpectrum k) = 0
+  change topologicalKrullDim (PrimeSpectrum k) = 0
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_isField
     (Field.toIsField k)]
 

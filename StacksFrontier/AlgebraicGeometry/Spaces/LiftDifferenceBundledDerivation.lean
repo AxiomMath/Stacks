@@ -46,7 +46,8 @@ restricting scalars along `f`, which is exactly the module structure for which t
 
 ## Implementation notes
 
-The four fields are the four equations proved earlier, applied verbatim; only the restriction-compatibility
+The four fields are the four equations proved earlier, applied verbatim; only the
+restriction-compatibility
 needs `Subtype.ext`, because `AlgebraicGeometry.Space.liftDifference_naturality` is stated on the
 underlying sections of the structure sheaf while the field is an equation in the defining ideal.
 

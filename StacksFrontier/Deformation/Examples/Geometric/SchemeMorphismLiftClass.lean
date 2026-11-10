@@ -304,7 +304,7 @@ theorem isIsomorphic_sourceFiber_liftDeformationFiberObject
       (Over.mk pX)).IsHomLift (𝟙 A) φ := by
     refine IsHomLift.of_fac'
       (schemeDeformationCategoryProjection (Λ := Λ) (k := k) (Over.mk pX)) (𝟙 A) φ hQ hP ?_
-    show eqToHom (hQ.trans hP.symm) = eqToHom hQ ≫ 𝟙 A ≫ eqToHom hP.symm
+    change eqToHom (hQ.trans hP.symm) = eqToHom hQ ≫ 𝟙 A ≫ eqToHom hP.symm
     simp
   let ψ : (fiberFunctor (schemeMorphismSourceBased f pX pY hf) A).obj
       (liftDeformationFiberObject f pX pY hf hQ ℓ) ⟶

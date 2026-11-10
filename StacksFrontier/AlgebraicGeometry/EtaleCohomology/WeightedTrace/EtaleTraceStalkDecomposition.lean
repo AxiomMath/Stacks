@@ -149,7 +149,7 @@ public theorem etaleStalkSheafificationMap_comp_abelianExtensionByZeroIsoFShriek
     etaleStalkSheafificationMap B X hX s
           ((abelianPresheafExtensionByZero B X hX U).obj G) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+          (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) =
       SmallEtale.comparisonStalkMap B X hX U s G ≫
         etaleStalkSheafificationMap B X hX s
@@ -174,7 +174,7 @@ public theorem etaleStalkSheafificationMap_comp_fShriekStalkIso :
     etaleStalkSheafificationMap B X hX s
           ((abelianPresheafExtensionByZero B X hX U).obj G) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+          (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) ≫
         (SmallEtale.fShriekStalkIso.{u, u + 1} B U.obj.hom s G).hom =
       SmallEtale.comparisonStalkMap B X hX U s G ≫
@@ -211,12 +211,12 @@ the summand indexed by `x`. -/
 public theorem extensionUnitStalkMap_comp_fShriekStalkIso :
     extensionUnitStalkMap B X hX U s x G ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+          (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) ≫
         (SmallEtale.fShriekStalkIso.{u, u + 1} B U.obj.hom s G).hom =
       SmallEtale.fiberStalkOf.{u, u + 1} B U.obj.hom s G x :=
   (congrArg (fun z => z ≫ colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+        (Functor.Elements.π (geometricPointFiber B X hX s)).op
         ((SmallEtale.abelianExtensionByZeroIsoFShriek B X hX U).hom.app G).1) ≫
       (SmallEtale.fShriekStalkIso.{u, u + 1} B U.obj.hom s G).hom)
     (extensionUnitStalkMap_eq_liftedStalkToExtension B X hX U s G x)).trans

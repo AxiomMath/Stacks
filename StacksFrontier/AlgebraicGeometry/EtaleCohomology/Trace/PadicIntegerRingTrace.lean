@@ -45,7 +45,7 @@ public theorem algebraMap_trace_padicIntegerRing {d : ℕ} (b : Basis (Fin d) �
     ext l l'
     rw [Matrix.map_apply, Algebra.leftMulMatrix_eq_repr_mul, Algebra.leftMulMatrix_eq_repr_mul,
       padicIntegerRingBasisRatOf_apply]
-    show (padicIntegerRingBasisRatOf b).repr ((z * padicIntegerRingBasisOf b l' : 𝒪) : E) l = _
+    change (padicIntegerRingBasisRatOf b).repr ((z * padicIntegerRingBasisOf b l' : 𝒪) : E) l = _
     rw [padicIntegerRingBasisRatOf_repr]
     rfl
   rw [h]
@@ -90,9 +90,9 @@ public theorem exists_smul_mem_conjIntegralSubring_padicIntegerRing {r : ℕ}
   · rw [h]
     exact mul_mem (algebraMap_mem_conjIntegralSubring P α s0) hN
   · have h' : ((s0 : ℚ_[ℓ]) * (ℓ : ℚ_[ℓ]) ^ N) • e = (ℓ : E) ^ N * ((x : 𝒪) : E) := by
-      show _ = (ℓ : E) ^ N * algebraMap 𝒪 E x
+      change _ = (ℓ : E) ^ N * algebraMap 𝒪 E x
       rw [h, ← hx, ← hse]
-      show _ = (ℓ : E) ^ N * (e * ((s : 𝒪) : E))
+      change _ = (ℓ : E) ^ N * (e * ((s : 𝒪) : E))
       ring
     rw [h']
     have hl : IsIntegral ℤ_[ℓ] (ℓ : E) := by

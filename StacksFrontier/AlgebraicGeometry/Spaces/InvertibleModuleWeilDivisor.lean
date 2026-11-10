@@ -93,7 +93,7 @@ theorem ne_zero_of_isRegularMeromorphicSection (L : Modules.{u, u} B S hS X hX)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (meromorphicRingedSite B S hS X hX).O).obj))) =
         0 := by
     refine Subtype.ext (funext fun W => hs W.unop ?_)
-    show (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
+    change (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
         (meromorphicRingedSite B S hS X hX).O).obj.obj W) • s.eval W =
       (0 : (Stacks.SheafOfModules.Tensor.ringSheaf
         (meromorphicRingedSite B S hS X hX).O).obj.obj W) • s.eval W

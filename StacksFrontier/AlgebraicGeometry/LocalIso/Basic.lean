@@ -119,7 +119,7 @@ variable {Y : RingedSpace.{u + 1, u}}
 /-- The underlying map of abelian-group presheaves of the zero endomorphism is zero. -/
 theorem underlyingAb_zero (M : SheafOfModules.{u} S) :
     Stacks.SheafOfModules.LocallySurjective.underlyingAb (0 : M ⟶ M) = 0 := by
-  show (PresheafOfModules.toPresheaf S.obj).map
+  change (PresheafOfModules.toPresheaf S.obj).map
     ((SheafOfModules.forget S).map (0 : M ⟶ M)) = 0
   rw [Functor.map_zero, Functor.map_zero]
 
@@ -220,7 +220,7 @@ theorem exists_mono_over_le_of_stalk_injective {F G : SheafOfModules.{u} R}
     have hmono : Mono ((SheafOfModules.toSheaf R).map (kernel.ι φ)) := by
       rw [Sheaf.Hom.mono_iff_presheaf_mono, NatTrans.mono_iff_mono_app]
       intro U
-      show Mono ((forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat).map
+      change Mono ((forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat).map
         ((SheafOfModules.evaluation R U).map (kernel.ι φ)))
       exact Functor.map_mono (forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat)
         ((SheafOfModules.evaluation R U).map (kernel.ι φ))
@@ -253,7 +253,7 @@ theorem exists_mono_over_le_of_stalk_injective {F G : SheafOfModules.{u} R}
   have hApp := TopCat.Presheaf.app_injective_of_stalkFunctor_map_injective
       (C := AddCommGrpCat.{u}) (((SheafOfModules.toSheaf R).map φ).hom) V.unop.left
       (fun y hy => by
-        show Function.Injective (ConcreteCategory.hom
+        change Function.Injective (ConcreteCategory.hom
           ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map
             (((SheafOfModules.toSheaf R).map φ).hom)))
         exact stalk_injective_of_kernel_stalk_isZero φ y (hU y (hVU hy)))

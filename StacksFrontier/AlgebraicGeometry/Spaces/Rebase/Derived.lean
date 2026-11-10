@@ -34,7 +34,8 @@ The equivalence of module categories is the inverse of
 `AlgebraicGeometry.Space.relocalizeModulesEquivalenceSE`, which is by definition the reindexing
 along `AlgebraicGeometry.Space.SmallEtale.relocalizeEquivalence`; the ringed site of `F` is on the
 nose the ringed site `AlgebraicGeometry.RingedSite.reindex` of that equivalence, so the comparisons
-of `StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.SiteEquivalenceDerivedDual` apply directly.
+of `StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.SiteEquivalenceDerivedDual` apply
+directly.
 
 ## References
 

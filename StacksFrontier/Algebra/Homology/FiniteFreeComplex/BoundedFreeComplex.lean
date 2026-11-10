@@ -146,7 +146,7 @@ theorem depth_zero_witness [IsNoetherianRing R] [IsLocalRing R]
   have hprev : ¬ (m ^ (k-1) ≤ (⊥ : Submodule R R).colon {x}) := by
     have : k - 1 < k := by omega
     exact Nat.find_min hP this
-  rw [SetLike.not_le_iff_exists] at hprev
+  rw [IsConcreteLE.not_le_iff_exists] at hprev
   obtain ⟨w, hw, hwc⟩ := hprev
   rw [hcolon] at hwc
   refine ⟨w * x, hwc, ?_⟩
@@ -622,12 +622,12 @@ theorem exists_iso_blockDiag_one [IsNoetherianRing R] [IsLocalRing R]
       comm := by
         intro i
         rw [htrans]
-        show P i * ((P i)⁻¹ * C.φ i * P (i + 1)) = C.φ i * P (i + 1)
+        change P i * ((P i)⁻¹ * C.φ i * P (i + 1)) = C.φ i * P (i + 1)
         rw [← Matrix.mul_assoc, ← Matrix.mul_assoc,
             Matrix.mul_nonsing_inv _ (hPunit i), Matrix.one_mul] } with hf
   have hC₁exact : C₁.Exact := iso_exact f rfl hC
   have hφs : C₁.φ s = L' * C.φ s * K' := by
-    show (P s)⁻¹ * C.φ s * P (s + 1) = L' * C.φ s * K'
+    change (P s)⁻¹ * C.φ s * P (s + 1) = L' * C.φ s * K'
     rw [hPs, hPs1, Matrix.nonsing_inv_nonsing_inv _ hL'det]
   have hMsub : C.φ s = M.submatrix (Fin.cast hα) (Fin.cast hβ) := by
     rw [hM, Matrix.submatrix_submatrix]

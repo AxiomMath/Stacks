@@ -70,7 +70,7 @@ theorem primePowerIter_apply {R : Type u} [CommRing R] (p e : ℕ) [Fact p.Prime
   induction e with
   | zero => simp [primePowerIter]
   | succ e ih =>
-    show primePowerEndomorphism R p hp (primePowerIter p e hp x) = _
+    change primePowerEndomorphism R p hp (primePowerIter p e hp x) = _
     rw [primePowerEndomorphism_apply, ih, ← pow_mul]
     rfl
 
@@ -135,7 +135,7 @@ theorem frobeniusPow_appLE_apply (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
     (hX : IsInCharacteristic X p) (e : ℕ) (U : X.Opens)
     (h : U ≤ (frobeniusPow X p hX e) ⁻¹ᵁ U) (s : Γ(X, U)) :
     (frobeniusPow X p hX e).appLE U U h s = s ^ p ^ e := by
-  show X.presheaf.map (𝟙 (op U)) ((frobeniusPow X p hX e).app U s) = _
+  change X.presheaf.map (𝟙 (op U)) ((frobeniusPow X p hX e).app U s) = _
   rw [X.presheaf.map_id, frobeniusPow_app_apply]
   simp
 
@@ -162,7 +162,7 @@ theorem exists_nilradical_pow_eq_bot (X : Scheme.{u}) [IsNoetherian X] :
   choose n hn using hnilpotent
   refine ⟨Finset.sup Finset.univ n + 1, by omega, ?_⟩
   refine Scheme.IdealSheafData.ext_of_iSup_eq_top V hV fun i => ?_
-  show (nilradical Γ(X, V i)) ^ (Finset.sup Finset.univ n + 1) = ⊥
+  change (nilradical Γ(X, V i)) ^ (Finset.sup Finset.univ n + 1) = ⊥
   refine le_antisymm ?_ bot_le
   exact (pow_le_pow_right_of_le_one' (by simp)
     ((Finset.le_sup (Finset.mem_univ i)).trans (Nat.le_succ _))).trans_eq (hn i)
@@ -178,12 +178,12 @@ theorem frobeniusPow_ker (X : Scheme.{u}) (p e n : ℕ) [Fact p.Prime]
   · rw [Scheme.IdealSheafData.le_def]
     intro U
     refine (Scheme.Hom.ideal_ker_le (frobeniusPow X p hX e) U).trans fun x hx => ?_
-    show x ∈ (⊥ : Ideal Γ(X, U)).radical
+    change x ∈ (⊥ : Ideal Γ(X, U)).radical
     rw [Ideal.mem_radical_iff]
     refine ⟨p ^ e, ?_⟩
     rw [← frobeniusPow_app_apply X p hX e U x, RingHom.mem_ker.mp hx]
     exact Ideal.zero_mem _
-  · show X.nilradical ≤ Scheme.IdealSheafData.ofIdeals _
+  · change X.nilradical ≤ Scheme.IdealSheafData.ofIdeals _
     rw [Scheme.IdealSheafData.le_ofIdeals_iff]
     intro U x hx
     have hpowU : (X.nilradical.ideal U) ^ n = ⊥ := by
@@ -219,20 +219,20 @@ theorem exists_normOfDegree_reduction (X : Scheme.{u}) [IsNoetherian X]
       congrArg (fun k : X ⟶ X => k z) hgi
   set iOpen : X.Opens → f.image.Opens := fun U => (Opens.map i.base).obj U with hiOpen
   have hbound (U : X.Opens) : U ≤ g ⁻¹ᵁ iOpen U := fun z hz => by
-    show i (g z) ∈ U
+    change i (g z) ∈ U
     rwa [hpoint z]
   let Nmap : MorphismNormMap i :=
     { app := fun U => (g.appLE (iOpen U) U (hbound U)).hom.toMonoidHom
       naturality := by
         intro U V j s
-        show g.appLE (iOpen V) V (hbound V)
+        change g.appLE (iOpen V) V (hbound V)
             ((f.image.presheaf.map ((Opens.map i.base).map j).op) s) =
           X.presheaf.map j.op (g.appLE (iOpen U) U (hbound U) s)
         rw [← ConcreteCategory.comp_apply, Scheme.Hom.map_appLE, ← ConcreteCategory.comp_apply,
           Scheme.Hom.appLE_map]
       app_eq_zero_at_image := by
         intro U s x hx hs
-        show X.evaluation U (i x) hx (g.appLE (iOpen U) U (hbound U) s) = 0
+        change X.evaluation U (i x) hx (g.appLE (iOpen U) U (hbound U) s) = 0
         have hpoint' : g (i x) = x := i.isEmbedding.injective (by rw [hpoint])
         have hxg : g (i x) ∈ iOpen U := hbound U hx
         have hs' : (f.image.evaluation (iOpen U) (g (i x)) hxg) s = 0 := by
@@ -243,14 +243,14 @@ theorem exists_normOfDegree_reduction (X : Scheme.{u}) [IsNoetherian X]
         have hres : X.evaluation U (i x) hx (g.appLE (iOpen U) U (hbound U) s) =
             X.evaluation (g ⁻¹ᵁ iOpen U) (i x) (hbound U hx) (g.app (iOpen U) s) := by
           simp [Scheme.evaluation, Scheme.Hom.appLE]
-        show X.evaluation U (i x) hx ((g.appLE (iOpen U) U (hbound U)).hom s) = 0
+        change X.evaluation U (i x) hx ((g.appLE (iOpen U) U (hbound U)).hom s) = 0
         rw [hres, ← Scheme.evaluation_naturality_apply g (i x) hxg s, hs']
         exact map_zero _ }
   have hnorm : MorphismNorm i (p ^ e) :=
     { toMorphismNormMap := Nmap
       app_pullback := by
         intro U s
-        show g.appLE (i ⁻¹ᵁ U) U (hbound U) (i.app U s) = _
+        change g.appLE (i ⁻¹ᵁ U) U (hbound U) (i.app U s) = _
         have hcomp' : i.appLE U (i ⁻¹ᵁ U) le_rfl ≫ g.appLE (i ⁻¹ᵁ U) U (hbound U) =
             f.appLE U U (by simp [hf, frobeniusPow_base]) := by
           simpa only [hgi] using Scheme.Hom.appLE_comp_appLE g i U (i ⁻¹ᵁ U) U le_rfl (hbound U)

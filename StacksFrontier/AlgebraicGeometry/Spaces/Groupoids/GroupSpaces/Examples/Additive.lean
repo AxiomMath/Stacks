@@ -48,7 +48,7 @@ variable (𝒞 : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 𝒞.Contains S)
 
 /-- The affine line over the integers belongs to every big fppf site. -/
 theorem contains_additiveGroup : 𝒞.Contains (additiveGroup : Scheme.{u}) := by
-  show (Spec (.of (Polynomial (ULift.{u} ℤ)))).size < 𝒞.cutoff
+  change (Spec (.of (Polynomial (ULift.{u} ℤ)))).size < 𝒞.cutoff
   rw [Scheme.size_Spec]
   exact max_lt 𝒞.aleph0_lt_cutoff
     ((Polynomial.cardinalMk_le_max.trans

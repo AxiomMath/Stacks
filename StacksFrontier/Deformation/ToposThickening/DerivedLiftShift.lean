@@ -52,7 +52,7 @@ theorem shiftHomLinearMap_surjective (K : 𝒟) (m n : ℤ) :
     Function.Surjective (shiftHomLinearMap k K m n) := by
   intro g
   refine ⟨(shiftFunctor 𝒟 m).preimage (g ≫ (shiftFunctorComm 𝒟 m n).hom.app K), ?_⟩
-  show (shiftFunctor 𝒟 m).map ((shiftFunctor 𝒟 m).preimage _) ≫ _ = g
+  change (shiftFunctor 𝒟 m).map ((shiftFunctor 𝒟 m).preimage _) ≫ _ = g
   rw [Functor.map_preimage, Category.assoc, Iso.hom_inv_id_app]
   exact Category.comp_id g
 
@@ -143,11 +143,13 @@ def classShift (m : ℤ) (e : K₀.obj⟦m⟧ ≅ K₀'.obj) :
       Quotient (setoid.{d, d₀, v', u, u'} (T := T) (K₀ := K₀')) :=
   Quotient.map (fun L => L.shift m e) fun L₁ L₂ h => (isomorphic_shift_iff L₁ L₂ m e).2 h
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The shift of the class of a lift `L` is the class of `L.shift m e`. -/
 theorem classShift_mk (m : ℤ) (e : K₀.obj⟦m⟧ ≅ K₀'.obj) (L : DerivedLift T K₀) :
     classShift m e (Quotient.mk _ L) = Quotient.mk _ (L.shift m e) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Shifting isomorphism classes of lifts is injective. -/
 theorem classShift_injective (m : ℤ) (e : K₀.obj⟦m⟧ ≅ K₀'.obj) :
     Function.Injective (classShift (T := T) m e) := by
@@ -187,13 +189,14 @@ theorem isomorphic_baseChange_shift (L : DerivedLift T K₀) (m : ℤ) (e : K₀
   refine ⟨(B.functor.commShiftIso m).app L.K.obj, ?_⟩
   have h := NatTrans.shift_app_comm B.baseChangeIso.hom m L.K.obj
   rw [Functor.commShiftIso_comp_hom_app] at h
-  show T'.baseChange.map ((B.functor.commShiftIso m).hom.app L.K.obj) ≫
+  change T'.baseChange.map ((B.functor.commShiftIso m).hom.app L.K.obj) ≫
       (T'.baseChange.commShiftIso m).hom.app (B.functor.obj L.K.obj) ≫
       (B.baseChangeIso.hom.app L.K.obj ≫ L.identification.hom)⟦m⟧' ≫ e.hom =
     B.baseChangeIso.hom.app (L.K.obj⟦m⟧) ≫ (T.baseChange.commShiftIso m).hom.app L.K.obj ≫
       L.identification.hom⟦m⟧' ≫ e.hom
   rw [Functor.map_comp, Category.assoc, reassoc_of% h]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Shifting classes of lifts commutes with base change of classes. -/
 theorem liftClassMap_classShift (m : ℤ) (e : K₀.obj⟦m⟧ ≅ K₀'.obj)
     (a : Quotient (setoid.{d, d₀, v', u, u'} (T := T) (K₀ := K₀))) :

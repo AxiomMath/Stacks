@@ -202,7 +202,7 @@ noncomputable abbrev comparisonChartFamily
   (chartRestrictionFMap B S hS F G p hp hF hG eF fSpace ℱ).app
     (chartDiagramOfChartHom B S hS F G hF hG fSpace V W ζ) t
 
-include hp hq hF hG eF eG hf in
+include hp hF hG eF eG in
 omit [∀ (H : 𝒳ᵒᵖ ⥤ Type u), f.op.HasPointwiseRightKanExtension H] in
 /-- The family is compatible in the sense the gluing `AlgebraicGeometry.Space.glueSection` asks
 for: this is `AlgebraicGeometry.Space.fMap_app_congr_of_comparisonChartHom_eq`, the refinement of
@@ -226,7 +226,7 @@ theorem comparisonChartFamily_compatible
       ((restrictionSheafFunctor B S hS F p hp eF).obj ℱ)).obj
     (chartRestrictionFMap B S hS F G p hp hF hG eF fSpace ℱ) t W₁ W₂ ζ₁ ζ₂ Y n₁ n₂ hn
 
-include hp hq hF hG eF eG hf in
+include hp hF hG eF eG in
 /-- **The compatible family of glued values, as a section of the pullback of `ℱ` to the 2-fibre
 product of equation 075M.** Its component at an object of the 2-fibre product is the glued value
 of the family at the pair the object is, and the compatibility is
@@ -238,17 +238,17 @@ noncomputable def comparisonGlueSections
     ((twoFibreProductSnd B S hS G p q eG f c V).op ⋙ ℱ.obj).sections where
   val P := glueSection B S hS F G p q hp hF hG eF eG f fSpace ha V ℱ
     (comparisonChartFamily B S hS F G p hp hF hG eF fSpace ℱ V t)
-    (comparisonChartFamily_compatible B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ V t)
+    (comparisonChartFamily_compatible B S hS F G p q hp hF hG eF eG f fSpace ha ℱ V t)
     P.unop.y (twoFibreProductArrow B S hS G p q eG f c V P.unop)
   property {P P'} φ := by
     refine Eq.trans (glueSection_map B S hS F G p q hp hF hG eF eG f fSpace ha V ℱ
       (comparisonChartFamily B S hS F G p hp hF hG eF fSpace ℱ V t)
-      (comparisonChartFamily_compatible B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ V t)
+      (comparisonChartFamily_compatible B S hS F G p q hp hF hG eF eG f fSpace ha ℱ V t)
       P.unop.y P'.unop.y φ.unop.b
       (twoFibreProductArrow B S hS G p q eG f c V P.unop)) ?_
     exact congrArg (fun κ ↦ glueSection B S hS F G p q hp hF hG eF eG f fSpace ha V ℱ
       (comparisonChartFamily B S hS F G p hp hF hG eF fSpace ℱ V t)
-      (comparisonChartFamily_compatible B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ V t)
+      (comparisonChartFamily_compatible B S hS F G p q hp hF hG eF eG f fSpace ha ℱ V t)
       P'.unop.y κ) (twoFibreProductArrow_comp B S hS G p q eG f c V φ.unop)
 
 include hp hq hF hG eF eG hf in
@@ -264,7 +264,7 @@ noncomputable def comparisonPreimage
   (restrictedDirectImageChartEquiv B S hS G p q hp hq eG f hf c ℱ V).symm
     ((Presheaf.globalSectionsEquivSections
       ((twoFibreProductSnd B S hS G p q eG f c V).op ⋙ ℱ.obj)).symm
-      (comparisonGlueSections B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ c V t))
+      (comparisonGlueSections B S hS F G p q hp hF hG eF eG f fSpace ha ℱ c V t))
 
 include hp hq hF hG eF eG hf in
 /-- **The values of the glued section are the glued values.** -/
@@ -277,7 +277,7 @@ theorem ranSection_comparisonPreimage
         (comparisonPreimage B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ c V t) =
       glueSection B S hS F G p q hp hF hG eF eG f fSpace ha V ℱ
         (comparisonChartFamily B S hS F G p hp hF hG eF fSpace ℱ V t)
-        (comparisonChartFamily_compatible B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ V t)
+        (comparisonChartFamily_compatible B S hS F G p q hp hF hG eF eG f fSpace ha ℱ V t)
         P.y (twoFibreProductArrow B S hS G p q eG f c V P) := by
   have h := Presheaf.pushforwardSectionsEquiv_apply p q f hq hf.comp_eq c
     (chartFiberObj B S hS G q eG V) ℱ.obj
@@ -287,7 +287,7 @@ theorem ranSection_comparisonPreimage
         (comparisonPreimage B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ c V t) =
       (Presheaf.globalSectionsEquivSections
         ((twoFibreProductSnd B S hS G p q eG f c V).op ⋙ ℱ.obj)).symm
-        (comparisonGlueSections B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ c V t) :=
+        (comparisonGlueSections B S hS F G p q hp hF hG eF eG f fSpace ha ℱ c V t) :=
     (restrictedDirectImageChartEquiv B S hS G p q hp hq eG f hf c ℱ V).apply_symm_apply _
   rw [h1, Equiv.apply_symm_apply] at h
   exact h.symm
@@ -316,7 +316,7 @@ theorem comparisonSections_comparisonPreimage
   refine Eq.trans h ?_
   exact glueSection_chart B S hS F G p q hp hF hG eF eG f fSpace ha V ℱ
     (comparisonChartFamily B S hS F G p hp hF hG eF fSpace ℱ V t)
-    (comparisonChartFamily_compatible B S hS F G p q hp hq hF hG eF eG f hf fSpace ha ℱ V t) W ζ
+    (comparisonChartFamily_compatible B S hS F G p q hp hF hG eF eG f fSpace ha ℱ V t) W ζ
 
 /-! ### Equation 075M: the comparison map is an isomorphism -/
 

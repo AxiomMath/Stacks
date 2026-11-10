@@ -178,7 +178,7 @@ public theorem completedFormsDifferential_val (n : ℕ)
     (x : completedDividedPowerRing p (B := B)) (b : B) (hb : x.val n = Submodule.Quotient.mk b) :
     (completedFormsDifferential p A hJ x).val n =
       Submodule.Quotient.mk (dividedPowerOneForm A hJ b) := by
-  show PAdicCompletion.levelMap p B B (dividedPowerOneForm A hJ) n (x.val n) = _
+  change PAdicCompletion.levelMap p B B (dividedPowerOneForm A hJ) n (x.val n) = _
   rw [hb, PAdicCompletion.levelMap_mk]
 
 /-! ### The wedge product and the de Rham differential of the completed forms -/
@@ -268,7 +268,7 @@ public theorem completedDividedPowerWedge_eq_wedgeMul (i : ℕ)
         (exteriorPower.degCongr (R := B) (M := dividedPowerDifferentials (A := A) hJ)
           (Nat.add_comm 1 i)).toLinearMap
         (completedDividedPowerWedgeMul p A hJ 1 i y x) := by
-  show PAdicCompletion.mapBilinear p B (dividedPowerWedge hJ i) x y = _
+  change PAdicCompletion.mapBilinear p B (dividedPowerWedge hJ i) x y = _
   refine (PAdicCompletion.mapBilinear_eq_of_val p B (dividedPowerWedge hJ i)
     (fun u v ↦ AdicCompletion.map (pAdicIdeal (A := B) p)
       (exteriorPower.degCongr (R := B) (M := dividedPowerDifferentials (A := A) hJ)
@@ -734,7 +734,7 @@ public theorem completedMapDifferentialForms_val (i n : ℕ)
       Submodule.Quotient.mk
         (mapDifferentialFormsOfDPMorphism (A := A) (J := J) (delta := hJ)
           epsilon f hf i omega) := by
-  show adicQuotientMap _ _ n (x.val n) = _
+  change adicQuotientMap _ _ n (x.val n) = _
   rw [hx]
   rfl
 

@@ -89,6 +89,9 @@ abbrev objectInverseImageFunctor (x : 𝒳) :
   SheafOfModules.overFunctor.{u} (ringStructureSheafCore B S hS p hp .fppf) x ⋙
     (localizationModulesEquivalence B S hS p hp x).inverse
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the `simpa` proving `g' = h'` must synthesize `HasLimitsOfShape` for sheaves of
+-- modules on the big fppf site over `U`, which exceeds the default typeclass budget
 /-- **The reduction to the big site at a final object.**  Let `x` be a final object of `𝒳`, lying
 over a scheme `U`.  If `2 : 𝒪 → 𝒪` is a monomorphism of `QCoh((Sch/U)_fppf, 𝒪)` but not of
 `Mod((Sch/U)_fppf, 𝒪)`, then the inclusion `QCoh(𝒪_𝒳) → Mod(𝒪_𝒳)` does not preserve finite
@@ -150,7 +153,6 @@ theorem not_preservesFiniteLimits_quasicoherentInclusion_of_isTerminal (hx : IsT
       have h2 := congrArg (fun k => k ≫ e.hom) this
       simp only [Category.assoc] at h2
       simp only [Functor.map_nsmul, Preadditive.comp_nsmul, Category.comp_id]
-      set_option synthInstance.maxHeartbeats 400000 in
       simpa [g', h', Preadditive.comp_nsmul, Preadditive.nsmul_comp] using h2
     apply ObjectProperty.hom_ext
     apply Ψ.map_injective
@@ -164,8 +166,8 @@ theorem not_preservesFiniteLimits_quasicoherentInclusion_of_isTerminal (hx : IsT
   rw [Functor.map_nsmul, CategoryTheory.Functor.map_id] at h2
   apply hnot
   rw [nsmul_id_eq_inv_comp_nsmul_id_comp_hom e]
-  haveI : Mono e.inv := IsIso.mono_of_iso _
-  haveI : Mono e.hom := IsIso.mono_of_iso _
+  have : Mono e.inv := IsIso.mono_of_iso _
+  have : Mono e.hom := IsIso.mono_of_iso _
   exact mono_comp _ _
 end AlgebraicGeometry.FibredSite
 
@@ -196,15 +198,15 @@ theorem mono_two_nsmul_unitQuasicoherentOnSite :
         (associatedModule B .fppf).map (2 • 𝟙 unitModule.{u}) :=
       congrArg (associatedModule B .fppf).map iota_map_two_nsmul.{u}
     simp only [Functor.map_comp, hE, Functor.map_nsmul, CategoryTheory.Functor.map_id]
-    show _ = (associatedModuleUnitIso B .fppf).inv ≫
+    change _ = (associatedModuleUnitIso B .fppf).inv ≫
       (associatedModule B .fppf).map (2 • 𝟙 unitModule.{u}) ≫
       (associatedModuleUnitIso B .fppf).hom
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     exact nsmul_id_eq_inv_comp_nsmul_id_comp_hom _ _
   rw [h]
-  haveI : Mono e0.inv := IsIso.mono_of_iso _
-  haveI : Mono e0.hom := IsIso.mono_of_iso _
-  haveI : Mono (E.functor.map (2 • 𝟙 unitQcoh.{u})) := E.functor.map_mono _
+  have : Mono e0.inv := IsIso.mono_of_iso _
+  have : Mono e0.hom := IsIso.mono_of_iso _
+  have : Mono (E.functor.map (2 • 𝟙 unitQcoh.{u})) := E.functor.map_mono _
   exact mono_comp _ _
 
 end AlgebraicGeometry.AssociatedModuleNotExact

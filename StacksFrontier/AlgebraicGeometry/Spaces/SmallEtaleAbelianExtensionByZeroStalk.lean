@@ -187,7 +187,7 @@ theorem stalkFamilyToSkyscraperApp_π
     stalkFamilyToSkyscraperApp B S hS f hf x F M a W ≫
         restrictedSkyscraperπ B S hS f hf x M W (pushLift B S hS f hf W t w) =
       liftedGerm B S hS f x F t W w ≫ a t := by
-  show Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B S hS f hf W) ⟨t, w⟩) = _
+  change Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B S hS f hf W) ⟨t, w⟩) = _
   rw [Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 /-- A family of maps out of the stalks at the lifts assembles into a map to the restricted
@@ -381,12 +381,12 @@ theorem extensionStalkHomEquiv_π
           ((smallEtalePostcomp B S hS f hf).obj W) q
           ((abelianEtaleExtensionByZero B S hS f hf).obj F).obj ≫ a := by
   rw [extensionStalkAdjunction, Adjunction.comp_homEquiv]
-  show (((abelianEtaleExtensionByZeroAdjunction B S hS f hf).homEquiv F _
+  change (((abelianEtaleExtensionByZeroAdjunction B S hS f hf).homEquiv F _
       ((etaleSitePoint B S hS Y.1 x Y.2).skyscraperSheafAdjunction.homEquiv _ M a)).hom.app
         (op W)) ≫
     skyscraperπ B S hS x M ((smallEtalePostcomp B S hS f hf).obj W) q = _
   rw [Adjunction.homEquiv_apply]
-  show (extensionByZeroUnitApp B S hS f hf F W ≫
+  change (extensionByZeroUnitApp B S hS f hf F W ≫
       (((etaleSitePoint B S hS Y.1 x Y.2).skyscraperSheafAdjunction.homEquiv _ M a).hom.app
         (op ((smallEtalePostcomp B S hS f hf).obj W)))) ≫
     skyscraperπ B S hS x M ((smallEtalePostcomp B S hS f hf).obj W) q = _

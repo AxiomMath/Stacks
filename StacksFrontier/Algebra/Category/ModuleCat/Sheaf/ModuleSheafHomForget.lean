@@ -145,7 +145,7 @@ theorem isFiniteLocallyConstant_moduleSheafHom (F G : Sheaf K (ModuleCat.{max u 
           (overPullbackIsoOfMapModule K a F M eF)
           (overPullbackIsoOfMapModule K b G N eG)) ≪≫
         (overPullbackModuleSheafHomIso K Λ (Z k) F G).symm⟩⟩
-    show Finite (M ⟶ N)
+    change Finite (M ⟶ N)
     exact Finite.of_injective (fun φ : M ⟶ N ↦ (φ.hom : M → N))
       (fun φ ψ h ↦ ModuleCat.hom_ext (LinearMap.ext (congrFun h)))
 

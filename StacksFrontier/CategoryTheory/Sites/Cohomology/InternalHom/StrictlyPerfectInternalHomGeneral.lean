@@ -28,11 +28,10 @@ small étale site of an algebraic space, a `RingedSite.{u + 1, u, u}`, where the
 complex of two complexes of modules with sections in `u` has sections in `u + 1`.
 
 The collapsed case `RingedSite.{u, u, u}` with modules in `u` is the instance `v := u`,
-`w := u`, `m := u`, and is
-`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.HomComplexOfAStrictlyPerfectComplex`,
-`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.InternalHomTermwiseSplit`,
-`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.StrictlyPerfectHomQuasiIso` and
-`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.InternalHomUnitSource`. The
+`w := u`, `m := u`, and is, in the namespace
+`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect`,
+`HomComplexOfAStrictlyPerfectComplex`, `InternalHomTermwiseSplit`,
+`StrictlyPerfectHomQuasiIso` and `InternalHomUnitSource`. The
 coproduct description of the terms, including the 08JH comparison, is only available there: it
 equates `max u v m` with `m`.
 
@@ -256,7 +255,7 @@ lemma internalHomPre_add
     intro x
     rfl
   ext U a
-  show (restrFun X.O.obj (unop U)).map (homOf X (f + g)) ≫
+  change (restrFun X.O.obj (unop U)).map (homOf X (f + g)) ≫
       (a : (restrFun X.O.obj (unop U)).obj (valOf X B) ⟶
         (restrFun X.O.obj (unop U)).obj (valOf X C)) =
     (restrFun X.O.obj (unop U)).map (homOf X f) ≫
@@ -281,7 +280,7 @@ lemma internalHomPre_zero
     intro x
     rfl
   ext U a
-  show (restrFun X.O.obj (unop U)).map (homOf X (0 : A ⟶ B)) ≫
+  change (restrFun X.O.obj (unop U)).map (homOf X (0 : A ⟶ B)) ≫
       (a : (restrFun X.O.obj (unop U)).obj (valOf X B) ⟶
         (restrFun X.O.obj (unop U)).obj (valOf X C)) = 0
   rw [hzero]

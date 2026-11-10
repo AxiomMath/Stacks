@@ -50,6 +50,7 @@ namespace IsAbsolutelyIntegrallyClosed
 
 variable {B : Type*} [CommRing B] [IsDomain B] {p : ℕ} [Fact p.Prime] [CharP B p]
 
+omit [IsDomain B] [Fact p.Prime] [CharP B p] in
 /-- The part subtracted in the additive polynomial
 `X ^ Q - (∑_{j < n} C (c j * g ^ (Q - p ^ j)) * X ^ p ^ j + C e)` has degree less than `Q = p ^ n`,
 each exponent `p ^ j` with `j < n` being smaller than `Q`. -/
@@ -59,13 +60,14 @@ private theorem natDegree_sum_C_mul_X_pow_add_C_lt {n : ℕ} (hp : 1 < p) (hQ : 
   intro g e
   refine lt_of_le_of_lt (natDegree_add_le _ _) (max_lt ?_ (by simpa using hQ))
   by_cases hn : n = 0
-  · subst hn; simpa using hQ
+  · subst hn; simp
   have : (∑ j ∈ range n, C (c j * g ^ (p ^ n - p ^ j)) * X ^ p ^ j).natDegree ≤ p ^ (n - 1) :=
     natDegree_sum_le_of_forall_le _ _ fun j hj =>
       (natDegree_C_mul_X_pow_le _ _).trans
         (Nat.pow_le_pow_right (by omega) (by have := mem_range.mp hj; omega))
   exact lt_of_le_of_lt this (Nat.pow_lt_pow_right hp (by omega))
 
+omit [Fact p.Prime] [CharP B p] in
 /-- In an absolutely integrally closed domain every additive (`p`-polynomial) equation
 `w ^ Q - ∑_{j < n} c_j g ^ (Q - p ^ j) w ^ p ^ j = e` with `Q = p ^ n` has a solution, the
 corresponding monic polynomial of degree `Q` having a root there. -/
@@ -83,9 +85,10 @@ private theorem exists_pow_sub_sum_mul_pow_eq {n : ℕ} (hB : IsAbsolutelyIntegr
     rw [natDegree_sub_eq_left_of_natDegree_lt (by simpa using hlt), natDegree_X_pow]
   obtain ⟨w, hw⟩ := (isAbsolutelyIntegrallyClosed_iff_exists_root B).mp hB f hf (by omega)
   refine ⟨w, ?_⟩
-  simp only [f, eval_sub, eval_add, eval_pow, eval_X, eval_C, eval_finset_sum, eval_mul] at hw
+  simp only [f, eval_sub, eval_add, eval_pow, eval_X, eval_C, eval_finsetSum, eval_mul] at hw
   linear_combination hw
 
+omit [IsDomain B] [Fact p.Prime] [CharP B p] in
 /-- If `L ^ Q = ∑_{j < n} c_j (xy) ^ (Q - p ^ j) L ^ p ^ j` with `Q = p ^ n`, then the quotient
 `lam = L / xy` in a `B`-algebra is a root of the monic polynomial
 `X ^ Q - ∑_{j < n} C (c j) * X ^ p ^ j`, hence is integral over `B`. -/
@@ -105,7 +108,7 @@ private theorem isIntegral_div_of_pow_sub_sum_eq_zero {K : Type*} [Field K] [Alg
     exact_mod_cast this
   refine ⟨g, hg, ?_⟩
   have hmul : algebraMap B K (x * y) ^ p ^ n * eval₂ (algebraMap B K) lam g = 0 := by
-    simp only [g, eval₂_sub, eval₂_X_pow, eval₂_finset_sum, eval₂_mul, eval₂_C, mul_sub,
+    simp only [g, eval₂_sub, eval₂_X_pow, eval₂_finsetSum, eval₂_mul, eval₂_C, mul_sub,
       mul_sum]
     have h1 : algebraMap B K (x * y) ^ p ^ n * lam ^ p ^ n = algebraMap B K (L ^ p ^ n) := by
       rw [← mul_pow, mul_comm, hlam, map_pow]

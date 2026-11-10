@@ -64,7 +64,7 @@ instance : (cechFunctorZ U O ρ).Additive := by
 theorem isZero_cechFunctorZ_X (M : SheafOfModules.{u} O) (p : ℤ) (hp : p < 0) :
     IsZero (((cechFunctorZ U O ρ).obj M).X p) :=
   HomologicalComplex.isZero_extend_X _ _ _ fun i => by
-    show (i : ℤ) ≠ p
+    change (i : ℤ) ≠ p
     omega
 
 /-- The degree-`m` term of the `ℤ`-graded Čech complex is the degree-`m` Čech cochains. -/
@@ -187,7 +187,7 @@ cochains, read through `cechFunctorZXIso`. -/
 theorem cechFunctorZ_map_f {M N : SheafOfModules.{u} O} (φ : M ⟶ N) (m : ℕ) :
     ((cechFunctorZ U O ρ).map φ).f m = (cechFunctorZXIso U O ρ M m).hom ≫
       ((cechFunctorOverBase U O ρ).map φ).f m ≫ (cechFunctorZXIso U O ρ N m).inv := by
-  show (HomologicalComplex.extendMap ((cechFunctorOverBase U O ρ).map φ) embeddingUpNat).f m = _
+  change (HomologicalComplex.extendMap ((cechFunctorOverBase U O ρ).map φ) embeddingUpNat).f m = _
   rw [HomologicalComplex.extendMap_f _ embeddingUpNat (i := m) (i' := m) rfl]
   rfl
 
@@ -322,7 +322,7 @@ theorem hypotheses_cechRowAugmentation
   inducesIsoKernel p := by
     have hz : ((cechFunctorZ U O ρ).map R.inclusionZero).f p ≫
         ((cechBicomplex U O ρ R.cochainComplex).flip.X p).d 0 1 = 0 := by
-      show ((cechFunctorZ U O ρ).map R.inclusionZero).f p ≫
+      change ((cechFunctorZ U O ρ).map R.inclusionZero).f p ≫
         ((cechFunctorZ U O ρ).map (R.cochainComplex.d 0 1)).f p = 0
       rw [← HomologicalComplex.comp_f, ← Functor.map_comp, R.inclusionZero_comp_d,
         Functor.map_zero, HomologicalComplex.zero_f]
@@ -351,7 +351,7 @@ theorem hypotheses_cechRowAugmentation
         have h2 : ((cechFunctorZ U O ρ).map R.inclusionZero).f (m : ℤ) =
             (e.app M).hom ≫ G.map R.inclusionZero ≫ (e.app (R.cochainComplex.X 0)).inv := by
           have h3 := e.hom.naturality R.inclusionZero
-          show _ = (e.hom.app M ≫ G.map R.inclusionZero) ≫ e.inv.app _
+          change _ = (e.hom.app M ≫ G.map R.inclusionZero) ≫ e.inv.app _
           rw [← h3, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
           rfl
         rw [h2]

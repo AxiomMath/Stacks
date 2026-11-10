@@ -104,11 +104,11 @@ noncomputable def toCochain (C : FreeData R) (hdd : ∀ i : ℤ, C.d (i + 1) * C
   X i := ModuleCat.of R (Fin (C.rank i) → R)
   d i j := if h : i + 1 = j then
       homOfMatrix ((C.d i).submatrix (Fin.cast (congrArg C.rank h).symm) id) else 0
-  shape i j hij := dif_neg hij
+  shape i j hij := dite_eq_right hij
   d_comp_d' i j k hij hjk := by
     obtain rfl : j = i + 1 := hij.symm
     obtain rfl : k = i + 1 + 1 := hjk.symm
-    rw [dif_pos rfl, dif_pos rfl]
+    rw [dite_eq_left rfl, dite_eq_left rfl]
     apply ModuleCat.hom_ext
     have : (C.d (i + 1)).submatrix
           (Fin.cast (congrArg C.rank (rfl : i + 1 + 1 = i + 1 + 1)).symm) id *
@@ -125,9 +125,9 @@ theorem toCochain_X (C : FreeData R) (hdd : ∀ i : ℤ, C.d (i + 1) * C.d i = 0
 `d i`: at `j = i + 1` the reindexing in the definition is the identity. -/
 theorem toCochain_d (C : FreeData R) (hdd : ∀ i : ℤ, C.d (i + 1) * C.d i = 0) (i : ℤ) :
     (C.toCochain hdd).d i (i + 1) = homOfMatrix (C.d i) := by
-  show (if h : i + 1 = i + 1 then
+  change (if h : i + 1 = i + 1 then
       homOfMatrix ((C.d i).submatrix (Fin.cast (congrArg C.rank h).symm) id) else 0) = _
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
   congr 1
 
 /-- The matrix of the differential of `toCochain` out of degree `i` is `d i`. -/

@@ -176,10 +176,10 @@ theorem range_yoneda_map_eq_preimage_sectionsGenerationSubfunctor (hM : M.IsQuas
     have e : representedMap B S hS g ≫ (ObjectProperty.homMk q :
         representedAlgebraicSpace B S hS A ⟶ X) = sectionPoint B S hS (q.app Y g) := by
       refine ObjectProperty.hom_ext _ ?_
-      show yoneda.map g ≫ q = yonedaEquiv.symm (q.app Y g)
+      change yoneda.map g ≫ q = yonedaEquiv.symm (q.app Y g)
       apply yonedaEquiv.injective
       rw [Equiv.apply_symm_apply, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show IsGeneratedReading B S hS M s Y.unop (sectionPoint B S hS (q.app Y g)) ↔ _
+    change IsGeneratedReading B S hS M s Y.unop (sectionPoint B S hS (q.app Y g)) ↔ _
     rw [isGeneratedReading_comp_iff B S hS M s hM g _ _ e]
     simp only [Set.range_subset_iff, Set.mem_iUnion]
   constructor

@@ -113,11 +113,11 @@ private theorem affine_localDimension_eq_iInf_closedSpecializations
       {x' : Spec (.of S) // x ⤳ x' ∧
         IsClosed ({x'} : Set (Spec (.of S)))}) ?_
     · refine specializes_iff_mem_closure.mpr ?_
-      show (show PrimeSpectrum S from y) ∈
+      change (show PrimeSpectrum S from y) ∈
         closure ({show PrimeSpectrum S from x} : Set (PrimeSpectrum S))
       rwa [PrimeSpectrum.closure_singleton]
     · exact (PrimeSpectrum.isClosed_singleton_iff_isMaximal _).mpr hm
-    show ringKrullDim ((Spec (.of S)).presheaf.stalk y) ≤ (m.height : WithBot ℕ∞)
+    change ringKrullDim ((Spec (.of S)).presheaf.stalk y) ≤ (m.height : WithBot ℕ∞)
     exact (ringKrullDim_stalk_spec_eq_height y).le
 
 /-- For a scheme locally of finite type over a field, its local dimension at a point is the
@@ -139,7 +139,7 @@ theorem topologicalKrullDimAt_eq_iInf_closedSpecializations
     let g := (Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ V (by simp)
     let : Algebra k Γ(X, V) := g.hom.toAlgebra
     have : Algebra.FiniteType k Γ(X, V) := by
-      show RingHom.FiniteType g.hom
+      change RingHom.FiniteType g.hom
       apply RingHom.FiniteType.comp
       · exact f.finiteType_appLE (isAffineOpen_top _) hV (by simp)
       · exact RingHom.FiniteType.of_surjective _
@@ -148,7 +148,7 @@ theorem topologicalKrullDimAt_eq_iInf_closedSpecializations
     have : IsOpenImmersion hV.fromSpec := hV.isOpenImmersion_fromSpec
     let y : Spec Γ(X, V) := hV.isoSpec.hom ⟨x, hxV⟩
     have hey : e y = x := by
-      show (hV.isoSpec.hom ≫ hV.fromSpec) ⟨x, hxV⟩ = x
+      change (hV.isoSpec.hom ≫ hV.fromSpec) ⟨x, hxV⟩ = x
       rw [hV.isoSpec_hom_fromSpec]
       rfl
     rw [← hey, hV.fromSpec.isOpenEmbedding.topologicalKrullDimAt_eq y,
@@ -158,7 +158,7 @@ theorem topologicalKrullDimAt_eq_iInf_closedSpecializations
       {x' : X // e y ⤳ x' ∧ IsClosed ({x'} : Set X)}) ?_
     · exact hV.fromSpec.continuous.specialization_monotone hyy'
     · rw [← mem_closedPoints_iff]
-      show y' ∈ hV.fromSpec ⁻¹' closedPoints X
+      change y' ∈ hV.fromSpec ⁻¹' closedPoints X
       rwa [hV.fromSpec.isOpenEmbedding.preimage_closedPoints]
     simp only [ringKrullDim_stalk_eq_coheight]
     exact_mod_cast (Topology.IsOpenEmbedding.coheight_eq hV.fromSpec

@@ -141,7 +141,7 @@ theorem isIso_sheafHomExactSupportRestrictComparison_of_map
     (h : ∀ F : SheafOfModules.{u} (structureSheafRing S.X),
       IsIso ((modulePushforward (restrictedMorphism S.i U)).map
         ((S.sheafHomExactSupportRestrictComparison U).app F))) :
-    IsIso (S.sheafHomExactSupportRestrictComparison U).natTrans := by
+    IsIso (S.sheafHomExactSupportRestrictComparison U) := by
   have := fun F => S.isIso_sheafHomExactSupportRestrictComparison_app_of_map U F (h F)
   exact NatIso.isIso_of_isIso_app _
 
@@ -176,7 +176,7 @@ theorem isIso_derivedSheafHomExactSupportRestrictComparison_of_map
     (h : ∀ K : DerivedCategory (SheafOfModules.{u} (structureSheafRing S.X)),
       IsIso ((modulePushforward (restrictedMorphism S.i U)).mapDerivedCategory.map
         ((S.derivedSheafHomExactSupportRestrictComparison U).app K))) :
-    IsIso (S.derivedSheafHomExactSupportRestrictComparison U).natTrans := by
+    IsIso (S.derivedSheafHomExactSupportRestrictComparison U) := by
   have := fun K => S.isIso_derivedSheafHomExactSupportRestrictComparison_app_of_map U K (h K)
   exact NatIso.isIso_of_isIso_app _
 
@@ -199,7 +199,7 @@ theorem restrict_mem_kernelIdeal_iff (W : Opens (S.restrict U).X)
     a ∈ (S.restrict U).kernelIdeal W ↔
       (a : S.X.presheaf.obj (op ((jFun (asRingSheafedSpace S.X) U).obj W))) ∈
         S.kernelIdeal ((jFun (asRingSheafedSpace S.X) U).obj W) := by
-  show (ConcreteCategory.hom ((restrictedMorphism S.i U).hom.c.app (op W))) a = 0 ↔
+  change (ConcreteCategory.hom ((restrictedMorphism S.i U).hom.c.app (op W))) a = 0 ↔
     (ConcreteCategory.hom (S.i.hom.c.app (op ((jFun (asRingSheafedSpace S.X) U).obj W)))) a = 0
   rw [restrictedMorphism_c_app_apply]
   exact (ConcreteCategory.bijective_of_isIso _).1.eq_iff' (map_zero _)
@@ -279,7 +279,7 @@ theorem isIso_pushforward_sheafHomExactSupportRestrictComparison_app
   set sq := (S.pushforwardRestrictSquare U).app (S.sheafHomExactSupport.obj F)
   set ε := S.modulePushforwardSheafHomExactSupportAdjunction.counit.app F
   have hsq : IsIso sq := by
-    show IsIso ((modulePushforwardRestrictIso S.i U).hom.app _)
+    change IsIso ((modulePushforwardRestrictIso S.i U).hom.app _)
     infer_instance
   refine Stacks.SheafOfModules.isIso_of_bijective_app c fun W => ?_
   have key : ∀ x, ε'.val.app W (c.val.app W x) =
@@ -307,7 +307,7 @@ instance isIso_sheafHomExactSupportRestrictComparison_app
 
 /-- The underived comparison is an isomorphism of functors. -/
 instance isIso_sheafHomExactSupportRestrictComparison :
-    IsIso (S.sheafHomExactSupportRestrictComparison U).natTrans :=
+    IsIso (S.sheafHomExactSupportRestrictComparison U) :=
   S.isIso_sheafHomExactSupportRestrictComparison_of_map U
     (S.isIso_pushforward_sheafHomExactSupportRestrictComparison_app U)
 

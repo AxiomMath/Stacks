@@ -98,7 +98,7 @@ theorem fibreToF_fibreOfF {Z T : BigFppfOver B S hS} (g : yoneda.obj Z ⟶ X) (t
     ρ.fibreToF g t f hf (ρ.fibreOfF g t f hf ζ hζ) = ζ := by
   obtain ⟨k, c⟩ := ζ
   obtain rfl : k = (BigFppfOver.toScheme B S hS).map t := hζ
-  show F.baseChangeUp _ _ ((F.algebraTransportEquiv _ _ _).symm
+  change F.baseChangeUp _ _ ((F.algebraTransportEquiv _ _ _).symm
     (F.algebraTransportEquiv _ _ _ (F.baseChangeDownQ _ _ (𝟙 _) c))) = _
   rw [Equiv.symm_apply_apply]
   exact F.baseChangeUp_baseChangeDownQ _ _ (𝟙 _) c
@@ -280,7 +280,7 @@ theorem qcOfLimPoint_val {Z T : BigFppfOver B S hS} (g : yoneda.obj Z ⟶ X) (t 
     (ρ.qcOfLimPoint g t ξ hξ).val _ hW ((BigFppfOver.toScheme B S hS).map w) =
       ρ.fibreToF g (w ≫ t) _ (by rw [hξ]; rfl) (ξ.val W hW w) := by
   set c := Scheme.compactOpenFactorization hW ((BigFppfOver.toScheme B S hS).map w)
-  show F.pullback c.hom (ρ.qcOpenOfLimPoint g t ξ hξ |>.val c.opens c.isCompact_opens) = _
+  change F.pullback c.hom (ρ.qcOpenOfLimPoint g t ξ hξ |>.val c.opens c.isCompact_opens) = _
   exact (ρ.fibreToF_fibreRestrict g (opensObjectι B S hS T c.opens ≫ t) (factorHom w c)
       (yoneda.map (opensObjectι B S hS T c.opens) ≫ ξ.point)
       (yoneda.map (factorHom w c ≫ opensObjectι B S hS T c.opens) ≫ ξ.point)
@@ -296,7 +296,7 @@ theorem qcOfLimPoint_val_fst {Z T : BigFppfOver B S hS} (g : yoneda.obj Z ⟶ X)
     (w : W ⟶ (BigFppfOver.toScheme B S hS).obj T) :
     ((ρ.qcOfLimPoint g t ξ hξ).val W hW w).1 = w ≫ (BigFppfOver.toScheme B S hS).map t := by
   set c := Scheme.compactOpenFactorization hW w
-  show c.hom ≫ c.opens.ι ≫ (BigFppfOver.toScheme B S hS).map t = _
+  change c.hom ≫ c.opens.ι ≫ (BigFppfOver.toScheme B S hS).map t = _
   rw [← Category.assoc, c.fac]
 
 /-! ### The bijection -/

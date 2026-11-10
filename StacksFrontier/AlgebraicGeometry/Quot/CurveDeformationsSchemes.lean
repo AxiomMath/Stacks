@@ -58,6 +58,7 @@ universe u
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for limits of presheaves on the big fppf site times out at the default budget
 /-- Products of presheaves on the big fppf site of the integers (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_CurveDeformationsSchemes
@@ -151,14 +152,14 @@ theorem totalSiteMap_comp {z : CurveFamily B hZ} (hz : z.total.obj.IsRepresentab
   apply yoneda.map_injective
   rw [Functor.map_comp, yoneda_map_totalSiteMap, yoneda_map_totalSiteMap,
     yoneda_map_totalSiteMap]
-  show _ = (totalSiteIso hx).hom ≫ (φ.totalMap.hom ≫ ψ.totalMap.hom) ≫ (totalSiteIso hz).inv
+  change _ = (totalSiteIso hx).hom ≫ (φ.totalMap.hom ≫ ψ.totalMap.hom) ≫ (totalSiteIso hz).inv
   simp
 
 /-- `totalSiteMap` sends the identity of a family of curves to the identity. -/
 theorem totalSiteMap_id : totalSiteMap hy hy (𝟙 y) = 𝟙 (totalSite hy) := by
   apply yoneda.map_injective
   rw [yoneda_map_totalSiteMap, CategoryTheory.Functor.map_id]
-  show (totalSiteIso hy).hom ≫ 𝟙 _ ≫ (totalSiteIso hy).inv = 𝟙 _
+  change (totalSiteIso hy).hom ≫ 𝟙 _ ≫ (totalSiteIso hy).inv = 𝟙 _
   simp
 
 /-- A property of morphisms of presheaves respecting isomorphisms that holds for the structure
@@ -601,7 +602,7 @@ theorem topologicalKrullDim_scheme_le : topologicalKrullDim (scheme x hx).left �
     x.total.property (CurveFamily.totalSiteIso hxr)
   have h3 := Space.dimension_eq_iSup_localRingDimension B integerBase hZ x.total.obj
     x.total.property
-  show topologicalKrullDim ((BigFppfOver.toScheme B integerBase hZ).obj
+  change topologicalKrullDim ((BigFppfOver.toScheme B integerBase hZ).obj
     (CurveFamily.totalSite hxr)) ≤ 1
   rw [← h1, h2, h3]
   exact iSup_le fun y => by
@@ -668,7 +669,7 @@ theorem isPullback_site :
   · exact (Category.comp_id _).trans (Category.id_comp _).symm
   · simp [scheme]
   · exact (Category.comp_id _).trans (Category.id_comp _).symm
-  · show residueSpecMap P.base ≫ 𝟙 _ =
+  · change residueSpecMap P.base ≫ 𝟙 _ =
       eqToHom (baseScheme_eq x hx).symm ≫ (eqToHom (baseScheme_eq x hx) ≫ residueSpecMap P.base)
     simp
 
@@ -761,7 +762,7 @@ abbrev schemeIsoOfToObj :
 theorem toBase_toSchemeDeformation_toObj :
     (toSchemeDeformation x hx (toObj x hx P)).toBase =
       (schemeIsoOfToObj x hx P).hom ≫ P.toBase := by
-  show (BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
+  change (BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
     eqToHom rfl = _
   rw [eqToHom_refl, Category.comp_id, totalSiteToBase_toObj, Functor.map_comp]
   rfl
@@ -771,7 +772,7 @@ theorem toBase_toSchemeDeformation_toObj :
 theorem specialMap_toSchemeDeformation_toObj :
     (toSchemeDeformation x hx (toObj x hx P)).specialMap =
       P.specialMap ≫ (schemeIsoOfToObj x hx P).inv := by
-  show (BigFppfOver.toScheme B integerBase hZ).map
+  change (BigFppfOver.toScheme B integerBase hZ).map
     (CurveFamily.totalSiteMap _ _ (toObj x hx P).arrow) = _
   rw [totalSiteMap_toObj, Functor.map_comp]
   rfl
@@ -839,13 +840,13 @@ theorem isPullback_preimageSite :
     (eqToIso (baseScheme_eq_obj x hx b).symm) (eqToIso (baseScheme_eq_obj x hx a).symm)
     ?_ ?_ ?_ ?_
   · exact (Category.comp_id _).trans (Category.id_comp _).symm
-  · show ((BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
+  · change ((BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
       eqToHom (baseScheme_eq_obj x hx b)) ≫ eqToHom (baseScheme_eq_obj x hx b).symm = 𝟙 _ ≫ _
     simp
-  · show ((BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
+  · change ((BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteToBase _) ≫
       eqToHom (baseScheme_eq_obj x hx a)) ≫ eqToHom (baseScheme_eq_obj x hx a).symm = 𝟙 _ ≫ _
     simp
-  · show baseSpecMap g.base ≫ eqToHom (baseScheme_eq_obj x hx a).symm =
+  · change baseSpecMap g.base ≫ eqToHom (baseScheme_eq_obj x hx a).symm =
       eqToHom (baseScheme_eq_obj x hx b).symm ≫ (eqToHom (baseScheme_eq_obj x hx b) ≫
         Spec.map (CommRingCat.ofHom g.base.hom.toRingHom) ≫
           eqToHom (baseScheme_eq_obj x hx a).symm)
@@ -882,7 +883,7 @@ def preimageArrow : b.point ⟶ a.point where
 /-- `preimageArrow g` is compatible with the arrows of `a` and `b` from `x`. -/
 theorem preimageArrow_triangle : b.arrow ≫ preimageArrow x hx g = a.arrow := by
   apply CurveFamily.Hom.ext
-  · show b.arrow.baseMap ≫ preimageBaseMap x hx g = a.arrow.baseMap
+  · change b.arrow.baseMap ≫ preimageBaseMap x hx g = a.arrow.baseMap
     rw [← integerSiteHom_toScheme_map (b.arrow.baseMap ≫ preimageBaseMap x hx g),
       ← integerSiteHom_toScheme_map a.arrow.baseMap]
     congr 1
@@ -892,7 +893,7 @@ theorem preimageArrow_triangle : b.arrow ≫ preimageArrow x hx g = a.arrow := b
         Spec.map (CommRingCat.ofHom g'.hom.toRingHom) =
           Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap a.algebra)) := by
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Deformation.Artin.residueMap_comp]
-    show (eqToHom (baseScheme_eq x hx) ≫
+    change (eqToHom (baseScheme_eq x hx) ≫
         Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap b.algebra)) ≫
           eqToHom (baseScheme_eq_obj x hx b).symm) ≫
         (eqToHom (baseScheme_eq_obj x hx b) ≫ Spec.map (CommRingCat.ofHom g'.hom.toRingHom) ≫
@@ -911,7 +912,7 @@ theorem preimageArrow_triangle : b.arrow ≫ preimageArrow x hx g = a.arrow := b
     rw [Functor.map_comp, CurveFamily.yoneda_map_totalSiteMap,
       CurveFamily.yoneda_map_totalSiteMap] at hy
     apply ObjectProperty.hom_ext
-    show b.arrow.totalMap.hom ≫ (CurveFamily.totalSiteIso _).inv ≫
+    change b.arrow.totalMap.hom ≫ (CurveFamily.totalSiteIso _).inv ≫
       yoneda.map (preimageSiteMap x hx g) ≫ (CurveFamily.totalSiteIso _).hom = a.arrow.totalMap.hom
     simpa using congrArg (fun t => (CurveFamily.totalSiteIso (isRepresentable_total x hx)).inv ≫
       t ≫ (CurveFamily.totalSiteIso (isRepresentable_total_obj x hx a)).hom) hy
@@ -923,7 +924,7 @@ theorem preimageArrow_base :
         ((projection B hZ).map (preimageArrow x hx g)).left ≫
           eqToHom (congrArg Over.left a.base) =
       Spec.map (CommRingCat.ofHom g.base.hom.toRingHom) := by
-  show eqToHom (baseScheme_eq_obj x hx b).symm ≫ (eqToHom (baseScheme_eq_obj x hx b) ≫
+  change eqToHom (baseScheme_eq_obj x hx b).symm ≫ (eqToHom (baseScheme_eq_obj x hx b) ≫
     Spec.map (CommRingCat.ofHom g.base.hom.toRingHom) ≫ eqToHom (baseScheme_eq_obj x hx a).symm) ≫
       eqToHom (baseScheme_eq_obj x hx a) = _
   simp only [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp, Category.assoc]
@@ -942,13 +943,13 @@ theorem toSchemeDeformationHom_preimageHom :
     toSchemeDeformationHom x hx (preimageHom x hx g) = g := by
   apply SchemeDeformationCategory.Hom.ext
   · rfl
-  · show (BigFppfOver.toScheme B integerBase hZ).map
+  · change (BigFppfOver.toScheme B integerBase hZ).map
       (CurveFamily.totalSiteMap _ _ (preimageArrow x hx g)) = g.map
     have : CurveFamily.totalSiteMap (isRepresentable_total_obj x hx a)
         (isRepresentable_total_obj x hx b) (preimageArrow x hx g) = preimageSiteMap x hx g := by
       apply yoneda.map_injective
       rw [CurveFamily.yoneda_map_totalSiteMap]
-      show (CurveFamily.totalSiteIso _).hom ≫ ((CurveFamily.totalSiteIso _).inv ≫
+      change (CurveFamily.totalSiteIso _).hom ≫ ((CurveFamily.totalSiteIso _).inv ≫
         yoneda.map (preimageSiteMap x hx g) ≫ (CurveFamily.totalSiteIso _).hom) ≫
           (CurveFamily.totalSiteIso _).inv = _
       simp

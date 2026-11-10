@@ -87,7 +87,7 @@ private theorem isPullback (T : Over S) (x : P.obj (op T)) (U : T.left.Opens)
     have hcO : cO ≫ overOpenι T U = α := Over.OverMorphism.ext hc
     refine ⟨cO, ?_, hcO⟩
     apply Subtype.ext
-    show P.map cO.op (z : P.obj _) = (β : P.obj W)
+    change P.map cO.op (z : P.obj _) = (β : P.obj W)
     rw [hz, h, ← Functor.map_comp_apply, ← op_comp, hcO]
 
 /-- **The inclusion of an open subfunctor is representable by open immersions.** -/

@@ -207,7 +207,7 @@ theorem homotopyRel_add'
     exact (N.grading (n - 1)).add_mem
       (hf.map_grading n x hx) (hg.map_grading n x hx)
   · intro x
-    show (f₁.toFun x + g₁.toFun x) - (f₂.toFun x + g₂.toFun x) =
+    change (f₁.toFun x + g₁.toFun x) - (f₂.toFun x + g₂.toFun x) =
       N.d (hf.toLinearMap x + hg.toLinearMap x) +
         (hf.toLinearMap + hg.toLinearMap) (M.d x)
     rw [map_add, LinearMap.add_apply]
@@ -292,7 +292,7 @@ theorem isAdmissibleShortExact_id_zero
   · exact fun _ _ h => h
   · intro z
     exact ⟨0, Subsingleton.elim _ _⟩
-  · show LinearMap.range (LinearMap.id : X.M →ₗ[R] X.M) =
+  · change LinearMap.range (LinearMap.id : X.M →ₗ[R] X.M) =
       LinearMap.ker (0 : X.M →ₗ[R] (0 : DifferentialGradedModule A).M)
     simp
   · refine ⟨Hom.toGradedHom (𝟙 X), ?_⟩
@@ -391,14 +391,14 @@ theorem inverseRotatedAssociatedTriangle_iso_invRotate
       shiftZeroHom A K) =
       (shiftFunctorCompIsoId (HomotopyCategory A)
         (1 : ℤ) (-1) (by omega)).hom.app (F.obj K) := by
-    show F.map ((shiftFunctorCompIsoId
+    change F.map ((shiftFunctorCompIsoId
       (DifferentialGradedModule A) (1 : ℤ) (-1) (by omega)).hom.app K) = _
     exact hCompHom
   have hGammaInv : F.map (shiftZeroInv A M ≫
       shiftAddHom A M (-1) 1) =
       (shiftFunctorCompIsoId (HomotopyCategory A)
         (-1 : ℤ) 1 (by omega)).inv.app (F.obj M) := by
-    show F.map ((shiftFunctorCompIsoId
+    change F.map ((shiftFunctorCompIsoId
       (DifferentialGradedModule A) (-1 : ℤ) 1 (by omega)).inv.app M) = _
     exact hCompInv
   have hFirst : F.map (desuspendedConnectingHom f g hfg) =
@@ -406,7 +406,7 @@ theorem inverseRotatedAssociatedTriangle_iso_invRotate
         (CategoryTheory.shiftFunctor (HomotopyCategory A) (-1)).map (F.map δ) ≫
           (shiftFunctorCompIsoId (HomotopyCategory A)
           (1 : ℤ) (-1) (by omega)).hom.app (F.obj K) := by
-    show F.map (shiftMap δ (-1) ≫
+    change F.map (shiftMap δ (-1) ≫
         shiftAddInv A K 1 (-1) ≫ shiftZeroHom A K) = _
     simp only [Functor.map_comp]
     calc
@@ -440,7 +440,7 @@ theorem inverseRotatedAssociatedTriangle_iso_invRotate
         (homotopyRel A) ℤ (shift M (-1)) 1).symm =
       (shiftEquiv (HomotopyCategory A) (1 : ℤ)).counitIso.inv.app
         (F.obj M) := by
-    show _ = (shiftFunctorCompIsoId
+    change _ = (shiftFunctorCompIsoId
       (HomotopyCategory A) (-1 : ℤ) 1 (by omega)).inv.app (F.obj M)
     exact hLast
   have hShiftObj : shift M (-1) =
@@ -473,7 +473,7 @@ theorem inverseRotatedAssociatedTriangle_iso_invRotate
             (1 : ℤ) (-1) (by omega)).hom.app T.obj₁) := by
       rw [← heCast] at hFirst
       rw [hTmor₃]
-      show F.map (desuspendedConnectingHom f g hfg) =
+      change F.map (desuspendedConnectingHom f g hfg) =
         e₁.hom ≫
           (CategoryTheory.shiftFunctor (HomotopyCategory A) (-1)).map (F.map δ) ≫
           (shiftFunctorCompIsoId (HomotopyCategory A)
@@ -522,7 +522,7 @@ theorem isDistinguishedTriangle_mappingConeTriangle_rotate
   have hK := shiftFunctor_obj_toHomotopyCategory A K 1
   have hL := shiftFunctor_obj_toHomotopyCategory A L 1
   let e₃ : ((mappingConeTriangle f).rotate).obj₃ ≅ Tpos.obj₃ := by
-    show (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).obj
+    change (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).obj
         (F.obj K) ≅ F.obj ((CategoryTheory.shiftFunctor (DifferentialGradedModule A) (1 : ℤ)).obj K)
     exact {
       hom := -(𝟙 _) ≫ eqToHom hK
@@ -533,7 +533,7 @@ theorem isDistinguishedTriangle_mappingConeTriangle_rotate
     refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _) e₃ ?_ ?_ ?_
     · simp [Tpos, mappingConeTriangle, Pretriangulated.Triangle.rotate]
     · dsimp [Tpos, mappingConeTriangle, Pretriangulated.Triangle.rotate, coneProjection]
-      show -(F.map (coneProjection f)) ≫ (-(𝟙 (F.obj (shift K 1)))) =
+      change -(F.map (coneProjection f)) ≫ (-(𝟙 (F.obj (shift K 1)))) =
         F.map (coneProjection f)
       exact (Preadditive.neg_comp_neg (f := F.map (coneProjection f))
         (g := 𝟙 (F.obj (shift K 1)))).trans (Category.comp_id _)
@@ -542,7 +542,7 @@ theorem isDistinguishedTriangle_mappingConeTriangle_rotate
           (F.map f) ≫ eqToHom hL = eqToHom hK ≫ F.map (shiftMap f 1) :=
         (CategoryTheory.comp_eqToHom_of_refl _ _).trans ((toHomotopyCategory_map_shift A f 1).trans
           (CategoryTheory.eqToHom_comp_of_refl _ _).symm)
-      show -((CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map (F.map f)) ≫
+      change -((CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map (F.map f)) ≫
           (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map (𝟙 (F.obj L)) =
         (-(𝟙 _) ≫ eqToHom hK) ≫ F.map (shiftMap f 1) ≫ eqToHom hL.symm
       calc
@@ -570,7 +570,7 @@ theorem exists_pretriangulated_structure :
       have h := isAdmissibleShortExact_id_zero (A := A) (X := X.as)
       let T := associatedTriangle A (𝟙 X.as) 0 h
       have hzero : IsZero T.obj₃ := by
-        show IsZero ((toHomotopyCategory A).obj (0 : DifferentialGradedModule A))
+        change IsZero ((toHomotopyCategory A).obj (0 : DifferentialGradedModule A))
         exact (toHomotopyCategory A).map_isZero (isZero_zero _)
       have e : T ≅ Pretriangulated.contractibleTriangle X := by
         refine Pretriangulated.Triangle.isoMk T _ (Iso.refl _) (Iso.refl _)
@@ -648,7 +648,7 @@ theorem exists_pretriangulated_structure :
         have hShiftSimple : (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map
             (F.map a') = F.map (shiftMap a' 1) := toHomotopyCategory_map_shift A a' 1
         refine ⟨F.map c, ?_, ?_⟩
-        · show F.map (coneInclusion f₁) ≫ F.map c = b ≫ F.map (coneInclusion f₂)
+        · change F.map (coneInclusion f₁) ≫ F.map c = b ≫ F.map (coneInclusion f₂)
           rw [← hb']
           exact congrArg F.map hc₁
         · dsimp [mappingConeTriangle]
@@ -656,11 +656,11 @@ theorem exists_pretriangulated_structure :
             (CategoryTheory.comp_eqToHom_of_refl _ _)) ?_
           refine Eq.trans ?_ (congrArg (fun q => _ ≫ q)
             (CategoryTheory.comp_eqToHom_of_refl _ _)).symm
-          show F.map (-coneProjection f₁) ≫
+          change F.map (-coneProjection f₁) ≫
               (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map a =
             F.map c ≫ F.map (-coneProjection f₂)
           rw [← ha']
-          show F.map (-coneProjection f₁) ≫
+          change F.map (-coneProjection f₁) ≫
               (CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)).map (F.map a') =
             F.map c ≫ F.map (-coneProjection f₂)
           exact (congrArg (fun q => F.map (-coneProjection f₁) ≫ q) hShiftSimple).trans hNeg

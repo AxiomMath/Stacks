@@ -160,7 +160,7 @@ theorem nontrivial_tensorProduct_of_mem_rangeComap {R : Type u} [CommRing R] (S 
     exact Ideal.map_quotient_self _
   let _ : Algebra p.ResidueField K := (IsFractionRing.lift hg).toAlgebra
   have : IsScalarTower R p.ResidueField K := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R K r = IsFractionRing.lift hg (algebraMap R p.ResidueField r)
+    change algebraMap R K r = IsFractionRing.lift hg (algebraMap R p.ResidueField r)
     rw [← Ideal.algebraMap_quotient_residueField_mk, IsFractionRing.lift_algebraMap]
     exact (Ideal.Quotient.lift_mk _ _ _).symm
   have h1 : Nontrivial (p.ResidueField ⊗[R] S) :=
@@ -210,7 +210,7 @@ theorem isDomain_tensorProduct_of_nontrivial
     ((Ideal.Quotient.mk m).comp
       (Algebra.TensorProduct.includeRight : K →ₐ[A] R ⊗[A] K).toRingHom).toAlgebra
   have : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A L a = Ideal.Quotient.mk m
+    change algebraMap A L a = Ideal.Quotient.mk m
       (Algebra.TensorProduct.includeRight (algebraMap A K a))
     rw [AlgHom.commutes]
     rfl
@@ -264,7 +264,7 @@ theorem mem_geometricallyIntegralFibreLocus_of_isPushout {A A' C C' : Type u} [C
   have : IsScalarTower A A' K := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hker' : RingHom.ker (algebraMap A K) =
       (PrimeSpectrum.comap (algebraMap A A') q).asIdeal := by
-    show RingHom.ker (algebraMap A K) = Ideal.comap (algebraMap A A') q.asIdeal
+    change RingHom.ker (algebraMap A K) = Ideal.comap (algebraMap A A') q.asIdeal
     rw [← hker, RingHom.comap_ker]
     rfl
   exact (isDomain_tensorProduct_iff_of_isPushout K).mp (hq K hker')

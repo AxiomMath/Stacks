@@ -129,7 +129,7 @@ theorem etaleFundamentalGroupMap_comp_eq_one_of_isFiniteCoproductOfTerminal
   have hd' := autMulEquivEtaleFundamentalGroup_galoisFunctorData_hom a x d' σ
   have hd := autMulEquivEtaleFundamentalGroup_galoisFunctorData_hom b (x.map a) d (d'.hom σ)
   have hz : d.hom (d'.hom σ) = 1 := by simpa using DFunLike.congr_fun hone σ
-  show etaleFundamentalGroupMap b (x.map a) (etaleFundamentalGroupMap a x ρ) = 1
+  change etaleFundamentalGroupMap b (x.map a) (etaleFundamentalGroupMap a x ρ) = 1
   rw [← hσ, ← hd', ← hd, hz, map_one]
 
 /-- **The composite base change of a finite étale cover of `Spec k` to `X_Ω` splits**: base

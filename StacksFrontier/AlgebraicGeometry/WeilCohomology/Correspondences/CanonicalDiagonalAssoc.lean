@@ -174,7 +174,7 @@ theorem selfIntersectionProduct_selfIntersectionProduct_left (n m l : ℤ) (x : 
       chowPushforwardOfIso C (𝟙 W ≫ sW) (𝟙 W ≫ sW) (𝟙 W) (Category.id_comp _) l
         (chowGroupCongr C (Category.id_comp sW).symm l z) :=
     (chowPushforwardOfIso_id C _ l _).symm
-  show chowPushforwardOfIso C (pullback.fst (𝟙 W) (𝟙 W) ≫ (𝟙 W ≫ sW)) sW
+  change chowPushforwardOfIso C (pullback.fst (𝟙 W) (𝟙 W) ≫ (𝟙 W ≫ sW)) sW
     (pullback.fst (𝟙 W) (𝟙 W)) (by simp) _
     (intersectionProduct C hδ G sW (𝟙 W) (𝟙 W) D Dc (n + m - D) l
       (chowGroupCongr C (Category.id_comp sW).symm (n + m - D)
@@ -208,7 +208,7 @@ theorem selfIntersectionProduct_selfIntersectionProduct_right (n m l : ℤ)
       chowPushforwardOfIso C (𝟙 W ≫ sW) (𝟙 W ≫ sW) (𝟙 W) (Category.id_comp _) n
         (chowGroupCongr C (Category.id_comp sW).symm n x) :=
     (chowPushforwardOfIso_id C _ n _).symm
-  show chowPushforwardOfIso C (pullback.fst (𝟙 W) (𝟙 W) ≫ (𝟙 W ≫ sW)) sW
+  change chowPushforwardOfIso C (pullback.fst (𝟙 W) (𝟙 W) ≫ (𝟙 W ≫ sW)) sW
     (pullback.fst (𝟙 W) (𝟙 W)) (by simp) _
     (intersectionProduct C hδ G sW (𝟙 W) (𝟙 W) D Dc n (m + l - D)
       (chowGroupCongr C (Category.id_comp sW).symm n x ⊗ₜ[ℤ]

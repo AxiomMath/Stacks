@@ -132,7 +132,7 @@ private theorem section_eq_zero_of_locally_zero {X : Scheme.{u}} (M : X.Modules)
   choose V hVU hxV hzero using fun x : U => hs x.1 x.2
   apply (hsheaf.isSheafFor (.ofArrows V fun x => homOfLE (hVU x)) ?_).isSeparatedFor.ext
   · rintro _ _ ⟨x⟩
-    show M.val.restrictₛₗ (homOfLE (hVU x)).op s =
+    change M.val.restrictₛₗ (homOfLE (hVU x)).op s =
       M.val.restrictₛₗ (homOfLE (hVU x)).op 0
     rw [hzero, map_zero]
   · intro x hx
@@ -167,7 +167,7 @@ theorem isZero_of_isFiniteLocallyFreeOfRank_zero {X : Scheme.{u}} (M : X.Modules
         (X.ringCatSheaf.over (q.X i))).obj (M.over (q.X i)))) :=
     Functor.map_isZero _ (Functor.map_isZero _ (hlocal i))
   have hsub : Subsingleton (Γ(M, U ⊓ q.X i)) := by
-    show Subsingleton (↑(((M.over (q.X i)).val.obj
+    change Subsingleton (↑(((M.over (q.X i)).val.obj
       (Opposite.op (Over.mk (homOfLE hVq))))))
     exact ModuleCat.subsingleton_of_isZero hzeroAt
   exact ⟨U ⊓ q.X i, inf_le_left, ⟨hx, hxi⟩, hsub.elim _ 0⟩

@@ -72,10 +72,10 @@ abbrev geometricGroupHomology :
   restrictedHomologyDelta Λ (geometricFundamentalGroupMap B X f kbar
     (contains_fieldBaseChange_of_isCurve B X f kbar) y)
 
-omit [IsAlgClosed kbar] [IsAlgClosure k kbar] [ConnectedSpace X.1] [CompactSpace X.1]
-  [QuasiSeparatedSpace X.1] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] [IsAlgClosure k kbar] [Fintype Λ]
+  [ConnectedSpace X.1] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
 /-- `H⁰(π₁(X_k̄), N) = N^{π₁(X_k̄)}` is finite. -/
-theorem finite_geometricGroupCohomology_zero [ConnectedSpace X.1]
+theorem finite_geometricGroupCohomology_zero [Finite Λ] [ConnectedSpace X.1]
     (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
       (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom))) :
@@ -181,7 +181,7 @@ theorem finite_geometricGroupCohomology
     have : Finite g.ker := by
       refine Finite.of_surjective (fun z : (E.functor 0).obj S.X₃ ↦
         (⟨(E.δ hS 0).hom z, ?_⟩ : g.ker)) ?_
-      · show ((E.functor 1).map S.f).hom ((E.δ hS 0).hom z) = 0
+      · change ((E.functor 1).map S.f).hom ((E.δ hS 0).hom z) = 0
         rw [← ModuleCat.comp_apply, E.δ_map_f hS 0]
         rfl
       · rintro ⟨x, hx⟩

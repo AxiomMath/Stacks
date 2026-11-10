@@ -384,10 +384,9 @@ theorem germ_eq_zero_iff_mem_largestOpenZeroSubspace
     · change F.obj.map (spacesNeighborhoodMap x k.unop).op σ =
         F.obj.map (spacesNeighborhoodMap x k.unop).op 0 at heq
       simpa only [map_zero] using heq
-    · show F.obj.map (spacesNeighborhoodMap x h).op σ =
+    · change F.obj.map (spacesNeighborhoodMap x h).op σ =
         F.obj.map (spacesNeighborhoodMap x h).op 0
       simpa only [map_zero] using hh
-
   rw [hgerm]
   constructor
   · rintro ⟨T, h, hzero⟩
@@ -408,7 +407,7 @@ theorem germ_eq_zero_iff_mem_largestOpenZeroSubspace
         (FieldValuedPoint.map B S hS (underlying B S hS X V).1
           ((toSpaces B S hS X).map f).hom qv)
       refine ⟨i, ?_⟩
-      show (underlying B S hS X U).1.map i.op _ = p.val.value
+      change (underlying B S hS X U).1.map i.op _ = p.val.value
       rw [hi]
       exact h.point_comp
     exact hclass ▸ (largestOpenZeroSubspace_restrict_iff B S hS X F U σ V f).1 hzero
@@ -430,11 +429,11 @@ theorem germ_eq_zero_iff_mem_largestOpenZeroSubspace
     let f := openSubspaceInclusion B S hS X U W
     let T : EtaleNeighborhood B S hS X.1 X.2 x :=
       etaleNeighborhoodOfSitePoint B S hS X x V s (by
-        show ((inclusion B S hS X).obj U).hom.hom.app (op A) (W.1.ι.app (op A) s) =
+        change ((inclusion B S hS X).obj U).hom.hom.app (op A) (W.1.ι.app (op A) s) =
           ((inclusion B S hS X).obj U).hom.hom.app (op A) p.val.value
         rw [hs])
     refine ⟨T, { hom := ((toSpaces B S hS X).map f).hom, «over» := rfl, point_comp := hs }, ?_⟩
-    show F.obj.map f.op σ = 0
+    change F.obj.map f.op σ = 0
     exact restrict_largestOpenZeroSubspace_eq_zero B S hS X F U σ
 
 /-- **Stacks 04K9.** A section `σ` of an abelian sheaf on the spaces-étale site of an

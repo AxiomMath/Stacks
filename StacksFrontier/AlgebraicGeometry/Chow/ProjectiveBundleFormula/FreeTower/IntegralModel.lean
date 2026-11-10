@@ -177,7 +177,7 @@ theorem coe_chartZero_eq_compl_support :
   have h := nonvanishingLocus_eq_compl_supportSet_zeroScheme L s
     (hs ▸ coordGlobalSection_ne_zero (n + 1) 0)
   rw [Stacks.NonvanishingSpelling.stalkNonvanishingLocus_symm_eq, hs] at h
-  show _ = (zeroScheme (projectiveSpaceAtUniverse (n + 1)) L
+  change _ = (zeroScheme (projectiveSpaceAtUniverse (n + 1)) L
     (coordGlobalSection (n + 1) 0)).supportSetᶜ
   rw [← h]
   ext x

@@ -142,7 +142,7 @@ theorem units_split_opens (R : CommRingCat.{u}) [IsDomain R] [UniqueFactorizatio
   have hi : U.ι ''ᵁ (V ⊓ W) = PrimeSpectrum.basicOpen f ⊓ PrimeSpectrum.basicOpen g := by
     rw [← hV, ← hW]
     exact Opens.ext (Set.image_inter U.ι.isOpenEmbedding.injective)
-  show ∀ w : ((Spec.structureSheaf R).obj.obj (op (U.ι ''ᵁ (V ⊓ W))))ˣ,
+  change ∀ w : ((Spec.structureSheaf R).obj.obj (op (U.ι ''ᵁ (V ⊓ W))))ˣ,
     ∃ (u : ((Spec.structureSheaf R).obj.obj (op (U.ι ''ᵁ V)))ˣ)
       (v : ((Spec.structureSheaf R).obj.obj (op (U.ι ''ᵁ W)))ˣ),
       (Spec.structureSheaf R).obj.map (homOfLE (U.ι.image_mono

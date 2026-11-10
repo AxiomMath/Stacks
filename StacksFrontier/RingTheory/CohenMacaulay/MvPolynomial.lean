@@ -218,7 +218,7 @@ private lemma depth_localizedModule_eq_of_bijective {A B : Type*} [CommRing A] [
     calc
       (a • r) • x = ((algebraMap A (Localization.AtPrime p) a * r)) • x := by rw [Algebra.smul_def]
       _ = (E (algebraMap A (Localization.AtPrime p) a) * E r) • x := by
-        show (E (algebraMap A (Localization.AtPrime p) a * r)) • x = _
+        change (E (algebraMap A (Localization.AtPrime p) a * r)) • x = _
         rw [map_mul]
       _ = E (algebraMap A (Localization.AtPrime p) a) • (E r • x) := mul_smul _ _ _
       _ = a • (E r • x) := by
@@ -424,7 +424,7 @@ private lemma exists_mem_coeff_notMem_and_forall_gt_coeff_mem {A : Type*} [CommR
   have hle : Ideal.map (Polynomial.C : A →+* Polynomial A) 𝔭 ≤ 𝔮 := fun q hq =>
     Ideal.polynomial_mem_ideal_of_coeff_mem_ideal 𝔮 q (Ideal.mem_map_C_iff.mp hq)
   obtain ⟨g, hg, hgn⟩ :=
-    SetLike.not_le_iff_exists.mp
+    IsConcreteLE.not_le_iff_exists.mp
       (fun hsub : 𝔮 ≤ Ideal.map (Polynomial.C : A →+* Polynomial A) 𝔭 =>
         hne (le_antisymm hle hsub))
   obtain ⟨i, hi⟩ : ∃ i, g.coeff i ∉ 𝔭 := by
@@ -680,7 +680,7 @@ private lemma isLocalizedModule_polynomialModule_map {A : Type*} [CommRing A] (S
     refine ⟨⟨∏ n ∈ z.coeff.support, ((c n : A)), Submonoid.prod_mem _ (fun i _ => (c i).2)⟩, ?_⟩
     have key : (∏ n ∈ z.coeff.support, ((c n : A))) • z = 0 := by
       refine PolynomialModule.coeff_injective (Finsupp.ext fun n => ?_)
-      show (∏ m ∈ z.coeff.support, ((c m : A))) • z.coeff n = (0 : ℕ →₀ M) n
+      change (∏ m ∈ z.coeff.support, ((c m : A))) • z.coeff n = (0 : ℕ →₀ M) n
       by_cases hn : n ∈ z.coeff.support
       · obtain ⟨r, hr⟩ := Finset.dvd_prod_of_mem (fun m => ((c m : A))) hn
         rw [hr, mul_comm, mul_smul, hc n, smul_zero]
@@ -1346,7 +1346,7 @@ private theorem isCohenMacaulay_polynomialModule {A : Type*} [CommRing A] [IsNoe
     have hpc :
       (𝔮.asIdeal.comap (Polynomial.C : A →+* Polynomial A)).primeCompl = 𝔭.primeCompl := by
       refine Submonoid.ext fun x => ?_
-      show x ∉ 𝔮.asIdeal.comap (Polynomial.C : A →+* Polynomial A) ↔ x ∉ 𝔭
+      change x ∉ 𝔮.asIdeal.comap (Polynomial.C : A →+* Polynomial A) ↔ x ∉ 𝔭
       rw [h𝔭]
     rw [hpc]
     exact hloc

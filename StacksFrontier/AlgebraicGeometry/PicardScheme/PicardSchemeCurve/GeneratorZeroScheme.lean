@@ -27,7 +27,7 @@ generator to a fibre is a nonzero section.
   pullback of the global section of `s : 𝒪_Y ⟶ ℒ` is nonzero as soon as `g^*s` is (through the
   section dictionary `Stacks.PullbackUnitComparisonSection.pullbackGlobalSections_unitHomEquiv`).
 * `AlgebraicGeometry.PushforwardGenerator.pullbackGlobalSections_fiberι_ne_zero`: a generator is
-  nonzero on every fibre, with [Stacks, Tag 0A1H] as an argument.
+  nonzero on every fibre.
 * `PushforwardGenerator.isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator`: its zero
   scheme is a relative effective Cartier divisor when the fibres are integral.
 * `AlgebraicGeometry.PushforwardGenerator.nonempty_derivedPushforward_fiber_iso`:
@@ -66,7 +66,7 @@ theorem pullbackGlobalSections_ne_zero_of_map_ne_zero (s : SheafOfModules.unit Y
   have h2 : t = 0 := by
     apply (Scheme.Modules.unitHomEquivTop ((Scheme.Modules.pullback g).obj L)).symm.injective
     refine h0.trans ?_
-    show (0 : Γ((Scheme.Modules.pullback g).obj L, ⊤)) =
+    change (0 : Γ((Scheme.Modules.pullback g).obj L, ⊤)) =
       ((0 : Scheme.unitModule Y' ⟶ _).val.app (op ⊤)) (1 : Y'.ringCatSheaf.obj.obj (op ⊤))
     rfl
   have h3 : (Scheme.Modules.pullback g).map s = e.hom ≫ t := (e.hom_inv_id_assoc _).symm
@@ -88,23 +88,11 @@ private theorem isIso_derivedBaseChangeMap_fiber {S : Scheme.{u}} (p : Y ⟶ S) 
     p hf inferInstance inferInstance _
     (isPerfect_singleFunctor_of_isFiniteLocallyFree Y L hL)).2 _ _ _ hsq
 
-/-- **A generator is nonzero on every fibre**, with [Stacks, Tag 0A1H] as an argument (`hPerfBC`,
-typed as in `AlgebraicGeometry.RigidifiedPicard.rankOneLocus_isSubfunctor_and_representable`): for
+/-- **A generator is nonzero on every fibre**: for
 `p : Y ⟶ S` proper, flat and of finite presentation, `ℒ` finite locally free and `s` a generator
 of `ℒ` relative to `p`, the pullback of the global section of `s` to the fibre `Y_v` is nonzero.
 The derived base change map of the fibre square is invertible by [Stacks, Tag 0B91] (1). -/
 theorem pullbackGlobalSections_fiberι_ne_zero
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     {S : Scheme.{u}} (p : Y ⟶ S) [IsProper p] [Flat p] [LocallyOfFinitePresentation p]
     (hL : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := Y.ringCatSheaf) L)
     (hLflat : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.sheaf) L)
@@ -121,24 +109,13 @@ theorem pullbackGlobalSections_fiberι_ne_zero
     (Scheme.not_isZero_unit (Spec (S.residueField v))) s hs
 
 /-- **The zero scheme of a generator is a relative effective Cartier divisor** when the fibres
-of `p` are integral, with [Stacks, Tag 0A1H] as an argument (`hPerfBC`). It is locally principal
+of `p` are integral. It is locally principal
 ([Stacks, Tag 02OR] (3)); on each fibre it is the zero scheme of the pulled-back section
 ([Stacks, Tag 0B6Y]), which is nonzero (`pullbackGlobalSections_fiberι_ne_zero`), hence regular on
 the integral fibre, so an effective Cartier divisor ([Stacks, Tag 02OR] (4)); and a locally
 principal closed subscheme all of whose fibres are effective Cartier divisors is a relative
 effective Cartier divisor ([Stacks, Tag 062Y]). -/
 theorem isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     {S : Scheme.{u}} (p : Y ⟶ S) [IsProper p] [Flat p] [LocallyOfFinitePresentation p]
     [SheafOfModules.IsInvertible Y.sheaf.obj Y.ringCatSheaf.property L]
     (s : SheafOfModules.unit Y.ringCatSheaf ⟶ L) (hs : IsGenerator p.toLRSHom.toShHom L s)
@@ -149,7 +126,7 @@ theorem isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator
     (isLocallyPrincipal_zeroScheme Y L _) fun v => ?_
   have := hint v
   have hz := Stacks.Divisors.zeroScheme_pullback (p.fiberι v) L ((L.unitHomEquiv s).eval (op ⊤))
-  have hne := pullbackGlobalSections_fiberι_ne_zero L hPerfBC p
+  have hne := pullbackGlobalSections_fiberι_ne_zero L p
     (Stacks.Divisors.isFiniteLocallyFree_of_isInvertible Y L) (Stacks.Chow.isFlat_of_isInvertible L)
     s hs v
   rw [Stacks.PullbackUnitComparisonSection.pullbackGlobalSections_unitHomEquiv _ L
@@ -159,21 +136,9 @@ theorem isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator
   exact hz ▸ hcart
 
 /-- **On a fibre, the derived pushforward of `ℒ` is the structure sheaf**: if `ℒ` is invertible
-with a generator relative to `p`, then `R(p_v)_*(ℒ_v[0]) ≅ 𝒪_{κ(v)}[0]` on every fibre, with
-[Stacks, Tag 0A1H] as an argument (`hPerfBC`), through [Stacks, Tag 0B91] (1) for the fibre square.
--/
+with a generator relative to `p`, then `R(p_v)_*(ℒ_v[0]) ≅ 𝒪_{κ(v)}[0]` on every fibre,
+through [Stacks, Tag 0B91] (1) for the fibre square. -/
 theorem nonempty_derivedPushforward_fiber_iso
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     {S : Scheme.{u}} (p : Y ⟶ S) [IsProper p] [Flat p] [LocallyOfFinitePresentation p]
     [SheafOfModules.IsInvertible Y.sheaf.obj Y.ringCatSheaf.property L]
     (s : SheafOfModules.unit Y.ringCatSheaf ⟶ L) (hs : IsGenerator p.toLRSHom.toShHom L s)

@@ -100,7 +100,7 @@ theorem cycleGroupRestrict_cycleAssociatedToClosedSubscheme_of_isOpenImmersion_s
     g.hom.left (Over.w g.hom) n]
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
   rw [cycleGroupRestrict_apply, cycleGroupRestrict_apply]
-  show (cycleAssociatedToClosedSubscheme (fieldChowSituation k) Z.obj.hom g.hom.left n).1
+  change (cycleAssociatedToClosedSubscheme (fieldChowSituation k) Z.obj.hom g.hom.left n).1
       ((𝟙 Z.obj.left : Z.obj.left ⟶ Z.obj.left) (g.hom.left x)) =
     (cycleAssociatedToClosedSubscheme (fieldChowSituation k) Z.obj.hom (𝟙 _) n).1
       ((𝟙 Z.obj.left : Z.obj.left ⟶ Z.obj.left) (g.hom.left x))
@@ -297,9 +297,9 @@ theorem sum_pull_autProd_diagonalUntwist (hA1 : 𝔇.CoproductAxiom) :
       pull_copy_diagonalUntwist]
     have : σ⁻¹ * τ = 1 ↔ σ = τ := by rw [inv_mul_eq_one]
     by_cases hστ : σ = τ
-    · rw [if_pos (this.mpr hστ), if_pos hστ, map_one]
-    · rw [if_neg (fun h' ↦ hστ (this.mp h')), if_neg hστ, map_zero]
-  rw [Finset.sum_congr rfl fun σ _ ↦ hτ σ, Finset.sum_ite_eq' Finset.univ τ, if_pos
+    · rw [ite_eq_left (this.mpr hστ), ite_eq_left hστ, map_one]
+    · rw [ite_eq_right (fun h' ↦ hστ (this.mp h')), ite_eq_right hστ, map_zero]
+  rw [Finset.sum_congr rfl fun σ _ ↦ hτ σ, Finset.sum_ite_eq' Finset.univ τ, ite_eq_left
     (Finset.mem_univ _)]
 
 omit [CharZero F] in
@@ -308,8 +308,7 @@ theorem pull_autProd_kunnethMap (σ : k' ≃ₐ[k] k') (t : 𝔇.H (X (k := k) k
     𝔇.pull (autProd σ) (𝔇.kunnethMap (X k') (X k') t) =
       𝔇.kunnethMap (X k') (X k')
         (TensorProduct.map (𝔇.pull (aut σ)).toLinearMap LinearMap.id t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [kunnethMap_tmul, TensorProduct.map_tmul, kunnethMap_tmul, map_mul, ← AlgHom.comp_apply,
       ← AlgHom.comp_apply, ← 𝔇.pull_comp, ← 𝔇.pull_comp, autProd_fst, autProd_snd, 𝔇.pull_comp]
@@ -322,8 +321,7 @@ theorem contractRight_map_id {A : Type*} [Ring A] [Algebra F A] (lam : A →ₗ[
     (g : A →ₗ[F] A) (t : A ⊗[F] A) :
     DiagonalExpansion.contractRight lam (TensorProduct.map g LinearMap.id t) =
       g (DiagonalExpansion.contractRight lam t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 

@@ -30,7 +30,7 @@ theorem map_eq_congr_comp {M' N' : Type*} [AddCommGroup M'] [Module R M'] [AddCo
     [Module R N'] (eM : M' ≃ₗ[R] M) (eN : N' ≃ₗ[R] N) (f : M →ₗ[R] N) :
     map I f = (congr I eN).toLinearMap ∘ₗ map I (eN.symm.toLinearMap ∘ₗ f ∘ₗ eM.toLinearMap) ∘ₗ
       (congr I eM).symm.toLinearMap := by
-  show map I f = map I eN.toLinearMap ∘ₗ map I (eN.symm.toLinearMap ∘ₗ f ∘ₗ eM.toLinearMap) ∘ₗ
+  change map I f = map I eN.toLinearMap ∘ₗ map I (eN.symm.toLinearMap ∘ₗ f ∘ₗ eM.toLinearMap) ∘ₗ
     map I eM.symm.toLinearMap
   rw [map_comp, map_comp]
   congr 1

@@ -207,8 +207,8 @@ private theorem restrictIso_inv_naturality_smallEtale (a : X₀ ⟶ X₂) (b : X
         ((structureRestrict (smallEtaleRingedToposHom B S hS a)).map x) :=
   (smallEtaleThickeningTargetOfEq a b k e₁).restrictIso_inv_naturality x
 
--- The kernel's check of this naturality exceeds the default heartbeats.
 set_option maxHeartbeats 1000000 in
+-- The kernel's check of this naturality exceeds the default heartbeats.
 /-- The naturality of `c_* b_* ≅ c₂_*` at a map restricted from `a_*𝒪`-modules. -/
 private theorem pushforwardModulesCompAt_trans_eqToIso_hom_naturality_restrict (a : X₀ ⟶ X₂)
     (b : X₂ ⟶ X₁) (c : X₁ ⟶ X₀) {c₂ : X₂ ⟶ X₀} (e₂ : b ≫ c = c₂)

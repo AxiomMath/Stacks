@@ -57,7 +57,7 @@ def twoStepSubobject (q : ℤ) : Subobject S.X₂ :=
 
 /-- The filtration step in an index `q ≤ 0` is the whole object. -/
 lemma twoStepSubobject_of_le_zero {q : ℤ} (h : q ≤ 0) : twoStepSubobject S q = ⊤ :=
-  if_pos h
+  ite_eq_left h
 
 /-- The filtration step in index `1` is the image of `S.f`. -/
 lemma twoStepSubobject_one : twoStepSubobject S 1 = Subobject.mk S.f := by
@@ -66,7 +66,7 @@ lemma twoStepSubobject_one : twoStepSubobject S 1 = Subobject.mk S.f := by
 /-- The filtration step in an index `q ≥ 2` is zero. -/
 lemma twoStepSubobject_of_two_le {q : ℤ} (h : 2 ≤ q) : twoStepSubobject S q = ⊥ := by
   simp only [twoStepSubobject]
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 /-- The steps of the two-step filtration decrease with the index. -/
 lemma antitone_twoStepSubobject : Antitone (twoStepSubobject S) := by
@@ -104,7 +104,7 @@ instance isIso_twoStep_ι_app_zero : IsIso ((twoStep S).filtration.ι.app (op 0)
 /-- The step `F^q` of the two-step filtration is zero for `q ≥ 2`. -/
 lemma isZero_twoStep_obj_of_two_le {q : ℤ} (h : 2 ≤ q) :
     IsZero ((twoStep S).filtration.obj (op q)) := by
-  show IsZero ((twoStepSubobject S q : Subobject S.X₂) : C)
+  change IsZero ((twoStepSubobject S q : Subobject S.X₂) : C)
   rw [twoStepSubobject_of_two_le S h]
   exact (Limits.isZero_zero C).of_iso Subobject.botCoeIsoZero
 
@@ -161,7 +161,7 @@ lemma twoStepSubobject_factors (q : ℤ) :
   obtain rfl : q = 1 := by omega
   rw [twoStepSubobject_one S', Subobject.mk_factors_iff]
   refine ⟨(twoStepObjOneIso S).hom ≫ φ.τ₁, ?_⟩
-  show ((twoStepObjOneIso S).hom ≫ φ.τ₁) ≫ S'.f = _
+  change ((twoStepObjOneIso S).hom ≫ φ.τ₁) ≫ S'.f = _
   rw [Category.assoc, φ.comm₁₂, ← Category.assoc, twoStepObjOneIso_hom_comp_f]
 
 /-- **Functoriality of the two-step filtration** in morphisms of short complexes: the

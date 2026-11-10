@@ -511,7 +511,7 @@ theorem hypercohomologyMap_cechCocycleClass {G : SheafOfModules.{u} (ringSheaf O
 /-- The Čech `0`-cochain of the restrictions of a global section to the members of a
 covering. -/
 def restrictionCochain (t : F.val.obj (op ⊤)) : CechCochains.Cochain U (abSections F) 0 :=
-  fun x => res (abSections F) le_top (show ToType ((abSections F).obj (op ⊤)) from t)
+  fun _ => res (abSections F) le_top (show ToType ((abSections F).obj (op ⊤)) from t)
 
 /-- The restrictions of a global section form a Čech cocycle. -/
 theorem cechD_restrictionCochain (t : F.val.obj (op ⊤)) :

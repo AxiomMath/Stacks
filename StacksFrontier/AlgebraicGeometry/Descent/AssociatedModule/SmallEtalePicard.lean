@@ -239,7 +239,7 @@ theorem picardGroupAssociatedModuleEquiv_picardClass (L : S.Modules)
         (Tensor.ringSheaf (smallEtaleRingedSite B S hS).O).property
         ((associatedModule B S hS).obj L)
         (isInvertible_ringSheaf_associatedModule B S hS L hL) := by
-  show picardClassEquiv _ _ ((invertibleAssociatedModule B S hS).mapSkeleton.obj
+  change picardClassEquiv _ _ ((invertibleAssociatedModule B S hS).mapSkeleton.obj
     ((picardClassEquiv _ _).symm (picardClassEquiv _ _ (toSkeleton ⟨L, hL⟩)))) = _
   rw [Equiv.symm_apply_apply, Functor.mapSkeleton_obj_toSkeleton]
   rfl
@@ -254,14 +254,14 @@ noncomputable def picardGroupAssociatedModuleAddEquiv :
   map_add' x y := by
     obtain ⟨L, hL, rfl⟩ := exists_picardClass_eq _ _ x
     obtain ⟨N, hN, rfl⟩ := exists_picardClass_eq _ _ y
-    haveI := hL
-    haveI := hN
+    have := hL
+    have := hN
     have hLN := isInvertible_tensorSheaf S.presheaf
       (Stacks.RingedSpace.structureIsSheaf S.toRingedSpace) L N
     have hLa := isInvertible_ringSheaf_associatedModule B S hS L hL
     have hNa := isInvertible_ringSheaf_associatedModule B S hS N hN
-    haveI := hLa
-    haveI := hNa
+    have := hLa
+    have := hNa
     have hLNa := isInvertible_tensorSheaf (smallEtaleRingedSite B S hS).O.obj
       (Tensor.ringSheaf (smallEtaleRingedSite B S hS).O).property
       ((associatedModule B S hS).obj L) ((associatedModule B S hS).obj N)

@@ -348,14 +348,14 @@ theorem zeroMap_comp_baseL : zeroMap (𝒜 := 𝒜) ≫ baseL 𝒜 = baseP 𝒜 
     Stacks.AlgebraicGeometry.ProjAndSpec.zToX, Category.assoc, ← Spec.map_comp, baseP]
   congr 2
   ext r
-  show (DirectSum.decompose 𝒜 (algebraMap R A r) 0 : A) = algebraMap R A r
+  change (DirectSum.decompose 𝒜 (algebraMap R A r) 0 : A) = algebraMap R A r
   exact DirectSum.decompose_of_mem_same 𝒜 (SetLike.algebraMap_mem_graded 𝒜 r)
 
 /-- The open `D₊(τ (ψ g))` of `P` is `D₊(g)`. -/
 theorem basicOpen_tau_psi (g : A) :
     AlgebraicGeometry.Proj.basicOpen 𝒜 ((truncationConeData 𝒜).tau ((truncationConeData 𝒜).psi g)) =
       AlgebraicGeometry.Proj.basicOpen 𝒜 g := by
-  show AlgebraicGeometry.Proj.basicOpen 𝒜 (tau 𝒜 (psi 𝒜 g)) = _
+  change AlgebraicGeometry.Proj.basicOpen 𝒜 (tau 𝒜 (psi 𝒜 g)) = _
   rw [tau_psi_apply]
 
 /-- The ring of `D₊(τ (ψ g)) = D₊(g)` is `A₍g₎`. -/

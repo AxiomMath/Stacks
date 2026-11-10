@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.IdealPowerMultipleComparison.Basi
 /-!
 # Clause (3) of the dévissage [Stacks, Tag 01YM] for `H¹`, discharged
 
-`StacksFrontier/AlgebraicGeometry/Devissage/Basic.lean` reduces [Stacks, Tag 01YQ] to three hypotheses:
+`StacksFrontier/AlgebraicGeometry/Devissage/Basic.lean` reduces [Stacks, Tag 01YQ] to three
+hypotheses:
 the conclusions of [Stacks, Tag 01YE] and [Stacks, Tag 01YL], and clause (3) of the dévissage
 [Stacks, Tag 01YM] for the property `𝒫(ℱ) ⇔ H¹(X, ℱ) = 0`. **This file proves that third
 hypothesis outright**, so 01YQ now rests on 01YE and 01YL alone — the two tags whose own source
@@ -43,7 +44,8 @@ these is proved in the library:
   `V` of `x`, then the stalk map `N_x → ℱ_x` is surjective. Stated for an arbitrary submodule of
   an arbitrary module sheaf, with no quasi-coherence and no ideal in sight.
 * `surjective_stalk_idealPowSmul_of_notMem_support`: its instance for `𝒥ⁿ · ℱ` at a point off
-  the support of `𝒥` — the residue that `StacksFrontier/AlgebraicGeometry/SheafPushforward/Basic.lean`
+  the support of `𝒥` — the residue that
+  `StacksFrontier/AlgebraicGeometry/SheafPushforward/Basic.lean`
   recorded as still owed.
 * `exists_coherent_generic_of_isFinite_surjective`: **clause (3) of [Stacks, Tag 01YM] for `H¹`,
   unconditionally**, for `f : Y ⟶ X` finite and surjective with `Y` affine and `X` locally
@@ -83,7 +85,8 @@ Neither is touched here, but **one obstacle to 01YL recorded elsewhere is no lon
 obstacle.** `StacksFrontier/AlgebraicGeometry/Devissage/Basic.lean`'s item 2 says of
 01YL that "the load-bearing missing statement is that a nonzero quasi-coherent sheaf of ideals on
 an integral scheme has full support, which is already named as the blocker
-for 01YH's own top stratum." That statement is proved in the library, in both the forms the intersection
+for 01YH's own top stratum." That statement is proved in the library, in both the forms the
+intersection
 argument consumes: `Tag01YHFullSupport.supp_eq_univ_of_not_isZero` and
 `Tag01YHFullSupport.genericPoint_mem_supp_of_not_isZero`. Of the three steps
 the top stratum of 01YH requires, 01YL needs only two — 01YE, and the
@@ -234,7 +237,8 @@ scheme is affine, given only those two.
 Compared to `Tag01YQDevissage.isAffine_of_isFinite_surjective_of_hgeneric`, clause (3) of the
 dévissage [Stacks, Tag 01YM] is no longer assumed: it is
 `exists_coherent_generic_of_isFinite_surjective`. Everything else in the source's proof is
-proved in the library — Serre's criterion [Stacks, Tag 01XF], the dévissage reduction [Stacks, Tag 01YM] on its
+proved in the library — Serre's criterion [Stacks, Tag 01XF], the dévissage reduction [Stacks, Tag
+01YM] on its
 two named inputs, and clauses (1) and (2).
 
 **No `stacks` attribute is attached:** Tag 01YQ carries one unlabelled assertion, so the

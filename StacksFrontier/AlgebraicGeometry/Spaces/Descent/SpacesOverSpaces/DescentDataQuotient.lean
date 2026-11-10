@@ -89,8 +89,8 @@ fibre products, which is all the equivalence asks of it, and part (2) of Tag 0AD
 it is an algebraic space exactly when the datum is effective
 (`AlgebraicGeometry.Space.Descent.isAlgebraicSpace_descentQuotient`). Effectivity is available
 when one member of the covering is surjective and étale, by
-`AlgebraicGeometry.Space.Descent.isEffective_of_isEtale` in
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/SpacesOverSpaces/EffectiveEtaleMemberCovering.lean`.
+`AlgebraicGeometry.Space.Descent.isEffective_of_isEtale` in the module
+`StacksFrontier.AlgebraicGeometry.Spaces.Descent.SpacesOverSpaces.EffectiveEtaleMemberCovering`.
 
 ## References
 
@@ -147,7 +147,7 @@ public theorem orbitProjection_injective (t : FamilyTransport A Bb p) {Z : C} {i
   refine Quotient.inductionOn₂ a b ?_
   intro x x' h
   apply Quotient.sound
-  show t.move x.2 (x'.2 ≫ p x'.1) = x'.2
+  change t.move x.2 (x'.2 ≫ p x'.1) = x'.2
   have hh := congrArg (fun v ↦ t.move v (x'.2 ≫ p x'.1)) h
   change t.move (t.move x.2 y) (x'.2 ≫ p x'.1) =
     t.move (t.move x'.2 y) (x'.2 ≫ p x'.1) at hh
@@ -241,7 +241,7 @@ public lemma overArrowsEquiv_map (Z : Over Tg) {W W' : CostructuredArrow yoneda 
       (CostructuredArrow.toOver yoneda Tg).map k ≫ overArrowsEquiv Z W' x := by
   apply Over.OverMorphism.ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm (Z.left.map k.left.op x.val)) =
+  change yonedaEquiv (yonedaEquiv.symm (Z.left.map k.left.op x.val)) =
     yonedaEquiv (yoneda.map k.left ≫ yonedaEquiv.symm x.val)
   simpa only [Equiv.apply_symm_apply] using
     yonedaEquiv_naturality (yonedaEquiv.symm x.val) k.left
@@ -253,7 +253,7 @@ public lemma overArrowsEquiv_postcomp {Z Z' : Over Tg} (m : Z ⟶ Z')
       overArrowsEquiv Z W x ≫ m := by
   apply Over.OverMorphism.ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm (m.left.app _ x.val)) =
+  change yonedaEquiv (yonedaEquiv.symm (m.left.app _ x.val)) =
     yonedaEquiv (yonedaEquiv.symm x.val ≫ m.left)
   simp [yonedaEquiv_comp]
 
@@ -417,7 +417,7 @@ public lemma toRestrictedOrbit_move (t : FamilyTransport A Bb p) {i j : I} {Z : 
   erw [h₁, h₂]
   congr 1
   apply Quotient.sound
-  show t.move (overArrowsEquiv Z W.unop x ≫ v)
+  change t.move (overArrowsEquiv Z W.unop x ≫ v)
     ((overArrowsEquiv Z W.unop x ≫ t.move v y) ≫ p j) =
       overArrowsEquiv Z W.unop x ≫ t.move v y
   rw [Category.assoc, t.move_base, t.comp_move]
@@ -543,7 +543,7 @@ public lemma toDescentQuotient_move {i j : ι} {Z : Over T}
   have key : Over.Hom.left v ≫ (Orbit.toOrbitOver D.transport i).left =
       (D.transport.move v y).left ≫ (Orbit.toOrbitOver D.transport j).left :=
     congrArg Over.Hom.left (Orbit.toOrbitOver_move D.transport v y)
-  show (D.transport.move v y).left ≫ (Orbit.toOrbitOver D.transport j).left ≫
+  change (D.transport.move v y).left ≫ (Orbit.toOrbitOver D.transport j).left ≫
       toSheafify (BigFppfOver.topology B S hS) (descentOrbit f hT hX D).left =
     Over.Hom.left v ≫ (Orbit.toOrbitOver D.transport i).left ≫
       toSheafify (BigFppfOver.topology B S hS) (descentOrbit f hT hX D).left
@@ -580,7 +580,7 @@ public lemma descentQuotientComponentIso_move {i j : ι} {Z : Over T}
         (v ≫ (Over.map (f i)).map (descentQuotientComponentIso f hT hX D i).hom) y :=
   (descentQuotient_fibreMove_eq f hT hX D v y).trans <| Eq.symm <|
     (DescentData.transport_move _ _ y).trans <| by
-      show prod.lift _ y ≫
+      change prod.lift _ y ≫
           ((fibreTransport f (descentQuotient f hT hX D).obj).gluing i j).hom.left ≫ prod.snd =
         (fibreTransport f (descentQuotient f hT hX D).obj).move _ y
       rw [FamilyTransport.gluing_hom, prod.lift_snd, FamilyTransport.comp_move]

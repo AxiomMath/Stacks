@@ -100,12 +100,12 @@ theorem isIso_leg_of_isIso_map {B : Sheaf (smallEtaleTopology c.pt) Ab.{u + 1}}
       (smallEtalePullbackAb (c.π.app i)).map (E.map a) ≫ τ i = τ j := by
     intro i j a
     rw [← Category.assoc]
-    show pullbackSystemMap c E (i := i) (j := j) a ≫ τ i = τ j
+    change pullbackSystemMap c E (i := i) (j := j) a ≫ τ i = τ j
     have hc := pullbackSystemMap_comp c E a (a₀ j)
     rw [show a ≫ a₀ j = a₀ i from Subsingleton.elim _ _] at hc
     have := hT a
     have := hT (a₀ j)
-    show _ ≫ inv (pullbackSystemMap c E (i := i) (j := Opposite.op i₀) (a₀ i)) =
+    change _ ≫ inv (pullbackSystemMap c E (i := i) (j := Opposite.op i₀) (a₀ i)) =
       inv (pullbackSystemMap c E (i := j) (j := Opposite.op i₀) (a₀ j))
     rw [IsIso.comp_inv_eq, IsIso.eq_inv_comp]
     exact hc.symm

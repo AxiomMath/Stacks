@@ -70,7 +70,7 @@ public lemma span_firstRow_eq_top :
     Ideal.span (Set.range fun j : Fin 2 ↦ generalLinearTwoCoordinate k 0 j) = ⊤ := by
   refine Ideal.eq_top_of_isUnit_mem _ ?_
     (IsLocalization.Away.algebraMap_isUnit (generalLinearTwoDeterminant k))
-  show algebraMap _ _ ((Matrix.mvPolynomialX (Fin 2) (Fin 2) k).det) ∈ _
+  change algebraMap _ _ ((Matrix.mvPolynomialX (Fin 2) (Fin 2) k).det) ∈ _
   rw [Matrix.det_fin_two, map_sub, map_mul, map_mul]
   exact Ideal.sub_mem _ (Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨0, rfl⟩))
     (Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨1, rfl⟩))

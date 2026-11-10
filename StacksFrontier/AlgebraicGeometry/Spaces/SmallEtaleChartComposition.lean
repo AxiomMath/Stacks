@@ -119,13 +119,13 @@ theorem chartRingHom_smallEtaleComp (W : SmallEtale B S hS R.1) (V : SmallEtale 
     chartRingHom (smallEtaleComp B S hS χ ψ) W U (chartSectionComp χ ψ W V U t s) =
       chartRingHom χ W V t ≫ chartRingHom ψ V U s := by
   ext b
-  show (chartRingHom (smallEtaleComp B S hS χ ψ) W U (chartSectionComp χ ψ W V U t s)).hom b =
+  change (chartRingHom (smallEtaleComp B S hS χ ψ) W U (chartSectionComp χ ψ W V U t s)).hom b =
     (chartRingHom ψ V U s).hom ((chartRingHom χ W V t).hom b)
   rw [chartRingHom_apply (smallEtaleComp B S hS χ ψ) W U (chartSectionComp χ ψ W V U t s) b,
     chartRingHom_apply χ W V t b,
     chartRingHom_apply ψ V U s ((invCoord χ W b).hom.app (op V) t),
     invCoord_smallEtaleComp χ ψ W b]
-  show ((ψ.toToposHom.inverseImage.map
+  change ((ψ.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Q.1).yonedaEquiv.symm t) ≫
         ψ.toToposHom.inverseImage.map (invCoord χ W b) ≫ ψ.fSharpSet)).hom.app (op U) s = _
   rw [← Category.assoc, ← Functor.map_comp,

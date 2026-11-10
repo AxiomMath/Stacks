@@ -380,7 +380,7 @@ private lemma associatedModuleSheaf_chart_isLocalized
   have hV : V = (Proj.awayι 𝒮 f hf hd) ⁻¹ᵁ
       AlgebraicGeometry.Proj.basicOpen 𝒮 g := by
     rw [AlgebraicGeometry.Proj.awayι_preimage_basicOpen 𝒮 hf hd hg he]
-    show PrimeSpectrum.basicOpen (HomogeneousLocalization.Away.mk 𝒮 hf n a ha) =
+    change PrimeSpectrum.basicOpen (HomogeneousLocalization.Away.mk 𝒮 hf n a ha) =
       PrimeSpectrum.basicOpen (HomogeneousLocalization.Away.isLocalizationElem hf hg)
     rw [hqpow, PrimeSpectrum.basicOpen_pow _ d hd]
   have himage :
@@ -406,9 +406,9 @@ private lemma associatedModuleSheaf_chart_isLocalized
   have hψ : ψ = EV.symm.toLinearMap ∘ₗ maps.degreeZeroMap ∘ₗ Etop.toLinearMap := by
     ext x
     apply EV.injective
-    show EV (ψ x) = EV (EV.symm (maps.degreeZeroMap (Etop x)))
+    change EV (ψ x) = EV (EV.symm (maps.degreeZeroMap (Etop x)))
     rw [EV.apply_symm_apply]
-    show (ProjectiveSpectrum.Proj.associatedModuleSheafStandardOpenEquiv 𝒮 𝒨 hg he)
+    change (ProjectiveSpectrum.Proj.associatedModuleSheafStandardOpenEquiv 𝒮 𝒨 hg he)
         ((imageSectionsIso i N V (Proj.basicOpen 𝒮 g) himage).hom
           ((N.restrict i).presheaf.map V.leTop.op x)) =
       maps.degreeZeroMap ((ProjectiveSpectrum.Proj.associatedModuleSheafStandardOpenEquiv 𝒮 𝒨 hf hd)
@@ -422,7 +422,7 @@ private lemma associatedModuleSheaf_chart_isLocalized
         ((imageSectionsIso i N ⊤ (Proj.basicOpen 𝒮 f) htop).hom x) at hn
     rw [hn]
     exact standardOpenEquiv_restrict 𝒮 𝒨 hf hd hg he hfg _
-  show IsLocalizedModule.Away (HomogeneousLocalization.Away.mk 𝒮 hf n a ha) ψ
+  change IsLocalizedModule.Away (HomogeneousLocalization.Away.mk 𝒮 hf n a ha) ψ
   rw [hψ]
   let := hloc
   exact IsLocalizedModule.of_linearEquiv _ _ EV.symm

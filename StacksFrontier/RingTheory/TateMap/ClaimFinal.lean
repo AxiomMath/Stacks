@@ -200,7 +200,7 @@ theorem tateOf_eq_tateOf {n₁ d₁ : ℕ} [NeZero d₁]
   have c3 : PresRel (B := B) (1 : MvPolynomial (Fin _) A) (M.mulVec (decompRelRight e₁g e₂g))
       (M.det * M.det) (M.mulVec (decompRelRight e₁g e₂g)) :=
     presRel_of_eqRelations (fun _ ↦ rfl) fun i ↦ by
-      show isoL' _ = isoMp _
+      change isoL' _ = isoMp _
       rw [xL', xMp, xLR]
   have c4 := (presRel_matrix k₂ (algebraMap _ A) p₂ H₂ f₂ hH₂ hf₂' e₂ dR (decompφ e₁g e₂g) M
     hdetR).symm

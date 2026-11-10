@@ -150,7 +150,7 @@ public lemma rawComparison_relation
         (spanBefore_le_residue R M e.1 a _ ha)
   | unitChange e a unit replacement x ha hx hreplacement =>
     simp only [map_sub, map_smul, rawComparison_single, sub_eq_zero]
-    show f e.1 = (IsLocalRing.residue R unit) •
+    change f e.1 = (IsLocalRing.residue R unit) •
       f (Function.update e.1 a replacement)
     have hxa : f (Function.update e.1 a x) = 0 :=
       alternatingMap_update_eq_zero_of_mem_spanBefore f e.1 a x
@@ -165,7 +165,7 @@ public lemma rawComparison_relation
           f.map_update_smul, IsLocalRing.ResidueField.algebraMap_eq]
   | swap e a b hba ha hswap =>
     simp only [map_add, rawComparison_single, add_eq_zero_iff_eq_neg]
-    show f e.1 = -f (Function.update (Function.update e.1 b (e.1 a)) a (e.1 b))
+    change f e.1 = -f (Function.update (Function.update e.1 b (e.1 a)) a (e.1 b))
     have hab : a ≠ b := by omega
     have hswapFun :
         Function.update (Function.update e.1 b (e.1 a)) a (e.1 b) =

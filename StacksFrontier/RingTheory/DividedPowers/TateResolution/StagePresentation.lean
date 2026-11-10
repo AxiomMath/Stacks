@@ -89,7 +89,7 @@ variable {R : Type u} [CommRing R] (B : ℕ → GradedDPAlgebra.{u, v} R)
 public theorem chainMap_hom_le_succ (n : ℕ) (x : (B n).carrier) :
     (chainMap B step (Nat.le_succ n)).hom x = (step n).hom x := by
   rw [chainMap_succ B step (Nat.le_refl n) (Nat.le_succ n)]
-  show (step n).hom ((chainMap B step (Nat.le_refl n)).hom x) = (step n).hom x
+  change (step n).hom ((chainMap B step (Nat.le_refl n)).hom x) = (step n).hom x
   rw [chainMap_hom_self]
 
 /-- **The variables of the chain present at the stage `N`**: those of degree `i + 1` for `i < N`.

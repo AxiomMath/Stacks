@@ -144,7 +144,7 @@ theorem coherator_obj_iso_of_decomposition (P : ObjectProperty C) [P.IsStableUnd
     exact (congrArg (ψ ≫ ·) hφ).trans hψ
   · apply (hbij hE).1
     simp only [Category.assoc, Category.id_comp]
-    show φ ≫ ψ ≫ a = a
+    change φ ≫ ψ ≫ a = a
     rw [hψ, hφ]
 
 end Uniqueness

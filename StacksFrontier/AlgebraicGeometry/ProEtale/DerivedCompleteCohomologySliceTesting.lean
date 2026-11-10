@@ -12,7 +12,8 @@ public import StacksFrontier.Homology.DerivedComplete.PseudoCoherentComplete
 /-!
 # Derived completeness read off the cohomology sheaves, on a slice testing family
 
-`StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteCohomology` proves that on a small site with
+`StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteCohomology` proves that on a small site
+with
 enough weakly contractible objects a complex of sheaves of modules, in the universe `max u v` of
 the site, is derived complete along a sheaf of ideals exactly when all of its cohomology sheaves
 are. This file proves the same on a site that is not assumed small, for sheaves of modules in an

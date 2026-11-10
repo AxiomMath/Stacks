@@ -203,7 +203,7 @@ theorem residueFibreDegree_eq_ofSchemeDegree_fiber [IsProper (B.inclusion.map f)
   have h3 : Stacks.Picard.schemePullbackClass (fiberToResidueBaseChange B hX hk f T t)
       (picardMap B hX hk f (residueTestι B hk T t) c) =
       Stacks.Picard.schemePullbackClass ((baseChangeSnd B hX hk f T).fiberι t) c := by
-    show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ c) = _
+    change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ c) = _
     rw [Stacks.Picard.schemePullbackClass_comp, fiberToResidueBaseChange_baseChangeMap]
   rw [← h3, ← h2]
   exact h1.symm
@@ -223,7 +223,7 @@ theorem residueFibreDegree_picardClass_eq_fibreEulerCharacteristic_sub
           (SheafOfModules.unit (baseChange B hX hk f T).ringCatSheaf)
           (Stacks.AlgebraicGeometry.ModuleLimits.isFinitePresentation_unit _) t := by
   rw [residueFibreDegree_eq_ofSchemeDegree_fiber]
-  show Stacks.Picard.ofSchemeDegree _ _ _ (Stacks.Picard.pullbackClass _ _) = _
+  change Stacks.Picard.ofSchemeDegree _ _ _ (Stacks.Picard.pullbackClass _ _) = _
   rw [Stacks.Picard.pullbackClass_classOf
     ((baseChangeSnd B hX hk f T).fiberι t).toLRSHom.toShHom L hL]
   refine (Stacks.Picard.ofSchemeDegree_picardClass _ _ _ _ _).trans ?_

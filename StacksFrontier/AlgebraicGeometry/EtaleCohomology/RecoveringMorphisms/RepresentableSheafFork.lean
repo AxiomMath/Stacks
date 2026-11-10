@@ -153,7 +153,7 @@ def smallEtaleYonedaCoordinate (i : Fin n) :
     (smallEtaleYoneda B Y.obj Y.property).obj V ⟶ setStructureSheaf B Y.obj Y.property where
   hom :=
     { app := fun U => TypeCat.ofHom fun f => (smallEtaleHomEquivSolutions V P pres U.unop f).1 i
-      naturality := fun U U' k => TypeCat.homEquiv.injective (funext fun f =>
+      naturality := fun _ _ k => TypeCat.homEquiv.injective (funext fun f =>
         smallEtaleHomEquivSolutions_naturality V P pres k.unop f i) }
 
 /-- Over a chart `U`, the `i`-th coordinate sends `f : U ⟶ V` to the `i`-th entry of

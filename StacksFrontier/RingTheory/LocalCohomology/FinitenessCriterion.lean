@@ -122,7 +122,8 @@ tag as formalized from a statement that assumes it. The same holds for the 0AW8 
 which is conditional on the Tag 0EI1 predicate; the other half of 0AW8, the equivalence of (2) and
 (3), is proved unconditionally on
 `Stacks.LocalCohomology.exists_annihilator_iff_exists_power_annihilator` in
-`StacksFrontier/RingTheory/LocalCohomology/AnnihilatorPower.lean`, and carries the tag there. Tag 0EFC
+`StacksFrontier/RingTheory/LocalCohomology/AnnihilatorPower.lean`, and carries the tag there.
+Tag 0EFC
 is proved here, but only from the Tag 0EHZ predicate, which is unproved, so it carries no attribute
 either.
 
@@ -206,7 +207,7 @@ private theorem finite_homology_singleFunctor
       have hzD : Limits.IsZero ((DerivedCategory.homologyFunctor
           (ModuleCat.{max u v} A) i).obj ((DerivedCategory.singleFunctor
             (ModuleCat.{max u v} A) 0).obj M)) := by
-        show Limits.IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) i).obj
+        change Limits.IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) i).obj
           (DerivedCategory.Q.obj ((CochainComplex.singleFunctor (ModuleCat.{max u v} A) 0).obj M)))
         exact (HomologicalComplex.isZero_single_obj_homology
           (ComplexShape.up ℤ) 0 M i hi).of_iso ((DerivedCategory.homologyFunctorFactors
@@ -302,7 +303,7 @@ def AnnihilatorDepthCriterion (A : Type u) [CommRing A] [IsNoetherianRing A] : P
 
 /-- A natural number is smaller than `⊤` in the extended integers. -/
 public theorem eint_natCast_lt_top (n : ℕ) : ((n : ℤ) : EInt) < ⊤ := by
-  show (WithBot.some (WithTop.some (n : ℤ))) < (WithBot.some (⊤ : WithTop ℤ))
+  change (WithBot.some (WithTop.some (n : ℤ))) < (WithBot.some (⊤ : WithTop ℤ))
   exact (WithBot.coe_lt_coe).2 (WithTop.coe_lt_top _)
 
 private theorem depth_add_height_iff_eint (s : ℕ) (d h : ℕ∞) :
@@ -313,7 +314,7 @@ private theorem depth_add_height_iff_eint (s : ℕ) (d h : ℕ∞) :
   case coe.coe d h =>
     dsimp [Stacks.Algebraization.enatToEInt, Stacks.Algebraization.krullDimToEInt,
       WithBotTop.coe]
-    show (s : ℕ∞) < d + h ↔ ((d + h : ℤ) : EInt) > ((s : ℤ) : EInt)
+    change (s : ℕ∞) < d + h ↔ ((d + h : ℤ) : EInt) > ((s : ℤ) : EInt)
     simp only [WithBotTop.coe_lt_coe]
     norm_cast
   all_goals exact ⟨fun _ => eint_natCast_lt_top s, fun _ => by simp⟩
@@ -573,7 +574,7 @@ private theorem isGE_derivedSectionsWithSupportInPlus
     (K : DerivedCategory.Plus (ModuleCat.{max u v} A)) [K.IsGE 0] :
     ((derivedSectionsWithSupportInPlus.{u, v} A T).obj K).IsGE 0 := by
   have : EnoughInjectives (ModuleCat.{max u v} A) := ModuleCat.enoughInjectives A
-  show ((sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlus.obj K).IsGE 0
+  change ((sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlus.obj K).IsGE 0
   exact Functor.isGE_rightDerivedFunctorPlus_obj _ K 0
 
 /-- The derived depth is infinite when the local cohomology vanishes in every degree. -/

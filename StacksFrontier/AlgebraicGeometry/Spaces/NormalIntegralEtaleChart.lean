@@ -224,9 +224,9 @@ theorem exists_isAffineOpen_isNormal_isIntegral_of_isAffine_etaleChart
       Set ((BigFppfOver.toScheme B S hS).obj V)) := by
     rw [Scheme.Hom.coe_opensRange]
     refine ⟨⟨t, htW⟩, ?_⟩
-    show e.inv (Sigma.ι Y i (Scheme.Opens.ι W ⟨t, htW⟩)) = a
+    change e.inv (Sigma.ι Y i (Scheme.Opens.ι W ⟨t, htW⟩)) = a
     rw [show Scheme.Opens.ι W ⟨t, htW⟩ = t from rfl, ht']
-    show (e.hom ≫ e.inv) a = a
+    change (e.hom ≫ e.inv) a = a
     rw [e.hom_inv_id]
     rfl
   refine ⟨(Scheme.Opens.ι W ≫ Sigma.ι Y i ≫ e.inv).opensRange, hmem,

@@ -70,7 +70,7 @@ theorem codimension_closureSingleton_eq_toNat_sub {A : Type*} [TopologicalSpace 
       fun {_ _} himm => d.step_immediate himm⟩ η z hspec
   have htop : ∀ V : IrreducibleCloseds A, V ≤ closureSingleton η := by
     intro V
-    show (V : Set A) ⊆ closure ({η} : Set A)
+    change (V : Set A) ⊆ closure ({η} : Set A)
     rw [hη]
     exact Set.subset_univ _
   rw [← hc, codimension_eq_coheight]

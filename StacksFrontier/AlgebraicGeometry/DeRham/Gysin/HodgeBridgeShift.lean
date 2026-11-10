@@ -211,11 +211,12 @@ theorem Q_map_singleNatShiftIso (X : RingedSpace.{u, u})
     simp only [DerivedCategory.singleFunctors, SingleFunctors.postcomp, Iso.trans_inv,
       NatTrans.comp_app, Functor.isoWhiskerRight_inv, Functor.whiskerRight_app,
       Functor.isoWhiskerLeft_inv, Functor.whiskerLeft_app, Iso.symm_inv,
-      Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id]
+      Functor.associator_hom_app, Functor.associator_inv_app, Category.comp_id]
     rfl
   exact der_chase _ _ _ _ _ _ _ _ _ _ _ h₁ h₂ h₃ h₄
 
-open Stacks.Cohomology.DerivedGlobalCupProduct (shiftBridge shiftCohomologyIsoR shiftCohomologyIso) in
+open Stacks.Cohomology.DerivedGlobalCupProduct
+  (shiftBridge shiftCohomologyIsoR shiftCohomologyIso) in
 /-- **`singleNatShiftIso` on cohomology over the base ring**: through the extensions of the
 single complexes, `singleNatShiftIso` followed by the shift identification `shiftCohomologyIsoR`
 is the shift of the single functors followed by the identification of

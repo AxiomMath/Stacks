@@ -325,11 +325,11 @@ theorem ker_baseChange_toKaehler (P : Extension R S) :
       (LinearMap.lTensor T P.toKaehler) :=
     lTensor_exact T P.exact_cotangentComplex_toKaehler P.toKaehler_surjective
   have hlt : ∀ z, (P.toKaehler.baseChange T) z = LinearMap.lTensor T P.toKaehler z :=
-    fun z => congrArg (fun m => m z) (LinearMap.baseChange_eq_ltensor (A := T) (f := P.toKaehler))
+    fun z => congrArg (fun m => m z) (LinearMap.baseChange_eq_lTensor (A := T) (f := P.toKaehler))
   have hltd : ∀ z, (P.cotangentComplex.baseChange T) z =
       LinearMap.lTensor T P.cotangentComplex z :=
     fun z => congrArg (fun m => m z)
-      (LinearMap.baseChange_eq_ltensor (A := T) (f := P.cotangentComplex))
+      (LinearMap.baseChange_eq_lTensor (A := T) (f := P.cotangentComplex))
   refine SetLike.ext fun z => ?_
   rw [LinearMap.mem_ker, hlt z, hexA z]
   simp only [Set.mem_range, LinearMap.mem_range]
@@ -342,7 +342,7 @@ theorem surjective_baseChange_toKaehler (P : Extension R S) :
   intro y
   obtain ⟨z, hz⟩ := LinearMap.lTensor_surjective T P.toKaehler_surjective y
   exact ⟨z, (congrArg (fun m => m z)
-    (LinearMap.baseChange_eq_ltensor (A := T) (f := P.toKaehler))).trans hz⟩
+    (LinearMap.baseChange_eq_lTensor (A := T) (f := P.toKaehler))).trans hz⟩
 
 /-- The comparison `T ⊗_S Ω[S⁄R] → Ω[T⁄R]` is bijective when `T` is a localization of `S`. -/
 theorem bijective_mapBaseChange_of_isLocalization (M : Submonoid S) [IsLocalization M T] :
@@ -363,7 +363,7 @@ theorem toKaehler_one_tmul_D {R₀ T₀ : Type*} [CommRing R₀] [CommRing T₀]
     (E : Extension R₀ T₀) (p : E.Ring) :
     E.toKaehler ((1 : T₀) ⊗ₜ[E.Ring] KaehlerDifferential.D R₀ E.Ring p) =
       KaehlerDifferential.D R₀ T₀ (algebraMap E.Ring T₀ p) := by
-  show KaehlerDifferential.mapBaseChange R₀ E.Ring T₀
+  change KaehlerDifferential.mapBaseChange R₀ E.Ring T₀
     ((1 : T₀) ⊗ₜ[E.Ring] KaehlerDifferential.D R₀ E.Ring p) = _
   rw [KaehlerDifferential.mapBaseChange_tmul, one_smul, KaehlerDifferential.map_D]
 

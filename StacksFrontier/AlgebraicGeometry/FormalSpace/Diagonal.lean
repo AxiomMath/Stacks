@@ -184,7 +184,7 @@ private theorem map_factors_through_stage_of_affine
     calc
       (Sheaf.sectionEquiv J) (g' ≫ colimit.ι F i) = (colimit.ι F i).hom.app (op U) x := by
         rw [Sheaf.sectionEquiv_comp]
-        show (colimit.ι F i).hom.app (op U)
+        change (colimit.ι F i).hom.app (op U)
           ((Sheaf.sectionEquiv J) ((Sheaf.sectionEquiv J).symm x)) = _
         exact congrArg ((colimit.ι F i).hom.app (op U))
           ((Sheaf.sectionEquiv J).apply_symm_apply x)
@@ -194,7 +194,7 @@ private theorem map_factors_through_stage_of_affine
       _ = (Sheaf.sectionEquiv J) α := rfl
   refine ⟨i, g', ?_⟩
   rw [← Category.assoc, hgi]
-  show (g ≫ e.inv) ≫ e.hom = g
+  change (g ≫ e.inv) ≫ e.hom = g
   rw [Category.assoc, e.inv_hom_id, Category.comp_id]
 
 private theorem pair_maps_factor_through_common_stage_for_two_affines
@@ -262,7 +262,8 @@ private theorem pair_maps_factor_through_common_stage_for_two_affines
 affine objects `U` and `V` of the site and with the transition morphisms of the diagram
 thickenings, factor through one common stage: an affine object of the site is quasi-compact, so
 each point factors through some stage, and directedness takes the two stages to a common one. -/
-alias pair_maps_factor_through_common_stage_for_two_affines' := pair_maps_factor_through_common_stage_for_two_affines
+alias pair_maps_factor_through_common_stage_for_two_affines' :=
+  pair_maps_factor_through_common_stage_for_two_affines
 
 /-- A map into `T` composed with the diagonal is a pair map exactly when it equals both
 components. -/
@@ -388,7 +389,7 @@ private theorem affine_test_pair_has_closed_equalizer
       (Limits.prod.lift f g) := by
     simpa [hαX, hβX] using postcompose_diagonal_mono _ _ _ _ hp m
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj T) := by
-    show IsAffine ((BigAffineFppf.toScheme B S hS).obj (D.obj i))
+    change IsAffine ((BigAffineFppf.toScheme B S hS).obj (D.obj i))
     infer_instance
   have hd : IsClosedImmersion (q.map d) := by
     let τ := terminal.from T
@@ -439,7 +440,7 @@ private theorem open_family_mem_topology
   have hpre : E.presieve₀ = E'.presieve₀ :=
     PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent heq
   have hmem : E.sieve₀ ∈ B.topology U.left := by
-    show Sieve.generate E.presieve₀ ∈ _
+    change Sieve.generate E.presieve₀ ∈ _
     rw [hpre]
     exact Precoverage.generate_mem_toGrothendieck (show E'.presieve₀ ∈ B.precoverage _
       from ⟨E', rfl, hE'⟩)
@@ -469,7 +470,7 @@ private theorem sheafifiedYoneda_hom_ext_open_family
         obtain ⟨i, z, hz⟩ := hs x
         exact ⟨⟨i⟩, z, hz⟩)) (fun i => by
       ext z
-      show Y.obj.map (f i.down).op (Sheaf.sectionEquiv J a) =
+      change Y.obj.map (f i.down).op (Sheaf.sectionEquiv J a) =
         Y.obj.map (f i.down).op (Sheaf.sectionEquiv J b)
       rw [← Sheaf.sectionEquiv_map_comp, ← Sheaf.sectionEquiv_map_comp, h i.down])
   exact ConcreteCategory.congr_hom hxy PUnit.unit
@@ -532,7 +533,7 @@ private theorem affineOpenDiagram_map_ι
     (affineOpenDiagram B S hS U).map t ≫ openOverι B S hS U j.1 =
       openOverι B S hS U i.1 := by
   apply (BigFppfOver.toScheme B S hS).map_injective
-  show ((BigFppfOver.toScheme B S hS).obj U).homOfLE (leOfHom t) ≫ j.1.ι = i.1.ι
+  change ((BigFppfOver.toScheme B S hS).obj U).homOfLE (leOfHom t) ≫ j.1.ι = i.1.ι
   simp [Scheme.homOfLE]
 
 private theorem exists_closed_gluing
@@ -605,7 +606,7 @@ private theorem exists_closed_gluing
     natTrans := {
       app i := q.map (p i)
       naturality := fun i j t => by
-        show q.map (r t) ≫ q.map (p j) = q.map (p i) ≫ q.map (A.map t)
+        change q.map (r t) ≫ q.map (p j) = q.map (p i) ≫ q.map (A.map t)
         simp only [← q.map_comp]
         exact congrArg q.map (hrp t) }
     equifibered := fun i j t => (hpb t).map q }
@@ -624,13 +625,13 @@ private theorem exists_closed_gluing
   let c (i : (q.obj U).affineOpens) : V i ⟶ W :=
     Over.homMk (ObjectProperty.homMk (colimit.ι d.functor i)) (by
       apply B.inclusion.map_injective
-      show colimit.ι d.functor i ≫ (d.toBase ≫ B.inclusion.map U.hom) =
+      change colimit.ι d.functor i ≫ (d.toBase ≫ B.inclusion.map U.hom) =
         B.inclusion.map (V i).hom
       refine (Category.assoc _ _ _).symm.trans
         ((congrArg (fun t => t ≫ B.inclusion.map U.hom) (d.ι_toBase i)).trans
           ((Category.assoc _ _ _).trans ?_))
-      show q.map (p i) ≫ q.map (ui i) ≫ B.inclusion.map U.hom = _
-      show B.inclusion.map (p i).left ≫ B.inclusion.map (ui i).left ≫
+      change q.map (p i) ≫ q.map (ui i) ≫ B.inclusion.map U.hom = _
+      change B.inclusion.map (p i).left ≫ B.inclusion.map (ui i).left ≫
         B.inclusion.map U.hom = _
       rw [← B.inclusion.map_comp (ui i).left U.hom, (ui i).w,
         ← B.inclusion.map_comp]
@@ -700,7 +701,7 @@ public theorem diagonal_isClosedImmersion
   have heq : F.map j ≫ f = F.map j ≫ g := by
     apply sheafifiedYoneda_hom_ext_open_family B S hS c hco hcs
     intro i
-    show F.map (c i) ≫ (F.map j ≫ f) = F.map (c i) ≫ (F.map j ≫ g)
+    change F.map (c i) ≫ (F.map j ≫ f) = F.map (c i) ≫ (F.map j ≫ g)
     have hcmap : F.map (c i) ≫ F.map j = F.map (p i) ≫ F.map (ui i) := by
       rw [← F.map_comp, hcf, F.map_comp]
     conv_lhs => rw [← Category.assoc, hcmap]
@@ -710,10 +711,10 @@ public theorem diagonal_isClosedImmersion
   let m : F.obj W ⟶ E := pullback.lift (F.map j ≫ f) (F.map j) (by
     apply Limits.prod.hom_ext
     · rw [prod.comp_diag, prod.lift_fst]
-      show F.map j ≫ (b ≫ Limits.prod.fst) = (F.map j ≫ b) ≫ Limits.prod.fst
+      change F.map j ≫ (b ≫ Limits.prod.fst) = (F.map j ≫ b) ≫ Limits.prod.fst
       exact (Category.assoc _ _ _).symm
     · rw [prod.comp_diag, prod.lift_snd]
-      show F.map j ≫ f = (F.map j ≫ b) ≫ Limits.prod.snd
+      change F.map j ≫ f = (F.map j ≫ b) ≫ Limits.prod.snd
       rw [heq]
       exact (Category.assoc _ _ _).symm)
   have hm : m ≫ y = F.map j := pullback.lift_snd _ _ _
@@ -762,10 +763,10 @@ public theorem diagonal_isClosedImmersion
   refine ⟨W, F.map j ≫ f, j, ?_, hj⟩
   apply IsPullback.of_iso (IsPullback.of_hasPullback (diag X) b)
     (asIso m).symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
-  · show pullback.fst (diag X) b ≫ 𝟙 X = inv m ≫ (F.map j ≫ f)
+  · change pullback.fst (diag X) b ≫ 𝟙 X = inv m ≫ (F.map j ≫ f)
     have hm₁ : m ≫ pullback.fst (diag X) b = F.map j ≫ f := pullback.lift_fst _ _ _
     rw [Category.comp_id, ← hm₁, IsIso.inv_hom_id_assoc]
-  · show y ≫ 𝟙 _ = inv m ≫ F.map j
+  · change y ≫ 𝟙 _ = inv m ≫ F.map j
     rw [Category.comp_id, ← hm, IsIso.inv_hom_id_assoc]
   · exact (Category.comp_id _).trans (Category.id_comp _).symm
   · exact (Category.comp_id _).trans (Category.id_comp _).symm

@@ -57,8 +57,7 @@ theorem algebraMap_surjective_of_surjective (h : Function.Surjective (algebraMap
     Function.Surjective (algebraMap A A') := by
   intro x
   obtain ⟨t, rfl⟩ := (Algebra.IsPushout.equiv R R' A A').surjective x
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul r' a =>
     obtain ⟨r, rfl⟩ := h r'
     refine ⟨r • a, ?_⟩

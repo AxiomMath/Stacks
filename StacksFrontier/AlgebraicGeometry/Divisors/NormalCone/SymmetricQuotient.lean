@@ -459,7 +459,7 @@ theorem exists_conormalSymmetricHom_app_eq_localMap (i : Z ⟶ X) [IsImmersion i
   induction n with
   | zero =>
     intro a
-    show ∃ s : ((conormalSymmetricAlgebra i).piece 0).val.obj (op (i ⁻¹ᵁ U.1)),
+    change ∃ s : ((conormalSymmetricAlgebra i).piece 0).val.obj (op (i ⁻¹ᵁ U.1)),
       PresheafOfModules.Hom.app ((conormalSymmetricHom i).app 0).val (op (i ⁻¹ᵁ U.1)) s =
         (conormalAlgebra i).localMap U hU 0 a
     obtain ⟨t, ht⟩ := (conormalAlgebra i).exists_smul_one_chart U hU

@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.Quot.CurvesDiagonalPicardCharts
 # Stacks 0DSQ over a presentation of the stack of curves
 
 The form of Stacks 0DSQ proved from Picard charts, the theorem whose name ends in
-`_curvesAlgebraicStack_of_picardCharts`, takes four inputs, the first of which is `h`, the
+`_diagonal_curves_of_picardCharts`, takes four inputs, the first of which is `h`, the
 algebraicity of the stack of curves (Stacks 0D5A). This file replaces that one by *presentation
 data*: an algebraic stack `𝒳` over the big fppf site of the integers together with an equivalence
 `E` over the site between the category of families of curves and `𝒳`.
@@ -28,7 +28,7 @@ the sense of Stacks 04XB.
 
 * `AlgebraicGeometry.isAlgebraicStack_curvesFiberedCategory_of_presentation`: the stack of
   curves is algebraic as soon as it has an algebraic presentation (Stacks 03YQ).
-* The theorem whose name ends in `_curvesAlgebraicStack_of_presentation`: over a presentation of
+* The theorem whose name ends in `_diagonal_curves_of_presentation`: over a presentation of
   the stack of curves, its diagonal is separated and of finite presentation (Stacks 0DSQ).
 
 ## References
@@ -78,7 +78,7 @@ changed to an étale chart `U` from a Noetherian affine scheme along which both 
 H-projective schemes, is quasi-compact (`hproj`, Stacks 0DPR with Riemann–Roch). Then the
 diagonal `Δ : Curves ⟶ Curves ×_{Spec(ℤ)} Curves` is separated and of finite presentation, both
 in the sense of Stacks 04XB. -/
-theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_presentation
+theorem isSeparated_isRelativelyFinitePresentation_diagonal_curves_of_presentation
     (𝒳 : Stack.AlgebraicStacks.{u, w} B integerBase hZ)
     (E : CurveFamily B hZ ≌ 𝒳.val.val.obj)
     (hE : E.functor ⋙ 𝒳.val.val.p = curvesProjectionOver B hZ)
@@ -122,7 +122,7 @@ theorem isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAl
         (Stack.AlgebraicStacks.relativeDiagonal B integerBase hZ
           (Stack.structureMorphism B integerBase hZ (curvesAlgebraicStack B hZ
             (isAlgebraicStack_curvesFiberedCategory_of_presentation B hZ 𝒳 E hE)))) :=
-  isSeparated_and_isRelativelyFinitePresentation_relativeDiagonal_curvesAlgebraicStack_of_picardCharts
+  isSeparated_isRelativelyFinitePresentation_diagonal_curves_of_picardCharts
     B hZ (isAlgebraicStack_curvesFiberedCategory_of_presentation B hZ 𝒳 E hE) hlim hchart hproj
 
 end AlgebraicGeometry

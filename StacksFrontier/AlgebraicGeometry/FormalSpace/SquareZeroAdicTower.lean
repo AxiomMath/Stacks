@@ -65,7 +65,7 @@ public theorem isAffine_stageObj (D : QuotientSystem B S hS R)
     (J : { I : Ideal R // TopologicalRing.IsWeakIdealOfDefinition I }) :
     IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((BigAffineFppf.inclusion B S hS).obj (D.stage J))) := by
-  show IsAffine (Spec (.of (R ⧸ J.1)))
+  change IsAffine (Spec (.of (R ⧸ J.1)))
   infer_instance
 
 /-- **A transition of a quotient system is a square-zero closed immersion** as soon as the

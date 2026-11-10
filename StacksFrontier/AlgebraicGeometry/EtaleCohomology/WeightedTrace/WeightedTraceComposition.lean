@@ -47,6 +47,7 @@ public theorem eqToHom_etaleGerm (k : Type u) [Field k] [IsAlgClosed k]
   obtain rfl : q = q' := Subtype.ext hq
   simp
 
+set_option linter.checkUnivs false in
 /-- An identification of an object with itself along an equality is the identity on elements. -/
 public theorem eqToHom_self_apply {A : AddCommGrpCat.{max (u + 1) v}} (h : A = A) (a : A) :
     (eqToHom h) a = a := by
@@ -76,7 +77,7 @@ public theorem fiberPointPullbackStalkIso_comp (x : GeometricFiberPoint B (f ≫
         ((fiberPointPullbackStalkIso.{u, v} B f _ ((abPullback.{u, v} B g).obj F)
           (compFiberPointLift B f g s x)).hom z) =
       (fiberPointPullbackStalkIso.{u, v} B (f ≫ g) s F x).hom
-        ((colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj
+        ((colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj
           X.property (x.toGeometricPoint B (f ≫ g) s))).op
           ((compPullbackIso B f g).hom.app F).hom)) z) := by
   let p := x.toGeometricPoint B (f ≫ g) s
@@ -159,11 +160,11 @@ public theorem fShriekFunctor_map_fiberStalkOf
     {G G' : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max (u + 1) v}}
     (φ : G ⟶ G') (x : GeometricFiberPoint B f s)
     (z : ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s) G.obj)) :
-    (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    (colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B Y.obj Y.property s)).op ((fShriekFunctor.{u, v} B f).map φ).1))
       ((fShriekStalkIso.{u, v} B f s G).inv (fiberStalkOf.{u, v} B f s G x z)) =
       (fShriekStalkIso.{u, v} B f s G').inv (fiberStalkOf.{u, v} B f s G' x
-        ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        ((colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)) z)) := by
   exact (map_inv_apply_eq_inv_map_apply _ _ _ _ (fShriekStalkIso_natural.{u, v} B f s φ) _).trans
     (congrArg _ (fiberStalksMap_fiberStalkOf.{u, v} B f s φ x z))
@@ -247,14 +248,14 @@ public theorem compWeightedTrace_fiberStalkOf (s : GeometricPoint Z.obj)
         (A := AddCommGrpCat.{max (u + 1) v})).map (weightedTrace.{u, v} B g hw_g F)
       ((fShriekStalkIso.{u, v} B g s ((abPullback.{u, v} B g).obj F)).inv
         (fiberStalkOf.{u, v} B g s ((abPullback.{u, v} B g).obj F) (compFiberPoint B f g s x)
-          ((colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B Y.obj
+          ((colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B Y.obj
               Y.property ((compFiberPoint B f g s x).toGeometricPoint B g s))).op
               (weightedTrace.{u, v} B f hw_f ((abPullback.{u, v} B g).obj F)).1))
             ((fShriekStalkIso.{u, v} B f _ ((abPullback.{u, v} B f).obj
                 ((abPullback.{u, v} B g).obj F))).inv
               (fiberStalkOf.{u, v} B f _ ((abPullback.{u, v} B f).obj
                 ((abPullback.{u, v} B g).obj F)) (compFiberPointLift B f g s x)
-                ((colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B
+                ((colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B
                   X.obj X.property (x.toGeometricPoint B (f ≫ g) s))).op
                   ((compPullbackIso B f g).inv.app F).1)) z)))))) := by
   have hτ : ((geometricPointSitePoint B Z.obj Z.property s).sheafFiber
@@ -303,14 +304,14 @@ public theorem weightedTrace_weightedTrace_fiberStalkOf (s : GeometricPoint Z.ob
         (A := AddCommGrpCat.{max (u + 1) v})).map (weightedTrace.{u, v} B g hw_g F)
       ((fShriekStalkIso.{u, v} B g s ((abPullback.{u, v} B g).obj F)).inv
         (fiberStalkOf.{u, v} B g s ((abPullback.{u, v} B g).obj F) (compFiberPoint B f g s x)
-          ((colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B Y.obj
+          ((colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B Y.obj
               Y.property ((compFiberPoint B f g s x).toGeometricPoint B g s))).op
               (weightedTrace.{u, v} B f hw_f ((abPullback.{u, v} B g).obj F)).1))
             ((fShriekStalkIso.{u, v} B f _ ((abPullback.{u, v} B f).obj
                 ((abPullback.{u, v} B g).obj F))).inv
               (fiberStalkOf.{u, v} B f _ ((abPullback.{u, v} B f).obj
                 ((abPullback.{u, v} B g).obj F)) (compFiberPointLift B f g s x)
-                ((colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B
+                ((colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B
                   X.obj X.property (x.toGeometricPoint B (f ≫ g) s))).op
                   ((compPullbackIso B f g).inv.app F).1)) z)))))) =
       (w_f (x.1 default) * w_g (B.inclusion.map f (x.1 default))) •

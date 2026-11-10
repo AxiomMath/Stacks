@@ -42,7 +42,7 @@ def mvPolynomialChart : Spec (.of (MvPolynomial (Fin n) k)) ⟶ projectiveSpaceO
 /-- The chart `𝔸^n_k ⟶ ℙ^n_k` is an open immersion. -/
 instance : IsOpenImmersion (mvPolynomialChart k n) := by
   unfold mvPolynomialChart
-  haveI : IsIso (CommRingCat.ofHom
+  have : IsIso (CommRingCat.ofHom
       (MvPolynomial.renameEquiv k (Equiv.ulift.{u, 0} (α := Fin n))).toRingEquiv.toRingHom) :=
     (MvPolynomial.renameEquiv k Equiv.ulift).toRingEquiv.toCommRingCatIso.isIso_hom
   infer_instance

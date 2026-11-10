@@ -90,7 +90,7 @@ theorem topologicalKrullDim_fiber_comp_iso_le {X₀ Y₀ Y₁ : Scheme.{u}} (h :
   have hinj : Function.Injective e.inv.base := (Scheme.homeoOfIso e.symm).injective
   have hcomm : ∀ x : X₀, h.base ((Homeomorph.refl (X₀ : Type u)) x) =
       e.inv.base ((h ≫ e.hom).base x) := fun x => by
-    simpa using (hih (h.base x)).symm
+    simp
   refine le_trans (le_of_eq ?_) (hfib (e.inv.base s))
   exact IsHomeomorph.topologicalKrullDim_eq _
     (_root_.AlgebraicGeometry.fiberHomeoOfSquare h (h ≫ e.hom)

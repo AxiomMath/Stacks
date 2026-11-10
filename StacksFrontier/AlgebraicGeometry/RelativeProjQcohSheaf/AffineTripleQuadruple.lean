@@ -116,7 +116,7 @@ theorem globalSectionHom_twisting [IsAffine S] (hd : 0 < d) (i : ℤ)
     (x : Γ(AffineTwisting.pieceMod (situationAlgebra B) (i * (d : ℤ)), ⊤)) :
     Twisting.globalSectionHom (twisting B ψ hgen hd) i x
       = sectionsMapInt B ψ hgen i x := by
-  show ((laurent L).piece i).val.restrictₛₗ
+  change ((laurent L).piece i).val.restrictₛₗ
       (eqToHom (congrArg op (Twisting.preimage_top (structureHom B ψ hgen))))
       (Twisting.sectionHom (twisting B ψ hgen hd) i
         (op (⊤ : Opens S.toRingedSpace.carrier)) x) = _

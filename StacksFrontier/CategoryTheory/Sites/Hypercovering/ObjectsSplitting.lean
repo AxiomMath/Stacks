@@ -285,7 +285,7 @@ noncomputable def degenToMatching : S.degenPart ⟶ matchingObj Y :=
 theorem coskFace_degenToMatching (j : EpiOut M ⦋M + 1⦌) (y : SimplexCategory.Truncated M)
     (m : y.obj ⟶ ⦋M + 1⦌) :
     coskFace Y (Sigma.ι S.degenFamily j ≫ S.degenToMatching) y m = S.degenLeg j y m := by
-  simp only [degenToMatching, Sigma.ι_desc, coskFace_coskLift]
+  simp only [degenToMatching, Sigma.ι_comp_desc, coskFace_coskLift]
 
 /-- **A face after a degeneracy is computed inside `Y`.** With the degenerate part as the source
 and `Splitting.degenToMatching` as the morphism to the matching object, the face family cut out by

@@ -266,7 +266,7 @@ theorem isOpen_setOf_isGorensteinAt_specMap {R A : Type u} [CommRing R] [CommRin
     have hbc := congrArg (ι z ∈ ·)
       (setOf_isGorensteinAt_pullback_eq_preimage f₀ g₀
         (isLocallyNoetherian_fiber_of_locallyOfFinitePresentation f₀) hs)
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, eq_iff_iff] at hbc ⊢
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, eq_iff_iff] at hbc ⊢
     rw [← hbc, ← isGorensteinAt_comp_iff_of_isOpenImmersion_left ι (pullback.snd f₀ g₀) hs
       (hsnd ▸ hf) z]
     exact isGorensteinAt_congr hsnd.symm hf _ z

@@ -158,7 +158,7 @@ private theorem rawProjection_f (φ : K.complex ⟶ L.complex) (n : ℤ) :
     CochainComplex.HomComplex.Cochain.rightShift_v _ _ _ _ _ _ _ (n + 1) rfl]
   simp only [CochainComplex.shiftFunctorObjXIso, CochainComplex.mappingCone.fst,
     HomologicalComplex.homotopyCofiber.fstX]
-  show (HomologicalComplex.homotopyCofiber.XIsoBiprod φ n (n + 1) rfl).hom ≫ biprod.fst = _
+  change (HomologicalComplex.homotopyCofiber.XIsoBiprod φ n (n + 1) rfl).hom ≫ biprod.fst = _
   rfl
 
 /-- **The inclusion of a cone package is `biprod.inr` read through the degreewise splitting.** -/

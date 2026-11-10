@@ -126,7 +126,7 @@ theorem ofPolynomialAlgHom_comp_toPolynomialAlgHom :
   obtain ⟨m, r⟩ := x
   have key : ((m, 0) + r • ((0 : M), (1 : R)) : M × R) = (m, r) := by
     simp
-  show ofPolynomialAlgHom R M (toPolynomialAlgHom R M
+  change ofPolynomialAlgHom R M (toPolynomialAlgHom R M
       (SymmetricAlgebra.ι R (M × R) (m, r))) = SymmetricAlgebra.ι R (M × R) (m, r)
   rw [toPolynomialAlgHom_ι, map_add, map_smul, ofPolynomialAlgHom_C, ofPolynomialAlgHom_X,
     inlAlgHom_ι, ← map_smul, ← map_add, key]

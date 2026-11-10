@@ -196,7 +196,7 @@ theorem isUnit_ratioFiber (n : ℕ) {x : ProjectiveSpectrum.top 𝒮}
     (hx : p * q ∉ x.asHomogeneousIdeal.toIdeal) :
     IsUnit (ratioFiber 𝒮 n hx :
       Localization x.asHomogeneousIdeal.toIdeal.primeCompl) := by
-  show IsUnit (Localization.mk (p ^ (2 * n))
+  change IsUnit (Localization.mk (p ^ (2 * n))
     ⟨(p * q) ^ n, x.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem hx n⟩)
   rw [Localization.mk_eq_mk']
   exact (IsLocalization.AtPrime.isUnit_mk'_iff
@@ -256,7 +256,7 @@ theorem degreeZeroModuleAt_eq_span_ratioFiber (hp : p ∈ 𝒮 (e + d)) (hq : q 
     · have hpow : p ^ (2 * n) ∈ 𝒮 (2 * n * (e + d)) := by
         simpa [nsmul_eq_mul, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc] using
           SetLike.pow_mem_graded (A := 𝒮) (2 * n) hp
-      show p ^ (2 * n) ∈
+      change p ^ (2 * n) ∈
         integerGrading 𝒮 (((n * (2 * e + d) : ℕ) : ℤ) + ((n * d : ℕ) : ℤ))
       rw [show (((n * (2 * e + d) : ℕ) : ℤ) + ((n * d : ℕ) : ℤ)) = ((2 * n * (e + d) : ℕ) : ℤ)
         by push_cast; ring, integerGrading_natCast]
@@ -334,7 +334,7 @@ theorem degreeSectionRatio_mem_maximalIdeal_iff (hp : p ∈ 𝒮 (e + d)) (hq : 
   refine (not_congr (HomogeneousLocalization.isUnit_iff_isUnit_val 𝒮
     x.asHomogeneousIdeal.toIdeal (degreeSectionRatio 𝒮 hp hq f hx))).symm.trans ?_
   rw [← mem_nonunits_iff, ← IsLocalRing.mem_maximalIdeal]
-  show (Localization.mk ((f : S) * q ^ n)
+  change (Localization.mk ((f : S) * q ^ n)
       ⟨p ^ n, x.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem ha n⟩ :
         Localization x.asHomogeneousIdeal.toIdeal.primeCompl) ∈
     IsLocalRing.maximalIdeal (Localization x.asHomogeneousIdeal.toIdeal.primeCompl) ↔ _

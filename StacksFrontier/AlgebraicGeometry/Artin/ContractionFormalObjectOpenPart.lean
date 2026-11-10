@@ -56,7 +56,7 @@ theorem comap_quotient_mk_pow_maximalIdeal {R : Type*} [CommRing R] [IsLocalRing
 `𝔪`. -/
 theorem FormalBase.subsingleton_truncation {S : AlgebraicGeometry.Scheme.{u}} (A : FormalBase S)
     (n : ℕ) : Subsingleton (A.truncation n) := by
-  show Subsingleton (PrimeSpectrum (A.R ⧸ maximalIdeal A.R ^ (n + 1)))
+  change Subsingleton (PrimeSpectrum (A.R ⧸ maximalIdeal A.R ^ (n + 1)))
   exact ⟨fun p q => PrimeSpectrum.ext (Ideal.comap_injective_of_surjective _
     Ideal.Quotient.mk_surjective
     ((comap_quotient_mk_pow_maximalIdeal p).trans (comap_quotient_mk_pow_maximalIdeal q).symm))⟩
@@ -133,9 +133,9 @@ theorem restrictionToBase_zero_apply (A : FormalBase S) (hA : ∀ n, B.Contains 
     (BigFppfOver.toScheme B S hS).map
         (restrictionToBase B S hS A (A.contains_spec_of_contains_truncation hA) hA 0) x =
       (closedPoint A.R : PrimeSpectrum A.R) := by
-  show PrimeSpectrum.comap (Ideal.Quotient.mk (maximalIdeal A.R ^ (0 + 1))) x = _
+  change PrimeSpectrum.comap (Ideal.Quotient.mk (maximalIdeal A.R ^ (0 + 1))) x = _
   ext1
-  show x.asIdeal.comap _ = maximalIdeal A.R
+  change x.asIdeal.comap _ = maximalIdeal A.R
   exact comap_quotient_mk_pow_maximalIdeal x
 
 /-- A section of `X'` over `Spec R`, for `R` a Noetherian complete local ring, lies in the open
@@ -148,7 +148,7 @@ theorem mem_U'_of_restrict_mem (A : FormalBase S) (hA : ∀ n, B.Contains (A.tru
     y ∈ c.U'.obj (op (baseOver B S hS A (A.contains_spec_of_contains_truncation hA))) := by
   let V := baseOver B S hS A (A.contains_spec_of_contains_truncation hA)
   let ι := restrictionToBase B S hS A (A.contains_spec_of_contains_truncation hA) hA 0
-  show Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm y)) ⊆ c.T'ᶜ
+  change Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm y)) ⊆ c.T'ᶜ
   change Set.range (Space.pointsMap B S hS (yoneda.obj (truncationOver B S hS A hA 0))
     (yonedaEquiv.symm (c.X'.map ι.op y))) ⊆ c.T'ᶜ at hy
   rw [yonedaEquiv_symm_map, Space.pointsMap_comp] at hy
@@ -168,7 +168,7 @@ theorem mem_U'_of_restrict_mem (A : FormalBase S) (hA : ∀ n, B.Contains (A.tru
     rw [Space.pointsToScheme_pointsMap_yoneda, hq₀, hq'm]
     exact restrictionToBase_zero_apply A hA x₀
   refine hy ⟨q₀, rfl⟩ ?_
-  show Space.pointsMap B S hS _ (yonedaEquiv.symm y) (Space.pointsMap B S hS _ (yoneda.map ι) q₀)
+  change Space.pointsMap B S hS _ (yonedaEquiv.symm y) (Space.pointsMap B S hS _ (yoneda.map ι) q₀)
     ∈ c.T'
   rw [hq₀']
   exact hq'
@@ -220,7 +220,7 @@ theorem exists_effective_of_Z_eq_empty (A : FormalBase S)
     c.mem_U'_of_restrict_mem A hA y (by convert (e 0).2 using 1; exact hy 0)
   let u : yoneda.obj (baseOver B S hS A hRS) ⟶ c.U'.toFunctor := yonedaEquiv.symm ⟨y, hyU⟩
   refine ⟨c.emptyTriple _ u, fun n => ?_⟩
-  show mapTriple c (restrictionToBase B S hS A hRS hA n) (c.emptyTriple _ u) = ξ n
+  change mapTriple c (restrictionToBase B S hS A hRS hA n) (c.emptyTriple _ u) = ξ n
   refine (emptyTriple_comp c _ u).symm.trans ?_
   have hun : yoneda.map (restrictionToBase B S hS A hRS hA n) ≫ u = yonedaEquiv.symm (e n) :=
     (yonedaEquiv_symm_map (F := c.U'.toFunctor) (restrictionToBase B S hS A hRS hA n).op
@@ -230,7 +230,7 @@ theorem exists_effective_of_Z_eq_empty (A : FormalBase S)
   refine (congrArg (c.emptyTriple _) hun).trans ?_
   refine (Triple.eq_emptyTriple c (ξ n) _ (h n) ?_).symm
   refine ext_openSubspace_compl_empty (h n) _ _ fun hh => ?_
-  show c.U'.toFunctor.map (𝟙 _).op (e n) = (ξ n).u.app (op _) ⟨𝟙 _, hh⟩
+  change c.U'.toFunctor.map (𝟙 _).op (e n) = (ξ n).u.app (op _) ⟨𝟙 _, hh⟩
   rw [op_id, Functor.map_id_apply]
   rfl
 

@@ -123,7 +123,7 @@ theorem exactAt_mapHomologicalComplex_of_projective_tail (F : C ⥤ D) [F.Additi
       (hex (j + 1 + 1) (by omega))).splittingOfProjective
     IsSplitMono.mk' ⟨s.r, s.f_r⟩
   have hepi := epi_kernel_lift_of_exactAt_aux K (j - 1) j (j + 1) (by simp) (by simp) (hex j hj)
-  show ((K.sc' (j - 1) j (j + 1)).map F).Exact
+  change ((K.sc' (j - 1) j (j + 1)).map F).Exact
   let φ : (K.sc' (j - 1) j (j + 1)).map F ⟶ (K.kernelShortComplex j).map F :=
     { τ₁ := F.map (kernel.lift (K.d j (j + 1)) (K.d (j - 1) j) (K.d_comp_d _ _ _))
       τ₂ := 𝟙 _

@@ -116,7 +116,7 @@ theorem multiplicativeDirectImageComparison_comp_multiplicativeDirectImageSquare
       multiplicativeDirectImageComparison.{u, v} i ≫
         multiplicativeDirectImageSquareMap.{u, v} h := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
-  show globalUnitsAdditive.{u, v}.map (pullback.fst U.unop.hom p).op ≫
+  change globalUnitsAdditive.{u, v}.map (pullback.fst U.unop.hom p).op ≫
       globalUnitsAdditive.{u, v}.map
         (pullback.fst ((smallEtaleBaseChange p).obj U.unop).hom i').op =
     globalUnitsAdditive.{u, v}.map (pullback.fst U.unop.hom i).op ≫

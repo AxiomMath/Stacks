@@ -342,7 +342,7 @@ private lemma sectionMap_comp_augmentation_add_d_comp_prepend (s : X ⥤ U) (t :
       ((complex p f F).d 0 1 ≫ prependSectionMap p f F 0 s t ht :
         term p f F 0 ⟶ term p f F 0) = 𝟙 _ := by
   rw [complex_d]
-  show sectionMap p f F s t ht ≫ augmentation p f F 0 +
+  change sectionMap p f F s t ht ≫ augmentation p f F 0 +
     (∑ i : Fin 2, (-1 : ℤ) ^ (i : ℕ) • reindexMap p f F (SimplexCategory.δ i)) ≫
       prependSectionMap p f F 0 s t ht = _
   rw [Fin.sum_univ_two]
@@ -361,7 +361,7 @@ private lemma prepend_comp_d_add_d_comp_prepend (n : ℕ) (s : X ⥤ U) (t : s �
         term p f F (n + 1) ⟶ term p f F (n + 1)) = 𝟙 _ := by
   rw [complex_d p f F (n + 1)]
   simp only [cosimplicial_δ]
-  show (prependSectionMap p f F n s t ht ≫ (complex p f F).d n (n + 1) :
+  change (prependSectionMap p f F n s t ht ≫ (complex p f F).d n (n + 1) :
       term p f F (n + 1) ⟶ term p f F (n + 1)) +
     (∑ i : Fin (n + 3), (-1 : ℤ) ^ (i : ℕ) • reindexMap p f F (SimplexCategory.δ i)) ≫
       prependSectionMap p f F (n + 1) s t ht = _
@@ -371,7 +371,7 @@ private lemma prepend_comp_d_add_d_comp_prepend (n : ℕ) (s : X ⥤ U) (t : s �
     Preadditive.neg_comp, reindexMap_faceSucc_comp_prepend, Finset.sum_neg_distrib]
   rw [complex_d]
   simp only [cosimplicial_δ]
-  show (prependSectionMap p f F n s t ht ≫
+  change (prependSectionMap p f F n s t ht ≫
       (∑ j : Fin (n + 2), (-1 : ℤ) ^ (j : ℕ) • reindexMap p f F (SimplexCategory.δ j) :
         term p f F n ⟶ term p f F (n + 1))) + _ = _
   rw [Preadditive.comp_sum]

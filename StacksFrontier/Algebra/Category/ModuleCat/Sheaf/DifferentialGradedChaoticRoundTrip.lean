@@ -101,7 +101,7 @@ theorem compIso_hom_plainTranspose_plainTranspose (g : X ⟶ (restrictScalarsFun
   | zero => rw [LinearMap.map_zero₂, map_zero, map_zero]
   | add x y hx hy => rw [LinearMap.map_add₂, map_add, map_add, hx, hy]
   | @homogeneous p x =>
-    show (plainTranspose ψ₂ _).toFun ((compForward ψ₁ ψ₂ κ h X).toFun _) = _
+    change (plainTranspose ψ₂ _).toFun ((compForward ψ₁ ψ₂ κ h X).toFun _) = _
     rw [compForward_pure ψ₁ ψ₂ κ h X p x c]
     refine (plainTranspose_pure_apply ψ₂ _ _ c).trans ?_
     refine Eq.trans ?_ (plainTranspose_pure_apply κ g _ c).symm
@@ -186,7 +186,7 @@ theorem roundTripInner_naturality (M : DifferentialGradedModule.{t, m, m} A) {U 
     (roundTripInner φ₁ φ₂ η hη M V).toFun.toAddMonoidHom
     (roundTripInner φ₁ φ₂ η hη M U).toFun.toAddMonoidHom
     (pullbackRestr φ₁ M (F₂.op.map a)).toFun.toAddMonoidHom w fun x y => ?_
-  show M.sectionRestrictAdd a ((roundTripInner φ₁ φ₂ η hη M V).toFun
+  change M.sectionRestrictAdd a ((roundTripInner φ₁ φ₂ η hη M V).toFun
       (pullbackPure φ₁ M (F₂.op.obj V) x y)) =
     (roundTripInner φ₁ φ₂ η hη M U).toFun ((pullbackRestr φ₁ M (F₂.op.map a)).toFun
       (pullbackPure φ₁ M (F₂.op.obj V) x y))
@@ -211,7 +211,8 @@ def roundTripOuter (M : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ) :
       _root_.DifferentialGradedModule.restrictScalars (φ₂.sectionHom U) (M.sectionModule U) :=
   (pullbackSectionsIso φ₁ M (F₂.op.obj U)).hom ≫ roundTripInner φ₁ φ₂ η hη M U
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The maps `roundTripOuter` commute with restriction of sections. -/
 theorem roundTripOuter_naturality (M : DifferentialGradedModule.{t, m, m} A) {U V : Cᵒᵖ}
     (a : V ⟶ U) (z : (((pullbackFunctor φ₁).obj M).sectionModule (F₂.op.obj V)).M) :
@@ -230,7 +231,8 @@ def roundTripSections (M : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ) :
     pullbackSections φ₂ ((pullbackFunctor φ₁).obj M) U ⟶ M.sectionModule U :=
   DifferentialGraded.Bimodule.plainTranspose (φ₂.sectionHom U) (roundTripOuter φ₁ φ₂ η hη M U)
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The map `roundTripSections` sends `z ⊗ c` to `r(z) · c`, where `r` is `roundTripOuter`. -/
 theorem roundTripSections_pure (M : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ)
     (z : (((pullbackFunctor φ₁).obj M).sectionModule (F₂.op.obj U)).M)
@@ -277,7 +279,7 @@ theorem roundTripInner_natural {M N : DifferentialGradedModule.{t, m, m} A} (f :
     (roundTripInner φ₁ φ₂ η hη M U).toFun.toAddMonoidHom
     (roundTripInner φ₁ φ₂ η hη N U).toFun.toAddMonoidHom
     (pullbackSectionsMap φ₁ f (F₂.op.obj U)).toFun.toAddMonoidHom w fun x y => ?_
-  show sectionMapAdd f U ((roundTripInner φ₁ φ₂ η hη M U).toFun
+  change sectionMapAdd f U ((roundTripInner φ₁ φ₂ η hη M U).toFun
       (pullbackPure φ₁ M (F₂.op.obj U) x y)) =
     (roundTripInner φ₁ φ₂ η hη N U).toFun ((pullbackSectionsMap φ₁ f (F₂.op.obj U)).toFun
       (pullbackPure φ₁ M (F₂.op.obj U) x y))
@@ -287,7 +289,8 @@ theorem roundTripInner_natural {M N : DifferentialGradedModule.{t, m, m} A} (f :
     MulOpposite.op ((φ₂.sectionHom U).toAlgebraHom (algElt φ₁ (F₂.op.obj U) y)) • z)
     (sectionRestrictAdd_sectionMapAdd f (η.app U) x).symm)
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The maps `roundTripOuter` are natural in the module `M`. -/
 theorem roundTripOuter_natural {M N : DifferentialGradedModule.{t, m, m} A} (f : M ⟶ N)
     (U : Cᵒᵖ) (z : (((pullbackFunctor φ₁).obj M).sectionModule (F₂.op.obj U)).M) :
@@ -299,13 +302,15 @@ theorem roundTripOuter_natural {M N : DifferentialGradedModule.{t, m, m} A} (f :
   refine (roundTripInner_natural φ₁ φ₂ η hη f U _).trans ?_
   exact congrArg (roundTripInner φ₁ φ₂ η hη N U).toFun hs.symm
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The canonical maps of the round trip on presheaves of section modules are natural. -/
 theorem roundTripSystemHom_naturality {M N : DifferentialGradedModule.{t, m, m} A} (f : M ⟶ N) :
     roundTripSystemHom φ₁ φ₂ η hη M ≫ (sectionSystemFunctor A).map f =
       pullbackSystemMap φ₂ ((pullbackFunctor φ₁).map f) ≫ roundTripSystemHom φ₁ φ₂ η hη N := by
   refine SectionSystem.hom_ext fun U => ?_
   refine DifferentialGraded.Bimodule.tensorObj_hom_ext' _ _ _ _ fun z c => ?_
-  show sectionMapAdd f U ((roundTripSections φ₁ φ₂ η hη M U).toFun
+  change sectionMapAdd f U ((roundTripSections φ₁ φ₂ η hη M U).toFun
       (pullbackPure φ₂ ((pullbackFunctor φ₁).obj M) U z c)) =
     (roundTripSections φ₁ φ₂ η hη N U).toFun
       ((pullbackSectionsMap φ₂ ((pullbackFunctor φ₁).map f) U).toFun
@@ -330,6 +335,8 @@ def roundTripCounit :
         (roundTripSystemHom_naturality φ₁ φ₂ η hη f).symm).trans
         ((SectionSystem.realizeAdjunction A).homEquiv_naturality_right_symm _ _))
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **Over `U` the canonical map of the round trip is the map `z ⊗ c ↦ r(z) · c`**, after the
 identification of the sections of the realization. -/
 theorem sectionMap_roundTripCounit (M : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ) :
@@ -347,7 +354,8 @@ theorem sectionMap_roundTripCounit (M : DifferentialGradedModule.{t, m, m} A) (U
 
 /-! ### The canonical map is a quasi-isomorphism on quasi-coherent modules -/
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **Over `U` the canonical map of the round trip is the comparison map of quasi-coherence along
 `η_U`**, up to the identification `M(F₁ F₂ U) ⊗ A(U) ≅ (M(F₁ F₂ U) ⊗ A'(F₂ U)) ⊗ A(U)` and the
 identification of the sections of the pullback. -/
@@ -373,7 +381,8 @@ theorem roundTripSections_comparison (M : DifferentialGradedModule.{t, m, m} A) 
       (M.sectionModule (F₁.op.obj (F₂.op.obj U)))).hom ≫ g) h1).trans ?_
   exact DifferentialGraded.Bimodule.compIso_hom_plainTranspose_plainTranspose _ _ _ (hη U) _
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **The canonical map of the round trip is a quasi-isomorphism on sections over `U`** at a
 module satisfying the quasi-coherence condition whose sections over `F₁ F₂ U` are K-projective. -/
 theorem quasiIso_roundTripSections (M : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ)

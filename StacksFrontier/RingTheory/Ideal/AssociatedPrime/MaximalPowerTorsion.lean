@@ -98,7 +98,7 @@ theorem not_isAssociatedPrime_maximalIdeal_quotient_primaryComponent [IsNoetheri
   have hmem : maximalIdeal A ∈
       associatedPrimes A (M ⧸ Ideal.primaryComponent M (maximalIdeal A)) := h
   rw [associatedPrimes_quotient_primaryComponent M (maximalIdeal A)] at hmem
-  exact hmem.2 (Set.mem_setOf_eq ▸ le_rfl)
+  exact hmem.2 (Set.mem_ofPred_eq ▸ le_rfl)
 
 end Module
 

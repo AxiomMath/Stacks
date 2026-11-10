@@ -89,6 +89,7 @@ private theorem image_eq_closedPoint_of_contraction {X X' : Scheme.{u}} {p : X �
   exact eq_closedPoint_of_isEffectiveCartierDivisor D hE.1 b z hz hD p hp p' hbp x₀
     (topologicalKrullDimAt_subscheme_eq_one_of_iso_projectiveLineProj D k eE x₀)
 
+omit [IsFractionRing R K] in
 /-- **The contractions of [Stacks, Tag 0CD9] on special fibres.** Let `g : X ⟶ Y` be a sequence
 of contractions of exceptional curves of the first kind from `p : X ⟶ Spec R` to
 `q : Y ⟶ Spec R`, with `p` at-worst-nodal of relative dimension one. Then `𝒪_Y = g_*𝒪_X`, and for

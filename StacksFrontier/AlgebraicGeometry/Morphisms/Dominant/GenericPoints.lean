@@ -133,7 +133,7 @@ private theorem isoSpec_mem_minimalPrimes_of_mem_genericPoints {S : Scheme} {U :
     have hyEtaU : hU.isoSpec.inv y = ηU :=
       Subtype.ext (stableUnderGeneralization_singleton_of_mem_genericPoints hη hyS rfl)
     refine hU.isoSpec.schemeIsoToHomeo.symm.injective ?_
-    show hU.isoSpec.inv y = hU.isoSpec.inv p
+    change hU.isoSpec.inv y = hU.isoSpec.inv p
     simpa [p] using hyEtaU
   exact PrimeSpectrum.stableUnderGeneralization_singleton.mp hpStable
 
@@ -158,7 +158,7 @@ private theorem mem_range_of_mem_closure_of_isAffineOpen {S : Scheme} {U : S.Ope
   have hx' : hU.isoSpec.hom (l x) = hU.isoSpec.hom y := by
     simpa [hAffine, p] using hxAffine
   refine ⟨x, hU.isoSpec.schemeIsoToHomeo.injective ?_⟩
-  show Scheme.homeoOfIso hU.isoSpec (l x) = Scheme.homeoOfIso hU.isoSpec y
+  change Scheme.homeoOfIso hU.isoSpec (l x) = Scheme.homeoOfIso hU.isoSpec y
   rwa [Scheme.homeoOfIso_apply]
 
 /-- A generic point of an irreducible component of the target lying in the closure of the image
@@ -182,9 +182,9 @@ private theorem qc_genericPoint_mem_range_of_mem_closure
     (isCompact_iff_exists (U := f ⁻¹ᵁ U)).mp (f.isCompact_preimage hU.isCompact)
   let h : Spec R ⟶ S := g ≫ f
   have hrange : Set.range h = Set.range f ∩ (U : Set S) := by
-    show Set.range (f ∘ g) = _
+    change Set.range (f ∘ g) = _
     rw [Set.range_comp, hg]
-    show f '' (f ⁻¹' (U : Set S)) = _
+    change f '' (f ⁻¹' (U : Set S)) = _
     simpa only [Set.inter_comm] using (Set.image_preimage_eq_inter_range (f := f) (t := U))
   have hηhcl : η ∈ closure (Set.range h) := by
     rw [hrange]
@@ -196,11 +196,11 @@ private theorem qc_genericPoint_mem_range_of_mem_closure
   have hlift : l ≫ U.ι = h := IsOpenImmersion.lift_fac U.ι h hsub
   have hImage : U.ι '' Set.range l = Set.range h := by
     rw [← Set.range_comp]
-    show Set.range (l ≫ U.ι) = Set.range h
+    change Set.range (l ≫ U.ι) = Set.range h
     rw [hlift]
   have hηUcl : (⟨η, hηU⟩ : (↑U : Scheme)) ∈ closure (Set.range l) := by
     rw [U.ι.isOpenEmbedding.toIsEmbedding.closure_eq_preimage_closure_image]
-    show U.ι ⟨η, hηU⟩ ∈ closure (U.ι '' Set.range l)
+    change U.ι ⟨η, hηU⟩ ∈ closure (U.ι '' Set.range l)
     rwa [hImage]
   obtain ⟨x, hx⟩ := mem_range_of_mem_closure_of_isAffineOpen hU l ⟨η, hηU⟩
     (isoSpec_mem_minimalPrimes_of_mem_genericPoints hU hη hηU) hηUcl

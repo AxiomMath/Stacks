@@ -222,7 +222,7 @@ lemma relativeDiagonal_changeBaseHom_comp (f : 𝒳 ⟶ 𝒴) :
       (changeBaseHom B S S' hS hS' g
         (relativeDiagonal.{u, u, u + 1} B S hS 𝒳 𝒴 f)).hom := by
   refine BasedCategory.BasedFunctor.ext' ?_
-  show TwoFibreProductOver.diagonal f.hom.w ⋙ TwoFibreProductOver.relocalizeBase g ⋙
+  change TwoFibreProductOver.diagonal f.hom.w ⋙ TwoFibreProductOver.relocalizeBase g ⋙
       TwoFibreProductOver.unrelocalizeBase g f.hom.w f.hom.w =
     TwoFibreProductOver.diagonal f.hom.w
   rw [TwoFibreProductOver.relocalizeBase_comp_unrelocalizeBase, Functor.comp_id]

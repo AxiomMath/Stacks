@@ -585,7 +585,7 @@ private lemma isCofilteredOrEmpty_elements_bigFiber (T : ℕ → Stage.{w, v, u}
       ⟨(bigFiber T r).elementsMk ((T m).q.obj j) (bigMk T r (𝟙 _)),
         Functor.Elements.homMk _ (bigFiber_map_bigMk_id T r D c f),
         Functor.Elements.hom_ext ?_⟩
-    show ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₁.hom = ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₂.hom
+    change ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₁.hom = ((T m).q.map c ≫ D.κ.app i ≫ f) ≫ g₂.hom
     simpa only [Category.assoc] using hc
 
 omit [Small.{w, u} C] in
@@ -593,7 +593,8 @@ private lemma isCofiltered_elements_bigFiber (T : ℕ → Stage.{w, v, u} J S)
     (r : ∀ n : ℕ, Refines.{w, v, u} (T n) (T (n + 1))) :
     IsCofiltered (bigFiber (C := C) T r).Elements := by
   have := isCofilteredOrEmpty_elements_bigFiber (X := X) T r
-  have : Nonempty (bigFiber (C := C) T r).Elements := ⟨(bigFiber T r).elementsMk X (bigMk T r (T 0).θ)⟩
+  have : Nonempty (bigFiber (C := C) T r).Elements :=
+    ⟨(bigFiber T r).elementsMk X (bigMk T r (T 0).θ)⟩
   exact {}
 
 private lemma initiallySmall_elements_bigFiber (T : ℕ → Stage.{w, v, u} J S)

@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.RelativeProjTwists.Statement
 # Tag 01NR's two chart-formula assertions
 
 This file registers two of the assertions of Tag 01NR on declarations proved in
-`StacksFrontier/AlgebraicGeometry/RelativeProjTwists/Statement.lean`. It attaches no attribute of its
-own: the two registrations below are `add_to_stacks` commands over the existing declarations.
+`StacksFrontier/AlgebraicGeometry/RelativeProjTwists/Statement.lean`. It attaches no attribute of
+its own: the two registrations below are `add_to_stacks` commands over the existing declarations.
 
 ## The tag's five assertions
 

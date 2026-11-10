@@ -137,7 +137,7 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul_of_forall_zmodPow
     intro n
     refine IsClosed.inter ?_
       (isClosed_eq (continuous_norm.comp continuous_id.matrix_det) continuous_const)
-    simp only [Set.setOf_forall]
+    simp only [Set.ofPred_forall]
     exact isClosed_iInter fun i => isClosed_iInter fun j =>
       isClosed_le (continuous_norm.comp (hEc.matrix_elem i j)) continuous_const
   have hle : ∀ n : ℕ, (p : ℝ) ^ (-((n + 1 : ℕ) : ℤ)) ≤ (p : ℝ) ^ (-(n : ℤ)) := fun n =>
@@ -164,10 +164,10 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul_of_forall_zmodPow
         rw [← PadicInt.ker_toZModPow]
         exact congrFun (congrFun hmap i) j
       exact ((PadicInt.norm_le_pow_iff_mem_span_pow _ _).2 hmem).trans (hle n)
-    · rw [Set.mem_setOf_eq, ← PadicInt.isUnit_iff]
+    · rw [Set.mem_ofPred_eq, ← PadicInt.isUnit_iff]
       refine isUnit_of_isUnit_toZModPow_succ (n := n) ?_
       rw [RingHom.map_det]
-      show IsUnit (J.map f).det
+      change IsUnit (J.map f).det
       rwa [hJ]
   have : CompactSpace (Matrix ι ι ℤ_[p]) := inferInstanceAs (CompactSpace (ι → ι → ℤ_[p]))
   obtain ⟨J, hJ⟩ := IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed t hdec hne
@@ -176,7 +176,7 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul_of_forall_zmodPow
   refine ⟨J, PadicInt.isUnit_iff.2 (hJ 0).2, ?_⟩
   rw [← sub_eq_zero, Nat.cast_smul_eq_nsmul]
   ext i j : 1
-  show E J i j = 0
+  change E J i j = 0
   rw [← PadicInt.ext_of_toZModPow]
   intro n
   rw [map_zero, ← RingHom.mem_ker, PadicInt.ker_toZModPow,
@@ -227,7 +227,7 @@ theorem exists_gram_zmodPow_of_pairing {M : Type*} [AddCommGroup M] [Module ℤ_
   have hexp : ∀ a b, e a b = ∑ i, ∑ j, f (m.repr a i) * f (m.repr b j) * G i j := by
     intro a b
     conv_lhs => rw [← m.sum_repr a, ← m.sum_repr b]
-    simp only [map_sum, AddMonoidHom.finset_sum_apply, hl, hr]
+    simp only [map_sum, AddMonoidHom.finsetSum_apply, hl, hr]
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
     simp only [G]
@@ -273,13 +273,14 @@ theorem exists_gram_zmodPow_of_pairing {M : Type*} [AddCommGroup M] [Module ℤ_
     refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l _ => ?_
     ring
 
-omit [DecidableEq ι] in
+omit [Fintype ι] [DecidableEq ι] in
 /-- **From equivariant pairings at every finite level to the Gram identity on `M ⊗ ℚ_p`.** Let
 `M` be a free `ℤ_p`-module with a finite basis and `φ` an endomorphism. If for every `n` there is
 a biadditive pairing on `M` with values in `ℤ/pⁿ`, nondegenerate on the left modulo `pⁿ M` and
 with `e(φ a, φ b) = c e(a, b)`, then for every basis `b` of `V = M ⊗ ℚ_p` there is a matrix `J`
 with unit determinant and `Aᵀ J A = c J`, `A` the matrix of `φ ⊗ ℚ_p` in `b`. -/
-theorem exists_isUnit_det_transpose_mul_mul_eq_smul_extendScalars {M : ModuleCat.{v} ℤ_[p]}
+theorem exists_isUnit_det_transpose_mul_mul_eq_smul_extendScalars [Finite ι]
+    {M : ModuleCat.{v} ℤ_[p]}
     (m : Module.Basis ι ℤ_[p] M) (φ : M ⟶ M) (c : ℕ)
     (h : ∀ n : ℕ, ∃ e : M →+ M →+ ZMod (p ^ n),
       (∀ a, (∀ b, e a b = 0) → ∃ a', a = (p : ℤ_[p]) ^ n • a') ∧
@@ -294,6 +295,7 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul_extendScalars {M : ModuleCat
             ((ModuleCat.extendScalars.{0, 0, v} (algebraMap ℤ_[p] ℚ_[p])).map φ).hom =
         (c : ℚ_[p]) • J := by
   classical
+  have := Fintype.ofFinite ι
   obtain ⟨J, hJ, hA⟩ := exists_isUnit_det_transpose_mul_mul_eq_smul_of_forall_zmodPow
     (LinearMap.toMatrix m m φ.hom) c fun n => by
       obtain ⟨e, he0, he⟩ := h n

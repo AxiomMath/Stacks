@@ -398,7 +398,7 @@ theorem homEquiv_glue_condition (M : V'.Modules) (T : GluingTriple i f g)
     exact unit_comp_ambientUnitNat i f g M b
   rw [h1, h2, Equiv.apply_eq_iff_eq, ← targetOverlap_comp_overlapComparison i f g M,
     Category.assoc, Category.assoc]
-  haveI : Epi (targetOverlap i f g M) := IsIso.epi_of_iso _
+  have : Epi (targetOverlap i f g M) := IsIso.epi_of_iso _
   rw [cancel_epi]
 
 /-- The transpose of the first projection of the glued module: a morphism from `M` into the glued
@@ -595,7 +595,7 @@ theorem baseChangeTripleAdjunction_counit_app_target (T : GluingTriple i f g) :
       (tripleHomEquiv i f g hi ((tripleGluingFunctor i f g).obj T) T).symm (𝟙 _) :=
     CategoryTheory.Adjunction.mkOfHomEquiv_counit_app _ _
   rw [h]
-  show glueProjTarget i f g _ T (𝟙 _) = _
+  change glueProjTarget i f g _ T (𝟙 _) = _
   dsimp only [glueProjTarget]
   rw [Category.id_comp]
   rfl
@@ -610,7 +610,7 @@ theorem baseChangeTripleAdjunction_counit_app_ambient (T : GluingTriple i f g) :
       (tripleHomEquiv i f g hi ((tripleGluingFunctor i f g).obj T) T).symm (𝟙 _) :=
     CategoryTheory.Adjunction.mkOfHomEquiv_counit_app _ _
   rw [h]
-  show glueProjAmbient i f g _ T (𝟙 _) = _
+  change glueProjAmbient i f g _ T (𝟙 _) = _
   dsimp only [glueProjAmbient]
   rw [Category.id_comp]
   rfl

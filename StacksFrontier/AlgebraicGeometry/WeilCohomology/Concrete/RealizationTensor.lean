@@ -54,7 +54,7 @@ def pushCorr {U V P Q : (SmoothProjectiveScheme k).FullSubcategory} (i : U ⟶ P
     (prodLift (fst U V ≫ i) (snd U V ≫ j)).hom.left (Over.w _) (e - r)
     (properPushforwardDescends _ _ _ _ _ _)).toIntLinearMap.baseChange ℚ
 
-include hA hB hC in
+include hA hC in
 /-- **The class of a pushforward along a product of morphisms, in trace form** ((C)(b)): for
 `U × V` and `P × Q` nonempty and equidimensional of the same dimension,
 `∫_{P × Q} γ((i × j)_*t) ∪ v = ∫_{U × V} γ(t) ∪ (i × j)^*v`. -/
@@ -69,8 +69,7 @@ theorem traceProj_corrClass_pushCorr {U V P Q : (SmoothProjectiveScheme k).FullS
       W.traceProj (prod U V) (d + e) (isNonemptyEquidimensional_prod hU hV)
         (W.corrClass U V E r c t * W.pull (prodLift (fst U V ≫ i) (snd U V ≫ j)) v) := by
   have := SmoothProjectiveScheme.isProper_hom_left (prodLift (fst U V ≫ i) (snd U V ≫ j))
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, zero_mul, map_zero, map_zero, zero_mul, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' h h' => rw [map_add, map_add, add_mul, map_add, h, h', map_add, add_mul, map_add]
   | tmul q α =>
     have h₁ : W.corrClass P Q E r c (pushCorr i j E r (q ⊗ₜ α)) =
@@ -83,7 +82,7 @@ theorem traceProj_corrClass_pushCorr {U V P Q : (SmoothProjectiveScheme k).FullS
           (chowGroupToCodimension (prod U V).obj.hom (E - r) c α) := rfl
     rw [h₁, h₂, smul_mul_assoc, map_smul, smul_mul_assoc, map_smul]
     congr 1
-    exact traceProj_cycleClassRing_properChowPushforward hA hB hC
+    exact traceProj_cycleClassRing_properChowPushforward hA hC
       (isNonemptyEquidimensional_prod hU hV) (isNonemptyEquidimensional_prod hP hQ)
       (prodLift (fst U V ≫ i) (snd U V ≫ j)).hom.left (Over.w _) (E - r) c hc α v
 
@@ -338,7 +337,7 @@ theorem coe_blockMap_pushCorr_tensorBlock (X X' Y Y' : (SmoothProjectiveScheme k
               (W.corrClass (part X d) (part Y e) e 0 d y) *
       W.pull (prodTensorPr₂₄ (part X d) (part X' d') (part Y e) (part Y' e')) (W.corrClass (part X'
           d') (part Y' e') e' 0 d' y') :=
-    corrClass_tensorBlock hA hB hC hXd₁ hX'd'₁ hYe₁ hY'e'₁ y y'
+    corrClass_tensorBlock hA hC hXd₁ hX'd'₁ hYe₁ hY'e'₁ y y'
   -- the restriction of `pr₁^*a ∪ pr₂^*a'` to `X_d × X'_{d'}`
   have h3 : W.pullDeg (partProdι X X' d d') (p + q)
       (W.pullDeg (partι (prod X X') (d + d')) (p + q)
@@ -353,7 +352,7 @@ theorem coe_blockMap_pushCorr_tensorBlock (X X' Y Y' : (SmoothProjectiveScheme k
     rw [← Category.assoc, partProdι_partι, prodLift_fst, ← Category.assoc, partProdι_partι,
       prodLift_snd]
   -- the left side
-  have hw := traceProj_corrClass_pushCorr hA hB hC hU hV hP hQ (partProdι X X' d d')
+  have hw := traceProj_corrClass_pushCorr hA hC hU hV hP hQ (partProdι X X' d d')
     (partProdι Y Y' e e') ((e + e' : ℕ) : ℤ) (0 + 0) ((d + d' : ℕ) : ℤ) (by push_cast; ring)
     (tensorBlock k (part X d).obj.hom (part X' d').obj.hom (part Y e).obj.hom
       (part Y' e').obj.hom (canonicalDiagonalClassFamily k)
@@ -407,8 +406,7 @@ theorem correspondence_eq_zero_of_isEmpty {A B : (SmoothProjectiveScheme k).Full
   have hP : ↥(Limits.pullback A.obj.hom B.obj.hom) → False := fun z ↦
     h.elim (fun h ↦ h.false ((Limits.pullback.fst A.obj.hom B.obj.hom) z))
       (fun h ↦ h.false ((Limits.pullback.snd A.obj.hom B.obj.hom) z))
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  induction t using TensorProduct.inductionOn with
   | tmul q α => rw [chowGroup_eq_zero_of_isEmpty hP α, TensorProduct.tmul_zero]
   | add t t' h h' => rw [h, h', add_zero]
 

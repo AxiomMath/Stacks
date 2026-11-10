@@ -110,7 +110,7 @@ theorem finrank_globalSections_vanishingIdeal_singleton {x : X} (hx : IsClosed (
       AlgEquiv.ofRingEquiv (f := RingEquiv.ofBijective (ι.residueFieldMap z).hom
         (Stacks.Chow.bijective_residueFieldMap_of_isClosedImmersion ι z))
         fun c => by
-          show (ι.residueFieldMap z).hom (X.Γevaluation (ι z)
+          change (ι.residueFieldMap z).hom (X.Γevaluation (ι z)
               (f.appTop ((Scheme.ΓSpecIso (.of k)).inv c))) =
             I.subscheme.Γevaluation z ((ι ≫ f).appTop ((Scheme.ΓSpecIso (.of k)).inv c))
           rw [Scheme.Γevaluation_naturality_apply, Scheme.Hom.comp_appTop]
@@ -145,7 +145,7 @@ theorem invertibleCurveDegree_modulesInvertibleSheaf_vanishingIdeal_singleton
   obtain ⟨y, hyx⟩ := Stacks.ProjectiveSpaceSections.exists_ne_of_isCurve f x
   have hs : s.eval (op ⊤) ≠ 0 := by
     refine eval_top_ne_zero_of_mem_nonvanishingLocus L s (x := y) ?_
-    show y ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace)
+    change y ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace)
       (Stacks.Divisors.invertibleSheaf D) (Stacks.Divisors.canonicalSections D)
     rw [Stacks.Divisors.nonvanishingLocus_canonicalSections, hDdef,
       supportSet_vanishingIdeal_singleton hx]

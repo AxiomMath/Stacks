@@ -221,7 +221,7 @@ theorem componentPicardHom_multiplicityHom (a : ℤ) :
       a • ∑ i, (m i : ℤ) • picardClass (C i) := by
     rw [Finset.smul_sum]
     exact Finset.sum_congr rfl fun i _ => mul_smul a (m i : ℤ) (picardClass (C i))
-  show ∑ i, (a * (m i : ℤ)) • picardClass (C i) = 0
+  change ∑ i, (a * (m i : ℤ)) • picardClass (C i) = 0
   rw [hsum, sum_nsmul_picardClass_eq_zero S C m hdec, smul_zero]
 
 omit [∀ i, IsEffectiveCartierDivisor (C i)] in

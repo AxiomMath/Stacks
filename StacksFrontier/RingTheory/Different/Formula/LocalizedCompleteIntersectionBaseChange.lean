@@ -100,7 +100,7 @@ theorem localizedCompleteIntersectionCongr_algebraMap {S : Type*} [CommRing S] {
 theorem isUnit_algebraMap_map_localizedCompleteIntersection :
     IsUnit (((IsScalarTower.toAlgHom R (MvPolynomial (Fin n) A) B₁).comp
       (MvPolynomial.mapAlgHom (Algebra.ofId R A))) h) := by
-  show IsUnit (algebraMap (MvPolynomial (Fin n) A) B₁ (MvPolynomial.map (algebraMap R A) h))
+  change IsUnit (algebraMap (MvPolynomial (Fin n) A) B₁ (MvPolynomial.map (algebraMap R A) h))
   rw [algebraMap_localizedCompleteIntersection_apply]
   exact (IsLocalization.Away.algebraMap_isUnit _).map _
 
@@ -149,7 +149,7 @@ theorem localizedCompleteIntersectionInvPoly_map (p : MvPolynomial (Fin n) R) :
     localizedCompleteIntersectionInvPoly R A n h f (MvPolynomial.map (algebraMap R A) p) =
       (1 : A) ⊗ₜ[R] algebraMap (MvPolynomial (Fin n) R) B₀ p := by
   rw [localizedCompleteIntersectionInvPoly, MvPolynomial.aeval_map_algebraMap]
-  show MvPolynomial.aeval _ p =
+  change MvPolynomial.aeval _ p =
     (Algebra.TensorProduct.includeRight.comp (IsScalarTower.toAlgHom R _ B₀)) p
   congr 1
   exact MvPolynomial.algHom_ext fun i ↦ by simp

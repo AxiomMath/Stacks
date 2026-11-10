@@ -155,7 +155,7 @@ theorem fSharpSection_map {V W : Y.C} (g : V ⟶ W) (s : Y.O.obj.obj (op W)) :
       (X.O.obj.map (f.u.map g).op).hom (fSharpSection f W s) := by
   have h := congrArg (fun k ↦ (ConcreteCategory.hom k) s)
     (f.toRingedToposSiteHom.fSharpRing.hom.naturality g.op)
-  simp only [RingCat.comp_apply] at h
+  simp only at h
   exact h
 
 variable (I' : SheafOfModules.Submodule
@@ -304,6 +304,7 @@ variable {X Y : RingedSite.{u, u, u}} [HasWeakSheafify X.J CommRingCat.{u}]
   (hT : IsTerminal T) (hT' : IsTerminal (f.u.obj T)) {s : ℕ}
   (t : Fin s → Presheaf.globalSections (Y.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasWeakSheafify Y.J CommRingCat.{u}] in
 include hT in
 /-- **[Stacks, Tag 0A0I], the left hand side of the display, at the source's own ideal sheaves.**
 `Rf_*(K^∧)` is derived complete along `ℐ = (t_1, …, t_s)`, for an arbitrary `K ∈ D(𝒪')`, the
@@ -457,6 +458,10 @@ open AlgebraicGeometry.RingedSite (generatedIdealSheaf pushGlobalSections)
 
 section Display
 
+open AlgebraicGeometry.RingedSite renaming
+  isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isDerivedComplete →
+    isIsoComparisonOfIsDerivedComplete
+
 variable {X Y : AlgebraicGeometry.RingedSpace.{u, u}} (f : X ⟶ Y) {s : ℕ}
   (t : Fin s → CategoryTheory.Presheaf.globalSections
     ((toRingedSite Y).O.obj ⋙ forget CommRingCat.{u}))
@@ -520,7 +525,7 @@ theorem isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_i
         isTerminalTop t)) K) :
     IsIso ((RingedSite.derivedCompletionPushforwardComparisonInverseImageIdealSheaf
       (toRingedSiteHom f) isTerminalTop isTerminalTop t).app K) :=
-  RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isDerivedComplete
+  isIsoComparisonOfIsDerivedComplete
     (toRingedSiteHom f) isTerminalTop isTerminalTop t hK
 
 end Display
@@ -537,6 +542,10 @@ attribute [local instance]
 open AlgebraicGeometry.RingedSite (generatedIdealSheaf pushGlobalSections)
 
 section Display
+
+open AlgebraicGeometry.RingedSite renaming
+  isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isDerivedComplete →
+    isIsoComparisonOfIsDerivedComplete
 
 variable {X S : Scheme.{u}} (f : X ⟶ S) {s : ℕ}
   (t : Fin s → CategoryTheory.Presheaf.globalSections
@@ -608,7 +617,7 @@ theorem isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_i
         isTerminalTop t)) K) :
     IsIso ((RingedSite.derivedCompletionPushforwardComparisonInverseImageIdealSheaf
       (toRingedSiteHom f) isTerminalTop isTerminalTop t).app K) :=
-  RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isDerivedComplete
+  isIsoComparisonOfIsDerivedComplete
     (toRingedSiteHom f) isTerminalTop isTerminalTop t hK
 
 end Display

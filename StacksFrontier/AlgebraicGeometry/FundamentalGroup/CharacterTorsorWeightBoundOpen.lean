@@ -101,7 +101,7 @@ theorem exists_forall_encard_invariant_zmod_le :
     hdense hO hUo
   have hVo := (hext 0).1
   obtain ⟨Y, eY, heY⟩ := exists_quotientCover hVo
-  have := connectedSpace_of_quotient_equiv hVo Y eY heY
+  have := connectedSpace_of_quotient_equiv Y eY heY
   have hYc := isCurve_finiteEtale_comp k f Y
   obtain ⟨K₀, iF, iA, iM, Ybar, j, iJ, r, hr, iP, iS, iG, iC, -⟩ :=
     exists_compactification_constantField_of_finiteEtale k f Y
@@ -142,7 +142,7 @@ theorem exists_forall_encard_invariant_zmod_le :
       (Sheaf (pullback r' (spectrumMap K₀ K)).smallEtaleTopology AddCommGrpCat.{u + 1}) :=
     CategoryTheory.IsGrothendieckAbelian.hasExt _
   obtain ⟨C, hC⟩ := exists_forall_encard_eigen_h1RootsOfUnity_le r j hℓ hℓK₀ m hm hfixm
-  choose ζ hζ using fun e : ℕ => HasEnoughRootsOfUnity.exists_primitiveRoot K (ℓ ^ e)
+  choose ζ hζ using fun e : ℕ => HasEnoughRootsOfUnity.exists_isPrimitiveRoot K (ℓ ^ e)
   -- the sets of invariant characters
   set S : ∀ e : ℕ, Set (↥(H ⊓ U) → ZMod (ℓ ^ e)) := fun e =>
     {χ | (∀ a b, χ (a * b) = χ a + χ b) ∧ IsLocallyConstant χ ∧

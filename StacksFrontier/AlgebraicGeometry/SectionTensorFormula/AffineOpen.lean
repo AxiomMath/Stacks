@@ -77,8 +77,7 @@ private theorem surjective_of_tmul_mem_range {R M N P : Type*} [CommRing R] [Add
     [Module R M] [AddCommGroup N] [Module R N] [AddCommGroup P] (f : P →+ M ⊗[R] N)
     (h : ∀ (m : M) (n : N), ∃ x, f x = m ⊗ₜ[R] n) : Function.Surjective f := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add a b ha hb =>
       obtain ⟨x, hx⟩ := ha
@@ -121,8 +120,7 @@ theorem bijective_of_tmulChange_eq {P : Type*} [AddCommGroup P]
   refine bijective_of_bijective_comp f (surjective_tmulChange hsmul) ?_
   have hfg : ⇑f ∘ ⇑(tmulChange hsmul) = ⇑g := by
     refine funext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => exact h m n
     | add a b ha hb => simp only [Function.comp_apply, map_add] at ha hb ⊢; rw [ha, hb]
   rwa [hfg]
@@ -250,7 +248,7 @@ lemma restrictTmulFun_add_left (F G : X.Modules) (W : Z.Opens)
     (n : Γ((Scheme.Modules.restrictFunctor j).obj G, W)) :
     restrictTmulFun j F G W (m + m') n =
       restrictTmulFun j F G W m n + restrictTmulFun j F G W m' n := by
-  show restrictSectionAdd j F W (m + m') ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n =
+  change restrictSectionAdd j F W (m + m') ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n =
     restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n +
       restrictSectionAdd j F W m' ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n
   rw [map_add, TensorProduct.add_tmul]
@@ -261,7 +259,7 @@ lemma restrictTmulFun_add_right (F G : X.Modules) (W : Z.Opens)
     (n n' : Γ((Scheme.Modules.restrictFunctor j).obj G, W)) :
     restrictTmulFun j F G W m (n + n') =
       restrictTmulFun j F G W m n + restrictTmulFun j F G W m n' := by
-  show restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W (n + n') =
+  change restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W (n + n') =
     restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n +
       restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n'
   rw [map_add, TensorProduct.tmul_add]
@@ -272,7 +270,7 @@ lemma restrictTmulFun_smul (F G : X.Modules) (W : Z.Opens) (r : Γ(Z, W))
     (m : Γ((Scheme.Modules.restrictFunctor j).obj F, W))
     (n : Γ((Scheme.Modules.restrictFunctor j).obj G, W)) :
     restrictTmulFun j F G W (r • m) n = restrictTmulFun j F G W m (r • n) := by
-  show restrictSectionAdd j F W (r • m) ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n =
+  change restrictSectionAdd j F W (r • m) ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W n =
     restrictSectionAdd j F W m ⊗ₜ[Γ(X, j ''ᵁ W)] restrictSectionAdd j G W (r • n)
   rw [restrictSectionAdd_smul, restrictSectionAdd_smul, TensorProduct.smul_tmul]
 
@@ -323,8 +321,7 @@ lemma restrictTensorAdd_comp (F G : X.Modules) (W : Z.Opens) :
       tensorSheafUnitAdd ((Scheme.Modules.restrictFunctor j).obj F)
         ((Scheme.Modules.restrictFunctor j).obj G) W := by
   refine AddMonoidHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
       exact Stacks.AlgebraicGeometry.RestrictionSections.restrictTensorIso_hom_unit_tmul
         j F G W m n

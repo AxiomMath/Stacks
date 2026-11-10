@@ -38,9 +38,9 @@ condition, and the bifunctor by a sheaf of commutative rings; the statements her
 the second, with the first supplied by
 `Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf`, and the defeq check of
 `:=` crosses the boundary once per lemma. This is the discipline of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ChangeOfRingsMonoidal`: the two sheaves of rings are
-equal by proof irrelevance but not syntactically, so a statement is declared at one spelling and
-never left to instance search at the other.
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ChangeOfRingsMonoidal`: the two sheaves of rings
+are equal by proof irrelevance but not syntactically, so a statement is declared at one spelling
+and never left to instance search at the other.
 
 The monoidal structure is named by a `@[instance_reducible] local instance` rather than by
 `@`-application, because the three statements are about the notation `⊗ₘ`, `◁` and `▷`; it is not

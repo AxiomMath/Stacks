@@ -61,12 +61,11 @@ theorem isIso_restrictionBaseChange_of_exact
       (ψ : A ⟶ B) (z : TensorProduct (R.obj X) (R.obj Y) (A.obj X)),
       θ B (LinearMap.lTensor (R.obj Y) (lin ψ) z) = ψ.app Y (θ A z) := by
     intro A B ψ z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp [hz, hz']
     | tmul b k =>
       rw [LinearMap.lTensor_tmul]
-      show restrictionBaseChange B f (b ⊗ₜ[R.obj X, (R.map f).hom] ψ.app X k) =
+      change restrictionBaseChange B f (b ⊗ₜ[R.obj X, (R.map f).hom] ψ.app X k) =
         ψ.app Y (restrictionBaseChange A f (b ⊗ₜ[R.obj X, (R.map f).hom] k))
       rw [restrictionBaseChange_tmul, restrictionBaseChange_tmul,
         ← PresheafOfModules.naturality_apply]
@@ -78,7 +77,7 @@ theorem isIso_restrictionBaseChange_of_exact
   have hlinj : Function.Injective (ιX.lTensor (R.obj Y)) :=
     Module.Flat.lTensor_preserves_injective_linearMap ιX (hι X)
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (θ K)
+  change Function.Bijective (θ K)
   refine ⟨fun z z' hzz ↦ hlinj <| hGb.1 <|
     (nat ι z).trans <| (congrArg _ hzz).trans (nat ι z').symm, fun k ↦ ?_⟩
   obtain ⟨t, ht⟩ := hGb.2 (ι.app Y k)

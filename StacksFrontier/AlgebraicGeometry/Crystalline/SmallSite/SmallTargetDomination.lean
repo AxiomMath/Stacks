@@ -347,6 +347,7 @@ theorem domination_unique
     (crystallinePushout_dividedPowerHom_ext S A V lift hlift hinl ?_)
   rw [rebased_immersion_naturality, rebased_immersion_naturality, hsource]
 
+omit hf in
 /-- **The pushout object maps to any object of `Cris(X/S)` under `A` whose open of `X` contains
 the chosen one.**  On thickened schemes the map is the lift of `V ↪ X` through the open immersion
 `U_B ⟶ X`; on ambient schemes it is the morphism out of the pushout whose legs are the ambient
@@ -497,10 +498,10 @@ theorem commonRefinementSieve_mem
   have hV₂ : Set.range V.ι.base ⊆ Set.range (((ι S).obj B₂).toX).base := by
     rintro _ ⟨z, rfl⟩
     exact (hVU z.property).2
-  obtain ⟨a₁, ha₁⟩ := exists_hom_of_range_le S S' fS fX hf (A.restrictOpen W) V
+  obtain ⟨a₁, ha₁⟩ := exists_hom_of_range_le S (A.restrictOpen W) V
     (IsOpenImmersion.lift V.ι (A.restrictOpen W).toX hrange) (IsOpenImmersion.lift_fac _ _ _) B₁
     (A.restrictOpenHom W ≫ m₁) hV₁
-  obtain ⟨a₂, ha₂⟩ := exists_hom_of_range_le S S' fS fX hf (A.restrictOpen W) V
+  obtain ⟨a₂, ha₂⟩ := exists_hom_of_range_le S (A.restrictOpen W) V
     (IsOpenImmersion.lift V.ι (A.restrictOpen W).toX hrange) (IsOpenImmersion.lift_fac _ _ _) B₂
     (A.restrictOpenHom W ≫ m₂) hV₂
   refine ⟨crystallinePushout S (A.restrictOpen W) V _ (IsOpenImmersion.lift_fac _ _ _),

@@ -55,7 +55,8 @@ The component datum of Stacks 02U5 is `c_j(ℰ|_W) ∩ [W]`, which is Stacks 02U
 below takes the component classes as an explicit argument `chern`, a
 `Stacks.Chow.ChernClassCycleRule`, so the construction is the parametric form of the definition and
 no Stacks attribute sits here. The operation of Stacks 02U5 itself — at the datum of the classes of
-Stacks 02U0, which `StacksFrontier.AlgebraicGeometry.Chow.ProjectiveBundleFormula.ChernClassesOfRank`
+Stacks 02U0, which
+`StacksFrontier.AlgebraicGeometry.Chow.ProjectiveBundleFormula.ChernClassesOfRank`
 reads off the projective space bundle formula — is
 `Stacks.Chow.GenuineChern.chernCapOnCycles` of
 `StacksFrontier.AlgebraicGeometry.Chow.GenuineChern.CapOnCycles`, registered there with its two
@@ -193,7 +194,7 @@ theorem toComponentRule_cycle_genericPointOf (W : X.IdealSheafData)
     (hW : IsIntegral W.subscheme)
     (hDim : schemeDeltaDimension C (W.subschemeι ≫ p) = (d : EInt)) :
     R.toComponentRule.cycle (genericPointOf W hW) = (R.cycle W hW hDim).1 := by
-  show R.totalize (integralComponentAt (genericPointOf W hW)) = _
+  change R.totalize (integralComponentAt (genericPointOf W hW)) = _
   rw [integralComponentAt_genericPointOf W hW, R.totalize_eq W hW hDim]
 
 /-- The homomorphism `Z_d(X) → Z_e(Y)` extending a graded rule on integral components
@@ -366,7 +367,7 @@ theorem chernClassCap_integral_cycle (W : X.IdealSheafData) (hW : IsIntegral W.s
         (cycleAssociatedToClosedSubscheme C p W.subschemeι k) =
       QuotientAddGroup.mk
         (chernClassComponentCycle C p E r hrank k j chern W hW hDim) := by
-  show QuotientAddGroup.mk
+  change QuotientAddGroup.mk
     ((chernClassCapRule C p E r hrank k j chern).extendCycleGroup
       (cycleAssociatedToClosedSubscheme C p W.subschemeι k)) = _
   exact congrArg QuotientAddGroup.mk

@@ -55,7 +55,7 @@ theorem isZero_sheafFiber_sheafTensor_of_left
     have : Subsingleton ((((curriedTensor (ModuleCat.{w} (ringFiber Φ O.obj))).obj
         ((sheafModuleFiberOfCommRing Φ O).obj M)).obj
         ((sheafModuleFiberOfCommRing Φ O).obj N)) : Type w) := by
-      show Subsingleton (TensorProduct _ _ _)
+      change Subsingleton (TensorProduct _ _ _)
       infer_instance
     exact (tensorSheafModuleFiberIso Φ O M N).toLinearEquiv.toEquiv.subsingleton_congr.2 this
   exact (AddCommGrpCat.isZero_iff_subsingleton).2 hT

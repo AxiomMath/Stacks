@@ -110,7 +110,7 @@ lemma flat_of_mono_zsmul (M : ModuleCat.{w} ULiftInt.{w})
     ext
     simp
   refine (Submodule.mem_bot _).2 (hinj ?_)
-  show r.down • x = r.down • (0 : M)
+  change r.down • x = r.down • (0 : M)
   rw [smul_zero, ← Int.cast_smul_eq_zsmul ULiftInt.{w}, ← hrr]
   exact hrx
 
@@ -124,7 +124,7 @@ theorem mono_whiskerRight_of_mono_zsmul {A : AddCommGrpCat.{w}}
   have : Module.Flat ULiftInt.{w} (e.inverse.obj A) := by
     exact flat_of_mono_zsmul _ fun n hn ↦ mono_zsmul_id_obj e.inverse n (hA n hn)
   have : PreservesFiniteLimits (tensorRight (e.inverse.obj A)) := inferInstance
-  show Mono (e.functor.map (e.inverse.map f ▷ e.inverse.obj A))
+  change Mono (e.functor.map (e.inverse.map f ▷ e.inverse.obj A))
   have : Mono (e.inverse.map f ▷ e.inverse.obj A) :=
     (tensorRight (e.inverse.obj A)).map_mono (e.inverse.map f)
   exact e.functor.map_mono _
@@ -135,7 +135,7 @@ theorem mono_whiskerLeft_of_mono_zsmul {A : AddCommGrpCat.{w}}
     Mono (A ◁ f) := by
   have := mono_whiskerRight_of_mono_zsmul hA f
   have h := NatIso.naturality_2 (BraidedCategory.tensorLeftIsoTensorRight A) f
-  show Mono ((tensorLeft A).map f)
+  change Mono ((tensorLeft A).map f)
   rw [← h]
   dsimp
   infer_instance
@@ -169,7 +169,7 @@ soon as it is one on an isomorphic object. -/
 lemma mono_zsmul_id_of_iso {C : Type*} [Category C] [Preadditive C] {A B : C} (e : A ≅ B)
     (n : ℤ) [Mono (n • 𝟙 B)] : Mono (n • 𝟙 A) := by
   have h : n • 𝟙 A = e.hom ≫ (n • 𝟙 B) ≫ e.inv := by
-    simp [Preadditive.comp_zsmul, Preadditive.zsmul_comp]
+    simp
   rw [h]
   infer_instance
 
@@ -275,7 +275,7 @@ theorem IsFlat.of_mono {F' F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u 
   intro n hn
   have := hF n hn
   have h : (n • 𝟙 F') ≫ i = i ≫ (n • 𝟙 F) := by
-    simp [Preadditive.zsmul_comp, Preadditive.comp_zsmul]
+    simp
   have : Mono ((n • 𝟙 F') ≫ i) := by
     rw [h]
     infer_instance
@@ -293,7 +293,7 @@ theorem isFlat_biprod {A B : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 
   have := mono_zsmul_of_isFlat hA n hn
   have := mono_zsmul_of_isFlat hB n hn
   have h : n • 𝟙 (A ⊞ B) = biprod.map (n • 𝟙 A) (n • 𝟙 B) := by
-    apply biprod.hom_ext <;> simp [Preadditive.comp_zsmul, Preadditive.zsmul_comp]
+    apply biprod.hom_ext <;> simp
   rw [h]
   infer_instance
 
@@ -315,14 +315,14 @@ theorem isFlat_constantSheaf (A : AddCommGrpCat.{max (u + 1) v})
 instance preservesColimitsOfSize_tensorLeft
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) :
     PreservesColimitsOfSize.{max (u + 1) v, max (u + 1) v} (tensorLeft F) := by
-  letI := isMonoidal_W_smallEtale.{u, v} X
+  let := isMonoidal_W_smallEtale.{u, v} X
   exact Sheaf.preservesColimitsOfSize_tensorLeft X.smallEtaleTopology F
 
 /-- Tensoring on the right by a fixed abelian étale sheaf preserves colimits. -/
 instance preservesColimitsOfSize_tensorRight
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) :
     PreservesColimitsOfSize.{max (u + 1) v, max (u + 1) v} (tensorRight F) := by
-  letI := isMonoidal_W_smallEtale.{u, v} X
+  let := isMonoidal_W_smallEtale.{u, v} X
   exact Sheaf.preservesColimitsOfSize_tensorRight X.smallEtaleTopology F
 
 /-- Tensoring on the left by a fixed abelian étale sheaf preserves sequential colimits. -/
@@ -357,7 +357,7 @@ theorem isFlat_colimit {J : Type*} [Category J]
   refine (isFlat_iff_mono_zsmul _).2 fun n hn ↦ ?_
   have h : n • 𝟙 (colimit D) = colim.map (n • 𝟙 D) := by
     refine colimit.hom_ext fun j ↦ ?_
-    simp [Preadditive.comp_zsmul, Preadditive.zsmul_comp]
+    simp
   have : Mono (n • 𝟙 D) := by
     have (j : J) : Mono ((n • 𝟙 D).app j) := mono_zsmul_of_isFlat (hD j) n hn
     exact NatTrans.mono_of_mono_app _

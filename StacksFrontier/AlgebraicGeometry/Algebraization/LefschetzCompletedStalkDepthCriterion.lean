@@ -121,7 +121,7 @@ theorem nonempty_ringEquiv_stalk_reducedPointClosure {X : Scheme.{u}} (q : X)
     (X.fromSpecStalk q).isEmbedding.injective (hpoint.trans hgen)
   have hq : P.asIdeal = RingHom.ker φcat.hom := by
     rw [← hpt, genericPoint_eq_bot_of_affine]
-    show (PrimeSpectrum.comap φcat.hom
+    change (PrimeSpectrum.comap φcat.hom
       (⊥ : PrimeSpectrum (I.subscheme.presheaf.stalk z))).asIdeal = _
     rw [PrimeSpectrum.comap_asIdeal, RingHom.ker_eq_comap_bot]
     rfl
@@ -312,7 +312,7 @@ theorem krullDimToEInt_add (b c : WithBot ℕ∞) :
     cases c using ENat.recTopCoe with
     | top => rw [add_top]; rfl
     | coe c =>
-      show (((b + c : ℕ) : ℤ) : EInt) = ((b : ℤ) : EInt) + ((c : ℤ) : EInt)
+      change (((b + c : ℕ) : ℤ) : EInt) = ((b : ℤ) : EInt) + ((c : ℤ) : EInt)
       push_cast
       rfl
 
@@ -330,7 +330,7 @@ theorem two_lt_enatToEInt_add_krullDimToEInt_add {a : ℕ∞} {b c : WithBot ℕ
   have hm := krullDimToEInt_mono h3
   rw [krullDimToEInt_add, krullDimToEInt_add, krullDimToEInt_coe] at hm
   refine lt_of_lt_of_le ?_ hm
-  show ((2 : ℤ) : EInt) < ((3 : ℤ) : EInt)
+  change ((2 : ℤ) : EInt) < ((3 : ℤ) : EInt)
   exact WithBotTop.coe_lt_coe.mpr (by norm_num)
 
 end Stacks.Algebraization

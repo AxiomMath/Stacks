@@ -533,7 +533,7 @@ theorem pushforwardCycleTransport_canonicalDivisorCycleAt_componentSection
       (deltaDimension_preimageComponentImage D p' hp' p hp f.hom W V).trans hVdim]
   rw [canonicalDivisorCycleAt_componentSection_eq_pullback D p hp p' hp' f hfbase r hflat hr L s
     hL k W V hVc hreg hNm hτ hdeg, gysinPullbackChernRule, sectionGysinChernRule,
-    restrictedSectionChernRule, dif_neg hV'E]
+    restrictedSectionChernRule, dite_eq_right hV'E]
   exact canonicalDivisorCycleAt_pushforwardOfIso D _ _ _ hV'g V.isIntegralSpace
     (preimageComponentImage p' hp' p hp f.hom W V).isIntegralSpace
     (preimageComponentIso p' hp' p hp f.hom W V) _ hNm _ hτ hcomp hdeg hdeg'

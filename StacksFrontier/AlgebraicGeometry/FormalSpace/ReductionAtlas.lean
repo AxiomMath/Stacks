@@ -132,10 +132,10 @@ theorem exists_etale_affine_chart_through_point
     have h3 : (BigFppfOver.toScheme B S hS).map (ra ≫ ca) y' =
         (BigFppfOver.toScheme B S hS).map (hts.rep.snd θ ≫ b) y' := by rw [hra]
     rw [Functor.map_comp] at h3 ⊢
-    show (BigFppfOver.toScheme B S hS).map ca ((BigFppfOver.toScheme B S hS).map iA z) = _
+    change (BigFppfOver.toScheme B S hS).map ca ((BigFppfOver.toScheme B S hS).map iA z) = _
     rw [hz]
     refine h3.trans ?_
-    show (BigFppfOver.toScheme B S hS).map b
+    change (BigFppfOver.toScheme B S hS).map b
       ((BigFppfOver.toScheme B S hS).map (hts.rep.snd θ) y') = _
     rw [hy']
   · rw [Category.assoc, hφa, ← Category.assoc, ← Functor.map_comp]

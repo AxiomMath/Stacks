@@ -75,7 +75,7 @@ theorem isCanonicalDualNumberPair_dualNumbersInclusion :
   refine ⟨residueFieldCoordinates.{u, v, w}, dualNumbersEquiv.{u, v, w}, ?_, ?_, ?_⟩
   · ext c
     · exact dualNumbersEquiv_fst.{u, v, w} _
-    · show TrivSqZeroExt.snd (dualNumbersEquiv.{u, v, w} (Λ := Λ)
+    · change TrivSqZeroExt.snd (dualNumbersEquiv.{u, v, w} (Λ := Λ)
         (dualNumbersUp.{u, v, w} (Λ := Λ) (TrivSqZeroExt.inl (ULift.down c)))) = 0
       rw [show dualNumbersEquiv.{u, v, w} (Λ := Λ)
           (dualNumbersUp.{u, v, w} (Λ := Λ) (TrivSqZeroExt.inl (ULift.down c))) =
@@ -83,7 +83,7 @@ theorem isCanonicalDualNumberPair_dualNumbersInclusion :
         (AlgEquiv.ofBijective _ dualNumbersUp_bijective.{u, v, w}).symm_apply_apply _]
       rfl
   · ext z
-    show aug.{u, v, w} _ z = TrivSqZeroExt.fst (dualNumbersEquiv.{u, v, w} z)
+    change aug.{u, v, w} _ z = TrivSqZeroExt.fst (dualNumbersEquiv.{u, v, w} z)
     rw [aug_dualNumbers, dualNumbersEquiv_fst]
   · exact (eq_residueMorphism _).trans (eq_residueMorphism _).symm
 

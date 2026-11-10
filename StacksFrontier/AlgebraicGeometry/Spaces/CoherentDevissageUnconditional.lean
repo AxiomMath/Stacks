@@ -157,7 +157,7 @@ theorem forall_property_idealPushforward_of_coherentWitness
       intro N hN hNlt
       have hNT : moduleSupportSet B S hS X N ⊂ (T : Set (points B S hS X.1)) :=
         hNlt.trans_le hsub
-      exact property_of_moduleSupportSet_subset B S hS hZtop X hX hdev P hzero hext
+      exact property_of_moduleSupportSet_subset B S hS X hdev P hzero hext
         (moduleSupportSet B S hS X N)
         (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩
           (SetLike.coe_ssubset_coe.mp hNT))

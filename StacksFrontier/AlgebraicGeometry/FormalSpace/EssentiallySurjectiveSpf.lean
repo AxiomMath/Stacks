@@ -103,7 +103,7 @@ theorem hom_isoFormalSpectrumOfStageNatIsoBelow_comp
         pullback.fst (formalSpectrumInclusion D J.1) v ≫ formalSpectrumInclusion D J.1) :
     (isoFormalSpectrumOfStageNatIsoBelow f hB.1 D v E J₀ α).hom ≫ formalSpectrumMap hB c = v := by
   refine (cancel_epi (isoColimitStageBaseChangeBelow D v hB.1 J₀).inv).mp ?_
-  show (isoColimitStageBaseChangeBelow D v hB.1 J₀).inv ≫
+  change (isoColimitStageBaseChangeBelow D v hB.1 J₀).inv ≫
       ((isoColimitStageBaseChangeBelow D v hB.1 J₀).hom ≫
         ((HasColimit.isoOfNatIso α).hom ≫
           (colimitIsoFormalSpectrumOfCompletionBelow f hB.1 E J₀).hom)) ≫
@@ -121,7 +121,7 @@ theorem hom_isoFormalSpectrumOfStageNatIsoBelow_comp
           (colimitIsoFormalSpectrumOfCompletionBelow f hB.1 E J₀).hom) ≫
         formalSpectrumMap hB c =
       pullback.fst (formalSpectrumInclusion D J.1) v ≫ formalSpectrumInclusion D J.1 := by
-    rw [← Category.assoc, ← Category.assoc, HasColimit.isoOfNatIso_ι_hom, Category.assoc,
+    rw [← Category.assoc, ← Category.assoc, HasColimit.ι_isoOfNatIso_hom, Category.assoc,
       Category.assoc, ι_colimitIsoFormalSpectrumOfCompletionBelow_hom_assoc]
     exact hα J
   exact hlhs.trans hrhs.symm

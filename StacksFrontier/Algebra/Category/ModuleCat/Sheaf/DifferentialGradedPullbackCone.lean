@@ -264,7 +264,7 @@ theorem shiftDiffCommutator_sectionFamily :
     shiftDiffCommutator (conePackage ψ).sectionFamily =
       (forgetToGradedModule B).map (ψ ≫ (conePackage ψ).inclusion) := by
   refine GradedModule.Hom.ext fun n => ?_
-  show shiftDiffFst (conePackage ψ).sectionFamily n +
+  change shiftDiffFst (conePackage ψ).sectionFamily n +
       shiftDiffSnd (conePackage ψ).sectionFamily n =
     ψ.toHomologicalComplex.f n ≫ (conePackage ψ).inclusion.toHomologicalComplex.f n
   refine Eq.trans ?_ ((conePackage ψ).sectionFamily_d n)

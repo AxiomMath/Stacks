@@ -118,7 +118,7 @@ theorem isCompleteIntersectionFibreAt_iff_chart :
     (f.stalkMap x).hom.toAlgebra
   have htow' : IsScalarTower ↑Γ(S, V) ↑(S.presheaf.stalk (f x)) ↑(X.presheaf.stalk x) := by
     refine .of_algebraMap_eq fun s ↦ ?_
-    show X.presheaf.germ U x hx (f.appLE V U hUV s) =
+    change X.presheaf.germ U x hx (f.appLE V U hUV s) =
       f.stalkMap x (S.presheaf.germ V (f x) (hUV hx) s)
     rw [Scheme.Hom.germ_stalkMap_apply f V x (hUV hx) s]
     simp [Scheme.Hom.appLE]
@@ -148,7 +148,7 @@ theorem isSyntomicAt_of_syntomic_localization_away
   let := (f.appLE V (X.basicOpen g) hle).hom.toAlgebra
   have htow : IsScalarTower ↑Γ(S, V) ↑Γ(X, U) ↑Γ(X, X.basicOpen g) := by
     refine .of_algebraMap_eq fun s ↦ ?_
-    show f.appLE V (X.basicOpen g) hle s =
+    change f.appLE V (X.basicOpen g) hle s =
       X.presheaf.map (homOfLE (X.basicOpen_le g)).op (f.appLE V U hUV s)
     rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_map]
   exact ⟨⟨X.basicOpen g, hU.basicOpen g⟩, hxg, ⟨V, hV⟩, hle,

@@ -91,8 +91,7 @@ private theorem tensor_funext {R M N P F G : Type*} [CommSemiring R] [AddCommMon
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] [FunLike F (M ⊗[R] N) P]
     [FunLike G (M ⊗[R] N) P] [AddMonoidHomClass F (M ⊗[R] N) P] [AddMonoidHomClass G (M ⊗[R] N) P]
     (f : F) (g : G) (h : ∀ m n, f (m ⊗ₜ[R] n) = g (m ⊗ₜ[R] n)) (z : M ⊗[R] N) : f z = g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul m n => exact h m n
 

@@ -50,7 +50,7 @@ theorem sourceMap_comp_yonedaMap (F : C ⥤ Over S) {R U M : Over S} (j : PreRel
     sourceMap F j ≫ F.op.whiskerLeft (yoneda.map f) =
       targetMap F j ≫ F.op.whiskerLeft (yoneda.map f) := by
   ext X r
-  show r ≫ j.source ≫ f = r ≫ j.target ≫ f
+  change r ≫ j.source ≫ f = r ≫ j.target ≫ f
   exact congrArg (fun k => r ≫ k) hf.symm
 
 /-- The descent to the quotient presheaf of the map of functors of points of a morphism
@@ -106,7 +106,7 @@ theorem quotientPresheafToPoints_isLocallyInjective (J : GrothendieckTopology C)
       π.app (op Y) ((sourceMap F j).app (op Y) r) := by
     simpa [π] using (congrArg (fun η => η.app (op Y) r)
       (coequalizer.condition (sourceMap F j) (targetMap F j))).symm
-  show (quotientPresheaf F j).map g.op a = (quotientPresheaf F j).map g.op b
+  change (quotientPresheaf F j).map g.op a = (quotientPresheaf F j).map g.op b
   rw [← hx, ← hy, ← NatTrans.naturality_apply π g.op x, ← NatTrans.naturality_apply π g.op y]
   calc
     π.app (op Y) ((points F U).map g.op x) =
@@ -170,7 +170,7 @@ theorem isIso_quotientSheafToPoints (F : C ⥤ Over S) {R U M : Over S} (j : Pre
     exact hq.trans hπθ.symm
   obtain ⟨g, hg, -⟩ := Presheaf.existsUnique_hom_of_isLocallyBijective J θ η Q.property
   have hqgFac : toQuotientSheaf J F j ≫ (q ≫ (⟨g⟩ : A ⟶ Q)).hom = toQuotientSheaf J F j := by
-    show toQuotientSheaf J F j ≫ q.hom ≫ g = π ≫ η
+    change toQuotientSheaf J F j ≫ q.hom ≫ g = π ≫ η
     rw [← Category.assoc, hq, ← hg, ← Category.assoc]
     exact congrArg (· ≫ g) hπθ.symm
   have hqg : q.hom ≫ g = 𝟙 Q.obj := by

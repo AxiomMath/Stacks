@@ -168,12 +168,12 @@ theorem isIso_app_of_isPushout_of_isPushout
     (asIso (q.app (b ⁻¹ᵁ U)) ≪≫ eqToIso (congrArg (fun V : B.Opens ↦ Γ(B, V)) e))
     (Iso.refl _) (eqToIso (congrArg (fun V : B.Opens ↦ Γ(Z, j ⁻¹ᵁ V)) e))
     ?_ ?_ (c.app U) ?_ ?_
-  · show (q.app (b ⁻¹ᵁ U) ≫ eqToHom (congrArg (fun V : B.Opens ↦ Γ(B, V)) e)) ≫
+  · change (q.app (b ⁻¹ᵁ U) ≫ eqToHom (congrArg (fun V : B.Opens ↦ Γ(B, V)) e)) ≫
         j.app (r ⁻¹ᵁ (c ⁻¹ᵁ U)) =
       (q.app (b ⁻¹ᵁ U) ≫ j.app (q ⁻¹ᵁ (b ⁻¹ᵁ U))) ≫
         eqToHom (congrArg (fun V : B.Opens ↦ Γ(Z, j ⁻¹ᵁ V)) e)
     rw [Category.assoc, Category.assoc, eqToHom_comp_app j e]
-  · show 𝟙 _ ≫ i.app (p ⁻¹ᵁ (c ⁻¹ᵁ U)) ≫
+  · change 𝟙 _ ≫ i.app (p ⁻¹ᵁ (c ⁻¹ᵁ U)) ≫
         eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) w') =
       (i.app (p ⁻¹ᵁ (c ⁻¹ᵁ U)) ≫ eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) w)) ≫
         eqToHom (congrArg (fun V : B.Opens ↦ Γ(Z, j ⁻¹ᵁ V)) e)
@@ -182,10 +182,10 @@ theorem isIso_app_of_isPushout_of_isPushout
         (b.app U ≫ q.app (b ⁻¹ᵁ U)) ≫
           eqToHom (congrArg (fun V : B.Opens ↦ Γ(B, V)) e) :=
       (app_comp_eqToHom_of_eq hrc.symm U).symm
-    show c.app U ≫ r.app (c ⁻¹ᵁ U) =
+    change c.app U ≫ r.app (c ⁻¹ᵁ U) =
       b.app U ≫ q.app (b ⁻¹ᵁ U) ≫ eqToHom (congrArg (fun V : B.Opens ↦ Γ(B, V)) e)
     rw [h, Category.assoc]
-  · show c.app U ≫ p.app (c ⁻¹ᵁ U) = (c.app U ≫ p.app (c ⁻¹ᵁ U)) ≫ 𝟙 _
+  · change c.app U ≫ p.app (c ⁻¹ᵁ U) = (c.app U ≫ p.app (c ⁻¹ᵁ U)) ≫ 𝟙 _
     rw [Category.comp_id]
 
 end AlgebraicGeometry

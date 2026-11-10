@@ -258,7 +258,7 @@ theorem tensorMapOfRingEquiv_tmul (eR : R ≃+* R') (eA : A ≃+* A') (eB : B �
     (hA : ∀ r : R, eA (algebraMap R A r) = algebraMap R' A' (eR r))
     (hB : ∀ r : R, eB (algebraMap R B r) = algebraMap R' B' (eR r)) (a : A) (b : B) :
     tensorMapOfRingEquiv eR eA eB hA hB (a ⊗ₜ[R] b) = (eA a) ⊗ₜ[R'] (eB b) := by
-  show (eA a ⊗ₜ[R'] (1 : B')) * ((1 : A') ⊗ₜ[R'] eB b) = _
+  change (eA a ⊗ₜ[R'] (1 : B')) * ((1 : A') ⊗ₜ[R'] eB b) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
 /-- **A tensor product follows ring isomorphisms of its base and of its two factors.**  Given
@@ -280,13 +280,11 @@ noncomputable def tensorRingEquivOfRingEquiv (eR : R ≃+* R') (eA : A ≃+* A')
         refine (eB.symm_apply_eq).2 ?_
         rw [hB (eR.symm r'), eR.apply_symm_apply]))
     (RingHom.ext fun x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b => simp
       | add x y hx hy => simp_all [map_add])
     (RingHom.ext fun x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b => simp
       | add x y hx hy => simp_all [map_add])
 

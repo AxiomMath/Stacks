@@ -281,7 +281,7 @@ theorem toMod_comp_modToExc_eq :
     toMod A J ≫ modToExc A f J =
       CommRingCat.ofHom (Ideal.Quotient.mk (J ⊔ Ideal.span {f})) := by
   refine CommRingCat.hom_ext (RingHom.ext fun x ↦ ?_)
-  show MilnorPatching.OneGeneratorFrobenius.toBase f J (Ideal.Quotient.mk J x) =
+  change MilnorPatching.OneGeneratorFrobenius.toBase f J (Ideal.Quotient.mk J x) =
     Ideal.Quotient.mk (J ⊔ Ideal.span {f}) x
   rw [MilnorPatching.OneGeneratorFrobenius.toBase_mk]
 

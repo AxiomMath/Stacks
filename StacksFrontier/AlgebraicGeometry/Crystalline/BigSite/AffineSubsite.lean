@@ -267,7 +267,7 @@ theorem bigAffineTopology_eq_restrictedTopology :
   refine le_antisymm (((Coverage.gi (BigAffineThickening S)).gc _ _).2 fun B R hR ↦ ?_)
     fun A R hR ↦ ?_
   · obtain ⟨I, f, hf, rfl⟩ := hR
-    show Sieve.generate _ ∈ (bigAffineι S).restrictedTopology (topology S) B
+    change Sieve.generate _ ∈ (bigAffineι S).restrictedTopology (topology S) B
     rw [Functor.mem_restrictedTopology_iff]
     have htop := ((isAffineOpen_top B.obj.thickening.target.scheme).self_le_iSup_basicOpen_iff
       (s := Set.range f)).mpr hf

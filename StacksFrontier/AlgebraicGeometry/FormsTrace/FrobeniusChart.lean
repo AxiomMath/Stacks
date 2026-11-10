@@ -144,17 +144,17 @@ theorem exists_isPullback_relativeFrobenius_affineSpace
     ((frobeniusTwist S p hS).map i).w
   have hWV : j.opensRange ≤ ((frobeniusTwist S p hS).obj X).hom ⁻¹ᵁ V := by
     rintro _ ⟨z, rfl⟩
-    show (j ≫ ((frobeniusTwist S p hS).obj X).hom) z ∈ V
+    change (j ≫ ((frobeniusTwist S p hS).obj X).hom) z ∈ V
     rw [hjg, hsndV, ← Category.assoc, Scheme.Hom.comp_apply]
     exact ((e.inv ≫ ((frobeniusTwist V.toScheme p hV').obj X₀).hom) z).2
   have : IsAffine ((frobeniusTwist S p hS).obj X₁).left := by
     have : IsAffine ((frobeniusTwist V.toScheme p hV').obj X₀).left := by
-      show IsAffine (pullback (X.hom.resLE V U hUV) _)
+      change IsAffine (pullback (X.hom.resLE V U hUV) _)
       infer_instance
     exact IsAffine.of_isIso e.inv
   refine ⟨V, hV, j.opensRange, isAffineOpen_opensRange j, ?_, hWV,
     j.isoOpensRange.inv ≫ e.inv ≫ φ, eX.hom ≫ π, inferInstance, ?_, ?_⟩
-  · show x ∈ Set.range j
+  · change x ∈ Set.range j
     exact ⟨(relativeFrobenius S p hS X₁).left ⟨x', hxU⟩,
       (congrArg (fun k : U.toScheme ⟶ ((frobeniusTwist S p hS).obj X).left =>
         k ⟨x', hxU⟩) hi.w).trans hx'⟩
@@ -236,12 +236,12 @@ private theorem finite_and_flat_expand_toRingHom [Finite n] (hp : p ≠ 0) :
   have : Module.Free _ _ := Module.Free.of_basis b
   exact ⟨Module.Finite.of_basis b, Module.Flat.of_free⟩
 
-variable [Fintype n]
-
 /-- The universal Frobenius has a basis of `p ^ #n` elements on global sections. -/
-theorem hasFiniteBasis_specExpand_appTop (hp : p ≠ 0) :
+theorem hasFiniteBasis_specExpand_appTop [Fintype n] (hp : p ≠ 0) :
     HasFiniteBasis (specExpand n p).appTop.hom (p ^ Fintype.card n) :=
   hasFiniteBasis_spec_appTop _ _ (hasFiniteBasis_expand n (ULift.{u} ℤ) p hp)
+
+variable [Finite n]
 
 /-- The universal Frobenius is finite. -/
 theorem isFinite_specExpand (hp : p ≠ 0) : IsFinite (specExpand n p) := by

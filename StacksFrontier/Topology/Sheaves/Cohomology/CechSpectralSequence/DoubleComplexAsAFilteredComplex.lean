@@ -174,7 +174,7 @@ This is the hypothesis of that name in
 `CochainComplex.Filtered.functorialFirstQuadrantAbutment`. -/
 lemma isIso_totalFiltration₂_ι_f (hz : ∀ i j : ℤ, j < 0 → IsZero ((K.X i).X j)) (n : ℤ) :
     IsIso ((K.totalFiltration₂.filtration.ι.app (op (0 : ℤ))).f n) := by
-  show IsIso (imageSubobject (K.totalProjector (fun (_ : ℤ) j => (0 : ℤ) ≤ j) n)).arrow
+  change IsIso (imageSubobject (K.totalProjector (fun (_ : ℤ) j => (0 : ℤ) ≤ j) n)).arrow
   have : Epi (K.totalProjector (fun (_ : ℤ) j => (0 : ℤ) ≤ j) n) := by
     rw [totalProjector_eq_id_of_isZero K 0 hz n]; infer_instance
   have := epi_of_epi_fac (imageSubobject_arrow_comp
@@ -190,7 +190,7 @@ This is the hypothesis of that name in
 lemma isZero_totalFiltration₂_obj_X (hz : ∀ i j : ℤ, i < 0 → IsZero ((K.X i).X j)) (p n : ℤ)
     (hnp : n < p) :
     IsZero ((K.totalFiltration₂.filtration.obj (op p)).X n) := by
-  show IsZero ((imageSubobject (K.totalProjector (fun (_ : ℤ) j => p ≤ j) n) : C))
+  change IsZero ((imageSubobject (K.totalProjector (fun (_ : ℤ) j => p ≤ j) n) : C))
   rw [totalProjector_eq_zero_of_isZero K hz p n hnp, imageSubobject_zero]
   exact IsZero.of_iso (isZero_zero C) Subobject.botCoeIsoZero
 

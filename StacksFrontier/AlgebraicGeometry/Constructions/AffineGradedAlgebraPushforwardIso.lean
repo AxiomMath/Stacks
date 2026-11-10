@@ -154,7 +154,7 @@ theorem totalTildeSec_lof (U : (Spec R).Opens) (n : ℤ) (y : Γ(pieceSheaf 𝒞
     totalTildeSec 𝒞 U
         (DirectSum.lof (R : Type u) ℤ (fun n => Γ(pieceSheaf 𝒞 n, U)) n y) =
       pieceTildeSec 𝒞 n U y := by
-  show DirectSum.toModule (R : Type u) ℤ (Γ(tilde (restrictedAlgebra R B), U))
+  change DirectSum.toModule (R : Type u) ℤ (Γ(tilde (restrictedAlgebra R B), U))
       (fun n => pieceTildeSec 𝒞 n U)
       (DirectSum.lof (R : Type u) ℤ (fun n => Γ(pieceSheaf 𝒞 n, U)) n y) = _
   rw [DirectSum.toModule_lof]
@@ -166,7 +166,7 @@ def inclSum : (DirectSum ℤ fun n => ↥(𝒞 n)) →ₗ[(R : Type u)] ↥(rest
 /-- On the summand of degree `n`, `inclSum` is the inclusion of `𝒞 n` into `B`. -/
 theorem inclSum_lof (n : ℤ) (x : ↥(𝒞 n)) :
     inclSum 𝒞 (DirectSum.lof (R : Type u) ℤ (fun n => ↥(𝒞 n)) n x) = pieceIncl 𝒞 n x := by
-  show DirectSum.toModule (R : Type u) ℤ (↥(restrictedAlgebra R B))
+  change DirectSum.toModule (R : Type u) ℤ (↥(restrictedAlgebra R B))
       (fun n => (pieceIncl 𝒞 n).hom)
       (DirectSum.lof (R : Type u) ℤ (fun n => ↥(𝒞 n)) n x) = _
   rw [DirectSum.toModule_lof]
@@ -207,7 +207,7 @@ theorem pieceToOpenSum_lof (r : R) (n : ℤ) (x : ↥(𝒞 n)) :
       DirectSum.lof (R : Type u) ℤ
         (fun n => Γ(pieceSheaf 𝒞 n, AffineBaseChange.specBasicOpen r)) n
         (AffineBaseChange.toOpenₗ (pieceModule 𝒞 n) (AffineBaseChange.specBasicOpen r) x) := by
-  show DirectSum.lmap
+  change DirectSum.lmap
       (fun n => AffineBaseChange.toOpenₗ (pieceModule 𝒞 n) (AffineBaseChange.specBasicOpen r))
       (DirectSum.lof (R : Type u) ℤ (fun n => ↥(𝒞 n)) n x) = _
   rw [DirectSum.lmap_lof]

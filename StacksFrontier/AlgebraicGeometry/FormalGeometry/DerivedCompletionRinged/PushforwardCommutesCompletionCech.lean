@@ -110,6 +110,36 @@ attribute [local instance] AlgebraicGeometry.RingedSite.hasSheafCompose_forget�
 attribute [local instance] isRightAdjoint_ι_isDerivedComplete_generatedIdealSheaf
 attribute [local instance] hasLeftDerivedFunctor_pullbackOnHomotopy
 
+section ZeroObject
+
+variable {X Y : RingedSite.{u, u, u}}
+  [HasSheafify X.J AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}]
+  [HasWeakSheafify Y.J AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  (f : RingedSite.Hom X Y)
+
+/-- **The derived direct image of a zero object is zero.** `Rf_*` is a right adjoint, so a map
+into `Rf_*A` is a map into `A` after transposition, and there is only one of those when `A` is
+zero; so the identity of `Rf_*A` is zero.
+
+This is the step that additivity of `Rf_*` would otherwise supply:
+`CategoryTheory.Functor.map_isZero` needs `PreservesZeroMorphisms`, and the derived direct image
+of a morphism of ringed *sites* carries no such instance in this library. The adjunction
+`Lf^* ⊣ Rf_*` of [Stacks, Tag 07A6] gives the conclusion with no additivity at all. -/
+theorem isZero_derivedPushforward_obj_of_isZero
+    {A : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+    (hA : IsZero A) :
+    IsZero ((derivedPushforward.{u} f.toRingedToposSiteHom).obj A) := by
+  rw [IsZero.iff_id_eq_zero]
+  exact ((derivedPullbackPushforwardAdjunction f).homEquiv
+    ((derivedPushforward.{u} f.toRingedToposSiteHom).obj A) A).symm.injective
+      (hA.eq_of_tgt _ _)
+
+end ZeroObject
+
 section Cech
 
 variable {X Y : RingedSite.{u, u, u}}
@@ -209,23 +239,6 @@ def derivedPushforwardDerivedCompletionGeneratedIdealSheafIso
     derivedPushforwardCechCompletionIso f t g hg K ≪≫
     (reflectorIsoCompletionFunctor Y t
       ((derivedPushforward.{u} f.toRingedToposSiteHom).obj K)).symm
-
-/-- **The derived direct image of a zero object is zero.** `Rf_*` is a right adjoint, so a map
-into `Rf_*A` is a map into `A` after transposition, and there is only one of those when `A` is
-zero; so the identity of `Rf_*A` is zero.
-
-This is the step that additivity of `Rf_*` would otherwise supply:
-`CategoryTheory.Functor.map_isZero` needs `PreservesZeroMorphisms`, and the derived direct image
-of a morphism of ringed *sites* carries no such instance in this library. The adjunction
-`Lf^* ⊣ Rf_*` of [Stacks, Tag 07A6] gives the conclusion with no additivity at all. -/
-theorem isZero_derivedPushforward_obj_of_isZero
-    {A : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
-    (hA : IsZero A) :
-    IsZero ((derivedPushforward.{u} f.toRingedToposSiteHom).obj A) := by
-  rw [IsZero.iff_id_eq_zero]
-  exact ((derivedPullbackPushforwardAdjunction f).homEquiv
-    ((derivedPushforward.{u} f.toRingedToposSiteHom).obj A) A).symm.injective
-      (hA.eq_of_tgt _ _)
 
 include hg in
 /-- **`Rf_*` carries a completion-acyclic object to a completion-acyclic object.** If `K^∧ = 0`

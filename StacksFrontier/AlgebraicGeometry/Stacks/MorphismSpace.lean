@@ -167,7 +167,7 @@ theorem morphismSpaceEquiv_map
       simpa [huIso, asIso_hom] using huU
     exact (Functor.Fiber.isoMk huIso huIsoLift) ≪≫
       (Functor.fiberFunctorOfCompEq eY.inv.w U).mapIso (eqToIso hyF)
-  show Functor.isoClassMk 𝒴.val.p y =
+  change Functor.isoClassMk 𝒴.val.p y =
     Functor.isoClassMk 𝒴.val.p ((Functor.fiberFunctorOfCompEq eY.inv.w U).obj yF)
   exact Functor.isoClassMk_eq_of_iso hyIso
 

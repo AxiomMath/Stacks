@@ -61,7 +61,7 @@ theorem eq_zero_of_forall_genericPoints_not_mem_basicOpen {T : Scheme.{u}} [IsRe
   have hgen := hZ.isGenericPoint_genericPoint_closure
   rw [hZc.closure_eq] at hgen
   have hmem : hZ.genericPoint ∈ genericPoints T := by
-    show closure {hZ.genericPoint} ∈ irreducibleComponents T
+    change closure {hZ.genericPoint} ∈ irreducibleComponents T
     rw [hgen.def]
     exact irreducibleComponent_mem_irreducibleComponents v
   have hspec : hZ.genericPoint ⤳ v := by
@@ -163,7 +163,7 @@ theorem injective_globalFunctionsMap_pullback_fst_of_genericPoint {X Y : Algebra
   have hc₀ : IsSurjective B S hS c₀.obj.hom :=
     (surjective_iff_surjective_pointsMap B S hS XW.obj XW.property T a).1 hsurj
   refine injective_globalFunctions_val_of_isSurjective B S hS XW.obj XW.property c₀ hc₀ ?_
-  show s.val (op c₀) = (0 : globalFunctions B S hS XW.obj).val (op c₀)
+  change s.val (op c₀) = (0 : globalFunctions B S hS XW.obj).val (op c₀)
   have hincl : IsEtale B S hS incl.hom := (chartBaseChange B S hS f W).property
   have haX : IsEtale B S hS (a ≫ incl.hom) :=
     isEtale_comp B S hS (isEtale_of_presheaf_etale B S hS hetale) hincl
@@ -214,7 +214,7 @@ theorem injective_globalFunctionsMap_pullback_fst_of_genericPoint {X Y : Algebra
       (schemeSpaceMap ι) :=
     IsPullback.of_map (F := ObjectProperty.ι _)
       (ObjectProperty.hom_ext _ (by
-        show yoneda.map fstE ≫ yoneda.map m = yoneda.map sndE ≫ yoneda.map ι
+        change yoneda.map fstE ≫ yoneda.map m = yoneda.map sndE ≫ yoneda.map ι
         exact hEsq.w)) hEsq
   refine @eq_zero_of_forall_genericPoints_not_mem_basicOpen ((BigFppfOver.toScheme B S hS).obj T)
     hTred (s.val (op c₀)) fun u hu hus => ?_
@@ -224,7 +224,7 @@ theorem injective_globalFunctionsMap_pullback_fst_of_genericPoint {X Y : Algebra
   have hagree : pointsMap B S hS (schemeSpace T).1 (schemeSpaceMap m).hom zT =
       pointsMap B S hS (schemeSpace K).1 (schemeSpaceMap ι).hom zK := by
     apply injective_pointsToScheme B S hS Wo
-    show pointsToScheme B S hS Wo (pointsMap B S hS _ (yoneda.map m) zT) =
+    change pointsToScheme B S hS Wo (pointsMap B S hS _ (yoneda.map m) zT) =
       pointsToScheme B S hS Wo (pointsMap B S hS _ (yoneda.map ι) zK)
     rw [pointsToScheme_pointsMap_yoneda, pointsToScheme_pointsMap_yoneda, hzT, hgenT u hu, hι]
   obtain ⟨w, hw₁, -⟩ := exists_point_of_isPullback B S hS sqAS zT zK hagree
@@ -236,7 +236,7 @@ theorem injective_globalFunctionsMap_pullback_fst_of_genericPoint {X Y : Algebra
   have hmem : pointsToScheme B S hS E w ∈
       (BigFppfOver.toScheme B S hS).map fstE ⁻¹ᵁ
         ((BigFppfOver.toScheme B S hS).obj T).basicOpen σ := by
-    show (BigFppfOver.toScheme B S hS).map fstE (pointsToScheme B S hS E w) ∈
+    change (BigFppfOver.toScheme B S hS).map fstE (pointsToScheme B S hS E w) ∈
       ((BigFppfOver.toScheme B S hS).obj T).basicOpen σ
     rwa [hu']
   rwa [Scheme.preimage_basicOpen, hzero', Scheme.basicOpen_zero] at hmem

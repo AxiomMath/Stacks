@@ -93,7 +93,7 @@ private theorem isScalarTower_tensorProduct_rightAlgebra
   refine IsScalarTower.of_algebraMap_eq' ?_
   apply IsLocalization.ringHom_ext (Submonoid.powers r)
   ext x
-  show (algebraMap R S x) ⊗ₜ[R] (1 : T) = (1 : S) ⊗ₜ[R] algebraMap S T (algebraMap R S x)
+  change (algebraMap R S x) ⊗ₜ[R] (1 : T) = (1 : S) ⊗ₜ[R] algebraMap S T (algebraMap R S x)
   rw [← IsScalarTower.algebraMap_apply R S T x]
   exact Algebra.TensorProduct.tmul_one_eq_one_tmul x
 
@@ -106,8 +106,7 @@ private theorem ringHom_cancelBaseChange_symm_eq
     (hρ : ∀ (a : Aff) (c : C), ρ₁ (a ⊗ₜ[Af] ((1 : Af) ⊗ₜ[A] c)) = ρ₂ (a ⊗ₜ[A] c))
     (c : Aff ⊗[A] C) :
     ρ₁ ((Algebra.TensorProduct.cancelBaseChange A Af Aff Aff C).symm c) = ρ₂ c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction c using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a c =>
     rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul]
@@ -123,8 +122,7 @@ private theorem dual_baseChange_baseChange_comp_cancelBaseChange_symm
         (Algebra.TensorProduct.cancelBaseChange A Af Aff Aff C).symm.toLinearMap =
       Module.Dual.baseChange Aff φ := by
   refine LinearMap.ext fun c => ?_
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction c using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a c =>
     simp only [LinearMap.comp_apply, AlgEquiv.toLinearMap_apply,
@@ -267,7 +265,6 @@ public theorem dualizingModule_equiv_of_isLocalization_away_trans
   let : IsScalarTower Aff B (Aff ⊗[Af] B) :=
     isScalarTower_tensorProduct_rightAlgebra (S := Aff) (T := B) f'
   induction ω using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add xx yy hx hy => simp only [map_add, hx, hy]
   | tmul φ b =>
     let Pf := retargetFactorization (FiniteOpenFactorization.baseChange F Af)
@@ -289,16 +286,16 @@ public theorem dualizingModule_equiv_of_isLocalization_away_trans
     have he := ringHom_cancelBaseChange_symm_eq (algebraMap Pff.middle B)
       (algebraMap Pe.middle B) fun xa c => by
         have hinner : algebraMap Pf.middle B ((1 : Af) ⊗ₜ[A] c) = algebraMap F.middle B c := by
-          show baseChangeTargetEquiv f ((1 : Af) ⊗ₜ[A] algebraMap F.middle B c) = _
+          change baseChangeTargetEquiv f ((1 : Af) ⊗ₜ[A] algebraMap F.middle B c) = _
           exact (baseChangeTargetEquiv f).commutes _
         have hL : algebraMap Pff.middle B (xa ⊗ₜ[Af] ((1 : Af) ⊗ₜ[A] c)) =
             algebraMap Aff B xa * algebraMap F.middle B c := by
-          show baseChangeTargetEquiv f'
+          change baseChangeTargetEquiv f'
             (xa ⊗ₜ[Af] algebraMap Pf.middle B ((1 : Af) ⊗ₜ[A] c)) = _
           rw [hinner, baseChangeTargetEquiv_tmul]
         have hR : algebraMap Pe.middle B (xa ⊗ₜ[A] c) =
             algebraMap Aff B xa * algebraMap F.middle B c := by
-          show baseChangeTargetEquiv e (xa ⊗ₜ[A] algebraMap F.middle B c) = _
+          change baseChangeTargetEquiv e (xa ⊗ₜ[A] algebraMap F.middle B c) = _
           rw [baseChangeTargetEquiv_tmul]
         exact hL.trans hR.symm
     have hcmp : dualizingModuleEquiv Pff Pe (dualizingModule.tmul _
@@ -360,7 +357,6 @@ public theorem localizedModule_dualizingModule_equiv_trans
     (localizedModule_dualizingModule_equiv h G H lmG hlmG).toLinearMap
     (localizedModule_dualizingModule_equiv g' F H lmc hlmc) (fun ω => ?_) n
   induction ω using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul φ b =>
     let L₂ := locFact (Bg := Bh) h L
@@ -440,7 +436,6 @@ public theorem localizedModule_dualizingModule_equiv_comm_base
       (localizedModule_dualizingModule_equiv g F G lm hM).toLinearMap)
     (localizedModule_dualizingModule_equiv g G' K lm' hM') (fun ω => ?_) m
   induction ω using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add xx yy hx hy => simp only [map_add, hx, hy]
   | tmul φ b =>
     let L := locFact (Bg := Bg) g F
@@ -470,18 +465,17 @@ public theorem localizedModule_dualizingModule_equiv_comm_base
     have he : ∀ c : Af ⊗[A] F.middle,
         algebraMap Q.middle Bg (AlgEquiv.refl (R := Af) c) = algebraMap LP.middle Bg c := by
       intro c
-      induction c using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction c using TensorProduct.inductionOn with
       | add xx yy hx hy =>
         exact (map_add _ _ _).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ _ _).symm)
       | tmul a c =>
         have h1 : algebraMap Q.middle Bg (a ⊗ₜ[A] c) =
             algebraMap Af Bg a * algebraMap L.middle Bg c := by
-          show baseChangeTargetEquiv f (a ⊗ₜ[A] algebraMap L.middle Bg c) = _
+          change baseChangeTargetEquiv f (a ⊗ₜ[A] algebraMap L.middle Bg c) = _
           rw [baseChangeTargetEquiv_tmul]
         have h2 : algebraMap LP.middle Bg (a ⊗ₜ[A] c) =
             algebraMap B Bg (algebraMap Af B a * algebraMap F.middle B c) := by
-          show algebraMap B Bg (baseChangeTargetEquiv f (a ⊗ₜ[A] algebraMap F.middle B c)) = _
+          change algebraMap B Bg (baseChangeTargetEquiv f (a ⊗ₜ[A] algebraMap F.middle B c)) = _
           rw [baseChangeTargetEquiv_tmul]
         have h3 : algebraMap Af Bg a * algebraMap L.middle Bg c =
             algebraMap B Bg (algebraMap Af B a * algebraMap F.middle B c) := by

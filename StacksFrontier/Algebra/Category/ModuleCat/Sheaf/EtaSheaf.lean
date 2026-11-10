@@ -889,13 +889,7 @@ private lemma idealPowerIncl_zero_tensor
   apply LinearMap.ext
   intro z
   obtain ⟨t, rfl⟩ := (tensorStalkIso X x (idealPowerTerm X I 1 M) I).symm.surjective z
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    -- Both sides are additive, so each sends `0` to `0`. `simp` cannot apply `map_zero` to
-    -- them, because the two spellings of the ring sheaf agree only at `default`
-    -- transparency, so the lemma is applied by name instead.
-    simp only [map_zero]
-    exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add t s ht hs =>
     simp only [map_add]
     exact (map_add _ _ _).trans ((congrArg₂ (· + ·) ht hs).trans (map_add _ _ _).symm)
@@ -915,19 +909,7 @@ private lemma idealPowerIncl_zero_tensor
             (m ⊗ₜ[ringStalk X x] a))
     rw [idealPowerIncl_zero_stalk_tmul, idealPowerMap_one_stalk_tmul]
     obtain ⟨t, rfl⟩ := (tensorStalkIso X x M I).symm.surjective m
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      -- The action `rw` left in the goal reads its `Zero` off the stalk object's structure
-      -- field, while the instance `smul_zero` synthesizes takes it through `AddMonoid`; the
-      -- two agree only at `default` transparency, so the goal is re-elaborated by `change`
-      -- before the scalar lemmas are applied, each to explicit arguments.
-      simp only [map_zero]
-      change idealStalkMap X ι x a • (0 : grpStalk X (idealPowerTerm X I 1 M).val x) = _
-      refine Eq.trans (smul_zero (idealStalkMap X ι x a)) (Eq.symm ?_)
-      refine Eq.trans (congrArg (fun w => (tensorStalkIso X x (idealPowerTerm X I 0 M) I).symm w)
-        (Eq.trans (congrArg (fun w => w ⊗ₜ[ringStalk X x] a) (map_zero _))
-          (TensorProduct.zero_tmul _ a))) ?_
-      exact map_zero _
+    induction t using TensorProduct.inductionOn with
     | add t s ht hs =>
       simp only [map_add]
       change idealStalkMap X ι x a •
@@ -1088,7 +1070,7 @@ public theorem idealPowerIncl_mono
   have h2 := (Preadditive.mono_iff_cancel_zero
         (idealPowerIncl X I ι 0 (idealPowerTerm X I n M))).1
       (idealPowerIncl_zero_power_mono X I ι M n) _ _ h1
-  haveI : Mono (powSuccIso T.asEquivalence n M).inv :=
+  have : Mono (powSuccIso T.asEquivalence n M).inv :=
     @IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_inv _)
   exact zero_of_comp_mono (powSuccIso T.asEquivalence n M).inv h2
 
@@ -1159,8 +1141,7 @@ private lemma idealStalk_faithfulSMul
   have h : ∀ t : grpStalk X J.val x ⊗[ringStalk X x]
       grpStalk X I.val x, r • t = s • t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [smul_zero]
+    induction t using TensorProduct.inductionOn with
     | add t u ht hu => simp only [smul_add, ht, hu]
     | tmul a b => rw [← tmul_smul, ← tmul_smul, hrs b]
   simpa only [map_smul, LinearEquiv.apply_symm_apply, smul_eq_mul, mul_one] using

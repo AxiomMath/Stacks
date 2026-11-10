@@ -199,14 +199,14 @@ private lemma explicitPresentation_map {Y : Type v'} [Category.{w'} Y]
   apply DeformationMorphism.ext_of_components
   · have H := Functor.congr_hom M.projection_comm f
     dsimp only [Functor.comp_map] at H
-    show (Q.morphisms _ _ (M.toFunctor.map f)).ringHom =
+    change (Q.morphisms _ _ (M.toFunctor.map f)).ringHom =
       (eqToHom (ho a)).ringHom ≫
         (P.morphisms _ _ f).ringHom ≫ (eqToHom (ho b).symm).ringHom
     rw [explicit_eqToHom_ringHom, explicit_eqToHom_ringHom,
       ← P.morphism_projection, ← Q.morphism_projection, H]
     simp
     rfl
-  · show (Q.morphisms _ _ (M.toFunctor.map f)).arrow =
+  · change (Q.morphisms _ _ (M.toFunctor.map f)).arrow =
       ((eqToHom (ho b).symm).arrow ≫ F.map (P.morphisms _ _ f).arrow) ≫ (eqToHom (ho a)).arrow
     simpa only [explicit_eqToHom_arrow, Category.assoc] using M.morphism_arrow f
 
@@ -476,7 +476,7 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
   have hvert (u : TwoFibreProductOver pX pZ pY f g) :
       (pY ⋙ Q).IsHomLift (𝟙 ((pY ⋙ Q).obj (f.obj u.x))) u.iso.hom := by
     have H := Functor.isHomLift_comp_functor (p := pY) Q (𝟙 u.base) u.iso.hom u.vertical
-    show (pY ⋙ Q).IsHomLift (𝟙 (Q.obj (pY.obj (f.obj u.x)))) _
+    change (pY ⋙ Q).IsHomLift (𝟙 (Q.obj (pY.obj (f.obj u.x)))) _
     have hbase : pY.obj (f.obj u.x) = u.base := (Functor.congr_obj hf u.x).trans u.hx
     rw [hbase]
     simpa only [Q.map_id] using H
@@ -495,7 +495,7 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
   have hβ : (explicitProjection (k := k) iΛ (pY ⋙ Q) (f.obj w₀.x) hy₀).IsHomLift
       gz.ringHom β := by
     have hb : β.ringHom = gz.ringHom := by
-      show gz.ringHom ≫ 𝟙 _ = gz.ringHom
+      change gz.ringHom ≫ 𝟙 _ = gz.ringHom
       simp
     rw [← hb]
     exact IsHomLift.map _ β
@@ -538,11 +538,11 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
       iso := (asIso a.arrow).symm
       vertical := by
         have hv : pY.IsHomLift (𝟙 (pY.obj (g.obj z.point))) (inv a.arrow) := inferInstance
-        show pY.IsHomLift (𝟙 (pZ.obj z.point)) (inv a.arrow)
+        change pY.IsHomLift (𝟙 (pZ.obj z.point)) (inv a.arrow)
         rw [← Functor.congr_obj hg z.point]
         exact hv }
   have ht : f.map x'.arrow ≫ t.iso.hom = w₀.iso.hom ≫ g.map z.arrow := by
-    show f.map x'.arrow ≫ inv a.arrow = _
+    change f.map x'.arrow ≫ inv a.arrow = _
     have H := a.triangle
     change (w₀.iso.hom ≫ g.map z.arrow) ≫ a.arrow = f.map x'.arrow at H
     rw [← H]
@@ -564,7 +564,7 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
       arrow := ar
       base := (congrArg Q.obj t.hx.symm).trans x'.base
       arrow_base := by
-        show eqToHom _ ≫ (Q.map ar.hbase).left ≫ eqToHom _ = _
+        change eqToHom _ ≫ (Q.map ar.hbase).left ≫ eqToHom _ = _
         dsimp only [ar, TwoFibreProductOver.Hom.mk'_hbase]
         simpa [Functor.map_comp, eqToHom_map, Category.assoc] using x'.arrow_base }
   have hbl : eqToHom w.point.hy.symm ≫ pZ.map gz.arrow ≫ eqToHom t.hy =
@@ -578,7 +578,7 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
     simpa [Functor.comp_map, Functor.map_comp, eqToHom_map, Category.assoc]
       using gz.arrow_base.trans H.symm
   have htl : f.map l.arrow ≫ t.iso.hom = w.point.iso.hom ≫ g.map gz.arrow := by
-    show f.map l.arrow ≫ inv a.arrow = _
+    change f.map l.arrow ≫ inv a.arrow = _
     have H := congrArg DeformationMorphism.arrow he
     change f.map l.arrow = (w.point.iso.hom ≫ g.map gz.arrow) ≫ a.arrow at H
     rw [H]
@@ -592,7 +592,7 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
         · exact l.triangle
         · exact gz.triangle
       arrow_base := by
-        show eqToHom _ ≫ (Q.map lr.hbase).left ≫ eqToHom _ = _
+        change eqToHom _ ≫ (Q.map lr.hbase).left ≫ eqToHom _ = _
         dsimp only [lr, TwoFibreProductOver.Hom.mk'_hbase]
         simpa [Functor.map_comp, eqToHom_map, Category.assoc] using l.arrow_base }
   let aa : wz.obj w' ⟶ z :=
@@ -602,15 +602,15 @@ private lemma isSmooth_explicitMap_baseChange {C : Type*} [Category C]
       arrow_base := by simp; rfl }
   refine ⟨w', ll, aa, ?_, ?_, ?_⟩
   · apply IsHomLift.of_fac' _ _ _ rfl rfl
-    show l.ringHom = 𝟙 _ ≫ gz.ringHom ≫ 𝟙 _
+    change l.ringHom = 𝟙 _ ≫ gz.ringHom ≫ 𝟙 _
     simpa using hr
   · apply IsHomLift.of_fac' _ _ _ rfl rfl
-    show (eqToHom hAlg) = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
+    change (eqToHom hAlg) = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
     simp
   · apply DeformationMorphism.ext_of_components
-    · show l.ringHom = (eqToHom hAlg) ≫ gz.ringHom
+    · change l.ringHom = (eqToHom hAlg) ≫ gz.ringHom
       simpa using hr
-    · show gz.arrow = gz.arrow ≫ 𝟙 z.point
+    · change gz.arrow = gz.arrow ≫ 𝟙 z.point
       simp
 
 end BaseChange

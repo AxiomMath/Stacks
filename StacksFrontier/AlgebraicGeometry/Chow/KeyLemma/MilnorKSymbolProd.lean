@@ -85,7 +85,7 @@ private theorem mk'_mem_of_mem_milnorKTensorGrading :
       obtain ⟨r, rfl⟩ := ht
       have hval : (milnorKSteinbergIdeal k).ringCon.mk'
           ((Algebra.linearMap ℤ (MilnorKTensorAlgebra k)) r) = r • (1 : MilnorKRing k) := by
-        show (milnorKSteinbergIdeal k).ringCon.mk'
+        change (milnorKSteinbergIdeal k).ringCon.mk'
           (algebraMap ℤ (MilnorKTensorAlgebra k) r) = _
         rw [Algebra.algebraMap_eq_smul_one, map_zsmul, map_one]
       rw [hval]
@@ -103,7 +103,7 @@ private theorem mk'_mem_of_mem_milnorKTensorGrading :
         refine ih (H := AddSubgroup.comap
           (AddMonoidHom.mulRight (milnorKSymbol k (Additive.toMul m))) H) ?_ ha
         intro l
-        show milnorKSymbolProd k l * milnorKSymbol k (Additive.toMul m) ∈ H
+        change milnorKSymbolProd k l * milnorKSymbol k (Additive.toMul m) ∈ H
         rw [← milnorKSymbolProd_singleton (Additive.toMul m), ← milnorKSymbolProd_append]
         exact hH _
       · intro a b ha hb

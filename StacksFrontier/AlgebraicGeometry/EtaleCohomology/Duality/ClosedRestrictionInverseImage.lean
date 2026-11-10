@@ -90,7 +90,7 @@ def closedRestrictionInverseImageIso :
   NatIso.ofComponents (closedRestrictionInverseImageIsoApp Λ g i j hij i' j' hij' gW hW gV hV)
     (fun {G G'} f => by
       have hS₂ := inverseImageOpenClosedShortComplex_shortExact Λ g i j hij G
-      haveI := hS₂.epi_g
+      have := hS₂.epi_g
       rw [← cancel_epi ((inverseImageOpenClosedShortComplex Λ g i j hij G).g)]
       change (etaleModuleInverseImage.{u, r} Λ g).map
           ((etaleModuleInverseImageAdj.{u, r} Λ i).unit.app G) ≫

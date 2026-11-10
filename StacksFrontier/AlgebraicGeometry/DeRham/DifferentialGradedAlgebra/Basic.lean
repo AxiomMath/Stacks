@@ -245,7 +245,7 @@ not merely isomorphic, to the corresponding piece of the exterior algebra of `Ω
 theorem deRhamComplexInt_X_of_nonneg (i : ℤ) (hi : 0 ≤ i) :
     (deRhamComplexInt B D).X i = deRhamTermInt B i := by
   obtain ⟨p, rfl⟩ := Int.eq_ofNat_of_zero_le hi
-  show HomologicalComplex.extend.X (deRhamComplex B D)
+  change HomologicalComplex.extend.X (deRhamComplex B D)
       (embeddingUpNat.r (embeddingUpNat.f p)) =
     HomologicalComplex.extend.X (deRhamComplex B D) (some p)
   exact congrArg (HomologicalComplex.extend.X (deRhamComplex B D)) (embeddingUpNat.r_f p)
@@ -254,7 +254,7 @@ theorem deRhamComplexInt_X_of_nonneg (i : ℤ) (hi : 0 ≤ i) :
 differential. -/
 private theorem deRhamComplexInt_d_heq (p q : ℕ) :
     HEq ((deRhamComplexInt B D).d (p : ℤ) (q : ℤ)) ((deRhamComplex B D).d p q) := by
-  show HEq (HomologicalComplex.extend.d (deRhamComplex B D)
+  change HEq (HomologicalComplex.extend.d (deRhamComplex B D)
     (embeddingUpNat.r (embeddingUpNat.f p)) (embeddingUpNat.r (embeddingUpNat.f q))) _
   rw [embeddingUpNat.r_f p, embeddingUpNat.r_f q]
   rfl

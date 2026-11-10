@@ -243,7 +243,7 @@ theorem isRegular_map_ringEquiv {R R' : Type*} [CommRing R] [CommRing R'] (e : R
       RingTheory.Sequence.IsRegular R' (rs.map (e : R →+* R')) := by
   refine AddEquiv.isRegular_congr (e := e.toAddEquiv) ?_
   refine List.forall₂_map_right_iff.mpr (List.forall₂_same.mpr fun c _ t => ?_)
-  show e.toAddEquiv (c * t) = e c * e.toAddEquiv t
+  change e.toAddEquiv (c * t) = e c * e.toAddEquiv t
   exact e.map_mul c t
 
 /-- Regularity of a sequence of étale local germs is unchanged along a domination of geometric

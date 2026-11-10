@@ -232,7 +232,7 @@ theorem sheafHOneAddEquiv_generatorTorsorOn
       naturality _ _ _ := rfl } (fun U => ⟨fun x y h => ?_, fun y => ⟨ULift.up y.down.down, rfl⟩⟩)
     (fun U h x => ?_)
   · exact ULift.ext (congrArg (fun z => z.down.down) h)
-  · show ULift.up (ULift.up (unitSmul L (e'.unitOf _) x.down)) =
+  · change ULift.up (ULift.up (unitSmul L (e'.unitOf _) x.down)) =
       ULift.up (ULift.up (unitSmul L (e.unitOf _) x.down))
     exact congrArg (fun a => ULift.up (ULift.up (unitSmul L a x.down)))
       (congrArg Additive.toMul (he U h))

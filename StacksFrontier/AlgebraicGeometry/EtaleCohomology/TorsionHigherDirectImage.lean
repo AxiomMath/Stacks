@@ -292,7 +292,7 @@ public theorem compactSpace_smallEtaleBaseChange_obj [QuasiCompact f] (V : Y.Eta
     (hV : CompactSpace V.left) :
     CompactSpace ((smallEtaleBaseChange f).obj V).left := by
   have hV' : CompactSpace ((𝟭 Scheme.{u}).obj V.left) := hV
-  show CompactSpace (Limits.pullback V.hom f : Scheme.{u})
+  change CompactSpace (Limits.pullback V.hom f : Scheme.{u})
   exact QuasiCompact.compactSpace_of_compactSpace (Limits.pullback.fst V.hom f)
 
 /-- **Base change of a quasi-separated morphism along an object of the small étale site.** If `f`
@@ -308,19 +308,19 @@ public theorem quasiSeparatedSpace_smallEtaleBaseChange_obj [QuasiSeparated f] (
   have hfst : QuasiSeparated (Limits.pullback.fst V.hom f) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (P := @QuasiSeparated)
       (IsPullback.of_hasPullback V.hom f).flip ‹QuasiSeparated f›
-  show QuasiSeparatedSpace (Limits.pullback V.hom f : Scheme.{u})
+  change QuasiSeparatedSpace (Limits.pullback V.hom f : Scheme.{u})
   exact quasiSeparatedSpace_of_quasiSeparated (Limits.pullback.fst V.hom f)
 
 /-- An affine object of the small étale site of `Y` is quasi-compact. -/
 public theorem compactSpace_affineEtale_left (Z : Y.AffineEtale) :
     CompactSpace ((AffineEtale.Spec Y).obj Z).left := by
-  show CompactSpace (Scheme.Spec.obj Z.left : Scheme.{u})
+  change CompactSpace (Scheme.Spec.obj Z.left : Scheme.{u})
   infer_instance
 
 /-- An affine object of the small étale site of `Y` is quasi-separated. -/
 public theorem quasiSeparatedSpace_affineEtale_left (Z : Y.AffineEtale) :
     QuasiSeparatedSpace ((AffineEtale.Spec Y).obj Z).left := by
-  show QuasiSeparatedSpace (Scheme.Spec.obj Z.left : Scheme.{u})
+  change QuasiSeparatedSpace (Scheme.Spec.obj Z.left : Scheme.{u})
   infer_instance
 
 end Qcqs

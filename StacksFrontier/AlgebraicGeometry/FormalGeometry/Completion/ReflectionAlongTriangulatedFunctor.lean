@@ -137,7 +137,7 @@ theorem bijective_precomp_shift_unit (X : C) (q : ℤ) {N : C} (hN : P N) :
         (fun k : (L ⋙ P.ι).obj X ⟶ N⟦(-q : ℤ)⟧ ↦ adj.unit.app X ≫ k) ∘
         (sadj.homEquiv ((L ⋙ P.ι).obj X) N) := by
     funext g
-    show (adj.unit.app X)⟦q⟧' ≫ g =
+    change (adj.unit.app X)⟦q⟧' ≫ g =
       (sadj.homEquiv X N).symm (adj.unit.app X ≫ sadj.homEquiv ((L ⋙ P.ι).obj X) N g)
     rw [← sadj.homEquiv_naturality_left (adj.unit.app X) g]
     exact (Equiv.symm_apply_apply _ _).symm
@@ -185,7 +185,7 @@ theorem leftOrthogonal_iff_isZero_reflection (X : C) :
   · intro h
     rw [IsZero.iff_id_eq_zero]
     refine (bijective_precomp_adjunction_unit P adj X _ (L.obj X).property).1 ?_
-    show adj.unit.app X ≫ 𝟙 _ = adj.unit.app X ≫ 0
+    change adj.unit.app X ≫ 𝟙 _ = adj.unit.app X ≫ 0
     rw [Category.comp_id, comp_zero]
     exact h _ (L.obj X).property
   · intro h Z φ hZ
@@ -220,7 +220,7 @@ theorem leftOrthogonal_cone_unit {X Cn : C} (v : (L ⋙ P.ι).obj X ⟶ Cn) (w :
   have h31 : w ≫ (adj.unit.app X)⟦(1 : ℤ)⟧' = 0 := comp_distTriang_mor_zero₃₁ _ hT
   have ha : v ≫ φ = 0 := by
     refine (bijective_precomp_adjunction_unit P adj X Z hZ).1 ?_
-    show adj.unit.app X ≫ v ≫ φ = adj.unit.app X ≫ 0
+    change adj.unit.app X ≫ v ≫ φ = adj.unit.app X ≫ 0
     rw [← Category.assoc, h12, zero_comp, comp_zero]
   obtain ⟨ψ, hψ⟩ := Triangle.yoneda_exact₃ _ hT φ ha
   have hψ' : φ = w ≫ ψ := hψ

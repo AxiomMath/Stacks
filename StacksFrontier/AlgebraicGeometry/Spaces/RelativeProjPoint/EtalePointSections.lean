@@ -271,7 +271,7 @@ theorem isAffine_etalePointChart (s : RelativeProjSituation.{u, u})
     {W : ((BigFppfOver.toScheme s.site s.base s.containsBase).obj T).Opens} (hW : IsAffineOpen W) :
     IsAffine ((SmallEtale.toOver s.site s.base s.containsBase s.space.1 ⋙
       BigFppfOver.toScheme s.site s.base s.containsBase).obj (s.etalePointChart f hf W)) := by
-  show IsAffine ((SmallEtale.toOver s.site s.base s.containsBase (yoneda.obj T) ⋙
+  change IsAffine ((SmallEtale.toOver s.site s.base s.containsBase (yoneda.obj T) ⋙
     BigFppfOver.toScheme s.site s.base s.containsBase).obj
       ((selfOpensFunctor s.site s.base s.containsBase T).obj W))
   rwa [selfOpensFunctor_obj s.site s.base s.containsBase T W]

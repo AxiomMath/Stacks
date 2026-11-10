@@ -132,7 +132,7 @@ lemma homOpEval_precomp {L' : CochainComplex (Sheaf K (ModuleCat.{max u v} Λ)) 
   have h1 := congrArg (fun φ => (φ.hom.app U).hom e)
     (homOpComplexPrecompX_π K L M f p (⟨(n, q), by simp only; omega⟩ : HomOpIndex p))
   unfold homOpComponent
-  show _ = ((((homOpComplexPrecompX (M := M) f p ≫ homOpComplexπ K L' M p
+  change _ = ((((homOpComplexPrecompX (M := M) f p ≫ homOpComplexπ K L' M p
     (⟨(n, q), by simp only; omega⟩ : HomOpIndex p)).hom.app U).hom e).app
       (op (Over.mk (𝟙 U.unop)))).hom a
   rw [h1]

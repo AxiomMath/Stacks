@@ -93,27 +93,27 @@ theorem source_comp_objectsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidSch
   ext c
   simp only [Scheme.Hom.comp_appTop, objectsToInvariantSpectrum, Scheme.toSpecΓ_appTop,
     Scheme.ΓSpecIso_naturality]
-  show (sourceMap G) ((Scheme.ΓSpecIso (.of (invariantRing G))).hom c).val =
+  change (sourceMap G) ((Scheme.ΓSpecIso (.of (invariantRing G))).hom c).val =
     (targetMap G) ((Scheme.ΓSpecIso (.of (invariantRing G))).hom c).val
   exact ((Scheme.ΓSpecIso (.of (invariantRing G))).hom c).property
 
 private theorem identity_comp_arrowsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidScheme S) :
     G.identity.left ≫ arrowsToInvariantSpectrum G = objectsToInvariantSpectrum G := by
-  show (G.identity ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
+  change (G.identity ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
   rw [G.source_identity]
   simp
 
 private theorem inverse_comp_arrowsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidScheme S)
     [IsAffine G.objects.left] [IsAffine G.arrows.left] :
     G.inverse.left ≫ arrowsToInvariantSpectrum G = arrowsToInvariantSpectrum G := by
-  show (G.inverse ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
+  change (G.inverse ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
   rw [G.source_inverse]
   exact (source_comp_objectsToInvariantSpectrum G).symm
 
 private theorem comp_comp_arrowsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidScheme S) :
     G.comp.left ≫ arrowsToInvariantSpectrum G =
       (pullback.snd G.source G.target).left ≫ arrowsToInvariantSpectrum G := by
-  show (G.comp ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
+  change (G.comp ≫ G.source).left ≫ objectsToInvariantSpectrum G = _
   rw [G.source_comp, Over.comp_left]
   rfl
 
@@ -138,7 +138,7 @@ private def invariantBaseTarget :
 private theorem invariantBaseComposables_condition :
     (pullback.fst (invariantBaseSource G) (invariantBaseTarget G)).left ≫ G.source.left =
       (pullback.snd (invariantBaseSource G) (invariantBaseTarget G)).left ≫ G.target.left := by
-  show (pullback.fst (invariantBaseSource G) (invariantBaseTarget G) ≫
+  change (pullback.fst (invariantBaseSource G) (invariantBaseTarget G) ≫
       invariantBaseSource G).left =
     (pullback.snd (invariantBaseSource G) (invariantBaseTarget G) ≫
       invariantBaseTarget G).left
@@ -215,7 +215,7 @@ private theorem invariantBaseCompatibleArrow_over {T : Over (Spec (.of (invarian
     (w : f ≫ invariantBaseSource G = g ≫ invariantBaseTarget G) :
     g.left ≫ G.arrows.hom = f.left ≫ G.arrows.hom := by
   have hw : f.left ≫ G.source.left = g.left ≫ G.target.left := by
-    show (f ≫ invariantBaseSource G).left = (g ≫ invariantBaseTarget G).left
+    change (f ≫ invariantBaseSource G).left = (g ≫ invariantBaseTarget G).left
     exact congrArg Over.Hom.left w
   simpa using (hw =≫ G.objects.hom).symm
 
@@ -461,7 +461,7 @@ private theorem arrowsToInvariantSpectrum_eq_specMap {S : Scheme.{u}} (G : Group
       G.arrows.left.isoSpec.hom ≫
         Spec.map (CommRingCat.ofHom
           (RingHom.comp (sourceMap G) (invariantRing G).subtype)) := by
-  show G.source.left ≫ G.objects.left.toSpecΓ ≫
+  change G.source.left ≫ G.objects.left.toSpecΓ ≫
       Spec.map (CommRingCat.ofHom (invariantRing G).subtype) = _
   rw [Scheme.toSpecΓ_naturality_assoc G.source.left, ← Spec.map_comp]
   rfl

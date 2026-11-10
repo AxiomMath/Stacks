@@ -44,8 +44,10 @@ comparison of 03Q9, which restricts a germ of a section of `α_* ℱ` over an é
 `Spec k̄` to the geometric fibre, passed to right derived functors. It is an isomorphism by the two
 inputs of 03Q9 — degree zero and acyclicity on injectives — proved over an arbitrary base for a
 quasi-compact quasi-separated morphism in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/StrictHenselizationStalkSections.lean` and
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/StrictHenselizationStalkDerived.lean`, and transported to `X_{k̄}` along the isomorphism
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/StrictHenselizationStalkSections.lean`
+and
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/StrictHenselizationStalkDerived.lean`,
+and transported to `X_{k̄}` along the isomorphism
 `X_{k̄} ≅ X ×_k Spec 𝒪^{sh}` of
 `Stacks.Frobenius.isIso_geometricFibreToStrictHenselizationBaseChange_fieldGeometricPoint`.
 

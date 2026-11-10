@@ -139,7 +139,7 @@ theorem eq_zero_of_forall_subsingleton_chartRing_of_sieve (V : SmallEtale B S hS
     have := hsub k hk
     refine Eq.trans ?_ ((M.val.map k.op).hom.map_zero).symm
     let y' : M.val.obj (op W) := (M.val.map k.op).hom y
-    show y' = 0
+    change y' = 0
     rw [← one_smul (chartRing B S hS Y.1 Y.2 W) y',
       Subsingleton.elim (1 : chartRing B S hS Y.1 Y.2 W) 0, zero_smul]
 
@@ -148,7 +148,7 @@ theorem subsingleton_chartRing_of_bijective_smul_eq_zero (W : SmallEtale B S hS 
     (m : M.val.obj (op W)) (hm : Function.Bijective fun r : chartRing B S hS Y.1 Y.2 W ↦ r • m)
     (h0 : m = 0) : Subsingleton (chartRing B S hS Y.1 Y.2 W) :=
   ⟨fun a b => hm.1 (by
-    show a • m = b • m
+    change a • m = b • m
     rw [h0, smul_zero, smul_zero])⟩
 
 /-- **A nonzero section of a trivial module over a field chart freely generates it over every
@@ -179,7 +179,7 @@ theorem bijective_smul_map_of_trivialisation
   · have h' := congrArg (φ W) h
     simp only [hlin'] at h'
     simpa only [mul_assoc, hu, mul_one] using congrArg (· * chartRestrict (hF := Y.2) k z) h'
-  · show (φ W x * chartRestrict (hF := Y.2) k z) •
+  · change (φ W x * chartRestrict (hF := Y.2) k z) •
       (show M.val.obj (op W) from (M.val.map k.op).hom y) = x
     refine (hψφ _).symm.trans ?_
     rw [hlin', mul_assoc, mul_comm (chartRestrict (hF := Y.2) k z), hu, mul_one, hψφ]
@@ -271,7 +271,7 @@ theorem PrimeDivisor.genericFieldMorphism_comp_inclusion :
     Z.genericFieldMorphism B S hS hX hdec ≫ Z.inclusion B S hS hX =
       Z.genericFieldToStalk B S hS hX hdec ≫ Z.genericStalkMorphism B S hS hX hdec := by
   ext1
-  show fieldMorphism B S hS Z.subspace.toFunctor (Z.genericFieldPoint B S hS hX hdec) ≫
+  change fieldMorphism B S hS Z.subspace.toFunctor (Z.genericFieldPoint B S hS hX hdec) ≫
       Z.subspace.ι =
     yoneda.map (Z.genericFieldToStalkSpec B S hS hX hdec) ≫
       yoneda.map (Z.genericStalkSpecToChart B S hS hX hdec) ≫

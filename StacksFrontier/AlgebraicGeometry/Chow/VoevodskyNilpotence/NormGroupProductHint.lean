@@ -58,7 +58,7 @@ private theorem appLE_apply_of_eq_id {b : P ⟶ P} (hb : b = 𝟙 P) (U : P.Open
     (e : U ≤ b ⁻¹ᵁ U) (x : Γ(P, U)) : (b.appLE U U e).hom x = x := by
   subst hb
   simp only [Scheme.Hom.appLE, Scheme.Hom.id_app]
-  show (P.presheaf.map (𝟙 (op U))).hom x = x
+  change (P.presheaf.map (𝟙 (op U))).hom x = x
   rw [P.presheaf.map_id]
   rfl
 
@@ -152,7 +152,7 @@ theorem app_finiteLocallyFreeNorm_eq_prod [IsIntegral P]
       ∏ σ : G, ((a σ).appLE (π ⁻¹ᵁ V) (π ⁻¹ᵁ V)
         (le_of_eq (preimage_preimage_of_comp_eq (ha σ) V).symm)).hom s := by
   let := Morphisms.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree π d
-  show (π.app V).hom ((finiteLocallyFreeNorm π).app V s) = _
+  change (π.app V).hom ((finiteLocallyFreeNorm π).app V s) = _
   refine P.sheaf.eq_of_locally_eq' (fun W : {W : Q.affineOpens // W.1 ≤ V} ↦ π ⁻¹ᵁ W.1.1)
     (π ⁻¹ᵁ V) (fun W ↦ homOfLE ((Opens.map π.base).map (homOfLE W.2)).le) ?_ _ _ ?_
   · intro x hx
@@ -166,7 +166,7 @@ theorem app_finiteLocallyFreeNorm_eq_prod [IsIntegral P]
         ((π.app V).hom t) = (π.app W).hom ((Q.presheaf.map i.op).hom t) := fun t ↦ by
       rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, Scheme.Hom.naturality]
       rfl
-    show (P.presheaf.map ((Opens.map π.base).map i).op).hom _ =
+    change (P.presheaf.map ((Opens.map π.base).map i).op).hom _ =
       (P.presheaf.map ((Opens.map π.base).map i).op).hom _
     rw [hnat, ← (finiteLocallyFreeNorm π).naturality i s,
       app_finiteLocallyFreeNorm_eq_prod_of_isAffineOpen π a ha h1 hmul hinj hd hpos W hW,

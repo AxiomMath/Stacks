@@ -309,7 +309,7 @@ theorem restrictScalarHom_apply (V : X.Opens) (r : Γ(X, V)) :
 by `Stacks.Gysin.chartScalar` returns the function itself. -/
 theorem chartScalar_self (V : X.Opens) (r : Γ(X, V)) :
     chartScalar V (le_refl V) (restrictScalarHom V r) = r := by
-  show X.presheaf.map _ (V.toScheme.presheaf.map _ (X.presheaf.map _ r)) = r
+  change X.presheaf.map _ (V.toScheme.presheaf.map _ (X.presheaf.map _ r)) = r
   refine Eq.trans (presheaf_map_comp_apply _ _ _) ?_
   refine Eq.trans (presheaf_map_comp_apply _ _ r) ?_
   refine Eq.trans (presheaf_map_congr _ (𝟙 (op V)) r) ?_
@@ -334,7 +334,7 @@ theorem clsDetAcrossCharts (i : Z ⟶ X) [IsClosedImmersion i] (π : X ⟶ S) (d
       ∑ l, (N.map (restrictScalarHom V)) j l *
         restrictEquations V (fun k => X.presheaf.map (homOfLE ha).op (fa k)) l := by
     intro j
-    show restrictScalarHom V _ = _
+    change restrictScalarHom V _ = _
     refine Eq.trans (congrArg (fun z => restrictScalarHom V z) (hN j)) ?_
     refine Eq.trans (map_sum (restrictScalarHom V) _ _) ?_
     exact Finset.sum_congr rfl fun l _ => map_mul (restrictScalarHom V) _ _

@@ -102,7 +102,7 @@ theorem zeroDivisorsNilpotent_stalk (k : Type u) [Field k]
   let : GrpObj (Over.mk f) := G.grp
   -- the multiplication is flat, so its map on local rings is injective
   have : Subsingleton (Spec (CommRingCat.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   have hflat : Flat (mul f) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (isPullback_mul f).flip

@@ -89,7 +89,7 @@ theorem exists_etale_divisor_of_smoothOfRelativeDimension_one {U W : Scheme.{u}}
     rw [mem_nonZeroDivisors_iff_right]
     intro b hb
     refine Module.Flat.isSMulRegular_of_nonZeroDivisors (M := B) hs ?_
-    show s • b = s • (0 : B)
+    change s • b = s • (0 : B)
     rwa [smul_zero, Algebra.smul_def, mul_comm]
   have : Nontrivial BK := (IsLocalization.injective BK hle).nontrivial
   have : Algebra.IsPushout A B K BK :=

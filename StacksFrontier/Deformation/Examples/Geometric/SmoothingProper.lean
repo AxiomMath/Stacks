@@ -131,7 +131,7 @@ theorem specBottomIso_hom_comp_ι :
     (specBottomIso k).hom ≫ adicThickeningι (PowerSeries k) (discIdeal k) 0 =
       Spec.map (CommRingCat.ofHom (PowerSeries.constantCoeff (R := k))) := by
   rw [specBottomIso, adicThickeningι]
-  show Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   rfl
 
@@ -172,7 +172,7 @@ theorem exists_iso_comp_ι_eq_fromSpecResidueField :
   let E' := Scheme.Spec.mapIso (quotientResidueFieldEquiv k).toCommRingCatIso.op
   refine ⟨asIso (Spec.map (Scheme.Spec.residueFieldIso (.of (PowerSeries k)) x).inv) ≪≫ E', ?_⟩
   rw [← Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField (.of (PowerSeries k)) x]
-  show Spec.map _ ≫ Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   congr 2
 
@@ -195,7 +195,7 @@ theorem flat_of_flat_pullback_adicThickeningι {Y : Scheme.{u}} [IsLocallyNoethe
       rw [hgen]
       exact Field.toIsField _
     let := hfield.toField
-    show @Module.Flat _ _ _ _ (g.stalkMap y).hom.toAlgebra.toModule
+    change @Module.Flat _ _ _ _ (g.stalkMap y).hom.toAlgebra.toModule
     infer_instance
   · exact AlgebraicGeometry.flat_stalkMap_of_flat_pullbacks_spec_quotient_pow (discIdeal k) g
       hflat y hp
@@ -224,7 +224,7 @@ private theorem smooth_genericFibre_of_isPullback_quotient_span_X_pow {Y Z : Sch
   refine smooth_genericFibre_of_pow_mem_fittingIdeal k g 1 (m + 1) (by omega)
     hCM hequi hdim hQ fun U => ?_
   convert hQfit U using 1
-  simp only [← map_pow]
+  simp only
   rw [Nat.add_sub_cancel, hQ.w, Scheme.Hom.comp_appLE]
   have hnat := congrArg (fun φ => φ.hom (PowerSeries.X ^ m))
     (Scheme.ΓSpecIso_inv_naturality

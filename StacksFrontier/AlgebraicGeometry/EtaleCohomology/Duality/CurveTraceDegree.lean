@@ -101,7 +101,7 @@ theorem natCard_ext_two_constantModuleSheaf_of_smoothProperCurve
           X.smallEtaleTopology)) = n := by
   have hn0 : n ≠ 0 := by rintro rfl; simp at hn
   have : NeZero (n : k) := ⟨hn.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   rw [Nat.card_congr (extConstantAddEquivSheafHRootsOfUnity f hζ hn0 2).toEquiv]
   exact natCard_sheafH_two_rootsOfUnity_of_smoothProperCurve f hn hdiv
 
@@ -117,7 +117,7 @@ theorem subsingleton_ext_constantModuleSheaf_of_smoothCurve (q : ℕ) (hq : 3 �
           X.smallEtaleTopology)) := by
   have hn0 : n ≠ 0 := by rintro rfl; simp at hn
   have : NeZero (n : k) := ⟨hn.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   exact @Equiv.subsingleton _ _ (extConstantAddEquivSheafHRootsOfUnity f hζ hn0 q).toEquiv
     (subsingleton_sheafH_rootsOfUnitySheaf_of_isCurve f hn q hq)
 

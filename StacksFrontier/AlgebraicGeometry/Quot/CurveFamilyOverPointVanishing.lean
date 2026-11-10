@@ -161,7 +161,7 @@ theorem exists_isTerminal_chart_of_subsingleton :
   let A : Space.SmallEtale B integerBase hZ Y.total.1 :=
     ⟨CostructuredArrow.mk e.hom, Space.presheaf_of_isIso B integerBase hZ inferInstance
       (fun U => by
-        show Etale ((BigFppfOver.toScheme B integerBase hZ).map (𝟙 U))
+        change Etale ((BigFppfOver.toScheme B integerBase hZ).map (𝟙 U))
         rw [CategoryTheory.Functor.map_id]
         infer_instance) e.hom⟩
   have hA : IsTerminal A := IsTerminal.ofUniqueHom
@@ -170,7 +170,7 @@ theorem exists_isTerminal_chart_of_subsingleton :
     (fun A' m => ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _
       (yoneda.map_injective (by
         have hw := CostructuredArrow.w m.hom
-        show _ = yoneda.map (yoneda.preimage (A'.obj.hom ≫ e.inv))
+        change _ = yoneda.map (yoneda.preimage (A'.obj.hom ≫ e.inv))
         rw [Functor.map_preimage, ← hw]
         simp [A]))))
   let q : Y.total.obj.reprX ⟶ Y.base := yoneda.preimage (e.hom ≫ Y.toBase.hom)
@@ -197,7 +197,7 @@ theorem exists_isTerminal_chart_of_subsingleton :
     LocallyOfFiniteType.isLocallyNoetherian ((BigFppfOver.toScheme B integerBase hZ).map q)
   have : IsNoetherian T := ⟨⟩
   refine ⟨A, ⟨hA⟩, inferInstanceAs (NoetherianSpace T), ?_⟩
-  show topologicalKrullDim T ≤ _
+  change topologicalKrullDim T ≤ _
   rw [topologicalKrullDim_eq_iSup_localKrullDim]
   refine iSup_le fun t => ?_
   rw [← topologicalKrullDimAt_eq_localKrullDim,

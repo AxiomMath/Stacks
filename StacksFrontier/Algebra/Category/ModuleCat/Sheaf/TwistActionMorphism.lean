@@ -268,7 +268,7 @@ theorem actionOf_add
           (tensorPowerMulSectionAt O hO U L n j
             ((TensorPower.tensorPower O hO L n).val.map (terminal.from U.unop).op a) y) := by
     intro a
-    show (twistActionHom O hO L F n j (globalSectionHom O hO _ a)).val.app U _ = _
+    change (twistActionHom O hO L F n j (globalSectionHom O hO _ a)).val.app U _ = _
     rw [twistActionHom_pure, globalSectionHom_app]
   refine (e (s + s')).trans (Eq.trans ?_ ((congrArg₂ (· + ·) (e s).symm (e s').symm).trans
     (add_val_app O hO (actionOf O hO L F n j s) (actionOf O hO L F n j s') U
@@ -293,7 +293,7 @@ theorem actionOf_zero
   intro U x y
   refine Eq.trans ?_ (zero_val_app O hO U
     (tensorSectionsAt O hO U F (TensorPower.tensorPower O hO L j) x y)).symm
-  show (twistActionHom O hO L F n j (globalSectionHom O hO _
+  change (twistActionHom O hO L F n j (globalSectionHom O hO _
     (0 : (TensorPower.tensorPower O hO L n).val.obj (op (⊤_ C))))).val.app U _ = 0
   rw [twistActionHom_pure, globalSectionHom_app]
   have hm : (TensorPower.tensorPower O hO L n).val.map (terminal.from U.unop).op

@@ -94,7 +94,8 @@ unproved in that spelling; the
 library's `AlgebraicGeometry.IsProjective` is the same notion over the library's projective bundle,
 and it is the predicate the registered Tag 07RM concludes. The predicate used throughout this file
 is the H-projective one, Tag 0C61's `IsProjectiveMorphism`, which is
-`Stacks.HProjective.IsHProjective` with the statement's projective space replaced by its library name.
+`Stacks.HProjective.IsHProjective` with the statement's projective space replaced by its library
+name.
 
 **`IsAffine S` / `IsAffineHom f` are not removed by this file.** Removing them at H-projectivity
 would need the passage from relative to absolute ampleness, which in general needs an ample module

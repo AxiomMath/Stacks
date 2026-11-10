@@ -131,16 +131,16 @@ theorem min_two_supportDim_le_moduleDepth_ext_of_le_depth [IsNoetherianRing S] [
     have hM' : Module.IsCohenMacaulayAtMaximalIdeal S M' := by
       unfold Module.IsCohenMacaulayAtMaximalIdeal at hM ⊢
       refine withBot_add_one_injective ?_
-      show ((Module.depth S (IsLocalRing.maximalIdeal S) (QuotSMulTop x M) : ℕ∞) :
+      change ((Module.depth S (IsLocalRing.maximalIdeal S) (QuotSMulTop x M) : ℕ∞) :
         WithBot ℕ∞) + 1 = Module.supportDim S (QuotSMulTop x M) + 1
       rw [hsd, ← hM, ← hdm]
       rfl
     have hc' : (c : ℕ∞) ≤ Module.depth S I M' := by
-      show (c : ℕ∞) ≤ Module.depth S I (QuotSMulTop x M)
+      change (c : ℕ∞) ≤ Module.depth S I (QuotSMulTop x M)
       rw [← hdI] at hc
       exact (ENat.add_le_add_iff_right ENat.one_ne_top).mp (by exact_mod_cast hc)
     have hdim' : Module.supportDim S N + c ≤ Module.supportDim S M' := by
-      show _ ≤ Module.supportDim S (QuotSMulTop x M)
+      change _ ≤ Module.supportDim S (QuotSMulTop x M)
       rw [← hsd] at hdim
       exact withBot_add_le_of_add_succ_le hdim
     have hIM : I • (⊤ : Submodule S M) ≠ ⊤ := by

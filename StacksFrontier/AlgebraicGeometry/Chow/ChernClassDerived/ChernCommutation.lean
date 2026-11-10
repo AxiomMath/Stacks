@@ -79,7 +79,7 @@ components. -/
 theorem mul_apply_zero_congr {a b a' b' : TotalChowClass C sY} (ha : a 0 = a' 0)
     (hb : b 0 = b' 0) : (a * b) 0 = (a' * b') 0 := by
   rw [mul_apply, mul_apply, Finset.sum_range_one, Finset.sum_range_one]
-  simp only [mulTerm, le_refl, dif_pos, ha, hb]
+  simp only [mulTerm, le_refl, dite_eq_left, ha, hb]
 
 /-- A product of two total classes of degree-`0` component `1 ∈ A^0(Y)` again has degree-`0`
 component `1`. -/
@@ -128,19 +128,19 @@ theorem val_listProd_apply_zero (l : List (TotalChowClass C sY)ˣ)
 theorem homComponent_one (j : ℕ) :
     homComponent j (1 : TotalChowClass C sY) = if j = 0 then 1 else 0 := by
   rcases eq_or_ne j 0 with rfl | hj
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     refine ext fun p ↦ ?_
     rw [homComponent_apply]
     rcases eq_or_ne p 0 with rfl | hp
-    · rw [if_pos rfl]
-    · rw [if_neg hp, one_apply_of_ne hp]
-  · rw [if_neg hj]
+    · rw [ite_eq_left rfl]
+    · rw [ite_eq_right hp, one_apply_of_ne hp]
+  · rw [ite_eq_right hj]
     refine ext fun p ↦ ?_
     rw [homComponent_apply]
     rcases eq_or_ne p j with rfl | hp
-    · rw [if_pos rfl, one_apply_of_ne hj]
+    · rw [ite_eq_left rfl, one_apply_of_ne hj]
       rfl
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       rfl
 
 /-- A total class whose degree-`0` component is `1 ∈ A^0(Y)` has degree-`0` homogeneous
@@ -150,8 +150,8 @@ theorem homComponent_zero_of_apply_zero {a : TotalChowClass C sY}
   refine ext fun p ↦ ?_
   rw [homComponent_apply]
   rcases eq_or_ne p 0 with rfl | hp
-  · rw [if_pos rfl, ha]
-  · rw [if_neg hp, one_apply_of_ne hp]
+  · rw [ite_eq_left rfl, ha]
+  · rw [ite_eq_right hp, one_apply_of_ne hp]
 
 /-- **The homogeneous components of a product of total classes**, as the convolution of the
 components of the factors: `(a b)_m = ∑_{i + j = m} a_i b_j`. -/
@@ -308,7 +308,7 @@ theorem of_res {W : Scheme.{u}} {sW : W ⟶ C.S} [LocallyOfFiniteType sW] (g : W
     (h : CommuteHomComponent (TotalChowClass.res g hs a) (TotalChowClass.res g hs b)) :
     CommuteHomComponent a b := by
   intro i j
-  show TotalChowClass.homComponent i a * TotalChowClass.homComponent j b =
+  change TotalChowClass.homComponent i a * TotalChowClass.homComponent j b =
     TotalChowClass.homComponent j b * TotalChowClass.homComponent i a
   refine TotalChowClass.res_injective_of_isEnvelope g hg hs ?_
   rw [map_mul, map_mul, TotalChowClass.res_homComponent, TotalChowClass.res_homComponent]
@@ -431,7 +431,7 @@ theorem commute_homComponent_complexChern {P P' : CochainComplex Y.Modules ℤ}
     (i j : ℕ) :
     Commute (TotalChowClass.homComponent i (complexChern C sY hP))
       (TotalChowClass.homComponent j (complexChern C sY hP')) := by
-  show TotalChowClass.homComponent i (complexChern C sY hP) *
+  change TotalChowClass.homComponent i (complexChern C sY hP) *
       TotalChowClass.homComponent j (complexChern C sY hP') =
     TotalChowClass.homComponent j (complexChern C sY hP') *
       TotalChowClass.homComponent i (complexChern C sY hP)

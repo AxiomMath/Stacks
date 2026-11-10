@@ -46,7 +46,8 @@ The source proves [Stacks, Tag 0CQI] by applying [Stacks, Tag 0A0G] to the morph
 topoi `(𝒞, 𝒪) ⟶ (pt, A)`, and that route is unavailable here — there is no morphism of ringed
 sites from a general ringed site to the ringed point, as the module documentation of
 `DerivedCompletionRinged/GlobalSectionsCompletion.lean` records. The engine replaces it: the
-argument it runs is the one `StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/PushforwardCommutesCompletionCanonical.lean` runs for `Rf_*`, at the
+argument it runs is the one
+`DerivedCompletionRinged/PushforwardCommutesCompletionCanonical.lean` runs for `Rf_*`, at the
 generality of a triangulated functor.
 
 ## Main results

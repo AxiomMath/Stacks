@@ -239,7 +239,7 @@ private theorem relocalizeYoneda_projection
   apply yonedaEquiv.injective
   simp only [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   rw [yonedaEquiv_apply, representableBy_toIso_hom_app]
-  show (relocalizeProjection g F).app (op ((Over.map g).obj U))
+  change (relocalizeProjection g F).app (op ((Over.map g).obj U))
     (((OverShriek.relocalizePresheafFunctor g).map j).app (op ((Over.map g).obj U))
       ⟨⟨𝟙 U.left ≫ U.hom, Over.homMk (𝟙 U.left) rfl⟩, _⟩) = _
   exact Over.OverMorphism.ext (Category.id_comp _)
@@ -255,12 +255,12 @@ private theorem relocalizeYoneda_counit
   apply yonedaEquiv.injective
   simp only [yonedaEquiv_comp, Equiv.apply_symm_apply]
   rw [yonedaEquiv_apply, representableBy_toIso_hom_app]
-  show (OverShriek.relocalizeOfRestricted g (𝟙 _)).app (op ((Over.map g).obj U))
+  change (OverShriek.relocalizeOfRestricted g (𝟙 _)).app (op ((Over.map g).obj U))
     (((OverShriek.relocalizePresheafFunctor g).map j).app (op ((Over.map g).obj U))
       ⟨⟨𝟙 U.left ≫ U.hom, Over.homMk (𝟙 U.left) rfl⟩, _⟩) = _
   let e : U ⟶ Over.mk (𝟙 U.left ≫ U.hom) := Over.homMk (𝟙 U.left) (by simp)
   let e' : Over.mk (𝟙 U.left ≫ U.hom) ⟶ U := Over.homMk (𝟙 U.left) rfl
-  show F.map ((Over.map g).map e).op (j.app _ e') = j.app _ (𝟙 U)
+  change F.map ((Over.map g).map e).op (j.app _ e') = j.app _ (𝟙 U)
   have hn := (j.naturality_apply e.op e').symm
   change F.map ((Over.map g).map e).op (j.app _ e') = j.app _ (e ≫ e') at hn
   have he : e ≫ e' = 𝟙 U := by ext; simp [e, e']
@@ -274,7 +274,7 @@ private theorem relocalizeYoneda_naturality
   apply yonedaEquiv.injective
   simp only [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   rw [yonedaEquiv_apply, representableBy_toIso_hom_app, representableBy_toIso_hom_app]
-  show ⟨⟨f.left ≫ V.hom, Over.homMk f.left rfl⟩, _⟩ =
+  change ⟨⟨f.left ≫ V.hom, Over.homMk f.left rfl⟩, _⟩ =
     ((OverShriek.relocalizePresheafFunctor g).map (yoneda.map f)).app
       (op ((Over.map g).obj U))
       ⟨⟨𝟙 U.left ≫ U.hom, Over.homMk (𝟙 U.left) rfl⟩, _⟩
@@ -287,7 +287,7 @@ private theorem relocalizeYoneda_naturality
       Σ χ, (yoneda.obj V).obj (op (Over.mk χ))) =
     ⟨𝟙 U.left ≫ U.hom,
       ((Over.homMk (𝟙 U.left) rfl : Over.mk (𝟙 U.left ≫ U.hom) ⟶ U) ≫ f) ≫ 𝟙 V⟩ at h
-  show (⟨f.left ≫ V.hom, (Over.homMk f.left rfl : Over.mk (f.left ≫ V.hom) ⟶ V)⟩ :
+  change (⟨f.left ≫ V.hom, (Over.homMk f.left rfl : Over.mk (f.left ≫ V.hom) ⟶ V)⟩ :
       Σ χ, (yoneda.obj V).obj (op (Over.mk χ))) =
     ⟨𝟙 U.left ≫ U.hom,
       (Over.homMk (𝟙 U.left) rfl : Over.mk (𝟙 U.left ≫ U.hom) ⟶ U) ≫ f⟩
@@ -514,6 +514,7 @@ private theorem isRepresentable_of_quasiAffine_fpqc_baseChange
     (e ≪≫ asIso (pullback.snd (𝟙 (yoneda.obj V)) f))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site
 private theorem quasiAffine_of_open_factor
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hF : IsAlgebraicSpace B S hS F)
@@ -603,7 +604,7 @@ private theorem exists_quasiAffine_baseChange_neighborhood
     obtain ⟨z, rfl⟩ := hfiber y hyx
     apply hy
     refine ⟨pointsMap B S hS _ (Subfunctor.toRange i) z, ?_⟩
-    show (pointsMap B S hS _ R.ι ∘ pointsMap B S hS _ (Subfunctor.toRange i)) z = _
+    change (pointsMap B S hS _ R.ι ∘ pointsMap B S hS _ (Subfunctor.toRange i)) z = _
     rw [← pointsMap_comp, Subfunctor.toRange_ι]
   obtain ⟨N, hN, hNqc, n, hn, hNO⟩ :=
     exists_quasiCompact_openSubspace_within B S hS hX x O hO hxO
@@ -623,7 +624,7 @@ private theorem exists_quasiAffine_baseChange_neighborhood
     have ht := hNO (Set.mem_range_self (pointsMap B S hS H (pullback.fst N.ι π) z))
     apply ht
     refine ⟨pointsMap B S hS H a z, hz, ?_⟩
-    show (pointsMap B S hS Y π ∘ pointsMap B S hS H a) z =
+    change (pointsMap B S hS Y π ∘ pointsMap B S hS H a) z =
       (pointsMap B S hS N.toFunctor N.ι ∘ pointsMap B S hS H (pullback.fst N.ι π)) z
     rw [← pointsMap_comp, ← pointsMap_comp]
     exact congrArg (fun f => pointsMap B S hS H f z) pullback.condition.symm
@@ -660,7 +661,7 @@ private theorem locallyOfFiniteType_of_isClosedImmersion
     hX hY f hf.1).mpr <| MorphismProperty.relative_monotone (fun _ _ g hg => by
     let : AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B S hS).map g) := hg
-    show AlgebraicGeometry.LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map g)
+    change AlgebraicGeometry.LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map g)
     infer_instance) f hf
 
 private theorem locallyOfFiniteType_yonedaMap
@@ -674,7 +675,7 @@ private theorem locallyOfFiniteType_yonedaMap
   have _ : P.IsStableUnderBaseChange := schemeProperty_inverseImage_stable B S hS _
   have hid (W : BigFppfOver B S hS) : P.presheaf (𝟙 (yoneda.obj W)) := by
     have hW : P (𝟙 W) := by
-      show AlgebraicGeometry.Etale (T.map (𝟙 W))
+      change AlgebraicGeometry.Etale (T.map (𝟙 W))
       rw [T.map_id]
       infer_instance
     simpa only [yoneda.map_id] using MorphismProperty.relative_map (F := yoneda) hW
@@ -766,9 +767,9 @@ private theorem jacobsonSpace_points_of_locallyOfFiniteType
       have hmap : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso <;>
       let : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd <;>
       let : IsIso (T.map snd) := Functor.map_isIso T snd
-    · show AlgebraicGeometry.Surjective (T.map snd)
+    · change AlgebraicGeometry.Surjective (T.map snd)
       infer_instance
-    · show AlgebraicGeometry.Etale (T.map snd)
+    · change AlgebraicGeometry.Etale (T.map snd)
       infer_instance
   exact (exists_jacobson_atlas_iff_jacobsonSpace_points B (Spec (.of k)) hk hX hdecent).mp
     (exists_jacobson_atlas_of_isLocallyOfFiniteType B (Spec (.of k)) hk hY hX f hfinite hJacY)
@@ -858,7 +859,7 @@ private theorem exists_affine_factor_of_finite_over_algebraicallyClosed
       rw [Functor.map_comp, yoneda.map_preimage]
       exact sq.lift_snd _ _ _
     refine ⟨T.map l (IsLocalRing.closedPoint K), ?_⟩
-    show (T.map l ≫ T.map b) _ = x
+    change (T.map l ≫ T.map b) _ = x
     rw [← T.map_comp, hl]
     exact AlgebraicGeometry.pointOfClosedPoint_apply a x isClosed_singleton _
   let : IsIso (T.map b) :=
@@ -871,18 +872,21 @@ private theorem exists_affine_factor_of_finite_over_algebraicallyClosed
 /-! ### Stacks 0B88 -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_DecentFiniteTypeScheme
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
     HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for binary products of presheaves on the big fppf site
 local instance (priority := high) hasBinaryProducts_presheaf_DecentFiniteTypeScheme
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
     HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site
 /-- **Stacks 0B88.** Let `k` be a field with algebraic closure `K = k̄` and let `X` be an
 algebraic space over `k`.  Assume
 
@@ -892,8 +896,9 @@ algebraic space over `k`.  Assume
 
 Then `X` is a scheme.
 
-All three source hypotheses are present and none is weakened: `hdecent` together with
-`hfinite` is hypothesis (1), `hbase` is hypothesis (2), and `haffine` is hypothesis (3).
+Hypotheses (1) and (3) are present and not weakened: `hdecent` together with `hfinite` is
+hypothesis (1), and `haffine` is hypothesis (3).  Hypothesis (2) is not needed by the proof
+below and is omitted, so the statement is stronger than the source's.
 
 `X_{k̄}` is the restriction of `X` to the big fppf site over `Spec k̄` along the morphism
 `g : Spec k̄ ⟶ Spec k` of the site, a `k̄`-rational point of it is a section over the terminal
@@ -912,7 +917,7 @@ and hypothesis (3) gives an affine open of `X_{k̄}` through which it factors.  
 fibrewise containment into a quasi-compact open neighbourhood `N` of the point whose base
 change to `k̄` is quasi-affine over `Spec k̄`.  Tag 0423 descends quasi-affineness along that
 fpqc covering and Tag 03WM makes `N` a scheme, so the point is in the schematic locus. -/
-@[stacks 0B88 "all three hypotheses of the source, none dropped, weakened or added"]
+@[stacks 0B88 "hypotheses (1) and (3) of the source; (2) is not needed"]
 theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
     (k K : Type u) [Field k] [Field K] [Algebra k K] [IsAlgClosure k K]
     (B : BigFppfSite.{u})
@@ -922,9 +927,6 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
     (hdecent : IsDecentSpace B (Spec (.of k)) hk X)
     (f : X ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hk))))
     (hfinite : IsLocallyOfFiniteType B (Spec (.of k)) hk f)
-    (hbase : ((OverShriek.relocalizeRestrict
-      (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap k K))) :
-        B.obj hK ⟶ B.obj hk)).obj X).IsRepresentable)
     (haffine :
       let Xbase := (OverShriek.relocalizeRestrict
         (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap k K))) :
@@ -1049,11 +1051,11 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
       have hm : FieldValuedPoint.map B (Spec (.of k)) hk (yoneda.obj P) pmap pp = p := by
         change { p with value := pmap.app (op P) (𝟙 P) } = p
         have heval : pmap.app (op P) (𝟙 P) = p.value := by
-          show X.map (𝟙 P).op p.value = p.value
+          change X.map (𝟙 P).op p.value = p.value
           rw [op_id, X.map_id]
           rfl
         rw [heval]
-      show (FieldValuedPoint.map B (Spec (.of k)) hk (yoneda.obj P) pmap pp).class
+      change (FieldValuedPoint.map B (Spec (.of k)) hk (yoneda.obj P) pmap pp).class
         B (Spec (.of k)) hk X = x
       rwa [hm]
     intro y hy
@@ -1061,7 +1063,7 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
       sqalg y (pp.class B (Spec (.of k)) hk (yoneda.obj P)) (hy.trans hpp.symm)
     refine ⟨pointsMap B (Spec (.of k)) hk (yoneda.obj A')
       (yoneda.map ((Over.map g).map w)) zz, ?_⟩
-    show (pointsMap B (Spec (.of k)) hk (yoneda.obj U) i' ∘
+    change (pointsMap B (Spec (.of k)) hk (yoneda.obj U) i' ∘
       pointsMap B (Spec (.of k)) hk (yoneda.obj A')
         (yoneda.map ((Over.map g).map w))) zz = y
     rwa [← pointsMap_comp, hfactor]
@@ -1072,12 +1074,12 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
       i' hi' b x hfiber
   have hgflat : AlgebraicGeometry.Flat
       ((BigFppfOver.toScheme B (Spec (.of k)) hk).map g₀) := by
-    show AlgebraicGeometry.Flat (Spec.map (CommRingCat.ofHom (algebraMap k K)))
+    change AlgebraicGeometry.Flat (Spec.map (CommRingCat.ofHom (algebraMap k K)))
     rw [AlgebraicGeometry.Flat.SpecMap_iff]
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
   have hgsurj : AlgebraicGeometry.Surjective
       ((BigFppfOver.toScheme B (Spec (.of k)) hk).map g₀) := by
-    show AlgebraicGeometry.Surjective (Spec.map (CommRingCat.ofHom (algebraMap k K)))
+    change AlgebraicGeometry.Surjective (Spec.map (CommRingCat.ofHom (algebraMap k K)))
     rw [AlgebraicGeometry.surjective_iff]
     exact Function.surjective_to_subsingleton _
   have hNrep : N.toFunctor.IsRepresentable :=
@@ -1085,7 +1087,7 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
       (by change IsAffine (Spec (.of k)); infer_instance) g₀
       (fpqcCovering_of_affine_flat_surjective B (Spec (.of k)) hk V T g₀
         (by
-          show AlgebraicGeometry.IsAffineHom
+          change AlgebraicGeometry.IsAffineHom
             (Spec.map (CommRingCat.ofHom (algebraMap k K)))
           infer_instance)
         hgflat hgsurj)
@@ -1094,7 +1096,7 @@ theorem isRepresentable_of_isAlgClosure_finite_rationalPoints_isAffine
       ((IsPullback.of_hasPullback N.ι π).flip.paste_horiz sqY.flip).flip hNbase
   let l := le_schematicLocus B (Spec (.of k)) hk X N hN hNrep
   refine ⟨pointsMap B (Spec (.of k)) hk N.toFunctor (Subfunctor.homOfLe l) n, ?_⟩
-  show (pointsMap B (Spec (.of k)) hk _ _ ∘
+  change (pointsMap B (Spec (.of k)) hk _ _ ∘
     pointsMap B (Spec (.of k)) hk N.toFunctor (Subfunctor.homOfLe l)) n = x
   rwa [← pointsMap_comp, Subfunctor.homOfLe_ι]
 

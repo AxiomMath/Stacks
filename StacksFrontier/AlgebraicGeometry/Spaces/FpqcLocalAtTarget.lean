@@ -330,7 +330,7 @@ private noncomputable def affineCoproductData
     rw [hV]
     change Sigma.ι F i ≫ m ≫ B.inclusion.map Tover.hom = Sigma.ι F i ≫ q
     rw [← Category.assoc, hdesc i, hcomp]
-    exact (Sigma.ι_desc q_i i).symm
+    exact (Sigma.ι_comp_desc q_i i).symm
   let g : V ⟶ T := ObjectProperty.homMk (Over.homMk msmall hm)
   let σ (i : Shrink.{u, u + 1} U.I₀) :
       B.inclusion.obj ((BigAffineFppf.inclusion B S hS).obj
@@ -347,7 +347,7 @@ private noncomputable def affineCoproductData
             (U.X (e.symm i))).hom
       rw [B.inclusion.map_preimage, hV]
       change Sigma.ι F i ≫ q = q_i i
-      exact Sigma.ι_desc q_i i)
+      exact Sigma.ι_comp_desc q_i i)
   let ι (i : Shrink.{u, u + 1} U.I₀) :
       U.X (e.symm i) ⟶ V := ObjectProperty.homMk (α i)
   have hfac : ∀ i, ι i ≫ g = U.f (e.symm i) := by
@@ -461,7 +461,7 @@ private theorem affineCoproduct_inclusions_cover
   have hfp : E'.presieve₀ ∈ Scheme.fppfPrecoverage
       (B.inclusion.obj ((BigFppfOver.forget B S hS).obj Vover)) := by
     rw [Scheme.fppfPrecoverage_eq_inf]
-    show (E'.presieve₀ ∈ Scheme.precoverage (@Flat : MorphismProperty Scheme.{u})
+    change (E'.presieve₀ ∈ Scheme.precoverage (@Flat : MorphismProperty Scheme.{u})
         (B.inclusion.obj ((BigFppfOver.forget B S hS).obj Vover))) ∧
       (E'.presieve₀ ∈ Scheme.precoverage
         (@LocallyOfFinitePresentation : MorphismProperty Scheme.{u})
@@ -485,7 +485,7 @@ private theorem affineCoproduct_inclusions_cover
       obtain ⟨iso, hiso⟩ := hα i
       refine ⟨ObjectProperty.isoMk _ iso, ?_⟩
       apply B.inclusion.map_injective
-      show iso.hom ≫ (W.map B.inclusion).f (α i) = E'.f i
+      change iso.hom ≫ (W.map B.inclusion).f (α i) = E'.f i
       exact hiso
     · obtain ⟨β, hβ⟩ := htaut.2
       refine ⟨β, ?_⟩
@@ -493,7 +493,7 @@ private theorem affineCoproduct_inclusions_cover
       obtain ⟨iso, hiso⟩ := hβ j
       refine ⟨ObjectProperty.isoMk _ iso, ?_⟩
       apply B.inclusion.map_injective
-      show iso.hom ≫ E'.f (β j) = (W.map B.inclusion).f j
+      change iso.hom ≫ E'.f (β j) = (W.map B.inclusion).f j
       exact hiso
   have hgenE : Sieve.generate Esite.presieve₀ ∈ B.topology Tsite := by
     simpa only [PreZeroHypercover.generate_presieve₀_eq_of_tautologicallyEquivalent
@@ -502,7 +502,7 @@ private theorem affineCoproduct_inclusions_cover
     simpa [PreZeroHypercover.sieve₀, PreZeroHypercover.presieve₀] using hgenE
   rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff,
     Sieve.overEquiv_ofArrows]
-  show Esite.sieve₀ ∈ B.topology Tsite
+  change Esite.sieve₀ ∈ B.topology Tsite
   exact hcoverSite
 
 private theorem affineCoproductData_mono_map_incl
@@ -513,7 +513,7 @@ private theorem affineCoproductData_mono_map_incl
   have := isOpenImmersion_map_incl B S hS U d j
   have hleft : Mono ((BigAffineFppf.inclusion B S hS).map (d.incl j)).left := by
     apply B.inclusion.mono_of_mono_map
-    show Mono ((BigAffineFppf.toScheme B S hS).map (d.incl j))
+    change Mono ((BigAffineFppf.toScheme B S hS).map (d.incl j))
     infer_instance
   let : Mono ((BigAffineFppf.inclusion B S hS).map (d.incl j)).left := hleft
   exact Over.mono_of_mono_left ((BigAffineFppf.inclusion B S hS).map (d.incl j))
@@ -541,7 +541,7 @@ private theorem respectsIso_of_coprod
       (Cofan.isColimitMkOfUnique (Iso.refl Z) (Fin 1))
       (by
         intro i
-        show f ≫ 𝟙 Z = e.inv ≫ (e.hom ≫ f)
+        change f ≫ 𝟙 Z = e.inv ≫ (e.hom ≫ f)
         rw [Category.comp_id, ← Category.assoc, e.inv_hom_id, Category.id_comp])
       (fun _ => hf)
   · intro X Y Z e f hf
@@ -554,7 +554,7 @@ private theorem respectsIso_of_coprod
       (Cofan.isColimitMkOfUnique e.symm (Fin 1))
       (by
         intro i
-        show f ≫ e.hom = 𝟙 X ≫ (f ≫ e.hom)
+        change f ≫ e.hom = 𝟙 X ≫ (f ≫ e.hom)
         rw [Category.id_comp])
       (fun _ => hf)
 
@@ -611,7 +611,7 @@ private theorem algebraicSpacesToSheaf_preservesPullback
       (H.map (ObjectProperty.homMk (pullback.fst f.hom g.hom) : Q ⟶ X))
       (H.map (ObjectProperty.homMk (pullback.snd f.hom g.hom) : Q ⟶ Y))
       (H.map f) (H.map g) := by
-    show IsPullback (pullback.fst f.hom g.hom) (pullback.snd f.hom g.hom) f.hom g.hom
+    change IsPullback (pullback.fst f.hom g.hom) (pullback.snd f.hom g.hom) f.hom g.hom
     exact IsPullback.of_hasPullback f.hom g.hom
   have hChosen : IsPullback (pullback.fst f g) (pullback.snd f g) f g :=
     IsPullback.of_hasPullback f g
@@ -619,16 +619,16 @@ private theorem algebraicSpacesToSheaf_preservesPullback
   have hMappedChosen : IsPullback
       (H.map (pullback.fst f g)) (H.map (pullback.snd f g)) (H.map f) (H.map g) := by
     apply hMappedFiber.of_iso (H.mapIso e).symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
-    · show H.map (ObjectProperty.homMk (pullback.fst f.hom g.hom)) =
+    · change H.map (ObjectProperty.homMk (pullback.fst f.hom g.hom)) =
         H.map e.inv ≫ H.map (pullback.fst f g)
       exact congrArg H.map (hChosen.isoIsPullback_inv_fst _ _ hFiber).symm
-    · show H.map (ObjectProperty.homMk (pullback.snd f.hom g.hom)) =
+    · change H.map (ObjectProperty.homMk (pullback.snd f.hom g.hom)) =
         H.map e.inv ≫ H.map (pullback.snd f g)
       exact congrArg H.map (hChosen.isoIsPullback_inv_snd _ _ hFiber).symm
     · simp
     · simp
   exact hMappedChosen.of_map G (by
-    show F.map (pullback.fst f g) ≫ F.map f =
+    change F.map (pullback.fst f g) ≫ F.map f =
       F.map (pullback.snd f g) ≫ F.map g
     rw [← F.map_comp, ← F.map_comp, pullback.condition])
 
@@ -732,7 +732,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
         congrArg toScheme.map hab
       have hD (k : Shrink.{u, u + 1} U.I₀) :
           toScheme.map (ιsite k) ≫ d.coprodIso.hom = Sigma.ι F k := by
-        show ((BigAffineFppf.toScheme B S hS).map (d.incl k)) ≫
+        change ((BigAffineFppf.toScheme B S hS).map (d.incl k)) ≫
           d.coprodIso.hom = _
         exact d.mapIncl k
       have hsum : toScheme.map a ≫ Sigma.ι F i = toScheme.map b ≫ Sigma.ι F j := by
@@ -832,7 +832,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
       let e : liftedCocone ≅ highTransport' := Cocone.ext (iso (inc.obj d.V)) (by
         intro j
         dsimp [highTransport', highTransport, η, δ]
-        show lift.map (sheafF.map (schemeSpaceMap (ιsite j.as))) ≫
+        change lift.map (sheafF.map (schemeSpaceMap (ιsite j.as))) ≫
               lift.map ((ObjectProperty.isoMk _ (Iso.refl _)).symm.hom) =
             lift.map ((ObjectProperty.isoMk _ (Iso.refl _)).symm.hom) ≫
               lift.map (J.yoneda.map (ιsite j.as))
@@ -847,7 +847,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
       have : PreservesLimitsOfShape WalkingCospan lift := by
         have : PreservesLimitsOfShape WalkingCospan
             (lift ⋙ sheafToPresheaf J (Type (u + 1))) := by
-          show PreservesLimitsOfShape WalkingCospan
+          change PreservesLimitsOfShape WalkingCospan
             (sheafToPresheaf J (Type u) ⋙
               (Functor.whiskeringRight _ _ _).obj uliftFunctor.{u + 1, u})
           infer_instance
@@ -884,7 +884,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
           (Functor.const _).map (sheafF.map p) := by
         ext j x y
         dsimp [α, targetCofan, sourceCofanSheaf, sourceMap, targetIncl]
-        show (sheafF.map
+        change (sheafF.map
               (pullback.snd p (schemeSpaceMap (ιsite j.as)) ≫
                 schemeSpaceMap (ιsite j.as))).hom.app x y =
             (sheafF.map
@@ -910,7 +910,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
           schemeSpaceMap
             (inc.map (U.f (e.symm j))) := by
         apply ObjectProperty.hom_ext
-        show yoneda.map (inc.map (d.incl j)) ≫ yoneda.map (inc.map g) =
+        change yoneda.map (inc.map (d.incl j)) ≫ yoneda.map (inc.map g) =
           yoneda.map (inc.map (U.f (e.symm j)))
         rw [← Functor.map_comp, ← Functor.map_comp, d.fac]
       have hbase : P (pullback.snd fT
@@ -944,7 +944,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
     let Uscheme := U.map (BigAffineFppf.toScheme B S hS)
     have hflatMem : Uscheme.presieve₀ ∈ Scheme.precoverage @Flat
         ((BigAffineFppf.toScheme B S hS).obj T) := by
-      show (U.map (BigAffineFppf.toScheme B S hS)).presieve₀ ∈ _
+      change (U.map (BigAffineFppf.toScheme B S hS)).presieve₀ ∈ _
       simpa only [PreZeroHypercover.presieve₀_map, Presieve.map_ofArrows] using hU.2
     have hprops := (Scheme.presieve₀_mem_precoverage_iff Uscheme).mp hflatMem
     have hflatMap : Flat (Sigma.desc fun j =>
@@ -974,7 +974,7 @@ public theorem isLocalAtTarget_fpqc_of_affineDescent
               rw [← Functor.map_comp, d.fac]
         _ = Sigma.ι F j ≫ Sigma.desc (fun k =>
               (BigAffineFppf.toScheme B S hS).map (U.f (e.symm k))) := by
-              rw [Sigma.ι_desc]
+              rw [Sigma.ι_comp_desc]
     have hgform : (BigAffineFppf.toScheme B S hS).map g =
         d.coprodIso.hom ≫ Sigma.desc (fun j =>
           (BigAffineFppf.toScheme B S hS).map (U.f (e.symm j))) := by

@@ -287,7 +287,7 @@ theorem eq_zero_of_cover (F : X.Modules) {U : X.Opens} (t : Γ(F, U))
     refine ⟨V, hV, hxV, fun W' f g ↦ ?_⟩
     have hgf : F.val.presheaf.map g t = 0 := by
       rw [Subsingleton.elim g ((homOfLE hV).op ≫ f), Functor.map_comp]
-      show F.val.presheaf.map f (F.presheaf.map (homOfLE hV).op t) = 0
+      change F.val.presheaf.map f (F.presheaf.map (homOfLE hV).op t) = 0
       rw [hzero]
       exact map_zero (ConcreteCategory.hom (F.val.presheaf.map f))
     rw [hgf, smul_zero]
@@ -323,7 +323,7 @@ theorem pow_sections_le_idealPower
     (I : (SheafOfModules.unit.{u} X.ringCatSheaf).Submodule) (n : ℕ) (V : (Opens X)ᵒᵖ) :
     (show Ideal Γ(X, V.unop) from I.toSubmodule.obj V) ^ n ≤
       (idealPower I n).toSubmodule.obj V := by
-  show _ ≤ (sInf ((fun P : (SheafOfModules.unit.{u} X.ringCatSheaf).Submodule ↦ P.toSubmodule)
+  change _ ≤ (sInf ((fun P : (SheafOfModules.unit.{u} X.ringCatSheaf).Submodule ↦ P.toSubmodule)
     '' { J : (SheafOfModules.unit.{u} X.ringCatSheaf).Submodule | ∀ W : (Opens X)ᵒᵖ,
       (show Ideal _ from I.toSubmodule.obj W) ^ n ≤ J.toSubmodule.obj W })).obj V
   rw [PresheafOfModules.Submodule.sInf_obj]
@@ -505,7 +505,7 @@ theorem isLocalizedModule_idealPowerAnnihilator
       · intro c d _ hd
         rw [smul_eq_mul, mul_smul, hd, smul_zero]
     refine ⟨k + m, submoduleMk H (a ^ m • x₀) hmem, submoduleVal_injective H ?_⟩
-    show a ^ (k + m) • submoduleVal H y = restrictₗ F (X.basicOpen_le a) (a ^ m • x₀)
+    change a ^ (k + m) • submoduleVal H y = restrictₗ F (X.basicOpen_le a) (a ^ m • x₀)
     rw [map_smul, ← hx₀, smul_smul, ← pow_add, add_comm m k]
   · intro z hz
     obtain ⟨m, hmz⟩ := hkill0 (submoduleVal H z) (by

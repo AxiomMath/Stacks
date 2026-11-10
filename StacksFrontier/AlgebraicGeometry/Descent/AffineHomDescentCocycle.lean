@@ -187,7 +187,7 @@ theorem exists_transition_unitCoassoc_of_isPushout
   obtain ⟨σ, hσ⟩ : ∃ σ : T →ₐ[R] (A ⊗[R] T),
       ∀ b : T, σ b = ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b := by
     refine ⟨{ toRingHom := ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom, commutes' := fun r => ?_ }, fun _ => rfl⟩
-    show ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom (algebraMap R T r) = _
+    change ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom (algebraMap R T r) = _
     rw [IsScalarTower.algebraMap_apply R A T, hunit, Algebra.TensorProduct.algebraMap_apply]
   have hσ1 : σ 1 = 1 := map_one σ
   -- the transition isomorphism
@@ -201,11 +201,11 @@ theorem exists_transition_unitCoassoc_of_isPushout
     refine po₁.hom_ext ?_ ?_
     · rw [← Category.assoc, hi₁, ← Category.assoc]
       ext b
-      show τ₀ (b ⊗ₜ[R] (1 : A)) = ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b
+      change τ₀ (b ⊗ₜ[R] (1 : A)) = ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b
       rw [hτ₀tmul, map_one, mul_one, hσ]
     · rw [← Category.assoc, hj₁, ← Category.assoc, h2, Category.assoc, hj₂]
       ext a
-      show τ₀ ((1 : T) ⊗ₜ[R] a) = _
+      change τ₀ ((1 : T) ⊗ₜ[R] a) = _
       rw [hτ₀tmul, hσ1, one_mul, hψapp]
       rfl
   have hiso : IsIso (ofHom τ₀.toRingHom) := by
@@ -218,14 +218,14 @@ theorem exists_transition_unitCoassoc_of_isPushout
     exact this
   refine ⟨AlgEquiv.ofBijective τ₀ hbij, ?_, ?_, ?_⟩
   · intro a b
-    show τ₀ (algebraMap A T a ⊗ₜ[R] b) = _
+    change τ₀ (algebraMap A T a ⊗ₜ[R] b) = _
     rw [hτ₀tmul, hσ, hunit, hψapp, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   · -- an invariant element is carried to the same place by the coaction and by `j₂`
     intro b hb
     have hτ₀b : τ₀ (b ⊗ₜ[R] (1 : A)) = σ b := by rw [hτ₀tmul, map_one, mul_one]
     have hσb : σ b = (1 : A) ⊗ₜ[R] b := by rw [← hτ₀b]; exact hb
     refine (ConcreteCategory.bijective_of_isIso κ₂.hom).1 ?_
-    show ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b = (j₂ ≫ κ₂.hom).hom b
+    change ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b = (j₂ ≫ κ₂.hom).hom b
     rw [← hσ, hσb, hj₂]
     rfl
   · -- the cocycle condition, in the form of coassociativity of the unit
@@ -233,7 +233,7 @@ theorem exists_transition_unitCoassoc_of_isPushout
     have hu : ∀ b : T, ModuleCat.algebraUnitTransition R A T τ b = σ b := by
       intro b
       rw [ModuleCat.algebraUnitTransition_apply]
-      show τ₀ (b ⊗ₜ[R] (1 : A)) = σ b
+      change τ₀ (b ⊗ₜ[R] (1 : A)) = σ b
       rw [hτ₀tmul, map_one, mul_one]
     have hlin : (ModuleCat.algebraUnitTransition R A T τ) = σ.toLinearMap :=
       LinearMap.ext hu
@@ -243,7 +243,7 @@ theorem exists_transition_unitCoassoc_of_isPushout
       refine po₃.of_iso (Iso.refl _) (Iso.refl _) κ₂ (Iso.refl _) (by simp) ?_ (by simp) (by simp)
       rw [Iso.refl_hom, Category.id_comp, Category.assoc, hi₂]
       ext r
-      show (algebraMap R A r) ⊗ₜ[R] (1 : T) = algebraMap R (A ⊗[R] T) r
+      change (algebraMap R A r) ⊗ₜ[R] (1 : T) = algebraMap R (A ⊗[R] T) r
       rw [Algebra.TensorProduct.algebraMap_apply]
     set κ₃ := po₃'.isoIsPushout (CommRingCat.of A) (CommRingCat.of (A ⊗[R] T)) pt₃ with hκ₃
     have hi₃ : i₃ ≫ κ₃.hom = ofHom (Algebra.TensorProduct.includeLeftRingHom
@@ -263,13 +263,14 @@ theorem exists_transition_unitCoassoc_of_isPushout
       refine po₂.hom_ext ?_ ?_
       · rw [← Category.assoc, hi₂, ← Category.assoc, hM₁, hi₃]
         ext a
-        show Algebra.TensorProduct.map (AlgHom.id R A) g (a ⊗ₜ[R] (1 : T)) = a ⊗ₜ[R] (1 : A ⊗[R] T)
+        change Algebra.TensorProduct.map (AlgHom.id R A) g (a ⊗ₜ[R] (1 : T)) =
+          a ⊗ₜ[R] (1 : A ⊗[R] T)
         rw [Algebra.TensorProduct.map_tmul, map_one]
         rfl
       · rw [← Category.assoc, hj₂, ← Category.assoc]
         ext b
         refine Eq.trans ?_ (hM₂ b).symm
-        show Algebra.TensorProduct.map (AlgHom.id R A) g ((1 : A) ⊗ₜ[R] b) = _
+        change Algebra.TensorProduct.map (AlgHom.id R A) g ((1 : A) ⊗ₜ[R] b) = _
         rw [Algebra.TensorProduct.map_tmul]
         rfl
     have hlTensor : ∀ (g : T →ₐ[R] (A ⊗[R] T)) (x : A ⊗[R] T),
@@ -280,7 +281,7 @@ theorem exists_transition_unitCoassoc_of_isPushout
       | tmul a b => rw [LinearMap.lTensor_tmul, Algebra.TensorProduct.map_tmul]; rfl
     have hleft := hmap σ Λ hΛ₁ fun b => by
       rw [← Category.assoc, hΛ₂, Category.assoc, hj₃]
-      show (1 : A) ⊗ₜ[R] ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b = _
+      change (1 : A) ⊗ₜ[R] ((i₁ ≫ χ.hom) ≫ κ₂.hom).hom b = _
       rw [hσ]
     have hright := hmap Algebra.TensorProduct.includeRight Λ' hΛ₁' fun b => by
       rw [← Category.assoc, hΛ₂', Category.assoc, hj₃, ← Category.assoc, hj₂]
@@ -295,7 +296,8 @@ theorem exists_transition_unitCoassoc_of_isPushout
       hlTensor]
     simp only [AlgHom.toLinearMap_apply]
     rw [hσ]
-    show ((i₁ ≫ χ.hom) ≫ κ₂.hom ≫ ofHom (Algebra.TensorProduct.map (AlgHom.id R A) σ).toRingHom).hom
+    change ((i₁ ≫ χ.hom) ≫ κ₂.hom ≫
+        ofHom (Algebra.TensorProduct.map (AlgHom.id R A) σ).toRingHom).hom
         b = ((i₁ ≫ χ.hom) ≫ κ₂.hom ≫ ofHom (Algebra.TensorProduct.map (AlgHom.id R A)
           Algebra.TensorProduct.includeRight).toRingHom).hom b
     rw [e1, e2, e3]
@@ -420,13 +422,13 @@ theorem exists_descentPushout_of_isPullback
   · simp
   · rw [Iso.refl_hom, Category.id_comp, ← hW']
     ext x
-    show (AlgEquiv.ofBijective _ hbij) (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
-    show Algebra.TensorProduct.productMap _ _ (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
+    change (AlgEquiv.ofBijective _ hbij) (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
+    change Algebra.TensorProduct.productMap _ _ (x ⊗ₜ[↥Γ(Sa, ⊤)] (1 : _)) = _
     rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, mul_one]
     rfl
   · rw [Iso.refl_hom, Category.id_comp]
     ext x
-    show Algebra.TensorProduct.productMap _ _ ((1 : ↥Γ(Sc, ⊤)) ⊗ₜ[↥Γ(Sa, ⊤)] x) = _
+    change Algebra.TensorProduct.productMap _ _ ((1 : ↥Γ(Sc, ⊤)) ⊗ₜ[↥Γ(Sa, ⊤)] x) = _
     rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, one_mul]
     rfl
 

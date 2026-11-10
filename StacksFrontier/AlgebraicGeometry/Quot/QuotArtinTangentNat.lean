@@ -99,10 +99,9 @@ theorem sqTransfer_p :
     D.sqTransfer ι toS hk f ≫ (D.sqBaseExtension ι toS hk hF W).p =
       (D.sqBaseExtension ι toS hk hF V).p := by
   rw [sqBaseExtension_p, sqBaseExtension_p]
-  exact transferMap_comp_retractionProjection B S hS (D.sq_isSplitThickeningBy ι toS hk V)
-    (D.sq_isSplitThickeningBy ι toS hk W) (D.sqBaseIso ι toS hk V) (D.sqBaseIso ι toS hk W)
-    (D.relativeMap (D.sqσ ι toS hk f)) (D.sqH_sqR ι toS hk f) (D.sqI_sqH ι toS hk f)
-    (D.sqThetaF ι toS hk f) (D.sqBaseIso_hom_eq ι toS hk f)
+  exact transferMap_comp_retractionProjection B S hS (D.sqBaseIso ι toS hk V)
+    (D.sqBaseIso ι toS hk W) (D.relativeMap (D.sqσ ι toS hk f)) (D.sqH_sqR ι toS hk f)
+    (D.sqI_sqH ι toS hk f) (D.sqThetaF ι toS hk f) (D.sqBaseIso_hom_eq ι toS hk f)
 
 variable (K₀ : Subobject (D.baseChangeModule (D.sq₀ ι toS hk)))
   (K : Subobject (D.baseChangeModule (D.sqT ι toS hk V)))

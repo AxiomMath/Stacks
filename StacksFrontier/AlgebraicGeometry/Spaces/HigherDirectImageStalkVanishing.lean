@@ -110,7 +110,7 @@ theorem IsLocalRing.subsingleton_primeSpectrum_quotient {R : Type*} [CommRing R]
       (PrimeSpectrum.comap (Ideal.Quotient.mk J) P).isPrime.ne_top ?_).symm
     refine hJ.trans ((Ideal.IsPrime.radical_le_iff
       (PrimeSpectrum.comap (Ideal.Quotient.mk J) P).isPrime).2 fun a ha => ?_)
-    show Ideal.Quotient.mk J a ∈ P.asIdeal
+    change Ideal.Quotient.mk J a ∈ P.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.2 ha]
     exact P.asIdeal.zero_mem
   exact ⟨fun P Q => PrimeSpectrum.comap_injective_of_surjective _ Ideal.Quotient.mk_surjective
@@ -266,7 +266,7 @@ theorem exists_pointsMap_idealQuotientSpec_eq_class
         (show Γ(Spec (.of (etaleLocalRingModel Y y)), ⊤) from b))
     rw [CommRingCat.comp_apply, CommRingCat.comp_apply, Iso.hom_inv_id_apply] at h2
     rw [CommRingCat.comp_apply, CommRingCat.comp_apply] at h1
-    show (Spec.map (CommRingCat.ofHom ψ)).appTop _ =
+    change (Spec.map (CommRingCat.ofHom ψ)).appTop _ =
       (Spec.map (CommRingCat.ofHom (etaleLocalRingModelEval Y y))).appTop b
     rw [← h1, ← h2]
     rfl
@@ -289,7 +289,7 @@ theorem exists_pointsMap_idealQuotientSpec_eq_class
     congrArg (fun k => k.hom) (Over.w U₀.point)
   let τ : y.val.siteObject B S hS Y.1 ⟶ idealQuotientSpecObject B S hS J :=
     Over.homMk (ObjectProperty.homMk g) (ObjectProperty.hom_ext _ (by
-      show g ≫ (idealQuotientSpecObject B S hS J).hom.hom = _
+      change g ≫ (idealQuotientSpecObject B S hS J).hom.hom = _
       rw [e1, e2, ← Category.assoc, ← Category.assoc, hg]
       exact e3))
   have hτ : (τ ≫ idealQuotientSpecMap B S hS J) ≫ etaleLocalRingSpecToChart (y := y) hY =
@@ -299,7 +299,7 @@ theorem exists_pointsMap_idealQuotientSpec_eq_class
       schemeSpaceMap (etaleLocalRingSpecToChart (y := y) hY) ≫
       chartToSpace B S hS Y (affineEtaleNeighborhood Y y).chart).hom.app
         (Opposite.op (y.val.siteObject B S hS Y.1)) τ = y.val.value := by
-    show U₀.chart.obj.hom.app (Opposite.op (y.val.siteObject B S hS Y.1))
+    change U₀.chart.obj.hom.app (Opposite.op (y.val.siteObject B S hS Y.1))
       ((τ ≫ idealQuotientSpecMap B S hS J) ≫ etaleLocalRingSpecToChart (y := y) hY) = _
     rw [hτ]
     exact U₀.point_comp

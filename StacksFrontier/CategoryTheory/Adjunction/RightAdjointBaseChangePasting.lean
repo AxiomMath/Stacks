@@ -101,8 +101,8 @@ variable {a : S ⥤ T} {a₁ : S₁ ⥤ T₁} {a₂ : S₂ ⥤ T₂} (adja : Rf 
   {RG₁ : S₁ ⥤ S} {RG₂ : S₂ ⥤ S₁} {RGo : S₂ ⥤ S} {RH₁ : T₁ ⥤ T} {RH₂ : T₂ ⥤ T₁} {RHo : T₂ ⥤ T}
   (adjG₁ : G₁ ⊣ RG₁) (adjG₂ : G₂ ⊣ RG₂) (adjGo : Go ⊣ RGo) (adjH₁ : H₁ ⊣ RH₁)
   (adjH₂ : H₂ ⊣ RH₂) (adjHo : Ho ⊣ RHo)
-  [IsIso (twoSquare adjf adjf₁ eg₁ ef₁).natTrans] [IsIso (twoSquare adjf₁ adjf₂ eg₂ ef₂).natTrans]
-  [IsIso (twoSquare adjf adjf₂ ego efo).natTrans]
+  [IsIso (twoSquare adjf adjf₁ eg₁ ef₁)] [IsIso (twoSquare adjf₁ adjf₂ eg₂ ef₂)]
+  [IsIso (twoSquare adjf adjf₂ ego efo)]
 
 /-- **Pasting of the base change maps of the right adjoints.** If the comparison of the composite
 pullbacks around the outer square is the pasting of the two inner ones, the base change map
@@ -113,10 +113,10 @@ theorem rightAdjointBaseChange_app_eq_of_paste
     haveI := isIso_rightAdjointSquare adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁
     haveI := isIso_rightAdjointSquare adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂
     haveI := isIso_rightAdjointSquare adjf adjf₂ adjGo adjHo ego efo adja adja₂
-    (rightAdjointBaseChange adjf adjf₂ adjGo adjHo ego efo adja adja₂).natTrans.app K =
+    (rightAdjointBaseChange adjf adjf₂ adjGo adjHo ego efo adja adja₂).app K =
       cB.inv.app (a.obj K) ≫
-        H₂.map ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).natTrans.app K) ≫
-        (rightAdjointBaseChange adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂).natTrans.app
+        H₂.map ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).app K) ≫
+        (rightAdjointBaseChange adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂).app
           (G₁.obj K) ≫
         a₂.map (cT.inv.app K) := by
   have := isIso_rightAdjointSquare adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁
@@ -129,17 +129,17 @@ theorem rightAdjointBaseChange_app_eq_of_paste
   have hβ₂ := map_rightAdjointBaseChange_comp_counit adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂
     (G₁.obj K)
   -- the inverse base change map of the outer square, componentwise
-  have hbc : ∀ M : T, (inv (twoSquare adjf adjf₂ ego efo).natTrans).app M =
-      Rf₂.map (cB.inv.app M) ≫ (inv (twoSquare adjf₁ adjf₂ eg₂ ef₂).natTrans).app (H₁.obj M) ≫
-        G₂.map ((inv (twoSquare adjf adjf₁ eg₁ ef₁).natTrans).app M) ≫ cT.inv.app (Rf.obj M) := by
+  have hbc : ∀ M : T, (inv (twoSquare adjf adjf₂ ego efo)).app M =
+      Rf₂.map (cB.inv.app M) ≫ (inv (twoSquare adjf₁ adjf₂ eg₂ ef₂)).app (H₁.obj M) ≫
+        G₂.map ((inv (twoSquare adjf adjf₁ eg₁ ef₁)).app M) ≫ cT.inv.app (Rf.obj M) := by
     intro M
     rw [NatIso.isIso_inv_app, NatIso.isIso_inv_app, NatIso.isIso_inv_app]
     apply IsIso.inv_eq_of_hom_inv_id
     change map adjf adjf₂ ego efo M ≫ _ = _
     rw [map_eq_of_pullbackComparison_paste adjf adjf₁ adjf₂ eg₁ ef₁ eg₂ ef₂ ego efo cT cB hpc M]
     simp [map, ← Rf₂.map_comp_assoc]
-  have hn₂ := (inv (twoSquare adjf₁ adjf₂ eg₂ ef₂).natTrans).naturality
-    ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).natTrans.app K)
+  have hn₂ := (inv (twoSquare adjf₁ adjf₂ eg₂ ef₂)).naturality
+    ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).app K)
   simp only [Functor.comp_map, Functor.comp_obj] at hn₂
   have hcT := cT.inv.naturality (adja.counit.app K)
   simp only [Functor.comp_map, Functor.comp_obj, Functor.id_obj] at hcT
@@ -159,11 +159,11 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste
     haveI := isIso_rightAdjointSquare adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁
     haveI := isIso_rightAdjointSquare adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂
     haveI := isIso_rightAdjointSquare adjf adjf₂ adjGo adjHo ego efo adja adja₂
-    IsIso ((rightAdjointBaseChange adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂).natTrans.app
+    IsIso ((rightAdjointBaseChange adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂).app
       (G₁.obj K)) →
-    (IsIso ((rightAdjointBaseChange adjf adjf₂ adjGo adjHo ego efo adja adja₂).natTrans.app K) ↔
+    (IsIso ((rightAdjointBaseChange adjf adjf₂ adjGo adjHo ego efo adja adja₂).app K) ↔
       IsIso (H₂.map
-        ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).natTrans.app K))) := by
+        ((rightAdjointBaseChange adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁).app K))) := by
   have := isIso_rightAdjointSquare adjf adjf₁ adjG₁ adjH₁ eg₁ ef₁ adja adja₁
   have := isIso_rightAdjointSquare adjf₁ adjf₂ adjG₂ adjH₂ eg₂ ef₂ adja₁ adja₂
   have := isIso_rightAdjointSquare adjf adjf₂ adjGo adjHo ego efo adja adja₂

@@ -200,7 +200,7 @@ lemma bijective_evalUnit_app (F : Sheaf K AddCommGrpCat.{max u v}) (U : Cᵒᵖ)
         ((ι.hom.hom.app (op (Over.mk (𝟙 U.unop)))).hom
           (((toSheafify (K.over U.unop) ((Functor.const (Over U.unop)ᵒᵖ).obj Z)).app
             (op (Over.mk (𝟙 U.unop)))).hom (ULift.up 1))) := by
-      show ((constantSheafAdj (K.over U.unop) AddCommGrpCat.{max u v} Over.mkIdTerminal).homEquiv
+      change ((constantSheafAdj (K.over U.unop) AddCommGrpCat.{max u v} Over.mkIdTerminal).homEquiv
         Z S (ι.hom ≫ α' ≫ 𝟙 S)).hom (ULift.up 1) = _
       rw [hadj]
       rfl

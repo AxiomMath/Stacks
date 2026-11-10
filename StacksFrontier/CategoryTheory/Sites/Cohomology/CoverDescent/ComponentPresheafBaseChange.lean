@@ -159,7 +159,7 @@ lemma bijective_componentPresheafFstHom (hA : pA.IsFiberedInGroupoids)
         iso := asIso χ
         vertical := hχ }
     refine ⟨componentMk (TwoFibreProductOver.fst (eA ⋙ pS) (eB ⋙ pS) pS eA eB) (ζ := ξ) (𝟙 a), ?_⟩
-    show componentMk eB (eA.map (𝟙 a) ≫ χ) = componentMk eB χ
+    change componentMk eB (eA.map (𝟙 a) ≫ χ) = componentMk eB χ
     rw [eA.map_id, Category.id_comp]
 
 end BaseChange

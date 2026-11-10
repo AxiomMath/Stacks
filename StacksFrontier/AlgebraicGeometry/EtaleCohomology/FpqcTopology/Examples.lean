@@ -146,12 +146,12 @@ theorem presieve₀_affinePlaneCover_mem_fpqcPrecoverage
     have hi : ∀ i : Fin 2, x ∉ affinePlaneBasicOpen k i := fun i hxi ↦
       hx i.castSucc (by
         fin_cases i
-        · show x ∈ Set.range (affinePlaneBasicOpen k 0).ι
+        · change x ∈ Set.range (affinePlaneBasicOpen k 0).ι
           rwa [Scheme.Opens.range_ι]
-        · show x ∈ Set.range (affinePlaneBasicOpen k 1).ι
+        · change x ∈ Set.range (affinePlaneBasicOpen k 1).ι
           rwa [Scheme.Opens.range_ι])
     exact hx 2 (by
-      show x ∈ Set.range g.2.base
+      change x ∈ Set.range g.2.base
       rw [eq_affineOrigin_of_notMem_basicOpen k x hi]
       exact hg)
   refine ⟨?_, ?_⟩
@@ -177,7 +177,7 @@ theorem presieve₀_affinePlanePowerSeriesCover_mem_fpqcPrecoverage :
   · refine ⟨⟨RingHom.ker (MvPowerSeries.constantCoeff (σ := Fin 2) (R := k)),
       RingHom.ker_isPrime _⟩, ?_⟩
     refine PrimeSpectrum.ext (Ideal.ext fun f ↦ ?_)
-    show f ∈ Ideal.comap
+    change f ∈ Ideal.comap
         (algebraMap (MvPolynomial (Fin 2) k) (MvPowerSeries (Fin 2) k))
         (RingHom.ker (MvPowerSeries.constantCoeff (σ := Fin 2) (R := k))) ↔ _
     simp only [Ideal.mem_comap, RingHom.mem_ker, affineOrigin]

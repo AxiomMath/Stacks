@@ -321,7 +321,7 @@ private theorem injective_pullback_of_separable_aux
   let : Algebra k' K := ((algebraMap k'' K).comp (algebraMap k' k'')).toAlgebra
   have : IsScalarTower k k' K := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap k K x = algebraMap k'' K (algebraMap k' k'' (algebraMap k k' x))
+    change algebraMap k K x = algebraMap k'' K (algebraMap k' k'' (algebraMap k k' x))
     rw [← IsScalarTower.algebraMap_apply k k' k'', ← IsScalarTower.algebraMap_apply k k'' K]
   set X' : FinEtaleAlg k := ofField k k' inferInstance inferInstance
   set X'' : FinEtaleAlg k := ofField k k'' hfin'' hsep''
@@ -357,15 +357,15 @@ private theorem injective_pullback_of_separable_aux
     have hfst : ∀ x : k',
         ψ (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := k') (B := K) x) = σ x := by
       intro x
-      show e (x ⊗ₜ[k] (1 : K)) σ = σ x
+      change e (x ⊗ₜ[k] (1 : K)) σ = σ x
       rw [he, Stacks.FieldTheory.tensorPiEquiv'_tmul, mul_one]
     have hsnd : ∀ x : K,
         ψ (Algebra.TensorProduct.includeRight (R := k) (A := k') (B := K) x) = x := by
       intro x
-      show e ((1 : k') ⊗ₜ[k] x) σ = x
+      change e ((1 : k') ⊗ₜ[k] x) σ = x
       rw [he, Stacks.FieldTheory.tensorPiEquiv'_tmul, map_one, one_mul]
     rw [componentRestriction_apply, kunnethMap_tmul]
-    show (H.map (algHomMk (X := P) (Y := XK) (Pi.evalAlgHom k (fun _ => K) σ))).hom
+    change (H.map (algHomMk (X := P) (Y := XK) (Pi.evalAlgHom k (fun _ => K) σ))).hom
         ((H.map (algHomMk (X := tensorObj X' XK) (Y := P) e.toAlgHom)).hom
           ((H.map (algHomMk (X := X') (Y := tensorObj X' XK)
               (Algebra.TensorProduct.includeLeft (R := k) (S := k) (A := k') (B := K)))).hom a *

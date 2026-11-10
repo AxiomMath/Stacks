@@ -106,7 +106,7 @@ private theorem finite_compHom_iff_of_surjective
   let : Algebra S A := f.toAlgebra
   let : Module S M := Module.compHom M f
   let : IsScalarTower S A M := ⟨fun s a m => by
-    show (f s * a) • m = f s • a • m
+    change (f s * a) • m = f s • a • m
     rw [mul_smul]⟩
   refine ⟨fun _ => Module.Finite.of_restrictScalars_finite S A M, fun _ => ?_⟩
   have : Module.Finite S A := Module.Finite.of_surjective (Algebra.linearMap S A) hf

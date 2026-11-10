@@ -201,7 +201,7 @@ omit [Finite I] in
 theorem genericCompare_one (j : Fin r) :
     genericCompare.{u, v, w} m x (T := T) j 1 = 1 := by
   rw [← canonicalLocalMk_one x j, genericCompare_mk]
-  show LocalizedModule.mk (algebraMap (∀ i, Localization.AtPrime (m i)) T
+  change LocalizedModule.mk (algebraMap (∀ i, Localization.AtPrime (m i)) T
     (algebraMap A (∀ i, Localization.AtPrime (m i)) (1 : A))) 1 = 1
   rw [map_one, map_one, OreLocalization.one_def]
 

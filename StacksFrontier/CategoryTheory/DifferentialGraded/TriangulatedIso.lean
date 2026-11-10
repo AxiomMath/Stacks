@@ -120,7 +120,7 @@ private lemma comp_eqCompIso_of_heq {u u' v v' : A.Obj} {k : ℤ} (hu : u = u') 
   subst hu hv
   obtain rfl : g = f := eq_of_heq h
   rw [eqCompIso_hom_val, eqCompIso_hom_val]
-  show A.comp (zero_add k) (A.id v) g = A.comp (add_zero k) g (A.id u)
+  change A.comp (zero_add k) (A.id v) g = A.comp (add_zero k) g (A.id u)
   rw [A.id_comp, A.comp_id]
 
 /-- **The strict form of axiom (B) implies the isomorphism-valued form.** Both comparisons are
@@ -202,7 +202,7 @@ private lemma comp_iso_symm {u u' v v' : A.Obj} {k : ℤ}
       ← A.assoc (by omega : (0 : ℤ) + 0 = 0) (by omega : k + (0 : ℤ) = k)
         (by omega : k + (0 : ℤ) = k) (by omega : k + (0 : ℤ) = k) g' αu.hom.1 αu.inv.1,
       iso_inv_hom_val, A.comp_id]
-  show A.comp (zero_add k) αv.inv.1 g' = A.comp (add_zero k) g αu.inv.1
+  change A.comp (zero_add k) αv.inv.1 g' = A.comp (add_zero k) g αu.inv.1
   rw [← key,
     A.assoc (by omega : (0 : ℤ) + k = k) (by omega : (0 : ℤ) + k = k)
       (by omega : (0 : ℤ) + 0 = 0) (by omega : (0 : ℤ) + k = k) αv.inv.1 αv.hom.1

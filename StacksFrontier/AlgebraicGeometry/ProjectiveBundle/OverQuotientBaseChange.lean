@@ -250,7 +250,7 @@ theorem projectiveBundleSectionsEquiv_eq_overQuotient
       (tautologicalDatumTwistBaseChangeIso f F F' hF)
       (tautologicalDatum_baseChange_univ_comp_tautologicalDatumTwistBaseChangeIso_hom f F F' hF)
   rw [projectiveBundleSectionsEquiv_apply]
-  show _ = _
+  change _ = _
   rw [show Quotient.mk (Stacks.Divisors.invertibleQuotientSetoid T F')
       ((tautologicalDatum F').pullbackQuotient σ.1 σ.2) =
         (tautologicalDatum F').sectionsMap σ from rfl, ← hS]

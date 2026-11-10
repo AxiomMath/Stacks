@@ -126,7 +126,7 @@ theorem isIso_ιTensorObj_top :
     · subst ha
       obtain rfl : b = j := by omega
       simp
-    · rw [dif_neg ha, Limits.zero_comp,
+    · rw [dite_eq_right ha, Limits.zero_comp,
         (isZero_tensor_of_add_eq_of_ne P Q i j a b h' ha).eq_of_src
           (HomologicalComplex.ιMapBifunctor P Q (curriedTensor (ModuleCat.{u} R))
             (ComplexShape.up ℤ) a b (i + j) h) 0]
@@ -155,6 +155,7 @@ theorem isIso_tensorCycles_top : IsIso (CochainComplex.tensorCycles P Q i j) := 
     infer_instance
   exact IsIso.of_isIso_comp_right _ ((HomologicalComplex.tensorObj P Q).iCycles (i + j))
 
+omit [P.IsStrictlyLE i] [Q.IsStrictlyLE j] in
 /-- A boundary of bidegree `(i - 1, j)` in the top degree is the tensor of a boundary of `P`
 with a cycle of `Q`. -/
 theorem ιTensorObj_toCycles_left (hij : i - 1 + j = i + j - 1) [IsIso (Q.iCycles j)] :
@@ -170,6 +171,7 @@ theorem ιTensorObj_toCycles_left (hij : i - 1 + j = i + j - 1) [IsIso (Q.iCycle
     tensorHom_comp_tensorHom, Category.id_comp, IsIso.inv_hom_id, MonoidalCategory.id_tensorHom_id,
     Category.id_comp]
 
+omit [P.IsStrictlyLE i] [Q.IsStrictlyLE j] in
 /-- A boundary of bidegree `(i, j - 1)` in the top degree is, up to the Koszul sign, the tensor of
 a cycle of `P` with a boundary of `Q`. -/
 theorem ιTensorObj_toCycles_right (hij : i + (j - 1) = i + j - 1) [IsIso (P.iCycles i)] :
@@ -183,7 +185,7 @@ theorem ιTensorObj_toCycles_right (hij : i + (j - 1) = i + j - 1) [IsIso (P.iCy
     Linear.units_smul_comp]
   rw [← cancel_epi (P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))), Linear.comp_units_smul]
   simp only [← Category.assoc, tensorHom_comp_tensorHom, IsIso.hom_inv_id, Category.id_comp,
-    Category.comp_id, HomologicalComplex.toCycles_i]
+    HomologicalComplex.toCycles_i]
   exact CochainComplex.tensor_right_boundary_d P Q i j
 
 /-- The inverse of the top-degree tensor of cycles, followed by the two projections to
@@ -201,14 +203,14 @@ theorem toCycles_inv_tensorCycles_homologyπ [IsIso (CochainComplex.tensorCycles
   · subst ha
     obtain rfl : b = j := by omega
     have e := ιTensorObj_toCycles_left P Q i b h
-    show HomologicalComplex.ιTensorObj P Q (i - 1) b (i + b - 1) h ≫ _ = 0
+    change HomologicalComplex.ιTensorObj P Q (i - 1) b (i + b - 1) h ≫ _ = 0
     rw [reassoc_of% e, IsIso.hom_inv_id_assoc, tensorHom_comp_tensorHom,
       HomologicalComplex.toCycles_comp_homologyπ, MonoidalPreadditive.zero_tensor, comp_zero]
   · by_cases hb : a = i
     · subst hb
       obtain rfl : b = j - 1 := by omega
       have e := ιTensorObj_toCycles_right P Q a j h
-      show HomologicalComplex.ιTensorObj P Q a (j - 1) (a + j - 1) h ≫ _ = 0
+      change HomologicalComplex.ιTensorObj P Q a (j - 1) (a + j - 1) h ≫ _ = 0
       rw [reassoc_of% e, Linear.units_smul_comp, Category.assoc, Category.assoc,
         IsIso.hom_inv_id_assoc, tensorHom_comp_tensorHom,
         HomologicalComplex.toCycles_comp_homologyπ, MonoidalPreadditive.tensor_zero, comp_zero,
@@ -236,7 +238,7 @@ theorem isIso_tensorHomology_top : IsIso (CochainComplex.tensorHomology P Q i j)
   refine ⟨ψ, ?_, ?_⟩
   · rw [← cancel_epi (P.homologyπ i ⊗ₘ Q.homologyπ j), ← Category.assoc,
       CochainComplex.homologyπ_tensorHomology, Category.assoc]
-    show _ ≫ T.homologyπ (i + j) ≫ ψ = _
+    change _ ≫ T.homologyπ (i + j) ≫ ψ = _
     rw [hψ, IsIso.hom_inv_id_assoc, Category.comp_id]
   · rw [← cancel_epi (T.homologyπ (i + j)), ← Category.assoc, hψ, Category.assoc,
       CochainComplex.homologyπ_tensorHomology, IsIso.inv_hom_id_assoc, Category.comp_id]

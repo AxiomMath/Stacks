@@ -97,7 +97,8 @@ Carried as explicit named hypotheses by the statements *of this file*:
   AddCommGrpCat.{max (u₁ + 1) u₂}`, because `Stacks.Kummer.multiplicativePresheaf` ends in
   `AddCommGrpCat.uliftFunctor.{max (u + 1) v, u}` and `AlgebraicGeometry.unitsPresheaf` does not;
   since `max (u₁ + 1) u₂ ≥ u₁ + 1 > u₁`, no choice of `u₂` brings `multiplicativeSheaf` to
-  `AddCommGrpCat.{u}`. **That asymmetry is exactly what makes the comparison free.** Restriction along the dense-subsite embedding is
+  `AddCommGrpCat.{u}`. **That asymmetry is exactly what makes the comparison free.** Restriction
+  along the dense-subsite embedding is
   precomposition with a functor of sites, which commutes with the postcomposed
   `AddCommGrpCat.uliftFunctor` that distinguishes the two spellings; so the restriction of `𝐆_m`
   from Mathlib's site *is* the coefficient-universe lift of the middle term of
@@ -215,7 +216,7 @@ private def addEquivKerProdOfRightInverse {n : ℕ} {G : Type*} [AddCommGroup G]
     exact Prod.ext (Subtype.ext (by simp [h1])) h1
   map_add' x y := by
     refine Prod.ext (Subtype.ext ?_) (map_add _ _ _)
-    simp only [map_add, Prod.fst_add, AddSubgroup.coe_add, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
+    simp only [map_add, Prod.fst_add, AddSubgroup.coe_add]
     abel
 
 /-- A surjection onto a free `ℤ/nℤ`-module of finite rank whose kernel is free of finite rank
@@ -258,7 +259,7 @@ private theorem nsmul_id_rootsOfUnitySheaf_eq_zero {C : Type*} [Category C]
     (J : GrothendieckTopology C) (F : C ⥤ Scheme.{u})
     (hF : Presheaf.IsSheaf J (unitsPresheaf F)) (n : ℕ) :
     n • 𝟙 (rootsOfUnitySheaf J F hF n) = 0 := by
-  show n • 𝟙 (Limits.kernel (powerSheaf J F hF n)) = 0
+  change n • 𝟙 (Limits.kernel (powerSheaf J F hF n)) = 0
   have hpow : powerSheaf J F hF n = n • 𝟙 (unitsSheaf J F hF) := rfl
   have hnf : n • Limits.kernel.ι (powerSheaf J F hF n) = 0 := by
     have h := Limits.kernel.condition (powerSheaf J F hF n)
@@ -457,12 +458,11 @@ of `H¹_ét(X, μ_n)` by `n`.
 The identification is asserted as the existence of an isomorphism, which is what the source
 means: it claims no canonical map, and obtains the conclusion by counting ranks.
 
-`hj` and `hr` are what make `genus fbar` and `r` be the source's `g` and `r` rather than two free
-numerals: they say that `j : X ⟶ X̄` is a morphism over `k` and that `X̄ ∖ X` has exactly `r`
-points. They are not used in the derivation, which runs through `hrank`; they are part of the
-statement. Affineness of `X` is likewise not assumed: in the source it enters only through
-`r ≥ 1`, and through that the divisibility of `Pic(X)` which degree two needs, so under these
-hypotheses the statement holds for every smooth curve.
+The derivation runs through `hrank` alone: it uses neither that `j : X ⟶ X̄` is a morphism over
+`k` nor that `X̄ ∖ X` has exactly `r` points, so neither is assumed, and the statement holds for
+every `r` satisfying `hrank`. Affineness of `X` is likewise not assumed: in the source it enters
+only through `r ≥ 1`, and through that the divisibility of `Pic(X)` which degree two needs,
+so under these hypotheses the statement holds for every smooth curve.
 
 The three carried hypotheses are named in the attribute string. Neither `hGm` nor `hdvd` is among
 them: clause (2) needs neither, so this is the registration of clause (2) over the rank count and
@@ -473,8 +473,8 @@ statement is
 `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve_of_compactification`. -/
 theorem nonempty_etaleH1RootsOfUnityAddEquivZModPow (hn : IsUnit (n : k))
     {Xbar : Scheme.{u}} (fbar : Xbar ⟶ Spec (.of k)) [IsCurve k fbar] [Smooth fbar]
-    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j] (hj : j ≫ fbar = f)
-    (r : ℕ) (hr : Nat.card ↥(Set.range j.base)ᶜ = r) {a b : ℕ}
+    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j]
+    (r : ℕ) {a b : ℕ}
     (hunits : Nonempty (↥(etaleH1RootsOfUnityToPicard X B hX n).ker ≃+ (Fin a → ZMod n)))
     (htors : Nonempty (↥(picardNTorsion X n) ≃+ (Fin b → ZMod n)))
     (hrank : a + b = 2 * genus fbar + r - 1) :
@@ -513,9 +513,9 @@ Clause (1) is canonical, asserted of the named map `AlgebraicGeometry.baseRootsT
 forwards unchanged to `AlgebraicGeometry.baseRootsToEtaleH0_bijective_of_isIntegral`, where Tag
 03RR is registered; clause (2) is the source's noncanonical identification and is asserted as the
 existence of an isomorphism. As in
-`AlgebraicGeometry.nonempty_etaleH1RootsOfUnityAddEquivZModPow`, `hj` and `hr` identify the
-compactification and the number of punctures and are not used in the derivation, and affineness
-of `X` is not assumed.
+`AlgebraicGeometry.nonempty_etaleH1RootsOfUnityAddEquivZModPow`, the derivation uses neither that
+`j` is a morphism over `k` nor the number of punctures, so neither is assumed, and affineness of
+`X` is not assumed.
 
 **CONDITIONAL**, on hypotheses the library does not have and which are therefore carried, none of
 them the conclusion of any clause above: `hGm`, the vanishing of `H^q_ét(X, 𝐆_m)` for `q ≥ 2` on
@@ -531,8 +531,8 @@ statement is
 `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve_of_compactification`. -/
 theorem etaleCohomology_rootsOfUnity_affineSmoothCurve (hn : IsUnit (n : k))
     {Xbar : Scheme.{u}} (fbar : Xbar ⟶ Spec (.of k)) [IsCurve k fbar] [Smooth fbar]
-    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j] (hj : j ≫ fbar = f)
-    (r : ℕ) (hr : Nat.card ↥(Set.range j.base)ᶜ = r) {a b : ℕ}
+    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j]
+    (r : ℕ) {a b : ℕ}
     (hunits : Nonempty (↥(etaleH1RootsOfUnityToPicard X B hX n).ker ≃+ (Fin a → ZMod n)))
     (htors : Nonempty (↥(picardNTorsion X n) ≃+ (Fin b → ZMod n)))
     (hrank : a + b = 2 * genus fbar + r - 1)
@@ -543,9 +543,9 @@ theorem etaleCohomology_rootsOfUnity_affineSmoothCurve (hn : IsUnit (n : k))
         (Fin (2 * genus fbar + r - 1) → ZMod n)) ∧
       ∀ q, 2 ≤ q → Subsingleton (Sheaf.H (kummerSmallEtale B X hX n).X₁ q) := by
   refine ⟨baseRootsToEtaleH0_bijective_of_isIntegral B k X hX f n
-      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X f n hn)),
-    nonempty_etaleH1RootsOfUnityAddEquivZModPow k X f B hX n hn fbar j hj r hr hunits htors
-      hrank, fun q hq => ?_⟩
+      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)),
+    nonempty_etaleH1RootsOfUnityAddEquivZModPow k X f B hX n hn fbar j r hunits htors hrank,
+    fun q hq => ?_⟩
   rcases Nat.lt_or_ge q 3 with hq3 | hq3
   · obtain rfl : q = 2 := by lia
     exact subsingleton_etaleH2_rootsOfUnity_of_divisible k X f B hX n hn (hGm 2 le_rfl) hdvd

@@ -118,7 +118,7 @@ theorem mem_nonvanishingOpen_cube (y : X) (hy : y ≠ point p) :
     y ∈ Stacks.NonvanishingOpen.nonvanishingOpen X (natTensorPow (pointDivisorSheaf p hp 1) 3)
       (ModuliEllipticCurves.PointedFamily.cube _ (pointSectionOne p hp)) := by
   rw [cube_pointSectionOne]
-  show y ∈ Stacks.AmpleFiniteAvoidance.nvOpen (pointDivisorSheaf p hp 1)
+  change y ∈ Stacks.AmpleFiniteAvoidance.nvOpen (pointDivisorSheaf p hp 1)
     (mul (mul (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1)
       (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1))
       (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1))
@@ -138,7 +138,7 @@ theorem stalkOrd_cube :
   let := isIntegral (X ↘ Spec (.of k)) h0
   let := isDiscreteValuationRing_stalk (X ↘ Spec (.of k)) h0 p hp
   rw [cube_pointSectionOne]
-  show sectionOrd (point p) (pointDivisorSheaf p hp 1)
+  change sectionOrd (point p) (pointDivisorSheaf p hp 1)
     (mul (mul (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1)
       (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1))
       (pointSection (isClosed_point (X ↘ Spec (.of k)) p hp) 1)) = 3
@@ -192,7 +192,7 @@ theorem cubeData_ord (t : Γ(natTensorPow (pointDivisorSheaf p hp 1) 3, ⊤)) :
         (((natTensorPow (pointDivisorSheaf p hp 1) 3).presheaf.Γgerm (point p)).hom t) := by
   let := isIntegral (X ↘ Spec (.of k)) h0
   let := isDiscreteValuationRing_stalk (X ↘ Spec (.of k)) h0 p hp
-  show ringOrd _ (point p) _ = _
+  change ringOrd _ (point p) _ = _
   rw [ringOrd_of, sectionOrd_secOf_twistOneSection]
 
 /-- The distinguished element of `cubeData` is the cube `s³` of the section `s` of `𝒪_X(p)`

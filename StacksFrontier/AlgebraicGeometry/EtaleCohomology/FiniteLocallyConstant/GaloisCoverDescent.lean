@@ -268,7 +268,7 @@ theorem comap_mem_equivariantMaps {W W' : X.Etale} (g : W' ⟶ W)
     {f : LocallyConstant (G.fiberProd W) N} (hf : f ∈ G.equivariantMaps Λ N ρ W) :
     LocallyConstant.comapₗ Λ (G.pullbackMap g).base.hom f ∈ G.equivariantMaps Λ N ρ W' := by
   intro h z
-  show f ((G.pullbackMap g).base ((G.pullbackAct W' h).base z)) =
+  change f ((G.pullbackMap g).base ((G.pullbackAct W' h).base z)) =
     ρ h (f ((G.pullbackMap g).base z))
   rw [← Scheme.Hom.comp_apply, ← G.pullbackMap_pullbackAct, Scheme.Hom.comp_apply, hf]
 
@@ -415,7 +415,7 @@ theorem isSheaf_descentTypePresheaf :
     refine hP.isSeparatedFor.ext fun V g hg ↦ LocallyConstant.ext fun y' ↦ ?_
     have hxg : (G.allMapsTypePresheaf N).map g.op t = (x g hg).1 := ht g hg
     rw [hres, hres]
-    show t ((G.pullbackAct W h).base ((G.pullbackMap g).base y')) =
+    change t ((G.pullbackAct W h).base ((G.pullbackMap g).base y')) =
       ρ h (t ((G.pullbackMap g).base y'))
     rw [← Scheme.Hom.comp_apply, G.pullbackMap_pullbackAct, Scheme.Hom.comp_apply,
       ← hres g t, ← hres g t, hxg]
@@ -535,7 +535,7 @@ theorem bijective_restrictGraph (T : Over G.cover) :
     rw [G.apply_eq_of_mem_sheet f₁.2 hz, G.apply_eq_of_mem_sheet f₂.2 hz]
     exact congrArg (ρ _) (congrArg (fun k : LocallyConstant T.left.left N ↦
       k ((pullback.fst T.left.hom G.cover.hom).base z)) h)
-  · show ρ (G.sheetIndex T ((G.graph T).base y))
+  · change ρ (G.sheetIndex T ((G.graph T).base y))
       (c ((pullback.fst T.left.hom G.cover.hom).base ((G.graph T).base y))) = c y
     rw [G.sheetIndex_eq (G.graph_mem_sheet_one T y), map_one, ← Scheme.Hom.comp_apply,
       graph_fst]
@@ -609,7 +609,7 @@ theorem ofArrows_fiberObjFst_mem (W : X.Etale) :
       Scheme.smallEtaleTopology X W := by
   rw [Scheme.ofArrows_mem_smallEtaleTopology_iff]
   refine Set.eq_univ_of_forall fun w ↦ Set.mem_iUnion.2 ⟨PUnit.unit, ?_⟩
-  show w ∈ Set.range (pullback.fst W.hom G.cover.hom).base
+  change w ∈ Set.range (pullback.fst W.hom G.cover.hom).base
   rw [Scheme.Pullback.range_fst]
   exact G.surjective _
 
@@ -643,8 +643,8 @@ theorem overPullback_hom_ext {M : ModuleCat.{max (u + 1) r} Λ}
   apply ((constantSheafAdj _ (ModuleCat.{max (u + 1) r} Λ)
       (Over.mkIdTerminal (X := G.cover))).homEquiv M G').injective
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
-  show _ ≫ (e.hom ≫ χ₁).hom.app _ = _ ≫ (e.hom ≫ χ₂).hom.app _
-  show _ ≫ e.hom.hom.app _ ≫ χ₁.hom.app _ = _ ≫ e.hom.hom.app _ ≫ χ₂.hom.app _
+  change _ ≫ (e.hom ≫ χ₁).hom.app _ = _ ≫ (e.hom ≫ χ₂).hom.app _
+  change _ ≫ e.hom.hom.app _ ≫ χ₁.hom.app _ = _ ≫ e.hom.hom.app _ ≫ χ₂.hom.app _
   rw [h]
 
 /-- **Morphisms out of a sheaf which is constant on the covering are determined by their value
@@ -669,14 +669,14 @@ variable {Λ : Type r} [Ring Λ]
 @[reassoc (attr := simp)]
 theorem actHom_comp_actHom_inv (h : H) : G.actHom h ≫ G.actHom h⁻¹ = 𝟙 _ := by
   apply MorphismProperty.Over.Hom.ext
-  show G.act h ≫ G.act h⁻¹ = 𝟙 _
+  change G.act h ≫ G.act h⁻¹ = 𝟙 _
   rw [← G.act_mul, inv_mul_cancel, G.act_one]
 
 /-- The action of `h⁻¹` followed by that of `h` is the identity. -/
 @[reassoc (attr := simp)]
 theorem actHom_inv_comp_actHom (h : H) : G.actHom h⁻¹ ≫ G.actHom h = 𝟙 _ := by
   apply MorphismProperty.Over.Hom.ext
-  show G.act h⁻¹ ≫ G.act h = 𝟙 _
+  change G.act h⁻¹ ≫ G.act h = 𝟙 _
   rw [← G.act_mul, mul_inv_cancel, G.act_one]
 
 /-- Each element of the group acts by an automorphism of the covering. -/
@@ -745,12 +745,12 @@ theorem homOnCover_app_top :
       adj.unit.app M ≫ e.hom.hom.app (op (Over.mk (𝟙 G.cover))) ≫ f :=
     h₀.trans (Category.assoc _ _ _)
   have h₁ := (cancel_epi (adj.unit.app M)).1 h₀'
-  show e.inv.hom.app (op (Over.mk (𝟙 G.cover))) ≫ χ₀.hom.app (op (Over.mk (𝟙 G.cover))) = f
+  change e.inv.hom.app (op (Over.mk (𝟙 G.cover))) ≫ χ₀.hom.app (op (Over.mk (𝟙 G.cover))) = f
   rw [h₁]
   have hinv : e.inv.hom.app (op (Over.mk (𝟙 G.cover))) ≫
       e.hom.hom.app (op (Over.mk (𝟙 G.cover))) = 𝟙 _ := by
     rw [← NatTrans.comp_app]
-    show (e.inv ≫ e.hom).hom.app _ = _
+    change (e.inv ≫ e.hom).hom.app _ = _
     rw [Iso.inv_hom_id]
     rfl
   ext x
@@ -771,7 +771,7 @@ theorem presheafHom_map_actHom_homOnCover (h : H) :
     ⟨(presheafHom F.obj F'.obj).map (G.actHom h).op χ⟩
   suffices hχ : χ' = G.homOnCover e f from congrArg (fun k ↦ k.hom) hχ
   refine G.overPullback_hom_ext e ?_
-  show ((presheafHom F.obj F'.obj).map (G.actHom h).op χ).app (op (Over.mk (𝟙 G.cover))) = _
+  change ((presheafHom F.obj F'.obj).map (G.actHom h).op χ).app (op (Over.mk (𝟙 G.cover))) = _
   refine (presheafHom_map_app (𝟙 _) (G.actHom h) (G.actHom h) (by simp) χ).trans ?_
   rw [G.homOnCover_app_top e f]
   let k : Over.mk (G.actHom h) ⟶ Over.mk (𝟙 G.cover) := Over.homMk (G.actHom h) (by simp)
@@ -806,7 +806,7 @@ theorem presheafHom_map_homOnCover_eq {V : X.Etale} (a b : V ⟶ G.cover) :
     obtain ⟨h, hw, hv⟩ := G.exists_mem_agreeLocus a.left b.left (by
       rw [MorphismProperty.Over.w a, MorphismProperty.Over.w b]) v
     refine ⟨h, ?_⟩
-    show v ∈ Set.range (O h).ι.base
+    change v ∈ Set.range (O h).ι.base
     rw [Scheme.Opens.range_ι]
     exact hv
   have heq : ∀ h, ι h ≫ b = ι h ≫ a ≫ G.actHom h := fun h ↦ by
@@ -821,7 +821,7 @@ theorem presheafHom_map_homOnCover_eq {V : X.Etale} (a b : V ⟶ G.cover) :
   have e2 : (k ≫ ι h) ≫ b = ((k ≫ ι h) ≫ a) ≫ G.actHom h := by
     rw [Category.assoc k, heq h]
     simp only [Category.assoc]
-  show P.map (k ≫ ι h).op (P.map a.op χ) = P.map (k ≫ ι h).op (P.map b.op χ)
+  change P.map (k ≫ ι h).op (P.map a.op χ) = P.map (k ≫ ι h).op (P.map b.op χ)
   rw [e1 a, e1 b]
   calc P.map ((k ≫ ι h) ≫ a).op χ
       = P.map ((k ≫ ι h) ≫ a).op (P.map (G.actHom h).op χ) := by
@@ -853,7 +853,7 @@ theorem exists_hom_app_cover_eq : ∃ φ : F ⟶ F', φ.hom.app (op G.cover) = f
     fun _ _ _ hg ↦ P.map (Nonempty.some hg).op χ
   have hx : ∀ W, (x W).Compatible := by
     intro W V₁ V₂ Z g₁ g₂ f₁ f₂ h₁ h₂ _
-    show P.map g₁.op (P.map (Nonempty.some h₁).op χ) =
+    change P.map g₁.op (P.map (Nonempty.some h₁).op χ) =
       P.map g₂.op (P.map (Nonempty.some h₂).op χ)
     refine (Functor.map_comp_apply P (Nonempty.some h₁).op g₁.op χ).symm.trans
       (Eq.trans ?_ (Functor.map_comp_apply P (Nonempty.some h₂).op g₂.op χ))
@@ -871,7 +871,7 @@ theorem exists_hom_app_cover_eq : ∃ φ : F ⟶ F', φ.hom.app (op G.cover) = f
   refine ⟨⟨presheafHomSectionsEquiv F.obj F'.obj ⟨t, hsec⟩⟩, ?_⟩
   have htA : t (op G.cover) = χ :=
     (hP _ (hS G.cover)).isSeparatedFor.ext fun V k hk ↦ ht G.cover k k
-  show (t (op G.cover)).app (op (Over.mk (𝟙 _))) = f
+  change (t (op G.cover)).app (op (Over.mk (𝟙 _))) = f
   rw [htA]
   exact G.homOnCover_app_top e f
 

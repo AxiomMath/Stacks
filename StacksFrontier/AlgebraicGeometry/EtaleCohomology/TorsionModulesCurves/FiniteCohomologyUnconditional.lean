@@ -3,8 +3,7 @@ module
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModules.CurveConstantCoefficientsFinite
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.FiniteCohomology
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.IntegralHomCohomologyCollapse
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.IntegralHomCohomologyCollapse
 import StacksCore.Tactic.StacksAttribute
 
 /-!

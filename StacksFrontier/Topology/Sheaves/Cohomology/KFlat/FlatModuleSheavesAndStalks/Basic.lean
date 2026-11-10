@@ -162,7 +162,8 @@ topology of the underlying space.  This is the actual category of
   reading of Tag 08BQ: `F` is flat (Def 2) iff all stalks of `Tor_1(F, G)`
   vanish, for every `O_X`-module `G`.  The tag's own statement — with
   `Stacks.Cohomology.tor X 1 F G` on the right-hand side — is
-  `Stacks.Cohomology.flat_iff_forall_isZero_tor` in `StacksFrontier/Topology/Sheaves/Cohomology/DerivedTensor/TorFlatness.lean`, obtained
+  `Stacks.Cohomology.flat_iff_forall_isZero_tor` in
+  `StacksFrontier/Topology/Sheaves/Cohomology/DerivedTensor/TorFlatness.lean`, obtained
   from the stalk-level reading by that identification, whose own missing
   ingredient was `Stacks.DerivedTensor.homologyIsoTor`
   (`StacksFrontier/Homology/Tor/DerivedTensorTor.lean`): `H^{-p}` of the derived
@@ -387,7 +388,7 @@ theorem sheafifyUnit_app_smul (P : PresheafOfModules.{u} ((ringSheaf X).obj))
   have heq : (ConcreteCategory.hom ((sheafifyUnitPshMap P).app W))
       = (ConcreteCategory.hom ((sheafifyUnitHom P).app W)).toAddMonoidHom := rfl
   rw [heq]
-  show (ConcreteCategory.hom ((sheafifyUnitHom P).app W)) (s • a)
+  change (ConcreteCategory.hom ((sheafifyUnitHom P).app W)) (s • a)
       = s • (ConcreteCategory.hom ((sheafifyUnitHom P).app W)) a
   exact map_smul _ _ _
 
@@ -535,12 +536,8 @@ theorem ptsFwd_phiU_compat (M N : OXModule X) (x : X.carrier)
         (TensorProduct (X.presheaf.obj (Opposite.op V))
       (M.val.obj (Opposite.op V)) (N.val.obj (Opposite.op V))) :=
     ConcreteCategory.hom ((M.val ⊗ N.val).presheaf.map (homOfLE hVU).op)
-  show ptsFwd_phiU M N x V hxV (restriction t) = ptsFwd_phiU M N x U hxU t
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      exact (congrArg (ptsFwd_phiU M N x V hxV) (map_zero restriction)).trans
-        ((map_zero (ptsFwd_phiU M N x V hxV)).trans
-          (map_zero (ptsFwd_phiU M N x U hxU)).symm)
+  change ptsFwd_phiU M N x V hxV (restriction t) = ptsFwd_phiU M N x U hxU t
+  induction t using TensorProduct.inductionOn with
   | add left right left_eq right_eq =>
       exact (congrArg (ptsFwd_phiU M N x V hxV) (map_add restriction left right)).trans
         ((map_add (ptsFwd_phiU M N x V hxV) _ _).trans
@@ -596,8 +593,7 @@ theorem ptsFwd_phiU_smul (M N : OXModule X) (x : X.carrier) (U : TopologicalSpac
       (M.val.obj (Opposite.op U)) (N.val.obj (Opposite.op U))) :
     ptsFwd_phiU M N x U hxU (s • t)
       = (ConcreteCategory.hom (X.presheaf.germ U x hxU)) s • ptsFwd_phiU M N x U hxU t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [smul_add, map_add, map_add, ha, hb, smul_add]
   | tmul m n =>
       exact (congrArg (ptsFwd_phiU M N x U hxU) (TensorProduct.smul_tmul' s m n)).trans

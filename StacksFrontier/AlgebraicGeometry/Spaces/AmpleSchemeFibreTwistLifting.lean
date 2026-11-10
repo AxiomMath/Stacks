@@ -88,7 +88,7 @@ theorem openSiteObjectHomOfLE_comp {V W : ((BigFppfOver.toScheme B S hS).obj Y).
     (h : V ≤ W) :
     openSiteObjectHomOfLE Y h ≫ openSiteObjectHom B S hS Y W = openSiteObjectHom B S hS Y V := by
   refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-  show ((BigFppfOver.toScheme B S hS).obj Y).homOfLE h ≫ W.ι = V.ι
+  change ((BigFppfOver.toScheme B S hS).obj Y).homOfLE h ≫ W.ι = V.ι
   exact Scheme.homOfLE_ι _ h
 
 /-- Morphisms into an open subscheme agree once composed with its inclusion. -/
@@ -141,7 +141,7 @@ def stalkPointToOpen : stalkPointObject Y y ⟶ openSiteObject B S hS Y W :=
 theorem stalkPointToOpen_comp_openSiteObjectHom :
     stalkPointToOpen Y W hy ≫ openSiteObjectHom B S hS Y W = stalkPointHom Y y := by
   refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-  show W.fromSpecStalkOfMem y hy ≫ W.ι = _
+  change W.fromSpecStalkOfMem y hy ≫ W.ι = _
   exact Scheme.Opens.fromSpecStalkOfMem_ι W y hy
 
 /-- `Spec 𝒪_{Y,y} ⟶ V` followed by the inclusion `V ⊆ W` is `Spec 𝒪_{Y,y} ⟶ W`. -/

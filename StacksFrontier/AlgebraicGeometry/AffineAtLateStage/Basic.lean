@@ -69,9 +69,11 @@ Tag 09ZM is not merely proved *using* Tag 01Z6 (`AlgebraicGeometry.Scheme.exists
 `isLimit` in Mathlib, which is stated with `I : Type u` and `Category.{u} I`); the two are
 equivalent, and the universe restriction is exactly where the content of that equivalence sits.
 The forward direction is the source's own proof, carried out below. The converse is
-`exists_isAffine_of_isLimit_of_eventually_isAffineHom`: it takes the universe-general statement with its
+`exists_isAffine_of_isLimit_of_eventually_isAffineHom`: it takes
+the universe-general statement with its
 index universe free, applies it to the terminal scheme as base, and derives Tag 01Z6 with the
-index universe equally free. So the universe-general form is not a form of Tag 09ZM that happens to be
+index universe equally free. So the universe-general form is not a form of Tag 09ZM that
+happens to be
 harder to reach by this route — it is precisely as strong as a universe-free Tag 01Z6.
 
 That rules out the alternatives:
@@ -115,7 +117,8 @@ a larger index universe.
 * `AffineAtLateStage.eventually_isAffineHom_of_isLimit`: the restated Tag 09ZM itself — the
   statement with its index universe tied to the scheme universe.
 * `AffineAtLateStage.exists_isAffine_of_isLimit_of_eventually_isAffineHom`: the converse
-  reduction, deriving Tag 01Z6 over a free index universe from the universe-general statement over a free
+  reduction, deriving Tag 01Z6
+  over a free index universe from the universe-general statement over a free
   index universe.
 
 ## Implementation notes
@@ -132,7 +135,8 @@ That the preimages of an affine open of `S` at the stages are quasi-compact is t
 `AlgebraicGeometry.quasiCompact_of_compactSpace` applied to the structure morphism of the stage.
 
 The helper statements take the structure morphisms as a family `p : ∀ i, D.obj i ⟶ S` together
-with the compatibility `p j = D.map g ≫ p i`, which is the natural transformation `t` and its naturality. This
+with the compatibility `p j = D.map g ≫ p i`, which is the natural transformation `t`
+and its naturality. This
 keeps the targets of those morphisms syntactically `S` rather than `((Functor.const I).obj S)`
 `.obj i`, which instance synthesis does not see through.
 
@@ -179,7 +183,7 @@ theorem exists_isAffineOpen_preimage
   have hqs (j : Over i₀) : QuasiSeparatedSpace ((opensDiagram D i₀ U).obj j) :=
     (isQuasiSeparated_iff_quasiSeparatedSpace _ (D.map _ ⁻¹ᵁ _).2).mp (.of_quasiSeparatedSpace _)
   have hpt : IsAffine (opensCone D c i₀ U).pt := by
-    show IsAffine (c.π.app i₀ ⁻¹ᵁ U).toScheme
+    change IsAffine (c.π.app i₀ ⁻¹ᵁ U).toScheme
     rw [hU, ← Scheme.Hom.comp_preimage, hf i₀]
     exact hV.preimage f
   obtain ⟨j, hj⟩ := Scheme.exists_isAffine_of_isLimit (opensDiagram D i₀ U)
@@ -219,7 +223,8 @@ theorem exists_isAffineHom [CompactSpace S]
     exact (hidx x).preimage _
   exact ⟨m.left, fun {j} g ↦ by rw [hp g]; infer_instance⟩
 
-/-- **Stacks Project, Tag 09ZM, restated.** The universe-general statement, with its `{I : Type uI}` and
+/-- **Stacks Project, Tag 09ZM, restated.** The universe-general statement,
+with its `{I : Type uI}` and
 `[Category.{uI} I]` replaced by `{I : Type u}` and `[Category.{u} I]`, where `u` is the universe
 of the schemes — the only change.
 
@@ -228,11 +233,13 @@ quasi-compact and quasi-separated base `S`, with affine transition morphisms. If
 morphism `X → S` is affine, then so is the structure morphism of every sufficiently late
 stage.
 
-No Stacks attribute is attached, and the reason is the paragraph above. The universe-general statement declares two
-independent universes, binding its index category against a scheme universe it does not
+No Stacks attribute is attached, and the reason is the paragraph above. The universe-general
+statement declares two independent universes, binding its index category against a scheme
+universe it does not
 constrain; this statement ties them, so it is strictly narrower than that statement. That narrowing
 is real content and not an artefact — the companion theorem below takes the universe-general
-form as an explicit hypothesis precisely to say so — so a tag here would claim the universe-general statement while
+form as an explicit hypothesis precisely to say so — so a tag here would claim the universe-general
+statement while
 proving less than it. -/
 theorem eventually_isAffineHom_of_isLimit [CompactSpace S]
     (t : D ⟶ (Functor.const I).obj S) (hc : IsLimit c) (f : c.pt ⟶ S)

@@ -8,7 +8,7 @@ public import Mathlib.Algebra.Module.Torsion.Basic
 public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.GroupTheory.GroupAction.Ring
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -318,7 +318,7 @@ noncomputable def torsionQuotMap (c : ℕ) : ModuleCat.of A A ⟶ torsionQuot A 
 noncomputable def fQuotEndo (c : ℕ) : torsionQuot A f c ⟶ torsionQuot A f c :=
   ModuleCat.ofHom (Submodule.mapQ _ _ (LinearMap.lsmul A A f) (by
     rintro x hx
-    simp only [Submodule.mem_comap, Submodule.mem_torsionBy_iff, LinearMap.mem_ker,
+    simp only [Submodule.mem_comap, Submodule.mem_torsionBy_iff,
       LinearMap.lsmul_apply] at hx ⊢
     rw [smul_comm, hx, smul_zero]))
 

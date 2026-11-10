@@ -118,7 +118,7 @@ theorem exists_scaled_parameter_eq_of_mapped_dvr_preparation
     simpa only [map_natCast] using hpmap
   have hpmA : (p : A) ∈ IsLocalRing.maximalIdeal A ^ m := by
     rw [← hcomap]
-    show algebraMap A B (p : A) ∈ IsLocalRing.maximalIdeal B ^ m
+    change algebraMap A B (p : A) ∈ IsLocalRing.maximalIdeal B ^ m
     simpa only [map_natCast] using hpmB
   let Q0 := B0 ⧸ IsLocalRing.maximalIdeal B0 ^ m
   let QA := A ⧸ IsLocalRing.maximalIdeal A ^ m
@@ -143,7 +143,7 @@ theorem exists_scaled_parameter_eq_of_mapped_dvr_preparation
   have hrQBq (b : B) : rQB (qB b) = IsLocalRing.residue B b := rfl
   have hrSquare : rQB.comp psi = r.comp r0 := by
     ext b
-    show rQB (psi (q0 b)) = r (r0 (q0 b))
+    change rQB (psi (q0 b)) = r (r0 (q0 b))
     rw [hq0, hrQBq, hr0q]
     exact (IsLocalRing.ResidueField.map_residue g b).symm
   let : CharP QB p := (CharP.charP_iff_prime_eq_zero (Fact.out : p.Prime)).mpr
@@ -205,7 +205,7 @@ theorem exists_scaled_parameter_eq_of_mapped_dvr_preparation
     by_cases hi : i ∈ H0.support
     · obtain ⟨a, ha⟩ := habs (H0.coeff i) (Finset.mem_image_of_mem _ hi)
       refine ⟨taubar a, ?_⟩
-      show iota (taubar a) = psi (sigma0 (H0.coeff i))
+      change iota (taubar a) = psi (sigma0 (H0.coeff i))
       rw [hbase, ha, hsource (H0.coeff i) (hcore i)]
     · have hzero : H0.coeff i = 0 := by
         simpa only [Polynomial.mem_support_iff, not_not] using hi
@@ -294,21 +294,20 @@ theorem finite_finrank_adjoin_tensorProduct_of_isField
   let L₁ := L ⊗[K] K₁
   let M₁ := M ⊗[K] K₁
   have : IsScalarTower L L₁ M₁ := IsScalarTower.of_algebraMap_eq fun l => by
-    show algebraMap L M l ⊗ₜ[K] (1 : K₁) = ι (algebraMap L L l ⊗ₜ[K] (1 : K₁))
+    change algebraMap L M l ⊗ₜ[K] (1 : K₁) = ι (algebraMap L L l ⊗ₜ[K] (1 : K₁))
     simp [ι]
   let e : L₁ ⊗[L] M ≃ₐ[L] M₁ :=
     (Algebra.TensorProduct.comm L L₁ M).trans
       (Algebra.TensorProduct.cancelBaseChange K L L M K₁)
   have he1 : ∀ m : M, e (1 ⊗ₜ m) = m ⊗ₜ[K] (1 : K₁) := by
     intro m
-    show Algebra.TensorProduct.cancelBaseChange K L L M K₁ (m ⊗ₜ[L] (1 ⊗ₜ[K] 1)) = _
+    change Algebra.TensorProduct.cancelBaseChange K L L M K₁ (m ⊗ₜ[L] (1 ⊗ₜ[K] 1)) = _
     rw [Algebra.TensorProduct.cancelBaseChange_tmul, one_smul]
   have he2 : ∀ x : L₁, e (x ⊗ₜ 1) = ι x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul l k =>
-      show Algebra.TensorProduct.cancelBaseChange K L L M K₁ (1 ⊗ₜ[L] (l ⊗ₜ[K] k)) = _
+      change Algebra.TensorProduct.cancelBaseChange K L L M K₁ (1 ⊗ₜ[L] (l ⊗ₜ[K] k)) = _
       rw [Algebra.TensorProduct.cancelBaseChange_tmul, Algebra.smul_def, mul_one]
       rfl
     | add x y hx hy => rw [TensorProduct.add_tmul, map_add, hx, hy, map_add]
@@ -316,10 +315,9 @@ theorem finite_finrank_adjoin_tensorProduct_of_isField
     { e.toLinearEquiv with
       map_smul' := by
         intro x y
-        show e (x • y) = ι x * e y
+        change e (x • y) = ι x * e y
         rw [show x • y = (x ⊗ₜ[L] (1 : M)) * y by
-          induction y using TensorProduct.induction_on with
-          | zero => simp
+          induction y using TensorProduct.inductionOn with
           | tmul a m =>
             rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, TensorProduct.smul_tmul',
               smul_eq_mul]
@@ -341,7 +339,7 @@ theorem finite_finrank_adjoin_tensorProduct_of_isField
       exact Algebra.subset_adjoin (Set.mem_singleton _)
     | algebraMap l =>
       have : algebraMap L M l ⊗ₜ[K] (1 : K₁) = algebraMap L₁ M₁ (l ⊗ₜ[K] (1 : K₁)) := by
-        show _ = ι _
+        change _ = ι _
         simp [ι]
       rw [this]
       exact S.algebraMap_mem _
@@ -356,11 +354,10 @@ theorem finite_finrank_adjoin_tensorProduct_of_isField
   apply top_unique
   intro x _
   clear * - hM
-  induction x using TensorProduct.induction_on with
-  | zero => exact S.zero_mem
+  induction x using TensorProduct.inductionOn with
   | tmul m k =>
     have hk : m ⊗ₜ[K] k = algebraMap L₁ M₁ ((1 : L) ⊗ₜ[K] k) * (m ⊗ₜ[K] (1 : K₁)) := by
-      show _ = ι _ * _
+      change _ = ι _ * _
       simp [ι, Algebra.TensorProduct.tmul_mul_tmul]
     rw [hk]
     exact S.mul_mem (S.algebraMap_mem _) (hM m)
@@ -761,7 +758,7 @@ theorem finiteLevel_tensorProduct_of_artinSchreier_shift
   have hsquare : (algebraMap (L ⊗[K] E) (M ⊗[K] E)).comp iL =
       iM.comp (algebraMap L M) := by
     ext x
-    show ι (x ⊗ₜ[K] (1 : E)) = algebraMap L M x ⊗ₜ[K] (1 : E)
+    change ι (x ⊗ₜ[K] (1 : E)) = algebraMap L M x ⊗ₜ[K] (1 : E)
     simp [ι]
   have hcoeff : (algebraMap (L ⊗[K] E) (M ⊗[K] E)).comp
       (algebraMap B (L ⊗[K] E)) = iM.comp (algebraMap B M) := by
@@ -772,7 +769,7 @@ theorem finiteLevel_tensorProduct_of_artinSchreier_shift
       (algebraMap B (L ⊗[K] E))) (z ⊗ₜ[K] (1 : E)) P =
         algebraMap (L ⊗[K] E) (M ⊗[K] E) (iL ξ) := by
     rw [hcoeff, eval₂_tensor_includeLeft]
-    show iM (Polynomial.aeval z P) = _
+    change iM (Polynomial.aeval z P) = _
     rw [hPz]
     exact (DFunLike.congr_fun hsquare ξ).symm
   have hξ' : algebraMap B (L ⊗[K] E) π ^ n * iL ξ -
@@ -817,7 +814,7 @@ theorem artinSchreier_eq_tensor_includeRight
   have hy' := congrArg iR hy
   simp only [map_sub, map_pow, AlgHom.commutes, map_mul, map_inv₀,
     ← IsScalarTower.algebraMap_apply A K (L ⊗[K] E), map_neg] at hy'
-  show algebraMap A (L ⊗[K] E) π ^ n * ((iR y) ^ p - iR y) = _
+  change algebraMap A (L ⊗[K] E) π ^ n * ((iR y) ^ p - iR y) = _
   rw [hy', ← mul_assoc, ← mul_pow, mul_inv_cancel₀ hπ', one_pow, one_mul]
 
 theorem exists_tensorProduct_pi_algEquiv_of_embedding
@@ -851,15 +848,14 @@ theorem exists_tensorProduct_pi_algEquiv_of_embedding
     { H.toRingHom with
       commutes' := by
         intro x
-        show H (ι x) = _
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        change H (ι x) = _
+        induction x using TensorProduct.inductionOn with
         | tmul l a =>
           ext σ
           simp only [ι, Algebra.TensorProduct.map_tmul, IsScalarTower.coe_toAlgHom',
             AlgHom.id_apply, htmul]
           rw [show σ (algebraMap L M l) = algebraMap L M l from σ.commutes l, φ.commutes l]
-          show (l ⊗ₜ[K] (1 : E)) * (1 ⊗ₜ[K] a) = l ⊗ₜ[K] a
+          change (l ⊗ₜ[K] (1 : E)) * (1 ⊗ₜ[K] a) = l ⊗ₜ[K] a
           rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
         | add x y hx hy => simp only [map_add, hx, hy] }
   have hsurj : Function.Surjective H' := by
@@ -876,7 +872,7 @@ theorem exists_tensorProduct_pi_algEquiv_of_embedding
     rintro values ⟨m, rfl⟩
     refine ⟨m ⊗ₜ[K] (1 : E), ?_⟩
     ext σ
-    show H (m ⊗ₜ[K] (1 : E)) σ = _
+    change H (m ⊗ₜ[K] (1 : E)) σ = _
     rw [htmul, Algebra.TensorProduct.one_def.symm, mul_one]
     rfl
   obtain ⟨hfin, hdim, _⟩ := finite_finrank_adjoin_tensorProduct_of_isField hL z hz

@@ -268,7 +268,7 @@ theorem familyOfEq_mapMap_comp (C : WeierstrassCurve R) (φ : R →+* S) (ψ : S
     (familyOfEq (C.map_map φ ψ)).iso.hom ≫ mapMap C (ψ.comp φ) =
       mapMap (C.map φ) ψ ≫ mapMap C φ := by
   rw [mapMap_comp]
-  show eqToHom (congrArg projOf (C.map_map φ ψ)) ≫
+  change eqToHom (congrArg projOf (C.map_map φ ψ)) ≫
     eqToHom (congrArg projOf (C.map_map φ ψ).symm) ≫ _ = _
   rw [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
 

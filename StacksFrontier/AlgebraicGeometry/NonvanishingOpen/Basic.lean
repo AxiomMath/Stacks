@@ -153,8 +153,8 @@ That is how the two proofs in `../AmpleFiniteAvoidance/` proceed: the ring is fo
 plain commutative ring, `Stacks.SectionRingGeometric.schemeSectionCommRing`, carrying no internal
 `GradedRing` instance, and the grading is supplied externally by
 `StacksFrontier/Algebra/DirectSum/ExternalGrading.lean`. The avoidance itself — Algebra Tag 00JS, a
-homogeneous element of a graded ideal avoiding finitely many primes — is absent from Mathlib, which has
-only the homogeneous-radical file, but is proved in this library, as
+homogeneous element of a graded ideal avoiding finitely many primes — is absent from Mathlib, which
+has only the homogeneous-radical file, but is proved in this library, as
 `Stacks.GradedAvoidance.exists_homogeneous_pos_forall_notMem` (`../GradedSections/Avoidance.lean`).
 What this route does *not* use is the source's reduction of Tag 01ZY part (3) to Tag 01Q3,
 the ten equivalent characterisations, which this repository still does not have. Tag 09NX,

@@ -126,7 +126,7 @@ theorem inclusion_isContinuous :
   let hId : (𝟭 B.Schemes).IsContinuous B.topology Q.toGrothendieck := by
     constructor
     intro G
-    show Presieve.IsSheaf B.topology G.obj
+    change Presieve.IsSheaf B.topology G.obj
     exact Presieve.isSheaf_of_le G.obj B.topology_le_comap
       ((isSheaf_iff_isSheaf_of_type _ _).mp G.property)
   exact Functor.isContinuous_comp (𝟭 B.Schemes) B.inclusion B.topology
@@ -151,7 +151,7 @@ scheme has no points. -/
 theorem bot_mem_topology (Y : B.Schemes) (hY : IsEmpty (B.inclusion.obj Y)) :
     (⊥ : Sieve Y) ∈ B.topology Y := by
   have hEfp : IsFppfCovering (⟨Y, PreZeroHypercover.empty Y⟩ : Covering B.Schemes) := by
-    show (PreZeroHypercover.empty Y).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.empty Y).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj Y)
     rw [PreZeroHypercover.presieve₀_empty]
     simp only [Presieve.map_bot]
@@ -210,9 +210,9 @@ the empty scheme. -/
 theorem bot_mem_topology_of_left_eq_empty (T : BigFppfOver B S hS)
     (hT : T.left = B.obj B.contains_empty) : (⊥ : Sieve T) ∈ topology B S hS T :=
   bot_mem_topology T (by
-    show IsEmpty (B.inclusion.obj T.left)
+    change IsEmpty (B.inclusion.obj T.left)
     rw [hT]
-    show IsEmpty (∅ : Scheme.{u})
+    change IsEmpty (∅ : Scheme.{u})
     exact (inferInstance : IsEmpty (∅ : Scheme.{u})))
 
 /-- The empty sieve covers every initial object of the big fppf site over `S`. -/

@@ -65,7 +65,7 @@ lemma flat_mul_after_map {S : Scheme.{u}} (G T : Over S) [GrpObj G]
   have : IsIso α.left := inferInstanceAs (IsIso ((Over.forget S).map α))
   have : Flat α.left := by infer_instance
   have : Flat (snd T G).left := by
-    show Flat (Limits.pullback.snd T.hom G.hom); infer_instance
+    change Flat (Limits.pullback.snd T.hom G.hom); infer_instance
   have heq : α.left ≫ (snd T G).left = (lift (fst T G ≫ ψ) (snd T G) ≫ μ[G]).left := by
     simpa [Scheme.Hom.comp_base] using congrArg Over.Hom.left
       (show α ≫ snd T G = lift (fst T G ≫ ψ) (snd T G) ≫ μ[G] from by

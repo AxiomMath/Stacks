@@ -58,7 +58,7 @@ lemma prop_stupidTruncLE_X (P : ObjectProperty A) [P.IsClosedUnderIsomorphisms] 
     P ((K.stupidTrunc (ComplexShape.embeddingUpIntLE a)).X i) := by
   by_cases hi : i ≤ a
   · have heq : (ComplexShape.embeddingUpIntLE a).f (a - i).toNat = i := by
-      show a - ((a - i).toNat : ℤ) = i
+      change a - ((a - i).toNat : ℤ) = i
       omega
     exact P.prop_of_iso (K.stupidTruncXIso (ComplexShape.embeddingUpIntLE a) heq).symm (hK i)
   · exact P.prop_of_isZero
@@ -154,7 +154,7 @@ theorem isIso_app_of_rightAcyclic_of_isLE [IsGrothendieckAbelian A] [EnoughInjec
       (Φ.map ((F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map v) ≫
         Φ.map (α.app ((HomotopyCategory.quotient _ _).obj K))) := by
     rw [← Functor.map_comp, α.naturality v, Functor.map_comp]
-    show IsIso (Φ.map (α.app ((HomotopyCategory.quotient _ _).obj
+    change IsIso (Φ.map (α.app ((HomotopyCategory.quotient _ _).obj
       (K.stupidTrunc (ComplexShape.embeddingUpIntGE a)))) ≫
       Φ.map (RF.map (DerivedCategory.Qh.map v)))
     infer_instance

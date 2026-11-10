@@ -147,7 +147,7 @@ public theorem exists_epi_sigma_of_coyonedaSections
   have hφ : Limits.Sigma.ι (fun q : DistinguishedSections S R F => P q.1.1)
         ⟨⟨U, hU⟩, (ε U).hom.app F φ⟩ ≫
       Limits.Sigma.desc (fun q : DistinguishedSections S R F => (ε q.1.1).inv.app F q.2) = φ := by
-    rw [Limits.Sigma.ι_desc, Iso.hom_inv_id_app_apply]
+    rw [Limits.Sigma.ι_comp_desc, Iso.hom_inv_id_app_apply]
   rw [← hφ, Category.assoc, Category.assoc, hxy]
 
 end CategoryTheory.Sheaf

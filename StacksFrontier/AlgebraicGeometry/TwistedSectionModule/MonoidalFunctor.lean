@@ -259,7 +259,7 @@ theorem map_mulMap {i : ℕ} (y : powSections L i) (j : ℕ) :
 theorem mapPowSections_mul {i j : ℕ} (y : powSections L i) (z : powSections L j) :
     mapPowSections G (Stacks.GradedSections.mul y z) =
       Stacks.GradedSections.mul (mapPowSections G y) (mapPowSections G z) := by
-  show Functor.LaxMonoidal.ε G ≫ G.map (z ≫ Stacks.GradedSections.mulMap y j) ≫
+  change Functor.LaxMonoidal.ε G ≫ G.map (z ≫ Stacks.GradedSections.mulMap y j) ≫
       mapNatTensorPow G L (i + j) =
     (Functor.LaxMonoidal.ε G ≫ G.map z ≫ mapNatTensorPow G L j) ≫
       Stacks.GradedSections.mulMap (mapPowSections G y) j
@@ -271,7 +271,7 @@ theorem mapPowSections_mul {i j : ℕ} (y : powSections L i) (z : powSections L 
 cancel in the other order, which is `CategoryTheory.Functor.Monoidal.ε_η`. -/
 theorem mapPowSections_id (M : C) :
     mapPowSections G (L := M) (n := 0) (𝟙 (𝟙_ C)) = 𝟙 (𝟙_ D) := by
-  show Functor.LaxMonoidal.ε G ≫ G.map (𝟙 (𝟙_ C)) ≫ Functor.OplaxMonoidal.η G = 𝟙 (𝟙_ D)
+  change Functor.LaxMonoidal.ε G ≫ G.map (𝟙 (𝟙_ C)) ≫ Functor.OplaxMonoidal.η G = 𝟙 (𝟙_ D)
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Functor.Monoidal.ε_η]
 
 /-- **A section of a tensor power carried along `G` is its degree-zero twisted reading carried
@@ -284,7 +284,7 @@ theorem mapPowSections_eq_mapTwistSections {k : ℕ} (x : powSections L k) :
         mapNatTensorPow G L k := by
   have h : mapTwistSections G (F := natTensorPow L k) (L := L) (m := 0) x
       = Functor.LaxMonoidal.ε G ≫ G.map x := by
-    show Functor.LaxMonoidal.ε G ≫ G.map x ≫ 𝟙 (G.obj (natTensorPow L k))
+    change Functor.LaxMonoidal.ε G ≫ G.map x ≫ 𝟙 (G.obj (natTensorPow L k))
       = Functor.LaxMonoidal.ε G ≫ G.map x
     rw [Category.comp_id]
   rw [h, mapPowSections]
@@ -327,6 +327,7 @@ variable [Preadditive C] [(tensorRight L).Additive] [Preadditive D] [G.Additive]
   [(tensorRight (G.obj L)).Additive]
 
 
+omit [G.Additive] in
 /-- **A power of a section is carried along `G` to the same power of its image.** The powers
 satisfy `s ^ (k + 1) = sᵏ · s` in the section ring
 (`Stacks.TwistedSections.mul_sectionPow_self`), and `mapPowSections` is multiplicative
@@ -341,6 +342,8 @@ theorem mapPowSections_sectionPow {d : ℕ} (s : powSections L d) (m : ℕ) :
   | succ m ih =>
       rw [← mul_sectionPow_self, ← mul_sectionPow_self, mapPowSections_mul, ih]
 
+omit [Preadditive C] [(tensorRight L).Additive] [Preadditive D] [G.Additive]
+  [(tensorRight (G.obj L)).Additive] in
 /-- **The iterated multiplication by `s` is carried along `G`**, by induction from the
 single-step compatibility. -/
 theorem mapTwistSections_shiftIter {d : ℕ} (s : powSections L d) {m : ℕ}
@@ -359,12 +362,14 @@ def monoidalDivision {d : ℕ} (s : powSections L d) [IsIso (mapPowSections G s)
     twistSections F L (d * n) →+ twistSections (G.obj F) (G.obj L) 0 :=
   (powerDivision (mapPowSections G s) n).comp (mapTwistSectionsHom G (d * n))
 
+omit [(tensorRight L).Additive] in
 /-- The division of `t` by `sⁿ` after `G` is the division of `mapTwistSections G t` by
 `(mapPowSections G s)ⁿ`. -/
 @[simp] theorem monoidalDivision_apply {d : ℕ} (s : powSections L d)
     [IsIso (mapPowSections G s)] (n : ℕ) (t : twistSections F L (d * n)) :
     monoidalDivision G s n t = powerDivision (mapPowSections G s) n (mapTwistSections G t) := rfl
 
+omit [(tensorRight L).Additive] in
 /-- **The value of the division is the section whose product with `(G s)ⁿ` is the image of the
 numerator.** This is Stacks Tag 0B5L's description of its map. -/
 @[simp] theorem shiftPow_monoidalDivision {d : ℕ} (s : powSections L d)
@@ -504,6 +509,7 @@ variable [Preadditive C] [(tensorRight L).Additive] [Preadditive D] [G.Additive]
   [(tensorRight (G.obj L)).Additive] [Preadditive D₂] [H.Additive]
   [(tensorRight (H.obj (G.obj L))).Additive]
 
+omit [(tensorRight L).Additive] in
 /-- **The division carried along `H` is the division after `H`.** Dividing a twisted section by
 `sⁿ` after `G` and then carrying the quotient along `H` gives the same section of `H (G ℱ)` as
 dividing after the composite. Both sides have the same `n`-fold product with the image of `s`,
@@ -526,8 +532,8 @@ theorem mapTwistSections_monoidalDivision {d : ℕ} (s : powSections L d)
 
 variable [BraidedCategory C] [HasTrivialSelfBraiding L]
 
-omit [(tensorRight (H.obj (G.obj L))).Additive] [BraidedCategory C]
-  [HasTrivialSelfBraiding L] in
+omit [(tensorRight L).Additive] [(tensorRight (H.obj (G.obj L))).Additive]
+  [BraidedCategory C] [HasTrivialSelfBraiding L] in
 /-- **The division after a composite is the division after the first factor, carried along the
 second.** Both sides have the same `n`-fold product with the image of `s` after the composite, by
 `Stacks.TwistedSections.shiftPow_monoidalDivision` on the left and, on the right, by

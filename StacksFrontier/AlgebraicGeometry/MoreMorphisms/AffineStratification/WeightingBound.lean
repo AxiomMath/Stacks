@@ -123,15 +123,15 @@ private lemma exists_isAffineOpen_maxLocus
             (fun x ↦ hpositive _) d hdV'
         have hTV : T = V.ι ⁻¹ᵁ U := by
           ext v
-          show v ∈ (T : Set V.toScheme) ↔ V.ι v ∈ (U : Set Y)
+          change v ∈ (T : Set V.toScheme) ↔ V.ι v ∈ (U : Set Y)
           rw [hT, hU]
-          show _ = d ↔ _ = d
+          change _ = d ↔ _ = d
           rw [← hsum]
           rfl
         exact hTV ▸ hTaff
       · have hempty : V.ι ⁻¹ᵁ U = ⊥ := by
           ext v
-          show V.ι v ∈ (U : Set Y) ↔ False
+          change V.ι v ∈ (U : Set Y) ↔ False
           rw [hU]
           exact ⟨fun hv ↦ hdV ⟨v, (congrFun hsum v).symm.trans hv⟩, False.elim⟩
         exact hempty ▸ isAffineOpen_bot _
@@ -191,7 +191,7 @@ private lemma isAffine_reducedInduced_levelSet_of_isAffineOpen_maxLocus
     have : IsAffineHom U.ι := isAffineHom_of_isAffine_of_isSeparated U.ι
     refine (isAffine_reducedInduced_of_range_eq {y | F y = d}
       (isLocallyClosed_levelSet_of_lowerSemicontinuous hF d) (U.ι ≫ J.subschemeι) ?_).1
-    show Set.range (J.subschemeι ∘ U.ι) = {y | F y = d}
+    change Set.range (J.subschemeι ∘ U.ι) = {y | F y = d}
     rw [Set.range_comp, Scheme.Opens.range_ι, hUeq]
     exact Set.image_preimage_eq_of_subset hsub
   · have : IsEmpty (reducedInducedScheme {y | F y = d}

@@ -104,14 +104,13 @@ public def oneTmulOfSurjective (hs : Function.Surjective (algebraMap Λ Λ')) :
 `Λ' ⊗_Λ N ≅ N`, `t ⊗ n ↦ t • n`. -/
 public def baseChangeEquivOfSurjective (hs : Function.Surjective (algebraMap Λ Λ')) :
     Λ' ⊗[Λ] N ≃ₗ[Λ'] N :=
-  LinearEquiv.ofLinear ((LinearMap.id : N →ₗ[Λ] N).liftBaseChange Λ')
+  LinearEquiv.ofLinearMap ((LinearMap.id : N →ₗ[Λ] N).liftBaseChange Λ')
     (oneTmulOfSurjective N hs)
     (LinearMap.ext fun n => by
       change (LinearMap.id.liftBaseChange Λ') (1 ⊗ₜ[Λ] n) = n
       simp)
     (LinearMap.ext fun x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul t n =>
         obtain ⟨a, rfl⟩ := hs t
         change 1 ⊗ₜ[Λ] (LinearMap.id.liftBaseChange Λ' (algebraMap Λ Λ' a ⊗ₜ[Λ] n)) = _
@@ -125,10 +124,9 @@ public theorem baseChangeEquivOfSurjective_symm_conj (hs : Function.Surjective (
     (φ : N →ₗ[Λ'] N) :
     (baseChangeEquivOfSurjective N hs).symm.conj φ = (φ.restrictScalars Λ).baseChange Λ' := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t n =>
-    show (1 : Λ') ⊗ₜ[Λ] φ (t • n) = t ⊗ₜ[Λ] φ n
+    change (1 : Λ') ⊗ₜ[Λ] φ (t • n) = t ⊗ₜ[Λ] φ n
     obtain ⟨a, rfl⟩ := hs t
     rw [map_smul, algebraMap_smul, TensorProduct.tmul_smul, TensorProduct.smul_tmul',
       Algebra.smul_def, mul_one]
@@ -148,8 +146,7 @@ public theorem TensorProduct.subsingleton_of_smul_eq_zero {Λ : Type u} [CommRin
     (ha : algebraMap Λ Λ' a = 1) (hN : ∀ n : N, a • n = 0) : Subsingleton (Λ' ⊗[Λ] N) := by
   refine ⟨fun x y => ?_⟩
   have h0 : ∀ z : Λ' ⊗[Λ] N, z = 0 := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul t n =>
       have hat : a • t = t := by rw [_root_.Algebra.smul_def, ha, one_mul]
       rw [← hat, TensorProduct.smul_tmul, hN, TensorProduct.tmul_zero]

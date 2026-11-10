@@ -117,7 +117,8 @@ private theorem isAffineHom_of_isPullback_of_isAffine
 private theorem isZero_of_isZero_restrictScalars {R S : CommRingCat.{u}} (φ : R ⟶ S)
     (M : ModuleCat.{u} S) (h : IsZero ((ModuleCat.restrictScalars.{u} φ.hom).obj M)) :
     IsZero M := by
-  rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  assumption
 
 /-- **Over an affine base, vanishing of the higher direct image is vanishing of cohomology.**
 This is the converse of `isZero_rightDerivedPlus_pushforward_of_isZero_cohomology`: both

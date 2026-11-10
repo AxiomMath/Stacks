@@ -67,7 +67,6 @@ variable {A B C M N P : Type u} {σ τ ρ μ ν π : Type u}
   [SetLike π P] [AddSubgroupClass π P]
   {𝒜 : ℕ → σ} {ℬ : ℕ → τ} {𝒞 : ℕ → ρ} [GradedRing 𝒜] [GradedRing ℬ] [GradedRing 𝒞]
   {𝒨 : ℤ → μ} {𝒩 : ℤ → ν} {𝒬 : ℤ → π}
-  [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] [DirectSum.Decomposition 𝒬]
   [SetLike.GradedSMul 𝒜 𝒨] [SetLike.GradedSMul ℬ 𝒩] [SetLike.GradedSMul 𝒞 𝒬]
 
 variable (φ : 𝒜 →+*ᵍ ℬ) (hφ : ℬ₊ ≤ 𝒜₊.map φ)

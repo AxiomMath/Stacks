@@ -86,7 +86,7 @@ theorem BigPHOver.bijective_map_of_isThickening
     }
     exact ⟨𝒰, hstd, ⟨φ.comp k⟩⟩
   have hphE : IsPHCoveringInCutoff E := by
-    show IsPHCovering (E.2.map B.inclusion).X (E.2.map B.inclusion).f
+    change IsPHCovering (E.2.map B.inclusion).X (E.2.map B.inclusion).f
     simpa [E, EBig, f, PreZeroHypercover.map] using hphBig
   obtain ⟨⟨Vtarget, Vfamily⟩, hV, hTarget, hComb⟩ :=
     B.covering_representative E hphE

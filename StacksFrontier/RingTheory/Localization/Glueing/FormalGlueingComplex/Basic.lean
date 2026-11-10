@@ -171,11 +171,11 @@ public theorem glueingBeta_comp_glueingAlpha :
     have hterm (k : T.1) :
         cechι f M (Finset.erase_subset k.1 T.1)
             (LocalizedModule.mk m 1) = LocalizedModule.mk m 1 := by
-      show cechι f M (Finset.erase_subset k.1 T.1)
+      change cechι f M (Finset.erase_subset k.1 T.1)
           (LocalizedModule.mkLinearMap (cechSub f (T.1.erase k.1)) M m) =
         LocalizedModule.mkLinearMap (cechSub f T.1) M m
       exact cechι_mk f M (Finset.erase_subset k.1 T.1) m
-    show (∑ k ∈ T.1.attach, cechSign T.1 k.1 •
+    change (∑ k ∈ T.1.attach, cechSign T.1 k.1 •
       cechι f M (Finset.erase_subset k.1 T.1) (LocalizedModule.mk m 1)) = 0
     rw [Finset.sum_congr rfl (fun k _ => congrArg (cechSign T.1 k.1 • ·) (hterm k))]
     rw [← Finset.sum_smul]

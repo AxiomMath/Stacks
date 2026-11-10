@@ -65,7 +65,7 @@ theorem alternatingMap_eq_basis_det_smulRight
     F = e.det.smulRight (F e) := by
   refine e.ext_alternating fun i hi => ?_
   let σ : Equiv.Perm ι := Equiv.ofBijective i (Finite.injective_iff_bijective.1 hi)
-  show F (e ∘ σ) = (e.det.smulRight (F e)) (e ∘ σ)
+  change F (e ∘ σ) = (e.det.smulRight (F e)) (e ∘ σ)
   simp [AlternatingMap.map_perm, Module.Basis.det_self]
 
 /-- The linear map on the free modules specified by a coefficient matrix. -/
@@ -85,7 +85,7 @@ private theorem coefficientLinearMap_seqDual {R : Type*} [CommRing R] {n : ℕ}
     (Koszul.seqDual g).comp (coefficientLinearMap M) = Koszul.seqDual f := by
   refine LinearMap.ext fun v => ?_
   simp only [LinearMap.comp_apply, Koszul.seqDual_apply]
-  show (∑ j, (∑ i, v i * M i j) * g j) = ∑ i, v i * f i
+  change (∑ j, (∑ i, v i * M i j) * g j) = ∑ i, v i * f i
   simp only [Finset.sum_mul]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -225,7 +225,7 @@ private theorem koszulSeq_kFlat
     CochainComplex.KFlat
       ((Koszul.seqComplex f).extend ComplexShape.embeddingDownNat) := by
   let (j : ℕ) : CategoryTheory.Projective ((Koszul.seqComplex f).X j) := by
-    show CategoryTheory.Projective (ModuleCat.of R (⋀[R]^j (Fin n → R)))
+    change CategoryTheory.Projective (ModuleCat.of R (⋀[R]^j (Fin n → R)))
     exact ModuleCat.projective_of_free ((Pi.basisFun R (Fin n)).exteriorPower j)
   let (j : ℤ) : Module.Flat R
       (((Koszul.seqComplex f).extend ComplexShape.embeddingDownNat).X j) := by
@@ -245,7 +245,7 @@ private theorem koszulSeq_restrict_kFlat
   let D := ((ModuleCat.restrictScalars (algebraMap P R)).mapHomologicalComplex
     (ComplexShape.down ℕ)).obj (Koszul.seqComplex g)
   let (j : ℕ) : Module.Flat P (D.X j) := by
-    show Module.Flat P (⋀[R]^j (Fin n → R))
+    change Module.Flat P (⋀[R]^j (Fin n → R))
     exact flat_exteriorPower_restrict j
   let (j : ℤ) : Module.Flat P ((D.extend ComplexShape.embeddingDownNat).X j) := by
     by_cases hj : ∃ m, ComplexShape.embeddingDownNat.f m = j
@@ -287,7 +287,7 @@ private theorem koszulRange_d_zero {R : Type u} [CommRing R] {n : ℕ}
         (exteriorPower.zeroEquiv R (Fin n → R) : (⋀[R]^0 (Fin n → R)) →ₗ[R] R)
         (LinearMap.range (Koszul.d (Koszul.seqDual f) 0)) =
       Ideal.span (Set.range f) := by
-  show Submodule.map _ _ = Submodule.span R (Set.range f)
+  change Submodule.map _ _ = Submodule.span R (Set.range f)
   rw [← Fintype.range_linearCombination R f]
   ext a
   constructor
@@ -316,7 +316,7 @@ Koszul differential. -/
 private theorem koszulSc'_f {R : Type u} [CommRing R] {n : ℕ} (f : Fin n → R) :
     ((Koszul.seqComplex f).sc' 1 0 0).f =
       ModuleCat.ofHom (Koszul.d (Koszul.seqDual f) 0) := by
-  show (Koszul.seqComplex f).d (0 + 1) 0 = _
+  change (Koszul.seqComplex f).d (0 + 1) 0 = _
   exact Koszul.seqComplex_d f 0
 
 /-- The image of the incoming map of the degree-zero short complex is, under the zeroth
@@ -430,7 +430,7 @@ private theorem koszulAugmentation_homologyMap_zero_isIso
     change ⋀[R]^0 (Fin n → R) at x
     have hf := congrArg (fun (h : (Koszul.seqComplex f).X 0 ⟶ Q) => h.hom x)
       (koszulHomologyZeroIso_fac f)
-    show (Ideal.span (Set.range f)).mkQ
+    change (Ideal.span (Set.range f)).mkQ
         ((exteriorPower.zeroEquiv R (Fin n → R)) x) =
       (koszulHomologyZeroIso f).hom.hom
         ((Koszul.seqComplex f).isoHomologyι₀.inv.hom

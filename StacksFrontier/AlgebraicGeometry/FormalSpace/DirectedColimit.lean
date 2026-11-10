@@ -238,7 +238,7 @@ private theorem preservesMonomorphisms_sheafifiedYoneda (B : BigFppfSite.{u}) (S
     (hS : B.Contains S) :
     (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).PreservesMonomorphisms := by
   let J := BigFppfOver.topology B S hS
-  show ((uliftYoneda.{u + 1}) ⋙ presheafToSheaf J (Type (u + 1))).PreservesMonomorphisms
+  change ((uliftYoneda.{u + 1}) ⋙ presheafToSheaf J (Type (u + 1))).PreservesMonomorphisms
   infer_instance
 
 /-- A morphism of fppf sheaves which is representable and all of whose represented base changes
@@ -514,14 +514,14 @@ private theorem exists_factor_affine_through_presentation (B : BigFppfSite.{u})
       have : HasPullbacks (BigAffineFppf B S hS) := hasPullbacks_bigAffineFppf B S hS
       have : HasPullbacks C := inferInstance
       have : HasBinaryProducts C := hasBinaryProducts_of_hasTerminal_and_pullbacks C
-      show (MorphismProperty.inverseImage
+      change (MorphismProperty.inverseImage
         (@Surjective.{u} : MorphismProperty Scheme.{u}) q).relative yoneda (𝟙 _)
       refine ⟨Functor.relativelyRepresentable.of_isIso yoneda _, ?_⟩
       intro A C' g fst snd hpb
       have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
       have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
       have : IsIso (q.map snd) := Functor.map_isIso _ _
-      show Surjective (q.map snd)
+      change Surjective (q.map snd)
       infer_instance
     · intro W φ hφ
       simpa using hφ
@@ -651,7 +651,7 @@ private theorem exists_combinedPresentation (B : BigFppfSite.{u}) (S : Scheme.{u
   have : ∀ p : K, Mono (a p) := fun p => by
     have := affinePresentationStageMap_mono B S hS (D.obj p.1) (P p.1) p.2
     have := mono_colimit_ι B S hS D p.1
-    show Mono (affinePresentationStageMap B S hS (D.obj p.1) (P p.1) p.2 ≫
+    change Mono (affinePresentationStageMap B S hS (D.obj p.1) (P p.1) p.2 ≫
       colimit.ι D p.1)
     infer_instance
   let A := fun p : K => (T p.1).obj p.2
@@ -714,17 +714,17 @@ private theorem exists_combinedPresentation (B : BigFppfSite.{u}) (S : Scheme.{u
         (affinePresentationStageMap_relativeThickening B S hS _ (P p.1) p.2) (hthick α)
     have : Mono bq := by
       have := affinePresentationStageMap_mono B S hS _ (P q.1) q.2
-      show Mono (affinePresentationStageMap B S hS _ (P q.1) q.2 ≫ D.map β)
+      change Mono (affinePresentationStageMap B S hS _ (P q.1) q.2 ≫ D.map β)
       infer_instance
     have heq : F.map f ≫ bq = bp := by
       have := mono_colimit_ι B S hS D k
       apply (cancel_mono (colimit.ι D k)).mp
       have hbq : bq ≫ colimit.ι D k = a q := by
-        show ((s q.1).app q.2 ≫ D.map β) ≫ colimit.ι D k = a q
+        change ((s q.1).app q.2 ≫ D.map β) ≫ colimit.ι D k = a q
         rw [Category.assoc, colimit.w]
         rfl
       have hbp : bp ≫ colimit.ι D k = a p := by
-        show ((s p.1).app p.2 ≫ D.map α) ≫ colimit.ι D k = a p
+        change ((s p.1).app p.2 ≫ D.map α) ≫ colimit.ι D k = a p
         rw [Category.assoc, colimit.w]
         rfl
       rw [Category.assoc, hbq, hbp]

@@ -173,7 +173,7 @@ theorem pullbackId_adjoint_apply {X : Scheme.{u}} (M N : X.Modules)
     have hc := congrArg (fun t => t ≫ (Scheme.Modules.pushforward (𝟙 X)).map i) hpid
     simpa [Functor.map_comp, Category.assoc] using hc.symm
   rw [Adjunction.homEquiv_apply, hunit]
-  show (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward (𝟙 X)).map b) U)
+  change (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward (𝟙 X)).map b) U)
       ((Scheme.Modules.Hom.app ((Scheme.Modules.pushforward (𝟙 X)).map i) U)
         ((Scheme.Modules.Hom.app ((Scheme.Modules.pushforwardId X).inv.app M) U) s)) = _
   rw [Scheme.Modules.pushforward_map_app, Scheme.Modules.pushforward_map_app,
@@ -205,7 +205,7 @@ theorem isRelativeDifferentialsMap_comp {X' X S' S : Scheme.{u}} (f : X' ⟶ X) 
   have hnval := congrArg (fun e => (e.val.app (.op U)).hom
     ((universalRelativeDerivation p).d s)) hn
   rw [hnval]
-  show (((Scheme.Modules.pushforward f).map (i ≫ b)).app U).hom
+  change (((Scheme.Modules.pushforward f).map (i ≫ b)).app U).hom
       (((adj.homEquiv (relativeDifferentials p) Ωq a).val.app (.op U)).hom
         ((universalRelativeDerivation p).d s)) = _
   rw [ha U s]
@@ -213,9 +213,9 @@ theorem isRelativeDifferentialsMap_comp {X' X S' S : Scheme.{u}} (f : X' ⟶ X) 
       ((universalRelativeDerivation q).d ((f.app U).hom s)) =
       (((Scheme.Modules.pullbackPushforwardAdjunction (𝟙 X')).homEquiv Ωq Ωp' b).val.app
         (.op (f ⁻¹ᵁ U))).hom ((universalRelativeDerivation q).d ((f.app U).hom s)) := by
-    show ((i ≫ b).app (f ⁻¹ᵁ U)).hom
+    change ((i ≫ b).app (f ⁻¹ᵁ U)).hom
         ((universalRelativeDerivation q).d ((f.app U).hom s)) = _
-    show (b.app (f ⁻¹ᵁ U)).hom ((i.app (f ⁻¹ᵁ U)).hom
+    change (b.app (f ⁻¹ᵁ U)).hom ((i.app (f ⁻¹ᵁ U)).hom
         ((universalRelativeDerivation q).d ((f.app U).hom s))) = _
     exact (pullbackId_adjoint_apply Ωq Ωp' b (f ⁻¹ᵁ U) _).symm
   rw [hmap]

@@ -212,7 +212,8 @@ def braidedCategory :
   Localization.braidedCategory
     (monoidalLocalIsomorphisms :=
       Stacks.SheafOfModules.isMonoidal_localIso (𝒪 := R.obj))
-    (sourceBraided := (PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)).toBraidedCategory)
+    (sourceBraided :=
+      (PresheafOfModulesOfCommRing.symmetricCategory (R := R.obj)).toBraidedCategory)
     (PresheafOfModules.sheafification
       (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
       (R := Stacks.SheafOfModules.Tensor.ringSheaf R)

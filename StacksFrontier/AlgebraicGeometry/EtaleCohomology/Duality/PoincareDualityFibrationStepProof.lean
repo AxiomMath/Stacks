@@ -178,7 +178,7 @@ theorem isDualityPerfect_lowerShriek_fibration (hV : CohomologicalDimensionInput
   let τU := lowerShriekTrace (f ≫ q) jU ℓ
     ((etaleModuleInverseImage.{u, 0} (ZMod ℓ) f).obj (unitSheaf (X := S) ℓ)) (2 * (d + 1)) t
   have hτU : Function.Injective τU := by
-    show Function.Injective (lowerShriekTrace (f ≫ q) jU ℓ _ (2 * (d + 1)) t)
+    change Function.Injective (lowerShriekTrace (f ≫ q) jU ℓ _ (2 * (d + 1)) t)
     rw [lowerShriekTrace_eq_comp]
     exact ht.comp (lowerShriekTraceEquiv (f ≫ q) jU ℓ _ (2 * (d + 1))).injective
   let τS := τU.comp eT.symm.toAddMonoidHom

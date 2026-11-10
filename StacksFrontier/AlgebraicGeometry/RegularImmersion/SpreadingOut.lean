@@ -454,8 +454,7 @@ theorem isSMulRegular_tmul_of_flat_quotient
   have key : ∀ x : A' ⊗[A] B,
       LinearMap.lTensor A' (LinearMap.mulLeft A h) x = ((1 : A') ⊗ₜ[A] h) * x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b => simp [Algebra.TensorProduct.tmul_mul_tmul]
     | add x y hx hy => rw [map_add, hx, hy, mul_add]
   exact fun x y hxy => hinj (by rw [key, key]; simpa [smul_eq_mul] using hxy)

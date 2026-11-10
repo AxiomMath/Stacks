@@ -142,7 +142,7 @@ theorem nonempty_liftStruct_of_denseTestExistence {W Z V : BigFppfOver B S hS}
   let kOver : Kobj ⟶ W := Over.homMk (⟨(T.obj W).fromSpecResidueField w₀⟩ : Kobj.left ⟶ W.left)
     (by
       apply B.inclusion.map_injective
-      show (T.obj W).fromSpecResidueField w₀ ≫ B.inclusion.map W.hom = gen ≫ base
+      change (T.obj W).fromSpecResidueField w₀ ≫ B.inclusion.map W.hom = gen ≫ base
       rw [← hab, ← Category.assoc, ← Category.assoc, Category.assoc _ ha, hsq]
       rfl)
   let jCat := schemeFibredCategoryMap B S hS jOver
@@ -151,7 +151,7 @@ theorem nonempty_liftStruct_of_denseTestExistence {W Z V : BigFppfOver B S hS}
   have hmaps : schemeMapOfFunctor B S hS (jCat ≫ hCat).hom =
       schemeMapOfFunctor B S hS
         (kCat ≫ (schemeStackMap.{u, w} B S hS a ≫ schemeStackMap.{u, w} B S hS b).hom).hom := by
-    show _ = schemeMapOfFunctor B S hS (kCat ≫ (schemeFibredCategoryMap B S hS a ≫
+    change _ = schemeMapOfFunctor B S hS (kCat ≫ (schemeFibredCategoryMap B S hS a ≫
       schemeFibredCategoryMap B S hS b)).hom
     rw [schemeMapOfFunctor_comp, schemeMapOfFunctor_comp, schemeMapOfFunctor_comp,
       schemeMapOfFunctor_schemeFibredCategoryMap, schemeMapOfFunctor_schemeFibredCategoryMap,
@@ -212,19 +212,19 @@ theorem nonempty_liftStruct_of_denseTestExistence {W Z V : BigFppfOver B S hS}
     have h1 := RingHom.congr_fun e.fraction_comm (algebraMap A A₁ x)
     have h2 := congrArg (fun k => k.hom x) hring
     simp only [RingHom.comp_apply] at h1 h2
-    show algebraMap e.R' e.K' (e.ringMap (algebraMap A A₁ x)) =
+    change algebraMap e.R' e.K' (e.ringMap (algebraMap A A₁ x)) =
       e.fieldMap ((ha.residueFieldMap w₀).hom (A.subtype x))
     rw [h1]
     exact congrArg e.fieldMap h2
   refine exists_liftStruct_fromSpecResidueField_of_dominating hb (ha.base w₀) A i₂ sq ψ χ hcomm
     l' ?_ ?_
   · refine hα'.trans ?_
-    show Spec.map (CommRingCat.ofHom e.fieldMap) ≫ (T.obj W).fromSpecResidueField w₀ ≫ ha = _
+    change Spec.map (CommRingCat.ofHom e.fieldMap) ≫ (T.obj W).fromSpecResidueField w₀ ≫ ha = _
     rw [← Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField, ← Category.assoc,
       ← Spec.map_comp]
     rfl
   · refine hβ'.symm.trans ?_
-    show Spec.map (CommRingCat.ofHom e.ringMap) ≫
+    change Spec.map (CommRingCat.ofHom e.ringMap) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A A₁)) ≫ i₂ = _
     rw [← Category.assoc, ← Spec.map_comp]
     rfl

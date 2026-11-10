@@ -152,7 +152,7 @@ theorem shortExact_of_quotients {u : K ⟶ A} {v : A ⟶ Q₁} {a : A ⟶ B} {b 
     exact (congrArg (π₁ ≫ ·) hx₂).trans Limits.comp_zero
   obtain ⟨T₂, π₂, _, z, hz⟩ := hexab.exact_up_to_refinements y hy'
   refine ⟨T₂, π₂ ≫ π₁, epi_comp _ _, z ≫ v, ?_⟩
-  show (π₂ ≫ π₁) ≫ x₂ = (z ≫ v) ≫ l
+  change (π₂ ≫ π₁) ≫ x₂ = (z ≫ v) ≫ l
   rw [Category.assoc, hy, ← Category.assoc, hz, Category.assoc, Category.assoc, hl]
 
 end CategoryTheory.ShortComplex
@@ -577,7 +577,7 @@ theorem shortExact_excessReductionDualLeft_excessRight :
     (S₁ := ShortComplex.mk _ _ (D.excessLeft_comp_excessRight hj))
     ((Scheme.Modules.pullback i).mapIso (conormalReflexiveIso j hj)) (Iso.refl _) (Iso.refl _)
     ?_ ?_) (D.shortExact_excessLeft_excessRight hj)
-  · show (Scheme.Modules.pullback i).map (toDoubleDual (conormalModule j)) ≫
+  · change (Scheme.Modules.pullback i).map (toDoubleDual (conormalModule j)) ≫
       (Scheme.Modules.pullback i).map (regularNormalSurjection j hj) ≫ D.excessLeft hj =
         D.excessLeft hj ≫ 𝟙 _
     rw [← Category.assoc, ← Functor.map_comp, toDoubleDual_comp_regularNormalSurjection,

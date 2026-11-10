@@ -118,9 +118,9 @@ public theorem radical_span_regular_eq_maximalIdeal
     IsLocalHom.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
   have : Ring.KrullDimLE 0 Q := Ring.krullDimLE_iff.mpr hdimQ.le
   have hrad : I.radical = (nilradical Q).comap (Ideal.Quotient.mk I) := by
-    show I.radical = Ideal.comap (Ideal.Quotient.mk I) (⊥ : Ideal Q).radical
+    change I.radical = Ideal.comap (Ideal.Quotient.mk I) (⊥ : Ideal Q).radical
     rw [Ideal.comap_radical, ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
-  show I.radical = IsLocalRing.maximalIdeal A
+  change I.radical = IsLocalRing.maximalIdeal A
   rw [hrad, Ring.KrullDimLE.nilradical_eq_maximalIdeal Q,
     IsLocalRing.maximalIdeal_comap (Ideal.Quotient.mk I)]
 

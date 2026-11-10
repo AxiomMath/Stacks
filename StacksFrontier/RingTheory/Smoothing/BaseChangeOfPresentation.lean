@@ -351,7 +351,7 @@ those of `P` under `MvPolynomial.map (algebraMap R R')`. Here `Q.n = P.n`, `Q.m 
 theorem basechangePres_lift_map (P : Presentation R A) (p : MvPolynomial (Fin P.n) R) :
     (P.basechangePres (R' := R')).lift (MvPolynomial.map (algebraMap R R') p)
       = Algebra.TensorProduct.includeRight (P.lift p) := by
-  show (P.basechangePres (R' := R')).iso.symm _ = _
+  change (P.basechangePres (R' := R')).iso.symm _ = _
   rw [show (P.basechangePres (R' := R')).iso = P.basechangeIso from rfl,
     AlgEquiv.symm_apply_eq, Ideal.Quotient.mkₐ_eq_mk]
   exact (P.basechangeIso_includeRight p).symm
@@ -453,7 +453,7 @@ theorem lift_sub_map_mem_relIdeal (P : Presentation R A) (a : A)
 theorem exists_isLift (P : Presentation R A) (a : A) : ∃ p, P.IsLift a p := by
   obtain ⟨p, hp⟩ := Ideal.Quotient.mk_surjective (P.iso a)
   refine ⟨p, ?_⟩
-  show P.iso.symm (Ideal.Quotient.mkₐ R (Ideal.span (Set.range P.f)) p) = a
+  change P.iso.symm (Ideal.Quotient.mkₐ R (Ideal.span (Set.range P.f)) p) = a
   rw [Ideal.Quotient.mkₐ_eq_mk, hp, AlgEquiv.symm_apply_apply]
 
 /-- Condition (ii) is preserved by the base-change presentation. -/

@@ -118,13 +118,14 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 -- convention under which `ContinuousGModule` is formed.
 attribute [local instance] Stacks.DiscreteModuleTopology.hasForget₂ModuleCatTopCat
 
+omit [IsTopologicalGroup G] in
 /-- Taking invariants of a discrete `G`-module is left exact, as a composite of functors
 preserving finite limits. -/
 lemma preservesFiniteLimits_invariants :
     PreservesFiniteLimits (continuousGModuleInvariants.{u, v} G) := by
   have hdisc := preservesFiniteLimits_ι (ContAction.IsDiscrete (V := ModuleCat.{v} ℤ) (G := G))
   have hcont := preservesFiniteLimits_ι (Action.IsContinuous (V := ModuleCat.{v} ℤ) (G := G))
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (ObjectProperty.ι (ContAction.IsDiscrete (V := ModuleCat.{v} ℤ) (G := G)) ⋙
       ObjectProperty.ι (Action.IsContinuous (V := ModuleCat.{v} ℤ) (G := G)) ⋙
       Rep.ActionToRep ℤ G ⋙ Rep.invariantsFunctor ℤ G ⋙
@@ -153,10 +154,10 @@ lemma isLocallyConstant_of_stabilizer {α : Type*} (N : ContinuousGModule.{u, v}
   have hopen : IsOpen ((fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z}) :=
     (isOpen_stabilizer ℤ G N z).preimage (by fun_prop)
   have hmem : g ∈ (fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z} := by
-    simp only [Set.mem_preimage, Set.mem_setOf_eq, inv_mul_cancel]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq, inv_mul_cancel]
     exact hone z
   refine ⟨_, fun h hh ↦ ?_, hopen, hmem⟩
-  simp only [Set.mem_preimage, Set.mem_setOf_eq] at hh
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq] at hh
   have hgh : (N.obj.obj.ρ h).asHom.hom z = (N.obj.obj.ρ g).asHom.hom z := by
     simpa only [mul_inv_cancel_left, hh] using rho_mul_apply N.obj.obj g (g⁻¹ * h) z
   exact Set.mem_preimage.mpr (by rw [hφ h g hgh]; exact hg)
@@ -224,7 +225,7 @@ theorem isZero_continuousGroupCohomology_one_of_forall_isCoboundary
     rw [map_sub, ← hfeq, hmg, map_add, hc]
     abel
   refine ⟨⟨x - fl m₀, hfix⟩, Subtype.ext ?_⟩
-  show gl (x - fl m₀) = y.1
+  change gl (x - fl m₀) = y.1
   rw [map_sub, hgfl, hx]
   exact sub_zero _
 

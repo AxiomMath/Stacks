@@ -280,7 +280,7 @@ def perfectChernSeries : PowerSeries (perfectChernSubring C sX hE) :=
 theorem constantCoeff_perfectChernSeries :
     PowerSeries.constantCoeff (perfectChernSeries C sX hE) = 1 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply, perfectChernSeries, PowerSeries.coeff_mk]
-  exact dif_pos rfl
+  exact dite_eq_left rfl
 
 /-- Mapping `perfectChernSeries C sX hE` into `A^*(X)` gives the power series of homogeneous
 components of the total Chern class `c(E)`. -/
@@ -313,7 +313,7 @@ private theorem pow_perfectChernClass_sub_one_apply (k p : ℕ) :
       ((PowerSeries.coeff p ((perfectChernSeries C sX hE - 1) ^ k) :
         perfectChernSubring C sX hE) : TotalChowClass C sX) p := by
   rw [← homComponent_pow_perfectChernClass_sub_one, TotalChowClass.homComponent_apply,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 /-- The degree-`p` part of `log c(E) = ∑_{k ≥ 1} (-1)^{k-1} (c(E) - 1)^k / k` only involves
 `k ≤ p`: the class `(c(E) - 1)^k` vanishes in degrees `< k`. -/
@@ -359,13 +359,13 @@ theorem log_perfectChernClass (p : ℕ) :
       nsmul_coeff_pow_succ]
   have hP : ψ (newtonPowerSum 0 (fun i : ℕ+ ↦ PowerSeries.coeff (i : ℕ) σ) p) =
       perfectPowerSumComponent C sX hE p := by
-    show ((S.subtype (newtonPowerSum 0 (fun i : ℕ+ ↦ PowerSeries.coeff (i : ℕ) σ) p)) :
+    change ((S.subtype (newtonPowerSum 0 (fun i : ℕ+ ↦ PowerSeries.coeff (i : ℕ) σ) p)) :
       TotalChowClass C sX) p = _
     have hfun : (fun i : ℕ+ ↦ S.subtype (PowerSeries.coeff (i : ℕ) σ)) =
         fun i : ℕ+ ↦ TotalChowClass.homComponent (i : ℕ) (perfectChernClass C sX hE) := by
       funext i
       rw [Subring.coe_subtype]
-      show ((PowerSeries.coeff (i : ℕ) (PowerSeries.mk (perfectChernSubAll C sX hE)) : S) :
+      change ((PowerSeries.coeff (i : ℕ) (PowerSeries.mk (perfectChernSubAll C sX hE)) : S) :
         TotalChowClass C sX) = _
       rw [PowerSeries.coeff_mk, coe_perfectChernSubAll]
     rw [map_newtonPowerSum, map_zero, hfun, perfectPowerSumComponent, perfectPowerSum,
@@ -522,7 +522,7 @@ theorem res_perfectRankClass_singleZero [Nonempty X] (M : X.Modules) (r : ℕ)
       (perfectRankClass C sX (hasDefinedChernClasses_singleZero M r))) = (r : ℤ) • 1 := by
   have h := res_perfectRankClass C sX (hasDefinedChernClasses_singleZero M r)
     (singleZeroPresentation M r)
-  show TotalChowClass.res (𝟙 X) rfl (TotalChowClass.res (singleZeroPresentation M r).f rfl
+  change TotalChowClass.res (𝟙 X) rfl (TotalChowClass.res (singleZeroPresentation M r).f rfl
     (perfectRankClass C sX (hasDefinedChernClasses_singleZero M r))) = _
   rw [h, res_complexRankClass_of_constant_rank C _ _ (𝟙 X) rfl (Finsupp.single 0 r) fun n ↦
       AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.of_iso.{u, u, u}

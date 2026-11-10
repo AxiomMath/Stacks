@@ -308,8 +308,14 @@ add_to_sga "3 XI 1.3" "(ii)" Algebra.instFiniteResidueFieldOfIsUnramifiedAt
 add_to_sga "3 XI 1.3" "(ii)" Algebra.instIsSeparableResidueFieldOfFormallyUnramified
 add_to_sga "3 XI 1.3" "(ii)" Algebra.instIsSeparableResidueFieldOfIsUnramifiedAt
 add_to_sga "3 XI 1.3" "(ii), special case" Algebra.isUnramifiedAt_iff_map_eq
-add_to_sga "3 XI 1.3" "(ii)"
-  AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType
+-- The instance's auto-generated name is longer than a line, so the name is assembled
+-- from two pieces here (`add_to_sga` takes only a literal identifier).
+run_cmd Lean.Elab.Command.liftCoreM do
+  let decl := `AlgebraicGeometry.FormallyUnramified ++ Lean.Name.mkSimple
+    ("instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCat" ++
+      "BaseOfLocallyOfFiniteType")
+  unless (← Lean.getEnv).contains decl do throwError m!"unknown constant {decl}"
+  Stacks.EgaSga.addRef decl .sga "3 XI 1.3" "(ii)"
 add_to_sga "3 XI 1.3" "(i) b) ⇒ a)"
   AlgebraicGeometry.FormallyUnramified.instOfIsOpenImmersionDiagonalScheme
 add_to_sga "3 XI 1.3" "(i) a) ⇒ b)" AlgebraicGeometry.FormallyUnramified.isOpenImmersion_diagonal

@@ -217,7 +217,7 @@ theorem jointlyDetectsRange_of_familyCechH1Vanishing {P N : SheafOfModules.{m} R
   obtain ⟨q, hq₀⟩ := hdesc _ hagree
   have hq : ∀ i, P.val.restrictₛₗ (g i).op q = p i - z i := hq₀
   refine ⟨q, hinj (funext fun i => ?_)⟩
-  show N.val.restrictₛₗ (g i).op (b.val.app (op T) q) = N.val.restrictₛₗ (g i).op n
+  change N.val.restrictₛₗ (g i).op (b.val.app (op T) q) = N.val.restrictₛₗ (g i).op n
   rw [← hnat _ _ _ q, hq i, map_sub, hz i, sub_zero, hp i]
 
 end SheafOfModules

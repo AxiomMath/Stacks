@@ -84,7 +84,7 @@ public theorem transportRetract_fac (M : SiteModule A B) :
     ((squareZeroLiftTransport A B S hS toS hA p y₁ y₂ hy₁ hy₂ ι hι M).obj
           (trivialDeformation A B S hS toS hA p y₂ hy₂ hp M)).1.hom ≫
         transportRetract A B S hS toS hA p y₁ y₂ hy₂ ι hp M = 𝟙 y₁ := by
-  show (ι.hom ≫ (trivialDeformation A B S hS toS hA p y₂ hy₂ hp M).1.hom) ≫
+  change (ι.hom ≫ (trivialDeformation A B S hS toS hA p y₂ hy₂ hp M).1.hom) ≫
     transportRetract A B S hS toS hA p y₁ y₂ hy₂ ι hp M = 𝟙 y₁
   rw [Category.assoc, trivialDeformation_comp_transportRetract, Iso.hom_inv_id]
 
@@ -154,7 +154,7 @@ public theorem trivialTransportComparison_comp (M : SiteModule A B) :
       (ι.hom ≫ (trivialDeformation A B S hS toS hA p y₂ hy₂ hp M).1.hom) :=
     IsHomLift.comp_lift_id_left' p (algebraOver A B S hS toS hA) ι.hom
       (squareZeroArrow A B S hS toS hA M) _
-  show (trivialDeformation A B S hS toS hA p y₁ hy₁ hp M).1.hom ≫
+  change (trivialDeformation A B S hS toS hA p y₁ hy₁ hp M).1.hom ≫
       trivialTransportComparison A B S hS toS hA p y₁ y₂ hy₁ hy₂ ι hι hp M =
     ι.hom ≫ (trivialDeformation A B S hS toS hA p y₂ hy₂ hp M).1.hom
   refine IsStronglyCartesian.ext p (squareZeroRetraction A B S hS toS hA M)

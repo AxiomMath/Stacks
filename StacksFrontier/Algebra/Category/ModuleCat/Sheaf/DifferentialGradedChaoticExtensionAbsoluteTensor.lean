@@ -239,7 +239,7 @@ theorem secInv_secHom (U : Cᵒᵖ) (x : ((sysAlg D).sectionAlgebra U).A) :
 /-- The identification of the section algebras carries the scalar `r · 1` to `r · 1`. -/
 theorem secHom_structureHom (U : Cᵒᵖ) (r : R) :
     secHom D U ((structureHom (sysAlg D) U).toAlgebraHom r) = algebraMap R (D.obj U).A r := by
-  show sectionRingHom D U (DirectSum.of _ 0 (r • (systemAlgebra D).one.eval U)) = _
+  change sectionRingHom D U (DirectSum.of _ 0 (r • (systemAlgebra D).one.eval U)) = _
   rw [sectionRingHom_of, Algebra.algebraMap_eq_smul_one]
   rfl
 
@@ -300,7 +300,8 @@ def absPureAdd (U : Cᵒᵖ) :
       (fun y => absTmul D K U (toAbsBase K x) (secHom D U y))
       (fun y y' => (congrArg (absTmul D K U (toAbsBase K x)) (map_add (secHom D U) y y')).trans
         (TensorProduct.tmul_add _ _ _)))
-    (fun x x' => AddMonoidHom.ext fun y => TensorProduct.add_tmul _ _ _)
+    (fun x x' => AddMonoidHom.ext fun y =>
+      TensorProduct.add_tmul (R := R) (toAbsBase K x) (toAbsBase K x') (secHom D U y))
 
 /-- The bilinear map `(x, b) ↦ x ⊗ b` out of `⊕ₙ Kⁿ` and `A(U)`. -/
 def absPureLinear (U : Cᵒᵖ) :=
@@ -320,22 +321,25 @@ def absUnitAdd (U : Cᵒᵖ) : (baseModule K).M →+ (absTarget D K U).M :=
 
 /-- The unit `x ↦ x ⊗ 1`, into `(⊕ₙ Kⁿ) ⊗_R D(U)` read over `R` through `A(U)`. -/
 def absUnit (U : Cᵒᵖ) :
-    baseModule K ⟶ (_root_.DifferentialGradedModule.restrictScalarsFunctor (structureHom (sysAlg D) U)).obj (absTarget D K U) where
+    baseModule K ⟶
+      (_root_.DifferentialGradedModule.restrictScalarsFunctor (structureHom (sysAlg D) U)).obj
+        (absTarget D K U) where
   toFun := SectionSystem.uliftLinear.{u} (baseModule K).module (absTarget D K U).module
     (absUnitAdd D K U)
   map_smul x a := by
-    show absTmul D K U (toAbsBase K _) 1 =
+    change absTmul D K U (toAbsBase K _) 1 =
       absTmul D K U (toAbsBase K x) (1 * secHom D U ((structureHom (sysAlg D) U).toAlgebraHom a))
     rw [baseModule_op_smul, one_mul, secHom_structureHom, Algebra.algebraMap_eq_smul_one]
     exact TensorProduct.smul_tmul _ _ _
   map_grading n x hx := by
-    have h := _root_.DifferentialGradedModule.absTmul_mem (absBase K) (D.obj U) n 0 (toAbsBase K x) 1
-      ((baseModule_mem_iff K n x).1 hx) SetLike.GradedOne.one_mem
+    have h :=
+      _root_.DifferentialGradedModule.absTmul_mem (absBase K) (D.obj U) n 0 (toAbsBase K x) 1
+        ((baseModule_mem_iff K n x).1 hx) SetLike.GradedOne.one_mem
     rw [add_zero] at h
     exact h
   map_d := by
     refine DFunLike.ext _ _ fun x => ?_
-    show absTmul D K U (toAbsBase K ((baseModule K).d x)) 1 =
+    change absTmul D K U (toAbsBase K ((baseModule K).d x)) 1 =
       _root_.DifferentialGradedModule.absTensorDifferential (absBase K) (D.obj U)
         (absTmul D K U (toAbsBase K x) 1)
     rw [baseModule_d]
@@ -359,7 +363,7 @@ theorem absComparison_pure_homogeneous (U : Cᵒᵖ) (p : ℤ) (x : (baseModule 
     (absComparison D K U).toFun (extensionPure (sysAlg D) K U x b) =
       absTmul D K U (toAbsBase K x) (secHom D U b) := by
   refine (plainTranspose_pure (structureHom (sysAlg D) U) (absUnit D K U) p x b).trans ?_
-  show absTmul D K U (toAbsBase K x) (1 * secHom D U b) = _
+  change absTmul D K U (toAbsBase K x) (1 * secHom D U b) = _
   rw [one_mul]
 
 /-- **The comparison on a pure tensor**: `x ⊗ b ↦ x ⊗ b`. -/
@@ -448,7 +452,7 @@ theorem absInverse_comparison (U : Cᵒᵖ) (z : (extensionSections (sysAlg D) K
   refine extensionSections_apply_eq_of_pure D K U
     ((absInverse D K U).comp (absComparison D K U).toFun.toAddMonoidHom) (AddMonoidHom.id _)
     (fun p q x y => ?_) z
-  show absInverse D K U ((absComparison D K U).toFun (extensionPure (sysAlg D) K U x y)) =
+  change absInverse D K U ((absComparison D K U).toFun (extensionPure (sysAlg D) K U x y)) =
     extensionPure (sysAlg D) K U x y
   rw [absComparison_pure, absInverse_tmul]
   exact congrArg (fun b => extensionPure (sysAlg D) K U (x : (baseModule K).M)
@@ -458,8 +462,7 @@ theorem absInverse_comparison (U : Cᵒᵖ) (z : (extensionSections (sysAlg D) K
 /-- The inverse comparison is a right inverse. -/
 theorem absComparison_inverse (U : Cᵒᵖ) (w : (absTensor D K U).M) :
     (absComparison D K U).toFun (absInverse D K U w) = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact map_zero _
+  induction w using TensorProduct.inductionOn with
   | tmul x e =>
     rw [absInverse_tmul]
     exact (absComparison_pure D K U _ _).trans (congrArg (absTmul D K U x) (secHom_secInv D U e))
@@ -507,11 +510,10 @@ theorem absEquiv_d (U : Cᵒᵖ) (z : (extensionSections (sysAlg D) K U).M) :
 theorem absEquiv_smul (U : Cᵒᵖ) (a : R) (z : (extensionSections (sysAlg D) K U).M) :
     absEquiv D K U ((sysAlg D).sectionScalarOp U a • z) = a • absEquiv D K U z := by
   refine ((absComparison D K U).map_smul z ((sysAlg D).sectionScalar U a)).trans ?_
-  show MulOpposite.op (secHom D U ((structureHom (sysAlg D) U).toAlgebraHom a)) •
+  change MulOpposite.op (secHom D U ((structureHom (sysAlg D) U).toAlgebraHom a)) •
     absEquiv D K U z = _
   rw [secHom_structureHom]
-  induction absEquiv D K U z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, smul_zero]
+  induction absEquiv D K U z using TensorProduct.inductionOn with
   | tmul x e =>
     rw [_root_.DifferentialGradedModule.absTensor_smul_tmul, ← Algebra.commutes,
       ← Algebra.smul_def, TensorProduct.tmul_smul]
@@ -524,7 +526,8 @@ theorem absEquiv_mem (U : Cᵒᵖ) {t : ℤ} {z : (extensionSections (sysAlg D) 
   (absComparison D K U).map_grading t z hz
 
 
-/-- The restriction `(⊕ₙ Kⁿ) ⊗_R D(V) → (⊕ₙ Kⁿ) ⊗_R D(U)` along `a : V ⟶ U`, `x ⊗ e ↦ x ⊗ D(a) e`. -/
+/-- The restriction `(⊕ₙ Kⁿ) ⊗_R D(V) → (⊕ₙ Kⁿ) ⊗_R D(U)` along `a : V ⟶ U`, `x ⊗ e ↦ x ⊗ D(a) e`.
+-/
 def absRestr {U V : Cᵒᵖ} (a : V ⟶ U) : (absTensor D K V).M →ₗ[R] (absTensor D K U).M :=
   TensorProduct.map LinearMap.id (D.map a).toAlgebraHom.toLinearMap
 
@@ -545,7 +548,7 @@ theorem absEquiv_restr {U V : Cᵒᵖ} (a : V ⟶ U) (z : (extensionSections (sy
     ((absEquiv D K U).toAddMonoidHom.comp (extensionRestr (sysAlg D) K a).toFun.toAddMonoidHom)
     ((absRestr D K a).toAddMonoidHom.comp (absEquiv D K V).toAddMonoidHom)
     (fun p q x y => ?_) z
-  show absEquiv D K U ((extensionRestr (sysAlg D) K a).toFun
+  change absEquiv D K U ((extensionRestr (sysAlg D) K a).toFun
       (extensionPure (sysAlg D) K V x y)) =
     absRestr D K a (absEquiv D K V (extensionPure (sysAlg D) K V x y))
   rw [extensionRestr_pure (sysAlg D) K a p x, absEquiv_pure, absEquiv_pure, absRestr_tmul]
@@ -574,7 +577,7 @@ theorem absEquiv_map {L : CochainComplex (ModuleCat.{u} R) ℤ} (g : K ⟶ L) (U
     ((absEquiv D L U).toAddMonoidHom.comp
       (extensionSectionsMap (sysAlg D) g U).toFun.toAddMonoidHom)
     ((absMap D g U).toAddMonoidHom.comp (absEquiv D K U).toAddMonoidHom) (fun p q x y => ?_) z
-  show absEquiv D L U ((extensionSectionsMap (sysAlg D) g U).toFun
+  change absEquiv D L U ((extensionSectionsMap (sysAlg D) g U).toFun
       (extensionPure (sysAlg D) K U x y)) =
     absMap D g U (absEquiv D K U (extensionPure (sysAlg D) K U x y))
   rw [extensionSectionsMap_pure, absEquiv_pure, absEquiv_pure, absMap_tmul]

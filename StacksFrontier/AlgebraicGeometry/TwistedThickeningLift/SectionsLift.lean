@@ -77,7 +77,7 @@ theorem sectionsLiftAfterPower_of_isFirstOrderThickening {S S' : Scheme.{u}} (m 
     (by rw [Stacks.AmpleTheory.coe_powNonvanishingOpen, hs]) haff
   refine ⟨n * k, Nat.one_le_iff_ne_zero.mpr (Nat.mul_ne_zero (by omega) (by omega)),
     (eX _).hom.app ⊤ T, Opens.ext ?_⟩
-  show m.base ⁻¹' Stacks.Ample.nonvanishingLocus _ ((eX _).hom.app ⊤ T) =
+  change m.base ⁻¹' Stacks.Ample.nonvanishingLocus _ ((eX _).hom.app ⊤ T) =
     Stacks.Ample.nonvanishingLocus _ t
   rw [Stacks.Ample.nonvanishingLocus_congr, hT, hs]
 

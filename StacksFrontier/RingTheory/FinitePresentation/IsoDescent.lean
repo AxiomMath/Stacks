@@ -96,8 +96,7 @@ theorem stageMap_ringMap {i k l : Index R₀} (ψ : T₀ →ₐ[R₀] Ring R₀ 
     (hkl : k ≤ l) (y : Ring R₀ T₀ k) :
     stageMap R₀ ψ (hik.trans hkl) (ringMap R₀ T₀ hkl y) =
       ringMap R₀ S₀ hkl (stageMap R₀ ψ hik y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul r t =>
     rw [ringMap_tmul, stageMap_tmul, stageMap_tmul, map_mul, ringMap_ringMap, ringMap_algebraMap]
@@ -118,15 +117,14 @@ theorem ringToRing_stageMap {C B : Type*} [CommRing C] [CommRing B] [Algebra R C
     (h : i ≤ k) (y : Ring R₀ T₀ k) :
     ringToRing R₀ S₀ (S := B) k (stageMap R₀ ψ h y) =
       algebraMap C B (ringToRing R₀ T₀ (S := C) k y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul r t =>
     rw [stageMap_tmul, map_mul, ring_cocone]
-    show _ * algebraMap (Ring R₀ S₀ i) B (ψ t) = _
+    change _ * algebraMap (Ring R₀ S₀ i) B (ψ t) = _
     rw [hψ, ringToRing_tmul, map_mul]
     congr 1
-    show ringToRing R₀ S₀ (S := B) k (r ⊗ₜ 1) = _
+    change ringToRing R₀ S₀ (S := B) k (r ⊗ₜ 1) = _
     rw [ringToRing_tmul, map_one, mul_one, algebraMap_base_comp R₀ C B]
 
 end StageMap
@@ -338,7 +336,7 @@ theorem exists_forall_bijective_awayMap [Algebra.FiniteType ℤ R₀]
     obtain ⟨h1, h2⟩ := hc
     rw [Localization.awayMap_injective_iff] at h1
     rw [Localization.awayMap_surjective_iff] at h2
-    show Function.Bijective (IsLocalization.Away.map Cc Bc (algebraMap C B) c')
+    change Function.Bijective (IsLocalization.Away.map Cc Bc (algebraMap C B) c')
     exact ⟨(IsLocalization.Away.map_injective_iff (S := Cc) (Q := Bc) _ _).mpr h1,
       (IsLocalization.Away.map_surjective_iff (S := Cc) (Q := Bc) _ _).mpr h2⟩
   have hgC (x : C) : g (algebraMap C Cc x) = algebraMap B Bc (algebraMap C B x) := by
@@ -378,8 +376,7 @@ theorem exists_forall_bijective_awayMap [Algebra.FiniteType ℤ R₀]
       σ l (hk.trans hkl) (ringMap R₀ S₀ hkl y) =
         awayTransition R₀ c (k := ⟨k, hik₁.trans hk⟩) (l := ⟨l, hik₁.trans (hk.trans hkl)⟩) hkl
           (σ k hk y) := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul b s =>
       rw [ringMap_tmul, hσ_tmul, hσ_tmul, map_mul, awayTransition_algebraMap, ringMap_tmul]
@@ -423,7 +420,7 @@ theorem exists_forall_bijective_awayMap [Algebra.FiniteType ℤ R₀]
       refine ring_algHom_ext R₀ hgT (fun b ↦ ?_) (fun t ht ↦ ?_)
       · simp only [AlgHom.comp_apply, AlgHom.restrictScalars_apply, stageMap_tmul, map_one,
           mul_one, IsScalarTower.coe_toAlgHom']
-        show σ k _ (b ⊗ₜ 1) = _
+        change σ k _ (b ⊗ₜ 1) = _
         rw [hσ_tmul, map_one, map_one, mul_one]
       · have hlt : (l t).1 ≤ k :=
           (hk₂ _ (Finset.mem_insert_of_mem (Finset.mem_image_of_mem _ ht))).trans hk

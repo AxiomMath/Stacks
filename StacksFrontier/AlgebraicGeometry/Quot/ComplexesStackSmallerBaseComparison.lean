@@ -12,10 +12,10 @@ the data and facts about the derived categories over a smaller base which the ch
 Stacks 0DIQ uses. This file fills it: the equivalence and the pseudo-coherence from
 `StacksFrontier/AlgebraicGeometry/Spaces/SmallerBaseDerived.lean`, the commutation with derived
 pullback and its compatibility with composition from
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallerBaseDerivedCoherence.lean`, and the identification of
-the composition comparison from
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleDerivedPullbackDataCompIso.lean`. The two forms of
-Stacks 0DLM with Stacks 0DIQ then no longer take the structure as a hypothesis.
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallerBaseDerivedCoherence.lean`, and the identification
+of the composition comparison from
+`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleDerivedPullbackDataCompIso.lean`. The two forms
+of Stacks 0DLM with Stacks 0DIQ then no longer take the structure as a hypothesis.
 
 ## Main definitions
 

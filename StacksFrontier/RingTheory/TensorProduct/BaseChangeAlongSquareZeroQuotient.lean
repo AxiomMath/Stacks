@@ -143,7 +143,7 @@ theorem bijective_liftBaseChange_of_ker_le_map_ker
     { toFun := fun x => (1 : R') ⊗ₜ[R] x
       map_add' := fun x y => TensorProduct.tmul_add _ x y
       map_smul' := fun a x => by
-        show (1 : R') ⊗ₜ[R] (a • x) = a • ((1 : R') ⊗ₜ[R] x)
+        change (1 : R') ⊗ₜ[R] (a • x) = a • ((1 : R') ⊗ₜ[R] x)
         rw [hpM a x,
           show a • ((1 : R') ⊗ₜ[R] x) = q (algebraMap A A' a) • ((1 : R') ⊗ₜ[R] x) from rfl,
           hcomm a, show algebraMap R R' (p a) • ((1 : R') ⊗ₜ[R] x) =
@@ -155,12 +155,12 @@ theorem bijective_liftBaseChange_of_ker_le_map_ker
   have hθ : ∀ (b : A') (x : M), θ (b ⊗ₜ[A] x) = q b ⊗ₜ[R] x := by
     intro b x
     rw [show θ (b ⊗ₜ[A] x) = b • mk' x from LinearMap.liftBaseChange_tmul _ _ _ _]
-    show q b • ((1 : R') ⊗ₜ[R] x) = q b ⊗ₜ[R] x
+    change q b • ((1 : R') ⊗ₜ[R] x) = q b ⊗ₜ[R] x
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
   have hψ : ∀ (c : R') (x : M), ψ (c ⊗ₜ[R] x) = Function.surjInv hq c ⊗ₜ[A] x := by
     intro c x
     rw [show ψ (c ⊗ₜ[R] x) = c • mk x from LinearMap.liftBaseChange_tmul _ _ _ _]
-    show Function.surjInv hq c • ((1 : A') ⊗ₜ[A] x) = Function.surjInv hq c ⊗ₜ[A] x
+    change Function.surjInv hq c • ((1 : A') ⊗ₜ[A] x) = Function.surjInv hq c ⊗ₜ[A] x
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
   have hψθ : ∀ z : A' ⊗[A] M, ψ (θ z) = z := by
     intro z

@@ -266,7 +266,7 @@ lemma structureSheafMap_commutes (X : Cᵒᵖ) (r : R.obj X) (t : (A.totalSheaf 
   refine (A.totalSheaf J).isSeparated _ _
     (Presheaf.imageSieve_mem J (A.toTotalSheaf J) t) _ _ fun Y f hf => ?_
   obtain ⟨t₀, ht₀⟩ := A.exists_totalUnit_eq_restrict J hf
-  show A.totalSheafRestrict J f.op (A.structureSheafMap J X r * t) =
+  change A.totalSheafRestrict J f.op (A.structureSheafMap J X r * t) =
     A.totalSheafRestrict J f.op (t * A.structureSheafMap J X r)
   rw [map_mul, map_mul, ← ht₀, A.structureSheafMap_naturality, A.structureSheafMap_eq,
     ← map_mul, ← map_mul, A.structureMap_commutes]
@@ -290,7 +290,7 @@ lemma mul_comm_totalSheaf (h : ∀ (X : Cᵒᵖ) (a b : A.Total X), a * b = b * 
       (Presheaf.imageSieve_mem J (A.toTotalSheaf J) t)) _ _ fun Y f hf => ?_
   obtain ⟨s₀, hs₀⟩ := A.exists_totalUnit_eq_restrict J hf.1
   obtain ⟨t₀, ht₀⟩ := A.exists_totalUnit_eq_restrict J hf.2
-  show A.totalSheafRestrict J f.op (s * t) = A.totalSheafRestrict J f.op (t * s)
+  change A.totalSheafRestrict J f.op (s * t) = A.totalSheafRestrict J f.op (t * s)
   rw [map_mul, map_mul, ← hs₀, ← ht₀, ← map_mul, ← map_mul, h (op Y) s₀ t₀]
 
 end Commutativity

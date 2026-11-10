@@ -57,7 +57,7 @@ theorem continuous_of_stabilizer_mem_nhds_one {k E : Type*} [Field k] [Field E] 
     (hf : ∀ x : E, {g : Γ | f g x = x} ∈ 𝓝 1) : Continuous f := by
   refine continuous_of_continuousAt_one f fun s hs ↦ ?_
   rw [map_one] at hs
-  show f ⁻¹' s ∈ 𝓝 1
+  change f ⁻¹' s ∈ 𝓝 1
   obtain ⟨M, hM, hMs⟩ := (krullTopology_mem_nhds_one_iff k E s).mp hs
   obtain ⟨n, b, hb⟩ := Module.Finite.exists_fin (R := k) (M := M)
   have hsub : (⋂ i, {g : Γ | f g (b i : E) = b i}) ⊆ f ⁻¹' s := by
@@ -125,12 +125,12 @@ def galMulEquiv : Gal(E/k) ≃* Gal(E'/k') where
   toFun σ := AlgEquiv.ofRingEquiv (f := (ringEquivOfRingEquiv E E' e).symm.trans
       (σ.toRingEquiv.trans (ringEquivOfRingEquiv E E' e))) fun b ↦ by
     obtain ⟨a, rfl⟩ := e.surjective b
-    simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv]
+    simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv]
     rw [← ringEquivOfRingEquiv_algebraMap E E' e, RingEquiv.symm_apply_apply,
       AlgEquiv.commutes, ringEquivOfRingEquiv_algebraMap E E' e]
   invFun τ := AlgEquiv.ofRingEquiv (f := (ringEquivOfRingEquiv E E' e).trans
       (τ.toRingEquiv.trans (ringEquivOfRingEquiv E E' e).symm)) fun a ↦ by
-    simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv]
+    simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv]
     rw [ringEquivOfRingEquiv_algebraMap E E' e, AlgEquiv.commutes,
       ← ringEquivOfRingEquiv_algebraMap E E' e, RingEquiv.symm_apply_apply]
   left_inv σ := by

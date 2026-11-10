@@ -145,7 +145,7 @@ private lemma length_atPrime_mul_length_atPrime_quotient (C D : Type u) [CommRin
     RingHom.ext fun x => Localization.localRingHom_to_map t P (algebraMap C D) hP.symm x
   have hext : extendedMaximalIdeal (Localization.AtPrime t) (Localization.AtPrime P) =
       Ideal.map (algebraMap D (Localization.AtPrime P)) (Ideal.map (algebraMap C D) t) := by
-    show Ideal.map (algebraMap (Localization.AtPrime t) (Localization.AtPrime P))
+    change Ideal.map (algebraMap (Localization.AtPrime t) (Localization.AtPrime P))
         (IsLocalRing.maximalIdeal (Localization.AtPrime t)) = _
     rw [← Localization.AtPrime.map_eq_maximalIdeal, Ideal.map_map, Ideal.map_map, halg, hcomp]
   have hrid : Module.length (Localization.AtPrime P)
@@ -201,7 +201,7 @@ private lemma length_atPrime_mul_toNat_eq (C D : Type u) [CommRing C] [CommRing 
   have hle : t ≤ Ideal.comap (algebraMap C D)
       (Ideal.comap (Ideal.Quotient.mk (Ideal.map (algebraMap C D) t)) q) := by
     intro x hx
-    show Ideal.Quotient.mk (Ideal.map (algebraMap C D) t) (algebraMap C D x) ∈ q
+    change Ideal.Quotient.mk (Ideal.map (algebraMap C D) t) (algebraMap C D x) ∈ q
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ hx)]
     exact Ideal.zero_mem _
   have hcomap : Ideal.comap (algebraMap C D)

@@ -120,7 +120,7 @@ private theorem exists_finite_affine_refinement
     have h₁ : T.map (arrowsW μ) (T.map factor₁ pre₁) = T.map factor₀ pre₀ := by
       rwa [← Scheme.Hom.comp_apply, ← Functor.map_comp]
     rw [← smallEtale_hom_left_to_final B P (W μ) (arrowsW μ ≫ f l₀)]
-    show T.map (arrowsW μ ≫ f l₀) (T.map factor₁ pre₁) = p.down
+    change T.map (arrowsW μ ≫ f l₀) (T.map factor₁ pre₁) = p.down
     rwa [Functor.map_comp, Scheme.Hom.comp_apply, h₁, ← Scheme.Hom.comp_apply,
       ← Functor.map_comp]
   choose l V a q haffine hpoint using key

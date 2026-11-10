@@ -113,22 +113,22 @@ private theorem pow_mem_of_pow_succ_mem {K E : Type*} [Field K] [Field E] [Algeb
   set M : IntermediateField E K :=
     { carrier := {y : K | y ^ p ^ j ∈ L}
       mul_mem' := fun {a b} ha hb => by
-        show (a * b) ^ p ^ j ∈ L
+        change (a * b) ^ p ^ j ∈ L
         rw [mul_pow]; exact mul_mem ha hb
       one_mem' := by
-        show (1 : K) ^ p ^ j ∈ L
+        change (1 : K) ^ p ^ j ∈ L
         rw [one_pow]; exact one_mem L
       add_mem' := fun {a b} ha hb => by
-        show (a + b) ^ p ^ j ∈ L
+        change (a + b) ^ p ^ j ∈ L
         rw [add_pow_char_pow]; exact add_mem ha hb
       zero_mem' := by
-        show (0 : K) ^ p ^ j ∈ L
+        change (0 : K) ^ p ^ j ∈ L
         rw [zero_pow hpj]; exact zero_mem L
       algebraMap_mem' := fun r => by
-        show algebraMap E K r ^ p ^ j ∈ L
+        change algebraMap E K r ^ p ^ j ∈ L
         rw [← map_pow]; exact L.algebraMap_mem _
       inv_mem' := fun a ha => by
-        show (a⁻¹) ^ p ^ j ∈ L
+        change (a⁻¹) ^ p ^ j ∈ L
         rw [inv_pow]; exact inv_mem ha }
   have hmem : ∀ y : K, y ∈ M ↔ y ^ p ^ j ∈ L := fun _ => Iff.rfl
   have hle : (⊤ : IntermediateField E K) ≤ M := by

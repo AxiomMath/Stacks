@@ -424,7 +424,7 @@ theorem existenceObstructionClass_first
   have huniv := D.universalClass_first_eq_comp_of_hom P₃ P₁ biprod.snd u₁ hu₁ hg₁
   rw [existenceObstructionClass_eq_obstruction D.first F K₁ c₁ P₁,
     existenceObstructionClass_eq_obstruction D.second F K₂ c₂ P₃]
-  show P₁.universalClass.comp (Abelian.Ext.mk₀ c₁) (add_zero 2) =
+  change P₁.universalClass.comp (Abelian.Ext.mk₀ c₁) (add_zero 2) =
     (P₃.universalClass.comp (Abelian.Ext.mk₀ c₂) (add_zero 2)).comp
       (Abelian.Ext.mk₀ κ) (add_zero 2)
   rw [huniv, Abelian.Ext.comp_assoc_of_third_deg_zero,

@@ -105,8 +105,8 @@ theorem HasFiltrationOfLength.exists_subobject [HasZeroObject C] [P.IsClosedUnde
     let G : Fin (r + 1 + 1) → Subobject E := fun j =>
       if hj : (j : ℕ) < r + 1 then mk ((F ⟨j, hj⟩).arrow ≫ ι) else ⊤
     have hGlt : ∀ (j : Fin (r + 1 + 1)) (hj : (j : ℕ) < r + 1),
-        G j = mk ((F ⟨j, hj⟩).arrow ≫ ι) := fun j hj => dif_pos hj
-    have hGlast : G (Fin.last (r + 1)) = ⊤ := dif_neg (by simp)
+        G j = mk ((F ⟨j, hj⟩).arrow ≫ ι) := fun j hj => dite_eq_left hj
+    have hGlast : G (Fin.last (r + 1)) = ⊤ := dite_eq_right (by simp)
     have hle : ∀ a b : Fin (r + 1), a ≤ b → mk ((F a).arrow ≫ ι) ≤ mk ((F b).arrow ≫ ι) :=
       fun a b hab => mk_le_mk_of_comm (ofLE _ _ (hF hab)) (by rw [ofLE_arrow_assoc])
     have hG : Monotone G := fun i j (hij' : (i : ℕ) ≤ j) => by
@@ -114,7 +114,7 @@ theorem HasFiltrationOfLength.exists_subobject [HasZeroObject C] [P.IsClosedUnde
       · have hi : (i : ℕ) < r + 1 := hij'.trans_lt hj
         rw [hGlt i hi, hGlt j hj]
         exact hle ⟨i, hi⟩ ⟨j, hj⟩ hij'
-      · exact le_top.trans_eq (show G j = ⊤ from dif_neg hj).symm
+      · exact le_top.trans_eq (show G j = ⊤ from dite_eq_right hj).symm
     refine ⟨G, hG, ?_, hGlast, fun i => ?_⟩
     · rw [hGlt 0 (by simp), mk_eq_bot_iff_zero]
       erw [h0]

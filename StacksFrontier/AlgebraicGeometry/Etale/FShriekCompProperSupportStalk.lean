@@ -64,7 +64,8 @@ public def properSupportStalkCocone :
   ι :=
     { app U := (fShriekSubsheaf B g G).val.arrow.hom.app (op U.unop.1) ≫
         colimit.ι (etaleStalkDiagram B Y.obj Y.property (y.toGeometricPoint B g s) G.obj)
-          (op (Functor.elementsMk _ (baseChange B g U.unop.1) (fiberPointElement B g s U.unop.1 U.unop.2 y)))
+          (op (Functor.elementsMk _ (baseChange B g U.unop.1)
+            (fiberPointElement B g s U.unop.1 U.unop.2 y)))
       naturality U U' m := by
         refine ConcreteCategory.hom_ext _ _ fun τ => ?_
         have hn := ConcreteCategory.congr_hom
@@ -78,8 +79,9 @@ public def properSupportStalkCocone :
         simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id,
           ConcreteCategory.comp_apply] at hn ⊢
         refine Eq.trans (congrArg (ConcreteCategory.hom (colimit.ι (etaleStalkDiagram B Y.obj
-          Y.property (y.toGeometricPoint B g s) G.obj) (op (Functor.elementsMk _ (baseChange B g U'.unop.1)
-            (fiberPointElement B g s U'.unop.1 U'.unop.2 y))))) hn) ?_
+          Y.property (y.toGeometricPoint B g s) G.obj)
+            (op (Functor.elementsMk _ (baseChange B g U'.unop.1)
+              (fiberPointElement B g s U'.unop.1 U'.unop.2 y))))) hn) ?_
         exact hg }
 
 /-- **The germ at a point of the geometric fibre** of a germ of a section of the proper-support
@@ -99,7 +101,8 @@ public theorem properSupportStalkEval_germ (W : SmallEtale B Z.obj Z.property)
           W w τ) =
       etaleGerm B Y.obj Y.property (y.toGeometricPoint B g s) G.obj (baseChange B g W)
         (fiberPointElement B g s W w y) (properSupportSection B g G W τ) :=
-  ConcreteCategory.congr_hom (colimit.ι_desc (properSupportStalkCocone B g G s y) (op (Functor.elementsMk _ W w))) τ
+  ConcreteCategory.congr_hom
+    (colimit.ι_desc (properSupportStalkCocone B g G s y) (op (Functor.elementsMk _ W w))) τ
 
 /-- **Morphisms into the proper-support direct image are determined by germs.** Two morphisms
 `A ⟶ g_! G` agree as soon as, for every section `σ` of `A` over an étale neighbourhood `(W, w)` of
@@ -188,7 +191,7 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
     (t : ↑(etaleStalk B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj)) :
     ((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom
         (properSupportStalkEval B g ((fShriekFunctor.{u, v} B f).obj F) s y
-          (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          (colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B Z.obj Z.property s)).op (sepCompShriekMap B f g F).hom) t)) :
         fiberStalks.{u, max (u + 1) v} B f _ F) x =
       ((fShriekStalkIso.{u, v} B (f ≫ g) s F).hom t :
@@ -200,13 +203,13 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
     (DFinsupp.evalAddMonoidHom x).comp
       ((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom.hom.comp
         ((properSupportStalkEval B g ((fShriekFunctor.{u, v} B f).obj F) s y).hom.comp
-          (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          (colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B Z.obj Z.property s)).op (sepCompShriekMap B f g F).hom)).hom))
   let R : ↑(etaleStalk B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj) →+
       ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f (y.toGeometricPoint B g s)) F.obj) :=
     (DFinsupp.evalAddMonoidHom (compFiberPointOf B f g s y x)).comp
       (fShriekStalkIso.{u, v} B (f ≫ g) s F).hom.hom
-  show L t = R t
+  change L t = R t
   have hgen : ∀ (W : SmallEtale B Z.obj Z.property)
       (w : (geometricPointFiber B Z.obj Z.property s).obj W)
       (E : FiniteSupport B (f ≫ g) W) (a : (finiteSupportDiagram B (f ≫ g) F W).obj E),
@@ -217,9 +220,9 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
         ((toSheafify (SmallEtale.topology B Z.obj Z.property) P).app (op W)
           (finiteSupportPushforwardGenerator B (f ≫ g) F W E a))) := by
     intro W w E a
-    show ((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom
+    change ((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom
         (properSupportStalkEval B g ((fShriekFunctor.{u, v} B f).obj F) s y
-          (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          (colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B Z.obj Z.property s)).op (sepCompShriekMap B f g F).hom)
             (etaleGerm B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj W w
               ((toSheafify (SmallEtale.topology B Z.obj Z.property) P).app (op W)
@@ -252,7 +255,7 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
     s F (fun _ => inferInstance) t'
   let L' := L.comp (etaleStalkSheafificationMap B Z.obj Z.property s P).hom
   let R' := R.comp (etaleStalkSheafificationMap B Z.obj Z.property s P).hom
-  show L' _ = R' _
+  change L' _ = R' _
   refine (map_list_sum L' _).trans ((congrArg List.sum (List.map_congr_left fun t ht => ?_)).trans
     (map_list_sum R' _).symm)
   obtain ⟨pr, -, rfl⟩ := List.mem_map.1 ht
@@ -263,7 +266,8 @@ public theorem sepCompShriekMap_stalk (s : GeometricPoint Z.obj) (y : GeometricF
         ((toSheafify (SmallEtale.topology B Z.obj Z.property) P).app (op W)
           (finiteSupportPushforwardGenerator B (f ≫ g) F W pr.1 pr.2)) :=
     ConcreteCategory.congr_hom
-      (colimit_ι_comp_etaleStalkSheafificationMap B Z.obj Z.property s P (op (Functor.elementsMk _ W w))) _
+      (colimit_ι_comp_etaleStalkSheafificationMap B Z.obj Z.property s P
+        (op (Functor.elementsMk _ W w))) _
   exact (congrArg L hι).trans ((hgen W w pr.1 pr.2).trans (congrArg R hι).symm)
 
 /-- **Stacks 0F79, the germ formula for `c'`.** -/
@@ -321,7 +325,7 @@ public theorem sepCompShriekMap_naturality
   refine Eq.trans ?_ hR.symm
   refine Eq.trans ?_ (congrArg (fun m => (m : fiberStalks.{u, max (u + 1) v} B (f ≫ g) s F')
     (compFiberPointOf B f g s y x)) n2).symm
-  show (colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj
+  change (colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj
       X.property (x.toGeometricPoint B f (y.toGeometricPoint B g s)))).op φ.1)).hom
       (((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom
         (etaleGerm B Y.obj Y.property (y.toGeometricPoint B g s)
@@ -330,7 +334,7 @@ public theorem sepCompShriekMap_naturality
           (properSupportSection B g ((fShriekFunctor.{u, v} B f).obj F) W
             ((sepCompShriekMap B f g F).hom.app (op W) σ))) :
         fiberStalks.{u, max (u + 1) v} B f _ F) x) =
-    (colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj
+    (colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj
       X.property ((compFiberPointOf B f g s y x).toGeometricPoint B (f ≫ g) s))).op φ.1)).hom
       (((fShriekStalkIso.{u, v} B (f ≫ g) s F).hom
         (etaleGerm B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj W w σ) :

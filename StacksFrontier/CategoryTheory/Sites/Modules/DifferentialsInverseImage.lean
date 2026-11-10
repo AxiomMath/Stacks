@@ -209,7 +209,7 @@ theorem inverseImageRingHom_naturality_apply (ψ : O₁ ⟶ O₂) (U : Cᵒᵖ) 
   replace h := congrArg (fun m : O₁ ⟶ (F.sheafPushforwardContinuous CommRingCat.{u} J K).obj
       (inverseImageRing J K F O₂) => (m.hom.app U).hom x) h
   simp only [Functor.id_map, Functor.comp_map] at h
-  show (((F.sheafAdjunctionContinuous CommRingCat.{u} J K).unit.app O₂).hom.app U).hom
+  change (((F.sheafAdjunctionContinuous CommRingCat.{u} J K).unit.app O₂).hom.app U).hom
       ((ψ.hom.app U).hom x) = _
   refine h.trans ?_
   rfl
@@ -368,7 +368,7 @@ theorem sqZeroSection_split
   refine ((F.sheafAdjunctionContinuous CommRingCat.{u} J K).homEquiv O₂ _).injective ?_
   rw [Adjunction.homEquiv_naturality_right, sqZeroSection_homEquiv, hid]
   refine sheaf_hom_ext_apply fun U b ↦ ?_
-  show ((sqZeroExtSheafProj (inverseImageRing J K F O₂) N).hom.app (F.op.obj U)).hom
+  change ((sqZeroExtSheafProj (inverseImageRing J K F O₂) N).hom.app (F.op.obj U)).hom
       ((pushforwardSqZeroApp J K F φ N D U).hom b) = (unitCommApp J K F U).hom b
   rfl
 
@@ -383,7 +383,7 @@ theorem sqZeroSection_triv
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_left,
     sqZeroSection_homEquiv, Adjunction.homEquiv_unit]
   refine sheaf_hom_ext_apply fun U x ↦ ?_
-  show (pushforwardSqZeroApp J K F φ N D U).hom ((φ.hom.app U).hom x)
+  change (pushforwardSqZeroApp J K F φ N D U).hom ((φ.hom.app U).hom x)
       = ((sqZeroExtSheafInl (inverseImageRing J K F O₂) N).hom.app (F.op.obj U)).hom
           ((unitCommApp J K F U).hom ((φ.hom.app U).hom x))
   exact sqZeroExt_ext rfl (D.d_app x)
@@ -516,7 +516,7 @@ theorem inverseImageDifferentialsHomEquiv_apply
         ((universalDerivation O₁ O₂ φ).postcomp
           (((inverseImageAdjunction J K F O₂).homEquiv (moduleOfDifferentials O₁ O₂ φ) G) h).val)
         := by
-    show (directImageDerivationEquiv J K F φ G).symm
+    change (directImageDerivationEquiv J K F φ G).symm
       ((differentialsHomEquiv φ _)
         (((inverseImageAdjunction J K F O₂).homEquiv (moduleOfDifferentials O₁ O₂ φ) G) h)) = _
     rw [differentialsHomEquiv_apply]

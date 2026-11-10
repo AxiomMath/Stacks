@@ -110,7 +110,7 @@ public theorem isJapaneseScheme_tfae (X : Scheme.{u}) [IsIntegral X] :
     intro h
     let U : X → X.affineOpens := fun x => Classical.choose (h x)
     refine ⟨X, U, ?_, ?_⟩
-    · show (⨆ x : X, (U x).1) = ⊤
+    · change (⨆ x : X, (U x).1) = ⊤
       exact top_unique fun x _ ↦ Opens.mem_iSup.mpr ⟨x, (Classical.choose_spec (h x)).1⟩
     · intro x
       obtain ⟨hx, hj⟩ := Classical.choose_spec (h x)
@@ -126,7 +126,7 @@ public theorem isJapaneseScheme_tfae (X : Scheme.{u}) [IsIntegral X] :
     intro h
     let V : X → X.affineOpens := fun x => Classical.choose (h x)
     refine ⟨X, fun x => (V x).1, ?_, ?_⟩
-    · show (⨆ x : X, (V x).1) = ⊤
+    · change (⨆ x : X, (V x).1) = ⊤
       exact top_unique fun x _ ↦ Opens.mem_iSup.mpr ⟨x, (Classical.choose_spec (h x)).1⟩
     intro x
     let : Nonempty (V x).1 := ⟨⟨x, (Classical.choose_spec (h x)).1⟩⟩

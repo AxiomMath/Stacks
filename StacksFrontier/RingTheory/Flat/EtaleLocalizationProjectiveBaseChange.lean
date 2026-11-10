@@ -192,7 +192,7 @@ theorem exists_elementaryEtaleLocalization_projective_baseChange
     Module.compHom _ h.appTop.hom
   let : Module ↥Γ(V.scheme, ⊤) (↥Γ(U.scheme, ⊤) ⊗[S] N) := Module.compHom _ h.appTop.hom
   refine ⟨elementaryEtaleLocalizationOfSquare q U V h hUel hVel hsq.symm hpt, ?_⟩
-  show Module.Projective ↥Γ(V.scheme, ⊤) (↥Γ(U.scheme, ⊤) ⊗[S] N)
+  change Module.Projective ↥Γ(V.scheme, ⊤) (↥Γ(U.scheme, ⊤) ⊗[S] N)
   have hprojS : Module.Projective ↥Γ(V.scheme, ⊤)
       Γ((Scheme.Modules.pullback U.toBase).obj F, ⊤) := hproj
   let eS := affineSectionsPullbackTildeEquiv U.toBase Nm

@@ -142,7 +142,7 @@ theorem bijective_localizedMap_localB (t : D.moduleGlueingComma)
       D.isQuasiCompact_openImmersionOver D.isQuasiSeparated_openImmersionOver _
       (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ _ ht)
   have hpts := range_pointsMap_openChart_basicOpen_subset (D.Z.preimage D.f)
-    D.isClosedSubspace_preimage_Z U₀.chart g hg i
+    U₀.chart g hg i
   rw [← D.V_eq_openComplement_preimage] at hpts
   have hunit : IsIso ((modulePullback B S hS D.openImmersionOver).map (D.overlapUnit t)) :=
     isIso_modulePullback_map_unit_of_isOpenImmersion B S hS D.openImmersionOver
@@ -172,7 +172,7 @@ theorem bijective_localizedMap_localA (t : D.moduleGlueingComma) [IsIso t.hom]
     isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ _
       (D.modulePushforwardPreservesQuasicoherence_openImmersion _ hl)
   have hpts := range_pointsMap_openChart_basicOpen_subset (D.Z.preimage D.f)
-    D.isClosedSubspace_preimage_Z U₀.chart g hg i
+    U₀.chart g hg i
   rw [← D.V_eq_openComplement_preimage] at hpts
   have hiso := D.isIso_modulePullback_map_overlapTranspose t
   have hstalk := bijective_localizedMap_of_isIso_modulePullback_of_heq B S hS (X := D.spaceY) U₀

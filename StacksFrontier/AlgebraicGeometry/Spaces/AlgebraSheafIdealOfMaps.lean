@@ -221,7 +221,7 @@ theorem secMul_mem_range_combMap {U : SmallEtale B S hS F} {ι : Type*} [Fintype
     secMul ℬ c y ∈ LinearMap.range (combMap ℬ τ) := by
   obtain ⟨b, rfl⟩ := hy
   refine ⟨fun i => secMul ℬ c (b i), ?_⟩
-  show ∑ i, (toRing ℬ c * toRing ℬ (b i)) * toRing ℬ (τ i) =
+  change ∑ i, (toRing ℬ c * toRing ℬ (b i)) * toRing ℬ (τ i) =
     toRing ℬ c * ∑ i, toRing ℬ (b i) * toRing ℬ (τ i)
   rw [Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => mul_assoc _ _ _
@@ -255,13 +255,13 @@ theorem gModVal_mem_range_of_span {V : SmallEtale B S hS F} {ι : Type*} [Fintyp
   induction hm' using Submodule.span_induction with
   | mem y hy => exact hres y hy
   | zero =>
-    show (g x).val.app (op V) 0 ∈ _
+    change (g x).val.app (op V) 0 ∈ _
     rw [map_zero]; exact zero_mem _
   | add y y' _ _ hy hy' =>
-    show (g x).val.app (op V) (y + y') ∈ _
+    change (g x).val.app (op V) (y + y') ∈ _
     rw [map_add]; exact add_mem hy hy'
   | smul r y _ hy =>
-    show (g x).val.app (op V) (r • y) ∈ _
+    change (g x).val.app (op V) (r • y) ∈ _
     rw [map_smul]; exact Submodule.smul_mem _ r hy
 
 /-- The restrictions of a spanning family span the sections over the smaller chart, when the base
@@ -288,16 +288,17 @@ theorem span_range_restrict_eq_top (G' : Modules.{u, u} B S hS F hF) {U V : Smal
     _ h2
 
 /-- Each `τ i` is a value of `combMap ℬ τ`. -/
-theorem mem_range_combMap_self {V : SmallEtale B S hS F} {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem mem_range_combMap_self {V : SmallEtale B S hS F} {ι : Type*} [Fintype ι]
     (τ : ι → modSec ℬ V) (i : ι) : τ i ∈ LinearMap.range (combMap ℬ τ) := by
+  classical
   refine ⟨Pi.single i (ofRing ℬ 1), ?_⟩
   rw [combMap_apply, Finset.sum_eq_single i]
-  · show toRing ℬ (Pi.single (M := fun _ => modSec ℬ V) i (ofRing ℬ 1) i) * toRing ℬ (τ i) =
+  · change toRing ℬ (Pi.single (M := fun _ => modSec ℬ V) i (ofRing ℬ 1) i) * toRing ℬ (τ i) =
       toRing ℬ (τ i)
     rw [Pi.single_eq_same]
     exact one_mul _
   · intro j _ hj
-    show toRing ℬ (Pi.single (M := fun _ => modSec ℬ V) i (ofRing ℬ 1) j) * toRing ℬ (τ j) = 0
+    change toRing ℬ (Pi.single (M := fun _ => modSec ℬ V) i (ofRing ℬ 1) j) * toRing ℬ (τ j) = 0
     rw [Pi.single_eq_of_ne hj]
     exact zero_mul _
   · exact fun h => absurd (Finset.mem_univ i) h
@@ -340,12 +341,14 @@ when the base change comparison of `ℬ` along the chart morphism is. -/
 theorem surjective_liftBaseChange_piRestrict {U V : SmallEtale B S hS F} (h : V ⟶ U)
     (hsurj : letI := chartAlgebra (hF := hF) h
       Function.Surjective (sectionsBaseChange (underlyingModule ℬ) h))
-    (ι : Type*) [Fintype ι] [DecidableEq ι] :
+    (ι : Type*) [Finite ι] :
     letI := chartAlgebra (hF := hF) h
     letI := chartSectionsModule (underlyingModule ℬ) h
     haveI := chartSections_isScalarTower (underlyingModule ℬ) h
     Function.Surjective (LinearMap.liftBaseChange (chartRing B S hS F hF V)
       ((chartRestrictLinear (underlyingModule ℬ) h).compLeft ι)) := by
+  classical
+  have := Fintype.ofFinite ι
   let := chartAlgebra (hF := hF) h
   let := chartSectionsModule (underlyingModule ℬ) h
   have := chartSections_isScalarTower (underlyingModule ℬ) h
@@ -356,8 +359,7 @@ theorem surjective_liftBaseChange_piRestrict {U V : SmallEtale B S hS F} (h : V 
           (LinearMap.single _ (fun _ => modSec ℬ U) k) t) =
         Pi.single k (sectionsBaseChange (underlyingModule ℬ) h t) := by
     intro k t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, Pi.single_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, Pi.single_add]
     | tmul b m =>
       rw [LinearMap.lTensor_tmul, hL, LinearMap.liftBaseChange_tmul, chartBaseChange_tmul]
@@ -428,7 +430,7 @@ theorem mem_span_genSet_of_mem_idealOfMaps [Finite κ]
     fun i => combMap ℬ (τi i)
   have hsq : ∀ (i) (q : ι → modSec ℬ U), rN i (bT q) = bW i (rP i q) := by
     intro i q
-    show chartRestrictLinear (underlyingModule ℬ) (φ i) (∑ p, secMul ℬ (q p) (τ p)) =
+    change chartRestrictLinear (underlyingModule ℬ) (φ i) (∑ p, secMul ℬ (q p) (τ p)) =
       ∑ p, secMul ℬ (chartRestrictLinear (underlyingModule ℬ) (φ i) (q p))
         (chartRestrictLinear (underlyingModule ℬ) (φ i) (τ p))
     rw [map_sum]
@@ -506,10 +508,7 @@ theorem isCartesianOnAffineCharts_idealModule_idealOfMaps [Finite κ]
       secMul ℬ b (chartRestrictLinear (underlyingModule ℬ) f (τ p)) ∈ R := by
     intro b p
     obtain ⟨t, rfl⟩ := (hℬ U V hU hV f).2 b
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero, secMul_zero_left]
-      exact zero_mem R
+    induction t using TensorProduct.inductionOn with
     | add a c ha hc =>
       rw [map_add, secMul_add_left]
       exact add_mem ha hc

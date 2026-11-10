@@ -121,7 +121,7 @@ public theorem exists_finite_schemeWeaklyAssociatedPoints_inter (X : Scheme.{u})
   refine ⟨W, hxW, ?_⟩
   have hcoh : (SheafOfModules.unit X.ringCatSheaf).IsCoherent :=
     Stacks.AlgebraicGeometry.CoherenceCriteria.structureSheaf_isCoherent X
-  show (Stacks.Divisors.weaklyAssociatedPoints
+  change (Stacks.Divisors.weaklyAssociatedPoints
     (SheafOfModules.unit X.ringCatSheaf) ∩ (W : Set X)).Finite
   rw [← AlgebraicGeometry.associatedPoints_eq_weaklyAssociatedPoints X
     (SheafOfModules.unit X.ringCatSheaf)]
@@ -163,7 +163,7 @@ public theorem etaleAt_iff_isFlatAt_extendedEtale {U X V : Scheme.{u}}
     have : IsFinite f := isFinite_relativeSpectrum_extendedEtaleSituation j π hdepth
     have : LocallyOfFiniteType f := inferInstance
     have : IsLocallyNoetherian (extendedEtaleSituation j π hdepth).base := by
-      show IsLocallyNoetherian X
+      change IsLocallyNoetherian X
       infer_instance
     -- the flat locus, open because the base has locally finite weakly associated points
     let W : Y.scheme.Opens :=

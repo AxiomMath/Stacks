@@ -174,13 +174,13 @@ public theorem existsUnique_dPMorphism_from_envelopeCompletion [Fact p.Prime]
         E.algebraMap.toRingHom = MvPolynomial.eval₂Hom a.toRingHom v := by
       apply MvPolynomial.ringHom_ext
       · intro r
-        show g' (envelopeCompletionInclusion E p hp
+        change g' (envelopeCompletionInclusion E p hp
           (E.algebraMap.toRingHom (MvPolynomial.C r))) = _
         rw [show E.algebraMap.toRingHom (MvPolynomial.C r) = E.structureMap.toRingHom r from
           RingHom.congr_fun E.algebraMap_comp r]
         exact (DFunLike.congr_fun hgstr r).trans (RingHom.congr_fun hcomp r).symm
       · intro i
-        show g' (envelopeCompletionInclusion E p hp
+        change g' (envelopeCompletionInclusion E p hp
           (E.algebraMap.toRingHom (MvPolynomial.X i))) = _
         rw [show MvPolynomial.eval₂Hom a.toRingHom v (MvPolynomial.X i) = v i by simp]
         exact hgcoord i
@@ -189,7 +189,7 @@ public theorem existsUnique_dPMorphism_from_envelopeCompletion [Fact p.Prime]
       apply Subtype.ext
       apply IdealPair.Hom.ext_toRingHom
       rw [E.homEquiv_apply T a ⟨_, hq'str⟩, E.homEquiv_apply T a q]
-      show (g'.comp (envelopeCompletionInclusion E p hp)).toRingHom.comp
+      change (g'.comp (envelopeCompletionInclusion E p hp)).toRingHom.comp
           E.algebraMap.toRingHom = q.1.toRingHom.comp E.algebraMap.toRingHom
       rw [hq'alg, hqalg]
     exact congrArg Subtype.val ((E.homEquiv T a).injective himg)
@@ -255,7 +255,7 @@ public theorem eval₂Hom_map_le_of_sub_mem (T : DividedPowerRing.{u})
     m.toRingHom.comp ((envelopeCompletionInclusion E p hp).toRingHom.comp
       E.algebraMap.toRingHom)
   have hwC (r : A) : w (MvPolynomial.C r) = a r := by
-    show m ((envelopeCompletionInclusion E p hp)
+    change m ((envelopeCompletionInclusion E p hp)
       (E.algebraMap.toRingHom (MvPolynomial.C r))) = a r
     rw [show E.algebraMap.toRingHom (MvPolynomial.C r) = E.structureMap.toRingHom r from
       RingHom.congr_fun E.algebraMap_comp r]
@@ -268,12 +268,12 @@ public theorem eval₂Hom_map_le_of_sub_mem (T : DividedPowerRing.{u})
       (Ideal.Quotient.mk T.ideal).comp w := by
     apply MvPolynomial.ringHom_ext
     · intro r
-      show Ideal.Quotient.mk T.ideal (MvPolynomial.eval₂Hom a.toRingHom v
+      change Ideal.Quotient.mk T.ideal (MvPolynomial.eval₂Hom a.toRingHom v
         (MvPolynomial.C r)) = Ideal.Quotient.mk T.ideal (w (MvPolynomial.C r))
       rw [hwC r]
       simp
     · intro i
-      show Ideal.Quotient.mk T.ideal (MvPolynomial.eval₂Hom a.toRingHom v
+      change Ideal.Quotient.mk T.ideal (MvPolynomial.eval₂Hom a.toRingHom v
         (MvPolynomial.X i)) = Ideal.Quotient.mk T.ideal (w (MvPolynomial.X i))
       rw [MvPolynomial.eval₂Hom_X']
       exact (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).mpr (hv i)
@@ -513,7 +513,7 @@ public theorem envelopeCompletionAlpha_comp_sigma :
       (DFunLike.congr_fun (envelopeCompletionSigma_comp_structureMap E p hp) x)).trans
       ((DFunLike.congr_fun (envelopeCompletionAlpha_comp_nu E p hp) _).trans
         (DFunLike.congr_fun (envelopeCompletionSigmaNeg_comp_structureMap E p hp) x))
-  · show envelopeCompletionAlpha E p hp (envelopeCompletionSigma E p hp
+  · change envelopeCompletionAlpha E p hp (envelopeCompletionSigma E p hp
       (envelopeCompletionCoord E p hp i)) = _
     rw [envelopeCompletionSigma_coord, dPMorphism_map_add, envelopeCompletionAlpha_xi,
       show envelopeCompletionAlpha E p hp (envelopeCompletionNu E p hp
@@ -533,7 +533,7 @@ public theorem envelopeCompletionAlphaInv_comp_sigmaNeg :
       (DFunLike.congr_fun (envelopeCompletionSigmaNeg_comp_structureMap E p hp) x)).trans
       ((DFunLike.congr_fun (envelopeCompletionAlphaInv_comp_nu E p hp) _).trans
         (DFunLike.congr_fun (envelopeCompletionSigma_comp_structureMap E p hp) x))
-  · show envelopeCompletionAlphaInv E p hp (envelopeCompletionSigmaNeg E p hp
+  · change envelopeCompletionAlphaInv E p hp (envelopeCompletionSigmaNeg E p hp
       (envelopeCompletionCoord E p hp i)) = _
     rw [envelopeCompletionSigmaNeg_coord, dPMorphism_map_sub, envelopeCompletionAlphaInv_xi,
       show envelopeCompletionAlphaInv E p hp (envelopeCompletionNu E p hp
@@ -568,7 +568,7 @@ public theorem envelopeCompletionAlpha_comp_alphaInv :
       (DFunLike.congr_fun (envelopeCompletionAlphaInv_comp_nu E p hp) x)).trans
       (DFunLike.congr_fun (envelopeCompletionAlpha_comp_sigma E p hp) x)
   · intro i
-    show envelopeCompletionAlpha E p hp (envelopeCompletionAlphaInv E p hp
+    change envelopeCompletionAlpha E p hp (envelopeCompletionAlphaInv E p hp
       (envelopeCompletionXi E p hp i)) = _
     rw [envelopeCompletionAlphaInv_xi, envelopeCompletionAlpha_xi]
 
@@ -585,7 +585,7 @@ public theorem envelopeCompletionAlphaInv_comp_alpha :
       (DFunLike.congr_fun (envelopeCompletionAlpha_comp_nu E p hp) x)).trans
       (DFunLike.congr_fun (envelopeCompletionAlphaInv_comp_sigmaNeg E p hp) x)
   · intro i
-    show envelopeCompletionAlphaInv E p hp (envelopeCompletionAlpha E p hp
+    change envelopeCompletionAlphaInv E p hp (envelopeCompletionAlpha E p hp
       (envelopeCompletionXi E p hp i)) = _
     rw [envelopeCompletionAlpha_xi, envelopeCompletionAlphaInv_xi]
 
@@ -632,7 +632,7 @@ public theorem envelopeCompletionTau_comp_sigma :
       (DFunLike.congr_fun (envelopeCompletionSigma_comp_structureMap E p hp) x)).trans
       ((DFunLike.congr_fun (envelopeCompletionTau_comp_nu E p hp rho hrhoaug) _).trans
         (DFunLike.congr_fun hrhoA x).symm)
-  · show envelopeCompletionTau E p hp rho hrhoaug (envelopeCompletionSigma E p hp
+  · change envelopeCompletionTau E p hp rho hrhoaug (envelopeCompletionSigma E p hp
       (envelopeCompletionCoord E p hp i)) = _
     rw [envelopeCompletionSigma_coord, dPMorphism_map_add, envelopeCompletionTau_xi,
       show envelopeCompletionTau E p hp rho hrhoaug (envelopeCompletionNu E p hp

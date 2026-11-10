@@ -103,7 +103,8 @@ noncomputable def restrictedOne {O O' : Sheaf J CommRingCat.{w}} (f : O ⟶ O') 
 
 private noncomputable def presheafRingMap {O O' : Sheaf J CommRingCat.{w}}
     (f : O ⟶ O') :
-    PresheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⟶ (RestrictedRingModule f).val :=
+    PresheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⟶
+      (RestrictedRingModule f).val :=
   (PresheafOfModules.unitHomEquiv _).symm
     (PresheafOfModules.sectionsMk (fun X => (1 : O'.obj.obj X))
       (fun {_ _} g => (O'.obj.map g).hom.map_one))
@@ -255,7 +256,8 @@ private lemma isIso_sheafification_tensorUnit_of_annihilated
 sheafification adjunction.  The identification of the sheafified tensor product with the
 value of the right tensor functor is carried by the result type. -/
 noncomputable def tensorUnitSection {O O' : Sheaf J CommRingCat.{w}} (f : O ⟶ O')
-    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (X : Cᵒᵖ) (x : F.val.obj X) :
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (X : Cᵒᵖ) (x : F.val.obj X) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj
         (RestrictedRingModule f)).obj F).val.obj X :=
   ((PresheafOfModules.sheafificationAdjunction
@@ -378,7 +380,8 @@ sheafification of `F.val` rather than as the sheafification of a restriction of 
 along an identity. -/
 private noncomputable def sheafificationValHom {O : Sheaf J CommRingCat.{w}}
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
-    (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).obj F.val ⟶ F :=
+    (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+      (𝟙 _)).obj F.val ⟶ F :=
   (PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit.app F
 
@@ -391,7 +394,8 @@ private instance isIso_sheafificationValHom {O : Sheaf J CommRingCat.{w}}
 /-- A sheaf of modules is the sheafification of its underlying presheaf of modules. -/
 private noncomputable def sheafificationValIso {O : Sheaf J CommRingCat.{w}}
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
-    (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).obj F.val ≅ F :=
+    (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+      (𝟙 _)).obj F.val ≅ F :=
   asIso (sheafificationValHom F)
 
 /-- `tensorUnitMap`, with the sheafification of the presheaf tensor product as its target. -/
@@ -401,20 +405,24 @@ private noncomputable abbrev tensorUnitHom {O O' : Sheaf J CommRingCat.{w}} (f :
       (MonoidalCategoryStruct.tensorObj F.val (RestrictedRingModule f).val) :=
   (tensorUnitMap f F).val
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The sheafification adjunction's hom-equivalence is precomposition with the unit. -/
 private lemma sheafificationHomEquiv_app {O : Sheaf J CommRingCat.{w}}
     {P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
     {G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
-    (g : (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).obj P ⟶ G)
+    (g : (PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+      (𝟙 _)).obj P ⟶ G)
     (X : Cᵒᵖ) (x : P.obj X) :
     (PresheafOfModules.sheafificationHomEquiv
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) g).app X x =
       g.val.app X (((PresheafOfModules.sheafificationAdjunction
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app P).app X x) := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The counit undoes the unit on sections. -/
 private lemma sheafificationValHom_unit {O : Sheaf J CommRingCat.{w}}
-    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (X : Cᵒᵖ) (x : F.val.obj X) :
+    (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
+    (X : Cᵒᵖ) (x : F.val.obj X) :
     (sheafificationValHom F).val.app X
         (((PresheafOfModules.sheafificationAdjunction
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app F.val).app X x) = x := by
@@ -422,7 +430,8 @@ private lemma sheafificationValHom_unit {O : Sheaf J CommRingCat.{w}}
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.app F.val ≫
       (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
         PresheafOfModules.restrictScalars
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map (sheafificationValHom F)) = 𝟙 F.val :=
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map (sheafificationValHom F)) =
+      𝟙 F.val :=
     (PresheafOfModules.sheafificationAdjunction
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).right_triangle_components F
   exact congrArg (fun k => (ConcreteCategory.hom (k.app X)) x) h
@@ -440,8 +449,8 @@ private lemma sheafification_map_presheafTensorUnit
   apply ModuleCat.hom_ext
   ext x
   rw [sheafificationHomEquiv_app, sheafificationHomEquiv_app]
-  change ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).map
-      (presheafTensorUnit f F.val)).val.app X _ =
+  change ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+      (𝟙 _)).map (presheafTensorUnit f F.val)).val.app X _ =
     (tensorUnitHom f F).val.app X ((sheafificationValHom F).val.app X _)
   rw [sheafificationValHom_unit]
   refine Eq.trans ?_ ((tensorUnitMap f F).property X x).symm
@@ -473,7 +482,8 @@ private lemma isIso_sheafification_tensorUnit_iff
       IsIso (tensorUnitMap f (S.obj P)).val := by
   intro S
   rw [isIso_tensorUnitMap_iff_sheafification_map]
-  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
+  let adj :=
+    PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
   have hη : IsIso (S.map (adj.unit.app P)) :=
     IsIso.of_isIso_fac_right (adj.left_triangle_components P)
   let η : P ⟶ ((PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
@@ -619,6 +629,7 @@ private noncomputable abbrev idealAction
     P ⊗ I ⟶ P :=
   P ◁ i ≫ (ρ_ P).hom
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma idealAction_tmul
     {O : Sheaf J CommRingCat.{w}}
     {I : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
@@ -628,6 +639,7 @@ private lemma idealAction_tmul
     (idealAction i P).app X (x ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X] y) =
       (i.app X y) • x := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma idealAction_cokernel_smul_eq_zero
     {O : Sheaf J CommRingCat.{w}}
     {I : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
@@ -642,6 +654,7 @@ private lemma idealAction_cokernel_smul_eq_zero
   exact congrArg (fun g => g.app X (x ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X] y))
     (cokernel.condition (idealAction i P))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma idealAction_image_smul_eq_zero
     {O : Sheaf J CommRingCat.{w}}
     {I : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj}
@@ -665,8 +678,7 @@ private lemma idealAction_image_smul_eq_zero
     ModuleCat.Hom.hom ((idealAction i P).app X)
   have key : ∀ t, r • φ t = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul x y => exact hr x y
     | add t t' ht ht' => rw [map_add, smul_add, ht, ht', add_zero]
   exact key z
@@ -682,7 +694,8 @@ private lemma isIso_sheafification_tensorUnit_of_pow_smul_eq_zero
         (presheafTensorUnit f (cokernel i))))
     (n : ℕ) (P : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
     (hP : ∀ (X : Cᵒᵖ) (a : Fin n → I.obj X) (x : P.obj X),
-      (∏ k, (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from i.app X (a k))) • x = 0) :
+      (∏ k, (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from
+        i.app X (a k))) • x = 0) :
     IsIso ((PresheafOfModules.sheafification
       (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)).map (presheafTensorUnit f P)) := by
   induction n generalizing P with
@@ -693,7 +706,8 @@ private lemma isIso_sheafification_tensorUnit_of_pow_smul_eq_zero
       rw [hx, smul_zero]
   | succ n ih =>
       let μ := idealAction i P
-      let S := PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)
+      let S :=
+        PresheafOfModules.sheafification (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 _)
       have hA : IsIso (S.map (presheafTensorUnit f (Abelian.image μ))) := by
         apply ih
         intro X a x

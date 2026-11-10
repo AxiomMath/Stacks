@@ -82,13 +82,13 @@ public theorem Scheme.exists_preimage_lift_of_locallyOfFinitePresentation
       simp only [opensCone_π_app, opensDiagramι_app]
       exact (Scheme.Hom.resLE_comp_ι (f := c.π.app q.left)
         (U := D.map q.hom ⁻¹ᵁ V₀) (V := c.π.app i₀ ⁻¹ᵁ V₀) he).symm
-    show C.π.app q ≫ (opensDiagramι D i₀ V₀).app q ≫ t.app q.left = a ≫ f
+    change C.π.app q ≫ (opensDiagramι D i₀ V₀).app q ≫ t.app q.left = a ≫ f
     rw [ha, ← hp q.left, ← Category.assoc, ← hr]
     exact Category.assoc _ _ _
   obtain ⟨q, b, -, hbf⟩ := Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation
     A t' f C (isLimitOpensCone D c hc i₀ V₀) a hA
   refine ⟨q, fun q' m => ⟨A.map m ≫ b, ?_⟩⟩
-  show (A.map m ≫ b) ≫ f = t'.app q'
+  change (A.map m ≫ b) ≫ f = t'.app q'
   rw [Category.assoc, hbf]
   exact t'.naturality m
 

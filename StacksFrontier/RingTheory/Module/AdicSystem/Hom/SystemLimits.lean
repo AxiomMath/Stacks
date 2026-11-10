@@ -114,7 +114,7 @@ private lemma ideal_le_annihilator_quotient
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ y =>
-    show r • (Submodule.Quotient.mk y : N ⧸ J • (⊤ : Submodule A N)) = 0
+    change r • (Submodule.Quotient.mk y : N ⧸ J • (⊤ : Submodule A N)) = 0
     rw [← Submodule.Quotient.mk_smul]
     exact (Submodule.Quotient.mk_eq_zero (J • (⊤ : Submodule A N))).mpr
       (Submodule.smul_mem_smul hr (Submodule.mem_top : y ∈ (⊤ : Submodule A N)))
@@ -417,7 +417,7 @@ private lemma completedHomAtLevel_eval
   rw [hx]
   unfold completedHomAtLevel
   simp only [LinearMap.comp_apply]
-  show (AdicCompletion.quotPowSMulTopEquiv hI N n)
+  change (AdicCompletion.quotPowSMulTopEquiv hI N n)
     (((I ^ n • (⊤ : Submodule A (AdicCompletion I M))).mapQ
       (I ^ n • (⊤ : Submodule A (AdicCompletion I N)))
       (f.restrictScalars A) (Submodule.smul_top_le_comap_smul_top (I ^ n) _))
@@ -596,7 +596,7 @@ private lemma limitToCompletedHom_comp_completedHomToLimit
     (f : AdicCompletion I M →ₗ[AdicCompletion I A] AdicCompletion I N) :
     limitToCompletedHom I (completedHomToLimit I f) = f := by
   refine LinearMap.ext fun x ↦ AdicCompletion.ext fun n ↦ ?_
-  show (homLimitProjection I n (completedHomToLimit I f)) (x.val n) = (f x).val n
+  change (homLimitProjection I n (completedHomToLimit I f)) (x.val n) = (f x).val n
   rw [completedHomToLimit_projection]
   exact completedHomAtLevel_eval I f n x
 
@@ -611,7 +611,7 @@ private lemma completedHomToLimit_comp_limitToCompletedHom
   intro j
   cases j with
   | op n =>
-    show homLimitProjection I n (completedHomToLimit I (limitToCompletedHom I x)) =
+    change homLimitProjection I n (completedHomToLimit I (limitToCompletedHom I x)) =
       homLimitProjection I n x
     rw [completedHomToLimit_projection]
     apply LinearMap.ext
@@ -769,7 +769,7 @@ private lemma comparison_completedHomAtLevel
   have hdiff : c - AdicCompletion.of I (M →ₗ[A] N) f ∈
       I ^ n • (⊤ : Submodule A (AdicCompletion I (M →ₗ[A] N))) := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval (IsNoetherian.noetherian I)]
-    show AdicCompletion.eval I (M →ₗ[A] N) n
+    change AdicCompletion.eval I (M →ₗ[A] N) n
       (c - AdicCompletion.of I (M →ₗ[A] N) f) = 0
     rw [map_sub]
     simp [hf]
@@ -779,13 +779,13 @@ private lemma comparison_completedHomAtLevel
       H c = H (AdicCompletion.of I (M →ₗ[A] N) f) := fun H =>
     linearMap_eq_of_mem_smul_top (I ^ n)
       (hom_quotient_annihilator (M := M) (N := N) (I ^ n)) H hdiff
-  show F c = G c
+  change F c = G c
   rw [hconst F, hconst G]
   apply LinearMap.ext
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ m =>
-    show comparison I n (Submodule.Quotient.mk f) (Submodule.Quotient.mk m) =
+    change comparison I n (Submodule.Quotient.mk f) (Submodule.Quotient.mk m) =
       completedHomAtLevel I
         (completedHomEquivGeneral I (AdicCompletion.of I (M →ₗ[A] N) f)) n
         (Submodule.Quotient.mk m)
@@ -803,7 +803,7 @@ private lemma homLimitIso_projection
         (AdicCompletion.eval I (M →ₗ[A] N) n ((homLimitIso I).hom.hom x)) =
       homLimitProjection I n x := by
   rw [comparison_completedHomAtLevel]
-  show completedHomAtLevel I
+  change completedHomAtLevel I
       (completedHomEquivGeneral I
         ((completedHomEquivGeneral I).symm (limitToCompletedHom I x))) n =
       homLimitProjection I n x

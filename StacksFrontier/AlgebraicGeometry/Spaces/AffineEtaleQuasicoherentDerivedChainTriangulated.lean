@@ -13,7 +13,8 @@ Stacks 0H06 asserts *canonical exact equivalences between the following triangul
 4. `QC(F_{affine}, 𝒪_F)`,
 
 for `F` an algebraic space over a scheme `S`.  The categories and the three equivalences between
-them are built in `StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleQuasicoherentDerivedChain.lean`
+them are built in
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleQuasicoherentDerivedChain.lean`
 as plain categories and plain equivalences.  This file supplies the two things the source's
 wording asks for on top of that: each of (1)–(4) is a *full triangulated subcategory* of the
 derived category it sits in, and each of the three equivalences is *exact*, i.e. its functor

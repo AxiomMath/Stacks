@@ -87,7 +87,7 @@ theorem isIso_of_degreeOver_eq_one {X Y : Scheme.{u}} (pX : X ⟶ Spec (.of k))
     have key : ∀ {A B : Type u} [Field A] [Field B] (φ : A →+* B),
         (letI := φ.toAlgebra; Module.finrank A B = 1) → Function.Bijective φ := by
       intro A B _ _ φ h
-      letI := φ.toAlgebra
+      let := φ.toAlgebra
       exact Algebra.finrank_eq_one_iff_bijective_algebraMap.mp h
     let := (functionFieldMap f).toAlgebra
     have hfr : Module.finrank Y.functionField X.functionField = 1 := by

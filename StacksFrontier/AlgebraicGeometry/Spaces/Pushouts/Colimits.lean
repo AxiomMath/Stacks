@@ -200,7 +200,7 @@ private theorem separated_precomp_iso
     (MorphismProperty.inverseImage
       (@_root_.AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u}) Q)
   change P (pullback.diagonal f) at hf
-  show P (pullback.diagonal (e.hom ≫ f))
+  change P (pullback.diagonal (e.hom ≫ f))
   let αhom : pullback (e.hom ≫ f) (e.hom ≫ f) ⟶ pullback f f :=
     pullback.lift
       (pullback.fst (e.hom ≫ f) (e.hom ≫ f) ≫ e.hom)
@@ -337,14 +337,14 @@ private theorem isColimit_of_scheme_colimit
      fac := fun s i => by
         apply Over.OverMorphism.ext
         apply B.inclusion.map_injective
-        show (BigFppfOver.toScheme B S hS).map (c.ι.app i) ≫ B.inclusion.map
+        change (BigFppfOver.toScheme B S hS).map (c.ι.app i) ≫ B.inclusion.map
           (B.inclusion.preimage _) = (BigFppfOver.toScheme B S hS).map (s.ι.app i)
         rw [Functor.map_preimage]
         exact hc.fac _ i
      uniq := fun s m hm => by
         apply Over.OverMorphism.ext
         apply B.inclusion.map_injective
-        show _ = B.inclusion.map (B.inclusion.preimage _)
+        change _ = B.inclusion.map (B.inclusion.preimage _)
         rw [Functor.map_preimage]
         exact hc.uniq ((BigFppfOver.toScheme B S hS).mapCocone s)
           ((BigFppfOver.toScheme B S hS).map m) fun i =>
@@ -561,7 +561,7 @@ public theorem isColimit_algebraicSpaces_of_scheme
     rw [← Category.assoc, ← Functor.map_comp, (hsq i).w, Functor.map_comp, Category.assoc, hb,
       hrestrict]
   · refine maps_equal_of_scheme_colimit B S hS E cE hEcol hF _ g fun i => ?_
-    show yoneda.map (r.app i) ≫ yoneda.map v ≫ b' = yoneda.map (r.app i) ≫ g
+    change yoneda.map (r.app i) ≫ yoneda.map v ≫ b' = yoneda.map (r.app i) ≫ g
     rw [← Category.assoc, ← Functor.map_comp, ← (hsq i).w, Functor.map_comp, Category.assoc,
       hb' i, hrestrict]
 

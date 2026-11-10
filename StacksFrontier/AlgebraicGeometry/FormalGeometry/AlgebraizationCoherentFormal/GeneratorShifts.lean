@@ -283,11 +283,48 @@ abbrev sectionsShiftOf (l : L) (n : ℕ) :
     idealPowerSections S F n →ₗ[S.A] idealPowerSections S F (n + 1) :=
   ((openSectionsFunctor S).map (shiftSubOf S F g hg l n)).hom
 
+include hg in
+/-- `gₗ` kills the sections of `Iⁿ⁺¹ F_(n+1)` inside those of `F_(n+1)`. -/
+theorem smul_idealPowerSectionsι_of_mem (l : L) (n : ℕ) (k : idealPowerSections S F n) :
+    g l • (idealPowerSectionsι S F n).hom k = 0 := by
+  rw [← openSectionsFunctor_map_sectionSmul]
+  exact (congrArg (fun φ => ((openSectionsFunctor S).map φ).hom k)
+    (idealPowerSub_ι_comp_sectionSmul_eq_zero S F n (hg l))).trans rfl
+
+/-- On a compatible family whose `(n+1)`-st term is a section `k` of `Iⁿ⁺¹ F_(n+1)`,
+multiplication by `gₗ` in degree `n + 2` is the shift of `k`. -/
+theorem smul_π_eq_sectionsShiftOf (l : L) (n : ℕ) (x : limitGlobalSections S F)
+    (k : idealPowerSections S F n)
+    (hk : (limit.π (globalSectionsSystem S F) (op (n + 1))).hom x =
+      (idealPowerSectionsι S F n).hom k) :
+    g l • (limit.π (globalSectionsSystem S F) (op (n + 2))).hom x =
+      (idealPowerSectionsι S F (n + 1)).hom (sectionsShiftOf S F g hg l n k) := by
+  rw [← openSectionsFunctor_map_sectionSmul, ← trans_upMapOf S F g hg]
+  have hw : ((openSectionsFunctor S).map (succTrans S F (n + 1))).hom
+      ((limit.π (globalSectionsSystem S F) (op (n + 2))).hom x) =
+        (limit.π (globalSectionsSystem S F) (op (n + 1))).hom x :=
+    congrArg (fun g => ModuleCat.Hom.hom g x)
+      (limit.w (globalSectionsSystem S F) (homOfLE (Nat.le_succ (n + 1))).op)
+  rw [Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply, hw, hk]
+  exact abstract_map_comm _ _ _ _ _ (shiftSubOf_ι S F g hg l n).symm k
+
+/-- The shift of sections by `gₗ` maps `Stacks.Algebraization.liftingSections` in degree `n` into
+`Stacks.Algebraization.liftingSections` in degree `n + 1`. -/
+theorem sectionsShiftOf_mem_liftingSections (l : L) (n : ℕ)
+    (k : idealPowerSections S F n) (hk : k ∈ liftingSections S F n) :
+    sectionsShiftOf S F g hg l n k ∈ liftingSections S F (n + 1) := by
+  obtain ⟨x, hx0, hx1⟩ := (mem_liftingSections_iff S F n k).mp hk
+  refine (mem_liftingSections_iff S F (n + 1) _).mpr ⟨g l • x, ?_, ?_⟩
+  · rw [map_smul, hx1]
+    exact smul_idealPowerSectionsι_of_mem S F g hg l n k
+  · rw [map_smul]
+    exact smul_π_eq_sectionsShiftOf S F g hg l n x k hx1
+
 /-! ### The decomposition and its consequences -/
 
 section Decomposition
 
-variable [Fintype L]
+variable [Finite L]
   (hdesc : ∀ (n : ℕ)
     (e : idealPowerQuotient (idealOnOpen S) 1 (F.obj.obj (op (n + 1))) ≅ F.obj.obj (op 0))
     (_ : cokernel.π (C := S.U.toScheme.Modules)
@@ -299,6 +336,7 @@ variable [Fintype L]
       IsIso (idealPowerDesc (F.obj.obj (op (n + 1))) (n + 1)
         (F.property.idealPowerMultiple_eq_bot (n + 1)) hb e))
 
+omit [Finite L] in
 include hdesc in
 /-- The decomposition `hdesc` makes every `Iⁿ⁺¹ F_(n+2)` a finite direct sum of copies of
 `F_1`. -/
@@ -325,6 +363,7 @@ theorem isMittagLeffler_globalSectionsSystem_of_idealPowerDesc
       (Stacks.LocalCohomology.cohomologyOverBase.{u, u} S.A S.U.ι (F.obj.obj (op 0)) 1)) :
     IsMittagLefflerCategorical (globalSectionsSystem S F) := by
   classical
+  have := Fintype.ofFinite L
   have hfin0 : Module.Finite S.A
       ((openCohomologyFunctor S 1).obj (idealPowerSub S F 0).toSheafOfModules) :=
     finite_openCohomology_of_finite_cohomologyOverBase S 1 _
@@ -382,43 +421,6 @@ theorem isMittagLeffler_globalSectionsSystem_of_idealPowerDesc
   rw [hsystem]
   exact key
 
-include hg in
-/-- `gₗ` kills the sections of `Iⁿ⁺¹ F_(n+1)` inside those of `F_(n+1)`. -/
-theorem smul_idealPowerSectionsι_of_mem (l : L) (n : ℕ) (k : idealPowerSections S F n) :
-    g l • (idealPowerSectionsι S F n).hom k = 0 := by
-  rw [← openSectionsFunctor_map_sectionSmul]
-  exact (congrArg (fun φ => ((openSectionsFunctor S).map φ).hom k)
-    (idealPowerSub_ι_comp_sectionSmul_eq_zero S F n (hg l))).trans rfl
-
-/-- On a compatible family whose `(n+1)`-st term is a section `k` of `Iⁿ⁺¹ F_(n+1)`,
-multiplication by `gₗ` in degree `n + 2` is the shift of `k`. -/
-theorem smul_π_eq_sectionsShiftOf (l : L) (n : ℕ) (x : limitGlobalSections S F)
-    (k : idealPowerSections S F n)
-    (hk : (limit.π (globalSectionsSystem S F) (op (n + 1))).hom x =
-      (idealPowerSectionsι S F n).hom k) :
-    g l • (limit.π (globalSectionsSystem S F) (op (n + 2))).hom x =
-      (idealPowerSectionsι S F (n + 1)).hom (sectionsShiftOf S F g hg l n k) := by
-  rw [← openSectionsFunctor_map_sectionSmul, ← trans_upMapOf S F g hg]
-  have hw : ((openSectionsFunctor S).map (succTrans S F (n + 1))).hom
-      ((limit.π (globalSectionsSystem S F) (op (n + 2))).hom x) =
-        (limit.π (globalSectionsSystem S F) (op (n + 1))).hom x :=
-    congrArg (fun g => ModuleCat.Hom.hom g x)
-      (limit.w (globalSectionsSystem S F) (homOfLE (Nat.le_succ (n + 1))).op)
-  rw [Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply, hw, hk]
-  exact abstract_map_comm _ _ _ _ _ (shiftSubOf_ι S F g hg l n).symm k
-
-/-- The shift of sections by `gₗ` maps `Stacks.Algebraization.liftingSections` in degree `n` into
-`Stacks.Algebraization.liftingSections` in degree `n + 1`. -/
-theorem sectionsShiftOf_mem_liftingSections (l : L) (n : ℕ)
-    (k : idealPowerSections S F n) (hk : k ∈ liftingSections S F n) :
-    sectionsShiftOf S F g hg l n k ∈ liftingSections S F (n + 1) := by
-  obtain ⟨x, hx0, hx1⟩ := (mem_liftingSections_iff S F n k).mp hk
-  refine (mem_liftingSections_iff S F (n + 1) _).mpr ⟨g l • x, ?_, ?_⟩
-  · rw [map_smul, hx1]
-    exact smul_idealPowerSectionsι_of_mem S F g hg l n k
-  · rw [map_smul]
-    exact smul_π_eq_sectionsShiftOf S F g hg l n x k hx1
-
 include hg hdesc in
 /-- **Condition (b) of Stacks 0EHH from the decomposition.** If `hdesc` holds and `H⁰(U, F_1)`
 is a finite `A`-module, the limit topology on `M = lim H⁰(U, F_n)` is the `I`-adic topology.
@@ -435,6 +437,7 @@ theorem limitTopology_eq_adicModuleTopology_of_idealPowerDesc
         (limit.π (globalSectionsSystem S F) (op n)).hom x) ⊥) =
         S.I.adicModuleTopology (limitGlobalSections S F) := by
   classical
+  have := Fintype.ofFinite L
   have : Module.Finite S.A (idealPowerSections S F 0) :=
     finite_idealPowerSections_of_isoDirectSum S F h0
       (exists_isoDirectSum_idealPowerSub_of_idealPowerDesc S F g hdesc) 0

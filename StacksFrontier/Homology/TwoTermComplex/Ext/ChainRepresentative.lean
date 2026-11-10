@@ -11,8 +11,8 @@ public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 public import Mathlib.Tactic.LinearCombination
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 public import StacksFrontier.Homology.TwoTermComplex.Ext.DerivedHom
@@ -402,7 +402,7 @@ theorem exists_hom_comp_projRes_eq
               rw [h1, h2]
   refine ⟨{ f := abf, comm' := hcomm' }, ?_, habfm2⟩
   refine HomologicalComplex.hom_ext _ _ (fun i => ?_)
-  show HomologicalComplex.Hom.f P.p i ≫ abf i = HomologicalComplex.Hom.f b i
+  change HomologicalComplex.Hom.f P.p i ≫ abf i = HomologicalComplex.Hom.f b i
   by_cases hi0 : i = 0
   · subst hi0
     rw [habf0, hp0, hab0def, ← Category.assoc]

@@ -332,7 +332,7 @@ theorem exists_smallEtaleSheafPullbackUnitApp_eq_of_isLimit {i : I}
   refine smallEtale_section_ext ((smallEtaleSheafPullback (Type (u + 1)) (D.map f)).obj H) S' hS'
     _ _ fun U' g hg => ?_
   obtain ⟨U'', g₁, g₂, ⟨U, k, hk, g', rfl⟩, rfl⟩ := hg
-  show ((smallEtaleSheafPullback (Type (u + 1)) (D.map f)).obj H).obj.map (g₁ ≫ g' ≫ _).op
+  change ((smallEtaleSheafPullback (Type (u + 1)) (D.map f)).obj H).obj.map (g₁ ≫ g' ≫ _).op
       (smallEtaleSheafPullbackUnitApp (D.map f) H V₀ h₁) =
     ((smallEtaleSheafPullback (Type (u + 1)) (D.map f)).obj H).obj.map (g₁ ≫ g' ≫ _).op
       (smallEtaleSheafPullbackUnitApp (D.map f) H V₀ h₂)

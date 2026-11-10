@@ -150,7 +150,7 @@ theorem resolutionHomologyIso_conj_rightDerivedPlusδ {S : ShortComplex A} (hS :
   dsimp only at hα
   refine Eq.trans ?_ hα
   rw [← hmid]
-  show ((extendedHomologyIso F I₃.cocomplex n).inv ≫
+  change ((extendedHomologyIso F I₃.cocomplex n).inv ≫
       (derivedPlusResolutionHomologyIso F I₃ n).inv) ≫ CechDelta.rightDerivedPlusδ F hS n ≫
       ((derivedPlusResolutionHomologyIso F I₁ (n + 1)).hom ≫
         (extendedHomologyIso F I₁.cocomplex (n + 1)).hom) = _

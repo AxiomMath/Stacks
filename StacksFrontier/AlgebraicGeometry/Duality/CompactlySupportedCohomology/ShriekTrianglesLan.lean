@@ -62,7 +62,7 @@ variable {U X : Scheme.{u}}
 /-- The restriction to `U` of a vertex system of an inverse system of triangles over `X`, when the
 restricted system of triangles is constant at `T`, is the constant system at the corresponding
 vertex of `T`. -/
-private def vertexRestrictIso (j : U ⟶ X) [IsOpenImmersion j] [IsLocallyNoetherian X]
+def vertexRestrictIso (j : U ⟶ X) [IsOpenImmersion j] [IsLocallyNoetherian X]
     {TX : ℕᵒᵖ ⥤ Triangle (BoundedCoherentDerived X)} {T : Triangle (BoundedCoherentDerived U)}
     (eR : TX ⋙ (restrictBoundedCoherentLift j).mapTriangle ≅ (Functor.const ℕᵒᵖ).obj T)
     (π : Triangle (BoundedCoherentDerived X) ⥤ BoundedCoherentDerived X)

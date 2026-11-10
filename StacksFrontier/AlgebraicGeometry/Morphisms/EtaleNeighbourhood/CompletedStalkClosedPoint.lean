@@ -128,9 +128,9 @@ private theorem isIso_specMap_residueFieldMap_aux {A B : CommRingCat.{u}}
   have h2 := congrArg (fun g : A ⟶ (Spec B).presheaf.stalk q => g.hom a) hψ
   simp only [CommRingCat.comp_apply] at h1 h2
   rw [h1, h2]
-  show ResidueField.map ι.hom (ResidueField.map φ.hom (residue A a)) = y
+  change ResidueField.map ι.hom (ResidueField.map φ.hom (residue A a)) = y
   rw [ha, hw]
-  show ((Spec B).residue q).hom (ι.hom b) = y
+  change ((Spec B).residue q).hom (ι.hom b) = y
   rw [hb]
   exact hz
 

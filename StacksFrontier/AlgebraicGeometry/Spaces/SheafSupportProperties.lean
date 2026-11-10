@@ -194,7 +194,7 @@ section. -/
 private theorem restrict_one {U V : SmallEtale B S hS X} (f : V ⟶ U) :
     (toAddCommGrp B S hS X R).obj.map f.op (1 : R.obj.obj (op U)) =
       (1 : R.obj.obj (op V)) := by
-  show (R.obj.map f.op).hom (1 : R.obj.obj (op U)) = _
+  change (R.obj.map f.op).hom (1 : R.obj.obj (op U)) = _
   exact map_one _
 
 /-- The maximal open zero locus of the unit section of a sheaf of rings is contained in the
@@ -209,7 +209,7 @@ theorem largestOpenZeroLocus_one_le (U : SmallEtale B S hS X) (σ : R.obj.obj (o
     (1 : R.obj.obj (op U)) σ fun V f hf ↦ ?_
   have h1 : (1 : R.obj.obj (op V)) = 0 := by
     rwa [← restrict_one B S hS X R f]
-  show (R.obj.map f.op).hom σ = 0
+  change (R.obj.map f.op).hom σ = 0
   exact eq_zero_of_zero_eq_one h1.symm _
 
 /-- Membership in the maximal open zero locus of the unit section depends only on the image
@@ -280,7 +280,7 @@ theorem pointsMap_mem_supportOfSheaf_iff (hX : IsAlgebraicSpace B S hS X)
       ⟨FieldValuedPoint.map B S hS _ U.obj.hom q.val, q.property⟩
     let N : SmallEtaleNeighborhood p := ⟨U, q.val.value, rfl⟩
     refine ⟨p, ?_, ?_⟩
-    · show (FieldValuedPoint.map B S hS _ U.obj.hom q.val).class B S hS X =
+    · change (FieldValuedPoint.map B S hS _ U.obj.hom q.val).class B S hS X =
         pointsMap B S hS _ U.obj.hom y
       rw [← hq, pointsMap_class]
     · intro hn

@@ -85,7 +85,7 @@ def representedToZariskiRingedToposSiteHom :
   isContinuous := isContinuous_representedEpsilonFunctor B S hS U
   fSharp := (representedToSchemeZariskiRingedToposHom B S hS U).fSharp ≫
     (@restrictionCommRingIso _ _ _ _ ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedTopos.J
-      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _ _
+      (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).J _
       (representedEpsilonFunctor B S hS U) (isContinuous_representedEpsilonFunctor B S hS U)
       (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O).hom
 

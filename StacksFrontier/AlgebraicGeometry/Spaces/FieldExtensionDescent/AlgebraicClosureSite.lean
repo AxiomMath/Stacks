@@ -52,7 +52,7 @@ theorem BigFppfSite.contains_spec_algebraicClosure (B : BigFppfSite.{u}) (k : Ty
   have hk' : max ℵ₀ (Cardinal.mk k) < B.cutoff := by
     rw [← Scheme.size_Spec (CommRingCat.of k)]
     exact hk
-  show (Spec (CommRingCat.of (AlgebraicClosure k))).size < B.cutoff
+  change (Spec (CommRingCat.of (AlgebraicClosure k))).size < B.cutoff
   rw [Scheme.size_Spec]
   refine max_lt B.aleph0_lt_cutoff (lt_of_le_of_lt ?_ hk')
   exact (Algebra.IsAlgebraic.cardinalMk_le_max k (AlgebraicClosure k)).trans

@@ -162,7 +162,7 @@ lemma mem_of_germ_mem {V : Opens X} (s : X.presheaf.obj (op V))
   obtain ⟨W, hyW, u, hu, hgu⟩ := mem_stalkIdeal_iff J |>.mp (hs y hy)
   obtain ⟨Z, hyZ, iZV, iZW, hZ⟩ := X.presheaf.germ_eq y hy hyW s u hgu.symm
   refine ⟨Z, iZV, ?_, hyZ⟩
-  show X.presheaf.map iZV.op s ∈ J.obj (op Z)
+  change X.presheaf.map iZV.op s ∈ J.obj (op Z)
   rw [hZ]
   exact restrict_mem J iZW hu
 
@@ -417,7 +417,7 @@ theorem exists_invertible_change_of_local_generators
   · exact Submodule.sum_mem _ fun j _ ↦
       Submodule.smul_mem (J.obj (op U)) (a i j) (restrict_mem J iUV (hgJ j))
   · intro i
-    show X.presheaf.germ U x hxU (∑ j, a i j * X.presheaf.map iUV.op (g j))
+    change X.presheaf.germ U x hxU (∑ j, a i j * X.presheaf.map iUV.op (g j))
       = (f i : X.presheaf.stalk x)
     rw [map_sum, ← hMc i]
     refine Finset.sum_congr rfl fun j _ ↦ ?_

@@ -71,7 +71,7 @@ theorem categoryHomologyMap_pullbackFunctor_id (n : ℕ) (V : D) :
     ((Functor.chosenPullbacks p).pullbackFunctorIdIso V) (t (𝟙 V)) (𝟙 _) ?_,
     categoryHomologyMap_id.{uC, max w uD vD uC}]
   refine NatTrans.ext (funext fun x => ?_)
-  show (t (𝟙 V)).app x =
+  change (t (𝟙 V)).app x =
     𝟙 _ ≫ F.map ((Functor.Fiber.fiberInclusion.map
       ((Functor.chosenPullbacks p).objIdIso x.unop).hom).op)
   rw [Category.id_comp, Functor.ChoiceOfPullbacks.fiberInclusion_map_objIdIso_hom]
@@ -92,7 +92,7 @@ theorem categoryHomologyMap_pullbackFunctor_comp (n : ℕ) {W V U : D} (g : W �
     (t f ≫ Functor.whiskerLeft ((Functor.chosenPullbacks p).pullbackFunctor f).op (t g)) ?_,
     categoryHomologyMap_comp.{uC, uC, uC, max w uD vD uC}]
   refine NatTrans.ext (funext fun x => ?_)
-  show (t (g ≫ f)).app x =
+  change (t (g ≫ f)).app x =
     ((t f).app x ≫ (t g).app (.op ((Functor.chosenPullbacks p).obj f x.unop))) ≫
       F.map ((Functor.Fiber.fiberInclusion.map
         ((Functor.chosenPullbacks p).objCompIso g f x.unop).hom).op)

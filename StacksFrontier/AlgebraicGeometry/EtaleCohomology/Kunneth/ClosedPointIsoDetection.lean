@@ -29,8 +29,8 @@ isomorphisms on all hypercohomology groups `H^i(Z_étale, -)`.
 ## Implementation notes
 
 `Stacks.EtaleCohomology.smallEtaleDerivedGlobalSections`
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedEtale.lean:196`) is formed for the standard
-model of the derived categories; that fixes the model here.
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedEtale.lean:196`) is formed for the
+standard model of the derived categories; that fixes the model here.
 
 ## References
 
@@ -95,7 +95,7 @@ theorem isIso_iff_forall_isIso_hypercohomology_of_closedPointSupport
   let RΓ := smallEtaleDerivedGlobalSections Z
   have hRT : RΓ.mapTriangle.obj T ∈ distTriang _ := RΓ.map_distinguished _ hT
   rw [show IsIso φ ↔ IsIso T.mor₁ from Iff.rfl, ← Triangle.isZero₃_iff_isIso₁ T hT]
-  show IsZero Q ↔ _
+  change IsZero Q ↔ _
   rw [SmallEtale.isZero_iff_forall_isZero_hypercohomology_of_closedPointSupport Z K f Q
     (fun p i hp => isZero_map_homology_obj₃ _ hT i (@IsIso.epi_of_iso _ _ _ _ _ (hφ p i hp))
       (@IsIso.mono_of_iso _ _ _ _ _ (hφ p (i + 1) hp)))]

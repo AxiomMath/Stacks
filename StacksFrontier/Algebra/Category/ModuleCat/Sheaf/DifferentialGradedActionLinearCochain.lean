@@ -96,7 +96,7 @@ theorem homotopic_zero_of_actionLinear_delta {M N : DifferentialGradedModule.{u,
     have h := Cochain.congr_v hd n n (add_zero n)
     simp only [Cochain.ofHom_v] at h
     rw [δ_v (-1) 0 (by omega) z n n (add_zero n) (n - 1) (n + 1) rfl rfl] at h
-    show f.toHomologicalComplex.f n - 0 = _
+    change f.toHomologicalComplex.f n - 0 = _
     rw [sub_zero, ← h]
     simp only [Int.negOnePow_zero, one_smul]
     rw [Category.assoc, cochain_v_comp_eqToHom A]

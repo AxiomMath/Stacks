@@ -52,7 +52,7 @@ theorem quasiIso_of_sheafFiber {ι : Type*} {c : ComplexShape ι}
   rw [quasiIsoAt_iff, ShortComplex.quasiIso_iff]
   have : PreservesFilteredColimitsOfSize.{max u' w, max u' w}
       (forget (ModuleCat.{max u' w} R)) := by
-    show PreservesFilteredColimitsOfSize.{max u' w, max u' w}
+    change PreservesFilteredColimitsOfSize.{max u' w, max u' w}
       (forget₂ (ModuleCat.{max u' w} R) AddCommGrpCat.{max u' w} ⋙ forget AddCommGrpCat.{max u' w})
     infer_instance
   refine ((hP.jointlyReflectIsomorphisms (ModuleCat.{max u' w} R)).isIso_iff _).2 fun Φ => ?_
@@ -71,7 +71,7 @@ theorem quasiIso_of_sheafFiber {ι : Type*} {c : ComplexShape ι}
       (((HomologicalComplex.shortComplexFunctor (Sheaf J (ModuleCat.{max u' w} R)) c i).obj
         L).mapHomologyIso F).hom := by
     rw [e, Iso.inv_hom_id_assoc]
-  show IsIso (F.map (ShortComplex.homologyMap f))
+  change IsIso (F.map (ShortComplex.homologyMap f))
   rw [this]
   infer_instance
 

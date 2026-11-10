@@ -169,6 +169,7 @@ def pullbackTensorTotalComplexIso
         (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ) :=
   pullbackTensorTotalIso f.toModulesHom K L
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The comparison of total tensor complexes of Stacks 03EL is natural in the pair of
 complexes. -/
 lemma pullbackTensorTotalComplexIso_hom_naturality

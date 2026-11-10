@@ -58,7 +58,7 @@ theorem exists_affineCover_lift_of_fppf_refinement
       (q : ∀ j, Spec (F.X j) ⟶ X), Finite F.I₀ ∧ ∀ j, q j ≫ f = F.f j ≫ V.1.ι := by
   obtain ⟨𝒰, ⟨r⟩⟩ := h
   have : Scheme.JointlySurjective Scheme.fppfPrecoverage := by
-    show Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
+    change Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
     infer_instance
   have : CategoryTheory.MorphismProperty.RespectsLeft
       (@Flat ⊓ @LocallyOfFinitePresentation) @IsOpenImmersion :=
@@ -111,17 +111,17 @@ theorem isStandardFppfCovering_sigma {S : Scheme.{u}} [IsAffine S]
   refine ⟨inferInstance, inferInstance, fun _ => inferInstance, ?_, ?_, ?_⟩
   · rintro ⟨j, k⟩
     have := (hF j).1
-    show Flat ((G j).f k ≫ F.f j)
+    change Flat ((G j).f k ≫ F.f j)
     infer_instance
   · rintro ⟨j, k⟩
     have := (hF j).2
-    show AlgebraicGeometry.FinitePresentation ((G j).f k ≫ F.f j)
+    change AlgebraicGeometry.FinitePresentation ((G j).f k ≫ F.f j)
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   · refine Set.eq_univ_of_forall fun y => ?_
     obtain ⟨j, x, hx⟩ := F.cover.exists_eq y
     obtain ⟨k, z, hz⟩ := (G j).cover.exists_eq x
     refine Set.mem_iUnion.mpr ⟨⟨j, k⟩, Set.mem_range.mpr ⟨z, ?_⟩⟩
-    show F.cover.f j ((G j).cover.f k z) = y
+    change F.cover.f j ((G j).cover.f k z) = y
     rw [hz, hx]
 
 /-- Reindexing a standard fppf covering along an equivalence gives a standard fppf covering. -/
@@ -154,7 +154,7 @@ private theorem exists_finite_affine_refinement
   have hq0 (j : F.I₀) (x : Spec (F.X j)) : (q0 j).base x ∈ f ⁻¹ᵁ V.1 := by
     have hpt := congrArg (fun k : Spec (F.X j) ⟶ Y => k.base x) (q0factor j)
     simp only [Scheme.Hom.comp_apply] at hpt
-    show f.base ((q0 j).base x) ∈ (V.1 : Set Y)
+    change f.base ((q0 j).base x) ∈ (V.1 : Set Y)
     rw [hpt]
     exact ((F.f j).base x).2
   let O (j : F.I₀) := (q0 j).affineOpensLECover (f ⁻¹ᵁ V.1) (hq0 j)
@@ -180,7 +180,7 @@ private theorem exists_finite_affine_refinement
       Scheme.Hom.resLE_comp_ι (q0 j) le_rfl
     have hfres : fres ≫ V.1.ι = (U ⟨j, k⟩).1.ι ≫ f := Scheme.Hom.resLE_comp_ι f (hU ⟨j, k⟩)
     have hψmap : (ψ j).h₀ k ≫ (O j).f ((ψ j).s₀ k) = (G j).f k := (ψ j).w₀ k
-    show (((ψ j).h₀ k ≫ qres) ≫ fres) ≫ V.1.ι = ((G j).f k ≫ F.f j) ≫ V.1.ι
+    change (((ψ j).h₀ k ≫ qres) ≫ fres) ≫ V.1.ι = ((G j).f k ≫ F.f j) ≫ V.1.ι
     simp only [Category.assoc]
     rw [hfres, reassoc_of% hqres, reassoc_of% hψmap, q0factor j]
     rfl
@@ -230,7 +230,7 @@ theorem exists_standardFppfCovering_through_affineOpens
       S.isoSpec.hom.base ((g i).base z) at hnat
     rw [hz] at hnat
     have hinv : S.isoSpec.hom.base (S.isoSpec.inv.base p) = p := by
-      show ((S.isoSpec.inv ≫ S.isoSpec.hom) p) = p
+      change ((S.isoSpec.inv ≫ S.isoSpec.hom) p) = p
       rw [S.isoSpec.inv_hom_id]
       rfl
     rwa [hinv] at hnat

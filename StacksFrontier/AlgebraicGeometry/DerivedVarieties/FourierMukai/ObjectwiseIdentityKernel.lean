@@ -185,7 +185,7 @@ lemma isPerfect_single_of_isCoherent [Smooth f] [CompactSpace X] (M : X.Modules)
     Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace)
       ((DerivedCategory.singleFunctor X.Modules 0).obj M) := by
   have h := perfectInModules_eq_derivedCategoryBBounded X (isRegular_of_smooth_over_field f)
-  show perfectInModules X _
+  change perfectInModules X _
   rw [h]
   exact derivedCategoryBBounded_singleFunctor_obj X M hM
 
@@ -251,7 +251,7 @@ lemma exists_pointFibreInclusion_eq [IsAlgClosed K] [LocallyOfFiniteType f] [IsS
     simp only [Set.mem_singleton_iff, Set.mem_range]
     exact ⟨fun h => ⟨IsLocalRing.closedPoint K, h.symm⟩,
       fun ⟨b, hb⟩ => by rw [← hb, Subsingleton.elim b (IsLocalRing.closedPoint K)]⟩
-  · show ((w ≫ pullback.snd f f) ≫ pointFibreInclusion f _ hx).base
+  · change ((w ≫ pullback.snd f f) ≫ pointFibreInclusion f _ hx).base
       (IsLocalRing.closedPoint K) = z
     rw [hcomp]
     exact pointOfClosedPoint_apply p z hz _
@@ -288,7 +288,7 @@ theorem exists_isZero_stalkHomology_of_notMem_range_diagonal [IsAlgClosed K]
     rintro ⟨a, rfl⟩
     apply hzΔ
     refine ⟨x.base a, ?_⟩
-    show (x ≫ pullback.diagonal f).base a = (x ≫ pointFibreInclusion f x hx).base a
+    change (x ≫ pullback.diagonal f).base a = (x ≫ pointFibreInclusion f x hx).base a
     rw [point_comp_pointFibreInclusion]
   have hT : CohomologySupportedOn X.ringCatSheaf (Set.range x.base)
       ((dpull (pointFibreInclusion f x hx)).obj A) :=
@@ -502,10 +502,10 @@ theorem isZero_homology_restrictSnd_of_ne_zero [QuasiCompact f] [IsSeparated f] 
       exact hd _ (pullback.diagonal_fst f)
     have h3 : (pullback.snd f f).base (ι.base w) =
         V.ι.base ((pullback.snd f (V.ι ≫ f)).base w) := by
-      show (ι ≫ pullback.snd f f).base w = _
+      change (ι ≫ pullback.snd f f).base w = _
       rw [restrictSndInclusion_snd]
       rfl
-    show (pullback.fst f (V.ι ≫ f)).base w ∈ V
+    change (pullback.fst f (V.ι ≫ f)).base w ∈ V
     rw [h1, ← hd _ (pullback.diagonal_snd f), h3]
     exact ((pullback.snd f (V.ι ≫ f)).base w).2
   have hE := cohomologySupportedOn_derivedPullback ι (Set.range (pullback.diagonal f).base) A

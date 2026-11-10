@@ -171,10 +171,10 @@ theorem exists_isPerfect_and_detectsZero_of_derivedEquivalence
   let G : derivedCategory' (degreeZero R A) ≌ derivedCategory' (degreeZero R B) :=
     EA.trans (E.trans EB.symm)
   have : G.functor.Additive := by
-    show (EA.functor ⋙ E.functor ⋙ EB.inverse).Additive
+    change (EA.functor ⋙ E.functor ⋙ EB.inverse).Additive
     infer_instance
   have : G.functor.Linear R := by
-    show (EA.functor ⋙ E.functor ⋙ EB.inverse).Linear R
+    change (EA.functor ⋙ E.functor ⋙ EB.inverse).Linear R
     infer_instance
   have : G.functor.CommShift ℤ := by
     infer_instance

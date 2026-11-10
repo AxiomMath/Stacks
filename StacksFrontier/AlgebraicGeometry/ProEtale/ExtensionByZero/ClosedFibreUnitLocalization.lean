@@ -56,7 +56,7 @@ def proetalePostcomposeBaseChangeAdj {U X : Scheme.{u}} (j : U ⟶ X) [WeaklyEta
 theorem proetalePostcomposeBaseChangeAdj_counit_app_left {U X : Scheme.{u}} (j : U ⟶ X)
     [WeaklyEtale j] (T : X.ProEt) :
     ((proetalePostcomposeBaseChangeAdj j).counit.app T).left = pullback.fst T.hom j := by
-  simp only [proetalePostcomposeBaseChangeAdj, MorphismProperty.Over.mapPullbackAdj_counit_app]
+  simp only [proetalePostcomposeBaseChangeAdj]
   rfl
 
 /-- A morphism of the small pro-étale site whose underlying morphism of schemes is an
@@ -154,23 +154,23 @@ def pullbackSquareIso {T V : Scheme.{u}} (t : T ⟶ X) (j : V ⟶ X) :
   hom_inv_id := by
     apply pullback.hom_ext
     · apply pullback.hom_ext
-      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc, Category.id_comp]
-      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
+      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc,
+          Category.id_comp]
+      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd,
           pullback.lift_snd_assoc, Category.id_comp]
         exact pullback.condition.symm
-    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc, Category.id_comp]
+    · simp only [Category.assoc, pullback.lift_snd,
+          Category.id_comp]
   inv_hom_id := by
     apply pullback.hom_ext
     · apply pullback.hom_ext
-      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc, Category.id_comp]
-      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
+      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc,
+          Category.id_comp]
+      · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd,
           pullback.lift_snd_assoc, Category.id_comp]
         exact pullback.condition.symm
-    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc, Category.id_comp]
+    · simp only [Category.assoc, pullback.lift_snd,
+          Category.id_comp]
 
 /-- `pullbackSquareIso` commutes with the second projections to `V ×_X Z`. -/
 @[reassoc (attr := simp)]
@@ -192,12 +192,12 @@ theorem pullbackSquareIso_naturality {T T' V : Scheme.{u}} (t : T ⟶ X) (t' : T
           (by rw [Category.assoc, pullback.lift_snd, pullback.condition]) := by
   apply pullback.hom_ext
   · apply pullback.hom_ext
+    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc,
+      pullbackSquareIso]
     · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
       pullback.lift_snd_assoc, pullbackSquareIso]
-    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-      pullback.lift_snd_assoc, pullbackSquareIso]
-  · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-      pullback.lift_snd_assoc, pullbackSquareIso]
+  · simp only [Category.assoc, pullback.lift_snd,
+      pullbackSquareIso]
 
 /-- Iterated base change around the cartesian square of `V ⟶ X` and `i`: base change to `V` and
 then to `V ×_X Z` agrees with base change to `Z` and then to `V ×_X Z`. -/
@@ -241,12 +241,12 @@ theorem pullbackSquareIso_diagonal {V : Scheme.{u}} (j : V ⟶ X) :
             Category.comp_id]) := by
   apply pullback.hom_ext
   · apply pullback.hom_ext
+    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_fst_assoc,
+        pullbackSquareIso, Category.id_comp, Category.comp_id]
     · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
         pullback.lift_snd_assoc, pullbackSquareIso, Category.id_comp, Category.comp_id]
-    · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc, pullbackSquareIso, Category.id_comp, Category.comp_id]
-  · simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc, pullbackSquareIso, Category.id_comp, Category.comp_id]
+  · simp only [Category.assoc, pullback.lift_snd,
+        pullbackSquareIso]
 
 /-- The diagonal of `V ×_X Z` over `Z`, followed by the inverse of `proetaleBaseChangeSquareIso`
 at `V`, is the base change along `V ×_X Z ⟶ V` of the diagonal of `V` over `X`, precomposed with

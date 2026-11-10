@@ -135,10 +135,10 @@ lemma universalHomeomorphism_specMap_of_surjective {A C : Type u} [CommRing A] [
         exact isIntegral_algebraMap))
   · have : IsClosedImmersion (Spec.map (CommRingCat.ofHom (algebraMap A C))) :=
       IsClosedImmersion.spec_of_surjective _ hs
-    show UniversallyInjective (Spec.map (CommRingCat.ofHom (algebraMap A C)))
+    change UniversallyInjective (Spec.map (CommRingCat.ofHom (algebraMap A C)))
     infer_instance
   · rw [surjective_iff]
-    show Function.Surjective (PrimeSpectrum.comap (algebraMap A C))
+    change Function.Surjective (PrimeSpectrum.comap (algebraMap A C))
     rw [← Set.range_eq_univ, _root_.range_comap_of_surjective _ _ hs]
     exact (PrimeSpectrum.zeroLocus_eq_univ_iff _).mpr hker
 
@@ -147,7 +147,7 @@ point of the spectrum of the target. -/
 lemma isIso_residueFieldMap_specMap_of_surjective {A C : Type u} [CommRing A] [CommRing C]
     [Algebra A C] (hs : Function.Surjective (algebraMap A C)) (x : Spec (.of C)) :
     IsIso ((Scheme.Spec.map (CommRingCat.ofHom (algebraMap A C)).op).residueFieldMap x) := by
-  show IsIso ((Spec.map (CommRingCat.ofHom (algebraMap A C))).residueFieldMap x)
+  change IsIso ((Spec.map (CommRingCat.ofHom (algebraMap A C))).residueFieldMap x)
   have : x.asIdeal.IsPrime := specPoint_asIdeal_isPrime _ _
   have : (Spec.map (CommRingCat.ofHom (algebraMap A C)) x).asIdeal.IsPrime :=
     specPoint_asIdeal_isPrime _ _
@@ -160,7 +160,7 @@ private lemma specMap_bot_comp (A B : Type u) [CommRing A] [CommRing B] [Algebra
     Scheme.Spec.map (CommRingCat.ofHom (algebraMap ↥(⊥ : Subalgebra A B) B)).op ≫
         Scheme.Spec.map (CommRingCat.ofHom (algebraMap A ↥(⊥ : Subalgebra A B))).op =
       Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op := by
-  show Spec.map (CommRingCat.ofHom (algebraMap ↥(⊥ : Subalgebra A B) B)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap ↥(⊥ : Subalgebra A B) B)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A ↥(⊥ : Subalgebra A B))) =
     Spec.map (CommRingCat.ofHom (algebraMap A B))
   rw [← Spec.map_comp]
@@ -266,12 +266,12 @@ private lemma exists_stage_identities {A : Type u} [CommRing A] {J : Type v} [Ca
       (fun g : {g // g ∈ t} => MvPolynomial.aeval b (R g)))
     (by
       rintro (m | g)
-      · show (c.ι.app i₀).hom (MvPolynomial.aeval b (P m)) =
+      · change (c.ι.app i₀).hom (MvPolynomial.aeval b (P m)) =
           (c.ι.app i₀).hom
             (MvPolynomial.aeval (fun l : {l : Fin n // l < d m} ↦ b l) (Q m))
         rw [MvPolynomial.comp_aeval_apply, MvPolynomial.comp_aeval_apply]
         simpa only [hb] using (hQ m).symm
-      · show (c.ι.app i₀).hom (g : F.obj i₀) =
+      · change (c.ι.app i₀).hom (g : F.obj i₀) =
           (c.ι.app i₀).hom (MvPolynomial.aeval b (R g))
         rw [MvPolynomial.comp_aeval_apply]
         simpa only [hb] using (hR g).symm)

@@ -235,7 +235,8 @@ variable {A₀ B₀ : Type u} [CommRing A₀] [CommRing B₀] [Algebra A₀ B₀
 
 /-- The trace of `1` in a free algebra with a basis indexed by `ι` is `#ι`. -/
 theorem trace_one_of_basis [Module.Finite A₀ B₀] [Module.Free A₀ B₀] {ι : Type*} [Fintype ι]
-    [DecidableEq ι] (b : Module.Basis ι A₀ B₀) : trace A₀ B₀ 1 = Fintype.card ι := by
+    (b : Module.Basis ι A₀ B₀) : trace A₀ B₀ 1 = Fintype.card ι := by
+  classical
   rw [trace, LinearMap.comp_apply, AlgHom.toLinearMap_apply, map_one,
     Stacks.Discriminant.finiteProjectiveTrace_eq_trace, Module.End.one_eq_id,
     LinearMap.trace_eq_matrix_trace A₀ b, LinearMap.toMatrix_id, Matrix.trace_one]

@@ -129,7 +129,7 @@ theorem representedAffineExtendScalarsComplexCompIso_hom_app
           (ComplexShape.up ℤ)).app M) := by
   rw [← CategoryTheory.Functor.map_comp]
   refine congrArg DerivedCategory.Q.map ?_
-  show (NatTrans.mapHomologicalComplex
+  change (NatTrans.mapHomologicalComplex
     (representedAffineExtendScalarsCompIso B S hS h g).hom
     (ComplexShape.up ℤ)).app M = _
   rw [representedAffineExtendScalarsCompIso, Iso.trans_hom, Iso.symm_hom, eqToIso.hom,

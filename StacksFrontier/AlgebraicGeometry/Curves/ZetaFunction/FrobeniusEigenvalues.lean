@@ -93,10 +93,10 @@ theorem roots_map_div_eq_of_coeff_symm (χ : K[X]) (hχ : χ.Monic) (q : K) (hq 
       field_simp
     rw [e1, Multiset.prod_map_mul, Multiset.map_const', Multiset.prod_replicate, hcard]
   have hpoly : (χ.roots.map fun b => C q - C b * X).prod = C (χ.coeff 0) * χ := by
-    refine eq_of_infinite_eval_eq _ _ ((Set.infinite_univ.diff (Set.finite_singleton 0)).mono ?_)
+    refine eq_of_infinite_eval_eq _ _ ((Set.infinite_univ.sdiff (Set.finite_singleton 0)).mono ?_)
     intro x hx
     have hx0 : x ≠ 0 := fun e => hx.2 e
-    rw [Set.mem_setOf_eq, hprod x hx0, eval_mul, eval_C]
+    rw [Set.mem_ofPred_eq, hprod x hx0, eval_mul, eval_C]
   have hfac : (χ.roots.map fun b => C q - C b * X).prod =
       C (χ.coeff 0) * (χ.roots.map fun b => X - C (q / b)).prod := by
     have e2 : (χ.roots.map fun b => C q - C b * X) =
@@ -146,14 +146,14 @@ theorem one_le_normWeight (x : Lˣ) (hx : IsIntegral ℤ (x : L)) : 1 ≤ normWe
     rintro rfl
     rw [map_zero] at hn
     exact (Algebra.norm_ne_zero_iff (R := ℚ)).mpr x.ne_zero hn.symm
-  show 1 ≤ |Algebra.norm ℚ (x : L)|
+  change 1 ≤ |Algebra.norm ℚ (x : L)|
   rw [← hn, algebraMap_int_eq, eq_intCast, ← Int.cast_abs, ← Int.cast_one, Int.cast_le]
   exact Int.one_le_abs hn0
 
 /-- A natural number `q > 1` that is nonzero in `L` has weight `|N_{L/ℚ}(q)| > 1`. -/
 theorem one_lt_normWeight_natCast (q : ℕ) (hq : 1 < q) (hq0 : ((q : L)) ≠ 0) :
     1 < normWeight L (Units.mk0 (q : L) hq0) := by
-  show 1 < |Algebra.norm ℚ (q : L)|
+  change 1 < |Algebra.norm ℚ (q : L)|
   rw [show (q : L) = algebraMap ℚ L q by simp, Algebra.norm_algebraMap, abs_pow,
     Nat.abs_cast]
   exact one_lt_pow₀ (by exact_mod_cast hq) Module.finrank_pos.ne'
@@ -344,7 +344,7 @@ theorem nextCoeff_eq_neg_sum_of_zeta (χ : ℚ[X]) (hχ : χ.Monic) (γ : ℕ)
   -- the trace
   rw [← nextCoeff_map (algebraMap ℚ K).injective,
     (IsAlgClosed.splits χK).nextCoeff_eq_neg_sum_roots_of_monic hχK]
-  show -T₀.sum = _
+  change -T₀.sum = _
   rw [← hST', neg_inj]
   rw [show (SI.val.map α).sum = ∑ i ∈ SI, α i from rfl, Finset.sum_filter_ne_zero]
 

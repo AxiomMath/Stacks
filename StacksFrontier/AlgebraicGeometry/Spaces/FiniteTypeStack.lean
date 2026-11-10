@@ -15,8 +15,8 @@ of the structure morphism — to the big fppf site of `S`.
 
 Conditions (1) and (2) are proved here; condition (3) and the assembled tag,
 `AlgebraicGeometry.finiteTypeSpacesProjection_isStack_of_bootstrap`, are in
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/VaryingBase/FiniteTypeEffective.lean`, which carries
-the tag. Conditions (1) and (2) are each the restriction of the corresponding condition
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/VaryingBase/FiniteTypeEffective.lean`, which
+carries the tag. Conditions (1) and (2) are each the restriction of the corresponding condition
 for all algebraic spaces, Stacks 04UA, to a full subcategory closed under strongly cartesian
 pullback: that closure is condition (1) of Stacks 04TU, so
 `CategoryTheory.Functor.isFibered_restrict_of_closed` gives condition (1), and the morphism

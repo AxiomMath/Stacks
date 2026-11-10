@@ -477,7 +477,7 @@ theorem derivedLowerShriekCompIso_eq_compOver
   have : QuasiSeparatedSpace jg.space := quasiSeparatedSpace_of_quasiSeparated jg.toBase
   have : QuasiCompact (f ≫ jg.immersion) := quasiCompact_of_compactSpace _
   let jX₀ := (nonempty_compactificationOf_comp_immersion f g jg).some
-  show derivedLowerShriekCompIsoThrough Λ f g jf jg j jX₀ = _
+  change derivedLowerShriekCompIsoThrough Λ f g jf jg j jX₀ = _
   exact (derivedLowerShriekCompIsoThrough_eq_of_hom Λ f g jf jg j
     (IsCofiltered.minToLeft jX₀ jX)).symm.trans
       (derivedLowerShriekCompIsoThrough_eq_of_hom Λ f g jf jg j (IsCofiltered.minToRight jX₀ jX))

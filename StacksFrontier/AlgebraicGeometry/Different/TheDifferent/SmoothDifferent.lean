@@ -156,7 +156,7 @@ theorem exists_chart_differentIdealSheaf_ideal_eq_span_det (y : Y) :
     letI : IsLocallyNoetherian X := isLocallyNoetherian_of_smoothOfRelativeDimension pX n
     letI : IsLocallyNoetherian Y := isLocallyNoetherian_of_smoothOfRelativeDimension (f ≫ pX) n
     letI : Flat f := flat_of_locallyQuasiFinite pX f n
-    ∃ (W : S.Opens) (hW : IsAffineOpen W) (U : X.affineOpens) (V : Y.affineOpens)
+    ∃ (W : S.Opens), IsAffineOpen W ∧ ∃ (U : X.affineOpens) (V : Y.affineOpens)
       (hUW : U.1 ≤ pX ⁻¹ᵁ W) (hVU : V.1 ≤ f ⁻¹ᵁ U.1) (hVW : V.1 ≤ (f ≫ pX) ⁻¹ᵁ W),
       y ∈ V.1 ∧
       letI := Stacks.Smooth.algebraAppLE pX hUW

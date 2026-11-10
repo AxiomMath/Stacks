@@ -101,7 +101,7 @@ theorem moduleSheafFunctor_map_moduleBarSummand_comp_restrictTransition {n m : S
     refine moduleBarPresheaf_map_single_barLabel_id M φ
       ((continuousInclusionTransition C φ).app V.unop) ?_ x
     apply ULift.ext
-    show (𝟙 n ≫ 𝟙 n) ≫ φ = φ ≫ 𝟙 m
+    change (𝟙 n ≫ 𝟙 n) ≫ φ = φ ≫ 𝟙 m
     simp
   | inr C =>
     apply Sheaf.hom_ext
@@ -127,7 +127,7 @@ theorem moduleSheafFunctor_map_moduleBarSummand_comp_restrictTransition {n m : S
           (barLabel (S := ⟨Sum.inr C⟩) (𝟙 n) ((C.underlying.map φ.op).toFunctor.obj U)) =
             barLabel (S := ⟨Sum.inr C⟩) φ U := by
       apply ULift.ext
-      show (𝟙 n ≫ 𝟙 n) ≫ φ = φ ≫ 𝟙 m
+      change (𝟙 n ≫ 𝟙 n) ≫ φ = φ ≫ 𝟙 m
       simp
     refine Eq.trans ?_ (Eq.trans (moduleBarPresheaf_map_single_barLabel_id M φ
       ((Grothendieck.ιNatTrans (F := C.underlying) φ.op).app U) hg x) ?_)

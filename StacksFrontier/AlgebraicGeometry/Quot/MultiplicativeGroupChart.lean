@@ -5,8 +5,7 @@ public import StacksFrontier.Algebra.Polynomial.Laurent
 public import StacksFrontier.AlgebraicGeometry.GroupScheme.Examples.Multiplicative
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Smooth.LocalizationAwayPolynomial
 public import StacksFrontier.AlgebraicGeometry.Topologies.Fppf
-public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupSpaces.Examples.MultiplicativeSmoothDimension
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupSpaces.Examples.MultiplicativeSmoothDimension
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -77,7 +76,7 @@ theorem surjective_multiplicativeGroupULift :
     simp [e, LaurentPolynomial.eval₂_C]
   have : Surjective (Spec.map (CommRingCat.ofHom e) ≫
       (multiplicativeGroupULift.{u} ↘ Spec (.of (ULift.{u} ℤ)))) := by
-    show Surjective (Spec.map (CommRingCat.ofHom e) ≫
+    change Surjective (Spec.map (CommRingCat.ofHom e) ≫
       Spec.map (CommRingCat.ofHom LaurentPolynomial.C))
     rw [← Spec.map_comp, he, Spec.map_id]
     infer_instance
@@ -183,7 +182,7 @@ theorem existsUnique_multiplicativeGroupChart_lift (c : BigFppfOver B S hS)
       (V ⟶ multiplicativeGroupChart c) := fun f =>
     Over.homMk ⟨f.left⟩ (by
       apply ObjectProperty.hom_ext
-      show f.left ≫ (multiplicativeGroupBaseChange X ↘ X) ≫ B.inclusion.map c.hom =
+      change f.left ≫ (multiplicativeGroupBaseChange X ↘ X) ≫ B.inclusion.map c.hom =
         B.inclusion.map V.hom
       exact (Category.assoc _ _ _).symm.trans
         ((congrArg (· ≫ B.inclusion.map c.hom) (Over.w f)).trans
@@ -195,7 +194,7 @@ theorem existsUnique_multiplicativeGroupChart_lift (c : BigFppfOver B S hS)
   rintro g ⟨hg, hga⟩
   let f : T ⟶ Scheme.asOver (multiplicativeGroupBaseChange X) X :=
     Over.homMk ((BigFppfOver.toScheme B S hS).map g) (by
-      show (BigFppfOver.toScheme B S hS).map g ≫
+      change (BigFppfOver.toScheme B S hS).map g ≫
         (BigFppfOver.toScheme B S hS).map (multiplicativeGroupChartHom c) = _
       rw [← Functor.map_comp, hg]
       rfl)

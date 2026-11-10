@@ -116,7 +116,7 @@ private theorem affineInclusion_isCoverDense :
       MorphismProperty.Comma.forget, Over.forget, Scheme.ProEt.mk]
   have hle : Scheme.zariskiPrecoverage ≤ Scheme.proetalePrecoverage := by
     rw [Scheme.proetalePrecoverage]
-    show Scheme.zariskiPrecoverage ≤
+    change Scheme.zariskiPrecoverage ≤
       (Scheme.qcPrecoverage ⊓ Scheme.precoverage @WeaklyEtale)
     refine le_inf Scheme.zariskiPrecoverage_le_qcPrecoverage ?_
     exact Scheme.precoverage_mono fun Y Z f hf => by infer_instance
@@ -126,13 +126,13 @@ private theorem affineInclusion_isCoverDense :
   refine (Scheme.ProEt.topology S).superset_covering ?_
     (Precoverage.generate_mem_toGrothendieck hE)
   apply (Sieve.generate_le_iff _ _).2
-  show Presieve.ofArrows E.X E.f ≤
+  change Presieve.ofArrows E.X E.f ≤
     (Sieve.coverByImage (AffineProetale.inclusion S) X).arrows
   rw [Presieve.ofArrows_le_iff]
   intro i
   exact Presieve.in_coverByImage (G := AffineProetale.inclusion S)
     (Y := ⟨E.X i, by
-      show IsAffine (X.left.affineCover.X i)
+      change IsAffine (X.left.affineCover.X i)
       infer_instance⟩) (E.f i)
 
 /-- A finite affine cover of an affine scheme is quasi-compact. -/
@@ -141,7 +141,7 @@ private theorem quasiCompactCover_affineCover {P : MorphismProperty Scheme.{u}}
     QuasiCompactCover V.cover.toPreZeroHypercover := by
   have hmapqc (i : V.I₀) : AlgebraicGeometry.QuasiCompact (V.cover.f i) := by
     have : IsAffine (V.cover.X i) := by
-      show IsAffine (Spec (V.X i))
+      change IsAffine (Spec (V.X i))
       infer_instance
     have : IsAffineHom (V.cover.f i) := isAffineHom_of_isAffine (V.cover.f i)
     infer_instance
@@ -178,7 +178,7 @@ private theorem AffineProetale.exists_isCovering_refines (X : AffineProetale S)
     ⟨(by
       let : WeaklyEtale (V.cover.f i) := V.cover.map_prop i
       exact Scheme.ProEt.mk (V.cover.f i ≫ (G.obj X).hom)), by
-      show IsAffine (Spec (V.X i))
+      change IsAffine (Spec (V.X i))
       infer_instance⟩
   let F : PreZeroHypercover X := {
     I₀ := V.I₀
@@ -217,8 +217,8 @@ private theorem affineInclusion_functorPullback_generate_mem {Y : S.ProEt} {R : 
     exact Precoverage.pullbackArrows_mem (q.map a) hE0
   obtain ⟨F, hF, hFQ⟩ := AffineProetale.exists_isCovering_refines S X _ hQ
   have ha : q.map a ≫ Y.hom = (G.obj X).hom := by
-    show a.left ≫ Y.hom = (G.obj X).hom
-    simpa [G] using a.w
+    change a.left ≫ Y.hom = (G.obj X).hom
+    simp [G]
   have hfactor : F.presieve₀ ≤ ((Sieve.generate R).pullback a).functorPullback G := by
     rw [Presieve.ofArrows_le_iff]
     intro i
@@ -228,7 +228,7 @@ private theorem affineInclusion_functorPullback_generate_mem {Y : S.ProEt} {R : 
     have hEhom : E0.f j ≫ Y.hom = (E.X j).hom := (E.f j).w
     let k : G.obj (F.X i) ⟶ E.X j :=
       MorphismProperty.Over.homMk (h ≫ pullback.fst (E0.f j) (q.map a)) (by
-        show (h ≫ pullback.fst (E0.f j) (q.map a)) ≫ (E.X j).hom = (G.obj (F.X i)).hom
+        change (h ≫ pullback.fst (E0.f j) (q.map a)) ≫ (E.X j).hom = (G.obj (F.X i)).hom
         calc (h ≫ pullback.fst (E0.f j) (q.map a)) ≫ (E.X j).hom
             = h ≫ (pullback.fst (E0.f j) (q.map a) ≫ E0.f j ≫ Y.hom) := by
               simpa only [hEhom] using
@@ -239,14 +239,14 @@ private theorem affineInclusion_functorPullback_generate_mem {Y : S.ProEt} {R : 
           _ = (h ≫ pullback.snd (E0.f j) (q.map a)) ≫ (G.obj X).hom :=
               (Category.assoc _ _ _).symm
           _ = (G.map (F.f i)).left ≫ (G.obj X).hom := congrArg (· ≫ (G.obj X).hom) hh'
-          _ = (G.obj (F.X i)).hom := by simpa [G] using (G.map (F.f i)).w)
+          _ = (G.obj (F.X i)).hom := by simp [G])
     have hcomp : k ≫ E.f j = G.map (F.f i) ≫ a := by
       apply q.map_injective
       simp only [Functor.map_comp]
-      show (h ≫ pullback.fst (E0.f j) (q.map a)) ≫ E0.f j = (G.map (F.f i)).left ≫ q.map a
+      change (h ≫ pullback.fst (E0.f j) (q.map a)) ≫ E0.f j = (G.map (F.f i)).left ≫ q.map a
       rw [Category.assoc, pullback.condition, ← Category.assoc, hh']
       rfl
-    show Sieve.generate R (G.map (F.f i) ≫ a)
+    change Sieve.generate R (G.map (F.f i) ≫ a)
     rw [← hcomp]
     simpa [hEq] using
       (Sieve.generate E.presieve₀).downward_closed (Sieve.le_generate E.presieve₀ _ _ ⟨j⟩) k

@@ -124,7 +124,7 @@ theorem gradedZeroRingHom_reesGradedHom (h : Ideal.map φ I = J) :
     (reesGradedHom φ I J h).gradedZeroRingHom.comp (reesGradingZeroEquiv I).toRingHom =
       (reesGradingZeroEquiv J).toRingHom.comp φ := by
   refine RingHom.ext fun r => Subtype.ext (Subtype.ext ?_)
-  show Polynomial.map φ ((algebraMap R (reesAlgebra I) r : Polynomial R)) =
+  change Polynomial.map φ ((algebraMap R (reesAlgebra I) r : Polynomial R)) =
     ((algebraMap S (reesAlgebra J) (φ r) : Polynomial S))
   simp
 
@@ -134,7 +134,7 @@ theorem map_reesGradedHom_comp_toSpec (h : Ideal.map φ I = J)
       (HomogeneousIdeal.irrelevant (reesGrading I)).map (reesGradedHom φ I J h)) :
     Proj.map (reesGradedHom φ I J h) hle ≫ toSpec I =
       toSpec J ≫ Spec.map (CommRingCat.ofHom φ) := by
-  show Proj.map (reesGradedHom φ I J h) hle ≫
+  change Proj.map (reesGradedHom φ I J h) hle ≫
       (Proj.toSpecZero (reesGrading I) ≫
         Spec.map (CommRingCat.ofHom (reesGradingZeroEquiv I).toRingHom)) =
     (Proj.toSpecZero (reesGrading J) ≫

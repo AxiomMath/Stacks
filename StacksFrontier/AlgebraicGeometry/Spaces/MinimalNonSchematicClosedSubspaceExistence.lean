@@ -13,7 +13,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SubfunctorSmall
 
 Let `X` be a quasi-compact and quasi-separated algebraic space over a scheme `S` which is not a
 scheme. Then `X` has a closed subspace `Z` which is not a scheme but all of whose proper closed
-subspaces are schemes. This is Stacks 0B7Y, and this file proves it outright. It is the companion of Stacks 0B7Z
+subspaces are schemes. This is Stacks 0B7Y, and this file proves it outright. It is the companion
+of Stacks 0B7Z
 (`StacksFrontier/AlgebraicGeometry/Spaces/MinimalNonSchematicSpace.lean`), whose hypotheses it
 produces.
 
@@ -155,7 +156,7 @@ private theorem not_isRepresentable_sInf_of_chain (hT : B.Contains (⊤_ Scheme.
   have hge : (⨅ i, Z i) ≤ sInf c := by
     refine le_sInf fun W hW => ?_
     have hZk : Z (equivShrink (↥c) ⟨W, hW⟩) = W := by
-      show ((equivShrink (↥c)).symm (equivShrink (↥c) ⟨W, hW⟩)).1 = W
+      change ((equivShrink (↥c)).symm (equivShrink (↥c) ⟨W, hW⟩)).1 = W
       rw [Equiv.symm_apply_apply]
     exact hZk ▸ iInf_le Z (equivShrink (↥c) ⟨W, hW⟩)
   have hci : ∀ {i j : (Shrink.{u} (↥c))ᵒᵖ} (f : i ⟶ j),

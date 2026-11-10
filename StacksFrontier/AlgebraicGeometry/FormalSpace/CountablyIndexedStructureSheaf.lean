@@ -110,7 +110,7 @@ theorem isThickening_stageι (n : ℕ) :
   have key : colimit.ι ((e ⋙ P.diagram) ⋙ BigAffineFppf.inclusion B S hS ⋙
       Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)) (ULift.up n) ≫ iso'.symm.hom =
       P.stageι n := by
-    show colimit.ι (e ⋙ G) (ULift.up n) ≫ (Functor.Final.colimitIso e G).hom ≫ P.iso.inv = _
+    change colimit.ι (e ⋙ G) (ULift.up n) ≫ (Functor.Final.colimitIso e G).hom ≫ P.iso.inv = _
     rw [← Category.assoc, Functor.Final.ι_colimitIso_hom]
     rfl
   exact key ▸ isThickening_colimitι B S hS (e ⋙ P.diagram)

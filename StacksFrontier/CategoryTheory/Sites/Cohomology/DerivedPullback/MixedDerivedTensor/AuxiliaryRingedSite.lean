@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.FactorizationThroughAnAuxiliaryTopos
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.FactorizationThroughAnAuxiliaryTopos
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.ExistenceOnARingedSite
 
 /-!

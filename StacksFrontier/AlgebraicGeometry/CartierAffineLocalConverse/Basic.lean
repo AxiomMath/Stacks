@@ -37,7 +37,8 @@ the biconditional, which carries the `@[stacks 01WS]` attribute.**
 The chart-by-chart route to the reverse direction goes through a trivialization of the ideal
 sheaf over each affine chart and then through the equivalence of invertibility with being finite
 locally free of rank one (Tag 0B8M). Its key step needs
-`set_option backward.isDefEq.respectTransparency false`, because it builds a `LocalGeneratorsData` out of an isomorphism `M.over V ≅ 𝒪|_V` —
+`set_option backward.isDefEq.respectTransparency false`, because it builds a `LocalGeneratorsData`
+out of an isomorphism `M.over V ≅ 𝒪|_V` —
 moving a module sheaf along `Scheme.Opens.ι`, a *load-bearing* use of that option:
 `Scheme.Modules.restrictAppIso` is `Iso.refl` and the
 restriction maps are `rfl`, but the module structure of `L|_P` acts through
@@ -126,7 +127,8 @@ biconditional, and
 `isEffectiveCartierDivisor_iff_isRegular` is it: same hypotheses (none beyond
 `I : X.IdealSheafData`), same quantifier `∀ x ∈ I.supportSet`, same `IsRegular f`.
 
-**What differs is the rendering of the source's `D ∩ U = Spec(A/fA)`.** A scheme-level rendering packages it as
+**What differs is the rendering of the source's `D ∩ U = Spec(A/fA)`.** A scheme-level rendering
+packages it as
 the data of an isomorphism `pullback I.subschemeι U.ι ≅ Spec (A ⧸ (f))` together with a
 compatibility square against the closed immersions; the statement here is the equation
 `I.ideal U = Ideal.span {f}` between ideals of `A = Γ(X, U)`. `I.ideal U` *is* the ideal cutting
@@ -492,7 +494,7 @@ theorem exists_affineOpen_ideal_eq_top (I : X.IdealSheafData) {x : X}
   have _ : IsLocalization.Away g Γ(X, X.basicOpen g) :=
     U.2.isLocalization_of_eq_basicOpen g (homOfLE hWU) rfl
   have hunit : IsUnit ((X.presheaf.map (homOfLE hWU).op).hom g) := by
-    show IsUnit (algebraMap Γ(X, U.1) Γ(X, X.basicOpen g) g)
+    change IsUnit (algebraMap Γ(X, U.1) Γ(X, X.basicOpen g) g)
     exact IsLocalization.Away.algebraMap_isUnit g
   rw [← I.map_ideal hWU]
   exact Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hgI) hunit

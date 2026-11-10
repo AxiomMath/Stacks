@@ -102,7 +102,7 @@ theorem isAffineSpace_of_isFiniteOrderThickening_pullback {U : (BigFppfOver B S 
     isAlgebraicSpace_pullback B S hS π (yoneda.map a) hU (isAlgebraicSpace_yoneda B S hS _)
       (isAlgebraicSpace_yoneda B S hS T)
   have h0 : IsAffineSpace B S hS (pullback π (yoneda.map (z 0))) := by
-    show IsAffineSpace B S hS
+    change IsAffineSpace B S hS
       (pullback π (yoneda.map (closedSubschemeOverι B S hS T (I ^ (0 + 1)))))
     rw [pow_one]
     let φ : T₀ ⟶ closedSubschemeOverObj B S hS T I :=

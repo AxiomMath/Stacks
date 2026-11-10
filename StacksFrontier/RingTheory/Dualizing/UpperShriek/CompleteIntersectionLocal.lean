@@ -93,7 +93,7 @@ private theorem isLocalizedModule_powers_of_restrictScalars
           (algebraMap A (Module.End A N)) (f g ^ n) y := by
       intro y
       simp only [Module.algebraMap_end_apply]
-      show f (x : R) • y = f g ^ n • y
+      change f (x : R) • y = f g ^ n • y
       rw [hx]
     refine ⟨fun y z hyz => h.1 ?_, fun y => ?_⟩
     · rw [← heq y, ← heq z]
@@ -105,7 +105,7 @@ private theorem isLocalizedModule_powers_of_restrictScalars
     obtain ⟨n, hn⟩ := s.2
     refine ⟨⟨m, ⟨g ^ n, n, rfl⟩⟩, ?_⟩
     have hfn : f (g ^ n) = (s : A) := by rw [map_pow]; exact hn
-    show f (g ^ n) • y = φ.hom m
+    change f (g ^ n) • y = φ.hom m
     rw [hfn]
     exact hs
   exists_of_eq {x₁ x₂} h := by
@@ -113,7 +113,7 @@ private theorem isLocalizedModule_powers_of_restrictScalars
     obtain ⟨n, hn⟩ := c.2
     refine ⟨⟨g ^ n, n, rfl⟩, ?_⟩
     have hfn : f (g ^ n) = (c : A) := by rw [map_pow]; exact hn
-    show f (g ^ n) • x₁ = f (g ^ n) • x₂
+    change f (g ^ n) • x₁ = f (g ^ n) • x₂
     rw [hfn]
     exact hc
 

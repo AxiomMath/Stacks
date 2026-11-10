@@ -126,7 +126,7 @@ theorem exists_iso_mappingCone_of_mor₃ (T : Triangle (DerivedCategory C)) (hT 
       (CochainComplex.mappingCone.triangle (-(γ⟦(-1 : ℤ)⟧')))).mor₁ ≫ j₂.hom =
       j₁.hom ≫ T.invRotate.mor₁ := by
     have h := DerivedCategory.Q.commShiftIso_hom_naturality γ (-1 : ℤ)
-    show DerivedCategory.Q.map (-(γ⟦(-1 : ℤ)⟧')) ≫
+    change DerivedCategory.Q.map (-(γ⟦(-1 : ℤ)⟧')) ≫
         ((DerivedCategory.Q.commShiftIso (-1 : ℤ)).hom.app B ≫ (e₁.hom)⟦(-1 : ℤ)⟧' ≫
           (shiftEquiv (DerivedCategory C) (1 : ℤ)).unitIso.inv.app T.obj₁) =
       ((DerivedCategory.Q.commShiftIso (-1 : ℤ)).hom.app A ≫ (e₃.hom)⟦(-1 : ℤ)⟧') ≫
@@ -158,7 +158,7 @@ theorem nonempty_mappingCone_zero_iso_biprod {Y : Scheme.{u}} (K L : CochainComp
   let T := DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle (0 : K ⟶ L))
   have hT : T ∈ distTriang _ := DerivedCategory.mappingCone_triangle_distinguished _
   have hz : T.rotate.mor₃ = 0 := by
-    show -(shiftFunctor _ (1 : ℤ)).map (DerivedCategory.Q.map (0 : K ⟶ L)) = 0
+    change -(shiftFunctor _ (1 : ℤ)).map (DerivedCategory.Q.map (0 : K ⟶ L)) = 0
     simp
   obtain ⟨e, -⟩ := exists_iso_binaryBiproduct_of_distTriang T.rotate (rot_of_distTriang _ hT) hz
   exact ⟨e ≪≫ biprod.mapIso (Iso.refl _) ((DerivedCategory.Q.commShiftIso (1 : ℤ)).app K).symm⟩
@@ -195,7 +195,7 @@ theorem exists_envelope_mappingCone_presentation (a : E₁ ⟶ E₂) (b : E₂ �
   have hT' : T ∈ distTriang _ := F.map_distinguished _ hT
   let e₁ : DerivedCategory.Q.obj B ≅ T.obj₁⟦(1 : ℤ)⟧ := eB ≪≫ (F.commShiftIso (1 : ℤ)).app E₁
   have w' : DerivedCategory.Q.map γ ≫ e₁.hom = eA.hom ≫ T.mor₃ := by
-    show DerivedCategory.Q.map γ ≫ eB.hom ≫ (F.commShiftIso (1 : ℤ)).hom.app E₁ =
+    change DerivedCategory.Q.map γ ≫ eB.hom ≫ (F.commShiftIso (1 : ℤ)).hom.app E₁ =
       eA.hom ≫ F.map c ≫ (F.commShiftIso (1 : ℤ)).hom.app E₁
     have := congrArg (· ≫ (F.commShiftIso (1 : ℤ)).hom.app E₁) w
     simp only [Category.assoc] at this
@@ -271,7 +271,7 @@ theorem hasDefinedChernClasses_triangle_of_mor₃ (C : ChowSituation.{u}) (sX : 
     {a : E₁ ⟶ E₂} {b : E₂ ⟶ E₃} {c : E₃ ⟶ E₁⟦(1 : ℤ)⟧} (hT : Triangle.mk a b c ∈ distTriang _)
     (hc : HasTriangleChernCondition c) :
     HasDefinedChernClasses E₁ ∧ HasDefinedChernClasses E₂ ∧ HasDefinedChernClasses E₃ :=
-  hasDefinedChernClasses_triangle C sX (Triangle.mk a b c) hT h₁ h₂ h₃
+  hasDefinedChernClasses_triangle C sX (Triangle.mk a b c) hT h₁ h₂
     (hc.of_mor₃ C sX h₁ h₃ hT)
 
 end Presentation
@@ -393,7 +393,7 @@ theorem totalLocalizedChern_triangle_cutoffMul_fst (hr : p₁ + p₃ ≤ r + 1) 
         (totalLocalizedChern (D := D.withObject E₃ p₃ h₃ r₃) d₃
           (D.isFiniteLocallyFreeOfRankLTOnComplement_withObject r₃))).1 n := by
   rw [localizedGradingCutoffMul_fst, totalLocalizedChern_fst,
-    perfectChernClass_triangle D.base D.a (Triangle.mk a b c) hT h₁ h₂ h₃ ha d₁ d₂ d₃,
+    perfectChernClass_triangle D.base D.a (Triangle.mk a b c) hT h₁ h₂ ha d₁ d₂ d₃,
     TotalChowClass.intComponent_mul]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [localizedGradingPush_totalLocalizedChern (D := D.withObject E₁ p₁ h₁ r₁) d₁
@@ -475,7 +475,7 @@ theorem totalLocalizedChern_snd_of_mappingCone {p₁ p₃ r : ℕ} (hr : p₁ + 
   refine Eq.trans ?_ (congrArg (fun x => x.2 n) hsum)
   have hq : (D.withObject E₂ r h₂ r₂).p ≤ n.1.toNat := by
     have := n.2
-    show r ≤ n.1.toNat
+    change r ≤ n.1.toNat
     omega
   obtain ⟨M₁, hM₁, ⟨e₁⟩⟩ := r₁
   obtain ⟨M₃, hM₃, ⟨e₃⟩⟩ := r₃
@@ -503,7 +503,7 @@ theorem totalLocalizedChern_snd_of_mappingCone {p₁ p₃ r : ℕ} (hr : p₁ + 
         i₃ ≪≫ e₃⟩⟩
   have hp : p₁ + p₃ ≤ D₂.p + 1 := by
     have := n.2
-    show p₁ + p₃ ≤ n.1.toNat + 1
+    change p₁ + p₃ ≤ n.1.toNat + 1
     omega
   let e₀ : (E₁ ⊞ E₃ : DerivedCategory D.X.Modules) ≅
       DerivedCategory.Q.obj (CochainComplex.mappingCone (C := D.X.Modules) (0 : P₃ ⟶ P₁)) :=

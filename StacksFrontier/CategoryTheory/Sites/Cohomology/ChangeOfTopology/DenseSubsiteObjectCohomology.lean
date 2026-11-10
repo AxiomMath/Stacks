@@ -62,8 +62,8 @@ vanishing.
 The vanishing is transported by `Stacks.CohomologyVanishing.subsingleton_ext_of_equivalence`,
 which crosses the two `Ext`-universes, and the object out of which `Ext` is taken is moved to its
 intended spelling by `Stacks.CohomologyVanishing.subsingleton_ext_of_iso_source` — exactly as in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DenseSubsiteSheafVanishingTransport.lean`, of which
-this file is the objectwise twin.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DenseSubsiteSheafVanishingTransport.lean`, of
+which this file is the objectwise twin.
 
 The two sites share their *morphism* universe. That is forced by the statement and not by the
 proof: `CategoryTheory.yoneda` on a category with morphisms in `Type a` takes values in presheaves

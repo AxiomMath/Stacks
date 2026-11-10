@@ -85,7 +85,7 @@ private lemma preservesColimitsOfShape_forget_commAlgCat
   have := preservesColimitsOfShape_forget_commRingCat.{u, v} J
   have : IsConnected J := IsFiltered.isConnected J
   have := preservesColimitsOfShape_forget₂_commAlgCat R J
-  show PreservesColimitsOfShape J
+  change PreservesColimitsOfShape J
     (forget₂ (CommAlgCat.{u} R) CommRingCat.{u} ⋙ forget CommRingCat.{u})
   infer_instance
 

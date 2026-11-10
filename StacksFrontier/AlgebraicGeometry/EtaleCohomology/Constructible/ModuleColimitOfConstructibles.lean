@@ -46,9 +46,9 @@ unconditionally;
 four statements under their binders.
 
 Part (2) of Stacks 03SA, for torsion abelian sheaves, is
-`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.LocalTorsionColimitOfConstructibles`,
-which reduces it to part (3) here.
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs` of the module
+`LocalTorsionColimitOfConstructibles` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible`, which reduces it to part (3) here.
 
 The reverse inclusion of Stacks 09YT — every constructible abelian sheaf has such a
 presentation — is not here either; what it needs is listed on

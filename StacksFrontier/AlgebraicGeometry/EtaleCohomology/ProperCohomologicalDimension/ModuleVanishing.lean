@@ -86,7 +86,7 @@ theorem isZero_rightDerived_etaleModuleDirectImage_of_abelian (Λ : Type r) [Com
     intro U x
     obtain ⟨n, hn, hn1⟩ := hΛ 1
     refine ⟨⊤, (S.smallEtaleTopology).top_mem U, fun V f _ ↦ ⟨n, hn, ?_⟩⟩
-    show n • (F.obj.map f.op x : F.obj.obj (Opposite.op V)) = 0
+    change n • (F.obj.map f.op x : F.obj.obj (Opposite.op V)) = 0
     rw [← Nat.cast_smul_eq_nsmul Λ, ← mul_one (n : Λ), hn1, zero_smul]
   have hac : ∀ I : EtaleModules.{u, r} Λ S, Injective I →
       (etaleAbelianDirectImage.{u, r} p).rightAcyclic

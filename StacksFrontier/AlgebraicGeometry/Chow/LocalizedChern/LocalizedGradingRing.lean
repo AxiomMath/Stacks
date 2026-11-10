@@ -473,12 +473,12 @@ theorem localizedGrading_one_fst_of_eq {i : {i : ℤ // i < ((1 : ℕ) : ℤ)}} 
     (1 : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf 1).1 i =
       bivariantClassDegreeCongr C _ sX sX (𝟙 X) (Category.id_comp sX) h.symm
         (bivariantIdentityClassOfInvertible C sX) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- The components of `1 ∈ A⁽¹⁾(Z ⟶ X)` in negative degrees vanish. -/
 theorem localizedGrading_one_fst_of_ne {i : {i : ℤ // i < ((1 : ℕ) : ℤ)}} (h : i.1 ≠ 0) :
     (1 : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf 1).1 i = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- The components of `1 ∈ A⁽¹⁾(Z ⟶ X)` in positive degrees vanish. -/
 theorem localizedGrading_one_snd (i : {i : ℤ // ((1 : ℕ) : ℤ) ≤ i}) :
@@ -818,6 +818,7 @@ theorem localizedGradingOpRingHom_apply {T : Scheme.{u}} (t : T ⟶ X) [LocallyO
 /-! ### Units -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the ring structure on `localizedBivariantGrading` (`map_sub`)
 /-- The operation of a difference is the difference of the operations. -/
 private theorem localizedGradingOp_sub {T : Scheme.{u}} (t : T ⟶ X) [LocallyOfFiniteType t]
     (a b : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf 1) (k : ℤ) (l : ℕ) :
@@ -864,6 +865,7 @@ theorem localizedGradingInv_fst
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the ring structure on `localizedBivariantGrading`
 /-- **An element `1 + c₁ + c₂ + ⋯` of `A⁽¹⁾(Z ⟶ X)` has `Stacks.Chow.localizedGradingInv` as a
 right inverse.** -/
 theorem localizedGrading_mul_inv
@@ -960,7 +962,7 @@ theorem isZero_derivedPullback_compl_of_supp_subset {X Z : Scheme.{u}} (i : Z �
     intro n x hx
     have hx' : x ∉ SheafOfModules.supp
         ((DerivedCategory.homologyFunctor X.Modules n).obj E) := fun h ↦ hx (hE n h)
-    simp only [SheafOfModules.supp, Set.mem_setOf_eq, not_exists, not_not] at hx'
+    simp only [SheafOfModules.supp, Set.mem_ofPred_eq, not_exists, not_not] at hx'
     refine (AddCommGrpCat.isZero_iff_subsingleton).2 ⟨fun a b ↦ ?_⟩
     rw [hx' a, hx' b]
   exact (Stacks.Cohomology.PushforwardRestriction.isZero_derived_restrict_compl_of_supported

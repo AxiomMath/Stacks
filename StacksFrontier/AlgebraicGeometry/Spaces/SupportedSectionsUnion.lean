@@ -101,7 +101,7 @@ theorem hasNoSectionsSupportedIn_of_iso
     HasNoSectionsSupportedIn B S hS X T M :=
   hasNoSectionsSupportedIn_of_injective T ψ.hom
     (fun W => by
-      letI : Mono ((SheafOfModules.forget _).mapIso ψ).hom :=
+      let : Mono ((SheafOfModules.forget _).mapIso ψ).hom :=
         @IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom _)
       exact PresheafOfModules.injective_of_mono ((SheafOfModules.forget _).mapIso ψ).hom
         (op W)) hN
@@ -334,7 +334,7 @@ theorem supportedSectionsSubmodule_union_eq (T W : Set (points B S hS F)) (hT : 
       supportedSectionsSubmodule B S hS F hF T G := by
   refine SheafOfModules.Submodule.ext (PresheafOfModules.Submodule.ext fun V =>
     Submodule.ext fun s => ?_)
-  show SectionSupportedIn B S hS F hF (T ∪ W) G V.unop s ↔
+  change SectionSupportedIn B S hS F hF (T ∪ W) G V.unop s ↔
     SectionSupportedIn B S hS F hF T G V.unop s
   refine ⟨fun hs => ?_, fun hs x hx => Or.inl (hs hx)⟩
   -- The open part of the chart lying outside the closed set `T`.

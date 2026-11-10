@@ -63,13 +63,13 @@ theorem hasPageInfinityAt_map {κ : Type*} {c : ℤ → ComplexShape κ} {r₀ :
     refine ⟨r, hr.1, fun r' hrr' => ?_⟩
     have := hr.2 r' hrr'
     refine ⟨E.le₀_of_hasEdgeMonoAt pq r', fun pq' => ?_⟩
-    show F.map ((E.page r' (E.le₀_of_hasEdgeMonoAt pq r')).d pq' pq) = 0
+    change F.map ((E.page r' (E.le₀_of_hasEdgeMonoAt pq r')).d pq' pq) = 0
     rw [E.d_eq_zero_of_hasEdgeMonoAt pq' pq r', F.map_zero]
   · obtain ⟨r, hr⟩ := E.nonempty_hasEdgeEpiSet pq
     refine ⟨r, hr.1, fun r' hrr' => ?_⟩
     have := hr.2 r' hrr'
     refine ⟨E.le₀_of_hasEdgeEpiAt pq r', fun pq' => ?_⟩
-    show F.map ((E.page r' (E.le₀_of_hasEdgeEpiAt pq r')).d pq pq') = 0
+    change F.map ((E.page r' (E.le₀_of_hasEdgeEpiAt pq r')).d pq pq') = 0
     rw [E.d_eq_zero_of_hasEdgeEpiAt pq pq' r', F.map_zero]
 
 /-- **Abutment is preserved by transport along an exact functor.** If the cohomological spectral

@@ -193,6 +193,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs more heartbeats
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out). -/
 local instance (priority := high) hasPullbacks_presheaf_PurityAscentSpecStalk :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance

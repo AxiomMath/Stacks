@@ -348,7 +348,7 @@ theorem pointwiseFactorisation_base (hk : n.base = k) :
     (pointwiseEqToHom_base P.groupoid.toGroupoidInFunctors ea).trans (eqToHom_refl W _)
   have hety : (eqToHom ety.symm).base = 𝟙 W :=
     (pointwiseEqToHom_base P.groupoid.toGroupoidInFunctors ety.symm).trans (eqToHom_refl W _)
-  show ((eqToHom ea).base ≫ (directArrowAt P.groupoid
+  change ((eqToHom ea).base ≫ (directArrowAt P.groupoid
       (⟨W, Discrete.mk r⟩ :
         (fibredCategory B S hS P.groupoid.arrows.obj).val.obj)).base ≫
       (eqToHom ety.symm).base) ≫ ((pointwiseObjectInclusion P.groupoid).map

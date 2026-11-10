@@ -93,7 +93,7 @@ theorem hasGlobalPresentation_pushforward
   have hunit : IsIso (SheafOfModules.unitToPushforwardObjUnit φ) := by
     have : IsIso ((sheafToPresheaf K AddCommGrpCat.{r}).map
         ((SheafOfModules.toSheaf S).map (SheafOfModules.unitToPushforwardObjUnit φ))) := by
-      show IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
+      change IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
       infer_instance
     have : IsIso ((SheafOfModules.toSheaf S).map
         (SheafOfModules.unitToPushforwardObjUnit φ)) :=

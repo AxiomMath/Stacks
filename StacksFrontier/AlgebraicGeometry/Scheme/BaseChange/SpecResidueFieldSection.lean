@@ -84,7 +84,7 @@ public def specResidueFieldSection {X S : Scheme.{u}} (f : X ⟶ S) {x : X} {s :
 public lemma specResidueFieldSection_apply {X S : Scheme.{u}} (f : X ⟶ S) {x : X} {s : S}
     (hfx : f x = s) (h : IsIso (f.residueFieldMap x)) (z : Spec (S.residueField s)) :
     specResidueFieldSection f hfx h z = x := by
-  show X.fromSpecResidueField x (Spec.map (inv (residueFieldSectionIso f hfx)) z) = x
+  change X.fromSpecResidueField x (Spec.map (inv (residueFieldSectionIso f hfx)) z) = x
   exact Scheme.fromSpecResidueField_apply x _
 
 /-- The section depends on the point only through the point itself: the hypotheses are
@@ -112,7 +112,7 @@ private theorem specResidueFieldSection_comp_hom {X D S : Scheme.{u}} (f : X ⟶
       Spec.map (a.residueFieldMap x ≫ inv (residueFieldSectionIso f hfx)) ≫
         D.fromSpecResidueField (a x) := by
   have := h
-  show Spec.map (inv (residueFieldSectionIso f hfx)) ≫ X.fromSpecResidueField x ≫ a = _
+  change Spec.map (inv (residueFieldSectionIso f hfx)) ≫ X.fromSpecResidueField x ≫ a = _
   rw [← Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField a x, ← Spec.map_comp_assoc]
 
 /-- **The section of a composite, followed by the first factor, is the section of the second
@@ -152,7 +152,7 @@ public theorem specResidueFieldSection_comp_self {X S : Scheme.{u}} (f : X ⟶ S
   have := h
   have hring : f.residueFieldMap x ≫ inv (residueFieldSectionIso f hfx) =
       (S.residueFieldCongr hfx).hom := by
-    show f.residueFieldMap x ≫ inv ((S.residueFieldCongr hfx).inv ≫ f.residueFieldMap x) = _
+    change f.residueFieldMap x ≫ inv ((S.residueFieldCongr hfx).inv ≫ f.residueFieldMap x) = _
     rw [IsIso.comp_inv_eq, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
   rw [specResidueFieldSection_comp_hom f f hfx h, hring]
   exact Scheme.residueFieldCongr_fromSpecResidueField hfx

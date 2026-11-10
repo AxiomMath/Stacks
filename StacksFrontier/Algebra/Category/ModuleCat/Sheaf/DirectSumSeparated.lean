@@ -178,7 +178,7 @@ theorem ungradedIncl_smul (n : ℤ) (U : Cᵒᵖ) (r : R.obj.obj U) (x : (A.piec
       A.toPresheafGradedAlgebra.structureMap U r * A.toPresheafGradedAlgebra.incl n x := by
     rw [A.toPresheafGradedAlgebra.incl_smul,
       A.toPresheafGradedAlgebra.smul_eq_structureMap_mul]
-  show A.toPresheafGradedAlgebra.totalUnit J U (A.toPresheafGradedAlgebra.incl n (r • x)) = _
+  change A.toPresheafGradedAlgebra.totalUnit J U (A.toPresheafGradedAlgebra.incl n (r • x)) = _
   rw [h1, map_mul]
   rfl
 

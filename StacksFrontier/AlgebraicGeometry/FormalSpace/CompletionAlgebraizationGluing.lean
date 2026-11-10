@@ -226,7 +226,7 @@ private theorem familyImageSieve_fromPreimage_mem
   obtain ⟨i, η, hη⟩ := hlift k hk
   have h1 := app_yonedaEquiv_eq_map (e i) k x.1 η hη
   have hmem : yonedaEquiv η ∈ (U.preimage (e i)).obj (op W') := by
-    show (e i).app _ (yonedaEquiv η) ∈ U.obj (op W')
+    change (e i).app _ (yonedaEquiv η) ∈ U.obj (op W')
     rw [h1]
     exact U.map k.op x.2
   exact ⟨i, ⟨yonedaEquiv η, hmem⟩, Subtype.ext h1⟩
@@ -478,7 +478,7 @@ theorem exists_move_section {i j : ι} {V : BigFppfOver B S hS} (a : (M i).left.
         (completionSubfunctorMap B S hS v.left (pointsMap B S hS Zo.left Zo.hom ⁻¹' T) _
           (image_preimage_subset_preimage_of_comp_eq B S hS (Over.w v) T) ≫
             label g hM γ i).app (op V) ⟨ULift.up (𝟙 V), hσ⟩ := by
-      show _ = (label g hM γ i).app (op V) ⟨ULift.up (ya.app (op V) (𝟙 V)), _⟩
+      change _ = (label g hM γ i).app (op V) ⟨ULift.up (ya.app (op V) (𝟙 V)), _⟩
       exact congrArg ((label g hM γ i).app (op V))
         (Subtype.ext (congrArg ULift.up (by rw [← yonedaEquiv_apply, Equiv.apply_symm_apply])))
     exact (e1.trans key').trans e2.symm
@@ -613,11 +613,11 @@ private theorem familyImageSieve_label_mem (V : BigFppfOver B S hS) (w : W.obj.o
       (completionSheafMap_hom_comp_completionSheafIsoSubfunctor_hom (hX i).isSheaf hY₀.isSheaf
         (e i) T)
     change ((completionSheafMap B S hS (e i) T).hom ≫ cY.hom).app (op W') c = _ at h2
-    show _ = ((completionSheafMap B S hS (e i) T).hom ≫ cY.hom).app (op W') c
+    change _ = ((completionSheafMap B S hS (e i) T).hom ≫ cY.hom).app (op W') c
     rw [h1, h2]
     apply Subtype.ext
     apply ULift.ext
-    show Y₀.map k.op xh.1.down = (e i).app _ (cX.hom.app (op W') c).1.down
+    change Y₀.map k.op xh.1.down = (e i).app _ (cX.hom.app (op W') c).1.down
     have h3 : cX.hom.app (op W') c = ⟨ULift.up (yonedaEquiv η), hc₀⟩ :=
       congrArg (fun φ => φ.app (op W') ⟨ULift.up (yonedaEquiv η), hc₀⟩) cX.inv_hom_id
     rw [h3]
@@ -628,7 +628,7 @@ private theorem familyImageSieve_label_mem (V : BigFppfOver B S hS) (w : W.obj.o
   obtain ⟨m, hm₁, -⟩ := Types.exists_of_isPullback hP (W.obj.map k.op w) c hcond
   refine ⟨i, (completionSheafIsoSubfunctor B S hS (X := ((Over.map (e i)).obj (M i)).left)
     (hM i).1.1.isSheaf _).hom.app (op W') m, ?_⟩
-  show (toWHom g (e i) (M i) (γ i)).hom.app (op W') (((completionSheafIsoSubfunctor B S hS
+  change (toWHom g (e i) (M i) (γ i)).hom.app (op W') (((completionSheafIsoSubfunctor B S hS
     (X := ((Over.map (e i)).obj (M i)).left) (hM i).1.1.isSheaf _).inv.app (op W'))
       (((completionSheafIsoSubfunctor B S hS (X := ((Over.map (e i)).obj (M i)).left)
         (hM i).1.1.isSheaf _).hom.app (op W')) m)) = _
@@ -690,9 +690,9 @@ theorem exists_completion_iso_of_cover
     rw [ObjectProperty.FullSubcategory.comp_hom, ← cancel_mono
       (completionSheafIsoSubfunctor B S hS hY₀.isSheaf T).hom, Category.assoc,
       completionSheafMap_hom_comp_completionSheafIsoSubfunctor_hom hF.isSheaf hY₀.isSheaf]
-    show e₀.hom ≫ _ = _
+    change e₀.hom ≫ _ = _
     simp only [e₀, Iso.trans_hom, Category.assoc]
-    show _ ≫ ψ ≫ _ = _
+    change _ ≫ ψ ≫ _ = _
     rw [hψg]
   exact ⟨F, ⟨⟨hF, isIso_glued g hT hY₀ hX hXnoeth he hM γ hγ hcov hW⟩,
     isLocallyOfFiniteType_glued g hT hY₀ hX hXnoeth he hM γ hγ hcov hW⟩,
@@ -705,6 +705,7 @@ end CompletionAlgebraization
 namespace CompletionAlgebraization
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over pullbacks of presheaves on the big fppf site needs the larger budget
 /-- **Essential surjectivity of the functor of Stacks 0AR5, from algebraizations over a
 covering.** Let `Y₀` be a locally Noetherian algebraic space, `T ⊆ |Y₀|` closed and
 `g : W ⟶ Y₀_{/T}` an object of the right-hand collection of Stacks 0AR5. If, over each member

@@ -72,7 +72,7 @@ theorem bijective_pi_val_app.{m, r, v', u'}
   have hqbij : Function.Bijective q := ConcreteCategory.bijective_of_isIso q
   have hval : ∀ (t : (∏ᶜ M).val.obj U) (i : ι), q t i = (Pi.π M i).val.app U t := by
     intro t i
-    show (Types.productIso fun j => E.obj (M j)).hom (piComparison E M t) i = _
+    change (Types.productIso fun j => E.obj (M j)).hom (piComparison E M t) i = _
     rw [Types.productIso_hom_comp_eval_apply]
     exact ConcreteCategory.congr_hom (piComparison_comp_π E M i) t
   refine ⟨fun t t' h => hqbij.injective (funext fun i => ?_), fun v => ?_⟩

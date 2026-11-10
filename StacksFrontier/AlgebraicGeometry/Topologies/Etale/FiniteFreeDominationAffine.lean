@@ -148,7 +148,7 @@ theorem exists_isFiniteLocallyFree_surjective_finite_openCover_lift
       (fun i ↦ Spec (CommRingCat.of (Localization.Away (c i))))
       (fun i ↦ Spec.map (CommRingCat.ofHom (algebraMap S' (Localization.Away (c i))))) hcovers,
       hι, fun i ↦ Spec.map (CommRingCat.ofHom (ψ i)) ≫ U.isoSpec.inv, fun i ↦ ?_⟩
-    show Spec.map (CommRingCat.ofHom (algebraMap S' (Localization.Away (c i)))) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap S' (Localization.Away (c i)))) ≫
         Spec.map (CommRingCat.ofHom (algebraMap ↑Γ(S, ⊤) S')) ≫ S.isoSpec.inv =
       (Spec.map (CommRingCat.ofHom (ψ i)) ≫ U.isoSpec.inv) ≫ f
     rw [Category.assoc, isoSpec_inv_comp, ← Spec.map_comp_assoc, ← Spec.map_comp_assoc]

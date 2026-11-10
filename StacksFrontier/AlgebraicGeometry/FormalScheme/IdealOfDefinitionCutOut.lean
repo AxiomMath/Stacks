@@ -71,7 +71,7 @@ theorem Scheme.eq_zero_of_forall_affine_res_eq_zero (T : Scheme.{u}) {W : T.Open
   refine TopCat.Presheaf.section_ext T.sheaf W x 0 fun y hy => ?_
   obtain ⟨W', hW'aff, hyW', hW'W⟩ :=
     (Opens.isBasis_iff_nbhd.mp T.isBasis_affineOpens) hy
-  show T.presheaf.germ W y hy x = T.presheaf.germ W y hy 0
+  change T.presheaf.germ W y hy x = T.presheaf.germ W y hy 0
   rw [map_zero, ← TopCat.Presheaf.germ_res_apply T.presheaf (homOfLE hW'W) y hyW' x,
     h ⟨W', hW'aff⟩ hW'W, map_zero]
 
@@ -102,7 +102,7 @@ theorem subschemeι_app_ofIdealTop_eq_zero {W : T.Opens} (x : Γ(T, W))
       at this
   have hnat := congrArg (fun φ => φ.hom x) (j.naturality (homOfLE hW'W).op)
   simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply] at hnat
-  show (Scheme.IdealSheafData.ofIdealTop 𝔞).subscheme.presheaf.germ _ z hz (j.app W x) =
+  change (Scheme.IdealSheafData.ofIdealTop 𝔞).subscheme.presheaf.germ _ z hz (j.app W x) =
     (Scheme.IdealSheafData.ofIdealTop 𝔞).subscheme.presheaf.germ _ z hz 0
   have hgerm := TopCat.Presheaf.germ_res_apply
     (Scheme.IdealSheafData.ofIdealTop 𝔞).subscheme.presheaf
@@ -214,11 +214,11 @@ theorem mem_ker_of_pow_ideal_le_of_kills {𝒜 : Opens X → Prop} {I K : IdealS
     refine eq_bot_iff.mpr ((Ideal.map_mono hn).trans ?_)
     refine Ideal.map_le_iff_le_comap.mpr fun t ht => ?_
     rw [Ideal.mem_comap, Ideal.mem_bot]
-    show T.presheaf.map (homOfLE htop).op ((f.toHom.c.app (op U)).1 t) = 0
+    change T.presheaf.map (homOfLE htop).op ((f.toHom.c.app (op U)).1 t) = 0
     rw [mem_ker_iff.mp (hKf U ht)]
     exact map_zero _
   refine mem_ker_of_subschemeι_kills hIc f hU hf 𝔞 h𝔞 (fun t ht => ?_) hs
-  show (Scheme.IdealSheafData.ofIdealTop 𝔞).subschemeι.app
+  change (Scheme.IdealSheafData.ofIdealTop 𝔞).subschemeι.app
     ((Opens.map f.toHom.base).obj U : T.Opens) ((f.toHom.c.app (op U)).1 t) = 0
   refine subschemeι_app_ofIdealTop_eq_zero 𝔞 _ fun W' hW' => ?_
   have hres : T.presheaf.map (homOfLE hW').op ((f.toHom.c.app (op U)).1 t) =

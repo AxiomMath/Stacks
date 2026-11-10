@@ -317,7 +317,7 @@ theorem card_le_of_height_eq (n : ℕ) {B : Type u} [CommRing B] [IsDomain B] [I
   have hg₁ : Ideal.comap g₁ (maximalIdeal V₁) = p := by
     rw [← Ideal.comap_comap]
     congr 1
-    exact Localization.AtPrime.comap_maximalIdeal
+    exact Localization.AtPrime.under_maximalIdeal
   have hg₁inj : Function.Injective g₁ :=
     (IsLocalization.injective V₁ P.primeCompl_le_nonZeroDivisors).comp hφC
   set ψ₁ := liftAtPrime g₁ p hg₁
@@ -364,7 +364,7 @@ theorem card_le_of_height_eq (n : ℕ) {B : Type u} [CommRing B] [IsDomain B] [I
     exact hf₀p hmem
   have htot : p.height + (maximalIdeal (C ⧸ p)).height ≤ n := hheight.trans hCle
   have hlift : ∀ k : ℕ∞, k ≤ n → ∃ a : ℕ, k = a := fun k hk =>
-    ⟨k.toNat, (ENat.coe_toNat (ne_top_of_le_ne_top (ENat.coe_ne_top n) hk)).symm⟩
+    ⟨k.toNat, (ENat.natCast_toNat (ne_top_of_le_ne_top (ENat.natCast_ne_top n) hk)).symm⟩
   obtain ⟨a₁, ha₁⟩ := hlift _ (le_self_add.trans htot)
   obtain ⟨b₁, hb₁⟩ := hlift _ (le_add_self.trans htot)
   rw [ha₁, hb₁] at htot
@@ -392,7 +392,8 @@ theorem card_le_height_maximalIdeal {B : Type u} [CommRing B] [IsDomain B] [IsNo
     (hx : MonomialIndependent (φ ∘ x)) :
     (Fintype.card ι : ℕ∞) ≤ (maximalIdeal B).height := by
   obtain ⟨n, hn⟩ : ∃ n : ℕ, (maximalIdeal B).height = n :=
-    ⟨_, (ENat.coe_toNat (Ideal.height_ne_top (IsLocalRing.maximalIdeal.isMaximal B).ne_top)).symm⟩
+    ⟨_, (ENat.natCast_toNat
+      (Ideal.height_ne_top (IsLocalRing.maximalIdeal.isMaximal B).ne_top)).symm⟩
   let e := Fintype.equivFin ι
   have h := card_le_of_height_eq n hn φ hφ inferInstance (x ∘ e.symm)
     (by

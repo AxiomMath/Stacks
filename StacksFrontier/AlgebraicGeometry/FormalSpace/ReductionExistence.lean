@@ -110,7 +110,7 @@ theorem isReduced_of_isLocallySurjective_siteReductionMap (T : BigFppfOver B S h
   have : Mono r := (BigFppfOver.toScheme B S hS).mono_of_mono_map inferInstance
   have : Mono (Y.map r) := by
     apply (sheafToPresheaf J (Type (u + 1))).mono_of_mono_map
-    show Mono (uliftYoneda.{u + 1}.map r)
+    change Mono (uliftYoneda.{u + 1}.map r)
     infer_instance
   have : Sheaf.IsLocallySurjective (Y.map r) := hs
   have : IsIso (Y.map r) := isIso_of_mono_of_epi _
@@ -194,9 +194,10 @@ theorem exists_map_from_coproduct
   let D := fun i => (V i).left.obj
   let W : BigFppfOver B S hS :=
     Over.mk (Y := B.obj hsize) (X := B.obj hS) ⟨Sigma.desc (fun i => (V i).hom.hom)⟩
-  let k (i : I) : V i ⟶ W := Over.homMk ⟨Sigma.ι D i⟩ (ObjectProperty.hom_ext _ (Sigma.ι_desc _ _))
+  let k (i : I) : V i ⟶ W :=
+    Over.homMk ⟨Sigma.ι D i⟩ (ObjectProperty.hom_ext _ (Sigma.ι_comp_desc _ _))
   have hk (i : I) : IsOpenImmersion (k i).left.hom := by
-    show IsOpenImmersion (Sigma.ι D i)
+    change IsOpenImmersion (Sigma.ι D i)
     infer_instance
   have hcov : ∀ w : W.left.obj, ∃ i, w ∈ Set.range (k i).left.hom :=
     (sigmaOpenCover D).exists_eq
@@ -243,7 +244,7 @@ theorem uliftYoneda_hom_ext_of_openCover (X : FppfSheaf B S hS)
     (y := (↾fun _ : PUnit.{u + 2} => uliftYonedaEquiv.{u + 1} b)) ?_) PUnit.unit
   intro i
   ext _
-  show X.obj.map (k i).op (uliftYonedaEquiv.{u + 1} a) =
+  change X.obj.map (k i).op (uliftYonedaEquiv.{u + 1} a) =
     X.obj.map (k i).op (uliftYonedaEquiv.{u + 1} b)
   rw [uliftYonedaEquiv_naturality.{u + 1} a (k i).op,
     uliftYonedaEquiv_naturality.{u + 1} b (k i).op]
@@ -462,10 +463,10 @@ theorem relative_etale_of_isPullback {X R Xi Rsp : FppfSheaf B S hS}
     hsq.map (sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1)))
   let : P.IsMultiplicative := {
     id_mem V := by
-      show Etale (𝟙 V.left.obj)
+      change Etale (𝟙 V.left.obj)
       infer_instance
     comp_mem a b ha hb := by
-      show Etale (a.left.hom ≫ b.left.hom)
+      change Etale (a.left.hom ≫ b.left.hom)
       have : Etale a.left.hom := ha
       have : Etale b.left.hom := hb
       infer_instance }
@@ -577,7 +578,7 @@ private theorem exists_lift_siteReductionMap_app
   refine ⟨(uliftYoneda.map l).app U z, ?_⟩
   have hmap : uliftYoneda.map l ≫ uliftYoneda.map r = hp.rep.fst k := by
     rw [← Functor.map_comp, hl, hb]
-  show ((uliftYoneda.{u + 1}.map l ≫ uliftYoneda.{u + 1}.map r).app U) z = x
+  change ((uliftYoneda.{u + 1}.map l ≫ uliftYoneda.{u + 1}.map r).app U) z = x
   rwa [hmap]
 
 /-- **An object of the site étale over a sheafified union of images of reduced objects is
@@ -664,12 +665,12 @@ theorem exists_etale_affine_chart {X Xi : FppfSheaf B S hS} (fi : Xi ⟶ X)
     Over.mk (Y := B.obj hOsize) (X := B.obj hS) (jO ≫ Ua.hom)
   let iA : A ⟶ Ua := Over.homMk jO
   have hiA : IsOpenImmersion iA.left.hom := by
-    show IsOpenImmersion (Scheme.Opens.ι O)
+    change IsOpenImmersion (Scheme.Opens.ι O)
     infer_instance
   have hAaff : IsAffine A.left.obj := hOaff
   refine ⟨A, iA ≫ ca, uliftYoneda.{u + 1}.map iA ≫ (t ≫ pullback.snd g fi.hom),
     hAaff, ?_, ?_, ?_⟩
-  · show Etale (iA.left.hom ≫ ca.left.hom)
+  · change Etale (iA.left.hom ≫ ca.left.hom)
     infer_instance
   · refine ⟨⟨ra.left.hom y', hx₀⟩, ?_⟩
     rw [← hy']
@@ -802,7 +803,7 @@ theorem exists_etale_atlas_of_pullback_thickening
     have : IsZariskiLocalAtSource (@Etale.{u}) :=
       HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u})
     refine IsZariskiLocalAtSource.of_openCover (P := @Etale.{u}) DW (fun x => ?_)
-    show Etale ((kk x).left.hom ≫ w.left.hom)
+    change Etale ((kk x).left.hom ≫ w.left.hom)
     rw [hkwh x]
     exact hcet x
   have hthchart : ∀ x : a.left.obj, ∃ (Vx : BigFppfOver B S hS)
@@ -1189,7 +1190,7 @@ theorem isAlgebraicSpaceULift_of_reduced_etale_cover
     have hafac : aa ≫ q = Sigma.desc (fun x : UR.left.obj => Y.map (pp x)) ≫ tR := by
       apply Sigma.hom_ext
       intro x
-      simp only [aa, Sigma.ι_desc_assoc, Y.map_comp, Category.assoc]
+      simp only [aa, Sigma.ι_comp_desc_assoc, Y.map_comp, Category.assoc]
       rw [show Y.map (kk x) ≫ q = gi (idx x) from hkq x]
       exact hfac (idx x)
     have : Presheaf.IsLocallySurjective J (aa ≫ q) := by rw [hafac]; infer_instance
@@ -1218,12 +1219,12 @@ theorem hasEtaleLocalPropertyULift_isReduced_uliftYoneda (T : BigFppfOver B S hS
   · apply relative_id_of_isomorphisms
     intro A C c hc
     have : IsIso c := hc
-    show Surjective ((BigFppfOver.toScheme B S hS).map c)
+    change Surjective ((BigFppfOver.toScheme B S hS).map c)
     infer_instance
   · apply relative_id_of_isomorphisms
     intro A C c hc
     have : IsIso c := hc
-    show Etale ((BigFppfOver.toScheme B S hS).map c)
+    change Etale ((BigFppfOver.toScheme B S hS).map c)
     infer_instance
 
 /-- **The preimage of the sheafified union of the images under one member of the family is the
@@ -1260,7 +1261,7 @@ private theorem preimage_sheafify_iSup_range_eq_range
     exact hsat i j (op V) x _ (hx.trans ((c j).hom.naturality_apply h.op y).symm)
   · rintro ⟨x, rfl⟩
     apply A.le_sheafify J
-    show ((r j ≫ c j).hom.app T) x ∈ A.obj T
+    change ((r j ≫ c j).hom.app T) x ∈ A.obj T
     exact (le_iSup (fun i => Subfunctor.range (r i ≫ c i).hom) j) T ⟨x, rfl⟩
 
 /-- A subobject whose preimage under a morphism is the image of a monomorphism makes the
@@ -1278,7 +1279,7 @@ private theorem isPullback_of_preimage_eq_range
       obtain ⟨t, rfl⟩ := hz
       have h := ConcreteCategory.congr_hom (congr_app hxy V') t
       change (x.app V' t).val = (c.app V') (y.app V' t) at h
-      show (c.app V') (y.app V' t) ∈ G.obj V'
+      change (c.app V') (y.app V' t) ∈ G.obj V'
       rw [← h]
       exact (x.app V' t).property
     let lift := Subfunctor.lift y hb ≫ inv (Subfunctor.toRange r)
@@ -1357,7 +1358,7 @@ theorem exists_isReduction_of_isFormalAlgebraicSpace
     exact hpre.of_map (sheafToPresheaf J (Type (u + 1))) (hk i)
   have hcoverR : Sheaf.IsLocallySurjective (Sigma.desc k) := by
     refine ⟨fun {T} x => ?_⟩
-    show Presheaf.imageSieve (Sigma.desc k).hom x ∈ J T
+    change Presheaf.imageSieve (Sigma.desc k).hom x ∈ J T
     apply J.superset_covering ?_ x.property
     intro V h hh
     change X.obj.map h.op x.val ∈ A.obj (op V) at hh
@@ -1366,11 +1367,11 @@ theorem exists_isReduction_of_isFormalAlgebraicSpace
     refine ⟨(Sigma.ι (fun i => Rsp i) i).hom.app (op V) y, ?_⟩
     apply Subtype.ext
     have he : Sigma.ι (fun i => Rsp i) i ≫ Sigma.desc k ≫ ι = jj i ≫ f i := by
-      rw [Sigma.ι_desc_assoc, hk]
+      rw [Sigma.ι_comp_desc_assoc, hk]
     exact (ConcreteCategory.congr_hom
       (congr_app (congrArg (fun t : Rsp i ⟶ X => t.hom) he) (op V)) y).trans hy
   have hιmonoP : Mono ι.hom := by
-    show Mono (A.sheafify J).ι
+    change Mono (A.sheafify J).ι
     infer_instance
   have hιthick : Space.IsRepresentableThickeningULift.{u + 1} B S hS ι.hom :=
     isRepresentableThickeningULift_of_isPullback_etale_cover B S hS ι hιmonoP

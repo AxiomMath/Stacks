@@ -109,7 +109,7 @@ theorem chartPresentation_C (r : R) :
         (subschemeChart i j) le_top := by
     rw [← i.appLE_eq_app]
     exact Scheme.Hom.appLE_comp_appLE i _ _ _ _ _ _
-  show (i.app _).hom (sectionsChartEquiv R j (MvPolynomial.C r)) = _
+  change (i.app _).hom (sectionsChartEquiv R j (MvPolynomial.C r)) = _
   rw [sectionsChartEquiv_C, ← key]
   rfl
 

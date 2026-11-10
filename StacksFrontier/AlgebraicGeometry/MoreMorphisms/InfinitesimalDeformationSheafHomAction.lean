@@ -639,6 +639,7 @@ variable {S X X' Y Y' : Scheme.{u}} {i : X ⟶ X'} {j : Y ⟶ Y'} {a : X ⟶ Y}
   {hsq : i.ker ^ 2 = ⊥} {pY' : Y' ⟶ S} {cb : i ∣_ V ≫ b = ((i ⁻¹ᵁ V).ι ≫ a) ≫ j}
   {θ : deformationHomSections i a (j ≫ pY') V}
 
+omit [IsImmersion j] in
 /-- **`θ ⬝ b` and `b` have the same comorphism on the defining ideal of `j`**, because the
 perturbation is `θ` applied to the universal differential of a section killed by `j^♯`. -/
 theorem homSectionAct_appLE_of_app_eq_zero {U : V.toScheme.Opens} {W : Y'.Opens}

@@ -376,7 +376,7 @@ abbrev completedPrimeRetraction (hp : p ≠ 0) :
 linear maps, so the uncompleted retraction completes to a retraction. -/
 theorem completedPrimeRetraction_comp_completedToPrimeRing (hp : p ≠ 0) :
     (completedPrimeRetraction B p lam hp) ∘ₗ (completedToPrimeRing B p lam) = LinearMap.id := by
-  show (AdicCompletion.map (pAdicIdeal (A := (B : Type u)) p) (primeRetraction B p lam hp)) ∘ₗ
+  change (AdicCompletion.map (pAdicIdeal (A := (B : Type u)) p) (primeRetraction B p lam hp)) ∘ₗ
       (AdicCompletion.map (pAdicIdeal (A := (B : Type u)) p)
         (Algebra.linearMap (B : Type u) (primeRing B p lam))) = LinearMap.id
   rw [AdicCompletion.map_comp, primeRetraction_comp, AdicCompletion.map_id]

@@ -100,7 +100,7 @@ theorem exists_integral_surjective_extension_isOpenImmersion {S : Scheme.{u}} (U
           rw [Category.assoc, pullback.condition]
       _ = f ≫ U.ι := by rw [← Category.assoc, hw]
   · rw [Scheme.Hom.comp_base]
-    show Set.range ((pullback.fst a U.ι).base ∘ e.hom.left.base) = _
+    change Set.range ((pullback.fst a U.ι).base ∘ e.hom.left.base) = _
     rw [Set.range_comp, Set.range_eq_univ.mpr hsurj, Set.image_univ,
       IsOpenImmersion.range_pullbackFst, Scheme.Opens.opensRange_ι]
 

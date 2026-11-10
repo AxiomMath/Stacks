@@ -104,7 +104,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 -- Mathlib's instance deriving `HasBinaryProduct (G.obj X) (G.obj Y)` from a preserved
 -- product sends the search for `ringSheaf R ⨯ ringSheaf R` into `Sheaf J RingCat`, where it
 -- times out.
-attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+attribute [-instance]
+  CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
 
 /-- The square of the underlying sheaf of sets of a sheaf of rings. -/
 noncomputable abbrev ringSq : Sheaf J (Type w) := Sheaf.ringSheaf R ⨯ Sheaf.ringSheaf R
@@ -223,8 +224,7 @@ end Desc
 section Condition
 
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget RingCat.{u})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] (O : Sheaf J CommRingCat.{u})
+  [J.HasSheafCompose (forget RingCat.{u})] (O : Sheaf J CommRingCat.{u})
 
 /-- A section of the square of the structure sheaf is in the image of some component of the
 local-unit map exactly when its second coordinate restricts to a multiple of the restriction of

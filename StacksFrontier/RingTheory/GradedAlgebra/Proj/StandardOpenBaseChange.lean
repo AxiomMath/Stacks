@@ -316,8 +316,7 @@ private lemma awayNumeratorBaseChangeMap_mul_pow
     awayNumeratorBaseChangeMap (R' := R') 𝒜 f d n hf q =
       awayNumeratorBaseChangeMap (R' := R') 𝒜 f d (n + m) hf
         ((multiplyPowMap 𝒜 f d n m hf).baseChange R' q) := by
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | tmul r x =>
       simp only [awayNumeratorBaseChangeMap, LinearMap.baseChange_tmul]
       congr 1
@@ -331,9 +330,7 @@ private lemma awayNumeratorBaseChangeMap_surjective
       ∃ (n : ℕ) (q : R' ⊗[R] 𝒜 (n • d)),
         awayNumeratorBaseChangeMap 𝒜 f d n hf q = z := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact ⟨0, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul r x =>
       obtain ⟨n, a, ha, rfl⟩ := Away.mk_surjective 𝒜 hf x
       exact ⟨n, r ⊗ₜ[R] (⟨a, ha⟩ : 𝒜 (n • d)), rfl⟩
@@ -377,10 +374,7 @@ private lemma awayBaseChangeAlgHom_numerator
   let 𝓑 := fun i ↦ (𝒜 i).baseChange R'
   let ψ := gradedBaseChangeMap (R' := R') 𝒜
   have hfB : ψ f ∈ 𝓑 d := ψ.map_mem hf
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      simp only [map_zero]
-      exact (awayMk_zero 𝓑 (ψ f) d n hfB).symm
+  induction q using TensorProduct.inductionOn with
   | tmul r x =>
       simp only [awayNumeratorBaseChangeMap, LinearMap.baseChange_tmul]
       rw [awayBaseChangeAlgHom_tmul]
@@ -428,8 +422,7 @@ private lemma baseChange_eq_zero_of_mul_pow
         (gradedBaseChangeMap (R' := R') 𝒜 f) ^ m *
           (((𝒜 i).toBaseChange R' q : (𝒜 i).baseChange R') : R' ⊗[R] A) := by
     intro q
-    induction q using TensorProduct.induction_on with
-    | zero => simp
+    induction q using TensorProduct.inductionOn with
     | tmul r x =>
         simp only [LinearMap.baseChange_tmul, Submodule.coe_toBaseChange_tmul, hφ]
         change (r ⊗ₜ[R] ((x : A) * f ^ m)) =
@@ -663,8 +656,7 @@ private lemma twistFullBaseChangeMap_mem
   let 𝓑 := fun i ↦ (𝒜 i).baseChange R'
   let ψ := gradedBaseChangeMap (R' := R') 𝒜
   have hfB : ψ f ∈ 𝓑 d := ψ.map_mem hf
-  induction z using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using (twistAway 𝓑 (ψ f) d n).zero_mem
+  induction z using TensorProduct.inductionOn with
   | tmul r x =>
       rw [twistFullBaseChangeMap_tmul]
       let y : twistAway 𝓑 (ψ f) d n :=
@@ -810,10 +802,7 @@ private lemma twistBaseChangeLinearMap_numerator
           Submonoid.pow_mem _
             (Submonoid.mem_powers (gradedBaseChangeMap (R' := R') 𝒜 f)) k⟩ := by
   let ψ := gradedBaseChangeMap (R' := R') 𝒜
-  induction q using TensorProduct.induction_on with
-  | zero =>
-      simp only [map_zero, Submodule.coe_zero]
-      exact (Localization.mk_zero _).symm
+  induction q using TensorProduct.inductionOn with
   | tmul r x =>
       simp only [twistNumeratorBaseChangeMap, LinearMap.baseChange_tmul,
         Submodule.coe_toBaseChange_tmul]
@@ -875,8 +864,7 @@ private lemma twistNumeratorBaseChangeMap_mul_pow
       twistNumeratorBaseChangeMap 𝒜 f d n (k + m) (e + m * d)
         (twistIndex_step d n k e m he)
         ((twistMultiplyPowMap 𝒜 f d e m hf).baseChange R' q) := by
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | tmul r x =>
       simp only [twistNumeratorBaseChangeMap, LinearMap.baseChange_tmul]
       congr 1
@@ -893,10 +881,7 @@ private lemma twistNumeratorBaseChangeMap_surjective
         (q : R' ⊗[R] 𝒜 e),
         twistNumeratorBaseChangeMap 𝒜 f d n k e he q = z := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      obtain ⟨k, e, he⟩ := exists_twist_index d hd n
-      exact ⟨k, e, he, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul r x =>
       obtain ⟨k, e, a, he, ha, hx⟩ :=
         twistAway_fraction_surjective 𝒜 f d hf hd n x

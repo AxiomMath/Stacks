@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AdicSystemsOnComplement
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.GlobalProperOverCompleteLocal
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.NonAlgebraizableAlgebraizing
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.NonAlgebraizableExample
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.NonAlgebraizableExample
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CoherentAdicInvertible
 
 /-!

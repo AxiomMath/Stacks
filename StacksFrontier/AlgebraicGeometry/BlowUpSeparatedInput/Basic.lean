@@ -17,7 +17,8 @@ Separatedness of the structure morphism is proved elsewhere in the library only 
 separate notion `Stacks.AlgebraicGeometry.RelativeProj.RelativeProjData`
 (`Stacks.AlgebraicGeometry.RelativeProjSeparated.isSeparated_toBase`), which is a different
 constant from `Stacks.RelativeProj.Situation.relativeProjToBase`, the one the blowup is built
-from; the two are not bridged. The argument here is the same one, run over the situation's own charts.
+from; the two are not bridged. The argument here is the same one, run over the situation's own
+charts.
 
 ## Main results
 

@@ -156,7 +156,7 @@ theorem exists_open_restriction_square (hp : p.IsFiberedInGroupoids) {x Y : F} (
   have hfS := toScheme_map_comp_inclusion_map_hom B S hS p f
   let g : P ⟶ W := Over.homMk (ObjectProperty.homMk (f₀ ∣_ O)) (by
     apply ObjectProperty.hom_ext
-    show (f₀ ∣_ O) ≫ O.ι ≫ B.inclusion.map (p.obj Y).hom =
+    change (f₀ ∣_ O) ≫ O.ι ≫ B.inclusion.map (p.obj Y).hom =
       Pop.ι ≫ B.inclusion.map (p.obj x).hom
     rw [← Category.assoc, morphismRestrict_ι, Category.assoc, hfS])
   have hsq : ta ≫ p.map f = g ≫ j := by
@@ -224,7 +224,7 @@ theorem exists_seq_of_mem_closure (X : Scheme.{u}) [IsNoetherian X] {E : Set X} 
     (⟨closure E, isClosed_closure⟩ : TopologicalSpace.Closeds X)
   let ι := I.subschemeι
   have hrange : Set.range ι.base = closure E := by
-    show Set.range I.subschemeι = _
+    change Set.range I.subschemeι = _
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl
   have : IsLocallyNoetherian I.subscheme := LocallyOfFiniteType.isLocallyNoetherian ι
@@ -338,7 +338,7 @@ theorem exists_open_isVersalAt_of_faithful_of_isAffine (hp : p.IsFiberedInGroupo
     let j₁ := V.map (p.map (fromX (n + 1)))
     let j₂ := V.map (p.map (fromX (n + 2)))
     have hj : j₂ = j₁ ≫ i := by
-      show V.map (p.map (fromX (n + 2))) = _
+      change V.map (p.map (fromX (n + 2))) = _
       rw [hfromS (n + 1), Functor.map_comp, Functor.map_comp]
     have h₁ : IsHomeomorph j₁.base := by
       have := (hthick n).1
@@ -352,7 +352,7 @@ theorem exists_open_isVersalAt_of_faithful_of_isAffine (hp : p.IsFiberedInGroupo
       funext y
       have hy : j₁.base (e.symm y) = y := e.apply_symm_apply y
       conv_lhs => rw [← hy]
-      show (j₁ ≫ i).base (e.symm y) = _
+      change (j₁ ≫ i).base (e.symm y) = _
       rw [← hj]
       rfl
     exact isClosedImmersion_of_epi_unitToPushforwardObjUnit
@@ -379,7 +379,7 @@ theorem exists_open_isVersalAt_of_faithful_of_isAffine (hp : p.IsFiberedInGroupo
     (fromX (n + 1)) ((V.map (p.map (ι n ≫ e))) ⁻¹ᵁ O')
   have hmem : (V.map (p.map (fromX (n + 1)))).base (v n) ∈
       (V.map (p.map (ι n ≫ e))) ⁻¹ᵁ O' := by
-    show (V.map (p.map (ι n ≫ e))).base ((V.map (p.map (fromX (n + 1)))).base (v n)) ∈ O'
+    change (V.map (p.map (ι n ≫ e))).base ((V.map (p.map (fromX (n + 1)))).base (v n)) ∈ O'
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, ← Functor.map_comp, ← Category.assoc,
       hcomp n]
     exact hmO
@@ -462,7 +462,7 @@ theorem isOpenVersality_of_faithful (hp : p.IsFiberedInGroupoids) [p.Faithful]
       (by simp only [schemeMap, eqToHom_refl, Category.id_comp, Category.comp_id]; rfl) t ?_ ?_
     · rw [hGaff.range_fromSpec]
       rintro _ ⟨k, rfl⟩
-      show fS.base (((q.obj x).left.fromSpecResidueField (jρ.base t)).base k) ∈ G
+      change fS.base (((q.obj x).left.fromSpecResidueField (jρ.base t)).base k) ∈ G
       have hk : ((q.obj x).left.fromSpecResidueField (jρ.base t)).base k = jρ.base t := by
         have := Scheme.range_fromSpecResidueField (X := (q.obj x).left) (jρ.base t)
         exact (Set.ext_iff.mp this _).mp ⟨k, rfl⟩
@@ -470,7 +470,7 @@ theorem isOpenVersality_of_faithful (hp : p.IsFiberedInGroupoids) [p.Faithful]
       exact hU₁G (hjρU t)
     · rw [hGaff.range_fromSpec]
       rintro _ ⟨k, rfl⟩
-      show (B.inclusion.map (p.obj x₁).hom).base
+      change (B.inclusion.map (p.obj x₁).hom).base
         (((q.obj x₁).left.fromSpecResidueField t).base k) ∈ G
       exact hx₁G ⟨_, rfl⟩
   obtain ⟨u₀', hu₀'⟩ : u₀ ∈ Set.range jρ.base := hrange₁ ▸ hu₀U₁

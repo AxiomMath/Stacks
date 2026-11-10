@@ -95,6 +95,7 @@ map out of a morphism group. -/
 noncomputable def coyonedaCofanInj (a : α) : (yonedaObjK B ⟶ M a) →+ t.pt :=
   ConcreteCategory.hom (C := AddCommGrpCat) (t.inj a)
 
+omit [DecidableEq α] in
 /-- `DGCategory.RightModule.coyonedaCofanInj` evaluates as the `a`-th inclusion of the cofan. -/
 @[simp] theorem coyonedaCofanInj_apply (a : α) (g : yonedaObjK B ⟶ M a) :
     coyonedaCofanInj B M t a g = t.inj a g :=
@@ -158,11 +159,13 @@ noncomputable def isColimitCoyonedaCoprodCofan :
             congrArg (coyonedaCoprodDescHom B M t) he.symm
     exact DFunLike.congr_fun key x
 
+omit [DecidableEq α] in
 /-- The corepresented functor of a representable module preserves the coproduct of a family of
 right differential graded modules. -/
 theorem preservesColimit_discreteFunctor_coyoneda :
-    PreservesColimit (Discrete.functor M) (preadditiveCoyoneda.obj (op (yonedaObjK B))) :=
-  preservesColimit_of_preserves_colimit_cocone (isColimitCoprodCofan M)
+    PreservesColimit (Discrete.functor M) (preadditiveCoyoneda.obj (op (yonedaObjK B))) := by
+  classical
+  exact preservesColimit_of_preserves_colimit_cocone (isColimitCoprodCofan M)
     ((isColimitMapCoconeCofanMkEquiv (preadditiveCoyoneda.obj (op (yonedaObjK B))) M
       (coprodCofan M).inj).symm (isColimitCoyonedaCoprodCofan B M))
 

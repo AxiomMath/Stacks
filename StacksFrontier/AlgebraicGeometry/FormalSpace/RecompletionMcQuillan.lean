@@ -103,7 +103,7 @@ private theorem isClosedImmersionInto_of_isIso {X Y : FppfSheaf B S hS} (g : X â
   have : IsIso ((Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map snd) :=
     hpb.isIso_snd_of_isIso
   have : IsIso snd := ff.isIso_of_isIso_map snd
-  show _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- A closed immersion of an object of the site into the completion of `Y` along `W` composes

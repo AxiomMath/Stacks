@@ -112,7 +112,7 @@ public theorem LAdicSheaf.pow_smul_eq_zero_of_stalkLevelLimitMap_eq_zero (M : �
     (ℓ ^ M : ℤ_[ℓ]) • v = 0 := by
   rw [stalkLevelLimitMap_eq_iff] at hv
   refine Subtype.ext (funext fun n => ?_)
-  show (ℓ ^ M : ℤ_[ℓ]) • v.1 n = 0
+  change (ℓ ^ M : ℤ_[ℓ]) • v.1 n = 0
   refine hM n _ ((hv n).trans (funext fun i => ?_))
   simp
 

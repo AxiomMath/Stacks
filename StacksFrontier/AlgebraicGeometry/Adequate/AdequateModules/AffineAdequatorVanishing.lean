@@ -272,8 +272,8 @@ public theorem subsingleton_ext_siteModuleFunctors_of_moduleExtension
     (AdequateFunctor.presheafOfModulesUliftIso.{u, u} _ Y).symm ≪≫ e
   let c : cokernel (E.map f) ≅ E.obj (cokernel f) := (PreservesCokernel.iso E f).symm
   have hc : cokernel.π (E.map f) ≫ c.hom = E.map (cokernel.π f) := by simp [c]
-  haveI hcm : Mono c.hom := IsIso.mono_of_iso _
-  haveI hck : HasKernel (cokernel.π (E.map f)) := HasKernels.has_limit _
+  have hcm : Mono c.hom := IsIso.mono_of_iso _
+  have hck : HasKernel (cokernel.π (E.map f)) := HasKernels.has_limit _
   have hker : AdequateFunctor.IsAdequate ι (kernel (E.map f)) :=
     ⟨M, N, f, ⟨AdequateFunctor.presheafOfModulesUliftIso.{u, u} _ _⟩⟩
   have him : AdequateFunctor.IsAdequate ι (kernel (cokernel.π (E.map f))) :=

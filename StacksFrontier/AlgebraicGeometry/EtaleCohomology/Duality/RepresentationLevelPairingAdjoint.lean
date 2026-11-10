@@ -161,7 +161,7 @@ theorem representationLevelEtalePairing_adjoint (A : Matrix (Fin r) (Fin r) ℤ_
       (contragredient ρ₀) (continuous_contragredient hρ₀) n Aᵀ (transpose_mul_contragredient hA),
     whiskerLeft_comp_assoc]
 
-variable {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k))
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f))
 
 /-- **`ℱ_A` and `ℱ_{Aᵀ}` are adjoint for the coefficient pairing of Poincaré duality on `X̄`**
@@ -178,7 +178,6 @@ theorem LAdicSheaf.representationCurveLevelPairing_adjoint (A : Matrix (Fin r) (
             (continuous_contragredient hρ₀) (continuous_contragredient hρ₀) Aᵀ
             (transpose_mul_contragredient hA)) n) ≫
         LAdicSheaf.representationCurveLevelPairing B X x ρ₀ hρ₀ n f j :=
-  haveI := Fintype.ofFinite k
   LAdicSheaf.representationCurveLevelPairing_whisker B X x ρ₀ hρ₀ n f j _ _
     (representationLevelEtalePairing_adjoint B X x ρ₀ hρ₀ n A hA)
 

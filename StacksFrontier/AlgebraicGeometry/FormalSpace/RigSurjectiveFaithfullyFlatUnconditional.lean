@@ -55,7 +55,7 @@ theorem map_ne_bot_of_not_map_le {A L R : Type*} [CommRing A] [CommRing L] [Comm
     (hI : ¬ I.map φ ≤ q) : I.map ((b.comp (Ideal.Quotient.mk q)).comp φ) ≠ ⊥ := by
   intro hbot
   refine hI (Ideal.map_le_iff_le_comap.mpr fun z hz => ?_)
-  show φ z ∈ q
+  change φ z ∈ q
   exact Ideal.Quotient.eq_zero_iff_mem.mp (hb ((Ideal.mem_bot.mp
     (hbot ▸ Ideal.mem_map_of_mem _ hz)).trans (map_zero b).symm))
 
@@ -79,6 +79,7 @@ variable {A C : Type u} [CommRing A] [CommRing C] [Algebra A C]
   [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
   [IsNoetherianRing A]
 
+omit [IsNoetherianRing A] in
 /-- A rig-surjective `Spf C → Spf A` lifts every adic point `A → R` into a small complete
 discrete valuation ring: the maximal ideal of `A` it contracts to is the contraction of a prime
 of `C`. -/
@@ -109,7 +110,7 @@ theorem exists_isPrime_comap_eq_of_isRigSurjective_of_isAdic (I : Ideal A)
     hrig R hRtop hRcomplete hRweak DR (formalSpectrumMap hAweak p)
       (isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut B S hS hAweak hRweak
         D DR (hasLargeSite_of_mk_lt_cutoff DR hRcard) p
-        (RingHom.isTaut_of_isAdic p.toRingHom p.continuous (by rwa [hp])))
+        (RingHom.isTaut_of_isAdic p.toRingHom (by rwa [hp])))
   let : CommRing R' := hR'ring
   have : IsDomain R' := hR'dom
   have : IsDiscreteValuationRing R' := hR'dvr
@@ -128,7 +129,7 @@ theorem exists_isPrime_comap_eq_of_isRigSurjective_of_isAdic (I : Ideal A)
       existsUnique_continuousHom_formalSpectrumMap_eq hAweak hR'weak
         (formalSpectrumMap hAweak pe)
     refine (huniq fg ?_).trans (huniq pe rfl).symm
-    show formalSpectrumMap hAweak fg = formalSpectrumMap hAweak pe
+    change formalSpectrumMap hAweak fg = formalSpectrumMap hAweak pe
     rw [← formalSpectrumMap_comp hAweak hCweak f g fg hfg,
       ← formalSpectrumMap_comp hAweak hRweak p e pe hpe, hg]
     exact hy
@@ -257,7 +258,7 @@ theorem isRigSurjective_formalSpectrumMap_iff_faithfullyFlat' (I : Ideal A)
   set n' := n.map (Ideal.Quotient.mk (I.map (algebraMap A C)))
   have hn' : n'.IsPrime := Ideal.isPrime_map_quotientMk_of_isPrime hIn
   refine ⟨⟨n', hn'⟩, PrimeSpectrum.ext ?_⟩
-  show n'.comap φ = x.asIdeal
+  change n'.comap φ = x.asIdeal
   rw [← hmap]
   refine Ideal.comap_injective_of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective ?_
   rw [Ideal.comap_map_mk hIm, Ideal.comap_comap,

@@ -165,7 +165,7 @@ theorem pullbackIso_trans {h : 𝒳 ⟶ 𝒴} (s : g ⟶ h) :
   ext P x
   simp only [whiskeringLeft_obj_obj, comp_obj, op_obj,
     Bicategory.InducedBicategory.bicategory_Hom, Iso.trans_hom, NatTrans.comp_app]
-  show P.map
+  change P.map
       (t.hom.toNatTrans.app (Opposite.unop x) ≫
         s.hom.toNatTrans.app (Opposite.unop x)).op = _
   simp [pullbackIso, underlyingNatIso]
@@ -182,7 +182,7 @@ theorem pullbackIso_hcomp {𝒵 : CatFiberedInGroupoids.{v₀, v₁, u₀, u₁}
         P.map ((CatFiberedInGroupoids.homFunctor h).map (t.hom.toNatTrans.app x)).op := by
   simp only [whiskeringLeft_obj_obj, comp_obj, op_obj,
     Bicategory.InducedBicategory.bicategory_Hom]
-  show P.map
+  change P.map
     (((CatFiberedInGroupoids.homFunctor h).map (t.hom.toNatTrans.app x) ≫
       s.hom.toNatTrans.app ((CatFiberedInGroupoids.homFunctor g).obj x)).op) = _
   simp only [CategoryTheory.op_comp, Functor.map_comp]
@@ -327,7 +327,7 @@ theorem pushforwardIso_hcomp {𝒵 : CatFiberedInGroupoids.{v₀, v₁, u₀, u�
     ← conjugateEquiv_whiskerRight adjH adjK adjG (pullbackIso A s).hom,
     conjugateEquiv_comp, conjugateEquiv_comp, pullbackIso_hcomp_hom]
   apply congrArg (conjugateEquiv adjFH (adjK.comp adjG))
-  show (𝟙 _ ≫ _) = _ ≫ 𝟙 _
+  change (𝟙 _ ≫ _) = _ ≫ 𝟙 _
   exact (Category.id_comp _).trans (Category.comp_id _).symm
 
 end RightKanExtension

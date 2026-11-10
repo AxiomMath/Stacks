@@ -26,12 +26,12 @@ theorem projResComplex_kFlat {R : Type u} [CommRing R] (M : ModuleCat.{u} R) :
     (projResComplex M).KFlat := by
   let P := projResComplex M
   have : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat) 0
     infer_instance
   have : ∀ i, Module.Flat R (P.X i) := by
     intro i
-    show Module.Flat R
+    change Module.Flat R
       (((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat).X i)
     have : Projective
         (((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat).X i) :=
@@ -42,7 +42,7 @@ theorem projResComplex_kFlat {R : Type u} [CommRing R] (M : ModuleCat.{u} R) :
 /-- Every term of the chosen projective resolution is flat, being projective. -/
 theorem projResComplex_flat_X {R : Type u} [CommRing R] (M : ModuleCat.{u} R) (i : ℤ) :
     Module.Flat R ((projResComplex M).X i) := by
-  show Module.Flat R
+  change Module.Flat R
     (((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat).X i)
   have : Projective
       (((ProjectiveResolution.of M).complex.extend ComplexShape.embeddingDownNat).X i) :=

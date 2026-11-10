@@ -74,8 +74,8 @@ Cohen–Macaulay module in the sense of [Stacks, Tag 0343], i.e. that `ω_{X,x}`
 `Stacks.Duality.exists_coherent_iso_single_of_connected`, whose conclusion is coherence of `ω_X`
 and the isomorphism `ω_X^• ≅ ω_X[-n]`. It is **no longer missing from the development**: it is
 `Stacks.Duality.sheafIsCohenMacaulay_homology_of_concentrated` of
-`StacksFrontier/AlgebraicGeometry/Duality/CohenMacaulayDualizingModule.lean`, and the final assertion
-with that clause included is
+`StacksFrontier/AlgebraicGeometry/Duality/CohenMacaulayDualizingModule.lean`, and the final
+assertion with that clause included is
 `Stacks.Duality.exists_coherent_cohenMacaulay_iso_single_of_connected` there. The note below
 describing the identification it needs as the real content of the clause and as not done is
 corrected at its last bullet.

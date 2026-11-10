@@ -128,7 +128,7 @@ private theorem squareComparison_one_tmul (M : ModuleCat.{max u v w} R) (m : M) 
     rw [← ModuleGlueing.extendScalarsComp_hom_app_one_tmul.{max u v w} a c M m]
     exact ConcreteCategory.congr_hom
       ((ModuleGlueing.extendScalarsComp.{max u v w} a c).hom_inv_id_app M) _
-  show (ModuleGlueing.extendScalarsComp.{max u v w} b d).hom.app M
+  change (ModuleGlueing.extendScalarsComp.{max u v w} b d).hom.app M
     ((eqToIso (congrArg (ModuleCat.extendScalars.{u, v, max u v w}) h)).hom.app M
       ((ModuleGlueing.extendScalarsComp.{max u v w} a c).inv.app M _)) = _
   rw [hi, eqToIso_extendScalars_tmul h M (1 : B) m,
@@ -213,7 +213,7 @@ private noncomputable def pullbackAlpha
 private theorem genericToOverlap_mk (M : ModuleCat.{max u v w} S) (m : M) :
     genericToOverlap S f M (LocalizedModule.mkLinearMap _ _ m) =
       (1 : Localization.Away (algebraMap R S f)) ⊗ₜ[S,algebraMap S _] m := by
-  show (extendScalarsEquiv _ M).symm
+  change (extendScalarsEquiv _ M).symm
     (LocalizedModule.equivTensorProduct _ M (LocalizedModule.mk m 1)) = _
   rw [LocalizedModule.equivTensorProduct_apply_mk]
   simp only [Localization.mk_one]
@@ -224,7 +224,7 @@ private theorem overlapToTensor_one_tmul
     overlapToTensor S f N
       ((1 : Localization.Away (algebraMap R S f)) ⊗ₜ[Localization.Away f,algebraMap _ _] n) =
       (1 : S) ⊗ₜ[R] (show restrictFromAway (fun _ : Fin 1 => f) 0 N from n) := by
-  show Algebra.IsPushout.cancelBaseChange R S (Localization.Away f)
+  change Algebra.IsPushout.cancelBaseChange R S (Localization.Away f)
     (Localization.Away (algebraMap R S f)) (restrictFromAway (fun _ : Fin 1 => f) 0 N)
     (1 ⊗ₜ[Localization.Away f] (show restrictFromAway (fun _ : Fin 1 => f) 0 N from n)) = _
   exact Algebra.IsPushout.cancelBaseChange_tmul R S (Localization.Away f)
@@ -236,7 +236,7 @@ private theorem overlapToTensor_symm_tmul
     (overlapToTensor S f N).symm (s ⊗ₜ[R] n) =
       (algebraMap S (Localization.Away (algebraMap R S f)) s) ⊗ₜ[Localization.Away f,algebraMap _ _]
         (show N from n) := by
-  show (extendScalarsEquiv _ N).symm
+  change (extendScalarsEquiv _ N).symm
     ((Algebra.IsPushout.cancelBaseChange R S (Localization.Away f)
       (Localization.Away (algebraMap R S f))
       (restrictFromAway (fun _ : Fin 1 => f) 0 N)).symm (s ⊗ₜ[R] n)) = _
@@ -254,11 +254,10 @@ private theorem overlapToTensor_naturality
       (((ModuleCat.restrictScalars (algebraMap R (Localization.Away f))).map g).hom)
       (overlapToTensor S f N z) := by
   obtain ⟨t, rfl⟩ := (overlapToTensor S f N).symm.surjective z
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul s n =>
     rw [overlapToTensor_symm_tmul]
-    show overlapToTensor S f N'
+    change overlapToTensor S f N'
       ((algebraMap S (Localization.Away (algebraMap R S f)) s)
         ⊗ₜ[Localization.Away f,algebraMap _ _]
         (g n)) = _
@@ -272,7 +271,7 @@ private theorem pullbackAlpha_mk
     pullbackAlpha S f X (LocalizedModule.mkLinearMap _ _ m) =
     overlapToTensor S f X.snd
       (X.iso.hom ((1 : Localization.Away (algebraMap R S f)) ⊗ₜ[S,algebraMap S _] m)) := by
-  show overlapToTensor S f X.snd (X.iso.hom (genericToOverlap S f X.fst _)) = _
+  change overlapToTensor S f X.snd (X.iso.hom (genericToOverlap S f X.fst _)) = _
   rw [genericToOverlap_mk]
 
 private theorem cechModCongr_refl {r : ℕ} (f : Fin r → R)
@@ -397,7 +396,7 @@ private noncomputable def localExtensionEquiv (M : ModuleCat.{w} R) :
 private theorem localExtensionEquiv_one_tmul (M : ModuleCat.{w} R) (m : M) :
     localExtensionEquiv f M ((1 : Localization.Away f) ⊗ₜ[R,algebraMap R _] m) =
       canonicalLocalMk (fun _ : Fin 1 => f) M 0 m := by
-  show (LocalizedModule.equivTensorProduct _ M).symm (1 ⊗ₜ[R] m) = _
+  change (LocalizedModule.equivTensorProduct _ M).symm (1 ⊗ₜ[R] m) = _
   rw [LocalizedModule.equivTensorProduct_symm_apply_tmul_one]
   rfl
 
@@ -414,7 +413,7 @@ private theorem pullbackAlpha_canonical_one_tmul (M : ModuleCat.{max u v w} R) (
         ((ModuleCat.extendScalars (algebraMap R (Localization.Away f))).obj M) from
         (1 : Localization.Away f) ⊗ₜ[R,algebraMap R _] m) := by
   rw [pullbackAlpha_mk]
-  show overlapToTensor S f _ ((canonicalPullbackComparison S f).hom.app M _) = _
+  change overlapToTensor S f _ ((canonicalPullbackComparison S f).hom.app M _) = _
   rw [squareComparison_one_tmul, overlapToTensor_one_tmul]
 
 set_option maxHeartbeats 800000 in
@@ -428,8 +427,7 @@ private noncomputable def canonicalDatumComparison (M : ModuleCat.{max u v w} R)
     cases Fin.fin_one_eq_zero i
     let e := extendScalarsEquiv S M
     obtain ⟨z, rfl⟩ := e.symm.surjective m
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s m =>
       change canonicalAlpha S (fun _ : Fin 1 => f) M 0
         (LocalizedModule.mkLinearMap _ _ (e (e.symm (s ⊗ₜ[R] m)))) = _
@@ -466,7 +464,7 @@ private theorem localExtensionEquiv_naturality
       canonicalLocalMap (fun _ : Fin 1 => f) g 0 := by
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show localExtensionEquiv f N
+  change localExtensionEquiv f N
     ((1 : Localization.Away f) ⊗ₜ[R,algebraMap R _] (g m)) =
     canonicalLocalMap (fun _ : Fin 1 => f) g 0
       (localExtensionEquiv f M ((1 : Localization.Away f) ⊗ₜ[R,algebraMap R _] m))

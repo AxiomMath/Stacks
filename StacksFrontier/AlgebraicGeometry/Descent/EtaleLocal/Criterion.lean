@@ -71,7 +71,7 @@ private theorem etale_affine_hasUniversallyBoundedFibers
     algebraize [φ.hom]
     have : Algebra.Etale _ _ := (g.etale_appLE hU hV e).toAlgebra
     have : Algebra.EssFiniteType Γ(Z, U) Γ(Y, V) := .of_finiteType _ _
-    show Algebra.QuasiFinite _ _
+    change Algebra.QuasiFinite _ _
     infer_instance⟩
   exact hasUniversallyBoundedFibers_of_locallyQuasiFinite g
 
@@ -210,7 +210,7 @@ private theorem etale_diagonal_complement_bounds
                     Limits.pullback.lift (𝟙 _) (z ≫ d) (by simp [d, p]) ≫
                       Limits.pullback.snd z p = z ≫ d :=
                   Limits.pullback.lift_snd (𝟙 _) (z ≫ d) (by simp [d, p])
-                show (Limits.pullback.snd z p)
+                change (Limits.pullback.snd z p)
                     ((Limits.pullback.lift (𝟙 _) (z ≫ d) (by simp [d, p]))
                       (IsLocalRing.closedPoint K)) = _
                 exact congrArg (fun t : Spec (.of K) ⟶ Limits.pullback g g =>
@@ -370,7 +370,7 @@ private theorem postcomp_etale_affine_bound
         have heq : e.hom ≫ Limits.pullback.snd f (d ≫ p₁) = Limits.pullback.snd k d :=
           pullbackLeftPullbackSndIso_hom_snd f p₁ d
         have hcomp : W.f false ≫ (k ≫ p₂) = Limits.pullback.snd k d := by
-          show Limits.pullback.fst k d ≫ k ≫ p₂ = _
+          change Limits.pullback.fst k d ≫ k ≫ p₂ = _
           rw [Limits.pullback.condition_assoc]
           simp [d, p₂]
         rw [hcomp, ← heq]
@@ -378,7 +378,7 @@ private theorem postcomp_etale_affine_bound
       · let c := Limits.pullback.snd k U.ι
         have : IsAffine U.toScheme := hUA
         have hcomp : W.f true ≫ (k ≫ p₂) = c ≫ q := by
-          show Limits.pullback.fst k U.ι ≫ k ≫ p₂ = c ≫ q
+          change Limits.pullback.fst k U.ι ≫ k ≫ p₂ = c ≫ q
           exact Limits.pullback.condition_assoc p₂
         rw [hcomp]
         exact ih (n - 1) (by omega) c (pullbackSnd_of_etale P k U.ι hk inferInstance) q hqbound
@@ -463,7 +463,7 @@ private theorem postcomp_etale_general
         obtain ⟨n, hn⟩ := etale_affine_exists_nat_bound m
         exact postcomp_etale_affine_bound P (a ≫ aQ) hA m n hn
       have hcomp : W.f j ≫ s = aQ ≫ m := by
-        show aC ≫ cQ ≫ qO = aQ ≫ v ≫ qO
+        change aC ≫ cQ ≫ qO = aQ ≫ v ≫ qO
         exact Limits.pullback.condition_assoc qO
       rw [hcomp]
       exact hCj
@@ -502,7 +502,7 @@ theorem isEtaleLocalOnSourceAndTarget_of_isLocalAtSource_isLocalAtTarget
             have hk : P (k x) := hP x
             have : Etale (b x) := hb x
             have hkb : P (k x ≫ b x) := postcomp_etale_general P (k x) hk (b x)
-            show P (a x ≫ f)
+            change P (a x ≫ f)
             rw [← hcomm x]
             exact hkb) }
 

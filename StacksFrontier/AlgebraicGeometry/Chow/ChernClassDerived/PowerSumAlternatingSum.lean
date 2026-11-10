@@ -104,7 +104,7 @@ theorem newtonPowerSum_one (p : ℕ) :
   have hc : (fun i : ℕ+ ↦ homComponent (i : ℕ) (1 : TotalChowClass C sY)) =
       fun _ : ℕ+ ↦ (0 : TotalChowClass C sY) := by
     funext i
-    rw [homComponent_one, if_neg i.ne_zero]
+    rw [homComponent_one, ite_eq_right i.ne_zero]
   rw [hc]
   cases p with
   | zero => rw [newtonPowerSum_zero]

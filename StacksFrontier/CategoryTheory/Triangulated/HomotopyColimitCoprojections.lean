@@ -130,8 +130,8 @@ theorem isHomotopyColimitWithCoprojections_of_distTriang {F : ℕ ⥤ D} [HasCop
   have hz := comp_distTriang_mor_zero₁₂ _ hT
   have hz' := congrArg (fun f ↦ Sigma.ι F.obj n ≫ f) hz
   simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero] at hz'
-  rw [← Category.assoc, Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, Sigma.ι_desc,
-    Sigma.ι_desc] at hz'
+  rw [← Category.assoc, Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc, Sigma.ι_comp_desc,
+    Sigma.ι_comp_desc] at hz'
   exact (sub_eq_zero.mp hz').symm
 
 /-- A distinguished triangle on `p : ∐ Kₙ ⟶ K` gives the datum with coprojections `ι ≫ p`. -/
@@ -142,7 +142,7 @@ private theorem isHomotopyColimitWithCoprojections_of_distTriang_comp {F : ℕ �
     IsHomotopyColimitWithCoprojections F K (fun n ↦ Sigma.ι F.obj n ≫ p) c := by
   refine isHomotopyColimitWithCoprojections_of_distTriang _ _ ?_
   rwa [show (Sigma.desc fun n ↦ Sigma.ι F.obj n ≫ p) = p from
-    Sigma.hom_ext _ _ fun n ↦ Sigma.ι_desc _ _]
+    Sigma.hom_ext _ _ fun n ↦ Sigma.ι_comp_desc _ _]
 
 /-- **A derived colimit datum exists as soon as the direct sum of the system does.** Completing
 the difference map `1 - fₙ` to a distinguished triangle (TR1) gives an object with a structural
@@ -199,9 +199,9 @@ theorem exists_iso_of_isHomotopyColimitWithCoprojections {F : ℕ ⥤ D} [HasCop
       (by simp only [Triangle.homMk_hom₁]; infer_instance)
       (by simp only [Triangle.homMk_hom₂]; infer_instance)
   refine ⟨@asIso _ _ _ _ ψ hiso, fun n ↦ ?_, hc⟩
-  calc i n ≫ ψ = (Sigma.ι F.obj n ≫ Sigma.desc i) ≫ ψ := by rw [Sigma.ι_desc]
+  calc i n ≫ ψ = (Sigma.ι F.obj n ≫ Sigma.desc i) ≫ ψ := by rw [Sigma.ι_comp_desc]
     _ = Sigma.ι F.obj n ≫ Sigma.desc i' := by rw [Category.assoc, hdesc]
-    _ = i' n := Sigma.ι_desc _ _
+    _ = i' n := Sigma.ι_comp_desc _ _
 
 /-! ### Transport -/
 
@@ -231,7 +231,7 @@ theorem IsHomotopyColimitWithCoprojections.of_iso {F : ℕ ⥤ D} [HasCoproduct 
   refine isHomotopyColimitWithCoprojections_of_distTriang _ _ ?_
   have hlift : (Sigma.desc fun n ↦ i n ≫ e.hom) = Sigma.desc i ≫ e.hom := by
     refine Sigma.hom_ext _ _ fun n ↦ ?_
-    rw [Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc]
   rw [hlift]
   refine isomorphic_distinguished _ h.mem_distTriang _
     (Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _) e.symm ?_ ?_ ?_)

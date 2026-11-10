@@ -159,12 +159,12 @@ theorem hasWindowSolution_of_projective_quotient {X : M →ₗ[R] M}
     exact LinearMap.mem_ker.2 (hX v)
   refine hasWindowSolution_of_isIdempotentElem (a := a) ?_ ?_ ?_ <;>
     refine LinearMap.ext fun v => ?_
-  · show a (a v) = a v
+  · change a (a v) = a v
     rw [hav (a v), h0, map_zero, sub_zero]
-  · show X (a v) = 0
+  · change X (a v) = 0
     have hv := LinearMap.mem_ker.2 (h0 v)
     rwa [Submodule.ker_mkQ, LinearMap.mem_ker] at hv
-  · show a (X v) = X v
+  · change a (X v) = X v
     rw [hav, hXrange, map_zero, sub_zero]
 
 /-! ### Over a principal ideal domain the window is always solvable -/
@@ -329,7 +329,7 @@ theorem cst_add_tau_eq_zero_iff {a b c : R} :
     obtain ⟨g, hg⟩ := h
     have hcoeff : ∀ d, d < 3 → (poly3 a b c).coeff d = 0 := by
       intro d hd
-      rw [hg, mul_comm, Polynomial.coeff_mul_X_pow', if_neg (by lia)]
+      rw [hg, mul_comm, Polynomial.coeff_mul_X_pow', ite_eq_right (by lia)]
     exact ⟨(poly3_coeff_zero a b c).symm.trans (hcoeff 0 (by lia)),
       (poly3_coeff_one a b c).symm.trans (hcoeff 1 (by lia)),
       (poly3_coeff_two a b c).symm.trans (hcoeff 2 (by lia))⟩

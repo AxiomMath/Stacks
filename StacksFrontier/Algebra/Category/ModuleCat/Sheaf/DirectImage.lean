@@ -282,10 +282,10 @@ lemma directImageCounit_apply (x : Dᵒᵖ) (j : StructuredArrow x f.op)
     (s : directImageSections f R N x) :
     (directImageCounit.{r, w} f R N).app j.right ((directImageObj f R N).map j.hom s) =
       s.val j := by
-  show s.val ((StructuredArrow.map j.hom).obj
+  change s.val ((StructuredArrow.map j.hom).obj
     (StructuredArrow.mk (𝟙 (f.op.obj j.right)))) = _
   rcases j with ⟨⟨⟨⟩⟩, j, b⟩
-  show s.val (StructuredArrow.mk (b ≫ 𝟙 _)) = s.val (StructuredArrow.mk b)
+  change s.val (StructuredArrow.mk (b ≫ 𝟙 _)) = s.val (StructuredArrow.mk b)
   rw [Category.comp_id]
 
 /-- The direct image of a presheaf of modules is the pointwise right Kan extension of its
@@ -416,7 +416,7 @@ lemma directImageUnit_directImageCounit (M : PresheafOfModules.{max uC vD w} R) 
     Functor.whiskerLeft f.op ((toPresheaf R).map ((directImageUnit.{r, w} f R).app M)) ≫
       directImageCounit.{r, w} f R ((pushforward₀ f R).obj M) = 𝟙 _ := by
   ext x t
-  show M.map (𝟙 (f.op.obj x)) t = t
+  change M.map (𝟙 (f.op.obj x)) t = t
   rw [M.map_id]
   rfl
 

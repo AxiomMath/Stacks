@@ -174,7 +174,7 @@ theorem homTensorStrengthComp_uncurry {A B : C} {HA HB : C ⥤ C}
         (α_ (HB.obj B') (HA.obj A') A).hom ≫
           HB.obj B' ◁ aA.counit.app A' ≫
             (β_ (HB.obj B') A').hom ≫ internalHomStrength aB A' B' := by
-  show (aA.homEquiv (HA.obj A' ⊗ HB.obj B') (HB.obj (A' ⊗ B'))).symm
+  change (aA.homEquiv (HA.obj A' ⊗ HB.obj B') (HB.obj (A' ⊗ B'))).symm
       ((β_ (HA.obj A') (HB.obj B')).hom ≫ internalHomStrength aA (HB.obj B') A' ≫
         HA.map ((β_ (HB.obj B') A').hom ≫ internalHomStrength aB A' B')) = _
   rw [aA.homEquiv_naturality_left_symm, aA.homEquiv_naturality_right_symm,
@@ -228,7 +228,7 @@ theorem homTensorComparison_yoneda {A B : C} {HA HB HAB : C ⥤ C}
   dsimp only [Equiv.trans_apply, Iso.homCongr_apply, Iso.refl_inv, Iso.refl_hom, asIso_hom]
   rw [aA.homEquiv_symm_apply, aB.homEquiv_symm_apply]
   congr 1
-  show (α_ T A B).inv ≫
+  change (α_ T A B).inv ≫
       (((𝟙 T ≫ f ≫ homTensorStrengthComp aA aB A' B') ▷ A ≫
         aA.counit.app (HB.obj (A' ⊗ B'))) ▷ B ≫ aB.counit.app (A' ⊗ B')) ≫ 𝟙 _ =
     f ▷ (A ⊗ B) ≫ tensorμ (HA.obj A') (HB.obj B') A B ≫

@@ -285,7 +285,7 @@ lemma tensor_d_apply (K L : CochainComplex (ModuleCat.{u} R) ℤ) (r s t : ℤ) 
     ModuleCat.hom_smul, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.coe_comp,
     Function.comp_apply, ModuleCat.MonoidalCategory.whiskerRight_apply,
     ModuleCat.MonoidalCategory.whiskerLeft_apply] at h ⊢
-  convert h using 1 <;> rfl
+  convert h using 1
 
 /-- Currying commutes with the Hom-complex differentials. -/
 lemma curryCochain_comm (K L M : CochainComplex (ModuleCat.{u} R) ℤ) (n m : ℤ)
@@ -393,7 +393,7 @@ lemma tensor_whiskerRight_apply {K K' L : CochainComplex (ModuleCat.{u} R) ℤ} 
     (ιTensorObj_comp_whiskerRight f r s t hrs)
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply,
     ModuleCat.MonoidalCategory.whiskerRight_apply] at h
-  convert h using 1 <;> rfl
+  convert h using 1
 
 /-- The morphism `K ◁ f` of total complexes on a pure tensor in the summand `K^r ⊗ L'^s`. -/
 lemma tensor_whiskerLeft_apply {K L L' : CochainComplex (ModuleCat.{u} R) ℤ} (f : L' ⟶ L)
@@ -404,7 +404,7 @@ lemma tensor_whiskerLeft_apply {K L L' : CochainComplex (ModuleCat.{u} R) ℤ} (
     (ιTensorObj_comp_whiskerLeft K f r s t hrs)
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply,
     ModuleCat.MonoidalCategory.whiskerLeft_apply] at h
-  convert h using 1 <;> rfl
+  convert h using 1
 
 /-- **Stacks 0A5Y**.
 Currying is contravariantly natural in the first complex: precomposing with `f : K' ⟶ K` inside

@@ -332,7 +332,7 @@ private theorem infinitesimalMap_coordinate_mul
   · apply Subtype.ext
     have hcoords := infinitesimalMap_coordinate_g h pr₁ pr₂ S
     rw [hcoords (t * s), hcoords t, hcoords s]
-    show (pr₂.hom (t * s) - h.hom (pr₁.hom (t * s)) : A₂) = _
+    change (pr₂.hom (t * s) - h.hom (pr₁.hom (t * s)) : A₂) = _
     simpa [x, y] using hsecond
 
 private noncomputable def infinitesimalMapTargetRingEquiv
@@ -423,7 +423,7 @@ private theorem infinitesimalMapTargetRingEquiv_algebraMap
     map_zero' := rfl
     map_add' := by intros; rfl }
   let : IsCentralScalar k I := ⟨fun _ _ => rfl⟩
-  show trivSqZeroExtAddEquiv.symm
+  change trivSqZeroExtAddEquiv.symm
       (S.coordinate (algebraMap Λ S.target.carrier r)) = _
   rw [infinitesimalMap_coordinate_algebraMap]
 
@@ -473,9 +473,9 @@ private theorem truncatedArtinianIdeal_eq_bot
     ext z
     obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
     simp [q, sup_eq_left.mpr (IsLocalRing.le_maximalIdeal hI.ne)]
-  show IsLocalRing.maximalIdeal (R.carrier ⧸ I) ^ (n + 1) = ⊥
+  change IsLocalRing.maximalIdeal (R.carrier ⧸ I) ^ (n + 1) = ⊥
   rw [hmax, ← Ideal.map_pow, Ideal.map_eq_bot_iff_le_ker]
-  show IsLocalRing.maximalIdeal R.carrier ^ (n + 1) ≤ RingHom.ker q
+  change IsLocalRing.maximalIdeal R.carrier ^ (n + 1) ≤ RingHom.ker q
   rw [Ideal.mk_ker]
 
 private theorem formalObject_component_isStronglyCocartesian
@@ -541,7 +541,7 @@ private theorem factor_formal_morphism_through_pushforward
   let f : η.base ⟶ x.base := eqToHom hη ≫ g.base
   have hcomp : q.map i ≫ f = q.map a := by
     rw [hmap]
-    show (b ≫ eqToHom hη.symm) ≫ (eqToHom hη ≫ g.base) = a.base
+    change (b ≫ eqToHom hη.symm) ≫ (eqToHom hη ≫ g.base) = a.base
     calc
       (b ≫ eqToHom hη.symm) ≫ (eqToHom hη ≫ g.base) = b ≫ g.base := by
         simp [Category.assoc]
@@ -569,7 +569,7 @@ private theorem classOf_eq_of_iso
   apply (Equiv.cast (isomorphismClasses_obj 𝓕 hp A)).injective
   have hx := classOf_eq 𝓕 hp x
   have hy := classOf_eq 𝓕 hp y
-  show cast (isomorphismClasses_obj 𝓕 hp A)
+  change cast (isomorphismClasses_obj 𝓕 hp A)
       (classOf 𝓕 hp x) =
     cast (isomorphismClasses_obj 𝓕 hp A)
       (classOf 𝓕 hp y)
@@ -684,7 +684,7 @@ private theorem mapIsomorphismClasses_surjective_of_iso
   obtain ⟨a, ha⟩ := hsurj c
   refine ⟨(isomorphismClasses 𝓕 h𝓕).map e.hom a, ?_⟩
   rw [mapIsomorphismClasses_naturality h𝓕 h𝓖 φ e.hom a, ha]
-  show (isomorphismClasses 𝓖 h𝓖).map e.hom
+  change (isomorphismClasses 𝓖 h𝓖).map e.hom
     ((isomorphismClasses 𝓖 h𝓖).map e.inv b) = b
   rw [← Functor.map_comp_apply]
   simp
@@ -845,7 +845,7 @@ private theorem smallExtension_conj
       invFun := fun x => ⟨eS.inv.hom x.1, by
         have he : eS.hom.hom (eS.inv.hom x.1) = x.1 := hSright x.1
         apply RingHom.mem_ker.mpr
-        show eT.hom.hom (f.hom (eS.hom.hom (eS.inv.hom x.1))) = 0
+        change eT.hom.hom (f.hom (eS.hom.hom (eS.inv.hom x.1))) = 0
         rw [he]
         have hx := RingHom.mem_ker.mp x.2
         change f.hom x.1 = 0 at hx
@@ -856,12 +856,12 @@ private theorem smallExtension_conj
       map_smul' := by
         intro r x
         apply Subtype.ext
-        show eS.hom.hom (r * x.1) = eS.hom.hom r * eS.hom.hom x.1
+        change eS.hom.hom (r * x.1) = eS.hom.hom r * eS.hom.hom x.1
         exact map_mul eS.hom.hom r x.1 }
   let : RingHomSurjective eS.hom.hom.toRingHom := ⟨hSright.surjective⟩
   refine ⟨inferInstance, inferInstance, inferInstance, inferInstance,
     hTright.surjective.comp (hsurj.comp hSright.surjective), ?_⟩
-  show Module.length B' (RingHom.ker g.hom.toRingHom) = 1
+  change Module.length B' (RingHom.ker g.hom.toRingHom) = 1
   calc
     Module.length B' (RingHom.ker g.hom.toRingHom) =
         Module.length B' (RingHom.ker f.hom.toRingHom) := ek.length_eq
@@ -876,7 +876,7 @@ private theorem exists_level_map_to_target_of_class_surjective
     (ξ : FormalObject p)
     (pushforwards : ChosenPushforwards p)
     (hS : IsCofiberedInGroupoids
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+      (Functor.Elements.π (restrictedCoyoneda ξ.base)))
     (hT : IsCofiberedInGroupoids p)
     (assoc : AssociatedMorphism
       (p := p) ξ pushforwards)
@@ -885,7 +885,7 @@ private theorem exists_level_map_to_target_of_class_surjective
     (hsurj : Function.Surjective
       (mapIsomorphismClasses hS hT assoc.toBasedFunctor A)) :
     ∃ s : (BasedCategory.ofFunctor
-        (CategoryOfElements.π (restrictedCoyoneda ξ.base))).p.Fiber A,
+        (Functor.Elements.π (restrictedCoyoneda ξ.base))).p.Fiber A,
       ∃ e : (fiberFunctor assoc.toBasedFunctor A).obj s ≅ z,
       ∃ j : ξ.level (assoc.level s.1) ⟶ z.1,
         j = assoc.pointInclusion s.1 ≫ e.hom.1 ∧
@@ -944,7 +944,7 @@ private lemma exists_factor_through_adicTruncation
   let : IsLocalRing (R.carrier ⧸ AdicTruncation.ideal R n) :=
     inferInstanceAs (IsLocalRing (AdicTruncation.obj R n))
   have hker : AdicTruncation.ideal R n ≤ RingHom.ker α.hom.toRingHom := by
-    show AdicTruncation.ideal R n ≤
+    change AdicTruncation.ideal R n ≤
       (⊥ : Ideal (artinianToComplete.obj A)).comap α.hom.toRingHom
     rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
     exact (Ideal.pow_right_mono
@@ -959,7 +959,7 @@ private lemma exists_factor_through_adicTruncation
   refine ⟨{ hom := f, isLocal := hf, residue_comm := ?_ }, ?_⟩
   · intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show A.residueEquiv (IsLocalRing.residue A (α.hom r)) =
+    change A.residueEquiv (IsLocalRing.residue A (α.hom r)) =
       AdicTruncation.residueEquiv R n
         (IsLocalRing.residue _ (Ideal.Quotient.mk (AdicTruncation.ideal R n) r))
     rw [AdicTruncation.residueEquiv_residue_mk]
@@ -1124,7 +1124,7 @@ private lemma tangent_point_after_common_truncation
     (ξ : FormalObject p)
     (pushforwards : ChosenPushforwards p)
     (hS : IsCofiberedInGroupoids
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+      (Functor.Elements.π (restrictedCoyoneda ξ.base)))
     (hT : IsCofiberedInGroupoids p)
     (assoc : AssociatedMorphism
       (p := p) ξ pushforwards)
@@ -1143,7 +1143,7 @@ private lemma tangent_point_after_common_truncation
   let α : (restrictedCoyoneda ξ.base).Elements := s.1
   let m := assoc.level α
   have hαD : α.1 = D := by
-    show (CategoryOfElements.π
+    change (Functor.Elements.π
       (restrictedCoyoneda ξ.base)).obj α = D
     exact s.2
   have hα := (assoc.factor_spec α).2.2
@@ -1212,7 +1212,7 @@ private theorem exists_section_with_second_map
   obtain ⟨u, huMap, huFac⟩ := cofibered_factor p hp φ sε ub hfactorU
   obtain ⟨r, hrMap, hrFac⟩ := cofibered_factor p hp φ (𝟙 x) rb hfactorR
   have hbaseLeg : ub ≫ p.map e = rb ≫ p.map d := by
-    show (eqToHom hz ≫ p.map b) ≫ p.map e =
+    change (eqToHom hz ≫ p.map b) ≫ p.map e =
       (eqToHom hz ≫ p.map a) ≫ p.map d
     calc
       (eqToHom hz ≫ p.map b) ≫ p.map e =
@@ -1291,7 +1291,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
     · intro z
       classical
       let S := BasedCategory.ofFunctor
-        (CategoryOfElements.π (restrictedCoyoneda ξ.base))
+        (Functor.Elements.π (restrictedCoyoneda ξ.base))
       let T := BasedCategory.ofFunctor 𝓕.p
       let hS : IsCofiberedInGroupoids S.p :=
         categoryOfElements_projection_isCofibered
@@ -1322,7 +1322,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       let s₀ : S.obj := α₀E
       let x₀raw := ψ.obj s₀
       have hx₀ : T.p.obj x₀raw = A₀ := by
-        show T.p.obj (ψ.obj s₀) = A₀
+        change T.p.obj (ψ.obj s₀) = A₀
         rw [ψ.w_obj]
         rfl
       let y₀F : T.p.Fiber A₀ := ⟨y₀, hy₀⟩
@@ -1333,14 +1333,14 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
         have hi : T.p.IsHomLift (𝟙 A₀) i₀.hom.1 := i₀.hom.2
         exact IsHomLift.comp_lift_id_right' T.p f push A₀ i₀.hom.1
       have hfsurj : Function.Surjective f.hom := by
-        show Function.Surjective
+        change Function.Surjective
           (fun a : Aε => (ULift.algEquiv (R := Λ) (A := k)).symm
             (Aε.residueEquiv (IsLocalRing.residue Aε a)))
         exact (ULift.algEquiv (R := Λ) (A := k)).symm.surjective.comp
           (Aε.residueEquiv.surjective.comp (IsLocalRing.residue_surjective (R := Aε)))
       obtain ⟨sε, sh, a, hsε, ha, hcomm⟩ := (hversal pushforwards) f hfsurj
         yraw s₀ q hq
-      let := hsε
+      have := hsε
       let sεF : S.p.Fiber Aε :=
         ⟨sε, IsHomLift.domain_eq (p := S.p) f sh⟩
       let xεF : T.p.Fiber Aε := (fiberFunctor ψ Aε).obj sεF
@@ -1535,7 +1535,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       intro b
       obtain ⟨a, ha⟩ := hsurj (f.hom b)
       refine ⟨⟨(a, b), ha⟩, ?_⟩
-      show (ArtinianLocalAlgCat.pullbackSnd_of_surjective
+      change (ArtinianLocalAlgCat.pullbackSnd_of_surjective
         f f (Or.inl hsurj)).hom ⟨(a, b), ha⟩ = b
       rw [ArtinianLocalAlgCat.pullbackSnd_of_surjective_hom]
       rfl
@@ -1550,7 +1550,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
         have hh : eqToHom cpl.apex_eq.symm ≫ eqToHom cpl.apex_eq = 𝟙 PB := by
           simp
         have hh' := congrArg (fun q : PB ⟶ PB => q.hom y) hh
-        show (eqToHom cpl.apex_eq).hom
+        change (eqToHom cpl.apex_eq).hom
           ((eqToHom cpl.apex_eq.symm).hom y) = y
         exact hh'
       rw [cpl.map_toFirst]
@@ -1675,7 +1675,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
     have hRingMap (x : 𝓕.p.obj cpl1.apex) :
         rNew (inf1.g.hom x) =
           rOld (inf0.g.hom (mPB.hom x)) := by
-      show trivSqZeroExtAddEquiv.symm (inf1.coordinate (inf1.g.hom x)) =
+      change trivSqZeroExtAddEquiv.symm (inf1.coordinate (inf1.g.hom x)) =
         trivSqZeroExtAddEquiv.symm
           (inf0.coordinate (inf0.g.hom (mPB.hom x)))
       exact congrArg trivSqZeroExtAddEquiv.symm (hcoordinate x)
@@ -1683,15 +1683,15 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
     let e0 := S0.coordinateRingEquiv
     have hOldCoord (a : S0.target.carrier) :
         rOld (eOld.hom.hom a) = e0 a := by
-      show rOld (e0.trans rOld.symm a) = e0 a
+      change rOld (e0.trans rOld.symm a) = e0 a
       exact rOld.apply_symm_apply (e0 a)
     have hNewCoord (a : S0.target.carrier) :
         rNew (eNew.hom.hom a) = e0 a := by
-      show rNew (e0.trans rNew.symm a) = e0 a
+      change rNew (e0.trans rNew.symm a) = e0 a
       exact rNew.apply_symm_apply (e0 a)
     have hIsoApply (a : inf0.target.carrier) :
         rNew (infTargetIso.hom.hom a) = rOld a := by
-      show rNew (eNew.hom.hom (eOld.inv.hom a)) = rOld a
+      change rNew (eNew.hom.hom (eOld.inv.hom a)) = rOld a
       calc
         rNew (eNew.hom.hom (eOld.inv.hom a)) =
             e0 (eOld.inv.hom a) := hNewCoord _
@@ -1781,7 +1781,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       rw [isDualNumberProjection_iff]
       refine ⟨i₀, iε, ?_⟩
       ext t
-      show i₀ ((𝓕.p.map eSpecialMap).hom t) = TrivSqZeroExt.fst (iε t)
+      change i₀ ((𝓕.p.map eSpecialMap).hom t) = TrivSqZeroExt.fst (iε t)
       have hmaps := hom_residueFieldObject_ext
         ((𝓕.p.map eSpecialMap) ≫ eqToHom x₀.2)
         (residueMorphism (𝓕.p.obj zTarget1.1))
@@ -1796,7 +1796,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
           ULift.down ((residueMorphism (𝓕.p.obj zTarget1.1)).hom t) =
             (𝓕.p.obj zTarget1.1).residueEquiv
               (IsLocalRing.residue (𝓕.p.obj zTarget1.1) t) := by
-        show ULift.down.{v, w} (ULift.up.{v, w}
+        change ULift.down.{v, w} (ULift.up.{v, w}
           ((𝓕.p.obj zTarget1.1).residueEquiv
             (IsLocalRing.residue (𝓕.p.obj zTarget1.1) t))) = _
         rfl
@@ -1804,12 +1804,12 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
           (𝓕.p.obj zTarget1.1).residueEquiv
             (IsLocalRing.residue (𝓕.p.obj zTarget1.1) t) := by
         rw [artinianAlgEquivCast_apply]
-        show TrivSqZeroExt.fst
+        change TrivSqZeroExt.fst
           ((eNewInvAlg.trans
             (smallExtensionSquareZeroDualNumberEquiv (𝓕.p.map cy) hcySmall))
               ((eqToHom htarget_eq).hom t)) = _
         rw [AlgEquiv.trans_apply]
-        show TrivSqZeroExt.fst
+        change TrivSqZeroExt.fst
           (smallExtensionSquareZeroDualNumberEquiv (𝓕.p.map cy) hcySmall
             (eNew.inv.hom ((eqToHom htarget_eq).hom t))) = _
         calc
@@ -1892,7 +1892,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
       cases hybase
       have hIx : AdicTruncation.ideal x.base N = ⊥ := by
         rw [hxbase]
-        show IsLocalRing.maximalIdeal A ^ (N + 1) = ⊥
+        change IsLocalRing.maximalIdeal A ^ (N + 1) = ⊥
         exact hkillA
       dsimp [bNew, bComplete, bN']
       rw [hgb]
@@ -2019,11 +2019,11 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
         (iNew.app N)
     have hIB : AdicTruncation.ideal
         (artinianToComplete.obj B) N = ⊥ := by
-      show IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
+      change IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
       exact hkillBN
     have hIηNew : AdicTruncation.ideal ηNew.base N = ⊥ := by
       rw [hηbaseNew]
-      show IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
+      change IsLocalRing.maximalIdeal B ^ (N + 1) = ⊥
       exact hkillBN
     have hnewMap : 𝓕.p.map ξNToEηNew ≫ cNew.hom =
         𝓕.p.map bridge0 ≫ cxy.hom := by
@@ -2166,7 +2166,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
     let bridgeBase := cNew.hom ≫ cxy.inv
     have hbridgeBase : 𝓕.p.map ξNToEηNew ≫ bridgeBase =
         𝓕.p.map bridge0 := by
-      show 𝓕.p.map ξNToEηNew ≫ (cNew.hom ≫ cxy.inv) = _
+      change 𝓕.p.map ξNToEηNew ≫ (cNew.hom ≫ cxy.inv) = _
       calc
         𝓕.p.map ξNToEηNew ≫ (cNew.hom ≫ cxy.inv) =
             (𝓕.p.map ξNToEηNew ≫ cNew.hom) ≫ cxy.inv := by
@@ -2206,7 +2206,7 @@ public theorem isVersal_iff_differential_surjective_and_base_lifts
         hbaseNewCy ▸ IsHomLift.map 𝓕.p cηNew
       apply CategoryTheory.Functor.IsStronglyCocartesian.ext (p := 𝓕.p)
         (f := 𝓕.p.map ξNToEηNew) ξNToEηNew (bridgeBase ≫ 𝓕.p.map cy)
-      show ξNToEηNew ≫ (bridge ≫ cy) = ξNToEηNew ≫ cηNew
+      change ξNToEηNew ≫ (bridge ≫ cy) = ξNToEηNew ≫ cηNew
       calc
         ξNToEηNew ≫ (bridge ≫ cy) = bridge0 ≫ cy := by
           rw [← Category.assoc, hbridgeFac]

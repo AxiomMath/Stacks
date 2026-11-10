@@ -548,8 +548,7 @@ theorem bijective_hodgeKunnethMap_iff :
   rw [hF]
   refine bijective_iff_forall_bijective_of_lof (d := hodgeBidegreeAdd) F _ fun x t => ?_
   obtain ⟨ab, cd⟩ := x
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul ξ ζ =>
     simp only [F, LinearMap.comp_apply, LinearEquiv.coe_coe]

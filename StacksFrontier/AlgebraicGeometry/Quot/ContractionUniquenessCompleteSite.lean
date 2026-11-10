@@ -77,7 +77,7 @@ the zeroth adic thickening into `Spec Λ` is the closed point of `Spec Λ`. -/
 theorem residueFieldSpecIsoAdicThickeningZero_hom_ι :
     (residueFieldSpecIsoAdicThickeningZero A).hom ≫ adicThickeningι A (maximalIdeal A) 0 =
       ContractionUniquenessComplete.closedPoint A := by
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp]
   congr 1
 
@@ -175,15 +175,15 @@ theorem exists_iso_yoneda_of_isProper_of_closedFibre (Λ : Type u) [CommRing Λ]
   let OF : Over (yoneda.obj W') := Over.mk (yoneda.map (t ≫ k ≫ θ.inv))
   let OK : Over (yoneda.obj W') := Over.mk (yoneda.map (k ≫ θ.inv))
   let iO : OF ⟶ P' := Over.homMk i (by
-    show i ≫ p ≫ yoneda.map θ.inv = yoneda.map (t ≫ k ≫ θ.inv)
+    change i ≫ p ≫ yoneda.map θ.inv = yoneda.map (t ≫ k ≫ θ.inv)
     rw [reassoc_of% hi.w, Functor.map_comp, Functor.map_comp])
   let tO : OF ⟶ OK := Over.homMk (yoneda.map t) (by
-    show yoneda.map t ≫ yoneda.map (k ≫ θ.inv) = yoneda.map (t ≫ k ≫ θ.inv)
+    change yoneda.map t ≫ yoneda.map (k ≫ θ.inv) = yoneda.map (t ≫ k ≫ θ.inv)
     rw [← Functor.map_comp])
   let kO : OK ⟶ OT := Over.homMk (yoneda.map (k ≫ θ.inv)) (Category.comp_id _)
   have hO : IsPullback iO tO term kO := by
     refine IsPullback.of_map (Over.forget _) (Over.OverMorphism.ext (by
-      show i ≫ p ≫ yoneda.map θ.inv = yoneda.map t ≫ yoneda.map (k ≫ θ.inv)
+      change i ≫ p ≫ yoneda.map θ.inv = yoneda.map t ≫ yoneda.map (k ≫ θ.inv)
       rw [reassoc_of% hi.w, Functor.map_comp])) ?_
     exact IsPullback.of_iso hi (Iso.refl _) (Iso.refl _) (Iso.refl _) (yoneda.mapIso θ.symm)
       (by simp [iO]) (by simp [tO]) (by simp [term]) (by simp [kO])
@@ -199,12 +199,12 @@ theorem exists_iso_yoneda_of_isProper_of_closedFibre (Λ : Type u) [CommRing Λ]
     exact Over.w (k ≫ θ.inv))
   let isoOF : OF ≅ smallerBaseYonedaOver B _ S hA hS g₀ F' :=
     Over.isoMk (yoneda.mapIso φF) (by
-      show yoneda.map φF.hom ≫ yoneda.map _ = yoneda.map _
+      change yoneda.map φF.hom ≫ yoneda.map _ = yoneda.map _
       rw [← Functor.map_comp]
       congr 1)
   let isoOK : OK ≅ smallerBaseYonedaOver B _ S hA hS g₀ K' :=
     Over.isoMk (yoneda.mapIso φK) (by
-      show yoneda.map φK.hom ≫ yoneda.map _ = yoneda.map _
+      change yoneda.map φK.hom ≫ yoneda.map _ = yoneda.map _
       rw [← Functor.map_comp]
       congr 1)
   let yF : yoneda.obj F' ≅ E.inverse.obj OF :=
@@ -425,12 +425,12 @@ theorem exists_iso_of_closedFibre_of_isAdicComplete_of_siteObject (Λ : Type u) 
     sq₁.isoPullback.symm ≪≫ (𝒯S).mapIso φ ≪≫ sq₂.isoPullback
   have hφ' : φ'.hom ≫ pullback.snd fY₂' (ContractionUniquenessComplete.closedPoint Λ) =
       pullback.snd fY₁' (ContractionUniquenessComplete.closedPoint Λ) := by
-    show (sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫ sq₂.isoPullback.hom) ≫ _ = _
+    change (sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫ sq₂.isoPullback.hom) ≫ _ = _
     rw [Category.assoc, Category.assoc, IsPullback.isoPullback_hom_snd,
       ← Category.assoc ((𝒯S).map φ.hom), ← Functor.map_comp, hφ, Iso.inv_comp_eq,
       IsPullback.isoPullback_hom_snd]
   have hφc' : sm₁ ≫ φ'.hom = specialMap fX' fY₂' ((𝒯S).map γ₂) hγ₂b := by
-    show sm₁ ≫ sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫ sq₂.isoPullback.hom = _
+    change sm₁ ≫ sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫ sq₂.isoPullback.hom = _
     rw [← cancel_epi sqX.isoPullback.hom, hθ₂, ← Category.assoc, hθ₁, Category.assoc,
       Iso.hom_inv_id_assoc, ← Category.assoc ((𝒯S).map a₁), ← Functor.map_comp, hφa]
   -- the scheme case
@@ -462,7 +462,7 @@ theorem exists_iso_of_closedFibre_of_isAdicComplete_of_siteObject (Λ : Type u) 
       refine hΨ _ _ ?_
       rw [Functor.map_comp, ← IsPullback.isoPullback_hom_fst sq₁, Category.assoc, hψ'f,
         ← IsPullback.isoPullback_hom_fst sq₂]
-      show sq₁.isoPullback.hom ≫ (sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫
+      change sq₁.isoPullback.hom ≫ (sq₁.isoPullback.inv ≫ (𝒯S).map φ.hom ≫
         sq₂.isoPullback.hom) ≫ _ = _
       rw [Category.assoc, Iso.hom_inv_id_assoc, Category.assoc]
     have hi₁' : i₁ ≫ e₁.inv = yoneda.map j₁ := hj₁.symm

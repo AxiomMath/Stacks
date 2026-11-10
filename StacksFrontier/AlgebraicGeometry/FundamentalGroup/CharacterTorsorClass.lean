@@ -115,7 +115,7 @@ end CharacterTorsorData
 
 open CharacterTorsorData
 
-variable {k : Type u} [Field k] [Fintype k] (f : X ⟶ Spec (.of k))
+variable {k : Type u} [Field k] [Finite k] (f : X ⟶ Spec (.of k))
   (heY : ∀ (σ : EtaleFundamentalGroup X x) y, eY (σ • y) = σ • eY y)
   {K₀ : Type u} [Field K₀] [Algebra k K₀] [Module.Finite k K₀] (r : Y.left ⟶ Spec (.of K₀))
   (hr : r ≫ Spec.map (CommRingCat.ofHom (algebraMap k K₀)) = Y.hom ≫ f)

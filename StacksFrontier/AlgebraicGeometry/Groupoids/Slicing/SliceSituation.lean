@@ -482,7 +482,7 @@ private lemma mapFibers_pointInFiber {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y)
         exact hc'.symm.trans ((congrArg g hz).trans hy)) := by
   apply (f.fiberHomeo y).injective
   apply Subtype.ext
-  show f.fiberι y (mapFibers f f' m g comm x' y hy
+  change f.fiberι y (mapFibers f f' m g comm x' y hy
       (pointInFiber f' x' z hz)) =
     f.fiberι y (pointInFiber f y (m z) _)
   calc
@@ -636,9 +636,9 @@ locally closed subscheme of its arrow scheme. -/
 @[stacks 04MY "the stabilizer is locally closed"]
 public theorem stabilizerArrow_isImmersion {S : Scheme.{u}} (G : GroupoidScheme S) :
     IsImmersion (stabilizerArrow G) := by
-  show IsImmersion ((pullback.fst (sourceTarget G) (diagonal G)).left)
+  change IsImmersion ((pullback.fst (sourceTarget G) (diagonal G)).left)
   have hd : IsImmersion (diagonal G).left := by
-    show IsImmersion (pullback.diagonal G.objects.hom)
+    change IsImmersion (pullback.diagonal G.objects.hom)
     infer_instance
   have hp : IsPullback (pullback.fst (sourceTarget G) (diagonal G))
       (pullback.snd (sourceTarget G) (diagonal G)) (sourceTarget G) (diagonal G) :=

@@ -96,7 +96,7 @@ lemma liftNatTrans_commShift :
   apply Localization.natTrans_ext L W
   intro X
   let β := Localization.liftNatTrans L W F G F' G' τ
-  show (F'.commShiftIso n).hom.app (L.obj X) ≫
+  change (F'.commShiftIso n).hom.app (L.obj X) ≫
       ((β.app (L.obj X))⟦n⟧') =
     β.app ((L.obj X)⟦n⟧) ≫ (G'.commShiftIso n).hom.app (L.obj X)
   rw [commShiftIso_hom_app_obj_of_lifting L W F F' n X,
@@ -109,8 +109,7 @@ lemma liftNatTrans_commShift :
   simp only [← Category.assoc, hβ']
   simp [β, Localization.liftNatTrans_app, Functor.map_comp, Category.assoc]
   simp only [← Category.assoc]
-  simp only [Category.assoc, ← Functor.map_comp, Iso.inv_hom_id_app, Functor.map_id,
-    Category.id_comp]
+  simp only [Category.assoc, ← Functor.map_comp]
   simpa [Category.assoc, Functor.commShiftIso_comp_hom_app] using congrArg
     (fun q => F'.map ((L.commShiftIso n).inv.app X) ≫
       (Localization.Lifting.iso L W F F').hom.app (X⟦n⟧) ≫ q ≫

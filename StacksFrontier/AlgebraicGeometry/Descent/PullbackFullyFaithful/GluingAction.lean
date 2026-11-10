@@ -226,7 +226,7 @@ lemma comp_act {T' : Scheme.{u}} (t : T' ⟶ T) (v : T ⟶ (D.obj ()).left) (x :
       D.act (t ≫ v) (t ≫ x) (by simp only [Category.assoc]; rw [h]) := by
   have hl : t ≫ pullback.lift v x h =
       pullback.lift (t ≫ v) (t ≫ x) (by simp only [Category.assoc]; rw [h]) := by
-    apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+    apply pullback.hom_ext <;> simp
   rw [act, act, ← Category.assoc, hl]
 
 /-- `actOn` evaluated at a generalised point of the fibre product is `act` applied to its two
@@ -236,7 +236,7 @@ lemma comp_actOn (t : T ⟶ pullback ((D.obj ()).hom ≫ a) a) :
       (by simp only [Category.assoc]; rw [pullback.condition]) := by
   rw [act]
   congr 1
-  apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp
 
 /-- The comparison `sourceProdIso` carries the point `prod.lift v x` of the product in
 `Over S` to the point `pullback.lift v.left x.left h` of the fibre product. -/

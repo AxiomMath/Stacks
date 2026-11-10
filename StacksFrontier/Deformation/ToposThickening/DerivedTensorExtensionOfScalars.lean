@@ -93,6 +93,7 @@ theorem acyclic_map_extensionTensorRight (f : O ⟶ O₀)
 
 /-! ### Resolutions by cellular complexes -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The degreewise tensor product with `M` inverts a quasi-isomorphism between `P`-cellular
 objects of `K(Mod(R))`**, `P` being the flat sheaves of modules: this is Stacks 0794 for
 `Deformation.ComplexLift.tensorRight`. -/
@@ -112,6 +113,7 @@ theorem isIso_map_tensorRightHomotopy_of_cellular (R : Sheaf J CommRingCat.{u})
   exact hder (ObjectProperty.homMk (P := cellular (flatObjects R))
     (X := ⟨_, hA⟩) (Y := ⟨_, hB⟩) s) hs
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Every object of `K(Mod(O₀))` receives a quasi-isomorphism from a `P`-cellular object: the
 ladder of flat resolutions of its canonical truncations (Stacks 06XX). -/
 theorem exists_cellular_quasiIso (R : Sheaf J CommRingCat.{u})
@@ -215,6 +217,7 @@ def tensorResolving (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSh
       (ComplexShape.up ℤ) w → cellular (flatObjects O₀) Y →
       IsIso ((tensorRightHomotopy.{d₀} M).map w)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A `P`-cellular object belongs to the class. -/
 theorem tensorResolving_of_cellular
   (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))
@@ -223,6 +226,7 @@ theorem tensorResolving_of_cellular
     (hT : cellular (flatObjects O₀) T) : tensorResolving.{d₀} M T :=
   fun _ w hw hY ↦ isIso_map_tensorRightHomotopy_of_cellular O₀ M w hw hY hT
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The class resolves every object, the `P`-cellular objects already doing so. -/
 theorem exists_tensorResolving_quasiIso
   (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))
@@ -238,6 +242,7 @@ theorem exists_tensorResolving_quasiIso
   obtain ⟨Y, hY, s, hs⟩ := exists_cellular_quasiIso O₀ T
   exact ⟨Y, tensorResolving_of_cellular M hY, s, hs⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The degreewise tensor product with `M` inverts the quasi-isomorphisms between objects of
 the class**: both are compared with a `P`-cellular resolution of the source. -/
 theorem isIso_map_tensorRightHomotopy_of_tensorResolving
@@ -293,6 +298,7 @@ private theorem isIso_Qh_map_quotient_map {D : Type u'} [Category.{v'} D]
       (ComplexShape.up ℤ)).map φ)) :=
   (DerivedCategory.isIso_Qh_map_iff _).2 ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 hφ)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Tensoring with `M` on the homotopy category, at a morphism coming from a morphism of
 complexes: it is invertible as soon as the degreewise tensor product of that morphism of
 complexes is a quasi-isomorphism. -/
@@ -405,6 +411,7 @@ theorem isIso_map_tensorRightHomotopy_of_isPCellular (f : O ⟶ O₀)
     ((HomotopyCategory.quotient (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))
       (ComplexShape.up ℤ)).map ((extensionOfScalarsCochainComplex J f).map v) ≫ h)) _
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The class `Deformation.ComplexLift.tensorResolving` is invariant under isomorphism. -/
 theorem tensorResolving_of_iso (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))
     {T T' : HomotopyCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))

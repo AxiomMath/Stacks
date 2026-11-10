@@ -60,7 +60,7 @@ end PartialIdeal
 /-- A point of a closed subscheme lies on its support. -/
 theorem subschemeι_mem_support {X : Scheme.{u}} (T : X.IdealSheafData) (η : T.subscheme) :
     T.subschemeι η ∈ T.support := by
-  show T.subschemeι η ∈ (T.support : Set X)
+  change T.subschemeι η ∈ (T.support : Set X)
   rw [← Scheme.IdealSheafData.range_subschemeι]
   exact ⟨η, rfl⟩
 
@@ -168,7 +168,7 @@ theorem exists_cutInvariant_succ [IsAlgClosed k] [IsProper p] {L : X.Modules}
         partialIdeal (tensorPowModule X L n) (fun i => vsec p n (v i)) j ⊔
           zeroScheme X (tensorPowModule X L n) (vsec p n a) := by
     rw [partialIdeal_succ _ _ j hj, hT j le_rfl]
-    show _ ⊔ zeroScheme X (tensorPowModule X L n) (vsec p n (Function.update v jj a jj)) = _
+    change _ ⊔ zeroScheme X (tensorPowModule X L n) (vsec p n (Function.update v jj a jj)) = _
     rw [Function.update_self]
   obtain ⟨hB, hY, hcut⟩ := hv
   have hoff : ∀ (J : X.IdealSheafData), c ∉ J.support → ∀ (A : X.IdealSheafData)
@@ -195,7 +195,7 @@ theorem exists_cutInvariant_succ [IsAlgClosed k] [IsProper p] {L : X.Modules}
     · have hm' : m = jj := Fin.ext (by simp only [jj]; omega)
       subst hm'
       rw [hT j le_rfl]
-      show CutGood p n _ _ (vsec p n (Function.update v jj a jj)) ∧
+      change CutGood p n _ _ (vsec p n (Function.update v jj a jj)) ∧
         CutGood p n _ _ (vsec p n (Function.update v jj a jj))
       rw [Function.update_self]
       exact ⟨h1, h2⟩
@@ -249,7 +249,7 @@ theorem existsGoodSections (k : Type u) [Field k] [IsAlgClosed k] : ExistsGoodSe
     rw [hsuppx] at h
     exact h
   have hxIx : x ∈ Ix.support := by
-    show x ∈ (Ix.support : Set X)
+    change x ∈ (Ix.support : Set X)
     rw [hsuppx]
     rfl
   have hnot : ∀ y : X, y ∉ (⊤ : X.IdealSheafData).support := fun y hy => by
@@ -259,7 +259,7 @@ theorem existsGoodSections (k : Type u) [Field k] [IsAlgClosed k] : ExistsGoodSe
   set Y := Scheme.IdealSheafData.vanishingIdeal
     (⟨(W : Set X)ᶜ, W.isOpen.isClosed_compl⟩ : Closeds X) with hYdef
   have hmemY : ∀ z : X, z ∉ W → z ∈ Y.support := fun z hz => by
-    show z ∈ (Y.support : Set X)
+    change z ∈ (Y.support : Set X)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact hz
   have hxY : x ∉ Y.support := fun h => by
@@ -271,7 +271,7 @@ theorem existsGoodSections (k : Type u) [Field k] [IsAlgClosed k] : ExistsGoodSe
   have hmemB : ∀ z : X, z ∈ B.support ↔
       z ∈ notSmoothLocus p (⊥ : X.IdealSheafData) d ∨ z ∈ notSmoothLocus p Y (d - 1) := by
     intro z
-    show z ∈ (B.support : Set X) ↔ _
+    change z ∈ (B.support : Set X) ↔ _
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl
   have hB : ∀ z ∈ B.support,

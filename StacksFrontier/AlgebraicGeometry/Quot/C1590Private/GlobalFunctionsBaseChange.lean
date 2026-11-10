@@ -103,7 +103,7 @@ theorem chartFunctionsMap_bijective_of_isPullback {F G : (BigFppfOver B S hS)ᵒ
           (Space.chartFunctionsMap B S hS π s).val (op (CostructuredArrow.mk (c T j))) := by
       intro s
       rw [chartFunctions_restrict]
-      show _ = s.val (op (CostructuredArrow.mk (c T j ≫ π)))
+      change _ = s.val (op (CostructuredArrow.mk (c T j ≫ π)))
       rw [(sq T j).w]
     exact (hΓ j _ _ (sq T j)).1 ((key s).trans
       ((congrArg (fun z => z.val (op (CostructuredArrow.mk (c T j)))) hss').trans (key s').symm))
@@ -124,7 +124,7 @@ theorem chartFunctionsMap_bijective_of_isPullback {F G : (BigFppfOver B S hS)ᵒ
         yoneda.map_injective (by rw [Functor.map_comp, hl0, (sq T j).lift_snd])
       have hc : yoneda.map l0 ≫ c T j = c0 := by rw [hl0, (sq T j).lift_fst]
       rw [← hfac, Functor.map_comp, ← gamma_map_comp_apply, hs1 T j]
-      show (Scheme.Γ.map (Fs.map l0).op).hom (t.val (op (CostructuredArrow.mk (c T j)))) = _
+      change (Scheme.Γ.map (Fs.map l0).op).hom (t.val (op (CostructuredArrow.mk (c T j)))) = _
       rw [chartFunctions_restrict, hc]
     refine ⟨⟨fun J => s1 J.unop.left J.unop.hom, fun {J J'} g => ?_⟩, ?_⟩
     · obtain ⟨⟨T, ⟨⟨⟩⟩, j⟩⟩ := J
@@ -133,14 +133,14 @@ theorem chartFunctionsMap_bijective_of_isPullback {F G : (BigFppfOver B S hS)ᵒ
       simp only [Functor.const_obj_obj, Discrete.functor_map_id, Category.comp_id] at w
       have hw : c T' j' ≫ π = yoneda.map (pr T' j' ≫ h) ≫ j := by
         rw [(sq T' j').w, Functor.map_comp, Category.assoc, w]
-      show (Scheme.Γ.map (Fs.map h).op).hom (s1 T j) = s1 T' j'
+      change (Scheme.Γ.map (Fs.map h).op).hom (s1 T j) = s1 T' j'
       refine (hΓ j' _ _ (sq T' j')).1 ?_
       rw [hs1 T' j', gamma_map_comp_apply, ← Functor.map_comp]
       exact hrest T j _ _ hw
     · apply Subtype.ext
       funext K
       obtain ⟨⟨W, ⟨⟨⟩⟩, c0⟩⟩ := K
-      show s1 W (c0 ≫ π) = t.val (op (CostructuredArrow.mk c0))
+      change s1 W (c0 ≫ π) = t.val (op (CostructuredArrow.mk c0))
       exact hrest W (c0 ≫ π) c0 (𝟙 W) (by simp)
 
 /-- Pullback of global regular functions along a morphism of algebraic spaces is bijective

@@ -190,7 +190,7 @@ theorem ratio_prodFamily {F G : X.Modules} [IsInvertibleModule X F] [IsInvertibl
     ratio (Stacks.ProductFamilyTwist.prodFamily s t) (a, b) (a', b) =
       resO (nvCover_prodFamily_le_left s t (a, b)) (ratio s a a') := by
   refine (eq_div (Stacks.ProductFamilyTwist.prodFamily s t (a, b)) le_rfl ?_).symm
-  show resO (nvCover_prodFamily_le_left s t (a, b)) (ratio s a a') •
+  change resO (nvCover_prodFamily_le_left s t (a, b)) (ratio s a a') •
       resT (nvCover (Stacks.ProductFamilyTwist.prodFamily s t) (a, b))
         (Stacks.ProductFamilyTwist.prodSection (s a) (t b)) =
     resT (nvCover (Stacks.ProductFamilyTwist.prodFamily s t) (a, b))

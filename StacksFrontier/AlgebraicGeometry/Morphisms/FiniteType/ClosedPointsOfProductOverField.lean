@@ -88,7 +88,7 @@ theorem isClosed_singleton_of_isClosed_singleton_fst_snd (z : ↥(pullback f g))
     infer_instance
   have : LocallyOfFiniteType m := locallyOfFiniteType_of_comp m (pullback.fst f g ≫ f)
   rw [← htz]
-  exact m.closePoints_subset_preimage_closedPoints
+  exact m.closedPoints_subset_preimage_closedPoints
     (isClosed_singleton_of_isFinite_of_subsingleton (pullback.fst (ix ≫ f) (iy ≫ g)) t)
 
 /-- **A point of `X ×_K Y` is closed if and only if its images in `X` and in `Y` are closed**,
@@ -98,8 +98,8 @@ theorem isClosed_singleton_pullback_iff (z : ↥(pullback f g)) :
       IsClosed ({pullback.fst f g z} : Set X) ∧ IsClosed ({pullback.snd f g z} : Set Y) := by
   have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
   have : JacobsonSpace Y := LocallyOfFiniteType.jacobsonSpace g
-  exact ⟨fun hz => ⟨(pullback.fst f g).closePoints_subset_preimage_closedPoints hz,
-    (pullback.snd f g).closePoints_subset_preimage_closedPoints hz⟩,
+  exact ⟨fun hz => ⟨(pullback.fst f g).closedPoints_subset_preimage_closedPoints hz,
+    (pullback.snd f g).closedPoints_subset_preimage_closedPoints hz⟩,
     fun ⟨hx, hy⟩ => isClosed_singleton_of_isClosed_singleton_fst_snd f g z hx hy⟩
 
 end AlgebraicGeometry

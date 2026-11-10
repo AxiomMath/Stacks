@@ -133,7 +133,7 @@ theorem Algebra.TensorProduct.algebraMap_comp_eq_of_ringHom (φ : C ⊗[B] B' �
     (hr : φ.comp Algebra.TensorProduct.includeRight.toRingHom = algebraMap B' C') (b : B) :
     algebraMap C C' (algebraMap B C b) = algebraMap B' C' (algebraMap B B' b) := by
   rw [← hl, ← hr]
-  show φ (algebraMap B C b ⊗ₜ[B] (1 : B')) = φ ((1 : C) ⊗ₜ[B] algebraMap B B' b)
+  change φ (algebraMap B C b ⊗ₜ[B] (1 : B')) = φ ((1 : C) ⊗ₜ[B] algebraMap B B' b)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
 
 /-- An ideal of `B` killed in `B'` generates in `C` an ideal killed in `C'`, for a pushout
@@ -213,7 +213,7 @@ theorem Module.flatQuotSMul_iff_flat_of_tensorProduct_flat [IsLocalRing C] [IsLo
   let : Module (B ⧸ J) M' := Module.compHom M' (algebraMap (B ⧸ J) C')
   let : IsScalarTower (B ⧸ J) C' M' := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower (B ⧸ J) B' M' := IsScalarTower.of_algebraMap_smul fun x m => by
-    show algebraMap B' C' (algebraMap (B ⧸ J) B' x) • m = algebraMap (B ⧸ J) C' x • m
+    change algebraMap B' C' (algebraMap (B ⧸ J) B' x) • m = algebraMap (B ⧸ J) C' x • m
     rw [hBC']
   constructor
   · intro hM
@@ -630,7 +630,7 @@ theorem exists_geometricPoint_fieldPointFibre_of_dominates (xbar : GeometricPoin
     ⟨FieldValuedPoint.map B S hS _ (a ≫ (fieldPointFibreSection B S hS f h p).hom)
       (FieldValuedPoint.tautological B S hS xbar.val), xbar.property⟩
   refine ⟨x', ?_, ?_⟩
-  · show pointsMap B S hS _ (a ≫ (fieldPointFibreSection B S hS f h p).hom)
+  · change pointsMap B S hS _ (a ≫ (fieldPointFibreSection B S hS f h p).hom)
         ((FieldValuedPoint.tautological B S hS xbar.val).class B S hS _) = _
     rw [pointsMap_comp, Function.comp_apply,
       (subsingleton_points_yoneda_siteObject B S hS p).elim
@@ -641,7 +641,7 @@ theorem exists_geometricPoint_fieldPointFibre_of_dominates (xbar : GeometricPoin
         (fieldPointFibreSourceProj B S hS f h p).hom = yonedaEquiv.symm xbar.val.value := by
       rw [fieldPointFibreSection_comp_proj, yonedaEquiv_symm_naturality_left, hι]
     refine Subtype.ext ?_
-    show FieldValuedPoint.map B S hS _
+    change FieldValuedPoint.map B S hS _
         ((a ≫ (fieldPointFibreSection B S hS f h p).hom) ≫
           (fieldPointFibreSourceProj B S hS f h p).hom)
         (FieldValuedPoint.tautological B S hS xbar.val) = xbar.val

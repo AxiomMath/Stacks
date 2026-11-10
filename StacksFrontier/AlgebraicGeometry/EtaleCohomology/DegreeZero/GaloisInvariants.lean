@@ -172,7 +172,7 @@ def etaleGlobalSectionAbelianGerm :
       ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.V : _) :=
   (etaleGaloisModuleAddEquivStalk.{u, v} B K hK sbar F).symm.toAddMonoidHom.comp
     (ConcreteCategory.hom (colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
         (sheafToPresheaf _ _).obj F) (op (finalPointedNeighborhood B K hK sbar))))
 
 /-- The additive germ map is the germ map of the underlying sheaf of sets. -/

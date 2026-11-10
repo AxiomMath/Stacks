@@ -114,9 +114,9 @@ theorem generatorCoefficient_restrict {U V : Opens X.carrier} (h : V ≤ U)
   have hn := PresheafOfModules.naturality_apply φ.val (homOfLE h).op s.val
   change φ.val.app (op V) (L.val.restrictₛₗ (homOfLE h).op s.val) =
     L'.val.restrictₛₗ (homOfLE h).op (φ.val.app (op U) s.val) at hn
-  show φ.val.app (op V) (L.val.restrictₛₗ (homOfLE h).op s.val) = _
+  change φ.val.app (op V) (L.val.restrictₛₗ (homOfLE h).op s.val) = _
   rw [hn, generatorCoefficient_spec L L' φ U s t]
-  show L'.val.map (homOfLE h).op (generatorCoefficient L L' φ U s t • t.val) = _
+  change L'.val.map (homOfLE h).op (generatorCoefficient L L' φ U s t • t.val) = _
   rw [L'.val.map_smul]
   rfl
 

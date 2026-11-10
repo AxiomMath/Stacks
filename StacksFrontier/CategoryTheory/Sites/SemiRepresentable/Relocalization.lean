@@ -232,13 +232,13 @@ theorem sliceHasWeakSheafify (J : GrothendieckTopology C) [HasWeakSheafify J (Ty
         right_inv := ?_ }
       · exact ⟨(pullback.fst φ η).app X x.1, hpair x.1 W.unop.hom x.2⟩
       · refine ⟨ePB.symm ⟨⟨x.1, W.unop.hom⟩, ?_⟩, ?_⟩
-        · show φ.app X x.1 = η.app X W.unop.hom
+        · change φ.app X x.1 = η.app X W.unop.hom
           exact x.2
         · have hInv : (asIso (pullbackComparison eval φ η)).inv ≫
               eval.map (pullback.snd φ η) = pullback.snd (eval.map φ) (eval.map η) := by
             rw [← pullbackComparison_comp_snd]
             simp
-          show ((asIso (pullbackComparison eval φ η)).inv ≫
+          change ((asIso (pullbackComparison eval φ η)).inv ≫
             eval.map (pullback.snd φ η))
               ((Types.pullbackIsoPullback (eval.map φ) (eval.map η)).inv
                 ⟨⟨x.1, W.unop.hom⟩, by exact x.2⟩) = W.unop.hom
@@ -262,7 +262,7 @@ theorem sliceHasWeakSheafify (J : GrothendieckTopology C) [HasWeakSheafify J (Ty
       ext x
       apply Subtype.ext
       let φ := ((Over.post I).obj T).hom
-      show (pullback.fst φ η).app (op W'.unop.left)
+      change (pullback.fst φ η).app (op W'.unop.left)
           ((pullback φ η).map k.unop.left.op x.1) =
         ((Over.post I).obj T).left.map k.unop.left.op
           ((pullback.fst φ η).app (op W.unop.left) x.1)
@@ -273,7 +273,7 @@ theorem sliceHasWeakSheafify (J : GrothendieckTopology C) [HasWeakSheafify J (Ty
       let φ := ((Over.post I).obj T).hom
       let φ' := ((Over.post I).obj T').hom
       let k := (Over.post I).map g
-      show (pullback.fst φ' η).app (op W.unop.left)
+      change (pullback.fst φ' η).app (op W.unop.left)
           (((Over.pullback η).map k).left.app (op W.unop.left) x.1) =
         k.left.app (op W.unop.left)
           ((pullback.fst φ η).app (op W.unop.left) x.1)
@@ -373,7 +373,7 @@ theorem formalCoproductSheafificationι_comp_map {K L : FormalCoproduct.{v} C} (
         formalCoproductSheafificationι J L (f.f i) :=
   ((presheafToSheaf J (Type v)).map_comp _ _).symm.trans
     ((congrArg (presheafToSheaf J (Type v)).map
-      (Sigma.ι_desc (fun j => yoneda.map (f.φ j) ≫
+      (Sigma.ι_comp_desc (fun j => yoneda.map (f.φ j) ≫
         Sigma.ι (fun j : L.I => yoneda.obj (L.obj j)) (f.f j)) i)).trans
       ((presheafToSheaf J (Type v)).map_comp _ _))
 

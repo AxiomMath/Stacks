@@ -118,9 +118,9 @@ variable {B : Type v} [CommRing B] [IsNoetherianRing B] [Ring.KrullDimLE 1 B]
   [∀ w : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)),
     Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (w.asIdeal.under C))]
   [∀ w : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)),
-    Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (w.asIdeal.under C)]
+    IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (w.asIdeal.under C))]
 
-omit [Module.Finite B C]
+omit [Module.Finite B C] [Algebra.IsIntegral B C]
   [Fintype (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))] in
 /-- **A nonzerodivisor of `B_𝔮` stays a nonzerodivisor in the local ring of `C` at a maximal
 ideal over `𝔮`.** It stays one in the semilocalization `C_𝔮` because `𝔪_𝔮` is not an associated
@@ -228,9 +228,10 @@ variable {A : Type u} [CommRing A] [IsNoetherianRing A] [IsLocalRing A] [Ring.Kr
     Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (w.asIdeal.under C))]
   [∀ (q : MaximalSpectrum B)
       (w : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-    Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (w.asIdeal.under C)]
+    IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (w.asIdeal.under C))]
 
 omit [IsNoetherianRing A] [Ring.KrullDimLE 1 A] [IsNoetherianRing B] [Ring.KrullDimLE 1 B]
+  [Algebra.IsIntegral B C]
   [Fintype (MaximalSpectrum B)] [Fintype (MaximalSpectrum C)]
   [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
   [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
@@ -261,7 +262,7 @@ theorem algebraMap_eq_factorUnit_mul_parameter_pow_fibre (q : MaximalSpectrum B)
     P.factorization q.asIdeal k, map_mul, map_pow]
   rfl
 
-omit [Fintype (MaximalSpectrum B)] [Fintype (MaximalSpectrum C)]
+omit [Algebra.IsIntegral B C] [Fintype (MaximalSpectrum B)] [Fintype (MaximalSpectrum C)]
   [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
   [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
   [∀ q : MaximalSpectrum B, IsLocalHom (algebraMap A (Localization.AtPrime q.asIdeal))]
@@ -431,6 +432,9 @@ theorem prod_units_map_norm_tameSymbol_fibre
   exact Finset.prod_congr rfl fun u _ =>
     congrArg _ (tameSymbol_fibre_eq_factorizationValue hC symbC q hfass u P i j x y hx hy)
 
+omit
+  [∀ q : MaximalSpectrum B, Fintype
+    (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))] in
 /-- **Stacks 0EAT, with no refinement on the right-hand side.** Let `(A, 𝔪)` be a one-dimensional
 Noetherian local ring, let `A ⊆ B` be a finite ring extension with `𝔪` not an associated prime of
 `B`, let `a, b ∈ A` be nonzerodivisors and let `B ⊆ C` be a further finite extension. Then
@@ -476,6 +480,9 @@ theorem normProd_eq_prod_norm_tameSymbol
         Units.map (Algebra.norm (ResidueField A) :
             ResidueField (Localization.AtPrime q.asIdeal) →* ResidueField A)
           (symbB q (toExtensionNonZeroDivisor hB q x) (toExtensionNonZeroDivisor hB q y)) := by
+  let : ∀ q : MaximalSpectrum B, Fintype
+      (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))) :=
+    fun q => @Fintype.ofFinite _ (finite_maximalSpectrum_semilocalization B C q)
   rw [normProd_eq, prod_maximalSpectrum_eq_prod_prod B C]
   refine Finset.prod_congr rfl fun q _ => ?_
   rw [preparationSymbolFactor_eq_tameSymbol P q.asIdeal (symbB q) i j
@@ -485,7 +492,9 @@ theorem normProd_eq_prod_norm_tameSymbol
     P i j x y hx hy
 
 omit [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
-  [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)] in
+  [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
+  [∀ q : MaximalSpectrum B, Fintype
+    (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))] in
 /-- **Stacks 0EAR for the choice of the auxiliary extension, along a tower.** The recipe of
 Stacks 0EAQ for a tame-symbol preparation over `B` gives the same element of `κ(𝔪)^*` as the norm
 pushforward to `A` of any family of tame symbols on the local rings of a further finite extension
@@ -515,6 +524,9 @@ theorem normProd_eq_preparationSymbolValue
     {n : ℕ} {a : Fin n → A} (P : TameSymbolPreparation a B) (i j : Fin n)
     (x y : nonZeroDivisors A) (hx : (x : A) = a i) (hy : (y : A) = a j) :
     normProd hC symbC x y = preparationSymbolValue P i j := by
+  let : ∀ q : MaximalSpectrum B, Fintype
+      (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))) :=
+    fun q => @Fintype.ofFinite _ (finite_maximalSpectrum_semilocalization B C q)
   rw [normProd_eq, prod_maximalSpectrum_eq_prod_prod B C,
     show preparationSymbolValue P i j =
       ∏ q : MaximalSpectrum B,
@@ -526,7 +538,9 @@ theorem normProd_eq_preparationSymbolValue
 
 omit [IsNoetherianRing A] [Ring.KrullDimLE 1 A]
   [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
-  [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)] in
+  [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
+  [∀ q : MaximalSpectrum B, Fintype
+    (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))] in
 /-- **The recipe of Stacks 0EAQ over `B`, recomputed over a refinement `C` of `B`.** Let `(A, 𝔪)`
 be a one-dimensional Noetherian local ring, let `A ⊆ B` be a finite extension and `B ⊆ C` a
 further finite one, and fix at each maximal ideal `𝔯` of `C` a simultaneous power factorization
@@ -574,6 +588,9 @@ theorem preparationSymbolValue_eq_prod_norm_factorizationValue
         Units.map (Algebra.norm (ResidueField A) :
             ResidueField (Localization.AtPrime r.asIdeal) →* ResidueField A)
           (factorizationValue (π r) (w r i) (w r j) (e r i) (e r j)) := by
+  let : ∀ q : MaximalSpectrum B, Fintype
+      (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))) :=
+    fun q => @Fintype.ofFinite _ (finite_maximalSpectrum_semilocalization B C q)
   rw [prod_maximalSpectrum_eq_prod_prod B C,
     show preparationSymbolValue P i j =
       ∏ q : MaximalSpectrum B,

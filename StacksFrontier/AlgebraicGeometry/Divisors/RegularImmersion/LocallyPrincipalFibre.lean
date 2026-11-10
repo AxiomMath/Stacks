@@ -64,7 +64,7 @@ private theorem ringHom_flat_comp_of_ker_eq {A B T : Type*} [CommRing A] [CommRi
     (Ideal.quotEquivOfEq hker.symm).trans (RingHom.quotientKerEquivOfSurjective hψ) with he
   have hemk : ∀ z : B, e (Ideal.Quotient.mk I z) = ψ z := by
     intro z
-    show (RingHom.quotientKerEquivOfSurjective hψ)
+    change (RingHom.quotientKerEquivOfSurjective hψ)
       (Ideal.quotEquivOfEq hker.symm (Ideal.Quotient.mk I z)) = ψ z
     rw [Ideal.quotEquivOfEq_mk]
     exact RingHom.kerLift_mk ψ z

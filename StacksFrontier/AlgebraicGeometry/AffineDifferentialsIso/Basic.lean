@@ -171,12 +171,12 @@ theorem d_comorphism_eq_zero (V' : S.Opens) (b : Γ(S, V')) :
       (fun y y' => by rw [map_add, map_add]))
     0
     (fun y y' => by
-      show E W' ((h.appLE (S.basicOpen s) W' _) (y * y')) = _
+      change E W' ((h.appLE (S.basicOpen s) W' _) (y * y')) = _
       rw [map_mul, hmul]
       rfl)
     (fun _ _ => by simp)
     (fun a => by
-      show E W' ((h.appLE (S.basicOpen s) W' _)
+      change E W' ((h.appLE (S.basicOpen s) W' _)
         (algebraMap Γ(S, V) Γ(S, S.basicOpen s) a)) = (0 : Γ(T, W'))
       have halg : (h.appLE (S.basicOpen s) W' (fun y hy => hy))
             (algebraMap Γ(S, V) Γ(S, S.basicOpen s) a) =

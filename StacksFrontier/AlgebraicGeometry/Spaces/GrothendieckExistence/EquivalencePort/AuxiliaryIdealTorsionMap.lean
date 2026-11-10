@@ -146,7 +146,7 @@ theorem αQuotient_transition (e : ℕ) :
       quotientAdicSystemTransition X I K hK E (e + 1) ≫ αQuotient (hK := hK) H α e := by
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun n => ?_))
   obtain ⟨n⟩ := n
-  show (αQuotient (hK := hK) (E := E) H α (e + 1)).hom.app (op n) ≫
+  change (αQuotient (hK := hK) (E := E) H α (e + 1)).hom.app (op n) ≫
       ((baseCompletion X I).map (quotientHTransition H (hK := hK) e)).hom.app (op n) =
     (quotientAdicSystemTransition X I K hK E (e + 1)).hom.app (op n) ≫
       (αQuotient (hK := hK) (E := E) H α e).hom.app (op n)

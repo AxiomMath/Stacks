@@ -35,7 +35,7 @@ theorem fiberRoot_map_coverTranslate {s : GeometricPoint (Spec (.of A))} (a : k)
     fiberRoot ((finiteEtaleFiberFunctor s).map (coverTranslate k A g a) p) =
       fiberRoot p + (fiberRingHom p).hom (algebraMap k (Ring k g) a) := by
   rw [fiberRoot, fiberRingHom_map_coverTranslate]
-  show (fiberRingHom p).hom (translate k g a (AdjoinRoot.root (poly k g))) = _
+  change (fiberRingHom p).hom (translate k g a (AdjoinRoot.root (poly k g))) = _
   rw [translate_root, map_add]
 
 /-- The root of a fibre point whose underlying morphism is `Spec.map ψ` is the image of the

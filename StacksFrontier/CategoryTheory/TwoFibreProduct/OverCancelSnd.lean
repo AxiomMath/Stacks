@@ -270,9 +270,9 @@ theorem full_cancelSnd : (cancelSnd p𝒵 p𝒳 p𝒴 p𝒰 g f c G hf θ hθ).F
     refine ⟨Hom.mk' (Hom.mk' n.a (P.iso.hom ≫ c.map n.b ≫ Q.iso.inv) ?_ hw) n.b ?_ ?_, ?_⟩
     · rw [hfacA, hfacB]; simp
     · rw [hfacC]
-      show _ = eqToHom _ ≫ (eqToHom P.x.hx.symm ≫ p𝒵.map n.a ≫ eqToHom Q.x.hx) ≫ eqToHom _
+      change _ = eqToHom _ ≫ (eqToHom P.x.hx.symm ≫ p𝒵.map n.a ≫ eqToHom Q.x.hx) ≫ eqToHom _
       rw [hfacA]; simp
-    · show (P.iso.hom ≫ c.map n.b ≫ Q.iso.inv) ≫ Q.iso.hom = P.iso.hom ≫ c.map n.b
+    · change (P.iso.hom ≫ c.map n.b ≫ Q.iso.inv) ≫ Q.iso.hom = P.iso.hom ≫ c.map n.b
       simp
     · exact Hom.ext' rfl rfl
 

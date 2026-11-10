@@ -84,14 +84,14 @@ theorem exists_comorphism_eq_zero_of_germ (W₀ : Opens S') (j₀ : S'.presheaf.
     rw [hW₁N] at this
     exact this
   refine ⟨W₀ ⊓ ⟨W₁, hW₁⟩, inf_le_left, ⟨leOfHom i₁ hyN, ?_⟩, ?_⟩
-  · show y ∈ t.hom.base ⁻¹' W₁
+  · change y ∈ t.hom.base ⁻¹' W₁
     rw [hW₁N]
     exact hyN
   · have hnat := congr($(t.hom.c.naturality (homOfLE (inf_le_left : W₀ ⊓ ⟨W₁, hW₁⟩ ≤ W₀)).op) j₀)
     refine hnat.trans ?_
     have e : (Opens.map t.hom.base).op.map (homOfLE (inf_le_left : W₀ ⊓ ⟨W₁, hW₁⟩ ≤ W₀)).op =
         i₁.op ≫ (homOfLE hle).op := rfl
-    show (S.presheaf.map _) (comorphism t W₀ j₀) = 0
+    change (S.presheaf.map _) (comorphism t W₀ j₀) = 0
     rw [e, Functor.map_comp, CommRingCat.comp_apply, hN, map_zero]
 
 /-- **A local section of `(t ∘ f)⁻¹𝒪_{S'}` killed by the reduction is, near each point, the image
@@ -152,7 +152,7 @@ theorem isLocallySurjective_baseStructureMap
       (pullbackUnitApp (f ≫ t).hom.base S'.sheaf W j), ?_⟩, ⟨hxV₀, hyM⟩⟩
   refine (sheafHom_app_map (baseStructureMap f t) hV _).trans ?_
   refine (congrArg _ (baseStructureMap_pullbackUnitApp t f W j)).trans ?_
-  show _ = (inverseImageSheaf f).presheaf.map _ a
+  change _ = (inverseImageSheaf f).presheaf.map _ a
   refine (presheaf_map_map _ ((Opens.map f.hom.base).monotone hMW) inf_le_right _).symm.trans ?_
   refine (congrArg _ (pullbackUnitApp_restrict f.hom.base S.sheaf hMW _)).trans ?_
   refine (congrArg (fun z => (inverseImageSheaf f).presheaf.map _

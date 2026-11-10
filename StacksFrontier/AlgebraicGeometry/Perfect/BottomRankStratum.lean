@@ -422,9 +422,9 @@ private theorem fittingGeneratorOpen_eq_top_of_isGeneratedByNear (F : X.Modules)
     [F.IsFiniteType] [F.IsQuasicoherent] (s : ℕ) (hgen : ∀ x : X, IsGeneratedByNear F s x) :
     fittingGeneratorOpen F s = ⊤ := by
   refine TopologicalSpace.Opens.ext (Set.eq_univ_of_forall fun x => ?_)
-  show x ∉ Set.range (fittingClosedSubscheme F (s : ℤ)).hom.base
+  change x ∉ Set.range (fittingClosedSubscheme F (s : ℤ)).hom.base
   rw [fittingClosedSubscheme_ofNat]
-  show x ∉ Set.range (fittingIdeal F (s : ℤ)).subschemeι.base
+  change x ∉ Set.range (fittingIdeal F (s : ℤ)).subschemeι.base
   rw [Scheme.IdealSheafData.range_subschemeι]
   exact (Stacks.Divisors.stalk_eq_top_iff_notMem_support _ x).mp
     ((isGeneratedByNear_iff_fittingIdeal_stalk_eq_top F s x).mp (hgen x))
@@ -448,7 +448,7 @@ public theorem isClosedImmersion_fittingRankStratum_of_isGeneratedByNear (F : X.
   have hiso : IsIso ((fittingClosedSubscheme F ((s : ℤ) - 1)).hom ⁻¹ᵁ
       fittingGeneratorOpen F s).ι := by
     rw [hpre, ← Scheme.topIso_hom]; infer_instance
-  show IsClosedImmersion (((fittingClosedSubscheme F ((s : ℤ) - 1)).hom ⁻¹ᵁ
+  change IsClosedImmersion (((fittingClosedSubscheme F ((s : ℤ) - 1)).hom ⁻¹ᵁ
     fittingGeneratorOpen F s).ι ≫ (fittingClosedSubscheme F ((s : ℤ) - 1)).hom)
   infer_instance
 

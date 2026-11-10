@@ -59,7 +59,6 @@ countable products (Stacks 07KC).
 section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 @[expose] public noncomputable section
 
@@ -120,7 +119,6 @@ end
 section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 @[expose] public noncomputable section
 
@@ -389,7 +387,6 @@ end
 section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 @[expose] public noncomputable section
 

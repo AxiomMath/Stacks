@@ -94,7 +94,7 @@ theorem exists_perfect_shiftedHomEquiv (P : DerivedCategory (ModuleCat.{u} A))
   have hΨinv : ∀ (n : ℤ) (X : DerivedCategory (ModuleCat.{u} A)) (f : ShiftedHom P X n),
       Ψinv n X f = H0.shiftMap (f.map G) 0 n (add_zero n) uP := by
     intro n X f
-    show ((H0.shiftIso n 0 n (add_zero n)).app (G.obj X)).hom
+    change ((H0.shiftIso n 0 n (add_zero n)).app (G.obj X)).hom
         (H0.map ((G.commShiftIso n).app X).hom ((Φ (X⟦n⟧)).symm f)) = _
     rw [hsymm]
     simp only [Functor.shiftMap, ShiftedHom.map, Functor.map_comp]
@@ -115,7 +115,7 @@ theorem exists_perfect_shiftedHomEquiv (P : DerivedCategory (ModuleCat.{u} A))
           H0.shiftMap ((y.comp T.mor₃ (by omega)).map G) 0 2 (add_zero 2) uP := by
       intro y
       rw [ShiftedHom.map_comp]
-      show (H0.shiftMap (y.map G) 0 1 (add_zero 1) ≫
+      change (H0.shiftMap (y.map G) 0 1 (add_zero 1) ≫
         H0.shiftMap (ShiftedHom.map (show ShiftedHom T.obj₃ T.obj₁ (1 : ℤ) from T.mor₃) G) 1 2
           (show (1 : ℤ) + 1 = 2 by norm_num)) uP = _
       rw [H0.shiftMap_comp_shiftMap (y.map G)
@@ -125,7 +125,7 @@ theorem exists_perfect_shiftedHomEquiv (P : DerivedCategory (ModuleCat.{u} A))
     refine ((AddEquiv.symm_apply_eq _).2 ?_).trans
       (congrArg (fun y : ShiftedHom P T.obj₃ 1 => y.comp T.mor₃ (by omega))
         ((Ψinv 1 T.obj₃).symm_apply_apply f)).symm
-    show H0.homologySequenceδ (G.mapTriangle.obj T) 1 2 (by omega) (Ψinv 1 T.obj₃ f) =
+    change H0.homologySequenceδ (G.mapTriangle.obj T) 1 2 (by omega) (Ψinv 1 T.obj₃ f) =
       Ψinv 2 T.obj₁ (f.comp T.mor₃ (by omega))
     rw [hΨinv 2 T.obj₁, ← key f]
     exact congrArg _ (hΨinv 1 T.obj₃ f)

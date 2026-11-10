@@ -169,11 +169,7 @@ theorem bijective_sectionsPrecomp_structuredArrowDownwards
       StructuredArrow.homMk (𝟙 _) (by
         dsimp [Kf, Ku, costructuredArrowOpEquivalence, TwoSquare.structuredArrowDownwards,
           CostructuredArrow.toStructuredArrow]
-        simp only [StructuredArrow.post, Functor.op_obj, ObjectProperty.ι_obj, Functor.op_map,
-          ObjectProperty.ι_map, StructuredArrow.mk_right, StructuredArrow.mk_hom_eq_self,
-          Quiver.Hom.unop_op, costructuredArrowPost, CostructuredArrow.post,
-          CostructuredArrow.mk_left, CostructuredArrow.mk_hom_eq_self, unop_id, Functor.map_id,
-          op_id, Category.comp_id, eqToHom_app, Functor.comp_obj, eqToHom_op]
+        simp only [ObjectProperty.ι_obj, eqToHom_app, Functor.comp_obj, eqToHom_op]
         erw [f.map_id, op_id, Category.comp_id])
     exact ((ℱ.map_id_apply _ _).symm.trans (s.property φ)).symm
   have hsq : Functor.sectionsPrecomp Ku ∘ Functor.sectionsPrecomp

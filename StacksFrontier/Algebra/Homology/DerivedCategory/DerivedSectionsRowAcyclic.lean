@@ -164,6 +164,7 @@ private theorem hypotheses_flip_of_rightAcyclic_of_nonneg
           ((gammaI (rowFunctor T p) (Icx Rs)).obj M) hz
           (gammaNu (rowFunctor T p) (Icx Rs) (nucx Rs ν) M) hqi⟩
 
+omit [HasCoproducts B] in
 /-- **The bridge:  the row hypotheses of the degeneration, from right acyclicity of the
 degreewise functors.**  Let `T` vanish in negative degrees, let the functorial resolution be
 concentrated in nonnegative degrees, and let every `T(-)^p` be right acyclic at `M`.  Then the
@@ -205,6 +206,7 @@ theorem isZero_kernel_of_isZero_src {X Y : B} (g : X ⟶ Y) (hX : IsZero X) :
   rw [Category.id_comp, zero_comp]
   exact hX.eq_of_tgt _ _
 
+omit [HasCoproducts B] in
 /-- **The row hypotheses, needing right acyclicity only in nonnegative degrees.**  In a negative
 degree `p` the whole row consists of zero objects, because `T` vanishes below degree zero, so both
 substantive fields are immediate:  the row is exact everywhere, and the kernel it must exhibit is

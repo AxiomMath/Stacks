@@ -249,7 +249,7 @@ theorem edsDerivedRestrictCompOpen_eq_mapDerivedCategoryCompIso :
       Functor.mapDerivedCategoryCompIsoOfCompIso (edsFactorIsoOpen B S hS hsq) := by
   rw [← edsDerivedRestrictCompOpen_eq]
   refine Iso.ext ?_
-  show (Functor.mapDerivedCategoryComp (edsRestrictOpen B S hS hsq)
+  change (Functor.mapDerivedCategoryComp (edsRestrictOpen B S hS hsq)
       (edsRestrictFst B S hS hsq)).inv ≫ _ = _
   rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIsoOfCompIso, Iso.trans_hom,
     Iso.symm_hom, Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom]
@@ -262,7 +262,7 @@ theorem edsDerivedRestrictCompEtale_eq_mapDerivedCategoryCompIso :
       Functor.mapDerivedCategoryCompIsoOfCompIso (edsFactorIsoEtale B S hS hsq) := by
   rw [← edsDerivedRestrictCompEtale_eq]
   refine Iso.ext ?_
-  show (Functor.mapDerivedCategoryComp (edsRestrictEtale B S hS hsq)
+  change (Functor.mapDerivedCategoryComp (edsRestrictEtale B S hS hsq)
       (edsRestrictSnd B S hS hsq)).inv ≫ _ = _
   rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIsoOfCompIso, Iso.trans_hom,
     Iso.symm_hom, Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom]

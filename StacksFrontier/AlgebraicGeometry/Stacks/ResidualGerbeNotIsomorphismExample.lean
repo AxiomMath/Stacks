@@ -917,10 +917,7 @@ theorem isReducedLocallyNoetherianUniquePointSubstack_iff_eq_canonicalPointSubst
     B₀ hQ hK B hS hU).1
   refine ⟨fun hQ' ↦ ?_, fun h ↦ h ▸ hP⟩
   exact Stack.eq_of_isReducedLocallyNoetherianUniquePointSubstack_of_representable
-    B cover.left hS _
-    (Stack.isRepresentableByAlgebraicSpace_fibredCategory B cover.left hS _
-      (isAlgebraicSpace_galoisSelfProductQuotient B₀ hQ hK B hS hU))
-    (isReducedWithUniquePoint_quotientStack.{w} B₀ hQ hK B hS hU).2.2 hQ' hP
+    B cover.left hS _ (isReducedWithUniquePoint_quotientStack.{w} B₀ hQ hK B hS hU).2.2 hQ' hP
 
 /-- **Stacks 06MS: `x` is the morphism constructed in Lemma 06MR, the uniqueness half.** Every
 strictly full subcategory of `X` of the kind **Stacks 06MR** produces — closed under isomorphism,

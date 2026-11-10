@@ -315,7 +315,7 @@ theorem dvrFracUnitPart_add_eq_one (hϖ : Irreducible ϖ) {f g : Fˣ}
     rw [map_add, map_one, ← hu, ← hv, hfg]
   have hring : (u : A) + (v : A) = 1 := IsFractionRing.injective A F hA
   rw [hpu, hpv]
-  show residue A (u : A) + residue A (v : A) = 1
+  change residue A (u : A) + residue A (v : A) = 1
   rw [← map_add, hring, map_one]
 
 end Stacks.Chow

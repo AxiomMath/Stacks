@@ -59,7 +59,7 @@ theorem sndIso_compat :
         εIso (K.prod' F)).hom ≫ (sndIso K F).hom.app (𝟙_ 𝒜) =
       ((Iso.refl hL.inv).hom ⊗ₘ (sndIso K F).hom.app L) ≫
         (β_ hL.inv (F.obj L) ≪≫ hL.isoLeft ≪≫ εIso F).hom := by
-  show 𝟙 _ ≫ ((β_ hL.inv (F.obj L)).hom ≫ hL.isoLeft.hom ≫ (ε (K.prod' F)).2) ≫ 𝟙 _ =
+  change 𝟙 _ ≫ ((β_ hL.inv (F.obj L)).hom ≫ hL.isoLeft.hom ≫ (ε (K.prod' F)).2) ≫ 𝟙 _ =
     (𝟙 _ ⊗ₘ 𝟙 _) ≫ ((β_ hL.inv (F.obj L)).hom ≫ hL.isoLeft.hom ≫ ε F)
   rw [Functor.prod'_ε_snd, id_tensorHom_id, Category.id_comp, Category.id_comp,
     Category.comp_id]
@@ -109,7 +109,7 @@ theorem fstIso_compat :
         G'.map ((β_ T (K.obj L)).hom ≫ ℓ.hom ≫ ε K) ≫ φ'.hom.app (𝟙_ 𝒜) ≫
           (β_ hL.inv (F.obj L) ≪≫ hL.isoLeft ≪≫ εIso F).inv :=
     hL.tensorRightEquivalence.fullyFaithfulFunctor.map_preimage _
-  show ((μ G' T (K.obj L) ≫ G'.map (𝟙 _)) ≫ G'.map ((β_ T (K.obj L)).hom ≫ ℓ.hom ≫
+  change ((μ G' T (K.obj L) ≫ G'.map (𝟙 _)) ≫ G'.map ((β_ T (K.obj L)).hom ≫ ℓ.hom ≫
       (ε (K.prod' F)).1) ≫ φ'.hom.app (𝟙_ 𝒜)) =
     ((tateIso G' φ' (ℓ := ℓ) (hL := hL)).hom ⊗ₘ φ'.hom.app L) ≫
       (β_ hL.inv (F.obj L) ≪≫ hL.isoLeft ≪≫ εIso F).hom

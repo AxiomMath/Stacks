@@ -136,7 +136,7 @@ theorem exists_epi_uliftYoneda_completionSheaf_of_isAffine (Y : BigFppfOver B S 
   let ι : affineOver B S hS hA (((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv ≫ Y.hom.hom) ⟶
       Y := siteHom B S hS ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv rfl
   have : IsIso ((BigFppfOver.toScheme B S hS).map ι) := by
-    show IsIso ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv
+    change IsIso ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv
     infer_instance
   have : IsIso ι := isIso_of_reflects_iso _ (BigFppfOver.toScheme B S hS)
   obtain ⟨Ti, hTi, hTpts⟩ := exists_isClosed_preimage_eq_supportedPoints hT (yoneda.map ι)
@@ -274,11 +274,11 @@ theorem exists_finiteTypeModification_completion_iso_of_nonempty_cover
     ⟨Cofan.IsColimit.desc hR _, Cofan.IsColimit.fac hR _⟩
   have ht' : t.hom ≫ qVs.hom = qRs.hom := congrArg (fun φ ↦ φ.hom)
     (Cofan.IsColimit.hom_ext hR (t ≫ qVs) qRs fun p ↦ by
-      show κ p ≫ t ≫ qVs = κ p ≫ qRs
+      change κ p ≫ t ≫ qVs = κ p ≫ qRs
       rw [reassoc_of% (ht p), hqVs, hqRs]; exact ObjectProperty.hom_ext _ (hfst p))
   have hs' : s.hom ≫ qVs.hom = qRs.hom := congrArg (fun φ ↦ φ.hom)
     (Cofan.IsColimit.hom_ext hR (s ≫ qVs) qRs fun p ↦ by
-      show κ p ≫ s ≫ qVs = κ p ≫ qRs
+      change κ p ≫ s ≫ qVs = κ p ≫ qRs
       rw [reassoc_of% (hs p), hqVs, hqRs]; exact ObjectProperty.hom_ext _ (hsnd p))
   -- the completed squares
   let β : ∀ k, Space.completionSheaf B S hS (A k).obj
@@ -395,7 +395,7 @@ theorem exists_finiteTypeModification_completion_iso_of_nonempty_cover
     obtain ⟨hc⟩ := nonempty_isColimit_cofan_completionSheafRestrict (A := A) (V := V) T
       (fun k ↦ hMsp k) (fun k ↦ (M k).obj.hom) ιV hV qVs.hom hqV
     refine Cofan.IsColimit.hom_ext hc _ _ fun k ↦ ?_
-    show Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ φ ≫ g =
+    change Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ φ ≫ g =
       Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫
         Space.completionSheafMap B S hS qVs.hom T
     rw [reassoc_of% (hφ k), ← Space.completionSheafRestrict_self B S hS qVs.hom T subset_rfl,
@@ -578,7 +578,7 @@ theorem exists_finiteTypeModification_completion_iso_atlas_size_le
   refine ⟨⟨Over.mk p, ⟨hX'', hpU⟩, hp⟩, ⟨?_⟩, ?_, V, q ≫ e.hom, epi_comp' hq inferInstance, hVsize⟩
   · let a : Over.mk (yoneda.map f) ⟶ Over.mk p := Over.homMk g' hgp
     have hleft : IsIso ((Space.completionOverFunctor B S hS T).map a).left := by
-      show IsIso (Space.completionOverMap B S hS T a)
+      change IsIso (Space.completionOverMap B S hS T a)
       unfold Space.completionOverMap
       have : IsIso (Space.completionSheafMap B S hS a.left
           (Space.pointsMap B S hS (Over.mk p).left (Over.mk p).hom ⁻¹' T)) := hiso

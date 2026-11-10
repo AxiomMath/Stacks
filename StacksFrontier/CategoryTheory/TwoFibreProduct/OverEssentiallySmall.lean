@@ -85,7 +85,7 @@ lemma exists_iso_of_skeletonCode_eq {P Q : TwoFibreProductOver p𝒳 p𝒴 p𝒮
   rw [← cancel_epi (F.map (fromSkeletonToSkeletonIso P.x).hom),
     ← cancel_mono (G.map (fromSkeletonToSkeletonIso Q.y).inv)]
   simp only [Category.assoc, ← Functor.map_comp, Iso.hom_inv_id, Category.comp_id]
-  simp only [Functor.map_comp, Iso.map_hom_inv_id_assoc]
+  simp only [Functor.map_comp, Iso.hom_inv_id_map_assoc]
   exact hφ.symm
 
 variable (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p𝒮 = p𝒴)

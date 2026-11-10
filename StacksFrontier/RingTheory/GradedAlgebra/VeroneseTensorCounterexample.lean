@@ -178,10 +178,10 @@ public theorem multiplicationDegreeOne_antisymmetrizer :
     multiplicationDegreeOne k (antisymmetrizer k) = 0 := by
   refine Subtype.ext ?_
   rw [antisymmetrizer, map_sub]
-  show (multiplicationDegreeOne k (xDegOne k ⊗ₜ[k] yDegOne k) : MvPolynomial (Fin 2) k) -
+  change (multiplicationDegreeOne k (xDegOne k ⊗ₜ[k] yDegOne k) : MvPolynomial (Fin 2) k) -
     (multiplicationDegreeOne k (yDegOne k ⊗ₜ[k] xDegOne k) : MvPolynomial (Fin 2) k) = 0
   rw [multiplicationDegreeOne_tmul, multiplicationDegreeOne_tmul]
-  show (X 0 : MvPolynomial (Fin 2) k) * X 1 - (X 1 : MvPolynomial (Fin 2) k) * X 0 = 0
+  change (X 0 : MvPolynomial (Fin 2) k) * X 1 - (X 1 : MvPolynomial (Fin 2) k) * X 0 = 0
   rw [mul_comm, sub_self]
 
 /-- The two degree-one monomial exponents are different. -/
@@ -357,13 +357,8 @@ public theorem veroneseAntisymmetrizer_ne_zero [Nontrivial k] : veroneseAntisymm
   have h1 := congrArg (veroneseSeparatingFunctional k) h
   rw [map_zero, veroneseAntisymmetrizer, map_sub, veroneseSeparatingFunctional_tmul,
     veroneseSeparatingFunctional_tmul] at h1
-  simp only [xVeronese, yVeronese, coeff_X, if_neg hne, if_neg hne.symm] at h1
+  simp only [xVeronese, yVeronese, coeff_X, ite_eq_right hne, ite_eq_right hne.symm] at h1
   simp at h1
-
-variable [DirectSum.Decomposition (tensorGrading (S := MvPolynomial (Fin 2) k)
-    (twistOneGrading k) (twistOneGrading k))]
-  [SetLike.GradedSMul (polyGrading k)
-    (tensorGrading (S := MvPolynomial (Fin 2) k) (twistOneGrading k) (twistOneGrading k))]
 
 /-- **The antisymmetrizer is in the kernel of the comparison** `veroneseTensorMap`: its image
 `x ⊗ y - y ⊗ x` in `S(1) ⊗_S S(1)` vanishes, since `x ⊗ y = 1 ⊗ xy = y ⊗ x` there. -/
@@ -392,10 +387,6 @@ public theorem not_injective_veroneseTensorMap [Nontrivial k] :
   veroneseAntisymmetrizer_ne_zero k
     (h ((veroneseTensorMap_veroneseAntisymmetrizer k).trans (map_zero _).symm))
 
-omit [DirectSum.Decomposition (tensorGrading (S := MvPolynomial (Fin 2) k)
-    (twistOneGrading k) (twistOneGrading k))]
-  [SetLike.GradedSMul (polyGrading k)
-    (tensorGrading (S := MvPolynomial (Fin 2) k) (twistOneGrading k) (twistOneGrading k))] in
 /-- `not_injective_veroneseTensorMap` at the decomposition of the tensor grading that the
 library uses everywhere,
 `Stacks.AlgebraicGeometry.ProjSheafFunctoriality.tensorGrading_decomposition`:

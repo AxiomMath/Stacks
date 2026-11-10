@@ -193,7 +193,7 @@ instance isOpenImmersion_chartMap : IsOpenImmersion (chartMap E hqc hW) := by
 theorem opensRange_chartMap :
     (chartMap E hqc hW).opensRange =
       (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ⁻¹ᵁ W := by
-  show (chartProjMap E hqc hW ≫
+  change (chartProjMap E hqc hW ≫
     (relativeProj (schemeSheafGradedAlgebra E hqc)).chart W hW).opensRange = _
   rw [Scheme.Hom.opensRange_comp_of_isIso, ← Scheme.Hom.image_top_eq_opensRange]
   exact Stacks.AlgebraicGeometry.RelativeProjTwistGlue.chart_image_top _ W hW
@@ -341,7 +341,7 @@ theorem chartGradedHom_of_chartPiece (m : Γ(E, W)) :
         (DirectSum.of ((schemeSheafGradedAlgebra E hqc).sectionPieces W) 1
           (chartPiece E hqc hW m)) =
       SymmetricAlgebra.ι Γ(X, W) Γ(E, W) m := by
-  show AffinePieces.symSectionRingEquiv E hW hqc
+  change AffinePieces.symSectionRingEquiv E hW hqc
       (DirectSum.of ((schemeSheafGradedAlgebra E hqc).sectionPieces W) 1
         (AffinePieces.pieceSectionsEquiv E hW ((1 : ℕ) : ℤ)
           (SymmetricAlgebra.toGradingOne Γ(X, W) Γ(E, W) m))) = _

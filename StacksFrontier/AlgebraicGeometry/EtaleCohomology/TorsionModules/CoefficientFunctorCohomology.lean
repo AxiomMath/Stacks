@@ -17,7 +17,7 @@ This file proves the `𝔽_ℓ`-basis trick of the proof of [Stacks, Tag 0GJC] i
 `H^q(X, T(ℤ/ℓ))` is finite for a prime `ℓ`, then `H^q(X, T^Λ(M))` is a finite `Λ`-module for every
 finite `Λ`-module `M` killed by `ℓ`; and, when `T^Λ` is exact and `Λ` Noetherian, the dévissage
 from an integer `n > 0` killing `M` to its prime divisors. The argument is word for word that of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/TorsionModules/ConstantCoefficientsCohomology.lean`,
+the file `ConstantCoefficientsCohomology.lean` in this directory,
 which is the case of the constant sheaf; only the properties of the constant sheaf functor listed
 above are used there.
 
@@ -81,6 +81,7 @@ theorem coefficientCohomologyMap_sum (q : ℕ) {A : AddCommGrpCat.{max (u + 1) r
     ((Sheaf.Γ X.smallEtaleTopology AddCommGrpCat.{max (u + 1) r}).rightDerived q).map_sum,
     Preadditive.sum_comp]
 
+omit [T.Additive] in
 /-- The map induced by `g ≫ φ` is the map `H^q(X, T(A)) ⟶ H^q(X, T(B))` induced by `T(g)` followed
 by the map induced by `φ`. -/
 theorem coefficientCohomologyMap_comp (q : ℕ) {A B : AddCommGrpCat.{max (u + 1) r}}
@@ -91,6 +92,7 @@ theorem coefficientCohomologyMap_comp (q : ℕ) {A B : AddCommGrpCat.{max (u + 1
           (T.map g) ≫ coefficientCohomologyMap e q φ := by
   simp only [coefficientCohomologyMap, Functor.map_comp, Category.assoc]
 
+omit [T.Additive] in
 /-- **Multiplication by a scalar after `φ` multiplies the induced map by that scalar**, as soon as
 multiplication by `a` on `M` induces multiplication by `a` on `T^Λ(M)`. -/
 theorem coefficientCohomologyMap_smul
@@ -118,11 +120,12 @@ theorem coefficientCohomologyMap_smul
   unfold coefficientCohomologyMap
   rw [T.map_comp φ, Category.assoc, Iso.app_inv, hθ, ← Category.assoc, Functor.map_comp,
     Category.assoc, Iso.app_inv, hψ]
-  simp only [Category.assoc, Iso.app_inv]
+  simp only [Category.assoc]
   rfl
 
 section Colimit
 
+omit [T.Additive] in
 /-- **On a quasi-compact quasi-separated scheme, every class of `H^q(X, T^Λ(M))` comes from a
 stage of a filtered colimit presentation of `M`**, `T` commuting with filtered colimits and étale
 cohomology of `X` commuting with filtered colimits (Stacks 03Q5). -/
@@ -190,7 +193,7 @@ theorem module_finite_coefficientCohomology_of_prime [CompactSpace X] [QuasiSepa
     fun m => AddCommGrpCat.ofHom
     ((ZMod.lift ℓ ⟨zmultiplesHom M m, hMZ m⟩).comp AddEquiv.ulift.toAddMonoidHom)
   have hιm : ∀ (m : M) (a : ZMod ℓ), ιm m (ULift.up a) = a.val • m := fun m a => by
-    show ZMod.lift ℓ ⟨zmultiplesHom M m, hMZ m⟩ a = a.val • m
+    change ZMod.lift ℓ ⟨zmultiplesHom M m, hMZ m⟩ a = a.val • m
     have ha : a = ((a.val : ℤ) : ZMod ℓ) := by rw [Int.cast_natCast, ZMod.natCast_zmod_val]
     calc ZMod.lift ℓ ⟨zmultiplesHom M m, hMZ m⟩ a
         = ZMod.lift ℓ ⟨zmultiplesHom M m, hMZ m⟩ ((a.val : ℤ) : ZMod ℓ) := congrArg _ ha
@@ -233,10 +236,10 @@ theorem module_finite_coefficientCohomology_of_prime [CompactSpace X] [QuasiSepa
     refine AddCommGrpCat.ext fun w => ?_
     rw [hsum]
     simp_rw [hsum]
-    show (w.1 : M) = ∑ k, ∑ j, c k j • (show M from ιm (s j) (ULift.up (e' k w)))
+    change (w.1 : M) = ∑ k, ∑ j, c k j • (show M from ιm (s j) (ULift.up (e' k w)))
     simp_rw [hιm, smul_comm (c _ _) ((e' _ w).val), ← Finset.smul_sum, ← hc]
     conv_lhs => rw [hv w]
-    rw [AddSubgroup.val_finset_sum]
+    rw [AddSubgroup.val_finsetSum]
     rfl
   rw [hφS, key, coefficientCohomologyMap_sum, hsum]
   refine Submodule.sum_mem (p := Submodule.span Λ gens) fun k _ => ?_
@@ -314,7 +317,7 @@ theorem module_finite_coefficientCohomology_of_nsmul_eq_zero [IsNoetherianRing �
         have h : g x = 0 := x.2
         exact (Submodule.Quotient.mk_eq_zero K).1 h
       apply Subtype.ext
-      show ℓ • (x : M) = 0
+      change ℓ • (x : M) = 0
       simpa [K] using hx
     have h₃ : Module.Finite Λ (((etaleModuleGlobalSections.{u, r} Λ X).rightDerived q).obj
         (TΛ.obj S.X₃)) := by
@@ -323,9 +326,9 @@ theorem module_finite_coefficientCohomology_of_nsmul_eq_zero [IsNoetherianRing �
         S.X₃ ?_
       intro x
       obtain ⟨m, rfl⟩ := K.mkQ_surjective x
-      show n' • K.mkQ m = 0
+      change n' • K.mkQ m = 0
       rw [← map_nsmul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, LinearMap.mem_ker]
-      show ℓ • n' • m = 0
+      change ℓ • n' • m = 0
       rw [smul_smul, ← hn', hM m]
     let F := (etaleModuleGlobalSections.{u, r} Λ X).rightDerived q
     let φ := (F.map (TΛ.map S.f)).hom

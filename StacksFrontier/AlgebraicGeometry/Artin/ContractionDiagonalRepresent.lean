@@ -72,7 +72,8 @@ theorem isPullback_diag_of_factors_iff (F : Cᵒᵖ ⥤ Type (max w v)) {a b : C
   have hl : ∀ {G : Cᵒᵖ ⥤ Type (max w v)} (g₁ g₂ : G ⟶ F) (U : Cᵒᵖ) (x : G.obj U),
       (prod.fst : F ⨯ F ⟶ F).app U ((prod.lift g₁ g₂).app U x) = g₁.app U x ∧
       (prod.snd : F ⨯ F ⟶ F).app U ((prod.lift g₁ g₂).app U x) = g₂.app U x := fun g₁ g₂ U x =>
-    ⟨by rw [← NatTrans.comp_app_apply, prod.lift_fst], by rw [← NatTrans.comp_app_apply, prod.lift_snd]⟩
+    ⟨by rw [← NatTrans.comp_app_apply, prod.lift_fst],
+      by rw [← NatTrans.comp_app_apply, prod.lift_snd]⟩
   apply isPullback_of_isPullback_app
   intro U
   rw [Types.isPullback_iff]
@@ -137,7 +138,7 @@ theorem exists_isClosedImmersion_factors_iff
   have : IsIso fst := hpb.isIso_fst_of_isIso
   refine ⟨(Over.map V.hom).obj b', toV b', ?_, ?_⟩
   · have h : snd.left = b'.hom := (Category.comp_id _).symm.trans (Over.w snd)
-    show _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map b'.hom)
+    change _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map b'.hom)
     rw [← h]
     exact hpE.2 _ fst snd hpb
   · intro A hA φ

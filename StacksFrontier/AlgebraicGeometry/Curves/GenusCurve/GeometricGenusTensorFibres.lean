@@ -149,7 +149,7 @@ public theorem base_tensorPoint (t : E →ₐ[k] L) (y : PrimeSpectrum L) :
     (tensorPoint k E L t).base y =
       (Field.primeSpectrumTensorProductEquivAlgHom k E L).symm t := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (Field.algHomEquivTensorProductAlgHom k E L t).toRingHom y.asIdeal = _
+  change Ideal.comap (Field.algHomEquivTensorProductAlgHom k E L t).toRingHom y.asIdeal = _
   have hy : y.asIdeal = (⊥ : Ideal L) :=
     congrArg PrimeSpectrum.asIdeal (Subsingleton.elim y ⊥)
   rw [hy, ← RingHom.ker_eq_comap_bot]

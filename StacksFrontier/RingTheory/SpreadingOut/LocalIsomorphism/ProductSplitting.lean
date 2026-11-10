@@ -159,7 +159,7 @@ theorem exists_localizedRetraction_of_ker_le_sq (R S : Type) [CommRing R] [CommR
   have heA_r : ∀ r : R, eA' (algebraMap R A r) = algebraMap R A' r := by
     intro r
     rw [heA'def]
-    show eA (algebraMap R A r) = algebraMap R A' r
+    change eA (algebraMap R A r) = algebraMap R A' r
     rw [IsScalarTower.algebraMap_apply R S A r]
     rw [show eA (algebraMap S A (algebraMap R S r)) = algebraMap S A' (algebraMap R S r) from
         eA.commutes _]

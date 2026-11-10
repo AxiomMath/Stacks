@@ -228,7 +228,8 @@ Definition 0AIM all of whose members have a given property is a formal algebraic
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_affineEtaleAtlasWithProperty` of
 `StacksFrontier.AlgebraicGeometry.FormalSpace.FibreProductTypes`, to which it forwards, under the
 name used here. -/
-alias isFormalAlgebraicSpace_of_hasAffineEtaleAtlasWithProperty := isFormalAlgebraicSpace_of_affineEtaleAtlasWithProperty
+alias isFormalAlgebraicSpace_of_hasAffineEtaleAtlasWithProperty :=
+  isFormalAlgebraicSpace_of_affineEtaleAtlasWithProperty
 
 /-- **The atlas of the completion.** An étale covering `{X_i ⟶ X}` of an algebraic space `X`
 over `S`, read in the value universe of the formal algebraic spaces, induces an atlas of the
@@ -286,7 +287,7 @@ private theorem isFormalAtlas_completionSubspace
         t ≫ Sigma.desc fun i ↦ pullback.snd (ψ i) φ := by
       apply Sigma.hom_ext
       intro i
-      simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+      simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
       exact ((Space.isPullback_completionSubspaceMap B S hS (f i) Z).isoPullback_hom_snd).symm
     rw [hfac, Sheaf.isLocallySurjective_iff_epi]
     let : Epi t := hts.epi

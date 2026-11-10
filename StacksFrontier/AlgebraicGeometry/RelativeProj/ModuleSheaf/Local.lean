@@ -109,6 +109,7 @@ public def restrictModuleSections {V U : Opens (ProjectiveSpectrum.top ℬ)} (hV
 
 /-! ### Pointwise criteria -/
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 include hf in
 /-- **The comparison on sections is injective as soon as the fibre comparison is**, provided
 every point of the open is the image of a point of `Proj ℬ`. -/
@@ -120,7 +121,7 @@ public theorem injective_sectionsMap_of_pointwise (U : Opens (ProjectiveSpectrum
   refine Subtype.ext (funext fun x => ?_)
   obtain ⟨y, hy⟩ := hpt x
   have hyU : y ∈ U.comap (ProjectiveSpectrum.comap φ hφ) := by
-    show ProjectiveSpectrum.comapFun φ hφ y ∈ U
+    change ProjectiveSpectrum.comapFun φ hφ y ∈ U
     rw [hy]
     exact x.2
   have hval := congrFun (congrArg Subtype.val hyp) ⟨y, hyU⟩
@@ -131,6 +132,7 @@ public theorem injective_sectionsMap_of_pointwise (U : Opens (ProjectiveSpectrum
 
 /-! ### Locality of bijectivity -/
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 include hf in
 /-- **Bijectivity of the comparison on sections is local on the open.** Given a covering of `U`
 by opens over which the comparison on sections is surjective, together with injectivity of the
@@ -218,6 +220,7 @@ public theorem bijective_fibreMap_of_eq_comp {χ : 𝒜 →+*ᵍ 𝒞} (hχ : �
   obtain ⟨w, hw⟩ := h₁.2 (fibreMap ψ hψ f' y t)
   exact ⟨w, h₂ hw⟩
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] [DirectSum.Decomposition 𝒬] in
 include hf hf' in
 /-- **A factor inherits surjectivity on sections from the composite**, given injectivity of the
 other factor on the sections it reads. -/

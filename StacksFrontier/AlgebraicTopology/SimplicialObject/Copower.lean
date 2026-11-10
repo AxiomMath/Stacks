@@ -118,7 +118,7 @@ public theorem existsUnique_hom_app_eq (U : SSet.{w}) {V W : SimplicialObject C}
       V.δ i ≫ d n (U.δ i u) = d (n + 1) u ≫ W.δ i)
     (hσ : ∀ (n : ℕ) (i : Fin (n + 1)) (u : U.obj (op ⦋n⦌)),
       V.σ i ≫ d (n + 1) (U.σ i u) = d n u ≫ W.σ i) :
-    ∃! f : CategoryOfElements.π U ⋙ V ⟶ CategoryOfElements.π U ⋙ W,
+    ∃! f : Functor.Elements.π U ⋙ V ⟶ Functor.Elements.π U ⋙ W,
       ∀ (n : ℕ) (u : U.obj (op ⦋n⦌)), f.app ⟨u⟩ = d n u := by
   refine ⟨{ app := fun p => d p.obj.unop.len p.val, naturality := ?_ }, fun n u => rfl, ?_⟩
   · intro p q g
@@ -310,8 +310,8 @@ isomorphism sending `g : U × V ⟶ W` to `f_{n, u} = Sigma.ι _ u ≫ g_n`. -/
   sga "4 IV 4.3" "For each set I"]
 public theorem exists_corepresentableBy_copower (V : J ⥤ C) (U : J ⥤ Type w)
     [∀ j, HasCoproduct fun _ : U.obj j => V.obj j] :
-    ∃ h : ((whiskeringLeft U.Elements J C).obj (CategoryOfElements.π U) ⋙
-        coyoneda.obj (op (CategoryOfElements.π U ⋙ V))).CorepresentableBy (V.copower U),
+    ∃ h : ((whiskeringLeft U.Elements J C).obj (Functor.Elements.π U) ⋙
+        coyoneda.obj (op (Functor.Elements.π U ⋙ V))).CorepresentableBy (V.copower U),
       ∀ (W : J ⥤ C) (g : V.copower U ⟶ W) (j : J) (u : U.obj j),
         (h.homEquiv g).app ⟨u⟩ =
           Sigma.ι (fun _ : U.obj j => V.obj j) u ≫ g.app j := by
@@ -335,12 +335,12 @@ public theorem exists_corepresentableBy_copower (V : J ⥤ C) (U : J ⥤ Type w)
     · intro j j' φ
       apply Limits.Sigma.hom_ext
       intro u
-      rw [reassoc_of% ι_comp_copower_map, Sigma.ι_desc, Sigma.ι_desc_assoc]
+      rw [reassoc_of% ι_comp_copower_map, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
       exact f.naturality (X := (⟨u⟩ : U.Elements)) (Y := ⟨U.map φ u⟩) ⟨φ, rfl⟩
     · intro g
       ext j
-      exact Limits.Sigma.hom_ext _ _ fun u => Limits.Sigma.ι_desc _ _
-    · exact fun f => NatTrans.ext (funext fun ⟨_⟩ => Limits.Sigma.ι_desc _ _)
+      exact Limits.Sigma.hom_ext _ _ fun u => Limits.Sigma.ι_comp_desc _ _
+    · exact fun f => NatTrans.ext (funext fun ⟨_⟩ => Limits.Sigma.ι_comp_desc _ _)
   · intro W W' k g
     exact NatTrans.ext (funext fun ⟨_⟩ => (Category.assoc _ _ _).symm)
   · intro W g j u
@@ -424,7 +424,7 @@ noncomputable def cofanSumIsColimit : IsColimit (cofanSum f) :=
   Cofan.IsColimit.mk _
     (fun s => coprod.desc (Sigma.desc fun a => s.inj (Sum.inl a))
       (Sigma.desc fun b => s.inj (Sum.inr b)))
-    (fun s x => by cases x <;> simp [coprod.inl_desc, coprod.inr_desc])
+    (fun s x => by cases x <;> simp)
     (fun s m hm => coprod.hom_ext
       (Sigma.hom_ext _ _ fun a => by simpa [coprod.inl_desc] using hm (Sum.inl a))
       (Sigma.hom_ext _ _ fun b => by simpa [coprod.inr_desc] using hm (Sum.inr b)))
@@ -639,7 +639,7 @@ def psi (V : SimplicialObject C) (f : X ⟶ V.obj (Opposite.op ⦋k⦌)) :
   app n := Sigma.desc (fun (α : (yoneda.obj ⦋k⦌).obj n) => f ≫ V.map α.op)
   naturality {n m} φ := by
     refine Sigma.hom_ext _ _ fun α => ?_
-    rw [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+    rw [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
     simp
 
 /-- The component of `psi f` at level `n` sends the summand indexed by `α : [n] → [k]` via
@@ -650,7 +650,7 @@ lemma ι_psi_app (V : SimplicialObject C) (f : X ⟶ V.obj (Opposite.op ⦋k⦌)
     Sigma.ι (fun (_ : (yoneda.obj ⦋k⦌).obj n) => ((SimplicialObject.const C).obj X).obj n) α ≫
       (psi X k V f).app n = f ≫ V.map α.op := by
   dsimp only [psi]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- `Φ(psi f) = f` for every `f : X ⟶ V_k`. -/
 theorem phi_psi (V : SimplicialObject C) (f : X ⟶ V.obj (Opposite.op ⦋k⦌)) :
@@ -687,8 +687,8 @@ def psiTruncComp (n : ℕ) (hkn : k ≤ n) (W : SimplicialObject.Truncated C n)
       f ≫ W.map ((Truncated.inclusion n).preimage (Y := truncObjK k n hkn) α).op)
   naturality {m m'} φ := by
     refine Sigma.hom_ext _ _ fun α => ?_
-    rw [Functor.comp_map, Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_desc,
-      Sigma.ι_desc_assoc]
+    rw [Functor.comp_map, Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_comp_desc,
+      Sigma.ι_comp_desc_assoc]
     simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp]
     rw [Category.assoc, ← W.map_comp]
     congr 2
@@ -705,7 +705,7 @@ lemma ι_psiTruncComp_app (n : ℕ) (hkn : k ≤ n) (W : SimplicialObject.Trunca
       (psiTruncComp X k n hkn W f).app m =
       f ≫ W.map ((Truncated.inclusion n).preimage (Y := truncObjK k n hkn) α).op := by
   dsimp only [psiTruncComp]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- The inverse of `phiTrunc`: given `f : X ⟶ W_k`, the morphism `sk_n (X × Δ[k]) ⟶ W` whose
 component at level `m` sends the summand indexed by `α : m ⟶ [k]` via `f ≫ W(α)`. -/

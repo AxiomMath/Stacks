@@ -29,7 +29,7 @@ Then every cohomology sheaf of `Rf_! F` is constructible (Stacks 0GKY).
   when `f` has one and `g` is separated and quasi-finite (Zariski's main theorem).
 * `Stacks.EtaleCohomology.topologicalKrullDim_fiber_comp_le_of_locallyQuasiFinite`.
 * `Stacks.EtaleCohomology.prop_homology_derivedLowerShriek_singleFunctor_of_shortExact`.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch`.
+* `isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch`.
 
 ## Implementation notes
 
@@ -101,7 +101,7 @@ theorem topologicalKrullDim_fiber_comp_le_of_locallyQuasiFinite {T U Y : Scheme.
     (g : T ⟶ U) [LocallyOfFiniteType g] [LocallyQuasiFinite g] (f : U ⟶ Y)
     [LocallyOfFiniteType f] {d : ℕ} (hdim : ∀ s, topologicalKrullDim (f.fiber s) ≤ d) (s : Y) :
     topologicalKrullDim ((g ≫ f).fiber s) ≤ d := by
-  show (g ≫ f).fiberDimension s ≤ d
+  change (g ≫ f).fiberDimension s ≤ d
   refine (Scheme.Hom.fiberDimension_le_iff _ _ _).mpr fun x _ => ?_
   refine (topologicalKrullDimAt_fiber_comp_le_add g f x).trans ?_
   calc _ ≤ ((0 : ℕ) : WithBot ℕ∞) + f.fiberDimension (f (g x)) :=
@@ -179,7 +179,7 @@ private theorem nsmul_id_eq_zero_iff_forall_nsmul_eq_zero_aux {X : Scheme.{u}} {
     ext V y
     have h' := congrArg (fun φ => φ y) (h V)
     simp only at h'
-    show ((sheafToPresheaf _ _).map (c • 𝟙 G)).app V y = 0
+    change ((sheafToPresheaf _ _).map (c • 𝟙 G)).app V y = 0
     rw [h']
     exact hann (Opposite.unop V) y
 
@@ -191,7 +191,7 @@ unibranch, `j` a compactification of `f`, `Λ` a Noetherian ring with `m = 0` in
 for a prime `ℓ`. Then every cohomology sheaf of `Rf_! F` is constructible.
 
 `h0GKV` is Stacks 0GKV. -/
-theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch
+theorem isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch
     (B : BigEtaleSite.{u}) (Y : B.Scheme) [IsNoetherian Y.obj] {U : Scheme.{u}}
     [IrreducibleSpace U] (hU : IsGeometricallyUnibranch U) (f : U ⟶ Y.obj) [IsSeparated f]
     (hf : FinitePresentation f) (hdim : ∀ s, topologicalKrullDim (f.fiber s) ≤ 1)
@@ -282,11 +282,11 @@ theorem nsmul_id_eq_zero_iff_forall_nsmul_eq_zero {X : Scheme.{u}} {Λ : Type} [
 
 /-- **Stacks 0GKY over a geometrically unibranch source, any torsion coefficient ring, from
 Stacks 0GKV.** As
-`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch`,
+`isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch`,
 without the hypothesis that `F` is killed by a power of a prime: `F` is killed by `m`, and for a
 prime `ℓ ∣ m` the short exact sequence `0 → F[ℓ] → F → F/F[ℓ] → 0` has finite type locally
 constant terms (Stacks 093U) killed by `ℓ` and by `m / ℓ`. `h0GKV` is Stacks 0GKV. -/
-theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_isGeometricallyUnibranch
+theorem isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_geomUnibranch
     (B : BigEtaleSite.{u}) (Y : B.Scheme) [IsNoetherian Y.obj] {U : Scheme.{u}}
     [IrreducibleSpace U] (hU : IsGeometricallyUnibranch U) (f : U ⟶ Y.obj) [IsSeparated f]
     (hf : FinitePresentation f) (hdim : ∀ s, topologicalKrullDim (f.fiber s) ≤ 1)
@@ -353,7 +353,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLo
   have hS : S.ShortExact := { exact := S.exact_of_g_is_cokernel (cokernelIsCokernel ι) }
   refine prop_homology_derivedLowerShriek_singleFunctor_of_shortExact f j Λ _ S hS
     (fun q' => ?_) (fun q' => ih c' hc'lt hc'pos _ hQ hQc q') q
-  exact isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch
+  exact isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_unibranch
     B Y hU f hf hdim j Λ m hm hΛ hℓ le_rfl h0GKV _ hK
     (by simpa using (nsmul_id_eq_zero_iff_forall_nsmul_eq_zero _ ℓ).1 hKℓ) q'
 

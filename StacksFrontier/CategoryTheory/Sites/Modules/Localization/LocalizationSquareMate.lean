@@ -79,7 +79,9 @@ variable {C₁ : Type uu₁} [Category.{vv₁} C₁] {C₂ : Type uu₂} [Catego
   (Φ₁ : Sheaf K (Type ww) ⥤ Sheaf J₁ (Type ww)) [PreservesFiniteProducts Φ₁]
   (Φ₂ : Sheaf J₁ (Type ww) ⥤ Sheaf J₂ (Type ww)) [PreservesFiniteProducts Φ₂]
 
-omit [J₂.HasSheafCompose (forget RingCat.{ww})] in
+omit [J₂.HasSheafCompose (forget RingCat.{ww})]
+  [J₁.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
 /-- The inverse of the comparison of the two iterated inverse images is also the identity on
 underlying sheaves of sets.  This is
 `Stacks.Sheaves.ToposPullback.forget_map_pullbackCommRingSheafComp_hom` for the inverse. -/

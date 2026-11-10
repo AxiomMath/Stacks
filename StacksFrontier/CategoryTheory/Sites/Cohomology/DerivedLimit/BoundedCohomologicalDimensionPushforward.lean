@@ -414,7 +414,7 @@ theorem isIso_homology_derivedPushforward_map_iff_w
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) j).map
         ((derivedPushforward.{u} f.toRingedToposSiteHom).map g)) ↔
       Y.J.W ((derivedPushforwardCohomologyAbPresheafFunctor f j).map g) := by
-  show IsIso ((derivedPushforward.{u} f.toRingedToposSiteHom ⋙
+  change IsIso ((derivedPushforward.{u} f.toRingedToposSiteHom ⋙
     DerivedCategory.homologyFunctor
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) j).map g) ↔ _
   rw [NatIso.isIso_map_iff (higherDirectImageIsoSheafifyCohomologyPresheaf f j) g]
@@ -478,6 +478,7 @@ private def sourceSituation : Stacks.Cohomology.OlssonLaszloSituation.{u, u, u, 
 attribute [local implicit_reducible] sourceSituation
 
 include hA basisCover vanishing basisCover' vanishing' hvanishImage h093Y in
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
 /-- **Stacks Project, Tag 0D6W.** Let `f : (C, O) ⟶ (C', O')` be a morphism of ringed sites, let
 `A ⊂ Mod(O)` be a weak Serre subcategory and let `N` be an integer such that
 
@@ -556,6 +557,7 @@ theorem isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation
         j m hm1 hm2)
 
 include hA basisCover vanishing basisCover' vanishing' hvanishImage in
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
 /-- **Stacks Project, Tag 0D6W for a flat morphism of ringed sites**, with no input carried.
 Flatness — left exactness of `f^*`, Stacks 03DJ — gives Stacks 093Y, hence the identification
 `Hʲ(V', Rf_*K) = Hʲ(u(V'), K)` of Stacks 0D6I through which the conclusion is read locally. -/

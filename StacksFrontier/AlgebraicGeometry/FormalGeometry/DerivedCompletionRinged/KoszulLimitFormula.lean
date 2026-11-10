@@ -97,10 +97,12 @@ described in this section.
   [Stacks, Tag 08JJ], that `K ⊗^𝐋_𝒪 K_n^∨ ⟶ R𝑆heafHom_𝒪(K_n, K)` is invertible for a perfect
   `K_n`: what is proved is its base case and the closure properties of the class of objects at
   which it holds — `isIso_derivedTensorDualToSheafHom_structureSheaf` of
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCompositionUnit.lean`, together with the dévissage steps of
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedTensorDualDevissage.lean`, which reach every retract of a finite direct sum of copies
-  of `𝒪` and not the Koszul complexes. But the proof of [Stacks, Tag 0A0A] uses that clause
-  only to identify the tower `n ↦ K ⊗^𝐋_𝒪 K_n^∨` with the tower
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCompositionUnit.lean`,
+  together with the dévissage steps of
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedTensorDualDevissage.lean`,
+  which reach every retract of a finite direct sum of copies of `𝒪` and not the Koszul complexes.
+  But the proof of [Stacks, Tag 0A0A] uses that clause only to identify the tower
+  `n ↦ K ⊗^𝐋_𝒪 K_n^∨` with the tower
   `n ↦ R𝑆heafHom_𝒪(K_n, K)`, and clause 3 itself — the isomorphism, with both naturalities — is
   in the library for a perfect object by the route of [Stacks, Tag 0ATN], as
   `AlgebraicGeometry.RingedSite.derivedDualTensorSheafHomIso`. So the identification of the two

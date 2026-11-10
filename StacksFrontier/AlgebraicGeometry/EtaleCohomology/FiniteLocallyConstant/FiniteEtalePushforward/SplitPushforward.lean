@@ -274,7 +274,7 @@ private lemma mono_of_mono_left {X : Scheme.{u}} {A B : X.Etale} (a : A ⟶ B)
 private lemma mono_splitInj {X Y : Scheme.{u}} {f : X ⟶ Y} {V : Y.Etale} (s : Splitting f V)
     (j : Fin s.sheets) : Mono (splitInj s j) :=
   mono_of_mono_left _ (by
-    show Mono (pullbackSection f V (s.sheet j) (s.sheet_over j))
+    change Mono (pullbackSection f V (s.sheet j) (s.sheet_over j))
     have : IsSplitMono (pullbackSection f V (s.sheet j) (s.sheet_over j)) :=
       IsSplitMono.mk' ⟨pullback.fst V.hom f,
         pullbackSection_fst f V (s.sheet j) (s.sheet_over j)⟩
@@ -375,7 +375,7 @@ private lemma nonempty_isLimit_splitFanSheaf {X Y : Scheme.{u}} {f : X ⟶ Y} {V
   refine (Fan.isLimitMapConeEquiv _ _ _).symm ?_
   refine evaluationJointlyReflectsLimits _ (fun W ↦ ?_)
   refine (Fan.isLimitMapConeEquiv _ _ _).symm ?_
-  show IsLimit (Fan.mk (F.obj.obj (op ((Stacks.EtaleCohomology.smallEtaleBaseChange f).obj
+  change IsLimit (Fan.mk (F.obj.obj (op ((Stacks.EtaleCohomology.smallEtaleBaseChange f).obj
       ((etaleComp V.hom V.prop).obj W.unop))))
     (fun j ↦ F.obj.map (splitInj (s.comap (overHom V W.unop)) j).op))
   exact (nonempty_isLimit_splitFan (s.comap (overHom V W.unop)) F).some
@@ -418,13 +418,13 @@ private lemma pullbackSection_sheetOfIso {X Y : Scheme.{u}} (f : X ⟶ Y) {N : S
       Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom := by
   have h1 : (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
       pullback.fst (etaleObj q hq).hom f = 𝟙 (etaleObj q hq).left := by
-    show (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
+    change (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
       pullback.fst q f = 𝟙 N
     rw [Category.assoc, Category.assoc, pullbackSymmetry_hom_comp_fst]
     exact _root_.Stacks.Etale.ι_inv_comp_snd f q e he j
   have h2 : (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
       pullback.snd (etaleObj q hq).hom f = _root_.Stacks.Etale.sheetOfIso f q e j := by
-    show (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
+    change (Sigma.ι (fun _ : index ↦ N) j ≫ e.inv ≫ (pullbackSymmetry f q).hom) ≫
       pullback.snd q f = _
     rw [Category.assoc, Category.assoc, pullbackSymmetry_hom_comp_snd]
     rfl
@@ -450,7 +450,7 @@ private lemma range_pullbackSection_sheetOfIso {X Y : Scheme.{u}} (f : X ⟶ Y) 
     exact ⟨x, Scheme.Hom.comp_apply _ _ x⟩
 
 /-- Distinct components of a coproduct of schemes have disjoint images. -/
-private lemma disjoint_range_sigmaι {index : Type u} (Z : index → Scheme.{u})
+lemma disjoint_range_sigmaι {index : Type u} (Z : index → Scheme.{u})
     {j j' : index} (hjj' : j ≠ j') :
     Disjoint (Set.range (Sigma.ι Z j)) (Set.range (Sigma.ι Z j')) := by
   rw [Set.disjoint_left]
@@ -458,7 +458,7 @@ private lemma disjoint_range_sigmaι {index : Type u} (Z : index → Scheme.{u})
   exact hjj' (congrArg Sigma.fst ((sigmaι_eq_iff Z j' j y x).mp hy)).symm
 
 /-- The components of a coproduct of schemes cover it. -/
-private lemma iUnion_range_sigmaι {index : Type u} (Z : index → Scheme.{u}) :
+lemma iUnion_range_sigmaι {index : Type u} (Z : index → Scheme.{u}) :
     (⋃ j, Set.range (Sigma.ι Z j)) = Set.univ := by
   refine Set.iUnion_eq_univ_iff.2 fun p ↦ ?_
   obtain ⟨j, y, hy⟩ := (sigmaOpenCover Z).exists_eq p

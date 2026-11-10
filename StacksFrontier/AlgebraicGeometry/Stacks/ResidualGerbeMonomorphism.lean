@@ -138,7 +138,7 @@ private theorem isHomLift_iteratedSliceUnitIso_inv {C : Type u} [Category.{w} C]
     have hdom : (Over.forget T).obj
         (((Over.iteratedSliceEquiv T).functor ⋙
           (Over.iteratedSliceEquiv T).inverse).obj (Over.mk a)) = W := by
-      show Over.mk (a.left ≫ T.hom) = W
+      change Over.mk (a.left ≫ T.hom) = W
       exact congrArg Over.mk (Over.w a)
     refine IsHomLift.of_fac' (Over.forget T) (𝟙 W) _ hdom rfl ?_
     apply Over.OverMorphism.ext
@@ -192,7 +192,7 @@ theorem exists_vertical_iso_of_section_baseChange
   have hbase : q.base = (Over.map T.hom).obj a := by rw [← hqa]; exact q.hx.symm
   have : 𝒵.val.val.p.IsHomLift (𝟙 ((Over.map T.hom).obj a)) q.iso.hom :=
     hbase ▸ q.vertical
-  show 𝒵.val.val.p.IsHomLift _ (y.map (eqToHom hqa.symm) ≫ q.iso.hom)
+  change 𝒵.val.val.p.IsHomLift _ (y.map (eqToHom hqa.symm) ≫ q.iso.hom)
   rw [eqToHom_map]
   infer_instance
 

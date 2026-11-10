@@ -100,6 +100,7 @@ variable {S : Type u} [Category.{v} S] (J : GrothendieckTopology S)
 
 /-! ### The vanishing of the cohomology of the naive cotangent complex -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The naive cotangent complex has no cohomology outside degrees `-1` and `0`**, because it
 has no terms there.  This is what makes the exact sequence of Stacks 0E1Y six-term rather than
 infinite. -/

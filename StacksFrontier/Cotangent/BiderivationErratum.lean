@@ -75,11 +75,11 @@ variable {k : Type u} [CommRing k]
 
 /-- The first coordinate of `leftPoint k` is `1`. -/
 @[simp]
-theorem leftPoint_zero : leftPoint k 0 = 1 := if_pos rfl
+theorem leftPoint_zero : leftPoint k 0 = 1 := ite_eq_left rfl
 
 /-- The second coordinate of `leftPoint k` is `0`. -/
 @[simp]
-theorem leftPoint_one : leftPoint k 1 = 0 := if_neg (by decide)
+theorem leftPoint_one : leftPoint k 1 = 0 := ite_eq_right (by decide)
 
 /-- Every coordinate of `rightPoint k` is `0`. -/
 @[simp]
@@ -147,11 +147,11 @@ def erratumValues : Fin 2 → ErratumModule k := fun i ↦ if i = 0 then 0 else 
 
 /-- The value prescribed on `x` is `0`. -/
 @[simp]
-theorem erratumValues_zero : erratumValues k 0 = 0 := if_pos rfl
+theorem erratumValues_zero : erratumValues k 0 = 0 := ite_eq_left rfl
 
 /-- The value prescribed on `y` is `1`. -/
 @[simp]
-theorem erratumValues_one : erratumValues k 1 = 1 := if_neg (by decide)
+theorem erratumValues_one : erratumValues k 1 = 1 := ite_eq_right (by decide)
 
 /-- The counterexample bimodule is not degenerate: the zero family of prescribed values is
 compatible, so biderivations `k[x, y] → ErratumModule k` do exist, and the failure below is a

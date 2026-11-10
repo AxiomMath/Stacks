@@ -74,7 +74,7 @@ theorem isMQuasiregularSeq_iff_bijective_quasiRegularCanonicalMap (f : Fin r →
     refine Finsupp.lhom_ext fun d m => ?_
     simp only [LinearMap.comp_apply, LinearMap.restrictScalars_apply,
       LinearEquiv.coe_coe, Finsupp.lsum_single]
-    show phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
+    change phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
     simp only [e, TensorProduct.equivFinsuppOfBasisLeft_symm_apply, Finsupp.sum_single_index,
       TensorProduct.tmul_zero]
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (Jid f • (⊤ : Submodule R M)) m
@@ -87,7 +87,7 @@ theorem isMQuasiregularSeq_iff_bijective_quasiRegularCanonicalMap (f : Fin r →
       (Finsupp.lsum R fun d => phiMonoR (M := M) f d) ∘ₗ qf.toLinearMap := by
     refine Finsupp.lhom_ext fun d m => ?_
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective _ m
-    show qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
+    change qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
       (Finsupp.lsum R fun d => phiMonoR f d)
         (qf (Finsupp.single d (Submodule.Quotient.mk m)))
     have hq : qf (Finsupp.single d (Submodule.Quotient.mk m)) =
@@ -96,7 +96,7 @@ theorem isMQuasiregularSeq_iff_bijective_quasiRegularCanonicalMap (f : Fin r →
       exact Finsupp.mapRange_single
     rw [hq]
     simp only [qregPhi, Finsupp.lsum_single, LinearMap.comp_apply]
-    show DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
+    change DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
       (Submodule.Quotient.mk ⟨(∏ i, f i ^ d i) • m, _⟩) = imgTargetLin f d m
     have hd : d.sum (fun _ k => k) = qrMdeg d := by
       simp [Finsupp.sum_fintype, qrMdeg]
@@ -108,7 +108,7 @@ theorem isMQuasiregularSeq_iff_bijective_quasiRegularCanonicalMap (f : Fin r →
       rintro n hm rfl
       rfl
     exact hl _ _ hd
-  show Function.Bijective (qregPhi (M := M) f) ↔ _
+  change Function.Bijective (qregPhi (M := M) f) ↔ _
   rw [hphi, hmap]
   exact (qf.bijective.of_comp_iff _).trans (e.symm.bijective.of_comp_iff _)
 
@@ -119,7 +119,7 @@ theorem bijective_quasiRegularCanonicalMap_iff_isQuasiRegular (f : Fin r → R) 
       IsQuasiRegular M (List.ofFn f) := by
   let P := fun s : Σ n, Fin n → R =>
     Function.Bijective (quasiRegularCanonicalMap (M := M) s.2)
-  show P ⟨r, f⟩ ↔ P (List.equivSigmaTuple (List.equivSigmaTuple.symm ⟨r, f⟩))
+  change P ⟨r, f⟩ ↔ P (List.equivSigmaTuple (List.equivSigmaTuple.symm ⟨r, f⟩))
   rw [Equiv.apply_symm_apply]
 
 /-- **The two notions of quasi-regular sequence agree.** A finite family of elements of a

@@ -72,16 +72,16 @@ variable {S S₁ S₂ T T₁ T₂ : Type*} [Category S] [Category S₁] [Categor
 when those of the two squares are**, the outer one being their pasting. -/
 theorem isIso_twoSquare_of_pullbackComparison_paste
     (hpc : PullbackComparisonPaste eg₁ ef₁ eg₂ ef₂ ego efo cT cB)
-    [IsIso (twoSquare adjf adjf₁ eg₁ ef₁).natTrans]
-    [IsIso (twoSquare adjf₁ adjf₂ eg₂ ef₂).natTrans] :
-    IsIso (twoSquare adjf adjf₂ ego efo).natTrans := by
-  have : ∀ M, IsIso ((twoSquare adjf adjf₂ ego efo).natTrans.app M) := fun M => by
-    show IsIso (map adjf adjf₂ ego efo M)
+    [IsIso (twoSquare adjf adjf₁ eg₁ ef₁)]
+    [IsIso (twoSquare adjf₁ adjf₂ eg₂ ef₂)] :
+    IsIso (twoSquare adjf adjf₂ ego efo) := by
+  have : ∀ M, IsIso ((twoSquare adjf adjf₂ ego efo).app M) := fun M => by
+    change IsIso (map adjf adjf₂ ego efo M)
     rw [map_eq_of_pullbackComparison_paste adjf adjf₁ adjf₂ eg₁ ef₁ eg₂ ef₂ ego efo cT cB hpc M]
     have : IsIso (map adjf adjf₁ eg₁ ef₁ M) :=
-      inferInstanceAs (IsIso ((twoSquare adjf adjf₁ eg₁ ef₁).natTrans.app M))
+      inferInstanceAs (IsIso ((twoSquare adjf adjf₁ eg₁ ef₁).app M))
     have : IsIso (map adjf₁ adjf₂ eg₂ ef₂ (H₁.obj M)) :=
-      inferInstanceAs (IsIso ((twoSquare adjf₁ adjf₂ eg₂ ef₂).natTrans.app (H₁.obj M)))
+      inferInstanceAs (IsIso ((twoSquare adjf₁ adjf₂ eg₂ ef₂).app (H₁.obj M)))
     infer_instance
   exact NatIso.isIso_of_isIso_app _
 
@@ -113,7 +113,7 @@ theorem isIso_twoSquare_of_torIndependent (sq : IsPullback g' f' f g)
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
       (quasiCoherentDerivedPullbackCompIso f' g)
       (quasiCoherentDerivedPullbackCompIso g' f ≪≫
-        quasiCoherentDerivedPullbackCongr sq.w)).natTrans := by
+        quasiCoherentDerivedPullbackCongr sq.w)) := by
   have h := isIso_quasiCoherentDerivedBaseChange_natTrans
     (isQuasicoherent_homology_derivedPushforward_of_qcqs g')
     (isQuasicoherent_homology_derivedPushforward_of_qcqs f)
@@ -141,7 +141,7 @@ theorem isIso_twoSquare_of_paste_horiz (sqR : IsPullback g f' f h)
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))
       (quasiCoherentDerivedPullbackCompIso f'' (h' ≫ h))
       (quasiCoherentDerivedPullbackCompIso (g' ≫ g) f ≪≫
-        quasiCoherentDerivedPullbackCongr (sqL.paste_horiz sqR).w)).natTrans := by
+        quasiCoherentDerivedPullbackCongr (sqL.paste_horiz sqR).w)) := by
   have := isIso_twoSquare_of_torIndependent sqR hR
   have := isIso_twoSquare_of_torIndependent sqL hL
   exact Stacks.CategoryTheory.BaseChange.isIso_twoSquare_of_pullbackComparison_paste _

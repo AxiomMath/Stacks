@@ -90,7 +90,7 @@ theorem homology_single_shift_zero (F : DerivedCategory A ⥤ DerivedCategory B)
         (shiftFunctorZero (DerivedCategory B) ℤ).inv.app (F.obj Y) := by
     simp [Functor.commShiftIso_zero]
   have h₃ := Functor.shiftIso_zero_hom_app (DerivedCategory.homologyFunctor B 0) n (F.obj Y)
-  show (DerivedCategory.homologyFunctor B n).map
+  change (DerivedCategory.homologyFunctor B n).map
       (F.map (((DerivedCategory.singleFunctors A).shiftIso 0 0 0 ha).inv.app M)) ≫
     ((DerivedCategory.homologyFunctor B n).map ((F.commShiftIso (0 : ℤ)).hom.app Y) ≫
       ((DerivedCategory.homologyFunctor B 0).shiftIso 0 n n h).hom.app (F.obj Y)) = 𝟙 _
@@ -110,7 +110,7 @@ theorem shiftHomologyIsoU_naturality {C : Type*} [Category* C] [HasShift C ℤ]
   have e₁ := (F.commShiftIso s).hom.naturality f
   have e₂ := (DerivedCategory.homologyFunctor B 0).shiftIso_hom_naturality s n n' h (F.map f)
   let H := DerivedCategory.homologyFunctor B n
-  show H.map (F.map (f⟦s⟧')) ≫ (H.map ((F.commShiftIso s).hom.app Y) ≫
+  change H.map (F.map (f⟦s⟧')) ≫ (H.map ((F.commShiftIso s).hom.app Y) ≫
       ((DerivedCategory.homologyFunctor B 0).shiftIso s n n' h).hom.app (F.obj Y)) =
     (H.map ((F.commShiftIso s).hom.app X) ≫
       ((DerivedCategory.homologyFunctor B 0).shiftIso s n n' h).hom.app (F.obj X)) ≫

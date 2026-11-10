@@ -86,14 +86,15 @@ noncomputable def sigmaColimitIso :
           (Limits.Sigma.ι (fun i => colimit (CategoryTheory.Sigma.incl i ⋙ X)) i) })
   hom_inv_id := by
     ext i x
-    simp only [Limits.Sigma.ι_desc_assoc, colimit.ι_pre_assoc, colimit.ι_desc, Category.comp_id]
+    simp only [Limits.Sigma.ι_comp_desc_assoc, colimit.ι_pre_assoc, colimit.ι_desc,
+      Category.comp_id]
     rfl
   inv_hom_id := by
     ext ⟨i, x⟩
     simp only [colimit.ι_desc_assoc, Category.comp_id]
     exact (Category.assoc ..).trans <|
       (whisker_eq (colimit.ι (CategoryTheory.Sigma.incl i ⋙ X) x)
-        (Limits.Sigma.ι_desc _ i)).trans (colimit.ι_pre X (CategoryTheory.Sigma.incl i) x)
+        (Limits.Sigma.ι_comp_desc _ i)).trans (colimit.ι_pre X (CategoryTheory.Sigma.incl i) x)
 
 end SigmaCategory
 
@@ -111,9 +112,9 @@ theorem sigmaMap_comp_sigmaColimitIso_hom (φ : X₁ ⟶ X₂) :
     (Limits.Sigma.map fun i => colimMap (Functor.whiskerLeft (CategoryTheory.Sigma.incl i) φ)) ≫
         (sigmaColimitIso X₂).hom = (sigmaColimitIso X₁).hom ≫ colimMap φ := by
   ext i x
-  simp only [sigmaColimitIso_hom, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_desc,
-    Limits.Sigma.ι_desc_assoc, ι_colimMap_assoc, colimit.ι_pre, colimit.ι_pre_assoc, ι_colimMap,
-    Functor.whiskerLeft_app]
+  simp only [sigmaColimitIso_hom, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_comp_desc,
+    Limits.Sigma.ι_comp_desc_assoc, ι_colimMap_assoc, colimit.ι_pre, colimit.ι_pre_assoc,
+    ι_colimMap, Functor.whiskerLeft_app]
 
 end SigmaNaturality
 
@@ -149,10 +150,10 @@ theorem isIso_sigmaDesc_colimitPre :
         (Limits.Sigma.desc fun i =>
           colimit.pre (CategoryTheory.Sigma.desc e ⋙ F) (CategoryTheory.Sigma.incl i)) =
           colimit.pre (CategoryTheory.Sigma.desc e ⋙ F) (CategoryTheory.Sigma.incl i) :=
-      Limits.Sigma.ι_desc _ i
+      Limits.Sigma.ι_comp_desc _ i
     have h2 : Limits.Sigma.ι (fun i => colimit (e i ⋙ F)) i ≫
         (Limits.Sigma.desc fun i => colimit.pre F (e i)) = colimit.pre F (e i) :=
-      Limits.Sigma.ι_desc _ i
+      Limits.Sigma.ι_comp_desc _ i
     exact h2.trans (((colimit.pre_pre (F := F) (E := CategoryTheory.Sigma.desc e)
       (D := CategoryTheory.Sigma.incl i)).symm.trans
         (congrArg (· ≫ colimit.pre F (CategoryTheory.Sigma.desc e)) h1.symm)).trans
@@ -180,7 +181,7 @@ theorem colimitDecompositionIso_hom :
 theorem ι_colimitDecompositionIso_hom (i : I) :
     Limits.Sigma.ι (fun i => colimit (e i ⋙ F)) i ≫ (colimitDecompositionIso e F).hom =
       colimit.pre F (e i) :=
-  Limits.Sigma.ι_desc _ i
+  Limits.Sigma.ι_comp_desc _ i
 
 end
 
@@ -195,9 +196,9 @@ theorem sigmaMap_comp_colimitDecompositionIso_hom (α : F ⟶ G) :
         (colimitDecompositionIso e G).hom =
       (colimitDecompositionIso e F).hom ≫ colimMap α := by
   refine Limits.Sigma.hom_ext _ _ fun i => colimit.hom_ext fun x => ?_
-  simp only [colimitDecompositionIso_hom, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_desc,
-    Limits.Sigma.ι_desc_assoc, ι_colimMap_assoc, colimit.ι_pre, colimit.ι_pre_assoc, ι_colimMap,
-    Functor.whiskerLeft_app]
+  simp only [colimitDecompositionIso_hom, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_comp_desc,
+    Limits.Sigma.ι_comp_desc_assoc, ι_colimMap_assoc, colimit.ι_pre, colimit.ι_pre_assoc,
+    ι_colimMap, Functor.whiskerLeft_app]
 
 end Decomposition
 

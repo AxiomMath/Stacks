@@ -50,8 +50,8 @@ separately over modules.
 
 `AlgebraicGeometry.smallEtaleFinalBaseChangeIso` carries `@[no_expose]`. The instance saying that
 small étale base change preserves the final object is `private` in
-`StacksFrontier/AlgebraicGeometry/Topologies/Etale/SmallEtaleBaseChange.lean`, so it is reached by an
-`import all` of that module and may not appear in an exposed definition body; without
+`StacksFrontier/AlgebraicGeometry/Topologies/Etale/SmallEtaleBaseChange.lean`, so it is reached by
+an `import all` of that module and may not appear in an exposed definition body; without
 `@[no_expose]` the symptom is an ordinary synthesis failure naming `PreservesLimit`. Consumers
 still get the isomorphism and every statement about it.
 

@@ -123,7 +123,7 @@ theorem locallyFinite_primeDivisor_not_isDefinedAt
     (Set.range (pointsMap B S hS p.domain.toFunctor p.domain.ι)) hUopen hUne hgen
   refine (h.comp_injective Subtype.val_injective).subset fun Z ↦ ?_
   simp only [Function.comp_apply]
-  rw [if_pos Z.2]
+  rw [ite_eq_left Z.2]
 
 end AlgebraicGeometry.Space
 

@@ -108,7 +108,7 @@ theorem deRhamFirstChernClassAbelianOf_invertibleSheaf :
       -deRhamFirstChernClassAbelianOf B D (Stacks.Divisors.negativeTwist' Y) inferInstance := by
   let _ := Stacks.SheafOfModules.Picard.instAddCommGroupPicardGroup X.toRingedSpace.sheaf.obj
     (structureSheaf X.toRingedSpace.sheaf).property
-  show deRhamFirstChernClassAbelian B D _ = -deRhamFirstChernClassAbelian B D _
+  change deRhamFirstChernClassAbelian B D _ = -deRhamFirstChernClassAbelian B D _
   rw [← map_neg,
     eq_neg_of_add_eq_zero_left (Stacks.Divisors.picardClassOf_invertibleSheaf_add_negativeTwist Y)]
 
@@ -210,7 +210,7 @@ theorem derivedSectionsBase_map_realization_eq_zero
         (structureSheafRing (baseRingedSpace A)) ⊤).map r)).hom
         ((deRhamCohomologyAbelianIso B D m).hom.hom b) = 0 := h0
   refine h4.symm.trans ?_
-  show ((DerivedCategory.homologyFunctor _ m).map
+  change ((DerivedCategory.homologyFunctor _ m).map
     ((Stacks.Cohomology.DerivedSectionsModels.derivedSectionsFunctorIso
       (baseRingedSpace A) ⊤).hom.app K)).hom
       (((DerivedCategory.homologyFunctor _ m).map

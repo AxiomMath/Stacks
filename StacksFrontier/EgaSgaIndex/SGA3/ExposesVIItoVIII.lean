@@ -669,8 +669,15 @@ add_to_sga "3 VIIB 2.2" HopfAlgebra
 add_to_sga "3 VIIB 2.2.1" "Essential-image clause" AlgebraicGeometry.essImage_hopfSpec
 add_to_sga "3 VIIB 2.2.1" "partial" AlgebraicGeometry.hopfSpec
 add_to_sga "3 VIIB 2.2.1" "partial" AlgebraicGeometry.hopfSpec.fullyFaithful
-add_to_sga "3 VIIB 2.2.1" "object part of T ↦ O(T)"
-  AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine
+-- The target is Mathlib's anonymous instance `HopfAlgebra R Γ(G, ⊤)` of
+-- `Mathlib.AlgebraicGeometry.Group.Affine`, whose auto-generated name (119 characters
+-- without its namespace) does not fit on one line; it is assembled from pieces here.
+run_cmd do
+  let decl := Lean.Name.mkStr `AlgebraicGeometry <|
+    "instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpens" ++
+      "TopOfGrpObjOverSchemeSpecAsOverOfIsAffine"
+  Lean.Elab.Command.elabCommand
+    (← `(add_to_sga "3 VIIB 2.2.1" "object part of T ↦ O(T)" $(Lean.mkIdent decl)))
 add_to_sga "3 VIIB 2.2.1" "partial" CommHopfAlgCat
 add_to_sga "3 VIIB 2.2.1" "partial" CommHopfAlgCat.Hom
 add_to_sga "3 VIIB 2.2.1" "special case" CommHopfAlgCat.instCategory

@@ -190,8 +190,7 @@ theorem fibredSectionsBaseChange_eq_restrictionBaseChange
       restrictionBaseChange.{v, w, u, u} (R := fibredRings B S hS p) F.val g.op z := by
   let := fibredSectionAlgebra (B := B) (S := S) (hS := hS) (p := p) g
   let := fibredSectionsModule hp F x
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb =>
     exact ((map_add _ a b).trans (congrArg₂ (· + ·) ha hb)).trans (map_add _ a b).symm
   | tmul c t =>
@@ -226,7 +225,7 @@ private theorem surjective_liftBaseChange_compLeft (A Bc : Type*) [CommRing A] [
   refine (Module.BaseChange.bijective_liftBaseChange_of_basis
     (Pi.basisFun A κ) (Pi.basisFun Bc κ) ((Algebra.linearMap A Bc).compLeft κ)
     fun l => funext fun j => ?_).2
-  show algebraMap A Bc (Pi.basisFun A κ l j) = Pi.basisFun Bc κ l j
+  change algebraMap A Bc (Pi.basisFun A κ l j) = Pi.basisFun Bc κ l j
   rw [Pi.basisFun_apply, Pi.basisFun_apply]
   by_cases h : j = l
   · subst h
@@ -288,7 +287,7 @@ theorem mem_span_of_forall_restrict_mem_span_fibred
       F.val.obj (op (z i)) := fun i => Fintype.linearCombination _ fun l => rN i (τ l)
   have hsq : ∀ (i) (q : κ → fibredSectionRing B S hS p x), rN i (bT q) = bW i (rP i q) := by
     intro i q
-    show rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
+    change rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
     rw [Fintype.linearCombination_apply, map_sum, Fintype.linearCombination_apply]
     exact Finset.sum_congr rfl fun l _ => map_smul (rN i) (q l) (τ l)
   have hP : ∀ i,
@@ -298,7 +297,7 @@ theorem mem_span_of_forall_restrict_mem_span_fibred
     fun i => (hF (φ i) hx (hz i)).1
   have hn : ∀ i, rN i t ∈ LinearMap.range (bW i) := by
     intro i
-    show rN i t ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
+    change rN i t ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
     rw [Fintype.range_linearCombination]
     exact ht i
   have hmem := Module.BaseChange.mem_range_of_forall_mem_range_of_liftBaseChange
@@ -423,7 +422,7 @@ theorem fibredSectionsRestrict_smul
 theorem fibredSectionRestrict_comp {x y w : 𝒳} (g : y ⟶ x) (e : w ⟶ y)
     (a : fibredSectionRing B S hS p x) :
     fibredSectionRestrict (e ≫ g) a = fibredSectionRestrict e (fibredSectionRestrict g a) := by
-  show ((BigFppfOver.toScheme B S hS).map (p.map (e ≫ g))).appTop a = _
+  change ((BigFppfOver.toScheme B S hS).map (p.map (e ≫ g))).appTop a = _
   rw [p.map_comp, Functor.map_comp, Scheme.Hom.comp_appTop]
   rfl
 
@@ -431,7 +430,7 @@ theorem fibredSectionRestrict_comp {x y w : 𝒳} (g : y ⟶ x) (e : w ⟶ y)
 
 /-- The base change of the coordinate map `(κ → A) ⟶ (κ → B)` along `A → B` is surjective. -/
 theorem surjective_liftBaseChange_compLeft_algebraMap (A Bc : Type*) [CommRing A] [CommRing Bc]
-    [Algebra A Bc] (κ : Type*) [Fintype κ] [DecidableEq κ] :
+    [Algebra A Bc] (κ : Type*) [Finite κ] :
     Function.Surjective (((Algebra.linearMap A Bc).compLeft κ).liftBaseChange Bc) :=
   surjective_liftBaseChange_compLeft A Bc κ
 
@@ -479,23 +478,22 @@ theorem hasFiniteGlobalPresentation_over_of_finitePresentation
     let bW := Fintype.linearCombination (fibredSectionRing B S hS p y) fun i => rN (s i)
     have hsq : ∀ q, rN (π q) = bW (rP q) := by
       intro q
-      show rN (Fintype.linearCombination _ s q) = Fintype.linearCombination _ _ (rP q)
+      change rN (Fintype.linearCombination _ s q) = Fintype.linearCombination _ _ (rP q)
       rw [Fintype.linearCombination_apply, map_sum, Fintype.linearCombination_apply]
       exact Finset.sum_congr rfl fun l _ => map_smul rN (q l) (s l)
     refine ⟨?_, fun τ hτ => ?_⟩
     · refine Submodule.eq_top_iff'.2 fun t => ?_
       obtain ⟨ζ, rfl⟩ := hbc.2 t
-      induction ζ using TensorProduct.induction_on with
-      | zero => rw [map_zero]; exact zero_mem _
+      induction ζ using TensorProduct.inductionOn with
       | add a b ha hb => rw [map_add]; exact add_mem ha hb
       | tmul b m =>
-        show b • rN m ∈ _
+        change b • rN m ∈ _
         refine Submodule.smul_mem _ b ?_
         obtain ⟨q, rfl⟩ := hπ m
         rw [hsq, ← Fintype.range_linearCombination]
         exact LinearMap.mem_range_self _ _
     · have hτ' : bW τ = 0 := by
-        show Fintype.linearCombination _ _ τ = 0
+        change Fintype.linearCombination _ _ τ = 0
         rw [Fintype.linearCombination_apply]
         exact hτ
       have hmem := Module.BaseChange.mem_span_image_ker_of_liftBaseChange π bW rP rN hsq
@@ -535,7 +533,7 @@ theorem hasFiniteGlobalPresentation_over_of_finitePresentation
     obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun _).1
       (hspan ▸ Submodule.mem_top : fibredSectionsRestrict hp F (φ j) t ∈ _)
     refine ⟨fun i => fibredSectionRestrict e (c i), ?_⟩
-    show ∑ i, fibredSectionRestrict e (c i) • fibredSectionsRestrict hp F ((e ≫ φ j) ≫ hV) (s i) =
+    change ∑ i, fibredSectionRestrict e (c i) • fibredSectionsRestrict hp F ((e ≫ φ j) ≫ hV) (s i) =
       fibredSectionsRestrict hp F (e ≫ φ j) t
     rw [fibredSectionsRestrict_comp hp F (φ j) e t, ← hc, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -556,7 +554,7 @@ theorem hasFiniteGlobalPresentation_over_of_finitePresentation
       rw [fibredSectionsRestrict_smul hp F (φ j), fibredSectionsRestrict_comp hp F hV (φ j)]
     obtain ⟨d, hd⟩ := (hloc (φ j ≫ hV) (hyaff j)).2 _ hτ'
     refine ⟨fun l => fibredSectionRestrict e (d l), fun i => ?_⟩
-    show ∑ l, fibredSectionRestrict e (d l) * fibredSectionRestrict ((e ≫ φ j) ≫ hV) (r l i) =
+    change ∑ l, fibredSectionRestrict e (d l) * fibredSectionRestrict ((e ≫ φ j) ≫ hV) (r l i) =
       fibredSectionRestrict (e ≫ φ j) (τ₀ i)
     rw [fibredSectionRestrict_comp (φ j) e, ← hd i, map_sum]
     refine Finset.sum_congr rfl fun l _ => ?_

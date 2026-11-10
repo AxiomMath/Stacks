@@ -101,11 +101,11 @@ public theorem pullbackSectionHom_map {X Y : Scheme.{u}} (f : Y ⟶ X) (M : X.Mo
   have hnat := PresheafOfModules.naturality_apply
     ((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app M).val (homOfLE hUU').op a
   dsimp only [Functor.id_obj] at hnat
-  show Scheme.Modules.pullbackSection f M U' V h _ =
+  change Scheme.Modules.pullbackSection f M U' V h _ =
     Scheme.Modules.pullbackSection f M U V h' a
   unfold Scheme.Modules.pullbackSection
   rw [hnat]
-  show ConcreteCategory.hom (((Scheme.Modules.pullback f).obj M).val.map (homOfLE h).op)
+  change ConcreteCategory.hom (((Scheme.Modules.pullback f).obj M).val.map (homOfLE h).op)
       (ConcreteCategory.hom (((Scheme.Modules.pullback f).obj M).val.map
         ((Opens.map f.base).map (homOfLE hUU')).op) _) = _
   exact (PresheafOfModules.map_comp_apply (((Scheme.Modules.pullback f).obj M).val)

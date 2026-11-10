@@ -62,6 +62,7 @@ theorem isSchemeTheoreticallyDominant_genericFiber_fst {X : Scheme.{u}}
     isSchemeTheoreticallyDominant_Spec_map_algebraMap_of_isFractionRing R K
   infer_instance
 
+omit [IsDiscreteValuationRing R] in
 /-- **Morphisms of models into a separated model are unique.** If `X` is a model of `V` and
 `X' ⟶ Spec R` is separated, two morphisms of models `X ⟶ X'` for `V` are equal. -/
 theorem IsModelHom.eq_of_isModel_of_isSeparated {V X X' : Scheme.{u}}
@@ -79,6 +80,7 @@ theorem IsModelHom.eq_of_isModel_of_isSeparated {V X X' : Scheme.{u}}
     φ ψ p' (h₁.trans h₃.symm) ?_
   simpa using congr($hg ≫ pullback.fst p' (genericPointInclusion R K))
 
+omit [IsDiscreteValuationRing R] in
 /-- **There is at most one isomorphism of models** `X ≅ X'` for `V` when `X'` is separated over
 `R`: the uniqueness half of Stacks 0E97. -/
 theorem subsingleton_isModelHom_iso {V X X' : Scheme.{u}}
@@ -108,6 +110,7 @@ theorem IsModelHom.of_comp_eq {V W X X' : Scheme.{u}} {pW : W ⟶ Spec (CommRing
     apply pullback.hom_ext <;> simp [genericFiberMapOfHomOver, pullback.map]
   rw [← h₂, Category.assoc, hmap, h₄]
 
+omit [IsDiscreteValuationRing R] in
 /-- **An isomorphism over `R` compatible with morphisms of models from a common model is the
 unique isomorphism of models.** Let `c : W ⟶ X` and `c' : W ⟶ X'` be morphisms of models for `V`,
 with `X` a model and `X' ⟶ Spec R` separated. If `φ : X ≅ X'` is an isomorphism over `R` with

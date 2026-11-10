@@ -136,7 +136,7 @@ theorem tensorProdToProd_comp_prodToTensorProd :
     (tensorProdToProd (R := R) (M := M) (N := N)).comp prodToTensorProd =
       AlgHom.id R (SymmetricAlgebra R (M × N)) := by
   refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun mn => ?_)
-  show tensorProdToProd (prodToTensorProd (SymmetricAlgebra.ι R (M × N) mn)) =
+  change tensorProdToProd (prodToTensorProd (SymmetricAlgebra.ι R (M × N) mn)) =
     SymmetricAlgebra.ι R (M × N) mn
   rw [prodToTensorProd_ι, prodEta_apply, map_add, tensorProdToProd_tmul, tensorProdToProd_tmul,
     map_one, map_one, mul_one, one_mul, SymPow.symAlgMap_ι, SymPow.symAlgMap_ι, ← map_add]
@@ -147,7 +147,7 @@ theorem prodToTensorProd_comp_tensorProdToProd :
     (prodToTensorProd (R := R) (M := M) (N := N)).comp tensorProdToProd =
       AlgHom.id R (TensorProduct R (SymmetricAlgebra R M) (SymmetricAlgebra R N)) := by
   refine Algebra.TensorProduct.ext' fun x y => ?_
-  show prodToTensorProd (tensorProdToProd (x ⊗ₜ[R] y)) = x ⊗ₜ[R] y
+  change prodToTensorProd (tensorProdToProd (x ⊗ₜ[R] y)) = x ⊗ₜ[R] y
   have hleft : ∀ u : SymmetricAlgebra R M,
       prodToTensorProd (SymPow.symAlgMap (LinearMap.inl R M N) u) =
         u ⊗ₜ[R] (1 : SymmetricAlgebra R N) := fun u =>
@@ -287,8 +287,7 @@ theorem prodDecomposition_symm_blockIncl_mem (n : ℕ)
           (fun pq => TensorProduct R (symmetricPower pq.1.1 R M)
             (symmetricPower pq.1.2 R N)) pq t)) ∈ symmetricPower n R (M × N) := by
   obtain ⟨⟨p, q⟩, h⟩ := pq
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, map_add, map_add]
       exact Submodule.add_mem _ hx hy

@@ -56,17 +56,13 @@ theorem K2_exact : Function.Exact (K2ι (e := e) sV tV (v := v)) (K2Ψ sV tV hs 
     exact Prod.ext (Subtype.ext (LinearMap.mem_ker.mp E.2.1.2))
       (Subtype.ext (LinearMap.mem_ker.mp E.2.2))
 
-variable [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
-  [Module.Flat A' F]
-
-include hB hs ht hm in
+include hB hm in
 /-- The base change `derBC` of the image of an element of `F ⊗ K₂(v)` in `F ⊗ Der(v)` lies in
 `K₂(v₂)`. -/
 theorem derBC_mem_K2 (x : F ⊗[A'] K2 e v sV tV) :
     ((derBC hB m hm hv ((K2ι sV tV).lTensor F x) : Der e₂ v₂) : Q →ₗ[A'] (X'.obj ⊗[A'] F)) ∈
       K2 e₂ v₂ sV tV := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, map_add, Submodule.coe_add]
     exact add_mem hx hy
@@ -78,29 +74,31 @@ theorem derBC_mem_K2 (x : F ⊗[A'] K2 e v sV tV) :
 noncomputable def K2BC : F ⊗[A'] K2 e v sV tV →ₗ[A'] K2 e₂ v₂ sV tV :=
   LinearMap.codRestrict ((K2 e₂ v₂ sV tV).restrictScalars A')
     (((Der e₂ v₂).subtype.restrictScalars A') ∘ₗ derBC hB m hm hv ∘ₗ (K2ι sV tV).lTensor F)
-    (derBC_mem_K2 hB sV tV hs ht m hm hv)
+    (derBC_mem_K2 hB sV tV m hm hv)
 
 /-- `K2BC` sends `f ⊗ E` to `(1 ⊗ f) • postcomp φ E`. -/
 theorem K2BC_tmul (f : F) (E : K2 e v sV tV) :
-    ((K2BC hB sV tV hs ht m hm hv (f ⊗ₜ E) : K2 e₂ v₂ sV tV) : Q →ₗ[A'] (X'.obj ⊗[A'] F)) =
+    ((K2BC hB sV tV m hm hv (f ⊗ₜ E) : K2 e₂ v₂ sV tV) : Q →ₗ[A'] (X'.obj ⊗[A'] F)) =
       ((1 : X'.obj) ⊗ₜ[A'] f : X'.obj ⊗[A'] F) • postcomp φ E.1 := by
-  show ((derBC hB m hm hv ((K2ι sV tV).lTensor F (f ⊗ₜ E)) : Der e₂ v₂) :
+  change ((derBC hB m hm hv ((K2ι sV tV).lTensor F (f ⊗ₜ E)) : Der e₂ v₂) :
     Q →ₗ[A'] (X'.obj ⊗[A'] F)) = _
   rw [LinearMap.lTensor_tmul, derBC_tmul]
   rfl
 
+variable [Module.Flat A' F]
 
-omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']] in
 /-- For `F` flat over `A'`, tensoring the exact sequence `K2ι`, `K2Ψ` with `F` keeps it exact. -/
 theorem K2_lTensor_exact :
     Function.Exact ((K2ι (e := e) sV tV (v := v)).lTensor F) ((K2Ψ sV tV hs ht).lTensor F) :=
   Module.Flat.lTensor_exact F (K2_exact sV tV hs ht)
 
-include hB in
+variable [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
+
+include hs ht in
 /-- For `F` flat over `A'`, the base change map `K2BC : F ⊗ K₂(v) → K₂(v₂)` is bijective. -/
 theorem K2BC_bijective {w₂ : P →ₐ[A'] Y.obj} (hw : φ.bot.hom.hom.comp w = w₂)
     (hs₂ : v₂.comp sV = w₂) (ht₂ : v₂.comp tV = w₂) :
-    Function.Bijective (K2BC hB sV tV hs ht m hm hv) := by
+    Function.Bijective (K2BC hB sV tV m hm hv) := by
   have hD := derBC_bijective hB m hm hv
   have hιinj : Function.Injective ((K2ι (e := e) sV tV (v := v)).lTensor F) :=
     Module.Flat.lTensor_preserves_injective_linearMap _ fun a b h ↦
@@ -123,8 +121,7 @@ theorem K2BC_bijective {w₂ : P →ₐ[A'] Y.obj} (hw : φ.bot.hom.hom.comp w =
           (((precompDer e sV hs).restrictScalars A').lTensor F t,
             ((precompDer e tV ht).restrictScalars A').lTensor F t) := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero, map_zero, map_zero]; rfl
+      induction t using TensorProduct.inductionOn with
       | add a c ha hc => rw [map_add, map_add, ha, hc, map_add, map_add, Prod.mk_add_mk]
       | tmul f D => rfl
     rw [key, hzero sV hs hs₂ (LinearMap.mem_ker.mp y.2.1.2),
@@ -132,7 +129,7 @@ theorem K2BC_bijective {w₂ : P →ₐ[A'] Y.obj} (hw : φ.bot.hom.hom.comp w =
     rfl
   obtain ⟨x, hx⟩ := (K2_lTensor_exact sV tV hs ht z).mp hΨ
   refine ⟨x, Subtype.ext ?_⟩
-  show (derBC hB m hm hv ((K2ι sV tV).lTensor F x) : Q →ₗ[A'] (X'.obj ⊗[A'] F)) = y.1
+  change (derBC hB m hm hv ((K2ι sV tV).lTensor F x) : Q →ₗ[A'] (X'.obj ⊗[A'] F)) = y.1
   rw [show ((K2ι (e := e) sV tV (v := v)).lTensor F) x = z from hx, hz]
 
 end AlgebraicGeometry.Stack.GroupoidLift

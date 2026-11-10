@@ -81,7 +81,7 @@ theorem comap_vanishingIdeal_of_smooth {X Y : Scheme.{u}} (f : X ⟶ Y) [Smooth 
     (isReduced_subscheme_comap_of_smooth _ f (isReduced_subscheme_vanishingIdeal C))
     (isReduced_subscheme_vanishingIdeal D) (Closeds.ext ?_)
   rw [support_comap]
-  show f.base ⁻¹' ((vanishingIdeal C).support : Set Y) = _
+  change f.base ⁻¹' ((vanishingIdeal C).support : Set Y) = _
   rw [coe_support_vanishingIdeal, coe_support_vanishingIdeal, hD]
 
 /-- Two pullbacks of a reduced closed subscheme, viewed as subobjects of the two sources, agree

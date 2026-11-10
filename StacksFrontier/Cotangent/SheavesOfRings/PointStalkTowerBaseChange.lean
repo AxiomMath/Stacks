@@ -99,7 +99,7 @@ theorem stalkBaseChangedCotangentComplexIso_inv_one_tmul (n : ℤ)
     (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} B).property
     (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} D).property
     ((cotangentComplex J g).X n) m
-  show (Stacks.sheafModuleFiberOfCommRing Φ D).map
+  change (Stacks.sheafModuleFiberOfCommRing Φ D).map
       ((towerExtendScalarsCotangentComplexIso.{u, v, w} J g h).hom.f n)
       ((Stacks.Sheaves.StalkPullback.extendScalarsSheafStalkNatIso Φ h.hom
         (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} B).property
@@ -173,7 +173,7 @@ theorem pointStalkSquare_id_eq_idSquare :
     pointStalkSquare J Φ g (𝟙 A) h (Category.id_comp _).symm =
       CommAlgCat.idSquare (pointStalkAlgHom J g h Φ) := by
   refine (CommAlgCat.AlgebraSquare.mk.injEq _ _ _ _ _ _).mpr ⟨?_, rfl⟩
-  show ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 A.obj)).hom = RingHom.id _
+  change ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 A.obj)).hom = RingHom.id _
   rw [Functor.map_id]
   rfl
 

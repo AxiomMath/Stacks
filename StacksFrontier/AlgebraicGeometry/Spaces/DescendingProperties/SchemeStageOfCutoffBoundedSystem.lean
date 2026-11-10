@@ -98,10 +98,10 @@ theorem exists_stage_preimage_eq_univ_of_baseChangeSizeBounded {ν : Cardinal.{u
       hVo.preimage (schemePointsHomeomorph B S hS (C.siteDiagram.obj o₀)).symm.continuous⟩
   have hW : ((BigFppfOver.toScheme B S hS).mapCone L.cone).π.app o₀ ⁻¹ᵁ W = ⊤ := by
     refine TopologicalSpace.Opens.ext (Set.eq_univ_of_forall fun y ↦ ?_)
-    show (schemePointsHomeomorph B S hS (C.siteDiagram.obj o₀)).symm
+    change (schemePointsHomeomorph B S hS (C.siteDiagram.obj o₀)).symm
       ((BigFppfOver.toScheme B S hS).map (L.cone.π.app o₀) y) ∈ Vo
     rw [schemePointsHomeomorph_symm_toScheme_map]
-    show (pointsMap B S hS (yoneda.obj (C.siteDiagram.obj o₀)) (C.stageMap o₀) ∘
+    change (pointsMap B S hS (yoneda.obj (C.siteDiagram.obj o₀)) (C.stageMap o₀) ∘
       pointsMap B S hS (yoneda.obj L.cone.pt) (yoneda.map (L.cone.π.app o₀)))
       ((schemePointsHomeomorph B S hS L.cone.pt).symm y) ∈ V
     rw [← pointsMap_comp, ← L.toLimit_comp_limitπ o₀, pointsMap_comp]
@@ -565,7 +565,7 @@ theorem exists_isRepresentable_system_obj_of_isTerminal_of_isCutoffBoundedSystem
       rwa [hcomp]
     obtain ⟨y, rfl⟩ := hx
     refine ⟨pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j))) y, ?_⟩
-    show (pointsMap B S hS P.toFunctor P.ι ∘
+    change (pointsMap B S hS P.toFunctor P.ι ∘
         pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j)))) y =
       (pointsMap B S hS (limit D.system) (limit.π D.system (op j)) ∘
         pointsMap B S hS (P.preimage (limit.π D.system (op j))).toFunctor

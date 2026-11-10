@@ -155,7 +155,7 @@ theorem mem_hilbertPolynomialQuot_withModule_iff {T : (BigFppfOver B S hS)ᵒᵖ
     x ∈ ((D.withModule G hG).hilbertPolynomialQuot L P).obj T ↔
       (D.quotSiteInclusion φ).app T x ∈ (D.hilbertPolynomialQuot L P).obj T := by
   rw [mem_hilbertPolynomialQuot_iff, mem_hilbertPolynomialQuot_iff]
-  show (∀ (t : (BigFppfOver.toScheme B S hS).obj T.unop) (n : ℤ),
+  change (∀ (t : (BigFppfOver.toScheme B S hS).obj T.unop) (n : ℤ),
       P n = @CoherentObject.twistedEuler B S hS D.toCoherentSituation L hL
         (D.withModuleCohObject (T := T.unop) x) t n) ↔
     ∀ (t : (BigFppfOver.toScheme B S hS).obj T.unop) (n : ℤ),
@@ -248,7 +248,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
     exact e_nat g ▸ (e.hom.app (Opposite.op T) ⟨g⟩).2
   have hx₀mem : x₀ ∈ ((D.withModule G hG).hilbertPolynomialQuot L P).obj (Opposite.op T₀) := by
     rw [D.mem_hilbertPolynomialQuot_withModule_iff φ L P x₀]
-    show ι.app _ x₀ ∈ _
+    change ι.app _ x₀ ∈ _
     rw [hx₀]
     exact hymem s
   have hιmap : ∀ {T : BigFppfOver B S hS} (g : T ⟶ T₀),
@@ -256,7 +256,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
         D.quotSitePresheaf.map (g ≫ s).op y := by
     intro T g
     rw [D.quotSiteInclusion_map φ g.op x₀]
-    show D.quotSitePresheaf.map g.op (ι.app _ x₀) = _
+    change D.quotSitePresheaf.map g.op (ι.app _ x₀) = _
     rw [hx₀, op_comp, Functor.map_comp_apply]
   let f : ∀ T : (BigFppfOver B S hS)ᵒᵖ,
       (yoneda.obj T₀ ⋙ uliftFunctor.{u + 1, u}).obj T →
@@ -291,7 +291,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
       intro T T' k
       ext ⟨g⟩
       refine Subtype.ext ?_
-      show (D.withModule G hG).quotSitePresheaf.map (k.unop ≫ g).op x₀ =
+      change (D.withModule G hG).quotSitePresheaf.map (k.unop ≫ g).op x₀ =
         (D.withModule G hG).quotSitePresheaf.map k
           ((D.withModule G hG).quotSitePresheaf.map g.op x₀)
       rw [op_comp, Functor.map_comp_apply]
@@ -303,7 +303,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
     (isProper_of_isClosedImmersion B S hS (isAlgebraicSpace_yoneda B S hS T₀)
       (isAlgebraicSpace_yoneda B S hS Z) _ hsi) hq⟩
   ext T ⟨g⟩
-  show ULift.up (yonedaEquiv ((D.withModule G hG).quotSitePresheaf.map g.op x₀).toBase.hom) =
+  change ULift.up (yonedaEquiv ((D.withModule G hG).quotSitePresheaf.map g.op x₀).toBase.hom) =
     ULift.up ((yoneda.map s ≫ q).app T g)
   congr 1
   rw [← D.quotSiteInclusion_app_toBase φ, hιmap g]

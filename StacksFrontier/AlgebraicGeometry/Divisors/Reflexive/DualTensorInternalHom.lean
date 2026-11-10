@@ -271,7 +271,7 @@ theorem stalkDualTensorEquiv_tmul (E F : X.Modules) [E.IsFinitePresentation] (x 
     [Module.Projective (X.presheaf.stalk x) (E.presheaf.stalk x)]
     (m : F.presheaf.stalk x) (n : (dualSheaf E).presheaf.stalk x) (v : E.presheaf.stalk x) :
     stalkDualTensorEquiv E F x (m ⊗ₜ[X.presheaf.stalk x] n) v = dualStalkEquiv E x n v • m := by
-  show dualTensorHom (X.presheaf.stalk x) (E.presheaf.stalk x) (F.presheaf.stalk x)
+  change dualTensorHom (X.presheaf.stalk x) (E.presheaf.stalk x) (F.presheaf.stalk x)
       (dualStalkEquiv E x n ⊗ₜ[X.presheaf.stalk x] m) v = _
   rw [dualTensorHom_apply]
 
@@ -293,8 +293,7 @@ theorem bijective_stalkMapOfHom_tensorDualToSheafHomModule (E F : X.Modules)
         (stalkMapOfHom (tensorDualToSheafHomModule E F) x (e1.symm w))
       = stalkDualTensorEquiv E F x w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul m n =>
         obtain ⟨U1, hx1, f0, hf0⟩ :=
           TopCat.Presheaf.exists_germ_eq (C := Ab.{u}) F.val.presheaf m
@@ -316,7 +315,7 @@ theorem bijective_stalkMapOfHom_tensorDualToSheafHomModule (E F : X.Modules)
   have hfun : (sheafHomModuleStalkEquiv E F x) ∘ (stalkMapOfHom (tensorDualToSheafHomModule E F) x)
       = (stalkDualTensorEquiv E F x) ∘ e1 := by
     funext z
-    show sheafHomModuleStalkEquiv E F x (stalkMapOfHom (tensorDualToSheafHomModule E F) x z)
+    change sheafHomModuleStalkEquiv E F x (stalkMapOfHom (tensorDualToSheafHomModule E F) x z)
       = stalkDualTensorEquiv E F x (e1 z)
     rw [← hcomp (e1 z), LinearEquiv.symm_apply_apply]
   exact (Function.Bijective.of_comp_iff' (sheafHomModuleStalkEquiv E F x).bijective _).mp

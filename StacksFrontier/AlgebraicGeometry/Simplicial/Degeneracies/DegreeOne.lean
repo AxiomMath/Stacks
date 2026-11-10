@@ -204,7 +204,7 @@ private lemma ofHom_degeneracyZeroLift_comp_lift (F : P1 p →ₐ[p.A] p.P0)
   intro z
   cases z with
   | up z =>
-      show ULift.up (F (degeneracyZero p z)) = ULift.up z
+      change ULift.up (F (degeneracyZero p z)) = ULift.up z
       rw [hF]
 
 private lemma faceZeroLift_comp_degeneracyZeroLift :
@@ -354,7 +354,7 @@ lemma faceLift_comp_augmentationZeroLift :
   intro z
   cases z with
   | up z =>
-      show (ULift.up
+      change (ULift.up
           (augmentationZeroAlg p (faceZero p z)) : ULift.{max u v w x, v} p.B) =
         ULift.up (augmentationZeroAlg p (faceOne p z))
       exact congrArg (fun b : p.B => (ULift.up b : ULift.{max u v w x, v} p.B))
@@ -406,7 +406,7 @@ private lemma degreeOneUnderlying_isCoskeletal :
   let S := (degreeOneCoskeleton p).simplicial
   let L := (SimplexCategory.Truncated.inclusion 1).op
   have hIso : IsIso ((SimplicialObject.coskAdj (C := AlgCat.{max u v w x} p.A) 1).unit.app S) := by
-    show IsIso ((SimplicialObject.coskAdj
+    change IsIso ((SimplicialObject.coskAdj
       (C := AlgCat.{max u v w x} p.A) 1).unit.app
         ((degreeOneCoskeleton p).simplicial))
     rw [(degreeOneCoskeleton p).isCoskeleton]
@@ -452,17 +452,17 @@ private theorem extendBoundaryMap_fac (X : SSet)
   let iotaL : L ⋙ (∂Δ[n] : SSet) ⟶ L ⋙ (Δ[n] : SSet) :=
     Functor.whiskerLeft L (∂Δ[n]).ι
   have : IsIso iotaL := by
-    show IsIso ((SSet.truncation 1).map (∂Δ[n]).ι)
+    change IsIso ((SSet.truncation 1).map (∂Δ[n]).ι)
     exact SSet.isIso_truncation_boundary_ι (by omega)
   apply Functor.hom_ext_of_isRightKanExtension
     (L := L) (F' := X) (α := 𝟙 (L ⋙ X))
-  show Functor.whiskerLeft L ((∂Δ[n]).ι ≫ extendBoundaryMap X n hn α) ≫
+  change Functor.whiskerLeft L ((∂Δ[n]).ι ≫ extendBoundaryMap X n hn α) ≫
       𝟙 (L ⋙ X) = Functor.whiskerLeft L α ≫ 𝟙 (L ⋙ X)
   rw [extendBoundaryMap]
   simp only [Functor.whiskerLeft_comp, Category.comp_id]
   have hfac := Functor.liftOfIsRightKanExtension_fac X (𝟙 (L ⋙ X)) (Δ[n])
     ((asIso iotaL).inv ≫ Functor.whiskerLeft L α)
-  show iotaL ≫ Functor.whiskerLeft L
+  change iotaL ≫ Functor.whiskerLeft L
       (Functor.liftOfIsRightKanExtension X (𝟙 (L ⋙ X)) (Δ[n])
         ((asIso iotaL).inv ≫ Functor.whiskerLeft L α)) = Functor.whiskerLeft L α
   calc
@@ -545,7 +545,7 @@ private lemma degreeOneAugmentation_app_zero (x :
           (ULift.down ((degreeOneCoskeleton p).zeroIso.hom.hom x))) := by
   let K := degreeOneCoskeleton p
   let : Algebra p.A p.B := p.algebraMap.toAlgebra
-  show (K.augmentation.app (Opposite.op ⦋0⦌)).hom x =
+  change (K.augmentation.app (Opposite.op ⦋0⦌)).hom x =
     ULift.up (augmentationZero p (ULift.down (K.zeroIso.hom.hom x)))
   have hcomp : K.augmentation.app (Opposite.op ⦋0⦌) =
       K.zeroIso.hom ≫ AlgCat.ofHom (augmentationZeroLift p) :=
@@ -554,7 +554,7 @@ private lemma degreeOneAugmentation_app_zero (x :
       (augmentationZeroLift p) (K.zeroIso.hom.hom x) :=
     congrArg (fun f => f.hom x) hcomp
   rw [h]
-  show (ULift.algEquiv (R := p.A)).symm
+  change (ULift.algEquiv (R := p.A)).symm
       ((augmentationZeroAlg p) (ULift.down (K.zeroIso.hom.hom x))) = _
   rfl
 
@@ -566,12 +566,12 @@ theorem range_faceZero_sub_faceOne :
   let : Algebra p.A p.B := p.algebraMap.toAlgebra
   refine Set.ext fun z => ⟨?_, fun hz => ?_⟩
   · rintro ⟨q, rfl⟩
-    show (augmentationZeroAlg p).toRingHom (faceZero p q - faceOne p q) = 0
+    change (augmentationZeroAlg p).toRingHom (faceZero p q - faceOne p q) = 0
     rw [map_sub]
     exact sub_eq_zero.mpr (AlgHom.congr_fun (augmentation_comp_faces p) q)
   have hker : RingHom.ker (augmentationZero p) =
       Ideal.span (Set.range p.presentation.relation) := by
-    show RingHom.ker (MvPolynomial.aeval p.presentation.val) = _
+    change RingHom.ker (MvPolynomial.aeval p.presentation.val) = _
     exact p.presentation.ker_eq_ker_aeval_val.symm.trans
       p.presentation.span_range_relation_eq_ker.symm
   have hz' : z ∈ Ideal.span (Set.range p.presentation.relation) := by
@@ -610,7 +610,7 @@ theorem facePair_surjective :
   let : Algebra p.A p.B := p.algebraMap.toAlgebra
   intro a b hab
   have hmem : a - b ∈ {z : p.P0 | augmentationZero p z = 0} := by
-    show augmentationZero p (a - b) = 0
+    change augmentationZero p (a - b) = 0
     rw [map_sub, hab, sub_self]
   obtain ⟨q, hq⟩ := (range_faceZero_sub_faceOne p).symm ▸ hmem
   refine ⟨degeneracyZero p (a - faceZero p q) + q, ?_, ?_⟩
@@ -649,9 +649,9 @@ private theorem degreeOne_liftingProperty_one :
           SSet.yonedaEquiv (SSet.boundary.ι i ≫ α ≫ f) := rfl
       _ = SSet.yonedaEquiv (SSet.boundary.ι i ≫ (∂Δ[1]).ι ≫ β) := congrArg _ hm
       _ = SSet.yonedaEquiv β := by
-        show SSet.yonedaEquiv (SSet.stdSimplex.map (SimplexCategory.δ i) ≫ β) = _
+        change SSet.yonedaEquiv (SSet.stdSimplex.map (SimplexCategory.δ i) ≫ β) = _
         rw [← SSet.yonedaEquiv_naturality]
-        show Y.map (SimplexCategory.δ i).op (SSet.yonedaEquiv β) = _
+        change Y.map (SimplexCategory.δ i).op (SSet.yonedaEquiv β) = _
         rfl
   have hab : augmentationZero p a = augmentationZero p b :=
     congrArg ULift.down (((hface 0).symm.trans (degreeOneAugmentation_app_zero p x1)).symm.trans
@@ -675,17 +675,17 @@ private theorem degreeOne_liftingProperty_one :
     intro i
     apply SSet.yonedaEquiv.injective
     fin_cases i
-    · show SSet.yonedaEquiv (SSet.stdSimplex.δ 0 ≫ γ) =
+    · change SSet.yonedaEquiv (SSet.stdSimplex.δ 0 ≫ γ) =
         SSet.yonedaEquiv (SSet.boundary.ι (0 : Fin 2) ≫ α)
       rw [SSet.stdSimplex.yonedaEquiv_δ_comp γ 0]
       simpa [x1, γ] using hδ0
-    · show SSet.yonedaEquiv (SSet.stdSimplex.δ 1 ≫ γ) =
+    · change SSet.yonedaEquiv (SSet.stdSimplex.δ 1 ≫ γ) =
         SSet.yonedaEquiv (SSet.boundary.ι (1 : Fin 2) ≫ α)
       rw [SSet.stdSimplex.yonedaEquiv_δ_comp γ 1]
       simpa [x0, γ] using hδ1
   · apply SSet.yonedaEquiv.injective
     rw [SSet.yonedaEquiv_comp]
-    show f.app (Opposite.op ⦋1⦌)
+    change f.app (Opposite.op ⦋1⦌)
       (SSet.yonedaEquiv (SSet.yonedaEquiv.symm z)) = SSet.yonedaEquiv β
     rw [Equiv.apply_symm_apply]
     have hn := congrArg (fun g => g z)

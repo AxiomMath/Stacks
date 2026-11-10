@@ -50,7 +50,7 @@ public theorem isIso_piComparison_cohomology_zero {I : Type x}
   let : HasProduct fun i ↦ (Abelian.extFunctorObj.{w'}
       ((yoneda ⋙ (Functor.whiskeringRight _ _ _).obj AddCommGrpCat.free ⋙
         presheafToSheaf J AddCommGrpCat).obj U) 0).obj (F i) := by
-    show HasProduct fun i ↦
+    change HasProduct fun i ↦
       (Sheaf.cohomologyPresheafFunctor J 0 ⋙
         (evaluation Cᵒᵖ AddCommGrpCat.{w'}).obj (op U)).obj (F i)
     infer_instance
@@ -75,7 +75,7 @@ public theorem mono_piComparison_cohomology_one {I : Type x}
   let : HasProduct fun i ↦ (Abelian.extFunctorObj.{w'}
       ((yoneda ⋙ (Functor.whiskeringRight _ _ _).obj AddCommGrpCat.free ⋙
         presheafToSheaf J AddCommGrpCat).obj U) 1).obj (F i) := by
-    show HasProduct fun i ↦
+    change HasProduct fun i ↦
       (Sheaf.cohomologyPresheafFunctor J 1 ⋙
         (evaluation Cᵒᵖ AddCommGrpCat.{w'}).obj (op U)).obj (F i)
     infer_instance

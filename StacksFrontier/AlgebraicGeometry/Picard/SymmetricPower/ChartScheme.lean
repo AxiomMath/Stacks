@@ -124,8 +124,7 @@ theorem tensorHom_comp_tensorMap {T' T : Over S} [IsAffine T.left] [IsAffine T'.
       show familyBaseChangeMap X g ≫ pullback.fst X.hom T.hom = pullback.fst X.hom T'.hom by
         simp only [familyBaseChangeMap, pullback.lift_fst, pullback.map, Category.comp_id]]
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, tensorMap,
       Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq, appTopAlgHom_apply]
@@ -234,7 +233,7 @@ theorem familyKernel_chartFamily (T : Over S) [IsAffine T.left]
     {t : Fin d → Γ(X.left, ⊤) → Γ(T.left, ⊤)} (ht : IsChartFunction Γ(S, ⊤) w t) :
     familyKernel (chartFamily X w T ht) = chartIdeal Γ(S, ⊤) w t := by
   rw [familyKernel, chartFamily]
-  show Ideal.comap _ ((affineFamilyEquiv X d T) ((affineFamilyEquiv X d T).symm _)).1 = _
+  change Ideal.comap _ ((affineFamilyEquiv X d T) ((affineFamilyEquiv X d T).symm _)).1 = _
   rw [Equiv.apply_symm_apply]
   exact Ideal.comap_map_of_bijective _ (tensorHom_bijective X T)
 

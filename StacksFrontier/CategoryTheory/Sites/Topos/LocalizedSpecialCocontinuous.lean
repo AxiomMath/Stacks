@@ -330,7 +330,7 @@ variable {E : Type u} [Category.{v} E] {E' : Type u} [Category.{v} E']
 private theorem restrict_restrict {X Y Z : E'} (p : Y ⟶ X) (q : Z ⟶ Y) {r : Z ⟶ X}
     (h : q ≫ p = r) (x : M.obj (op X)) :
     M.restrictₛₗ q.op (M.restrictₛₗ p.op x) = M.restrictₛₗ r.op x := by
-  show M.map q.op (M.map p.op x) = M.map r.op x
+  change M.map q.op (M.map p.op x) = M.map r.op x
   exact (M.map_comp_apply p.op q.op x).symm.trans (M.congr_map_apply (by rw [← h, op_comp]) x)
 
 /-- **A generating family stays generating after restriction along an arrow.**  Every section
@@ -365,7 +365,7 @@ theorem generates_pushforward₀ [H.IsCocontinuous L L'] {U : E} {n : ℕ}
   refine ⟨b, ?_⟩
   have hc (i : Fin n) : M.restrictₛₗ (H.map (g ≫ f)).op (s i) =
       M.restrictₛₗ (H.map g ≫ H.map f).op (s i) := by
-    show M.map (H.map (g ≫ f)).op (s i) = M.map (H.map g ≫ H.map f).op (s i)
+    change M.map (H.map (g ≫ f)).op (s i) = M.map (H.map g ≫ H.map f).op (s i)
     exact M.congr_map_apply (by rw [H.map_comp]) (s i)
   have key : (∑ i, b i • M.restrictₛₗ (H.map (g ≫ f)).op (s i)) =
       M.restrictₛₗ (H.map g).op t := by

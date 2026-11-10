@@ -153,7 +153,7 @@ lemma exists_twist_lift {K T : CochainComplex.Plus C} (ψ : K ⟶ T) [QuasiIso �
     (CategoryTheory.inv (DerivedCategory.Q.map ψ.hom) ≫
       DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom)
   refine ⟨ObjectProperty.homMk a, DerivedCategory.Plus.ι.map_injective ?_⟩
-  show DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
+  change DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
     DerivedCategory.Q.map (ψ.hom ≫ a)
   rw [Functor.map_comp, ha, IsIso.hom_inv_id_assoc]
 
@@ -190,7 +190,7 @@ lemma twistChainEndo_comp (T : CochainComplex.Plus C) (g : T ⟶ P.mapCochainCom
   ext n : 2
   have hn := θ'.hom.naturality (g.hom.f n)
   dsimp at hn
-  show F₁.map (g'.hom.f n ≫ P'.map (g.hom.f n)) ≫
+  change F₁.map (g'.hom.f n ≫ P'.map (g.hom.f n)) ≫
       (𝟙 _ ≫ θ'.hom.app (P.obj (T.obj.X n)) ≫ θ.hom.app (T.obj.X n)) =
     (F₁.map (g'.hom.f n) ≫ θ'.hom.app (T.obj.X n)) ≫ (F₁.map (g.hom.f n) ≫ θ.hom.app (T.obj.X n))
   rw [Category.id_comp]
@@ -421,12 +421,12 @@ lemma twistTransportIso_hom_comp_twistResolutionIso {K T : CochainComplex.Plus C
           (F₂.mapCochainComplexPlus.map (transportCompMapInv F₁ Φ F₁' κ T)) := by
     rw [IsIso.eq_inv_comp, ← Category.assoc, hc, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (F₂.mapCochainComplexPlus.map (transportCompMapInv F₁ Φ F₁' κ T)))
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
-  show (twistTransportIso F₁ F₂ Φ F₁' κ K).hom ≫ (F₂.rightDerivedFunctorPlus.map
+  change (twistTransportIso F₁ F₂ Φ F₁' κ K).hom ≫ (F₂.rightDerivedFunctorPlus.map
       (F₁.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Q.map (Φ.mapCochainComplexPlus.map ψ))) ≫
         CategoryTheory.inv (twistComparison F₁ F₂ (Φ.mapCochainComplexPlus.obj T))) =
@@ -481,7 +481,7 @@ theorem derivedTwistEndo_transport
     rw [Category.assoc, hnat, ← Category.assoc, ← Functor.map_comp, Functor.map_comp,
       h₁, ← Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp,
       Functor.map_comp, Category.assoc]
-    show _ = _ ≫ DerivedCategory.Plus.Q.map
+    change _ = _ ≫ DerivedCategory.Plus.Q.map
       (Φ.mapCochainComplexPlus.map g' ≫ transportTwistMap P Φ P' ρ T)
     rw [Functor.map_comp]
   have e₁ := twistResolutionIso_hom_comp P' F₁' F₂ θ' ψ hT τ' g' hg'
@@ -498,7 +498,7 @@ theorem derivedTwistEndo_transport
     have hκ := κ.inv.naturality (g'.hom.f n)
     have hρn := hρ (T.obj.X n)
     dsimp at hκ hρn
-    show (F₁'.map (g'.hom.f n) ≫ θ'.hom.app (T.obj.X n)) ≫ κ.inv.app (T.obj.X n) =
+    change (F₁'.map (g'.hom.f n) ≫ θ'.hom.app (T.obj.X n)) ≫ κ.inv.app (T.obj.X n) =
       κ.inv.app (T.obj.X n) ≫ (F₁.map (Φ.map (g'.hom.f n) ≫ ρ.hom.app (T.obj.X n)) ≫
         θ.hom.app (Φ.obj (T.obj.X n)))
     have hρ' : θ'.hom.app (T.obj.X n) ≫ κ.inv.app (T.obj.X n) =

@@ -527,8 +527,7 @@ private theorem tensor_pow_mem_base
   have : ExpChar E p := expChar_of_injective_algebraMap (algebraMap F E).injective p
   have : ExpChar (E ⊗[F] M) p :=
     expChar_of_injective_algebraMap (algebraMap F (E ⊗[F] M)).injective p
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, by rw [map_zero]; exact (frobenius (E ⊗[F] M) p).map_zero.symm⟩
+  induction x using TensorProduct.inductionOn with
   | tmul e m =>
     obtain ⟨a, ha⟩ := hpow e
     refine ⟨algebraMap F M a * m ^ p, ?_⟩

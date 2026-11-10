@@ -105,7 +105,7 @@ private lemma topologicalKrullDimAt_baseChange
   let : Algebra k Γ(X, U) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom.toAlgebra
   let : Algebra.FiniteType k Γ(X, U) := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
     exact (f.finiteType_appLE (isAffineOpen_top _) hU _).comp
       (RingHom.FiniteType.of_surjective _
         (Scheme.ΓSpecIso (.of k)).symm.commRingCatIsoToRingEquiv.surjective)
@@ -358,9 +358,9 @@ private lemma isNode_iff_baseChange_of_isAlgClosed
   let : X.Over (AlgebraicGeometry.Spec (.of k)) := ⟨f⟩
   let : Y.Over (AlgebraicGeometry.Spec (.of K)) := ⟨q⟩
   have : LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k)) := by
-    show LocallyOfFiniteType f; infer_instance
+    change LocallyOfFiniteType f; infer_instance
   have : LocallyOfFiniteType (Y ↘ AlgebraicGeometry.Spec (.of K)) := by
-    show LocallyOfFiniteType q; infer_instance
+    change LocallyOfFiniteType q; infer_instance
   have : Flat g := Flat.SpecMap_iff.mpr (RingHom.Flat.of_isField (Field.toIsField k) _)
   have hdimY : topologicalKrullDim Y = 1 := (topologicalKrullDim_baseChange k K X f).trans hdim
   have hbr : AlgebraicGeometry.numberOfGeometricBranches X x =
@@ -462,7 +462,7 @@ private lemma isClosed_of_isNode_baseChange
   let q : Y ⟶ AlgebraicGeometry.Spec (.of K) := pullback.snd f g
   let : Y.Over (AlgebraicGeometry.Spec (.of K)) := ⟨q⟩
   have : LocallyOfFiniteType (Y ↘ AlgebraicGeometry.Spec (.of K)) := by
-    show LocallyOfFiniteType q; infer_instance
+    change LocallyOfFiniteType q; infer_instance
   have hdimY : topologicalKrullDim Y = 1 := (topologicalKrullDim_baseChange k K X f).trans hdim
   have hnode' : IsNode K Y y := hnode
   obtain ⟨-, -, hbrY⟩ :=
@@ -508,7 +508,7 @@ theorem isNode_iff_of_fieldExtension
   let c : AlgebraicGeometry.Spec (.of K') ⟶ AlgebraicGeometry.Spec (.of k') :=
     AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap k' K'))
   have hbc : b ≫ g = c ≫ a := by
-    show AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap K K')) ≫
+    change AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap K K')) ≫
         AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap k K)) =
       AlgebraicGeometry.Spec.map (CommRingCat.ofHom i.toRingHom) ≫
         AlgebraicGeometry.Spec.map (CommRingCat.ofHom (algebraMap k k'))
@@ -531,26 +531,26 @@ theorem isNode_iff_of_fieldExtension
   let e : Z ≅ V := pullbackLeftPullbackSndIso f g b ≪≫
     pullback.congrHom rfl hbc ≪≫ (pullbackLeftPullbackSndIso f a c).symm
   have he : e.hom ≫ qV = qZ := by
-    simp [e, qV, qZ, qU, q, pullback.map, Category.assoc, pullback.lift_snd]
+    simp [e, qV, qZ, qU, q, pullback.map, Category.assoc]
   have hep : e.hom ≫ pV ≫ pU = pZ ≫ p := by
-    simp [e, pV, pU, pZ, p, qU, q, pullback.map, Category.assoc, pullback.lift_fst]
+    simp [e, pV, pU, pZ, p, qU, q, pullback.map, Category.assoc]
   let : X.Over (AlgebraicGeometry.Spec (.of k)) := ⟨f⟩
   let : Y.Over (AlgebraicGeometry.Spec (.of K)) := ⟨q⟩
   let : U.Over (AlgebraicGeometry.Spec (.of k')) := ⟨qU⟩
   let : Z.Over (AlgebraicGeometry.Spec (.of K')) := ⟨qZ⟩
   let : V.Over (AlgebraicGeometry.Spec (.of K')) := ⟨qV⟩
   have : LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k)) := by
-    show LocallyOfFiniteType f; infer_instance
+    change LocallyOfFiniteType f; infer_instance
   have hlftq : LocallyOfFiniteType q := inferInstanceAs (LocallyOfFiniteType (pullback.snd f g))
   have hlftqU : LocallyOfFiniteType qU :=
     inferInstanceAs (LocallyOfFiniteType (pullback.snd f a))
   have : LocallyOfFiniteType (U ↘ AlgebraicGeometry.Spec (.of k')) := by
-    show LocallyOfFiniteType qU; infer_instance
+    change LocallyOfFiniteType qU; infer_instance
   have : LocallyOfFiniteType (Z ↘ AlgebraicGeometry.Spec (.of K')) := by
-    show LocallyOfFiniteType qZ
+    change LocallyOfFiniteType qZ
     exact inferInstanceAs (LocallyOfFiniteType (pullback.snd q b))
   have : LocallyOfFiniteType (V ↘ AlgebraicGeometry.Spec (.of K')) := by
-    show LocallyOfFiniteType qV
+    change LocallyOfFiniteType qV
     exact inferInstanceAs (LocallyOfFiniteType (pullback.snd qU c))
   have hdimU : topologicalKrullDim U = 1 :=
     (topologicalKrullDim_baseChange k k' X f).trans hdim

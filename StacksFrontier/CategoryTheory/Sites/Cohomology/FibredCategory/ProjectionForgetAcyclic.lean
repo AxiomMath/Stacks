@@ -209,7 +209,7 @@ theorem isIso_localizedStructureSheafComparison (U : s.C) :
   set κ := Stacks.SheafOfModules.localizedStructureSheafComparison s.topology s.base.J s.p O U
   have hκ : adj.homEquiv _ _ κ = (SheafOfModules.toSheaf _).map
       (SheafOfModules.unitToPushforwardObjUnit φ) := by
-    show adj.homEquiv _ _
+    change adj.homEquiv _ _
       ((Stacks.SheafOfModules.lowerShriekForgetComparison (Over.post (X := U) s.p) φ).app _ ≫
         (SheafOfModules.toSheaf _).map (SheafOfModules.pullbackObjUnitToUnit φ)) = _
     rw [Adjunction.homEquiv_naturality_right]

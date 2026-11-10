@@ -124,7 +124,7 @@ omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphisms of stages commute with the structure morphisms to the base. -/
 theorem stageMap_comp_stageOver {i j : I} (h : i ≤ j) :
     P.stageMap h ≫ P.stageOver j = P.stageOver i := by
-  show B.inclusion.map (Over.Hom.left ((P.diagram.map (homOfLE h)).1)) ≫
+  change B.inclusion.map (Over.Hom.left ((P.diagram.map (homOfLE h)).1)) ≫
       B.inclusion.map (Over.hom (P.diagram.obj j).1) = _
   rw [← Functor.map_comp]
   exact congrArg B.inclusion.map (Over.w ((P.diagram.map (homOfLE h)).1))
@@ -139,7 +139,7 @@ theorem stageMap_trans {i j k : I} (h : i ≤ j) (h' : j ≤ k) :
 omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphism for `i ≤ i` is the identity. -/
 theorem stageMap_refl (i : I) : P.stageMap (le_refl i) = 𝟙 _ := by
-  show (BigAffineFppf.toScheme B S hS).map (P.diagram.map (homOfLE (le_refl i))) = _
+  change (BigAffineFppf.toScheme B S hS).map (P.diagram.map (homOfLE (le_refl i))) = _
   rw [show homOfLE (le_refl i) = 𝟙 i from Subsingleton.elim _ _,
     CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
 
@@ -337,7 +337,7 @@ theorem chainStageBaseIso_w (i : I) :
       Over.hom ((P.diagram.obj i).1) := by
   apply B.inclusion.map_injective
   rw [Functor.map_comp, P.chainStageBaseIso_map]
-  show (P.stageIso i).hom ≫
+  change (P.stageIso i).hom ≫
     P.weakOver ⟨P.ideal i, P.isWeakIdealOfDefinition_ker i⟩ = P.stageOver i
   rw [P.weakOver_stage i, stageSpecOver, Iso.hom_inv_id_assoc]
 

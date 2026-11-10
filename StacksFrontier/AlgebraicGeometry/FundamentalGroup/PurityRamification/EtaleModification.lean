@@ -98,7 +98,7 @@ theorem etaleAt_of_etaleAt_comp_of_isBirational {X X' Y : Scheme.{u}} [IsNoether
   let q : (b ⁻¹ᵁ U).toScheme := (inv (b ∣_ U)) p
   have hq : b ((b ⁻¹ᵁ U).ι q) = x := by
     rw [← Scheme.Hom.comp_apply, ← morphismRestrict_ι, Scheme.Hom.comp_apply]
-    show U.ι ((b ∣_ U) ((inv (b ∣_ U)) p)) = x
+    change U.ι ((b ∣_ U) ((inv (b ∣_ U)) p)) = x
     rw [← Scheme.Hom.comp_apply (inv (b ∣_ U)), IsIso.inv_hom_id]
     rfl
   have hp := etaleAt_comp_of_etale (inv (b ∣_ U)) _ p

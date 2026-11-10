@@ -52,9 +52,9 @@ formed at the second as well. That is the `Abelian.toPreadditive` argument of
 composite functors are assembled with their factors passed explicitly, because instance search
 does not cross the two spellings.
 
-*The derived category model.* As in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMap`, the
-model `CategoryTheory.HasDerivedCategory.standard` is given priority, `relativeBoxKunnethMap` and
-the maps it is built from being stated at it.
+*The derived category model.* As in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMap`,
+the model `CategoryTheory.HasDerivedCategory.standard` is given priority, `relativeBoxKunnethMap`
+and the maps it is built from being stated at it.
 
 ## References
 
@@ -349,7 +349,7 @@ theorem isIso_kunnethLeftNatTrans_app_iff
       IsIso (relativeBoxKunnethMapUnbounded a b K L) := by
   have h₁ := ((kunnethSourceLeftIso a b L).app K).isIso_hom
   have h₂ := ((kunnethTargetLeftIso a b L).app K).isIso_hom
-  show IsIso ((kunnethSourceLeftIso a b L).hom.app K ≫ relativeBoxKunnethMapUnbounded a b K L ≫
+  change IsIso ((kunnethSourceLeftIso a b L).hom.app K ≫ relativeBoxKunnethMapUnbounded a b K L ≫
     (kunnethTargetLeftIso a b L).hom.app K) ↔ _
   exact @isIso_comp_comp_iff_of_isIso _ _ _ _ _ _ _ _ _ h₁ h₂
 
@@ -512,7 +512,7 @@ theorem isIso_kunnethRightNatTrans_app_iff
       IsIso (relativeBoxKunnethMapUnbounded a b K L) := by
   have h₁ := ((kunnethSourceRightIso a b K).app L).isIso_hom
   have h₂ := ((kunnethTargetRightIso a b K).app L).isIso_hom
-  show IsIso ((kunnethSourceRightIso a b K).hom.app L ≫ relativeBoxKunnethMapUnbounded a b K L ≫
+  change IsIso ((kunnethSourceRightIso a b K).hom.app L ≫ relativeBoxKunnethMapUnbounded a b K L ≫
     (kunnethTargetRightIso a b K).hom.app L) ↔ _
   exact @isIso_comp_comp_iff_of_isIso _ _ _ _ _ _ _ _ _ h₁ h₂
 

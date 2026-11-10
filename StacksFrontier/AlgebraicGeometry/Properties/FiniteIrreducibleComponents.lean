@@ -63,9 +63,9 @@ theorem finiteIrreducibleComponents_of_etale {X S : Scheme.{u}} (f : X ⟶ S) [E
     refine (Scheme.ofArrows_mem_precoverage_iff
       (P := @Flat ⊓ @LocallyOfFinitePresentation)).mpr ⟨fun s => ⟨false, s, rfl⟩, fun b => ?_⟩
     cases b
-    · show Flat (𝟙 S) ∧ LocallyOfFinitePresentation (𝟙 S)
+    · change Flat (𝟙 S) ∧ LocallyOfFinitePresentation (𝟙 S)
       exact ⟨inferInstance, inferInstance⟩
-    · show Flat f ∧ LocallyOfFinitePresentation f
+    · change Flat f ∧ LocallyOfFinitePresentation f
       exact ⟨inferInstance, inferInstance⟩
   exact ObjectProperty.IsLocal.component
     (P := fun Z : Scheme.{u} => ∀ V : Z.Opens, IsCompact (V : Set Z) →

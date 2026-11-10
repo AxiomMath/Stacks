@@ -110,8 +110,7 @@ theorem psiEquiv_comp_baseChange_toLoc (r : A) (N : Type u) [AddCommGroup N] [Mo
         (LinearMap.baseChange B (EtaPow.toLoc r N)) =
       EtaPow.toLoc (algebraMap A B r) (B ⊗[A] N) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c m =>
       have hc : (c ⊗ₜ[A] (EtaPow.toLoc r N m) : B ⊗[A] EtaPow.Loc r N) =
           c • ((1 : B) ⊗ₜ[A] (EtaPow.toLoc r N m)) := by

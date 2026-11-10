@@ -150,7 +150,7 @@ private theorem elementsFiberEquiv_natural {D : Type u₀} [Category.{v₀} D]
   have hy : Functor.pullbackFiber p x f = y := Subtype.ext
     (Functor.IsFiberedInSets.eq_of_isHomLift p f
       (Functor.IsPreFibered.pullbackMap x.2 f) φ).choose
-  show elementsFiberEquiv F V (Functor.pullbackFiber p x f) = F.map f.op s
+  change elementsFiberEquiv F V (Functor.pullbackFiber p x f) = F.map f.op s
   rw [hy]
   rfl
 

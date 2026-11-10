@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.Duality.DerivedTilde.QuasiCoherentDerivedPullbackMonoidalCommShift
+ StacksFrontier.AlgebraicGeometry.Duality.DerivedTilde.QuasiCoherentDerivedPullbackMonoidalCommShift
 public import
   StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.PullbackComparisonQcqsTriangles
 public import

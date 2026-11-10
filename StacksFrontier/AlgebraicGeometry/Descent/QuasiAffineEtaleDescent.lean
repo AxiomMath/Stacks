@@ -169,7 +169,7 @@ theorem exists_candidate_object_of_isPushout {v c a P₂ : BigFppfOver B S hS} (
   · have HS : IsPullback (Spec.map ((BigFppfOver.toScheme B S hS).map w).appTop)
         (Spec.map pR) (Spec.map ((BigFppfOver.toScheme B S hS).map q).appTop) (Spec.map kR) :=
       (po.op.map Scheme.Spec).flip
-    show IsPullback (Spec.map ((BigFppfOver.toScheme B S hS).map w).appTop
+    change IsPullback (Spec.map ((BigFppfOver.toScheme B S hS).map w).appTop
         ≫ ((BigFppfOver.toScheme B S hS).obj c).isoSpec.inv) (Spec.map pR)
       ((BigFppfOver.toScheme B S hS).map q)
       (Spec.map kR ≫ ((BigFppfOver.toScheme B S hS).obj a).isoSpec.inv)

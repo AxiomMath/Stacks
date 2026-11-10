@@ -195,6 +195,7 @@ theorem isPerfect_of_isPullback_of_isFlat
     sq hflat hf
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the fibre product `Limits.pullback f.hom g.hom` of algebraic spaces is deep
 /-- Flat base change of a perfect morphism of algebraic spaces in the `pullback` spelling: if
 `f : X ⟶ Y` is a perfect morphism of algebraic spaces and `g : Y' ⟶ Y` is flat, then the
 projection `X ×_Y Y' ⟶ Y'` is perfect.

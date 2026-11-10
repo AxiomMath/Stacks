@@ -163,7 +163,7 @@ theorem cechGenRingMap_id_f {r : ℕ} (f : Fin r → A)
       (ModuleCat.restrictScalarsId' (RingHom.id A) rfl).inv.app
         (ModuleCat.of A (Cech.cechTerm f A n)) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Cech.genRingTerm (RingHom.id A) f f id hf n x = x
+  change Cech.genRingTerm (RingHom.id A) f f id hf n x = x
   rw [Cech.genRingTerm_id_ring, Cech.genTerm_id]
   rfl
 

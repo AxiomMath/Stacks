@@ -46,6 +46,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_finiteNearCodimensionOnePoint :
@@ -59,6 +60,7 @@ private instance (priority := high) hasPullback_presheaf_finiteNearCodimensionOn
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- **Stacks Project, Tag 0AD2.** Let `f : X ⟶ Y` be a proper morphism of algebraic spaces over
 `S` with `Y` locally Noetherian, and let `y` be a point of `|Y|` whose local ring has dimension
 at most one. If one of the four generic quasi-finiteness conditions of Stacks 0AD1 holds, then

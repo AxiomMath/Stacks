@@ -199,7 +199,7 @@ public theorem twistedSheaf_succ_eq (F : X.Modules) (M : Fin (d + 1) → X.Modul
           (X.ringCatSheaf.2)⟩).obj (F)).obj
           ((tensorPower X.presheaf X.ringCatSheaf.2 (M 0) (n 0)))))
         (fun q : Fin d => M q.succ) (fun q => n q.succ) := by
-  show twistList M n (List.finRange (d + 1)) F = _
+  change twistList M n (List.finRange (d + 1)) F = _
   rw [List.finRange_succ]
   exact twistList_map_succ_tail M n (List.finRange d) _
 

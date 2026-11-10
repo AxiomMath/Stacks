@@ -106,7 +106,7 @@ theorem exists_affineOpen_bijective_smul_of_isInvertible (X : AlgebraicSpaces B 
     intro z _
     let z' : (↥O) := z
     obtain ⟨q, hqQ, hq⟩ := hOsub z'.2
-    show (chartSchemeMap κ₀).base z ∈ Q
+    change (chartSchemeMap κ₀).base z ∈ Q
     rwa [show (chartSchemeMap κ₀).base z = q from
       Subtype.ext ((Scheme.homOfLE_apply hOO₁ z').trans hq.symm)]
   have hOaff : IsAffine (chartScheme (openChart B S hS X.1 V O)) :=

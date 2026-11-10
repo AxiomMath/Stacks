@@ -327,7 +327,7 @@ public theorem targetPieceLinearEquiv_modulePieceMap (i : ℤ) (W : s.base.Opens
     (congrArg (fun z : sectionModule ℳ W => z i) ha).symm.trans
       (DirectSum.of_eq_same (β := sectionModulePieces ℳ W) i a)
   rw [hx]
-  show (sectionModuleBaseChangeAddHom g Ψ W W' h (x : sectionModule ℳ W)) i = _
+  change (sectionModuleBaseChangeAddHom g Ψ W W' h (x : sectionModule ℳ W)) i = _
   rw [← ha, sectionModuleBaseChangeAddHom_of]
   exact DirectSum.of_eq_same (β := sectionModulePieces ℳ' W') i _
 

@@ -181,7 +181,7 @@ theorem homotopyMatchingSquare
   have h₁ : endpoint.1.app (op ⦋m⦌) =
       hBottom.homEquiv.symm ((S.ι ▷ Δ[m]) ≫ hFull.homEquiv (𝟙 _)) := by
     rw [Equiv.eq_symm_apply]
-    show homFromSSetPointsEquiv S Δ[m] L (L ⨯ L) hBoundary _
+    change homFromSSetPointsEquiv S Δ[m] L (L ⨯ L) hBoundary _
       ((representableByStdSimplex (L ⨯ L) m).homEquiv _) = _
     rw [← Category.id_comp (endpoint.1.app _), representableByStdSimplex_postcomp]
     exact homFromSSetPointsEquiv_restriction hH hBoundary S.ι endpoint.1 hendpoint _ _
@@ -193,7 +193,7 @@ theorem homotopyMatchingSquare
             (representableByStdSimplex G m)).homEquiv (𝟙 _)) := by
     intro A G hG
     rw [Equiv.eq_symm_apply]
-    show homFromSSetPointsEquiv A T L G hG _
+    change homFromSSetPointsEquiv A T L G hG _
       ((representableByBoundarySucc G n).homEquiv _) = _
     rw [← boundarySucc_induced_eq_coskAdj_unit G n, Equiv.apply_symm_apply]
     exact homFromSSetPointsEquiv_precomp hG _ T.ι _
@@ -202,7 +202,7 @@ theorem homotopyMatchingSquare
   have h₄ : ((SimplicialObject.cosk n).map endpoint.1).app (op ⦋m⦌) =
       hRight.homEquiv.symm ((S.ι ▷ (T : SSet)) ≫ hTop.homEquiv (𝟙 _)) := by
     rw [Equiv.eq_symm_apply]
-    show homFromSSetPointsEquiv S T L (L ⨯ L) hBoundary _
+    change homFromSSetPointsEquiv S T L (L ⨯ L) hBoundary _
       ((representableByBoundarySucc (L ⨯ L) n).homEquiv _) = _
     have he := representableByBoundarySucc_postcomp n endpoint.1 _ (𝟙 _)
     rw [Category.id_comp] at he

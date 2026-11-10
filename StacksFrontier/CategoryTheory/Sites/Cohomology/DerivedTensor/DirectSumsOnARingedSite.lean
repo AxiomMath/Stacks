@@ -14,8 +14,8 @@ Let `(C, O)` be a ringed site, let `T` be a derived tensor product datum on it
 sections.
 
 This is `Stacks.Duality.preservesColimitsOfShape_discrete_derivedTensorRight` of
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/DerivedTensorDirectSums.lean`, with
-two pins removed. That statement is about a scheme, and about the one derived tensor product
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/DerivedTensorDirectSums.lean`,
+with two pins removed. That statement is about a scheme, and about the one derived tensor product
 `Stacks.Cohomology.TorAmplitude.derTensor` of its ringed space, at the one model
 `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory` that its file has in scope. Neither
 restriction is used: the argument consumes only the `comparisonRight` field of a derived tensor

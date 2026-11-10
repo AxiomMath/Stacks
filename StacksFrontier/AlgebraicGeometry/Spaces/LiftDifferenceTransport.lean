@@ -165,7 +165,7 @@ theorem descend_eq_transport [Sheaf.IsLocallySurjective q] [HasSheafify J AddCom
     (Presheaf.imageSieve_mem J q.hom t) _ _ ?_
   intro Y g hg
   obtain ⟨x, hx⟩ := hg
-  show M'.val.map g.op _ = M'.val.map g.op _
+  change M'.val.map g.op _ = M'.val.map g.op _
   rw [← QuotientDerivation.descend_map, ← hx, QuotientDerivation.descend_app,
     ← PresheafOfModules.naturality_apply, ← QuotientDerivation.descend_map, ← hx,
     QuotientDerivation.descend_app, toQuotientDerivation_d, toQuotientDerivation_d]

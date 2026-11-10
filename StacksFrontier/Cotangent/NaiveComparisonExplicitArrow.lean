@@ -87,7 +87,7 @@ theorem Algebra.Extension.cotangentSpace_hom_ext {R S : Type*} [CommRing R] [Com
   intro z
   have hz : z ∈ Submodule.span S
       (Set.range fun x : P.Ring => (1 : S) ⊗ₜ[P.Ring] KaehlerDifferential.D R P.Ring x) := by
-    refine TensorProduct.induction_on z (Submodule.zero_mem _) ?_ ?_
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro s ω
       have hω : ω ∈ Submodule.span P.Ring
           (Set.range (KaehlerDifferential.D R P.Ring)) := by
@@ -160,7 +160,7 @@ theorem standardResolution_augmentation_section (n : ℕ) (b : B) :
           (SimplexCategory.δ (0 : Fin (n + 2))).op)
         (standardResolutionVar A B n (standardResolutionSection A B n b))
       refine hnat.symm.trans ?_
-      show standardResolutionAugmentationHom A B (op ⦋n⦌)
+      change standardResolutionAugmentationHom A B (op ⦋n⦌)
         ((standardResolution A B).left.δ (0 : Fin (n + 2))
           (standardResolutionVar A B n (standardResolutionSection A B n b))) = b
       rw [standardResolution_δ_zero_var, ih]

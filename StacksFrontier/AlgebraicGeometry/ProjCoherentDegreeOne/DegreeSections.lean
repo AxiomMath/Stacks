@@ -126,10 +126,11 @@ theorem epi_quotientMap : Epi (quotientMap 𝒜 x hx hgen) :=
   Stacks.AlgebraicGeometry.ClosedImmersionTFAE.epi_unitToPushforwardObjUnit_of_isClosedImmersion
     (projMap 𝒜 x hx hgen)
 
+omit hx in
 /-- **`Proj A` is locally Noetherian.** -/
 theorem isLocallyNoetherian_proj : IsLocallyNoetherian (AlgebraicGeometry.Proj 𝒜) :=
-  have := isNoetherianRing 𝒜 x hx hgen
-  have := isNoetherian_proj 𝒜 x hx hgen
+  have := isNoetherianRing 𝒜 x hgen
+  have := isNoetherian_proj 𝒜 x hgen
   inferInstance
 
 /-- **The direct image of the structure sheaf of `Proj A` is coherent on `ℙⁿ_{A₀}`**, by
@@ -138,7 +139,7 @@ theorem isCoherent_pushforward_unit :
     _root_.SheafOfModules.IsCoherent
       ((Scheme.Modules.pushforward (projMap 𝒜 x hx hgen)).obj
         (SheafOfModules.unit (AlgebraicGeometry.Proj 𝒜).ringCatSheaf)) :=
-  have := isLocallyNoetherian_proj 𝒜 x hx hgen
+  have := isLocallyNoetherian_proj 𝒜 x hgen
   have : _root_.SheafOfModules.IsCoherent
       (SheafOfModules.unit (AlgebraicGeometry.Proj 𝒜).ringCatSheaf) :=
     Stacks.AlgebraicGeometry.CoherentTFAE.isCoherent_unit (AlgebraicGeometry.Proj 𝒜)

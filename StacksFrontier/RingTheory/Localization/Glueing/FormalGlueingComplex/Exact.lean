@@ -62,7 +62,7 @@ private lemma unitMap_bijective_of_torsion
   · intro z
     obtain ⟨x, hx⟩ := h.2 ((e.rTensor S).symm z)
     refine ⟨e x, ?_⟩
-    show (e.rTensor S) (unitMap R S (ULift.{max u v} M) x) = z
+    change (e.rTensor S) (unitMap R S (ULift.{max u v} M) x) = z
     rw [hx, LinearEquiv.apply_symm_apply]
 
 private lemma exists_pow_annihilator_of_generators
@@ -96,7 +96,7 @@ private lemma unitMap_eq_zero_of_torsion
     refine ⟨n, hn, fun a ha ↦ ?_⟩
     obtain ⟨b, hb⟩ := Submodule.mem_span_singleton.mp x.property
     apply Subtype.ext
-    show a • x.val = 0
+    change a • x.val = 0
     rw [← hb, smul_comm, hm a ha, smul_zero]
   have hinj := (unitMap_bijective_of_torsion I hflat hq N hN).1
   have hx : unitMap R S N ⟨m, Submodule.mem_span_singleton_self m⟩ = 0 := by
@@ -191,8 +191,7 @@ private lemma glueingTermTensorEquiv_diagonal
     (N : Type v) [AddCommGroup N] [Module R N] (z : M ⊗[R] N) :
     glueingTermTensorEquiv f M N 1 ((localizationDiagonal f M).rTensor N z) =
       localizationDiagonal f (M ⊗[R] N) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
     funext s
     simpa [glueingTermTensorEquiv, localizationDiagonal] using
@@ -248,7 +247,7 @@ public theorem glueingDifferential_apply_pair
     ext k
     simp [T]
     omega
-  show glueingDifferential f M 1 x T = _
+  change glueingDifferential f M 1 x T = _
   simp only [glueingDifferential, LinearMap.pi_apply, LinearMap.sum_apply]
   rw [hT, Finset.sum_pair hab]
   have hea : eraseIndex 1 T a = singletonIndex j := by
@@ -329,7 +328,7 @@ private lemma exists_pow_smul_eq_zero_of_localization_map
   refine ⟨n, ?_⟩
   apply IsLocalizedModule.smul_injective (S := Submonoid.powers b) g
     ⟨b ^ (n + e), n + e, rfl⟩
-  show b ^ (n + e) • (a ^ n • z) = b ^ (n + e) • (0 : N)
+  change b ^ (n + e) • (a ^ n • z) = b ^ (n + e) • (0 : N)
   rw [smul_zero, smul_smul,
     show b ^ (n + e) * a ^ n = (a * b) ^ n * b ^ e by ring,
     ← smul_smul, hm, ← map_smul, hn, smul_zero, map_zero]

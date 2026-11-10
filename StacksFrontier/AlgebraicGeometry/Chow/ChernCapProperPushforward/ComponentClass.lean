@@ -324,7 +324,7 @@ theorem properChowPushforward_firstChernClassCap_of_imageComponentCycle
     (α : CycleGroup C sX (k + 1)) :
     properChowPushforward C sX sY p hp k hfac (firstChernClassCap C sX k chernX α) =
       firstChernClassCap C sY k chernY (properPushforward C sX sY p hp (k + 1) α) := by
-  show properChowPushforward C sX sY p hp k hfac
+  change properChowPushforward C sX sY p hp k hfac
     (QuotientAddGroup.mk' (rationalEquivalences C sX k)
       ((firstChernCapRule C sX k chernX).extendCycleGroup α)) = _
   rw [properChowPushforward_mk]

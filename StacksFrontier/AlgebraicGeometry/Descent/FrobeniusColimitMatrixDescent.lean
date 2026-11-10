@@ -175,7 +175,7 @@ stage, and raising those lifts to one common `p`-th power makes the cocycle and 
 conditions hold exactly rather than only after a coprojection. -/
 theorem exists_matrixCocycle_of_trivialisation [QuasiSeparatedSpace X]
     (G : _root_.SheafOfModules.{u} (frobeniusColimitRingSheaf X p hX))
-    {K : Type u} [Fintype K] (V : K → X.Opens) (haff : ∀ k, IsAffineOpen (V k))
+    {K : Type u} [Finite K] (V : K → X.Opens) (haff : ∀ k, IsAffineOpen (V k))
     (m : K → ℕ) (t : ∀ k, ULift.{u} (Fin (m k)) → ToType (G.val.obj (op (V k))))
     (hbij : ∀ (k : K) ⦃W : X.Opens⦄ (h : W ≤ V k),
       Function.Bijective (combSections G (t k) (homOfLE h))) :
@@ -294,7 +294,7 @@ theorem exists_matrixCocycle_of_trivialisation [QuasiSeparatedSpace X]
   refine ⟨n + max K1 K2,
     ⟨fun k l W hk hl a b => rst (le_inf hk hl) (A ⟨(k, l), (a, b)⟩ ^ p ^ max K1 K2),
       hres, hself, hmul⟩, fun k l W hk hl a b => ?_⟩
-  show (frobeniusColimitι X p hX (n + max K1 K2)).hom.app (op W)
+  change (frobeniusColimitι X p hX (n + max K1 K2)).hom.app (op W)
       (rst (le_inf hk hl) (A ⟨(k, l), (a, b)⟩ ^ p ^ max K1 K2))
     = transMat G V m t hbij k l hk hl a b
   rw [rst_pow, frobeniusColimitι_pow_app]

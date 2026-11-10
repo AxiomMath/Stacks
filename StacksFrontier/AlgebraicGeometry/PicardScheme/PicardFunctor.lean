@@ -134,7 +134,7 @@ abbrev picardMapHom {T U : BigFppfOver B S hS} (g : T ⟶ U) :
 /-- Pullback of Picard classes along the identity of a test scheme is the identity. -/
 theorem picardMap_id (T : BigFppfOver B S hS) (x : picardAt B hX hS f T) :
     picardMap B hX hS f (𝟙 T) x = x := by
-  show Stacks.Picard.schemePullbackClass (baseChangeMap B hX hS f (𝟙 T)) x = x
+  change Stacks.Picard.schemePullbackClass (baseChangeMap B hX hS f (𝟙 T)) x = x
   rw [baseChangeMap_id]
   exact Stacks.Picard.schemePullbackClass_id _ x
 
@@ -143,7 +143,7 @@ of the pullbacks. -/
 theorem picardMap_comp {T U V : BigFppfOver B S hS} (g : T ⟶ U) (h : U ⟶ V)
     (x : picardAt B hX hS f V) :
     picardMap B hX hS f (g ≫ h) x = picardMap B hX hS f g (picardMap B hX hS f h x) := by
-  show Stacks.Picard.schemePullbackClass (baseChangeMap B hX hS f (g ≫ h)) x = _
+  change Stacks.Picard.schemePullbackClass (baseChangeMap B hX hS f (g ≫ h)) x = _
   rw [baseChangeMap_comp]
   exact (Stacks.Picard.schemePullbackClass_comp _ _ x).symm
 

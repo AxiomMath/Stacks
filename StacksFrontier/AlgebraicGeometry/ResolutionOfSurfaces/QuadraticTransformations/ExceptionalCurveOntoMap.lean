@@ -8,8 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.F6Rank89.CoheightOfSurface
 public import StacksFrontier.AlgebraicGeometry.NodalContraction.Basic
 public import StacksFrontier.AlgebraicGeometry.Properties.RegularStalkDvr
 public import StacksFrontier.AlgebraicGeometry.Properties.ReducedClosedSubscheme
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProjectiveLineNormal
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProjectiveLineNormal
 public import StacksFrontier.AlgebraicGeometry.Surfaces.ContractionPicardDescent
 public import StacksFrontier.AlgebraicGeometry.Variety.Curve.PullbackDegree
 public import StacksFrontier.AlgebraicGeometry.Variety.Geometric.BirationalIsomorphismLocusDVR

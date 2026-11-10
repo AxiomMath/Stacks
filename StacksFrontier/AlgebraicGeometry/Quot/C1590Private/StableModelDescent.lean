@@ -119,7 +119,7 @@ theorem existsUnique_factorX {Xi : CurveFamily B hZ} (φ : Xi ⟶ X) {W : BigFpp
   obtain ⟨κ, ⟨h₁, h₂⟩, h₃⟩ :=
     (CurveDeformation.curvesProjectionOver_isFiberedInGroupoids (B := B) (hZ := hZ)).unique_lift
       φ (restrictXHom X w) (eqToHom (restrictX_base X w) ≫ gi) (by
-        show (eqToHom (restrictX_base X w) ≫ gi) ≫ φ.baseMap = (restrictXHom X w).baseMap
+        change (eqToHom (restrictX_base X w) ≫ gi) ≫ φ.baseMap = (restrictXHom X w).baseMap
         rw [restrictXHom_baseMap, Category.assoc, h])
   exact ⟨κ, ⟨h₁, h₂⟩, fun κ' hκ' => h₃ κ' hκ'⟩
 
@@ -266,7 +266,7 @@ theorem restrictXMap_comp_factorX {X Xi : CurveFamily B hZ} (φ : Xi ⟶ X)
     (hh : h = g ≫ g') (hh' : h ≫ φ.baseMap = w) :
     restrictXMap X g hg ≫ factorX φ w' g' hg' = factorX φ w h hh' := by
   refine factorX_unique φ w h hh' _ ?_ ?_
-  · show (restrictXMap X g hg).baseMap ≫ (factorX φ w' g' hg').baseMap = _
+  · change (restrictXMap X g hg).baseMap ≫ (factorX φ w' g' hg').baseMap = _
     rw [restrictXMap_baseMap, factorX_baseMap, hh]
     simp
   · rw [Category.assoc, factorX_comp, restrictXMap_comp]
@@ -336,7 +336,7 @@ theorem fibreHom_modelHom_id (hR : IsModelRelation R) {X : CurveFamily B hZ} (m 
     Functor.FibreHom (curvesProjectionOver B hZ) m.family m'.family h h'
       (modelHom hR (𝟙 X) m m') := by
   refine IsHomLift.of_fac' _ _ _ rfl rfl ?_
-  show (modelHom hR (𝟙 X) m m').baseMap = _
+  change (modelHom hR (𝟙 X) m m').baseMap = _
   rw [modelHom_baseMap]
   simp only [Category.id_comp, eqToHom_trans, eqToHom_refl, Category.comp_id,
     curveFamily_id_baseMap]
@@ -651,7 +651,7 @@ theorem ofPiece_toPiece (i : ι) : ofPiece Xi φ i ≫ toPiece Xi φ i = 𝟙 _ 
   apply (AlgebraicSpaces.isPullback_hom B integerBase hZ (φ i).cartesian).hom_ext
   · rw [Category.assoc, toPiece_totalMap, Category.id_comp]
     exact pullback.lift_snd _ _ _
-  · show _ ≫ toPiece Xi φ i ≫ yonedaToBase (Xi i) = 𝟙 _ ≫ yonedaToBase (Xi i)
+  · change _ ≫ toPiece Xi φ i ≫ yonedaToBase (Xi i) = 𝟙 _ ≫ yonedaToBase (Xi i)
     rw [toPiece_toBase, Category.id_comp]
     exact pullback.lift_fst _ _ _
 
@@ -717,7 +717,7 @@ private theorem lift_toPiece_eq_toOvl_comp {i j : ι} {W : BigFppfOver B integer
       (pullback.lift_snd _ _ _))).trans ?_
     refine (toOvl_snd Xi φ gij hgi).symm.trans ?_
     rw [Category.assoc, ← CurveFamily.Hom.totalMap_hom_comp, factorX_comp]
-  · show _ ≫ yonedaToBase (Xi k) = _ ≫ yonedaToBase (Xi k)
+  · change _ ≫ yonedaToBase (Xi k) = _ ≫ yonedaToBase (Xi k)
     rw [Category.assoc, toPiece_toBase, pullback.lift_fst, Category.assoc,
       CurveFamily.Hom.w_yoneda, ← Category.assoc, toOvl_base, Category.assoc]
     exact congrArg (pullback.fst _ _ ≫ ·) (by rw [← Functor.map_comp, factorX_baseMap, ← hgk]; simp)
@@ -774,7 +774,7 @@ theorem exists_glue_out {x : CurveFamily B hZ} (hx : x.base = X.base)
     exact congrArg (_ ≫ ·) (congrArg (fun k => k.hom) (hc i j)))
   refine ⟨ObjectProperty.homMk m₀, hm₀, fun i => ?_⟩
   apply ObjectProperty.hom_ext
-  show (φ i).totalMap.hom ≫ m₀ = (n i).hom
+  change (φ i).totalMap.hom ≫ m₀ = (n i).hom
   have hl : (φ i).totalMap.hom = ofPiece Xi φ i ≫ pullback.snd _ _ := (pullback.lift_snd _ _ _).symm
   rw [hl, Category.assoc, hm₀μ i, ← Category.assoc, ofPiece_toPiece, Category.id_comp]
 
@@ -825,7 +825,7 @@ theorem exists_descent_of_models (hR : IsModelRelation R)
     have h₁ := baseMap_of_fibreHom (hψf i) (((Restriction.hpt' (xr i)).trans (m i).base_eq.symm))
     have h₂ : (inv (ψ i)).baseMap = inv (ψ i).baseMap :=
       (curvesProjectionOver B hZ).map_inv (ψ i)
-    show (inv (ψ i) ≫ (xr i).hom).baseMap = _
+    change (inv (ψ i) ≫ (xr i).hom).baseMap = _
     rw [curveFamily_comp_baseMap, h₂]
     simp only [h₁, inv_eqToHom, Restriction.baseMap_hom (xr i) hx', eqToHom_trans_assoc]
     rfl
@@ -835,7 +835,7 @@ theorem exists_descent_of_models (hR : IsModelRelation R)
     intro i
     have e : n i ≫ x.toBase ≫ schemeSpaceMap (eqToHom hx') =
         (Xi i).toBase ≫ schemeSpaceMap (φ i).baseMap := by
-      show (m i).contraction ≫ (ψ' i).totalMap ≫ x.toBase ≫ schemeSpaceMap (eqToHom hx') = _
+      change (m i).contraction ≫ (ψ' i).totalMap ≫ x.toBase ≫ schemeSpaceMap (eqToHom hx') = _
       rw [← Category.assoc (ψ' i).totalMap, (ψ' i).cartesian.w, ← Category.assoc, ← Category.assoc,
         hR.w (m i).isModel, Category.assoc, Category.assoc, ← schemeSpaceMap_comp,
         ← schemeSpaceMap_comp, hψ'b]
@@ -857,7 +857,7 @@ theorem exists_descent_of_models (hR : IsModelRelation R)
     (Category.assoc _ _ _).trans hc₁
   have e₂ : (X.toBase ≫ schemeSpaceMap (eqToHom hx'.symm)).hom ≫ yoneda.map (eqToHom hx') =
       yonedaToBase X := by
-    show (yonedaToBase X ≫ yoneda.map _) ≫ _ = _
+    change (yonedaToBase X ≫ yoneda.map _) ≫ _ = _
     rw [Category.assoc, ← Functor.map_comp, eqToHom_trans, eqToHom_refl,
       CategoryTheory.Functor.map_id, Category.comp_id]
   exact e₁.trans e₂.symm

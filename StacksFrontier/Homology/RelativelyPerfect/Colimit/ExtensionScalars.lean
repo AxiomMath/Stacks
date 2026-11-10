@@ -195,7 +195,7 @@ private theorem isRelativelyPerfect_iff_of_derivedTensorProduct.{u, v, w} {R : T
     (K : DerivedCategory (ModuleCat.{max u v w} A)) :
     IsRelativelyPerfect D.tensor D.comparison D.isLeftDerived K ↔
       IsRelativelyPerfect D'.tensor D'.comparison D'.isLeftDerived K := by
-  show _ ∧ (∃ a b, _) ↔ _ ∧ (∃ a b, _)
+  change _ ∧ (∃ a b, _) ↔ _ ∧ (∃ a b, _)
   exact and_congr_right fun _ ↦ exists_congr fun a ↦ exists_congr fun b ↦
     hasTorAmplitude_iff_of_derivedTensorProduct D D' _ a b
 
@@ -352,7 +352,7 @@ public theorem isIso_derivedExtensionScalarsCompHom_app {A B C : Type u} [CommRi
         (ComplexShape.up ℤ)).obj P)
       (CochainComplex.KFlat.ScalarBaseChange.kFlat_extendScalars.{u, u, v} f P hP)
     have hcomp : IsIso ((derivedExtensionScalarsCompComparison.{u, v} f g).app P) := by
-      show IsIso (Dg.functor.map (Df.comparison.app P) ≫ Dg.comparison.app _ ≫
+      change IsIso (Dg.functor.map (Df.comparison.app P) ≫ Dg.comparison.app _ ≫
         (extensionOfScalarsComplexComp.{u, v} f g).inv.app P)
       have h₁ : IsIso (Dg.functor.map (Df.comparison.app P)) := inferInstance
       have h₂ : IsIso ((extensionOfScalarsComplexComp.{u, v} f g).inv.app P) := inferInstance
@@ -453,7 +453,7 @@ private lemma extensionScalarsComplexComp_id {A B : Type u} [CommRing A] [CommRi
   have he : (extensionScalarsComplexId.{u, v} B).inv.app
         (((ModuleCat.extendScalars.{u, u, max u v} f).mapHomologicalComplex (.up ℤ)).obj P) =
       (extensionOfScalarsComplexComp.{u, v} f (RingHom.id B)).hom.app P := by
-    show DerivedCategory.Q.map _ = DerivedCategory.Q.map _
+    change DerivedCategory.Q.map _ = DerivedCategory.Q.map _
     congr 1
     ext i : 1
     exact (extendScalarsComp_id_hom_app.{u, v} f (P.X i)).symm

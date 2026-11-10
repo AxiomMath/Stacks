@@ -15,8 +15,8 @@ Let `R` be a commutative ring.
 affine case of [Stacks, Tag 09IS] — the first in the shape "`Hom(𝒪_{Spec R}[0], -)` commutes with
 direct sums", the second in the shape "the family indexed by `PUnit` is a weak generator".
 
-The duality machinery of `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/` does not
-consume either shape. It asks for `CategoryTheory.IsCompactObject`, the *class* of
+The duality machinery of `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/` does
+not consume either shape. It asks for `CategoryTheory.IsCompactObject`, the *class* of
 [Stacks, Tag 07LS], and for generation as
 `CategoryTheory.ObjectProperty.IsWeakTriangulatedGenerator` of a `singleton` rather than of an
 `ObjectProperty.ofObj` family. This file supplies both, so that a consumer over an affine base can
@@ -68,7 +68,8 @@ induction principle [Stacks, Tag 08DR] with the inductive step
 extension of a perfect object from a quasi-compact open, [Stacks, Tag 09IQ].
 
 The inputs of that step are available beyond the affine case. 09IQ is **not** available only
-for an affine scheme: it is proved unconditionally at a quasi-compact open of a quasi-compact quasi-separated scheme, at the locally
+for an affine scheme: it is proved unconditionally at a quasi-compact open of a quasi-compact
+quasi-separated scheme, at the locally
 small model, as `Stacks.DerivedQCoh.AnyModel.exists_isPerfect_retract_derivedRestrict` of
 `StacksFrontier/AlgebraicGeometry/DerivedQCoh/AnyModel/PerfectSummandOfRestriction.lean`.
 [Stacks, Tag 09IM] is **not** available only for a closed subset contained in the open:
@@ -96,7 +97,8 @@ the coverage note of
 `StacksFrontier/AlgebraicGeometry/Duality/QuasiCoherentPushforwardAdjoint.lean`.
 
 **The route does not go through
-`Stacks.Duality.OpenImmersion.isWeakTriangulatedGenerator_biprod_of_detection`**. Its hypothesis `hdet` is quantified over *all* of `D(𝒪_Y)`, and the
+`Stacks.Duality.OpenImmersion.isWeakTriangulatedGenerator_biprod_of_detection`**. Its hypothesis
+`hdet` is quantified over *all* of `D(𝒪_Y)`, and the
 docstring of `Stacks.Koszul.Truncation.isIso_unit_iff_hom_koszulObject_eq_zero` in
 `…/Duality/KoszulOrthogonality/AffineSituation.lean` records in its own words that "`hdet` as
 stated here is false, and this statement is therefore vacuous", with a discrete-valuation-ring

@@ -128,7 +128,7 @@ public theorem forget₂_coeffLevelStacksSMul (k : ℕ) (c : coeffLevelRing ℓ 
         (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1})).map
         (coeffLevelSheafMap b B X x e₀ σ hρ k c) := by
   ext U y
-  show c • (show (coeffLevelStacksSheaf b B X x σ hρ k).obj.obj U from y) = _
+  change c • (show (coeffLevelStacksSheaf b B X x σ hρ k).obj.obj U from y) = _
   exact (ModuleCat.mkOfSMul'_smul _ c _).trans rfl
 
 /-- **The stalk of the `Λ'_k`-sheaf at `s̄` is `(ℤ/ℓᵏ)^{md}`**, as abelian groups, along a path
@@ -177,7 +177,7 @@ public theorem coeffLevelStalkIso_smul_of {s : GeometricPoint X.1}
         ModuleCat.{u + 1} (coeffLevelRing ℓ O k))) =
       (forget₂ (ModuleCat.{u + 1} (coeffLevelRing ℓ O k)) AddCommGrpCat.{u + 1}).map
         (colim.map (Functor.whiskerLeft
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
           (coeffLevelStacksSMul b B X x σ hρ k (coeffLevelRing.of ℓ O k o)).hom)) v :=
     (colimMap_smulNatEnd_apply _ _ v).symm
   set Φ₁ := etaleStalkForget₂Iso B X.1 X.2 s (coeffLevelRing ℓ O k)
@@ -189,16 +189,16 @@ public theorem coeffLevelStalkIso_smul_of {s : GeometricPoint X.1}
   have e1 := ConcreteCategory.congr_hom h1 v
   have e2 := ConcreteCategory.congr_hom h2 z
   have e3 : ΦZ.hom z = Φ₁.hom v := Iso.inv_hom_id_apply ΦZ (Φ₁.hom v)
-  show ((representationLevelStalkIso B X x _ hρ t k).hom
+  change ((representationLevelStalkIso B X x _ hρ t k).hom
       (ΦZ.inv (Φ₁.hom (coeffLevelRing.of ℓ O k o • v)))).down = _
   rw [hsm]
   have e4 : ΦZ.inv (Φ₁.hom ((forget₂ (ModuleCat.{u + 1} (coeffLevelRing ℓ O k))
       AddCommGrpCat.{u + 1}).map (colim.map (Functor.whiskerLeft
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
         (coeffLevelStacksSMul b B X x σ hρ k (coeffLevelRing.of ℓ O k o)).hom)) v)) =
       (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}).map
         (colim.map (Functor.whiskerLeft
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
           (representationLevelMap B X x e₀ hρ hρ (coefficientScalarRingHom b m o) hA k).hom))
             z := by
     refine (congrArg ΦZ.inv (e1.trans ?_)).trans (Iso.hom_inv_id_apply ΦZ _)
@@ -226,13 +226,13 @@ public theorem coeffLevelStalkIso_smul {s : GeometricPoint X.1}
         abel
       map_smul' := fun a c => by
         have h1 : (a • c) • v = a • (c • v) := by
-          show (a • c) • v = algebraMap (ZMod (ℓ ^ k)) (coeffLevelRing ℓ O k) a • (c • v)
+          change (a • c) • v = algebraMap (ZMod (ℓ ^ k)) (coeffLevelRing ℓ O k) a • (c • v)
           rw [smul_smul, Algebra.smul_def]
         rw [h1, ZMod.map_smul Ψ, map_smul (coeffLevelMatrix ℓ b m k) a c, Matrix.smul_mulVec,
           ← smul_sub]
         rfl }
   have hL : L = 0 := (coeffLevelBasis ℓ b k).ext fun i => by
-    show Ψ (coeffLevelBasis ℓ b k i • v) - coeffLevelMatrix ℓ b m k (coeffLevelBasis ℓ b k i) *ᵥ
+    change Ψ (coeffLevelBasis ℓ b k i • v) - coeffLevelMatrix ℓ b m k (coeffLevelBasis ℓ b k i) *ᵥ
       Ψ v = 0
     rw [coeffLevelBasis_apply, sub_eq_zero, coeffLevelMatrix_of]
     exact coeffLevelStalkIso_smul_of b B X x σ hρ t k (b i) v
@@ -256,7 +256,7 @@ public theorem flat_etaleStalk_coeffLevelStacksSheaf (k : ℕ) (s : GeometricPoi
   · exact hb.1 (ULift.ext ((coeffLevelVecEquiv ℓ b m k).injective h))
   · obtain ⟨v, hv⟩ := hb.2 (ULift.up ((coeffLevelVecEquiv ℓ b m k).symm w))
     refine ⟨v, ?_⟩
-    show coeffLevelVecEquiv ℓ b m k ((coeffLevelStalkIso b B X x σ hρ t k).hom v).down = w
+    change coeffLevelVecEquiv ℓ b m k ((coeffLevelStalkIso b B X x σ hρ t k).hom v).down = w
     rw [hv, LinearEquiv.apply_symm_apply]
 
 /-- **The stalks of the `Λ'_k`-sheaf are flat over `Λ'_k`.** -/
@@ -313,6 +313,12 @@ abbrev coeffLevelUnit (n : ℕ) :=
     (representationLevelSheaf B X x e₀
       ((Units.map (coefficientMatrixRingHom b m).toMonoidHom).comp σ) hρ (n + 1))
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- The unit commutes with the action of `Λ'_{n+1}`, on sections. -/
 theorem coeffLevelUnit_hom_smul (n : ℕ) (c : coeffLevelRing ℓ O (n + 1))
     (V : (SmallEtale B X.1 X.2)ᵒᵖ)
@@ -383,6 +389,12 @@ public def coeffLevelStacksSheafHom (n : ℕ) :
           ((coeffLevelUnit b B X x σ hρ n).hom.hom.naturality f) y
         exact h }
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- The comparison is an isomorphism, componentwise the unit. -/
 public theorem isIso_coeffLevelStacksSheafHom (n : ℕ) :
     IsIso (coeffLevelStacksSheafHom b B X x σ hρ n) := by
@@ -392,6 +404,12 @@ public theorem isIso_coeffLevelStacksSheafHom (n : ℕ) :
     exact ConcreteCategory.bijective_of_isIso ((coeffLevelUnit b B X x σ hρ n).hom.hom.app V)
   exact isIso_of_reflects_iso _ (sheafToPresheaf _ _)
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- **The `n`-th level of `ℱ_ρ` is a constructible flat sheaf of `Λ'_{n+1}`-modules** on Mathlib's
 small étale site. -/
 public theorem isConstructibleFlatEtaleModule_coeffLevelEtaleSheaf (n : ℕ)

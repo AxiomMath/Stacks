@@ -162,7 +162,7 @@ theorem degreeZeroRingMap_eq_awayMap_of_mul (f g x : S) {e k m : ℕ}
       simp
     exact congrArg (fun q => q z) heq
   ext z
-  show HomogeneousLocalization.val
+  change HomogeneousLocalization.val
       (ProjectiveSpectrum.degreeZeroRingMap 𝒮 f x
         ⟨e, he, hf⟩ ⟨m, hm, hxm⟩ hfg z) =
     HomogeneousLocalization.val (HomogeneousLocalization.awayMap 𝒮 hg hx z)
@@ -484,7 +484,7 @@ theorem veroneseChart_comp_veroneseProjInv (d : ℕ) [GradedRing (veroneseGradin
     _ = Proj.awayι 𝒮 f hf he := by
       dsimp [veroneseChartInv]
       simp only [RingEquiv.toCommRingCatIso_hom]
-      show (Spec.map (CommRingCat.ofHom E.toRingHom) ≫
+      change (Spec.map (CommRingCat.ofHom E.toRingHom) ≫
           Spec.map (CommRingCat.ofHom E.symm.toRingHom)) ≫
           Proj.awayι 𝒮 f hf he = _
       rw [hspec]
@@ -522,7 +522,7 @@ theorem veroneseChartInv_comp_veroneseProjHom (d : ℕ) [GradedRing (veroneseGra
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, hring]
     simp
   simp only [RingEquiv.toCommRingCatIso_hom]
-  show (Spec.map (CommRingCat.ofHom E.symm.toRingHom) ≫
+  change (Spec.map (CommRingCat.ofHom E.symm.toRingHom) ≫
       Spec.map (CommRingCat.ofHom E.toRingHom)) ≫
         Proj.awayι (veroneseGrading 𝒮 d)
           (veronesePower 𝒮 d f hf) hvf he = _
@@ -650,7 +650,7 @@ theorem mem_veroneseChart_base_iff (d : ℕ) [GradedRing (veroneseGrading 𝒮 d
     rwa [hzV, hzS]
   have hqmap : HomogeneousLocalization.mk zV ∈ q'.asIdeal ↔
       HomogeneousLocalization.mk zS ∈ q.asIdeal := by
-    show E (HomogeneousLocalization.mk zV) ∈ q.asIdeal ↔ _
+    change E (HomogeneousLocalization.mk zV) ∈ q.asIdeal ↔ _
     rw [hmk]
   have htarget : HomogeneousLocalization.mk zV ∈
       ((ProjectiveSpectrum.Proj.toSpec
@@ -673,7 +673,7 @@ theorem mem_veroneseChart_base_iff (d : ℕ) [GradedRing (veroneseGrading 𝒮 d
       a ^ e ∈ y.1.asHomogeneousIdeal := by
     simpa [hcoord] using htarget
   rw [hpoint]
-  show a ∈ y.1.asHomogeneousIdeal ↔
+  change a ∈ y.1.asHomogeneousIdeal ↔
     (a : S) ∈ ((Proj.awayι 𝒮 f hf he).base q).asHomogeneousIdeal
   exact hpTarget.symm.trans (htarget'.symm.trans (hqmap.trans (hsource.trans hpSource)))
 
@@ -731,7 +731,7 @@ public theorem veroneseProjIso_mem_iff (d : ℕ) (hd : 0 < d)
     let y := (veroneseProjIso 𝒮 d hd).hom.base x
     let I := y.asHomogeneousIdeal.toIdeal
     let J := x.asHomogeneousIdeal.toIdeal
-    show (f : veroneseSubring 𝒮 d) ∈ I ↔ (f : S) ∈ J
+    change (f : veroneseSubring 𝒮 d) ∈ I ↔ (f : S) ∈ J
     have hI := Ideal.IsHomogeneous.mem_iff (veroneseGrading 𝒮 d)
       y.asHomogeneousIdeal.isHomogeneous (x := (f : veroneseSubring 𝒮 d))
     have hJ := Ideal.IsHomogeneous.mem_iff 𝒮 x.asHomogeneousIdeal.isHomogeneous
@@ -748,7 +748,7 @@ public theorem veroneseProjIso_mem_iff (d : ℕ) (hd : 0 < d)
     have hpoint : y = (veroneseChart 𝒮 d hd g he hg).base q := by
       have h := congrArg (fun φ ↦ φ.base q) hchart
       change (veroneseProjHom 𝒮 d hd).base ((Proj.awayι 𝒮 g hg he).base q) = _ at h
-      show (veroneseProjHom 𝒮 d hd).base x = _
+      change (veroneseProjHom 𝒮 d hd).base x = _
       rwa [← hq]
     have hsourcePoint : (Proj.awayι 𝒮 g hg he).base q = x := by
       rwa [← hfi]
@@ -805,12 +805,12 @@ public theorem veroneseProjIso_basicOpen (d : ℕ) (hd : 0 < d)
   by
     let : GradedRing (veroneseGrading 𝒮 d) := veroneseGradingGradedRing 𝒮 d hd
     ext x
-    show veronesePower 𝒮 d f hf ∉
+    change veronesePower 𝒮 d f hf ∉
         ((veroneseProjIso 𝒮 d hd).hom.base x).asHomogeneousIdeal ↔
       f ∉ x.asHomogeneousIdeal
     rw [veroneseProjIso_mem_iff 𝒮 d hd x
       (veronesePower 𝒮 d f hf)]
-    show f ^ d ∉ x.asHomogeneousIdeal ↔ f ∉ x.asHomogeneousIdeal
+    change f ^ d ∉ x.asHomogeneousIdeal ↔ f ∉ x.asHomogeneousIdeal
     exact not_congr (x.isPrime.pow_mem_iff_mem d hd)
 
 /-- On a standard open, the sheaf map of the canonical scheme isomorphism is the
@@ -841,7 +841,7 @@ public theorem veroneseProjIso_awayToSection (d : ℕ) (hd : 0 < d)
     let hres := (veroneseProjIso 𝒮 d hd).hom.resLE Ut Us hpre
     have hAwaySquare : Proj.awayι 𝒮 f hf he ≫ (veroneseProjIso 𝒮 d hd).hom =
         Spec.map (CommRingCat.ofHom E.toRingHom) ≫ isoT.inv ≫ Ut.ι := by
-      show Proj.awayι 𝒮 f hf he ≫ veroneseProjHom 𝒮 d hd = _
+      change Proj.awayι 𝒮 f hf he ≫ veroneseProjHom 𝒮 d hd = _
       rw [awayι_comp_veroneseProjHom_eq_chart]
       rfl
     have hresSquare : isoS.inv ≫ hres =

@@ -69,8 +69,7 @@ by surjectivity of the reduction, and goes to `b • y`. -/
 theorem comparison_mem_smul_top (π : Q →+* P) (I : Ideal A) (θ : (↥I) ⊗[k] P →+ Q)
     (hθ : ∀ (b : ↥I) (y : Q), θ (b ⊗ₜ π y) = (b : A) • y) (hπsurj : Function.Surjective π)
     (ξ : (↥I) ⊗[k] P) : θ ξ ∈ I • (⊤ : Submodule A Q) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  induction ξ using TensorProduct.inductionOn with
   | tmul b m =>
       obtain ⟨y, rfl⟩ := hπsurj m
       rw [hθ b y]
@@ -93,8 +92,7 @@ def recordSwapEquiv (φ : N ≃ₗ[k] V) (M : Type*) [AddCommGroup M] [Module k 
 /-- `recordSwapEquiv` is `recordSwap`. -/
 theorem recordSwapEquiv_apply (φ : N ≃ₗ[k] V) (M : Type*) [AddCommGroup M] [Module k M]
     (ξ : N ⊗[k] M) : recordSwapEquiv φ M ξ = recordSwap φ.toLinearMap M ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction ξ using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add ξ η hξ hη => rw [map_add, map_add, hξ, hη]
 

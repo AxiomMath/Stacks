@@ -103,7 +103,7 @@ theorem smallBaseChangeSectionsEquiv_sectionsMap
         (SheafOfModules.sectionsMap
           ((chartPushforwardModules f hf).map g) s) =
       SheafOfModules.sectionsMap g (smallBaseChangeSectionsEquiv f hf N s) := by
-  show modulePushforwardSectionsEquiv B (Spec (.of A)) hA f N'
+  change modulePushforwardSectionsEquiv B (Spec (.of A)) hA f N'
       (SheafOfModules.sectionsMap ((modulePushforwardChartIso B (Spec (.of A)) hA f hf).app N').inv
         (SheafOfModules.sectionsMap
           ((chartPushforwardModules f hf).map g) s)) =
@@ -172,18 +172,18 @@ theorem mem_idealPowerMultiple_smallBaseChangeModulePushforward_of_isAffine
         (show PG.val.obj (op U) from r • x) ∈ PX}
       add_mem' := fun {r r'} hr hr' x => by
         have e : (r + r') • x = r • x + r' • x := add_smul r r' x
-        show (show PG.val.obj (op U) from (r + r') • x) ∈ PX
+        change (show PG.val.obj (op U) from (r + r') • x) ∈ PX
         rw [e]
         exact PX.add_mem (hr x) (hr' x)
       zero_mem' := fun x => by
-        show (show PG.val.obj (op U) from (0 : chartRing B (Spec (.of A)) hA Y.1 Y.2
+        change (show PG.val.obj (op U) from (0 : chartRing B (Spec (.of A)) hA Y.1 Y.2
             ((smallBaseChange B (Spec (.of A)) hA f hf).obj U)) • x) ∈ PX
         rw [zero_smul]
         exact PX.zero_mem
       smul_mem' := fun b r hr x => by
         have e : (b • r) • x = r • (b • x) := by
           rw [smul_eq_mul, mul_comm, mul_smul]
-        show (show PG.val.obj (op U) from (b • r) • x) ∈ PX
+        change (show PG.val.obj (op U) from (b • r) • x) ∈ PX
         rw [e]
         exact hr (b • x) }
   have hT : Ideal.map (show A →+* chartRing B (Spec (.of A)) hA Y.1 Y.2 ((smallBaseChange B (Spec
@@ -202,7 +202,7 @@ theorem mem_idealPowerMultiple_smallBaseChangeModulePushforward_of_isAffine
     have e : chartIdealPullbackHom B (Spec (.of A)) hA f hf U (chartBaseRingHom A X U a) =
         chartBaseRingHom A Y ((smallBaseChange B (Spec (.of A)) hA f hf).obj U) a :=
             chartIdealPullbackHom_chartBaseRingHom A f hf U a
-    show (show PG.val.obj (op U) from
+    change (show PG.val.obj (op U) from
       (show chartRing B (Spec (.of A)) hA Y.1 Y.2 ((smallBaseChange B (Spec (.of A)) hA f hf).obj
           U) from
         chartBaseRingHom A Y ((smallBaseChange B (Spec (.of A)) hA f hf).obj U) a) • x) ∈ PX
@@ -382,7 +382,7 @@ theorem bijective_adicSectionsOfSections_smallBaseChangeModulePushforward
       adicSectionsOfSections B (Spec (.of A)) hA Y.1 Y.2 (baseIdealSheaf A Y I) G (E G σ) := by
     intro σ
     refine Subtype.ext (funext fun n => ?_)
-    show E _ (SheafOfModules.sectionsMap (c n) (SheafOfModules.sectionsMap _ σ)) =
+    change E _ (SheafOfModules.sectionsMap (c n) (SheafOfModules.sectionsMap _ σ)) =
       SheafOfModules.sectionsMap _ (E G σ)
     rw [← SheafOfModules.sectionsMap_comp,
       smallEtaleAdicQuotientProjection_comp_smallBaseChangeAdicQuotientComparison,

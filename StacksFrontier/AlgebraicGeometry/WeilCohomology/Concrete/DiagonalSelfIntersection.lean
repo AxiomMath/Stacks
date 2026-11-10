@@ -117,7 +117,7 @@ theorem zeroDegree_properChowPushforward {A B : Scheme.{u}} (sA : A ⟶ (fieldCh
     (𝟙 _) f sB rfl (Category.comp_id sB) 0 hfac
     (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)) γ
   rw [AddMonoidHom.comp_apply] at h
-  show (chowDegree (fieldChowSituation k) (fun _ ↦ rfl) sB _)
+  change (chowDegree (fieldChowSituation k) (fun _ ↦ rfl) sB _)
       (properChowPushforward (fieldChowSituation k) (f ≫ sB) sB f rfl 0 hfac γ) =
     (chowDegree (fieldChowSituation k) (fun _ ↦ rfl) (f ≫ sB) _) γ
   simp only [chowDegree, AddMonoidHom.comp_apply]

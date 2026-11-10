@@ -149,6 +149,7 @@ theorem shortExact_map_tensorRight
 
 /-! ### The hypothesis of Stacks 0794 -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **`- ⊗_O M` carries a bounded above acyclic complex of flat sheaves of modules to an acyclic
 complex**: the hypothesis `hFP` of Stacks 0794.
 
@@ -266,6 +267,7 @@ instance isLeftDerivedFunctor_derivedTensorRightCounit :
       rw [Category.assoc, Category.assoc, ← Functor.map_comp_assoc, Iso.hom_inv_id_app]
       simp)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The derived tensor product with a fixed sheaf of modules is absolute**: for *every*
 functor `G` out of `D(O)` the composite `(- ⊗_O^L M) ⋙ G` is the left derived functor of
 `K ↦ G(K ⊗_O M)`, with the whiskered comparison.

@@ -65,7 +65,7 @@ lemma linearOver_smul_id (ψ : R →+* GlobalSectionRing O) (M : _root_.SheafOfM
     (a : R) :
     letI := linearOver O ψ
     a • 𝟙 M = globalSmul O (ψ a) M := by
-  show ψ a • 𝟙 M = _
+  change ψ a • 𝟙 M = _
   rw [globalSmul_eq_smul_id]
 
 end Linear
@@ -95,7 +95,7 @@ theorem pushforward_map_globalSmul {F : D ⥤ C} [F.IsContinuous K J]
       globalSmul O' b ((_root_.SheafOfModules.pushforward φ).obj M) := by
   ext U x
   let y : M.val.obj (op (F.obj U.unop)) := x
-  show a.1 (op (F.obj U.unop)) • y =
+  change a.1 (op (F.obj U.unop)) • y =
     (show O.obj.obj (op (F.obj U.unop)) from φ.hom.app U (b.1 U)) • y
   rw [show (show O.obj.obj (op (F.obj U.unop)) from φ.hom.app U (b.1 U)) =
     a.1 (op (F.obj U.unop)) from hab U]

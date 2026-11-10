@@ -61,7 +61,7 @@ public theorem pushforwardPullbackIso_bundleMap
     ((Scheme.Modules.restrictFunctorIsoPullback (bundleMap hfree hfree' e)).hom.app M)
   have n2 := (Scheme.Modules.pushforwardCongr (bundleMap_comp_toBase hfree hfree' e)).hom.naturality
     ((Scheme.Modules.restrictFunctorIsoPullback (bundleMap hfree hfree' e)).hom.app M)
-  show (Scheme.Modules.pushforward (relativeProj (bundleAlgebra E hfree)).toBase).map
+  change (Scheme.Modules.pushforward (relativeProj (bundleAlgebra E hfree)).toBase).map
       ((Scheme.Modules.pullbackPushforwardAdjunction (bundleMap hfree hfree' e)).unit.app M) ≫
       𝟙 _ ≫ ((Scheme.Modules.pushforwardComp (bundleMap hfree hfree' e)
         (relativeProj (bundleAlgebra E hfree)).toBase).hom.app _ ≫
@@ -105,7 +105,7 @@ public theorem higherDirectImageIsoMap_zero (d : ℕ) :
   have hn := (Stacks.RightDerivedPlus.rightDerivedPlusZeroIso (Scheme.Modules.pushforward
     (relativeProj (bundleAlgebra E' hfree')).toBase)).inv.naturality
     (twistPullbackIso hfree hfree' e D D' d).hom
-  show (((Stacks.DerivedIndexing.rightDerivedIso _ 0).app _).inv ≫
+  change (((Stacks.DerivedIndexing.rightDerivedIso _ 0).app _).inv ≫
       (directImageComparisonApp _ _ (Scheme.Modules.pullback (bundleMap hfree hfree' e))
         (pushforwardPullbackIso (bundleMap hfree hfree' e) _ _
           (bundleMap_comp_toBase hfree hfree' e)) 0 (twistPiece D d)).hom ≫
@@ -476,7 +476,7 @@ public theorem detPullbackIso_compat (p : ℕ) :
   have hext := exteriorPowerPullbackIso_pullback f _ _ hbase e (p : ℤ)
   refine (Iso.eq_comp_inv _).mpr ?_
   refine (Category.assoc _ _ _).trans ?_
-  show _ ≫ ((pullbackPullbackIso f _ _ hbase (Scheme.Modules.exteriorPower E p)).hom ≫
+  change _ ≫ ((pullbackPullbackIso f _ _ hbase (Scheme.Modules.exteriorPower E p)).hom ≫
     (Scheme.Modules.pullback _).map (Scheme.Modules.exteriorPowerMap e.hom p)) ≫ _ = _
   exact (congrArg (_ ≫ ·) ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hext).trans
     (Iso.hom_inv_id_assoc _ _)))).trans

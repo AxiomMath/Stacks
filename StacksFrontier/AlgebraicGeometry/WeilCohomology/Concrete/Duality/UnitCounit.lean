@@ -87,8 +87,7 @@ theorem corrEquivCorrespondence_corrCongr {k : Type u} [Field k] {X Y : Scheme.{
       correspondenceCongr k sX sY h (corrEquivCorrespondence k sX sY hX hY r c) := by
   subst h
   rw [corrCongr_rfl]
-  induction (corrEquivCorrespondence k sX sY hX hY r c) using TensorProduct.induction_on with
-  | zero => simp
+  induction (corrEquivCorrespondence k sX sY hX hY r c) using TensorProduct.inductionOn with
   | tmul q α => rw [correspondenceCongr_tmul]; rfl
   | add a b ha hb => rw [map_add, ← ha, ← hb]
 

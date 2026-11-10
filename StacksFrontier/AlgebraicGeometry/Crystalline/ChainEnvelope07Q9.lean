@@ -105,7 +105,7 @@ theorem completedPrimeRetraction07Q9_mul_left (b : (B : Type u))
         AdicCompletion.val_smul_apply, PAdicCompletion.mapAddHom_val, ← hy',
         PAdicCompletion.levelMap_mk, ← Submodule.Quotient.mk_smul]
       congr 1
-      show primeRetraction B p lam hp (algebraMap (B : Type u) (primeRing B p lam) b * y') =
+      change primeRetraction B p lam hp (algebraMap (B : Type u) (primeRing B p lam) b * y') =
         b • primeRetraction B p lam hp y'
       rw [← Algebra.smul_def, LinearMap.map_smul]
     simp only [AddMonoidHom.coe_comp, Function.comp_apply, key]
@@ -128,7 +128,7 @@ theorem completedPrimeRetraction07Q9_one : completedPrimeRetraction07Q9 B p lam 
       LinearMap.congr_fun (primeRetraction_comp B p lam hp) 1
     simp only [AddMonoidHom.coe_comp, Function.comp_apply]
     rw [h1, PAdicCompletion.mapAddHom_of]
-    show (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := (B : Type u)) p) (B : Type u)).symm
+    change (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := (B : Type u)) p) (B : Type u)).symm
       (AdicCompletion.of _ _ (primeRetraction B p lam hp _)) = 1
     rw [h2, AdicCompletion.ofLinearEquiv_symm_of]
   · have : Subsingleton (B : Type u) := not_nontrivial_iff_subsingleton.mp h
@@ -220,7 +220,7 @@ def alphaPAlgebraEquiv07Q9 {C R : Type*} [CommRing C] [CommRing R] {q p : ℕ} (
 theorem alphaPAlgebraEquiv07Q9_algebraMap {C R : Type*} [CommRing C] [CommRing R] {q p : ℕ}
     (hp : q = p) (ψ : C ≃+* R) (c : R) (y : C) :
     alphaPAlgebraEquiv07Q9 hp ψ c (algebraMap C _ y) = algebraMap R _ (ψ y) := by
-  show Ideal.quotientEquiv _ _ (Polynomial.mapEquiv ψ) _ (Ideal.Quotient.mk _ (Polynomial.C y)) =
+  change Ideal.quotientEquiv _ _ (Polynomial.mapEquiv ψ) _ (Ideal.Quotient.mk _ (Polynomial.C y)) =
     Ideal.Quotient.mk _ (Polynomial.C (ψ y))
   rw [Ideal.quotientEquiv_mk]
   simp
@@ -285,7 +285,7 @@ theorem variableEnvelopeMap07Q9_eq_comp_alphaPEnvelopeMap :
       (variableEnvelopeMap07Q9 (alphaPStepHom07Q9 σ c T₁ hT) (alphaPPresentation s c g) g'
         hj₁).comp (alphaPEnvelopeMap (alphaPStep_hsome07Q9 c)) := by
   refine (polynomialDividedPowerEnvelope s g).dpMorphism_ext _ _ fun x => ?_
-  show _ = variableEnvelopeMap07Q9 (alphaPStepHom07Q9 σ c T₁ hT) (alphaPPresentation s c g) g'
+  change _ = variableEnvelopeMap07Q9 (alphaPStepHom07Q9 σ c T₁ hT) (alphaPPresentation s c g) g'
     hj₁ (alphaPEnvelopeMap (alphaPStep_hsome07Q9 c)
       ((polynomialDividedPowerEnvelope s g).algebraMap.toRingHom x))
   rw [alphaPEnvelopeMap_algebraMap, variableEnvelopeMap07Q9_algebraMap,
@@ -297,12 +297,12 @@ theorem variableEnvelopeMap07Q9_eq_comp_alphaPEnvelopeMap :
     apply MvPolynomial.ringHom_ext
     · intro b
       rw [RingHom.comp_apply, variableMapRingHom07Q9_C]
-      show _ = variableMapRingHom07Q9 (alphaPStepHom07Q9 σ c T₁ hT) j₁ (rename _ (C b))
+      change _ = variableMapRingHom07Q9 (alphaPStepHom07Q9 σ c T₁ hT) j₁ (rename _ (C b))
       rw [rename_C, variableMapRingHom07Q9_C]
       rfl
     · intro k
       rw [RingHom.comp_apply, variableMapRingHom07Q9_X]
-      show _ = variableMapRingHom07Q9 (alphaPStepHom07Q9 σ c T₁ hT) j₁ (rename _ (X k))
+      change _ = variableMapRingHom07Q9 (alphaPStepHom07Q9 σ c T₁ hT) j₁ (rename _ (X k))
       rw [rename_X, variableMapRingHom07Q9_X]
       exact congrArg X (hjj k).symm
   exact RingHom.congr_fun hr x
@@ -400,7 +400,7 @@ include hvar in
 theorem inverseHom07Q9_var (v : κ') :
     g (X (e.symm v)) = (inverseHom07Q9 σ τb h₂ ψ ε hε).target (g' (X v)) := by
   obtain ⟨k, rfl⟩ := e.surjective v
-  show _ = ψ.symm (ε (g' (X (e k))))
+  change _ = ψ.symm (ε (g' (X (e k))))
   rw [Equiv.symm_apply_apply, hvar, hε, RingEquiv.symm_apply_apply]
 
 include h₁ h₂ hε in
@@ -418,7 +418,7 @@ theorem exists_chainRetraction07Q9_nil :
   have hU : (variableEnvelopeMap07Q9 τ g' g hj').comp (variableEnvelopeMap07Q9 σ g g' hvar) =
       DPMorphism.id _ := by
     refine (polynomialDividedPowerEnvelope s g).dpMorphism_ext _ _ fun x => ?_
-    show variableEnvelopeMap07Q9 τ g' g hj' (variableEnvelopeMap07Q9 σ g g' hvar
+    change variableEnvelopeMap07Q9 τ g' g hj' (variableEnvelopeMap07Q9 σ g g' hvar
       ((polynomialDividedPowerEnvelope s g).algebraMap.toRingHom x)) = _
     rw [variableEnvelopeMap07Q9_algebraMap, variableEnvelopeMap07Q9_algebraMap]
     refine congrArg _ ?_
@@ -435,7 +435,7 @@ theorem exists_chainRetraction07Q9_nil :
     exact RingHom.congr_fun hr x
   refine ⟨(completedVariableEnvelopeMap07Q9 τ hj' s.p).toAddMonoidHom, fun a x => ?_,
     (completedVariableEnvelopeMap07Q9 τ hj' s.p).map_one⟩
-  show completedVariableEnvelopeMap07Q9 τ hj' s.p
+  change completedVariableEnvelopeMap07Q9 τ hj' s.p
       (completedVariableEnvelopeMap07Q9 σ hvar s.p a * x) = _
   rw [map_mul]
   refine congrArg (· * _) ?_
@@ -496,9 +496,9 @@ theorem exists_chainRetraction07Q9 {p : ℕ} : ∀ {R : CommRingCat.{v}} {n : �
       ε.symm.toRingHom.comp (rest.toTop.hom.comp (alphaPAlgebraEquiv07Q9 hp ψ c).toRingHom)
     have hT : ∀ y, T₁ (algebraMap s.C (alphaPSituation s (ψ.symm c)).C y) = σ.target y := by
       intro y
-      show ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 hp ψ c (algebraMap s.C _ y))) = _
+      change ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 hp ψ c (algebraMap s.C _ y))) = _
       rw [alphaPAlgebraEquiv07Q9_algebraMap]
-      show ε.symm ((AlphaPChain.cons c rest).toTop.hom (ψ y)) = _
+      change ε.symm ((AlphaPChain.cons c rest).toTop.hom (ψ y)) = _
       rw [← hε, RingEquiv.symm_apply_apply]
     have hj₁ : ∀ o, g' (X (((optionSumFinEquiv07Q9 κ n).trans e) (Sum.inl o))) =
         (alphaPStepHom07Q9 σ (ψ.symm c) T₁ hT).target
@@ -507,7 +507,7 @@ theorem exists_chainRetraction07Q9 {p : ℕ} : ∀ {R : CommRingCat.{v}} {n : �
       cases o with
       | none =>
         rw [alphaPPresentation_X_none]
-        show g' (X (e (Sum.inr 0))) = ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 hp ψ c
+        change g' (X (e (Sum.inr 0))) = ε.symm (rest.toTop.hom (alphaPAlgebraEquiv07Q9 hp ψ c
           (Ideal.Quotient.mk _ Polynomial.X)))
         rw [hroot, alphaPAlgebraEquiv07Q9_root]
         rfl
@@ -539,16 +539,15 @@ include hj in
 theorem degreeZeroVariableMap07Q9_spec (v : Fin 1 × ι) :
     tensorPowerPresentation t g₂ 0 (X (degreeZeroVariableMap07Q9 j v)) =
       σ.target (tensorPowerPresentation s g 0 (X v)) := by
-  show g₂ (rename Prod.snd (X (v.1, j v.2))) = σ.target (g (rename Prod.snd (X v)))
+  change g₂ (rename Prod.snd (X (v.1, j v.2))) = σ.target (g (rename Prod.snd (X v)))
   rw [rename_X, rename_X]
   exact hj v.2
 
 /-- **The map of envelopes of degree zero induced by a renaming of the variables** is the map
 `Crystalline.tensorPowerEnvelopeMapOver` of degree zero for the renaming. -/
 theorem tensorPowerEnvelopeMapOver_zero_eq07Q9
-    (hrC : ∀ b : s.A, variableMapRingHom07Q9 σ j (C b) = C (σ.base.toRingHom b))
     (hr : g₂.toRingHom.comp (variableMapRingHom07Q9 σ j) = σ.target.comp g.toRingHom) :
-    tensorPowerEnvelopeMapOver σ g g₂ (variableMapRingHom07Q9 σ j) hrC hr 0 =
+    tensorPowerEnvelopeMapOver σ g g₂ (variableMapRingHom07Q9 σ j) hr 0 =
       variableEnvelopeMap07Q9 σ (tensorPowerPresentation s g 0) (tensorPowerPresentation t g₂ 0)
         (j := degreeZeroVariableMap07Q9 j) (degreeZeroVariableMap07Q9_spec σ g g₂ j hj) := by
   refine (polynomialDividedPowerEnvelope s (tensorPowerPresentation s g 0)).dpMorphism_ext _ _
@@ -615,7 +614,7 @@ theorem chainSectionsIso07Q9_restrictMap :
       W.topIso.hom ≫ ch.toTop := by
   have h1 : (f ∣_ W).appTop = W.topIso.hom ≫ f.app W ≫ (f ⁻¹ᵁ W).topIso.inv := by
     rw [app_comp_topIso_inv, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
-  show (f ∣_ W).appTop ≫ (f ⁻¹ᵁ W).topIso.hom ≫ e.hom = _
+  change (f ∣_ W).appTop ≫ (f ⁻¹ᵁ W).topIso.hom ≫ e.hom = _
   rw [h1, Category.assoc, Category.assoc, Iso.inv_hom_id_assoc, he]
 
 /-- The old variables of the chain presentation go to the images under `f^♯` of the values of
@@ -640,7 +639,7 @@ theorem chainDegreeZero07Q9_root (i : Fin n) :
     tensorPowerPresentation _ (chainPresentation07Q9 S hW hVW f hW₂ ch e) 0
         (MvPolynomial.X (chainDegreeZeroVariables07Q9 _ n (Sum.inr i))) =
       (chainSectionsIso07Q9 S f ch e).commRingCatIsoToRingEquiv.symm (ch.roots i) := by
-  show chainPresentation07Q9 S hW hVW f hW₂ ch e
+  change chainPresentation07Q9 S hW hVW f hW₂ ch e
     (rename Prod.snd (MvPolynomial.X (0, Sum.inr i))) = _
   rw [rename_X, chainPresentation07Q9_X_inr]
   rfl
@@ -652,7 +651,6 @@ theorem envelopeMap07Q9_chain_eq :
     envelopeMap07Q9 S hW hVW f hW₂
       (canonicalPresentation (openAffineSituation07Q9 S hW hVW))
       (chainPresentation07Q9 S hW hVW f hW₂ ch e) (chainPresentationRename07Q9 S hW hVW f hW₂)
-      (chainPresentationRename07Q9_C S hW hVW f hW₂)
       (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 =
       variableEnvelopeMap07Q9 (openAffineSituationHom07Q9 S hW hVW f hW₂) _ _
         (j := chainDegreeZeroVariables07Q9 _ n ∘ Sum.inl)
@@ -661,8 +659,6 @@ theorem envelopeMap07Q9_chain_eq :
     (canonicalPresentation (openAffineSituation07Q9 S hW hVW))
     (chainPresentation07Q9 S hW hVW f hW₂ ch e) Sum.inl
     (chainPresentation07Q9_var S hW hVW f hW₂ ch e)
-    ((chainPresentationRename07Q9_eq S hW hVW f hW₂) ▸
-      chainPresentationRename07Q9_C S hW hVW f hW₂)
     ((chainPresentationRename07Q9_eq S hW hVW f hW₂) ▸
       chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e)
   refine Eq.trans ?_ h1
@@ -682,7 +678,6 @@ theorem adicCompletionRingMap_envelopeMap07Q9_chain
     adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂
       (canonicalPresentation (openAffineSituation07Q9 S hW hVW))
       (chainPresentation07Q9 S hW hVW f hW₂ ch e) (chainPresentationRename07Q9 S hW hVW f hW₂)
-      (chainPresentationRename07Q9_C S hW hVW f hW₂)
       (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0).toRingHom
       (map_pAdicIdeal_le _ _) a =
       completedVariableEnvelopeMap07Q9 (openAffineSituationHom07Q9 S hW hVW f hW₂)
@@ -706,7 +701,6 @@ theorem exists_chainEnvelopeRetraction07Q9 (hp : S.p = p) :
       (∀ a x, ρ (adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂
           (canonicalPresentation (openAffineSituation07Q9 S hW hVW))
           (chainPresentation07Q9 S hW hVW f hW₂ ch e) (chainPresentationRename07Q9 S hW hVW f hW₂)
-          (chainPresentationRename07Q9_C S hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0).toRingHom
           (map_pAdicIdeal_le _ _) a * x) = a * ρ x) ∧ ρ 1 = 1 := by
   obtain ⟨ρ, hρ, hρ1⟩ := exists_chainRetraction07Q9 ch (openAffineSituation07Q9 S hW hVW) hp
@@ -762,14 +756,13 @@ theorem chainEnvelopeRetraction07Q9_mul_left (hp : S.p = p)
           (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
           (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
           (chainPresentationRename07Q9 S hW hVW f hW₂)
-          (chainPresentationRename07Q9_C S hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0 a * x) =
       a * chainEnvelopeRetraction07Q9 S hW hVW f hW₂ ch e he hp x := by
   exact retraction_conj_mul_left07Q9 _ _ _ _ _
     (ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ (canonicalPresentation _)
       (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
       (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
-      (chainPresentationRename07Q9 S hW hVW f hW₂) (chainPresentationRename07Q9_C S hW hVW f hW₂)
+      (chainPresentationRename07Q9 S hW hVW f hW₂)
       (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) 0)
     (exists_chainEnvelopeRetraction07Q9 S hW hVW f hW₂ ch e he hp).choose_spec.1 a x
 
@@ -777,7 +770,7 @@ theorem chainEnvelopeRetraction07Q9_mul_left (hp : S.p = p)
 theorem chainEnvelopeRetraction07Q9_one (hp : S.p = p) :
     chainEnvelopeRetraction07Q9 S hW hVW f hW₂ ch e he hp 1 = 1 := by
   have hspec := (exists_chainEnvelopeRetraction07Q9 S hW hVW f hW₂ ch e he hp).choose_spec.2
-  show (tensorPowerEnvelopeThickeningRingEquiv _ _ (canonicalPresentation_surjective _) 0).symm
+  change (tensorPowerEnvelopeThickeningRingEquiv _ _ (canonicalPresentation_surjective _) 0).symm
     ((exists_chainEnvelopeRetraction07Q9 S hW hVW f hW₂ ch e he hp).choose
       ((tensorPowerEnvelopeThickeningRingEquiv _ _
         (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he) 0) 1)) = 1
@@ -801,7 +794,6 @@ variable {ι κ : Type u}
     →ₐ[(openAffineSituation₂07Q9 S hVW f hW₂).A] (openAffineSituation₂07Q9 S hVW f hW₂).C)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 /-- **The morphism of cosimplicial divided power algebras `D(•) ⟶ D'(•)`** of a morphism of
@@ -816,24 +808,24 @@ def envelopeDPAlgebraHom07Q9 :
     letI : Algebra (openAffineSituation07Q9 S hW hVW).A
         ((envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).carrier b) :=
       (envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).algebra b
-    { __ := (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr b).toRingHom
+    { __ := (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr b).toRingHom
       commutes' := fun a => congrArg (fun q : DPMorphism _ _ => q a)
         (tensorPowerEnvelopeMapOver_structureMap (openAffineSituationHom07Q9 S hW hVW f hW₂)
-          g g₂ r hrC hr b) }
-  isDPMorphism b := (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr b).isDPMorphism
+          g g₂ r hr b) }
+  isDPMorphism b := (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr b).isDPMorphism
   naturality {m n} φ := by
     let : Algebra (openAffineSituation07Q9 S hW hVW).A
         ((envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).carrier n.len) :=
       (envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂) g₂).algebra n.len
-    exact AlgHom.coe_ringHom_injective (RingHom.ext fun x => congrArg
+    exact AlgHom.toRingHom_injective (RingHom.ext fun x => congrArg
       (fun q : DPMorphism _ _ => q x) (tensorPowerEnvelopeMapOver_comp_envelopeReindex
-        (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hrC hr φ))
+        (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hr φ))
 
 /-- The component of degree `b` is the map `envelopeMap07Q9 b` of the uncompleted envelopes. -/
 theorem envelopeDPAlgebraHom07Q9_app (b : ℕ)
     (x : (envelopeDPAlgebra (openAffineSituation07Q9 S hW hVW) g).carrier b) :
-    (envelopeDPAlgebraHom07Q9 S hW hVW f hW₂ g g₂ r hrC hr).app b x =
-      envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr b x :=
+    (envelopeDPAlgebraHom07Q9 S hW hVW f hW₂ g g₂ r hr).app b x =
+      envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr b x :=
   rfl
 
 /-- **The completion of the morphism of cosimplicial divided power algebras is the map
@@ -845,10 +837,10 @@ theorem ringEquiv_envelopeRingMap07Q9_eq_completedRingMap
     (x : (tensorPowerEnvelopeThickening (openAffineSituation07Q9 S hW hVW) g hg
       b).thickening.ring) :
     tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ b
-        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr b x) =
-      (envelopeDPAlgebraHom07Q9 S hW hVW f hW₂ g g₂ r hrC hr).completedRingMap S.p b
+        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr b x) =
+      (envelopeDPAlgebraHom07Q9 S hW hVW f hW₂ g g₂ r hr).completedRingMap S.p b
         (tensorPowerEnvelopeThickeningRingEquiv _ g hg b x) :=
-  ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr b x
+  ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr b x
 
 variable (he : f.app W ≫ e.hom = ch.toTop)
 
@@ -861,7 +853,6 @@ def chainEnvelopeHom07Q9 :
       (envelopeDPAlgebra (openAffineSituation₂07Q9 S hVW f hW₂)
         (chainPresentation07Q9 S hW hVW f hW₂ ch e)) :=
   envelopeDPAlgebraHom07Q9 S hW hVW f hW₂ _ _ (chainPresentationRename07Q9 S hW hVW f hW₂)
-    (chainPresentationRename07Q9_C S hW hVW f hW₂)
     (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e)
 
 /-- **The completion of `chainEnvelopeHom07Q9` is `envelopeRingMap07Q9`** for the chain normal
@@ -877,11 +868,10 @@ theorem ringEquiv_envelopeRingMap07Q9_chain (b : ℕ)
           (canonicalPresentation_surjective _) (chainPresentation07Q9 S hW hVW f hW₂ ch e)
           (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
           (chainPresentationRename07Q9 S hW hVW f hW₂)
-          (chainPresentationRename07Q9_C S hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) b x) =
       (chainEnvelopeHom07Q9 S hW hVW f hW₂ ch e).completedRingMap S.p b
         (tensorPowerEnvelopeThickeningRingEquiv _ _ (canonicalPresentation_surjective _) b x) :=
-  ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ _ _ _ _ _ _ _ b x
+  ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ _ _ _ _ _ _ b x
 
 end CosimplicialHom
 

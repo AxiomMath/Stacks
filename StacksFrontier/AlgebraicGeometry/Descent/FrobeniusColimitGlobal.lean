@@ -30,7 +30,7 @@ lemma modulePullbackPseudofunctor_mapComp'_hom {S T T' : Scheme.{u}} (f : T ⟶ 
       (by rw [← Quiver.Hom.comp_toLoc, ← op_comp, hh])).hom.toNatTrans =
       (Scheme.Modules.pullbackCongr hh).inv ≫ (Scheme.Modules.pullbackComp g f).inv := by
   subst hh
-  show (modulePullbackPseudofunctor.mapComp' f.op.toLoc g.op.toLoc
+  change (modulePullbackPseudofunctor.mapComp' f.op.toLoc g.op.toLoc
     (f.op.toLoc ≫ g.op.toLoc) rfl).hom.toNatTrans = _
   rw [Pseudofunctor.mapComp'_eq_mapComp]
   simp [modulePullbackPseudofunctor, Scheme.Modules.pullbackCongr, Bicategory.Adj.forget₁]
@@ -56,12 +56,12 @@ lemma presheafHom_map_eq_homRes {S : Scheme.{u}} (M N : S.Modules) {T T' : Over 
     E.inv.app N
   have hA : A' = (Scheme.Modules.pullbackCongr (Over.w v)).inv.app M ≫
       (Scheme.Modules.pullbackComp v.left T.hom).inv.app M := by
-    show E.hom.app M = _
+    change E.hom.app M = _
     rw [hEhom]
     rfl
   have hAN : AN = (Scheme.Modules.pullbackCongr (Over.w v)).inv.app N ≫
       (Scheme.Modules.pullbackComp v.left T.hom).inv.app N := by
-    show E.hom.app N = _
+    change E.hom.app N = _
     rw [hEhom]
     rfl
   have hAB : AN ≫ B' = 𝟙 _ := E.hom_inv_id_app N
@@ -258,7 +258,7 @@ lemma frobPow_add {T : Scheme.{u}} (H : T ⟶ Y) (N : ℕ) :
     ∀ d, frobPow p hY (frobPow p hY H N) d = frobPow p hY H (N + d)
   | 0 => rfl
   | d + 1 => by
-    show frobOf p hY (frobPow p hY (frobPow p hY H N) d) ≫ frobPow p hY (frobPow p hY H N) d =
+    change frobOf p hY (frobPow p hY (frobPow p hY H N) d) ≫ frobPow p hY (frobPow p hY H N) d =
       frobOf p hY (frobPow p hY H (N + d)) ≫ frobPow p hY H (N + d)
     rw [frobPow_add H N d]
 
@@ -427,7 +427,7 @@ theorem exists_homRes_eq_twistIter_of_qcqs {T X' : Scheme.{u}} [CompactSpace T]
       rw [Category.comp_id, ← cancel_mono (W l).ι, Category.assoc, Scheme.homOfLE_ι, hz, hkl']
     have hZ : z ≫ frobPow p hY ((W k ⊓ W l).ι ≫ K) (N + D) = Z.hom := by
       rw [← Over.w gk]
-      show _ = gk.left ≫ (W k).ι ≫ frobPow p hY K (N + D)
+      change _ = gk.left ≫ (W k).ι ≫ frobPow p hY K (N + D)
       rw [comp_frobPow (W k).ι rfl (N + D), comp_frobPow gk.left rfl (N + D),
         comp_frobPow z rfl (N + D), ← Category.assoc z, hz, Category.assoc]
     exact (homRes_homRes_eq_of_comp (𝟙 _) gk.left _ z hzk (hx k) _

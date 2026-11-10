@@ -110,7 +110,8 @@ theorem chernSeries_mul_of_invertibleSub (X : C) (T : ShortComplex (S.obj X).Mod
       cases n with
       | zero =>
           rw [Finset.Nat.antidiagonal_zero, Finset.sum_singleton, hcL 0,
-            UnitalCentralSeries.coeff_zero, UnitalCentralSeries.coeff_zero, if_pos rfl, one_mul]
+            UnitalCentralSeries.coeff_zero, UnitalCentralSeries.coeff_zero, ite_eq_left rfl,
+            one_mul]
       | succ k =>
           have hvanish : ∀ q ∈ Finset.HasAntidiagonal.antidiagonal k, q ≠ (0, k) →
               (𝔗.chernSeries X T.X₁ 1 h1).coeff (q.1 + 1) *
@@ -118,8 +119,9 @@ theorem chernSeries_mul_of_invertibleSub (X : C) (T : ShortComplex (S.obj X).Mod
             intro q hq hne
             rw [Finset.HasAntidiagonal.mem_antidiagonal] at hq
             have hq1 : q.1 ≠ 0 := fun h0 => hne (Prod.ext h0 (show q.2 = k by omega))
-            rw [hcL (q.1 + 1), if_neg (Nat.succ_ne_zero _), if_neg (by omega), zero_mul]
-          rw [Finset.Nat.sum_antidiagonal_succ, hcL 0, if_pos rfl, one_mul,
+            rw [hcL (q.1 + 1), ite_eq_right (Nat.succ_ne_zero _), ite_eq_right (by omega),
+              zero_mul]
+          rw [Finset.Nat.sum_antidiagonal_succ, hcL 0, ite_eq_left rfl, one_mul,
             Finset.sum_eq_single_of_mem (0, k)
               (Finset.HasAntidiagonal.mem_antidiagonal.2 (Nat.zero_add k)) hvanish,
             𝔗.chernSeries_coeff_succ X T.X₂ (r + 1) hE2 (k + 1), hmain k,

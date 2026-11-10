@@ -76,10 +76,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [IsNo
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U))]
   [∀ U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r,
+        max (u + 1) w r, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r,
+        max (u + 1) w r, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}

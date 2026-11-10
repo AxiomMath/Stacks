@@ -66,6 +66,7 @@ section Scheme
 variable {X S : Scheme.{u}} [IsAffine S] (f : X ⟶ S) [IsProper f] [Flat f]
   [LocallyOfFinitePresentation f]
 
+omit [IsAffine S] [IsProper f] [Flat f] [LocallyOfFinitePresentation f] in
 /-- A surjective at-worst-nodal morphism of relative dimension one has Gorenstein fibres,
 equidimensional of dimension one, each presented by the scheme-theoretic fibre. -/
 theorem curveFibres_hasGorensteinCurveFibres_of_isAtWorstNodal
@@ -164,7 +165,7 @@ theorem exists_toScheme_map_eq_of_chart (hX : IsPrestableCurveFamily B hZ X)
   refine ⟨T.map (pullback.fst q ρ) y, ?_⟩
   rw [← Scheme.Hom.comp_apply, ← T.map_comp, pullback.condition, T.map_comp,
     Scheme.Hom.comp_apply]
-  show (T.obj U).fromSpecResidueField u _ = u
+  change (T.obj U).fromSpecResidueField u _ = u
   exact (T.obj U).fromSpecResidueField_apply u _
 
 /-- The morphism of schemes underlying a scheme chart of a family of curves is proper. -/

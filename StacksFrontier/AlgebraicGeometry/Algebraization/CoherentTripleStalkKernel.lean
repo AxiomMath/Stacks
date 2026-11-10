@@ -83,7 +83,7 @@ theorem span_le_comap (A : Type u) [CommRing A] (f : A)
     Ideal.span {f} ≤
       (PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {f})) z).asIdeal := by
   intro a ha
-  show (Ideal.Quotient.mk (Ideal.span {f})) a ∈ z.asIdeal
+  change (Ideal.Quotient.mk (Ideal.span {f})) a ∈ z.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
   exact Submodule.zero_mem _
 

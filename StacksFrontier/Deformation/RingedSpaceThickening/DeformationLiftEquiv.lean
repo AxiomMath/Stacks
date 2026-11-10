@@ -134,7 +134,7 @@ theorem homeoTranspose_comp {𝒢' : TopCat.Presheaf CommRingCat.{u} X.carrier}
     homeoTranspose i hi 𝒢 c ≫ φ = homeoTranspose i hi 𝒢'
       (c ≫ (TopCat.Presheaf.pushforward CommRingCat.{u} i.hom.base).map φ) := by
   ext V x
-  show φ.app _ (𝒢.map _ (c.app _ x)) = 𝒢'.map _ (φ.app _ (c.app _ x))
+  change φ.app _ (𝒢.map _ (c.app _ x)) = 𝒢'.map _ (φ.app _ (c.app _ x))
   rw [← ConcreteCategory.comp_apply (𝒢.map _), φ.naturality, ConcreteCategory.comp_apply]
 
 /-- `homeoTranspose` on sections. -/
@@ -254,7 +254,7 @@ theorem liftHomEquiv_symm_ringUnit (c : D.cube.X₁'.presheaf ⟶
 `g ≫ i₁`. -/
 theorem i₂_liftBase : D.cube.i₂.hom.base ≫ D.liftBase = D.cube.g.hom.base ≫ D.cube.i₁.hom.base := by
   rw [liftBase, ← Category.assoc]
-  show ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).hom ≫
+  change ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).hom ≫
     (thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv) ≫ _ = _
   rw [Iso.hom_inv_id, Category.id_comp]
 
@@ -292,7 +292,7 @@ theorem face_le₁ (V : Opens D.cube.X₁.carrier) :
       ((Opens.map D.liftBase).obj ((Opens.map (thickeningHomeo D.cube.i₁
         D.i₁_firstOrder.isThickening).inv).obj V)) := by
   intro z hz
-  show (thickeningHomeo D.cube.i₁ D.i₁_firstOrder.isThickening).inv (D.cube.i₁.hom.base
+  change (thickeningHomeo D.cube.i₁ D.i₁_firstOrder.isThickening).inv (D.cube.i₁.hom.base
     (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv
       (D.cube.i₂.hom.base z)))) ∈ V
   rw [thickeningHomeo_hom_inv_apply, thickeningHomeo_hom_inv_apply]
@@ -343,7 +343,7 @@ theorem reduction_comm_iff_face (c : D.cube.X₁'.presheaf ⟶
   have key2 : (ringAdjunction D.cube.g.hom.base).homEquiv _ _
       (D.toFirstOrderLiftDiagram.front.reduction ≫ D.toFirstOrderLiftDiagram.g) =
       r₁ ≫ comorphism D.cube.g := by
-    show (ringAdjunction D.cube.g.hom.base).homEquiv _ _
+    change (ringAdjunction D.cube.g.hom.base).homEquiv _ _
       ((ringPullback D.cube.g.hom.base).map r₁ ≫ structureMap D.cube.g) = _
     rw [Adjunction.homEquiv_naturality_left, homEquiv_structureMap]
   have hiff : D.liftHomEquiv.symm c ≫ D.toFirstOrderLiftDiagram.back.reduction =
@@ -357,14 +357,14 @@ theorem reduction_comm_iff_face (c : D.cube.X₁'.presheaf ⟶
       D.cube.X₂.presheaf.map (homOfLE (D.face_le₁ V)).op
         (D.cube.i₂.hom.c.app _ (c.app _ x)) := by
     intro V x
-    show D.cube.X₂.presheaf.map _ (D.cube.i₂.hom.c.app _ (D.cube.X₂'.presheaf.map _ _)) = _
+    change D.cube.X₂.presheaf.map _ (D.cube.i₂.hom.c.app _ (D.cube.X₂'.presheaf.map _ _)) = _
     refine (congrArg (fun y => D.cube.X₂.presheaf.map _ y) (c_naturality_apply _ _ _)).trans ?_
     exact presheaf_map_map_eq _ _ _ _ _
   have hr : ∀ (V : Opens D.cube.X₁.carrier) x, (r₁ ≫ comorphism D.cube.g).hom.app (op V) x =
       D.cube.X₂.presheaf.map (homOfLE (D.face_le₂ V)).op
         (D.cube.g.hom.c.app _ (D.cube.i₁.hom.c.app _ x)) := by
     intro V x
-    show D.cube.g.hom.c.app _ (D.cube.X₁.presheaf.map _ _) = _
+    change D.cube.g.hom.c.app _ (D.cube.X₁.presheaf.map _ _) = _
     exact c_naturality_apply _ _ _
   rw [hiff]
   exact sheafHom_eq_iff_apply hl hr
@@ -408,7 +408,7 @@ theorem liftBase_f₁' :
   rw [liftBase, Category.assoc, Category.assoc, h1, ← Category.assoc D.cube.g.hom.base,
     ← D.source_comm_base, Category.assoc, h3, ← Category.assoc D.cube.f₂.hom.base, ← h2,
     ← Category.assoc, ← Category.assoc]
-  show ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv ≫
+  change ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv ≫
     (thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).hom ≫ _) ≫ _ = _
   rw [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
 
@@ -419,7 +419,7 @@ theorem baseFace_le₁ (V : Opens D.cube.S₁.carrier) :
       (Opens.map D.liftBase).obj ((Opens.map D.cube.f₁'.hom.base).obj
         ((Opens.map (thickeningHomeo D.cube.t₁ D.t₁_firstOrder.isThickening).inv).obj V)) := by
   intro z hz
-  show (thickeningHomeo D.cube.t₁ D.t₁_firstOrder.isThickening).inv (D.cube.f₁'.hom.base
+  change (thickeningHomeo D.cube.t₁ D.t₁_firstOrder.isThickening).inv (D.cube.f₁'.hom.base
     (D.cube.i₁.hom.base (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂
       D.i₂_firstOrder.isThickening).inv z)))) ∈ V
   rw [thickening_comm_apply D.cube.i₁ D.cube.t₁ D.cube.f₁ D.cube.f₁' D.cube.front_comm,
@@ -436,7 +436,7 @@ theorem baseFace_le₂ (V : Opens D.cube.S₁.carrier) :
   have e := ConcreteCategory.congr_hom D.liftBase_f₁' z
   change D.cube.f₁'.hom.base (D.cube.i₁.hom.base (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂
     D.i₂_firstOrder.isThickening).inv z))) = D.cube.h'.hom.base (D.cube.f₂'.hom.base z) at e
-  show (thickeningHomeo D.cube.t₁ D.t₁_firstOrder.isThickening).inv
+  change (thickeningHomeo D.cube.t₁ D.t₁_firstOrder.isThickening).inv
     (D.cube.h'.hom.base (D.cube.f₂'.hom.base z)) ∈ V
   rw [← e]
   exact D.baseFace_le₁ V hz
@@ -449,7 +449,7 @@ theorem frontBaseToBack_apply (V : Opens D.cube.S₁.carrier)
     D.frontBaseToBack.hom.app (op V) w =
       D.cube.X₂'.presheaf.map (homOfLE (D.baseFace_le₂ V)).op
         (D.cube.f₂'.hom.c.app _ (D.cube.h'.hom.c.app _ w)) := by
-  show (thickeningStructureMap D.cube.i₂ D.cube.t₂ D.cube.f₂ D.cube.f₂' D.cube.back_comm
+  change (thickeningStructureMap D.cube.i₂ D.cube.t₂ D.cube.f₂ D.cube.f₂' D.cube.back_comm
       D.i₂_firstOrder.isThickening D.t₂_firstOrder.isThickening).hom.app _
         (D.gB'Transpose.hom.app (op V) w) = _
   refine (congrArg (fun x => (thickeningStructureMap D.cube.i₂ D.cube.t₂ D.cube.f₂ D.cube.f₂'
@@ -468,7 +468,7 @@ theorem frontBaseToBack_apply (V : Opens D.cube.S₁.carrier)
         D.t₂_firstOrder.isThickening D.t₁_firstOrder.isThickening V w)).trans ?_
   refine (congrArg (fun x => (thickenedRing D.cube.i₂ D.i₂_firstOrder.isThickening).obj.map _
     (D.cube.X₂'.presheaf.map _ x)) (c_naturality_apply _ _ _)).trans ?_
-  show D.cube.X₂'.presheaf.map _ (D.cube.X₂'.presheaf.map _ (D.cube.X₂'.presheaf.map _ _)) = _
+  change D.cube.X₂'.presheaf.map _ (D.cube.X₂'.presheaf.map _ (D.cube.X₂'.presheaf.map _ _)) = _
   rw [presheaf_map_map_apply, presheaf_map_map_apply]
   exact presheaf_map_congr _ _ _ _
 
@@ -490,7 +490,7 @@ theorem baseFace_le₃ (W : Opens D.cube.S₁'.carrier) :
   intro z hz
   have e := ConcreteCategory.congr_hom D.liftBase_f₁' z
   change D.cube.f₁'.hom.base (D.liftBase z) = D.cube.h'.hom.base (D.cube.f₂'.hom.base z) at e
-  show D.cube.h'.hom.base (D.cube.f₂'.hom.base z) ∈ W
+  change D.cube.h'.hom.base (D.cube.f₂'.hom.base z) ∈ W
   rw [← e]
   exact hz
 
@@ -504,7 +504,7 @@ theorem baseFace_le₄ (W : Opens D.cube.S₁'.carrier) :
   intro z hz
   change D.cube.f₁'.hom.base (D.cube.i₁.hom.base (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂
     D.i₂_firstOrder.isThickening).inv z))) ∈ W at hz
-  show D.cube.t₁.hom.base (D.cube.f₁.hom.base (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂
+  change D.cube.t₁.hom.base (D.cube.f₁.hom.base (D.cube.g.hom.base ((thickeningHomeo D.cube.i₂
       D.i₂_firstOrder.isThickening).inv z))) ∈ W
   rw [← thickening_comm_apply D.cube.i₁ D.cube.t₁ D.cube.f₁ D.cube.f₁' D.cube.front_comm]
   exact hz
@@ -592,7 +592,7 @@ def kapp (W : Opens D.cube.X₁'.carrier)
 theorem layerIdealIncl_kapp (W : Opens D.cube.X₁'.carrier)
     (j : (AlgebraicGeometry.SheafOfModules.idealSheaf D.cube.i₁).val.obj (op W)) :
     layerIdealIncl D.cube.i₁ D.G₁ D.kernelIso₁ W (D.kapp W j) = idealι D.cube.i₁ W j := by
-  show idealι D.cube.i₁ W ((D.kernelIso₁.hom ≫ D.kernelIso₁.inv).val.app (op W) j) = _
+  change idealι D.cube.i₁ W ((D.kernelIso₁.hom ≫ D.kernelIso₁.inv).val.app (op W) j) = _
   rw [Iso.hom_inv_id]
   rfl
 
@@ -743,7 +743,7 @@ theorem kernelFace_iff_nuFace (c : D.cube.X₁'.presheaf ⟶
     have hι : thickeningKernelInclusionApp D.cube.i₁ D.i₁_firstOrder.isThickening D.G₁
         D.kernelIso₁ V μ = idealι D.cube.i₁ W j := rfl
     rw [hι, liftTranspose_apply]
-    show D.cube.X₂'.presheaf.map _ ((D.liftMor c).hom.c.app (op W) (idealι D.cube.i₁ W j)) = _
+    change D.cube.X₂'.presheaf.map _ ((D.liftMor c).hom.c.app (op W) (idealι D.cube.i₁ W j)) = _
     rw [h W j (D.face_le₃ W), hj, pushApp_mres]
     refine (layerIdealIncl_naturality D.cube.i₂ D.G₂ D.kernelIso₂ _ _).symm.trans ?_
     refine (congrArg (layerIdealIncl D.cube.i₂ D.G₂ D.kernelIso₂ _) ?_).trans
@@ -756,7 +756,7 @@ theorem base_eq_of_comm (φ : D.cube.X₂' ⟶ D.cube.X₁') (h : D.cube.i₂ �
   have hb := congrArg (fun k => k.hom.base) h
   change D.cube.i₂.hom.base ≫ φ.hom.base = D.cube.g.hom.base ≫ D.cube.i₁.hom.base at hb
   rw [liftBase, ← hb, ← Category.assoc]
-  show φ.hom.base = ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv ≫
+  change φ.hom.base = ((thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).inv ≫
     (thickeningHomeo D.cube.i₂ D.i₂_firstOrder.isThickening).hom) ≫ φ.hom.base
   rw [Iso.inv_hom_id, Category.id_comp]
 
@@ -771,7 +771,7 @@ def comorphOf (φ : D.cube.X₂' ⟶ D.cube.X₁') (hb : φ.hom.base = D.liftBas
 theorem liftMor_comorphOf (φ : D.cube.X₂' ⟶ D.cube.X₁') (hb : φ.hom.base = D.liftBase) :
     D.liftMor (D.comorphOf φ hb) = φ := by
   refine ringedSpaceHom_ext_of_app hb.symm fun W y => ?_
-  show (TopCat.Presheaf.pushforwardEq hb D.cube.X₂'.presheaf).hom.app (op W)
+  change (TopCat.Presheaf.pushforwardEq hb D.cube.X₂'.presheaf).hom.app (op W)
     (φ.hom.c.app (op W) y) = _
   rw [TopCat.Presheaf.pushforwardEq_hom_app]
   exact presheaf_map_congr _ _ _ _
@@ -781,7 +781,7 @@ theorem comorphOf_liftMor (c : D.cube.X₁'.presheaf ⟶
       (TopCat.Presheaf.pushforward CommRingCat.{u} D.liftBase).obj D.cube.X₂'.presheaf)
     (hb : (D.liftMor c).hom.base = D.liftBase) : D.comorphOf (D.liftMor c) hb = c := by
   ext W y
-  show (TopCat.Presheaf.pushforwardEq hb D.cube.X₂'.presheaf).hom.app (op W) (c.app (op W) y) =
+  change (TopCat.Presheaf.pushforwardEq hb D.cube.X₂'.presheaf).hom.app (op W) (c.app (op W) y) =
     c.app (op W) y
   rw [TopCat.Presheaf.pushforwardEq_hom_app]
   exact presheaf_map_endo _ _ _

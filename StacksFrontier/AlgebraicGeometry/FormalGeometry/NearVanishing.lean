@@ -119,7 +119,7 @@ turns the inclusion of opens into `V(𝔞) ⊆ V(J)`, which is the Galois corres
 ideals and closed subsets of the spectrum. -/
 theorem complementZeroLocus_le_complementZeroLocus_iff (a J : Ideal A) :
     complementZeroLocus A J ≤ complementZeroLocus A a ↔ J ≤ a.radical := by
-  rw [SetLike.le_def, ← PrimeSpectrum.zeroLocus_subset_zeroLocus_iff]
+  rw [IsConcreteLE.le_iff, ← PrimeSpectrum.zeroLocus_subset_zeroLocus_iff]
   constructor
   · intro h p hp
     exact not_not.1 fun hp' ↦ h hp' hp
@@ -169,7 +169,7 @@ theorem ι_image_openSet_ofIdeal (I a J : Ideal A) (hJa : J ≤ a.radical)
     (haIJ : a ≤ (I ⊔ J).radical) :
     (complementZeroLocus A a).ι ''ᵁ (ofIdealOfLeRadical I a J hJa haIJ).openSet =
       complementZeroLocus A J := by
-  show (complementZeroLocus A a).ι ''ᵁ (complementZeroLocus A a).ι ⁻¹ᵁ
+  change (complementZeroLocus A a).ι ''ᵁ (complementZeroLocus A a).ι ⁻¹ᵁ
       complementZeroLocus A J = _
   rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι, inf_eq_right]
   exact (complementZeroLocus_le_complementZeroLocus_iff a J).2 hJa
@@ -203,18 +203,18 @@ theorem exists_ideal_ι_image_openSet_eq (I a : Ideal A) (V : OpensNearVanishing
   -- The image lies in `U`, and it contains every point of `U ∩ V(I)`.
   have hWU : ∀ p : PrimeSpectrum A, p ∈ W → ¬ a ≤ p.asIdeal := fun p hp ↦
     (mem_complementZeroLocus_iff_not_le a p).1
-      (SetLike.le_def.1 ((complementZeroLocus A a).ι_image_le V.openSet) hp)
+      (IsConcreteLE.le_iff.1 ((complementZeroLocus A a).ι_image_le V.openSet) hp)
   have hVW : ∀ p : PrimeSpectrum A, ¬ a ≤ p.asIdeal → I ≤ p.asIdeal → p ∈ W := fun p hpa hpI ↦
     (Scheme.Opens.mem_ι_image_iff _).2
       (V.contains_vanishing ⟨p, (mem_complementZeroLocus_iff_not_le a p).2 hpa⟩ hpI)
   have himage : W = complementZeroLocus A
       (PrimeSpectrum.vanishingIdeal {q : PrimeSpectrum A | q ∉ W}) :=
-    le_antisymm (SetLike.le_def.2 fun p hp ↦ (hmem p).2 hp)
-      (SetLike.le_def.2 fun p hp ↦ (hmem p).1 hp)
+    le_antisymm (IsConcreteLE.le_iff.2 fun p hp ↦ (hmem p).2 hp)
+      (IsConcreteLE.le_iff.2 fun p hp ↦ (hmem p).1 hp)
   refine ⟨PrimeSpectrum.vanishingIdeal {q : PrimeSpectrum A | q ∉ W}, ?_, ?_, himage⟩
   · -- `V(𝔞) ⊆ V(J)`: the open `Spec(A) ∖ V(J)` is the image, which lies in `U`.
     refine (complementZeroLocus_le_complementZeroLocus_iff a _).1 ?_
-    exact SetLike.le_def.2 fun p hp ↦
+    exact IsConcreteLE.le_iff.2 fun p hp ↦
       (mem_complementZeroLocus_iff_not_le a p).2 (hWU p ((hmem p).1 hp))
   · -- `V(I) ∩ V(J) ⊆ V(𝔞)`: such a prime is a point of `U ∩ V(I)`, hence of the image, and so
     -- does not lie on `V(J)`.

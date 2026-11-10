@@ -53,7 +53,7 @@ public theorem thetaSharp_pbUnit (d : ℤ)
   have := congrArg (fun φ => φ.val.app (op V) s)
     (((Scheme.Modules.pullbackPushforwardAdjunction (bundleBaseChange g E hqc E' hqc' hE)).homEquiv
       _ _).apply_symm_apply (thetaFlat g E hqc E' hqc' hE D D' d))
-  simp only [Adjunction.homEquiv_unit] at this
+  simp only at this
   exact this
 
 /-- **`θ♯` is multiplicative**: `b^*(𝒪(i) ⊗ 𝒪(j) ⟶ 𝒪(i + j))` followed by `θ♯` is the comparison
@@ -278,7 +278,8 @@ public theorem mono_pullback_kernel_ι_tautologicalMap :
     (bundleBaseChange g E hqc E' hqc' hE).toLRSHom.toShHom (tautologicalMap E hqc D)
     fun y => @Stacks.SheafOfModules.isSplitEpi_stalkFunctor_map_of_isInvertible _ _ _
       (tautologicalMap E hqc D) (epi_tautologicalMap E hqc D)
-      (isInvertible_piece E hqc D ((1 : ℕ) : ℤ)) _
+      (isInvertible_piece E hqc D ((1 : ℕ) : ℤ))
+      ((bundleBaseChange g E hqc E' hqc' hE).toLRSHom.toShHom.hom.base y)
 
 /-- The kernel sequence of the tautological surjection of `𝐏(E')`, presented through the pullback
 of that of `𝐏(E)`. -/

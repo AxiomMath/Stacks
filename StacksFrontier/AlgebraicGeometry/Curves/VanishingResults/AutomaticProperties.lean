@@ -84,7 +84,7 @@ private theorem connectedSpace_of_globalSections_no_idempotents
   let V : X.Opens := ⟨Uᶜ, hU.isClosed.isOpen_compl⟩
   let W : Bool → X.Opens := fun b => if b then V else Uo
   have hcover : (⊤ : X.Opens) ≤ iSup W := by
-    rw [SetLike.le_def]
+    rw [IsConcreteLE.le_iff]
     intro x hx
     by_cases hxU : x ∈ U
     · exact TopologicalSpace.Opens.mem_iSup.mpr ⟨false, by simpa [W, Uo] using hxU⟩

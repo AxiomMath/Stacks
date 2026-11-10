@@ -84,7 +84,7 @@ theorem symPowZeroIso_inv_one (X : Cᵒᵖ) :
     (PresheafOfModules.symPowZeroIso F).inv.app X (PresheafOfModules.symPowOneSection F X) =
       PresheafOfModules.unitOneSection (O ⋙ forget₂ _ RingCat) X := by
   rw [← symPowZeroIso_hom_one F X]
-  show ((PresheafOfModules.symPowZeroIso F).hom ≫
+  change ((PresheafOfModules.symPowZeroIso F).hom ≫
     (PresheafOfModules.symPowZeroIso F).inv).app X
       (PresheafOfModules.unitOneSection (O ⋙ forget₂ _ RingCat) X) = _
   rw [(PresheafOfModules.symPowZeroIso F).hom_inv_id]
@@ -114,7 +114,7 @@ def pieceZeroIso :
 theorem pieceZeroIso_hom_one (U : (TopologicalSpace.Opens X.carrier)ᵒᵖ) :
     (pieceZeroIso E).hom.val.app U ((Scheme.Modules.symmetricAlgebra X E).one.eval U) =
       (1 : X.ringCatSheaf.obj.obj U) := by
-  show (PresheafOfModules.sheafificationObjUnitIso (𝟙 X.ringCatSheaf.obj)).hom.val.app U
+  change (PresheafOfModules.sheafificationObjUnitIso (𝟙 X.ringCatSheaf.obj)).hom.val.app U
       (((PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map
           (PresheafOfModules.symPowZeroIso E.val).inv).val.app U
         (((PresheafOfModules.sheafificationAdjunction (𝟙 X.ringCatSheaf.obj)).unit.app
@@ -131,7 +131,8 @@ theorem pieceZeroIso_hom_one (U : (TopologicalSpace.Opens X.carrier)ᵒᵖ) :
     (PresheafOfModules.sheafificationObjUnitIso (𝟙 X.ringCatSheaf.obj)).hom.val.app U
       (((PresheafOfModules.sheafificationAdjunction (𝟙 X.ringCatSheaf.obj)).unit.app
         (PresheafOfModules.unit X.ringCatSheaf.obj)).app U z)) key) ?_
-  exact Eq.trans (PresheafOfModules.sheafificationObjUnitIso_hom_unit (𝟙 X.ringCatSheaf.obj) U _) rfl
+  exact Eq.trans
+    (PresheafOfModules.sheafificationObjUnitIso_hom_unit (𝟙 X.ringCatSheaf.obj) U _) rfl
 
 end Stacks.SymGraded
 

@@ -143,7 +143,7 @@ private lemma restrict_pushforward_eq_zero {X Y : Scheme.{u}}
     (Scheme.Modules.restrictFunctor U.ι).map ((Scheme.Modules.pushforward f).map φ) = 0 := by
   apply Scheme.Modules.hom_ext
   intro V
-  show φ.app (f ⁻¹ᵁ (U.ι ''ᵁ V)) = 0
+  change φ.app (f ⁻¹ᵁ (U.ι ''ᵁ V)) = 0
   exact app_eq_zero_of_restrict_eq_zero (f ⁻¹ᵁ U) φ hφ _
     (Scheme.Hom.preimage_mono f (U.ι_image_le V))
 
@@ -205,7 +205,7 @@ lemma isIso_map_kernel_biprod_fst
     PreservesKernel.iso R d ≪≫ kernel.mapIso (R.map d) d' b (Iso.refl _) (by simpa using hcomm)
   have hfac : R.map (kernel.ι d ≫ biprod.fst) = e.hom ≫ kernel.ι d' ≫ biprod.fst := by
     simp [e, Functor.map_comp, Category.assoc, hb]
-  show IsIso (R.map (kernel.ι d ≫ biprod.fst))
+  change IsIso (R.map (kernel.ι d ≫ biprod.fst))
   rw [hfac]
   have : IsIso (kernel.ι d' ≫ biprod.fst) :=
     isIso_kernel_biprod_fst_of_isIso_right (R.map left) (R.map right)
@@ -362,7 +362,7 @@ lemma regular_globalSections_injective
     Function.Injective ((LinearMap.lsmul A
       ((moduleSpecΓFunctor (R := .of A).obj P.F').carrier)) f) := by
   have hreg := P.regular ⊤
-  show Function.Injective (fun x : Γ(P.F', ⊤) =>
+  change Function.Injective (fun x : Γ(P.F', ⊤) =>
     ((baseScheme A).presheaf.map (homOfLE (le_top : (⊤ : (baseScheme A).Opens) ≤ ⊤)).op)
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f) • x)
   exact hreg
@@ -391,7 +391,7 @@ private lemma refinement_kernel_projection_compat
   have hrelation' := congrArg (adj.homEquiv _ G).symm hrelation
   rw [← adj.homEquiv_naturality_left, ← adj.homEquiv_naturality_left,
     Equiv.symm_apply_apply, Equiv.symm_apply_apply] at hrelation'
-  show (Scheme.Modules.restrictFunctor j).map a ≫ e.hom =
+  change (Scheme.Modules.restrictFunctor j).map a ≫ e.hom =
     (Scheme.Modules.restrictFunctor j).map b
   exact (cancel_mono targetIso.hom).mp (by simpa [Category.assoc] using hrelation')
 
@@ -441,7 +441,7 @@ private lemma regular_of_mono_biprod
         congrArg (fun morphism => φ ≫ morphism)
           (biprod.total (X := P.F') (Y := Q.F')).symm
     rw [htotal]
-    show ((show P.F' ⟶ P.F' ⊞ Q.F' from biprod.inl).app V)
+    change ((show P.F' ⟶ P.F' ⊞ Q.F' from biprod.inl).app V)
         ((φ ≫ biprod.fst).app V value) +
       ((show Q.F' ⟶ P.F' ⊞ Q.F' from biprod.inr).app V)
         ((φ ≫ biprod.snd).app V value) = 0
@@ -572,7 +572,7 @@ lemma exists_compatible_coherent_refinement
     apply sub_eq_zero.mp
     apply ((Scheme.Modules.pullbackPushforwardAdjunction i).homEquiv G T.F₀).injective
     rw [Adjunction.homAddEquiv_zero]
-    show closedFibreAdjunctionMap A f
+    change closedFibreAdjunctionMap A f
       (L.map (c ≫ a) ≫ P.alpha₀' - L.map (c ≫ b) ≫ Q.alpha₀') = 0
     have hdiff : L.map (c ≫ a) ≫ P.alpha₀' - L.map (c ≫ b) ≫ Q.alpha₀' =
         L.map c ≫ δ := by simp [δ, Functor.map_comp, Category.assoc, Preadditive.comp_sub]

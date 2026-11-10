@@ -281,8 +281,8 @@ end Stacks.Cohomology.DerivedBaseChangeOnTopoi
 The construction above is for squares of morphisms of ringed topoi presented by continuous
 functors of sites.  Stacks 07MS itself is registered on
 `Crystalline.GlobalCrystallineSituation.SmallSite.crisSheafBaseChangeMap`
-(`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMapSheaf07MS.lean`), which carries
-out the same composition — the base change map of Tag 07A7 followed by the comparison of
+(`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMapSheaf07MS.lean`), which
+carries out the same composition — the base change map of Tag 07A7 followed by the comparison of
 Tag 06YY — for the crystalline square of morphisms of ringed topoi in the two-field sense, where
 the four obstructions listed in the implementation notes above do not arise: the universes of the
 two-field ringed topoi are free, their morphisms are morphisms of topoi, the structure maps of

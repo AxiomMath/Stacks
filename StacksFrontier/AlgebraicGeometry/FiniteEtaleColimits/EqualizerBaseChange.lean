@@ -18,9 +18,10 @@ map `S ⊗[R] Eq(α, β) ⟶ Eq(α_S, β_S)` (`AlgHom.tensorEqualizer`), and it 
 This is the step that the proof of Stacks Tag 0BN9 omits ("we omit the verification that this is
 compatible with base change"), and it is what the fourth assertion of that tag — exactness of the
 base-change functor `FÉt_X ⥤ FÉt_{X'}` — needs on top of the right exactness proved in
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleColimits/EqualizerAlgebra.lean`: over an
-affine base the coequalizer of two finite étale covers is the spectrum of the equalizer algebra, so
-base change preserves it exactly when forming the equalizer algebra commutes with base change.
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleColimits/EqualizerAlgebra.lean`:
+over an affine base the coequalizer of two finite étale covers is the spectrum of the equalizer
+algebra, so base change preserves it exactly when forming the equalizer algebra commutes with base
+change.
 
 The proof follows the source's reduction, run for the stronger statement. Rather than bijectivity
 of the comparison map, what is carried through the reduction is **universal exactness** of the
@@ -29,9 +30,11 @@ three-term sequence `Eq(α, β) ⟶ B ⟶ C` whose second map is `α - β`
 along a faithfully flat base change and is local on the base without any bookkeeping about algebra
 structures, and it is equivalent to bijectivity of `AlgHom.tensorEqualizer` for every `S`
 (`Stacks.FundamentalGroup.bijective_tensorEqualizer_of_isStableEqualizer`). The three reductions
-are then exactly those of `StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleColimits/EqualizerAlgebra.lean`: localize so that `B` and `C` have constant
-rank, pass to a faithfully flat finite étale extension over which both split, and localize again
-at the refined idempotents of the two maps, after which both are induced by maps of index types.
+are then exactly those of
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleColimits/EqualizerAlgebra.lean`:
+localize so that `B` and `C` have constant rank, pass to a faithfully flat finite étale extension
+over which both split, and localize again at the refined idempotents of the two maps, after which
+both are induced by maps of index types.
 In that last case the equalizer is the algebra of functions on the coequalizer `IndexCoeq σ τ` of
 the index maps, a section of `ι ⟶ IndexCoeq σ τ` splits the inclusion, and an element of `W ⊗ B`
 is killed by `α - β` exactly when its coordinates are constant on the fibres of

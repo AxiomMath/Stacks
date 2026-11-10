@@ -18,7 +18,8 @@ locally bounded above then `𝒦` is `m`-pseudo-coherent. This is Stacks 09V7, w
 source omits with the hint "use Lemma 08CD and truncations".
 
 The globally bounded above form is also the one ingredient of the forward half of Stacks 09VA
-that is not a formal consequence of the material already in the library: pushing a strictly perfect complex `𝒫`
+that is not a formal consequence of the material already in the library: pushing a strictly perfect
+complex `𝒫`
 on `Z` forward along a closed immersion `i : Z ⟶ X` produces a bounded complex of `𝒪_X`-modules
 whose terms are direct summands of `(i_*𝒪_Z)^{⊕n}`, and the hypothesis of Stacks 09VA is about
 `i_*𝒪_Z` itself, so what is needed is exactly the passage from the terms to the complex.

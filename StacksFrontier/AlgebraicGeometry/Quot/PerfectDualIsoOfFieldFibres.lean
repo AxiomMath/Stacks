@@ -156,7 +156,7 @@ theorem subsingleton_smallEtaleDerivedDual_hom_shift_of_isGE (X : AlgebraicSpace
     ).subsingleton_congr.2 ?_
   refine ((Iso.refl _).homCongr
     ((shiftFunctor _ m).mapIso (smallEtaleDerivedBidualIso B S hS X N hN))).subsingleton_congr.2 ?_
-  show Subsingleton (structureObject B S hS X ⟶ N⟦m⟧)
+  change Subsingleton (structureObject B S hS X ⟶ N⟦m⟧)
   have : (N⟦m⟧).IsGE (j - m) := DerivedCategory.TStructure.t.isGE_shift N j m (j - m)
   have : (N⟦m⟧).IsGE 1 := DerivedCategory.TStructure.t.isGE_of_ge _ 1 (j - m) (by omega)
   exact ⟨fun a b => (DerivedCategory.TStructure.t.zero a 0 1).trans

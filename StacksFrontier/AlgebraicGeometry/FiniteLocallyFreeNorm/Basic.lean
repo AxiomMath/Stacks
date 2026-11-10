@@ -77,12 +77,12 @@ namespace Stacks.AlgebraicGeometry.FiniteLocallyFreeNorm
 open Stacks.Norm
 
 @[sga "3 V 4.1"]
-private noncomputable def finiteProjectiveAlgebraNorm {R A : Type u}
+noncomputable def finiteProjectiveAlgebraNorm {R A : Type u}
     [CommRing R] [CommRing A] [Algebra R A]
     [Module.Finite R A] [Module.Projective R A] : A → R := fun a =>
   ProjectiveDeterminant.det (Algebra.lmul R A a)
 
-private lemma finiteProjectiveAlgebraNorm_mul {R A : Type u}
+lemma finiteProjectiveAlgebraNorm_mul {R A : Type u}
     [CommRing R] [CommRing A] [Algebra R A]
     [Module.Finite R A] [Module.Projective R A] (a b : A) :
     finiteProjectiveAlgebraNorm (R := R) (A := A) (a * b) =
@@ -158,7 +158,7 @@ private lemma finiteProjectiveAlgebraNorm_algebraMap_of_rank {R A : Type u}
 private alias module_rankAtStalk_eq_of_isFiniteLocallyFreeOfRank :=
     Module.rankAtStalk_eq_of_isFiniteLocallyFreeOfRank
 
-private lemma finiteProjectiveAlgebraNorm_baseChange {R A B : Type u}
+lemma finiteProjectiveAlgebraNorm_baseChange {R A B : Type u}
     [CommRing R] [CommRing A] [CommRing B]
     [Algebra R A] [Algebra R B]
     [Module.Finite R B] [Module.Projective R B] (b : B) :
@@ -171,8 +171,7 @@ private lemma finiteProjectiveAlgebraNorm_baseChange {R A B : Type u}
         (A ⊗[R] B) →ₗ[A] (A ⊗[R] B)) =
         (Algebra.lmul R B b).baseChange A := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
         simp only [LinearMap.baseChange_tmul]
         change ((1 : A) ⊗ₜ[R] b) * (a ⊗ₜ[R] x) = a ⊗ₜ[R] (b * x)
@@ -332,7 +331,7 @@ private lemma schemeModule_finiteLocallyFree_of_iso {X : Scheme.{u}} {M N : X.Mo
 transport of the local generating sections is
 `Stacks.AlgebraicGeometry.ComponentDegrees.exists_pullbackOver`; this is its rank-free
 counterpart to `Stacks.AlgebraicGeometry.ComponentDegrees.rankPullbackData`. -/
-private theorem finiteLocallyFreePullbackData {X Y : TopCat.{u}} (f : X ⟶ Y)
+theorem finiteLocallyFreePullbackData {X Y : TopCat.{u}} (f : X ⟶ Y)
     {S : Sheaf (Opens.grothendieckTopology Y) RingCat.{u}}
     {R : Sheaf (Opens.grothendieckTopology X) RingCat.{u}}
     (φ : S ⟶ ((Opens.map f).sheafPushforwardContinuous RingCat _ _).obj R)
@@ -390,7 +389,7 @@ private noncomputable def pushforwardStructureSheaf_baseChangeIso
 
 /-- Being finite locally free of rank `r` is stable under arbitrary base change. -/
 @[ega "IV 21.15.8" "special case"]
-private lemma baseChange_isFiniteLocallyFreeOfRank
+lemma baseChange_isFiniteLocallyFreeOfRank
     {X S X' S' : Scheme.{u}} {f : X ⟶ S} {f' : X' ⟶ S'}
     {g' : X' ⟶ X} {g : S' ⟶ S} (sq : IsPullback g' f' f g) (r : ℕ)
     [h : Stacks.Morphisms.IsFiniteLocallyFreeOfRank f r] :
@@ -409,7 +408,7 @@ private lemma baseChange_isFiniteLocallyFreeOfRank
 
 /-- Being finite locally free is stable under arbitrary base change, with no constant rank. -/
 @[ega "IV 21.15.8" "more general"]
-private lemma baseChange_isFiniteLocallyFree
+lemma baseChange_isFiniteLocallyFree
     {X S X' S' : Scheme.{u}} {f : X ⟶ S} {f' : X' ⟶ S'}
     {g' : X' ⟶ X} {g : S' ⟶ S} (sq : IsPullback g' f' f g)
     [h : Stacks.Morphisms.IsFiniteLocallyFree f] :

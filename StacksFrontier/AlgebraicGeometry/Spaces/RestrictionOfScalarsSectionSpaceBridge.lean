@@ -97,6 +97,7 @@ local instance (priority := high) hasPullback_presheaf_RestrictionOfScalarsSecti
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_RestrictionOfScalarsSectionSpaceBridge
@@ -298,7 +299,7 @@ theorem fibreLift_comp {T : BigFppfOver B S hS} (τ : T ⟶ U)
   rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_fibreLift]
   refine Over.OverMorphism.ext ?_
   rw [relocalizedTotalHom_app_left, fibreProj₂_left]
-  show (w₀.app (op (fibreObj B S hS U Z₀ τ)) t).left = _
+  change (w₀.app (op (fibreObj B S hS U Z₀ τ)) t).left = _
   rw [ht, fibreSnd_left]
 
 /-- **A section of `Λ W₀ ⟶ h_{Z_U}` over `V_τ` is a section of `W₀ ⟶ Z₀` over `V_τ`.** -/
@@ -454,7 +455,7 @@ theorem fibreSection_restrict {T T' : BigFppfOver B S hS} (k : T' ⟶ T) (τ : T
       W₀.map (fibreMap B S hS U Z₀ k τ).op (fibreSection B S hS U Z₀ W₀ w₀ τ σ) := by
   rw [show fibreSection B S hS U Z₀ W₀ w₀ τ σ =
       yonedaEquiv ((fibreProdIso B S hS U Z₀ τ).hom ≫ σ.1) from rfl, yonedaEquiv_naturality]
-  show yonedaEquiv ((fibreProdIso B S hS U Z₀ (k ≫ τ)).hom ≫
+  change yonedaEquiv ((fibreProdIso B S hS U Z₀ (k ≫ τ)).hom ≫
     (prod.map (yoneda.map (Over.homMk k.left rfl :
       Over.mk (k ≫ τ).left ⟶ Over.mk τ.left)) (𝟙 (yoneda.obj Z₀)) ≫ σ.1)) = _
   rw [← Category.assoc, fibreProdIso_naturality, Category.assoc]
@@ -652,7 +653,7 @@ theorem bijective_relocalizedPair (T : (BigFppfOver B S hS)ᵒᵖ) :
           ((fibreLiftEquiv B S hS U Z₀ W₀ w₀ (yoneda.preimage p.base)).symm ⟨_, hm⟩))⟩,
       Over.w (yoneda.preimage p.base)⟩, ?_⟩
     refine RestrictionPair.ext_of_base_eq hb ?_
-    show relocalizedLift B S hS U Z₀ W₀ w₀ (yoneda.preimage p.base) _ = _
+    change relocalizedLift B S hS U Z₀ W₀ w₀ (yoneda.preimage p.base) _ = _
     rw [relocalizedLift, Equiv.apply_symm_apply,
       show fibreSection B S hS U Z₀ W₀ w₀ (yoneda.preimage p.base)
             ((fibreSectionsEquiv B S hS U Z₀ W₀ w₀ (yoneda.preimage p.base)).symm
@@ -734,7 +735,7 @@ theorem projection_relocalizeSectionSpaceHom (T : BigFppfOver B S hS)
   rw [(restrictionOfScalars B S hS (relocalizedTotalSpaceHom B S hS U Z₀ W₀ w₀ hW₀)
       (relocalizedBaseSpaceHom B S hS U Z₀)).projection_pairEquiv T _,
     pairEquiv_relocalizeSectionSpaceHom]
-  show yonedaEquiv (yoneda.map (Over.homMk v.1.1 v.2 : T ⟶ U)) = _
+  change yonedaEquiv (yoneda.map (Over.homMk v.1.1 v.2 : T ⟶ U)) = _
   rw [yonedaEquiv_yoneda_map]
   rfl
 

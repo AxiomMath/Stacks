@@ -123,11 +123,11 @@ theorem properPushforward_exteriorProductDedekindCycles_sigmaDesc {U : Scheme.{u
   · obtain ⟨t, rfl⟩ := hy
     rw [properPushforward_apply_image_of_isClosedImmersion, cycleGroupRestrict_apply, hγ]
     by_cases ht : t = genericPoint (Z i)
-    · rw [if_pos ht, if_pos (by rw [ht, hvgen])]
-    · rw [if_neg ht, if_neg]
+    · rw [ite_eq_left ht, ite_eq_left (by rw [ht, hvgen])]
+    · rw [ite_eq_right ht, ite_eq_right]
       intro h
       exact ht ((v i).isClosedEmbedding.injective (h.trans (hvgen i).symm))
-  · rw [properPushforward_apply_of_notMem_range C _ _ (v i) _ k _ hy, if_neg]
+  · rw [properPushforward_apply_of_notMem_range C _ _ (v i) _ k _ hy, ite_eq_right]
     rintro rfl
     exact hy ⟨_, hvgen i⟩
 
@@ -165,7 +165,7 @@ theorem cap_heq_exteriorProductDedekindCycles_of_forall_isIntegral (hnp : n = 1 
     subschemeι_genericPoint_integralComponentAt (i : U)
   have hdim : ∀ i, relativeDimension C.dimensionFunction (Sigma.ι Z i ≫ Sigma.desc v ≫ u)
       (genericPoint (Z i)) = k := fun i ↦ by
-    rw [← Category.assoc, Sigma.ι_desc, relativeDimension_comp_closedImmersion, hvgen]
+    rw [← Category.assoc, Sigma.ι_comp_desc, relativeDimension_comp_closedImmersion, hvgen]
     exact (mem_cyclesOfDimension_iff_forall_point C u k b.1).1 b.2 _ i.2
   obtain ⟨γ, hγ⟩ := exists_cycleGroup_of_sigma C Z (Sigma.desc v ≫ u)
     (fun i ↦ Sigma.ι Z i ≫ Sigma.desc v ≫ u) (fun i ↦ rfl) k
@@ -173,7 +173,7 @@ theorem cap_heq_exteriorProductDedekindCycles_of_forall_isIntegral (hnp : n = 1 
   have hγval : ∀ i (z : Z i), γ.1 (Sigma.ι Z i z) =
       if z = genericPoint (Z i) then b.1 (i : U) else 0 := fun i z ↦ by
     rw [hγ i z]
-    show b.1 (i : U) * (fundamentalCycle C (Sigma.ι Z i ≫ Sigma.desc v ≫ u) k).1 z = _
+    change b.1 (i : U) * (fundamentalCycle C (Sigma.ι Z i ≫ Sigma.desc v ≫ u) k).1 z = _
     rw [fundamentalCycle_eq_single C _ genericPoints_eq_singleton (hdim i) (Field.toIsField _)]
     by_cases hz : z = genericPoint (Z i) <;>
       simp [Function.locallyFinsuppWithin.single_apply, hz]
@@ -188,9 +188,9 @@ theorem cap_heq_exteriorProductDedekindCycles_of_forall_isIntegral (hnp : n = 1 
     refine properPushforward_eq_of_support_section C u (Sigma.desc v ≫ u) (Sigma.desc v) rfl k
       hres b γ (fun i ↦ Sigma.ι Z i (genericPoint (Z i))) (fun i ↦ ?_) (fun i ↦ ?_)
       (fun x hx ↦ ?_)
-    · rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    · rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hvgen i
-    · rw [hγval, if_pos rfl]
+    · rw [hγval, ite_eq_left rfl]
     · obtain ⟨i, z, rfl⟩ := exists_mem_range_sigmaι Z x
       rw [hγval] at hx
       split_ifs at hx with hz
@@ -265,14 +265,14 @@ theorem exteriorProductDedekindCycles_fundamentalCycle_apply (m : ℤ)
     by_contra hne
     refine hq ?_
     unfold exteriorProductDedekindTerm
-    rw [hfund, Function.locallyFinsuppWithin.single_apply, if_neg (Ne.symm hne)]
+    rw [hfund, Function.locallyFinsuppWithin.single_apply, ite_eq_right (Ne.symm hne)]
     simp
   rw [← finsum_mem_univ (exteriorProductDedekindTerm C sX t n m a (fundamentalCycle C t m) z),
     finsum_mem_inter_support_eq _ Set.univ (Set.range fun x : X ↦ (x, genericPoint T))
       (by rw [Set.univ_inter, Set.inter_eq_right.mpr hsupp]), finsum_mem_range hinj]
   refine finsum_congr fun x ↦ ?_
   unfold exteriorProductDedekindTerm
-  rw [hfund, Function.locallyFinsuppWithin.single_apply, if_pos rfl, mul_one]
+  rw [hfund, Function.locallyFinsuppWithin.single_apply, ite_eq_left rfl, mul_one]
   split_ifs
   · exact congrArg _ (closedSubschemeCycleCoeff_congr C _
       (exteriorProductIdeal_genericPoint C sX t x) _ z)
@@ -291,7 +291,7 @@ theorem exteriorProductDedekindCycles_fundamentalCycle_apply_of_dominates
         (pullback.fst sX t) (n + m - 1) z := by
   classical
   rw [exteriorProductDedekindCycles_fundamentalCycle_apply C sX t n m hm a z]
-  simp_rw [if_pos (Or.inr hdom)]
+  simp_rw [ite_eq_left (Or.inr hdom)]
   rw [finsum_eq_single _ ((pullback.fst sX t).base z) fun x hx ↦ by
     rw [closedSubschemeCycleCoeff_comap_integralComponentAt_eq_zero_of_ne C
       (pullback.fst sX t ≫ sX) sX (pullback.fst sX t) x _ (Ne.symm hx), mul_zero]]
@@ -327,7 +327,7 @@ theorem IsDedekindChowBase.exists_relativeDimension_of_mem_genericPoints_of_dime
   have _ : Flat t := hS.flat_of_mem_genericPoints t hgen
   set η := genericPoint T
   have hge : 1 ≤ relativeDimension C.dimensionFunction t η := by
-    show 1 ≤ C.dimensionFunction (t.base η) + (Cardinal.toNat (residueTrdeg t η) : ℤ)
+    change 1 ≤ C.dimensionFunction (t.base η) + (Cardinal.toNat (residueTrdeg t η) : ℤ)
     omega
   refine ⟨inferInstance, (relativeDimension C.dimensionFunction t η - 1).toNat, ?_, by omega⟩
   refine relativeDimension_of_flat_of_coheight C t (𝟙 C.S) _ fun w ↦ ?_
@@ -415,7 +415,7 @@ theorem cap_fundamentalCycle_heq_of_mem_genericPoints_of_dimensionFunction_eq_on
     rw [show (1 - p + (1 + (r : ℤ)) - 1) = 1 - p + r by ring]
     refine closedSubschemeCycleCoeff_congr C _ ?_ _ w
     rw [hfw]
-    show (integralComponentAt (q'.base w)).comap q' =
+    change (integralComponentAt (q'.base w)).comap q' =
       (integralComponentAt ((pullback.fst sX (𝟙 C.S)).base (q'.base w))).comap
         (pullback.fst sX t)
     rw [← testBaseChangeMapOfEq_fst sX (𝟙 C.S) t t (Category.comp_id t),

@@ -267,7 +267,7 @@ theorem chartToSpace_comp_of_toOver_map_comp {V' : SmallEtale B S hS X'.1} (q : 
       chartToSpace B S hS X C = chartToSpace B S hS X' V' ≫ g := by
   refine ObjectProperty.hom_ext _ ?_
   have hw : yoneda.map n ≫ C.obj.hom = V.obj.hom ≫ g.hom := congrArg (fun m => m.hom) w
-  show yoneda.map ((SmallEtale.toOver B S hS X'.1).map q ≫ n) ≫ C.obj.hom = V'.obj.hom ≫ g.hom
+  change yoneda.map ((SmallEtale.toOver B S hS X'.1).map q ≫ n) ≫ C.obj.hom = V'.obj.hom ≫ g.hom
   rw [Functor.map_comp, Category.assoc, hw, ← Category.assoc, yoneda_map_toOver_map_comp_hom]
 
 end Site
@@ -347,7 +347,7 @@ theorem presentingFiberChartFst_w :
         chartToSpace B S hS X (bundleBaseChart X) =
       chartToSpace B S hS X' (presentingFiberChart g) ≫ g := by
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (presentingFiberChartFst g) ≫ (bundleBaseChart X).obj.hom =
+  change yoneda.map (presentingFiberChartFst g) ≫ (bundleBaseChart X).obj.hom =
     (yoneda.map (presentingFiberChartSnd g) ≫ (bundleBaseChart X').obj.hom) ≫ g.hom
   rw [(isPullback_presentingFiberChart g).w, Category.assoc]
 
@@ -405,7 +405,7 @@ theorem chartToSpace_comp_of_comp_toOver_map {V : SmallEtale B S hS X'.1}
       chartToSpace B S hS X C' = chartToSpace B S hS X' V ≫ g := by
   refine ObjectProperty.hom_ext _ ?_
   have hw : yoneda.map n ≫ C.obj.hom = V.obj.hom ≫ g.hom := congrArg (fun m => m.hom) w
-  show yoneda.map (n ≫ (SmallEtale.toOver B S hS X.1).map c) ≫ C'.obj.hom = V.obj.hom ≫ g.hom
+  change yoneda.map (n ≫ (SmallEtale.toOver B S hS X.1).map c) ≫ C'.obj.hom = V.obj.hom ≫ g.hom
   rw [Functor.map_comp, Category.assoc, yoneda_map_toOver_map_comp_hom, hw]
 
 /-- **The morphism `𝐏(g^*ℰ|_W) ⟶ P` identifies the two morphisms from the bundle over the kernel
@@ -442,7 +442,7 @@ theorem siteMap_comp_presentingFiberChartToBundle :
   have wl : representedSpaceMap B S hS l ≫ chartToSpace B S hS X (bundleRelationChart X) =
       chartToSpace B S hS X' W₂ ≫ g := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map l ≫ (bundleRelationChart X).obj.hom = W₂.obj.hom ≫ g.hom
+    change yoneda.map l ≫ (bundleRelationChart X).obj.hom = W₂.obj.hom ≫ g.hom
     rw [← yoneda_map_toOver_map_comp_hom pr₂, ← Category.assoc, ← Functor.map_comp, hl₂, e q₂]
   have key : ∀ (q : W₂ ⟶ W) (pr : bundleRelationChart X ⟶ bundleBaseChart X)
       (hl : l ≫ (SmallEtale.toOver B S hS X.1).map pr =
@@ -641,7 +641,7 @@ theorem projectiveBundlePullbackIso_hom_comp_proj :
         ((pullbackChartFamily g E hfree).siteMap_comp_siteToSpace (presentingFiberChartHom g))))
   rw [projectiveBundlePullbackIso, Iso.trans_hom, Iso.symm_hom, asIso_inv, asIso_hom,
     Category.assoc]
-  show inv (projectiveBundleOverChartToProjectiveBundle g E hfree) ≫
+  change inv (projectiveBundleOverChartToProjectiveBundle g E hfree) ≫
       (projectiveBundleOverChartToFiberProduct g E hfree ≫
         projectiveBundleFiberProductProj g E hfree) = _
   rw [IsIso.inv_comp_eq]

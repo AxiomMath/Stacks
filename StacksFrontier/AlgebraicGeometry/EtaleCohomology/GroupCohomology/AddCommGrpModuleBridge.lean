@@ -69,7 +69,7 @@ lemma Action.isContinuous_of_iso {A B : Action V G} (e : A ≅ B) (h : B.IsConti
   refine (TopCat.homeoOfIso ((forget₂ (Action V G) TopCat).mapIso e)).isInducing.continuousSMul
     (f := id) continuous_id ?_
   intro c x
-  show ((forget₂ V TopCat).map (A.ρ c).asHom ≫ (forget₂ V TopCat).map e.hom.hom) x =
+  change ((forget₂ V TopCat).map (A.ρ c).asHom ≫ (forget₂ V TopCat).map e.hom.hom) x =
     ((forget₂ V TopCat).map e.hom.hom ≫ (forget₂ V TopCat).map (B.ρ c).asHom) x
   rw [← Functor.map_comp, ← Functor.map_comp, e.hom.comm c]
 

@@ -37,8 +37,7 @@ private theorem tensorProduct_comm_map {R S A B : Type*} [CommRing R] [CommRing 
     [CommRing B] [Algebra R S] [Algebra R A] [Algebra R B] (h : A →ₐ[R] B) (x : A ⊗[R] S) :
     Algebra.TensorProduct.comm R B S (Algebra.TensorProduct.map h (AlgHom.id R S) x) =
       Algebra.TensorProduct.map (AlgHom.id S S) h (Algebra.TensorProduct.comm R A S x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a s => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -57,7 +56,7 @@ private theorem commRingCatIsoToRingEquiv_specMap {R T : CommRingCat.{u}} (φ : 
 with its inverse. -/
 private theorem commRingCatIsoToRingEquiv_inv_apply (R : CommRingCat.{u}) (x : R) :
     (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv ((Scheme.ΓSpecIso R).inv.hom x) = x := by
-  show (Scheme.ΓSpecIso R).hom.hom ((Scheme.ΓSpecIso R).inv.hom x) = x
+  change (Scheme.ΓSpecIso R).hom.hom ((Scheme.ΓSpecIso R).inv.hom x) = x
   simpa only [ConcreteCategory.comp_apply, ConcreteCategory.id_apply] using
     congrArg (fun k : R ⟶ R => k.hom x) (Iso.inv_hom_id (Scheme.ΓSpecIso R))
 
@@ -113,10 +112,10 @@ private theorem objectCoordEquiv_canonicalMap (x : C') :
     objectCoordEquiv G'
         (G'.canonicalMapToInvariantFunctions x : Γ(G'.groupoid.objects.left, ⊤)) =
       Algebra.TensorProduct.includeRight x := by
-  show objectCoordEquiv G' ((Scheme.ΓSpecIso (.of C')).inv.hom x |> fun y =>
+  change objectCoordEquiv G' ((Scheme.ΓSpecIso (.of C')).inv.hom x |> fun y =>
     (Scheme.Hom.appTop G'.groupoid.objects.hom).hom y) = _
   rw [← G'.objectsIso_over]
-  show objectCoordEquiv G' ((Scheme.Hom.appTop G'.objectsIso.hom).hom
+  change objectCoordEquiv G' ((Scheme.Hom.appTop G'.objectsIso.hom).hom
     ((Scheme.Hom.appTop (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight : C' →ₐ[invariantRing G]
         objectRingBaseChange G C').toRingHom))).hom
@@ -163,7 +162,7 @@ theorem canonicalMapToInvariantFunctions_bijective_of_flat {S : Scheme.{u}}
         G'.objectsIso.inv) (x : Γ(G'.groupoid.objects.left, ⊤)) :
       arrCoord ((Scheme.Hom.appTop m).hom x) = ψ (objCoord x) := by
     rw [hm]
-    show arrCoord ((Scheme.Hom.appTop G'.arrowsIso.hom).hom
+    change arrCoord ((Scheme.Hom.appTop G'.arrowsIso.hom).hom
       ((Scheme.Hom.appTop (Spec.map (CommRingCat.ofHom ψ.toRingHom))).hom
         ((Scheme.Hom.appTop G'.objectsIso.inv).hom x))) = _
     rw [arrowCoordEquiv_appTop_arrowsIso_hom, commRingCatIsoToRingEquiv_specMap]
@@ -175,12 +174,12 @@ theorem canonicalMapToInvariantFunctions_bijective_of_flat {S : Scheme.{u}}
   let invCoord : G'.invariantFunctions →+* E := RingHom.codRestrict
     (objCoord.toRingHom.comp G'.invariantFunctions.subtype) E (by
       intro x
-      show fbase (objCoord x.1) = gbase (objCoord x.1)
+      change fbase (objCoord x.1) = gbase (objCoord x.1)
       exact (hsrc x.1).symm.trans ((congrArg arrCoord x.2).trans (htgt x.1)))
   have hinv : Function.Bijective invCoord := by
     refine ⟨fun x y h ↦ Subtype.val_injective (objCoord.injective (congrArg Subtype.val h)),
       fun z ↦ ⟨⟨objCoord.symm z, ?_⟩, Subtype.ext (by simp [invCoord])⟩⟩
-    show sourceMap G'.groupoid (objCoord.symm z) = targetMap G'.groupoid (objCoord.symm z)
+    change sourceMap G'.groupoid (objCoord.symm z) = targetMap G'.groupoid (objCoord.symm z)
     apply arrCoord.injective
     rw [hsrc, htgt, RingEquiv.apply_symm_apply]
     exact z.2

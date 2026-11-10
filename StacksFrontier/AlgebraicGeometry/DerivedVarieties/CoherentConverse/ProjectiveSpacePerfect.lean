@@ -149,7 +149,7 @@ theorem moduleFinite_hom_twistE_shift_zero (d e : ℤ) (hde : 0 ≤ e - d) :
       (F.mapLinearMap k)
   refine Module.Finite.of_surjective Φ fun g => ?_
   refine ⟨F.preimage (g ≫ (shiftFunctorZero (DerivedCategory (PMods k n)) ℤ).hom.app _), ?_⟩
-  show F.map (F.preimage _) ≫ _ = g
+  change F.map (F.preimage _) ≫ _ = g
   rw [Functor.map_preimage, Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
 
 /-- **Every endomorphism of `𝒪(d)[0]` is a scalar.** -/

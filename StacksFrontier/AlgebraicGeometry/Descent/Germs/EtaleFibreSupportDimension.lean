@@ -87,7 +87,7 @@ theorem topologicalKrullDimAt_preimage_eq_of_etale {X Y : Scheme.{u}} (f : X ⟶
   have hx : a (eX.symm x) = x.val := congrArg Subtype.val (eX.apply_symm_apply x)
   have he : eY (d (eX.symm x)) = ⟨f x, x.property⟩ := by
     apply Subtype.ext
-    show I.subschemeι (d (eX.symm x)) = f x
+    change I.subschemeι (d (eX.symm x)) = f x
     rw [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply, hx]
   calc
     topologicalKrullDimAt (f ⁻¹' C) x = topologicalKrullDimAt _ (eX.symm x) :=
@@ -126,7 +126,7 @@ theorem isPullback_fiberMapComp {X Y S : Scheme.{u}} (u : X ⟶ Y) (g : Y ⟶ S)
     IsPullback ((u ≫ g).fiberι s) (Scheme.Hom.fiberMapComp u g s) u (g.fiberι s) := by
   refine IsPullback.of_iso_pullback ⟨(Scheme.Hom.fiberMapComp_fiberι u g s).symm⟩
     (pullbackRightPullbackFstIso g (S.fromSpecResidueField s) u).symm ?_ rfl
-  show (pullbackRightPullbackFstIso g (S.fromSpecResidueField s) u).inv ≫
+  change (pullbackRightPullbackFstIso g (S.fromSpecResidueField s) u).inv ≫
     pullback.fst u (pullback.fst g (S.fromSpecResidueField s)) =
       pullback.fst (u ≫ g) (S.fromSpecResidueField s)
   exact pullbackRightPullbackFstIso_inv_fst _ _ _
@@ -153,10 +153,10 @@ theorem topologicalKrullDim_fiber_comp_eq_of_etale {X Y S : Scheme.{u}} (u : X �
   let a := Scheme.Hom.fiberMapComp u g s
   let x : (u ≫ g).fiber s := Classical.choice inferInstance
   have : LocallyOfFiniteType (g.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd g (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd g (S.fromSpecResidueField s))
     infer_instance
   have : LocallyOfFiniteType ((u ≫ g).fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd (u ≫ g) (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd (u ≫ g) (S.fromSpecResidueField s))
     infer_instance
   rw [topologicalKrullDim_eq_topologicalKrullDimAt_of_irreducible (S.residueField s) _
       ((u ≫ g).fiberToSpecResidueField s) x,
@@ -201,14 +201,14 @@ theorem exists_mem_supp_fiber_dimension_of_etale {X Y S : Scheme.{u}} (u : X ⟶
     dsimp only [C]
     rw [Stacks.Modules.supp_pullback, Stacks.Modules.supp_pullback, hN]
     ext p
-    show u ((u ≫ g).fiberι _ p) ∈ SheafOfModules.supp F ↔
+    change u ((u ≫ g).fiberι _ p) ∈ SheafOfModules.supp F ↔
       g.fiberι _ (a p) ∈ SheafOfModules.supp F
     have hh : g.fiberι (g (u x)) (a p) = u ((u ≫ g).fiberι (g (u x)) p) :=
       congrArg (fun k => k p) (Scheme.Hom.fiberMapComp_fiberι u g (g (u x)))
     exact (congrArg (fun y => y ∈ SheafOfModules.supp F) hh.symm).to_iff
   have hp : a ((u ≫ g).asFiber x) = g.asFiber (u x) := fiberMapComp_asFiber u g x
   have hx' : (u ≫ g).asFiber x ∈ a ⁻¹' C := by
-    show a _ ∈ C
+    change a _ ∈ C
     rw [hp]
     exact hx
   have hd' : topologicalKrullDimAt C ⟨a ((u ≫ g).asFiber x), hx'⟩ = topologicalKrullDim C := by

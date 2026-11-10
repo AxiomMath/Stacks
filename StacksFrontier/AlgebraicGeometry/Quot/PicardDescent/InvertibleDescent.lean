@@ -77,7 +77,7 @@ theorem isInvertibleModule_of_pullback_isFpqcCovering
     let T' : BigFppfOver B S hS := (BigAffineFppf.inclusion B S hS).obj (E.X j)
     let g : T' ⟶ (SmallEtale.toOver B S hS X.obj).obj A :=
       (BigAffineFppf.inclusion B S hS).map (E.f j)
-    show Stacks.SheafOfModules.IsInvertible _ _
+    change Stacks.SheafOfModules.IsInvertible _ _
       ((Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map g)).obj
         (chartSchemeModule B S hS X F hF A))
     set abar : (⟨yoneda.obj T', isAlgebraicSpace_yoneda B S hS T'⟩ : AlgebraicSpaces B S hS) ⟶

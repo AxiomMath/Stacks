@@ -62,8 +62,8 @@ public theorem exists_hom_of_sheafFiber {I : Type (max (u + 1) v)}
     exact (isColimitOfPreserves ((geometricPointSitePoint B S.obj S.property s).sheafFiber
       (A := AddCommGrpCat.{max (u + 1) v})) (colimit.isColimit (Discrete.functor P))).hom_ext
       fun ⟨i⟩ => h i
-  have hαi : ∀ i, Sigma.ι P i ≫ α = a i := fun i => Sigma.ι_desc _ _
-  have hβi : ∀ i, Sigma.ι P i ≫ β = b i := fun i => Sigma.ι_desc _ _
+  have hαi : ∀ i, Sigma.ι P i ≫ α = a i := fun i => Sigma.ι_comp_desc _ _
+  have hβi : ∀ i, Sigma.ι P i ≫ β = b i := fun i => Sigma.ι_comp_desc _ _
   have hepiα : ∀ s, Epi (((geometricPointSitePoint B S.obj S.property s).sheafFiber
       (A := AddCommGrpCat.{max (u + 1) v})).map α) := by
     intro s
@@ -364,10 +364,10 @@ public theorem compFiberStalksMap_natural (s : GeometricPoint Z.obj)
     ConcreteCategory.congr_hom
       (fShriekStalkIso_natural.{u, v} B f (y.toGeometricPoint B g s) φ) _
   rw [hn]
-  change (colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj
+  change (colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj
       X.property ((compFiberPointOf B f g s y x).toGeometricPoint B (f ≫ g) s))).op φ.1)).hom
       (ξ (compFiberPointOf B f g s y x)) =
-    (colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj
+    (colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj
       X.property (x.toGeometricPoint B f (y.toGeometricPoint B g s)))).op φ.1)).hom
       (((fShriekStalkIso.{u, v} B f (y.toGeometricPoint B g s) F).hom
           ((compFiberStalksMap B f g s F ξ : fiberStalks.{u, max (u + 1) v} B g s _) y) :

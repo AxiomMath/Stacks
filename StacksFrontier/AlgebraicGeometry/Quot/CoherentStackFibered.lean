@@ -165,7 +165,7 @@ instance isIso_fibreCompLeftInv {C₀ : Type*} {C₁ : Type*} {C₂ : Type*} [Ca
     [Category* C₁] [Category* C₂] {La : C₁ ⥤ C₀} {Lb : C₂ ⥤ C₁} {Lab : C₂ ⥤ C₀}
     (τ : Lab ≅ Lb ⋙ La) {M : C₀} {M' : C₁} {M'' : C₂} (b : Lb.obj M'' ⟶ M') [IsIso b]
     (c : Lab.obj M'' ⟶ M) [IsIso c] : IsIso (fibreCompLeftInv τ b c) := by
-  show IsIso (La.map (_root_.CategoryTheory.inv b) ≫ τ.inv.app M'' ≫ c)
+  change IsIso (La.map (_root_.CategoryTheory.inv b) ≫ τ.inv.app M'' ≫ c)
   infer_instance
 
 /-- **The recovered left factor does compose to the given morphism.** -/

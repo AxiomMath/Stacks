@@ -197,7 +197,7 @@ lemma exists_siteCovering_refining_sieve
       intro i
       have hmem : S (π₁ i ≫ E.f i) :=
         S.downward_closed (hES _ (Sieve.ofArrows_mk E.X E.f i)) (π₁ i)
-      show S (π₂ i ≫ f)
+      change S (π₂ i ≫ f)
       rwa [(hpull i).w] at hmem
   | transitive X S R hS hlocal ihS ihlocal =>
       obtain ⟨E, hE, hES⟩ := ihS
@@ -297,7 +297,7 @@ private theorem smallEtaleToCommonEtale_isCocontinuous
     X j := {
       obj := Over.mk (E.f j ≫ U.obj.hom)
       property := by
-        show Etale (B.inclusion.map (E.f j ≫ U.obj.hom))
+        change Etale (B.inclusion.map (E.f j ≫ U.obj.hom))
         rw [Functor.map_comp]
         let : Etale (B.inclusion.map (E.f j)) := hEprops.2 j
         infer_instance
@@ -305,7 +305,7 @@ private theorem smallEtaleToCommonEtale_isCocontinuous
     f j := ObjectProperty.homMk (Over.homMk (E.f j) (by simp))
   }
   have hFcover : SmallEtale.IsCovering B S hS ⟨U, F⟩ := by
-    show B.IsCovering ⟨U.obj.left,
+    change B.IsCovering ⟨U.obj.left,
       F.map (SmallEtale.inclusion B S hS ⋙
         BigEtaleOver.forget B S hS)⟩
     simpa [F, SmallEtale.inclusion, BigEtaleOver.forget, PreZeroHypercover.map] using hE
@@ -326,26 +326,26 @@ private theorem smallEtaleToCommonEtale_isCocontinuous
       exact (𝒰.f i).asOverProp S (hX := h𝒰et i) (hY := (G.obj U).prop)
     have hβ : T β := by
       apply h𝒰T
-      show Presieve.ofArrows
+      change Presieve.ofArrows
         (fun k => (𝒰.X k).asOverProp (P := (@Etale : MorphismProperty Scheme.{u}))
           S (h𝒰et k))
         (fun k => (𝒰.f k).asOverProp (P := (@Etale : MorphismProperty Scheme.{u})) S) β
       exact Presieve.ofArrows.mk i
     have hr : r.h₀ j ≫ 𝒰.f i = B.inclusion.map (E.f j) := by
-      show r.h₀ j ≫ 𝒰'.f (r.s₀ j) = (E.map B.inclusion).f j
+      change r.h₀ j ≫ 𝒰'.f (r.s₀ j) = (E.map B.inclusion).f j
       exact r.w₀ j
     let δ : G.obj (F.X j) ⟶ Wi := MorphismProperty.Over.homMk (r.h₀ j) (by
-      show r.h₀ j ≫ (𝒰.X i ↘ S) =
+      change r.h₀ j ≫ (𝒰.X i ↘ S) =
         B.inclusion.map (E.f j ≫ U.obj.hom)
       rw [← (h𝒰over.isOver_map i).comp_over, ← Category.assoc, hr]
-      show B.inclusion.map (E.f j) ≫ B.inclusion.map U.obj.hom =
+      change B.inclusion.map (E.f j) ≫ B.inclusion.map U.obj.hom =
         B.inclusion.map (E.f j ≫ U.obj.hom)
       exact (Functor.map_comp B.inclusion _ _).symm)
     have hfac : G.map (F.f j) = δ ≫ β := by
       apply MorphismProperty.Over.Hom.ext
-      show B.inclusion.map (E.f j) = r.h₀ j ≫ 𝒰.f i
+      change B.inclusion.map (E.f j) = r.h₀ j ≫ 𝒰.f i
       exact hr.symm
-    show T (G.map (F.f j))
+    change T (G.map (F.f j))
     rw [hfac]
     exact T.downward_closed hβ δ
   exact J.superset_covering hFle hFmem
@@ -461,16 +461,16 @@ public theorem smallEtaleToposEquiv_sections_natural
     (Scheme.Etale.forget S).preimageIso eY
   let P := (E₁.functor.obj F).obj
   let η : G₁.op ⋙ P ⟶ F.obj := (E₁.unitIso.inv.app F).hom
-  show (P.map eY'.hom.op ≫ η.app (Opposite.op Y₁.obj)) ≫
+  change (P.map eY'.hom.op ≫ η.app (Opposite.op Y₁.obj)) ≫
       F.obj.map f₁.hom.op =
     P.map (G₂.map f₂.hom).op ≫ (P.map eX'.hom.op ≫ η.app (Opposite.op X₁.obj))
   rw [Category.assoc, ← η.naturality]
-  show P.map eY'.hom.op ≫
+  change P.map eY'.hom.op ≫
       (P.map (G₁.map f₁.hom).op ≫ η.app (Opposite.op X₁.obj)) = _
   rw [← Category.assoc, ← P.map_comp, ← Category.assoc, ← P.map_comp]
   congr 2
   apply Quiver.Hom.unop_inj
-  show G₁.map f₁.hom ≫ eY'.hom = eX'.hom ≫ G₂.map f₂.hom
+  change G₁.map f₁.hom ≫ eY'.hom = eX'.hom ≫ G₂.map f₂.hom
   apply (Scheme.Etale.forget S).map_injective
   rw [Functor.map_comp, Functor.map_comp]
   erw [Functor.map_preimage, Functor.map_preimage]

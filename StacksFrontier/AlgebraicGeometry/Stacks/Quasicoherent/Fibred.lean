@@ -104,13 +104,13 @@ private lemma moduleCartesianMap_isStronglyCartesian
     rw [isStronglyCartesian_iff]
     have hm : homEquivPullbackHom _ _ m =
         ⟨f, 𝟙 ((Scheme.Modules.pullback (schemeFunctor.map f)).obj M.obj)⟩ := by
-      show (Equiv.sigmaCongrRight (fun g : V ⟶ U =>
+      change (Equiv.sigmaCongrRight (fun g : V ⟶ U =>
         (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map g)).homEquiv
           M.obj ((modulePullback f).obj M).obj |>.symm)
         (rawHom (ofModule ((modulePullback f).obj M)).val (ofModule M).val m)) = _
       dsimp only [m, moduleCartesianMap]
       rw [Equiv.apply_symm_apply]
-      show (⟨f, (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).homEquiv _ _
+      change (⟨f, (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).homEquiv _ _
         |>.symm
           ((Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).unit.app M.obj)⟩ :
         Σ g : V ⟶ U, (Scheme.Modules.pullback (schemeFunctor.map g)).obj M.obj ⟶ _) = _

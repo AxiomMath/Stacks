@@ -174,7 +174,7 @@ theorem exists_etale_stage_of_etale_cover_of_isLimit
   · rw [Category.assoc, ← pullback.condition, ← Category.assoc, ← pullback.condition,
       Category.assoc, c.w]
   · intro x
-    show Etale (pullback.fst _ _)
+    change Etale (pullback.fst _ _)
     rw [← pullbackSymmetry_hom_comp_snd]
     have := hφ x
     infer_instance
@@ -237,7 +237,7 @@ lemma exists_range_pullback_snd_subset_of_isLimit
       rw [TopologicalSpace.Opens.coe_top]
       exact @isCompact_univ _ _ (this j₀)) (by
       intro x _
-      show ((baseChangeCone D c i X).π.app j₀ ≫ pullback.snd (D.map j₀.hom) r) x ∈ O
+      change ((baseChangeCone D c i X).π.app j₀ ≫ pullback.snd (D.map j₀.hom) r) x ∈ O
       rw [e₀]
       exact hO (Set.mem_range_self x))
   refine ⟨j.left, j.hom, ?_⟩
@@ -284,14 +284,14 @@ lemma exists_hom_pullback_comp_eq_of_isLimit
       have e : baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
           pullback.snd (D.map a.hom) Xp.hom = pullback.snd (c.π.app i) Xp.hom :=
         baseChangeTransition_snd _ _ _ _ Xp
-      show baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
+      change baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
         (pullback.snd (D.map a.hom) Xp.hom ≫ p) ≫ τ.app i = h ≫ x
       rw [hh, ← Category.assoc, ← Category.assoc, e]
-      show (pullback.snd (c.π.app i) p ≫ p) ≫ τ.app i = _
+      change (pullback.snd (c.π.app i) p ≫ p) ≫ τ.app i = _
       rw [← pullback.condition, Category.assoc])
   refine ⟨a.left, a.hom, g, hg₁, hg₂.trans ?_⟩
   have hτ : D.map a.hom ≫ τ.app i = τ.app a.left := by simp
-  show (pullback.snd (D.map a.hom) p ≫ p) ≫ τ.app i = pullback.fst (D.map a.hom) p ≫ τ.app a.left
+  change (pullback.snd (D.map a.hom) p ≫ p) ≫ τ.app i = pullback.fst (D.map a.hom) p ≫ τ.app a.left
   rw [Category.assoc, ← pullback.condition_assoc, hτ]
 
 /-- A pullback square exhibiting a scheme over the limit as the base change of a scheme over a

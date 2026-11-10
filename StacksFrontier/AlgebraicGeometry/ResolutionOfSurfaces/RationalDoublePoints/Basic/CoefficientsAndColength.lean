@@ -176,7 +176,7 @@ private theorem coeff_low_of_mem_var_squares {k : Type*} [Field k]
       rcases hq with rfl | rfl
       exacts [(coeff_low_X_sq 0), (coeff_low_X_sq 1)]
   | zero => simp
-  | add q r hq hr ihq ihr => simp [MvPolynomial.coeff_add, ihq, ihr]
+  | add q r hq hr ihq ihr => simp [ihq, ihr]
   | smul a q hq ih =>
       obtain ⟨ih0, ihx, ihy⟩ := ih
       refine ⟨?_, ?_, ?_⟩
@@ -303,7 +303,7 @@ private theorem diagonal_coeff_relation_of_mem_sq {k : Type*} [Field k]
         _ = (u * linCoeffY q) * (u * linCoeffY r) := by rw [hline q hq, hline r hr]
         _ = (linCoeffY q * linCoeffY r) * u ^ 2 := by ring
   | add q hq r hr ihq ihr =>
-      rw [MvPolynomial.coeff_add, MvPolynomial.coeff_add]
+      simp only [AddMonoidAlgebra.coeff_add]
       calc
         (q.coeff (Finsupp.single (0 : Fin 2) 2) +
             r.coeff (Finsupp.single (0 : Fin 2) 2)) * v ^ 2 =
@@ -352,7 +352,7 @@ private theorem char_two_derivation_bridge_squares {k : Type*} [Field k] [CharP 
         simp only [map_add, map_mul]
         ring_nf
         rw [show (2 : MvPolynomial (Fin 2) k) = 0 by
-          show MvPolynomial.C (2 : k) = 0
+          change MvPolynomial.C (2 : k) = 0
           rw [htwo]
           simp]
         ring

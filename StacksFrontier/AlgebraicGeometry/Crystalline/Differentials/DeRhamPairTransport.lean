@@ -59,8 +59,7 @@ theorem isHorizontal_transport (ρ : ΩB → ΩC)
     IsHorizontal f hf μ (nabla.transport eB heB) (nabla'.transport eC heC) := by
   intro m
   rw [Connection.transport_apply, Connection.transport_apply, hnat m]
-  induction nabla m using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction nabla m using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n η =>
     rw [hR, TensorProduct.map_tmul, TensorProduct.map_tmul, tensorMap_tmul, LinearMap.id_apply,
@@ -185,8 +184,7 @@ theorem degreeZeroEquiv_termMap (x) :
   apply (RestrictScalars.addEquiv A (C : Type u) N).injective
   rw [restrictScalarsMap_apply]
   obtain ⟨y, rfl⟩ := (RestrictScalars.addEquiv A (B : Type u) _).symm.surjective x
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add y z hy hz => simp only [map_add, hy, hz]
   | tmul m ω =>
     have hx : termMap f hf μ 0 ((RestrictScalars.addEquiv A (B : Type u) _).symm (m ⊗ₜ ω)) =

@@ -309,7 +309,7 @@ theorem exists_tensorPairing_eq_one
   have hcompat : TopCat.Presheaf.IsCompatible
       ((_root_.SheafOfModules.toSheaf (structureSheafRing X)).obj N).1 W b := by
     intro i j
-    show N.val.map (Opens.infLELeft (W i) (W j)).op (b i)
+    change N.val.map (Opens.infLELeft (W i) (W j)).op (b i)
       = N.val.map (Opens.infLERight (W i) (W j)).op (b j)
     refine tensorPairing_left_injective ψ s (W i ⊓ W j) (fun y hy => hWle i hy.1) ?_
     rw [tensorPairing_res_eq_one ψ s (Opens.infLELeft (W i) (W j)) (b i) (hb i),

@@ -127,7 +127,7 @@ theorem smallEtalePostcomp_obj_mk_eq (V : SmallEtale T.B T.S T.hS T.X)
     (smallEtalePostcomp T.B T.S T.hS T.openIncl T.isEtale_openIncl).obj
       ⟨CostructuredArrow.mk g, hgEt⟩ = V := by
   refine ObjectProperty.FullSubcategory.ext ?_
-  show CostructuredArrow.mk (g ≫ T.U.ι) = V.1
+  change CostructuredArrow.mk (g ≫ T.U.ι) = V.1
   rw [hg]
   rfl
 
@@ -238,7 +238,7 @@ theorem eventually_modificationKernel_inf_neighbourhoodIdeal_eq_bot
       hann Y (by rw [T.idealPowSubmodule_closedIdeal_unit t]; exact ha)
     have h0 := congrArg Subtype.val (ha' Y (𝟙 Y) ⟨m, hm⟩)
     simp only [CategoryTheory.Functor.map_id] at h0
-    show a • m ∈ (⊥ : (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
+    change a • m ∈ (⊥ : (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite T.B T.S T.hS T.X T.hX).O)).Submodule).obj Y
     rw [SheafOfModules.Submodule.bot_obj]
     exact (Submodule.mem_bot _).2 h0

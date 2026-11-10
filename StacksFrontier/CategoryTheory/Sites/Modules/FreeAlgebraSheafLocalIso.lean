@@ -172,7 +172,7 @@ theorem freeAlgebraSheafStalkRingEquiv_comp_map :
           (freeAlgebraSheafCoefficientMap_comp_map (Opens.grothendieckTopology X) A e)))
   apply MvPolynomial.ringHom_ext
   · intro a
-    show (freeAlgebraSheafStalkRingEquiv A E₂ x)
+    change (freeAlgebraSheafStalkRingEquiv A E₂ x)
         (((stalkFunctor CommRingCat.{u} x).map
           (freeAlgebraSheafMap (Opens.grothendieckTopology X) A e).hom).hom
           ((freeAlgebraSheafStalkRingEquiv A E₁ x).symm (MvPolynomial.C a))) =
@@ -199,7 +199,7 @@ theorem freeAlgebraSheafStalkRingEquiv_comp_map :
       (MvPolynomial.rename_C _ _).symm
   · intro ε
     obtain ⟨U, hx, t, rfl⟩ := E₁.exists_germ_eq ε
-    show (freeAlgebraSheafStalkRingEquiv A E₂ x)
+    change (freeAlgebraSheafStalkRingEquiv A E₂ x)
         (((stalkFunctor CommRingCat.{u} x).map
           (freeAlgebraSheafMap (Opens.grothendieckTopology X) A e).hom).hom
           ((freeAlgebraSheafStalkRingEquiv A E₁ x).symm

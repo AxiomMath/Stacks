@@ -84,7 +84,7 @@ theorem surjective_lineHom (y : Fin 3 → MvPolynomial (Fin (1 + 1)) κ)
     | C c =>
       obtain ⟨r, rfl⟩ := IsLocalRing.residue_surjective c
       refine ⟨Ideal.Quotient.mk _ (C r), ?_⟩
-      show conicHom π _ y hy (Ideal.Quotient.mk _ (C r)) = _
+      change conicHom π _ y hy (Ideal.Quotient.mk _ (C r)) = _
       rw [conicHom_mk, eval₂_C]
       rfl
     | add p q hp hq => exact add_mem hp hq
@@ -92,10 +92,10 @@ theorem surjective_lineHom (y : Fin 3 → MvPolynomial (Fin (1 + 1)) κ)
       refine mul_mem hp ?_
       fin_cases i
       · refine ⟨conicCoord π i₀, ?_⟩
-        show conicHom π _ y hy (conicCoord π i₀) = X 0
+        change conicHom π _ y hy (conicCoord π i₀) = X 0
         rw [conicHom_coord, h₀]
       · refine ⟨conicCoord π i₁, ?_⟩
-        show conicHom π _ y hy (conicCoord π i₁) = X 1
+        change conicHom π _ y hy (conicCoord π i₁) = X 1
         rw [conicHom_coord, h₁]
   intro q
   obtain ⟨b, hb⟩ := hrange q
@@ -212,7 +212,7 @@ theorem point_comp_lineMap (y : Fin 3 → MvPolynomial (Fin (1 + 1)) κ)
           change IsUnit (φ (conicHom π _ y hy (conicCoord π t)))
           rw [conicHom_coord, ht]; exact hu) := by
   have hX : (X s : MvPolynomial (Fin (1 + 1)) κ) = lineHom π y hy hlin (conicCoord π t) := by
-    show _ = conicHom π _ y hy (conicCoord π t)
+    change _ = conicHom π _ y hy (conicCoord π t)
     rw [conicHom_coord, ht]
   rw [ProjPoint.point_congr _ _ hX _ ((lineHom π y hy hlin).2 (conicCoord_mem π t)) _ _
     (by rw [← hX]; exact hu)]
@@ -225,14 +225,14 @@ theorem lineGeneric_values (y : Fin 3 → MvPolynomial (Fin (1 + 1)) κ)
     ((algebraMap (MvPolynomial (Fin (1 + 1)) κ) (FractionRing (MvPolynomial (Fin (1 + 1)) κ))).comp
       (lineHom π y hy hlin : MvPolynomial (Fin 3) R ⧸ conicIdeal π →+* _)) (conicCoord π i) =
       algebraMap _ _ (y i) := by
-  show algebraMap _ _ (conicHom π _ y hy (conicCoord π i)) = _
+  change algebraMap _ _ (conicHom π _ y hy (conicCoord π i)) = _
   rw [conicHom_coord]
 
 /-- The constants of `k[S₀, S₁]`, as degree-zero elements. -/
 theorem projZero_C {k : Type u} [Field k] (c : k) :
     algebraMap (lineGrading k 0) (MvPolynomial (Fin (1 + 1)) k)
       (GradedRing.projZeroRingHom' (polyGrading k 1) (algebraMap k _ c)) = C c := by
-  show (↑(GradedRing.projZeroRingHom' (polyGrading k 1) (C c)) : MvPolynomial (Fin (1 + 1)) k) =
+  change (↑(GradedRing.projZeroRingHom' (polyGrading k 1) (C c)) : MvPolynomial (Fin (1 + 1)) k) =
     C c
   rw [GradedRing.coe_projZeroRingHom'_apply, GradedRing.projZeroRingHom_apply,
     DirectSum.decompose_of_mem_same (polyGrading k 1)

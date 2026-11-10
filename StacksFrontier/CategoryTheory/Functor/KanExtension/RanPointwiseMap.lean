@@ -52,7 +52,7 @@ theorem ran_map_app_comp_coneAt_π {W₁ W₂ : C ⥤ H} (τ : W₁ ⟶ W₂) (X
   have hcounit : (L.ran.map τ).app (L.obj d.right) ≫ (L.ranCounit.app W₂).app d.right =
       (L.ranCounit.app W₁).app d.right ≫ τ.app d.right :=
     congr_app (L.ranCounit.naturality τ) d.right
-  show (L.ran.map τ).app X ≫ (L.ran.obj W₂).map d.hom ≫ (L.ranCounit.app W₂).app d.right =
+  change (L.ran.map τ).app X ≫ (L.ran.obj W₂).map d.hom ≫ (L.ranCounit.app W₂).app d.right =
     ((L.ran.obj W₁).map d.hom ≫ (L.ranCounit.app W₁).app d.right) ≫ τ.app d.right
   rw [← Category.assoc, hnat, Category.assoc, hcounit, Category.assoc]
 

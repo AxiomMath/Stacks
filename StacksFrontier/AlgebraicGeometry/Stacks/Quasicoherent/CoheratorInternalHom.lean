@@ -113,7 +113,7 @@ theorem hgen_over_of_isCartesianBetweenAffines
   obtain ⟨c, hc⟩ := Module.BaseChange.exists_finsupp_of_surjective_liftBaseChange
     (fibredSectionsRestrict hp M (φ ≫ V.hom)) (hM _ hz hyaff).2 (M.val.map φ.op x)
   let := fibredSectionsModule hp M W.left
-  show ∃ c' : M.val.obj (op z) →₀ fibredSectionRing B S hS p W.left,
+  change ∃ c' : M.val.obj (op z) →₀ fibredSectionRing B S hS p W.left,
     (c'.sum fun i r ↦ r • (show M.val.obj (op W.left) from M.val.map W.hom.op i)) =
       M.val.map g.left.op x
   have hx : M.val.map g.left.op x = M.val.map e.op (M.val.map φ.op x) :=
@@ -165,7 +165,7 @@ theorem hrel_over_of_isCartesianBetweenAffines
       ((congrArg (fun m ↦ M.val.map φ.op m) hc0).trans (map_zero _))
   obtain ⟨d, hd⟩ := Module.BaseChange.exists_finsupp_relations_of_bijective_liftBaseChange
     (fibredSectionsRestrict hp M (φ ≫ V.hom)) (hM _ hz hyaff) cj hcj
-  show ∃ d' : Module.BaseChange.Relations (fibredSectionRing B S hS p z) (M.val.obj (op z)) →₀
+  change ∃ d' : Module.BaseChange.Relations (fibredSectionRing B S hS p z) (M.val.obj (op z)) →₀
       fibredSectionRing B S hS p W.left,
     c.mapRange (fibredSectionRestrict g.left) (map_zero _) =
       d'.sum fun k r ↦ r • k.1.mapRange (fibredSectionRestrict W.hom) (map_zero _)
@@ -179,7 +179,7 @@ theorem hrel_over_of_isCartesianBetweenAffines
   refine Finset.sum_congr rfl fun k _ ↦ congrArg (_ • ·) ?_
   ext i
   simp only [Finsupp.mapRange_apply]
-  show fibredSectionRestrict e (fibredSectionRestrict (φ ≫ V.hom) (k.1 i)) =
+  change fibredSectionRestrict e (fibredSectionRestrict (φ ≫ V.hom) (k.1 i)) =
     fibredSectionRestrict W.hom (k.1 i)
   rw [← fibredSectionRestrict_comp, ← Category.assoc, ← he, Over.w g]
 

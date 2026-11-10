@@ -56,7 +56,8 @@ that produces it. The induction itself is
 `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProjectiveEquivalenceAuxDevissage.lean`,
 and its dévissage step — which cannot be taken over the associated graded algebra itself, the
 pieces of `𝓑` not being free — is run over an auxiliary graded algebra with free pieces in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProjectiveEquivalenceAuxPresentation.lean`.
+the module
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProjectiveEquivalenceAuxPresentation`.
 That is why the finiteness of the pieces of the algebra enters
 `Stacks.Coherent.moduleFinite_piece` and `Stacks.Coherent.isCoherent_piece` as a hypothesis
 rather than through `D`: the induction is applied to graded modules over the auxiliary algebra,
@@ -169,7 +170,7 @@ public theorem moduleFinite_piece
     refine (AddSubgroup.closure_le S.toAddSubgroup).mpr ?_ ((hG n).ge (AddSubgroup.mem_top t))
     rintro t' ⟨s, hsG, m, a, h, rfl⟩
     obtain rfl : m = n - s.1 := by omega
-    show _ ∈ S
+    change _ ∈ S
     rw [eqRec_smul_eq_actLinear M U h s.2 a]
     exact Submodule.mem_iSup_of_mem ⟨s, hsG⟩ ⟨a, rfl⟩
   exact Module.finite_def.mpr (htop ▸ hSfg)

@@ -208,7 +208,7 @@ public theorem nonempty_algEquiv_adicCompletion_localizationAway {g : C}
     ((I.map (algebraMap A C)).map (algebraMap C (Localization.Away g))) le_rfl)
     (algebraMap A C a)
   simp only [RingHom.comp_apply] at hcomm
-  show adicCompletionMap (algebraMap C (Localization.Away g)) (I.map (algebraMap A C))
+  change adicCompletionMap (algebraMap C (Localization.Away g)) (I.map (algebraMap A C))
       ((I.map (algebraMap A C)).map (algebraMap C (Localization.Away g))) le_rfl
       (algebraMap A (AdicCompletion (I.map (algebraMap A C)) C) a) = _
   rw [IsScalarTower.algebraMap_apply A C (AdicCompletion (I.map (algebraMap A C)) C), hcomm,

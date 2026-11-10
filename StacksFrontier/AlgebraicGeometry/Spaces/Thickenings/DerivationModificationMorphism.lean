@@ -177,6 +177,7 @@ theorem derivationModificationHomOfMap_fSharp_comp_eq :
     (structureSharp_map_thickeningDerivationFun_eq_zero B S hS Z hZ a' W p a hcompat θ)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of sheaves on the small étale site times out
 /-- Pullbacks of sheaves on the small étale site of `X'` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasPullbacks_sheaf_DerivationModificationMorphism :

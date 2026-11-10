@@ -113,9 +113,9 @@ theorem abelianComponent_exact (n : SimplexCategory) :
     Functor.preservesColimits_sheafPushforwardContinuous (S.inclusion n)
       Ab.{u} (S.componentTopology n) S.totalTopology
   constructor
-  · show PreservesFiniteLimits (abelianComponent S n)
+  · change PreservesFiniteLimits (abelianComponent S n)
     infer_instance
-  · show PreservesFiniteColimits (abelianComponent S n)
+  · change PreservesFiniteColimits (abelianComponent S n)
     infer_instance
 
 /-- Restriction of abelian sheaves preserves finite limits. -/

@@ -121,7 +121,7 @@ omit [IsFinite π] [Surjective π] [IsNormal X] in
 /-- The generic point of `X` lies in `W ∩ U` whenever it lies in `W`. -/
 theorem genericPoint_mem_openIntersection {W : X.Opens} (hW : genericPoint X ∈ W) :
     genericPoint X ∈ (openIntersection U).obj W := by
-  show genericPoint X ∈ U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W)
+  change genericPoint X ∈ U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W)
   rw [Opens.functor_map_eq_inf]
   exact ⟨hW, Stacks.Divisors.genericPoint_mem_of_nonempty U⟩
 
@@ -149,6 +149,7 @@ theorem restrict_preimage_openIntersection_injective (W : X.Opens) (x y : Γ(Y, 
     (fun hW => genericPoint_mem_preimage π _ (genericPoint_mem_openIntersection U
       (by rwa [← map_genericPoint π]))) x y h
 
+omit [CharP X.functionField p] in
 include hpow in
 /-- **The extension step.** A section `x₂` of `𝒪_Y` over `π⁻¹(W ∩ U)` whose `p`-th power is
 the restriction of a section `x₃` of `𝒪_X` over `W` extends to a section of `𝒪_Y` over `π⁻¹ W`
@@ -232,7 +233,7 @@ theorem exists_restrict_openIntersection_top_eq
     (t : Γ(X, (openIntersection U).obj ⊤)) :
     ∃ s : Γ(X, ⊤), X.presheaf.map (homOfLE (Opens.openIntersection_obj_le U ⊤)).op s = t := by
   have he : (openIntersection U).obj ⊤ = U := by
-    show U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj ⊤) = U
+    change U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj ⊤) = U
     rw [Opens.functor_map_eq_inf, top_inf_eq]
   have key : ∀ (V : X.Opens) (hV : V = U) (t : Γ(X, V)),
       ∃ s : Γ(X, ⊤), X.presheaf.map (homOfLE (hV.le.trans le_top)).op s = t := by

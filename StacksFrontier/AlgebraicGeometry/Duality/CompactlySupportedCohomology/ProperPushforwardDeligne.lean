@@ -127,7 +127,7 @@ public theorem proIsoDeligneSystem_properPushforward_single_affine [IsNoetherian
   have hab : p ≤ p + max N 0 := by omega
   refine DeligneSystem.proIsoDeligneSystem_of_homology J hJ hab K (fun n i hi => ?_) (fun q => ?_)
   · refine IsZero.of_iso ?_ ((e₂ i).app (op n))
-    show IsZero (((Scheme.Modules.pushforward f).rightDerivedPlus (i - p)).obj
+    change IsZero (((Scheme.Modules.pushforward f).rightDerivedPlus (i - p)).obj
       (Stacks.Algebraization.idealPowerMultiple I n F).toSheafOfModules)
     rcases hi with hi | hi
     · exact Stacks.AlgebraicGeometry.HigherDirectImage.isZero_higherDirectImage_of_neg f _ _
@@ -205,7 +205,7 @@ public theorem proIsoDeligneSystem_properPushforward_single [IsNoetherian X] [Is
   have hj : Set.range Ui.ι.base = (f ⁻¹ᵁ W i).ι.base ⁻¹' Set.range (f ⁻¹ᵁ V).ι.base := by
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     ext x
-    show (W i).ι.base (fi.base x) ∈ V ↔ f.base ((f ⁻¹ᵁ W i).ι.base x) ∈ V
+    change (W i).ι.base (fi.base x) ∈ V ↔ f.base ((f ⁻¹ᵁ W i).ι.base x) ∈ V
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, morphismRestrict_ι]
   have hr : Set.range (V.ι ∣_ W i).base = Set.range Vi.ι.base := by
     rw [range_morphismRestrict, Scheme.Opens.range_ι, Scheme.Opens.range_ι]

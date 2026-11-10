@@ -4,7 +4,7 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.AffineSite
 public import StacksFrontier.AlgebraicGeometry.Stacks.StructureSheaf
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.BrownRepresentabilityFromSizeBound
+StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.BrownRepresentabilityFromSizeBound
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.CartesianObjectsLocalizing
 public import

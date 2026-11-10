@@ -138,7 +138,7 @@ private lemma regular_of_mono_biprod'
       simpa only [Preadditive.comp_add, Category.assoc, Category.comp_id] using
         congrArg (fun morphism => φ ≫ morphism) (biprod.total (X := H) (Y := K)).symm
     rw [hsplit]
-    show ((show H ⟶ H ⊞ K from biprod.inl).app V) ((φ ≫ biprod.fst).app V value) +
+    change ((show H ⟶ H ⊞ K from biprod.inl).app V) ((φ ≫ biprod.fst).app V value) +
       ((show K ⟶ H ⊞ K from biprod.inr).app V) ((φ ≫ biprod.snd).app V value) = 0
     rw [hleft, hright, map_zero, map_zero, add_zero]
   exact mono_app_injective φ V (htotal.trans (map_zero _).symm)

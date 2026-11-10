@@ -241,7 +241,7 @@ theorem homComponent_totalChernClassOfModule_dualSheaf (i : ℕ) :
       ((-1 : ℤ) ^ i) • TotalChowClass.homComponent i (totalChernClassOfModule C sX E) := by
   have := isFiniteLocallyFree_dualSheaf E hE
   refine TotalChowClass.ext fun p ↦ ?_
-  show _ = ((-1 : ℤ) ^ i) • TotalChowClass.homComponent i (totalChernClassOfModule C sX E) p
+  change _ = ((-1 : ℤ) ^ i) • TotalChowClass.homComponent i (totalChernClassOfModule C sX E) p
   rw [TotalChowClass.homComponent_apply, TotalChowClass.homComponent_apply]
   split_ifs with hp
   · subst hp

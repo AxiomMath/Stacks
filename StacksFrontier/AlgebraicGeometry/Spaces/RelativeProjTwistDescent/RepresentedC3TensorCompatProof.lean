@@ -146,7 +146,7 @@ theorem tensorCompat_of_readings {CX CY DU DV : Type*} [Category CX] [Category C
   have hKF2' := congrArg E.map hKF2
   simp only [Functor.map_comp] at hKF2'
   simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom, Functor.map_comp, Category.assoc,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
   rw [reassoc_of% h3, hf3, ← reassoc_of% hKF1, reassoc_of% hb, ← reassoc_of% hpV,
     reassoc_of% hcMN]
   simp only [Functor.map_comp, Category.assoc]

@@ -102,7 +102,7 @@ lemma localized'_eq_bot_of_le_torsion'
   rw [Submodule.mem_localized'] at hx
   obtain ⟨m, hm, s, rfl⟩ := hx
   obtain ⟨t, ht⟩ := hT hm
-  show IsLocalizedModule.mk' (TensorProduct.mk R S M 1) m s = 0
+  change IsLocalizedModule.mk' (TensorProduct.mk R S M 1) m s = 0
   rw [IsLocalizedModule.mk'_eq_zero, IsLocalizedModule.eq_zero_iff (Submonoid.powers a)]
   exact ⟨t, ht⟩
 
@@ -168,7 +168,7 @@ private lemma map_affineBlowupAlgebra_eq_span_singleton {R S : Type*} [CommRing 
     let d : (Submonoid.powers a : Submonoid R) := ⟨a, Submonoid.mem_powers a⟩
     refine ⟨⟨IsLocalization.mk' S y d, Algebra.subset_adjoin ⟨y, hy, rfl⟩⟩, ?_⟩
     apply Subtype.ext
-    show algebraMap R S y = algebraMap R S a * IsLocalization.mk' S y d
+    change algebraMap R S y = algebraMap R S a * IsLocalization.mk' S y d
     simp [d, IsLocalization.mk'_spec' S y d]
   · rw [Ideal.span_le]
     rintro _ rfl
@@ -220,20 +220,20 @@ private lemma affineBlowupAlgebra_isLocalizationAway
     IsLocalization.Away (algebraMap R R' a) S := by
   let R' := affineBlowupAlgebra I a S
   dsimp only
-  show IsLocalization (Submonoid.powers (algebraMap R R' a)) S
+  change IsLocalization (Submonoid.powers (algebraMap R R' a)) S
   rw [isLocalization_iff]
   refine ⟨?_, ?_, ?_⟩
   · intro y
     obtain ⟨n, hn⟩ := y.property
     rw [← hn]
-    show IsUnit ((algebraMap R S a) ^ n)
+    change IsUnit ((algebraMap R S a) ^ n)
     exact (IsLocalization.Away.algebraMap_isUnit (S := S) a).pow n
   · intro z
     obtain ⟨⟨r, s⟩, hz⟩ := IsLocalization.surj (Submonoid.powers a) z
     obtain ⟨n, hn⟩ := s.property
     refine ⟨⟨algebraMap R R' r, ⟨(algebraMap R R' a) ^ n, ⟨n, rfl⟩⟩⟩, ?_⟩
     rw [← hn] at hz
-    show z * (algebraMap R S a) ^ n = algebraMap R S r
+    change z * (algebraMap R S a) ^ n = algebraMap R S r
     simpa only [map_pow] using hz
   · intro x y hxy
     refine ⟨1, ?_⟩
@@ -406,9 +406,9 @@ lemma fittingIdeal_eq_top_of_surjective_of_regular
   have hK : K ≤ LinearMap.ker q' := by
     intro x hx
     apply smul_eq_zero_of_localizedModule p.primeCompl b hb
-    show b • q' x = 0
+    change b • q' x = 0
     rw [← IsScalarTower.algebraMap_smul A, ← q'.map_smul]
-    show q' ((LinearMap.lsmul A L (algebraMap R A b)) x) = 0
+    change q' ((LinearMap.lsmul A L (algebraMap R A b)) x) = 0
     rw [show (LinearMap.lsmul A L (algebraMap R A b)) x = 0 from hx, map_zero]
   let qK : L ⧸ K →ₗ[A] P := K.liftQ q' hK
   have hqK : Function.Surjective qK := by
@@ -538,7 +538,7 @@ lemma blowup_map_eq_span_of_mul
   have hfreg : ∀ z : A, g f * z = 0 → z = 0 := by
     intro z hz
     apply (mem_nonZeroDivisors_iff_left.mp hreg) z
-    show g (f * b) * z = 0
+    change g (f * b) * z = 0
     rw [map_mul, mul_right_comm, hz, zero_mul]
   apply le_antisymm
   · rw [Ideal.map_le_iff_le_comap]
@@ -553,7 +553,7 @@ lemma blowup_map_eq_span_of_mul
     apply sub_eq_zero.mp
     apply hfreg
     rw [mul_sub]
-    show g f * g y - g f * (g b * z) = 0
+    change g f * g y - g f * (g b * z) = 0
     change algebraMap R A (f * y) = algebraMap R A (f * b) * z at hz
     rw [map_mul, map_mul, mul_assoc] at hz
     exact sub_eq_zero.mpr hz
@@ -630,7 +630,7 @@ theorem exists_fg_ideal_strictTransform_isFiniteLocallyFreeOfRank
   let : Module.FinitePresentation R N :=
     Module.finitePresentation_of_free_of_surjective K.mkQ K.mkQ_surjective
       (by
-        show (LinearMap.ker (Submodule.mkQ K)).FG
+        change (LinearMap.ker (Submodule.mkQ K)).FG
         rwa [Submodule.ker_mkQ])
   let J := fittingIdeal (R := R) (M := N) (r : ℤ)
   let I := Ideal.span {f} * J
@@ -639,7 +639,7 @@ theorem exists_fg_ideal_strictTransform_isFiniteLocallyFreeOfRank
   have hI : I.FG := (Submodule.fg_span (Set.finite_singleton f)).mul hJ
   refine ⟨I, hI, ?_, ?_⟩
   · ext p
-    show ({f} : Set R) ⊆ p.asIdeal ↔ (I : Set R) ⊆ p.asIdeal
+    change ({f} : Set R) ⊆ p.asIdeal ↔ (I : Set R) ⊆ p.asIdeal
     simp only [Set.singleton_subset_iff, SetLike.coe_subset_coe]
     exact ⟨fun hfp ↦ (Ideal.mul_le_left : I ≤ Ideal.span {f}).trans
         (Ideal.span_le.mpr (Set.singleton_subset_iff.mpr hfp)),
@@ -668,7 +668,7 @@ theorem exists_fg_ideal_strictTransform_isFiniteLocallyFreeOfRank
     intro x hx
     apply smul_eq_zero_of_quotient_torsion' (Submonoid.powers (algebraMap R A (f * b)))
       ⟨algebraMap R A (f * b), Submonoid.mem_powers _⟩ x
-    show algebraMap R A (f * b) • x = 0
+    change algebraMap R A (f * b) • x = 0
     rw [map_mul, mul_smul, hx, smul_zero]
 
 universe t

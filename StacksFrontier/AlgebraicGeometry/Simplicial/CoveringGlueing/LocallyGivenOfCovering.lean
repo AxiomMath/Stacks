@@ -60,12 +60,14 @@ abbrev IndexCategory : Type u := InducedCategory (Over X₀) (Index.V (f := f))
 
 variable {f}
 
+omit [HasPullbacks X.C] in
 /-- For an arrow `g : V' ⟶ V` of the indexing category, the arrows `a ∘ g : V' ⟶ U_i` and
 `a' : V' ⟶ U_{i'}` have equal composites to `X`. -/
 theorem Index.comp_w {b b' : IndexCategory f} (g : b' ⟶ b) :
     (g.hom.left ≫ b.a) ≫ f b.i = b'.a ≫ f b'.i := by
   rw [Category.assoc, b.w, Over.w g.hom, b'.w]
 
+omit [HasPullbacks X.C] in
 /-- For composable arrows `k : V'' ⟶ V'` and `g : V' ⟶ V` of the indexing category, the arrows
 `a ∘ g ∘ k : V'' ⟶ U_i` and `a' ∘ k : V'' ⟶ U_{i'}` have equal composites to `X`. -/
 theorem Index.comp_comp_w {b b' b'' : IndexCategory f} (g : b' ⟶ b) (k : b'' ⟶ b') :
@@ -161,7 +163,7 @@ def locallyGiven (hρ : IsCocycle f ρ) : LocallyGiven.{0, u, u, u, u, u} (X.ove
     simp only [indexRho, Iso.trans_hom, Iso.app_hom, Functor.mapIso_hom, Functor.map_comp,
       Category.assoc]
     rw [reassoc_of% nat, reassoc_of% coh, indexRhoBase_comp f E ρ hρ g k]
-    simp only [Functor.map_comp, Category.assoc]
+    simp only [Functor.map_comp]
     rfl
 
 end AlgebraicGeometry.RingedSite.CoveringGlueing

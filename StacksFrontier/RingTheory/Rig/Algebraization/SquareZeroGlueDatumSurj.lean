@@ -73,7 +73,7 @@ theorem defect_mem (hhb : e (Ideal.Quotient.mk _ h₀) = algebraMap S (Sh f S) s
   rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, D.mk_rho, hv₀, chi_algebraMap, sub_eq_zero]
   have : e.symm (algebraMap S (Sh f S) s₀) = Ideal.Quotient.mk _ h₀ := by
     rw [← hhb, AlgEquiv.symm_apply_apply]
-  show redMap N _ (e.symm (algebraMap S (Sh f S) s₀)) = _
+  change redMap N _ (e.symm (algebraMap S (Sh f S) s₀)) = _
   rw [this, redMap_mk]
   rfl
 
@@ -126,7 +126,7 @@ theorem compat_YX (hflat : ∀ i, Module.Flat R (Localization.Away (algebraMap R
     D.ιV_apply _ (nonempty_of_card_eq _),
     D.ιV_apply _ (nonempty_of_card_eq _),
     map_sub (D.rho T.1 (nonempty_of_card_eq T)), D.rho_sig, D.rho_sig]
-  simp only [ιH, AddMonoidHom.coe_coe, RingHom.toAddMonoidHom_eq_coe,
+  simp only [ιH, AddMonoidHom.coe_ofClass, RingHom.toAddMonoidHom_eq_coe,
     AlgHom.toRingHom_eq_coe, RingHom.coe_coe, map_sub, locH_algebraMap]
   abel
 

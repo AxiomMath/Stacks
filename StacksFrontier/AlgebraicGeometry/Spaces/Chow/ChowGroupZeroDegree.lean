@@ -74,7 +74,7 @@ theorem properCyclePushforward_apply_eq_cycleDegree (sX : X ⟶ D.space) (hX : D
     (properCyclePushforward D sX hX sY hY hbase hp.2.1.2 0 α).1 W =
       cycleDegree D sX hX sY hY hbase hp W α := by
   rw [cycleDegree_eq_finsum D sX hX sY hY hbase hp hpt hδ W α]
-  show ∑ᶠ Z, α.1 Z * properCycleMult D sX hX sY hY p Z W = _
+  change ∑ᶠ Z, α.1 Z * properCycleMult D sX hX sY hY p Z W = _
   refine finsum_congr fun Z => ?_
   by_cases hZ : α.1 Z = 0
   · rw [hZ, zero_mul, zero_mul]
@@ -85,7 +85,7 @@ theorem properCyclePushforward_apply_eq_cycleDegree (sX : X ⟶ D.space) (hX : D
         D.base_mem hY.1 (D.isDecentSpace_of_isGood sY hY) p Z) = deltaDimension D sX Z := by
       rw [α.2.2 Z hZ]
       exact hδ _
-    rw [properCycleMult, if_pos himg, properCycleDegree, if_pos hdim]
+    rw [properCycleMult, ite_eq_left himg, properCycleDegree, ite_eq_left hdim]
     rfl
 
 /-- Let `p : X ⟶ Y` be a proper morphism of good algebraic spaces over the base,

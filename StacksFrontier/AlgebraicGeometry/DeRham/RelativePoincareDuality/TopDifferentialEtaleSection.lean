@@ -125,14 +125,14 @@ theorem topDifferentialVanishes_of_section_of_mem (P : CommRingCat.{u} → Prop)
   let ψ : ∀ i, B ⟶ R i := fun i => Spec.preimage (e i)
   have hψ : ∀ i, Spec.map (ψ i) = e i := fun i => Spec.map_preimage (e i)
   let B' : CommRingCat.{u} := .of (Π i, R i)
-  let φ : B ⟶ B' := CommRingCat.ofHom (Pi.ringHom fun i => (ψ i).hom)
+  let φ : B ⟶ B' := CommRingCat.ofHom (RingHom.pi fun i => (ψ i).hom)
   have hev : ∀ i, Sigma.ι (fun i => Spec (R i)) i ≫ sigmaSpec R ≫ Spec.map φ = e i := by
     intro i
     rw [ι_sigmaSpec_assoc, ← Spec.map_comp, ← hψ i]
     rfl
   have hdesc : Spec.map φ = inv (sigmaSpec R) ≫ Sigma.desc e := by
     rw [IsIso.eq_inv_comp]
-    exact Sigma.hom_ext _ _ fun i => (hev i).trans (Sigma.ι_desc _ _).symm
+    exact Sigma.hom_ext _ _ fun i => (hev i).trans (Sigma.ι_comp_desc _ _).symm
   have hψet : ∀ i, RingHom.Etale (ψ i).hom := fun i =>
     (HasRingHomProperty.Spec_iff (P := @Etale)).1 (by rw [hψ i]; exact he i)
   have hφet : φ.hom.Etale := by
@@ -153,7 +153,7 @@ theorem topDifferentialVanishes_of_section_of_mem (P : CommRingCat.{u} → Prop)
     (inv (sigmaSpec R) ≫ Sigma.desc σ) ?_ (h B' hB')
   rw [hdesc, Category.assoc]
   congr 1
-  exact Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc_assoc, Sigma.ι_desc, hσ i]
+  exact Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, hσ i]
 
 /-- **The top de Rham differential vanishes on `H^n` over affine bases, from the case of a
 section**, within a class `P` of rings stable under ring maps of finite type: if

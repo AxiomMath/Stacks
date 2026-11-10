@@ -786,7 +786,7 @@ theorem totalPresentation_transition_restriction (S : SimplicialSiteSituation.{u
       (S.transitionMorphism φ).inverseImage.map
           ((totalPresentation S).componentRestrictionIso F m).hom ≫
         (S.fiberTransition φ).app F := by
-  show (𝟙 _ ≫ (S.fiberTransition φ).app F) ≫ 𝟙 ((S.restrict n).obj F) =
+  change (𝟙 _ ≫ (S.fiberTransition φ).app F) ≫ 𝟙 ((S.restrict n).obj F) =
     (S.transitionMorphism φ).inverseImage.map (𝟙 ((S.restrict m).obj F)) ≫
       (S.fiberTransition φ).app F
   rw [Category.id_comp, Category.comp_id, CategoryTheory.Functor.map_id, Category.id_comp]

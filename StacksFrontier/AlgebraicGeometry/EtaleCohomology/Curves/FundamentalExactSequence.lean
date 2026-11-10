@@ -182,7 +182,7 @@ theorem imageSieve_comparison_mem_of_isIntegral (W : X.Etale)
     (map_zero _)
   have hmain := imageSieve_comparison_of_divisor_restrict_eq_zero fX (map ≫ f) s hvanish
   have hk : k ≫ f = lift ≫ (map ≫ f) := by rw [← fac, Category.assoc]
-  show Presheaf.imageSieve
+  change Presheaf.imageSieve
     (multiplicativeDirectImageComparison.{u, v} (genericPointInclusion X)).hom s (k ≫ f)
   rw [hk]
   exact (Presheaf.imageSieve _ s).downward_closed hmain lift

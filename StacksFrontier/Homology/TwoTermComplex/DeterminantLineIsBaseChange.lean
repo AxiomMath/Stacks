@@ -83,6 +83,8 @@ theorem isBaseChange_detLineMap (K : K₁ →ₗ[R] K₀) (K' : K'₁ →ₗ[S] 
   let := ProjectiveDeterminant.invertible (R := R) (M := K₁)
   exact IsBaseChange.linearMapLeftRight_of_projective _ (isBaseChange_detMap h₀)
 
+omit [Module.Finite S K'₁] [Module.Projective S K'₁] [Module.Finite S K'₀]
+  [Module.Projective S K'₀] in
 include h₁ h₀ in
 /-- Rank zero is preserved by base change. -/
 theorem isRankZero_of_isBaseChange {K : K₁ →ₗ[R] K₀} (K' : K'₁ →ₗ[S] K'₀) (hK : IsRankZero K) :
@@ -96,7 +98,7 @@ theorem detLineMap_delta {K : K₁ →ₗ[R] K₀} {K' : K'₁ →ₗ[S] K'₀}
   refine detLine_ext h₁ fun x => ?_
   rw [detLineMap_apply]
   apply Subtype.ext
-  show exteriorMap (S := S) σ₀ (ExteriorAlgebra.map K x.1) =
+  change exteriorMap (S := S) σ₀ (ExteriorAlgebra.map K x.1) =
     ExteriorAlgebra.map K' (exteriorMap (S := S) σ₁ x.1)
   rw [exteriorMap_map, map_exteriorMap, hc]
 

@@ -190,7 +190,7 @@ lemma preimage_gluePairOpensDesc_left :
       exact ⟨T.homOfLE (inf_le_left : A ⊓ B ≤ A) w, by
         rw [← Scheme.Hom.comp_apply, gluePair_condition, Scheme.Hom.comp_apply, hy]⟩
   · rintro u ⟨x, rfl⟩
-    show gluePairOpensDesc A B (gluePairOpensInl A B x) ∈ (A : Set ↥T)
+    change gluePairOpensDesc A B (gluePairOpensInl A B x) ∈ (A : Set ↥T)
     rw [gluePairOpensDesc_inl_apply]
     exact A.range_ι.subset ⟨x, rfl⟩
 
@@ -208,7 +208,7 @@ lemma preimage_gluePairOpensDesc_right :
         rw [← Scheme.Hom.comp_apply, ← gluePair_condition, Scheme.Hom.comp_apply, hx]⟩
     · exact ⟨y, rfl⟩
   · rintro u ⟨y, rfl⟩
-    show gluePairOpensDesc A B (gluePairOpensInr A B y) ∈ (B : Set ↥T)
+    change gluePairOpensDesc A B (gluePairOpensInr A B y) ∈ (B : Set ↥T)
     rw [gluePairOpensDesc_inr_apply]
     exact B.range_ι.subset ⟨y, rfl⟩
 
@@ -549,7 +549,7 @@ theorem exists_etale_pullback_iso_of_sup_opens (f : X ⟶ Y) [UniversalHomeomorp
       (P₂ := pullback.fst (gluePairDesc Z₁.ι (d.hom ≫ Z₂.ι) q₁ q₂ hcompat) f ⁻¹ᵁ
         (gluePairInr Z₁.ι (d.hom ≫ Z₂.ι)).opensRange)
       (by
-        show pullback.fst _ f ⁻¹ᵁ ((gluePairInl Z₁.ι (d.hom ≫ Z₂.ι)).opensRange ⊔
+        change pullback.fst _ f ⁻¹ᵁ ((gluePairInl Z₁.ι (d.hom ≫ Z₂.ι)).opensRange ⊔
           (gluePairInr Z₁.ι (d.hom ≫ Z₂.ι)).opensRange) = ⊤
         rw [gluePair_opensRange_sup]
         rfl)

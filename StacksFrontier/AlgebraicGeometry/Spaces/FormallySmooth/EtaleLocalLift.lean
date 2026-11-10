@@ -116,7 +116,7 @@ public theorem exists_affine_etale_cover_of_isThickening
     have hsnd : (g₀ k ≫ p) y = (pullback.snd (q₀ k) i) y :=
       congrArg (fun m : pullback (q₀ k) i ⟶ T ↦ m y) (hg₀ k)
     simp only [Scheme.Hom.comp_apply] at hcond hsnd
-    show ((V₀ k).affineCover.f c ≫ q₀ k) z = i (p w)
+    change ((V₀ k).affineCover.f c ≫ q₀ k) z = i (p w)
     rw [Scheme.Hom.comp_apply, hz, hcond, ← hsnd, hy]
 
 namespace Space
@@ -196,7 +196,7 @@ public theorem exists_affine_etale_cover_lift
       rw [Functor.map_comp, B.inclusion.map_preimage, hhom p, hhom f, ← Category.assoc, hmSp]
     · apply Functor.map_injective (F := BigFppfOver.toScheme B S hS)
       rw [Functor.map_comp]
-      show B.inclusion.map (B.inclusion.preimage _) ≫
+      change B.inclusion.map (B.inclusion.preimage _) ≫
         (BigFppfOver.toScheme B S hS).map p = _
       rw [B.inclusion.map_preimage]
       exact hmSp

@@ -192,6 +192,7 @@ theorem isZero_zExt_koszulComplex_X_of_chart_over_quotient (hSerre : AffineSerre
 
 end SpacesEtale
 
+include hZ in
 /-- **The vanishing of [Stacks, Tag 072C] from the choices (1)–(5).**  Let `S` be a scheme and
 let `X` be a quasi-compact and quasi-separated
 algebraic space over `S`.  Choose an affine scheme `U`, a surjective étale morphism `f : U ⟶ X`
@@ -225,8 +226,6 @@ max(d_p + p) over 0 <= p <= d. The cohomology is the sheaf cohomology of the und
 sheaf of F on the spaces-etale site of X"]
 theorem isZero_sheafH_of_data_072C
     (X : AlgebraicSpaces B S hS)
-    (hqc : IsQuasiCompactSpace B S hS X.obj)
-    (hqs : IsAbsolutelyQuasiSeparated B S hS hZ X.obj)
     (U : BigFppfOver B S hS) (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U))
     (f : yoneda.obj U ⟶ X.obj) (hf : IsEtale B S hS f) (hfsurj : IsSurjective B S hS f)
     (d : ℕ) (hd : BoundsFibreDegrees B S hS U f (d : ℤ)) (dp : ℕ → ℕ)
@@ -305,7 +304,7 @@ theorem exists_forall_isZero_sheafH_of_isQuasiCompactSpace_072C
   choose dpz hdpz using hgbd
   refine ⟨(Finset.range (dz.toNat + 1)).sup fun p => (dpz p).toNat + p,
     fun M hM n hn => ?_⟩
-  refine isZero_sheafH_of_data_072C B S hS hZ X hqc hqs U hU f hf
+  refine isZero_sheafH_of_data_072C B S hS hZ X U hU f hf
     (isSurjective_of_presheafSurjective B S hS f hsurj) dz.toNat
     (BoundsFibreDegrees.mono hdz (Int.self_le_toNat dz)) (fun p => (dpz p).toNat) ?_ M hM n hn
   intro hsep' p _

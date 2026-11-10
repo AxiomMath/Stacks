@@ -34,7 +34,7 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard
 
-variable (Λ : Type r) [Ring Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type r) [Ring Λ] {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -52,6 +52,7 @@ public theorem exact_homology_compactSupportFrobeniusFunctor_map
         ((compactSupportFrobeniusFunctor.{u, r} Λ f j kbar).map
           (ObjectProperty.homMk S.g : (⟨S.X₂, h₂⟩ : CochainComplex.Plus _) ⟶ ⟨S.X₃, h₃⟩))).hom := by
   -- the characteristic of `k` plays no role in exactness; any Frobenius datum builds the triangle
+  have := Fintype.ofFinite k
   obtain ⟨p, hp⟩ := CharP.exists k
   have : CharP k p := hp
   obtain ⟨n, hpr, hn⟩ := FiniteField.card k p

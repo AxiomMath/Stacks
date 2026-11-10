@@ -139,7 +139,7 @@ public theorem chartRingMap_comp_awayMap {j k m : ℕ} (g : powSections L j) (h 
   have hw : DirectSum.of (powSections L) k h ^ (n + 1) ∈ grading L (k * (n + 1)) := by
     rw [← Stacks.SectionRingChartMap.of_powSec_eq_pow]
     exact Stacks.ExternalGrading.of_mem_summand _ _
-  show Stacks.SectionRingChartMap.chartRingMap L c hVc
+  change Stacks.SectionRingChartMap.chartRingMap L c hVc
       (HomogeneousLocalization.awayMap (grading L)
         (Stacks.ExternalGrading.of_mem_summand k h) hc _) = _
   rw [HomogeneousLocalization.awayMap_mk, chartRingMap_mk' L c hVc hm.symm,

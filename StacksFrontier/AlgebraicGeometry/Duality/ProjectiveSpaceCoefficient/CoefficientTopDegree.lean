@@ -51,7 +51,7 @@ theorem injective_H_T_map {L L' : ModuleCat.{u} R} (f : L ⟶ L') (hf : Function
         e.hom.app L') = (affineTopDegreeFunctor R (W R n) n
           (geometricFactor R (W R n) (Oqc R n (-(n : ℤ) - 1)))).map f := by
     rw [← Category.assoc, ← hnat, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
-  show Function.Injective (ModuleCat.Hom.hom ((affineTopDegreeFunctor R (W R n) n
+  change Function.Injective (ModuleCat.Hom.hom ((affineTopDegreeFunctor R (W R n) n
     (geometricFactor R (W R n) (Oqc R n (-(n : ℤ) - 1)))).map f))
   rw [← this]
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp]

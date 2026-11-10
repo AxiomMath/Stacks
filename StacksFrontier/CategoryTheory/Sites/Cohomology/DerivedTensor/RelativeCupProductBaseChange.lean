@@ -45,7 +45,8 @@ vertical arrows are the base change map of [Stacks, Tag 07A7] and the comparison
 
 **[Stacks, Tag 0H9A]** itself is
 `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_baseChange_square` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.RelativeCupProductBaseChangeOfToposHom`:
+the module `RelativeCupProductBaseChangeOfToposHom` in the directory
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor`:
 that lemma instantiated at the derived tensor products of [Stacks, Tag 06YU], the comparisons of
 [Stacks, Tag 07A4] and the base change map of [Stacks, Tag 07A7].
 

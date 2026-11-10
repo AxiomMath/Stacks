@@ -142,8 +142,7 @@ theorem piRight_lTensor_gradedJacobian (grading : ℕ → Submodule k P) [Graded
         (LinearMap.lTensor N (gradedJacobian grading hx F hF) ξ) j =
       ∑ i : Fin n, LinearMap.lTensor N (gradedJacobianEntry grading hx F hF i j)
         (TensorProduct.piRight k k N (fun i' : Fin n => ↥(grading (d i'))) ξ i) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul b p =>
       have hL : TensorProduct.piRight k k N (fun j' : Fin r => ↥(grading (e j')))
           (LinearMap.lTensor N (gradedJacobian grading hx F hF) (b ⊗ₜ p)) j =
@@ -233,8 +232,7 @@ theorem lTensor_gradedJacobianCokernelRecord (grading : ℕ → Submodule k P)
       LinearMap.rTensor V' (Submodule.mkQ (LinearMap.range (gradedJacobian grading hx F hF)))
         (LinearMap.lTensor ((j : Fin r) → ↥(grading (e j))) f ζ) := by
     intro ζ
-    induction ζ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction ζ using TensorProduct.inductionOn with
     | tmul q w =>
         rw [LinearMap.rTensor_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
           LinearMap.rTensor_tmul]

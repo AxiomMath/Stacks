@@ -112,7 +112,7 @@ theorem isAffine_toScheme_quotientSystemStage (D : QuotientSystem B S hS R)
     (J : TopologicalRing.WeakIdealOfDefinitionIndex R) :
     IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((BigAffineFppf.inclusion B S hS).obj (D.stage J))) := by
-  show IsAffine (Spec (.of (R ⧸ J.1)))
+  change IsAffine (Spec (.of (R ⧸ J.1)))
   infer_instance
 
 namespace StageEtale

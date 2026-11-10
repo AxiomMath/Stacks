@@ -233,7 +233,7 @@ theorem isIso_smallEtaleRestrictionAdjunctionAb_counit :
     NatTrans.isIso_iff_isIso_app]
   intro V
   simp only [Adjunction.sheafPushforwardContinuous, Adjunction.whiskerLeft, Adjunction.op]
-  show IsIso (_ ≫ P.obj.map (((smallEtaleComposeBaseChangeAdj j).unit.app V.unop).op) ≫ _)
+  change IsIso (_ ≫ P.obj.map (((smallEtaleComposeBaseChangeAdj j).unit.app V.unop).op) ≫ _)
   have i1 : IsIso (P.obj.map ((smallEtaleComposeBaseChangeAdj j).unit.app V.unop).op) :=
     inferInstance
   have i2 : IsIso (((smallEtaleCompose j).op.associator (smallEtaleBaseChange j).op
@@ -278,7 +278,7 @@ theorem isIso_smallEtalePullbackAb_map_map_unit (sq : IsPullback h e f' g) [Etal
   have h3 : IsIso ((etaleRestrictionAt e Ab.{u + 1} ⋙
       (smallEtaleBaseChange h).sheafPushforwardContinuous Ab.{u + 1}
         X'.smallEtaleTopology Y.smallEtaleTopology).map η) := by
-    show IsIso ((smallEtalePushforwardAb h).map ((etaleRestriction.{u, 0} e).map η))
+    change IsIso ((smallEtalePushforwardAb h).map ((etaleRestriction.{u, 0} e).map η))
     infer_instance
   have h4 := (NatIso.isIso_map_iff (etaleRestrictionPushforwardIsoOfIsPullback Ab.{u + 1} sq)
     η).1 h3

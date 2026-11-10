@@ -37,7 +37,8 @@ isomorphic to, hence lies in the site, and the comparison isomorphism is a morph
 over `S` once the structure morphism is taken to be the composite.
 
 No declaration carries a `@[stacks]` attribute: Stacks 06D4 and 03ME tag the two definitions,
-which are in the library, and the source states this implication only inside the proof of Stacks 06FM.
+which are in the library, and the source states this implication only inside the proof of Stacks
+06FM.
 
 ## References
 
@@ -79,7 +80,7 @@ theorem exists_fieldValuedPoint_of_isFieldObject
   obtain ⟨k, hk, ⟨ι⟩⟩ := hV
   let : Field k := hk
   have hk' : B.Contains (Spec (.of k)) := by
-    show (Spec (CommRingCat.of k)).size < B.cutoff
+    change (Spec (CommRingCat.of k)).size < B.cutoff
     rw [← Scheme.size_congr ι]
     exact V.left.2
   let gS : (Spec (CommRingCat.of k)) ⟶ S := ι.inv ≫ V.hom.hom
@@ -132,7 +133,7 @@ theorem isSurjective_representingMap_of_isSurjectiveOnObjects
     exact congrArg _ (PresheafOfCategories.sectionOfObj_inv_obj eG
       (⟨q.siteObject, Discrete.mk q.value⟩ :
         (presheafOfCategories (G ⋙ typeToCat)).obj))
-  show G.map (g' ≫ g).op q.value =
+  change G.map (g' ≫ g).op q.value =
     (representingMap B S hS 𝒜 𝒞 F G eF eG a).app (op q'.siteObject) q'.value
   rw [← hq']
   have hnat := congrFun (congrArg (fun t => TypeCat.homEquiv t)

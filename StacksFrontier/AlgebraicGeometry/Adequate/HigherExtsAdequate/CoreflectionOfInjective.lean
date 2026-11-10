@@ -90,7 +90,7 @@ private lemma exists_app_baseAlgebra_eq
     (moduleExtensionSelfAtBaseEquiv.{u, v, w} A).toLinearMap)
   refine ⟨homOfAppBase ψ, ?_⟩
   rw [homOfAppBase_app_baseAlgebra]
-  show (LinearMap.toSpanSingleton _ _ y) (moduleExtensionSelfAtBaseEquiv.{u, v, w} A _) = y
+  change (LinearMap.toSpanSingleton _ _ y) (moduleExtensionSelfAtBaseEquiv.{u, v, w} A _) = y
   rw [moduleExtensionSelfAtBaseEquiv_one, LinearMap.toSpanSingleton_apply, one_smul]
 
 /-- A morphism out of the module extension of the ring itself vanishes as soon as it kills
@@ -109,7 +109,7 @@ private lemma eq_zero_of_app_baseAlgebra_one
       ((1 : ULift.{v} A) ⊗ₜ[A] (1 : ULift.{max (u + 1) (v + 1) w} A)) := by
     apply (moduleExtensionSelfAtBaseEquiv.{u, v, w} A).injective
     rw [map_smul, moduleExtensionSelfAtBaseEquiv_one, smul_eq_mul, mul_one]
-  show η.app (liftedBaseAlgebra.{v} A) z = 0
+  change η.app (liftedBaseAlgebra.{v} A) z = 0
   rw [hz, map_smul, hη, smul_zero]
 
 /-- **The counit of the coreflection is bijective at the base algebra.** For every
@@ -130,7 +130,7 @@ public theorem bijective_counit_app_baseAlgebra
     have h1 : η ≫ adj.counit.app G = 0 := by
       refine eq_zero_of_app_baseAlgebra_one.{u, v, w} A _ ?_
       rw [PresheafOfModules.comp_app]
-      show (adj.counit.app G).app _ (η.app _ _) = 0
+      change (adj.counit.app G).app _ (η.app _ _) = 0
       rw [hη, hx]
     have h2 : (ObjectProperty.homMk η : O' ⟶ (adequateCoreflection.{u, v, w} A).obj G) = 0 := by
       apply (adj.homEquiv O' G).symm.injective

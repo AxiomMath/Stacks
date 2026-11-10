@@ -27,7 +27,7 @@ over the generic points of the irreducible components through a point), and the 
 dimension formula itself,
 `AlgebraicGeometry.ringKrullDim_stalk_add_residueFieldTranscendenceDegree_le` (**Stacks 0BAE**),
 are in `StacksFrontier.AlgebraicGeometry.Morphisms.FiniteType.DimensionFormula`, which this module
-imports. This module contains only private lemmas, the steps of the argument sketched below;
+imports. This module contains the steps of the argument sketched below;
 the last of them is the formula on the irreducible component named by one minimal prime of
 `𝒪_{X,x}`.
 
@@ -73,12 +73,12 @@ namespace AlgebraicGeometry
 
 /-! ### The reduced closure of a point -/
 
-private instance reducedPointClosure_isReduced (X : Scheme.{u}) (z : X) :
+instance reducedPointClosure_isReduced (X : Scheme.{u}) (z : X) :
     IsReduced (reducedPointClosure X z).subscheme :=
   Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal ⟨closure {z}, isClosed_closure⟩
 
 /-- The closure of a point with its reduced induced structure is an integral scheme. -/
-private instance reducedPointClosure_isIntegral (X : Scheme.{u}) (z : X) :
+instance reducedPointClosure_isIntegral (X : Scheme.{u}) (z : X) :
     IsIntegral (reducedPointClosure X z).subscheme := by
   let I := reducedPointClosure X z
   let e : I.subscheme ≃ₜ (closure {z} : Set X) :=
@@ -91,7 +91,7 @@ private instance reducedPointClosure_isIntegral (X : Scheme.{u}) (z : X) :
 closure of the image point: the image of the closure is contained in the closure of the image,
 so the factorization criterion of Stacks 0356 applies. -/
 @[ega "IV 13.2.4" "partial"]
-private theorem exists_reducedPointClosure_map {X S : Scheme.{u}} (f : X ⟶ S) (η : X) :
+theorem exists_reducedPointClosure_map {X S : Scheme.{u}} (f : X ⟶ S) (η : X) :
     ∃ g : (reducedPointClosure X η).subscheme ⟶ (reducedPointClosure S (f η)).subscheme,
       g ≫ (reducedPointClosure S (f η)).subschemeι =
         (reducedPointClosure X η).subschemeι ≫ f := by
@@ -108,7 +108,7 @@ private theorem exists_reducedPointClosure_map {X S : Scheme.{u}} (f : X ⟶ S) 
   simpa using hclosure
 
 /-- The generic point of the reduced closure of a point is that point. -/
-private theorem reducedPointClosureι_genericPoint (X : Scheme.{u}) (z : X) :
+theorem reducedPointClosureι_genericPoint (X : Scheme.{u}) (z : X) :
     (reducedPointClosure X z).subschemeι
         (genericPoint (reducedPointClosure X z).subscheme) = z := by
   let I := reducedPointClosure X z
@@ -126,7 +126,7 @@ private alias reducedPointClosure_map_dominant := isDominant_map_reducedPointClo
 /-- The Krull dimension of a ring is the supremum of the Krull dimensions of its quotients by
 minimal primes: every prime contains a minimal one, and coheight is antitone. -/
 @[ega "0 16.1.1"]
-private theorem ringKrullDim_eq_iSup_minimalQuotients {R : Type u} [CommRing R] :
+theorem ringKrullDim_eq_iSup_minimalQuotients {R : Type u} [CommRing R] :
     ringKrullDim R =
       ⨆ p : {p : PrimeSpectrum R // p.asIdeal ∈ (⊥ : Ideal R).minimalPrimes},
         ringKrullDim (R ⧸ p.1.asIdeal) := by
@@ -144,7 +144,7 @@ private theorem ringKrullDim_eq_iSup_minimalQuotients {R : Type u} [CommRing R] 
   · rw [← coheight_eq_ringKrullDim_quotient]
     exact le_iSup_of_le p.1 le_rfl
 
-private theorem genericPointOfMinimalStalkPrime_specializes
+theorem genericPointOfMinimalStalkPrime_specializes
     {X : Scheme.{u}} (x : X)
     (p : {p : PrimeSpectrum (X.presheaf.stalk x) //
       p.asIdeal ∈ (⊥ : Ideal (X.presheaf.stalk x)).minimalPrimes}) :
@@ -155,7 +155,7 @@ private theorem genericPointOfMinimalStalkPrime_specializes
 
 /-- The local ring at `x` of the reduced closure of the generic point named by a minimal prime
 `p` of `𝒪_{X,x}` is `𝒪_{X,x} ⧸ p`. -/
-private theorem reducedPointClosure_stalk_dim_eq_quotient
+theorem reducedPointClosure_stalk_dim_eq_quotient
     {X : Scheme.{u}} (x : X)
     (p : {p : PrimeSpectrum (X.presheaf.stalk x) //
       p.asIdeal ∈ (⊥ : Ideal (X.presheaf.stalk x)).minimalPrimes}) :
@@ -233,7 +233,7 @@ private theorem residueFieldMap_isIso_of_stalkMap_surjective
 
 /-- In a commuting square whose two vertical maps are surjective on stalks, the residue-field
 transcendence degree of the top map at a point equals that of the bottom map at its image. -/
-private theorem residueFieldTrdeg_eq_of_closedSquare
+theorem residueFieldTrdeg_eq_of_closedSquare
     {A X B S : Scheme.{u}} (i : A ⟶ X) (j : B ⟶ S) (g : A ⟶ B)
     (f : X ⟶ S) (a : A) (hsq : g ≫ j = i ≫ f)
     (hi : Function.Surjective (i.stalkMap a).hom)
@@ -290,7 +290,7 @@ private alias functionFieldTrdeg_eq_genericResidueFieldTrdeg :=
 /-- Stacks 02JU transported to a commuting square of schemes whose vertical maps are surjective
 on stalks: with `A` and `B` integral and `g : A ⟶ B` dominant and locally of finite type, the
 dimension formula for `g` reads off the residue-field degrees of `f`. -/
-private theorem integralSquare_dimension_add_residueFieldTrdeg_le
+theorem integralSquare_dimension_add_residueFieldTrdeg_le
     {A X B S : Scheme.{u}} (i : A ⟶ X) (j : B ⟶ S) (g : A ⟶ B)
     (f : X ⟶ S) [IsIntegral A] [IsIntegral B] [IsDominant g]
     [IsLocallyNoetherian B] [LocallyOfFiniteType g] (a : A)

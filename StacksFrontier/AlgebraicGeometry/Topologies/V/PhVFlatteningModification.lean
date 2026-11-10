@@ -144,14 +144,14 @@ theorem flat_pullback_snd_sigmaDesc {T W : Scheme.{u}} {K : Type v} [Small.{u} K
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @Flat.{u})
     ((sigmaOpenCover A).pullback₁ (pullback.fst (Sigma.desc a) g))]
   intro κ
-  show Flat (pullback.fst (pullback.fst (Sigma.desc a) g) (Sigma.ι A κ) ≫
+  change Flat (pullback.fst (pullback.fst (Sigma.desc a) g) (Sigma.ι A κ) ≫
     pullback.snd (Sigma.desc a) g)
   rw [← pullbackSymmetry_hom_comp_snd (pullback.fst (Sigma.desc a) g) (Sigma.ι A κ),
     Category.assoc,
     ← pullbackRightPullbackFstIso_hom_snd (Sigma.desc a) g (Sigma.ι A κ)]
   have _ : Flat (pullback.snd (a (κ : K)) g) := h κ
   have _ : Flat (pullback.snd (Sigma.ι A (κ : K) ≫ Sigma.desc a) g) :=
-    flat_pullback_snd_of_eq (Sigma.ι_desc _ _) g
+    flat_pullback_snd_of_eq (Sigma.ι_comp_desc _ _) g
   infer_instance
 
 /-! ### The generic point of the spectrum of a domain -/
@@ -183,7 +183,7 @@ theorem isSchemeTheoreticallyDominant_Spec_map_algebraMap_of_isFractionRing
     IsSchemeTheoreticallyDominant (Spec.map (CommRingCat.ofHom (algebraMap R F))) := by
   have hdom : IsDominant (Spec.map (CommRingCat.ofHom (algebraMap R F))) := by
     rw [isDominant_iff]
-    show DenseRange (PrimeSpectrum.comap (algebraMap R F))
+    change DenseRange (PrimeSpectrum.comap (algebraMap R F))
     rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical,
       (RingHom.injective_iff_ker_eq_bot _).mp (IsFractionRing.injective R F)]
     exact bot_le
@@ -253,7 +253,7 @@ theorem exists_mem_range_strictTransformMap_sigmaDesc_of_isStandardVCovering
   -- The induced morphism to the base change `(∐ A_κ) ×_T T'`.
   set ψ : Spec (.of Wv) ⟶ Stacks.Blowup.blowUp I := Spec.map (CommRingCat.ofHom e) ≫ h' with hψ
   have hcond : (q ≫ Sigma.ι A κ) ≫ Sigma.desc a = ψ ≫ Stacks.Blowup.blowUpToBase I := by
-    rw [Category.assoc, Sigma.ι_desc, hψ, Category.assoc]
+    rw [Category.assoc, Sigma.ι_comp_desc, hψ, Category.assoc]
     exact hq.symm
   set p := pullback.lift (q ≫ Sigma.ι A κ) ψ hcond with hp
   have hmsnd : p ≫ Stacks.Blowup.blowUpPullbackToBlowUp (Sigma.desc a) I = ψ :=
@@ -324,7 +324,7 @@ theorem hasFlatFppfModification_of_flat_strictTransformMap_sigmaDesc
   refine ⟨Stacks.Blowup.blowUp I, Stacks.Blowup.blowUpToBase I, hbproper, hbsurj,
     fun κ ↦ (W κ).toScheme, fun κ ↦ (W κ).ι ≫ c, d,
     fun κ ↦ inferInstance, fun κ ↦ inferInstance, fun κ ↦ ?_, fun t ↦ ?_⟩
-  · calc d κ ≫ a κ = d κ ≫ Sigma.ι A κ ≫ Sigma.desc a := by rw [Sigma.ι_desc]
+  · calc d κ ≫ a κ = d κ ≫ Sigma.ι A κ ≫ Sigma.desc a := by rw [Sigma.ι_comp_desc]
       _ = ((W κ).ι ≫ s) ≫ Sigma.desc a := by rw [← Category.assoc, hdfac κ]
       _ = (W κ).ι ≫ s ≫ Sigma.desc a := Category.assoc _ _ _
       _ = (W κ).ι ≫ c ≫ Stacks.Blowup.blowUpToBase I := by
@@ -371,7 +371,7 @@ theorem standardVCoveringDenseFlatHasModification_of_flatteningBlowup
     have hs := Scheme.Hom.support_ker j
     rw [IsSchemeTheoreticallyDominant.ker_eq_bot j] at hs
     rw [dense_iff_closure_eq]
-    show closure (Set.range j.base) = Set.univ
+    change closure (Set.range j.base) = Set.univ
     rw [← hs]
     simp
   -- The coproduct of the family is flat over it.

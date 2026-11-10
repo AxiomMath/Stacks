@@ -147,7 +147,7 @@ theorem C1573.exists_centreGens_of_map_eq_span {A : Type u} [CommRing A] (θ : R
   refine ⟨k, y, d, hyG, hd, ?_⟩
   have hone : ∑ i, f i * d i = 1 := by
     apply ht.1
-    show t * _ = t * 1
+    change t * _ = t * 1
     rw [mul_one, Finset.mul_sum]
     conv_rhs => rw [← hsum]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -221,7 +221,6 @@ variable {R K R' K' : Type u} [CommRing R] [CommRing K] [CommRing R'] [CommRing 
   (I : Ideal R) {m : ℕ} (g : Fin (m + 1) → K)
 
 omit [Module.Flat R R'] in
-include hbc in
 /-- The `R'`-span of the image of `ρ R` is `ρ' R'`. -/
 theorem C1573.span_image_range_algebraMap :
     Submodule.span R' ((IsScalarTower.toAlgHom R K K').toLinearMap ''
@@ -244,7 +243,7 @@ theorem C1573.map_colonIdeal (l : Fin (m + 1)) :
     (colonIdeal (algebraMap R K) g l).map (algebraMap R R') =
       colonIdeal (algebraMap R' K') (fun j => algebraMap K K' (g j)) l := by
   rw [colonIdeal_eq_colon, colonIdeal_eq_colon,
-    Ideal.C1573.map_colon_singleton_of_isBaseChange hbc, span_image_range_algebraMap hbc]
+    Ideal.C1573.map_colon_singleton_of_isBaseChange hbc, span_image_range_algebraMap]
   rfl
 
 include hbc in
@@ -261,7 +260,7 @@ theorem C1573.map_denom :
       denom (algebraMap R' K') (I.map (algebraMap R R')) (fun j => algebraMap K K' (g j)) := by
   rw [denom, denom, Ideal.map_mul]
   congr 1
-  show Ideal.mapHom (algebraMap R R') _ = _
+  change Ideal.mapHom (algebraMap R R') _ = _
   rw [map_prod]
   exact Finset.prod_congr rfl fun l _ => map_colonIdeal hbc g l
 
@@ -431,7 +430,7 @@ theorem C1573.exists_hom_projectiveSpace_of_isEffectiveCartierDivisor (π : Q �
   by_cases hll : l' = l
   · subst hll
     simp
-  · simp only [hll, if_false, map_mul]
+  · simp only [hll, ite_false, map_mul]
     have hOW : O' ⊓ W ≤ (O : Q.Opens) ⊓ W := inf_le_inf_right _ hO'O
     have key := congrArg (Q.presheaf.map (homOfLE hOW).op) (hf l')
     simp only [map_mul, σ, τ, presheaf_map_map, presheaf_map_appLE] at key
@@ -563,9 +562,9 @@ theorem C1573.exists_hom_projectiveSpace_of_isEffectiveCartierDivisor' (π : Q �
       (π ⁻¹ᵁ U).ι ≫ f = toProjectiveSpaceAtUniverse _ hg' := by
   have hW : (π ⁻¹ᵁ U) = ((centreSheaf U I g).comap π).support.compl := by
     ext y
-    show π y ∈ U ↔ y ∉ ((centreSheaf U I g).comap π).support
+    change π y ∈ U ↔ y ∉ ((centreSheaf U I g).comap π).support
     rw [Scheme.IdealSheafData.support_comap]
-    show π y ∈ U ↔ ¬ π y ∈ (centreSheaf U I g).support
+    change π y ∈ U ↔ ¬ π y ∈ (centreSheaf U I g).support
     rw [mem_support_centreSheaf_iff U I g hU hU' hIle hIU hg, not_not]
   have hg' : Ideal.span (Set.range fun j => (π ⁻¹ᵁ U).topIso.inv (π.app U (g j))) = ⊤ := by
     have : (Set.range fun j => (π ⁻¹ᵁ U).topIso.inv (π.app U (g j))) =

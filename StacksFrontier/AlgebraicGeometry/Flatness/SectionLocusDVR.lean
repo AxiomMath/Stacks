@@ -221,7 +221,7 @@ theorem isConnected_inter_preimage_bot_of_isConnected {X : Scheme.{u}} (f : X �
     · rintro ⟨hxW, hx⟩
       obtain ⟨w, hw⟩ : x ∈ Set.range ⇑Wo.ι := by rwa [hWrange]
       have hmem : w ∈ (Wo.ι ≫ f) ⁻¹' {(⟨⊥, inferInstance⟩ : PrimeSpectrum R)} := by
-        show (Wo.ι ≫ f) w = _
+        change (Wo.ι ≫ f) w = _
         rw [Scheme.Hom.comp_apply, hw]
         exact hx
       rw [← h1] at hmem

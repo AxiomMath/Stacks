@@ -183,7 +183,7 @@ public theorem exists_isCovering_tautologicallyEquivalent_openCover
         ⟨S.X i, Scheme.size_lt_of_isOpenImmersion (S.f i) T.2⟩
       f := fun i ↦ ⟨S.f i⟩ }
   have hE : IsZariskiCovering ⟨T, E⟩ := by
-    show S.presieve₀ ∈ _
+    change S.presieve₀ ∈ _
     rw [PreZeroHypercover.presieve₀_shrink]
     exact U.mem_pretopology
   obtain ⟨⟨T', V⟩, hV, hT, hcomb⟩ := B.covering_representative ⟨T, E⟩ hE
@@ -200,11 +200,11 @@ public theorem exists_isCovering_tautologicallyEquivalent_openCover
     refine ⟨⟨a, fun i ↦ ?_⟩, b, fun j ↦ ?_⟩
     · have hi : S.X i = (V.X (a i)).obj := congrArg ObjectProperty.FullSubcategory.obj (ha i)
       refine ⟨eqToIso hi, ?_⟩
-      show eqToHom hi ≫ (V.f (a i)).hom = S.f i
+      change eqToHom hi ≫ (V.f (a i)).hom = S.f i
       simpa [E, hi] using (congrArg InducedCategory.Hom.hom (hfa i)).symm
     · have hj : (V.X j).obj = S.X (b j) := congrArg ObjectProperty.FullSubcategory.obj (hb j)
       refine ⟨eqToIso hj, ?_⟩
-      show eqToHom hj ≫ S.f (b j) = (V.f j).hom
+      change eqToHom hj ≫ S.f (b j) = (V.f j).hom
       simpa [E, hj] using (congrArg InducedCategory.Hom.hom (hfb j)).symm
 
 end BigZariskiSite

@@ -370,13 +370,13 @@ theorem diagonalGenerator_spec (K : DerivedCategory X.Modules)
     obtain ⟨y, rfl⟩ := hsurj x
     have h1 : δ.inv ≫ (δ.hom ≫ Fm y ≫ δ.inv) ≫ ζ = Fm y ≫ δ.inv ≫ ζ := by
       rw [Category.assoc, Iso.inv_hom_id_assoc, Category.assoc]
-    show δ.hom ≫ Fm (hom (δ.inv ≫ (δ.hom ≫ Fm y ≫ δ.inv) ≫ ζ) ≫ e.hom) ≫ δ.inv =
+    change δ.hom ≫ Fm (hom (δ.inv ≫ (δ.hom ≫ Fm y ≫ δ.inv) ≫ ζ) ≫ e.hom) ≫ δ.inv =
       (δ.hom ≫ Fm y ≫ δ.inv) ≫ δ.hom ≫ Fm (hom (δ.inv ≫ ζ) ≫ e.hom) ≫ δ.inv
     rw [h1, hhom, Category.assoc, hFm_comp, Category.assoc, Category.assoc, Category.assoc,
       Iso.inv_hom_id_assoc]
   let ζ₁ : B ⟶ L := δ.hom ≫ hom.symm e.inv
   have hβ₁ : β ζ₁ = 𝟙 _ := by
-    show δ.hom ≫ Fm (hom (δ.inv ≫ δ.hom ≫ hom.symm e.inv) ≫ e.hom) ≫ δ.inv = 𝟙 _
+    change δ.hom ≫ Fm (hom (δ.inv ≫ δ.hom ≫ hom.symm e.inv) ≫ e.hom) ≫ δ.inv = 𝟙 _
     rw [Iso.inv_hom_id_assoc, Equiv.apply_symm_apply, Iso.inv_hom_id, hFm_id,
       Category.id_comp, Iso.hom_inv_id]
   exact CategoryTheory.exists_eq_comp_and_cancel_of_injective β hβinj hβcomp ζ₁ hβ₁

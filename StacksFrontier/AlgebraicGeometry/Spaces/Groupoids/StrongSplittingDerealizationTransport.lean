@@ -162,7 +162,7 @@ def Restriction.objectsCompInv : R.groupoid.objects ⟶ R'.groupoid.objects :=
 theorem Restriction.objectsCompHom_comp_objectsCompInv :
     Restriction.objectsCompHom E R R' ≫ Restriction.objectsCompInv E R R' =
       𝟙 R'.groupoid.objects := by
-  show (eqToHom R'.objects_eq ≫ E.hom ≫ eqToHom R.objects_eq.symm) ≫
+  change (eqToHom R'.objects_eq ≫ E.hom ≫ eqToHom R.objects_eq.symm) ≫
     eqToHom R.objects_eq ≫ E.inv ≫ eqToHom R'.objects_eq.symm = 𝟙 _
   simp
 
@@ -330,7 +330,7 @@ theorem OpenFiniteSubgroupoid.range_compIsoComposable_le
       P.arrows.preimage (Restriction.arrowsCompIso E R R').hom.hom := by
   intro T x hx
   obtain ⟨p, rfl⟩ := hx
-  show (Restriction.arrowsCompIso E R R').hom.hom.app T
+  change (Restriction.arrowsCompIso E R R').hom.hom.app T
       (R'.groupoid.toGroupoidInFunctors.compose T p.1.1.1 p.1.2.1 p.2) ∈ P.arrows.obj T
   exact OpenFiniteSubgroupoid.compIso_mem E R R' P T p.1.1.1 p.1.2.1 p.1.1.2 p.1.2.2 p.2
 

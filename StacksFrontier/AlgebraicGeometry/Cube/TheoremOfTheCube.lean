@@ -164,7 +164,7 @@ theorem SpecMap_residueField_apply {R : Type u} [CommRing R] (𝔭 : PrimeSpectr
   rw [Spec.map_apply]
   refine PrimeSpectrum.ext ?_
   have hp : p.asIdeal = ⊥ := @Ideal.eq_bot_of_prime _ _ p.asIdeal p.isPrime
-  show Ideal.comap (algebraMap R 𝔭.asIdeal.ResidueField) p.asIdeal = 𝔭.asIdeal
+  change Ideal.comap (algebraMap R 𝔭.asIdeal.ResidueField) p.asIdeal = 𝔭.asIdeal
   rw [hp, ← RingHom.ker_eq_comap_bot, Ideal.ker_algebraMap_residueField]
 
 end BaseChange
@@ -240,7 +240,7 @@ theorem mem_trivialLocus_of_basicOpen [IsOpenImmersion ψ] (𝔭 : PrimeSpectrum
   have hrange : Set.range b ⊆ Set.range ((qR f g R) ⁻¹ᵁ D).ι := by
     rintro _ ⟨p, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (b ≫ qR f g R) p ∈ D
+    change (b ≫ qR f g R) p ∈ D
     have hb : b ≫ qR f g R = pullback.snd _ _ ≫ D.ι := by
       simp only [b, baseMap, pullback.map, pullback.lift_snd]
     rw [hb, Scheme.Hom.comp_apply]
@@ -325,7 +325,7 @@ theorem residueSpec_comp_eq [IsOpenImmersion ψ] (z₀ : Spec (.of k) ⟶ Z) (h0
     rw [← Spec.map_comp, ← Spec.map_comp]
     refine congrArg Spec.map ?_
     ext a
-    show algebraMap R 𝔭.asIdeal.ResidueField a =
+    change algebraMap R 𝔭.asIdeal.ResidueField a =
       algebraMap R 𝔭.asIdeal.ResidueField (algebraMap k R (φ₀ a))
     rw [← sub_eq_zero, ← map_sub, ← RingHom.mem_ker, Ideal.ker_algebraMap_residueField, ← hker,
       RingHom.mem_ker, map_sub, sub_eq_zero]

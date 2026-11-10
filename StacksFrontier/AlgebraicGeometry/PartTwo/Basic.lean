@@ -53,7 +53,8 @@ Three ingredients, two of which are bookkeeping and one of which was genuinely o
 * `Stacks.Tag01R3PartTwo.hy_of_names`: the engine's `hy`, from the two naming hypotheses.
 * `Stacks.Tag01R3PartTwo.conormalAffineSectionsIsoCotangent_toCotangent`: **the part (2) generator
   formula at the coborder factorization with every hypothesis discharged.** Only the presentation
-  data `(I, e, he)` of the tagged statement and a section of the coborder ideal sheaf named by `a : I` remain.
+  data `(I, e, he)` of the tagged statement and a section of the coborder ideal sheaf named by
+  `a : I` remain.
 
 ## Universe situation
 
@@ -268,7 +269,8 @@ theorem hy_of_names {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
   exact congrArg V.topIso.inv.hom hx₀.symm
 
 /-- **The part (2) generator formula at the coborder factorization, with every hypothesis of the
-engine discharged.** For the presentation data of the tagged statement over an affine open `V` of the ambient
+engine discharged.** For the presentation data of the tagged statement over an affine open `V` of
+the ambient
 scheme and a section `y₀` of the coborder ideal sheaf over `i.coborderRange.ι ⁻¹ᵁ V` named by
 `a : I`, the identification
 `Stacks.Conormal.CotangentAppIso.conormalAffineSectionsIsoCotangent` carries the quotient

@@ -186,7 +186,7 @@ private theorem smul_eq_zero_of_mem_map_basicOpen [IsAffine X] (F : X.Modules)
   have hjz : j • z = (0 : Γ(F, X.basicOpen g)) :=
     (IsUnit.smul_eq_zero (IsLocalization.map_units Γ(X, X.basicOpen g) u)).mp
       (by rwa [IsScalarTower.algebraMap_smul])
-  show (algebraMap Γ(X, ⊤) Γ(X, X.basicOpen g)) j • z = 0
+  change (algebraMap Γ(X, ⊤) Γ(X, X.basicOpen g)) j • z = 0
   rwa [IsScalarTower.algebraMap_smul]
 
 /-- The kernel of the comorphism of the closed immersion cut out by `J` annihilates a
@@ -220,7 +220,7 @@ private theorem smul_eq_zero_of_app_eq_zero [IsAffine X] (F : X.Modules) [F.IsQu
     rw [F.map_smul (homOfLE hgU)]
     exact smul_eq_zero_of_mem_map_basicOpen F J hJ g _ hmem _
   rw [map_zero]
-  show (TopCat.Presheaf.germ F.presheaf U x hx).hom (a • m) = 0
+  change (TopCat.Presheaf.germ F.presheaf U x hx).hom (a • m) = 0
   rw [← TopCat.Presheaf.germ_res_apply F.presheaf (homOfLE hgU) x hxg (a • m), hres, map_zero]
 
 /-- The image in `X` of the fibre over `s` of a composite `Z ⟶ X ⟶ S` is the part of the fibre

@@ -133,7 +133,7 @@ theorem memSubspace_iff {X Y T : AlgebraicSpaces B S hS} {f : X ⟶ Y}
   constructor
   · exact fun hm => ⟨_, (comp_ι_eq_lift_iff p _ k w h).1 (Subfunctor.lift_ι _ hm)⟩
   · rintro ⟨l, hl⟩
-    show Subfunctor.range (pullback.lift k w h) ≤ p.subspace
+    change Subfunctor.range (pullback.lift k w h) ≤ p.subspace
     rw [← (comp_ι_eq_lift_iff p l k w h).2 hl]
     rintro V _ ⟨x, rfl⟩
     exact (l.app V x).2
@@ -248,7 +248,7 @@ theorem memSubspace_preimage_iff {X Y T : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (h' : k' ≫ p.toBase.hom = w' ≫ f.hom)
     (hpt : pullback.lift k w h ≫ φ = pullback.lift k' w' h') :
     MemSubspace B S hS f q k w h ↔ MemSubspace B S hS f p k' w' h' := by
-  show Subfunctor.range (pullback.lift k w h) ≤ q.subspace ↔
+  change Subfunctor.range (pullback.lift k w h) ≤ q.subspace ↔
     Subfunctor.range (pullback.lift k' w' h') ≤ p.subspace
   rw [hq, ← Subfunctor.image_le_iff, ← Subfunctor.range_comp, hpt]
 

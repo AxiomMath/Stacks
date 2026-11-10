@@ -79,12 +79,12 @@ theorem inheritedTopology_id {C : Type u₁} [Category.{v₁} C] (J : Grothendie
     ext X R
     exact ⟨fun hR => by simpa using hR.2,
       fun hR => ⟨fun {Y} g _ => isFiberedInGroupoids_id.isStronglyCartesian g, by simpa using hR⟩⟩
-  show (inheritedPrecoverage (𝟭 C) J.toPrecoverage).toGrothendieck = J
+  change (inheritedPrecoverage (𝟭 C) J.toPrecoverage).toGrothendieck = J
   rw [hidPre]
   refine le_antisymm (GrothendieckTopology.toGrothendieck_toPrecoverage_le J) ?_
   intro X R hR
   have hR' : (R : Presieve X) ∈ J.toPrecoverage X := by
-    show Sieve.generate (R : Presieve X) ∈ J X
+    change Sieve.generate (R : Presieve X) ∈ J X
     simpa using hR
   simpa using Precoverage.generate_mem_toGrothendieck (J := J.toPrecoverage) hR'
 
@@ -189,7 +189,7 @@ theorem isFiberedInGroupoids_toAffine (hp : p.IsFiberedInGroupoids) :
     obtain ⟨χ, ⟨hχ, hχfac⟩, huniq⟩ := hp.unique_lift (i.map φ) (i.map ψ) (j.map f) hbase
     refine ⟨i.preimage χ, ⟨?_, ?_⟩, fun χ'' hχ'' => ?_⟩
     · apply j.map_injective
-      show p.map (i.map (i.preimage χ)) = j.map f
+      change p.map (i.map (i.preimage χ)) = j.map f
       rwa [i.map_preimage]
     · apply i.map_injective
       rwa [Functor.map_comp, i.map_preimage]

@@ -124,7 +124,7 @@ lemma homology_map_mapDerivedCategorySingleFunctor_hom_app (P : A) :
       Iso.hom_inv_id_app_assoc]
   rw [hκ, Stacks.TopSingleProjection.singleFunctorCompHomologyFunctorIso_hom_app (F.obj P) 0,
     Stacks.TopSingleProjection.singleFunctorCompHomologyFunctorIso_hom_app P 0]
-  show _ = (F.mapDerivedCategoryHomologyIso 0).hom.app (DerivedCategory.Q.obj
+  change _ = (F.mapDerivedCategoryHomologyIso 0).hom.app (DerivedCategory.Q.obj
       ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj P)) ≫
     F.map ((DerivedCategory.homologyFunctorFactors A 0).hom.app
       ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj P) ≫

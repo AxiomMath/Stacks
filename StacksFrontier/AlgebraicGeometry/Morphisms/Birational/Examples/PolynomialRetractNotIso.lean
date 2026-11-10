@@ -85,7 +85,7 @@ theorem not_isIso_restrict_specMap_inclusionMap
     Localization.localRingHom q p.asIdeal (inclusionMap k) hIncl
   have hRetr : p.asIdeal = q.comap (retractionMap k) := by
     ext b
-    show (MvPolynomial.eval (fun _ : Unit => α) (retractionMap k b) = 0) ↔
+    change (MvPolynomial.eval (fun _ : Unit => α) (retractionMap k b) = 0) ↔
       MvPolynomial.eval (fun _ : Unit => α)
         (retractionMap k (inclusionMap k (retractionMap k b))) = 0
     rw [← RingHom.comp_apply (retractionMap k), retractionMap_comp_inclusionMap,
@@ -95,7 +95,7 @@ theorem not_isIso_restrict_specMap_inclusionMap
   have hℓsurj : Function.Surjective ℓ := (stalkLocalizationMap_bijective φ p hstalk).2
   have hcomp : r.comp ℓ = RingHom.id _ := by
     refine IsLocalization.ringHom_ext q.primeCompl (RingHom.ext fun a ↦ ?_)
-    show r (ℓ (algebraMap (baseRing k) (Localization.AtPrime q) a)) =
+    change r (ℓ (algebraMap (baseRing k) (Localization.AtPrime q) a)) =
       algebraMap (baseRing k) (Localization.AtPrime q) a
     simp only [ℓ, r, Localization.localRingHom_to_map]
     rw [← RingHom.comp_apply (retractionMap k), retractionMap_comp_inclusionMap,
@@ -107,7 +107,7 @@ theorem not_isIso_restrict_specMap_inclusionMap
       (Localization.AtPrime p.asIdeal)) J ≤ RingHom.ker r := by
     rw [Ideal.map_le_iff_le_comap]
     intro b hb
-    show r (algebraMap (extensionRing k) (Localization.AtPrime p.asIdeal) b) = 0
+    change r (algebraMap (extensionRing k) (Localization.AtPrime p.asIdeal) b) = 0
     have hb0 : retractionMap k b = 0 := by
       simpa [J, projectionKernel, RingHom.mem_ker] using hb
     simp [r, Localization.localRingHom_to_map, hb0]
@@ -149,7 +149,7 @@ theorem not_isIso_restrict_specMap_retractionMap
   have hmap_le_ker : projectionKernel k ≤ RingHom.ker
       (algebraMap (extensionRing k) (Localization.AtPrime p.asIdeal)) := by
     refine fun b hb ↦ RingHom.mem_ker.mpr (hφ_inj ?_)
-    show (Localization.localRingHom p.asIdeal q.asIdeal (retractionMap k) hIJ)
+    change (Localization.localRingHom p.asIdeal q.asIdeal (retractionMap k) hIJ)
         (algebraMap (extensionRing k) (Localization.AtPrime p.asIdeal) b) = _
     simp only [Localization.localRingHom_to_map, RingHom.mem_ker.mp hb, map_zero]
   exact hJ <| (Ideal.map_eq_bot_iff_le_ker

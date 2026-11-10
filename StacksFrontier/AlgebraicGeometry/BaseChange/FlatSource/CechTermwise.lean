@@ -52,7 +52,7 @@ theorem isIso_app_pi_of_preserves {C D : Type*} [Category* C] [Category* D] {P Q
   exact IsIso.of_isIso_comp_right (τ.app (∏ᶜ A)) (piComparison Q A)
 
 variable {X X' S S' : Scheme.{u}} {g' : X' ⟶ X} {f' : X' ⟶ S'} {f : X ⟶ S} {g : S' ⟶ S}
-  (hsq : IsPullback g' f' f g) (T : X.AffineOpenCover.{u, u}) [Fintype T.I₀]
+  (hsq : IsPullback g' f' f g) (T : X.AffineOpenCover.{u, u}) [Finite T.I₀]
   [IsAffineHom (pullback.diagonal (terminal.from X))]
   [IsAffineHom (pullback.diagonal (terminal.from S))]
   (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory)
@@ -82,7 +82,7 @@ theorem isIso_baseChangeNatTrans_app_cechComplex_X (p : ℕ) :
     (ι := Fin (p + 1) → T.I₀) (fun x => ((CechPushforwardComplex.absoluteCechPresheaf X).obj F).obj
       (op (inter (fun i ↦ (Over.mk (T.f i) : Over X)) x))) fun x => ?_
   set A := inter (fun i ↦ (Over.mk (T.f i) : Over X)) x
-  show IsIso ((ModuleBaseChange.baseChangeNatTrans hsq.w).app
+  change IsIso ((ModuleBaseChange.baseChangeNatTrans hsq.w).app
     ((Scheme.Modules.pushforward A.hom).obj ((Scheme.Modules.pullback A.hom).obj F.obj)))
   obtain ⟨_, _, _⟩ := inter_hom_facts (f := f) T F x
   exact ModuleBaseChange.isIso_baseChangeNatTrans_app_pushforward hsq
@@ -128,7 +128,7 @@ theorem rightAcyclic_pullback_cechComplex_X (p : ℕ) :
     (isLimitFanMkObjOfIsLimit (Scheme.Modules.pullback g') _ _
       (isLimitFan (fun i ↦ (Over.mk (T.f i) : Over X))
         ((CechPushforwardComplex.absoluteCechPresheaf X).obj F) p)) fun x => ?_
-  show (Scheme.Modules.pushforward f').rightAcyclic ((Scheme.Modules.pullback g').obj
+  change (Scheme.Modules.pushforward f').rightAcyclic ((Scheme.Modules.pullback g').obj
     ((Scheme.Modules.pushforward (inter (fun i ↦ (Over.mk (T.f i) : Over X)) x).hom).obj
       ((Scheme.Modules.pullback (inter (fun i ↦ (Over.mk (T.f i) : Over X)) x).hom).obj F.obj)))
   obtain ⟨_, _, _⟩ := inter_hom_facts (f := f) T F x

@@ -100,7 +100,7 @@ private theorem composableToPullback_app_fst
     {F G : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (s t : G ⟶ F)
     (T : (BigFppfOver C S hS)ᵒᵖ) (p : (Deformation.composableArrows F G s t).obj T) :
     (pullback.fst s t).app T ((composableToPullback s t).app T p) = p.1.1 := by
-  show (composableToPullback s t ≫ pullback.fst s t).app T p = p.1.1
+  change (composableToPullback s t ≫ pullback.fst s t).app T p = p.1.1
   rw [composableToPullback, pullback.lift_fst]
   rfl
 
@@ -110,7 +110,7 @@ private theorem composableToPullback_app_snd
     {F G : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (s t : G ⟶ F)
     (T : (BigFppfOver C S hS)ᵒᵖ) (p : (Deformation.composableArrows F G s t).obj T) :
     (pullback.snd s t).app T ((composableToPullback s t).app T p) = p.1.2 := by
-  show (composableToPullback s t ≫ pullback.snd s t).app T p = p.1.2
+  change (composableToPullback s t ≫ pullback.snd s t).app T p = p.1.2
   rw [composableToPullback, pullback.lift_snd]
   rfl
 
@@ -230,7 +230,7 @@ private theorem rel_of_sectionRel (j : PreRelation (Over.mk qR.hom) (Over.mk qU.
     j.Rel b ⟨yonedaEquiv.symm y, hy⟩ ⟨yonedaEquiv.symm x, hx⟩ := by
   obtain ⟨a, hsa, hta⟩ := h
   refine ⟨⟨yonedaEquiv.symm a, ?_⟩, ?_, ?_⟩
-  · show yonedaEquiv.symm a ≫ qR.hom = b
+  · change yonedaEquiv.symm a ≫ qR.hom = b
     rw [← yonedaEquiv_symm_app_comp j.source T a, hsa, hx]
   · rw [yonedaEquiv_symm_naturality_right T j.target.left a, hta]
   · rw [yonedaEquiv_symm_naturality_right T j.source.left a, hsa]
@@ -349,7 +349,7 @@ def secondArrow (j : PreRelation (Over.mk qR.hom) (Over.mk qU.hom)) :
 theorem firstArrow_comp_source (j : PreRelation (Over.mk qR.hom) (Over.mk qU.hom)) :
     firstArrow j ≫ j.source = secondArrow j ≫ j.target := by
   apply CategoryTheory.Over.OverMorphism.ext
-  show pullback.fst j.source.left j.target.left ≫ j.source.left =
+  change pullback.fst j.source.left j.target.left ≫ j.source.left =
     pullback.snd j.source.left j.target.left ≫ j.target.left
   exact pullback.condition
 
@@ -481,16 +481,16 @@ theorem groupoidOfIsEquivalenceRelation_extendsRelation
   objects_eq := rfl
   arrows_eq := rfl
   objectsToBase_eq := by
-    show 𝟙 U ≫ qU = qU
+    change 𝟙 U ≫ qU = qU
     simp
   arrowsToBase_eq := by
-    show 𝟙 R ≫ qR = qR
+    change 𝟙 R ≫ qR = qR
     simp
   source_eq := by
-    show 𝟙 R ≫ ObjectProperty.homMk j.source.left ≫ 𝟙 U = ObjectProperty.homMk j.source.left
+    change 𝟙 R ≫ ObjectProperty.homMk j.source.left ≫ 𝟙 U = ObjectProperty.homMk j.source.left
     simp
   target_eq := by
-    show 𝟙 R ≫ ObjectProperty.homMk j.target.left ≫ 𝟙 U = ObjectProperty.homMk j.target.left
+    change 𝟙 R ≫ ObjectProperty.homMk j.target.left ≫ 𝟙 U = ObjectProperty.homMk j.target.left
     simp
 
 /-- A groupoid in algebraic spaces over `B` whose object and arrow spaces are `U` and `R` over

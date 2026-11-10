@@ -413,7 +413,7 @@ theorem natCompat_rhs (n : ℤ) :
 theorem natCompat_succ {n : ℤ} (h : NatCompat k e n) : NatCompat k e (n + 1) := by
   refine (Iso.cancel_iso_hom_left
     ((pullbackFunctor (ringedSpaceHom k)).mapIso (succIso L n)) _ _).mp ?_
-  show (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _ =
+  change (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _ =
     (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫ _
   rw [natCompat_lhs, natCompat_rhs, h]
 

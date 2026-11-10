@@ -151,7 +151,7 @@ lemma stalkPullbackSheafIso_inv_germ {Y Z : TopCat.{u}} (g : Z ⟶ Y)
   have h₂ := TopCat.Presheaf.stalkFunctor_map_germ_apply W z hzW η t
   have h₃ := TopCat.Presheaf.stalkFunctor_map_germ_apply W z hzW e.inv
     (η.app (op W) t)
-  show ((TopCat.Presheaf.stalkFunctor (Type u) z).map e.inv)
+  change ((TopCat.Presheaf.stalkFunctor (Type u) z).map e.inv)
       (((TopCat.Presheaf.stalkFunctor (Type u) z).map η)
         ((TopCat.Presheaf.stalkPullbackIso (Type u) g F.presheaf z).hom
           (F.presheaf.germ V (g z) hz s))) = H.presheaf.germ W z hzW t'

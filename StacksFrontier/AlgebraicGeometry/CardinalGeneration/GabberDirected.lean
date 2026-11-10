@@ -294,12 +294,12 @@ theorem epi_joinEpi (G H : Subobject F) : Epi (joinEpi G H) :=
 /-- A subobject lies below its join with another one. -/
 theorem le_joinSubobject_left (G H : Subobject F) : G ≤ joinSubobject G H :=
   Subobject.le_mk_of_comm (coprod.inl ≫ Abelian.factorThruImage (joinDesc G H))
-    (by simp [joinDesc, coprod.inl_desc])
+    (by simp [joinDesc])
 
 /-- A subobject lies below the join of another one with it. -/
 theorem le_joinSubobject_right (G H : Subobject F) : H ≤ joinSubobject G H :=
   Subobject.le_mk_of_comm (coprod.inr ≫ Abelian.factorThruImage (joinDesc G H))
-    (by simp [joinDesc, coprod.inr_desc])
+    (by simp [joinDesc])
 
 /-- The direct sum of two quasi-coherent subobjects is quasi-coherent. -/
 theorem isQuasicoherent_coprod (M N : X.Modules) (hM : M.IsQuasicoherent)

@@ -103,7 +103,7 @@ public lemma exists_flat_model_of_small_limit {J : Type u} [Category.{u} J] [IsC
   obtain ⟨j, a, ha⟩ :=
     exists_flat_baseChange_of_limitBaseChange D c i Z (Over.mk (𝟙 (D.obj i))) t hc
   have hZ' : FinitePresentation ((Over.pullback (D.map a)).obj Z).hom := by
-    show FinitePresentation (pullback.snd Z.hom (D.map a))
+    change FinitePresentation (pullback.snd Z.hom (D.map a))
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   refine ⟨j, (Over.pullback (D.map a)).obj Z, hZ',
     (flat_overPullback_terminal_iff _ Z).mp ha, ⟨?_⟩⟩
@@ -135,7 +135,7 @@ public lemma exists_flat_model_of_affine_dominant_limit {I : Type v} [Preorder I
   have (j : Jᵒᵖ) : IsNoetherian (A.obj j) :=
     inferInstanceAs (IsNoetherian (D.obj (E.obj j)).left)
   have {j k : Jᵒᵖ} (a : j ⟶ k) : IsAffineHom (A.map a) := by
-    show IsAffineHom (D.map (E.map a)).left
+    change IsAffineHom (D.map (E.map a)).left
     have : IsAffineHom ((D.map (E.map a)).left ≫ (D.obj (E.obj k)).hom) := by
       rw [(D.map (E.map a)).w]
       infer_instance
@@ -179,7 +179,7 @@ public lemma exists_flat_model_of_noetherian_limit {I : Type v} [Preorder I] [No
     inferInstanceAs (IsAffineHom (D.map (E.obj j).hom))
   have : IsAffineHom c'.pt.hom := EventualLimit.isAffineHom_π_app D c hc (op i)
   have (j : (Set.Ici i)ᵒᵖ) : QuasiCompact (c'.π.app j).left := by
-    show QuasiCompact (c.π.app (E.obj j).left)
+    change QuasiCompact (c.π.app (E.obj j).left)
     have := EventualLimit.isAffineHom_π_app D c hc (E.obj j).left
     infer_instance
   have (j : (Set.Ici i)ᵒᵖ) : IsSchemeTheoreticallyDominant (c'.π.app j).left :=

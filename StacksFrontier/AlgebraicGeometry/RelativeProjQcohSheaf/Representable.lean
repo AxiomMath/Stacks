@@ -125,8 +125,9 @@ and the smallness of its values is not established *in this file* — `F_d(T)` r
 invertible module and so lives in `Type (u + 1)`, and the hypothesis `model` is already the
 weakest form of smallness there is, an `Equiv` with a `Type u` set, so no `ULift` can remove it.
 It is established downstream, unconditionally, as `...RelativeProjQcohSheaf.Fd.small` of
-`StacksFrontier/AlgebraicGeometry/RelativeProjQcohSheaf/QuadrupleSmall.lean`. Hence `c`, `hc`, `hcover` and the pair `G`,
-`model` all remain hypotheses here. What is no longer carried is the functoriality of `F_d`.
+`StacksFrontier/AlgebraicGeometry/RelativeProjQcohSheaf/QuadrupleSmall.lean`. Hence `c`, `hc`,
+`hcover` and the pair `G`, `model` all remain hypotheses here. What is no longer carried is the
+functoriality of `F_d`.
 
 Three things about those hypotheses *are* now settled, in
 `StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.SmallModel`, and they are what to read

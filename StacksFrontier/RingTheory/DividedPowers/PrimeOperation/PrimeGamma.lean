@@ -26,7 +26,7 @@ open Finset
 
 namespace DividedPowers
 
-private lemma primeGamma_factorial_mul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_factorial_mul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p) :
     ∀ n (x : I), (n.factorial : A) * primeGamma p hp hA δ n x = (x : A) ^ n := by
@@ -79,7 +79,7 @@ private lemma primeGamma_factorial_mul {A : Type*} [CommRing A] {I : Ideal A} (p
                       rw [← pow_add]
                       congr 1
 
-private lemma primeGamma_eq_inv_factorial {A : Type*} [CommRing A] {I : Ideal A}
+lemma primeGamma_eq_inv_factorial {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p)
     {n : ℕ} (hn : n < p) (x : I) :
@@ -101,7 +101,7 @@ private lemma factorialInverse_mul_factorial {A : Type*} [CommRing A] (p : ℕ)
   rw [dite_eq_left hn]
   simp
 
-private lemma factorialInverse_mul_choose {A : Type*} [CommRing A] (p : ℕ)
+lemma factorialInverse_mul_choose {A : Type*} [CommRing A] (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     {n i : ℕ} (hn : n < p) (hi : i ≤ n) :
     factorialInverse p hp hA n * (n.choose i : A) =
@@ -144,7 +144,7 @@ private lemma factorialInverse_mul_choose {A : Type*} [CommRing A] (p : ℕ)
                   (factorialInverse p hp hA i * factorialInverse p hp hA (n - i)) := hcoeff
             _ = _ := by rw [← hcast]
 
-private lemma primeGamma_eq_factorialInverse {A : Type*} [CommRing A] {I : Ideal A}
+lemma primeGamma_eq_factorialInverse {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p)
     {n : ℕ} (hn : n < p) (x : I) :
@@ -152,7 +152,7 @@ private lemma primeGamma_eq_factorialInverse {A : Type*} [CommRing A] {I : Ideal
   simpa [factorialInverse, hn] using
     (primeGamma_eq_inv_factorial p hp hA δ factorial_mul hn x)
 
-private lemma primeGamma_add_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
+lemma primeGamma_add_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p)
     {n : ℕ} (hn : n < p) (x y : I) :
@@ -161,7 +161,7 @@ private lemma primeGamma_add_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
         primeGamma p hp hA δ ij.1 x * primeGamma p hp hA δ ij.2 y := by
   rw [primeGamma_eq_factorialInverse p hp hA δ factorial_mul hn (x + y)]
   rw [Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
-  show factorialInverse p hp hA n * ((x : A) + (y : A)) ^ n = _
+  change factorialInverse p hp hA n * ((x : A) + (y : A)) ^ n = _
   rw [add_pow, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro i hi
@@ -181,7 +181,7 @@ private lemma primeGamma_add_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
     _ = (factorialInverse p hp hA i * (x : A) ^ i) *
           (factorialInverse p hp hA (n - i) * (y : A) ^ (n - i)) := by ring
 
-private lemma primeGamma_mul_dpow_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
+lemma primeGamma_mul_dpow_of_lt_prime {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p)
     {m n : ℕ} (hmn : m + n < p) (x : I) :
@@ -208,7 +208,7 @@ private lemma primeGamma_mul_dpow_of_lt_prime {A : Type*} [CommRing A] {I : Idea
           rw [← hcoef']
           ring
 
-private lemma primeGamma_mul_dpow {A : Type*} [CommRing A] {I : Ideal A}
+lemma primeGamma_mul_dpow {A : Type*} [CommRing A] {I : Ideal A}
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p) :
     ∀ m n (x : I), primeGamma p hp hA δ m x * primeGamma p hp hA δ n x =
@@ -352,7 +352,7 @@ private lemma primeGamma_mul_dpow {A : Type*} [CommRing A] {I : Ideal A}
                 ((x : A) ^ t * primeGamma p hp hA δ (a + b + 1) (δ x)) := by ring
           _ = _ := by rw [hcoef]; ring
 
-private lemma primeGamma_smul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_smul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (smul : ∀ (a : A) (x : I), δ (a • x) = a ^ p • δ x) :
     ∀ (n : ℕ) (a : A) (x : I),
@@ -376,7 +376,7 @@ private lemma primeGamma_smul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
               rw [smul]
               dsimp [N, m, r] at hrec ⊢
               rw [hrec]
-              show
+              change
                 (↑(hA (digitCoefficient p ((k + 2) / p) ((k + 2) % p))
                     (digitCoefficient_not_dvd hp (Nat.mod_lt _ hp.pos))).unit⁻¹) *
                     (a * (x : A)) ^ ((k + 2) % p) *
@@ -402,7 +402,7 @@ private lemma primeGamma_smul {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
                 _ = c * (a ^ (k + 2) * ((x : A) ^ ((k + 2) % p) * z)) := by rw [hpow]
                 _ = a ^ (k + 1 + 1) * (c * (x : A) ^ ((k + 2) % p) * z) := by ring
 
-private lemma primeGamma_mem {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_mem {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I) :
     ∀ (n : ℕ), n ≠ 0 → ∀ x : I, primeGamma p hp hA δ n x ∈ I := by
   intro n
@@ -426,7 +426,7 @@ private lemma primeGamma_mem {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
               let c : A := ↑(hA (digitCoefficient p m r)
                 (digitCoefficient_not_dvd hp (Nat.mod_lt _ hp.pos))).unit⁻¹
               let z : A := primeGamma p hp hA δ m (δ x)
-              show c * (x : A) ^ r * z ∈ I
+              change c * (x : A) ^ r * z ∈ I
               by_cases hr : r = 0
               · have hmne : m ≠ 0 := by
                   intro hm0
@@ -444,7 +444,7 @@ private lemma primeGamma_mem {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
                 simpa [mul_assoc, mul_comm, mul_left_comm] using
                   I.mul_mem_left (z * c) hxpow
 
-private lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (factorial_mul : ∀ x : I, (p.factorial : A) * (δ x : A) = (x : A) ^ p)
     (smul : ∀ (a : A) (x : I), δ (a • x) = a ^ p • δ x) :
@@ -469,7 +469,7 @@ private lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : 
                 apply Subtype.ext
                 simp [primeGamma]
               rw [hsub]
-              show (δ x : A) = (Nat.uniformBell p 1 : A) *
+              change (δ x : A) = (Nat.uniformBell p 1 : A) *
                 primeGamma p hp hA δ (p * 1) x
               simp [hbell, hpval]
           | succ k =>
@@ -517,7 +517,7 @@ private lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : 
                       primeGamma_mem p hp hA δ N (by omega) x⟩ : I) =
                       (d * (x : A) ^ (r - 1)) • x := by
                   apply Subtype.ext
-                  show primeGamma p hp hA δ N x =
+                  change primeGamma p hp hA δ N x =
                     (d * (x : A) ^ (r - 1)) * (x : A)
                   calc
                     _ = d * (x : A) ^ r := hsmall x
@@ -528,7 +528,7 @@ private lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : 
                     _ = _ := by ring
                 rw [harg, smul]
                 simp only [Submodule.coe_smul, smul_eq_mul]
-                show (d * (x : A) ^ (r - 1)) ^ p * (δ x : A) = _
+                change (d * (x : A) ^ (r - 1)) ^ p * (δ x : A) = _
                 have hpow : (d * (x : A) ^ (r - 1)) ^ p * (δ x : A) =
                     d ^ p * (p.factorial : A) ^ (r - 1) * (δ x : A) ^ r := by
                   have hdpow : (δ x : A) ^ r = (δ x : A) ^ (r - 1) * (δ x : A) := by
@@ -569,7 +569,7 @@ private lemma primeGamma_delta_comp {A : Type*} [CommRing A] {I : Ideal A} (p : 
                   rw [Submodule.coe_smul, smul_eq_mul]
                   simpa [d, y] using hrec
                 rw [harg, smul]
-                show (d * (x : A) ^ r) ^ p * (δ y : A) = _
+                change (d * (x : A) ^ r) ^ p * (δ y : A) = _
                 rw [show (δ y : A) =
                   (Nat.uniformBell p m : A) * primeGamma p hp hA δ (p * m) (δ x) by
                     exact hposm]

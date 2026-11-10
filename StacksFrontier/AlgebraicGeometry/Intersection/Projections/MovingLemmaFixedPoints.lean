@@ -52,7 +52,7 @@ variable {k : Type u} [Field k] {M N : Type u} [AddCommGroup M] [Module k M] [Ad
 public theorem mapOfLinearEquiv_hom_comp_toSpec (e : M ≃ₗ[k] N) :
     (mapOfLinearEquiv e).hom ≫ projectiveSpaceOfModuleToSpec k M =
       projectiveSpaceOfModuleToSpec k N := by
-  show Proj.map _ _ ≫ _ = _
+  change Proj.map _ _ ≫ _ = _
   rw [projectiveSpaceOfModuleToSpec, projectiveSpaceOfModuleToSpec, ← Category.assoc,
     Proj.map_toSpecZero, Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 3
@@ -64,7 +64,7 @@ public theorem mapOfLinearEquiv_hom_linearFunctionalPoint (e : M ≃ₗ[k] N)
     (mapOfLinearEquiv e).hom.base (linearFunctionalPoint k N μ hμ) =
       linearFunctionalPoint k M (μ ∘ₗ e.toLinearMap) hμe := by
   refine ProjectiveSpectrum.ext (HomogeneousIdeal.ext (Ideal.ext fun z => ?_))
-  show SymPow.symAlgMap e.toLinearMap z ∈ (linearFunctionalPoint k N μ hμ).asHomogeneousIdeal ↔
+  change SymPow.symAlgMap e.toLinearMap z ∈ (linearFunctionalPoint k N μ hμ).asHomogeneousIdeal ↔
     z ∈ (linearFunctionalPoint k M (μ ∘ₗ e.toLinearMap) hμe).asHomogeneousIdeal
   rw [linearFunctionalPoint_mem, linearFunctionalPoint_mem, SymPow.symAlgMap_comp_apply]
 
@@ -258,7 +258,7 @@ public theorem exists_movingFamily_of_subvariety_fixed
       refine Set.image_congr fun z _ => ?_
       rw [hhψ, ← Scheme.Hom.comp_apply, hψline]
       rfl
-    show closure ((lineProductLine k V W).base '' (h '' (Cfam' : Set _))) = Set.univ
+    change closure ((lineProductLine k V W).base '' (h '' (Cfam' : Set _))) = Set.univ
     rw [himg, ← Homeomorph.image_closure, h1,
       Set.image_univ_of_surjective (Homeomorph.surjective _)]
   · -- clause (2)
@@ -277,7 +277,7 @@ public theorem exists_movingFamily_of_subvariety_fixed
       rw [hconst', Set.image_inter_preimage]
     have hconstW : lineProductConstant k V W X = h '' lineProductConstant k V W' X := by
       rw [hconst', Set.image_preimage_eq _ h.surjective]
-    show topologicalKrullDim ↥(h '' (Cfam' : Set _) ∩ lineProductConstant k V W X) + _ ≤
+    change topologicalKrullDim ↥(h '' (Cfam' : Set _) ∩ lineProductConstant k V W X) + _ ≤
       topologicalKrullDim ↥(h '' (Cfam' : Set _)) + _
     rw [hinter, topologicalKrullDim_image_homeomorph, topologicalKrullDim_image_homeomorph,
       hconstW, topologicalKrullDim_image_homeomorph,
@@ -290,7 +290,7 @@ public theorem exists_movingFamily_of_subvariety_fixed
         lineProductFibre k V W' _ (linearFunctionalPoint_isClosed k W' μ₁ hμ₁) (Cfam' : Set _) := by
       rw [lineProductFibre, lineProductFibre, ← hsec μ₁ hμ₁ ν₁ hν₁ he₁, Scheme.Hom.comp_base,
         TopCat.coe_comp, Set.preimage_comp, hpre]
-    show topologicalKrullDim ↥(lineProductFibre k V W _ _ (h '' (Cfam' : Set _)) ∩ T i) + _ ≤
+    change topologicalKrullDim ↥(lineProductFibre k V W _ _ (h '' (Cfam' : Set _)) ∩ T i) + _ ≤
       topologicalKrullDim ↥(lineProductFibre k V W _ _ (h '' (Cfam' : Set _))) + _
     rw [hfib]
     exact h4 i

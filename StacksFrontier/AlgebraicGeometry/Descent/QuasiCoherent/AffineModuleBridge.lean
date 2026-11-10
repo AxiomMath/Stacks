@@ -406,8 +406,7 @@ theorem sourceModelInvAdd_sourceModelElt (n : (ModuleCat.restrictModule R B N : 
 /-- `Stacks.Descent.sourceModelInvAdd` is a right inverse of `Stacks.Descent.sourceModelHom`. -/
 theorem sourceModelHom_sourceModelInvAdd (z : ModuleCat.restrictModule R B N ⊗[R] B) :
     sourceModelHom R B N (sourceModelInvAdd R B N z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul n c =>
     rw [show (n ⊗ₜ[R] c : ModuleCat.restrictModule R B N ⊗[R] B) = sourceModelElt R B N n c
         from rfl,
@@ -418,11 +417,9 @@ theorem sourceModelHom_sourceModelInvAdd (z : ModuleCat.restrictModule R B N ⊗
 /-- `Stacks.Descent.sourceModelInvAdd` is `B ⊗[R] B`-linear. -/
 theorem sourceModelInvAdd_smul (x : B ⊗[R] B) (z : ModuleCat.restrictModule R B N ⊗[R] B) :
     sourceModelInvAdd R B N (x • z) = x • sourceModelInvAdd R B N z := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [zero_smul, zero_smul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul n c =>
       rw [show (n ⊗ₜ[R] c : ModuleCat.restrictModule R B N ⊗[R] B) = sourceModelElt R B N n c
           from rfl,
@@ -608,8 +605,7 @@ theorem targetModelInvAdd_targetModelElt (c : B)
 /-- `Stacks.Descent.targetModelInvAdd` is a right inverse of `Stacks.Descent.targetModelHom`. -/
 theorem targetModelHom_targetModelInvAdd (z : B ⊗[R] ModuleCat.restrictModule R B N) :
     targetModelHom R B N (targetModelInvAdd R B N z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul c n =>
     rw [show (c ⊗ₜ[R] n : B ⊗[R] ModuleCat.restrictModule R B N) = targetModelElt R B N c n
         from rfl,
@@ -621,11 +617,9 @@ theorem targetModelHom_targetModelInvAdd (z : B ⊗[R] ModuleCat.restrictModule 
 theorem targetModelInvAdd_smul (x : B ⊗[R] B)
     (z : B ⊗[R] ModuleCat.restrictModule R B N) :
     targetModelInvAdd R B N (x • z) = x • targetModelInvAdd R B N z := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [zero_smul, zero_smul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c n =>
       rw [show (c ⊗ₜ[R] n : B ⊗[R] ModuleCat.restrictModule R B N) = targetModelElt R B N c n
           from rfl,
@@ -891,7 +885,7 @@ theorem extendScalarsTransitionOfDescentData_hom_oneTmul
       (ModuleCat.ExtendScalars.oneTmul (tensorInl R B).hom
         (show (D.module : Type u) from n)) = n ⊗ₜ[R] (1 : B) :=
     (sourceModelHom_tensorInlElt R B D.module 1 n).trans (one_smul _ _)
-  show targetModelInvAdd R B D.module (D.transition (sourceModelHom R B D.module
+  change targetModelInvAdd R B D.module (D.transition (sourceModelHom R B D.module
     (ModuleCat.ExtendScalars.oneTmul (tensorInl R B).hom
       (show (D.module : Type u) from n)))) = _
   rw [h]
@@ -908,11 +902,7 @@ theorem cancelExtendScalars_hom_oneTmul_targetModelInvAdd
     (ModuleCat.cancelExtendScalars (tensorInr R B).hom ψ h₂ N).hom
         (ModuleCat.ExtendScalars.oneTmul ψ (targetModelInvAdd R B N w)) =
       smulOneTmulMap R B N j₁ j₂ hj₁ hj₂ w := by
-  induction w using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, show ModuleCat.ExtendScalars.oneTmul ψ
-        (0 : ((ModuleCat.extendScalars (tensorInr R B).hom).obj N : Type u)) = 0 from
-      TensorProduct.tmul_zero _ _, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul c n =>
     have e1 : ((c ⊗ₜ[R] (1 : B) : B ⊗[R] B)) •
         ModuleCat.ExtendScalars.oneTmul (tensorInr R B).hom (show (N : Type u) from n) =
@@ -1023,9 +1013,9 @@ theorem tensorMap₀₁_algebraMap : ∀ r : R, (tensorMap₀₁ R B).hom (algeb
 inclusions. -/
 theorem tensorMap₀₁_tmul (c b : B) : (tensorMap₀₁ R B).hom (c ⊗ₜ[R] b) =
     (tensorIncl₀ R B).hom c * (tensorIncl₁ R B).hom b := by
-  show Algebra.TensorProduct.map _ _ (c ⊗ₜ[R] b) = _
+  change Algebra.TensorProduct.map _ _ (c ⊗ₜ[R] b) = _
   rw [Algebra.TensorProduct.map_tmul]
-  show c ⊗ₜ[R] (b ⊗ₜ[R] (1 : B)) =
+  change c ⊗ₜ[R] (b ⊗ₜ[R] (1 : B)) =
     (c ⊗ₜ[R] (1 : B ⊗[R] B)) * ((1 : B) ⊗ₜ[R] (b ⊗ₜ[R] (1 : B)))
   rw [Algebra.TensorProduct.one_def, Algebra.TensorProduct.tmul_mul_tmul,
     Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul, mul_one]
@@ -1071,8 +1061,7 @@ theorem tripleCocycleMap_rightComm (y : B ⊗[R] ModuleCat.restrictModule R B N)
     tripleCocycleMap R B N
         ((TensorProduct.rightComm R B (ModuleCat.restrictModule R B N) B) (y ⊗ₜ[R] (1 : B))) =
       tripleMap₀₂ R B N y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul c n =>
     rw [TensorProduct.rightComm_tmul, smulOneTmulMap_tmul, smulOneTmulMap_tmul, smulOneTmul,
       smulOneTmul, ← tensorMap₀₁_comp_tensorInl R B, RingHom.comp_apply]
@@ -1085,8 +1074,7 @@ theorem tripleCocycleMap_assoc_symm (c : B) (z : B ⊗[R] ModuleCat.restrictModu
     tripleCocycleMap R B N
         ((TensorProduct.assoc R B B (ModuleCat.restrictModule R B N)).symm (c ⊗ₜ[R] z)) =
       (tensorIncl₀ R B).hom c • tripleMap₁₂ R B N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.tmul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     rw [TensorProduct.assoc_symm_tmul, smulOneTmulMap_tmul, smulOneTmulMap_tmul, smulOneTmul,
       smulOneTmul, tensorMap₀₁_tmul, mul_smul]
@@ -1102,8 +1090,7 @@ theorem extendScalarsTripleTransition₁₂_tripleMap₀₁ (D : ModuleCat.Desce
         (tripleMap₀₁ R B D.module y) =
       tripleCocycleMap R B D.module
         (ModuleCat.transition12 R B D.module D.transition (y ⊗ₜ[R] (1 : B))) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul c n =>
     rw [show ModuleCat.transition12 R B D.module D.transition ((c ⊗ₜ[R] n) ⊗ₜ[R] (1 : B)) =
           (TensorProduct.assoc R B B (ModuleCat.restrictModule R B D.module)).symm

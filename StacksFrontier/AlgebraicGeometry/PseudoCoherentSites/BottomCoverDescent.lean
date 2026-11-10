@@ -100,7 +100,7 @@ theorem isStrictlyPerfect_bottomCover {K : CochainComplex (SheafOfModules.{w} R)
     IsStrictlyPerfect R (K.bottomCover n hd q) where
   bounded := by
     refine (hbdd.union (Set.finite_singleton n)).subset fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     by_cases hin : i = n
     · exact Or.inr (by simpa only [Set.mem_singleton_iff] using hin)
     · exact Or.inl (fun hz => hi ((hz.of_iso (K.bottomCoverXIsoOfNe n hd q i hin))))

@@ -85,7 +85,7 @@ theorem toENat_trdeg_residueField_lt_of_isIntegral (K L : Type u) [Field K] [Fie
     ((Scheme.ΓSpecIso (.of K)).inv ≫ gX.appTop ≫ X.Γevaluation (π z)).hom.toAlgebra
   have : IsScalarTower K L (Z.residueField z) := by
     apply IsScalarTower.of_algebraMap_eq'
-    show ((Scheme.ΓSpecIso (.of K)).inv ≫ (π ≫ gX).appTop ≫ Z.Γevaluation z).hom = _
+    change ((Scheme.ΓSpecIso (.of K)).inv ≫ (π ≫ gX).appTop ≫ Z.Γevaluation z).hom = _
     rw [← hgZ, Scheme.Hom.comp_appTop,
       ← Category.assoc, ← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality]
     rfl
@@ -202,7 +202,7 @@ theorem exists_isLimit_strictHenselization_of_topologicalKrullDim_lt {K : Type u
     have := congrArg (fun φ => φ k) hψK
     simp only [RingHom.coe_comp, Function.comp_apply] at this
     rw [this]
-    show _ = (((Scheme.ΓSpecIso (.of K)).inv ≫ gT.appTop) ≫ l.appTop ≫
+    change _ = (((Scheme.ΓSpecIso (.of K)).inv ≫ gT.appTop) ≫ l.appTop ≫
       (Scheme.ΓSpecIso _).hom).hom k
     simp only [gT, Scheme.Hom.comp_appTop, Category.assoc, ← hl]
   have hL' : ∀ ℓ : L, ∃ p : Polynomial O, (∀ n, p.coeff n ∈ Algebra.adjoin Γ(Tsch, ⊤) T₀) ∧
@@ -215,13 +215,13 @@ theorem exists_isLimit_strictHenselization_of_topologicalKrullDim_lt {K : Type u
       rw [Subring.closure_le]
       rintro _ (h | ⟨k, rfl⟩)
       · exact Algebra.subset_adjoin h
-      · show ψ (algebraMap K L k) ∈ Algebra.adjoin Γ(Tsch, ⊤) T₀
+      · change ψ (algebraMap K L k) ∈ Algebra.adjoin Γ(Tsch, ⊤) T₀
         rw [hKO]
         exact Subalgebra.algebraMap_mem _ _
     exact hle (hp n)
   -- `R = Γ(V)` is of finite type over `K`
   have : Algebra.FiniteType K Γ(Tsch, ⊤) := by
-    show RingHom.FiniteType ((Scheme.ΓSpecIso (.of K)).inv ≫ gT.appTop).hom
+    change RingHom.FiniteType ((Scheme.ΓSpecIso (.of K)).inv ≫ gT.appTop).hom
     exact RingHom.FiniteType.comp (HasRingHomProperty.appTop @LocallyOfFiniteType gT inferInstance)
       (RingHom.FiniteType.of_surjective _
         (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of K)).inv).2)
@@ -235,7 +235,7 @@ theorem exists_isLimit_strictHenselization_of_topologicalKrullDim_lt {K : Type u
   let gL : D ⟶ (Functor.const _).obj (Spec (.of L)) :=
     { app := fun i => Spec.map (CommRingCat.ofHom (levelAlgField ψ i.unop.1))
       naturality := fun i j a => by
-        show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ 𝟙 _
+        change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ 𝟙 _
         rw [Category.comp_id, ← Spec.map_comp]
         rfl }
   let p : (Functor.const _).obj (strictHenselization B X hS s) ⟶ D :=
@@ -243,24 +243,24 @@ theorem exists_isLimit_strictHenselization_of_topologicalKrullDim_lt {K : Type u
   have hp : IsLimit (Cone.mk _ p) := isLimitOfPreserves (Over.forget Tsch)
     (isLimitLevelLimitCone Tsch T₀ ψ hT₀ hcov)
   have hvert : cZ.pt.hom = l := by
-    show Spec.map (l.appTop ≫ (Scheme.ΓSpecIso _).hom) ≫ Tsch.isoSpec.inv = l
+    change Spec.map (l.appTop ≫ (Scheme.ΓSpecIso _).hom) ≫ Tsch.isoSpec.inv = l
     rw [Spec.map_comp, ← Scheme.isoSpec_Spec_hom, Category.assoc,
       Scheme.isoSpec_hom_naturality_assoc, Iso.hom_inv_id, Category.comp_id]
   have hπ : ∀ i, p.app i ≫ π.app i = strictHenselizationToBase B X hS s := by
     intro i
-    show (cZ.π.app i).left ≫ (Z.obj i).hom ≫ V.ι = _
+    change (cZ.π.app i).left ≫ (Z.obj i).hom ≫ V.ι = _
     have hw := Over.w (cZ.π.app i)
     simp only [Functor.const_obj_obj] at hw
     rw [← Category.assoc, hw, hvert]
     exact hl
   have hgL : ∀ i, gL.app i ≫ Spec.map (CommRingCat.ofHom (algebraMap K L)) = π.app i ≫ gX := by
     intro i
-    show Spec.map (CommRingCat.ofHom (levelAlgField ψ i.unop.1)) ≫
+    change Spec.map (CommRingCat.ofHom (levelAlgField ψ i.unop.1)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap K L)) =
       ((Spec.map (CommRingCat.ofHom (algebraMap Γ(Tsch, ⊤) (levelAlg ψ i.unop.1))) ≫
         Tsch.isoSpec.inv) ≫ V.ι) ≫ gX
     rw [Category.assoc, Category.assoc, ← Category.assoc Tsch.isoSpec.inv]
-    show _ = _ ≫ Tsch.isoSpec.inv ≫ gT
+    change _ = _ ≫ Tsch.isoSpec.inv ≫ gT
     rw [← Scheme.isoSpec_inv_naturality, Scheme.isoSpec_Spec_inv,
       ← Spec.map_comp, ← Spec.map_comp, ← Spec.map_comp]
     congr 1

@@ -144,7 +144,7 @@ public theorem isPrincipal_determinantalIdeal_of_eq_basicOpen (C₀ C : AffineCh
     (C.determinantalIdeal i).IsPrincipal := by
   have hreg : (S.X.presheaf.map (homOfLE hle).op).hom C₀.f ∈ nonZeroDivisors Γ(S.X, C.U) := by
     rw [← hf]; exact C.regular.mem_nonZeroDivisors
-  show (idealI C.complex C.f i).IsPrincipal
+  change (idealI C.complex C.f i).IsPrincipal
   rw [hf]
   exact isPrincipal_idealI_of_eq_basicOpen C₀ g C.U.2 hle hUe C.complex
     ⟨representsDerivedIso C⟩ hreg i h₀

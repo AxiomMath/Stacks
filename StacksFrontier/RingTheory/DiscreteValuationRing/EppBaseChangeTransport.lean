@@ -103,12 +103,12 @@ private theorem flat_surjective_mapIntegralClosure_of_isSemisimpleRing
   have hsurj : Function.Surjective f.mapIntegralClosure := by
     intro x
     refine ⟨⟨e.symm ((x : T), 0), hint _ x.property⟩, Subtype.ext ?_⟩
-    show f (e.symm ((x : T), 0)) = (x : T)
+    change f (e.symm ((x : T), 0)) = (x : T)
     rw [← he, e.apply_symm_apply]
   let d : integralClosure R S := ⟨e.symm (1, 0), hint 1 isIntegral_one⟩
   have hd : IsIdempotentElem d := by
     apply Subtype.ext
-    show e.symm (1, 0) * e.symm (1, 0) = e.symm (1, 0)
+    change e.symm (1, 0) * e.symm (1, 0) = e.symm (1, 0)
     rw [← map_mul]
     simp only [Prod.mk_mul_mk, one_mul, zero_mul]
   have : IsLocalization.Away d (integralClosure R T) := by
@@ -117,13 +117,13 @@ private theorem flat_surjective_mapIntegralClosure_of_isSemisimpleRing
     · apply Subtype.ext
       apply e.injective
       have h' : f (x : S) = f (y : S) := congrArg Subtype.val h
-      show e ((d : S) * (x : S)) = e ((d : S) * (y : S))
+      change e ((d : S) * (x : S)) = e ((d : S) * (y : S))
       simp only [map_mul, d, e.apply_symm_apply]
       apply Prod.ext
       · simpa only [Prod.fst_mul, Prod.fst_one, one_mul, he] using h'
       · simp
     · apply Subtype.ext
-      show f (x : S) = f (y : S)
+      change f (x : S) = f (y : S)
       simpa only [Subalgebra.coe_mul, map_mul, d, e.apply_symm_apply,
         Prod.fst_mul, one_mul, he] using
         congrArg (fun z : integralClosure R S ↦ (e (z : S)).1) h
@@ -261,9 +261,9 @@ theorem exists_field_factor_isWeakSolution_of_baseChange
   have : IsScalarTower R₁ B₀ B₁ := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower R₁ A₁ B₁ := IsScalarTower.of_algebraMap_eq fun x ↦ by
     apply Subtype.ext
-    show φ (Ideal.Quotient.mk _ (1 ⊗ₜ[k] (x : E))) =
+    change φ (Ideal.Quotient.mk _ (1 ⊗ₜ[k] (x : E))) =
       Ideal.Quotient.mk _ (1 ⊗ₜ[K] e (x : E))
-    show Ideal.Quotient.mk _ (tensorProductFactorMap g (1 ⊗ₜ[k] (x : E))) = _
+    change Ideal.Quotient.mk _ (tensorProductFactorMap g (1 ⊗ₜ[k] (x : E))) = _
     rw [tensorProductFactorMap_tmul]
     rfl
   let : IsDedekindDomain A₁ :=
@@ -278,7 +278,7 @@ theorem exists_field_factor_isWeakSolution_of_baseChange
     (R := A₁) (fun x : B₁ ↦ (x : T)) Subtype.val_injective
     (fun _ _ ↦ rfl)
   have : Module.Flat A₁ B₁ := inferInstance
-  show ∀ (q : Ideal B₁), q.IsMaximal → q.ramificationIdx A₁ = 1
+  change ∀ (q : Ideal B₁), q.IsMaximal → q.ramificationIdx A₁ = 1
   intro q hq
   apply ramificationIdx_eq_one_of_flat_tower (R := R₁) q
   rw [ramificationIdx_eq_under_of_surjective (R := R₁) hflat.2]

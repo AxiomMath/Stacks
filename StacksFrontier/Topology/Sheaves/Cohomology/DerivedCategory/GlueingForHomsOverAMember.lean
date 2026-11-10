@@ -123,7 +123,8 @@ So the glueing of morphisms is unconditional in all three of the shapes this dev
 it in: `Stacks.Cohomology.UnboundedHigherDirectImage.exists_unique_restrictDerivedHom_on_isBasis`
 over a basis, and `Stacks.DerivedGlueing.exists_unique_restrictDerivedHom_on_sSup_covered` and
 `Stacks.DerivedGlueing.existsUnique_hom_restrict_of_sSup_covered` off a basis, all three in
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.GlueingForHomsFromTheCoverUnconditional`.
+the module `GlueingForHomsFromTheCoverUnconditional` of
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory`.
 
 *So the only obligation left is the one that list did not mention.*  The sheaf condition of
 [Stacks, Tag 0D66] part (2)
@@ -137,11 +138,11 @@ quantifies over `K L : OpenDerivedCategory X O`, objects given *only* over `O`, 
 restrictions of global ones.  So the deduction needs the whole argument run on the ringed space
 `X` restricted to `O`, together with the identification of `S.restriction W O` for `W ≤ O` with
 restriction on that subspace — the generalisation from `⊤` to `O` of
-`Stacks.DerivedGlueing.openModuleRestriction_top_eq`.  Nothing in the library provides it; the vanishing
-clause escaped it only because there the objects are global.  The groundwork for it is
+`Stacks.DerivedGlueing.openModuleRestriction_top_eq`.  Nothing in the library provides it; the
+vanishing clause escaped it only because there the objects are global.  The groundwork for it is
 `Stacks.DerivedGlueing.sliceRestrictOverIso` and its neighbours in
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.GlueingForHomsOverACover`; what is missing
-is the identification of `Stacks.DerivedGlueing.restrictHomBelow` with
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedCategory.GlueingForHomsOverACover`;
+what is missing is the identification of `Stacks.DerivedGlueing.restrictHomBelow` with
 `AlgebraicGeometry.RingedSite.restrictDerivedHom` through it.
 
 *Which consumers need a general open at all.*  Not all of them.

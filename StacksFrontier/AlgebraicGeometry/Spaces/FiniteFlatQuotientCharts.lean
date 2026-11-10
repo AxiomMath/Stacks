@@ -207,7 +207,7 @@ theorem exists_isOpenImmersion_chart_quotientSheaf_of_isInvariantOpen {S : Schem
         ((toQuotientSheaf J F (groupoidPreRelation Rst.groupoid)).app (op T) z) := by
       rw [F.map_comp, hFπ, ← hz']
       exact key1.symm
-    show (restrictionQuotientMap J F G g Rst).hom.app (op T)
+    change (restrictionQuotientMap J F G g Rst).hom.app (op T)
       (e.inv.app (op T) (F.map (a ≫ π))) = _
     rw [hstep, heinv, show (restrictionQuotientMap J F G g Rst).hom.app (op T)
         ((toQuotientSheaf J F (groupoidPreRelation Rst.groupoid)).app (op T) z) =
@@ -278,7 +278,7 @@ theorem isRepresentable_quotientSheaf_of_isInvariantOpen_isAffineOpen_cover {S :
     { carrier := p.carrier, contained := p.contained, toBase := p.toBase, value := b }, ?_⟩
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
     ⟨_, FieldValuedPoint.dominates_refl B S hS _ _, ⟨𝟙 _, ?_⟩⟩
-  show (quotientSheaf J F (groupoidPreRelation G)).obj.map (𝟙 T).op
+  change (quotientSheaf J F (groupoidPreRelation G)).obj.map (𝟙 T).op
       ((quotientChart J F Uobj (groupoidPreRelation G)).app (op T) h₀) =
     (k i).app (op T) b
   simp only [op_id, CategoryTheory.Functor.map_id]
@@ -393,7 +393,7 @@ theorem exists_quotientMap_isRepresented_of_isInvariantOpen_isAffineOpen_cover
     ext T x
     obtain ⟨y, rfl⟩ := F.map_surjective (X := T.unop) (Y := Uobj) x
     have hpy := ConcreteCategory.congr_hom (NatTrans.congr_app hp T) y
-    show (yonedaToPoints F M₀).app T (ε.inv.app T
+    change (yonedaToPoints F M₀).app T (ε.inv.app T
       ((toQuotientSheaf J F (groupoidPreRelation G)).app T (F.map y))) = F.map y ≫ F.map p
     rw [show (toQuotientSheaf J F (groupoidPreRelation G)).app T (F.map y) =
       (quotientChart J F Uobj (groupoidPreRelation G)).app T y from rfl]
@@ -409,10 +409,10 @@ theorem exists_quotientMap_isRepresented_of_isInvariantOpen_isAffineOpen_cover
       quotientSheaf J F (groupoidPreRelation G) := ⟨inv (yonedaToPoints F M₀) ≫ ε.hom⟩
   have hqiso : IsIso qq := by
     refine ⟨qinv, Sheaf.hom_ext ?_, Sheaf.hom_ext ?_⟩
-    · show (ε.inv ≫ yonedaToPoints F M₀) ≫ (inv (yonedaToPoints F M₀) ≫ ε.hom) = 𝟙 _
+    · change (ε.inv ≫ yonedaToPoints F M₀) ≫ (inv (yonedaToPoints F M₀) ≫ ε.hom) = 𝟙 _
       rw [Category.assoc, ← Category.assoc (yonedaToPoints F M₀), IsIso.hom_inv_id,
         Category.id_comp, ε.inv_hom_id]
-    · show (inv (yonedaToPoints F M₀) ≫ ε.hom) ≫ (ε.inv ≫ yonedaToPoints F M₀) = 𝟙 _
+    · change (inv (yonedaToPoints F M₀) ≫ ε.hom) ≫ (ε.inv ≫ yonedaToPoints F M₀) = 𝟙 _
       rw [Category.assoc, ← Category.assoc ε.hom, ε.hom_inv_id, Category.id_comp,
         IsIso.inv_hom_id]
   have hsurj : Surjective (F.map p).left := by

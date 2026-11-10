@@ -94,8 +94,7 @@ theorem Algebra.IsPushout.mem_range_lTensor_of_liftBaseChange_mem_span
       ΦN (AlgebraTensorModule.lTensor S S (L.subtype.restrictScalars R) v) =
         AlgebraTensorModule.lTensor B B L.subtype (ΦL v) := by
     intro v
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul s l =>
       simp only [hΦN, hΦL, AlgebraTensorModule.lTensor_tmul,
         Algebra.IsPushout.cancelBaseChange_symm_tmul]
@@ -124,17 +123,18 @@ theorem Module.Flat.mem_range_lTensor_ker {R S : Type*} [CommRing R] [CommRing S
 /-- The base change of a map to a finite product vanishes on an element as soon as the base
 change of each component does. -/
 theorem lTensor_pi_eq_zero {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
-    {ι : Type*} [Fintype ι] [DecidableEq ι] {M : Type*} [AddCommGroup M] [Module R M]
+    {ι : Type*} [Finite ι] {M : Type*} [AddCommGroup M] [Module R M]
     {P : ι → Type*} [∀ i, AddCommGroup (P i)] [∀ i, Module R (P i)]
     (ψ : ∀ i, M →ₗ[R] P i) {z : S ⊗[R] M}
     (hz : ∀ i, AlgebraTensorModule.lTensor S S (ψ i) z = 0) :
     AlgebraTensorModule.lTensor S S (LinearMap.pi ψ) z = 0 := by
+  classical
+  cases nonempty_fintype ι
   have hcomp : ∀ i (v : S ⊗[R] M), TensorProduct.piRight R S S P
       (AlgebraTensorModule.lTensor S S (LinearMap.pi ψ) v) i =
         AlgebraTensorModule.lTensor S S (ψ i) v := by
     intro i v
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul s m => simp
     | add v v' hv hv' => simp only [map_add, Pi.add_apply, hv, hv']
   apply (TensorProduct.piRight R S S P).injective
@@ -167,18 +167,17 @@ theorem Algebra.isPushout_of_linearEquiv {R S A B : Type*} [CommRing R] [CommRin
   let e' : S ⊗[R] A ≃ₗ[S] B :=
     { e₀ with
       map_smul' := fun c x => by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul s a =>
-          show e₀ (c • (s ⊗ₜ a)) = c • e₀ (s ⊗ₜ a)
+          change e₀ (c • (s ⊗ₜ a)) = c • e₀ (s ⊗ₜ a)
           rw [TensorProduct.smul_tmul', he₀, he₀, smul_eq_mul, Algebra.smul_def, map_mul]
           ring
         | add x y hx hy =>
-          show e₀ (c • (x + y)) = c • e₀ (x + y)
+          change e₀ (c • (x + y)) = c • e₀ (x + y)
           rw [smul_add, map_add, map_add, smul_add]
           exact congrArg₂ (· + ·) hx hy }
   refine ⟨IsBaseChange.of_equiv e' fun a => ?_⟩
-  show e₀ (1 ⊗ₜ a) = algebraMap A B a
+  change e₀ (1 ⊗ₜ a) = algebraMap A B a
   rw [he₀, map_one, mul_one]
 
 end BaseChange
@@ -329,7 +328,7 @@ theorem chartSpanSieve_map (F : Modules.{u, u} B S hS X hX) {V₀ : SmallEtale B
     (b : Q ⟶ V₀) :
     chartSpanSieve F M' (chartRes F g f) a b = chartSpanSieve F M' f (a ≫ g) b := by
   ext Y c
-  show chartRes F (c ≫ a) (chartRes F g f) ∈ chartSpan F (c ≫ b) M' ↔
+  change chartRes F (c ≫ a) (chartRes F g f) ∈ chartSpan F (c ≫ b) M' ↔
     chartRes F (c ≫ a ≫ g) f ∈ chartSpan F (c ≫ b) M'
   have h : chartRes F (c ≫ a) (chartRes F g f) = chartRes F (c ≫ a ≫ g) f :=
     chartRes_chartRes_of_comp_eq F (Category.assoc c a g) f
@@ -444,7 +443,7 @@ theorem mem_chartSpanSections_of_cover (F : Modules.{u, u} B S hS X hX)
     rw [← Category.assoc, ← he, Category.assoc, prod.lift_fst]
   have hb : e ≫ q i ≫ prod.snd = d ≫ b := by
     rw [← Category.assoc, ← he, Category.assoc, prod.lift_snd]
-  show chartRes F (d ≫ a) x ∈ chartSpan F (d ≫ b) M'
+  change chartRes F (d ≫ a) x ∈ chartSpan F (d ≫ b) M'
   refine (chartSpan_congr F hb M').le ?_
   refine mem_of_eq_of_mem (chartRes_chartRes_of_comp_eq F ha x).symm ?_
   exact map_mem_chartSpan F _ e M' (hx i)
@@ -518,10 +517,7 @@ theorem subtype_sectionsBaseChange_chartSpanSubmodule (F : Modules.{u, u} B S hS
       sectionsBaseChange F f (AlgebraTensorModule.lTensor (chartRing B S hS X hX W')
         (chartRing B S hS X hX W') (chartSpanSections F M' W).subtype u) := by
   let := chartAlgebra (hF := hX) f
-  induction u using TensorProduct.induction_on with
-  | zero =>
-    exact ((congrArg (chartSpanSections F M' W').subtype (map_zero _)).trans (map_zero _)).trans
-      (((congrArg (sectionsBaseChange F f) (map_zero _)).trans (map_zero _)).symm)
+  induction u using TensorProduct.inductionOn with
   | tmul r k => rfl
   | add u v hu hv =>
     exact ((congrArg (chartSpanSections F M' W').subtype (map_add _ u v)).trans
@@ -592,7 +588,7 @@ theorem isCartesianOnAffineCharts_chartSpanSubmodule (hZ : B.Contains (⊤_ Sche
       have : IsScalarTower (chartRing B S hS X hX W) (chartRing B S hS X hX W')
           (chartRing B S hS X hX Pi) :=
         IsScalarTower.of_algebraMap_eq fun x => by
-          show chartRestrict (hF := hX) (pr₁ ≫ a i) x =
+          change chartRestrict (hF := hX) (pr₁ ≫ a i) x =
             chartRestrict (hF := hX) pr₂ (chartRestrict (hF := hX) f x)
           rw [show pr₁ ≫ a i = pr₂ ≫ f from hpb.w]
           exact RingHom.congr_fun (chartRestrict_comp (hF := hX) f pr₂) x
@@ -616,13 +612,12 @@ theorem isCartesianOnAffineCharts_chartSpanSubmodule (hZ : B.Contains (⊤_ Sche
             (AlgebraTensorModule.lTensor (chartRing B S hS X hX W') (chartRing B S hS X hX W')
               (ρ i) v)) = chartRes F pr₂ (sectionsBaseChange F f v) := by
         intro v
-        induction v using TensorProduct.induction_on with
-        | zero => simp
+        induction v using TensorProduct.inductionOn with
         | tmul r m =>
           rw [AlgebraTensorModule.lTensor_tmul, Algebra.IsPushout.cancelBaseChange_symm_tmul,
             LinearMap.liftBaseChange_tmul, chartBaseChange_tmul, map_smulₛₗ]
           refine congrArg₂ (· • ·) rfl ?_
-          show F.val.map pr₁.op (F.val.map (a i).op m) = F.val.map pr₂.op (F.val.map f.op m)
+          change F.val.map pr₁.op (F.val.map (a i).op m) = F.val.map pr₂.op (F.val.map f.op m)
           exact (modules_map_map F (a i) pr₁ m).trans
             ((modules_map_congr F hpb.w m).trans (modules_map_map F f pr₂ m).symm)
         | add v v' hv hv' => rw [map_add, map_add, map_add, hv, hv', map_add, map_add]
@@ -680,8 +675,7 @@ theorem chartSpanSections_le_span (F : Modules.{u, u} B S hS X hX) {V₀ : Small
     rfl
   rw [hgu, subtype_sectionsBaseChange_chartSpanSubmodule]
   clear hgu hu0
-  induction u using TensorProduct.induction_on with
-  | zero => exact mem_of_eq_of_mem ((congrArg _ (map_zero _)).trans (map_zero _)) (zero_mem _)
+  induction u using TensorProduct.inductionOn with
   | tmul r k =>
     refine mem_of_eq_of_mem (chartBaseChange_tmul F φ r _) ?_
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, by exact k.2, rfl⟩)
@@ -804,7 +798,7 @@ theorem isFiniteType_chartSpanSubmodule (F : Modules.{u, u} B S hS X hX)
     refine ⟨fun j => chartRestrict (hF := hX) l (c j), ?_⟩
     refine (chartSpanSections F M' W).injective_subtype ?_
     refine ((map_sum _ _ _).trans (Finset.sum_congr rfl fun j _ => map_smul _ _ _)).trans ?_
-    show ∑ j, chartRestrict (hF := hX) l (c j) • chartRes F ((l ≫ m) ≫ f) (s j) =
+    change ∑ j, chartRestrict (hF := hX) l (c j) • chartRes F ((l ≫ m) ≫ f) (s j) =
       chartRes F (l ≫ m) ((chartSpanSections F M' V).subtype t)
     refine Eq.trans ?_ ((modules_map_map F m l _).symm.trans (congrArg (chartRes F l) hc.symm)).symm
     refine Eq.trans ?_ (map_sum (chartRes F l) _ _).symm
@@ -839,6 +833,7 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search on the étale module sheaves of `X` (abelian, Grothendieck abelian) is deep
 /-- Let `X` be a Noetherian algebraic space over a scheme `S`.  Every quasi-coherent
 `𝒪_X`-module `F` is the filtered colimit of its coherent submodules: the coherent submodules of `F`
 form a filtered category, and the cocone of their inclusions into `F` is a colimit cocone. -/
@@ -851,7 +846,7 @@ theorem isFiltered_and_nonempty_isColimit_coherentSubobjectCocone
   have _ : Fact (HasEtaleLocalProperty B S hS X
     (fun V : Scheme.{u} => IsLocallyNoetherian V)) := ⟨noetherian.2.2⟩
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   have _ : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

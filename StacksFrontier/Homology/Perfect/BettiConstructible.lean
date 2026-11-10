@@ -146,11 +146,11 @@ theorem finrank_range_extendScalars_map {R S : Type u} [CommRing R] [CommRing S]
         ∑ l : Fin m, (LinearMap.toMatrix bM bN d.hom) l j • bN l := by
       conv_lhs => rw [← Matrix.toLin_toMatrix bM bN d.hom]
       rw [Matrix.toLin_self]
-    show (1 : S) ⊗ₜ[R] d.hom (bM j) = _
+    change (1 : S) ⊗ₜ[R] d.hom (bM j) = _
     rw [hdj, TensorProduct.tmul_sum]
     refine Finset.sum_congr rfl fun l _ => ?_
     rw [hbN' l, TensorProduct.tmul_smul, Matrix.map_apply]
-    show ((LinearMap.toMatrix bM bN d.hom) l j • (1 : S)) ⊗ₜ[R] bN l = _
+    change ((LinearMap.toMatrix bM bN d.hom) l j • (1 : S)) ⊗ₜ[R] bN l = _
     congr 1
   rw [hmap, Matrix.rank_eq_finrank_range_toLin _ bN' bM']
 
@@ -215,7 +215,7 @@ theorem exists_matrix_fibreBetti_add_rank_add_rank_eq {R : Type u} [CommRing R] 
   -- the derived fibre at `p` is computed degreewise by the representative
   have hbetti : fibreBetti.{u, u} K i p =
       Module.finrank p.asIdeal.ResidueField (Pκ.homology i) := by
-    show Module.finrank p.asIdeal.ResidueField
+    change Module.finrank p.asIdeal.ResidueField
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} p.asIdeal.ResidueField) i).obj
         ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
           ψ).functor.obj K)) = _
@@ -266,7 +266,7 @@ theorem isConstructible_fibreBetti_preimage {R : Type u} [CommRing R]
       ext p
       have hp := hAB p
       simp only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_inter_iff,
-        Set.mem_setOf_eq, hT, Finset.mem_coe, Finset.mem_filter, Finset.mem_product,
+        Set.mem_ofPred_eq, hT, Finset.mem_coe, Finset.mem_filter, Finset.mem_product,
         Finset.mem_range, exists_prop]
       constructor
       · intro hn

@@ -129,7 +129,7 @@ theorem zerothCohomology_inverts_quasiIsomorphisms (A : DifferentialGradedAlgebr
       ((HomotopyCategory.quotient A).preimage φ) = φ :=
     (HomotopyCategory.quotient A).map_preimage φ
   rw [← hf]
-  show IsIso (HomologicalComplex.homologyMap
+  change IsIso (HomologicalComplex.homologyMap
     ((HomotopyCategory.quotient A).preimage φ).toHomologicalComplex 0)
   exact (quasiIso_iff_isIso_homologyMap _).1 (hφ _ hf) 0
 

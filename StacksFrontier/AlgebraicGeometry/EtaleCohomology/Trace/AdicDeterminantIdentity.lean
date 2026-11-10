@@ -88,6 +88,7 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The rational image of an ℓ-adic limit of `det(1 - π_X^* T | Kₙ)⁻¹`.** If the complexes
 `Kₙ = RΓ_c(X_k̄, Fₙ)` are perfect and `c ∈ ℤ_ℓ⟦T⟧` reduces modulo every `ℓⁿ⁺¹` to
 `det(1 - π_X^* T | Kₙ)⁻¹`, then
@@ -121,6 +122,7 @@ public theorem LAdicSheaf.map_padic_eq_gradedCharSeries_of_reductions (F : LAdic
   exact FilteredDerived.coeff_logDerivative_inv_perfectDerivedCharSeries (ZMod (ℓ ^ (n + 1)))
     (T.obj n) (hP n) (T.endo n) hm
 
+omit [IsSeparated f] in
 /-- **The `ℤ_ℓ`-coefficient determinant identity is equivalent to that of Tag 03V0.** Let `F` be an
 ℓ-adic sheaf with flat levels whose complexes `Kₙ = RΓ_c(X_k̄, Fₙ)` are perfect, and `c ∈ ℤ_ℓ⟦T⟧`
 the ℓ-adic limit of the `det(1 - π_X^* T | Kₙ)⁻¹`.  Then `L_{ℤ_ℓ}(X, F) = c` in `ℤ_ℓ⟦T⟧` if and
@@ -150,6 +152,7 @@ public theorem LAdicSheaf.adicLFunction_eq_iff_of_isPerfect (F : LAdicSheaf B X 
       (LAdicSheaf.powExact_etaleLevel B X ℓ F hF) hP hc]
   exact (padicPowerSeries_map_injective ℓ).eq_iff.symm
 
+omit [IsSeparated f] in
 /-- **The determinant identity with `ℤ_ℓ` coefficients, from the finite-coefficient one at every
 level.** If at every level `n` the complex `Kₙ = RΓ_c(X_k̄, Fₙ)` is perfect with
 `L(X, Fₙ) = det(1 - π_X^* T | Kₙ)⁻¹` (Tag 03UZ for `Λ = ℤ/ℓⁿ⁺¹ℤ`), then the `Kₙ` are perfect, the
@@ -201,7 +204,7 @@ public theorem LAdicSheaf.adicDeterminantIdentity_of_levels (F : LAdicSheaf B X 
         (ZMod (ℓ ^ (n + 1))) (F.level n) hcf)
       (projective_etaleModuleStalk_of_isConstructibleFlatModuleSheaf.{u, u + 1, 0} B X
         (ZMod (ℓ ^ (n + 1))) (F.level n) hcf)]
-  show lFunctionOfConstructibleFlat B X _ (F.level n) f hcf = _
+  change lFunctionOfConstructibleFlat B X _ (F.level n) f hcf = _
   rw [← constructibleFlatLFunction_eq_lFunctionOfConstructibleFlat, hL n]
   rfl
 

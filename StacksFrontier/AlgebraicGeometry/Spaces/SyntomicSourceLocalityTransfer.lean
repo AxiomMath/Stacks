@@ -99,6 +99,7 @@ universe u v
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S`
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_syntomicSourceLocalityTransfer :
@@ -110,6 +111,7 @@ private instance (priority := high) hasPullback_presheaf_syntomicSourceLocalityT
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the fibre products of algebraic spaces over the big fppf site
 /-- **Stacks 041B**, the base-change clause in the orientation the source-locality transfer
 consumes: the second projections of the fibre products of a syntomic covering `{Zᵢ ⟶ X}` with a
 morphism `f : X' ⟶ X` form a syntomic covering of `X'`.

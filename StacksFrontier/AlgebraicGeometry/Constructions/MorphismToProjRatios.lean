@@ -68,7 +68,8 @@ as a `Stacks.MorphismToProj.HomogeneousRatios`, and hence the chart morphism
 **The `Γ_*` spelling, and the bridge.** Everything here is in the *sections* spelling: a global
 section of `L ^⊗ n` is an element of `Γ(L ^⊗ n, ⊤)`, as in
 `Stacks.AlgebraicGeometry.MorphismsIntoProj.psiPullbackVeroneseHom` and in the uniqueness half
-`StacksFrontier/AlgebraicGeometry/Constructions/ProjSectionsUniqueness.lean`. The reusable sheaf-side
+`StacksFrontier/AlgebraicGeometry/Constructions/ProjSectionsUniqueness.lean`. The reusable
+sheaf-side
 facts about products of sections live in the `Stacks.GradedSections` spelling, where a section is
 a morphism `𝟙 ⟶ L ^⊗ n`; `Stacks.AlgebraicGeometry.ProjChartFromRatios.secOf` and
 `Stacks.SectionProduct.globalSection` are the two directions of the carrier bridge, and

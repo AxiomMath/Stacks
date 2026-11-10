@@ -9,8 +9,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Let `X` be a ringed space and let `f₁, …, f_r` be sections of its structure sheaf. The Koszul
 complex `K_•(O_X, f₁, …, f_r)` of Stacks tag 062L is built in
-`StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.Sequence` as a complex of *presheaves* of modules: its
-degree-`n` term is the presheaf `U ↦ ⋀^n_{O_X(U)}(O_X(U)^r)` of sectionwise exterior powers.
+`StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.Sequence` as a complex of *presheaves* of modules:
+its degree-`n` term is the presheaf `U ↦ ⋀^n_{O_X(U)}(O_X(U)^r)` of sectionwise exterior powers.
 
 This file proves that each of those presheaves is a **sheaf**, and promotes the complex to a chain
 complex of sheaves of modules. The reason is that the degree-`n` term is free of rank `C(r, n)`
@@ -108,7 +108,7 @@ theorem isSheaf_of_basis (X : RingedSpace.{u, u})
       X.IsSheaf.isSheafUniqueGluing V (fun i => (β (op (V i))).repr (sf i) t) (hcompat t)
     refine ⟨∑ t : T, d t • β (op (iSup V)) t, ?_, ?_⟩
     · intro i
-      show M.restrictₛₗ (Opens.leSupr V i).op _ = sf i
+      change M.restrictₛₗ (Opens.leSupr V i).op _ = sf i
       rw [map_sum]
       conv_rhs => rw [← (β (op (V i))).sum_repr (sf i)]
       refine Finset.sum_congr rfl fun t _ => ?_

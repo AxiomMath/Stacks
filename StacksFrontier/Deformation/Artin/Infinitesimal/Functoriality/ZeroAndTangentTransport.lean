@@ -42,7 +42,7 @@ public theorem squareZeroOverMap_eq_of_hom_apply_eq_zero (A : Type u) [CommRing 
       squareZeroRetraction A B S hS toS hA N ≫ squareZeroArrow A B S hS toS hA M := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (TrivSqZeroExt.map f.hom.hom).toRingHom) =
+  change Spec.map (CommRingCat.ofHom (TrivSqZeroExt.map f.hom.hom).toRingHom) =
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom A N.obj)) ≫
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom)
   rw [← Spec.map_comp]
@@ -370,7 +370,7 @@ public theorem underMap_mem_fiber (p : X ⥤ C) {U V : C} {y₁ y₂ : X}
   have := hι
   have := underFiber_isHomLift p hy₂ a t
   refine StructuredArrow.obj_ext _ _ (underFiber_right_obj p hy₂ a t) ?_
-  show p.map (ι ≫ t.1.hom) ≫ eqToHom (underFiber_right_obj p hy₂ a t) = eqToHom hy₁ ≫ a
+  change p.map (ι ≫ t.1.hom) ≫ eqToHom (underFiber_right_obj p hy₂ a t) = eqToHom hy₁ ≫ a
   rw [p.map_comp, IsHomLift.fac' p (𝟙 U) ι, IsHomLift.fac' p a t.1.hom]
   simp
 
@@ -489,7 +489,7 @@ public theorem isPullbackOfSquareZeroLift_transport {M N : SiteModule A B} (f : 
     (squareZeroLiftTransport A B S hS toS hA p y₁ y₂ hy₁ hy₂ ι hι N).obj b', ?_, ?_, φ, hc, ?_⟩
   · rw [← ha']; rfl
   · rw [← hb']; rfl
-  · show (ι.hom ≫ b'.1.hom) ≫ φ = ι.hom ≫ a'.1.hom
+  · change (ι.hom ≫ b'.1.hom) ≫ φ = ι.hom ≫ a'.1.hom
     rw [Category.assoc, hw]
 
 variable (T₂ : TangentFunctorData A B S hS toS hA p y₂ hy₂)

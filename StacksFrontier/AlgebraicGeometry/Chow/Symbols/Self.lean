@@ -54,11 +54,11 @@ private theorem moduleLength_range_mapQ_self
       obtain ⟨y, hy⟩ := (Submodule.Quotient.mk_eq_zero _).1 hx
       exact ⟨y, hf (by simpa using hy)⟩
     · rintro x ⟨y, rfl⟩
-      show Submodule.Quotient.mk (f (f y)) = 0
+      change Submodule.Quotient.mk (f (f y)) = 0
       exact (Submodule.Quotient.mk_eq_zero _).2 ⟨y, rfl⟩
   have hrange : LinearMap.range g = LinearMap.range q := by
     simpa [g] using LinearMap.range_comp_of_range_eq_top q (Submodule.range_mkQ p)
-  show (Module.length A (LinearMap.range q)).toNat =
+  change (Module.length A (LinearMap.range q)).toNat =
     (Module.length A (M ⧸ LinearMap.range f)).toNat
   rw [← hrange, ← hker]
   exact congrArg ENat.toNat g.quotKerEquivRange.length_eq.symm
@@ -87,7 +87,7 @@ theorem moduleSymbol_self_eq_negOne_pow_length
     exact_mul_left_right (M := M) a a ha
   have hfinite : IsFiniteLength A (M ⧸ LinearMap.range (φ ∘ₗ φ)) :=
     isFiniteLength_quotient_mul (M := M) a a ha ha hdim
-  show periodicDeterminant θ θ hθ hθ hfinite = _
+  change periodicDeterminant θ θ hθ hθ hfinite = _
   rw [periodicDeterminant_self_eq_negOne_pow_range_length θ hθ hfinite, hmap]
   congr 1
   simpa [φ, θ'] using moduleLength_range_mapQ_self φ ha

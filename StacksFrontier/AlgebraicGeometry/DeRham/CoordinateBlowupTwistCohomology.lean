@@ -82,7 +82,7 @@ theorem ideal_tupleOpen {p : ℕ} (x : Fin (p + 1) → Fin n) :
     refine Ideal.mem_span_singleton'.2 ⟨((coordinateBlowup R m n).presheaf.map
       (homOfLE ((coordinateBlowup R m n).basicOpen_le (tupleRatio R m n x))).op).hom
         (ratio R m n (x 0) k), ?_⟩
-    show _ = ((coordinateBlowupToAmbient R m n).appLE ⊤ (tupleOpen R m n x).1 le_top).hom _
+    change _ = ((coordinateBlowupToAmbient R m n).appLE ⊤ (tupleOpen R m n x).1 le_top).hom _
     rw [appLE_tupleOpen, chartMap_coord_eq, map_mul]
     rfl
   · rintro _ rfl
@@ -93,7 +93,7 @@ intersection of charts. -/
 theorem tupleGen_mem_nonZeroDivisors {p : ℕ} (x : Fin (p + 1) → Fin n) :
     tupleGen R m n x ∈ nonZeroDivisors Γ(coordinateBlowup R m n, (tupleOpen R m n x).1) := by
   have := (isAffineOpen_chart R m n (x 0)).isLocalization_basicOpen (tupleRatio R m n x)
-  show _ ∈ nonZeroDivisors Γ(coordinateBlowup R m n,
+  change _ ∈ nonZeroDivisors Γ(coordinateBlowup R m n,
     (coordinateBlowup R m n).basicOpen (tupleRatio R m n x))
   exact IsLocalization.map_nonZeroDivisors_le (Submonoid.powers (tupleRatio R m n x)) _
     (Submonoid.mem_map_of_mem _ (chartMap_coord_self_mem_nonZeroDivisors R m n (x 0)))
@@ -103,7 +103,7 @@ theorem punctured_eq_basicOpen (hn : 0 < n) (j : Fin n) :
     punctured R m n = (coordinateBlowup R m n).basicOpen
       ((chartMap R m n j).hom (coordProd R m n)) := by
   ext x
-  show x ∈ punctured R m n ↔ x ∈ (coordinateBlowup R m n).basicOpen _
+  change x ∈ punctured R m n ↔ x ∈ (coordinateBlowup R m n).basicOpen _
   refine ⟨fun hx => ?_, fun hx => ?_⟩
   · have hxj := punctured_le_chart R m n hn j hx
     rw [(coordinateBlowup R m n).mem_basicOpen _ x hxj,
@@ -127,7 +127,7 @@ theorem puncturedEquiv_appLE (hn : 0 < n) (r : Γ(coordinateAmbient R m n, ⊤))
     puncturedEquiv R m n hn (((coordinateBlowupToAmbient R m n).appLE ⊤ (punctured R m n)
       le_top).hom r) = toFrac R m n r := by
   rw [puncturedEquiv, RingEquiv.symm_apply_eq]
-  show _ = ((coordinateBlowupToAmbient R m n).app _).hom (toFrac R m n r)
+  change _ = ((coordinateBlowupToAmbient R m n).app _).hom (toFrac R m n r)
   rw [← CommRingCat.comp_apply, Scheme.Hom.app_eq_appLE, Scheme.Hom.map_appLE]
 
 /-- **The exceptional ideal is the unit ideal on `W₀`.** -/

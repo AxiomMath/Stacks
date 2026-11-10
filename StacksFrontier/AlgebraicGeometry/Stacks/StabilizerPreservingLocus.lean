@@ -649,7 +649,7 @@ theorem isStabilizerPreserving_openSubstack_inclusion_comp
   let F' := CatFiberedInGroupoids.homFunctor (U.inclusion ≫ f).hom
   have hF' : F' ⋙ pY = pU := CatFiberedInGroupoids.homFunctor_comp_p (U.inclusion ≫ f).hom
   have hfa' : F'.Faithful := by
-    show (U.property.ι ⋙ F).Faithful
+    change (U.property.ι ⋙ F).Faithful
     infer_instance
   refine nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts pU pY F' hF'
     (fun A B m hm => F'.map_injective (by rw [F'.map_comp, F'.map_comp]; exact hm)) ?_
@@ -679,7 +679,7 @@ theorem isStabilizerPreserving_openSubstack_inclusion_comp
     (s₁ := x.obj) (s₂ := x.obj) rfl rfl β.asIso.hom hβ' hpt
   have _ : IsIso γ := Functor.isIso_of_fiber_isGroupoid (hp.fiber_isGroupoid _) γ hγ
   refine ⟨Aut.of (ObjectProperty.isoMk _ (asIso γ)), ?_, hFγ⟩
-  show pX.map γ = _
+  change pX.map γ = _
   rw [IsHomLift.fac' pX (𝟙 (pX.obj x.obj)) γ]
   simp only [eqToHom_refl, Category.comp_id]
   rfl

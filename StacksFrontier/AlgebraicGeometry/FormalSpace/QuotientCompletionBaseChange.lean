@@ -182,7 +182,7 @@ theorem le_comap_quotientCompletionStageIdeal (K : Ideal A)
       (TopologicalRing.CompletionOver.canonicalMap (Ideal.Quotient.mk K))
       (quotientCompletionStageIdeal K I).1 := by
   intro x hx
-  show TopologicalRing.CompletionOver.projection (Ideal.Quotient.mk K) I
+  change TopologicalRing.CompletionOver.projection (Ideal.Quotient.mk K) I
     (TopologicalRing.CompletionOver.canonicalMap (Ideal.Quotient.mk K) x) = 0
   rw [TopologicalRing.CompletionOver.projection_canonicalMap]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr
@@ -296,7 +296,7 @@ theorem surjective_quotientMap_quotientCompletionStageIdeal
   refine ⟨Ideal.Quotient.mk I.1 a, ?_⟩
   rw [Ideal.quotientMap_mk, hφ]
   refine (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).mpr ?_
-  show TopologicalRing.CompletionOver.projection (Ideal.Quotient.mk K) I
+  change TopologicalRing.CompletionOver.projection (Ideal.Quotient.mk K) I
     (TopologicalRing.CompletionOver.canonicalMap (Ideal.Quotient.mk K) a - c) = 0
   rw [map_sub, TopologicalRing.CompletionOver.projection_canonicalMap, hz, sub_self]
 
@@ -313,7 +313,7 @@ theorem isClosedImmersion_quotientCompletion_stageMap
       ((BigAffineFppf.toScheme B S hS).map
         (φ.stageMap I (quotientCompletionStageIdeal K I)
           (continuousHom_le_comap_quotientCompletionStageIdeal B S hS D E φ hφ I))) := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     (Spec.map (CommRingCat.ofHom
       (Ideal.quotientMap (quotientCompletionStageIdeal K I).1 φ.toRingHom
         (continuousHom_le_comap_quotientCompletionStageIdeal B S hS D E φ hφ I))))
@@ -366,11 +366,12 @@ private theorem exists_isPullback_quotientCompletion_of_factorsThroughStage
       (isPullback_formalSpectrumMap_quotientCompletion_stage B S hS hA D E φ hφ I),
     hprop _ q p hpb⟩
 
-include hA in
+omit [IsTopologicalRing A] [IsLinearTopology A A] in
 /-- **Stacks 0AIA for the formal spectrum.** A point of `Spf A` out of an affine object of the
 site factors through one of the quotient stages `Spec (A/I)`: the stages present `Spf A` as a
 directed colimit along thickenings, and an affine scheme is quasi-compact. -/
-private theorem exists_factor_through_stage_of_affine (X : BigAffineFppf B S hS)
+private theorem exists_factor_through_stage_of_affine
+    (hA : TopologicalRing.IsWeaklyPreAdmissible A) (X : BigAffineFppf B S hS)
     (a : (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).obj
       ((BigAffineFppf.inclusion B S hS).obj X) ⟶ formalSpectrum D) :
     ∃ (I : TopologicalRing.WeakIdealOfDefinitionIndex A) (g : X ⟶ D.stage I),
@@ -378,7 +379,7 @@ private theorem exists_factor_through_stage_of_affine (X : BigAffineFppf B S hS)
           ((BigAffineFppf.inclusion B S hS).map g) ≫
         formalSpectrumInclusion D (OrderDual.toDual I) = a := by
   have _ : Nonempty (WeakIdeals A) :=
-    ⟨OrderDual.toDual ⟨Classical.choose hA.1, Classical.choose_spec hA.1⟩⟩
+    ⟨OrderDual.toDual ⟨Classical.choose hA, Classical.choose_spec hA⟩⟩
   have _ : IsDirected (WeakIdeals A) (· ≤ ·) :=
     ⟨fun I₁ I₂ => ⟨OrderDual.toDual ⟨I₁.1 ⊓ I₂.1,
       ⟨I₁.2.1.inter I₂.2.1, fun x hx => I₁.2.2 x hx.1⟩⟩,
@@ -410,7 +411,7 @@ private theorem exists_isPullback_quotientCompletion_of_affine (X : BigAffineFpp
         (formalSpectrumMap hA φ) ξ ∧
       _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map p) := by
   let ε := Sheaf.uliftYonedaIsoSheafifiedYoneda (BigFppfOver.topology B S hS)
-  obtain ⟨I, g, hg⟩ := exists_factor_through_stage_of_affine B S hS hA D X
+  obtain ⟨I, g, hg⟩ := exists_factor_through_stage_of_affine B S hS D hA.1 X
     (ε.inv.app ((BigAffineFppf.inclusion B S hS).obj X) ≫ ξ)
   obtain ⟨W, p, c, hpb, hci⟩ :=
     exists_isPullback_quotientCompletion_of_factorsThroughStage B S hS hA D E φ hφ I
@@ -497,7 +498,7 @@ theorem isClosedImmersion_formalSpectrumMap_quotientCompletion :
     refine ⟨fun {Q} f₁ f₂ h => Limits.colimit.hom_ext fun Kk => ?_⟩
     have hK : cc (ULift.up (OrderDual.ofDual Kk)) ≫ f₁ =
         cc (ULift.up (OrderDual.ofDual Kk)) ≫ f₂ := by
-      rw [← Limits.Sigma.ι_desc cc (ULift.up (OrderDual.ofDual Kk)),
+      rw [← Limits.Sigma.ι_comp_desc cc (ULift.up (OrderDual.ofDual Kk)),
         Category.assoc, Category.assoc, h]
     exact hK
   refine isClosedImmersion_of_locallySurjectiveFamily B S hS Idx Yi cc hls fun i => ?_

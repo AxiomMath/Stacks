@@ -129,13 +129,13 @@ lemma restrictedSheafifyUnit_locallySurjective
       ((Opens.grothendieckTopology X.carrier).over U)
       ((restrFun X.presheaf U).map
         (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-  show Presheaf.IsLocallySurjective _ ((Over.forget U).op.whiskerLeft
+  change Presheaf.IsLocallySurjective _ ((Over.forget U).op.whiskerLeft
     ((PresheafOfModules.toPresheaf _).map
       (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))))
   have : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
       ((PresheafOfModules.toPresheaf _).map
         (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-    show Presheaf.IsLocallySurjective _
+    change Presheaf.IsLocallySurjective _
       (CategoryTheory.toSheafify _
         (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val).presheaf)
     infer_instance
@@ -151,13 +151,13 @@ lemma restrictedSheafifyUnit_locallyInjective
       ((Opens.grothendieckTopology X.carrier).over U)
       ((restrFun X.presheaf U).map
         (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-  show Presheaf.IsLocallyInjective _ ((Over.forget U).op.whiskerLeft
+  change Presheaf.IsLocallyInjective _ ((Over.forget U).op.whiskerLeft
     ((PresheafOfModules.toPresheaf _).map
       (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))))
   have : Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
       ((PresheafOfModules.toPresheaf _).map
         (sheafifyUnit X (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val))) := by
-    show Presheaf.IsLocallyInjective _
+    change Presheaf.IsLocallyInjective _
       (CategoryTheory.toSheafify _
         (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val).presheaf)
     infer_instance
@@ -385,7 +385,7 @@ theorem internalHomTensorIso_natural_right
     sheafHomMapRight X h ≫ (internalHomTensorIso X F G H').hom =
       (internalHomTensorIso X F G H).hom ≫ sheafHomMapRight X (sheafHomMapRight X h) := by
   apply _root_.SheafOfModules.hom_ext
-  show internalHomMapRight X.presheaf
+  change internalHomMapRight X.presheaf
       (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj F).obj G).val h.val ≫
       (sheafificationInternalHomComparison X F G H' ≫
       (presheafInternalHomTensorIso X.presheaf F.val G.val H'.val).hom) =
@@ -395,8 +395,5 @@ theorem internalHomTensorIso_natural_right
         (internalHomMapRight X.presheaf G.val h.val)
   rw [← Category.assoc, sheafificationInternalHomComparison_natural_right X h,
     Category.assoc, presheafInternalHomTensorIso_natural_right, Category.assoc]
-
-add_to_stacks 01CN "canonical_iso" Stacks.SheafOfModules.internalHomTensorIso
-add_to_stacks 01CN "in_particular" Stacks.SheafOfModules.tensorHomEquiv
 
 end Stacks.SheafOfModules

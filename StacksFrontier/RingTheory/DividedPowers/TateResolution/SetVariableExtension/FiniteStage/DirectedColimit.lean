@@ -87,7 +87,7 @@ public theorem finiteVariableStage_insert
   let V : Finset J → Set C := fun S =>
     {x | ∃ k, k ∈ S ∧ (x = T k ∨ ∃ n, x = δ.dpow n (T k))}
   let N : Set C := {x | x = T j ∨ ∃ n, x = δ.dpow n (T j)}
-  show Subring.closure (Set.range ι ∪ V U) =
+  change Subring.closure (Set.range ι ∪ V U) =
     Subring.closure ((Subring.closure (Set.range ι ∪ V S) : Set C) ∪ N)
   apply le_antisymm
   · apply Subring.closure_le.mpr

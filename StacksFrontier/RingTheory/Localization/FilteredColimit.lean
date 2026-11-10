@@ -106,7 +106,7 @@ theorem isLocalizationAway_of_isColimit {B : J ⥤ CommRingCat.{u}} (φ : A ⟶ 
     obtain ⟨⟨a, -, n, rfl⟩, ha⟩ := IsLocalization.surj (M := Submonoid.powers (r k)) (B.map v z₀)
     have ha' : B.map v z₀ * φ.app k (r k ^ n) = φ.app k a := ha
     refine ⟨⟨cA.ι.app k a, _, Submonoid.pow_mem _ (Submonoid.mem_powers _) n⟩, ?_⟩
-    show z * algebraMap cA.pt cB.pt ((cA.ι.app j₀ (r j₀) : cA.pt) ^ n)
+    change z * algebraMap cA.pt cB.pt ((cA.ι.app j₀ (r j₀) : cA.pt) ^ n)
         = algebraMap cA.pt cB.pt (cA.ι.app k a)
     rw [hmap, hmap, ← hz₀, ← hιB v z₀, map_pow, ← hρ k u, hψ', hψ', ← map_pow, ← map_mul,
       ← map_pow, ha']

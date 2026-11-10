@@ -52,7 +52,7 @@ theorem root_mem_nonZeroDivisors_of_mem_nonZeroDivisors [NeZero e] (hφ : φ ∈
   rw [mem_nonZeroDivisors_iff_right]
   intro c hc
   apply hreg
-  show φ • c = φ • (0 : standardTamelyRamifiedAlgebra A φ e)
+  change φ • c = φ • (0 : standardTamelyRamifiedAlgebra A φ e)
   rw [smul_zero, Algebra.smul_def, ← Abhyankar.root_pow A φ e,
     ← pow_sub_one_mul (NeZero.ne e) (Abhyankar.root A φ e), mul_assoc, mul_comm _ c, hc, mul_zero]
 
@@ -131,12 +131,12 @@ theorem mem_span_root_of_isIntegral [IsNoetherianRing A] [NeZero e]
     obtain ⟨d, hd⟩ := IsIntegrallyClosed.isIntegral_iff.mp hτc
     have hτv : τ v * ψ x = 1 := by
       rw [mul_comm, ← hτ₀, ← AlgHom.coe_toRingHom]
-      show τ₀ (algebraMap C L x) * τ₀ v = 1
+      change τ₀ (algebraMap C L x) * τ₀ v = 1
       rw [← map_mul, hv, map_one]
     have hcd : algebraMap C Cp c = algebraMap C Cp x * d := by
       apply IsFractionRing.injective Cp K
       rw [map_mul, hd, ← hψ, ← hψ, map_mul]
-      show ψ c = ψ x * (τ₀ (algebraMap C L c) * τ v)
+      change ψ c = ψ x * (τ₀ (algebraMap C L c) * τ v)
       rw [hτ₀, mul_comm (ψ c), ← mul_assoc, mul_comm (ψ x), hτv, one_mul]
     rw [Ideal.map_span, Set.image_singleton, hcd]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
@@ -196,7 +196,7 @@ theorem isIntegrallyClosedIn_localizationAway [IsNoetherianRing A] [NeZero e]
       mul_assoc, ← mul_pow, mul_comm v, hv, one_pow, mul_one]
   change _root_.IsIntegral C (IsLocalization.mk' L c (⟨algebraMap A C φ ^ k, k, rfl⟩ :
       Submonoid.powers (algebraMap A C φ))) at hb
-  show ∃ y, algebraMap C L y = IsLocalization.mk' L c (⟨algebraMap A C φ ^ k, k, rfl⟩ :
+  change ∃ y, algebraMap C L y = IsLocalization.mk' L c (⟨algebraMap A C φ ^ k, k, rfl⟩ :
       Submonoid.powers (algebraMap A C φ))
   rw [hb'] at hb ⊢
   exact key _ c hb

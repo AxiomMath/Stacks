@@ -208,7 +208,7 @@ public theorem openObjectHomOfLE_comp_openObjectι (W : SmallEtale B S hS)
   apply (SmallEtale.inclusion B S hS).map_injective
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (SmallEtale.toScheme B S hS).map
+  change (SmallEtale.toScheme B S hS).map
       (openObjectHomOfLE B S hS W h ≫ openObjectι B S hS W U) =
     (SmallEtale.toScheme B S hS).map (openObjectι B S hS W U')
   rw [Functor.map_comp, openObjectHomOfLE_map, openObjectι_map, openObjectι_map,
@@ -460,7 +460,7 @@ public lemma finiteSupportTensorSectionsHom_add (F : ModuleSheaf.{u, v, max (u +
       finiteSupportTensorSectionsHom B Λ f F G V t +
         finiteSupportTensorSectionsHom B Λ f F G V t' := by
   refine OpenSectionMap.finiteSupportSectionsHom_add.{u, max (u + 1) v} B f _ _ _ fun U s => ?_
-  show tensorSectionHom B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
+  change tensorSectionHom B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
       (baseChange B f V) (modPullbackUnitSection B Λ f G V (t + t')) U s = _
   rw [map_add]
   exact tensorSectionHom_add B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)

@@ -136,7 +136,7 @@ theorem isIso_truncGE_map_Q_cotangentToNaiveCochain :
   intro i hi
   refine (NatIso.isIso_map_iff
     (DerivedCategory.homologyFunctorFactors (ModuleCat.{max u₂ v u₄} S.B) i) _).2 ?_
-  show IsIso (HomologicalComplex.homologyMap S.cotangentToNaiveCochain i)
+  change IsIso (HomologicalComplex.homologyMap S.cotangentToNaiveCochain i)
   by_cases h : i = -1 ∨ i = 0
   · exact S.isIso_homologyMap_cotangentToNaiveCochain i h
   have hpos : 0 < i := by omega

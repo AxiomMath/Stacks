@@ -68,7 +68,7 @@ composite of the graded opposites. -/
 theorem oppHom_comp {A B C : DifferentialGradedAlgebra.{u, u} R} (φ : A.Hom B) (ψ : B.Hom C) :
     (oppHom ψ).comp (oppHom φ) = oppHom (ψ.comp φ) := by
   refine hom_eq_of_toAlgebraHom_eq (AlgHom.ext fun a => ?_)
-  show (oppHom ψ).toAlgebraHom ((oppHom φ).toAlgebraHom a) = _
+  change (oppHom ψ).toAlgebraHom ((oppHom φ).toAlgebraHom a) = _
   rw [oppHom_apply, oppHom_apply, oppHom_apply, LinearEquiv.apply_symm_apply]
   rfl
 

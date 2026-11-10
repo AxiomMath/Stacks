@@ -111,14 +111,14 @@ theorem idealPowerSectionsCodRestrict_comp_sectionsEtaFstSnd
     (pullback.condition (f := idealPowerMap X I n (F.d n (n + 1)))
       (g := idealPowerIncl X I ι n (F.X (n + 1))))
   simp only [Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply] at hcond
-  show idealPowerSectionsMap X I ι (F.X (n + 1)) V g hg (n + 1)
+  change idealPowerSectionsMap X I ι (F.X (n + 1)) V g hg (n + 1)
       (((sectionsFunctor X V).map (etaSnd X I ι F n)).hom x) =
     EtaPow.fLoc (generatorSection X ι V g) ((sectionsComplex X F V).d n (n + 1)).hom
       ((sectionsEtaTermEquiv X I ι F hF V g hg n x :
         EtaComplex.term (generatorSection X ι V g) (sectionsComplex X F V) n) :
         EtaPow.Loc (generatorSection X ι V g) ((sectionsComplex X F V).X n))
   rw [← h1, ← idealPowerSectionsMap_succ X I ι (F.X (n + 1)) V g hg n]
-  show _ = EtaPow.fLoc (generatorSection X ι V g)
+  change _ = EtaPow.fLoc (generatorSection X ι V g)
     ((sectionsFunctor X V).map (F.d n (n + 1))).hom _
   rw [idealPowerSectionsMap_natural X I ι (F.d n (n + 1)) V g hg n]
   exact congrArg (idealPowerSectionsMap X I ι (F.X (n + 1)) V g hg n) hcond.symm

@@ -206,7 +206,7 @@ lemma extensionFunctor_map_lof (O : Cᵒᵖ ⥤ RingCat.{w}) (U : C)
     (X : Cᵒᵖ) (φ : X.unop ⟶ U) (x : extensionFormulaSummands.{v, u, w, m} O U G X.unop φ) :
     ((extensionFunctor O U).map f).app X (formulaι O U G X φ x) =
       formulaι O U H X φ (f.app (op (Over.mk φ)) x) := by
-  show (DirectSum.toModule (O.obj X) (X.unop ⟶ U) (((extensionFunctor O U).obj H).obj X)
+  change (DirectSum.toModule (O.obj X) (X.unop ⟶ U) (((extensionFunctor O U).obj H).obj X)
     (fun ψ => (formulaι O U H X ψ).comp (f.app (op (Over.mk ψ))).hom))
       (DirectSum.lof (O.obj X) _ _ φ x) = _
   rw [DirectSum.toModule_lof]

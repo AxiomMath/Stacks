@@ -1054,7 +1054,7 @@ lemma isIso_sheafification_tensor_units :
           inv ((moduleSheafification.{v, u, w, z₁} J a).map rightUnit))
         hom_inv_id := Prod.ext (IsIso.hom_inv_id _) (IsIso.hom_inv_id _)
         inv_hom_id := Prod.ext (IsIso.inv_hom_id _) (IsIso.inv_hom_id _) }
-    show IsIso ((Functor.uncurry.obj
+    change IsIso ((Functor.uncurry.obj
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z₁} Osharp)).map
       (((moduleSheafification.{v, u, w, z} J a).map leftUnit,
         (moduleSheafification.{v, u, w, z₁} J a).map rightUnit) :

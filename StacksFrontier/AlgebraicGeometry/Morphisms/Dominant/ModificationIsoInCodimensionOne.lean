@@ -71,13 +71,13 @@ theorem IsModification.exists_isIso_morphismRestrict_of_isNormal {X Y : Scheme.{
       hh.isBirational y hx)
   refine ⟨V, ?_, hmemV⟩
   have hgenV : genericPoint X ∈ V := hmemV _ (by
-    show ringKrullDim X.functionField ≤ 1
+    change ringKrullDim X.functionField ≤ 1
     rw [ringKrullDim_eq_zero_of_field]
     exact zero_le_one)
   have : Nonempty V := ⟨⟨_, hgenV⟩⟩
   have : Nonempty (h ⁻¹ᵁ V) :=
     ⟨⟨genericPoint Y, by
-      show h (genericPoint Y) ∈ V
+      change h (genericPoint Y) ∈ V
       rwa [IsBirational.genericPoint_eq h hh.isBirational]⟩⟩
   -- Every fibre of `h ∣_ V` is zero-dimensional.
   have hdim : ∀ v : V.toScheme,

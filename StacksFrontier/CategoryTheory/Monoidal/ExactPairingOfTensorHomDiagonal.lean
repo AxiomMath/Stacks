@@ -67,7 +67,7 @@ theorem whiskerRight_unitTensorHomDiagonal_comp_counit (E : C) :
   have h2 := (adj E).counit.naturality (ρ_ E).hom
   simp only [Functor.comp_map, Functor.id_map] at h2
   simp only [unitTensorHomDiagonal, MonoidalCategory.comp_whiskerRight, Category.assoc]
-  show _ ≫ ((curriedTensor C).flip.obj E).map _ ≫ _ = _
+  change _ ≫ ((curriedTensor C).flip.obj E).map _ ≫ _ = _
   rw [h2]
   rw [← Category.assoc, h1, Category.assoc]
 
@@ -126,7 +126,7 @@ theorem tensorHomDiagonalEvaluation_coevaluation :
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
   apply ((adj E).homEquiv _ _).symm.injective
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
-  show (_ ▷ E) ≫ _ = (_ ▷ E) ≫ _
+  change (_ ▷ E) ≫ _ = (_ ▷ E) ≫ _
   simp only [MonoidalCategory.comp_whiskerRight, Category.assoc]
   rw [evaluation_interchange, reassoc_of% zigzag_structural,
     tensorHomDiagonalCoevaluation_evaluation]
@@ -219,9 +219,9 @@ theorem map_exactPairingTensorHomMap_comp_pullbackHomMap (X Y K : C) [ExactPairi
     Equiv.symm_apply_apply, hinv]
   have ht := whiskerRight_homEquiv_comp_counit H adj
     ((α_ K Y X).hom ≫ K ◁ ε_ X Y ≫ (ρ_ K).hom)
-  show F.map _ ▷ F.obj X ≫ _ = Functor.OplaxMonoidal.δ F K Y ▷ F.obj X ≫ _
+  change F.map _ ▷ F.obj X ≫ _ = Functor.OplaxMonoidal.δ F K Y ▷ F.obj X ≫ _
   rw [Functor.LaxMonoidal.μ_natural_left_assoc, ← Functor.map_comp]
-  show Functor.LaxMonoidal.μ F _ X ≫ F.map ((((adj X).homEquiv _ _)
+  change Functor.LaxMonoidal.μ F _ X ≫ F.map ((((adj X).homEquiv _ _)
     ((α_ K Y X).hom ≫ K ◁ ε_ X Y ≫ (ρ_ K).hom)) ▷ X ≫ (adj X).counit.app K) = _
   rw [ht, ExactPairing.map_evaluation]
   simp only [Functor.map_comp, Functor.Monoidal.map_associator, Category.assoc,

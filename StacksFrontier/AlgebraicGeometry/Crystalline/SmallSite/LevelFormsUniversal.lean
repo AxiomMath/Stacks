@@ -212,7 +212,7 @@ def levelDerivationFun (e : ℕ) (x : (D : Type u)) : L.levelDiffSections e :=
 theorem levelDerivationFun_add (e : ℕ) (x y : (D : Type u)) :
     L.levelDerivationFun e (x + y) =
       L.levelDerivationFun e x + L.levelDerivationFun e y := by
-  show crysDerivation (L.levelSystem.obj e).obj (L.levelCrysRingHom e (x + y)) = _
+  change crysDerivation (L.levelSystem.obj e).obj (L.levelCrysRingHom e (x + y)) = _
   rw [map_add]
   exact sheafApp_add _ _ _ ⊤ _ _
 
@@ -292,8 +292,8 @@ end LevelScalars07JG
 namespace LevelForms07JG
 
 variable {S : GlobalCrystallineSituation.{u}} {A : Type u} [CommRing A] {D : DividedPowerRing.{u}}
-  {g : A →+* D} {Omega : Type u} [AddCommGroup Omega] [Module D Omega] [Module Dᵐᵒᵖ Omega]
-  [IsCentralScalar D Omega] {d : DividedPowerDerivation A D g Omega}
+  {g : A →+* D} {Omega : Type u} [AddCommGroup Omega] [Module D Omega]
+  {d : DividedPowerDerivation A D g Omega}
   (L : LevelScalars07JG S D)
   (hdp : ∀ e : ℕ, DividedPowers.IsDPMorphism D.dividedPowers
     (crysDividedPowers S (L.levelSystem.obj e).obj) (L.levelCrysRingHom e))
@@ -323,10 +323,10 @@ theorem levelDiffRestrict_universalLift (e : ℕ) :
       universalLift L hdp hbase huniv (d := d) e := by
   refine (huniv (L.levelDiffSections e)
     (L.levelDPDerivation (g := g) e (hdp e) (hbase e))).unique (fun a ↦ ?_) (fun a ↦ ?_)
-  · show crysDiffSectionsMap (L.levelStep e)
+  · change crysDiffSectionsMap (L.levelStep e)
         (universalLift L hdp hbase huniv (d := d) (e + 1) (d a)) = _
     rw [universalLift_derivation]
-    show crysDiffSectionsMap (L.levelStep e)
+    change crysDiffSectionsMap (L.levelStep e)
         (crysDerivation (L.levelSystem.obj (e + 1)).obj (L.levelCrysRingHom (e + 1) a)) = _
     rw [crysDiffSectionsMap_crysDerivation, L.levelCrysRingHom_restrict]
     rfl
@@ -359,6 +359,8 @@ theorem crysDiffSectionsMap_omegaMapOfUniversal (e : ℕ) (w : Omega) :
       omegaMapOfUniversal L hdp hbase huniv (d := d) e w :=
   congrArg (fun f : Omega →ₗ[(D : Type u)] L.levelDiffSections e ↦ f w)
     (levelDiffRestrict_universalLift L hdp hbase huniv e)
+
+variable [Module Dᵐᵒᵖ Omega] [IsCentralScalar D Omega]
 
 /-- **The differentials datum of [Stacks, Lemma 60.17.3, Tag 07JG] over a system of levels,
 constructed** from three inputs about the scalars alone:

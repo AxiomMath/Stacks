@@ -86,8 +86,8 @@ exactly the kernels where the tag is open:
 square-zero kernel, and nothing here proves or refutes it for a nilpotent kernel of index three or
 more. What the implementation notes below no longer claim is that the obstruction to deciding it is
 the non-additivity of the obstruction variation: that obstacle is removed in
-`StacksFrontier/Deformation/Examples/Linear/CoprimeCoverDivisibleCorrection.lean`, and what remains is
-an `Ext` interface this repository does not have.
+`StacksFrontier/Deformation/Examples/Linear/CoprimeCoverDivisibleCorrection.lean`, and what remains
+is an `Ext` interface this repository does not have.
 
 ## Implementation notes
 
@@ -119,8 +119,8 @@ unobstructed classes are not a coset of a submodule — so the whole correction 
 onto the syntomic member.
 
 Non-additivity of `∂` is nevertheless not what stops the gluing, and
-`StacksFrontier/Deformation/Examples/Linear/CoprimeCoverDivisibleCorrection.lean` says why. The share
-of the correction that the Čech splitting leaves on `D(g)` can be chosen divisible by any
+`StacksFrontier/Deformation/Examples/Linear/CoprimeCoverDivisibleCorrection.lean` says why. The
+share of the correction that the Čech splitting leaves on `D(g)` can be chosen divisible by any
 prescribed power of `f`, because comaximality supplies a partition of unity `1 = u f^N + v gᵏ` for
 every `N` and not only for `N = 0`
 (`Deformation.Examples.CoprimeCover.exists_eq_add_pow_smul`); and the obstruction module of the

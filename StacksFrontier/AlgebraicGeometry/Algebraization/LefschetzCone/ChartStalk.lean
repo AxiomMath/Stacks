@@ -80,7 +80,7 @@ theorem dimClosureAt_eq_ringKrullDim_quotient_primeIdealOf (k : Type u) [Field k
     rw [Scheme.Hom.comp_appTop, Category.assoc]
     have happ : hU.fromSpec.appTop = X.presheaf.map (homOfLE le_top).op ≫
         (Scheme.ΓSpecIso Γ(X, U)).inv := by
-      show hU.fromSpec.app ⊤ = _
+      change hU.fromSpec.app ⊤ = _
       rw [IsAffineOpen.fromSpec_app_of_le hU ⊤ le_top]
       rfl
     rw [happ]
@@ -212,9 +212,9 @@ theorem chartRingMap_mk_mem_primeIdealOf_iff (ch : ConsecutiveChart L) {x : X} (
   rw [← not_iff_not, ← mem_basicOpen_iff_notMem_primeIdealOf (ch.isAffineOpen_nv hL), ← hb]
   have hpos : 0 < D * (n + 1) := Nat.mul_pos ch.deg_pos (Nat.succ_pos n)
   have hpre := Stacks.SectionRingProjMorphism.projHomOfIsAmple_preimage_projBasicOpen L hL t hpos
-  show (x ∈ nvOpen L t ∧ x ∈ ch.nv) ↔ _
+  change (x ∈ nvOpen L t ∧ x ∈ ch.nv) ↔ _
   rw [← hpre, and_iff_left hx]
-  show (DirectSum.of (powSections L) (D * (n + 1)) t ∉ _) ↔ _
+  change (DirectSum.of (powSections L) (D * (n + 1)) t ∉ _) ↔ _
   rw [ht]
   constructor
   · intro h hz'
@@ -269,7 +269,7 @@ theorem depth_stalk_eq_depth_chartPrime (ch : ConsecutiveChart L) {x : X} (hx : 
     intro r n
     obtain ⟨σ, rfl⟩ := (chartSectionsOf L hL M ch.prod ch.deg_pos).surjective n
     rw [← chartSectionsOf_smul L hL M ch.prod ch.deg_pos r σ]
-    show iso.hom.app ch.nv ((chartSectionsOf L hL M ch.prod ch.deg_pos).symm
+    change iso.hom.app ch.nv ((chartSectionsOf L hL M ch.prod ch.deg_pos).symm
         (chartSectionsOf L hL M ch.prod ch.deg_pos
           (Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl r • σ))) =
       Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl r •

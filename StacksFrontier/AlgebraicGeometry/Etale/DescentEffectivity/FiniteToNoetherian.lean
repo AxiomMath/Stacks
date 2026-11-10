@@ -143,7 +143,7 @@ theorem qcSepEtaleEffective_of_forall_isNoetherian {S X : Scheme.{u}} (f : X ⟶
         ((Over.pullback (𝒟.system.map m₁)).obj Y₀), ?_, hSurj₂,
       ⟨step m₂ _ e₁⟩⟩
     have := hFin₁
-    show IsFinite (pullback.snd ((Over.pullback (𝒟.system.map m₁)).obj Y₀).hom
+    change IsFinite (pullback.snd ((Over.pullback (𝒟.system.map m₁)).obj Y₀).hom
       (𝒟.system.map m₂))
     infer_instance
   obtain ⟨j, Y, hFinY, hSurjY, ⟨e⟩⟩ := key

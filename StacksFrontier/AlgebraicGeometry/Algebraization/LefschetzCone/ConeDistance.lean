@@ -78,7 +78,7 @@ public theorem ringKrullDim_quotient_le_distanceToZ (k : Type u) [Field k] [Alge
   let δ := residueFieldTrdegDimensionFunction k S.Y fY
   have hZ0 : ∀ z' ∈ (S.closedSubsetZ : Set S.Y), δ z' = 0 := by
     intro z' hz'
-    show ((natTrdegResidueField k S.Y fY z' : ℕ) : ℤ) = 0
+    change ((natTrdegResidueField k S.Y fY z' : ℕ) : ℤ) = 0
     rw [natTrdegResidueField_eq_zero_of_isClosed k S.Y fY z' <|
       (PrimeSpectrum.isClosed_singleton_iff_isMaximal _).2
         (S.isMaximal_of_mem_closedSubsetZ hZ hz')]
@@ -92,7 +92,7 @@ public theorem ringKrullDim_quotient_le_distanceToZ (k : Type u) [Field k] [Alge
     have hdist := distanceFunction_ge_dimensionFunction_sub_max S.Y S.closedSubsetZ δ 0 hm z
     rw [← dimClosureAt_Y_eq_ringKrullDim S z, dimClosureAt_eq_natTrdegResidueField k fY z]
     have h1 : ((δ z - 0).toNat : ℕ) = natTrdegResidueField k S.Y fY z := by
-      show (((natTrdegResidueField k S.Y fY z : ℕ) : ℤ) - 0).toNat = _
+      change (((natTrdegResidueField k S.Y fY z : ℕ) : ℤ) - 0).toNat = _
       simp
     rw [h1] at hdist
     exact_mod_cast hdist

@@ -239,7 +239,7 @@ theorem exists_tower_algebraization (hsep : IsSeparated B S hS D.f.hom)
   have hb : ∀ n, (ξ.map (homOfLE (n.le_add_right 1)) : CoherentHom _ _).base ≫ b (n + 1) =
       b n := fun n => by
     rw [hξ]
-    show D.testHom ι _ ≫ D.testHom ι _ = D.testHom ι _
+    change D.testHom ι _ ≫ D.testHom ι _ = D.testHom ι _
     rw [← testHom_comp, c.w]
   obtain ⟨G, hq, hfp, hfl, hps, ψ, hψ⟩ := hTE Λ R cR hcR hsurj hsq (D.testOver ι c.pt) eLimit ξ b
     hb e (fun n => by rw [hξ]; exact he _) heL
@@ -356,7 +356,7 @@ theorem towerOverMap_w (n : ℕ) :
     D.relativeMap (D.testHom ι (T.map (homOfLE (n.le_add_right 1)))) ≫
         D.relativeMap (D.legHom ι c (n + 1)) =
       D.relativeMap (D.legHom ι c n) := by
-  show baseChangeMap D.f _ ≫ baseChangeMap D.f (D.testHom ι _) =
+  change baseChangeMap D.f _ ≫ baseChangeMap D.f (D.testHom ι _) =
     baseChangeMap D.f (D.testHom ι _)
   rw [← baseChangeMap_comp, ← testHom_comp, c.w]
 
@@ -371,7 +371,7 @@ theorem baseChangeMap_baseChangeToTower (n : ℕ) :
   · rw [Category.assoc, Category.assoc, baseChangeToTower_relativeMap, D.towerOverMap_w ι c n,
       baseChangeToTower_relativeMap, baseChangeMap_comp_projection]
   · rw [Category.assoc, Category.assoc, baseChangeToTower_projection]
-    show _ = _ ≫ baseChangeMap D.f _ ≫ baseChangeInclusion D.f _
+    change _ = _ ≫ baseChangeMap D.f _ ≫ baseChangeInclusion D.f _
     rw [baseChangeMap_comp_inclusion, baseChangeMap_comp_inclusion D.f,
       ← Category.assoc, baseChangeToTower_projection]
     rfl
@@ -761,12 +761,12 @@ theorem surjective_toScheme_map_ι_zero
         RingHom.ker (R.map (homOfLE (Nat.zero_le n)).op).hom.toRingHom ^ 2 :=
       Ideal.pow_mem_pow hxn 2
     rw [hsq, Ideal.mem_bot] at h2
-    show (cR.π.app (op n)).hom (x ^ 2) = (cR.π.app (op n)).hom 0
+    change (cR.π.app (op n)).hom (x ^ 2) = (cR.π.app (op n)).hom 0
     rw [map_pow, map_zero, h2]
   intro y
   obtain ⟨p, hp⟩ := Spec_map_base_surjective_of_ker_le_nilradical π₀ hπs hk (eLimit.hom y)
   refine ⟨(e 0).inv p, (Scheme.homeoOfIso eLimit).injective ?_⟩
-  show eLimit.hom ((BigFppfOver.toScheme B S hS).map (c.ι.app 0) ((e 0).inv p)) =
+  change eLimit.hom ((BigFppfOver.toScheme B S hS).map (c.ι.app 0) ((e 0).inv p)) =
     eLimit.hom y
   rw [← Scheme.Hom.comp_apply, heL 0, Scheme.Hom.comp_apply,
     show (e 0).hom ((e 0).inv p) = p from (Scheme.homeoOfIso (e 0)).apply_symm_apply p]

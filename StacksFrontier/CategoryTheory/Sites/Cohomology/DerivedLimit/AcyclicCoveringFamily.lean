@@ -239,10 +239,12 @@ variable (X : RingedSite.{u, u, u})
 /-- The system of degree-`q` hypercohomology modules over `U` of an inverse system of objects
 of the derived category of `O`-modules. -/
 abbrev hypercohomologySystem (U : X.C)
-    (K : ℕᵒᵖ ⥤ DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (q : ℤ) :
+    (K : ℕᵒᵖ ⥤ DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+    (q : ℤ) :
     ℕᵒᵖ ⥤ ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) :=
   K ⋙ derivedSections (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U ⋙
-    DerivedCategory.homologyFunctor (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))) q
+    DerivedCategory.homologyFunctor
+      (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))) q
 
 /-- Where the hypercohomology edge morphism is invertible at every term of the system, the
 vanishing of the first derived inverse limit of the sections of the cohomology sheaves transfers
@@ -252,14 +254,20 @@ This is what feeds the Milnor sequence of Tag 0BKX: that sequence presents `R¹l
 hypercohomology system as this cokernel, so the hypothesis of Tag 0A09, which is about sections
 of the cohomology sheaves, reaches it only across the edge morphism. -/
 lemma isZero_cokernel_difference_hypercohomologySystem (U : X.C)
-    (K : ℕᵒᵖ ⥤ DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) (q : ℤ)
-    (hedge : ∀ n : ℕ, IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U q).app (K.obj ⟨n⟩)))
+    (K : ℕᵒᵖ ⥤ DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+    (q : ℤ)
+    (hedge : ∀ n : ℕ,
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U q).app
+        (K.obj ⟨n⟩)))
     (hlimOne : IsZero (Rlim.firstDerivedLimit
-      (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
+      (K ⋙ DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
         sectionsOverObject X U))) :
     IsZero (cokernel (inverseSystemDifference (hypercohomologySystem X U K q))) := by
-  let G := forget₂ (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))) AddCommGrpCat.{u}
-  let A := K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
+  let G := forget₂ (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)))
+    AddCommGrpCat.{u}
+  let A := K ⋙ DerivedCategory.homologyFunctor
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
     sectionsOverObject X U
   let α := Functor.whiskerLeft K
     (Functor.whiskerRight (hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U q) G)
@@ -296,28 +304,39 @@ lemma isIso_evaluation_cohomologyLimitMap (U : X.C)
         Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) (n + 1) ≫
             K.map (homOfLE (Nat.le_succ n)).op) δ ∈
-        distTriang (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+        distTriang
+          (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
     (q : ℤ)
-    (hedge : ∀ n : ℕ, IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U (q - 1)).app (K.obj ⟨n⟩)))
+    (hedge : ∀ n : ℕ,
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U (q - 1)).app
+        (K.obj ⟨n⟩)))
     (hlimOne : IsZero (Rlim.firstDerivedLimit
-      (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (q - 1) ⋙
+      (K ⋙ DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (q - 1) ⋙
         sectionsOverObject X U)))
     (a : (derivedSectionsPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
-        DerivedCategory.homologyFunctor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q).obj L ⟶
+        DerivedCategory.homologyFunctor
+          (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q).obj L ⟶
       limit (K ⋙ derivedSectionsPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
-        DerivedCategory.homologyFunctor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q))
+        DerivedCategory.homologyFunctor
+          (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q))
     (ha : ∀ n : ℕ, a ≫ limit.π _ ⟨n⟩ =
       (derivedSectionsPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
-        DerivedCategory.homologyFunctor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q).map
+        DerivedCategory.homologyFunctor
+          (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q).map
           (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n)) :
-    IsIso ((PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)).map a) := by
+    IsIso ((PresheafOfModules.evaluation
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)).map a) := by
   let RG := derivedSections (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
   let P := derivedSectionsPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
-    DerivedCategory.homologyFunctor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q
+    DerivedCategory.homologyFunctor
+      (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q
   let E := PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)
-  let H := DerivedCategory.homologyFunctor (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))) q
+  let H := DerivedCategory.homologyFunctor
+    (ModuleCat.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U))) q
   obtain ⟨hprod, ar, br, htr, har, ep, i, r, hz, hep, hi, hseq, hr⟩ :=
-    exists_milnor_shortExact_derivedSections (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U K L p hp q
+    exists_milnor_shortExact_derivedSections (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U K L p
+      hp q
   have : IsIso r := hseq.isIso_g_iff.mpr
     (isZero_cokernel_difference_hypercohomologySystem X U K (q - 1) hedge hlimOne)
   let e := sectionsEvaluationIso (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U q
@@ -337,9 +356,11 @@ lemma isIso_evaluation_cohomologyLimitMap (U : X.C)
 /-- The degree-`q` cohomology presheaf functor: the degree-`q` cohomology of derived sections
 taken over every object of the site at once. -/
 abbrev cohomologyPresheafFunctor (q : ℤ) :
-    DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⥤ PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj :=
+    DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⥤
+      PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj :=
   derivedSectionsPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
-    DerivedCategory.homologyFunctor (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q
+    DerivedCategory.homologyFunctor
+      (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) q
 
 /-- The comparison from the degree-`q` cohomology presheaf of a derived limit to the underlying
 presheaf of the inverse limit of the degree-`q` cohomology sheaves, assembled from a cone map `a`
@@ -350,13 +371,17 @@ def limitComparisonPresheaf
     (a : (cohomologyPresheafFunctor X q).obj L ⟶ limit (K ⋙ cohomologyPresheafFunctor X q)) :
     (cohomologyPresheafFunctor X q).obj L ⟶
       (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj
-        (limit (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)) :=
-  a ≫ limMap (Functor.whiskerLeft K (cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q) :
+        (limit (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)) :=
+  a ≫ limMap (Functor.whiskerLeft K
+      (cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q) :
       K ⋙ cohomologyPresheafFunctor X q ⟶
-        (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q) ⋙
+        (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q) ⋙
           SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ≫
     (preservesLimitIso (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-      (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)).inv
+      (K ⋙ DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)).inv
 
 /-- Sections over a member of the covering collection of the comparison
 `limitComparisonPresheaf` are invertible. All three of its factors are: the cone map by the
@@ -372,43 +397,53 @@ theorem isIso_evaluation_limitComparisonPresheaf
         Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) (n + 1) ≫
             K.map (homOfLE (Nat.le_succ n)).op) δ ∈
-        distTriang (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+        distTriang
+          (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
     (B : ObjectProperty X.C)
     (hedge : ∀ U, B U → ∀ (m : ℤ) (n : ℕ),
-      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app (K.obj ⟨n⟩)))
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app
+        (K.obj ⟨n⟩)))
     (hlimOne : ∀ U, B U → ∀ m : ℤ,
       IsZero (Rlim.firstDerivedLimit
-        (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
+        (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
           sectionsOverObject X U)))
     (q : ℤ)
     (a : (cohomologyPresheafFunctor X q).obj L ⟶ limit (K ⋙ cohomologyPresheafFunctor X q))
     (ha : ∀ n : ℕ, a ≫ limit.π _ ⟨n⟩ =
       (cohomologyPresheafFunctor X q).map (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n))
     (U : X.C) (hU : B U) :
-    IsIso ((PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)).map
+    IsIso ((PresheafOfModules.evaluation
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)).map
       (limitComparisonPresheaf X K L q a)) := by
   let E := PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)
-  let H := DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q
-  let ηK : K ⋙ cohomologyPresheafFunctor X q ⟶ (K ⋙ H) ⋙ SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
-    Functor.whiskerLeft K (cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q)
+  let H := DerivedCategory.homologyFunctor
+    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q
+  let ηK : K ⋙ cohomologyPresheafFunctor X q ⟶
+      (K ⋙ H) ⋙ SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+    Functor.whiskerLeft K
+      (cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q)
   have hA : IsIso (E.map a) :=
     isIso_evaluation_cohomologyLimitMap X U K L p hp q
       (fun n ↦ hedge U hU (q - 1) n) (hlimOne U hU (q - 1)) a ha
   have hW : IsIso (Functor.whiskerRight ηK E) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro n
-    exact isIso_evaluation_cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U q (K.obj n)
-      (hedge U hU q n.unop)
+    exact isIso_evaluation_cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U q (K.obj n) (hedge U hU q n.unop)
   have hM : IsIso (E.map (limMap ηK)) :=
     Stacks.HomologyComparison.isIso_map_limMap_of_isIso_whiskerRight E ηK
-  have hT : IsIso (E.map (preservesLimitIso (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv) :=
+  have hT : IsIso (E.map (preservesLimitIso
+      (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv) :=
     E.map_isIso _
   have hsplit : E.map (limitComparisonPresheaf X K L q a) =
       E.map a ≫ E.map (limMap ηK) ≫
-        E.map (preservesLimitIso (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv := by
+        E.map (preservesLimitIso
+          (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv := by
     rw [show limitComparisonPresheaf X K L q a =
         a ≫ limMap ηK ≫
-          (preservesLimitIso (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv from rfl,
+          (preservesLimitIso (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+            (K ⋙ H)).inv from rfl,
       E.map_comp, E.map_comp]
   change IsIso (E.map (limitComparisonPresheaf X K L q a))
   rw [hsplit]
@@ -426,19 +461,23 @@ theorem isIso_sheafification_map_limitComparisonPresheaf
         Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) (n + 1) ≫
             K.map (homOfLE (Nat.le_succ n)).op) δ ∈
-        distTriang (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+        distTriang
+          (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
     (B : ObjectProperty X.C) (hB : X.J.HasEnoughObjects B)
     (hedge : ∀ U, B U → ∀ (m : ℤ) (n : ℕ),
-      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app (K.obj ⟨n⟩)))
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app
+        (K.obj ⟨n⟩)))
     (hlimOne : ∀ U, B U → ∀ m : ℤ,
       IsZero (Rlim.firstDerivedLimit
-        (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
+        (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
           sectionsOverObject X U)))
     (q : ℤ)
     (a : (cohomologyPresheafFunctor X q).obj L ⟶ limit (K ⋙ cohomologyPresheafFunctor X q))
     (ha : ∀ n : ℕ, a ≫ limit.π _ ⟨n⟩ =
       (cohomologyPresheafFunctor X q).map (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n)) :
-    IsIso ((PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
+    IsIso ((PresheafOfModules.sheafification
+      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).map
       (limitComparisonPresheaf X K L q a)) :=
   PresheafOfModules.isIso_sheafification_map_of_isIso_evaluation hB _
     fun U hU ↦ isIso_evaluation_limitComparisonPresheaf X K L p hp B hedge hlimOne q a ha U hU
@@ -462,29 +501,37 @@ theorem isIso_cohomologyLimitComparison
         Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) (n + 1) ≫
             K.map (homOfLE (Nat.le_succ n)).op) δ ∈
-        distTriang (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+        distTriang
+          (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
     (B : ObjectProperty X.C) (hB : X.J.HasEnoughObjects B)
     (hedge : ∀ U, B U → ∀ (m : ℤ) (n : ℕ),
-      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app (K.obj ⟨n⟩)))
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app
+        (K.obj ⟨n⟩)))
     (hlimOne : ∀ U, B U → ∀ m : ℤ,
       IsZero (Rlim.firstDerivedLimit
-        (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
+        (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m ⋙
           sectionsOverObject X U)))
     (q : ℤ)
     (a : (cohomologyPresheafFunctor X q).obj L ⟶ limit (K ⋙ cohomologyPresheafFunctor X q))
-    (b : (DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj L ⟶
-      limit (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q))
+    (b : (DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj L ⟶
+      limit (K ⋙ DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q))
     (ha : ∀ n : ℕ, a ≫ limit.π _ ⟨n⟩ =
       (cohomologyPresheafFunctor X q).map (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n))
     (hb : ∀ n : ℕ, b ≫ limit.π _ ⟨n⟩ =
-      (DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).map
+      (DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).map
         (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n)) :
     IsIso b := by
   let P := cohomologyPresheafFunctor X q
-  let H := DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q
+  let H := DerivedCategory.homologyFunctor
+    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q
   let F := SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
   let S := PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
-  let adj := PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+  let adj :=
+    PresheafOfModules.sheafificationAdjunction (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
   let η := cohomologyPresheafComparison (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q
   let ηK : K ⋙ P ⟶ (K ⋙ H) ⋙ F := Functor.whiskerLeft K η
   let t := preservesLimitIso F (K ⋙ H)
@@ -500,12 +547,14 @@ theorem isIso_cohomologyLimitComparison
   have hunit : IsIso (S.map (η.app L)) := by
     rw [show S.map (η.app L) =
         S.map (adj.unit.app (P.obj L)) ≫
-          S.map (F.map ((sheafificationCohomologyPresheafIso (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q).hom.app L)) from
+          S.map (F.map ((sheafificationCohomologyPresheafIso
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q).hom.app L)) from
       S.map_comp _ _]
     have h₁ : IsIso (S.map (adj.unit.app (P.obj L))) :=
       isIso_map_unit_app adj (P.obj L) inferInstance
     have h₂ : IsIso (S.map (F.map
-        ((sheafificationCohomologyPresheafIso (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q).hom.app L))) := inferInstance
+        ((sheafificationCohomologyPresheafIso
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) q).hom.app L))) := inferInstance
     exact IsIso.comp_isIso' h₁ h₂
   have hcomp : IsIso (S.map (η.app L) ≫ S.map (F.map b)) := by
     rw [← S.map_comp, hfac]
@@ -538,17 +587,23 @@ theorem cohomology_isLimit_of_isDerivedLimit_of_acyclic_cover
     (B : ObjectProperty X.C)
     (hB : X.J.HasEnoughObjects B)
     (hacyclic : ∀ U, B U → ∀ q : ℤ, ∀ n : ℕ, ∀ r : ℕ, 0 < r →
-      IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)).rightDerived r).obj
-        ((DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj
+      IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        (op U)).rightDerived r).obj
+        ((DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj
           (K.obj ⟨n⟩))))
     (hlimOne : ∀ U, B U → ∀ q : ℤ,
       IsZero (Rlim.firstDerivedLimit
-        (K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
+        (K ⋙ DerivedCategory.homologyFunctor
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q ⋙
           sectionsOverObject X U)))
-    (h0BKZ : ∀ M : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)), ∀ U, B U →
+    (h0BKZ : ∀ M : DerivedCategory
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)), ∀ U, B U →
       (∀ V, B V → ∀ r : ℕ, 0 < r → ∀ m : ℤ,
-        IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op V)).rightDerived r).obj
-          ((DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m).obj M))) →
+        IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          (op V)).rightDerived r).obj
+          ((DerivedCategory.homologyFunctor
+            (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m).obj M))) →
       ∀ m : ℤ, IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app M))
     (q : ℤ) :
     ∃ p : L ⟶ ∏ᶜ fun n : ℕ ↦ K.obj ⟨n⟩,
@@ -557,24 +612,30 @@ theorem cohomology_isLimit_of_isDerivedLimit_of_acyclic_cover
           Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n -
             Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) (n + 1) ≫
               K.map (homOfLE (Nat.le_succ n)).op) δ ∈
-          distTriang (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ∧
+          distTriang
+            (DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ∧
       ∃ τ : (Functor.const ℕᵒᵖ).obj
-          ((DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj L) ⟶
-          K ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q,
+          ((DerivedCategory.homologyFunctor
+            (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).obj L) ⟶
+          K ⋙ DerivedCategory.homologyFunctor
+            (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q,
         (∀ n : ℕ, τ.app ⟨n⟩ =
-          (DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).map
+          (DerivedCategory.homologyFunctor
+            (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q).map
             (p ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n)) ∧
         Nonempty (IsLimit (Cone.mk _ τ)) := by
   obtain ⟨p, δ, hδ⟩ := hL
   have hedge : ∀ U, B U → ∀ (m : ℤ) (n : ℕ),
-      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app (K.obj ⟨n⟩)) := fun U hU m n ↦
+      IsIso ((hypercohomologyEdge (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U m).app
+        (K.obj ⟨n⟩)) := fun U hU m n ↦
     h0BKZ (K.obj ⟨n⟩) U hU (fun V hV r hr i ↦ hacyclic V hV i n r hr) m
   obtain ⟨a, b, c, ha, hb, hc, hsquare⟩ :=
     Stacks.Cohomology.DerivedLimitDiagram.cohomologyDerivedLimitDiagram X K L p ⟨δ, hδ⟩ q
   have hbIso : IsIso b :=
     isIso_cohomologyLimitComparison X K L p ⟨δ, hδ⟩ B hB hedge hlimOne q a b ha hb
   refine ⟨p, ⟨δ, hδ⟩, (Functor.const ℕᵒᵖ).map b ≫ (limit.cone (K ⋙
-    DerivedCategory.homologyFunctor (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)).π, fun n ↦ hb n, ?_⟩
+    DerivedCategory.homologyFunctor
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) q)).π, fun n ↦ hb n, ?_⟩
   have := hbIso
   refine ⟨IsLimit.ofIsoLimit (limit.isLimit _) (Cone.ext (asIso b).symm fun n ↦ ?_)⟩
   simp

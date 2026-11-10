@@ -62,7 +62,7 @@ theorem uliftFunctor_preservesLimitsOfSize [UnivLE.{i, m}] :
     PreservesLimitsOfSize.{t, i} (uliftFunctor.{w, m} Λ) :=
   let : PreservesLimitsOfSize.{t, i}
       (uliftFunctor.{w, m} Λ ⋙ forget₂ (ModuleCat.{max m w} Λ) AddCommGrpCat.{max m w}) := by
-    show PreservesLimitsOfSize.{t, i}
+    change PreservesLimitsOfSize.{t, i}
       (forget₂ (ModuleCat.{m} Λ) AddCommGrpCat.{m} ⋙ AddCommGrpCat.uliftFunctor.{w, m})
     infer_instance
   preservesLimits_of_reflects_of_preserves _
@@ -76,7 +76,7 @@ theorem uliftFunctor_preservesColimitsOfShape (I : Type i) [Category.{t} I]
   preservesColimit {K} :=
     let : PreservesColimit K
         (uliftFunctor.{w, m} Λ ⋙ forget₂ (ModuleCat.{max m w} Λ) AddCommGrpCat.{max m w}) := by
-      show PreservesColimit K
+      change PreservesColimit K
         (forget₂ (ModuleCat.{m} Λ) AddCommGrpCat.{m} ⋙ AddCommGrpCat.uliftFunctor.{w, m})
       infer_instance
     preservesColimit_of_reflects_of_preserves _

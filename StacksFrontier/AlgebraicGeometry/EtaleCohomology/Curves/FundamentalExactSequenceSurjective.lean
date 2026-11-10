@@ -107,7 +107,7 @@ theorem etaleGenericFibreOrd_eq_ord (V : X.Etale) [AlgebraicGeometry.IsIntegral 
       dominantFunctionFieldMap (X := V.left) (S := X) V.hom c) (y : V.left) :
     etaleGenericFibreOrd.{u} V y (Additive.ofMul a) = X.ord c (V.hom.base y) := by
   refine (genericFibreOrd_apply (X := X) (U := V.left) V.hom y (Additive.ofMul a)).trans ?_
-  show Scheme.ord (genericFibreToFunctionField (X := X) (U := V.left) V.hom
+  change Scheme.ord (genericFibreToFunctionField (X := X) (U := V.left) V.hom
     (a : Γ(pullback V.hom (genericPointInclusion X), ⊤))) y = _
   rw [hac]
   exact Stacks.Chow.ord_dominantFunctionFieldMap_eq_ord_base_of_etale (X := X) (Z := V.left)

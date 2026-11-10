@@ -72,7 +72,7 @@ maps is exact, and restriction of scalars leaves those maps alone. -/
 theorem restrictScalars_map_exact {R : Type u} [Ring R] {S : Type u'} [Ring S] (f : R →+* S)
     (T : ShortComplex (ModuleCat.{v} S)) (hT : T.Exact) :
     (T.map (ModuleCat.restrictScalars.{v} f)).Exact := by
-  rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+  rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢; assumption
 
 /-- Restriction of scalars along a homomorphism of arbitrary rings is left exact. -/
 local instance restrictScalars_preservesFiniteLimits {R : Type u} [Ring R] {S : Type u'} [Ring S]

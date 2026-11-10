@@ -318,7 +318,7 @@ public theorem specializationMapOnSections_germ
           (SmallEtale.topology B _ hT) (SmallEtale.topology B _ hU)).obj G))
         (specializationMapOnSections B S hS s t hT hU F σ) =
         colimit.ι
-              ((CategoryOfElements.π (geometricPointFiber B
+              ((Functor.Elements.π (geometricPointFiber B
           (strictHenselization B S hS
             (t.map (strictHenselizationToBase B S hS s))) hU x)).op ⋙
           (((smallEtaleBaseChange B c).sheafPullback (Type (u + 1))
@@ -341,7 +341,7 @@ public theorem specializationMapOnSections_germ
         ((Sheaf.ΓNatIsoSheafSections (SmallEtale.topology B _ hT) (Type (u + 1)
           ) (SmallEtale.finalIsTerminal B _ hT)).hom.app G σ))
     let ι := colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B
+      ((Functor.Elements.π (geometricPointFiber B
         (strictHenselization B S hS
           (t.map (strictHenselizationToBase B S hS s))) hU x)).op ⋙
         (((smallEtaleBaseChange B c).sheafPullback (Type (u + 1))
@@ -349,9 +349,9 @@ public theorem specializationMapOnSections_germ
       (Opposite.op U)
     have hz : (ConcreteCategory.hom (isoU.hom.app H))
         ((ConcreteCategory.hom (isoU.inv.app H)) z) = z := by
-      show (isoU.inv.app H ≫ isoU.hom.app H) z = z
+      change (isoU.inv.app H ≫ isoU.hom.app H) z = z
       exact congrArg (fun g => g z) (isoU.inv_hom_id_app H)
-    show ((smallEtalePullbackGlobalSections B c G) ≫
+    change ((smallEtalePullbackGlobalSections B c G) ≫
       globalSectionsToEtaleStalk B
         ↥(etaleLocalRing B S hS (t.map (strictHenselizationToBase B S hS s))) hU x H) σ = _
     dsimp only [smallEtalePullbackGlobalSections, globalSectionsToEtaleStalk]

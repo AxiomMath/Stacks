@@ -239,7 +239,7 @@ theorem derivedDualMap_comp_derivedDualKoszulPowerComplexIso {r : ℕ}
     (kFlatComplexes_of_isStrictlyPerfect X _ (isStrictlyPerfect_koszulPowerComplex X f n))
     (kFlatComplexes_dualComplex X _ _ (isStrictlyPerfect_koszulPowerComplex X f n)) φ
   have hiso := dualComplexMap_comp_dualComplexKoszulPowerComplexIso X f m n φ
-  show derivedDualMap X (DerivedCategory.Q.map φ) ≫
+  change derivedDualMap X (DerivedCategory.Q.map φ) ≫
       (derivedDualIsoQDualComplex X (koszulPowerComplex X f m) _ _ _ _ _).hom ≫
         DerivedCategory.Q.map (dualComplexKoszulPowerComplexIso X f m _).hom =
     ((derivedDualIsoQDualComplex X (koszulPowerComplex X f n) _ _ _ _ _).hom ≫

@@ -8,7 +8,8 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedBaseChangeR
 
 This is the converse of
 `Stacks.EtaleCohomology.isIso_Q_map_etaleAbelianBaseChange_comp_of_quasiIso`
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/AbelianBaseChangeQuasiIso.lean`): for a bounded below complex `K` of
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/AbelianBaseChangeQuasiIso.lean`)
+: for a bounded below complex `K` of
 abelian sheaves on `X_étale` with `f_*`-acyclic terms and a quasi-isomorphism
 `q : (g')^{-1} K ⟶ K'` onto a bounded below complex with `f'_*`-acyclic terms, the base change map
 `g^{-1} Rf_* K ⟶ Rf'_* (g')^{-1} K` is invertible as soon as the morphism of complexes
@@ -19,7 +20,8 @@ the étale direct and inverse images.
 ## Implementation notes
 
 As for the original, the statement carries the spelling of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean` and the module has few imports, so that the kernel checks
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`
+and the module has few imports, so that the kernel checks
 the instantiation within its budget.
 
 ## Main results
@@ -43,7 +45,8 @@ section Abelian
 variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (g : Y' ⟶ Y) (g' : X' ⟶ X) (f' : X' ⟶ Y')
   (h : g' ≫ f = f' ≫ g)
 
-/- The base change map and its characterization (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`) are
+/- The base change map and its characterization
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`) are
 stated with `CategoryTheory.Abelian.toPreadditive` as the preferred `Preadditive` structure on
 categories of abelian sheaves; the statement below carries the same spelling, so that the
 abstract lemma is instantiated by them without conversions the kernel cannot afford. -/

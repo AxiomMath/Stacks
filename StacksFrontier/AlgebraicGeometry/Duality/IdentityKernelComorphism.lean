@@ -238,8 +238,7 @@ theorem exists_smul_unitApp_of_cyclic {A B : Type u} [CommRing A] [CommRing B] (
     have h := ModuleCat.ExtendScalars.smul_tmul σ (M := M) b 1 e
     rw [mul_one] at h
     exact h
-  induction ξ using TensorProduct.induction_on with
-  | zero => exact ⟨0, ((hsm 0).trans (TensorProduct.zero_tmul _ _)).symm⟩
+  induction ξ using TensorProduct.inductionOn with
   | tmul b m =>
       obtain ⟨a, ha⟩ := he m
       subst ha

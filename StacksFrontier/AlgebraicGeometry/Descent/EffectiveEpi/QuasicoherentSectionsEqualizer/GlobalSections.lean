@@ -544,10 +544,10 @@ lemma affinePullbackSectionsIso_unit (R S : CommRingCat.{u})
       (tilde.toOpen ((ModuleCat.extendScalars f.hom).obj M) ⊤ ((1 : S) ⊗ₜ[R, f.hom] m)) =
       pullbackGlobalSections (Spec.map f) ((tilde.functor R).obj M) (tilde.toOpen M ⊤ m) := by
     rw [← h]
-    show (eT.hom ≫ eT.inv).app ⊤
+    change (eT.hom ≫ eT.inv).app ⊤
       (pullbackGlobalSections (Spec.map f) ((tilde.functor R).obj M) (tilde.toOpen M ⊤ m)) = _
     simp
-  show ((Scheme.Modules.pullback (Spec.map f)).map F.fromTildeΓ).app ⊤
+  change ((Scheme.Modules.pullback (Spec.map f)).map F.fromTildeΓ).app ⊤
     (eT.inv.app ⊤
       (tilde.toOpen ((ModuleCat.extendScalars f.hom).obj M) ⊤ ((1 : S) ⊗ₜ[R, f.hom] m))) = _
   rw [h']
@@ -573,16 +573,13 @@ lemma affinePullbackSectionsIso_tmul (R S : CommRingCat.{u})
 private theorem affinePullbackSections_induction (R S : CommRingCat.{u})
     (f : R ⟶ S) (F : (Spec R).Modules) [F.IsQuasicoherent]
     (P : Γ((Scheme.Modules.pullback (Spec.map f)).obj F, ⊤) → Prop)
-    (hzero : P 0)
     (hadd : ∀ x y, P x → P y → P (x + y))
     (hgen : ∀ (s : S) (m : Γ(F, ⊤)), P (s • pullbackGlobalSections (Spec.map f) F m))
     (x : Γ((Scheme.Modules.pullback (Spec.map f)).obj F, ⊤)) : P x := by
   let := f.hom.toAlgebra
   obtain ⟨z, rfl⟩ := ((ConcreteCategory.isIso_iff_bijective _).mp
     (inferInstance : IsIso (Stacks.Cech.affinePullbackSectionsIso R S f F).hom)).2 x
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg P (map_zero (Stacks.Cech.affinePullbackSectionsIso R S f F).hom.hom)).mpr hzero
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     exact (congrArg P (affinePullbackSectionsIso_tmul R S f F s m)).mpr (hgen s m)
   | add a b ha hb =>

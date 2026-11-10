@@ -211,7 +211,7 @@ theorem length_ofIrreducibleChain (h : IsIrreducibleChain T T' c) :
 theorem coe_head_ofIrreducibleChain (h : IsIrreducibleChain T T' c) :
     ((ofIrreducibleChain h).head : Set X) = T := by
   have hne := ne_nil_of_isIrreducibleChain h
-  show c[0]'(length_pos_of_isIrreducibleChain h) = T
+  change c[0]'(length_pos_of_isIrreducibleChain h) = T
   rw [List.getElem_zero]
   exact Option.some_inj.mp ((List.head?_eq_some_head hne).symm.trans h.2.2.1)
 
@@ -219,7 +219,7 @@ theorem coe_head_ofIrreducibleChain (h : IsIrreducibleChain T T' c) :
 theorem coe_last_ofIrreducibleChain (h : IsIrreducibleChain T T' c) :
     ((ofIrreducibleChain h).last : Set X) = T' := by
   have hne := ne_nil_of_isIrreducibleChain h
-  show c[c.length - 1]'(by have := length_pos_of_isIrreducibleChain h; omega) = T'
+  change c[c.length - 1]'(by have := length_pos_of_isIrreducibleChain h; omega) = T'
   rw [← List.getLast_eq_getElem hne]
   exact Option.some_inj.mp ((List.getLast?_eq_some_getLast hne).symm.trans h.2.2.2)
 
@@ -317,10 +317,10 @@ theorem isCatenarySpace_iff_isIrreducibleChain :
         ⟨T', hT'irr, hT'cl⟩ = (n : ℕ∞) :=
       (WithTop.ne_top_iff_exists.mp hfin).imp fun _ h => h.symm
     refine ⟨n, fun c hc => ?_, fun c hc hcmax => ?_⟩
-    · rw [← length_ofIrreducibleChain hc, Nat.add_le_add_iff_right, ← ENat.coe_le_coe, ← hn]
+    · rw [← length_ofIrreducibleChain hc, Nat.add_le_add_iff_right, ← ENat.natCast_le_natCast, ← hn]
       exact length_le_topCodim _ _ _ (head_ofIrreducibleChain hc hTirr hTcl)
         (last_ofIrreducibleChain hc hT'irr hT'cl)
-    · rw [← length_ofIrreducibleChain hc, Nat.add_right_cancel_iff, ← ENat.coe_inj, ← hn]
+    · rw [← length_ofIrreducibleChain hc, Nat.add_right_cancel_iff, ← ENat.natCast_inj, ← hn]
       exact hmaxlen _ ⟨head_ofIrreducibleChain hc hTirr hTcl,
         last_ofIrreducibleChain hc hT'irr hT'cl, covBy_ofIrreducibleChain hc hcmax⟩
   · intro hA Y Y' hYY'

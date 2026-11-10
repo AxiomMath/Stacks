@@ -424,12 +424,12 @@ theorem prod_ι_mem_symmetricPower {M : Type*} [AddCommGroup M] [Module B M] (n 
     ∏ i, SymmetricAlgebra.ι B M (v i) ∈ SymPow.symmetricPower n B M := by
   induction n with
   | zero =>
-    show (1 : SymmetricAlgebra B M) ∈ LinearMap.range (SymmetricAlgebra.ι B M) ^ 0
+    change (1 : SymmetricAlgebra B M) ∈ LinearMap.range (SymmetricAlgebra.ι B M) ^ 0
     rw [pow_zero]
     exact Submodule.one_le.1 le_rfl
   | succ n ih =>
     rw [Fin.prod_univ_castSucc]
-    show _ ∈ LinearMap.range (SymmetricAlgebra.ι B M) ^ (n + 1)
+    change _ ∈ LinearMap.range (SymmetricAlgebra.ι B M) ^ (n + 1)
     rw [pow_succ]
     exact Submodule.mul_mem_mul (ih _) (LinearMap.mem_range_self _ _)
 
@@ -472,7 +472,7 @@ theorem symmetricPowerEquivAugmentationGraded_prod_ι (n : ℕ) (s : Fin n → �
       = ⟨∏ i, (X (s i) : MvPolynomial σ B), hX⟩ := by
     refine Subtype.ext ?_
     rw [SymPow.coe_symmetricPowerEquivHomogeneousSubmodule_apply]
-    show SymmetricAlgebra.equivMvPolynomial (Finsupp.basisSingleOne : Module.Basis σ B (σ →₀ B))
+    change SymmetricAlgebra.equivMvPolynomial (Finsupp.basisSingleOne : Module.Basis σ B (σ →₀ B))
         (∏ i, SymmetricAlgebra.ι B (σ →₀ B) (Finsupp.single (s i) 1))
       = ∏ i, (X (s i) : MvPolynomial σ B)
     rw [map_prod]

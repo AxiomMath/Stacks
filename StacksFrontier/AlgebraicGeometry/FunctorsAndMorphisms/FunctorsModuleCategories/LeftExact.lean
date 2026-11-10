@@ -368,7 +368,7 @@ private lemma whiskeringRight_preservesKernel
     PreservesLimit (parallelPair f 0) ((Functor.whiskeringRight J C D).obj G) := by
   apply preservesLimit_of_evaluation
   intro j
-  show PreservesLimit (parallelPair f 0) ((evaluation J C).obj j ⋙ G)
+  change PreservesLimit (parallelPair f 0) ((evaluation J C).obj j ⋙ G)
   have : PreservesLimit (parallelPair f 0) ((evaluation J C).obj j) :=
     evaluation_preservesLimit_of_hasKernel_app f j
   have : PreservesLimit (parallelPair f 0 ⋙ (evaluation J C).obj j) G :=
@@ -474,7 +474,7 @@ public lemma filteredColimitExtension_preservesFiniteLimits
         parallelPair (T.map P.φ) 0 ≅ parallelPair f 0)
     · apply colimit.hom_ext
       intro i
-      show colimit.ι D i ≫ colimMap fD ≫ eY.hom =
+      change colimit.ι D i ≫ colimMap fD ≫ eY.hom =
         colimit.ι D i ≫ eX.hom ≫ f
       rw [ι_colimMap_assoc, heY, ← Category.assoc, heX]
       exact (hstage i).symm

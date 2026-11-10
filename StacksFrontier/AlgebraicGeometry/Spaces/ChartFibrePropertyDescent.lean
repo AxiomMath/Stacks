@@ -147,7 +147,7 @@ theorem property_representedPullback_assoc
     simp [e]
   have he' : (T'.mapIso e).hom ≫ T'.map (hf.snd (yoneda.map c ≫ a)) =
       T'.map (pullback.snd (hf.snd a) c) := by
-    show T'.map e.hom ≫ _ = _
+    change T'.map e.hom ≫ _ = _
     rw [← Functor.map_comp, he]
   rw [← he']
   exact (MorphismProperty.cancel_left_of_respectsIso P (T'.mapIso e).hom

@@ -196,7 +196,7 @@ theorem isIso_derivedPlusPushforwardNatTrans_app (p : ℤ)
     {F : SheafOfModules.{u} (structureSheafRing X)} (hF : (modulePushforward f).rightAcyclic F) :
     IsIso ((derivedPlusPushforwardNatTrans f p).app F) := by
   have hσ : IsIso ((singlePushforwardUnit f).app F) := isIso_singlePushforwardUnit_app f hF
-  show IsIso
+  change IsIso
     (((secF (structureSheafRing Y) (⊤ : Opens Y.carrier)).rightDerivedFunctorPlus ⋙
         DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} p).map
           ((singlePushforwardUnit f).app F) ≫

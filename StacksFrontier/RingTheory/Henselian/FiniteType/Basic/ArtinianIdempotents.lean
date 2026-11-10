@@ -328,7 +328,7 @@ lemma reduction_of_isolating_idem
         = (Ideal.Quotient.mkₐ R P'').comp (Algebra.TensorProduct.includeRight.comp δ) := by
       apply Algebra.TensorProduct.ext'
       intro a b
-      show (Ideal.Quotient.mkₐ R P'') (a ⊗ₜ[R] b)
+      change (Ideal.Quotient.mkₐ R P'') (a ⊗ₜ[R] b)
           = (Ideal.Quotient.mkₐ R P'') (Algebra.TensorProduct.includeRight (δ (a ⊗ₜ[R] b)))
       rw [hδab, map_mul]
       have hir : Algebra.TensorProduct.includeRight ((algebraMap R A) (σ a))
@@ -351,7 +351,7 @@ lemma reduction_of_isolating_idem
         have hlo : P = Ideal.under R' P'' := Ideal.LiesOver.over
         rw [hlo] at hmemP
         exact hmemP
-      show (Ideal.Quotient.mkₐ R P'') (a ⊗ₜ[R] b)
+      change (Ideal.Quotient.mkₐ R P'') (a ⊗ₜ[R] b)
           = (Ideal.Quotient.mkₐ R P'') ((algebraMap R (TensorProduct R R' A)) (σ a) * (1 ⊗ₜ[R] b))
       simp only [Ideal.Quotient.mkₐ_eq_mk]
       rw [Ideal.Quotient.eq]
@@ -384,7 +384,7 @@ lemma reduction_of_isolating_idem
     have hP''comap : Ideal.comap Algebra.TensorProduct.includeRight.toRingHom P'' = q' := by
       ext a
       simp only [Ideal.mem_comap, hP''def, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-      show δ (Algebra.TensorProduct.includeRight a) ∈ q' ↔ a ∈ q'
+      change δ (Algebra.TensorProduct.includeRight a) ∈ q' ↔ a ∈ q'
       rw [hδι]
     -- δ ∘ algebraMap R' = algebraMap R A ∘ σ  (δ (x ⊗ 1) = algebraMap R A (σ x)).
     have hδalg : ∀ x : R', δ (algebraMap R' (TensorProduct R R' A) x) = algebraMap R A (σ x) := by

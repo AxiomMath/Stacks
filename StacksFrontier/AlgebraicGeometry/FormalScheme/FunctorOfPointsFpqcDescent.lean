@@ -210,7 +210,7 @@ theorem exists_isAmalgamation_of_range_subset_chart {X : FormalScheme.{u}} (U : 
     fun _ f hf => ObjectProperty.homMk (liftToRestrict U (x f hf).hom (hrange f hf) ≫ χ.hom)
   have hyι : ∀ ⦃Z : Scheme.{u}⦄ (f : Z ⟶ T) (hf : S f), y f hf ≫ ι = x f hf := fun Z f hf =>
     InducedCategory.hom_ext (by
-      show (liftToRestrict U (x f hf).hom (hrange f hf) ≫ χ.hom) ≫ χ.inv ≫ X.obj.ofRestrict U
+      change (liftToRestrict U (x f hf).hom (hrange f hf) ≫ χ.hom) ≫ χ.inv ≫ X.obj.ofRestrict U
         = (x f hf).hom
       rw [Category.assoc, Iso.hom_inv_id_assoc, liftToRestrict_comp_ofRestrict])
   have hcancel : ∀ {W : Scheme.{u}} (a b : schemeToFormalScheme.obj W ⟶ spfFormalScheme A hA),
@@ -230,7 +230,7 @@ theorem exists_isAmalgamation_of_range_subset_chart {X : FormalScheme.{u}} (U : 
   have hy : y.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ comm
     apply hcancel
-    show (schemeToFormalScheme.map g₁ ≫ y f₁ h₁) ≫ ι =
+    change (schemeToFormalScheme.map g₁ ≫ y f₁ h₁) ≫ ι =
       (schemeToFormalScheme.map g₂ ≫ y f₂ h₂) ≫ ι
     rw [Category.assoc, Category.assoc, hyι, hyι]
     exact hx g₁ g₂ h₁ h₂ comm
@@ -238,7 +238,7 @@ theorem exists_isAmalgamation_of_range_subset_chart {X : FormalScheme.{u}} (U : 
     isSheaf_fpqcTopology_formalSchemePoints_spfFormalScheme A hA S hS y hy
   refine ⟨s ≫ ι, fun Z f hf => ?_⟩
   have hsf : schemeToFormalScheme.map f ≫ s = y f hf := hs f hf
-  show schemeToFormalScheme.map f ≫ s ≫ ι = x f hf
+  change schemeToFormalScheme.map f ≫ s ≫ ι = x f hf
   rw [← Category.assoc, hsf, hyι]
 
 /-- The functor of points of a formal scheme `𝔛`, on the category of all schemes, satisfies the
@@ -274,7 +274,7 @@ theorem isSheaf_fpqcTopology_formalSchemePoints (X : FormalScheme.{u}) :
   refine ⟨⟨_, ?_⟩, rfl⟩
   have hw' : (x _ hf).hom.toHom.base w = g ((f ≫ k ≫ (T.openCoverOfIsOpenCover V hV).f p) w) :=
     (congrArg (fun c : C(Z, X.obj) => c w) (hg _ hf)).symm
-  show (x _ hf).hom.toHom.base w ∈ U (g p)
+  change (x _ hf).hom.toHom.base w ∈ U (g p)
   rw [hw']
   exact ((f ≫ k).base w).2
 
@@ -310,7 +310,7 @@ theorem isSheafFor_formalSchemeFunctorOfPoints {κ : Cardinal.{u}} (X : FormalSc
       schemeToFormalScheme.map (pullback.snd (u i).hom (u j).hom) ≫ xj :=
     hx i j P (ObjectProperty.homMk (pullback.fst _ _)) (ObjectProperty.homMk (pullback.snd _ _))
       (InducedCategory.hom_ext pullback.condition)
-  show schemeToFormalScheme.map gi ≫ xi = schemeToFormalScheme.map gj ≫ xj
+  change schemeToFormalScheme.map gi ≫ xi = schemeToFormalScheme.map gj ≫ xj
   have := congrArg (schemeToFormalScheme.map (pullback.lift gi gj hij) ≫ ·) hP'
   simpa only [Category.assoc, ← Functor.map_comp_assoc, pullback.lift_fst, pullback.lift_snd]
     using this

@@ -44,10 +44,10 @@ theorem bijective_dite_pi {J A : Type*} (p : J → Prop) [DecidablePred p] {M : 
       if h : p j then b j h (v ⟨j, h⟩) else (0 : M j)) := by
   refine ⟨fun v w hvw => ?_, fun x => ?_⟩
   · funext ⟨j, h⟩
-    exact (hb j h).injective (by simpa only [dif_pos h] using congrFun hvw j)
+    exact (hb j h).injective (by simpa only [dite_eq_left h] using congrFun hvw j)
   · refine ⟨fun i => ((hb i.1 i.2).surjective (x i.1)).choose, funext fun j => ?_⟩
     by_cases h : p j
-    · simpa only [dif_pos h] using ((hb j h).surjective (x j)).choose_spec
+    · simpa only [dite_eq_left h] using ((hb j h).surjective (x j)).choose_spec
     · exact @Subsingleton.elim _ (hz j h) _ _
 
 end Function
@@ -113,7 +113,7 @@ theorem bijective_sum_smul_evalUnit [IsAffine Y] {N : ℕ} (n : Fin N → ℕ) (
     intro j h
     subst h
     have e : u j rfl = unitCycleClass Y.toRingedSpace (n j) := by
-      show ((DerivedCategory.homologyFunctor _ _).map ((baseSections _).map (eqToHom rfl))).hom
+      change ((DerivedCategory.homologyFunctor _ _).map ((baseSections _).map (eqToHom rfl))).hom
         _ = _
       rw [eqToHom_refl, CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
       rfl

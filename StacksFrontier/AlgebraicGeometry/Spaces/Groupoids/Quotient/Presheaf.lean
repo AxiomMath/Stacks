@@ -96,12 +96,12 @@ theorem quotientPresheaf_obj_equiv (j : PreRelation R U) (T : BigFppfOver site S
       left_inv := fun z => Quot.inductionOn z fun _ => rfl
       right_inv := fun z => Quot.inductionOn z fun _ => rfl }
   refine ⟨pointIso.toEquiv.trans qEquiv, fun x => ?_⟩
-  show qEquiv (pointIso.hom
+  change qEquiv (pointIso.hom
     (((coequalizer.π j.target.left j.source.left).app (Opposite.op T)) x)) = Quot.mk Q x
   rw [show pointIso.hom
       (((coequalizer.π j.target.left j.source.left).app (Opposite.op T)) x) =
       Function.Coequalizer.mk f g x from by
-    show ((E.map (coequalizer.π j.target.left j.source.left)) ≫
+    change ((E.map (coequalizer.π j.target.left j.source.left)) ≫
       (PreservesCoequalizer.iso E j.target.left j.source.left).inv ≫
       (Types.coequalizerIso (E.map j.target.left) (E.map j.source.left)).hom).hom x =
         (↾(Function.Coequalizer.mk f g)).hom x

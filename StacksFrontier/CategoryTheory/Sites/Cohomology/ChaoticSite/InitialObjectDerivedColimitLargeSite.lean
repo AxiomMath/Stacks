@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionLargeSite
+StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionLargeSite
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.InitialObjectDerivedColimit
 import StacksCore.Tactic.StacksAttribute
 

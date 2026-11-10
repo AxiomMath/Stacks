@@ -100,7 +100,7 @@ private theorem isIso_third_of_id_first_second
     simp
   let e : A.Cocycle (S.cone f) (S.cone f) := ⟨c.1 - ι.1, hsub_closed c ι⟩
   have h : (CategoryTheory.shiftFunctor A.K (1 : ℤ)).obj xK = zK := by
-    show (CategoryTheory.shiftFunctor A.K (1 : ℤ)).obj xK =
+    change (CategoryTheory.shiftFunctor A.K (1 : ℤ)).obj xK =
       ((S.shift.shiftFunctor 1).onK).obj xK
     exact congrArg (fun F : A.K ⥤ A.K => F.obj xK) (S.shift.kShift_functor 1)
   let qA : yK ⟶ cK := Quotient.mk (A.homotopySetoid y (S.cone f)) E.a
@@ -111,7 +111,7 @@ private theorem isIso_third_of_id_first_second
   have hmor₂ : T.mor₂ = qA := rfl
   have hmor₃ : T.mor₃ = qB ≫ eqToHom h.symm := rfl
   have hleft₀ : A.Homotopic (A.compCocycle c E.a) E.a := Quotient.exact (by
-    show qA ≫ qC = qA
+    change qA ≫ qC = qA
     rw [hc]
     have hcomm := τ.comm₂
     change T.mor₂ ≫ τ.hom₃ = τ.hom₂ ≫ T.mor₂ at hcomm
@@ -147,24 +147,24 @@ private theorem isIso_third_of_id_first_second
   have hnil' : A.Homotopic r ι := by
     obtain ⟨g, hg⟩ := hnil
     refine ⟨-g, ?_⟩
-    show (ι.1 - (A.compCocycle e e).1) - ι.1 =
+    change (ι.1 - (A.compCocycle e e).1) - ι.1 =
       A.d' (show (-1 : ℤ) + 1 = 0 by omega) (-g)
     simp only [DGCategory.d', hdneg] at hg ⊢
     rw [← hg]
     simp
   let d : A.Cocycle (S.cone f) (S.cone f) := ⟨ι.1 - e.1, hsub_closed ι e⟩
   have hee : A.comp h00 e.1 e.1 = A.comp h00 c.1 c.1 - c.1 - c.1 + ι.1 := by
-    show A.comp h00 (c.1 - ι.1) (c.1 - ι.1) = _
+    change A.comp h00 (c.1 - ι.1) (c.1 - ι.1) = _
     rw [A.comp_sub_left h00, A.comp_sub_right h00, A.comp_sub_right h00,
       A.comp_id, A.id_comp, A.id_comp]
     abel
   have hcalc₁ : A.comp h00 d.1 c.1 = ι.1 - A.comp h00 e.1 e.1 := by
-    show A.comp h00 (ι.1 - e.1) c.1 = _
+    change A.comp h00 (ι.1 - e.1) c.1 = _
     rw [A.comp_sub_left h00, A.id_comp, show e.1 = c.1 - ι.1 by rfl,
       A.comp_sub_left h00, A.id_comp, hee]
     abel
   have hcalc₂ : A.comp h00 c.1 d.1 = ι.1 - A.comp h00 e.1 e.1 := by
-    show A.comp h00 c.1 (ι.1 - e.1) = _
+    change A.comp h00 c.1 (ι.1 - e.1) = _
     rw [A.comp_sub_right h00, A.comp_id, show e.1 = c.1 - ι.1 by rfl,
       A.comp_sub_right h00, A.comp_id, hee]
     abel
@@ -222,7 +222,7 @@ public theorem ConeSituationIso.isIso_cone_of_isIso_source_target
   have hqbInv : qbInv = inv φ.hom₂ := Quotient.out_eq _
   have hφcomm : φ.hom₁ ≫ qf₂ = qf₁ ≫ φ.hom₂ := φ.comm₁.symm
   have hcommInv : A.compK qbInv qf₂ = A.compK qf₁ qaInv := by
-    show qf₂ ≫ qbInv = qaInv ≫ qf₁
+    change qf₂ ≫ qbInv = qaInv ≫ qf₁
     rw [hqaInv, hqbInv, IsIso.eq_inv_comp, ← Category.assoc, hφcomm, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
   obtain ⟨cInv, hcInv₁, hcInv₂⟩ :=
@@ -245,13 +245,13 @@ public theorem ConeSituationIso.isIso_cone_of_isIso_source_target
       have hGmap : G.map qaInv =
           Quotient.mk _ ((S.shift.shiftFunctor 1).mapCocycle aInv) := by
         dsimp [DGCategory.K] at qaInv
-        show (S.shift.shiftFunctor 1).mapHomotopyClass
+        change (S.shift.shiftFunctor 1).mapHomotopyClass
           (Quotient.mk (A.homotopySetoid x₂ x₁) aInv) = _
         dsimp [DGCategory.DGFunctor.mapHomotopyClass]
         rfl
       have hcore : qB₂ ≫ G.map qaInv = qcInv ≫ qB₁ := by
         rw [hGmap]
-        show A.compK (Quotient.mk _ ((S.shift.shiftFunctor 1).mapCocycle aInv))
+        change A.compK (Quotient.mk _ ((S.shift.shiftFunctor 1).mapCocycle aInv))
             (Quotient.mk _ (S.coneSequence f₂).b) =
           A.compK (Quotient.mk _ (S.coneSequence f₁).b) (Quotient.mk _ cInv)
         exact hcInv₂.symm
@@ -259,24 +259,24 @@ public theorem ConeSituationIso.isIso_cone_of_isIso_source_target
           G.map qaInv ≫ eqToHom h₁.symm := by
         have hh := CategoryTheory.Functor.congr_hom hfun qaInv
         simpa [Category.assoc] using congrArg (fun m => eqToHom h₂.symm ≫ m) hh
-      show (qB₂ ≫ eqToHom h₂.symm) ≫ F.map qaInv =
+      change (qB₂ ≫ eqToHom h₂.symm) ≫ F.map qaInv =
         qcInv ≫ (qB₁ ≫ eqToHom h₁.symm)
       rw [Category.assoc, htransport, ← Category.assoc, hcore, Category.assoc])
   have htop₁ : (φ ≫ ψ).hom₁ = 𝟙 T₁.obj₁ := by
     rw [CategoryTheory.Pretriangulated.comp_hom₁]
-    show φ.hom₁ ≫ qaInv = _
+    change φ.hom₁ ≫ qaInv = _
     simp [hqaInv, T₁]
   have htop₂ : (φ ≫ ψ).hom₂ = 𝟙 T₁.obj₂ := by
     rw [CategoryTheory.Pretriangulated.comp_hom₂]
-    show φ.hom₂ ≫ qbInv = _
+    change φ.hom₂ ≫ qbInv = _
     simp [hqbInv, T₁]
   have hbottom₁ : (ψ ≫ φ).hom₁ = 𝟙 T₂.obj₁ := by
     rw [CategoryTheory.Pretriangulated.comp_hom₁]
-    show qaInv ≫ φ.hom₁ = _
+    change qaInv ≫ φ.hom₁ = _
     simp [hqaInv]
   have hbottom₂ : (ψ ≫ φ).hom₂ = 𝟙 T₂.obj₂ := by
     rw [CategoryTheory.Pretriangulated.comp_hom₂]
-    show qbInv ≫ φ.hom₂ = _
+    change qbInv ≫ φ.hom₂ = _
     simp [hqbInv]
   have : IsIso (φ.hom₃ ≫ ψ.hom₃) := by
     rw [← CategoryTheory.Pretriangulated.comp_hom₃]

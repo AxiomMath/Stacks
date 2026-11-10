@@ -122,6 +122,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (X : Algebra
 attribute [local instance 5000] SmallEtale.instHasSheafify
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the limits needed for global sections of sheaves on the small étale site take a deep search
 /-- The global sections functor of abelian sheaves with coefficients in `u + 1` on the small
 étale site (instance search times out without this shortcut). -/
 local instance hasGlobalSectionsFunctor_moduleCohomologyAbelianComparison :
@@ -236,6 +237,7 @@ local instance hasExt_sheaf_u :
   HasExt.standard _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasExt` from the Grothendieck abelian structure on étale sheaves takes a deep search
 /-- `Ext` groups in the universe `u + 1` between abelian sheaves on the small étale site with
 coefficients in `u + 1`: the category of these sheaves is Grothendieck abelian, the site being
 essentially small. -/
@@ -373,7 +375,7 @@ theorem ext_liftedConstantSheaf_moduleToAbelianSheaf_eq_zero
     (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O) I
     (by assumption) _
     (ModuleSheafCohomology.isTorsionFree_sheafify _ _ (fun _ => by
-      show Module.IsTorsionFree ℤ (ULift.{u} ℤ)
+      change Module.IsTorsionFree ℤ (ULift.{u} ℤ)
       exact Module.Flat.isTorsionFree)) n e'
 
 /-- The universe lift of abelian sheaves is additive. -/

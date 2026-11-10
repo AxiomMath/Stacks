@@ -90,7 +90,7 @@ theorem isClosed_range_sigmaι (g : ι → Scheme.{u}) (i : ι) :
   have hcompl : (Set.range (Sigma.ι g i).base)ᶜ =
       ⋃ j ∈ {j : ι | j ≠ i}, Set.range (Sigma.ι g j).base := by
     ext x
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     constructor
     · intro hx
       obtain ⟨j, z, hz⟩ := StacksTag09NE.exists_component_point_of_sigma g x
@@ -122,10 +122,10 @@ theorem preimage_sigmaConstDesc (U : S.Opens) :
   · intro hx
     obtain ⟨j, y, rfl⟩ := StacksTag09NE.exists_component_point_of_sigma (fun _ : ι => S) x
     refine ⟨j, y, ?_, rfl⟩
-    rwa [← Scheme.Hom.comp_apply, Limits.Sigma.ι_desc] at hx
+    rwa [← Scheme.Hom.comp_apply, Limits.Sigma.ι_comp_desc] at hx
   · rintro ⟨j, y, hyU, rfl⟩
-    show (Sigma.ι (fun _ : ι => S) j ≫ Sigma.desc fun _ : ι => 𝟙 S) y ∈ U
-    rwa [Limits.Sigma.ι_desc]
+    change (Sigma.ι (fun _ : ι => S) j ≫ Sigma.desc fun _ : ι => 𝟙 S) y ∈ U
+    rwa [Limits.Sigma.ι_comp_desc]
 
 /-- The morphism `∐_{i} S ⟶ S` collapsing finitely many copies of `S` is quasi-affine. -/
 instance isQuasiAffineHom_sigmaConstDesc (ι : Type u) [Finite ι] (S : Scheme.{u}) :
@@ -161,8 +161,8 @@ theorem sigmaDescToConst_comp_sigmaConstDesc (f : ∀ i, Z i ⟶ S) :
     (Sigma.desc fun i => f i ≫ Sigma.ι (fun _ : ι => S) i) ≫
         (Sigma.desc fun _ : ι => 𝟙 S) = Sigma.desc f := by
   refine Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc, Category.assoc,
-    Limits.Sigma.ι_desc, Category.comp_id]
+  rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc, Category.assoc,
+    Limits.Sigma.ι_comp_desc, Category.comp_id]
 
 omit [Finite ι] in
 /-- On a point of the summand `Z i`, the morphism `Sigma.desc (fun j => f j ≫ σ j)` is `f i`
@@ -170,7 +170,7 @@ followed by the inclusion `σ i` of the `i`th copy of `S`. -/
 theorem sigmaDescToConst_apply (f : ∀ i, Z i ⟶ S) (i : ι) (z : Z i) :
     (Sigma.desc fun j => f j ≫ Sigma.ι (fun _ : ι => S) j) (Sigma.ι Z i z) =
       Sigma.ι (fun _ : ι => S) i (f i z) := by
-  rw [← Scheme.Hom.comp_apply, Limits.Sigma.ι_desc, Scheme.Hom.comp_apply]
+  rw [← Scheme.Hom.comp_apply, Limits.Sigma.ι_comp_desc, Scheme.Hom.comp_apply]
 
 /-- For `F = Sigma.desc (fun i => f i ≫ σ i)` the preimage of the open `σ i ''ᵁ W` of the `i`th
 copy of `S` is the image in `∐ Z` of the open `f i ⁻¹ᵁ W` of the summand `Z i`. -/
@@ -253,7 +253,7 @@ in `Over S`. -/
 def isColimitOverCofanMk {ι : Type u} (X : ι → Over S) :
     IsColimit (Cofan.mk (Over.mk (Sigma.desc fun i => (X i).hom))
       (fun i => Over.homMk (U := X i) (V := Over.mk (Sigma.desc fun j => (X j).hom))
-        (Sigma.ι (fun j => (X j).left) i) (Limits.Sigma.ι_desc _ i))) :=
+        (Sigma.ι (fun j => (X j).left) i) (Limits.Sigma.ι_comp_desc _ i))) :=
   Cofan.IsColimit.mk _
     (fun t ↦ Over.homMk (Sigma.desc fun i => (t.inj i).left)
       (Sigma.hom_ext _ _ fun i ↦ by simp))

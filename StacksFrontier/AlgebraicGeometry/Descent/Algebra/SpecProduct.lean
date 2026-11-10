@@ -85,7 +85,7 @@ lemma specOverMap_injective : Function.Injective (specOverMap (R := R) (A₁ := 
   intro p q h
   have h' : Spec.map (ofHom p.toRingHom) = Spec.map (ofHom q.toRingHom) :=
     congrArg Over.Hom.left h
-  exact AlgHom.coe_ringHom_injective (congrArg CommRingCat.Hom.hom (Spec.map_injective h'))
+  exact AlgHom.toRingHom_injective (congrArg CommRingCat.Hom.hom (Spec.map_injective h'))
 
 /-- `Spec` of the identity `R`-algebra map is the identity morphism over `Spec R`. -/
 @[simp]

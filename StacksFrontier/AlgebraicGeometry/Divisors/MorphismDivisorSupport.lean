@@ -360,11 +360,10 @@ def tensorDualFunctional {U : X.Opens} (v : Γ(L, U)) (ψ : Γ(L', U) →ₗ[Γ(
     Γ(Scheme.tensorDualTwist L L', U) →ₗ[Γ(X, U)] Γ(X, U) :=
   (sheafHomFunctional L L' v ψ).comp (appₗ (Scheme.tensorDualIsoSheafHom L L').hom U)
 
-variable [IsIntegral X]
-  [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]
+variable [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]
   [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L']
 
-omit [IsIntegral X] [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L'] in
+omit [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L'] in
 /-- The value of that functional at the restriction of the section attached to `σ`. -/
 theorem tensorDualFunctional_apply (σ : L ⟶ L') {U : X.Opens} (v : Γ(L, U))
     (ψ : Γ(L', U) →ₗ[Γ(X, U)] Γ(X, U)) :
@@ -382,7 +381,7 @@ theorem tensorDualFunctional_apply (σ : L ⟶ L') {U : X.Opens} (v : Γ(L, U))
       (G := (sheafHomModule L L').presheaf)
       (Scheme.tensorDualIsoSheafHom L L').hom.mapPresheaf (homOfLE (le_top : U ≤ ⊤)).op
       (Scheme.homTensorDualSectionEquiv L L' σ)
-  show ψ (sheafHomSectionApp L L' le_rfl
+  change ψ (sheafHomSectionApp L L' le_rfl
       ((Scheme.tensorDualIsoSheafHom L L').hom.app U
         (((Scheme.tensorDualTwist L L').presheaf.map (homOfLE (le_top : U ≤ ⊤)).op).hom
           (Scheme.homTensorDualSectionEquiv L L' σ))) v) = _

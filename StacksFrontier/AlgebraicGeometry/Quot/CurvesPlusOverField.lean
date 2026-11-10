@@ -98,7 +98,7 @@ theorem isSmoothAt_yoneda_map_iff_smoothAt {U W : BigFppfOver B S hS} (g : U ⟶
         point := IsLocalRing.closedPoint r.carrier
         maps_to := by rw [pointsMap_id, hr]; rfl }
     have hsrc : c.sourcePoint B S hS = x := by
-      show pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
+      change pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
       rw [hr, hp]
       exact pointsToScheme_pointsEquivScheme_symm B S hS U x
     have hc := (isSmoothAt_iff_holdsOnEveryEtaleChartAtPoint B S hS
@@ -134,7 +134,7 @@ theorem finite_setOf_not_isSmoothAt_yoneda_map_iff {U W : BigFppfOver B S hS} (g
         Set ((BigFppfOver.toScheme B S hS).obj U))ᶜ := by
     rw [Equiv.image_symm_eq_preimage]
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_compl_iff, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_compl_iff, SetLike.mem_coe]
     rw [← isSmoothAt_yoneda_map_iff_mem_smoothLocus B S hS g, Equiv.symm_apply_apply]
   rw [hset, Set.finite_image_iff e.symm.injective.injOn]
 
@@ -170,7 +170,7 @@ theorem isFiniteNonSmoothLocus_curveFamilyOfSchemeMorphism_iff
   have hX := isAlgebraicSpace_yoneda B integerBase hZ T
   have hY := isAlgebraicSpace_yoneda B integerBase hZ W
   let f : yoneda.obj T ⟶ yoneda.obj W := yoneda.map g
-  show (∃ Z : Subfunctor (yoneda.obj T),
+  change (∃ Z : Subfunctor (yoneda.obj T),
       Space.IsClosedSubspace B integerBase hZ Z ∧
       Set.range (Space.pointsMap B integerBase hZ Z.toFunctor Z.ι) =
         {x | ¬ Space.IsSmoothAt B integerBase hZ f x} ∧

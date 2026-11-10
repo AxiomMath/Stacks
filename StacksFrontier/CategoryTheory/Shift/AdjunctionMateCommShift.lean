@@ -68,7 +68,7 @@ lemma natTrans_commShift_of_homEquiv_symm (σ : H ⋙ F ⟶ K)
   intro a
   constructor
   ext X
-  show (Functor.commShiftIso (H ⋙ F) a).hom.app X ≫ (σ.app X)⟦a⟧' =
+  change (Functor.commShiftIso (H ⋙ F) a).hom.app X ≫ (σ.app X)⟦a⟧' =
     σ.app (X⟦a⟧) ≫ (K.commShiftIso a).hom.app X
   rw [hσ X, hσ (X⟦a⟧)]
   exact homEquiv_symm_app_commShift A adj H K τ X a

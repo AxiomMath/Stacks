@@ -134,7 +134,7 @@ theorem resolutionTensorToDerived_comp_ringHomSquareComparison
       (resolutionTensorComparison g F hF q).app Pf :=
     (congrArg (γ.app (DerivedCategory.Q.obj Pf) ≫ ·) (Category.id_comp _).symm).trans
       (resolutionTensorToDerived_fac g F hF q Pf)
-  show γ.app _ ≫ ρg.map ((derivedBaseChangeComparison.{u, u, u, u, u} f g h i sq _ _
+  change γ.app _ ≫ ρg.map ((derivedBaseChangeComparison.{u, u, u, u, u} f g h i sq _ _
     (extensionComparison g) (extensionComparison h)).2.1.app (DerivedCategory.Q.obj P)) = _
   rw [hsnd]
   simp only [Functor.map_comp, Category.assoc]
@@ -278,7 +278,7 @@ theorem ιTensorObj_whiskerLeft_f {T : Type u} [CommRing T]
     (φ : L ⟶ L') (a b n : ℤ) (hab : a + b = n) :
     HomologicalComplex.ιTensorObj K L a b n hab ≫ (K ◁ φ).f n =
       (K.X a ◁ φ.f b) ≫ HomologicalComplex.ιTensorObj K L' a b n hab := by
-  show HomologicalComplex.ιMapBifunctor K L (curriedTensor (ModuleCat.{u} T))
+  change HomologicalComplex.ιMapBifunctor K L (curriedTensor (ModuleCat.{u} T))
       (ComplexShape.up ℤ) a b n hab ≫
     (HomologicalComplex.mapBifunctorMap (𝟙 K) φ (curriedTensor (ModuleCat.{u} T))
       (ComplexShape.up ℤ)).f n = _
@@ -426,7 +426,7 @@ theorem termwiseComparison_eq_model (P : CochainComplex (ModuleCat.{u} A) ℤ) :
   have hl := underivedSquareComparison_app_tmul f g h i sq (P.X n) r' p
   refine (show _ = ((underivedSquareComparison f g h i sq).app (P.X n)).hom (r' ⊗ₜ[R,g] p)
     from rfl).trans (hl.trans ?_)
-  show (i r') ⊗ₜ[A,h] (show P.X n from p) = (ρ_ (X.X n)).hom.hom
+  change (i r') ⊗ₜ[A,h] (show P.X n from p) = (ρ_ (X.X n)).hom.hom
     ((X.X n ◁ (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
       (𝟙_ (ModuleCat.{u} A'))).hom).hom
       ((CochainComplex.ExtendScalars.leftProjectionModuleMap h (P.X n) (O.X 0)).hom

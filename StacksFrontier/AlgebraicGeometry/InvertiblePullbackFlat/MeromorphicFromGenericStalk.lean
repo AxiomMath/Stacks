@@ -92,7 +92,7 @@ theorem meromorphicSectionSheafIsoConstant_inv_hom_apply (U : X.Opens)
         (constantGenericStalkModuleSheaf X F)).val.obj (op U)) :
     (meromorphicSectionSheafIsoConstant X F).val.hom.val.app (op U)
       ((meromorphicSectionSheafIsoConstant X F).val.inv.val.app (op U) x) = x := by
-  show (((meromorphicSectionSheafIsoConstant X F).val.inv ≫
+  change (((meromorphicSectionSheafIsoConstant X F).val.inv ≫
     (meromorphicSectionSheafIsoConstant X F).val.hom).val.app (op U)) x = x
   rw [(meromorphicSectionSheafIsoConstant X F).val.inv_hom_id]
   rfl
@@ -103,7 +103,7 @@ theorem meromorphicSectionSheafIsoConstant_hom_inv_apply (U : X.Opens)
     (x : (meromorphicSectionSheaf X.sheaf F).val.obj (op U)) :
     (meromorphicSectionSheafIsoConstant X F).val.inv.val.app (op U)
       ((meromorphicSectionSheafIsoConstant X F).val.hom.val.app (op U) x) = x := by
-  show (((meromorphicSectionSheafIsoConstant X F).val.hom ≫
+  change (((meromorphicSectionSheafIsoConstant X F).val.hom ≫
     (meromorphicSectionSheafIsoConstant X F).val.inv).val.app (op U)) x = x
   rw [(meromorphicSectionSheafIsoConstant X F).val.hom_inv_id]
   rfl

@@ -169,7 +169,7 @@ private lemma inducesBijectionOnIdempotents_trans {R : Type*} [CommRing R]
   have he (x : {x : R // IsIdempotentElem x}) :
       idemEquiv e (idemMap (J.map (Ideal.Quotient.mk I)) (idemMap I x)) = idemMap J x := by
     apply Subtype.ext
-    show e (Ideal.Quotient.mk _ (Ideal.Quotient.mk I x.1)) = Ideal.Quotient.mk J x.1
+    change e (Ideal.Quotient.mk _ (Ideal.Quotient.mk I x.1)) = Ideal.Quotient.mk J x.1
     simp [e, e₀, q]
   have hfun : (idemEquiv e : _ → _) ∘ idemMap (J.map (Ideal.Quotient.mk I)) ∘ idemMap I =
       idemMap J := funext he
@@ -301,9 +301,9 @@ theorem isConnected_zeroLocus_add {A : Type u} [CommRing A] (I p : Ideal A)
   have hq : Surjective q := q₂.surjective.comp q₁.surjective
   have hker : RingHom.ker q = p + I := by
     ext x
-    show q₂ (q₁ x) = 0 ↔ x ∈ p + I
+    change q₂ (q₁ x) = 0 ↔ x ∈ p + I
     rw [Ideal.Quotient.eq_zero_iff_mem]
-    show q₁ x ∈ J ↔ x ∈ p + I
+    change q₁ x ∈ J ↔ x ∈ p + I
     simpa [J, q₁] using
       (show x ∈ (J.comap q₁) ↔ x ∈ p + I by
         rw [Ideal.comap_map_quotientMk, Ideal.add_eq_sup])

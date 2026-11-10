@@ -85,7 +85,7 @@ theorem ValuativeSquare.exists_lift_of_isProper {U W₀ W' W Y : (BigFppfOver B 
       (yoneda.obj (siteObject B S hS e.square.ring_mem e.square.base))
       (fun T : Scheme.{u} => IsReduced T) := by
     refine hasEtaleLocalProperty_of_representable B S hS _ _ _ (Iso.refl _) ?_
-    show IsReduced (Spec (.of e.square.R))
+    change IsReduced (Spec (.of e.square.R))
     infer_instance
   have hIcl : IsClosed (Set.range (pointsMap B S hS _ I.ι)) :=
     isClosed_range_pointsMap_of_isProper B S hS hW
@@ -114,7 +114,7 @@ fraction field `K`, extends after a dominating extension to `Spec A ⟶ W₁` or
 theorem hasCompactification_of_forall_exists_lift (hZ : B.Contains (⊤_ Scheme.{u}))
     {Y U W₁ W₂ : AlgebraicSpaces B S hS} (hYqc : IsQuasiCompactSpace B S hS Y.1)
     (hYqs : IsAbsolutelyQuasiSeparated B S hS hZ Y.1) {p : U.1 ⟶ Y.1}
-    (hpsep : IsSeparated B S hS p) (hpft : IsFiniteType B S hS p) (a₁ : U ⟶ W₁) (a₂ : U ⟶ W₂)
+    (hpft : IsFiniteType B S hS p) (a₁ : U ⟶ W₁) (a₂ : U ⟶ W₂)
     (ha₁ : IsOpenImmersion B S hS a₁.hom) (ha₂ : IsOpenImmersion B S hS a₂.hom)
     (g₁ : W₁ ⟶ Y) (g₂ : W₂ ⟶ Y) (hg₁sep : IsSeparated B S hS g₁.hom)
     (hg₁ft : IsFiniteType B S hS g₁.hom) (hg₂sep : IsSeparated B S hS g₂.hom)
@@ -138,7 +138,7 @@ theorem hasCompactification_of_forall_exists_lift (hZ : B.Contains (⊤_ Scheme.
   obtain ⟨W₁', W₂', W, b₁, b₂, i₁, i₂, g, u₁, u₂, hb₁, hb₂, hi₁, hi₂, hgsep, hgft, hig₁, hig₂,
     hub₁, hub₂, hu, hu₁o, -⟩ := exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion hZ
       g₁ g₂ a₁ a₂ hYqc hYqs ha₁ ha₂ hj (by rwa [ObjectProperty.FullSubcategory.comp_hom, hp₁])
-      (by rwa [ObjectProperty.FullSubcategory.comp_hom, hp₁]) hg₁ft hg₁sep hg₂ft hg₂sep
+      hg₁ft hg₁sep hg₂ft hg₂sep
       exists_integralFiniteSystem_isClosedImmersion_of_isFinite
       (fun f hX hY hft hsep hqc hqs => by
         obtain ⟨X', i, f', hX', hi, hf'sep, hf'fp, hif⟩ :=
@@ -192,10 +192,10 @@ theorem hasCompactification_of_forall_exists_lift (hZ : B.Contains (⊤_ Scheme.
           (hūι.trans hu') (yoneda.map e.genericOver ≫ γ) _ h
           (by rw [hh₁, hub₂']; simp only [Category.assoc]) hh₂
     refine ⟨e.trans e', ⟨⟨φ, ?_, ?_⟩⟩⟩
-    · show yoneda.map e'.square.fracHom ≫ φ = e'.square.generic
+    · change yoneda.map e'.square.fracHom ≫ φ = e'.square.generic
       rw [hφgen, e'.generic_comm, e.generic_comm, ← hγ]
       simp only [Category.assoc]
-    · show φ ≫ I.ι ≫ g.hom = e'.square.special
+    · change φ ≫ I.ι ≫ g.hom = e'.square.special
       rw [hφsp, e'.special_comm, e.special_comm]
   exact ⟨I.toFunctor, ū, I.ι ≫ g.hom, hIc.1, hopen, hūqc, IsProper.mk' B S hS hgIsep hgIft huc,
     by rw [reassoc_of% hūι, hug]⟩

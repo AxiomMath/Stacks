@@ -194,7 +194,7 @@ def coeffDeriv (p : Chart) : Chart :=
 @[simp] theorem coeffDeriv_coeff (p : Chart) (j : ℕ) :
     (coeffDeriv p).coeff j = gradeDeriv (p.coeff j) := by
   classical
-  rw [coeffDeriv, Polynomial.finset_sum_coeff]
+  rw [coeffDeriv, Polynomial.finsetSum_coeff]
   rw [Finset.sum_eq_single j (fun i _ hij => ?_) (fun hj => ?_)]
   · simp [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow]
   · simp [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, Ne.symm hij]
@@ -229,8 +229,8 @@ theorem eq_C_of_gradeDeriv_eq_zero {P : Coeff} (hP : gradeDeriv P = 0) :
   rw [← single_eq_C (P.coeff 0)]
   simp only [AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
   rcases eq_or_ne (0 : ℤ) m with rfl | hm
-  · rw [if_pos rfl]
-  · rw [if_neg hm]
+  · rw [ite_eq_left rfl]
+  · rw [ite_eq_right hm]
     rcases mul_eq_zero.1 h with h' | h'
     · exact absurd (Int.cast_injective (α := ℚ) (by rw [h', Int.cast_zero])) (Ne.symm hm)
     · exact h'

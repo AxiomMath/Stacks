@@ -80,10 +80,11 @@ public theorem finiteFourier_finiteFourier (ψ : AddChar k R) (hψ : ψ ≠ 1) (
         refine sum_congr rfl fun y _ => ?_
         rw [sum_apply_mul ψ hψ]
         by_cases h : y = -x
-        · rw [if_pos (by rw [h, neg_add_cancel]), if_pos h]
-        · rw [if_neg (fun h' => h (eq_neg_of_add_eq_zero_left h')), if_neg h, mul_zero]
+        · rw [ite_eq_left (by rw [h, neg_add_cancel]), ite_eq_left h]
+        · rw [ite_eq_right (fun h' => h (eq_neg_of_add_eq_zero_left h')), ite_eq_right h, mul_zero]
     _ = Fintype.card k * f (-x) := by
-        rw [sum_ite_eq' univ (-x) (fun y => f y * Fintype.card k), if_pos (mem_univ _), mul_comm]
+        rw [sum_ite_eq' univ (-x) (fun y => f y * Fintype.card k), ite_eq_left (mem_univ _),
+          mul_comm]
 
 omit [DecidableEq k] in
 /-- **Plancherel**: `∑_t F_ψ f(t) F_{ψ⁻¹} g(t) = q ∑_x f(x) g(x)`. -/
@@ -103,7 +104,7 @@ public theorem sum_finiteFourier_mul (ψ : AddChar k R) (hψ : ψ ≠ 1) (f g : 
     _ = ∑ x, f x * g x * Fintype.card k := by
         refine sum_congr rfl fun x _ => ?_
         simp_rw [sum_apply_mul ψ hψ, sub_eq_zero, mul_ite, mul_zero]
-        rw [sum_ite_eq univ x (fun y => f x * g y * Fintype.card k), if_pos (mem_univ _)]
+        rw [sum_ite_eq univ x (fun y => f x * g y * Fintype.card k), ite_eq_left (mem_univ _)]
     _ = Fintype.card k * ∑ x, f x * g x := by
         rw [mul_sum]
         exact sum_congr rfl fun x _ => mul_comm _ _

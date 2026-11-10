@@ -74,7 +74,7 @@ theorem arrowsToInvariantSpectrum_eq_isoSpec_comp (G : GroupoidScheme S)
       Spec.map (CommRingCat.ofHom (algebraMap (invariantRing G) Γ(G.arrows.left, ⊤))) := by
   let := invariantRingAlgebraArrow G
   rw [Scheme.isoSpec_hom]
-  show G.source.left ≫ G.objects.left.toSpecΓ ≫
+  change G.source.left ≫ G.objects.left.toSpecΓ ≫
       Spec.map (CommRingCat.ofHom (invariantRing G).subtype) = _
   rw [Scheme.toSpecΓ_naturality_assoc G.source.left, ← Spec.map_comp]
   rfl

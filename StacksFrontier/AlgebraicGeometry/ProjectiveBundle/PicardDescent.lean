@@ -251,6 +251,7 @@ theorem exists_isPullback_fromSpec {V : P.Opens} {m : ℕ}
 variable {k : Type u} [Field k] [IsAlgClosed k] (sP : P ⟶ Spec (.of k)) (m : ℕ) (N : H.Modules)
   (hN : IsInvertible H.presheaf H.ringCatIsSheaf N)
 
+omit [IsAlgClosed k] in
 /-- **The fibre of a chart over a rational point is trivial.** Let `φ : ℙᵐ_R ⟶ H` lie over
 `ι : Spec R ⟶ P`, with `ι ≫ sP = Spec α` for `α : k ⟶ R`, and let `𝔪` be a maximal ideal of `R`
 with `k ⟶ κ(𝔪)` bijective. If `𝒩` is trivial on the rational fibres of `f`, then `φ^*𝒩` is

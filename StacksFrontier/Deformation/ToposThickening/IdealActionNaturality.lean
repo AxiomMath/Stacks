@@ -98,14 +98,14 @@ theorem idealActionMap_naturality
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro a x
-  show left.app U
+  change left.app U
       (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] x) =
     right.app U (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] x)
   apply (hL.isSeparated _ (Presheaf.imageSieve_mem Y.J
     ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj).map
       D.firstExtension.g.val) x)).ext
   rintro V m ⟨x', hx'⟩
-  show D.L.val.map m.op (left.app U
+  change D.L.val.map m.op (left.app U
       (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] x)) =
     D.L.val.map m.op (right.app U
       (a ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U] x))
@@ -135,7 +135,7 @@ theorem idealActionMap_naturality
       D.quotientMap.val ≫ adj.homEquiv _ D.L D.secondActionMap.val :=
     adj.homEquiv_naturality_left _ _
   rw [hright]
-  show left.app (Opposite.op V)
+  change left.app (Opposite.op V)
       (aV ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj (Opposite.op V)]
         gxV) =
     (adj.homEquiv (PresheafOfModulesOfCommRing.Monoidal.tensorObj D.thickening.I.val D.G.val) D.L

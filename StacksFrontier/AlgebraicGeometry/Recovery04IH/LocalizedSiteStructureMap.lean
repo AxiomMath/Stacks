@@ -49,7 +49,8 @@ the component computation, and everything else is adjunction naturality.
 `AlgebraicGeometry.RingedSite.Hom.localized` being a *locally ringed* morphism needs. The
 identification of Stacks 03CF clause (b) with the mate is proved and registered on Stacks 03CF —
 `CategoryTheory.SliceTopos.overPullbackCompSheafPullbackOverPostIso_hom` of
-`StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`, whose own mate is this one on the
+`StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`,
+whose own mate is this one on the
 nose — and so is the conclusion:
 `CategoryTheory.SliceTopos.isIso_localizedInverseImageMate` of
 `StacksFrontier/AlgebraicGeometry/Recovery04IH/LocalizedMateInvertible.lean`, together with the

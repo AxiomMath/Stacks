@@ -119,12 +119,12 @@ theorem forget_map_compInverseImageRingIso_hom :
   have h₁ := forget_map_inverseImageCommRingComp_hom
     (smallEtaleRingedToposHom B S hS q).toToposHom
     (smallEtaleRingedToposHom B S hS p).toToposHom (smallEtaleRingedTopos B S hS Z).O
-  haveI : PreservesFiniteProducts ((smallEtaleRingedToposHom B S hS q).toToposHom.comp
+  have : PreservesFiniteProducts ((smallEtaleRingedToposHom B S hS q).toToposHom.comp
       (smallEtaleRingedToposHom B S hS p).toToposHom).inverseImage :=
     ⟨fun n ↦ ((smallEtaleRingedToposHom B S hS q).toToposHom.comp
       (smallEtaleRingedToposHom B S hS p).toToposHom).preservesFiniteLimits.preservesFiniteLimits
         (Discrete (Fin n))⟩
-  haveI : PreservesFiniteProducts
+  have : PreservesFiniteProducts
       (smallEtaleRingedToposHom B S hS (p ≫ q)).toToposHom.inverseImage :=
     ⟨fun n ↦ (smallEtaleRingedToposHom B S hS (p ≫ q)).toToposHom.preservesFiniteLimits
       |>.preservesFiniteLimits (Discrete (Fin n))⟩

@@ -286,7 +286,7 @@ theorem isIso_coefficientProjectionMap_of_isIso_unit
           DerivedCategory.Q.map εF = (derivedPullbackComparison c).app
               ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj ρF) ≫
             qΛ'.hom.app ((pullbackComplex c).obj ρF) ≫ DerivedCategory.Q.map εF := by
-        show (derivedPullback c).map (qΛ.hom.app ρF) ≫ ((derivedPullback c).map (qΛ.inv.app ρF) ≫
+        change (derivedPullback c).map (qΛ.hom.app ρF) ≫ ((derivedPullback c).map (qΛ.inv.app ρF) ≫
           ((derivedPullbackComparison c).app _ ≫ qΛ'.hom.app _)) ≫ DerivedCategory.Q.map εF = _
         exact map_hom_comp_map_inv_comp_assoc (derivedPullback c) (qΛ.app ρF) _ _ _
       have h₂ : (derivedPullbackComparison c).app
@@ -318,7 +318,7 @@ theorem isIso_coefficientProjectionMap_of_isIso_unit
     have hx' : (coefficientPullback φ Z).map (qΛ.hom.app Tot) ≫ x =
         (derivedPullbackComparison c).app
           ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj Tot) ≫ rest := by
-      show (derivedPullback c).map (qΛ.hom.app Tot) ≫ ((derivedPullback c).map (qΛ.inv.app Tot) ≫
+      change (derivedPullback c).map (qΛ.hom.app Tot) ≫ ((derivedPullback c).map (qΛ.inv.app Tot) ≫
         ((derivedPullbackComparison c).app _ ≫ qΛ'.hom.app _)) ≫ _ = _
       exact map_hom_comp_map_inv_comp_assoc (derivedPullback c) (qΛ.app Tot) _ _ _
     have hu : (coefficientAdjunction φ Z).unit.app (DerivedCategory.Qh.obj

@@ -33,6 +33,7 @@ universe u
 namespace Stacks.EtaleCohomology
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the long statement and the many-argument applications of the input hypotheses
 /-- **The specialization injection at the origin of Laumon's degeneration, along an isogeny, for
 `ℓ ≠ char k'`** (piece P5 of `Stacks.EtaleCohomology.LaumonDegenerationFamilyInput`,
 [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)). In the setting of

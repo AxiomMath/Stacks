@@ -176,7 +176,7 @@ theorem specMap_base_genericPoint {R A : CommRingCat.{u}} [IsDomain R] [IsDomain
     (Spec.map psi).base (genericPoint (Spec A)) = genericPoint (Spec R) := by
   rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
   apply PrimeSpectrum.ext
-  show Ideal.comap psi.hom (⊥ : Ideal ↑A) = ⊥
+  change Ideal.comap psi.hom (⊥ : Ideal ↑A) = ⊥
   exact (RingHom.ker_eq_comap_bot _).symm.trans ((RingHom.injective_iff_ker_eq_bot _).mp hinj)
 
 /-- **The transcendence degree of the residue field extension at the generic points.** For an

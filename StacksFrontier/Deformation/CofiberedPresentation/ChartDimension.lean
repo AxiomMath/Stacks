@@ -45,13 +45,13 @@ public theorem twoMul_ringKrullDim_sub_eq_of_smoothChart (T : ChangeOfFieldsSitu
     (E : StacksRepresentableCFG.EquivalenceOver (changeOfFieldsProjection T p) pL)
     (A' B' : CompleteLocalAlgCat.{u, u, u} T.Λ T.l)
     {FV : Type uV} [Category.{vV} FV] {pV : FV ⥤ ArtinianLocalAlgCat.{u, u, u} T.Λ T.l}
-    (eV : StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π (restrictedCoyoneda A')) pV)
+    (eV : StacksRepresentableCFG.EquivalenceOver (Functor.Elements.π (restrictedCoyoneda A')) pV)
     (g : FV ⥤ FL) (hg : g ⋙ pL = pV)
     (hsm : IsSmooth (⟨g, hg⟩ : BasedFunctor (BasedCategory.ofFunctor pV)
       (BasedCategory.ofFunctor pL)))
     (eB : StacksRepresentableCFG.EquivalenceOver
       (TwoFibreProductOver.structureFunctor pV pV pL g g)
-      (CategoryOfElements.π (restrictedCoyoneda B'))) :
+      (Functor.Elements.π (restrictedCoyoneda B'))) :
     ∃ a b a' b' : ℕ, ringKrullDim ξ.base = a ∧ ringKrullDim B = b ∧ ringKrullDim A' = a' ∧
       ringKrullDim B' = b' ∧ 2 * a + b' = 2 * a' + b := by
   obtain ⟨H, hH, ⟨PH⟩, ⟨eA'⟩, ⟨eB'⟩⟩ :=

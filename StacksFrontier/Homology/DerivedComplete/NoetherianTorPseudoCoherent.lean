@@ -208,7 +208,7 @@ private theorem tensor_ι_d
           ιTensorObj E F (i + 1) j (n + 1) (by omega) +
       i.negOnePow • ((E.X i ◁ F.d j (j + 1)) ≫
           ιTensorObj E F i (j + 1) (n + 1) (by omega)) := by
-  show ιTensorObj E F i j n h ≫ (HomologicalComplex.tensorObj E F).d n (n + 1) = _
+  change ιTensorObj E F i j n h ≫ (HomologicalComplex.tensorObj E F).d n (n + 1) = _
   rw [mapBifunctor.d_eq E F (curriedTensor _) (ComplexShape.up ℤ), Preadditive.comp_add,
     mapBifunctor.ι_D₁, mapBifunctor.ι_D₂,
     mapBifunctor.d₁_eq E F (curriedTensor _) (ComplexShape.up ℤ) (i₁' := i + 1) (by simp) j
@@ -260,7 +260,7 @@ private theorem adicCompletionTensorComplexMapX_comm
   rw [← Category.assoc, tensor_ι_d]
   simp only [Preadditive.add_comp, Linear.units_smul_comp, Category.assoc,
     ι_adicCompletionTensorComplexMapX]
-  show _ = ModuleCat.ofHom (adicCompletionTensorMap I (E.X i) (F.X j)) ≫
+  change _ = ModuleCat.ofHom (adicCompletionTensorMap I (E.X i) (F.X j)) ≫
     (adicCompletionFunctor I).map (ιTensorObj E F i j n h) ≫
       (adicCompletionFunctor I).map ((E ⊗ F).d n (n + 1))
   rw [← Functor.map_comp, tensor_ι_d, Functor.map_add, Preadditive.comp_add]
@@ -431,7 +431,7 @@ private theorem reductionComplexTransition_refl {A : Type u} [CommRing A] (I : I
   apply HomologicalComplex.Hom.ext
   funext i
   apply ModuleCat.hom_ext
-  show AdicCompletion.transitionMap I (E.X i) (le_refl n) = LinearMap.id
+  change AdicCompletion.transitionMap I (E.X i) (le_refl n) = LinearMap.id
   ext x
   rfl
 
@@ -442,7 +442,7 @@ private theorem reductionComplexTransition_trans {A : Type u} [CommRing A] (I : 
   apply HomologicalComplex.Hom.ext
   funext i
   apply ModuleCat.hom_ext
-  show AdicCompletion.transitionMap I (E.X i) (h.trans h') =
+  change AdicCompletion.transitionMap I (E.X i) (h.trans h') =
     AdicCompletion.transitionMap I (E.X i) h ∘ₗ AdicCompletion.transitionMap I (E.X i) h'
   ext x
   rfl
@@ -578,7 +578,7 @@ private theorem tensorSingleInclusion_naturality {A : Type u} [CommRing A]
       tensorSingleInclusion E M ≫ (E ◁ (CochainComplex.singleFunctor _ 0).map f) := by
   apply HomologicalComplex.Hom.ext
   funext i
-  show (E.X i ◁ f) ≫
+  change (E.X i ◁ f) ≫
       ιTensorObj E ((CochainComplex.singleFunctor _ 0).obj N) i 0 i (by simp) =
     ιTensorObj E ((CochainComplex.singleFunctor _ 0).obj M) i 0 i (by simp) ≫
       (E ◁ (CochainComplex.singleFunctor _ 0).map f).f i
@@ -633,7 +633,7 @@ private theorem tensorQuotientComplexIso_naturality {A : Type u} [CommRing A]
   apply TensorProduct.ext'
   intro x r
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
-  show AdicCompletion.transitionMap I (E.X i) h
+  change AdicCompletion.transitionMap I (E.X i) h
       (TensorProduct.tensorQuotEquivQuotSMul (E.X i) (I ^ n)
         (x ⊗ₜ[A] Ideal.Quotient.mk (I ^ n) r)) =
     TensorProduct.tensorQuotEquivQuotSMul (E.X i) (I ^ m)
@@ -662,7 +662,8 @@ private theorem isDerivedLimit_of_natIso
     apply Pi.hom_ext
     intro n
     simp only [q, Category.assoc, Pi.map_π, Pi.map_π_assoc, d, d',
-      Pi.lift_comp_π, Pi.lift_comp_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp, Category.assoc]
+      Pi.lift_comp_π, Pi.lift_comp_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp,
+      Category.assoc]
     rw [e.hom.naturality]
   let t := Triangle.mk p d δ
   let s := Triangle.mk (p ≫ q.hom) d' (q.inv ≫ δ)

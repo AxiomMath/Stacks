@@ -104,7 +104,7 @@ theorem ringKrullDim_quotient_idealStalk_eq_zero_of_relativeDimension_eq (J : Y.
   obtain ⟨V, hV⟩ := isGenericPoint_component_of_relativeDimension_eq C f J.subschemeι hJ
     (IdealSheafData.subschemePoint J z hz) hzk
   have hwgen : IdealSheafData.subschemePoint J z hz ∈ genericPoints J.subscheme := by
-    show closure ({IdealSheafData.subschemePoint J z hz} : Set J.subscheme) ∈
+    change closure ({IdealSheafData.subschemePoint J z hz} : Set J.subscheme) ∈
       irreducibleComponents J.subscheme
     rw [hV]
     exact V.2

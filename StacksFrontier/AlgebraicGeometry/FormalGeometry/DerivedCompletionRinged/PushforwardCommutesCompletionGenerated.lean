@@ -462,7 +462,8 @@ quasi-coherent `ℐ` of finite type and `ℐ' = f^{-1}ℐ · 𝒪_X`, it is `Alg
 same file. At a morphism of algebraic stacks the analogue is \
 `AlgebraicGeometry.Stack.isIso_derivedCompletionPushforwardComparison_of_isAlgebraicStack` of \
 `PushforwardCommutesCompletionAlgebraicStacks.lean`; derived algebraic stacks, the other half \
-of the setting of [HL-P, Theorem 6.5], are not defined in this library. The remark's first four sentences are \
+of the setting of [HL-P, Theorem 6.5], are not defined in this library. The remark's first four \
+sentences are \
 bibliography — pointers to [lurie-thesis, Theorem 6.3.1] for a derived formal functions \
 theorem for proper maps, to [dag12, Chapter 4] with the cross-reference to More on Algebra, \
 Section 091N for the affine story, and to [G-R, Section 2.9] for proper base change and \

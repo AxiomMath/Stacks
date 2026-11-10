@@ -52,7 +52,7 @@ public theorem finiteLength_quotient_by_maximalIdealPower
     refine ⟨n + 1, ?_⟩
     rw [← IsLocalRing.map_maximalIdeal_of_surjective
       (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective, ← Ideal.map_pow]
-    show Ideal.map (Ideal.Quotient.mk J) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
+    change Ideal.map (Ideal.Quotient.mk J) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
     rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
   have : IsArtinianRing B := (isArtinianRing_iff_isNilpotent_maximalIdeal B).mpr hnil
   let : Algebra A B := Ideal.Quotient.algebra A

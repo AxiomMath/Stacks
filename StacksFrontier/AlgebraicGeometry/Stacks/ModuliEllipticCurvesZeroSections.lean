@@ -67,7 +67,7 @@ theorem pullbackSectionHom_naturality {M N : Y.Modules} (φ : M ⟶ N) (x : Γ(M
   simp only [Functor.id_map, Functor.comp_map, Scheme.Modules.Hom.comp_app,
     Scheme.Modules.pushforward_map_app, ConcreteCategory.comp_apply] at hu'
   unfold pullbackSectionHom
-  show ((Scheme.Modules.pullback j).obj N).presheaf.map (homOfLE (top_le_preimage_top j)).op
+  change ((Scheme.Modules.pullback j).obj N).presheaf.map (homOfLE (top_le_preimage_top j)).op
       (Scheme.Modules.Hom.app ((Scheme.Modules.pullbackPushforwardAdjunction j).unit.app N) ⊤
         (Scheme.Modules.Hom.app φ ⊤ x)) =
     Scheme.Modules.Hom.app ((Scheme.Modules.pullback j).map φ) ⊤
@@ -107,7 +107,7 @@ theorem pullSection_twistOneSection (x : Γ(L, ⊤)) :
     rw [← cancel_mono (MorphismToProjUniversal.unitorPow ((Scheme.Modules.pullback j).obj L)).hom,
       Category.assoc, ← key, ← CategoryTheory.Functor.map_comp, Iso.inv_hom_id,
       CategoryTheory.Functor.map_id, Iso.inv_hom_id]
-  show Scheme.Modules.Hom.app (pullbackNatTensorPowIso j L 1).inv ⊤
+  change Scheme.Modules.Hom.app (pullbackNatTensorPowIso j L 1).inv ⊤
       (pullbackSectionHom j (natTensorPow L 1) ⊤ ⊤ (top_le_preimage_top j)
         (Scheme.Modules.Hom.app (MorphismToProjUniversal.unitorPow L).inv ⊤ x)) =
     Scheme.Modules.Hom.app
@@ -123,7 +123,7 @@ theorem natTensorPowCongr_one_twistOneSection {L L' : Y.Modules} (e : L ≅ L') 
   have h : (MorphismToProjUniversal.unitorPow L).inv ≫
       (Stacks.AmplePullbackPart1.natTensorPowCongr e 1).hom =
         e.hom ≫ (MorphismToProjUniversal.unitorPow L').inv := by
-    show (λ_ L).inv ≫ (Iso.refl (𝟙_ Y.Modules) ⊗ᵢ e).hom = e.hom ≫ (λ_ L').inv
+    change (λ_ L).inv ≫ (Iso.refl (𝟙_ Y.Modules) ⊗ᵢ e).hom = e.hom ≫ (λ_ L').inv
     rw [tensorIso_hom, Iso.refl_hom, id_tensorHom, leftUnitor_inv_naturality]
   exact congrArg (fun φ => Scheme.Modules.Hom.app φ ⊤ z) h
 
@@ -220,20 +220,20 @@ theorem restrictSection_weierstrassMonomials (g : T ⟶ S) (x : Γ(natTensorPow 
   fin_cases i
   · exact (h33 _ _).trans (by rw [hc]; rfl)
   · refine (E.restrictSection_mulSections g (n := 4) (m := 2) _ _).trans ?_
-    show mulSections _ (E.restrictSection g (3 + 1) (mulSections _ _ _)) _ = _
+    change mulSections _ (E.restrictSection g (3 + 1) (mulSections _ _ _)) _ = _
     rw [E.restrictSection_mulSections, hc, hs]
     rfl
   · exact (h33 _ _).trans (by rw [hc]; rfl)
   · refine (E.restrictSection_mulSections g (n := 2) (m := 4) _ _).trans ?_
-    show mulSections _ _ (E.restrictSection g (2 + 2) (mulSections _ _ _)) = _
+    change mulSections _ _ (E.restrictSection g (2 + 2) (mulSections _ _ _)) = _
     rw [E.restrictSection_mulSections, hq]
     rfl
   · refine (h33 _ _).trans ?_
-    show mulSections _ (E.restrictSection g (1 + 2) (mulSections _ _ _)) _ = _
+    change mulSections _ (E.restrictSection g (1 + 2) (mulSections _ _ _)) _ = _
     rw [E.restrictSection_mulSections, hs]
     rfl
   · refine (E.restrictSection_mulSections g (n := 4) (m := 2) _ _).trans ?_
-    show mulSections _ (E.restrictSection g (2 + 2) (mulSections _ _ _)) _ = _
+    change mulSections _ (E.restrictSection g (2 + 2) (mulSections _ _ _)) _ = _
     rw [E.restrictSection_mulSections]
     rfl
 

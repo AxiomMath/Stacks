@@ -165,7 +165,7 @@ theorem comap_ofIdealTop_ofList_ofFn {X Y : Scheme.{u}} [IsAffine Y] (g : X ⟶ 
   rw [show (Ideal.ofList (List.ofFn s)) = Ideal.span {x | x ∈ List.ofFn s} from rfl,
     Ideal.map_span]
   refine congrArg Ideal.span (Set.ext fun x => ?_)
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_ofFn]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_ofFn]
   constructor
   · rintro ⟨-, ⟨i, rfl⟩, rfl⟩
     exact ⟨i, (h i).symm⟩
@@ -264,7 +264,7 @@ theorem exists_mono_flat_surjective_slice_of_smooth {R U : Scheme.{u}}
     obtain ⟨i, rfl⟩ := List.mem_ofFn.mp hf
     rw [hcf i]
     refine germ_appLE_mem_maximalIdeal _ hWV _ w ?_
-    show a (jW w) ∉ U.basicOpen (s i)
+    change a (jW w) ∉ U.basicOpen (s i)
     rw [hjw, U.mem_basicOpen (s i) (a r₀) hrV]
     exact (IsLocalRing.mem_maximalIdeal _).1 (hmem i)
   obtain ⟨t₀, ht₀⟩ : w ∈ Set.range (D.comap gV).subschemeι := by
@@ -286,7 +286,7 @@ theorem exists_mono_flat_surjective_slice_of_smooth {R U : Scheme.{u}}
     (congrArg (· t) hkkι).symm
   have hisosurj : Function.Surjective ((D.comapIso gV).hom.base) := fun x =>
     ⟨(D.comapIso gV).inv.base x, by
-      show ((D.comapIso gV).inv ≫ (D.comapIso gV).hom) x = x
+      change ((D.comapIso gV).inv ≫ (D.comapIso gV).hom) x = x
       rw [Iso.inv_hom_id]
       rfl⟩
   have hrangekk : Set.range kkfull.base = D.subschemeι.base ⁻¹' Set.range gV.base := by
@@ -321,7 +321,7 @@ theorem exists_mono_flat_surjective_slice_of_smooth {R U : Scheme.{u}}
     exact ⟨t, Subtype.ext ((hkkfacpt t).trans ht)⟩
   · rwa [Category.assoc]
   · rwa [Category.assoc]
-  · show jW ((D.comap gV).subschemeι t₀) = r₀
+  · change jW ((D.comap gV).subschemeι t₀) = r₀
     rw [ht₀, hjw]
   · intro hclosedfib
     rw [Category.assoc]
@@ -469,10 +469,10 @@ theorem exists_flat_isLocallyOfFinitePresentation_chart_at_point
   set jsite : Tsite ⟶ R := Over.homMk (ObjectProperty.homMk jj) rfl with hjsite
   have hwk : (ObjectProperty.homMk kk : B.obj hTc ⟶ B.obj hZc) ≫ Zsite.hom = Tsite.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show kk ≫ ιZ ≫ B.inclusion.map U.hom = jj ≫ B.inclusion.map R.hom
+    change kk ≫ ιZ ≫ B.inclusion.map U.hom = jj ≫ B.inclusion.map R.hom
     rw [← Category.assoc, hcomm, Category.assoc]
     refine congrArg (fun m => jj ≫ m) ?_
-    show B.inclusion.map (Stack.chartLeg B S hS U p
+    change B.inclusion.map (Stack.chartLeg B S hS U p
         (Stack.twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
         (Stack.twoFibreProductSquareAlgebraicStacks B S hS p p).fst).left ≫
       B.inclusion.map U.hom = B.inclusion.map R.hom
@@ -486,7 +486,7 @@ theorem exists_flat_isLocallyOfFinitePresentation_chart_at_point
   set jWsite : Wsite ⟶ R := Over.homMk (ObjectProperty.homMk jWs) rfl with hjWsite
   have hwT : (ObjectProperty.homMk jTs : B.obj hTc ⟶ B.obj hWc) ≫ Wsite.hom = Tsite.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show jTs ≫ jWs ≫ B.inclusion.map R.hom = jj ≫ B.inclusion.map R.hom
+    change jTs ≫ jWs ≫ B.inclusion.map R.hom = jj ≫ B.inclusion.map R.hom
     rw [← Category.assoc, hjfac]
   set jTsite : Tsite ⟶ Wsite := Over.homMk (ObjectProperty.homMk jTs) hwT with hjTsite
   have hjsitefac : jTsite ≫ jWsite = jsite :=
@@ -517,7 +517,7 @@ theorem exists_flat_isLocallyOfFinitePresentation_chart_at_point
         (Stack.twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
         (Stack.twoFibreProductSquareAlgebraicStacks B S hS p p).fst) (jj t₀) := by
       exact congrArg (· t₀) hcomm
-    show ιZ (kk t₀) = _
+    change ιZ (kk t₀) = _
     rw [hc, hjt, har]
   refine ⟨Zsite, schemeStackMap.{u, w} B S hS ιsite ≫ p, kk t₀,
     (pointsHomeomorphScheme B S hS Zsite).symm (kk t₀), hcflat, hclfp,

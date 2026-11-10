@@ -104,10 +104,10 @@ lemma isZero_cechDoubleBifunctor_X_X
         (ComplexShape.embeddingUpNat.extendFunctor AddCommGrpCat.{v}) ?_)
     exact HomologicalComplex.isZero_extend_X
       (((cechDoubleNatBifunctor X).obj K).obj Y) ComplexShape.embeddingUpNat i
-      fun k => by show ((k : ℕ) : ℤ) ≠ i; omega
+      fun k => by change ((k : ℕ) : ℤ) ≠ i; omega
   · exact HomologicalComplex.isZero_extend_X
       ((((cechDoubleOuterBifunctor X).obj K).obj Y).X i) ComplexShape.embeddingUpNat j
-      fun k => by show ((k : ℕ) : ℤ) ≠ j; omega
+      fun k => by change ((k : ℕ) : ℤ) ≠ j; omega
 
 section Resolution
 

@@ -225,7 +225,7 @@ theorem isAlgebraicStack_terminal :
       inverse := ⟨(Over.equivalenceOfIsTerminal hterm).inverse, rfl⟩
       unitIso := BasedNatIso.mkNatIso (Over.equivalenceOfIsTerminal hterm).unitIso.symm (by
         intro a
-        show (Over.forget T).IsHomLift (𝟙 a.left) _
+        change (Over.forget T).IsHomLift (𝟙 a.left) _
         apply CategoryTheory.IsHomLift.of_fac' _ _ _ rfl rfl
         simp only [Over.equivalenceOfIsTerminal, Functor.id_obj, Functor.comp_obj,
           Over.forget_obj, Over.mk_left, Iso.symm_hom, eqToHom_refl]

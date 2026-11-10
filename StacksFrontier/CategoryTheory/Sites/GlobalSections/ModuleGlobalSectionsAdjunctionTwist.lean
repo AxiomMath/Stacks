@@ -101,7 +101,7 @@ theorem moduleGlobalSectionsCorepresentation_hom_app_twist (G : C ⥤ C) [G.IsCo
     constantSheafΓAdj_homEquiv_moduleGlobalSectionsCorepresentation_hom_app R J _ s
   have hf₁ : cΓ.homEquiv _ _ f₁ = (moduleULiftHomAddEquiv.{w, u} R _).symm (θ.app M s) :=
     constantSheafΓAdj_homEquiv_moduleGlobalSectionsCorepresentation_hom_app R J _ _
-  show f₁ = _ ≫ (adj.homEquiv _ _).symm g
+  change f₁ = _ ≫ (adj.homEquiv _ _).symm g
   apply (cT'.homEquiv _ M).injective
   -- the left side
   have hL : cT'.homEquiv _ M f₁ = cT.homEquiv _ _ g := by

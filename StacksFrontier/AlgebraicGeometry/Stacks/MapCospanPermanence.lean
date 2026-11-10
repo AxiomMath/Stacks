@@ -282,7 +282,7 @@ theorem isSurjective_mapCospan (hf : Stack.IsSurjective B S hS f)
         (Stack.isSurjective_comp_of_isEquivalence B S hS _ _
           (isEquivalence_mapCospanMiddleComparison B S hS g h) h₁))
   obtain ⟨Θ⟩ := nonempty_twoIso_mapCospanRoute B S hS f g h
-  show Function.Surjective (pointsMap B S hS (mapCospan B S hS f g h))
+  change Function.Surjective (pointsMap B S hS (mapCospan B S hS f g h))
   rw [← pointsMap_eq_of_hom₂ B S hS Θ.hom]
   exact hroute
 

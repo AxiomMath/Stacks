@@ -109,7 +109,7 @@ theorem tensorProductBraiding_naturality
     PresheafOfModulesOfCommRing.monoidalCategory (R := 𝒪)
   let : SymmetricCategory (PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := 𝒪)
-  show (sheafify 𝒪 h𝒪).map (e.hom.val ⊗ₘ f.hom.val) ≫
+  change (sheafify 𝒪 h𝒪).map (e.hom.val ⊗ₘ f.hom.val) ≫
       (sheafify 𝒪 h𝒪).map (β_ M'.val N'.val).hom =
     (sheafify 𝒪 h𝒪).map (β_ M.val N.val).hom ≫
       (sheafify 𝒪 h𝒪).map (f.hom.val ⊗ₘ e.hom.val)

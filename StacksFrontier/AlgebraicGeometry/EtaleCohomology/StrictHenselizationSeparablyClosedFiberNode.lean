@@ -52,9 +52,9 @@ abbrev nodePoint : GeometricPoint (nodeScheme k) where
 /-- The geometric point at the node lies over the maximal ideal of the node. -/
 theorem nodePoint_hom_closedPoint :
     ((nodePoint k).hom (closedPoint k)).asIdeal = StacksDraft.Node.maximalIdeal k := by
-  show (PrimeSpectrum.comap _ (closedPoint k)).asIdeal = _
+  change (PrimeSpectrum.comap _ (closedPoint k)).asIdeal = _
   rw [PrimeSpectrum.comap_asIdeal]
-  show Ideal.comap _ (maximalIdeal k) = _
+  change Ideal.comap _ (maximalIdeal k) = _
   rw [maximalIdeal_eq_bot]
   ext a
   simp [RingHom.mem_ker]
@@ -95,6 +95,7 @@ abbrev localRingAt : CommRingCat.{u} :=
 instance : Algebra (StacksDraft.Node.ring k) (localRingAt s) :=
   StructureSheaf.stalkAlgebra _ _
 
+omit [IsAlgClosed k] in
 include hs in
 /-- At a geometric point over the singular point, the local ring of the node is the localization
 at the maximal ideal of the node. -/
@@ -125,6 +126,7 @@ instance : Module.Flat (localRingAt s) (shRing B hS s) := by
 instance : Module.FaithfullyFlat (localRingAt s) (shRing B hS s) :=
   Module.FaithfullyFlat.of_flat_of_isLocalHom
 
+omit [IsAlgClosed k] in
 /-- The strict henselization of the node at `s` is ind-étale over the local ring. -/
 theorem indEtale_shRing : StacksDraft.IndEtale (localRingAt s) (shRing B hS s) :=
   indEtale_etaleLocalRing B (nodeScheme k) hS s
@@ -136,6 +138,7 @@ def shRingEquiv (B' : BigEtaleSite.{u}) (hS' : B'.Contains (nodeScheme k)) :
   (etaleLocalRingAlgEquivStrictHenselization B _ hS s).symm.trans
     (etaleLocalRingAlgEquivStrictHenselization B' _ hS' s)
 
+omit [IsAlgClosed k] in
 /-- The isomorphism `shRingEquiv` commutes with the germ maps from the local ring. -/
 theorem shRingEquiv_comp_fromLocalRing (B' : BigEtaleSite.{u})
     (hS' : B'.Contains (nodeScheme k)) :
@@ -152,12 +155,14 @@ abbrev xO : localRingAt s := algebraMap (StacksDraft.Node.ring k) _ (StacksDraft
 /-- The coordinate `y` in the local ring of the node. -/
 abbrev yO : localRingAt s := algebraMap (StacksDraft.Node.ring k) _ (StacksDraft.Node.y k)
 
+omit [IsAlgClosed k] in
 /-- The equation `y² = x²(1 + x)` of the node, in its local ring. -/
 theorem yO_sq : yO (s := s) ^ 2 = xO ^ 2 * (1 + xO) := by
   have := congrArg (algebraMap (StacksDraft.Node.ring k) (localRingAt s))
     (StacksDraft.Node.y_sq k)
   simpa only [map_pow, map_mul, map_add, map_one] using this
 
+omit [IsAlgClosed k] in
 include hs in
 /-- The coordinate `x` lies in the maximal ideal of the local ring at the singular point. -/
 theorem xO_mem : xO (s := s) ∈ maximalIdeal (localRingAt s) := by
@@ -166,12 +171,14 @@ theorem xO_mem : xO (s := s) ∈ maximalIdeal (localRingAt s) := by
     (StacksDraft.Node.maximalIdeal k)]
   exact StacksDraft.Node.x_mem_maximalIdeal k
 
+omit [IsAlgClosed k] in
 include hs in
 /-- The local ring of the node at the singular point is a domain. -/
 theorem isDomain_localRingAt : IsDomain (localRingAt s) :=
   have := isLocalization_localRingAt s hs
   StacksDraft.Node.isDomain_localization (k := k) _
 
+omit [IsAlgClosed k] in
 include hs in
 /-- If `2 ≠ 0` in `k`, the coordinate `y` does not lie in the ideal `(x)` of the local ring at
 the singular point. -/
@@ -179,6 +186,7 @@ theorem yO_not_mem_span (h2 : (2 : k) ≠ 0) : yO (s := s) ∉ Ideal.span {xO (s
   have := isLocalization_localRingAt s hs
   StacksDraft.Node.y_not_mem_span_x _ h2
 
+omit [IsAlgClosed k] in
 include hs in
 /-- If `2 ≠ 0` in `k`, then `2` is a unit in the strict henselization at the singular point. -/
 theorem isUnit_two (h2 : (2 : k) ≠ 0) : IsUnit (2 : shRing B hS s) := by
@@ -194,6 +202,7 @@ theorem isUnit_two (h2 : (2 : k) ≠ 0) : IsUnit (2 : shRing B hS s) := by
     rwa [map_ofNat] at this
   simpa only [map_ofNat] using this.map (algebraMap (localRingAt s) (shRing B hS s))
 
+omit [IsAlgClosed k] in
 include hs in
 /-- A square root of `1 + x` congruent to `1` in the strict henselization. -/
 theorem exists_sqrt (h2 : (2 : k) ≠ 0) :
@@ -216,10 +225,12 @@ variable {k} (B : BigEtaleSite.{u}) (hS : B.Contains (nodeScheme k))
 /-- The chosen square root of `1 + x` congruent to `1` in the strict henselization. -/
 def sqrtOnePlusX : shRing B hS s := (exists_sqrt (B := B) (hS := hS) hs h2).choose
 
+omit [IsAlgClosed k] in
 /-- The square of `sqrtOnePlusX` is `1 + x`. -/
 theorem sqrtOnePlusX_sq : sqrtOnePlusX B hS hs h2 ^ 2 = 1 + algebraMap _ _ (xO (s := s)) :=
   (exists_sqrt (B := B) (hS := hS) hs h2).choose_spec.1
 
+omit [IsAlgClosed k] in
 /-- `sqrtOnePlusX` is congruent to `1` modulo the maximal ideal. -/
 theorem sqrtOnePlusX_sub_one_mem : sqrtOnePlusX B hS hs h2 - 1 ∈ maximalIdeal (shRing B hS s) :=
   (exists_sqrt (B := B) (hS := hS) hs h2).choose_spec.2
@@ -228,11 +239,13 @@ theorem sqrtOnePlusX_sub_one_mem : sqrtOnePlusX B hS hs h2 - 1 ∈ maximalIdeal 
 def branch : shRing B hS s :=
   algebraMap _ _ (yO (s := s)) - 1 * algebraMap _ _ (xO (s := s)) * sqrtOnePlusX B hS hs h2
 
+omit [IsAlgClosed k] in
 /-- The branch is nonzero. -/
 theorem branch_ne_zero : branch B hS hs h2 ≠ 0 :=
   have := isDomain_localRingAt hs
   StacksDraft.NodeBranches.branch_ne_zero _ _ (yO_not_mem_span hs h2) 1 (Or.inl rfl)
 
+omit [IsAlgClosed k] in
 /-- The ideal generated by the branch meets the local ring of the node only in `0`. -/
 theorem comap_span_branch :
     Ideal.comap (algebraMap (localRingAt s) (shRing B hS s)) (Ideal.span {branch B hS hs h2}) = ⊥ :=
@@ -240,6 +253,7 @@ theorem comap_span_branch :
   StacksDraft.NodeBranches.comap_span_branch _ _ yO_sq (yO_not_mem_span hs h2)
     (sqrtOnePlusX_sq B hS hs h2) 1 (Or.inl rfl)
 
+omit [IsAlgClosed k] in
 /-- The branch lies in the maximal ideal of the strict henselization. -/
 theorem branch_mem_maximalIdeal : branch B hS hs h2 ∈ maximalIdeal (shRing B hS s) := by
   have hx := map_nonunit (algebraMap (localRingAt s) (shRing B hS s)) _ (xO_mem hs)
@@ -252,6 +266,7 @@ theorem branch_mem_maximalIdeal : branch B hS hs h2 ∈ maximalIdeal (shRing B h
   unfold branch
   exact Submodule.sub_mem _ hy (Ideal.mul_mem_right _ _ (Ideal.mul_mem_left _ 1 hx))
 
+omit [IsAlgClosed k] in
 /-- **Two `K`-points of the strict henselization over one point of the node**, the first on the
 branch and the second off it. -/
 theorem exists_two_points :
@@ -324,6 +339,7 @@ variable {k} (B : BigEtaleSite.{u}) (hS : B.Contains (nodeScheme k))
 /-- The coordinate ring `𝒪^{sh}_{S,s̄} / (y - x √(1 + x))` of the branch. -/
 abbrev branchRing : Type u := shRing B hS s ⧸ Ideal.span {branch B hS hs h2}
 
+omit [IsAlgClosed k] in
 /-- The ideal generated by the branch is proper. -/
 theorem span_branch_ne_top : Ideal.span {branch B hS hs h2} ≠ ⊤ := by
   rw [Ne, Ideal.span_singleton_eq_top]
@@ -342,6 +358,7 @@ abbrev branchScheme : Scheme.{u} := Spec (.of (branchRing B hS s hs h2))
 def branchToNode : branchScheme B hS s hs h2 ⟶ nodeScheme k :=
   Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk _)) ≫ strictHenselizationToBase B _ hS s
 
+omit [IsAlgClosed k] in
 /-- Evaluation of étale germs at `s̄` kills the branch. -/
 theorem toGeometricField_branch :
     structureSheafStalkToGeometricField B _ hS s (branch B hS hs h2) = 0 := by
@@ -361,22 +378,25 @@ abbrev branchPoint : GeometricPoint (branchScheme B hS s hs h2) where
   residueField := s.residueField
   hom := Spec.map (CommRingCat.ofHom (branchToGeometricField B hS s hs h2))
 
+omit [IsAlgClosed k] in
 /-- The geometric point of the branch, followed by the closed immersion of the branch, is the
 geometric point of the strict henselization. -/
 theorem branchPoint_hom_comp :
     (branchPoint B hS s hs h2).hom ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {branch B hS hs h2}))) =
       geometricPointToStrictHenselization B _ hS s := by
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp]
   rfl
 
+omit [IsAlgClosed k] in
 /-- The geometric point of the branch, followed by `branchToNode`, is `s̄`. -/
 theorem branchPoint_hom_comp_branchToNode :
     (branchPoint B hS s hs h2).hom ≫ branchToNode B hS s hs h2 = s.hom := by
   rw [branchToNode, ← Category.assoc, branchPoint_hom_comp]
   exact geometricPointToStrictHenselization_comp B _ hS s
 
+omit [IsAlgClosed k] in
 /-- The geometric point of the branch lies over `s̄`. -/
 theorem branchPoint_map : (branchPoint B hS s hs h2).map (branchToNode B hS s hs h2) = s := by
   have h := branchPoint_hom_comp_branchToNode B hS s hs h2
@@ -459,6 +479,7 @@ instance : IsSepClosed (ResidueField (branchRing B₀ hS₀ s hs h2)) := by
   obtain ⟨r, rfl⟩ := (residue_surjective.comp Ideal.Quotient.mk_surjective) c
   exact ⟨residue _ r, ResidueField.map_residue _ r⟩
 
+omit [IsAlgClosed k] in
 /-- The geometric point of the branch lies over the closed point of the branch. -/
 theorem branchPoint_hom_closedPoint :
     (branchPoint B₀ hS₀ s hs h2).hom (closedPoint s.residueField) =
@@ -534,6 +555,7 @@ variable {k} (B₀ : BigEtaleSite.{u}) (hS₀ : B₀.Contains (nodeScheme k))
 abbrev branchImage : GeometricPoint (nodeScheme k) :=
   (branchPoint B₀ hS₀ s hs h2).map (branchToNode B₀ hS₀ s hs h2)
 
+omit [IsAlgClosed k] in
 /-- The image of the geometric point of the branch lies over the maximal ideal of the node. -/
 theorem branchImage_hs :
     ((branchImage B₀ hS₀ s hs h2).hom
@@ -545,6 +567,7 @@ theorem branchImage_hs :
     exact hs
   exact key _ (branchPoint_map B₀ hS₀ s hs h2)
 
+omit [IsAlgClosed k] in
 /-- `branchToNode` sends the point underlying the geometric point of the branch to the point
 underlying `s̄`. -/
 theorem branchToNode_branchPoint :
@@ -567,6 +590,7 @@ instance : IsLocalHom (branchRingHom B₀ hS₀ s hs h2).hom := by
     isLocalHom_algebraMap_etaleLocalRing B₀ _ hS₀ s
   exact RingHom.isLocalHom_comp _ _
 
+omit [IsAlgClosed k] in
 /-- `branchToNode` is `Spec` of `branchRingHom` followed by the canonical morphism from the
 spectrum of the local ring at `s̄`. -/
 theorem branchToNode_eq :
@@ -575,6 +599,7 @@ theorem branchToNode_eq :
   rw [branchToNode, strictHenselizationToBase, ← Category.assoc, ← Spec.map_comp]
   rfl
 
+omit [IsAlgClosed k] in
 /-- **The stalk computation along the branch**: the map of local rings of `branchToNode` at the
 geometric point of the branch is the germ map of `s̄` followed by the quotient. -/
 theorem stalkMap_branchToNode_comp_branchStalkIso :
@@ -593,7 +618,7 @@ theorem stalkMap_branchToNode_comp_branchStalkIso :
   have hcomp := Scheme.stalkMap_congr_point (branchToNode B₀ hS₀ s hs h2) hx₀
   simp only [branchStalkIso, Iso.trans_hom, ← Category.assoc]
   rw [hcomp, Category.assoc]
-  show _ ≫ Scheme.stalkClosedPointTo (branchToNode B₀ hS₀ s hs h2) = _
+  change _ ≫ Scheme.stalkClosedPointTo (branchToNode B₀ hS₀ s hs h2) = _
   rw [← G, ← Category.assoc]
   congr 1
   simp only [TopCat.Presheaf.stalkCongr_hom]
@@ -634,6 +659,7 @@ def branchEtaleLocalRingHom :
 instance : IsLocalHom (branchEtaleLocalRingHom B₀ hS₀ s hs h2 B hS hX) :=
   isLocalHom_etaleLocalRingHomCongr B hS _ _ inferInstance
 
+omit [IsAlgClosed k] in
 /-- The homomorphism of strict henselizations along the branch, composed with the germ map of
 the node, is the germ map followed by the quotient by the branch. -/
 theorem branchEtaleLocalRingHom_comp_fromLocalRing :
@@ -714,7 +740,7 @@ theorem isEmpty_pullback_specMap {R A : CommRingCat.{u}} {K : Type u} [Field K] 
   have hpt := congrArg (fun g => g.base p) (pullback.condition (f := Spec.map ψ) (g := Spec.map τ))
   have h1 : b ∈ ((Spec.map ψ).base ((pullback.fst (Spec.map ψ) (Spec.map τ)).base p)).asIdeal := by
     rw [Spec.map_base]
-    show ψ b ∈ ((pullback.fst (Spec.map ψ) (Spec.map τ)).base p).asIdeal
+    change ψ b ∈ ((pullback.fst (Spec.map ψ) (Spec.map τ)).base p).asIdeal
     rw [hb0]
     exact zero_mem _
   have h2 : b ∈ ((Spec.map τ).base ((pullback.snd (Spec.map ψ) (Spec.map τ)).base p)).asIdeal := by
@@ -747,6 +773,7 @@ abbrev pointAtImage (φ : shRing B₀ hS₀ s →+* K) :
     (φ.comp ((shRingEquiv B hS s B₀ hS₀ : shRing B hS s ≃+* shRing B₀ hS₀ s) :
       shRing B hS s →+* shRing B₀ hS₀ s))))
 
+omit [IsAlgClosed k] in
 /-- The morphism of strict henselizations along the branch is `Spec` of
 `branchEtaleLocalRingHom`, transported to the image of the geometric point of the branch. -/
 theorem strictHenselizationSquareMap_branch :
@@ -788,7 +815,7 @@ theorem isIso_pullback_snd_of_branch (hκ : κ (branch B₀ hS₀ hs h2) = 0) :
             ((shRingEquiv B hS s B₀ hS₀ : shRing B hS s ≃+* shRing B₀ hS₀ s) :
               shRing B hS s →+* shRing B₀ hS₀ s)) := by
       ext r
-      show κ _ = κ' ((branchEtaleLocalRingEquiv B₀ hS₀ s hs h2 B hX).symm
+      change κ _ = κ' ((branchEtaleLocalRingEquiv B₀ hS₀ s hs h2 B hX).symm
         ((branchEtaleLocalRingEquiv B₀ hS₀ s hs h2 B hX) (Ideal.Quotient.mk _ _)))
       rw [RingEquiv.symm_apply_apply]
       rfl
@@ -812,6 +839,7 @@ theorem isEmpty_pullback_of_not_branch (hτ : τ (branch B₀ hS₀ hs h2) ≠ 0
   rw [strictHenselizationSquareMap_branch]
   exact isEmpty_pullback_specMap _ _ b hb0 hb
 
+omit [IsAlgClosed k] in
 /-- Two points of the strict henselization at `s̄` lying over the same point of the node still do
 so when read in the site `B` at the image of the geometric point of the branch. -/
 theorem pointAtImage_comp_toBase

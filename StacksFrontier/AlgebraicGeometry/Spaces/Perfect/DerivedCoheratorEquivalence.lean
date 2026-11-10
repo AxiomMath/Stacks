@@ -104,9 +104,8 @@ end Criterion
 
 section AffineDiagonal
 
+set_option synthInstance.maxHeartbeats 400000 in
 -- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
-set_option synthInstance.maxHeartbeats 400000
-
 /-- **The hypothesis of [Stacks, Tag 09TG] holds on a quasi-compact algebraic space with affine
 diagonal over `ℤ`.** -/
 theorem affineEtaleDerivedPushforwardSquareCommutes_of_isAffineHom_diag
@@ -123,6 +122,8 @@ theorem affineEtaleDerivedPushforwardSquareCommutes_of_isAffineHom_diag
       (pushforwardComputesDerivedOnQuasicoherentKInjectives_of_isAffineSpace B S hS hZ V hV W hW
         j I hI)⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
 /-- On a quasi-compact algebraic space with affine diagonal over `ℤ` the comparison functor
 `i_X : D(QCoh(𝒪_X)) ⥤ D_QCoh(𝒪_X)` of Stacks 08F1 is an equivalence. -/
 @[stacks 08H1 "equivalence"]
@@ -135,6 +136,8 @@ theorem quasicoherentDerivedComparison_isEquivalence_of_isAffineHom_diag
     (isAbsolutelyQuasiSeparated_of_isQuasiCompactWithAffineDiagonal B S hS hZ X ⟨hXqc, hXdiag⟩)
     (affineEtaleDerivedPushforwardSquareCommutes_of_isAffineHom_diag B S hS X hZ hXqc hXdiag)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
 /-- The equivalence of Stacks 08H1: its functor is the comparison functor `i_X`
 (`AlgebraicGeometry.Space.quasicoherentDerivedEquivalenceOfIsAffineHomDiag_functor`) and its
 inverse is `RQ_X` on `D_QCoh(𝒪_X)`
@@ -160,30 +163,44 @@ def quasicoherentDerivedEquivalenceOfIsAffineHomDiag
   (quasicoherentDerivedComparison B S hS X.1 X.2).asEquivalence.changeInverse
     (derivedCoherator_isoInv B S hS X.1 X.2 CF adjF RQ RQUnit).symm
 
-section
-
-variable (hXqc : IsQuasiCompactSpace B S hS X.1)
-  (hXdiag : IsAffineHom B (⊤_ Scheme.{u}) hZ (diag (viewOverIntegers B S hS hZ X.1)))
-  (CF : Modules.{u, u} B S hS X.1 X.2 ⥤ QuasicoherentSheaves.{u, u} B S hS X.1 X.2)
-  (adjF : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
-    ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))).ι ⊣ CF)
-  [CF.Additive]
-  (RQ : DerivedCategory (Modules.{u, u} B S hS X.1 X.2) ⥤
-    DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2))
-  (RQUnit : CF.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
-      DerivedCategory.Q (C := QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ⟶
-    DerivedCategory.Q (C := Modules.{u, u} B S hS X.1 X.2) ⋙ RQ)
-  [RQ.IsRightDerivedFunctor RQUnit
-    (HomologicalComplex.quasiIso (Modules.{u, u} B S hS X.1 X.2) (ComplexShape.up ℤ))]
-
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
 /-- The functor of the equivalence of Stacks 08H1 is the comparison functor `i_X`. -/
-lemma quasicoherentDerivedEquivalenceOfIsAffineHomDiag_functor :
+lemma quasicoherentDerivedEquivalenceOfIsAffineHomDiag_functor
+    (hXqc : IsQuasiCompactSpace B S hS X.1)
+    (hXdiag : IsAffineHom B (⊤_ Scheme.{u}) hZ (diag (viewOverIntegers B S hS hZ X.1)))
+    (CF : Modules.{u, u} B S hS X.1 X.2 ⥤ QuasicoherentSheaves.{u, u} B S hS X.1 X.2)
+    (adjF : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))).ι ⊣ CF)
+    [CF.Additive]
+    (RQ : DerivedCategory (Modules.{u, u} B S hS X.1 X.2) ⥤
+      DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2))
+    (RQUnit : CF.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
+        DerivedCategory.Q (C := QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ⟶
+      DerivedCategory.Q (C := Modules.{u, u} B S hS X.1 X.2) ⋙ RQ)
+    [RQ.IsRightDerivedFunctor RQUnit
+      (HomologicalComplex.quasiIso (Modules.{u, u} B S hS X.1 X.2) (ComplexShape.up ℤ))] :
     (quasicoherentDerivedEquivalenceOfIsAffineHomDiag B S hS X hZ hXqc hXdiag CF adjF RQ
       RQUnit).functor = quasicoherentDerivedComparison B S hS X.1 X.2 :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
 /-- The inverse of the equivalence of Stacks 08H1 is `RQ_X` on `D_QCoh(𝒪_X)`. -/
-lemma quasicoherentDerivedEquivalenceOfIsAffineHomDiag_inverse :
+lemma quasicoherentDerivedEquivalenceOfIsAffineHomDiag_inverse
+    (hXqc : IsQuasiCompactSpace B S hS X.1)
+    (hXdiag : IsAffineHom B (⊤_ Scheme.{u}) hZ (diag (viewOverIntegers B S hS hZ X.1)))
+    (CF : Modules.{u, u} B S hS X.1 X.2 ⥤ QuasicoherentSheaves.{u, u} B S hS X.1 X.2)
+    (adjF : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))).ι ⊣ CF)
+    [CF.Additive]
+    (RQ : DerivedCategory (Modules.{u, u} B S hS X.1 X.2) ⥤
+      DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2))
+    (RQUnit : CF.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
+        DerivedCategory.Q (C := QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ⟶
+      DerivedCategory.Q (C := Modules.{u, u} B S hS X.1 X.2) ⋙ RQ)
+    [RQ.IsRightDerivedFunctor RQUnit
+      (HomologicalComplex.quasiIso (Modules.{u, u} B S hS X.1 X.2) (ComplexShape.up ℤ))] :
     (quasicoherentDerivedEquivalenceOfIsAffineHomDiag B S hS X hZ hXqc hXdiag CF adjF RQ
       RQUnit).inverse =
       (DerivedCategoryB.derivedCategoryB
@@ -192,14 +209,28 @@ lemma quasicoherentDerivedEquivalenceOfIsAffineHomDiag_inverse :
         RQ :=
   rfl
 
-include hZ hXqc hXdiag adjF RQUnit in
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
 /-- Let `X` be a quasi-compact algebraic space with affine diagonal over `ℤ`, `C_X` a coherator
 of `X` and `RQ_X` a total right derived functor of it.  Then the comparison functor
 `i_X : D(QCoh(𝒪_X)) ⥤ D_QCoh(𝒪_X)` of Stacks 08F1 is an equivalence with quasi-inverse `RQ_X`
 restricted to `D_QCoh(𝒪_X)`: there is an equivalence whose functor is `i_X` and whose inverse is
 `J ⋙ RQ_X`, for `J : D_QCoh(𝒪_X) ⥤ D(𝒪_X)` the inclusion. -/
 @[stacks 08H1 "equivalence with quasi-inverse RQ_X"]
-theorem exists_equivalence_functor_eq_and_inverse_eq_derivedCoherator :
+theorem exists_equivalence_functor_eq_and_inverse_eq_derivedCoherator
+    (hXqc : IsQuasiCompactSpace B S hS X.1)
+    (hXdiag : IsAffineHom B (⊤_ Scheme.{u}) hZ (diag (viewOverIntegers B S hS hZ X.1)))
+    (CF : Modules.{u, u} B S hS X.1 X.2 ⥤ QuasicoherentSheaves.{u, u} B S hS X.1 X.2)
+    (adjF : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))).ι ⊣ CF)
+    [CF.Additive]
+    (RQ : DerivedCategory (Modules.{u, u} B S hS X.1 X.2) ⥤
+      DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2))
+    (RQUnit : CF.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
+        DerivedCategory.Q (C := QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ⟶
+      DerivedCategory.Q (C := Modules.{u, u} B S hS X.1 X.2) ⋙ RQ)
+    [RQ.IsRightDerivedFunctor RQUnit
+      (HomologicalComplex.quasiIso (Modules.{u, u} B S hS X.1 X.2) (ComplexShape.up ℤ))] :
     ∃ e : DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ≌
         QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2,
       e.functor = quasicoherentDerivedComparison B S hS X.1 X.2 ∧
@@ -213,8 +244,6 @@ theorem exists_equivalence_functor_eq_and_inverse_eq_derivedCoherator :
       RQUnit,
     quasicoherentDerivedEquivalenceOfIsAffineHomDiag_inverse B S hS X hZ hXqc hXdiag CF adjF RQ
       RQUnit⟩
-
-end
 
 end AffineDiagonal
 

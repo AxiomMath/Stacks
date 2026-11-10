@@ -49,7 +49,7 @@ theorem baer_ker_of_injective_of_cocycle [Small.{v} R] [Module.Injective R J₀]
   obtain ⟨ψ₀, hψ₀⟩ := Module.Baer.of_injective (R := R) (Q := J₀) inferInstance I
     ((LinearMap.ker d₀).subtype ∘ₗ φ)
   have hI : I ≤ LinearMap.ker (d₀ ∘ₗ ψ₀) := fun x hx => by
-    simpa [hψ₀ x hx] using (φ ⟨x, hx⟩).2
+    simp [hψ₀ x hx]
   obtain ⟨χ, hχ⟩ := h I (I.liftQ (d₀ ∘ₗ ψ₀) hI) <|
     Submodule.linearMap_qext _ (LinearMap.ext fun x => LinearMap.congr_fun hd (ψ₀ x))
   have hker : ∀ x, (ψ₀ - χ ∘ₗ I.mkQ) x ∈ LinearMap.ker d₀ := fun x => by

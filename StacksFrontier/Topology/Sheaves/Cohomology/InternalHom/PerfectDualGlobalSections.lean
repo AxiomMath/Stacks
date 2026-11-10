@@ -63,14 +63,15 @@ The first half of the reduction is
 Stacks 08DQ calls the isomorphisms of its third and fourth assertions *functorial* in `M`. For
 the third assertion that clause is available
 (`Stacks.SheafOfModules.derivedTensorDualToSheafHom_naturality`); the statements below do not
-claim it for the map of this file, but it **is** in the library. Functoriality of the canonical map on degree-zero global hypercohomology is
+claim it for the map of this file, but it **is** in the library. Functoriality of the canonical map
+on degree-zero global hypercohomology is
 `Stacks.SheafOfModules.derivedTensorDualSections_naturality`; the compatibility of the
 identification of Stacks 08DK with postcomposition in `M` is
 `AlgebraicGeometry.RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_target` (Tag 08JA),
 which is precisely the covariant companion of
-`AlgebraicGeometry.RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source`; and the two are assembled as
-`AlgebraicGeometry.RingedSite.derivedTensorDualGlobalSectionsMap_naturality`, all three in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedSectionsTargetNaturality`. The
+`AlgebraicGeometry.RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source`; and the two are
+assembled as `AlgebraicGeometry.RingedSite.derivedTensorDualGlobalSectionsMap_naturality`, all three
+in `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedSectionsTargetNaturality`. The
 0A94 naturality they rest on is
 `AlgebraicGeometry.RingedSite.sheafHomGlobalHomologyEquivDerivedCategoryHom_naturality`, in both
 variables, off `AlgebraicGeometry.RingedSite.globalSectionsIso_homMap`.

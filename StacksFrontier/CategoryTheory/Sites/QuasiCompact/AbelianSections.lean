@@ -298,15 +298,15 @@ private lemma finiteSupport_of_quasiCompact (W : C) (hW : J.IsQuasiCompactObject
   apply V.ext_of_isSeparatedFor (Presieve.isSeparatedFor_iff_generate.2
     ((DirectSumRecognition.underlying_isSheaf c.pt).isSeparated _ hV))
   intro j
-  show c.pt.obj.map (V.f j).op ((projector F c hc e).hom.app (op W) x) =
+  change c.pt.obj.map (V.f j).op ((projector F c hc e).hom.app (op W) x) =
     c.pt.obj.map (V.f j).op x
   rw [← φ.w₀ j]
-  show c.pt.obj.map ((φ.h₀ j) ≫ (φ.s₀ j).1.2).op
+  change c.pt.obj.map ((φ.h₀ j) ≫ (φ.s₀ j).1.2).op
     ((projector F c hc e).hom.app (op W) x) = _
   have hx := fixed_of_subset F c hc
     (show t (φ.s₀ j) ⊆ e from Finset.subset_biUnion_of_mem t
       (hfin.mem_toFinset.mpr ⟨j, rfl⟩)) _ _ (ht (φ.s₀ j))
-  show c.pt.obj.map ((φ.s₀ j).1.2.op ≫ (φ.h₀ j).op)
+  change c.pt.obj.map ((φ.s₀ j).1.2.op ≫ (φ.h₀ j).op)
     ((projector F c hc e).hom.app (op W) x) =
     c.pt.obj.map ((φ.s₀ j).1.2.op ≫ (φ.h₀ j).op) x
   have hmc (y : c.pt.obj.obj (op W)) :
@@ -349,7 +349,7 @@ private lemma sectionComponents_injection (W : C) (hW : J.IsQuasiCompactObject W
     sectionComponents F c hc W hW ((c.inj i).hom.app (op W) x) = DFinsupp.single i x := by
   classical
   ext j
-  show (projection F c hc j).hom.app (op W) ((c.inj i).hom.app (op W) x) = _
+  change (projection F c hc j).hom.app (op W) ((c.inj i).hom.app (op W) x) = _
   have h := congrArg (fun f : F i ⟶ F j => f.hom.app (op W) x)
     (injection_projection F c hc j i)
   by_cases hij : i = j
@@ -369,7 +369,7 @@ private lemma projector_apply (t : Finset ι) (X : Cᵒᵖ) (x : c.pt.obj.obj X)
   | empty => rfl
   | @insert i t hi ih =>
     simp only [projector, Finset.sum_insert hi] at *
-    show ((projection F c hc i ≫ c.inj i).hom.app X x +
+    change ((projection F c hc i ≫ c.inj i).hom.app X x +
       (∑ j ∈ t, projection F c hc j ≫ c.inj j).hom.app X x) = _
     rw [ih]
     rfl

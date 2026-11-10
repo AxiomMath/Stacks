@@ -112,7 +112,7 @@ theorem characterTwistPushforwardHomEquiv_comp {F F' : Sheaf K AddCommGrpCat.{v}
       (k.hom.app (op (H.obj W)))
         ((characterTwistPushforwardHomEquiv H J K W act χ adj F u) :
           F.obj.obj (op (H.obj W))) := by
-  show ((characterTwistHomEquiv W act χ J _ ((adj.homEquiv _ _) (u ≫ k))).1) = _
+  change ((characterTwistHomEquiv W act χ J _ ((adj.homEquiv _ _) (u ≫ k))).1) = _
   rw [adj.homEquiv_naturality_right]
   exact characterTwistHomEquiv_comp W act χ J ((adj.homEquiv _ _) u)
     ((H.sheafPushforwardContinuous AddCommGrpCat.{v} J K).map k)
@@ -150,7 +150,7 @@ theorem characterTwistPushforwardComparison_comp {F : Sheaf K AddCommGrpCat.{v}}
       (characterTwistPushforwardHomEquiv H J K W act χ adj _).apply_symm_apply _
     rw [h1, ← characterTwistHomEquiv_comp (H.obj W) ((Functor.mapAut W H).comp act) χ K (𝟙 _) u,
       Category.id_comp]
-  show _ = (characterTwistPushforwardHomEquiv H J K W act χ adj F).symm
+  change _ = (characterTwistPushforwardHomEquiv H J K W act χ adj F).symm
     (characterTwistHomEquiv (H.obj W) ((Functor.mapAut W H).comp act) χ K F u)
   rw [← key, Equiv.symm_apply_apply]
 

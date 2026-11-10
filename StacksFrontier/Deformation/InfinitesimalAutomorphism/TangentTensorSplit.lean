@@ -145,20 +145,20 @@ public theorem kernelSplitInclusion_snd (a : A') :
     TrivSqZeroExt.snd ((kernelSplitInclusion f hf hann).hom a) = 0 := by
   have h := (infinitesimalDifferenceMap f hf hann).second ((selfPullbackDiagonal f hf).hom a)
   refine Subtype.ext ?_
-  show ((TrivSqZeroExt.snd ((kernelSplitInclusion f hf hann).hom a) :
+  change ((TrivSqZeroExt.snd ((kernelSplitInclusion f hf hann).hom a) :
     RingHom.ker f.hom.toRingHom) : A') = (0 : A')
   rw [show (TrivSqZeroExt.snd ((kernelSplitInclusion f hf hann).hom a) :
       RingHom.ker f.hom.toRingHom) =
     ((infinitesimalDifferenceMap f hf hann).coordinate
       ((infinitesimalDifferenceMap f hf hann).g.hom
         ((selfPullbackDiagonal f hf).hom a))).2 from rfl, h]
-  show (ArtinianLocalAlgCat.pullbackSnd_of_surjective f f (.inl hf)).hom
+  change (ArtinianLocalAlgCat.pullbackSnd_of_surjective f f (.inl hf)).hom
       ((selfPullbackDiagonal f hf).hom a) -
     (𝟙 A' : A' ⟶ A').hom
       ((ArtinianLocalAlgCat.pullbackFst_of_surjective f f (.inl hf)).hom
         ((selfPullbackDiagonal f hf).hom a)) = 0
   rw [selfPullbackDiagonal_snd f hf a]
-  show _ - (ArtinianLocalAlgCat.pullbackFst_of_surjective f f (.inl hf)).hom
+  change _ - (ArtinianLocalAlgCat.pullbackFst_of_surjective f f (.inl hf)).hom
     ((selfPullbackDiagonal f hf).hom a) = 0
   rw [selfPullbackDiagonal_fst f hf a, sub_self]
 
@@ -620,7 +620,7 @@ public theorem kernelSplitPushforwardIso_isHomLift (hp : IsCofiberedInGroupoids 
   have h2 : p.IsHomLift ϑ.hom (P.map ρ.hom) := by
     rw [← hr]
     exact P.map_isHomLift _
-  show p.IsHomLift _
+  change p.IsHomLift _
     ((chosenPushforwardComparison P hp (U := U) ι hι).hom.val ≫ P.map ρ.hom)
   simpa using CategoryTheory.IsHomLift.comp p
     (𝟙 (infinitesimalDifferenceMap f hf hann).target) ϑ.hom
@@ -847,7 +847,7 @@ public theorem exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAu
   let E := (B.toEquiv.trans K.toEquiv).trans e₀
   have he : ∀ a b, E (a * b) = E a + E b := by
     intro a b
-    show e₀ (K (B (a * b))) = e₀ (K (B a)) + e₀ (K (B b))
+    change e₀ (K (B (a * b))) = e₀ (K (B a)) + e₀ (K (B b))
     rw [map_mul B, map_mul K, he₀]
   have he1 : E 1 = 0 := by simpa using he 1 1
   have hzero : E.symm 0 = 1 := by
@@ -863,7 +863,7 @@ public theorem exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAu
   refine ⟨fun t s => act (E.symm t) s, ?_, ?_, ?_, ?_, ?_⟩
   · exact h0
   · intro t u s
-    show act (E.symm (t + u)) s = act (E.symm t) (act (E.symm u) s)
+    change act (E.symm (t + u)) s = act (E.symm t) (act (E.symm u) s)
     rw [hadd]
     exact hmul _ _ s
   · intro s t ht

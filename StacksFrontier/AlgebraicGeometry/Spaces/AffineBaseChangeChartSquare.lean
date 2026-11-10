@@ -83,8 +83,7 @@ theorem _root_.LinearMap.bijective_liftBaseChange_of_isPushout {R S M N : Type u
   have hb := (Algebra.IsPushout.out (R := R) (R' := M) (S := S) (S' := N))
   have heq : (τ.liftBaseChange S : TensorProduct R S M → N) = hb.equiv := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a m =>
       rw [LinearMap.liftBaseChange_tmul, IsBaseChange.equiv_tmul, hτ]
       rfl

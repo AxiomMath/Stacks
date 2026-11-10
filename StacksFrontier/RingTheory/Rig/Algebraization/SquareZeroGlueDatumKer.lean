@@ -39,7 +39,7 @@ theorem mk_prV (u : {s : Finset (Fin k) // s.card = 1}) (t : D.TT) :
   have h2 := ((D.mem_glued t.1).mp t.2).2.1 u
   rw [← (D.L u.1).qe_mk N] at h2
   simp only [lam, AlgHom.comp_apply, IsScalarTower.coe_toAlgHom']
-  show _ = ((D.L u.1).qe N).symm (algebraMap S (Sl f S u.1) t.1.1)
+  change _ = ((D.L u.1).qe N).symm (algebraMap S (Sl f S u.1) t.1.1)
   rw [← h2]
   exact (((D.L u.1).qe N).symm_apply_apply _).symm
 
@@ -74,13 +74,13 @@ theorem ker_prS [IsNoetherianRing S] (hNS : N.map (algebraMap R S) = ⊥)
       apply Prod.ext
       · funext u
         apply muH_injective N hN f S H e hflat u.1 (nonempty_of_card_eq u)
-        show muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ y -
+        change muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ y -
           LocalizedModule.map (cechSub (gS f S) u.1)
             ((TensorProduct.mk S (PS N S) (Sh f S)).flip 1) (xu u)) = muH N hN f S H e u.1 0
         rw [map_sub, muH_mk, D.muH_unit_eq_rho_muV hN u.1 (nonempty_of_card_eq u),
           hxu, h3, hy, sub_self, map_zero]
       · funext T
-        show -(glueingDifferential (gS f S) (PS N S) 1 xu T) = 0
+        change -(glueingDifferential (gS f S) (PS N S) 1 xu T) = 0
         rw [neg_eq_zero]
         apply D.muV_injective hN T.1 (nonempty_of_card_eq T)
         rw [D.muV_cechDiff hN 1 (by norm_num), map_zero]
@@ -101,20 +101,19 @@ theorem ker_prS [IsNoetherianRing S] (hNS : N.map (algebraMap R S) = ⊥)
     have hxeq : mulT0 N D.TT z' = x := by
       apply D.ext_glued
       · rw [hx0]
-        show D.prS (mulT0 N _ z') = 0
+        change D.prS (mulT0 N _ z') = 0
         rw [map_mulT0 N hN D.prS D.prS
           (Ideal.Quotient.mkₐ R (N.map (algebraMap R S))) (fun _ ↦ rfl)]
         induction (D.prS.toLinearMap.rTensor N z') using
-          TensorProduct.induction_on with
-        | zero => simp
+          TensorProduct.inductionOn with
         | tmul a n =>
           rw [theta_tmul N hN _ a n a rfl, Algebra.smul_def, hNS0 n n.2, zero_mul]
         | add a b ha hb => rw [map_add, ha, hb, add_zero]
-      · show D.prH (mulT0 N _ z') = x.1.2.1
+      · change D.prH (mulT0 N _ z') = x.1.2.1
         rw [map_mulT0 N hN D.prS D.prH _
           D.mk_prH, ← hy, ← hz1, muH0_tmul_one]
       · funext u
-        show D.prV u (mulT0 N _ z') = x.1.2.2 u
+        change D.prV u (mulT0 N _ z') = x.1.2.2 u
         rw [map_mulT0 N hN D.prS (D.prV u) _
           (D.mk_prV u), ← hxu, ← hz2, muV_mk]
     rw [← hxeq]

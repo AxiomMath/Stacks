@@ -45,8 +45,8 @@ which is all that is used.
 
 The companion
 `AlgebraicGeometry.Stack.AlgebraicStacks.exists_section_snd_of_isGerbeOver` of
-`StacksFrontier.AlgebraicGeometry.Stacks.GerbeCharacterization` produces a section over the algebraic
-stack of an *object of the site*, which is what
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeCharacterization` produces a section over the
+algebraic stack of an *object of the site*, which is what
 `StacksFrontier.AlgebraicGeometry.Stacks.GerbeFlatLocalSection` consumes; neither statement implies
 the other without a comparison of the two kinds of base, and the one proved here is the one
 clause (2) of Stacks 06QH asks for.

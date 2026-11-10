@@ -60,7 +60,8 @@ operations are literally `comap` along the two sections and inherit its lattice-
 The two integral points are the images of the origin of `Spec ℤ[T]` under the two chart
 immersions. Their ranges, and hence the ranges of the two distinguished sections, are closed;
 that is proved in `StacksFrontier/AlgebraicGeometry/Chow/FibreCycles/ClosedSections.lean` and
-`StacksFrontier/AlgebraicGeometry/Chow/FibreCycles/SectionRange.lean`, which are not imported here so that this file stays at
+`StacksFrontier/AlgebraicGeometry/Chow/FibreCycles/SectionRange.lean`, which are not imported here
+so that this file stays at
 the level of the constructions.
 
 ## References

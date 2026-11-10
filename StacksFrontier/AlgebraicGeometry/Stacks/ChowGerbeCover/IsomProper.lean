@@ -75,7 +75,7 @@ theorem fibredCategory_hom_eq_of_isHomLift {F : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     (m m' : a ⟶ b) (hm : (fibredCategory B S hS F).val.p.IsHomLift c m)
     (hm' : (fibredCategory B S hS F).val.p.IsHomLift c m') : m = m' := by
   refine Pseudofunctor.CoGrothendieck.Hom.ext _ _ ?_ (by apply Discrete.hom_eq)
-  show (fibredCategory B S hS F).val.p.map m = (fibredCategory B S hS F).val.p.map m'
+  change (fibredCategory B S hS F).val.p.map m = (fibredCategory B S hS F).val.p.map m'
   rw [IsHomLift.fac' (fibredCategory B S hS F).val.p c m,
     IsHomLift.fac' (fibredCategory B S hS F).val.p c m']
 

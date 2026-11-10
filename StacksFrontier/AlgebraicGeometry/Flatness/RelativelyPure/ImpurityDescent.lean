@@ -87,7 +87,7 @@ public theorem isImpurity_alongBaseChange {P Q : PrePureSituation.{u}} (g : Q.S 
   let eD : D.pulledBack P ≅ ImpurityDiagram.pulledBack Q E :=
     ecomp ≪≫ ((Scheme.Modules.pullback E.toX).mapIso hF).symm
   refine ⟨?_, hE.2⟩
-  show E.xi ∈ Stacks.Divisors.relativeAssassin E.toT (D.pulledBack P)
+  change E.xi ∈ Stacks.Divisors.relativeAssassin E.toT (D.pulledBack P)
   rw [relativeAssassin_eq_of_moduleIso E.toT eD]
   exact hE.1
 

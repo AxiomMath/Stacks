@@ -167,12 +167,15 @@ context. -/
 theorem bijective_postcomp (f : M ⟶ N) (hf : IsIso f) (φ : S ⟶ F.op ⋙ R) :
     Function.Bijective (fun d : PresheafOfModulesOfCommRing.Derivation M φ ↦ d.postcomp f) := by
   let := hf
-  have hleft : ∀ d : PresheafOfModulesOfCommRing.Derivation M φ, (d.postcomp f).postcomp (inv f) = d := fun d ↦
+  have hleft : ∀ d : PresheafOfModulesOfCommRing.Derivation M φ,
+      (d.postcomp f).postcomp (inv f) = d := fun d ↦
     congrArg d.postcomp (IsIso.hom_inv_id f)
-  have hright : ∀ e : PresheafOfModulesOfCommRing.Derivation N φ, (e.postcomp (inv f)).postcomp f = e := fun e ↦
+  have hright : ∀ e : PresheafOfModulesOfCommRing.Derivation N φ,
+      (e.postcomp (inv f)).postcomp f = e := fun e ↦
     congrArg e.postcomp (IsIso.inv_hom_id f)
   exact ⟨fun d₁ d₂ h ↦ (hleft d₁).symm.trans
-      ((congrArg (fun d : PresheafOfModulesOfCommRing.Derivation N φ ↦ d.postcomp (inv f)) h).trans (hleft d₂)),
+      ((congrArg (fun d : PresheafOfModulesOfCommRing.Derivation N φ ↦ d.postcomp (inv f)) h).trans
+        (hleft d₂)),
     fun e ↦ ⟨e.postcomp (inv f), hright e⟩⟩
 
 end PresheafOfModules.Derivation

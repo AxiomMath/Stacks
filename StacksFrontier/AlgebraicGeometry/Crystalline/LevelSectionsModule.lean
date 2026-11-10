@@ -257,7 +257,7 @@ theorem exists_levelSectionsLimit_val_eq
     ∃ m : ↥(levelSectionsLimit S T F), m.val e₀ = s := by
   refine ⟨⟨fun e ↦ F.obj.val.map (T.map (homOfLE (Nat.le_add_left e e₀))).op
     (levelTowerLift hstep e₀ s e), fun {e e'} h ↦ ?_⟩, ?_⟩
-  · show F.obj.val.map (T.map h).op
+  · change F.obj.val.map (T.map h).op
         (F.obj.val.map (T.map (homOfLE (Nat.le_add_left e' e₀))).op
           (levelTowerLift hstep e₀ s e')) = _
     rw [levelRestrict_comp]
@@ -265,7 +265,7 @@ theorem exists_levelSectionsLimit_val_eq
     rw [show h ≫ homOfLE (Nat.le_add_left e' e₀) =
       homOfLE (Nat.le_add_left e e₀) ≫ homOfLE (Nat.add_le_add_left hle e₀) from rfl,
       ← levelRestrict_comp, levelTowerLift_restrict hstep e₀ s hle]
-  · show F.obj.val.map (T.map (homOfLE (Nat.le_add_left e₀ e₀))).op
+  · change F.obj.val.map (T.map (homOfLE (Nat.le_add_left e₀ e₀))).op
         (levelTowerLift hstep e₀ s e₀) = s
     rw [levelTowerLift_restrict hstep e₀ s (Nat.zero_le e₀), levelTowerLift_zero]
 

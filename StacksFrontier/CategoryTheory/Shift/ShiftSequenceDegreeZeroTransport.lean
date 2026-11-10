@@ -152,7 +152,7 @@ theorem rightComp_shiftIso_hom_app (F : C ⥤ A) [F.ShiftSequence ℤ] (G : A �
     letI := rightComp F G
     ((F ⋙ G).shiftIso n a a' ha').hom.app X = G.map ((F.shiftIso n a a' ha').hom.app X) := by
   let := rightComp F G
-  show 𝟙 _ ≫ G.map _ = _
+  change 𝟙 _ ≫ G.map _ = _
   rw [Category.id_comp]
 
 /-- **Connecting morphisms of a post-composite** are the images of the connecting morphisms. -/

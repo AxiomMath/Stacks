@@ -80,11 +80,11 @@ private lemma isLocallyNoetherian_pullback_of_essFiniteType
   intro i
   have hg : affineAnd RingHom.EssFiniteType g := by
     dsimp [g]
-    show IsAffine _ ∧ _
+    change IsAffine _ ∧ _
     refine ⟨inferInstance, ?_⟩
     apply (RingHom.EssFiniteType.respectsIso.arrow_mk_iso_iff
       (arrowIsoΓSpecOfIsAffine (ofHom (algebraMap K L)))).mp
-    show (algebraMap K L).EssFiniteType
+    change (algebraMap K L).EssFiniteType
     rw [RingHom.essFiniteType_algebraMap]
     infer_instance
   have hb : affineAnd RingHom.EssFiniteType

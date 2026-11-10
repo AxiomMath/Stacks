@@ -336,7 +336,7 @@ theorem ofObjects_mem_topology_of_mem
     (AlgebraicGeometry.SmallAffineEtale.inclusion B S hS).map ι₀, ?_, ?_⟩
   · exact ⟨objOfOpenOver B S hS Z A hA, ι₀, 𝟙 _, ⟨k, ⟨ιk⟩⟩, (Category.id_comp _).symm⟩
   · refine ⟨⟨x, hxA⟩, ?_⟩
-    show ((AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map ι₀).base ⟨x, hxA⟩ = x
+    change ((AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map ι₀).base ⟨x, hxA⟩ = x
     rw [hmap]
     rfl
 
@@ -430,7 +430,7 @@ def modelObjOfAffineOpenIso (U : S.Opens) (hU : AlgebraicGeometry.IsAffineOpen U
 /-- The morphism `modelObjOfAffineOpenIso U hU` is an isomorphism. -/
 lemma isIso_modelObjOfAffineOpenIso (U : S.Opens) (hU : AlgebraicGeometry.IsAffineOpen U) :
     IsIso (modelObjOfAffineOpenIso B S hS E U hU) := by
-  show IsIso ((AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map
+  change IsIso ((AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map
     (E.asEquivalence.counitIso.hom.app (objOfAffineOpen B S hS U hU)))
   infer_instance
 
@@ -530,7 +530,7 @@ theorem isTopOneHypercover_modelObjOfAffineOpen
     (fun k l m W hr => ⟨objOfAffineOpenHomOfRange B S hS (V k l m) (hVaff k l m) W hr ≫
       (E.asEquivalence.counitIso.app (objOfAffineOpen B S hS (V k l m) (hVaff k l m))).inv⟩)
     (fun k Z t x => model_structMap_mem B S hS E Z (hUaff k) t x)
-    (fun k Z t t' => model_hom_ext B S hS E (U k) (hUaff k) t t') hUtop hVsup
+    (fun k Z => model_hom_ext (V := Z) B S hS E (U k) (hUaff k)) hUtop hVsup
 
 include B hS E in
 /-- **Every small model of the small affine etale site of a quasi-compact quasi-separated scheme
@@ -573,6 +573,7 @@ variable (S' : Scheme.{u}) (hS' : B.Contains S') (g : S' ⟶ S)
   (hT : ∀ Y : C₀, IsPullback (φ Y) (structMap B S' hS' (E.obj (T.obj Y)))
     (structMap B S hS (E₀.obj Y)) g)
 
+omit [E₀.IsEquivalence] [E.IsEquivalence] in
 include hT in
 /-- **The structure morphism of a base change, followed by `g`, factors through the object it is
 based from**, read along a morphism into the base change. -/
@@ -615,6 +616,7 @@ def baseChangeHomOfRange (U : S.Opens) (hU : AlgebraicGeometry.IsAffineOpen U)
   rw [← structMap_modelObjOfAffineOpen B S hS E₀ U hU, Category.assoc, IsIso.inv_hom_id_assoc]
   exact AlgebraicGeometry.IsOpenImmersion.lift_fac _ _ hr'
 
+omit [E.IsEquivalence] in
 include hT in
 /-- **The structure morphism of an object mapping to the base change of the object attached to an
 affine open `U` lands in the preimage `g ⁻¹ᵁ U`**, the converse of `baseChangeHomOfRange`. This is

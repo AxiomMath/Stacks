@@ -67,10 +67,10 @@ theorem mateEquiv_symm_ofNatIsoLeft_ofNatIsoRight (adj₁ : L₁ ⊣ R₁) (adj�
     (i₁ : L₁ ≅ L₁') (j₁ : R₁ ≅ R₁') (i₂ : L₂ ≅ L₂') (j₂ : R₂ ≅ R₂')
     (β : R₁' ⋙ G ⟶ H ⋙ R₂') :
     ((mateEquiv ((adj₁.ofNatIsoLeft i₁).ofNatIsoRight j₁)
-      ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β)).natTrans =
+      ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β)) =
       whiskerLeft G i₂.inv ≫
         ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _
-          (whiskerRight j₁.hom G ≫ β ≫ whiskerLeft H j₂.inv))).natTrans ≫
+          (whiskerRight j₁.hom G ≫ β ≫ whiskerLeft H j₂.inv))) ≫
         whiskerRight i₁.hom H := by
   ext X
   have h₁ : G.map (R₁'.map (i₁.hom.app X)) ≫ β.app (L₁'.obj X) =
@@ -87,15 +87,15 @@ theorem mateEquiv_symm_ofNatIsoLeft_ofNatIsoRight (adj₁ : L₁ ⊣ R₁) (adj�
       adj₂.counit.app (H.obj (L₁'.obj X)) = L₂.map (j₂.inv.app (H.obj (L₁.obj X))) ≫
         adj₂.counit.app (H.obj (L₁.obj X)) ≫ H.map (i₁.hom.app X) := by
     rw [← Functor.map_comp_assoc, h₂, Functor.map_comp_assoc, h₃]
-  simp only [Functor.map_comp, assoc, TwoSquare.natTrans, reassoc_of% h₁, h₂']
+  simp only [Functor.map_comp, assoc, reassoc_of% h₁, h₂']
 
 /-- **Inverse mates are natural in the side functors**: replacing `G` and `H` by isomorphic
 functors changes the inverse mate by whiskering with the isomorphisms. -/
 theorem mateEquiv_symm_whisker {G' : C ⥤ E} {H' : D ⥤ F} (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (g : G ≅ G') (k : H ≅ H') (β : R₁ ⋙ G ⟶ H ⋙ R₂) :
     ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _
-      (whiskerLeft R₁ g.inv ≫ β ≫ whiskerRight k.hom R₂))).natTrans =
-      whiskerRight g.inv L₂ ≫ ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)).natTrans ≫
+      (whiskerLeft R₁ g.inv ≫ β ≫ whiskerRight k.hom R₂))) =
+      whiskerRight g.inv L₂ ≫ ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)) ≫
         whiskerLeft L₁ k.hom := by
   ext X
   have h₁ : G'.map (adj₁.unit.app X) ≫ g.inv.app (R₁.obj (L₁.obj X)) =
@@ -118,8 +118,8 @@ theorem isIso_mateEquiv_symm_of_transport {G' : C ⥤ E} {H' : D ⥤ F} (adj₁ 
     (hβ : β = whiskerLeft R₁ g.hom ≫ whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv ≫
       whiskerRight k.inv R₂)
     [IsIso ((mateEquiv ((adj₁.ofNatIsoLeft i₁).ofNatIsoRight j₁)
-      ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β')).natTrans] :
-    IsIso ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)).natTrans := by
+      ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β'))] :
+    IsIso ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)) := by
   have e₁ := mateEquiv_symm_ofNatIsoLeft_ofNatIsoRight adj₁ adj₂ i₁ j₁ i₂ j₂ β'
   have e₂ := mateEquiv_symm_whisker adj₁ adj₂ g.symm k.symm
     (whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv)
@@ -129,11 +129,11 @@ theorem isIso_mateEquiv_symm_of_transport {G' : C ⥤ E} {H' : D ⥤ F} (adj₁ 
     simp only [assoc]
   rw [hβ'] at e₂
   have : IsIso ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _
-      (whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv))).natTrans := by
+      (whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv))) := by
     have hM : ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _
-        (whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv))).natTrans =
+        (whiskerRight j₁.hom G' ≫ β' ≫ whiskerLeft H' j₂.inv))) =
         whiskerLeft G' i₂.hom ≫ ((mateEquiv ((adj₁.ofNatIsoLeft i₁).ofNatIsoRight j₁)
-          ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β')).natTrans ≫
+          ((adj₂.ofNatIsoLeft i₂).ofNatIsoRight j₂)).symm (TwoSquare.mk _ _ _ _ β')) ≫
           whiskerRight i₁.inv H' := by
       rw [e₁]
       ext X
@@ -161,12 +161,12 @@ is.**  For a square of four left adjoints `Eu`, `Eu'`, `Pt`, `Pt'` and a 2-cell
 `Pt' ⊣ Ft'`, so it is invertible if that is. -/
 theorem isIso_mateEquiv_symm_natTrans_of_isIso (adjU : Eu ⊣ Ru) (adjU' : Eu' ⊣ Ru')
     (adjT : Pt ⊣ Ft) (adjT' : Pt' ⊣ Ft') (σ : TwoSquare Ru Pt Pt' Ru')
-    [IsIso (mateEquiv adjT adjT' σ).natTrans] :
-    IsIso ((mateEquiv adjU adjU').symm σ).natTrans := by
+    [IsIso (mateEquiv adjT adjT' σ)] :
+    IsIso ((mateEquiv adjU adjU').symm σ) := by
   have h := iterated_mateEquiv_conjugateEquiv adjU adjU' adjT' adjT ((mateEquiv adjU adjU').symm σ)
   rw [Equiv.apply_symm_apply] at h
   have : IsIso (conjugateEquiv (adjU.comp adjT) (adjT'.comp adjU')
-      ((mateEquiv adjU adjU').symm σ).natTrans) := by
+      ((mateEquiv adjU adjU').symm σ)) := by
     rw [← h]
     infer_instance
   exact conjugateEquiv_of_iso (adjU.comp adjT) (adjT'.comp adjU') _

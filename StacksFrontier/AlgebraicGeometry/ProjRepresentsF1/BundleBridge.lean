@@ -182,7 +182,7 @@ public theorem pullbackMap_comp_tensorToLaurent {T : Scheme.{u}} {h : T ⟶ S}
           (mul_one n).symm) ≫
         R.laurentApp A TA h n := by
   let := R.invertible
-  show R.pullbackMap A TA n ≫ (tensorToLaurent R.L (TA T R.L)).app n =
+  change R.pullbackMap A TA n ≫ (tensorToLaurent R.L (TA T R.L)).app n =
     eqToHom _ ≫ eqToHom _ ≫ R.pullbackMap A TA n ≫ (tensorToLaurent R.L (TA T R.L)).app n
   exact Eq.symm (Eq.trans (Category.assoc _ _ _).symm
     (Eq.trans

@@ -261,7 +261,7 @@ theorem freeTensorCoeff_dgTensorDiff_tmul (mm : ℤ) (p : TensorIndex mm) (X : C
   have hu := coeffSignDiffPiece_coeffUnit S (RelativeTensor.gN N).piece (gNDiff N) mm Y
     (freeTensorCoeffPres D.toGradedAlgebra S (RelativeTensor.gN N) p.1.1 p.1.2 mm p.2 Y
       (sectionRestrict ((RelativeTensor.gN N).piece p.1.2).val f y) ζ)
-  show sectionRestrict (coeffPiece S (RelativeTensor.gN N).piece (mm + 1)).val f _ =
+  change sectionRestrict (coeffPiece S (RelativeTensor.gN N).piece (mm + 1)).val f _ =
     sectionRestrict (coeffPiece S (RelativeTensor.gN N).piece (mm + 1)).val f _
   rw [map_add, map_zsmul, e₁, e₂, hnat, e₃, hu, hdy]
   refine Eq.trans ?_ (congrArg

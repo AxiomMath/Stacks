@@ -106,11 +106,11 @@ theorem isIso_restrictionBaseChange_of_cover_of_hasPullback
       restrictionLinearOf M (R.map f.op ≫ R.map (q i).op) (R.map f.op) (q i) rfl)
   let δ : ∀ c : I × I, M.obj (.op (W c.1)) →ₗ[R.obj (.op V)] M.obj (.op (Wp c)) := fun c =>
     restrictionLinearOf M (R.map (gp c).op) (R.map (g c.1).op) (w1 c) (by
-      show R.map (w1 c ≫ g c.1).op = _
+      change R.map (w1 c ≫ g c.1).op = _
       rw [op_comp, R.map_comp])
   let δ' : ∀ c : I × I, M.obj (.op (W c.2)) →ₗ[R.obj (.op V)] M.obj (.op (Wp c)) := fun c =>
     restrictionLinearOf M (R.map (gp c).op) (R.map (g c.2).op) (w2 c) (by
-      show R.map (w1 c ≫ g c.1).op = _
+      change R.map (w1 c ≫ g c.1).op = _
       rw [hw c, op_comp, R.map_comp])
   let ρ : ∀ c : I × I, M.obj (.op (T c.1)) →ₗ[R.obj (.op V)] M.obj (.op (Tp c)) := fun c =>
     restrictionLinearOf M (R.map f.op ≫ R.map (qp c).op)
@@ -154,7 +154,7 @@ theorem isIso_restrictionBaseChange_of_cover_of_hasPullback
       rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, hp]
     have hsc : ((R ⋙ forget₂ CommRingCat RingCat).map m.op) ((R.map (q j).op).hom b)
         = (R.map (qp c).op).hom b := by
-      show ((R.map (q j).op) ≫ (R.map m.op)).hom b = (R.map (qp c).op).hom b
+      change ((R.map (q j).op) ≫ (R.map m.op)).hom b = (R.map (qp c).op).hom b
       rw [← R.map_comp, ← op_comp, hq]
     have key : ((R ⋙ forget₂ CommRingCat RingCat).map m.op) ((R.map (q j).op).hom b) •
           (M.map m.op (M.map (pr j).op x) : M.obj (.op (Tp c)))
@@ -182,13 +182,13 @@ theorem isIso_restrictionBaseChange_of_cover_of_hasPullback
             (M.map w.op (M.map (g j).op t) : M.obj (.op (Wp c))) = M.map (w ≫ g j).op t := by
           intro j w
           rw [← M.map_comp_apply, ← op_comp]
-        show δ c (ε t c.1) - δ' c (ε t c.2) = 0
+        change δ c (ε t c.1) - δ' c (ε t c.2) = 0
         rw [show δ c (ε t c.1) = _ from e c.1 (w1 c), show δ' c (ε t c.2) = _ from e c.2 (w2 c),
           hw c]
         exact sub_self _
     · exact fun x y hxy => hsfU.isSeparatedFor.ext (by rintro _ _ ⟨i⟩; exact congrFun hxy i)
     · intro t c
-      show M.map (mc c).op (M.map (q c.1).op t) = M.map (mc' c).op (M.map (q c.2).op t)
+      change M.map (mc c).op (M.map (q c.1).op t) = M.map (mc' c).op (M.map (q c.2).op t)
       rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, hmc1 c, hmc1' c]
     · intro c b x
       exact hψgen c c.1 (mc c) (w1 c) (hmc1 c) (hmc2 c) b x

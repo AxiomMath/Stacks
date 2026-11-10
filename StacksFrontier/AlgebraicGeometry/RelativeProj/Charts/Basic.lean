@@ -124,8 +124,7 @@ public theorem mem_span_range_restrict {X : Scheme.{u}} (M : X.Modules) [M.IsQua
   let := isScalarTowerOfLE M h
   have hbc := isBaseChange_restrictₗ M hU hV h
   obtain ⟨z, rfl⟩ := hbc.equiv.surjective a
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r b =>
       rw [hbc.equiv_tmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨b, rfl⟩)
@@ -292,7 +291,7 @@ public theorem sectionRingZeroMap_restrict :
       GradedRing.projZeroRingHom' (s.sectionRingGrading W) (s.sectionRingBaseMap W x) =
         ⟨s.sectionRingBaseMap W x, sectionRingBaseMap_mem_zero s W x⟩ := fun W x =>
     GradedRing.projZeroRingHom'_apply_coe _ ⟨_, sectionRingBaseMap_mem_zero s W x⟩
-  show ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)) (s.sectionRingBaseMap U
+  change ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)) (s.sectionRingBaseMap U
       (s.base.presheaf.map (homOfLE h).op r)) : s.sectionRing U) =
     ((gradedSectionRestriction s U V h).gradedZeroRingHom
       ((GradedRing.projZeroRingHom' (s.sectionRingGrading V)) (s.sectionRingBaseMap V r)) :

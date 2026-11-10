@@ -232,7 +232,7 @@ public theorem squareZero_mem_site_of_finite (A : Type u) [CommRing A] (B : BigF
     B.Contains (Spec (squareZeroRing A M)) := by
   have : Module.Finite A M := hM
   have hfin : Module.Finite A (TrivSqZeroExt A M) := by
-    show Module.Finite A (A × (M : Type u))
+    change Module.Finite A (A × (M : Type u))
     infer_instance
   have : Algebra.FiniteType A (TrivSqZeroExt A M) := Module.Finite.finiteType _
   exact Scheme.size_Spec_lt_of_finiteType B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit A
@@ -419,7 +419,7 @@ a deformation situation. -/
 public theorem isDeformationSituation_infinitesimal (E : Algebra.Extension.{u} Λ A) :
     IsDeformationSituation (algebraMap E.infinitesimal.Ring A) := by
   refine ⟨E.infinitesimal.algebraMap_surjective, ?_⟩
-  show E.infinitesimal.ker ^ 2 = ⊥
+  change E.infinitesimal.ker ^ 2 = ⊥
   rw [E.ker_infinitesimal]
   exact Ideal.cotangentIdeal_square _
 

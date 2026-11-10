@@ -82,10 +82,10 @@ private lemma fiberHomeoOfEq_asFiber {X Y : Scheme.{u}} (f : X ⟶ Y) {s : Y} {x
     fiberHomeoOfEq f hx (f.asFiber x) = z := by
   apply (f.fiberHomeo s).injective
   apply Subtype.ext
-  show f.fiberι s ((f.fiberHomeo s).symm ((Homeomorph.setCongr (by rw [hx]))
+  change f.fiberι s ((f.fiberHomeo s).symm ((Homeomorph.setCongr (by rw [hx]))
     (f.fiberHomeo (f x) (f.asFiber x)))) = f.fiberι s z
   rw [Scheme.Hom.fiberι_fiberHomeo_symm]
-  show ((Set.equivOfEq (by rw [hx])) (f.fiberHomeo (f x) (f.asFiber x))).1 =
+  change ((Set.equivOfEq (by rw [hx])) (f.fiberHomeo (f x) (f.asFiber x))).1 =
     (f.fiberHomeo s z).1
   simp only [Set.equivOfEq_apply, Scheme.Hom.fiberHomeo_apply, Scheme.Hom.fiberι_asFiber]
   exact hz.symm

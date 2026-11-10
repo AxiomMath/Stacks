@@ -13,7 +13,8 @@ projection morphism* `Dualizing.ProjectionFormula.canonicalProjInv`
 
 out of the unit and the counit of [stacks 0GMT] and the section `ν` of the lax monoidal structure
 map `μ` of derived base change, and
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaCanonical` reduces the second input
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaCanonical` reduces the second
+input
 of [stacks 0E2H] to a coherence of `ν` written with `ω`.
 
 This file removes `ν` and `μ` from `ω` altogether, and removes both adjunctions from that
@@ -81,7 +82,8 @@ That compatibility is equivalent to the associativity of `μ`, and neither is pr
 anywhere in this library.
 
 That equivalence is a theorem.  `Dualizing.derivedTensorBaseChangeAssoc_iff_curryCompat` of
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.CurryingCoherence` proves that the pentagon
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.CurryingCoherence` proves that the
+pentagon
 `Dualizing.DerivedTensorBaseChangeAssoc` of `μ` and the compatibility
 `Dualizing.DerivedHomBaseChangeCurryCompat` of the morphism of [stacks 0E1X] --- hence of
 [stacks 0E1W], the two differing by derived Hom of the unit of [stacks 0GMT] --- with the currying

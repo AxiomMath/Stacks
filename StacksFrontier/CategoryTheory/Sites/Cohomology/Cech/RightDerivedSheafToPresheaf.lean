@@ -134,7 +134,7 @@ theorem homologyAddEquiv_postcomp {A : Type u} [Category.{v} A] [Abelian A]
     simp only [ConcreteCategory.comp_apply] at h1 h2 h3
     refine h1.trans ?_
     refine h2.trans ?_
-    show ((HomologicalComplex.iCycles (K.HomComplex L) n) z).comp _ (add_zero n) =
+    change ((HomologicalComplex.iCycles (K.HomComplex L) n) z).comp _ (add_zero n) =
       a.1.comp _ (add_zero n)
     congr 1
   have hnat := ConcreteCategory.congr_hom
@@ -193,7 +193,7 @@ theorem homComplexSingleIsoCoyoneda_naturality (X : A)
   obtain ⟨z, rfl⟩ := CochainComplex.HomComplex.Cochain.fromSingleMk_surjective α n (by ring)
   simp only [Functor.mapHomologicalComplex_obj_X, HomologicalComplex.comp_f,
     AddCommGrpCat.hom_comp, AddMonoidHom.coe_comp, Functor.mapHomologicalComplex_map_f]
-  show (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0 : ℤ) + n = n))
+  change (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0 : ℤ) + n = n))
       ((CochainComplex.HomComplex.Cochain.fromSingleMk z (by ring : (0 : ℤ) + n = n)).comp
         (CochainComplex.HomComplex.Cochain.ofHom g) (add_zero n)) =
     (CochainComplex.HomComplex.Cochain.fromSingleEquiv (by ring : (0 : ℤ) + n = n))

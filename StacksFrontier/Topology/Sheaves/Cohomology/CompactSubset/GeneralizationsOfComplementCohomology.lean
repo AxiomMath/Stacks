@@ -157,7 +157,7 @@ theorem isCompact_complementGeneralizations {E : Set X} (hE : Topology.IsConstru
       isSpectral_specGen_diff_constructible hE
     exact isCompact_iff_compactSpace.mpr inferInstance
   rw [Topology.IsEmbedding.isCompact_iff Topology.IsEmbedding.subtypeVal]
-  show IsCompact (Subtype.val '' (Subtype.val ⁻¹' SpectralSubset.generalizationsOf E))
+  change IsCompact (Subtype.val '' (Subtype.val ⁻¹' SpectralSubset.generalizationsOf E))
   rw [Subtype.image_preimage_coe]
   simpa only [Set.sdiff_eq, Set.inter_comm] using hdiff
 

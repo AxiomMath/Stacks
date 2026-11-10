@@ -168,7 +168,7 @@ theorem isFiniteLocallyFreeOfRank_universalConormalSheaf_of_forall_isPullback
     have := hβ
     let : FormallyUnramified h' := Stacks.Thickenings.formallyUnramified_of_isPullback sq
     have hmem : z' ∈ α ⁻¹ᵁ V := by
-      show α.base z' ∈ V
+      change α.base z' ∈ V
       rwa [hz']
     have hA : SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
         (((Scheme.Modules.pullback α).obj (universalConormalSheaf h)).restrict (α ⁻¹ᵁ V).ι) s :=

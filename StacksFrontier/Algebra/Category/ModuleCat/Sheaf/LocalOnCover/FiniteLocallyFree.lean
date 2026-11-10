@@ -141,7 +141,7 @@ theorem isFiniteLocallyFreeOnSite_iff_exists_cover_isFiniteLocallyFreeOnSite :
     obtain ⟨I, V, f, hcov, hfree⟩ := hF W.left
     refine ⟨I, (fun j => Over.mk (f j ≫ W.hom)),
       (fun j => Over.homMk (f j) (by simp)), ?_, ?_⟩
-    · show Sieve.ofArrows (fun j => Over.mk (f j ≫ W.hom))
+    · change Sieve.ofArrows (fun j => Over.mk (f j ≫ W.hom))
         (fun j => Over.homMk (f j) (by simp)) ∈ (X.J.over (U₀ i)) W
       rw [GrothendieckTopology.mem_over_iff]
       simpa [Sieve.overEquiv, Sieve.functorPushforward_ofArrows] using hcov

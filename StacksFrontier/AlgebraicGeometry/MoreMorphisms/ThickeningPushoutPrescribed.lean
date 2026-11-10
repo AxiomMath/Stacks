@@ -51,11 +51,11 @@ variable {Z Z' W Q' : Scheme.{u}} {k : Z ⟶ Z'} {g : Z ⟶ W} {A' : Z' ⟶ Q'} 
 section clauses
 
 variable (hpo : IsPushout i f A B) (hi : IsThickening i) [IsAffineHom f]
-  (hpo' : IsPushout k g A' B') (hk : IsThickening k) [IsAffineHom g]
+  (hpo' : IsPushout k g A' B')
   {toX' : Z' ⟶ X'} {toY : W ⟶ Y} {toX : Z ⟶ X}
   (hpi : IsPullback k toX toX' i) (hpf : IsPullback g toX toY f) {w : Q' ⟶ Q}
   (hwA : A' ≫ w = toX' ≫ A) (hwB : B' ≫ w = toY ≫ B)
-include hpo hi hpo' hk hpi hpf hwA hwB
+include hpo hi hpo' hpi hpf hwA hwB
 
 /-- **The last assertion of [Stacks Project, Tag 07RV], on prescribed squares.**  For a
 morphism `w : Q' ⟶ Q` between two cocartesian squares on thickenings and affine morphisms,
@@ -77,7 +77,7 @@ theorem isPullback_of_isPushout_of_isPullback :
   have := Stacks.Pushout.gluingHasPushout i f hi T
   have hinv : inv T.obj.hom = ψ := IsIso.inv_eq_of_hom_inv_id hφψ
   have hsrc : hpi.isoPullback.hom ≫ Stacks.Pushout.gluingSourceMap i f T = g := by
-    show hpi.isoPullback.hom ≫ (inv T.obj.hom).left ≫ pullback.fst toY f = g
+    change hpi.isoPullback.hom ≫ (inv T.obj.hom).left ≫ pullback.fst toY f = g
     rw [hinv]
     simp [ψ]
   -- the prescribed square on the triple is a pushout of the span of the compatible pair

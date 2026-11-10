@@ -280,10 +280,10 @@ def derivedGlobalSectionsOverDerivedPushforwardRestrictScalarsIso
       DerivedCategory.Qh ⟶ DerivedCategory.Qh ⋙ Ri :=
     Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforwardUnit i.toLRSHom.toShHom
   haveI : Ri.IsRightDerivedFunctor αi (HomotopyCategory.quasiIso X'.Modules (ComplexShape.up ℤ)) :=
-    Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.isRightDerivedFunctor_of_isIso_app_isKInjective
+    open Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces in
+    isRightDerivedFunctor_of_isIso_app_isKInjective
       _ (Scheme.Modules.exists_quasiIso_isKInjective X') DerivedCategory.Qh _ _ fun I hI =>
-        Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.isIso_derivedPushforwardUnit_app_of_isKInjective
-          i.toLRSHom.toShHom I hI
+        isIso_derivedPushforwardUnit_app_of_isKInjective i.toLRSHom.toShHom I hI
   derivedGlobalSectionsOverPushforwardRestrictScalarsIso i f f' φ Ri αi h
 
 end AlgebraicGeometry

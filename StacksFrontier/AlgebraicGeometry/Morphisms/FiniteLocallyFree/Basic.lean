@@ -91,7 +91,7 @@ theorem specMap_finiteLocallyFree_iff (R S : CommRingCat.{u}) (φ : R ⟶ S) :
   rw [specMap_finiteLocallyFree_iff_module, IsFinite.SpecMap_iff,
     AlgebraicGeometry.Flat.SpecMap_iff, LocallyOfFinitePresentation.SpecMap_iff]
   algebraize [φ.hom]
-  show Module.IsFiniteLocallyFree R S ↔
+  change Module.IsFiniteLocallyFree R S ↔
     Module.Finite R S ∧ Module.Flat R S ∧ Algebra.FinitePresentation R S
   rw [Module.isFiniteLocallyFree_iff]
   constructor

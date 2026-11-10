@@ -124,7 +124,7 @@ theorem hasSectionsArtinRees_unit_yoneda [IsNoetherianRing A] (V : BigFppfOver B
     have hx : x = U.1.ι.appTop (e s) := by
       have h := (s.2 (openChartInclusion B (Spec (.of A)) hA (yoneda.obj V) idC U.1).op).symm
       refine h.trans ?_
-      show (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of A)) hA).map
+      change (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of A)) hA).map
         ((SmallEtale.toOver B (Spec (.of A)) hA (yoneda.obj V)).map
           (openChartInclusion B (Spec (.of A)) hA (yoneda.obj V) idC U.1))).op).hom (e s) = _
       rw [hincl]

@@ -112,7 +112,7 @@ private theorem identifiesLocalRings_tensorProduct_general (A : Type uA) (B : Ty
         ULift.{max (max uA uB) uA'} B))
     (algebraMap A' (A' ⊗[A] B)) ULift.ringEquiv eTarget.symm ?_ hLifted
   ext x
-  show x.down ⊗ₜ[A] (1 : B) =
+  change x.down ⊗ₜ[A] (1 : B) =
     (eTensor.symm (x ⊗ₜ[ULift.{max (max uA uB) uA'} A]
       (1 : ULift.{max (max uA uB) uA'} B))).down
   rw [Algebra.TensorProduct.down_uliftEquiv_symm_tmul]

@@ -10,8 +10,8 @@ Let `Y` be a scheme, let `L₁` and `L₂` be invertible `𝒪_Y`-modules, let `
 `L₁ ⊗_{𝒪_Y} L₂` and let `i : D → Y` be its zero scheme. The construction of [Stacks, Tag 0F97] —
 the scheme `L` cut out by `z₁ ⊗ z₂ - q^*s` inside `Tot(L₁^{⊗ -1}) ×_Y Tot(L₂^{⊗ -1})`, its
 structure morphism `p`, its two sections `s₁`, `s₂` and its two branches `D₁`, `D₂` — is in
-`StacksFrontier.AlgebraicGeometry.Chow.TensorZeroScheme.Basic`, and the two projections `p₁`, `p₂` of
-the tag's diagram are in `…TensorZeroScheme.Branches`.
+`StacksFrontier.AlgebraicGeometry.Chow.TensorZeroScheme.Basic`, and the two projections `p₁`, `p₂`
+of the tag's diagram are in `…TensorZeroScheme.Branches`.
 
 This file assembles those objects, together with the tag's numbered conditions, into the record
 `Stacks.Chow.TensorZeroScheme.Decomposition` of

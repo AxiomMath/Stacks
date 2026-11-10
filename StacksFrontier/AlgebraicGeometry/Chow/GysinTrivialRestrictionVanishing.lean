@@ -107,7 +107,7 @@ theorem gysinChowOfInvertible_chowPushforwardOfIsClosedImmersion_eq_zero
       rw [properPushforward_properPushforward]
       exact congrFun (properPushforward_congr C sY p i
         (e.hom ≫ (Stacks.Divisors.zeroScheme X L s).subschemeι) he.symm hi _ (k + 1)) c
-    show gysinChowOfInvertible C p k L s
+    change gysinChowOfInvertible C p k L s
       (QuotientAddGroup.mk' _ (properPushforward C sY p i hi (k + 1) c)) = 0
     rw [hpush, gysinChowOfInvertible_mk]
     exact gysinHomomorphismOfInvertible_properPushforward_zeroSchemeι_eq_zero C p k L s htriv _
@@ -177,12 +177,12 @@ theorem gysinSystemOfInvertible_onChowEqGysinCycleMap (C : ChowSituation.{u}) :
   have hout_supp : Function.support (δ - δin).1 ⊆ (Set.range D.subschemeι.base)ᶜ := by
     rintro x hx ⟨y, rfl⟩
     refine hx ?_
-    show δ.1 (D.subschemeι.base y) - δin.1 (D.subschemeι.base y) = 0
+    change δ.1 (D.subschemeι.base y) - δin.1 (D.subschemeι.base y) = 0
     rw [hδin, properPushforward_cycleComap_apply_of_isClosedImmersion, sub_self]
   -- the map on cycles kills the part supported on `D`
   have hcyc_in : gysinCycleMap C q k L s htriv δin = 0 := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-    show ((gysinCycleMapRule C q k L s).extendCycleGroup δin).1 y = 0
+    change ((gysinCycleMapRule C q k L s).extendCycleGroup δin).1 y = 0
     rw [GysinChernCap.extendCycleGroup_eq_finsum_cycle]
     refine finsum_eq_zero_of_forall_eq_zero fun i ↦ ?_
     rw [show (gysinCycleMapRule C q k L s).cycle = gysinCycleMapComponent C q k L s from rfl,
@@ -193,7 +193,7 @@ theorem gysinSystemOfInvertible_onChowEqGysinCycleMap (C : ChowSituation.{u}) :
   have hrule_out : (gysinRule C q k L s (firstChernComponentClass C q k L)).extendCycleGroup
       (δ - δin) = gysinCycleMap C q k L s htriv (δ - δin) := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-    show _ = ((gysinCycleMapRule C q k L s).extendCycleGroup (δ - δin)).1 y
+    change _ = ((gysinCycleMapRule C q k L s).extendCycleGroup (δ - δin)).1 y
     rw [GysinChernCap.extendCycleGroup_eq_finsum_cycle,
       GysinChernCap.extendCycleGroup_eq_finsum_cycle]
     refine finsum_congr fun i ↦ ?_

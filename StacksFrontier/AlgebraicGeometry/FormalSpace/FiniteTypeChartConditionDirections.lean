@@ -215,7 +215,7 @@ theorem isLocallyOfFiniteType_of_hasPropertyOnAffineChartMap_tautTopologicallyOf
   have heq : t = eU.hom ≫ formalSpectrumMap hA g ≫ eV.inv := by
     rw [hg]; simp
   have hmod : TopologicalRing.FiniteTypeModuloEveryWeakIdeal g.toRingHom :=
-    ((TopologicalRing.finiteType_tfae g.toRingHom g.continuous hA hR hAc hRc).out 3 1).mp
+    ((TopologicalRing.finiteType_tfae g.toRingHom hA hR hAc).out 3 1).mp
       (hchart A R ⟨hA, hAc⟩ ⟨hR, hRc⟩ hA D E eU eV g heq)
   have hft := isFiniteType_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal B S hS hA hR
     D E g hsrc hmod

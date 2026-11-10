@@ -51,7 +51,7 @@ theorem coversTop_ofAffineOpen {ι : Type*} (V : ι → X.affineOpens)
     fun i => isTerminal_mk_id.from _) ?_ (Precoverage.generate_mem_toGrothendieck ?_)
   · rintro Z f ⟨W, g, h, ⟨i⟩, rfl⟩
     exact ⟨i, ⟨g⟩⟩
-  · show Presieve.map (ProEt.forget X ⋙ Over.forget X) (Presieve.ofArrows _ _) ∈
+  · change Presieve.map (ProEt.forget X ⋙ Over.forget X) (Presieve.ofArrows _ _) ∈
       Scheme.proetalePrecoverage _
     rw [Presieve.map_ofArrows]
     have hsurj : ∀ x : X, ∃ i, x ∈ Set.range (V i).1.ι := fun x => by

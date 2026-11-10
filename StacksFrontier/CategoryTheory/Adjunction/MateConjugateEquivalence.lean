@@ -38,9 +38,9 @@ variable {C : Type u₁} {D : Type u₂} {E : Type u₃} {F : Type u₄}
 invertible. -/
 theorem isIso_mateEquiv_symm_equivalence {G : C ⥤ E} {H : D ⥤ F} (e₁ : C ≌ D) (e₂ : E ≌ F)
     (τ : e₁.inverse ⋙ G ⟶ H ⋙ e₂.inverse) (hτ : IsIso τ) :
-    IsIso ((mateEquiv e₁.toAdjunction e₂.toAdjunction).symm (TwoSquare.mk _ _ _ _ τ)).natTrans := by
+    IsIso ((mateEquiv e₁.toAdjunction e₂.toAdjunction).symm (TwoSquare.mk _ _ _ _ τ)) := by
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun c => ?_
-  simp only [mateEquiv_symm_apply, TwoSquare.natTrans, NatTrans.comp_app, Functor.whiskerLeft_app,
+  simp only [mateEquiv_symm_apply, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.comp_map, Functor.associator_hom_app,
     Functor.associator_inv_app,
     Functor.leftUnitor_inv_app, Functor.rightUnitor_hom_app, Category.id_comp]
@@ -57,8 +57,8 @@ comparisons of the left adjoints. -/
 theorem isIso_mateEquiv_symm_of_isIso {G : C ⥤ E} {H : D ⥤ F} {L₁ L₁' : C ⥤ D}
     {R₁ : D ⥤ C} {L₂ L₂' : E ⥤ F} {R₂ : F ⥤ E} (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (adj₁' : L₁' ⊣ R₁) (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂)
-    (h : IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans) :
-    IsIso ((mateEquiv adj₁' adj₂').symm β).natTrans := by
+    (h : IsIso ((mateEquiv adj₁ adj₂).symm β)) :
+    IsIso ((mateEquiv adj₁' adj₂').symm β) := by
   rw [Stacks.CategoryTheory.mateEquiv_symm_congr_left adj₁' adj₁,
     Stacks.CategoryTheory.mateEquiv_symm_congr_right adj₁ adj₂ adj₂']
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun K => ?_
@@ -78,18 +78,18 @@ def conjugateRightTwoSquare (θ : TwoSquare R₁ H G R₂) :
   TwoSquare.mk _ _ _ _ <|
     Functor.whiskerLeft (eD.inverse ⋙ R₁)
         (Functor.whiskerRight eC.unitIso.inv (G ⋙ eE.functor)) ≫
-      Functor.whiskerLeft eD.inverse (Functor.whiskerRight θ.natTrans eE.functor) ≫
+      Functor.whiskerLeft eD.inverse (Functor.whiskerRight θ eE.functor) ≫
       Functor.whiskerLeft (eD.inverse ⋙ H)
         (Functor.whiskerRight eF.unitIso.hom (R₂ ⋙ eE.functor))
 
 /-- **The mate of a conjugated 2-square is invertible** as soon as the original 2-square of left
 adjoints is: across the adjunctions conjugated by the equivalences, the mate of the conjugate
 of `θ = mate α` is `α` pasted with two invertible 2-squares of units of the equivalences. -/
-theorem isIso_mateEquiv_symm_conjugate (α : TwoSquare G L₁ L₂ H) (hα : IsIso α.natTrans)
+theorem isIso_mateEquiv_symm_conjugate (α : TwoSquare G L₁ L₂ H) (hα : IsIso α)
     (θ : TwoSquare R₁ H G R₂) (h : mateEquiv adj₁ adj₂ α = θ) :
     IsIso ((mateEquiv ((eC.symm.toAdjunction.comp adj₁).comp eD.toAdjunction)
       ((eE.symm.toAdjunction.comp adj₂).comp eF.toAdjunction)).symm
-        (conjugateRightTwoSquare eC eD eE eF θ)).natTrans := by
+        (conjugateRightTwoSquare eC eD eE eF θ)) := by
   let τ₁ : eC.functor ⋙ (eC.inverse ⋙ G ⋙ eE.functor) ⟶ G ⋙ eE.functor :=
     Functor.whiskerRight eC.unitIso.inv (G ⋙ eE.functor)
   let τ₃ : eD.inverse ⋙ H ⟶ (eD.inverse ⋙ H ⋙ eF.functor) ⋙ eF.inverse :=
@@ -104,9 +104,9 @@ theorem isIso_mateEquiv_symm_conjugate (α : TwoSquare G L₁ L₂ H) (hα : IsI
     ext c
     simp [conjugateRightTwoSquare, τ₁, τ₃, TwoSquare.hComp]
   rw [key, Equiv.symm_apply_apply]
-  have h₁ : IsIso σ₁.natTrans := isIso_mateEquiv_symm_equivalence eC.symm eE.symm τ₁
+  have h₁ : IsIso σ₁ := isIso_mateEquiv_symm_equivalence eC.symm eE.symm τ₁
     (by simp only [τ₁]; infer_instance)
-  have h₃ : IsIso σ₃.natTrans := isIso_mateEquiv_symm_equivalence eD eF τ₃
+  have h₃ : IsIso σ₃ := isIso_mateEquiv_symm_equivalence eD eF τ₃
     (by simp only [τ₃]; infer_instance)
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun c => ?_
   simp only [TwoSquare.vComp, NatTrans.comp_app, Functor.whiskerLeft_app,
@@ -127,7 +127,7 @@ theorem conjugateRightTwoSquare_comp_eqToHom {ι : Sort*} (P : ι → (D ⥤ E))
           (Functor.isoWhiskerRight eF.unitIso.symm (R₂ ⋙ eE.functor)) ≪≫
         Functor.isoWhiskerLeft eD.inverse (Functor.isoWhiskerRight cp₂ eE.functor)).inv =
       (conjugateRightTwoSquare eC eD eE eF
-        (TwoSquare.mk _ _ _ _ (cp₁.hom ≫ eqToHom (congrArg P hk) ≫ cp₂.inv))).natTrans := by
+        (TwoSquare.mk _ _ _ _ (cp₁.hom ≫ eqToHom (congrArg P hk) ≫ cp₂.inv))) := by
   subst hk
   ext c
   simp [conjugateRightTwoSquare]

@@ -536,11 +536,13 @@ theorem exists_cover_res_eq_d {F : 𝒜} (I : InjectiveResolution F) (U : Opens 
 
 /-! ### The Čech-to-cohomology comparison in degree one -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the abelian-group structures on the sections and Čech cochains of `𝒜`
+set_option maxHeartbeats 1600000 in
+-- the long cocycle-and-gluing proof below needs the raised `maxHeartbeats`
 omit [PreservesFiniteColimits T]
   [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{max u w}]
   [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{max u w}] in
-set_option synthInstance.maxHeartbeats 200000 in
-set_option maxHeartbeats 1600000 in
 /-- **Čech-to-cohomology in degree one.** Let `ιG : G ⟶ A` be a kernel of `dA : A ⟶ A'`, let `W`
 be an open cover of an open subset, let `z` be a section of `A'` over `W.carrier`, and suppose
 that on each member of `W` the section `z` is the image under `dA` of a section `u k` of `A`.
@@ -674,6 +676,7 @@ noncomputable abbrev secComplex {F : 𝒜} (I : InjectiveResolution F) (W : Open
   ((secFunctor T W).mapHomologicalComplex _).obj I.cocomplex
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the epi/mono instances of `homologyπ`, `iCycles` of the sections complex
 /-- **Vanishing of `Hᵐ⁺¹` from degree-one Čech vanishing for the `m`-cocycles.**
 Fix an injective resolution `I` of `F` and a coefficient object `G` realized as a kernel of the
 `m`-th differential of `I`, so that `G` is the object of `m`-cocycles of the resolution.  If every
@@ -726,6 +729,7 @@ theorem isZero_Hobj_succ_of_cech_isZero {F : 𝒜} (I : InjectiveResolution F)
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search while elaborating `Hobj` and the Čech homology in the statement
 /-- **Vanishing of `H¹` from Čech vanishing.** If every open cover of an open subset `U` in `B`
 is refined by a member of `Cov` covering `U`, and the degree-one Čech cohomology of `F` vanishes
 for every member of `Cov`, then `H¹(U, F)` vanishes. -/
@@ -740,6 +744,7 @@ theorem isZero_Hobj_one_of_cech_isZero (F : 𝒜) (B : Set (Opens X))
     hCech U hU
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search while elaborating `Hobj` and the Čech homology in the statement
 /-- **The degree-one case of Stacks Tag 01EW**, stated with the hypotheses of the general
 result.  Neither the basis hypothesis on `B` nor the closure of `B` under the intersections
 occurring in the Čech complexes is needed in degree one; they are kept so that this is literally
@@ -758,6 +763,7 @@ theorem isZero_Hobj_one_of_cech_isZero_on_basis (F : 𝒜) (B : Set (Opens X))
     (fun W hW => hCech W hW 1 Nat.one_pos) U hU
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search while elaborating `Hobj` and the Čech homology in the statement
 /-- **Stacks Tag 01EW, modulo the degree-one Čech vanishing for the cocycles of an injective
 resolution.**  Assume the hypotheses of Tag 01EW, and in addition that for every `m > 0` and
 every cover in `Cov` the degree-one Čech cohomology of the object of `m`-cocycles

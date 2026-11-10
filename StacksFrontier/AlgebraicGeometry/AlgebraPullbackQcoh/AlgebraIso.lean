@@ -64,8 +64,8 @@ because `CategoryTheory.sheafToPresheaf` is fully faithful and
 ## What is not done
 
 **No clause of [Stacks, Tag 01SA] is proved here, and no project tag attribute is attached.**
-Tag 01SA is registered as a single unqualified tag on a nine-field structure; seven of its nine fields
-have content, the two open ones being its base-change isomorphism `baseChangeIso` and the
+Tag 01SA is registered as a single unqualified tag on a nine-field structure; seven of its nine
+fields have content, the two open ones being its base-change isomorphism `baseChangeIso` and the
 identification `baseChangeIso_canonical` of that isomorphism.
 
 This file is the first of the three things those two fields need.  The other two are not

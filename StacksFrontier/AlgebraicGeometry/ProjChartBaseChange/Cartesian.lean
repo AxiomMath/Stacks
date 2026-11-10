@@ -112,10 +112,10 @@ public theorem isPushout_awayMap (ha : a ∈ 𝒜 d) :
     (by simp) (by simp) ?_ ?_ <;>
   simp only [Iso.refl_hom, Category.id_comp] <;>
   refine CommRingCat.hom_ext (RingHom.ext fun s => ?_)
-  · show chartEquiv 𝒜 S ha (s ⊗ₜ[𝒜 0] (1 : Away 𝒜 a)) =
+  · change chartEquiv 𝒜 S ha (s ⊗ₜ[𝒜 0] (1 : Away 𝒜 a)) =
       algebraMap (grading 𝒜 S 0) (Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) s
     rw [chartEquiv_tmul, map_one, Algebra.smul_def, mul_one]
-  · show chartEquiv 𝒜 S ha ((1 : grading 𝒜 S 0) ⊗ₜ[𝒜 0] s) = awayMap 𝒜 S a s
+  · change chartEquiv 𝒜 S ha ((1 : grading 𝒜 S 0) ⊗ₜ[𝒜 0] s) = awayMap 𝒜 S a s
     rw [chartEquiv_tmul, one_smul]
 
 /-- **The chart square of the base change is a cartesian square of affine schemes.** -/

@@ -84,7 +84,8 @@ the affineness criterion for a Noetherian space receiving a finite surjective mo
 affine scheme. The proof of Tag 0ADD in
 `StacksFrontier/AlgebraicGeometry/Spaces/CodimensionOneSchematicLocus.lean` produces the finite
 cover only near the point, by an induction on the degree of an étale chart at the
-codimension-zero points (`StacksFrontier/AlgebraicGeometry/Spaces/CodimensionOneChartInduction.lean`),
+codimension-zero points
+(`StacksFrontier/AlgebraicGeometry/Spaces/CodimensionOneChartInduction.lean`),
 and so needs neither input. The first line of the proof of [Stacks, Tag 0E7R] is Tag 0ADD applied
 to `X₁`; the remaining steps of 0E7R are the scheme form of the algebraization of formal curves,
 `Stacks.FormalCurve.exists_isProjectiveMorphism_of_topologicalKrullDim_le_one`.
@@ -221,7 +222,7 @@ theorem isPullback_of_isOpenImmersion_of_preimage_range
   have hk : pullback.lift j t ht ≫ pullback.fst g H.ι = j := pullback.lift_fst _ _ _
   have hkl : pullback.lift j t ht ≫ (l₀ ≫ inv (Subfunctor.toRange j)) = 𝟙 W := by
     apply (cancel_mono j).1
-    simpa [Category.assoc, hl] using hk
+    simp [Category.assoc, hl]
   have hlk : (l₀ ≫ inv (Subfunctor.toRange j)) ≫ pullback.lift j t ht =
       𝟙 (pullback g H.ι) := by
     apply (cancel_mono (pullback.fst g H.ι)).1

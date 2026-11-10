@@ -40,7 +40,8 @@ relation between the power-series model and the local ring at `x`.
 A presentation of the chart whose generators lie in the prime of `x` forces the residue field at
 `x` to be `K`: this is the rational-point case of the tag, and is the case in which the Jacobian
 condition of Tag 0C4C may be read in the power-series model. It is the only hypothesis on the
-presentation: nothing is assumed about where the Jacobian minors lie, neither that the `(n - 1)`-minors lie
+presentation: nothing is assumed about where the Jacobian minors lie, neither that the
+`(n - 1)`-minors lie
 in the ideal of variables upstairs nor that they lie in the prime of the point downstairs. Such
 assumptions would be no restriction, because a minor
 outside the prime is a unit in `𝒪_{X,x}` and makes the Fitting-ideal condition fail on both

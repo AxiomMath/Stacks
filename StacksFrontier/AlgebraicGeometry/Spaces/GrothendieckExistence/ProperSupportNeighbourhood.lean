@@ -249,7 +249,7 @@ theorem exists_isProperOver_split_of_henselianPair
     have hvp : IsProper B (Spec (.of A)) hA v :=
       isProper_of_comp_eq_ι_reducedClosedSubspace B (Spec (.of A)) hA X hX hWo.1 T₁ hT₁c
         (WZ.ι ≫ Z.ι) inferInstance v hv'
-    show IsProper B (Spec (.of A)) hA (R₁.ι ≫ f)
+    change IsProper B (Spec (.of A)) hA (R₁.ι ≫ f)
     rw [← hv', Category.assoc, Category.assoc]
     exact isProper_comp B (Spec (.of A)) hA hR₁ hWo.1 hbase v (WZ.ι ≫ g) hvp hWp
   · refine Set.Subset.antisymm (Set.preimage_mono hT₁T) fun y hy => ?_
@@ -325,7 +325,7 @@ theorem exists_isOpenSubspace_isProperOver_trace_of_henselianPair
     intro x hz
     have hrq : Set.range ((BigFppfOver.toScheme B (Spec (.of A)) hA).map qT) =
         PrimeSpectrum.zeroLocus (I : Set A) := by
-      show Set.range (B.inclusion.map qSite) = _
+      change Set.range (B.inclusion.map qSite) = _
       rw [hqSite]
       exact range_spec_map_quotient_mk I
     obtain ⟨s, hs⟩ : pointsToScheme B (Spec (.of A)) hA base (pointsMap B (Spec (.of A)) hA _ f x) ∈
@@ -386,7 +386,7 @@ theorem exists_isOpenSubspace_isProperOver_trace_of_henselianPair
       refine ⟨x, ?_, rfl⟩
       have hcl := hT₁C ht
       rw [hW'ι] at hcl
-      show pointsMap B (Spec (.of A)) hA _ k x ∈ C
+      change pointsMap B (Spec (.of A)) hA _ k x ∈ C
       rwa [← hC.closure_eq, he.isEmbedding.closure_eq_preimage_closure_image]
   refine ⟨W', hW'o, hle, ?_, isLocallyOfFiniteType_comp B (Spec (.of A)) hA hW'o.1 hX hbase W'.ι f
     (isLocallyOfFiniteType_of_isEtale' B (Spec (.of A)) hA _
@@ -417,7 +417,7 @@ theorem exists_isOpenSubspace_isProperOver_trace_of_henselianPair
     have hvp : IsProper B (Spec (.of A)) hA v :=
       isProper_of_comp_eq_ι_reducedClosedSubspace B (Spec (.of A)) hA W'.toFunctor hW'o.1 hR C' hC'c
         u inferInstance v hvu
-    show IsProper B (Spec (.of A)) hA (R'.ι ≫ W'.ι ≫ f)
+    change IsProper B (Spec (.of A)) hA (R'.ι ≫ W'.ι ≫ f)
     rw [← Category.assoc, ← hv, Category.assoc]
     exact isProper_comp B (Spec (.of A)) hA hR' hR hbase v (R.ι ≫ f) hvp hT₁p
 
@@ -470,11 +470,11 @@ the closed immersion `Spec (A ⧸ Iₙ) ⟶ Spec A`. -/
 lemma stageQuotientSpecIso_hom_comp (n : ℕ) :
     (D.stageQuotientSpecIso n).hom ≫ baseProjection D.system n =
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (D.stageIdeal n))) := by
-  show Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   congr 1
   ext a
-  show (D.stageQuotientEquiv n).symm ((limit.π D.system (op n)).hom a) = _
+  change (D.stageQuotientEquiv n).symm ((limit.π D.system (op n)).hom a) = _
   rw [RingEquiv.symm_apply_eq]
   exact (RingHom.quotientKerEquivOfSurjective_apply_mk _ a).symm
 
@@ -637,7 +637,7 @@ theorem exists_isOpenSubspace_isProperOver_of_preimage_eq_support (n : ℕ)
     rw [hfst y]
     obtain ⟨w, hw⟩ := hWn ⟨pointsMap B D.S hA _ g' y, rfl⟩
     rw [← hw, he.injective.mem_set_image]
-    show w ∈ C ↔ w ∈ e ⁻¹' closure (e '' C)
+    change w ∈ C ↔ w ∈ e ⁻¹' closure (e '' C)
     rw [← he.isEmbedding.closure_eq_preimage_closure_image, hC.closure_eq]
   have hC₀ : IsProperOver B D.S hA hX₀ hY' (pullback.snd f q) hf₀
       (pointsMap B D.S hA _ (pullback.fst f q) ⁻¹' closure (e '' C))

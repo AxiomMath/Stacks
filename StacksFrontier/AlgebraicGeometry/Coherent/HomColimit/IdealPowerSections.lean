@@ -109,14 +109,14 @@ theorem eq_zero_of_locally_zero {M : X.Modules} {W : X.Opens} (s : Γ(M, W))
       downward_closed := by
         intro V V' f hf g
         rw [op_comp, Functor.map_comp]
-        show M.presheaf.map g.op (M.presheaf.map f.op s) = 0
+        change M.presheaf.map g.op (M.presheaf.map f.op s) = 0
         rw [hf, map_zero] }
   have hS : S ∈ Opens.grothendieckTopology X W := by
     intro x hx
     obtain ⟨V, hVW, hxV, hzero⟩ := h x hx
     exact ⟨V, homOfLE hVW, hzero, hxV⟩
   refine (hF S hS).isSeparatedFor.ext fun V f hf ↦ ?_
-  show M.presheaf.map f.op s = M.presheaf.map f.op 0
+  change M.presheaf.map f.op s = M.presheaf.map f.op 0
   exact hf.trans (map_zero _).symm
 
 /-- A section of a sheaf of modules vanishing on every affine open contained in its domain
@@ -214,7 +214,7 @@ theorem idealPowerMultiple_eq_sheafSubmodule (I : X.IdealSheafData) (n : ℕ) (M
     intro U
     rw [obj_sheafSubmodule]
     exact le_rfl
-  · show sheafSubmodule M (idealPowSections I n M) _ ≤ sInf _
+  · change sheafSubmodule M (idealPowSections I n M) _ ≤ sInf _
     refine le_sInf fun Q hQ W s hs ↦ ?_
     obtain ⟨W, rfl⟩ : ∃ W' : X.Opens, op W' = W := ⟨W.unop, rfl⟩
     exact mem_of_forall_affineOpens Q s fun V hV ↦ hQ V (hs V hV)

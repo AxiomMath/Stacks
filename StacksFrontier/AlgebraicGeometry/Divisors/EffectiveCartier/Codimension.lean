@@ -79,7 +79,7 @@ private theorem chart_prime_minimal
     by_contra hfp
     have hxbasic : x ∈ X.basicOpen f := by
       rw [← hpfrom]
-      show p ∈ (hU.fromSpec ⁻¹ᵁ X.basicOpen f)
+      change p ∈ (hU.fromSpec ⁻¹ᵁ X.basicOpen f)
       rw [hU.fromSpec_preimage_basicOpen f]
       exact (PrimeSpectrum.mem_basicOpen f p).2 hfp
     exact hnot hxbasic
@@ -104,7 +104,7 @@ private theorem chart_prime_minimal
     have hclX : I.subschemeι ξ ∈ closure ({I.subschemeι y} : Set X) :=
       by simpa [x, yX, hy] using (specializes_iff_mem_closure.mp hqpX)
     rw [I.subschemeι.isClosedEmbedding.isInducing.closure_eq_preimage_closure_image]
-    show I.subschemeι ξ ∈ closure (I.subschemeι '' ({y} : Set I.subscheme))
+    change I.subschemeι ξ ∈ closure (I.subschemeι '' ({y} : Set I.subscheme))
     simpa [Set.image_singleton] using hclX
   exact ⟨y, specializes_iff_mem_closure.mpr hsource, fun hyξ =>
     hU.fromSpec.isOpenEmbedding.injective
@@ -126,12 +126,12 @@ private theorem quotient_chart_prime_minimal
   have hEmb : Topology.IsOpenEmbedding j := j.isOpenEmbedding
   have hξRange : ξ ∈ Set.range j := by
     rw [IsOpenImmersion.range_pullbackFst U.ι i]
-    show i ξ ∈ U.ι.opensRange
+    change i ξ ∈ U.ι.opensRange
     simpa only [Scheme.Opens.opensRange_ι] using hxU
   obtain ⟨z, hz⟩ := hξRange
   have hsnd : (pullback.snd i U.ι) z = ⟨x, hxU⟩ := by
     apply Subtype.ext
-    show U.ι ((pullback.snd i U.ι) z) = x
+    change U.ι ((pullback.snd i U.ι) z) = x
     exact (congrArg (fun g : P ⟶ X => g z) pullback.condition).symm.trans (congrArg i hz)
   have hpoint : Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K)) (e.hom z) = p := by
     have hh := congrArg (fun g : P ⟶ Spec (.of (Γ(X,U))) => g z) he
@@ -163,7 +163,7 @@ private theorem quotient_chart_prime_minimal
   intro hyξ'
   have hyz' : y = z := hEmb.injective (hyξ'.trans hz.symm)
   have hqeq : qbar = e.hom z := by
-    show qbar = E z
+    change qbar = E z
     exact (E.apply_symm_apply qbar).symm.trans (congrArg E hyz')
   apply PrimeSpectrum.ext
   have hh := congrArg PrimeSpectrum.asIdeal (show

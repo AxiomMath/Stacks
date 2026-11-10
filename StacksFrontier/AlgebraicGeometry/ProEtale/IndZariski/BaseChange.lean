@@ -75,7 +75,7 @@ theorem IsIndZariski.tensorProduct (A : Type u) (B : Type v) (A' : Type w) [Comm
   refine IsIndZariski.of_equiv (RingEquiv.refl A')
     (TensorProduct.comm A A' B).toRingEquiv ?_ (IsIndZariski.tensorProduct' A B A' h)
   intro a
-  show TensorProduct.comm A A' B (a ⊗ₜ[A] (1 : B)) = (1 : B) ⊗ₜ[A] a
+  change TensorProduct.comm A A' B (a ⊗ₜ[A] (1 : B)) = (1 : B) ⊗ₜ[A] a
   rw [TensorProduct.comm_tmul]
 
 end Algebra

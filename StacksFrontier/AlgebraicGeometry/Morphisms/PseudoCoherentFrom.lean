@@ -119,7 +119,7 @@ public theorem flat_affineSpace (I : Type u) (Y : Scheme.{u}) :
   have hterm : Flat (Limits.terminal.from (Spec (.of (MvPolynomial I R)))) := by
     rw [Limits.terminal.hom_ext (Limits.terminal.from _) (Spec.map F ≫ e.hom)]
     infer_instance
-  show Flat (Limits.pullback.fst _ _)
+  change Flat (Limits.pullback.fst _ _)
   infer_instance
 
 end AlgebraicGeometry

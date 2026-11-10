@@ -462,7 +462,7 @@ public theorem extClass_eq_zero_iff_exists_delta :
       (y : Fin P.variableCount → ↥((I.map (algebraMap A C)) ^ m)),
       ((∑ i, c i • y i : ↥((I.map (algebraMap A C)) ^ m)) : C) = ∑ i, c i * (y i : C) := by
     intro c y
-    rw [AddSubmonoidClass.coe_finset_sum]
+    rw [AddSubmonoidClass.coe_finsetSum]
     exact Finset.sum_congr rfl fun i _ => rfl
   constructor
   · rintro ⟨h, hh⟩

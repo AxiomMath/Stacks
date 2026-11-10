@@ -127,7 +127,7 @@ private noncomputable def leftTot (N : Bimodule A B) (a : A.A) :
 private theorem leftTot_coe (N : Bimodule A B) {n q : ℤ} (a : A.grading n)
     (y : N.rightModule.grading q) :
     leftTot N (a : A.A) (y : N.rightModule.M) = (leftAct N a y : N.rightModule.M) := by
-  show leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A)
+  change leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A)
     (y : N.rightModule.M) = _
   rw [leftActionTotal_apply A B N.rightModule N.leftAction.1 n a,
     totalizeCochain_apply_of_eq B N.rightModule n q (q + n) rfl
@@ -137,7 +137,7 @@ private theorem leftTot_coe (N : Bimodule A B) {n q : ℤ} (a : A.grading n)
 private theorem leftTot_op_smul_coe (N : Bimodule A B) {n : ℤ} (a : A.grading n) (b : B.A)
     (y : N.rightModule.M) :
     leftTot N (a : A.A) (MulOpposite.op b • y) = MulOpposite.op b • leftTot N (a : A.A) y := by
-  show leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A) _ = _
+  change leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A) _ = _
   induction b using DirectSum.Decomposition.inductionOn B.grading with
   | zero => simp
   | @homogeneous r b =>
@@ -258,7 +258,7 @@ private theorem tensorFiberEquiv_tmul (M : DifferentialGradedModule A) (N : Bimo
       DirectSum.of (fun pq : ℤ × ℤ ↦ M.grading pq.1 ⊗[R]
         N.rightModule.grading pq.2) (p, q) (x ⊗ₜ[R] y) by
     simpa only [DirectSum.lof_eq_of] using hTensor]
-  show DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
+  change DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
       (DirectSum.of (fun pq : ℤ × ℤ ↦ M.grading pq.1 ⊗[R] N.rightModule.grading pq.2)
         (p, q) (x ⊗ₜ[R] y)) = _
   exact DirectSum.sigmaFiberAddEquiv_of
@@ -377,7 +377,7 @@ private theorem tensorQuotientPureAt_balance (M : DifferentialGradedModule A)
       ⟨MulOpposite.op (a : A.A) • (x : M.M),
         M.smul_mem p n (x : M.M) (a : A.A) x.property a.property⟩ y =
     tensorQuotientPureAt M N (p + n + q) p (q + n) (by omega) x (leftAct N a y) := by
-  show DirectSum.of (fun i : ℤ ↦ tensorQuotientPiece M N i) (p + n + q)
+  change DirectSum.of (fun i : ℤ ↦ tensorQuotientPiece M N i) (p + n + q)
       (Submodule.Quotient.mk
         (DirectSum.of
           (fun pq : {pq : ℤ × ℤ // pq.1 + pq.2 = p + n + q} =>
@@ -408,7 +408,7 @@ private theorem tensorQuotientProjection_of (M : DifferentialGradedModule A)
     (N : Bimodule A B) (n : ℤ) (x : tensorComponents M N n) :
     tensorQuotientProjection M N (DirectSum.of (tensorComponents M N) n x) =
       DirectSum.of (fun i : ℤ ↦ tensorQuotientPiece M N i) n (Submodule.Quotient.mk x) := by
-  show DirectSum.toModule R ℤ (tensorQuotientTotal M N)
+  change DirectSum.toModule R ℤ (tensorQuotientTotal M N)
       (fun i ↦ DirectSum.lof R ℤ (fun j : ℤ ↦ tensorQuotientPiece M N j) i ∘ₗ
         (tensorBalanceRelationsAt M N i).mkQ)
       (DirectSum.of (tensorComponents M N) n x) = _
@@ -483,7 +483,7 @@ private theorem tensorQuotientMap_mk_tmul (M : DifferentialGradedModule A) (N : 
     (p q : ℤ) (x : M.grading p) (y : N.rightModule.grading q) :
     tensorQuotientMap M N (Submodule.Quotient.mk ((x : M.M) ⊗ₜ[R] (y : N.rightModule.M))) =
       tensorQuotientPureAt M N (p + q) p q rfl x y := by
-  show tensorQuotientProjection M N
+  change tensorQuotientProjection M N
       (tensorFiberEquiv M N ((x : M.M) ⊗ₜ[R] (y : N.rightModule.M))) = _
   rw [tensorFiberEquiv_tmul, tensorQuotientProjection_of]
   rfl
@@ -507,8 +507,7 @@ private theorem tensorQuotientMap_surjective (M : DifferentialGradedModule A)
               rcases hy with ⟨y', hy'⟩
               exact ⟨x' + y', by simp [map_add, hx', hy']⟩
           | of i x =>
-              induction x using TensorProduct.induction_on with
-              | zero => exact ⟨0, by simp [tensorQuotientMap]⟩
+              induction x using TensorProduct.inductionOn with
               | add x y hx hy =>
                   rcases hx with ⟨x', hx'⟩
                   rcases hy with ⟨y', hy'⟩
@@ -579,7 +578,7 @@ private theorem tensorQuotientInverse_map (M : DifferentialGradedModule A) (N : 
   apply TensorProduct.ext
   apply bilinear_ext_homogeneous
   intro p q x y
-  show tensorQuotientInverse M N
+  change tensorQuotientInverse M N
     (tensorQuotientMap M N (Submodule.Quotient.mk
       ((x : M.M) ⊗ₜ[R] (y : N.rightModule.M)))) = _
   rw [tensorQuotientMap_mk_tmul, tensorQuotientInverse_pure]
@@ -595,8 +594,7 @@ private theorem tensorQuotient_ext (M : DifferentialGradedModule A) (N : Bimodul
   obtain ⟨z, rfl⟩ := tensorQuotientMap_surjective M N z
   induction z using Submodule.Quotient.induction_on with
   | _ z =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       simpa only [Submodule.Quotient.mk_add, map_add] using congrArg₂ (· + ·) hx hy
     | tmul x y => exact h x y
@@ -714,14 +712,13 @@ private theorem tensorComponentsDifferential_sq (M : DifferentialGradedModule A)
     tensorComponentsDifferential M N (k + 1) ∘ₗ tensorComponentsDifferential M N k = 0 := by
   apply LinearMap.ext
   intro z
-  show tensorComponentsDifferential M N (k + 1) (tensorComponentsDifferential M N k z) = 0
+  change tensorComponentsDifferential M N (k + 1) (tensorComponentsDifferential M N k z) = 0
   induction z using DirectSum.induction_on with
   | zero => simp
   | add x y hx hy => simp [map_add, hx, hy]
   | of pq x =>
       rcases pq with ⟨⟨p, q⟩, hpq⟩
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp [map_add, hx, hy]
       | tmul x y =>
           rw [tensorComponentsDifferential_of M N k p q hpq x y, map_add, map_smul,
@@ -753,7 +750,7 @@ private theorem tensorComponentsDifferential_mem (M : DifferentialGradedModule A
       (tensorBalanceRelationsAt M N (k + 1)).comap (tensorComponentsDifferential M N k) := by
   apply Submodule.span_le.mpr
   rintro z ⟨p, q, n, x, y, a, h, rfl⟩
-  show tensorComponentsDifferential M N k _ ∈ tensorBalanceRelationsAt M N (k + 1)
+  change tensorComponentsDifferential M N k _ ∈ tensorBalanceRelationsAt M N (k + 1)
   rw [tensorBalanceGeneratorAt_differential]
   apply Submodule.add_mem
   · apply Submodule.add_mem
@@ -777,7 +774,7 @@ private theorem tensorQuotientDifferential_sq (M : DifferentialGradedModule A)
   apply (tensorBalanceRelationsAt M N k).linearMap_qext
   apply LinearMap.ext
   intro x
-  show (tensorBalanceRelationsAt M N (k + 1 + 1)).mkQ
+  change (tensorBalanceRelationsAt M N (k + 1 + 1)).mkQ
     (tensorComponentsDifferential M N (k + 1) (tensorComponentsDifferential M N k x)) = 0
   have hd := LinearMap.congr_fun (tensorComponentsDifferential_sq M N k) x
   simp only [LinearMap.comp_apply, LinearMap.zero_apply] at hd
@@ -793,7 +790,7 @@ private theorem tensorTotalDifferential_of (M : DifferentialGradedModule A)
     (N : Bimodule A B) (k : ℤ) (x : tensorQuotientPiece M N k) :
     tensorTotalDifferential M N (DirectSum.of _ k x) =
       DirectSum.of _ (k + 1) (tensorQuotientDifferential M N k x) := by
-  show DirectSum.toModule R ℤ _ _ (DirectSum.lof R ℤ _ k x) = _
+  change DirectSum.toModule R ℤ _ _ (DirectSum.lof R ℤ _ k x) = _
   rw [DirectSum.toModule_lof]
   rfl
 
@@ -802,7 +799,7 @@ private theorem tensorTotalDifferential_sq (M : DifferentialGradedModule A)
     tensorTotalDifferential M N ∘ₗ tensorTotalDifferential M N = 0 := by
   apply LinearMap.ext
   intro x
-  show tensorTotalDifferential M N (tensorTotalDifferential M N x) = 0
+  change tensorTotalDifferential M N (tensorTotalDifferential M N x) = 0
   induction x using DirectSum.induction_on with
   | zero => simp
   | add x y hx hy => simp only [map_add, hx, hy, add_zero]
@@ -864,7 +861,7 @@ private theorem tensorQuotientRawMap_balance (M : DifferentialGradedModule A)
   | add y z hy hz => simp only [map_add, TensorProduct.tmul_add, hy, hz]
   | @homogeneous q y =>
     rw [leftTot_coe N a y]
-    show tensorQuotientMap M N (Submodule.Quotient.mk _) =
+    change tensorQuotientMap M N (Submodule.Quotient.mk _) =
       tensorQuotientMap M N (Submodule.Quotient.mk _)
     congr 1
     apply (Submodule.Quotient.eq _).mpr
@@ -977,8 +974,7 @@ private theorem tensorGrading_induction (M : DifferentialGradedModule A) (N : Bi
     | add x y hx hy =>
       simpa only [Submodule.Quotient.mk_add, map_add] using hadd _ _ hx hy
     | of pq z =>
-      induction z using TensorProduct.induction_on with
-      | zero => simpa only [map_zero, Submodule.Quotient.mk_zero] using hzero
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
         simpa only [map_add, Submodule.Quotient.mk_add] using hadd _ _ hx hy
       | tmul x y =>
@@ -1120,7 +1116,7 @@ private theorem tensorHomogeneousMap_d (N : Bimodule A B)
     tensorHomogeneousMap N (homogeneousMapDifferential A f) =
       homogeneousMapDifferential B (tensorHomogeneousMap N f) := by
   apply Subtype.ext
-  show tensorHomLinear N (homogeneousMapDifferential A f) =
+  change tensorHomLinear N (homogeneousMapDifferential A f) =
     tensorTotalDifferential M N ∘ₗ tensorHomLinear N f -
       gradedSign R n • (tensorHomLinear N f ∘ₗ tensorTotalDifferential L N)
   apply tensorQuotient_ext_homogeneous L N

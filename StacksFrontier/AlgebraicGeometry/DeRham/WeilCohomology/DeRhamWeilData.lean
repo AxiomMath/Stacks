@@ -240,7 +240,7 @@ equal. -/
 theorem pullback_ext {f g : cohomology Y →ₐ[k] cohomology X}
     (h : ∀ n (x : piece Y n), f (DirectSum.of (piece Y) n x) = g (DirectSum.of (piece Y) n x)) :
     f = g :=
-  AlgHom.coe_ringHom_injective (DirectSum.ringHom_ext h)
+  AlgHom.toRingHom_injective (DirectSum.ringHom_ext h)
 
 /-- The pullback along the identity is the identity. -/
 theorem pullback_id (X : (SmoothProjectiveScheme k).FullSubcategory) :

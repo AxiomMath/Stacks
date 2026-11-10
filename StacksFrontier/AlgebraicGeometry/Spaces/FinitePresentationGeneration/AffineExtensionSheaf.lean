@@ -270,6 +270,7 @@ theorem isFinitePresentationOnSite_of_isFinitePresentation {X : (BigFppfOver B S
 /-! ### Quasi-compactness of morphisms to affine spaces -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- A morphism from a quasi-compact algebraic space to a representable presheaf with affine
 underlying scheme is quasi-compact. -/
 theorem isQuasiCompact_to_yoneda {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -290,6 +291,7 @@ theorem isQuasiCompact_to_yoneda {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       rfl h')
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- A morphism from a quasi-compact algebraic space to an affine algebraic space is
 quasi-compact. -/
 theorem isQuasiCompact_of_isAffineSpace {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

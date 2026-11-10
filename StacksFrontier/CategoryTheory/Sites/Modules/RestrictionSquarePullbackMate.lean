@@ -81,7 +81,7 @@ variable {X Y : RingedSite.{u, u, u}} (f : RingedSite.Hom X Y)
   (jX : CX' ⥤ X.C) (jY : CY' ⥤ Y.C) [jX.IsContinuous JX' X.J] [jY.IsContinuous JY' Y.J]
   (f' : RingedSite.Hom (X.restrictRestrictionSquarePullbackMate JX' jX)
     (Y.restrictRestrictionSquarePullbackMate JY' jY)) (w : TwoSquare f'.u jY jX f.u)
-  (hw : ∀ V : CY'ᵒᵖ, f.fsharp.hom.app (jY.op.obj V) ≫ X.O.obj.map (w.natTrans.app V.unop).op =
+  (hw : ∀ V : CY'ᵒᵖ, f.fsharp.hom.app (jY.op.obj V) ≫ X.O.obj.map (w.app V.unop).op =
     f'.fsharp.hom.app V)
 
 omit [jX.IsContinuous JX' X.J] in
@@ -113,7 +113,7 @@ noncomputable abbrev Hom.restrictPushforwardSheafMapRestrictionSquarePullbackMat
     f.restrictPushforwardSheafRestrictionSquarePullbackMate JY' jY M ⟶
       f'.pushforwardRestrictSheafRestrictionSquarePullbackMate JX' JY' jX jY M :=
   (Stacks.Sites.CocontinuousExchange.restrictionTwoSquareRestrictionSquareMate (Type u) JY' JX' Y.J
-    X.J w).natTrans.app
+    X.J w).app
     (Sheaf.moduleSheaf.{u, u, u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O)) M)
 
 /-- The comparison of underlying sheaves of sets, on a section: restriction along the
@@ -123,7 +123,7 @@ theorem Hom.sectionsFunctor_map_restrictPushforwardSheafMap_restrictionSquarePul
     (x : M.val.obj (f.u.op.obj (jY.op.obj V))) :
     (Sheaf.sectionsFunctor JY' V).map
       (f.restrictPushforwardSheafMapRestrictionSquarePullbackMate JX' JY' jX jY f' w M) x =
-      M.val.map (w.natTrans.app V.unop).op x :=
+      M.val.map (w.app V.unop).op x :=
   rfl
 
 include hw in
@@ -155,8 +155,8 @@ noncomputable def Hom.restrictPushforwardSquareAppRestrictionSquarePullbackMate
           (f.restrictPushforwardSheafMapRestrictionSquarePullbackMate JX' JY' jX jY f' w M) x)
         ((Sheaf.sectionsFunctor JY' V).map
           (f.restrictPushforwardSheafMapRestrictionSquarePullbackMate JX' JY' jX jY f' w M) y)
-      refine (congrArg (M.val.map (w.natTrans.app V.unop).op) (h1.trans h1')).trans ?_
-      exact (LinearMap.map_add (M.val.map (w.natTrans.app V.unop).op).hom
+      refine (congrArg (M.val.map (w.app V.unop).op) (h1.trans h1')).trans ?_
+      exact (LinearMap.map_add (M.val.map (w.app V.unop).op).hom
         (x : M.val.obj (Opposite.op (f.u.obj (jY.obj V.unop))))
         (y : M.val.obj (Opposite.op (f.u.obj (jY.obj V.unop))))).trans (h2.trans h2').symm)
     (fun V r x => by
@@ -175,10 +175,10 @@ noncomputable def Hom.restrictPushforwardSquareAppRestrictionSquarePullbackMate
             (f'.sectionsComparison V) _
           ((Sheaf.sectionsFunctor JY' V).map
             (f.restrictPushforwardSheafMapRestrictionSquarePullbackMate JX' JY' jX jY f' w M) x))
-      refine (congrArg (M.val.map (w.natTrans.app V.unop).op) e1).trans ?_
-      refine (M.val.map_smul (w.natTrans.app V.unop).op _ x).trans ?_
+      refine (congrArg (M.val.map (w.app V.unop).op) e1).trans ?_
+      refine (M.val.map_smul (w.app V.unop).op _ x).trans ?_
       refine Eq.trans ?_ e2.symm
-      exact congrArg (· • M.val.map (w.natTrans.app V.unop).op x)
+      exact congrArg (· • M.val.map (w.app V.unop).op x)
         (ConcreteCategory.congr_hom (hw V) r))
 
 include hw in
@@ -196,7 +196,7 @@ noncomputable def Hom.restrictPushforwardSquareRestrictionSquarePullbackMate :
         refine hom_ext_moduleSheafFunctor (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := JY')
           (Y.restrictRestrictionSquarePullbackMate JY' jY).O)) ?_
         exact Sheaf.hom_ext_sections (J := JY') fun V x ↦
-          (ConcreteCategory.congr_hom (φ.val.naturality (w.natTrans.app V.unop).op) x).symm }
+          (ConcreteCategory.congr_hom (φ.val.naturality (w.app V.unop).op) x).symm }
 
 /-- The underlying morphism of sheaves of sets of the square is restriction along `w`. -/
 theorem Hom.moduleSheafFunctor_map_restrictPushforwardSquare_app_restrictionSquarePullbackMate
@@ -210,7 +210,7 @@ theorem Hom.moduleSheafFunctor_map_restrictPushforwardSquare_app_restrictionSqua
 
 /-- The square of modules, read over the inverse-image ring, is restriction along `w` on
 underlying sheaves of sets. -/
-theorem Hom.moduleSheafFunctor_map_restrictScalars_map_restrictPushforwardSquare_app_heq_restrictionSquarePullbackMate
+theorem Hom.moduleSheaf_restrictScalars_restrictPushforwardSquare_heq_restrictionSquarePullbackMate
     [jY.IsCocontinuous JY' Y.J]
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O))) :
     (Sheaf.moduleSheafFunctor.{u, u, u} (inverseImageRingSheaf.{u, u, u, u, u, u}
@@ -224,9 +224,12 @@ theorem Hom.moduleSheafFunctor_map_restrictScalars_map_restrictPushforwardSquare
       f.restrictPushforwardSheafMapRestrictionSquarePullbackMate JX' JY' jX jY f' w M :=
   (conj_eqToHom_iff_heq _ _ rfl rfl).mp (Sheaf.hom_ext_sections fun _ _ ↦ rfl)
 
+namespace Hom
+
 /-- The direct image along `f'`, read over the inverse-image rings, is the direct image of
 sheaves of sets on underlying morphisms. -/
-theorem Hom.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_heq_cocontinuousLocalizedMate
+theorem
+    moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_heq_cocontinuousLocalizedMate
     [jX.IsCocontinuous JX' X.J] [jY.IsCocontinuous JY' Y.J]
     {N N' : SheafOfModules.{u}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := JX')
@@ -246,6 +249,8 @@ theorem Hom.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_he
           ((SheafOfModules.restrictScalars (restrictionRingIso.{u} JX' X.J jX
             ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O))).hom).map c)) :=
   (conj_eqToHom_iff_heq _ _ rfl rfl).mp (Sheaf.hom_ext_sections fun _ _ ↦ rfl)
+
+end Hom
 
 section Mate
 
@@ -315,9 +320,10 @@ theorem Hom.moduleSheaf_restrictPushforwardSquareMate_target_restrictionSquarePu
             (X.restrictRestrictionSquarePullbackMate JX' jX).O))).obj N) :=
   rfl
 
+open Hom in
 /-- The direct image along `f'` of the counit of restriction to `X'` is, on underlying sheaves
 of sets, the direct image of the counit of sheaves of sets. -/
-theorem Hom.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
+theorem Hom.moduleSheaf_restrictScalars_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
     (N : SheafOfModules.{u}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := JX')
         (X.restrictRestrictionSquarePullbackMate JX' jX).O))) :
@@ -334,8 +340,9 @@ theorem Hom.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_co
           ((Sheaf.moduleSheafFunctor.{u, u, u}
             ((Stacks.SheafOfModules.Tensor.ringSheaf (J := JX')
               (X.restrictRestrictionSquarePullbackMate JX' jX).O))).obj N)) := by
-  refine (f'.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_heq_cocontinuousLocalizedMate JX' JY' jX jY
-    _).trans ?_
+  refine
+    (moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_heq_cocontinuousLocalizedMate
+      JX' JY' jX jY f' _).trans ?_
   refine (heq_of_eq (f'.ringedToposHom.toToposHom.pushforward.congr_map
     (moduleSheafFunctor_map_restrictionModulesAdjunction_counit_app JX' X.J jX
       (jX.sheafAdjunctionCocontinuous (Type u) JX' X.J)
@@ -391,14 +398,14 @@ theorem
       jY f' N) _ _ ?_)
   rw [Functor.map_comp, Functor.map_comp]
   refine heq_comp ?e1 ?e2 ?e3
-    ((f.moduleSheafFunctor_map_restrictScalars_map_restrictPushforwardSquare_app_heq_restrictionSquarePullbackMate JX' JY' jX jY
-      f' w hw _).trans (congr_arg_heq (fun A ↦
+    ((f.moduleSheaf_restrictScalars_restrictPushforwardSquare_heq_restrictionSquarePullbackMate
+      JX' JY' jX jY f' w hw _).trans (congr_arg_heq (fun A ↦
         (Stacks.Sites.CocontinuousExchange.restrictionTwoSquareRestrictionSquareMate (Type u)
-          JY' JX' Y.J X.J w).natTrans.app A)
+          JY' JX' Y.J X.J w).app A)
         (moduleSheaf_restrictModulesAdjunction_rightAdjoint_obj_restrictionSquarePullbackMate JX'
           jX N)))
-    (Hom.moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate JX' JY' jX jY
-      f' N)
+    (Hom.moduleSheaf_restrictScalars_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
+      JX' JY' jX jY f' N)
   all_goals exact eq_of_heq (by heq_congr)
 
 end Mate
@@ -426,7 +433,7 @@ theorem
   have hm : IsIso ((mateEquiv (jX.sheafAdjunctionCocontinuous (Type u) JX' X.J)
       (jY.sheafAdjunctionCocontinuous (Type u) JY' Y.J)
       (Stacks.Sites.CocontinuousExchange.restrictionTwoSquareRestrictionSquareMate (Type u)
-        JY' JX' Y.J X.J w)).natTrans.app
+        JY' JX' Y.J X.J w)).app
         ((Sheaf.moduleSheafFunctor.{u, u, u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf (J := JX')
             (X.restrictRestrictionSquarePullbackMate JX' jX).O))).obj N)) :=
@@ -439,13 +446,15 @@ theorem
 /-- **The iterated mate of the square of sheaves of modules is invertible.** -/
 theorem Hom.isIso_restrictPushforwardSquareMate_restrictionSquarePullbackMate :
     IsIso (f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY f' w
-      hw).natTrans := by
+      hw) := by
   have hN : ∀ N, IsIso ((f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY
-      f' w hw).natTrans.app N) :=
+      f' w hw).app N) :=
     fun N => Stacks.Sheaves.PushforwardEssentialImage.isIso_of_isIso_moduleSheafFunctor_map
       (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))
-        ((f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).app N)
-      (f.isIso_moduleSheafFunctor_map_restrictPushforwardSquareMate_app_restrictionSquarePullbackMate JX' JY' jX jY f' w hw N)
+        ((f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).app
+          N) <|
+      f.isIso_moduleSheafFunctor_map_restrictPushforwardSquareMate_app_restrictionSquarePullbackMate
+        JX' JY' jX jY f' w hw N
   exact NatIso.isIso_of_isIso_app _
 
 variable [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -469,7 +478,7 @@ noncomputable def Hom.restrictPullbackMateRestrictionSquarePullbackMate :
 the comparison `f'^*(G|_{Y'}) ⟶ (f^*G)|_{X'}` is an isomorphism, being conjugate to the iterated
 mate of the square of direct images. -/
 theorem Hom.isIso_restrictPullbackMate_restrictionSquarePullbackMate :
-    IsIso (f.restrictPullbackMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).natTrans := by
+    IsIso (f.restrictPullbackMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw) := by
   have h := iterated_mateEquiv_conjugateEquiv
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} f.ringedToposHom)
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} f'.ringedToposHom)
@@ -483,7 +492,7 @@ theorem Hom.isIso_restrictPullbackMate_restrictionSquarePullbackMate :
         f.restrictPushforwardSquareRestrictionSquarePullbackMate JX' JY' jX jY f' w hw :=
     Equiv.apply_symm_apply _ _
   have h' :
-    (f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).natTrans =
+    (f.restrictPushforwardSquareMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw) =
       conjugateEquiv
         ((RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} f.ringedToposHom).comp
           (X.restrictModulesAdjunctionRestrictionSquarePullbackMate JX' jX))
@@ -524,7 +533,7 @@ omit [jX.IsCocontinuous JX' X.J] [jY.IsCocontinuous JY' Y.J] [w.GuitartExact]
   [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify JX' AddCommGrpCat.{u}] [JX'.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The square of direct images is invertible when `w` is. -/
-theorem Hom.isIso_restrictPushforwardSquare_app_restrictionSquarePullbackMate [IsIso w.natTrans]
+theorem Hom.isIso_restrictPushforwardSquare_app_restrictionSquarePullbackMate [IsIso w]
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O))) :
     IsIso
       ((f.restrictPushforwardSquareRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).app M) := by
@@ -535,14 +544,14 @@ theorem Hom.isIso_restrictPushforwardSquare_app_restrictionSquarePullbackMate [I
     jX jY f' w hw M]
   have := Functor.isContinuous_comp f'.u jX JY' JX' X.J
   have := Functor.isContinuous_comp jY f.u JY' Y.J X.J
-  exact inferInstanceAs (IsIso ((Functor.sheafPushforwardContinuousIso (asIso w.natTrans) (Type u)
+  exact inferInstanceAs (IsIso ((Functor.sheafPushforwardContinuousIso (asIso w) (Type u)
     JY' X.J).inv.app
       (Sheaf.moduleSheaf.{u, u, u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O)) M)))
 
 include hw in
 /-- **The restricted unit is invertible if and only if the unit of `f'` is**, for a Guitart exact
 invertible square `w`. -/
-theorem Hom.isIso_restrictModules_map_unit_iff_restrictionSquarePullbackMate [IsIso w.natTrans]
+theorem Hom.isIso_restrictModules_map_unit_iff_restrictionSquarePullbackMate [IsIso w]
     (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))) :
     IsIso ((Y.restrictModulesAlongRestrictRestrictionSquarePullbackMate JY' jY).map
         ((RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u}
@@ -554,7 +563,7 @@ theorem Hom.isIso_restrictModules_map_unit_iff_restrictionSquarePullbackMate [Is
   have : IsIso
       ((f.restrictPullbackMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).app G) :=
     inferInstanceAs (IsIso
-      ((f.restrictPullbackMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).natTrans.app G))
+      ((f.restrictPullbackMateRestrictionSquarePullbackMate JX' JY' jX jY f' w hw).app G))
   have := f.isIso_restrictPushforwardSquare_app_restrictionSquarePullbackMate JX' JY' jX jY f' w hw
     ((Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules.{u, u, u, u, u, u}
       f.ringedToposHom.toModulesHom).obj G)

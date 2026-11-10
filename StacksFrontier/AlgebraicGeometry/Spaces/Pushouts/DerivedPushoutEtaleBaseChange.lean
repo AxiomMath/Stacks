@@ -220,9 +220,9 @@ def moduleSquareBaseChangeComplex
       ((pushforwardModules f').mapHomologicalComplex (ComplexShape.up ℤ)).obj
         ((g'.toModulesHom.pullbackModules.mapHomologicalComplex (ComplexShape.up ℤ)).obj I) where
   f n := (mateEquiv (pullbackAdjPushforwardModules f) (pullbackAdjPushforwardModules f')
-    (TwoSquare.mk _ _ _ _ m)).natTrans.app (I.X n)
+    (TwoSquare.mk _ _ _ _ m)).app (I.X n)
   comm' i j _ := ((mateEquiv (pullbackAdjPushforwardModules f) (pullbackAdjPushforwardModules f')
-    (TwoSquare.mk _ _ _ _ m)).natTrans.naturality (I.d i j)).symm
+    (TwoSquare.mk _ _ _ _ m)).naturality (I.d i j)).symm
 
 omit [HasSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasSheafify X'.J (Type w)] [HasSheafify X.J (Type w)]
@@ -239,7 +239,7 @@ theorem moduleSquareBaseChangeComplex_f
     (n : ℤ) :
     (moduleSquareBaseChangeComplex m I).f n =
       (mateEquiv (pullbackAdjPushforwardModules f) (pullbackAdjPushforwardModules f')
-        (TwoSquare.mk _ _ _ _ m)).natTrans.app (I.X n) :=
+        (TwoSquare.mk _ _ _ _ m)).app (I.X n) :=
   rfl
 
 /-- A square `m` of pullbacks of modules, applied termwise to a complex of `𝒪_Y`-modules. -/
@@ -539,7 +539,7 @@ theorem isIso_derivedBaseChange_of_isIso_compositionSquare
     (hb : IsIso (mateEquiv (pullbackAdjPushforwardModules f) (pullbackAdjPushforwardModules f')
       (TwoSquare.mk _ _ _ _ (((pullbackModulesCompIso f' g).symm ≪≫ e₁).hom ≫
         (eqToIso (congrArg (fun φ : RingedToposHom X' Y ↦ φ.toModulesHom.pullbackModules)
-          hh.symm)).hom ≫ ((pullbackModulesCompIso g' f).symm ≪≫ e₂).inv))).natTrans)
+          hh.symm)).hom ≫ ((pullbackModulesCompIso g' f).symm ≪≫ e₂).inv))))
     (K :
       letI := HasDerivedCategory.standard
         (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -662,7 +662,7 @@ theorem isIso_mateEquiv_smallEtalePullbackModulesSquare {f : X ⟶ Y} {g : Y' �
     IsIso (mateEquiv
       (RingedToposHom.pullbackAdjPushforwardModules (smallEtaleRingedToposHom B S hS f))
       (RingedToposHom.pullbackAdjPushforwardModules (smallEtaleRingedToposHom B S hS f'))
-      (TwoSquare.mk _ _ _ _ (smallEtalePullbackModulesSquare f g f' g' sq.w))).natTrans := by
+      (TwoSquare.mk _ _ _ _ (smallEtalePullbackModulesSquare f g f' g' sq.w))) := by
   simp only [smallEtalePullbackModulesSquare_eq]
   exact isIso_mateEquiv_smallEtaleToposPullbackCompIso_square g' f f' g sq hg
 

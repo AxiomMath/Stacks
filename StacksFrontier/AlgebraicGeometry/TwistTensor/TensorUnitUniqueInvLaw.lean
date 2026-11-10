@@ -235,6 +235,7 @@ local instance strictHasTrivialSelfBraiding (B : X.Modules) [IsInvertibleModule 
     (tensorSheafBraiding_self_eq_refl X.presheaf (sheafCondition X) B))⟩
 
 set_option maxHeartbeats 1000000 in
+-- large `simp only`/`change`/`rw` steps unfolding the Picard-group monoidal structure
 /-- **The comparison of two tensor inverses, written out.**  `isoOfTensorUnitIso` packages its
 three modules into the full subcategory of invertible sheaves, applies
 `Stacks.SheafOfModules.tensorInverseUniqueIso` and reads the result off the inclusion; this is the
@@ -257,7 +258,7 @@ theorem isoOfTensorUnitIso_hom (A A' B : X.Modules) [IsInvertibleModule X A]
     Stacks.SheafOfModules.picardUnitTensorIso]
   dsimp only [ObjectProperty.ι_map, ObjectProperty.isoMk_hom, ObjectProperty.isoMk_inv,
     ObjectProperty.homMk_hom]
-  show (tensorLeftFunctorObjUnitIso X.presheaf (sheafCondition X) A).inv ≫
+  change (tensorLeftFunctorObjUnitIso X.presheaf (sheafCondition X) A).inv ≫
       (Stacks.SheafOfModules.TensorPower.tensorSheafMapIso X.presheaf (sheafCondition X)
         (Iso.refl A) e'.symm).hom ≫
       (Stacks.SheafOfModules.TensorPower.tensorSheafMapIso X.presheaf (sheafCondition X)

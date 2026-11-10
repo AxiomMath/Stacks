@@ -65,9 +65,9 @@ Nothing below asserts anything about `ω_X` or `ω_E` beyond what those hypothes
 Cartier divisor `E ⊂ X`: a normal sheaf `𝒩`, inverse to the conormal sheaf `ℐ_E|_E`, with
 `ω_E ≅ ω_X|_E ⊗ 𝒩`. That is [Stacks, Tag 0A9X] followed by [Stacks, Tag 0AA4] at `ω_X^• = ω_X[2]`
 and `ω_E^• = ω_E[1]` ([Stacks, Remark 0B4R]). Both tags are formalized only as *maps*:
-`StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierDerivedSheafHom.lean:304` states Tag 0AA4's
-canonical map `Li^*K ⊗ 𝒩[-1] ⟶ R ℰom(𝒪_D, K)` and says in its attribute that it is not proved to
-be an isomorphism, and
+`StacksFrontier/AlgebraicGeometry/Duality/EffectiveCartierDerivedSheafHom.lean:304`
+states Tag 0AA4's canonical map `Li^*K ⊗ 𝒩[-1] ⟶ R ℰom(𝒪_D, K)` and says in its attribute
+that it is not proved to be an isomorphism, and
 `StacksFrontier/AlgebraicGeometry/Duality/ClosedImmersionRightAdjointSheafHom.lean:198` carries part
 (1) of Tag 0A6H as a hypothesis. The other input, taken by the conormal-sheaf results below, is
 `hexc`, the identification `ℐ_E ≅ 𝒪_X(1)` of part (3) of [Stacks, Tag 02OS]; its absence is
@@ -123,8 +123,8 @@ vanishing to `X` along [Stacks, Tag 089W], the step from vanishing at `n + 1` to
 through the long exact sequence of the cohomological `δ`-functor, and the downward induction.
 
 **Clause (3) is not treated.** It is the surjectivity of `f^*ω_A ⟶ ω_X` of
-[Stacks, Tag 0BBU], whose formalized form
-(`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/DualizingTrace.lean:132`)
+[Stacks, Tag 0BBU], whose formalized form (`DualizingTrace.lean:132`, in the directory
+`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/`)
 carries Grauert--Riemenschneider vanishing [Stacks, Tag 0AXD] as a hypothesis, and Tag 0AXD has no
 attribute site in this development; the canonical map `f^*ω_A ⟶ ω_X` itself is recorded there as
 not covered. The source's argument is also incomplete: it proves generation only along `E`, and

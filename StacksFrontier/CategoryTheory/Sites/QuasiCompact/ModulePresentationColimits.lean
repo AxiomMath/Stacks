@@ -176,7 +176,7 @@ private lemma liftedUnitPresheaf_map_single (R : Sheaf J RingCat.{w}) (U : C)
     {X Y : Cᵒᵖ} (f : X ⟶ Y) (h : X.unop ⟶ U) (r : R.obj.obj X) :
     (liftedUnitPresheaf.{u₁, v₁, w, v} R U).map f (ULift.up (Finsupp.single h r)) =
       ULift.up (Finsupp.single (f.unop ≫ h) (R.obj.map f r)) := by
-  show ULift.up (Finsupp.mapDomain _
+  change ULift.up (Finsupp.mapDomain _
     (Finsupp.mapRange (R.obj.map f) (map_zero (R.obj.map f).hom) (Finsupp.single h r))) = _
   simp
 
@@ -208,7 +208,7 @@ private lemma liftedUnitDesc_single (R : Sheaf J RingCat.{w}) (U : C)
     (X : Cᵒᵖ) (h : X.unop ⟶ U) (r : R.obj.obj X) :
     (liftedUnitDesc.{u₁, v₁, w, v} R U M x).app X (ULift.up (Finsupp.single h r)) =
       r • M.map h.op x := by
-  show Finsupp.linearCombination (R.obj.obj X) (fun h : X.unop ⟶ U => M.map h.op x)
+  change Finsupp.linearCombination (R.obj.obj X) (fun h : X.unop ⟶ U => M.map h.op x)
     (Finsupp.single h r) = _
   exact Finsupp.linearCombination_single ..
 
@@ -308,7 +308,7 @@ theorem exists_epi_coproduct_extensionByZeroUnit
       f.val.app (op V) x = g.val.app (op V) x := by
     have hh := congrArg (fun k => Sigma.ι
       (fun i : A => extensionByZeroUnit.{u₁, v₁, w, v} R (U i)) ⟨⟨V, hV⟩, x⟩ ≫ k) h
-    simp only [← Category.assoc, p, Sigma.ι_desc] at hh
+    simp only [← Category.assoc, p, Sigma.ι_comp_desc] at hh
     have he := congrArg (extensionUnitHomEquiv.{u₁, v₁, w, v} R V N) hh
     simpa only [U, extensionUnitHomEquiv_comp, Equiv.apply_symm_apply] using he
   apply (SheafOfModules.toSheaf R).map_injective
@@ -377,17 +377,17 @@ private lemma morphism_from_compact_object_factors_through_finite_subcoproduct
         H.map ((Sigma.cocone FD).ι.app a) ≫
           H.map (Sigma.desc (fun a : s => Sigma.ι Y a.1.as)) =
             H.map (Sigma.ι Y a.as.1.as) := by
-      show H.map (Sigma.ι (fun j : s => Y j.1.as) a.as) ≫
+      change H.map (Sigma.ι (fun j : s => Y j.1.as) a.as) ≫
         H.map (Sigma.desc (fun a : s => Sigma.ι Y a.1.as)) = _
       rw [← H.map_comp]
       congr 1
-      exact Sigma.ι_desc _ _
+      exact Sigma.ι_comp_desc _ _
     have hmiddle : H.map (Sigma.ι Y a.as.1.as) ≫ e.hom = Sigma.ι Z a.as.1.as :=
       IsColimit.comp_coconePointUniqueUpToIso_hom hHB hZ (Discrete.mk a.as.1.as)
     have hright :
         H.map ((Sigma.cocone FD).ι.app a) ≫ α.hom ≫
           Sigma.desc (fun a : s => Sigma.ι Z a.1.as) = Sigma.ι Z a.as.1.as := by
-      show H.map (Sigma.ι (fun j : s => Y j.1.as) a.as) ≫ α.hom ≫
+      change H.map (Sigma.ι (fun j : s => Y j.1.as) a.as) ≫ α.hom ≫
         Sigma.desc (fun a : s => Sigma.ι Z a.1.as) = _
       dsimp [α]
       have hi : Sigma.ι (fun j : s => Y j.1.as) a.as ≫
@@ -395,7 +395,7 @@ private lemma morphism_from_compact_object_factors_through_finite_subcoproduct
         simpa [FD] using (Sigma.ι_isoColimit_hom FD a.as)
       rw [← Category.assoc, ← Category.assoc, ← H.map_comp, congrArg H.map hi, ← Category.assoc,
         ι_preservesColimitIso_hom, Sigma.ι_isoColimit_inv]
-      exact Sigma.ι_desc _ _
+      exact Sigma.ι_comp_desc _ _
     calc
       H.map ((Sigma.cocone FD).ι.app a) ≫
           H.map (Sigma.desc (fun a : s => Sigma.ι Y a.1.as)) ≫ e.hom =
@@ -410,7 +410,7 @@ private lemma morphism_from_compact_object_factors_through_finite_subcoproduct
       (α.inv y) ≫ Sigma.desc (fun a : s => Sigma.ι Y a.1.as) := rfl
   have hα : α.hom (α.inv y) = y := ConcreteCategory.congr_hom α.inv_hom_id y
   rw [hmap, hα] at hx
-  show (ConcreteCategory.hom e.hom) (g ≫ Sigma.desc (fun a : s => Sigma.ι Y a.1.as)) =
+  change (ConcreteCategory.hom e.hom) (g ≫ Sigma.desc (fun a : s => Sigma.ι Y a.1.as)) =
     (ConcreteCategory.hom (Sigma.desc (fun a : s => Sigma.ι Z a.1.as))) y
   exact hx
 
@@ -443,7 +443,7 @@ private lemma finite_source_map_factors_through_finite_target
   refine ⟨t, f, ?_⟩
   apply Sigma.hom_ext
   intro a
-  rw [← Category.assoc, Sigma.ι_desc, ← hq, ← he]
+  rw [← Category.assoc, Sigma.ι_comp_desc, ← hq, ← he]
   simp [f]
 
 section FiniteCokernels
@@ -464,7 +464,7 @@ private lemma finiteSubcoproduct_mono {A : Type a} (X : A → E)
   have hr : (finiteSubcoproductsCocone X).ι.app s ≫ r = 𝟙 _ := by
     apply Sigma.hom_ext
     intro i
-    show Sigma.ι (fun j : s => X j.1.as) i ≫
+    change Sigma.ι (fun j : s => X j.1.as) i ≫
         Sigma.desc (fun j : s => Sigma.ι X j.1.as) ≫ r =
       Sigma.ι (fun j : s => X j.1.as) i ≫ 𝟙 (∐ fun j : s => X j.1.as)
     simp [r, i.2]
@@ -567,7 +567,7 @@ private lemma exists_filtered_finite_cokernels
       apply hn.hom_ext
       intro i
       rw [hn.fac]
-      show n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ s.ι.app i
+      change n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ s.ι.app i
       calc
         n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ c.ι.app i ≫ m := by
           rw [← Category.assoc, ← Category.assoc]

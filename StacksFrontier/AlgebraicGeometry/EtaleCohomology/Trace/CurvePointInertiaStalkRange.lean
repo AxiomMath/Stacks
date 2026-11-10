@@ -169,7 +169,7 @@ private theorem smul_eq_toZModPow_val_smul_of_pow_smul_eq_zero {ℓ : ℕ} [Fact
 private theorem comp_map_hom_of_comp_hom {S T : Scheme.{u}} (t : GeometricPoint S) (f : S ⟶ T)
     {α : t.source ⟶ t.source} (h : α ≫ t.hom = t.hom) :
     α ≫ (t.map f).hom = (t.map f).hom := by
-  show α ≫ t.hom ≫ f = t.hom ≫ f
+  change α ≫ t.hom ≫ f = t.hom ≫ f
   rw [← Category.assoc, h]
 
 /-- A `κ(η)`-automorphism of `Ω` fixes the geometric point `Spec Ω → Spec κ(η) → X` at `η`. -/
@@ -180,7 +180,7 @@ private theorem specMap_algEquiv_comp_geometricPoint_hom {X : Scheme.{u}} (η : 
           (X.fromSpecResidueField η)).hom =
       ((algebraicClosureGeometricPoint (X.residueField η) Ω).map
         (X.fromSpecResidueField η)).hom := by
-  show Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
+  change Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
     Spec.map (CommRingCat.ofHom (algebraMap (X.residueField η) Ω)) ≫ X.fromSpecResidueField η = _
   rw [← Category.assoc, ← Spec.map_comp]
   congr 2
@@ -205,7 +205,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
   intro B V ℓ i1 i2 i3 i4 i5 i6 i7 i8 k i9 i10 f i11 i12 i13 i14 j kbar i15 i16 i17 i18 p n i19
     i20 hcard hℓp W fW i21 i22 i23 i24 eW i25 heW jW i26 hjW y hyc hyV hy L Ω i27 i28 i29 i30 i31
     i32 i33 i34 i35 A i36 i37 i38 i39 i40 i41 i42 i43 eA hA P i44 Fr hFrD hFr r ρ₀ hρ₀ i45
-  intro x ℱ stalk D
+    x ℱ stalk D
   -- the geometric point at `y`, and the local ring there
   let s : GeometricPoint W.1 := Stacks.Frobenius.geometricPointAt W.1 y
   have hcy : s.hom (closedPoint s.residueField) = y :=
@@ -346,7 +346,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
     obtain ⟨a, rfl⟩ := eAc.surjective r
     have h1 := congrArg (fun φ => φ.hom (eA a)) hcomp
     simp only [CommRingCat.hom_comp, RingHom.comp_apply] at h1
-    show ι' (algebraMap (etaleLocalRing B W.1 W.2 s) (Localization.Away ϖ)
+    change ι' (algebraMap (etaleLocalRing B W.1 W.2 s) (Localization.Away ϖ)
       (algebraMap A (etaleLocalRing B W.1 W.2 s) a)) = _
     rw [hι'A, hA a]
     exact congrArg _ h1.symm
@@ -387,7 +387,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
   have hGt : ∀ G : Ω ≃ₐ[V.1.residueField (genericPoint V.1)] Ω,
       (αR G.toRingEquiv).hom ≫ (t.map (B.inclusion.map g)).hom =
         (t.map (B.inclusion.map g)).hom := fun G => by
-    show (αR G.toRingEquiv).hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
+    change (αR G.toRingEquiv).hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
     rw [hxg]
     exact hGx G
   -- the image in `π₁(V, x̄)` of `G̃` is that of its restriction to `L`
@@ -412,7 +412,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
       (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth ht n
       (ULift.up (ConcreteCategory.hom (H' n) w).down)).mp ⟨w, rfl⟩
     have hα : (αR φ).hom = Spec.map (CommRingCat.ofHom τ0.toRingHom) := by
-      show Spec.map (CommRingCat.ofHom (φ : Ω →+* Ω)) = _
+      change Spec.map (CommRingCat.ofHom (φ : Ω →+* Ω)) = _
       congr 2
       exact RingHom.ext fun z => (RingEquiv.congr_fun hτ0 z).symm
     exact hmem (τ0.restrictNormal _) τ0 (fun z => AlgEquiv.restrictNormal_commutes τ0 _ z)
@@ -439,7 +439,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
     funext i
     have hi := congrFun h i
     rw [levelReduction_apply] at hi
-    show (ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x jW
+    change (ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x jW
       (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth n) _).down i =
       (levelRingHom (n + 1)) ((ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x
         jW (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth (n + 1)) w).down i)
@@ -501,7 +501,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
     let θA : etaleLocalRing B W.1 W.2 s →ₐ[A] etaleLocalRing B W.1 W.2 s :=
       { (etaleLocalRingEndomorphism B W.1 W.2 a).hom with
         commutes' := fun z => by
-          show (etaleLocalRingEndomorphism B W.1 W.2 a).hom
+          change (etaleLocalRingEndomorphism B W.1 W.2 a).hom
             (structureSheafStalkFromLocalRing B W.1 W.2 s (eAc z)) =
             structureSheafStalkFromLocalRing B W.1 W.2 s (eAc z)
           exact RingHom.congr_fun
@@ -530,9 +530,9 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
       have hext : (β.toRingHom).comp ι' = ι' := by
         refine IsLocalization.ringHom_ext (nonZeroDivisors (etaleLocalRing B W.1 W.2 s))
           (RingHom.ext fun h => ?_)
-        show G.symm (τ (ι' (algebraMap _ _ h))) = ι' (algebraMap _ _ h)
+        change G.symm (τ (ι' (algebraMap _ _ h))) = ι' (algebraMap _ _ h)
         rw [hτc, hc2]
-        show G.symm (algebraMap L Ω (ι (algebraMap _ _ (θA h)))) =
+        change G.symm (algebraMap L Ω (ι (algebraMap _ _ (θA h)))) =
           algebraMap L Ω (ι (algebraMap _ _ h))
         rw [hιH, hιH]
         have h1 : ((Φ (θA h) : IsIntegralClosure.localizedSubring P) : L) =
@@ -544,13 +544,13 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
     -- decompose `ã = Spec G̃ ≫ Spec β`
     have hdec : ã.hom = (αR G.toRingEquiv ≪≫ αR β).hom := by
       rw [← hτ]
-      show Spec.map (CommRingCat.ofHom τ) =
+      change Spec.map (CommRingCat.ofHom τ) =
         Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
           Spec.map (CommRingCat.ofHom (β : Ω →+* Ω))
       rw [← Spec.map_comp]
       congr 1
       ext z
-      show τ z = G (G.symm (τ z))
+      change τ z = G (G.symm (τ z))
       rw [AlgEquiv.apply_symm_apply]
     have hβtg : (αR β).hom ≫ (t.map (B.inclusion.map g)).hom = (t.map (B.inclusion.map g)).hom :=
       comp_map_hom_of_comp_hom t _ (specMap_ringEquiv_comp_specMap_of_comp ι' β hβι)
@@ -588,7 +588,7 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
         exact ⟨k, rfl⟩
       exact hγ₀ ⟨ι k, hk⟩
     have hGι : ∀ k, G (ι' k) = ι' k := fun k => by
-      show G (algebraMap L Ω (ι k)) = algebraMap L Ω (ι k)
+      change G (algebraMap L Ω (ι k)) = algebraMap L Ω (ι k)
       rw [hG, hγfix]
     have hGφ' := hGφ G
     rw [AlgEquiv.restrict_liftNormal Ω γ₀] at hGφ'

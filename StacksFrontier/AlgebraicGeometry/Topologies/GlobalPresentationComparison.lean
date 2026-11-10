@@ -214,7 +214,7 @@ theorem preservesSheafification_uliftFunctor (J : GrothendieckTopology C)
     [J.WEqualsLocallyBijective AddCommGrpCat.{max u v r}] :
     J.PreservesSheafification AddCommGrpCat.uliftFunctor.{max u v r, r} := by
   refine ⟨fun P Q φ hφ => ?_⟩
-  show J.W (Functor.whiskerRight φ AddCommGrpCat.uliftFunctor.{max u v r, r})
+  change J.W (Functor.whiskerRight φ AddCommGrpCat.uliftFunctor.{max u v r, r})
   rw [J.W_iff_isLocallyBijective] at hφ ⊢
   obtain ⟨hι, hσ⟩ := hφ
   refine ⟨⟨fun {U} x y h => ?_⟩, ⟨fun {U} x => ?_⟩⟩
@@ -225,7 +225,7 @@ theorem preservesSheafification_uliftFunctor (J : GrothendieckTopology C)
   · have h' := Presheaf.imageSieve_mem J φ x.down
     convert h' using 1
     ext V f
-    show (∃ t : ULift.{max u v r} (P.obj _),
+    change (∃ t : ULift.{max u v r} (P.obj _),
       ULift.up (φ.app _ t.down) = ULift.up (Q.map f.op x.down)) ↔ _
     simp only [ULift.up_inj, ULift.exists]
     rfl
@@ -315,7 +315,7 @@ theorem preservesFiniteLimits_moduleULift :
     PreservesFiniteLimits (moduleULift.{max u v r, r} R) := by
   let G := _root_.SheafOfModules.forget.{max u v r} R ⋙ PresheafOfModules.toPresheaf R.obj
   have hG : PreservesFiniteLimits (moduleULift.{max u v r, r} R ⋙ G) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((_root_.SheafOfModules.forget.{r} R ⋙ PresheafOfModules.toPresheaf R.obj) ⋙
         (Functor.whiskeringRight Cᵒᵖ AddCommGrpCat.{r} AddCommGrpCat.{max u v r}).obj
           AddCommGrpCat.uliftFunctor.{max u v r, r})
@@ -477,7 +477,7 @@ theorem exists_generatingSections_of_isColimit_cofan
         (_root_.SheafOfModules.ιFree (c i)) := fun i => Cofan.IsColimit.fac hPt _ i
   have hfac : θ ≫ _root_.SheafOfModules.uliftForPresentationMap.{u, v, r, r, max u v r} g = p := by
     refine Cofan.IsColimit.hom_ext hPt _ _ fun i => ?_
-    show (Cofan.mk Pt ι).inj i ≫ θ ≫ _ = (Cofan.mk Pt ι).inj i ≫ p
+    change (Cofan.mk Pt ι).inj i ≫ θ ≫ _ = (Cofan.mk Pt ι).inj i ≫ p
     rw [← Category.assoc, hinj i, ← _root_.SheafOfModules.uliftForPresentationMap_comp]
     have h2 : _root_.SheafOfModules.ιFree (c i) ≫ g = M.unitHomEquiv.symm (σ i) := by
       rw [← hcs i, ← _root_.SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply g (c i), hg,
@@ -496,7 +496,7 @@ theorem exists_generatingSections_of_isColimit_cofan
     have h4 : _root_.SheafOfModules.uliftForPresentationMap.{u, v, r, r, max u v r}
         (_root_.SheafOfModules.ιFree (R := R) j.down) = (Cofan.mk Pt ι).inj i ≫ θ := by
       rw [hinj i, hi]
-    show _root_.SheafOfModules.uliftForPresentationMap.{u, v, r, r, max u v r}
+    change _root_.SheafOfModules.uliftForPresentationMap.{u, v, r, r, max u v r}
         (_root_.SheafOfModules.ιFree (R := R) j.down) ≫ ψ₁ =
       _root_.SheafOfModules.uliftForPresentationMap.{u, v, r, r, max u v r}
         (_root_.SheafOfModules.ιFree (R := R) j.down) ≫ ψ₂

@@ -71,12 +71,11 @@ Stacks 04CA part (2) is carried by
 line 449, where it is stated for the small étale site
 `AlgebraicGeometry.SmallEtale.topology` of a chosen big étale site and phrased with
 `AlgebraicGeometry.SmallEtale.supportSheaf`, whereas the present module and Stacks 04CA part (1)
-(`Stacks.EtaleCohomology.smallEtalePushforward_essImage_iff`,
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ClosedImmersionsPushforward.SetSheafEssentialImage`,
-line 484) use Mathlib's `AlgebraicGeometry.Scheme.smallEtaleTopology`. The two sheaf categories
-are equivalent by `AlgebraicGeometry.SmallEtale.sheafEquiv`, but that equivalence has not been
-shown to carry one direct image comparison to the other. Everything else in this module is
-unconditional.
+(`Stacks.EtaleCohomology.smallEtalePushforward_essImage_iff`, in the module
+`ClosedImmersionsPushforward.SetSheafEssentialImage` of this development, line 484) use
+Mathlib's `AlgebraicGeometry.Scheme.smallEtaleTopology`. The two sheaf categories are equivalent
+by `AlgebraicGeometry.SmallEtale.sheafEquiv`, but that equivalence has not been shown to carry
+one direct image comparison to the other. Everything else in this module is unconditional.
 
 ## References
 
@@ -133,7 +132,7 @@ public theorem openComplement_imageι {X Y : Scheme.{u}} (f : X ⟶ Y)
     ((universalHomeomorphism_iff_integral_universallyInjective_surjective
       f.toImage).1 inferInstance).2.2
   apply TopologicalSpace.Opens.ext
-  show (Set.range f.imageι.base)ᶜ = (Set.range f.base)ᶜ
+  change (Set.range f.imageι.base)ᶜ = (Set.range f.base)ᶜ
   congr 1
   ext y
   constructor
@@ -142,7 +141,7 @@ public theorem openComplement_imageι {X Y : Scheme.{u}} (f : X ⟶ Y)
     exact ⟨x, (congrArg (fun k : X ⟶ Y => k x) f.toImage_imageι).symm⟩
   · rintro ⟨x, rfl⟩
     refine ⟨f.toImage x, ?_⟩
-    show (f.toImage ≫ f.imageι) x = f x
+    change (f.toImage ≫ f.imageι) x = f x
     rw [f.toImage_imageι]
 
 /-- If `G ⋙ H ≅ K` with `G` essentially surjective, then `K` and `H` have the same essential

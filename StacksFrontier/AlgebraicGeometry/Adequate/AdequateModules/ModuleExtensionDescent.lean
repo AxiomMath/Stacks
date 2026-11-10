@@ -127,11 +127,7 @@ public theorem coverMemberCompare_one_tmul (M : ModuleCat.{max u m} A)
     (hB : ∀ i, P (Spec (CommRingCat.of (B i)))) (i : ι) (n : TensorProduct A R₀ M) :
     coverMemberCompare M (B := B) i ((1 : B i) ⊗ₜ[R₀] n) =
       (siteModuleExtension (P := P) M).restrictₛₗ (coverMemberHom hR₀ hB i).op.op n := by
-  induction n using TensorProduct.induction_on with
-  | zero =>
-      rw [TensorProduct.tmul_zero, map_zero]
-      exact (map_zero ((siteModuleExtension (P := P) M).restrictₛₗ
-        (coverMemberHom hR₀ hB i).op.op)).symm
+  induction n using TensorProduct.inductionOn with
   | tmul r x =>
       rw [siteModuleExtension_restrictₛₗ, coverMemberCompare_tmul]
       simp [Algebra.smul_def, Algebra.ofId_apply]
@@ -167,7 +163,7 @@ public theorem coverMemberHom_comp_pairIncl (hR₀ : P (Spec (CommRingCat.of R�
   apply ObjectProperty.hom_ext
   apply CommAlgCat.hom_ext
   refine AlgHom.ext fun r => ?_
-  show (algebraMap R₀ (B i) r) ⊗ₜ[R₀] (1 : B j) = (1 : B i) ⊗ₜ[R₀] (algebraMap R₀ (B j) r)
+  change (algebraMap R₀ (B i) r) ⊗ₜ[R₀] (1 : B j) = (1 : B i) ⊗ₜ[R₀] (algebraMap R₀ (B j) r)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one]
   exact TensorProduct.smul_tmul _ _ _
 
@@ -193,10 +189,7 @@ public theorem coverPairCompare_nat₁ (M : ModuleCat.{max u m} A)
     (siteModuleExtension (P := P) M).restrictₛₗ (coverPairIncl₁ (A := A) (P := P) hB hPb i j).op.op
         (coverMemberCompare M (B := B) i (b ⊗ₜ[R₀] n)) =
       coverPairCompare M (B := B) i j ((b ⊗ₜ[R₀] (1 : B j)) ⊗ₜ[R₀] n) := by
-  induction n using TensorProduct.induction_on with
-  | zero =>
-      rw [TensorProduct.tmul_zero, map_zero, TensorProduct.tmul_zero, map_zero]
-      exact map_zero _
+  induction n using TensorProduct.inductionOn with
   | tmul r x =>
       rw [coverMemberCompare_tmul, siteModuleExtension_restrictₛₗ, coverPairCompare_tmul,
         TensorProduct.smul_tmul']
@@ -213,10 +206,7 @@ public theorem coverPairCompare_nat₂ (M : ModuleCat.{max u m} A)
     (siteModuleExtension (P := P) M).restrictₛₗ (coverPairIncl₂ (A := A) (P := P) hB hPb i j).op.op
         (coverMemberCompare M (B := B) j (b ⊗ₜ[R₀] n)) =
       coverPairCompare M (B := B) i j (((1 : B i) ⊗ₜ[R₀] b) ⊗ₜ[R₀] n) := by
-  induction n using TensorProduct.induction_on with
-  | zero =>
-      rw [TensorProduct.tmul_zero, map_zero, TensorProduct.tmul_zero, map_zero]
-      exact map_zero _
+  induction n using TensorProduct.inductionOn with
   | tmul r x =>
       rw [coverMemberCompare_tmul, siteModuleExtension_restrictₛₗ, coverPairCompare_tmul,
         show (r • ((1 : B i) ⊗ₜ[R₀] b)) = (1 : B i) ⊗ₜ[R₀] (r • b) from by

@@ -90,7 +90,7 @@ theorem isRelativeNormalization_yoneda_map_of_normalization {Y₀ X₀ N₀ : Bi
     rw [T.map_comp, ← hν, ← Category.assoc, ht, Scheme.Hom.toNormalization_fromNormalization])
   refine ⟨by rw [← yoneda.map_comp, htν], ?_, ?_⟩
   · refine isIntegralHom_yoneda_map B S hS ν₀ ?_
-    show _root_.AlgebraicGeometry.IsIntegralHom (T.map ν₀)
+    change _root_.AlgebraicGeometry.IsIntegralHom (T.map ν₀)
     rw [← hν]
     infer_instance
   intro Z hZ π hπ g hg

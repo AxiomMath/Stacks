@@ -183,7 +183,7 @@ private theorem existsUnique_point_limit_of_fieldDiagram_of_hasLimit
           (w.class B S hS (yoneda.obj (limit E))) = q.class B S hS (limit D) := by
         rw [pointsMap_class]
         congr 1
-        show FieldValuedPoint.mk q.carrier q.contained q.toBase
+        change FieldValuedPoint.mk q.carrier q.contained q.toBase
           (m.app (Opposite.op (q.siteObject B S hS (limit D))) (hc.lift d)) = q
         rw [hval]
       exact hw.symm.trans

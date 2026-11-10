@@ -26,7 +26,8 @@ object properties.
 ## Existence, and the full statement
 
 This file proves uniqueness only. Existence, and **Stacks 0509** itself as an existence and
-uniqueness statement, are in `StacksFrontier/AlgebraicGeometry/Stacks/ReducedClosedSubstackExistence.lean`
+uniqueness statement, are in
+`StacksFrontier/AlgebraicGeometry/Stacks/ReducedClosedSubstackExistence.lean`
 (`AlgebraicGeometry.Stack.exists_isClosedSubstack_isReducedStack_range_pointsMap_eq` and
 `AlgebraicGeometry.Stack.existsUnique_reducedClosedSubstack`), which needs the descent of closed
 subspaces of a smooth chart and so cannot sit below this file.
@@ -82,7 +83,8 @@ theorem le_of_isReducedStack_of_range_pointsMap_subset {𝒳 : AlgebraicStacks.{
   rw [factorsThroughSubstack_iff_forall] at hfac
   exact fun x hx => hfac ⟨x, hx⟩
 
-/-- **The uniqueness assertion of Stacks 0509.** Two reduced closed substacks of an algebraic stack `𝒳` over `S`
+/-- **The uniqueness assertion of Stacks 0509.** Two reduced closed substacks
+of an algebraic stack `𝒳` over `S`
 with the same set of points are equal: each is contained in the other by
 `AlgebraicGeometry.Stack.le_of_isReducedStack_of_range_pointsMap_subset`. -/
 @[stacks 0509 "uniqueness"]

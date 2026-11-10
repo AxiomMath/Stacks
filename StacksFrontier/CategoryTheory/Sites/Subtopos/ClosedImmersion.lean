@@ -74,7 +74,7 @@ variable [HasBinaryProducts A] {F G G' : A}
 and then projecting to `F` gives back the projection to `F`. -/
 lemma prodFunctorObj_map_comp_fst (g : G ⟶ G') :
     (prod.functor.obj F).map g ≫ prod.fst = (prod.fst : F ⨯ G ⟶ F) := by
-  show prod.map (𝟙 F) g ≫ prod.fst = _
+  change prod.map (𝟙 F) g ≫ prod.fst = _
   rw [prod.map_fst, Category.comp_id]
 
 /-- If both projections `F ⨯ G ⟶ F` and `F ⨯ G' ⟶ F` are isomorphisms, then so is `F ⨯ g`

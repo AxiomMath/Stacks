@@ -81,7 +81,7 @@ theorem norm_mk_eq_resultant {φ g : K[X]} (hφ : φ.Monic) (hg : g.Monic) :
         (Matrix.detMonoidHom.comp (aeval M').toMonoidHom) q := fun q ↦ rfl
     rw [hhom, map_multiset_prod, Multiset.map_map]
     refine congrArg Multiset.prod (Multiset.map_congr rfl fun η _ ↦ ?_)
-    show (aeval M' (X - C η)).det = _
+    change (aeval M' (X - C η)).det = _
     rw [map_sub, aeval_X, aeval_C]
     have hneg : M' - algebraMap E (Matrix (Fin pb.dim) (Fin pb.dim) E) η =
         -(Matrix.scalar (Fin pb.dim) η - M') := by

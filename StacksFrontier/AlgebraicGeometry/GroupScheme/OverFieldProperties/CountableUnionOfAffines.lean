@@ -203,7 +203,7 @@ private lemma compactSpace_tensorPowSucc (U : Over (Spec (.of k))) [CompactSpace
   | n + 1 => by
     have := compactSpace_tensorPowSucc U n
     have := quasiCompact_of_field (tensorPowSucc U n).hom
-    show CompactSpace ↥(pullback (tensorPowSucc U n).hom U.hom)
+    change CompactSpace ↥(pullback (tensorPowSucc U n).hom U.hom)
     exact inferInstance
 
 /-- The image of a product of two morphisms to a group scheme over a field is open as soon as
@@ -316,12 +316,12 @@ private lemma exists_openSubgroupScheme_aux (G : Grp (Over (Spec (.of k))))
     exact range_subset_of_comp_eq φ hφ ⟨z, hx⟩)
   -- hence the open subscheme is an open subgroup scheme
   have hopenImm : IsOpenImmersion jW.left := by
-    show IsOpenImmersion W.ι
+    change IsOpenImmersion W.ι
     infer_instance
   obtain ⟨K, ε, hε⟩ := (isOpenSubgroupScheme_iff_factor G jW).mpr
     ⟨⟨eH, heH⟩, ⟨mH, by rw [hmH, CategoryTheory.Hom.mul_def, ← tensorHom_eq_lift]⟩, ⟨iH, hiH⟩⟩
   have hεiso : IsIso ε.hom.left := by
-    show IsIso ((Over.forget (Spec (.of k))).map ε.hom)
+    change IsIso ((Over.forget (Spec (.of k))).map ε.hom)
     infer_instance
   have hsurj : Function.Surjective ε.hom.left.base := ε.hom.left.homeomorph.surjective
   have hrange : Set.range K.ι.hom.hom.left.base = ⋃ n, T n := by
@@ -370,7 +370,7 @@ theorem exists_openSubgroupScheme_isClosed_iUnion_affineOpens
     obtain ⟨p, rfl⟩ := hx
     rw [hsub'.elim p pt]
     exact Set.mem_union_left _ hV
-  · show ι[G.X].left.base '' ((V.1 : Set G.X.left) ∪ ι[G.X].left.base '' (V.1 : Set G.X.left))
+  · change ι[G.X].left.base '' ((V.1 : Set G.X.left) ∪ ι[G.X].left.base '' (V.1 : Set G.X.left))
       ⊆ (V.1 : Set G.X.left) ∪ ι[G.X].left.base '' (V.1 : Set G.X.left)
     rw [Set.image_union, hιimg]
     exact Set.union_subset Set.subset_union_right Set.subset_union_left

@@ -70,7 +70,7 @@ theorem bijective_liftBaseChange_of_homEquiv {A B M N KZ Mw Nw KW : Type*} [Comm
       refine TensorProduct.AlgebraTensorModule.ext fun b m ↦ ?_
       rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.arrowCongr_apply, LinearEquiv.symm_apply_apply, LinearMap.baseChange_tmul]
-      show Ew (rK k) (rM.liftBaseChange B (b ⊗ₜ m)) = rN.liftBaseChange B (b ⊗ₜ Ez k m)
+      change Ew (rK k) (rM.liftBaseChange B (b ⊗ₜ m)) = rN.liftBaseChange B (b ⊗ₜ Ez k m)
       rw [LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul, map_smul, hc]
     refine LinearMap.ext fun m' ↦ ?_
     obtain ⟨t, rfl⟩ := cF.surjective m'
@@ -78,7 +78,7 @@ theorem bijective_liftBaseChange_of_homEquiv {A B M N KZ Mw Nw KW : Type*} [Comm
   have key : Ew.toLinearMap ∘ₗ rK.liftBaseChange B = Φ.toLinearMap := by
     refine TensorProduct.AlgebraTensorModule.ext fun b k ↦ ?_
     rw [LinearMap.comp_apply, LinearMap.liftBaseChange_tmul, LinearEquiv.coe_coe, map_smul, hk]
-    show _ = (cF.arrowCongr cG) (e1 (b ⊗ₜ Ez k))
+    change _ = (cF.arrowCongr cG) (e1 (b ⊗ₜ Ez k))
     rw [IsBaseChange.equiv_tmul, map_smul]
     rfl
   have hb : Function.Bijective (Ew.toLinearMap ∘ₗ rK.liftBaseChange B) := by
@@ -151,7 +151,7 @@ returns the same section. -/
 theorem fRestr_id (z : (fppfRingedSite B S hS 𝒳).C)
     (r : (Oforget (fppfRingedSite B S hS 𝒳).O.obj).obj (op z)) :
     fRestr (fppfRingedSite B S hS 𝒳).O.obj z r (op (Over.mk (𝟙 z))) = r := by
-  show ((Oforget (fppfRingedSite B S hS 𝒳).O.obj).map (𝟙 z).op).hom r = r
+  change ((Oforget (fppfRingedSite B S hS 𝒳).O.obj).map (𝟙 z).op).hom r = r
   rw [op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -171,7 +171,7 @@ theorem sheafHomEval_smul (F G : _root_.SheafOfModules.{u} (ambientRingStructure
     (α.app (op (Over.mk (𝟙 (siteObj z))))) m) h
   refine h2.trans ?_
   let := fibredSectionsModule 𝒳.val.isFiberedInGroupoids G z
-  show (show fibredSectionRing B S hS 𝒳.val.val.p z from
+  change (show fibredSectionRing B S hS 𝒳.val.val.p z from
     fRestr (fppfRingedSite B S hS 𝒳).O.obj (siteObj z) r (op (Over.mk (𝟙 (siteObj z))))) •
     sheafHomEval F G z k m = _
   congr 1
@@ -213,7 +213,7 @@ theorem exists_sheafHomEval_eq
     (hgen_over_of_isCartesianBetweenAffines B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids F hF hz)
     (hrel_over_of_isCartesianBetweenAffines B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids F hF hz)
     (G.over z) (fun i ↦ ψ i) (fun k ↦ by
-      show (k.1.sum fun i r ↦ r • ψ i) = 0
+      change (k.1.sum fun i r ↦ r • ψ i) = 0
       calc (k.1.sum fun i r ↦ r • ψ i) = ψ (k.1.sum fun i r ↦ r • i) := by
             rw [map_finsuppSum]; exact Finset.sum_congr rfl fun i _ ↦ (ψ.map_smul _ _).symm
         _ = 0 := by rw [k.2, map_zero])
@@ -393,10 +393,10 @@ theorem isFinitelyPresentedByGlobalSections_restrictedModuleRestrictionAlong_of_
   have haffV : ∀ V : FlatFppf B S hS 𝒵,
       IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒵.val.val.p.obj V.obj)) →
       IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj V)) := fun V hV ↦ by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
     rw [hpobj V]; exact hV
   have hy₀aff : IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj t)) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)))
     rw [hpobj t]; exact hyaff
   have hflat : ∀ V : FlatFppf B S hS 𝒵,
       IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒵.val.val.p.obj V.obj)) →
@@ -412,7 +412,7 @@ theorem isFinitelyPresentedByGlobalSections_restrictedModuleRestrictionAlong_of_
     exact Scheme.Hom.flat_appTop _
   let A := fibredSectionRing B S hS p (Fn.obj t)
   have : IsNoetherianRing A := by
-    show IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)), ⊤)
+    change IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)), ⊤)
     rw [hpobj t]; exact hnoeth
   let := fibredSectionsModule hp K (Fn.obj t)
   have : Module.FinitePresentation A (K.val.obj (op (Fn.obj t))) := hfpK _ hy₀aff inferInstance

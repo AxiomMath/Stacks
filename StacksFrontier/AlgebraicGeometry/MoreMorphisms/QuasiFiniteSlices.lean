@@ -206,10 +206,10 @@ theorem stalkMap_surjective_and_ker_fromSpec (hρ : Function.Surjective ρ.hom) 
     (congrArg PrimeSpectrum.asIdeal hQ)
     (T := X.presheaf.stalk (i z)) (W := (Spec B).presheaf.stalk z)
     (i.stalkMap z).hom (fun s => by
-      show (i.stalkMap z).hom ((X.presheaf.germ U (i z) hzU).hom s) =
+      change (i.stalkMap z).hom ((X.presheaf.germ U (i z) hzU).hom s) =
         ((Spec B).presheaf.germ ⊤ z trivial).hom ((i.appLE U ⊤ hle).hom s)
       rw [Scheme.Hom.germ_stalkMap_apply i U z hzU s]
-      show _ = ((Spec B).presheaf.germ ⊤ z trivial).hom
+      change _ = ((Spec B).presheaf.germ ⊤ z trivial).hom
         (((Spec B).presheaf.map (homOfLE hle).op).hom ((i.app U).hom s))
       exact ((Spec B).presheaf.germ_res_apply (homOfLE hle) z trivial ((i.app U).hom s)).symm)
   exact ⟨key.1, fun h => by rw [key.2, hkerapp]; rfl⟩
@@ -230,7 +230,7 @@ noncomputable def quotKerEquiv {T W : Type*} [CommRing T] [CommRing W] {p : Idea
 theorem quotKerEquiv_mk {T W : Type*} [CommRing T] [CommRing W] {p : Ideal T}
     (ψ : T →+* W) (hψ : Function.Surjective ψ) (hker : RingHom.ker ψ = p) (t : T) :
     quotKerEquiv ψ hψ hker (Ideal.Quotient.mk p t) = ψ t := by
-  show (RingHom.quotientKerEquivOfSurjective hψ)
+  change (RingHom.quotientKerEquivOfSurjective hψ)
     (Ideal.quotEquivOfEq hker.symm (Ideal.Quotient.mk p t)) = ψ t
   rw [Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
 
@@ -311,12 +311,12 @@ theorem exists_isImmersion_slice {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOp
         ⟨(hU.primeIdealOf ⟨x, hxU⟩).asIdeal.map (Ideal.Quotient.mk (Ideal.ofList a)), hqprime⟩ =
         hU.primeIdealOf ⟨x, hxU⟩ := by
       apply PrimeSpectrum.ext
-      show Ideal.comap (Ideal.Quotient.mk (Ideal.ofList a))
+      change Ideal.comap (Ideal.Quotient.mk (Ideal.ofList a))
           ((hU.primeIdealOf ⟨x, hxU⟩).asIdeal.map (Ideal.Quotient.mk (Ideal.ofList a))) = _
       rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
         ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
       exact sup_eq_left.mpr hIp
-    show hU.fromSpec ((Spec.map ρ) _) = x
+    change hU.fromSpec ((Spec.map ρ) _) = x
     rw [hpt, hU.fromSpec_primeIdealOf]
   · obtain ⟨h1, h2⟩ := stalkMap_surjective_and_ker_fromSpec hU ρ hρsurj
       ⟨(hU.primeIdealOf ⟨x, hxU⟩).asIdeal.map (Ideal.Quotient.mk (Ideal.ofList a)), hqprime⟩
@@ -386,7 +386,7 @@ theorem hasQuasiFiniteSlice_of_slice_data {X S : Scheme.{u}} (f : X ⟶ S)
     rw [Scheme.Hom.stalkMap_comp]
     rfl
   have hflat' : IsFlatAt (i ≫ f).toLRSHom.toShHom z := by
-    show ((i ≫ f).stalkMap z).hom.Flat
+    change ((i ≫ f).stalkMap z).hom.Flat
     rw [hstalk]
     exact ringHom_flat_comp_of_surjective _ (hflat hxU) _ hsurj (hker hxU)
   have hclosed' : IsClosed ({(i ≫ f).asFiber z} : Set ((i ≫ f).fiber ((i ≫ f) z))) :=
@@ -400,7 +400,7 @@ theorem hasQuasiFiniteSlice_of_slice_data {X S : Scheme.{u}} (f : X ⟶ S)
       ((topologicalKrullDimAt_fiber_eq_ringKrullDim_stalk (i ≫ f) z hclosed').trans hdim')
   have _ := hj
   refine ⟨V, j ≫ i, v, inferInstance, ?_, ?_, ?_, ?_⟩
-  · show i (j v) = i z
+  · change i (j v) = i z
     rw [hjv]
   · rwa [Category.assoc]
   · rwa [Category.assoc]
@@ -544,7 +544,7 @@ theorem hasQuasiFiniteSlices : HasQuasiFiniteSlices.{u} := by
     intro c hc
     refine (IsLocalization.AtPrime.to_map_mem_maximal_iff (X.presheaf.stalk x)
       (hU.primeIdealOf (⟨x, h⟩ : U)).asIdeal c).mp ?_
-    show (X.presheaf.germ U x h).hom c ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x)
+    change (X.presheaf.germ U x h).hom c ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x)
     exact hlmem _ (haa ▸ List.mem_map_of_mem hc)
   · exact fun h => hIT h ▸
       flat_mk_comp_algebraMap (R := S.presheaf.stalk (f x)) (Ideal.ofList l) hlflat

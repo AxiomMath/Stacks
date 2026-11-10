@@ -116,7 +116,8 @@ instance isIso_Q_map_liftDiagramNaiveCotangentComparison :
     (FirstOrderLiftDiagram.pairPresheaf D) (FirstOrderLiftDiagram.pairAlpha D)
   infer_instance
 
-omit [J.HasSheafCompose (forget CommRingCat)] in
+omit [J.HasSheafCompose (forget CommRingCat)] [HasWeakSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective CommRingCat] [J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- The underlying object of the canonical two-term structure of `NL(α)` is the image in the
 derived category of the naive cotangent complex of the presentation. -/
 theorem liftDiagramNaiveCotangentTwoTerm_obj_eq :

@@ -313,7 +313,7 @@ theorem cycleAssociatedToCoherentSheaf_pushforward_torSheaf_eq (K : Type u) [Fie
     haveI : LocallyOfFiniteType f := locallyOfFiniteType_of_isVariety_comp K sX sY f hbase
     haveI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian sX
     haveI : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian sY
-    haveI hT := isCoherent_torSheaf_of_isRegular X hX F ((Scheme.Modules.pullback f).obj G) hF
+    haveI := isCoherent_torSheaf_of_isRegular X hX F ((Scheme.Modules.pullback f).obj G) hF
       (isCoherent_pullback f G) i
     haveI := AlgebraicGeometry.ProperCoherenceWitness.isCoherent_pushforward f
       (torSheaf X F ((Scheme.Modules.pullback f).obj G) i)

@@ -29,8 +29,8 @@ assertion is Stacks 0DA0's abelian counterpart Stacks 0D8G. Neither of the two s
 available unconditionally in this library:
 
 * the clause of Stacks 0D6J about the unbounded derived direct image along a morphism of ringed
-  sites is explicitly *not* carried by
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedSections/ForgettingTheModuleStructure.lean`,
+  sites is explicitly *not* carried by the module
+  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.ForgettingTheModuleStructure`,
   which has only the two sections clauses; and
 * `Stacks.CategoryTheory.Hypercovering.isIso_derivedAugmentationUnit_app_of_hypercovering`,
   this library's Stacks 0D8G, is itself conditional on two inputs — Stacks 0D8E in its abelian
@@ -181,8 +181,10 @@ This is the source's observation `a^* = a⁻¹` for the ringed augmentation of S
 @[sga "4 IV 13.7" "partial"]
 theorem pullbackModules_preservesFiniteLimits_of_isIso_fSharp :
     PreservesFiniteLimits f.toModulesHom.pullbackModules := by
-  have := Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
-  have := Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+  have :=
+    Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
+  have :=
+    Sheaf.moduleSheafFunctor_preservesFiniteLimits (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
   have := f.toToposHom.preservesFiniteLimits
   have : PreservesFiniteLimits (f.toModulesHom.pullbackModules ⋙
       Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
@@ -205,15 +207,18 @@ attribute [local instance] pullbackModules_preservesFiniteLimits_of_isIso_fSharp
 /-- Every complex is its own resolution by the class of all objects, so that class resolves the
 quasi-isomorphisms. -/
 theorem exists_top_resolution
-    (M : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    (M : HomotopyCategory
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)) :
-    ∃ (N : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    ∃ (N : HomotopyCategory
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)) (_ : (⊤ : ObjectProperty _) N) (s : N ⟶ M), targetQuasiIso Y s :=
   ⟨M, trivial, 𝟙 M, MorphismProperty.id_mem _ _⟩
 
 /-- Degreewise pullback inverts every quasi-isomorphism, `f^*` being exact. -/
 theorem pullbackOnHomotopy_inverts_quasiIso
-    {M N : HomotopyCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+    {M N : HomotopyCategory
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
       (ComplexShape.up ℤ)} (s : M ⟶ N) (hs : targetQuasiIso Y s) :
     IsIso ((pullbackOnHomotopy f).map s) :=
   Stacks.DerivedFunctor.HigherDerivedOfExact.mapHomotopyCategory_inverts_quasiIso
@@ -241,7 +246,8 @@ def derivedAdjunctionOfIsIsoFSharp :
 
 /-- The canonical map `E ⟶ Rf_*Lf^*E`, the unit of the derived adjunction. -/
 abbrev derivedPullbackPushforwardUnit :
-    𝟭 (DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) ⟶
+    𝟭 (DerivedCategory
+        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))) ⟶
       (leftDerivedPullbackOfIsIsoFSharp f).functor ⋙
         derivedPushforward (X := X) (Y := Y) f :=
   (derivedAdjunctionOfIsIsoFSharp f).unit
@@ -250,11 +256,14 @@ abbrev derivedPullbackPushforwardUnit :
 `O_D`-modules the degreewise pullback `f^*I` computes the derived direct image, that is, the
 canonical map `f_*f^*I ⟶ Rf_*f^*I` is an isomorphism. -/
 def PullbackComputesDerivedPushforward : Prop :=
-  ∀ I : CochainComplex (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) ℤ, I.IsKInjective →
+  ∀ I : CochainComplex
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)) ℤ,
+    I.IsKInjective →
     IsIso (((pushforwardOnHomotopy (X := X) (Y := Y) f).totalRightDerivedUnit
       DerivedCategory.Qh (sourceQuasiIso X)).app
       ((pullbackMapHomotopy f).obj
-        ((HomotopyCategory.quotient (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+        ((HomotopyCategory.quotient
+          (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
           (ComplexShape.up ℤ)).obj I)))
 
 /-- **The canonical map `E ⟶ Rf_*Lf^*E` is an isomorphism**, granted two inputs: that the
@@ -274,7 +283,8 @@ theorem isIso_derivedPullbackPushforwardUnit
   have := hunit
   refine Stacks.Cohomology.Localization.natTrans_isIso_of_kInjectives _ (fun I hI => ?_)
   have := hacyclic I hI
-  set M := (HomotopyCategory.quotient (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
+  set M := (HomotopyCategory.quotient
+    (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O))
     (ComplexShape.up ℤ)).obj I with hM
   have : IsIso ((pullbackAdjPushforwardMapHomotopy f).unit.app M) :=
     Adjunction.isIso_mapHomotopyCategoryAdjunction_unit_app _ _ _
@@ -366,7 +376,8 @@ theorem isIso_derivedPullbackPushforwardUnit_app_of_hypercovering
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).unit)
     (hacyclic : AlgebraicGeometry.RingedToposHom.PullbackComputesDerivedPushforward.{u}
       (hypercoveringRingedAugmentation J H OC).totalRingedHom)
-    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
+    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (J := (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.J))
       (hypercoveringRingedAugmentation J H OC).augmentationRingedTopos.O))) :
     IsIso ((AlgebraicGeometry.RingedToposHom.derivedPullbackPushforwardUnit
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).app E) :=
@@ -402,7 +413,8 @@ theorem isIso_derivedPullbackPushforwardUnit_app_of_hypercovering_over
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom).unit)
     (hacyclic : AlgebraicGeometry.RingedToposHom.PullbackComputesDerivedPushforward.{u}
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom)
-    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.J))
+    (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (J := (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.J))
       (hypercoveringObjectRingedAugmentation P K O).augmentationRingedTopos.O))) :
     IsIso ((AlgebraicGeometry.RingedToposHom.derivedPullbackPushforwardUnit
       (hypercoveringObjectRingedAugmentation P K O).totalRingedHom).app E) :=

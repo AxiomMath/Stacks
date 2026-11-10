@@ -231,7 +231,7 @@ theorem notMem_of_mem_nonvanishingLocus {n : ℤ} {f : A} (hf : f ∈ 𝒜 1)
   have hfm : f ^ m ∈ twistGrading 𝒜 n (N • ((1 : ℕ) : ℤ)) := by
     have h0 : (0 : ℤ) ≤ N • ((1 : ℕ) : ℤ) + n := by simp; omega
     have h1 : (N • ((1 : ℕ) : ℤ) + n).toNat = m := by simp; omega
-    simp only [twistGrading, integerGrading, h0, if_true, h1]
+    simp only [twistGrading, integerGrading, h0, ite_true, h1]
     simpa using SetLike.pow_mem_graded m hf
   set g : Γ(Stacks.ProjTwistSection.twistingModule 𝒜 n, U) :=
     degreeZeroToSection 𝒜 (twistGrading 𝒜 n) f

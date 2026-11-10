@@ -276,7 +276,7 @@ private lemma exists_stage_all_degrees_killing_kernel_and_covering_image
   refine ⟨l, p', ?_, ?_⟩
   · intro i x hx
     rw [hp i, (F i).map_comp]
-    show ((F i).map (q i)) (((F i).map (p i)) x) = 0
+    change ((F i).map (q i)) (((F i).map (p i)) x) = 0
     rw [hk i x hx, map_zero]
   · intro i y
     obtain ⟨x, hx⟩ := hsurj i y
@@ -478,7 +478,7 @@ public theorem exists_enlargements_killing_kernel_and_covering_image
     { app := fun j => (H i).map (α.app (P j).toComplex ≫ QB.map (pairComparison j))
       naturality := by
         intro j k p
-        show (H i).map ((QA ⋙ T).map (SubcomplexFamily.map (leOfHom p).1)) ≫ _ =
+        change (H i).map ((QA ⋙ T).map (SubcomplexFamily.map (leOfHom p).1)) ≫ _ =
           _ ≫ (H i).map (QB.map (SubcomplexFamily.map (leOfHom p).2))
         rw [← (H i).map_comp, ← (H i).map_comp]
         exact congrArg (H i).map (comparison_square α
@@ -489,7 +489,7 @@ public theorem exists_enlargements_killing_kernel_and_covering_image
   have : ∀ i, IsIso (g i) := fun i => by dsimp [g]; infer_instance
   have hg (i : ℤ) (j : J) :
       (cF i).ι.app j ≫ g i = (γ i).app j ≫ (cG i).ι.app j := by
-    show (H i).map ((QA ⋙ T).map (P j).ι) ≫ _ = _ ≫ (H i).map (QB.map (Q j).ι)
+    change (H i).map ((QA ⋙ T).map (P j).ι) ≫ _ = _ ≫ (H i).map (QB.map (Q j).ι)
     rw [← (H i).map_comp, ← (H i).map_comp]
     exact congrArg (H i).map (comparison_square α (P j).ι (Q j).ι
       (pairComparison j) b (pairComparison_ι j))
@@ -540,7 +540,7 @@ public theorem exists_enlargements_killing_kernel_and_covering_image
             (fun q : (H i).obj (T.obj (QA.obj M₁)) ⟶
               (H i).obj (QB.obj (Q j₀).toComplex) => q x) hsq
         _ = 0 := by rw [hx, map_zero]
-    show ((H i).map (T.map (QA.map m₁₂))) x = 0
+    change ((H i).map (T.map (QA.map m₁₂))) x = 0
     dsimp only [m₁₂]
     rw [QA.map_comp, T.map_comp, (H i).map_comp]
     exact hkill i _ hz
@@ -549,7 +549,7 @@ public theorem exists_enlargements_killing_kernel_and_covering_image
     intro y
     obtain ⟨x, hx⟩ := hlift i (((H i).map (QB.map n₀₁)) y)
     refine ⟨x, ?_⟩
-    show ((γ i).app k) x = ((H i).map (QB.map n₁₂)) y
+    change ((γ i).app k) x = ((H i).map (QB.map n₁₂)) y
     dsimp only [n₁₂]
     rw [QB.map_comp, (H i).map_comp]
     exact hx

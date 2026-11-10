@@ -163,7 +163,7 @@ theorem isRegular_chartFraction {g : S} (hg : g ∈ 𝒮 1) (t : 𝒮 (1 • 1))
   refine isRegular_ringEquiv (asIso (Proj.awayToSection 𝒮 g)).commRingCatIsoToRingEquiv ?_
   refine isRegular_of_injective (algebraMap (Away 𝒮 g) (Localization.Away g))
     (fun a b h => HomogeneousLocalization.val_injective _ h) ?_
-  show IsRegular (Away.mk 𝒮 hg 1 (t : S) t.2).val
+  change IsRegular (Away.mk 𝒮 hg 1 (t : S) t.2).val
   rw [Away.val_mk, Localization.mk_eq_mk']
   have hreg : IsRegular (algebraMap S (Localization.Away g) t) :=
     isRegular_iff_mem_nonZeroDivisors.2 (IsLocalization.map_nonZeroDivisors_le

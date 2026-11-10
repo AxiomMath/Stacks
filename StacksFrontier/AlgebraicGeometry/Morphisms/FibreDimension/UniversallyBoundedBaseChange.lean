@@ -89,7 +89,7 @@ lemma isIso_fromSpecResidueField_closedPoint (k : Type u) [Field k] :
   let p : Spec (.of k) := IsLocalRing.closedPoint k
   have : IsIso (CommRingCat.ofHom (algebraMap k p.asIdeal.ResidueField)) :=
     p.asIdeal.algEquivResidueFieldOfField.toRingEquiv.toCommRingCatIso.isIso_hom
-  show IsIso ((Spec (.of k)).fromSpecResidueField p)
+  change IsIso ((Spec (.of k)).fromSpecResidueField p)
   rw [← Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField]
   infer_instance
 

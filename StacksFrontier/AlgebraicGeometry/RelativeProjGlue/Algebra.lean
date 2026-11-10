@@ -141,7 +141,7 @@ public theorem isLocalization_away_map (ψ : 𝒜 →+*ᵍ ℬ) {s : A} (hs : s 
     exact isUnit_of_isLocalizationAway 𝒜 ℬ ψ s halg
   refine ⟨⟨?_, ?_, ?_⟩⟩
   · rintro ⟨y, k, rfl⟩
-    show IsUnit (algebraMap (Away 𝒜 f) (Away ℬ (ψ f)) (g ^ k))
+    change IsUnit (algebraMap (Away 𝒜 f) (Away ℬ (ψ f)) (g ^ k))
     rw [hap, map_pow, hmapg]
     exact (hunit.map (fromZeroRingHom ℬ (Submonoid.powers (ψ f)))).pow k
   · intro z

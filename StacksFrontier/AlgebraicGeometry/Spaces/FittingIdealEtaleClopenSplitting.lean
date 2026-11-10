@@ -104,7 +104,7 @@ theorem AlgebraicGeometry.fittingIdeal_zero_appTop_eq_ker_mul {V A A₁ A₂ : S
     { toFun := fun x => (q (i₁.appTop x), i₂.appTop x)
       map_add' := fun x y => by simp
       map_smul' := fun c x => by
-        show (q (i₁.appTop (s.appTop c * x)), i₂.appTop (s.appTop c * x)) =
+        change (q (i₁.appTop (s.appTop c * x)), i₂.appTop (s.appTop c * x)) =
           (c • q (i₁.appTop x), s₂.appTop c * i₂.appTop x)
         have e : ∀ {A' : Scheme.{u}} (i : A' ⟶ A) (s' : A' ⟶ V), i ≫ s = s' →
             i.appTop (s.appTop c) = s'.appTop c := fun i s' h => by
@@ -112,7 +112,7 @@ theorem AlgebraicGeometry.fittingIdeal_zero_appTop_eq_ker_mul {V A A₁ A₂ : S
           rfl
         simp only [map_mul, e i₁ s₁ h₁, e i₂ s₂ h₂]
         refine Prod.ext ?_ rfl
-        show q (s₁.appTop c) * q (i₁.appTop x) = _
+        change q (s₁.appTop c) * q (i₁.appTop x) = _
         rw [Algebra.smul_def]
         congr 1
         exact (RingHom.quotientKerEquivOfSurjective hsurj).symm_apply_apply c }

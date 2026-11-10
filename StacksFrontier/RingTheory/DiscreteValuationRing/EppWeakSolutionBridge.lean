@@ -108,9 +108,9 @@ theorem exists_ringEquiv_tensorCancel_includeRight
         = algebraMap K₂ ((M ⊗[K] K₁) ⊗[K₁] K₂) x := rfl
     have h2 : (Algebra.TensorProduct.includeRight (R := K) (A := M) (B := K₂) x)
         = algebraMap K₂ (M ⊗[K] K₂) x := rfl
-    show c₀ _ = _
+    change c₀ _ = _
     rw [h1, h2, c₀.commutes]
-  · show c₀ _ = _
+  · change c₀ _ = _
     have hs₁ : (Algebra.TensorProduct.commRight K₁ K₂ (M ⊗[K] K₁)).symm
         ((x ⊗ₜ[K] (1 : K₁)) ⊗ₜ[K₁] (1 : K₂)) = (1 : K₂) ⊗ₜ[K₁] (x ⊗ₜ[K] (1 : K₁)) :=
       (AlgEquiv.symm_apply_eq _).mpr rfl
@@ -387,7 +387,7 @@ theorem compositumRingEquiv_algebraMap
   let := D'.algebraK₁L₁
   let := D.algebraKL₁
   let := D'.algebraKL₁
-  show D'.eL₁.toRingEquiv.symm (reductionRingEquiv _ _ c (D.eL₁ (algebraMap K₂ D.L₁ x))) = _
+  change D'.eL₁.toRingEquiv.symm (reductionRingEquiv _ _ c (D.eL₁ (algebraMap K₂ D.L₁ x))) = _
   rw [D.eL₁_right x, reductionRingEquiv_mk, hc x, ← D'.eL₁_right x]
   exact D'.eL₁.toRingEquiv.symm_apply_apply _
 

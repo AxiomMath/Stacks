@@ -134,13 +134,13 @@ theorem exists_mem_ker_sub_mem_sq_of_vars_lift
     apply CommRingCat.hom_ext
     apply MvPolynomial.ringHom_ext
     · intro r
-      show φ₁.hom (MvPolynomial.aeval c (MvPolynomial.C r)) =
+      change φ₁.hom (MvPolynomial.aeval c (MvPolynomial.C r)) =
         φ₂.hom (MvPolynomial.rename Subtype.val (MvPolynomial.C r))
       rw [MvPolynomial.aeval_C, MvPolynomial.rename_C]
       have key : b₁ ≫ φ₁ = b₂ ≫ φ₂ := by rw [← hu, ← Category.assoc, hb]
       exact congrArg (fun f : R₀ ⟶ T ↦ f.hom r) key
     · intro j
-      show φ₁.hom (MvPolynomial.aeval c (MvPolynomial.X j)) =
+      change φ₁.hom (MvPolynomial.aeval c (MvPolynomial.X j)) =
         φ₂.hom (MvPolynomial.rename Subtype.val (MvPolynomial.X j))
       rw [MvPolynomial.aeval_X, MvPolynomial.rename_X]
       exact hc j
@@ -148,7 +148,7 @@ theorem exists_mem_ker_sub_mem_sq_of_vars_lift
   have hbt : b ≫ t = b₂ := CommRingCat.hom_ext (RingHom.ext (MvPolynomial.rename_C _))
   -- the truncation lies in the kernel and its universal differential vanishes
   have hq₀ : p₀ ∈ RingHom.ker φ.hom := by
-    show φ₂.hom (MvPolynomial.rename Subtype.val p₀) = 0
+    change φ₂.hom (MvPolynomial.rename Subtype.val p₀) = 0
     rw [hp₀]
     exact hq
   have hd₀ : (1 : Pr ⧸ RingHom.ker φ.hom) ⊗ₜ[Pr]

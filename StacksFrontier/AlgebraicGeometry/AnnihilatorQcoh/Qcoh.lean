@@ -142,13 +142,13 @@ theorem isLocalizedModule_restrictₗ_of_isAnnihilatorSubsheaf (hN : IsAnnihilat
       (hN.mem_iff_of_isAffineOpen hU _).mpr fun r hr ↦
         smul_eq_zero_of_span_eq_top I (T : Set Γ(I.toSheafOfModules, U)) hT _ hx₁gen r hr
     refine ⟨T.sup m + n, ⟨a ^ T.sup m • x₀, hx₁mem⟩, subVal_injective N ?_⟩
-    show a ^ (T.sup m + n) • subVal N y = restrictₗ F (X.basicOpen_le a) (a ^ T.sup m • x₀)
+    change a ^ (T.sup m + n) • subVal N y = restrictₗ F (X.basicOpen_le a) (a ^ T.sup m • x₀)
     rw [(restrictₗ F (X.basicOpen_le a)).map_smul, ← hx₀, pow_add, mul_smul]
   · -- Injectivity up to powers of `a`, inherited from `F`.
     intro z hz
     obtain ⟨n, hn⟩ := hker _ (congrArg (subVal N) hz)
     refine ⟨n, subVal_injective N ?_⟩
-    show a ^ n • subVal N z = (0 : Γ(F, U))
+    change a ^ n • subVal N z = (0 : Γ(F, U))
     exact hn
 
 /-- **Part (1) of [Stacks, Tag 01PO].** The subsheaf of sections of a quasi-coherent module

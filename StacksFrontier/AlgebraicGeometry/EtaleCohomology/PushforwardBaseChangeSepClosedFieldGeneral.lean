@@ -194,7 +194,7 @@ private lemma isIso_map_map_mate_of_cube
     IsIso (Φ.map (Lu.map (((mateEquiv ae af).symm s).app X))) := by
   have h₂ : IsIso (Φ.map (((mateEquiv (aa.comp ai) (av.comp aj)).symm (s'.hComp t')).app X)) := by
     rw [mate_symm_hcomp, TwoSquare.vComp_app]
-    show IsIso (Φ.map (Lj.map (((mateEquiv aa av).symm t').app X) ≫
+    change IsIso (Φ.map (Lj.map (((mateEquiv aa av).symm t').app X) ≫
       ((mateEquiv ai aj).symm s').app (La.obj X)))
     rw [Φ.map_comp]
     infer_instance
@@ -246,7 +246,7 @@ private lemma siteSquare_cube_of_factorization (W : S.Etale) :
   let f' := (siteSquare toY ei e toT wc).hom.app ((smallEtaleBaseChange g).obj W)
   let lhs := a ≫ b ≫ c
   let rhs := d ≫ e' ≫ f'
-  show lhs = rhs
+  change lhs = rhs
   have ha := baseChange_map_projection hi _ (siteSquare_hom_fst u fi f v wf W)
   have hb := siteSquare_hom_fst_assoc toY hi h u wu ((smallEtaleBaseChange f).obj W)
     (pullback.fst W.hom f)
@@ -280,15 +280,15 @@ private lemma rightSquare_cube_of_factorization :
     (TwoSquare.hComp (rightSquare.{u, v} ei hi gi fi wl).hom
       (rightSquare.{u, v} toT gi g v wt).hom).whiskerTop
           (rightSquare.{u, v} toY ei e toT wc).hom := by
-  apply TwoSquare.ext
-  intro F
+  apply NatTrans.ext
+  funext F
   apply Sheaf.hom_ext
   apply NatTrans.ext
   funext W
   cases W with
   | op W =>
     dsimp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp,
-      TwoSquare.natTrans, TwoSquare.mk, NatTrans.comp_app,
+      TwoSquare.mk, NatTrans.comp_app,
       Functor.whiskerLeft_app, Functor.whiskerRight_app]
     simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
       Functor.associator_hom_app, Functor.associator_inv_app,

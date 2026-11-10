@@ -95,9 +95,9 @@ theorem sheafPushforwardContinuousSquareMate_app_hom [w.GuitartExact] (F : Sheaf
     (((mateEquiv (i.sheafAdjunctionCocontinuous (Type u) JA JB)
         (i'.sheafAdjunctionCocontinuous (Type u) JA' JB')).symm
         (TwoSquare.mk _ _ _ _
-          (sheafPushforwardContinuousSquareIso JA JA' JB JB' i i' v T w).inv)).natTrans.app
+          (sheafPushforwardContinuousSquareIso JA JA' JB JB' i i' v T w).inv)).app
           F).hom =
-      Functor.whiskerRight w.op.natTrans F.obj := by
+      Functor.whiskerRight w.op F.obj := by
   have hR : ∀ {X : A'ᵒᵖ ⥤ Type u} {Y : B'ᵒᵖ ⥤ Type u} (y : i'.op ⋙ Y ⟶ X),
       Functor.whiskerLeft i'.op ((i'.op.ranAdjunction (Type u)).homEquiv Y X y) ≫
         (i'.op.ranAdjunction (Type u)).counit.app X = y := by
@@ -120,7 +120,7 @@ theorem sheafPushforwardContinuousSquareMate_app_hom [w.GuitartExact] (F : Sheaf
     Functor.whiskerLeft_app, Functor.leftUnitor_inv_app, Functor.rightUnitor_hom_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.comp_map, Category.id_comp,
     Functor.map_id, ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.id_hom]
-  show Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
+  change Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
       ((i.sheafAdjunctionCocontinuous (Type u) JA JB).unit.app F).hom) ≫
     Functor.whiskerLeft i'.op ((sheafPushforwardContinuousSquareIso JA JA' JB JB' i i' v T
       w).inv.app ((i.sheafPushforwardContinuous (Type u) JA JB).obj F)).hom ≫
@@ -133,22 +133,22 @@ theorem sheafPushforwardContinuousSquareMate_app_hom [w.GuitartExact] (F : Sheaf
       ((Functor.RightExtension.mk _ (i.op.ranCounit.app (i.op ⋙ F.obj))).compTwoSquare
         w.op).hom :=
     hR _
-  show Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
+  change Functor.whiskerLeft i'.op (Functor.whiskerLeft T.op
       ((i.op.ranAdjunction (Type u)).unit.app F.obj)) ≫
     (Functor.whiskerLeft i'.op (w.op.ranBaseChange.app (i.op ⋙ F.obj)) ≫
       (i'.op.ranAdjunction (Type u)).counit.app (v.op ⋙ i.op ⋙ F.obj)) = _
   rw [hB]
   refine NatTrans.ext (funext fun X => ?_)
   have n1 : ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
-      (i.op.ran.obj (i.op ⋙ F.obj)).map (w.op.natTrans.app X) =
-      F.obj.map (w.op.natTrans.app X) ≫
+      (i.op.ran.obj (i.op ⋙ F.obj)).map (w.op.app X) =
+      F.obj.map (w.op.app X) ≫
         ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (i.op.obj (v.op.obj X)) :=
-    (((i.op.ranAdjunction (Type u)).unit.app F.obj).naturality (w.op.natTrans.app X)).symm
+    (((i.op.ranAdjunction (Type u)).unit.app F.obj).naturality (w.op.app X)).symm
   have t1 := Functor.ranCounit_app_app_ranAdjunction_unit_app_app i.op F.obj (v.op.obj X)
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app]
-  show ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
+  change ((i.op.ranAdjunction (Type u)).unit.app F.obj).app (T.op.obj (i'.op.obj X)) ≫
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight w.op.natTrans (i.op.ran.obj (i.op ⋙ F.obj)) ≫
+        Functor.whiskerRight w.op (i.op.ran.obj (i.op ⋙ F.obj)) ≫
         (Functor.associator _ _ _).hom ≫
         Functor.whiskerLeft v.op (i.op.ranCounit.app (i.op ⋙ F.obj))).app X = _
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
@@ -159,18 +159,18 @@ theorem sheafPushforwardContinuousSquareMate_app_hom [w.GuitartExact] (F : Sheaf
 /-- **Beck–Chevalley for a Guitart exact square with continuous horizontal functors.** The mate
 `T_* ⋙ i'^{-1} ⟶ i^{-1} ⋙ v_*` of the square of direct images is an isomorphism as soon as the
 square of site functors is an isomorphism. -/
-theorem isIso_sheafPushforwardContinuousSquareMate [w.GuitartExact] [IsIso w.natTrans] :
+theorem isIso_sheafPushforwardContinuousSquareMate [w.GuitartExact] [IsIso w] :
     IsIso ((mateEquiv (i.sheafAdjunctionCocontinuous (Type u) JA JB)
         (i'.sheafAdjunctionCocontinuous (Type u) JA' JB')).symm
         (TwoSquare.mk _ _ _ _
-          (sheafPushforwardContinuousSquareIso JA JA' JB JB' i i' v T w).inv)).natTrans := by
+          (sheafPushforwardContinuousSquareIso JA JA' JB JB' i i' v T w).inv)) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro F
   rw [← ObjectProperty.isIso_hom_iff, sheafPushforwardContinuousSquareMate_app_hom]
-  have : IsIso w.op.natTrans := by
-    show IsIso (NatTrans.op w.natTrans)
+  have : IsIso w.op := by
+    change IsIso (NatTrans.op w)
     infer_instance
-  exact (Functor.isoWhiskerRight (asIso w.op.natTrans) F.obj).isIso_hom
+  exact (Functor.isoWhiskerRight (asIso w.op) F.obj).isIso_hom
 
 end ContinuousSquare
 
@@ -194,7 +194,7 @@ isomorphism: the canonical comparison `(g'_n)^{-1} h_{total,*} ⟶ h_{n,*} g_n^{
 sets is invertible. -/
 theorem isIso_totalComponentPushforwardMate (h : SimplicialSite.Morphism C C')
     (n : SimplexCategory) :
-    IsIso (totalComponentPushforwardMate h n).natTrans := by
+    IsIso (totalComponentPushforwardMate h n) := by
   let v := (h.hom.app n).toFunctor
   let i := CoGrothendieck.ι C.totalPseudofunctor (Opposite.op n)
   let i' := CoGrothendieck.ι C'.totalPseudofunctor (Opposite.op n)
@@ -216,11 +216,11 @@ theorem isIso_totalComponentPushforwardMate (h : SimplicialSite.Morphism C C')
   let : h.totalFunctor.IsContinuous C'.totalTopology C.totalTopology :=
     h.totalFunctor_isContinuous
   have := h.guitartExact_componentSquare (Opposite.op n)
-  have : IsIso (h.componentSquare (Opposite.op n)).natTrans :=
+  have : IsIso (h.componentSquare (Opposite.op n)) :=
     inferInstanceAs (IsIso (h.componentIso (Opposite.op n)).hom)
   have key : IsIso ((mateEquiv (i.sheafAdjunctionCocontinuous (Type u) Jn C.totalTopology)
       (i'.sheafAdjunctionCocontinuous (Type u) Jn' C'.totalTopology)).symm
-      (TwoSquare.mk _ _ _ _ (h.totalComponentPushforwardIso n).inv)).natTrans :=
+      (TwoSquare.mk _ _ _ _ (h.totalComponentPushforwardIso n).inv)) :=
     isIso_sheafPushforwardContinuousSquareMate Jn Jn' C.totalTopology C'.totalTopology
       i i' v h.totalFunctor (h.componentSquare (Opposite.op n))
       (hi := SimplicialSiteSituation.componentFunctor_isContinuous

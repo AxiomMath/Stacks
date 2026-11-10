@@ -91,7 +91,7 @@ theorem exists_isWeaklyAssociatedPoint_modulePullback_of_isPullback_yoneda
         (X := (⟨yoneda.obj W, isAlgebraicSpace_yoneda B S hS W⟩ : AlgebraicSpaces B S hS))
         (Y := Z) a)).obj G) w := by
     refine (isWeaklyAssociatedPoint_modulePullback_iff B S hS _ hφ G w).2 ?_
-    show IsWeaklyAssociatedPoint B S hS Z G (pointsMap B S hS (yoneda.obj W) a w)
+    change IsWeaklyAssociatedPoint B S hS Z G (pointsMap B S hS (yoneda.obj W) a w)
     rw [haw]
     exact hθ
   -- The chart read as a morphism of the site into `T`, and its base change along `κ`.

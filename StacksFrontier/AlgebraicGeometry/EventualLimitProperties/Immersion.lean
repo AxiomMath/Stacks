@@ -121,7 +121,7 @@ theorem eventually_isImmersion_comp_π_app
   obtain ⟨⟨k⟩, V, hVc, hV⟩ := exists_preimage_eq D c hc U hUc
   let W : c.pt.Opens := c.π.app (op k) ⁻¹ᵁ V
   have hRW : Set.range f ⊆ W := by
-    show Set.range f ⊆ ((c.π.app (op k) ⁻¹ᵁ V : c.pt.Opens) : Set c.pt)
+    change Set.range f ⊆ ((c.π.app (op k) ⁻¹ᵁ V : c.pt.Opens) : Set c.pt)
     rwa [hV]
   -- The system of preimages of `V` in the stages above `k`, indexed by the tail above `k`.
   let E := limitTailOverEquiv k
@@ -136,7 +136,7 @@ theorem eventually_isImmersion_comp_π_app
     rwa [show Set.range ιW = (W : Set c.pt) from Scheme.Opens.range_ι W])
   have hf' : f' ≫ ιW = f := IsOpenImmersion.lift_fac _ _ _
   have hWO : W ≤ f.coborderRange := by
-    show c.π.app (op k) ⁻¹ᵁ V ≤ f.coborderRange
+    change c.π.app (op k) ⁻¹ᵁ V ≤ f.coborderRange
     rwa [hV]
   let ιO : c'.pt ⟶ f.coborderRange := c.pt.homOfLE hWO
   have hcl : f' ≫ ιO = f.liftCoborder := by
@@ -152,7 +152,7 @@ theorem eventually_isImmersion_comp_π_app
     { app := fun j => (preimageDiagramι D (op k) V).app (E.functor.obj j) ≫
         t.app (E.functor.obj j).left
       naturality := fun j j' φ => by
-        show ((preimageDiagram D (op k) V).map (E.functor.map φ) ≫
+        change ((preimageDiagram D (op k) V).map (E.functor.map φ) ≫
             (preimageDiagramι D (op k) V).app (E.functor.obj j')) ≫ t.app _ =
           ((preimageDiagramι D (op k) V).app (E.functor.obj j) ≫ t.app _) ≫ 𝟙 S
         have h2 : (Over.forget (op k) ⋙ D).map (E.functor.map φ) ≫ t.app _ = t.app _ :=
@@ -164,7 +164,7 @@ theorem eventually_isImmersion_comp_π_app
     refine NatTrans.ext (funext fun j => ?_)
     have h : c.π.app (E.functor.obj j).left ≫ t.app (E.functor.obj j).left = s := by
       simpa using congrArg (fun η => η.app (E.functor.obj j).left) hcomm
-    show (c.π.app (E.functor.obj j).left).resLE _ _ _ ≫
+    change (c.π.app (E.functor.obj j).left).resLE _ _ _ ≫
         (Scheme.Opens.ι _ ≫ t.app (E.functor.obj j).left) = (W.ι ≫ s) ≫ 𝟙 S
     rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, h, Category.comp_id]
   have : ∀ j : LimitTail I k, CompactSpace (D'.obj (op j)) := fun j =>
@@ -544,7 +544,7 @@ theorem eventually_isImmersion_comp_π_app_of_quasiSeparatedSpace
       rw [hUidef, ← Scheme.Hom.comp_preimage, c.w (homOfLE hi₀i).op]
       exact hU₀eq
     rintro _ ⟨y, rfl⟩
-    show y ∈ (f ≫ c.π.app (op i)) ⁻¹ᵁ Ui
+    change y ∈ (f ≫ c.π.app (op i)) ⁻¹ᵁ Ui
     rw [Scheme.Hom.comp_preimage, hpreq]
     exact hUbigrange ⟨y, rfl⟩
   exact isImmersion_of_isClosedImmersion_morphismRestrict (f ≫ c.π.app (op i)) hcomprange hUicl

@@ -197,7 +197,7 @@ theorem comp {Y Z : Scheme.{u}} {f : X ⟶ Y} {g : Y ⟶ Z} (hf : IsProjectiveMo
     have : MorphismProperty.IsStableUnderComposition @IsClosedImmersion :=
       ⟨fun a c ha hc => @IsClosedImmersion.comp _ _ _ a c ha hc⟩
     refine ⟨pullback.map _ g _ (projectiveSpaceOver m Z ↘ Z) (𝟙 _) j (𝟙 Z) (by simp)
-      (by simpa using hjg.symm), ?_, by simp [pullback.map, pullback.lift_fst]⟩
+      (by simpa using hjg.symm), ?_, by simp [pullback.map]⟩
     exact MorphismProperty.pullbackMap (P := @IsClosedImmersion) inferInstance hj
       (Category.id_comp _).symm hjg.symm
   have := hb

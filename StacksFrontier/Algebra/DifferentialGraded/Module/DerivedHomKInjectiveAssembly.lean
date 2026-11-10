@@ -42,8 +42,8 @@ ever lifted along `U`. Concretely:
 gives `R̃ ⋙ U` the left Kan extension property outright, and
 `CochainComplex.isIso_derivedHomForgetComparison_of_isRightDerivedFunctor` reads that off `θ`.
 In particular the hypothesis `CochainComplex.DerivedHomLiftIdentification` of
-`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedHomLiftComparison.lean` is *not* used: it is
-equivalent to the conclusion, and is there for constructions of `R̃` that compute the cohomology
+`StacksFrontier/Algebra/DifferentialGraded/Module/DerivedHomLiftComparison.lean` is *not* used: it
+is equivalent to the conclusion, and is there for constructions of `R̃` that compute the cohomology
 of their values rather than arriving with a Kan extension property.
 
 ## Main definitions

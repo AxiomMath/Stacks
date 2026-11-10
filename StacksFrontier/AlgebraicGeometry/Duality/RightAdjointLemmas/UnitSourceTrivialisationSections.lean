@@ -134,7 +134,8 @@ variable {D : Type u} [Category.{u} D] (K : GrothendieckTopology D)
   (F A : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))
 
 attribute [local instance] _root_.SheafOfModules.monoidalCategory
-  _root_.SheafOfModules.monoidalClosed Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
+  _root_.SheafOfModules.monoidalClosed
+  Stacks.SheafOfModules.Tensor.ringSheafPresheafMonoidalCategory
 
 /-- Restricting an adjunction along a fully faithful functor, with identity comparisons, leaves
 the counit unchanged. -/
@@ -147,6 +148,7 @@ private theorem restrictFullyFaithful_refl_counit_app {C C' D : Type*} [Category
     (L := iC ⋙ L') (R := R) (Iso.refl _) (Iso.refl _) X
   simpa using this
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The counit of the left-handed form of [Stacks, Tag 03EO] is the counit of the presheaf clause
 composed with sheafification: restricting an adjunction along the fully faithful forgetful
 functor, with identity comparisons, leaves the counit unchanged. -/
@@ -156,6 +158,7 @@ theorem sheafTensorHomAdjunction_counit_eq_comp :
         O.obj F.val).comp (sheafifyForgetAdjunction.{u, u} O)).counit.app A := by
   exact restrictFullyFaithful_refl_counit_app _ _ _
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The evaluation morphism of [Stacks, Tag 03EM] is the counit of the presheaf clause of
 [Stacks, Tag 03EO] as displayed, composed with sheafification — the same reading of
 `CategoryTheory.Adjunction.restrictFullyFaithful` as
@@ -166,6 +169,7 @@ theorem internalHomEvaluation_eq_comp :
         O.obj F.val).comp (sheafifyForgetAdjunction.{u, u} O)).counit.app A := by
   exact restrictFullyFaithful_refl_counit_app _ _ _
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 open Stacks.PresheafOfModules.InternalHom in
 /-- **The left-handed counit of [Stacks, Tag 03EO] is the sheafified braiding followed by the
 evaluation morphism.** The counit of `𝒪 ⊗_𝒪 - ⊣ ℰom_𝒪(F, -)` at `A` is the sheafification of the
@@ -183,7 +187,8 @@ theorem sheafTensorHomAdjunction_counit_app :
           (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
           ((tensoringRightIsoTensorLeft.{u, u, u} O.obj F.val).inv.app
-            ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj F.val).obj
+            ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u}
+              O.obj F.val).obj
               A.val)) ≫
         internalHomEvaluation.{u, u} O F A :=
   ((sheafTensorHomAdjunction_counit_eq_comp K O F A).trans
@@ -195,10 +200,12 @@ theorem sheafTensorHomAdjunction_counit_app :
         (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).map
         ((tensoringRightIsoTensorLeft.{u, u, u} O.obj F.val).inv.app
-          ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj F.val).obj A.val))
+          ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
+            F.val).obj A.val))
         ≫ t)
       (internalHomEvaluation_eq_comp K O F A).symm)
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The trivialisation of `ℰom_𝒪(𝒪, -)` is the inverse left unitor followed by the counit of
 [Stacks, Tag 03EO].** This is
 `…conjugateEquiv_symm_internalHomSecondFunctorUnitIso_app`, which says that the conjugate
@@ -210,17 +217,21 @@ theorem internalHomSecondFunctorUnitIso_hom_app_eq_leftUnitor_inv_comp_counit :
         (_root_.SheafOfModules.monoidalCategorySheafTensor O).toMonoidalCategoryStruct
         ((internalHomSecondFunctor.{u, u, u, u} K O
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A)).inv ≫
-      (sheafTensorHomAdjunction O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).counit.app
+      (sheafTensorHomAdjunction O
+        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).counit.app
         A := by
   refine Eq.trans (congrArg (fun t => NatTrans.app t A)
     ((Equiv.apply_symm_apply
       (conjugateEquiv
-        (sheafTensorHomAdjunction O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))
+        (sheafTensorHomAdjunction O
+          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))
         Adjunction.id)
       (internalHomSecondFunctorUnitIso O).hom).symm)) ?_
   refine Eq.trans (conjugateEquiv_adjunction_id _ _ A) ?_
   rw [conjugateEquiv_symm_internalHomSecondFunctorUnitIso_app K O]
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- A composite of morphisms of sheaves of modules, read on sections. Stated as a term so that it
 can be applied with one factor given explicitly: the composites it is used on contain an inverse
 unitor of the re-seated monoidal structure, which is itself a composite, and a `rw` splits that
@@ -230,6 +241,7 @@ private theorem comp_val_app_apply {R : Sheaf K RingCat.{u}}
     (ConcreteCategory.hom ((f ≫ g).val.app V)) x =
       (ConcreteCategory.hom (g.val.app V)) ((ConcreteCategory.hom (f.val.app V)) x) := rfl
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The trivialisation of `ℰom_𝒪(𝒪, -)` on sections, before the evaluation morphism is
 computed:** a section `s` of `ℰom_𝒪(𝒪, A)` over `V` goes to the value of the evaluation morphism
 on the local pure tensor `s ⊗ 1`.
@@ -245,12 +257,14 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
     (s : ((internalHomSecondFunctor.{u, u, u, u} K O
       (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.obj V) :
     ((internalHomSecondFunctorUnitIso O).hom.app A).val.app V s =
-      (internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A).val.app V
+      (internalHomEvaluation O
+        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A).val.app V
         (Stacks.SheafOfModules.tensorSectionsAt O.obj
           (Stacks.SheafOfModules.Tensor.ringSheaf O).property V
           ((internalHomSecondFunctor.{u, u, u, u} K O
             (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A)
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) s (1 : O.obj.obj V)) := by
+          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) s
+          (1 : O.obj.obj V)) := by
   rw [internalHomSecondFunctorUnitIso_hom_app_eq_leftUnitor_inv_comp_counit K O A,
     sheafTensorHomAdjunction_counit_app K O _ A]
   refine Eq.trans (comp_val_app_apply K _
@@ -261,10 +275,13 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
         ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
             ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj A.val)) ≫
-      internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V s) ?_
+              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
+                A.val)) ≫
+      internalHomEvaluation O
+        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V s) ?_
   refine Eq.trans (comp_val_app_apply K _
-    (internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V _) ?_
+    (internalHomEvaluation O
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) V _) ?_
   refine congrArg _ ?_
   refine Eq.trans (congrArg (fun y => (ConcreteCategory.hom
       (((PresheafOfModules.sheafification.{u}
@@ -274,7 +291,8 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
         ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
             ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj A.val))).val.app V)) y)
+              (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
+                A.val))).val.app V)) y)
     ((congrArg (fun (i : _ ≅ _) => (ConcreteCategory.hom (i.inv.val.app V)) s)
         (_root_.SheafOfModules.leftUnitor_sheafTensor_eq_iso O
           ((internalHomSecondFunctor.{u, u, u, u} K O
@@ -286,7 +304,8 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
     ((Stacks.PresheafOfModules.InternalHom.tensoringRightIsoTensorLeft.{u, u} O.obj
       (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).inv.app
         ((Stacks.PresheafOfModules.InternalHom.internalHomSecondFunctor.{u, u, u, u} O.obj
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj A.val)) V _) ?_
+          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val).obj
+            A.val)) V _) ?_
   refine congrArg (fun y => (Stacks.SheafOfModules.TensorSheafification.toSheafify O.obj
       (Stacks.SheafOfModules.Tensor.ringSheaf O).property
       (((internalHomSecondFunctor.{u, u, u, u} K O
@@ -294,6 +313,7 @@ theorem internalHomSecondFunctorUnitIso_hom_val_app_tensorSectionsAt (V : Dᵒ�
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val)).app V y) ?_
   rfl
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Evaluation at the unit section.** The evaluation morphism of `ℰom_𝒪(𝒪, A)` carries the
 local pure tensor of a section `s` over `U` with the unit section to the value of `s` at the unit
 section over the identity of `U`.
@@ -305,13 +325,16 @@ site and at the unit section, with the hom-equivalence of the sheafification adj
 out by `Stacks.SheafOfModules.InternalHom.sheafifyForgetAdjunction_homEquiv`. -/
 theorem internalHomEvaluation_val_app_tensorSectionsAt_one (U : D)
     (s : ((internalHomSecondFunctor.{u, u, u, u} K O
-      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.obj (op U)) :
-    (internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A).val.app (op U)
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.obj
+        (op U)) :
+    (internalHomEvaluation O
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A).val.app (op U)
         (Stacks.SheafOfModules.tensorSectionsAt O.obj
           (Stacks.SheafOfModules.Tensor.ringSheaf O).property (op U)
           ((internalHomSecondFunctor.{u, u, u, u} K O
             (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A)
-          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) s (1 : O.obj.obj (op U))) =
+          (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) s
+          (1 : O.obj.obj (op U))) =
       (s.app (op (Over.mk (𝟙 U))))
         (Stacks.PresheafOfModules.InternalHom.restrSection O.obj
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val U (𝟙 U)
@@ -320,27 +343,32 @@ theorem internalHomEvaluation_val_app_tensorSectionsAt_one (U : D)
     ((internalHomSecondFunctor.{u, u, u, u} K O
       (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A)
     (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A
-    (internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) U s (𝟙 U)
+    (internalHomEvaluation O
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A) U s (𝟙 U)
     (1 : O.obj.obj (op U))
   rw [sheafTensorHomEquiv_internalHomEvaluation] at h1
   have h2 := sheafifyForgetAdjunction_homEquiv O A
     (((internalHomSecondFunctor.{u, u, u, u} K O
       (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val ⊗
       (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val)
-    (internalHomEvaluation O (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A)
+    (internalHomEvaluation O
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) A)
   have hid : (((internalHomSecondFunctor.{u, u, u, u} K O
-        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.restrictₛₗ (𝟙 U).op) s
+        (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj
+          A).val.restrictₛₗ (𝟙 U).op) s
       = s := by
     simp [_root_.PresheafOfModules.restrictₛₗ]
   rw [h2, hid] at h1
   exact h1.symm
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The trivialisation of `ℰom_𝒪(𝒪, -)` of [Stacks, Tag 03EM], on sections, is evaluation at
 the unit section:** a section `s` of `ℰom_𝒪(𝒪, A)` over `U` — that is, a morphism
 `𝒪|_U ⟶ A|_U` on the slice site — goes to its value at the unit section. -/
 theorem internalHomSecondFunctorUnitIso_hom_val_app (U : D)
     (s : ((internalHomSecondFunctor.{u, u, u, u} K O
-      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.obj (op U)) :
+      (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))).obj A).val.obj
+        (op U)) :
     ((internalHomSecondFunctorUnitIso O).hom.app A).val.app (op U) s =
       (s.app (op (Over.mk (𝟙 U))))
         (Stacks.PresheafOfModules.InternalHom.restrSection O.obj
@@ -375,7 +403,7 @@ theorem internalHomSecondFunctorUnitIso_hom_app_eq_internalHomSheafUnitIso :
       (internalHomSheafHom Rc (_root_.SheafOfModules.unit (structureSheaf Rc)) G)
       (unitSheafHom Rc G) ((InternalHom.internalHomSecondFunctorUnitIso Rc).hom.app G) := by
     intro U s
-    show (unitOverAddEquiv Rc G U).symm
+    change (unitOverAddEquiv Rc G U).symm
         (((InternalHom.internalHomSecondFunctorUnitIso Rc).hom.app G).val.app (op U) s) = _
     refine ((unitOverAddEquiv Rc G U).symm_apply_eq).mpr ?_
     refine Eq.trans (InternalHom.internalHomSecondFunctorUnitIso_hom_val_app

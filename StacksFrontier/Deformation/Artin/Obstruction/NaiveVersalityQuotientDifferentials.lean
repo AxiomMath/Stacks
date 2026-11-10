@@ -216,7 +216,7 @@ public theorem differentialsBaseChangeMap_bijective_powQuotient
     .of_algebraMap_eq fun _ => rfl
   let : IsScalarTower Λ A' (A ⧸ RingHom.ker ε.toRingHom ^ n) :=
     .of_algebraMap_eq fun l => by
-      show Ideal.Quotient.mk _ (algebraMap Λ A l) =
+      change Ideal.Quotient.mk _ (algebraMap Λ A l) =
         Ideal.Quotient.mk _ (φ (algebraMap Λ A' l))
       rw [φ.commutes]
   let : IsScalarTower A' (A' ⧸ RingHom.ker ε'.toRingHom ^ n)

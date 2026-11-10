@@ -164,12 +164,12 @@ theorem IsRestrictParam.smul {θ : LiftsActingGroup hι₁ ξ} {θ₂ : Restrict
     ((Space.SpacesEtale.inclusion B S hS ξ.ambient).obj
       (Space.SpacesEtale.final B S hS ξ.ambient)).hom
     m.ambient (Category.comp_id _) (liftsProjection hι₁ ξ) (liftsZMap hι₁ m)
-    (Space.conormalEtaleRestrictionSquare B S hS _ _) (liftsZMap_square hι₁ m)
+    (liftsZMap_square hι₁ m)
     (diagonalRestriction hι₁ ξ) ξ.selfIntersection.fst (𝟙 ξ.ambient)
     (isFirstOrderThickening_liftsZ hι₁ ξ) (isFirstOrderThickening_liftsZ hι₁ η)
     (isFirstOrderThickening_preimage_fst hι₁ ξ) (liftsZRestriction hι₁ m)
     (liftsZRestriction_square hι₁ m) (liftsZRestriction_comp hι₁ m)
-    (conormalRestrictionFinal hι₁ ξ) rfl (conormalRestrictionAlong hι₁ m) rfl ξ.diagonal
+    (conormalRestrictionAlong hι₁ m) rfl ξ.diagonal
     (liftsBase hι₁ ξ).2.2.square (liftsBase hι₁ ξ).2.1.1
     (inclusion_comp_ambient_comp_diagonal hι₁ m) (ambient_comp_diagonal_fst m)
     (isEtale_liftsZRestriction hι₁ m) θ θ₂ (liftsScalar hι₁ ξ f) h

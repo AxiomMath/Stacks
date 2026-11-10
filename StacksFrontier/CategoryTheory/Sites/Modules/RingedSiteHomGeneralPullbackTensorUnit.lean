@@ -57,7 +57,6 @@ variable {X : RingedSite.{uX, vX, w}} {Y : RingedSite.{uY, vY, w}} (f : HomGener
   [X.J.HasSheafCompose (forget RingCat.{w})] [Y.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] [Y.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
@@ -100,8 +99,7 @@ theorem HomGeneral.unit_comp_pushforward_pullbackTensorIso_hom_val_app_tmul (V :
   exact (pairingApp_pairingOfTensorHom _ V x y).symm.trans
     (h2.trans (f.pairingApp_prodMap_comp_pushforward_tensorSectionPairing _ _ V x y))
 
-omit [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The units of the two presentations of `f^* ⊣ f_*` agree on sections.** The unit of the
 adjunction presented by the functor of sites, carried back by the comparison
 `HomGeneral.pullbackModulesToposIsoGeneral` of the two pullbacks, is the unit of the adjunction of
@@ -134,8 +132,7 @@ theorem HomGeneral.pullbackModulesToposIsoGeneral_inv_app_val_app_unit
   exact e2.symm.trans ((congrArg (fun k => k.val.app V x) h).symm.trans
     (e1.trans (f.pushforwardModulesToposIsoGeneral_hom_app_val_app _ V _)))
 
-omit [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
-  [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The direct image of a morphism of sheaves of modules along the morphism of ringed topoi of a
 morphism of ringed sites is, on sections over `V`, the morphism over `u(V)`. -/

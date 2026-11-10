@@ -185,7 +185,7 @@ theorem mem_localSpan_of_hom_of_affineOpens (hN : N.IsQuasicoherentOnSite)
       (Stacks.SheafOfModules.localSpan N T).toSubmodule
       (openChartHomOfLE B S hS F Z p.2 ≫ openChartRestrict B S hS F c p.1.2.1) hA hA'
       (fun w => (Stacks.SheafOfModules.mem_localSpan_iff w).2 (hgen p.1.2.1 p.1.2.2 w))
-  show N.val.map ((openChartInclusion B S hS F Z p.1.1.1).op ≫ k.op) y ∈
+  change N.val.map ((openChartInclusion B S hS F Z p.1.1.1).op ≫ k.op) y ∈
     (Stacks.SheafOfModules.localSpan N T).obj (op V)
   exact Eq.mpr
     (congrArg (· ∈ (Stacks.SheafOfModules.localSpan N T).obj (op V))

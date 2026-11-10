@@ -349,11 +349,10 @@ public theorem topologicallyFiniteType_faithfullyFlatDescent :
         (f : B →+* A) ↦ RingHom.IsTaut f ∧ IsTopologicallyOfFiniteType f) := by
   intro A B A' B' _ _ _ _ _ _ _ _ _ _ D hA hB hA' hB' hff hP
   have htaut : RingHom.IsTaut D.map := isTaut_faithfullyFlatDescent D hA hB hA' hB' hff hP.1
-  have hκAc : Continuous (CompletionOver.canonicalMap D.toA') := continuous_canonicalMap _
   have hcompTaut : RingHom.IsTaut ((CompletionOver.canonicalMap D.toA').comp D.map) := by
     rw [D.commutes]
     exact RingHom.isTaut_comp (CompletionOver.canonicalMap D.toB') D.completedMap
-      (continuous_canonicalMap D.toB') D.continuousCompletedMap
+      D.continuousCompletedMap
       (isTaut_canonicalMap D.toB' D.weaklyAdmissibleB.1) hP.1
   have hcompFT :
       IsTopologicallyOfFiniteType ((CompletionOver.canonicalMap D.toA').comp D.map) := by
@@ -366,7 +365,7 @@ public theorem topologicallyFiniteType_faithfullyFlatDescent :
         (finiteType_of_etale D.etaleB)) hP.2
   have hcompA : FiniteTypeModuloEveryWeakIdeal ((CompletionOver.canonicalMap D.toA').comp D.map) :=
     ((finiteType_tfae' ((CompletionOver.canonicalMap D.toA').comp D.map)
-      (hκAc.comp D.continuousMap) D.weaklyAdmissibleB hA'.1 D.countableB).out 3 1).mp
+      D.weaklyAdmissibleB hA'.1 D.countableB).out 3 1).mp
       (And.intro hcompTaut hcompFT)
   have hmapA : FiniteTypeModuloEveryWeakIdeal D.map := by
     refine ⟨htaut, fun J hJ ↦ ?_⟩
@@ -417,7 +416,7 @@ public theorem topologicallyFiniteType_faithfullyFlatDescent :
     exact RingHom.finiteType_of_comp_of_faithfullyFlat_of_finitePresentation hcomp
       (faithfullyFlat_quotientMap D.toA' hff I)
       (finitePresentation_quotientMap D.toA' (RingHom.Etale.finitePresentation D.etaleA) I)
-  exact ((finiteType_tfae' D.map D.continuousMap D.weaklyAdmissibleB D.weaklyAdmissibleA
+  exact ((finiteType_tfae' D.map D.weaklyAdmissibleB D.weaklyAdmissibleA
     D.countableB).out 1 3).mp hmapA
 
 /-- Tautness together with topological finite type is preserved by finite products of

@@ -130,13 +130,13 @@ theorem isDerivedCompleteAtSection_image (α : O ⟶ O')
   let A := _root_.SheafOfModules.{u} R
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over U)ᵒᵖ, IsMulCommutative (R.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (O.obj.obj (op W.unop.left))
+    change IsMulCommutative (O.obj.obj (op W.unop.left))
     infer_instance
   let R' := ((Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite J O').O)).over U
   let A' := _root_.SheafOfModules.{u} R'
   let : Linear (CatCenter A') A' := Linear.ofRingMorphism (RingHom.id (CatCenter A'))
   let : ∀ W : (Over U)ᵒᵖ, IsMulCommutative (R'.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (O'.obj.obj (op W.unop.left))
+    change IsMulCommutative (O'.obj.obj (op W.unop.left))
     infer_instance
   have hProd : HasProductsOfShape ℕ (DerivedCategory A) :=
     RingedSite.hasProductsOfShape_nat_derivedCategory_over.{u, u, u} (ringedSite J O) U
@@ -174,7 +174,7 @@ theorem isDerivedCompleteAtSection_image (α : O ⟶ O')
       Stacks.SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal f)
     (fun Z => by
       refine HomologicalComplex.hom_ext _ _ fun n => ?_
-      show AU.map ((Stacks.SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
+      change AU.map ((Stacks.SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
             Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).asHom.app (Z.X n) ≫ 𝟙 (Z.X n)) =
           (Stacks.SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal
             f).asHom.app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))

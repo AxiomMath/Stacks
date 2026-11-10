@@ -55,6 +55,7 @@ variable {C : Type u₁} [Category.{r} C] {J : GrothendieckTopology C} (R : Shea
   [∀ U : C, (SheafOfModules.pushforward.{r} (F := Over.forget U)
     (𝟙 (R.over U) : (R.over U) ⟶ (R.over U))).IsRightAdjoint] [EssentiallySmall.{r} C]
 
+omit [EssentiallySmall.{r} C] in
 /-- The direct sums of the `j_{U!} O_U` are closed under isomorphisms. -/
 lemma isSumOfExtensionByZeroUnits_of_isIso {M N : SheafOfModules.{r} R} (e : M ⟶ N) [IsIso e]
     (hM : IsSumOfExtensionByZeroUnits R M) : IsSumOfExtensionByZeroUnits R N := by
@@ -106,8 +107,6 @@ section Comparison
 variable {C : Type u₁} [Category.{r} C] {D : Type u₁} [Category.{r} D]
   (J : GrothendieckTopology C) (K : GrothendieckTopology D) (f : C ⥤ D)
   [f.IsContinuous J K] [f.IsCocontinuous J K] (O : Sheaf K CommRingCat.{r})
-  [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
-  [K.HasSheafCompose (forget₂ CommRingCat.{max r u₁} RingCat.{max r u₁})]
   [EssentiallySmall.{r} C] [EssentiallySmall.{r} D]
   [EssentiallySmall.{max r u₁} C] [EssentiallySmall.{max r u₁} D]
   [Stacks.Sites.PreservesCoveringPullbacks J f]
@@ -226,7 +225,7 @@ theorem nonempty_homologyDerivedLowerShriekULiftIso
       (fun n => asIso ((lowerShriekULiftComparison J K f
         (Stacks.SheafOfModules.Tensor.ringSheaf O)).app (P.X n)))
       (fun i j _ => ((lowerShriekULiftComparison J K f
-        (Stacks.SheafOfModules.Tensor.ringSheaf O)).natTrans.naturality (P.d i j)).symm)
+        (Stacks.SheafOfModules.Tensor.ringSheaf O)).naturality (P.d i j)).symm)
   exact ⟨Λd.mapIso ((DerivedCategory.homologyFunctor _ p).mapIso i₁ ≪≫
       (DerivedCategory.homologyFunctorFactors _ p).app L₁) ≪≫
     ((L₁.sc p).mapHomologyIso Λd).symm ≪≫
@@ -242,19 +241,15 @@ section ComparisonOfTopologies
 
 variable {C : Type u₁} [Category.{r} C] {D : Type u₁} [Category.{r} D]
   (J₁ J₂ : GrothendieckTopology C) (K : GrothendieckTopology D) (f : C ⥤ D) (h : J₁ = J₂)
-  [f.IsContinuous J₁ K] [f.IsCocontinuous J₁ K] [f.IsContinuous J₂ K] [f.IsCocontinuous J₂ K]
+  [f.IsContinuous J₁ K] [f.IsContinuous J₂ K] [f.IsCocontinuous J₂ K]
   (O : Sheaf K CommRingCat.{r})
-  [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
-  [K.HasSheafCompose (forget₂ CommRingCat.{max r u₁} RingCat.{max r u₁})]
   [EssentiallySmall.{r} C] [EssentiallySmall.{r} D]
   [EssentiallySmall.{max r u₁} C] [EssentiallySmall.{max r u₁} D]
-  [Stacks.Sites.PreservesCoveringPullbacks J₁ f] [Stacks.Sites.PreservesCoveringPullbacks J₂ f]
+  [Stacks.Sites.PreservesCoveringPullbacks J₂ f]
   [HasWeakSheafify J₁ AddCommGrpCat.{r}] [J₁.WEqualsLocallyBijective AddCommGrpCat.{r}]
   [HasSheafify J₁ AddCommGrpCat.{r}]
   [HasWeakSheafify K AddCommGrpCat.{r}] [K.WEqualsLocallyBijective AddCommGrpCat.{r}]
   [HasSheafify K AddCommGrpCat.{r}]
-  [HasWeakSheafify J₁ AddCommGrpCat.{max r u₁}]
-  [J₁.WEqualsLocallyBijective AddCommGrpCat.{max r u₁}] [HasSheafify J₁ AddCommGrpCat.{max r u₁}]
   [HasWeakSheafify J₂ AddCommGrpCat.{max r u₁}]
   [J₂.WEqualsLocallyBijective AddCommGrpCat.{max r u₁}] [HasSheafify J₂ AddCommGrpCat.{max r u₁}]
   [HasWeakSheafify K AddCommGrpCat.{max r u₁}] [K.WEqualsLocallyBijective AddCommGrpCat.{max r u₁}]

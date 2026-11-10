@@ -138,7 +138,7 @@ theorem conormalMap_comp_conormalSequenceFirstMap_eq_zero (q : X' ⟶ Y) (b : X 
     (hb : g ≫ q = b) (hΩ : IsZero (sheafOfDifferentials B S hS q)) :
     conormalMap B S hS Z W g f hsq ≫ conormalSequenceFirstMap B S hS Z b = 0 := by
   subst hb
-  show conormalMap B S hS Z W g f hsq ≫ conormalSequenceIdealPullbackMap B S hS Z (g ≫ q) = 0
+  change conormalMap B S hS Z W g f hsq ≫ conormalSequenceIdealPullbackMap B S hS Z (g ≫ q) = 0
   have h0 := idealSheafMap_comp_conormalSequenceIdealDifferential_eq_zero B S hS Z g W f hsq q hΩ
   rw [conormalSequenceIdealPullbackMap_eq_homEquiv_symm]
   refine (conormalMap_comp_eq_zero_iff B S hS Z g W f hsq _).2 ?_
@@ -268,7 +268,7 @@ theorem exists_conormalPairSequence_exact (g : X ⟶ Y) {i : Z ⟶ X} {j : Z ⟶
       rw [← ti.sourceIso_ι_toBase, Iso.inv_hom_id_assoc]
     have h : (universalThickeningInclusion B S hS ti.isUniversal ≫ ti.toBase ≫ g).hom =
         ti.sourceIso.inv ≫ j.hom := by
-      show ti.sub.ι ≫ ti.toBase.hom ≫ g.hom = _
+      change ti.sub.ι ≫ ti.toBase.hom ≫ g.hom = _
       rw [← Category.assoc, h1, Category.assoc, ← hij]
       rfl
     rw [h]

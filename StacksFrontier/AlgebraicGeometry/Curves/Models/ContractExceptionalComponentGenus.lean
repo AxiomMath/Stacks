@@ -77,7 +77,7 @@ theorem Module.finrank_restrictScalars_eq_of_iso {R A A' B₁ B₂ k : Type u} [
       map_add' := fun m m' => map_add e.hom.hom m m'
       map_smul' := fun c m => by
         obtain ⟨x, rfl⟩ := hπ c
-        show e.hom.hom (κ₁ (π x) • m) = κ₂ (π x) • e.hom.hom m
+        change e.hom.hom (κ₁ (π x) • m) = κ₂ (π x) • e.hom.hom m
         rw [← h₁, ← h₂]
         exact e.hom.hom.map_smul (r x) m }
   exact φ.finrank_eq
@@ -187,7 +187,7 @@ theorem contractedComponent_subschemeι_comp
         (S.contractedComponentEquiv hf Z)).subschemeι ≫ S.contractionToBase hf =
       (S.contractedSituation hf).specialFiberComponentToSpec (S.contractedComponentEquiv hf Z) ≫
         Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)) := by
-  show _ = ((S.contractedSituation hf).specialFiberComponentι _ ≫
+  change _ = ((S.contractedSituation hf).specialFiberComponentι _ ≫
     (S.contractedSituation hf).specialFiberToSpec) ≫ _
   rw [Category.assoc, ← pullback.condition, ← Category.assoc,
     (S.contractedSituation hf).specialFiberComponentι_specialFiberι]

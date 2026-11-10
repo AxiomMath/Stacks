@@ -113,28 +113,23 @@ noncomputable def cechGroupoid : GroupoidScheme S where
   left_identity := by
     intro T g w
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
   right_identity := by
     intro T g w
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
   left_inverse := by
     intro T g w
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
   right_inverse := by
     intro T g w
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
   assoc := by
     intro T g₁ g₂ g₃ w₁₂ w₂₃ w w'
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
 
 /-- The objects of the Čech groupoid of `f` are `X`. -/
 @[simp]

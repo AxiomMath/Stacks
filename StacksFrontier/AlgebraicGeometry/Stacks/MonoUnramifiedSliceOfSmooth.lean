@@ -224,7 +224,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_unramified_of_smooth {R 
     with hDdef
   have hWV : (⊤ : W.Opens) ≤ ((j ≫ ι') ≫ a) ⁻¹ᵁ V := fun x _ => hle (x := j x) trivial
   have hjw' : (j ≫ ι') w = r₀ := by
-    show ι' (j w) = r₀
+    change ι' (j w) = r₀
     rw [hjw]
     rfl
   have hWV' : (⊤ : W.Opens) ≤ (j ≫ ι' ≫ a) ⁻¹ᵁ V := fun x _ => hle (x := j x) trivial
@@ -240,7 +240,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_unramified_of_smooth {R 
   · intro hsep t₀ ht₀
     have : IsAffine W := hWaff
     have hx : (D.subschemeι ≫ j ≫ ι') t₀ = r₀ := by
-      show ι' (j (D.subschemeι t₀)) = r₀
+      change ι' (j (D.subschemeι t₀)) = r₀
       rw [ht₀, hjw]
       rfl
     rw [show D.subschemeι ≫ (j ≫ ι') ≫ b = (D.subschemeι ≫ j ≫ ι') ≫ b from
@@ -269,7 +269,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_unramified_of_smooth {R 
       ((a.stalkMap r₀).hom (t k)), ← hgermW]
     -- the sections cutting the slice pull back to zero on it
     have happ : (D.subschemeι.appTop) (cW k) = 0 := by
-      show (D.subschemeι.appTop).hom (cW k) = 0
+      change (D.subschemeι.appTop).hom (cW k) = 0
       refine RingHom.mem_ker.mp ?_
       rw [hDdef, Stacks.AlgebraicGeometry.ker_appTop_subschemeι_ofIdealTop
         (Ideal.ofList (List.ofFn cW))]
@@ -349,7 +349,7 @@ theorem exists_mono_flat_surjective_slice_unramified_of_smooth {R U : Scheme.{u}
     rw [show (Ideal.ofList (List.ofFn sV)) = Ideal.span {x | x ∈ List.ofFn sV} from rfl,
       Ideal.map_span]
     refine congrArg Ideal.span (Set.ext fun x => ?_)
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_ofFn]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_ofFn]
     constructor
     · rintro ⟨-, ⟨i, rfl⟩, rfl⟩
       exact ⟨i, (hgVapp i).symm⟩
@@ -366,7 +366,7 @@ theorem exists_mono_flat_surjective_slice_unramified_of_smooth {R U : Scheme.{u}
       exact Scheme.basicOpen_appLE (jW ≫ a) ⊤ V hWV (s i)
     have hnot : (jW ≫ a) w ∉ U.basicOpen (s i) := by
       have hru : (jW ≫ a) w = a r₀ := by
-        show a (jW w) = a r₀
+        change a (jW w) = a r₀
         rw [hjw]
       rw [hru, U.mem_basicOpen (s i) (a r₀) hrV]
       exact (IsLocalRing.mem_maximalIdeal _).1 (hmem i)
@@ -390,11 +390,11 @@ theorem exists_mono_flat_surjective_slice_unramified_of_smooth {R U : Scheme.{u}
   have hkkflat : Flat kkfull := by rw [hkkfulldef]; infer_instance
   have hkklfp : LocallyOfFinitePresentation kkfull := by rw [hkkfulldef]; infer_instance
   have hkkιpt : ∀ t, gV ((D.comap gV).subschemeι t) = D.subschemeι (kkfull t) := fun t => by
-    show ((D.comap gV).subschemeι ≫ gV) t = (kkfull ≫ D.subschemeι) t
+    change ((D.comap gV).subschemeι ≫ gV) t = (kkfull ≫ D.subschemeι) t
     rw [hkkι]
   have hisosurj : Function.Surjective ((D.comapIso gV).hom.base) := fun x =>
     ⟨(D.comapIso gV).inv.base x, by
-      show ((D.comapIso gV).inv ≫ (D.comapIso gV).hom) x = x
+      change ((D.comapIso gV).inv ≫ (D.comapIso gV).hom) x = x
       rw [Iso.inv_hom_id]
       rfl⟩
   have hrangekk : Set.range kkfull.base = D.subschemeι.base ⁻¹' Set.range gV.base := by
@@ -416,7 +416,7 @@ theorem exists_mono_flat_surjective_slice_unramified_of_smooth {R U : Scheme.{u}
   have hkkfac : kk ≫ Oz.ι = kkfull := by
     exact topIso_inv_resLE_comp_ι _ _ _
   have hkkfacpt : ∀ t, Oz.ι (kk t) = kkfull t := fun t => by
-    show (kk ≫ Oz.ι) t = kkfull t
+    change (kk ≫ Oz.ι) t = kkfull t
     rw [hkkfac]
   refine ⟨Oz.toScheme, (D.comap gV).subscheme, Oz.ι ≫ D.subschemeι ≫ V.ι,
     (D.comap gV).subschemeι ≫ jW, kk, t₀, inferInstance, inferInstance,
@@ -432,7 +432,7 @@ theorem exists_mono_flat_surjective_slice_unramified_of_smooth {R U : Scheme.{u}
     exact ⟨t, Subtype.ext ((hkkfacpt t).trans ht)⟩
   · rw [Category.assoc]; exact hflat
   · rw [Category.assoc]; exact hlfp
-  · show jW ((D.comap gV).subschemeι t₀) = r₀
+  · change jW ((D.comap gV).subschemeι t₀) = r₀
     rw [ht₀, hjw]
   · intro hsep
     rw [Category.assoc]

@@ -97,6 +97,8 @@ def conormalAlgebraSheafRetraction :
   (inv (conormalSymmetricAlgebraSheafHom D.subschemeι)).right.hom ≫
     normalBundleAlgebraRetraction D
 
+omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
+  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent] in
 /-- **The augmentation of the conormal algebra retracts its structure morphism.** -/
 theorem hom_comp_conormalAlgebraSheafRetraction :
     (conormalAlgebraSheaf D.subschemeι).hom.hom ≫ conormalAlgebraSheafRetraction D =
@@ -107,6 +109,8 @@ theorem hom_comp_conormalAlgebraSheafRetraction :
           (inv (conormalSymmetricAlgebraSheafHom D.subschemeι)))).trans
       (hom_comp_normalBundleAlgebraRetraction D))
 
+omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)]
+  [(conormalAlgebraSheaf D.subschemeι).IsQuasicoherent] in
 /-- The canonical map `Sym(𝒞_{D/X}) ⟶ 𝒞_{D/X,*}`, followed by the augmentation of the conormal
 algebra, is the augmentation of the symmetric algebra. -/
 theorem conormalSymmetricAlgebraSheafHom_comp_conormalAlgebraSheafRetraction :
@@ -152,6 +156,7 @@ theorem retractionSection_comp_vectorBundleToTotalSpace :
     (Stacks.RelativeSpec.retractionSection_congr _ _
       (algebraSheafIsoSymmetricAlgebraSheaf_hom_comp_normalBundleAlgebraRetraction D))
 
+omit [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra D.subschemeι)] in
 /-- **The section of the normal cone cut out by the augmentation of `𝒞_{D/X,*}`, followed by the
 canonical morphism `C_DX ⟶ N_DX` of [Stacks, Tag 0637], is the section of the normal bundle cut
 out by the augmentation of `Sym(𝒞_{D/X})`.** -/

@@ -410,7 +410,7 @@ theorem symmetricAlgebraGen_comp_baseChangeCongrHom_app_one :
           (Scheme.Modules.symmetricAlgebraGen Y F) := by
   have hgen := Stacks.SymmetricAlgebra.pullbackSheafifiedPieceIsoOfIso_generator r F F' e
   have hI := isIso_symmetricPullbackSituationHom_app r F F' e 1
-  show Scheme.Modules.symmetricAlgebraGen Y' F' ≫
+  change Scheme.Modules.symmetricAlgebraGen Y' F' ≫
       (@inv _ _ _ _ ((symmetricPullbackSituationHom r F F' e).app 1) hI ≫ 𝟙 _) = _
   refine (congrArg (_ ≫ ·) (Category.comp_id _)).trans ?_
   exact @Stacks.RelativeSpecFunctorOfPoints.comp_inv_eq_of_comp_eq _ _ _ _ _ _ _ hI _
@@ -474,7 +474,7 @@ theorem comp_baseAlgebraMapHom_eq_of_generator
   simp only [SheafOfModules.GradedAlgebra.UnitalHom.comp_app] at hk ⊢
   rw [← hk]
   have := hΨ' n
-  show _ = Ψ'.app n ≫ inv (Ψ'.app n) ≫ _
+  change _ = Ψ'.app n ≫ inv (Ψ'.app n) ≫ _
   rw [IsIso.hom_inv_id_assoc]
 
 end SchemeBaseChange

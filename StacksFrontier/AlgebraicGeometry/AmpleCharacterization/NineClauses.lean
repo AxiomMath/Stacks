@@ -101,7 +101,8 @@ universe u
 namespace Stacks.AmpleCharacterization
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
-  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules Stacks.SheafInternalHom.isMonoidal_localIso
+  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules
+  Stacks.SheafInternalHom.isMonoidal_localIso
   Stacks.SheafInternalHom.isLocalization_sheafify Stacks.SheafInternalHom.monoidalCategory
   Stacks.SheafInternalHom.sheafifyMonoidal Stacks.SheafInternalHom.braidedCategory
   Stacks.SheafInternalHom.schemeMonoidalCategory
@@ -172,7 +173,7 @@ is asked of the generating family.
 concludes the stronger statement that the generating family may be taken **finite**, which is more
 than the clause says; this is the clause itself, and it is the form the equivalence below and the
 implication `(7) ⇒ (8)` of
-`Stacks.AmpleCharacterization.quasiSeparatedSpace_and_exists_epi_biproduct_of_isGeneratedByGlobalSections`
+`AmpleCharacterization.quasiSeparatedSpace_and_exists_epi_biproduct_of_isGeneratedByGlobalSections`
 are stated at. -/
 @[stacks 01Q3 "clause (7)", ega "II 4.5.5" "(a) ⇒ (d)", ega "II 2.7.9"]
 theorem quasiSeparatedSpace_and_isGeneratedByGlobalSections_of_isAmple (hL : IsAmple X L) :
@@ -189,7 +190,7 @@ the twists merely globally generated, with no bound on the generating family —
 hypothesis beyond the tag's standing quasi-compactness.
 
 The route is the source's own: clause (7) implies clause (8)
-(`Stacks.AmpleCharacterization.quasiSeparatedSpace_and_exists_epi_biproduct_of_isGeneratedByGlobalSections`,
+(`quasiSeparatedSpace_and_exists_epi_biproduct_of_isGeneratedByGlobalSections`,
 where the quasi-compactness cuts the generating family down to a finite one by
 [Stacks, Tag 01BB]), clause (8) implies clause (9), and clause (9) implies clause (1). -/
 @[stacks 01Q3 "clause (7) implies (1)", ega "II 4.5.5" "(d) ⇒ (a)"]
@@ -205,7 +206,7 @@ theorem isAmple_of_quasiSeparatedSpace_and_isGeneratedByGlobalSections [CompactS
 /-! ### Clause (8) implies clause (1) -/
 
 /-- **Clause (8) of [Stacks, Tag 01Q3] implies clause (1)**: the source's `(8) ⇒ (9) ⇒ (1)` in one
-step, `Stacks.AmpleCharacterization.quasiSeparatedSpace_and_exists_epi_biproduct_ideal_of_exists_epi_biproduct`
+step, `quasiSeparatedSpace_and_exists_epi_biproduct_ideal_of_exists_epi_biproduct`
 followed by
 `Stacks.AmpleCharacterization.isAmple_of_quasiSeparatedSpace_and_exists_epi_biproduct_ideal`. -/
 @[stacks 01Q3 "clause (8) implies (1)", ega "II 4.5.5" "(d') ⇒ (a)"]

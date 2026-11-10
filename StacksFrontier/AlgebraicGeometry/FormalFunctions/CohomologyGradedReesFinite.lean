@@ -101,7 +101,7 @@ theorem smulSectionsHom_congr (n i : ℤ) {r r' : (B.piece i).val.sections}
     (h : ∀ U : Cᵒᵖ, r.eval U = r'.eval U) :
     smulSectionsHom M n i r = smulSectionsHom M n i r' :=
   hom_ext_sections fun U x ↦ by
-    show M.smul n i U x (r.eval U) = M.smul n i U x (r'.eval U)
+    change M.smul n i U x (r.eval U) = M.smul n i U x (r'.eval U)
     rw [h U]
 
 /-- Multiplication by a global homogeneous section is additive in the section. -/
@@ -109,7 +109,7 @@ theorem smulSectionsHom_eval_add (n i : ℤ) {r r₁ r₂ : (B.piece i).val.sect
     (h : ∀ U : Cᵒᵖ, r.eval U = r₁.eval U + r₂.eval U) :
     smulSectionsHom M n i r = smulSectionsHom M n i r₁ + smulSectionsHom M n i r₂ :=
   hom_ext_sections fun U x ↦ by
-    show M.smul n i U x (r.eval U) = _
+    change M.smul n i U x (r.eval U) = _
     rw [h U, map_add]
     rfl
 
@@ -117,7 +117,7 @@ theorem smulSectionsHom_eval_add (n i : ℤ) {r r₁ r₂ : (B.piece i).val.sect
 theorem smulSectionsHom_eval_zero (n i : ℤ) {r : (B.piece i).val.sections}
     (h : ∀ U : Cᵒᵖ, r.eval U = 0) : smulSectionsHom M n i r = 0 :=
   hom_ext_sections fun U x ↦ by
-    show M.smul n i U x (r.eval U) = _
+    change M.smul n i U x (r.eval U) = _
     rw [h U, map_zero]
     rfl
 
@@ -126,7 +126,7 @@ identity. -/
 theorem smulSectionsHom_one (n : ℤ) :
     smulSectionsHom M n 0 B.one ≫ pieceCast M (add_zero n) = 𝟙 (M.piece n) := by
   refine hom_ext_sections fun U x ↦ ?_
-  show (pieceCast M (add_zero n)).val.app U (M.smul n 0 U x (B.one.eval U)) = x
+  change (pieceCast M (add_zero n)).val.app U (M.smul n 0 U x (B.one.eval U)) = x
   rw [pieceCast_app]
   exact SheafOfModules.Cofree.castHom_eq_castHom (add_zero n) rfl U (M.smul_one n U x)
 
@@ -151,7 +151,7 @@ theorem smulSectionsHom_comp {n i j i' m : ℤ} (hij : i + j = i') (hm : n + i' 
     smulSectionsHom M n i r ≫ smulSectionsHom M (n + i) j s ≫ pieceCast M hnij =
       smulSectionsHom M n i' t ≫ pieceCast M hm := by
   refine hom_ext_sections fun U x ↦ ?_
-  show (pieceCast M hnij).val.app U
+  change (pieceCast M hnij).val.app U
       (M.smul (n + i) j U (M.smul n i U x (r.eval U)) (s.eval U)) =
     (pieceCast M hm).val.app U (M.smul n i' U x (t.eval U))
   rw [pieceCast_app, pieceCast_app, ← ht U,
@@ -198,7 +198,7 @@ theorem eval_gradedReesSection_add {k : ℕ} (b b' : ↥(reesGrading I k)) (U : 
       (gradedReesSection I X b).eval U + (gradedReesSection I X b').eval U := by
   have he : reesElt I (b + b') = reesElt I b + reesElt I b' :=
     congrArg Subtype.val (map_add (reesGradingEquivPow I k).symm b b')
-  show (baseReesSection I X k (reesElt I (b + b')) _).eval (op U.unop) = _
+  change (baseReesSection I X k (reesElt I (b + b')) _).eval (op U.unop) = _
   rw [show (baseReesSection I X k (reesElt I (b + b')) (reesElt_mem I (b + b'))) =
       baseReesSection I X k (reesElt I b + reesElt I b')
         (Ideal.add_mem _ (reesElt_mem I b) (reesElt_mem I b')) by
@@ -218,7 +218,7 @@ theorem eval_gradedReesSection_zero {k : ℕ} (U : (Opens X.left)ᵒᵖ) :
 theorem reesElt_one :
     reesElt I (GradedMonoid.GOne.one (A := fun n => ↥(reesGrading I n)) :
       ↥(reesGrading I 0)) = 1 := by
-  show ((reesGradingEquivPow I 0).symm
+  change ((reesGradingEquivPow I 0).symm
       (GradedMonoid.GOne.one (A := fun n => ↥(reesGrading I n))) : A) = 1
   rw [coe_reesGradingEquivPow_symm, SetLike.coe_gOne, OneMemClass.coe_one,
     Polynomial.coeff_one_zero]
@@ -235,7 +235,7 @@ theorem eval_gradedReesSection_one (U : (Opens X.left)ᵒᵖ) :
     (gradedReesSection I X (GradedMonoid.GOne.one (A := fun n => ↥(reesGrading I n)) :
         ↥(reesGrading I 0))).eval U =
       (baseReesAlgebra I X).one.eval U := by
-  show (baseReesSection I X 0
+  change (baseReesSection I X 0
       (reesElt I (GradedMonoid.GOne.one (A := fun n => ↥(reesGrading I n)) :
         ↥(reesGrading I 0))) _).eval (op U.unop) = _
   rw [show (baseReesSection I X 0
@@ -602,7 +602,7 @@ theorem isZero_piece_reesFiltrationModule_of_neg (n : ℤ) (hn : n < 0) :
     Limits.IsZero ((reesFiltrationModule I X F).piece n : X.left.Modules) := by
   have he : reesMultiple (baseIdealSheaf A I X.hom) n F = ⊥ :=
     reesMultiple_eq_bot_of_neg (baseIdealSheaf A I X.hom) n F hn
-  show Limits.IsZero
+  change Limits.IsZero
     ((reesMultiple (baseIdealSheaf A I X.hom) n F).toSheafOfModules : X.left.Modules)
   rw [he]
   exact isZero_bot_toSheafOfModules X F
@@ -641,7 +641,7 @@ theorem transferHom_smul {k n : ℕ} (b : ↥(reesGrading I k))
     transferHom I X F p (k + n)
         (gradedCohomologySmul I X (reesFiltrationModule I X F) p b y) =
       (cohomologyIdealPowerSystem I X F p).gsmul b (transferHom I X F p n y) := by
-  show ((cohomologyFunctor X p).map (filtrationPieceIso I X F (k + n))).hom
+  change ((cohomologyFunctor X p).map (filtrationPieceIso I X F (k + n))).hom
       (((cohomologyFunctor X p).map (actHom I X (reesFiltrationModule I X F) b (n : ℤ)
         (degree_add_eq k n))).hom y) =
     ((cohomologyFunctor X p).map
@@ -699,7 +699,7 @@ theorem transferAddHom_surjective : Function.Surjective (transferAddHom I X F p)
         (((cohomologyFunctor X p).map (filtrationPieceIsoInv I X F n)).hom y), ?_⟩
       rw [transferAddHom_of]
       refine congrArg (DirectSum.of _ n) ?_
-      show ((cohomologyFunctor X p).map (filtrationPieceIso I X F n)).hom
+      change ((cohomologyFunctor X p).map (filtrationPieceIso I X F n)).hom
           (((cohomologyFunctor X p).map (filtrationPieceIsoInv I X F n)).hom y) = y
       exact (cohomologyFunctor_map_map_apply X p _ _ _ (filtrationPieceIsoInv_comp I X F n) y).trans
         (cohomologyFunctor_map_id_apply X p y)
@@ -735,7 +735,7 @@ theorem isCohomologyReesFinite_of_isCoherent [IsNoetherianRing A]
     h0897 (reesFiltrationModule I X F) inferInstance hX hft
       (isQuasicoherent_piece_reesFiltrationModule I X F)
       (isZero_piece_reesFiltrationModule_of_neg I X F)
-  show Module.Finite (⨁ n, ↥(reesGrading I n)) (⨁ n, cohomologyIdealPower I X F p n)
+  change Module.Finite (⨁ n, ↥(reesGrading I n)) (⨁ n, cohomologyIdealPower I X F p n)
   exact Module.Finite.of_surjective (transferLinear I X F p) (transferLinear_surjective I X F p)
 
 end Bridge

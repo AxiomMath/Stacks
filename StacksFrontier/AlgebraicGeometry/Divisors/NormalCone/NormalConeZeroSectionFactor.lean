@@ -114,6 +114,8 @@ variable {X : Scheme.{u}} (DY : X.IdealSheafData)
   (f : Z ⟶ DY.subscheme) [IsClosedImmersion f]
   [(conormalAlgebraSheaf f).IsQuasicoherent] (hf : f ≫ DY.subschemeι = iZ)
 
+omit [Stacks.Divisors.IsEffectiveCartierDivisor DY]
+  [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra DY.subschemeι)] in
 /-- **The composite `C_ZY ⟶ C_ZX ⟶ C_YX` of a nested pair `Z ⊆ Y ⊆ X` lies over `Z ⟶ Y`**: its
 composite with the projection `C_YX ⟶ Y` is the projection `C_ZY ⟶ Z` followed by `Z ⟶ Y`. Both
 factors lie over their base morphisms, by

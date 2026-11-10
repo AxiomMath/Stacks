@@ -10,8 +10,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.Hyperc
 Let `φ : A ⟶ 𝒪_X` be a morphism of sheaves of commutative rings on a ringed space `X` and let
 `Ω^•` be the relative de Rham complex, a complex of sheaves of `A`-modules concentrated in
 nonnegative degrees. Relative de Rham cohomology `H^n_{dR}` is defined in
-`StacksFrontier.AlgebraicGeometry.DeRham.HodgeFiltration.Basic` with the unbounded derived functor of
-global sections. The Čech description of hypercohomology, its cup product and its long exact
+`StacksFrontier.AlgebraicGeometry.DeRham.HodgeFiltration.Basic` with the unbounded derived functor
+of global sections. The Čech description of hypercohomology, its cup product and its long exact
 sequences, `Stacks.Cech.Hypercohomology`, is stated for bounded below complexes with the bounded
 below derived functor. The two models agree on bounded below complexes
 (`Stacks.Cohomology.DerivedSectionsModels.derivedSectionsFunctorIso`); this file records that

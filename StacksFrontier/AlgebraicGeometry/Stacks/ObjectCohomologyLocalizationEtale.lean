@@ -337,7 +337,8 @@ def objectSmallEtaleRestriction :
         ((objectInverseImage B S hS p B.etaleTopology x ⋙
           smallEtaleSheafRestriction.{u, max v w} B (p.obj x).left.1
             (toBigEtaleSite_contains_left B S hS p x)).obj F).property⟩
-    map f := ObjectProperty.homMk (Functor.whiskerLeft ((smallEtaleInclusion B B.toBigEtaleSite rfl (p.obj x).left.1
+    map f := ObjectProperty.homMk
+      (Functor.whiskerLeft ((smallEtaleInclusion B B.toBigEtaleSite rfl (p.obj x).left.1
       (toBigEtaleSite_contains_left B S hS p x)).op ⋙
         (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).inv.op ⋙ (Over.forget x).op) f.hom) }
 

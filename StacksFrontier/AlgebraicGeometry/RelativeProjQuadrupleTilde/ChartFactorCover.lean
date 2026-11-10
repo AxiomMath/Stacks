@@ -44,14 +44,14 @@ theorem exists_mem_basicOpen_of_chart_mem_degreeOpen (U : s.base.affineOpens) (d
     ∃ c : s.sectionPieces U.1 d, z ∈ Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c) := by
   set e := situationChartIso s ⟨U.1, U.2⟩
   have hez : e.hom (e.inv z) = z := by
-    show (e.inv ≫ e.hom) z = z
+    change (e.inv ≫ e.hom) z = z
     rw [e.inv_hom_id]
     rfl
   have key : (relativeProjData s).chart U.1 U.2 (e.inv z) = relativeProjChart s U z := by
-    show relativeProjChart s U (e.hom (e.inv z)) = _
+    change relativeProjChart s U (e.hom (e.inv z)) = _
     rw [hez]
   have hx : e.inv z ∈ (relativeProjData s).chart U.1 U.2 ⁻¹ᵁ (relativeProjData s).degreeOpen d := by
-    show (relativeProjData s).chart U.1 U.2 (e.inv z) ∈ (relativeProjData s).degreeOpen d
+    change (relativeProjData s).chart U.1 U.2 (e.inv z) ∈ (relativeProjData s).degreeOpen d
     rwa [key]
   rw [RelativeProjData.chart_preimage_degreeOpen (relativeProjData s) U.1 U.2 d] at hx
   obtain ⟨a, ha⟩ := TopologicalSpace.Opens.mem_iSup.mp hx
@@ -64,7 +64,7 @@ theorem exists_mem_basicOpen_of_chart_mem_degreeOpen (U : s.base.affineOpens) (d
   have hb : e.inv z ∈ e.hom ⁻¹ᵁ Proj.basicOpen (s.sectionRingGrading U.1) y := by
     rwa [← hinv] at ha
   rw [← hez]
-  show e.hom (e.inv z) ∈ Proj.basicOpen (s.sectionRingGrading U.1) (DirectSum.of _ d c)
+  change e.hom (e.inv z) ∈ Proj.basicOpen (s.sectionRingGrading U.1) (DirectSum.of _ d c)
   rwa [hcy]
 
 /-- **The classifying morphism factors locally through a standard open of degree `d` of a
@@ -83,7 +83,7 @@ theorem exists_chart_factor {T : Scheme.{u}} (f : T ⟶ s.base) {d : ℕ} (hd : 
   set U : s.base.affineOpens := ⟨U', hU'⟩
   have hht : h t ∈ (relativeProjChart s U).opensRange := by
     rw [opensRange_relativeProjChart]
-    show (h ≫ relativeProjToBase s) t ∈ U.1
+    change (h ≫ relativeProjToBase s) t ∈ U.1
     rwa [hπ]
   obtain ⟨z, hz⟩ := hht
   have hdeg : h t ∈ (relativeProjData s).degreeOpen d := by
@@ -109,7 +109,7 @@ theorem exists_chart_factor {T : Scheme.{u}} (f : T ⟶ s.base) {d : ℕ} (hd : 
     apply hinj
     rw [← Scheme.Hom.comp_apply, hfac]
     exact hwv.symm
-  show (IsOpenImmersion.lift (relativeProjChart s U) (V.ι ≫ h) hr).base v ∈
+  change (IsOpenImmersion.lift (relativeProjChart s U) (V.ι ≫ h) hr).base v ∈
     Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c)
   rwa [this]
 

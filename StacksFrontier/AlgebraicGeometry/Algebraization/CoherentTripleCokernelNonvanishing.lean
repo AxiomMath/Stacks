@@ -175,7 +175,7 @@ fibre, then that cokernel triple has Euler characteristic `0`. -/
 public theorem
     CoherentTriple.eulerCharacteristic_cokernelTriple_mulSectionTwistZ_eq_zero_of_nonvanishing
     {A : Type u} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A}
-    [IsLocalRing (A ⧸ Ideal.span {f})] (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+    [IsLocalRing (A ⧸ Ideal.span {f})] (hf : f ∈ maximalIdeal A)
     (T L : CoherentTriple A f) (hL : IsInvertibleTriple L)
     (σ : Stacks.Ample.unitModule (Stacks.Divisors.puncturedSpectrum A).toScheme ⟶ L.F)
     (σ₀ : Stacks.Ample.unitModule (closedFibre A f) ⟶ L.F₀)
@@ -201,9 +201,9 @@ public theorem
     (hW₀ : ∀ y ∈ W₀, y ∈ Stacks.SheafOfModules.nonvanishingLocus
       (X := (closedFibre A f).toRingedSpace) L.F₀ (L.F₀.unitHomEquiv σ₀)) :
     (CoherentTriple.cokernelTriple (T.mulSectionTwistZ L hL σ σ₀ hcompat m)
-      htf).eulerCharacteristic hf hreg = 0 :=
+      htf).eulerCharacteristic = 0 :=
   let := hL.invertible_F₀
-  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F hf hreg _ hzero fun hass =>
+  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F hf _ hzero fun hass =>
     notMem_supp_cokernel_tensorModulesMap_id_mulSectionPowScheme T.F₀ L.F₀ m σ₀ ψ₀ hx hW₀
       (AlgebraicGeometry.associatedPoints_subset_support _ hass)
 

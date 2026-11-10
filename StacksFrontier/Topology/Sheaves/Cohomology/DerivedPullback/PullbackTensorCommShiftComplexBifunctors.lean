@@ -21,7 +21,8 @@ bifunctors involved, in curried form, and those are what this file supplies:
 The first two are the restrictions along `DerivedCategory.Q` in both variables of the two data
 `Stacks.Cohomology.DerivedPullbackTensor.curriedPullbackOfTensor_commShift₂Int` and
 `curriedTensorOfPullbacks_commShift₂Int` of
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/PullbackTensorCommShiftTwo.lean`, exactly
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/PullbackTensorCommShiftTwo.lean`,
+exactly
 as the two over the K-flat models there are their restrictions along `kFlatQY`.  The third is new:
 it is `CategoryTheory.Functor.map₂CochainComplex` for the sheaf tensor product of `Y` —
 which carries Mathlib's own `CategoryTheory.Functor.CommShift₂Int` — postcomposed with

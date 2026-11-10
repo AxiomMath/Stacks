@@ -79,6 +79,7 @@ variable {S : Type u} {M : Type v} {σ : Type w} {τ : Type t}
   [SetLike τ M] [AddSubgroupClass τ M] (𝒨 : ℤ → τ) [DirectSum.Decomposition 𝒨]
   [SetLike.GradedSMul 𝒜 𝒨]
 
+omit [DirectSum.Decomposition 𝒨] in
 /-- **A homogeneous scalar shifts the degree of a fraction.** Multiplying a degree-`e` element of
 `M_g` by a homogeneous element of degree `i` gives a degree-`i + e` element. -/
 public theorem smul_mem_gradedPiece_add {g : S} {d : ℕ} (hg : g ∈ 𝒜 d) {i : ℕ} {e : ℤ} {a : S}
@@ -89,7 +90,7 @@ public theorem smul_mem_gradedPiece_add {g : S} {d : ℕ} (hg : g ∈ 𝒜 d) {i
   refine mk_mem_gradedPiece 𝒜 𝒨 hg ?_
   have h := SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) ha hx
   have hdeg : (i : ℕ) +ᵥ (e + n • (d : ℤ)) = ((i : ℤ) + e) + n • (d : ℤ) := by
-    show ((i : ℕ) : ℤ) + (e + n • (d : ℤ)) = ((i : ℤ) + e) + n • (d : ℤ)
+    change ((i : ℕ) : ℤ) + (e + n • (d : ℤ)) = ((i : ℤ) + e) + n • (d : ℤ)
     ring
   rwa [hdeg] at h
 
@@ -150,6 +151,7 @@ variable {R : Type u} [CommRing R] {r : ℕ} {σ : Type w} {τ : Type t}
   [SetLike.GradedSMul 𝒜 𝒨]
   (f : Fin r → R)
 
+omit [DirectSum.Decomposition 𝒨] in
 /-- **A homogeneous scalar shifts the degree of a cochain.** -/
 public theorem smul_mem_gradedCechTerm {c : Fin r → ℕ} (hc : ∀ i, f i ∈ 𝒜 (c i)) {i : ℕ} {e : ℤ}
     {a : R} (ha : a ∈ 𝒜 i) {p : ℕ} {z : cechTerm f M p} (hz : z ∈ gradedCechTerm 𝒜 𝒨 f e p) :
@@ -216,6 +218,8 @@ public def complementPiece (e : ℤ) :
   (Cech.gradedCechTerm 𝒜 𝒨 f e 1).comap
     (complementSectionsCech I f hIf (M := M)).toAddMonoidHom
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] [AddSubgroupClass τ (M : Type (max u v))]
+  [DirectSum.Decomposition 𝒨] [SetLike.GradedSMul 𝒜 𝒨] in
 public theorem mem_complementPiece {e : ℤ}
     {s : complementGlobalSections A I (complementTilde A I M)} :
     s ∈ complementPiece 𝒜 𝒨 f I hIf e ↔
@@ -300,6 +304,7 @@ public theorem isInternal_complementPiece (hc : ∀ i, f i ∈ 𝒜 (c i)) :
     DirectSum.Decomposition (complementPiece 𝒜 𝒨 f I hIf (M := M)) :=
   (isInternal_complementPiece 𝒜 𝒨 f I hIf hc).chooseDecomposition
 
+omit [DirectSum.Decomposition 𝒨] in
 /-- **The grading of `Γ(U, M̃|U)` is compatible with the grading of `A`.** -/
 public theorem smul_mem_complementPiece (hc : ∀ i, f i ∈ 𝒜 (c i))
     {i : ℕ} {e : ℤ} {a : A} (ha : a ∈ 𝒜 i)
@@ -359,20 +364,22 @@ variable {A : Type u} [CommRing A] {σ : Type w} [SetLike σ A] [AddSubgroupClas
   {r : ℕ} (f : Fin r → A) (I : Ideal A) (hIf : Ideal.span (Set.range f) = I)
   {c : Fin r → ℕ}
 
+omit [AddSubgroupClass τ (M : Type (max u v))] [DirectSum.Decomposition 𝒨]
+  [SetLike.GradedSMul 𝒜 𝒨] in
 /-- **The restriction map preserves degrees.** A homogeneous element of degree `e` of `M`
 restricts to a section of `Γ(U, M̃|U)` of degree `e`, since its Čech coordinates are the constant
 fractions `m/1`. -/
 public theorem complementRes_mem_complementPiece (hc : ∀ i, f i ∈ 𝒜 (c i)) {e : ℤ}
     {m : (M : Type (max u v))} (hm : m ∈ 𝒨 e) :
     complementRes I m ∈ complementPiece 𝒜 𝒨 f I hIf e := by
-  show complementSectionsCech I f hIf (complementRes I m) ∈ Cech.gradedCechTerm 𝒜 𝒨 f e 1
+  change complementSectionsCech I f hIf (complementRes I m) ∈ Cech.gradedCechTerm 𝒜 𝒨 f e 1
   refine Cech.mem_gradedCechTerm.2 fun s => ?_
   obtain ⟨st, hst⟩ := s
   obtain ⟨i, rfl⟩ := Finset.card_eq_one.1 hst
   rw [complementSectionsCech_complementRes_apply f I hIf m i hst]
   have hden : (1 : Submonoid.powers (∏ j ∈ ({i} : Finset (Fin r)), f j)) =
       ⟨(∏ j ∈ ({i} : Finset (Fin r)), f j) ^ 0, ⟨0, rfl⟩⟩ := Subtype.ext (pow_zero _).symm
-  show LocalizedModule.mk m (1 : Submonoid.powers (∏ j ∈ ({i} : Finset (Fin r)), f j)) ∈ _
+  change LocalizedModule.mk m (1 : Submonoid.powers (∏ j ∈ ({i} : Finset (Fin r)), f j)) ∈ _
   rw [hden]
   refine Stacks.GradedLocalization.mk_mem_gradedPiece 𝒜 𝒨
     (SetLike.prod_mem_graded 𝒜 c f fun j _ => hc j) ?_
@@ -414,7 +421,7 @@ public theorem eq_zero_of_pow_smul_eq_zero_complementGlobalSections
       rw [← map_smul, h i, map_zero]
     have h2 := congrArg (fun z : Cech.cechTerm f (M : Type _) 1 =>
       z (⟨{i}, hut⟩ : {t : Finset (Fin r) // t.card = 1})) h1
-    simp only [DFinsupp.smul_apply, DFinsupp.zero_apply] at h2
+    simp only [DFinsupp.zero_apply] at h2
     rw [Finset.prod_singleton]
     exact h2
   rw [DFinsupp.zero_apply]

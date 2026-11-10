@@ -132,7 +132,7 @@ theorem map_baseRingHom_morphismRestrict (a : Γ(T, V)) :
       RingHom.comp_apply]
     exact congr($((↑(π ⁻¹ᵁ V) : Scheme).presheaf.map_id (op ⊤)) _)
   rw [h2, ← key, Scheme.Opens.ι_appIso]
-  show (Y.presheaf.map _ ≫ Y.presheaf.map _) (π.app V a) = _
+  change (Y.presheaf.map _ ≫ Y.presheaf.map _) (π.app V a) = _
   rw [← Functor.map_comp]
   exact congr($((Y.presheaf.map_id _).symm.trans (congrArg _ (Subsingleton.elim _ _))) _).symm
 
@@ -159,11 +159,11 @@ theorem exists_linearMap_pullbackGlobalSections_eq_one (L : Y.Modules) (s : Γ(L
     toFun := fun x => lam (ρ x)
     map_add' := fun x y => by rw [map_add, map_add]
     map_smul' := fun a x => ?_ }, ?_, fun hb => hb.comp ?_⟩
-  · show lam (L.presheaf.map _
+  · change lam (L.presheaf.map _
       (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback (π ⁻¹ᵁ V).ι).inv.app L)
         ⊤ ((Stacks.Cech.baseRingHom ((π ∣_ V) ≫ hV.isoSpec.hom) ⊤).hom a • x))) = a * lam (ρ x)
     rw [Scheme.Modules.Hom.app_smul]
-    show lam (L.presheaf.map (eqToHom (Scheme.Opens.ι_image_top (π ⁻¹ᵁ V)).symm).op
+    change lam (L.presheaf.map (eqToHom (Scheme.Opens.ι_image_top (π ⁻¹ᵁ V)).symm).op
       ((((π ⁻¹ᵁ V).ι.appIso ⊤).inv
           ((Stacks.Cech.baseRingHom ((π ∣_ V) ≫ hV.isoSpec.hom) ⊤).hom a) •
         (show Γ(L, (π ⁻¹ᵁ V).ι ''ᵁ ⊤) from Scheme.Modules.Hom.app
@@ -180,7 +180,7 @@ theorem exists_linearMap_pullbackGlobalSections_eq_one (L : Y.Modules) (s : Γ(L
       le_top le_top s
     have h4 : ρ (pullbackGlobalSections (π ⁻¹ᵁ V).ι L s) =
         L.presheaf.map (homOfLE le_top).op s := by
-      show L.presheaf.map _ (Scheme.Modules.Hom.app
+      change L.presheaf.map _ (Scheme.Modules.Hom.app
         ((Scheme.Modules.restrictFunctorIsoPullback (π ⁻¹ᵁ V).ι).inv.app L) ⊤
         (pullbackGlobalSections (π ⁻¹ᵁ V).ι L s)) = _
       rw [hpb, show Scheme.Modules.Hom.app
@@ -191,7 +191,7 @@ theorem exists_linearMap_pullbackGlobalSections_eq_one (L : Y.Modules) (s : Γ(L
           L.presheaf.map i (L.presheaf.map j z) = L.presheaf.map (j ≫ i) z := fun i j z => by
         rw [Functor.map_comp]; rfl
       exact (hcomp _ _ s).trans (congrArg (fun k => L.presheaf.map k s) (Subsingleton.elim _ _))
-    show lam (ρ _) = 1
+    change lam (ρ _) = 1
     rw [h4, hs]
   · refine (ConcreteCategory.bijective_of_isIso
       (L.presheaf.map (eqToHom (Scheme.Opens.ι_image_top (π ⁻¹ᵁ V)).symm).op)).comp ?_

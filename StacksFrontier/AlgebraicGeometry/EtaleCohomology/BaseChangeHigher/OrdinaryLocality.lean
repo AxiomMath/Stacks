@@ -174,7 +174,7 @@ private lemma isIso_map_mate_of_cube
     IsIso (Lu.map (((mateEquiv ae af).symm s).app X)) := by
   have h₂ : IsIso (((mateEquiv (aa.comp ai) (av.comp aj)).symm (s'.hComp t')).app X) := by
     rw [mate_symm_hcomp, TwoSquare.vComp_app]
-    show IsIso (Lj.map (((mateEquiv aa av).symm t').app X) ≫
+    change IsIso (Lj.map (((mateEquiv aa av).symm t').app X) ≫
       ((mateEquiv ai aj).symm s').app (La.obj X))
     infer_instance
   have h₁ := (isIso_mate_symm_iff (ae.comp aq) (aa.comp ai) (af.comp au)
@@ -210,20 +210,20 @@ private lemma mate_sheafPushforward_app
   rw [mate_symm_app_eq, mate_symm_app_eq]
   have hu : ((a₂.sheafPushforwardContinuous JC JD).unit.app F).hom.app
       (op (H.obj (L₁.obj V))) = F.obj.map (a₂.counit.app (H.obj (L₁.obj V))).op := by
-    show ((a₂.op.whiskerLeft E).unit.app F.obj).app _ = _
+    change ((a₂.op.whiskerLeft E).unit.app F.obj).app _ = _
     simp
   have hc (P : Sheaf JA E) : ((a₁.sheafPushforwardContinuous JA JB).counit.app P).hom.app
       (op V) = P.obj.map (a₁.unit.app V).op := by
-    show ((a₁.op.whiskerLeft E).counit.app P.obj).app _ = _
+    change ((a₁.op.whiskerLeft E).counit.app P.obj).app _ = _
     simp
-  show ((a₂.sheafPushforwardContinuous JC JD).unit.app F).hom.app
+  change ((a₂.sheafPushforwardContinuous JC JD).unit.app F).hom.app
       (op (H.obj (L₁.obj V))) ≫
     (t.app ((L₂.sheafPushforwardContinuous E JC JD).obj F)).hom.app (op (L₁.obj V)) ≫
     ((a₁.sheafPushforwardContinuous JA JB).counit.app
       ((G.sheafPushforwardContinuous E JA JC).obj
         ((L₂.sheafPushforwardContinuous E JC JD).obj F))).hom.app (op V) = _
   rw [hu, hc, ht]
-  show F.obj.map _ ≫ F.obj.map (L₂.map (s.app (L₁.obj V))).op ≫
+  change F.obj.map _ ≫ F.obj.map (L₂.map (s.app (L₁.obj V))).op ≫
     F.obj.map (L₂.map (G.map (a₁.unit.app V))).op = _
   simp only [← F.obj.map_comp, ← op_comp, Category.assoc]
 
@@ -314,13 +314,13 @@ private lemma isIso_overPullback_of_restriction {X : Scheme.{u}} (U : X.Etale)
   let V : U.left.Etale := Scheme.Etale.mk W.unop.hom.left
   let k : (smallEtaleCompose U.hom).obj V ≅ W.unop.left :=
     MorphismProperty.Over.isoMk (Iso.refl _) (by
-      show 𝟙 W.unop.left.left ≫ W.unop.left.hom = W.unop.hom.left ≫ U.hom
+      change 𝟙 W.unop.left.left ≫ W.unop.left.hom = W.unop.hom.left ≫ U.hom
       rw [Category.id_comp]
       exact (MorphismProperty.Over.w W.unop.hom).symm)
   have : IsIso (a.hom.app (op ((smallEtaleCompose U.hom).obj V))) := by
-    show IsIso (((restriction.{u, v} U.hom).map a).hom.app (op V))
+    change IsIso (((restriction.{u, v} U.hom).map a).hom.app (op V))
     infer_instance
-  show IsIso (a.hom.app (op W.unop.left))
+  change IsIso (a.hom.app (op W.unop.left))
   rw [← isIso_comp_right_iff _ (G.obj.map k.hom.op), ← a.hom.naturality k.hom.op]
   infer_instance
 
@@ -348,7 +348,7 @@ private lemma pushComp_hom_app {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
     (F : Sheaf (smallEtaleTopology X) (Type (max (u + 1) v))) (V : Z.Etale) :
     ((smallEtalePushforwardCompIso.{u, v} f g).hom.app F).hom.app (op V) =
       F.obj.map ((smallEtaleBaseChangeComp f g).hom.app V).op := by
-  show 𝟙 _ ≫ F.obj.map ((smallEtaleBaseChangeComp f g).hom.app V).op = _
+  change 𝟙 _ ≫ F.obj.map ((smallEtaleBaseChangeComp f g).hom.app V).op = _
   rw [Category.id_comp]
 
 /-- The inverse of the composition isomorphism for direct images, on sections. -/
@@ -356,7 +356,7 @@ private lemma pushComp_inv_app {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z)
     (F : Sheaf (smallEtaleTopology X) (Type (max (u + 1) v))) (V : Z.Etale) :
     ((smallEtalePushforwardCompIso.{u, v} f g).inv.app F).hom.app (op V) =
       F.obj.map ((smallEtaleBaseChangeComp f g).inv.app V).op := by
-  show F.obj.map ((smallEtaleBaseChangeComp f g).inv.app V).op ≫ 𝟙 _ = _
+  change F.obj.map ((smallEtaleBaseChangeComp f g).inv.app V).op ≫ 𝟙 _ = _
   rw [Category.comp_id]
 
 /-- Transport of the direct image along an equality of morphisms, on sections. -/
@@ -386,7 +386,7 @@ private lemma siteCongr_fst {X Y : Scheme.{u}} {f g : X ⟶ Y} (w : f = g)
     (eqToHom (congrArg (fun k => (smallEtaleBaseChange k).obj V) w)).left ≫
       pullback.fst V.hom g = pullback.fst V.hom f := by
   subst g
-  show 𝟙 _ ≫ _ = _
+  change 𝟙 _ ≫ _ = _
   exact Category.id_comp _
 
 /-- The canonical morphism `V ×_X Y ⟶ V ×_S T` attached to a cartesian square is invertible:

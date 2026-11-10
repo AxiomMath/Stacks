@@ -54,7 +54,7 @@ public theorem exists_isRigEtale_adicFiniteTypeAlgebra_of_ringEquiv {X Y : Type 
       TopologicalRing.IsTopologicallyOfFiniteType e.toRingHom :=
     ⟨hadic, isTopologicallyOfFiniteType_of_surjective e.toRingHom e.surjective⟩
   have hft : FiniteTypeAdicAlgebraForEveryIdeal e.toRingHom :=
-    ((adicFiniteType_tfae e.toRingHom he hX.1 hY.1 (exists_idealOfDefinition_fg hX.1 hX.2)
+    ((adicFiniteType_tfae e.toRingHom hX.1 hY.1 (exists_idealOfDefinition_fg hX.1 hX.2)
       (exists_idealOfDefinition_fg hY.1 hY.2)).out 1 6).mp hone
   refine ⟨hft, I, hIdef, ?_⟩
   let _ : UniformSpace X := IsTopologicalAddGroup.rightUniformSpace X

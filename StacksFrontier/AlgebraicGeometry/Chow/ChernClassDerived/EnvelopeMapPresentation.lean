@@ -305,7 +305,7 @@ theorem exists_boundedFiniteLocallyFree_hom_iso_of_isNoetherian (X : Scheme.{u})
   obtain ⟨G, p, hp, q, hG, hpq⟩ := exists_boundedFiniteLocallyFree_roof_of_isNoetherian X PE PF
     hPE hPF (eE.hom ≫ φ ≫ eF.inv)
   refine ⟨G, PF, q, eE.symm ≪≫ (asIso (DerivedCategory.Q.map p)).symm, eF.symm, hG, hPF, ?_⟩
-  show φ ≫ eF.inv = (eE.inv ≫ inv (DerivedCategory.Q.map p)) ≫ DerivedCategory.Q.map q
+  change φ ≫ eF.inv = (eE.inv ≫ inv (DerivedCategory.Q.map p)) ≫ DerivedCategory.Q.map q
   rw [Category.assoc, hpq, Iso.inv_hom_id_assoc]
 
 end Stacks.Perfect.BoundedLocallyFreeComplexes

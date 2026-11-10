@@ -50,8 +50,7 @@ variable [∀ n : ℕ, HasWeakSheafify
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- `Hⁱ_c(X_k̄, -)` carries multiplication by `N` to multiplication by `N`. -/
@@ -71,10 +70,10 @@ theorem isIso_nsmul_id_of_rational (M : ModuleCat.{u + 1} ℚ_[ℓ]) (N : ℕ) (
   have hN' : (N : ℚ_[ℓ]) ≠ 0 := Nat.cast_ne_zero.2 hN
   refine ⟨((N : ℚ_[ℓ])⁻¹) • 𝟙 M, ?_, ?_⟩
   · ext x
-    show (N : ℚ_[ℓ])⁻¹ • (N • x) = x
+    change (N : ℚ_[ℓ])⁻¹ • (N • x) = x
     rw [← Nat.cast_smul_eq_nsmul ℚ_[ℓ], smul_smul, inv_mul_cancel₀ hN', one_smul]
   · ext x
-    show N • ((N : ℚ_[ℓ])⁻¹ • x) = x
+    change N • ((N : ℚ_[ℓ])⁻¹ • x) = x
     rw [← Nat.cast_smul_eq_nsmul ℚ_[ℓ], smul_smul, mul_inv_cancel₀ hN', one_smul]
 
 /-- **An isogeny of ℓ-adic sheaves induces an isomorphism on `Hⁱ_c(X_k̄, - ⊗ Q_ℓ)`.** If

@@ -141,7 +141,7 @@ private lemma yZero_ne_zero : yZero k ≠ 0 := by
 
 private lemma t_mul_yZero : (t k) * yZero k = 0 := by
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
-  show tPoly k * yPoly k 0 ∈ relationsIdeal k
+  change tPoly k * yPoly k 0 ∈ relationsIdeal k
   exact Ideal.subset_span (Or.inl (Or.inl ⟨0, rfl⟩))
 
 /-- The ring `B` is not flat over `k[t]`. -/
@@ -157,7 +157,7 @@ theorem not_flat_ambientRing : ¬ RingHom.Flat (baseMap k) := by
     Module.Flat.isSMulRegular_of_isRegular
       (R := Polynomial k) (M := ambientRing k) hX
   have hkill : (Polynomial.X : Polynomial k) • yZero k = 0 := by
-    show (baseMap k (Polynomial.X : Polynomial k)) * yZero k = 0
+    change (baseMap k (Polynomial.X : Polynomial k)) * yZero k = 0
     rw [show baseMap k (Polynomial.X : Polynomial k) = t k by simp [baseMap]]
     exact t_mul_yZero k
   have heq : (Polynomial.X : Polynomial k) • yZero k =
@@ -214,7 +214,7 @@ private lemma quotientToPolynomialLift_mk (p : Presentation k) :
 private lemma x_mul_yPoly_succ (n : ℕ) :
     x k * Ideal.Quotient.mk (relationsIdeal k) (yPoly k (n + 1)) =
       Ideal.Quotient.mk (relationsIdeal k) (yPoly k n) := by
-  show Ideal.Quotient.mk (relationsIdeal k) (xPoly k * yPoly k (n + 1)) = _
+  change Ideal.Quotient.mk (relationsIdeal k) (xPoly k * yPoly k (n + 1)) = _
   rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem]
   exact Ideal.subset_span (Or.inl (Or.inr ⟨n, rfl⟩))
 
@@ -417,7 +417,7 @@ private lemma x_mul_eq_zero (b : ambientRing k) (hb : x k * b = 0) : b = 0 := by
     rw [hx] at he
     have hq0 : q = 0 :=
       (mul_eq_zero.mp he).resolve_left (MvPolynomial.X_ne_zero (some 0))
-    show q ∈ relationsIdeal k
+    change q ∈ relationsIdeal k
     rw [hq0]
     exact (relationsIdeal k).zero_mem
   | succ n =>
@@ -444,7 +444,7 @@ theorem quotientByX_equiv_polynomial :
   have hfg : f.comp g = RingHom.id (Polynomial k) := by
     apply Polynomial.ringHom_ext
     · intro a
-      show quotientToPolynomialLift k (quotientFromPolynomial k (Polynomial.C a)) = _
+      change quotientToPolynomialLift k (quotientFromPolynomial k (Polynomial.C a)) = _
       rw [quotientFromPolynomial_C, algebraMap_ambient_eq_C, quotientToPolynomialLift_mk]
       simp [quotientToPolynomial]
     · simp [f, g, quotientToPolynomialLift, quotientFromPolynomial,
@@ -453,19 +453,19 @@ theorem quotientByX_equiv_polynomial :
     repeat apply Ideal.Quotient.ringHom_ext
     apply MvPolynomial.ringHom_ext
     · intro a
-      show g (f (Ideal.Quotient.mk (Ideal.span {x k})
+      change g (f (Ideal.Quotient.mk (Ideal.span {x k})
         (Ideal.Quotient.mk (relationsIdeal k) (MvPolynomial.C a)))) = _
       rw [quotientToPolynomialLift_mk]
       simp only [RingHom.comp_apply, RingHom.id_apply]
       have hC : quotientToPolynomial k (MvPolynomial.C a) = Polynomial.C a := by
         simp [quotientToPolynomial]
       rw [hC]
-      show quotientFromPolynomial k (Polynomial.C a) = _
+      change quotientFromPolynomial k (Polynomial.C a) = _
       rw [quotientFromPolynomial_C, algebraMap_ambient_eq_C]
     · intro v
       cases v with
       | none =>
-        show g (f (Ideal.Quotient.mk (Ideal.span {x k})
+        change g (f (Ideal.Quotient.mk (Ideal.span {x k})
           (Ideal.Quotient.mk (relationsIdeal k) (tPoly k)))) = _
         rw [quotientToPolynomialLift_mk]
         have heval : quotientToPolynomial k (tPoly k) = Polynomial.X := by
@@ -475,24 +475,24 @@ theorem quotientByX_equiv_polynomial :
       | some n =>
         cases n with
         | zero =>
-          show g (f (Ideal.Quotient.mk (Ideal.span {x k})
+          change g (f (Ideal.Quotient.mk (Ideal.span {x k})
             (Ideal.Quotient.mk (relationsIdeal k) (xPoly k)))) = _
           rw [quotientToPolynomialLift_mk]
           have heval : quotientToPolynomial k (xPoly k) = 0 := by
             simp [quotientToPolynomial, xPoly]
           rw [heval, map_zero]
           simp only [RingHom.comp_apply, RingHom.id_apply]
-          show 0 = Ideal.Quotient.mk (Ideal.span {x k}) (x k)
+          change 0 = Ideal.Quotient.mk (Ideal.span {x k}) (x k)
           exact (quotient_x_eq_zero k).symm
         | succ n =>
-          show g (f (Ideal.Quotient.mk (Ideal.span {x k})
+          change g (f (Ideal.Quotient.mk (Ideal.span {x k})
             (Ideal.Quotient.mk (relationsIdeal k) (yPoly k n)))) = _
           rw [quotientToPolynomialLift_mk]
           have heval : quotientToPolynomial k (yPoly k n) = 0 := by
             simp [quotientToPolynomial, yPoly]
           rw [heval, map_zero]
           simp only [RingHom.comp_apply, RingHom.id_apply]
-          show 0 = Ideal.Quotient.mk (Ideal.span {x k})
+          change 0 = Ideal.Quotient.mk (Ideal.span {x k})
             (Ideal.Quotient.mk (relationsIdeal k) (yPoly k n))
           exact (quotient_yPoly_eq_zero k n).symm
   refine ⟨RingEquiv.ofRingHom f g hfg hgf, ?_, ?_⟩
@@ -578,7 +578,7 @@ private lemma divisor_flat :
       ((Ideal.Quotient.mk (Ideal.span {x k})).comp (baseMap k)).comp
         ι.toRingHom := by
     refine RingHom.ext fun a => ?_
-    show Ideal.quotientEquiv K (Ideal.span {x k}) e hJ (Ideal.Quotient.mk K (χ a)) = _
+    change Ideal.quotientEquiv K (Ideal.span {x k}) e hJ (Ideal.Quotient.mk K (χ a)) = _
     rw [Ideal.quotientEquiv_mk]
     exact congrArg (Ideal.Quotient.mk (Ideal.span {x k}))
       (congrArg (fun h : _ →+* ambientRing k => h a) hnat)
@@ -689,7 +689,7 @@ private def originPrime : PrimeSpectrum (ambientRing k) :=
 private lemma genericPrime_le_originPrime : genericPrime k ≤ originPrime k := by
   intro b hb
   change genericMap k b = 0 at hb
-  show originMap k b = 0
+  change originMap k b = 0
   have h := congrArg (fun f : ambientRing k →+* RatFunc k => f b)
     (genericMap_constantCoeff k)
   simp only [RingHom.comp_apply, hb, map_zero] at h
@@ -698,18 +698,18 @@ private lemma genericPrime_le_originPrime : genericPrime k ≤ originPrime k := 
 
 private lemma originPrime_mem_support :
     originPrime k ∈ (divisor k).supportSet := by
-  show originPrime k ∈ (Spec (.of (ambientRing k))).zeroLocus (U := ⊤)
+  change originPrime k ∈ (Spec (.of (ambientRing k))).zeroLocus (U := ⊤)
     ((Ideal.span {(Scheme.ΓSpecIso (.of (ambientRing k))).inv (x k)} : Ideal _) : Set _)
   rw [Scheme.zeroLocus_span,
     show ({(Scheme.ΓSpecIso (.of (ambientRing k))).inv (x k)} : Set _) =
       (Scheme.ΓSpecIso (.of (ambientRing k))).inv '' ({x k} : Set _) by simp,
     Spec_zeroLocus_eq_zeroLocus]
   rintro b (rfl : b = x k)
-  show originMap k (x k) = 0
+  change originMap k (x k) = 0
   simp [originMap, axisMap, axisEvaluation, x, xPoly]
 
 private lemma yZero_notMem_genericPrime : yZero k ∉ (genericPrime k).asIdeal := by
-  show genericMap k (yZero k) ≠ 0
+  change genericMap k (yZero k) ≠ 0
   simp [genericMap, genericEvaluation, witnessEvaluation, yZero, yPoly, yWeight]
 
 /-- No open subscheme of `Spec B` containing the divisor is flat over `Spec k[t]`. -/
@@ -737,7 +737,7 @@ theorem no_flat_neighbourhood
     ((U.ι r : PrimeSpectrum (ambientRing k)).isPrime.mem_or_mem
       (by rw [t_mul_yZero]; exact Ideal.zero_mem _)).resolve_right hy
   have hx : Polynomial.X ∈ (PrimeSpectrum.comap (baseMap k) (U.ι r)).asIdeal := by
-    show baseMap k Polynomial.X ∈ (U.ι r : PrimeSpectrum (ambientRing k)).asIdeal
+    change baseMap k Polynomial.X ∈ (U.ι r : PrimeSpectrum (ambientRing k)).asIdeal
     simpa [baseMap] using ht
   change PrimeSpectrum.comap (baseMap k) (U.ι r) = z at he
   rw [he] at hx

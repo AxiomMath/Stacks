@@ -412,8 +412,7 @@ private lemma isBaseChange_tensor_gate {B E E' P : Type*} [CommRing B] [CommRing
   have hfun : ∀ z, n z = TensorProduct.AlgebraTensorModule.map (Algebra.linearMap E E')
       (LinearMap.id (R := B) (M := P)) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul e p =>
       rw [hn]
       rfl
@@ -460,31 +459,28 @@ private lemma exists_flat_baseChange_of_monotone
   let b (i j : Finset S) (h : i ≤ j) : E i →ₐ[B] E j :=
     { Algebra.TensorProduct.map (a i j h) (AlgHom.id A B) with
       commutes' := fun z ↦ by
-        show (Algebra.TensorProduct.map (a i j h) (AlgHom.id A B)) ((1 : D i) ⊗ₜ[A] z)
+        change (Algebra.TensorProduct.map (a i j h) (AlgHom.id A B)) ((1 : D i) ⊗ₜ[A] z)
           = (1 : D j) ⊗ₜ[A] z
         simp }
   let σ (i : Finset S) : E i →ₐ[B] T :=
     { Algebra.TensorProduct.map (IsScalarTower.toAlgHom A (D i) S) (AlgHom.id A B) with
       commutes' := fun z ↦ by
-        show (Algebra.TensorProduct.map (IsScalarTower.toAlgHom A (D i) S) (AlgHom.id A B))
+        change (Algebra.TensorProduct.map (IsScalarTower.toAlgHom A (D i) S) (AlgHom.id A B))
           ((1 : D i) ⊗ₜ[A] z) = (1 : S) ⊗ₜ[A] z
         simp }
   have : DirectedSystem E (fun i j h ↦ ⇑(b i j h)) := by
     constructor
     · intro i z
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul _ _ => rfl
       | add z w hz hw => simp only [map_add, hz, hw]
     · intro k j i hij hjk z
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul _ _ => rfl
       | add z w hz hw => simp only [map_add, hz, hw]
   have hσ : ∀ i j (h : i ≤ j) (z : E i), σ j (b i j h z) = σ i z := by
     intro i j h z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul _ _ => rfl
     | add z w hz hw => simp only [map_add, hz, hw]
   have hc := Stacks.ColimitPresentation.FPModules.isModuleColimit
@@ -504,26 +500,23 @@ private lemma exists_flat_baseChange_of_monotone
       map_smul' := by
         intro c z
         simp only [LinearMap.toFun_eq_coe]
-        induction z using TensorProduct.induction_on with
-        | zero => simp only [map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul e p =>
-          show b i j h (c * e) ⊗ₜ[B] p = (b i j h c * b i j h e) ⊗ₜ[B] p
+          change b i j h (c * e) ⊗ₜ[B] p = (b i j h c * b i j h e) ⊗ₜ[B] p
           rw [map_mul]
         | add z w hz hw => simp only [smul_add, map_add, hz, hw] }
   have : DirectedSystem N (fun i j h ↦ ⇑(n i j h)) := by
     constructor
     · intro i z
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul e p =>
-        show b i i le_rfl e ⊗ₜ[B] p = e ⊗ₜ[B] p
+        change b i i le_rfl e ⊗ₜ[B] p = e ⊗ₜ[B] p
         rw [DirectedSystem.map_self' (fun i j h ↦ b i j h)]
       | add z w hz hw => simp only [map_add, hz, hw]
     · intro k j i hij hjk z
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul e p =>
-        show b j k hjk (b i j hij e) ⊗ₜ[B] p = b i k (hij.trans hjk) e ⊗ₜ[B] p
+        change b j k hjk (b i j hij e) ⊗ₜ[B] p = b i k (hij.trans hjk) e ⊗ₜ[B] p
         rw [DirectedSystem.map_map' (fun i j h ↦ b i j h) hij hjk]
       | add z w hz hw => simp only [map_add, hz, hw]
   let ν (i : Finset S) : N i →ₛₗ[(σ i).toRingHom] Q :=
@@ -531,18 +524,16 @@ private lemma exists_flat_baseChange_of_monotone
       map_smul' := by
         intro c z
         simp only [LinearMap.toFun_eq_coe]
-        induction z using TensorProduct.induction_on with
-        | zero => simp only [map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul e p =>
-          show σ i (c * e) ⊗ₜ[B] p = (σ i c * σ i e) ⊗ₜ[B] p
+          change σ i (c * e) ⊗ₜ[B] p = (σ i c * σ i e) ⊗ₜ[B] p
           rw [map_mul]
         | add z w hz hw => simp only [smul_add, map_add, hz, hw] }
   have hν : ∀ i j (h : i ≤ j) (z : N i), ν j (n i j h z) = ν i z := by
     intro i j h z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul e p =>
-      show σ j (b i j h e) ⊗ₜ[B] p = σ i e ⊗ₜ[B] p
+      change σ j (b i j h e) ⊗ₜ[B] p = σ i e ⊗ₜ[B] p
       rw [hσ i j h]
     | add z w hz hw => simp only [map_add, hz, hw]
   have hNcolim : (∀ z : Q, ∃ i, ∃ w : N i, ν i w = z) ∧
@@ -583,7 +574,7 @@ private lemma exists_flat_baseChange_of_monotone
     have : Algebra.IsPushout (D i) (D j) (E i) (E j) :=
       Algebra.IsPushout.tensorProduct_tensorProduct A B (D i) (D j) (by
         ext w
-        show (Algebra.TensorProduct.map (a i j h) (AlgHom.id A B)) ((1 : D i) ⊗ₜ[A] w)
+        change (Algebra.TensorProduct.map (a i j h) (AlgHom.id A B)) ((1 : D i) ⊗ₜ[A] w)
           = (1 : D j) ⊗ₜ[A] w
         simp)
     exact CommRingCat.isPushout_iff_isPushout.mpr ‹_›

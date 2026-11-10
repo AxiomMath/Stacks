@@ -267,7 +267,7 @@ private theorem specDividedPowerHomEquiv_comp
     (f : X ⟶ specDividedPowerScheme B) (g : A ⟶ B) :
     specDividedPowerHomEquiv X A (f ≫ specDividedPowerMap g) =
       g ≫ specDividedPowerHomEquiv X B f := by
-  show specDividedPowerSchemeUnit A ≫ globalSectionsDPMorphism
+  change specDividedPowerSchemeUnit A ≫ globalSectionsDPMorphism
     (f ≫ specDividedPowerMap g) = _
   have hcomp : globalSectionsDPMorphism (f ≫ specDividedPowerMap g) =
       globalSectionsDPMorphism (specDividedPowerMap g) ≫ globalSectionsDPMorphism f :=
@@ -368,7 +368,7 @@ private theorem dividedPowerToSpec_hom (X : DividedPowerScheme.{u}) :
   apply ext_to_Spec
   have h := toSpecDividedPowerScheme_appTop X
     (X.dividedPowers.toDividedPowerRing (op ⊤)) (𝟙 _)
-  show (Scheme.ΓSpecIso Γ(X.scheme, ⊤)).inv ≫ (dividedPowerToSpec X).hom.appTop =
+  change (Scheme.ΓSpecIso Γ(X.scheme, ⊤)).inv ≫ (dividedPowerToSpec X).hom.appTop =
     (Scheme.ΓSpecIso Γ(X.scheme, ⊤)).inv ≫ X.scheme.toSpecΓ.appTop
   rw [Scheme.toSpecΓ_appTop, Iso.inv_hom_id]
   exact congrArg CommRingCat.ofHom h
@@ -394,7 +394,7 @@ private theorem dividedPowerToSpec_isInducedOpen (X : DividedPowerScheme.{u})
     refine Eq.trans ?_ (sectionIdeal_map_of_isQuasicoherent X.scheme X.ideal
       ⟨⊤, isAffineOpen_top _⟩ V le_top)
     exact congrArg (fun φ => Ideal.map φ A.ideal) (RingHom.comp_id _)
-  show (Crystalline.sectionIdeal (Spec (CommRingCat.of A)).sheaf
+  change (Crystalline.sectionIdeal (Spec (CommRingCat.of A)).sheaf
       (specDividedPowerIdeal A) (op U.1)).map _ = _
   rw [← specDividedPowerIdeal_affine A U]
   exact key

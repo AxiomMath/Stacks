@@ -130,7 +130,7 @@ public theorem classes_map_difference_eq
     map p x hx hp δ η = map p x hx hp inl c := by
   apply hQ
   funext n
-  show map p x hx hp (q n) (map p x hx hp δ η) = map p x hx hp (q n) (map p x hx hp inl c)
+  change map p x hx hp (q n) (map p x hx hp δ η) = map p x hx hp (q n) (map p x hx hp inl c)
   have hgη : map p x hx hp (g n) η = map p x hx hp (Δ n) (b n) := by
     refine eq_of_map_eq_of_injective _ _ (hP n) ?_ ?_
     · rw [← map_comp, ← map_comp, hg₁, hΔ₁, map_id, map_comp, hη, hb]

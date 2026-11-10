@@ -347,7 +347,7 @@ theorem etalePullback_isFlatInDimensionsGEAfterBaseChange_iff (T : SchemesOver D
     congrArg (fun k => k.hom) (D.etalePullbackBaseChangeMap_inclusion h T).symm
   refine (isFlatOverInDimensionsGEOnEveryChartDiagram_iff_of_moduleIso B S hS _ _
     (D.etalePullbackBaseChangeModuleIso h hh T) n).trans ?_
-  show IsFlatOverInDimensionsGEOnEveryChartDiagram B S hS (baseChangeSpace (h ≫ D.f) T).2
+  change IsFlatOverInDimensionsGEOnEveryChartDiagram B S hS (baseChangeSpace (h ≫ D.f) T).2
     (baseChangeInclusion (h ≫ D.f) T).hom _ n ↔ _
   rw [hincl]
   exact isFlatOverInDimensionsGEOnEveryChartDiagram_iff_hasTrdegLt B S hS

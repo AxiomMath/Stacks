@@ -28,8 +28,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ModulePullbackSectionChart
 /-!
 # Stacks 0ERC over the constructed Chow groups
 
-A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: proper pushforward along
-a closed immersion is the pushforward of the localization sequence, Stacks 0ERC over the
+A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: proper pushforward
+along a closed immersion is the pushforward of the localization sequence, Stacks 0ERC over the
 constructed Chow groups, and the bookkeeping of proper pushforwards of classes used for axiom (3)
 of Stacks 0ERJ.
 -/

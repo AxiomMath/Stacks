@@ -53,7 +53,7 @@ theorem moduleFinite_h1Cotangent_of_finiteType {A B : Type*} [CommRing A] [CommR
   have : Module.Finite B P.toExtension.Cotangent :=
     Algebra.Extension.Cotangent.finite P.fg_ker
   have : Module.Finite B P.toExtension.H1Cotangent := by
-    show Module.Finite B ↥P.toExtension.cotangentComplex.ker
+    change Module.Finite B ↥P.toExtension.cotangentComplex.ker
     infer_instance
   exact Module.Finite.of_surjective P.equivH1Cotangent.toLinearMap
     P.equivH1Cotangent.surjective

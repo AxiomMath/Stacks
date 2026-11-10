@@ -155,8 +155,7 @@ theorem differential_wedgeMap
             (differential p D Om wedge deRham M nabla hleib 1 (toCompletedTensor p D (Om 1) M z)) -
           wedgeMap p D Om wedge M (i + 1) (deRham i ω) (toCompletedTensor p D (Om 1) M z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m η =>
       rw [wedgeMap_of_tmul, differential_of_tmul, differential_of_tmul, wedgeMap_of_tmul,
         map_add, completedLTensor_toCompletedTensor_tmul,
@@ -202,8 +201,7 @@ theorem isSquareZero_of_hasIntegrableConnection
         (differential p D Om wedge deRham M nabla hleib i (toCompletedTensor p D (Om i) M z)) =
           0 := by
     intro i z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m ω =>
       rw [differential_of_tmul, map_add,
         differential_wedgeMap p D Om wedge deRham M nabla hleib wedgeTwo hassoc hleibTwo,
@@ -284,7 +282,7 @@ theorem dividedPowerWedge_dividedPowerWedge (i : ℕ)
     dividedPowerWedge hJ (i + 1) (dividedPowerWedge hJ i omega eta) xi =
       dividedPowerWedgeTwo hJ i omega (dividedPowerWedge hJ 1 eta xi) := by
   refine Subtype.ext ?_
-  show ExteriorAlgebra.ι B _ * (ExteriorAlgebra.ι B _ * _) =
+  change ExteriorAlgebra.ι B _ * (ExteriorAlgebra.ι B _ * _) =
     (ExteriorAlgebra.ι B _ *
       (eta : ExteriorAlgebra B (dividedPowerDifferentials (A := A) hJ))) * _
   rw [coe_oneForm hJ eta, mul_assoc]
@@ -311,7 +309,7 @@ theorem dividedPowerDeRham_dividedPowerWedge (i : ℕ)
   rw [exteriorPower.coe_degCongr, Submodule.coe_add, exteriorPower.coe_degCongr,
     exteriorPower.wedgeMul_apply_coe, SetLike.val_smul, exteriorPower.coe_degCongr,
     exteriorPower.wedgeMul_apply_coe, Submodule.coe_sub, coe_dividedPowerWedgeTwo]
-  show _ = _ - ExteriorAlgebra.ι B _ * _
+  change _ = _ - ExteriorAlgebra.ι B _ * _
   rw [coe_oneForm hJ eta, pow_one, neg_one_smul, ← sub_eq_add_neg]
   rfl
 

@@ -8,7 +8,7 @@ public import Mathlib.Topology.Algebra.Nonarchimedean.Basic
 public import Mathlib.Topology.Algebra.OpenSubgroup
 public import Mathlib.Topology.Category.Profinite.Nobeling.Induction
 public import Mathlib.Topology.LocallyConstant.Algebra
-public import Mathlib.Topology.Separation.Profinite
+public import Mathlib.Topology.Separation.Regular
 public import StacksFrontier.Algebra.Module.Projective.DedekindSubmodule
 
 /-!
@@ -138,7 +138,7 @@ lemma face_succ_consPt {p : ℕ} (y : T') (x : FibrePower π (p + 1)) (h : baseP
 /-- The fibre power is closed in the space of all tuples. -/
 lemma isClosed_fibrePower [T2Space T] (p : ℕ) :
     IsClosed {x : Fin (p + 1) → T' | ∀ a b, π (x a) = π (x b)} := by
-  simp only [setOf_forall]
+  simp only [ofPred_forall]
   exact isClosed_iInter fun a ↦ isClosed_iInter fun b ↦
     isClosed_eq (π.continuous.comp (continuous_apply a)) (π.continuous.comp (continuous_apply b))
 
@@ -202,7 +202,7 @@ lemma cechD_apply (p : ℕ) (c : FibrePower π p → A) (x : FibrePower π (p + 
 /-- The Čech differential composed with itself vanishes. -/
 lemma cechD_cechD (p : ℕ) (c : FibrePower π p → A) :
     cechD π (p + 1) (cechD π p c) = 0 := by
-  show (AlgebraicTopology.AlternatingCofaceMapComplex.objD (functionsCosimplicial π A) p ≫
+  change (AlgebraicTopology.AlternatingCofaceMapComplex.objD (functionsCosimplicial π A) p ≫
     AlgebraicTopology.AlternatingCofaceMapComplex.objD (functionsCosimplicial π A) (p + 1)).hom c
       = 0
   rw [AlgebraicTopology.AlternatingCofaceMapComplex.d_squared]
@@ -255,7 +255,7 @@ lemma continuous_cechD [TopologicalSpace A] [IsTopologicalAddGroup A] (p : ℕ)
     {c : FibrePower π p → A} (hc : Continuous c) : Continuous (cechD π p c) := by
   rw [show cechD π p c = fun x ↦ ∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) • c (face π j x) from
     funext (cechD_apply π p c)]
-  refine continuous_finset_sum _ fun j _ ↦ ?_
+  refine continuous_finsetSum _ fun j _ ↦ ?_
   exact (hc.comp (continuous_face π j)).zsmul _
 
 /-- **The homotopy identity on a fibre.** Inserting a point `y` of the fibre as the first
@@ -314,7 +314,7 @@ theorem exists_isLocallyConstant_extend {Z B : Type*} [TopologicalSpace Z] [Comp
     refine ⟨C (idx z), (hCcl _).isOpen, hidx z, fun z' hz' ↦ ?_⟩
     rw [hidx_eq z' _ hz']
   · have : (s : Z) ∈ C ⟨f s, s, rfl⟩ := hZC _ ⟨s, rfl, rfl⟩
-    show (idx s).1 = f s
+    change (idx s).1 = f s
     rw [hidx_eq _ _ this]
 
 end Extension
@@ -363,7 +363,7 @@ lemma exists_local_primitive {q : ℕ} (c : FibrePower π (q + 1) → A)
   have ht : π y ∉ basePt π '' bad := by
     rintro ⟨x, hx, hxt⟩
     exact hx (show e x = 0 from sub_eq_zero.2 (key x hxt).symm)
-  obtain ⟨U, hU, htU, hUsub⟩ := compact_exists_isClopen_in_isOpen himg.isOpen_compl ht
+  obtain ⟨U, hU, htU, hUsub⟩ := exists_isClopen_mem_of_isOpen himg.isOpen_compl ht
   refine ⟨U, hU, htU, btil, hbtil, fun x hx ↦ ?_⟩
   by_contra hne
   exact hUsub hx ⟨x, fun h ↦ hne (sub_eq_zero.1 (show e x = 0 from h)).symm, rfl⟩
@@ -496,7 +496,7 @@ lemma smulConst_sum_left {ι : Type*} (s : Finset ι) (φ : ι → LocallyConsta
 lemma smulConst_zsmul_left (n : ℤ) (φ : LocallyConstant Z ℤ) (a : A) :
     smulConst (n • φ) a = smulConst φ (n • a) :=
   LocallyConstant.ext fun z ↦ by
-    show (n • φ z) • a = φ z • (n • a)
+    change (n • φ z) • a = φ z • (n • a)
     rw [smul_eq_mul, smul_smul, mul_comm]
 
 /-- Postcomposing `smulConst φ a` with a homomorphism `ψ` gives `smulConst φ (ψ a)`. -/
@@ -528,7 +528,7 @@ lemma eq_sum_smulConst_fibreInd {ι : Type*} (q : LocallyConstant X ι) (R : Fin
   ext x
   rw [LC_sum_apply]
   simp only [smulConst_apply, fibreInd_apply, ite_smul, one_smul, zero_smul,
-    Finset.sum_ite_eq, if_pos (hR x), LocallyConstant.map_apply, Function.comp_apply]
+    Finset.sum_ite_eq, ite_eq_left (hR x), LocallyConstant.map_apply, Function.comp_apply]
 
 variable (s : LocallyConstant X ℤ →+ LocallyConstant Z ℤ)
 
@@ -655,7 +655,7 @@ lemma extendScalars_smulConst (φ : LocallyConstant X ℤ) (a : A) :
   ext x
   rw [LC_sum_apply]
   simp only [LocallyConstant.coe_smul, Pi.smul_apply, fibreInd_apply, smul_eq_mul, mul_ite,
-    mul_one, mul_zero, Finset.sum_ite_eq, if_pos (hR x)]
+    mul_one, mul_zero, Finset.sum_ite_eq, ite_eq_left (hR x)]
 
 /-- The extension is natural in the coefficients. -/
 lemma map_extendScalars (ψ : A →+ B) (f : LocallyConstant X A) :
@@ -789,7 +789,7 @@ theorem exists_augContraction (hπ : Function.Surjective π) :
     | zero =>
       change LocallyConstant T ℤ at x
       ext y
-      show cechD π 0 (fun w ↦ x (basePt π w)) y = 0
+      change cechD π 0 (fun w ↦ x (basePt π w)) y = 0
       rw [cechD_apply, Fin.sum_univ_two]
       simp [basePt_face]
     | succ n =>
@@ -916,7 +916,7 @@ theorem exists_continuous_cechD_eq (hY : IsProDiscrete Y) {q : ℕ}
       (bN N).map (QuotientAddGroup.map (N : AddSubgroup Y) (N' : AddSubgroup Y)
         (AddMonoidHom.id Y) hle) = bN N' := by
     intro N N' hle
-    show (extendScalars _ s₀ (reduceLC N cc)).map
+    change (extendScalars _ s₀ (reduceLC N cc)).map
       (QuotientAddGroup.map (N : AddSubgroup Y) (N' : AddSubgroup Y) (AddMonoidHom.id Y) hle) = _
     rw [map_extendScalars]
     rfl
@@ -929,7 +929,7 @@ theorem exists_continuous_cechD_eq (hY : IsProDiscrete Y) {q : ℕ}
       intro N N' hle
       refine QuotientAddGroup.eq_iff_sub_mem.1 ?_
       rw [hf N', ← hcompat N N' hle]
-      show _ = QuotientAddGroup.map _ _ (AddMonoidHom.id Y) hle (bN N w)
+      change _ = QuotientAddGroup.map _ _ (AddMonoidHom.id Y) hle (bN N w)
       rw [← hf N]
       rfl
     obtain ⟨y, hy⟩ := hY f hfc
@@ -1042,7 +1042,7 @@ theorem isZero_homology_contCosimplicial (hπ : Function.Surjective π) (hY : Is
         z.down x) hc)
   obtain ⟨b, hb, hbc⟩ := exists_continuous_cechD_eq hπ hY c.down c.down.continuous hc'
   refine ⟨⟨⟨b, hb⟩⟩, ?_⟩
-  show (((AlgebraicTopology.alternatingCofaceMapComplex AddCommGrpCat.{max u v w}).obj
+  change (((AlgebraicTopology.alternatingCofaceMapComplex AddCommGrpCat.{max u v w}).obj
       (contCosimplicial.{u, v, w} π Y)).d q (q + 1)).hom ⟨⟨b, hb⟩⟩ = c
   rw [hd]
   apply ULift.ext

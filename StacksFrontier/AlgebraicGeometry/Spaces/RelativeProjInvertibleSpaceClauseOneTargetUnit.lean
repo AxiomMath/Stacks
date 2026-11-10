@@ -32,7 +32,8 @@ The components `(modulePullbackCompIso B S hS f g).hom.app M` have source
 A composite in which such a component meets a morphism spelled with `f^*(g^*M)` or `M` is
 accepted by the elaborator, but the kernel compares the two spellings by unfolding
 `AlgebraicGeometry.Space.modulePullback`, which is a deterministic timeout even at 800000
-heartbeats (for instance for the inverse comparison followed by the unit law, rewritten in a composite).
+heartbeats (for instance for the inverse comparison followed by the unit law, rewritten in a
+composite).
 With the comparisons and the unit law read through the definitions below, every statement is
 spelled with iterated inverse images only, and the same rewriting is checked at once.
 

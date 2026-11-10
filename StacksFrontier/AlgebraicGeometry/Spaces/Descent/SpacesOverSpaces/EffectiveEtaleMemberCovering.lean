@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.SpacesOverSpaces.E
 # Every descent datum along a covering with a surjective étale member is effective
 
 Let `{X i ⟶ T}` be an fppf covering of algebraic spaces one member of which is surjective and
-étale.  `StacksFrontier.AlgebraicGeometry.Spaces.Descent.SpacesOverSpaces.EffectiveOneMemberCovering`
+étale.
+`StacksFrontier.AlgebraicGeometry.Spaces.Descent.SpacesOverSpaces.EffectiveOneMemberCovering`
 proves, with no grant, that the descent datum `fibreDescentData F` of a sheaf `F` over `T` with
 algebraic-space fibres is then effective.  Essential surjectivity of the fibre descent functor,
 `AlgebraicGeometry.Space.Descent.essSurj_fibreDescentFunctor` of

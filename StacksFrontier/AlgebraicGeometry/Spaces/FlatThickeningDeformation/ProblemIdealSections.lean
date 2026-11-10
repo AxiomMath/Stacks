@@ -21,7 +21,8 @@ on the two maps out of the ideal:
 * the inclusion into `g⁻¹(t⁻¹𝒪_{Y'})` carries it to the inverse image of the image of `t` in
   `t⁻¹𝒪_{Y'}`, on underlying sheaves of sets, and for `t` the class of a global section `s` of the
   ideal of `Z`, to the inverse image of `s` read as a function on `Y'`
-  (`AlgebraicGeometry.Space.FlatThickeningDeformation.ringOneHom_comp_map_problemIdealSection_comp_map_inclSheafSets`).
+  (`FlatThickeningDeformation.ringOneHom_comp_map_problemIdealSection_comp_map_inclSheafSets`,
+  in the namespace `AlgebraicGeometry.Space`).
 
 These are the generators through which the prescribed maps of the problems at a chart are
 compared along a morphism of thickenings in Remark 0D1P.
@@ -67,6 +68,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (g : X ⟶ (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site is slow
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_ProblemIdealSections
@@ -75,6 +77,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_ProblemIdealSections
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site is slow
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete₀_ProblemIdealSections
@@ -83,6 +86,7 @@ local instance (priority := high) hasLimitsOfShape_discrete₀_ProblemIdealSecti
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of sheaves on the small étale site is slow
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasDiscreteLimits_topos_ProblemIdealSections

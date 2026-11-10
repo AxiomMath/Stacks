@@ -131,13 +131,14 @@ theorem liftUnitVal_π_powMk (n : ℕ) (X : Cᵒᵖ) (c : Fin n → R.obj.obj X)
     rw [← comp_val_app_apply]
     by_cases hj : j = i
     · subst hj
-      rw [biproduct.ι_π_self, if_pos rfl]
+      rw [biproduct.ι_π_self, ite_eq_left rfl]
       rfl
-    · rw [biproduct.ι_π_ne _ hj, if_neg hj]
+    · rw [biproduct.ι_π_ne _ hj, ite_eq_right hj]
       rfl
   rw [powMk_def, map_sum,
-    Finset.sum_eq_single_of_mem i (Finset.mem_univ i) fun j _ hj ↦ by rw [h j, if_neg hj], h i,
-    if_pos rfl]
+    Finset.sum_eq_single_of_mem i (Finset.mem_univ i) fun j _ hj ↦ by
+      rw [h j, ite_eq_right hj], h i,
+    ite_eq_left rfl]
 
 /-- Restriction of a section of the sheaf of rings is additive. -/
 theorem ring_map_add {X Y : Cᵒᵖ} (f : X ⟶ Y) (a b : R.obj.obj X) :
@@ -266,7 +267,7 @@ theorem exists_sections_relations_of_hasFiniteGlobalPresentation (N : SheafOfMod
           (liftUnitOf (1 : R.obj.obj X)) := rfl
     rw [hup, ← hsm, hz]
   have hcz : c ≫ q = 0 := by
-    show (eQ.hom ≫ a ≫ eP.inv) ≫ eP.hom ≫ b = 0
+    change (eQ.hom ≫ a ≫ eP.inv) ≫ eP.hom ≫ b = 0
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
     rw [hab, comp_zero]
   refine ⟨n, p, σ, ρ, fun k X => ?_, fun V x => ?_, fun V τ hτ => ?_⟩

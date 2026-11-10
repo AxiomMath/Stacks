@@ -257,7 +257,6 @@ theorem totD_totD (n : ℤ) (x : TotX U P n) : totD U P (n + 1) (totD U P n x) =
       cochainMap_d_d, smul_zero, Pi.zero_apply] <;>
     simp only [← cechD_cochainMap] <;>
     first
-    | rfl
     | (rw [← add_smul]; norm_num [pow_succ])
 
 /-- The total differential between two arbitrary degrees: `totD` from `n` to `n + 1`, and zero
@@ -267,14 +266,14 @@ def totDiff (n m : ℤ) : ModuleCat.of R (TotX U P n) ⟶ ModuleCat.of R (TotX U
 
 /-- From degree `n` to degree `n + 1` the total differential is `totD`. -/
 theorem totDiff_self (n : ℤ) : totDiff U P n (n + 1) = ModuleCat.ofHom (totD U P n) :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- **The total Čech complex** `Tot(Č(U, P))` of a complex of presheaves of `R`-modules: in degree
 `n` the product of `Č^p(U, P^a)` over `p + a = n`, with differential `δ + (-1)^p d_P`. -/
 abbrev cechTot : CochainComplex (ModuleCat.{w} R) ℤ where
   X n := ModuleCat.of R (TotX U P n)
   d := totDiff U P
-  shape i j h := dif_neg h
+  shape i j h := dite_eq_right h
   d_comp_d' i j k hij hjk := by
     subst hij hjk
     rw [totDiff_self, totDiff_self]
@@ -284,7 +283,7 @@ abbrev cechTot : CochainComplex (ModuleCat.{w} R) ℤ where
 /-- The differential of the total Čech complex from degree `n` to degree `n + 1` is `totD`. -/
 theorem cechTot_d_apply (n : ℤ) (x : TotX U P n) :
     ((cechTot U P).d n (n + 1)).hom x = totD U P n x := by
-  show (totDiff U P n (n + 1)).hom x = totD U P n x
+  change (totDiff U P n (n + 1)).hom x = totD U P n x
   rw [totDiff_self]
   rfl
 
@@ -298,7 +297,7 @@ theorem cechTot_d_apply' {n m : ℤ} (h : n + 1 = m) (x : TotX U P n) :
 /-- The differential of the total Čech complex vanishes between degrees `n` and `m` unless
 `m = n + 1`. -/
 theorem cechTot_d_eq_zero {n m : ℤ} (h : n + 1 ≠ m) : (cechTot U P).d n m = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 variable {U P} in
 /-- The degreewise map of total Čech complexes induced by a morphism of complexes of presheaves. -/

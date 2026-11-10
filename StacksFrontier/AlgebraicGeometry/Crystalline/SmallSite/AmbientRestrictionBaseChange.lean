@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.AmbientRest
 # The ambient restrictions of a localised small crystalline site compare with those of its base
 
 This is the small-site counterpart of
-`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.AmbientRestrictionBaseChange`.  Let `B`
-be an object `(U', T', δ')` of the small crystalline site `Cris(X/S)` and let
+`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.AmbientRestrictionBaseChange`.
+Let `B` be an object `(U', T', δ')` of the small crystalline site `Cris(X/S)` and let
 `X = (g : (U, T, δ) ⟶ B)` be an object of the localised site `Cris(X/S)/B`.  Restriction of a
 sheaf of modules on `Cris(X/S)/B` along the ambient restriction
 `Crystalline.GlobalCrystallineSituation.SmallSite.CrystallineThickening.ambientOverFunctor` of `X`

@@ -77,7 +77,7 @@ public def LAdicSheaf.padicTowerInverseImageIso {X X' : B.Scheme} [IsNoetherian 
 
 variable {X : B.Scheme} [IsNoetherian X.1]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
@@ -96,13 +96,16 @@ lemma comp_trans_hom {𝒞 : Type*} [Category* 𝒞] {A₁ A₂ A₃ : 𝒞} (e�
     (h₂ : a₂ ≫ e₂.hom = e₂.hom ≫ a₃) : a₁ ≫ (e₁ ≪≫ e₂).hom = (e₁ ≪≫ e₂).hom ≫ a₃ := by
   rw [Iso.trans_hom, reassoc_of% h₁, h₂, Category.assoc]
 
+namespace LAdicSheaf
+
 /-- **Excision for the weights of `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`.**  For an open immersion `j_U : U ⟶ X`
 with complementary closed immersion `i : Z ⟶ X`, compactified by the compactifications induced
 by `j`: if the complex roots, read along `ι`, of the characteristic polynomials of the geometric
 Frobenius on `Hⁱ_c(U_k̄, F|_U ⊗ ℚ_ℓ)` and on `Hⁱ_c(Z_k̄, F|_Z ⊗ ℚ_ℓ)` have absolute values
 `q' ^ (w / 2)` with `w ≤ b`, so do those on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`.  The groups
 `Hⁱ_c(X_k̄, j_{U!} F|_U,ₙ)` at the finite levels are assumed finite. -/
-public theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_openClosed
+public theorem
+    isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_openClosed
     (F : LAdicSheaf.{u, u + 1} B X ℓ) (i : ℤ) {U Z : B.Scheme} [IsNoetherian U.1]
     [IsNoetherian Z.1] (jU : U ⟶ X) (iZ : Z ⟶ X) [IsOpenImmersion (B.inclusion.map jU)]
     [IsClosedImmersion (B.inclusion.map iZ)] [QuasiCompact (B.inclusion.map jU ≫ f)]
@@ -187,6 +190,8 @@ public theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompact
     exact comp_trans_hom _ _ _ _ _
       (towerClosedPartCohomologyIso_hom_frobenius f j kbar p q hcard iZ' T i)
       (whiskerLeft_comp_isoWhiskerRight_hom eZ _)
+
+end LAdicSheaf
 
 end Stacks.EtaleCohomology
 

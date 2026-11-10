@@ -52,6 +52,7 @@ local notation "E₀" => presentationEnvelope s (tensorPowerPresentation s g 0)
 /-- The same envelope, as `Crystalline.completedTensorPowerDifferentials` spells it. -/
 local notation "T₀" => tensorPowerEnvelope s g 0
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- `p` is nilpotent modulo the divided power ideal of the envelope; unlike
 `Crystalline.presentationEnvelope_prime_nilpotent`, this does not mention the surjectivity of the
 presentation, so that an instance stated with it can be found. -/
@@ -148,6 +149,7 @@ theorem tensorPowerOneFormsEquiv_apply (ω : completedTensorPowerDifferentials s
         (tensorPowerOneFormsEquivAux₁ s g ω)) :=
   rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- Steps one and two carry the universal derivation to the universal differential. -/
 theorem tensorPowerOneFormsEquivAux_derivation
     (x : AdicCompletion (pAdicIdeal (A := ((T₀).object : Type u)) s.p) (T₀).object) :

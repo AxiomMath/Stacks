@@ -20,9 +20,10 @@ constructible-cohomology half, it gives the direction (2) ⟹ (1) in full.
 
 ## Main results
 
-* `Stacks.SheafOfModules.DerivedTensorProduct.FreeModuleUniverse.locallyHasFiniteTorDimension_of_flatRepresentative`
-  : on a ringed site at a free module universe, an object represented by a complex of flat
-  modules concentrated in `[a, b]` locally has finite Tor dimension.
+* `locallyHasFiniteTorDimension_of_flatRepresentative`, in the namespace
+  `Stacks.SheafOfModules.DerivedTensorProduct.FreeModuleUniverse`: on a ringed site at a free
+  module universe, an object represented by a complex of flat modules concentrated in `[a, b]`
+  locally has finite Tor dimension.
 * `Stacks.EtaleCohomology.locallyHasFiniteTorDimension_of_isRepresentedByConstructibleFlatComplex`
   : **Tag 03TT, the finite-Tor-dimension half of (2) ⟹ (1)**.
 * `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryOfConstructibleFlatComplex`
@@ -73,9 +74,9 @@ Tor-amplitude interval, which is
 of `StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/IntervalDescent.lean`, stated at a
 `RingedSite.{c, u, u}` with `C` essentially `u`-small and therefore not instantiable at the
 constant coefficient ringed site. That pin is inherited from Stacks 0E8K through
-`Stacks.SheafOfModules.DerivedTensorProduct.OfEssentiallySmall.isZero_homology_derivedRestriction_tensorModule`,
-and a free-module-universe counterpart of 0E8K has no declaration in this tree. The resolution
-itself is not an obstacle:
+`isZero_homology_derivedRestriction_tensorModule`, in the namespace
+`Stacks.SheafOfModules.DerivedTensorProduct.OfEssentiallySmall`, and a free-module-universe
+counterpart of 0E8K has no declaration in this tree. The resolution itself is not an obstacle:
 `Stacks.EtaleCohomology.isRepresentedByBoundedAboveConstructibleFlatComplex_of_isConstructible`
 is unconditional.
 
@@ -124,9 +125,11 @@ attribute [local instance] RingedSite.sliceHasDerivedCategory sliceDerived
 
 variable
   [∀ U : Z.C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, max v w, max v w, max v w} (Z.over U).O).Additive]
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, max v w, max v w, max v w}
+      (Z.over U).O).Additive]
   [∀ (U : Z.C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, max v w, max v w, max v w} (Z.over U).O).obj M).Additive]
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, max v w, max v w, max v w}
+      (Z.over U).O).obj M).Additive]
   [∀ (U : Z.C) (K L : CochainComplex (RingedSite.Modules.{max u v, v, max v w} (Z.over U)) ℤ),
     HomologicalComplex.HasMapBifunctor K L
       (Stacks.SheafOfModules.Tensor.sheafTensor.{max u v, v, max v w, max v w, max v w}
@@ -164,10 +167,12 @@ theorem locallyHasFiniteTorDimension_of_flatRepresentative
     (fun i => ?_) (fun i hi => ?_) ?_
   · exact Stacks.SheafOfModules.FlatRestriction.FreeModuleUniverse.isFlat_over.{w, max v w, v, u}
       Z V (K.X i) (hflat i)
-  · exact (SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) V).map_isZero (hzero i hi)
-  · exact ((SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) V).mapDerivedCategoryFactors.app
-        K).symm ≪≫
-      (SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O) V).mapDerivedCategory.mapIso e
+  · exact (SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)
+      V).map_isZero (hzero i hi)
+  · exact ((SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)
+        V).mapDerivedCategoryFactors.app K).symm ≪≫
+      (SheafOfModules.overFunctor.{max v w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)
+        V).mapDerivedCategory.mapIso e
 
 end Stacks.SheafOfModules.DerivedTensorProduct.FreeModuleUniverse
 
@@ -184,7 +189,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section General
 
-variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ]
   [HasSheafify (SmallEtale.topology B X.obj X.property) (ModuleCat.{w} Λ)]
   [∀ (S T : B.Scheme) (f : T ⟶ S),
     ((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{w} Λ)
@@ -199,10 +204,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [IsNo
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U))]
   [∀ U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+      max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+      max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
@@ -227,9 +234,9 @@ the constant coefficient ringed site.
 Each term of the complex becomes a flat module over the constant coefficient ring sheaf, by
 `AlgebraicGeometry.isFlat_moduleSheafOverConstantCoefficients_of_isConstructibleFlatModuleSheaf`;
 the change of coefficients is exact, so applied degreewise it carries the complex to a
-representative of the image of `K`; and
-`Stacks.SheafOfModules.DerivedTensorProduct.FreeModuleUniverse.locallyHasFiniteTorDimension_of_flatRepresentative`
-reads Stacks 08G1 on every slice. -/
+representative of the image of `K`; and `locallyHasFiniteTorDimension_of_flatRepresentative`, in
+the namespace `Stacks.SheafOfModules.DerivedTensorProduct.FreeModuleUniverse`, reads Stacks 08G1
+on every slice. -/
 @[stacks 03TT "the finite-tor-dimension half of the direction (2) => (1), at a free coefficient \
 universe; the constructible-cohomology half of that direction is \
 `Stacks.EtaleCohomology.isConstructible_of_isRepresentedByConstructibleFlatComplex` and the two \
@@ -247,8 +254,8 @@ theorem locallyHasFiniteTorDimension_of_isRepresentedByConstructibleFlatComplex
       (X := constantCoefficientRingedSite.{u, w, r} B X Λ) T
       ((moduleSheafOverConstantCoefficientsFunctor.{u, w, r} B X Λ).mapDerivedCategory.obj K) := by
   obtain ⟨C, a, b, hGE, hLE, hflat, ⟨eC⟩⟩ := hK
-  haveI := hGE
-  haveI := hLE
+  have := hGE
+  have := hLE
   refine locallyHasFiniteTorDimension_of_flatRepresentative.{u + 1, u, max (u + 1) w r, d}
     T _ a b
     (((moduleSheafOverConstantCoefficientsFunctor.{u, w, r} B X Λ).mapHomologicalComplex
@@ -283,10 +290,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [IsNo
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U))]
   [∀ U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+      max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r, max (u + 1) r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+      max (u + 1) r}
       ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r}

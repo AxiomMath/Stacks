@@ -440,13 +440,13 @@ theorem sheaf_square_mate {U' U X' X : RingedSpace.{u, u}}
               (La'.obj O) G) ≫
           Rb'.map ((TUn.obj (Lb'.obj G)).map uO ≫ ruN (Lb'.obj G) ≫ bridge')) ≫
         (Stacks.Cohomology.DerivedBaseChange.Mate.derivedPushforwardComparisonSquare adja adja'
-          adjb adjb' eg ef).natTrans.app Z =
+          adjb adjb' eg ef).app Z =
       flipX ≫
         adjunctionTensorMap adjb (Functor.uncurry.obj TX) (Functor.uncurry.obj TU) αb O M ≫
         Rb.map (luU ≫ ψ) :=
   sheaf_square adjb adjb' TX TXn TU TUn αb αb' s bcO uO (ruN (Lb'.obj G)) bridge'
     (Stacks.Cohomology.DerivedBaseChange.Mate.derivedPushforwardComparisonSquare adja adja'
-      adjb adjb' eg ef).natTrans
+      adjb adjb' eg ef)
     (fun K => Stacks.Cohomology.DerivedBaseChange.Mate.derivedBaseChangeMap adja adja' eg ef K)
     (fun K => Stacks.Cohomology.DerivedBaseChange.Mate.derivedBaseChangeMap_unit_fac adja adja'
       adjb adjb' eg ef K)
@@ -754,7 +754,7 @@ theorem sheaf_square_ringedSpace (sq1 : a' ≫ b = b' ≫ a) (sq2 : b' ≫ a = a
               tensorRightUnitorHom U' ((derivedPullback b').obj G) ≫ bridge')) ≫
       (Mate.derivedPushforwardComparisonSquare (derivedAdjunction a) (derivedAdjunction a')
         (derivedAdjunction b) (derivedAdjunction b') (derivedPullbackCompIsoLeft b' a' a b sq2)
-        (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical b' a)).natTrans.app Z =
+        (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical b' a)).app Z =
     tensorBraidingHom X M ((derivedPushforward b).obj (singleUnit U)) ≫
       projectionFormulaMap b (singleUnit U) M ≫
       (derivedPushforward b).map (tensorLeftUnitorHom U ((derivedPullback b).obj M) ≫ ψ) :=
@@ -830,7 +830,7 @@ theorem leraySquare_levelOpen (U : S.X.left.Opens) (n : ℕ)
             (S.closedImmersion n).toLRSHom.toShHom U.ι.toLRSHom.toShHom (S.levelOpen_square U n))
           (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
             (S.levelOpen U n).ι.toLRSHom.toShHom
-            (S.closedImmersion n).toLRSHom.toShHom)).natTrans Y := by
+            (S.closedImmersion n).toLRSHom.toShHom)) Y := by
   have sqS : (S.levelOpen U n).ι ≫ S.closedImmersion n = S.levelOpenImmersion U n ≫ U.ι :=
     (morphismRestrict_ι _ _).symm
   have hk' : ((S.levelOpen U n).ι ≫ S.closedImmersion n) ≫ S.X.hom =

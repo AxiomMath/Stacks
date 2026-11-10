@@ -185,7 +185,7 @@ theorem isIso_toFunctionFieldApp {U : X.Opens} (hU : IsAffineOpen U) (hne : None
   have key : (toFunctionFieldApp X (genericPoint_mem_of_nonempty X hne)).hom =
       e.toAlgHom.toRingHom := by
     refine IsLocalization.ringHom_ext (nonZeroDivisors Γ(X, U)) (RingHom.ext fun r ↦ ?_)
-    show toFunctionFieldApp X (genericPoint_mem_of_nonempty X hne)
+    change toFunctionFieldApp X (genericPoint_mem_of_nonempty X hne)
         (X.presheaf.toTotalQuotientPresheaf.app (op U) r) = e (algebraMap _ _ r)
     rw [toFunctionFieldApp_apply, e.commutes]
     simp [RingHom.algebraMap_toAlgebra]

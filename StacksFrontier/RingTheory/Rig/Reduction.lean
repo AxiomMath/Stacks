@@ -94,7 +94,7 @@ public lemma isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
   let qB : B →+* B ⧸ NB := Ideal.Quotient.mk NB
   let qφ : A ⧸ NA →+* B ⧸ NB := Ideal.quotientMap NB φ hmap
   have hq : qφ.comp qA = qB.comp φ := Ideal.quotientMap_comp_mk hmap
-  show qφ.FiniteType
+  change qφ.FiniteType
   let _ : Algebra (A ⧸ NA) (B ⧸ NB) := qφ.toAlgebra
   let evalMap : MvPolynomial (Fin n) (A ⧸ NA) →ₐ[A ⧸ NA] (B ⧸ NB) :=
     MvPolynomial.aeval (fun i => qB (f (MvPolynomial.X i)))
@@ -102,10 +102,10 @@ public lemma isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
     apply MvPolynomial.ringHom_ext'
     · ext a
       simp only [RingHom.comp_apply, MvPolynomial.map_C]
-      show MvPolynomial.aeval (fun i => qB (f (MvPolynomial.X i)))
+      change MvPolynomial.aeval (fun i => qB (f (MvPolynomial.X i)))
         (MvPolynomial.C (qA a)) = qB (f (MvPolynomial.C a))
       rw [MvPolynomial.aeval_C]
-      show qφ (qA a) = qB (f (MvPolynomial.C a))
+      change qφ (qA a) = qB (f (MvPolynomial.C a))
       rw [show qφ (qA a) = qB (φ a) from congrArg (fun g : A →+* B ⧸ NB => g a) hq,
         show f (MvPolynomial.C a) = φ a from congrArg (fun g : A →+* B => g a) hcomm]
     · intro i
@@ -315,7 +315,7 @@ public theorem isTopologicallyOfFiniteType_of_isFiniteTypeOnReductions
     apply MvPolynomial.ringHom_ext'
     · ext a
       simp only [RingHom.comp_apply]
-      show qB (e (MvPolynomial.rename Sum.inl (MvPolynomial.C a))) =
+      change qB (e (MvPolynomial.rename Sum.inl (MvPolynomial.C a))) =
         f (MvPolynomial.map qA (MvPolynomial.C a))
       rw [MvPolynomial.rename_C, MvPolynomial.map_C]
       have hevalC : e (MvPolynomial.C a) = φ a := by simp [e]
@@ -372,7 +372,7 @@ public theorem isFiniteTypeOnReductions_iff_isTopologicallyOfFiniteType
       TopologicalRing.IsTopologicallyOfFiniteType φ :=
   ⟨isTopologicallyOfFiniteType_of_isFiniteTypeOnReductions φ hφ hB,
     isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
-      φ hφ hA (RingHom.isTaut_of_isAdic φ hφ hadic)⟩
+      φ hφ hA (RingHom.isTaut_of_isAdic φ hadic)⟩
 
 end Rig
 

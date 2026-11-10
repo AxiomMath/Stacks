@@ -240,7 +240,7 @@ theorem surjective_quotientπ_app_of_le_compl_support (I : X.IdealSheafData) (F 
   choose y hy using hlift
   have hcompat : TopCat.Presheaf.IsCompatible F.presheaf (fun i : ι ↦ (i : X.Opens)) y := by
     intro i j
-    show F.presheaf.map
+    change F.presheaf.map
         (homOfLE (inf_le_left : (i : X.Opens) ⊓ (j : X.Opens) ≤ (i : X.Opens))).op (y i)
       = F.presheaf.map
         (homOfLE (inf_le_right : (i : X.Opens) ⊓ (j : X.Opens) ≤ (j : X.Opens))).op (y j)

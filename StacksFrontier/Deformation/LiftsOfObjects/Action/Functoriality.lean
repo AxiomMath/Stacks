@@ -193,7 +193,7 @@ public lemma linearFunctorLiftEquiv_tangentLiftCoord
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)))
     (V : FGModuleCat.{w} k)
     (y : (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered).obj
       ((squareZeroExtensionArtinian Λ k).obj V)) :
@@ -216,9 +216,9 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     [h𝓕 : Fact (IsPredeformationCategory 𝓕.p)]
     [h𝓖 : Fact (IsPredeformationCategory 𝓖.p)]
     [hS2𝓕 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))]
     [hS2𝓖 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))]
     (φ : BasedFunctor 𝓕 𝓖)
 
 /-- The map induced by `φ` on the canonical linear structures of the associated functors at
@@ -245,8 +245,7 @@ public theorem squareZeroLinearMap_tensor
       associatedTangentSpaceFunctor_iso_tensorLeftUnlifted 𝓖 h𝓖.out hS2𝓖.out V
         (TensorProduct.map dφ (LinearMap.id : V →ₗ[k] V) t) := by
   intro dφ
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t v =>
     rw [associatedTangentSpaceFunctor_iso_tensorLeft_pureUnlifted,
@@ -310,9 +309,9 @@ public theorem mapLiftClasses_vadd
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
     letI := liftAction 𝓕 h𝓕 f hf hann x
     letI := liftAction 𝓖 h𝓖 f hf hann ((fiberFunctor φ A).obj x)
     let dφ := IsLinearMap.mk' (differential h𝓕.predeformation.cofibered
@@ -332,9 +331,9 @@ public theorem mapLiftClasses_vadd
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2F⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2F⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2G⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2G⟩
   let := liftAction 𝓕 h𝓕 f hf hann x
   let := liftAction 𝓖 h𝓖 f hf hann ((fiberFunctor φ A).obj x)
   intro dφ

@@ -407,7 +407,7 @@ theorem baseChangeCycleCoeff_pullbackRestrict (B : FlatBaseChangeSituation.{u})
   have hpt : pullback.fst sX B.g (pullbackRestrict sX sU w hw B.g y) =
       w (pullback.fst sU B.g y) :=
     comp_apply_eq_of_comp_eq (pullbackRestrict_fst sX sU w hw B.g) y
-  show (cycleGroupRestrict B.base sX sU w hw k z).1 (pullback.fst sU B.g y) *
+  change (cycleGroupRestrict B.base sX sU w hw k z).1 (pullback.fst sU B.g y) *
       flatPullbackWeight B.baseChange (pullback.snd sU B.g) (pullback.fst sU B.g) (k + B.c) y =
     z.1 (pullback.fst sX B.g (pullbackRestrict sX sU w hw B.g y)) *
       flatPullbackWeight B.baseChange (pullback.snd sX B.g) (pullback.fst sX B.g) (k + B.c)

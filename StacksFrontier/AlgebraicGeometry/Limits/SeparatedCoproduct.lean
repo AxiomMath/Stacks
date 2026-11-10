@@ -92,7 +92,7 @@ theorem isSeparated_sigma {σ : Type v} [Small.{u} σ] (Y : σ → Scheme.{u})
     (Scheme.Pullback.openCoverOfLeftRight (sigmaOpenCover Y) (sigmaOpenCover Y)
       (terminal.from (∐ Y)) (terminal.from (∐ Y))) ?_
   rintro ⟨a, b⟩
-  show IsClosedImmersion
+  change IsClosedImmersion
     (pullback.snd (pullback.diagonal (terminal.from (∐ Y))) (sigmaTerminalPullbackMap Y a b))
   by_cases hab : a = b
   · subst hab

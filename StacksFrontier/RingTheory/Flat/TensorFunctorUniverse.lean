@@ -159,7 +159,7 @@ theorem preservesColimitsOfSize_moduleCat_uliftFunctor :
   preservesColimitsOfShape {J _} := by
     have : PreservesColimitsOfShape J
         (ModuleCat.uliftFunctor.{w, v} A ⋙ forget₂ (ModuleCat.{max v w} A) AddCommGrpCat) := by
-      show PreservesColimitsOfShape J
+      change PreservesColimitsOfShape J
         (forget₂ (ModuleCat.{v} A) AddCommGrpCat ⋙ AddCommGrpCat.uliftFunctor.{w, v})
       infer_instance
     exact preservesColimitsOfShape_of_reflects_of_preserves _ (forget₂ _ AddCommGrpCat)
@@ -238,7 +238,7 @@ def tensorComparisonUnivUnitIso :
 theorem tensorComparisonUniv_app_unit :
     (tensorComparisonUniv Φ).app (unitModule A) = (tensorComparisonUnivUnitIso Φ).hom := by
   refine ModuleCat.hom_ext (TensorProduct.ext' fun x a ↦ ?_)
-  show (Φ.map (spanHom (M := unitModule A) a)).hom x
+  change (Φ.map (spanHom (M := unitModule A) a)).hom x
       = TensorProduct.rid A (Φ.obj (unitModule A)) (x ⊗ₜ[A] a)
   rw [spanHom_unit, Φ.map_smul, Φ.map_id, TensorProduct.rid_tmul]
   simp

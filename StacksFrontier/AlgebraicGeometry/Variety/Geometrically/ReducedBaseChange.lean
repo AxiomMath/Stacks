@@ -106,7 +106,7 @@ private lemma isGeometricallyReducedAt_baseChange_of_isGeometricallyReducedAt
     isReduced_of_injective (e.inv.stalkMap (e.hom z)).hom
       (asIso <| e.inv.stalkMap (e.hom z)).commRingCatIsoToRingEquiv.injective
   have hepoint : e.inv (e.hom z) = z := by
-    show (e.hom ≫ e.inv) z = z
+    change (e.hom ≫ e.inv) z = z
     rw [e.hom_inv_id]
     rfl
   rw [hepoint] at hzred'

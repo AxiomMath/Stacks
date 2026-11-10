@@ -70,7 +70,7 @@ public theorem shiftedRestrictionIso_naturality
   obtain ⟨g, rfl⟩ := hB.map_surjective g₀
   simp only [shiftedRestrictionIso, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom,
     Iso.app_hom]
-  show S.map (B.map g) ≫ S.map (α.hom.app Y) ≫ (F.commShiftIso n).inv.app (B.obj Y) =
+  change S.map (B.map g) ≫ S.map (α.hom.app Y) ≫ (F.commShiftIso n).inv.app (B.obj Y) =
     (S.map (α.hom.app X) ≫ (F.commShiftIso n).inv.app (B.obj X)) ≫
       F.map (S.map (B.map g))
   rw [← Category.assoc, ← S.map_comp, α.hom.naturality g, Functor.comp_map,

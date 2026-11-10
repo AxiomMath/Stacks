@@ -50,8 +50,8 @@ theorem hasAtWorstNodalSingularities_fiber_iff {X S : Scheme.{u}} (f : X ⟶ S)
   intro s _ hequi hdim
   let : (f.fiber s).Over (Spec (.of (S.residueField s))) := ⟨f.fiberToSpecResidueField s⟩
   have : LocallyOfFiniteType (f.fiber s ↘ Spec (.of (S.residueField s))) := by
-    show LocallyOfFiniteType (f.fiberToSpecResidueField s)
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (f.fiberToSpecResidueField s)
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   exact hasAtWorstNodalSingularities_iff_lci_and_unramified_relativeSingularIdeal
     (S.residueField s) (f.fiber s) hequi hdim

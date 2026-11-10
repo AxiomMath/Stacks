@@ -104,7 +104,7 @@ theorem epi_representedAffineSections_map
     (representedAffineAssoc B S hS U).symm.toAdjunction.isLeftAdjoint
   have := Functor.preservesEpimorphisms_of_isLeftAdjoint (representedAffineAssoc B S hS U).inverse
   have h₁ : Epi ((representedAffineAssoc B S hS U).inverse.map g') := Functor.map_epi _ _
-  show Epi ((ObjectProperty.ι P ⋙ representedAffineSections B S hS U).map g')
+  change Epi ((ObjectProperty.ι P ⋙ representedAffineSections B S hS U).map g')
   rw [← h]
   exact @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso _) _
     (@epi_comp _ _ _ _ _ _ h₁ _ (IsIso.epi_of_iso _))
@@ -135,7 +135,7 @@ theorem epi_freeHomEquiv_symm_of_span_eq_top
   rintro _ ⟨y, rfl⟩
   obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun _).1
     (show y ∈ Submodule.span _ (Set.range g) by rw [hg]; trivial)
-  show chartRestrictLinear N (hT.from W) (∑ i, c i • g i) ∈ _
+  change chartRestrictLinear N (hT.from W) (∑ i, c i • g i) ∈ _
   rw [map_sum]
   refine Submodule.sum_mem _ fun j _ => ?_
   rw [chartRestrictLinear_smul]
@@ -145,7 +145,7 @@ theorem epi_freeHomEquiv_symm_of_span_eq_top
   have h₁ := congrArg (fun f => (f.val.app (op W)).hom (chartRestrict (hT.from W) (c j)))
     (hφj (ULift.up j))
   simp only [SheafOfModules.comp_val, PresheafOfModules.comp_app, ModuleCat.hom_comp,
-    LinearMap.coe_comp, Function.comp_apply] at h₁
+    LinearMap.coe_comp] at h₁
   exact h₁.trans (unitHomEquiv_symm_val_app (X := ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩)
     B S hS (s (ULift.up j)) (op W) _)
 

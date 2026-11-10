@@ -130,7 +130,7 @@ theorem isAssociatedPoint_of_isAssociatedPrime_sections {X : Scheme.{u}} (F : X.
   let : IsLocalization.AtPrime (X.presheaf.stalk x) p := hU.isLocalization_stalk ⟨x, hx⟩
   let : IsLocalRing (X.presheaf.stalk x) := IsLocalization.AtPrime.isLocalRing _ p
   obtain ⟨hp, m, hm⟩ := h
-  show IsAssociatedPrimeStacks (X.presheaf.stalk x) (F.presheaf.stalk x)
+  change IsAssociatedPrimeStacks (X.presheaf.stalk x) (F.presheaf.stalk x)
     (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
   refine ⟨(IsLocalRing.maximalIdeal.isMaximal _).isPrime, F.presheaf.germ U x hx m, ?_⟩
   ext z
@@ -172,7 +172,7 @@ theorem isAssociatedPrime_sections_of_isAssociatedPoint_of_fg {X : Scheme.{u}} (
   let : IsLocalization.AtPrime (X.presheaf.stalk x) p := hU.isLocalization_stalk ⟨x, hx⟩
   let : IsLocalRing (X.presheaf.stalk x) := IsLocalization.AtPrime.isLocalRing _ p
   let : Module Γ(X, U) (F.presheaf.stalk x) := affineStalkModule F U x hx
-  show IsAssociatedPrimeStacks Γ(X, U) Γ(F, U) p
+  change IsAssociatedPrimeStacks Γ(X, U) Γ(F, U) p
   exact exactAssociated_of_localize
     (tower := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)) p (affineGerm F U x hx)
     (loc := affineGerm_isLocalized F U hU x hx) hfg h
@@ -200,7 +200,7 @@ private theorem isWeaklyAssociatedPrime_iff_of_isLocalization_atPrime {R S : Typ
     [loc : IsLocalizedModule p.primeCompl g] :
     IsWeaklyAssociatedPrime R M p ↔
       IsWeaklyAssociatedPrime S M' (IsLocalRing.maximalIdeal S) := by
-  show WeaklyAssociated p M ↔ WeaklyAssociated (IsLocalRing.maximalIdeal S) M'
+  change WeaklyAssociated p M ↔ WeaklyAssociated (IsLocalRing.maximalIdeal S) M'
   let m : Ideal S := IsLocalRing.maximalIdeal S
   have hmp : m.IsPrime := (IsLocalRing.maximalIdeal.isMaximal S).isPrime
   have hcomap_m : Ideal.comap (algebraMap R S) m = p := by
@@ -255,7 +255,7 @@ theorem isWeaklyAssociatedPrime_iff_isWeaklyAssociatedPoint {X : Scheme.{u}} (F 
   let : IsLocalization.AtPrime (X.presheaf.stalk x) p := hU.isLocalization_stalk ⟨x, hx⟩
   let : IsLocalRing (X.presheaf.stalk x) := IsLocalization.AtPrime.isLocalRing _ p
   let : Module Γ(X, U) (F.presheaf.stalk x) := affineStalkModule F U x hx
-  show IsWeaklyAssociatedPrime Γ(X, U) Γ(F, U) p ↔
+  change IsWeaklyAssociatedPrime Γ(X, U) Γ(F, U) p ↔
     IsWeaklyAssociatedPrime (X.presheaf.stalk x) (F.presheaf.stalk x) (IsLocalRing.maximalIdeal _)
   exact isWeaklyAssociatedPrime_iff_of_isLocalization_atPrime
     (tower := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)) p (affineGerm F U x hx)

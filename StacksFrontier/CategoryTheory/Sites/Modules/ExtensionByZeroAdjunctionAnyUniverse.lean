@@ -107,7 +107,7 @@ lemma ι_comp_presheafRestriction (G : PresheafOfModules.{v} ((Over.forget U).op
       summandRestriction U S G f φ ≫
         (ModuleCat.restrictScalars (S.map f).hom).map
           (Sigma.ι (presheafSummands U S G Y) (f.unop ≫ φ)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `presheafRestriction` applied to an element of the summand indexed by `φ`. -/
 @[simp]
@@ -203,7 +203,8 @@ lemma presheafRestriction_comp_desc
         (ModuleCat.restrictScalars (S.map f).hom).map (Sigma.desc (descComponent U S α Y)) =
       Sigma.desc (descComponent U S α X) ≫ H.map f := by
   refine Sigma.hom_ext _ _ fun φ => ?_
-  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_desc, Sigma.ι_desc_assoc]
+  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_comp_desc,
+    Sigma.ι_comp_desc_assoc]
   exact α.naturality _
 
 /-- The map out of `directSumPresheaf G` determined by a map `G ⟶ j_U^* H`: it is given on the
@@ -262,7 +263,7 @@ noncomputable def directSumPresheafIso
       Sigma.desc (descComponent U S ((restrictionAdjunction U S).unit.app G) X) ≫
         (directSumComparisonInv U S G).app X =
       Sigma.ι (presheafSummands U S G X) φ ≫ 𝟙 _
-    rw [Sigma.ι_desc_assoc, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
     exact congrArg (fun β => β.app (op (Over.mk φ)))
       (((restrictionAdjunction U S).homEquiv_unit G _
           (directSumComparisonInv U S G)).symm.trans
@@ -279,7 +280,7 @@ noncomputable def directSumPresheafIso
     change Sigma.ι (presheafSummands U S G (op X.unop.left)) X.unop.hom ≫
       Sigma.desc (descComponent U S ((restrictionAdjunction U S).unit.app G)
         (op X.unop.left)) = ((restrictionAdjunction U S).unit.app G).app X
-    exact Sigma.ι_desc (descComponent U S ((restrictionAdjunction U S).unit.app G)
+    exact Sigma.ι_comp_desc (descComponent U S ((restrictionAdjunction U S).unit.app G)
       (op X.unop.left)) X.unop.hom
 
 /-- The presheaf whose sheafification is extension by zero has over `V` the direct sum of
@@ -317,9 +318,9 @@ theorem extensionByZeroPresheafSectionIso_inv_ι
       (𝟙 (R.over U) : (R.over U) ⟶ (R.over U)).hom).unit.app G.val).app
         (op (Over.mk φ))) := by
   apply heq_of_eq
-  show Sigma.ι (extensionByZeroSummands J R U G V) φ ≫
+  change Sigma.ι (extensionByZeroSummands J R U G V) φ ≫
     (directSumComparison U R.obj G.val).app (op V) = _
-  exact Sigma.ι_desc (f := extensionByZeroSummands J R U G V)
+  exact Sigma.ι_comp_desc (f := extensionByZeroSummands J R U G V)
     (P := ((PresheafOfModules.pullback (F := Over.forget U)
       (𝟙 ((Over.forget U).op ⋙ R.obj))).obj G.val).obj (op V))
     (fun ψ => ((restrictionAdjunction U R.obj).unit.app G.val).app

@@ -152,7 +152,7 @@ theorem exists_idealPowModule_homs_cokernel_smul_eq_zero_of_le (hX : IsNoetheria
   have h0 : (etaleModulePullback B S hS (idealComplementι B S hS D.Y D.I) hι).map
       (cokernel.π (biproduct.desc Ψ)) = 0 :=
     hΨ _ fun i => by
-      show (etaleModulePullback B S hS (idealComplementι B S hS D.Y D.I) hι).map (Ψ i) ≫
+      change (etaleModulePullback B S hS (idealComplementι B S hS D.Y D.I) hι).map (Ψ i) ≫
         (etaleModulePullback B S hS (idealComplementι B S hS D.Y D.I) hι).map
           (cokernel.π (biproduct.desc Ψ)) = 0
       rw [← Functor.map_comp, hc i, Functor.map_zero]

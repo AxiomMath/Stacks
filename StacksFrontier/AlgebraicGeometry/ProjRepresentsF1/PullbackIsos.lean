@@ -39,7 +39,8 @@ type for an arbitrary choice of tensor algebras.
 
 ## Implementation notes
 
-**Stacks 01CD needs no bridge to reach the scheme spelling.** `Stacks.PullbackTensorIso.pullbackTensorIso` is stated for a morphism of ringed
+**Stacks 01CD needs no bridge to reach the scheme spelling.**
+`Stacks.PullbackTensorIso.pullbackTensorIso` is stated for a morphism of ringed
 spaces, with the pullback `RingedSpaceModuleAdjunction.modulePullback` and the tensor product
 `Stacks.RingedSpace.tensorSheaf`. Both of those unfold to exactly what the scheme spelling
 uses: `modulePullback f` is `CategoryTheory.SheafOfModules.pullback (structureSheafHom f)` and

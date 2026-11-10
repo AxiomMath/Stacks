@@ -63,7 +63,7 @@ theorem isGE_mapDerivedCategoryPlus_obj_of_exactFunctor (F : A ⥤ B) [F.Additiv
     (K : DerivedCategory.Plus A) (a : ℤ) [K.IsGE a] :
     (F.mapDerivedCategoryPlus.obj K).IsGE a := by
   rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-  show (F.mapDerivedCategory.obj K.obj).IsGE a
+  change (F.mapDerivedCategory.obj K.obj).IsGE a
   have hK : K.obj.IsGE a := (DerivedCategory.Plus.isGE_ι_obj_iff K a).2 inferInstance
   obtain ⟨M, hM, ⟨e⟩⟩ := K.obj.exists_iso_Q_obj_of_isGE a
   have := hM

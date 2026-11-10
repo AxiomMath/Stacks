@@ -138,10 +138,10 @@ public theorem baseOver_openCoverData (τ : SiteKind) :
     inferInstanceAs (IsOpenImmersion (O.f i))
   have hcover : Sieve.ofArrows W a ∈ baseOverTopology B S hS τ T := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V f ∈ B.baseTopology τ T.left
+    change Sieve.ofArrows V f ∈ B.baseTopology τ T.left
     exact sieve₀_mem_baseTopology_of_isOpenImmersion B τ E hsurj himm
   refine ⟨O.I₀, W, a, fun i => i.down, hcover, fun i y => ?_⟩
-  show y.1 ∈ U' i
+  change y.1 ∈ U' i
   simpa [U'] using y.2
 
 end BigFppfOver

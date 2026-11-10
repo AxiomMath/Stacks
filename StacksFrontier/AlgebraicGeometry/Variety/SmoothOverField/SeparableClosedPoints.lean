@@ -90,9 +90,9 @@ theorem exists_closedPoint_finite_separable_residueField
   let q : PrimeSpectrum R := PrimeSpectrum.comap ψ.toRingHom ⊥
   have hq : q ∈ PrimeSpectrum.basicOpen p := by
     rw [PrimeSpectrum.mem_basicOpen]
-    show p ∉ Ideal.comap ψ.toRingHom (⊥ : Ideal L)
+    change p ∉ Ideal.comap ψ.toRingHom (⊥ : Ideal L)
     rw [Ideal.mem_comap, Ideal.mem_bot]
-    show MvPolynomial.eval₂ (algebraMap k L) a p ≠ 0
+    change MvPolynomial.eval₂ (algebraMap k L) a p ≠ 0
     rwa [MvPolynomial.eval₂_eq_eval_map]
   have hw₀W : homeo.symm q ∈ W := by
     obtain ⟨x, hx, hxeq⟩ := hsub hq
@@ -103,7 +103,7 @@ theorem exists_closedPoint_finite_separable_residueField
   have hqpoint : Spec.map (CommRingCat.ofHom ψ.toRingHom) z = (q : Spec (.of R)) := by
     rw [AlgebraicGeometry.Spec.map_apply]; rfl
   have hpoint : h z = homeo.symm q := by
-    show e.inv (Spec.map (CommRingCat.ofHom ψ.toRingHom) z) = homeo.symm q
+    change e.inv (Spec.map (CommRingCat.ofHom ψ.toRingHom) z) = homeo.symm q
     rw [hqpoint]; simp [homeo, Scheme.homeoOfIso_symm]
   let w : X := (Scheme.SpecToEquivOfField L X h).1
   have hpair : h z = w := by
@@ -126,23 +126,23 @@ theorem exists_closedPoint_finite_separable_residueField
           dsimp [w, σ, Scheme.SpecToEquivOfField]
           have : IsLocalHom (Scheme.stalkClosedPointTo h).hom :=
             Scheme.isLocalHom_stalkClosedPointTo h
-          show (X.presheaf.germ ⊤ _ trivial ≫ X.residue _) ≫
+          change (X.presheaf.germ ⊤ _ trivial ≫ X.residue _) ≫
               Scheme.descResidueField (Scheme.stalkClosedPointTo h) = _
           rw [Category.assoc, Scheme.residue_descResidueField,
             Scheme.germ_stalkClosedPointTo h ⊤ trivial]
-          show h.appTop ≫ (Scheme.ΓSpecIso (.of L)).hom = _
+          change h.appTop ≫ (Scheme.ΓSpecIso (.of L)).hom = _
           rfl
         let s : Γ(Spec (.of k), ⊤) := (Scheme.ΓSpecIso (.of k)).inv.hom c
-        show (X.Γevaluation w ≫ σ) (f.appTop s) = algebraMap k L c
+        change (X.Γevaluation w ≫ σ) (f.appTop s) = algebraMap k L c
         rw [congrArg (fun φ : Γ(X, ⊤) ⟶ CommRingCat.of L => φ (f.appTop s)) hEvalW]
-        show (Scheme.ΓSpecIso (.of L)).hom (h.appTop (f.appTop s)) = _
+        change (Scheme.ΓSpecIso (.of L)).hom (h.appTop (f.appTop s)) = _
         have happ : h.appTop (f.appTop s) =
             (Spec.map (CommRingCat.ofHom (algebraMap k L))).appTop s := by
           have htop := congrArg Scheme.Hom.appTop hOver
           simp only [Scheme.Hom.comp_app] at htop
           exact congrArg (fun φ => φ s) htop
         rw [happ]
-        show ((Spec.map (CommRingCat.ofHom (algebraMap k L))).appTop ≫
+        change ((Spec.map (CommRingCat.ofHom (algebraMap k L))).appTop ≫
           (Scheme.ΓSpecIso (.of L)).hom) s = _
         rw [Scheme.ΓSpecIso_naturality]; simp [s] }
   let B := (Spec (.of k)).residueField (f w)
@@ -151,7 +151,7 @@ theorem exists_closedPoint_finite_separable_residueField
   let : Algebra B (X.residueField w) := (f.residueFieldMap w).hom.toAlgebra
   have hcomp : (algebraMap B (X.residueField w)).comp φ = algebraMap k (X.residueField w) := by
     ext c
-    show f.residueFieldMap w
+    change f.residueFieldMap w
         ((Spec (.of k)).Γevaluation (f w) ((Scheme.ΓSpecIso (.of k)).inv c)) =
       X.Γevaluation w (f.appTop ((Scheme.ΓSpecIso (.of k)).inv c))
     exact Scheme.Γevaluation_naturality_apply f w ((Scheme.ΓSpecIso (.of k)).inv c)
@@ -159,11 +159,11 @@ theorem exists_closedPoint_finite_separable_residueField
     let x := f w
     have : x.asIdeal.IsMaximal :=
       (PrimeSpectrum.isClosed_singleton_iff_isMaximal x).mp isClosed_singleton
-    show Function.Surjective
+    change Function.Surjective
       (CommRingCat.Hom.hom ((Scheme.ΓSpecIso (.of k)).inv ≫
         (Spec (.of k)).presheaf.germ ⊤ x trivial ≫ (Spec (.of k)).residue x))
     rw [← Scheme.Spec.algebraMap_residueFieldIso_inv]
-    show Function.Surjective
+    change Function.Surjective
       ((Scheme.Spec.residueFieldIso (.of k) x).inv.hom ∘ algebraMap k x.asIdeal.ResidueField)
     exact (ConcreteCategory.bijective_of_isIso _).surjective.comp
       (Ideal.algebraMap_residueField_surjective x.asIdeal)
@@ -185,9 +185,9 @@ theorem exists_closedPoint_finite_separable_residueField
       let H := f.fiberHomeo (f w)
       convert hclosed.preimage (continuous_subtype_val.comp H.continuous) using 1
       ext z
-      show z = f.asFiber w ↔ (H z).1 = w
+      change z = f.asFiber w ↔ (H z).1 = w
       conv_rhs => rhs; rw [← Scheme.Hom.fiberι_asFiber f w]
-      show z = f.asFiber w ↔ (H z).1 = (H (f.asFiber w)).1
+      change z = f.asFiber w ↔ (H z).1 = (H (f.asFiber w)).1
       simpa only [Subtype.ext_iff] using
         (H.injective.eq_iff (a := z) (b := f.asFiber w)).symm
     have hfinite := (isClosed_asFiber_iff_finite_residueField f w).mp hclosedFiber

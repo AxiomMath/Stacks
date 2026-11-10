@@ -249,7 +249,7 @@ theorem ker_le_of_minimal {d : ℕ} (y : Fin d → R) (hy : IsCotangentFamily (�
     IsLocalRing.eq_maximalIdeal (Ideal.comap_isMaximal_of_surjective F hF)
   have hmP : mP = Ideal.span {MvPowerSeries.C (ℓ : ℤ_[ℓ])} ⊔
       Ideal.span (Set.range (MvPowerSeries.X : Fin d → P)) := by
-    show maximalIdeal (MvPowerSeries (Fin d) ℤ_[ℓ]) = _
+    change maximalIdeal (MvPowerSeries (Fin d) ℤ_[ℓ]) = _
     rw [maximalIdeal_mvPowerSeries, PadicInt.maximalIdeal_eq_span_p, Ideal.map_span,
       Set.image_singleton]
   have hFm : ∀ q ∈ mP, F q ∈ maximalIdeal R := fun q hq => by

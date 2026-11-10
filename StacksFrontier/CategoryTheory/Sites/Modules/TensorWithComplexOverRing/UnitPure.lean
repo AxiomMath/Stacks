@@ -81,7 +81,7 @@ theorem tensorWithComplexDG_unit_pure
     (𝟙 (show (CompDG.{u, v, w, t, s, o} X R).Comp from (tensorDG.{u, v, w, t, s, o} X R K).obj M))
     p q (p + q) rfl U x y
   refine h.trans ?_
-  show (((Cochain.ofHom (𝟙 (show CochainComplex (TensorModO.{u, v, w, t, s} X) ℤ from
+  change (((Cochain.ofHom (𝟙 (show CochainComplex (TensorModO.{u, v, w, t, s} X) ℤ from
     (tensorDG.{u, v, w, t, s, o} X R K).obj M))).v (p + q) (p + q)
     (add_zero _)).val.app U) _ = _
   rw [Cochain.ofHom_v]
@@ -133,7 +133,7 @@ theorem tensorWithComplexDG_unit_map
   ext y
   refine eq_of_heq ((tensorWithComplexDG_unit_pure_heq.{u, v, w, t, s, o} X R K M' (p + n) q d
     (by omega) ⟨f.1 x, f.2.1 p x x.property⟩ U y).trans ?_)
-  show HEq _ ((((tensorWithComplexDG.{u, v, w, t, s, o} X R K).functor.map f).v (q + p) d
+  change HEq _ ((((tensorWithComplexDG.{u, v, w, t, s, o} X R K).functor.map f).v (q + p) d
     (by omega)).val.app U (((((Rep.{u, v, w, t, s, o} X R K).moduleHom
       ((tensorWithComplexDG.{u, v, w, t, s, o} X R K).functor.obj M) p
         ⟨_, tensorWithComplexDG_unit_mem.{u, v, w, t, s, o} X R K M p x⟩).v q (q + p)

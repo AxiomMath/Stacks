@@ -648,7 +648,7 @@ theorem relationTarget_eq_relationSource
     (representingMap B S hS _ _ R₀.obj U₀.obj eR eU (relSnd x.hom.hom)).app (op W)
       ((representingMap B S hS _ _ R₀'.obj R₀.obj eR' eR (relationMap h x eK)).app (op W)
         (PresheafOfCategories.sectionOfObj eR' r hr)) at hv
-  show (representingMap B S hS _ _ R₀'.obj U₀'.obj eR' eU' (relFst (chart' h x eK).hom)).app
+  change (representingMap B S hS _ _ R₀'.obj U₀'.obj eR' eU' (relFst (chart' h x eK).hom)).app
       (op W) (PresheafOfCategories.sectionOfObj eR' r hr) =
     (representingMap B S hS _ _ R₀'.obj U₀'.obj eR' eU' (relSnd (chart' h x eK).hom)).app
       (op W) (PresheafOfCategories.sectionOfObj eR' r hr)

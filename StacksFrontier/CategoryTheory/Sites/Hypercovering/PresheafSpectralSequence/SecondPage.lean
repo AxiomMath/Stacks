@@ -50,8 +50,8 @@ injective sheaf is [Stacks, Tag 09VW] and the degree-zero clause is [Stacks, Tag
 canonical-map form, and both enter through `quasiIso_hypercoverPresheafAugmentation`.
 
 This file is the hypercovering-of-a-presheaf analogue of
-`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequence.lean`, which carries out the same
-construction for a hypercovering of an *object* and which it mirrors throughout; the generic
+`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequence.lean`, which carries out the
+same construction for a hypercovering of an *object* and which it mirrors throughout; the generic
 exactness statements of that file (`cochainComplexFunctor_preservesHomology`,
 `hasExactLimitsOfShape_discrete_addCommGrpCat`, `extendUpNatMapHomologyNatIso`) are reused rather
 than restated.

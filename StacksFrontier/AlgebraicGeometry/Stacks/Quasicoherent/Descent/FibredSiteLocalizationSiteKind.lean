@@ -181,7 +181,7 @@ public theorem isQuasicoherentOnSite_over_eq_inverseImage_kind (τ : SiteKind) (
             (contains_baseScheme B S hS p x) τ)).inverseImage
         (localizationModulesEquivalenceKind B S hS p hp τ x).inverse := by
   ext M
-  show M.IsQuasicoherentOnSite ↔
+  change M.IsQuasicoherentOnSite ↔
     ((localizationModulesEquivalenceKind B S hS p hp τ x).inverse.obj M).IsQuasicoherentOnSite
   rw [← Stacks.SheafOfModules.isQuasicoherentOnSite_reindex_iff
     (J' := localizedTopologyKind B S hS p τ x) (localizationEquivalence B S hS p hp x)

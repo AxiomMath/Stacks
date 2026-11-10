@@ -114,7 +114,7 @@ theorem exists_finite_affine_preZeroHypercover_freeIndex (W : SmallEtale B S hS 
   have _ : Finite ι := hι
   have hsieve : (PreZeroHypercover.mk (ULift.{w} ι) (fun i => V i.down)
         (fun i => f i.down) : PreZeroHypercover.{w} W).sieve₀ = Sieve.ofArrows V f := by
-    show Sieve.generate _ = Sieve.generate _
+    change Sieve.generate _ = Sieve.generate _
     congr 1
     funext Z
     ext g

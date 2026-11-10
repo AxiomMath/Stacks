@@ -254,7 +254,7 @@ lemma isDiffOpOfOrder_of_iterBracket {J : GrothendieckTopology C}
     refine ⟨hn, fun Y a x => hl Y [] a x, fun Y r => ?_⟩
     apply ih
     · intro Z Z' f x
-      show D (Over.mk (Z.hom ≫ Y.hom)) (S.obj.map Z.hom.op r • F.val.map f.left.op x) -
+      change D (Over.mk (Z.hom ≫ Y.hom)) (S.obj.map Z.hom.op r • F.val.map f.left.op x) -
           S.obj.map Z.hom.op r • D (Over.mk (Z.hom ≫ Y.hom)) (F.val.map f.left.op x) =
         G.val.map f.left.op
           (D (Over.mk (Z'.hom ≫ Y.hom)) (S.obj.map Z'.hom.op r • x) -
@@ -484,9 +484,9 @@ lemma isSectionwiseOrderLE_of_isGlobalDiffOpOfOrder {J : GrothendieckTopology C}
   let d : F.obj X →ₗ[R.obj X] B₀.obj X :=
     { __ := (E X).comp (q.app X).hom.toAddMonoidHom
       map_smul' := fun a x => by
-        show E X (q.app X (φ.app X a • x)) = β.app X (φ.app X a) • E X (q.app X x)
+        change E X (q.app X (φ.app X a • x)) = β.app X (φ.app X a) • E X (q.app X x)
         rw [(q.app X).hom.map_smul]
-        show E X (β.app X (φ.app X a) • (show A.val.obj X from q.app X x)) =
+        change E X (β.app X (φ.app X a) • (show A.val.obj X from q.app X x)) =
           β.app X (φ.app X a) • E X (q.app X x)
         rw [← hφ X a]
         exact DiffOp.RawOp.isO1Linear_of_isDiffOpOfOrder φ' k (E.restrict X.unop)
@@ -587,14 +587,14 @@ lemma exists_lift_of_isSectionwiseUniversal {R S : Cᵒᵖ ⥤ CommRingCat.{u}} 
     obtain ⟨f, hf, _⟩ := hu.2 e heorder
     refine ⟨ModuleCat.ofHom f, ?_⟩
     intro x
-    show f (D.app X x) = E.app X x
+    change f (D.app X x) = E.app X x
     exact (congrArg (fun z => f z) (hd x)).symm.trans ((hf x).trans (he x))
   choose f hf using h
   refine ⟨{ app := f, naturality := ?_ }, hf⟩
   intro X Y a
   apply hom_ext_of_isSectionwiseUniversal_app φ D hD X
   intro x
-  show (f Y) (P.map a (D.app X x)) = Q.map a ((f X) (D.app X x))
+  change (f Y) (P.map a (D.app X x)) = Q.map a ((f X) (D.app X x))
   have hDn := NatTrans.naturality_apply D a x
   change D.app Y (F.map a x) = P.map a (D.app X x) at hDn
   exact (congrArg (fun z => (f Y) z) hDn).symm.trans

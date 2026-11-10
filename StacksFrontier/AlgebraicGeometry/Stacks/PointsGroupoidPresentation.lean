@@ -440,7 +440,7 @@ theorem range_pointsMap_source_target (P : GroupoidPresentation B S hS 𝒳)
         (Setoid.ker (P.presentingPointsMap h𝒳)).r q.1 q.2} := by
   rw [range_pointsMap_source_target_quotientStack P.groupoid]
   ext ⟨u₁, u₂⟩
-  show quotientStackPointsMap P.groupoid u₁ = quotientStackPointsMap P.groupoid u₂ ↔
+  change quotientStackPointsMap P.groupoid u₁ = quotientStackPointsMap P.groupoid u₂ ↔
     P.presentingPointsMap h𝒳 u₁ = P.presentingPointsMap h𝒳 u₂
   rw [P.presentingPointsMap_eq h𝒳, P.presentingPointsMap_eq h𝒳,
     (P.bijective_pointsMap_basedFunctor h𝒳).1.eq_iff]

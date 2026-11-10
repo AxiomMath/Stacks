@@ -70,9 +70,9 @@ local notation "Astd" f:max => @derivedAdjunction _ _ f (HasDerivedCategory.stan
   (HasDerivedCategory.standard _)
 
 /-- The cohomological support predicate at the standard model. -/
-local notation "SuppStd" O:max T:max E:max =>
+local notation:max "SuppStd " O:max =>
   @Stacks.Cohomology.PushforwardRestriction.CohomologySupportedOn _ O
-    (HasDerivedCategory.standard _) T E
+    (HasDerivedCategory.standard _)
 
 /-- **A derived object supported on a closed subset vanishes on its complement**: the derived
 pullback of `M` to the open subspace `X \ Z` is zero. -/

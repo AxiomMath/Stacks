@@ -64,6 +64,7 @@ variable {S X Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S)
   [CompactSpace S] [QuasiSeparatedSpace S] [CompactSpace X] [QuasiSeparatedSpace X]
   [CompactSpace Y] [QuasiSeparatedSpace Y]
 
+omit [CompactSpace S] in
 /-- The finiteness properties of the morphisms and fibre products of [Stacks, Tag 0FYW] that follow
 from its hypotheses: `X`, `Y` and `S` are quasi-compact and quasi-separated. -/
 theorem fourierMukaiRightAdjoint_instances :
@@ -108,6 +109,11 @@ abbrev rightAdjointKernelLocallySmall :
     Stacks.Duality.quasiCoherentDerivedCategory (pullback f g) :=
   (Stacks.Duality.StandardModel.quasiCoherentModelEquiv (pullback f g)).functor.obj ⟨K, hK⟩
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [CompactSpace X] [QuasiSeparatedSpace X]
+  [CompactSpace Y] [QuasiSeparatedSpace Y] [QuasiCompact f] [QuasiSeparated f] [QuasiCompact g]
+  [QuasiSeparated g] [CompactSpace (pullback f g : Scheme.{u})]
+  [QuasiSeparatedSpace (pullback f g : Scheme.{u})] [CompactSpace (pullback g f : Scheme.{u})]
+  [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 include hpc in
 /-- The kernel `rightAdjointKernelLocallySmall f g K hK` is pseudo-coherent. -/
 theorem isPseudoCoherent_rightAdjointKernelLocallySmall :
@@ -132,6 +138,9 @@ def fourierMukaiRightAdjointKernel :
   ((Stacks.Duality.StandardModel.quasiCoherentModelEquiv (pullback g f)).inverse.obj
     (fourierMukaiRightAdjointKernelLocallySmall f g K hK hpc)).obj
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [CompactSpace X] [QuasiSeparatedSpace X]
+  [QuasiCompact g] [QuasiSeparated g] [CompactSpace (pullback g f : Scheme.{u})]
+  [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- **The kernel `K'` lies in `D_QCoh(𝒪_{Y ×_S X})`** ([Stacks, Tag 0A6H], `K` being
 pseudo-coherent and `a(𝒪_Y)` in `D⁺_QCoh` by [Stacks, Tag 0A9I]). -/
 theorem isQuasicoherent_homology_fourierMukaiRightAdjointKernel (j : ℤ) :
@@ -201,6 +210,8 @@ def fourierMukaiRightAdjointComparison (M : StdQCoh X) (N : StdQCoh Y)
         ((Stacks.Duality.StandardModel.quasiCoherentModelEquiv X).functor.map v ≫
           (fourierMukaiRightAdjointModelIso f g K hK hpc).hom.app N))
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- The canonical map is natural in `M`. -/
 theorem fourierMukaiRightAdjointComparison_naturality_left
     {M M' : StdQCoh X} (m : M' ⟶ M) (N : StdQCoh Y)
@@ -220,6 +231,8 @@ theorem fourierMukaiRightAdjointComparison_naturality_left
     ← Category.assoc, h₂, Category.assoc, Functor.FullyFaithful.preimage_comp,
     Functor.FullyFaithful.preimage_map]
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- The canonical map is natural in `N`. -/
 theorem fourierMukaiRightAdjointComparison_naturality_right
     (M : StdQCoh X) {N N' : StdQCoh Y} (n : N ⟶ N')
@@ -241,6 +254,8 @@ theorem fourierMukaiRightAdjointComparison_naturality_right
     Stacks.Duality.rightAdjointComparison_naturality_right, ← Category.assoc,
     Functor.FullyFaithful.preimage_comp, Functor.FullyFaithful.preimage_map]
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- The canonical map is bijective as soon as its locally small form is. -/
 theorem bijective_fourierMukaiRightAdjointComparison (M : StdQCoh X) (N : StdQCoh Y)
     (hb : Function.Bijective (Stacks.Duality.rightAdjointComparison f g
@@ -276,6 +291,8 @@ private theorem isPerfect_quasiCoherentModelEquiv_functor_obj {Z : Scheme.{u}} (
   (Stacks.Duality.isPerfect_modelEquiv_functor_obj_iff Z.toRingedSpace
     (HasDerivedCategory.standard Z.Modules) (Scheme.Modules.hasDerivedCategory Z) E.obj).2 hE
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- The canonical map is bijective as soon as the pairing `γ` of the locally small model is
 invertible. -/
 private theorem bijective_fourierMukaiRightAdjointComparison_of_isIso (M : StdQCoh X)
@@ -287,6 +304,8 @@ private theorem bijective_fourierMukaiRightAdjointComparison_of_isIso (M : StdQC
   bijective_fourierMukaiRightAdjointComparison f g K hK hpc M N
     (Stacks.Duality.bijective_rightAdjointComparison_of_isIso f g _ _ _ _)
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- **The canonical map is bijective for perfect `N`.** -/
 theorem bijective_fourierMukaiRightAdjointComparison_of_isPerfect (M : StdQCoh X) (N : StdQCoh Y)
     (hN : @Stacks.Cohomology.PerfectComplexes.IsPerfect Y.toRingedSpace
@@ -298,6 +317,8 @@ theorem bijective_fourierMukaiRightAdjointComparison_of_isPerfect (M : StdQCoh X
     (isPerfect_quasiCoherentModelEquiv_functor_obj N hN)
   exact bijective_fourierMukaiRightAdjointComparison_of_isIso f g K hK hpc M N
 
+omit [CompactSpace S] [QuasiSeparatedSpace S] [QuasiSeparatedSpace X]
+  [CompactSpace (pullback g f : Scheme.{u})] [QuasiSeparatedSpace (pullback g f : Scheme.{u})] in
 /-- **The canonical map is bijective for a perfect kernel and `X ⟶ S` proper, flat and of finite
 presentation.** -/
 theorem bijective_fourierMukaiRightAdjointComparison_of_isPerfect_of_flat [IsProper f] [Flat f]
@@ -314,6 +335,7 @@ theorem bijective_fourierMukaiRightAdjointComparison_of_isPerfect_of_flat [IsPro
 
 end Construction
 
+omit [CompactSpace S] in
 /-- **[Stacks, Tag 0FYW].** Let `X ⟶ S` and `Y ⟶ S` be morphisms of quasi-compact and
 quasi-separated schemes. Let `Φ : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` be the Fourier-Mukai functor of a
 pseudo-coherent kernel `K ∈ D_QCoh(𝒪_{X ×_S Y})` (`AlgebraicGeometry.fourierMukaiTransform`),

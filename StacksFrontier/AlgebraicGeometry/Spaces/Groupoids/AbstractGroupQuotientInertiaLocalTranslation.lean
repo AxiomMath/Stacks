@@ -126,7 +126,7 @@ private def toLocalImageGrp {P H : Cᵒᵖ ⥤ GrpCat.{w}} (η : P ⟶ H) : P �
 private lemma isSheaf_localImageGrp {P H : Cᵒᵖ ⥤ GrpCat.{w}} (η : P ⟶ H)
     (hH : Presheaf.IsSheaf J H) : Presheaf.IsSheaf J (localImageGrp J η) := by
   apply Presheaf.isSheaf_of_isSheaf_comp J (localImageGrp J η) (forget GrpCat)
-  show Presheaf.IsSheaf J
+  change Presheaf.IsSheaf J
     ((Subfunctor.range (Functor.whiskerRight η (forget GrpCat))).sheafify J).toFunctor
   exact (isSheaf_iff_isSheaf_of_type _ _).mpr
     ((Subfunctor.range (Functor.whiskerRight η (forget GrpCat))).sheafify_isSheaf

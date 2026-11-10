@@ -99,7 +99,7 @@ private theorem henselianLocalRing_of_henselianPair_maximalIdeal
   let h₀ : (ResidueField R)[X] := fb /ₘ g₀
   have hroot : fb.IsRoot ab := by
     rw [IsRoot]
-    show Polynomial.eval (q a₀) (f.map q) = 0
+    change Polynomial.eval (q a₀) (f.map q) = 0
     rw [Polynomial.eval_map, eval₂_at_apply]
     exact (Ideal.Quotient.eq_zero_iff_mem).2 ha₀
   have hfac : fb = g₀ * h₀ := by
@@ -129,7 +129,7 @@ private theorem henselianLocalRing_of_henselianPair_maximalIdeal
     have hc := congrArg (fun p : (ResidueField R)[X] ↦ p.coeff 0) hgq
     have hc' : q (g.coeff 0) = -ab := by
       simpa [Polynomial.coeff_map, g₀] using hc
-    show -(q (g.coeff 0)) - q a₀ = 0
+    change -(q (g.coeff 0)) - q a₀ = 0
     rw [hc']
     simp [ab]
 
@@ -155,7 +155,7 @@ public theorem isHenselization_of_henselizationPair
     A (maximalIdeal A) Ah hh hι
   have hq : Function.Bijective
       (Ideal.quotientMap J (algebraMap A Ah) Ideal.le_comap_map) := by
-    show Function.Bijective
+    change Function.Bijective
       (Ideal.quotientMap ((maximalIdeal A).map (algebraMap A Ah))
         (algebraMap A Ah) Ideal.le_comap_map)
     have hq' := hquot 1
@@ -289,10 +289,10 @@ public theorem henselization_isNoetherian_and_completion_equiv
       AdicCompletion (I.map (algebraMap A H)) H :=
     { E with
       map_smul' := fun r x ↦ by
-        show E (k r * x) = algebraMap H _ r * E x
+        change E (k r * x) = algebraMap H _ r * E x
         rw [map_mul]
         congr 1
-        show E (E.symm (algebraMap H _ r)) = _
+        change E (E.symm (algebraMap H _ r)) = _
         exact E.apply_symm_apply _ }
   have hkfaithful : Module.FaithfullyFlat H (AdicCompletion I A) := by
     rw [Module.faithfullyFlat_iff]

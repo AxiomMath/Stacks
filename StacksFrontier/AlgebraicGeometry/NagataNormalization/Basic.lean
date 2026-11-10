@@ -187,7 +187,7 @@ theorem isFinite_fromNormalization
   have hfinite (η : I) :
       Module.Finite Γ(S, U.1) (integralClosure Γ(S, U.1) (X.residueField η.1.1)) := by
     have : Algebra.EssFiniteType Γ(S, U.1) (X.residueField η.1.1) := by
-      show ((X.evaluation (f ⁻¹ᵁ U.1) η.1.1 η.2).hom.comp (f.app U.1).hom).EssFiniteType
+      change ((X.evaluation (f ⁻¹ᵁ U.1) η.1.1 η.2).hom.comp (f.app U.1).hom).EssFiniteType
       rw [← CommRingCat.hom_comp, ← Scheme.evaluation_naturality f η.1.1 η.2]
       let := (f.residueFieldMap η.1.1).hom.toAlgebra
       exact (essFiniteType_evaluation U.2 (f η.1.1) η.2).comp
@@ -236,7 +236,7 @@ theorem isFinite_normalization {X : Scheme.{u}} (hNagata : IsNagataScheme X)
   let f := fromGenericPointResidueFields X
   let : QuasiCompact f := quasiCompactFromGenericPointResidueFields X hX
   let : QuasiSeparated f := quasiSeparatedFromGenericPointResidueFields X
-  show IsFinite f.fromNormalization
+  change IsFinite f.fromNormalization
   refine isFinite_fromNormalization f hNagata
     (genericPointResidueSpectrum_finite_irreducibleComponents X) fun x => ?_
   exact fg_top_of_essFiniteType_residueFieldMap f x.1 (RingHom.FiniteType.of_surjective _
@@ -279,7 +279,7 @@ theorem isDominant_normalizationOverField (k : Type u) [Field k] {X : Scheme.{u}
   let hX := finite_irreducibleComponents_of_locallyOfFiniteType k p
   let : QuasiCompact f := Scheme.quasiCompactFromGenericPointResidueFields X hX
   let : QuasiSeparated f := Scheme.quasiSeparatedFromGenericPointResidueFields X
-  show IsDominant f.fromNormalization
+  change IsDominant f.fromNormalization
   exact Stacks.AlgebraicGeometry.Normalization.isDominant_fromNormalization f
 
 end AlgebraicGeometry

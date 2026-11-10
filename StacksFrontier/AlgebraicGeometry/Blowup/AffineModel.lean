@@ -42,8 +42,8 @@ proved about `blowUpSpec` transfers to `blowUp`.
 No `@[stacks]` attribute is attached. Tag 01OG, the blowup of a scheme in a quasi-coherent sheaf
 of ideals, and tag 0804, the identification of the part of the blowup over an affine open with
 `Proj` of the Rees algebra, are both already registered on the global construction in
-`StacksFrontier/AlgebraicGeometry/Blowup/ReesSheafData.lean`; the content here is the degenerate case
-`U = ⊤` of that identification, not a further assertion of the source.
+`StacksFrontier/AlgebraicGeometry/Blowup/ReesSheafData.lean`; the content here is the degenerate
+case `U = ⊤` of that identification, not a further assertion of the source.
 
 ## References
 

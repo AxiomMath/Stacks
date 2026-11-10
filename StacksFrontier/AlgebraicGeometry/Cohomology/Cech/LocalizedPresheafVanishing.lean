@@ -135,7 +135,7 @@ theorem exactAt_cechComplex_of_addEquiv (hg : Ideal.span (Set.range g) = ⊤) (p
     rw [← toCechTermOfEquiv_d V P g e he, hs', map_zero]
   obtain ⟨t, ht⟩ := cech_exact g hg 1 p (toCechTermOfEquiv V P g e (p + 1) s) h0
   refine ⟨ofCechTermOfEquiv V P g e p t, ?_⟩
-  show ((cechComplexFunctor V).obj P).d p (p + 1) (ofCechTermOfEquiv V P g e p t) = s
+  change ((cechComplexFunctor V).obj P).d p (p + 1) (ofCechTermOfEquiv V P g e p t) = s
   rw [← ofCechTermOfEquiv_toCechTermOfEquiv V P g e (p + 1)
     (((cechComplexFunctor V).obj P).d p (p + 1) (ofCechTermOfEquiv V P g e p t)),
     toCechTermOfEquiv_d V P g e he, toCechTermOfEquiv_ofCechTermOfEquiv, ht,
@@ -215,13 +215,13 @@ theorem resAway_eq_presheafInterEquiv {m : ℕ} (y : Fin (m + 2) → Fin n) (j :
   let := presheafModuleOfLE Q (inter_le g fun i ↦ y (j.succAbove i))
   refine LocalizedModule.lift_unique _ _ (isUnit_powers_awayLoc (dvd_face g 1 y j)) _ ?_
   refine LinearMap.ext fun z ↦ ?_
-  show (presheafInterEquiv Q g hQ y).symm (Q.map (homOfLE (inter_le_inter g y j)).op
+  change (presheafInterEquiv Q g hQ y).symm (Q.map (homOfLE (inter_le_inter g y j)).op
       (presheafInterEquiv Q g hQ (fun i ↦ y (j.succAbove i)) (LocalizedModule.mk z 1))) =
     LocalizedModule.mk z 1
   have h2 : Q.map (homOfLE (inter_le_inter g y j)).op
       (Q.map (homOfLE (inter_le g fun i ↦ y (j.succAbove i))).op z) =
         Q.map (homOfLE (inter_le g y)).op z := by
-    show Q.presheaf.map _ (Q.presheaf.map _ z) = Q.presheaf.map _ z
+    change Q.presheaf.map _ (Q.presheaf.map _ z) = Q.presheaf.map _ z
     exact (congrArg (fun f : Q.presheaf.obj (op U) ⟶ _ ↦ f z)
       (Q.presheaf.map_comp (homOfLE (inter_le g fun i ↦ y (j.succAbove i))).op
         (homOfLE (inter_le_inter g y j)).op)).symm
@@ -266,7 +266,7 @@ theorem exactAt_cechComplex_of_isLocalizedModule {P : (X.Opens)ᵒᵖ ⥤ AddCom
     (interMap (fun i ↦ X.basicOpen (g i)) y j.succAbove).op
     (ULift.up (presheafInterEquiv Q g hQ (fun i ↦ y (j.succAbove i)) z))
   refine hnat.symm.trans ?_
-  show φ.app _ (ULift.up (Q.map (homOfLE (inter_le_inter g y j)).op
+  change φ.app _ (ULift.up (Q.map (homOfLE (inter_le_inter g y j)).op
     (presheafInterEquiv Q g hQ (fun i ↦ y (j.succAbove i)) z))) = _
   rw [presheafInterEquiv_resAway]
   rfl

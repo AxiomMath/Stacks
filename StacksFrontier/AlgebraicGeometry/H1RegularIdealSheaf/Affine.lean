@@ -85,7 +85,7 @@ theorem isH1RegularSequenceOn_iff_isH1Regular (hU : IsAffineOpen U) :
       exists_smul_mem_relSpan (Submonoid.powers g) Γ(X, X.basicOpen g) f a hmem₂
     have hgm : g ∉ (hU.primeIdealOf z).asIdeal := by
       have h₁ : hU.primeIdealOf z ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen g := by
-        show hU.fromSpec (hU.primeIdealOf z) ∈ X.basicOpen g
+        change hU.fromSpec (hU.primeIdealOf z) ∈ X.basicOpen g
         rw [hU.fromSpec_primeIdealOf z]
         exact hzg
       rw [hU.fromSpec_preimage_basicOpen] at h₁

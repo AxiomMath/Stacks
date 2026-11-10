@@ -407,7 +407,7 @@ theorem bidegreeComponent_tmul_of_ne {p q p' q' : ℤ} {u v : W.H X} (hu : u ∈
     (hv : v ∈ W.grade X q') (h : (p', q') ≠ (p, q)) :
     bidegreeComponent X p q (u ⊗ₜ v) = 0 := by
   rw [bidegreeComponent, LinearMap.comp_apply, LinearEquiv.coe_coe,
-    bidegreeEquiv_tmul_of_mem X hu hv, DirectSum.component.of, dif_neg h]
+    bidegreeEquiv_tmul_of_mem X hu hv, DirectSum.component.of, dite_eq_right h]
 
 variable (hBa : W.KunnethIsomorphism)
 
@@ -639,11 +639,12 @@ theorem kunnethComponentTw_diagonal_eq_sum (hBa : W.KunnethIsomorphism) (i : ℤ
 @[stacks 0FHH "the Künneth coordinates of the actual cycle class γ([Δ]) with respect to a basis \
   of H^i(X) are the signed dual basis"]
 theorem pairing_diagonalKunnethCoordinates (hA : W.PoincareDuality) (hB : W.Kunneth)
-    (hC : W.CycleClassAxiom hA.perfectPairing) (i : ℤ) {J : Type*} [Fintype J]
+    (hC : W.CycleClassAxiom hA.perfectPairing) (i : ℤ) {J : Type*} [Finite J]
     [DecidableEq J] (e : Module.Basis J F (W.grade X i)) (j j' : J) :
     W.pairing X d hX i (2 * d - i) (by ring) (e j)
         (W.diagonalKunnethCoordinates hB.kunnethIsomorphism X d i e j') =
       ((i.negOnePow : ℤ) : F) * if j = j' then 1 else 0 :=
+  letI := Fintype.ofFinite J
   pairing_kunnethComponentTw_diagonal hX hA hB hC i e _
     (kunnethComponentTw_diagonal_eq_sum hB.kunnethIsomorphism i e) j j'
 

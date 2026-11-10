@@ -98,7 +98,7 @@ theorem isCompact_compl_supportSet [CompactSpace X] (M : X.Modules) [M.IsQuasico
   have hI : Scheme.IdealSheafData.IsFiniteType (fittingIdeal M 0) :=
     hcast ▸ fittingIdeal_isFiniteType M 0
   refine isCompact_of_isFiniteType_idealSheafData (supportComplement M) (fittingIdeal M 0) hI ?_
-  show ((fittingIdeal M 0).support : Set X) = ((supportSet M)ᶜ)ᶜ
+  change ((fittingIdeal M 0).support : Set X) = ((supportSet M)ᶜ)ᶜ
   rw [compl_compl]
   exact (fittingIdeal_zero_support_eq_supp M).trans (supportSet_eq_supp M).symm
 

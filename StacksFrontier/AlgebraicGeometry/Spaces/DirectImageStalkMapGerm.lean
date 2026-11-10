@@ -231,9 +231,10 @@ theorem spacesBaseChangeSheafFiberIso_inv_germ {X Y : AlgebraicSpaces B S hS} (f
   have h1 : Ptgt.toPresheafFiber V (efib.hom.app V e) M.obj =
       Pg.toPresheafFiber V e M.obj ≫
         (CategoryOfElements.presheafColimIsoOfNatIsoOfCoefficients (A := A) efib).hom.app M.obj :=
-    (CategoryOfElements.ι_presheafColimIsoOfNatIsoOfCoefficients_hom efib M.obj (op (Functor.elementsMk _ V e))).symm
+    (CategoryOfElements.ι_presheafColimIsoOfNatIsoOfCoefficients_hom efib M.obj
+      (op (Functor.elementsMk _ V e))).symm
   have h2 := GrothendieckTopology.Point.toSheafFiber_sheafFiberComapIso_hom Psrc g hcover M V e
-  show Ptgt.toPresheafFiber V (efib.hom.app V e) M.obj ≫
+  change Ptgt.toPresheafFiber V (efib.hom.app V e) M.obj ≫
       ((CategoryOfElements.presheafColimIsoOfNatIsoOfCoefficients (A := A) efib).inv.app M.obj ≫
         eComap.hom.app M) = _
   rw [h1]

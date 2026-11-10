@@ -276,7 +276,7 @@ theorem isIso_globalSections_vanishingIdeal_of_isSeparable [IsSepClosed k] [IsPr
   let e : X.residueField (D.subschemeι z) ≃ₐ[k] D.subscheme.residueField z :=
     { (asIso (D.subschemeι.residueFieldMap z)).commRingCatIsoToRingEquiv with
       commutes' := fun c => by
-        show (D.subschemeι.residueFieldMap z).hom
+        change (D.subschemeι.residueFieldMap z).hom
             ((X.Γevaluation (D.subschemeι z)).hom (f.appTop.hom
               ((Scheme.ΓSpecIso (.of k)).inv.hom c))) =
           (D.subscheme.Γevaluation z).hom (((D.subschemeι ≫ f).appTop).hom
@@ -405,7 +405,7 @@ theorem exists_hasPrescribedLowCohomology_add_schemePullbackClass [IsSepClosed k
   obtain ⟨z, hzv⟩ : ∃ z : C.subscheme, C.subschemeι z = v := by
     have hv : v ∈ Set.range C.subschemeι := by
       rw [Scheme.IdealSheafData.range_subschemeι, hC, Scheme.IdealSheafData.support_comap]
-      show 𝔭 v ∈ (D.support : Set X)
+      change 𝔭 v ∈ (D.support : Set X)
       rw [hD, Scheme.IdealSheafData.coe_support_vanishingIdeal, hvy]
       exact Set.mem_singleton y
     exact hv

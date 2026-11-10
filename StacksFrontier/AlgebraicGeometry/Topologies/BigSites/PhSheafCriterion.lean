@@ -104,7 +104,7 @@ private theorem properSurjective_singleton_mem
       (fun _ ↦ B.inclusion.map (p.map f)) :=
     surjective_proper_isPHCovering (B.inclusion.map (p.map f))
   have hph : IsPHCoveringInCutoff ⟨T, Q⟩ := by
-    show IsPHCovering QS.X QS.f
+    change IsPHCovering QS.X QS.f
     unfold IsPHCovering at hph₀ ⊢
     obtain ⟨hlft, hloc⟩ := hph₀
     refine ⟨fun _ ↦ hlft (), fun U hU ↦ ?_⟩
@@ -127,7 +127,7 @@ private theorem properSurjective_singleton_mem
     exact Precoverage.generate_mem_toGrothendieck ((B.mem_precoverage_iff).2 ⟨Vfam, rfl, hV⟩)
   rw [BigPHOver.topology, GrothendieckTopology.mem_over_iff,
     Sieve.overEquiv_generate]
-  show Sieve.generate (Presieve.functorPushforward p (Presieve.singleton f)) ∈
+  change Sieve.generate (Presieve.functorPushforward p (Presieve.singleton f)) ∈
     B.topology (p.obj X)
   rw [← Sieve.arrows_generate_map_eq_functorPushforward, Presieve.map_singleton]
   simpa [Q, T, p, PreZeroHypercover.presieve₀,
@@ -182,7 +182,7 @@ private theorem zariski_presieve_mem
     exact hgenV
   rw [BigPHOver.topology, GrothendieckTopology.mem_over_iff,
     Sieve.overEquiv_generate]
-  show Sieve.generate (Presieve.functorPushforward p E.presieve₀) ∈ B.topology (p.obj X)
+  change Sieve.generate (Presieve.functorPushforward p E.presieve₀) ∈ B.topology (p.obj X)
   rw [← Sieve.arrows_generate_map_eq_functorPushforward]
   simpa [Eb, T, p, PreZeroHypercover.presieve₀, PreZeroHypercover.presieve₀_map]
     using hgenEb
@@ -315,14 +315,14 @@ private theorem isSheafFor_pushforward_of_properSurjective
     ext Y f
     constructor
     · rintro ⟨Z, q, r, hq, hr, rfl⟩
-      show ∃ a, a ≫ g = q ≫ r ∧ O a
+      change ∃ a, a ≫ g = q ≫ r ∧ O a
       refine ⟨q ≫ lift r hq, ?_, ?_⟩
       · rw [Category.assoc, hlift]
       · exact hr
     · rintro ⟨a, rfl, ha⟩
       refine ⟨Y, 𝟙 Y, a ≫ g, ?_, ?_, by simp⟩
       · exact ⟨a, rfl⟩
-      · show O (𝟙 Y ≫ lift (a ≫ g) ⟨a, rfl⟩)
+      · change O (𝟙 Y ≫ lift (a ≫ g) ⟨a, rfl⟩)
         exact hliftO (a ≫ g) ⟨a, rfl⟩ ⟨a, rfl, ha⟩
   simpa [hEq] using hbind
 
@@ -471,7 +471,7 @@ private theorem properSurjective_pullback_isSeparated
   let pᵢ := Limits.pullback.snd p q₁
   have hAffine : IsAffine ((BigPHOver.toScheme B S hS).obj (E.X i)) := by
     dsimp [E, openCoverOver, U]
-    show IsAffine (U0.X (Equiv.ulift.{u + 1, u} i))
+    change IsAffine (U0.X (Equiv.ulift.{u + 1, u} i))
     exact Scheme.isAffine_affineOpenCover _ _ (Equiv.ulift.{u + 1, u} i)
   obtain ⟨hp, hs⟩ := toScheme_map_pullback_snd_properSurjective f g hproper hsurj
   have hlocal := affineProperSurjective_pullback_isSheafFor hA p q₁ hAffine hp hs
@@ -526,7 +526,7 @@ private theorem properSurjective_of_affine
     have hAffine : IsAffine
         ((BigPHOver.toScheme B S hS).obj (E₁.X i)) := by
       dsimp [E₁, E, openCoverOver, U]
-      show IsAffine (U0.X (Equiv.ulift.{u + 1, u} i))
+      change IsAffine (U0.X (Equiv.ulift.{u + 1, u} i))
       exact Scheme.isAffine_affineOpenCover _ _ (Equiv.ulift.{u + 1, u} i)
     have hbase := affineProperSurjective_pullback_isSheafFor
       hA f (E₁.f i) hAffine hproper hsurj
@@ -573,11 +573,11 @@ private theorem standardPHCovering_isSheafFor
     X i := E.X (hidx ▸ i)
     f i := Over.homMk (ObjectProperty.homMk (j i)) (by
       apply B.inclusion.map_injective
-      show j i ≫ g ≫ B.inclusion.map X.hom =
+      change j i ≫ g ≫ B.inclusion.map X.hom =
         B.inclusion.map (E.X (hidx ▸ i)).hom
       rw [← Category.assoc, hcomp i]
       simp only [BigPHOver.toScheme, BigPHOver.forget]
-      show B.inclusion.map ((E.f (hidx ▸ i)).left ≫ X.hom) =
+      change B.inclusion.map ((E.f (hidx ▸ i)).left ≫ X.hom) =
         B.inclusion.map (E.X (hidx ▸ i)).hom
       exact congrArg B.inclusion.map (Over.w (E.f (hidx ▸ i)))) }
   have hmem : (Eopen.map (BigPHOver.toScheme B S hS)).presieve₀ ∈
@@ -661,9 +661,9 @@ private theorem standardPHCovering_pullback_isSeparatedFor
       exact Limits.pullback.condition.symm
     have hmem : ((Sieve.generate E.presieve₀).pullback q)
         (E'.f k ≫ Ec.f i) := by
-      show (Sieve.generate E.presieve₀) (E'.f k ≫ (Ec.f i ≫ q))
+      change (Sieve.generate E.presieve₀) (E'.f k ≫ (Ec.f i ≫ q))
       refine ⟨E.X k, Limits.pullback.fst (E.f k) b, E.f k, ⟨k⟩, ?_⟩
-      show Limits.pullback.fst (E.f k) b ≫ E.f k = E'.f k ≫ b
+      change Limits.pullback.fst (E.f k) b ≫ E.f k = E'.f k ≫ b
       exact hk.symm
     simpa only [← types_comp_apply, ← F.map_comp, ← op_comp] using
       (ht₁ _ hmem).trans (ht₂ _ hmem).symm
@@ -718,7 +718,7 @@ private theorem isSheafFor_phCovering_affine
       B.obj (V'.X i) (hVsize i) ⟶ X.left) (by simp) }
   have hVover : StandardPHCovering
       (Vover.map (BigPHOver.toScheme B S hS)).f := by
-    show @StandardPHCovering V'.I₀ T _ V'.X
+    change @StandardPHCovering V'.I₀ T _ V'.X
       (fun i ↦ V'.f i ≫ U.ι)
     exact standardPHCovering_postcomposeIso T.topIso hV'
   have hVsheaf := standardPHCovering_isSheafFor hZ hA Vover hVover
@@ -752,7 +752,7 @@ private theorem isSheafFor_phCovering_affine
         apply B.inclusion.map_injective
         have he := congrArg B.inclusion.map (Over.w (E.f (α i)))
         change ((E.f (α i)).left).hom ≫ X.hom.hom = (E.X (α i)).hom.hom at he
-        show (ρ'.h₀ i ≫ Limits.pullback.fst _ _) ≫ (E.X (α i)).hom.hom =
+        change (ρ'.h₀ i ≫ Limits.pullback.fst _ _) ≫ (E.X (α i)).hom.hom =
           (V'.f i ≫ U.ι) ≫ X.hom.hom
         rw [← he]
         exact (Category.assoc _ _ _).symm.trans
@@ -939,8 +939,8 @@ private theorem isSheaf_of_zariski_and_affineProperSurjective
     (hA : IsAffineProperSurjectiveSheaf B S hS F) :
     Presieve.IsSheaf (BigPHOver.topology B S hS) F := by
   have hle : BigPHOver.topology B S hS ≤ Sheaf.finestTopologySingle F := by
-    show B.precoverage.toGrothendieck.over (B.obj S hS) ≤ _
-    show (phCoverage B).toPrecoverage.toGrothendieck.over (B.obj S hS) ≤ _
+    change B.precoverage.toGrothendieck.over (B.obj S hS) ≤ _
+    change (phCoverage B).toPrecoverage.toGrothendieck.over (B.obj S hS) ≤ _
     rw [Coverage.toGrothendieck_toPrecoverage]
     apply over_le_of_coverage
     intro X R hR

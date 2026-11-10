@@ -115,12 +115,12 @@ private lemma conormalLocalMap_ker {X : Scheme.{u}} (I : X.IdealSheafData)
       (AssociatedGraded.power (M := Γ(X, U.1)) (I.ideal U) (n + 1)).comap
         (AssociatedGraded.power (M := Γ(X, U.1)) (I.ideal U) n).subtype := by
   ext a
-  show conormalLocalMap I U n a = 0 ↔ _
+  change conormalLocalMap I U n a = 0 ↔ _
   let b : ↥(Stacks.Conormal.chartIdeal I.subschemeι U ^ n) :=
     ⟨a, (mem_chartIdeal_pow_iff I U n a).2 a.property⟩
   have h := (Stacks.Conormal.conormalAlgebra I.subschemeι).localMap_eq_zero_iff
     U inferInstance n b
-  show (Stacks.Conormal.conormalAlgebra I.subschemeι).localMap U _ n b = 0 ↔
+  change (Stacks.Conormal.conormalAlgebra I.subschemeι).localMap U _ n b = 0 ↔
     (a : Γ(X, U.1)) ∈ AssociatedGraded.power (M := Γ(X, U.1)) (I.ideal U) (n + 1)
   simpa [Stacks.Conormal.chartIdeal, I.ker_subschemeι_app, b] using h
 
@@ -180,7 +180,7 @@ private lemma conormalRestriction_mk {X : Scheme.{u}} (I : X.IdealSheafData)
     conormalRestriction I n U V h (AssociatedGraded.mk (I.ideal U) n a) =
       AssociatedGraded.mk (I.ideal V) n
         ⟨X.presheaf.map (homOfLE h).op a, idealPower_restrict_mem I n U V h a⟩ := by
-  show conormalPieceEquiv I V n
+  change conormalPieceEquiv I V n
     (((conormalPushforward I).piece (n : ℤ)).val.map (homOfLE h).op
       ((conormalPieceEquiv I U n).symm (AssociatedGraded.mk (I.ideal U) n a))) = _
   rw [conormalPieceEquiv_symm_mk, conormalLocalMap_restrict, conormalPieceEquiv_localMap]
@@ -191,7 +191,7 @@ private lemma conormalPieceEquiv_naturality {X : Scheme.{u}} (I : X.IdealSheafDa
     conormalPieceEquiv I V n
       (((conormalPushforward I).piece (n : ℤ)).val.map (homOfLE h).op a) =
       conormalRestriction I n U V h (conormalPieceEquiv I U n a) := by
-  show conormalPieceEquiv I V n
+  change conormalPieceEquiv I V n
     (((conormalPushforward I).piece (n : ℤ)).val.map (homOfLE h).op a) =
       conormalPieceEquiv I V n
         (((conormalPushforward I).piece (n : ℤ)).val.map (homOfLE h).op

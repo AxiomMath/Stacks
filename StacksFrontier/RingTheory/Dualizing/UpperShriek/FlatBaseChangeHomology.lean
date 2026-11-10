@@ -106,7 +106,7 @@ private theorem homologicalHomologyFunctor_linear {R : Type u} [CommRing R] (i :
     Functor.Linear R
       (HomologicalComplex.homologyFunctor (ModuleCat.{w} R) (ComplexShape.up ℤ) i) where
   map_smul f r := by
-    show ShortComplex.homologyMap
+    change ShortComplex.homologyMap
       ((HomologicalComplex.shortComplexFunctor (ModuleCat.{w} R) (ComplexShape.up ℤ) i).map
         (r • f)) = _
     rw [show (HomologicalComplex.shortComplexFunctor (ModuleCat.{w} R)
@@ -143,7 +143,7 @@ theorem coextendScalars_map_smul_id (a : A) (M : ModuleCat.{max v uA uB} A) :
     (ModuleCat.coextendScalars.{uA, uB, max v uA uB} f).map (a • 𝟙 M) = f a • 𝟙 _ := by
   ext φ x
   let x' : B := x
-  show a • φ x = φ (x' * f a)
+  change a • φ x = φ (x' * f a)
   rw [mul_comm]
   exact (φ.map_smul a x).symm
 
@@ -409,7 +409,8 @@ theorem isIso_of_homEquiv_eq_comp {X : DerivedCategory (ModuleCat.{max v u} R)}
   have hφφ' : (Rs g).map φ' = φ := rfl
   have hiso : IsIso φ' := by
     have : IsIso φ := by simp only [φ]; infer_instance
-    rwa [ConcreteCategory.isIso_iff_bijective] at this ⊢
+    rw [ConcreteCategory.isIso_iff_bijective] at this ⊢
+    exact this
   have hf₁ : f₁ = ((adj g).homEquiv _ _).symm ((adj g).homEquiv _ _ f₂ ≫ θ) := by
     rw [← h, Equiv.symm_apply_apply]
   have key : H.map f₁ = H.map f₂ ≫ φ' := by
@@ -421,7 +422,7 @@ theorem isIso_of_homEquiv_eq_comp {X : DerivedCategory (ModuleCat.{max v u} R)}
     dsimp only [Functor.comp_map, Functor.id_map] at hc
     simp only [Functor.map_comp, Category.assoc]
     refine whisker_eq _ (whisker_eq _ ?_)
-    show (E g).map (HR.map θ) ≫ (E g).map e.hom ≫ _ = (E g).map e.hom ≫ _ ≫ φ'
+    change (E g).map (HR.map θ) ≫ (E g).map e.hom ≫ _ = (E g).map e.hom ≫ _ ≫ φ'
     rw [← hc, hφφ', ← Functor.map_comp_assoc, hθe, Functor.map_comp_assoc]
   rw [key]
   infer_instance

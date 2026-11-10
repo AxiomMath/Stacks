@@ -236,7 +236,7 @@ noncomputable def QF.toB (q : Ideal S) [q.IsPrime] : S →+* QF.B (R := R) q :=
 theorem QF.kappaMap_algebraMap (q : Ideal S) [q.IsPrime] (r : R) :
     QF.kappaMap q (algebraMap R (q.comap (algebraMap R S)).ResidueField r)
       = QF.toB (R := R) q (algebraMap R S r) := by
-  show QF.kappaMap q (Ideal.Quotient.mk _ (algebraMap R (Localization.AtPrime _) r)) = _
+  change QF.kappaMap q (Ideal.Quotient.mk _ (algebraMap R (Localization.AtPrime _) r)) = _
   have hlift : QF.kappaMap q (Ideal.Quotient.mk _ (algebraMap R (Localization.AtPrime (q.comap
       (algebraMap R S))) r))
       = QF.liftLoc q (algebraMap R (Localization.AtPrime (q.comap (algebraMap R S))) r) := by
@@ -309,7 +309,7 @@ theorem relation_descends_to_R (R : Type*) [CommRing R] (I : Ideal (R[X]))
   have hker : I ≤ RingHom.ker φ := by
     intro f hf
     rw [RingHom.mem_ker]
-    show (mapRingHom (Ideal.Quotient.mk p)) f = 0
+    change (mapRingHom (Ideal.Quotient.mk p)) f = 0
     rw [Polynomial.coe_mapRingHom]; ext n
     simp only [Polynomial.coeff_map, Polynomial.coeff_zero]
     exact (Ideal.Quotient.eq_zero_iff_mem).mpr (hH f hf n)
@@ -320,11 +320,11 @@ theorem relation_descends_to_R (R : Type*) [CommRing R] (I : Ideal (R[X]))
   have hψalg : ∀ r : R, ψ (algebraMap R Sr r) = C (Ideal.Quotient.mk p r) := by
     intro r
     have he : algebraMap R Sr r = Ideal.Quotient.mk I (C r) := by
-      show (algebraMap R (R[X] ⧸ I)) r = Ideal.Quotient.mk I (C r)
+      change (algebraMap R (R[X] ⧸ I)) r = Ideal.Quotient.mk I (C r)
       rw [IsScalarTower.algebraMap_apply R (R[X]) (R[X] ⧸ I) r, Ideal.Quotient.algebraMap_eq]
       congr 1
     rw [he, hψmk (C r)]
-    show (mapRingHom (Ideal.Quotient.mk p)) (C r) = C (Ideal.Quotient.mk p r)
+    change (mapRingHom (Ideal.Quotient.mk p)) (C r) = C (Ideal.Quotient.mk p r)
     rw [Polynomial.coe_mapRingHom, Polynomial.map_C]
   have hψp : ∀ r ∈ p, ψ (algebraMap R Sr r) = 0 := by
     intro r hr
@@ -356,24 +356,24 @@ theorem relation_descends_to_R (R : Type*) [CommRing R] (I : Ideal (R[X]))
     intro r hr
     rw [Ideal.mem_comap, RingHom.mem_ker]
     rw [IsScalarTower.algebraMap_apply R Sr (Localization.AtPrime q) r, hΛmk]
-    show (algebraMap ((R ⧸ p)[X]) F).comp ψ (algebraMap R Sr r) = 0
+    change (algebraMap ((R ⧸ p)[X]) F).comp ψ (algebraMap R Sr r) = 0
     rw [RingHom.comp_apply, hψp r hr, map_zero]
   let Φ : QF.B (R := R) q →+* F :=
     Ideal.Quotient.lift _ Λ (fun a ha => by rw [← RingHom.mem_ker]; exact hkill ha)
   -- Φ on QF.toB
   have hΦtoB : ∀ s : Sr, Φ (QF.toB (R := R) q s) = ψF s := by
     intro s
-    show Ideal.Quotient.lift _ Λ _ (Ideal.Quotient.mk _ (algebraMap Sr (Localization.AtPrime q)
+    change Ideal.Quotient.lift _ Λ _ (Ideal.Quotient.mk _ (algebraMap Sr (Localization.AtPrime q)
         s)) = ψF s
     rw [Ideal.Quotient.lift_mk, hΛmk]
   -- ξ = Φ β
   let β := QF.toB (R := R) q (Ideal.Quotient.mk I X)
   have hβξ : Φ β = algebraMap ((R ⧸ p)[X]) F (X) := by
-    show Φ (QF.toB (R := R) q (Ideal.Quotient.mk I X)) = _
+    change Φ (QF.toB (R := R) q (Ideal.Quotient.mk I X)) = _
     rw [hΦtoB]
-    show (algebraMap ((R ⧸ p)[X]) F).comp ψ (Ideal.Quotient.mk I X) = _
+    change (algebraMap ((R ⧸ p)[X]) F).comp ψ (Ideal.Quotient.mk I X) = _
     rw [RingHom.comp_apply, hψmk X]
-    show algebraMap ((R ⧸ p)[X]) F ((mapRingHom (Ideal.Quotient.mk p)) X) = _
+    change algebraMap ((R ⧸ p)[X]) F ((mapRingHom (Ideal.Quotient.mk p)) X) = _
     rw [Polynomial.coe_mapRingHom, Polynomial.map_X]
   -- equip F with κ(p)-algebra structure τ.toAlgebra where τ = Φ ∘ kappaMap
   let algF : Algebra p.ResidueField F := (Φ.comp (QF.kappaMap q)).toAlgebra
@@ -394,7 +394,7 @@ theorem relation_descends_to_R (R : Type*) [CommRing R] (I : Ideal (R[X]))
       rw [show (Ideal.Quotient.mk p r) = algebraMap R (R ⧸ p) r from rfl,
         ← IsScalarTower.algebraMap_apply]
     rw [hL, hRmid, hτalg, RingHom.comp_apply, QF.kappaMap_algebraMap q r, hΦtoB]
-    show _ = (algebraMap ((R ⧸ p)[X]) F).comp ψ (algebraMap R Sr r)
+    change _ = (algebraMap ((R ⧸ p)[X]) F).comp ψ (algebraMap R Sr r)
     rw [RingHom.comp_apply, hψalg r]
   -- Transcendental over R⧸p, then over κ(p)
   have htrans_base : Transcendental (R ⧸ p) (algebraMap ((R ⧸ p)[X]) F X) := by
@@ -576,14 +576,14 @@ theorem locMap_bijective_of_good_g (R : Type*) [CommRing R] {S : Type*} [CommRin
             s') ∈ T := by
       intro s'
       refine ⟨algebraMap (integralClosure R S) (Localization.Away g) s', ?_⟩
-      show QF.locMap g _ = _
+      change QF.locMap g _ = _
       unfold QF.locMap
       rw [IsLocalization.map_eq]
       rfl
     have hinv : IsLocalization.Away.invSelf (S := Localization.Away ((integralClosure R S).val g))
         ((integralClosure R S).val g) ∈ T := by
       refine ⟨IsLocalization.Away.invSelf (S := Localization.Away g) g, ?_⟩
-      show QF.locMap g _ = _
+      change QF.locMap g _ = _
       unfold QF.locMap IsLocalization.Away.invSelf
       rw [IsLocalization.map_mk']
       simp

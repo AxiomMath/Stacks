@@ -116,10 +116,7 @@ private def restrictTensorIso (M : ModuleCat.{u} R) :
       map_add' := fun _ _ ↦ rfl
       map_smul' := by
         intro r z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            change (algebraMap R P r) • (0 : TensorProduct R A M) = r • (0 : TensorProduct R A M)
-            rw [smul_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul a m =>
             change ((algebraMap R P r) • a) ⊗ₜ[R] m = (r • a) ⊗ₜ[R] m
             rw [IsScalarTower.algebraMap_smul P r a]
@@ -172,12 +169,10 @@ private def cancelBaseChangeNatIso :
   apply ModuleCat.hom_ext
   ext z
   obtain ⟨z, rfl⟩ := (tensorObjCarrierAddEquiv R P A M).surjective z
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       obtain ⟨m, rfl⟩ := (extendScalarsCarrierAddEquiv R P M).surjective m
-      induction m using TensorProduct.induction_on with
-      | zero => rfl
+      induction m using TensorProduct.inductionOn with
       | tmul p x => rfl
       | add x y hx hy =>
           rw [map_add, TensorProduct.tmul_add, map_add]

@@ -147,7 +147,7 @@ theorem exists_affineOpenCover_jacobson_and_isAlgebraic_residueField_withBound
           Algebra.IsAlgebraic K (Y.residueField x) := by
     intro K T _ _ _ _ Y e g hg halg
     have : JacobsonSpace (Spec (.of T)) := by
-      show JacobsonSpace (PrimeSpectrum T)
+      change JacobsonSpace (PrimeSpectrum T)
       exact PrimeSpectrum.isJacobsonRing_iff_jacobsonSpace.mp ‹_›
     refine ⟨.of_isClosedEmbedding e.hom.homeomorph.isClosedEmbedding, fun x hx => ?_⟩
     let q := e.hom x
@@ -258,7 +258,7 @@ theorem jacobsonSpace_pullback_of_size_lt
   rw [(𝒱.isOpenCover_opensRange).jacobsonSpace_iff]
   intro i
   have hJi : JacobsonSpace (𝒱.X i) := by
-    show JacobsonSpace (pullback (C := Scheme.{u}) ((U i).ι ≫ f)
+    change JacobsonSpace (pullback (C := Scheme.{u}) ((U i).ι ≫ f)
       (Spec.map (ofHom (algebraMap k K))))
     simpa [𝒱, Scheme.Pullback.openCoverOfLeft_X] using (hJ K hK i).1
   exact hJi.of_isClosedEmbedding

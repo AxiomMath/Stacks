@@ -223,7 +223,7 @@ theorem exists_affine_weaklyContractible_hypercovering (U : SmallProetale B S hS
       rw [GrothendieckTopology.mem_toPretopology,
         Functor.mem_inducedTopology_iff_of_isCoverDense, ← Sieve.ofArrows,
         Sieve.functorPushforward_ofArrows]
-      show Sieve.generate (Presieve.ofArrows (fun _ : PUnit.{w + 1} ↦ V) (fun _ ↦ p)) ∈ _
+      change Sieve.generate (Presieve.ofArrows (fun _ : PUnit.{w + 1} ↦ V) (fun _ ↦ p)) ∈ _
       rw [ofArrows_pUnit'.{w}]
       exact Precoverage.generate_mem_toGrothendieck
         ⟨PreZeroHypercover.singleton p, by simp [PreZeroHypercover.presieve₀], hcov⟩)

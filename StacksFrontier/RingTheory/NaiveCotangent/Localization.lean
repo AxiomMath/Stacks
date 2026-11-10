@@ -146,7 +146,7 @@ private theorem isLocalizedModule_h1Cotangent_map (M : Submonoid S) [IsLocalizat
   have key : (Extension.H1Cotangent.map b).restrictScalars S ∘ₗ Extension.H1Cotangent.map f
       = Algebra.H1Cotangent.map R R S T ∘ₗ Extension.H1Cotangent.map a :=
     LinearMap.ext fun x ↦ by
-      show Extension.H1Cotangent.map b (Extension.H1Cotangent.map f x)
+      change Extension.H1Cotangent.map b (Extension.H1Cotangent.map f x)
         = Algebra.H1Cotangent.map R R S T (Extension.H1Cotangent.map a x)
       rw [Algebra.H1Cotangent.map, ← Extension.H1Cotangent.map_comp_apply,
         ← Extension.H1Cotangent.map_comp_apply]
@@ -955,7 +955,7 @@ theorem ker_self_eq_map_defaultHom :
   set g := algebraMap (Generators.self A B).toExtension.Ring B
   have hTunit : Submonoid.map g MC ≤ IsUnit.submonoid B := by
     rintro _ ⟨_, ⟨m, hm, rfl⟩, rfl⟩
-    show IsUnit (g (MvPolynomial.C m))
+    change IsUnit (g (MvPolynomial.C m))
     have e : g (MvPolynomial.C m) = algebraMap A B m :=
       (IsScalarTower.algebraMap_apply A (Generators.self A B).toExtension.Ring B m).symm
     rw [e, IsScalarTower.algebraMap_apply A Aₘ B]
@@ -1034,7 +1034,7 @@ theorem cotangent_map_surj (y : (Generators.self Aₘ B).toExtension.Cotangent) 
     rw [Algebra.smul_def, mul_comm]
     exact hq
   have hmem : q' ∈ (Generators.self A B).toExtension.ker := by
-    show algebraMap (Generators.self A B).toExtension.Ring B q' = 0
+    change algebraMap (Generators.self A B).toExtension.Ring B q' = 0
     have e : algebraMap (Generators.self Aₘ B).toExtension.Ring B (h.toAlgHom q') =
         algebraMap (Generators.self A B).toExtension.Ring B q' := by simp
     rw [← e, ← heq, Algebra.smul_def, map_mul,
@@ -1227,7 +1227,7 @@ private theorem natExt_ker_eq_bot (A : Type*) [CommRing A] (ι : Type*) :
 the degree-1 term vanishes. The homotopy equivalence NL_{B/A} ≃ (0 → Ω_{B/A}) is not stated."]
 theorem natExt_cotangent_subsingleton (A : Type*) [CommRing A] (ι : Type*) :
     Subsingleton ((natExt A ι).Cotangent) := by
-  show Subsingleton (natExt A ι).ker.Cotangent
+  change Subsingleton (natExt A ι).ker.Cotangent
   rw [natExt_ker_eq_bot]
   have : Subsingleton ↥(⊥ : Ideal (MvPolynomial ι A)) := by infer_instance
   exact Function.Surjective.subsingleton (Ideal.toCotangent_surjective ⊥)

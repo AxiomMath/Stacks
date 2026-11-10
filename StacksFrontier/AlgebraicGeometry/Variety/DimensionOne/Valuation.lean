@@ -90,7 +90,7 @@ public lemma exists_ne_zero_forall_one_lt {K : Type*} [CommRing K] [Nontrivial K
     · intro j hj
       rcases Finset.mem_insert.mp hj with rfl | hj
       · simpa only [Subring.coe_add, Subring.coe_pow, hval] using hy
-      · show 1 < v j ((x : K) ^ N + y)
+      · change 1 < v j ((x : K) ^ N + y)
         rw [(v j).map_add_eq_of_lt_left (by simpa only [map_pow] using hdom j hj), map_pow]
         exact one_lt_pow₀ (hxs j hj) (by simp [N])
 
@@ -109,8 +109,7 @@ public lemma exists_one_lt_of_tensorProduct_surjective {K : Type*} [CommRing K]
   have hbound (t : TensorProduct ℤ A B) :
       v (Algebra.TensorProduct.lift (B := B) A.subtype.toIntAlgHom
         B.subtype.toIntAlgHom (fun _ _ ↦ Commute.all _ _) t) ≤ 1 := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
       simpa using (mul_le_mul_of_nonneg_right (h a) zero_le).trans (by simpa using hB b)
     | add t u ht hu =>

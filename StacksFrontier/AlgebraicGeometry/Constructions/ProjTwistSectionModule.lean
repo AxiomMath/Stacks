@@ -449,8 +449,7 @@ theorem pureTensorSection_hom_ext
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul x y => exact h U.unop x y
   | add z₁ z₂ h₁ h₂ => exact (map_add _ z₁ z₂).trans ((congrArg₂ (· + ·) h₁ h₂).trans
       (map_add _ z₁ z₂).symm)
@@ -512,7 +511,7 @@ theorem twistSheafMultiplicationMap_pureTensorSection (n m : ℤ)
       ⟨((AlgebraicGeometry.Proj 𝒮).toRingedSpace).presheaf,
         ((AlgebraicGeometry.Proj 𝒮).toRingedSpace).IsSheaf⟩)).map
       (((𝟙 F), (twistMultiplicationMap 𝒮 n m)) : (_, _) ⟶ (_, _)))).val.app (op U)
-  show f₄ (f₃ (f₂ ((tensorProductAssociator (projStructureRing 𝒮)
+  change f₄ (f₃ (f₂ ((tensorProductAssociator (projStructureRing 𝒮)
     (projStructureRingIsSheaf 𝒮) (L n) F (L m)).inv.val.app (op U)
     (pureTensorSection 𝒮 (L n) (twistSheafOfModules 𝒮 F m) U a
       (pureTensorSection 𝒮 F (L m) U b c))))) = _
@@ -678,7 +677,7 @@ private theorem multiplyByGlobalSection_pure (n m : ℤ)
       pureTensorSection 𝒮 F (twistingSheaf 𝒮 (n + m)) U b
         (multiplyTwistSections 𝒮 n m U
           ((twistingSheaf 𝒮 n).val.map (homOfLE le_top).op s) c) := by
-  show (twistSheafMultiplicationMap 𝒮 F n m).val.app (op U)
+  change (twistSheafMultiplicationMap 𝒮 F n m).val.app (op U)
     ((tensorInsertHom 𝒮 (twistingSheaf 𝒮 n) (twistSheafOfModules 𝒮 F m)
       (globalSectionHom 𝒮 (twistingSheaf 𝒮 n) s)).val.app (op U)
       (pureTensorSection 𝒮 F (twistingSheaf 𝒮 m) U b c)) = _
@@ -698,7 +697,7 @@ private theorem multiplyByGlobalSection_top (n m : ℤ)
     (multiplyByGlobalSection 𝒮 F n m s).val.app (op ⊤) t =
       (twistSheafMultiplicationMap 𝒮 F n m).val.app (op ⊤)
         (pureTensorSection 𝒮 (twistingSheaf 𝒮 n) (twistSheafOfModules 𝒮 F m) ⊤ s t) := by
-  show (twistSheafMultiplicationMap 𝒮 F n m).val.app (op ⊤)
+  change (twistSheafMultiplicationMap 𝒮 F n m).val.app (op ⊤)
     ((tensorInsertHom 𝒮 (twistingSheaf 𝒮 n) (twistSheafOfModules 𝒮 F m)
       (globalSectionHom 𝒮 (twistingSheaf 𝒮 n) s)).val.app (op ⊤) t) = _
   refine Eq.trans (congrArg (fun z => (twistSheafMultiplicationMap 𝒮 F n m).val.app (op ⊤) z)

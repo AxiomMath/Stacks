@@ -80,7 +80,7 @@ theorem exists_unibranch_opens_isFiniteTypeLocallyConstant {k : Type u} [Field k
     rw [← h]
     exact mem_irreducibleComponent
   refine ⟨ι, hfin, W, fun a b hab => ?_, ?_, fun a => ⟨?_, ?_, ?_⟩⟩
-  · show Disjoint (W a) (W b)
+  · change Disjoint (W a) (W b)
     rw [disjoint_iff, eq_bot_iff]
     intro y hy
     exact hy.2.2 (Set.mem_iUnion₂.2 ⟨a, hab, hWsub a hy.1⟩)

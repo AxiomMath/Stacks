@@ -83,8 +83,9 @@ ringed spaces at `RingedSpace.{u, u}` and arbitrary `K, L ∈ D(𝒪_X)`, the tw
 by `relativeCupProduct_braiding` for each of the source and the target are supplied by the
 essential smallness of the open-cover site, so the commutativity square of Stacks 0FP5 commutes
 for every morphism of ringed spaces with no instance hypothesis carried by the caller. -/
-def relativeCupProduct_braiding_ofArbitrary (X Y : RingedSpace.{u, u}) (f : X ⟶ Y)
-    (K L : DerivedCategory (Mod X.sheaf)) :=
+theorem relativeCupProduct_braiding_ofArbitrary (X Y : RingedSpace.{u, u}) (f : X ⟶ Y)
+    (K L : DerivedCategory (Mod X.sheaf)) :
+    type_of% (relativeCupProduct_braiding f K L) :=
   relativeCupProduct_braiding f K L
 
 /-! ### The instance is not degenerate -/
@@ -130,7 +131,9 @@ theorem not_isZero_derivedStructureModuleWitness :
 /-- **Every binder of Stacks 0FP5 instantiated at once**, by named terms that assume nothing:
 the ringed space `W`, its identity morphism, and `K = L = 𝒪_W[0]`, which
 `not_isZero_derivedStructureModuleWitness` shows is not a zero object. -/
-def relativeCupProduct_braiding_witness :=
+theorem relativeCupProduct_braiding_witness :
+    type_of% (relativeCupProduct_braiding (𝟙 witnessRingedSpace.{u})
+      derivedStructureModuleWitness.{u} derivedStructureModuleWitness.{u}) :=
   relativeCupProduct_braiding (𝟙 witnessRingedSpace.{u})
     derivedStructureModuleWitness.{u} derivedStructureModuleWitness.{u}
 

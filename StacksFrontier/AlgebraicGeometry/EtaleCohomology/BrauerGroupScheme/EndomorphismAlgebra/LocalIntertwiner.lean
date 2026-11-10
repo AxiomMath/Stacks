@@ -33,7 +33,7 @@ variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
   (I : Type u) [Finite I] (U : Cᵒᵖ)
 /-- The sections over `U` of the free sheaf of modules on a finite type `I` form the finitely
 supported functions `I →₀ R(U)`. -/
-private noncomputable def freeSectionsIso :
+noncomputable def freeSectionsIso :
     ModuleCat.of (Rc.obj.obj U) (I →₀ Rc.obj.obj U) ≅
       (SheafOfModules.free.{u}
         (R := ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)) I).val.obj U :=
@@ -44,7 +44,7 @@ private noncomputable def freeSectionsIso :
           ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc).obj U)
       (SheafOfModules.isColimitFreeCofan I))
 /-- The basis, indexed by `I`, of the sections over `U` of the free sheaf of modules on `I`. -/
-private noncomputable def freeSectionBasis :
+noncomputable def freeSectionBasis :
     Module.Basis I (Rc.obj.obj U)
       ((SheafOfModules.free.{u}
         (R := ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)) I).val.obj U) :=
@@ -52,7 +52,7 @@ private noncomputable def freeSectionBasis :
     (CategoryTheory.Iso.toLinearEquiv (freeSectionsIso Rc I U))
 /-- The `i`-th member of the section basis of a free sheaf of modules is the `i`-th free section.
 -/
-private lemma freeSectionBasis_apply (i : I) :
+lemma freeSectionBasis_apply (i : I) :
     freeSectionBasis Rc I U i = (SheafOfModules.freeSection
       (R := ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)) i).eval U := by
   have h := IsColimit.comp_coconePointUniqueUpToIso_hom
@@ -68,7 +68,7 @@ private lemma freeSectionBasis_apply (i : I) :
 over the *commutative* section ring. The type ascription is what matters: it forces the scalar ring
 and its module instances into the same spelling as `freeSectionBasis`, so that transporting a basis
 along it is an equality the simplifier can see through. -/
-private noncomputable def sectionLinearEquivOfIso
+noncomputable def sectionLinearEquivOfIso
     {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) :
     ((SheafOfModules.free.{u}
@@ -79,13 +79,13 @@ private noncomputable def sectionLinearEquivOfIso
 
 /-- The basis of the sections over `U` of a sheaf of modules trivialized by an isomorphism from a
 free sheaf on a finite type. -/
-private noncomputable def sectionBasisOfIso
+noncomputable def sectionBasisOfIso
     {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) : Module.Basis I (Rc.obj.obj U) (M.val.obj U) :=
   (freeSectionBasis Rc I U).map (sectionLinearEquivOfIso Rc I U e)
 
 /-- The members of the transported basis are the images of the free sections. -/
-private lemma sectionBasisOfIso_apply
+lemma sectionBasisOfIso_apply
     {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) (i : I) :
     sectionBasisOfIso Rc I U e i =
@@ -94,7 +94,7 @@ private lemma sectionBasisOfIso_apply
   rfl
 
 /-- The members of the transported basis restrict to the members of the transported basis. -/
-private lemma sectionBasisOfIso_natural
+lemma sectionBasisOfIso_natural
     {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) {V : Cᵒᵖ} (k : U ⟶ V) (i : I) :
     M.val.map k (sectionBasisOfIso Rc I U e i) = sectionBasisOfIso Rc I V e i := by
@@ -102,7 +102,7 @@ private lemma sectionBasisOfIso_natural
   exact PresheafOfModules.sections_property _ k
 
 /-- The coordinates of a restricted section are the restrictions of its coordinates. -/
-private lemma sectionBasisOfIso_repr_natural
+lemma sectionBasisOfIso_repr_natural
     {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) {V : Cᵒᵖ} (k : U ⟶ V)
     (x : M.val.obj U) (i : I) :
@@ -116,7 +116,7 @@ private lemma sectionBasisOfIso_repr_natural
 
 /-- If the source of a morphism is trivialized by a free sheaf on a finite type and `U` is initial
 in the site, then a morphism is determined by, and may be prescribed as, its component at `U`. -/
-private lemma homEvaluation_bijective_of_free
+lemma homEvaluation_bijective_of_free
     {M N : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj Rc)}
     (e : SheafOfModules.free.{u} I ≅ M) (hU : IsInitial U) :
     Function.Bijective (fun f : M ⟶ N => (f.val.app U).hom) := by
@@ -172,7 +172,7 @@ variable {X : TopCat.{u}} {Rc : TopCat.Sheaf CommRingCat.{u} X}
   {F G : SheafOfModules.{u} (structureSheaf Rc)} {I : Type u}
   {U V : Opens X}
 /-- A trivialization of a sheaf of modules over `U` restricts to a trivialization over `V ≤ U`. -/
-private noncomputable def restrictFreeIso
+noncomputable def restrictFreeIso
     (e : SheafOfModules.free I ≅ F.over U) (hVU : V ≤ U) :
     SheafOfModules.free I ≅ F.over V :=
   SheafOfModules.mapFreeIso (SheafOfModules.overMap (structureSheaf Rc) (homOfLE hVU)) I
@@ -182,7 +182,7 @@ private noncomputable def restrictFreeIso
 
 /-- Over an open on which `F` is free of finite rank, a section of `SheafHom(F, G)` is determined
 by, and may be prescribed as, its component at the terminal object of the slice site. -/
-private lemma sheafHomApp_bijective_of_free
+lemma sheafHomApp_bijective_of_free
     (H : SheafHom Rc F G) [Finite I]
     (e : SheafOfModules.free I ≅ F.over U) :
     Function.Bijective (fun s : H.obj.val.obj (op U) =>

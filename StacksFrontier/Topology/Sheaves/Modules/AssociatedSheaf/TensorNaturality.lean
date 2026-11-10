@@ -46,12 +46,10 @@ private theorem apply_eq_of_tmul_tmul {R S A M N G F : Type*} [CommSemiring R] [
     (h : ∀ (a : A) (m : M) (n : N),
       φ (a ⊗ₜ[S] (m ⊗ₜ[R] n)) = ψ (a ⊗ₜ[S] (m ⊗ₜ[R] n)))
     (x : TensorProduct S A (TensorProduct R M N)) : φ x = ψ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a z =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [TensorProduct.tmul_add, map_add, map_add, hz, hw]
     | tmul m n => exact h a m n
 

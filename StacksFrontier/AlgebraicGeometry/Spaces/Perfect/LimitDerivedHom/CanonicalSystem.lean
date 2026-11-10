@@ -207,7 +207,7 @@ limit of `AlgebraicGeometry.Space.DescentSituation.canonicalDerivedPullbackSyste
 theorem isHomColimit_canonicalDerivedPullbackSystem_iff :
     IsHomColimit D.canonicalDerivedPullbackSystem E₀ K₀ ↔
       D.limitSystem.IsColim (smallEtaleDerivedPullbackData B S hS) E₀ K₀ := by
-  show Stacks.IsStagesColimit (homTransition D.canonicalDerivedPullbackSystem E₀ K₀)
+  change Stacks.IsStagesColimit (homTransition D.canonicalDerivedPullbackSystem E₀ K₀)
       (homProjection D.canonicalDerivedPullbackSystem E₀ K₀) ↔
     Stacks.IsStagesColimit (D.limitSystem.trans (smallEtaleDerivedPullbackData B S hS) E₀ K₀)
       (D.limitSystem.projHom (smallEtaleDerivedPullbackData B S hS) E₀ K₀)

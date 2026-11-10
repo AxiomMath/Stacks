@@ -137,7 +137,7 @@ public lemma colimit_ι_eq_zero_of_canonicalMapToSections_eq_zero (hI : I.FG) (n
     le_trans (Ideal.pow_le_pow_right (Nat.le_add_right N n)) hN
   have hψ : (idealPowersHom A I M).map (homOfLE hnN) φ = 0 := by
     refine LinearMap.ext fun a ↦ ?_
-    show φ (Submodule.inclusion (Ideal.pow_le_pow_right hnN) a) = 0
+    change φ (Submodule.inclusion (Ideal.pow_le_pow_right hnN) a) = 0
     exact apply_eq_zero_of_mem_span A I M φ _ hJle
       (fun b hb hb' ↦ by
         obtain ⟨f, hf, rfl⟩ := hb

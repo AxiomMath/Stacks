@@ -107,7 +107,7 @@ private theorem flatAlgebraCategory_pullback_exists
     ((BtoD.comp base.pullbackCone.fst.hom).prod
       (A'toC'.comp base.pullbackCone.snd.hom)) P (by
         intro r
-        show DtoC (BtoD (base.pullbackCone.fst.hom r)) =
+        change DtoC (BtoD (base.pullbackCone.fst.hom r)) =
           C'toC (A'toC' (base.pullbackCone.snd.hom r))
         exact hsq _ _ (congrArg (fun q => q r) base.pullbackCone.condition))
   have hg₁ : ∀ r, (g r).1.1 = BtoD (base.pullbackCone.fst.hom r) := fun _ => rfl
@@ -192,12 +192,12 @@ private theorem flatAlgebraCategory_pullback_exists
     apply (hpb toBase surjection).of_iso' e.toCommRingCatIso (Iso.refl _) (Iso.refl _) (Iso.refl _)
     · apply CommRingCat.hom_ext
       ext z
-      show (toBase.pullbackFst surjection) (e z) = bp.fst.hom.toRingHom z
+      change (toBase.pullbackFst surjection) (e z) = bp.fst.hom.toRingHom z
       rw [bp.fst_hom]
       rfl
     · apply CommRingCat.hom_ext
       ext z
-      show (toBase.pullbackSnd surjection) (e z) = bp.snd.hom.toRingHom z
+      change (toBase.pullbackSnd surjection) (e z) = bp.snd.hom.toRingHom z
       rw [bp.snd_hom]
       rfl
     · rfl
@@ -268,9 +268,9 @@ private theorem flatAlgebraCategory_pullback_exists
       · apply CommRingCat.hom_ext
         ext a
         rw [← Category.assoc, heD_inr, ← Category.assoc, heC'_inr]
-        show DtoC (BtoD (bp.fst.hom a)) = C'toC (A'toC' (bp.snd.hom a))
+        change DtoC (BtoD (bp.fst.hom a)) = C'toC (A'toC' (bp.snd.hom a))
         refine hsq _ _ ?_
-        show f₁.base.hom (bp.fst.hom a) = f₂.base.hom (bp.snd.hom a)
+        change f₁.base.hom (bp.fst.hom a) = f₂.base.hom (bp.snd.hom a)
         simpa only [AlgHom.comp_apply, ArtinianLocalAlgCat.comp_hom] using
           congrArg (fun f => f.hom a) bp.isPullback.w
     have hEpull : IsPullback eD eC' (CommRingCat.ofHom DtoC) (CommRingCat.ofHom C'toC) :=
@@ -290,14 +290,14 @@ private theorem flatAlgebraCategory_pullback_exists
         CommRingCat.ofHom (BtoD.comp (bp.fst.hom.toRingHom)) := by
       apply CommRingCat.hom_ext
       ext a
-      show (g (e a)).1.1 = BtoD (bp.fst.hom a)
+      change (g (e a)).1.1 = BtoD (bp.fst.hom a)
       rw [hg₁, bp.fst_hom]
       rfl
     have hg₂' : (CommRingCat.ofHom g') ≫ CommRingCat.ofHom (DtoC.pullbackSnd C'toC) =
         CommRingCat.ofHom (A'toC'.comp (bp.snd.hom.toRingHom)) := by
       apply CommRingCat.hom_ext
       ext a
-      show (g (e a)).1.2 = A'toC' (bp.snd.hom a)
+      change (g (e a)).1.2 = A'toC' (bp.snd.hom a)
       rw [hg₂, bp.snd_hom]
       rfl
     have hi₁ : inlE ≫ iE.hom = CommRingCat.ofHom q := by

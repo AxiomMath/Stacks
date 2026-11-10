@@ -257,7 +257,7 @@ private theorem exists_smul_eq_zero_of_mem_ker_cotangentMap
   have hIQ : I ≤ Q.ker := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show algebraMap Q.Ring T (algebraMap P.Ring Q.Ring x) = 0
+    change algebraMap Q.Ring T (algebraMap P.Ring Q.Ring x) = 0
     rw [halg, f.algebraMap_toRingHom]
     rw [show algebraMap P.Ring S x = 0 from hx, map_zero]
   let eI := LinearEquiv.ofBijective _ (idealMap_liftBaseChange_bijective (S := Q.Ring) P.ker)
@@ -270,23 +270,22 @@ private theorem exists_smul_eq_zero_of_mem_ker_cotangentMap
       g ∘ₗ eQ.toLinearMap := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul t x =>
       dsimp only [I] at *
       simp only [eP, eQ, eI, g, LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.trans_apply, AlgebraTensorModule.cancelBaseChange_symm_tmul,
-        LinearEquiv.baseChange_tmul, Extension.contangentEquiv_tmul,
+        LinearEquiv.baseChange_tmul, Extension.cotangentEquiv_tmul,
         one_smul, LinearMap.liftBaseChange_tmul, Extension.Cotangent.map_mk,
         LinearEquiv.ofBijective_apply]
-      show t • Extension.Cotangent.mk (P := Q) _ = t • Extension.Cotangent.mk (P := Q) _
+      change t • Extension.Cotangent.mk (P := Q) _ = t • Extension.Cotangent.mk (P := Q) _
       congr 2
       apply Subtype.ext
       simp [Algebra.idealMap_apply_coe, halg, Extension.Hom.toAlgHom_apply]
   obtain ⟨z, rfl⟩ := eP.surjective x
   have hz : g (eQ z) = 0 := by
-    show (g.comp eQ.toLinearMap) z = 0
+    change (g.comp eQ.toLinearMap) z = 0
     rw [← hcomm]
     exact hx
   obtain ⟨i, hi⟩ := TensorProduct.mk_surjective Q.Ring I T Q.algebraMap_surjective (eQ z)
@@ -358,25 +357,25 @@ private theorem completionEquivOfMapEq_smul {R S : Type*} [CommRing R] [CommRing
       adicCompletionMap (algebraMap R S) K L h.le a * completionEquivOfMapEq K S L h x := by
   apply AdicCompletion.ext
   intro n
-  show Rig.quotientSmulTopEquiv K S L h n (a.val n • x.val n) = _
+  change Rig.quotientSmulTopEquiv K S L h n (a.val n • x.val n) = _
   obtain ⟨r, hr⟩ := Submodule.Quotient.mk_surjective _ (a.val n)
   obtain ⟨s, hs⟩ := Submodule.Quotient.mk_surjective _ (x.val n)
   have ha : AdicCompletion.evalₐ K n a = Ideal.Quotient.mk (K ^ n) r := by
-    show Ideal.quotientEquivAlgOfEq R (show K ^ n • (⊤ : Ideal R) = K ^ n by simp) (a.val n) = _
+    change Ideal.quotientEquivAlgOfEq R (show K ^ n • (⊤ : Ideal R) = K ^ n by simp) (a.val n) = _
     rw [← hr]
     rfl
   rw [← hr, ← hs]
-  show _ = (adicCompletionMap (algebraMap R S) K L h.le a).val n * _
+  change _ = (adicCompletionMap (algebraMap R S) K L h.le a).val n * _
   have hm : (adicCompletionMap (algebraMap R S) K L h.le a).val n =
       Submodule.Quotient.mk (algebraMap R S r) := by
     apply (Ideal.quotientEquivAlgOfEq S (show L ^ n * ⊤ = L ^ n by simp)).injective
-    show AdicCompletion.evalₐ L n (adicCompletionMap (algebraMap R S) K L h.le a) =
+    change AdicCompletion.evalₐ L n (adicCompletionMap (algebraMap R S) K L h.le a) =
         Ideal.Quotient.mk (L ^ n) (algebraMap R S r)
     rw [adicCompletionMap, AdicCompletion.evalₐ_liftRingHom, RingHom.comp_apply]
-    show Ideal.quotientMap (L ^ n) (algebraMap R S) _ (AdicCompletion.evalₐ K n a) = _
+    change Ideal.quotientMap (L ^ n) (algebraMap R S) _ (AdicCompletion.evalₐ K n a) = _
     rw [ha, Ideal.quotientMap_mk]
   rw [hm, completionEquivOfMapEq_val, ← hs]
-  show Rig.quotientSmulTopEquiv K S L h n (r • Submodule.Quotient.mk s) = _
+  change Rig.quotientSmulTopEquiv K S L h n (r • Submodule.Quotient.mk s) = _
   rw [map_smul]
   simp [Rig.quotientSmulTopEquiv, Algebra.smul_def]
 
@@ -453,7 +452,7 @@ private theorem flat_rename_castAdd {R : Type*} [CommRing R] (r s : ℕ) :
       MvPolynomial (Fin s) (MvPolynomial (Fin r) R) :=
     { E.toRingEquiv with
       commutes' := fun p => by
-        show MvPolynomial.sumAlgEquiv R (Fin s) (Fin r)
+        change MvPolynomial.sumAlgEquiv R (Fin s) (Fin r)
           (MvPolynomial.renameEquiv R e' (f p)) = MvPolynomial.C p
         rw [show MvPolynomial.renameEquiv R e' (f p) =
           MvPolynomial.rename Sum.inr p from DFunLike.congr_fun hrename p]
@@ -469,7 +468,7 @@ private theorem adicCompletionMap_algebraMap {R S : Type*} [CommRing R] [CommRin
   apply AdicCompletion.ext_evalₐ
   intro n
   rw [adicCompletionMap, AdicCompletion.evalₐ_liftRingHom, RingHom.comp_apply]
-  show Ideal.quotientMap (L ^ n) f _ (AdicCompletion.evalₐ K n
+  change Ideal.quotientMap (L ^ n) f _ (AdicCompletion.evalₐ K n
     (AdicCompletion.of K R r)) = AdicCompletion.evalₐ L n (AdicCompletion.of L S (f r))
   rw [AdicCompletion.evalₐ_of, AdicCompletion.evalₐ_of, Ideal.quotientMap_mk]
 
@@ -500,7 +499,7 @@ private theorem flat_combinedInclusion : (P.combinedInclusion s).toRingHom.Flat 
   let : Algebra R S := f.toAlgebra
   have hf : Module.Flat R S := flat_rename_castAdd P.variableCount s
   have hKL : K.map (algebraMap R S) = L := by
-    show (I.map (MvPolynomial.C : A →+* R)).map f = I.map (algebraMap A S)
+    change (I.map (MvPolynomial.C : A →+* R)).map f = I.map (algebraMap A S)
     rw [Ideal.map_map, MvPolynomial.algebraMap_eq]
     congr 1
     apply RingHom.ext

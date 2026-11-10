@@ -419,11 +419,7 @@ theorem Φ_rTensor_rawD (m n : ℕ) :
   let := cochainModule U f (m + 1)
   let := cochainModule V g n
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    funext i j
-    simp [dHor]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [LinearMap.rTensor_tmul, Φ_tmul, Φ_tmul, rawDₗ_apply]
     funext i j
@@ -451,11 +447,7 @@ theorem Φ_lTensor_rawD (m n : ℕ) :
   let := cochainModule V g n
   let := cochainModule V g (n + 1)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    funext i j
-    simp [dVert]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [LinearMap.lTensor_tmul, Φ_tmul, Φ_tmul, rawDₗ_apply]
     funext i j
@@ -793,8 +785,7 @@ theorem faceX_appLE_Φ (y₀ : Spec (.of k) ⟶ Y) (hy₀ : y₀ ≫ g = 𝟙 _)
   let := cochainModule U f m
   let := cochainModule V g 0
   intro x i
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [LinearMap.lTensor_tmul, TensorProduct.rid_tmul, Φ_tmul]
     simp only [extProd, map_mul, appLE_comp]
@@ -820,8 +811,7 @@ theorem faceY_appLE_Φ (x₀ : Spec (.of k) ⟶ X) (hx₀ : x₀ ≫ f = 𝟙 _)
   let := cochainModule U f 0
   let := cochainModule V g n
   intro x j
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [Stacks.TotKunneth.evalLeft_tmul, Φ_tmul]
     simp only [extProd, map_mul, appLE_comp]
@@ -904,12 +894,6 @@ theorem exists_rawD_eq_of_cocycle [Finite ι] [Finite κ]
     refine ((sum_fin_three_neg_one_pow_smul _).trans ?_).trans key
     simp only [Hc, res_res]
     rfl
-  have hvert : dVert p q U V 0 1 Vc = 0 := by
-    funext i j
-    have key := res_rawD_one_eq_zero hc (fun l => (i 0, j l)) (hVle i j)
-    refine ((sum_fin_three_neg_one_pow_smul _).trans ?_).trans key
-    simp only [Vc, res_res]
-    rfl
   have hmixed : dVert p q U V 1 0 Hc = dHor p q U V 0 1 Vc := by
     funext i j
     have k1 := res_rawD_one_eq_zero hc ![(i 0, j 0), (i 1, j 0), (i 1, j 1)]
@@ -945,9 +929,6 @@ theorem exists_rawD_eq_of_cocycle [Finite ι] [Finite κ]
   have hh : (rawDₗ U f 1).rTensor (RawCochain V 0) h = 0 := by
     apply (hΦ 2 0).1
     rw [Φ_rTensor_rawD, hΦh, hhor, map_zero]
-  have hv : (rawDₗ V g 1).lTensor (RawCochain U 0) v = 0 := by
-    apply (hΦ 0 2).1
-    rw [Φ_lTensor_rawD, hΦv, hvert, map_zero]
   have hmix : (rawDₗ V g 0).lTensor (RawCochain U 1) h =
       (rawDₗ U f 0).rTensor (RawCochain V 1) v := by
     apply (hΦ 1 1).1
@@ -971,8 +952,8 @@ theorem exists_rawD_eq_of_cocycle [Finite ι] [Finite κ]
     simp only [Vc]
     rw [appLE_res]
   obtain ⟨f₀, hf₀h, hf₀v⟩ := Stacks.TotKunneth.exists_eq_of_cocycle (rawDₗ U f 0) (rawDₗ U f 1)
-    (LinearMap.ext fun s => rawD_rawD U 0 s) (rawDₗ V g 0) (rawDₗ V g 1) (one U) hA (rawD_one U)
-    (evalAt U x₀ hx₀ a₀ ha₀) hεA (one V) hB (evalAt V y₀ hy₀ b₀ hb₀) hεB h v hh hv hmix hfaceB
+    (LinearMap.ext fun s => rawD_rawD U 0 s) (rawDₗ V g 0) (one U) hA (rawD_one U)
+    (evalAt U x₀ hx₀ a₀ ha₀) hεA (one V) hB (evalAt V y₀ hy₀ b₀ hb₀) hεB h v hh hmix hfaceB
     hfaceA
   set F₀ := Φ U V H 0 0 f₀
   have hHF : Hc = dHor p q U V 0 0 F₀ := by

@@ -134,7 +134,7 @@ private theorem legL (j : C' ⟶ C) (a : C ⟶ P) (p : P ⟶ Y) (a' : C' ⟶ P')
     Category.id_comp]
   -- the pure coherence, checked after the identification along `e' ≫ k ≫ r = j ≫ a ≫ p`
   have hW : e' ≫ k ≫ r = j ≫ a ≫ p := by rw [← Category.assoc, hk, Category.assoc, ← ha]
-  haveI : Mono ((pullback e').map ((pullbackComp k r).hom.app M) ≫
+  have : Mono ((pullback e').map ((pullbackComp k r).hom.app M) ≫
       (pullbackCompEq e' (k ≫ r) (j ≫ a ≫ p) hW).hom.app M) :=
     inferInstanceAs (Mono ((pullback e').mapIso ((pullbackComp k r).app M) ≪≫
       (pullbackCompEq e' (k ≫ r) (j ≫ a ≫ p) hW).app M).hom)
@@ -200,7 +200,7 @@ private theorem legR (j : C' ⟶ C) (e : C ⟶ U) (ι : U ⟶ Y) (e' : C' ⟶ U'
   -- the pure coherence, checked after the identification along `b' ≫ q' ≫ c_B = j ≫ e ≫ ι`
   have hW : b' ≫ q' ≫ cB = j ≫ e ≫ ι := by
     rw [← hyQ, ← Category.assoc, ← hjB, Category.assoc, hb]
-  haveI : Mono ((pullback b').map ((pullbackComp q' cB).hom.app N) ≫
+  have : Mono ((pullback b').map ((pullbackComp q' cB).hom.app N) ≫
       (pullbackCompEq b' (q' ≫ cB) (j ≫ e ≫ ι) hW).hom.app N) :=
     inferInstanceAs (Mono ((pullback b').mapIso ((pullbackComp q' cB).app N) ≪≫
       (pullbackCompEq b' (q' ≫ cB) (j ≫ e ≫ ι) hW).app N).hom)

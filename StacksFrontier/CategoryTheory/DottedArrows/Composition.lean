@@ -643,7 +643,7 @@ theorem fiber_categoryIso {S T X Y Z : B}
            ← fiber_eqToHom_val x j f g z γ d' (toFiber_fromFiber_obj x j f g z γ d' e').symm]
          rfl
        apply WithFactorization.Hom.ext
-       · show m.1.θ₁ = _
+       · change m.1.θ₁ = _
          rw [hcomp, WithFactorization.Hom.comp_θ₁, WithFactorization.Hom.comp_θ₁,
            WithFactorization.Hom.eqToHom_θ₁, WithFactorization.Hom.eqToHom_θ₁]
          simp

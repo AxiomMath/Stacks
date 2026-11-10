@@ -134,7 +134,7 @@ variable {C : Type u} [Category.{v} C] (O : Cᵒᵖ ⥤ CommRingCat.{w})
 /-- Restricting a section along the identity is the section itself. -/
 theorem fRestr_terminal (U : C) (b : (Oforget O).obj (op U)) :
     fRestr O U b (op (Over.mk (𝟙 U))) = b := by
-  show ((Oforget O).map (𝟙 (op U))).hom b = b
+  change ((Oforget O).map (𝟙 (op U))).hom b = b
   rw [(Oforget O).map_id]
   rfl
 
@@ -155,7 +155,7 @@ theorem evalTerminal_add {X : Cᵒᵖ}
     evalTerminal O M P (g + g') = evalTerminal O M P g + evalTerminal O M P g' := by
   apply LinearMap.ext
   intro a
-  show ((g + g').app (op (Over.mk (𝟙 X.unop)))).hom a = _
+  change ((g + g').app (op (Over.mk (𝟙 X.unop)))).hom a = _
   rw [PresheafOfModules.add_app]
   rfl
 
@@ -165,9 +165,9 @@ theorem evalTerminal_smulHom {X : Cᵒᵖ} (r : (Oforget O).obj X)
     evalTerminal O M P (smulHom O M P X.unop r g) = r • evalTerminal O M P g := by
   apply LinearMap.ext
   intro a
-  show ((g ≫ multEndoHom O P X.unop r).app (op (Over.mk (𝟙 X.unop)))).hom a = _
+  change ((g ≫ multEndoHom O P X.unop r).app (op (Over.mk (𝟙 X.unop)))).hom a = _
   rw [PresheafOfModules.comp_app]
-  show fRestr O X.unop r (op (Over.mk (𝟙 X.unop))) •
+  change fRestr O X.unop r (op (Over.mk (𝟙 X.unop))) •
     (g.app (op (Over.mk (𝟙 X.unop)))).hom a = _
   rw [fRestr_terminal]
   rfl

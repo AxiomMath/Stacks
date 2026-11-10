@@ -228,7 +228,7 @@ public theorem isArtinian_of_finite_matlisDual
       inj' := fun {P Q} h ↦
         le_antisymm ((hle P Q).2 (le_of_eq h.symm)) ((hle Q P).2 (le_of_eq h))
       map_rel_iff' := fun {P Q} ↦ (hlt P Q).symm }
-    ((isNoetherian_iff' (R := A) (M := (N →ₗ[R] E))).mp hNoeth)
+    ((isNoetherian_iff (R := A) (M := (N →ₗ[R] E))).mp hNoeth)
 
 end MatlisDual
 

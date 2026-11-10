@@ -162,7 +162,7 @@ lemma comp_internalHomExtensionByZeroIso_hom
     {T : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}}
     (φ : T ⟶ internalHomSheaf X.smallEtaleTopology ((extensionByZero.{u, 0} j).obj A) B) :
     φ ≫ (internalHomExtensionByZeroIso j A B).hom = internalHomExtensionByZeroEquiv j A B T φ := by
-  show φ ≫ internalHomExtensionByZeroEquiv j A B _ (𝟙 _) = _
+  change φ ≫ internalHomExtensionByZeroEquiv j A B _ (𝟙 _) = _
   rw [← internalHomExtensionByZeroEquiv_comp, Category.comp_id]
 
 /-- `ℋom(j_! A, B) ≅ j_* ℋom(A, j⁻¹ B)` is natural in `B`. -/

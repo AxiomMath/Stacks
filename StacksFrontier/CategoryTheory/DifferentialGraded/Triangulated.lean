@@ -416,7 +416,7 @@ public theorem first_comp_zero_in_K {x y z : A.Obj}
       (Quotient.mk (A.homotopySetoid x y) E.a) =
     Quotient.mk (A.homotopySetoid x z)
       (⟨0, A.d_zero⟩ : A.Cocycle x z) := by
-  show Quotient.mk (A.homotopySetoid x z) (A.compCocycle E.b E.a) = _
+  change Quotient.mk (A.homotopySetoid x z) (A.compCocycle E.b E.a) = _
   apply congrArg (Quotient.mk (A.homotopySetoid x z))
   apply Subtype.ext
   exact comp_zero E
@@ -441,11 +441,11 @@ public theorem connecting_comp_zero_in_K {x y z : A.Obj}
       (Quotient.mk (A.homotopySetoid y z) E.b) =
     Quotient.mk (A.homotopySetoid y ((S.shiftFunctor 1).obj x))
       (⟨0, A.d_zero⟩ : A.Cocycle y ((S.shiftFunctor 1).obj x)) := by
-  show Quotient.mk (A.homotopySetoid y ((S.shiftFunctor 1).obj x))
+  change Quotient.mk (A.homotopySetoid y ((S.shiftFunctor 1).obj x))
       (A.compCocycle (connectingCocycle S E) E.b) = _
   apply Quotient.sound
   refine ⟨-S.toShift 1 y x (-1) (-E.π), ?_⟩
-  show A.comp (by omega : (0 : ℤ) + 0 = 0)
+  change A.comp (by omega : (0 : ℤ) + 0 = 0)
       (S.toShift 1 z x 0 (connectingHom E)) E.b.1 - 0 =
     A.d' (by omega : (-1 : ℤ) + 1 = 0)
       (-S.toShift 1 y x (-1) (-E.π))
@@ -471,11 +471,11 @@ public theorem comp_connecting_zero_in_K {x y z : A.Obj}
         (connectingCocycle S E)) =
     Quotient.mk (A.homotopySetoid z ((S.shiftFunctor 1).obj y))
       (⟨0, A.d_zero⟩ : A.Cocycle z ((S.shiftFunctor 1).obj y)) := by
-  show Quotient.mk (A.homotopySetoid z ((S.shiftFunctor 1).obj y))
+  change Quotient.mk (A.homotopySetoid z ((S.shiftFunctor 1).obj y))
       (A.compCocycle ((S.shiftFunctor 1).mapCocycle E.a) (connectingCocycle S E)) = _
   apply Quotient.sound
   refine ⟨-S.toShift 1 z y (-1) E.s, ?_⟩
-  show A.comp (by omega : (0 : ℤ) + 0 = 0)
+  change A.comp (by omega : (0 : ℤ) + 0 = 0)
       ((S.shiftFunctor 1).map E.a.1)
       ((S.toShift 1 z x 0) (connectingHom E)) - 0 =
     A.d' (by omega : (-1 : ℤ) + 1 = 0)
@@ -536,12 +536,12 @@ public theorem shifted_connecting_comp_zero_in_K {x y z : A.Obj}
   let G := S.shiftFunctor 1
   have hx : F.obj (G.obj x) = x := shift_neg_one_shift_one_obj S x
   have hy : F.obj (G.obj y) = y := shift_neg_one_shift_one_obj S y
-  show Quotient.mk (A.homotopySetoid (F.obj z) y)
+  change Quotient.mk (A.homotopySetoid (F.obj z) y)
       (A.compCocycle E.a (shiftedConnecting S E)) = _
   apply Quotient.sound
   obtain ⟨t, ht⟩ := Quotient.exact (comp_connecting_zero_in_K S E)
   refine ⟨hy ▸ F.map t, ?_⟩
-  show A.comp (by omega : (0 : ℤ) + 0 = 0) E.a.1
+  change A.comp (by omega : (0 : ℤ) + 0 = 0) E.a.1
       (shiftedConnecting S E).1 - 0 =
     A.d' (by omega : (-1 : ℤ) + 1 = 0) (hy ▸ F.map t)
   simp only [sub_zero]
@@ -578,7 +578,7 @@ public theorem shifted_connecting_comp_zero_in_K {x y z : A.Obj}
     change hy ▸ F.map ((A.compCocycle ((S.shiftFunctor 1).mapCocycle E.a)
       (connectingCocycle S E)).1) = hy ▸ A.d (F.map t) at h
     rw [transport_d (A := A) hy (F.map t)] at h
-    show hy ▸ F.map ((A.compCocycle ((S.shiftFunctor 1).mapCocycle E.a)
+    change hy ▸ F.map ((A.compCocycle ((S.shiftFunctor 1).mapCocycle E.a)
       (connectingCocycle S E)).1) = A.d' (by omega : (-1 : ℤ) + 1 = 0)
       (hy ▸ F.map t)
     exact h
@@ -587,7 +587,7 @@ public theorem shifted_connecting_comp_zero_in_K {x y z : A.Obj}
       A.comp (by omega : (0 : ℤ) + 0 = 0)
         (F.map ((S.shiftFunctor 1).map E.a.1))
         (F.map (connectingCocycle S E).1) := by
-    show F.map (A.comp (by omega : (0 : ℤ) + 0 = 0)
+    change F.map (A.comp (by omega : (0 : ℤ) + 0 = 0)
       ((S.shiftFunctor 1).map E.a.1) (connectingCocycle S E).1) = _
     exact hcomp
   have hcompCast := congrArg (fun f => hy ▸ f) hcomp'

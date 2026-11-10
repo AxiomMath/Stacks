@@ -60,11 +60,11 @@ Everything is in the namespace `Crystalline`.
 
 ## What is and is not proved
 
-No `@[stacks]` attribute is placed in this module.  The two items 07JD and 07JE are proved here in greater
-generality than in `CoordinateOperatorsUnique.lean`, which carries the attribute for them, and
-the hypotheses are the same except that the basis is replaced by the dual family it provides; the
-remaining inputs — the monomial family `θ_K = ∏_i θ_i^{k_i}` that the source reads off `D(2)`, and
-the `p`-adic convergence it reads off `D(1)` — are unchanged and are not derived here.
+No `@[stacks]` attribute is placed in this module.  The two items 07JD and 07JE are proved here in
+greater generality than in `CoordinateOperatorsUnique.lean`, which carries the attribute for them,
+and the hypotheses are the same except that the basis is replaced by the dual family it provides;
+the remaining inputs — the monomial family `θ_K = ∏_i θ_i^{k_i}` that the source reads off `D(2)`,
+and the `p`-adic convergence it reads off `D(1)` — are unchanged and are not derived here.
 
 The dual family is **not** constructed here either: that `Ω_D` has one is
 `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedDifferentialsDual.lean`.
@@ -109,7 +109,7 @@ class of `phi z` in `M ⧸ p^n M`. -/
     (z : M ⊗[D] Omega) :
     completedTensorFunctionalLevel p D Omega M phi n (toCompletedTensor p D Omega M z) =
       Submodule.Quotient.mk (p := pLevel p D M n) (phi z) := by
-  show pLevelMapQ p D (M ⊗[D] Omega) M phi n
+  change pLevelMapQ p D (M ⊗[D] Omega) M phi n
       (AdicCompletion.eval (DividedPowers.pAdicIdeal (A := D) p) (M ⊗[D] Omega) n
         (AdicCompletion.of (DividedPowers.pAdicIdeal (A := D) p) (M ⊗[D] Omega) z)) = _
   rw [AdicCompletion.eval_of]
@@ -247,13 +247,13 @@ theorem completedTensorFunctionalLevel_eq_of_hasSum {theta : ι → (M → M)}
           fun i ↦ toCompletedTensor p D Omega M (theta i m ⊗ₜ[D] dx i)) i =
         if i = j then Submodule.Quotient.mk (p := pLevel p D M n) (theta j m) else 0 := by
     intro i
-    show completedTensorFunctionalLevel p D Omega M (dualTensorCoordinate M (coord j)) n
+    change completedTensorFunctionalLevel p D Omega M (dualTensorCoordinate M (coord j)) n
         (toCompletedTensor p D Omega M (theta i m ⊗ₜ[D] dx i)) = _
     rw [completedTensorFunctionalLevel_of, dualTensorCoordinate_tmul]
     by_cases hij : i = j
     · subst hij
-      rw [hc.self i, one_smul, if_pos rfl]
-    · rw [hc.of_ne hij, zero_smul, if_neg hij]
+      rw [hc.self i, one_smul, ite_eq_left rfl]
+    · rw [hc.of_ne hij, zero_smul, ite_eq_right hij]
       exact (pLevel p D M n).mkQ.map_zero
   rw [funext hterm] at hpush
   exact (hasSum_ite_eq j (Submodule.Quotient.mk (p := pLevel p D M n)
@@ -329,7 +329,7 @@ theorem isTopologicallyQuasiNilpotent_of_isThetaMonomialFamily_of_isCoordinateDu
   refine Set.Finite.of_finite_image
     (f := fun q : ι × ℕ ↦ Finsupp.single q.1 q.2) ((hfin m).subset ?_) ?_
   · rintro K ⟨q, ⟨-, hq⟩, rfl⟩
-    rw [Set.mem_setOf_eq, hfamM.single q.1 q.2]
+    rw [Set.mem_ofPred_eq, hfamM.single q.1 q.2]
     exact hq
   · rintro ⟨i, k⟩ ⟨hk, -⟩ ⟨i', k'⟩ ⟨hk', -⟩ hsingle
     rcases (Finsupp.single_eq_single_iff i i' k k').mp hsingle with ⟨rfl, rfl⟩ | ⟨h0, -⟩

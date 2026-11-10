@@ -67,7 +67,7 @@ theorem curveStatements_constantSheaf_of_smoothCurve_of {k : Type u} [Field k] [
     · have := isVanishingAboveDegreeTwo_constantSheaf_of_smoothCurve g hℓk E ⟨e⟩ q h
       exact Finite.of_subsingleton
     · rcases Nat.eq_zero_or_pos q with rfl | hq
-      · have : NeZero ℓ := ⟨ne_zero_of_isUnit_natCast g hℓk⟩
+      · have : NeZero ℓ := ⟨ne_zero_of_isUnit_natCast hℓk⟩
         have : Finite E := Finite.of_equiv _ e.toEquiv.symm
         have : IrreducibleSpace X := inferInstance
         have : PreconnectedSpace X := PreirreducibleSpace.preconnectedSpace X
@@ -87,7 +87,7 @@ theorem curveStatements_constantSheaf_of_smoothCurve_of {k : Type u} [Field k] [
   { vanishing := isVanishingAboveDegreeTwo_constantSheaf_of_smoothCurve g hℓk E hE
     affineVanishing := isAffineVanishingAboveDegreeOne_constantSheaf_of_divisible g hℓk E hE hdiv
     primePowerVanishing := fun p _ =>
-      isPrimePowerTorsionVanishing_constantSheaf_of_isUnit g hℓk E hE p
+      isPrimePowerTorsionVanishing_constantSheaf_of_isUnit hℓk E hE p
     finite_of_isPrimeToCharacteristicTorsion := fun _ _ _ _ _ _ => hfin
     finite_of_isProper := fun _ _ _ _ _ _ => hfin
     bijective_of_isPrimeToCharacteristicTorsion := fun _ => hbij

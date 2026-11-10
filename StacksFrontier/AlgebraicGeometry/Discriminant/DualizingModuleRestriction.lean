@@ -77,7 +77,7 @@ theorem comparison_restrict_of_local_annihilation
       intro k hk
       have hkB : algebraMap H.middle B k = 0 := by
         rw [← hqB, show q k = 0 from hk, map_zero]
-      show φ ((r c) ^ n * k) = 0
+      change φ ((r c) ^ n * k) = 0
       rw [hn k hkB, map_zero])
     have hψr : ψ.comp (q.comp r).toLinearMap = c ^ n • (φ.comp r.toLinearMap) := by
       ext z
@@ -89,7 +89,7 @@ theorem comparison_restrict_of_local_annihilation
     rw [dualizingModule.tmul_dual_smul, dualizingModule.tmul_dual_smul, map_smul] at heq
     rw [map_pow, hr c, map_pow] at heq
     have hmem : algebraMap F.middle B c ^ n ∈ I := by
-      show algebraMap F.middle B c ^ n • δ = 0
+      change algebraMap F.middle B c ^ n • δ = 0
       exact (smul_sub _ _ _).trans (sub_eq_zero.mpr heq)
     have hp : algebraMap F.middle B c ∈ P := hP.isPrime.mem_of_pow_mem n (hIP hmem)
     exact hc hp

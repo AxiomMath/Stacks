@@ -138,8 +138,7 @@ public theorem gluingDatum_difference_shortExact_of_quotientMap_surjective
   suffices h : ∀ t : TensorProduct R S M₁, ∃ p : M' × M₁, d p = α.symm t by
     simpa [d, loc, tm] using h (α z)
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨(0, 0), by simp [d]⟩
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ =>
       obtain ⟨p₁, hp₁⟩ := h₁
       obtain ⟨p₂, hp₂⟩ := h₂

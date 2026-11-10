@@ -29,7 +29,8 @@ chosen two-sided inverse `X'` of `X`, isomorphisms `F X ⊗ F X' ≅ F (X ⊗ X'
 
 This is strictly weaker in hypotheses than
 `Stacks.SheafOfModules.IsInvertible.map` (StacksFrontier/Algebra/Category/ModuleCat/Sheaf/\
-StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleEquivalence.lean), which asks for a full `CategoryTheory.Functor.Monoidal` structure on
+StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleEquivalence.lean),
+which asks for a full `CategoryTheory.Functor.Monoidal` structure on
 `F`; that lemma is the special case in which the three isomorphisms are `Functor.Monoidal.εIso F`
 and `Functor.Monoidal.μIso F`. Separating them matters for the consumers in this chapter, where
 the functor of interest is **not** monoidal and cannot be:

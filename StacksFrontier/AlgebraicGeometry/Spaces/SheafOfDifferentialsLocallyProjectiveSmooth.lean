@@ -32,8 +32,8 @@ charts, so a surjective such square — produced from an atlas of the target by
 `AlgebraicGeometry.Space.exists_surjective_etale_presentation_lift` — comes with its morphism of
 schemes *smooth*, and a smooth morphism of schemes is affine-locally formally smooth by
 `Stacks.Smooth.smooth_iff_formallySmoothAffineLocally`, which is Tag 02H6 in affine-local form
-and is in the library.  That is precisely the data that the proof of Tag 061I consumes: the hypothesis
-`AlgebraicGeometry.Space.FormallySmooth` enters that proof only through
+and is in the library.  That is precisely the data that the proof of Tag 061I consumes: the
+hypothesis `AlgebraicGeometry.Space.FormallySmooth` enters that proof only through
 `AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothAffineLocally`, which
 produces such a square and nothing else.
 

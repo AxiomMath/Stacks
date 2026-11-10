@@ -95,7 +95,7 @@ theorem hasFiniteFormalAtlas_of_isQuasiCompactSpaceULift_of_isReduction
       (Sigma.desc fun j : {j : I // j ∈ t} ↦ f j.1).hom = (f j).hom := by
     have hcomp : (Sigma.ι (fun j : {j : I // j ∈ t} ↦ Xi j.1) ⟨j, hjt⟩ ≫
         Sigma.desc fun j : {j : I // j ∈ t} ↦ f j.1).hom = (f j).hom := by
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
     exact hcomp
   refine ⟨Space.pointsMapULift.{u + 1} B S hS (Xi j).obj
     (Sigma.ι (fun j : {j : I // j ∈ t} ↦ Xi j.1) ⟨j, hjt⟩).hom z, ?_⟩
@@ -231,7 +231,7 @@ theorem quasiCompactSpaceAgreesOnAlgebraicSpaces :
       have hc : Epi c := (Sheaf.isLocallySurjective_iff_epi c).mp hls
       have hcomp : Epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit ≫
           Sigma.desc (fun _ : PUnit.{u + 2} ↦ c)) := by
-        rw [Sigma.ι_desc]
+        rw [Sigma.ι_comp_desc]
         exact hc
       exact (Sheaf.isLocallySurjective_iff_epi _).mpr
         (epi_of_epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit) _)
@@ -242,15 +242,11 @@ theorem quasiCompactSpaceAgreesOnAlgebraicSpaces :
 /-! ### Stacks 0AJA, the definition
 
 A formal algebraic space is *quasi-compact* when the equivalent conditions of Stacks 0AJ9 hold.
-This notion is `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace`, condition (3) of that lemma;
-its equivalence with conditions (1) and (2), which is what makes the choice of condition
-immaterial and so makes this a definition rather than a choice, is `tfae_isQuasiCompactSpace`. -/
-
-add_to_stacks 0AJA "the definition, realized by condition (3) of Stacks 0AJ9, \
-`AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace`; the equivalence with conditions (1) and \
-(2) that makes the choice of condition immaterial is `tfae_isQuasiCompactSpace`, which is \
-unconditional"
-  AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace
+This notion is `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace`, condition (3) of that lemma,
+which carries the Stacks tag 0AJA in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactSpaceCriteria`. Its equivalence with
+conditions (1) and (2), with no hypothesis standing for a step of the proof of Stacks 0AJ9, is
+`tfae_isQuasiCompactSpace_of_isFormalAlgebraicSpace` above. -/
 
 end AlgebraicGeometry.FormalSpace
 

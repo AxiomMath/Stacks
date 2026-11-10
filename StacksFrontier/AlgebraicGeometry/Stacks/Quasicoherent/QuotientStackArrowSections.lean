@@ -142,7 +142,7 @@ the objects given by `arrowChartPoint G V`. -/
 theorem chartArrowMap_source (V : Space.SmallEtale C S hS G.arrows.obj) :
     chartArrowMap G V ≫ G.source = pointMap G (arrowChartPoint G V) := by
   refine ObjectProperty.hom_ext _ ?_
-  show V.obj.hom ≫ G.source.hom = yonedaEquiv.symm (G.source.hom.app _ (yonedaEquiv V.obj.hom))
+  change V.obj.hom ≫ G.source.hom = yonedaEquiv.symm (G.source.hom.app _ (yonedaEquiv V.obj.hom))
   rw [← yonedaEquiv_symm_comp', Equiv.symm_apply_apply]
 
 /-- The self chart of `V` and the identity form a commutative square over the point `v` of `R`

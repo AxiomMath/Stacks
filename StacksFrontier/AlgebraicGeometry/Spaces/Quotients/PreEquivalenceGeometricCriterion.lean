@@ -191,12 +191,12 @@ private theorem prod_value_ext {U : Over B} {T : BigFppfOver site S hS}
         (base_left_hom_app (prod.fst : U ⨯ U ⟶ U) s))).trans hs
   have hmor : sectionOver (X := U ⨯ U) s hs = sectionOver (X := U ⨯ U) t ht := by
     refine prod.hom_ext ?_ ?_ <;> refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-    · show yonedaEquiv.symm s ≫ (prod.fst : U ⨯ U ⟶ U).left.hom =
+    · change yonedaEquiv.symm s ≫ (prod.fst : U ⨯ U ⟶ U).left.hom =
         yonedaEquiv.symm t ≫ (prod.fst : U ⨯ U ⟶ U).left.hom
       exact (symm_comp_left_hom (prod.fst : U ⨯ U ⟶ U) s).trans
         ((congrArg yonedaEquiv.symm hfst).trans
           (symm_comp_left_hom (prod.fst : U ⨯ U ⟶ U) t).symm)
-    · show yonedaEquiv.symm s ≫ (prod.snd : U ⨯ U ⟶ U).left.hom =
+    · change yonedaEquiv.symm s ≫ (prod.snd : U ⨯ U ⟶ U).left.hom =
         yonedaEquiv.symm t ≫ (prod.snd : U ⨯ U ⟶ U).left.hom
       exact (symm_comp_left_hom (prod.snd : U ⨯ U ⟶ U) s).trans
         ((congrArg yonedaEquiv.symm hsnd).trans
@@ -351,7 +351,7 @@ private theorem exists_commonExtension_comp_eq {F : (BigFppfOver site S hS)ᵒ�
   have hpath : eP ≫ f = eR ≫ g := by ext; exact key
   refine ⟨{ carrier := Ω, contained := hΩ, toBase := ca ≫ p.toBase
             value := F.map eP.op p.value }, eP, eR, rfl, ?_, hpath⟩
-  show F.map eR.op r.value = F.map eP.op p.value
+  change F.map eR.op r.value = F.map eP.op p.value
   rw [← hf, ← hg, ← types_comp_apply (F.map g.op) (F.map eR.op),
     ← types_comp_apply (F.map f.op) (F.map eP.op), ← F.map_comp, ← F.map_comp,
     ← op_comp, ← op_comp, hpath]
@@ -426,7 +426,7 @@ private theorem isSurjective_pullback_snd_of_range_subset {X Y Z : Over B} (f : 
     sectionOver pZ.value hZv with hintoZdef
   have hcomm : intoX.left ≫ f.left = intoZ.left ≫ g.left := by
     refine ObjectProperty.hom_ext _ ?_
-    show yonedaEquiv.symm r.value ≫ f.left.hom = yonedaEquiv.symm pZ.value ≫ g.left.hom
+    change yonedaEquiv.symm r.value ≫ f.left.hom = yonedaEquiv.symm pZ.value ≫ g.left.hom
     exact (symm_comp_left_hom f (T := r.siteObject) r.value).trans
       ((congrArg yonedaEquiv.symm hpullValue).trans
         (symm_comp_left_hom g (T := r.siteObject) pZ.value).symm)
@@ -449,7 +449,7 @@ private theorem isSurjective_pullback_snd_of_range_subset {X Y Z : Over B} (f : 
   rw [pointsMap_class]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension site S hS Z.left.obj
     ⟨pZ, ⟨𝟙 _, ?_⟩, ⟨t, rfl⟩⟩
-  show Z.left.obj.map (𝟙 pZ.siteObject).op
+  change Z.left.obj.map (𝟙 pZ.siteObject).op
     ((pullback.snd f.left g.left).hom.app (Opposite.op r.siteObject) pP.value) = pZ.value
   rw [op_id, Z.left.obj.map_id]
   exact hw

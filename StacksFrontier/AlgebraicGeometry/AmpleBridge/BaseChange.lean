@@ -66,7 +66,7 @@ theorem isRelativelyAmple_comp_of_isIso {X Y S : Scheme.{u}} (e : X ⟶ Y) [IsIs
   refine ⟨inferInstance, fun V hV => ?_⟩
   have key := isAmple_pullbackModule_of_isIso (e ∣_ (q ⁻¹ᵁ V)) (pullbackModule (q ⁻¹ᵁ V).ι M)
     (h.2 V hV)
-  show Stacks.Ample.IsAmple (e ⁻¹ᵁ (q ⁻¹ᵁ V)).toScheme
+  change Stacks.Ample.IsAmple (e ⁻¹ᵁ (q ⁻¹ᵁ V)).toScheme
     (pullbackModule (e ⁻¹ᵁ (q ⁻¹ᵁ V)).ι (pullbackModule e M))
   refine (Stacks.RelativeVeryAmple.isAmple_congr _ _ ?_).mp key
   exact (Stacks.RelativeAmpleBaseChange.pullbackModuleCompIso (e ∣_ (q ⁻¹ᵁ V)) (q ⁻¹ᵁ V).ι M).symm

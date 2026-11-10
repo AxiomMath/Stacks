@@ -108,7 +108,7 @@ theorem mem_smoothLocus_of_mem_genericPoints [LocallyOfFiniteType f]
   by_contra hxs
   have hxcl := isClosed_singleton_of_notMem_smoothLocus k f hfin hxs
   refine hx0 ?_
-  show {x} ∈ irreducibleComponents X
+  change {x} ∈ irreducibleComponents X
   rwa [← hxcl.closure_eq]
 
 /-- **A curve with isolated local complete intersection singularities and no isolated points is
@@ -206,7 +206,7 @@ theorem isLocalCompleteIntersectionOverField_of_isOpenImmersion {X : Scheme.{u}}
       (f := (asIso (j.stalkMap x)).commRingCatIsoToRingEquiv.symm) fun a => ?_)
     apply (asIso (j.stalkMap x)).commRingCatIsoToRingEquiv.injective
     rw [RingEquiv.apply_symm_apply]
-    show _ = (j.stalkMap x).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ q.appTop ≫
+    change _ = (j.stalkMap x).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ q.appTop ≫
       Y.presheaf.germ ⊤ (j.base x) (by simp)).hom a)
     rw [← CommRingCat.comp_apply, Category.assoc, Category.assoc, Scheme.Hom.germ_stalkMap]
     subst hjq

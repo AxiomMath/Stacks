@@ -183,14 +183,14 @@ lemma bijective_globalSectionsFunctor_map_unit (T : SheafOfModules.{w} (ringShea
       have h := φ.hom.map_smul (show baseRing O U₀ from m) one
       refine Eq.trans ?_ (h.trans ?_)
       · congr 1
-        show m = O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) *
+        change m = O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) *
           (1 : O.obj.obj (op U₀))
         rw [e1, mul_one]
-      · show (O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) •
+      · change (O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) •
           (show T.val.obj (op U₀) from φ.hom one) : T.val.obj (op U₀)) = _
         rw [e1]
     rw [key]
-    show ((show O.obj.obj (op U₀) from m) • (show T.val.obj (op U₀) from
+    change ((show O.obj.obj (op U₀) from m) • (show T.val.obj (op U₀) from
       T.val.map (hU₀.from U₀).op (φ.hom one)) : T.val.obj (op U₀)) = _
     congr 1
     rw [hid, T.val.map_id]
@@ -205,12 +205,12 @@ lemma _root_.CategoryTheory.Adjunction.isIso_counit_app_of_isColimit_cofan {D E 
   refine adj.isIso_counit_app_of_bijective_map c.pt fun T => ⟨fun f g hfg => ?_, fun φ => ?_⟩
   · refine Cofan.IsColimit.hom_ext hc _ _ fun i => ?_
     exact (adj.bijective_map_of_isIso_counit (Y' := T) (h i)).1 (by
-      show G.map (c.inj i ≫ f) = G.map (c.inj i ≫ g)
+      change G.map (c.inj i ≫ f) = G.map (c.inj i ≫ g)
       rw [G.map_comp, G.map_comp, hfg])
   · choose f hf using fun i => (adj.bijective_map_of_isIso_counit (Y' := T) (h i)).2
       (G.map (c.inj i) ≫ φ)
     refine ⟨Cofan.IsColimit.desc hc f, hGc.hom_ext fun ⟨i⟩ => ?_⟩
-    show G.map (c.inj i) ≫ _ = G.map (c.inj i) ≫ φ
+    change G.map (c.inj i) ≫ _ = G.map (c.inj i) ≫ φ
     rw [← G.map_comp, Cofan.IsColimit.fac]
     exact hf i
 
@@ -247,7 +247,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 lemma isFree_of_isColimit_cofan {ι : Type w} {X : ι → SheafOfModules.{w} (ringSheaf J O)}
     (c : Cofan X) (hc : IsColimit c) (e : ∀ i, X i ≅ SheafOfModules.unit (ringSheaf J O)) :
     SheafOfModules.IsFree c.pt :=
-  ⟨ι, fun i => (e i).inv ≫ c.inj i, ⟨mkCofanColimit _
+  ⟨ι, fun i => (e i).inv ≫ c.inj i, ⟨Cofan.IsColimit.mk _
     (fun s => Cofan.IsColimit.desc hc fun i => (e i).hom ≫ s.inj i)
     (fun s i => by simp)
     (fun s m hm => Cofan.IsColimit.hom_ext hc _ _ fun i => by
@@ -299,7 +299,7 @@ lemma isLocallyInjective_of_injective_app_of_generate_mem {F₁ F₂ : Cᵒᵖ �
     rintro Y f ⟨Z, g, h, hZ, rfl⟩
     have hZ' : F₁.map h.op x = F₁.map h.op y := hinj Z hZ (by
       rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy])
-    show F₁.map (h.op ≫ g.op) x = F₁.map (h.op ≫ g.op) y
+    change F₁.map (h.op ≫ g.op) x = F₁.map (h.op ≫ g.op) y
     rw [F₁.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hZ']
 
 section Flat
@@ -321,8 +321,8 @@ lemma baseChangeFunctor_map_mono {M' M : ModuleCat.{w} (baseRing O U₀)} (f : M
     refine isLocallyInjective_of_injective_app_of_generate_mem _ 𝒰 hcov fun Z hZ => ?_
     let := coefficientAlgebra (baseRing O U₀) hU₀ (RingHom.id _) (op Z)
     have : Module.Flat (baseRing O U₀) (O.obj.obj (op Z)) := hflat Z hZ
-    show Function.Injective (LinearMap.baseChange (O.obj.obj (op Z)) f.hom)
-    rw [LinearMap.baseChange_eq_ltensor]
+    change Function.Injective (LinearMap.baseChange (O.obj.obj (op Z)) f.hom)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _
       ((ModuleCat.mono_iff_injective f).1 inferInstance)
   have : Sheaf.IsLocallyInjective ((SheafOfModules.toSheaf _).map
@@ -394,7 +394,7 @@ lemma exact_freeAugmentation (M : ModuleCat.{w} A) :
       τ₂ := ((freeLeftResolution A).chainComplexXZeroIso M).hom
       τ₃ := 𝟙 M
       comm₁₂ := by
-        show (((freeLeftResolution A).chainComplexXOneIso M).hom ≫
+        change (((freeLeftResolution A).chainComplexXOneIso M).hom ≫
           (freeLeftResolution A).π.app (kernel ((freeLeftResolution A).π.app M))) ≫
             kernel.ι ((freeLeftResolution A).π.app M) =
           ((freeLeftResolution A).chainComplex M).d 1 0 ≫
@@ -402,7 +402,7 @@ lemma exact_freeAugmentation (M : ModuleCat.{w} A) :
         rw [freeLeftResolution_d_one_zero_eq]
         simp
       comm₂₃ := by
-        show freeAugmentation A M ≫ 𝟙 M = _
+        change freeAugmentation A M ≫ 𝟙 M = _
         rw [Category.comp_id, freeAugmentation] }
   rw [ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ]
   exact ShortComplex.exact_of_f_is_kernel _ (kernelIsKernel _)
@@ -438,7 +438,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
 /-- A zero module is free, on the empty family. -/
 lemma isFree_of_isZero {F : SheafOfModules.{w} (ringSheaf J O)} (h : IsZero F) : F.IsFree :=
-  ⟨PEmpty, fun b => b.elim, ⟨mkCofanColimit _ (fun s => h.to_ s.pt) (fun _ b => b.elim)
+  ⟨PEmpty, fun b => b.elim, ⟨Cofan.IsColimit.mk _ (fun s => h.to_ s.pt) (fun _ b => b.elim)
     (fun _ _ _ => h.eq_of_src _ _)⟩⟩
 
 variable (𝒰 : C → Prop) (hcov : ∀ X : C, Sieve.generate (fun Z (_ : Z ⟶ X) => 𝒰 Z) ∈ J X)

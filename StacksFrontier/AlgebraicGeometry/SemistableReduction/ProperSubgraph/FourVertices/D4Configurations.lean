@@ -326,19 +326,19 @@ public lemma exists_d4_configuration_of_four_isMinusTwoIndex
   let mi : ℚ := (T.multiplicity i : ℚ)
   have hAsymm : A.IsSymm := by
     ext a b
-    show (T.intersection b a : ℚ) = (T.intersection a b : ℚ)
+    change (T.intersection b a : ℚ) = (T.intersection a b : ℚ)
     exact_mod_cast (T.intersection_symm a b).symm
   have hAoff : ∀ a b, a ≠ b → 0 ≤ A a b := by
     intro a b hab
-    show 0 ≤ (T.intersection a b : ℚ)
+    change 0 ≤ (T.intersection a b : ℚ)
     exact_mod_cast T.intersection_nonneg a b hab
   have hmpos : ∀ a, 0 < m a := by
     intro a
-    show 0 < (T.multiplicity a : ℚ)
+    change 0 < (T.multiplicity a : ℚ)
     exact_mod_cast T.multiplicity_pos a
   have hAm : A *ᵥ m = 0 := by
     ext a
-    show ∑ b, (T.intersection a b : ℚ) * (T.multiplicity b : ℚ) = 0
+    change ∑ b, (T.intersection a b : ℚ) * (T.multiplicity b : ℚ) = 0
     exact cast_intersection_balance T a
   have hconn : ∀ I : Set (Fin T.componentCount), I.Nonempty → I ≠ Set.univ →
       ¬ ∀ a ∈ I, ∀ b ∉ I, A a b = 0 := by

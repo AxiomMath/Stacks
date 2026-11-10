@@ -64,7 +64,7 @@ theorem formsMap_eq_map_mapBaseChange (p : ℕ) (ω : ⋀[A]^p Ω[A⁄ℤ]) :
     rw [ExteriorAlgebra.powMapₛₗ_ιMulti, ExteriorAlgebra.exteriorPowerBaseChangeMap_ιMulti,
       exteriorPower.map_apply_ιMulti]
     refine congrArg (exteriorPower.ιMulti B p) (funext fun i ↦ ?_)
-    show KaehlerDifferential.map ℤ ℤ A B (v i) = _
+    change KaehlerDifferential.map ℤ ℤ A B (v i) = _
     rw [Function.comp_apply, KaehlerDifferential.mapBaseChange_tmul, one_smul]
   | zero => simp only [map_zero]
   | add x y _ _ hx hy => rw [map_add, map_add, map_add, hx, hy]
@@ -79,7 +79,7 @@ compatible. -/
 theorem isScalarTower_dual : IsScalarTower A B (Module.Dual A B) where
   smul_assoc a b φ := by
     ext x
-    show φ ((a • b) * x) = a • φ (b * x)
+    change φ ((a • b) * x) = a • φ (b * x)
     rw [smul_mul_assoc, map_smul]
 
 attribute [local instance] isScalarTower_dual
@@ -137,9 +137,9 @@ theorem exists_isFormsTrace_of_twisted [Module.Finite A B] [Module.Projective A 
       LinearMap.lTensor_tmul, hu, LinearMap.rTensor_tmul, LinearEquiv.coe_coe]
     rw [hζ]
     simp only [h1, TensorProduct.comm_tmul]
-  show dualContract (⋀[A]^p Ω[A⁄ℤ]) (Φ p (b • formsMap A B p ω)) = _
+  change dualContract (⋀[A]^p Ω[A⁄ℤ]) (Φ p (b • formsMap A B p ω)) = _
   rw [map_smul, h2, TensorProduct.smul_tmul', dualContract_tmul]
-  show trace A B (b * 1) • ω = _
+  change trace A B (b * 1) • ω = _
   rw [mul_one]
 
 section SelfDual
@@ -153,7 +153,7 @@ theorem selfFactorizationDualEquiv_finiteFlatTraceElement_eq_trace [IsNoetherian
     [Module.Finite A B] [Module.Projective A B] :
     Stacks.Discriminant.selfFactorizationDualEquiv
       (Stacks.Discriminant.finiteFlatTraceElement A B) = trace A B := by
-  show TensorProduct.lid B (Module.Dual A B)
+  change TensorProduct.lid B (Module.Dual A B)
     ((TensorProduct.comm B (Module.Dual A B) B) (trace A B ⊗ₜ (1 : B))) = trace A B
   simp
 

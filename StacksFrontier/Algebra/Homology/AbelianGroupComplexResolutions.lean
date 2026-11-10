@@ -174,7 +174,7 @@ lemma productTotalD_comp_productTotalD (n : ℤ) :
     K.productTotalD n ≫ K.productTotalD (n + 1) = 0 := by
   ext x
   funext ⟨⟨p, q⟩, h⟩
-  show K.productTotalDComp (n + 1) (K.productTotalD n x) p q h = 0
+  change K.productTotalDComp (n + 1) (K.productTotalD n x) p q h = 0
   rcases p with _ | _ | p
   · simp [d_d_apply]
   · simp [d_d_apply, f_d_apply]
@@ -239,7 +239,7 @@ lemma toProductTotalF_comm (n : ℤ) :
     toProductTotalF ε n ≫ K.productTotalD n = M.d n (n + 1) ≫ toProductTotalF ε (n + 1) := by
   ext m
   funext ⟨⟨p, q⟩, h⟩
-  show K.productTotalDComp n (toProductTotalF ε n m) p q h =
+  change K.productTotalDComp n (toProductTotalF ε n m) p q h =
     toProductTotalComp ε (n + 1) (M.d n (n + 1) m) p q h
   rcases p with _ | _ | p
   · simp only [productTotalDComp_zero_left, toProductTotalF_apply, toProductTotalComp_zero_left]
@@ -286,7 +286,7 @@ private lemma row_exact_zero (hB : B.Acyclic) (q : ℤ) (x : (B.X 0).X q)
   rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp)] at h
   obtain ⟨y, rfl⟩ :=
     (ShortComplex.ab_exact_iff _).mp (h.map (HomologicalComplex.eval _ _ q)) x hx
-  show (B.d 0 0).f q y = 0
+  change (B.d 0 0).f q y = 0
   rw [B.shape 0 0 (by simp)]
   rfl
 
@@ -337,7 +337,7 @@ private lemma coker_exact_zero
     exact hx
   obtain ⟨y', hy'⟩ := (ShortComplex.ab_exact_iff _).mp h _ hx'
   rw [← pOpcycles_eq_zero_iff _ a b hab, ← hy']
-  show HomologicalComplex.opcyclesMap (B.d 0 0) b _ = 0
+  change HomologicalComplex.opcyclesMap (B.d 0 0) b _ = 0
   rw [B.shape 0 0 (by simp), HomologicalComplex.opcyclesMap_zero]
   rfl
 
@@ -553,7 +553,7 @@ private lemma adjusted_base (n : ℤ) (x : K.productTotalX (n + 1))
       (x ⟨(0 + 1, n - (0 : ℕ)), by push_cast; omega⟩ - (K.d 0 (0 + 1)).f (n - (0 : ℕ)) y) =
         0 := by
     rw [map_sub, ← f_d_apply, eq_sub_of_add_eq' hmy, map_sub, ← e1]
-    show _ - (_ - (K.d 0 1).f (n + 1) (ε.f (n + 1) m)) = 0
+    change _ - (_ - (K.d 0 1).f (n + 1) (ε.f (n + 1) m)) = 0
     rw [f_ε_apply ε w]
     abel
   obtain ⟨c, hc, v, hv⟩ := homology_exact_succ ε w hA hC 0 (n - (0 + 1 : ℕ))
@@ -577,21 +577,21 @@ private lemma exists_preimage_up_to_boundary (n : ℤ) (x : K.productTotalX (n +
     ((K.X i.1.1).XIsoOfEq (show n - (i.1.1 : ℤ) = i.1.2 by have := i.2; omega)).hom (Y i.1.1).1
   refine ⟨m, hm, y, ?_⟩
   funext ⟨⟨p, q⟩, h⟩
-  show _ = toProductTotalF ε (n + 1) m ⟨(p, q), h⟩ + K.productTotalD n y ⟨(p, q), h⟩
+  change _ = toProductTotalF ε (n + 1) m ⟨(p, q), h⟩ + K.productTotalD n y ⟨(p, q), h⟩
   rcases p with _ | p
   · obtain rfl : q = n + 1 := by push_cast at h; omega
     rw [productTotalD_apply_zero_left (q' := n - (0 : ℕ)) (hq := by push_cast; omega)
       (h' := by push_cast; omega)]
     simp only [toProductTotalF_apply, toProductTotalComp_zero_left, y,
       HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, ConcreteCategory.id_apply]
-    show _ = ε.f (n + 1) m + (K.X 0).d (n - (0 : ℕ)) (n + 1) a₀
+    change _ = ε.f (n + 1) m + (K.X 0).d (n - (0 : ℕ)) (n + 1) a₀
     rw [ha₀, add_sub_cancel]
   · obtain rfl : q = n - p := by push_cast at h; omega
     rw [productTotalD_apply_succ (q' := n - (p + 1 : ℕ)) (hq := by push_cast; omega)
       (h' := by push_cast; omega)]
     simp only [toProductTotalF_apply, toProductTotalComp_succ, y,
       HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, ConcreteCategory.id_apply, zero_add]
-    show _ = (K.d p (p + 1)).f (n - p) (Y p).1 +
+    change _ = (K.d p (p + 1)).f (n - p) (Y p).1 +
       (-1 : ℤ) ^ (p + 1) • (K.X (p + 1)).d (n - (p + 1 : ℕ)) (n - p) (b p (Y p).1 (Y p).2)
     rw [hb₁, add_sub_cancel]
 
@@ -610,7 +610,7 @@ private lemma eq_boundary_of_eq_boundary (n : ℤ) (m : M.X (n + 1))
   obtain ⟨z, z', hzz'⟩ := coker_exact_zero_left ε w hC (n - 1) n (by omega) _ ⟨_, e1.symm⟩
   refine ⟨z, (sub_eq_zero.mp (ε_injective ε w hA _ _ ?_)).symm⟩
   rw [map_sub, ε_comm_apply]
-  show ε.f (n + 1) m - _ = 0
+  change ε.f (n + 1) m - _ = 0
   rw [e0, ← hzz', map_add, d_d_apply, add_zero, sub_self]
 
 end

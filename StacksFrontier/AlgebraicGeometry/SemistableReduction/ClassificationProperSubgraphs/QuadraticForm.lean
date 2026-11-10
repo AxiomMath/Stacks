@@ -63,7 +63,7 @@ public lemma dotProduct_mulVec_sum_single {κ m R : Type*} [Fintype κ]
   let x : κ → R := ∑ r, c r • (Pi.single (e r) (1 : R))
   have hx (k : κ) : x k = ∑ r, if e r = k then c r else 0 := by
     simp [x, Pi.single_apply, eq_comm]
-  show x ⬝ᵥ (A *ᵥ x) = _
+  change x ⬝ᵥ (A *ᵥ x) = _
   simp only [Matrix.mulVec, dotProduct]
   simp_rw [hx, Finset.sum_mul, Finset.mul_sum]
   rw [Finset.sum_comm]
@@ -94,7 +94,7 @@ public def ratIntersection (T : NumericalType) :
 private lemma ratIntersection_isSymm (T : NumericalType) :
     (ratIntersection T).IsSymm := by
   ext i j
-  show (T.intersection j i : ℚ) = (T.intersection i j : ℚ)
+  change (T.intersection j i : ℚ) = (T.intersection i j : ℚ)
   exact_mod_cast T.intersection_symm j i
 
 private lemma ratIntersection_offDiag_nonneg (T : NumericalType) :
@@ -156,7 +156,7 @@ public lemma no_positive_supported_kernel (T : NumericalType) (m : ℕ)
   let cQ : Fin m → ℚ := fun i => (c i : ℚ)
   let x : Fin T.componentCount → ℚ := ∑ r, cQ r • Pi.single (e r) (1 : ℚ)
   have hxquad : x ⬝ᵥ (ratIntersection T *ᵥ x) = 0 := by
-    show (∑ r, cQ r • Pi.single (e r) 1) ⬝ᵥ
+    change (∑ r, cQ r • Pi.single (e r) 1) ⬝ᵥ
       (ratIntersection T *ᵥ (∑ r, cQ r • Pi.single (e r) 1)) = 0
     rw [Matrix.dotProduct_mulVec_sum_single (ratIntersection T) (fun r => e r) cQ]
     simpa [ratIntersection, cQ] using congrArg (Int.cast : ℤ → ℚ) hquad

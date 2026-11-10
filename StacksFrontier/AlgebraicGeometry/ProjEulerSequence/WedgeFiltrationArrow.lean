@@ -183,7 +183,7 @@ theorem contraction_snd_prodRightEquiv_symm (m : ℕ) (z : ⋀[S]^(m + 1) M × �
     simpa only [LinearMap.coe_comp, Function.comp_apply] using DFunLike.congr_fun
       (contraction_comp_wedgeLeft_comp_map (LinearMap.snd S M S) (LinearMap.inl S M S)
         ((0, 1) : M × S) rfl hsi m) z.2
-  show contraction (LinearMap.snd S M S) m
+  change contraction (LinearMap.snd S M S) m
     (map (m + 1) (LinearMap.inl S M S) z.1 +
       wedgeLeft ((0, 1) : M × S) m (map m (LinearMap.inl S M S) z.2)) = _
   rw [map_add, h1, h2, zero_add]

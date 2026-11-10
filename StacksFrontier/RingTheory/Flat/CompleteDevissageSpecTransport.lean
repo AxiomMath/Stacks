@@ -269,7 +269,7 @@ public lemma Ideal.fiberRingEquivOfRingEquiv_tmul {R : Type u} [CommRing R]
     (x : p.ResidueField) (b : B) :
     Ideal.fiberRingEquivOfRingEquiv eR hmap p p' hp (x ⊗ₜ[R] b)
       = (Ideal.residueFieldRingEquivOfRingEquiv eR p p' hp x) ⊗ₜ[R'] b := by
-  show Ideal.residueFieldRingEquivOfRingEquiv eR p p' hp x ⊗ₜ[R'] (1 : B) *
+  change Ideal.residueFieldRingEquivOfRingEquiv eR p p' hp x ⊗ₜ[R'] (1 : B) *
       ((1 : p'.ResidueField) ⊗ₜ[R'] b) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
@@ -481,7 +481,7 @@ public theorem fiber_point_comap_eq (lp : Ideal B) (hlp : lp ∈ p.primesOver B)
     have hrhs : ((iso'.symm (iso' ⟨lp, hlp'⟩)) : Ideal B) = lp := by
       rw [iso'.symm_apply_apply]
     refine Eq.trans (Ideal.ext fun x => ?_) hrhs
-    show Φ (Algebra.TensorProduct.includeRight x) ∈ (iso' ⟨lp, hlp'⟩).asIdeal ↔ _
+    change Φ (Algebra.TensorProduct.includeRight x) ∈ (iso' ⟨lp, hlp'⟩).asIdeal ↔ _
     rw [hΦdef, Ideal.fiberRingEquivOfRingEquiv_includeRight]
     exact Iff.rfl
   have hsub : iso.symm (PrimeSpectrum.comap Φ.toRingHom (iso' ⟨lp, hlp'⟩)) = ⟨lp, hlp⟩ :=

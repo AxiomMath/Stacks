@@ -149,7 +149,7 @@ theorem SpacesEtale.mem_affineChartImages_of_isAffineScheme {U : SpacesEtale B S
     ⟨CostructuredArrow.mk (e.hom.hom ≫ U.obj.hom.hom), isEtaleChart_of_isEtale B S hS _ het⟩
   refine ⟨Wc, hW, ⟨ObjectProperty.isoMk _ (Over.isoMk e.symm ?_)⟩⟩
   apply ObjectProperty.hom_ext
-  show e.inv.hom ≫ e.hom.hom ≫ U.obj.hom.hom = U.obj.hom.hom
+  change e.inv.hom ≫ e.hom.hom ≫ U.obj.hom.hom = U.obj.hom.hom
   rw [← Category.assoc]
   have h : e.inv.hom ≫ e.hom.hom = 𝟙 _ := congrArg (fun k ↦ k.hom) e.inv_hom_id
   rw [h, Category.id_comp]

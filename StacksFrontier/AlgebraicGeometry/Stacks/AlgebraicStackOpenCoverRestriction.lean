@@ -95,7 +95,7 @@ theorem isRelativelySmooth_restrictSquare_fst
     refine hasRelativeProperty_schemeFibredCategoryMap B S hS
       (Space.smoothMorphismProperty B S hS) _ ?_
     apply Space.isSmooth_yoneda_map
-    show Smooth (B.inclusion.map U.hom)
+    change Smooth (B.inclusion.map U.hom)
     infer_instance
   exact ⟨_, hasRelativeProperty_baseChange.{u, u, u} B S hS
     (Space.smoothMorphismProperty B S hS) _ _ _ j (toTopOver B S hS 𝒳)

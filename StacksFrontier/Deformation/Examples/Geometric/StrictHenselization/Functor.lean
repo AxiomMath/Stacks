@@ -188,8 +188,7 @@ private theorem isPushout_of_nilpotent_specialization
   have hcomp : (algebraMap D E).comp gD.toRingHom = algebraMap T E := by
     apply RingHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b c =>
         change algebraMap D E (gD (TensorProduct.tmul A b c)) =
           gE (TensorProduct.tmul A b c)

@@ -145,7 +145,7 @@ public theorem isLocallyInjective_of_injective_etaleStalkMap_type_univ (α : F �
   let Φ := geometricPointSitePoint B X hX s
   let p : Φ.fiber.obj V := geometricPointOfEtalePointLift B X hX V x
   have hgerm : Φ.toPresheafFiber V p F.obj a₁ = Φ.toPresheafFiber V p F.obj a₂ := h s <| by
-    show (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
+    change (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
       (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₂)
     rw [Φ.toPresheafFiber_naturality_apply α.hom, Φ.toPresheafFiber_naturality_apply α.hom, ha]
   obtain ⟨Y, k, y', hy', heq⟩ := (Φ.toPresheafFiber_eq_iff' (P := F.obj) V p a₁ a₂).1 hgerm
@@ -293,9 +293,9 @@ theorem pushforwardEtaleStalkComponent_germ_baseChange_univ
     (F : Sheaf (SmallEtale.topology B X.1 X.property) (Type (max (u + 1) v)))
     (σ : F.obj.obj (op ((smallEtaleBaseChange B f).obj V))) :
     pushforwardEtaleStalkComponentUniv B f x y h F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           ((B.smallPushforward f (Type (max (u + 1) v))).obj F).obj) (op ⟨v⟩) σ) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
         (op ⟨baseChangeEtalePoint B f h V v⟩) σ := by
   have h0 : (SmallEtale.toScheme B X.1 X.property).map
       (𝟙 ((smallEtaleBaseChange B f).obj V)) = 𝟙 _ :=
@@ -315,7 +315,7 @@ theorem pushforwardEtaleStalkComponent_germ_baseChange_univ
   refine (pushforwardEtaleStalkComponent_germ_univ B f x y h F ⟨v⟩
     ⟨baseChangeEtalePoint B f h V v⟩ (𝟙 _) ht σ).trans ?_
   exact congrArg (fun z => colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
       (op ⟨baseChangeEtalePoint B f h V v⟩) z)
     (ConcreteCategory.congr_hom (F.obj.map_id (op ((smallEtaleBaseChange B f).obj V))) σ)
 
@@ -350,14 +350,14 @@ theorem pushforwardEtaleStalkComponent_comp_univ
   obtain ⟨V, v, σ, hz⟩ :=
     (geometricPointSitePoint B S.1 S.property s).toPresheafFiber_jointly_surjective
       (P := ((B.smallPushforward (k ≫ l) (Type (max (u + 1) v))).obj F).obj) z
-  have hz' : colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+  have hz' : colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
       ((B.smallPushforward (k ≫ l) (Type (max (u + 1) v))).obj F).obj) (op ⟨v⟩) σ = z := hz
   subst hz'
   have hR1 : (etaleStalkFunctor.{u, max (u + 1) v} B S.1 S.property s).map
         ((smallEtaleSheafPushforwardCompIso B W T S k l (Type (max (u + 1) v))).inv.app F)
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
           ((B.smallPushforward (k ≫ l) (Type (max (u + 1) v))).obj F).obj) (op ⟨v⟩) σ) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
         ((B.smallPushforward l (Type (max (u + 1) v))).obj
           ((B.smallPushforward k (Type (max (u + 1) v))).obj F)).obj) (op ⟨v⟩)
         (F.obj.map ((smallEtaleBaseChange_compIso B W T S k l).val.hom.app V).op σ) :=
@@ -378,7 +378,7 @@ theorem pushforwardEtaleStalkComponent_comp_univ
     (baseChangeEtalePoint B k hk ((smallEtaleBaseChange B l).obj V)
       (baseChangeEtalePoint B l hl V v)) F.obj σ
   have c5 := congrArg (fun pt => colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B W.1 W.property w)).op ⋙ F.obj)
+      ((Functor.Elements.π (geometricPointFiber B W.1 W.property w)).op ⋙ F.obj)
       (op ⟨pt⟩) σ)
     (baseChangeEtalePoint_comp B k l hk hl hm V v)
   exact (pushforwardEtaleStalkComponent_germ_baseChange_univ.{u, v} B (k ≫ l) hm V v F σ).trans

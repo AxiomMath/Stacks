@@ -196,7 +196,7 @@ theorem smul_twistGenerator {i : σ} (hg : g ∈ homogeneousSubmodule σ R k) (h
     (hmem : f ^ n ∈ Submonoid.powers f) :
     twistCoeff hg hfac d hx • twistGenerator R f i d
       = LocalizedModule.mk x ⟨f ^ n, hmem⟩ := by
-  show (twistCoeff hg hfac d hx).val • twistGenerator R f i d = _
+  change (twistCoeff hg hfac d hx).val • twistGenerator R f i d = _
   rw [twistCoeff, val_awayMk, twistGenerator, LocalizedModule.mk_smul_mk]
   refine LocalizedModule.mk_eq.2 ⟨1, ?_⟩
   simp only [one_smul, Submonoid.smul_def, smul_eq_mul, mul_one]
@@ -249,7 +249,7 @@ theorem toSpanSingleton_twistGenerator_injective {i : σ} (hg : g ∈ homogeneou
   have hsmul : c • twistGenerator R f i d = LocalizedModule.mk
       (p * (X i : MvPolynomial σ R) ^ d.toNat)
       ((⟨f ^ m, m, rfl⟩ : Submonoid.powers f) * 1) := by
-    show c.val • twistGenerator R f i d = _
+    change c.val • twistGenerator R f i d = _
     rw [hcval, twistGenerator, LocalizedModule.mk_smul_mk, smul_eq_mul]
   rw [LinearMap.toSpanSingleton_apply, hsmul, ← LocalizedModule.zero_mk 1,
     LocalizedModule.mk_eq] at hc

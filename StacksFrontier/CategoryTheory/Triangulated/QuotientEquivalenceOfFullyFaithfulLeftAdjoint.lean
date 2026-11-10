@@ -85,7 +85,7 @@ theorem trW_counit_app (X : A.FullSubcategory) :
     N.trW.inverseImage A.ι
       ((A.fullyFaithfulι.preimage (adj.counit.app X.obj)) :
         (leftAdjointOfClass A A' hLA).obj ((restrictionOfClass G A A' hGA).obj X) ⟶ X) := by
-  show N.trW (adj.counit.app X.obj)
+  change N.trW (adj.counit.app X.obj)
   obtain ⟨Z, g, h, hT⟩ := distinguished_cocone_triangle (adj.counit.app X.obj)
   have hGε : IsIso (G.map (adj.counit.app X.obj)) :=
     IsIso.of_isIso_fac_left (adj.right_triangle_components X.obj)

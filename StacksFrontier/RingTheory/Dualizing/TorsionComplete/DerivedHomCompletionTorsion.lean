@@ -339,7 +339,7 @@ theorem isIso_derivedHom_map_derivedCompletionUnit (f : Fin r → A)
       (show (Opposite.op (F.obj K), F.obj M) ⟶ (Opposite.op K, F.obj M) from
         ((ε.app K).op, 𝟙 (F.obj M))) := by
     apply Prod.ext
-    · show (η.app K).op = w.hom.op ≫ (ε.app K).op
+    · change (η.app K).op = w.hom.op ≫ (ε.app K).op
       rw [← op_comp, hw]
     · simp
   have hpi : IsIso (show (Opposite.op (F.obj K), F.obj M) ⟶

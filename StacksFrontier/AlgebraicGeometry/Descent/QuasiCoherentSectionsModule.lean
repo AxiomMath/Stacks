@@ -90,7 +90,7 @@ theorem quasiCoherentSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
         (quasiCoherentSectionsPresheaf S F toOver).map f m := by
   let := quasiCoherentSectionsModule S F toOver X
   let := quasiCoherentSectionsModule S F toOver Y
-  show (quasiCoherentSectionsPresheaf S F toOver).map f (r • m) = _
+  change (quasiCoherentSectionsPresheaf S F toOver).map f (r • m) = _
   let Q := quasiCoherentPresheaf S F
   let TX := toOver.op.obj X
   let TY := toOver.op.obj Y
@@ -103,12 +103,12 @@ theorem quasiCoherentSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
   let RY := Γ(TY.unop.left, ⊤)
   let : Module RY (Q.functor.obj TY) := eY.module RY
   let : Module ((Stacks.Sites.structurePresheaf S toOver).obj Y) (Q.functor.obj TY) := by
-    show Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
+    change Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
       ((quasiCoherentSectionsPresheaf S F toOver).obj Y)
     exact quasiCoherentSectionsModule S F toOver Y
   let : Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
       (Γ((Scheme.Modules.pullback TY.unop.hom).obj F, ⊤)) := by
-    show Module RY _
+    change Module RY _
     infer_instance
   have hmap (z : Q.functor.obj TX) :
       (Q.objIso TY).hom (Q.functor.map g z) =
@@ -127,7 +127,7 @@ theorem quasiCoherentSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
           congrArg (fun k => (Q.objIso TX).hom ≫ k) (Q.map_objIso g)
     simpa only [AddCommGrpCat.comp_apply] using congrArg (fun k => k z) hcomp
   have hscalarX : (Q.objIso TX).hom (r • m) = rX • (Q.objIso TX).hom m := by
-    show eX (rX • m) = rX • eX m
+    change eX (rX • m) = rX • eX m
     exact (eX.linearEquiv RX).map_smul rX m
   apply (Q.objIso TY).addCommGroupIsoToAddEquiv.injective
   calc
@@ -145,7 +145,7 @@ theorem quasiCoherentSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
         ((Stacks.Sites.structurePresheaf S toOver).map f r • Q.functor.map g m) := by
       symm
       let rY : RY := g.unop.left.appTop r
-      show (Q.objIso TY).hom (rY • Q.functor.map g m) = _
+      change (Q.objIso TY).hom (rY • Q.functor.map g m) = _
       exact (eY.linearEquiv RY).map_smul rY (Q.functor.map g m)
 
 /-- **The pullback-sections presheaf as a presheaf of modules.**  For a quasi-coherent module

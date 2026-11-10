@@ -314,12 +314,12 @@ theorem exists_iso_of_closedFibre_of_isAdicComplete_of_isAlgebraicSpace
     sq₁.isoPullback.symm ≪≫ (𝒯).mapIso φ ≪≫ sq₂.isoPullback
   have hφ' : φ'.hom ≫ pullback.snd fY₂' (ContractionUniquenessComplete.closedPoint A) =
       pullback.snd fY₁' (ContractionUniquenessComplete.closedPoint A) := by
-    show (sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫ sq₂.isoPullback.hom) ≫ _ = _
+    change (sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫ sq₂.isoPullback.hom) ≫ _ = _
     rw [Category.assoc, Category.assoc, IsPullback.isoPullback_hom_snd,
       ← Category.assoc ((𝒯).map φ.hom), ← Functor.map_comp, hφ, Iso.inv_comp_eq,
       IsPullback.isoPullback_hom_snd]
   have hφc' : sm₁ ≫ φ'.hom = specialMap fX' fY₂' ((𝒯).map γ₂) hγ₂b := by
-    show sm₁ ≫ sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫ sq₂.isoPullback.hom = _
+    change sm₁ ≫ sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫ sq₂.isoPullback.hom = _
     rw [← cancel_epi sqX.isoPullback.hom, hθ₂, ← Category.assoc, hθ₁, Category.assoc,
       Iso.hom_inv_id_assoc, ← Category.assoc ((𝒯).map a₁), ← Functor.map_comp, hφa]
   -- the scheme case
@@ -345,7 +345,7 @@ theorem exists_iso_of_closedFibre_of_isAdicComplete_of_isAlgebraicSpace
       refine hΨ _ _ ?_
       rw [Functor.map_comp, ← IsPullback.isoPullback_hom_fst sq₁, Category.assoc, hψ'f,
         ← IsPullback.isoPullback_hom_fst sq₂]
-      show sq₁.isoPullback.hom ≫ (sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫
+      change sq₁.isoPullback.hom ≫ (sq₁.isoPullback.inv ≫ (𝒯).map φ.hom ≫
         sq₂.isoPullback.hom) ≫ _ = _
       rw [Category.assoc, Iso.hom_inv_id_assoc, Category.assoc]
     have hi₂' : i₂ = yoneda.map j₂ ≫ e₂.inv := by rw [hj₂, Category.assoc, Iso.hom_inv_id,

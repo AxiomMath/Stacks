@@ -39,6 +39,6 @@ each variable `X i`. -/
     {f g : MvRatFunc σ R →ₐ[R] A}
     (hX : ∀ i, f (algebraMap (MvPolynomial σ R) (MvRatFunc σ R) (.X i)) =
       g (algebraMap (MvPolynomial σ R) (MvRatFunc σ R) (.X i))) :
-    f = g := AlgHom.coe_ringHom_injective <| ext_ringHom (by simp) hX
+    f = g := AlgHom.toRingHom_injective <| ext_ringHom (by simp) hX
 
 end MvRatFunc

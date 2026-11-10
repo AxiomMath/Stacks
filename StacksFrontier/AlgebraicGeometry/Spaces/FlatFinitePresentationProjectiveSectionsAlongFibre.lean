@@ -395,7 +395,7 @@ theorem exists_isAffine_etale_hom_projective_sections_along_fibre
       B.obj hNsize ⟶ B.obj hS))
   have hk : (ObjectProperty.homMk m : B.obj hZsize ⟶ B.obj hNsize) ≫ E'.hom = D'.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show m ≫ N.toBase ≫ B.inclusion.map E.hom = g ≫ B.inclusion.map D.hom
+    change m ≫ N.toBase ≫ B.inclusion.map E.hom = g ≫ B.inclusion.map D.hom
     rw [← Category.assoc, ← hcomm, Category.assoc, hbaseD]
   refine ⟨D', E',
       Over.homMk (ObjectProperty.homMk g : B.obj hZsize ⟶ D.left) rfl,
@@ -404,7 +404,7 @@ theorem exists_isAffine_etale_hom_projective_sections_along_fibre
       hgE, N.etale_toBase, ?_, N.map_point, hZaff, hNaff, hcov, hproj⟩
   refine (BigFppfOver.toScheme B S hS).map_injective ?_
   rw [Functor.map_comp, Functor.map_comp]
-  show m ≫ N.toBase = g ≫ (BigFppfOver.toScheme B S hS).map h
+  change m ≫ N.toBase = g ≫ (BigFppfOver.toScheme B S hS).map h
   exact hcomm.symm
 
 /-- A scheme point `δ` of `U` mapping to the scheme point of `w` under `h : U ⟶ V` corresponds to

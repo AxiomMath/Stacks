@@ -64,7 +64,7 @@ public theorem contains_sigma_toScheme_obj :
       fun i => contains_toScheme_obj B hS (U (Equiv.ulift i))
   have he := Scheme.size_congr (Sigma.reindex (Equiv.ulift : ULift.{u} (Fin n) ≃ Fin n)
     fun k => (SmallEtale.toScheme B S hS).obj (U k))
-  show (∐ fun k => (SmallEtale.toScheme B S hS).obj (U k)).size < B.cutoff
+  change (∐ fun k => (SmallEtale.toScheme B S hS).obj (U k)).size < B.cutoff
   rwa [← he]
 
 /-- **The disjoint union of a finite family of objects of the small étale site**: the coproduct
@@ -88,7 +88,7 @@ public theorem toScheme_obj_disjointUnionObj :
 
 /-- The tautological inclusion of a member of the family into the disjoint union. -/
 public def disjointUnionHom (k : Fin n) : U k ⟶ disjointUnionObj B hS U :=
-  mkHom B hS (Sigma.ι (fun j => (SmallEtale.toScheme B S hS).obj (U j)) k) (Sigma.ι_desc _ k)
+  mkHom B hS (Sigma.ι (fun j => (SmallEtale.toScheme B S hS).obj (U j)) k) (Sigma.ι_comp_desc _ k)
 
 /-- The underlying morphism of schemes of a tautological inclusion is the coproduct
 injection. -/

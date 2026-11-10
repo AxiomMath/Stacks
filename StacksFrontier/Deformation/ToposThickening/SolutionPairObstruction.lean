@@ -133,12 +133,12 @@ theorem polynomialUnit_comp_baseChange (U : Cᵒᵖ) :
   apply MvPolynomial.ringHom_ext
   · intro a
     refine (polynomialEvaluation_app_C J A₁ E _ _ _ U a).trans ?_
-    show (polynomialUnit J A₂ E).app U (MvPolynomial.C (r.hom.app U a)) =
+    change (polynomialUnit J A₂ E).app U (MvPolynomial.C (r.hom.app U a)) =
       (polynomialUnit J A₂ E).app U (MvPolynomial.map (r.hom.app U).hom (MvPolynomial.C a))
     rw [MvPolynomial.map_C]
   · intro x
     refine (polynomialEvaluation_app_X J A₁ E _ _ _ U x).trans ?_
-    show (polynomialUnit J A₂ E).app U (MvPolynomial.X x) =
+    change (polynomialUnit J A₂ E).app U (MvPolynomial.X x) =
       (polynomialUnit J A₂ E).app U (MvPolynomial.map (r.hom.app U).hom (MvPolynomial.X x))
     rw [MvPolynomial.map_X]
 
@@ -235,7 +235,7 @@ image under `ψ`. -/
 theorem app_congr_of_kernel {U : Cᵒᵖ} (k k' : kernelIdeal (ψ ≫ φ).hom U)
     (h : ψ.hom.app U k = ψ.hom.app U k') : ρ.app U k = ρ.app U k' := by
   have h0 : ρ.app U (k - k') = 0 := hρ U _ (by
-    show ψ.hom.app U ((k : A₁.obj.obj U) - k') = 0
+    change ψ.hom.app U ((k : A₁.obj.obj U) - k') = 0
     rw [map_sub, h, sub_self])
   rw [map_sub] at h0
   exact sub_eq_zero.mp h0
@@ -271,10 +271,10 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [Presheaf.IsLocallySurj
 theorem descendFamily_compatible {U : Cᵒᵖ} (p : kernelIdeal φ.hom U) :
     (descendFamily ρ p).Compatible := by
   intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ hcomm
-  show G.val.map g₁.op (ρ.app _ _) = G.val.map g₂.op (ρ.app _ _)
+  change G.val.map g₁.op (ρ.app _ _) = G.val.map g₂.op (ρ.app _ _)
   rw [← ρ.app_map, ← ρ.app_map]
   apply app_congr_of_kernel ρ hρ
-  show ψ.hom.app _ (A₁.obj.map g₁.op h₁.choose) = ψ.hom.app _ (A₁.obj.map g₂.op h₂.choose)
+  change ψ.hom.app _ (A₁.obj.map g₁.op h₁.choose) = ψ.hom.app _ (A₁.obj.map g₂.op h₂.choose)
   rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h₁.choose_spec, h₂.choose_spec,
     ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, hcomm]
 
@@ -346,7 +346,7 @@ theorem descendApp_add {U : Cᵒᵖ} (p p' : kernelIdeal φ.hom U) :
   let K : kernelIdeal (ψ ≫ φ).hom (op Y) := ⟨k, lift_mem_kernelIdeal p f k hk⟩
   let K' : kernelIdeal (ψ ≫ φ).hom (op Y) := ⟨k', lift_mem_kernelIdeal p' f k' hk'⟩
   refine ⟨K + K', ?_, ?_⟩
-  · show ψ.hom.app (op Y) (k + k') = A₂.obj.map f.op ((p : A₂.obj.obj U) + p')
+  · change ψ.hom.app (op Y) (k + k') = A₂.obj.map f.op ((p : A₂.obj.obj U) + p')
     rw [map_add, hk, hk', map_add]
   · rw [map_add, map_add, map_descendApp ρ hρ p f K hk, map_descendApp ρ hρ p' f K' hk']
     rfl
@@ -363,11 +363,11 @@ theorem descendApp_smul {U : Cᵒᵖ} (a : A₂.obj.obj U) (p : kernelIdeal φ.h
   obtain ⟨⟨s, hs⟩, ⟨k, hk⟩⟩ := hf
   let K : kernelIdeal (ψ ≫ φ).hom (op Y) := ⟨k, lift_mem_kernelIdeal p f k hk⟩
   refine ⟨s • K, ?_, ?_⟩
-  · show ψ.hom.app (op Y) (s * k) = A₂.obj.map f.op (a * (p : A₂.obj.obj U))
+  · change ψ.hom.app (op Y) (s * k) = A₂.obj.map f.op (a * (p : A₂.obj.obj U))
     rw [map_mul, hs, hk, map_mul]
   · rw [PresheafOfModules.map_smul, map_descendApp ρ hρ p f K hk, ρ.app_smul]
     congr 1
-    show B.obj.map f.op (φ.hom.app U a) = φ.hom.app (op Y) (ψ.hom.app (op Y) s)
+    change B.obj.map f.op (φ.hom.app U a) = φ.hom.app (op Y) (ψ.hom.app (op Y) s)
     rw [hs]
     exact (NatTrans.naturality_apply φ.hom f.op a).symm
 
@@ -404,7 +404,7 @@ theorem map_mem_kernelIdeal {U : Cᵒᵖ} (k : kernelIdeal (ψ ≫ φ).hom U) :
   exact Stacks.Sites.Conormal.kernelIdeal_le_comap _ _ Φ₁.hom
     (Stacks.Sites.Conormal.hom_of_comp_eq (by rw [← Category.assoc, hΦ, Category.assoc, hφ])) U k.2
 
-include hΦ hφ in
+include hφ in
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [Presheaf.IsLocallySurjective J ψ.hom]
   [Presheaf.IsLocallySurjective J ψ'.hom] in
 /-- A local section of `Ker φ` is carried by `Φ₂` into `Ker φ'`. -/
@@ -421,16 +421,16 @@ theorem descend_app_map
     (hρρ' : ∀ (U : Cᵒᵖ) (k : kernelIdeal (ψ ≫ φ).hom U),
       ρ'.app U ⟨Φ₁.hom.app U k, map_mem_kernelIdeal Φ₁ Φ₂ hΦ hφ k⟩ = ρ.app U k)
     {U : Cᵒᵖ} (p : kernelIdeal φ.hom U) :
-    (descend ρ' hρ').app U ⟨Φ₂.hom.app U p, map_mem_kernelIdeal' Φ₁ Φ₂ hΦ hφ p⟩ =
+    (descend ρ' hρ').app U ⟨Φ₂.hom.app U p, map_mem_kernelIdeal' Φ₂ hφ p⟩ =
       (descend ρ hρ).app U p := by
   refine descendApp_eq ρ' hρ' _ _ (Presheaf.imageSieve ψ.hom (U := U.unop) (p : A₂.obj.obj U))
     (Presheaf.imageSieve_mem J ψ.hom _) fun Y f hf ↦ ?_
   obtain ⟨k, hk⟩ := hf
   let K : kernelIdeal (ψ ≫ φ).hom (op Y) := ⟨k, lift_mem_kernelIdeal p f k hk⟩
   refine ⟨⟨Φ₁.hom.app (op Y) k, map_mem_kernelIdeal Φ₁ Φ₂ hΦ hφ K⟩, ?_, ?_⟩
-  · show (Φ₁ ≫ ψ').hom.app (op Y) k = A₂'.obj.map f.op (Φ₂.hom.app U p)
+  · change (Φ₁ ≫ ψ').hom.app (op Y) k = A₂'.obj.map f.op (Φ₂.hom.app U p)
     rw [hΦ]
-    show Φ₂.hom.app (op Y) (ψ.hom.app (op Y) k) = _
+    change Φ₂.hom.app (op Y) (ψ.hom.app (op Y) k) = _
     rw [hk]
     exact NatTrans.naturality_apply Φ₂.hom f.op (p : A₂.obj.obj U)
   · exact (map_descendApp ρ hρ p f K hk).trans (hρρ' (op Y) K).symm
@@ -447,7 +447,6 @@ open Stacks.Sites.FreeAlgebra
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J CommRingCat.{max w u v}]
-  [J.HasSheafCompose (forget₂ CommRingCat.{max w u v} RingCat.{max w u v})]
   (A B : Sheaf J CommRingCat.{max w u v}) (a : A ⟶ B)
   (E₁ E₂ : Cᵒᵖ ⥤ Type (max w u v)) (h : E₁ ⟶ E₂)
   (α₁ : E₁ ⟶ underlyingPresheaf J B) (α₂ : E₂ ⟶ underlyingPresheaf J B)
@@ -606,7 +605,7 @@ theorem desc_polynomialUnit_eq_incl (Q : S.CompatibleFirstOrderThickening)
   refine (congrArg (fun k ↦ k.app Z q) (Stacks.Sites.FreeAlgebra.polynomialUnit_comp_desc X.J
     ((inverseImageCommRingFunctor S.f.toToposHom).obj S.baseExtension) Q.extension E Q.baseMap
       β)).trans ?_
-  show MvPolynomial.eval₂ (Q.baseMap.hom.app Z).hom (β.app Z) q = _
+  change MvPolynomial.eval₂ (Q.baseMap.hom.app Z).hom (β.app Z) q = _
   refine (MvPolynomial.eval₂_eq _ _ q).trans ?_
   rw [idealPolynomialSection, incl_sum]
   refine Finset.sum_congr rfl fun m _ ↦ ?_
@@ -842,7 +841,7 @@ theorem difference_app_eq {U : X.Cᵒᵖ} (p : kernelIdeal d.restrictedPresentat
     (g₁ g₂ : S.G.val.obj U) (h₁ : Q₁.incl g₁ = d.lift₁.hom.app U p)
     (h₂ : Q₂.incl g₂ = d.lift₂.hom.app U p) :
     d.difference.app U p = g₂ - g₁ := by
-  show liftSection Q₂ d.generatorsMap d.β₂ d.β₂_comp_reduction p -
+  change liftSection Q₂ d.generatorsMap d.β₂ d.β₂_comp_reduction p -
     liftSection Q₁ d.generatorsMap d.β₁ d.β₁_comp_reduction p = g₂ - g₁
   rw [Q₂.incl_injective ((incl_liftSection Q₂ d.generatorsMap d.β₂ d.β₂_comp_reduction
       p).trans h₂.symm),
@@ -863,7 +862,7 @@ theorem difference_eq_zero_of_baseChange {U : X.Cᵒᵖ}
   refine (Stacks.Sites.Conormal.IdealRestriction.isSheaf_typeSheaf (G := targetG S) T
     hT).isSeparatedFor.ext fun Y f hf ↦ ?_
   obtain ⟨q, hq0, hqk⟩ := hq Y f hf
-  show (targetG S).val.map f.op (d.difference.app U k) = (targetG S).val.map f.op 0
+  change (targetG S).val.map f.op (d.difference.app U k) = (targetG S).val.map f.op 0
   rw [← d.difference.app_map, map_zero]
   refine (d.difference_app_eq _ (idealPolynomialSection S d.generatorsMap q hq0)
     (idealPolynomialSection S d.generatorsMap q hq0) ?_ ?_).trans (sub_self _)

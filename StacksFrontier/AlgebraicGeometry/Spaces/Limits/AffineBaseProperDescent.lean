@@ -135,7 +135,7 @@ the site is quasi-compact.** -/
 theorem isQuasiCompactSpace_pullback_yoneda_map_of_isAffine
     (hTi : IsAffine ((BigFppfOver.toScheme B S hS).obj Ti))
     (hTj : IsAffine ((BigFppfOver.toScheme B S hS).obj Tj))
-    (z : Z ⟶ yoneda.obj Ti) (hZalg : IsAlgebraicSpace B S hS Z)
+    (z : Z ⟶ yoneda.obj Ti)
     (hqc : IsQuasiCompactSpace B S hS Z) (m : Tj ⟶ Ti) :
     IsQuasiCompactSpace B S hS (pullback (yoneda.map m) z) :=
   isQuasiCompactSpace_pullback B S hS hZ (yoneda.map m) z
@@ -150,7 +150,7 @@ affine base object is of finite type.** Quasi-compactness of the morphism is Sta
 source, the source being quasi-compact and the target quasi-separated. -/
 theorem isFiniteType_of_isAffine_target
     (hTi : IsAffine ((BigFppfOver.toScheme B S hS).obj Ti))
-    (z : Z ⟶ yoneda.obj Ti) (hZalg : IsAlgebraicSpace B S hS Z)
+    (z : Z ⟶ yoneda.obj Ti)
     (hqc : IsQuasiCompactSpace B S hS Z) (hft : IsLocallyOfFiniteType B S hS z) :
     IsFiniteType B S hS z := by
   refine ⟨hft, ?_⟩
@@ -181,9 +181,7 @@ theorem isFiniteType_pullback_fst_of_isAffine
     (m : Tj ⟶ Ti) :
     IsFiniteType B S hS (pullback.fst (yoneda.map m) z) := by
   exact isFiniteType_of_isAffine_target B S hS hZ hTj _
-    (isAlgebraicSpace_pullback B S hS (yoneda.map m) z (isAlgebraicSpace_yoneda B S hS Tj) hZalg
-      (isAlgebraicSpace_yoneda B S hS Ti))
-    (isQuasiCompactSpace_pullback_yoneda_map_of_isAffine B S hS hZ hTi hTj z hZalg hqc m)
+    (isQuasiCompactSpace_pullback_yoneda_map_of_isAffine B S hS hZ hTi hTj z hqc m)
     (IsLocallyOfFiniteType.of_isPullback B S hS (IsPullback.of_hasPullback (yoneda.map m) z)
       hZalg (isAlgebraicSpace_yoneda B S hS Ti) hft)
 
@@ -380,7 +378,7 @@ theorem exists_universallyClosed_pullback_fst_of_limit
   obtain ⟨X', ψ, p, hp, hpsurj, hpψ, hψsep, hψqc, hψft⟩ :=
     exists_chowSchemeCover_over_isAffine_base B S hS
       ((BigAffineFppf.inclusion B S hS).obj (D.obj i)) hTiAff hZalg z hsep
-      (isFiniteType_of_isAffine_target B S hS hZ hTiAff z hZalg hqc hft)
+      (isFiniteType_of_isAffine_target B S hS hZ hTiAff z hqc hft)
   have hpb : ∀ {Tm : BigFppfOver B S hS}
       (m : Tm ⟶ (BigAffineFppf.inclusion B S hS).obj (D.obj i)),
       IsAlgebraicSpace B S hS (pullback (yoneda.map m) z) := fun m ↦

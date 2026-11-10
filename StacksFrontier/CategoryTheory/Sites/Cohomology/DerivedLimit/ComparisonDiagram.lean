@@ -185,7 +185,7 @@ theorem cohomologyDerivedLimitDiagram (X : RingedSite.{u, v, w})
   have hc : ∀ n : ℕ, c ≫ limit.π (K ⋙ H) ⟨n⟩ =
       S.map (limit.π (K ⋙ P) ⟨n⟩) ≫ e.hom.app (K.obj ⟨n⟩) := by
     intro n
-    show (limit.lift ((K ⋙ P) ⋙ S) (S.mapCone (limit.cone (K ⋙ P))) ≫
+    change (limit.lift ((K ⋙ P) ⋙ S) (S.mapCone (limit.cone (K ⋙ P))) ≫
       (HasLimit.isoOfNatIso eK).hom) ≫ limit.π (K ⋙ H) ⟨n⟩ = _
     rw [Category.assoc, HasLimit.isoOfNatIso_hom_π, ← Category.assoc, limit.lift_π]
     rfl

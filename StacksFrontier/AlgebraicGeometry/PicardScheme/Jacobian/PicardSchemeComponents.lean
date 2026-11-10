@@ -69,11 +69,11 @@ theorem exists_translate_degreeLocus (d : ℤ) :
       τ ≫ degreeLocusι f hdim σ hσ P e (d + d') =
         degreeLocusι f hdim σ hσ P e d ≫ grpTranslate P r := by
   refine exists_lift_degreeLocus f hdim σ hσ P e _ _ fun t => ?_
-  show relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
+  change relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
     (degreeLocusι f hdim σ hσ P e d ≫ grpTranslate P r))) = _
   have := (range_subset_degreeLocus_iff f hdim σ hσ P e (degreeLocusι f hdim σ hσ P e d) d).1
     (by
-      show Set.range (degreeLocus f hdim σ hσ P e d).ι.base ⊆ _
+      change Set.range (degreeLocus f hdim σ hσ P e d).ι.base ⊆ _
       rw [Scheme.Opens.range_ι]) t
   rw [degree_comp_grpTranslate f hdim σ hσ P e, hr, add_comm]
   exact congrArg (· + d') this
@@ -105,7 +105,7 @@ theorem nonempty_degreeLocus_iso (d : ℤ) :
   obtain ⟨τ, hτ⟩ := exists_translate_degreeLocus f hdim σ hσ P e r hr d
   obtain ⟨τ', hτ'⟩ := exists_lift_degreeLocus f hdim σ hσ P e
     (degreeLocusι f hdim σ hσ P e (d + d') ≫ grpTranslate P r⁻¹) d fun t => by
-      show relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
+      change relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
         (degreeLocusι f hdim σ hσ P e (d + d') ≫ grpTranslate P r⁻¹))) = d
       rw [degree_comp_grpTranslate f hdim σ hσ P e, degree_inv f hdim σ hσ P e r hr]
       have := degree_of_degreeLocus f hdim σ hσ P e (d + d') (𝟙 _) t

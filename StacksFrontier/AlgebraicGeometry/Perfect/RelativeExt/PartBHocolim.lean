@@ -51,10 +51,10 @@ private theorem desc_sub_comp_eq_zero_iff {C : Type*} [Category C] [Preadditive 
       Limits.Sigma.ι F.obj n ≫ p := by
   refine ⟨fun h n ↦ ?_, fun h ↦ Limits.Sigma.hom_ext _ _ fun n ↦ ?_⟩
   · have h1 := congrArg (fun k ↦ Limits.Sigma.ι F.obj n ≫ k) h
-    rw [comp_zero, ← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, Category.assoc,
-      sub_eq_zero] at h1
+    rw [comp_zero, ← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp,
+      Category.assoc, sub_eq_zero] at h1
     exact h1.symm
-  · rw [← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, h n,
+  · rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc, h n,
       sub_self, comp_zero]
 
 include hL in
@@ -78,11 +78,11 @@ theorem exists_partBHocolimUnit :
         (congrArg (_ ≫ ·) (((partBΦ hG).map_comp _ _).symm.trans
           (congrArg (partBΦ hG).map (partBTransition_comp_coprojection D hL n))))))
   have hw := (desc_sub_comp_eq_zero_iff (Limits.Sigma.desc x)).2 fun n ↦ by
-    simpa only [Limits.Sigma.ι_desc] using hx n
+    simpa only [Limits.Sigma.ι_comp_desc] using hx n
   obtain ⟨y, hy⟩ := Triangle.yoneda_exact₂ _ hT (Limits.Sigma.desc x) hw
   refine ⟨y, fun n ↦ ?_⟩
   have h1 := congrArg (fun k ↦ Limits.Sigma.ι D.sys.obj n ≫ k) hy
-  simp only [Triangle.mk_mor₂, Limits.Sigma.ι_desc] at h1
+  simp only [Triangle.mk_mor₂, Limits.Sigma.ι_comp_desc] at h1
   exact ((congrArg (· ≫ y) (hc n)).symm.trans (Category.assoc _ _ _)).trans h1.symm
 
 /-- **The cohomology of `L` is the colimit of the cohomology of the `Lₙ`** ([Stacks, Tag 0CRK]),
@@ -111,7 +111,7 @@ theorem isIso_truncGE_partBCoprojection (b : ℤ) (hb : G.IsStrictlyGE b)
   have : IsIso (colimit.ι (partBSystem D ⋙ DerivedCategory.homologyFunctor _ i) n) :=
     Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.DivColim.isIso_colimit_ι_of_eventually_iso
       _ n fun m hm => by
-        show IsIso ((DerivedCategory.homologyFunctor _ i).map
+        change IsIso ((DerivedCategory.homologyFunctor _ i).map
           ((partBSystem D).map (homOfLE (Nat.le_succ m))))
         rw [partBSystem_map_succ]
         exact (isIso_truncGE_map_iff_isIso_homology (partBTransition D m) k).1
@@ -119,7 +119,8 @@ theorem isIso_truncGE_partBCoprojection (b : ℤ) (hb : G.IsStrictlyGE b)
   rw [← he n]
   infer_instance
 
-include hG hL in
+include hG in
+omit [HasCoproduct (partBSystem D).obj] in
 /-- **The unit `η : E ⟶ Φ(L)` identifies `Hom(L, N)` with `Hom(E, Φ N)` for every
 `N ∈ D^+_QCoh(𝒪_S)`.** -/
 theorem bijective_partBHocolimUnit_comp (b : ℤ) (hb : G.IsStrictlyGE b)

@@ -95,7 +95,7 @@ abbrev moduleOfSurjective (hφ : Function.Surjective φ)
 theorem moduleOfSurjective_smul (hφ : Function.Surjective φ)
     (hM : ∀ r : P, φ r = 0 → ∀ m : M, r • m = 0) (r : P) (m : M) :
     (moduleOfSurjective φ hφ hM).smul (φ r) m = r • m := by
-  show Function.surjInv hφ (φ r) • m = r • m
+  change Function.surjInv hφ (φ r) • m = r • m
   have := hM (Function.surjInv hφ (φ r) - r)
     (by rw [map_sub, Function.surjInv_eq hφ, sub_self]) m
   rwa [sub_smul, sub_eq_zero] at this
@@ -132,16 +132,14 @@ theorem mulIntoIdeal_tmul (a b : RingHom.ker φ) :
 /-- As an element of `P`, `mulIntoIdeal x` is the image of `x` under `Submodule.mulMap`. -/
 theorem coe_mulIntoIdeal (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     (mulIntoIdeal x : P) = Submodule.mulMap (RingHom.ker φ) (RingHom.ker φ) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp [Submodule.mulMap_tmul]
   | add x y hx hy => simp [hx, hy]
 
 /-- An element `j` of `J` acts on `J ⊗_P J` as `x ↦ j ⊗ m(x)`, `m` the multiplication. -/
 theorem smul_eq_tmul_mulIntoIdeal (j : RingHom.ker φ) (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     (j : P) • x = j ⊗ₜ[P] mulIntoIdeal x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [TensorProduct.smul_tmul', mulIntoIdeal_tmul,
       show (j : P) • a = (a : P) • j from Subtype.ext (mul_comm (j : P) (a : P)),
@@ -151,7 +149,7 @@ theorem smul_eq_tmul_mulIntoIdeal (j : RingHom.ker φ) (x : RingHom.ker φ ⊗[P
 /-- `J` acts by zero on the tensor-kernel model. -/
 theorem smul_mulKernel_eq_zero (r : P) (hr : φ r = 0) (x : mulKernel φ) : r • x = 0 := by
   apply Subtype.ext
-  show r • (x : RingHom.ker φ ⊗[P] RingHom.ker φ) = 0
+  change r • (x : RingHom.ker φ ⊗[P] RingHom.ker φ) = 0
   have hx : mulIntoIdeal (x : RingHom.ker φ ⊗[P] RingHom.ker φ) = 0 :=
     Subtype.ext ((coe_mulIntoIdeal _).trans ((mem_mulKernel_iff _).mp x.2))
   rw [smul_eq_tmul_mulIntoIdeal (⟨r, hr⟩ : RingHom.ker φ), hx, TensorProduct.tmul_zero]
@@ -161,7 +159,7 @@ theorem smul_cotangent_eq_zero (r : P) (hr : φ r = 0) (c : (RingHom.ker φ).Cot
     r • c = 0 := by
   obtain ⟨a, rfl⟩ := Ideal.toCotangent_surjective _ c
   rw [← map_smul, Ideal.toCotangent_eq_zero]
-  show r * (a : P) ∈ RingHom.ker φ ^ 2
+  change r * (a : P) ∈ RingHom.ker φ ^ 2
   rw [pow_two]
   exact Ideal.mul_mem_mul hr a.2
 
@@ -240,8 +238,7 @@ theorem tensorMap_tmul (g : P →+* P') (hg : φ'.comp g = φ) (a b : RingHom.ke
 theorem tensorMap_smul (g : P →+* P') (hg : φ'.comp g = φ) (r : P)
     (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     tensorMap g hg (r • x) = g r • tensorMap g hg x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [TensorProduct.smul_tmul', tensorMap_tmul, tensorMap_tmul, kerMap_smul,
       TensorProduct.smul_tmul']
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -252,16 +249,14 @@ theorem mulMap_tensorMap (g : P →+* P') (hg : φ'.comp g = φ)
     (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     Submodule.mulMap (RingHom.ker φ') (RingHom.ker φ') (tensorMap g hg x) =
       g (Submodule.mulMap (RingHom.ker φ) (RingHom.ker φ) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp [Submodule.mulMap_tmul]
   | add x y hx hy => simp [hx, hy]
 
 /-- The identity ring map induces the identity on `J ⊗_P J`. -/
 theorem tensorMap_id (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     tensorMap (RingHom.id P) (RingHom.comp_id φ) x = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rfl
   | add x y hx hy => rw [map_add, hx, hy]
 
@@ -270,8 +265,7 @@ theorem tensorMap_comp (g : P →+* P') (hg : φ'.comp g = φ) (g' : P' →+* P'
     (hg' : φ''.comp g' = φ') (x : RingHom.ker φ ⊗[P] RingHom.ker φ) :
     tensorMap (g'.comp g) (by rw [← RingHom.comp_assoc, hg', hg]) x =
       tensorMap g' hg' (tensorMap g hg x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rfl
   | add x y hx hy => rw [map_add, hx, hy, map_add, map_add]
 

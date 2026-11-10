@@ -174,13 +174,13 @@ theorem existsUnique_modelHom (hR : IsModelRelation R) {X' X : CurveFamily B hZ}
         Category.assoc, ← schemeSpaceMap_comp, hθb', eqToHom_trans]
   obtain ⟨e, he, hec⟩ := hR.exists_hom m'.isModel hR''
   refine ⟨e ≫ ψ₀, ⟨?_, ?_⟩, ?_⟩
-  · show e.baseMap ≫ ψ₀.baseMap = _
+  · change e.baseMap ≫ ψ₀.baseMap = _
     have he' : e.baseMap = eqToHom m'.base_eq ≫ eqToHom h.symm := by
       rw [← he]
       simp
     rw [he', hψ₀]
     simp
-  · show m'.contraction ≫ e.totalMap ≫ ψ₀.totalMap = _
+  · change m'.contraction ≫ e.totalMap ≫ ψ₀.totalMap = _
     rw [← Category.assoc, hec, hc'']
   · rintro ψ ⟨hψb, hψc⟩
     obtain ⟨θ, rfl, hθb, hθc⟩ := key ψ hψb hψc
@@ -266,7 +266,7 @@ theorem modelFunctorAux_comp_projection :
       P.ι ⋙ curvesProjectionOver B hZ := by
   refine CategoryTheory.Functor.ext (fun X => (chosenModel hR hex X).base_eq) ?_
   intro X Y φ
-  show (modelHom hR φ.hom _ _).baseMap = _
+  change (modelHom hR φ.hom _ _).baseMap = _
   rw [modelHom_baseMap]
   rfl
 

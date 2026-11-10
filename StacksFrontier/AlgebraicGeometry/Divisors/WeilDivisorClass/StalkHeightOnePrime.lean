@@ -126,7 +126,7 @@ theorem exists_primeDivisor_stalk_eq_of_height_eq_one
       rw [show Stacks.Chow.integralComponentAt y =
           Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({y} : Set X)) from rfl,
         Stacks.Divisors.ideal_vanishingIdeal_closure_singleton y U hW hyU, hyprime]
-    show IdealSheafData.stalk (Stacks.Chow.integralComponentAt y) x = p
+    change IdealSheafData.stalk (Stacks.Chow.integralComponentAt y) x = p
     rw [IdealSheafData.stalk_eq_map_germ _ x U hxU, hideal, hrdef]
     exact IsLocalization.map_under q.asIdeal.primeCompl (X.presheaf.stalk x) p
   · -- The comparison of the two localizations of `Γ(X, U)` at `r`.
@@ -151,13 +151,13 @@ theorem exists_primeDivisor_stalk_eq_of_height_eq_one
         (Subalgebra.val A).toRingHom := by
       apply IsLocalization.ringHom_ext r.primeCompl
       ext b
-      show algebraMap (X.presheaf.stalk y) X.functionField
+      change algebraMap (X.presheaf.stalk y) X.functionField
         (e (algebraMap Γ(X, U.1) A b)) = _
       rw [e.commutes]
       have : IsScalarTower Γ(X, U.1) (X.presheaf.stalk y) X.functionField :=
         functionField_isScalarTower X U.1 ⟨y, hyU⟩
       rw [← IsScalarTower.algebraMap_apply Γ(X, U.1) (X.presheaf.stalk y) X.functionField]
-      show algebraMap Γ(X, U.1) X.functionField b =
+      change algebraMap Γ(X, U.1) X.functionField b =
         algebraMap (X.presheaf.stalk x) X.functionField (algebraMap Γ(X, U.1) _ b)
       exact IsScalarTower.algebraMap_apply Γ(X, U.1) (X.presheaf.stalk x) X.functionField b
     exact congrArg (fun f : A →+* X.functionField => f a) hmap

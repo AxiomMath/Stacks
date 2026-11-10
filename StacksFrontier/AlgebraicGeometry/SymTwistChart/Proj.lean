@@ -230,7 +230,7 @@ public theorem chartProjIso_hom_toBase :
       ((Spec.map_comp ((Stacks.SymGraded.schemeSheafGradedAlgebra E
           hqcE).toGradedAlgebra.strZero W) _).symm.trans
         (congrArg Spec.map (strZero_comp_zeroHom_chartGradedHom E L hqcE hqcEL W eW))))
-  show (chartProjIso E L hqcE hqcEL eW W.2).hom ≫ AlgebraicGeometry.Proj.toSpecZero
+  change (chartProjIso E L hqcE hqcEL eW W.2).hom ≫ AlgebraicGeometry.Proj.toSpecZero
         ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).grading W.toOpens) ≫
       Spec.map ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).toGradedAlgebra.strZero W) ≫
         W.2.fromSpec =

@@ -112,7 +112,7 @@ theorem baseSpecMap_eq_residueSpecMap {Λ k : Type u} [CommRing Λ] [Field k] [A
     have h := b.residue_comm a
     rw [residueFieldBase_residueEquiv_residue] at h
     exact h
-  show Spec.map (CommRingCat.ofHom b.hom.toRingHom) =
+  change Spec.map (CommRingCat.ofHom b.hom.toRingHom) =
     Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A))
   rw [hb]
 

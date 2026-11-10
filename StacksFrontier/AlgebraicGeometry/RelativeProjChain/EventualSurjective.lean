@@ -217,8 +217,8 @@ public theorem isClosedImmersion_mapHom_of_eventually_surjective (ψ : 𝒜 →+
 
 /-- **Stacks 01N1 (2)** on Tag 01MY's bundle: the underlying morphism of
 `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData` is a closed immersion. This is the form
-the statements of the chain quantify over, and it is the previous result unchanged, since the bundle's
-morphism is `mapHom` by definition. -/
+the statements of the chain quantify over, and it is the previous result unchanged, since the
+bundle's morphism is `mapHom` by definition. -/
 @[stacks 01N1 "part (2): the closed immersion", stacks 01N0 "closed_immersion"]
 public theorem isClosedImmersion_projMapData_hom_of_eventually_surjective (ψ : 𝒜 →+*ᵍ ℬ)
     (hψ : ∀ᶠ d : ℕ in atTop, Function.Surjective (GradedRingHom.gradedAddHom ψ d)) :

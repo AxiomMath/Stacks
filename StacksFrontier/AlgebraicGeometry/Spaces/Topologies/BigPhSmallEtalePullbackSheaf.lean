@@ -92,7 +92,7 @@ theorem isSheaf_bigToSmallEtale_inverseImage
         ⟨eSchemeSite, eSchemeMem, pFppfSite, eFppfMem, eInitial, eInitialSmall, eInitialEtale,
           eBound, eOrdinal, eOrdinalLim, eInitialBounded, eIsSite, eRepresentative⟩
       let Q := ((E'.bigToSmallEtaleMorphism X).inverseImage.obj G).obj
-      show Presheaf.IsSheaf (BigPHSpaceOver.topology P' X) Q
+      change Presheaf.IsSheaf (BigPHSpaceOver.topology P' X) Q
       rw [isSheaf_iff_isSheaf_of_type]
       exact Space.isSheaf_of_etale_and_properSurjective P' X Q
         (E'.isEtaleSheafOver_inverseImage X G)
@@ -151,7 +151,7 @@ theorem isIso_phToSmallEtale_unit_app
     IsIso ((phToSmallEtaleMorphism P E h X).adj.unit.app ℱ) := by
   have := E.isIso_bigToSmallEtaleMorphism_unit (etaleSpace P E h X)
   have := isIso_phToBigEtale_unit_app_inverseImage P E h X ℱ
-  show IsIso (((E.bigToSmallEtaleMorphism (etaleSpace P E h X)).adj.comp
+  change IsIso (((E.bigToSmallEtaleMorphism (etaleSpace P E h X)).adj.comp
     (phToBigEtaleMorphism P E h X).adj).unit.app ℱ)
   rw [Adjunction.comp_unit_app]
   infer_instance

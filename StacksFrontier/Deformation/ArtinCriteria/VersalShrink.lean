@@ -208,7 +208,7 @@ public theorem exists_factor_of_closedPoint_mem
       Iso.inv_hom_id_assoc, Over.w])
   apply exists_factor_of_image_factor p (Over.post B.inclusion) r a g'
   apply Over.OverMorphism.ext
-  show (q.map a).left = (e.inv ≫ g) ≫ (q.map r).left
+  change (q.map a).left = (e.inv ≫ g) ≫ (q.map r).left
   rw [Category.assoc, hg, Iso.inv_hom_id_assoc]
 
 /-- The closed point of the spectrum of an Artinian local algebra is the image
@@ -330,11 +330,11 @@ private theorem isVersalAt_iff_infinitesimalLiftingAt
         ((q.obj x).left.fromSpecResidueField u) := by
   have hloc₁ : IsLocalHom ((q.obj x).hom.stalkMap u).hom := inferInstance
   have hloc₂ : IsLocalHom (((q.obj x).left.residue u)).hom := by
-    show IsLocalHom (IsLocalRing.residue ((q.obj x).left.presheaf.stalk u))
+    change IsLocalHom (IsLocalRing.residue ((q.obj x).left.presheaf.stalk u))
     infer_instance
   have hloc : IsLocalHom
       (((q.obj x).hom.stalkMap u ≫ (q.obj x).left.residue u)).hom := by
-    show IsLocalHom
+    change IsLocalHom
       (((q.obj x).left.residue u).hom.comp ((q.obj x).hom.stalkMap u).hom)
     infer_instance
   let P : (Σ s : S, {g : S.presheaf.stalk s ⟶ (q.obj x).left.residueField u //
@@ -469,9 +469,9 @@ private theorem exists_restrict_open
   have he₀ : ((p ⋙ Over.post B.inclusion).obj x').left = (W : Scheme.{u}) :=
     congrArg (fun T : AlgebraicGeometry.BigFppfOver B S hS => B.inclusion.obj T.left) hy
   have hleft : ((p ⋙ Over.post B.inclusion).map r).left = eqToHom he₀ ≫ W.ι := by
-    show B.inclusion.map ((p.map r).left) = _
+    change B.inclusion.map ((p.map r).left) = _
     rw [hmap]
-    show B.inclusion.map ((eqToHom hy).left ≫ jW) = _
+    change B.inclusion.map ((eqToHom hy).left ≫ jW) = _
     rw [Over.eqToHom_left, Functor.map_comp, eqToHom_map]
     rfl
   have hoi : IsOpenImmersion ((p ⋙ Over.post B.inclusion).map r).left := by

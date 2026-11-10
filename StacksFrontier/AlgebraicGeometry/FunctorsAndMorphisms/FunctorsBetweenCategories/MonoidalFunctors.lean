@@ -163,7 +163,7 @@ public theorem scalarValue_add (F : ModuleCat.{u} A ⥤ ModuleCat.{u} B)
     simp only [e, hab, F.map_add, ModuleCat.hom_comp, LinearMap.comp_apply,
       ModuleCat.hom_add, LinearMap.add_apply]
     exact (Functor.Monoidal.εIso F).inv.hom.map_add _ _
-  show (e (a + b)).hom 1 = (e a).hom 1 + (e b).hom 1
+  change (e (a + b)).hom 1 = (e a).hom 1 + (e b).hom 1
   rw [he]
   rfl
 
@@ -187,20 +187,17 @@ public theorem tensorSquare (A : Type u) [CommRing A] :
       ∀ a : A, letI : (tensorSquareFunctor A).Monoidal := h
         scalarValue (tensorSquareFunctor A) a = a ^ 2 := by
   let h : (tensorSquareFunctor A).Monoidal := by
-    show (((𝟭 (ModuleCat.{u} A)).prod' (𝟭 (ModuleCat.{u} A))) ⋙
+    change (((𝟭 (ModuleCat.{u} A)).prod' (𝟭 (ModuleCat.{u} A))) ⋙
       MonoidalCategory.tensor (ModuleCat.{u} A)).Monoidal
     infer_instance
   refine ⟨h, fun a => ?_⟩
   let : (tensorSquareFunctor A).Monoidal := h
   dsimp [scalarValue, tensorSquareFunctor]
-  simp only [Functor.Monoidal.εIso, Functor.comp_obj, Functor.prod'_obj, Functor.id_obj,
-    tensor_obj, Functor.LaxMonoidal.comp_ε, prodMonoidal_tensorUnit, tensor_ε, tensor_map,
+  simp only [Functor.id_obj,
     Functor.prod'_ε_fst, Functor.LaxMonoidal.id_ε, Functor.prod'_ε_snd, tensorHom_id,
-    whiskerRight_id, Category.id_comp, Iso.hom_inv_id, Category.comp_id,
-    Functor.OplaxMonoidal.comp_η, Functor.prod'_η_fst, Functor.OplaxMonoidal.id_η,
-    Functor.prod'_η_snd, tensor_η, ModuleCat.hom_hom_leftUnitor,
-    ModuleCat.MonoidalCategory.leftUnitor_inv_apply, ModuleCat.MonoidalCategory.tensorHom_tmul,
-    ConcreteCategory.hom_ofHom, LinearMap.mulLeft_apply, mul_one, LinearEquiv.coe_coe, pow_two]
+    whiskerRight_id, Category.id_comp, Iso.hom_inv_id, Functor.prod'_η_fst,
+    Functor.OplaxMonoidal.id_η, Functor.prod'_η_snd, ModuleCat.hom_hom_leftUnitor,
+    ModuleCat.MonoidalCategory.leftUnitor_inv_apply, LinearEquiv.coe_coe, pow_two]
   change TensorProduct.lid A A ((a * 1) ⊗ₜ[A] (a * 1)) = a * a
   simp [smul_eq_mul]
 
@@ -213,7 +210,7 @@ private lemma torsion_le_ker {R M N : Type*} [CommRing R] [IsDomain R]
   have hf : f x ∈ Submodule.torsion R N := by
     refine (Submodule.mem_torsion_iff _).mpr ⟨a, ?_⟩
     change (a : R) • x = 0 at ha
-    show (a : R) • f x = 0
+    change (a : R) • f x = 0
     rw [← f.map_smul, ha, map_zero]
   rwa [(Submodule.isTorsionFree_iff_torsion_eq_bot.mp inferInstance)] at hf
 
@@ -284,7 +281,7 @@ private lemma torsionTensorIso_hom_tmul (M N : ModuleCat.{u} ℤ) (m : M) (n : N
 private lemma lifted_leftUnitor_hom_tmul (M : ModuleCat.{u} ℤ)
     (a : 𝟙_ (ModuleCat.{u} ℤ)) (m : M) :
     (λ_ M).hom.hom (a ⊗ₜ[ℤ] m) = a.down • m := by
-  show (TensorProduct.lid ℤ M)
+  change (TensorProduct.lid ℤ M)
     ((TensorProduct.congr ULift.moduleEquiv (LinearEquiv.refl ℤ M)) (a ⊗ₜ[ℤ] m)) = _
   rw [TensorProduct.congr_tmul, TensorProduct.lid_tmul]
   exact Int.cast_smul_eq_zsmul ℤ a.down m
@@ -292,7 +289,7 @@ private lemma lifted_leftUnitor_hom_tmul (M : ModuleCat.{u} ℤ)
 private lemma lifted_rightUnitor_hom_tmul (M : ModuleCat.{u} ℤ)
     (a : 𝟙_ (ModuleCat.{u} ℤ)) (m : M) :
     (ρ_ M).hom.hom (m ⊗ₜ[ℤ] a) = a.down • m := by
-  show (TensorProduct.rid ℤ M)
+  change (TensorProduct.rid ℤ M)
     ((TensorProduct.congr (LinearEquiv.refl ℤ M) ULift.moduleEquiv) (m ⊗ₜ[ℤ] a)) = _
   rw [TensorProduct.congr_tmul, TensorProduct.rid_tmul]
   exact Int.cast_smul_eq_zsmul ℤ a.down m
@@ -338,12 +335,12 @@ public theorem torsionFreeQuotient :
     induction x using Submodule.Quotient.induction_on with
     | H x =>
       refine (lifted_leftUnitor_hom_tmul _ a _).trans ?_
-      show a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
+      change a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
         (torsionFreeQuotientFunctor.map (λ_ X).hom).hom
           ((torsionTensorIso (𝟙_ (ModuleCat.{u} ℤ)) X).hom.hom
             (Submodule.Quotient.mk a ⊗ₜ[ℤ] Submodule.Quotient.mk x))
       rw [torsionTensorIso_hom_tmul]
-      show a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
+      change a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
         Submodule.Quotient.mk ((λ_ X).hom.hom (a ⊗ₜ[ℤ] x))
       rw [lifted_leftUnitor_hom_tmul]
       simp
@@ -354,12 +351,12 @@ public theorem torsionFreeQuotient :
     induction x using Submodule.Quotient.induction_on with
     | H x =>
       refine (lifted_rightUnitor_hom_tmul _ a _).trans ?_
-      show a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
+      change a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
         (torsionFreeQuotientFunctor.map (ρ_ X).hom).hom
           ((torsionTensorIso X (𝟙_ (ModuleCat.{u} ℤ))).hom.hom
             (Submodule.Quotient.mk x ⊗ₜ[ℤ] Submodule.Quotient.mk a))
       rw [torsionTensorIso_hom_tmul]
-      show a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
+      change a.down • (Submodule.Quotient.mk x : torsionFreeQuotientFunctor.obj X) =
         Submodule.Quotient.mk ((ρ_ X).hom.hom (x ⊗ₜ[ℤ] a))
       rw [lifted_rightUnitor_hom_tmul]
       simp
@@ -426,7 +423,7 @@ public theorem torsionFreeQuotient_not_iso_id :
     rw [Submodule.mem_torsion_iff]
     refine ⟨⟨2, by norm_num⟩, ?_⟩
     simp only [Submonoid.smul_def]
-    show ULift.up ((2 : ℤ) • x.down) = 0
+    change ULift.up ((2 : ℤ) • x.down) = 0
     apply ULift.ext
     have htwo : (2 : ZMod 2) = 0 := ZMod.natCast_self 2
     calc
@@ -434,7 +431,7 @@ public theorem torsionFreeQuotient_not_iso_id :
         simp [zsmul_eq_mul, Int.cast_ofNat]
       _ = 0 := by rw [htwo]; simp
   have : Subsingleton (torsionFreeQuotientFunctor.obj M) := by
-    show Subsingleton ((ULift.{u} (ZMod 2)) ⧸ Submodule.torsion ℤ _)
+    change Subsingleton ((ULift.{u} (ZMod 2)) ⧸ Submodule.torsion ℤ _)
     rwa [Submodule.Quotient.subsingleton_iff]
   let y : M := ULift.up (1 : ZMod 2)
   have h := Iso.inv_hom_id_apply (e.app M) y
@@ -464,7 +461,7 @@ private lemma map_mulLeft_eq_scalarValue_smul (F : ModuleCat.{u} A ⥤ ModuleCat
       scalarValue F a • 𝟙 (ModuleCat.of B B) := by
     apply ModuleCat.hom_ext
     apply LinearMap.ext_ring
-    show scalarValue F a = scalarValue F a * 1
+    change scalarValue F a = scalarValue F a * 1
     exact (mul_one _).symm
   apply (cancel_epi e.hom).mp
   apply (cancel_mono e.inv).mp
@@ -569,7 +566,7 @@ private lemma map_elementHom_tensor
       (λ_ (ModuleCat.of A A)).inv ≫ (elementHom M m ⊗ₘ elementHom N n) := by
     apply ModuleCat.hom_ext
     apply LinearMap.ext_ring
-    show (1 : A) • (m ⊗ₜ[A] n) = ((1 : A) • m) ⊗ₜ[A] ((1 : A) • n)
+    change (1 : A) • (m ⊗ₜ[A] n) = ((1 : A) • m) ⊗ₜ[A] ((1 : A) • n)
     simp
   rw [he, F.map_comp]
   have hunit := Functor.LaxMonoidal.left_unitality_inv F (ModuleCat.of A A)
@@ -591,7 +588,7 @@ private lemma extensionIso_isMonoidal
   constructor
   · apply ModuleCat.hom_ext
     apply LinearMap.ext_ring
-    show ((extensionIso F adj φ hφ).hom.app (ModuleCat.of A A)).hom
+    change ((extensionIso F adj φ hφ).hom.app (ModuleCat.of A A)).hom
       ((1 : B) ⊗ₜ[A] (1 : A)) = (Functor.Monoidal.εIso F).hom.hom 1
     rw [extensionIso_apply_one_tmul]
     have he : elementHom (ModuleCat.of A A) (1 : A) = 𝟙 _ :=
@@ -604,15 +601,11 @@ private lemma extensionIso_isMonoidal
       Category.id_comp]
     apply ModuleCat.ExtendScalars.hom_ext
     intro z
-    show ((extensionIso F adj φ hφ).hom.app (M ⊗ N)).hom ((1 : B) ⊗ₜ[A] z) =
+    change ((extensionIso F adj φ hφ).hom.app (M ⊗ N)).hom ((1 : B) ⊗ₜ[A] z) =
       ((Functor.Monoidal.μIso (ModuleCat.extendScalars φ) M N).inv ≫
         ((extensionIso F adj φ hφ).hom.app M ⊗ₘ (extensionIso F adj φ hφ).hom.app N) ≫
         Functor.LaxMonoidal.μ F M N).hom ((1 : B) ⊗ₜ[A] z)
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine (congrArg _ (TensorProduct.tmul_zero _ _)).trans ?_
-      refine (map_zero _).trans ?_
-      exact (map_zero _).symm.trans (congrArg _ (TensorProduct.tmul_zero _ _)).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       refine (congrArg _ (TensorProduct.tmul_add _ x y)).trans ?_
       refine (map_add _ _ _).trans ?_
@@ -620,7 +613,7 @@ private lemma extensionIso_isMonoidal
       refine (map_add _ _ _).symm.trans ?_
       exact congrArg _ (TensorProduct.tmul_add _ x y).symm
     | tmul m n =>
-      show ((extensionIso F adj φ hφ).hom.app (M ⊗ N)).hom
+      change ((extensionIso F adj φ hφ).hom.app (M ⊗ N)).hom
         ((1 : B) ⊗ₜ[A] (m ⊗ₜ[A] n)) =
         (Functor.LaxMonoidal.μ F M N).hom
           (((extensionIso F adj φ hφ).hom.app M).hom ((1 : B) ⊗ₜ[A] m) ⊗ₜ[B]
@@ -652,7 +645,7 @@ public theorem iso_extendScalars_of_rightExact_preservesDirectSums
   let e := extensionIso F adj φ hφ
   have : NatTrans.IsMonoidal e.hom := extensionIso_isMonoidal F adj φ hφ
   refine ⟨φ, hφ, e.symm, ?_⟩
-  show NatTrans.IsMonoidal e.inv
+  change NatTrans.IsMonoidal e.inv
   infer_instance
 
 private lemma extendScalars_map_smul_id (φ : A →+* B)
@@ -662,7 +655,7 @@ private lemma extendScalars_map_smul_id (φ : A →+* B)
   let := φ.toAlgebra
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show (1 : B) ⊗ₜ[A] (a • m) = φ a • ((1 : B) ⊗ₜ[A] m)
+  change (1 : B) ⊗ₜ[A] (a • m) = φ a • ((1 : B) ⊗ₜ[A] m)
   rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
   rfl
 

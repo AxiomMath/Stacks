@@ -200,7 +200,7 @@ theorem isLocalization_totalQuotientSheaf_obj
   let e : X.presheaf.totalQuotientPresheaf.obj (op U) ≃ₐ[Γ(X, U)]
       X.totalQuotientSheaf.obj.obj (op U) :=
     AlgEquiv.ofRingEquiv (f := RingEquiv.ofBijective _ hb) (fun a => by
-      show ((toSheafify (Opens.grothendieckTopology X)
+      change ((toSheafify (Opens.grothendieckTopology X)
           X.presheaf.totalQuotientPresheaf).app (op U)).hom
           ((X.presheaf.toTotalQuotientPresheaf.app (op U)).hom a) =
         (X.toTotalQuotientSheaf.hom.app (op U)).hom a
@@ -259,7 +259,7 @@ theorem meromorphicSectionPresheafSectionsIsScalarTower (F : X.Modules) (U : X.O
   let _ := meromorphicSectionPresheafSectionsKModule F U
   constructor
   intro r b n
-  show (((X.toTotalQuotientSheaf.hom.app (op U)).hom r) * b) • n = _
+  change (((X.toTotalQuotientSheaf.hom.app (op U)).hom r) * b) • n = _
   rw [mul_smul]
   rfl
 

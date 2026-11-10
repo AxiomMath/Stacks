@@ -72,7 +72,7 @@ private theorem purelyInseparable_baseChange_homeomorph {k k₁ : Type u}
     universallyInjective_specMap_of_isPurelyInseparable k k₁
   have : Surjective g := ⟨fun _ => ⟨default, Subsingleton.elim _ _⟩⟩
   have hfinite : (CommRingCat.ofHom (algebraMap k k₁)).hom.Finite := by
-    show (algebraMap k k₁).Finite
+    change (algebraMap k k₁).Finite
     exact RingHom.finite_algebraMap.mpr inferInstance
   have : IsFinite g := (IsFinite.SpecMap_iff _).2 hfinite
   have : UniversallyInjective π :=
@@ -208,7 +208,7 @@ private theorem transportedOpen_compl_support {Y : Scheme.{u}} (I : Y.IdealSheaf
       Set (Q.map I.subschemeι).subscheme) =
     {x | (Q.map I.subschemeι).subschemeι x ∉ (R.map I.subschemeι).support} := by
   ext x
-  show ((pushedSubschemeIso I Q).hom x ∈ (U : Set Q.subscheme)) ↔ _
+  change ((pushedSubschemeIso I Q).hom x ∈ (U : Set Q.subscheme)) ↔ _
   have hpoint :
       I.subschemeι (Q.subschemeι ((pushedSubschemeIso I Q).hom x)) =
         (Q.map I.subschemeι).subschemeι x := by
@@ -256,9 +256,9 @@ private theorem preimage_eq_compl_support_comap {P Q X X' : Scheme.{u}} (a : P �
     ((β ⁻¹ᵁ U : Q.Opens) : Set Q) = {x | b x ∉ (S.comap c).support} := by
   ext x
   have hpoint : a (β x) = c (b x) := congrArg (fun q : Q ⟶ X => q x) hfac
-  show β x ∈ (U : Set P) ↔ _
+  change β x ∈ (U : Set P) ↔ _
   rw [hU, Scheme.IdealSheafData.support_comap]
-  show a (β x) ∉ S.support ↔ _
+  change a (β x) ∉ S.support ↔ _
   rw [hpoint]
   rfl
 
@@ -283,10 +283,10 @@ private theorem transportSmoothFiltrationIso {A B S : Scheme.{u}}
         Smooth (U.ι ≫ (Z' i.castSucc).subschemeι ≫ pB)) := by
   let Z' : Fin (t + 1) → B.IdealSheafData := fun i => (Z i).comap e.inv
   refine ⟨Z', ?_, ?_, ?_, ?_⟩
-  · show (Z 0).comap e.inv = _
+  · change (Z 0).comap e.inv = _
     rw [hstart]
     exact comap_vanishingIdeal_top_of_iso e
-  · show (Z (Fin.last t)).comap e.inv = ⊤
+  · change (Z (Fin.last t)).comap e.inv = ⊤
     rw [hend, Scheme.IdealSheafData.comap_top]
   · exact fun i => Scheme.IdealSheafData.comap_mono e.inv (hmono i)
   · intro i
@@ -342,7 +342,7 @@ private theorem smooth_open_comap {k₁ k₂ : Type u}
   rw [Category.assoc, subschemeBaseChangeIso_hom_snd] at h
   have he : e.hom ⁻¹ᵁ V =
       ((I.comapIso (pullback.fst p g)).hom ≫ pullback.snd _ _) ⁻¹ᵁ U := by
-    show (e.hom ≫ pullback.fst (I.subschemeι ≫ p) g) ⁻¹ᵁ U = _
+    change (e.hom ≫ pullback.fst (I.subschemeι ≫ p) g) ⁻¹ᵁ U = _
     rw [subschemeBaseChangeIso_hom_fst]
   rwa [he] at h
 
@@ -379,18 +379,18 @@ private theorem prependSmoothFiltration {k : Type u} [Field k] {Y : Scheme.{u}}
     Fin.cases I (fun i => (Z' i).map J.subschemeι)
   refine ⟨Z, ?_, ?_, ?_, ?_⟩
   · simp [Z]
-  · show (Z' (Fin.last t)).map J.subschemeι = ⊤
+  · change (Z' (Fin.last t)).map J.subschemeι = ⊤
     rw [hend]
     simp
   · intro i
     refine Fin.cases ?_ (fun j => ?_) i
     · exact hIJ.trans (le_map_subschemeι J _)
-    · show (Z' j.castSucc).map J.subschemeι ≤ (Z' j.succ).map J.subschemeι
+    · change (Z' j.castSucc).map J.subschemeι ≤ (Z' j.succ).map J.subschemeι
       exact Scheme.IdealSheafData.map_mono J.subschemeι (hmono j)
   · intro i
     refine Fin.cases ?_ (fun j => ?_) i
     · refine ⟨U₀, ?_, hsm₀⟩
-      show (U₀ : Set I.subscheme) =
+      change (U₀ : Set I.subscheme) =
         {x | I.subschemeι x ∉ ((Z' 0).map J.subschemeι).support}
       rw [hstart]
       have hs : ((Scheme.IdealSheafData.vanishingIdeal
@@ -403,7 +403,7 @@ private theorem prependSmoothFiltration {k : Type u} [Field k] {Y : Scheme.{u}}
     · obtain ⟨U', hU', hsm'⟩ := hstrata j
       let V := (pushedSubschemeIso J (Z' j.castSucc)).hom ⁻¹ᵁ U'
       refine ⟨V, ?_, ?_⟩
-      · show (↑V) =
+      · change (↑V) =
           {x | ((Z' j.castSucc).map J.subschemeι).subschemeι x ∉
             ((Z' j.succ).map J.subschemeι).support}
         have hV : (↑V : Set (((Z' j.castSucc).map J.subschemeι).subscheme)) =
@@ -462,7 +462,7 @@ theorem topologicalKrullDim_compl_lt_nat {X : Type u} [TopologicalSpace X]
   have hltq : q.last < C' := by simpa [q] using hlt
   let r := q.snoc C' hltq
   have hrlen : r.length = p.length + 1 := by
-    show q.length + 0 + 1 = p.length + 1
+    change q.length + 0 + 1 = p.length + 1
     rfl
   have hrle : (r.length : WithBot ℕ∞) ≤ n :=
     (Order.LTSeries.length_le_krullDim r).trans hdim
@@ -517,7 +517,7 @@ private theorem topologicalKrullDim_lt_zero_iff_isEmpty {X : Type u}
   · intro h
     let : IsEmpty (TopologicalSpace.IrreducibleCloseds X) :=
       ⟨fun C => h.false (Classical.choose C.isIrreducible'.nonempty)⟩
-    show Order.krullDim (TopologicalSpace.IrreducibleCloseds X) < 0
+    change Order.krullDim (TopologicalSpace.IrreducibleCloseds X) < 0
     rw [Order.krullDim_eq_bot]
     simp
 
@@ -622,7 +622,7 @@ private theorem exists_smoothStratification_of_dim_le :
         (topologicalKrullDim_lt_zero_iff_isEmpty).mp hdimR
       have hU₁all : U₁ = ⊤ := by
         ext x
-        show x ∈ U₁ ↔ True
+        change x ∈ U₁ ↔ True
         simp only [iff_true]
         by_contra hx
         have hxR : x ∈ (R.support : Set I₁.subscheme) := by
@@ -632,9 +632,9 @@ private theorem exists_smoothStratification_of_dim_le :
         exact hRempty.false y
       let Z : Fin 2 → Y₁.IdealSheafData := Fin.cases I₁ (fun _ => ⊤)
       refine ⟨k₁, hk₁, hAlg₁, hFinite₁, hPure₁, 1, Z, ?_, ?_, ?_, ?_⟩
-      · show I₁ = Scheme.IdealSheafData.vanishingIdeal (⊤ : Closeds Y₁)
+      · change I₁ = Scheme.IdealSheafData.vanishingIdeal (⊤ : Closeds Y₁)
         rfl
-      · show ⊤ = ⊤
+      · change ⊤ = ⊤
         rfl
       · intro i
         fin_cases i
@@ -644,10 +644,10 @@ private theorem exists_smoothStratification_of_dim_le :
         refine ⟨U₁, ?_, ?_⟩
         · rw [hU₁all]
           ext x
-          show x ∈ (⊤ : I₁.subscheme.Opens) ↔
+          change x ∈ (⊤ : I₁.subscheme.Opens) ↔
             x ∈ {x | I₁.subschemeι x ∉ (⊤ : Y₁.IdealSheafData).support}
           simp only [Scheme.IdealSheafData.support_top]
-          show True ↔ ¬ False
+          change True ↔ ¬ False
           simp
         · exact hU₁smooth
     | succ m =>
@@ -681,9 +681,9 @@ private theorem exists_smoothStratification_of_dim_le :
       have hU₁ : (U₁ : Set I₁.subscheme) =
           {x | I₁.subschemeι x ∉ J₁.support} := by
         ext x
-        show x ∈ U₁ ↔ I₁.subschemeι x ∉ (R.map I₁.subschemeι).support
+        change x ∈ U₁ ↔ I₁.subschemeι x ∉ (R.map I₁.subschemeι).support
         rw [support_map_subschemeι]
-        show x ∈ U₁ ↔ I₁.subschemeι x ∉ I₁.subschemeι '' (R.support : Set _)
+        change x ∈ U₁ ↔ I₁.subschemeι x ∉ I₁.subschemeι '' (R.support : Set _)
         rw [I₁.subschemeι.isClosedEmbedding.injective.mem_set_image]
         simp [R]
       let β := (I₁.comapIso π).hom ≫ pullback.snd π I₁.subschemeι

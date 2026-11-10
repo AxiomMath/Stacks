@@ -70,6 +70,7 @@ public noncomputable def zeroBaseChange (f : R →+* A)
   exact (TensorProduct.AlgebraTensorModule.distribBaseChange
     R A M N).symm.toModuleIso.hom
 
+set_option linter.checkUnivs false in
 /-- Tensoring two maps in module categories whose carrier universe is independent of the
 ring universe. -/
 public def moduleTensorMap {S : Type uA} [CommRing S]
@@ -79,6 +80,7 @@ public def moduleTensorMap {S : Type uA} [CommRing S]
   ((ModuleCat.moduleTensorLarge.{uA, max uR v} S).map f).app N ≫
     ((ModuleCat.moduleTensorLarge.{uA, max uR v} S).obj M').map g
 
+set_option linter.checkUnivs false in
 /-- The total tensor product of two nonnegatively graded chain complexes, in an independent
 module universe. -/
 @[sga "7 VII 3.6" "special case"]
@@ -88,6 +90,7 @@ public noncomputable abbrev chainTensor {S : Type uA} [CommRing S]
   HomologicalComplex.mapBifunctor K L
     (ModuleCat.moduleTensorLarge.{uA, max uR v} S) (ComplexShape.down ℕ)
 
+set_option linter.checkUnivs false in
 /-- A nonnegatively graded chain complex of `A`-modules, regarded canonically as a complex of
 modules over a universe lift of `A` and placed in nonpositive cohomological degrees.  This is the
 representative used to compare the chain construction with Tag 068H. -/
@@ -100,6 +103,7 @@ public noncomputable def liftedCochain
       (ULift.ringEquiv (R := A)).toRingHom).mapHomologicalComplex
         (ComplexShape.down ℕ)).obj K)
 
+set_option linter.checkUnivs false in
 /-- Restriction along the ring equivalence from a universe lift of `A` to `A`. -/
 public abbrev liftScalars : ModuleCat.{max uR uA v} A ⥤
     ModuleCat (ULift.{max uR v} A) :=

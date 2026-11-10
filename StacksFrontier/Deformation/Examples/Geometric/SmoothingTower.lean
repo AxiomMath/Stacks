@@ -97,7 +97,7 @@ theorem bijective_towerRingHom (n : ℕ) : Function.Bijective (towerRingHom X ξ
       change ((towerBaseHom X ξ σ n) ≫ inv (towerBaseHom X ξ σ n)).hom a =
         ((towerBaseHom X ξ σ n) ≫ inv (towerBaseHom X ξ σ n)).hom b at this
       simpa using this
-    · show ((inv (towerBaseHom X ξ σ n)) ≫ towerBaseHom X ξ σ n).hom b = b
+    · change ((inv (towerBaseHom X ξ σ n)) ≫ towerBaseHom X ξ σ n).hom b = b
       simp
   exact h.comp (discTruncEquiv n).bijective
 
@@ -145,7 +145,7 @@ theorem residueMap_comp_towerRingHom_zero :
     (Deformation.Artin.residueMap (ξ.level 0).base).comp (towerRingHom X ξ σ 0) =
       quotientConstantCoeff k := by
   ext a
-  show (ξ.level 0).base.residueEquiv (IsLocalRing.residue _
+  change (ξ.level 0).base.residueEquiv (IsLocalRing.residue _
       ((towerBaseHom X ξ σ 0).hom (Ideal.Quotient.mk (truncIdeal k 0) a))) =
     PowerSeries.constantCoeff a
   exact ((towerBaseHom X ξ σ 0).residue_comm (Ideal.Quotient.mk (truncIdeal k 0) a)).trans
@@ -185,7 +185,7 @@ theorem exists_iso_towerHom_zero :
   rw [residueSpecMap, ← Spec.map_comp, ← Spec.map_comp, ← Spec.map_id]
   congr 1
   ext c
-  show (Deformation.Artin.residueMap (ξ.level 0).base)
+  change (Deformation.Artin.residueMap (ξ.level 0).base)
       (towerRingHom X ξ σ 0 (algebraMap k _ c)) = c
   rw [← RingHom.comp_apply, residueMap_comp_towerRingHom_zero, quotientConstantCoeff_algebraMap]
 

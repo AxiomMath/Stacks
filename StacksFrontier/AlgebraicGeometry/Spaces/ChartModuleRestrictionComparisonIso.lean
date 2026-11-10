@@ -95,18 +95,15 @@ theorem bijective_of_tmul_eq {R R' P P' M M' N N' : Type*} [CommRing R] [CommRin
           simp [hM]
         simp [h1, h2])
   have hTT' : ∀ z, T' (T z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p m => simp [T, T']
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hT'T : ∀ z, T (T' z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p m => simp [T, T']
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hLT : ∀ z, L z = eN (L' (T z)) := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p m => simp [T, hL]
     | add x y hx hy => rw [map_add, hx, hy, map_add, map_add, map_add]
   have hT : Function.Bijective T :=

@@ -144,7 +144,7 @@ theorem exists_scheme_of_isClosedImmersion (X : Scheme.{u}) (Z : LocallyRingedSp
   rw [show Set.range (e'.inv ≫ j).base = Set.range j.base by
     simpa only [LocallyRingedSpace.comp_base, TopCat.coe_comp] using
       ((TopCat.epi_iff_surjective _).mp (by
-        show Epi ((LocallyRingedSpace.forgetToSheafedSpace ⋙
+        change Epi ((LocallyRingedSpace.forgetToSheafedSpace ⋙
           SheafedSpace.forgetToPresheafedSpace ⋙ PresheafedSpace.forget _).map e'.inv)
         infer_instance)).range_comp j.base]
   let F := LocallyRingedSpace.forgetToSheafedSpace ⋙ SheafedSpace.forgetToPresheafedSpace
@@ -154,7 +154,7 @@ theorem exists_scheme_of_isClosedImmersion (X : Scheme.{u}) (Z : LocallyRingedSp
     PresheafedSpace.comp_base, TopCat.coe_comp, Set.range_comp, Set.range_eq_univ.mpr,
     Set.image_univ]
   · let G := PresheafedSpace.forget CommRingCat
-    show (show G.obj (F.obj Z) from z) ∈
+    change (show G.obj (F.obj Z) from z) ∈
       Set.range (G.map (pullback.fst (F.map i) (F.map U.ι.toLRSHom)))
     rw [← PreservesPullback.iso_hom_fst G (F.map i) (F.map U.ι.toLRSHom), TopCat.coe_comp,
       Set.range_comp, Set.range_eq_univ.mpr, Set.image_univ, TopCat.pullback_fst_range]

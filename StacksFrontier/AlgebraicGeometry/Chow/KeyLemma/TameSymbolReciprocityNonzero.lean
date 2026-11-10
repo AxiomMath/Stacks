@@ -162,7 +162,7 @@ theorem heightOneOrd_eq_ord_quotient (hdim : ringKrullDim A = 2) (p : HeightOneP
   have hne : algebraMap (A ⧸ p.1.asIdeal)
       (ResidueField (Localization.AtPrime p.1.asIdeal))
       (Ideal.Quotient.mk p.1.asIdeal x) ≠ 0 := hval ▸ w.ne_zero
-  show ordInt (A ⧸ p.1.asIdeal)
+  change ordInt (A ⧸ p.1.asIdeal)
     (w : ResidueField (Localization.AtPrime p.1.asIdeal)) w.ne_zero = _
   rw [ordInt_val_congr (A ⧸ p.1.asIdeal) hval w.ne_zero hne,
     ordInt_algebraMap_eq_ord _ _ hmkne hne]

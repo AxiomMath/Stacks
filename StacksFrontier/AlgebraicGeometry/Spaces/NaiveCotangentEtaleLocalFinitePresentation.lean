@@ -187,7 +187,7 @@ theorem quasiIso_chartCanonicalNaiveCotangentMap_of
       (_root_.SheafOfModules.overFunctor.{u + 1}
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O) d.U).map
             (chartCS B S hS f).f ≫ eqToHom hL₀.symm := by
-    show (_root_.SheafOfModules.overFunctor.{u + 1}
+    change (_root_.SheafOfModules.overFunctor.{u + 1}
         (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O) d.U).map
       ((naiveCotangentComplex B S hS f).d (-1) 0) = _
     rw [hdN, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
@@ -195,7 +195,7 @@ theorem quasiIso_chartCanonicalNaiveCotangentMap_of
   have hpc : (chartCanonicalNaiveCotangentMap B S hS f d).f (-1) = eqToHom hX₁ ≫
       chartConormalTensorHom B S hS f d ≫ eqToHom hL₁.symm := by
     refine (mkHomFromDouble_f₀ _ _ _ _ _ _).trans ?_
-    show eqToHom hX₁ ≫ chartConormalTensorHom B S hS f d ≫
+    change eqToHom hX₁ ≫ chartConormalTensorHom B S hS f d ≫
       (_root_.SheafOfModules.overFunctor.{u + 1}
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O) d.U).map
             (eqToHom hN₁.symm) = _
@@ -204,7 +204,7 @@ theorem quasiIso_chartCanonicalNaiveCotangentMap_of
   have hpt : (chartCanonicalNaiveCotangentMap B S hS f d).f 0 = eqToHom hX₀ ≫
       chartTensorTensorHom B S hS f d ≫ eqToHom hL₀.symm := by
     refine (mkHomFromDouble_f₁ _ _ _ _ _ _).trans ?_
-    show eqToHom hX₀ ≫ chartTensorTensorHom B S hS f d ≫
+    change eqToHom hX₀ ≫ chartTensorTensorHom B S hS f d ≫
       (_root_.SheafOfModules.overFunctor.{u + 1}
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O) d.U).map
             (eqToHom hN₀.symm) = _

@@ -49,7 +49,7 @@ theorem standardCond2_of_mul_mem
   have hmk : Ideal.Quotient.mk (P.relIdeal) p =
       Ideal.Quotient.mk (P.relIdeal) p₀ := by
     have h := P.iso.symm.injective (by simpa [Presentation.lift] using hp.trans hp₀.symm)
-    show Ideal.Quotient.mk (Ideal.span (Set.range P.f)) p =
+    change Ideal.Quotient.mk (Ideal.span (Set.range P.f)) p =
       Ideal.Quotient.mk (Ideal.span (Set.range P.f)) p₀
     simpa only [Ideal.Quotient.mkₐ_eq_mk] using h
   have hdiff : p - p₀ ∈ P.relIdeal := Ideal.Quotient.eq.mp hmk
@@ -118,10 +118,10 @@ theorem exists_localization_multiple_mem_span
     rw [map_mul]
     linear_combination hmulzero
   refine ⟨⟨t₀, ht₀⟩ * ⟨s₀, hs₀⟩, ?_⟩
-  show MvPolynomial.C (t₀ * s₀) * p ∈ Ideal.span (Set.range f)
+  change MvPolynomial.C (t₀ * s₀) * p ∈ Ideal.span (Set.range f)
   rw [hrewrite]
   apply Ideal.mul_mem_left
-  show (∑ i : Fin m, a i * f i) ∈ Ideal.span (Set.range f)
+  change (∑ i : Fin m, a i * f i) ∈ Ideal.span (Set.range f)
   exact Ideal.sum_mem _ fun i hi =>
     Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
 
@@ -279,7 +279,7 @@ theorem aeval_diagonalScale_symm
     have hX : e.symm (MvPolynomial.X i) =
         MvPolynomial.C (((d i)⁻¹ : Rˣ) : R) * MvPolynomial.X i := by
       simpa [e] using diagonalScaleEquiv_symm_X d i
-    show (MvPolynomial.aeval (fun j => algebraMap R T (d j : R) * x j))
+    change (MvPolynomial.aeval (fun j => algebraMap R T (d j : R) * x j))
       (e.symm (MvPolynomial.X i)) = MvPolynomial.aeval x (MvPolynomial.X i)
     rw [hX, map_mul, MvPolynomial.aeval_C, MvPolynomial.aeval_X]
     rw [← mul_assoc, ← map_mul]
@@ -375,7 +375,7 @@ theorem kernel_aeval_constants
     simpa using hcongr
   · apply Ideal.span_le.mpr
     rintro p ⟨i, rfl⟩
-    show (MvPolynomial.aeval (R := A) (S₁ := A) v)
+    change (MvPolynomial.aeval (R := A) (S₁ := A) v)
       (MvPolynomial.X i - MvPolynomial.C (v i)) = 0
     simp
 

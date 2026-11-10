@@ -172,7 +172,7 @@ def sequence (t : PointBlowupStep P) (d₀ : PointBlowupStage P) : PointBlowupSe
   point n := (t.stage d₀ n).point
   point_closed n := (t.stage d₀ n).point_closed
   stepMap n := blowUpToBase (t.stage d₀ n).centre
-  stepIso n := Iso.refl _
+  stepIso _ := Iso.refl _
   stepMap_eq _ := (Category.id_comp _).symm
   point_step n := t.next_over (t.stage d₀ n)
   residueFieldIso n := t.next_residue (t.stage d₀ n)

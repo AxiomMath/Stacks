@@ -77,7 +77,7 @@ theorem nonempty_properCurveTopTrace [IsAlgClosed k] :
         singleHomology (etaleModuleDerivedDirectImage.{u, 0} (ZMod N) fbar) 2 ≅
       𝟭 (EtaleModules.{u, 0} (ZMod N) S)) := by
   have : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   exact ⟨properCurveTopTraceOfRootOfUnity N hN q fbar hζ⟩
 
 include hN q in

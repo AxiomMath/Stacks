@@ -177,7 +177,8 @@ identifies H^{-2}(E) with Tor_1^R(A, B); neither is a consequence of the 09D9 co
 formalized here, because exists_tensorProduct_nine_diagram leaves the morphisms of the two \
 fundamental triangles arbitrary -- its host file sits upstream of the proof of Tag 08QX and so \
 cannot name the display's own map L_{A ⊗ B/R} ⟶ L_{A ⊗ B/A} -- and two distinguished triangles \
-on the given objects do not pin those maps down to anything that fixes their homology. At i = 0 the long exact sequence leaves coker H^0(v ≫ p), which the abstract \
+on the given objects do not pin those maps down to anything that fixes their homology. \
+At i = 0 the long exact sequence leaves coker H^0(v ≫ p), which the abstract \
 data does not force to vanish"]
 theorem isZero_homology_of_tensorProduct_nine_diagram
     (h₂ : Triangle.mk v q d₂ ∈ distTriang _)

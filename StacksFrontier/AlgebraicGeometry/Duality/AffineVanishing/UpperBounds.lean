@@ -207,7 +207,7 @@ theorem isIso_homologyFunctor_map_truncLEι (E : DerivedCategory A) (a i : ℤ) 
   let T := (DerivedCategory.TStructure.t.triangleLEGE a (a + 1) rfl).obj E
   have ht := DerivedCategory.TStructure.t.triangleLEGE_distinguished a (a + 1) rfl E
   have : T.obj₃.IsGE (a + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (a + 1)).obj E).IsGE (a + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (a + 1)).obj E).IsGE (a + 1)
     infer_instance
   have hz := T.obj₃.isZero_of_isGE (a + 1) i (by omega)
   have hz' := T.obj₃.isZero_of_isGE (a + 1) (i - 1) (by omega)
@@ -274,7 +274,7 @@ theorem isLE_obj_singleFunctor_obj (M : A) (d : ℤ)
     (R.obj ((DerivedCategory.singleFunctor A n).obj M)).IsLE (n + d) := by
   obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus
     F R β hcomp ((DerivedCategory.Plus.singleFunctor A 0).obj M) 0 (by
-      show ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
+      change ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
       infer_instance)
   have hzero : (R.obj ((DerivedCategory.singleFunctor A 0).obj M)).IsLE d := by
     rw [DerivedCategory.isLE_iff]
@@ -330,10 +330,10 @@ private theorem isLE_obj_of_isLE_obj_truncLE
   have ht := DerivedCategory.TStructure.t.triangleLEGE_distinguished (b - 1) b (by omega) E
   have h₃ : (R.obj T.obj₃).IsLE c := by
     have : T.obj₃.IsGE b := by
-      show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
+      change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
       infer_instance
     have : T.obj₃.IsLE b := by
-      show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
+      change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
       infer_instance
     have := isLE_obj_of_isGE_of_isLE_self P R d hSingle T.obj₃
       (prop_homologyFunctor_truncGE_obj P E hE b) b

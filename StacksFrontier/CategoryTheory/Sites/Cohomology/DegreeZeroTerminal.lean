@@ -45,7 +45,7 @@ theorem Sheaf.H.equiv₀_mk₀ {T : C} (hT : IsTerminal T) {F : Sheaf J AddCommG
     (f : (constantSheaf J AddCommGrpCat.{w}).obj (AddCommGrpCat.of (ULift ℤ)) ⟶ F) :
     Sheaf.H.equiv₀ F hT (Abelian.Ext.mk₀ f) = AddCommGrpCat.uliftZMultiplesAddEquiv _
       ((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv _ F f) := by
-  show AddCommGrpCat.uliftZMultiplesAddEquiv _ ((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv
+  change AddCommGrpCat.uliftZMultiplesAddEquiv _ ((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv
     _ F (Abelian.Ext.addEquiv₀ (Abelian.Ext.addEquiv₀.symm f))) = _
   rw [AddEquiv.apply_symm_apply]
 
@@ -61,7 +61,7 @@ theorem Sheaf.H.equiv₀_eq_map_of_isTerminal {T₁ T₂ : C} (h₁ : IsTerminal
       ← constantSheafAdj_unit_app_comp_map h₁ h₂]
     exact congrArg (fun t => (constantSheafAdj J AddCommGrpCat.{w} h₁).unit.app _ ≫ t)
       (f.hom.naturality (h₁.from T₂).op)
-  show AddCommGrpCat.uliftZMultiplesAddEquiv _
+  change AddCommGrpCat.uliftZMultiplesAddEquiv _
       ((constantSheafAdj J AddCommGrpCat.{w} h₂).homEquiv _ F f) =
     F.obj.map (h₁.from T₂).op (AddCommGrpCat.uliftZMultiplesAddEquiv _
       ((constantSheafAdj J AddCommGrpCat.{w} h₁).homEquiv _ F f))

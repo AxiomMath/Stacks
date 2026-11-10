@@ -75,7 +75,7 @@ theorem corestriction_flat_locallyOfFinitePresentation_surjective {X Y : Scheme.
     ext x
     refine ⟨fun _ ↦ by simp, fun _ ↦ ?_⟩
     rcases hW ⟨x, rfl⟩ with ⟨y, hy⟩
-    show f x ∈ W
+    change f x ∈ W
     rw [← hy]
     exact y.property
   let e : X ≅ P.toScheme := X.topIso.symm ≪≫ (X.isoOfEq hP).symm
@@ -87,19 +87,19 @@ theorem corestriction_flat_locallyOfFinitePresentation_surjective {X Y : Scheme.
       IsOpenImmersion.lift_fac (f := W.ι) (g := f) hW]
     simp [e, P]
   refine ⟨?_, ?_, ?_⟩
-  · show Flat k
+  · change Flat k
     rw [← hk]
     infer_instance
-  · show LocallyOfFinitePresentation k
+  · change LocallyOfFinitePresentation k
     rw [← hk]
     infer_instance
-  · show Surjective k
+  · change Surjective k
     constructor
     intro y
     rcases hWsurj ⟨y, rfl⟩ with ⟨x, hx⟩
     refine ⟨x, ?_⟩
     apply W.ι.isOpenEmbedding.injective
-    show (k ≫ W.ι) x = W.ι y
+    change (k ≫ W.ι) x = W.ι y
     rw [IsOpenImmersion.lift_fac (f := W.ι) (g := f) hW]
     simpa using hx
 
@@ -137,9 +137,9 @@ theorem flat_locallyOfFinitePresentation_pullbackSnd_comp_source {S : Scheme.{u}
   have : LocallyOfFinitePresentation (pullback.snd g G.target).left :=
     property_left_pullback_snd @LocallyOfFinitePresentation g G.target inferInstance
   refine ⟨?_, ?_⟩
-  · show Flat ((pullback.snd g G.target).left ≫ G.source.left)
+  · change Flat ((pullback.snd g G.target).left ≫ G.source.left)
     infer_instance
-  · show LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
+  · change LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
     exact locallyOfFinitePresentation_comp _ _
 
 /-- A groupoid scheme extending a pre-relation whose source and target maps are surjective,
@@ -205,7 +205,7 @@ theorem isLocallySurjective_presheafToSheaf_map_yoneda_map {S : Scheme.{u}}
     let E : PreZeroHypercover.{u + 1} (B.inclusion.obj A.left) :=
       PreZeroHypercover.singleton q.left
     have hE : E.presieve₀ ∈ Scheme.fppfPrecoverage (B.inclusion.obj A.left) := by
-      show E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
+      change E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
         (B.inclusion.obj A.left)
       rw [Scheme.presieve₀_mem_precoverage_iff]
       refine ⟨?_, ?_⟩
@@ -234,19 +234,19 @@ theorem isLocallySurjective_presheafToSheaf_map_yoneda_map {S : Scheme.{u}}
       have hbp : b ≫ q.left = B.inclusion.map (V.f i) := ref.w₀ i
       have hbeta : b ≫ P.hom = (F.obj W).hom := by
         rw [← CategoryTheory.Over.w q]
-        show (b ≫ q.left) ≫ (F.obj A).hom = (F.obj W).hom
+        change (b ≫ q.left) ≫ (F.obj A).hom = (F.obj W).hom
         rw [hbp]
-        show B.inclusion.map (V.f i) ≫ B.inclusion.map A.hom =
+        change B.inclusion.map (V.f i) ≫ B.inclusion.map A.hom =
           B.inclusion.map (V.f i ≫ A.hom)
         exact (B.inclusion.map_comp _ _).symm
       let β : F.obj W ⟶ P := CategoryTheory.Over.homMk b hbeta
       have hfactor : β ≫ q = F.map α := by
         ext
-        show b ≫ q.left = B.inclusion.map (V.f i)
+        change b ≫ q.left = B.inclusion.map (V.f i)
         exact hbp
       let t : F.obj W ⟶ X := β ≫ pullback.fst k f
       have hlift : p.app (op W) t = (F.op ⋙ yoneda.obj Y).map α.op s := by
-        show t ≫ k = F.map α ≫ f
+        change t ≫ k = F.map α ≫ f
         calc
           t ≫ k = β ≫ (pullback.fst k f ≫ k) := by simp [t, Category.assoc]
           _ = β ≫ (q ≫ f) := by rw [pullback.condition]

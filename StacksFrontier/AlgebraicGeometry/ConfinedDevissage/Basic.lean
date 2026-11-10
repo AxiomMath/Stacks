@@ -22,8 +22,9 @@ The source's proof has two halves. The first is the Noetherian induction on the 
 `Set.range i.base` is **all** of `Z₀`; it uses (3) through [Stacks, Tag 01YE] and enters here as
 the hypothesis `htop` (see the implementation notes).
 
-The absolute Noetherian induction of `StacksFrontier/AlgebraicGeometry/DevissageNoetherian/Basic.lean`
-reduces [Stacks, Tag 01YF] to `Stacks.AlgebraicGeometry.DevissageNoetherian.HasSupportSplitting`
+The absolute Noetherian induction of
+`StacksFrontier/AlgebraicGeometry/DevissageNoetherian/Basic.lean` reduces [Stacks, Tag 01YF] to
+`Stacks.AlgebraicGeometry.DevissageNoetherian.HasSupportSplitting`
 ([Stacks, Tag 01YD]) and `Stacks.AlgebraicGeometry.DevissageNoetherian.HasIrreducibleDevissage`.
 Its quotient class `Stacks.AlgebraicGeometry.DevissageBounded.IsIdealPushforward` puts **no
 constraint on where the integral closed subscheme sits**, whereas hypothesis (2) of 01YH is

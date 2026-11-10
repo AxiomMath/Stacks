@@ -130,7 +130,7 @@ point lying in every nonempty open and in particular in `⊤`. -/
 theorem natLine_sections_top :
     (underlyingRingSheaf natLine.{u}).obj.obj (op ⊤) =
       (forget₂ CommRingCat.{u} RingCat.{u}).obj (CommRingCat.of (ULift.{u} ℤ)) := by
-  show (forget₂ CommRingCat.{u} RingCat.{u}).obj
+  change (forget₂ CommRingCat.{u} RingCat.{u}).obj
       ((skyscraperPresheaf (X := TopCat.of (ULift.{u} ℕ)) (⟨0⟩ : ULift.{u} ℕ)
         (CommRingCat.of (ULift.{u} ℤ))).obj (op ⊤)) = _
   congr 1

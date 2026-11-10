@@ -151,7 +151,7 @@ private lemma triangle_mor₂_precomp_isIso
       exact sub_eq_zero.mp (by simpa [h₁ k] using hk)
     · obtain ⟨g, hg⟩ := Triangle.yoneda_exact₂ T hT f₂ (h₀ _)
       exact ⟨g, by simpa [h] using hg.symm⟩
-  show IsIso (AddCommGrpCat.ofHom h)
+  change IsIso (AddCommGrpCat.ofHom h)
   exact (ConcreteCategory.isIso_iff_bijective _).2 hb
 
 /-- If the `p`-th step of a filtered complex lives in degrees `≤ a` and `K` in degrees `≥ c`, with
@@ -330,7 +330,7 @@ public theorem canonicalExtSpectralSequence_convergesToExt
   have hF : ∀ n : ℤ, Monotone (canonicalExtFiltration S n) := by
     intro n p q hpq
     rw [canonicalExtFiltration_eq_map, canonicalExtFiltration_eq_map]
-    show φ n (extQuotientFiltration K S.filtered n p) ≤
+    change φ n (extQuotientFiltration K S.filtered n p) ≤
       φ n (extQuotientFiltration K S.filtered n q)
     exact (φ n).map_rel_iff'.2 (hF' n hpq)
   refine ⟨hF, fun n => ?_, hInf, fun p q => ?_⟩

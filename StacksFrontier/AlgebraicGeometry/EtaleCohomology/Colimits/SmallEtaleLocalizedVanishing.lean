@@ -66,6 +66,7 @@ theorem injective_etaleAbelianInverseImage_obj {U X : Scheme.{u}} (j : U ⟶ X) 
 variable {I : Type v} [Preorder I] [IsDirected I (· ≤ ·)] (D : Iᵒᵖ ⥤ Scheme.{max u v})
   (i₀ : I) {B : Scheme.{max u v}} (b : B ⟶ D.obj (op i₀)) (c : Cone D)
 
+omit [IsDirected I (· ≤ ·)] in
 /-- The transition maps of the localised system are base changes of those of `D`. -/
 theorem isPullback_localizedDiagram_map {j k : (GeIndex i₀)ᵒᵖ} (a : j ⟶ k) :
     IsPullback ((localizedDiagram D i₀ b).map a) (pullback.snd _ _) (pullback.snd _ _)
@@ -128,6 +129,7 @@ abbrev localizedLeg (F : EtaleSheafSystem D AddCommGrpCat.{max u v + 1})
     (localizedLimitMap D i₀ b c) (localizedCone_proj D i₀ b c) (F.restrictIndex i₀)
     (fun j => ι ((geIndexOpFunctor i₀).obj j)) j
 
+omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The restriction of `𝒢` to `B ×_{X_{i₀}} X` is presented by the localised system, with the
 legs `localizedLeg`. -/
 theorem isColimitPresentation_localizedSystem {F : EtaleSheafSystem D AddCommGrpCat.{max u v + 1}}
@@ -149,6 +151,7 @@ def localizedPresentedSystem (E : PresentedSystem (c := c) IsColimitPresentation
     ((etaleAbelianInverseImage (localizedLimitMap D i₀ b c)).obj E.sheaf)
     (localizedLeg D i₀ b c E.sys E.ι) (isColimitPresentation_localizedSystem D i₀ b c E.pres)
 
+omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The sheaf of the localised presented system is the restriction of the sheaf of `E` to
 `B ×_{X_{i₀}} X`. -/
 theorem localizedPresentedSystem_sheaf (E : PresentedSystem (c := c) IsColimitPresentation) :
@@ -268,6 +271,8 @@ private theorem smallEtaleBaseChangeComp'_hom_left_eq_lift {W X Y : Scheme.{u}} 
       (pullback.lift_fst _ _ _).symm)))
   · exact h₃.trans (pullback.lift_snd _ _ _).symm
 
+omit [IsDirected I (· ≤ ·)] [Etale W.hom]
+  [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The comparison of iterated base changes is the morphism with components the projections of
 the localised cone and the limit map. -/
 theorem qcqsLegComparison_left (j : (GeIndex i₀)ᵒᵖ) :
@@ -277,6 +282,8 @@ theorem qcqsLegComparison_left (j : (GeIndex i₀)ᵒᵖ) :
   exact smallEtaleBaseChangeComp'_hom_left_eq_lift _ _ _ _ W _ (localizedCone_π_fst D i₀ W.hom c j)
     (localizedCone_π_snd D i₀ W.hom c j)
 
+omit [IsDirected I (· ≤ ·)] [Etale W.hom]
+  [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The comparison of iterated base changes along a transition is the morphism with components
 the transition of the localised system and the projection. -/
 theorem qcqsTransitionComparison_left {j k : (GeIndex i₀)ᵒᵖ} (b : k ⟶ j) :
@@ -317,6 +324,7 @@ private theorem map_comp_etaleSectionsPullback_of_left_eq {Z : Scheme.{u}} {W₁
   (map_comp_etaleSectionsPullback p g (𝟙 W₂.left) hp M).trans
     (etaleSectionsPullback_congr _ _ ((Category.id_comp _).trans hg) _ hr M)
 
+omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- **The leg of the localised presented system on global sections is the leg on sections**,
 through the identifications of global sections of inverse images along étale morphisms with
 sections over those morphisms. -/
@@ -337,9 +345,9 @@ theorem legSection_qcqsLevelSections (j : (GeIndex i₀)ᵒᵖ)
       qcqsSectionsLeg D c E i₀ W j ≫ qcqsLimitSections D c E i₀ W := by
     refine G.trans ?_
     exact (congrArg (_ ≫ ·) R.symm).trans (Category.assoc _ _ _).symm
-  convert ConcreteCategory.congr_hom hM t using 1 <;>
-    exact (ConcreteCategory.comp_apply _ _ _).symm
+  convert ConcreteCategory.congr_hom hM t using 1
 
+omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- **The transition of the localised presented system on global sections is the transition on
 sections.** -/
 theorem etaleSectionsTransition_qcqsLevelSections {j k : (GeIndex i₀)ᵒᵖ} (b : k ⟶ j) :

@@ -209,7 +209,7 @@ theorem freeNear_strictTransformSheaf_of_over_iso_free {Y T : Scheme.{u}} (q : Y
         (pullback.snd q (blowUpToBase J)).base
           ((pullback.fst q (blowUpToBase J) ⁻¹ᵁ W).ι.base x) :=
       congrArg (fun a ↦ a x) hjsnd
-    show (pullback.snd q (blowUpToBase J)).base
+    change (pullback.snd q (blowUpToBase J)).base
         ((pullback.fst q (blowUpToBase J) ⁻¹ᵁ W).ι.base x) ∈
           ((exceptionalIdeal J).support : Set (blowUp J)) ↔
       (pullback.snd (W.ι ≫ q) (blowUpToBase J)).base (j.base x) ∈

@@ -90,7 +90,7 @@ public theorem exists_specializes_of_isFlatAt {X Y : Scheme.{u}} (f : X ⟶ Y) (
       _ = Y.fromSpecStalk (f.base x) ((Spec.map φ) q) := rfl
       _ = Y.fromSpecStalk (f.base x) p := by
         have hmapPoint : (Spec.map φ) q = p := by
-          show (specOrderIsoPrimeSpectrum A).symm
+          change (specOrderIsoPrimeSpectrum A).symm
               (OrderDual.toDual (PrimeSpectrum.comap φ.hom q)) =
             (specOrderIsoPrimeSpectrum A).symm (OrderDual.toDual p)
           exact congrArg (fun z : PrimeSpectrum A =>
@@ -118,7 +118,7 @@ public theorem exists_specializes_pullback_of_isFlatAt {T S S' : Scheme.{u}} (f 
   have hσbij : Function.Bijective σ.hom := ConcreteCategory.bijective_of_isIso σ
   have hσflat : σ.hom.Flat := RingHom.Flat.of_bijective hσbij
   have hγflat : γ.hom.Flat := by
-    show (g.stalkMap s').hom.comp σ.hom |>.Flat
+    change (g.stalkMap s').hom.comp σ.hom |>.Flat
     exact RingHom.Flat.comp hσflat hflat
   let α : Spec A ⟶ Spec R := Spec.map γ
   let β : Spec B ⟶ Spec R := Spec.map (f.stalkMap t)
@@ -155,13 +155,13 @@ public theorem exists_specializes_pullback_of_isFlatAt {T S S' : Scheme.{u}} (f 
   have hmsnd : m ≫ pullback.snd f g = pullback.fst α β ≫ S'.fromSpecStalk s' :=
     pullback.lift_snd _ _ _
   refine ⟨m z', m z, ?_, ?_, ?_, hz'z.map (Scheme.Hom.continuous m)⟩
-  · show (m ≫ pullback.fst f g) z' = t'
+  · change (m ≫ pullback.fst f g) z' = t'
     rw [hmfst]
     simp [hz'q, hq]
-  · show (m ≫ pullback.fst f g) z = t
+  · change (m ≫ pullback.fst f g) z = t
     rw [hmfst, Scheme.Hom.comp_apply, hzB]
     exact Scheme.fromSpecStalk_closedPoint
-  · show (m ≫ pullback.snd f g) z = s'
+  · change (m ≫ pullback.snd f g) z = s'
     rw [hmsnd, Scheme.Hom.comp_apply, hzA]
     exact Scheme.fromSpecStalk_closedPoint
 
@@ -266,7 +266,7 @@ public theorem exists_impurity_after_flatPointedBaseChange
       ((Scheme.Modules.pullback r).obj Fold) := by
     rw [mem_relativeAssassin_pullback_iff]
     refine ⟨?_, ?_⟩
-    · show r xi₁ ∈ Stacks.Divisors.relativeAssassin D.toT Fold
+    · change r xi₁ ∈ Stacks.Divisors.relativeAssassin D.toT Fold
       rw [hrxi]
       exact hD.1
     · have he : (⟨Scheme.Pullback.Triplet.ofPoint xi₁, Scheme.Pullback.SpecOfPoint xi₁⟩ :
@@ -274,7 +274,7 @@ public theorem exists_impurity_after_flatPointedBaseChange
         (Scheme.Pullback.carrierEquiv (f := D.toT) (g := π)).apply_symm_apply ⟨Tr, p⟩
       let Good : (Σ T : Scheme.Pullback.Triplet D.toT π, Spec T.tensor) → Prop :=
         fun z => ∃ Z ∈ irreducibleComponents (Spec z.1.tensor), IsGenericPoint z.2 Z
-      show Good ⟨Scheme.Pullback.Triplet.ofPoint xi₁, Scheme.Pullback.SpecOfPoint xi₁⟩
+      change Good ⟨Scheme.Pullback.Triplet.ofPoint xi₁, Scheme.Pullback.SpecOfPoint xi₁⟩
       exact he.symm ▸ (show Good ⟨Tr, p⟩ from ⟨Z, hZ, hp⟩)
   have hxiMem : xi₁ ∈ Stacks.Divisors.relativeAssassin q (D₁.pulledBack P') :=
     relativeAssassin_eq_of_moduleIso q eQ.symm ▸ hxiNested

@@ -96,7 +96,7 @@ theorem C1573.exists_lift_inf {Q T : Scheme.{u}} (O W : Q.Opens) (a : T ⟶ O.to
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨t, rfl⟩
     refine ⟨(a t).2, ?_⟩
-    show (a ≫ O.ι).base t ∈ W
+    change (a ≫ O.ι).base t ∈ W
     rw [hab]
     exact (b t).2
   refine ⟨IsOpenImmersion.lift (O ⊓ W : Q.Opens).ι (a ≫ O.ι) hr, ?_, ?_⟩
@@ -138,7 +138,7 @@ theorem C1573.exists_hom_projectiveSpace_of_local {Q : Scheme.{u}} (W : Q.Opens)
         Ideal.span {b.appTop (g i)} := by
       rw [Ideal.span_le]
       rintro - ⟨j, rfl⟩
-      show b.appTop (g j) ∈ Ideal.span {b.appTop (g i)}
+      change b.appTop (g j) ∈ Ideal.span {b.appTop (g i)}
       rw [← hrT j]
       exact Ideal.mem_span_singleton.2 ⟨a.appTop (r j), mul_comm _ _⟩
     rwa [hgb, top_le_iff, Ideal.span_singleton_eq_top] at hle
@@ -154,7 +154,7 @@ theorem C1573.homOfLE_appTop_topIso_inv {Q : Scheme.{u}} {V W : Q.Opens} (h : W 
     (Q.homOfLE h).appTop (V.topIso.inv x) = W.topIso.inv (Q.presheaf.map (homOfLE h).op x) := by
   rw [← Iso.hom_inv_id_apply W.topIso ((Q.homOfLE h).appTop (V.topIso.inv x))]
   congr 1
-  show ((Q.homOfLE h).appTop ≫ W.topIso.hom) (V.topIso.inv x) = _
+  change ((Q.homOfLE h).appTop ≫ W.topIso.hom) (V.topIso.inv x) = _
   have hnat : (Q.homOfLE h).appTop ≫ W.topIso.hom =
       V.topIso.hom ≫ Q.presheaf.map (homOfLE h).op :=
     Scheme.restrictFunctorΓ.hom.naturality (X := op V) (Y := op W) (homOfLE h).op
@@ -186,7 +186,7 @@ theorem C1573.resLE_appTop_topIso_inv {X Y : Scheme.{u}} (f : X ⟶ Y) {U : Y.Op
     (f.resLE U V e).appTop (U.topIso.inv x) = V.topIso.inv (f.appLE U V e x) := by
   rw [← Iso.hom_inv_id_apply V.topIso ((f.resLE U V e).appTop (U.topIso.inv x))]
   congr 1
-  show ((f.resLE U V e).appTop ≫ V.topIso.hom) (U.topIso.inv x) = _
+  change ((f.resLE U V e).appTop ≫ V.topIso.hom) (U.topIso.inv x) = _
   rw [Scheme.Hom.appTop, Scheme.Hom.resLE_app_top]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id, CommRingCat.comp_apply,
     Iso.inv_hom_id_apply]

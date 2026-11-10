@@ -142,9 +142,9 @@ private theorem baerSucc_toSucc_mono (R : Type u) [CommRing R]
     (G : ModuleCat.{u} R ⥤ ModuleCat.{u} R) : Mono ((baerSucc R).toSucc G) := by
   rw [NatTrans.mono_iff_mono_app]
   intro M
-  show Mono ((baerEmbedding R).app (G.obj M))
+  change Mono ((baerEmbedding R).app (G.obj M))
   rw [ModuleCat.mono_iff_injective]
-  show Function.Injective (baerUMap R (G.obj M))
+  change Function.Injective (baerUMap R (G.obj M))
   exact baer_uMap_injective R (G.obj M)
 
 private theorem mono_ι_app_of_iio {R : Type u} [CommRing R] {α : Ordinal.{u}} {j : Set.Iic α}
@@ -225,7 +225,7 @@ private theorem baerIterationMap_mono (R : Type u) [CommRing R]
             Mono (((Set.principalSegIio j).monotone.functor ⋙ F ⋙ E).map f) := by
           intro k k' f
           have hkk' : k.1 ≤ k'.1 := leOfHom f
-          show Mono (((F.map (homOfLE hkk')).app M))
+          change Mono (((F.map (homOfLE hkk')).app M))
           exact ih k'.1 k'.2 k.1 hkk' M
         have hm := mono_ι_app_of_iio ((Set.principalSegIio j).monotone.functor ⋙ F ⋙ E) hmaps
           (isColimitOfPreserves E (F.isColimitOfIsWellOrderContinuous j hj)) ⟨i, hij'⟩
@@ -277,7 +277,7 @@ private theorem baerIterate_factor_through_stage
       (ideal_subobject_cardinal_lt R a α hα)
   have hmaps : ∀ (i j : α.ToType) (f : i ⟶ j), Mono (D.map f) := by
     intro i j f
-    show Mono ((F.map (S.map (homOfLE (eOrder.monotone (leOfHom f))))).app M)
+    change Mono ((F.map (S.map (homOfLE (eOrder.monotone (leOfHom f))))).app M)
     exact baerIterationMap_mono R α (S.obj (eOrder j)) (S.obj (eOrder i))
       (eOrder.monotone (leOfHom f)) M
   let cBase := (Set.principalSegIio (⊤ : Set.Iic α)).cocone F
@@ -289,7 +289,7 @@ private theorem baerIterate_factor_through_stage
   obtain ⟨i, g, hg⟩ := Concrete.isColimit_exists_rep (D ⋙ H) hcH f
   have hι : cD.ι.app i =
       (F.map (homOfLE (show S.obj (eOrder i) ≤ ⊤ from le_top))).app M := by
-    show E.map (cBase.ι.app (eOrder i)) = _
+    change E.map (cBase.ι.app (eOrder i)) = _
     dsimp [E, cBase]
   refine ⟨i, g, ?_⟩
   rw [← hι]
@@ -305,7 +305,7 @@ private theorem baerIterate_extend_of_not_isMax (R : Type u) [CommRing R] (α : 
   let eSucc := (baerSucc R).iterationFunctorObjSuccIso k hk
   obtain ⟨ψ, hψ⟩ := baer_extension (R := R) (M := (F.obj k).obj M) a g.hom
   let ψCat : ModuleCat.of R R ⟶ ((baerSucc R).succ (F.obj k)).obj M := by
-    show ModuleCat.of R R ⟶ ModuleCat.of R (BaerM R ((F.obj k).obj M))
+    change ModuleCat.of R R ⟶ ModuleCat.of R (BaerM R ((F.obj k).obj M))
     exact ModuleCat.ofHom ψ
   refine ⟨ψCat ≫ (eSucc.app M).inv ≫
     (F.map (homOfLE (show Order.succ k ≤ ⊤ from le_top))).app M, ?_⟩
@@ -319,7 +319,7 @@ private theorem baerIterate_extend_of_not_isMax (R : Type u) [CommRing R] (α : 
     rw [← NatTrans.comp_app, ← F.map_comp, homOfLE_comp]
   have hextSucc : ModuleCat.ofHom (a.subtype) ≫ ψCat =
       g ≫ ((baerSucc R).toSucc (F.obj k)).app M := by
-    show ModuleCat.ofHom (a.subtype) ≫ ModuleCat.ofHom ψ =
+    change ModuleCat.ofHom (a.subtype) ≫ ModuleCat.ofHom ψ =
       g ≫ ModuleCat.ofHom (baerUMap R ((F.obj k).obj M))
     exact ModuleCat.hom_ext hψ
   rw [hcomp, hsuccMap, reassoc_of% hextSucc]
@@ -333,7 +333,7 @@ theorem baerIterate_injective_of_cofinality
     (hα : Cardinal.mk (Ideal R) < α.cof) (M : ModuleCat.{u} R) :
     Injective ((baerIterateFunctor R α).obj M) := by
   let F := (baerSucc R).iterationFunctor (Set.Iic α)
-  show Injective ((F.obj ⊤).obj M)
+  change Injective ((F.obj ⊤).obj M)
   let T := (F.obj ⊤).obj M
   apply (Module.injective_iff_injective_object R (T : Type u)).mp
   apply Module.Baer.injective
@@ -345,7 +345,7 @@ theorem baerIterate_injective_of_cofinality
   have hβ : β + 1 < α :=
     (ordinal_limit_of_ideal_cofinality R α hα).succ_lt (Ordinal.ToType.mk.symm i).2
   have hkl : k < ⟨β + 1, hβ.le⟩ := by
-    show β < β + 1
+    change β < β + 1
     exact Order.lt_succ β
   obtain ⟨ψ, hψ⟩ := baerIterate_extend_of_not_isMax R α M a k
     (fun hk => lt_irrefl k (hkl.trans_le (hk hkl.le))) g
@@ -363,7 +363,7 @@ theorem mono_baerIterateEmbedding
   let F := (baerSucc R).iterationFunctor (Set.Iic α)
   have : Mono ((F.map (homOfLE (show (⊥ : Set.Iic α) ≤ ⊤ from le_top))).app M) :=
     baerIterationMap_mono R α ⊤ ⊥ bot_le M
-  show Mono (((baerSucc R).iterationFunctorObjBotIso (Set.Iic α)).inv.app M ≫
+  change Mono (((baerSucc R).iterationFunctorObjBotIso (Set.Iic α)).inv.app M ≫
     (F.map (homOfLE (show (⊥ : Set.Iic α) ≤ ⊤ from le_top))).app M)
   infer_instance
 

@@ -98,7 +98,7 @@ private theorem restrictedIdealClosure_basis
       |>.nhds_zero_hasBasis.mem_iff.mp hpre
   rcases hW with ⟨J, rfl⟩
   refine ⟨J.1, J.2, ?_⟩
-  show closure ((polynomialToRestrictedPowerSeries A σ) ''
+  change closure ((polynomialToRestrictedPowerSeries A σ) ''
     (J.1.map (MvPolynomial.C : A →+* MvPolynomial σ A) : Set _)) ⊆ U
   exact (closure_minimal (Set.image_subset_iff.mpr hWV) hVc).trans hVU
 
@@ -198,7 +198,7 @@ private theorem taylor_remainder_mem_sq
       simp
     exact DFunLike.congr_fun he f
   apply (Ideal.Quotient.eq_zero_iff_mem).mp
-  show q _ = 0
+  change q _ = 0
   simp only [map_sub, map_sum, map_mul, hq]
   have hxy : ∀ i j, (q (x i) - q (y i)) * (q (x j) - q (y j)) = 0 := by
     intro i j
@@ -424,7 +424,7 @@ private theorem continuous_restrictedLimitCoefficients
   intro n hn
   refine ⟨n, trivial, ?_⟩
   intro a ha
-  show _root_.RestrictedPowerSeries.adicCompletionAlgEquiv I σ
+  change _root_.RestrictedPowerSeries.adicCompletionAlgEquiv I σ
     (algebraMap A _ a) ∈ (I.map (algebraMap A
       (AdicCompletion (I.map (MvPolynomial.C : A →+* MvPolynomial σ A))
         (MvPolynomial σ A)))) ^ n
@@ -596,7 +596,7 @@ public theorem exists_noetherianPresentationComparison
   have hep (p : MvPolynomial (Fin P.variableCount) A) :
       e (polynomialToRestrictedPowerSeries A (Fin P.variableCount) p) =
         algebraMap (MvPolynomial (Fin P.variableCount) A) T p := by
-    show _root_.RestrictedPowerSeries.adicCompletionAlgEquiv I
+    change _root_.RestrictedPowerSeries.adicCompletionAlgEquiv I
       (Fin P.variableCount) (e₀ (polynomialToRestrictedPowerSeries A _ p)) = _
     rw [he₀p]
     exact _root_.RestrictedPowerSeries.adicCompletionEquiv_polynomialRingHom I _ p
@@ -626,7 +626,7 @@ public theorem exists_noetherianPresentationComparison
   have hdm : L.differential.comp m.toLinearMap = K.differential := by
     refine LinearMap.ext fun x => ?_
     obtain ⟨g, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective x
-    show L.differential (m (Algebra.Extension.Cotangent.mk g)) = _
+    change L.differential (m (Algebra.Extension.Cotangent.mk g)) = _
     rw [hm, L.differential_mk, K.differential_mk g]
     funext i
     exact (congrArg Q.toAlgHom (hd i g.1)).trans (he _)
@@ -639,7 +639,7 @@ public theorem exists_noetherianPresentationComparison
     L.liftedDifferential
   have hab : a.hom ≫ ModuleCat.ofHom d' = ModuleCat.ofHom d ≫ 𝟙 _ := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    show ULift.up (L.differential (m x.down)) = ULift.up (K.differential x.down)
+    change ULift.up (L.differential (m x.down)) = ULift.up (K.differential x.down)
     exact congrArg ULift.up (DFunLike.congr_fun hdm x.down)
   let E : K.cochainComplex ≅ L.cochainComplex :=
     doubleIso (ModuleCat.ofHom d) (ModuleCat.ofHom d') a (Iso.refl _) hab
@@ -648,17 +648,17 @@ public theorem exists_noetherianPresentationComparison
                 equiv := HomotopyEquiv.ofIso E
                 conormal_mk := ?_, free_apply := ?_ }⟩⟩
   · intro g
-    show (doubleMap (ModuleCat.ofHom d) (ModuleCat.ofHom d') a.hom (𝟙 _) hab).f (-1) _ = _
+    change (doubleMap (ModuleCat.ofHom d) (ModuleCat.ofHom d') a.hom (𝟙 _) hab).f (-1) _ = _
     simp only [doubleMap, mkHomFromDouble_f₀]
-    show L.degreeNegOneIso.inv (a.hom
+    change L.degreeNegOneIso.inv (a.hom
       (K.degreeNegOneIso.hom (K.degreeNegOneIso.inv (ULift.up _)))) = _
     rw [Iso.inv_hom_id_apply]
-    show L.degreeNegOneIso.inv (ULift.up (m (Algebra.Extension.Cotangent.mk g))) = _
+    change L.degreeNegOneIso.inv (ULift.up (m (Algebra.Extension.Cotangent.mk g))) = _
     rw [hm]
   · intro v
-    show (doubleMap (ModuleCat.ofHom d) (ModuleCat.ofHom d') a.hom (𝟙 _) hab).f 0 _ = _
+    change (doubleMap (ModuleCat.ofHom d) (ModuleCat.ofHom d') a.hom (𝟙 _) hab).f 0 _ = _
     simp only [doubleMap, mkHomFromDouble_f₁]
-    show L.degreeZeroIso.inv (K.degreeZeroIso.hom
+    change L.degreeZeroIso.inv (K.degreeZeroIso.hom
       (K.degreeZeroIso.inv (ULift.up v))) = _
     rw [Iso.inv_hom_id_apply]
     rfl

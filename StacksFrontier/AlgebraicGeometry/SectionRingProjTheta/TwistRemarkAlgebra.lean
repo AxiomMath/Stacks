@@ -90,11 +90,11 @@ theorem twistTensorIso_hom_whiskerLeft (F A L : C) : ∀ m : ℕ,
     (twistTensorIso F A L m).hom ≫ F ◁ (twistPowTensorIso A L m).hom =
       (twistPowTensorIso (F ⊗ A) L m).hom ≫ (α_ F A (natTensorPow L m)).hom
   | 0 => by
-      show 𝟙 _ ≫ F ◁ (ρ_ A).inv = (ρ_ (F ⊗ A)).inv ≫ (α_ F A (𝟙_ C)).hom
+      change 𝟙 _ ≫ F ◁ (ρ_ A).inv = (ρ_ (F ⊗ A)).inv ≫ (α_ F A (𝟙_ C)).hom
       monoidal
   | m + 1 => by
       have ih := twistTensorIso_hom_whiskerLeft F A L m
-      show ((twistTensorIso F A L m).hom ▷ L ≫ (α_ F (twistPow A L m) L).hom) ≫
+      change ((twistTensorIso F A L m).hom ▷ L ≫ (α_ F (twistPow A L m) L).hom) ≫
           F ◁ ((twistPowTensorIso A L m).hom ▷ L ≫ (α_ A (natTensorPow L m) L).hom) =
         ((twistPowTensorIso (F ⊗ A) L m).hom ▷ L ≫ (α_ (F ⊗ A) (natTensorPow L m) L).hom) ≫
           (α_ F A (natTensorPow L m ⊗ L)).hom
@@ -119,11 +119,11 @@ theorem twistPowMap_whiskerLeft_twistTensorIso (F : C) {A A' : C} (φ : A ⟶ A'
     twistPowMap L (F ◁ φ) m ≫ (twistTensorIso F A' L m).hom =
       (twistTensorIso F A L m).hom ≫ F ◁ twistPowMap L φ m
   | 0 => by
-      show F ◁ φ ≫ 𝟙 _ = 𝟙 _ ≫ F ◁ φ
+      change F ◁ φ ≫ 𝟙 _ = 𝟙 _ ≫ F ◁ φ
       simp
   | m + 1 => by
       have ih := twistPowMap_whiskerLeft_twistTensorIso F φ m
-      show twistPowMap L (F ◁ φ) m ▷ L ≫
+      change twistPowMap L (F ◁ φ) m ▷ L ≫
           ((twistTensorIso F A' L m).hom ▷ L ≫ (α_ F (twistPow A' L m) L).hom) =
         ((twistTensorIso F A L m).hom ▷ L ≫ (α_ F (twistPow A L m) L).hom) ≫
           F ◁ (twistPowMap L φ m ▷ L)
@@ -141,16 +141,16 @@ theorem twistPowAddIso_zero_hom (A L : C) : ∀ i : ℕ,
     (Stacks.SectionRingProjQuasicoherent.twistPowAddIso A L 0 i).hom =
       eqToHom (congrArg (twistPow A L) (Nat.zero_add i)) ≫ (twistPowTensorIso A L i).hom
   | 0 => by
-      show (ρ_ A).inv = 𝟙 _ ≫ (ρ_ A).inv
+      change (ρ_ A).inv = 𝟙 _ ≫ (ρ_ A).inv
       rw [Category.id_comp]
   | i + 1 => by
       have ih := twistPowAddIso_zero_hom A L i
-      show (Stacks.SectionRingProjQuasicoherent.twistPowAddIso A L 0 i).hom ▷ L ≫
+      change (Stacks.SectionRingProjQuasicoherent.twistPowAddIso A L 0 i).hom ▷ L ≫
           (α_ (twistPow A L 0) (natTensorPow L i) L).hom =
         eqToHom (congrArg (twistPow A L) (Nat.zero_add (i + 1))) ≫
           ((twistPowTensorIso A L i).hom ▷ L ≫ (α_ A (natTensorPow L i) L).hom)
       rw [ih]
-      show (eqToHom (congrArg (twistPow A L) (Nat.zero_add i)) ≫
+      change (eqToHom (congrArg (twistPow A L) (Nat.zero_add i)) ≫
           (twistPowTensorIso A L i).hom) ▷ L ≫ (α_ A (natTensorPow L i) L).hom = _
       rw [comp_whiskerRight, eqToHom_whiskerRight, Category.assoc]
 
@@ -162,9 +162,9 @@ theorem twistMul_zero_eq (A : C) {i : ℕ} (a : powSections L i) :
       eqToHom (congrArg (twistPow A L) (Nat.zero_add i)) =
         (twistPowTensorIso A L i).inv := by
     rw [Iso.inv_comp_eq, twistPowAddIso_zero_hom, Category.assoc]
-    show _ = _ ≫ (twistPowTensorIso A L i).hom ≫ (twistPowTensorIso A L i).inv
+    change _ = _ ≫ (twistPowTensorIso A L i).hom ≫ (twistPowTensorIso A L i).inv
     rw [Iso.hom_inv_id, Category.comp_id]
-  show ((ρ_ A).inv ≫ A ◁ a ≫
+  change ((ρ_ A).inv ≫ A ◁ a ≫
       (Stacks.SectionRingProjQuasicoherent.twistPowAddIso A L 0 i).inv) ≫
     eqToHom (congrArg (twistPow A L) (Nat.zero_add i)) = _
   rw [Category.assoc, Category.assoc, h]
@@ -195,13 +195,13 @@ theorem actMap_twistPowTensorIso_hom {F : C} {i : ℕ} (t : twistSections F L i)
       (λ_ (natTensorPow L p)).inv ≫ (t ≫ (twistPowTensorIso F L i).hom) ▷ natTensorPow L p ≫
         (α_ F (natTensorPow L i) (natTensorPow L p)).hom ≫ F ◁ powAdd L i p
   | 0 => by
-      show t ≫ (twistPowTensorIso F L i).hom =
+      change t ≫ (twistPowTensorIso F L i).hom =
         (λ_ (𝟙_ C)).inv ≫ (t ≫ (twistPowTensorIso F L i).hom) ▷ 𝟙_ C ≫
           (α_ F (natTensorPow L i) (𝟙_ C)).hom ≫ F ◁ (ρ_ (natTensorPow L i)).hom
       monoidal
   | p + 1 => by
       have ih := actMap_twistPowTensorIso_hom t p
-      show actMap t p ▷ L ≫ ((twistPowTensorIso F L (i + p)).hom ▷ L ≫
+      change actMap t p ▷ L ≫ ((twistPowTensorIso F L (i + p)).hom ▷ L ≫
           (α_ F (natTensorPow L (i + p)) L).hom) =
         (λ_ (natTensorPow L p ⊗ L)).inv ≫
           (t ≫ (twistPowTensorIso F L i).hom) ▷ (natTensorPow L p ⊗ L) ≫
@@ -222,11 +222,11 @@ theorem twistPowTensorIso_hom_powAdd (L : C) (n : ℕ) : ∀ j : ℕ,
     (twistPowTensorIso (natTensorPow L n) L j).hom ≫ powAdd L n j =
       eqToHom (twistPow_natTensorPow L n j)
   | 0 => by
-      show (ρ_ (natTensorPow L n)).inv ≫ (ρ_ (natTensorPow L n)).hom = eqToHom rfl
+      change (ρ_ (natTensorPow L n)).inv ≫ (ρ_ (natTensorPow L n)).hom = eqToHom rfl
       simp
   | j + 1 => by
       have ih := twistPowTensorIso_hom_powAdd L n j
-      show ((twistPowTensorIso (natTensorPow L n) L j).hom ▷ L ≫
+      change ((twistPowTensorIso (natTensorPow L n) L j).hom ▷ L ≫
           (α_ (natTensorPow L n) (natTensorPow L j) L).hom) ≫
         ((α_ (natTensorPow L n) (natTensorPow L j) L).inv ≫ powAdd L n j ▷ L) = _
       rw [Category.assoc, Iso.hom_inv_id_assoc, ← comp_whiskerRight, ih, eqToHom_whiskerRight]
@@ -240,7 +240,7 @@ theorem twistPowTensorIso_twistPow (F L : C) (n : ℕ) : ∀ q : ℕ,
             (α_ F (natTensorPow L n) (natTensorPow L q)).hom ≫ F ◁ powAdd L n q =
       (twistPowTensorIso F L (n + q)).hom
   | 0 => by
-      show 𝟙 _ ≫ (twistPowTensorIso F L n).hom ≫ (ρ_ (F ⊗ natTensorPow L n)).inv ≫
+      change 𝟙 _ ≫ (twistPowTensorIso F L n).hom ≫ (ρ_ (F ⊗ natTensorPow L n)).inv ≫
           (α_ F (natTensorPow L n) (𝟙_ C)).hom ≫ F ◁ (ρ_ (natTensorPow L n)).hom =
         (twistPowTensorIso F L n).hom
       simp
@@ -250,7 +250,7 @@ theorem twistPowTensorIso_twistPow (F L : C) (n : ℕ) : ∀ q : ℕ,
           eqToHom (Stacks.SectionRingProjTheta.twistPow_twistPow F L n q).symm ▷ L := by
         rw [eqToHom_whiskerRight]
       rw [he]
-      show eqToHom (Stacks.SectionRingProjTheta.twistPow_twistPow F L n q).symm ▷ L ≫
+      change eqToHom (Stacks.SectionRingProjTheta.twistPow_twistPow F L n q).symm ▷ L ≫
           twistPowMap L (twistPowTensorIso F L n).hom q ▷ L ≫
             ((twistPowTensorIso (F ⊗ natTensorPow L n) L q).hom ▷ L ≫
               (α_ (F ⊗ natTensorPow L n) (natTensorPow L q) L).hom) ≫
@@ -705,7 +705,7 @@ theorem identLeft_surjective (F N : C) {e k : ℕ} (β : natTensorPow L e ≅ tw
     (mem_moduleGrading_of_eq (by omega) hy)
   refine ⟨twistModuleHom (L := L) (baseIso F β).hom x',
     Stacks.TwistedSections.twistModuleHom_mem_moduleGrading (L := L) _ _ _ hx', ?_⟩
-  show twistShiftLinearMap F L e (twistModuleHom (L := L) (baseIso F β).inv
+  change twistShiftLinearMap F L e (twistModuleHom (L := L) (baseIso F β).inv
     (twistModuleHom (L := L) (baseIso F β).hom x')) = y
   rw [twistModuleHom_inv_hom, hxy]
 
@@ -736,7 +736,7 @@ theorem identNat_surjective (F : C) (n : ℕ) (i : ℤ) (hi : 0 ≤ i) (y : twis
   obtain ⟨x', hx', hxy⟩ := exists_mem_twistShiftLinearMap_eq (F := F) (L := L) n i hi y hy
   refine ⟨twistModuleHom (L := L) (twistPowTensorIso F L n).hom x',
     Stacks.TwistedSections.twistModuleHom_mem_moduleGrading (L := L) _ _ _ hx', ?_⟩
-  show twistShiftLinearMap F L n (twistModuleHom (L := L) (twistPowTensorIso F L n).inv
+  change twistShiftLinearMap F L n (twistModuleHom (L := L) (twistPowTensorIso F L n).inv
     (twistModuleHom (L := L) (twistPowTensorIso F L n).hom x')) = y
   rw [twistModuleHom_inv_hom, hxy]
 
@@ -808,7 +808,7 @@ theorem unitShiftHom_gsmul {n j k : ℕ} (a : powSections L k)
   congr 1
   have hc := Stacks.GradedSections.mul_comm'
     (t ≫ eqToHom (twistPow_natTensorPow L n j)) a
-  show _ = mul a (t ≫ eqToHom (twistPow_natTensorPow L n j))
+  change _ = mul a (t ≫ eqToHom (twistPow_natTensorPow L n j))
   rw [← hc, Stacks.GradedSections.mul_def, Stacks.TwistedSections.gsmul_def, twistCongr]
   simp only [Category.assoc]
   have key := congrArg (· ≫ eqToHom (congrArg (natTensorPow L)
@@ -862,7 +862,7 @@ theorem unitIdent_mem (N : C) {e k : ℕ} (β : natTensorPow L e ≅ twistPow N 
     obtain ⟨t, rfl⟩ := hx
     rw [show i + n = ((e + j : ℕ) : ℤ) by push_cast; omega,
       AlgebraicGeometry.ProjectiveSpectrum.Proj.integerGrading_natCast]
-    show unitShiftHom L e (twistModuleHom (L := L) β.inv
+    change unitShiftHom L e (twistModuleHom (L := L) β.inv
       (DirectSum.of (twistSections (twistPow N L k) L) j t)) ∈ _
     rw [twistModuleHom_of, unitShiftHom_of]
     exact Stacks.ExternalGrading.of_mem_summand _ _
@@ -905,10 +905,10 @@ theorem unitIdent_surjective (N : C) {e k : ℕ} (β : natTensorPow L e ≅ twis
   obtain ⟨y', rfl⟩ := hy
   refine ⟨DirectSum.of (twistSections (twistPow N L k) L) j
     (y' ≫ eqToHom (twistPow_natTensorPow L e j).symm ≫ twistPowMap L β.hom j), ?_, ?_⟩
-  · show _ ∈ moduleGrading (twistPow N L k) L (i + -(k : ℤ))
+  · change _ ∈ moduleGrading (twistPow N L k) L (i + -(k : ℤ))
     rw [hj, Stacks.TwistedSections.moduleGrading_natCast]
     exact Stacks.ExternalGrading.of_mem_summand _ _
-  · show unitShiftHom L e (twistModuleHom (L := L) β.inv
+  · change unitShiftHom L e (twistModuleHom (L := L) β.inv
       (DirectSum.of (twistSections (twistPow N L k) L) j _)) = _
     rw [twistModuleHom_of, unitShiftHom_of]
     congr 1

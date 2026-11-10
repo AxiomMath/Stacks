@@ -177,7 +177,7 @@ theorem exists_point_of_coneHom'
         have hLiftIso : Y.p.IsHomLift (inv fZ ≫ fX) (inv uZ ≫ uX) :=
           IsHomLift.comp Y.p (inv fZ) fX (inv uZ) uX
         have hbaseIso : inv fZ ≫ fX = eqToHom eZ ≫ eqToHom eX.symm := by simp [fZ, fX]
-        show Y.p.map (inv uZ ≫ uX) = eqToHom eZ ≫ eqToHom eX.symm
+        change Y.p.map (inv uZ ≫ uX) = eqToHom eZ ≫ eqToHom eX.symm
         rw [IsHomLift.fac' Y.p (inv fZ ≫ fX) (inv uZ ≫ uX)]
         simp [hbaseIso] }
   have hR : R = r.base := r.over
@@ -192,12 +192,12 @@ theorem exists_point_of_coneHom'
   have hzQ : pointClass B S hS Z hZ qPointZ = pointClass B S hS Z hZ z₀ := by
     apply (class_eq_class_iff_hasCommonExtension B S hS Z hZ qPointZ z₀).2
     refine ⟨qPointZ, ⟨𝟙 _⟩, ⟨?_⟩⟩
-    show z' ⟶ z₀.obj
+    change z' ⟶ z₀.obj
     exact φz
   have hxQ : pointClass B S hS X hX qPointX = pointClass B S hS X hX x₀ := by
     apply (class_eq_class_iff_hasCommonExtension B S hS X hX qPointX x₀).2
     refine ⟨qPointX, ⟨𝟙 _⟩, ⟨?_⟩⟩
-    show x' ⟶ x₀.obj
+    change x' ⟶ x₀.obj
     exact φx
   let H := k.hom
   let pPoint := fieldValuedPointMap B S hS qSquare.pt.val H qPoint

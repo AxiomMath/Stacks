@@ -302,8 +302,7 @@ theorem globalTensor_hom_ext {X : Cᵒᵖ} {Z : ModuleCat ((Oforget O).obj X)}
     (h : ∀ (x : F.obj X) (y : G.obj X),
       φ.hom (globalTmul O F G X x y) = ψ.hom (globalTmul O F G X x y)) : φ = ψ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun t ↦ ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero φ.hom).trans (map_zero ψ.hom).symm
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add t t' ht ht' =>
       have hsum : φ.hom t + φ.hom t' = ψ.hom t + ψ.hom t' := by rw [ht, ht']
@@ -327,7 +326,7 @@ theorem curryGlobalMap_apply (b : F.tensorObj G ⟶ H) (U : C) (x : F.obj (op U)
         (((curryGlobalMap O F G H b U x).app (op (Over.mk q))).hom
           (restrSection O G U q y)) =
       globalTensorHom O F G H b T (F.restrictₛₗ q.op x ⊗ₜ y) := by
-  show curryValueMap O F G H U ((restrFun O U).map b) (𝟙 U) x q y = _
+  change curryValueMap O F G H U ((restrFun O U).map b) (𝟙 U) x q y = _
   rw [curryValueMap_apply, Category.comp_id, restrTensorHom_restrFun_map]
 
 /-- The restriction maps of the internal Hom presheaf are the re-indexing maps `homRestr`. -/
@@ -429,10 +428,10 @@ theorem uncurryGlobal_curryGlobal (b : F.tensorObj G ⟶ H) :
   intro X
   refine globalTensor_hom_ext O F G ?_
   intro x y
-  show uncurryGlobalTensorMap O F G H (curryGlobal O F G H b) X.unop (x ⊗ₜ y) =
+  change uncurryGlobalTensorMap O F G H (curryGlobal O F G H b) X.unop (x ⊗ₜ y) =
     globalTensorHom O F G H b X.unop (x ⊗ₜ y)
   rw [uncurryGlobalTensorMap_tmul]
-  show sectionOfRestr O H X.unop (𝟙 X.unop)
+  change sectionOfRestr O H X.unop (𝟙 X.unop)
       (((curryGlobalMap O F G H b X.unop x).app (op (Over.mk (𝟙 X.unop)))).hom
         (restrSection O G X.unop (𝟙 X.unop) y)) = _
   rw [curryGlobalMap_apply, op_id, _root_.PresheafOfModules.restrictₛₗ_id_apply]
@@ -451,7 +450,7 @@ theorem curryGlobalMap_uncurryGlobal
   have hr := homRestr_section O G H q ((a.app (op S)).hom x) (𝟙 T) y
   rw [Category.id_comp] at hr
   rw [curryGlobalMap_apply]
-  show uncurryGlobalTensorMap O F G H a T (F.restrictₛₗ q.op x ⊗ₜ y) = _
+  change uncurryGlobalTensorMap O F G H a T (F.restrictₛₗ q.op x ⊗ₜ y) = _
   rwa [uncurryGlobalTensorMap_tmul, app_restrictₛₗ_homRestr]
 
 /-- Global currying undoes global uncurrying. -/

@@ -304,7 +304,7 @@ theorem cohomologyZeroAlgebraMap_commutes (A : DifferentialGradedAlgebra R) (r :
     cohomologyZeroAlgebraMap A r * x = x * cohomologyZeroAlgebraMap A r := by
   induction x using Quotient.ind with
   | _ a =>
-    show (Quotient.mk _ (algebraMap R (A.Cocycle 0) r * a) : A.Cohomology 0) =
+    change (Quotient.mk _ (algebraMap R (A.Cocycle 0) r * a) : A.Cohomology 0) =
       Quotient.mk _ (a * algebraMap R (A.Cocycle 0) r)
     rw [Algebra.commutes]
 

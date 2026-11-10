@@ -176,14 +176,14 @@ private theorem finite_of_strictHenselization_germs {Z W : Scheme.{u}} [IsAffine
   have : IsLocalization.AtPrime (Z.presheaf.stalk z) q :=
     (isAffineOpen_top Z).isLocalization_stalk (⟨z, trivial⟩ : (⊤ : Z.Opens))
   have : q.LiesOver p := ⟨by
-    show p = Ideal.comap k.appTop.hom q
+    change p = Ideal.comap k.appTop.hom q
     have he := IsAffineOpen.comap_primeIdealOf_appLE (f := k) (⊤ : W.Opens)
       (isAffineOpen_top W) (⊤ : Z.Opens) (isAffineOpen_top Z) le_top (Set.mem_univ z)
     simpa [p, q, Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE] using
       (congrArg PrimeSpectrum.asIdeal he).symm⟩
   have hψfin : ψ.Finite := by
     refine finite_of_henselizationTower_square p q T N ψ fun r => ?_
-    show eZ.symm (φ (eW (algebraMap _ T.strictHenselization
+    change eZ.symm (φ (eW (algebraMap _ T.strictHenselization
       (W.presheaf.germ ⊤ (k z) trivial r)))) = _
     rw [hc, RingEquiv.symm_apply_apply]
     rfl

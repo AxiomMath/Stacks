@@ -199,7 +199,7 @@ theorem exists_affine_etale_atlas_sheafifiedULift (X : AlgebraicSpaces B S hS) :
     refine ⟨_, (BigFppfOver.topology B S hS).pullback_stable a hcovU, ?_⟩
     rintro T'' h ⟨Y, k, l, ⟨i⟩, hkl⟩
     refine ⟨i, k, ?_⟩
-    show f₀.app _ (k ≫ j i) = X.1.map (h ≫ g).op x
+    change f₀.app _ (k ≫ j i) = X.1.map (h ≫ g).op x
     rw [hkl, op_comp, Functor.map_comp_apply, ← ha]
     exact NatTrans.naturality_apply f₀ h.op a
   refine ⟨U, I, W, f, fun i ↦ hWaff i.1, fun i ↦ hjetale i.1, hlift, ?_, ?_, fun i ↦ ?_⟩
@@ -215,7 +215,7 @@ theorem exists_affine_etale_atlas_sheafifiedULift (X : AlgebraicSpaces B S hS) :
       ULift.up k
     refine ⟨(Sigma.ι (fun i : ULift.{u + 1} I ↦
       ((schemeSpaceFunctor B S hS).obj (W i.down)).1 ⋙ uliftFunctor.{u + 1}) ⟨i⟩).app _ x, ?_⟩
-    rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
+    rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc]
     exact ULift.ext hk
   · -- the nonempty summands inject into the points of `U`
     refine (Cardinal.mk_le_of_injective (f := fun i : I ↦
@@ -324,7 +324,7 @@ theorem exists_epi_uliftYoneda_completionSubspace (X : AlgebraicSpaces B S hS)
   obtain ⟨i, k, hk⟩ := hRl h' hh'
   let k' : T' ⟶ P i := k ≫ (e i).inv
   have hk' : (φ i).hom.app (op T') k' = X.1.map h'.op x := by
-    show (f i).hom.app _ ((k ≫ (e i).inv) ≫ (e i).hom) = _
+    change (f i).hom.app _ ((k ≫ (e i).inv) ≫ (e i).hom) = _
     rw [Category.assoc, Iso.inv_hom_id, Category.comp_id, hk]
   have hmemk : (ULift.up k' : ((yoneda.obj (P i)) ⋙ uliftFunctor.{u + 1}).obj (op T')) ∈
       (Space.completionSubspaceSubfunctor B S hS ((schemeSpaceFunctor B S hS).obj (P i))
@@ -341,7 +341,7 @@ theorem exists_epi_uliftYoneda_completionSubspace (X : AlgebraicSpaces B S hS)
   have key : C.toFunctor.map w.op (sec (i, n)) = C.toFunctor.map h'.op ⟨⟨x⟩, hx⟩ := by
     apply Subtype.ext
     apply ULift.ext
-    show X.1.map w.op ((φ i).hom.app _ (𝟙 _ ≫ qA (i, n))) = X.1.map h'.op x
+    change X.1.map w.op ((φ i).hom.app _ (𝟙 _ ≫ qA (i, n))) = X.1.map h'.op x
     have nat := NatTrans.naturality_apply (φ i).hom w.op (qA (i, n))
     have hw' : ((schemeSpaceFunctor B S hS).obj (P i)).1.map w.op (qA (i, n)) = k' := hw
     rw [Category.id_comp, ← nat, hw', hk']
@@ -349,7 +349,7 @@ theorem exists_epi_uliftYoneda_completionSubspace (X : AlgebraicSpaces B S hS)
     rw [← ht (i, n)]
     rfl
   rw [e1]
-  show (J.sheafify C.toFunctor).map w.op ((J.toSheafify C.toFunctor).app _ (sec (i, n))) =
+  change (J.sheafify C.toFunctor).map w.op ((J.toSheafify C.toFunctor).app _ (sec (i, n))) =
     (J.sheafify C.toFunctor).map (h' ≫ h).op σ
   have hc : (J.sheafify C.toFunctor).map (h' ≫ h).op σ =
       (J.sheafify C.toFunctor).map h'.op ((J.sheafify C.toFunctor).map h.op σ) := by

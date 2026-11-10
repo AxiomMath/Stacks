@@ -36,11 +36,11 @@ private theorem mapIntegralClosure_surjective_of_ker_eq_span_idempotent
   have hz : IsIntegral A z :=
     ((y.property.map e₁.symm).pair (isIntegral_zero (R := A))).map d.symm
   refine ⟨⟨z, hz⟩, Subtype.ext ?_⟩
-  show f z = y.val
+  change f z = y.val
   have hd : Ideal.Quotient.mk (Ideal.span {e}) z = e₁.symm y :=
     congrArg Prod.fst (d.apply_symm_apply (e₁.symm y, 0))
   have hcompat : e₁ (Ideal.Quotient.mk (Ideal.span {e}) z) = f z := by
-    show e₀ ((Ideal.quotientEquivAlgOfEq A hker.symm) (Ideal.Quotient.mk _ z)) = _
+    change e₀ ((Ideal.quotientEquivAlgOfEq A hker.symm) (Ideal.Quotient.mk _ z)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk]
     rfl
   rw [← hcompat, hd, e₁.apply_symm_apply]
@@ -80,7 +80,7 @@ theorem ker_mapIntegralClosure_eq_span_idempotent
   · apply Ideal.span_le.mpr
     rintro _ rfl
     apply Subtype.ext
-    show f e = 0
+    change f e = 0
     exact (hker.symm ▸ Ideal.subset_span (Set.mem_singleton e) : e ∈ RingHom.ker f)
 
 /-- If `a / s` dies under the localized surjection, some lift `t'` of a unit kills `a`. -/
@@ -118,11 +118,11 @@ private theorem localRingHom_bijective_of_ker_eq_span_idempotent
   have hfe : f e = 0 :=
     (hker.symm ▸ Ideal.subset_span (Set.mem_singleton e) : e ∈ RingHom.ker f)
   have hu : (1 - e) * t' ∈ (q.comap f).primeCompl := by
-    show f ((1 - e) * t') ∉ q
+    change f ((1 - e) * t') ∉ q
     simpa only [map_mul, map_sub, map_one, hfe, sub_zero, one_mul] using ht'
   rw [IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨(1 - e) * t', hu⟩, ?_⟩
-  show ((1 - e) * t') * a = 0
+  change ((1 - e) * t') * a = 0
   rw [mul_assoc, hb, ← mul_assoc, sub_mul, one_mul, he.eq, sub_self, zero_mul]
 
 private theorem ker_localRingHom_of_surjective
@@ -141,7 +141,7 @@ private theorem ker_localRingHom_of_surjective
     exact ⟨t', ht', hta⟩
   · apply Ideal.map_le_iff_le_comap.mpr
     intro x hx
-    show Localization.localRingHom (q.comap f) q f rfl (algebraMap _ _ x) = 0
+    change Localization.localRingHom (q.comap f) q f rfl (algebraMap _ _ x) = 0
     rw [Localization.localRingHom_to_map, show f x = 0 from hx, map_zero]
 
 private theorem ker_localRingHom_le_maximalIdeal_pow_of_surjective
@@ -383,11 +383,11 @@ theorem exists_compatible_adjoinRoot_orders
   · apply AdjoinRoot.ringHom_ext
     · apply RingHom.ext
       intro y
-      show algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.of _ y)) =
+      change algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.of _ y)) =
         b₂ (AdjoinRoot.map (algebraMap D₁.A₁ D₁.B₁) _ _ dvd_rfl (AdjoinRoot.of _ y))
       rw [AdjoinRoot.map_of, hA, hB']
       exact (hcoefB y (a₁₂ y) (hcoefA y)).symm
-    · show algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.root _)) =
+    · change algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.root _)) =
         b₂ (AdjoinRoot.map (algebraMap D₁.A₁ D₁.B₁) _ _ dvd_rfl (AdjoinRoot.root _))
       rw [AdjoinRoot.map_root, hrootB]
   · intro r hloc
@@ -407,7 +407,7 @@ theorem exists_compatible_adjoinRoot_orders
       (IsIntegralClosure.algebraMap_injective D₂.A₁ A K₂)
       (IsIntegral.of_finite K₁ _) hgen
       (by
-        show minpoly K₁ (algebraMap D₂.A₁ K₂ (a₂ (AdjoinRoot.root (X ^ p - C c)))) = _
+        change minpoly K₁ (algebraMap D₂.A₁ K₂ (a₂ (AdjoinRoot.root (X ^ p - C c)))) = _
         simpa only [Polynomial.map_sub, Polynomial.map_pow, Polynomial.map_X,
           Polynomial.map_C] using hmin)
 
@@ -424,7 +424,7 @@ private theorem exists_algebra_isLocalization_away_of_localizationEq
   let e := IsLocalization.algEquiv (Submonoid.powers r) U T
   let : Algebra S T := (e.toRingHom.comp (algebraMap S U)).toAlgebra
   have htower : IsScalarTower R S T := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap R T x = e (algebraMap S U (algebraMap R S x))
+    change algebraMap R T x = e (algebraMap S U (algebraMap R S x))
     rw [← IsScalarTower.algebraMap_apply]
     exact (e.commutes x).symm
   let eS : U ≃ₐ[S] T := { __ := e.toRingEquiv, commutes' := fun _ => rfl }
@@ -544,11 +544,10 @@ private theorem tensorAdjoinRootAlgEquiv_symm_of
       Algebra.TensorProduct.map (AlgHom.id K L) (IsScalarTower.toAlgHom K F (AdjoinRoot P)) z := by
   apply (AdjoinRoot.tensorAlgEquiv (R := K) (T := L) P _ rfl).injective
   rw [AlgEquiv.apply_symm_apply]
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul l x =>
       simp only [Algebra.TensorProduct.map_tmul, AlgHom.id_apply, IsScalarTower.coe_toAlgHom']
-      show (IsScalarTower.toAlgHom L (L ⊗[K] F)
+      change (IsScalarTower.toAlgHom L (L ⊗[K] F)
         (AdjoinRoot (P.map (Algebra.TensorProduct.includeRight : F →ₐ[K] L ⊗[K] F).toRingHom)))
           (l ⊗ₜ[K] x) = _
       rw [← mul_one l, ← smul_eq_mul, ← TensorProduct.smul_tmul', map_smul]
@@ -595,16 +594,16 @@ theorem exists_isLocalization_away_tensor_adjoinRoot
   let f := (e.restrictScalars R).toAlgHom.comp f₀
   have hroot : e (AdjoinRoot.root (P.map i)) = f (AdjoinRoot.root P) := by
     simp only [f, AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.restrictScalars_apply]
-    show _ = e (AdjoinRoot.map i P (P.map i) dvd_rfl (AdjoinRoot.root P))
+    change _ = e (AdjoinRoot.map i P (P.map i) dvd_rfl (AdjoinRoot.root P))
     rw [AdjoinRoot.map_root]
   refine ⟨f.toRingHom, fun x => f.commutes x, ?_, ?_⟩
-  · show f (AdjoinRoot.root P) = _
+  · change f (AdjoinRoot.root P) = _
     rw [← hroot]
-    show e₀ ((Ideal.quotientEquivAlgOfEq (L ⊗[K] F)
+    change e₀ ((Ideal.quotientEquivAlgOfEq (L ⊗[K] F)
       (congrArg (fun p : (L ⊗[K] F)[X] => Ideal.span {p}) hPQ)) (Ideal.Quotient.mk _ X)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk]
     apply (AdjoinRoot.tensorAlgEquiv (R := K) (T := L) Q _ rfl).injective
-    show (AdjoinRoot.tensorAlgEquiv (R := K) (T := L) Q _ rfl)
+    change (AdjoinRoot.tensorAlgEquiv (R := K) (T := L) Q _ rfl)
       ((AdjoinRoot.tensorAlgEquiv (R := K) (T := L) Q _ rfl).symm (AdjoinRoot.root _)) = _
     rw [AlgEquiv.apply_symm_apply, AdjoinRoot.tensorAlgEquiv_root]
   · exact isLocalization_away_of_adjoinRoot_equiv R (L ⊗[K] F)
@@ -658,7 +657,7 @@ theorem formallySmoothNAdic_atMaximal_of_common_surjective_square
   have hkq' : RingHom.ker b' ≤ q' := (hker' q').trans (Ideal.pow_le_self (by decide))
   have : q₀.IsMaximal := Ideal.IsMaximal.map_of_surjective_of_ker_le hb' hkq'
   have hqb' : q' = q₀.comap b' := by
-    show q' = (q'.map b').comap b'
+    change q' = (q'.map b').comap b'
     rw [Ideal.comap_map_of_surjective b' hb', ← RingHom.ker_eq_comap_bot,
       sup_eq_left.mpr hkq']
   let q := q₀.comap b
@@ -669,10 +668,10 @@ theorem formallySmoothNAdic_atMaximal_of_common_surjective_square
   have hp' : p'.IsMaximal := hmax' q'
   let p₀ := q₀.comap f₀
   have hpa : p = p₀.comap a := by
-    show (q₀.comap b).comap f = (q₀.comap f₀).comap a
+    change (q₀.comap b).comap f = (q₀.comap f₀).comap a
     rw [Ideal.comap_comap, Ideal.comap_comap, hsq]
   have hpa' : p' = p₀.comap a' := by
-    show q'.comap f' = (q₀.comap f₀).comap a'
+    change q'.comap f' = (q₀.comap f₀).comap a'
     rw [hqb', Ideal.comap_comap, Ideal.comap_comap, hsq']
   obtain ⟨dR, vR⟩ := hR p
   obtain ⟨dS, vS⟩ := hS q
@@ -743,7 +742,7 @@ theorem localRingHom_injective_of_finite_of_nonZeroDivisor
   · exact algebraMap_mem_maximalIdeal_of_mem_jacobson_bot
       (map_maximalIdeal_le_jacobson_of_isIntegral A R (Ideal.mem_map_of_mem _ hx)) p
   · rw [Localization.localRingHom_to_map]
-    show algebraMap S (Localization.AtPrime q) (algebraMap R S (algebraMap A R x)) ≠ 0
+    change algebraMap S (Localization.AtPrime q) (algebraMap R S (algebraMap A R x)) ≠ 0
     rw [← IsScalarTower.algebraMap_apply A R S]
     exact nonZeroDivisors.ne_zero (IsLocalization.nonZeroDivisors_le_comap q.primeCompl
       (Localization.AtPrime q) hreg)

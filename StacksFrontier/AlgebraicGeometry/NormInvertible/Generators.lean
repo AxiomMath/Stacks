@@ -132,7 +132,7 @@ theorem generatorRestrict_trans {U V W : Opens X.carrier} (h : V ≤ U) (k : W �
     generatorRestrict L k (generatorRestrict L h s) =
       generatorRestrict L (k.trans h) s := by
   refine Subtype.ext ?_
-  show L.val.map (homOfLE k).op (L.val.map (homOfLE h).op s.val) =
+  change L.val.map (homOfLE k).op (L.val.map (homOfLE h).op s.val) =
     L.val.map (homOfLE (k.trans h)).op s.val
   rw [← PresheafOfModules.map_comp_apply]
   congr 2
@@ -242,7 +242,7 @@ theorem generatorRatio_mapIso {L M : _root_.SheafOfModules.{u} (structureSheaf X
     generatorRatio M U (generatorMapIso e U s) (generatorMapIso e U t) =
       generatorRatio L U s t := by
   refine (generatorRatio_unique M U _ _ _ ?_).symm
-  show e.hom.val.app (op U) t.val = _
+  change e.hom.val.app (op U) t.val = _
   rw [generatorRatio_spec L U s t]
   exact (e.hom.val.app (op U)).hom.map_smul _ _
 
@@ -252,7 +252,7 @@ theorem generatorRatio_restrict {U V : Opens X.carrier} (h : V ≤ U)
     generatorRatio L V (generatorRestrict L h s) (generatorRestrict L h t) =
       (structureSheaf X.sheaf).obj.map (homOfLE h).op (generatorRatio L U s t) := by
   refine (generatorRatio_unique L V _ _ _ ?_).symm
-  show L.val.map (homOfLE h).op t.val =
+  change L.val.map (homOfLE h).op t.val =
     (structureSheaf X.sheaf).obj.map (homOfLE h).op (generatorRatio L U s t) •
       L.val.map (homOfLE h).op s.val
   rw [generatorRatio_spec L U s t]
@@ -307,7 +307,7 @@ theorem generatorRatioUnit_restrict {U V : Opens X.carrier} (h : V ≤ U)
       Units.map ((structureSheaf X.sheaf).obj.map (homOfLE h).op).hom
         (generatorRatioUnit L U s t) :=
   Units.ext <| by
-    show (generatorRatioUnit L V (generatorRestrict L h s) (generatorRestrict L h t)).val =
+    change (generatorRatioUnit L V (generatorRestrict L h s) (generatorRestrict L h t)).val =
       ((structureSheaf X.sheaf).obj.map (homOfLE h).op).hom (generatorRatioUnit L U s t).val
     rw [generatorRatioUnit_val, generatorRatio_restrict, generatorRatioUnit_val]
 

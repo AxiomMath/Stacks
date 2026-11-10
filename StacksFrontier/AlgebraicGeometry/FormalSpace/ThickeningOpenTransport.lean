@@ -162,7 +162,7 @@ theorem preimage_transportedOpen
   have hcomp : stageBase B S hS D o ho i ≫ (BigFppfOver.toScheme B S hS).map (D.map f) =
       stageBase B S hS D o ho j := by
     simp only [stageBase, ← Functor.map_comp, hmap]
-  show stageBase B S hS D o ho i ⁻¹ᵁ _ = stageBase B S hS D o ho i ⁻¹ᵁ _
+  change stageBase B S hS D o ho i ⁻¹ᵁ _ = stageBase B S hS D o ho i ⁻¹ᵁ _
   rw [preimage_stageBase_transportedOpen, ← Scheme.Hom.comp_preimage, hcomp,
     preimage_stageBase_transportedOpen]
 
@@ -181,7 +181,7 @@ order isomorphism of lattices of opens carries a supremum to a supremum, and `�
 theorem iSup_transportedOpen_eq_top {ι : Type*}
     (V : ι → ((BigFppfOver.toScheme B S hS).obj (D.obj o)).Opens) (hV : iSup V = ⊤) (i : Λ) :
     (⨆ k, transportedOpen B S hS D hD o ho (V k) i) = ⊤ := by
-  show (⨆ k, (isThickening_stageBase B S hS D hD o ho i).opensCongr (V k)) = ⊤
+  change (⨆ k, (isThickening_stageBase B S hS D hD o ho i).opensCongr (V k)) = ⊤
   rw [← (isThickening_stageBase B S hS D hD o ho i).opensCongr.map_iSup V, hV]
   exact (isThickening_stageBase B S hS D hD o ho i).opensCongr.map_top
 
@@ -320,7 +320,7 @@ theorem isOpenImmersion_transportedOpenι
     (V : ((BigFppfOver.toScheme B S hS).obj (D.obj o)).Opens) (i : Λ) :
     IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (transportedOpenι B S hS D hD o ho V i)) := by
-  show IsOpenImmersion (transportedOpen B S hS D hD o ho V i).ι
+  change IsOpenImmersion (transportedOpen B S hS D hD o ho V i).ι
   infer_instance
 
 include hD in

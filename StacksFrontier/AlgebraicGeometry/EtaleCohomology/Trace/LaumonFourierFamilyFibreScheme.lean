@@ -129,14 +129,14 @@ public theorem exists_laumonFourierFibre_fieldExtension [Finite (V'.1.residueFie
       (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))) (V'.1.residueField v) :=
     ObjectProperty.homMk (β.hom ≫ hP.isoPullback.hom)
   refine ⟨α, ?_, ?_, ?_, ?_⟩
-  · show IsIso (β.hom ≫ hP.isoPullback.hom)
+  · change IsIso (β.hom ≫ hP.isoPullback.hom)
     infer_instance
   · have hc : ConnectedSpace (Spec (.of (Polynomial (V'.1.residueField v)))) := inferInstance
     exact @Function.Surjective.connectedSpace _ _ _ hc _ _ (Scheme.homeoOfIso β.symm).surjective
       (Scheme.homeoOfIso β.symm).continuous
-  · show (β.hom ≫ hP.isoPullback.hom) ≫ _ = fY
+  · change (β.hom ≫ hP.isoPullback.hom) ≫ _ = fY
     rw [Category.assoc, IsPullback.isoPullback_hom_snd, hβC]
-  · show _ = ((β.hom ≫ hP.isoPullback.hom) ≫ _) ≫ _
+  · change _ = ((β.hom ≫ hP.isoPullback.hom) ≫ _) ≫ _
     rw [Category.assoc, Category.assoc, IsPullback.isoPullback_hom_fst_assoc, ← Spec.map_comp,
       ← CommRingCat.ofHom_comp]
     refine hβφ.trans ?_

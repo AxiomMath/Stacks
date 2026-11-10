@@ -194,7 +194,7 @@ theorem resolutionCotangentPush_D {i j : SimplexCategoryᵒᵖ} (g : P.obj i ⟶
   have : IsScalarTower A R Q :=
     IsScalarTower.of_algebraMap_eq (fun a => (g.hom.commutes a).symm)
   have : IsScalarTower R Q B := IsScalarTower.of_algebraMap_eq' hg.symm
-  show (1 : B) ⊗ₜ[Q] (KaehlerDifferential.map A A R Q (KaehlerDifferential.D A R p)) = _
+  change (1 : B) ⊗ₜ[Q] (KaehlerDifferential.map A A R Q (KaehlerDifferential.D A R p)) = _
   rw [KaehlerDifferential.map_D]
   rfl
 

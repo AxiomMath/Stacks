@@ -87,8 +87,8 @@ public theorem gradedDiag_mul {S T : Matrix ι ι R} (hS : IsGradedUpper d S)
   split_ifs with hij
   · refine Finset.sum_congr rfl fun k _ => ?_
     by_cases hik : d i = d k
-    · rw [if_pos hik, if_pos (hik.symm.trans hij)]
-    · rw [if_neg hik, zero_mul]
+    · rw [ite_eq_left hik, ite_eq_left (hik.symm.trans hij)]
+    · rw [ite_eq_right hik, zero_mul]
       exact mul_eq_zero_of_ne_of_lt (hS i k) (fun h => hT k j (hij ▸ h)) hik
   · refine (Finset.sum_eq_zero fun k _ => ?_).symm
     split_ifs <;> simp_all
@@ -117,9 +117,9 @@ public theorem gradedDiag_kronecker {d' : κ → ℤ} {S : Matrix ι ι R} {T : 
   simp only [gradedDiag, kronecker_apply]
   by_cases h1 : d i = d j
   · by_cases h2 : d' k = d' l
-    · rw [if_pos (by omega), if_pos h1, if_pos h2]
-    · rw [if_neg (by omega), if_neg h2, mul_zero]
-  · rw [if_neg h1, zero_mul]
+    · rw [ite_eq_left (by omega), ite_eq_left h1, ite_eq_left h2]
+    · rw [ite_eq_right (by omega), ite_eq_right h2, mul_zero]
+  · rw [ite_eq_right h1, zero_mul]
     split_ifs with h
     · exact mul_eq_zero_of_ne_of_lt (hS i j) (fun _ => hT k l (by omega)) h1
     · rfl
@@ -145,25 +145,25 @@ public theorem exists_vecMul_gradedDiag_eq {A : Type*} {T : A → Matrix ι ι R
   refine ⟨fun i => if d i = p then v i else 0, ?_, fun a => ?_⟩
   · intro h
     have := congrFun h i₀
-    rw [if_pos rfl, Pi.zero_apply] at this
+    rw [ite_eq_left rfl, Pi.zero_apply] at this
     exact (Finset.mem_filter.mp hi₀).2 this
   · ext j
     have hj := congrFun (hvT a) j
     simp only [vecMul, dotProduct, Pi.smul_apply, smul_eq_mul] at hj ⊢
     by_cases hjp : d j = p
-    · rw [if_pos hjp, ← hj]
+    · rw [ite_eq_left hjp, ← hj]
       refine Finset.sum_congr rfl fun i _ => ?_
       simp only [gradedDiag]
       by_cases hip : d i = p
-      · rw [if_pos hip, if_pos (hip.trans hjp.symm)]
-      · rw [if_neg hip, zero_mul]
+      · rw [ite_eq_left hip, ite_eq_left (hip.trans hjp.symm)]
+      · rw [ite_eq_right hip, zero_mul]
         exact (mul_eq_zero_of_ne_of_lt (hlow i) (fun _ => hT a i j (by omega)) (Ne.symm hip)).symm
-    · rw [if_neg hjp, mul_zero]
+    · rw [ite_eq_right hjp, mul_zero]
       refine Finset.sum_eq_zero fun i _ => ?_
       simp only [gradedDiag]
       by_cases hip : d i = p
-      · rw [if_pos hip, if_neg (fun h => hjp (h.symm.trans hip)), mul_zero]
-      · rw [if_neg hip, zero_mul]
+      · rw [ite_eq_left hip, ite_eq_right (fun h => hjp (h.symm.trans hip)), mul_zero]
+      · rw [ite_eq_right hip, zero_mul]
 
 end Stacks.EtaleCohomology
 

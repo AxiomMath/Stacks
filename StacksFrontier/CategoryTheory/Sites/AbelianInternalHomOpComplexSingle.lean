@@ -102,7 +102,7 @@ lemma homOpComplexSingleXIso_hom_comm (n : ℤ) :
       (homOpComplex K ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj A) M).d n (n + 1) ≫
         (homOpComplexSingleXIso K A M (n + 1)).hom := by
   rw [homOpComplex_d]
-  show _ = homOpComplexD K _ M n ≫ homOpComplexπ K _ M (n + 1) (homOpSingleIndex (n + 1)) ≫ _
+  change _ = homOpComplexD K _ M n ≫ homOpComplexπ K _ M (n + 1) (homOpSingleIndex (n + 1)) ≫ _
   rw [homOpComplexD_π_assoc]
   unfold homOpComplexDComponent
   have hd : ∀ i j, ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj A).d i j = 0 :=

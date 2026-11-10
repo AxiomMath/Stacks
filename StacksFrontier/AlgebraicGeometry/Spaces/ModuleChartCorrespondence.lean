@@ -542,7 +542,7 @@ theorem moduleChartProjection_app_moduleFMapSection (f : X ⟶ Y)
       (smallEtaleDirectImageRanIso B S hS f).hom.app (moduleSetSheaf B S hS X F) =
       fmapRan B S hS f (moduleSetSheaf B S hS X F) (moduleSetSheaf B S hS Y G)
         (ModuleFMap.toFMap B S hS ξ) := by
-    show (fmapRan B S hS f (moduleSetSheaf B S hS X F) (moduleSetSheaf B S hS Y G)
+    change (fmapRan B S hS f (moduleSetSheaf B S hS X F) (moduleSetSheaf B S hS Y G)
           (ModuleFMap.toFMap B S hS ξ) ≫
         (smallEtaleDirectImageRanIso B S hS f).inv.app (moduleSetSheaf B S hS X F)) ≫
         (smallEtaleDirectImageRanIso B S hS f).hom.app (moduleSetSheaf B S hS X F) = _
@@ -607,7 +607,7 @@ theorem moduleFMapSection_naturality (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.
     moduleFMapSection B S hS f F G ξ W (G.val.map g.op s) =
       ((modulePushforward B S hS f).obj F).val.map g.op
         (moduleFMapSection B S hS f F G ξ V s) := by
-  show (moduleFMapSetHom B S hS f F G ξ).hom.app (op W)
+  change (moduleFMapSetHom B S hS f F G ξ).hom.app (op W)
       ((moduleSetSheaf B S hS Y G).obj.map g.op s) =
     ((smallEtaleDirectImage B S hS f).obj (moduleSetSheaf B S hS X F)).obj.map g.op
       ((moduleFMapSetHom B S hS f F G ξ).hom.app (op V) s)

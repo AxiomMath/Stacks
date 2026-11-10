@@ -328,7 +328,7 @@ theorem BivariantClass.capTarget_chowCohomologyCap_of_bivariantCommute
   subst hf
   replace hcomm : BivariantCommute C G sY f (𝟙 Y) q p F
       (bivariantClassCongrBase C G (𝟙 Y) (Category.id_comp sY).symm rfl p c) := hcomm
-  show F.capTarget C G (f ≫ sY) sY f rfl q (k - p) (chowCohomologyCap C G sY p c k β) =
+  change F.capTarget C G (f ≫ sY) sY f rfl q (k - p) (chowCohomologyCap C G sY p c k β) =
       chowGroupDegreeEquiv C (f ≫ sY) (by ring : k - q - p = k - p - q)
         (chowCohomologyCap C G (f ≫ sY) p (chowCohomologyRestriction C G sY f p hgys c) (k - q)
           (F.capTarget C G (f ≫ sY) sY f rfl q k β))

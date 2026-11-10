@@ -81,13 +81,13 @@ theorem curveFibreDegree_picardBaseAddEquiv_eq_picardDegree (L : Stacks.Picard.o
         (picardBaseAddEquiv B hX hk f σ hσ (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ) L) t =
       picardDegree k (B.inclusion.map f) (topologicalKrullDim_le_one_of_isCurve B hX hk f)
         (Stacks.GluePicard.picardModelAddEquiv X.toRingedSpace L) := by
-  show fibreDegree B hX hk f σ hσ _ _ (toPicardFunctorHom B hX hk f (baseOver B hk)
+  change fibreDegree B hX hk f σ hσ _ _ (toPicardFunctorHom B hX hk f (baseOver B hk)
     (picardAtBaseOverAddEquiv B hX hk f L)) t = _
   rw [fibreDegree_toPicardFunctorHom, fibreClassDegree_eq]
   have hq := isPullback_baseChangeBaseOverIso B hX hk f
   have hL : Stacks.Picard.schemePullbackClass (baseChangeBaseOverIso B hX hk f).hom
       (picardAtBaseOverAddEquiv B hX hk f L) = L := by
-    show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ L) = L
+    change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ L) = L
     rw [Stacks.Picard.schemePullbackClass_comp, Iso.hom_inv_id,
       Stacks.Picard.schemePullbackClass_id]
   have h0 : Stacks.Picard.schemePullbackClass (baseChangeBaseOverIso B hX hk f).hom

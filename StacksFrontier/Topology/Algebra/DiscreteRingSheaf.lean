@@ -164,17 +164,17 @@ theorem isSheaf_comp_discreteULiftFunctor {C : Type u'} [Category.{v} C]
       constructor
       · rintro h i
         apply DiscreteULift.down_injective
-        show ((x (f i) (hfS i)).1 e).down = P.map (f i).op s.down
+        change ((x (f i) (hfS i)).1 e).down = P.map (f i).op s.down
         rw [← h]
         exact (hres (f i) (hfS i) e).symm
       · intro h
         apply DiscreteULift.down_injective
-        show t e = s.down
+        change t e = s.down
         refine (hP _ hfcov).isSeparatedFor.ext fun Z g hg ↦ ?_
         obtain ⟨W, a, b, ⟨i⟩, rfl⟩ := hg
-        show P.map (a ≫ f i).op (t e) = P.map (a ≫ f i).op s.down
+        change P.map (a ≫ f i).op (t e) = P.map (a ≫ f i).op s.down
         rw [op_comp, P.map_comp]
-        show (P.map a.op) (P.map (f i).op (t e)) = (P.map a.op) (P.map (f i).op s.down)
+        change (P.map a.op) (P.map (f i).op (t e)) = (P.map a.op) (P.map (f i).op s.down)
         rw [hres (f i) (hfS i) e]
         congr 1
         exact congrArg DiscreteULift.down (h i)

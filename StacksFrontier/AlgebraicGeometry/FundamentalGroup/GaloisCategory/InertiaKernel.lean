@@ -90,7 +90,7 @@ private theorem comap_normalClosure_topologicalClosure
     ((Subgroup.normalClosure s).topologicalClosure).comap e.toMonoidHom =
       (Subgroup.normalClosure (e ⁻¹' s)).topologicalClosure := by
   apply SetLike.coe_injective
-  show e ⁻¹' closure (Subgroup.normalClosure s : Set H) = _
+  change e ⁻¹' closure (Subgroup.normalClosure s : Set H) = _
   rw [show e ⁻¹' closure (Subgroup.normalClosure s : Set H) =
     closure (e ⁻¹' (Subgroup.normalClosure s : Set H)) from
       e.toHomeomorph.preimage_closure _]
@@ -188,7 +188,7 @@ theorem galoisEquivEtaleFundamentalGroup_naturality
     exact (etaleFundamentalGroupMap_finiteEtaleFiberProjection f x Y
       (galoisEquivEtaleFundamentalGroup E L Ω σ) pE).symm
   refine Eq.trans (congrArg Subtype.val hp'') ?_
-  show (((galoisEquivEtaleFundamentalGroup E L Ω σ).asIso.app _).hom pE).1 ≫
+  change (((galoisEquivEtaleFundamentalGroup E L Ω σ).asIso.app _).hom pE).1 ≫
     pullback.fst Y.hom f = _
   refine Eq.trans (congrArg (· ≫ pullback.fst Y.hom f)
     (galoisEquivEtaleFundamentalGroup_apply E L Ω _ σ pE r hr)) ?_
@@ -206,7 +206,7 @@ private theorem range_restrictScalars_eq_fixingSubgroup
   constructor
   · rintro ⟨τ, rfl⟩ a
     obtain ⟨b, hb⟩ := a.property
-    show τ (a : L) = (a : L)
+    change τ (a : L) = (a : L)
     rw [← hb]
     exact τ.commutes b
   · exact fun hσ =>

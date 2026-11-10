@@ -141,9 +141,9 @@ private theorem exists_isPullback_of_etale_of_isClosedImmersion {Y X S : Scheme.
   have hgi : g ≫ U.ι = i := IsOpenImmersion.lift_fac _ _ _
   have heq : p ⁻¹ᵁ U.ι.opensRange = d.opensRange := by
     ext z
-    show p z ∈ Set.range U.ι ↔ z ∈ Set.range d
+    change p z ∈ Set.range U.ι ↔ z ∈ Set.range d
     rw [Scheme.Opens.range_ι]
-    show p z ∉ p '' (Set.range d)ᶜ ↔ z ∈ Set.range d
+    change p z ∉ p '' (Set.range d)ᶜ ↔ z ∈ Set.range d
     refine ⟨fun hz => by_contra fun hzd => hz ⟨z, hzd, rfl⟩, ?_⟩
     rintro hz ⟨w, hw, hwz⟩
     exact hw (p.isEmbedding.injective hwz ▸ hz)
@@ -183,14 +183,14 @@ private theorem isQuasiRegularImmersion_comp_of_etale_of_isClosedImmersion {Y X 
     refine MorphismProperty.IsLocalAtTarget.of_zeroHypercover
       (P := quasiRegularImmersionProperty.{u}) ⟨C.toPreZeroHypercover, C.mem₀⟩ fun b => ?_
     cases b
-    · show quasiRegularImmersionProperty.{u} (pullback.snd j V.ι)
+    · change quasiRegularImmersionProperty.{u} (pullback.snd j V.ι)
       have : IsEmpty (pullback j V.ι : Scheme.{u}) := by
         refine ⟨fun z => ?_⟩
         have hz := congrArg (fun h : pullback j V.ι ⟶ S => h z)
           (pullback.condition (f := j) (g := V.ι))
         exact (pullback.snd j V.ι z).2 ⟨pullback.fst j V.ι z, hz⟩
       exact ⟨inferInstance, isQuasiRegularImmersion_of_isEmpty _⟩
-    · show quasiRegularImmersionProperty.{u} (pullback.snd j (U.ι ≫ e))
+    · change quasiRegularImmersionProperty.{u} (pullback.snd j (U.ι ≫ e))
       rw [← H.isoPullback_inv_snd]
       exact (MorphismProperty.cancel_left_of_respectsIso quasiRegularImmersionProperty.{u}
         H.isoPullback.inv g).mpr ⟨inferInstance, hg⟩

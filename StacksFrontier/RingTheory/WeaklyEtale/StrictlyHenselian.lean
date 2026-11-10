@@ -147,7 +147,7 @@ private theorem idempotent_trivial_over_residue_extension
   let : IsScalarTower Q K L := .of_algebraMap_eq' rfl
   let : IsScalarTower A Q L := .of_algebraMap_eq' (by
     ext a
-    show (algebraMap A L) a = (algebraMap Q L) (Ideal.Quotient.mk p a)
+    change (algebraMap A L) a = (algebraMap Q L) (Ideal.Quotient.mk p a)
     rw [IsScalarTower.algebraMap_apply A K L, IsScalarTower.algebraMap_apply Q K L]
     rfl)
   have hinj : Function.Injective (algebraMap Q L) :=
@@ -184,7 +184,7 @@ private theorem finite_split_image_scalar
   obtain ⟨n, ⟨equiv⟩⟩ := Algebra.IsFiniteSplit.nonempty_algEquiv_fun K E
   let ψ : (Fin n → K) →ₐ[K] C := f.comp equiv.symm.toAlgHom
   have hidem (i : Fin n) : IsIdempotentElem (ψ (Pi.single i 1)) := by
-    show ψ (Pi.single i 1) * ψ (Pi.single i 1) = ψ (Pi.single i 1)
+    change ψ (Pi.single i 1) * ψ (Pi.single i 1) = ψ (Pi.single i 1)
     rw [← map_mul]
     congr 1
     ext j
@@ -294,8 +294,7 @@ private theorem tensor_self_algebraMap_surjective_of_surjective
     (h : Function.Surjective (algebraMap K S)) :
     Function.Surjective (algebraMap K (S ⊗[K] S)) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨a, rfl⟩ := h x
     obtain ⟨b, rfl⟩ := h y
@@ -355,7 +354,7 @@ theorem bijective_algebraMap_of_weaklyEtale_of_isLocalHom
     apply (Algebra.isEpi_iff_forall_one_tmul_eq A B).mpr
     intro b
     apply hμff.injective
-    show (Algebra.TensorProduct.lmul' A (S := B)) (1 ⊗ₜ[A] b) =
+    change (Algebra.TensorProduct.lmul' A (S := B)) (1 ⊗ₜ[A] b) =
       (Algebra.TensorProduct.lmul' A (S := B)) (b ⊗ₜ[A] 1)
     simp
   exact faithfullyFlat_epimorphism_isIso A B

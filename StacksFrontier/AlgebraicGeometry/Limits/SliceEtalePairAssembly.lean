@@ -211,8 +211,8 @@ public theorem exists_slice_etale_pair_of_common_neighborhood_section
     (hal : al ≫ pullback.snd fX m = pU) (hbe : be ≫ pullback.snd gY bT = pU)
     (halres : IsIso (al.residueFieldMap u)) (hberes : IsIso (be.residueFieldMap u))
     (halx : pullback.fst fX m (al u) = x) :
-    ∃ (V : Scheme.{u}) (v : V) (pV : V ⟶ S) (tau : V ⟶ T)
-      (hpVe : Etale pV) (hpVres : IsIso (pV.residueFieldMap v)) (hpVs : pV v = s),
+    ∃ (V : Scheme.{u}) (v : V) (pV : V ⟶ S) (tau : V ⟶ T), Etale pV ∧
+      ∃ (hpVres : IsIso (pV.residueFieldMap v)) (hpVs : pV v = s),
       tau v = t ∧
       specResidueFieldSection m hz hzres ≫ bT =
         specResidueFieldSection pV hpVs hpVres ≫ tau ∧

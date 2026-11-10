@@ -66,16 +66,11 @@ namespace Stacks.Cech.Flasque
 
 variable (X : TopCat.{u})
 
-variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat]
-
 attribute [local instance] HasDerivedCategory.standard
 
 attribute [local instance 2000]
   HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- The canonical map from ordinary to derived global sections, written out as the composite of
 its five factors. -/
 private theorem globalSectionsToDerivedNat_app_factors
@@ -99,8 +94,6 @@ private theorem globalSectionsToDerivedNat_app_factors
               (SheafOfModules.{u} R)).hom.app K)) :=
   rfl
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **A bounded below complex whose terms are right acyclic for global sections computes derived
 global sections.** This is Leray's acyclicity lemma read through the four natural isomorphisms
 that relate the localisation of the complex of global sections to the value of the derived
@@ -143,8 +136,6 @@ theorem isIso_globalSectionsToDerived_of_rightAcyclic
       (@Functor.map_isIso _ _ _ _ _ _
         (abelianGlobalSections X R).rightDerivedFunctorPlus _ h5)
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **The higher derived sections of a flasque sheaf of modules vanish over every open subset.**
 A flasque sheaf is right acyclic for sections (Tag 09SY), and for a left exact functor right
 acyclicity is the vanishing of all higher right derived functors (Tag 015C). -/
@@ -159,8 +150,6 @@ theorem isZero_rightDerived_evaluation_of_isFlasque
     (SheafOfModules.evaluation.{u} R (op V)) A).1
     (Stacks.Cohomology.FlasqueAcyclic.rightAcyclic_evaluation_of_isFlasque R A V hA) i hi
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **A flasque sheaf of modules is right acyclic for global sections of the underlying abelian
 sheaf.** Its higher derived sections over `X` vanish, and forgetting the module structure is
 exact. -/
@@ -176,8 +165,6 @@ theorem rightAcyclic_abelianGlobalSections_of_isFlasque
       (isZero_rightDerived_evaluation_of_isFlasque X R ⊤ A hA i hi)
   exact h
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **Ordinary global sections of a bounded below complex of flasque modules compute derived
 global sections.** Every term is right acyclic for global sections, so Leray's acyclicity lemma
 applies. -/

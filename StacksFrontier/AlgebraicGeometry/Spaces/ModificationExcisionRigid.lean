@@ -78,7 +78,7 @@ theorem isIso_fromPreimage_depProdπ (f : V ⟶ W) (W₀ : Subfunctor W) (Y : Ov
       (z₁ z₂ : Y.left.obj A), Y.hom.app A z₁ = v → Y.hom.app A z₂ = v → z₁ = z₂ := by
     intro A v hv z₁ z₂ h₁ h₂
     refine eq_of_app_eq_of_mem B S hS Y.hom (W₀.preimage f) hY (h₁.trans h₂.symm) ?_
-    show f.app A (Y.hom.app A z₁) ∈ W₀.obj A
+    change f.app A (Y.hom.app A z₁) ∈ W₀.obj A
     rwa [h₁]
   -- The forced second component of a section lying over `W₀`.
   have hsec : ∀ (A : (BigFppfOver B S hS)ᵒᵖ) (w : W.obj A), w ∈ W₀.obj A →

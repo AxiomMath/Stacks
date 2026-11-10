@@ -141,6 +141,7 @@ private theorem telescope_map_grading {P : DGModule A} (F : PropertyPFiltration 
   exact sum_mem fun i _ => h n i _ (hx i)
 
 set_option maxHeartbeats 1000000 in
+-- long proof checking every DG-module law componentwise over the `DirectSum`
 /-- **(1) Lawfulness of the telescope object.**
 `G = ⨁_{i≥0} F_i P` is a lawful DG `A`-module.  Each `F_i P = (F.F i).toDGModule` is lawful
 by `F.F_lawful i`, and `directSum` is lawful whenever every summand is: the internal-direct-sum
@@ -190,7 +191,7 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
     · -- d_comp_d
       intro y
       apply Subtype.ext
-      show ((F.F i).toSubmodule.subtype ((N i).d ((N i).d y)) : P.carrier)
+      change ((F.F i).toSubmodule.subtype ((N i).d ((N i).d y)) : P.carrier)
           = ((F.F i).toSubmodule.subtype 0 : P.carrier)
       rw [d_eq, d_eq]
       simp [hP.d_comp_d]
@@ -198,7 +199,7 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
       intro n m y a hy ha
       rw [mem_grading] at hy
       apply Subtype.ext
-      show ((F.F i).toSubmodule.subtype ((N i).d ((op a) • y)) : P.carrier)
+      change ((F.F i).toSubmodule.subtype ((N i).d ((op a) • y)) : P.carrier)
           = ((F.F i).toSubmodule.subtype
               ((op a) • (N i).d y + ((-1 : ℤ) ^ n.natAbs) • (op (A.d a) • y)) : P.carrier)
       rw [d_eq, smul_eq]
@@ -225,7 +226,7 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
         rw [map_add, DirectSum.add_apply, DirectSum.add_apply, ha, hb, map_add]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · -- isInternal
-    show Function.Bijective (DirectSum.coeAddMonoidHom (directSumGrading N))
+    change Function.Bijective (DirectSum.coeAddMonoidHom (directSumGrading N))
     -- Each summand is internally graded.
     have hbij : ∀ i, Function.Bijective (DirectSum.coeAddMonoidHom (N i).grading) :=
       fun i => F.F_lawful i
@@ -276,7 +277,7 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
       have hcomp : (pdeg i n (z n) : ↥((N i).grading n)) = (0 : ↥((N i).grading n)) := by
         rw [← proj_apply i z n, hpz i]; simp
       have hval : ((z n : ↥(directSumGrading N n)) : ⨁ j, (N j).carrier) i = 0 := by
-        show ((pdeg i n (z n) : ↥((N i).grading n)) : (N i).carrier) = 0
+        change ((pdeg i n (z n) : ↥((N i).grading n)) : (N i).carrier) = 0
         rw [hcomp]; simp
       rw [hval]; simp
     · -- surjective
@@ -298,7 +299,7 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
               map_zero' := by apply Subtype.ext; simp
               map_add' := by
                 intro c d; apply Subtype.ext
-                show (DirectSum.of (fun k => (N k).carrier) j) ((c : (N j).carrier) + d) = _
+                change (DirectSum.of (fun k => (N k).carrier) j) ((c : (N j).carrier) + d) = _
                 rw [map_add]; rfl }
           let Z : (⨁ n, ↥((N j).grading n)) →+ (⨁ n, ↥(directSumGrading N n)) :=
             DirectSum.map embj
@@ -325,26 +326,26 @@ theorem telescopeObj_isLawful {P : DGModule A} (hP : P.IsLawful)
           obtain ⟨zb, hzb⟩ := hb
           exact ⟨za + zb, by rw [map_add, hza, hzb]⟩
   · -- grading_smul
-    show ∀ (n m : ℤ) (x : ⨁ i, (N i).carrier) (a : A.carrier),
+    change ∀ (n m : ℤ) (x : ⨁ i, (N i).carrier) (a : A.carrier),
         x ∈ directSumGrading N n → a ∈ A.grading m →
         (op a) • x ∈ directSumGrading N (n + m)
     intro n m x a hx ha i
     rw [DirectSum.smul_apply]
     exact (summandLawful i).grading_smul n m (x i) a (hx i) ha
   · -- d_mem
-    show ∀ (n : ℤ) (x : ⨁ i, (N i).carrier),
+    change ∀ (n : ℤ) (x : ⨁ i, (N i).carrier),
         x ∈ directSumGrading N n → directSumD N x ∈ directSumGrading N (n + 1)
     intro n x hx i
     rw [d_ds]
     exact (summandLawful i).d_mem n (x i) (hx i)
   · -- d_comp_d
-    show ∀ (x : ⨁ i, (N i).carrier), directSumD N (directSumD N x) = 0
+    change ∀ (x : ⨁ i, (N i).carrier), directSumD N (directSumD N x) = 0
     intro x
     apply DirectSum.ext (fun i => ?_)
     rw [d_ds, d_ds, (summandLawful i).d_comp_d (x i)]
     rfl
   · -- leibniz
-    show ∀ (n m : ℤ) (x : ⨁ i, (N i).carrier) (a : A.carrier),
+    change ∀ (n m : ℤ) (x : ⨁ i, (N i).carrier) (a : A.carrier),
         x ∈ directSumGrading N n → a ∈ A.grading m →
         directSumD N (op a • x)
           = op a • directSumD N x
@@ -374,7 +375,7 @@ theorem exists_telescopeAlpha {P : DGModule A}
       (DirectSum.lof (A.carrier)ᵐᵒᵖ ℕ (fun i => (F.F i).toDGModule.carrier) i) y
         ∈ (telescopeObj F).grading n := by
     intro n i y hy j
-    show (DirectSum.of (fun i => (F.F i).toDGModule.carrier) i y) j ∈ (F.F j).grading n
+    change (DirectSum.of (fun i => (F.F i).toDGModule.carrier) i y) j ∈ (F.F j).grading n
     rw [DirectSum.of_apply]
     by_cases hij : i = j
     · subst hij
@@ -742,12 +743,12 @@ theorem telescopeAlpha_admissibleMono {P : DGModule A}
     -- ρ ∘ α = id
     intro x
     rw [hα]
-    show ρFun (telescopeAlphaFun F x) = x
+    change ρFun (telescopeAlphaFun F x) = x
     induction x using DirectSum.induction_on with
     | zero => simp
     | of i a =>
         rw [telescopeAlphaFun_of, map_sub, rho_lof, rho_lof, retrR_succ, telescopeRetrS_spec]
-        show (telescopeRetrR F i).toFun a
+        change (telescopeRetrR F i).toFun a
             - ((telescopeRetrR F i).toFun a - (lofGraded F i).toFun a)
           = (DirectSum.of (fun i => (F.F i).toDGModule.carrier) i) a
         rw [sub_sub_cancel]
@@ -813,11 +814,11 @@ theorem telescopeBeta_admissibleEpi {P : DGModule A}
     LinearMap.id - af ∘ₗ ρf with hφ
   have hρφ : ∀ g, ρf (φ g) = 0 := by
     intro g
-    show ρf (g - af (ρf g)) = 0
+    change ρf (g - af (ρf g)) = 0
     rw [map_sub, hρα, sub_self]
   have hβφ : ∀ g, bf (φ g) = bf g := by
     intro g
-    show bf (g - af (ρf g)) = bf g
+    change bf (g - af (ρf g)) = bf g
     rw [map_sub, hβα, sub_zero]
   -- The kernel submodule of ρ.
   set Kρ : Submodule (A.carrier)ᵐᵒᵖ (telescopeObj F).carrier := LinearMap.ker ρf with hKρ
@@ -830,7 +831,7 @@ theorem telescopeBeta_admissibleEpi {P : DGModule A}
     obtain ⟨g, hg⟩ := telescopeBetaFun_surjective F y
     refine ⟨⟨φ g, hρφ g⟩, ?_⟩
     rw [hbfK_apply]
-    show bf (φ g) = y
+    change bf (φ g) = y
     rw [hβφ, hbf, hg]
   -- Injective (uses the hard fact).
   have hbfK_inj : Function.Injective bfK := by
@@ -847,7 +848,7 @@ theorem telescopeBeta_admissibleEpi {P : DGModule A}
   -- β ∘ s = id.
   have hsec : ∀ y, bf (sLin y) = y := by
     intro y
-    show bf ((e.symm y : (telescopeObj F).carrier)) = y
+    change bf ((e.symm y : (telescopeObj F).carrier)) = y
     have : bfK (e.symm y) = y := e.apply_symm_apply y
     rw [hbfK_apply] at this
     exact this
@@ -865,7 +866,7 @@ theorem telescopeBeta_admissibleEpi {P : DGModule A}
       · exact (lofGraded F q).map_grading n ⟨y, hq⟩ hy
     -- φ g is homogeneous of degree n, in ker ρ, with β (φ g) = y.
     have hφg_mem : φ g ∈ (telescopeObj F).grading n := by
-      show g - af (ρf g) ∈ (telescopeObj F).grading n
+      change g - af (ρf g) ∈ (telescopeObj F).grading n
       refine AddSubgroup.sub_mem _ hgmem ?_
       have : ρf g ∈ (telescopeObj F).grading n := ρ.map_grading n g hgmem
       exact α.map_grading n (ρf g) this
@@ -876,7 +877,7 @@ theorem telescopeBeta_admissibleEpi {P : DGModule A}
       have h2 : e ⟨φ g, hρφ g⟩ = y := h1
       have h3 : e.symm y = ⟨φ g, hρφ g⟩ := by
         rw [← h2, e.symm_apply_apply]
-      show (e.symm y : (telescopeObj F).carrier) = φ g
+      change (e.symm y : (telescopeObj F).carrier) = φ g
       rw [h3]
     rw [hsy]; exact hφg_mem
   exact ⟨⟨sLin, hsgr⟩, by rw [hβ]; exact hsec⟩

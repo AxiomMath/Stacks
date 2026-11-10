@@ -198,7 +198,7 @@ private lemma lift_comp_quotientAlgebraToSym (z : quotientAlgebra A v) :
         (quotientAlgebraToSym A v)).comp (Ideal.Quotient.mkₐ A (Ideal.span {relationForm A v}))
       = Ideal.Quotient.mkₐ A (Ideal.span {relationForm A v}) :=
     MvPolynomial.algHom_ext fun i => by
-      show SymmetricAlgebra.lift (toQuotientAlgebra A v)
+      change SymmetricAlgebra.lift (toQuotientAlgebra A v)
         (quotientAlgebraToSym A v (Ideal.Quotient.mk _ (X i))) = _
       rw [quotientAlgebraToSym_mk, aeval_X, lift_symGenerator]
       rfl
@@ -210,7 +210,7 @@ private lemma quotientAlgebraToSym_comp_lift (x : SymmetricAlgebra A (quotientMo
       = AlgHom.id A (SymmetricAlgebra A (quotientModule A v)) := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_)
     obtain ⟨w, rfl⟩ := (Submodule.span A {v}).mkQ_surjective m
-    show quotientAlgebraToSym A v (SymmetricAlgebra.lift (toQuotientAlgebra A v)
+    change quotientAlgebraToSym A v (SymmetricAlgebra.lift (toQuotientAlgebra A v)
       (SymmetricAlgebra.ι A _ ((Submodule.span A {v}).mkQ w))) = symGenMap A v w
     rw [lift_ι_apply, toQuotientAlgebra_mkQ, freeToQuotientAlgebra_apply,
       quotientAlgebraToSym_mk, aeval_linearCombination_X]

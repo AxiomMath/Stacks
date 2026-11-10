@@ -102,7 +102,7 @@ theorem generate_eq_top {X : Pt.{u}} {R : Presieve X} (hR : R ∈ coverage.{u}.c
 theorem toGrothendieck_coverage : coverage.{u}.toGrothendieck = ⊥ := by
   refine le_antisymm (Precoverage.toGrothendieck_le_iff_le_toPrecoverage.2 ?_) bot_le
   intro X R hR
-  show Sieve.generate R ∈ (⊥ : GrothendieckTopology Pt.{u}) X
+  change Sieve.generate R ∈ (⊥ : GrothendieckTopology Pt.{u}) X
   rw [generate_eq_top hR]
   exact GrothendieckTopology.top_mem _ _
 

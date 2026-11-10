@@ -7,11 +7,11 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # Lifted étale presentations and essential surjectivity at a surjective closed immersion
 
-Part of `StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.SpacesEtaleEssSurj`. Unique descent along
-a surjective étale chart, the lifted-presentation datum `LiftedEtalePresentation` and its quotient,
-the existence of a lifted étale presentation from the charts, and essential surjectivity and the
-equivalence of spaces-étale sites along a surjective closed immersion and along the inclusion of a
-first-order thickening.
+Part of `StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.SpacesEtaleEssSurj`. Unique descent
+along a surjective étale chart, the lifted-presentation datum `LiftedEtalePresentation` and its
+quotient, the existence of a lifted étale presentation from the charts, and essential surjectivity
+and the equivalence of spaces-étale sites along a surjective closed immersion and along the
+inclusion of a first-order thickening.
 -/
 
 @[expose] public section
@@ -28,6 +28,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {X Y : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_LiftedEtalePresentation :

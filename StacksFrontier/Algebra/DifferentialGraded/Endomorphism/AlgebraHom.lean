@@ -107,7 +107,7 @@ noncomputable def toLinearMap : A.A →ₗ[R] E.algebra.A :=
 /-- On a homogeneous element, the assembled linear map agrees with its degreewise part. -/
 theorem toLinearMap_apply_grading (n : ℤ) (a : A.grading n) :
     toLinearMap A E L a = componentMap A E L n a := by
-  show DirectSum.toModule R ℤ E.algebra.A
+  change DirectSum.toModule R ℤ E.algebra.A
       (fun i => (E.algebra.grading i).subtype.comp (componentMap A E L i))
       (DirectSum.decompose A.grading (a : A.A)) = _
   rw [DirectSum.decompose_of_mem A.grading a.property,
@@ -170,21 +170,21 @@ noncomputable def toAlgHom : A.A →ₐ[R] E.algebra.A :=
 theorem toAlgHom_mem_grading (n : ℤ) {x : A.A} (hx : x ∈ A.grading n) :
     toAlgHom A E L x ∈ E.algebra.grading n := by
   let a : A.grading n := ⟨x, hx⟩
-  show toLinearMap A E L (a : A.A) ∈ E.algebra.grading n
+  change toLinearMap A E L (a : A.A) ∈ E.algebra.grading n
   rw [toLinearMap_apply_grading A E L n a]
   exact (componentMap A E L n a).property
 
 /-- The algebra homomorphism attached to a left action commutes with the differentials. -/
 theorem toAlgHom_map_d (x : A.A) :
     toAlgHom A E L (A.d x) = E.algebra.d (toAlgHom A E L x) := by
-  show toLinearMap A E L (A.d x) = E.algebra.d (toLinearMap A E L x)
+  change toLinearMap A E L (A.d x) = E.algebra.d (toLinearMap A E L x)
   induction x using DirectSum.Decomposition.inductionOn A.grading with
   | zero => simp
   | homogeneous a =>
     rename_i n
     let da : A.grading (n + 1) := ⟨A.d a, A.d_mem n a a.property⟩
     rw [toLinearMap_apply_grading A E L (n + 1) da, toLinearMap_apply_grading A E L n a]
-    show (componentMap A E L (n + 1) da : E.algebra.A) =
+    change (componentMap A E L (n + 1) da : E.algebra.A) =
       E.algebra.d (componentMap A E L n a : E.algebra.A)
     have hsub : componentMap A E L (n + 1) da =
         ⟨E.algebra.d (componentMap A E L n a),

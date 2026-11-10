@@ -213,7 +213,7 @@ faithfully flat.
 
 The family factors through `Spf (∏ₛ Rₛ)^ ⟶ Spf R`, which is therefore a surjection of sheaves,
 hence surjective on points, so `R → ∏ₛ Rₛ` is faithfully flat by Stacks 0AN9. -/
-theorem faithfullyFlat_pi_of_isLocallySurjective {σ : Type u} [Fintype σ]
+theorem faithfullyFlat_pi_of_isLocallySurjective {σ : Type u} [Finite σ]
     (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R]
     (hR : TopologicalRing.IsAdic R) (E : QuotientSystem B S hS R) {U : FppfSheaf B S hS}
     (eU : U ≅ formalSpectrum E) (R' : σ → Type u) [∀ s, CommRing (R' s)]
@@ -229,7 +229,7 @@ theorem faithfullyFlat_pi_of_isLocallySurjective {σ : Type u} [Fintype σ]
     Module.FaithfullyFlat R (∀ s, R' s) := by
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   have hRw := hR.isWeaklyAdmissible
-  let f : R →+* ∀ s, R' s := Pi.ringHom fun s ↦ algebraMap R (R' s)
+  let f : R →+* ∀ s, R' s := RingHom.pi fun s ↦ algebraMap R (R' s)
   have hEl : E.HasLargeSite :=
     hasLargeSite_of_mk_lt_cutoff E (mk_lt_cutoff_of_quotientSystem_of_isAdic B S hS hR E)
   have hfa : f.toAlgebra = (inferInstance : Algebra R (∀ s, R' s)) :=
@@ -253,7 +253,7 @@ theorem faithfullyFlat_pi_of_isLocallySurjective {σ : Type u} [Fintype σ]
   have hfac : Sigma.desc (fun s ↦ (ε s).hom ≫ formalSpectrumMap hQw (π s)) ≫
       formalSpectrumMap hRw cQ = Sigma.desc p ≫ eU.hom := by
     refine Sigma.hom_ext _ _ fun s ↦ ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc, Category.assoc, ← hp s,
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc, Category.assoc, ← hp s,
       formalSpectrumMap_comp hRw hQw cQ (π s) (c s) (hπ s).symm]
   have hsurj : Sheaf.IsLocallySurjective (formalSpectrumMap hRw cQ) := by
     have : Sheaf.IsLocallySurjective (Sigma.desc p ≫ eU.hom) := inferInstance
@@ -273,7 +273,7 @@ For a presentation `g : A → R` of `τ`, Stacks 0AN8 presents `Wₛ ⟶ U` as `
 `Rig.isRigEtaleArrow_of_finite_etale_family` (axioms (2) and (3) of Situation 0CBA) descends
 rig-étaleness from the composites `A → R → (Rₛ)^` to `g`. -/
 theorem hasPropertyOnAffineChartMap_of_finite_cover {U V : FppfSheaf B S hS} (τ : U ⟶ V)
-    {σ : Type u} [Fintype σ] (W : σ → FppfSheaf B S hS) (p : ∀ s, W s ⟶ U)
+    {σ : Type u} [Finite σ] (W : σ → FppfSheaf B S hS) (p : ∀ s, W s ⟶ U)
     (hW : ∀ s, IsAffineFormalAlgebraicSpace B S hS (W s))
     (hp : ∀ s, IsRepresentableEtale B S hS (p s))
     (hcov : letI : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) :=
@@ -309,7 +309,7 @@ theorem hasPropertyOnAffineChartMap_of_finite_cover {U V : FppfSheaf B S hS} (τ
       (ContinuousHom.comp hRw hA (c s) g) hsq
     rw [ContinuousHom.comp_toRingHom, hc] at h
     exact fun _ _ _ _ ↦ h
-  show RingHom.IsRigEtaleArrow g.toRingHom
+  change RingHom.IsRigEtaleArrow g.toRingHom
   exact Rig.isRigEtaleArrow_of_finite_etale_family hCA hCR g.toRingHom g.continuous R' hff hs
 
 end AlgebraicGeometry.FormalSpace

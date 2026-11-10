@@ -502,7 +502,7 @@ attribute [local instance] preservesFiniteLimits_smallEtaleSheafPullback_moduleC
   preservesFiniteColimits_smallEtaleSheafPullback_moduleCat
   additive_smallEtaleSheafPullback_moduleCat
 
-variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ]
   [∀ (S T : B.Scheme) (g : T ⟶ S),
     ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
       (ModuleCat.{max (u + 1) w} Λ)
@@ -650,10 +650,12 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type r) [CommRing Λ] [Fini
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U))]
   [∀ U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+      max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+      max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, w, r} B X Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, w, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
@@ -703,6 +705,7 @@ def HasGeometricTwisting (Y : B.Scheme) (f : Y ⟶ X)
           DerivedCategory.Plus.ι.obj
             ((smallEtaleModuleDerivedGlobalSections.{u, w, 0} B ℤ Y).obj (twist N)))
 
+omit [Finite Λ] in
 /-- **Boundedness of `RΓ(X_k̄, K)` from the carried inputs.** The window of degrees in which the
 cohomology sheaves of the restriction of `K` to the geometric fibre can be nonzero is the first
 clause of `Stacks.EtaleCohomology.CurveGlobalSections.HasGeometricTwisting`; together with the

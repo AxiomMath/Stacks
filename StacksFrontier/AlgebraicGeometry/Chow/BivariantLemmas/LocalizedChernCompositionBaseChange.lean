@@ -104,6 +104,7 @@ def ConormalCompatibleVirtualNormalBundles.baseChangeDualRight :
     (modulePullback gZ.toLRSHom.toShHom).map D.dualRight ≫
       (Stacks.FundamentalGroup.pullbackDualSheafIso gZ D.bundleZY.bundle inferInstance).hom
 
+omit [IsImmersion i'] in
 /-- **The base-changed top row is short exact.** The top row of `D` is a short exact sequence
 whose third term `𝒩'^∨` is finite locally free, so it stays short exact under pullback along
 `gZ` (it is locally split), and the base-changed row is that pullback conjugated by

@@ -140,7 +140,7 @@ public theorem exists_preimage_of_mem_opensRange {U X V Y : Scheme.{u}} (j : U �
   have : IsOpenImmersion g := MorphismProperty.of_isPullback hpb inferInstance
   have himage : g.opensRange = f ⁻¹ᵁ j.opensRange := by
     simpa using IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback hpb ⊤
-  show y ∈ g.opensRange
+  change y ∈ g.opensRange
   rw [himage]
   exact hy
 

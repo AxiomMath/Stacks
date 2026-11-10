@@ -306,7 +306,7 @@ def gradedKernel (y : Fin q → V 0) :
   add_mem' {f g} hf hg := by simp_all [map_add]
   zero_mem' := map_zero _
   smul_mem' p f hf := by
-    simp only [Set.mem_setOf_eq] at hf ⊢
+    simp only [Set.mem_ofPred_eq] at hf ⊢
     rw [gradedEval_polySmul, hf, map_zero]
 
 /-- A tuple lies in `gradedKernel` exactly when `gradedEval` kills it. -/
@@ -501,7 +501,7 @@ theorem pathHom_map {D' : Type*} [Category D'] (L : D ⥤ D') (ψ : Fin k → �
   induction n with
   | zero => exact (L.map_id _).symm
   | succ n ih =>
-    show pathHom (B := fun n => L.obj (B n)) (fun j n => L.map (ψ j n)) (Fin.init w) ≫ _ = _
+    change pathHom (B := fun n => L.obj (B n)) (fun j n => L.map (ψ j n)) (Fin.init w) ≫ _ = _
     rw [ih]
     exact (L.map_comp _ _).symm
 
@@ -560,7 +560,7 @@ theorem pathHom_app (ψ : Fin k → ∀ n, B n ⟶ B (n + 1)) {n : ℕ} (w : Fin
   induction n with
   | zero => rfl
   | succ n ih =>
-    show ((ψ (w (Fin.last n)) n).hom.app (op W)).hom
+    change ((ψ (w (Fin.last n)) n).hom.app (op W)).hom
       (((pathHom ψ (Fin.init w)).hom.app (op W)).hom x) = _
     rw [ih]
     rfl
@@ -598,7 +598,7 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
     have h2 := congrArg (fun f => f.hom ((constSection J M W).hom (m a)))
       (c.hom.hom.naturality g.op)
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1 h2
-    show ((B 0).obj.map g.op).hom ((c.hom.hom.app (op W)).hom ((constSection J M W).hom (m a))) =
+    change ((B 0).obj.map g.op).hom ((c.hom.hom.app (op W)).hom ((constSection J M W).hom (m a))) =
       (c.hom.hom.app (op W')).hom ((constSection J M W').hom (m a))
     rw [← h1, ← h2]
   have hΦ {W W' : C} (g : W' ⟶ W) (f : Fin q → MvPolynomial (Fin k) Λ) (n : ℕ) :
@@ -626,12 +626,12 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
     rw [← constSection_comp_map J Dl (hT.from W)]
     have h2 := congrArg (fun f => f.hom a) (constSection J Dl T ≫= P.hom.naturality (hT.from W).op)
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h2
-    show (P.hom.app (op W)).hom ((((constantSheaf J _).obj Dl).obj.map (hT.from W).op).hom
+    change (P.hom.app (op W)).hom ((((constantSheaf J _).obj Dl).obj.map (hT.from W).op).hom
       ((constSection J Dl T).hom a)) = _
     rw [h2, ← hΦ (hT.from W)]
     have h3 := congrArg (fun f => f.hom a) h1
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h3
-    show ρ (hT.from W) n ((P.hom.app (op T)).hom ((constSection J Dl T).hom a)) = _
+    change ρ (hT.from W) n ((P.hom.app (op T)).hom ((constSection J Dl T).hom a)) = _
     rw [h3]
     rfl
   have hPepi : Epi P := by
@@ -662,9 +662,9 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
         (congrArg (fun g => g.hom x) (toSheafify_const_naturality_app J _ f (op T))).symm
       simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app, ModuleCat.hom_comp,
         LinearMap.comp_apply]
-      show _ = (P.hom.app (op T)).hom ((((constantSheaf J _).map θ).hom.app (op T)).hom
+      change _ = (P.hom.app (op T)).hom ((((constantSheaf J _).map θ).hom.app (op T)).hom
         ((constSection J Λq T).hom l))
-      show ((pathHom ψ w).hom.app (op T)).hom ((c.hom.hom.app (op T)).hom
+      change ((pathHom ψ w).hom.app (op T)).hom ((c.hom.hom.app (op T)).hom
         ((((constantSheaf J _).map π).hom.app (op T)).hom ((constSection J Λq T).hom l))) = _
       rw [nat π, nat θ]
       have e1 : ((pathHom ψ w).hom.app (op T)).hom ((c.hom.hom.app (op T)).hom
@@ -679,7 +679,7 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
         simp only [θ, Φ, ModuleCat.hom_ofHom, LinearMap.comp_apply, LinearEquiv.coe_coe,
           LinearEquiv.apply_symm_apply, gradedEval_apply, X, Finset.sum_apply]
         refine Finset.sum_congr rfl fun a _ => ?_
-        show gradedPolyAct (ψW T) (hψW T) (eq l a • X) (Pi.single 0 (y T a)) n = _
+        change gradedPolyAct (ψW T) (hψW T) (eq l a • X) (Pi.single 0 (y T a)) n = _
         rw [gradedPolyAct_smul, LinearMap.smul_apply, gradedPolyAct_prod_X_single, Pi.smul_apply,
           Pi.single_eq_same]
       exact e1.trans e2.symm
@@ -697,7 +697,7 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
   have hp (W : Over U₀) (a : Dl) :
       (p.hom.app (op W)).hom ((constSection (J.over U₀) Dl W).hom a) = Φ W.left (eD a) n := by
     have h := congrArg (fun f => f.hom a) (constSection_comp_overPullbackConstantSheafIso J U₀ Dl W)
-    show (P.hom.app (op W.left)).hom ((((overPullbackConstantSheafIso J _ U₀).hom.app Dl).hom.app
+    change (P.hom.app (op W.left)).hom ((((overPullbackConstantSheafIso J _ U₀).hom.app Dl).hom.app
       (op W)).hom ((constSection (J.over U₀) Dl W).hom a)) = _
     have h' : (((overPullbackConstantSheafIso J _ U₀).hom.app Dl).hom.app (op W)).hom
         ((constSection (J.over U₀) Dl W).hom a) = (constSection J Dl W.left).hom a := h
@@ -712,14 +712,14 @@ theorem exists_constantSheaf_iso_overPullback_of_graded [IsNoetherianRing Λ] [U
       exact map_zero _)
     (fun W hW a ha => by
       rw [hp] at ha
-      show Φ U₀ (eD a) n = 0
+      change Φ U₀ (eD a) n = 0
       have ha' : Φ W.left (eD a) n = 0 := ha
       rw [gradedEval_apply_eq_zero_iff] at ha' ⊢
       rwa [← hmax W.hom (hbot W hW)])
   refine ⟨ModuleCat.of Λ (Dl ⧸ N), ?_, ⟨e⟩⟩
   have hfin : Module.Finite Λ (D ⧸ N₀) := by
     refine finite_quotient_of_sub_homogeneousComponent_mem n N₀ fun f => ?_
-    show Φ U₀ (f - _) n = 0
+    change Φ U₀ (f - _) n = 0
     rw [map_sub, Pi.sub_apply, (gradedEval_apply_homogeneousComponent _ _ _ f n).1, sub_self]
   exact Module.Finite.equiv
     (Submodule.Quotient.equiv N N₀ eD (Submodule.map_comap_eq_of_surjective eD.surjective _)).symm

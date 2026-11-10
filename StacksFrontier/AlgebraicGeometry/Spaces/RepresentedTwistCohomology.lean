@@ -227,7 +227,7 @@ theorem isZero_of_isQuasicoherentOnSite_of_subsingleton_terminal (X : AlgebraicS
   have h2 : M.val.presheaf.map (a ≫ b).op z =
       M.val.presheaf.map a.op (M.val.presheaf.map b.op z) :=
     ConcreteCategory.congr_hom (M.val.presheaf.map_comp b.op a.op) z
-  show M.val.presheaf.map (a ≫ b).op z = 0
+  change M.val.presheaf.map (a ≫ b).op z = 0
   rw [h2, h1, map_zero]
 
 end AlgebraicGeometry.Space

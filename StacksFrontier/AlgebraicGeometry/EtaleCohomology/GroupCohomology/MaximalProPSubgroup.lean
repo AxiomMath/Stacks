@@ -48,6 +48,7 @@ namespace Stacks.GroupCohomology
 variable {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G] {ℓ : ℕ} [hℓ : Fact ℓ.Prime] {H : Subgroup G}
 
+omit [IsTopologicalGroup G] [TotallyDisconnectedSpace G] in
 /-- A closed subgroup of a compact group is compact. -/
 lemma compactSpace_of_isClosed (hH : IsClosed (H : Set G)) : CompactSpace H :=
   isCompact_iff_compactSpace.mp hH.isCompact
@@ -68,7 +69,7 @@ theorem subsingleton_ext_iff_of_isMaximalProPSubgroup (hH : IsMaximalProPSubgrou
         (trivialGModule.{v, max v w} H (ULift.{max v w} (ZMod ℓ)))).obj.obj.V,
         ∃ k : ℕ, ℓ ^ k • x = 0 :=
       exists_pow_smul_coinduction_eq_zero fun a ↦ ⟨1, by
-        show ℓ ^ 1 • (a : ULift.{max v w} (ZMod ℓ)) = 0
+        change ℓ ^ 1 • (a : ULift.{max v w} (ZMod ℓ)) = 0
         obtain ⟨a⟩ := a
         exact ULift.ext (show ℓ ^ 1 • a = 0 by simp)⟩
     have := h _ htors

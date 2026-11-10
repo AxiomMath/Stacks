@@ -105,6 +105,7 @@ def baseIdealInclusion :
   Deformation.ComplexLift.squareZeroIdealInclusion S.baseReduction S.baseLocallySurjective
     S.baseReduction_mul_eq_zero
 
+omit [HasSheafify B.J AddCommGrpCat.{u}] [B.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- On sections, the inclusion `𝒥 ⟶ 𝒪_{ℬ'}` is the inclusion of the kernel of `t^♯`. -/
 theorem baseIdealInclusion_val_app (U : B.Cᵒᵖ) (a : S.baseIdeal.val.obj U) :
     S.baseIdealInclusion.val.app U a =
@@ -112,6 +113,7 @@ theorem baseIdealInclusion_val_app (U : B.Cᵒᵖ) (a : S.baseIdeal.val.obj U) :
         S.baseLocallySurjective S.baseReduction_mul_eq_zero).hom.val.app U a).val :=
   rfl
 
+omit [HasSheafify B.J AddCommGrpCat.{u}] [B.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The inclusion `𝒥 ⟶ 𝒪_{ℬ'}` lands in the kernel of `t^♯`. -/
 theorem baseReduction_baseIdealInclusion (U : B.Cᵒᵖ) (a : S.baseIdeal.val.obj U) :
     S.baseReduction.hom.app U
@@ -122,6 +124,7 @@ theorem baseReduction_baseIdealInclusion (U : B.Cᵒᵖ) (a : S.baseIdeal.val.ob
         S.baseLocallySurjective S.baseReduction_mul_eq_zero).hom.val.app U a).2
   exact (Deformation.ComplexLift.structureModuleMap_val_app S.baseReduction U _).symm.trans h
 
+omit [HasSheafify B.J AddCommGrpCat.{u}] [B.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The inclusion `𝒥 ⟶ 𝒪_{ℬ'}` identifies `𝒥` with the kernel of `t^♯`, section by section. -/
 theorem existsUnique_baseIdealInclusion (U : B.Cᵒᵖ) (a : S.baseExtension.obj.obj U)
     (ha : S.baseReduction.hom.app U a = 0) :

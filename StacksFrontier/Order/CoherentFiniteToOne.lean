@@ -119,7 +119,7 @@ def seq (a : I) : ℕ → I := if h : IsLimitPt a then h.choose else fun _ ↦ a
 omit [WellFoundedLT I] in
 /-- The chosen sequence below a limit point is cofinal there. -/
 theorem isCofinalSeq_seq {a : I} (h : IsLimitPt a) : IsCofinalSeq a (seq a) := by
-  rw [seq, dif_pos h]
+  rw [seq, dite_eq_left h]
   exact h.choose_spec
 
 /-- `a` has a *predecessor* when the initial segment below it has a greatest element. -/
@@ -131,13 +131,13 @@ def pred (a : I) : I := if h : HasPred a then h.choose else a
 omit [WellFoundedLT I] in
 /-- The predecessor lies below the point. -/
 theorem pred_lt {a : I} (h : HasPred a) : pred a < a := by
-  rw [pred, dif_pos h]
+  rw [pred, dite_eq_left h]
   exact h.choose_spec.1
 
 omit [WellFoundedLT I] in
 /-- Every point below `a` is at most the predecessor of `a`. -/
 theorem le_pred {a : I} (h : HasPred a) {d : I} (hd : d < a) : d ≤ pred a := by
-  rw [pred, dif_pos h]
+  rw [pred, dite_eq_left h]
   exact h.choose_spec.2 d hd
 
 omit [WellFoundedLT I] in
@@ -178,12 +178,12 @@ theorem F_eq (a : I) : F a = step a fun b _ ↦ F b :=
 of the argument and the index of that block. -/
 theorem F_limit {a : I} (hl : IsLimitPt a) {γ : I} (hγ : ∃ n, γ < seq a n) :
     F a γ = max (F (seq a (Nat.find hγ)) γ) (Nat.find hγ) := by
-  rw [F_eq a, step, dif_pos hl, dif_pos hγ]
+  rw [F_eq a, step, dite_eq_left hl, dite_eq_left hγ]
 
 /-- The value of the family at a successor, below the predecessor: copied from there. -/
 theorem F_pred {a : I} (hl : ¬ IsLimitPt a) (hp : HasPred a) {γ : I} (hγ : γ < pred a) :
     F a γ = F (pred a) γ := by
-  rw [F_eq a, step, dif_neg hl, dif_pos hp, if_pos hγ]
+  rw [F_eq a, step, dite_eq_right hl, dite_eq_left hp, ite_eq_left hγ]
 
 omit [WellFoundedLT I] in
 /-- At a limit point, lying below some term of the cofinal sequence is lying below the point. -/

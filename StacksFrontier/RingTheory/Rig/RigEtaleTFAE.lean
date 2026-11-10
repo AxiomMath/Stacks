@@ -90,11 +90,12 @@ the image of `β` acting on `[g]` — lies in the `S`-span of the classes `[fⱼ
 This is the converse reading of `Algebra.Extension.sub_sum_mul_mem_ker_sq`, and is what turns
 the second halves of conditions (5) and (6) of Stacks 0AJU into a statement about `J / J²`. -/
 public theorem cotangentMk_smul_mem_span {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
-    (P : Algebra.Extension R S) {ι : Type*} [Fintype ι] (f : ι → P.ker) (β : P.Ring)
+    (P : Algebra.Extension R S) {ι : Type*} [Finite ι] (f : ι → P.ker) (β : P.Ring)
     (g : P.ker)
     (h : β * (g : P.Ring) ∈ Ideal.span (Set.range fun i => (f i : P.Ring)) + P.ker ^ 2) :
     algebraMap P.Ring S β • Cotangent.mk g ∈
       Submodule.span S (Set.range fun i => Cotangent.mk (f i)) := by
+  have := Fintype.ofFinite ι
   rw [Submodule.add_eq_sup] at h
   obtain ⟨s, hs, q, hq, hsq⟩ := Submodule.mem_sup.mp h
   have hsmem : s ∈ P.ker :=
@@ -307,7 +308,7 @@ public theorem pow_mem_annihilator_ker_differential_of_artinPreliminary
   -- (5)(b): `a ^ c` carries `J / J²` into the span of the classes `[fⱼ]`.
   have hmap : (algebraMap P.extension.Ring B.carrier)
       (algebraMap A P.completedPolynomialRing (a ^ c)) = u ^ c := by
-    show P.toAlgHom (algebraMap A P.completedPolynomialRing (a ^ c)) = u ^ c
+    change P.toAlgHom (algebraMap A P.completedPolynomialRing (a ^ c)) = u ^ c
     rw [AlgHom.commutes, hu, map_pow]
   have hC2 : ∀ x : P.extension.Cotangent, ∃ w : Fin P.variableCount → B.carrier,
       ∑ j, w j • F j = u ^ c • x ∧ M.mulVec w = K.differential (u ^ c • x) := by

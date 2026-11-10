@@ -378,7 +378,7 @@ lemma eq_unitChainMap_comp_map_transposeChainMap {κ : Type*} {c : ComplexShape 
       ((sections adjR).mapHomologicalComplex c).map (transposeChainMap adjL adjR f) := by
   ext n
   refine hom_ext_ι adjR ?_
-  show _ = (_ ≫ (sections adjR).map _) ≫ _
+  change _ = (_ ≫ (sections adjR).map _) ≫ _
   simp [unitChainMap, transposeChainMap]
 
 omit [r.Additive] in

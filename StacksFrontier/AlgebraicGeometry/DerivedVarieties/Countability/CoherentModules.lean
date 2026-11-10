@@ -266,16 +266,16 @@ theorem exists_hom_of_relations {M N : X.Modules} [M.IsQuasicoherent] [N.IsQuasi
     have hab : fa = fb := by
       refine LinearMap.ext_on_range (span_restrict_eq_top M (hU a) W.1.2 hWa (πM a) (hπM a))
         fun s => ?_
-      show t a W.1.1 hWa _ = t b W.1.1 hWb _
+      change t a W.1.1 hWa _ = t b W.1.1 hWb _
       have e1 := hres a W.1.1 (U a) hWa le_rfl (πM a (Pi.single s 1))
       rw [htop] at e1
       rw [e1, hα, hN a b W s, hM a b W s]
-      show _ = fb _
+      change _ = fb _
       rw [map_sum]
       refine Finset.sum_congr rfl fun r _ => ?_
       rw [map_smul]
       congr 1
-      show _ = t b W.1.1 hWb _
+      change _ = t b W.1.1 hWb _
       have e2 := hres b W.1.1 (U b) hWb le_rfl (πM b (Pi.single r 1))
       rw [htop] at e2
       rw [e2, hα]

@@ -116,7 +116,7 @@ theorem tensorEquivOfRelation_one_tmul_val {A₀ B₀ A B : Type*} [CommRing A�
     P₀.tensorEquivOfRelation P hrel (1 ⊗ₜ P₀.val i) = P.val i := by
   rw [tensorEquivOfRelation, show (1 : A) ⊗ₜ[A₀] P₀.val i = _ from
     (quotientEquiv_mk_X (P₀.baseChange A) i).symm]
-  show P.quotientEquiv (Ideal.quotientEquivAlgOfEq _ (ker_baseChange_eq_of_relation P₀ P hrel)
+  change P.quotientEquiv (Ideal.quotientEquivAlgOfEq _ (ker_baseChange_eq_of_relation P₀ P hrel)
     ((P₀.baseChange A).quotientEquiv.symm
     ((P₀.baseChange A).quotientEquiv (Ideal.Quotient.mk _ (MvPolynomial.X i))))) = P.val i
   rw [AlgEquiv.symm_apply_apply, Ideal.quotientEquivAlgOfEq_mk, quotientEquiv_mk_X]

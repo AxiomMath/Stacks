@@ -56,7 +56,7 @@ theorem exists_range_stabilizes {R : Type u} [Ring R] (G : ℕ ⥤ ModuleCat.{v}
     ∃ a : ℕ, ∀ (n : ℕ), a ≤ n → LinearMap.range (β a) = LinearMap.range (β n) :=
   monotone_stabilizes_iff_noetherian.mpr (inferInstance : IsNoetherian R L)
     ⟨fun n => LinearMap.range (β n), fun m n h => by
-      show LinearMap.range (β m) ≤ LinearMap.range (β n)
+      change LinearMap.range (β m) ≤ LinearMap.range (β n)
       rw [← hβ m n h]
       exact LinearMap.range_comp_le_range _ _⟩
 

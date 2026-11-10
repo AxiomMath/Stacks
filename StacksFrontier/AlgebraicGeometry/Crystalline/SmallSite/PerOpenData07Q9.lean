@@ -217,7 +217,7 @@ theorem surjective_chainPresentation07Q9 (he : f.app W ≫ e.hom = ch.toTop) :
     exact (congrArg (fun k ↦ k.hom y) (chainSectionsIso07Q9 S f ch e).hom_inv_id).symm
   subst hy
   clear hq
-  show _ ∈ (chainPresentation07Q9 S hW hVW f hW₂ ch e).toRingHom.range
+  change _ ∈ (chainPresentation07Q9 S hW hVW f hW₂ ch e).toRingHom.range
   set R := (chainPresentation07Q9 S hW hVW f hW₂ ch e).toRingHom.range
   induction q using MvPolynomial.induction_on with
   | C b =>
@@ -262,7 +262,7 @@ theorem chainPresentation07Q9_comp_rename :
   apply MvPolynomial.ringHom_ext
   · intro b
     have h := RingHom.congr_fun (openAffineSituationHom07Q9 S hW hVW f hW₂).commutes b
-    show chainPresentation07Q9 S hW hVW f hW₂ ch e
+    change chainPresentation07Q9 S hW hVW f hW₂ ch e
         (MvPolynomial.rename (R := (openAffineSituation₂07Q9 S hVW f hW₂).A) Sum.inl
           (MvPolynomial.C (R := (openAffineSituation₂07Q9 S hVW f hW₂).A) b)) =
       (restrictMap07Q9 S hVW f).appTop.hom (canonicalPresentation _ (MvPolynomial.C b))
@@ -273,7 +273,7 @@ theorem chainPresentation07Q9_comp_rename :
       ((canonicalPresentation (openAffineSituation07Q9 S hW hVW)).commutes b).symm)
     exact h.symm
   · intro c
-    show chainPresentation07Q9 S hW hVW f hW₂ ch e
+    change chainPresentation07Q9 S hW hVW f hW₂ ch e
         (MvPolynomial.rename (R := (openAffineSituation₂07Q9 S hVW f hW₂).A) Sum.inl
           (MvPolynomial.X c)) =
       (restrictMap07Q9 S hVW f).appTop.hom (canonicalPresentation _ (MvPolynomial.X c))
@@ -292,7 +292,7 @@ def chainCechSystemHom07Q9 (he : f.app W ≫ e.hom = ch.toTop) :
         (canonicalPresentation_surjective _)) :=
   openCechSystemHom07Q9 S hV hW hVW _ _ f hW₂ (chainPresentation07Q9 S hW hVW f hW₂ ch e)
     (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
-    (chainPresentationRename07Q9 S hW hVW f hW₂) (chainPresentationRename07Q9_C S hW hVW f hW₂)
+    (chainPresentationRename07Q9 S hW hVW f hW₂)
     (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e)
 
 end Chain

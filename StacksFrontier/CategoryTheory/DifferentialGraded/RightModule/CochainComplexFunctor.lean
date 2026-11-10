@@ -128,9 +128,7 @@ def cochainMap (φ : (rightModuleCategory.{w} C).Cocycle M N) (X : C.Obj) :
   comm' i j hij := by
     obtain rfl : i + 1 = j := hij
     ext a
-    simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply,
-      cochainComplex_d _ X (rfl : i + 1 = i + 1), ModuleCat.hom_ofHom, dLinear_apply,
-      hom_cochainMapComponent, coe_apply]
+    simp only [cochainComplex_d _ X (rfl : i + 1 = i + 1)]
     exact app_d_of_closed φ.2 (rfl : i + 1 = i + 1) a
 
 /-- The degree-`i` component of `cochainMap φ X` is `cochainMapComponent φ.1 X i`. -/
@@ -173,7 +171,7 @@ def cochainHomotopyHom (h : HomogeneousMap M N (-1)) (X : C.Obj) (i j : ℤ) :
 `(X, i, j)`. -/
 theorem cochainHomotopyHom_pos (h : HomogeneousMap M N (-1)) (X : C.Obj) {i j : ℤ}
     (e : j + 1 = i) : cochainHomotopyHom h X i j = ModuleCat.ofHom (h.1 ⟨X, i, j, by omega⟩) :=
-  dif_pos e
+  dite_eq_left e
 
 /-- **A degree `-1` homogeneous morphism is a homotopy.** If the difference of two closed
 degree-zero morphisms is the coboundary of `h`, then `h`, read at `X`, is a homotopy between
@@ -183,7 +181,7 @@ def cochainHomotopy {φ ψ : (rightModuleCategory.{w} C).Cocycle M N} (h : Homog
     (hh : φ.1 - ψ.1 = (rightModuleCategory.{w} C).d' (show (-1 : ℤ) + 1 = 0 by omega) h)
     (X : C.Obj) : Homotopy (cochainMap φ X) (cochainMap ψ X) where
   hom := cochainHomotopyHom h X
-  zero i j hij := dif_neg hij
+  zero i j hij := dite_eq_right hij
   comm i := by
     have hsign : (-1 : R) ^ ((-1 : ℤ)).natAbs = -1 := by norm_num
     have key : ∀ a : M.obj X i, app φ.1 (add_zero i) a =
@@ -234,7 +232,7 @@ def cochainComplexOnK (X : C.Obj) :
       (cochainMap φ X))
     (fun _ _ hh => quotient_map_cochainMap_eq_of_homotopic hh X)
   map_id M := by
-    show (HomotopyCategory.quotient (ModuleCat.{w} R) (ComplexShape.up ℤ)).map
+    change (HomotopyCategory.quotient (ModuleCat.{w} R) (ComplexShape.up ℤ)).map
       (cochainMap ⟨(rightModuleCategory.{w} C).id M, (rightModuleCategory.{w} C).d_id M⟩ X) = _
     rw [show cochainMap
         (⟨(rightModuleCategory.{w} C).id M, (rightModuleCategory.{w} C).d_id M⟩ :
@@ -244,7 +242,7 @@ def cochainComplexOnK (X : C.Obj) :
     exact (HomotopyCategory.quotient (ModuleCat.{w} R) (ComplexShape.up ℤ)).map_id _
   map_comp {M N P} f g := by
     refine Quotient.inductionOn₂ f g fun φ ψ => ?_
-    show (HomotopyCategory.quotient (ModuleCat.{w} R) (ComplexShape.up ℤ)).map
+    change (HomotopyCategory.quotient (ModuleCat.{w} R) (ComplexShape.up ℤ)).map
       (cochainMap ((rightModuleCategory.{w} C).compCocycle ψ φ) X) = _
     rw [show cochainMap ((rightModuleCategory.{w} C).compCocycle ψ φ) X =
         cochainMap φ X ≫ cochainMap ψ X from

@@ -166,7 +166,7 @@ theorem definesRationalSingularity_stalk_of_isCohenMacaulay {A : Type u} [CommRi
     have : IsLocallyNoetherian (Spec (X.presheaf.stalk x)) :=
       isLocallyNoetherian_Spec.mpr inferInstance
     rw [IsBirational.topologicalKrullDim_eq_of_isClosedMap hres.1.1 g.isClosedMap]
-    show topologicalKrullDim (PrimeSpectrum (X.presheaf.stalk x)) = 2
+    change topologicalKrullDim (PrimeSpectrum (X.presheaf.stalk x)) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   -- an immersion of the model into a smooth proper scheme, and a compactification
   obtain ⟨P, ι, gP, hι, hgP, hgpP, hfac⟩ :=

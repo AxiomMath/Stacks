@@ -270,7 +270,7 @@ theorem isLocallyOfFiniteType_of_surjective_pullbackToGlobalFunctions
     let pb := pullbackToGlobalFunctions B S hS (_root_.AlgebraicGeometry.schemeSpace U) U (𝟙 _)
     obtain ⟨d, hd⟩ := exists_eq_sum_mul_of_isAffineHom B S hS hY q hq c hc U₀ hU₀
       (fun i => pb (μ i)) r (pb b) (by
-        show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+        change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
             (yoneda.preimage (hrep.fst U₀.1.hom ≫ 𝟙 _))).op b = ∑ i,
           Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
             (yoneda.preimage (hrep.fst U₀.1.hom ≫ 𝟙 _))).op (μ i) * _
@@ -297,7 +297,7 @@ theorem isLocallyOfFiniteType_of_surjective_pullbackToGlobalFunctions
     simp only [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id] at hev
     refine hev.trans (Finset.sum_congr rfl fun i _ => ?_)
     rw [map_mul]
-    show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+    change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (yoneda.map (𝟙 U) ≫ a ≫ q.hom))).op (d i) *
       Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (yoneda.map (𝟙 U) ≫ 𝟙 (yoneda.obj U)))).op (μ i) = _
@@ -329,7 +329,7 @@ theorem isIso_toScheme_map_of_isQuasiAffine
   have hleft : ∀ x, globalFunctionsChartRestriction B S hS Y C₀
       (pullbackToGlobalFunctions B S hS Y W ι x) = x := by
     intro x
-    show Scheme.Γ.map (𝒯.map (yoneda.preimage (e.hom ≫ e.inv))).op x = x
+    change Scheme.Γ.map (𝒯.map (yoneda.preimage (e.hom ≫ e.inv))).op x = x
     rw [e.hom_inv_id, show yoneda.preimage (𝟙 (yoneda.obj W)) = 𝟙 W from
       yoneda.map_injective (by simp)]
     simp only [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
@@ -371,7 +371,7 @@ theorem isIso_toScheme_map_of_isQuasiAffine
   have hk : k ≫ h = yoneda.preimage (U₀.1.hom ≫ q.hom) := by
     refine yoneda.map_injective ?_
     rw [Functor.map_comp, hh, Functor.map_preimage, Functor.map_preimage]
-    show (U₀.1.hom ≫ e.inv) ≫ (e.hom ≫ q.hom : yoneda.obj W ⟶ (schemeSpace T).obj) =
+    change (U₀.1.hom ≫ e.inv) ≫ (e.hom ≫ q.hom : yoneda.obj W ⟶ (schemeSpace T).obj) =
       U₀.1.hom ≫ q.hom
     rw [Category.assoc, e.inv_hom_id_assoc]
   have hspan : Ideal.span (Set.range fun j => globalFunctionsChartRestriction B S hS Y U₀
@@ -380,10 +380,10 @@ theorem isIso_toScheme_map_of_isQuasiAffine
     intro u _
     obtain ⟨j, hj⟩ := hf (𝒯.map k u)
     refine TopologicalSpace.Opens.mem_iSup.2 ⟨⟨_, ⟨j, rfl⟩⟩, ?_⟩
-    show u ∈ (𝒯.obj U₀.1.left).basicOpen
+    change u ∈ (𝒯.obj U₀.1.left).basicOpen
       (Scheme.Γ.map (𝒯.map (yoneda.preimage (U₀.1.hom ≫ q.hom))).op (f j))
     rw [← hk, Functor.map_comp]
-    show u ∈ (𝒯.obj U₀.1.left).basicOpen ((𝒯.map k ≫ 𝒯.map h).appTop (f j))
+    change u ∈ (𝒯.obj U₀.1.left).basicOpen ((𝒯.map k ≫ 𝒯.map h).appTop (f j))
     rw [← Scheme.preimage_basicOpen_top]
     exact hj
   obtain ⟨y, hy⟩ := Ideal.mem_span_range_iff_exists_fun.1 (hspan ▸ Submodule.mem_top :
@@ -442,7 +442,7 @@ theorem isIso_hom_of_bijective_pullbackToGlobalFunctions (hZ : B.Contains (⊤_ 
   have hiso : IsIso h := isIso_of_reflects_iso h (BigFppfOver.toScheme B S hS)
   have hq : q.hom = e.inv ≫ yoneda.map h := by
     rw [Functor.map_preimage]
-    show q.hom = e.inv ≫ (e.hom ≫ q.hom : yoneda.obj W ⟶ (schemeSpace T).obj)
+    change q.hom = e.inv ≫ (e.hom ≫ q.hom : yoneda.obj W ⟶ (schemeSpace T).obj)
     rw [Iso.inv_hom_id_assoc]
   have hc : IsIso (e.inv ≫ yoneda.map h) := inferInstance
   rw [hq]

@@ -130,12 +130,12 @@ public theorem torsionSheafProperty_extensionByZero
     let y : fam φ := (coproductUniqueIso fam).hom (σ.inv x)
     have hx : x = extensionByZeroSummandInclusion j F.obj φ y := by
       have h1 : σ.inv x = Sigma.ι fam φ y := by
-        show σ.inv x = Sigma.ι fam default ((coproductUniqueIso fam).hom (σ.inv x))
+        change σ.inv x = Sigma.ι fam default ((coproductUniqueIso fam).hom (σ.inv x))
         rw [← coproductUniqueIso_inv, ← ConcreteCategory.comp_apply, Iso.hom_inv_id]
         rfl
       rw [h2, h1, ← ConcreteCategory.comp_apply]
-      show (Sigma.ι fam φ ≫ Sigma.desc _) y = _
-      rw [Sigma.ι_desc]
+      change (Sigma.ι fam φ ≫ Sigma.desc _) y = _
+      rw [Sigma.ι_comp_desc]
     obtain ⟨R, hR, hkill⟩ := hF (Scheme.Etale.sourceDescend j φ) y
     let e := Scheme.Etale.sourceDescendIso j φ
     refine ⟨(Sieve.functorPushforward (Scheme.Etale.smallEtaleCompose j) R).pullback e.inv,
@@ -324,7 +324,7 @@ public def extensionByZeroDerivedDirectImageMap :
   ((mateEquiv (etaleModuleDerivedExtensionByZeroUnboundedAdj.{u, r} Λ j')
     (etaleModuleDerivedExtensionByZeroUnboundedAdj.{u, r} Λ j)).symm
     (TwoSquare.mk _ _ _ _
-      (inv (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ h j j' h' sq.w)))).natTrans
+      (inv (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ h j j' h' sq.w))))
 
 /-- **Over the open `X`, the map of Tag 0F7B is an isomorphism.** For the cartesian square of
 `extensionByZeroDerivedDirectImageMap`, the restriction `j^{-1}(Rj_! Rh'_* K ⟶ Rh_* Rj'_! K)` of
@@ -343,7 +343,7 @@ public theorem isIso_etaleModuleDerivedInverseImage_map_extensionByZeroDerivedDi
       ((etaleModuleDerivedExtensionByZeroUnboundedAdj.{u, r} Λ j').unit.app K) ≫
       (TwoSquare.mk _ _ _ _
         (inv (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ h j j' h' sq.w))).app _) := by
-    show IsIso (_ ≫ (inv (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ h j j' h' sq.w)).app _)
+    change IsIso (_ ≫ (inv (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ h j j' h' sq.w)).app _)
     infer_instance
   rw [key, isIso_comp_left_iff] at hl
   exact hl

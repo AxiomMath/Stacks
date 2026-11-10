@@ -106,7 +106,7 @@ theorem evaluation_hom_naturality {G H : GroupoidInAlgebraicSpaces C S hS B}
         ((evaluationGroupoidFunctor H.toGroupoidInFunctors ⋙
           Grpd.forgetToCat).toPseudofunctor').map g := by
   dsimp only [Grpd.of, Cat.of] at *
-  show ((evaluationGroupoidFunctor G.toGroupoidInFunctors).map g.as).toCatHom ≫
+  change ((evaluationGroupoidFunctor G.toGroupoidInFunctors).map g.as).toCatHom ≫
       (f.toGroupoidHom.evaluation b.as).toCatHom =
     (f.toGroupoidHom.evaluation a.as).toCatHom ≫
       ((evaluationGroupoidFunctor H.toGroupoidInFunctors).map g.as).toCatHom
@@ -114,7 +114,7 @@ theorem evaluation_hom_naturality {G H : GroupoidInAlgebraicSpaces C S hS B}
   let hObj := fun x => f.toGroupoidHom.mapObjects.naturality_apply g.as x
   refine functor_ext_of_evaluationArrowEquiv H.toGroupoidInFunctors b.as _ _ hObj ?_
   intro x y m
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv b.as _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv b.as _ _
       ((f.toGroupoidHom.evaluation b.as).map
         ((Deformation.evaluationMap G.toGroupoidInFunctors g.as).map m))).1 =
     (H.toGroupoidInFunctors.evaluationArrowEquiv b.as _ _

@@ -99,7 +99,7 @@ theorem extendScalars_map_eq_zero_of_range_le {M' N' : ModuleCat.{w} A} (f : M' 
     (ModuleCat.extendScalars (Ideal.Quotient.mk I)).map f = 0 := by
   apply ModuleCat.ExtendScalars.hom_ext
   intro x
-  show (TensorProduct.tmul A (1 : A ⧸ I) (f.hom x) : TensorProduct A (A ⧸ I) N') = 0
+  change (TensorProduct.tmul A (1 : A ⧸ I) (f.hom x) : TensorProduct A (A ⧸ I) N') = 0
   apply (TensorProduct.quotTensorEquivQuotSMul (N' : Type w) I).injective
   rw [TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul, map_zero, Submodule.Quotient.mk_eq_zero]
   exact h (LinearMap.mem_range_self f.hom x)
@@ -139,7 +139,7 @@ theorem range_d_le_maximalIdeal_smul_of_finrank_fibre_homology
       ((StacksDraft.Perfect.FibreCycleLift.fibreComplex κ F).X i) ≠ ⊤ := fun i => by
     have := hfinX i
     rw [Module.length_eq_finrank]
-    exact ENat.coe_ne_top _
+    exact ENat.natCast_ne_top _
   have hfinH : ∀ i, Module.Finite (IsLocalRing.ResidueField A)
       ((StacksDraft.Perfect.FibreCycleLift.fibreComplex κ F).homology i) := fun i => by
     have hle :=

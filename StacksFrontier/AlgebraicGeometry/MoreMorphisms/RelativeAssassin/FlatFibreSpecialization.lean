@@ -70,7 +70,7 @@ the spelling `Scheme.Modules.pullback` rather than the ringed-space `modulePullb
 theorem isQuasicoherent_pullbackObj {X Z : Scheme.{u}} (p : Z ⟶ X) (F : X.Modules)
     [F.IsQuasicoherent] : ((Scheme.Modules.pullback p).obj F).IsQuasicoherent := by
   have hF : F.IsQuasicoherent := inferInstance
-  show ((modulePullback p.toLRSHom.toShHom).obj F).IsQuasicoherent
+  change ((modulePullback p.toLRSHom.toShHom).obj F).IsQuasicoherent
   exact @SheafOfModules.modulePullback_isQuasicoherent _ _ p.toLRSHom.toShHom F hF
 
 /-- If `η` is a generic point of an irreducible component of the fibre over `t` of the pullback
@@ -100,7 +100,7 @@ theorem exists_isGenericPoint_specOfPoint_of_fibre_comap
   let P : Spec T.tensor := Scheme.Pullback.SpecOfPoint y'
   have hxSupport (r : Spec T.tensor) : T.SpecTensorTo r ∈ Z.support := by
     rw [Scheme.IdealSheafData.support_comap]
-    show p (T.SpecTensorTo r) ∈ Y.support
+    change p (T.SpecTensorTo r) ∈ Y.support
     rw [T.fst_SpecTensorTo_apply]
     exact hy
   have hηNoGen {w : (j ≫ q).fiber t} (hw : w ⤳ η) : w = η :=
@@ -136,7 +136,7 @@ theorem exists_isGenericPoint_specOfPoint_of_fibre_comap
     exact (congrArg PrimeSpectrum.asIdeal hrEq).ge
   have hcomp : closure ({P} : Set (Spec T.tensor)) ∈ irreducibleComponents (Spec T.tensor) := by
     let P' : PrimeSpectrum T.tensor := P
-    show closure ({P'} : Set (PrimeSpectrum T.tensor)) ∈
+    change closure ({P'} : Set (PrimeSpectrum T.tensor)) ∈
       irreducibleComponents (PrimeSpectrum T.tensor)
     rw [PrimeSpectrum.closure_singleton]
     refine PrimeSpectrum.zeroLocus_ideal_mem_irreducibleComponents.mpr ?_
@@ -204,10 +204,10 @@ theorem exists_valuation_base_change_associated_flat
       ((Scheme.Modules.pullback p).obj F) := by
     rw [AlgebraicGeometry.mem_relativeAssassin_pullback_iff]
     refine ⟨?_, exists_isGenericPoint_specOfPoint_of_fibre_comap f g Y _ η hη ?_⟩
-    · show p y' ∈ Stacks.Divisors.relativeAssassin f F
+    · change p y' ∈ Stacks.Divisors.relativeAssassin f F
       rw [hpy]
       exact hy
-    · show p y' ∈ Y.support
+    · change p y' ∈ Y.support
       rw [hpy, hY]
       exact Stacks.ClosedFibreGenericPoint.mem_support_vanishingIdeal_closure y
   have hflat'' := @AlgebraicGeometry.modulePullback_isFlatOverAt

@@ -67,6 +67,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on this presheaf category times out at the default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 instance hasPullbacks_presheaf_FiniteFibresOneChart :
@@ -140,7 +141,7 @@ theorem presheaf_isFinite_pullback_fst_fieldMorphism_of_finite_points
   have hQbc : Q.IsStableUnderBaseChange := by
     constructor
     intro W Y Z T f g f' g' sq hg
-    show _root_.AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map g')
+    change _root_.AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map g')
     change _root_.AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map g) at hg
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (CategoryTheory.IsPullback.map (BigFppfOver.toScheme B S hS) sq) hg
@@ -206,11 +207,11 @@ theorem finite_relationFibre_of_finite_chartFibre (F : (BigFppfOver B S hS)ᵒ�
   have ha' : pointsMap B S hS (yoneda.obj U) φ a = x := ha
   have hb' : pointsMap B S hS (yoneda.obj U) φ b = x := hb
   have hcomm : pointsMap B S hS D.X D.f a = pointsMap B S hS D.Z D.g b := by
-    show pointsMap B S hS (yoneda.obj U) φ a = pointsMap B S hS (yoneda.obj U) φ b
+    change pointsMap B S hS (yoneda.obj U) φ a = pointsMap B S hS (yoneda.obj U) φ b
     rw [ha', hb']
   have hy : HasMonomorphicFieldRepresentative B S hS D.Y
       (pointsMap B S hS D.X D.f a) := by
-    show HasMonomorphicFieldRepresentative B S hS F (pointsMap B S hS (yoneda.obj U) φ a)
+    change HasMonomorphicFieldRepresentative B S hS F (pointsMap B S hS (yoneda.obj U) φ a)
     rwa [ha']
   exact finite_fibrePoints_of_mono_of_isQuasiFiniteAt D a b hcomm hy (hqf b)
 
@@ -281,7 +282,7 @@ theorem exists_mono_isFinite_fieldFibre_of_finiteFibres
   have h1 : HasFiniteRelationFiberAt B S hS F x := by
     refine ⟨U, φ, a, a, hφ, ha, ha, hrel.subset ?_⟩
     rintro r ⟨hra, -⟩
-    show pointsMap B S hS (pullback φ φ) (pullback.fst φ φ ≫ φ) r = x
+    change pointsMap B S hS (pullback φ φ) (pullback.fst φ φ ≫ φ) r = x
     rw [pointsMap_comp, Function.comp_apply, hra, ha]
   obtain ⟨p, hpx, hmono⟩ :=
     HasFiniteRelationFiberAtEveryEtaleChart.hasMonomorphicFieldRepresentative B S hS F hF

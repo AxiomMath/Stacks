@@ -104,7 +104,7 @@ public theorem compl_mem_nhds_of_isLocallyConstructible_of_mem_genericPoints
     intro hξclGlobal
     have hξUcl : ξU ∈ closure F := by
       rw [(U : X.Opens).2.isOpenEmbedding_subtypeVal.isEmbedding.closure_eq_preimage_closure_image]
-      show ξ ∈ closure ((Subtype.val : (U.1 : Set X) → X) ''
+      change ξ ∈ closure ((Subtype.val : (U.1 : Set X) → X) ''
         ((Subtype.val : (U.1 : Set X) → X) ⁻¹' E))
       rw [Subtype.image_preimage_coe]
       simpa [Set.inter_comm] using

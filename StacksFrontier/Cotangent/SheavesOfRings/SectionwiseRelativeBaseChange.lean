@@ -184,7 +184,7 @@ theorem relativeBaseChangeRestriction_augmentation {U V : Cᵒᵖ} (k : U ⟶ V)
       max u v w} (sectionsRestrictionSquare J h k) n r
     have h₄ := CommAlgCat.canonicalBaseChangeMap_augmentation_apply
       (CommAlgCat.overBase (sectionsTowerHom J g h U)) n r
-    show ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).hom.app n).hom.toRingHom
+    change ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).hom.app n).hom.toRingHom
         ((relativeBaseChangeRestriction J g h k n).hom
           (CommAlgCat.canonicalBaseChangeMap _ _ n r)) =
       (D.obj.map k).hom (((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h U)).hom.app
@@ -193,7 +193,7 @@ theorem relativeBaseChangeRestriction_augmentation {U V : Cᵒᵖ} (k : U ⟶ V)
     exact h₂.trans (h₃.trans (congrArg (D.obj.map k).hom h₄.symm))
   · refine CommRingCat.hom_ext (RingHom.ext fun b => ?_)
     have h₁ := relativeBaseChangeRestriction_algebraMap J g h k n b
-    show ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).hom.app n).hom.toRingHom
+    change ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).hom.app n).hom.toRingHom
         ((relativeBaseChangeRestriction J g h k n).hom (algebraMap _ _ b)) =
       (D.obj.map k).hom (((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h U)).hom.app
         n).hom.toRingHom (algebraMap _ _ b))
@@ -215,7 +215,7 @@ theorem relativeBaseChangeRestriction_naturality {U V : Cᵒᵖ} (k : U ⟶ V)
           m).hom.toRingHom := by
   refine (CommAlgCat.relativeBaseChange_isPushout (sectionsTowerHom J g h U) i).hom_ext ?_ ?_
   · refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-    show (relativeBaseChangeRestriction J g h k j).hom
+    change (relativeBaseChangeRestriction J g h k j).hom
         ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h U)).left.map m
           (CommAlgCat.canonicalBaseChangeMap _ _ i r)) =
       (CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).left.map m
@@ -233,7 +233,7 @@ theorem relativeBaseChangeRestriction_naturality {U V : Cᵒᵖ} (k : U ⟶ V)
             (congrArg ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).left.map m)
               (relativeBaseChangeRestriction_canonicalBaseChangeMap J g h k i r).symm))))
   · refine CommRingCat.hom_ext (RingHom.ext fun b => ?_)
-    show (relativeBaseChangeRestriction J g h k j).hom
+    change (relativeBaseChangeRestriction J g h k j).hom
         ((CommAlgCat.relativeBaseChange (sectionsTowerHom J g h U)).left.map m
           (algebraMap _ _ b)) =
       (CommAlgCat.relativeBaseChange (sectionsTowerHom J g h V)).left.map m
@@ -275,7 +275,7 @@ theorem relativeBaseChangeRestriction_comp {U V W : Cᵒᵖ} (k : U ⟶ V) (k' :
         _ _ n) r)
   · refine CommRingCat.hom_ext (RingHom.ext fun b => ?_)
     refine (relativeBaseChangeRestriction_algebraMap J g h (k ≫ k') n b).trans ?_
-    show _ = (relativeBaseChangeRestriction J g h k' n).hom
+    change _ = (relativeBaseChangeRestriction J g h k' n).hom
       ((relativeBaseChangeRestriction J g h k n).hom (algebraMap _ _ b))
     rw [relativeBaseChangeRestriction_algebraMap, relativeBaseChangeRestriction_algebraMap,
       B.obj.map_comp]
@@ -305,6 +305,7 @@ noncomputable def relativeBaseChangeCotangentRestriction {U V : Cᵒᵖ} (k : U 
     (fun n x => ConcreteCategory.congr_hom (relativeBaseChangeRestriction_augmentation J g h k n) x)
     (fun m x => ConcreteCategory.congr_hom (relativeBaseChangeRestriction_naturality J g h k m) x)
 
+set_option linter.checkUnivs false in
 /-- The complex `Ω[P_•⁄R] ⊗ D` of an augmented simplicial algebra vanishes in positive
 degrees. -/
 theorem augmentedCotangentCochainComplex_isZero_pos {R : Type (max u v w)} [CommRing R]

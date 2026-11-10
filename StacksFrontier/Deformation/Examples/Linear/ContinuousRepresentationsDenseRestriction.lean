@@ -78,7 +78,7 @@ variable {C : Type u} [Category.{v} C]
 /-- The functor induced on a strict fibre by a faithful based functor is faithful. -/
 theorem faithful_fiberFunctor (φ : BasedFunctor 𝓕 𝓖) [φ.toFunctor.Faithful] (A : C) :
     (fiberFunctor φ A).Faithful where
-  map_injective {x y} f g h :=
+  map_injective h :=
     Functor.Fiber.hom_ext (φ.toFunctor.map_injective (congrArg Functor.Fiber.fiberInclusion.map h))
 
 /-- The functor induced on a strict fibre by a fully faithful based functor is full. -/
@@ -134,27 +134,27 @@ theorem finiteDimensional_artinianTangentSpace_of_fullyFaithful
     (𝓖 : BasedCategory.{v₂, u₂} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p) (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2𝓕 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hS2𝓖 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (φ : BasedFunctor 𝓕 𝓖) (hfull : φ.toFunctor.Full) (hfaithful : φ.toFunctor.Faithful)
     (hfin :
       letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+        (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
       FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)) := by
   let : φ.toFunctor.Full := hfull
   let : φ.toFunctor.Faithful := hfaithful
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
   let : FiniteDimensional k (artinianTangentSpace Λ k
     (isomorphismClasses 𝓖 h𝓖.cofibered)) := hfin
   exact FiniteDimensional.of_injective
@@ -169,26 +169,26 @@ theorem finiteDimensional_artinianTangentSpace_of_essSurj
     (𝓖 : BasedCategory.{v₂, u₂} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p) (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2𝓕 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hS2𝓖 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (φ : BasedFunctor 𝓕 𝓖)
     (hess : ∀ A : ArtinianLocalAlgCat.{u, w, w} Λ k, (fiberFunctor φ A).EssSurj)
     (hfin :
       letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
       letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+        (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
       FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
   let : FiniteDimensional k (artinianTangentSpace Λ k
     (isomorphismClasses 𝓕 h𝓕.cofibered)) := hfin
   exact Module.Finite.of_surjective
@@ -359,7 +359,7 @@ public theorem full_restrictContinuousBasedFunctor {H : Subgroup Γ} (hH : Dense
     full_restrictContinuousFunctor hH
   let : (restrictContinuousFunctor.{u, w, m} (Λ := Λ) (k := k) (Γ := Γ) H).Faithful :=
     faithful_restrictContinuousFunctor H
-  show (Over.post (X := continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀)
+  change (Over.post (X := continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀)
     (restrictContinuousFunctor.{u, w, m} (Λ := Λ) (k := k) (Γ := Γ) H) ⋙
     Over.map (X := restrictToSubgroup H (specialFiber (Λ := Λ) V ρ₀))
     (Y := Deformation.RepresentationCategory.specialFiber (Λ := Λ) V (ρ₀.comp H.subtype))
@@ -377,7 +377,7 @@ public theorem faithful_restrictContinuousBasedFunctor (H : Subgroup Γ)
     (restrictContinuousBasedFunctor (Λ := Λ) V H ρ₀ hρ₀).toFunctor.Faithful := by
   let : (restrictContinuousFunctor.{u, w, m} (Λ := Λ) (k := k) (Γ := Γ) H).Faithful :=
     faithful_restrictContinuousFunctor H
-  show (Over.post (X := continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀)
+  change (Over.post (X := continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀)
     (restrictContinuousFunctor.{u, w, m} (Λ := Λ) (k := k) (Γ := Γ) H) ⋙
     Over.map (X := restrictToSubgroup H (specialFiber (Λ := Λ) V ρ₀))
     (Y := Deformation.RepresentationCategory.specialFiber (Λ := Λ) V (ρ₀.comp H.subtype))

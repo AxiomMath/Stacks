@@ -163,15 +163,13 @@ private lemma flat_prod {A B : Type u} [AddCommMonoid A] [Module R A] [AddCommMo
       Subtype.val_injective
     have compat (z : TensorProduct R S (A × B)) :
         (S.subtype.rTensor M) (π.lTensor S z) = π.lTensor P (S.subtype.rTensor (A × B) z) := by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul x y => simp
       | add x y hx hy => simp_all
     rw [compat x, compat y, hxy]
   have hp (z : TensorProduct R S (A × B)) : TensorProduct.prodRight R R S A B z =
       ((LinearMap.fst R A B).lTensor S z, (LinearMap.snd R A B).lTensor S z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [Prod.mk_zero_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x y => simp
     | add x y hx hy => simp_all
   apply (TensorProduct.prodRight R R S A B).injective

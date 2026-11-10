@@ -377,7 +377,7 @@ lemma shiftedUnderHomCoconeCommShift_ι_app_apply (A : W.Under ⊤ X)
       ULift.up (L.map f.down ≫ (L.commShiftIso n).hom.app A.right ≫
         inv ((L.map A.hom)⟦n⟧')) := by
   refine congrArg ULift.up ?_
-  show (L.map f.down ≫ inv (L.map (A.hom⟦n⟧'))) ≫ (L.commShiftIso n).hom.app X = _
+  change (L.map f.down ≫ inv (L.map (A.hom⟦n⟧'))) ≫ (L.commShiftIso n).hom.app X = _
   rw [Category.assoc,
     L.inv_map_shift_comp_commShiftIso_hom (X := X) (Y := A.right) A.hom n]
 

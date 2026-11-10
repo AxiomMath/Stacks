@@ -163,7 +163,7 @@ theorem isGE_derivedTensor_derivedPushforward_obj [QuasiCompact f] [QuasiSeparat
   let P : CochainComplex (Modules (inverseImageBase f)) ℤ :=
     ((RingedSpaceModuleAdjunction.modulePullback
       (inverseImageBaseProjection f)).mapHomologicalComplex (ComplexShape.up ℤ)).obj E₀
-  have hkflat : Stacks.SheafOfModules.KFlat.KFlat (inverseImageBase f).sheaf F :=
+  have hkflat : Stacks.SheafOfModules.KFlat (inverseImageBase f).sheaf F :=
     Stacks.Cohomology.LocallyBoundedKFlat.kFlat_of_isLocallyBounded_of_flat _ F hF hflat
   have ePull : (derivedPullback (inverseImageBaseProjection f)).obj E ≅
       DerivedCategory.Q.obj P :=

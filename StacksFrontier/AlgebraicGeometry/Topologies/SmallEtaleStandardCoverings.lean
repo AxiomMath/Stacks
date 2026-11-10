@@ -156,7 +156,7 @@ public theorem exists_isSmallEtaleStandardCovering_sieve₀_le {U : S.Etale}
   have hcR : R.arrows c := hle _ _ ⟨r.s₀ i⟩
   have hw : r.h₀ i ≫ ((Scheme.Etale.forget S).obj Z).hom =
       ((Scheme.Etale.forget S).obj (E.X i)).hom := by
-    show r.h₀ i ≫ (𝒰.X (r.s₀ i) ↘ S) = W.f i ≫ U.hom
+    change r.h₀ i ≫ (𝒰.X (r.s₀ i) ↘ S) = W.f i ≫ U.hom
     rw [← comp_over (𝒰.f (r.s₀ i)) S, ← Category.assoc, hfac]
     rfl
   let g : (Scheme.Etale.forget S).obj (E.X i) ⟶ (Scheme.Etale.forget S).obj Z :=

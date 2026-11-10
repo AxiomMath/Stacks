@@ -103,7 +103,7 @@ public theorem map_one (δ : SectionwiseDerivation R G c) (U : Cᵒᵖ) : δ.toF
   rw [mul_one] at h
   have h1 : toRingSection J (c.hom.app U (1 : R.obj.obj U)) =
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj U) := by
-    show c.hom.app U (1 : R.obj.obj U) = 1
+    change c.hom.app U (1 : R.obj.obj U) = 1
     simp
   rw [h1, one_smul] at h
   exact left_eq_add.mp h

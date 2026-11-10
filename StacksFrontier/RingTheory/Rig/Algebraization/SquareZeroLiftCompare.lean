@@ -211,8 +211,7 @@ theorem muH_cechι {s t : Finset (Fin k)} (h : s ⊆ t) (y : cechMod (gS f S) (P
 theorem cancelH_symm_tmul_one (z : PS N S) :
     (cancelH N f S).symm (z ⊗ₜ 1) =
       (IsScalarTower.toAlgHom R S (Sh f S)).toLinearMap.rTensor N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a n =>
     rw [cancelH_symm_tmul, mul_one]
     rfl

@@ -78,18 +78,18 @@ local instance (priority := 100000) monoidalCategoryStructComplexes :
 
 omit [HasDerivedCategory.{d} (Mod R)] in
 /-- **K-flatness of a total tensor product of K-flat complexes**, at the ringed-site spelling
-`Stacks.SheafOfModules.KFlat.KFlat`. -/
+`Stacks.SheafOfModules.KFlat`. -/
 theorem kFlat_tensor_complexes {K L : Complexes R}
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
-    Stacks.SheafOfModules.KFlat.KFlat R ((K ⊗ L : Complexes R)) :=
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
+    Stacks.SheafOfModules.KFlat R ((K ⊗ L : Complexes R)) :=
   CochainComplex.KFlatMonoidal.kFlat_tensor (Mod R) hK hL
 
 omit [HasDerivedCategory.{d} (Mod R)] in
 /-- **K-flatness of the unit of `Comp(Mod(O))`**, at the ringed-site spelling
-`Stacks.SheafOfModules.KFlat.KFlat`. -/
+`Stacks.SheafOfModules.KFlat`. -/
 theorem kFlat_tensorUnit_complexes :
-    Stacks.SheafOfModules.KFlat.KFlat R ((𝟙_ (Complexes R) : Complexes R)) :=
+    Stacks.SheafOfModules.KFlat R ((𝟙_ (Complexes R) : Complexes R)) :=
   CochainComplex.KFlatMonoidal.kFlat_tensorUnit (Mod R)
 
 /-- **The first half of the re-seating isomorphism is the comparison of the two derived tensor
@@ -116,8 +116,8 @@ theorem reseatIso_trans_hom (T : Stacks.DerivedTensor.RingedSite.DerivedTensorPr
 to the two-sided K-flat comparison of `CochainComplex.KFlatBifunctor.derivedBifunctor`.** -/
 theorem derivedBifunctorTensorIso_comp_comparison
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R) (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     ((derivedBifunctorTensorIso R T).hom.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫ (T.comparison K L hK hL).hom =
       (comparison (curriedTensor (Mod R)) K L
@@ -148,8 +148,8 @@ theorem derivedTensorBifunctorOfSite_eq :
 /-- **The K-flat comparison of Tag 06YU**, with its source spelled as the derived tensor
 bifunctor applied. -/
 def canonicalComparisonHom (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     ((derivedTensorBifunctorOfSite R).obj (DerivedCategory.Q.obj K)).obj
         (DerivedCategory.Q.obj L) ⟶
       DerivedCategory.Q.obj ((K ⊗ L : Complexes R)) :=
@@ -158,16 +158,16 @@ def canonicalComparisonHom (K L : Complexes R)
 /-- `Stacks.SheafOfModules.DerivedMonoidal.canonicalComparisonHom` *is* the morphism
 underlying `Stacks.SheafOfModules.DerivedMonoidal.canonicalComparison`. -/
 theorem canonicalComparisonHom_eq (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     canonicalComparisonHom R K L hK hL = (canonicalComparison R K L hK hL).hom :=
   rfl
 
 /-- **The re-seating isomorphism carries the K-flat comparison of a prescribed derived tensor
 product to the K-flat comparison of `derivedMonoidal`.** -/
 theorem reseatIso_comp_comparison (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R)
-    (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     letI := derivedMonoidal R
     (reseatIso (derivedTensorBifunctorIso R ≪≫ derivedBifunctorTensorIso R T)
           (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L)).hom ≫
@@ -195,8 +195,8 @@ tensor product of Tag 06YU — the one
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal` is seated on — with the
 comparison in the pinned spelling. -/
 theorem reseatIso_comp_canonicalComparisonHom (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     letI := derivedMonoidal R
     (reseatIso (monoidalTensorCanonicalIso R) (DerivedCategory.Q.obj K)
           (DerivedCategory.Q.obj L)).hom ≫ canonicalComparisonHom R K L hK hL =
@@ -355,9 +355,9 @@ canonical comparison of Tag 06YU carries the associator of `Comp(Mod(O))` to tha
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal`, whose tensor product is the
 derived tensor product of Tag 06YU on the nose. -/
 def CanonicalComparisonAssociator (K L M : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat R M) : Prop :=
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L)
+    (hM : Stacks.SheafOfModules.KFlat R M) : Prop :=
   canonicalWhiskerRight R (canonicalComparisonHom R K L hK hL)
         (DerivedCategory.Q.obj M) ≫
       canonicalComparisonHom R (K ⊗ L) M (kFlat_tensor_complexes R hK hL) hM ≫
@@ -372,9 +372,9 @@ def CanonicalComparisonAssociator (K L M : Complexes R)
 associator of the total tensor product of complexes**, in the form
 `Stacks.SheafOfModules.DerivedMonoidal.CanonicalComparisonAssociator`. -/
 theorem canonicalComparison_associator (K L M : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat R M) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L)
+    (hM : Stacks.SheafOfModules.KFlat R M) :
     CanonicalComparisonAssociator R K L M hK hL hM :=
   let := derivedMonoidal R
   reseat_associator_comp_of_eq (monoidalTensorCanonicalIso R) (canonicalUnitIso R)
@@ -391,8 +391,8 @@ symmetry of complexes**: on K-flat complexes the canonical comparison of Tag 06Y
 braiding of `Comp(Mod(O))` to that of
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric`. -/
 theorem canonicalComparison_braiding (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     canonicalBraidingHom R (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L) ≫
         canonicalComparisonHom R L K hL hK =
       canonicalComparisonHom R K L hK hL ≫ complexBraidingHom R K L :=
@@ -410,7 +410,7 @@ unitor of complexes**: on a K-flat complex the canonical comparison of Tag 06YU 
 carries the right unitor of `Comp(Mod(O))` to that of
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal`. -/
 theorem canonicalComparison_rightUnitor (K : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (hK : Stacks.SheafOfModules.KFlat R K) :
     canonicalRightUnitorHom R (DerivedCategory.Q.obj K) =
       canonicalComparisonHom R K (𝟙_ (Complexes R)) hK (kFlat_tensorUnit_complexes R) ≫
         complexRightUnitorHom R K :=
@@ -427,7 +427,7 @@ of complexes**: on a K-flat complex the canonical comparison of Tag 06YU at the 
 the left unitor of `Comp(Mod(O))` to that of
 `Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal`. -/
 theorem canonicalComparison_leftUnitor (K : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (hK : Stacks.SheafOfModules.KFlat R K) :
     canonicalLeftUnitorHom R (DerivedCategory.Q.obj K) =
       canonicalComparisonHom R (𝟙_ (Complexes R)) K (kFlat_tensorUnit_complexes R) hK ≫
         complexLeftUnitorHom R K :=

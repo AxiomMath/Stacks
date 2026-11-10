@@ -99,7 +99,7 @@ theorem isIso_levelHom_app (hT : (T.tow d₀ hd₀).IsAdmissible) (n : ℕ) (k :
   let eR : T.R.obj (op n) ≃ₗ[(limit T.globalRing : CommRingCat.{u})] T.globalRing.obj (op n) :=
     { iR.commRingCatIsoToRingEquiv.symm with
       map_smul' := fun r s => by
-        show iR.inv (T.levelMap n r * s) =
+        change iR.inv (T.levelMap n r * s) =
           (show Γ(Spec (T.R.obj (op n)), ⊤) from (limit.π T.globalRing (op n)).hom r) * iR.inv s
         rw [map_mul]
         congr 1
@@ -118,16 +118,11 @@ theorem isIso_levelHom_app (hT : (T.tow d₀ hd₀).IsAdmissible) (n : ℕ) (k :
   have heq : ⇑(pieceBaseChangeMap (T.tow d₀ hd₀).limGrading (T.levelMap n) (T.alg d₀ hd₀ n)
       (T.levelProj d₀ hd₀ n) (T.levelProj_algebraMap d₀ hd₀ n) d) = φ3 ∘ e ∘ T1 := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      refine (map_zero _).trans ?_
-      show _ = φ3 (e (T1 0))
-      rw [T1.map_zero, e.map_zero]
-      rfl
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       refine (AddMonoidHom.map_add _ x y).trans ?_
       rw [hx, hy]
-      show _ = φ3 (e (T1 (x + y)))
+      change _ = φ3 (e (T1 (x + y)))
       rw [T1.map_add, e.map_add]
       rfl
     | tmul s b =>

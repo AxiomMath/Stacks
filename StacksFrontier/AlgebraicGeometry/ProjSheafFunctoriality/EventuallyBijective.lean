@@ -168,7 +168,7 @@ private theorem injective_localizedModule_map_of_eventually_injective
           (pow_smul_mem_graded 𝒮 𝒨 hg k (DirectSum.decompose 𝒨 ((u : S) • m) i).2)
           (by rw [map_smul, hphi0, smul_zero])
       refine (mk_eq_zero_iff T m s).mpr ⟨⟨g ^ k, T.pow_mem hgx k⟩ * u, ?_⟩
-      show (g ^ k * (u : S)) • m = 0
+      change (g ^ k * (u : S)) • m = 0
       rw [mul_smul]
       exact hzero
   intro a b hab

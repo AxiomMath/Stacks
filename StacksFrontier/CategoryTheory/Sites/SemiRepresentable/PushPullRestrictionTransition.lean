@@ -379,7 +379,7 @@ theorem pushPullProductIso_mate (M : FormalCoproduct.{u} C) (X : Sheaf J (Type u
             (componentwiseTopology J M) J).counit.app
           (((componentOverForget M).sheafPushforwardContinuous (Type u)
             (componentwiseTopology J M) J).obj X)) := by
-  show (formalCoproductSliceSheavesEquivalence J M (Type u)).1.functor.map
+  change (formalCoproductSliceSheavesEquivalence J M (Type u)).1.functor.map
         (((componentOverForget M).sheafPushforwardContinuous (Type u)
           (componentwiseTopology J M) J).map
           ((pushPullProductIso J M (componentwiseTopology J M) rfl).hom.app X)) ≫

@@ -84,16 +84,16 @@ The square is taken as a bare natural transformation rather than as a term of ty
 against the whiskering of `β` that occurs in the mate. -/
 instance commShift_mateEquiv_symm (β : R₁ ⋙ G ⟶ H ⋙ R₂) [NatTrans.CommShift β A] :
     NatTrans.CommShift
-      ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)).natTrans A := by
+      ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)) A := by
   rw [mateEquiv_symm_apply]
-  dsimp only [TwoSquare.mk, TwoSquare.natTrans]
+  dsimp only [TwoSquare.mk]
   infer_instance
 
 /-- **The mate in the other direction of a shift-compatible 2-square is shift-compatible.** -/
 instance commShift_mateEquiv (α : G ⋙ L₂ ⟶ L₁ ⋙ H) [NatTrans.CommShift α A] :
-    NatTrans.CommShift (mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _ α)).natTrans A := by
+    NatTrans.CommShift (mateEquiv adj₁ adj₂ (TwoSquare.mk _ _ _ _ α)) A := by
   rw [mateEquiv_apply]
-  dsimp only [TwoSquare.mk, TwoSquare.natTrans]
+  dsimp only [TwoSquare.mk]
   infer_instance
 
 end NatTrans

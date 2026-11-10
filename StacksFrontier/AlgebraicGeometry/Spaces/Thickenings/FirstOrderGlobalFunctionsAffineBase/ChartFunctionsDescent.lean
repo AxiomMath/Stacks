@@ -138,7 +138,7 @@ theorem exists_chartFunctions_of_kernelPair (hR : IsPullback (yoneda.map s) (yon
   intro j k f
   refine (existsUnique_isDescent hwE hwS hR a ha k.unop).unique ?_ (hval k.unop)
   intro Z φ ψ hψ
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map φ).op).hom
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map φ).op).hom
     ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map f.unop.left).op).hom (val j)) = _
   rw [gamma_map_comp, ← Functor.map_comp]
   refine hval j.unop _ ψ ?_

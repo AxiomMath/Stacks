@@ -42,7 +42,7 @@ theorem groupTrace_eq_coeff_sum (R : Type*) (G : Type*) [Ring R] [Group G]
     (f : Module.End R[G] P) :
     groupTrace R G P f = additiveCommutatorQuotientMk R
         (∑ j, (i (f (p (standardBasisVector R[G] ι j))) j).coeff 1) := by
-  show epsilon R G (projectiveModuleTrace R[G] P f) = _
+  change epsilon R G (projectiveModuleTrace R[G] P f) = _
   simp [projectiveModuleTrace_eq_of_split R[G] P f p i hpi, freeModuleTrace_apply, epsilon_mk]
 
 end Stacks.Trace

@@ -177,7 +177,7 @@ theorem nonempty_algHom_of_wLocal_extremallyDisconnected (A : Type u) [CommRing 
     obtain ⟨a, ha⟩ := eA.surjective x
     obtain ⟨c, hc⟩ := hclosedLift a
     exact ⟨eC c, by
-      show ConnectedComponents.mk (PrimeSpectrum.comap (algebraMap A C) c.1) = x
+      change ConnectedComponents.mk (PrimeSpectrum.comap (algebraMap A C) c.1) = x
       rw [hc]; exact ha⟩
   obtain ⟨s, hscont, hs⟩ := exists_continuousSection_of_extremallyDisconnected fCC
     (PrimeSpectrum.continuous_comap (algebraMap A C)).connectedComponentsMap_continuous hfCCsurj
@@ -206,7 +206,7 @@ theorem nonempty_algHom_of_wLocal_extremallyDisconnected (A : Type u) [CommRing 
     refine ⟨PrimeSpectrum.isSpectralMap_comap (algebraMap A D), fun q hq => ?_⟩
     have hspec : PrimeSpectrum.comap (algebraMap A D) q =
         PrimeSpectrum.comap (algebraMap A C) (PrimeSpectrum.comap (algebraMap C D) q) := rfl
-    show IsClosed ({PrimeSpectrum.comap (algebraMap A D) q} : Set (PrimeSpectrum A))
+    change IsClosed ({PrimeSpectrum.comap (algebraMap A D) q} : Set (PrimeSpectrum A))
     rw [hspec]
     exact hWMapC.closedPoints_subset_preimage_closedPoints (hCclosedOfD q hq)
   let eD := closedPointsHomeomorphConnectedComponents (PrimeSpectrum D)
@@ -216,7 +216,7 @@ theorem nonempty_algHom_of_wLocal_extremallyDisconnected (A : Type u) [CommRing 
   let cOf : closedPoints (PrimeSpectrum D) → closedPoints (PrimeSpectrum C) := fun q =>
     ⟨PrimeSpectrum.comap (algebraMap C D) q.1, hCclosedOfD q.1 q.2⟩
   have hFformula (q : closedPoints (PrimeSpectrum D)) : eA (F q) = fCC (eC (cOf q)) := by
-    show ConnectedComponents.mk (PrimeSpectrum.comap (algebraMap A D) q.1) =
+    change ConnectedComponents.mk (PrimeSpectrum.comap (algebraMap A D) q.1) =
       (PrimeSpectrum.continuous_comap (algebraMap A C)).connectedComponentsMap
         (ConnectedComponents.mk (PrimeSpectrum.comap (algebraMap C D) q.1))
     rw [Continuous.connectedComponentsMap_mk]
@@ -230,7 +230,7 @@ theorem nonempty_algHom_of_wLocal_extremallyDisconnected (A : Type u) [CommRing 
     let c : closedPoints (PrimeSpectrum C) := eC.symm (s (eA a))
     have hcR : c.1 ∈ Set.range (PrimeSpectrum.comap (algebraMap C D)) := by
       rw [hDRange]
-      show eC c ∈ Set.range s
+      change eC c ∈ Set.range s
       rw [eC.apply_symm_apply]
       exact ⟨eA a, rfl⟩
     let d : PrimeSpectrum D := hCDembed.toHomeomorph.symm ⟨c.1, hcR⟩
@@ -238,7 +238,7 @@ theorem nonempty_algHom_of_wLocal_extremallyDisconnected (A : Type u) [CommRing 
       congrArg Subtype.val (hCDembed.toHomeomorph.apply_symm_apply ⟨c.1, hcR⟩)
     have hdclosed : d ∈ closedPoints (PrimeSpectrum D) := by
       have hpre := c.2.preimage (PrimeSpectrum.continuous_comap (algebraMap C D))
-      show IsClosed ({d} : Set (PrimeSpectrum D))
+      change IsClosed ({d} : Set (PrimeSpectrum D))
       convert hpre using 1
       refine Set.eq_of_subset_of_subset (fun z hz => ?_) (fun z hz => ?_)
       · rw [Set.mem_singleton_iff] at hz

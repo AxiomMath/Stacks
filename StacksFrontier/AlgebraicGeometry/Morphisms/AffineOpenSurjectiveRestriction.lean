@@ -48,11 +48,11 @@ theorem exists_affineOpen_le_surjective_on_restriction
   refine ⟨W, hxW, fun s hs ↦ (hWA hs).2, hW, fun s ↦ ?_⟩
   obtain ⟨y, hy, hys⟩ := (hWA s.property).1
   have hyW : y ∈ f ⁻¹ᵁ W := by
-    show f y ∈ W
+    change f y ∈ W
     rw [hys]
     exact s.property
   refine ⟨⟨⟨y, hyW⟩, hy⟩, Subtype.ext ?_⟩
-  show (f ∣_ W ≫ W.ι) ⟨y, hyW⟩ = s.val
+  change (f ∣_ W ≫ W.ι) ⟨y, hyW⟩ = s.val
   rwa [morphismRestrict_ι]
 
 end Stacks.Morphisms

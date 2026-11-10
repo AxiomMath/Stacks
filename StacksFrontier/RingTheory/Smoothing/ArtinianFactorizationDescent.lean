@@ -107,7 +107,7 @@ theorem hasSmoothFactorization_of_canBeResolved [IsLocalRing Λ]
   have hprime : (IsLocalRing.maximalIdeal Λ).IsPrime :=
     (IsLocalRing.maximalIdeal.isMaximal Λ).isPrime
   rw [← hprime.radical, Ideal.radical_le_radical_iff, hprime.radical,
-    Ideal.map_le_iff_le_comap, SetLike.not_le_iff_exists] at hnot
+    Ideal.map_le_iff_le_comap, IsConcreteLE.not_le_iff_exists] at hnot
   obtain ⟨c, hc, hcq⟩ := hnot
   have hunit : IsUnit ((IsScalarTower.toAlgHom R B Λ) c) :=
     IsLocalRing.notMem_maximalIdeal.mp hcq
@@ -115,7 +115,7 @@ theorem hasSmoothFactorization_of_canBeResolved [IsLocalRing Λ]
     smooth_localization_away_of_mem_singularIdeal R B hc,
     (IsScalarTower.toAlgHom R B (Localization.Away c)).comp (IsScalarTower.toAlgHom R A B),
     IsLocalization.Away.liftAlgHom (A := R) c hunit, AlgHom.ext fun a => ?_⟩
-  show IsLocalization.Away.lift c hunit
+  change IsLocalization.Away.lift c hunit
       (algebraMap B (Localization.Away c) (algebraMap A B a)) = algebraMap A Λ a
   rw [IsLocalization.Away.lift_eq c hunit]
   exact (IsScalarTower.algebraMap_apply A B Λ a).symm
@@ -196,7 +196,7 @@ private theorem exists_algHom_localizationAway (M : Submonoid B) [IsLocalization
       (M.map (algebraMap B (Localization.Away (b : B)))) S).mp
       (show algebraMap (Localization.Away (b : B)) S (MvPolynomial.aeval (R := R) y p.1) =
           algebraMap (Localization.Away (b : B)) S 0 by
-        show κ₁ (MvPolynomial.aeval (R := R) y p.1) = κ₁ 0
+        change κ₁ (MvPolynomial.aeval (R := R) y p.1) = κ₁ 0
         rw [hψ₁, hp, map_zero, map_zero])
     obtain ⟨v, hvM, hv⟩ := c.2
     exact ⟨v, hvM, by rw [hv]; simpa using hc⟩
@@ -236,18 +236,18 @@ private theorem exists_algHom_localizationAway (M : Submonoid B) [IsLocalization
     have h : (IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg).comp
         (θ : Localization.Away (b : B) →+* _) = (κ₁ : Localization.Away (b : B) →+* S) :=
       IsLocalization.ringHom_ext (Submonoid.powers (b : B)) (RingHom.ext fun z => by
-        show IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
+        change IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
             (θ (algebraMap B (Localization.Away (b : B)) z)) =
           κ₁ (algebraMap B (Localization.Away (b : B)) z)
         rw [hθbase, hκ₁base,
           IsLocalization.Away.lift_eq ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg z]
         rfl)
     exact fun z => RingHom.congr_fun h z
-  show IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
+  change IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
     (AlgHom.liftOfSurjective f hsurj (θ.comp (MvPolynomial.aeval (R := R) y)) hkerle (f p)) =
       φ (f p)
   rw [AlgHom.liftOfSurjective_apply]
-  show IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
+  change IsLocalization.Away.lift ((b : B) * ∏ p : {z // z ∈ s}, v p) hunitg
     (θ (MvPolynomial.aeval (R := R) y p)) = φ (f p)
   rw [hcomp, hψ₁]
 
@@ -274,7 +274,7 @@ private theorem exists_mem_smooth_localizationAway [Algebra.FinitePresentation R
     have hpc : ((Ideal.map (algebraMap B S) P).comap (algebraMap B S)).primeCompl =
         P.primeCompl := by
       refine Submonoid.ext fun x => ?_
-      show x ∉ (Ideal.map (algebraMap B S) P).comap (algebraMap B S) ↔ x ∉ P
+      change x ∉ (Ideal.map (algebraMap B S) P).comap (algebraMap B S) ↔ x ∉ P
       rw [hcomap]
     have hloc0 := IsLocalization.isLocalization_isLocalization_atPrime_isLocalization
       (R := B) (S := S) (T := Localization.AtPrime (Ideal.map (algebraMap B S) P)) M
@@ -378,7 +378,7 @@ theorem hasSmoothFactorization_of_algHom {C₀ : Type u} [CommRing C₀] [Algebr
     (h : HasSmoothFactorization R₀ A₀ L) : HasSmoothFactorization R₀ C₀ L := by
   obtain ⟨T, _, _, hT, g, k, hgk⟩ := h
   refine ⟨T, inferInstance, inferInstance, hT, g.comp σ, k, AlgHom.ext fun c => ?_⟩
-  show k (g (σ c)) = algebraMap C₀ L c
+  change k (g (σ c)) = algebraMap C₀ L c
   rw [show k (g (σ c)) = algebraMap A₀ L (σ c) from AlgHom.congr_fun hgk (σ c), hσ c]
 
 end Steps
@@ -412,18 +412,18 @@ theorem hasSmoothFactorization_baseChange [Algebra.IsPushout R₁ A₁ R₂ A₂
   have hg₁left : ∀ a : A₁, g₁ (algebraMap A₁ A₂ a) = (1 : R₂) ⊗ₜ[R₁] g a := fun a =>
     Algebra.pushoutDesc_left A₂ _ _ _ a
   have hk₂right : ∀ t : T, k₂ ((1 : R₂) ⊗ₜ[R₁] t) = algebraMap L₁ L₂ (k t) := fun t => by
-    show Algebra.ofId R₂ L₂ 1 * algebraMap L₁ L₂ (k t) = _
+    change Algebra.ofId R₂ L₂ 1 * algebraMap L₁ L₂ (k t) = _
     rw [map_one, one_mul]
   refine ⟨R₂ ⊗[R₁] T, inferInstance, inferInstance, inferInstance,
     { toRingHom := g₁.toRingHom, commutes' := hg₁right }, k₂, AlgHom.ext fun x => ?_⟩
-  show k₂ (g₁ x) = algebraMap A₂ L₂ x
+  change k₂ (g₁ x) = algebraMap A₂ L₂ x
   have key : (k₂.restrictScalars R₁).comp g₁ =
       (IsScalarTower.toAlgHom R₂ A₂ L₂).restrictScalars R₁ := by
     refine Algebra.IsPushout.algHom_ext (R := R₁) (S := A₁) (R' := R₂) A₂
       (AlgHom.ext fun r => ?_) (AlgHom.ext fun a => ?_)
-    · show k₂ (g₁ (algebraMap R₂ A₂ r)) = algebraMap A₂ L₂ (algebraMap R₂ A₂ r)
+    · change k₂ (g₁ (algebraMap R₂ A₂ r)) = algebraMap A₂ L₂ (algebraMap R₂ A₂ r)
       rw [hg₁right, k₂.commutes, ← IsScalarTower.algebraMap_apply R₂ A₂ L₂]
-    · show k₂ (g₁ (algebraMap A₁ A₂ a)) = algebraMap A₂ L₂ (algebraMap A₁ A₂ a)
+    · change k₂ (g₁ (algebraMap A₁ A₂ a)) = algebraMap A₂ L₂ (algebraMap A₁ A₂ a)
       rw [hg₁left, hk₂right, show k (g a) = algebraMap A₁ L₁ a from AlgHom.congr_fun hgk a,
         ← IsScalarTower.algebraMap_apply A₁ L₁ L₂, ← IsScalarTower.algebraMap_apply A₁ A₂ L₂]
   exact AlgHom.congr_fun key x
@@ -520,9 +520,9 @@ theorem isPushout_quotient_idealMap (R A : Type u) [CommRing R] [CommRing A] [Al
   ⟨IsBaseChange.of_equiv
     (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm.toLinearEquiv fun x => by
       obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm _ = _
+      change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm _ = _
       rw [AlgEquiv.symm_apply_eq]
-      show _ = Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I
+      change _ = Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I
         (Ideal.Quotient.mk _ (algebraMap R A y))
       rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk,
         Algebra.algebraMap_eq_smul_one y, TensorProduct.smul_tmul,
@@ -554,7 +554,7 @@ theorem canBeResolved_quotient_of_canBeResolved [IsLocalRing L] (I : Ideal R)
     ((algebraMap (A ⧸ IA) (L ⧸ IL)).comp (algebraMap (R ⧸ I) (A ⧸ IA))).toAlgebra
   let : IsScalarTower (R ⧸ I) (A ⧸ IA) (L ⧸ IL) := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower R (R ⧸ I) (L ⧸ IL) := IsScalarTower.of_algebraMap_eq fun r => by
-    show Ideal.Quotient.mk IL (algebraMap R L r) =
+    change Ideal.Quotient.mk IL (algebraMap R L r) =
       Ideal.Quotient.mk IL (algebraMap A L (algebraMap R A r))
     rw [← IsScalarTower.algebraMap_apply R A L]
   have : IsScalarTower A (A ⧸ IA) (L ⧸ IL) := IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -678,7 +678,7 @@ theorem exists_algHom_parameterPowerAlgebra_mvPolynomial (k : Type u) {A D : Typ
       rw [parameterPowerIdeal, Ideal.span_le]
       rintro y ⟨i, rfl⟩
       refine RingHom.mem_ker.mpr ?_
-      show Φ (X (Sum.inl i) ^ (2 * N) - ∑ j, C (a j) * X (Sum.inr (i, j))) = 0
+      change Φ (X (Sum.inl i) ^ (2 * N) - ∑ j, C (a j) * X (Sum.inr (i, j))) = 0
       have hXl : Φ (X (Sum.inl i)) = C (π i) * X i := aevalTower_X _ _ _
       have hXr : ∀ j, Φ (X (Sum.inr (i, j))) =
           C (lam i j * (↑(hδ i).unit⁻¹ : D) ^ (2 * N)) * X i ^ (2 * N) :=
@@ -692,7 +692,7 @@ theorem exists_algHom_parameterPowerAlgebra_mvPolynomial (k : Type u) {A D : Typ
       (MvPolynomial (Fin d) k) (parameterPowerAlgebra A d N a))) =
       MvPolynomial.aeval (R := k) fun i => C (π i) * X i :=
     MvPolynomial.algHom_ext fun i => by
-      show Ideal.Quotient.liftₐ _ Φ hker
+      change Ideal.Quotient.liftₐ _ Φ hker
         (algebraMap (MvPolynomial (Fin d) k) (parameterPowerAlgebra A d N a) (X i)) = _
       rw [algebraMap_mvPolynomial_parameterPowerAlgebra_X, MvPolynomial.aeval_X]
       exact aevalTower_X _ _ _

@@ -136,7 +136,7 @@ theorem isIso_of_comp_eq_id_of_iso_self {M N : ModuleCat.{u} B} (i : M ⟶ N) (r
     simpa using this
   have hqj : q ≫ j = 𝟙 _ := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    show j.hom (q.hom x) = x
+    change j.hom (q.hom x) = x
     rw [hlin j, hlin q, mul_assoc, mul_comm (q.hom 1), ← hlin q (j.hom 1), h1, mul_one]
   have : IsIso j := ⟨q, hjq, hqj⟩
   have hi : i = eM.hom ≫ j ≫ eN.inv := by simp [j]
@@ -352,7 +352,7 @@ theorem nonempty_localizationAway_cone_iso {B : Type u} [CommRing B] (g : B)
           (StacksDraft.PseudoCoherence.mapDerivedCategoryCompHomologyFunctorIso F 0) u).2
           (by change IsIso (F.map _); infer_instance)
       have h2 := isIso_homologyFunctor_map_biprod_fst N P 0 hP
-      show IsIso ((DerivedCategory.homologyFunctor _ 0).map (L.map u ≫ eL.hom ≫ biprod.fst))
+      change IsIso ((DerivedCategory.homologyFunctor _ 0).map (L.map u ≫ eL.hom ≫ biprod.fst))
       rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp]
       infer_instance
     · intro n hn

@@ -112,7 +112,8 @@ Three of the imports each supply a name used here and nothing else:
 clause (1)(f) unconditional rather than conditional on essential smallness.
 
 The primed names restate declarations of
-`StacksFrontier.AlgebraicGeometry.Stacks.LisseEtaleInclusion` with their hypothesis discharged rather
+`StacksFrontier.AlgebraicGeometry.Stacks.LisseEtaleInclusion` with their hypothesis discharged
+rather
 than editing them in place, because the hypothesis is part of those statements and a consumer may
 still want the conditional form over an arbitrary category fibred in groupoids.
 

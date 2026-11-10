@@ -239,8 +239,7 @@ the source's Definition 00U1 by its Lemma 00UR. See the module docstring.",
   ega "IV 17.4.1" "field extension case",
   ega "IV 17.15.11" "X = Spec of a field",
   sga "1 I 3.1" "(i)<=>(ii), field ext",
-  sga "3 XI 1.3" "field extension case",
-  ega "0 21.7.4" "more general"]
+  sga "3 XI 1.3" "field extension case"]
 public theorem Algebra.FormallyUnramified.tfae_isSeparable_unramified_etale
     (k K : Type*) [Field k] [Field K] [Algebra k K] [Algebra.EssFiniteType k K] :
     List.TFAE

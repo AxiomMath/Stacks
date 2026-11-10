@@ -62,7 +62,7 @@ private lemma localized_integralClosureMap_surjective
   rw [← hn] at hspec
   have hca : φ a = (f ^ n) • c := by
     apply Subtype.ext
-    show algebraMap C (FractionRing A) (φ a) =
+    change algebraMap C (FractionRing A) (φ a) =
       algebraMap C (FractionRing A) ((f ^ n) • c)
     calc
       algebraMap C (FractionRing A) (φ a) = algebraMap A (FractionRing A) a := by
@@ -76,7 +76,7 @@ private lemma localized_integralClosureMap_surjective
   let s₀ : p.primeCompl := ⟨f ^ n, fun hmem => hf
     (Ideal.IsPrime.mem_of_pow_mem (inferInstance : p.IsPrime) n hmem)⟩
   refine ⟨IsLocalizedModule.mk' (LocalizedModule.mkLinearMap p.primeCompl A) a (s₀ * s), ?_⟩
-  show (IsLocalizedModule.map p.primeCompl
+  change (IsLocalizedModule.map p.primeCompl
     (LocalizedModule.mkLinearMap p.primeCompl A)
     (LocalizedModule.mkLinearMap p.primeCompl C) φ
       (IsLocalizedModule.mk' (LocalizedModule.mkLinearMap p.primeCompl A) a (s₀ * s))) = _

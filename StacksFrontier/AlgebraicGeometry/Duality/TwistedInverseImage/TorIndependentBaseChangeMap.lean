@@ -100,7 +100,7 @@ theorem torIndependentTwistedInverseImageBaseChange_homEquiv (sq : IsPullback g'
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
           (isQuasicoherent_homology_derivedPushforward_of_qcqs g) sq)).app
             ((quasiCoherentDerivedPullback' g).obj K) := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply, Adjunction.homEquiv_counit, Functor.map_comp,
+  rw [← Equiv.eq_symm_apply, Adjunction.homEquiv_counit, Functor.map_comp,
     Category.assoc]
   simp only [torIndependentTwistedInverseImageBaseChange, twistedInverseImageBaseChangeMap,
     NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,

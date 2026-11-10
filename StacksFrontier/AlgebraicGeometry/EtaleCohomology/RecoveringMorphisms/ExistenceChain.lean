@@ -102,7 +102,8 @@ listed there.
      `openObjι` of
      `StacksFrontier/AlgebraicGeometry/Topologies/Etale/SmallEtalePullbackFpqcAmalgamation.lean`, so
      no size argument has to be redone to form `V ⊆ Y` or `W ⊆ X`.
-   * **Needed, and a universe restatement, not a theorem.**  Stacks 04HV is formalized only for sheaves
+   * **Needed, and a universe restatement, not a theorem.**  Stacks 04HV is formalized only for
+     sheaves
      of `Type (max (u + 1) v)` — that is the `F : smallEtaleTopos.{u, max (u + 1) v} B S hS` of
      `AlgebraicGeometry.existsUnique_open_of_isSubterminal` — whereas the small étale ringed topos
      of this chain is `Sheaf _ (Type u)`: `AlgebraicGeometry.smallEtaleRingedSite` is a
@@ -125,12 +126,13 @@ listed there.
      `StacksFrontier/AlgebraicGeometry/Recovery04IH/LocalizedToposMorphismLocallyRinged.lean`
      proves `IsLocallyRinged` of exactly that one, from
      `.isLocallyRinged_localized` in the same file pasted with Stacks 04IG, together with the
-     structure-map identity of 04IF's square,
+     structure-map identity of 04IF's square, which is
      `AlgebraicGeometry.RingedToposHom.localized_fSharpInverseImage_forget` of
-     `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposMorphismLocalization.lean`.
-     The other locally-ringed facts the development has are about the *canonical* localization and
-     relocalization morphisms (`Recovery04IH/LocalizationMorphismsLocallyRinged.lean`) and about
-     the localized *topos* as an object (`Recovery04IH/ToposLocalizationLocallyRinged.lean`).
+     `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposMorphismLocalization.lean`
+     (04IF).  The other locally-ringed facts the development has are about the *canonical*
+     localization and relocalization morphisms
+     (`Recovery04IH/LocalizationMorphismsLocallyRinged.lean`) and about the localized
+     *topos* as an object (`Recovery04IH/ToposLocalizationLocallyRinged.lean`).
 
      **The Beck–Chevalley input.**  `IsIso` of
      `CategoryTheory.SliceTopos.localizedInverseImageMate` is the input that
@@ -214,12 +216,13 @@ listed there.
    **What the affine-target route needs.**  The inputs are listed below; none of them is
    Stacks 04I7:
 
-   * *The source-side refinement* — **available.**  A single affine chart `T` of `X` need not admit a
-     section into a single `g⁻¹h_{V_i}`; only a cover of `T` does, since surjectivity of
+   * *The source-side refinement* — **available.**  A single affine chart `T` of `X` need not admit
+     a section into a single `g⁻¹h_{V_i}`; only a cover of `T` does, since surjectivity of
      `∐ᵢ g⁻¹h_{V_i} ⟶ *` is local.  `exists_hom_of_chartHoms_twoIso` wants the family on *every*
      affine chart, and the variant for a family given only on a cofinal set of affine charts is
      `AlgebraicGeometry.Space.exists_hom_of_chartHoms_twoIso_of_cofinal` of
-     `StacksFrontier/AlgebraicGeometry/Spaces/CofinalChartGluing.lean`, with the cofinality condition
+     `StacksFrontier/AlgebraicGeometry/Spaces/CofinalChartGluing.lean`, with the cofinality
+     condition
      `AlgebraicGeometry.Space.IsCofinalChartFamily` stated for affine charts — which is what the
      caller proves — and raised to arbitrary charts by `IsCofinalChartFamily.exists_cover`.  As
      expected, it is a statement about the fppf sheaf `Y` and the étale topology alone: no recovery
@@ -272,23 +275,26 @@ listed there.
         produced, and only the report remains — but it is still an error.  What the shape says
         is that a `Type v`-valued sheaf theory on a site with objects
         in `Type (max u v)` needs the bespoke smallness plumbing that
-        `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleToposRingUniverse.lean` writes out for the
+        `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleToposRingUniverse.lean` writes out for
+        the
         small étale site — local smallness, sheafification, the Kan extensions, and left exactness
         of the inverse image — and that the element site needs its own copy.  Unlike the
         spaces-étale site the element site **is** essentially small at `v`, so that copy is
         available in principle; it is not in the library.
 
-        Past that file the chain of files to generalize is
-        `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposMorphismLocalization.lean` (04IF, 7 declarations),
+        Past that file the chain of files to generalize is (a path `Localization/…` below
+        standing for `StacksFrontier/CategoryTheory/Sites/Modules/Localization/…`)
+        `Localization/RingedToposMorphismLocalization.lean` (04IF, 7 declarations),
         `Recovery04IH/ToposRelocalization.lean` (04J4, 9 — and this one routes through
         `Stacks.Sheaves.LocallyRingedTopos.RingedTopos.{u}`, a structure with a single universe
         variable that cannot be generalized, so its continuity and cocontinuity inputs have to be
         re-derived), `Recovery04IH/LocalizedToposStructureMap.lean` (26),
-        `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposRelocalizedMorphism.lean` (04J8, 11),
+        `Localization/RingedToposRelocalizedMorphism.lean` (04J8, 11),
         `Recovery04IH/LocalizedToposMorphismLocallyRinged.lean` (2),
         `Recovery04IH/ToposLocalizationLocallyRinged.lean` (1) and
-        `StacksFrontier/CategoryTheory/Sites/Modules/Localization/SliceEquivalence.lean` (4), plus the `RingedSite.Hom` comparison layer
-        (`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RelocalizedMorphismComparison.lean`, 44, and its neighbours), whose
+        `Localization/SliceEquivalence.lean` (4), plus
+        the `RingedSite.Hom` comparison layer
+        (`Localization/RelocalizedMorphismComparison.lean`, 44, and its neighbours), whose
         morphism structure `AlgebraicGeometry.RingedSite.Hom` is itself declared at
         `RingedSite.{u, u, w}` and would have to migrate to the already-general
         `RingedSite.HomGeneral`.  The slice-topos presentation is not a way round it:
@@ -497,15 +503,15 @@ bullets below:
   The general machinery the instantiation is assembled from:
 
   * `AlgebraicGeometry.RingedToposHom.isLocallyRinged_iff_of_ringedToposEquivalence` of
-    `StacksFrontier/CategoryTheory/Sites/Modules/LocallyRingedTopoi/InverseImage.lean`, registered on
-    Stacks 04H7 (2): for a `RingedToposHom` whose inverse image is an equivalence and whose
+    `StacksFrontier/CategoryTheory/Sites/Modules/LocallyRingedTopoi/InverseImage.lean`, registered
+    on Stacks 04H7 (2): for a `RingedToposHom` whose inverse image is an equivalence and whose
     structure map is an isomorphism, `IsLocallyRinged` of the two ends agree.  So the
     `IsLocallyRinged` half of the transport is a general theorem, not a new proof.
   * `AlgebraicGeometry.RingedToposHom.inverse` and its `fSharp`/`toToposHom` computations
     (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RingedToposEquivalence.lean`), which build the
     morphism of ringed topoi in the other direction.
-  * `AlgebraicGeometry.RingedToposHom.TwoIso.ofInverseImageIso`
-    (`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposRelocalizedMorphism.lean`),
+  * `AlgebraicGeometry.RingedToposHom.TwoIso.ofInverseImageIso`, of
+    `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposRelocalizedMorphism.lean`,
     which makes a `TwoIso` out of an isomorphism of inverse images compatible with the structure
     maps — the shape the comparison here arrives in.
   * A change-of-big-site equivalence *of ringed topoi* already exists in another instance:

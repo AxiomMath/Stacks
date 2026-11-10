@@ -49,7 +49,7 @@ lemma overEquiv_symm_ofArrows {S : Scheme.{u}} {I : Type*} {X : I → Scheme.{u}
       Sieve.ofArrows (fun i ↦ Over.mk (f i))
         (fun i ↦ (Over.homMk (f i) : Over.mk (f i) ⟶ Over.mk (𝟙 S))) := by
   apply (Sieve.overEquiv (Over.mk (𝟙 S))).injective
-  show (Sieve.overEquiv (Over.mk (𝟙 S)))
+  change (Sieve.overEquiv (Over.mk (𝟙 S)))
       ((Sieve.overEquiv (Over.mk (𝟙 S))).symm (Sieve.ofArrows X f)) =
     (Sieve.overEquiv (Over.mk (𝟙 S)))
       (Sieve.ofArrows (fun i ↦ Over.mk (f i))

@@ -132,7 +132,7 @@ theorem bijective_restrict_of_quasiIso {R : Type u} [CommRing R]
   have hE : ∀ x, φ.τ₂.hom.restrict (p := LinearMap.ker S₁.g.hom)
       (q := LinearMap.ker S₂.g.hom) (map_mem_ker_g φ) x = E x := fun x => by
     apply Subtype.ext
-    rw [LinearMap.restrict_coe_apply]
+    rw [LinearMap.coe_restrict_apply]
     have a1 := congr($(S₂.moduleCatCyclesIso_hom_i).hom
       (ShortComplex.cyclesMap φ (S₁.moduleCatCyclesIso.inv x)))
     have a2 := congr($(ShortComplex.cyclesMap_i φ).hom (S₁.moduleCatCyclesIso.inv x))
@@ -212,7 +212,7 @@ theorem termEquiv_map {β : ℕ} {N N' : ModuleCat.{u} R} (e : N ≅ ModuleCat.o
   have h := Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv_naturality ψ M
     ((ModuleCat.extendScalars.{u, u, u} ψ).map e.hom x)
   refine Eq.trans ?_ h
-  show Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv ψ β
+  change Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv ψ β
       ((ModuleCat.extendScalars.{u, u, u} ψ).map e'.hom
         ((ModuleCat.extendScalars.{u, u, u} ψ).map (e.hom ≫ ModuleCat.ofHom M.mulVecLin ≫ e'.inv)
           x)) = _
@@ -237,7 +237,7 @@ theorem termEquiv_comp_inv_app {B' : Type u} [CommRing B'] (ψ' : B →+* B') {N
     refine (termEquiv_tmul (ψ'.comp ψ) e 1 s).trans ?_
     refine Eq.trans ?_ (termEquiv_tmul ψ' (termEquiv ψ e).toModuleIso 1 _).symm
     funext k
-    show ψ' (ψ (e.hom s k)) * 1 = ψ' (termEquiv ψ e ((1 : B) ⊗ₜ[R, ψ] s) k) * 1
+    change ψ' (ψ (e.hom s k)) * 1 = ψ' (termEquiv ψ e ((1 : B) ⊗ₜ[R, ψ] s) k) * 1
     rw [termEquiv_tmul ψ e 1 s]
     simp
   exact congr($(h).hom y)
@@ -251,7 +251,7 @@ theorem termEquiv_comp {B' : Type u} [CommRing B'] (ψ' : B →+* B') {N : Modul
   refine (termEquiv_comp_inv_app ψ ψ' e _).trans ?_
   refine (termEquiv_tmul ψ' (termEquiv ψ e).toModuleIso 1 x).trans ?_
   funext k
-  show ψ' (termEquiv ψ e x k) * 1 = _
+  change ψ' (termEquiv ψ e x k) * 1 = _
   simp
 
 end TermEquiv
@@ -301,7 +301,7 @@ restrictions. -/
 theorem baseAlternatingCechComplexXIso_hom_sectionsToModel (s : Γ(F', ⊤)) :
     (baseAlternatingCechComplexXIso f' U' hU' F' 0).hom (sectionsToModel f' U' hU' F' s) =
       Stacks.Cech.sectionsToAlternatingₗ f' U' F' (fun _ => le_top) s := by
-  show ((baseAlternatingCechComplexXIso f' U' hU' F' 0).inv ≫
+  change ((baseAlternatingCechComplexXIso f' U' hU' F' 0).inv ≫
     (baseAlternatingCechComplexXIso f' U' hU' F' 0).hom) _ = _
   rw [Iso.inv_hom_id]
   rfl
@@ -334,7 +334,7 @@ theorem range_sectionsToModel :
     simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at this
     refine this.trans ?_
     rw [map_zero]
-    show Stacks.Cech.alternatingCechModuleD f' U' F' 0
+    change Stacks.Cech.alternatingCechModuleD f' U' F' 0
       ((baseAlternatingCechComplexXIso f' U' hU' F' 0).hom (sectionsToModel f' U' hU' F' s)) = 0
     rw [baseAlternatingCechComplexXIso_hom_sectionsToModel, ← LinearMap.mem_ker, ← hr]
     exact ⟨s, rfl⟩
@@ -376,7 +376,7 @@ theorem sectionsToModel_mapIso {G H : X'.Modules} (t : G ≅ H) (s : Γ(G, ⊤))
     (sectionsToModel f' U' hU' G s))
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at h
   refine h.trans ?_
-  show Stacks.Cech.alternatingCechModuleObjMap f' U' t.hom 0
+  change Stacks.Cech.alternatingCechModuleObjMap f' U' t.hom 0
       ((baseAlternatingCechComplexXIso f' U' hU' G 0).hom (sectionsToModel f' U' hU' G s)) =
     (baseAlternatingCechComplexXIso f' U' hU' H 0).hom (sectionsToModel f' U' hU' H _)
   rw [baseAlternatingCechComplexXIso_hom_sectionsToModel,
@@ -504,7 +504,7 @@ private theorem quasiIso_extendScalars_map_model (hUaff : ∀ i, IsAffineOpen (U
   exact StacksDraft.PseudoCoherence.quasiIso_extendScalars_map_of_flat ψ b (Fintype.card I : ℤ) u
 
 /-- The chain-level comparison is a quasi-isomorphism. -/
-theorem quasiIso_kernelChainComparison [Fintype I] [QuasiIso u]
+theorem quasiIso_kernelChainComparison [QuasiIso u]
     [∀ n : ℤ, Module.Flat R (P.X n)] (hflat : IsFlatOver f.toLRSHom.toShHom F) (b : ℤ)
     [P.IsStrictlyLE b] {B : Type u} [CommRing B] (ψ : R →+* B) {X' : Scheme.{u}}
     {f' : X' ⟶ Spec (.of B)} {g' : X' ⟶ X}
@@ -558,6 +558,7 @@ variable {A R : Type u} [CommRing A] [CommRing R] (α : A →+* R)
   {r β : ℕ} (e₀ : P.X 0 ≅ ModuleCat.of R (Fin r → R)) (e₁ : P.X 1 ≅ ModuleCat.of R (Fin β → R))
   (M : Matrix (Fin β) (Fin r) R) (hM : P.d 0 1 = e₀.hom ≫ ModuleCat.ofHom M.mulVecLin ≫ e₁.inv)
 
+omit [∀ n : ℤ, Module.Flat R (P.X n)] in
 include hM in
 /-- The coordinates of `termEquiv` identify the kernel of `M.map ψ` with the degree-`0` cocycles
 of `P ⊗_R B`. -/
@@ -574,18 +575,21 @@ def kerMatrixEquiv {B : Type u} [CommRing B] (ψ : R →+* B) :
     LinearMap.ker (M.map ψ).mulVecLin ≃ₗ[B] LinearMap.ker ((extendScalarsComplex ψ P).d 0 1).hom :=
   (termEquiv ψ e₀).symm.ofSubmodules _ _ (map_termEquiv_symm_ker e₀ e₁ M hM ψ)
 
+omit [∀ n : ℤ, Module.Flat R (P.X n)] in
 /-- `kerMatrixEquiv` is the inverse of the coordinate identification. -/
 theorem kerMatrixEquiv_apply_coe {B : Type u} [CommRing B] (ψ : R →+* B)
     (v : LinearMap.ker (M.map ψ).mulVecLin) :
     (kerMatrixEquiv e₀ e₁ M hM ψ v : (extendScalarsComplex ψ P).X 0) =
       (termEquiv ψ e₀).symm v := rfl
 
+omit [∀ n : ℤ, Module.Flat R (P.X n)] in
 include hP in
 /-- The differential of `P ⊗_R B` into degree `0` vanishes when `P` vanishes in degree `-1`. -/
 theorem d_neg_one_zero_extendScalarsComplex {B : Type u} [CommRing B] (ψ : R →+* B) :
     (extendScalarsComplex ψ P).d (-1) 0 = 0 :=
   ((ModuleCat.extendScalars.{u, u, u} ψ).map_isZero hP).eq_of_src _ _
 
+omit [Fintype I] in
 /-- The differential of the `ℤ`-indexed Čech model into degree `0` vanishes. -/
 theorem d_neg_one_zero_baseAlternatingCechComplex {B : Type u} [CommRing B] {X' : Scheme.{u}}
     (f' : X' ⟶ Spec (.of B)) (U' : I → X'.Opens) (hU' : (⊤ : X'.Opens) = ⨆ i, U' i)
@@ -650,7 +654,7 @@ theorem kernelModelEquiv_comp {B B' : Type u} [CommRing B] [CommRing B'] (ψ : R
     rw [LinearEquiv.apply_symm_apply, termEquiv_comp, hz, LinearEquiv.apply_symm_apply]
   have hcoc := congr($((kernelChainComparison_comp α F U hU hUaff u ψ ψ' hsq hsq')).f 0)
   have hcoc' := congr($(hcoc).hom ((1 : B') ⊗ₜ[B, ψ'] z))
-  show _ = (kernelChainComparison α F U hU hUaff u (ψ'.comp ψ) hsq'').f 0
+  change _ = (kernelChainComparison α F U hU hUaff u (ψ'.comp ψ) hsq'').f 0
       ((termEquiv (ψ'.comp ψ) e₀).symm (ψ' ∘ (v : Fin r → B)))
   rw [hy]
   have h1 : (((ModuleCat.extendScalars.{u, u, u} ψ').mapHomologicalComplex
@@ -722,7 +726,7 @@ theorem matrix_map_eq_zero_of_finrank {k : Type u} [Field k] (χ : R →+* k)
     rw [← h1]
     have h2 : ((termEquiv χ e₀).symm w) ∈ LinearMap.ker (V.d 0 1).hom := by simp [htop]
     rw [LinearMap.mem_ker] at h2
-    show termEquiv χ e₁ ((V.d 0 1).hom ((termEquiv χ e₀).symm w)) = 0
+    change termEquiv χ e₁ ((V.d 0 1).hom ((termEquiv χ e₀).symm w)) = 0
     rw [h2, map_zero]
   ext i j
   have := congrFun (hzero (Pi.single j 1)) i

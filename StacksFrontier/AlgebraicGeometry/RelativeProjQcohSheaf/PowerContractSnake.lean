@@ -83,8 +83,8 @@ No balancing relation of [Stacks, Tag 01O6] is verified here, and no tag is carr
 This file belongs to the route to property (1) of [Stacks, Tag 01O7] through the
 isomorphism `α : h^*𝒪(d) ≅ L`, and the remarks in this section concern that route only.
 The comparison `ℳ̃_T ≅ h^*ℳ̃` of property (1) of [Stacks, Tag 01O7] is built by another route,
-in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this file:
-on a chart datum (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.ChartDatum.iso`) the
+in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this
+file: on a chart datum (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.ChartDatum.iso`) the
 degreewise maps send `x ⊗ l` to `g^*(x / c^m) · (l · w^m)`, their balancing relations are
 verified directly (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.bmap_balanced`), and the
 inverse is written down.
@@ -366,7 +366,7 @@ theorem untwist_powContractIso {Y : Scheme.{u}} {L : Y.Modules}
 variable {S : Type u} {σ : Type u} [CommRing S] [SetLike σ S] [AddSubgroupClass σ S]
   (𝒮 : ℕ → σ) [GradedRing 𝒮] (d : ℕ)
   {Y : Scheme.{u}} (φ : Y ⟶ (AlgebraicGeometry.Proj.degreeOpen 𝒮 d).toScheme)
-  {L : Y.Modules} [Stacks.Ample.IsInvertibleModule Y L]
+  {L : Y.Modules}
   [Stacks.SheafOfModules.IsInvertible Y.toRingedSpace.presheaf (isSheafStruct Y) L]
   {M : Type u} {τ : Type t} [AddCommGroup M] [Module S M]
   [SetLike τ M] [AddSubgroupClass τ M] (𝒨 : ℤ → τ) [DirectSum.Decomposition 𝒨]

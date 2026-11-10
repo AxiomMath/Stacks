@@ -86,7 +86,7 @@ theorem Scheme.exists_ι_appTop_eq_of_compatible {S : Scheme.{u}} {ι : Type u} 
         (inf_le_left : U i ⊓ U j ≤ U i)) (s i))
       have hj := congr($(Scheme.homOfLE_appTop_comp_topIso_hom
         (inf_le_right : U i ⊓ U j ≤ U j)) (s j))
-      show S.presheaf.map (homOfLE inf_le_left).op ((U i).topIso.hom (s i)) =
+      change S.presheaf.map (homOfLE inf_le_left).op ((U i).topIso.hom (s i)) =
         S.presheaf.map (homOfLE inf_le_right).op ((U j).topIso.hom (s j))
       exact hi.symm.trans ((congrArg (U i ⊓ U j).topIso.hom (h i j)).trans hj))
   refine ⟨J, fun i ↦ ?_⟩
@@ -166,7 +166,7 @@ theorem PointedFamily.exists_jInvariant {S : Scheme.{u}} (E : PointedFamily S)
       rw [← Weierstrass.j_curveAt_comp, ← Weierstrass.j_curveAt_comp]
       refine Comparison.j_curveAt_fst_eq ((x s).baseChange (S.homOfLE inf_le_left))
         ((x t).baseChange (S.homOfLE inf_le_right)) ?_
-      show S.homOfLE _ ≫ (x s).snd = S.homOfLE _ ≫ (x t).snd
+      change S.homOfLE _ ≫ (x s).snd = S.homOfLE _ ≫ (x t).snd
       rw [hx s, hx t, Scheme.homOfLE_ι, Scheme.homOfLE_ι])
   refine ⟨J, fun {T} y ↦ ?_⟩
   let V (s : S) : T.Opens := y.snd ⁻¹ᵁ U s
@@ -176,14 +176,14 @@ theorem PointedFamily.exists_jInvariant {S : Scheme.{u}} (E : PointedFamily S)
   have hr := morphismRestrict_ι y.snd (U s)
   have key := Comparison.j_curveAt_fst_eq (y.baseChange (V s).ι)
     ((x s).baseChange (y.snd ∣_ U s)) (by
-      show (V s).ι ≫ y.snd = (y.snd ∣_ U s) ≫ (x s).snd
+      change (V s).ι ≫ y.snd = (y.snd ∣_ U s) ≫ (x s).snd
       rw [hx s, hr])
-  show (V s).ι.appTop (Weierstrass.curveAt y.fst).j = (V s).ι.appTop (y.snd.appTop J)
+  change (V s).ι.appTop (Weierstrass.curveAt y.fst).j = (V s).ι.appTop (y.snd.appTop J)
   rw [← Weierstrass.j_curveAt_comp]
   rw [key]
-  show (Weierstrass.curveAt ((y.snd ∣_ U s) ≫ (x s).fst)).j = _
+  change (Weierstrass.curveAt ((y.snd ∣_ U s) ≫ (x s).fst)).j = _
   rw [Weierstrass.j_curveAt_comp, ← hJ s]
-  show ((y.snd ∣_ U s) ≫ (U s).ι).appTop J = ((V s).ι ≫ y.snd).appTop J
+  change ((y.snd ∣_ U s) ≫ (U s).ι).appTop J = ((V s).ι ≫ y.snd).appTop J
   rw [hr]
 
 end ModuliEllipticCurves

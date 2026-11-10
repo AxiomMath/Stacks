@@ -60,6 +60,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   [Algebra k kbar] [IsAlgClosed kbar] [Algebra.IsAlgebraic k kbar] [Algebra.IsSeparable k kbar]
   (Λ : Type) [Ring Λ] [Fintype Λ] (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
+omit [Smooth f] in
 /-- **`Hom_N(M_N, μ_n) → Hom_N(M, μ_n)` is surjective**: an `N`-equivariant `b : M → μ_n` is
 `N`-invariant, `N` acting trivially on `μ_n`, hence factors through the coinvariants `M_N`. -/
 theorem exists_geometricCyclotomicDualInvariants_map_normalCoinvariantsQuotient
@@ -142,6 +143,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar)) (n : ℕ) [NeZero n]
   (j : CompactificationOf (Over.mk f))
 
+omit [Smooth f] in
 /-- **`π₁(X_k̄)` acts trivially on `μ_n(k̄)`**, in the form of the hypotheses of Tag 03VK. -/
 theorem cyclotomicContinuousModule_representation_map_eq_one :
     letI := connectedSpace_of_isCurve B X f
@@ -208,7 +210,7 @@ theorem addEquiv_ulift_comp_linearEquiv_comp_apply {S S' M N P : Type*} [Semirin
       (e₂ (G (e₁.symm z))).down :=
   rfl
 
-omit [Algebra (ZMod (Fintype.card Λ)) Λ] in
+omit [Smooth f] [Algebra (ZMod (Fintype.card Λ)) Λ] in
 /-- The image of `b ∈ Hom_N(M_N, μ_n)` in `Hom_N(M, μ_n)`, at `m`, is `b` at the class of `m`. -/
 theorem geometricCyclotomicDualInvariantsToHom_map_normalCoinvariantsQuotient
     (ρ : letI := connectedSpace_of_isCurve B X f
@@ -230,6 +232,7 @@ theorem geometricCyclotomicDualInvariantsToHom_map_normalCoinvariantsQuotient
           m) :=
   rfl
 
+omit [Smooth f] in
 /-- The map `M → μ_n` of `AlgebraicGeometry.geometricCyclotomicDualHomEquiv` is that of
 `AlgebraicGeometry.pullbackRepresentationHomEquiv`. -/
 theorem geometricCyclotomicDualInvariantsToHom_geometricCyclotomicDualHomEquiv
@@ -265,6 +268,7 @@ theorem geometricCyclotomicDualInvariantsToHom_geometricCyclotomicDualHomEquiv
           (Fintype.card Λ) (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)) ρ φ) m :=
   rfl
 
+omit [Smooth f] in
 /-- **`b̄` for `b` coming from `ρ_N`**: for `φ' : res(ℱ_{ρ_N}|_{X_k̄}) ⟶ ℱ_μ|_{X_k̄}`, the map
 `M_N → μ_n` of the image in `Hom_N(M, μ_n)` of `Φ_{ρ_N}(φ')` is `M_N ≅ Γ(X_k̄, ℱ_{ρ_N}|) ⟶
 Γ(X_k̄, ℱ_μ|) ≅ μ_n`, the middle map being `Γ(X_k̄, φ')`. -/
@@ -334,6 +338,8 @@ theorem rootsOfUnityCardZModAddEquiv_symm_comp (n : ℕ) [NeZero n] :
         (rootsOfUnityCardZModAddEquiv kbar n).toAddMonoidHom = AddMonoidHom.id _ :=
   AddMonoidHom.ext fun w => (rootsOfUnityCardZModAddEquiv kbar n).symm_apply_apply w
 
+set_option maxHeartbeats 1000000 in
+-- The kernel's check of the `rw` chain and the final `rfl` exceeds the default limit.
 /-- **The trace of the map on `H²_c` induced by `θ` is the degree-zero pairing with the class of
 `θ`.** Let `n = #Λ`, `ψ : ℤ/n → Λ`, `θ : res_ψ((j_! ℱ_ρ)|_{X̄_k̄}) ⟶ (j_! ℱ_μ)|_{X̄_k̄}` and `α ∈
 H²_c(X_k̄, ℱ_ρ)`. Then `tr : H²_c(X_k̄, ℱ_μ) → ℚ/ℤ`
@@ -379,7 +385,7 @@ theorem compactSupportCyclotomicTrace_restrictScalarsMapOfBar
             θ)) := by
   let := connectedSpace_of_isCurve B X f
   let := connectedSpace_fieldBaseChange f kbar
-  haveI : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
+  have : NeZero (Fintype.card Λ) := ⟨Fintype.card_ne_zero⟩
   have hα : (compactSupportRepresentationHomologyZeroIso B X _ Λ f j kbar ρ).hom.hom
       ((compactSupportRepresentationHomologyZeroIso B X _ Λ f j kbar ρ).inv.hom α) = α := by
     rw [← LinearMap.comp_apply, ← ModuleCat.hom_comp, Iso.inv_hom_id, ModuleCat.hom_id,

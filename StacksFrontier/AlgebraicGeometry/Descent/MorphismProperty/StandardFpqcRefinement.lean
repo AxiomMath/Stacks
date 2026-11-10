@@ -59,7 +59,7 @@ public lemma exists_comap_appTop_eq {R : Scheme.{u}} [IsAffine R] {I : Type v}
     R.isoSpec.hom.base ((g i).base z) at hnat
   rw [hz] at hnat
   have hp : R.isoSpec.hom.base (R.isoSpec.inv.base p) = p := by
-    show ((R.isoSpec.inv ≫ R.isoSpec.hom) p) = p
+    change ((R.isoSpec.inv ≫ R.isoSpec.hom) p) = p
     rw [R.isoSpec.inv_hom_id]
     rfl
   rwa [hp] at hnat

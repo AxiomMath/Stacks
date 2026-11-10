@@ -143,7 +143,7 @@ private theorem linearCombination_comp_eq_zero
     (h : ∀ j, ∑ i, gen i * rel j i = 0) :
     (Fintype.linearCombination R gen).comp (Fintype.linearCombination R rel) = 0 := by
   refine LinearMap.ext fun x => ?_
-  show Fintype.linearCombination R gen (Fintype.linearCombination R rel x) = 0
+  change Fintype.linearCombination R gen (Fintype.linearCombination R rel x) = 0
   rw [Fintype.linearCombination_apply]
   calc
     ∑ i, Fintype.linearCombination R rel x i • gen i
@@ -301,17 +301,17 @@ private theorem exists_approximated_presentation
   let R := MvPolynomial (Fin r) A
   let IR : Ideal R := I.map (MvPolynomial.C : A →+* R)
   let P := AdicCompletion IR R
-  letI : IsNoetherianRing P := AdicCompletion.isNoetherianRing IR
+  let : IsNoetherianRing P := AdicCompletion.isNoetherianRing IR
   -- Step 3: the henselization `H` of `(R, IR)`, its G-ring property and its completion.
   let H := (henselization R IR : Type u)
-  letI : Algebra A H := ((algebraMap R H).comp (algebraMap A R)).toAlgebra
-  haveI : IsScalarTower A R H := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  let : Algebra A H := ((algebraMap R H).comp (algebraMap A R)).toAlgebra
+  have : IsScalarTower A R H := IsScalarTower.of_algebraMap_eq fun _ => rfl
   let IH : Ideal H := IR.map (algebraMap R H)
   have hHP' : HenselianPair H IH := by
     simpa only [IH] using henselianPair_henselization R IR
   obtain ⟨H₀, hH₀ring, ι₀, hH₀pair, hH₀up⟩ := exists_henselization R IR
-  letI : CommRing H₀ := hH₀ring
-  letI : Algebra R H₀ := ι₀.toAlgebra
+  let : CommRing H₀ := hH₀ring
+  let : Algebra R H₀ := ι₀.toAlgebra
   have hH₀pair' : HenselianPair H₀ (IR.map (algebraMap R H₀)) := by
     simpa only [RingHom.algebraMap_toAlgebra] using hH₀pair
   obtain ⟨eH⟩ := nonempty_algEquiv_henselization (R := R) (I := IR) H₀ hH₀pair' hH₀up
@@ -331,7 +331,7 @@ private theorem exists_approximated_presentation
       HenselianPair T Jt → ∀ f : R →+* T, IR ≤ Jt.comap f →
         ∃! q : H →+* T, q.comp (algebraMap R H) = f ∧ IH ≤ Jt.comap q := by
     intro T hT Jt hTpair f hf
-    letI : CommRing T := hT
+    let : CommRing T := hT
     obtain ⟨g₀, hg₀, huniq₀⟩ := hH₀up T hT Jt hTpair f hf
     let gH : H →+* T := g₀.comp eH.toRingEquiv.toRingHom
     have hbaseH : gH.comp (algebraMap R H) = f := by
@@ -346,14 +346,14 @@ private theorem exists_approximated_presentation
     intro x
     have hx := congrArg (fun k : H₀ →+* T => k (eH x)) heq
     simpa [gH, g₀'] using hx
-  haveI : IsNoetherianRing H :=
+  have : IsNoetherianRing H :=
     (henselization_isNoetherian_and_completion_equiv R IR H hHP' hHup).2.1
   have hGR : IsGRing H :=
     isGRing_henselization (isGRing_of_essFiniteType hA) IR H hHP' hHup
   let Q := AdicCompletion IH H
-  letI : Algebra A Q := Algebra.compHom Q (algebraMap A H)
-  haveI : IsScalarTower A H Q := IsScalarTower.of_algebraMap_eq' rfl
-  haveI : IsScalarTower A R Q := IsScalarTower.of_algebraMap_eq' rfl
+  let : Algebra A Q := Algebra.compHom Q (algebraMap A H)
+  have : IsScalarTower A H Q := IsScalarTower.of_algebraMap_eq' rfl
+  have : IsScalarTower A R Q := IsScalarTower.of_algebraMap_eq' rfl
   let completionMap : P →+* Q := adicCompletionMap (algebraMap R H) IR IH le_rfl
   have hcompletionMap : Function.Bijective completionMap :=
     (henselization_isNoetherian_and_completion_equiv R IR H hHP' hHup).1
@@ -474,9 +474,9 @@ private theorem exists_approximated_presentation
     change (I.map (MvPolynomial.C : A →+* R)).map (algebraMap R H) = _
     rw [Ideal.map_map]
     congr 1
-  letI : Algebra A (H ⧸ JH) := Algebra.compHom (H ⧸ JH) (algebraMap A H)
-  haveI : IsScalarTower A H (H ⧸ JH) := IsScalarTower.of_algebraMap_eq' rfl
-  haveI : IsScalarTower A H (Q ⧸ JQ) := IsScalarTower.of_algebraMap_eq' rfl
+  let : Algebra A (H ⧸ JH) := Algebra.compHom (H ⧸ JH) (algebraMap A H)
+  have : IsScalarTower A H (H ⧸ JH) := IsScalarTower.of_algebraMap_eq' rfl
+  have : IsScalarTower A H (Q ⧸ JQ) := IsScalarTower.of_algebraMap_eq' rfl
   have hIHquot : IH.map (algebraMap H (H ⧸ JH)) = I.map (algebraMap A (H ⧸ JH)) := by
     change (IR.map (algebraMap R H)).map (algebraMap H (H ⧸ JH)) = _
     rw [hIRH, Ideal.map_map]
@@ -503,11 +503,11 @@ private theorem exists_approximated_presentation
   let eHQ' : (Q ⧸ JQ) ≃ₐ[A] AdicCompletion (I.map (algebraMap A (H ⧸ JH))) (H ⧸ JH) :=
     eHQ.trans (adicCompletionAlgEquivOfIdealEq _ _ hIHquot)
   -- Step 6: algebraize the quotient of the henselization (Tag 0GAS).
-  haveI : Algebra.FiniteType A R := inferInstance
+  have : Algebra.FiniteType A R := inferInstance
   obtain ⟨C₀, hC₀ring, hC₀alg, hC₀ft, ⟨eGAS⟩⟩ :=
     exists_finiteType_adicCompletion_algEquiv_henselization_quotient.{u, u} A R I JH
-  letI : CommRing C₀ := hC₀ring
-  letI : Algebra A C₀ := hC₀alg
+  let : CommRing C₀ := hC₀ring
+  let : Algebra A C₀ := hC₀alg
   let eGAS' : AdicCompletion (I.map (algebraMap A C₀)) C₀ ≃ₐ[A]
       AdicCompletion (I.map (algebraMap A (H ⧸ JH))) (H ⧸ JH) := eGAS
   have hJPle : JP ^ precision ≤ JP ^ n0 := Ideal.pow_le_pow_right (Nat.le_max_left n0 1)

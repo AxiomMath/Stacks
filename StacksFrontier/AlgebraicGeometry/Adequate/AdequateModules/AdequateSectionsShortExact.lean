@@ -165,14 +165,14 @@ private theorem isAffine_and_flat_and_surjective_sigmaDesc (B : BigSite τ S) {U
   have : Surjective (Sigma.desc (fun i => G.map (f i))) := by
     refine ⟨fun x => ?_⟩
     obtain ⟨i, y, hy⟩ := hsurj x
-    exact ⟨Sigma.ι (fun i => G.obj (X i)) i y, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+    exact ⟨Sigma.ι (fun i => G.obj (X i)) i y, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
   refine ⟨?_, ?_, ?_⟩
-  · show IsAffine (G.obj (∐ X))
+  · change IsAffine (G.obj (∐ X))
     exact IsAffine.of_isIso e.hom
-  · show Flat (G.map (Sigma.desc f))
+  · change Flat (G.map (Sigma.desc f))
     rw [hg]
     infer_instance
-  · show Surjective (G.map (Sigma.desc f))
+  · change Surjective (G.map (Sigma.desc f))
     rw [hg]
     infer_instance
 

@@ -106,13 +106,11 @@ section Composition
 
 variable {T'' T' T : BigFppfOver B S hS}
 
-variable [IsAffine ((BigFppfOver.toScheme B S hS).obj T'')]
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj T')] [IsAffine ((BigFppfOver.toScheme B S hS).obj T)]
-
 /-- The map of rings of global functions of a composite is the composite of the maps. -/
 theorem representedAffineRingHom_comp (a : T'' ⟶ T') (b : T' ⟶ T) :
     (representedAffineCommRingCatHom B S hS (a ≫ b)).hom =
-      (representedAffineCommRingCatHom B S hS a).hom.comp (representedAffineCommRingCatHom B S hS b).hom := by
+      (representedAffineCommRingCatHom B S hS a).hom.comp
+        (representedAffineCommRingCatHom B S hS b).hom := by
   simp only [representedAffineCommRingCatHom, Functor.map_comp, Scheme.Hom.comp_appTop,
     CommRingCat.hom_comp]
 
@@ -122,7 +120,8 @@ end Composition
 
 The associated module and its derived version, stated with target the modules over the structure
 sheaf of the small étale ringed topos, which is the spelling of the derived pullback. Each object
-is the corresponding one of `StacksFrontier/AlgebraicGeometry/Spaces/AffineQuasicoherentDerivedBaseChange.lean`;
+is the corresponding one of
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineQuasicoherentDerivedBaseChange.lean`;
 stating them once in this spelling keeps the comparisons below inside one spelling. -/
 
 section Topos
@@ -132,7 +131,8 @@ indexed by the morphisms. -/
 def smallEtaleModulePullbackFamily (X Y : AlgebraicSpaces B S hS) (f : X ⟶ Y) :
     SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y) ⥤
       SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X) :=
-  Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS X)
+  Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+    (X := smallEtaleRingedTopos B S hS X)
     (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposHom B S hS f).toModulesHom
 
 instance additive_smallEtaleModulePullbackFamily (X Y : AlgebraicSpaces B S hS) (f : X ⟶ Y) :
@@ -189,7 +189,8 @@ variable {U' U : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S hS).ob
 /-- `g^*(M^~) ≅ (R' ⊗_R M)^~`, in the ringed-topos spelling. -/
 def representedAffineToposPullbackIso :
     representedAffineToposAssociated B S hS U ⋙
-        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+          (X := smallEtaleRingedTopos B S hS _)
           (Y := smallEtaleRingedTopos B S hS _)
           (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS g)).toModulesHom ≅
       ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom ⋙
@@ -233,6 +234,7 @@ theorem representedAffineToposDerivedBaseChangeIso_hom_app_comparison
   rw [representedAffineHomotopyPullbackIso_hom_eq] at h
   exact h
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)] in
 /-- Derived extension of scalars followed by `Φ_{R'}` is a left derived functor, in the
 ringed-topos spelling. -/
 theorem isLeftDerivedFunctor_representedAffineToposDerivedExtension_comp :
@@ -258,7 +260,8 @@ theorem smallEtaleUnderivedPullbackSquareIso_eq_mapHomotopyCategoryCompIso :
     smallEtaleUnderivedPullbackSquareIso B S hS f g f' g' w =
       Functor.mapHomotopyCategoryCompIso (smallEtaleModulePullbackCompIso B S hS g' f)
           (ComplexShape.up ℤ) ≪≫
-        eqToIso (congrArg (fun t => (smallEtaleModulePullbackFamily B S hS X' Y t).mapHomotopyCategory
+        eqToIso (congrArg
+          (fun t => (smallEtaleModulePullbackFamily B S hS X' Y t).mapHomotopyCategory
           (ComplexShape.up ℤ)) w) := by
   rw [smallEtaleUnderivedPullbackSquareIso_eq, smallEtaleUnderivedPullbackCompIso_eq]
   rfl
@@ -272,22 +275,30 @@ variable {U V U' V' : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S h
   [IsAffine ((BigFppfOver.toScheme B S hS).obj V')]
   (f₀ : U ⟶ V) (g₀ : V' ⟶ V) (f₀' : U' ⟶ V') (g₀' : U' ⟶ U) (w₀ : g₀' ≫ f₀ = f₀' ≫ g₀)
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] [IsAffine ((BigFppfOver.toScheme B S hS).obj U')]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 include w₀ in
 theorem representedSpaceMap_square :
     representedSpaceMap B S hS g₀' ≫ representedSpaceMap B S hS f₀ =
       representedSpaceMap B S hS f₀' ≫ representedSpaceMap B S hS g₀ := by
   rw [representedSpaceMap_comp, w₀, ← representedSpaceMap_comp]
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] [IsAffine ((BigFppfOver.toScheme B S hS).obj U')]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 include w₀ in
 theorem representedAffineRingHom_square :
-    (representedAffineCommRingCatHom B S hS g₀').hom.comp (representedAffineCommRingCatHom B S hS f₀).hom =
+    (representedAffineCommRingCatHom B S hS g₀').hom.comp
+        (representedAffineCommRingCatHom B S hS f₀).hom =
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom := by
   rw [← representedAffineRingHom_comp, w₀]
 
 
 /-- The module-level comparison along the path through `V'`. -/
 def representedAffinePathLeft :
-    representedAffineToposAssociated B S hS V ⋙ Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+    representedAffineToposAssociated B S hS V ⋙
+      Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
         (X := smallEtaleRingedTopos B S hS _) (Y := smallEtaleRingedTopos B S hS _)
         (smallEtaleRingedToposHom B S hS
           (representedSpaceMap B S hS f₀' ≫ representedSpaceMap B S hS g₀)).toModulesHom ⟶
@@ -298,13 +309,15 @@ def representedAffinePathLeft :
     (representedAffineToposPullbackIso B S hS g₀)
     (representedAffineToposPullbackIso B S hS f₀')
     (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+      (representedAffineCommRingCatHom B S hS g₀).hom
+      (representedAffineCommRingCatHom B S hS f₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_comp B S hS f₀' g₀).symm)
 
 instance isIso_representedAffinePathLeft : IsIso (representedAffinePathLeft B S hS g₀ f₀') :=
   have : IsIso (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+      (representedAffineCommRingCatHom B S hS g₀).hom
+      (representedAffineCommRingCatHom B S hS f₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_comp B S hS f₀' g₀).symm) := by
     unfold RingTheory.TorIndependence.extendScalarsCompInvOfEq
@@ -314,7 +327,8 @@ instance isIso_representedAffinePathLeft : IsIso (representedAffinePathLeft B S 
 /-- The module-level comparison along the path through `U`, transported along the commutativity
 of the square. -/
 def representedAffinePathRight :
-    representedAffineToposAssociated B S hS V ⋙ Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+    representedAffineToposAssociated B S hS V ⋙
+      Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
         (X := smallEtaleRingedTopos B S hS _) (Y := smallEtaleRingedTopos B S hS _)
         (smallEtaleRingedToposHom B S hS
           (representedSpaceMap B S hS f₀' ≫ representedSpaceMap B S hS g₀)).toModulesHom ⟶
@@ -328,14 +342,16 @@ def representedAffinePathRight :
     (representedAffineToposPullbackIso B S hS f₀)
     (representedAffineToposPullbackIso B S hS g₀')
     (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+      (representedAffineCommRingCatHom B S hS f₀).hom
+      (representedAffineCommRingCatHom B S hS g₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀))
 
 instance isIso_representedAffinePathRight :
     IsIso (representedAffinePathRight B S hS f₀ g₀ f₀' g₀' w₀) :=
   have : IsIso (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+      (representedAffineCommRingCatHom B S hS f₀).hom
+      (representedAffineCommRingCatHom B S hS g₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀)) := by
     unfold RingTheory.TorIndependence.extendScalarsCompInvOfEq
@@ -358,13 +374,15 @@ theorem exists_isUnit_representedAffinePath :
   obtain ⟨δ, hδ⟩ := Stacks.Homology.exists_app_eq_comp_map
     (F₀ := representedAffineToposAssociated B S hS V)
     (F₂ := representedAffineToposAssociated B S hS U')
-    (yc := ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom)
+    (yc := ModuleCat.extendScalars.{u, u, u}
+      (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom)
     (representedAffinePathLeft B S hS g₀ f₀') (representedAffinePathRight B S hS f₀ g₀ f₀' g₀' w₀)
     (isIso_representedAffinePathRight B S hS f₀ g₀ f₀' g₀' w₀) hF
   obtain ⟨δ', hδ'⟩ := Stacks.Homology.exists_app_eq_comp_map
     (F₀ := representedAffineToposAssociated B S hS V)
     (F₂ := representedAffineToposAssociated B S hS U')
-    (yc := ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom)
+    (yc := ModuleCat.extendScalars.{u, u, u}
+      (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom)
     (representedAffinePathRight B S hS f₀ g₀ f₀' g₀' w₀) (representedAffinePathLeft B S hS g₀ f₀')
     (isIso_representedAffinePathLeft B S hS g₀ f₀') hF
   obtain ⟨c, hc⟩ := ModuleCat.ExtendScalars.natTrans_app_eq_smul
@@ -383,7 +401,8 @@ theorem exists_isUnit_representedAffinePath :
     ((representedAffinePathRight B S hS f₀ g₀ f₀' g₀' w₀).app M))
     (congrArg (representedAffineToposAssociated B S hS U').map (hcM M)))⟩
   refine IsUnit.of_mul_eq_one (b := d) ?_
-  let R := ModuleCat.of Γ((BigFppfOver.toScheme B S hS).obj V, ⊤) Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
+  let R := ModuleCat.of Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
+    Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
   have hLR : IsIso ((representedAffinePathLeft B S hS g₀ f₀').app R) :=
     @NatIso.isIso_app_of_isIso _ _ _ _ _ _ _ (isIso_representedAffinePathLeft B S hS g₀ f₀') R
   have h₁ : (representedAffinePathLeft B S hS g₀ f₀').app R ≫ 𝟙 _ =
@@ -416,10 +435,10 @@ def unitCentralIso {A : Type u} [CommRing A] (c : A) (hc : IsUnit c) :
   inv := (Linear.toCatCenter A _ (hc.unit⁻¹ : Aˣ)).asHom
   hom_inv_id := by
     ext X
-    simp [Linear.smul_comp, smul_smul]
+    simp [smul_smul]
   inv_hom_id := by
     ext X
-    simp [Linear.smul_comp, smul_smul]
+    simp [smul_smul]
 
 include w₀ in
 /-- **The affine base change isomorphisms compose around a square, up to a unit `c`**, as soon as
@@ -438,7 +457,8 @@ theorem representedAffineToposDerivedBaseChange_compat_of_path
           ((representedAffineDerivedExtension B S hS g₀).functor.obj N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map
           ((RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+              (representedAffineCommRingCatHom B S hS g₀).hom
+              (representedAffineCommRingCatHom B S hS f₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_comp B S hS f₀' g₀).symm).hom.app N) =
       (smallEtaleDerivedModulePullbackCompIso B S hS (representedSpaceMap B S hS f₀')
@@ -455,13 +475,14 @@ theorem representedAffineToposDerivedBaseChange_compat_of_path
           ((representedAffineDerivedExtension B S hS f₀).functor.obj N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map
           ((RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+              (representedAffineCommRingCatHom B S hS f₀).hom
+              (representedAffineCommRingCatHom B S hS g₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀)).hom.app N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map
           ((unitCentralIso c hc).hom.app
             ((representedAffineDerivedExtension B S hS (f₀' ≫ g₀)).functor.obj N)) := by
-  haveI : ∀ t : (⟨yoneda.obj U', isAlgebraicSpace_yoneda B S hS U'⟩ : AlgebraicSpaces B S hS) ⟶
+  have : ∀ t : (⟨yoneda.obj U', isAlgebraicSpace_yoneda B S hS U'⟩ : AlgebraicSpaces B S hS) ⟶
       ⟨yoneda.obj V, isAlgebraicSpace_yoneda B S hS V⟩,
       (smallEtaleModulePullbackFamily B S hS _ _ t).Additive := fun t =>
     additive_smallEtaleModulePullbackFamily B S hS _ _ t
@@ -478,14 +499,17 @@ theorem representedAffineToposDerivedBaseChange_compat_of_path
     (representedAffineToposPullbackIso B S hS g₀) (representedAffineToposPullbackIso B S hS f₀')
     (representedAffineToposPullbackIso B S hS f₀) (representedAffineToposPullbackIso B S hS g₀')
     (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+      (representedAffineCommRingCatHom B S hS g₀).hom
+      (representedAffineCommRingCatHom B S hS f₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_comp B S hS f₀' g₀).symm)
     (RingTheory.TorIndependence.extendScalarsCompInvOfEq.{u, u, u, u}
-      (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+      (representedAffineCommRingCatHom B S hS f₀).hom
+      (representedAffineCommRingCatHom B S hS g₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀))
-    (c • 𝟙 (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom))
+    (c • 𝟙 (ModuleCat.extendScalars.{u, u, u}
+        (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom))
     rfl rfl (smallEtaleUnderivedPullbackCompIso_eq B S hS _ _)
     (smallEtaleUnderivedPullbackCompIso_eq B S hS _ _)
     (Q₀ := DerivedCategory.Q) (P₀ := DerivedCategory.Qh)
@@ -521,11 +545,13 @@ theorem representedAffineToposDerivedBaseChange_compat_of_path
       (representedSpaceMap B S hS g₀) (representedSpaceMap B S hS f₀')
       (representedSpaceMap B S hS g₀') (representedSpaceMap_square B S hS f₀ g₀ f₀' g₀' w₀))
     (ε := (RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+              (representedAffineCommRingCatHom B S hS g₀).hom
+              (representedAffineCommRingCatHom B S hS f₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_comp B S hS f₀' g₀).symm).hom)
     (ε' := (RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+              (representedAffineCommRingCatHom B S hS f₀).hom
+              (representedAffineCommRingCatHom B S hS g₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀)).hom)
     (t := (unitCentralIso c hc).hom)
@@ -580,7 +606,8 @@ theorem exists_representedAffineToposDerivedBaseChange_compat :
           ((representedAffineDerivedExtension B S hS g₀).functor.obj N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map
           ((RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+              (representedAffineCommRingCatHom B S hS g₀).hom
+              (representedAffineCommRingCatHom B S hS f₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_comp B S hS f₀' g₀).symm).hom.app N) =
       (smallEtaleDerivedModulePullbackCompIso B S hS (representedSpaceMap B S hS f₀')
@@ -597,7 +624,8 @@ theorem exists_representedAffineToposDerivedBaseChange_compat :
           ((representedAffineDerivedExtension B S hS f₀).functor.obj N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map
           ((RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-              (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+              (representedAffineCommRingCatHom B S hS f₀).hom
+              (representedAffineCommRingCatHom B S hS g₀').hom
               (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
               (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀)).hom.app N) ≫
         (representedAffineToposDerivedAssociated B S hS U').map

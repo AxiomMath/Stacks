@@ -98,7 +98,7 @@ theorem restrictYonedaHom_comp_yoneda_map {W : Over A} (κ : (Over.map m).obj Z'
     restrictYonedaHom m κ ≫ (relocalizeRestrict m).map (yoneda.map w) =
       restrictYonedaHom m (κ ≫ w) := by
   ext V x
-  show ((Over.map m).map x ≫ κ) ≫ w = (Over.map m).map x ≫ κ ≫ w
+  change ((Over.map m).map x ≫ κ) ≫ w = (Over.map m).map x ≫ κ ≫ w
   rw [Category.assoc]
 
 /-- **The comparison `h_{Z'} ⟶ j^{-1} h_Z` absorbs a represented morphism on the source.**
@@ -109,7 +109,7 @@ theorem yoneda_map_comp_restrictYonedaHom {Y' : Over A'} (κ : (Over.map m).obj 
     yoneda.map v ≫ restrictYonedaHom m κ =
       restrictYonedaHom m ((Over.map m).map v ≫ κ) := by
   ext V x
-  show (Over.map m).map (x ≫ v) ≫ κ = (Over.map m).map x ≫ (Over.map m).map v ≫ κ
+  change (Over.map m).map (x ≫ v) ≫ κ = (Over.map m).map x ≫ (Over.map m).map v ≫ κ
   rw [Functor.map_comp, Category.assoc]
 
 /-- **Restriction carries the morphism named by a section to the morphism named by its
@@ -123,7 +123,7 @@ theorem restrictYonedaHom_comp_relocalizeRestrict_map (κ : (Over.map m).obj Z' 
       restrictYonedaHom m κ ≫ (relocalizeRestrict m).map (yonedaEquiv.symm t) := by
   subst hs
   ext V v
-  show F.map ((Over.map m).map v).op (F.map κ.op t) =
+  change F.map ((Over.map m).map v).op (F.map κ.op t) =
     F.map ((Over.map m).map v ≫ κ).op t
   rw [op_comp, F.map_comp]
   rfl

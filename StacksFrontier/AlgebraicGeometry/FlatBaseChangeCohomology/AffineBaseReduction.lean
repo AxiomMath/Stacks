@@ -81,7 +81,7 @@ theorem baseChangeNatTrans_pasteBase_app (w₁ : g' ≫ f = f' ≫ g) (w₂ : h'
         (AffinePushforward.baseChangeNatTrans w₂).app ((Scheme.Modules.pullback g').obj M) ≫
         (Scheme.Modules.pushforward f'').map
           ((Scheme.Modules.pullbackComp h' g').hom.app M) := by
-  have key := congrArg (fun t => TwoSquare.natTrans t |>.app M)
+  have key := congrArg (fun t => NatTrans.app t M)
     (baseChangeSquare_pasteBase w₁ w₂)
   simp only [TwoSquare.whiskerRight_app, TwoSquare.whiskerLeft_app,
     natTrans_baseChangeSquare] at key

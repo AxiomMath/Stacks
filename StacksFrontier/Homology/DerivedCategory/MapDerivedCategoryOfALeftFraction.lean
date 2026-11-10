@@ -25,8 +25,8 @@ space in it.
 ## Main results
 
 * `CategoryTheory.Functor.mapDerivedCategory_map_eq_of_Q_eq`: the statement above. It is declared
-  in `StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.LeftDualRetract`, which this module
-  imports; it is not restated here.
+  in `StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.LeftDualRetract`, which this
+  module imports; it is not restated here.
 * `CategoryTheory.Functor.Q_map_eq_of_mapDerivedCategory_map_eq`: its converse — the square
   determines the derived-category identity it was built from, so the two conditions on `β` are
   equivalent. This is what lets a chain-level representative be *transported*: the square at one

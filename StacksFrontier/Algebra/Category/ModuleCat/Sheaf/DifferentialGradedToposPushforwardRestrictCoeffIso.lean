@@ -178,7 +178,7 @@ theorem TensoratorCompatible.isUnital_algebraHom : (hc.algebraHom B).IsUnital :=
   have h3 : ((toposPushforwardAlgebra G₁ B).mul 0 0).app U one₁ b = b :=
     eq_of_heq ((toposPushforwardAlgebra G₁ B).one_mul 0 U b)
   have h2 := hc.map_mul B 0 0 U one₁ b
-  show (c.hom.app (B.complex.X 0)).val.app U one₁ = one₂
+  change (c.hom.app (B.complex.X 0)).val.app U one₁ = one₂
   refine h1.symm.trans ?_
   refine (congrArg (fun z => ((toposPushforwardAlgebra G₂ (B.restrictCoeff α)).mul 0 0).app U
     ((c.hom.app (B.complex.X 0)).val.app U one₁) z) hb.symm).trans ?_

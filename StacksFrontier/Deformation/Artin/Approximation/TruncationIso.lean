@@ -165,7 +165,7 @@ deduced from the `Fin`-indexed form by reindexing. This shape keeps the four blo
 variables in the approximation construction separate. -/
 theorem exists_etale_solution_approximating_fintype
     (R : Type u) [CommRing R] [IsLocalRing R] (hG : IsGRing R)
-    {E : Type v} {V : Type w} [Fintype E] [Fintype V]
+    {E : Type v} {V : Type w} [Finite E] [Finite V]
     (f : E → MvPolynomial V R)
     (a : V → AdicCompletion (maximalIdeal R) R)
     (ha : ∀ j, MvPolynomial.eval₂
@@ -186,6 +186,8 @@ theorem exists_etale_solution_approximating_fintype
             (∀ j, MvPolynomial.eval₂ (algebraMap R R') b (f j) = 0) ∧
             (∀ i, a i - ι (b i) ∈ Ideal.map ι.toRingHom (m' ^ N)) := by
   classical
+  let : Fintype E := Fintype.ofFinite E
+  let : Fintype V := Fintype.ofFinite V
   let eV : V ≃ Fin (Fintype.card V) := Fintype.equivFin V
   let eE : E ≃ Fin (Fintype.card E) := Fintype.equivFin E
   let fFin : Fin (Fintype.card E) →

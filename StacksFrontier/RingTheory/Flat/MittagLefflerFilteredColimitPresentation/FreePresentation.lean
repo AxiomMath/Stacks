@@ -195,7 +195,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
     infer_instance
   have hflatAt₁ : AlgebraicGeometry.IsFlatOverAt f₁.toLRSHom.toShHom F₁ x₁ := by
     have hflatI : AlgebraicGeometry.IsFlatAt i₁.toLRSHom.toShHom x₁ := by
-      show (i₁.stalkMap x₁).hom.Flat
+      change (i₁.stalkMap x₁).hom.Flat
       exact (Flat.iff_flat_stalkMap i₁).mp inferInstance x₁
     exact (AlgebraicGeometry.isFlatOverAt_iff_modulePullback_isFlatOverAt
       i₁ f F x₁ hflatI).1 hflatAt
@@ -218,7 +218,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
       (associatedPoints_eq_of_iso e).symm ▸ hz
     exact (associatedPoints_pullback_iff_of_etale m G₀ z).mp hz'
   have hx₁base : f₁ x₁ = xA := by
-    show f (i₁ x₁) = xA
+    change f (i₁ x₁) = xA
     exact hfx
   have hgenFiber₁ (z : f₁.fiber xA)
       (hz : z ∈ Stacks.Divisors.associatedPoints G₁s) :
@@ -353,7 +353,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
   let α : CommRingCat.of A' ⟶ R :=
     (Scheme.ΓSpecIso (.of A')).inv ≫ a.appTop ≫ (Scheme.ΓSpecIso R).hom
   have : IsIso a.appTop := by
-    show IsIso (a.app ⊤)
+    change IsIso (a.app ⊤)
     infer_instance
   have : IsIso α := by dsimp [α]; infer_instance
   let : Algebra A' R := α.hom.toAlgebra
@@ -372,7 +372,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
   have : H.IsQuasicoherent := AlgebraicGeometry.pullback_isQuasicoherent' j F₁
   let fZ := j ≫ f₁
   have hbaseZ : fZ xZ = xA := by
-    show f₁ (j xZ) = xA
+    change f₁ (j xZ) = xA
     rw [show j xZ = x₁ from hpgx]
     exact hx₁base
   let Hs := (Scheme.Modules.pullback (fZ.fiberι xA)).obj H
@@ -397,7 +397,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
     dsimp [fZ, j, q, g]
     rw [Category.assoc, ← pullback.condition, ← Category.assoc]
   have hscalar : α ≫ ψ = (Scheme.ΓSpecIso (.of A')).inv ≫ fZ.appTop := by
-    show (Scheme.ΓSpecIso (.of A')).inv ≫ a.appTop ≫
+    change (Scheme.ΓSpecIso (.of A')).inv ≫ a.appTop ≫
         (Scheme.ΓSpecIso R).hom ≫ (Scheme.ΓSpecIso R).inv ≫ (p ≫ q).appTop = _
     rw [Iso.hom_inv_id_assoc, ← Scheme.Hom.comp_appTop, hbaseComp]
   let : Algebra A' Γ(Z, ⊤) := (α ≫ ψ).hom.toAlgebra
@@ -418,7 +418,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
   let k := j ≫ i₁
   have : IsOpenImmersion k := by dsimp [k]; infer_instance
   have hkx : k xZ = x := by
-    show i₁ (j xZ) = x
+    change i₁ (j xZ) = x
     rw [show j xZ = x₁ from hpgx]
     rfl
   let eH : H ≅ F.restrict k :=
@@ -433,7 +433,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
       Nonempty (H.presheaf.stalk xZ ≃ₗ[A] F.presheaf.stalk x) by
     obtain ⟨hred, ⟨eN⟩⟩ := h
     have : IsLocalHom (algebraMap A A') := by
-      show IsLocalHom eA.toRingHom
+      change IsLocalHom eA.toRingHom
       exact isLocalHom_of_leftInverse eA.symm eA.left_inv
     have : IsLocalizedModule PZ.primeCompl
         (affineGerm H ⊤ xZ (show xZ ∈ (⊤ : Z.Opens) from trivial)) := hlocH
@@ -460,18 +460,18 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
         Module.compHom S (((Scheme.ΓSpecIso (.of A')).inv ≫ fZ.appTop).hom) := by
       apply Module.ext'
       intro a₀ m₀
-      show ψ (α a₀) • m₀ =
+      change ψ (α a₀) • m₀ =
         ((Scheme.ΓSpecIso (.of A')).inv ≫ fZ.appTop) a₀ • m₀
       rw [← hscalar]
       rfl
     have hred := reduction_injective_of_fiber_smul_injective fZ H r (hsmulZ r hr)
-    show m ∈ maximalIdeal A' • (⊤ : Submodule A' S)
+    change m ∈ maximalIdeal A' • (⊤ : Submodule A' S)
     change (r : Γ(Z, ⊤)) • m ∈ maximalIdeal A' • (⊤ : Submodule A' S) at hm
     have hmem (z : S) := mem_ideal_smul_top_congr _ _ hmod (maximalIdeal A') z
     exact (hmem m).mpr (hred m ((hmem ((r : Γ(Z, ⊤)) • m)).mp hm))
   · let := stalkModule H xZ
     have hscalarK (a₀ : A) : algebraMap A Γ(Z, ⊤) a₀ = k.appTop (aX a₀) := by
-      show (α ≫ ψ) (eA a₀) = _
+      change (α ≫ ψ) (eA a₀) = _
       rw [hscalar, haX a₀]
       have hcomp : k ≫ f = fZ := by dsimp [k, fZ, j, f₁]; simp only [Category.assoc]
       rw [← hcomp, Scheme.Hom.comp_appTop]
@@ -480,7 +480,7 @@ private theorem exists_filteredColimit_free_of_isFlatOverAt
       { toFun := (restrictStalkIso k F H eH xZ x hkx).hom
         map_add' := (restrictStalkIso k F H eH xZ x hkx).hom.hom.map_add
         map_smul' := fun a₀ m => by
-          show (restrictStalkIso k F H eH xZ x hkx).hom (a₀ • m) =
+          change (restrictStalkIso k F H eH xZ x hkx).hom (a₀ • m) =
             a₀ • (restrictStalkIso k F H eH xZ x hkx).hom m
           rw [hHx a₀ m, hFx a₀ ((restrictStalkIso k F H eH xZ x hkx).hom m), hscalarK a₀]
           exact stalkIso_restrict_smul k F H eH xZ x hkx (aX a₀) m }
@@ -612,7 +612,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
   have : Q.IsPrime := Ideal.IsPrime.comap (algebraMap C B)
   have hT : Algebra.EssFiniteType.submonoid A B ≤ Q.primeCompl := by
     intro t ht
-    show algebraMap C B (t : C) ∉ maximalIdeal B
+    change algebraMap C B (t : C) ∉ maximalIdeal B
     exact (IsLocalRing.notMem_maximalIdeal).mpr ht
   have hunitQ (r : Q.primeCompl) :
       Function.Bijective (fun m : N => (r : C) • m) := by
@@ -642,7 +642,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
       { toFun := id
         map_add' := fun _ _ => rfl
         map_smul' := fun r m => by
-          show r • m = eC (eC.symm r) • m
+          change r • m = eC (eC.symm r) • m
           rw [eC.apply_symm_apply] }
     exact Module.Finite.of_surjective f Function.surjective_id
   let : Module.Finite C' M₀ := hM₀'
@@ -659,7 +659,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
   let : Algebra A A' := eA.toRingHom.toAlgebra
   let : Algebra A' C' := Algebra.compHom C' eA.symm.toRingHom
   have hstAA'C' : IsScalarTower A A' C' := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A C' a = algebraMap A C' (eA.symm (eA a))
+    change algebraMap A C' a = algebraMap A C' (eA.symm (eA a))
     simp
   have hC'finiteType : Algebra.FiniteType A C' :=
     Algebra.FiniteType.of_surjective (eC.symm : C →ₐ[A] C') eC.symm.surjective
@@ -681,7 +681,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
               algebraMap A' C' a =
                   algebraMap A' C' (algebraMap A A' (eA.symm a)) := by
                     have ha : algebraMap A A' (eA.symm a) = a := by
-                      show eA (eA.symm a) = a
+                      change eA (eA.symm a) = a
                       exact eA.apply_symm_apply a
                     exact congrArg (algebraMap A' C') ha.symm
               _ = algebraMap A C' (eA.symm a) :=
@@ -693,16 +693,16 @@ public theorem exists_filteredColimit_free_with_injective_reduction
       (PrimeSpectrum.mk (maximalIdeal A') inferInstance : Spec (.of A')) := by
     apply PrimeSpectrum.ext
     ext a
-    show algebraMap C B (eC (algebraMap A' C' a)) ∈ maximalIdeal B ↔
+    change algebraMap C B (eC (algebraMap A' C' a)) ∈ maximalIdeal B ↔
       a ∈ maximalIdeal A'
     rw [hmapCB]
     let g : A' →+* B := (algebraMap A B).comp eA.symm.toRingHom
     let : IsLocalHom eA.symm.toRingHom :=
       isLocalHom_of_leftInverse eA eA.right_inv
     have hlocal : IsLocalHom g := by
-      show IsLocalHom ((algebraMap A B).comp eA.symm.toRingHom)
+      change IsLocalHom ((algebraMap A B).comp eA.symm.toRingHom)
       exact RingHom.isLocalHom_comp _ _
-    show g a ∈ maximalIdeal B ↔ a ∈ maximalIdeal A'
+    change g a ∈ maximalIdeal B ↔ a ∈ maximalIdeal A'
     rw [← Ideal.mem_comap]
     rw [IsLocalRing.maximalIdeal_comap g]
   let N' := ULift.{max u uM} N
@@ -721,7 +721,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
   let hstC'BN' : IsScalarTower C' B N' := by
     apply IsScalarTower.of_algebraMap_smul
     intro c n
-    show algebraMap C' B c • n =
+    change algebraMap C' B c • n =
       algebraMap C B (algebraMap C' C c) • n
     rfl
   let : Module A N' := inferInstance
@@ -773,7 +773,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
       (r : C') hrC'B
   have : IsScalarTower A' C' N' := hstA'C'N'
   have symm_mem_primeCompl (s : Q.primeCompl) : eC.symm (s : C) ∈ Q'.primeCompl := by
-    show eC (eC.symm s) ∉ Q
+    change eC (eC.symm s) ∉ Q
     rw [eC.apply_symm_apply]
     exact s.2
   have hlocQ' : IsLocalizedModule Q'.primeCompl fQ' := by
@@ -786,10 +786,10 @@ public theorem exists_filteredColimit_free_with_injective_reduction
       have hs' : s' ∈ Q'.primeCompl := symm_mem_primeCompl s
       refine ⟨⟨eM.symm m, ⟨s', hs'⟩⟩, ?_⟩
       apply eN.injective
-      show eC s' • eN n' = fN m
+      change eC s' • eN n' = fN m
       have hcoe : eC s' = (s : C) := eC.apply_symm_apply s
       rw [hcoe]
-      show (s : C) • eN n' = (m : N)
+      change (s : C) • eN n' = (m : N)
       exact hs
     · intro x y hxy
       have hxy' : (M₀.subtype : M₀ →ₗ[C] N) (eM x) =
@@ -803,7 +803,7 @@ public theorem exists_filteredColimit_free_with_injective_reduction
       have hs' : s' ∈ Q'.primeCompl := symm_mem_primeCompl s
       refine ⟨⟨s', hs'⟩, ?_⟩
       apply eM.injective
-      show eC s' • eM x = eC s' • eM y
+      change eC s' • eM x = eC s' • eM y
       rw [show eC s' = s from eC.apply_symm_apply s]
       exact hs
   exact @exists_filteredColimit_free_of_affineModel A N _ _ _ _ A' C' M₀' N'

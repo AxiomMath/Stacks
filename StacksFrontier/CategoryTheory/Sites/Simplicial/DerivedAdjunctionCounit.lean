@@ -22,7 +22,8 @@ identity functor of the derived category. Those are `CategoryTheory.derivedCompI
 
 This is the counit half of the comparison whose unit half is
 `CategoryTheory.mapDerivedCategoryAdjunction_unit_app_Q`, in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/CartesianDerivedPostnikov.lean`. It is what carries a
+`StacksFrontier/CategoryTheory/Sites/Simplicial/CartesianDerivedPostnikov.lean`. It is what
+carries a
 sheaf-level identity stated as a transpose along an adjunction of abelian sheaves to the
 corresponding transpose along the adjunction of derived categories: a transpose is the image of a
 map under the left adjoint followed by the counit, so the two transposes agree exactly when the

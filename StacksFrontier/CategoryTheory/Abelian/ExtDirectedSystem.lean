@@ -137,10 +137,10 @@ private theorem precomp_mk₀_bijective_of_isIso {𝒟 : Type u'} [Category.{v'}
   rw [e₁]
   exact Stacks.ExtTransport.sandwich_bijective _ _ m
 
-omit [Abelian 𝒜] [∀ i, (P i).Additive] [∀ i, PreservesFiniteLimits (P i)]
+omit [IsDirected J (· ≤ ·)] [Abelian 𝒜] [∀ i, (P i).Additive] [∀ i, PreservesFiniteLimits (P i)]
   [∀ i, PreservesFiniteColimits (P i)] [PL.Additive] [PreservesFiniteLimits PL]
   [PreservesFiniteColimits PL] in
-include hlτ hτmk hlmk in
+include hτmk hlmk in
 /-- The comparison being an isomorphism is invariant under isomorphism of the object. -/
 theorem good_of_iso {M M' : 𝒜} (e : M ≅ M') (hM : Good P PL G τ lm M) :
     Good P PL G τ lm M' := by
@@ -209,7 +209,7 @@ theorem good_biprod {M₁ M₂ : 𝒜} (h₁ : Good P PL G τ lm M₁) (h₂ : G
     (fun i x => by simp only [Ext.bilinearComp_apply_apply]; exact hlmk i _ m x)
     (h₁ m).1 (h₂ m).1 (h₁ m).2 (h₂ m).2
 
-omit [Abelian 𝒜] [∀ i, (P i).Additive] [∀ i, PreservesFiniteLimits (P i)]
+omit [IsDirected J (· ≤ ·)] [Abelian 𝒜] [∀ i, (P i).Additive] [∀ i, PreservesFiniteLimits (P i)]
   [∀ i, PreservesFiniteColimits (P i)] [PL.Additive] [PreservesFiniteLimits PL]
   [PreservesFiniteColimits PL] in
 /-- **Transfer along compatible bijections between two systems.** -/

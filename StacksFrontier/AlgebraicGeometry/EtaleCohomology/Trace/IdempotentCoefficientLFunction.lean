@@ -72,7 +72,11 @@ public theorem isConstructibleFlatModuleSheaf_sheafBaseChange
     ((he.sheafPullbackBaseChangeIso.{w} _ _ (smallEtaleBaseChange B (s.inclusion i))).app F)
     (he.isFiniteProjectiveLocallyConstant_sheafBaseChange.{w} _ (hs i))⟩
 
+end Constructible
+
 /-! ### Stalks and the L-function -/
+
+section Stalks
 
 variable [HasColimitsOfSize.{u, u} (ModuleCat.{max w r} Λ)]
   [HasLimitsOfSize.{u, u} (ModuleCat.{max w r} Λ)]
@@ -131,10 +135,10 @@ public theorem frobeniusStalk_sheafBaseChange
         (p.sheafFiberCompIso G).hom.app F' =
       (p.sheafFiberCompIso G).hom.app F' ≫
         G.map (frobeniusStalk (ModuleCat.{max w r} Λ) X.obj x F') := by
-    simp only [GrothendieckTopology.Point.sheafFiberCompIso_hom_app, Category.comp_id]
+    simp only [GrothendieckTopology.Point.sheafFiberCompIso_hom_app]
     exact GrothendieckTopology.Point.Hom.presheafFiber_app_comp_presheafFiberCompIso_hom
       (J := X.obj.smallEtaleTopology) G _ _
-  show _ ≫ (p.sheafFiber.map ((sheafEquivSheafBaseChangeIso B X he).inv.app F) ≫
+  change _ ≫ (p.sheafFiber.map ((sheafEquivSheafBaseChangeIso B X he).inv.app F) ≫
       (p.sheafFiberCompIso G).hom.app F') =
     (p.sheafFiber.map ((sheafEquivSheafBaseChangeIso B X he).inv.app F) ≫
       (p.sheafFiberCompIso G).hom.app F') ≫ _
@@ -190,6 +194,21 @@ public theorem map_finiteProjectiveLocalCharSeries_sheafBaseChange
 
 variable [QuasiCompact f]
 
+variable
+  [∀ (S T : B.Scheme) (g : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
+      (ModuleCat.{max w r} Λ) (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) (ModuleCat.{max w r} Λ)]
+  [∀ (S T : B.Scheme) (g : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
+      (ModuleCat.{max w r} (Λ ⧸ Ideal.span {1 - e})) (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+      (ModuleCat.{max w r} (Λ ⧸ Ideal.span {1 - e}))]
+
 /-- **`L(X, e F)` is the image of `L(X, F)` under `Λ⟦T⟧ → (Λ ⧸ (1 - e))⟦T⟧`** (Tag 03UV), for a
 constructible flat `F`. -/
 public theorem map_constructibleFlatLFunction_sheafBaseChange
@@ -222,7 +241,7 @@ public theorem map_constructibleFlatLFunction_sheafBaseChange
     hfin' hproj' x] at h₃
   exact left_inv_eq_right_inv (by rwa [mul_comm]) h₂
 
-end Constructible
+end Stalks
 
 end Stacks.EtaleCohomology
 

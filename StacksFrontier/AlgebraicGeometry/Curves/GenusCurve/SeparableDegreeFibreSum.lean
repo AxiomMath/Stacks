@@ -79,7 +79,7 @@ public theorem geometricGenus_eq_finsum_geometricGenus_pullback_snd_toSpecΓ
         ⟨(Scheme.ΓSpecIso (.of k)).hom.hom x, by simp⟩)
   let : IsProper C.toSpecΓ := isProper_toSpecΓ f
   have hfh : C.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(C, ⊤))) = f := by
-    show C.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
+    change C.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   exact geometricGenus_eq_finsum_geometricGenus_pullback_snd k Γ(C, ⊤) f C.toSpecΓ hfh

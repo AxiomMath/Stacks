@@ -247,6 +247,7 @@ theorem isIso_tensorWithComplexHomotopy_adj_unit_app_repOver :
 
 /-! ### The derived categories -/
 
+omit [ScalarSections.{u, v, w, t, s, o} X R] in
 /-- The comparison of derived Hom out of `K` with the underived one is invertible at a
 K-injective complex. -/
 theorem isIso_derivedHomWithComplexUnit_app_of_isKInjectiveOver

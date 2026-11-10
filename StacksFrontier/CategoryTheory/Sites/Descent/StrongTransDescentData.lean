@@ -447,7 +447,7 @@ noncomputable def preimageDescentData (E : G.DescentData f) : F.DescentData f wh
     refine τ.mapPullHom_injective ?_
     rw [← τ.mapPullHom_comp, τ.mapPullHom_preimageDescentDataHom,
       τ.mapPullHom_preimageDescentDataHom, τ.mapPullHom_preimageDescentDataHom]
-    simp only [Category.assoc, Iso.map_inv_hom_id_assoc, DescentData.hom_comp_assoc]
+    simp only [Category.assoc, Iso.inv_hom_id_map_assoc, DescentData.hom_comp_assoc]
 
 /-- A descent datum for `G` is the transport of the descent datum on the chosen preimages
 of its objects. -/

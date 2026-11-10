@@ -89,12 +89,12 @@ theorem map_mateEquiv_symm_natTrans_app (ag : gu ⊣ gs) (ag' : gu' ⊣ gs') (a 
       a.unit.app (UY.obj N))
     (hunit' : ∀ M, UX.map (ag'.unit.app M) ≫ eG'.hom.app (gu'.obj M) ≫ γs'.map (ρ'.hom.app M) =
       a'.unit.app (UX.obj M))
-    (hθ : ∀ N, UY.map (θ.natTrans.app N) ≫ eG.hom.app (fs'.obj N) ≫ γs.map (eF'.hom.app N) =
-      eF.hom.app (gs'.obj N) ≫ φs.map (eG'.hom.app N) ≫ τ.natTrans.app (UX'.obj N))
+    (hθ : ∀ N, UY.map (θ.app N) ≫ eG.hom.app (fs'.obj N) ≫ γs.map (eF'.hom.app N) =
+      eF.hom.app (gs'.obj N) ≫ φs.map (eG'.hom.app N) ≫ τ.app (UX'.obj N))
     (M : MX) :
-    UY'.map (((mateEquiv ag' ag).symm θ).natTrans.app M) =
+    UY'.map (((mateEquiv ag' ag).symm θ).app M) =
       ρ.hom.app (fs.obj M) ≫ γu.map (eF.hom.app M) ≫
-        ((mateEquiv a' a).symm τ).natTrans.app (UX.obj M) ≫ φs'.map (ρ'.inv.app M) ≫
+        ((mateEquiv a' a).symm τ).app (UX.obj M) ≫ φs'.map (ρ'.inv.app M) ≫
           eF'.inv.app (gu'.obj M) := by
   have h1 : ∀ {b b' : MY} (x : b ⟶ b'),
       UY'.map (gu.map x) = ρ.hom.app b ≫ γu.map (UY.map x) ≫ ρ.inv.app b' := fun x => by
@@ -110,20 +110,20 @@ theorem map_mateEquiv_symm_natTrans_app (ag : gu ⊣ gs) (ag' : gu' ⊣ gs') (a 
       a'.unit.app (UX.obj M) ≫ γs'.map (ρ'.inv.app M) ≫ eG'.inv.app (gu'.obj M) := by
     rw [← hunit' M]
     simp [← Functor.map_comp_assoc]
-  have hθ' : UY.map (θ.natTrans.app (gu'.obj M)) =
+  have hθ' : UY.map (θ.app (gu'.obj M)) =
       eF.hom.app (gs'.obj (gu'.obj M)) ≫ φs.map (eG'.hom.app (gu'.obj M)) ≫
-        τ.natTrans.app (UX'.obj (gu'.obj M)) ≫ γs.map (eF'.inv.app (gu'.obj M)) ≫
+        τ.app (UX'.obj (gu'.obj M)) ≫ γs.map (eF'.inv.app (gu'.obj M)) ≫
           eG.inv.app (fs'.obj (gu'.obj M)) := by
     rw [← reassoc_of% (hθ (gu'.obj M))]
     simp [← Functor.map_comp_assoc]
   have hc := map_counit_app_of_map_unit_app ag a ρ eG hunit (fs'.obj (gu'.obj M))
-  have hτ := τ.natTrans.naturality (ρ'.inv.app M)
+  have hτ := τ.naturality (ρ'.inv.app M)
   simp only [Functor.comp_map] at hτ
-  have hm : ((mateEquiv ag' ag).symm θ).natTrans.app M =
-      gu.map (fs.map (ag'.unit.app M)) ≫ gu.map (θ.natTrans.app (gu'.obj M)) ≫
+  have hm : ((mateEquiv ag' ag).symm θ).app M =
+      gu.map (fs.map (ag'.unit.app M)) ≫ gu.map (θ.app (gu'.obj M)) ≫
         ag.counit.app (fs'.obj (gu'.obj M)) := by simp [mateEquiv]
-  have hm' : ((mateEquiv a' a).symm τ).natTrans.app (UX.obj M) =
-      γu.map (φs.map (a'.unit.app (UX.obj M))) ≫ γu.map (τ.natTrans.app (γu'.obj (UX.obj M))) ≫
+  have hm' : ((mateEquiv a' a).symm τ).app (UX.obj M) =
+      γu.map (φs.map (a'.unit.app (UX.obj M))) ≫ γu.map (τ.app (γu'.obj (UX.obj M))) ≫
         a.counit.app (φs'.obj (γu'.obj (UX.obj M))) := by simp [mateEquiv]
   rw [hm, hm', UY'.map_comp, UY'.map_comp, h1, h1, h2, hu, hθ']
   simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_app_assoc, Functor.comp_obj]
@@ -132,8 +132,8 @@ theorem map_mateEquiv_symm_natTrans_app (ag : gu ⊣ gs) (ag' : gu' ⊣ gs') (a 
     Functor.comp_obj, Category.comp_id]
   simp only [Functor.comp_obj] at hτ
   have hτ' : φs.map (a'.unit.app (UX.obj M) ≫ γs'.map (ρ'.inv.app M)) ≫
-      τ.natTrans.app (UX'.obj (gu'.obj M)) ≫ γs.map (eF'.inv.app (gu'.obj M)) =
-      φs.map (a'.unit.app (UX.obj M)) ≫ τ.natTrans.app (γu'.obj (UX.obj M)) ≫
+      τ.app (UX'.obj (gu'.obj M)) ≫ γs.map (eF'.inv.app (gu'.obj M)) =
+      φs.map (a'.unit.app (UX.obj M)) ≫ τ.app (γu'.obj (UX.obj M)) ≫
         γs.map (φs'.map (ρ'.inv.app M) ≫ eF'.inv.app (gu'.obj M)) := by
     rw [Functor.map_comp, Category.assoc, reassoc_of% hτ, Functor.map_comp]
   rw [hτ']

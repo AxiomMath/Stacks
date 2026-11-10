@@ -211,7 +211,7 @@ theorem eq_of_specializes_of_isLocallyQuasiFinite_pair
       B.inclusion.map U.hom =
       (BigFppfOver.toScheme B (Spec (.of k)) hk).map (yoneda.preimage (c ≫ t)) ≫
         B.inclusion.map U.hom := by
-    show B.inclusion.map (yoneda.preimage (c ≫ s)).left ≫ B.inclusion.map U.hom =
+    change B.inclusion.map (yoneda.preimage (c ≫ s)).left ≫ B.inclusion.map U.hom =
       B.inclusion.map (yoneda.preimage (c ≫ t)).left ≫ B.inclusion.map U.hom
     rw [← B.inclusion.map_comp, ← B.inclusion.map_comp, Over.w, Over.w]
   have _ : LocallyQuasiFinite ((BigFppfOver.toScheme B (Spec (.of k)) hk).map

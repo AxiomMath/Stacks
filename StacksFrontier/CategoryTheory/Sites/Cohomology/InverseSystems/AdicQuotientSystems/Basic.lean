@@ -114,7 +114,7 @@ theorem IsAdicQuotientSystem.epi_towerMap (hF : IsAdicQuotientSystem O I F) {n m
   | @step m hm ih =>
     have h₁ : Epi (towerMap F (Nat.le_succ m)) := (hF.shortExact_succ m).epi_g
     have h₂ : Epi (towerMap F hm) := ih
-    show Epi (towerMap F (Nat.le_trans hm (Nat.le_succ m)))
+    change Epi (towerMap F (Nat.le_trans hm (Nat.le_succ m)))
     rw [← towerMap_comp F hm (Nat.le_succ m)]
     infer_instance
 

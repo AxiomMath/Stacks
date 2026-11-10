@@ -56,7 +56,7 @@ theorem finite_ext_one_unitSheaf (hℓ : IsUnit (ℓ : k)) (n : ℕ) :
   obtain ⟨hNk, hN0⟩ := isUnit_natCast_pow_and_ne_zero hℓ n
   set N := ℓ ^ n with hNdef
   have : NeZero (N : k) := ⟨hNk.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   have : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
   have hX : IsUnit ((N : ℕ) : Γ(X, ⊤)) := Stacks.Kummer.isUnit_globalSections f hNk
   have hsurj := Stacks.Kummer.surjective_sheafH_map_powMap_zero.{u + 1, u, u + 1} X (n := N)
@@ -96,7 +96,7 @@ theorem exists_extPairing_of_comp_eq (hℓ : IsUnit (ℓ : k)) (g : X ⟶ X) (hg
   obtain ⟨hNk, hN0⟩ := isUnit_natCast_pow_and_ne_zero hℓ n
   set N := ℓ ^ n with hNdef
   have : NeZero (N : k) := ⟨hNk.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   have hg' : g ≫ f = f ≫ Spec.map (CommRingCat.ofHom (RingHom.id k)) := by
     rw [hg, CommRingCat.ofHom_id, Spec.map_id, Category.comp_id]
   have htw : ∀ (y : Ext (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod N)
@@ -121,7 +121,7 @@ theorem exists_extPairing_of_comp_eq (hℓ : IsUnit (ℓ : k)) (g : X ⟶ X) (hg
     (fun x y => (constantExtRestriction_comp (ZMod N) g x y rfl).symm)
     (fun a => by simp)
     (fun z => by
-      show (1 : ℤ) • Stacks.Kummer.smoothProperCurveTrace f hNk
+      change (1 : ℤ) • Stacks.Kummer.smoothProperCurveTrace f hNk
           (extRootsOfUnityAddEquiv f hζ hN0 2 (constantExtRestriction (ZMod N) g 2 z)) =
         c • Stacks.Kummer.smoothProperCurveTrace f hNk (extRootsOfUnityAddEquiv f hζ hN0 2 z)
       rw [one_smul, ← htw]

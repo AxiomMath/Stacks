@@ -76,7 +76,7 @@ noncomputable def residueAlgEquiv (K : ArtinianLocalAlgCat.{u, v, w} Λ k)
 @[simp]
 theorem residueAlgEquiv_apply (K : ArtinianLocalAlgCat.{u, v, w} Λ k)
     (hK : maximalIdeal K = ⊥) (x : K) : residueAlgEquiv K hK x = residue K x := by
-  show algebraMap K (ResidueField K) x = _
+  change algebraMap K (ResidueField K) x = _
   rw [ResidueField.algebraMap_eq]
 
 /-- The identification of the residue field of `A` with the underlying ring of an object

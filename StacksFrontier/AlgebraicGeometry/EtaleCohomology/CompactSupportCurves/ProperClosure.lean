@@ -66,7 +66,7 @@ theorem isTorsionEtaleModule_etaleModuleExtensionByZero (Λ : Type r) [Ring Λ]
     (hF : IsTorsionEtaleModule Λ U F) :
     IsTorsionEtaleModule Λ X ((etaleModuleExtensionByZero.{u, r} Λ j).obj F) :=
   Stacks.Torsion.torsionSheafProperty_of_iso X.smallEtaleTopology
-    (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j).natTrans.app F))
+    (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j).app F))
     (torsionSheafProperty_extensionByZero.{u, r} j _ hF)
 
 section Closure

@@ -18,8 +18,8 @@ with the same kernel ideal sheaf as `h`.
 ## Main results
 
 * `AlgebraicGeometry.Space.range_yoneda_map_le_iff_ker_le` (of
-  `StacksFrontier.AlgebraicGeometry.Spaces.RepresentableClosedSubspaceIdeal`): a represented morphism
-  factors
+  `StacksFrontier.AlgebraicGeometry.Spaces.RepresentableClosedSubspaceIdeal`): a represented
+  morphism factors
   through a represented closed immersion exactly when the kernel ideal sheaf of the closed
   immersion is contained in that of the morphism.
 * `AlgebraicGeometry.Space.C1573.schemeTheoreticImageSubfunctor_yoneda_map_eq_range`: the statement

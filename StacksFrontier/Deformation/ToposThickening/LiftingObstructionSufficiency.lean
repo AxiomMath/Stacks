@@ -115,7 +115,12 @@ def twistDerivation :
     rw [reduction_backAlgebra_apply, reduction_backAlgebra_apply]
     exact baseChangeDerivationFun_mul D (tensorDerivation D θ) U x y
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The value of `twistDerivation D θ` on a local section `x` is the derivation
 `tensorDerivation D θ` applied to the image of `x` under `algebraBaseChange D`. -/
 @[simp] theorem twistDerivation_toFun (U : Cᵒᵖ)
@@ -125,7 +130,12 @@ omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
 
 /-! ### The three compatibilities -/
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **`hbase`: the twist agrees with `gB'` followed by the structure map of the back layer on
 the coefficients.** The derivation `θ ∘ d` kills the coefficients of the free algebra sheaf, so
 the twist is `b` there, and `b` on the coefficients is the comparison of thickened bases

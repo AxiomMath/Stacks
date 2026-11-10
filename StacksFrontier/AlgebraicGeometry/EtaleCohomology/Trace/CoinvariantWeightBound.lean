@@ -100,7 +100,7 @@ public def extTensorHom :
 public theorem extTensorHom_map {S : Type*} [CommRing S] (f : R →+* S)
     (Y : Matrix (Fin r) (Fin r) R) :
     (extTensorHom k j Y).map f = extTensorHom k j (Y.map f) := by
-  show (kronPowMatrix _ j).map f = kronPowMatrix _ j
+  change (kronPowMatrix _ j).map f = kronPowMatrix _ j
   rw [kronPowMatrix_map, ← compoundMonoidHom_map]
   rfl
 
@@ -129,7 +129,7 @@ public theorem gradedDiag_extTensorHom {d : Fin r → ℤ} {Y : Matrix (Fin r) (
     (hY : IsGradedUpper d Y) :
     gradedDiag (extTensorGrading k j d) (extTensorHom k j Y) =
       extTensorHom k j (gradedDiag d Y) := by
-  show gradedDiag (kronPowGrading (subsetGrading k d ∘ (Fintype.equivFin _).symm) j)
+  change gradedDiag (kronPowGrading (subsetGrading k d ∘ (Fintype.equivFin _).symm) j)
     (kronPowMatrix _ j) = kronPowMatrix _ j
   rw [gradedDiag_kronPowMatrix ((hY.compound k).reindex (Fintype.equivFin _)), gradedDiag_reindex,
     gradedDiag_compound k hY]
@@ -164,7 +164,7 @@ omit [IsAlgClosed K] in
 public theorem dualExtTensorConstruction_R (k j : ℕ) (x : (Matrix (Fin r) (Fin r) K)ˣ) :
     ((dualExtTensorConstruction (ℓ := ℓ) k j).R x : Matrix _ _ K) =
       (extTensorHom k j ((x⁻¹ : (Matrix (Fin r) (Fin r) K)ˣ) : Matrix (Fin r) (Fin r) K))ᵀ := by
-  show ((((((exteriorConstruction (ℓ := ℓ) k).kronPow j).R x)⁻¹ :
+  change ((((((exteriorConstruction (ℓ := ℓ) k).kronPow j).R x)⁻¹ :
     (Matrix (Fin (Fintype.card (Set.powersetCard (Fin r) k) ^ j))
       (Fin (Fintype.card (Set.powersetCard (Fin r) k) ^ j)) K)ˣ) :
         Matrix (Fin (Fintype.card (Set.powersetCard (Fin r) k) ^ j))

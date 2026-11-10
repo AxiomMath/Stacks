@@ -392,7 +392,7 @@ theorem exists_mappingConeTriangle_iso_associatedTriangle (f : K ⟶ L) (g : L �
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show g.toFun ((cone f).coordinates ((cone f).coordinates.symm
+    change g.toFun ((cone f).coordinates ((cone f).coordinates.symm
       (c.s.toFun x, -connectingLinearMap f g hfg c x))).1 = x
     rw [LinearEquiv.apply_symm_apply]
     exact c.hs x
@@ -402,7 +402,7 @@ theorem exists_mappingConeTriangle_iso_associatedTriangle (f : K ⟶ L) (g : L �
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show g.toFun ((cone f).coordinates
+    change g.toFun ((cone f).coordinates
       ((coneInclusion f).toFun x)).1 = g.toFun x
     rw [(cone f).inclusion_coordinates]
   have hcomm₃ : Q.map (-coneProjection f) =
@@ -413,7 +413,7 @@ theorem exists_mappingConeTriangle_iso_associatedTriangle (f : K ⟶ L) (g : L �
     (by simp [mappingConeTriangle, associatedTriangle, associatedTriangleOfSplittings])
     (by
       dsimp [mappingConeTriangle, associatedTriangle, associatedTriangleOfSplittings]
-      show Q.map (coneInclusion f) ≫ Q.map q = (𝟙 (Q.obj L)) ≫ Q.map g
+      change Q.map (coneInclusion f) ≫ Q.map q = (𝟙 (Q.obj L)) ≫ Q.map g
       rw [← Functor.map_comp, hcomm₂]
       simp)
     (by
@@ -455,7 +455,7 @@ theorem exists_associatedTriangle_iso_mappingConeTriangle (f : K ⟶ L) :
         simp)
       (by
         dsimp [mappingConeTriangle]
-        show Q.map (coneInclusion f') ≫ Q.map cc =
+        change Q.map (coneInclusion f') ≫ Q.map cc =
           Q.map π ≫ Q.map (coneInclusion f)
         rw [← Functor.map_comp, ← Functor.map_comp, hinc])
       (by
@@ -466,7 +466,7 @@ theorem exists_associatedTriangle_iso_mappingConeTriangle (f : K ⟶ L) :
         have hneg : Q.map (-coneProjection f') = Q.map cc ≫ Q.map (-coneProjection f) :=
           (congrArg Q.map hnegBase).trans (Q.map_comp _ _)
         dsimp only [ec]
-        show ((Q.map (-coneProjection f') ≫
+        change ((Q.map (-coneProjection f') ≫
             eqToHom (CategoryTheory.Quotient.functor_obj_shift (homotopyRel A) ℤ K 1).symm) ≫
             (CategoryTheory.shiftFunctor (HomotopyCategory A) 1).map (𝟙 (Q.obj K))) =
           Q.map cc ≫ Q.map (-coneProjection f) ≫

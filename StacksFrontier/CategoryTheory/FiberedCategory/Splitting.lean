@@ -719,7 +719,7 @@ identity of the base. -/
 lemma Functor.toPseudofunctor'_map_obj_of_eq_id {U : 𝒮} {u : U ⟶ U} (hu : u = 𝟙 U)
     (w : F.obj (op U)) : (F.toPseudofunctor'.map u.op.toLoc).toFunctor.obj w = w := by
   subst hu
-  show (F.map (𝟙 (op U))).toFunctor.obj w = w
+  change (F.map (𝟙 (op U))).toFunctor.obj w = w
   simp
 
 /-- A presheaf of categories is strictly compatible with composition on objects: this is the
@@ -731,7 +731,7 @@ lemma Functor.toPseudofunctor'_map_obj_of_eq_comp {W V U : 𝒮} {u : W ⟶ U} {
       (F.toPseudofunctor'.map g.op.toLoc).toFunctor.obj
         ((F.toPseudofunctor'.map f.op.toLoc).toFunctor.obj w) := by
   subst hu
-  show (F.map (f.op ≫ g.op)).toFunctor.obj w =
+  change (F.map (f.op ≫ g.op)).toFunctor.obj w =
     (F.map g.op).toFunctor.obj ((F.map f.op).toFunctor.obj w)
   rw [F.map_comp]
   rfl

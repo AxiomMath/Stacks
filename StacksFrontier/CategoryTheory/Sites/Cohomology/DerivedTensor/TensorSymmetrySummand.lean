@@ -61,7 +61,7 @@ theorem ι_tensorComplexFlipIso_hom
           HomologicalComplex.ιMapBifunctor L K (sheafTensor R) (ComplexShape.up ℤ) q p n hqp) := by
   have hsig : ComplexShape.σ (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) q p =
       ((p * q).negOnePow : ℤˣ) := congrArg Int.negOnePow (mul_comm q p)
-  show HomologicalComplex.ιMapBifunctor K L (sheafTensor R) (ComplexShape.up ℤ) p q n hpq ≫
+  change HomologicalComplex.ιMapBifunctor K L (sheafTensor R) (ComplexShape.up ℤ) p q n hpq ≫
         ((HomologicalComplex.mapBifunctorNatIso K L (ComplexShape.up ℤ)
             (sheafTensorBraiding R)).hom.f n ≫
           (HomologicalComplex.mapBifunctorFlipIso L K (sheafTensor R)

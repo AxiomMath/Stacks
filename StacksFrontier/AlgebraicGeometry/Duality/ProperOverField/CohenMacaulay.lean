@@ -198,7 +198,7 @@ theorem isDualizingModuleOf_relativeDualizingModule_of_isProper
   · intro hz
     have hnt := nontrivial_stalk_relativeDualizingModule f hequi y
     have hz' : IsZero ωM := by
-      show IsZero ((DerivedCategory.homologyFunctor X.Modules _).obj (ωX).obj)
+      change IsZero ((DerivedCategory.homologyFunctor X.Modules _).obj (ωX).obj)
       rw [hn]
       exact hz
     have := ModuleCat.isZero_iff_subsingleton.mp
@@ -208,7 +208,7 @@ theorem isDualizingModuleOf_relativeDualizingModule_of_isProper
   · intro j hj
     exact isZero_homology_relativeDualizingComplex_of_ne_of_isProper f hCM hequi j
       (by rw [hn]; omega)
-  · show (DerivedCategory.homologyFunctor X.Modules _).obj (ωX).obj = _
+  · change (DerivedCategory.homologyFunctor X.Modules _).obj (ωX).obj = _
     rw [hn]
 
 /-- **[Stacks, Tag 0FVZ], part (2).** Let `X` be a proper scheme over a field `k` which is
@@ -216,8 +216,7 @@ Cohen--Macaulay and equidimensional of dimension `d`. The module `ω_X` of [Stac
 coherent Cohen--Macaulay `𝒪_X`-module whose support is `X`. -/
 @[stacks 0FVZ "part (2): ω_X is a coherent Cohen-Macaulay module whose support is X"]
 theorem relativeDualizingModule_isCoherent_cohenMacaulay_supp_of_isProper
-    (hCM : AlgebraicGeometry.IsCohenMacaulay X) (hequi : TopologicalSpace.Equidimensional X)
-    (d : ℕ) (hd : topologicalKrullDim X = d) :
+    (hCM : AlgebraicGeometry.IsCohenMacaulay X) (hequi : TopologicalSpace.Equidimensional X) :
     (ωM).IsCoherent ∧ AlgebraicGeometry.SheafIsCohenMacaulay X ωM ∧
       _root_.SheafOfModules.supp ωM = Set.univ := by
   let := LocallyOfFiniteType.isLocallyNoetherian f

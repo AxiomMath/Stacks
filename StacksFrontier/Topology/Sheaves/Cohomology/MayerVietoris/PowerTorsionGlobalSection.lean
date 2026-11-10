@@ -114,7 +114,7 @@ public theorem restrictGlobalSection_globalScalar (f : O.obj.obj (op (⊤ : Open
     restrictGlobalSection U O (globalScalar O f) =
       globalScalar (resRing U O) (restrictGlobalTop O U f) := by
   ext W
-  show (O.obj.map (isTerminalTop.from ((TopCat.Presheaf.imF U).obj W.unop)).op) f =
+  change (O.obj.map (isTerminalTop.from ((TopCat.Presheaf.imF U).obj W.unop)).op) f =
     (O.obj.map ((TopCat.Presheaf.imF U).map (isTerminalTop.from W.unop)).op)
       ((O.obj.map (homOfLE (le_top (a := (TopCat.Presheaf.imF U).obj ⊤))).op) f)
   rw [← RingCat.comp_apply, ← Functor.map_comp, ← op_comp]

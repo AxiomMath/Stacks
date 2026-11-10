@@ -338,7 +338,7 @@ private lemma ι_tleftCochain_map
     (i j n : ℤ) (h : i + j = n) :
     HomologicalComplex.ιTensorObj N K i j n h ≫ ((TleftCochain N).map g).f n =
       (N.X i ◁ g.f j) ≫ HomologicalComplex.ιTensorObj N L i j n h := by
-  show HomologicalComplex.ιMapBifunctor N K (curriedTensor C) (ComplexShape.up ℤ) i j n h ≫
+  change HomologicalComplex.ιMapBifunctor N K (curriedTensor C) (ComplexShape.up ℤ) i j n h ≫
     (HomologicalComplex.mapBifunctorMap (𝟙 N) g (curriedTensor C)
       (ComplexShape.up ℤ)).f n = _
   rw [HomologicalComplex.ι_mapBifunctorMap]
@@ -513,7 +513,7 @@ private lemma exists_exact_leftDerivedTensor
         ((TleftCochain K).map r))) :=
       (DerivedCategory.isIso_Qh_map_iff _).2
         ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 ht)
-    show IsIso (e.hom.app ((HomotopyCategory.quotient _ _).obj K) ≫
+    change IsIso (e.hom.app ((HomotopyCategory.quotient _ _).obj K) ≫
       DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map ((TleftCochain K).map r)))
     infer_instance
   refine ⟨G, cG, hG, α, ?_, hα⟩

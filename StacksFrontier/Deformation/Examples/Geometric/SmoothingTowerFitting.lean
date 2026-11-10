@@ -47,7 +47,7 @@ theorem stalkAlgebra_eq_stalkMap_comp (A : Type u) [CommRing A] {Y : Scheme.{u}}
         StructureSheaf.stalkAlgebra A (g.base y)
       ((g.stalkMap y).hom.comp (algebraMap A _)).toAlgebra := by
   refine Algebra.algebra_ext _ _ fun a => ?_
-  show (Y.presheaf.germ ⊤ y _) (g.appTop ((Scheme.ΓSpecIso (.of A)).inv a)) =
+  change (Y.presheaf.germ ⊤ y _) (g.appTop ((Scheme.ΓSpecIso (.of A)).inv a)) =
     (g.stalkMap y) (StructureSheaf.toStalk A (g.base y) a)
   refine (Scheme.Hom.germ_stalkMap_apply g ⊤ y trivial
     ((Scheme.ΓSpecIso (.of A)).inv a)).symm.trans ?_

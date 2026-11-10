@@ -235,7 +235,7 @@ theorem exists_henselianPair_isGRing_factor_adjoin {R A : Type u} [CommRing R] [
   · ext y
     obtain ⟨x, rfl⟩ := hψ' y
     rw [RingHom.comp_apply, hκ]
-    show Ideal.quotientMap I β hβJ (Ideal.Quotient.mk J (ι x)) = (ψ' x : A ⧸ I)
+    change Ideal.quotientMap I β hβJ (Ideal.Quotient.mk J (ι x)) = (ψ' x : A ⧸ I)
     rw [Ideal.quotientMap_mk, hψ'v, hβι]
 
 /-- **Lifting at one stage of the limit, over a G-ring.** Let `R` be a Noetherian G-ring, `(A, I)`
@@ -292,7 +292,7 @@ theorem finiteEtale_lift_closedFibre_of_isGRing {R A : Type u} [CommRing R] [Com
           ← Spec.map_comp, ← CommRingCat.ofHom_comp])
   have hzr : z ≫ r = pullback.fst p t ≫ aY := pullback.lift_fst _ _ _
   have hzw : z ≫ wμ = q ≫ (AdjoinFinset.bcCone R (A ⧸ I) f).π.app μ := by
-    show z ≫ wμ = q ≫ AdjoinFinset.bcProj R (A ⧸ I) f μ
+    change z ≫ wμ = q ≫ AdjoinFinset.bcProj R (A ⧸ I) f μ
     apply pullback.hom_ext
     · rw [Category.assoc, pullback.lift_fst, ← Category.assoc, pullback.lift_snd, Category.assoc,
         Category.assoc, AdjoinFinset.bcProj_fst, ← Spec.map_comp, ← CommRingCat.ofHom_comp, E4,
@@ -349,7 +349,7 @@ theorem finiteEtale_lift_closedFibre_of_isAffine (A : Type u) [CommRing A] (I : 
     · rw [Category.assoc, pullback.lift_fst, pullback.lift_snd, Category.id_comp]
     · rw [Category.assoc, pullback.lift_snd, pullback.lift_fst, Category.id_comp]
   have hw : a ≫ f' = p ≫ Spec.map (CommRingCat.ofHom (algebraMap R A)) := by
-    show a ≫ fk ≫ ψ.hom = p ≫ Spec.map h
+    change a ≫ fk ≫ ψ.hom = p ≫ Spec.map h
     rw [hh, ← Category.assoc, w, Category.assoc]
   have : IsProper f' := by
     dsimp [f']
@@ -372,14 +372,14 @@ variable {K : Type u} [Category.{u} K] {X S : K ⥤ Scheme.{u}} (φ : X ⟶ S)
 quasi-compact scheme are quasi-compact. -/
 theorem compactSpace_baseChangeSystem_obj [∀ j, IsProper (φ.app j)] [CompactSpace T] (j : K) :
     CompactSpace ((baseChangeSystem φ g).obj j) := by
-  show CompactSpace ((pullback (φ.app j) (g ≫ cS.π.app j) : Scheme.{u}) : Type u)
+  change CompactSpace ((pullback (φ.app j) (g ≫ cS.π.app j) : Scheme.{u}) : Type u)
   infer_instance
 
 /-- The stages of the base change of a system of proper morphisms along a morphism from a
 quasi-separated scheme are quasi-separated. -/
 theorem quasiSeparatedSpace_baseChangeSystem_obj [∀ j, IsProper (φ.app j)]
     [QuasiSeparatedSpace T] (j : K) : QuasiSeparatedSpace ((baseChangeSystem φ g).obj j) := by
-  show QuasiSeparatedSpace ((pullback (φ.app j) (g ≫ cS.π.app j) : Scheme.{u}) : Type u)
+  change QuasiSeparatedSpace ((pullback (φ.app j) (g ≫ cS.π.app j) : Scheme.{u}) : Type u)
   exact quasiSeparatedSpace_of_quasiSeparated (pullback.snd _ _)
 
 /-- The transition morphisms of the base change of a system with affine transition morphisms are

@@ -266,14 +266,14 @@ product of the coefficients. -/
 theorem mulAdd_smul_left (n i : ℤ) (U : Cᵒᵖ) (r : secRing Osharp U)
     (a : algSections Osharp 𝒮 n U) (b : algSections Osharp 𝒮 i U) :
     mulAdd 𝒮 n i U (r • a) b = r • mulAdd 𝒮 n i U a b := by
-  show mulLin 𝒮 n i U (r • a) b = r • mulLin 𝒮 n i U a b
+  change mulLin 𝒮 n i U (r • a) b = r • mulLin 𝒮 n i U a b
   rw [map_smul, LinearMap.smul_apply]
 
 /-- Multiplication on the presentation is linear in its second argument. -/
 theorem mulAdd_smul_right (n i : ℤ) (U : Cᵒᵖ) (r : secRing Osharp U)
     (a : algSections Osharp 𝒮 n U) (b : algSections Osharp 𝒮 i U) :
     mulAdd 𝒮 n i U a (r • b) = r • mulAdd 𝒮 n i U a b := by
-  show mulLin 𝒮 n i U a (r • b) = r • mulLin 𝒮 n i U a b
+  change mulLin 𝒮 n i U a (r • b) = r • mulLin 𝒮 n i U a b
   rw [map_smul]
 
 /-- Multiplication on the presentation commutes with restriction. -/
@@ -445,7 +445,7 @@ theorem algPiece_hom_ext {Z : SheafOfModules.{t} (toRingCat J Osharp)} {n : ℤ}
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   refine Stacks.eq_of_forall_lift Z.isSheaf.isSeparated (algToSheaf 𝒮 n) x _ _ ?_
   intro Y f a ha
-  show Stacks.sectionRestrict Z.val f (φ.val.app U x) =
+  change Stacks.sectionRestrict Z.val f (φ.val.app U x) =
     Stacks.sectionRestrict Z.val f (ψ.val.app U x)
   calc Stacks.sectionRestrict Z.val f (φ.val.app U x)
       = φ.val.app Y (Stacks.sectionRestrict (algPiece 𝒮 n).val f x) :=
@@ -498,7 +498,7 @@ theorem eq_of_lift₃ {Z : SheafOfModules.{t} (toRingCat J Osharp)} {n i j : ℤ
           (Stacks.sectionRestrict (algPiece 𝒮 j).val (f ≫ g) z) from hc,
       ← Stacks.sectionRestrict_comp, Category.assoc]
   have key := h (f ≫ g ≫ k) _ _ c ha' hb' hc'
-  show Stacks.sectionRestrict Z.val k (Stacks.sectionRestrict Z.val g
+  change Stacks.sectionRestrict Z.val k (Stacks.sectionRestrict Z.val g
       (Stacks.sectionRestrict Z.val f p)) =
     Stacks.sectionRestrict Z.val k (Stacks.sectionRestrict Z.val g
       (Stacks.sectionRestrict Z.val f q))
@@ -548,7 +548,7 @@ theorem algMul_lift (n i : ℤ) (U : Cᵒᵖ)
     Stacks.sectionRestrict (algPiece 𝒮 (n + i)).val f ((algMul 𝒮 n i).app U x y) =
       (algToSheaf 𝒮 (n + i)).app Y (mulAdd 𝒮 n i Y a b) := by
   refine ((algMul 𝒮 n i).naturality f x y).trans ?_
-  show (algMul 𝒮 n i).app Y (Stacks.sectionRestrict (algPiece 𝒮 n).val f x)
+  change (algMul 𝒮 n i).app Y (Stacks.sectionRestrict (algPiece 𝒮 n).val f x)
       (Stacks.sectionRestrict (algPiece 𝒮 i).val f y) = _
   rw [← ha, ← hb, algMul_toSheaf_right, mulLeft_toSheaf]
 

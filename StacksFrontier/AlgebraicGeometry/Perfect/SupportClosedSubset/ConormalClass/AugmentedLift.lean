@@ -130,7 +130,7 @@ include hg in
 theorem Q_map_comp_augQ_natural :
     DerivedCategory.Q.map (HomologicalComplex.extendMap g ComplexShape.embeddingUpNat) ≫
         augQ L' a' = augQ L a ≫ (DerivedCategory.singleFunctor X.Modules 0).map φ := by
-  show DerivedCategory.Q.map _ ≫ DerivedCategory.Q.map _ =
+  change DerivedCategory.Q.map _ ≫ DerivedCategory.Q.map _ =
     DerivedCategory.Q.map _ ≫ DerivedCategory.Q.map
       ((HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ)
   rw [← DerivedCategory.Q.map_comp, ← DerivedCategory.Q.map_comp, ← Category.assoc,
@@ -349,7 +349,7 @@ theorem augClass_app_eq (p : ℕ) {M : X.Modules} (u u' : M ⟶ L.X p)
     have e2 := congrArg (fun ψ => ψ.app U s')
       (L.liftCycles_i u (p + 1) (CochainComplex.next ℕ p) hu)
     exact e1.trans (h.trans e2.symm)
-  show (augHomology L a hT hL p).app U ((L.homologyπ p).app U
+  change (augHomology L a hT hL p).app U ((L.homologyπ p).app U
       ((L.liftCycles u' (p + 1) (CochainComplex.next ℕ p) hu').app U s)) =
     (augHomology L a hT hL p).app U ((L.homologyπ p).app U
       ((L.liftCycles u (p + 1) (CochainComplex.next ℕ p) hu).app U s'))

@@ -203,7 +203,7 @@ theorem etaleChartToFibred_comp
       (presheafOfCategories (U.1 ⋙ typeToCat)).p)
     (f : 𝒰 ⥤ 𝒳) (hf : p.IsFibredOneMorphism r f) :
     etaleChartToFibred B S hS p eU f ⋙ r = SmallEtale.toOver B S hS U.1 := by
-  show (restrictionFunctor B S hS U.1 p eU ⋙ f) ⋙ r = _
+  change (restrictionFunctor B S hS U.1 p eU ⋙ f) ⋙ r = _
   rw [Functor.assoc, hf.comp_eq, restrictionFunctor_comp]
 
 /-- The functor `U_étale ⥤ 𝒳` of `AlgebraicGeometry.Space.etaleChartToFibred` is continuous for
@@ -256,7 +256,7 @@ theorem etaleChartStructureHom_app (hp : p.IsFiberedInGroupoids)
     (etaleChartStructureHom B S hS p r hp hr eU f hf).hom.app (op W) =
       (BigFppfOver.structureSheaf B S hS).obj.map
         (eqToHom (Functor.congr_obj (etaleChartToFibred_comp B S hS p r eU f hf) W)).op := by
-  show (BigFppfOver.structureSheaf B S hS).obj.map
+  change (BigFppfOver.structureSheaf B S hS).obj.map
       ((eqToHom (etaleChartToFibred_comp B S hS p r eU f hf)).app W).op = _
   rw [eqToHom_app]
 
@@ -350,7 +350,7 @@ theorem comparisonChartHom_naturality
       ha.hom.app d'.U.1 ≫ (schemeChartFunctor B S hS V.1 q eV).map
         ((CostructuredArrow.map aSpace.hom).map ((SmallEtale.inclusion B S hS U.1).map i)) :=
     ha.hom.naturality _
-  show (ha.hom.app d'.U.1 ≫ _) ≫ (schemeChartFunctor B S hS V.1 q eV).map
+  change (ha.hom.app d'.U.1 ≫ _) ≫ (schemeChartFunctor B S hS V.1 q eV).map
       ((SmallEtale.inclusion B S hS V.1).map j) =
     a.map ((schemeChartFunctor B S hS U.1 p eU).map
       ((SmallEtale.inclusion B S hS U.1).map i)) ≫ ha.hom.app d.U.1 ≫ _

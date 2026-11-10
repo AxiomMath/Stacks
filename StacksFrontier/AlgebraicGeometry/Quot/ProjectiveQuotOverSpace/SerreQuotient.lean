@@ -74,7 +74,7 @@ theorem exists_epi_freeModule_of_generatingSections {S : Scheme.{u}}
       Sigma.ι (fun _ : Fin (Fintype.card (Option σ.I)) => Scheme.unitModule
         (projectiveSpaceOver n S)) (e (some i))) ≫ q = M.freeHomEquiv.symm σ.s := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    simp only [q, Sigma.ι_desc_assoc, Sigma.ι_desc, Equiv.symm_apply_apply]
+    simp only [q, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Equiv.symm_apply_apply]
     rfl
   refine ⟨Fintype.card (Option σ.I), Fintype.card_pos, q, ?_⟩
   refine ⟨fun g₁ g₂ hg => σ.epi.left_cancellation _ _ ?_⟩

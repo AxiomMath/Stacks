@@ -52,7 +52,8 @@ dimension at most `0`.
   **the finite-type clause of [Stacks, Tag 0EX4] over a locally Noetherian base, with no
   fibre-dimension hypothesis**, from [Stacks, Tag 02O6] and nothing else.
 * `…isFiniteType_rightDerived_of_forall_topologicalKrullDim_fiber_le_of_moduleFinite_cohomology`:
-  the same in the shape of the tag's statement, with the fibre-dimension bound carried as a binder — named
+  the same in the shape of the tag's statement, with the fibre-dimension bound carried as a binder —
+  named
   `_hdim`, because it is unused.
 * `…moduleFinite_cohomology_of_forall_isFiniteType_rightDerived`: the converse, [Stacks,
   Tag 02O6] from the family of finite-type conclusions.

@@ -221,16 +221,16 @@ theorem exists_chartLift_of_chartPoint (hX : IsAlgebraicSpace B S hS X)
               congrArg (fun k => k ubar.val.value) (U.obj.hom.naturality (eqToHom hsite))
       _ = xbar.val.value := (map_eqToHom_eq_cast hsite _).trans hvalue
   · refine Eq.trans ?_ ((congrArg (pointsToScheme B S hS U.obj.left) hlies).trans hpu)
-    show ((BigFppfOver.toScheme B S hS).map
+    change ((BigFppfOver.toScheme B S hS).map
         ((eqToHom hsite).unop ≫ ubar.val.value))
         (IsLocalRing.closedPoint xbar.val.carrier) = _
     rw [Functor.map_comp]
     have ht : ((BigFppfOver.toScheme B S hS).map (eqToHom hsite).unop)
         (IsLocalRing.closedPoint xbar.val.carrier) =
         IsLocalRing.closedPoint ubar.val.carrier := by
-      show (_ : Spec (.of ubar.val.carrier)) = _
+      change (_ : Spec (.of ubar.val.carrier)) = _
       exact Subsingleton.elim _ _
-    show ((BigFppfOver.toScheme B S hS).map ubar.val.value)
+    change ((BigFppfOver.toScheme B S hS).map ubar.val.value)
       (((BigFppfOver.toScheme B S hS).map (eqToHom hsite).unop)
         (IsLocalRing.closedPoint xbar.val.carrier)) = _
     exact congrArg ((BigFppfOver.toScheme B S hS).map ubar.val.value) ht
@@ -250,7 +250,7 @@ theorem chartPoint_isChartPoint (xbar : GeometricPoint B S hS X)
   refine Quot.sound
     ⟨FieldValuedPoint.map B S hS (yoneda.obj N.chart.obj.left) N.chart.obj.hom p,
       FieldValuedPoint.dominates_refl B S hS X _, ⟨𝟙 _, ?_⟩⟩
-  show (X.map (𝟙 (Opposite.op (FieldValuedPoint.siteObject B S hS X xbar.val)))) _ = _
+  change (X.map (𝟙 (Opposite.op (FieldValuedPoint.siteObject B S hS X xbar.val)))) _ = _
   rw [X.map_id]
   exact N.point_comp.symm
 

@@ -58,14 +58,14 @@ public def coverTranslate (a : k) : cover k A g ⟶ cover k A g :=
 
 public theorem coverTranslate_zero : coverTranslate k A g 0 = 𝟙 _ := by
   ext : 1
-  show Spec.map _ = 𝟙 _
+  change Spec.map _ = 𝟙 _
   rw [translate_zero]
   exact Spec.map_id _
 
 public theorem coverTranslate_add (a b : k) :
     coverTranslate k A g (a + b) = coverTranslate k A g a ≫ coverTranslate k A g b := by
   ext : 1
-  show Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, translate_add]
   rfl
 
@@ -138,7 +138,7 @@ public theorem existsUnique_map_coverTranslate (s : GeometricPoint (Spec (.of A)
   have hval : ∀ a : k, fiberRoot ((finiteEtaleFiberFunctor s).map (coverTranslate k A g a) p) =
       fiberRoot p + algebraMap k s.residueField a := fun a => by
     rw [fiberRoot, fiberRingHom_map_coverTranslate]
-    show (fiberRingHom p).hom (translate k g a (AdjoinRoot.root (poly k g))) = _
+    change (fiberRingHom p).hom (translate k g a (AdjoinRoot.root (poly k g))) = _
     rw [translate_root, map_add, hk]
   have hpow : (fiberRoot q - fiberRoot p) ^ Fintype.card k = fiberRoot q - fiberRoot p := by
     have h := add_pow_card k (fiberRoot q - fiberRoot p) (fiberRoot p)
@@ -152,10 +152,10 @@ public theorem existsUnique_map_coverTranslate (s : GeometricPoint (Spec (.of A)
     refine AdjoinRoot.ringHom_ext ?_ ?_
     · ext x
       rw [RingHom.comp_apply, RingHom.comp_apply, fiberRingHom_map_coverTranslate]
-      show (fiberRingHom p).hom (translate k g a (algebraMap A (Ring k g) x)) = _
+      change (fiberRingHom p).hom (translate k g a (algebraMap A (Ring k g) x)) = _
       rw [AlgHom.commutes, fiberRingHom_algebraMap p q]
       rfl
-    · show fiberRoot ((finiteEtaleFiberFunctor s).map (coverTranslate k A g a) p) = fiberRoot q
+    · change fiberRoot ((finiteEtaleFiberFunctor s).map (coverTranslate k A g a) p) = fiberRoot q
       rw [hval, ha]
       ring
   · have h := congrArg fiberRoot hb

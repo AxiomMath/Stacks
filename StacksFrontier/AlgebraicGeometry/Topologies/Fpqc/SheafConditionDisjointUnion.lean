@@ -217,7 +217,7 @@ theorem isSheaf_fpqc_of_isSheafFor_singleton_affine (hF : IsAlgebraicSpace B S h
     rw [← Category.id_comp (G.map g), ← e.inv_hom_id, Category.assoc]
     congr 1
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, he i, Sigma.ι_desc, ← Functor.map_comp]
+    rw [← Category.assoc, he i, Sigma.ι_comp_desc, ← Functor.map_comp]
     exact congrArg G.map (Cofan.IsColimit.fac hc w i)
   have hWaff' (i : Fin m) : IsAffine (G.obj (W i)) := hWaff i
   have hTaff : IsAffine (G.obj (Cofan.mk (∐ W) (Sigma.ι W)).pt) :=
@@ -236,7 +236,7 @@ theorem isSheaf_fpqc_of_isSheafFor_singleton_affine (hF : IsAlgebraicSpace B S h
       refine ⟨fun y ↦ ?_⟩
       obtain ⟨i, z, hzy⟩ := hjs y
       refine ⟨Sigma.ι (fun i ↦ G.obj (W i)) i z, ?_⟩
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hzy
     rw [hgdesc]
     infer_instance

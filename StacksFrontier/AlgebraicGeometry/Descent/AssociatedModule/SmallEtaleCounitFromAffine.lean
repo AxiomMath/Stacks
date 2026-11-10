@@ -7,9 +7,10 @@ public import StacksFrontier.AlgebraicGeometry.Descent.QuasiCoherentModulesAndAf
 # Descent, Proposition 03DX (2) at `τ = étale` from quasi-coherence on the affine subsite
 
 Let `S` be a scheme contained in a big étale site `B` and let `𝒢` be a sheaf of modules on the
-small étale site of `S`.  `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleCounit`
-proves that the counit `𝒢^{res,a} ⟶ 𝒢` of the associated-module adjunction is an isomorphism when
-`𝒢` is quasi-coherent on `S_étale`, and reads off the essential surjectivity of `𝓕 ↦ 𝓕^a`.
+small étale site of `S`.
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleCounit` proves that the
+counit `𝒢^{res,a} ⟶ 𝒢` of the associated-module adjunction is an isomorphism when `𝒢` is
+quasi-coherent on `S_étale`, and reads off the essential surjectivity of `𝓕 ↦ 𝓕^a`.
 
 **This file runs the same argument from a weaker hypothesis**: that the restriction of `𝒢` to the
 small *affine* étale site of `S`, over the restricted structure sheaf, is quasi-coherent there.

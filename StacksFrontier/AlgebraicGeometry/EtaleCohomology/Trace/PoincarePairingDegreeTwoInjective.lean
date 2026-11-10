@@ -111,7 +111,7 @@ theorem etaleModule_section_eq_zero_of_local {S : Scheme.{u}} {Λ : Type} [Ring 
     ((sheafCompose (smallEtaleTopology S) (forget (ModuleCat.{u + 1} Λ))).obj F).property
   refine (hsh.isSeparated _ hcov).ext fun W g hg => ?_
   obtain ⟨x, a, rfl⟩ := Sieve.ofArrows.exists hg
-  show F.obj.map (a ≫ f x).op y = F.obj.map (a ≫ f x).op 0
+  change F.obj.map (a ≫ f x).op y = F.obj.map (a ≫ f x).op 0
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, hf x, map_zero, map_zero]
 
 end Local
@@ -148,7 +148,7 @@ lemma homOpComplexX_section_eq_zero {X : Scheme.{u}} (W : X.Etale) {Λ : Type} [
     have h1 := ModuleCat.piIsoPi_hom_ker_subtype_apply.{0, 0, max (u + 1) u}
       (fun x => E.obj (f x)) x ((piComparison E f) s)
     simp only at h1
-    show ((ModuleCat.piIsoPi.{0, 0, max (u + 1) u} (fun x => E.obj (f x))).hom
+    change ((ModuleCat.piIsoPi.{0, 0, max (u + 1) u} (fun x => E.obj (f x))).hom
       ((piComparison E f) s)) x = _
     rw [h1, ← ConcreteCategory.comp_apply, piComparison_comp_π]
   refine hb.1 (funext fun x => (key e x).trans ((h x).trans ?_))
@@ -298,7 +298,7 @@ lemma sectionPairingAct_precomp {G₁' : EtaleModules.{u, 0} Λ₁ Z} {G₂' : E
       (etaleModuleRestrictScalars (Int.castRingHom Λ₁) T).map
         ((etaleModuleInverseImage.{u, 0} Λ₁ p).map v₁) ≫ sectionPairingAct p b hr s := by
   refine sectionPairingAct_ext p fun U a => ?_
-  show (sectionPairingAct p b' hr (v₂.hom.app (op W) s)).hom.app _
+  change (sectionPairingAct p b' hr (v₂.hom.app (op W) s)).hom.app _
       (moduleUnitSection Λ₁ p G₁' a) =
     (sectionPairingAct p b hr s).hom.app _
       (((etaleModuleInverseImage.{u, 0} Λ₁ p).map v₁).hom.app _ (moduleUnitSection Λ₁ p G₁' a))
@@ -334,14 +334,14 @@ theorem exists_comp_fieldStageProj_eq (i : FExt k K) {Ω : Type u} [Field Ω] [I
   have h₁ : CommRingCat.ofHom (algebraMap k K) ≫ CommRingCat.ofHom ψ.toRingHom =
       CommRingCat.ofHom (algebraMap k i.1) ≫ φ := by
     ext c
-    show ψ (algebraMap k K c) = φ (algebraMap k i.1 c)
+    change ψ (algebraMap k K c) = φ (algebraMap k i.1 c)
     rw [IsScalarTower.algebraMap_apply k i.1 K c]
     exact ψ.commutes _
   have hcond : (w ≫ pullback.snd (spectrumMap k i.1) Y.hom) ≫ Y.hom =
       Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ specAlgebraMap k K := by
     refine (Category.assoc _ _ _).trans ((congrArg (w ≫ ·) pullback.condition.symm).trans
       ((Category.assoc _ _ _).symm.trans ?_))
-    show a ≫ Spec.map (CommRingCat.ofHom (algebraMap k i.1)) =
+    change a ≫ Spec.map (CommRingCat.ofHom (algebraMap k i.1)) =
       Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ Spec.map (CommRingCat.ofHom (algebraMap k K))
     rw [← ha, ← Spec.map_comp, ← Spec.map_comp, h₁]
   refine ⟨pullback.lift (w ≫ pullback.snd (spectrumMap k i.1) Y.hom)
@@ -417,11 +417,11 @@ theorem galoisGlobalSections_map_homOpComplexPrecomp_eq_zero
       rw [(hL' p hp).eq_of_src (ι.f p) 0, homOpMapLeft_zero, comp_zero] at hπ
       exact hπ
   apply ΓRes_etaleMkId_injective
-  show ((etaleModuleInverseImage.{u, 0} Λᵐᵒᵖ (fieldBaseChangeProj Y K)).obj _).ΓRes _
+  change ((etaleModuleInverseImage.{u, 0} Λᵐᵒᵖ (fieldBaseChangeProj Y K)).obj _).ΓRes _
       ((etaleModuleGlobalSections.{u, 0} Λᵐᵒᵖ (fieldBaseChange Y K)).map
         ((etaleModuleInverseImage.{u, 0} Λᵐᵒᵖ (fieldBaseChangeProj Y K)).map v) β) = _
   refine (ΓRes_map_eq_fieldStageSection _ Y K _ v hc).trans ?_
-  show fieldStageSection Λᵐᵒᵖ Y K _ l c' = _
+  change fieldStageSection Λᵐᵒᵖ Y K _ l c' = _
   rw [hc', fieldStageSection_zero]
   exact (map_zero _).symm
 
@@ -515,6 +515,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
             (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ))))))
   [K₀.cocomplex.IsStrictlyGE 0]
 
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **(BC2-inj)** A degree-zero cycle `z` of `Γ^Gal(ℋom^•_ℤ(I, res_ℤ K₀))` whose `θ_z`
 (`AlgebraicGeometry.poincareCocycleH0`) vanishes is a boundary. -/
 theorem homologyπ_eq_zero_of_poincareCocycleH0_eq_zero

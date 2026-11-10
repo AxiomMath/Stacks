@@ -93,7 +93,7 @@ theorem dehomogenized_mem_sq_of_not_isRegularLocalRing [IsNoetherianRing A]
   have hf0 : chartPresentation S hx f = 0 :=
     chartPresentation_dehomogenized_eq_zero S hx a hupper hrel
   have hfM : f ∈ M := by
-    show chartPresentation S hx f ∈ zbar
+    change chartPresentation S hx f ∈ zbar
     exact hf0 ▸ zbar.zero_mem
   by_contra hf2
   apply hsing
@@ -111,7 +111,7 @@ theorem dehomogenized_mem_sq_of_not_isRegularLocalRing [IsNoetherianRing A]
     obtain ⟨w, hw⟩ := Ideal.Quotient.mk_surjective (I := J) (chartPresentation S hx t)
     have hwz : w ∉ z := fun hwz' => ht <|
       show chartPresentation S hx t ∈ zbar from hw ▸ (hmem w).2 hwz'
-    show IsUnit (θ (chartPresentation S hx t))
+    change IsUnit (θ (chartPresentation S hx t))
     rw [← hw]
     exact (IsLocalization.map_units B (⟨w, hwz⟩ : z.primeCompl)).map (Ideal.Quotient.mk JB)
   let ρ : Localization.AtPrime M →+* B ⧸ JB := IsLocalization.lift hunit
@@ -125,15 +125,15 @@ theorem dehomogenized_mem_sq_of_not_isRegularLocalRing [IsNoetherianRing A]
       s.2 <| (hmem s).1 (ht ▸ (show chartPresentation S hx t ∈ zbar from htm))
     refine ⟨IsLocalization.mk' (Localization.AtPrime M) p ⟨t, htM⟩, ?_⟩
     rw [IsLocalization.lift_mk'_spec]
-    show θ (chartPresentation S hx p) = θ (chartPresentation S hx t) *
+    change θ (chartPresentation S hx p) = θ (chartPresentation S hx t) *
       Ideal.Quotient.mk JB (IsLocalization.mk' B w s)
     rw [hp, ht]
-    show Ideal.Quotient.mk JB (algebraMap A' B w) =
+    change Ideal.Quotient.mk JB (algebraMap A' B w) =
       Ideal.Quotient.mk JB (algebraMap A' B s) * Ideal.Quotient.mk JB (IsLocalization.mk' B w s)
     rw [← map_mul, mul_comm, IsLocalization.mk'_spec]
   have hρf : ρ (algebraMap _ (Localization.AtPrime M) f) = 0 := by
     rw [IsLocalization.lift_eq]
-    show θ (chartPresentation S hx f) = 0
+    change θ (chartPresentation S hx f) = 0
     rw [hf0, map_zero]
   exact isRegularLocalRing_of_surjective_localization_quotient hdim
     (x₀ := algebraMap A' B (algebraMap A A' (x 0)))

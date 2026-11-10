@@ -201,7 +201,7 @@ theorem derivedDualHomEquivOfIsoStructureSheaf_naturality
     derivedDualHomEquivOfIsoStructureSheaf X T K hK φ N' (f ≫ g) =
       derivedDualHomEquivOfIsoStructureSheaf X T K hK φ N f ≫
         (derivedTensorDualFunctor X T K).map g := by
-  show φ.hom ≫ derivedDualHomFromStructureSheafEquiv X T K N' hK (f ≫ g) =
+  change φ.hom ≫ derivedDualHomFromStructureSheafEquiv X T K N' hK (f ≫ g) =
     (φ.hom ≫ derivedDualHomFromStructureSheafEquiv X T K N hK f) ≫
       (T.tensor.map g).app (derivedDual X K)
   rw [derivedDualHomFromStructureSheafEquiv_naturality X T K hK f g, Category.assoc]

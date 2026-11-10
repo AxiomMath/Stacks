@@ -76,13 +76,13 @@ private lemma projectiveDimensionLELocus_zero {R : Type u} [CommRing R] [Small.{
     (M : ModuleCat.{v} R) [Module.Finite R M] :
     projectiveDimensionLELocus M 0 = Module.freeLocus R M := by
   ext p
-  show (HasProjectiveDimensionLE (M.localizedModule p.asIdeal.primeCompl) 0) ↔
+  change (HasProjectiveDimensionLE (M.localizedModule p.asIdeal.primeCompl) 0) ↔
     Module.Free (Localization.AtPrime p.asIdeal) (LocalizedModule p.asIdeal.primeCompl M)
   have : Module.Finite (Localization.AtPrime p.asIdeal)
       (LocalizedModule p.asIdeal.primeCompl M) :=
     Module.Finite.of_isLocalizedModule p.asIdeal.primeCompl
       (LocalizedModule.mkLinearMap p.asIdeal.primeCompl M)
-  show HasProjectiveDimensionLT (M.localizedModule p.asIdeal.primeCompl) 1 ↔ _
+  change HasProjectiveDimensionLT (M.localizedModule p.asIdeal.primeCompl) 1 ↔ _
   rw [← projective_iff_hasProjectiveDimensionLT_one]
   have : Small.{v} (Localization.AtPrime p.asIdeal) :=
     small_of_surjective Localization.mkHom_surjective
@@ -131,7 +131,7 @@ private lemma isOpen_projectiveDimensionLELocus {R : Type u} [CommRing R] [Small
       have hp : Projective Sp.X₂ :=
         (ModuleCat.localizedModuleFunctor.{v} p.asIdeal.primeCompl).projective_obj_of_projective
           hP
-      show HasProjectiveDimensionLE Sp.X₃ (n + 1) ↔
+      change HasProjectiveDimensionLE Sp.X₃ (n + 1) ↔
         HasProjectiveDimensionLE Sp.X₁ n
       exact hSp.hasProjectiveDimensionLT_X₃_iff n hp
     exact heq ▸ ih _

@@ -88,7 +88,7 @@ def idealMultipleHom : (∐ fun _ : ↥J => F) ⟶ F :=
 @[reassoc]
 theorem ι_idealMultipleHom (a : ↥J) :
     Sigma.ι (fun _ : ↥J => F) a ≫ idealMultipleHom φ F J = globalSmul _ (φ a) F :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **The submodule `J F` of `F`**: the image of multiplication by the elements of `J`. -/
 abbrev idealMultiple : Modules.{u, u} B S hS X hX :=
@@ -364,7 +364,7 @@ theorem span_idealMultipleFactor_sections (hF : F.IsQuasicoherentOnSite)
       (R := ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O)).obj.obj
         (op U)), h]
     refine Submodule.subset_span ⟨a.1, a.2, s, ?_⟩
-    show ((Sigma.ι (fun _ : ↥J => F) a ≫
+    change ((Sigma.ι (fun _ : ↥J => F) a ≫
       Abelian.factorThruImage (idealMultipleHom φ F J)).val.app (op U)) s = _
     rfl
   | add z z' hz hz' => rw [map_add, map_add]; exact Submodule.add_mem _ hz hz'

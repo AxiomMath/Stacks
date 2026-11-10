@@ -806,7 +806,7 @@ def derivedStalkDerivedSheafHomIso :
   haveI := strictlyPerfectHomComparison_isIso Rc E F hE hterm
   have h01 : ∀ i j : ℤ, Function.Bijective
       (sheafHomStalkLinearMap (internalHomSheafHom Rc (E.X i) (F.X j)) x) := fun i j => by
-    letI : (E.X i).IsFinitePresentation := (hterm i).isFinitePresentation (ringedSite Rc)
+    let : (E.X i).IsFinitePresentation := (hterm i).isFinitePresentation (ringedSite Rc)
     exact ⟨SheafHomStalk.injective_sheafHomStalkLinearMap _ x,
       SheafHomStalk.surjective_sheafHomStalkLinearMap _ x⟩
   exact (AlgebraicGeometry.SheafOfModules.derivedStalkFunctor (structureSheaf Rc) x).mapIso

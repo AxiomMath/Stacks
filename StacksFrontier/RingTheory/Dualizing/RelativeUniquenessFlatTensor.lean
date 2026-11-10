@@ -104,7 +104,7 @@ noncomputable def truncProj (X : CochainComplex (ModuleCat.{u} R) ℤ) (m : ℤ)
 `j ≤ m`. -/
 lemma isIso_truncProj_f (X : CochainComplex (ModuleCat.{u} R) ℤ) (m j : ℤ) (h : j ≤ m) :
     IsIso ((truncProj X m).f j) := by
-  show IsIso (truncProjf X m j)
+  change IsIso (truncProjf X m j)
   rw [truncProjf_of_le X m j h]
   infer_instance
 
@@ -119,11 +119,11 @@ lemma isIso_truncProj_whiskerRight_f (X Y : CochainComplex (ModuleCat.{u} R) ℤ
       (by simp only [ComplexShape.embeddingUpIntLE_f]; omega)).hom else 0
   have hs : ∀ i, i ≤ m → (truncProj X m).f i ≫ s i = 𝟙 _ := by
     intro i hi
-    show truncProjf X m i ≫ s i = _
+    change truncProjf X m i ≫ s i = _
     simp [s, truncProjf_of_le X m i hi, hi]
   have hs' : ∀ i, i ≤ m → s i ≫ (truncProj X m).f i = 𝟙 _ := by
     intro i hi
-    show s i ≫ truncProjf X m i = _
+    change s i ≫ truncProjf X m i = _
     simp [s, truncProjf_of_le X m i hi, hi]
   let g : (Q ⊗ Y).X k ⟶ (X ⊗ Y).X k :=
     HomologicalComplex.mapBifunctorDesc (fun i j (h : i + j = k) =>
@@ -136,7 +136,7 @@ lemma isIso_truncProj_whiskerRight_f (X Y : CochainComplex (ModuleCat.{u} R) ℤ
   · apply HomologicalComplex.mapBifunctor.hom_ext
     intro i j h
     change i + j = k at h
-    show HomologicalComplex.ιTensorObj X Y i j k h ≫ _ ≫ g =
+    change HomologicalComplex.ιTensorObj X Y i j k h ≫ _ ≫ g =
       HomologicalComplex.ιTensorObj X Y i j k h ≫ 𝟙 _
     rw [reassoc_of% (Stacks.HomComplex.Currying.ιTensorObj_comp_whiskerRight
       (truncProj X m) i j k h), hg, Category.comp_id]
@@ -147,7 +147,7 @@ lemma isIso_truncProj_whiskerRight_f (X Y : CochainComplex (ModuleCat.{u} R) ℤ
   · apply HomologicalComplex.mapBifunctor.hom_ext
     intro i j h
     change i + j = k at h
-    show HomologicalComplex.ιTensorObj Q Y i j k h ≫ g ≫ _ =
+    change HomologicalComplex.ιTensorObj Q Y i j k h ≫ g ≫ _ =
       HomologicalComplex.ιTensorObj Q Y i j k h ≫ 𝟙 _
     rw [reassoc_of% hg, Stacks.HomComplex.Currying.ιTensorObj_comp_whiskerRight
       (truncProj X m) i j k h, Category.comp_id]
@@ -174,7 +174,7 @@ lemma isIso_homologyMap_of_isIso_f {X Y : CochainComplex (ModuleCat.{u} R) ℤ} 
     have : IsIso ((HomologicalComplex.shortComplexFunctor (ModuleCat.{u} R)
       (ComplexShape.up ℤ) n).map φ).τ₃ := h₃'
     exact ShortComplex.isIso_of_isIso _
-  show IsIso (ShortComplex.homologyMap _)
+  change IsIso (ShortComplex.homologyMap _)
   infer_instance
 
 /-- Every term of the stupid truncation `σ^{≤ m} X` of a complex `X` of flat modules is flat. -/
@@ -227,7 +227,7 @@ for every `b ≤ 0`. -/
 lemma tensorUnit_isStrictlyGE (b : ℤ) (hb : b ≤ 0) :
     (𝟙_ (CochainComplex (ModuleCat.{u} R) ℤ)).IsStrictlyGE b := by
   have : (𝟙_ (CochainComplex (ModuleCat.{u} R) ℤ)).IsStrictlyGE 0 := by
-    show CochainComplex.IsStrictlyGE ((HomologicalComplex.single (ModuleCat.{u} R)
+    change CochainComplex.IsStrictlyGE ((HomologicalComplex.single (ModuleCat.{u} R)
       (ComplexShape.up ℤ) 0).obj (𝟙_ (ModuleCat.{u} R))) 0
     infer_instance
   exact CochainComplex.isStrictlyGE_of_ge _ b 0 hb

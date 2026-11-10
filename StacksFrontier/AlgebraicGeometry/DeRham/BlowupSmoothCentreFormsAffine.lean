@@ -197,12 +197,14 @@ section RestrictBase
 
 variable {S X Z : Scheme.{u}} (f : X ⟶ S) (i : Z ⟶ X) [IsClosedImmersion i]
 
+omit [IsClosedImmersion i] in
 /-- Over an open `V` of the base, the centre restricted to `f⁻¹(V)` followed by `f` restricted to
 `V` is the restriction of `i ≫ f`. -/
 theorem restrictCentre_comp_morphismRestrict (V : S.Opens) :
     restrictCentre i (f ⁻¹ᵁ V) ≫ f ∣_ V = (i ≫ f) ∣_ V := by
   rw [morphismRestrict_comp, restrictCentre, Scheme.Hom.resLE_eq_morphismRestrict]
 
+omit [IsClosedImmersion i] in
 /-- A centre with empty interior restricts to a centre with empty interior. -/
 theorem interior_range_restrictCentre (hint : interior (Set.range i.base) = ∅) (U : X.Opens) :
     interior (Set.range (restrictCentre i U).base) = ∅ := by
@@ -221,6 +223,7 @@ theorem interior_range_restrictCentre (hint : interior (Set.range i.base) = ∅)
   rw [hint] at this
   exact this ⟨x, hx, rfl⟩
 
+omit [IsClosedImmersion i] in
 /-- The centre restricted over an affine open of the base is smooth over that open. -/
 private theorem smooth_restrictCentre_comp_morphismRestrict (V : S.Opens)
     [Smooth (i ≫ f)] :

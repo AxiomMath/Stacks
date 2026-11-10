@@ -448,6 +448,7 @@ abbrev littleChaoticRestriction (F : Sheaf (smallTopology S) AddCommGrpCat.{u + 
     Sheaf (littleChaoticTopology.{u, u, u} (affineSituation S hp)) AddCommGrpCat.{u + 1} :=
   littleChaoticSheafOfWhole hp ((restrictToWhole S).obj F)
 
+omit [WholeSpacePresentation S hp] in
 /-- **The affine-side sections of `F` are the sections of its restriction to `𝒞`.**  The presheaf
 `Crystalline.GlobalCrystallineSituation.SmallSite.affineSections` on `Cris(C/A)` is the abelian
 sheaf `littleChaoticRestriction` read through `Crystalline.abelianSheafEquivalence`; the two
@@ -481,6 +482,7 @@ def completedChaoticSheafOfPresheafIsoPushforward
       ((abelianSheafPushforward.{u, u, u} (affineSituation S hp)).obj
         (littleChaoticRestriction hp F))).symm
 
+omit [WholeSpacePresentation S hp] in
 /-- **The Leray step of [Stacks, Tag 07JN], granted the surjectivity of the level
 restrictions.**  For an abelian sheaf `G` on `Cris(X/S)` whose affine-side sections have
 surjective restriction maps along every level drop `B/(p)^{N + e + 1} ↠ B/(p)^{N + e}`,
@@ -513,6 +515,7 @@ theorem isAbelianCompletedLerayComparison_of_surjective
         (completedChaoticSheafOfPresheafIsoPushforward hp G)).addCommGroupIsoToAddEquiv).trans
     (sheafHAddEquivPushforward_of_surjective (littleChaoticRestriction hp G) hG j)⟩
 
+omit [WholeSpacePresentation S hp] in
 /-- **The Leray step of [Stacks, Tag 07JN] for a sheaf of modules, granted the surjectivity of
 the level restrictions.**  This is `isAbelianCompletedLerayComparison_of_surjective` at
 `G = abelianSheaf F`; the statement is unchanged, and the hypothesis `hF` is still hypothesis (2)
@@ -622,6 +625,7 @@ def abelianCompletedLerayComparisonMapsOfSurjective
     IsAbelianCompletedLerayComparisonMaps hp G :=
   fun j => (abelianCompletedLerayComparisonEquivOfSurjective hp G hG j).toAddMonoidHom
 
+omit [WholeSpacePresentation S hp] in
 /-- **The named Leray comparison is bijective**, being the composite of two isomorphisms. -/
 theorem abelianCompletedLerayComparisonVia_of_surjective
     (G : Sheaf (smallTopology S) AddCommGrpCat.{u + 1})

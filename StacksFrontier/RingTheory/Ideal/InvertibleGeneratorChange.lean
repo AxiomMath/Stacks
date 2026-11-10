@@ -51,7 +51,7 @@ theorem span_range_mulVec_le (b : Matrix (Fin n) (Fin n) R) (v : Fin n → R) :
     Ideal.span (Set.range (b *ᵥ v)) ≤ Ideal.span (Set.range v) := by
   rw [Ideal.span_le]
   rintro _ ⟨i, rfl⟩
-  show ∑ j, b i j * v j ∈ Ideal.span (Set.range v)
+  change ∑ j, b i j * v j ∈ Ideal.span (Set.range v)
   exact Submodule.sum_mem _ fun j _ =>
     Ideal.mul_mem_left _ _ (Ideal.subset_span (Set.mem_range_self j))
 

@@ -208,7 +208,7 @@ theorem chartPowMul_smul_right {a b : ℕ} {V : SmallEtale B S hS X.1}
     (y : (idealSheafPowChartPushforward B S hS f hf I b).val.obj (op V)) :
     chartPowMul B S hS f hf I x (r • y) = r • chartPowMul B S hS f hf I x y := by
   refine chartPowVal_injective B S hS f hf I ?_
-  show chartPowVal B S hS f hf I x * (_ * chartPowVal B S hS f hf I y) =
+  change chartPowVal B S hS f hf I x * (_ * chartPowVal B S hS f hf I y) =
     _ * (chartPowVal B S hS f hf I x * chartPowVal B S hS f hf I y)
   exact mul_left_comm
     (G := chartRing B S hS Y.1 Y.2 ((smallBaseChange B S hS f hf).obj V)) _ _ _
@@ -321,7 +321,7 @@ theorem chartPowMul_mem_imageSubmodule [Epi p] [Epi q] {V : SmallEtale B S hS X.
       ((idealSheafPowChartPushforward B S hS f hf I a).val.map k.op).hom x := he
   have he₂ : q.val.app (op W) e' =
       ((idealSheafPowChartPushforward B S hS f hf I b).val.map k.op).hom y := he'
-  show ((idealSheafPowChartPushforward B S hS f hf I (a + b)).val.map k.op).hom
+  change ((idealSheafPowChartPushforward B S hS f hf I (a + b)).val.map k.op).hom
       (chartPowMul B S hS f hf I x y) ∈ _
   rw [← chartPowMul_map B S hS f hf I k x y _ _ he₁ he₂]
   have hmem := Stacks.SheafOfModules.ImageSubsheaf.apply_mem_imageSubmodule
@@ -355,7 +355,7 @@ theorem mem_imageSubmodule_chartPowTensorHom_of_isAffine [Epi p] [Epi q]
       ((smallBaseChange B S hS f hf).obj V) ^ (a + b) • ⊤ →
       t ∈ SheafOfModules.idealAt (SheafOfModules.idealSheafPow I (a + b))
         (op ((smallBaseChange B S hS f hf).obj V)) := fun t ht => by
-    show t ∈ (SheafOfModules.idealSheafPow I (a + b)).obj
+    change t ∈ (SheafOfModules.idealSheafPow I (a + b)).obj
       (op ((smallBaseChange B S hS f hf).obj V))
     rw [hEq]
     exact ht

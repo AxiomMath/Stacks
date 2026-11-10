@@ -293,7 +293,7 @@ theorem TotalChowClass.res_complexChernBounded {Y' : Scheme.{u}} {sY' : Y' ⟶ C
     congr 1
     exact Units.ext (TotalChowClass.res_totalChern C sY (P.X n) (ρ n) h hs)
   rw [complexChernBounded, complexChernBounded, complexChernProd, complexChernProd]
-  show (TotalChowClass.res h hs).toMonoidHom _ = _
+  change (TotalChowClass.res h hs).toMonoidHom _ = _
   rw [← Units.coe_map, map_list_prod, List.map_map]
   congr 2
   exact List.map_congr_left fun n _ ↦ hfac n

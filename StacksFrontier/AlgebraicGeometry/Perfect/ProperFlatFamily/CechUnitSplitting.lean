@@ -95,7 +95,7 @@ theorem pullbackUnitIso_hom_app_pullbackSectionHom_one {X X' : Scheme.{u}} (g : 
   refine hnat.trans ?_
   refine (congrArg (ConcreteCategory.hom ((Scheme.unitModule X').presheaf.map (homOfLE hle).op))
     h1).trans ?_
-  show (X'.presheaf.map (homOfLE hle).op).hom ((g.app ⊤).hom 1) = (1 : Γ(X', ⊤))
+  change (X'.presheaf.map (homOfLE hle).op).hom ((g.app ⊤).hom 1) = (1 : Γ(X', ⊤))
   rw [map_one, map_one]
 
 end UnitSection
@@ -228,7 +228,7 @@ private theorem coord_ne_zero_of_one_tmul_ne_zero {A R k : Type u} [CommRing A] 
   have h3 : (ModuleCat.extendScalarsComp α χ).inv.app (K.X 0)
       ((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0) ((1 : k) ⊗ₜ[R, χ] z)) = 0 := by
     rw [key]
-    show ((ModuleCat.extendScalarsComp α χ).inv.app (K.X 0)).hom
+    change ((ModuleCat.extendScalarsComp α χ).inv.app (K.X 0)).hom
       (((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0)).hom 0) = 0
     rw [LinearMap.map_zero, LinearMap.map_zero]
   exact hx (h2.symm.trans h3)
@@ -325,7 +325,7 @@ private theorem nonempty_sections_pullback_linearEquiv_of_d_zero [Finite I] {R :
     (d_neg_one_zero_extendScalarsComplex hP ψ) (d_neg_one_zero_baseAlternatingCechComplex _ _ _ _)
   have htop : LinearMap.ker ((extendScalarsComplex ψ P).d 0 1).hom = ⊤ := by
     have : (extendScalarsComplex ψ P).d 0 1 = 0 := by
-      show (ModuleCat.extendScalars.{u, u, u} ψ).map (P.d 0 1) = 0
+      change (ModuleCat.extendScalars.{u, u, u} ψ).map (P.d 0 1) = 0
       rw [hd, Functor.map_zero]
     rw [this]
     exact LinearMap.ker_zero
@@ -336,10 +336,10 @@ private theorem nonempty_sections_pullback_linearEquiv_of_d_zero [Finite I] {R :
       ((LinearEquiv.ofTop _ htop).trans
         ((termEquiv ψ e).trans (LinearEquiv.funUnique (Fin r) B B))))⟩
 
-omit [LinearOrder I] in
+omit [Fintype I] [LinearOrder I] in
 include hflat hUaff in
 /-- **The Čech model of `RΓ(X, 𝒪_X)` splits off the base ring near a point.** -/
-theorem exists_away_unitSplitting
+theorem exists_away_unitSplitting [Finite I]
     (hpc : StacksDraft.PseudoCoherence.IsPseudoCoherent
       (DerivedCategory.Q.obj (baseAlternatingCechComplex f U hU (Scheme.unitModule X))))
     (p : Ideal A) [p.IsPrime]
@@ -364,6 +364,7 @@ theorem exists_away_unitSplitting
                 (ModuleCat.of (Localization.Away h) (Localization.Away h)) ⊞
               DerivedCategory.Q.obj T) := by
   classical
+  have := Fintype.ofFinite I
   let F := Scheme.unitModule X
   let C := baseAlternatingCechComplex f U hU F
   let κ := p.ResidueField
@@ -415,7 +416,7 @@ theorem exists_away_unitSplitting
   let x₀ : (extendScalarsComplex α C).X 0 := (1 : Ag) ⊗ₜ[A, α] unitCochain f U hU
   have hunit_mem : x₀ ∈ LinearMap.ker ((extendScalarsComplex α C).d 0 1).hom := by
     refine LinearMap.mem_ker.2 ?_
-    show (ModuleCat.extendScalars.{u, u, u} α).map (C.d 0 1) ((1 : Ag) ⊗ₜ[A, α] _) = 0
+    change (ModuleCat.extendScalars.{u, u, u} α).map (C.d 0 1) ((1 : Ag) ⊗ₜ[A, α] _) = 0
     rw [ModuleCat.ExtendScalars.map_tmul, LinearMap.mem_ker.1 (unitCochain_mem_ker f U hU),
       TensorProduct.tmul_zero]
     rfl

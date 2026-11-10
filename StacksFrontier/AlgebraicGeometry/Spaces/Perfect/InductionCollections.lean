@@ -67,6 +67,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_inductionCollections
@@ -80,6 +81,7 @@ private instance (priority := high) hasPullback_presheaf_inductionCollections
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Products indexed by `Type` of presheaves on the big fppf site (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasProducts_presheaf_inductionCollections
@@ -87,6 +89,7 @@ private instance (priority := high) hasProducts_presheaf_inductionCollections
     HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Finite products of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 private instance hasFiniteProducts_presheaf_inductionCollections
@@ -94,6 +97,7 @@ private instance hasFiniteProducts_presheaf_inductionCollections
     HasFiniteProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Binary products of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 private instance hasBinaryProducts_presheaf_inductionCollections
@@ -160,7 +164,7 @@ private theorem isSeparatedOver_of_iso
       (@AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS))
   change Q (diag F) at hF
-  show Q (diag G)
+  change Q (diag G)
   have hnat : diag F ≫ prod.map e.hom e.hom = e.hom ≫ diag G := by
     apply prod.hom_ext <;> simp
   rw [← MorphismProperty.cancel_left_of_respectsIso Q e.hom, ← hnat]
@@ -273,7 +277,7 @@ public theorem IsQuasiCompactSeparated.of_openImmersion
       refine ⟨hi.1, ?_⟩
       intro T V g fst snd hs
       have hopen := hi.2 g fst snd hs
-      show _root_.AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
+      change _root_.AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
       let : _root_.AlgebraicGeometry.IsOpenImmersion
         ((BigFppfOver.toScheme B S hS).map snd) := hopen
       infer_instance)
@@ -297,8 +301,6 @@ public theorem qcqs_induction_on_quasiCompactSeparated
     (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (hZ : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS)
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXsep : IsAbsolutelySeparated B S hS hZ X.1)
     (P : (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) →
       (Y ⟶ X.1) → Prop)
     (hPaff : ∀ V : SpacesEtale B S hS X,
@@ -320,8 +322,7 @@ public theorem qcqs_induction_on_quasiCompactSeparated
     ∀ W : SpacesEtale B S hS X,
       IsQuasiCompactSeparated B S hS hZ W.1.left.1 →
         P W.1.left.1 W.1.hom.hom :=
-  qcqs_induction_on_collection B S hS hZ X hXqc
-    (isAbsolutelyQuasiSeparated_of_isAbsolutelySeparated B S hS hZ X.1 hXsep)
+  qcqs_induction_on_collection B S hS hZ X
     (fun Y _ => IsQuasiCompactSeparated B S hS hZ Y) P
     (fun W hW => ⟨hW.1, IsQuasiCompactSeparated.isAbsolutelyQuasiSeparated B S hS hZ W.1.left.1 hW⟩)
     (fun W U i hW hUspace hi hUqc =>
@@ -401,6 +402,7 @@ private lemma affineDiagonal_of_mono
   exact ⟨P, p', q, IsPullback.of_isLimit hlim⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks behind `diag` over the big fppf site
 /-- A quasi-compact algebraic space with affine absolute diagonal. -/
 @[stacks 08GR "affine_diagonal_objects"]
 public abbrev IsQuasiCompactWithAffineDiagonal
@@ -412,6 +414,7 @@ public abbrev IsQuasiCompactWithAffineDiagonal
       (diag (viewOverIntegers B S hS hZ Y))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks behind `diag` over the big fppf site
 /-- The base algebraic space belongs to the collection. -/
 @[stacks 08GR "affine_diagonal_objects"]
 public theorem isQuasiCompactWithAffineDiagonal_base
@@ -484,7 +487,6 @@ private theorem isAbsolutelyQuasiSeparated_of_openImmersion_aux
     (hZ : B.Contains (⊤_ Scheme.{u}))
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hF : IsAlgebraicSpace B S hS F)
-    (hG : IsAlgebraicSpace B S hS G)
     (hGqs : IsAbsolutelyQuasiSeparated B S hS hZ G)
     (f : F ⟶ G) (hf : IsOpenImmersion B S hS f) :
     IsAbsolutelyQuasiSeparated B S hS hZ F := by
@@ -576,9 +578,9 @@ public theorem IsBasicEtaleObject.isAbsolutelyQuasiSeparated
     IsAbsolutelyQuasiSeparated B S hS hZ W.1.left.1 := by
   rcases hW.2 with hopen | ⟨V, hVaff, i, hi, hcomp⟩
   · exact isAbsolutelyQuasiSeparated_of_openImmersion_aux B S hS hZ
-      W.1.left.property X.property hXqs W.1.hom.hom hopen
+      W.1.left.property hXqs W.1.hom.hom hopen
   · exact isAbsolutelyQuasiSeparated_of_openImmersion_aux B S hS hZ
-      W.1.left.property V.1.left.property
+      W.1.left.property
       (isAbsolutelyQuasiSeparated_of_isAffineSpace_aux B S hS hZ V.1.left.1 hVaff) i hi
 
 /-- Quasi-compact open subspaces of basic objects are basic. -/
@@ -590,7 +592,6 @@ public theorem IsBasicEtaleObject.of_openImmersion
     (U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (i : U ⟶ W.1.left.1)
     (hW : IsBasicEtaleObject B S hS X W.1.left.1 W.1.hom.hom)
-    (hUspace : IsAlgebraicSpace B S hS U)
     (hi : IsOpenImmersion B S hS i)
     (hUqc : IsQuasiCompactSpace B S hS U) :
     IsBasicEtaleObject B S hS X U (i ≫ W.1.hom.hom) := by
@@ -620,7 +621,7 @@ public theorem isBasicEtaleObject_of_isAffineSpace
     let : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
     let : IsIso ((BigFppfOver.toScheme B S hS).map snd) :=
       Functor.map_isIso _ snd
-    show Surjective ((BigFppfOver.toScheme B S hS).map snd)
+    change Surjective ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   exact ⟨isQuasiCompactSpace_of_iso_aux B S hS e.symm hTqc, Or.inr ⟨V, hVorig, 𝟙 _,
     isOpenImmersion_id B S hS V.1.left.1, by simp⟩⟩

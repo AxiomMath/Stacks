@@ -183,7 +183,7 @@ theorem pullbackCohomology_smul (F : S.X.Modules) [F.IsQuasicoherent] (n : ℕ) 
       (Stacks.Tag0CKW.cohomologyPullback (S.isPullback_baseChange K) F n).hom
         ((S.structureRingHom).hom c • x') := rfl
   rw [h1, LinearMap.map_smul]
-  show ((S.baseChangeProj K).appTop.hom ((S.structureRingHom).hom c)) •
+  change ((S.baseChangeProj K).appTop.hom ((S.structureRingHom).hom c)) •
       ((Stacks.Tag0CKW.cohomologyPullback (S.isPullback_baseChange K) F n).hom x' :
         ((moduleGlobalSections (S.baseChange K).X).rightDerived n).obj
           ((Scheme.Modules.pullback (S.baseChangeProj K)).obj F)) =
@@ -247,7 +247,7 @@ def baseFunctional (l : K →ₗ[S.k] S.k) :
 theorem baseFunctional_apply_inv (l : K →ₗ[S.k] S.k) (a : K) :
     S.baseFunctional K l ((Scheme.ΓSpecIso (.of K)).inv.hom a) =
       (Scheme.ΓSpecIso (.of S.k)).inv.hom (l a) := by
-  show (Scheme.ΓSpecIso (.of S.k)).inv.hom (l ((Scheme.ΓSpecIso (.of K)).hom.hom
+  change (Scheme.ΓSpecIso (.of S.k)).inv.hom (l ((Scheme.ΓSpecIso (.of K)).hom.hom
     ((Scheme.ΓSpecIso (.of K)).inv.hom a))) = _
   rw [Iso.inv_hom_id_apply]
 
@@ -318,7 +318,7 @@ theorem traceCohomology_cohomologyBaseChange_tmul (F : S.X.Modules) [F.IsQuasico
   rw [h3, twistedUnit_comp_baseChangeTrace]
   refine (Scheme.rightDerived_sectionsFunctor_map_smulEnd_apply S.X _ n F x).trans ?_
   let x' : ((moduleGlobalSections S.X).rightDerived n).obj F := x
-  show _ = ((S.structureRingHom).hom (l a)) • x'
+  change _ = ((S.structureRingHom).hom (l a)) • x'
   congr 1
   rw [baseFunctional_apply_inv]
   rfl
@@ -452,7 +452,7 @@ theorem cohomologyOverFieldMap_pullback_pullbackCohomology {F G : S.X.Modules}
   refine (cohomologyOverFieldMap_apply (S.baseChange K).k (S.baseChange K).f _ n _).trans ?_
   refine Eq.trans ?_ (congrArg (S.pullbackCohomology K G n)
     (cohomologyOverFieldMap_apply S.k S.f u n x).symm)
-  show (((moduleGlobalSections (S.baseChange K).X).rightDerived n).map
+  change (((moduleGlobalSections (S.baseChange K).X).rightDerived n).map
       ((Scheme.Modules.pullback (S.baseChangeProj K)).map u)).hom
       ((Stacks.Cohomology.AffineComparison.cohomologyIsoPushforward
           (S.baseChangeProj K) _ n).inv.hom

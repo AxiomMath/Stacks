@@ -64,7 +64,7 @@ lemma puncturedSpectrum_eq_basicOpen_of_irreducible (R : Type u) [CommRing R] [I
     [IsDiscreteValuationRing R] {ϖ : R} (hϖ : Irreducible ϖ) :
     Stacks.puncturedSpectrum R = PrimeSpectrum.basicOpen ϖ := by
   ext p
-  show p ≠ closedPoint R ↔ ϖ ∉ p.asIdeal
+  change p ≠ closedPoint R ↔ ϖ ∉ p.asIdeal
   constructor
   · refine fun hp hϖp ↦ hp (PrimeSpectrum.ext ?_)
     have hne : p.asIdeal ≠ ⊥ := fun h ↦ hϖ.ne_zero (by simpa [h] using hϖp)
@@ -160,7 +160,7 @@ theorem exists_finiteEtale_stalk_extension_of_isUnramified
   have hσ : φ ≫ CommRingCat.ofHom σ.symm.toRingHom = CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight (R := R) (A := B) (B := K)).toRingHom := by
     ext k
-    show (Algebra.TensorProduct.comm R B K).symm (τ.symm (algebraMap K C k)) = 1 ⊗ₜ k
+    change (Algebra.TensorProduct.comm R B K).symm (τ.symm (algebraMap K C k)) = 1 ⊗ₜ k
     rw [AlgEquiv.commutes]
     simp [Algebra.TensorProduct.algebraMap_apply]
   let e₀ : pullback sB ι ≅ Spec (.of (B ⊗[R] K)) := pullbackSpecIso R B K
@@ -168,7 +168,7 @@ theorem exists_finiteEtale_stalk_extension_of_isUnramified
     e₀ ≪≫ Scheme.Spec.mapIso (σ.symm.toCommRingCatIso).op ≪≫ P.isoSpec.symm
   have heP : eP.hom ≫ pullback.snd E.hom w = pullback.snd sB ι := by
     simp only [eP, Iso.trans_hom, Iso.symm_hom, Category.assoc, hsnd]
-    show e₀.hom ≫ Spec.map (CommRingCat.ofHom σ.symm.toRingHom) ≫ Spec.map φ = _
+    change e₀.hom ≫ Spec.map (CommRingCat.ofHom σ.symm.toRingHom) ≫ Spec.map φ = _
     rw [← Spec.map_comp, hσ]
     exact pullbackSpecIso_hom_snd R B K
   let iK : (finiteEtaleBaseChange ι).obj F ≅ (finiteEtaleBaseChange w).obj E :=

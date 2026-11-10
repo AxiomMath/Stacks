@@ -93,7 +93,7 @@ private theorem liftResidueMap_residue_comm (A : Type*) [CommRing A] [Algebra Λ
     (residueFieldObject Λ k).residueEquiv
       (residue (residueFieldObject Λ k)
       ((liftResidueMap (Λ := Λ) e : A →ₐ[Λ] ULift.{v, w} k) x)) = e (residue A x) := by
-  show ((Ideal.quotientEquivAlgOfEq Λ
+  change ((Ideal.quotientEquivAlgOfEq Λ
       (IsLocalRing.maximalIdeal_eq_bot (R := ULift.{v, w} k))).trans
     ((AlgEquiv.quotientBot Λ (ULift.{v, w} k)).trans
       (ULift.algEquiv (R := Λ) (A := k))))
@@ -176,7 +176,7 @@ private theorem associatedMorphism_essentiallySurjective
   have hsurj : Function.Surjective f.hom := liftResidueMap_surjective (Λ := Λ) A.residueEquiv
   obtain ⟨x', h, a, hh, ha, hcomm⟩ := hM f hsurj yF z₀ (g ≫ u) hgu
   have : IsIso a := isIso_of_isHomLift_id hp.cofibered a ha
-  show ∃ x' : (restrictedCoyoneda ξ.base).Elements,
+  change ∃ x' : (restrictedCoyoneda ξ.base).Elements,
     Nonempty (M.obj x' ≅ yF)
   exact ⟨x', ⟨asIso a⟩⟩
 
@@ -210,9 +210,7 @@ public theorem isSmooth_baseProjection_iff_formallySmoothNAdic
   have hcriterion := (smooth_formallySmooth_flat_specialFibre_tfae ξ.base).out 1 2
   rw [← hcomp] at hcriterion
   exact ⟨fun h => hcriterion.mp (isSmooth_comp M (baseProjection p) (hξ P) h),
-    fun h => isSmooth_of_essSurj_comp
-      (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)) M
-      (baseProjection p) (hcriterion.mpr h)⟩
+    fun h => isSmooth_of_essSurj_comp M (baseProjection p) (hcriterion.mpr h)⟩
 
 /-- **Stacks 0DZK.** In the classical case, a predeformation category with a versal formal
 object over `R` is unobstructed if and only if `R` is a formal power series algebra in

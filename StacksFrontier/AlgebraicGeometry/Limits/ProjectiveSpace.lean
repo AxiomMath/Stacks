@@ -129,7 +129,7 @@ def specGradeZeroIsTerminal :
 /-- **Projective space is proper over the integers.** The integral model of projective
 `n`-space is proper over the terminal scheme. -/
 theorem isProper_terminal_from : IsProper (terminal.from (ProjectiveSpaceZ.{u} n)) := by
-  show IsProper (terminal.from
+  change IsProper (terminal.from
     (Proj (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) (ULift.{u} ℤ))))
   rw [terminal.hom_ext (terminal.from _) (Proj.toSpecZero _ ≫
       ((specGradeZeroIsTerminal n).uniqueUpToIso terminalIsTerminal).hom),
@@ -162,7 +162,7 @@ down to `S`. -/
 theorem baseChangeIso_hom_over {S T : Scheme.{u}} (g : S ⟶ T) :
     (baseChangeIso n g).hom ≫ (ProjectiveSpace n S ↘ S) =
       pullback.snd (ProjectiveSpace n T ↘ T) g := by
-  show ((pullbackSymmetry (pullback.fst (terminal.from T)
+  change ((pullbackSymmetry (pullback.fst (terminal.from T)
       (terminal.from (ProjectiveSpaceZ.{u} n))) g).hom ≫
     (pullbackRightPullbackFstIso
       (terminal.from T) (terminal.from (ProjectiveSpaceZ.{u} n)) g).hom ≫

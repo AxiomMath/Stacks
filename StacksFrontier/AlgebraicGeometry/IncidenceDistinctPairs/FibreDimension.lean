@@ -199,10 +199,10 @@ public theorem topologicalKrullDim_collinearLocus_inter_le_one {w : prodTwo k V}
     LocallyOfFiniteType.jacobsonSpace (projectiveSpaceOfModuleToSpec k V)
   have hyc : IsClosed ({y} : Set (projectiveSpaceOfModule k V)) :=
     (pullback.fst (projectiveSpaceOfModuleToSpec k V)
-      (projectiveSpaceOfModuleToSpec k V)).closePoints_subset_preimage_closedPoints hw
+      (projectiveSpaceOfModuleToSpec k V)).closedPoints_subset_preimage_closedPoints hw
   have hzc : IsClosed ({z} : Set (projectiveSpaceOfModule k V)) :=
     (pullback.snd (projectiveSpaceOfModuleToSpec k V)
-      (projectiveSpaceOfModuleToSpec k V)).closePoints_subset_preimage_closedPoints hw
+      (projectiveSpaceOfModuleToSpec k V)).closedPoints_subset_preimage_closedPoints hw
   -- the two hyperplanes of degree-one equations are distinct, hence incomparable
   have hPQ : pointSubmodule k V y ≠ pointSubmodule k V z := fun h =>
     hne (eq_of_pointSubmodule_eq k V hyc hzc h)
@@ -232,11 +232,11 @@ public theorem topologicalKrullDim_collinearLocus_inter_le_one {w : prodTwo k V}
     have ha : ∃ a ∈ pointSubmodule k V ((pr₁ k V).base t),
         a ∉ pointSubmodule k V ((pr₂ k V).base t) := by
       rw [h1, h2]
-      exact SetLike.not_le_iff_exists.mp hnotle
+      exact IsConcreteLE.not_le_iff_exists.mp hnotle
     have hb : ∃ b ∈ pointSubmodule k V ((pr₂ k V).base t),
         b ∉ pointSubmodule k V ((pr₁ k V).base t) := by
       rw [h1, h2]
-      exact SetLike.not_le_iff_exists.mp hnotge
+      exact IsConcreteLE.not_le_iff_exists.mp hnotge
     rw [hL, mem_linearSubspace_iff, lineSubmodule, ← h1, ← h2]
     exact pointSubmodule_inf_le_pointSubmodule_of_collinear k V htc ha hb
   -- `A` is closed, hence quasi-sober, and the third projection injects it into the line
@@ -362,7 +362,7 @@ public theorem relativeDimensionLE_incidenceVarietyToBase
   have hwclosed : IsClosed ({f.base ((incidenceVarietyToBase k V f).base t)} :
       Set (prodTwo k V)) := by
     have h : (incidenceVarietyToBase k V f ≫ f).base t ∈ closedPoints (prodTwo k V) :=
-      (incidenceVarietyToBase k V f ≫ f).closePoints_subset_preimage_closedPoints ht
+      (incidenceVarietyToBase k V f ≫ f).closedPoints_subset_preimage_closedPoints ht
     rw [Scheme.Hom.comp_apply] at h
     exact h
   have hwne := fst_ne_snd_prodOfClosedOffSndToProdTwo k V Y Z hY hZ

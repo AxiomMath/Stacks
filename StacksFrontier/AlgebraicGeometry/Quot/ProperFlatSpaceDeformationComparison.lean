@@ -74,7 +74,7 @@ theorem post_spaceBaseOver (A : ArtinianLocalAlgCat.{u, u, u} (ULift.{u} ℤ) k)
     (Over.post B.inclusion).obj (spaceBaseOver B hZ (contains_spec x₀ hx₀) A) =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap (ULift.{u} ℤ) A)) ≫ 𝟙 integerBase) := by
   rw [Category.comp_id]
-  show Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
+  change Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
   rw [Functor.map_preimage]
 
 /-- The objects of `𝓕_{𝒳,k,x₀}`. -/
@@ -294,7 +294,7 @@ theorem toSpaceDeformationHom_injective {a b : Obj x₀ hx₀} {m m' : Hom x₀ 
   apply ObjectProperty.hom_ext
   apply Comma.hom_ext
   · exact ObjectProperty.hom_ext _ (congrArg (fun g => g.left.map) h)
-  · show (cartesianProperFlatProjection B integerBase hZ).map m.arrow =
+  · change (cartesianProperFlatProjection B integerBase hZ).map m.arrow =
       (cartesianProperFlatProjection B integerBase hZ).map m'.arrow
     rw [hom_arrow_right_eq, hom_arrow_right_eq, hr]
 
@@ -475,7 +475,7 @@ theorem isFiniteOrderThickening_baseSpecial :
       (baseSpecial x₀ hx₀ P) := by
   have : IsNoetherian ((BigFppfOver.toScheme B integerBase hZ).obj
       (spaceBaseOver B hZ (contains_spec x₀ hx₀) P.left.base)) := by
-    show IsNoetherian (Spec (.of P.left.base))
+    change IsNoetherian (Spec (.of P.left.base))
     infer_instance
   refine Space.isFiniteOrderThickening_of_atlas B integerBase hZ (isThickening_baseSpecial x₀ hx₀ P)
     (spaceBaseOver B hZ (contains_spec x₀ hx₀) P.left.base) (yoneda.map (𝟙 _)) ?_ ?_
@@ -667,7 +667,7 @@ theorem toArrow_map :
       eqToHom (base_eq_spaceBaseOver x₀ hx₀ hx₀) ≫
         spaceBaseOverMap B hZ (contains_spec x₀ hx₀) (specialBase x₀ hx₀ P) ≫
           eqToHom (base_eq_spaceBaseOver x₀ hx₀ (toPoint_base x₀ hx₀ P)).symm := by
-  show toArrowRight x₀ hx₀ P = _
+  change toArrowRight x₀ hx₀ P = _
   simp only [toArrowRight]
   rfl
 

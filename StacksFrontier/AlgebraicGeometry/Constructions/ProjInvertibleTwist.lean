@@ -148,7 +148,7 @@ theorem exists_unit_smul_of_bijective_toSpanSingleton {M : Type u} [AddCommGroup
   obtain ⟨v, hv⟩ := hg'.surjective g
   have hu' : u • g = g' := hu
   have h1 : v * u = 1 := hg.injective <| by
-    show (v * u) • g = (1 : R) • g
+    change (v * u) • g = (1 : R) • g
     rw [mul_smul, hu', one_smul]
     exact hv
   exact ⟨⟨u, v, (mul_comm u v).trans h1, h1⟩, hu'.symm⟩
@@ -210,7 +210,7 @@ private theorem bijective_toSpanSingleton_zero_aux :
   have hval : ∀ r : R,
       ((LinearMap.toSpanSingleton R (𝓛 0) ⟨1, h𝓛.one_mem_zero⟩) r : T) = algebraMap R T r := by
     intro r
-    show r • (1 : T) = algebraMap R T r
+    change r • (1 : T) = algebraMap R T r
     rw [Algebra.smul_def, mul_one]
   refine ⟨fun r s hrs => h𝓛.algebraMap_injective ?_, fun x => ?_⟩
   · rw [← hval r, ← hval s, hrs]
@@ -369,7 +369,7 @@ def twistHom : 𝒜 →+*ᵍ ℬ where
 `d`. -/
 theorem twistHom_coe (d : ℕ) (x : 𝒜 d) :
     tw.twistHom h𝓛 hgen (x : A) = (tw.pieceEquiv h𝓛 hgen d x : B) := by
-  show tw.twistAux h𝓛 hgen (DirectSum.decompose 𝒜 (x : A)) = _
+  change tw.twistAux h𝓛 hgen (DirectSum.decompose 𝒜 (x : A)) = _
   rw [DirectSum.decompose_of_mem 𝒜 x.2, tw.twistAux_of h𝓛 hgen]
 
 /-- `twistHom` sends an element `a ∈ 𝒜 i` to the piece of `ℬ i` given by `a ⊗ ℓ ^ i`. -/
@@ -455,7 +455,7 @@ def twistHomInv : ℬ →+*ᵍ 𝒜 where
 pieces in degree `d`. -/
 theorem twistHomInv_coe (d : ℕ) (y : ℬ d) :
     tw.twistHomInv h𝓛 hgen (y : B) = ((tw.pieceEquiv h𝓛 hgen d).symm y : A) := by
-  show tw.twistAuxInv h𝓛 hgen (DirectSum.decompose ℬ (y : B)) = _
+  change tw.twistAuxInv h𝓛 hgen (DirectSum.decompose ℬ (y : B)) = _
   rw [DirectSum.decompose_of_mem ℬ y.2, tw.twistAuxInv_of h𝓛 hgen]
 
 /-- `twistHomInv` is a left inverse of `twistHom`. -/
@@ -555,7 +555,7 @@ theorem projTwist_eq_of_generators {ℓ' : T} {hℓ' : ℓ' ∈ 𝓛 1}
   have hw' : (algebraMap R B ((u⁻¹ : Rˣ) : R)) ∈ ℬ 0 := SetLike.algebraMap_mem_graded ℬ _
   have hww' : algebraMap R B (u : R) * algebraMap R B ((u⁻¹ : Rˣ) : R) = 1 := by
     rw [← map_mul, u.mul_inv, map_one]
-  show AlgebraicGeometry.Proj.map _ (tw.irrelevant_le_map_twistHom h𝓛 hgen') =
+  change AlgebraicGeometry.Proj.map _ (tw.irrelevant_le_map_twistHom h𝓛 hgen') =
     AlgebraicGeometry.Proj.map _ (tw.irrelevant_le_map_twistHom h𝓛 hgen)
   refine Proj_map_eq_of_target_degreeScale 𝒜 hw hw' hww' _ _
     (tw.irrelevant_le_map_twistHom h𝓛 hgen)
@@ -563,7 +563,7 @@ theorem projTwist_eq_of_generators {ℓ' : T} {hℓ' : ℓ' ∈ 𝓛 1}
   have hpow : (⟨ℓ' ^ i, h𝓛.pow_mem hℓ' i⟩ : 𝓛 i) =
       ((u : R) ^ i) • (⟨ℓ ^ i, h𝓛.pow_mem hℓ i⟩ : 𝓛 i) := by
     refine Subtype.ext ?_
-    show ℓ' ^ i = ((u : R) ^ i) • ℓ ^ i
+    change ℓ' ^ i = ((u : R) ^ i) • ℓ ^ i
     rw [hu', smul_pow]
   rw [tw.twistHom_apply_of_mem h𝓛 hgen' ha, tw.twistHom_apply_of_mem h𝓛 hgen ha, hpow,
     TensorProduct.tmul_smul, map_smul, Submodule.coe_smul, ← map_pow, Algebra.smul_def]
@@ -645,7 +645,7 @@ def twistHomOf (hℓ : ℓ ∈ 𝓛 1) : 𝒜 →+*ᵍ ℬ where
 `pieceMap d`. -/
 theorem twistHomOf_coe (hℓ : ℓ ∈ 𝓛 1) (d : ℕ) (x : 𝒜 d) :
     tw.twistHomOf h𝓛 hℓ (x : A) = (tw.pieceMap h𝓛 hℓ d x : B) := by
-  show tw.twistAuxOf h𝓛 hℓ (DirectSum.decompose 𝒜 (x : A)) = _
+  change tw.twistAuxOf h𝓛 hℓ (DirectSum.decompose 𝒜 (x : A)) = _
   rw [DirectSum.decompose_of_mem 𝒜 x.2, tw.twistAuxOf_of h𝓛 hℓ]
 
 /-- `twistHomOf` sends an element `a ∈ 𝒜 i` to the piece of `ℬ i` given by `a ⊗ ℓ ^ i`. -/
@@ -1252,7 +1252,7 @@ theorem bijective_awayMap_twistHomOf (μ : (𝓛 1) →ₗ[R] R) (hℓ : ℓ ∈
           ((μ ⟨ℓ, hℓ⟩) ^ (N * d + n * d) • (((μ ⟨ℓ, hℓ⟩) • a) ^ N * z)) := by
       simp only [Algebra.smul_def, map_pow, pow_add, map_mul]
       ring
-    show ((μ ⟨ℓ, hℓ⟩) • a) ^ (N * d + n * d + N) * z = 0
+    change ((μ ⟨ℓ, hℓ⟩) • a) ^ (N * d + n * d + N) * z = 0
     rw [hexp, hkey, mul_zero]
   · intro w
     obtain ⟨n, y, hy, rfl⟩ := HomogeneousLocalization.Away.mk_surjective ℬ
@@ -1273,7 +1273,7 @@ theorem bijective_awayMap_twistHomOf (μ : (𝓛 1) →ₗ[R] R) (hℓ : ℓ ∈
     have hx' : algebraMap R B (μ ⟨ℓ, hℓ⟩) ^ (n * d) * y = tw.twistHomOf h𝓛 hℓ x := by
       rw [← map_pow, ← Algebra.smul_def]
       simpa [smul_eq_mul] using hxy
-    show (tw.twistHomOf h𝓛 hℓ ((μ ⟨ℓ, hℓ⟩) • a)) ^ n *
+    change (tw.twistHomOf h𝓛 hℓ ((μ ⟨ℓ, hℓ⟩) • a)) ^ n *
         tw.twistHomOf h𝓛 hℓ (x * a ^ (n * d)) =
       (tw.twistHomOf h𝓛 hℓ ((μ ⟨ℓ, hℓ⟩) • a)) ^ (n + n * d) * y
     rw [map_mul, map_pow, hψs, ← hx']
@@ -1309,7 +1309,7 @@ theorem morphismRestrict_projTwistGlued_eq (μ : (𝓛 1) →ₗ[R] R) (hℓ : �
 /-- **The glued comparison morphism is an isomorphism.** -/
 theorem isIso_projTwistGlued : IsIso (tw.projTwistGlued h𝓛) := by
   obtain ⟨s, hs⟩ := exists_finset_dual_sum_eq_one (R := R) (𝓛 1)
-  show MorphismProperty.isomorphisms Scheme (tw.projTwistGlued h𝓛)
+  change MorphismProperty.isomorphisms Scheme (tw.projTwistGlued h𝓛)
   refine IsZariskiLocalAtTarget.of_forall_exists_morphismRestrict
     (P := MorphismProperty.isomorphisms Scheme) fun x => ?_
   obtain ⟨d, a, hd, ha, hax⟩ := exists_homogeneous_pos_notMem 𝒜 x
@@ -1396,7 +1396,7 @@ theorem projTwistGlued_toSpecZero (hℓ : ℓ ∈ 𝓛 1) :
       (tw.twistHomOf h𝓛 hℓ).gradedZeroRingHom := by
     ext c
     have h0 : ((c : A)) ∈ 𝒜 0 := c.2
-    show tw.twistHomOf h𝓛 p.1.2 (c : A) = tw.twistHomOf h𝓛 hℓ (c : A)
+    change tw.twistHomOf h𝓛 p.1.2 (c : A) = tw.twistHomOf h𝓛 hℓ (c : A)
     rw [tw.twistHomOf_apply_of_mem h𝓛 p.1.2 h0, tw.twistHomOf_apply_of_mem h𝓛 hℓ h0]
     simp only [pow_zero]
   rw [hzero]

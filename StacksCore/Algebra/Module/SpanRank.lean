@@ -31,7 +31,6 @@ non-injectivity rather than as a nonzero kernel. -/
 theorem not_injective_of_spanRank_lt [StrongRankCondition R] {n : ℕ}
     (h : (⊤ : Submodule R M).spanRank < n) (f : (Fin n → R) →ₗ[R] M) :
     ¬ Function.Injective f :=
-  have := nontrivial_of_invariantBasisNumber R
   not_injective_of_rank_lt (Submodule.rank_le_spanRank.trans_lt h) f
 
 /-- If `M` is spanned by a set of cardinality `< n`, no `R`-linear map `Rⁿ → M` is injective. -/

@@ -87,7 +87,7 @@ theorem dualHomEquiv_dualMate_comp
   let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal Rc
   let := Stacks.SheafOfModules.exactPairingDerivedDualCanonical Rc K₁ h₁
   let := Stacks.SheafOfModules.exactPairingDerivedDualCanonical Rc K₂ h₂
-  show tensorLeftHomEquiv (derivedUnit Rc) K₁ (Stacks.SheafOfModules.derivedDual Rc K₁) N
+  change tensorLeftHomEquiv (derivedUnit Rc) K₁ (Stacks.SheafOfModules.derivedDual Rc K₁) N
       ((ρ_ _).hom ≫ dualMate Rc h₂ h₁ k ≫ ψ) =
     tensorLeftHomEquiv (derivedUnit Rc) K₂ (Stacks.SheafOfModules.derivedDual Rc K₂) N
       ((ρ_ _).hom ≫ ψ) ≫ k ▷ N
@@ -112,7 +112,7 @@ theorem rightDualHomEquiv_comp {C : Type*} [Category C]
   let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal Rc
   let := Stacks.SheafOfModules.exactPairingDerivedDualCanonical Rc P₁ h₁
   let := Stacks.SheafOfModules.exactPairingDerivedDualCanonical Rc P₂ h₂
-  show tensorRightHomEquiv (derivedUnit Rc) P₁ (Stacks.SheafOfModules.derivedDual Rc P₁)
+  change tensorRightHomEquiv (derivedUnit Rc) P₁ (Stacks.SheafOfModules.derivedDual Rc P₁)
       (F.obj N) ((λ_ _).hom ≫ p ≫ x) =
     tensorRightHomEquiv (derivedUnit Rc) P₂ (Stacks.SheafOfModules.derivedDual Rc P₂) (F.obj N)
       ((λ_ _).hom ≫ x) ≫ F.obj N ◁ dualMate Rc h₁ h₂ p
@@ -135,11 +135,11 @@ theorem tensorRightTensorRightIso_naturality_right
             a := by
   let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal Rc
   let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric Rc
-  show (a ⊗ A) ◁ m ≫ (tensorRightTensorRightIso Rc A B₁).hom.app a =
+  change (a ⊗ A) ◁ m ≫ (tensorRightTensorRightIso Rc A B₁).hom.app a =
     (tensorRightTensorRightIso Rc A B₂).hom.app a ≫ (m ▷ A) ▷ a
   simp only [tensorRightTensorRightIso, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
     tensorRightTensor_inv_app, Functor.mapIso_hom, Category.assoc]
-  show (a ⊗ A) ◁ m ≫ (α_ a A B₁).hom ≫ (β_ (A ⊗ B₁) a).inv ≫ (β_ A B₁).hom ▷ a =
+  change (a ⊗ A) ◁ m ≫ (α_ a A B₁).hom ≫ (β_ (A ⊗ B₁) a).inv ≫ (β_ A B₁).hom ▷ a =
     (α_ a A B₂).hom ≫ (β_ (A ⊗ B₂) a).inv ≫ (β_ A B₂).hom ▷ a ≫ m ▷ A ▷ a
   rw [MonoidalCategory.associator_naturality_right_assoc,
     BraidedCategory.braiding_inv_naturality_right_assoc, ← MonoidalCategory.comp_whiskerRight,
@@ -253,7 +253,7 @@ theorem perfectStageDualEquiv_stageLMap_comp
     (ψ : stageL f (G := G) P₂ ⟶ N) :
     (perfectStageDualEquiv f hG P₁ hP₁ Q hQ₁ hK₁).equiv N hN (stageLMap f hP₁ hP₂ p hK₁ hK₂ ≫ ψ) =
       p ≫ (perfectStageDualEquiv f hG P₂ hP₂ Q hQ₂ hK₂).equiv N hN ψ := by
-  show ((perfectStageHomEquiv f hG P₁ hP₁ Q hQ₁).equiv N hN).symm
+  change ((perfectStageHomEquiv f hG P₁ hP₁ Q hQ₁).equiv N hN).symm
       ((dualHomEquiv Y.sheaf (stageK f (G := G) P₁) hK₁ Q).equiv N hN
         (stageLMap f hP₁ hP₂ p hK₁ hK₂ ≫ ψ)) =
     p ≫ ((perfectStageHomEquiv f hG P₂ hP₂ Q hQ₂).equiv N hN).symm

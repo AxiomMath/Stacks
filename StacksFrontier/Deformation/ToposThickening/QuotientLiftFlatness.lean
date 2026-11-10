@@ -141,10 +141,10 @@ theorem mono_action_of_shortExact
     T.map_zero, comp_zero]
 
 /-- **A map of right exact sequences which is invertible in the middle and surjective on the
-left is invertible on the right.** For exact `A₁ ⟶ A₂ ⟶ A₃ ⟶ 0` and `B₁ ⟶ B₂ ⟶ B₃ ⟶ 0` and a
+left is invertible on the right.** For `A₁ ⟶ A₂ ⟶ A₃ ⟶ 0` and exact `B₁ ⟶ B₂ ⟶ B₃ ⟶ 0` and a
 map of complexes `φ` with `φ.τ₁` an epimorphism and `φ.τ₂` an isomorphism, `φ.τ₃` is an
 isomorphism. -/
-theorem isIso_τ₃_of_epi_τ₁ {A B : ShortComplex D} (φ : A ⟶ B) (hA : A.Exact) (hB : B.Exact)
+theorem isIso_τ₃_of_epi_τ₁ {A B : ShortComplex D} (φ : A ⟶ B) (hB : B.Exact)
     [Epi A.g] [Epi B.g] [Epi φ.τ₁] [IsIso φ.τ₂] : IsIso φ.τ₃ := by
   have hepi : Epi φ.τ₃ := by
     have : Epi (A.g ≫ φ.τ₃) := by rw [← φ.comm₂₃]; infer_instance
@@ -176,13 +176,12 @@ theorem isIso_app_of_exact {ℬ : Type u'} [Category.{v'} ℬ] [Abelian ℬ] {F�
     [F₁.Additive] [F₂.Additive] [PreservesFiniteColimits F₁] [PreservesFiniteColimits F₂]
     (α : F₁ ⟶ F₂) (S : ShortComplex D) (hS : S.Exact) [Epi S.g]
     (h₁ : Epi (α.app S.X₁)) (h₂ : IsIso (α.app S.X₂)) : IsIso (α.app S.X₃) := by
-  have hA := hS.map_of_epi_of_preservesCokernel F₁ inferInstance inferInstance
   have hB := hS.map_of_epi_of_preservesCokernel F₂ inferInstance inferInstance
   have : Epi (S.map F₁).g := (inferInstance : Epi (F₁.map S.g))
   have : Epi (S.map F₂).g := (inferInstance : Epi (F₂.map S.g))
   have : Epi (S.mapNatTrans α).τ₁ := h₁
   have : IsIso (S.mapNatTrans α).τ₂ := h₂
-  exact isIso_τ₃_of_epi_τ₁ (S.mapNatTrans α) hA hB
+  exact isIso_τ₃_of_epi_τ₁ (S.mapNatTrans α) hB
 
 end Generic
 
@@ -233,9 +232,9 @@ theorem shortExact_map_pullbackModules_of_mono_idealAction (hi : FirstOrderThick
   have := hS.epi_g
   refine ShortComplex.ShortExact.mk'
     (hS.exact.map_of_epi_of_preservesCokernel L inferInstance inferInstance) ?_ ?_
-  · show Mono (L.map S.f)
+  · change Mono (L.map S.f)
     infer_instance
-  · show Epi (L.map S.g)
+  · change Epi (L.map S.g)
     infer_instance
 
 end IdealAction
@@ -266,6 +265,7 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
   (f' : RingedToposHom X' S') (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)
   (comm : f'.comp i = t.comp f)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)] [S.J.HasSheafCompose (forget AddCommGrpCat)] in
 include comm in
 /-- **The first factor `f^*𝒥 ⊗_O ℱ ⟶ I ⊗_O ℱ` of the canonical map of Stacks 08MQ is natural in
 `ℱ`.** -/
@@ -436,7 +436,7 @@ theorem mono_idealAction_cokernel_of_isExtensionKernel
     change w' ≫ K''.arrow ≫ ιP = _ at hw'
     have : w' ≫ K''.arrow = (z ≫ n) ≫ f₁ := (cancel_mono ιP).1 (by
       rw [Category.assoc, hw', Category.assoc, Category.assoc, hf₁])
-    show K''.Factors ((z ≫ n) ≫ f₁)
+    change K''.Factors ((z ≫ n) ≫ f₁)
     rw [← this]
     exact Subobject.factors_comp_arrow w'
   obtain ⟨Z₁, p₁, hp₁, y, hy⟩ :=
@@ -456,7 +456,7 @@ theorem mono_idealAction_cokernel_of_isExtensionKernel
         biprod.inl_snd_assoc, zero_comp, add_zero]
     · rw [biprod.inr_desc_assoc, Preadditive.comp_add, biprod.inr_fst_assoc, zero_comp,
         zero_add, biprod.inr_snd_assoc, hf₁]
-  show (p₂ ≫ p₁) ≫ z = (x ≫ T.map biprod.fst) ≫ T.map (K''.arrow ≫ ιP)
+  change (p₂ ≫ p₁) ≫ z = (x ≫ T.map biprod.fst) ≫ T.map (K''.arrow ≫ ιP)
   rw [Category.assoc, hzy, ← Category.assoc, hx, Category.assoc, ← T.map_comp, hsplit,
     Functor.map_add, Functor.map_comp T biprod.snd, hTN, comp_zero, add_zero,
     Functor.map_comp T biprod.fst, Category.assoc]
@@ -482,7 +482,7 @@ theorem exists_idealProductSubmodule_ι_comp
       (idealProductSubmodule hi G).ι ≫ g = m ≫ (idealProductSubmodule hi H).ι := by
   obtain ⟨m, hm⟩ := KernelFork.IsLimit.lift' (idealProductShortComplex_shortExact hi H).fIsKernel
     ((idealProductSubmodule hi G).ι ≫ g) (by
-      show ((idealProductSubmodule hi G).ι ≫ g) ≫
+      change ((idealProductSubmodule hi G).ι ≫ g) ≫
         i.pullbackAdjPushforwardModulesViaComparison.unit.app H = 0
       rw [Category.assoc]
       exact idealProductSubmodule_ι_comp_eq_zero_of_pushforward hi _)
@@ -543,7 +543,7 @@ theorem deformedQuotientReduction_shortExact (K'' : Subobject (quotientLiftPreim
     obtain ⟨m, hm⟩ := exists_idealProductSubmodule_ι_comp hi p
     refine ⟨A₃, p₃ ≫ p₂ ≫ p₁, inferInstance,
       u ≫ biprod.snd ≫ m, ?_⟩
-    show (p₃ ≫ p₂ ≫ p₁) ≫ x₂ =
+    change (p₃ ≫ p₂ ≫ p₁) ≫ x₂ =
       (u ≫ biprod.snd ≫ m) ≫ (idealProductSubmodule hi (cokernel (K''.arrow ≫ ιP))).ι
     have hl : l ≫ ιP = p₂ ≫ y := pullback.lift_snd _ _ _
     have hN : idealProductToQuotientLiftPreimage i hi F' K ≫ ιP =

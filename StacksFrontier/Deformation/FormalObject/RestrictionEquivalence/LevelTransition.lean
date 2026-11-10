@@ -222,7 +222,7 @@ theorem levelBaseIso_naturality
   let g := artinianToComplete.map f.fst
   let cYinv := eqToHom (Y.snd.level_eq n).symm
   have hw : g ≫ Y.iso.hom = X.iso.hom ≫ f.snd.base := by
-    show g ≫ Y.iso.hom = X.iso.hom ≫ FormalObject.projection.map f.snd
+    change g ≫ Y.iso.hom = X.iso.hom ≫ FormalObject.projection.map f.snd
     exact f.w
   have hW : X.iso.inv ≫ g = f.snd.base ≫ Y.iso.inv := by
     rw [Iso.inv_comp_eq, ← reassoc_of% hw, Iso.hom_inv_id, Category.comp_id]
@@ -231,7 +231,7 @@ theorem levelBaseIso_naturality
     ((AdicTruncation.functor n).map f.snd.base) (f.snd.app n)
   have hfac' : p.map (f.snd.app n) = cX ≫
       (AdicTruncation.functor n).map f.snd.base ≫ cYinv := hfac
-  show cX ≫ tX ≫ aX.hom ≫ f.fst =
+  change cX ≫ tX ≫ aX.hom ≫ f.fst =
     p.map (f.snd.app n) ≫ cY ≫ tY ≫ aY.hom
   calc
     cX ≫ tX ≫ aX.hom ≫ f.fst =
@@ -277,7 +277,7 @@ theorem levelBaseIso_transition
   have hnat := (AdicTruncation.transitionNat n).naturality X.iso.inv
   change p.map (X.snd.transition n) = c₀ ≫ t₀ ≫ eqToHom (X.snd.level_eq n).symm at hfac
   change u₀ ≫ t₁ = t₀ ≫ u₁ at hnat
-  show p.map (X.snd.transition n) ≫ c₁ ≫ u₁ ≫ a₁.hom =
+  change p.map (X.snd.transition n) ≫ c₁ ≫ u₁ ≫ a₁.hom =
     c₀ ≫ u₀ ≫ a₀.hom
   calc
     p.map (X.snd.transition n) ≫ c₁ ≫ u₁ ≫ a₁.hom =
@@ -337,7 +337,7 @@ theorem exists_level_lift
   obtain ⟨y, hy, β, hβ⟩ := hp.exists_iso_lift c.op.symm
   let Y := Opposite.unop y
   have hY : p.obj Y = X.fst := by
-    show Opposite.unop (p.op.obj y) = X.fst
+    change Opposite.unop (p.op.obj y) = X.fst
     rw [hy]
   let α : X.snd.level n ≅ Y := β.unop.symm
   have hfac := IsHomLift.fac p.op (c.op.symm.hom) β.hom

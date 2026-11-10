@@ -186,11 +186,11 @@ theorem eq_of_eq_off_zeroLocus_of_eq_on_quotients_of_isProper
   have hfam : ∀ b, AlgebraicGeometry.UniversallyClosed (fam b ≫ eS) := by
     intro b
     cases b
-    · show AlgebraicGeometry.UniversallyClosed (sQ ≫ eS)
+    · change AlgebraicGeometry.UniversallyClosed (sQ ≫ eS)
       rw [hsQ]
       have := hQCI 1
       infer_instance
-    · show AlgebraicGeometry.UniversallyClosed ((BigFppfOver.toScheme B S hS).map ψE ≫ eS)
+    · change AlgebraicGeometry.UniversallyClosed ((BigFppfOver.toScheme B S hS).map ψE ≫ eS)
       rw [hψEe]
       exact hψuc
   have hcomp : Sigma.desc fam ≫ eS = Sigma.desc (fun b => fam b ≫ eS) := by
@@ -201,7 +201,7 @@ theorem eq_of_eq_off_zeroLocus_of_eq_on_quotients_of_isProper
     exact universallyClosed_sigmaDesc _
   have hinj : Function.Injective eS.base := eS.injective
   have hι : ∀ (b : Bool) (x : P b), (Sigma.desc fam).base ((Sigma.ι P b).base x) = (fam b).base x :=
-    fun b x => by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    fun b x => by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   have hsurj : Surjective (Sigma.desc fam) := by
     refine ⟨fun z => ?_⟩
     by_cases hv : eS.base z ∈
@@ -215,7 +215,7 @@ theorem eq_of_eq_off_zeroLocus_of_eq_on_quotients_of_isProper
       refine ⟨(Sigma.ι P false).base y, ?_⟩
       apply hinj
       refine (congrArg eS.base (hι false y)).trans ?_
-      show (sQ ≫ eS).base y = _
+      change (sQ ≫ eS).base y = _
       rw [hsQ]
       exact hy
     · obtain ⟨y, hy⟩ := hqsurj _ hv
@@ -223,7 +223,7 @@ theorem eq_of_eq_off_zeroLocus_of_eq_on_quotients_of_isProper
       refine ⟨(Sigma.ι P true).base (pointsToScheme B S hS X'' y''), ?_⟩
       apply hinj
       refine (congrArg eS.base (hι true _)).trans ?_
-      show ((BigFppfOver.toScheme B S hS).map ψE ≫ eS).base _ = _
+      change ((BigFppfOver.toScheme B S hS).map ψE ≫ eS).base _ = _
       rw [hψEe, ← hy, ← pointsMap_comp_apply, hpq, pointsToScheme_pointsMap_yoneda]
   have : AlgebraicGeometry.UniversallyClosed eS :=
     AlgebraicGeometry.UniversallyClosed.of_comp_surjective (Sigma.desc fam) eS

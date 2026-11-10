@@ -326,7 +326,7 @@ theorem lerayLevelNonzero_of_succ
       (G.mapDerivedCategoryHomologyIso q).inv.app (M.derivedDirectImage F) ≫
         (homologyFunctor _ q).map b := by
     simp only [etaleAbelianInverseImageRightDerivedDirectImageBaseChange, G, b, bc, sI, eA,
-      Functor.mapIso_hom, Iso.app_inv, Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id,
+      Functor.mapIso_hom, Iso.app_inv, Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id,
       Category.comp_id, Functor.map_comp]
   have hsI := (G.mapDerivedCategorySingleFunctor (q : ℤ)).hom.naturality eA.inv
   dsimp at hsI

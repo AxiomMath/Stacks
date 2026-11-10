@@ -235,7 +235,7 @@ theorem isSheaf_liftSubfunctor :
     have hk1 : ((SpacesEtale.toSpaces C S hS X').map k ≫ a') ≫ pY' =
       ((SpacesEtale.inclusion C S hS X').obj V').hom ≫ pX' := hk.1
     have hstr := SpacesEtale.toSpaces_map_comp_structure C S hS X' k
-    show (SpacesEtale.toSpaces C S hS X').map k ≫ a' ≫ pY' =
+    change (SpacesEtale.toSpaces C S hS X').map k ≫ a' ≫ pY' =
       (SpacesEtale.toSpaces C S hS X').map k ≫
         ((SpacesEtale.inclusion C S hS X').obj (unop U')).hom ≫ pX'
     rw [← Category.assoc, ← Category.assoc, hstr]
@@ -254,7 +254,7 @@ theorem isSheaf_liftSubfunctor :
       (thickeningProjection C S hS hG).naturality k
     have hstr := SpacesEtale.toSpaces_map_comp_structure C S hS (IsThickening.space C S hS hG)
       ((thickeningBaseChange C S hS hG).map k)
-    show (SpacesEtale.toSpaces C S hS (IsThickening.space C S hS hG)).map
+    change (SpacesEtale.toSpaces C S hS (IsThickening.space C S hS hG)).map
         ((thickeningBaseChange C S hS hG).map k) ≫
           (thickeningProjection C S hS hG).app (unop U') ≫ a' =
       (SpacesEtale.toSpaces C S hS (IsThickening.space C S hS hG)).map

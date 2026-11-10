@@ -206,7 +206,7 @@ include hu in
 /-- A factorisation of a presentation through another carries the kernel into the kernel. -/
 theorem mem_ker_of_fac {q : Pr} (hq : q ∈ RingHom.ker φ.hom) :
     u.hom q ∈ RingHom.ker φ'.hom := by
-  show φ'.hom (u.hom q) = 0
+  change φ'.hom (u.hom q) = 0
   rw [← CommRingCat.comp_apply, hu]
   exact hq
 
@@ -409,6 +409,7 @@ theorem kernelMapOfFac_comp_ι :
         conormalSheafMapOfFac.{v, u, w, z} J B A₁ A₂ φ₁ φ₂ ψ hψ :=
   kernel.lift_ι _ _ _
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include hψ hψ' ha ha' in
 /-- **Stacks 00S1 (2) in degree `-1`.** The map on the kernels of the two conormal maps does
 not depend on the chosen factorisation: two factorisations induce maps of conormal sheaves
@@ -498,6 +499,7 @@ variable (R B A₁ A₂ : Sheaf J CommRingCat.{w}) (a₁ : R ⟶ A₁) (a₂ : R
   (hψ : ψ ≫ φ₂ = φ₁) (hχ : χ ≫ φ₁ = φ₂) (ha : a₁ ≫ ψ = a₂) (hb : a₂ ≫ χ = a₁)
   [Presheaf.IsLocallySurjective J φ₁.hom] [Presheaf.IsLocallySurjective J φ₂.hom]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include hψ hχ ha hb in
 /-- **The degree `-1` comparison of Stacks 08TY, for presentations that factor through each
 other.**  If two presentations of `B` over `R` admit factorisations in both directions then the

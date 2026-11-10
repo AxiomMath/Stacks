@@ -43,7 +43,9 @@ the structure sheaf, whereas the first step of `hΦ` needs it with the *complex*
 inner slot, which is what Tag 08J9 supplies.
 
 `AlgebraicGeometry.RingedSite.hasMapBifunctor` is enabled as a local instance, as it is in
-`AwayInternalHomMul.lean` and in `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/CurryingForComplexesOfModules.lean`: it is not an assumption
+`AwayInternalHomMul.lean` and in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/CurryingForComplexesOfModules.lean`: it
+is not an assumption
 but the existing instance of `Stacks.Cohomology.SheafHomComplexCurrying`, named because
 instance search solves its `∀`-quantified form only in applied form.
 

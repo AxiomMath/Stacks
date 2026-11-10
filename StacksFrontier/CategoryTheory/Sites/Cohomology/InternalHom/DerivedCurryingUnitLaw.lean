@@ -144,7 +144,7 @@ theorem derivedStructureSheafHomIso_inv_comp_derivedCurryIso'
   refine (Iso.inv_comp_eq _).2 ?_
   rw [derivedCurryIso_comparison X (structureSheafComplex X) L I hL, hiterhom]
   refine Eq.trans (inv_hom_comp_assoc _ _
-    ((derivedSheafHomComparison X L I).map_inv_hom_id
+    ((derivedSheafHomComparison X L I).inv_hom_id_map
       ((derivedSheafHomBifunctor X).obj (op (derivedStructureSheaf X)))) _ _) ?_
   rw [derivedStructureSheafHomIso_model X (sheafHomComplex X L I).obj, Category.assoc,
     ← CategoryTheory.Functor.map_comp, hcurry]

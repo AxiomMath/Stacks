@@ -220,7 +220,7 @@ theorem isRepresentedSeparatedFinitePresentation_of_isPullback
     rw [← hι₁, Category.assoc]
     congr 1
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map (i ≫ _) = yoneda.map g ≫ yoneda.map (i' ≫ _)
+    change yoneda.map (i ≫ _) = yoneda.map g ≫ yoneda.map (i' ≫ _)
     rw [← yoneda.map_comp, ← Category.assoc, hi, Category.assoc,
       projectiveSiteMap_comp_toSiteBase]
   let O := twistingModuleBase B n

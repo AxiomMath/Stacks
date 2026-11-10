@@ -115,7 +115,7 @@ theorem homotopyIso_trans_homotopyCompIso_inv {V₁ V₂ V₃ : Type*} [Category
       (Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ) ≪≫
         Stacks.Homology.mapHomotopyCategoryIso T (ComplexShape.up ℤ)).hom := by
   refine NatTrans.ext (funext fun Y => ?_)
-  show (HomotopyCategory.quotient V₁ _).map
+  change (HomotopyCategory.quotient V₁ _).map
         ((NatTrans.mapHomologicalComplex (Iso.refl (F₁ ⋙ F₂)).hom _).app Y.as) ≫
       (HomotopyCategory.quotient V₁ _).map ((NatTrans.mapHomologicalComplex c.inv _).app Y.as) =
     (HomotopyCategory.quotient V₁ _).map ((NatTrans.mapHomologicalComplex e.hom _).app Y.as) ≫

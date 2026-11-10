@@ -226,7 +226,7 @@ public theorem sliceCechComplexMapOfSliceFunctorDegree_comm (P : (Over V)ᵒᵖ 
         (sliceCechComplex E (v.op ⋙ P)).d n (n + 1) =
       (sliceCechComplex (sliceImageFamily E v) P).d n (n + 1) ≫
         sliceCechComplexMapOfSliceFunctorDegree E v P (n + 1) := by
-  show sliceCechComplexMapOfSliceFunctorDegree E v P n ≫
+  change sliceCechComplexMapOfSliceFunctorDegree E v P n ≫
       (AlgebraicTopology.AlternatingCofaceMapComplex.obj
         ((FormalCoproduct.cosimplicialObjectFunctor.{w} (cechSimplicialObject E)).obj
           (v.op ⋙ P))).d n (n + 1) =

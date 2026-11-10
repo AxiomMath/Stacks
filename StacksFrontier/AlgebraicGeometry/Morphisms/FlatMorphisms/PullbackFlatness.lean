@@ -87,7 +87,7 @@ public theorem isFlatOverAt_iff_modulePullback_isFlatOverAt
   have : Module.FaithfullyFlat B C := Module.FaithfullyFlat.of_flat_of_isLocalHom
   obtain ⟨e, _⟩ := RingedSpaceModuleAdjunction.exists_modulePullbackStalkLinearEquiv
     f.toLRSHom.toShHom G x
-  show Module.Flat A M ↔ Module.Flat A P
+  change Module.Flat A M ↔ Module.Flat A P
   exact (Module.Flat.tensorProduct_iff_of_faithfullyFlat (R := A) (S := B)
     (S' := C) (M := M)).symm.trans (Module.Flat.equiv_iff (e.restrictScalars A)).symm
 

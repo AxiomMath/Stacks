@@ -236,7 +236,7 @@ private theorem isPseudoCoherentComplexFrom_of_homologyMap
     rw [HomologicalComplex.homologyMap_comp]
     infer_instance
   · have : Epi (HomologicalComplex.homologyMap (Fc.map f) n) := by
-      show Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
+      change Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
         ((HomologicalComplex.shortComplexFunctor _ _ n).map f))
       rw [epi_map_iff_of_natIso (ShortComplex.homologyFunctorIso F)]
       have := hfn
@@ -400,11 +400,11 @@ theorem isPseudoCoherentFrom_left_of_biprod_general
   have hα' : ∀ i : ℤ, n < i →
       IsIso ((DerivedCategory.homologyFunctor _ i).map (DerivedCategory.Q.map α)) := by
     intro i hi
-    show IsIso ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ i).map α)
+    change IsIso ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ i).map α)
     rw [NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors _ i)]
     exact hα i hi
   have hαn' : Epi ((DerivedCategory.homologyFunctor _ n).map (DerivedCategory.Q.map α)) := by
-    show Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ n).map α)
+    change Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ n).map α)
     rw [epi_map_iff_of_natIso (DerivedCategory.homologyFunctorFactors _ n)]
     exact hαn
   have hsum₀ : (X.over V).IsPseudoCoherentFrom

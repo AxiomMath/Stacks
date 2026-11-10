@@ -105,13 +105,13 @@ theorem isKoszulRegularOn_of_isKoszulRegular_map
       (by
         intro i j hij
         obtain rfl : j + 1 = i := hij
-        show _ ≫ F.map ((seqComplex (fun k => algebraMap R S (f k))).d (j + 1) j) = _
+        change _ ≫ F.map ((seqComplex (fun k => algebraMap R S (f k))).d (j + 1) j) = _
         rw [seqComplex_d, seqComplexTensor_d]
         apply ModuleCat.hom_ext
         apply TensorProduct.ext'
         intro x s
         symm
-        show β j (s ⊗ₜ[R] d (seqDual f) j x) =
+        change β j (s ⊗ₜ[R] d (seqDual f) j x) =
           d (seqDual (fun k => algebraMap R S (f k))) j (β (j + 1) (s ⊗ₜ[R] x))
         have ht {n : ℕ} (y : ⋀[R]^n (Fin r → R)) : s ⊗ₜ[R] y = s • (1 ⊗ₜ[R] y) := by
           simp only [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

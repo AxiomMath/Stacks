@@ -63,13 +63,13 @@ private lemma etale_prod_map (g : U' ⟶ U) [Etale g.left] : Etale (prod.map g g
     ext
     · simp only [Category.assoc, e, Over.prodLeftIsoPullback_hom_fst]
       rw [← Category.assoc]
-      show e'.inv ≫ (prod.map g g ≫ prod.fst).left = _
+      change e'.inv ≫ (prod.map g g ≫ prod.fst).left = _
       rw [prod.map_fst, Over.comp_left]
       simp only [Over.prodLeftIsoPullback_inv_fst_assoc, pullback.map, e']
       rw [pullback.lift_fst]
     · simp only [Category.assoc, e, Over.prodLeftIsoPullback_hom_snd]
       rw [← Category.assoc]
-      show e'.inv ≫ (prod.map g g ≫ prod.snd).left = _
+      change e'.inv ≫ (prod.map g g ≫ prod.snd).left = _
       rw [prod.map_snd, Over.comp_left]
       simp only [Over.prodLeftIsoPullback_inv_snd_assoc, pullback.map, e']
       rw [pullback.lift_snd]
@@ -84,7 +84,7 @@ private lemma etale_pullback_snd_over {X Y Z : Over S} (f : X ⟶ Z) (g : Y ⟶ 
     [Etale f.left] : Etale (pullback.snd f g).left :=
   MorphismProperty.IsStableUnderBaseChange.of_isPullback
     ((IsPullback.of_hasPullback f g).map (Over.forget S)) (by
-      show Etale f.left
+      change Etale f.left
       infer_instance)
 
 /-- Restricting an étale equivalence relation along an étale morphism again gives an étale

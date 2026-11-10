@@ -71,7 +71,7 @@ private theorem isTorsionFree_stalk_modulePullback {X Y : Scheme.{u}}
   let : Module.IsTorsionFree R M :=
     (AlgebraicGeometry.isTorsionFree_iff_forall_stalk G).mp hG y
   let : Module.Flat R S := by
-    show (f.stalkMap x).hom.Flat
+    change (f.stalkMap x).hom.Flat
     exact (Flat.iff_flat_stalkMap f).mp inferInstance x
   let : Module.IsTorsionFree S (TensorProduct R S M) :=
     isTorsionFree_baseChange_of_flat

@@ -141,7 +141,7 @@ theorem exists_isIso_regularPure (K : CochainComplex (ModO.{u, v, w, t} X) ℤ) 
   let e := (dgFunctorToComplexes D.functor).mapIso εi
   have := hj
   refine ⟨(asIso j ≪≫ e).hom, Iso.isIso_hom _, fun q U y => ?_⟩
-  show HEq (((D.functor.map (cocycleOfHom _ ε).1).v q q (add_zero q)).val.app U
+  change HEq (((D.functor.map (cocycleOfHom _ ε).1).v q q (add_zero q)).val.app U
     ((j.f q).val.app U y)) _
   refine (cochain_v_app_heq_of_heq.{u, v, w, t, s} X
       (D.functor.map (cocycleOfHom _ ε).1) U (zero_add q).symm
@@ -187,7 +187,7 @@ theorem regularPure_comp_regularLeftMul (K : CochainComplex (ModO.{u, v, w, t} X
   rw [Cochain.comp_v _ _ (zero_add n) p p q (add_zero p) hpq,
     Cochain.comp_v _ _ (add_zero n) p q q hpq (add_zero q), Cochain.ofHom_v, Cochain.ofHom_v]
   ext U y
-  show ((D.functor.map (regularLeftMul a)).v p q hpq).val.app U
+  change ((D.functor.map (regularLeftMul a)).v p q hpq).val.app U
       (((regularPure.{u, v, w, t, s} X R K).f p).val.app U y) =
     ((regularPure.{u, v, w, t, s} X R K).f q).val.app U
       ((((Rep.{u, v, w, t, s, max u v w t s} X R K).algebraHom n a).v p q hpq).val.app U y)
@@ -203,7 +203,7 @@ theorem regularPure_comp_regularLeftMul (K : CochainComplex (ModO.{u, v, w, t} X
     (D.pure_balance (regularModule _) 0 p n U ⟨1, SetLike.one_mem_graded _⟩ a y).symm)
   refine hL.trans (HEq.trans ?_ hR.symm)
   refine D.pure_heq.{u, v, w, t, s} X R _ U rfl rfl _ _ y y ?_ HEq.rfl
-  show (a : (Rep.{u, v, w, t, s, max u v w t s} X R K).algebra.A) * 1 =
+  change (a : (Rep.{u, v, w, t, s, max u v w t s} X R K).algebra.A) * 1 =
     MulOpposite.op (a : (Rep.{u, v, w, t, s, max u v w t s} X R K).algebra.A) • 1
   rw [MulOpposite.smul_eq_mul_unop, MulOpposite.unop_op, mul_one, one_mul]
 

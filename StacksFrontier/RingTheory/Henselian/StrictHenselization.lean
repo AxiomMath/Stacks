@@ -845,7 +845,7 @@ theorem exists_lift
     have hxg : IsUnit (Polynomial.aeval x P.g) := by
       rw [← IsLocalRing.notMem_maximalIdeal, ← Ideal.algebraMap_residueField_eq_zero (I :=
           maximalIdeal Ssh)]
-      show ψ (Polynomial.aeval x P.g) ≠ 0
+      change ψ (Polynomial.aeval x P.g) ≠ 0
       have hev : ψ (Polynomial.aeval x P.g) = Polynomial.eval₂ ψ (θ pres.x) (P.g.map (algebraMap R
           Ssh)) := by
         rw [Polynomial.aeval_def, Polynomial.hom_eval₂, hxres, Polynomial.eval₂_map]
@@ -873,7 +873,7 @@ theorem exists_lift
   let RHS : P.Ring →ₐ[R] K := θA.comp e.toAlgHom
   have hLR : LHS = RHS := by
     apply StandardEtalePair.hom_ext
-    show (algebraMap Ssh K) ((P.lift x hx) P.X) = θ (e P.X)
+    change (algebraMap Ssh K) ((P.lift x hx) P.X) = θ (e P.X)
     rwa [show e P.X = pres.x from P.lift_X pres.x pres.hasMap]
   -- `algebraMap Ssh K ∘ fx = ψx ∘ (algebraMap A q.ResidueField)`.
   have hcomp : (algebraMap Ssh K).comp fx = ψx.comp (algebraMap A q.ResidueField) := by
@@ -884,7 +884,7 @@ theorem exists_lift
     have h1 : (algebraMap Ssh K) ((P.lift x hx) (einv (lmap a))) = LHS (einv (lmap a)) := rfl
     rw [h1, hLR]
     -- `RHS (einv (lmap a)) = θ (e (einv (lmap a)))`
-    show θ (e (einv (lmap a))) = ψx (algebraMap A q.ResidueField a)
+    change θ (e (einv (lmap a))) = ψx (algebraMap A q.ResidueField a)
     -- `e (einv y) = y`
     rw [show e (einv (lmap a)) = lmap a from e.apply_symm_apply (lmap a)]
     -- `lmap a = algebraMap A (Localization.Away h) a`
@@ -1047,7 +1047,7 @@ theorem lift_unique
     let G : Localization.Away h →ₐ[R] Ssh := IsLocalization.liftAlgHom (M := Submonoid.powers h) hu'
     have hGlmap : ∀ a : A, G (lmap a) = f a := by
       intro a
-      show G (algebraMap A (Localization.Away h) a) = f a
+      change G (algebraMap A (Localization.Away h) a) = f a
       rw [IsLocalization.liftAlgHom_apply, IsLocalization.lift_eq]
     -- the generator image `x`.
     set x : Ssh := G pres.x with hx0
@@ -1062,13 +1062,13 @@ theorem lift_unique
       -- First: `G.comp e.toAlgHom = P.lift x ⟨hxf,hxg⟩` (both send `P.X ↦ x`).
       have hGe : G.comp e.toAlgHom = P.lift x ⟨hxf, hxg⟩ := by
         apply StandardEtalePair.hom_ext
-        show G (e P.X) = (P.lift x ⟨hxf, hxg⟩) P.X
+        change G (e P.X) = (P.lift x ⟨hxf, hxg⟩) P.X
         rw [heX, P.lift_X]
       apply RingHom.ext
       intro a
-      show f a = (P.lift x ⟨hxf, hxg⟩) (einv (lmap a))
+      change f a = (P.lift x ⟨hxf, hxg⟩) (einv (lmap a))
       rw [← hGlmap a, ← hGe]
-      show G (lmap a) = G (e (einv (lmap a)))
+      change G (lmap a) = G (e (einv (lmap a)))
       rw [show e (einv (lmap a)) = lmap a from e.apply_symm_apply (lmap a)]
     · -- residue: `algebraMap Ssh K x = θ pres.x`.
       -- `(algebraMap Ssh K).comp G = θ` as ring maps `Loc → K`.
@@ -1078,7 +1078,7 @@ theorem lift_unique
         -- both sides composed with `algebraMap A Loc`.
         ext a
         simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-        show (algebraMap Ssh K) (G (algebraMap A (Localization.Away h) a))
+        change (algebraMap Ssh K) (G (algebraMap A (Localization.Away h) a))
             = ψx (algebraMap A q.ResidueField a)
         rw [show G (algebraMap A (Localization.Away h) a) = f a from hGlmap a,
           ← Ideal.ResidueField.map_algebraMap q (maximalIdeal Ssh) f hf2 a, hc3]

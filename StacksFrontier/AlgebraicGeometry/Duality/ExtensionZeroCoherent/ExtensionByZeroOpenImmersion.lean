@@ -153,13 +153,13 @@ public lemma extensionByZero_map_comp_comparison {F G : ℕᵒᵖ ⥤ 𝒟} {K L
       eF.inv.app (Pro.liftedIndexDown i) ≫ jstar.map (α.app (Pro.liftedIndexDown i)) := by
     rw [← cancel_epi (eF.hom.app _), ← Category.assoc, ← h]
     simp
-  show φ ≫ (restrictionPointsHom jstar eG).app N
+  change φ ≫ (restrictionPointsHom jstar eG).app N
       ((colimit.ι ((Pro.liftedInverseSequence G).op ⋙ coyoneda) i).app N g) =
     (restrictionPointsHom jstar eF).app N
       ((colimit.ι ((Pro.liftedInverseSequence G).op ⋙ coyoneda) i ≫
         (ProSeq.ofMap α).unop.hom).app N g)
   rw [ProSeq.ι_ofMap_unop_hom]
-  show φ ≫ (restrictionPointsHom jstar eG).app N
+  change φ ≫ (restrictionPointsHom jstar eG).app N
       ((colimit.ι ((Pro.liftedInverseSequence G).op ⋙ coyoneda) i).app N g) =
     (restrictionPointsHom jstar eF).app N
       ((colimit.ι ((Pro.liftedInverseSequence F).op ⋙ coyoneda) i).app N
@@ -352,7 +352,7 @@ public lemma ofComplexValue_constIso_inv_app_comp (K : BoundedCoherentDerived U)
       (Scheme.Modules.restrictFunctor j).mapDerivedCategory.map
         (DerivedCategory.Q.map ((idealPowerComplexSystem I F).inclusion n)) = φ.inv := by
   have h := ofComplex_restrictIsoConst_hom_app I hI F hFge hFle hFcoh n
-  show (φ.inv ≫ _) ≫ _ = _
+  change (φ.inv ≫ _) ≫ _ = _
   exact (Category.assoc _ _ _).trans ((congrArg (fun t => φ.inv ≫ t)
     ((congrArg (fun t => _ ≫ t) h.symm).trans (Iso.inv_hom_id_app _ _))).trans
       (Category.comp_id _))

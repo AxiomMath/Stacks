@@ -250,7 +250,7 @@ private lemma openDirectImageSection_apply
         ((F.restrictAppIso U.ι (U.ι ⁻¹ᵁ V)).hom.hom
           ((((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app F).app
             (U.ι ⁻¹ᵁ V)).hom x)) := by
-  show (openDirectImageSectionImageEquiv U V F).toAddMonoidHom
+  change (openDirectImageSectionImageEquiv U V F).toAddMonoidHom
       ((F.restrictAppIso U.ι (U.ι ⁻¹ᵁ V)).hom.hom
         ((((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app F).app
           (U.ι ⁻¹ᵁ V)).hom x)) = _
@@ -269,7 +269,7 @@ private lemma restrictedModuleSectionEquiv_openDirectImageSection
       (equationsOpen f p s).ι ⁻¹ᵁ V) := by
     simpa only [restrictedModule, Scheme.Modules.pushforward_obj_obj] using x
   simp only [restrictedModuleSectionEquiv]
-  show F.presheaf.map (eqToHom h₁.symm).op
+  change F.presheaf.map (eqToHom h₁.symm).op
       ((F.restrictAppIso (equationsOpen f p s).ι
           ((equationsOpen f p s).ι ⁻¹ᵁ V)).hom.hom
         (((Scheme.Modules.restrictFunctorIsoPullback (equationsOpen f p s).ι).inv.app F).app
@@ -369,7 +369,7 @@ private lemma openDirectImageSection_pushforwardIsoHom
           ((Scheme.Modules.restrictFunctorIsoPullback U.ι).hom.app F)).app W x) =
       (openDirectImageSectionImageEquiv U W F).toAddMonoidHom
         ((F.restrictAppIso U.ι (U.ι ⁻¹ᵁ W)).hom.hom x) := by
-  show (openDirectImageSectionImageEquiv U W F).toAddMonoidHom
+  change (openDirectImageSectionImageEquiv U W F).toAddMonoidHom
       ((F.restrictAppIso U.ι (U.ι ⁻¹ᵁ W)).hom.hom
         (((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app F).app
           (U.ι ⁻¹ᵁ W)
@@ -386,14 +386,14 @@ private lemma openDirectImageUnit_section
   have hy : y = F.presheaf.map (homOfLE (U.ι.image_preimage_le W)).op x := by
     simp only [y, Scheme.Modules.restrictAdjunction_unit_app_app]
     rfl
-  show openDirectImageSection U F W
+  change openDirectImageSection U F W
       (((Scheme.Modules.pushforward U.ι).map
           ((Scheme.Modules.restrictFunctorIsoPullback U.ι).hom.app F)).app W y) = _
   rw [openDirectImageSection_pushforwardIsoHom]
   rw [hy]
   rw [openDirectImageSectionImageEquiv_apply]
   simp only [Scheme.Modules.restrictAppIso, Iso.refl_hom]
-  show F.presheaf.map (eqToHom (image_preimage_ι_eq_inf U W).symm).op
+  change F.presheaf.map (eqToHom (image_preimage_ι_eq_inf U W).symm).op
       (F.presheaf.map (homOfLE (U.ι.image_preimage_le W)).op x) =
     F.presheaf.map (homOfLE (show U ⊓ W ≤ W from inf_le_right)).op x
   rw [← F.presheaf.map_comp_apply]
@@ -433,7 +433,7 @@ private lemma openDirectImageSection_moduleMap
   rw [openDirectImageSection_apply, openDirectImageSection_apply]
   simp only [Scheme.Modules.pushforward_map_app]
   rw [← hxx]
-  show G.presheaf.map (eqToHom hI).op
+  change G.presheaf.map (eqToHom hI).op
       ((G.restrictAppIso U.ι (U.ι ⁻¹ᵁ W)).hom
         ((((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app G).app (U.ι ⁻¹ᵁ W))
           ((((Scheme.Modules.pullback U.ι).map φ).app (U.ι ⁻¹ᵁ W)) x'))) =
@@ -474,7 +474,7 @@ private lemma coreRestrict_clean {U V W : X.Opens} (hUV : U ≤ V) (F : X.Module
     (X.homOfLE hUV ≫ V.ι).image_mono (le_of_eq hpre)
   have h₅ : U.ι ''ᵁ (U.ι ⁻¹ᵁ W) ≤ (X.homOfLE hUV ≫ V.ι) ''ᵁ (U.ι ⁻¹ᵁ W) :=
     le_of_eq (by simp only [hk])
-  show F.presheaf.map (homOfLE h₅).op (F.presheaf.map (homOfLE h₄).op
+  change F.presheaf.map (homOfLE h₅).op (F.presheaf.map (homOfLE h₄).op
       (F.presheaf.map (homOfLE h₃).op (F.presheaf.map (homOfLE h₁).op
         ((F.restrictAppIso V.ι (V.ι ⁻¹ᵁ W)).hom.hom x)))) = _
   simp only [← F.presheaf.map_comp_apply]
@@ -508,7 +508,7 @@ private lemma openDirectImageRestrictionCore_section
       ((Scheme.Modules.restrictFunctor V.ι).obj F), W) :=
     (((Scheme.Modules.pushforward V.ι).map
       ((Scheme.Modules.restrictFunctorIsoPullback V.ι).inv.app F)).app W) x
-  show (openDirectImageSectionImageEquiv U W F).toAddMonoidHom
+  change (openDirectImageSectionImageEquiv U W F).toAddMonoidHom
       ((F.restrictAppIso U.ι (U.ι ⁻¹ᵁ W)).hom.hom
         (((openDirectImageRestrictionCoreRestrict hUV F).app W) z)) =
       F.presheaf.map (homOfLE (show U ⊓ W ≤ V ⊓ W from inf_le_inf_right _ hUV)).op
@@ -524,7 +524,7 @@ private lemma openDirectImageRestriction_section
         (((openDirectImageRestriction hUV F).app W) x) =
       F.presheaf.map (homOfLE (show U ⊓ W ≤ V ⊓ W from inf_le_inf_right _ hUV)).op
         (openDirectImageSection V F W x) := by
-  show openDirectImageSection U F W
+  change openDirectImageSection U F W
       ((((Scheme.Modules.pushforward U.ι).map
         ((Scheme.Modules.restrictFunctorIsoPullback U.ι).hom.app F)).app W)
         (((openDirectImageRestrictionCore hUV F).app W) x)) = _
@@ -545,7 +545,7 @@ private noncomputable def term (F : X.Modules) : ℕ → X.Modules
 
 private lemma sections_preservesFiniteLimits (V : X.Opens) :
     PreservesFiniteLimits (secF X.ringCatSheaf V : X.Modules ⥤ AddCommGrpCat.{u}) := by
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (SheafOfModules.evaluation X.ringCatSheaf (op V) ⋙
       forget₂ (ModuleCat.{u} ((X.ringCatSheaf).obj.obj (op V))) AddCommGrpCat.{u})
   infer_instance
@@ -562,10 +562,10 @@ private lemma categoricalProductAddEquiv_apply {ι : Type 0}
     categoricalProductAddEquiv G x i = (Pi.π G i) x := by
   let P := limit.isLimit (Discrete.functor G)
   let Q := (AddCommGrpCat.HasLimit.productLimitCone G).isLimit
-  show ((IsLimit.conePointUniqueUpToIso P Q).hom x) i = _
+  change ((IsLimit.conePointUniqueUpToIso P Q).hom x) i = _
   have h := IsLimit.conePointUniqueUpToIso_hom_comp P Q (Discrete.mk i)
   have hx := congrArg (fun g : (∏ᶜ G) ⟶ G i => g.hom x) h
-  show ((IsLimit.conePointUniqueUpToIso P Q).hom.hom x) i =
+  change ((IsLimit.conePointUniqueUpToIso P Q).hom.hom x) i =
     (limit.π (Discrete.functor G) (Discrete.mk i)).hom x
   exact hx
 
@@ -581,11 +581,11 @@ private lemma productSectionsEquiv_apply {ι : Type 0} [Finite ι] (G : ι → X
     productSectionsEquiv G V x i = (Pi.π G i).app V x := by
   let ΓV := secF X.ringCatSheaf V
   let _ : PreservesFiniteLimits ΓV := sections_preservesFiniteLimits (X := X) V
-  show categoricalProductAddEquiv (fun j => ΓV.obj (G j))
+  change categoricalProductAddEquiv (fun j => ΓV.obj (G j))
       ((PreservesProduct.iso ΓV G).hom x) i = _
   rw [categoricalProductAddEquiv_apply]
-  show ((PreservesProduct.iso ΓV G).hom ≫ Pi.π _ i) x = _
-  show (piComparison ΓV G ≫ Pi.π _ i) x = _
+  change ((PreservesProduct.iso ΓV G).hom ≫ Pi.π _ i) x = _
+  change (piComparison ΓV G ≫ Pi.π _ i) x = _
   have h := congrArg (fun g : _ ⟶ ΓV.obj (G i) => g x)
     (piComparison_comp_π ΓV G i)
   exact h.trans rfl
@@ -608,12 +608,12 @@ private lemma positiveTermSectionsEquiv_apply (F : X.Modules) (p : ℕ)
       restrictedModuleSectionEquiv f F p s V
         ((Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) p =>
           restrictedModule f F p t) s).app V x) := by
-  show (AddEquiv.piCongrRight
+  change (AddEquiv.piCongrRight
       (fun t => restrictedModuleSectionEquiv f F p t V)
       (productSectionsEquiv (fun t : CechCochains.OrdIndex (I := Fin c) p =>
         restrictedModule f F p t) V x)) s = _
   rw [AddEquiv.piCongrRight_apply]
-  show restrictedModuleSectionEquiv f F p s V
+  change restrictedModuleSectionEquiv f F p s V
       ((productSectionsEquiv (fun t : CechCochains.OrdIndex (I := Fin c) p =>
         restrictedModule f F p t) V) (show Γ(∏ᶜ (fun t : CechCochains.OrdIndex (I := Fin c) p =>
           restrictedModule f F p t), V) from x) s) = _
@@ -710,7 +710,7 @@ private lemma differential_succ_sections (F : X.Modules)
   rw [differential_succ_eq]
   funext s
   rw [positiveTermSectionsEquiv_apply]
-  show restrictedModuleSectionEquiv f F (p + 1) s V
+  change restrictedModuleSectionEquiv f F (p + 1) s V
       (((positiveDifferential f F p ≫
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) (p + 1) =>
           restrictedModule f F (p + 1) t) s).app V) x) = _
@@ -764,7 +764,7 @@ private lemma augmentedOrdCochain_ordD_zero (F : X.Modules) (V : X.Opens)
     simp only [restr_apply, augmentedOrdCochain]
     rw [← F.presheaf.map_comp_apply]
     congr 1
-  show (∑ j : Fin 2,
+  change (∑ j : Fin 2,
       ((-1 : ℤ) ^ (j : ℕ)) •
         CechCochains.restr (Scheme.Modules.presheaf F)
           (CechCochains.inter_le_omit (fun i => V ⊓ X.basicOpen (f i)) s.1 j)
@@ -782,7 +782,7 @@ private lemma differential_zero_sections (F : X.Modules)
   funext s
   rw [positiveTermSectionsEquiv_apply]
   rw [differential_zero_eq]
-  show restrictedModuleSectionEquiv f F 0 s V
+  change restrictedModuleSectionEquiv f F 0 s V
       (((Pi.lift (fun t : CechCochains.OrdIndex (I := Fin c) 0 =>
         openDirectImageUnit (equationsOpen f 0 t) F) ≫
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) 0 =>
@@ -831,7 +831,7 @@ private noncomputable def complex (F : X.Modules) :
 
 private lemma complex_d (F : X.Modules) (p : ℕ) :
     (complex f F).d p (p + 1) = differential f F p := by
-  show CochainComplex.of.d (term f F) (differential f F) p (p + 1) = _
+  change CochainComplex.of.d (term f F) (differential f F) p (p + 1) = _
   exact CochainComplex.of_d _ _ p
 
 private lemma sectionsIso_compat_aux (F : X.Modules) (p : ℕ) (V : X.Opens)
@@ -918,7 +918,7 @@ private lemma termMap_id (F : X.Modules) (n : ℕ) :
   cases n with
   | zero => rfl
   | succ p =>
-      show (Pi.lift fun s : CechCochains.OrdIndex (I := Fin c) p =>
+      change (Pi.lift fun s : CechCochains.OrdIndex (I := Fin c) p =>
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p t) s ≫
           restrictedModuleMap f (𝟙 F) p s) =
         𝟙 (∏ᶜ fun s : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p s)
@@ -933,7 +933,7 @@ private lemma termMap_comp {F G H : X.Modules}
   cases n with
   | zero => rfl
   | succ p =>
-      show (Pi.lift fun s : CechCochains.OrdIndex (I := Fin c) p =>
+      change (Pi.lift fun s : CechCochains.OrdIndex (I := Fin c) p =>
         Pi.π (fun t : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p t) s ≫
           restrictedModuleMap f (φ ≫ ψ) p s) =
         (Pi.lift fun s : CechCochains.OrdIndex (I := Fin c) p =>
@@ -957,7 +957,7 @@ private lemma termMap_sections {F G : X.Modules}
       φ.app (CechCochains.inter (fun i => V ⊓ X.basicOpen (f i)) s.1)
         (positiveTermSectionsEquiv f F p V x s) := by
   rw [positiveTermSectionsEquiv_apply]
-  show restrictedModuleSectionEquiv f G p s V
+  change restrictedModuleSectionEquiv f G p s V
       (((termMap f φ (p + 1) ≫ Pi.π _ s).app V) x) = _
   rw [termMap_succ, Pi.lift_comp_π, Scheme.Modules.Hom.comp_app, AddCommGrpCat.comp_apply,
     restrictedModuleSectionEquiv_moduleMap, positiveTermSectionsEquiv_apply]
@@ -972,7 +972,7 @@ private lemma termMap_comm {F G : X.Modules} (φ : F ⟶ G) (n : ℕ) :
   simp only [Scheme.Modules.Hom.comp_app, AddCommGrpCat.comp_apply]
   cases n with
   | zero =>
-      show positiveTermSectionsEquiv f G 0 V
+      change positiveTermSectionsEquiv f G 0 V
           ((differential f G 0).app V (φ.app V x)) = _
       rw [differential_zero_sections]
       funext s

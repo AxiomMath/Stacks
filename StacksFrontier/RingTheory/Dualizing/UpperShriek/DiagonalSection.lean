@@ -64,9 +64,10 @@ nor at the structure map `A → B ⊗[A] B`.  So the isomorphism
 `Dualizing.DiagonalQuotientDerivedHom` that [stacks 0E2H] still carries -- an isomorphism of
 `D(B ⊗[A] B)` -- does **not** follow from the statements here: restriction along `A → B ⊗[A] B`
 reflects invertibility of a morphism but not isomorphy of objects, and the comparison of
-`StacksFrontier.RingTheory.Dualizing.RelativeCompositionCoextension` lands over `A`.  What the results
-here discharge is the step of that residue which lives over the diagonal `A ⊗[R] A`, where the
-linearity obligation was; the linearity of the projection formula over `B ⊗[A] B` is untouched.
+`StacksFrontier.RingTheory.Dualizing.RelativeCompositionCoextension` lands over `A`.  What the
+results here discharge is the step of that residue which lives over the diagonal `A ⊗[R] A`,
+where the linearity obligation was; the linearity of the projection formula over `B ⊗[A] B` is
+untouched.
 
 **The obstruction is not that no section has been found; it is that none can be.**  The retraction
 above needs a ring homomorphism `s` with `φ ∘ s = id`, so its target is simultaneously a quotient
@@ -80,9 +81,9 @@ identification, with the section replaced by conservativity of derived restricti
 applied to the tensor--Hom diagonal along `φ` itself.  What it costs is exactly the hypothesis of
 `Dualizing.ProjectionFormula.isIso_restrict_derivedTensorHomDiagonalAlongRingHom` -- the linearity
 of the projection formula -- together with [stacks 0ATK] over the *source* ring `B ⊗[R] B`, and the
-module documentation of `StacksFrontier.RingTheory.Dualizing.RelativeComposition` records the witness
-that defeats [stacks 0ATK] there.  So the two statements here and that lemma exhaust the two ways
-of descending, and [stacks 0E2H] needs the second.
+module documentation of `StacksFrontier.RingTheory.Dualizing.RelativeComposition` records the
+witness that defeats [stacks 0ATK] there.  So the two statements here and that lemma exhaust the
+two ways of descending, and [stacks 0E2H] needs the second.
 
 ## Implementation notes
 

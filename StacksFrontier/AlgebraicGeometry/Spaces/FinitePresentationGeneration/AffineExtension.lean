@@ -128,7 +128,7 @@ theorem exists_isIso_unit_comparison {V P : AlgebraicSpaces B S hS} (j : P ⟶ V
         (mul_one (M := chartRing B S hS P.1 P.2 A) b)
     exact ⟨fun b b' hbb => by rwa [hid, hid] at hbb, fun b => ⟨b, hid b⟩⟩
   · rw [SheafOfModules.unitHomEquiv_comp_apply, Equiv.apply_symm_apply]
-    show restrictSections B S hS j hje (M.unitHomEquiv (𝟙 OV ≫ M.unitHomEquiv.symm s)) = _
+    change restrictSections B S hS j hje (M.unitHomEquiv (𝟙 OV ≫ M.unitHomEquiv.symm s)) = _
     rw [Category.id_comp, Equiv.apply_symm_apply]
 
 /-- Along an open immersion `j : P ⟶ V` with `P` quasi-compact, a global section `m` of `F` whose
@@ -169,10 +169,10 @@ theorem exists_graphKernel_sections_lift {V P : AlgebraicSpaces B S hS} (j : P �
       rw [Stacks.GraphKernel.graphKernelMap, biprod.lift_desc, Preadditive.comp_neg, hx,
         add_neg_cancel])
   have hqp : qh ≫ p = mh := by
-    show kernel.lift _ _ _ ≫ kernel.ι _ ≫ biprod.fst = mh
+    change kernel.lift _ _ _ ≫ kernel.ι _ ≫ biprod.fst = mh
     rw [kernel.lift_ι_assoc, biprod.lift_fst]
   refine ⟨Q.unitHomEquiv qh, ?_⟩
-  show F.unitHomEquiv (qh ≫ p) = m
+  change F.unitHomEquiv (qh ≫ p) = m
   rw [hqp, Equiv.apply_symm_apply]
 
 /-- **Extension of a module of finite presentation from a quasi-compact open subspace of an
@@ -241,7 +241,7 @@ theorem exists_isFinitePresentation_extension_of_isAffineSpace
       fun A hA ⟨f⟩ => hbij (Φ.obj A) hA ⟨Φ.map f⟩
   refine ⟨H, hH, ψQ ≫ p, asIso (L.map ψQ) ≪≫ e₀, h, ?_, ?_⟩
   · rw [Iso.trans_hom, asIso_hom, Category.assoc, he₀, ← Functor.map_comp]
-  · show PresheafOfModules.sectionsMap p.val (PresheafOfModules.sectionsMap ψQ.val h) = m
+  · change PresheafOfModules.sectionsMap p.val (PresheafOfModules.sectionsMap ψQ.val h) = m
     rw [hh, hq]
 
 end AlgebraicGeometry.Space

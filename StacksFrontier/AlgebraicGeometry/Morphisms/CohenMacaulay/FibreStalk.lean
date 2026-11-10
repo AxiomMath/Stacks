@@ -140,7 +140,7 @@ public theorem quotientStalk_bridge {X Y : Scheme.{u}}
     intro b
     obtain ⟨c, hc⟩ := g.stalkMap_surjective (pY.base z) b
     refine ⟨eEq.symm c, ?_⟩
-    show (g.stalkMap (pY.base z)).hom (eEq (eEq.symm c)) = b
+    change (g.stalkMap (pY.base z)).hom (eEq (eEq.symm c)) = b
     rw [eEq.apply_symm_apply, hc]
   let hb : pY.base z = IsLocalRing.closedPoint (Y.residueField (f x)) :=
     Subsingleton.elim _ _
@@ -187,7 +187,7 @@ public theorem quotientStalk_bridge {X Y : Scheme.{u}}
       eLoc t = algebraMap T C t := by
         simpa [eLoc, localizationEquivOfSurjective] using eLoc.commutes t
       _ = φ t := rfl
-  show eLoc (eQT (Ideal.Quotient.mk I b)) = _
+  change eLoc (eQT (Ideal.Quotient.mk I b)) = _
   rw [hmk, heLoc]
   exact DFunLike.congr_fun hleft b
 
@@ -393,9 +393,9 @@ public theorem quotientStalkEquivFiberStalk_mk {X Y : Scheme.{u}}
     intro a b h r
     cases h
     simp [TopCat.Presheaf.stalkCongr]
-  show (h ▸ e) (Ideal.Quotient.mk (J x) b) = _
+  change (h ▸ e) (Ideal.Quotient.mk (J x) b) = _
   rw [hcastFun h e (Ideal.Quotient.mk (J x) b), hcastMk h b]
-  show (Classical.choose ex)
+  change (Classical.choose ex)
       (Ideal.Quotient.mk (J y₀)
         ((X.presheaf.stalkCongr (.of_eq h.symm)).hom b)) = _
   exact he ((X.presheaf.stalkCongr (.of_eq h.symm)).hom b)

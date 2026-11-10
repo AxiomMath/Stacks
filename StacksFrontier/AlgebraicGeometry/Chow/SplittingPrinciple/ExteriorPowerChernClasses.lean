@@ -141,7 +141,7 @@ theorem isUnit_chernBicommutant_of_isUnit_coe {a : chernBicommutant C sX}
       exact this.symm
     exact (hc.units_inv_left).eq.symm
   refine isUnit_iff_exists_inv.2 ⟨⟨_, hmem⟩, Subtype.ext ?_⟩
-  show (a : TotalChowClass C sX) * ↑v⁻¹ = 1
+  change (a : TotalChowClass C sX) * ↑v⁻¹ = 1
   rw [← hv, Units.mul_inv]
 
 end Bicommutant
@@ -372,7 +372,7 @@ theorem homPart_alternatingProd_of_roots {r : ℕ} (hr : r ≠ 0)
       Units.map ((chernBicommutant C sX).subtype : chernBicommutant C sX →* TotalChowClass C sX)
         (∏ I ∈ (Finset.univ : Finset (Fin r)).powersetCard n, w I) := fun n hn => by
     refine Units.ext ?_
-    rw [hu n (Nat.lt_succ_iff.1 (Finset.mem_range.1 hn)), Units.coe_map, MonoidHom.coe_coe,
+    rw [hu n (Nat.lt_succ_iff.1 (Finset.mem_range.1 hn)), Units.coe_map, MonoidHom.coe_ofClass,
       Subring.coe_subtype, Units.coe_prod]
     exact congrArg Subtype.val (Finset.prod_congr rfl fun I _ => (hw I).symm)
   set P : (chernBicommutant C sX)ˣ := ∏ n ∈ Finset.range (r + 1),
@@ -693,7 +693,7 @@ theorem res_altExteriorTotalChern {Y : Scheme.{u}} {sY : Y ⟶ C.S} [LocallyOfFi
     (Scheme.Modules.exteriorPower E (n : ℤ)) (r.choose n) h
   have := Scheme.Modules.isFiniteLocallyFreeOfRank_exteriorPower
     ((Scheme.Modules.pullback h).obj E) r n
-  rw [Units.coe_map, MonoidHom.coe_coe, val_totalChernUnit, val_totalChernUnit,
+  rw [Units.coe_map, MonoidHom.coe_ofClass, val_totalChernUnit, val_totalChernUnit,
     TotalChowClass.res_totalChern]
   exact totalChern_congr C sY (Scheme.Modules.exteriorPowerPullbackIso h E (n : ℤ)) rfl
 
@@ -717,7 +717,8 @@ computed by `Stacks.Chow.homPart_alternatingProd_of_roots`. -/
 locally free E of rank r >= 1, with no further hypothesis. The alternating product is \
 altExteriorTotalChern C sX E r, the ordered product of the units totalChernUnit of the exterior \
 powers in the ring TotalChowClass C sX of total Chow cohomology classes; c_i(E) is \
-TotalChowClass.homComponent i (totalChern C sX E r). The + ... of the source is read as asserting nothing above \
+TotalChowClass.homComponent i (totalChern C sX E r). The + ... of the source is read as \
+asserting nothing above \
 degree r, as its proof does"]
 theorem homPart_altExteriorTotalChern (E : X.Modules) {r : ℕ}
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E r] (hr : r ≠ 0) :

@@ -158,7 +158,7 @@ theorem exists_stage_totalMap_of_isLimit (i : I) (Fi Gi : CurveFamily B hZ)
   obtain ⟨εG, hεG, hεGc, keyG⟩ := Gi.exists_hom_pullback_totalIso_of_comp hGi hw
   refine ⟨k, s, hk, εF, εG, ?_, hεF, hεG, hεFc, hεGc, ?_⟩
   · apply ObjectProperty.hom_ext
-    show hk.hom ≫ ((Gi.ofBaseEq hGi).pullback (ι.map (D.map s))).toBaseYoneda =
+    change hk.hom ≫ ((Gi.ofBaseEq hGi).pullback (ι.map (D.map s))).toBaseYoneda =
       ((Fi.ofBaseEq hFi).pullback (ι.map (D.map s))).toBaseYoneda
     rw [hk_hom, Category.assoc, Category.assoc,
       ← Gi.pullbackTotalIsoOfEq_hom_fst hGi (ι.map (D.map s)), Iso.inv_hom_id_assoc, hv,

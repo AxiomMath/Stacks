@@ -208,8 +208,8 @@ theorem ker_comorphismRing (W : (Opens X)ᵒᵖ) :
     RingHom.ker ((comorphismRing i).hom.app W).hom =
       RingHom.ker ((quotientRingHom (idealOf i)).hom.app W).hom :=
   @Stacks.SheafOfModules.ChangeOfRings.ker_eq_ker_of_ringIso _ _ _ _ _ _
-    (quotientRingHom (idealOf i)) _ (comorphismRing i) (isLocallySurjective_comorphismRing i)
-    (quotientRingIsoRing i) (quotientRingHom_comp_quotientRingIsoRing i)
+    (quotientRingHom (idealOf i)) (comorphismRing i) (quotientRingIsoRing i)
+    (quotientRingHom_comp_quotientRingIsoRing i)
     ((sheafCompose (Opens.grothendieckTopology X) (forget₂ CommRingCat RingCat)).mapIso
       (quotientRingIso i)) rfl W
 

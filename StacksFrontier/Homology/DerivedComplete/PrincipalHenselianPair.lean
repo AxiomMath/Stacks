@@ -86,7 +86,7 @@ private theorem exists_root_lift
     obtain ⟨v, rfl⟩ := hφ w
     rw [isUnit_iff_exists_inv]
     refine ⟨Ideal.Quotient.mk _ v, ?_⟩
-    show Ideal.Quotient.mk _ (p.derivative.eval z * v) = Ideal.Quotient.mk _ 1
+    change Ideal.Quotient.mk _ (p.derivative.eval z * v) = Ideal.Quotient.mk _ 1
     rw [Ideal.Quotient.eq, RingHom.mem_ker, map_sub, map_mul, map_one, ← eval_map_apply,
       ← derivative_map, hw, sub_self]
   obtain ⟨y, hy, hyz⟩ := HenselianRing.is_henselian p hp z hz hq

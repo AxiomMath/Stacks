@@ -90,7 +90,7 @@ spectrum of an Artinian local ring has a single point. -/
 theorem residueSpecMap_surjective (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
     Function.Surjective (residueSpecMap A) := by
   let : Subsingleton (baseSpec A) := by
-    show Subsingleton (PrimeSpectrum A)
+    change Subsingleton (PrimeSpectrum A)
     infer_instance
   exact Function.surjective_to_subsingleton _
 
@@ -159,7 +159,7 @@ theorem map_preimage_restrictedOpen {U : X.left.Opens}
   have hcompat : ∀ x : X.left, f.map (Q.specialMap x) = P.specialMap x := fun x => by
     simpa using congrArg (fun g : X.left ⟶ P.scheme => g x) f.special_compat
   ext y
-  show (∃ x ∈ U, P.specialMap x = f.map y) ↔ ∃ x ∈ U, Q.specialMap x = y
+  change (∃ x ∈ U, P.specialMap x = f.map y) ↔ ∃ x ∈ U, Q.specialMap x = y
   constructor
   · rintro ⟨x, hxU, hx⟩
     obtain ⟨x', hx'⟩ := deformationSpecialMap_surjective Q y

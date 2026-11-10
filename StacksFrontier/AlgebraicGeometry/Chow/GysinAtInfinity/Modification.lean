@@ -337,7 +337,7 @@ theorem range_zeroScheme_infinitySectionOnW :
   ext x
   rw [Scheme.IdealSheafData.range_subschemeι, zeroScheme_infinitySectionOnW,
     Scheme.IdealSheafData.support_comap]
-  show (lineMap f b).base x ∈ ((lineInfinityDivisor S).support : Set _) ↔
+  change (lineMap f b).base x ∈ ((lineInfinityDivisor S).support : Set _) ↔
     x ∈ (Set.range (chartInclusion f b).base)ᶜ
   rw [coe_support_lineInfinityDivisor, ← compl_range_affineChart, Scheme.Pullback.range_fst,
     range_projectiveLineAffineChart]

@@ -122,7 +122,7 @@ theorem bijective_comp_whiskerRight_of_retract {M N : Mot} (c : M ⟶ N) {L L' :
       _ = y := by rw [h₂, Category.assoc, hret, Category.comp_id]
   · obtain ⟨z, hz⟩ := h.surjective (y ≫ N ◁ ρ.i)
     refine ⟨z ≫ M ◁ ρ.r, ?_⟩
-    show (z ≫ M ◁ ρ.r) ≫ c ▷ L = y
+    change (z ≫ M ◁ ρ.r) ≫ c ▷ L = y
     rw [sq, show z ≫ c ▷ L' = y ≫ N ◁ ρ.i from hz, Category.assoc, hret, Category.comp_id]
 
 /-! ### The degree shift of a Tate twist -/
@@ -181,8 +181,8 @@ on the Chow groups of M tensor h(X) for every smooth projective X, over every de
 STATED IN AN ABSTRACT MONOIDAL CATEGORY, not on this library's category of motives, because the
 monoidal structure on Karoubi S.Obj is Stacks 0FGC, which is only stated, not constructed, in this
 library -- so `M ⊗ h(X)` cannot be written on `S.Motive` at all. The statement specialises to the
-source's setting as soon as 0FGC is available, and `h : D → Mot` is kept untwisted on purpose so that
-quantifying the hypothesis over D does not silently assume it for the twists h(X)(m), which is
+source's setting as soon as 0FGC is available, and `h : D → Mot` is kept untwisted on purpose so
+that quantifying the hypothesis over D does not silently assume it for the twists h(X)(m), which is
 what the source's proof has to earn. Four pieces of data are carried rather than used, each
 named in the signature: the representability CH^i(-) = Hom(1(-i), -) of Stacks 0FGM (the field
 chowEquiv of ChowRepresentability, together with its naturality), invertibility of the Tate

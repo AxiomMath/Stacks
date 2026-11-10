@@ -91,7 +91,7 @@ theorem mapHomotopyCategory_sectionsWithSupportInInclusion_comp_subtype (A : Typ
     exact congrArg (fun φ => (ModuleCat.Hom.hom φ) x)
       (sectionsWithSupportInInclusion_comp_subtype_app.{u, v} h (L.X n))
   refine NatTrans.ext (funext fun X => ?_)
-  show (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ ≫
+  change (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _ =
     (HomotopyCategory.quotient (ModuleCat.{max u v} A) (ComplexShape.up ℤ)).map _
   rw [← Functor.map_comp]
@@ -146,7 +146,7 @@ theorem localizedModuleMk_natural {A : Type u} [CommRing A] {M N : ModuleCat.{ma
     (ModuleCat.localizedModuleMkLinearMap N S) (f.hom x) =
       (ModuleCat.localizedModuleMap S f).hom
         ((ModuleCat.localizedModuleMkLinearMap M S) x) := by
-  show (ModuleCat.localizedModuleMkLinearMap N S) (f.hom x) =
+  change (ModuleCat.localizedModuleMkLinearMap N S) (f.hom x) =
     (IsLocalizedModule.mapExtendScalars S (ModuleCat.localizedModuleMkLinearMap M S)
       (ModuleCat.localizedModuleMkLinearMap N S) (Localization S) f.hom)
       ((ModuleCat.localizedModuleMkLinearMap M S) x)

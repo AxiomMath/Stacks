@@ -80,7 +80,7 @@ theorem isFiniteLocallyConstant_abelianTorsor_constantSheaf
       naturality := by
         intro U V f
         ext a
-        show Multiplicative.ofAdd
+        change Multiplicative.ofAdd
             ((toSheafify J ((Functor.const Cᵒᵖ).obj M)).app V (Multiplicative.toAdd a)) =
           Multiplicative.ofAdd ((sheafify J ((Functor.const Cᵒᵖ).obj M)).map f
             ((toSheafify J ((Functor.const Cᵒᵖ).obj M)).app U (Multiplicative.toAdd a)))

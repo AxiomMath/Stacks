@@ -110,7 +110,7 @@ public theorem degreeZeroToGlobalSections_pullbackDegreeZero (a : 𝒮 0) (m am 
       ((Stacks.AlgebraicGeometry.ProjShiftedSections.pullbackDegreeZero 𝒮 a).1 x) =
       algebraMap S (Localization x.1.asHomogeneousIdeal.toIdeal.primeCompl) (a : S) :=
     Stacks.AlgebraicGeometry.ProjEulerSequence.toSpecZero_appTop_val 𝒮 a x.1
-  show LocalizedModule.mk (am : M) (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl) =
+  change LocalizedModule.mk (am : M) (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl) =
     HomogeneousLocalization.val
       ((Stacks.AlgebraicGeometry.ProjShiftedSections.pullbackDegreeZero 𝒮 a).1 x) •
       LocalizedModule.mk (m : M) (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)
@@ -160,7 +160,7 @@ public theorem relativeProjChart_comp_relativeProjToBase (W : s.base.affineOpens
       Proj.toSpecZero (s.sectionRingGrading W.1) ≫ Spec.map (sectionRingZeroMap s W.1) ≫
         W.2.fromSpec := by
   refine (relativeProjChart_isPullback s W).w.trans ?_
-  show (Proj.toSpecZero (s.sectionRingGrading W.1) ≫ Spec.map (sectionRingZeroMap s W.1) ≫
+  change (Proj.toSpecZero (s.sectionRingGrading W.1) ≫ Spec.map (sectionRingZeroMap s W.1) ≫
     W.2.isoSpec.inv) ≫ W.1.ι = _
   rw [Category.assoc, Category.assoc]
   rfl

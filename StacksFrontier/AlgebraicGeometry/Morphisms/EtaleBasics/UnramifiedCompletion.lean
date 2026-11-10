@@ -107,12 +107,12 @@ theorem moduleFinite_adicCompletion_of_formallyUnramified
         have hL : (x • y).val n = Submodule.Quotient.mk (algebraMap A B a * b) := by
           rw [AdicCompletion.smul_eval, ← ha, ← hb, ← Algebra.smul_def a b]
           rfl
-        show quotEquivMapPow I B n ((x • y).val n) =
+        change quotEquivMapPow I B n ((x • y).val n) =
           ((AdicCompletion.completionMap (B := B) I x) *
             adicCompletionLinearEquivMap I B y).val n
         rw [hL, quotEquivMapPow_mk, AdicCompletion.val_mul,
           AdicCompletion.val_completionMap I n x a ha.symm]
-        show _ = _ * quotEquivMapPow I B n (y.val n)
+        change _ = _ * quotEquivMapPow I B n (y.val n)
         rw [← hb, quotEquivMapPow_mk]
         rfl }
   have transport (J : Ideal B) (hJ : (maximalIdeal A).map (algebraMap A B) = J) :
@@ -164,7 +164,7 @@ theorem surjective_adicCompletionMap_of_bijective_residueFieldMap
     rw [show g (algebraMap A Rhat a) = algebraMap B Bhat (f a) from DFunLike.congr_fun hcomp a]
   have hkg : Function.Bijective (ResidueField.map g) :=
     (hiA.of_comp_iff (ResidueField.map g)).mp (by
-      show Function.Bijective ((ResidueField.map g).comp (ResidueField.map (algebraMap A Rhat)))
+      change Function.Bijective ((ResidueField.map g).comp (ResidueField.map (algebraMap A Rhat)))
       rw [hrescomp]
       exact hiB.comp hκ)
   have hrange : (⊤ : Submodule Rhat Bhat) ≤
@@ -177,7 +177,7 @@ theorem surjective_adicCompletionMap_of_bijective_residueFieldMap
       rw [map_sub, ← ResidueField.map_residue, ← haκ, sub_self])
     refine Submodule.mem_sup.mpr ⟨g a, LinearMap.mem_range.mpr ⟨a, rfl⟩, x - g a, ?_, by ring⟩
     rw [Ideal.smul_top_eq_map]
-    show x - g a ∈ (maximalIdeal Rhat).map g
+    change x - g a ∈ (maximalIdeal Rhat).map g
     rwa [hmax]
   exact LinearMap.range_eq_top.mp (eq_top_iff.mpr
     (Submodule.le_of_le_smul_of_le_jacobson_bot (Module.finite_def.mp
@@ -218,7 +218,7 @@ theorem unramified_iff_uniformizer_and_residueField
       (Irreducible (f ϖ) ∧ Module.Finite (ResidueField A) (ResidueField B) ∧
         Algebra.IsSeparable (ResidueField A) (ResidueField B) ∧ Algebra.EssFiniteType A B) := by
   let : Algebra A B := f.toAlgebra
-  show (Algebra.FormallyUnramified A B ∧ Algebra.EssFiniteType A B) ↔ _
+  change (Algebra.FormallyUnramified A B ∧ Algebra.EssFiniteType A B) ↔ _
   constructor
   · rintro ⟨hfu, hft⟩
     have hirr : Irreducible (f ϖ) :=

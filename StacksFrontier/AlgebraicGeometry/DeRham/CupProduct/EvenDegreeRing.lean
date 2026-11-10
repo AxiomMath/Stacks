@@ -123,7 +123,7 @@ theorem evenDeRham_mk_eq {i j : ℕ} (h : i = j) (x : evenDeRhamCohomology B D i
 /-- The class `1 ∈ H^0_{dR}` is a left unit for the graded product. -/
 theorem evenDeRham_one_mul (a : GradedMonoid (evenDeRhamCohomology B D)) : 1 * a = a := by
   obtain ⟨i, a⟩ := a
-  show GradedMonoid.mk (0 + i) (evenDeRhamMul B D (deRhamOneClass B D :
+  change GradedMonoid.mk (0 + i) (evenDeRhamMul B D (deRhamOneClass B D :
     evenDeRhamCohomology B D 0) a) = GradedMonoid.mk i a
   refine evenDeRham_mk_eq B D (zero_add i) _ _ ?_
   rw [evenDeRhamMul, reindexDeRhamCohomology_reindexDeRhamCohomology]
@@ -132,7 +132,7 @@ theorem evenDeRham_one_mul (a : GradedMonoid (evenDeRhamCohomology B D)) : 1 * a
 /-- The class `1 ∈ H^0_{dR}` is a right unit for the graded product. -/
 theorem evenDeRham_mul_one (a : GradedMonoid (evenDeRhamCohomology B D)) : a * 1 = a := by
   obtain ⟨i, a⟩ := a
-  show GradedMonoid.mk (i + 0) (evenDeRhamMul B D a (deRhamOneClass B D :
+  change GradedMonoid.mk (i + 0) (evenDeRhamMul B D a (deRhamOneClass B D :
     evenDeRhamCohomology B D 0)) = GradedMonoid.mk i a
   refine evenDeRham_mk_eq B D (add_zero i) _ _ ?_
   rw [evenDeRhamMul, reindexDeRhamCohomology_reindexDeRhamCohomology]
@@ -144,7 +144,7 @@ theorem evenDeRham_mul_assoc (a b c : GradedMonoid (evenDeRhamCohomology B D)) :
   obtain ⟨i, a⟩ := a
   obtain ⟨j, b⟩ := b
   obtain ⟨k, c⟩ := c
-  show GradedMonoid.mk (i + j + k) (evenDeRhamMul B D (evenDeRhamMul B D a b) c) =
+  change GradedMonoid.mk (i + j + k) (evenDeRhamMul B D (evenDeRhamMul B D a b) c) =
     GradedMonoid.mk (i + (j + k)) (evenDeRhamMul B D a (evenDeRhamMul B D b c))
   refine evenDeRham_mk_eq B D (add_assoc i j k) _ _ ?_
   simp only [evenDeRhamMul]
@@ -156,7 +156,7 @@ theorem evenDeRham_mul_assoc (a b c : GradedMonoid (evenDeRhamCohomology B D)) :
 theorem evenDeRham_mul_comm (a b : GradedMonoid (evenDeRhamCohomology B D)) : a * b = b * a := by
   obtain ⟨i, a⟩ := a
   obtain ⟨j, b⟩ := b
-  show GradedMonoid.mk (i + j) (evenDeRhamMul B D a b) =
+  change GradedMonoid.mk (i + j) (evenDeRhamMul B D a b) =
     GradedMonoid.mk (j + i) (evenDeRhamMul B D b a)
   refine evenDeRham_mk_eq B D (add_comm i j) _ _ ?_
   simp only [evenDeRhamMul]

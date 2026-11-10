@@ -141,7 +141,7 @@ private abbrev pushforwardForget' {S T : Scheme.{u}} (k : T ⟶ S) :
 
 /-- The comparison of inverse image with forgetting the group structure is invertible. -/
 private lemma isIso_pullbackForget {S T : Scheme.{u}} (k : T ⟶ S) :
-    IsIso (pullbackForget.{u, v} k).natTrans :=
+    IsIso (pullbackForget.{u, v} k) :=
   have := preservesLeftKanExtensions_forget_smallEtaleBaseChange_univ.{u, v} k
   isIso_coefficientPullbackTwoSquare (smallEtaleBaseChange k) (smallEtaleTopology S)
     (smallEtaleTopology T) (forget AddCommGrpCat.{max (u + 1) v})
@@ -168,9 +168,9 @@ theorem isIso_etaleAbelianBaseChange_of_isIso_smallEtaleSetBaseChange_general (h
   have := isIso_pullbackForget.{u, v} g'
   have := isIso_pullbackForget.{u, v} g
   have : IsIso (pushforwardForget.{u, v} f) := by
-    show IsIso (𝟙 _); infer_instance
+    change IsIso (𝟙 _); infer_instance
   have : IsIso (pushforwardForget'.{u, v} f') := by
-    show IsIso (𝟙 _); infer_instance
+    change IsIso (𝟙 _); infer_instance
   refine Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (etaleAbelianInverseImageDirectImageAdj.{u, v} g')
     (etaleAbelianInverseImageDirectImageAdj.{u, v} g)
@@ -183,7 +183,7 @@ theorem isIso_etaleAbelianBaseChange_of_isIso_smallEtaleSetBaseChange_general (h
       ((smallEtalePushforwardComp' g' f (g' ≫ f) rfl (Type (max (u + 1) v))).hom ≫
         (smallEtalePushforwardComp' f' g (g' ≫ f) h (Type (max (u + 1) v))).inv)) ?_
   rw [mateEquiv_pullbackForget, mateEquiv_pullbackForget]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
   rfl
 

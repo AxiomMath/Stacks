@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.FullOnFr
 public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.GlobalGenerators
 public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.MemberLocalStep
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.QuasiCoherentPullback
 public import
@@ -21,8 +21,8 @@ public import
 /-!
 # Right exactness of restriction from the big fppf site to the small Zariski site
 
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseExtensionClosure.lean` carries out the
-whole of the source's argument for clause (4) of Descent, Lemma 0GNC on the big `τ`-site of a
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseExtensionClosure.lean` carries out
+the whole of the source's argument for clause (4) of Descent, Lemma 0GNC on the big `τ`-site of a
 scheme `S` except one step, which it carries as the hypothesis `hepi`: for a short exact sequence
 `C` of `𝒪`-modules on `(Sch/S)_τ`, that restriction `ε_* = baseRestrictModule` along the inclusion
 of the small Zariski site of `S` carries `C.g` to an epimorphism.  **This file discharges that

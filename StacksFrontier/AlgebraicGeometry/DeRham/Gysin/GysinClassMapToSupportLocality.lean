@@ -101,7 +101,7 @@ theorem map_fracTermTop_comp_restrictCplxIso_zero (e : Fin 0 → Γ(X, ⊤)) (F 
         (restrictCplxIso g e F).hom.f 0 =
       fracTermTop (fun j => g.appTop (e j)) ((Scheme.Modules.restrictFunctor g).obj F) := by
   rw [restrictCplxIso_hom_f_zero_eq_id]
-  show (Scheme.Modules.restrictFunctor g).map (𝟙 F) ≫ _ = 𝟙 _
+  change (Scheme.Modules.restrictFunctor g).map (𝟙 F) ≫ _ = 𝟙 _
   rw [(Scheme.Modules.restrictFunctor g).map_id, Category.id_comp]
 
 /-- **Base change of the fraction class of [Stacks, Tag 0G7Q] along an open immersion, for any
@@ -186,7 +186,7 @@ module.**  It is then the identity of the coefficient module, and the degree-`0`
 induced map of Čech complexes is the morphism itself. -/
 theorem fracTermTop_naturality_zero (f : Fin 0 → Γ(X, ⊤)) {F G : X.Modules} (φ : F ⟶ G) :
     fracTermTop f F ≫ (cplxMap f φ).f 0 = φ ≫ fracTermTop f G := by
-  show 𝟙 F ≫ φ = φ ≫ 𝟙 G
+  change 𝟙 F ≫ φ = φ ≫ 𝟙 G
   rw [Category.id_comp, Category.comp_id]
 
 /-- **The fraction class of [Stacks, Tag 0G7Q] is natural in the coefficient module, for any

@@ -78,7 +78,7 @@ theorem isIso_etaleAbelianInverseImageDirectImageAdj_unit_app
         (𝟙 ((smallEtaleBaseChange f).obj V)) =
         smallEtaleUnitApp.{u, 0} f ((sheafCompose S.smallEtaleTopology
           (forget AddCommGrpCat.{u + 1})).obj F) V := by
-      show _ ≫ ((smallEtaleInverseImage.{u, 0} f).obj _).obj.map (𝟙 _).op = _
+      change _ ≫ ((smallEtaleInverseImage.{u, 0} f).obj _).obj.map (𝟙 _).op = _
       rw [op_id, CategoryTheory.Functor.map_id, Category.comp_id]
     rw [hid] at h
     exact (ConcreteCategory.isIso_iff_bijective _).2
@@ -87,7 +87,7 @@ theorem isIso_etaleAbelianInverseImageDirectImageAdj_unit_app
     NatIso.isIso_of_isIso_app _
   have : IsIso ((sheafToPresheaf _ _).map
       ((etaleAbelianInverseImageDirectImageAdj.{u, 0} f).unit.app F)) := by
-    show IsIso ((etaleAbelianInverseImageDirectImageAdj.{u, 0} f).unit.app F).hom
+    change IsIso ((etaleAbelianInverseImageDirectImageAdj.{u, 0} f).unit.app F).hom
     infer_instance
   exact isIso_of_reflects_iso _ (sheafToPresheaf _ _)
 

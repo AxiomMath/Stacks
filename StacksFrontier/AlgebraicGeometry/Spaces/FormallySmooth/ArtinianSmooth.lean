@@ -73,7 +73,7 @@ theorem exists_iso_specQuotient_of_isFirstOrderThickening {T : Scheme.{u}} {R : 
     have hj' : j.appTop = (reduction J).appTop ≫ e.hom.appTop := by
       rw [he, Scheme.Hom.comp_appTop]
     have : IsIso e.hom.appTop := by
-      show IsIso (e.hom.app ⊤)
+      change IsIso (e.hom.app ⊤)
       infer_instance
     have hinj : Function.Injective e.hom.appTop.hom :=
       (ConcreteCategory.bijective_of_isIso e.hom.appTop).1
@@ -245,9 +245,9 @@ theorem exists_isLift_of_isSmooth_of_spec
     obtain ⟨r, rfl⟩ := hφT b
     simp only [RingHom.comp_apply]
     rw [hsqΓ, ← ResidueField.map_residue φT r]
-    show ι (algebraMap (ResidueField R) L (residue R r)) = _
+    change ι (algebraMap (ResidueField R) L (residue R r)) = _
     simp only [ι, RingHom.comp_apply, AlgHom.coe_toRingHom, AlgHom.commutes]
-    show ResidueField.map φK ((Stacks.ArtinianGaloisLift.residueFieldEquiv R K).symm
+    change ResidueField.map φK ((Stacks.ArtinianGaloisLift.residueFieldEquiv R K).symm
       (algebraMap _ K (residue R r))) = _
     rw [AlgEquiv.commutes, ResidueField.algebraMap_residue, ResidueField.map_residue]
   obtain ⟨g, hg⟩ := hlift TK πT ι hcompat
@@ -270,7 +270,7 @@ theorem exists_isLift_of_isSmooth_of_spec
       have := congrArg (fun φ => φ.app (op _) ℓ) hψ
       simpa using this
   obtain ⟨ℓ₀, hℓ₀, hℓ₀y⟩ := hψF TK T'K hTKaff hT'Kaff iK hiK g (π ≫ y) (by
-    show g ≫ ψ = iK ≫ π ≫ y
+    change g ≫ ψ = iK ≫ π ≫ y
     rw [← hfa, hg, hnatf, hxy, ← Category.assoc, pullback.condition, Category.assoc])
   change iK ≫ ℓ₀ = g at hℓ₀
   change ℓ₀ ≫ ψ = π ≫ y at hℓ₀y
@@ -311,7 +311,7 @@ theorem exists_isLift_of_isSmooth_of_spec
   · refine (bijective_galoisRestriction ρ B S hS hR hA s hGal
       (isAlgebraicSpace_yoneda B S hS W).isSheaf).1 (Subtype.ext ?_)
     simp only [galoisRestriction_coe]
-    show π ≫ f.app (op (galoisBaseObj B S hS hR s)) z = π ≫ y
+    change π ≫ f.app (op (galoisBaseObj B S hS hR s)) z = π ≫ y
     rw [← hnatf π z, hz', hzK₂]
 
 /-- **A smooth morphism to a representable presheaf lifts along a square-zero thickening of the
@@ -325,7 +325,7 @@ theorem exists_isLift_of_isSmooth_of_isSpecArtinianLocal
     ∃ z : X.obj (op T'), X.map i.op z = x ∧ f.app (op T') z = y := by
   obtain ⟨R, hRloc, hRart, ⟨e₀⟩⟩ := hT'
   have hR : B.Contains (Spec (.of R)) := by
-    show (Spec R).size < B.cutoff
+    change (Spec R).size < B.cutoff
     rw [← Scheme.size_congr e₀]
     exact T'.left.2
   let s : Spec (.of R) ⟶ S := e₀.inv ≫ B.inclusion.map T'.hom
@@ -333,7 +333,7 @@ theorem exists_isLift_of_isSmooth_of_isSpecArtinianLocal
     { hom := Over.homMk (ObjectProperty.homMk e₀.inv) rfl
       inv := Over.homMk (ObjectProperty.homMk e₀.hom) (by
         ext : 1
-        show e₀.hom ≫ e₀.inv ≫ B.inclusion.map T'.hom = B.inclusion.map T'.hom
+        change e₀.hom ≫ e₀.inv ≫ B.inclusion.map T'.hom = B.inclusion.map T'.hom
         rw [Iso.hom_inv_id_assoc])
       hom_inv_id := by ext : 2; exact e₀.inv_hom_id
       inv_hom_id := by ext : 2; exact e₀.hom_inv_id }
@@ -351,7 +351,7 @@ theorem exists_isLift_of_isSmooth_of_isSpecArtinianLocal
   · rw [← Functor.map_comp_apply, ← op_comp, hz₁]
   · rw [NatTrans.naturality_apply f Φ.inv.op z]
     have : f.app (op (galoisBaseObj B S hS hR s)) z = Φ.hom ≫ y := hz₂
-    show Φ.inv ≫ f.app (op (galoisBaseObj B S hS hR s)) z = y
+    change Φ.inv ≫ f.app (op (galoisBaseObj B S hS hR s)) z = y
     rw [this, Iso.inv_hom_id_assoc]
 
 /-- **Stacks 04AM, smooth implies formally smooth, along the spectra of Artinian local rings.** A

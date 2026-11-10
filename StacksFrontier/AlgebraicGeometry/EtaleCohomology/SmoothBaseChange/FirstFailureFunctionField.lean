@@ -13,8 +13,9 @@ Let `f : X ⟶ S` be a morphism of schemes and `n` an integer invertible on `S`,
 condition `BC(f, n, q₀)` of [Stacks, Tag 0F02]. [Stacks, Tag 0F1D] refines the diagram of
 [Stacks, Tag 0F08], whose bottom right corner is `Spec K` for an algebraically closed extension
 `K` of the function field `K(S')`, to one over `Spec K(S')` itself. This file collects the
-ingredients of that descent; the descent itself is in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.FirstFailureFunctionFieldDiagram`.
+ingredients of that descent; the descent itself is in the module
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.`
+`FirstFailureFunctionFieldDiagram`.
 
 ## Main definitions
 

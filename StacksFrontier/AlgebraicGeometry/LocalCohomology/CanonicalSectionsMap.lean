@@ -218,7 +218,7 @@ public lemma linearMap_comp_inclusion_pow_eq_zero
   rw [← hmap] at hz
   obtain ⟨y, hy, hzy⟩ := Submodule.mem_map.mp hz
   have heq : Submodule.inclusion hle z = y := Subtype.ext hzy.symm
-  show f (Submodule.inclusion hle z) = 0
+  change f (Submodule.inclusion hle z) = 0
   rw [heq]
   exact hker hy
 
@@ -300,7 +300,7 @@ public lemma ofOpSequence_map_comp
   let η : Functor.ofOpSequence f ⟶ (Functor.const ℕᵒᵖ).obj Y :=
     NatTrans.ofOpSequence (fun r => ι r) (by
       intro r
-      show (Functor.ofOpSequence f).map (homOfLE (Nat.le_add_right r 1)).op ≫
+      change (Functor.ofOpSequence f).map (homOfLE (Nat.le_add_right r 1)).op ≫
         ι r = ι (r + 1) ≫ 𝟙 Y
       rw [Functor.ofOpSequence_map_homOfLE_succ, Category.comp_id]
       exact hι r)

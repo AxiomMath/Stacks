@@ -356,6 +356,7 @@ def wedgeTwoAmbient (x y : crysDiffSections B.obj) :
       (op ⊤)) :=
   exteriorPower.ιMulti _ 2 ![x, y]
 
+omit [IsAffine B.obj.thickening.target.scheme] in
 /-- The sectionwise wedge of two sections of `Ω_{T/S,δ}` is `wedgeTwoAmbient`. -/
 theorem dpWedgePresheaf_eq_wedgeTwoAmbient (x y : crysDiffSections B.obj) :
     dpWedgePresheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom (op ⊤) x y =
@@ -373,7 +374,7 @@ theorem secondFormsInvPresheaf_wedgeTwoAmbient (x y : crysDiffSections B.obj) :
         ![affineCrysOmegaEquiv B.obj hVB hV x, affineCrysOmegaEquiv B.obj hVB hV y] := by
   refine (exteriorPower.alternatingMapLinearEquiv_apply_ιMulti
     (wedgeInvAlternating B hVB hV) ![x, y]).trans ?_
-  show exteriorPower.ιMulti _ 2 _ = _
+  change exteriorPower.ιMulti _ 2 _ = _
   congr 1
   funext i
   fin_cases i <;> rfl
@@ -386,6 +387,7 @@ abbrev secondFormsUnit
       (op ⊤))) : crysSecondFormSections B.obj :=
   (dpSecondExteriorToSheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom).app (op ⊤) w
 
+omit [IsAffine B.obj.thickening.target.scheme] in
 /-- The sheafification unit carries the sectionwise wedge to the exterior product of sections. -/
 theorem secondFormsUnit_wedgeTwoAmbient (x y : crysDiffSections B.obj) :
     secondFormsUnit B (wedgeTwoAmbient B x y) = crysWedgeSections B.obj x y := by
@@ -426,11 +428,11 @@ theorem secondFormsRoundTrip_wedgeTwoAmbient (v : Fin 2 → ambientForms B) :
       wedgeTwoAmbient B (v 0) (v 1) := by
     refine (secondFormsSections B).injective ?_
     rw [LinearEquiv.apply_symm_apply]
-    show exteriorPower.ιMulti (ambientRing B) 2 v = exteriorPower.ιMulti _ 2 ![v 0, v 1]
+    change exteriorPower.ιMulti (ambientRing B) 2 v = exteriorPower.ιMulti _ 2 ![v 0, v 1]
     congr 1
     funext i
     fin_cases i <;> rfl
-  show secondFormsMap B hVB hV (secondFormsInvPresheaf B hVB hV
+  change secondFormsMap B hVB hV (secondFormsInvPresheaf B hVB hV
       ((secondFormsSections B).symm (exteriorPower.ιMulti (ambientRing B) 2 v))) =
     secondFormsUnit B ((secondFormsSections B).symm (exteriorPower.ιMulti (ambientRing B) 2 v))
   rw [hv]
@@ -446,15 +448,16 @@ theorem secondFormsRoundTrip_wedgeTwoAmbient (v : Fin 2 → ambientForms B) :
 theorem secondFormsRoundTrip_smul (c : ambientRing B) (z : ↥(⋀[ambientRing B]^2 (ambientForms B))) :
     secondFormsRoundTrip B hVB hV (c • z) =
       ambientRingCast B c • secondFormsRoundTrip B hVB hV z := by
-  show secondFormsMap B hVB hV (secondFormsInvPresheaf B hVB hV
+  change secondFormsMap B hVB hV (secondFormsInvPresheaf B hVB hV
       ((secondFormsSections B).symm (c • z))) = _
   rw [LinearEquiv.map_smul, (secondFormsInvPresheaf B hVB hV).map_smul]
   exact (secondFormsMap B hVB hV).map_smul _ _
 
+omit [IsAffine B.obj.thickening.target.scheme] in
 /-- The unit, read on the exterior power, is semilinear. -/
 theorem secondFormsUnitHom_smul (c : ambientRing B) (z : ↥(⋀[ambientRing B]^2 (ambientForms B))) :
     secondFormsUnitHom B (c • z) = ambientRingCast B c • secondFormsUnitHom B z := by
-  show ((dpSecondExteriorToSheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom).app
+  change ((dpSecondExteriorToSheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom).app
     (op ⊤)).hom ((secondFormsSections B).symm (c • z)) = _
   rw [LinearEquiv.map_smul]
   exact ((dpSecondExteriorToSheaf B.obj.thickening.target S.S.scheme B.obj.toBase.hom).app
@@ -499,8 +502,7 @@ theorem secondFormsMap_secondFormsInvPresheaf
       crysSecondFormSections B.obj ↦ φ ((secondFormsSections B) w))
     (secondFormsRoundTrip_eq_secondFormsUnitHom B hVB hV)
   simp only [secondFormsRoundTrip, secondFormsUnitHom, AddMonoidHom.comp_apply,
-    AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, LinearEquiv.coe_toAddEquiv_symm,
-    LinearEquiv.symm_apply_apply] at h
+    AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass] at h
   exact h
 
 /-- **The inverse comparison is surjective**: every wedge of two forms of `Ω_{X/S}(B)` is the image
@@ -575,9 +577,9 @@ theorem secondFormsMap_descendedDifferential
       rw [LinearEquiv.map_smul, exteriorPower.oneEquiv_symm_apply]
       rfl
     rw [h1, descendedDifferential_apply, hrule 1 ![c, b]]
-    show secondFormsMap B hVB hV (exteriorPower.ιMulti _ 2 _) = _
+    change secondFormsMap B hVB hV (exteriorPower.ιMulti _ 2 _) = _
     rw [secondFormsMap_ιMulti, LinearEquiv.map_smul]
-    show wedgePair B hVB hV (GlobalCrystallineSituation.crysD S B.obj c)
+    change wedgePair B hVB hV (GlobalCrystallineSituation.crysD S B.obj c)
       (GlobalCrystallineSituation.crysD S B.obj b) = _
     refine Eq.trans ?_ (crysDeRham_smul B.obj c _).symm
     unfold wedgePair
@@ -643,10 +645,7 @@ theorem secondTensorEquiv_leftWedge
         ((leftWedge 1).flip ((exteriorPower.oneEquiv _ _).symm ω)) z) =
       wedgeRight F B ((affineCrysOmegaEquiv B.obj hVB hV).symm ω)
         ((tensorFlipAdd F B hVB hV).symm z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, map_zero]
-      exact (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul s η =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply, LinearMap.flip_apply, secondTensorEquiv_tmul,
         exteriorPower.oneEquiv_symm_apply, leftWedge_ιMulti, secondFormsMap_ιMulti,
@@ -674,7 +673,7 @@ theorem ringExtensionOne_tmul (s : F.val.obj (op B))
     ringExtensionOne hVB hV he (s ⊗ₜ[GlobalCrystallineSituation.crysFormRing S B.obj] ω) =
       extendedConnection he ((tensorFlipAdd F B hVB hV).symm
         (s ⊗ₜ[GlobalCrystallineSituation.crysFormRing S B.obj] ω)) := by
-  show secondTensorEquiv F hVB hV (RestrictScalars.addEquiv _ _ _
+  change secondTensorEquiv F hVB hV (RestrictScalars.addEquiv _ _ _
       ((ringExtension hVB hV he).toLinearMap 1
         (s ⊗ₜ[GlobalCrystallineSituation.crysFormRing S B.obj]
           (exteriorPower.oneEquiv _ _).symm ω))) = _
@@ -690,8 +689,7 @@ theorem ringExtensionOne_eq :
     ringExtensionOne hVB hV he =
       (extendedConnection he).comp (tensorFlipAdd F B hVB hV).symm.toAddMonoidHom := by
   refine AddMonoidHom.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul s ω => exact ringExtensionOne_tmul hVB hV he s ω
   | add x y hx hy => exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans
       (map_add _ x y).symm)
@@ -712,7 +710,7 @@ theorem ringConnection_isIntegrable
   have h := congrArg (fun φ : _ →+ _ ↦ φ (ringConnection hVB hV he s))
     (ringExtensionOne_eq hVB hV he)
   refine h.trans ?_
-  show extendedConnection he ((tensorFlipAdd F B hVB hV).symm
+  change extendedConnection he ((tensorFlipAdd F B hVB hV).symm
     (tensorFlipAdd F B hVB hV (connection he s))) = _
   rw [AddEquiv.symm_apply_apply, extendedConnection_connection he he₂ s]
   exact ((secondTensorEquiv F hVB hV).map_zero.symm.trans

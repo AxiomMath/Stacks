@@ -70,7 +70,7 @@ theorem smallToposMorphismTypeU_comp_square_eq (w : i ≫ f = f' ≫ g) :
           eqToHom (congrArg (fun k : X' ⟶ Y =>
             (spacesBaseChange B S hS k).functor.sheafPushforwardContinuous (Type u)
               (SpacesEtale.topology B S hS Y) (SpacesEtale.topology B S hS X')) w) ≫
-          (spacesBaseChange_pushforward_compTypeU B S hS f' g).inv))).natTrans :=
+          (spacesBaseChange_pushforward_compTypeU B S hS f' g).inv))) :=
   Stacks.CategoryTheory.conjugateRightTwoSquare_comp_eqToHom
     (smallEtaleToposEquivTypeU B S hS X) (smallEtaleToposEquivTypeU B S hS X')
     (smallEtaleToposEquivTypeU B S hS Y) (smallEtaleToposEquivTypeU B S hS Y')
@@ -96,7 +96,7 @@ theorem isIso_mateEquiv_symm_smallEtaleSetRestrictionAdjunction (sq : IsPullback
           (spacesBaseChange_pushforward_compTypeU B S hS f' g).inv))) :
     IsIso ((mateEquiv (smallEtaleSetRestrictionAdjunction B S hS i
           (isEtale_of_isPullback B S hS f' i g f sq.flip hg))
-        (smallEtaleSetRestrictionAdjunction B S hS g hg)).symm θ).natTrans := by
+        (smallEtaleSetRestrictionAdjunction B S hS g hg)).symm θ) := by
   subst hθ
   exact Stacks.CategoryTheory.isIso_mateEquiv_symm_of_isIso _ _ _ _ _
     (Stacks.CategoryTheory.isIso_mateEquiv_symm_conjugate
@@ -122,7 +122,7 @@ theorem isIso_smallEtaleSetBaseChangeMate (sq : IsPullback i f' f g)
       (TwoSquare.mk _ _ _ _ ((smallToposMorphismTypeU_comp B S hS i f).hom ≫
         eqToHom (congrArg (fun k : X' ⟶ Y => (smallToposMorphismTypeU B S hS k).pushforward)
           sq.w) ≫
-        (smallToposMorphismTypeU_comp B S hS f' g).inv))).natTrans :=
+        (smallToposMorphismTypeU_comp B S hS f' g).inv))) :=
   isIso_mateEquiv_symm_smallEtaleSetRestrictionAdjunction B S hS i f' f g sq hg _
     (smallToposMorphismTypeU_comp_square_eq B S hS i f' f g sq.w)
 

@@ -86,7 +86,7 @@ theorem finiteDimensional_artinianTangentSpace_schemeMorphismIsomorphismClasses
         (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf)).p) :=
       ⟨(isDeformationCategory_schemeMorphismDeformationCategoryProjection f pX pY
         hf).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf))
         (isDeformationCategory_schemeMorphismDeformationCategoryProjection f pX pY
           hf).predeformation.cofibered))) :=
@@ -104,7 +104,7 @@ theorem finiteDimensional_artinianTangentSpace_schemeMorphismIsomorphismClasses
     ⟨hD.predeformation⟩
   have hS := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
     (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf)) hD
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf))
       hD.predeformation.cofibered))) := ⟨hS⟩
   have := hT
@@ -123,7 +123,7 @@ theorem exists_hull_schemeMorphismIsomorphismClasses (hΛ : IsClassical Λ k)
       (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf))
       (isDeformationCategory_schemeMorphismDeformationCategoryProjection f pX pY
         hf).predeformation.cofibered
-    ∃ ξ : FormalObject (CategoryOfElements.π G),
+    ∃ ξ : FormalObject (Functor.Elements.π G),
       IsHull (categoryOfElements_projection_isCofibered G) ξ :=
   exists_hull_isomorphismClasses_of_isDeformationCategory hΛ
     (BasedCategory.ofFunctor (schemeMorphismDeformationCategoryProjection f pX pY hf))

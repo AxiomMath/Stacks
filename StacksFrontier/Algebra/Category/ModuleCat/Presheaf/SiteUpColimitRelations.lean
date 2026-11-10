@@ -170,7 +170,7 @@ lemma ringGerm_map {U : Cᵒᵖ} {c c' : CostructuredArrow u.op U} (h : c ⟶ c'
       = colimit.ι (pbRdiag u O U) (idx u c) := colimit.w (pbRdiag u O U) h.op.op
   have h2 : colimit.ι (pbRdiag u O U) (idx u c') (((pbRdiag u O U).map h.op.op) a)
       = colimit.ι (pbRdiag u O U) (idx u c) a := by rw [← hw]; rfl
-  show (pbRingIso u O U).hom (colimit.ι (pbRdiag u O U) (idx u c') ((O.map h.left) a)) = _
+  change (pbRingIso u O U).hom (colimit.ι (pbRdiag u O U) (idx u c') ((O.map h.left) a)) = _
   rw [show ((O.map h.left) a) = ((pbRdiag u O U).map h.op.op) a from rfl, h2]
   rfl
 
@@ -186,7 +186,7 @@ lemma abGerm_map {U : Cᵒᵖ} {c c' : CostructuredArrow u.op U} (h : c ⟶ c')
   have h2 : colimit.ι (pbMmod u O G U).presheaf (idx u c')
         (((pbMmod u O G U).presheaf.map h.op.op) m)
       = colimit.ι (pbMmod u O G U).presheaf (idx u c) m := by rw [← hw]; rfl
-  show (pbAbIso u O G U).hom
+  change (pbAbIso u O G U).hom
     (colimit.ι (pbMmod u O G U).presheaf (idx u c') (sectionRestrict O G h.left m)) = _
   rw [show (sectionRestrict O G h.left m)
       = ((pbMmod u O G U).presheaf.map h.op.op) m from rfl, h2]

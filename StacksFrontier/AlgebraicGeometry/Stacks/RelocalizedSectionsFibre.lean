@@ -148,7 +148,7 @@ theorem relocalizeSectionsEquiv_map {T T' V V' : Over U} (f : T' ⟶ T) (k : V' 
   dsimp only [relocalizeSectionsEquiv, Equiv.trans_apply, Equiv.subtypeEquiv]
   convert hh using 1
   · refine congrArg _ (Subtype.ext ?_)
-    show e'.hom ≫ (prod.map (yoneda.map f) (𝟙 _) ≫ s.val) = yoneda.map k ≫ (e.hom ≫ s.val)
+    change e'.hom ≫ (prod.map (yoneda.map f) (𝟙 _) ≫ s.val) = yoneda.map k ≫ (e.hom ≫ s.val)
     rw [← Category.assoc, hemap, Category.assoc]
   · rfl
 

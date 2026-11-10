@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Duality.CurveFamilyDualizing.TransitionEtaleCriterion
 public import StacksFrontier.AlgebraicGeometry.Duality.CurveFamilyDualizing.TransitionTransport
 public import
-  StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportFlatBaseChangeLocallyBounded
+StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportFlatBaseChangeLocallyBounded
 public import StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingComplexCompositeGlue
 
 /-!

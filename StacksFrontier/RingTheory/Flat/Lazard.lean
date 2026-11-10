@@ -169,7 +169,7 @@ theorem Module.DirectLimit.nonempty_linearEquiv_of_cofinal {R : Type u} [CommRin
     obtain ⟨c', hc'P, hdc'⟩ := hcof d
     have hcc' : c ≤ (⟨c', hc'P⟩ : {i : ι // P i}) := hcd.trans hdc'
     have hkey : fsub c ⟨c', hc'P⟩ hcc' v = 0 := by
-      show f c.val c' hcc' v = 0
+      change f c.val c' hcc' v = 0
       rw [← DirectedSystem.map_map (F := G) (f := fun i j h => f i j h) hcd hdc' v, hfv,
         map_zero]
     rw [← Module.DirectLimit.of_f (hij := hcc'), hkey, map_zero]
@@ -395,7 +395,7 @@ theorem Finsupp.supported_linearMap_ext {α : Type*} (s : Set α) {P : Type*} [A
         = ⟨Finsupp.single (z : α) 1, Finsupp.single_mem_supported R 1 z.property⟩ := by
       apply Subtype.ext
       rw [he, Finsupp.supportedEquivFinsupp_symm_single]
-    show F (e.symm (Finsupp.single z 1)) = G (e.symm (Finsupp.single z 1))
+    change F (e.symm (Finsupp.single z 1)) = G (e.symm (Finsupp.single z 1))
     rw [hz1]; exact h (z : α) z.property
   apply LinearMap.ext
   intro v
@@ -591,7 +591,7 @@ theorem LazIdx.exists_free_finite_le [Module.Flat R M] :
       congr 1
       apply Subtype.ext
       rw [hBmap'', LinearMap.codRestrict_apply]
-      show Finsupp.single (coord t) 1 = (Bmap (Finsupp.single t 1) : (M × ℕ) →₀ R)
+      change Finsupp.single (coord t) 1 = (Bmap (Finsupp.single t 1) : (M × ℕ) →₀ R)
       rw [hBmap, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single]
     -- ψ ∘ φ = id  (hence ψ surjective)
     have hψφ : ψ.comp φ = LinearMap.id := by
@@ -607,7 +607,7 @@ theorem LazIdx.exists_free_finite_le [Module.Flat R M] :
         rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq]
         rw [LazIdx.sub, Submodule.mem_comap, map_sub, Submodule.subtype_apply,
           Submodule.subtype_apply, hBmap'', LinearMap.codRestrict_apply]
-        show (Bmap (w z) - Finsupp.single z 1 : (M × ℕ) →₀ R) ∈ N'
+        change (Bmap (w z) - Finsupp.single z 1 : (M × ℕ) →₀ R) ∈ N'
         -- goal: Bmap (w z) - single z 1 ∈ N'.  Suffices: single z 1 - Bmap (w z) ∈ N'.
         rw [← neg_sub, Submodule.neg_mem_iff]
         by_cases hzc : ∃ t, coord t = z

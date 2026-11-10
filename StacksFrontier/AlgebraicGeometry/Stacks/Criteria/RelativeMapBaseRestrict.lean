@@ -310,7 +310,7 @@ theorem relativeSection_relocalizeRestrict (hι : ι ≫ U.hom = U'.hom)
     sectionOfObj_of_hom_functor_eq _ _
       (relativeSpaceRestrictEquivalence_hom_functor F y e ι hι h𝒳 h𝒴 hy) _ rfl rfl
   refine hstep.trans ?_
-  show sectionOfObj e ((relativeFibreProductRestrict F y ι hι).obj
+  change sectionOfObj e ((relativeFibreProductRestrict F y ι hι).obj
       (relativeObj F (Over.map ι ⋙ y) Z x hx α hα)) rfl =
     sectionOfObj e (relativeObj F y ((Over.map ι).obj Z) x hx' α hα') rfl
   refine sectionOfObj_eq_of_hom e
@@ -320,10 +320,10 @@ theorem relativeSection_relocalizeRestrict (hι : ι ≫ U.hom = U'.hom)
     (TwoFibreProductOver.isoMkVertical
       (U := (Over.map U.hom).obj ((Over.map ι).obj Z))
       (Iso.refl ((Over.map ι).obj Z)) (Iso.refl x) (IsHomLift.id rfl) (IsHomLift.id hx') ?_).hom ?_
-  · show y.map (𝟙 ((Over.map ι).obj Z)) ≫ α.hom = α.hom ≫ F.toFunctor.map (𝟙 x)
+  · change y.map (𝟙 ((Over.map ι).obj Z)) ≫ α.hom = α.hom ≫ F.toFunctor.map (𝟙 x)
     simp
   · refine CategoryTheory.IsHomLift.of_fac' _ (𝟙 ((Over.map ι).obj Z)) _ rfl rfl ?_
-    show 𝟙 ((Over.map ι).obj Z) =
+    change 𝟙 ((Over.map ι).obj Z) =
       eqToHom rfl ≫ 𝟙 ((Over.map ι).obj Z) ≫ eqToHom rfl
     simp
 

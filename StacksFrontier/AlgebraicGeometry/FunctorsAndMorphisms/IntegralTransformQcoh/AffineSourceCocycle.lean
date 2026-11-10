@@ -632,7 +632,7 @@ theorem affineSourceKernelSourceChangeIso_comp
       (affineSourceKernel R X Y F hF f),
     sourceChangeIso_hom_comp_map_affineSourceKernelSourceChangeIso,
     whiskerLeft_affineSourceKernelTriangle_assoc,
-    Iso.map_inv_hom_id_assoc, Iso.hom_inv_id_assoc]
+    Iso.inv_hom_id_map_assoc, Iso.hom_inv_id_assoc]
   refine Eq.trans (congrArg (fun z =>
     Functor.whiskerLeft (quasicoherentPushforward (Over.Hom.left (h ≫ g)))
           (affineSourceKernelIso R X Y F hF f).inv ≫

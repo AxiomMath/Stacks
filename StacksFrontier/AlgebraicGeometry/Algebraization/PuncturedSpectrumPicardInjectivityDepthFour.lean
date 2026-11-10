@@ -152,7 +152,7 @@ theorem eq_zero_of_schemePullbackClass_eq_zero_of_three_le_depth_quotient (A : T
     isInvertibleTriple_coherentTripleOfTrivialRestriction A f htf L e'
   have h1 := hT.invertible_F
   have h2 := hT.invertible_F₀
-  have hchi : T.eulerCharacteristic hf hreg = 0 :=
+  have hchi : T.eulerCharacteristic = 0 :=
     eulerCharacteristic_eq_zero_of_three_le_depth_closedFibreSections A f hf hreg T hdepth
       (finite_closedFibreSectionsModule A f hf T)
       (three_le_depth_closedFibreSectionsModule A f hf T hb)
@@ -180,7 +180,7 @@ theorem picRestrictionInjective_of_three_le_depth_quotient (A : Type u) [CommRin
         (puncturedClosedFibreRestriction A f).toLRSHom.toShHom x =
       Stacks.Picard.pullbackClass
         (puncturedClosedFibreRestriction A f).toLRSHom.toShHom y := hxy
-    show Stacks.Picard.pullbackClass
+    change Stacks.Picard.pullbackClass
       (puncturedClosedFibreRestriction A f).toLRSHom.toShHom (x - y) = 0
     rw [h, hxy', sub_self]
   exact sub_eq_zero.1

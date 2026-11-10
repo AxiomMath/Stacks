@@ -90,9 +90,9 @@ private theorem localizationAway_preserves_seminormality
   let uf : Sˣ := (IsLocalization.Away.algebraMap_isUnit f).unit
   let z : S := algebraMap R S a * ↑(uf⁻¹ ^ (n + k))
   have hzden : z * algebraMap R S (f ^ (n + k)) = algebraMap R S a := by
-    show (algebraMap R S a * ↑(uf⁻¹ ^ (n + k))) * _ = _
+    change (algebraMap R S a * ↑(uf⁻¹ ^ (n + k))) * _ = _
     rw [map_pow]
-    show (algebraMap R S a * ↑(uf⁻¹ ^ (n + k))) * ↑(uf ^ (n + k)) = _
+    change (algebraMap R S a * ↑(uf⁻¹ ^ (n + k))) * ↑(uf ^ (n + k)) = _
     rw [mul_assoc]
     norm_cast
     simp
@@ -209,7 +209,7 @@ private theorem localizationAway_preserves_absoluteWeakNormality
     let B : R := b * q * sa
     have hab : (A * (w : R)) ^ 3 = (B * (w : R) ^ 2) ^ 2 := by
       dsimp [A, B, w] at ⊢
-      show (a * (q : R) * (sb : R) * ((q : R) * (sa : R) * (sb : R))) ^ 3 =
+      change (a * (q : R) * (sb : R) * ((q : R) * (sa : R) * (sb : R))) ^ 3 =
         (b * (q : R) * (sa : R) * ((q : R) * (sa : R) * (sb : R)) ^ 2) ^ 2
       linear_combination (q : R) ^ 5 * (sb : R) ^ 4 * (sa : R) ^ 3 * hq
     obtain ⟨c, hc, hc_unique⟩ := hR.1 _ _ hab
@@ -222,7 +222,7 @@ private theorem localizationAway_preserves_absoluteWeakNormality
         rw [← hc.1]
         dsimp [A, w]
         apply congr_arg (algebraMap R S)
-        show ((q : R) * (sa : R) * (sb : R)) ^ 2 * a =
+        change ((q : R) * (sa : R) * (sb : R)) ^ 2 * a =
           (sa : R) * ((a * (q : R) * (sb : R)) * ((q : R) * (sa : R) * (sb : R)))
         ring
       · rw [← IsLocalization.mk'_pow, IsLocalization.mk'_eq_iff_eq]
@@ -230,7 +230,7 @@ private theorem localizationAway_preserves_absoluteWeakNormality
         rw [← hc.2]
         dsimp [B, w]
         apply congr_arg (algebraMap R S)
-        show ((q : R) * (sa : R) * (sb : R)) ^ 3 * b =
+        change ((q : R) * (sa : R) * (sb : R)) ^ 3 * b =
           (sb : R) * ((b * (q : R) * (sa : R)) * ((q : R) * (sa : R) * (sb : R)) ^ 2)
         ring
     refine ⟨z, hz, ?_⟩
@@ -247,12 +247,12 @@ private theorem localizationAway_preserves_absoluteWeakNormality
       let q : Submonoid.powers f := q₂ * q₃
       have hCD₂ : (C * (q : R)) ^ 2 = (D * (q : R)) ^ 2 := by
         dsimp [C, D, q]
-        show (c * (sc : R) * ((q₂ : R) * (q₃ : R))) ^ 2 =
+        change (c * (sc : R) * ((q₂ : R) * (q₃ : R))) ^ 2 =
           (c' * (w : R) * ((q₂ : R) * (q₃ : R))) ^ 2
         linear_combination (q₂ : R) * (q₃ : R) ^ 2 * hq₂
       have hCD₃ : (C * (q : R)) ^ 3 = (D * (q : R)) ^ 3 := by
         dsimp [C, D, q]
-        show (c * (sc : R) * ((q₂ : R) * (q₃ : R))) ^ 3 =
+        change (c * (sc : R) * ((q₂ : R) * (q₃ : R))) ^ 3 =
           (c' * (w : R) * ((q₂ : R) * (q₃ : R))) ^ 3
         linear_combination (q₂ : R) ^ 3 * (q₃ : R) ^ 2 * hq₃
       have hpow : ((C * (q : R)) ^ 2) ^ 3 = ((C * (q : R)) ^ 3) ^ 2 := by ring
@@ -298,7 +298,7 @@ private theorem localizationAway_preserves_absoluteWeakNormality
         rw [← hc.1]
         dsimp [A, w]
         apply congr_arg (algebraMap R S)
-        show ((q₀ : R) * (sa : R) * (sb : R)) ^ p * a =
+        change ((q₀ : R) * (sa : R) * (sb : R)) ^ p * a =
           (sa : R) * ((a * (q₀ : R) * (sb : R)) *
             ((q₀ : R) * (sa : R) * (sb : R)) ^ (p - 1))
         simp only [mul_pow]

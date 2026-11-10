@@ -86,7 +86,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_forall_isAf
     SheafOfModules.instAbelian.{u, u, u, u + 1}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   have hgr : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

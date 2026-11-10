@@ -386,8 +386,7 @@ private lemma natCast_max_enat (a b : ℕ) : ((max a b : ℕ) : ℕ∞) = max (a
 
 include hGE hres hP hmono in
 private lemma boundedCohomologicalDimension [PreservesFiniteLimits F] :
-    Stacks.BoundedCohomologicalDimension.BoundedCohomologicalDimension (fun X => (dimension RF N hv
-      X : ℕ∞)) := by
+    Stacks.BoundedCohomologicalDimension (fun X => (dimension RF N hv X : ℕ∞)) := by
   constructor
   · intro X
     obtain ⟨Y, i, hi, hY⟩ := hmono X
@@ -433,8 +432,7 @@ private lemma cyclesSequence_shortExact (K : CochainComplex A ℤ) (i : ℤ)
 /-- Along the exact tail of a complex `K` of objects with `d = 0`, the function `d` drops by at
 least one at each step of the cycles. -/
 private lemma dimension_cycles_le
-    (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension.BoundedCohomologicalDimension (fun X =>
-      (d X : ℕ∞)))
+    (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension (fun X => (d X : ℕ∞)))
     (K : CochainComplex A ℤ) (hK : ∀ i, d (K.X i) = 0)
     (a : ℤ) (hex : ∀ i : ℤ, a < i → K.ExactAt i) :
     ∀ m : ℕ, d (K.cycles (a + m)) ≤ d (K.cycles a) - m := by
@@ -454,8 +452,7 @@ private lemma dimension_cycles_le
 /-- If `d ≤ N` and `K` is a complex of objects with `d = 0` that is exact in degrees `> a`, then
 `d(Z^{a + N}(K)) = 0`. -/
 private lemma dimension_cycles_eq_zero
-    (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension.BoundedCohomologicalDimension (fun X =>
-      (d X : ℕ∞)))
+    (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension (fun X => (d X : ℕ∞)))
     (N : ℕ) (hN : ∀ X, d X ≤ N)
     (K : CochainComplex A ℤ) (hK : ∀ i, d (K.X i) = 0)
     (a : ℤ) (hex : ∀ i : ℤ, a < i → K.ExactAt i) : d (K.cycles (a + N)) = 0 := by
@@ -533,8 +530,7 @@ section BoundedPreservation
 
 variable (P : ObjectProperty A)
   (hP : ∀ X : A, P X ↔ IsIso (α.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X)))
-  (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension.BoundedCohomologicalDimension (fun X => (d
-    X : ℕ∞)))
+  (d : A → ℕ) (hd : Stacks.BoundedCohomologicalDimension (fun X => (d X : ℕ∞)))
   (hdP : ∀ X, d X = 0 ↔ P X) (N : ℕ) (hN : ∀ X, d X ≤ N)
 
 omit [RF.CommShift ℤ] [RF.IsTriangulated] in
@@ -912,7 +908,7 @@ omit [HasDerivedCategory A] in
 every complex. -/
 private lemma exists_quasiIso_of_bounded_dimension
     (d : A → ℕ)
-    (hd : Stacks.BoundedCohomologicalDimension.BoundedCohomologicalDimension (fun X ↦ (d X : ℕ∞)))
+    (hd : Stacks.BoundedCohomologicalDimension (fun X ↦ (d X : ℕ∞)))
     (N : ℕ) (hN : ∀ X, d X ≤ N) (K : CochainComplex A ℤ) :
     ∃ (L : CochainComplex A ℤ) (f : K ⟶ L), QuasiIso f ∧ ∀ i : ℤ, d (L.X i) = 0 := by
   have hK : Stacks.BoundedCohomologicalDimension.TendsToNegInfty (fun X ↦ (d X : ℕ∞)) K := by
@@ -1197,7 +1193,8 @@ Assume that every object of `𝒜` is a subobject of an object of `P`, and that
    and `RF` shifts the range of degrees in which `E` lives by at most `n - 1` on the right.
 
 Right acyclicity is the source's notion (Stacks 0157(3) with 05SX); invertibility of the unit of
-`RF⁺` at `X[0]` would be a weaker condition for a non-pointwise Kan extension (see the module documentation). -/
+`RF⁺` at `X[0]` would be a weaker condition for a non-pointwise Kan extension (see the module
+documentation). -/
 @[stacks 07K7,
   sga "4½ Etat_0 3.1.9" "(2) right, σ=F-acyclics",
   sga "4½ Etat_0 4.2.3.2" "right case: Rf on D(A)"]

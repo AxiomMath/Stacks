@@ -228,13 +228,11 @@ theorem bijective_tensorBaseRingHom
     ⟨tensorBaseRingHom iC' iC iM' iM e.symm eC.symm
       (tensorBaseRing_hC_symm iC iC' e eC hC) (tensorBaseRing_hM_symm iM iM' e hM), ?_, ?_⟩
   · intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul c m => rw [tensorBaseRingHom_tmul, tensorBaseRingHom_tmul, eC.symm_apply_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   · intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul c m => rw [tensorBaseRingHom_tmul, tensorBaseRingHom_tmul, eC.apply_symm_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -301,8 +299,7 @@ private theorem tensor_apply_eq_of_tmul {R M N P F G : Type*} [CommSemiring R] [
     [FunLike F (M ⊗[R] N) P] [AddMonoidHomClass F (M ⊗[R] N) P]
     [FunLike G (M ⊗[R] N) P] [AddMonoidHomClass G (M ⊗[R] N) P] {f : F} {g : G}
     (h : ∀ (c : M) (m : N), f (c ⊗ₜ[R] m) = g (c ⊗ₜ[R] m)) (x : M ⊗[R] N) : f x = g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul c m => exact h c m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -458,8 +455,7 @@ theorem affineSectionsCompareFun_smul
     (x : TensorProduct ↥A ↥X.obj (affineBaseSections B A f hA F)) :
     affineSectionsCompareFun B A f hA F X (c • x) =
       c • affineSectionsCompareFun B A f hA F X x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul d m =>
       rw [TensorProduct.smul_tmul', affineSectionsCompareFun_tmul,
         affineSectionsCompareFun_tmul, smul_eq_mul, mul_smul]
@@ -508,8 +504,7 @@ noncomputable def affineSectionsCompare :
   app X := affineSectionsCompareApp B A f hA F X
   naturality {X Y} g := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul c m =>
         refine Eq.symm (Eq.trans (PresheafOfModules.map_smul
           ((affineSectionsFunctor.{u, u} B A f).obj F) g c

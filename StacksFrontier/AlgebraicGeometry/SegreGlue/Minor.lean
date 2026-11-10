@@ -92,7 +92,7 @@ public theorem genSub_mul_genSub_comm (i i' : X) (j k : Y) :
       ((a * b : segre R X Y) : MvPolynomial (X ⊕ Y) R) = (a : MvPolynomial (X ⊕ Y) R) * b :=
     fun _ _ => rfl
   rw [hmul, hmul]
-  show gen R X Y (i, j) * gen R X Y (i', k) = gen R X Y (i, k) * gen R X Y (i', j)
+  change gen R X Y (i, j) * gen R X Y (i', k) = gen R X Y (i, k) * gen R X Y (i', j)
   simp only [gen_eq]
   ring
 

@@ -206,8 +206,8 @@ theorem homogeneousIdealSheaf_ideal_basicOpen_eq_span_range (hf : f ∈ 𝒮 d) 
     let t : ι → 𝒮 (n • d) := fun j => DirectSum.decompose 𝒮 (c j * v j) (n • d)
     have hbt : b = ∑ j, t j := by
       apply Subtype.ext
-      rw [AddSubmonoidClass.coe_finset_sum, (DirectSum.decompose_of_mem_same 𝒮 b.2).symm, ← hc,
-        DirectSum.decompose_sum, DFinsupp.finset_sum_apply, AddSubmonoidClass.coe_finset_sum]
+      rw [AddSubmonoidClass.coe_finsetSum, (DirectSum.decompose_of_mem_same 𝒮 b.2).symm, ← hc,
+        DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
     rw [hbt, chartFraction_sum]
     refine Ideal.sum_mem _ fun j _ => ?_
     by_cases hle : m j ≤ n

@@ -49,8 +49,9 @@ to make the source comparison an isomorphism. The complex-level composition morp
 there is `AlgebraicGeometry.RingedSite.compositionMap`, which is the declaration carrying
 Stacks 0A91 and 0A8N.
 
-`CategoryTheory.sheafCompose` is made `implicit_reducible` for this file, as in
-`StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso`
+`CategoryTheory.sheafCompose` is made `implicit_reducible` for this file, as in the module
+`InternalHomComplexQuasiIso` of
+`StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection`,
 where `ringedSite` is defined. `_root_.SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} Rc)` is
 `SheafOfModules (Tensor.ringSheaf.{u, u, u} Rc)`, i.e. modules over
 `(sheafCompose _ (forget₂ CommRingCat RingCat)).obj Rc`, whereas

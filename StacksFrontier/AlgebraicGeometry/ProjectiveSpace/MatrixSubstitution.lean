@@ -177,11 +177,11 @@ theorem polyGradedMap_comp_matrixSubstGradedHom (φ : R →+* S)
   refine GradedRingHom.ext fun p => ?_
   induction p using MvPolynomial.induction_on with
   | C r =>
-    show MvPolynomial.map φ (matrixSubstGradedHom R n M (MvPolynomial.C r)) =
+    change MvPolynomial.map φ (matrixSubstGradedHom R n M (MvPolynomial.C r)) =
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ (MvPolynomial.C r))
     rw [matrixSubstGradedHom_C, MvPolynomial.map_C, matrixSubstGradedHom_C]
   | add p q hp hq =>
-    show MvPolynomial.map φ (matrixSubstGradedHom R n M (p + q)) =
+    change MvPolynomial.map φ (matrixSubstGradedHom R n M (p + q)) =
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ (p + q))
     change MvPolynomial.map φ (matrixSubstGradedHom R n M p) =
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ p) at hp
@@ -189,7 +189,7 @@ theorem polyGradedMap_comp_matrixSubstGradedHom (φ : R →+* S)
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ q) at hq
     rw [map_add, map_add, map_add, map_add, hp, hq]
   | mul_X p i hp =>
-    show MvPolynomial.map φ (matrixSubstGradedHom R n M (p * MvPolynomial.X i)) =
+    change MvPolynomial.map φ (matrixSubstGradedHom R n M (p * MvPolynomial.X i)) =
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ (p * MvPolynomial.X i))
     change MvPolynomial.map φ (matrixSubstGradedHom R n M p) =
       matrixSubstGradedHom S n (M.map φ) (MvPolynomial.map φ p) at hp

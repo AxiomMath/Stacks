@@ -48,7 +48,8 @@ bivariant class of degree `-r` for `f`.
 
 `Stacks.Chow.flatPullbackBivariantCap`, `Stacks.Chow.flatPullbackBivariantCap_heq` and
 `Stacks.Chow.flatPullbackBivariantCap_flat_naturality` come from
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullback`. The descent hypothesis of Stacks 02S1
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullback`. The descent hypothesis of Stacks
+02S1
 is bundled here as `Stacks.Chow.FlatPullbackDescends C` and quantified inline there; these are the
 same proposition — `Stacks.Chow.FlatPullbackDescends` is definitionally the inline hypothesis — so
 the imported declarations serve both, and no second construction of the cap operation is made.

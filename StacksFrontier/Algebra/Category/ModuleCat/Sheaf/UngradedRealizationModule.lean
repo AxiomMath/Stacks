@@ -244,7 +244,7 @@ lemma incl_smul_incl {X : Cᵒᵖ} (i n : ι) (y : (P i).obj X) (x : (Q n).obj X
     A.incl i y • M.incl n x = M.incl (n + i) (M.smul n i X x y) := by
   let _gr := A.gring X
   let _gm := M.gmodule (A := A) (Q := Q) X
-  show (DirectSum.of (fun k => ((P k).obj X : Type w)) i y) •
+  change (DirectSum.of (fun k => ((P k).obj X : Type w)) i y) •
       (DirectSum.of (fun k => ((Q k).obj X : Type w)) n x) = _
   rw [DirectSum.Gmodule.of_smul_of]
   rfl
@@ -331,7 +331,7 @@ omit [A.IsCommutative] in
 @[simp]
 lemma descAddHom_incl (d : M.TotalDescData T) (X : Cᵒᵖ) (n : ι) (x : (Q n).obj X) :
     M.descAddHom d X (M.incl n x) = d.app n X x := by
-  show DirectSum.toAddMonoid (fun k => d.app k X) (DirectSum.of _ n x) = _
+  change DirectSum.toAddMonoid (fun k => d.app k X) (DirectSum.of _ n x) = _
   rw [DirectSum.toAddMonoid_of]
 
 /-- The map `descAddHom` is linear over the ungraded realization of the algebra. -/
@@ -456,7 +456,7 @@ variable {C : Type u} [Category.{v} C] {R : Cᵒᵖ ⥤ RingCat.{w}} {ι : Type}
 structure map of the ungraded realization. -/
 lemma GradedModule.structureMap_smul {X : Cᵒᵖ} (r : R.obj X) (m : M.Total X) :
     A.structureMap X r • m = r • m := by
-  show (r • (1 : A.Total X)) • m = r • m
+  change (r • (1 : A.Total X)) • m = r • m
   rw [M.smul_smul_eq, one_smul]
 
 end StructureMap

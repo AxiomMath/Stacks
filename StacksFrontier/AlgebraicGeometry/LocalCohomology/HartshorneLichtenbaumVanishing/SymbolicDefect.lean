@@ -172,7 +172,7 @@ theorem symbolicDefect_isArtinian [IsNoetherianRing A] [IsLocalRing A]
     rw [symbolicDefect_support_eq_maximal p n hn hp q.1 q.2,
       symbolicDefect_support_eq_maximal p n hn hp r.1 r.2]
   have hdim : Module.supportDim A M ≤ 0 := by
-    show Order.krullDim (Module.support A M) ≤ 0
+    change Order.krullDim (Module.support A M) ≤ 0
     rw [Order.krullDim_nonpos_iff_forall_isMax]
     exact fun q r _ ↦ (hsub.elim r q).le
   have hquotdim : Ring.KrullDimLE 0 (A ⧸ Module.annihilator A M) :=

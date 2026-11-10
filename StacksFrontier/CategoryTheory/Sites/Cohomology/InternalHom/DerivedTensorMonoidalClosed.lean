@@ -98,7 +98,7 @@ theorem uncurry_derivedTensorMonoidalClosed
     MonoidalClosed.uncurry f = (β_ Y A).inv ≫
       ((Stacks.SheafOfModules.derivedTensorProductFunctor X).map f).app A ≫
         derivedSheafHomCounit X A Z := by
-  show (((derivedTensorSheafHomAdjunction X A).ofNatIsoLeft
+  change (((derivedTensorSheafHomAdjunction X A).ofNatIsoLeft
     ((derivedTensorFlipIso X).app A)).homEquiv Y Z).symm f = _
   refine (Adjunction.homEquiv_ofNatIsoLeft_symm_apply _ _ f).trans ?_
   refine whisker_eq _ (((derivedTensorSheafHomAdjunction X A).homEquiv_counit (g := f)).trans ?_)

@@ -91,7 +91,7 @@ theorem nonempty_homologyFunctor_derivedPushforward_iso (f : X ⟶ Y) (F : X.Mod
         ((derivedPushforward f.toLRSHom.toShHom).obj ((singleFunctor X.Modules 0).obj F)) ≅
       ((Scheme.Modules.pushforward f).rightDerivedPlus i).obj F) := by
   have hE : ((DerivedCategory.Plus.singleFunctor X.Modules 0).obj F).obj.IsGE 0 := by
-    show ((singleFunctor X.Modules 0).obj F).IsGE 0
+    change ((singleFunctor X.Modules 0).obj F).IsGE 0
     infer_instance
   obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus
     (modulePushforward f.toLRSHom.toShHom) (derivedPushforward f.toLRSHom.toShHom)

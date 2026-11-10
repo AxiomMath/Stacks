@@ -86,7 +86,7 @@ theorem restrictScalars_mapDerivedCategory_map_smul {B C : Type u} [CommRing B] 
   let : Algebra B C := g.toAlgebra
   let G := ModuleCat.restrictScalars.{u} g
   have : G.Linear B := restrictScalars_linear g
-  show G.mapDerivedCategory.map (b • φ) = b • G.mapDerivedCategory.map φ
+  change G.mapDerivedCategory.map (b • φ) = b • G.mapDerivedCategory.map φ
   rw [Functor.map_smul]
 
 end Linearity

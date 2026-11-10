@@ -158,7 +158,7 @@ theorem full_geometricFibreFunctor_spaceModuliComparison
   have : IsIso c := Functor.isIso_of_fiber_isGroupoid hgpd _ hc
   let cA : 𝒳.val.val.p.verticalAut (h.hom.hom.obj a₂.1) :=
     ⟨Aut.of (asIso c), (Functor.mem_verticalAut_iff _ _).2 (by
-      show 𝒳.val.val.p.map c = _
+      change 𝒳.val.val.p.map c = _
       rw [IsHomLift.fac' 𝒳.val.val.p (𝟙 V) c]
       simp)⟩
   obtain ⟨γ, hγ⟩ := hAut a₂.1 cA
@@ -172,7 +172,7 @@ theorem full_geometricFibreFunctor_spaceModuliComparison
   have hα : 𝒳'.val.val.p.IsHomLift (𝟙 V) α :=
     @IsHomLift.comp_of_lift_id _ _ _ _ 𝒳'.val.val.p V _ _ _ β (γ : Aut a₂.1).asIso.hom hβ hγV
   have hαb : h.hom.hom.map α = Φ.1.b := by
-    show h.hom.hom.map (β ≫ (γ : Aut a₂.1).asIso.hom) = Φ.1.b
+    change h.hom.hom.map (β ≫ (γ : Aut a₂.1).asIso.hom) = Φ.1.b
     rw [Functor.map_comp, hγc]
     exact IsIso.hom_inv_id_assoc (h.hom.hom.map β) Φ.1.b
   have hM'set : (fibredCategory B S hS M'.obj).val.p.IsFiberedInSetoids :=
@@ -233,7 +233,7 @@ theorem essSurj_geometricFibreFunctor_spaceModuliComparison
       f.hom.hom.w (eqToHom hy' ≫ 𝟙 Q.base) (eqToHom hxy) β ha hb
   have hm : (spaceModuliBaseChange B S hS f g).pt.val.val.p.IsHomLift (𝟙 Q.base) m :=
     IsHomLift.of_fac _ _ _ hy' rfl (by
-      show 𝟙 Q.base = eqToHom hy'.symm ≫ (eqToHom hy' ≫ 𝟙 Q.base) ≫ eqToHom rfl
+      change 𝟙 Q.base = eqToHom hy'.symm ≫ (eqToHom hy' ≫ 𝟙 Q.base) ≫ eqToHom rfl
       simp)
   let mF : (geometricFibreFunctor B S hS (spaceModuliComparison B S hS h f f' g hcomm)
       Q.base).obj ⟨y', hy'⟩ ⟶ ⟨Q, hQ⟩ := ⟨m, hm⟩

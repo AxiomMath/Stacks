@@ -332,7 +332,7 @@ theorem exists_iso_affineOver (W : BigFppfOver B S hS)
   let A : Type u := Γ(X, ⊤)
   let e : X ≅ Spec (CommRingCat.of A) := X.isoSpec
   have hA : B.Contains (Spec (CommRingCat.of A)) := by
-    show (Spec (CommRingCat.of A)).size < B.cutoff
+    change (Spec (CommRingCat.of A)).size < B.cutoff
     rw [← Scheme.size_congr e]
     exact W.left.property
   let str : Spec (CommRingCat.of A) ⟶ S := e.inv ≫ B.inclusion.map W.hom
@@ -392,7 +392,7 @@ theorem nonempty_completionSubspaceIsoCompletionAlongIdeal (W : BigFppfOver B S 
       (isAlgebraicSpace_yoneda B S hS W)
       (isAlgebraicSpace_yoneda B S hS (affineOver B S hS hA str)) hG
   have : IsIso ((schemeSpaceFunctor B S hS).map e.hom).hom := by
-    show IsIso (yoneda.map e.hom)
+    change IsIso (yoneda.map e.hom)
     infer_instance
   have := isIso_completionSubspaceMap B S hS ((schemeSpaceFunctor B S hS).map e.hom) G
   have hEtale : (etaleOnSite B S hS).presheaf (yoneda.map e.hom) :=

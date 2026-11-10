@@ -40,7 +40,8 @@ the hypothesis `hu` below.
 
 ## Implementation notes
 
-**The covering family is already in the library and is not restated here.** That the standard opens of
+**The covering family is already in the library and is not restated here.** That the standard opens
+of
 the degree-one homogeneous elements cover an absolute `Proj` of a ring generated in degree one
 is `Stacks.AlgebraicGeometry.ProjRepresentsF1.iSup_basicOpen_degreeOne_eq_top`
 (`StacksFrontier/AlgebraicGeometry/ProjRepresentsF1/TwistPowers.lean`), instantiated at
@@ -59,7 +60,8 @@ for an arbitrary scheme.
 ## What is not done here
 
 No project tag is attached, and no bijection is constructed. The trivialization datum `Θ` is a
-hypothesis here, and it is constructed for the fourth assertion of the label `01O4 "represents_f1"` in
+hypothesis here, and it is constructed for the fourth assertion of the label `01O4 "represents_f1"`
+in
 `StacksFrontier.AlgebraicGeometry.ProjF1Dehomogenization.Trivialization` —
 `datumOfTrivialization`, from a morphism `g : X ⟶ T`, a trivialization of `g^*ℒ` and a ring
 homomorphism out of `Γ(X, g⁻¹f⁻¹U)`, with `datumOfTrivialization_pairPieceHom_one` computing the

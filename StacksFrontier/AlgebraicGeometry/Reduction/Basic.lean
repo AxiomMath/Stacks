@@ -172,7 +172,7 @@ theorem isIntegral_of_isClosedMap_comap_mvPolynomialMap {σ : Type u} [Unique σ
   refine isClosedMap_of_isClosedEmbedding_comm
     (PrimeSpectrum.homeomorphOfRingEquiv eS).symm.isClosedEmbedding
     (PrimeSpectrum.homeomorphOfRingEquiv eR).symm.isClosedEmbedding (fun b => ?_) h
-  show PrimeSpectrum.comap (eR : MvPolynomial σ R →+* Polynomial R)
+  change PrimeSpectrum.comap (eR : MvPolynomial σ R →+* Polynomial R)
       (PrimeSpectrum.comap (Polynomial.mapRingHom φ) b)
     = PrimeSpectrum.comap (MvPolynomial.map (σ := σ) φ)
       (PrimeSpectrum.comap (eS : MvPolynomial σ S →+* Polynomial S) b)

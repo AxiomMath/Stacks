@@ -92,7 +92,8 @@ abbrev shf : PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).ob
 abbrev ringSheafMap :
     Stacks.SheafOfModules.Tensor.ringSheaf O ⟶ Stacks.SheafOfModules.Tensor.ringSheaf O' :=
   Stacks.Sheaves.RingedToposModules.commRingSheafMap J α.hom
-    (Stacks.SheafOfModules.Tensor.ringSheaf O).property (Stacks.SheafOfModules.Tensor.ringSheaf O').property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O).property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O').property
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
 /-- `ringSheafMap α` is the image of `α` under the functor forgetting commutativity of sheaves
@@ -171,14 +172,16 @@ abbrev extendScalarsSheaf :
     _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O) ⥤
       _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O') :=
   Stacks.Sheaves.RingedToposModules.extendScalars J α.hom
-    (Stacks.SheafOfModules.Tensor.ringSheaf O).property (Stacks.SheafOfModules.Tensor.ringSheaf O').property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O).property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O').property
 
 /-- Extension of scalars along `α` is left adjoint to restriction of scalars along `α`
 ([Stacks, Tag 03CZ]). -/
 def adjunction :
     extendScalarsSheaf α ⊣ _root_.SheafOfModules.restrictScalars (ringSheafMap α) :=
   Stacks.Sheaves.RingedToposModules.extendRestrictScalarsAdjunction J α.hom
-    (Stacks.SheafOfModules.Tensor.ringSheaf O).property (Stacks.SheafOfModules.Tensor.ringSheaf O').property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O).property
+    (Stacks.SheafOfModules.Tensor.ringSheaf O').property
 
 /-- Extension of scalars is a left adjoint. -/
 instance isLeftAdjoint_extendScalarsSheaf : (extendScalarsSheaf α).IsLeftAdjoint :=

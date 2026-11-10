@@ -151,10 +151,10 @@ private theorem annihilator_homology_truncLE_of_le
   let T := (DerivedCategory.TStructure.t.triangleLEGE b (b + 1) (by omega)).obj X
   have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished b (b + 1) (by omega) X
   have : T.obj₁.IsLE b := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
+    change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
     infer_instance
   have : T.obj₃.IsGE (b + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
     infer_instance
   change I ≤ Module.annihilator A ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj T.obj₁)
   intro r hr
@@ -197,16 +197,16 @@ private theorem pow_le_annihilator_end_of_homology
       have : X.IsLE (b + 1) := by
         convert (inferInstance : X.IsLE (a + (n + 1 : ℕ))) using 1; dsimp [b]; omega
       have : T.obj₁.IsGE a := by
-        show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
+        change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
         infer_instance
       have : T.obj₁.IsLE (a + n) := by
-        show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
+        change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
         infer_instance
       have : T.obj₃.IsGE (b + 1) := by
-        show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
+        change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
         infer_instance
       have : T.obj₃.IsLE (b + 1) := by
-        show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
+        change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
         infer_instance
       have hleft : I ^ (n + 1) ≤ Module.annihilator A (End T.obj₁) :=
         ih T.obj₁ fun i => annihilator_homology_truncLE_of_le X b i I fun _ => hI i
@@ -285,7 +285,7 @@ theorem pow_le_annihilator_homology_map_of_homology
   have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished b (b + 1)
     (by omega) X
   have : T.obj₃.IsGE (b + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
     infer_instance
   have : (F.obj T.obj₃).IsGE (b + 1) := hF _ _ inferInstance
   have hann := pow_le_annihilator_truncLE_of_homology a n X I hI
@@ -474,10 +474,10 @@ theorem mul_pow_le_annihilator_sections_homology
   let : F.CommShift ℤ := Stacks.LocalCohomology.derivedSectionsWithSupportIn_commShift A Z
   let : F.IsTriangulated := Stacks.LocalCohomology.derivedSectionsWithSupportIn_isTriangulated A Z
   have : T.obj₁.IsLE b := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj X.obj).IsLE b
+    change ((DerivedCategory.TStructure.t.truncLE b).obj X.obj).IsLE b
     infer_instance
   have : T.obj₃.IsGE (b + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X.obj).IsGE (b + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X.obj).IsGE (b + 1)
     infer_instance
   let R : DerivedCategory.Plus C := ⟨T.obj₃, b + 1, inferInstance⟩
   have hlow : I ^ (n + 1) ≤ Module.annihilator A (End T.obj₁) :=
@@ -508,11 +508,11 @@ theorem depth_gt_of_localCohomology_isZero
       (localCohomologyWithSupportInPlus
         A (PrimeSpectrum.zeroLocus (I : Set A)) K i)) :
     (DerivedCategory.Plus.depth A I K : EInt) > (s : EInt) := by
-  show (WithBot.some (DerivedCategory.Plus.depth A I K) : EInt) >
+  change (WithBot.some (DerivedCategory.Plus.depth A I K) : EInt) >
     (WithBot.some (s : WithTop ℤ) : EInt)
   apply WithBot.coe_lt_coe.mpr
   have hbound : ((s + 1 : ℤ) : WithTop ℤ) ≤ DerivedCategory.Plus.depth A I K := by
-    show ((s + 1 : ℤ) : WithTop ℤ) ≤
+    change ((s + 1 : ℤ) : WithTop ℤ) ≤
       sInf ((fun i : ℤ => (i : WithTop ℤ)) ''
         {i : ℤ | ¬ CategoryTheory.Limits.IsZero
           (localCohomologyWithSupportInPlus
@@ -576,7 +576,7 @@ private theorem exists_matlisDual_apply_ne_zero
     intro r hr
     have hrm := IsLocalRing.le_maximalIdeal hg hr
     have hz : algebraMap R (ResidueField R) r = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hrm
-    show e.hom (ULift.up (algebraMap R (ResidueField R) r)) = 0
+    change e.hom (ULift.up (algebraMap R (ResidueField R) r)) = 0
     rw [hz]
     exact e.hom.map_zero
   let g' : g.range →ₗ[R] E := (g.ker.liftQ j hker).comp
@@ -616,7 +616,7 @@ theorem annihilator_matlisDual
     change r • f x = 0 at h
     exact hf ((f.map_smul r x).trans h)
   · ext x
-    show r • f x = 0
+    change r • f x = 0
     rw [← map_smul, hr x, map_zero]
 
 theorem annihilator_adicCompletion

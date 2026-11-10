@@ -258,7 +258,7 @@ theorem koszulPowerAugmentation_eq_zero_of_mem (f : Fin r → R) (N : ℕ) {k : 
   obtain ⟨j, rfl⟩ : ∃ j, k = j + 1 := ⟨k - 1, by omega⟩
   have hle : exteriorGrade R (Fin r → R) (j + 1) ≤
       LinearMap.ker (koszulPowerAugmentation f N).toLinearMap := by
-    show LinearMap.range (ExteriorAlgebra.ι R) ^ (j + 1) ≤ _
+    change LinearMap.range (ExteriorAlgebra.ι R) ^ (j + 1) ≤ _
     rw [pow_succ']
     refine Submodule.mul_le.2 fun a ha b _ => ?_
     obtain ⟨p, rfl⟩ := ha
@@ -278,7 +278,7 @@ theorem koszulPowerAugmentation_koszulPowerDifferential (f : Fin r → R) (N : �
   | ι_mul x p hx =>
     rw [koszulPowerDifferential, Koszul.contraction, CliffordAlgebra.contractLeft_ι_mul,
       map_sub, map_smul, map_mul]
-    show _ - koszulPowerAugmentation f N (ExteriorAlgebra.ι R p) * _ = 0
+    change _ - koszulPowerAugmentation f N (ExteriorAlgebra.ι R p) * _ = 0
     rw [koszulPowerAugmentation_ι, zero_mul, sub_zero, Algebra.smul_def,
       Ideal.Quotient.algebraMap_eq,
       Ideal.Quotient.eq_zero_iff_mem.2 (show _ ∈ koszulPowerIdeal f N from
@@ -491,7 +491,7 @@ theorem proTransitionHom_augHom (t : KoszulTateFactorization f m')
       (Ideal.Quotient.factorₐ R (Koszul.powIdeal_le f (h.symm.le.trans t.lt.le))) := by
   subst h
   refine hom_eq_of_toAlgebraHom_eq (AlgHom.ext fun a => ?_)
-  show s.aug (s.up (t.down a)) =
+  change s.aug (s.up (t.down a)) =
     Ideal.Quotient.factor (koszulPowerIdeal_le_of_le f t.lt.le) (t.aug a)
   rw [s.aug_up]
   exact t.koszulPowerAugmentation_down a

@@ -210,7 +210,7 @@ theorem exists_coarseCover_restrict_eq_zero (S : CohomologyComparison C) (m : �
           (Over.homMk (b ≫ i) hbie : g.Y ⟶ Over.mk (e ≫ U.hom)) ≫
             (Over.homMk e : Over.mk (e ≫ U.hom) ⟶ U) := by
         ext
-        show (g.f.left ≫ f) ≫ v = (b ≫ i) ≫ e
+        change (g.f.left ≫ f) ≫ v = (b ≫ i) ≫ e
         rw [Category.assoc, ← h1]
         simp
       rw [← Stacks.sheafCohomologyRestriction_comp]
@@ -222,7 +222,7 @@ theorem exists_coarseCover_restrict_eq_zero (S : CohomologyComparison C) (m : �
       (Stacks.sheafCohomologyRestriction Jf wv m F ξ) hinput
     refine Jc.superset_covering ?_ R''.2
     intro Z h hh
-    show Stacks.sheafCohomologyRestriction Jf (h ≫ wv) m F ξ = 0
+    change Stacks.sheafCohomologyRestriction Jf (h ≫ wv) m F ξ = 0
     rw [Stacks.sheafCohomologyRestriction_comp]
     exact hR'' ⟨Z, h, hh⟩
   -- transitivity of the coarser topology along the first stage of the refinement
@@ -232,13 +232,13 @@ theorem exists_coarseCover_restrict_eq_zero (S : CohomologyComparison C) (m : �
     intro Z w hw
     obtain ⟨Y₀, a, v, hTv, hav⟩ : Sieve.generate T w.left := hw
     have hav' : a ≫ (Over.mk (v ≫ U.hom) : Over X).hom = Z.hom := by
-      show a ≫ v ≫ U.hom = Z.hom
+      change a ≫ v ≫ U.hom = Z.hom
       rw [← Category.assoc, hav]
       exact Over.w w
     have hfacw : (Over.homMk a hav' : Z ⟶ Over.mk (v ≫ U.hom)) ≫
         (Over.homMk v : Over.mk (v ≫ U.hom) ⟶ U) = w := by
       ext
-      show a ≫ v = w.left
+      change a ≫ v = w.left
       exact hav
     rw [← hfacw, Sieve.pullback_comp]
     exact Jc.pullback_stable _ (key v hTv)

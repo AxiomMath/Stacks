@@ -345,6 +345,7 @@ theorem cechClass_homologyπ_totalCechBase (L : CochainComplex.Plus (SheafOfModu
   rfl
 
 set_option maxHeartbeats 800000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The total cup pairing of the `θ`-images of the Čech classes of cycles `zc` and `wc` is the
 image of `zc ⊗ₜ wc` under the Čech cup product at the sheaf-tensor coefficients followed by
 `cechToBaseSections`, with the tensor complex written as `tensorPlusOf`. -/
@@ -373,6 +374,7 @@ theorem cupPairing_hypercohomologyToCohomologyModule_cechClass_of
   cupPairing_hypercohomologyToCohomologyModule_cechClass S Ui hU K M zc wc z₀ hz₀
 
 set_option maxHeartbeats 800000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- `cycleClass_Q_cechCup` with the tensor complex written as `tensorPlusOf`. -/
 theorem cycleClass_Q_cechCup_of {i j : ℤ}
     (x : ((totalCechBase S Ui hU K).cycles i ⊗ (totalCechBase S Ui hU M).cycles j : ModuleCat _))
@@ -393,6 +395,7 @@ theorem cycleClass_Q_cechCup_of {i j : ℤ}
   cycleClass_Q_cechCup S Ui hU K M x z₀
 
 set_option maxHeartbeats 800000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The cochain of the Čech cup product of two cycles, in the spelling of the total tensor
 complex. -/
 theorem iCycles_cyclesMap_cechCupProductSheafTensor_of {i j : ℤ}
@@ -437,6 +440,7 @@ theorem hypercohomologyToCohomologyModule_cechClass_cechSections
       (cechClass_homologyπ_totalCechBase S Ui hU L n y))
 
 set_option maxHeartbeats 1600000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The image of `zc ⊗ₜ wc` under the Čech cup product followed by `cechToBaseSections` is the
 image under `cechToBaseSections` of the class of the cup product cycle. -/
 theorem cupPairing_chain₂ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -463,6 +467,7 @@ theorem cupPairing_chain₂ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i
   exact congrArg _ (cycleClass_Q_cechCup_of S Ui hU K M (zc ⊗ₜ wc) z₀)
 
 set_option maxHeartbeats 1600000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The image under `cechToBaseSections` of the class of the cup product cycle is the `θ`-image
 of its Čech class. -/
 theorem cupPairing_chain₃ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -488,6 +493,7 @@ theorem cupPairing_chain₃ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i
   exact hypercohomologyToCohomologyModule_cechClass_cechSections S Ui hU _ _ _
 
 set_option maxHeartbeats 800000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The cochain of the cup product cycle is the Čech cup product, at the coefficient pairing
 `sheafTensorPairingOf`, of the cochains of `zc` and `wc`. -/
 theorem cupPairing_chain₄a {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -520,6 +526,7 @@ theorem cupPairing_chain₄a {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles 
       (cechCupProduct_tmulHom_iCycles S Ui hU K M zc wc).symm)
 
 set_option maxHeartbeats 800000 in
+-- the statement mixes two spellings of the total Čech complex; elaboration unfolds them
 /-- The Čech cup product on hypercohomology of the classes of `zc` and `wc` is the Čech class of
 the cup product cycle, with the classes taken in `cechSections`. -/
 theorem cupPairing_chain₄b (hK : CechComputes S.sheaf K) (hM : CechComputes S.sheaf M)

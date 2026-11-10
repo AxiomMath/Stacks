@@ -75,7 +75,7 @@ theorem nonempty_forgetToOpensOpCompOpensRepr_smallChangeBase (A : CrystallineTh
       (op ((smallChangeBase S S' f g h).obj A))) := by
   have hg : IsOpenMap g.base := g.isOpenEmbedding.isOpenMap
   have key := Functor.congr_obj (smallChangeBase_comp_forgetToOpens (f := f) (h := h) hg) A
-  show Nonempty ((opensRepr g.opensRange).obj
+  change Nonempty ((opensRepr g.opensRange).obj
     (op ((forgetToOpens S').obj ((smallChangeBase S S' f g h).obj A))))
   rw [nonempty_opensRepr_obj_iff]
   refine le_trans (le_of_eq key.symm) ?_
@@ -100,7 +100,7 @@ theorem nonempty_forgetToOpensOpCompOpensRepr_iff_essImage
     (hf : DividedPowerScheme.IsInducedOpen f) (B : CrystallineThickening S') :
     Nonempty (((forgetToOpens S').op ⋙ opensRepr g.opensRange).obj (op B)) ↔
       (smallChangeBase S S' f g h).essImage B := by
-  show Nonempty ((opensRepr g.opensRange).obj (op ((forgetToOpens S').obj B))) ↔ _
+  change Nonempty ((opensRepr g.opensRange).obj (op ((forgetToOpens S').obj B))) ↔ _
   rw [nonempty_opensRepr_obj_iff, smallChangeBase_essImage_iff (h := h) hf]
   exact ⟨fun hle _ hx ↦ hle hx, fun hle _ hx ↦ hle hx⟩
 

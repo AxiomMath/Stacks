@@ -69,7 +69,7 @@ theorem exists_bigFppfSite_le_of_lt_cof (B : AlgebraicGeometry.BigFppfSite.{u})
     refine ⟨?_, ?_, ?_⟩
     · intro U V f hf
       refine ⟨hIso f, ?_⟩
-      show #(PUnit.{u + 2}) ≤ κcov
+      change #(PUnit.{u + 2}) ≤ κcov
       rw [mk_punit]
       exact Cardinal.one_le_aleph0.trans hκ
     · intro 𝒰 h𝒰 𝒱 h𝒱 htargets

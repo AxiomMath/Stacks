@@ -117,7 +117,7 @@ lemma annihilated_cokernel_of_ideal_smul {X : Scheme.{u}}
   let aW : Γ(X, W) := (X.presheaf.map (homOfLE hWU).op).hom a
   obtain ⟨v, hv⟩ := h Waff aW haW (N.presheaf.map (homOfLE hWV).op t)
   refine ⟨W, hWU, hxW, ?_⟩
-  show (cokernel f).presheaf.map (homOfLE hWU).op (a • s) =
+  change (cokernel f).presheaf.map (homOfLE hWU).op (a • s) =
     (cokernel f).presheaf.map (homOfLE hWU).op 0
   rw [map_zero, Scheme.Modules.map_smul]
   have htW : g.val.app (op W) (N.presheaf.map (homOfLE hWV).op t) =
@@ -129,9 +129,9 @@ lemma annihilated_cokernel_of_ideal_smul {X : Scheme.{u}}
       (cokernel f).presheaf.map (homOfLE hWU).op s := by
     convert! htW using 1
   rw [← htW']
-  show aW • g.app W (N.presheaf.map (homOfLE hWV).op t) = 0
+  change aW • g.app W (N.presheaf.map (homOfLE hWV).op t) = 0
   rw [← Scheme.Modules.Hom.app_smul]
-  show g.val.app (op W) (aW • N.presheaf.map (homOfLE hWV).op t) = 0
+  change g.val.app (op W) (aW • N.presheaf.map (homOfLE hWV).op t) = 0
   rw [← hv]
   exact congrArg (fun z : M ⟶ cokernel f => z.val.app (op W) v) (cokernel.condition f)
 
@@ -155,7 +155,7 @@ noncomputable def idealPowerStep {X : Scheme.{u}}
 lemma mono_idealPowerStep {X : Scheme.{u}}
     (I : X.IdealSheafData) (M : X.Modules) (n : ℕ) : Mono (idealPowerStep I M n) := by
   apply (SheafOfModules.forget X.ringCatSheaf).mono_of_mono_map
-  show Mono (PresheafOfModules.Submodule.homOfLE
+  change Mono (PresheafOfModules.Submodule.homOfLE
     (idealPowerMultiple_antitone I M (Nat.le_succ n)))
   infer_instance
 
@@ -218,14 +218,14 @@ lemma annihilated_natCoproduct {X : Scheme.{u}}
     apply (isColimitOfHasCoproductOfPreservesColimit H F).hom_ext
     intro n
     ext t
-    show r • (G.map (Limits.Sigma.ι F n.as)).hom t = 0
+    change r • (G.map (Limits.Sigma.ι F n.as)).hom t = 0
     rw [← LinearMap.map_smul]
     rw [annihilated_stalk I (F n.as) (h n.as) U a ha x hx t, map_zero]
   have hzero : r • (show G.obj (∐ F) from
       (TopCat.Presheaf.germ (∐ F).presheaf U.1 x hx).hom s) = 0 :=
     congrArg (fun k : H.obj (∐ F) ⟶ H.obj (∐ F) =>
       k.hom ((TopCat.Presheaf.germ (∐ F).presheaf U.1 x hx).hom s)) hμ
-  show (TopCat.Presheaf.germ (∐ F).val.presheaf U.1 x hx).hom (a • s) =
+  change (TopCat.Presheaf.germ (∐ F).val.presheaf U.1 x hx).hom (a • s) =
     (TopCat.Presheaf.germ (∐ F).val.presheaf U.1 x hx).hom 0
   exact (PresheafOfModules.germ_ringCat_smul (∐ F).val x U.1 hx a s).trans
     (hzero.trans (map_zero _).symm)
@@ -331,11 +331,11 @@ lemma idealPowerMultiple_eq_bot_of_annihilated {X : Scheme.{u}}
   apply (idealPowerMultiple_le_iff I n M _).mpr
   intro U
   rw [bottom_toSubmodule]
-  show I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤ ⊥
+  change I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤ ⊥
   have hI : I.ideal U ^ n ≤ I.ideal U := by
     simpa only [pow_one] using (Ideal.pow_le_pow_right (I := I.ideal U) hn)
   intro s hs
-  show s = 0
+  change s = 0
   refine Submodule.smul_induction_on hs ?_ ?_
   · intro a ha m _
     exact h U a (hI ha) m
@@ -424,7 +424,7 @@ noncomputable def submoduleInclusion {X : Scheme.{u}} {M : X.Modules}
 lemma mono_submoduleInclusion {X : Scheme.{u}} {M : X.Modules}
     {P Q : M.Submodule} (h : P ≤ Q) : Mono (submoduleInclusion h) := by
   apply (SheafOfModules.forget X.ringCatSheaf).mono_of_mono_map
-  show Mono (PresheafOfModules.Submodule.homOfLE h)
+  change Mono (PresheafOfModules.Submodule.homOfLE h)
   infer_instance
 
 private lemma annihilated_inf_idealPowerMultiple_cokernel {X : Scheme.{u}}
@@ -436,7 +436,7 @@ private lemma annihilated_inf_idealPowerMultiple_cokernel {X : Scheme.{u}}
   apply annihilated_cokernel_of_ideal_smul
   intro U a ha s
   refine ⟨⟨a • (show Γ(M, U.1) from s.val), ?_⟩, Subtype.ext rfl⟩
-  show a • (show Γ(M, U.1) from s.val) ∈ P.toSubmodule.obj (op U.1) ∧
+  change a • (show Γ(M, U.1) from s.val) ∈ P.toSubmodule.obj (op U.1) ∧
     a • (show Γ(M, U.1) from s.val) ∈ (idealPowerMultiple I (n + 1) M).toSubmodule.obj (op U.1)
   exact ⟨(P.toSubmodule.obj (op U.1)).smul_mem a s.property.1,
     ideal_smul_idealPowerMultiple_mem I n M U a ha s.val s.property.2⟩
@@ -495,18 +495,18 @@ private lemma submoduleInf_isPullback {X : Scheme.{u}} {M : X.Modules}
       refine ⟨(s.fst.val.app U m).property, ?_⟩
       have heq := congrArg (fun k : s.pt ⟶ M => k.val.app U m) s.condition
       change (s.fst.val.app U m).val = (s.snd.val.app U m).val at heq
-      show (s.fst.val.app U m).val ∈ Q.toSubmodule.obj U
+      change (s.fst.val.app U m).val ∈ Q.toSubmodule.obj U
       rw [heq]
       exact (s.snd.val.app U m).property)
   have hf (s : PullbackCone P.ι Q.ι) : lift s ≫ f = s.fst := by
     apply (cancel_mono P.ι).mp
     rw [Category.assoc]
-    show submoduleLift _ _ _ ≫ (P ⊓ Q).ι = s.fst ≫ P.ι
+    change submoduleLift _ _ _ ≫ (P ⊓ Q).ι = s.fst ≫ P.ι
     exact submoduleLift_comp_ι _ _ _
   have hg (s : PullbackCone P.ι Q.ι) : lift s ≫ g = s.snd := by
     apply (cancel_mono Q.ι).mp
     rw [Category.assoc]
-    show submoduleLift _ _ _ ≫ (P ⊓ Q).ι = s.snd ≫ Q.ι
+    change submoduleLift _ _ _ ≫ (P ⊓ Q).ι = s.snd ≫ Q.ι
     exact (submoduleLift_comp_ι _ _ _).trans s.condition
   have : Mono f := mono_submoduleInclusion _
   exact isPullback_of_lift w lift hf hg
@@ -549,7 +549,7 @@ private lemma annihilated_of_mono {X : Scheme.{u}} (I : X.IdealSheafData)
       ((NatTrans.mono_iff_mono_app ((toPresheaf X).map f)).mp
         (Functor.map_mono (toPresheaf X) f) (op U.1))
   apply hf
-  show f.app U.1 (a • m) = f.app U.1 0
+  change f.app U.1 (a • m) = f.app U.1 0
   rw [Scheme.Modules.Hom.app_smul, map_zero]
   exact h U a ha _
 
@@ -624,7 +624,7 @@ private lemma idealPowerMultiple_hom_eq_zero {X : Scheme.{u}}
       exact (map_add (ConcreteCategory.hom (f.val.app (op U.1))) ⟨m₁, hm₁⟩ ⟨m₂, hm₂⟩).trans
         (by rw [h₁, h₂, add_zero])
   have hn := congrArg (fun k => k s) (f.val.naturality (homOfLE hUV).op)
-  show T.presheaf.map (homOfLE hUV).op (f.val.app V s) = T.presheaf.map (homOfLE hUV).op 0
+  change T.presheaf.map (homOfLE hUV).op (f.val.app V s) = T.presheaf.map (homOfLE hUV).op 0
   rw [map_zero]
   exact hn.symm.trans (hzero _ hsU).choose_spec
 
@@ -659,12 +659,12 @@ lemma idealPowerMultipleFunctor_epi {X : Scheme.{u}}
   have he : ((idealPowerMultipleFunctor I n).map f).val.app (op W) v =
       ((idealPowerMultipleFunctor I n).obj N).presheaf.map (homOfLE hWU).op s := by
     apply Subtype.ext
-    show f.app W (aW • tW) = N.presheaf.map (homOfLE hWU).op (a • m)
+    change f.app W (aW • tW) = N.presheaf.map (homOfLE hWU).op (a • m)
     rw [Scheme.Modules.Hom.app_smul, Scheme.Modules.map_smul]
     exact congrArg (aW • ·) htW
   refine ⟨W, hWU, hxW, ?_⟩
   have hn := congrArg (fun k => k s) (g.val.naturality (homOfLE hWU).op)
-  show T.presheaf.map (homOfLE hWU).op (g.val.app (op U.1) s) = T.presheaf.map (homOfLE hWU).op 0
+  change T.presheaf.map (homOfLE hWU).op (g.val.app (op U.1) s) = T.presheaf.map (homOfLE hWU).op 0
   rw [map_zero]
   exact hn.symm.trans ((congrArg (g.val.app (op W)) he.symm).trans
     (congrArg (fun k => k.val.app (op W) v) hg))
@@ -731,7 +731,7 @@ lemma comapIsPullback {X : Scheme.{u}} {M N : X.Modules}
   let lift (s : PullbackCone f Q.ι) := submoduleLift s.fst (sheafSubmoduleComap f Q) (by
     intro U m
     have he := congrArg (fun k => k.val.app U m) s.condition
-    show f.val.app U (s.fst.val.app U m) ∈ Q.toSubmodule.obj U
+    change f.val.app U (s.fst.val.app U m) ∈ Q.toSubmodule.obj U
     change f.val.app U (s.fst.val.app U m) = (s.snd.val.app U m).val at he
     rw [he]
     exact (s.snd.val.app U m).property)

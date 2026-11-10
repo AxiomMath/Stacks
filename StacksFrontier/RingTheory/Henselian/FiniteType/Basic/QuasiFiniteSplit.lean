@@ -151,7 +151,7 @@ lemma per_point_finite_descent
       map_add' := Φ.map_add
       map_smul' := by
         intro r' x
-        show Φ (r' • x) = σ.toRingHom r' • Φ x
+        change Φ (r' • x) = σ.toRingHom r' • Φ x
         rw [Algebra.smul_def r' x, map_mul, hsemi, Algebra.smul_def]
         rfl }
   exact Module.Finite.of_surjective L hΦsurj
@@ -205,7 +205,7 @@ lemma isolating_idempotent_per_point
         = (Ideal.Quotient.mkₐ R P').comp (Algebra.TensorProduct.includeRight.comp δ) := by
       apply Algebra.TensorProduct.ext'
       intro a b
-      show (Ideal.Quotient.mkₐ R P') (a ⊗ₜ[R] b)
+      change (Ideal.Quotient.mkₐ R P') (a ⊗ₜ[R] b)
           = (Ideal.Quotient.mkₐ R P') (Algebra.TensorProduct.includeRight (δ (a ⊗ₜ[R] b)))
       have hδab : δ (a ⊗ₜ[R] b) = (algebraMap R S) (σ a) * b := by
         exact lid_comp_map_tmul σ a b
@@ -230,7 +230,7 @@ lemma isolating_idempotent_per_point
         have hlo : P = Ideal.under R' P' := Ideal.LiesOver.over
         rw [hlo] at hmemP
         exact hmemP
-      show (Ideal.Quotient.mkₐ R P') (a ⊗ₜ[R] b)
+      change (Ideal.Quotient.mkₐ R P') (a ⊗ₜ[R] b)
           = (Ideal.Quotient.mkₐ R P') ((algebraMap R (TensorProduct R R' S)) (σ a) * (1 ⊗ₜ[R] b))
       simp only [Ideal.Quotient.mkₐ_eq_mk]
       rw [Ideal.Quotient.eq]
@@ -292,7 +292,7 @@ lemma combine_isolating_idempotents
     have hspaninf : Ideal.span {(1-a) * (1 - (b - a*b))}
         = Ideal.span {1-a} ⊓ Ideal.span {1 - (b - a*b)} := by
       have hb'idem : IsIdempotentElem (b - a*b) := by
-        show (b - a*b)*(b-a*b) = b - a*b; linear_combination (1 - 2*a + a*a)*hb.eq + b*ha.eq
+        change (b - a*b)*(b-a*b) = b - a*b; linear_combination (1 - 2*a + a*a)*hb.eq + b*ha.eq
       have hv : IsIdempotentElem (1 - (b - a*b)) := hb'idem.one_sub
       apply le_antisymm
       · exact le_inf (Ideal.span_singleton_le_span_singleton.mpr (dvd_mul_right _ _))
@@ -338,7 +338,7 @@ lemma combine_isolating_idempotents
     have hfb : Module.Finite R (S ⧸ Ideal.span {1 - b}) := hgfin 𝔮₀ h𝔮₀Q
     have hbmem : ∀ _ : 𝔮₀.IsPrime, b ∉ 𝔮₀ := hgmem 𝔮₀ h𝔮₀Q
     refine ⟨a + b - a*b, ?_, ?_, ?_⟩
-    · show (a + b - a*b)*(a + b - a*b) = a + b - a*b
+    · change (a + b - a*b)*(a + b - a*b) = a + b - a*b
       linear_combination (1 - 2*b + b*b) * ha.eq + (1 - 2*a + a*a) * hb.eq + (b - b*b) * ha.eq
     · exact hjoin_fin a b ha hb hfa hfb
     · intro 𝔮 h𝔮 hprime
@@ -432,7 +432,7 @@ lemma complement_not_qf_of_mem
       (IsLocalization.AtPrime.isUnit_to_map_iff (Localization.AtPrime 𝔮) 𝔮 u).mpr (hcompl u hm)
     have ha_alg : (algebraMap S (Localization.AtPrime 𝔮)) a = 0 :=
       huunit.mul_right_eq_zero.mp hua_alg
-    show IsLocalization.mk' (Localization.AtPrime 𝔮) a (⟨b, hb⟩ : 𝔮.primeCompl) = 0
+    change IsLocalization.mk' (Localization.AtPrime 𝔮) a (⟨b, hb⟩ : 𝔮.primeCompl) = 0
     rw [IsLocalization.mk'_eq_mul_mk'_one, ha_alg, zero_mul]
   -- upgrade to an R-algebra isomorphism of the localizations
   let e : Localization.AtPrime 𝔮 ≃+* Localization.AtPrime 𝔭 :=
@@ -440,7 +440,7 @@ lemma complement_not_qf_of_mem
   have hcompat : ∀ (r : R), e ((algebraMap R (Localization.AtPrime 𝔮)) r)
       = (algebraMap R (Localization.AtPrime 𝔭)) r := by
     intro r
-    show g ((algebraMap R (Localization.AtPrime 𝔮)) r) = (algebraMap R (Localization.AtPrime 𝔭)) r
+    change g ((algebraMap R (Localization.AtPrime 𝔮)) r) = (algebraMap R (Localization.AtPrime 𝔭)) r
     rw [IsScalarTower.algebraMap_apply R S (Localization.AtPrime 𝔮)]
     rw [Localization.localRingHom_to_map]
     rw [IsScalarTower.algebraMap_apply R (S ⧸ Ideal.span {f}) (Localization.AtPrime 𝔭)]

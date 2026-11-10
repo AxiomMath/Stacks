@@ -149,7 +149,7 @@ private lemma range_completionMap_eq (I : Ideal R) (N : Submodule R M) :
   ext f
   constructor
   · rintro ⟨g, rfl⟩
-    show completionMapComponent I N 0 (AdicCompletion.eval I N 0 g) = 0
+    change completionMapComponent I N 0 (AdicCompletion.eval I N 0 g) = 0
     obtain ⟨z, hz⟩ := Submodule.Quotient.mk_surjective
       (I ^ 0 • ⊤ : Submodule R N) (AdicCompletion.eval I N 0 g)
     rw [← hz]
@@ -219,13 +219,13 @@ public lemma induced_limitTopology_completionMap (I : Ideal R) (N : Submodule R 
   rw [induced_compose, induced_to_pi]
   have hd := induced_to_pi (fun f : AdicCompletion I N ↦
     (f.1 : ∀ n : ℕ, N ⧸ (I ^ n • ⊤ : Submodule R N)))
-  show _ = TopologicalSpace.induced
+  change _ = TopologicalSpace.induced
     (fun f : AdicCompletion I N ↦
       (f.1 : ∀ n : ℕ, N ⧸ (I ^ n • ⊤ : Submodule R N))) Pi.topologicalSpace
   rw [hd]
   apply iInf_congr
   intro n
-  show TopologicalSpace.induced
+  change TopologicalSpace.induced
       (fun f : AdicCompletion I N ↦
         completionMapComponent I N n (AdicCompletion.eval I N n f)) ⊥ =
     TopologicalSpace.induced (fun f : AdicCompletion I N ↦ AdicCompletion.eval I N n f) ⊥
@@ -303,7 +303,7 @@ private lemma adicModuleTopology_nhds_hasBasis
         (((I ^ n : Ideal R) • (⊤ : Submodule R A) : Submodule R A) : Set A)) := by
   let : TopologicalSpace R := I.adicTopology
   let B := I.ringFilterBasis.moduleFilterBasis (I.adic_module_basis A)
-  show (@nhds A B.topology x).HasBasis _ _
+  change (@nhds A B.topology x).HasBasis _ _
   rw [B.toAddGroupFilterBasis.nhds_eq]
   exact B.toAddGroupFilterBasis.hasBasis x |>.to_hasBasis
     (fun U hU => by
@@ -326,7 +326,7 @@ private lemma adicCompletionLimitTopology_eq_adicModuleTopology
     discreteTopology_bot _
   have hlim (x : A) : (@nhds A t x).HasBasis (fun J : Set ℕ => J.Finite)
       (fun J => (fun y : A => y.1) ⁻¹' J.pi (fun n => ({x.1 n} : Set _))) := by
-    show (@nhds A (TopologicalSpace.induced Subtype.val
+    change (@nhds A (TopologicalSpace.induced Subtype.val
       (@Pi.topologicalSpace ℕ (fun n => N ⧸ (I ^ n • (⊤ : Submodule R N)))
         (fun _ => ⊥))) x).HasBasis _ _
     rw [nhds_induced, nhds_pi]
@@ -344,7 +344,7 @@ private lemma adicCompletionLimitTopology_eq_adicModuleTopology
       obtain ⟨z, hz, rfl⟩ := hy
       have hn : z.1 n = 0 :=
         LinearMap.mem_ker.mp ((AdicCompletion.pow_smul_top_eq_ker_eval hI).le hz)
-      show (x + z).1 ∈ J.pi (fun j => ({x.1 j} : Set _))
+      change (x + z).1 ∈ J.pi (fun j => ({x.1 j} : Set _))
       apply Set.mem_pi.2
       intro i hi
       have hiF : i ∈ F := hJ.mem_toFinset.2 hi
@@ -354,7 +354,7 @@ private lemma adicCompletionLimitTopology_eq_adicModuleTopology
       change AdicCompletion.transitionMap I N hi_le (z.1 n) = z.1 i at hc
       rw [hn] at hc
       have hizero : z.1 i = 0 := by simpa using hc.symm
-      show x.1 i + z.1 i = x.1 i
+      change x.1 i + z.1 i = x.1 i
       simp [hizero]
     · intro n _
       refine ⟨{n}, Set.finite_singleton n, ?_⟩
@@ -363,7 +363,7 @@ private lemma adicCompletionLimitTopology_eq_adicModuleTopology
       have heq : y.1 n = x.1 n := by simpa using (Set.mem_pi.1 hy) n (by simp)
       let z := y - x
       have hzeval : AdicCompletion.eval I N n z = 0 := by
-        show y.1 n - x.1 n = 0
+        change y.1 n - x.1 n = 0
         rw [heq, sub_self]
       have hzpow : z ∈ I ^ n • (⊤ : Submodule R A) := by
         rw [AdicCompletion.pow_smul_top_eq_ker_eval hI]
@@ -471,7 +471,7 @@ public lemma exists_isOpen_adic_submodule_completionAlong
           (TopologicalRing.CompletionAlong.limitTopology I N)) =
         TopologicalRing.adicCompletionLimitTopology I N := by
       rw [induced_compose]
-      show TopologicalSpace.induced φ (TopologicalRing.CompletionAlong.limitTopology I N) = _
+      change TopologicalSpace.induced φ (TopologicalRing.CompletionAlong.limitTopology I N) = _
       exact TopologicalRing.induced_limitTopology_completionMap I N
     exact (induced_topology_injective_of_injective e e.injective e.surjective
       (I.adicModuleTopology P)
@@ -578,7 +578,7 @@ private lemma ker_evalPow_le_pow_smul_top (I : Ideal R) (hI : I.FG) (N : Submodu
     rw [evalPow, LinearMap.comp_apply] at h0
     have h0' : (Submodule.Quotient.mk (a n) : M ⧸ (I ^ n • ⊤ : Submodule R M)) = 0 := by
       rw [← h0]
-      show _ = Submodule.factor _ (x.val n)
+      change _ = Submodule.factor _ (x.val n)
       rw [← ha n]
       rfl
     rwa [Submodule.Quotient.mk_eq_zero] at h0'
@@ -607,7 +607,7 @@ private lemma ker_evalPow_le_pow_smul_top (I : Ideal R) (hI : I.FG) (N : Submodu
     intro k
     induction k with
     | zero =>
-      show ∑ t ∈ s, t • b₀ t = a n
+      change ∑ t ∈ s, t • b₀ t = a n
       exact hb₀.symm
     | succ j ih =>
       have hsplit' : ∑ t ∈ s, t • B (j + 1) t
@@ -636,7 +636,7 @@ private lemma ker_evalPow_le_pow_smul_top (I : Ideal R) (hI : I.FG) (N : Submodu
           (Submodule.Quotient.mk (B k t) : M ⧸ (I ^ k • N : Submodule R M)) =
         Submodule.Quotient.mk (B m t) := by
     intro t m k h
-    show (Submodule.Quotient.mk (B k t) : M ⧸ (I ^ m • N : Submodule R M)) =
+    change (Submodule.Quotient.mk (B k t) : M ⧸ (I ^ m • N : Submodule R M)) =
       Submodule.Quotient.mk (B m t)
     rw [Submodule.Quotient.eq]
     exact hBdiff m k h t
@@ -818,12 +818,12 @@ public lemma restrictToPow_surjective (I : Ideal R) (N : Submodule R M) (hN : Is
   choose lev hlevle using hlev
   refine ⟨⟨fun P ↦ Submodule.Quotient.mk (a (lev P)), ?_⟩, ?_⟩
   · intro P Q h
-    show (Submodule.Quotient.mk (a (lev P)) : M ⧸ Q.1) = Submodule.Quotient.mk (a (lev Q))
+    change (Submodule.Quotient.mk (a (lev P)) : M ⧸ Q.1) = Submodule.Quotient.mk (a (lev Q))
     rw [Submodule.Quotient.eq]
     exact key _ _ Q.1 ((hlevle P).trans h) (hlevle Q)
   · apply Subtype.ext
     funext n
-    show (Submodule.Quotient.mk (a (lev (powOpenSubmodule I N hN hAdic n))) :
+    change (Submodule.Quotient.mk (a (lev (powOpenSubmodule I N hN hAdic n))) :
       M ⧸ (I ^ n • N : Submodule R M)) = g.val n
     rw [← ha n, Submodule.Quotient.eq]
     exact key _ _ _ (hlevle (powOpenSubmodule I N hN hAdic n)) le_rfl
@@ -861,7 +861,7 @@ public lemma induced_limitTopology_restrictToPow (I : Ideal R) (N : Submodule R 
           f.val (powOpenSubmodule I N hN hAdic n)) := by
       funext f
       exact (CompletionOverOpen.factor_val hle f).symm
-    show TopologicalSpace.induced
+    change TopologicalSpace.induced
         (fun f : CompletionOverOpen R M ↦ f.val (powOpenSubmodule I N hN hAdic n)) ⊥ ≤
       TopologicalSpace.induced (fun f : CompletionOverOpen R M ↦ f.val P) ⊥
     rw [hfun, ← induced_compose]

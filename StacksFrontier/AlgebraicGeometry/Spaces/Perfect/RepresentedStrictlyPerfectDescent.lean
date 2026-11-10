@@ -157,7 +157,7 @@ theorem exists_isPerfect_representedDerivedAssociatedModule_iso
   let adj' := adj.comp eqv.toAdjunction
   let φ := (NatTrans.mapHomologicalComplex adj'.counit (ComplexShape.up ℤ)).app K
   have (i : ℤ) : IsIso (φ.f i) := by
-    show IsIso (adj'.counit.app (K.X i))
+    change IsIso (adj'.counit.app (K.X i))
     have : IsIso (adj.counit.app (eqv.inverse.obj (K.X i))) := hcounit i
     have : IsIso (eqv.toAdjunction.counit.app (K.X i)) := (eqv.counitIso.app (K.X i)).isIso_hom
     rw [show adj'.counit.app (K.X i) = _ from

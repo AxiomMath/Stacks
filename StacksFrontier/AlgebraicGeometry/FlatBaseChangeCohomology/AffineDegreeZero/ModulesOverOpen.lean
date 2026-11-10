@@ -103,7 +103,7 @@ theorem baseChangeNatTrans_app_pullbackSection (w : g' ≫ f = f' ≫ g) (F : X.
           ((Scheme.Modules.pushforward f).obj F)).presheaf.map (homOfLE hV).op
         (pullbackUnitSections g ((Scheme.Modules.pushforward f).obj F) U a) from rfl]
   refine (hnat.trans (congrArg _ (baseChangeNatTrans_app_pullbackUnitSections w F U h a))).trans ?_
-  show ((Scheme.Modules.pullback g').obj F).presheaf.map
+  change ((Scheme.Modules.pullback g').obj F).presheaf.map
       ((Opens.map f'.base).map (homOfLE hV)).op
       (((Scheme.Modules.pullback g').obj F).presheaf.map (homOfLE h).op
         (pullbackUnitSections g' F (f ⁻¹ᵁ U) a)) = _

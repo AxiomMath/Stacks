@@ -152,8 +152,7 @@ noncomputable def extendScalarsCarrierEquiv (R A : Type u) [CommRing R] [CommRin
   refine { toFun := E, invFun := E.symm, left_inv := E.left_inv, right_inv := E.right_inv,
            map_add' := E.map_add', map_smul' := ?_ }
   intro a z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x n =>
       change E (a • (x ⊗ₜ[R] n)) = a • E (x ⊗ₜ[R] n)
       rw [show a • (x ⊗ₜ[R] n : ((ModuleCat.extendScalars (algebraMap R A)).obj N : Type u))
@@ -215,11 +214,11 @@ theorem restrictTensorLeftExtendSummandIso_hom_tmul (R A : Type u) [CommRing R]
     (inferInstance : Module R ((ModuleCat.restrictScalars (algebraMap R A)).obj (K.X i) : Type u))
   let : IsScalarTower R A ((K.X i) : Type u) :=
     .of_algebraMap_smul fun _ _ => rfl
-  show (TensorProduct.AlgebraTensorModule.cancelBaseChange R A A ((K.X i) : Type u)
+  change (TensorProduct.AlgebraTensorModule.cancelBaseChange R A A ((K.X i) : Type u)
       ((P.X k) : Type u)) ((TensorProduct.congr (LinearEquiv.refl A ((K.X i) : Type u))
         (extendScalarsCarrierEquiv R A (P.X k))) (x ⊗ₜ[A] (a ⊗ₜ[R] q))) = (a • x) ⊗ₜ[R] q
   rw [TensorProduct.congr_tmul, LinearEquiv.refl_apply]
-  show (TensorProduct.AlgebraTensorModule.cancelBaseChange R A A ((K.X i) : Type u)
+  change (TensorProduct.AlgebraTensorModule.cancelBaseChange R A A ((K.X i) : Type u)
       ((P.X k) : Type u)) (x ⊗ₜ[A] (a ⊗ₜ[R] q)) = (a • x) ⊗ₜ[R] q
   rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
 
@@ -653,7 +652,7 @@ theorem extendTensorLeftIso_naturality_left (A B : Type u) [CommRing A] [CommRin
         ≫ (Functor.Monoidal.μIso (ModuleCat.extendScalars (algebraMap A B))
             (K.X i₁') (Q.X i₂)).symm.hom := by
   set G := ModuleCat.extendScalars (algebraMap A B)
-  show (Functor.Monoidal.μIso G (K.X i₁) (Q.X i₂)).inv ≫ (G.map (K.d i₁ i₁') ▷ G.obj (Q.X i₂))
+  change (Functor.Monoidal.μIso G (K.X i₁) (Q.X i₂)).inv ≫ (G.map (K.d i₁ i₁') ▷ G.obj (Q.X i₂))
       = G.map (K.d i₁ i₁' ▷ Q.X i₂) ≫ (Functor.Monoidal.μIso G (K.X i₁') (Q.X i₂)).inv
   rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv]
   exact Functor.LaxMonoidal.μ_natural_left G (K.d i₁ i₁') (Q.X i₂)
@@ -670,7 +669,7 @@ theorem extendTensorLeftIso_naturality_right (A B : Type u) [CommRing A] [CommRi
         ≫ (Functor.Monoidal.μIso (ModuleCat.extendScalars (algebraMap A B))
             (K.X i₁) (Q.X i₂')).symm.hom := by
   set G := ModuleCat.extendScalars (algebraMap A B)
-  show (Functor.Monoidal.μIso G (K.X i₁) (Q.X i₂)).inv ≫ (G.obj (K.X i₁) ◁ G.map (Q.d i₂ i₂'))
+  change (Functor.Monoidal.μIso G (K.X i₁) (Q.X i₂)).inv ≫ (G.obj (K.X i₁) ◁ G.map (Q.d i₂ i₂'))
       = G.map (K.X i₁ ◁ Q.d i₂ i₂') ≫ (Functor.Monoidal.μIso G (K.X i₁) (Q.X i₂')).inv
   rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv]
   exact Functor.LaxMonoidal.μ_natural_right G (K.X i₁) (Q.d i₂ i₂')
@@ -830,7 +829,7 @@ theorem isZero_single_tensorLeft_summand {R : Type u} [CommRing R] (N : ModuleCa
         ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N).X).obj C.X) (i₁, i₂)) := by
   have hz : Limits.IsZero (((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N).X i₁) :=
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N i₁ h
-  show Limits.IsZero (((curriedTensor (ModuleCat.{u} R)).obj
+  change Limits.IsZero (((curriedTensor (ModuleCat.{u} R)).obj
       (((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N).X i₁)).obj (C.X i₂))
   rw [ModuleCat.isZero_iff_subsingleton] at hz ⊢
   have : Subsingleton (TensorProduct R (↥(((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
@@ -946,10 +945,10 @@ theorem singleTensorLeftComponentsIso_comm {R : Type u} [CommRing R] (N : Module
     have hrel2 : (ComplexShape.up ℤ).Rel i₂ (i₂+1) := rfl
     have hπ1 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ)+1, i₂) = i₂+1 := by
-      show (1:ℤ) + i₂ = i₂+1; ring
+      change (1:ℤ) + i₂ = i₂+1; ring
     have hπ2 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ), i₂+1) = i₂+1 := by
-      show (0:ℤ) + (i₂+1) = i₂+1; ring
+      change (0:ℤ) + (i₂+1) = i₂+1; ring
     rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
         HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,
         HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ hrel1 i₂ (i₂+1) hπ1,

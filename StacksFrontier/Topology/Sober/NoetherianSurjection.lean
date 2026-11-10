@@ -82,7 +82,7 @@ theorem quasiSober_of_isLocallyNoetherianSpace_isOpenMap_surjective {X Y : Type*
     fun x => ?_
   have : NoetherianSpace (U x) := hUnoeth x
   have : QuasiSober (U x) := (hUopen x).isOpenEmbedding_subtypeVal.quasiSober
-  show QuasiSober (f '' U x)
+  change QuasiSober (f '' U x)
   refine quasiSober_of_noetherianSpace_surjective
     (f := fun z : U x => (⟨f z.1, z.1, z.2, rfl⟩ : (f '' U x : Set Y)))
     ((hf.comp continuous_subtype_val).subtype_mk _) ?_

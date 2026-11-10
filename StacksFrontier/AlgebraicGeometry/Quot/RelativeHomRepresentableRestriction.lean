@@ -75,7 +75,7 @@ theorem liftTest_map_hom (T : SchemesOver Y) (w : W.obj.obj (op T.left))
     ((CostructuredArrow.map ι).obj (liftTest T w)).hom = T.hom := by
   apply ObjectProperty.hom_ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm w ≫ ι.hom) = testPoint T
+  change yonedaEquiv (yonedaEquiv.symm w ≫ ι.hom) = testPoint T
   rwa [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
 /-- The image in the test schemes over `Y` of `liftTest T w` is `T`, when `w` lies over the
@@ -133,7 +133,7 @@ theorem supportedExtensionValue_naturality {T' T : SchemesOver Y} (g : T' ⟶ T)
   let gW : liftTest T' (W.obj.map g.left.op w) ⟶ liftTest T w :=
     CostructuredArrow.homMk g.left (by
       refine ObjectProperty.hom_ext _ (yonedaEquiv.injective ?_)
-      show yonedaEquiv (yoneda.map g.left ≫ yonedaEquiv.symm w) =
+      change yonedaEquiv (yoneda.map g.left ≫ yonedaEquiv.symm w) =
         yonedaEquiv (yonedaEquiv.symm (W.obj.map g.left.op w))
       rw [← yonedaEquiv_naturality, Equiv.apply_symm_apply, Equiv.apply_symm_apply])
   have hsq : (liftTestIso ι T' _ hw').inv ≫ (CostructuredArrow.map ι).map gW =
@@ -193,9 +193,9 @@ theorem supportedExtensionHom_app_bijective (hι : Mono ι.hom)
       (R.map (liftTestIso ι T.unop w hw).hom.op r)).down
     have hz : q.hom.app _ z.1 = w := z.2.trans (testPoint_liftTest T.unop w)
     refine ⟨⟨⟨z.1, (congrArg (ι.hom.app _) hz).trans hw⟩⟩, ?_⟩
-    show supportedExtensionValue e T.unop _ _ ⟨z.1, rfl⟩ = r
+    change supportedExtensionValue e T.unop _ _ ⟨z.1, rfl⟩ = r
     refine (supportedExtensionValue_congr e T.unop hz _ hw _).trans ?_
-    show R.map (liftTestIso ι T.unop w hw).inv.op
+    change R.map (liftTestIso ι T.unop w hw).inv.op
       (e.hom.app _ (e.inv.app _ (R.map (liftTestIso ι T.unop w hw).hom.op r))) = r
     exact (congrArg _ ((e.app (op (liftTest T.unop w))).inv_hom_id_apply
       (R.map (liftTestIso ι T.unop w hw).hom.op r))).trans

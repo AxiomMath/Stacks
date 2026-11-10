@@ -121,7 +121,7 @@ public theorem distanceFunction_eq_sub_of_specializes
       ((δ y - δ ζ).toNat : ℕ∞) :=
     topCodim_closureSingleton_eq_toNat_sub δ h
   have hupcod : hs0.upCodimension ⟨0, Nat.zero_lt_succ hs0.k⟩ = (δ y - δ ζ).toNat := by
-    show (IrreducibleClosedsCodim.topCodim (closureSingleton ζ) (closureSingleton y)).toNat = _
+    change (IrreducibleClosedsCodim.topCodim (closureSingleton ζ) (closureSingleton y)).toNat = _
     rw [hcod, ENat.toNat_natCast]
   have hk0 : hs0.k = 0 := rfl
   have huniv1 : (Finset.univ : Finset (Fin (hs0.k + 1))) = {⟨0, Nat.zero_lt_succ hs0.k⟩} := by
@@ -132,12 +132,12 @@ public theorem distanceFunction_eq_sub_of_specializes
     ext j
     exact j.elim0
   have hweight : hs0.weight = (δ y - δ ζ).toNat := by
-    show hs0.k + (Finset.univ : Finset (Fin (hs0.k + 1))).sup (fun i =>
+    change hs0.k + (Finset.univ : Finset (Fin (hs0.k + 1))).sup (fun i =>
         (∑ j : Fin (hs0.k + 1), if i.val ≤ j.val then hs0.upCodimension j else 0) -
         (∑ j : Fin hs0.k, if i.val ≤ j.val then hs0.downCodimension j else 0)) =
       (δ y - δ ζ).toNat
     simp only [huniv1, Finset.sup_singleton, Finset.sum_singleton, hempty, Finset.sum_empty,
-      le_refl, if_true, Nat.sub_zero, hupcod, hk0, Nat.zero_add]
+      le_refl, ite_true, Nat.sub_zero, hupcod, hk0, Nat.zero_add]
   refine le_antisymm ?_ (distanceFunction_ge_dimensionFunction_sub_max Y Z δ (δ ζ)
     (isGreatest_image_closureSingleton δ ζ) y)
   rw [distanceFunction_eq_iInf_of_nonempty Y Z y hmeet, ← hweight]
@@ -177,19 +177,19 @@ private lemma distanceFunction_le_toNat_add_one
       fun i => by
         have h1 : ¬ (Fin.succ i).val = 0 := by simp [Fin.val_succ]
         have h0 : (Fin.castSucc i).val = 0 := by simp
-        show (if (Fin.succ i).val = 0 then closureSingleton ζ else closureSingleton y) ≤
+        change (if (Fin.succ i).val = 0 then closureSingleton ζ else closureSingleton y) ≤
           (if (Fin.castSucc i).val = 0 then closureSingleton (genericPoint Y)
             else closureSingleton y)
-        rw [if_neg h1, if_pos h0]
+        rw [ite_eq_right h1, ite_eq_left h0]
         exact closureSingleton_le_of_specializes hηy,
       by
-        show (closureSingleton ζ : Set Y) ⊆ (Z : Set Y)
+        change (closureSingleton ζ : Set Y) ⊆ (Z : Set Y)
         simp [hZdef],
       by
-        show (if (Fin.last 1).val = 0 then
+        change (if (Fin.last 1).val = 0 then
             (closureSingleton (genericPoint Y) : IrreducibleCloseds Y)
           else closureSingleton y : Set Y) = closure {y}
-        rw [if_neg (by simp : ¬ (Fin.last 1).val = 0)]
+        rw [ite_eq_right (by simp : ¬ (Fin.last 1).val = 0)]
         exact coe_closureSingleton y⟩
   have hk1 : hs1.k = 1 := rfl
   have huniv2 : (Finset.univ : Finset (Fin (hs1.k + 1))) =
@@ -205,19 +205,19 @@ private lemma distanceFunction_le_toNat_add_one
     exact Fin.ext (show j.val = 0 by have := j.isLt; omega)
   have hupcod0 : hs1.upCodimension ⟨0, Nat.zero_lt_succ hs1.k⟩ =
       (δ (genericPoint Y) - δ ζ).toNat := by
-    show (IrreducibleClosedsCodim.topCodim (closureSingleton ζ)
+    change (IrreducibleClosedsCodim.topCodim (closureSingleton ζ)
       (closureSingleton (genericPoint Y))).toNat = _
     rw [topCodim_closureSingleton_eq_toNat_sub δ hηζ, ENat.toNat_natCast]
   have hupcod1 : hs1.upCodimension ⟨1, by omega⟩ = 0 := by
-    show (IrreducibleClosedsCodim.topCodim (closureSingleton y) (closureSingleton y)).toNat = 0
+    change (IrreducibleClosedsCodim.topCodim (closureSingleton y) (closureSingleton y)).toNat = 0
     simp [topCodim_self_eq_zero]
   have hdowncod0 : hs1.downCodimension ⟨0, by omega⟩ =
       (δ (genericPoint Y) - δ y).toNat := by
-    show (IrreducibleClosedsCodim.topCodim (closureSingleton y)
+    change (IrreducibleClosedsCodim.topCodim (closureSingleton y)
       (closureSingleton (genericPoint Y))).toNat = _
     rw [topCodim_closureSingleton_eq_toNat_sub δ hηy, ENat.toNat_natCast]
   have hweight : hs1.weight = (δ y - δ ζ).toNat + 1 := by
-    show hs1.k + (Finset.univ : Finset (Fin (hs1.k + 1))).sup (fun i =>
+    change hs1.k + (Finset.univ : Finset (Fin (hs1.k + 1))).sup (fun i =>
         (∑ j : Fin (hs1.k + 1), if i.val ≤ j.val then hs1.upCodimension j else 0) -
         (∑ j : Fin hs1.k, if i.val ≤ j.val then hs1.downCodimension j else 0)) =
       (δ y - δ ζ).toNat + 1
@@ -345,7 +345,7 @@ private lemma distanceSystem_weight_ge_toNat_add_one
         (∑ j : Fin (s.k + 1), if i.val ≤ j.val then s.upCodimension j else 0) -
         (∑ j : Fin s.k, if i.val ≤ j.val then s.downCodimension j else 0))
       (b := (0 : Fin (s.k + 1))) (Finset.mem_univ _)
-    simp only [Fin.val_zero, Nat.zero_le, if_true] at hsup
+    simp only [Fin.val_zero, Nat.zero_le, ite_true] at hsup
     unfold DistanceSystem.weight
     omega
   have hv0mem : v 0 ∈ closure {ζ} := s.V_zero_subset (hv 0).mem

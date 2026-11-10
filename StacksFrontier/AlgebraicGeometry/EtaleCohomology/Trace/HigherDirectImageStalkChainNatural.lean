@@ -409,7 +409,11 @@ theorem higherDirectImageStalkFibreLevelIso_naturality :
       (LAdicSheaf.torsionFreeModelMap φ (LAdicSheaf.torsionBound G))) m)
 
 omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
-  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar] in
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar]
+  [Fintype (W.1.residueField w)]
+  [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- On `Hʳ_c` of the fibre, the map induced by `φ : G ⟶ G` on the flat model followed by the map
 induced by the flat model `G' ⟶ G` is the map induced by `G' ⟶ G` followed by the map induced by
 `φ`. -/
@@ -433,7 +437,11 @@ theorem higherDirectImageStalkIsogeny_naturality :
     (LAdicSheaf.torsionFreeModelMap_comp_fromTorsionFreeModel ..)
 
 omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
-  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar] in
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar]
+  [Fintype (W.1.residueField w)]
+  [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- The comparison `Stacks.EtaleCohomology.LAdicSheaf.padicTowerCohomologyIso` of the rational
 limit of the levels with `Hʳ_c` of the fibre commutes with the maps induced by `φ : G ⟶ G` on the
 flat model. -/
@@ -460,7 +468,11 @@ theorem higherDirectImageStalkCohomologyIso_naturality :
         (LAdicSheaf.torsionFreeModelMap φ (LAdicSheaf.torsionBound G))) r)
 
 omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
-  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar] in
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar]
+  [Fintype (W.1.residueField w)]
+  [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- `Stacks.EtaleCohomology.higherDirectImageStalkIsogenyIso` carries the rational map induced by
 `φ : G ⟶ G` on the restricted flat model to the rational map induced by `φ` on the restriction of
 `G`. -/
@@ -478,7 +490,9 @@ theorem higherDirectImageStalkIsogenyIso_naturality :
   functor_map_comp_eq_of_comp_eq (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ]))
     (higherDirectImageStalkIsogeny_naturality B ℓ g w hB kbar G r jU φ)
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar] [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- **The proper base change chain at the stalk is natural in `G`**: it carries the endomorphism
 of `Rʳ g_! G` induced by `φ : G ⟶ G` to the endomorphism of `G|_{U_w}` induced by `φ`. -/
 theorem LAdicSheaf.higherDirectImageStalkChainIso_naturality :
@@ -631,7 +645,10 @@ theorem higherDirectImageStalkFibreLevelIso_frobenius :
     (compactSupportSheafFrobenius ℤ_[ℓ] (fibreStructureResidueField B g w) jU kbar p n hcard r)
 
 omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
-  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar] in
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar]
+  [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- The comparison `Stacks.EtaleCohomology.LAdicSheaf.padicTowerCohomologyIso` carries the
 Frobenius of `κ(w)` on the levels to the rational Frobenius on `Hʳ_c` of the fibre. -/
 theorem higherDirectImageStalkCohomologyIso_frobenius :
@@ -657,7 +674,10 @@ theorem higherDirectImageStalkCohomologyIso_frobenius :
       (LAdicSheaf.inverseImage (fibreι B g w hB) (LAdicSheaf.flatModel B ℓ G)) r)
 
 omit [AlgebraicGeometry.IsNoetherian W.1] [LocallyOfFiniteType (B.inclusion.map g)]
-  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar] in
+  [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)] [IsAlgClosed kbar]
+  [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- `Stacks.EtaleCohomology.higherDirectImageStalkIsogenyIso` commutes with the rational Frobenius
 on `Hʳ_c` of the fibre. -/
 theorem higherDirectImageStalkIsogenyIso_frobenius :
@@ -679,7 +699,9 @@ theorem higherDirectImageStalkIsogenyIso_frobenius :
       (fibreStructureResidueField B g w) jU kbar p n
       hcard)).symm
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar] [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+  [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- **The proper base change chain at the stalk carries the Frobenius of `κ(w)` on
 `n ↦ H⁰_c(Spec κ̄, i⁻¹ (Rʳ g_! G)ₙ)` to `π^*` on `Hʳ_c(U_{w,κ̄}, G|_{U_w} ⊗ ℚ_ℓ)`**, given the
 Leray comparison `Ψ` with Frobenius. -/

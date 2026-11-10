@@ -189,7 +189,7 @@ theorem exists_pow_smul_eq_cechD_of_cechD_eq_zero (p : ℕ) (x : cechTerm f M (p
   have hg : S.g.hom = cechD f M (p + 1) := hd (p + 1)
   have hf : S.f.hom = cechD f M p := hd p
   have hxK : (x : S.X₂) ∈ LinearMap.ker S.g.hom := by
-    show S.g.hom x = 0
+    change S.g.hom x = 0
     exact (LinearMap.congr_fun hg x).trans hx
   let e := ((K.homologyIsoSc' p (p + 1) (p + 2) (by simp) (by simp)).trans
     S.moduleCatHomologyIso).toLinearEquiv
@@ -267,14 +267,14 @@ public theorem glueingDelta_comp_glueingGamma {R : Type u} [CommRing R] (S : Typ
     [Module R M] :
     glueingDelta S f M ∘ₗ glueingGamma S f M = 0 := by
   refine LinearMap.ext fun ⟨y, x⟩ ↦ Prod.ext ?_ ?_
-  · show glueingDifferential f (M ⊗[R] S) (1 + 1)
+  · change glueingDifferential f (M ⊗[R] S) (1 + 1)
         (glueingDifferential f (M ⊗[R] S) 1 y - localizationTensorMap S f M (1 + 1) x) +
       localizationTensorMap S f M (2 + 1) (glueingDifferential f M 2 x) = 0
     rw [localizationTensorMap_differential, map_sub,
       ← LinearMap.comp_apply (glueingDifferential f (M ⊗[R] S) (1 + 1)),
       glueingDifferential_comp_glueingDifferential, LinearMap.zero_apply, zero_sub,
       neg_add_cancel]
-  · show glueingDifferential f M (2 + 1) (glueingDifferential f M 2 x) = 0
+  · change glueingDifferential f M (2 + 1) (glueingDifferential f M 2 x) = 0
     rw [← LinearMap.comp_apply, glueingDifferential_comp_glueingDifferential,
       LinearMap.zero_apply]
 
@@ -302,7 +302,7 @@ public theorem glueingComplex_exact_fourth
   let e₃ := glueingTermTensorEquiv f M S 3
   have hx : x ⊗ₜ[R] (1 : S) ∈ LinearMap.range ((glueingDifferential f M 2).rTensor S) := by
     refine ⟨e₂.symm (-y), e₃.injective ?_⟩
-    show glueingTermTensorEquiv f M S (2 + 1) _ = glueingTermTensorEquiv f M S (2 + 1) _
+    change glueingTermTensorEquiv f M S (2 + 1) _ = glueingTermTensorEquiv f M S (2 + 1) _
     rw [glueingTermTensorEquiv_differential, LinearEquiv.apply_symm_apply, map_neg,
       glueingTermTensorEquiv_unit_deg]
     exact neg_eq_iff_add_eq_zero.mpr h₁
@@ -312,7 +312,7 @@ public theorem glueingComplex_exact_fourth
   have hy' : (glueingDifferential f M 2).rTensor S
       (e₂.symm (y + localizationTensorMap S f M 2 w)) = 0 := by
     apply e₃.injective
-    show glueingTermTensorEquiv f M S (2 + 1) _ = glueingTermTensorEquiv f M S (2 + 1) 0
+    change glueingTermTensorEquiv f M S (2 + 1) _ = glueingTermTensorEquiv f M S (2 + 1) 0
     rw [glueingTermTensorEquiv_differential, LinearEquiv.apply_symm_apply, map_add,
       ← localizationTensorMap_differential, hw, map_zero]
     exact h₁
@@ -324,10 +324,10 @@ public theorem glueingComplex_exact_fourth
     rw [← glueingTermTensorEquiv_differential, ht, map_sub, LinearEquiv.apply_symm_apply,
       glueingTermTensorEquiv_unit_deg]
   refine ⟨(e₁ t, w - v), Prod.ext ?_ ?_⟩
-  · show glueingDifferential f (M ⊗[R] S) 1 (e₁ t) - localizationTensorMap S f M 2 (w - v) = y
+  · change glueingDifferential f (M ⊗[R] S) 1 (e₁ t) - localizationTensorMap S f M 2 (w - v) = y
     rw [ht', map_sub]
     abel
-  · show glueingDifferential f M 2 (w - v) = x
+  · change glueingDifferential f M 2 (w - v) = x
     rw [map_sub, hv, sub_zero, hw]
 
 end FormalGlueing

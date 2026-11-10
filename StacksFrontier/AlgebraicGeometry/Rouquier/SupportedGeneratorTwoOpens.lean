@@ -55,7 +55,8 @@ delivers.
 
 ## Implementation notes
 
-**The model is the locally small one** of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`,
+**The model is the locally small one** of
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`,
 as everything in `StacksFrontier/AlgebraicGeometry/Rouquier/` is: no
 `CategoryTheory.HasDerivedCategory` binder appears below, so instance search supplies the global
 instances.
@@ -95,8 +96,8 @@ than as a numbered result. [Stacks, Tag 09IS] is the unsupported statement and i
 `Stacks.DerivedQCoh.hasPerfectGenerator_of_two_opens`.
 
 **`Stacks.Rouquier.isCompact_compl_preimage_of_isOpenEmbedding` is about topological spaces** and
-belongs in `StacksFrontier/Topology/`; it is here because that tree was outside the scope of the work
-that needed it.
+belongs in `StacksFrontier/Topology/`; it is here because that tree was outside the scope of the
+work that needed it.
 
 ## References
 
@@ -207,7 +208,7 @@ theorem exists_isPerfect_isWeakTriangulatedGenerator_supported_of_two_opens {X :
   let S : Set X := T ∩ (U : Set X)ᶜ
   have hS : IsClosed S := hT.inter U.isOpen.isClosed_compl
   have hSc : IsCompact Sᶜ := by
-    show IsCompact (T ∩ (U : Set X)ᶜ)ᶜ
+    change IsCompact (T ∩ (U : Set X)ᶜ)ᶜ
     rw [Set.compl_inter, compl_compl]
     exact hTc.union hU
   have hSV : S ⊆ (V : Set X) := fun x hx => (hcover x).resolve_left hx.2

@@ -179,7 +179,7 @@ theorem derivedSheafHomExactSupportKInjectiveIso_natural
           ((S.sheafHomExactSupport.mapHomologicalComplex (ComplexShape.up ℤ)).map f) := by
   have h := S.derivedSheafHomExactSupportCochainComparison.naturality f
   simp only [Functor.comp_map] at h
-  show _ ≫ inv (S.derivedSheafHomExactSupportCochainComparison.app J) =
+  change _ ≫ inv (S.derivedSheafHomExactSupportCochainComparison.app J) =
     inv (S.derivedSheafHomExactSupportCochainComparison.app I) ≫ _
   rw [IsIso.comp_inv_eq, Category.assoc, h, IsIso.inv_hom_id_assoc]
 

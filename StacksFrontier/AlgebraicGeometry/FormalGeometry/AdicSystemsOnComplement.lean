@@ -143,7 +143,7 @@ public theorem pointStalkRingEquiv_baseToPointStalk_apply (S : AlgebraizationSit
             (Spec.stalkIso (.of S.A) q)).hom =
         (Spec.stalkIso (.of S.A) q).hom := by
     rw [← hu]
-    show (Scheme.Opens.stalkIso S.U y).inv ≫
+    change (Scheme.Opens.stalkIso S.U y).inv ≫
       (Scheme.Opens.stalkIso S.U y).hom ≫
       (Spec.stalkIso (.of S.A) q).hom = _
     calc
@@ -152,7 +152,7 @@ public theorem pointStalkRingEquiv_baseToPointStalk_apply (S : AlgebraizationSit
           (Spec.stalkIso (.of S.A) q).hom := (Category.assoc _ _ _).symm
       _ = _ := by
         rw [Iso.inv_hom_id]
-        show 𝟙 ((AlgebraicGeometry.Spec (CommRingCat.of S.A)).presheaf.stalk q) ≫
+        change 𝟙 ((AlgebraicGeometry.Spec (CommRingCat.of S.A)).presheaf.stalk q) ≫
           (Spec.stalkIso (.of S.A) q).hom = _
         exact Category.id_comp _
   have hmorph :

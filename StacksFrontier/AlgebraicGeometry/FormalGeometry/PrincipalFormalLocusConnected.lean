@@ -67,7 +67,7 @@ private lemma intCast_lt_krullDimToEInt_of_two_lt {c : ℤ} (hc : c ≤ 1) {h : 
   | top => exact WithBot.coe_lt_coe.mpr (WithTop.coe_lt_top _)
   | coe n =>
     have hn : 2 < n := by exact_mod_cast hh
-    show ((c + 1 : ℤ) : EInt) < ((n : ℤ) : EInt)
+    change ((c + 1 : ℤ) : EInt) < ((n : ℤ) : EInt)
     exact WithBotTop.coe_lt_coe.mpr (by omega)
 
 /-- **Stacks Project, Tag 0EG3.** Let `A` be a Noetherian domain which has a dualizing complex

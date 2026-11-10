@@ -71,7 +71,7 @@ theorem IsSelfDualAlgebra.of_algEquiv {R A B : Type*} [CommRing R] [CommRing A] 
   obtain ⟨l, hinj, hsurj⟩ := h
   have key : ∀ x z : B, ((LinearMap.mul R B).compr₂ (l ∘ₗ e.symm.toLinearMap)) x z
       = ((LinearMap.mul R A).compr₂ l) (e.symm x) (e.symm z) := fun x z => by
-    show l (e.symm (x * z)) = l (e.symm x * e.symm z)
+    change l (e.symm (x * z)) = l (e.symm x * e.symm z)
     rw [map_mul]
   refine ⟨l ∘ₗ e.symm.toLinearMap, ?_, ?_⟩
   · intro x y hxy
@@ -83,7 +83,7 @@ theorem IsSelfDualAlgebra.of_algEquiv {R A B : Type*} [CommRing R] [CommRing A] 
     obtain ⟨a, ha⟩ := hsurj (k ∘ₗ e.toLinearMap)
     refine ⟨e a, LinearMap.ext fun z => ?_⟩
     rw [key, e.symm_apply_apply, LinearMap.congr_fun ha (e.symm z)]
-    show k (e (e.symm z)) = k z
+    change k (e (e.symm z)) = k z
     rw [e.apply_symm_apply]
 
 end Dualizing
@@ -153,7 +153,7 @@ private noncomputable def lift {m : ℕ} {A : Type*} [CommRing A] [Algebra R A]
 private theorem lift_mk_X {m : ℕ} {A : Type*} [CommRing A] [Algebra R A]
     (f : Fin m → Polynomial R) (v : Fin m → A) (hv : ∀ i, Polynomial.aeval (v i) (f i) = 0)
     (i : Fin m) : lift f v hv (Ideal.Quotient.mk (monicIdeal f) (MvPolynomial.X i)) = v i := by
-  show MvPolynomial.aeval v (MvPolynomial.X i) = v i
+  change MvPolynomial.aeval v (MvPolynomial.X i) = v i
   rw [MvPolynomial.aeval_X]
 
 /-- Two `R`-algebra maps out of `MonicQuot f` agreeing on the classes of the variables are
@@ -266,7 +266,7 @@ private theorem bwd_algebraMap (f : Fin (n + 1) → Polynomial R)
 private theorem bwd_root (f : Fin (n + 1) → Polynomial R) :
     bwd f (AdjoinRoot.root (stepPoly f))
       = Ideal.Quotient.mk (monicIdeal f) (MvPolynomial.X 0) := by
-  show AdjoinRoot.lift (lowerHom f).toRingHom _ (eval₂_lowerHom f) (AdjoinRoot.root _) = _
+  change AdjoinRoot.lift (lowerHom f).toRingHom _ (eval₂_lowerHom f) (AdjoinRoot.root _) = _
   rw [AdjoinRoot.lift_root]
 
 /-- The forward map undoes `MonicQuotientTower.lowerHom`: on the lower quotient it is the
@@ -279,7 +279,7 @@ private theorem fwd_lowerHom (f : Fin (n + 1) → Polynomial R)
   have h : (fwd f).comp (lowerHom f) = IsScalarTower.toAlgHom R
       (MonicQuot fun i : Fin n => f i.succ) (AdjoinRoot (stepPoly f)) := by
     refine algHom_ext_mk_X fun i => ?_
-    show fwd f (lowerHom f (Ideal.Quotient.mk
+    change fwd f (lowerHom f (Ideal.Quotient.mk
         (monicIdeal fun j : Fin n => f j.succ) (MvPolynomial.X i)))
       = algebraMap (MonicQuot fun j : Fin n => f j.succ) (AdjoinRoot (stepPoly f))
         (Ideal.Quotient.mk (monicIdeal fun j : Fin n => f j.succ) (MvPolynomial.X i))
@@ -290,7 +290,7 @@ private theorem fwd_lowerHom (f : Fin (n + 1) → Polynomial R)
 private theorem bwd_comp_fwd (f : Fin (n + 1) → Polynomial R) :
     (bwd f).comp (fwd f) = AlgHom.id R (MonicQuot f) := by
   refine algHom_ext_mk_X fun i => ?_
-  show bwd f (fwd f (Ideal.Quotient.mk (monicIdeal f) (MvPolynomial.X i)))
+  change bwd f (fwd f (Ideal.Quotient.mk (monicIdeal f) (MvPolynomial.X i)))
     = Ideal.Quotient.mk (monicIdeal f) (MvPolynomial.X i)
   rw [fwd_mk_X]
   induction i using Fin.cases with
@@ -304,13 +304,13 @@ the adjoined root. -/
 private theorem fwd_comp_bwd (f : Fin (n + 1) → Polynomial R) :
     (fwd f).comp (bwd f) = AlgHom.id R (AdjoinRoot (stepPoly f)) := by
   have hθ : (⟨((fwd f).comp (bwd f)).toRingHom, fun c => by
-        show fwd f (bwd f (algebraMap (MonicQuot fun i : Fin n => f i.succ)
+        change fwd f (bwd f (algebraMap (MonicQuot fun i : Fin n => f i.succ)
             (AdjoinRoot (stepPoly f)) c)) = _
         rw [bwd_algebraMap, fwd_lowerHom]⟩ :
       AdjoinRoot (stepPoly f) →ₐ[MonicQuot fun i : Fin n => f i.succ] AdjoinRoot (stepPoly f))
       = AlgHom.id _ _ := by
     refine AdjoinRoot.algHom_ext ?_
-    show fwd f (bwd f (AdjoinRoot.root (stepPoly f))) = AdjoinRoot.root (stepPoly f)
+    change fwd f (bwd f (AdjoinRoot.root (stepPoly f))) = AdjoinRoot.root (stepPoly f)
     rw [bwd_root, fwd_mk_X, point_zero]
   exact AlgHom.ext fun z => AlgHom.congr_fun hθ z
 

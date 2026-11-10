@@ -248,7 +248,7 @@ theorem succStep_hom (n : ℤ) (φ : PieceCmp R L n) :
       ((mulIsoR R hmul n 1).inv ≫ MonoidalCategoryStruct.whiskerLeft (R.piece n) β.hom) ≫
         (φ.hom ▷ L) ≫
           (tensorPowerSuccIso T.toRingedSpace.presheaf (isSheafStruct T) L n).hom := by
-  show ((mulIsoR R hmul n 1).inv ≫ MonoidalCategoryStruct.whiskerLeft (R.piece n) β.hom) ≫
+  change ((mulIsoR R hmul n 1).inv ≫ MonoidalCategoryStruct.whiskerLeft (R.piece n) β.hom) ≫
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨T.toRingedSpace.presheaf, T.toRingedSpace.IsSheaf⟩).flip.obj L).mapIso φ).hom ≫
         (tensorPowerSuccIso T.toRingedSpace.presheaf (isSheafStruct T) L n).hom = _

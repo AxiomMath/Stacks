@@ -147,7 +147,7 @@ theorem lift_eq :
     rw [nonvanishingOpen_pullSection]
     exact fun z hz => ψ.le_nonvanishingOpen_pow hf hV n (hVV' hz)
   rw [ψ'.lift_mk hf hV' he n x hx ⟨x, hxm⟩ rfl]
-  show _ = j.appLE V V' hVV' ((ψ.homogeneousRatios hf hV).lift he _)
+  change _ = j.appLE V V' hVV' ((ψ.homogeneousRatios hf hV).lift he _)
   rw [ψ.lift_mk hf hV he n x hx ⟨x, hxm⟩ rfl,
     ← ratioOf_pullback j L (ψ.toFun (n * e) ⟨f ^ n, hfn⟩)
       (ψ.le_nonvanishingOpen_pow hf hV n) (ψ.toFun (n * e) ⟨x, hxm⟩) hVV' hden,

@@ -198,7 +198,7 @@ theorem affineOpenChartReading_eq_of_le {W W' : ((BigFppfOver.toScheme B S hS).o
     (isAlgebraicSpace_yoneda B S hS R) g (isEtale_yoneda_map_opensObjectι B S hS R W) hc'
     ((dominantFunctionFieldMap ι₀).comp (W.toScheme.totalFractionRingToFunctionField t))
     (W'.toScheme.totalFractionRingToFunctionField t') (fun (a : Γ(W.toScheme, ⊤)) => by
-      show dominantFunctionFieldMap ι₀ (W.toScheme.totalFractionRingToFunctionField t
+      change dominantFunctionFieldMap ι₀ (W.toScheme.totalFractionRingToFunctionField t
           (algebraMap Γ(W.toScheme, ⊤) (FractionRing Γ(W.toScheme, ⊤)) a)) =
         W'.toScheme.totalFractionRingToFunctionField t'
           (algebraMap Γ(W'.toScheme, ⊤) (FractionRing Γ(W'.toScheme, ⊤)) (ι₀.appTop a))
@@ -301,7 +301,7 @@ theorem PrimeDivisor.coheight_pointsToScheme_genericPoint
   congr 1
   apply IrreducibleCloseds.ext
   rw [IrreducibleCloseds.coe_orderIsoOfHomeomorph]
-  show closure {schemePointsHomeomorph B S hS R (Z.genericPoint B S hS _)} =
+  change closure {schemePointsHomeomorph B S hS R (Z.genericPoint B S hS _)} =
     schemePointsHomeomorph B S hS R '' closure {Z.genericPoint B S hS _}
   rw [Homeomorph.image_closure, Set.image_singleton]
 
@@ -371,7 +371,7 @@ theorem PrimeDivisor.ord_eq_ord_representedFunctionFieldMap
   rw [ord_eq_scheme_ord_of_chart B S hS (isAlgebraicSpace_yoneda B S hS R)
     (isIntegralSpace_yoneda B S hS R) hN Z (isDecentSpace_yoneda B S hS R) U hcoh f,
     representedFunctionFieldMap_eq B S hS R W hW, affineOpenChartReading]
-  show W.toScheme.ord (W.toScheme.totalFractionRingToFunctionField U.point _) U.point = _
+  change W.toScheme.ord (W.toScheme.totalFractionRingToFunctionField U.point _) U.point = _
   rw [Scheme.totalFractionRingToFunctionField_congr W.toScheme U.point (Nonempty.some ‹_›), hUpt]
   have h2 := Stacks.Chow.ord_functionFieldEquiv_openImmersion W.ι
     ((Stacks.Chow.functionFieldEquiv_openImmersion W.ι).symm
@@ -447,11 +447,11 @@ theorem exists_hom_totalFractionObject_canonicalSiteFieldPoint
     change B.inclusion.map (q.siteHom B S hS).left ≫ _ = _ at hw
     rw [hq] at hw
     unfold opensObject at hw ⊢
-    show Spec.map (CommRingCat.ofHom ρ) ≫ W.toScheme.fromSpecTotalFractionRing ≫ _ = _
+    change Spec.map (CommRingCat.ofHom ρ) ≫ W.toScheme.fromSpecTotalFractionRing ≫ _ = _
     rwa [← Category.assoc, ← hfac]
   · apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Spec.map (CommRingCat.ofHom ρ) ≫ W.toScheme.fromSpecTotalFractionRing = _
+    change Spec.map (CommRingCat.ofHom ρ) ≫ W.toScheme.fromSpecTotalFractionRing = _
     exact hfac.symm.trans hq.symm
 
 /-- **The reading of rational functions of `h_R` on `R` is an isomorphism.** Read through an

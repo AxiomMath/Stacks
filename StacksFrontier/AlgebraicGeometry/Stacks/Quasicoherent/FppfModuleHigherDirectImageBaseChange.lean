@@ -72,8 +72,8 @@ sections keeps the elaborator from trying to decide, by unfolding the structure 
 (false) definitional equality of the two presheaves of rings that the transport of scalars in
 `AlgebraicGeometry.Stack.modulePullback` identifies propositionally; no statement depends on it.
 The global module-sheaf instances of `Stacks.Cohomology.SiteModules` are switched off, as in
-`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageFppfWeakSerre`'s consumers, so
-that the higher direct images are those of the Abelian structure of Mathlib.
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageFppfWeakSerre`'s consumers,
+so that the higher direct images are those of the Abelian structure of Mathlib.
 
 ## References
 
@@ -124,14 +124,14 @@ realizations the mate is the base change of right Kan extensions. -/
 theorem isIso_mateEquiv_app_of_realization [w.GuitartExact] [U₃.ReflectsIsomorphisms]
     (hα : ∀ A : 𝒜, Functor.whiskerLeft sndo (eG.inv.app A) ≫ eL₂.inv.app (G.obj A) ≫
       U₄.map (α.app A) ≫ eH.hom.app (L₁.obj A) =
-        Functor.whiskerRight w.natTrans (U₁.obj A) ≫
+        Functor.whiskerRight w (U₁.obj A) ≫
           Functor.whiskerLeft fsto (eL₁.inv.app A))
     (hK₁ : ∀ M : ℬ, (Functor.RightExtension.mk (U₁.obj (R₁.obj M))
       (eL₁.inv.app (R₁.obj M) ≫ U₂.map (adj₁.counit.app M))).IsPointwiseRightKanExtension)
     (hK₂ : ∀ M : ℬ, (U₃.obj (R₂.obj (H.obj M))).IsRightKanExtension
       (eL₂.inv.app (R₂.obj (H.obj M)) ≫ U₄.map (adj₂.counit.app (H.obj M)) ≫ eH.hom.app M))
-    (M : ℬ) : IsIso ((mateEquiv adj₁ adj₂ α).natTrans.app M) := by
-  set θ := (mateEquiv adj₁ adj₂ α).natTrans.app M
+    (M : ℬ) : IsIso ((mateEquiv adj₁ adj₂ α).app M) := by
+  set θ := (mateEquiv adj₁ adj₂ α).app M
   let E₁ := Functor.RightExtension.mk (U₁.obj (R₁.obj M))
     (eL₁.inv.app (R₁.obj M) ≫ U₂.map (adj₁.counit.app M))
   have : ((U₁ ⋙ (Functor.whiskeringLeft Y₀' Y₀ D).obj go).obj (R₁.obj M)).IsRightKanExtension
@@ -214,7 +214,7 @@ theorem ringStructureSheafCore_obj_map_op_of_isHomLift {𝒵 : Type (u + 1)} [Ca
     (ringStructureSheafCore B S hS p hp τ hτ).obj.map φ.op =
       eqToHom (congrArg (fun x => (BigFppfOver.structureSheaf B S hS).obj.obj (op x))
         ((IsHomLift.codomain_eq p (𝟙 U) φ).trans (IsHomLift.domain_eq p (𝟙 U) φ).symm)) := by
-  show (BigFppfOver.structureSheaf B S hS).obj.map (p.map φ).op = _
+  change (BigFppfOver.structureSheaf B S hS).obj.map (p.map φ).op = _
   rw [IsHomLift.fac' p (𝟙 U) φ, Category.id_comp, eqToHom_trans, eqToHom_op, eqToHom_map]
 
 /-- **The 2-cell of the canonical square on inverse images of modules.** For the canonical
@@ -500,7 +500,7 @@ base change of right Kan extensions along the opposite square, which is Guitart 
 `AlgebraicGeometry.Stack.isIso_mateEquiv_app_of_realization`. -/
 theorem isIso_fppfModuleDirectImageBaseChange_app
     (M : SheafOfModules.{u + 1} (ringStructureSheafCore B S hS p𝒳 h𝒳 B.topology le_rfl)) :
-    IsIso ((fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc).natTrans.app
+    IsIso ((fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc).app
       M) := by
   have : (baseChangeTwoSquare p𝒳 p𝒴' p𝒴 f g).GuitartExact :=
     TwoFibreProductOver.guitartExact_twoFibreProductSquare p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc
@@ -553,9 +553,9 @@ noncomputable def fppfModuleDirectImageBaseChangeIso :
         B.topology le_rfl :=
   haveI := isIso_fppfModuleDirectImageBaseChange_app B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc
   haveI : IsIso
-      (fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc).natTrans :=
+      (fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc) :=
     NatIso.isIso_of_isIso_app _
-  asIso (fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc).natTrans
+  asIso (fppfModuleDirectImageBaseChange B S hS p𝒳 p𝒴' p𝒴 f g h𝒳 h𝒴' h𝒴 hfc hgc)
 
 variable
   [HasSheafify (associatedTopology B S hS p𝒳 B.topology) AddCommGrpCat.{u + 1}]

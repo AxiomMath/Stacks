@@ -65,8 +65,9 @@ that is exactly `Stacks.AlgebraicGeometry.ProjTwistMono.isIso_projMapData_twistM
 as the hypothesis `htw` rather than re-derived.
 
 A consumer that needs more than one section at a time (for instance, the degreewise-finiteness
-transport in `StacksFrontier/AlgebraicGeometry/Blowup/ProjectivePushforwardGradedSections.lean`) runs
-into exactly this limit. `pullbackTwistCompositeIso_degreeSection`/`pullbackTwistIso_degreeSection`
+transport in `StacksFrontier/AlgebraicGeometry/Blowup/ProjectivePushforwardGradedSections.lean`)
+runs into exactly this limit.
+`pullbackTwistCompositeIso_degreeSection`/`pullbackTwistIso_degreeSection`
 give the comparison's action *elementwise*: one degree-one generator `a`, one section built from
 it by `degreeSection d a`. Additivity of `degreeSection`
 extends this across *sums of ring elements acting* — `degreeSection d a + degreeSection d a' =

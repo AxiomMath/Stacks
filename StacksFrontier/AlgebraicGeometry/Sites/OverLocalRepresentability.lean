@@ -80,7 +80,7 @@ theorem presheaf_subfunctor_ι_of_factor (P : MorphismProperty C) [P.RespectsIso
         intro T₁ T₂ k
         ext l
         apply Subtype.ext
-        show F.map ((k.unop ≫ l) ≫ j).op (yonedaEquiv g) =
+        change F.map ((k.unop ≫ l) ≫ j).op (yonedaEquiv g) =
           F.map k (F.map (l ≫ j).op (yonedaEquiv g))
         rw [← Functor.map_comp_apply, Category.assoc, op_comp]
         rfl }
@@ -90,7 +90,7 @@ theorem presheaf_subfunctor_ι_of_factor (P : MorphismProperty C) [P.RespectsIso
   rw [Types.isPullback_iff]
   refine ⟨?_, ?_, ?_⟩
   · ext l
-    show F.map (l ≫ j).op (yonedaEquiv g) = g.app T' (l ≫ j)
+    change F.map (l ≫ j).op (yonedaEquiv g) = g.app T' (l ≫ j)
     exact map_yonedaEquiv g (l ≫ j)
   · rintro l₁ l₂ ⟨-, h₂⟩
     exact (cancel_mono j).1 h₂
@@ -101,7 +101,7 @@ theorem presheaf_subfunctor_ι_of_factor (P : MorphismProperty C) [P.RespectsIso
       exact x.2
     obtain ⟨l, hl⟩ := (hU T'.unop e).1 hmem
     refine ⟨l, Subtype.ext ?_, hl⟩
-    show F.map (l ≫ j).op (yonedaEquiv g) = x.1
+    change F.map (l ≫ j).op (yonedaEquiv g) = x.1
     rw [hl, map_yonedaEquiv, hx]
 
 /-- **The pullbacks of a subfunctor with a relative property are cut out by morphisms with that
@@ -121,7 +121,7 @@ theorem exists_factor_of_presheaf_subfunctor_ι {P : MorphismProperty C}
   · rintro ⟨l, rfl⟩
     have hw := congrArg (fun η => η.app (op T') l) (hG.rep.isPullback g).w
     change ((hG.rep.fst g).app (op T') l).1 = g.app (op T') (l ≫ hG.rep.snd g) at hw
-    show g.app (op T') (l ≫ hG.rep.snd g) ∈ G.obj (op T')
+    change g.app (op T') (l ≫ hG.rep.snd g) ∈ G.obj (op T')
     rw [← hw]
     exact ((hG.rep.fst g).app (op T') l).2
 
@@ -169,7 +169,7 @@ lemma totalPresheaf_homEquiv_left {P : (Over X)ᵒᵖ ⥤ Type v} {W : C}
     (k : B ⟶ Over.mk (R.homEquiv (𝟙 W)).1) :
     R.homEquiv k.left = ⟨B.hom, P.map k.op (R.homEquiv (𝟙 W)).2⟩ := by
   rw [R.homEquiv_eq]
-  show totalPresheafMap P k.left.op ⟨(R.homEquiv (𝟙 W)).1, (R.homEquiv (𝟙 W)).2⟩ = _
+  change totalPresheafMap P k.left.op ⟨(R.homEquiv (𝟙 W)).1, (R.homEquiv (𝟙 W)).2⟩ = _
   exact totalPresheafMap_mk P k.left.op (Over.w k) _
 
 /-- **Representability of the total presheaf implies representability on
@@ -292,7 +292,7 @@ theorem isOpenImmersion_presheaf_totalSubfunctor_ι {S : Scheme.{u}}
   obtain ⟨U, j, hj, hU⟩ := exists_factor_of_presheaf_subfunctor_ι hG (Over.mk a) s
   have : IsOpenImmersion j.left := hj
   refine ⟨U.left, j.left, inferInstance, hj, fun T' e => ?_⟩
-  show F.map (Over.homMk e rfl : Over.mk (e ≫ a) ⟶ Over.mk a).op s ∈ G.obj _ ↔ _
+  change F.map (Over.homMk e rfl : Over.mk (e ≫ a) ⟶ Over.mk a).op s ∈ G.obj _ ↔ _
   rw [hU]
   constructor
   · rintro ⟨l, hl⟩
@@ -354,7 +354,7 @@ theorem isRepresentable_of_isOpenImmersion_subfunctors {S : Scheme.{u}}
     refine ⟨(Sigma.ι (fun i => yoneda.obj (Yr i).left) (i p)).app _
       ((e (i p)).inv.app _ ⟨_, hmem⟩), ?_⟩
     have hc := congrArg (fun n => n.app (op (W p)) ((e (i p)).inv.app _ ⟨_, hmem⟩))
-      (Sigma.ι_desc f (i p))
+      (Sigma.ι_comp_desc f (i p))
     exact hc.trans (congrArg (fun z => (totalSubfunctor (G (i p))).ι.app (op (W p)) z)
       (ConcreteCategory.congr_hom ((e (i p)).inv_hom_id_app (op (W p))) _))
   exact isRepresentable_of_isRepresentable_totalPresheaf

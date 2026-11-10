@@ -143,7 +143,7 @@ theorem involutionAut_mul_self : involutionAut k B hk * involutionAut k B hk = 1
   ext1
   rw [Aut.mul_asIso, Aut.one_asIso]
   ext1
-  show (Over.post B.inclusion).map (doubledLineInvolution k B hk) ≫
+  change (Over.post B.inclusion).map (doubledLineInvolution k B hk) ≫
       (Over.post B.inclusion).map (doubledLineInvolution k B hk) = 𝟙 _
   rw [← Functor.map_comp, doubledLineInvolution_comp_self, CategoryTheory.Functor.map_id]
 
@@ -349,7 +349,7 @@ theorem ofArrows_relationSummand_mem_topology :
     (PreservesCoproduct.iso (Over.forget (Spec (.of k)))
       (fun _ : ℤˣ => Space.underlyingOver B hk (doubledLineSite k B hk))).symm
   intro g
-  show Sigma.ι (fun _ : ℤˣ => (Space.underlyingOver B hk (doubledLineSite k B hk)).left) g ≫
+  change Sigma.ι (fun _ : ℤˣ => (Space.underlyingOver B hk (doubledLineSite k B hk)).left) g ≫
       (PreservesCoproduct.iso (Over.forget (Spec (.of k)))
         (fun _ : ℤˣ => Space.underlyingOver B hk (doubledLineSite k B hk))).inv =
     (Sigma.ι (fun _ : ℤˣ => Space.underlyingOver B hk (doubledLineSite k B hk)) g).left

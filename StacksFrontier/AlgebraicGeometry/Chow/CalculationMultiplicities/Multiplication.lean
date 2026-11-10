@@ -248,7 +248,7 @@ private lemma periodicLength_mul_additive_of_exact
   let S := ShortComplex.mk (multiplicationComplexMap x f)
     (multiplicationComplexMap x g) (by
       ext i y
-      show g (f y) = 0
+      change g (f y) = 0
       exact LinearMap.congr_fun hfg.linearMap_comp_eq_zero y)
   have hS : S.ShortExact := HomologicalComplex.shortExact_of_degreewise_shortExact S
     fun _ => ModuleCat.shortComplex_shortExact _ hfg hf hg
@@ -264,7 +264,7 @@ private lemma mem_support_quotient {R : Type*} [CommRing R] (q : PrimeSpectrum R
 private lemma support_quotient_closedPoint {R : Type*} [CommRing R] [IsLocalRing R] :
     Module.support R (R ⧸ (IsLocalRing.closedPoint R).asIdeal) = {IsLocalRing.closedPoint R} := by
   have : (IsLocalRing.closedPoint R).asIdeal.IsMaximal := by
-    show (IsLocalRing.maximalIdeal R).IsMaximal
+    change (IsLocalRing.maximalIdeal R).IsMaximal
     infer_instance
   rw [Module.support_eq_zeroLocus, Ideal.annihilator_quotient,
     PrimeSpectrum.zeroLocus_eq_singleton]
@@ -352,7 +352,7 @@ private noncomputable def quotSMulTopEquivOfLinearEquiv
     convert QuotSMulTop.map_id x N using 1
     ext a
     simp
-  exact LinearEquiv.ofLinear f g hgf hfg
+  exact LinearEquiv.ofLinearMap f g hgf hfg
 
 /-- A module isomorphic to the residue ring of a prime has the same periodic length for
 multiplication by `x`. -/
@@ -401,7 +401,7 @@ public theorem periodicLength_mul_eq_finsum_support
           ((Module.length (Localization.AtPrime q.asIdeal)
             (LocalizedModule q.asIdeal.primeCompl M)).toNat : ℤ) := by
   classical
-  show periodicLength
+  change periodicLength
       (twoPeriodicComplex (0 : Module.End R M) (LinearMap.lsmul R M x)
         (zero_mul _) (mul_zero _)) =
     ∑ᶠ q ∈ {q : PrimeSpectrum R |

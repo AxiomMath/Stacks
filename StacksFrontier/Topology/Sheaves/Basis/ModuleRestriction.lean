@@ -222,7 +222,8 @@ noncomputable def restrictModuleSheaf_preimage {B : Set (Opens X)} (hB : Opens.I
       let res_m := ConcreteCategory.hom
         (((SheafOfModules.toSheaf 𝒪).obj M).obj.map (homOfLE hVU).op) m
       have lhs : ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
-          (ConcreteCategory.hom ((N.val.obj U).smul r).asHom (ConcreteCategory.hom (g'.hom.app U) m)) =
+          (ConcreteCategory.hom ((N.val.obj U).smul r).asHom
+            (ConcreteCategory.hom (g'.hom.app U) m)) =
           ConcreteCategory.hom ((N.val.obj (op V)).smul res_r).asHom
             (ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
               (ConcreteCategory.hom (g'.hom.app U) m)) :=
@@ -233,7 +234,8 @@ noncomputable def restrictModuleSheaf_preimage {B : Set (Opens X)} (hB : Opens.I
           ConcreteCategory.hom (g'.hom.app (op V)) res_m :=
         (NatTrans.naturality_apply g'.hom (homOfLE hVU).op m).symm
       have rhs : ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj N).obj.map (homOfLE hVU).op)
-          (ConcreteCategory.hom (g'.hom.app U) (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)) =
+          (ConcreteCategory.hom (g'.hom.app U)
+            (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)) =
           ConcreteCategory.hom (g'.hom.app (op V))
             (ConcreteCategory.hom (((SheafOfModules.toSheaf 𝒪).obj M).obj.map (homOfLE hVU).op)
               (ConcreteCategory.hom ((M.val.obj U).smul r).asHom m)) :=

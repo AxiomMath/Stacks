@@ -162,7 +162,7 @@ theorem whiskerRight_counit_constantCoefficientRingedSite :
           ((Functor.const X.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).app
         (op ((proetalePostcompose j).obj ((Scheme.proetaleBaseChange j).obj W.unop))) :=
     congr_app (toSheafify_comp_constantCoefficientRestrictionComparison.{u, r, w} j Λ) _
-  show (toSheafify (Scheme.ProEt.topology X)
+  change (toSheafify (Scheme.ProEt.topology X)
         ((Functor.const X.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).app W ≫
       (sheafify (Scheme.ProEt.topology X)
           ((Functor.const X.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).map
@@ -204,7 +204,7 @@ theorem comparison_comp_whiskerRight_unit_constantCoefficientRingedSite :
           ((Functor.const U.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).app
         (op ((Scheme.proetaleBaseChange j).obj ((proetalePostcompose j).obj V.unop))) :=
     congr_app (toSheafify_comp_constantCoefficientRingComparison.{u, r, w} j Λ) _
-  show (toSheafify (Scheme.ProEt.topology U)
+  change (toSheafify (Scheme.ProEt.topology U)
         ((Functor.const U.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).app V ≫
       (constantCoefficientRestrictionComparison.{u, r, w} j Λ).hom.app V ≫
         (constantCoefficientRingComparison.{u, r, w} Λ j).hom.app

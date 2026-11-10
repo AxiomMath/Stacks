@@ -203,7 +203,7 @@ theorem exists_level (n : ℕ) :
     · rfl
     · exact C.levelU_levelV n
     · have e₁ : (C.D n).V ⊓ (C.D n).U ≤ (C.D n).U ⊓ (C.D n).V := le_of_eq (inf_comm _ _)
-      show (X n).homOfLE inf_le_left ≫ C.levelV n = (X n).homOfLE inf_le_right ≫ C.levelU n
+      change (X n).homOfLE inf_le_left ≫ C.levelV n = (X n).homOfLE inf_le_right ≫ C.levelU n
       rw [← (X n).homOfLE_homOfLE e₁ inf_le_right, ← (X n).homOfLE_homOfLE e₁ inf_le_left,
         Category.assoc, Category.assoc, C.levelU_levelV n]
     · rfl
@@ -284,7 +284,7 @@ theorem level_preimage_ι₁ (n : ℕ) :
   · intro hxU
     let p : (C.D n).U.toScheme := ⟨x, hxU⟩
     refine ⟨Spec.map (CommRingCat.ofHom (C.evalU n)) ((C.D n).U.toSpecΓ p), ?_⟩
-    show _ = C.level n ((C.D n).U.ι p)
+    change _ = C.level n ((C.D n).U.ι p)
     rw [C.level_ι_apply_U, levelU, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
 
 /-- The part of `Xₙ` over the second chart of `Y` is `Vₙ`. -/
@@ -314,7 +314,7 @@ theorem level_preimage_ι₂ (n : ℕ) :
   · intro hxV
     let p : (C.D n).V.toScheme := ⟨x, hxV⟩
     refine ⟨Spec.map (CommRingCat.ofHom (C.evalV n)) ((C.D n).V.toSpecΓ p), ?_⟩
-    show _ = C.level n ((C.D n).V.ι p)
+    change _ = C.level n ((C.D n).V.ι p)
     rw [C.level_ι_apply_V, levelV, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
 
 /-! ### The levels are the base changes of `Y` -/

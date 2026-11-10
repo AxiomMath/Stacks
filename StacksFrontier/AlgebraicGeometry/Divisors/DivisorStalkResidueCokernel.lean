@@ -106,7 +106,7 @@ theorem IdealSheafData.subschemeStalkGenericPointResidueFieldEquiv_stalkMap
     IdealSheafData.subschemeStalkGenericPointResidueFieldEquiv D
         (D.subschemeι.stalkMap (_root_.genericPoint (D.subscheme : Type u)) r)
       = IsLocalRing.residue _ r := by
-  show Ideal.quotEquivOfEq
+  change Ideal.quotEquivOfEq
       (IdealSheafData.stalk_subschemeι_genericPoint_eq_maximalIdeal D)
       ((IdealSheafData.subschemeStalkQuotEquiv D
           (_root_.genericPoint (D.subscheme : Type u))).symm

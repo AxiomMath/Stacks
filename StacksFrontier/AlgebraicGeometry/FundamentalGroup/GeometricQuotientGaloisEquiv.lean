@@ -85,7 +85,7 @@ instance isIso_finiteEtaleFiberPrecomp [ConnectedSpace S] :
     FintypeCat.incl
   let e : finiteEtaleFiberFintypeFunctor S x ⟶ finiteEtaleFiberFintypeFunctor S x :=
     (fullyFaithfulWhiskeringRightFintypeIncl S).preimage (finiteEtaleFiberPrecomp h hh ≫ t.hom)
-  haveI : IsIso e := FibreFunctor.end_isIso _ (End.of e)
+  have : IsIso e := FibreFunctor.end_isIso _ (End.of e)
   have he : IsIso (L.map e) := inferInstance
   have he' : L.map e = finiteEtaleFiberPrecomp h hh ≫ t.hom :=
     (fullyFaithfulWhiskeringRightFintypeIncl S).map_preimage _
@@ -126,7 +126,7 @@ def separableClosureRestrictMulEquiv :
       intro σ hσ
       have hfix : ∀ x ∈ separableClosure k kbar, σ x = x :=
         (AlgEquiv.restrictNormal_eq_one_iff (separableClosure k kbar) σ).mp hσ
-      letI : IsPurelyInseparable (separableClosure k kbar) kbar :=
+      let : IsPurelyInseparable (separableClosure k kbar) kbar :=
         separableClosure.isPurelyInseparable k kbar
       have hcomp : σ.toRingHom.comp (algebraMap (separableClosure k kbar) kbar) =
           (RingHom.id kbar).comp (algebraMap (separableClosure k kbar) kbar) := by
@@ -165,6 +165,7 @@ omit [IsCurve k f] [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar]
 abbrev geometricPointToSpec : y.source ⟶ Spec (.of kbar) :=
   y.hom ≫ pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)
 
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosed kbar] in
 /-- The image of `η̄` in `Spec k` is `Spec Ω ⟶ Spec k̄ ⟶ Spec k`. -/
 theorem geometricPointToSpec_comp_specAlgebraMap :
     geometricPointToSpec B X f kbar y ≫ specAlgebraMap k kbar =
@@ -223,6 +224,7 @@ def geometricQuotientGaloisEquiv :
   (galoisEquivEtaleFundamentalGroup k (separableClosure k kbar) kbar).toMulEquiv.symm.trans
     (separableClosureRestrictMulEquiv k kbar).symm
 
+omit [Smooth f] in
 /-- **The defining property of `AlgebraicGeometry.geometricQuotientGaloisEquiv`**, in terms of
 the fibre functor of `Spec k` at `η̄`. Let `γ ∈ π₁(X, η̄)` with image `σ ∈ Aut(k̄/k)`, let `Y` be
 a finite étale `k`-scheme and `e : Spec k̄ ⟶ Y` a `k̄`-point of `Y` over `k`. Then the image of `γ`
@@ -282,7 +284,8 @@ theorem geometricQuotientGaloisEquiv_spec
     have hx := separableClosureRestrictMulEquiv_apply_coe k kbar (r.symm τ) x
     rwa [MulEquiv.apply_symm_apply] at hx
   rw [hσ]
-  refine (congrArg (fun q : Aut (finiteEtaleFiberFunctor _) ↦ ((q.asIso.app Y).hom p).1) hQ).trans ?_
+  refine (congrArg (fun q : Aut (finiteEtaleFiberFunctor _) ↦ ((q.asIso.app Y).hom p).1)
+    hQ).trans ?_
   dsimp only
   rw [hp₀]
   refine (congrArg Subtype.val

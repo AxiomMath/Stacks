@@ -111,7 +111,7 @@ private theorem exists_rank_le_of_flat_surjective_of_field {K : Type u} [Field K
     { toFun := p.appTop.hom
       map_add' := fun x y ↦ map_add _ x y
       map_smul' := fun k x ↦ by
-        show p.appTop.hom (((Scheme.ΓSpecIso (.of K)).inv ≫ gB.appTop).hom k * x) =
+        change p.appTop.hom (((Scheme.ΓSpecIso (.of K)).inv ≫ gB.appTop).hom k * x) =
           ((Scheme.ΓSpecIso (.of K)).inv ≫ gA.appTop).hom k * p.appTop.hom x
         rw [map_mul, ← hcomm]
         rfl }

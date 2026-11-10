@@ -76,7 +76,7 @@ include hμ
 private theorem conj_delta (A B : C) :
     (δ A B).hom = F.map (tC A B).inv ≫ (μ A B).hom ≫ (tD (F.obj A) (F.obj B)).hom := by
   simp only [hμ, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom, Category.assoc,
-    Iso.inv_hom_id, Category.comp_id, Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id, Category.comp_id, Iso.inv_hom_id_map_assoc]
 
 /-- **Associativity transports along conjugation.** -/
 private theorem conj_associativity
@@ -107,11 +107,11 @@ private theorem conj_associativity
   subst haY hwl hwr haX
   rw [conj_delta F tC tD δ μ hμ A (TC B E), conj_delta F tC tD δ μ hμ B E,
     conj_delta F tC tD δ μ hμ (TC A B) E, conj_delta F tC tD δ μ hμ A B] at h
-  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.map_hom_inv_id_assoc,
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id_map_assoc,
     tensorHom_id, id_tensorHom, MonoidalCategory.whiskerLeft_comp,
     MonoidalCategory.comp_whiskerRight, MonoidalCategory.hom_inv_whiskerRight_assoc] at h
   rw [reassoc_of% (hR A (tC B E).hom), ← reassoc_of% (hL (tC A B).inv E)] at h
-  simp only [← MonoidalCategory.whiskerLeft_comp_assoc, Iso.map_hom_inv_id_assoc] at h
+  simp only [← MonoidalCategory.whiskerLeft_comp_assoc, Iso.hom_inv_id_map_assoc] at h
   rw [← cancel_epi (F.map ((tC (TC A B) E).inv ≫ (tC A B).inv ▷ E)),
     ← cancel_mono ((F.obj A ◁ (tD (F.obj B) (F.obj E)).hom) ≫
       (tD (F.obj A) (TD (F.obj B) (F.obj E))).hom)]
@@ -126,7 +126,7 @@ private theorem conj_braiding [BraidedCategory C] [BraidedCategory D] (A B : C)
       (μ A B).hom ≫ (β_ (F.obj A) (F.obj B)).hom := by
   rw [conj_delta F tC tD δ μ hμ B A, conj_delta F tC tD δ μ hμ A B] at h
   simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc,
-    Iso.map_hom_inv_id_assoc] at h
+    Iso.hom_inv_id_map_assoc] at h
   rw [← cancel_epi (F.map (tC A B).inv), ← cancel_mono (tD (F.obj B) (F.obj A)).hom]
   simpa only [Category.assoc] using h
 

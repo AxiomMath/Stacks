@@ -82,7 +82,7 @@ private lemma fiber_prime_comap
     PrimeSpectrum.coe_primesOverOrderIsoFiber_symm_apply]
   ext t
   simp only [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
-  show f (Algebra.TensorProduct.includeRight t) ∈ Q.asIdeal ↔
+  change f (Algebra.TensorProduct.includeRight t) ∈ Q.asIdeal ↔
     Algebra.TensorProduct.includeRight (algebraMap T S t) ∈ Q.asIdeal
   simp [f, Algebra.TensorProduct.map_tmul]
 
@@ -124,16 +124,16 @@ private lemma fiber_to_residue_surjective
       g (algebraMap p.ResidueField (p.Fiber S) x) =
         algebraMap p.ResidueField (q : Ideal S).ResidueField x := by
     rw [Algebra.TensorProduct.algebraMap_apply]
-    show g (x ⊗ₜ[R] 1) = _
-    show φ₁ x * φ₂ 1 = _
+    change g (x ⊗ₜ[R] 1) = _
+    change φ₁ x * φ₂ 1 = _
     simp only [map_one, mul_one]
     rfl
   let f : p.Fiber S →ₐ[p.ResidueField] (q : Ideal S).ResidueField :=
     { g.toRingHom with commutes' := hscalar }
   have hinc (s : S) : f (Algebra.TensorProduct.includeRight s) =
       algebraMap S (q : Ideal S).ResidueField s := by
-    show g ((1 : p.ResidueField) ⊗ₜ[R] s) = _
-    show φ₁ 1 * φ₂ s = _
+    change g ((1 : p.ResidueField) ⊗ₜ[R] s) = _
+    change φ₁ 1 * φ₂ s = _
     simp [φ₂, IsScalarTower.toAlgHom_apply]
   have hF : Function.Surjective f := by
     have hmax : P.asIdeal.IsMaximal := maximal_fiber_prime p P.asIdeal
@@ -177,7 +177,7 @@ private lemma residueFieldEquiv_of_surjective_to_field
     e₀.symm.trans (f.quotientKerEquivOfSurjective hf)
   refine ⟨e, ?_⟩
   intro a
-  show e (e₀ (Ideal.Quotient.mk _ a)) = f a
+  change e (e₀ (Ideal.Quotient.mk _ a)) = f a
   simp [e, RingHom.quotientKerEquivOfSurjective_apply_mk]
 
 private lemma purelyInseparable_of_equiv_square
@@ -190,7 +190,7 @@ private lemma purelyInseparable_of_equiv_square
   let : Algebra F E := f.toAlgebra
   let : Algebra F' E' := g.toAlgebra
   have hgp : IsPurelyInseparable F' E' := hg
-  show IsPurelyInseparable F E
+  change IsPurelyInseparable F E
   let q := ringExpChar F'
   have : ExpChar F' q := ringExpChar.expChar F'
   have : ExpChar F q :=
@@ -203,7 +203,7 @@ private lemma purelyInseparable_of_equiv_square
   apply eE.injective
   calc
     eE (algebraMap F E (eF.symm y)) = g y := by
-      show eE (f (eF.symm y)) = g y
+      change eE (f (eF.symm y)) = g y
       simpa using RingHom.congr_fun hcomm (eF.symm y)
     _ = (eE x) ^ q ^ n := hy
     _ = eE (x ^ q ^ n) := by simp
@@ -237,7 +237,7 @@ private lemma residueFieldEquiv_square
     simp only [RingHom.comp_apply]
     dsimp only [m]
     rw [Ideal.ResidueField.map_algebraMap]
-    show eB (algebraMap B (RingHom.ker v).ResidueField (f a)) =
+    change eB (algebraMap B (RingHom.ker v).ResidueField (f a)) =
       g (eA (algebraMap A (RingHom.ker u).ResidueField a))
     rw [heA, heB]
     simpa only [RingHom.comp_apply] using (RingHom.congr_fun hcomm a)
@@ -296,7 +296,7 @@ private lemma purelyInseparable_of_surjective_field_square
   apply RingHom.ext
   intro x
   apply eB.injective
-  show eB (eB.symm (g x)) = eB (m (eA.symm x))
+  change eB (eB.symm (g x)) = eB (m (eA.symm x))
   rw [eB.apply_symm_apply]
   have h := RingHom.congr_fun hsquare (eA.symm x)
   change eB (m (eA.symm x)) = g (eA (eA.symm x)) at h
@@ -372,7 +372,7 @@ private lemma residue_algebraMap_eq_map
     {A : Type u} {B : Type v} [CommRing A] [CommRing B] [Algebra A B]
     (I : Ideal A) [I.IsPrime] (J : Ideal B) [J.IsPrime] [J.LiesOver I]
     [Algebra (Localization.AtPrime I) (Localization.AtPrime J)]
-    [Localization.AtPrime.IsLiesOverAlgebra I J] :
+    [IsScalarTower A (Localization.AtPrime I) (Localization.AtPrime J)] :
     (algebraMap I.ResidueField J.ResidueField) =
       Ideal.ResidueField.map I J (algebraMap A B) (J.over_def I) :=
   Ideal.ResidueField.ringHom_ext <| by
@@ -386,11 +386,11 @@ private lemma residue_tower_algebraMap
     (p : Ideal R) [p.IsPrime] (P : Ideal T) [P.IsPrime] [P.LiesOver p]
     (Q : Ideal S) [Q.IsPrime] [Q.LiesOver P] [Q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime P)]
-    [Localization.AtPrime.IsLiesOverAlgebra p P]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime P)]
     [Algebra (Localization.AtPrime P) (Localization.AtPrime Q)]
-    [Localization.AtPrime.IsLiesOverAlgebra P Q]
+    [IsScalarTower T (Localization.AtPrime P) (Localization.AtPrime Q)]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime Q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p Q] :
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime Q)] :
     (algebraMap P.ResidueField Q.ResidueField).comp
       (algebraMap p.ResidueField P.ResidueField) =
       algebraMap p.ResidueField Q.ResidueField := by
@@ -415,7 +415,7 @@ private lemma exists_fg_subalgebra_primitive_residue
             algebraMap S q.ResidueField a / algebraMap S q.ResidueField b := by
   classical
   let := Localization.AtPrime.algebraOfLiesOver p q
-  let : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+  let : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
   let : Algebra.IsAlgebraic p.ResidueField q.ResidueField :=
     instIsAlgebraicResidueFieldOfIsIntegral p q
   let := hfinite
@@ -522,10 +522,10 @@ private lemma fiber_residue_square
       (algebraMap P.ResidueField Q.ResidueField) := (residue_algebraMap_eq_map P Q).symm
   rw [hg]
   refine Algebra.TensorProduct.ringHom_ext (RingHom.ext fun x => ?_) (RingHom.ext fun a => ?_)
-  · show v (fb (algebraMap p.ResidueField (p.Fiber A) x)) =
+  · change v (fb (algebraMap p.ResidueField (p.Fiber A) x)) =
       algebraMap P.ResidueField Q.ResidueField (u (algebraMap p.ResidueField (p.Fiber A) x))
     rw [fb.commutes, v.commutes, u.commutes, ← IsScalarTower.algebraMap_apply]
-  · show v (fb ((1 : p.ResidueField) ⊗ₜ[R] a)) =
+  · change v (fb ((1 : p.ResidueField) ⊗ₜ[R] a)) =
       algebraMap P.ResidueField Q.ResidueField (u ((1 : p.ResidueField) ⊗ₜ[R] a))
     have h2 : u ((1 : p.ResidueField) ⊗ₜ[R] a) = algebraMap A P.ResidueField a := hua a
     have h1 : v ((1 : p.ResidueField) ⊗ₜ[R] (algebraMap A B a)) =
@@ -634,7 +634,7 @@ private lemma completeOrthogonalIdempotents_merge_last
   rw [CompleteOrthogonalIdempotents.iff_ortho_complete]
   constructor
   · intro i j hij
-    show (if i = i₀ then e i.castSucc + e (Fin.last n) else e i.castSucc) *
+    change (if i = i₀ then e i.castSucc + e (Fin.last n) else e i.castSucc) *
       (if j = i₀ then e j.castSucc + e (Fin.last n) else e j.castSucc) = 0
     split_ifs with hi hj
     · exact (hij (hi.trans hj.symm)).elim
@@ -749,7 +749,7 @@ private lemma exists_moduleFinite_tower_residue_isPurelyInseparable
   have hC₀ : C₀.FG := fg_iSup_of_finite C hC
   let sep (q q' : p.primesOver S) : S :=
     if h : q = q' then 0 else
-      Classical.choose (SetLike.not_le_iff_exists.mp
+      Classical.choose (IsConcreteLE.not_le_iff_exists.mp
         (primes_over_incomparable p q q' h))
   let tSep : Finset S := (Finset.univ.product Finset.univ).image
     (fun ij : p.primesOver S × p.primesOver S => sep ij.1 ij.2)
@@ -762,7 +762,7 @@ private lemma exists_moduleFinite_tower_residue_isPurelyInseparable
   have hsep_mem (q q' : p.primesOver S) (hne : q ≠ q') :
       sep q q' ∈ (q : Ideal S) ∧ sep q q' ∉ (q' : Ideal S) := by
     simpa [sep, hne] using Classical.choose_spec
-      (SetLike.not_le_iff_exists.mp (primes_over_incomparable p q q' hne))
+      (IsConcreteLE.not_le_iff_exists.mp (primes_over_incomparable p q q' hne))
   have hsepD (q q' : p.primesOver S) : sep q q' ∈ D := by
     have hs : sep q q' ∈ tSep := Finset.mem_image.mpr
       ⟨(q, q'), Finset.mem_product.mpr ⟨Finset.mem_univ _, Finset.mem_univ _⟩, rfl⟩
@@ -875,7 +875,7 @@ private lemma fiberBaseChangeHom_comp_algebraMap
         (algebraMap p.ResidueField p₁.ResidueField) := by
   apply RingHom.ext
   intro x
-  show fiber_baseChange_equiv (X := X) p p₁
+  change fiber_baseChange_equiv (X := X) p p₁
       (1 ⊗ₜ[p.ResidueField] (algebraMap p.ResidueField (p.Fiber X) x)) =
     algebraMap p₁.ResidueField (p₁.Fiber (R₁ ⊗[R] X))
       (algebraMap p.ResidueField p₁.ResidueField x)
@@ -958,10 +958,9 @@ private lemma fiberBaseChangeHom_comm
         (Algebra.TensorProduct.map (AlgHom.id p.ResidueField p.ResidueField) φ).toRingHom := by
   apply RingHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x a =>
-      show (Algebra.TensorProduct.map (AlgHom.id p₁.ResidueField p₁.ResidueField)
+      change (Algebra.TensorProduct.map (AlgHom.id p₁.ResidueField p₁.ResidueField)
           (Algebra.TensorProduct.map (AlgHom.id R₁ R₁) φ))
           (fiber_baseChange_equiv (X := A) p p₁ (1 ⊗ₜ[p.ResidueField] (x ⊗ₜ[R] a))) =
         fiber_baseChange_equiv (X := B) p p₁ (1 ⊗ₜ[p.ResidueField]
@@ -1223,7 +1222,7 @@ private lemma exists_etale_completeOrthogonalIdempotents_of_no_prime
     let _ : Q.IsPrime := hQ
     let _ : Q.LiesOver p₁ := ⟨hQo.symm⟩
     exact hQ.ne_top (Q.eq_top_iff_one.mpr (hno Q hQ inferInstance))
-  obtain ⟨g, hgker, hgnot⟩ := SetLike.not_le_iff_exists.mp hker_not
+  obtain ⟨g, hgker, hgnot⟩ := IsConcreteLE.not_le_iff_exists.mp hker_not
   let R₂ := Localization.Away g
   let _ : Algebra R R₂ := Algebra.compHom _ (algebraMap R R₁)
   let _ : SMul R R₂ := (inferInstance : Algebra R R₂).toSMul
@@ -1377,7 +1376,7 @@ public theorem exists_etale_completeOrthogonalIdempotents_integral_isPurelyInsep
     let : (r i).LiesOver p₁ := hro i
     exact hlastT (r i)
   have hdmap : CompleteOrthogonalIdempotents (fun j => φ (d j)) := by
-    show CompleteOrthogonalIdempotents (φ.toRingHom ∘ d)
+    change CompleteOrthogonalIdempotents (φ.toRingHom ∘ d)
     exact hd.map φ.toRingHom
   by_cases hn : 0 < n
   · let i₀ : Fin n := ⟨0, hn⟩
@@ -1412,7 +1411,7 @@ public theorem exists_etale_completeOrthogonalIdempotents_integral_isPurelyInsep
         apply FT.symm.injective
         apply Subtype.ext
         rw [FU.apply_symm_apply]
-        show (FT.symm (PrimeSpectrum.comap f₁.toRingHom
+        change (FT.symm (PrimeSpectrum.comap f₁.toRingHom
           (FU ⟨Q, hQ, hQo⟩))).val =
           (FT.symm (PrimeSpectrum.comap f₁.toRingHom (lift i))).val
         calc

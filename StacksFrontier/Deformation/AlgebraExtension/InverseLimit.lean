@@ -282,7 +282,7 @@ theorem kernelSection_smul (r : (limit F).obj.obj U)
   have hc : idealComponent F ρ P e he U n (scalar ((reduction F ρ).hom.app U r) • s) =
       scalar ((reduction F ρ).hom.app U r) • idealComponent F ρ P e he U n s :=
     map_smul _ _ _
-  show (e n).inv.hom.app U ((P n).incl (idealComponent F ρ P e he U n
+  change (e n).inv.hom.app U ((P n).incl (idealComponent F ρ P e he U n
     (scalar ((reduction F ρ).hom.app U r) • s))) = _
   rw [hc, ← key, map_mul, inv_app_hom_app]
 
@@ -296,7 +296,7 @@ theorem kernelSection_naturality {V : Cᵒᵖ} (f : U ⟶ V)
   refine (π_kernelSection F ρ P e he V _ n).trans ?_
   refine Eq.trans ?_ (NatTrans.naturality_apply (limit.π F (op n)).hom f _).symm
   rw [π_kernelSection]
-  show (e n).inv.hom.app V ((P n).incl ((limit.π (idealSystem F ρ P e he) (op n)).val.app V
+  change (e n).inv.hom.app V ((P n).incl ((limit.π (idealSystem F ρ P e he) (op n)).val.app V
     ((limit (idealSystem F ρ P e he)).val.map f s))) = _
   rw [PresheafOfModules.naturality_apply (limit.π (idealSystem F ρ P e he) (op n)).val f s]
   exact (congrArg ((e n).inv.hom.app V) ((P n).incl_naturality f _)).trans
@@ -348,7 +348,7 @@ theorem kernelUniversal (y : (limit F).obj.obj U) (hy : (reduction F ρ).hom.app
       (transition_reduction F ρ P e he n) (m (n + 1)) = m n := fun n => by
     refine inducedKernelSection_eq _ _ _ _ _ _ ?_
     rw [hm, hm]
-    show _ = (e n).hom.hom.app U ((F.map (homOfLE (Nat.le_succ n)).op).hom.app U
+    change _ = (e n).hom.hom.app U ((F.map (homOfLE (Nat.le_succ n)).op).hom.app U
       ((e (n + 1)).inv.hom.app U ((e (n + 1)).hom.hom.app U
         ((limit.π F (op (n + 1))).hom.app U y))))
     rw [inv_app_hom_app]

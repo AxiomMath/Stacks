@@ -101,7 +101,7 @@ theorem exists_add_mul_root (p : PBase) :
     ⟨(f %ₘ pPoly).coeff 0, (f %ₘ pPoly).coeff 1,
       Polynomial.eq_X_add_C_of_degree_le_one hdeg⟩
   refine ⟨a, b, ?_⟩
-  show AdjoinRoot.mk pPoly f = _
+  change AdjoinRoot.mk pPoly f = _
   rw [hmk, hr, map_add, map_mul]
   have hX : AdjoinRoot.mk pPoly (X : Polynomial ABase) = AdjoinRoot.root pPoly := rfl
   have hCa : AdjoinRoot.mk pPoly (C a) = algebraMap ABase PBase a := rfl
@@ -139,14 +139,14 @@ theorem ker_algebraMap_PRed_NC :
         (Ideal.Quotient.mk (Ideal.span {tauP})
           (algebraMap ABase PBase a + algebraMap ABase PBase b * AdjoinRoot.root pPoly)) =
         redA a := by
-      show algebraMap PRed NC (algebraMap PBase PRed _) = _
+      change algebraMap PRed NC (algebraMap PBase PRed _) = _
       rw [algebraMap_pRed_NC, map_add, map_mul, pBaseToNC_root, mul_zero, add_zero,
         pBaseToNC_algebraMap]
     rw [hval] at hy
     rw [← RingHom.mem_ker, ker_redA, Ideal.mem_span_singleton] at hy
     obtain ⟨c, rfl⟩ := hy
     refine Ideal.mem_span_singleton.2 ⟨algebraMap PBase PRed (algebraMap ABase PBase b), ?_⟩
-    show algebraMap PBase PRed _ = _
+    change algebraMap PBase PRed _ = _
     simp only [map_add, map_mul, xRed]
     rw [show algebraMap PBase PRed (algebraMap ABase PBase (tau NC)) = 0 from
       algebraMap_PBase_PRed_tauP]
@@ -206,7 +206,7 @@ theorem hlocal_nodal {g : PBase} (hg : g ∈ Ideal.span {omegaP}) :
         algebraMap PRed (Localization.Away (algebraMap PBase PRed g))
           (algebraMap PBase PRed p) :=
       IsLocalization.map_eq _ p
-    show Localization.awayMap (algebraMap PBase PRed) g (algebraMap PBase (PAway g) p) = _
+    change Localization.awayMap (algebraMap PBase PRed) g (algebraMap PBase (PAway g) p) = _
     rw [h1, ← hfac]
   have htower :
       IsScalarTower PBase (PAway g) (Localization.Away (algebraMap PBase PRed g)) :=

@@ -151,7 +151,8 @@ What is **not** proved, and what this file does not do:
      (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorExactness.lean:600`) and
      `Stacks.SheafOfModules.monoidalCategory`
      (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Monoidal.lean`), the latter by monoidal
-     localization for an arbitrary site.  Mathlib has neither.  The source's notion is already defined and tagged here, as
+     localization for an arbitrary site.  Mathlib has neither.
+     The source's notion is already defined and tagged here, as
      `Stacks.SheafOfModules.IsFlat`
      (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorExactness.lean`) and
      `AlgebraicGeometry.SheafOfModules.IsFlat` (`StacksFrontier/CategoryTheory/Sites/Modules/Flat
@@ -352,7 +353,8 @@ A term of this type is constructed for `g` an open immersion, with `F` the pullb
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMapConstruction.lean`.  For an
 arbitrary `g` the map of [Stacks, Tag 07MS] is
 `Crystalline.GlobalCrystallineSituation.SmallSite.crisGlobalBaseChangeMap` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMapGlobal07MS.lean`, whose pullback
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMapGlobal07MS.lean`,
+whose pullback
 `F = f_cris^*F'` lives at the raised module universe of the cohomology. -/
 abbrev BaseChangeMap07MT (f : S.S ⟶ S'.S) (F' : SheafOfModules.{u} (structureSheaf S'))
     (F : SheafOfModules.{u} (structureSheaf S)) :=
@@ -395,7 +397,7 @@ theorem baseChangeRingHom_specSigma :
   ext a
   have h : T.specSigma.hom.appTop a = T.sigma a :=
     ConcreteCategory.congr_hom T.specSigma_appTop a
-  show (Scheme.Γ.map T.specSigma.hom.op).hom a = _
+  change (Scheme.Γ.map T.specSigma.hom.op).hom a = _
   rw [Scheme.Γ_map_op]
   exact h
 
@@ -431,7 +433,8 @@ def frobeniusDerivedBaseChangeTensorGlobalSections
 
 The canonical term of this type is
 `Crystalline.GlobalCrystallineSituation.SmallSite.frobeniusMap07N5Canonical` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FrobeniusDerivedGlobalSections.lean`: the map
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FrobeniusDerivedGlobalSections.lean`:
+the map
 `F_E ∘ (F_X)^*_cris`, built by deriving the big-site comparison on global sections along change of
 divided power base; the action of the Frobenius morphism of crystalline topoi it uses is the
 canonical comparison of [Stacks, Tag 05T2], which exists with no acyclicity hypothesis. The

@@ -74,7 +74,7 @@ theorem restrictFunctorIsoPullback_hom_app (ι : C ⟶ X) [IsOpenImmersion ι] (
         K)).symm
   have hz : (K.restrict ι).presheaf.map (homOfLE (ι.preimage_image_eq W).ge).op
       (K.presheaf.map (homOfLE (ι.image_preimage_le (ι ''ᵁ W))).op z) = z := by
-    show K.presheaf.map _ (K.presheaf.map _ z) = z
+    change K.presheaf.map _ (K.presheaf.map _ z) = z
     rw [← CategoryTheory.comp_apply, ← CategoryTheory.Functor.map_comp]
     have e : ∀ q : op (ι ''ᵁ W) ⟶ op (ι ''ᵁ W), K.presheaf.map q z = z := fun q => by
       rw [Subsingleton.elim q (𝟙 _), CategoryTheory.Functor.map_id]

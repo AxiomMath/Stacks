@@ -261,7 +261,7 @@ private lemma coefficientPullbackComparison_hom_fac (c : Sheaf J A) :
         (coefficientPullbackComparison uf J K Gf c).hom =
       (Gf.leftKanExtensionCompIsoOfPreserves c.obj uf.op).inv ≫
         Functor.whiskerRight (toSheafify K (uf.op.leftKanExtension c.obj)) Gf := by
-  show toSheafify K (uf.op.leftKanExtension (c.obj ⋙ Gf)) ≫
+  change toSheafify K (uf.op.leftKanExtension (c.obj ⋙ Gf)) ≫
       sheafifyMap K (Gf.leftKanExtensionCompIsoOfPreserves c.obj uf.op).inv ≫
       ((sheafComposeNatTrans K Gf (sheafificationAdjunction K A)
         (sheafificationAdjunction K B)).app (uf.op.leftKanExtension c.obj)).hom = _
@@ -283,14 +283,14 @@ public theorem coefficientPullbackComparison_unit (c : Sheaf J A) :
           (coefficientPullbackComparison uf J K Gf c) =
       (sheafCompose J Gf).map
           ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf A J K).unit.app c) ≫
-        (coefficientPushforwardTwoSquare uf J K Gf).natTrans.app
+        (coefficientPushforwardTwoSquare uf J K Gf).app
           ((Functor.sheafPullbackConstruction.sheafPullback uf A J K).obj c) := by
   refine Sheaf.hom_ext ?_
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom,
     push_map_hom, sheafCompose_map_hom, sheafAdj_unit_hom,
     sheafAdj_unit_hom]
   refine Eq.trans ?_ (eq_comp_id _)
-  show (uf.op.leftKanExtensionUnit (c.obj ⋙ Gf) ≫
+  change (uf.op.leftKanExtensionUnit (c.obj ⋙ Gf) ≫
       Functor.whiskerLeft uf.op (toSheafify K (uf.op.leftKanExtension (c.obj ⋙ Gf)))) ≫
       Functor.whiskerLeft uf.op (coefficientPullbackComparison uf J K Gf c).hom = _
   refine Eq.trans (comp_whiskerLeft_two uf.op _ _ _) ?_
@@ -328,7 +328,7 @@ comparison and the comparison built from the Kan extension and from sheafificati
 adjoint transpose, by `Stacks.EtaleCohomology.coefficientPullbackComparison_unit`, hence are
 equal. -/
 public theorem coefficientPullbackTwoSquare_app (c : Sheaf J A) :
-    (coefficientPullbackTwoSquare uf J K Gf).natTrans.app c =
+    (coefficientPullbackTwoSquare uf J K Gf).app c =
       coefficientPullbackComparison uf J K Gf c := by
   refine ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous uf B J K).homEquiv
     _ _).injective ?_
@@ -341,7 +341,7 @@ public theorem coefficientPullbackTwoSquare_app (c : Sheaf J A) :
 
 /-- **The inverse-image comparison is invertible.** -/
 public instance isIso_coefficientPullbackTwoSquare :
-    IsIso (coefficientPullbackTwoSquare uf J K Gf).natTrans := by
+    IsIso (coefficientPullbackTwoSquare uf J K Gf) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   rw [coefficientPullbackTwoSquare_app]
@@ -463,10 +463,10 @@ functor. -/
 private lemma unboundedBaseChangeMate_forget
     (F : Sheaf (Scheme.smallEtaleTopology X'.obj) AddCommGrpCat.{u + 1}) :
     (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B (Type (u + 1)) f g g' f'
-          P hP₁ hP₂).natTrans.app ((coefficientForgetSheaf B X').obj F) =
+          P hP₁ hP₂).app ((coefficientForgetSheaf B X').obj F) =
       (coefficientForgetSheaf B Y).map
         ((AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f'
-          P hP₁ hP₂).natTrans.app F) := by
+          P hP₁ hP₂).app F) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun UU => ?_))
   obtain ⟨U⟩ := UU
   rw [AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate_app_hom_app, sheafCompose_map_hom,
@@ -487,7 +487,7 @@ private lemma coefficient_cube_eq :
           P hP₁ hP₂ ≫ᵥ
         mateEquiv (abelianAdj B g) (unboundedAdj B g) (bigSitePullbackForget B g) := by
   rw [mateEquiv_coefficientPullbackTwoSquare, mateEquiv_coefficientPullbackTwoSquare]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   rw [AlgebraicGeometry.SmallEtale.ts_whiskerLeft_app,
     AlgebraicGeometry.SmallEtale.ts_whiskerRight_app, AlgebraicGeometry.SmallEtale.ts_vComp_app,
     AlgebraicGeometry.SmallEtale.ts_vComp_app]
@@ -508,7 +508,7 @@ private lemma isIso_mateEquiv_symm_abelianBaseChangeMate_of_isIso (hcomm : g' �
       ((AlgebraicGeometry.smallEtaleBaseChangeNatTrans B g' f' f g hcomm).app F)) :
     IsIso ((mateEquiv (abelianAdj B g') (abelianAdj B g)).symm
       (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f'
-        P hP₁ hP₂)).natTrans := by
+        P hP₁ hP₂)) := by
   have hback :=
     AlgebraicGeometry.SmallEtale.isIso_mateEquiv_symm_unboundedBaseChangeMate_of_isIso
       B f g g' f' hcomm hsets P hP₁ hP₂ (unboundedAdj B g) (unboundedAdj B g')
@@ -532,7 +532,7 @@ private lemma isIso_mateEquiv_symm_abelianBaseChangeMate
     [IsFinite (B.inclusion.map f)] (hcomm : g' ≫ f = f' ≫ g) :
     IsIso ((mateEquiv (abelianAdj B g') (abelianAdj B g)).symm
       (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f'
-        P hP₁ hP₂)).natTrans := by
+        P hP₁ hP₂)) := by
   exact isIso_mateEquiv_symm_abelianBaseChangeMate_of_isIso B f g g' f' P hP₁ hP₂ hcomm
     fun F => AlgebraicGeometry.isIso_smallEtaleBaseChangeNatTrans B g' f' f g sq hcomm F
 

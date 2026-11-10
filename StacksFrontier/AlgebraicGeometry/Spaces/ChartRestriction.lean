@@ -140,7 +140,7 @@ theorem chartOpen_isEtaleChart (U : SmallEtale B S hS X)
   apply MorphismProperty.IsStableUnderComposition.comp_mem (P := P.presheaf)
     _ _ _ U.property
   apply (P.relative_map_iff (F := yoneda)).2
-  show Etale V.ι
+  change Etale V.ι
   infer_instance
 
 /-- The inclusion of the Zariski opens of an étale chart into the small étale site of `X`. -/

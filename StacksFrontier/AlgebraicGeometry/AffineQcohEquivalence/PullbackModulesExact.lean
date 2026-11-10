@@ -70,7 +70,7 @@ theorem isFlat_pushforwardRingedMap [IsAffineHom f] :
   have htower : IsScalarTower Γ(X, f ⁻¹ᵁ U) ((f.base _* X.presheaf).stalk (f.base x))
       (X.presheaf.stalk x) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show (X.presheaf.germ (f ⁻¹ᵁ U) x hxV).hom = (φ.hom).comp
+    change (X.presheaf.germ (f ⁻¹ᵁ U) x hxV).hom = (φ.hom).comp
       ((f.base _* X.presheaf).germ U (f.base x) hsU).hom
     rw [← CommRingCat.hom_comp]
     congr 1
@@ -81,7 +81,7 @@ theorem isFlat_pushforwardRingedMap [IsAffineHom f] :
       (hV.primeIdealOf ⟨x, hxV⟩).asIdeal.primeCompl := by
     rintro _ ⟨r, hr, rfl⟩
     refine (hV.mem_primeCompl_iff_mem_basicOpen hxV _).mpr ?_
-    show x ∈ X.basicOpen (f.app U r)
+    change x ∈ X.basicOpen (f.app U r)
     rw [← Scheme.preimage_basicOpen]
     exact (hU.mem_primeCompl_iff_mem_basicOpen hsU r).mp hr
   have := IsLocalization.isLocalization_of_submonoid_le

@@ -210,7 +210,7 @@ theorem addLift_reduce {w : P →ₐ[A'] C.obj} (D : P →ₗ[A'] C'.obj) (hD : 
     (ℓ : P →ₐ[A'] C'.obj) (hℓ : e.q.hom.hom.comp ℓ = w) :
     e.q.hom.hom.comp (addLift D hD ℓ hℓ) = w := by
   ext x
-  show e.q.hom.hom (ℓ x + D x) = w x
+  change e.q.hom.hom (ℓ x + D x) = w x
   rw [map_add, hD.1 x, add_zero]
   exact congrArg (fun f : P →ₐ[A'] C.obj ↦ f x) hℓ
 
@@ -534,7 +534,7 @@ theorem transDer_eq (r : G.arr.obj C) (ℓ₀ : P →ₐ[A'] C'.obj)
     (t : Tr G e r ℓ m) (t' : Tr G e r ℓ' m') :
     transDer hκ hG r ℓ₀ h₀ ⟨ℓ'.toLinearMap - ℓ.toLinearMap, sub_mem_Der hℓ hℓ'⟩ =
       mkMod (m'.toLinearMap - m.toLinearMap) (sub_mem_Der t.reduce_tgt t'.reduce_tgt) := by
-  show mkMod _ _ = _
+  change mkMod _ _ = _
   rw [mkMod_eq_mkMod_iff]
   have h := tr_relation hκ hG 1 r (hℓ'.trans hℓ.symm) (h₀.trans hℓ.symm)
     ((addLift_reduce _ (sub_mem_Der hℓ hℓ') ℓ₀ h₀).trans hℓ.symm)
@@ -631,15 +631,15 @@ theorem rel_addLift {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : b.ap
   have ht₁ : vt₁.comp tV = ℓ₁ := by rw [← htV, hbvt₁, G.tgt_idt]
   refine ⟨b.app C' vt, ?_, ?_, ?_⟩
   · rw [b.natural]
-    show b.app C (e.q.hom.hom.comp (addLift E hE.1 vt₁ hvt₁)) = _
+    change b.app C (e.q.hom.hom.comp (addLift E hE.1 vt₁ hvt₁)) = _
     rw [addLift_reduce, hv]
   · rw [hsV]
     ext x
-    show vt₁ (sV x) + E (sV x) = ℓ₁ x
+    change vt₁ (sV x) + E (sV x) = ℓ₁ x
     rw [hsE, add_zero, ← AlgHom.comp_apply, hs₁]
   · rw [htV]
     ext x
-    show vt₁ (tV x) + E (tV x) = ℓ₁ x + E (tV x)
+    change vt₁ (tV x) + E (tV x) = ℓ₁ x + E (tV x)
     rw [← AlgHom.comp_apply, ht₁]
 
 include hb hsV htV in
@@ -652,14 +652,14 @@ theorem exists_K_of_rel {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : 
   obtain ⟨vt₁, hvt₁, hbvt₁⟩ := (hb C' C e.q e.surj e.sq v (G.idt ℓ₁) hz).exists
   obtain ⟨vt, hvt, hbvt⟩ := (hb C' C e.q e.surj e.sq v g (hg.trans hv.symm)).exists
   refine ⟨vt.toLinearMap - vt₁.toLinearMap, ⟨sub_mem_Der hvt₁ hvt, ?_⟩, ?_⟩
-  · show _ ∈ LinearMap.ker (precomp C' sV)
+  · change _ ∈ LinearMap.ker (precomp C' sV)
     rw [LinearMap.mem_ker]
     ext x
-    show vt (sV x) - vt₁ (sV x) = 0
+    change vt (sV x) - vt₁ (sV x) = 0
     rw [← AlgHom.comp_apply, ← AlgHom.comp_apply, ← hsV, ← hsV, hbvt, hbvt₁, hgs, G.src_idt,
       sub_self]
   · ext x
-    show vt (tV x) - vt₁ (tV x) = ℓ₂ x - ℓ₁ x
+    change vt (tV x) - vt₁ (tV x) = ℓ₂ x - ℓ₁ x
     rw [← AlgHom.comp_apply, ← AlgHom.comp_apply, ← htV, ← htV, hbvt, hbvt₁, hgt, G.tgt_idt]
 
 include hb hsV htV in
@@ -680,8 +680,7 @@ theorem S_eq_map_K {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : b.app
 include hb hsV htV in
 /-- **The relation is membership of the difference in `S`.** -/
 theorem rel_iff_mem_S {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : b.app C v = G.idt w)
-    {ℓ₁ ℓ₂ : P →ₐ[A'] C'.obj} (h₁ : e.q.hom.hom.comp ℓ₁ = w)
-    (h₂ : e.q.hom.hom.comp ℓ₂ = w) :
+    {ℓ₁ ℓ₂ : P →ₐ[A'] C'.obj} (h₁ : e.q.hom.hom.comp ℓ₁ = w) :
     Rel G e w ℓ₁ ℓ₂ ↔ ℓ₂.toLinearMap - ℓ₁.toLinearMap ∈ S G e w := by
   refine ⟨sub_mem_S h₁, fun hS ↦ ?_⟩
   rw [S_eq_map_K b hb sV tV hsV htV hv h₁] at hS

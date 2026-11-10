@@ -69,7 +69,7 @@ theorem Functor.bijective_map_of_comp_iso {C D E' : Type*} [Category C] [Categor
     (hH : Function.Bijective (fun g : K ⟶ E ↦ H.map g)) :
     Function.Bijective (fun g : K ⟶ E ↦ F.map g) := by
   have hG : ∀ g : K ⟶ E, H.map g = ι.inv.app K ≫ G.map (F.map g) ≫ ι.hom.app E := fun g ↦ by
-    show H.map g = ι.inv.app K ≫ (F ⋙ G).map g ≫ ι.hom.app E
+    change H.map g = ι.inv.app K ≫ (F ⋙ G).map g ≫ ι.hom.app E
     rw [ι.hom.naturality, Iso.inv_hom_id_app_assoc]
   refine ⟨fun g g' hg ↦ hH.1 ?_, fun ψ ↦ ?_⟩
   · simp only at hg ⊢
@@ -468,7 +468,7 @@ theorem exact_derivedPullback_map_augmentationFaceTransport
             x) ≫
         (strictAugmentationDegreeDerivedIso a ⦋0⦌).hom.app E) hγ).trans hγ')
   · rintro ⟨γ, rfl⟩
-    show augmentationFaceTransport a 0 _ - augmentationFaceTransport a 1 _ = 0
+    change augmentationFaceTransport a 0 _ - augmentationFaceTransport a 1 _ = 0
     rw [augmentationFaceTransport_derivedPullback_map,
       augmentationFaceTransport_derivedPullback_map, sub_self]
 

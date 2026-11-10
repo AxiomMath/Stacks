@@ -73,8 +73,9 @@ theorem exactAt_modulePushforward_of_isAffineHom (g : W ⟶ Y) (hg : IsAffineHom
   have hV' := isAffine_smallBaseChange_obj B S hS g hrep hg V hV
   have h := exactAt_sections_of_isKInjective_of_isAffineChart B S hS W.1 W.2
     ((smallBaseChange B S hS g hrep).obj V) hV' I hI hqc c hc j hj
-  rwa [HomologicalComplex.exactAt_iff' _ (j - 1) j (j + 1) (by simp) (by simp),
+  rw [HomologicalComplex.exactAt_iff' _ (j - 1) j (j + 1) (by simp) (by simp),
     ShortComplex.ab_exact_iff] at h ⊢
+  exact h
 
 /-- Every object of `D(𝒪_W)` is isomorphic to a K-injective complex. -/
 theorem exists_isKInjective_iso_modules (E : DerivedCategory (Modules.{u, u} B S hS W.1 W.2)) :
@@ -163,7 +164,7 @@ theorem isQuasicoherentOnSite_homology_rightDerived_modulePushforward_of_isAffin
     obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus
       (modulePushforward B S hS g) RF α hcomp
       ((DerivedCategory.Plus.singleFunctor _ 0).obj M) 0 (by
-        show ((DerivedCategory.singleFunctor _ 0).obj M).IsGE 0
+        change ((DerivedCategory.singleFunctor _ 0).obj M).IsGE 0
         infer_instance)
     have a₁ : ((modulePushforward B S hS g).rightDerivedPlus p).obj M ≅
         (DerivedCategory.homologyFunctor _ p).obj

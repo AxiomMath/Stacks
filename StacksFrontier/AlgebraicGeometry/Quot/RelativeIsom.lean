@@ -149,7 +149,7 @@ invertibility. -/
 theorem Functor.isIso_conjHom_iff {C D₁ D₂ : Type*} [Category* C] [Category* D₁]
     [Category* D₂] {P₁ : C ⥤ D₁} {P₂ : C ⥤ D₂} {L : D₁ ⥤ D₂} (e : P₂ ≅ P₁ ⋙ L) {M N : C}
     (α : P₁.obj M ⟶ P₁.obj N) : IsIso (Functor.conjHom e α) ↔ IsIso (L.map α) := by
-  show IsIso (e.hom.app M ≫ L.map α ≫ e.inv.app N) ↔ IsIso (L.map α)
+  change IsIso (e.hom.app M ≫ L.map α ≫ e.inv.app N) ↔ IsIso (L.map α)
   rw [isIso_comp_left_iff (e.hom.app M) (L.map α ≫ e.inv.app N),
     isIso_comp_right_iff (L.map α) (e.inv.app N)]
 

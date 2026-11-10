@@ -74,7 +74,7 @@ private theorem isIso_smallEtaleDerivedGlobalSectionsRestriction_strictHenseliza
       (strictHenselizationSquareMap B hX hS f x)).app N) := by
   let x₀ := geometricPointToStrictHenselization B X hX x
   let σ := strictHenselizationSquareMap B hX hS f x
-  show IsIso ((smallEtaleDerivedGlobalSectionsRestriction σ).app N)
+  change IsIso ((smallEtaleDerivedGlobalSectionsRestriction σ).app N)
   have hcomp : x₀ ≫ σ = geometricPointToStrictHenselization B S hS (x.map f) :=
     geometricPointToStrictHenselization_strictHenselizationSquareMap B hX hS f x
   have hs₀ : (x₀ ≫ σ) (default : x.source) =
@@ -117,10 +117,11 @@ private theorem
   let P := pullback π g
   let Q := pullback (p ≫ f) g
   let m : Q ⟶ P := strictHenselizationBaseChangeMap B hX hS f g x
-  show IsIso ((smallEtaleDerivedGlobalSectionsRestriction (pullback.snd (p ≫ f) g)).app
+  change IsIso ((smallEtaleDerivedGlobalSectionsRestriction (pullback.snd (p ≫ f) g)).app
     (smallEtaleConstantComplexAb (Spec (.of Ω)) A))
-  have hcP : (smallEtaleConstantComplexAb P A).IsGE 0 :=
-    inferInstanceAs (((DerivedCategory.singleFunctor _ 0).obj _).IsGE 0)
+  have hcP : (smallEtaleConstantComplexAb P A).IsGE 0 := by
+    change ((DerivedCategory.singleFunctor _ 0).obj _).IsGE 0
+    infer_instance
   have hm' : IsIso ((smallEtaleDerivedGlobalSectionsRestriction m).app
       (smallEtaleConstantComplexAb P A)) := by
     rw [DerivedCategory.isIso_iff]
@@ -169,13 +170,13 @@ private theorem isIso_smallEtaleDerivedGlobalSectionsRestriction_vanishingCycles
   let Q := pullback (p ≫ f) g
   let qV : V ⟶ strictHenselization B X hX x := pullback.snd t.hom σ
   let eV : V ⟶ t.source := pullback.fst t.hom σ
-  show IsIso ((smallEtaleDerivedGlobalSectionsRestriction eV).app
+  change IsIso ((smallEtaleDerivedGlobalSectionsRestriction eV).app
     (smallEtaleConstantComplexAb t.source A))
   have : IsIso ((smallEtaleDerivedGlobalSectionsRestriction (pullback.snd (p ≫ f) g)).app
       (smallEtaleConstantComplexAb t.source A)) := hQ
   have hw : qV ≫ p ≫ f = eV ≫ g := by
     refine (congrArg (qV ≫ ·) (strictHenselizationSquareMap_comp B hX hS f x).symm).trans ?_
-    show pullback.snd t.hom σ ≫ σ ≫ π = pullback.fst t.hom σ ≫ t.hom ≫ π
+    change pullback.snd t.hom σ ≫ σ ≫ π = pullback.fst t.hom σ ≫ t.hom ≫ π
     rw [← Category.assoc, ← pullback.condition, Category.assoc]
   have hw' : pullback.snd (p ≫ f) g ≫ t.hom = pullback.fst (p ≫ f) g ≫ σ := by
     rw [← cancel_mono π, Category.assoc, Category.assoc, strictHenselizationSquareMap_comp]
@@ -188,9 +189,9 @@ private theorem isIso_smallEtaleDerivedGlobalSectionsRestriction_vanishingCycles
   have hφsnd : φ ≫ pullback.snd (p ≫ f) g = eV := pullback.lift_snd _ _ _
   have hφ : IsIso φ := ⟨⟨ψ, by
     apply pullback.hom_ext (f := t.hom) (g := σ)
-    · show (φ ≫ ψ) ≫ eV = 𝟙 V ≫ eV
+    · change (φ ≫ ψ) ≫ eV = 𝟙 V ≫ eV
       rw [Category.assoc, hψfst, hφsnd, Category.id_comp]
-    · show (φ ≫ ψ) ≫ qV = 𝟙 V ≫ qV
+    · change (φ ≫ ψ) ≫ qV = 𝟙 V ≫ qV
       rw [Category.assoc, hψsnd, hφfst, Category.id_comp], by
     apply pullback.hom_ext
     · rw [Category.assoc, hφfst, hψsnd, Category.id_comp]
@@ -214,7 +215,7 @@ private theorem isIso_smallEtaleDerivedGlobalSectionsRestriction_vanishingCycles
   let σ := strictHenselizationSquareMap B hX hS f x
   let qV := pullback.snd t.hom σ
   let eV := pullback.fst t.hom σ
-  show IsIso ((smallEtaleDerivedGlobalSectionsRestriction qV).app
+  change IsIso ((smallEtaleDerivedGlobalSectionsRestriction qV).app
     (smallEtaleConstantComplexAb (strictHenselization B X hX x) A))
   have ht : IsIso ((smallEtaleDerivedGlobalSectionsRestriction t.hom).app
       (smallEtaleConstantComplexAb (strictHenselization B S hS s) A)) :=
@@ -238,7 +239,6 @@ theorem isLocallyAcyclicAt_of_smooth_of_isIso_strictHenselizationToBase
     (h0EYS : FlatReducedFibresBaseChange.{u}) (h0EZR : EtaleLocalHigherBaseChange.{u})
     (h0EZS : HigherBaseChangePaste.{u}) (h0F08 : FirstFailureNormalization.{u})
     (h03SC2 : AffineCurveCohomologyVanishing.{u}) (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -262,7 +262,7 @@ theorem isLocallyAcyclicAt_of_smooth_of_isIso_strictHenselizationToBase
   have hbc : ∀ q : ℕ, IsIso ((higherBaseChangeMapAb f g (pullback.fst f g) (pullback.snd f g)
       pullback.condition q).app Fc) := fun q =>
     isIso_higherBaseChangeMapAb_of_smooth_of_zsmul_eq_zero h0EYS h0EZR h0EZS h0F08 h03SC2
-      h03SC6 h0BMA h0EYD f (pullback.fst f g) (pullback.snd f g) g
+      h03SC6 h0EYD f (pullback.fst f g) (pullback.snd f g) g
       (IsPullback.of_hasPullback f g) hn Fc (fun U a => zsmul_constantSheaf_zmod_eq_zero _ n U a) q
   have : NeZero n := ⟨hn0.ne'⟩
   have : Finite A := inferInstanceAs (Finite (ULift.{u + 1} (ZMod n)))

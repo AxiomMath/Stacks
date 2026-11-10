@@ -156,7 +156,7 @@ private theorem exists_isClosed_preimage_eq {X Y : Scheme.{u}} (f : X ⟶ Y)
     isClopen_range_of_mono_finiteEtaleToTerminal V (F.mono_of_mono_map hmonoPull)
   let V' : Y.Opens := ⟨Set.range V.hom, hrangeClopen.2⟩
   have hrangePull : Set.range (F.obj V).hom = f ⁻¹' Set.range V.hom := by
-    show Set.range (pullback.snd V.hom f) = f ⁻¹' Set.range V.hom
+    change Set.range (pullback.snd V.hom f) = f ⁻¹' Set.range V.hom
     simpa using Scheme.image_preimage_eq_of_isPullback (IsPullback.of_hasPullback V.hom f)
       (Set.univ : Set V.left)
   have hrangeU : Set.range (F.obj V).hom = (U : Set X) := by
@@ -167,7 +167,7 @@ private theorem exists_isClosed_preimage_eq {X Y : Scheme.{u}} (f : X ⟶ Y)
     simpa [V'] using hrangePull.symm.trans hrangeU
   refine ⟨V', hrangeClopen.1, ?_⟩
   ext x
-  show x ∈ (TopologicalSpace.Opens.map f.base).obj V' ↔ x ∈ U
+  change x ∈ (TopologicalSpace.Opens.map f.base).obj V' ↔ x ∈ U
   rw [Scheme.Hom.mem_preimage]
   simpa using (Set.ext_iff.mp hset x)
 
@@ -182,7 +182,7 @@ private theorem exists_mem_of_isClosed_of_nonempty {X Y : Scheme.{u}} (f : X ⟶
   let W : Y.Opens := ⟨(U : Set Y)ᶜ, hUclosed.isOpen_compl⟩
   have hpre : f ⁻¹ᵁ W = ⊤ := by
     ext x
-    show f x ∉ (U : Set Y) ↔ True
+    change f x ∉ (U : Set Y) ↔ True
     exact ⟨fun _ => trivial, fun _ hxu => hmiss ⟨x, hxu⟩⟩
   have hWclosed : IsClosed (W : Set Y) := isClosed_compl_iff.mpr U.2
   let A : FiniteEtaleOver Y :=
@@ -192,7 +192,7 @@ private theorem exists_mem_of_isClosed_of_nonempty {X Y : Scheme.{u}} (f : X ⟶
   let F := finiteEtaleBaseChange f
   let qPull : F.obj A ⟶ F.obj (finiteEtaleTerminal Y) := F.map q
   have hsource : IsIso (F.obj A).hom := by
-    show IsIso (pullback.snd W.ι f)
+    change IsIso (pullback.snd W.ι f)
     have hpreι : IsIso (f ⁻¹ᵁ W).ι := by
       rw [hpre]
       have _ : IsIso ((⊤ : X.Opens).ι) := (Scheme.topIso X).isIso_hom
@@ -201,7 +201,7 @@ private theorem exists_mem_of_isClosed_of_nonempty {X Y : Scheme.{u}} (f : X ⟶
       inferInstance
     rwa [IsPullback.isoPullback_inv_snd (isPullback_morphismRestrict f W)] at hc
   have htarget : IsIso (F.obj (finiteEtaleTerminal Y)).hom := by
-    show IsIso (pullback.snd (𝟙 Y) f)
+    change IsIso (pullback.snd (𝟙 Y) f)
     infer_instance
   have hcomp : qPull.left ≫ (F.obj (finiteEtaleTerminal Y)).hom = (F.obj A).hom :=
     MorphismProperty.Over.w qPull

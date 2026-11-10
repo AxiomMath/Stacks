@@ -117,7 +117,7 @@ theorem valueGroupMap_valuation {A : Type u} {B : Type v} {K : Type w} {L : Type
       (valuation B L) (algebraMap B L (f a)) := by
   let q : A →+* L := (algebraMap B L).comp f
   have hq : Function.Injective q := (IsFractionRing.injective B L).comp hf.1
-  show Quotient.mk'' ((IsFractionRing.lift (A := A) (K := K) hq)
+  change Quotient.mk'' ((IsFractionRing.lift (A := A) (K := K) hq)
       (algebraMap A K a)) = Quotient.mk'' (algebraMap B L (f a))
   rw [IsFractionRing.lift_algebraMap]
   rfl

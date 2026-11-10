@@ -71,12 +71,10 @@ theorem bijective_restrictionBaseChange_comp_iff {X Y Z : Cᵒᵖ} (f : X ⟶ Y)
     (M.obj X)
   have key : ∀ z, θfg (c z) = θg (LinearMap.lTensor (R.obj Z) θ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz']
     | tmul d w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' => simp only [tmul_add, map_add, hw, hw']
       | tmul b x =>
         rw [AlgebraTensorModule.cancelBaseChange_tmul, LinearMap.lTensor_tmul]
@@ -92,10 +90,10 @@ theorem bijective_restrictionBaseChange_comp_iff {X Y Z : Cᵒᵖ} (f : X ⟶ Y)
         have h5 : (M.map (f ≫ g) x : M.obj Z) = M.map g (M.map f x) := M.map_comp_apply f g x
         rw [h1, h2, h3, h4, h5, smul_smul]
         congr 1
-        show (R.map g).hom b * d = d * (R.map g).hom b
+        change (R.map g).hom b * d = d * (R.map g).hom b
         exact mul_comm _ _
   have hg' : Function.Bijective θg := hg
-  show Function.Bijective θfg ↔ _
+  change Function.Bijective θfg ↔ _
   have hc : (⇑θfg) ∘ ⇑c = (⇑θg) ∘ ⇑(LinearMap.lTensor (R.obj Z) θ) := funext key
   exact ⟨fun h => (Function.Bijective.of_comp_iff' hg' _).mp (hc ▸ h.comp c.bijective),
     fun h => (Function.Bijective.of_comp_iff _ c.bijective).mp (hc ▸ hg'.comp h)⟩
@@ -139,8 +137,7 @@ theorem isIso_restrictionBaseChange_of_faithfullyFlat {X Y : Cᵒᵖ} (f : X ⟶
   have hsq : ∀ z, Q (LinearMap.lTensor (∀ i, R.obj (Z i)) θ z) =
       fun i => LinearMap.lTensor (R.obj (Z i)) θ (P z i) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => funext i; simp only [map_zero, Pi.zero_apply]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => funext i; simp only [map_add, hz, hz', Pi.add_apply]
     | tmul a x => funext i; simp [P, Q]
   have hpi : Function.Bijective (fun z : ∀ i, TensorProduct (R.obj Y) (R.obj (Z i))

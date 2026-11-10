@@ -143,14 +143,14 @@ theorem exists_abelFibre_equiv_projectiveSpace_canonical {d : ℕ}
       fun i => by simp only [c, bV, Module.Dual.eval_apply, Module.Basis.dualBasis_apply]
     have hg : sectionPoint k f D hs ≫ φ.hom = coordHom k (T := fieldPoint k) c hc := by
       ext1
-      show _ ≫ (projectiveSpaceOfModuleIsoProjMvPolynomial bV).hom = coordMor (𝟙 _) c hc
-      show pointOfClosedPoint _ _ _ ≫ _ = _
+      change _ ≫ (projectiveSpaceOfModuleIsoProjMvPolynomial bV).hom = coordMor (𝟙 _) c hc
+      change pointOfClosedPoint _ _ _ ≫ _ = _
       rw [← coordMor_comp_inv_eq_pointOfClosedPoint k bV (Module.Dual.eval k H0 s)
         (eval_ne_zero k f D hs) c hc hcφ, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     simp only [Equiv.trans_apply, Iso.homCongr_apply, Iso.refl_inv, Category.id_comp]
-    show (familyOf k f _ w (sectionPoint k f D hs ≫ φ.hom)).comap _ = _
+    change (familyOf k f _ w (sectionPoint k f D hs ≫ φ.hom)).comap _ = _
     rw [hg, familyOf_coordHom]
-    show (coordDivisor k f _ w (𝟙 _) c).comap _ = _
+    change (coordDivisor k f _ w (𝟙 _) c).comap _ = _
     rw [comap_coordDivisor_point]
     congr 1
     rw [sectionOf_eq_sum k f _ b s]
@@ -194,7 +194,7 @@ theorem completeLinearSystem_eq_closedPoints_abelFibre {d : ℕ}
       p ≫ projectiveSpaceOfModuleToSpec k (dualSections k f D) = 𝟙 _} ≃
       (fieldPoint k ⟶ (linearSystemScheme k f D).asOver (Spec (.of k))) :=
     { toFun := fun p => Over.homMk p.1 (by
-        show p.1 ≫ linearSystemScheme k f D ↘ Spec (.of k) = 𝟙 _
+        change p.1 ≫ linearSystemScheme k f D ↘ Spec (.of k) = 𝟙 _
         rw [over_linearSystemScheme]
         exact p.2)
       invFun := fun g => ⟨g.left, Over.w g⟩

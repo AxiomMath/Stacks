@@ -270,7 +270,7 @@ def secOver (T : Torsors.{t} 𝒢) {Z : C} {γ : Z ⟶ T.base} (r : T.Total (op 
 the section recorded by that element. -/
 theorem secOver_self (T : Torsors.{t} 𝒢) {Z : C} (r : T.Total (op Z)) :
     T.secOver r rfl = r.2 := by
-  show T.torsor.presheaf.map (Over.homMk (𝟙 Z) _ : Over.mk r.1 ⟶ Over.mk r.1).op r.2 = r.2
+  change T.torsor.presheaf.map (Over.homMk (𝟙 Z) _ : Over.mk r.1 ⟶ Over.mk r.1).op r.2 = r.2
   rw [show (Over.homMk (𝟙 Z) (by simp) : Over.mk r.1 ⟶ Over.mk r.1) = 𝟙 _ from
     Over.OverMorphism.ext rfl]
   simp

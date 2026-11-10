@@ -175,7 +175,7 @@ theorem extendMap_extendRestrictScalarsAdjCounitComplex {ι' : Type*} {c' : Comp
       HomologicalComplex.mapHomologicalComplexExtendIso_hom_f _ _ _ h,
       extendRestrictScalarsAdjCounitComplex_f, extendRestrictScalarsAdjCounitComplex_f,
       Functor.map_comp]
-    simp only [Category.assoc, Iso.map_inv_hom_id_assoc]
+    simp only [Category.assoc, Iso.inv_hom_id_map_assoc]
     rw [hc]
 
 /-- **Extending the adjoint of a map of complexes.** Let `ψ : K ⟶ (restrictScalars f) L` be a map

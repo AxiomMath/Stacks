@@ -106,6 +106,7 @@ theorem isGood_projectiveBundleProj_comp_of_rank :
   @isGood_projectiveBundleProj_comp D X.1 sX hX E
     (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr) hr.isFiniteLocallyFreeOnSite
 
+omit sX hX in
 /-- The image of the hyperplane at infinity is the zero scheme of `s`. -/
 theorem range_infinityImmersion_eq :
     Subfunctor.range (projectiveCompletionInfinityImmersion E hr).hom =
@@ -119,18 +120,20 @@ instance mono_infinityImmersion :
   mono_of_isClosedImmersion D.site D.base D.base_mem _
     (isClosedImmersion_projectiveCompletionInfinityImmersion E hr)
 
-/-- **The hyperplane at infinity `𝐏(ℰ) ⟶ Z(s)`**, an isomorphism onto the zero scheme. -/
+/-- **The hyperplane at infinity `𝐏(ℰ) ⟶ Z(s)`**, an isomorphism onto the zero scheme. It takes
+the structure morphism `sX` and its goodness `hX`, as every declaration of this section does. -/
 def infinityLocusIso :
     (@projectiveBundle D.site D.base D.base_mem X E
         (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr)
         hr.isFiniteLocallyFreeOnSite).1 ⟶
       (zeroScheme D.site D.base D.base_mem (projectiveCompletion E hr)
         (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr)).1.toFunctor :=
-  liftOfRangeEq _ _ (range_infinityImmersion_eq D sX hX E m hr)
+  have := hX
+  liftOfRangeEq _ _ (range_infinityImmersion_eq D E m hr)
 
 /-- The morphism `Q ⟶ Z(s)` is an isomorphism. -/
 instance isIso_infinityLocusIso : IsIso (infinityLocusIso D sX hX E m hr) :=
-  isIso_liftOfRangeEq _ _ _
+  isIso_liftOfRangeEq _ _ (range_infinityImmersion_eq D E m hr)
 
 /-- The morphism `Q ⟶ Z(s)` followed by the inclusion of `Z(s)` is the hyperplane at infinity. -/
 @[reassoc (attr := simp)]
@@ -139,7 +142,7 @@ theorem infinityLocusIso_ι :
         (projectiveCompletion E hr) (projectiveCompletionTwist E hr).obj
         (projectiveCompletionSection E hr)).1.ι =
       (projectiveCompletionInfinityImmersion E hr).hom :=
-  liftOfRangeEq_ι _ _ _
+  liftOfRangeEq_ι _ _ (range_infinityImmersion_eq D E m hr)
 
 /-- The zero scheme followed by `π` is the inverse of the hyperplane at infinity followed by the
 projection of `𝐏(ℰ)`. -/
@@ -179,14 +182,14 @@ theorem isRelativeEffectiveCartierDivisor_projectiveCompletionZeroScheme :
       (vanishingLocus D _ (isGood_projectiveCompletionProj_comp D sX hX E m hr)
         (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr)) := by
   refine ⟨(exists_isEffectiveCartierDivisor_zeroScheme_projectiveCompletionSection E hr).choose, ?_⟩
-  show IsFlat D.site D.base D.base_mem ((zeroScheme D.site D.base D.base_mem
+  change IsFlat D.site D.base D.base_mem ((zeroScheme D.site D.base D.base_mem
     (projectiveCompletion E hr) (projectiveCompletionTwist E hr).obj
     (projectiveCompletionSection E hr)).1.ι ≫ (projectiveCompletionProj E hr).hom)
   rw [zeroScheme_ι_comp_projectiveCompletionProj D sX hX E m hr]
   have hZg := isGood_vanishingLocus D _ (isGood_projectiveCompletionProj_comp D sX hX E m hr)
     (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr)
   have hQg := isGood_projectiveBundleProj_comp_of_rank D sX hX E m hr
-  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D _ hQg _ hZg
+  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D _ hQg
     (inv (infinityLocusIso D sX hX E m hr))
   exact (isFlat_and_hasRelativeDimension_comp D _ hZg _ hQg sX hX _ _
     (inv_infinityLocusIso_comp_proj_comp D sX hX E m hr) rfl 0 m hψ.1 hψ.2
@@ -215,7 +218,7 @@ theorem inv_infinityLocusIso_comp_infinityImmersion :
         (vanishingLocus D _ (isGood_projectiveCompletionProj_comp D sX hX E m hr)
           (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr)).2 := by
   refine ObjectProperty.hom_ext _ ?_
-  show inv (infinityLocusIso D sX hX E m hr) ≫ (projectiveCompletionInfinityImmersion E hr).hom =
+  change inv (infinityLocusIso D sX hX E m hr) ≫ (projectiveCompletionInfinityImmersion E hr).hom =
     (zeroScheme D.site D.base D.base_mem (projectiveCompletion E hr)
       (projectiveCompletionTwist E hr).obj (projectiveCompletionSection E hr)).1.ι
   rw [← infinityLocusIso_ι D sX hX E m hr, IsIso.inv_hom_id_assoc]
@@ -348,11 +351,7 @@ theorem bundleFormulaSurjective_projectiveCompletion
     (fun k => isFlatPullbackSurjective_vectorBundleProjection D X E (m + 1) sX hX k) ?_
   exact BundleFormulaSurjective.of_iso D sX hX _
     (isGood_projectiveBundleProj_comp_of_rank D sX hX E m hr)
-    _ _ _ rfl _ _ m _ _
-    (@isProper_projectiveBundleProj D.site D.base D.base_mem X E
-      (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr) hr.isFiniteLocallyFreeOnSite)
-    _ _ (isProper_vanishingLocus_ι_comp D sX hX _ _ _ (isProper_projectiveCompletionProj E hr) _ _)
-    _ _ _ _ (inv (infinityLocusIso D sX hX E m hr))
+    _ _ _ rfl _ _ m _ _ _ _ _ _ _ _ (inv (infinityLocusIso D sX hX E m hr))
     (inv_infinityLocusIso_comp_proj_comp D sX hX E m hr)
     (zeroScheme_ι_comp_projectiveCompletionProj D sX hX E m hr).symm
     (infinityLocusTwistIso D sX hX E m hr htw) hQ

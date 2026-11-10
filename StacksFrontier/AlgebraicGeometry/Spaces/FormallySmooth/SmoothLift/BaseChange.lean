@@ -44,8 +44,7 @@ theorem mk_tensor_lt (R R' : Alg D) : #(R.R ⊗[D.A] R'.R) < B.cutoff := by
   have hsurj : Function.Surjective
       (fun l : List (R.R × R'.R) => (l.map (fun p => p.1 ⊗ₜ[D.A] p.2)).sum) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨[], rfl⟩
+    induction x using TensorProduct.inductionOn with
     | tmul a b => exact ⟨[(a, b)], by simp⟩
     | add x y hx hy =>
       obtain ⟨l, rfl⟩ := hx
@@ -92,14 +91,13 @@ theorem Alg.tmul_smul {R R' : Alg D} (c : D.A) (r : R.R) (b : R'.R) :
     Alg.tmul r (c • b) = c • Alg.tmul r b := by
   rw [Alg.tmul, Alg.tmul, ← map_smul, TensorProduct.tmul_smul]
 
-/-- Induction principle for the tensor product algebra: a predicate holding at `0`, on pure
-tensors and closed under addition holds everywhere. -/
+/-- Induction principle for the tensor product algebra: a predicate holding on pure tensors and
+closed under addition holds everywhere. -/
 theorem Alg.induction_on {R R' : Alg D} {P : (Alg.tensor R R').R → Prop}
-    (x : (Alg.tensor R R').R) (zero : P 0) (tmul : ∀ r b, P (Alg.tmul r b))
+    (x : (Alg.tensor R R').R) (tmul : ∀ r b, P (Alg.tmul r b))
     (add : ∀ x y, P x → P y → P (x + y)) : P x := by
   obtain ⟨x, rfl⟩ := (Alg.tensorEquiv R R').surjective x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact zero
+  induction x using TensorProduct.inductionOn with
   | tmul r b => exact tmul r b
   | add x y hx hy => rw [map_add]; exact add _ _ hx hy
 
@@ -121,7 +119,6 @@ theorem Alg.algHom_ext {R R' : Alg D} {T : Type*} [CommRing T] [Algebra D.A T]
   apply AlgHom.ext
   intro x
   induction x using Alg.induction_on with
-  | zero => simp
   | tmul r b => exact h r b
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -231,7 +228,7 @@ theorem smul_comm_Q_A {R : Alg D} (q : Q D.C R.R) (a : D.A) (m : M D.C R.R) :
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective q
   rw [mk_smul, mk_smul]
   apply Subtype.ext
-  show r * (a • (m : R.R)) = a • (r * (m : R.R))
+  change r * (a • (m : R.R)) = a • (r * (m : R.R))
   rw [mul_smul_comm]
 
 /-- The actions of `Γ(W)` and of `A'` on the square-zero ideal commute. -/
@@ -312,7 +309,7 @@ theorem Framing.pushDer_add (δ δ' : Fr.Der) {R'' : Alg D} (h : R.R →ₐ[D.A]
 from `A'`. -/
 theorem qMap_algebraMap {R'' : Alg D} (h : R.R →ₐ[D.A] R''.R) (c : D.A) :
     qMap D.C h (algebraMap D.A (Q D.C R.R) c) = algebraMap D.A (Q D.C R''.R) c := by
-  show Ideal.Quotient.mk _ (h (algebraMap D.A R.R c)) = Ideal.Quotient.mk _ _
+  change Ideal.Quotient.mk _ (h (algebraMap D.A R.R c)) = Ideal.Quotient.mk _ _
   rw [h.commutes]
 
 /-- **The base change map** `Der(R) ⊗_{A'} R' → Der(R ⊗_{A'} R')`,
@@ -390,13 +387,11 @@ theorem kappaA_surjective : Function.Surjective (kappaA (R := R) R') := by
       x * ((kappaA (R := R) R' z : M D.C (Alg.tensor R R').R) : (Alg.tensor R R').R) ∈ S := by
     intro x z
     induction x using Alg.induction_on with
-    | zero => simp
     | tmul r b =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul m b' =>
         refine ⟨(r • m) ⊗ₜ (b * b'), ?_⟩
-        show Alg.tmul ((r • m : M D.C R.R) : R.R) (b * b') = Alg.tmul r b * Alg.tmul (m : R.R) b'
+        change Alg.tmul ((r • m : M D.C R.R) : R.R) (b * b') = Alg.tmul r b * Alg.tmul (m : R.R) b'
         rw [Alg.tmul_mul_tmul]
         rfl
       | add z z' hz hz' =>
@@ -406,7 +401,7 @@ theorem kappaA_surjective : Function.Surjective (kappaA (R := R) R') := by
   refine Submodule.span_induction ?_ ?_ ?_ ?_ hy
   · rintro _ ⟨c, hc, rfl⟩
     refine ⟨⟨algebraMap D.A R.R c, Ideal.mem_map_of_mem _ hc⟩ ⊗ₜ 1, ?_⟩
-    show Alg.tmul (algebraMap D.A R.R c) (1 : R'.R) = _
+    change Alg.tmul (algebraMap D.A R.R c) (1 : R'.R) = _
     rw [← incl₁_apply, AlgHom.commutes]
   · exact S.zero_mem
   · rintro x x' - - hx hx'
@@ -424,14 +419,13 @@ instance smulCommClass_A_Q_M : SMulCommClass D.A (Q D.C R.R) (M D.C R.R) where
 inclusion. -/
 theorem kappaA_smul (q : Q D.C R.R) (x : M D.C R.R ⊗[D.A] R'.R) :
     kappaA (R := R) R' (q • x) = qMap D.C (incl₁ R') q • kappaA (R := R) R' x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m b =>
     rw [TensorProduct.smul_tmul']
     apply Subtype.ext
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective q
     rw [qMap_mk, mk_smul, mk_smul]
-    show Alg.tmul (r * (m : R.R)) b = Alg.tmul r (1 : R'.R) * Alg.tmul (m : R.R) b
+    change Alg.tmul (r * (m : R.R)) b = Alg.tmul r (1 : R'.R) * Alg.tmul (m : R.R) b
     rw [Alg.tmul_mul_tmul, one_mul]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
 
@@ -448,13 +442,12 @@ theorem Framing.kappaA'_eq (x : Fr.MW ⊗[D.A] R'.R) :
 /-- The comparison `Framing.kappaA'` is `Γ(W)`-linear. -/
 theorem kappaA_smul_aux (p : F.PW) (x : Fr.MW ⊗[D.A] R'.R) :
     Fr.kappaA' R' (p • x) = p • Fr.kappaA' R' x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m b =>
     rw [TensorProduct.smul_tmul']
     have h := kappaA_smul (R := R) R' (Fr.lS p) (Fr.ofMW m ⊗ₜ b)
     rw [TensorProduct.smul_tmul'] at h
-    show kappaA (R := R) R' ((Fr.lS p • Fr.ofMW m) ⊗ₜ b) =
+    change kappaA (R := R) R' ((Fr.lS p • Fr.ofMW m) ⊗ₜ b) =
       ((Fr.tens R').lS p : Q D.C (Alg.tensor R R').R) • kappaA (R := R) R' (Fr.ofMW m ⊗ₜ b)
     rw [Fr.pull_lS]
     exact h
@@ -497,15 +490,11 @@ theorem Framing.baseChange_bijective [Module.Flat D.A R'.R] :
     (LinearEquiv.congrRight κ).toEquiv
   have key : ∀ x, θ' (Fr.baseChange R' x) = Post (H ((θ.toLinearMap.rTensor R'.R) x)) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      rw [(Fr.baseChange R').map_zero, θ'.map_zero, (θ.toLinearMap.rTensor R'.R).map_zero,
-        H.map_zero]
-      exact (LinearEquiv.congrRight κ).map_zero.symm
+    induction x using TensorProduct.inductionOn with
     | tmul δ b =>
       apply Derivation.liftKaehlerDifferential_unique
       ext a
-      show θ' (Fr.baseChange R' (δ ⊗ₜ b)) (KaehlerDifferential.D _ _ a) =
+      change θ' (Fr.baseChange R' (δ ⊗ₜ b)) (KaehlerDifferential.D _ _ a) =
         κ (H (θ δ ⊗ₜ b) (KaehlerDifferential.D _ _ a))
       have e1 : θ' (Fr.baseChange R' (δ ⊗ₜ b)) (KaehlerDifferential.D _ _ a) =
           ((Fr.baseChange R' (δ ⊗ₜ b) : (Fr.tens R').Der) : F.PW →+ M D.C _) a :=
@@ -514,7 +503,7 @@ theorem Framing.baseChange_bijective [Module.Flat D.A R'.R] :
       rw [e1, homTensorMap_tmul, e2]
       apply Subtype.ext
       rw [Fr.baseChange_tmul]
-      show ((Ideal.Quotient.mk (sqIdeal D.C (Alg.tensor R R').R) (incl₂ R' b) •
+      change ((Ideal.Quotient.mk (sqIdeal D.C (Alg.tensor R R').R) (incl₂ R' b) •
         mMap D.C (incl₁ R') ((δ : F.PW →+ M D.C R.R) a) : M D.C (Alg.tensor R R').R) :
           (Alg.tensor R R').R) = Alg.tmul ((δ : F.PW →+ M D.C R.R) a : R.R) b
       rw [mk_smul]

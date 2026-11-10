@@ -24,7 +24,8 @@ functor of the presentation.
   functor is the descent functor.
 
 The abelian structure of Stacks 06WV (2) is `AlgebraicGeometry.Stack.abelianQuasicoherentModules`
-in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.AlgebraicStackPresentation`, imported here.
+in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.AlgebraicStackPresentation`,
+imported here.
 
 ## References
 

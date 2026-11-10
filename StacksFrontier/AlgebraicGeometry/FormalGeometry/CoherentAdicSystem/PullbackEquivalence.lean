@@ -497,7 +497,7 @@ public theorem quotientProjection_comp_bijective {X : Scheme.{u}} (I : X.IdealSh
       refine Submodule.smul_le.mpr fun a ha m _ => ?_
       have h := affine_sections_annihilated_of_idealPowerMultiple_eq_bot hN V ha
         ((φ.app V) m)
-      show (φ.app V) (a • m) = 0
+      change (φ.app V) (a • m) = 0
       rwa [Scheme.Modules.Hom.app_smul]
   refine ⟨fun g h hh => (cancel_epi _).mp hh, fun φ => ?_⟩
   exact ⟨cokernel.desc (C := X.Modules) _ φ (hzero φ), cokernel.π_desc _ _ _⟩
@@ -533,7 +533,7 @@ public theorem exists_quotientIso_iff_comp_bijective {X : Scheme.{u}} [IsLocally
       rw [← Category.assoc, hd, hv, Category.comp_id]
     have h₂ : v ≫ d = 𝟙 N := by
       apply (hf N hN).1
-      show φ ≫ (v ≫ d) = φ ≫ 𝟙 N
+      change φ ≫ (v ≫ d) = φ ≫ 𝟙 N
       rw [← Category.assoc, hv, hd, Category.comp_id]
     exact ⟨⟨d, v, h₁, h₂⟩, hd⟩
 

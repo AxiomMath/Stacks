@@ -109,15 +109,17 @@ include hx hgen
 /-- **`A` is Noetherian** when `A₀` is and `A` is generated over `A₀` by finitely many elements of
 `A₁`, for a generating family indexed by an arbitrary `Fin m`. -/
 theorem isNoetherianRing_of_adjoin_range : IsNoetherianRing A := by
-  obtain ⟨k, y, hy, hygen⟩ := Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
-  exact Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 y hy hygen
+  obtain ⟨k, y, -, hygen⟩ := Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
+  exact Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 y hygen
 
+omit [IsNoetherianRing (𝒜 0)] in
 /-- **`A` is a finitely generated `A₀`-algebra**, for a generating family indexed by an arbitrary
 `Fin m`. -/
 theorem finiteType_of_adjoin_range : Algebra.FiniteType (𝒜 0) A := by
-  obtain ⟨k, y, hy, hygen⟩ := Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
+  obtain ⟨k, y, -, hygen⟩ := Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
   exact Stacks.ProjCoherentDegreeOne.finiteType 𝒜 y hygen
 
+omit [IsNoetherianRing (𝒜 0)] in
 /-- **The standard opens of the degree-one homogeneous elements cover `Proj A`**. -/
 theorem degreeOneCover_of_adjoin_range : DegreeOneCover 𝒜 := by
   obtain ⟨k, y, hy, hygen⟩ := Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
@@ -162,6 +164,7 @@ def canonicalTwistedComparison (hcover : DegreeOneCover 𝒜)
     N.obj ⟶ twistedSectionsGradedModule 𝒜 (associatedModuleSheaf 𝒜 N.obj.grade) :=
   canonicalShiftedMap 𝒜 N.obj ≫ (twistedShiftedGradedIso 𝒜 N.obj.grade hcover).inv
 
+omit [IsNoetherianRing A] in
 /-- Read in `⨁_{n ∈ ℤ} Γ(X, M(n)~)`, the canonical map above is the map of Tag 01MR. -/
 theorem twistedToShiftedSections_canonicalTwistedComparison (hcover : DegreeOneCover 𝒜)
     (N : FiniteGradedModules.{u, u, u} 𝒜) (z : N.obj.carrier) :
@@ -174,6 +177,7 @@ theorem twistedToShiftedSections_canonicalTwistedComparison (hcover : DegreeOneC
   exact congrArg
     (fun g : N.obj ⟶ shiftedSectionsGradedModule 𝒜 N.obj.grade => g.toLinearMap z) hcomp
 
+omit [IsNoetherianRing A] in
 /-- The canonical map carries the degree-`≥ 0` truncation into the degree-`≥ 0` truncation of
 the twisted global sections. -/
 theorem canonicalTwistedComparison_mem_nonneg (hcover : DegreeOneCover 𝒜)

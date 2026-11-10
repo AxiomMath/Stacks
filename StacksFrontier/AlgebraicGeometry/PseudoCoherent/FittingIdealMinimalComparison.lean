@@ -85,7 +85,7 @@ theorem card_eq_of_mul_eq_one {S : Type*} [CommRing S] [Nontrivial S] {a b : ℕ
     (A : Matrix (Fin b) (Fin a) S) (B : Matrix (Fin a) (Fin b) S)
     (hBA : B * A = 1) (hAB : A * B = 1) : a = b := by
   have e : (Fin a → S) ≃ₗ[S] (Fin b → S) :=
-    LinearEquiv.ofLinear (Matrix.toLin' A) (Matrix.toLin' B)
+    LinearEquiv.ofLinearMap (Matrix.toLin' A) (Matrix.toLin' B)
       (by rw [← Matrix.toLin'_mul, hAB, Matrix.toLin'_one])
       (by rw [← Matrix.toLin'_mul, hBA, Matrix.toLin'_one])
   simpa using e.finrank_eq

@@ -101,7 +101,7 @@ theorem baseChangeComp_comp_eq (U : S.Etale) :
   let a := ((smallEtaleBaseChangeComp h f).inv.app U).left
   let b := (eqToHom (congrArg (fun k : Y ⟶ S => (smallEtaleBaseChange k).obj U) w.symm)).left
   let c := ((smallEtaleBaseChangeComp e g).hom.app U).left
-  show (a ≫ b ≫ c) ≫ pullback.fst (pullback.snd U.hom g) e =
+  change (a ≫ b ≫ c) ≫ pullback.fst (pullback.snd U.hom g) e =
     (baseChangeSquareMap e h g f w U).left ≫ pullback.fst (pullback.snd U.hom g) e
   have hκ : (baseChangeSquareMap e h g f w U).left ≫ pullback.fst (pullback.snd U.hom g) e =
       pullback.lift (pullback.fst _ h ≫ pullback.fst U.hom f) (pullback.snd _ h ≫ e) _ :=
@@ -151,8 +151,7 @@ theorem pushforwardCompIso_app_eq (P : Sheaf Y.smallEtaleTopology (Type (max (u 
   simp only [smallEtalePushforwardCompIso, Functor.sheafPushforwardContinuousComp', Iso.trans_hom,
     Iso.trans_inv, Iso.symm_hom, Iso.symm_inv, NatTrans.comp_app, eqToIso.hom,
     ObjectProperty.FullSubcategory.comp_hom, Functor.sheafPushforwardContinuousIso_hom,
-    Functor.sheafPushforwardContinuousIso_inv, Functor.sheafPushforwardContinuousNatTrans_app_hom,
-    Functor.whiskerRight_app, NatTrans.op_app]
+    Functor.sheafPushforwardContinuousIso_inv, Functor.sheafPushforwardContinuousNatTrans_app_hom]
   rw [eqToHom_pushforward_app w P U, ← baseChangeComp_comp_eq e h g f w U]
   simp only [op_comp, Functor.map_comp]
   rfl
@@ -171,8 +170,7 @@ theorem smallEtaleSetBaseChange_unit_apply (F : Sheaf T.smallEtaleTopology (Type
   have hk := ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg (fun m => m.hom)
     (smallEtaleSetBaseChange_unit.{u, v} e h g f w F)) (op U)) x
   have hα := pushforwardCompIso_app_eq e h g f w ((smallEtaleInverseImage.{u, v} e).obj F) U
-  simp only [NatTrans.comp_app, ObjectProperty.FullSubcategory.comp_hom,
-    ConcreteCategory.comp_apply] at hk
+  simp only [NatTrans.comp_app, ObjectProperty.FullSubcategory.comp_hom] at hk
   refine hk.trans ?_
   exact congrArg (fun m => m (((smallEtaleInverseImageAdjunction.{u, v} e).unit.app F).hom.app
     (op ((smallEtaleBaseChange g).obj U)) x)) hα

@@ -13,8 +13,8 @@ import all StacksFrontier.AlgebraicGeometry.Stacks.UniversallyClosedSmoothLocal
 /-!
 # The converse implications of Stacks 0H2A
 
-`StacksFrontier/AlgebraicGeometry/Stacks/UniversallyClosedSmoothLocal.lean` proves the implications of
-**Stacks 0H2A** out of universal closedness, together with three steps of the two converse ones.
+`StacksFrontier/AlgebraicGeometry/Stacks/UniversallyClosedSmoothLocal.lean` proves the implications
+of **Stacks 0H2A** out of universal closedness, together with three steps of the two converse ones.
 This file proves the converse implications themselves, for a quasi-compact 1-morphism of
 algebraic stacks, and assembles the full equivalence of the three clauses.
 

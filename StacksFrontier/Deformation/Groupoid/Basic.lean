@@ -505,7 +505,7 @@ public theorem evalMap_inverse {C : Type u} [Category.{v} C]
     have h := congrArg
       (fun g : EvalHom G T y y => (G.evaluationArrowEquiv T y y g).1)
       (Groupoid.inv_comp f₀)
-    show G.compose T a (inverseArrow G T a) _ = G.identity T y
+    change G.compose T a (inverseArrow G T a) _ = G.identity T y
     simpa only [G.evaluationArrowEquiv_comp, G.evaluationArrowEquiv_id,
       GroupoidInFunctors.compose, inverseArrow, x, y, q, f₀,
       Equiv.apply_symm_apply] using h
@@ -546,7 +546,7 @@ public theorem existsUnique_identity {C : Type u} [Category.{v} C]
     naturality := by
       intro T T' f
       ext x
-      show G.identity T' (G.objects.map f x) = G.arrows.map f (G.identity T x)
+      change G.identity T' (G.objects.map f x) = G.arrows.map f (G.identity T x)
       exact (evalMap_identity G f x).symm
   }, ?_, ?_⟩
   · intro T x; rfl
@@ -564,7 +564,7 @@ public theorem existsUnique_inverse {C : Type u} [Category.{v} C]
     naturality := by
       intro T T' f
       ext a
-      show inverseArrow G T' (G.arrows.map f a) =
+      change inverseArrow G T' (G.arrows.map f a) =
         G.arrows.map f (inverseArrow G T a)
       exact (evalMap_inverse G f a).symm
   }, ?_, ?_⟩
@@ -824,14 +824,14 @@ public theorem quotientMorphism_map_arrow {C : Type u} [Category.{v} C]
   have eval_eqToHom (T : C) {x y : G.Evaluation T} (h : x = y) :
       (G.evaluationArrowEquiv T x y (eqToHom h)).1 = G.identity T y := by
     cases h; rfl
-  show (G.evaluationArrowEquiv Y.1 _ _ (eqToHom f.2)).1 = _
+  change (G.evaluationArrowEquiv Y.1 _ _ (eqToHom f.2)).1 = _
   exact eval_eqToHom Y.1 f.2
 
 /-- The quotient morphism lies over the identity of the base category. -/
 public theorem quotientMorphism_over {C : Type u} [Category.{v} C]
     (G : GroupoidInFunctors.{u, v, w} C) :
     quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G) =
-      CategoryOfElements.π G.objects := rfl
+      Functor.Elements.π G.objects := rfl
 
 open CategoryTheory.Functor
 
@@ -973,11 +973,11 @@ private lemma groth_op_fiber_groupoid3 {C : Type u} [Category.{v} C]
     simpa using IsHomLift.inv (p := p) (f := 𝟙 S) (φ := φ0)⟩
   refine ⟨⟨finv, ?_, ?_⟩⟩
   · apply Fiber.hom_ext
-    show φ0 ≫ inv φ0 = _
+    change φ0 ≫ inv φ0 = _
     simp only [op_obj, IsIso.hom_inv_id, map_id, φ0]
     rfl
   · apply Fiber.hom_ext
-    show inv φ0 ≫ φ0 = _
+    change inv φ0 ≫ φ0 = _
     simp only [op_obj, IsIso.inv_hom_id, map_id, φ0]
     rfl
 
@@ -988,7 +988,7 @@ public theorem quotientProjection_cofibered {C : Type u} [Category.{v} C]
     (G : GroupoidInFunctors.{u, v, w} C) :
     IsCofiberedInGroupoids
       (Grothendieck.forget (evaluationFunctor G)) := by
-  show (Grothendieck.forget (evaluationFunctor G)).op.IsFiberedInGroupoids
+  change (Grothendieck.forget (evaluationFunctor G)).op.IsFiberedInGroupoids
   let : (Grothendieck.forget (evaluationFunctor G)).op.IsFibered :=
     grothendieck_forget_op_fibered2 (evaluationFunctor G)
   exact Functor.IsFiberedInGroupoids.mk' (fun S =>

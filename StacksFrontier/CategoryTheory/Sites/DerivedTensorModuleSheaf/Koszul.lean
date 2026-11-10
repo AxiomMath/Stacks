@@ -136,7 +136,7 @@ theorem exists_cone_chain_tensor_koszulComplex {r : ℕ} (f : Fin r → Λ)
     have h : f i • 𝟙 (X ⊗ DerivedCategory.Q.obj (Y i i.isLt.le)) =
         X ◁ DerivedCategory.Q.map (f i • 𝟙 (Y i i.isLt.le)) := by
       rw [Functor.map_smul, CategoryTheory.Functor.map_id, derived_whiskerLeft_smul_id]
-    show Triangle.mk (f i • 𝟙 (X ⊗ DerivedCategory.Q.obj (Y i i.isLt.le))) _ _ ∈ _
+    change Triangle.mk (f i • 𝟙 (X ⊗ DerivedCategory.Q.obj (Y i i.isLt.le))) _ _ ∈ _
     rw [h]
     exact hT
   · exact whiskerLeftIso X (CochainComplex.KFlatMonoidal.derivedUnitIso _

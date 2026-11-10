@@ -49,8 +49,8 @@ are all written at `CategoryTheory.HasDerivedCategory.standard`, while
 `Stacks.Duality.quasiCoherentDerivedPushforward` is written at the locally small model, the
 adjunction of [Stacks, Tag 0A9E] needing the morphisms to live in a fixed universe. The first
 three statements below therefore live in a section where the global locally small instances are
-erased and the standard model installed — the sanctioned pattern, as in
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/Boundedness/PointBlowupHigherDirectImages.lean`
+erased and the standard model installed — the sanctioned pattern, as in the module
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.PointBlowupHigherDirectImages`
 — and the crossing is
 `Stacks.Duality.StandardModel.isoSingleQuasiCoherentOfStandardIso`, which is the bridge built for
 exactly this purpose. Because the three are `def`s and `theorem`s whose statements mention the

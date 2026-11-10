@@ -65,11 +65,9 @@ theorem mittagLeffler_baseChange [Small.{v} R]
         TensorProduct.comm R N M
   have key (x : (S ⊗[R] M) ⊗[S] (∀ α, Q α)) (α : A) :
       φ (Q α) (piRightHom S S (S ⊗[R] M) Q x α) = piRightHom R R M Q (φ (∀ α, Q α) x) α := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y q =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul s m => simp [φ]
       | add y₁ y₂ h₁ h₂ => simp only [add_tmul, map_add, Pi.add_apply, h₁, h₂]
     | add x₁ x₂ h₁ h₂ => simp only [map_add, Pi.add_apply, h₁, h₂]

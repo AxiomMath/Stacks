@@ -278,7 +278,7 @@ theorem localBaseChangeIdentityAt_of_mergeCounit (sq : IsPullback i' g f i)
     ((AlgebraicGeometry.derivedPullbackStalkIso f (i' w)).inv.app
       ((derivedPushforward i.toLRSHom.toShHom).obj (DerivedCategory.Q.obj P)))
     _ _ _ _ _ _ _ _ _ _
-    (rhsChaseGeom sq w P)
+    (rhsChaseGeom (i' := i') (f := f) (i := i) w P)
     (derivedStalkSourceIso_hom_app_Q_comp_alphaG (i' := i') (f := f) w (ptEq sq w) P)
     ((AlgebraicGeometry.derivedPullbackStalkIso f (i' w)).inv_hom_id_app
       ((derivedPushforward i.toLRSHom.toShHom).obj (DerivedCategory.Q.obj P)))).symm

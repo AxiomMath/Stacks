@@ -150,8 +150,7 @@ public noncomputable def baseChange (nabla : Connection A B pi M)
     TensorProduct.liftAddHom (baseChangePair (A' := A') (pi' := pi') psi nabla)
       (baseChangePair_balanced psi nabla hpsi)
   leibniz' := by
-    intro b' x; induction x using TensorProduct.induction_on with
-    | zero => simp
+    intro b' x; induction x using TensorProduct.inductionOn with
     | tmul c m =>
       simp only [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul]
       change ((baseChangePair (A' := A') (pi' := pi') psi nabla) (b' * c)) m = _
@@ -257,7 +256,7 @@ private theorem baseChangeExteriorPowerMap_leftWedge (p : ℕ) (a : Omega)
       map_add' := by simp
       map_smul' := by
         intro b x
-        show baseChangeExteriorPowerMap psi (p + 1) (leftWedge p a (b • x)) =
+        change baseChangeExteriorPowerMap psi (p + 1) (leftWedge p a (b • x)) =
           algebraMap B B' b • baseChangeExteriorPowerMap psi (p + 1) (leftWedge p a x)
         rw [map_smul, map_smulₛₗ] }
   let g : (⋀[B]^p Omega) →ₗ[B] (⋀[B']^(p + 1) Omega') :=
@@ -265,13 +264,13 @@ private theorem baseChangeExteriorPowerMap_leftWedge (p : ℕ) (a : Omega)
       map_add' := by simp
       map_smul' := by
         intro b x
-        show leftWedge p (psi a) (baseChangeExteriorPowerMap psi p (b • x)) =
+        change leftWedge p (psi a) (baseChangeExteriorPowerMap psi p (b • x)) =
           algebraMap B B' b • leftWedge p (psi a) (baseChangeExteriorPowerMap psi p x)
         rw [map_smulₛₗ, map_smul] }
   have hfg : f = g := by
     apply LinearMap.ext_on (exteriorPower.ιMulti_span B p Omega)
     rintro _ ⟨v, rfl⟩
-    show baseChangeExteriorPowerMap psi (p + 1)
+    change baseChangeExteriorPowerMap psi (p + 1)
         (leftWedge p a (exteriorPower.ιMulti B p v)) =
       leftWedge p (psi a) (baseChangeExteriorPowerMap psi p (exteriorPower.ιMulti B p v))
     rw [leftWedge_ιMulti, baseChangeExteriorPowerMap_ιMulti,
@@ -349,14 +348,14 @@ private theorem baseChangeCompatibility_differentials
       map_add' := by intro x y; simp
       map_smul' := by
         intro b x
-        show psi (pi (b • x)) = algebraMap B B' b • psi (pi x)
+        change psi (pi (b • x)) = algebraMap B B' b • psi (pi x)
         rw [map_smul, map_smulₛₗ] }
   let g : Ω[B⁄A] →ₗ[B] Omega' :=
     { toFun := fun x => pi' (KaehlerDifferential.map A A' B B' x)
       map_add' := by intro x y; simp
       map_smul' := by
         intro b x
-        show pi' (KaehlerDifferential.map A A' B B' (b • x)) =
+        change pi' (KaehlerDifferential.map A A' B B' (b • x)) =
           algebraMap B B' b • pi' (KaehlerDifferential.map A A' B B' x)
         rw [map_smul]
         rw [← IsScalarTower.algebraMap_smul B' b]
@@ -364,7 +363,7 @@ private theorem baseChangeCompatibility_differentials
   have hfg : f = g := by
     refine LinearMap.ext_on (KaehlerDifferential.span_range_derivation A B) ?_
     rintro _ ⟨b, rfl⟩
-    show psi (pi (KaehlerDifferential.D A B b)) =
+    change psi (pi (KaehlerDifferential.D A B b)) =
       pi' (KaehlerDifferential.map A A' B B' (KaehlerDifferential.D A B b))
     rw [KaehlerDifferential.map_D]
     exact hpsi b
@@ -408,7 +407,7 @@ private theorem baseChangeExteriorPowerMap_comp_pi (hpsi : ∀ b : B,
   have hfg : f = g := by
     apply LinearMap.ext_on (exteriorPower.ιMulti_span B p (Ω[B⁄A]))
     rintro _ ⟨omega, rfl⟩
-    show baseChangeExteriorPowerMap psi p
+    change baseChangeExteriorPowerMap psi p
         (exteriorPower.map p pi (exteriorPower.ιMulti B p omega)) =
       exteriorPower.map p pi'
         (baseChangeExteriorPowerMap kaehlerBaseChangeMap p
@@ -445,7 +444,7 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
         (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p x))))
       map_add' := by
         intro x y
-        show eAprimeOut (S'.d p (eAprime.symm (eA
+        change eAprimeOut (S'.d p (eAprime.symm (eA
           (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p (x + y))))) =
             eAprimeOut (S'.d p (eAprime.symm (eA
               (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p x)))) +
@@ -462,11 +461,11 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
             (algebraMap A A' a) • y := by
           rw [(baseChangeExteriorPowerMapA kaehlerBaseChangeMap p).map_smul,
             RestrictScalars.addEquiv_map_smul]
-          show eAprime.symm (algebraMap A B' a • eA
+          change eAprime.symm (algebraMap A B' a • eA
               (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p x)) = _
           rw [IsScalarTower.algebraMap_apply A A' B' a,
             RestrictScalars.addEquiv_symm_map_algebraMap_smul]
-        show eAprimeOut (S'.d p
+        change eAprimeOut (S'.d p
             (eAprime.symm (eA (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p
               (a • x))))) =
           algebraMap A B' a • eAprimeOut (S'.d p y)
@@ -476,7 +475,7 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
     apply LinearMap.ext_on (span_range_smul_ιMulti_eq_top (R := A)
       (KaehlerDifferential.D A B) (KaehlerDifferential.span_range_derivation A B) p)
     rintro _ ⟨b, rfl⟩
-    show baseChangeExteriorPowerMapA kaehlerBaseChangeMap (p + 1)
+    change baseChangeExteriorPowerMapA kaehlerBaseChangeMap (p + 1)
         (S.d p (eSrc (srcGen p b))) =
       eAprimeOut (S'.d p (eAprime.symm (eA
         (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p
@@ -484,7 +483,7 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
     have hgen : S.d p (eSrc (srcGen p b)) =
         (RestrictScalars.addEquiv A B (⋀[B]^(p + 1) (Ω[B⁄A]))).symm
           (srcGenRes p b) := by
-      show S.d p (srcGen p b) =
+      change S.d p (srcGen p b) =
         (RestrictScalars.addEquiv A B (⋀[B]^(p + 1) (Ω[B⁄A]))).symm
           (srcGenRes p b)
       rw [S.gen]
@@ -494,7 +493,7 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
         (baseChangeExteriorPowerMapA kaehlerBaseChangeMap p
           (eSrc (srcGen p b)))) =
         srcGen p (fun i => algebraMap B B' (b i)) := by
-      show baseChangeExteriorPowerMap kaehlerBaseChangeMap p (srcGen p b) =
+      change baseChangeExteriorPowerMap kaehlerBaseChangeMap p (srcGen p b) =
         srcGen p (fun i => algebraMap B B' (b i))
       rw [srcGen, map_smulₛₗ, baseChangeExteriorPowerMap_ιMulti, srcGen]
       apply congrArg (fun z : ⋀[B']^p (Ω[B'⁄A']) =>
@@ -503,7 +502,7 @@ private theorem baseChangeSourceDeRhamDifferential_commutes (p : ℕ) :
       funext i
       exact KaehlerDifferential.map_D A A' B B' (b i.succ)
     rw [harg, S'.gen]
-    show baseChangeExteriorPowerMap kaehlerBaseChangeMap (p + 1)
+    change baseChangeExteriorPowerMap kaehlerBaseChangeMap (p + 1)
         (srcGenRes p b) =
       srcGenRes p (fun i => algebraMap B B' (b i))
     rw [srcGenRes, baseChangeExteriorPowerMap_ιMulti]
@@ -549,13 +548,12 @@ private theorem baseChangeTensorWedge (p : ℕ) (omega : ⋀[B]^p Omega)
       TensorProduct.map LinearMap.id
         ((leftWedge p).flip (baseChangeExteriorPowerMap psi p omega))
         (Connection.baseChangeValues psi t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul m a =>
       simp only [TensorProduct.map_tmul, LinearMap.id_apply,
         Connection.baseChangeValues_tmul]
-      show ((1 : B') ⊗ₜ[B] m) ⊗ₜ[B']
+      change ((1 : B') ⊗ₜ[B] m) ⊗ₜ[B']
           baseChangeExteriorPowerMap psi (p + 1) (leftWedge p a omega) =
         ((1 : B') ⊗ₜ[B] m) ⊗ₜ[B']
           leftWedge (B := B') p (psi a) (baseChangeExteriorPowerMap psi p omega)
@@ -587,16 +585,11 @@ private theorem baseChangeMap_intertwines_extendedConnection
   let eOut' := RestrictScalars.addEquiv A' B'
     ((B' ⊗[B] M) ⊗[B'] (⋀[B']^(p + 1) Omega'))
   intro x
-  show eOut (baseChangeDeRhamMap psi (p + 1)
+  change eOut (baseChangeDeRhamMap psi (p + 1)
       (E.toLinearMap p (eIn.symm x))) =
     eOut' (E'.toLinearMap p (eIn'.symm
       (eMid (baseChangeDeRhamMap psi p (eIn.symm x)))))
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      simp only [eIn.symm.map_zero, (E.toLinearMap p).map_zero,
-        (baseChangeDeRhamMap psi (p + 1)).map_zero, eOut.map_zero,
-        eIn'.symm.map_zero, (baseChangeDeRhamMap psi p).map_zero,
-        eMid.map_zero, (E'.toLinearMap p).map_zero, eOut'.map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [eIn.symm.map_add, (E.toLinearMap p).map_add,
         (baseChangeDeRhamMap psi (p + 1)).map_add, eOut.map_add,
@@ -604,7 +597,7 @@ private theorem baseChangeMap_intertwines_extendedConnection
         eIn'.symm.map_add, (E'.toLinearMap p).map_add, eOut'.map_add]
       rw [hx, hy]
   | tmul m omega =>
-      show RestrictScalars.addEquiv A B'
+      change RestrictScalars.addEquiv A B'
             ((B' ⊗[B] M) ⊗[B'] (⋀[B']^(p + 1) Omega'))
           (baseChangeDeRhamMap psi (p + 1)
             (E.toLinearMap p (eIn.symm (m ⊗ₜ[B] omega)))) =
@@ -626,7 +619,7 @@ private theorem baseChangeMap_intertwines_extendedConnection
             (Connection.baseChangeInclusion (B' := B') (M := M))
             (baseChangeExteriorPowerMap psi (p + 1))
             (eInPlus (E.toLinearMap p (eIn.symm (m ⊗ₜ[B] omega)))) := by
-        show eOut (baseChangeDeRhamMap psi (p + 1)
+        change eOut (baseChangeDeRhamMap psi (p + 1)
           (eInPlus (E.toLinearMap p (eIn.symm (m ⊗ₜ[B] omega))))) =
           TensorProduct.map
             (Connection.baseChangeInclusion (B' := B') (M := M))
@@ -638,7 +631,7 @@ private theorem baseChangeMap_intertwines_extendedConnection
       have hE : eInPlus (E.toLinearMap p (eIn.symm (m ⊗ₜ[B] omega))) =
           TensorProduct.map LinearMap.id ((leftWedge p).flip omega) (nabla m) +
             m ⊗ₜ[B] descendedDifferential E.deRhamDifferential p omega := by
-        show RestrictScalars.addEquiv A B _ (E.toLinearMap p (m ⊗ₜ[B] omega)) = _
+        change RestrictScalars.addEquiv A B _ (E.toLinearMap p (m ⊗ₜ[B] omega)) = _
         exact E.map_tmul p m omega
       have hDiff : baseChangeExteriorPowerMap psi (p + 1)
             (descendedDifferential E.deRhamDifferential p omega) =
@@ -657,7 +650,7 @@ private theorem baseChangeMap_intertwines_extendedConnection
             TensorProduct.map LinearMap.id ((leftWedge p).flip eta')
               (Connection.baseChange psi nabla hpsi m') +
             m' ⊗ₜ[B'] descendedDifferential E'.deRhamDifferential p eta' := by
-        show RestrictScalars.addEquiv A' B' _
+        change RestrictScalars.addEquiv A' B' _
             (E'.toLinearMap p (m' ⊗ₜ[B'] eta')) = _
         exact E'.map_tmul p m' eta'
       rw [hleft, hbase, hE']
@@ -723,7 +716,7 @@ private theorem baseChangeLeftWedge_swap (a b : Omega') :
     leftWedge 1 a ((exteriorPower.oneEquiv B' Omega').symm b) +
       leftWedge 1 b ((exteriorPower.oneEquiv B' Omega').symm a) = 0 := by
   apply Subtype.ext
-  show ((leftWedge 1 a
+  change ((leftWedge 1 a
       ((exteriorPower.oneEquiv B' Omega').symm b) : ⋀[B']^2 Omega') :
         ExteriorAlgebra B' Omega') +
     ((leftWedge 1 b
@@ -779,8 +772,7 @@ private theorem baseChangeExtendedCurvature_smul
       eOut (E'.toLinearMap 1 (baseChangeLiftOne (b • t))) =
         b • eOut (E'.toLinearMap 1 (baseChangeLiftOne t)) +
           baseChangeWedgeCorrection (pi' := pi') b t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp [baseChangeLiftOne, baseChangeWedgeCorrection]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [smul_add, baseChangeLiftOne_add, map_add, eOut.map_add, hx, hy,
           baseChangeLiftOne_add, map_add]
@@ -824,8 +816,7 @@ private theorem baseChangeExtendedCurvature_smul
               (e.symm (pi' (KaehlerDifferential.D A' B' b)))) t =
           -baseChangeWedgeCorrection (pi' := pi') b t := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, baseChangeWedgeCorrection_zero]; abel
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy => simp [hx, hy]; abel
       | tmul m a =>
         simp only [TensorProduct.map_tmul, LinearMap.id_apply,
@@ -836,7 +827,7 @@ private theorem baseChangeExtendedCurvature_smul
             (e.symm (pi' (KaehlerDifferential.D A' B' b))) =
             -leftWedge 1 (pi' (KaehlerDifferential.D A' B' b)) (e.symm a) :=
           eq_neg_of_add_eq_zero_left hswap
-        show m ⊗ₜ[B']
+        change m ⊗ₜ[B']
             leftWedge 1 a (e.symm (pi' (KaehlerDifferential.D A' B' b))) =
           -m ⊗ₜ[B'] leftWedge 1
             (pi' (KaehlerDifferential.D A' B' b)) (e.symm a)
@@ -844,7 +835,7 @@ private theorem baseChangeExtendedCurvature_smul
     rw [hcancel (nabla' n)] at hmt
     simp only [hmt, TensorProduct.tmul_zero, add_zero]
   have hleibniz := nabla'.leibniz b n
-  show eOut (E'.toLinearMap 1
+  change eOut (E'.toLinearMap 1
       (baseChangeLiftOne (nabla' (b • n)))) = _
   rw [hleibniz]
   rw [baseChangeLiftOne_add, map_add, eOut.map_add, hproduct (nabla' n), hdb]
@@ -871,11 +862,11 @@ private theorem baseChangeDeRhamMap_one_input
   let f : (M ⊗[B] Omega) →+ ((B' ⊗[B] M) ⊗[B'] (⋀[B']^1 Omega')) := {
     toFun := fun t => F (e (e.symm (L t)))
     map_zero' := by
-      show F (e (e.symm (L 0))) = 0
+      change F (e (e.symm (L 0))) = 0
       rw [L.map_zero, e.symm.map_zero, e.map_zero, F.map_zero]
     map_add' := by
       intro x y
-      show F (e (e.symm (L (x + y)))) = F (e (e.symm (L x))) + F (e (e.symm (L y)))
+      change F (e (e.symm (L (x + y)))) = F (e (e.symm (L x))) + F (e (e.symm (L y)))
       rw [L.map_add, e.symm.map_add, e.map_add, F.map_add]
   }
   let g : (M ⊗[B] Omega) →+ ((B' ⊗[B] M) ⊗[B'] (⋀[B']^1 Omega')) := {
@@ -887,8 +878,7 @@ private theorem baseChangeDeRhamMap_one_input
   have hfg : f = g := by
     apply AddMonoidHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp [f, g]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => rw [f.map_add, g.map_add, hx, hy]
     | tmul m a =>
         have hpow : baseChangeExteriorPowerMap psi 1 (eOmega.symm a) =
@@ -896,7 +886,7 @@ private theorem baseChangeDeRhamMap_one_input
           rw [exteriorPower.oneEquiv_symm_apply, baseChangeExteriorPowerMap_ιMulti,
             exteriorPower.oneEquiv_symm_apply]
           exact congrArg (exteriorPower.ιMulti B' 1) (by funext i; simp)
-        show F (e (e.symm (L (m ⊗ₜ[B] a)))) =
+        change F (e (e.symm (L (m ⊗ₜ[B] a)))) =
           TensorProduct.map LinearMap.id eOmega'.symm.toLinearMap
             (Connection.baseChangeValues psi (m ⊗ₜ[B] a))
         rw [e.apply_symm_apply]
@@ -905,7 +895,7 @@ private theorem baseChangeDeRhamMap_one_input
           Connection.baseChangeValues_tmul, Connection.baseChangeInclusion]
         congr 2
   rw [baseChangeDeRhamMap_equiv]
-  show f t = g t
+  change f t = g t
   exact congrArg (fun h : (M ⊗[B] Omega) →+ _ => h t) hfg
 
 /-- An integrable connection remains integrable after the compatible base change. -/
@@ -919,7 +909,7 @@ public theorem baseChange_isIntegrable
   let E' := extendedConnection S' pi' hpi' hgen' nabla'
   let eOut := RestrictScalars.addEquiv A' B'
     ((B' ⊗[B] M) ⊗[B'] (⋀[B']^2 Omega'))
-  show ∀ n : B' ⊗[B] M,
+  change ∀ n : B' ⊗[B] M,
     E'.toLinearMap 1
       (TensorProduct.map LinearMap.id
         (exteriorPower.oneEquiv B' Omega').symm.toLinearMap (nabla' n)) = 0
@@ -982,9 +972,7 @@ public theorem baseChange_isIntegrable
         (baseChangeLiftOne (A' := A') (B' := B') (Omega' := Omega')
           (N := B' ⊗[B] M) (nabla' n))) = 0 := by
     intro n
-    induction n using TensorProduct.induction_on with
-    | zero =>
-        simp [baseChangeLiftOne]
+    induction n using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [hcurv_add, hx, hy, add_zero]
     | tmul b m =>
@@ -1065,14 +1053,13 @@ public theorem existsUnique_baseChangeDeRhamMap
     intro m omega
     have h₁ := hd.1 p m omega
     have h₂ := hformula p m omega
-    show d p (m ⊗ₜ[B] exteriorPower.ιMulti B p omega) =
+    change d p (m ⊗ₜ[B] exteriorPower.ιMulti B p omega) =
       c p (m ⊗ₜ[B] exteriorPower.ιMulti B p omega)
     rw [h₁, h₂]
   have hfg : f = g := by
     apply AddMonoidHom.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [f, g, c, eSrc]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul m eta =>
         have heta : ∀ (m : M) (eta : ⋀[B]^p Omega),

@@ -107,7 +107,7 @@ theorem isIso_of_bijective_app_on_cover
     have hk' : R (k.left ≫ X.hom) := (Sieve.overEquiv_symm_iff _ k).1 hk
     have hb := h Y.hom (by simpa using hk')
     apply hb.1
-    show φ.app (op Y) (P.map k.op a) = φ.app (op Y) (P.map k.op b)
+    change φ.app (op Y) (P.map k.op a) = φ.app (op Y) (P.map k.op b)
     rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hab]
   have hs : Presheaf.IsLocallySurjective (J.over U) φ := by
     constructor

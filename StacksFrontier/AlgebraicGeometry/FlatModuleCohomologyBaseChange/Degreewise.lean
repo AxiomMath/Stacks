@@ -164,7 +164,7 @@ lemma coeffSection_smul (f' : X' ⟶ S') (G : S'.Modules) (V : X'.Opens) (b : Γ
     (n : Γ(G, ⊤)) :
     coeffSection f' G V (b • n) =
       (f'.appLE ⊤ V (le_preimage_top f' V)).hom b • coeffSection f' G V n := by
-  show (((Scheme.Modules.pullback f').obj G).presheaf.map
+  change (((Scheme.Modules.pullback f').obj G).presheaf.map
       (homOfLE (le_preimage_top f' V)).op).hom (pullbackUnitSections f' G ⊤ (b • n)) = _
   rw [pullbackUnitSections_smul f' G ⊤ b n,
     Scheme.Modules.map_smul ((Scheme.Modules.pullback f').obj G)
@@ -178,7 +178,7 @@ lemma coeffSection_res (f' : X' ⟶ S') (G : S'.Modules) {V W : X'.Opens} (h : W
     (((Scheme.Modules.pullback f').obj G).presheaf.map (homOfLE h).op).hom
         (coeffSection f' G V n) =
       coeffSection f' G W n := by
-  show (((Scheme.Modules.pullback f').obj G).presheaf.map (homOfLE h).op).hom
+  change (((Scheme.Modules.pullback f').obj G).presheaf.map (homOfLE h).op).hom
       ((((Scheme.Modules.pullback f').obj G).presheaf.map
         (homOfLE (le_preimage_top f' V)).op).hom (pullbackUnitSections f' G ⊤ n)) = _
   rw [← ConcreteCategory.comp_apply,
@@ -234,7 +234,7 @@ lemma comparisonSection_smul_base {f : X ⟶ S} {g : S' ⟶ S} (H : IsPullback g
   have hR : comparisonSection g' f' F G U n (α • a) =
       (g'.appLE U (g' ⁻¹ᵁ U) le_rfl).hom ((f.appLE ⊤ U (le_preimage_top f U)).hom α) •
         comparisonSection g' f' F G U n a := by
-    show Stacks.SectionTensorFormula.tensorSection _ _ (coeffSection f' G (g' ⁻¹ᵁ U) n)
+    change Stacks.SectionTensorFormula.tensorSection _ _ (coeffSection f' G (g' ⁻¹ᵁ U) n)
       (pullbackUnitSections g' F U ((f.appLE ⊤ U (le_preimage_top f U)).hom α • a)) = _
     rw [Scheme.Hom.appLE_preimage_self g' U,
       pullbackUnitSections_smul g' F U ((f.appLE ⊤ U (le_preimage_top f U)).hom α) a,
@@ -309,8 +309,7 @@ def comparisonMap {f : X ⟶ S} {g : S' ⟶ S} (H : IsPullback g' f' f g) (U : X
     map_add' := (comparisonAddHom g' f' F G H U).map_add
     map_smul' := by
       intro b z
-      induction z using TensorProduct.induction_on with
-      | zero => rw [smul_zero, map_zero, smul_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul n a => exact comparisonSection_smul_coeff g' f' F G U b n a
       | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add] }
 
@@ -353,8 +352,7 @@ theorem comparisonMap_comm_res {f : X ⟶ S} {g : S' ⟶ S} (H : IsPullback g' f
   let := baseModule f' (tensorPullback g' f' F G) (g' ⁻¹ᵁ U)
   let := baseModule f' (tensorPullback g' f' F G) (g' ⁻¹ᵁ V)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; exact (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul n a => exact (comparisonSection_res g' f' F G h n a).symm
   | add x y hx hy =>
       rw [map_add, map_add, map_add, hx, hy]

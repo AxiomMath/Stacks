@@ -479,7 +479,7 @@ public theorem projectionFormulaPullback_zero (F : X.Modules) :
     (pushforwardPullbackIso f p p' hbase)
     ((Stacks.ProjectionFormula.tensorRightInvertible X ((Scheme.Modules.pullback p).obj G)).obj F)
   have h0 := projectionFormulaMap_pullback f p p' hbase g F
-  show CategoryStruct.comp
+  change CategoryStruct.comp
     (X := (((Scheme.Modules.pushforward p).rightDerived 0).obj
       ((Stacks.ProjectionFormula.tensorRightInvertible X
         ((Scheme.Modules.pullback p).obj G)).obj F)))
@@ -892,7 +892,7 @@ public theorem koszulShiftIso_pullback {p : ℕ} (hp : p + 1 ≤ n) (q : ℕ) :
     (pushforwardPullbackIso f _ _ hbase) q (koszulTwistIso E hqc D p).inv
   have hsq := iso_square_inv ((Scheme.Modules.pullback f).mapIso (koszulTwistIso E hqc D p))
     (koszulTwistIso E' hqc' D' p) _ _ (koszulTwistIso_pullback f θ lV hu hmul p)
-  show (((bundlePushforward E hqc).rightDerived q).map (koszulTwistIso E hqc D p).inv ≫
+  change (((bundlePushforward E hqc).rightDerived q).map (koszulTwistIso E hqc D p).inv ≫
       (pushDelta _).δ (shortExact_koszulTwistSequence E hqc D p) q) ≫ _ ≫ _ =
     _ ≫ _ ≫ ((bundlePushforward E' hqc').rightDerived q).map (koszulTwistIso E' hqc' D' p).inv ≫
       (pushDelta _).δ (shortExact_koszulTwistSequence E' hqc' D' p) q

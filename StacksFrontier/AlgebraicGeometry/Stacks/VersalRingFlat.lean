@@ -113,7 +113,7 @@ lemma flat_and_surjective_of_toScheme_map_eq {X Y U V : BigFppfOver D.B D.S D.hS
     Flat (D.B.inclusion.map g.left) ∧ Surjective (D.B.inclusion.map g.left) := by
   subst hX hY
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at h
-  show Flat ((BigFppfOver.toScheme D.B D.S D.hS).map g) ∧
+  change Flat ((BigFppfOver.toScheme D.B D.S D.hS).map g) ∧
     Surjective ((BigFppfOver.toScheme D.B D.S D.hS).map g)
   rw [h]
   exact hψ

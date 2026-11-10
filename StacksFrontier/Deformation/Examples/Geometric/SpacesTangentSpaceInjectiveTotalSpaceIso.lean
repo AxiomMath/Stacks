@@ -53,6 +53,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_presheaf_TotalSpaceI
   functorCategoryHasLimitsOfShape
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasTerminal` on a category of sheaves of types is deep
 local instance (priority := high) hasTerminal_sheaf_TotalSpaceIso
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
     HasTerminal (Sheaf J (Type u)) :=

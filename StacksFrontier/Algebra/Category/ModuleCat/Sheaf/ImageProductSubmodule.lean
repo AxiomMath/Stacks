@@ -194,7 +194,7 @@ theorem le_imageProductSubmodule_comp_of_epi (ψ : A ⟶ B) [Epi ψ]
   refine N.isSheaf _ (J.superset_covering (fun V g hg => ?_) hS)
   obtain ⟨z, hz⟩ := hsec g hg
   have hz' : ψ.val.app (op V) z = B.val.map g.op y := hz
-  show M.val.map g.op
+  change M.val.map g.op
     ((show R.obj.obj U from φ.val.app U y) • m) ∈ N.obj (op V)
   rw [M.val.map_smul]
   have hnat : (show R.obj.obj (op V) from R.obj.map g.op (φ.val.app U y)) =

@@ -150,7 +150,7 @@ public theorem liftedQuotientRowIso_projection (F : CoherentAdicSystems I)
       completionProjection X I (((coherentAdicTerms K).obj G).obj (op e)) n ≫
         (c.app (op e)).hom.hom.app (op n) ≫
           (idealPowerQuotientAdicColumnIso I K F n).hom.app (op e) := by
-  show cokernel.π (C := X.Modules) _ ≫
+  change cokernel.π (C := X.Modules) _ ≫
       ((completionTermQuotientIso I n).app
         (((coherentAdicTerms K).obj G).obj (op e))).inv ≫
       (c.app (op e)).hom.hom.app (op n) ≫
@@ -347,7 +347,7 @@ public theorem liftedQuotientRowIso_map_to_completion (F : CoherentAdicSystems I
     rw [idealPowerQuotientAdicColumnIso_hom_app, idealPowerQuotientAdicColumnIso_hom_app]
     exact (completionTermQuotientIso K e).inv.naturality
       (((coherentAdicTerms I).map α).app (op n))
-  show _ ≫ _ ≫ _ = _ ≫ _ ≫ _
+  change _ ≫ _ ≫ _ = _ ≫ _ ≫ _
   have hinner : ((completionFunctor X I).map
         (((coherentAdicTerms K).map γ).app (op e))).hom.app (op n) ≫
       (completionQuotientTowerTermIso I K H e).inv.hom.app (op n) ≫

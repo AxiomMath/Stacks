@@ -108,7 +108,7 @@ private theorem injective_of_associatedPrimes {R : Type u} [CommRing R] (I : Ide
       exists_notMem_localized_krullIntersection_eq_bot (M := M) J q (le_sup_left.trans hpq)
     have hmem : LocalizedModule.mkLinearMap (Submonoid.powers f) M (x - y) ∈
         (krullIntersection M J).localized (Submonoid.powers f) := by
-      show LocalizedModule.mkLinearMap (Submonoid.powers f) M (x - y) ∈
+      change LocalizedModule.mkLinearMap (Submonoid.powers f) M (x - y) ∈
         Submodule.localized' (Localization (Submonoid.powers f)) (Submonoid.powers f)
           (LocalizedModule.mkLinearMap (Submonoid.powers f) M) (krullIntersection M J)
       rw [Submodule.mem_localized']
@@ -144,8 +144,7 @@ private theorem exists_fg_le_of_mem_range_lTensor {R : Type u} [CommRing R] {N Q
     ∃ K' : Submodule R Q, K' ≤ K ∧ K'.FG ∧
       x ∈ LinearMap.range (K'.subtype.lTensor N) := by
   obtain ⟨x, rfl⟩ := hx
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, bot_le, Submodule.fg_bot, by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul m k =>
       refine ⟨Submodule.span R {(k : Q)}, ?_, Submodule.fg_span_singleton _, ?_⟩
       · exact Submodule.span_le.mpr (Set.singleton_subset_iff.mpr k.2)
@@ -163,8 +162,7 @@ private theorem comm_lTensor {R : Type u} [CommRing R] {N P Q : Type*} [AddCommG
     [Module R N] [AddCommGroup P] [Module R P] [AddCommGroup Q] [Module R Q] (g : P →ₗ[R] Q)
     (x : N ⊗[R] P) :
     TensorProduct.comm R N Q (g.lTensor N x) = g.rTensor N (TensorProduct.comm R N P x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n p => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -240,8 +238,7 @@ theorem universallyInjective_of_associatedPrimes {R : Type u} [CommRing R] (I : 
     have hcomp : adicCompletionTensorMap I N Q ∘ₗ (AdicCompletion.of I N).rTensor Q =
         AdicCompletion.of I (N ⊗[R] Q) := by
       refine LinearMap.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul n q => simp [adicCompletionTensorMap_tmul, AdicCompletion.map_of]
       | add z₁ z₂ hz₁ hz₂ => rw [map_add, map_add, hz₁, hz₂]
     exact fun x y hxy => (hcomp ▸ hOf) (congrArg (adicCompletionTensorMap I N Q) hxy)
@@ -285,7 +282,7 @@ private theorem proper_of_fibre_associatedPrimes {R S N : Type*} [CommRing R] [C
   have hfibre : qs.asIdeal ∈ associatedPrimes S
       (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) qs).asIdeal.ResidueField) := by
     subst hcontract
-    show qs ∈ {q : PrimeSpectrum S | q.asIdeal ∈ associatedPrimes S
+    change qs ∈ {q : PrimeSpectrum S | q.asIdeal ∈ associatedPrimes S
       (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)}
     rw [(Module.relativeAssassin_comparison R S N rfl rfl rfl rfl rfl rfl).1]
     exact ⟨Qp, hQp, hqs⟩

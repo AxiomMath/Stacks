@@ -58,7 +58,7 @@ theorem exists_idempotent_rankAtStalk_decomposition {R M : Type u} [CommRing R]
   have hid (i : ι) : e i * e i = e i := (he i).1.eq
   have hcross (i j : ι) (hij : i ≠ j) : e i * e j = 0 := by
     have hij' : IsIdempotentElem (e i * e j) := by
-      show e i * e j * (e i * e j) = e i * e j
+      change e i * e j * (e i * e j) = e i * e j
       calc
         e i * e j * (e i * e j) = e i * e i * (e j * e j) := by ring
         _ = e i * e j := by rw [hid, hid]
@@ -83,7 +83,7 @@ theorem exists_idempotent_rankAtStalk_decomposition {R M : Type u} [CommRing R]
   have hsum : ∑ i, e i = 1 := by
     refine PrimeSpectrum.basicOpen_injOn_isIdempotentElem ?_
       IsIdempotentElem.one ?_
-    · show (∑ i, e i) * (∑ i, e i) = ∑ i, e i
+    · change (∑ i, e i) * (∑ i, e i) = ∑ i, e i
       rw [Finset.sum_mul_sum]
       refine Finset.sum_congr rfl fun i _ ↦ ?_
       rw [Finset.sum_eq_single i (fun j _ hji ↦ hcross i j hji.symm) (by simp), hid]

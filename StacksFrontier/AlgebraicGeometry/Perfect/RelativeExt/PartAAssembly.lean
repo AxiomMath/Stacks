@@ -140,12 +140,12 @@ theorem exists_comparison_of_open (P : DStd U)
   refine ⟨fun i F hF => (partAMap (j ≫ f) hGU P hP hPF p i F hF).comp
     (restrictRelativeExt f j G E F i), ?_, ?_, ?_⟩
   · intro i F F' hF hF' v y
-    show partAMap (j ≫ f) hGU P hP hPF p i F' hF' (restrictRelativeExt f j G E F' i
+    change partAMap (j ≫ f) hGU P hP hPF p i F' hF' (restrictRelativeExt f j G E F' i
       (y ≫ (DerivedCategory.Q.map ((relativeExtTargetFunctor f.toLRSHom.toShHom G).map v))⟦i⟧')) =
         partAMap (j ≫ f) hGU P hP hPF p i F hF (restrictRelativeExt f j G E F i y) ≫ _
     rw [restrictRelativeExt_naturality, partAMap_naturality]
   · intro A hA h₁ h₃ n m' h y
-    show partAMap (j ≫ f) hGU P hP hPF p m' A.X₁ h₁ (restrictRelativeExt f j G E A.X₁ m'
+    change partAMap (j ≫ f) hGU P hP hPF p m' A.X₁ h₁ (restrictRelativeExt f j G E A.X₁ m'
       (y.comp (relativeExtBoundary hG hA) h)) = ShiftedHom.comp
         (partAMap (j ≫ f) hGU P hP hPF p n A.X₃ h₃ (restrictRelativeExt f j G E A.X₃ n y)) _ h
     exact (congrArg (partAMap (j ≫ f) hGU P hP hPF p m' A.X₁ h₁)

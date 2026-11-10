@@ -210,7 +210,7 @@ theorem exists_holdsOnEveryEtaleChart_of_isPullback_of_hasChartLimitBridges
     MorphismProperty.of_isPullback (IsPullback.of_hasPullback (T.map r) (T.map (stageChart j₀)))
       hrfp
   have hqL : (T.mapCone L.cone).π.app j₀ ≫ T.map (stageChart j₀) = T.map limitChart := by
-    show T.map (L.cone.π.app j₀) ≫ _ = _
+    change T.map (L.cone.π.app j₀) ≫ _ = _
     rw [← Functor.map_comp]
     congr 1
     apply yoneda.map_injective
@@ -221,7 +221,7 @@ theorem exists_holdsOnEveryEtaleChart_of_isPullback_of_hasChartLimitBridges
   obtain ⟨jj, g, hjj⟩ := hdescend C.schemeDiagram (T.mapCone L.cone) L.schemeIsLimit
     (fun g => C.isAffineHom_map g) j₀ X₀' Y₀' φ hj₀aff hX₀aff hj₀aff hφ hφlim
   have hqj : C.schemeDiagram.map g ≫ T.map (stageChart j₀) = T.map (stageChart jj) := by
-    show T.map (C.siteDiagram.map g) ≫ _ = _
+    change T.map (C.siteDiagram.map g) ≫ _ = _
     rw [← Functor.map_comp]
     congr 1
     apply yoneda.map_injective

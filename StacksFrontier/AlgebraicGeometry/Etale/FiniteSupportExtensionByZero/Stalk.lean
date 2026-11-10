@@ -325,7 +325,7 @@ private theorem etaleExtensionStalk_hom_ext {T : AddCommGrpCat.{u + 1}}
     a = b := by
   have hlke : ((abelianPresheafExtensionByZero B X hX U).obj F).IsLeftKanExtension
       ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj) := by
-    show ((smallEtalePostcompose B X hX U).op.lan.obj F.obj).IsLeftKanExtension
+    change ((smallEtalePostcompose B X hX U).op.lan.obj F.obj).IsLeftKanExtension
       ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj)
     infer_instance
   apply colimit.hom_ext
@@ -346,7 +346,7 @@ private theorem etaleExtensionStalk_hom_ext {T : AddCommGrpCat.{u + 1}}
         ((abelianPresheafExtensionByZero B X hX U).obj F))
         (op ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W.unop)
           ((geometricPointFiber B X hX s).map f.unop N.unop.2))) at hw
-  show ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app W ≫
+  change ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app W ≫
       (((abelianPresheafExtensionByZero B X hX U).obj F).map f ≫
         colimit.ι (etaleStalkDiagram B X hX s
           ((abelianPresheafExtensionByZero B X hX U).obj F)) N) ≫ a =
@@ -460,7 +460,7 @@ private theorem isIso_stalk_comp_fiberStalks :
   have hri : r ≫ (comparisonStalkMap B X hX U s F ≫
       etaleFiniteSupportStalkMap B X hX U s F) = 𝟙 _ := by
     refine ConcreteCategory.hom_ext _ _ fun z => ?_
-    show (comparisonStalkMap B X hX U s F ≫ etaleFiniteSupportStalkMap B X hX U s F)
+    change (comparisonStalkMap B X hX U s F ≫ etaleFiniteSupportStalkMap B X hX U s F)
       (DirectSum.toAddMonoid
         (fun x => (liftedStalkToExtension B X hX U s F x).hom) z) = z
     refine DirectSum.induction_on z ?_ (fun x a => ?_) (fun z₁ z₂ h₁ h₂ => ?_)
@@ -477,7 +477,7 @@ private theorem isIso_stalk_comp_fiberStalks :
         (congrArg (fun z => q.1 ≫ z)
           (B.inclusion.map_comp W.obj.hom U.obj.hom).symm).trans q.2⟩
     have hlift := liftedStalkToExtension_etaleGerm B X hX U s F x W ⟨q.1, rfl⟩ t
-    show r ((comparisonStalkMap B X hX U s F ≫ etaleFiniteSupportStalkMap B X hX U s F)
+    change r ((comparisonStalkMap B X hX U s F ≫ etaleFiniteSupportStalkMap B X hX U s F)
         (etaleGerm B X hX s ((abelianPresheafExtensionByZero B X hX U).obj F)
           ((smallEtalePostcompose B X hX U).obj W) (liftedPoint B X hX U s x W ⟨q.1, rfl⟩)
           (((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app (op W) t))) =

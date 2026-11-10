@@ -170,7 +170,8 @@ def derivedRestrictTensorQIso
       DerivedCategory.Q.obj ((restrictComplexTensor f).obj K) :=
   derivedRestrictToInvRing_obj_Q f K
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [∀ (A B : CochainComplex (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
@@ -493,6 +494,7 @@ abbrev mixedModelsW :
     (ComplexShape.up ℤ)).prod (flatKFlatModelsW Y)
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [∀ (A B : CochainComplex (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
     HomologicalComplex.HasMapBifunctor A B
@@ -527,6 +529,7 @@ def mixedModelsIso
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).app P.2.obj.as)
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [∀ (A B : CochainComplex (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
     HomologicalComplex.HasMapBifunctor A B

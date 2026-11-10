@@ -58,7 +58,7 @@ definition `I` of `A` the induced map `A ⧸ I → C ⧸ J(I)` is flat, where `J
 `φ(I)C`, then `φ` is flat. -/
 theorem flat_of_isTaut_of_flat_quotientMap_closure [IsNoetherianRing A] [IsNoetherianRing C]
     (φ : A →+* C) (hA : TopologicalRing.IsAdic A) (hC : TopologicalRing.IsAdic C)
-    (hφ : Continuous φ) (htaut : RingHom.IsTaut φ)
+    (htaut : RingHom.IsTaut φ)
     (hflat : ∀ I : Ideal A, TopologicalRing.IsWeakIdealOfDefinition I →
       (Ideal.quotientMap (Ideal.closure (I.map φ)) φ
         (Ideal.map_le_iff_le_comap.mp subset_closure)).Flat) :
@@ -66,7 +66,7 @@ theorem flat_of_isTaut_of_flat_quotientMap_closure [IsNoetherianRing A] [IsNoeth
   obtain ⟨⟨I₀, -, hI₀⟩, -⟩ := hA
   obtain ⟨-, hT2, hcomplete⟩ := hC
   have : @CompleteSpace C (IsTopologicalAddGroup.rightUniformSpace C) := hcomplete
-  obtain ⟨I, hI, hJ⟩ := RingHom.isAdic_of_isTaut φ hφ htaut
+  obtain ⟨I, hI, hJ⟩ := RingHom.isAdic_of_isTaut φ htaut
     ⟨I₀, Ideal.fg_of_isNoetherianRing I₀, hI₀⟩
   let : Algebra A C := φ.toAlgebra
   have hcompl : IsAdicComplete (I.map (algebraMap A C)) C := by

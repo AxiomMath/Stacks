@@ -79,7 +79,7 @@ theorem range_pointsMap_fibreThickening_ι_subset_of_pos {m : ℕ} (hm : 0 < m) 
       (BigFppfOver.toScheme B S hS).mono_of_mono_map inferInstance
     rw [range_pointsMap_preimage_ι, range_pointsMap_preimage_ι]
     refine Set.preimage_mono ?_
-    show Set.range (pointsMap B S hS
+    change Set.range (pointsMap B S hS
         (Subfunctor.range (yoneda.map (adicCompletionQuotientObjHom B S hS V I n))).toFunctor
         (Subfunctor.range (yoneda.map (adicCompletionQuotientObjHom B S hS V I n))).ι) ⊆
       Set.range (pointsMap B S hS

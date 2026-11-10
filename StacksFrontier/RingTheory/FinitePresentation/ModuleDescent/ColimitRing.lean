@@ -253,8 +253,7 @@ private lemma map_χ_map_βAlg (hcocone : IsCoconeAlg φ ψ)
     TensorProduct.map (χ φ ψ hcocone).toLinearMap (LinearMap.id (R := A) (M := P))
         (TensorProduct.map (βAlg φ i).toLinearMap (LinearMap.id (R := A) (M := P)) y) =
       canonMod ψ P i y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r p =>
       change (χ φ ψ hcocone (βAlg φ i r)) ⊗ₜ[A] p = (ψ i r) ⊗ₜ[A] p
       rw [χ_βAlg]
@@ -266,8 +265,7 @@ private lemma map_βAlg_transMod
     TensorProduct.map (βAlg φ j).toLinearMap (LinearMap.id (R := A) (M := P))
         (transMod φ P hij y) =
       TensorProduct.map (βAlg φ i).toLinearMap (LinearMap.id (R := A) (M := P)) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r p =>
       change (βAlg φ j (φ hij r)) ⊗ₜ[A] p = (βAlg φ i r) ⊗ₜ[A] p
       exact congrArg (fun b => b ⊗ₜ[A] p) (Ring.DirectLimit.of_f hij r)
@@ -278,8 +276,7 @@ private lemma exists_map_βAlg_eq
     {P : Type*} [AddCommGroup P] [Module A P] (t : (B φ) ⊗[A] P) :
     ∃ (i : ι) (y : (R i) ⊗[A] P),
       TensorProduct.map (βAlg φ i).toLinearMap (LinearMap.id (R := A) (M := P)) y = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨Classical.arbitrary ι, 0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b p =>
       obtain ⟨i, r, hr⟩ := Ring.DirectLimit.exists_of b
       exact ⟨i, r ⊗ₜ[A] p, congrArg (fun z => z ⊗ₜ[A] p) hr⟩
@@ -389,8 +386,7 @@ private lemma tensor_zero_exact (htrans : TransitionSystem φ)
         = Module.DirectLimit.of A ι (fun k => (R k) ⊗[A] C)
             (fun i j h => LinearMap.rTensor C (transLin φ i j h)) i y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul r c =>
         change e2 (e1 ((βAlg φ i r) ⊗ₜ[A] c)) = _
         have hbeta : bE.symm (βAlg φ i r) = Module.DirectLimit.of A ι R (transLin φ) i r := by
@@ -409,16 +405,14 @@ private lemma tensor_zero_exact (htrans : TransitionSystem φ)
     constructor
     · intro i y
       change LinearMap.rTensor C (transLin φ i i (le_refl i)) y = y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul r c =>
           rw [LinearMap.rTensor_tmul]
           change ((φ (le_refl i)) r) ⊗ₜ[A] c = r ⊗ₜ[A] c
           rw [htrans.refl i r]
       | add a b ha hb => simp only [map_add, ha, hb]
     · intro k j i hij hjk y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul r c =>
           change LinearMap.rTensor C (transLin φ j k hjk)
               (LinearMap.rTensor C (transLin φ i j hij) (r ⊗ₜ[A] c))
@@ -515,8 +509,7 @@ lemma statement_two_coker_descend
     have hunit_eq : ∀ p : (B φ) ⊗[A] N,
         cN ((1 : S) ⊗ₜ[B φ] p) = ΛN p := by
       intro p
-      induction p using TensorProduct.induction_on with
-      | zero => simp
+      induction p using TensorProduct.inductionOn with
       | tmul b n =>
           rw [hcN, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
           change (b • (1 : S)) ⊗ₜ[A] n = (χ φ ψ hcocone b) ⊗ₜ[A] n
@@ -583,8 +576,7 @@ lemma statement_two_coker_descend
   refine ⟨fun x y => ?_⟩
   suffices h : ∀ z : (R j) ⊗[A] C, z = 0 by rw [h x, h y]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul r c =>
       calc r ⊗ₜ[A] c = r • ((1 : R j) ⊗ₜ[A] c) := by
             rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

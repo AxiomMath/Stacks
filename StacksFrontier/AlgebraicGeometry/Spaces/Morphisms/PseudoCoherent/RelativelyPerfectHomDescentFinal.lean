@@ -70,8 +70,8 @@ with `K₀` pseudo-coherent and `L₀ ∈ D_QCoh(𝒪_{X₀})` locally of finite
 of `D((X₀ → Y₀)⁻¹𝒪_{Y₀})`.  Then the comparison map
 `colim_{i ≥ 0} Hom_{D(𝒪_{Xᵢ})}(Lf_{i0}^*K₀, Lf_{i0}^*L₀) ⟶ Hom_{D(𝒪_X)}(Lf₀^*K₀, Lf₀^*L₀)`
 is an isomorphism. -/
-@[stacks 0DKV "the full statement; the condition D.IsSchemeLimit on the limit cone is the meaning of \
-  Y = lim Y_i in Situation 0DKU, the limit of algebraic spaces of Stacks 07SF, which the \
+@[stacks 0DKV "the full statement; the condition D.IsSchemeLimit on the limit cone is the meaning \
+  of Y = lim Y_i in Situation 0DKU, the limit of algebraic spaces of Stacks 07SF, which the \
   presheaf limit cone of RelativeDescentSituation does not record by itself (see the module \
   documentation of RelativeDescentSchemeLimit for a situation where the presheaf limit is \
   empty and the conclusion fails); it holds automatically for small index sets, see \

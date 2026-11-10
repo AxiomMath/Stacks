@@ -122,7 +122,7 @@ public theorem isVariety_and_topologicalKrullDim_pullback (k : Type u) [Field k]
   ⟨isVariety_pullback k f g, topologicalKrullDim_pullback_of_isVariety k f g⟩
 
 private theorem gaussianImaginaryUnit_isIntegral : _root_.IsIntegral ℚ Complex.I := by
-  show ∃ p : Polynomial ℚ, p.Monic ∧
+  change ∃ p : Polynomial ℚ, p.Monic ∧
     Polynomial.eval₂ (algebraMap ℚ ℂ) Complex.I p = 0
   refine ⟨Polynomial.X ^ 2 + 1, ?_, ?_⟩
   · norm_num [Polynomial.Monic]
@@ -161,7 +161,7 @@ private theorem gaussianRationals_inv_two_add_inv_two :
 
 private theorem gaussianConjugation_apply_gaussianImaginaryUnit :
     (gaussianConjugation gaussianImaginaryUnit).val = -Complex.I := by
-  show gaussianComplexConjugation Complex.I = -Complex.I
+  change gaussianComplexConjugation Complex.I = -Complex.I
   exact Complex.conj_I
 
 private theorem gaussianConjugation_apply_gaussianImaginaryUnit' :
@@ -258,7 +258,7 @@ private noncomputable def gaussianTensorSection :
 private theorem gaussianTensorEvaluation_comp_section :
     gaussianTensorEvaluation.comp gaussianTensorSection = AlgHom.id ℚ _ := by
   refine AlgHom.ext fun p => ?_
-  show gaussianTensorEvaluation (p.1 ⊗ₜ 1 * gaussianIdempotent₀ +
+  change gaussianTensorEvaluation (p.1 ⊗ₜ 1 * gaussianIdempotent₀ +
     p.2 ⊗ₜ 1 * gaussianIdempotent₁) = p
   rw [map_add, map_mul, map_mul, gaussianTensorEvaluation_tmul, gaussianTensorEvaluation_tmul,
     gaussianTensorEvaluation_idempotent₀, gaussianTensorEvaluation_idempotent₁]
@@ -268,19 +268,19 @@ private theorem gaussianTensorSection_comp_evaluation :
     gaussianTensorSection.comp gaussianTensorEvaluation = AlgHom.id ℚ _ := by
   apply Algebra.TensorProduct.ext
   · ext a
-    show gaussianTensorSection (gaussianTensorEvaluation (a ⊗ₜ 1)) = a ⊗ₜ 1
+    change gaussianTensorSection (gaussianTensorEvaluation (a ⊗ₜ 1)) = a ⊗ₜ 1
     simp only [gaussianTensorEvaluation_tmul, map_one, mul_one]
-    show a ⊗ₜ 1 * gaussianIdempotent₀ + a ⊗ₜ 1 * gaussianIdempotent₁ = _
+    change a ⊗ₜ 1 * gaussianIdempotent₀ + a ⊗ₜ 1 * gaussianIdempotent₁ = _
     rw [← mul_add, gaussianIdempotents.2.2.2.1, mul_one]
   · apply IntermediateField.adjoin_algHom_ext (F := ℚ) (s := ({Complex.I} : Set ℂ))
     intro a ha
     simp only [Set.mem_singleton_iff] at ha
     subst a
-    show gaussianTensorSection (gaussianTensorEvaluation (1 ⊗ₜ gaussianImaginaryUnit)) =
+    change gaussianTensorSection (gaussianTensorEvaluation (1 ⊗ₜ gaussianImaginaryUnit)) =
       1 ⊗ₜ gaussianImaginaryUnit
     simp only [gaussianTensorEvaluation_tmul, one_mul,
       gaussianConjugation_apply_gaussianImaginaryUnit']
-    show gaussianImaginaryUnit ⊗ₜ 1 * gaussianIdempotent₀ +
+    change gaussianImaginaryUnit ⊗ₜ 1 * gaussianIdempotent₀ +
       (-gaussianImaginaryUnit) ⊗ₜ 1 * gaussianIdempotent₁ = _
     rw [TensorProduct.neg_tmul, neg_mul, ← sub_eq_add_neg, ← mul_sub, gaussianIdempotents.2.2.2.2,
       mul_neg, Algebra.TensorProduct.tmul_mul_tmul, gaussianImaginaryUnit_mul_self, one_mul,
@@ -317,7 +317,7 @@ public theorem gaussianRationals_product_reducible :
       (PrimeSpectrum.basicOpen e : Set (PrimeSpectrum T)).Nonempty := by
     have hmem : e ∉ (PrimeSpectrum.comap f.toRingHom ⊥).asIdeal := by
       rw [PrimeSpectrum.comap_asIdeal]
-      show f e ≠ 0
+      change f e ≠ 0
       simp [he]
     exact ⟨PrimeSpectrum.comap f.toRingHom ⊥, hmem⟩
   obtain ⟨p, hp₀, hp₁⟩ := nonempty_preirreducible_inter (X := PrimeSpectrum T)

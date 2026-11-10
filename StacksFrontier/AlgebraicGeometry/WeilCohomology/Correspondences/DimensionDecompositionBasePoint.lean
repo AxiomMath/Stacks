@@ -229,7 +229,7 @@ variable {R ι : Type*} [Semiring R] [DecidableEq ι] {M : ι → Type*}
 projection to that summand. -/
 def directSumEquivSummand (i₀ : ι) (h : ∀ i, i ≠ i₀ → Subsingleton (M i)) :
     (DirectSum ι M) ≃ₗ[R] M i₀ :=
-  LinearEquiv.ofLinear (DirectSum.component R ι M i₀) (DirectSum.lof R ι M i₀)
+  LinearEquiv.ofLinearMap (DirectSum.component R ι M i₀) (DirectSum.lof R ι M i₀)
     (LinearMap.ext fun x ↦ by simp)
     (DirectSum.linearMap_ext R fun i ↦ LinearMap.ext fun x ↦ by
       by_cases hi : i = i₀
@@ -308,8 +308,7 @@ omit [LocallyOfFiniteType sX'] [LocallyOfFiniteType sY'] [IsIso φX] [IsIso φY]
 theorem correspondenceEquivOfIso_id (e r : ℤ) (c : Correspondence C sX sY e r) :
     correspondenceEquivOfIso C sX sY sX sY (𝟙 X) (𝟙 Y) (Category.id_comp _)
       (Category.id_comp _) e r c = c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
     rw [correspondenceEquivOfIso_tmul, chowPushforwardOfIso_congr_apply C _ _ _ (𝟙 _)
       (prodHom_id sX sY) _ (Category.id_comp _), chowPushforwardOfIso_id]
@@ -392,7 +391,7 @@ theorem chowPushforwardOfIso_compositionInt (hΔ : Δ.IsoInvariant) [IsProper sY
   rw [← (chowGroupEquivOfIso (fieldChowSituation k) _ _ Ψ hΨ _).apply_symm_apply
     (selfIntersectionProduct _ _ _ _ _ _ _ _ (chowPushforwardOfIso _ _ _ Ψ hΨ _ a)
       (chowPushforwardOfIso _ _ _ Ψ hΨ _ b))]
-  show _ = (properChowPushforward _ _ _ _ _ _ _) ((chowGroupDegreeEquiv _ _ _)
+  change _ = (properChowPushforward _ _ _ _ _ _ _) ((chowGroupDegreeEquiv _ _ _)
     (chowPushforwardOfIso _ _ _ Ψ hΨ _ (chowPushforwardOfIso _ _ _ (inv Ψ)
       (by rw [IsIso.inv_comp_eq, hΨ]) _ _)))
   rw [← key, chowGroupDegreeEquiv_chowPushforwardOfIso]
@@ -423,11 +422,9 @@ theorem correspondenceEquivOfIso_composition (hΔ : Δ.IsoInvariant) [IsProper s
       composition k sX sY sZ Δ hX hY hZ r s
         (correspondenceEquivOfIso _ sX sY sX' sY' φX φY hφX hφY e r c)
         (correspondenceEquivOfIso _ sY sZ sY' sZ' φY φZ hφY hφZ f s c') := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
-    induction c' using TensorProduct.induction_on with
-    | zero => simp
+    induction c' using TensorProduct.inductionOn with
     | tmul q' c' =>
       rw [composition_tmul, correspondenceEquivOfIso_tmul, correspondenceEquivOfIso_tmul,
         correspondenceEquivOfIso_tmul, composition_tmul,
@@ -540,8 +537,7 @@ theorem restrictPart_includePart (d : ℕ) (m : ℤ)
     (y : TensorProduct ℤ ℚ (chowGroup (fieldChowSituation k) (partBase sX d) m)) :
     restrictPart k sX d m (includePart k sX d m y) = y := by
   have := (isClopenDecomposition_dimPart sX).isProper_ι d
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul q α =>
     simp only [restrictPart, includePart, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap]
@@ -554,8 +550,7 @@ theorem restrictPart_includePart_of_ne {d d' : ℕ} (h : d ≠ d') (m : ℤ)
     (y : TensorProduct ℤ ℚ (chowGroup (fieldChowSituation k) (partBase sX d) m)) :
     restrictPart k sX d' m (includePart k sX d m y) = 0 := by
   have := (isClopenDecomposition_dimPart sX).isProper_ι d
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul q α =>
     simp only [restrictPart, includePart, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap]
@@ -664,7 +659,7 @@ parts are nonempty. -/
 def rationalChowPartsEquiv [CompactSpace X] (m : ℤ) :
     TensorProduct ℤ ℚ (chowGroup (fieldChowSituation k) sX m) ≃ₗ[ℚ]
       DirectSum ℕ fun d ↦ TensorProduct ℤ ℚ (chowGroup (fieldChowSituation k) (partBase sX d) m) :=
-  LinearEquiv.ofLinear (restrictParts k sX m)
+  LinearEquiv.ofLinearMap (restrictParts k sX m)
     (DirectSum.toModule ℚ ℕ _ fun d ↦ includePart k sX d m)
     (DirectSum.linearMap_ext ℚ fun i ↦ LinearMap.ext fun y ↦ by simp)
     (LinearMap.ext fun β ↦ by
@@ -913,6 +908,7 @@ theorem corrFromPointEquiv_pushforward_lof_lof_lof (hΔ : Δ.IsoInvariant) (hΔs
       comp_lof_lof_lof_of_ne k (𝟙 _) sX sY Δ i s 0 d' d h]
 
 set_option maxHeartbeats 1000000 in
+-- the nested `Corr` and `DirectSum` inductions elaborate the pushforward on graded pieces
 /-- **Stacks Project, Tag 0FG0 (3), second half**, for smooth schemes `X`, `Y` over `k` of
 arbitrary dimension, `X` proper: pushforward by correspondences corresponds to composition. For
 `c ∈ Corrˢ(X, Y)` and `α ∈ CH^i(X) ⊗ ℚ`, the identification

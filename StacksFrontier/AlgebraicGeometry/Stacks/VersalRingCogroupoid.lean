@@ -161,7 +161,7 @@ theorem comp_app_down (P : RepresentablePresentation.{u, v, w} C) {T : C}
       (uliftCoyoneda.{w}.map P.target.op)).map
       (pushout.desc q.1.1.down q.1.2.down hq) P.pushoutPair = q := by
     apply Subtype.ext
-    show (ULift.up (pushout.inl P.source P.target ≫
+    change (ULift.up (pushout.inl P.source P.target ≫
           pushout.desc q.1.1.down q.1.2.down hq),
         ULift.up (pushout.inr P.source P.target ≫
           pushout.desc q.1.1.down q.1.2.down hq)) = q.1

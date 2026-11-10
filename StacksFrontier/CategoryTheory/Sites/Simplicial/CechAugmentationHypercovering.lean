@@ -138,7 +138,7 @@ theorem isHypercoveringAugmentation_of_iso_cechNerveTerminalFrom (J : Pretopolog
     ⟨isCoveringOver_terminal_from_of_mem J _ ?_,
       (SimplicialObject.truncation 0).obj L,
       ⟨E ≪≫ asIso ((SimplicialObject.coskAdj 0).unit.app L)⟩⟩
-  show Presieve.ofArrows (fun _ : PUnit.{v + 1} => (W.obj (op ⦋0⦌)).left)
+  change Presieve.ofArrows (fun _ : PUnit.{v + 1} => (W.obj (op ⦋0⦌)).left)
     (fun _ => (W.obj (op ⦋0⦌)).hom) ∈ J X
   rwa [Presieve.ofArrows_pUnit]
 

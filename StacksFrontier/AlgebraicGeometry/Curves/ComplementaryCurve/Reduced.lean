@@ -171,7 +171,7 @@ theorem isReduced_of_isReduced_stalk_closedPoints (X : Scheme.{u}) [JacobsonSpac
       change Y.isoSpec.hom z = (⟨J, hJ.isPrime⟩ : PrimeSpectrum R) at hz
       exact Y.isoSpec.hom.homeomorph.injective (hz.trans hback.symm)
     have hfy : IsClosed ({f.base y} : Set X) := by
-      show y ∈ f.base ⁻¹' closedPoints X
+      change y ∈ f.base ⁻¹' closedPoints X
       rwa [f.isOpenEmbedding.preimage_closedPoints]
     have : IsReduced (X.presheaf.stalk (f.base y)) := h (f.base y) hfy
     have : IsReduced (Y.presheaf.stalk y) :=

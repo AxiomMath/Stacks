@@ -22,7 +22,7 @@ composition law in `DerivedPullbackTensorBraidingOfToposHom.lean` and
 `toTensor_square_of_kFlat` of [Stacks, Tag 0FPH] on a pair of models, all reused here):
 
 * the comparison of [Stacks, Tag 06YY] is invertible on a K-flat complex with flat terms, and
-  [Stacks, Tag 0G7E] holds, at the pinned spelling `Stacks.SheafOfModules.KFlat.KFlat` of
+  [Stacks, Tag 0G7E] holds, at the pinned spelling `Stacks.SheafOfModules.KFlat` of
   K-flatness at which the constraints of [Stacks, Tag 0FPT] are stated;
 * the comparison `f^*Tot(K ⊗_{𝒪'} L) ≅ Tot(f^*K ⊗_𝒪 f^*L)` of [Stacks, Tag 03EL] on total complexes
   is compatible with the associator of total tensor complexes, in the forward direction
@@ -108,9 +108,9 @@ section Comparison
 K-flat complex of `𝒪'`-modules with flat terms along a morphism of ringed topoi is K-flat. -/
 theorem kFlat_pullbackComplex_pinned
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom.pullbackComplex f).obj K) :=
   Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom.kFlat_pullbackComplex f K hK hflat
 
@@ -118,7 +118,7 @@ theorem kFlat_pullbackComplex_pinned
 invertible.** -/
 theorem isIso_pullbackComparisonQ
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i)) :
     IsIso (Stacks.Sheaves.DerivedPullback.OfToposHom.pullbackComparisonQ f K) :=
   isIso_pullbackComparisonQ_of_kFlat f K
@@ -136,8 +136,6 @@ attribute [local instance] monoidalModules symmetricModules monoidalPreadditiveM
   monoidalClosedModules hasTensorModules monoidalComplexes
 
 variable {X Y : RingedTopos.{u, u, u}}
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
@@ -199,6 +197,7 @@ variable
     HomologicalComplex.HasMapBifunctor A B
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- **The associativity coherence of the comparison of total tensor complexes for a morphism of
 ringed topoi**, in the forward direction and with every term written at the
 `HomologicalComplex.mapBifunctor` spelling of the total tensor complex: for cochain complexes

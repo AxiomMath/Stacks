@@ -173,7 +173,7 @@ theorem exists_monoidalCategory_tensorSheaf :
             (sheafifyFunctor 𝒪 h𝒪).map (f.val ⊗ₘ g.val) :=
   ⟨monoidalCategory 𝒪 h𝒪, rfl, fun _ _ ↦ rfl, fun f g ↦ by
     let := monoidalCategory 𝒪 h𝒪
-    show 𝟙 _ ≫ (f ⊗ₘ g) ≫ 𝟙 _ = _
+    change 𝟙 _ ≫ (f ⊗ₘ g) ≫ 𝟙 _ = _
     exact (Category.id_comp _).trans
       ((Category.comp_id _).trans (tensorHom_eq_sheafifyMap 𝒪 h𝒪 f g))⟩
 

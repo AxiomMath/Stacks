@@ -206,14 +206,14 @@ theorem deRhamPullbackInt_f (p : ℕ) :
         ((deRhamComplexNat f).extendXIso ComplexShape.embeddingUpNat (i := p) rfl).symm) hi
   have he := HomologicalComplex.extendMap_f (deRhamPullbackChain g' f' f g w)
     ComplexShape.embeddingUpNat (i := p) (i' := (p : ℤ)) rfl
-  show _ = ((HomologicalComplex.mapHomologicalComplexExtendIso
+  change _ = ((HomologicalComplex.mapHomologicalComplexExtendIso
       (modulePullback (inverseImageBaseMap g' f' f g w))
       (deRhamComplexNat f) ComplexShape.embeddingUpNat).inv.f p ≫
     (HomologicalComplex.extendMap (deRhamPullbackChain g' f' f g w)
       ComplexShape.embeddingUpNat).f p) ≫
         ((deRhamComplexNat f').extendXIso ComplexShape.embeddingUpNat (i := p) rfl).hom
   rw [hinv, he]
-  show _ = ((modulePullback (inverseImageBaseMap g' f' f g w)).map
+  change _ = ((modulePullback (inverseImageBaseMap g' f' f g w)).map
           ((deRhamComplexNat f).extendXIso ComplexShape.embeddingUpNat (i := p) rfl).hom ≫
         ((((modulePullback (inverseImageBaseMap g' f' f g w)).mapHomologicalComplex
           (ComplexShape.up ℕ)).obj (deRhamComplexNat f)).extendXIso

@@ -13,8 +13,8 @@ public import StacksFrontier.AlgebraicGeometry.ProperSupportCoherent.Uncondition
 /-!
 # Further results on `Basic`
 
-Results about the objects of `StacksFrontier.AlgebraicGeometry.ProperSupportCoherent.Basic` that need
-imports beyond those of that module.
+Results about the objects of `StacksFrontier.AlgebraicGeometry.ProperSupportCoherent.Basic` that
+need imports beyond those of that module.
 -/
 
 @[expose] public section

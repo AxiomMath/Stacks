@@ -55,7 +55,7 @@ theorem trace_eq_algebraMap_trace_of_pow_eq_pow [IsReduced S] (X : Matrix n n S)
     have h1 := AddMonoidHom.map_trace (residue S).toAddMonoidHom X
     have h2 := AddMonoidHom.map_trace (residue S).toAddMonoidHom (X₀.map (algebraMap (ZMod ℓ) S))
     have h3 := AddMonoidHom.map_trace (algebraMap (ZMod ℓ) S).toAddMonoidHom X₀
-    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe] at h1 h2 h3
+    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass] at h1 h2 h3
     rw [h1, h3, h2]
     exact congrArg trace hX
   have hfrob : ∀ k, b ^ ℓ ^ k = (X ^ ℓ ^ k).trace - algebraMap (ZMod ℓ) S X₀.trace := by
@@ -105,9 +105,12 @@ theorem mem_range_scalar_of_commute_span_eq_top {ι : Type*} (v : ι → Matrix 
   change Commute ((single i j (1 : ZMod ℓ)).map (algebraMap (ZMod ℓ) S)) M at h
   rwa [hmap] at h
 
+omit [Fintype n] [DecidableEq n] in
 /-- A matrix whose entries lie in an ideal `I` lies in `I • ⊤`. -/
-theorem mem_smul_top_of_forall_mem {R : Type*} [CommRing R] (I : Ideal R) (X : Matrix n n R)
-    (hX : ∀ i j, X i j ∈ I) : X ∈ I • (⊤ : Submodule R (Matrix n n R)) := by
+theorem mem_smul_top_of_forall_mem [Finite n] {R : Type*} [CommRing R] (I : Ideal R)
+    (X : Matrix n n R) (hX : ∀ i j, X i j ∈ I) : X ∈ I • (⊤ : Submodule R (Matrix n n R)) := by
+  classical
+  have := Fintype.ofFinite n
   rw [matrix_eq_sum_single X]
   refine Submodule.sum_mem _ fun i _ => Submodule.sum_mem _ fun j _ => ?_
   rw [show single i j (X i j) = X i j • single i j (1 : R) by
@@ -116,11 +119,12 @@ theorem mem_smul_top_of_forall_mem {R : Type*} [CommRing R] (I : Ideal R) (X : M
 
 variable {N : Type*} [Monoid N]
 
-omit [Monoid N] in
+omit [Monoid N] [Fintype n] [DecidableEq n] in
 /-- **Nakayama for the span of a representation.** If the residue field of `S` is `𝐅_ℓ` and a
 representation `σ : N → Mₙ(S)` is congruent to an `𝐅_ℓ`-representation `ρ₀` whose image spans
 `Mₙ(𝐅_ℓ)`, then the image of `σ` spans `Mₙ(S)` over `S`. -/
-theorem span_range_eq_top_of_congr (σ ρ₀ : N → Matrix n n S) (ρ₀' : N → Matrix n n (ZMod ℓ))
+theorem span_range_eq_top_of_congr [Finite n] (σ ρ₀ : N → Matrix n n S)
+    (ρ₀' : N → Matrix n n (ZMod ℓ))
     (hρ₀ : ∀ h, ρ₀ h = (ρ₀' h).map (algebraMap (ZMod ℓ) S))
     (hspan : Submodule.span (ZMod ℓ) (Set.range ρ₀') = ⊤)
     (hres : Function.Surjective ((residue S).comp (algebraMap (ZMod ℓ) S)))
@@ -160,12 +164,13 @@ theorem span_range_eq_top_of_congr (σ ρ₀ : N → Matrix n n S) (ρ₀' : N �
   rw [show X = Y + (X - Y) by abel]
   exact Submodule.add_mem_sup hY (mem_smul_top_of_forall_mem _ _ hdiff)
 
-omit [IsLocalRing S] in
+omit [IsLocalRing S] [DecidableEq n] in
 /-- **Nondegeneracy of the trace pairing against a spanning family.** A matrix `Z` with
 `tr (Z * v i) = 0` for every member of a family spanning `Mₙ(S)` is zero. -/
 theorem eq_zero_of_trace_mul_eq_zero {ι : Type*} (v : ι → Matrix n n S)
     (hv : Submodule.span S (Set.range v) = ⊤) (Z : Matrix n n S)
     (hZ : ∀ i, (Z * v i).trace = 0) : Z = 0 := by
+  classical
   let f : Matrix n n S →ₗ[S] S :=
     { toFun := fun Y => (Z * Y).trace
       map_add' := fun Y W => by rw [Matrix.mul_add, trace_add]

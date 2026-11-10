@@ -58,7 +58,7 @@ public theorem exists_covering_refining_sieve {C : Type u} [Category.{v} C]
       · exact hP.2.1 ⟨X, E⟩ hE (fun i ↦ ⟨E.X i, F i⟩) hF (fun _ ↦ rfl)
       · rw [Presieve.ofArrows_le_iff]
         rintro ⟨i, j⟩
-        show Q (((F i).f j ≫ 𝟙 _) ≫ E.f i)
+        change Q (((F i).f j ≫ 𝟙 _) ≫ E.f i)
         simpa using hFle i _ _ ⟨j⟩
 
 end CategoryTheory

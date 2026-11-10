@@ -104,7 +104,8 @@ public theorem preservesFiniteLimits_associatedModule :
 
 This is the spelling in which the development states the exactness assertion of Stacks 08H8 as a
 hypothesis — in particular in
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedEquivalence.lean` — so it
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedEquivalence.lean`
+— so it
 is supplied as an instance, which discharges those hypotheses. -/
 public instance preservesFiniteLimits_associatedModuleOfSheaf :
     PreservesFiniteLimits (associatedModuleOfSheaf B S hS) :=

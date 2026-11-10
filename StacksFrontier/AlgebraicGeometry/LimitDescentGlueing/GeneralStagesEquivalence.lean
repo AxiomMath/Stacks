@@ -437,6 +437,7 @@ variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
 /-- The transition morphism `S_j ⟶ S_k` of the inverse system, for `k ≤ j`. -/
 abbrev stageMap {k j : I} (hkj : k ≤ j) : D.obj (op j) ⟶ D.obj (op k) := D.map (homOfLE hkj).op
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition morphisms of the inverse system compose: `S_l ⟶ S_k` is `S_l ⟶ S_j ⟶ S_k`. -/
 lemma stageMap_comp {k j l : I} (hkj : k ≤ j) (hjl : j ≤ l) :
     stageMap D (hkj.trans hjl) = stageMap D hjl ≫ stageMap D hkj := by
@@ -459,6 +460,7 @@ structure Stage (j : I) where
 noncomputable def Stage.bc {j : I} (o : Stage D j) : Over (D.obj (op j)) :=
   (Over.pullback (stageMap D o.le)).obj o.obj
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The base change to `S_j` of a stage object lies in `C_{S_j}`. -/
 lemma Stage.bc_property {j : I} (o : Stage D j) : IsQcqsLfp (D.obj (op j)) o.bc :=
   isQcqsLfp_pullback _ o.property
@@ -475,6 +477,7 @@ noncomputable instance (j : I) : Category.{max v (u + 1)} (Stage D j) where
 /-- A morphism of the base changes to `S_j` as a morphism of the `j`-th stage category. -/
 def Stage.homMk {j : I} {o o' : Stage D j} (f : o.bc ⟶ o'.bc) : o ⟶ o' := ULift.up f
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- Two morphisms of a stage category are equal when their underlying morphisms of base changes
 are. -/
 @[ext]
@@ -500,6 +503,7 @@ morphisms. -/
 lemma Stage.comp_down {j : I} {o o' o'' : Stage D j} (f : o ⟶ o') (g : o' ⟶ o'') :
     (f ≫ g).down = f.down ≫ g.down := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition morphism `S_j ⟶ S_j` is the identity. -/
 lemma stageMap_refl (j : I) : stageMap D (le_refl j) = 𝟙 (D.obj (op j)) := D.map_id _
 
@@ -549,12 +553,14 @@ noncomputable def Stage.up {j j' : I} (hjj' : j ≤ j') : Stage D j ⥤ Stage D 
   map_id _ := Stage.hom_ext D (conjIter_id _ _ _ _ _)
   map_comp _ _ := Stage.hom_ext D (conjIter_comp _ _ _ _ _ _ _ _ _ _ _ _)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functor `AlgebraicGeometry.LimitDescent.Stage.up` keeps the object and its stage
 and replaces `src ≤ j` by `src ≤ j'`. -/
 @[simp]
 lemma Stage.up_obj {j j' : I} (hjj' : j ≤ j') (o : Stage D j) :
     (Stage.up D hjj').obj o = ⟨o.src, o.le.trans hjj', o.obj, o.property⟩ := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The underlying morphism of the image of `f` under `AlgebraicGeometry.LimitDescent.Stage.up` is
 the conjugate of the underlying morphism of `f`. -/
 @[simp]
@@ -563,27 +569,31 @@ lemma Stage.up_map_down {j j' : I} (hjj' : j ≤ j') {o o' : Stage D j} (f : o �
       (stageMap D hjj') (stageMap D (o.le.trans hjj')) (stageMap D (o'.le.trans hjj'))
       (stageMap_comp D o.le hjj').symm (stageMap_comp D o'.le hjj').symm f.down := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functor along `j ≤ j` is the identity on objects. -/
 lemma Stage.up_obj_refl {j : I} (o : Stage D j) : (Stage.up D (le_refl j)).obj o = o := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functors compose on objects. -/
 lemma Stage.up_obj_trans {j j' j'' : I} (hjj' : j ≤ j') (hj'j'' : j' ≤ j'') (o : Stage D j) :
     (Stage.up D (hjj'.trans hj'j'')).obj o =
       (Stage.up D hjj' ⋙ Stage.up D hj'j'').obj o := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functor along `j ≤ j` is the identity functor. -/
 lemma Stage.up_refl (j : I) : Stage.up D (le_refl j) = 𝟭 (Stage D j) := by
   refine CategoryTheory.Functor.ext (fun o => Stage.up_obj_refl D o) fun o o' f => ?_
-  show (Stage.up D (le_refl j)).map f = 𝟙 _ ≫ f ≫ 𝟙 _
+  change (Stage.up D (le_refl j)).map f = 𝟙 _ ≫ f ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
   exact Stage.hom_ext D (conjIter_of_id _ _ _ (stageMap_refl D j) _ _ _)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functor along `j ≤ j''` is the composite of the transition functors along
 `j ≤ j'` and `j' ≤ j''`. -/
 lemma Stage.up_trans {j j' j'' : I} (hjj' : j ≤ j') (hj'j'' : j' ≤ j'') :
     Stage.up D (hjj'.trans hj'j'') = Stage.up D hjj' ⋙ Stage.up D hj'j'' := by
   refine CategoryTheory.Functor.ext (fun o => Stage.up_obj_trans D hjj' hj'j'' o) fun o o' f => ?_
-  show (Stage.up D (hjj'.trans hj'j'')).map f =
+  change (Stage.up D (hjj'.trans hj'j'')).map f =
     𝟙 _ ≫ (Stage.up D hjj' ⋙ Stage.up D hj'j'').map f ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
   refine Stage.hom_ext D ?_
@@ -615,10 +625,12 @@ noncomputable def stageDiagram : I ⥤ Cat.{max v (u + 1), max v (u + 1)} where
   map_id j := Cat.ext (Stage.up_refl D j)
   map_comp h h' := Cat.ext (Stage.up_trans D (leOfHom h) (leOfHom h'))
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The `j`-th category of `AlgebraicGeometry.LimitDescent.stageDiagram` is `Stage D j`. -/
 @[simp]
 lemma stageDiagram_obj (j : I) : (stageDiagram D).obj j = Cat.of (Stage D j) := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The transition functors of `AlgebraicGeometry.LimitDescent.stageDiagram` are
 `AlgebraicGeometry.LimitDescent.Stage.up`. -/
 @[simp]
@@ -704,7 +716,7 @@ to the limit is base changing to the limit. -/
 lemma toLimit_up {j j' : I} (hjj' : j ≤ j') :
     Stage.up D hjj' ⋙ toLimit D c hc j' = toLimit D c hc j := by
   refine CategoryTheory.Functor.ext (fun o => toLimit_up_obj D c hc hjj' o) fun o o' f => ?_
-  show (Stage.up D hjj' ⋙ toLimit D c hc j').map f = 𝟙 _ ≫ (toLimit D c hc j).map f ≫ 𝟙 _
+  change (Stage.up D hjj' ⋙ toLimit D c hc j').map f = 𝟙 _ ≫ (toLimit D c hc j).map f ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
   refine ObjectProperty.hom_ext _ ?_
   rw [Functor.comp_map, toLimit_map_hom, toLimit_map_hom, Stage.up_map_down]
@@ -857,7 +869,8 @@ lemma pullback_map_eq_of_toLimit_map_eq (j : I) {o o' : Stage D j} (p q : o ⟶ 
     (c.π.app (op o.src)) (c.π.app (op o'.src)) (c.w (homOfLE o.le).op)
     (c.w (homOfLE o'.le).op) p.down q.down (congrArg (fun u => u.hom) h)
 
-omit [FinallySmall.{u} I] in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [FinallySmall.{u} I]
+  [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- Two morphisms of one stage category whose base changes to a later stage agree have the same
 image under the transition functor to that stage. -/
 lemma up_map_eq_of_pullback_map_eq {j j₂ : I} (hjj₂ : j ≤ j₂) {o o' : Stage D j} (p q : o ⟶ o')
@@ -869,7 +882,7 @@ lemma up_map_eq_of_pullback_map_eq {j j₂ : I} (hjj₂ : j ≤ j₂) {o o' : St
     (stageMap_comp D o.le hjj₂).symm (stageMap_comp D o'.le hjj₂).symm
     (A := o.obj) (B := o'.obj) ψ) h)
 
-omit [FinallySmall.{u} I] in
+omit [FinallySmall.{u} I] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- Two morphisms of one stage category which agree after a transition agree in the colimit. -/
 lemma colimit_ι_map_eq_of_up_map_eq {j j₂ : I} (hjj₂ : j ≤ j₂) {o o' : Stage D j} (p q : o ⟶ o')
     (h : (Stage.up D hjj₂).map p = (Stage.up D hjj₂).map q) :
@@ -892,7 +905,7 @@ lemma faithful_baseChangeComparison : (baseChangeComparison D c hc).Faithful := 
   have hcomp : ((colimit.ι (stageDiagram D) j).toFunctor ⋙
         baseChangeComparison D c hc).map f' =
       ((colimit.ι (stageDiagram D) j).toFunctor ⋙ baseChangeComparison D c hc).map g' := by
-    show (baseChangeComparison D c hc).map ((colimit.ι (stageDiagram D) j).toFunctor.map f') =
+    change (baseChangeComparison D c hc).map ((colimit.ι (stageDiagram D) j).toFunctor.map f') =
       (baseChangeComparison D c hc).map ((colimit.ι (stageDiagram D) j).toFunctor.map g')
     rw [hf', hg', Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp, hfg]
   rw [baseChangeComparison_ι D c hc j] at hcomp

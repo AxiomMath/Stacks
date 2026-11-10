@@ -111,7 +111,7 @@ theorem moduleResolutionComplexXIso_hom_comp_augmentation :
       (moduleResolutionAugmentation D).f 0 ≫
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (SheafOfModules.unit O)).hom := by
   rw [moduleResolutionAugmentation_f_zero]
-  show ((D.complex.extendXIso (ComplexShape.embeddingUpIntLE 0) (i := 0) (by simp)).hom ≫
+  change ((D.complex.extendXIso (ComplexShape.embeddingUpIntLE 0) (i := 0) (by simp)).hom ≫
       eqToHom (D.lowerShriekDegreeEq 0)) ≫ eqToHom (D.lowerShriekDegreeEq 0).symm ≫
         D.augmentation = _
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
@@ -122,7 +122,7 @@ theorem moduleResolution_d_comp_augmentation :
     (moduleResolutionComplex D).d (-(((0 : ℕ) : ℤ) + 1)) (-((0 : ℕ) : ℤ)) ≫
         (moduleResolutionComplexXIso D 0).hom ≫ moduleResolutionLowerShriekAugmentation D = 0 := by
   rw [moduleResolutionComplexXIso_hom_comp_augmentation, ← Category.assoc]
-  show ((moduleResolutionComplex D).d (-(((0 : ℕ) : ℤ) + 1)) 0 ≫
+  change ((moduleResolutionComplex D).d (-(((0 : ℕ) : ℤ) + 1)) 0 ≫
     (moduleResolutionAugmentation D).f 0) ≫ _ = 0
   rw [← (moduleResolutionAugmentation D).comm]
   simp

@@ -478,7 +478,7 @@ theorem cechAugmentation_f_comp (b : ℕ) :
     rw [← HomologicalComplex.comp_f, Iso.inv_hom_id, HomologicalComplex.id_f]
   have k2 := HomologicalComplex.extendMap_f (cechAugmentationNat I T) ComplexShape.embeddingUpNat
     (i := b) (i' := (b : ℤ)) (ComplexShape.embeddingUpNat_f b)
-  show (HomologicalComplex.extendMap (cechAugmentationNat I T) ComplexShape.embeddingUpNat).f
+  change (HomologicalComplex.extendMap (cechAugmentationNat I T) ComplexShape.embeddingUpNat).f
       (b : ℤ) ≫ ((cosimplicialDoubleComplexColumnIso K' 0).inv.f (b : ℤ) ≫
         (cosimplicialDoubleComplexColumnIso K' 0).hom.f (b : ℤ) ≫
         (((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).obj (K'.X 0)).extendXIso
@@ -511,7 +511,7 @@ theorem cechDoubleComplex_X_d_comp
   simp only [HomologicalComplex.comp_f] at h1
   rw [HomologicalComplex.extendMap_f c ComplexShape.embeddingUpNat (i := n) (i' := (n : ℤ))
     (ComplexShape.embeddingUpNat_f n)] at h1
-  show (D.d a a').f (n : ℤ) ≫ ((cosimplicialDoubleComplexColumnIso K' a').hom.f (n : ℤ) ≫
+  change (D.d a a').f (n : ℤ) ≫ ((cosimplicialDoubleComplexColumnIso K' a').hom.f (n : ℤ) ≫
       (((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).obj (K'.X a')).extendXIso
         ComplexShape.embeddingUpNat (i := n) (i' := (n : ℤ))
         (ComplexShape.embeddingUpNat_f n)).hom) =
@@ -534,7 +534,7 @@ theorem cechDoubleComplex_d_f_comp
   have h1 := (cosimplicialDoubleComplexColumnIso K' a).hom.comm (n : ℤ) (n' : ℤ)
   rw [L.extend_d_eq ComplexShape.embeddingUpNat (ComplexShape.embeddingUpNat_f n)
     (ComplexShape.embeddingUpNat_f n')] at h1
-  show ((cosimplicialDoubleComplexFunctor.obj K').X (a : ℤ)).d (n : ℤ) (n' : ℤ) ≫
+  change ((cosimplicialDoubleComplexFunctor.obj K').X (a : ℤ)).d (n : ℤ) (n' : ℤ) ≫
       ((cosimplicialDoubleComplexColumnIso K' a).hom.f (n' : ℤ) ≫
         (L.extendXIso ComplexShape.embeddingUpNat (i := n') (i' := (n' : ℤ))
         (ComplexShape.embeddingUpNat_f n')).hom) =
@@ -573,7 +573,7 @@ theorem cechDoubleComplex_map_f_f_comp
   simp only [HomologicalComplex.comp_f] at h1
   rw [HomologicalComplex.extendMap_f c ComplexShape.embeddingUpNat (i := n) (i' := (n : ℤ))
     (ComplexShape.embeddingUpNat_f n)] at h1
-  show ((cosimplicialDoubleComplexFunctor.map ((cechCosimplicialComplex T).map χ)).f
+  change ((cosimplicialDoubleComplexFunctor.map ((cechCosimplicialComplex T).map χ)).f
       (a : ℤ)).f (n : ℤ) ≫ ((cosimplicialDoubleComplexColumnIso K₂' a).hom.f (n : ℤ) ≫
       (((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).obj (K₂'.X a)).extendXIso
         ComplexShape.embeddingUpNat (i := n) (i' := (n : ℤ))
@@ -724,7 +724,7 @@ theorem rowZeroMap_cechDoubleComplex_map
         HomologicalComplex.extendMap ((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map
           (((cechCosimplicialComplex T).map χ).f 0)) ComplexShape.embeddingUpNat ≫
         (cosimplicialDoubleComplexColumnIso ((cechCosimplicialComplex T).obj K₂) 0).inv := by
-  show (cosimplicialDoubleComplexFunctor.map ((cechCosimplicialComplex T).map χ)).f
+  change (cosimplicialDoubleComplexFunctor.map ((cechCosimplicialComplex T).map χ)).f
     ((0 : ℕ) : ℤ) = _
   exact HomologicalComplex.extendMap_f _ ComplexShape.embeddingUpNat (i := 0)
     (i' := ((0 : ℕ) : ℤ)) (ComplexShape.embeddingUpNat_f 0)
@@ -756,7 +756,7 @@ theorem cechComparison_naturality (hT : HasAffineMonoLevels T)
   have hN : cechAugmentationNat I T ≫ (alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map
       (((cechCosimplicialComplex T).map φ.hom).f 0) =
         sectionsComplexMap T g.hom ≫ cechAugmentationNat I' T := by
-    show (alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map
+    change (alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map
         ((cosimplicialSectionsFunctor T).map (resolutionAugmentation I).hom) ≫
       (alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map
         ((cosimplicialSectionsFunctor T).map (φ.hom.f 0).hom) =
@@ -770,7 +770,7 @@ theorem cechComparison_naturality (hT : HasAffineMonoLevels T)
   rw [rowZeroMap_cechDoubleComplex_map]
   let K₁ := (cechCosimplicialComplex T).obj I.cocomplex
   let K₂ := (cechCosimplicialComplex T).obj I'.cocomplex
-  show (HomologicalComplex.extendMap (cechAugmentationNat I T) ComplexShape.embeddingUpNat ≫
+  change (HomologicalComplex.extendMap (cechAugmentationNat I T) ComplexShape.embeddingUpNat ≫
       (cosimplicialDoubleComplexColumnIso K₁ 0).inv) ≫
       ((cosimplicialDoubleComplexColumnIso K₁ 0).hom ≫
         HomologicalComplex.extendMap ((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).map

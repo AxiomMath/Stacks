@@ -15,11 +15,13 @@ it: `Stacks.QuasiProjectiveCompactification.exists_isOpenImmersion_isProjective_
 Another clean label of Tag 01W8 is `"H-projective"`, registered as Tag 0C61's
 `IsProjectiveMorphism`, which is `Stacks.HProjective.IsHProjective` under its library name. **This
 file determines what the statement of Tag 07RM restated at that label says, and the answer is
-that it is not Stacks Tag 07RM**: it is part (2) of [Stacks, Tag 087S] with that lemma's hypothesis on the base deleted.
+that it is not Stacks Tag 07RM**: it is part (2) of [Stacks, Tag 087S]
+with that lemma's hypothesis on the base deleted.
 
 ## The restatement
 
-`Stacks.ProjectivityLabelChoice.CardStatementAtHProjective` is the statement of Tag 07RM verbatim — the same
+`Stacks.ProjectivityLabelChoice.CardStatementAtHProjective` is the statement of Tag 07RM
+verbatim — the same
 quantifier prefix, the same `CompactSpace S` and `QuasiSeparatedSpace S`, the same
 quasi-projectivity hypothesis — with Tag 01W8's `IsProjective` replaced by
 `Stacks.HProjective.IsHProjective` and nothing else changed.
@@ -35,7 +37,8 @@ needing only the quasi-compactness that quasi-projectivity supplies.
 
 That right-hand side is part (2) of [Stacks, Tag 087S] — *"any quasi-projective morphism
 `X ⟶ S` is H-quasi-projective"* — whose hypothesis in the source is **"let `S` be a scheme which
-admits an ample invertible sheaf"**. The statement of Tag 07RM hypothesises only that `S` is quasi-compact and
+admits an ample invertible sheaf"**. The statement of Tag 07RM hypothesises only that `S` is
+quasi-compact and
 quasi-separated. So the restatement at the H-projective label asks for Tag 087S part (2) over a
 strictly larger class of bases than the source states it for. At the source's own hypothesis,
 part (2) is `AlgebraicGeometry.isHQuasiProjective_of_isQuasiProjective`; over a base with no ample

@@ -119,7 +119,7 @@ def componentDesc {A : Type v} [Small.{u} A] {X : Over (⊤_ Scheme.{u})}
 lemma component_desc {A : Type v} [Small.{u} A] {X : Over (⊤_ Scheme.{u})}
     (f : A → (unitObj ⟶ X)) (a : A) :
     constantComponent A a ≫ componentDesc f = f a :=
-  Over.OverMorphism.ext (Sigma.ι_desc _ _)
+  Over.OverMorphism.ext (Sigma.ι_comp_desc _ _)
 
 /-- Two morphisms out of the coproduct agree as soon as they agree on every component. -/
 lemma component_hom_ext {A : Type v} [Small.{u} A] {X : Over (⊤_ Scheme.{u})}
@@ -134,7 +134,7 @@ lemma component_pair_open {A B : Type v} [Small.{u} A] [Small.{u} B] (a : A) (b 
       (λ_ unitObj).inv ≫ (constantComponent A a ⊗ₘ constantComponent B b) := by
     apply CartesianMonoidalCategory.hom_ext
     · simp only [lift_fst, Category.assoc, tensorHom_fst, leftUnitor_inv_fst_assoc]
-      show constantComponent A a = toUnit (𝟙_ (Over (⊤_ Scheme.{u}))) ≫ _
+      change constantComponent A a = toUnit (𝟙_ (Over (⊤_ Scheme.{u}))) ≫ _
       simp
     · simp
   have : IsIso (λ_ unitObj.{u}).inv.left :=
@@ -165,7 +165,7 @@ lemma component_pair_iso {A B : Type v} [Small.{u} A] [Small.{u} B] :
   have hdesc : IsOpenImmersion (Sigma.desc f) := by
     apply isOpenImmersion_sigmaDesc
     intro p q hpq
-    show Disjoint (Set.range (f p)) (Set.range (f q))
+    change Disjoint (Set.range (f p)) (Set.range (f q))
     rw [Set.disjoint_left]
     rintro _ ⟨x, rfl⟩ ⟨y, hxy⟩
     apply hpq
@@ -204,10 +204,10 @@ lemma component_pair_iso {A B : Type v} [Small.{u} A] [Small.{u} B] :
           ((Category.assoc _ _ _).trans
             (congrArg (fun t => terminal.from (U.X p) ≫ t) (hsnd p))).symm)
   refine ⟨Sigma.ι (fun _ : A × B ↦ ⊤_ Scheme.{u}) p (terminal.from (U.X p) x), ?_⟩
-  show (Sigma.desc f) (Sigma.ι (fun _ : A × B ↦ ⊤_ Scheme.{u}) p
+  change (Sigma.desc f) (Sigma.ι (fun _ : A × B ↦ ⊤_ Scheme.{u}) p
     (terminal.from (U.X p) x)) = z
   rw [← Scheme.Hom.comp_apply (Sigma.ι (fun _ : A × B ↦ ⊤_ Scheme.{u}) p)
-    (Sigma.desc f), Sigma.ι_desc]
+    (Sigma.desc f), Sigma.ι_comp_desc]
   rw [hfac, Scheme.Hom.comp_apply] at hx
   exact hx
 
@@ -227,7 +227,7 @@ pair of components indexed by `a` and by `b`. -/
 lemma component_product_hom (A B : Type v) [Small.{u} A] [Small.{u} B] (a : A) (b : B) :
     constantComponent (A × B) (a, b) ≫ (componentProductIso A B).hom =
       lift (constantComponent A a) (constantComponent B b) :=
-  Over.OverMorphism.ext (Sigma.ι_desc (fun p : A × B ↦
+  Over.OverMorphism.ext (Sigma.ι_comp_desc (fun p : A × B ↦
     (lift (constantComponent A p.1) (constantComponent B p.2)).left) (a, b))
 
 /-- Two morphisms out of a product of coproducts agree as soon as they agree on every pair of
@@ -478,7 +478,7 @@ def ofIndexMap (G : Type v) [Small.{u} G] [Group G] {T : Scheme.{u}}
 lemma indexMap_component (G : Type v) [Small.{u} G] [Group G] (g : G) (x : (⊤_ Scheme.{u})) :
     indexMap G (Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g) x = g := by
   let 𝒰 := sigmaOpenCover (fun _ : G ↦ (⊤_ Scheme.{u}))
-  show 𝒰.idx ((Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g) x) = g
+  change 𝒰.idx ((Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g) x) = g
   obtain ⟨z, hz⟩ := 𝒰.covers ((Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g) x)
   have hh : Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u}))
       (𝒰.idx ((Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g) x)) z =
@@ -498,7 +498,7 @@ lemma indexMap_ofIndexMap (G : Type v) [Small.{u} G] [Group G] {T : Scheme.{u}}
     𝒰.ι_glueMorphisms (ConstantGroupScheme.fiberι G f)
       (ConstantGroupScheme.fiberι_compat G f) g
   rw [show f ((𝒰.f g) y) = g from y.property]
-  show (sigmaOpenCover (fun _ : G ↦ (⊤_ Scheme.{u}))).idx
+  change (sigmaOpenCover (fun _ : G ↦ (⊤_ Scheme.{u}))).idx
     ((ofIndexMap G f) ((𝒰.f g) y)) = g
   rw [← Scheme.Hom.comp_apply, hcomp, Scheme.Hom.comp_apply]
   exact indexMap_component G g _
@@ -509,7 +509,7 @@ lemma indexMap_eq_iff_mem_range (G : Type v) [Small.{u} G] [Group G] {T : Scheme
     (F : T ⟶ constantSchemeOverIntegers G) (g : G) (x : T) :
     indexMap G F x = g ↔ F x ∈ (Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g).opensRange := by
   let 𝒰 := sigmaOpenCover (fun _ : G ↦ (⊤_ Scheme.{u}))
-  show 𝒰.idx (F x) = g ↔ F x ∈ (Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g).opensRange
+  change 𝒰.idx (F x) = g ↔ F x ∈ (Sigma.ι (fun _ : G ↦ (⊤_ Scheme.{u})) g).opensRange
   constructor
   · rintro rfl
     obtain ⟨z, hz⟩ := 𝒰.covers (F x)
@@ -573,7 +573,7 @@ to the constant map with value `g`. -/
 lemma overRepresentableBy_component (G : Type v) [Small.{u} G] [Group G] (g : G) :
     (overRepresentableBy G).homEquiv (constantComponent G g) =
       LocallyConstant.const (⊤_ Scheme.{u}) g := by
-  show indexMap G (constantComponent G g).left = _
+  change indexMap G (constantComponent G g).left = _
   ext x
   exact indexMap_component G g x
 
@@ -589,14 +589,14 @@ lemma overRepresentableBy_homEquiv_mul (G : Type v) [Small.{u} G] [Group G]
   have hμ : (overRepresentableBy G).homEquiv MonObj.mul =
       (overRepresentableBy G).homEquiv' (fst X X) *
       (overRepresentableBy G).homEquiv' (snd X X) := by
-    show (overRepresentableBy G).homEquiv
+    change (overRepresentableBy G).homEquiv
       ((overRepresentableBy G).homEquiv'.symm
         ((overRepresentableBy G).homEquiv' (fst X X) *
           (overRepresentableBy G).homEquiv' (snd X X))) = _
     exact Equiv.apply_symm_apply _ _
   rw [(overRepresentableBy G).homEquiv_comp (lift f g) MonObj.mul, hμ]
   let p := lift f g
-  show ((locallyConstantMapsOverIntegers G).map p.op)
+  change ((locallyConstantMapsOverIntegers G).map p.op)
     ((overRepresentableBy G).homEquiv' (fst X X) *
       (overRepresentableBy G).homEquiv' (snd X X)) = _
   rw [((locallyConstantMapsOverIntegers G).map p.op).hom.map_mul]
@@ -623,7 +623,7 @@ lemma inducedGroupStructure_eq_constant (G : Type v) [Small.{u} G] [Group G] :
   apply (overRepresentableBy G).homEquiv.injective
   rw [overRepresentableBy_homEquiv_mul]
   simp only [overRepresentableBy_component]
-  show (LocallyConstant.const (⊤_ Scheme.{u}) g *
+  change (LocallyConstant.const (⊤_ Scheme.{u}) g *
       LocallyConstant.const (⊤_ Scheme.{u}) h) =
     LocallyConstant.const (⊤_ Scheme.{u}) (g * h)
   ext x
@@ -675,7 +675,7 @@ theorem constantSchemeOverIntegersPointsIsoLocallyConstantMaps_component
     ((constantSchemeOverIntegersPointsIsoLocallyConstantMaps G).hom.app
       (Opposite.op (Over.mk (𝟙 (⊤_ Scheme.{u})))))
         (ULift.up (constantComponent G g)) = LocallyConstant.const (⊤_ Scheme.{u}) g := by
-  show (actualPointsIso G).hom.app (Opposite.op (Over.mk (𝟙 (⊤_ Scheme.{u}))))
+  change (actualPointsIso G).hom.app (Opposite.op (Over.mk (𝟙 (⊤_ Scheme.{u}))))
       (ULift.up (constantComponent G g)) = _
   exact overRepresentableBy_component G g
 
@@ -693,7 +693,7 @@ theorem locallyConstantMaps_representableBy_constantSchemeOverIntegers
         left_inv := ofIndexMap_indexMap G
         right_inv := indexMap_ofIndexMap G }
   · intro X X' f g
-    show indexMap G (f ≫ g) = LocallyConstant.comap f.base.hom (indexMap G g)
+    change indexMap G (f ≫ g) = LocallyConstant.comap f.base.hom (indexMap G g)
     ext x
     rfl
 
@@ -746,11 +746,11 @@ private lemma baseChangeHomEquiv_mul (G : Type v) [Small.{u} G] [Group G]
         (MonObj.mul (X := A)).left := by
     simpa only [Over.tensorObj_hom] using hmap₀
   apply Over.OverMorphism.ext
-  show (baseChangeHomEquiv G S T (f₀ * g₀)).left =
+  change (baseChangeHomEquiv G S T (f₀ * g₀)).left =
     (baseChangeHomEquiv G S T f₀ * baseChangeHomEquiv G S T g₀).left
   simp only [baseChangeHomEquiv_left]
   simp only [CategoryTheory.Hom.mul_def, Over.comp_left, Over.lift_left]
-  show ((lift f g).left ≫ c.left ≫ (P.map MonObj.mul).left) ≫ p =
+  change ((lift f g).left ≫ c.left ≫ (P.map MonObj.mul).left) ≫ p =
     pullback.lift (f.left ≫ p) (g.left ≫ p) (by apply Subsingleton.elim) ≫
       (MonObj.mul (X := A)).left
   rw [← hpair]
@@ -774,7 +774,7 @@ private lemma constantPointsSetEquiv_mul (G : Type v) [Small.{u} G] [Group G] (S
   let U := (Over.map (terminal.from S)).obj T
   let R := constantSchemeOverIntegersPointsIsoLocallyConstantMaps G
   let e := CategoryTheory.Iso.groupIsoToMulEquiv (R.app (Opposite.op U))
-  show e (ULift.up (baseChangeHomEquiv G S T (x.down * y.down))) =
+  change e (ULift.up (baseChangeHomEquiv G S T (x.down * y.down))) =
     e (ULift.up (baseChangeHomEquiv G S T x.down)) *
       e (ULift.up (baseChangeHomEquiv G S T y.down))
   rw [baseChangeHomEquiv_mul]
@@ -802,7 +802,7 @@ private lemma constantPointsSetEquiv_naturality (G : Type v) [Small.{u} G] [Grou
   have hadj := (Over.mapPullbackAdj (terminal.from S)).homEquiv_naturality_left_symm f x.down
   change baseChangeHomEquiv G S T' (f ≫ x.down) =
       fbar ≫ baseChangeHomEquiv G S T x.down at hadj
-  show ρ U' (ULift.up (baseChangeHomEquiv G S T' (f ≫ x.down))) =
+  change ρ U' (ULift.up (baseChangeHomEquiv G S T' (f ≫ x.down))) =
     (((locallyConstantMapsOverIntegers G).map fbar.op).hom)
       (ρ U (ULift.up (baseChangeHomEquiv G S T x.down)))
   rw [hadj]

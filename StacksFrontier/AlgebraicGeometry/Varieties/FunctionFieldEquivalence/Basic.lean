@@ -72,7 +72,7 @@ lemma fieldBaseStalkAlgebraMap_surjective {k : Type u} [Field k]
     ext s
     dsimp only [eR, Iso.trans_inv]
     rw [stalkClosedPointIso_inv]
-    show (StructureSheaf.toStalk k p).hom s =
+    change (StructureSheaf.toStalk k p).hom s =
       (StructureSheaf.toStalk k (IsLocalRing.closedPoint k) ≫
         (Spec (.of k)).presheaf.stalkSpecializes (Inseparable.of_eq hp).le).hom s
     exact congrArg
@@ -123,7 +123,7 @@ lemma partialMap_fromFunctionField_comp {X Y Z : Scheme.{u}}
         exact congrArg (fun t ↦ c ≫ t)
           (Scheme.Hom.isoImage_inv_ι f.domain.ι (f.hom ⁻¹ᵁ g.domain))
       _ = a ≫ f.domain.ι := by
-        show h.domain.fromSpecStalkOfMem x _ ≫ h.domain.ι =
+        change h.domain.fromSpecStalkOfMem x _ ≫ h.domain.ι =
           f.domain.fromSpecStalkOfMem x _ ≫ f.domain.ι
         exact (h.domain.fromSpecStalkOfMem_ι x _).trans
           (f.domain.fromSpecStalkOfMem_ι x _).symm
@@ -144,7 +144,7 @@ lemma partialMap_fromFunctionField_comp {X Y Z : Scheme.{u}}
       _ = a ≫ f.hom := congrArg (fun t ↦ t ≫ f.hom) hc
       _ = φ ≫ Y.fromSpecStalk y := hφ.symm
       _ = (φ ≫ b) ≫ g.domain.ι := by simp [b, Category.assoc]
-  show c ≫ (e ≫ f.hom ∣_ g.domain ≫ g.hom) = φ ≫ (b ≫ g.hom)
+  change c ≫ (e ≫ f.hom ∣_ g.domain ≫ g.hom) = φ ≫ (b ≫ g.hom)
   calc
     _ = (c ≫ e ≫ f.hom ∣_ g.domain) ≫ g.hom := by
       exact congrArg (fun t ↦ t ≫ g.hom)

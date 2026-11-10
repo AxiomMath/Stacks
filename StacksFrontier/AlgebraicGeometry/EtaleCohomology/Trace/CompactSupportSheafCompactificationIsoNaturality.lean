@@ -51,6 +51,7 @@ private theorem exists_nsmul_id_sheafSingleComplex_X {G : EtaleModules.{u, 0} Λ
     ∀ n, ∃ m : ℕ, 0 < m ∧ m • 𝟙 (((sheafSingleComplex Λ).obj G).obj.X n) = 0 :=
   fun n => ⟨m, hm, nsmul_id_sheafSingleComplex_X G m h n⟩
 
+omit [Fintype k] in
 /-- **Changing the compactification of `Hⁱ_c(X_k̄, -)` is natural in the sheaf.** -/
 public theorem compactSupportSheafCohomologyCompactificationIso_hom_naturality
     {G G' : EtaleModules.{u, 0} Λ X} (g : G ⟶ G') (m : ℕ) (hm : 0 < m) (h : m • 𝟙 G = 0)
@@ -85,7 +86,7 @@ public theorem compactSupportSheafCohomologyCompactificationIso_hom_frobenius
     (IsCofiltered.minToLeft j₁ j₂) kbar p q hcard _ hK
   have hR := compactSupportFrobeniusCohomologyHomIso_hom_frobenius Λ f
     (IsCofiltered.minToRight j₁ j₂) kbar p q hcard _ hK
-  show (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
+  change (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
         ((canonicalCompactSupportFrobeniusNatTrans.{u, 0} Λ f j₁ kbar p q hcard).app
           ((sheafSingleComplex Λ).obj G)) ≫
       (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map

@@ -279,10 +279,10 @@ theorem val_toChartFull (i : σ) (p : MvPolynomial σ R) :
       = (fracHom i).toRingHom := by
     refine MvPolynomial.ringHom_ext ?_ ?_
     · intro r
-      show ((toChartFull i) (C r)).val = fracHom i (C r)
+      change ((toChartFull i) (C r)).val = fracHom i (C r)
       rw [toChartFull_C, fracHom_C, val_algebraMap_eq, algebraMap_C_away]
     · intro j
-      show ((toChartFull i) (X j)).val = fracHom i (X j)
+      change ((toChartFull i) (X j)).val = fracHom i (X j)
       rw [toChartFull_X, val_mkChart, fracHom_X, localization_mk_eq, pow_one]
   exact RingHom.congr_fun key p
 
@@ -329,7 +329,7 @@ theorem chartSpecialize_mkChart (i : σ) (n : ℕ) (p : MvPolynomial σ R)
     (hp : p ∈ homogeneousSubmodule σ R n) :
     chartSpecialize i (mkChart i n p hp) = dehomogenize i p := by
   rw [chartSpecialize, RingHom.comp_apply]
-  show Localization.awayLift _ _ _ (mkChart i n p hp).val = _
+  change Localization.awayLift _ _ _ (mkChart i n p hp).val = _
   rw [val_mkChart,
     Localization.awayLift_mk (dehomogenize (R := R) i).toRingHom (X i) p 1 (by simp) n,
     one_pow, mul_one]
@@ -342,10 +342,10 @@ theorem chartSpecialize_toChart (i : σ) (q : MvPolynomial {j : σ // j ≠ i} R
       = RingHom.id (MvPolynomial {j : σ // j ≠ i} R) := by
     refine MvPolynomial.ringHom_ext ?_ ?_
     · intro r
-      show chartSpecialize i (toChart i (C r)) = C r
+      change chartSpecialize i (toChart i (C r)) = C r
       rw [toChart_C, algebraMap_eq_mkChart, chartSpecialize_mkChart, dehomogenize_C]
     · intro j
-      show chartSpecialize i (toChart i (X j)) = X j
+      change chartSpecialize i (toChart i (X j)) = X j
       rw [toChart_X, chartSpecialize_mkChart, dehomogenize_X_of_ne j.2]
   exact RingHom.congr_fun key q
 
@@ -379,7 +379,7 @@ theorem flat_of_baseRingEquiv {A B M : Type*} [CommRing A] [CommRing B] [AddComm
     refine Module.Flat.of_linearEquiv (R := B) (M := B) (N := A) (LinearEquiv.ofBijective
       ({ toFun := e, map_add' := map_add e,
           map_smul' := fun b a => by
-            show e (b • a) = b • e a
+            change e (b • a) = b • e a
             rw [hsmul, map_mul, RingEquiv.apply_symm_apply, smul_eq_mul] } : A →ₗ[B] B)
       ⟨e.injective, e.surjective⟩)
   have : IsScalarTower B A M := ⟨fun b a m => by rw [hsmul, mul_smul, he]⟩

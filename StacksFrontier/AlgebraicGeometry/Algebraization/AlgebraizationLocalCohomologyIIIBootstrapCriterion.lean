@@ -87,26 +87,26 @@ private theorem enatToEInt_add (x y : ℕ∞) :
     cases y with
     | top => rfl
     | coe n =>
-      show enatToEInt (⊤ : ℕ∞) = (⊤ : EInt) + (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
-      show (⊤ : EInt) = ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
+      change enatToEInt (⊤ : ℕ∞) = (⊤ : EInt) + (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
+      change (⊤ : EInt) = ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
         (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
       rw [← WithBot.coe_add, WithTop.top_add]
       rfl
   | coe m =>
     cases y with
     | top =>
-      show enatToEInt (⊤ : ℕ∞) =
+      change enatToEInt (⊤ : ℕ∞) =
         (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) + (⊤ : EInt)
-      show (⊤ : EInt) = (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
+      change (⊤ : EInt) = (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
         ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ))
       rw [← WithBot.coe_add, WithTop.add_top]
       rfl
     | coe n =>
-      show enatToEInt ((m : ℕ∞) + (n : ℕ∞)) =
+      change enatToEInt ((m : ℕ∞) + (n : ℕ∞)) =
         (((m : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
           (((n : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ))
       rw [← WithBot.coe_add, ← WithTop.coe_add, ← Nat.cast_add]
-      show ((((m + n : ℕ) : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = _
+      change ((((m + n : ℕ) : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = _
       norm_cast
 
 /-- Translating a sum of a depth and a dimension into the extended integers. -/
@@ -127,7 +127,7 @@ private theorem enatToEInt_gt_of_add_natCast_gt {x : ℕ∞} {k s d : ℤ}
     enatToEInt x > (s : EInt) := by
   cases x with
   | top =>
-    show (⊤ : EInt) > (s : EInt)
+    change (⊤ : EInt) > (s : EInt)
     exact WithBot.coe_lt_coe.mpr (WithTop.coe_lt_top (s : ℤ))
   | coe m =>
     have hE : (((m : ℤ) : EInt)) + ((k : ℤ) : EInt) > ((d + s : ℤ) : EInt) := h
@@ -136,7 +136,7 @@ private theorem enatToEInt_gt_of_add_natCast_gt {x : ℕ∞} {k s d : ℤ}
       (((d + s : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) at hE
     rw [← WithBot.coe_add, ← WithTop.coe_add] at hE
     have hInt : (m : ℤ) + k > d + s := WithTop.coe_lt_coe.mp (WithBot.coe_lt_coe.mp hE)
-    show ((m : ℤ) : EInt) > (s : EInt)
+    change ((m : ℤ) : EInt) > (s : EInt)
     exact WithBotTop.coe_lt_coe.mpr (by omega)
 
 /-- Transporting a strict bound on a sum of a depth and a dimension along the invariance of that

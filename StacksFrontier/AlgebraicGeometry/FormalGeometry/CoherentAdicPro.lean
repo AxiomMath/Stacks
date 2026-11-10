@@ -195,7 +195,7 @@ lemma idealPowerMultiple_le_comap {X : Scheme.{u}} (I : X.IdealSheafData) (n : �
       _ ≤ (J • (⊤ : Submodule Γ(X, U) Γ(N, U))).comap fU :=
         Submodule.smul_comap_le_comap_smul fU _ _
       _ ≤ (Q.toSubmodule.obj (op U.1)).comap fU := Submodule.comap_mono hqU
-  show I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
+  change I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
     (Q.toSubmodule.obj (op U.1)).comap fU
   simpa [J] using hgen
 
@@ -286,7 +286,7 @@ private theorem adicProDiagramMap_stage
       ((((quasicoherentDiagramFunctor X I).map f).app (op n)).op) ≫
         (adicProStageIso F n).hom := by
   let e := adicIndexEquivalence.{u}
-  show (adicDiagramBeforeShrink G).map (e.unitIso.hom.app (op (op n))) ≫
+  change (adicDiagramBeforeShrink G).map (e.unitIso.hom.app (op (op n))) ≫
       (adicDiagramMap f).app (e.inverse.obj (e.functor.obj (op (op n)))) =
     (adicDiagramMap f).app (op (op n)) ≫
       (adicDiagramBeforeShrink F).map (e.unitIso.hom.app (op (op n)))
@@ -327,7 +327,7 @@ private theorem coherentAdicSystem_transition_epi
       ((Stacks.Algebraization.idealPowerMultiple I (n + 1)
         (F.obj.obj (op (n + 1)))).ι)
   have : Epi q := by
-    show Epi (Cofork.ofπ q ((cokernel.condition _).trans zero_comp.symm)).π
+    change Epi (Cofork.ofπ q ((cokernel.condition _).trans zero_comp.symm)).π
     exact Cofork.IsColimit.epi (s := _) (cokernelIsCokernel _)
   rw [← he]
   refine epi_comp' this ⟨fun f g h => ?_⟩
@@ -378,7 +378,7 @@ private theorem factor_through_adic_transition_of_annihilated
     have hx := (SheafOfModules.Submodule.le_iff.mp hP) U x.property
     change x.val ∈ (Q.toSubmodule.obj U).comap
       (ModuleCat.Hom.hom (f.val.app U)) at hx
-    show (f.val.app U).hom x.val = 0
+    change (f.val.app U).hom x.val = 0
     have hxb : (ModuleCat.Hom.hom (f.val.app U)) x.val ∈
         (⊥ : (G.obj.obj (op n)).Submodule).toSubmodule.obj U := by
       simpa [Q] using (Submodule.mem_comap.mp hx)
@@ -405,11 +405,11 @@ private theorem factor_through_adic_transition_of_annihilated
             (R := X.ringCatSheaf.obj.obj (op V))
             (M := (G.obj.obj (op n)).val.obj (op V))).mp hi'
           change ((G.obj.obj (op n)).val.map i.op) s = 0 at hz
-          show ((G.obj.obj (op n)).val.map i.op) s =
+          change ((G.obj.obj (op n)).val.map i.op) s =
             ((G.obj.obj (op n)).val.map i.op) 0
           rw [map_zero]
           exact hz)
-        show s ∈ (⊥ : ((G.obj.obj (op n)).val).Submodule).obj U
+        change s ∈ (⊥ : ((G.obj.obj (op n)).val).Submodule).obj U
         simpa using hzero }
     have hle : (⊥ : (G.obj.obj (op n)).Submodule).toSubmodule ≤ Q0.toSubmodule :=
       (SheafOfModules.Submodule.le_iff.mp (show (⊥ : (G.obj.obj (op n)).Submodule) ≤ Q0
@@ -525,7 +525,7 @@ private theorem adicProDiagram_transition_stage
   let x := op (op n)
   let y := op (op m)
   let a := ((homOfLE h).op).op
-  show (adicDiagramBeforeShrink F).map (e.unitIso.hom.app x) ≫
+  change (adicDiagramBeforeShrink F).map (e.unitIso.hom.app x) ≫
       (adicDiagramBeforeShrink F).map (e.inverse.map (e.functor.map a)) =
     (adicDiagramBeforeShrink F).map a ≫
       (adicDiagramBeforeShrink F).map (e.unitIso.hom.app y)
@@ -1057,7 +1057,7 @@ private theorem liftProMapSystemHom_map
       colimit.ι (adicProDiagram G ⋙ yoneda) (adicProStageIndex.{u} n) ≫ η =
       colimit.ι (adicProDiagram G ⋙ yoneda) (adicProStageIndex.{u} n) ≫ θ := by
     apply yonedaEquiv.injective
-    show η.app _ ((colimit.ι (adicProDiagram G ⋙ yoneda)
+    change η.app _ ((colimit.ι (adicProDiagram G ⋙ yoneda)
       (adicProStageIndex.{u} n)).app _ (𝟙 _)) =
       θ.app _ ((colimit.ι (adicProDiagram G ⋙ yoneda)
       (adicProStageIndex.{u} n)).app _ (𝟙 _))

@@ -106,7 +106,7 @@ def sheafHomEvalLinear (t : A.val.obj (op (j ''ᵁ ⊤))) (W : C.Opens) :
     (((Stacks.Algebraization.sheafHomFunctor X A).obj L).restrict j).val.obj (op W) →ₗ[
       C.ringCatSheaf.obj.obj (op W)] (L.restrict j).val.obj (op W) where
   toFun f := Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W) f (resImage j A t W)
-  map_add' f g := rfl
+  map_add' := by intros; rfl
   map_smul' r f := LinearMap.congr_fun
     ((Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W)).map_smul
       ((j.appIso W).inv r) f) (resImage j A t W)
@@ -124,7 +124,7 @@ theorem sheafHomEvalLinear_naturality (t : A.val.obj (op (j ''ᵁ ⊤))) {W W' :
   have hres : resImage j A t W' = A.val.map (homOfLE (j.image_mono hW)).op (resImage j A t W) :=
     PresheafOfModules.map_comp_apply A.val (homOfLE (j.image_mono le_top)).op
       (homOfLE (j.image_mono hW)).op t
-  show (f.app (op (Over.mk (homOfLE (j.image_mono hW))))).hom (resImage j A t W') =
+  change (f.app (op (Over.mk (homOfLE (j.image_mono hW))))).hom (resImage j A t W') =
     L.val.map (homOfLE (j.image_mono hW)).op ((f.app (op (Over.mk (𝟙 (j ''ᵁ W))))).hom
       (resImage j A t W))
   rw [hres]
@@ -157,7 +157,7 @@ theorem bijective_sheafHomEval {ι : Type*} (t : ι → A.val.obj (op (j ''ᵁ �
     (f : R →+* Γ(X, j ''ᵁ W)) {M : ModuleCat.{u} R}
     (e : (ModuleCat.extendScalars f).obj M ≅ ModuleCat.of Γ(X, j ''ᵁ W) Γ(A, j ''ᵁ W))
     (b : Module.Basis ι R M)
-    (hb : ∀ i, e.hom ((1 : Γ(X, j ''ᵁ W)) ⊗ₜ[R, f] b i) = resImage j A (t i) W) :
+    (hb : ∀ i, e.hom ((1 : Γ(X, j ''ᵁ W)) ⊗ₜ[R,f] b i) = resImage j A (t i) W) :
     Function.Bijective
       (fun x => fun i => (sheafHomEval j A L (t i)).val.app (op W) x) := by
   have heq : (fun x => fun i => (sheafHomEval j A L (t i)).val.app (op W) x) =
@@ -165,7 +165,7 @@ theorem bijective_sheafHomEval {ι : Type*} (t : ι → A.val.obj (op (j ''ᵁ �
         fun i => g (e.hom ((1 : Γ(X, j ''ᵁ W)) ⊗ₜ[R, f] b i))) ∘
         Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W) :=
     funext fun x => funext fun i => by
-      show Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W) x (resImage j A (t i) W) =
+      change Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W) x (resImage j A (t i) W) =
         Stacks.Algebraization.internalHomEvaluation A L (j ''ᵁ W) x
           (e.hom ((1 : Γ(X, j ''ᵁ W)) ⊗ₜ[R, f] b i))
       rw [hb]
@@ -226,7 +226,7 @@ theorem mul_mk_eq_map_mulLeft {p : Submonoid R} (a : R) (z : LocalizedModule p R
   induction z using LocalizedModule.induction_on with
   | h m s =>
     rw [LocalizedModule.map_mk]
-    show Localization.mk m s * Localization.mk a (1 : p) = Localization.mk (a * m) s
+    change Localization.mk m s * Localization.mk a (1 : p) = Localization.mk (a * m) s
     rw [Localization.mk_mul]
     exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp [mul_comm]))
 
@@ -364,6 +364,7 @@ def chartPullbackSection (k : ℕ)
       (op (((relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).chart V hV) ''ᵁ ⊤)) :=
   Scheme.Modules.pullbackSection _ _ V _ (D.chartData.chart_range V hV).le s
 
+omit [E.IsQuasicoherent] in
 /-- The adjoint `psiFlat E hqc D k` of `ψ_k` sends the restriction of
 `chartPullbackSection E hqc D hV k s` to the image of `W` to the chart comparison of the section
 of `𝒪(k)` given by `s`. -/
@@ -395,6 +396,7 @@ theorem psiFlat_chartPullbackSection (k : ℕ)
     ((homEquiv_symm_pullbackSection _ _ _ (D.ψ k) V _ hle s).trans
       (map_psi_eq_mapSection D hV k W s hle))
 
+omit [E.IsQuasicoherent] in
 /-- The restriction of `chartPullbackSection E hqc D hV k s` to the image of `W` under the chart
 is the pullback of `s` to that open. -/
 theorem resImage_chartPullbackSection (k : ℕ)
@@ -412,6 +414,7 @@ theorem resImage_chartPullbackSection (k : ℕ)
     (((relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).chart V hV).image_mono
       le_top) s
 
+omit [E.IsQuasicoherent] in
 /-- **The pairing over the chart.** Evaluated at the pullback of a section `s` of `Sym^k(E)`,
 the curried multiplication pairing is, on the chart over `V`, multiplication by `s`. -/
 theorem sheafHomEval_twistPairingCurry (k : ℕ) (d e : ℤ) (he : d + k = e)
@@ -451,6 +454,7 @@ theorem sheafHomEval_twistPairingCurry (k : ℕ) (d e : ℤ) (he : d + k = e)
       (congrArg (D.chartData.mapSection V hV e W)
         (eqToHom_absoluteTwistProduct_degreeSection _ _ d e he' he W c)))))
 
+omit [E.IsQuasicoherent] in
 /-- **The pairing over the chart, as morphisms**: on the chart over `V`, the curried pairing
 followed by evaluation at the pullback of `s` is multiplication by `s`. -/
 theorem restrict_twistPairingCurry_sheafHomEval (k : ℕ) (d e : ℤ) (he : d + k = e)

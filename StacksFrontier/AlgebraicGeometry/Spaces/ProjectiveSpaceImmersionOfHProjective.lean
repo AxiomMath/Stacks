@@ -56,6 +56,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ProjectiveSpaceImmersionOfHProjective :
@@ -99,10 +100,10 @@ theorem exists_projectiveSpaceImmersion_of_isClosedImmersion
   -- The coordinates `Z ⟶ P^n_T ⟶ P^n_S`, as a morphism of the site.
   have hk : (i ≫ projectiveSpaceOverMap n T.hom.hom) ≫ (projectiveSpaceOver n S ↘ S) =
       Z.hom.hom := by
-    show (i ≫ projectiveSpaceOverMap n T.hom.hom) ≫ pullback.fst (terminal.from S)
+    change (i ≫ projectiveSpaceOverMap n T.hom.hom) ≫ pullback.fst (terminal.from S)
       (terminal.from (projectiveSpaceAtUniverse.{u} n)) = Z.hom.hom
     rw [Category.assoc, projectiveSpaceOverMap_fst, ← Category.assoc]
-    show (i ≫ (projectiveSpaceOver n T₀ ↘ T₀)) ≫ T.hom.hom = Z.hom.hom
+    change (i ≫ (projectiveSpaceOver n T₀ ↘ T₀)) ≫ T.hom.hom = Z.hom.hom
     rw [hiψ]
     exact congrArg (fun φ => φ.hom) (Over.w ψ)
   let k : Z ⟶ projectiveSpaceSiteObj B S hS n hP :=

@@ -130,7 +130,7 @@ private theorem partialMap_toRationalMap_eq_ofSection {X : Scheme.{u}}
     ⟨P.domain, P.dense_domain,
       AffineSpace.homOfVector (specULiftZIsTerminal.from U.1.toScheme)
         (fun _ : ULift.{u} (Fin 1) ↦ U.1.topIso.inv (partialMapSection P))⟩
-  show Q.toRationalMap = P.toRationalMap
+  change Q.toRationalMap = P.toRationalMap
   congr 1
   apply Scheme.PartialMap.ext Q P rfl
   apply AffineSpace.hom_ext
@@ -139,7 +139,7 @@ private theorem partialMap_toRationalMap_eq_ofSection {X : Scheme.{u}}
     obtain rfl : i = (⟨0⟩ : ULift.{u} (Fin 1)) := Subsingleton.elim _ _
     rw [Scheme.isoOfEq_rfl]
     simp only [Q, AffineSpace.homOfVector_appTop_coord]
-    show CategoryTheory.ConcreteCategory.hom
+    change CategoryTheory.ConcreteCategory.hom
         (CategoryTheory.CategoryStruct.comp U.1.topIso.hom U.1.topIso.inv)
       (P.hom.appTop coordinate) = P.hom.appTop coordinate
     simpa only [CategoryTheory.ConcreteCategory.comp_apply, CategoryTheory.id_apply] using
@@ -219,7 +219,7 @@ theorem exists_dense_unit_section {X : Scheme.{u}} [IsIntegral X]
 two projections of `X ×_S ℙ¹_S` agree over `S`. -/
 theorem graphLineProjection_comp {X S : Scheme.{u}} (sX : X ⟶ S) (U : X.Opens) (s : Γ(X, U)) :
     graphLineProjection sX U s ≫ (relativeProjectiveLine S ↘ S) = graphBaseMorphism sX U s := by
-  show graphClosureι sX U s ≫ pullback.snd sX (relativeProjectiveLine S ↘ S) ≫
+  change graphClosureι sX U s ≫ pullback.snd sX (relativeProjectiveLine S ↘ S) ≫
       (relativeProjectiveLine S ↘ S) =
     graphClosureι sX U s ≫ pullback.fst sX (relativeProjectiveLine S ↘ S) ≫ sX
   rw [← pullback.condition]

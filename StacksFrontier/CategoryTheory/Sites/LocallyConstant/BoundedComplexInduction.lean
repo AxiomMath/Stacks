@@ -158,7 +158,7 @@ private lemma hasConstantComplexModel_of_iteratedSlice
   have : PreservesFiniteLimits F := by
     have : PreservesFiniteLimits
         (F ⋙ sheafToPresheaf (J.over V.left) (ModuleCat.{max u v w} Λ)) := by
-      show PreservesFiniteLimits
+      change PreservesFiniteLimits
         (sheafToPresheaf ((J.over U).over V) (ModuleCat.{max u v w} Λ) ⋙
           (Functor.whiskeringLeft _ _ _).obj G.op)
       infer_instance
@@ -323,7 +323,7 @@ private lemma exists_cover_constant_chainMap_to_single
     have hnat : c'.map e.hom ≫ (constantSheafOverIso J (U i) E).hom =
         (constantSheafOverIso J (U i) (S.X b)).hom ≫ F.map (c.map e.hom) :=
       constantSheafOverIso_naturality J (U i) e.hom
-    show c'.map (g.f b) ≫ (constantSheafOverIso J (U i) (S.X b)).hom =
+    change c'.map (g.f b) ≫ (constantSheafOverIso J (U i) (S.X b)).hom =
       (constantSheafOverIso J (U i) (P.X b)).hom ≫ F.map (φ.f b)
     apply (cancel_mono (F.map (c.map e.hom))).mp
     rw [hgb, c'.map_comp]
@@ -462,14 +462,14 @@ private lemma exists_iso_mappingCocone_of_mappingCone
   let φ := φ' ≫ σ.inv
   have hφ : DerivedCategory.Q.map φ =
       ePcone.inv ≫ γ ≫ eQ'.hom ≫ DerivedCategory.Q.map σ.inv := by
-    show DerivedCategory.Q.map (φ' ≫ σ.inv) = _
+    change DerivedCategory.Q.map (φ' ≫ σ.inv) = _
     rw [DerivedCategory.Q.map_comp, hφ', Category.assoc, Category.assoc]
   exact ⟨φ, ⟨isoMappingCoconeOfDistinguished
     (DerivedCategory.Q.mapTriangle.obj
       (CochainComplex.mappingCone.triangle α')).rotate
     (rot_of_distTriang _ hdist) φ ePcone (eQ' ≪≫ DerivedCategory.Q.mapIso σ.symm)
     (by
-      show γ ≫ (eQ' ≪≫ DerivedCategory.Q.mapIso σ.symm).hom =
+      change γ ≫ (eQ' ≪≫ DerivedCategory.Q.mapIso σ.symm).hom =
         ePcone.hom ≫ DerivedCategory.Q.map φ
       rw [hφ]
       simp)⟩⟩
@@ -655,9 +655,9 @@ public theorem exists_cover_constantComplex_representation
     (K : DerivedCategory.Bounded (Sheaf J (ModuleCat.{max u v w} Λ)))
     (hK : ∀ n : ℤ, IsFiniteTypeLocallyConstantModuleSheaf J Λ
       ((DerivedCategory.homologyFunctor (Sheaf J (ModuleCat.{max u v w} Λ)) n).obj K.obj)) :
-    ∃ (T : CochainComplex (Sheaf J (ModuleCat.{max u v w} Λ)) ℤ)
-      (e : K.obj ≅ DerivedCategory.Q.obj T)
-      (I : Type (max u v)) (U : I → C) (f : ∀ i, U i ⟶ X),
+    ∃ (T : CochainComplex (Sheaf J (ModuleCat.{max u v w} Λ)) ℤ),
+      Nonempty (K.obj ≅ DerivedCategory.Q.obj T) ∧
+      ∃ (I : Type (max u v)) (U : I → C) (f : ∀ i, U i ⟶ X),
       Sieve.ofArrows U f ∈ J X ∧
         ∀ i, ∃ (P : CochainComplex (ModuleCat.{max u v w} Λ) ℤ)
           (a b : ℤ),
@@ -676,7 +676,7 @@ public theorem exists_cover_constantComplex_representation
   · have : K.obj.IsGE b := DerivedCategory.TStructure.t.isGE_of_ge K.obj b a hba
     obtain ⟨T, e, I, U, f, hcov, h⟩ :=
       exists_cover_constantComplex_representation_of_isGE_of_isLE J Λ X K.obj b (hK b)
-    refine ⟨T, e, I, U, f, hcov, fun i => ?_⟩
+    refine ⟨T, ⟨e⟩, I, U, f, hcov, fun i => ?_⟩
     obtain ⟨P, hP, hfg, eP⟩ := h i
     exact ⟨P, b, b, hP, hfg, eP⟩
   obtain ⟨T, hTa, hTb, ⟨e⟩⟩ := K.obj.exists_iso_Q_obj_of_isGE_of_isLE a b
@@ -685,7 +685,7 @@ public theorem exists_cover_constantComplex_representation
   have hT := finiteTypeLocallyConstant_homology_of_iso_Q J Λ e hK
   obtain ⟨I, U, f, hcov, hmodel⟩ :=
     hasLocalConstantComplexModel_of_le J Λ T a b (not_le.mp hba).le hT X
-  refine ⟨T, e, I, U, f, hcov, fun i => ?_⟩
+  refine ⟨T, ⟨e⟩, I, U, f, hcov, fun i => ?_⟩
   obtain ⟨P, hP, hfg, eP⟩ := hmodel i
   exact ⟨P, a, b, hP, hfg, eP⟩
 

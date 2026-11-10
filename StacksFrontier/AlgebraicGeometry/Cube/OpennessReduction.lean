@@ -41,7 +41,7 @@ variable {k : Type u} [Field k] {X Y : Scheme.{u}} (f : X ⟶ Spec (.of k)) (g :
   [IsProper f] [IsProper g]
   (x : Spec (.of k) ⟶ X) (hx : x ≫ f = 𝟙 _) (y : Spec (.of k) ⟶ Y) (hy : y ≫ g = 𝟙 _)
   (R : Type u) [CommRing R] [IsNoetherianRing R] [Algebra k R]
-  {I J : Type u} [Fintype I] [Fintype J] [LinearOrder (I × J)]
+  {I J : Type u} [Finite I] [Finite J] [LinearOrder (I × J)]
   (UX : I → X.Opens) (UY : J → Y.Opens)
   (hUXa : ∀ a, IsAffineOpen (UX a)) (hUYa : ∀ b, IsAffineOpen (UY b))
   (hUX : (⊤ : X.Opens) = ⨆ a, UX a) (hUY : (⊤ : Y.Opens) = ⨆ b, UY b)
@@ -101,6 +101,8 @@ theorem exists_basicOpen_of_fibre_inputs
       ((qR f g R) ⁻¹ᵁ PrimeSpectrum.basicOpen (R := CommRingCat.of R) r).ι).obj L ≅
         SheafOfModules.unit _) := by
   classical
+  have := Fintype.ofFinite I
+  have := Fintype.ofFinite J
   have hL' : AlgebraicGeometry.SheafOfModules.IsInvertible (Q f g R).presheaf
       (Q f g R).ringCatSheaf.property L :=
     Stacks.SheafOfModules.IsInvertible.toAlgebraicGeometry _ _ _ hL

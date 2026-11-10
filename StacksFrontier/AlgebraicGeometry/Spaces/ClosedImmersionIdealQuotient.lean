@@ -139,7 +139,7 @@ theorem idealSmul_kerIdeal_le_ker_modulePullbackAdjunction_unit (i : Z ⟶ X)
   refine idealPowSubmodule_le _ 1 fun U a ha m => ?_
   have ha' : a ∈ (SheafOfModules.kerIdeal (structureSharp B S hS i)).obj U :=
     (Stacks.Sites.idealPow_one (SheafOfModules.kerIdeal (structureSharp B S hS i))).le U ha
-  show ((modulePullbackAdjunction B S hS i).unit.app F).val.app U (a • m) = 0
+  change ((modulePullbackAdjunction B S hS i).unit.app F).val.app U (a • m) = 0
   rw [map_smul]
   exact annihilatedByKerIdeal_modulePushforward B S hS i ((modulePullback B S hS i).obj F) U a ha'
     _

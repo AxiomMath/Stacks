@@ -98,7 +98,7 @@ private lemma dividedPowerPolynomialBaseChangeEquiv_tmul
       algebraMap B' _ b' *
         DividedPowerAlgebra.map B'
           (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B')) p := by
-  show Algebra.TensorProduct.lift (Algebra.ofId B' _)
+  change Algebra.TensorProduct.lift (Algebra.ofId B' _)
       (DividedPowerAlgebra.map B'
         (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B')))
       (fun _ _ ↦ Commute.all _ _) (b' ⊗ₜ[B] p) = _
@@ -126,7 +126,7 @@ private theorem exists_tensor_ringEquiv_quotient_map_ker {B A F F' B' : Type*} [
   have hbase : eF.toRingEquiv.toRingHom.comp
       (Algebra.TensorProduct.includeRight : F →ₐ[B] B' ⊗[B] F).toRingHom = φ :=
     RingHom.ext fun p => by
-      show eF (1 ⊗ₜ[B] p) = φ p
+      change eF (1 ⊗ₜ[B] p) = φ p
       simpa using heF 1 p
   have hI : K' = Ideal.map eF.toRingEquiv.toRingHom I' := by
     rw [Ideal.map_map, hbase]
@@ -135,20 +135,20 @@ private theorem exists_tensor_ringEquiv_quotient_map_ker {B A F F' B' : Type*} [
   have hq : q.symm (ψ p) = Ideal.Quotient.mk I p :=
     Ideal.quotientKerAlgEquivOfSurjective_symm_apply hψ p
   have he₁ : e₁ (ψ p ⊗ₜ[B] b') = Ideal.Quotient.mk I p ⊗ₜ[B] b' := by
-    show (Algebra.TensorProduct.congr q.symm AlgEquiv.refl) (ψ p ⊗ₜ[B] b') = _
+    change (Algebra.TensorProduct.congr q.symm AlgEquiv.refl) (ψ p ⊗ₜ[B] b') = _
     rw [Algebra.TensorProduct.congr_apply]
     simp [Algebra.TensorProduct.map_tmul, hq]
   have he₂ : e₂ (Ideal.Quotient.mk I p ⊗ₜ[B] b') = b' ⊗ₜ[B] Ideal.Quotient.mk I p :=
     Algebra.TensorProduct.comm_tmul B (Ideal.Quotient.mk I p) b'
   have he₃ : e₃ (b' ⊗ₜ[B] Ideal.Quotient.mk I p) = Ideal.Quotient.mk I' (b' ⊗ₜ[B] p) := by
-    show Algebra.TensorProduct.tensorQuotientEquiv (R := B) B' F B' I
+    change Algebra.TensorProduct.tensorQuotientEquiv (R := B) B' F B' I
       (b' ⊗ₜ[B] Ideal.Quotient.mk I p) = _
     rw [Algebra.TensorProduct.tensorQuotientEquiv_apply_tmul (R := B) B' F B' I]
     rfl
   have he₄ : e₄ (Ideal.Quotient.mk I' (b' ⊗ₜ[B] p)) =
       Ideal.Quotient.mk K' (eF (b' ⊗ₜ[B] p)) :=
     Ideal.quotientEquiv_mk I' K' eF.toRingEquiv hI (b' ⊗ₜ[B] p)
-  show e₄ (e₃ (e₂ (e₁ (ψ p ⊗ₜ[B] b')))) = _
+  change e₄ (e₃ (e₂ (e₁ (ψ p ⊗ₜ[B] b')))) = _
   rw [he₁, he₂, he₃, he₄, heF]
   exact congrArg (Ideal.Quotient.mk K') (mul_comm _ _)
 

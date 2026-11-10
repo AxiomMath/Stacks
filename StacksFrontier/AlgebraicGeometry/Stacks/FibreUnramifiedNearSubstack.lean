@@ -375,7 +375,7 @@ theorem mem_range_pointsMap_openSubspaceFibreMap
   refine Eq.trans (congrFun (AlgebraicStacks.pointsMap_comp B S hS
     (algebraicSpaceStackMap.{u, w} B S hS hWsp hFsp W.ι)
     (fibreSpaceChart.{u, w} B S hS 𝒳 U hU k hk toBase f g Fsp hFsp eF)) _) ?_
-  show AlgebraicStacks.pointsMap B S hS
+  change AlgebraicStacks.pointsMap B S hS
       (fibreSpaceChart.{u, w} B S hS 𝒳 U hU k hk toBase f g Fsp hFsp eF)
       (AlgebraicStacks.pointsMap B S hS
         (algebraicSpaceStackMap.{u, w} B S hS hWsp hFsp W.ι) _) = _

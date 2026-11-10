@@ -59,8 +59,8 @@ induces an `A`-linear equivalence of its cohomology. The second one removes the 
 
 ## Implementation notes
 
-The exactness of restriction of scalars is `restrictScalars_preservesHomology` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/SheafifiedCohomologyPresheaf.lean`,
+The exactness of restriction of scalars is `restrictScalars_preservesHomology` of the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.SheafifiedCohomologyPresheaf`,
 which is stated with the module universe independent of the ring universe, and the natural
 comparison is `CategoryTheory.Functor.rightDerivedCompIso` of
 `StacksFrontier/CategoryTheory/Abelian/RightDerivedPostcompose.lean`.

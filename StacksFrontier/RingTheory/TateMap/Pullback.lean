@@ -64,8 +64,7 @@ theorem eq_pullbackTate (φ : detNL A' B' ≃ₗ[B'] dualizingModule G)
   have key : ∀ z : B' ⊗[B] detNL A B,
       φ (detNLBaseChange D z) = pullbackTate D e G (detNLBaseChange D z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [map_add, map_add, map_add, hz, hw]
     | tmul b' x =>
       have h : (b' ⊗ₜ x : B' ⊗[B] detNL A B) = b' • (1 ⊗ₜ x) := by

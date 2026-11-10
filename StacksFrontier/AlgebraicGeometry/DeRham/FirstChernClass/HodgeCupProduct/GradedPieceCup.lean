@@ -249,7 +249,7 @@ lemma hodgeCohomologyIsoGradedPiece_inv_comp (a i : ℕ) :
           (DerivedCategory.Plus.Q.map (hodgeSinglePlusIso B D a).hom)) := by
   have e := (Stacks.DerivedIndexing.rightDerivedIso (sectionsFunctor X.carrier ⊤) i).hom.naturality
     (deRhamAbelianIntXIsoNat B D a).hom
-  show (((DerivedCategory.Plus.singleFunctorCompHomologyFunctorShiftIso
+  change (((DerivedCategory.Plus.singleFunctorCompHomologyFunctorShiftIso
       (sectionsFunctor X.carrier ⊤).rightDerivedFunctorPlus (i : ℤ)
       (a : ℤ)).app ((deRhamAbelianComplexInt B D).X (a : ℤ))).hom ≫
       ((Stacks.DerivedIndexing.rightDerivedIso (sectionsFunctor X.carrier ⊤) i).inv.app _ ≫

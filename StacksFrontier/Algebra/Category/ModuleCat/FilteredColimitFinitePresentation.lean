@@ -61,7 +61,7 @@ private theorem exists_map_eq_zero_fin (hc : IsColimit c) (n : ℕ) (j : J) (x :
     refine ⟨l, v ≫ t, fun a => ?_⟩
     rw [D.map_comp]
     refine Fin.cases ?_ (fun a => ht a) a
-    show D.map t (D.map v (x 0)) = 0
+    change D.map t (D.map v (x 0)) = 0
     rw [hzero, map_zero]
 
 /-- A map from a finitely presented module into a filtered colimit of modules factors through one

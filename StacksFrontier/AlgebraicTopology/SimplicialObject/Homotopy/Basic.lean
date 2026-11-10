@@ -401,7 +401,7 @@ lemma htpy_converse_exists {U V : SimplicialObject C}
   have key : ∀ (m : SimplexCategoryᵒᵖ) (x : (Δ[1] : SSet.{w}).obj m),
       Sigma.ι (fun _ : (Δ[1] : SSet.{w}).obj m => U.obj m) x ≫ happ m
         = hc m.unop.len (SimplexCategory.toMk₁Equiv.symm (stdSimplex.objEquiv x)) :=
-    fun m x => Sigma.ι_desc _ _
+    fun m x => Sigma.ι_comp_desc _ _
   have hnat : ∀ {m m' : SimplexCategoryᵒᵖ} (φ : m ⟶ m'),
       (U.copower Δ[1]).map φ ≫ happ m' = happ m ≫ V.map φ := by
     intro m m' φ
@@ -526,7 +526,7 @@ private lemma ι_comp_copowerDesc_app (κ : ∀ j, X.obj j → (V.obj j ⟶ W.ob
     (hκ : ∀ ⦃i j : J⦄ (f : i ⟶ j) (u : X.obj i), V.map f ≫ κ j (X.map f u) = κ i u ≫ W.map f)
     (j : J) (u : X.obj j) :
     Sigma.ι (fun _ : X.obj j => V.obj j) u ≫ (copowerDesc κ hκ).app j = κ j u :=
-  Limits.Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 section Whisker
 

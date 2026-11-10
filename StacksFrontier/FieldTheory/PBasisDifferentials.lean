@@ -154,7 +154,7 @@ private theorem compositumFrobenius_eq_intermediateField
     (hpow : (frobenius K p).fieldRange ≤ S.toSubfield) :
     _root_.compositumFrobenius (↥S) K p = S.toSubfield := by
   apply le_antisymm
-  · show Subfield.closure
+  · change Subfield.closure
       (((algebraMap (↥S) K).range : Set K) ∪ {a : K | ∃ b : K, a = b ^ p}) ≤ _
     apply Subfield.closure_le.mpr
     rintro z (⟨s, rfl⟩ | ⟨b, rfl⟩)
@@ -323,7 +323,7 @@ private theorem differential_intersection
           have hs : (∑ i ∈ coeff.support, coeff i •
               KaehlerDifferential.D (Kα a) K (x i)) = 0 := by
             simpa [Finsupp.linearCombination_apply, Finsupp.sum] using hcombMap
-          show (∑ i : I, coeff i.1 •
+          change (∑ i : I, coeff i.1 •
             KaehlerDifferential.D (Kα a) K (x i.1)) = 0
           exact (Finset.sum_coe_sort coeff.support
             (fun i => coeff i • KaehlerDifferential.D (Kα a) K (x i))).trans hs
@@ -346,12 +346,12 @@ private theorem differential_intersection
         fun hz => hj₀ (Subtype.ext ?_)⟩
       · simp only [φ, LinearMap.sum_apply, LinearMap.smulRight_apply,
           LinearMap.proj_apply]
-        show (∑ j : Fin n, (g (e j) : K) *
+        change (∑ j : Fin n, (g (e j) : K) *
           _root_.monomialFamily xI p (e j)) = 0
         change (∑ i : E, (g i : K) • _root_.monomialFamily xI p i) = 0 at hsum
         exact (Equiv.sum_comp e _).trans hsum
       · intro j
-        show (g (e j) : K) ∈ (G a).toSubfield
+        change (g (e j) : K) ∈ (G a).toSubfield
         rw [hGeq, ← hcomp]
         exact (g (e j)).2
       · rw [← e.apply_symm_apply j₀]
@@ -395,7 +395,7 @@ private theorem affine_solution_over_intersection
     obtain ⟨c, hc⟩ := hsol a
     refine ⟨snocFin (fun i => algebraMap (G a) K (c i)) 1, ?_, ?_⟩
     · constructor
-      · show ψ (snocFin (fun i => algebraMap (G a) K (c i)) 1) = 0
+      · change ψ (snocFin (fun i => algebraMap (G a) K (c i)) 1) = 0
         have hproj :
             proj (snocFin (fun i => algebraMap (G a) K (c i)) 1) =
               fun i => algebraMap (G a) K (c i) := by
@@ -455,7 +455,7 @@ private theorem affine_solution_over_intersection
   have hscaled :
       (fun i => algebraMap F K (cfirst i / tF)) = qlast⁻¹ • qfirst := by
     funext i
-    show algebraMap F K (cfirst i / tF) = qlast⁻¹ * q (i.castSucc)
+    change algebraMap F K (cfirst i / tF) = qlast⁻¹ * q (i.castSucc)
     rw [map_div₀, hcF i.castSucc, htF]
     simp [div_eq_mul_inv, mul_comm]
   rw [hscaled, map_smul, hφq]
@@ -508,7 +508,7 @@ private theorem finite_compositum_intersection
         intro y hy
         rcases hy with ⟨z, hz, rfl⟩
         have hm := H.algebraMap_mem ⟨z, hz⟩
-        show (algebraMap K L) z ∈ H
+        change (algebraMap K L) z ∈ H
         convert hm using 1
         rfl
       have hxH : x ∈ H := (sup_le hE hG) ((Subfield.mem_iInf).mp hx a)
@@ -530,7 +530,7 @@ private theorem finite_compositum_intersection
         LinearMap.proj_apply, Algebra.smul_def,
         IsScalarTower.algebraMap_eq (G a) K L] using hc
     obtain ⟨c, hc⟩ := affine_solution_over_intersection G hinf hdir φ hker x hsol
-    show x ∈ E
+    change x ∈ E
     rw [← hc, ← heq]
     exact (∑ i : Fin n, c i • b i).2
 
@@ -555,7 +555,7 @@ private theorem finiteDimensional_frobeniusFieldRange
         intro a b
         apply Subtype.ext
         simp only [Algebra.smul_def]
-        show (frobenius L p) (algebraMap K L a * b) =
+        change (frobenius L p) (algebraMap K L a * b) =
           ((algebraMap F E (σ a) : E) : L) * (frobenius L p) b
         rw [map_mul]
         congr 1
@@ -724,7 +724,7 @@ private lemma pow_mem_expand_map_range
     rw [← MvPolynomial.C_pow]
     congr 1
     have hφ : S.subtype.comp φ = frobenius k p := rfl
-    show MvPowerSeries.expand p _ (MvPowerSeries.map S.subtype
+    change MvPowerSeries.expand p _ (MvPowerSeries.map S.subtype
       (MvPowerSeries.map φ c)) = _
     rw [MvPowerSeries.map_map, hφ, ← MvPowerSeries.map_expand,
       MvPowerSeries.map_frobenius_expand]
@@ -771,7 +771,7 @@ private lemma mvPowerSeries_map_finite
       rw [map_sum, ← hc d]
       apply Finset.sum_congr rfl
       intro i _
-      show f (c d i) * s i = MvPowerSeries.coeff d
+      change f (c d i) * s i = MvPowerSeries.coeff d
         (MvPowerSeries.map f (cs i) * MvPowerSeries.C (s i))
       rw [MvPowerSeries.coeff_mul_C, MvPowerSeries.coeff_map]
       rfl
@@ -804,13 +804,13 @@ private lemma mvPowerSeries_expand_finite
           smul_eq_mul, e, Finsupp.coe_equivFunOnFinite_symm, r, q]
         exact Nat.div_add_mod _ _
       rw [map_sum, Finset.sum_eq_single r]
-      · show MvPowerSeries.coeff d f = MvPowerSeries.coeff d
+      · change MvPowerSeries.coeff d f = MvPowerSeries.coeff d
           (MvPowerSeries.expand p hp (g r) * MvPowerSeries.monomial (e r) 1)
         rw [← hde, MvPowerSeries.coeff_add_mul_monomial,
           MvPowerSeries.coeff_expand_smul, mul_one]
         rfl
       · intro s _ hsr
-        show MvPowerSeries.coeff d
+        change MvPowerSeries.coeff d
           (MvPowerSeries.expand p hp (g s) * MvPowerSeries.monomial (e s) 1) = 0
         rw [MvPowerSeries.coeff_mul_monomial]
         split_ifs with hsd
@@ -843,7 +843,7 @@ private lemma mvPolynomial_map_finite
   have : Module.Finite R S := hf
   let h := MvPolynomial.map (σ := σ) f
   let : Algebra (MvPolynomial σ R) (MvPolynomial σ S) := h.toAlgebra
-  show Module.Finite (MvPolynomial σ R) (MvPolynomial σ S)
+  change Module.Finite (MvPolynomial σ R) (MvPolynomial σ S)
   obtain ⟨G, hG⟩ := Module.finite_def.mp ‹Module.Finite R S›
   let M := Submodule.span (MvPolynomial σ R)
     ((MvPolynomial.C : S → MvPolynomial σ S) '' (G : Set S))
@@ -931,7 +931,7 @@ private lemma finite_field_of_pbasis_complement
     | zero => exact T.zero_mem
     | add a b _ _ ha hb => exact T.add_mem ha hb
     | smul c a _ ha =>
-      show (c : k) * a ∈ T
+      change (c : k) * a ∈ T
       exact T.mul_mem (T.algebraMap_mem ⟨c, hbase c.2⟩) ha
   have hint : ∀ a ∈ x '' (J : Set I), IsIntegral S a := by
     intro a _
@@ -989,7 +989,7 @@ private lemma mem_span_monomials_complement
   refine ⟨embDomainExp (Nat.Prime.pos Fact.out) emb E, ?_,
     monomialFamily_embDomainExp x (Nat.Prime.pos Fact.out) emb E⟩
   intro i hi
-  show Finsupp.embDomain emb E.val i = 0
+  change Finsupp.embDomain emb E.val i = 0
   rw [Finsupp.embDomain_of_notMem_range]
   rintro ⟨j, rfl⟩
   exact j.property hi
@@ -1016,7 +1016,7 @@ private lemma frobeniusFieldRange_eq_iInf_pbasis_complement
     exact b.repr_support_subset_of_mem_span _ haJ' hE i (Finset.mem_singleton_self i)
   rw [← compositumFrobenius_zmod]
   rw [← b.linearCombination_repr a]
-  show ∑ E ∈ (b.repr a).support, (b.repr a E) • b E ∈
+  change ∑ E ∈ (b.repr a).support, (b.repr a E) • b E ∈
     compositumFrobenius (ZMod p) k p
   apply Subfield.sum_mem
   intro E hE
@@ -1078,7 +1078,7 @@ private lemma mem_range_of_pow_mem_of_mem_fractionField
   have hzpow : z ^ p = algebraMap R (FractionRing R) b := by
     apply g.injective
     rw [map_pow, hz, IsFractionRing.lift_algebraMap hj]
-    show (algebraMap A K a) ^ p = algebraMap A K (f b)
+    change (algebraMap A K a) ^ p = algebraMap A K (f b)
     rw [hb, map_pow]
   have hzint : IsIntegral R z := IsIntegral.of_pow hp (hzpow ▸ isIntegral_algebraMap)
   obtain ⟨c, hc⟩ := IsIntegrallyClosed.algebraMap_eq_of_integral hzint
@@ -1092,7 +1092,7 @@ private lemma adjoin_image_range_toSubfield
     (IntermediateField.adjoin (ZMod p) (j '' (f.range : Set A))).toSubfield =
       Subfield.closure (Set.range (j.comp f)) := by
   apply le_antisymm
-  · show Subfield.closure _ ≤ _
+  · change Subfield.closure _ ≤ _
     apply Subfield.closure_le.mpr
     rintro a (⟨z, rfl⟩ | ⟨b, ⟨c, rfl⟩, rfl⟩)
     · apply Subfield.subset_closure
@@ -1180,11 +1180,11 @@ private lemma expandMap_frobenius
   have h : (MvPowerSeries.expand p (Nat.Prime.ne_zero Fact.out)).toRingHom.comp
       (MvPowerSeries.map (frobenius k p)) = frobenius (MvPowerSeries σ k) p := by
     ext g : 1
-    show MvPowerSeries.expand p (Nat.Prime.ne_zero Fact.out)
+    change MvPowerSeries.expand p (Nat.Prime.ne_zero Fact.out)
       (MvPowerSeries.map (frobenius k p) g) = g ^ p
     rw [← MvPowerSeries.map_expand, MvPowerSeries.map_frobenius_expand]
   rw [expandMap_eq, RingHom.comp_apply, h]
-  show MvPolynomial.expand p (MvPolynomial.map (frobenius (MvPowerSeries σ k) p) f) = _
+  change MvPolynomial.expand p (MvPolynomial.map (frobenius (MvPowerSeries σ k) p) f) = _
   rw [← MvPolynomial.map_expand, MvPolynomial.map_frobenius_expand]
 
 private lemma mem_frobenius_range_of_mem_expandMap_ranges
@@ -1267,7 +1267,7 @@ public theorem fractionFields_powerSeries_polynomial_subrings
     (Nat.Prime.ne_zero Fact.out) (kJ J).subtype
   let AJ := fun J => (toA J).range
   let KJ := fun J => IntermediateField.adjoin (ZMod p) ((algebraMap A K) '' (AJ J : Set A))
-  show (∀ J, (frobenius K p).fieldRange ≤ (KJ J).toSubfield) ∧
+  change (∀ J, (frobenius K p).fieldRange ≤ (KJ J).toSubfield) ∧
     (frobenius K p).fieldRange = ⨅ J, (KJ J).toSubfield ∧
     (∀ J J', ∃ J'', KJ J'' ≤ KJ J ⊓ KJ J') ∧
     ∀ J, Module.Finite (AJ J) A
@@ -1317,7 +1317,7 @@ public theorem fractionFields_powerSeries_polynomial_subrings
     obtain ⟨d, hd⟩ := mem_frobenius_range_of_mem_expandMap_ranges p kJ
       (frobeniusFieldRange_eq_iInf_pbasis_complement x hx) c hc
     refine ⟨algebraMap A K d / algebraMap A K b, ?_⟩
-    show (algebraMap A K d / algebraMap A K b) ^ p = z
+    change (algebraMap A K d / algebraMap A K b) ^ p = z
     rw [div_pow, ← map_pow, hd, hcp,
       mul_div_cancel_right₀ _ (pow_ne_zero p hbK)]
   · intro J J'

@@ -353,7 +353,7 @@ theorem IsCovering.pullback (J : Pretopology C) {U V W : FormalCoproduct.{w} C}
     (f : U ⟶ V) (g : W ⟶ V) (hf : IsCovering J f) :
     IsCovering J (pullbackFormalCoproduct.snd f g (pullbackConeFamily f g)) := by
   intro k
-  show Presieve.ofArrows
+  change Presieve.ofArrows
     (fun i : { i : Function.Pullback f.f g.f // i.1.2 = k } ↦
       Limits.pullback (f.φ i.1.1.1 ≫ eqToHom (congrArg V.obj i.1.2)) (g.φ i.1.1.2))
     (fun i ↦ pullback.snd (f.φ i.1.1.1 ≫ eqToHom (congrArg V.obj i.1.2)) (g.φ i.1.1.2) ≫
@@ -376,7 +376,7 @@ theorem IsCoveringOver.pullback (J : Pretopology C) {X : C}
     {U V W : FormalCoproduct.{w} (Over X)} (f : U ⟶ V) (g : W ⟶ V) (hf : IsCoveringOver J f) :
     IsCoveringOver J (pullbackFormalCoproduct.snd f g (pullbackConeFamilyOver f g)) := by
   intro k
-  show Presieve.ofArrows
+  change Presieve.ofArrows
     (fun i : { i : Function.Pullback f.f g.f // i.1.2 = k } ↦
       Limits.pullback (f.φ i.1.1.1 ≫ eqToHom (congrArg V.obj i.1.2)).left (g.φ i.1.1.2).left)
     (fun i ↦ pullback.snd (f.φ i.1.1.1 ≫ eqToHom (congrArg V.obj i.1.2)).left
@@ -686,7 +686,7 @@ theorem homEquivOfIsRightKanExtension_coskAdj_unit :
     h₀.trans ((Category.assoc _ _ _).trans (by rw [ht]; exact Category.comp_id _))
   rw [Functor.homEquivOfIsRightKanExtension_apply_app]
   simp only [matchingCoyonedaCounit]
-  show (((SSet.yonedaEquiv
+  change (((SSet.yonedaEquiv
       (X := ((SimplicialObject.cosk k).obj K) ⋙
         coyoneda.obj (op (K.obj (op ⦋k + 1⦌))))
       (n := ⦋k + 1⦌)).symm (η.app (op ⦋k + 1⦌))).app
@@ -705,7 +705,7 @@ theorem homEquivOfIsRightKanExtension_coskAdj_unit :
       (X := K ⋙ coyoneda.obj (op (K.obj (op ⦋k + 1⦌))))
       (n := ⦋k + 1⦌)).symm (𝟙 (K.obj (op ⦋k + 1⦌)))).app
         ((SimplexCategory.Truncated.inclusion k).op.obj m) a = K.map φ.op := by
-    show (𝟙 (K.obj (op ⦋k + 1⦌))) ≫ K.map φ.op = K.map φ.op
+    change (𝟙 (K.obj (op ⦋k + 1⦌))) ≫ K.map φ.op = K.map φ.op
     exact Category.id_comp _
   rw [h₁, h₂]
   exact hc
@@ -803,7 +803,7 @@ theorem homFromSSetMap_app_zero {D : Type u'} [Category.{v'} D] {A B : SSet.{v'}
     simp only [Category.comp_id] at hbcomp
     rw [hbcomp]
     rfl
-  show (constHomObjEquiv A K (HB.obj (op ⦋0⦌)))
+  change (constHomObjEquiv A K (HB.obj (op ⦋0⦌)))
       ((Functor.functorHomEquiv _ K A)
         (hA.homEquiv (((constEvalZeroAdj (D := D)).homEquiv _ HA).symm
           ((homFromSSetMap hB hA i).app (op ⦋0⦌))))) =
@@ -964,7 +964,7 @@ theorem homFromSSetRestriction_comp {X : C} {A B E : SSet.{max w v}}
       f ≫ (homFromSSetIsHom B K).homEquiv (𝟙 _) := by
     simp [homFromSSetRestriction]
   rw [hfa]
-  show f ≫ (F.map (homFromSSetRestriction g K).op
+  change f ≫ (F.map (homFromSSetRestriction g K).op
     ((homFromSSetIsHom B K).homEquiv (𝟙 _))) = _
   rw [hB']
   symm
@@ -1176,7 +1176,7 @@ theorem isCoveringOver_homFromSSetRestriction_app_zero_of_oneCell (J : Pretopolo
   have memRange (m : ℕ) (y : (B : SSet) _⦋m⦌) (hyA : y.val ∈ A.obj (op ⦋m⦌)) :
       y ∈ Set.range (E.ι.app (op ⦋m⦌)) := by
     refine ⟨⟨y, ⟨⟨y.val, hyA⟩, ?_⟩⟩, rfl⟩
-    show (SSet.Subcomplex.homOfLE hAB).app (op ⦋m⦌) ⟨y.val, hyA⟩ = y
+    change (SSet.Subcomplex.homOfLE hAB).app (op ⦋m⦌) ⟨y.val, hyA⟩ = y
     exact Subtype.ext rfl
   have hsplit (m : ℕ) (y : (B : SSet) _⦋m⦌) : y.val ∈ A.obj (op ⦋m⦌) ∨
       ∃ g : (⦋m⦌ : SimplexCategory) ⟶ ⦋n⦌, V.map g.op x = y.val := by

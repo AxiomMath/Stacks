@@ -63,7 +63,7 @@ theorem associatedModuleSheafStalkEquiv_smul (x : ProjectiveSpectrum.top 𝒮)
     (z : associatedModuleSheafStalk 𝒮 𝒨 x) :
     associatedModuleSheafStalkEquiv 𝒮 𝒨 x (r • z) =
       Proj.stalkIso' 𝒮 x r • associatedModuleSheafStalkEquiv 𝒮 𝒨 x z := by
-  show associatedModuleSheafStalkEquiv 𝒮 𝒨 x
+  change associatedModuleSheafStalkEquiv 𝒮 𝒨 x
       ((associatedModuleSheafStalkEquiv 𝒮 𝒨 x).symm
         (Proj.stalkIso' 𝒮 x r • associatedModuleSheafStalkEquiv 𝒮 𝒨 x z)) = _
   simp

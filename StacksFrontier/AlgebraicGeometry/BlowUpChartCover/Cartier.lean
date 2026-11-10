@@ -94,7 +94,7 @@ def chartOpen : (blowUp I).affineOpens :=
 theorem chartOpen_le : (chartOpen I U a).1 ≤ blowUpToBase I ⁻¹ᵁ U.1 := by
   intro x hx
   obtain ⟨z, rfl⟩ := hx
-  show blowUpToBase I (chart I U a z) ∈ U.1
+  change blowUpToBase I (chart I U a z) ∈ U.1
   have h : (chart I U a ≫ blowUpToBase I) z =
       (Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U.1) (chartRing I U a))) ≫
         U.2.fromSpec) z := by rw [chart_blowUpToBase]

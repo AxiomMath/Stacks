@@ -190,7 +190,7 @@ private theorem exists_idealSheafData_of_coproduct_iso
   apply Sigma.hom_ext
   intro i
   dsimp [b]
-  simp only [Category.assoc, Sigma.ι_mapIso_inv_assoc, Sigma.ι_desc]
+  simp only [Category.assoc, Sigma.ι_mapIso_inv_assoc, Sigma.ι_comp_desc]
   exact (Iso.inv_comp_eq (a i)).mpr (ha i).symm
 
 private theorem isIso_sigmaDesc_pullback_fst
@@ -252,7 +252,7 @@ private theorem support_mem_irreducibleComponents_of_dimension_one
         D.subschemeι D.subschemeι.continuous.continuousOn
   let T : TopologicalSpace.IrreducibleCloseds Y := ⟨D.support, hirr, D.support.isClosed⟩
   have hle (W : TopologicalSpace.IrreducibleCloseds D.subscheme) : F W ≤ T := by
-    show closure (D.subschemeι '' (W : Set D.subscheme)) ⊆ D.support
+    change closure (D.subschemeι '' (W : Set D.subscheme)) ⊆ D.support
     exact D.support.isClosed.closure_subset_iff.mpr
       ((Set.image_subset_range _ _).trans D.range_subschemeι.le)
   obtain ⟨A, B, hAB⟩ := Order.krullDim_pos_iff.mp
@@ -277,7 +277,7 @@ public theorem complementaryCurveIdeal_comap
   have hU : (C.comap f).support.compl = f ⁻¹ᵁ C.support.compl := by
     ext x
     simp [Scheme.IdealSheafData.support_comap]
-  show ((Scheme.Opens.ι (C.comap f).support.compl)).ker =
+  change ((Scheme.Opens.ι (C.comap f).support.compl)).ker =
     ((Scheme.Opens.ι C.support.compl)).ker.comap f
   rw [hU]
   let e := (pullbackRestrictIsoRestrict f C.support.compl).symm ≪≫
@@ -294,7 +294,7 @@ public theorem intersectionWithComplementaryCurveIdeal_comap
     [Flat f] [QuasiCompact (Scheme.Opens.ι C.support.compl)] :
     intersectionWithComplementaryCurveIdeal (C.comap f) =
       (intersectionWithComplementaryCurveIdeal C).comap f := by
-  show C.comap f ⊔ _ = (C ⊔ _).comap f
+  change C.comap f ⊔ _ = (C ⊔ _).comap f
   rw [Scheme.IdealSheafData.comap_sup, complementaryCurveIdeal_comap]
 
 private theorem complementaryCurveIdeal_eq_vanishingIdeal
@@ -316,7 +316,7 @@ private theorem sup_inf_eq_of_sup_eq_top
   apply le_antisymm (sup_le_sup_left inf_le_left _)
   intro U
   have hU : I.ideal U ⊔ E.ideal U = ⊤ := congrArg (fun A => A.ideal U) h
-  show I.ideal U ⊔ J.ideal U ≤ I.ideal U ⊔ (J.ideal U ⊓ E.ideal U)
+  change I.ideal U ⊔ J.ideal U ≤ I.ideal U ⊔ (J.ideal U ⊓ E.ideal U)
   rw [← Ideal.sup_mul_eq_of_coprime_right hU]
   exact sup_le_sup_left Ideal.mul_le_inf _
 
@@ -354,7 +354,7 @@ public theorem intersectionWithComplementaryCurveIdeal_of_disjoint_union
     simpa only [TopologicalSpace.Closeds.coe_inf,
       Scheme.IdealSheafData.coe_support_vanishingIdeal,
       TopologicalSpace.Closeds.coe_bot] using Set.disjoint_iff_inter_eq_empty.mp hDE
-  show D ⊔ complementaryCurveIdeal D = _
+  change D ⊔ complementaryCurveIdeal D = _
   rw [complementaryCurveIdeal_eq_vanishingIdeal D, hclosure,
     Scheme.IdealSheafData.vanishingIdeal_sup,
     sup_inf_eq_of_sup_eq_top _ _ _ hcoprime,
@@ -374,11 +374,11 @@ private theorem intersectionWithComplementaryCurveIdeal_of_openImmersion
         (j.isOpenEmbedding.isOpen_range.isClosed_compl)⟩
   have hD : (D.support : Set Y) = C.subschemeι '' Set.range j := by
     rw [← D.range_subschemeι, ← hj]
-    show Set.range (C.subschemeι ∘ j) = _
+    change Set.range (C.subschemeι ∘ j) = _
     exact Set.range_comp _ _
   have hC : (C.support : Set Y) = (D.support : Set Y) ∪ E := by
     rw [hD, ← C.range_subschemeι]
-    show Set.range C.subschemeι =
+    change Set.range C.subschemeι =
       C.subschemeι '' Set.range j ∪ C.subschemeι '' (Set.range j)ᶜ
     rw [← Set.image_union, Set.union_compl_self, Set.image_univ]
   have hDE : Disjoint (D.support : Set Y) (E : Set Y) := by
@@ -512,7 +512,7 @@ public theorem finrank_globalSections_eq_of_isIso_base
   have hβ : (asIso β).inv ≫
       ((Scheme.ΓSpecIso (.of R)).inv ≫ (i ≫ f).appTop) = i.appTop := by
     rw [Scheme.Hom.comp_appTop]
-    show (asIso β).inv ≫ β ≫ i.appTop = _
+    change (asIso β).inv ≫ β ≫ i.appTop = _
     simp
   apply Algebra.finrank_eq_of_equiv_equiv eBase (RingEquiv.refl Γ(Z, ⊤))
   ext x
@@ -525,7 +525,7 @@ private theorem ker_inclusion_eq_comap
   have hsq : IsPullback i (𝟙 J.subscheme) I.subschemeι J.subschemeι :=
     IsPullback.of_vert_isIso_mono ⟨by
       simpa only [Category.id_comp] using Scheme.IdealSheafData.inclusion_subschemeι h⟩
-  show i.ker = _
+  change i.ker = _
   rw [← hsq.isoPullback_hom_fst, Scheme.Hom.ker_comp_of_isIso]
   rfl
 
@@ -556,7 +556,7 @@ private theorem intersectionWithComplementaryCurve_isPullback
       complementaryCurveIdeal (C.comap p) = J.comap p :=
     intersectionWithComplementaryCurveIdeal_comap C p
   have hI : I = D ⊔ J.comap p := by
-    show intersectionWithComplementaryCurveIdeal D = _
+    change intersectionWithComplementaryCurveIdeal D = _
     rw [intersectionWithComplementaryCurveIdeal_of_openImmersion (C.comap p) D j hj, ← hJ,
       ← sup_assoc, sup_eq_left.mpr hle]
   have hmap : J ≤ I.map p :=
@@ -573,9 +573,9 @@ private theorem intersectionWithComplementaryCurve_isPullback
         rw [Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
   · rw [ker_inclusion_eq_comap, ker_inclusion_eq_comap]
     have hzero : D.comap D.subschemeι = ⊥ := by
-      show (pullback.fst D.subschemeι D.subschemeι).ker = ⊥
+      change (pullback.fst D.subschemeι D.subschemeι).ker = ⊥
       exact Scheme.Hom.ker_eq_bot_of_isIso _
-    show (J.comap C.subschemeι).comap c = I.comap D.subschemeι
+    change (J.comap C.subschemeι).comap c = I.comap D.subschemeι
     calc
       (J.comap C.subschemeι).comap c = J.comap (c ≫ C.subschemeι) :=
         (Scheme.IdealSheafData.comap_comp J c C.subschemeι).symm
@@ -708,7 +708,7 @@ public theorem exists_iso_sigma_isRationalBridge_baseChange
   obtain ⟨eT⟩ := nonempty_sigmaSpec_iso_pullback k K A L eA
   let π (i : ι) : Spec (.of (L i)) ⟶ T :=
     Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ eT.hom
-  have hπ : Sigma.desc π = eT.hom := Sigma.hom_ext _ _ fun i ↦ Sigma.ι_desc π i
+  have hπ : Sigma.desc π = eT.hom := Sigma.hom_ext _ _ fun i ↦ Sigma.ι_comp_desc π i
   have : IsIso (Sigma.desc π) := hπ ▸ inferInstance
   let φ (i : ι) : CommRingCat.of A ⟶ CommRingCat.of (L i) :=
     Classical.choose (Spec.map_surjective (π i ≫ q))
@@ -732,7 +732,7 @@ public theorem exists_iso_sigma_isRationalBridge_baseChange
     rw [← hj.isoPullback_hom_fst]
     infer_instance
   have : IsProper (Y ↘ Spec (.of K)) := by
-    show IsProper (pullback.snd (X ↘ Spec (.of k)) g)
+    change IsProper (pullback.snd (X ↘ Spec (.of k)) g)
     infer_instance
   let W (i : ι) := pullback z (π i)
   let w (i : ι) : W i ⟶ Z := pullback.fst z (π i)
@@ -819,9 +819,9 @@ public theorem exists_iso_sigma_isRationalBridge_baseChange
     obtain ⟨x, hx⟩ := hXcomp
     obtain ⟨y, hy⟩ := hsurj.surj x
     refine ⟨y, ?_⟩
-    show y ∉ (C.comap p).support
+    change y ∉ (C.comap p).support
     rw [Scheme.IdealSheafData.support_comap]
-    show p y ∉ (C.support : Set X)
+    change p y ∉ (C.support : Set X)
     rw [hy]
     exact hx
   have hDcomp (i : ι) : (((D i).support : Set Y)ᶜ).Nonempty := by
@@ -914,10 +914,10 @@ public theorem exists_iso_sigma_isRationalBridge_baseChange
     have hsq : IsPullback r (iD ≫ fDbase i) fI (Spec.map (φ i)) :=
       hr.flip.paste_vert (hDbase i)
     have hfI : (Scheme.ΓSpecIso (.of A)).inv ≫ fI.appTop = iC.appTop := by
-      show (Scheme.ΓSpecIso (.of A)).inv ≫
+      change (Scheme.ΓSpecIso (.of A)).inv ≫
         (iC ≫ C.subscheme.toSpecΓ).appTop = iC.appTop
       rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop]
-      show (Scheme.ΓSpecIso Γ(C.subscheme, ⊤)).inv ≫
+      change (Scheme.ΓSpecIso Γ(C.subscheme, ⊤)).inv ≫
         (Scheme.ΓSpecIso Γ(C.subscheme, ⊤)).hom ≫ iC.appTop = iC.appTop
       simp
     calc
@@ -927,7 +927,7 @@ public theorem exists_iso_sigma_isRationalBridge_baseChange
       _ = Module.finrank A Γ(J.subscheme, ⊤) :=
         finrank_globalSections_baseChange A (L i) fI r (iD ≫ fDbase i) hsq
       _ = 2 := by
-        show @Module.finrank A Γ(J.subscheme, ⊤) _ _
+        change @Module.finrank A Γ(J.subscheme, ⊤) _ _
           (((Scheme.ΓSpecIso (.of A)).inv ≫ fI.appTop).hom.toAlgebra.toModule) = 2
         rw [hfI]
         exact hC.intersection_finrank_eq_two

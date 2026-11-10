@@ -47,7 +47,8 @@ three applications of `projInclusionTwistMap_eq`, one per twist index, each of t
 `congrArg` whose motive is a single `≫`. No conversion at these types is requested anywhere, and no
 compiler option is raised; the file builds in seconds.
 
-Two spellings have to agree for this to work. They are recorded on the declarations they belong to in the companion file: the module
+Two spellings have to agree for this to work. They are recorded on the declarations they belong to
+in the companion file: the module
 argument of a component of `AlgebraicGeometry.Scheme.Modules.pullbackComp` must be *the same
 term* in the naturality square and in the monoidal coherence, since converting one spelling
 against the other is a deterministic `whnf` timeout; and both morphism arguments of
@@ -173,8 +174,8 @@ compatible with the multiplication maps of Tag 01MU: the pulled-back multiplicat
 the comparison on the `(n + m)`-th twist is the tensor product of the comparisons on the `n`-th
 and the `m`-th twists followed by the multiplication map downstairs.
 
-The hypotheses are exactly those of the tagged statement: a quasi-coherent graded algebra on a scheme, two affine
-opens, an inclusion between them, and two unrestricted twist indices. -/
+The hypotheses are exactly those of the tagged statement: a quasi-coherent graded algebra on a
+scheme, two affine opens, an inclusion between them, and two unrestricted twist indices. -/
 @[stacks 01NO "multiplication compatibility of twist isomorphisms"]
 public theorem projInclusionTwistIso_preserves_products :
     pullbackTwistMultiplication (A.grading V) (projInclusionMap A U V h hU hV) n m ≫

@@ -64,8 +64,7 @@ variable (M N : PresheafOfModules.{u} (O (ringedSpaceOfSheaf B)))
 theorem surjective_sectionMap (U : (Opens ↥Y)ᵒᵖ) :
     Function.Surjective (sectionMap A B ρ M N U) := by
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact ⟨m ⊗ₜ[A.obj.obj U] n, rfl⟩
   | add x y hx hy =>
       obtain ⟨a, ha⟩ := hx

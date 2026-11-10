@@ -57,11 +57,8 @@ Cofilteredness of the category of elementary étale neighbourhoods of a point of
 space, which is Stacks 0BGV, is *not* a hypothesis of the comparison: it is
 `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.isCofiltered_of_nonempty`, and the
 neighbourhood `U` the comparison is stated at is itself the witness of the nonemptiness that
-lemma asks for. It is still carried by the two lemmas about the map on stalks below, where it
-costs nothing — their callers in
-`StacksFrontier/AlgebraicGeometry/Spaces/Decent/PrimeDivisorFunctionFieldEmbedding.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/Decent/PrimeDivisorGeneratorRatio.lean` discharge it the
-same way. Locality, Noetherianness and the dimension bound for `𝒪^h_{X, ξ}` are carried as
+lemma asks for. The two lemmas about the map on stalks below do not need it at all.
+Locality, Noetherianness and the dimension bound for `𝒪^h_{X, ξ}` are carried as
 instance arguments, as they are for `AlgebraicGeometry.Space.PrimeDivisor.ord` itself; locality
 is `AlgebraicGeometry.Space.henselianLocalRing_isLocalRing`, and at the generic point of a prime
 divisor of a decent, locally Noetherian, integral algebraic space the other two are available
@@ -122,11 +119,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
     (hdec : IsDecentSpace B S hS X) (Z : PrimeDivisor B S hS X)
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
 
-include hCofiltered in
 /-- The canonical map from the stalk of an elementary étale neighbourhood of the generic point of
 a prime divisor into the henselian local ring there carries nonzerodivisors to nonzerodivisors,
 being the structure map of a henselization. -/
@@ -140,7 +134,6 @@ theorem stalkToHenselianLocalRing_mem_nonZeroDivisors
   exact IsLocalRing.IsHenselization.algebraMap_mem_nonZeroDivisors
     (IsLocalRing.ResidueField ↥(U.scheme.left.1.presheaf.stalk U.point)) hr
 
-include hCofiltered in
 /-- The length of the quotient by a principal ideal is unchanged by the canonical map from the
 stalk of an elementary étale neighbourhood into the henselian local ring: that map is the
 structure map of a henselization, which is flat and local with the maximal ideal extended. -/
@@ -159,19 +152,13 @@ variable [AlgebraicGeometry.IsIntegral U.scheme.left.1]
 
 /-- The map from the function field of an integral elementary étale neighbourhood of the generic
 point of a prime divisor to the total ring of fractions of the henselian local ring there,
-induced by the canonical map on stalks.
-
-Cofilteredness of the elementary étale neighbourhoods of the generic point, which is Stacks
-0BGV, is not a hypothesis: the neighbourhood `U` witnesses the nonemptiness that
-`AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.isCofiltered_of_nonempty` asks for. -/
+induced by the canonical map on stalks. -/
 noncomputable def PrimeDivisor.functionFieldToTotalFractionRing :
     ↥U.scheme.left.1.functionField →+* Z.genericTotalFractionRing B S hS hX hdec :=
   IsLocalization.map (T := (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰) _
     (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U)
     fun _ hr =>
-      stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z
-        (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-          (Z.genericPoint B S hS X) ⟨U⟩) U hr
+      stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z U hr
 
 /-- The induced map on fractions sends `a / b` to the fraction of the images of `a` and `b`. -/
 theorem PrimeDivisor.functionFieldToTotalFractionRing_mk'
@@ -181,9 +168,7 @@ theorem PrimeDivisor.functionFieldToTotalFractionRing_mk'
       IsLocalization.mk' (Z.genericTotalFractionRing B S hS hX hdec)
         (stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U a)
         ⟨stalkToHenselianLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec U b,
-          stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z
-            (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-              (Z.genericPoint B S hS X) ⟨U⟩) U b.2⟩ :=
+          stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z U b.2⟩ :=
   IsLocalization.map_mk' ..
 
 variable [IsNoetherianRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
@@ -210,19 +195,17 @@ theorem PrimeDivisor.ord_functionFieldToTotalFractionRing
         ((isUnit_iff_ne_zero.mpr hf).map
           (Z.functionFieldToTotalFractionRing B S hS hX hdec U)) =
       U.scheme.left.1.ord f U.point := by
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨U⟩
   obtain ⟨⟨a, b⟩, rfl⟩ := IsLocalization.mk'_surjective
     (nonZeroDivisors ↥(U.scheme.left.1.presheaf.stalk U.point)) f
   have ha : a ∈ (↥(U.scheme.left.1.presheaf.stalk U.point))⁰ :=
     mem_nonZeroDivisors_of_ne_zero fun h => hf (by simp [h])
-  have hmem {r} := stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z hCof U (r := r)
+  have hmem {r} := stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z U (r := r)
   have key := Z.functionFieldToTotalFractionRing_mk' B S hS hX hdec U a b
   rw [Z.ord_congr B S hS hX hdec _ (key ▸ (isUnit_iff_ne_zero.mpr hf).map
     (Z.functionFieldToTotalFractionRing B S hS hX hdec U)) key]
   refine ((Z.ord_mk' B S hS hX hdec ⟨_, hmem ha⟩ ⟨_, hmem b.2⟩ _).trans ?_).trans
     (Scheme.ord_mk' hcoh ⟨a, ha⟩ b).symm
-  simp only [ord_stalkToHenselianLocalRing B S hS hX hdec Z hCof U]
+  simp only [ord_stalkToHenselianLocalRing B S hS hX hdec Z U]
 
 end Space
 

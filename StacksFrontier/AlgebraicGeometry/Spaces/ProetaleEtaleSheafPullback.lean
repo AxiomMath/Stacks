@@ -266,7 +266,7 @@ public lemma Scheme.Etale.forget_isCocontinuous (S : Scheme.{u}) :
   let : (Scheme.Etale.forget S).IsContinuous
       ((Scheme.Etale.forget S).restrictedTopology (Scheme.etaleTopology.over S))
       (Scheme.etaleTopology.over S) := Scheme.Etale.forget_isContinuous S
-  show (Scheme.Etale.forget S).IsCocontinuous
+  change (Scheme.Etale.forget S).IsCocontinuous
     ((Scheme.Etale.forget S).restrictedTopology (Scheme.etaleTopology.over S)) _
   infer_instance
 
@@ -335,7 +335,7 @@ private lemma subterminal_etale_open (S : Scheme.{u})
       obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp (hU (Set.mem_range_self x))
       apply Set.mem_iUnion.mpr
       refine ⟨i, ?_⟩
-      show x ∈ Set.range (pullback.fst U.hom i.1.hom)
+      change x ∈ Set.range (pullback.fst U.hom i.1.hom)
       rw [Scheme.Pullback.range_fst]
       exact hi
     let s (i : I) := F.obj.map (b i).op (Classical.choice i.2)
@@ -511,7 +511,7 @@ private lemma bigEtaleInverseImage_openEq (S : Scheme.{u})
     apply IsTerminal.isTerminalOfObj (sheafToPresheaf J A)
     apply Functor.isTerminal
     intro X
-    show IsTerminal (ULift.{max (u + 1) v} (X.unop ⟶ Over.mk (𝟙 S)))
+    change IsTerminal (ULift.{max (u + 1) v} (X.unop ⟶ Over.mk (𝟙 S)))
     refine (Types.isTerminalEquivUnique _).symm ?_
     exact { default := ⟨Over.homMk X.unop.hom (by simp)⟩
             uniq := fun x => ULift.ext (Over.mkIdTerminal.hom_ext _ _) }
@@ -530,7 +530,7 @@ private lemma bigEtaleInverseImage_openEq (S : Scheme.{u})
     fun x => J.uliftYonedaEquiv_symm_naturality_left p (L.obj F) x
   have heq : hT.from (Y.obj X) ≫ L.map s' = hT.from (Y.obj X) ≫ L.map t' ↔
       (L.obj F).obj.map p.op s = (L.obj F).obj.map p.op t := by
-    show hT.from (Y.obj X) ≫ L.map (FF.preimage _) =
+    change hT.from (Y.obj X) ≫ L.map (FF.preimage _) =
       hT.from (Y.obj X) ≫ L.map (FF.preimage _) ↔ _
     rw [FF.map_preimage, FF.map_preimage, ← Category.assoc, ← Category.assoc, hp, hnat, hnat,
       Equiv.apply_eq_iff_eq]
@@ -610,9 +610,9 @@ public lemma Scheme.bigEtaleInverseImage_openEq_over (S : Scheme.{u})
     have hk : B.map p ≫ e₀.hom = eX.hom ≫ g := by
       apply Over.OverMorphism.ext
       simp [B, p, e₀, eX]
-    show Q.map p.op (e.hom.app _ (P.map e₀.hom.op x)) = _
+    change Q.map p.op (e.hom.app _ (P.map e₀.hom.op x)) = _
     rw [← NatTrans.naturality_apply]
-    show e.hom.app _ (P.map (B.map p).op (P.map e₀.hom.op x)) = _
+    change e.hom.app _ (P.map (B.map p).op (P.map e₀.hom.op x)) = _
     rw [← Functor.map_comp_apply, ← CategoryTheory.op_comp, hk]
     simp only [CategoryTheory.op_comp, Functor.map_comp, types_comp_apply]
     rfl
@@ -659,7 +659,7 @@ private lemma bigEtaleInverseImage_descent_open (S : Scheme.{u})
       rw [← hW]
       have H := hW Z g hg A (a ≫ k)
       rw [hx.to_sieveCompatible g k hg]
-      show P.map a.op (P.map k.op (x g hg)) =
+      change P.map a.op (P.map k.op (x g hg)) =
         P.map a.op (P.map (k ≫ g).op t) ↔ _
       simp only [CategoryTheory.op_comp, Functor.map_comp_apply] at H ⊢
       refine H.trans ⟨?_, ?_⟩ <;> rintro h z ⟨b, rfl⟩ <;> exact h (Set.mem_range_self b)
@@ -677,11 +677,11 @@ private lemma bigEtaleInverseImage_descent_open (S : Scheme.{u})
     fun z => congrArg (fun f : ContinuousMap Z.left Prop => f z) (hs g hg)
   constructor
   · rintro h z ⟨a, rfl⟩
-    show s (g.left (k.left a))
+    change s (g.left (k.left a))
     rw [he]
     exact h (Set.mem_range_self a)
   · rintro h z ⟨a, rfl⟩
-    show k.left a ∈ W Z g hg
+    change k.left a ∈ W Z g hg
     rw [← he]
     exact h (Set.mem_range_self a)
 
@@ -692,7 +692,7 @@ private lemma fpqc_sieve_covers {S : Scheme.{u}} (T : Over S) (R : Sieve T)
   rw [GrothendieckTopology.mem_over_iff] at hR
   have hle : Scheme.fpqcTopology ≤ Scheme.jointlySurjectiveTopology := by
     rw [Scheme.jointlySurjectiveTopology_eq_toGrothendieck_jointlySurjectivePretopology]
-    show Scheme.fpqcTopology ≤
+    change Scheme.fpqcTopology ≤
       Scheme.jointlySurjectivePrecoverage.toPretopology.toGrothendieck
     rw [Precoverage.toGrothendieck_toPretopology_eq_toGrothendieck]
     exact Precoverage.toGrothendieck_mono
@@ -754,7 +754,7 @@ private lemma bigEtaleInverseImage_local_sections_relative (S : Scheme.{u})
   refine ⟨V, f, inferInstanceAs (Etale U.hom), k', e.inv.app _ t, ?_, ?_⟩
   · apply Over.OverMorphism.ext
     have hw : Over.Hom.left k ≫ U.hom = E.f i ≫ Z'.hom := k.w
-    show 𝟙 _ ≫ Over.Hom.left k ≫ U.hom = E.f i ≫ Z'.hom
+    change 𝟙 _ ≫ Over.Hom.left k ≫ U.hom = E.f i ≫ Z'.hom
     rw [Category.id_comp]
     exact hw
   · let j : A ⟶ Z' := Over.homMk (E.f i) rfl
@@ -766,7 +766,7 @@ private lemma bigEtaleInverseImage_local_sections_relative (S : Scheme.{u})
       refine hn.symm.trans ((congrArg (e.inv.app (Opposite.op A)) ht).trans ?_)
       exact hp.trans (congrArg (P.map (B.map j).op)
         (Iso.hom_inv_id_app_apply e (Opposite.op Z') (P.map eZ.hom.op s)))
-    show P.map k'.op (e.inv.app _ t) = _
+    change P.map k'.op (e.inv.app _ t) = _
     dsimp only [k']
     rw [CategoryTheory.op_comp, Functor.map_comp, types_comp_apply]
     refine (congrArg (P.map eA.inv.op) h).trans ?_
@@ -793,7 +793,7 @@ private lemma bigEtaleInverseImage_matching_neighborhood (S : Scheme.{u})
   obtain ⟨V, f, hf, k, t, hkf, ht⟩ := hE (E.idx z)
   let j : Over.mk (E.f (E.idx z) ≫ Z.hom) ⟶ Z := Over.homMk (E.f (E.idx z)) rfl
   have hk : (R.pullback f) k := by
-    show R (k ≫ f)
+    change R (k ≫ f)
     rw [hkf]
     exact R.downward_closed hg j
   obtain ⟨W, hW⟩ := bigEtaleInverseImage_descent_open S F V (R.pullback f)
@@ -801,7 +801,7 @@ private lemma bigEtaleInverseImage_matching_neighborhood (S : Scheme.{u})
   have hkrange : Set.range k.left ⊆ (W : Set V.left) := by
     have h := (hW _ k hk _ (𝟙 _)).mp (by
       simp only [op_id, Functor.map_id_apply, Category.id_comp]
-      show x (k ≫ f) hk = P.map k.op t
+      change x (k ≫ f) hk = P.map k.op t
       exact (family_apply_eq x hkf hk (R.downward_closed hg j)).trans
         ((x.comp_of_compatible R hx hg j).trans ht.symm))
     simpa using h
@@ -812,7 +812,7 @@ private lemma bigEtaleInverseImage_matching_neighborhood (S : Scheme.{u})
   refine ⟨V', f', inferInstanceAs (Etale (W.ι ≫ f.left)), ?_, P.map w.op t, ?_⟩
   · refine ⟨⟨k.left a, hkrange (Set.mem_range_self a)⟩, ?_⟩
     have hc := congrArg (fun q => q.left a) hkf
-    show f.left (k.left a) = p
+    change f.left (k.left a) = p
     change f.left (k.left a) = g.left (E.f (E.idx z) a) at hc
     exact hc.trans ((congrArg g.left ha).trans hz)
   · intro Y l hl
@@ -823,7 +823,7 @@ private lemma bigEtaleInverseImage_matching_neighborhood (S : Scheme.{u})
       exact (l.left c).property)
     simp only [op_id, Functor.map_id_apply, Category.id_comp] at H
     change x ((l ≫ w) ≫ f) hl' = P.map (l ≫ w).op t at H
-    show P.map l.op (P.map w.op t) = x (l ≫ f') hl
+    change P.map l.op (P.map w.op t) = x (l ≫ f') hl
     rw [← Functor.map_comp_apply, ← CategoryTheory.op_comp]
     exact H.symm.trans (family_apply_eq x (Category.assoc l w f) _ _)
 
@@ -850,7 +850,7 @@ public lemma Scheme.bigEtaleInverseImage_isSheaf_fpqc (S : Scheme.{u})
         intro Z l hl
         have H := ht (l ≫ k) (by simpa [Category.assoc] using hl)
         change P.map (l ≫ k).op t = x ((l ≫ k) ≫ f) _ at H
-        show P.map l.op (P.map k.op t) = x (l ≫ k ≫ f) _
+        change P.map l.op (P.map k.op t) = x (l ≫ k ≫ f) _
         rw [← Functor.map_comp_apply, ← CategoryTheory.op_comp]
         exact H.trans (family_apply_eq x (Category.assoc l k f) _ _) }
   have hA : A ∈ (Scheme.etaleTopology.over S) T := by

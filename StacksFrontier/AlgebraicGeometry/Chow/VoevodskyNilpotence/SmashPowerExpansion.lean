@@ -122,7 +122,7 @@ theorem smashPointDifference_cycle_eq_sum (n : ℕ) :
     rw [Fintype.sum_unique, boolSign_zero, one_smul]
     rfl
   | succ n ih =>
-    show chowExteriorProduct (fieldChowSituation k)
+    change chowExteriorProduct (fieldChowSituation k)
       (fieldChowSituation_dimensionFunction_of_isClosed k) _ f 0 0
       ((smashPointDifference k f x x' hx hx' n).cycle ⊗ₜ
         (rationalPointChowClass k f x hx - rationalPointChowClass k f x' hx')) = _

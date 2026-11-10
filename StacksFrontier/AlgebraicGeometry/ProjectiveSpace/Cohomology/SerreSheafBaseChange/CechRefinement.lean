@@ -284,7 +284,7 @@ theorem cechCohomologyToCohomology_app_eq {Z : Type u} [TopologicalSpace Z]
     (cechCohomologyToCohomology O W Wi hW p).app M =
       (DerivedCategory.Plus.homologyFunctor _ p).map
         ((cechToDerivedGlobalSections O W Wi hW).app M) := by
-  show (Functor.associator (cechComplexPlusFunctor O W Wi hW) DerivedCategory.Plus.Q
+  change (Functor.associator (cechComplexPlusFunctor O W Wi hW) DerivedCategory.Plus.Q
       (DerivedCategory.Plus.homologyFunctor _ p)).inv.app M ≫
     (Functor.whiskerRight (cechToDerivedGlobalSections O W Wi hW)
       (DerivedCategory.Plus.homologyFunctor _ p)).app M = _
@@ -364,7 +364,7 @@ theorem cechInter_le_map_cechInter {n : ℕ} (x : Fin (n + 1) → Ix) :
       (Opens.map f.hom.base).obj (CechCochains.inter (X := TopCat.of Y.carrier) V (c ∘ x)) := by
   intro z hz
   have hi : ∀ a, z ∈ U (x a) := fun a ↦ (iInf_le (fun b ↦ U (x b)) a) hz
-  show f.hom.base z ∈ (⨅ a, V ((c ∘ x) a) : Opens Y.carrier)
+  change f.hom.base z ∈ (⨅ a, V ((c ∘ x) a) : Opens Y.carrier)
   rw [← SetLike.mem_coe, Opens.coe_iInf, Set.mem_iInter]
   exact fun a ↦ hc (x a) (hi a)
 
@@ -446,12 +446,12 @@ theorem refineCochain_isAlternating {p : ℕ}
     CechCochains.IsAlternating (X := TopCat.of X.carrier) U' (abSections F)
       (refineCochain f F G φ U' V' hc' b) := by
   refine ⟨fun i hi => ?_, fun i a a' haa' => ?_⟩
-  · show res (abSections F) _ (ConcreteCategory.hom
+  · change res (abSections F) _ (ConcreteCategory.hom
       ((RingedSpaceModuleAdjunction.homEquiv f F G φ).val.app
         (op (CechCochains.inter (X := TopCat.of Y.carrier) V' i))) (b i)) = 0
     rw [hb.1 i hi]
     exact (congrArg (res (abSections F) _) (map_zero _)).trans (res_zero _ _)
-  · show res (abSections F) _ (ConcreteCategory.hom
+  · change res (abSections F) _ (ConcreteCategory.hom
         ((RingedSpaceModuleAdjunction.homEquiv f F G φ).val.app
           (op (CechCochains.inter (X := TopCat.of Y.carrier) V' (i ∘ Equiv.swap a a'))))
           (b (i ∘ Equiv.swap a a'))) =

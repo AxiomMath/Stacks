@@ -336,10 +336,10 @@ def Filtration.single (hQ : IsoClosed Q) (hP : IsoClosed P) (hQ₀ : ∀ Z : C, 
   sub k := if k = 0 then ⊥ else ⊤
   mono i j h := by
     by_cases hi : i = 0
-    · simp only [hi, if_true]
+    · simp only [hi, ite_true]
       exact bot_le
     · have hj : j ≠ 0 := by omega
-      simp only [hi, hj, if_false, le_refl]
+      simp only [hi, hj, ite_false, le_refl]
   isZero := (isZero_zero C).of_iso (Subobject.botCoeIsoZero (B := M))
   isIso := (isIso_arrow_iff_eq_top (⊤ : Subobject M)).2 rfl
   term k := by

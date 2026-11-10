@@ -103,7 +103,7 @@ theorem geometricLength_structureSheafModule_eq_of_iso {X Y : AlgebraicSpaces B 
     (isClosedImmersion_of_isIso B S hS e.inv) y
   rw [geometricLength_eq_of_image_eq B S hS Y.2 (geometricPointMap f.hom x) y hxy.symm] at hle₁
   have himg : (geometricPointMap g.hom y).image = x.image := by
-    show pointsMap B S hS Y.1 e.inv y.image = x.image
+    change pointsMap B S hS Y.1 e.inv y.image = x.image
     rw [hxy, ← Function.comp_apply (f := pointsMap B S hS Y.1 e.inv), ← pointsMap_comp,
       e.hom_inv_id, pointsMap_id, id]
   rw [geometricLength_eq_of_image_eq B S hS X.2 (geometricPointMap g.hom y) x himg] at hle₂

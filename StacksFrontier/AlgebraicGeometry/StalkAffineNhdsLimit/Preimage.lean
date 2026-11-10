@@ -111,7 +111,7 @@ lemma range_pullback_fst_fromSpecStalk_subset (W : AffineOpenNhds S s) :
     Set.range (pullback.fst f (S.fromSpecStalk s)) ⊆ Set.range (f ⁻¹ᵁ W.opens).ι := by
   rintro _ ⟨x, rfl⟩
   rw [Scheme.Opens.range_ι]
-  show f (pullback.fst f (S.fromSpecStalk s) x) ∈ W.opens
+  change f (pullback.fst f (S.fromSpecStalk s) x) ∈ W.opens
   rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
   have hx : S.fromSpecStalk s (pullback.snd f (S.fromSpecStalk s) x) ∈ Set.range
       (S.fromSpecStalk s) := ⟨_, rfl⟩

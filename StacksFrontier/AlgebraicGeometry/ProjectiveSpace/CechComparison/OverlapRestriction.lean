@@ -129,9 +129,9 @@ localization isomorphism `overlapAlgEquivLaurent`. -/
 theorem overlapAlgEquivLaurent_overlapRestrict (x : chartRing R (0 : Fin 2)) :
     overlapAlgEquivLaurent R (overlapRestrict R x) =
       Polynomial.toLaurent (chartRingAlgEquivPolynomial R x) := by
-  show overlapRingEquivLaurent R (algebraMap (chartRing R (0 : Fin 2)) (overlapRing R) x) = _
+  change overlapRingEquivLaurent R (algebraMap (chartRing R (0 : Fin 2)) (overlapRing R) x) = _
   rw [overlapRingEquivLaurent, IsLocalization.ringEquivOfRingEquiv_eq,
-    LaurentPolynomial.algebraMap_eq_toLaurent, AlgEquiv.coe_ringEquiv]
+    LaurentPolynomial.algebraMap_eq_toLaurent, AlgEquiv.coe_toRingEquiv]
 
 /-- The restriction of a degree-`d` Laurent section from the chart `D₊(X₀)` of the projective line
 to the overlap `D₊(X₀X₁)`: a monomial regular away from `X₀` is in particular a monomial. -/

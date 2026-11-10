@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.LocalBirationalExtensions
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.LocalBirationalExtensions
 public import StacksFrontier.AlgebraicGeometry.Pullback.StalkFromSpecStalk
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Birational.Stability
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Birational.GenericPoint

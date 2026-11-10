@@ -217,7 +217,7 @@ the `n`-th coefficient of `p`. -/
 lemma algST_coeff (p : LaurentPolynomial R) (n : ℤ) :
     (algebraMap (LaurentPolynomial R) (LaurentPolynomial (FractionRing R)) p).coeff n
       = algebraMap R (FractionRing R) (p.coeff n) := by
-  show (AddMonoidAlgebra.mapRingHom ℤ (algebraMap R (FractionRing R)) p).coeff n = _
+  change (AddMonoidAlgebra.mapRingHom ℤ (algebraMap R (FractionRing R)) p).coeff n = _
   rw [AddMonoidAlgebra.coeff_mapRingHom]
 
 /-- The scalar tower `R[X] → R[T;T⁻¹] → K[T;T⁻¹]`. -/
@@ -758,7 +758,7 @@ theorem isN2_step
   have htow : IsScalarTower R (FractionRing R) (FractionRing S) := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap R (FractionRing S) x = φ₀ (algebraMap R (FractionRing R) x)
+    change algebraMap R (FractionRing S) x = φ₀ (algebraMap R (FractionRing R) x)
     rw [AlgHom.commutes φ₀ x]
   -- Compositum T := E ⊗[K] L, finite over E; M := T ⧸ (maximal ideal) is a field.
   have : Module.Finite (FractionRing S) ((FractionRing S) ⊗[FractionRing R] L) :=
@@ -823,7 +823,7 @@ theorem isN2_of_finite_of_isN2
     (hS : IsN2_032k S) : IsN2_032k R := by
   -- N-2 means: for every finite field extension `L / FractionRing R`, the integral
   -- closure of `R` in `L` is `R`-finite.  Fix such an `L` and apply `isN2_step`.
-  show IsN2Aux R
+  change IsN2Aux R
   intro L _ _ _ _ _
   exact isN2_step R S L hinj hfin hS
 

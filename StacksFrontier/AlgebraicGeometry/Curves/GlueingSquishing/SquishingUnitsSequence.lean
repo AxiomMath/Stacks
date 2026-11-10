@@ -224,7 +224,7 @@ theorem sectionsToDualNumber_res {k : Type u} [Field k] {X : Scheme.{u}}
     (hV : θ.base (IsLocalRing.closedPoint (DualNumber k)) ∈ V) (s : Γ(X, U)) :
     sectionsToDualNumber θ V hV ((X.presheaf.map (homOfLE hVU).op).hom s) =
       sectionsToDualNumber θ U (hVU hV) s := by
-  show (X.presheaf.map (homOfLE hVU).op ≫ X.presheaf.germ V _ hV ≫
+  change (X.presheaf.map (homOfLE hVU).op ≫ X.presheaf.germ V _ hV ≫
     Scheme.stalkClosedPointTo θ).hom s = _
   rw [← Category.assoc, X.presheaf.germ_res]
   rfl
@@ -358,7 +358,7 @@ theorem epsilonLogDerivStalkMap_germ {k : Type u} [Field k] {X' X : Scheme.{u}} 
     (Stacks.Cohomology.Generators.unitsSheaf X'.toLocallyRingedSpace.toRingedSpace)
   let J := (OpenNhds.inclusion
     (f.base (θ.base (IsLocalRing.closedPoint (DualNumber k))))).op ⋙ F.presheaf
-  show ((colimit.ι J (op ⟨U, hx⟩) ≫ colimit.desc J (epsilonLogDerivCocone f θ))
+  change ((colimit.ι J (op ⟨U, hx⟩) ≫ colimit.desc J (epsilonLogDerivCocone f θ))
     (Additive.ofMul s)) = _
   rw [colimit.ι_desc]
   rfl
@@ -394,7 +394,7 @@ private theorem epsilonLogDerivSheafHom_app_comp {k : Type u} [Field k] {X' X : 
             X'.toLocallyRingedSpace.toRingedSpace)).presheaf.germ U _ hx ≫
         epsilonLogDerivStalkMap f θ := by
   classical
-  show (StalkSkyscraperPresheafAdjunctionAuxs.toSkyscraperPresheaf
+  change (StalkSkyscraperPresheafAdjunctionAuxs.toSkyscraperPresheaf
       ((θ ≫ f).base (IsLocalRing.closedPoint (DualNumber k)))
       (epsilonLogDerivStalkMap f θ)).app (op U) ≫ _ = _
   have h := StalkSkyscraperPresheafAdjunctionAuxs.germ_fromStalk

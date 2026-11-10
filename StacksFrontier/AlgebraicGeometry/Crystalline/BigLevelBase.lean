@@ -237,7 +237,7 @@ theorem levelTransition_comp_levelProj {m e : ℕ} (hm : S.IsLevel m) (he : S.Is
 /-- The transition of a level to itself is the identity. -/
 theorem levelTransition_self {e : ℕ} (he : S.IsLevel e) :
     S.levelTransition he he le_rfl = 𝟙 _ := by
-  show specDividedPowerMap (pAdicLevelTransition S.baseIdeal S.baseDividedPowers S.p he he
+  change specDividedPowerMap (pAdicLevelTransition S.baseIdeal S.baseDividedPowers S.p he he
     le_rfl) = _
   rw [pAdicLevelTransition_self]
   exact DividedPowerScheme.Hom.ext (Spec.map_id _)
@@ -248,7 +248,7 @@ theorem levelTransition_comp {k m e : ℕ} (hk : S.IsLevel k) (hm : S.IsLevel m)
     (hkm : k ≤ m) (hme : m ≤ e) :
     S.levelTransition hk hm hkm ≫ S.levelTransition hm he hme =
       S.levelTransition hk he (hkm.trans hme) := by
-  show specDividedPowerMap _ ≫ specDividedPowerMap _ = specDividedPowerMap _
+  change specDividedPowerMap _ ≫ specDividedPowerMap _ = specDividedPowerMap _
   rw [← specDividedPowerMap_comp, pAdicLevelTransition_comp]
 
 /-- The ring map `A/p^eA ⟶ Γ(T, ⊤)` induced by a divided power morphism `b : T ⟶ S` on whose
@@ -297,7 +297,7 @@ theorem levelLift_comp_levelProj {e : ℕ} (he : S.IsLevel e) {T : DividedPowerS
     (b : T ⟶ S.S) (hT : ((S.p : ℕ) : Γ(T.scheme, ⊤)) ^ e = 0) :
     S.levelLift he b hT ≫ S.levelProj he = b := by
   rw [levelProj, ← Category.assoc, ← Iso.eq_comp_inv]
-  show toSpecDividedPowerScheme T _ (S.levelLiftDPMorphism he b hT) ≫
+  change toSpecDividedPowerScheme T _ (S.levelLiftDPMorphism he b hT) ≫
       specDividedPowerMap (pAdicLevelProj S.baseIdeal S.baseDividedPowers S.p he) =
     b ≫ toSpecDividedPowerScheme S.S _ (𝟙 _)
   rw [toSpecDividedPowerScheme_comp_specDividedPowerMap, comp_toSpecDividedPowerScheme]

@@ -321,7 +321,7 @@ theorem eq_smul_of_tmul_eq_zero {P' : Type w} {P : Type v} {N : Type u}
     TensorProduct.congr ι.toLinearEquiv (LinearEquiv.refl P' N)
   let e2 := TensorProduct.quotTensorEquivQuotSMul N J
   have h1 : e1 ((1 : P) ⊗ₜ[P'] y) = (Ideal.Quotient.mk J 1) ⊗ₜ[P'] y := by
-    show ι (1 : P) ⊗ₜ[P'] y = _
+    change ι (1 : P) ⊗ₜ[P'] y = _
     rw [map_one]
     rfl
   have h2 : e2 (e1 ((1 : P) ⊗ₜ[P'] y)) = Submodule.Quotient.mk y := by

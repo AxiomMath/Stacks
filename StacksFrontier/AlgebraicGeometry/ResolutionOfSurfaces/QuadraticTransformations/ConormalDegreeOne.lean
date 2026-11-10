@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.CartierConormal.Basic
 public import StacksFrontier.AlgebraicGeometry.Surfaces.ExceptionalCurveTwists
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DifferentialsVanishing
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DifferentialsVanishing
 
 /-!
 # The conormal sheaf of an exceptional curve of the first kind has degree one

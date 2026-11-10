@@ -221,7 +221,7 @@ lemma shear_restrict (hq : q.IsFiberedInGroupoids) (hp : p.IsFiberedInGroupoids)
     refine (cancel_epi (RelVertHom.restrict hq hp hY hF h m').1.1).mp ?_
     rw [← Category.assoc, RelVertHom.comp_invHom, Category.id_comp, ← Category.assoc, hfac,
       Category.assoc, RelVertHom.comp_invHom, Category.comp_id]
-  show (RelVertHom.invHom hp (RelVertHom.restrict hq hp hY hF h m') ≫
+  change (RelVertHom.invHom hp (RelVertHom.restrict hq hp hY hF h m') ≫
       (RelVertHom.restrict hq hp hY hF h m).1.1) ≫ (Y₂' Y).map h
     = (Y₂' Y).map h ≫ (RelVertHom.invHom hp m' ≫ m.1.1)
   rw [Category.assoc, hfac, ← Category.assoc, key, Category.assoc]

@@ -58,11 +58,11 @@ theorem flat_stalk_iff_of_weaklyEtale [WeaklyEtale f] (t : T) (M : Type*) [AddCo
     [Module (T.presheaf.stalk t) M] :
     letI : Module (S.presheaf.stalk (f t)) M := Module.compHom M (f.stalkMap t).hom
     Module.Flat (S.presheaf.stalk (f t)) M ↔ Module.Flat (T.presheaf.stalk t) M := by
-  letI := (f.stalkMap t).hom.toAlgebra
-  letI : Module (S.presheaf.stalk (f t)) M := Module.compHom M (f.stalkMap t).hom
-  haveI : IsScalarTower (S.presheaf.stalk (f t)) (T.presheaf.stalk t) M :=
+  let := (f.stalkMap t).hom.toAlgebra
+  let : Module (S.presheaf.stalk (f t)) M := Module.compHom M (f.stalkMap t).hom
+  have : IsScalarTower (S.presheaf.stalk (f t)) (T.presheaf.stalk t) M :=
     IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
-  haveI : Algebra.WeaklyEtale (S.presheaf.stalk (f t)) (T.presheaf.stalk t) :=
+  have : Algebra.WeaklyEtale (S.presheaf.stalk (f t)) (T.presheaf.stalk t) :=
     (weaklyEtale_iff_stalkMap_weaklyEtale f).mp ‹_› t
   exact Module.flat_iff_of_weaklyEtale _ _ M
 

@@ -144,7 +144,7 @@ theorem PrimeDivisor.genericStalkResidueFieldPoint_comp :
   ext1
   apply B.inclusion.map_injective
   rw [Over.comp_left, Functor.map_comp]
-  show B.inclusion.map (B.inclusion.preimage _) ≫ B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) ≫ B.inclusion.map (B.inclusion.preimage _) = _
   exact (congrArg₂ (· ≫ ·) (B.inclusion.map_preimage _) (B.inclusion.map_preimage _)).trans rfl
 
 variable {xbar : GeometricPoint B S hS X} (hxbar : xbar.LiesOver (Z.genericPoint B S hS X))
@@ -166,7 +166,7 @@ theorem PrimeDivisor.genericStalkGeometricPoint_value_comp :
     (Z.genericStalkGeometricPoint B S hS hX hdec hxbar).val.value ≫
         Z.genericStalkSpecToChart B S hS hX hdec =
       (Z.genericChart B S hS hX hdec).liftGeometricPoint xbar hxbar := by
-  show ((Z.genericChart B S hS hX hdec).liftResidueField xbar hxbar ≫
+  change ((Z.genericChart B S hS hX hdec).liftResidueField xbar hxbar ≫
       Z.genericStalkResidueFieldPoint B S hS hX hdec) ≫ _ = _
   rw [Category.assoc, Z.genericStalkResidueFieldPoint_comp]
   rfl
@@ -178,7 +178,7 @@ theorem PrimeDivisor.geometricPointMap_genericStalkGeometricPoint :
   have hval : (Z.genericStalkMorphism B S hS hX hdec).hom.app
       (op (Z.genericStalkGeometricPoint B S hS hX hdec hxbar).val.siteObject)
       (Z.genericStalkGeometricPoint B S hS hX hdec hxbar).val.value = xbar.val.value := by
-    show (Z.genericChart B S hS hX hdec).toSpace.app _
+    change (Z.genericChart B S hS hX hdec).toSpace.app _
       ((Z.genericStalkGeometricPoint B S hS hX hdec hxbar).val.value ≫
         Z.genericStalkSpecToChart B S hS hX hdec) = _
     rw [Z.genericStalkGeometricPoint_value_comp]
@@ -338,12 +338,12 @@ theorem _root_.StacksDraft.bijective_of_comp_eq_comp_ringEquiv {A R C D : Type*}
       (fun a ↦ congrArg χ (e.apply_symm_apply a).symm) hχ)
     f ⟨fun a ha ↦ IsLocalHom.map_nonunit (f := ρ) a ha⟩
     (StacksDraft.bijective_residueField_map_of_isSeparable (K := ResidueField R) ρ ?_)
-  show (ResidueField.map ρ).comp (ResidueField.map (ψ.comp e.symm.toRingHom)) =
+  change (ResidueField.map ρ).comp (ResidueField.map (ψ.comp e.symm.toRingHom)) =
     ResidueField.map χ
   rw [← ResidueField.map_comp]
   congr 1
   refine RingHom.ext fun a ↦ ?_
-  show (ρ.comp ψ) (e.symm a) = χ a
+  change (ρ.comp ψ) (e.symm a) = χ a
   rw [h]
   exact congrArg χ (e.apply_symm_apply a)
 

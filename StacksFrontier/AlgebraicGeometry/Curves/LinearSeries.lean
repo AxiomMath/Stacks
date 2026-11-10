@@ -695,7 +695,7 @@ private lemma exists_sections_range_subset_nonvanishingLocus_of_iso_unit {k : Ty
       (Stacks.SheafOfModules.unitSections Z.toRingedSpace))
   refine ⟨σ, ?_⟩
   rintro x ⟨z, rfl⟩
-  show z ∈ i.base ⁻¹' Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) L σ
+  change z ∈ i.base ⁻¹' Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) L σ
   rw [Stacks.SheafOfModules.preimage_nonvanishingLocus i.toLRSHom L σ, hσ, hτ]
   exact Set.mem_univ z
 
@@ -764,13 +764,13 @@ theorem genus_eq_zero_of_linearSeries_dimension_eq_degree {k : Type u} [Field k]
           rw [Scheme.IdealSheafData.range_subschemeι]
           simpa using hx
         exact hσ hxr
-    · show (Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) series.L s).Nonempty
+    · change (Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) series.L s).Nonempty
       exact nonempty_nonvanishingLocus_of_eval_top_ne_zero series.L s hs
   obtain ⟨N, hN⟩ :=
     exists_isZero_cohomologyOverField_one_tensorPowSucc_of_isAmple f series.L hisAmple
   have hsub := subsingleton_cohomologyOverField_one_unit f series.L s
     (isRegularSection_of_eval_top_ne_zero series.L s hs) t ht hsurjL N hN
-  show Module.finrank k (structureSheafCohomology f 1) = 0
+  change Module.finrank k (structureSheafCohomology f 1) = 0
   rw [(structureSheafCohomologyIsoCohomologyOverField k f 1).toLinearEquiv.finrank_eq]
   exact Module.finrank_zero_of_subsingleton
 
@@ -805,7 +805,8 @@ the canonical map from `k`. If `X` has a `𝔤^r_d`, then `r ≤ d`, and if more
 `r = d`, then the genus of `X` is zero. -/
 @[stacks 0CCS "both assertions, under the source's own hypotheses. Tag 02O6 at the structure \
 sheaf, Tag 0B5T clause (4) and the ampleness of `ℒ` that the latter consumes are all proved \
-here. `0 < d` is assumed for the equality clause because the source's statement is false at `r = d = 0`, \
+here. `0 < d` is assumed for the equality clause because the source's statement is false \
+at `r = d = 0`, \
 by `AlgebraicGeometry.exists_counterexample_to_displayed_statement_of_tag_0CCS_at_zero`"]
 theorem linearSeries_dimension_le_degree_and_genus_eq_zero {k : Type u} [Field k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsCurve k f] [IsProper f]

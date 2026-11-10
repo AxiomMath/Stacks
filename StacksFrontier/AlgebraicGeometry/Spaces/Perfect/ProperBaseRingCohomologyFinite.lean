@@ -149,7 +149,7 @@ def terminalChartRingHom :
 /-- `terminalChartRingHom` is the identity of `Γ(T, 𝒪_T)`. -/
 theorem terminalChartRingHom_apply (r : baseRing B S hS T) :
     terminalChartRingHom B S hS T r = r := by
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (chartToBaseOfMap (𝟙 (schemeSpace T)) (idEtaleChart B S hS T))).op).hom r = r
   have h2 : (BigFppfOver.toScheme B S hS).map
       (chartToBaseOfMap (𝟙 (schemeSpace T)) (idEtaleChart B S hS T)) = 𝟙 _ :=
@@ -170,7 +170,7 @@ theorem unitModuleMul_comp_val_app_one (a : GlobalFunctionRing (structureSheaf B
     (unitModuleMul B S hS X a ≫ g).val.app (op W) (1 : chartRing B S hS X.1 X.2 W) =
       (show chartRing B S hS X.1 X.2 W from a.1 (op W)) •
         g.val.app (op W) (1 : chartRing B S hS X.1 X.2 W) := by
-  show (g.val.app (op W)).hom ((unitModuleMul B S hS X a).val.app (op W)
+  change (g.val.app (op W)).hom ((unitModuleMul B S hS X a).val.app (op W)
     (1 : chartRing B S hS X.1 X.2 W)) = _
   rw [unitModuleMul_val_app_one]
   refine (congrArg (g.val.app (op W)).hom (mul_one

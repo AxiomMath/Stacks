@@ -175,7 +175,7 @@ private theorem hComp_eq {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Category C₁]
     {B : C₃ ⥤ C₄} {T' : C₂ ⥤ C₅} {R' : C₅ ⥤ C₆} {B' : C₄ ⥤ C₆}
     (x : TwoSquare T L R B) (y : TwoSquare T' R R' B') :
     TwoSquare.hComp x y =
-      Functor.whiskerLeft T y.natTrans ≫ Functor.whiskerRight x.natTrans B' := by
+      Functor.whiskerLeft T y ≫ Functor.whiskerRight x B' := by
   simp [TwoSquare.hComp, associator_hom_eq_id, associator_inv_eq_id]
 
 /-- The vertical composite of two 2-squares, with the associators written out. -/
@@ -184,7 +184,7 @@ private theorem vComp_eq {C₁ C₂ C₃ C₄ C₇ C₈ : Type*} [Category C₁]
     {B : C₃ ⥤ C₄} {L' : C₃ ⥤ C₇} {R'' : C₄ ⥤ C₈} {B'' : C₇ ⥤ C₈}
     (x : TwoSquare T L R B) (y : TwoSquare B L' R'' B'') :
     TwoSquare.vComp x y =
-      Functor.whiskerRight x.natTrans R'' ≫ Functor.whiskerLeft L y.natTrans := by
+      Functor.whiskerRight x R'' ≫ Functor.whiskerLeft L y := by
   simp [TwoSquare.vComp, associator_hom_eq_id, associator_inv_eq_id]
 
 section Mates
@@ -382,7 +382,7 @@ theorem projectionFormulaSourceNatTrans_comp_norm {X₂ X₁ X₀ : Scheme.{u}} 
           (Scheme.Modules.pushforward (g ≫ k)) := by
   rw [projectionFormulaSourceNatTrans_comp g k H]
   simp only [TwoSquare.whiskerLeft, TwoSquare.whiskerTop, TwoSquare.whiskerBottom,
-    TwoSquare.hComp, TwoSquare.mk, TwoSquare.natTrans, pushforwardCompNatIso,
+    TwoSquare.hComp, pushforwardCompNatIso,
     pullbackCompNatIso, Iso.symm_inv, Category.assoc]
   rfl
 

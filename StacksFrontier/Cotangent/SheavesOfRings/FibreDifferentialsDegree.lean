@@ -21,8 +21,8 @@ both sides read over `P_n` through the isomorphism `i_n^{-1}𝒫 ≅ P_n` of
 
 ## What was owed, and what supplies it
 
-The module documentation of `StacksFrontier/Cotangent/SheavesOfRings/FibreDifferentials.lean` records
-exactly what this needed:
+The module documentation of `StacksFrontier/Cotangent/SheavesOfRings/FibreDifferentials.lean`
+records exactly what this needed:
 
 > What is still owed to read `CategoryTheory.Sheaf.fibrePrincipalPartsX₁Iso` entirely over `P_n`
 > is the transport of a tensor product along the isomorphism `i_n^{-1}𝒫 ≅ P_n` of sheaves of

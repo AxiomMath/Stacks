@@ -93,8 +93,8 @@ theorem exists_isResolution_of_forall_eq_bot_or_eq_top
        Module.finrank (FractionRing R) (FractionRing A) = p ∧
         ¬ Algebra.IsSeparable (FractionRing R) (FractionRing A)) →
       IsReductionToRationalSingularitiesPossible A)
-    (hreduction : ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A]
-      (hN : IsNagataRing A), ringKrullDim A = 2 → IsReductionToRationalSingularitiesPossible A →
+    (hreduction : ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A],
+      IsNagataRing A → ringKrullDim A = 2 → IsReductionToRationalSingularitiesPossible A →
       ∃ (X : Scheme.{u}) (f : X ⟶ Spec (.of A)),
         Stacks.ResolutionOfSurfaces.NormalizedPointBlowupChain (Spec (.of A))
           {IsLocalRing.closedPoint A} X f ∧

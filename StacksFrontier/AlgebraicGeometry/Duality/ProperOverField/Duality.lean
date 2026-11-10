@@ -194,7 +194,7 @@ theorem bijective_homologyFunctor_map_comp_traceOverField (L : quasiCoherentDeri
     ((H⁰).map ((derivedGlobalSectionsOverLerayIso f).hom.app L.obj))
   convert h₅.comp (h₄.comp (h₃.comp (h₂.comp h₁))) using 1
   funext g
-  show (H⁰).map ((derivedGlobalSectionsOver f).map g) ≫ traceOverField f =
+  change (H⁰).map ((derivedGlobalSectionsOver f).map g) ≫ traceOverField f =
     (H⁰).map ((derivedGlobalSectionsOverLerayIso f).hom.app L.obj) ≫
       ((H⁰).map (G.map ((derivedPushforward f).map g ≫ ε.hom) ≫ sI.hom) ≫ c)
   rw [traceOverField]
@@ -300,6 +300,7 @@ theorem bijective_dualityPairing (K : quasiCoherentDerivedCategory X) (i : ℤ) 
     @bijective_iso_comp _ _ _ _ _ _ hshift
   exact (Function.Bijective.of_comp_iff' hc _).1 h
 
+omit [IsProper f] in
 /-- `H^n(X, -)` is `k`-linear. -/
 theorem linear_shift_derivedGlobalSectionsOver_comp_homologyFunctor (n : ℤ) :
     letI := Scheme.linearOver f
@@ -311,6 +312,7 @@ theorem linear_shift_derivedGlobalSectionsOver_comp_homologyFunctor (n : ℤ) :
   exact inferInstanceAs (Functor.Linear k
     (derivedGlobalSectionsOver f ⋙ DerivedCategory.homologyFunctor (ModuleCat k) n))
 
+omit [IsProper f] in
 /-- Additivity of the pairing in the shifted morphism, for any target `Z` and linear form `t`. -/
 theorem shiftMap_comp_hom_add {K Z : DerivedCategory X.Modules} {i : ℤ}
     (t : ((HX).shift (0 : ℤ)).obj Z ⟶ ModuleCat.of k k)
@@ -321,6 +323,7 @@ theorem shiftMap_comp_hom_add {K Z : DerivedCategory X.Modules} {i : ℤ}
   simp only [Functor.shiftMap, Functor.map_add]
   rw [Preadditive.add_comp, Preadditive.add_comp, ModuleCat.hom_add]
 
+omit [IsProper f] in
 /-- Linearity of the pairing in the shifted morphism, for any target `Z` and linear form `t`. -/
 theorem shiftMap_comp_hom_smul {K Z : DerivedCategory X.Modules} {i : ℤ}
     (t : ((HX).shift (0 : ℤ)).obj Z ⟶ ModuleCat.of k k) (c : k)

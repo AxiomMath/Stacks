@@ -227,7 +227,7 @@ theorem isLocalization_chartPrimeOfPoint
       rw [← e]
       exact fun hmem => (hp.mem_or_mem hmem).elim hx hs
     refine ⟨algebraMap S.A (Localization.Away f) (s : S.A), ?_⟩
-    show algebraMap S.A (Localization.Away f) (s : S.A) * x ∈ _
+    change algebraMap S.A (Localization.Away f) (s : S.A) * x ∈ _
     rw [mul_comm, e]
     exact ⟨a, fun ha => hax (Ideal.mem_map_of_mem _ ha), rfl⟩
 

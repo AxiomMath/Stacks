@@ -12,7 +12,8 @@ public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFreeRank.RingEquiv
 
 Stacks tag 0ESU asserts that the graded piece `Fⁱ/Fⁱ⁻¹` of the increasing filtration of `ℱ` is
 finite locally free *of rank `i`* on the effective Cartier divisor `D_i`. In the indexing of
-`StacksFrontier.AlgebraicGeometry.DivisorSum.FittingDivisors`, where `D j` is the source's `D_{j+1}`,
+`StacksFrontier.AlgebraicGeometry.DivisorSum.FittingDivisors`, where `D j` is the source's
+`D_{j+1}`,
 that is the assertion about the graded piece of `AlgebraicGeometry.fittingIncr` between degrees
 `i` and `i + 1`: it is finite locally free of rank `i + 1` on `D i`.
 

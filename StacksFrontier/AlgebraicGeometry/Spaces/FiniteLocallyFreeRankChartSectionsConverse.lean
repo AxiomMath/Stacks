@@ -128,7 +128,7 @@ private theorem basisChartRestrict_apply (G : Modules.{u, u} B S hS F hF)
   let := chartAlgebra (hF := hF) f
   let := chartSectionsModule G f
   have := chartSections_isScalarTower G f
-  show sectionsBaseChange G f
+  change sectionsBaseChange G f
     (Algebra.TensorProduct.basis (chartRing B S hS F hF V) b i) = _
   rw [Algebra.TensorProduct.basis_apply]
   exact chartBaseChange_one_tmul G f (b i)

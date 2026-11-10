@@ -212,7 +212,7 @@ is an open immersion: it is the composite of two base changes of the restricting
 private theorem restrictionArrowsToArrows_isOpenImmersion {U' : Over S} (g : U' ⟶ H.objects)
     [IsOpenImmersion g.left] : IsOpenImmersion (restrictionArrowsToArrows H g).left := by
   have hg : IsOpenImmersion ((Over.forget S).map g) := by
-    show IsOpenImmersion g.left
+    change IsOpenImmersion g.left
     infer_instance
   have htarget : IsOpenImmersion (pullback.snd g H.target).left :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback
@@ -225,7 +225,7 @@ private theorem restrictionArrowsToArrows_isOpenImmersion {U' : Over S} (g : U' 
     MorphismProperty.IsStableUnderBaseChange.of_isPullback
       ((IsPullback.of_hasPullback (pullback.snd g H.target)
         (pullback.fst H.source g)).flip.map (Over.forget S)) hsource
-  show IsOpenImmersion
+  change IsOpenImmersion
     ((pullback.fst (pullback.snd g H.target) (pullback.fst H.source g)).left ≫
       (pullback.snd g H.target).left)
   have := hfst
@@ -440,7 +440,7 @@ theorem isFinite_invariantOpen_source :
       P.subgroupoid.source.left ∣_ V := by
     rw [← cancel_mono V.ι, morphismRestrict_ι]
     exact congrArg Over.Hom.left (invariantSource_ι P.subgroupoid V)
-  show IsFinite (invariantSource P.subgroupoid V).left
+  change IsFinite (invariantSource P.subgroupoid V).left
   rw [hrestrict]
   exact IsZariskiLocalAtTarget.restrict (P := @IsFinite) hfin V
 
@@ -453,7 +453,7 @@ theorem isFinite_invariantOpen_target :
   have hiso : IsIso (restrictInvariantOpen P.subgroupoid V hV).inverse.left :=
     groupoidInverse_left_isIso _
   rw [← (restrictInvariantOpen P.subgroupoid V hV).source_inverse]
-  show IsFinite ((restrictInvariantOpen P.subgroupoid V hV).inverse.left ≫
+  change IsFinite ((restrictInvariantOpen P.subgroupoid V hV).inverse.left ≫
     (restrictInvariantOpen P.subgroupoid V hV).source.left)
   infer_instance
 
@@ -692,9 +692,9 @@ theorem isStronglySplitAt_restrictInvariantOpen {u : H.objects.left} (P : Strong
     (fun k : (restrictInvariantOpen P.subgroupoid V hV).arrows ⟶ H.arrows => k.left.base q)
     (invariantOpenMapArrows_arrow P.toOpenFiniteSubgroupoid V hV R)
   simp only [Over.comp_left, Scheme.Hom.comp_apply] at hcomp
-  show R.hom.mapArrows.left.base
+  change R.hom.mapArrows.left.base
     ((invariantOpenInclusion P.toOpenFiniteSubgroupoid V hV R).mapArrows.left.base q) = _
-  show R.hom.mapArrows.left.base
+  change R.hom.mapArrows.left.base
     ((invariantOpenMapArrows P.toOpenFiniteSubgroupoid V hV R).left.base q) = _
   rw [hcomp, invariantOpenToArrows]
   simp only [Over.comp_left, Scheme.Hom.comp_apply]
@@ -761,10 +761,10 @@ theorem exists_isAffineOpen_isInvariantOpen_of_openFiniteSubgroupoid
       IsAffineOpen V ∧ (invariantOpenToObjects P V hV).left.base w = x := by
   -- the source and target of `R'` are flat and locally of finite presentation, by Stacks 04MV
   have hprojFlat : Flat ((Over.forget S).map g) := by
-    show Flat g.left
+    change Flat g.left
     infer_instance
   have hprojLfp : LocallyOfFinitePresentation ((Over.forget S).map g) := by
-    show LocallyOfFinitePresentation g.left
+    change LocallyOfFinitePresentation g.left
     infer_instance
   have hsq := (IsPullback.of_hasPullback g G.target).map (Over.forget S)
   have hsndFlat : Flat (pullback.snd g G.target).left :=

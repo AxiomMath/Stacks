@@ -217,7 +217,7 @@ theorem isGE_rightDerivedFunctorPlus_of_isStrictlyGE {A B : Type*} [Category* A]
     ObjectProperty.homMk R.ι
   have : IsIso (DerivedCategory.Plus.Q.map φ) := by
     have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map φ)) := by
-      show IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ))
+      change IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ))
       exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 R.quasiIso
     exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
   have : IsIso (F.mapHomologicalComplexDerivedUnit R.boundedBelow) :=

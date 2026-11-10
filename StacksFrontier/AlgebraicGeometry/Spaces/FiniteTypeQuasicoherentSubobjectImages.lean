@@ -72,6 +72,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hF : IsAlgebraicSpace B S hS F)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for images and epimorphisms of sheaves of modules on the étale site is slow
 /-- **The image of a morphism out of a finite type quasi-coherent module is a finite type
 quasi-coherent submodule of the target**, when the target is quasi-coherent: it is quasi-coherent
 because quasi-coherence is closed under kernels and cokernels, and of finite type because it is a

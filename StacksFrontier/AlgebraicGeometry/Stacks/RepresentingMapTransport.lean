@@ -114,7 +114,7 @@ theorem representingMap_trans_equivalenceOverOfIso
       i.hom ≫ representingMap B S hS 𝒜 𝒞 F' G
         (eF.trans (PresheafOfCategories.equivalenceOverOfIso i)) eG h := by
   refine morphismSpaceEquiv_eq_of_sectionOfObj B S hS 𝒜 𝒞 F G eF eG _ _ (fun z W hz => ?_)
-  show (representingMap B S hS 𝒜 𝒞 F' G
+  change (representingMap B S hS 𝒜 𝒞 F' G
       (eF.trans (PresheafOfCategories.equivalenceOverOfIso i)) eG h).app (op W)
       (i.hom.app (op W) (PresheafOfCategories.sectionOfObj eF z hz)) = _
   rw [← PresheafOfCategories.sectionOfObj_trans_equivalenceOverOfIso eF i z hz]

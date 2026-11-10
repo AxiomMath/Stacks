@@ -74,7 +74,7 @@ public theorem IsAffineOpen.flat_stalkPushforward {X Y : Scheme.{u}} (f : Y ⟶ 
   have : IsScalarTower Γ(Y, f ⁻¹ᵁ U)
       ((f.base _* Y.presheaf).stalk (f.base y)) (Y.presheaf.stalk y) :=
     IsScalarTower.of_algebraMap_eq fun z => by
-      show (Y.presheaf.germ (f ⁻¹ᵁ U) y hyU) z = _
+      change (Y.presheaf.germ (f ⁻¹ᵁ U) y hyU) z = _
       rw [← TopCat.Presheaf.stalkPushforward_germ CommRingCat f.base Y.presheaf U y hy]
       rfl
   have := hU.isLocalization_pushforwardStalk f hy

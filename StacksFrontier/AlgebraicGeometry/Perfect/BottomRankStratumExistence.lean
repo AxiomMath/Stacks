@@ -138,7 +138,7 @@ theorem isOpenImmersion_presheaf_stratumHom :
   refine ⟨?_, ?_, ?_⟩
   · ext s
     apply Subtype.ext
-    show ((c.stratumHom r).app V (s ≫ u)).1 = (g.app V (s ≫ U.ι)).1
+    change ((c.stratumHom r).app V (s ≫ u)).1 = (g.app V (s ≫ U.ι)).1
     rw [stratumHom_app_val, hg, Category.assoc, huj, Category.assoc]
   · rintro s₁ s₂ ⟨-, h₂⟩
     exact (cancel_mono U.ι).1 h₂
@@ -149,11 +149,11 @@ theorem isOpenImmersion_presheaf_stratumHom :
     have hw : Set.range w.base ⊆ Set.range U.ι.base := by
       rintro _ ⟨v, rfl⟩
       rw [Scheme.Opens.range_ι]
-      show t.base (w.base v) ∈ c.ι.opensRange
+      change t.base (w.base v) ∈ c.ι.opensRange
       rw [← Scheme.Hom.comp_apply, ← hzw', Scheme.Hom.comp_apply]
       exact ⟨_, rfl⟩
     refine ⟨IsOpenImmersion.lift U.ι w hw, ?_, IsOpenImmersion.lift_fac _ _ _⟩
-    show IsOpenImmersion.lift U.ι w hw ≫ u = z
+    change IsOpenImmersion.lift U.ι w hw ≫ u = z
     refine (cancel_mono ((c.stratum r).hom ≫ c.ι)).1 ?_
     rw [Category.assoc, huj, ← Category.assoc, IsOpenImmersion.lift_fac, hzw']
 
@@ -211,7 +211,7 @@ instance isLocallySurjective_sigmaDesc_stratumHom :
     change ((Sigma.ι (fun x : X => yoneda.obj ((chartAt hE b htor x).stratum r).left)
       (t.base (show T from y)) ≫
         Sigma.desc fun x : X => (chartAt hE b htor x).stratumHom r).app _) u = _
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact Subtype.ext hu
 
 /-- **The bottom rank stratum exists.** There is a scheme `Z` with a monomorphism `j : Z ⟶ X`
@@ -284,7 +284,7 @@ theorem prop_of_forall_chartAt
   refine IsZariskiLocalAtTarget.of_openCover 𝒰 fun x => ?_
   obtain ⟨e, he⟩ := exists_iso_pullback_snd_stratum r j hj (chartAt hE b htor x)
   refine (P.arrow_mk_iso_iff (Arrow.isoMk e (Iso.refl _) ?_)).2 (h x)
-  show e.hom ≫ (Chart.stratum r (chartAt hE b htor x)).hom ≫ 𝟙 _ = pullback.snd j _
+  change e.hom ≫ (Chart.stratum r (chartAt hE b htor x)).hom ≫ 𝟙 _ = pullback.snd j _
   rw [Category.comp_id, he]
 
 /-- **Under the Betti bound `β_a ≤ r`, plain local freeness of the bottom cohomology is the
@@ -304,7 +304,7 @@ theorem isUniversallyFreeBottom_of_isFiniteLocallyFreeOfRank
   refine IsUniversallyFreeBottom.of_openCover E a r 𝒰 fun y => ?_
   let U := f ⁻¹ᵁ (c y).ι.opensRange
   obtain ⟨t, ht⟩ := (c y).exists_comp_chart_eq f
-  show IsUniversallyFreeBottom E a r (U.ι ≫ f)
+  change IsUniversallyFreeBottom E a r (U.ι ≫ f)
   rw [← ht, (c y).isUniversallyFreeBottom_comp_iff t r]
   refine (c y).isFiniteLocallyFreeOfRank_pullback_dualCoker_of_isGeneratedByNear t r
     (fun z => ((c y).isGeneratedByNear_dualCoker_iff _ r z).2 (hβ _)) ?_

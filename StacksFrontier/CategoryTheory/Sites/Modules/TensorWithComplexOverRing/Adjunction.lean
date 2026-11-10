@@ -10,10 +10,12 @@ Let `(C, O)` be a ringed site, let `R` be a commutative ring with a sheaf of com
 be a complex of `O`-modules and let `(E, d) = Hom_{Comp^dg(O)}(K, K)` be its endomorphism
 differential graded `R`-algebra. The derived tensor product `- ⊗_E^𝐋 K : D(E, d) ⥤ D(O)` of
 Tag 09LX is formed over `R` in
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerived`; this file constructs its right
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerived`; this file constructs its
+right
 adjoint `RHom(K^•, -) : D(O) ⥤ D(E, d)` over `R` and the adjunction of Tag 09LY between them.
 
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedAdjunction` carries out the same
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedAdjunction` carries out the
+same
 construction for the base ring `ℤ`; the argument is that one, read over `R`. The only ingredient
 which is not already stated over an arbitrary base ring is the identification of the category of
 complexes of the differential graded category `Comp^dg(O)` with the cochain complexes of

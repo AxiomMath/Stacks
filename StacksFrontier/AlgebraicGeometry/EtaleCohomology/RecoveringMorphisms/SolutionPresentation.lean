@@ -155,7 +155,7 @@ of [Stacks Project, Tag 04I6]. -/
 def coord (i : Fin n) : pres.sheaf ⟶ setStructureSheaf B S hS where
   hom :=
     { app := fun U => TypeCat.ofHom fun f => (pres.equiv U.unop f).1 i
-      naturality := fun U U' k => TypeCat.homEquiv.injective (funext fun f =>
+      naturality := fun U U' (k : U ⟶ U') => TypeCat.homEquiv.injective (funext fun f =>
         pres.equiv_naturality k.unop f i) }
 
 /-- The value of the `i`-th coordinate on a chart-valued point `f` of `W` is the `i`-th entry of
@@ -251,6 +251,7 @@ variable {B : BigEtaleSite.{u}} {Y : B.Scheme} [IsAffine (B.inclusion.obj Y)]
   (pres : Stacks.EtaleCohomology.StandardPresentationOver
     ((SmallEtale.toScheme B Y.obj Y.property).obj V) (B.inclusion.map V.obj.hom) P)
 
+omit [IsAffine (B.inclusion.obj Y)] in
 /-- With `ψ = 𝟙`, the coefficient map of a chart is restriction along its structure morphism. -/
 theorem smallEtaleCoeff_id (U : SmallEtale B Y.obj Y.property) :
     smallEtaleCoeff B Y.obj Y.property (RingHom.id ↥Γ(B.inclusion.obj Y, ⊤)) U =

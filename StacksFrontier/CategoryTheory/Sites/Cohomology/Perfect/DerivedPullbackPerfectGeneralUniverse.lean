@@ -18,7 +18,8 @@ Let `f : (C, O) ⟶ (D, O')` be a morphism of ringed sites and let `E` be a perf
 `D(O')`. Then `Lf^* E` is perfect. This is Stacks 08H6, proved here for ringed sites whose
 categories, morphisms and sections all live in one universe `u`; the registered statement
 `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback` (module
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.DerivedPullbackAlongRingedTopoi`) is its case
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.DerivedPullbackAlongRingedTopoi`) is its
+case
 `u = 0`. The universe-`u` form is the one the models of the ringed spaces-étale sites of algebraic
 spaces need.
 
@@ -227,6 +228,8 @@ private theorem hasStrictlyPerfectModel_of_hom
         a).mapDerivedCategoryFactors.app (X.restrictComplex K' V) ≪≫
       DerivedCategory.Q.mapIso hcmp
 
+omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The pullback of a strictly perfect model is a strictly perfect model over the image
 object.** If `K` carries a strictly perfect derived model over `W`, then a complex
 representative `K'` of `Lf^* E` carries one over `u(W)`.
@@ -278,6 +281,8 @@ private theorem hasStrictlyPerfectModel_image
       (derivedPullback (f.localized W).toRingedToposSiteHom).mapIso
         (α ≪≫ restrictComplexIsoRestrict Y e W) ≪≫ eTot⟩⟩
 
+omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Stacks 08H6, in every universe.** The derived pullback along a morphism of ringed sites of a
 perfect object of `D(O')` is perfect.
 

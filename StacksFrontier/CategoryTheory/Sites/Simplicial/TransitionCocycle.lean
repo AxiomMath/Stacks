@@ -328,7 +328,7 @@ private theorem restrictTransition_inl_id (n : SimplexCategory)
   have h1 : 𝟙 ((CoGrothendieck.ι C.totalPseudofunctor (op n)).obj V) =
       ⟨(𝟙 n).op, eI.inv.app V⟩ := by
     refine CoGrothendieck.Hom.ext _ _ rfl ?_
-    show (C.totalPseudofunctor.mapId ⟨op (op n)⟩).inv.toNatTrans.app V = _
+    change (C.totalPseudofunctor.mapId ⟨op (op n)⟩).inv.toNatTrans.app V = _
     simp [eI, SimplicialSite.totalPseudofunctor]
   refine (restrictTransition_inl_arrow C (𝟙 n) F (eI.inv.app V)).trans ?_
   rw [← h1]

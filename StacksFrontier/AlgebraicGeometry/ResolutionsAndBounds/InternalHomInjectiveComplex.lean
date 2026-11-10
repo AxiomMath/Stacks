@@ -89,7 +89,7 @@ theorem cxMap_zero (A A' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ring
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext <| LinearMap.ext fun x => ?_
   have h : (restrFun O.obj V.unop).map (0 : A'.val ⟶ A.val) = 0 :=
     PresheafOfModules.hom_ext fun _ => ModuleCat.hom_ext <| LinearMap.ext fun _ => rfl
-  show (restrFun O.obj V.unop).map (0 : A'.val ⟶ A.val) ≫ x = 0
+  change (restrFun O.obj V.unop).map (0 : A'.val ⟶ A.val) ≫ x = 0
   rw [h]
   exact zero_comp
 
@@ -105,14 +105,14 @@ theorem surjective_internalHomMapLeft_app
     Stacks.Cohomology.Localization.injective_over
       (Opens.grothendieckTopology X) _ U K
   have hmono : Mono (f.over U) := by
-    show Mono ((SheafOfModules.overFunctor
+    change Mono ((SheafOfModules.overFunctor
       (Stacks.SheafOfModules.Tensor.ringSheaf O) U).map f)
     infer_instance
   let R' := (Stacks.SheafOfModules.Tensor.ringSheaf O).over U
   let hx : A'.over U ⟶ K.over U := (SheafOfModules.fullyFaithfulForget R').preimage x
   let y : A.over U ⟶ K.over U := Injective.factorThru hx (f.over U)
   refine ⟨(SheafOfModules.forget R').map y, ?_⟩
-  show (SheafOfModules.forget R').map (f.over U ≫ y) = x
+  change (SheafOfModules.forget R').map (f.over U ≫ y) = x
   rw [Injective.comp_factorThru hx (f.over U)]
   exact (SheafOfModules.fullyFaithfulForget R').map_preimage (X := A'.over U) (Y := K.over U) x
 

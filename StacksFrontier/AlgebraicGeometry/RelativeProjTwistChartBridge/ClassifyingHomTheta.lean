@@ -72,7 +72,7 @@ theorem homDegreeOpen_ι_comp_iso_hom (Q P : RelativeProjData A) (e : Q.scheme �
     (fun x => exists_mem_preimage_affineOpen ξ.1 x)
     (fun a => (ξ.1 ⁻¹ᵁ a.1).ι ≫ Fd.homDegreeOpen A P hk ξ ≫ (P.degreeOpen k).ι)
     (fun a b => by
-      show (W.homOfLE (inf_le_left : (ξ.1 ⁻¹ᵁ a.1) ⊓ (ξ.1 ⁻¹ᵁ b.1) ≤ _)
+      change (W.homOfLE (inf_le_left : (ξ.1 ⁻¹ᵁ a.1) ⊓ (ξ.1 ⁻¹ᵁ b.1) ≤ _)
             ≫ (ξ.1 ⁻¹ᵁ a.1).ι) ≫ Fd.homDegreeOpen A P hk ξ ≫ (P.degreeOpen k).ι
         = (W.homOfLE (inf_le_right : (ξ.1 ⁻¹ᵁ a.1) ⊓ (ξ.1 ⁻¹ᵁ b.1) ≤ _)
             ≫ (ξ.1 ⁻¹ᵁ b.1).ι) ≫ Fd.homDegreeOpen A P hk ξ ≫ (P.degreeOpen k).ι
@@ -105,7 +105,7 @@ theorem classifyingHom_eq_thetaMorphism_comp {n : ℕ} (hn : 0 < n)
     classifyingHom s (by exact_mod_cast hn) P =
       thetaMorphism (A := sheafGradedAlgebra s) hn P ≫
         (canonicalIso (sheafGradedAlgebra s) (relativeProjData s)).hom := by
-  show _ = (Fd.homDegreeOpen (sheafGradedAlgebra s) (relativeProj _) hn (Fd.mk f P) ≫
+  change _ = (Fd.homDegreeOpen (sheafGradedAlgebra s) (relativeProj _) hn (Fd.mk f P) ≫
     ((relativeProj (sheafGradedAlgebra s)).degreeOpen n).ι) ≫ _
   exact (homDegreeOpen_ι_comp_iso_hom (sheafGradedAlgebra s) (relativeProj _)
     (relativeProjData s) (canonicalIso _ _)

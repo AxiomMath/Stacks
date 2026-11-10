@@ -260,7 +260,7 @@ theorem upperShriekCompHom_app_eq (K : quasiCoherentDerivedCategory Z.left) :
           ((twistedInverseImageCompIso (proj f g cg cfg) cg.toBase _ _ _).hom.app K) ≫
         (restrictPullbackIso f g cg cfg).hom.app ((aProj f g cg cfg).obj ((aBase g cg).obj K)) ≫
         (pullRes f g cg cfg).map
-          ((restrictBaseChange f g cg cfg).natTrans.app ((aBase g cg).obj K)) := by
+          ((restrictBaseChange f g cg cfg).app ((aBase g cg).obj K)) := by
   have hs : (srcIso f g cg cfg).hom.app K =
       (quasiCoherentDerivedPullback' (ι f g cg cfg)).map
           ((twistedInverseImageCompIso (proj f g cg cfg) cg.toBase _ _ _).hom.app K) ≫
@@ -280,7 +280,7 @@ theorem upperShriekCompHom_app_eq (K : quasiCoherentDerivedCategory Z.left) :
   rw [restrictBaseChange, rightAdjointBaseChange_app_eq_twistedInverseImageRestrictionMap
     (pullback.fst (proj f g cg cfg) cg.immersion) (pullback.snd (proj f g cg cfg) cg.immersion)
     (proj f g cg cfg) cg.immersion (IsPullback.of_hasPullback _ _)]
-  show (srcIso f g cg cfg).hom.app K ≫ (step₃ f g cg cfg).app K ≫
+  change (srcIso f g cg cfg).hom.app K ≫ (step₃ f g cg cfg).app K ≫
     (midIso f g cg cfg).hom.app K = _
   rw [hs, hm]
   exact compHom_app_aux _ _ _ _ _ _ _

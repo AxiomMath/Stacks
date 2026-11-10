@@ -429,8 +429,8 @@ used here, `perfectCore ⊆ image`, is the whole content.
 
 Taken against the perfect core *itself* rather than against the image of `k`, the same finiteness
 needs no hypothesis at all; that is the public
-`exists_pow_eq_and_not_pow_of_notMem_perfectCore` of `StacksFrontier.FieldTheory.PerfectCore`, and it
-is what the degree-`p` argument below actually uses.
+`exists_pow_eq_and_not_pow_of_notMem_perfectCore` of `StacksFrontier.FieldTheory.PerfectCore`, and
+it is what the degree-`p` argument below actually uses.
 
 `exists_pow_eq_and_not_pow_of_not_range` is the `↔` form, kept because Tag 09F1 states it that
 way. -/

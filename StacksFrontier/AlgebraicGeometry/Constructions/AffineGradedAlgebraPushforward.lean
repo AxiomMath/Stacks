@@ -238,7 +238,7 @@ theorem pieceBaseSec_tmul (n : ℤ) (U : (Spec R).Opens) (a : Γ(Spec R, U)) (x 
     pieceBaseSec 𝒞 n U (a ⊗ₜ[R] x) =
       (specOfAlgebra R B).app U a *
         (toSpecOpen B (specOfAlgebra R B ⁻¹ᵁ U)).hom (x : B) := by
-  show pieceSec 𝒞 n U (a • AffineBaseChange.toOpenₗ (pieceModule 𝒞 n) U x) = _
+  change pieceSec 𝒞 n U (a • AffineBaseChange.toOpenₗ (pieceModule 𝒞 n) U x) = _
   rw [pieceSec_smul, pieceSec_toOpen]
 
 /-- The unit of the base-changed graded algebra goes to `1`. -/
@@ -256,17 +256,9 @@ theorem pieceBaseSec_mul
     (y : (piecePresheaf 𝒞 i).obj (op U)) (z : (piecePresheaf 𝒞 j).obj (op U)) :
     pieceBaseSec 𝒞 (i + j) U (mulSec 𝒞 hmul (op U) i j y z) =
       pieceBaseSec 𝒞 i U y * pieceBaseSec 𝒞 j U z := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-      have h : mulSec 𝒞 hmul (op U) i j 0 z = 0 := by
-        rw [map_zero]
-        rfl
-      rw [h, pieceBaseSec_zero, pieceBaseSec_zero, zero_mul]
+  induction y using TensorProduct.inductionOn with
   | tmul a x =>
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          rw [show mulSec 𝒞 hmul (op U) i j (a ⊗ₜ[R] x) 0 = 0 from map_zero _,
-            pieceBaseSec_zero, pieceBaseSec_zero, mul_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul b w =>
           rw [mulSec_tmul, pieceBaseSec_tmul, pieceBaseSec_tmul, pieceBaseSec_tmul,
             show ((mulₗ 𝒞 hmul i j x w : ↥(𝒞 (i + j))) : B) = (x : B) * (w : B) from rfl,

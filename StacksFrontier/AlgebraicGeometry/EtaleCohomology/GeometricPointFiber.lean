@@ -67,7 +67,7 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (s : Geomet
 public theorem SmallEtale.toScheme_map_comp {U V : SmallEtale B S hS} (f : U ⟶ V) :
     (SmallEtale.toScheme B S hS).map f ≫ B.inclusion.map V.obj.hom =
       B.inclusion.map U.obj.hom := by
-  show B.inclusion.map ((SmallEtale.inclusion B S hS).map f).left ≫
+  change B.inclusion.map ((SmallEtale.inclusion B S hS).map f).left ≫
     B.inclusion.map V.obj.hom = B.inclusion.map U.obj.hom
   simpa only [SmallEtale.inclusion, ObjectProperty.ι_obj, ← Functor.map_comp] using
     congrArg B.inclusion.map (Over.w ((SmallEtale.inclusion B S hS).map f))
@@ -176,8 +176,8 @@ public instance hasColimitsOfShape_geometricPointFiber {A : Type v} [Category.{w
 its étale neighborhoods. -/
 @[stacks 040R]
 public def etaleStalk {A : Type v} [Category.{w} A] (F : (SmallEtale B S hS)ᵒᵖ ⥤ A)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F)] : A :=
-  colimit ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F)
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F)] : A :=
+  colimit ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F)
 
 end AlgebraicGeometry
 

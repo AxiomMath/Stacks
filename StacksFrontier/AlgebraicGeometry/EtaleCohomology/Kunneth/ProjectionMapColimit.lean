@@ -48,7 +48,7 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `derivedPullback` and `derivedPushforward` (`StacksFrontier/CategoryTheory/Sites/Cohomology/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pullback` and `pushforward`,
+-- DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pullback` and `pushforward`,
 -- are stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
@@ -73,7 +73,7 @@ theorem isIso_app_of_isColimit_of_homology {J C A : Type*} [Category J] [Categor
   exact Stacks.EtaleCohomology.ProjectionFormulaConstant.isIso_app_of_isColimit
     (F ⋙ DerivedCategory.homologyFunctor A n) (G ⋙ DerivedCategory.homologyFunctor A n)
     (Functor.whiskerRight α _) c hc (fun j => by
-      show IsIso ((DerivedCategory.homologyFunctor A n).map (α.app (K.obj j)))
+      change IsIso ((DerivedCategory.homologyFunctor A n).map (α.app (K.obj j)))
       have := h j
       infer_instance)
 

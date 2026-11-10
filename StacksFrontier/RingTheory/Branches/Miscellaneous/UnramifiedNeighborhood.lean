@@ -150,7 +150,7 @@ private lemma minimalPrime_eq_ker_of_le
     Set.disjoint_left.mpr fun x hx hxr => hx (hrq hxr)
   have he := IsLocalization.under_map_of_isPrime_disjoint q.primeCompl S hr.1.1 hd
   have hm : r.map (algebraMap R S) ∈ minimalPrimes S := by
-    show r.map (algebraMap R S) ∈ (⊥ : Ideal S).minimalPrimes
+    change r.map (algebraMap R S) ∈ (⊥ : Ideal S).minimalPrimes
     rw [← Ideal.map_bot (f := algebraMap R S),
       IsLocalization.minimalPrimes_map q.primeCompl S, Set.mem_preimage, he]
     exact hr
@@ -165,7 +165,7 @@ private lemma exists_notMem_annihilates_ker_localizationAtPrime
   classical
   let t := hfin.toFinset.filter (fun r => ¬ r ≤ q)
   have hex (r : {r // r ∈ t}) : ∃ a : R, a ∈ r.1 ∧ a ∉ q :=
-    SetLike.not_le_iff_exists.mp (Finset.mem_filter.mp r.2).2
+    IsConcreteLE.not_le_iff_exists.mp (Finset.mem_filter.mp r.2).2
   choose a ha using hex
   let s := ∏ r : {r // r ∈ t}, a r
   refine ⟨s, ?_, ?_⟩
@@ -206,14 +206,14 @@ private lemma isDomain_localizationAtPrime_of_etale
   have : IsScalarTower Ap T Cq :=
     IsScalarTower.of_algebraMap_eq' (R := Ap) (S := T) (A := Cq) <| by
       ext a
-      show algebraMap Ap Cq a = φ (a ⊗ₜ[A] (1 : C))
+      change algebraMap Ap Cq a = φ (a ⊗ₜ[A] (1 : C))
       dsimp only [φ]
       rw [Algebra.TensorProduct.lift_tmul]
       simp
   have : IsScalarTower C T Cq :=
     IsScalarTower.of_algebraMap_eq' (R := C) (S := T) (A := Cq) <| by
       ext c
-      show algebraMap C Cq c = φ ((1 : Ap) ⊗ₜ[A] c)
+      change algebraMap C Cq c = φ ((1 : Ap) ⊗ₜ[A] c)
       dsimp only [φ]
       rw [Algebra.TensorProduct.lift_tmul]
       simp
@@ -291,7 +291,7 @@ theorem exists_etale_away_of_isGeometricallyUnibranch_of_isUnramifiedAt
   let qC : Ideal C := qD.comap φ.toRingHom
   have : qC.IsPrime := Ideal.comap_isPrime φ.toRingHom qD
   have : qC.LiesOver p := ⟨by
-    show p = Ideal.comap (algebraMap A C) (qD.comap φ.toRingHom)
+    change p = Ideal.comap (algebraMap A C) (qD.comap φ.toRingHom)
     rw [Ideal.comap_comap]
     erw [φ.comp_algebraMap]
     exact qD.over_def p⟩
@@ -305,7 +305,7 @@ theorem exists_etale_away_of_isGeometricallyUnibranch_of_isUnramifiedAt
       (Or.inl ⟨C, inferInstance, inferInstance, inferInstance, inferInstance,
         inferInstance, qC.primeCompl, inferInstance⟩) (RingHom.ker ψ.toRingHom) hker
     apply hcon
-    show RingHom.ker (ψ.toRingHom.comp (algebraMap A Cq)) = ⊥
+    change RingHom.ker (ψ.toRingHom.comp (algebraMap A Cq)) = ⊥
     simp only [AlgHom.toRingHom_eq_coe, AlgHom.comp_algebraMap]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hAinj
   have : IsReduced C := Algebra.isReduced_of_smooth A C
@@ -314,10 +314,10 @@ theorem exists_etale_away_of_isGeometricallyUnibranch_of_isUnramifiedAt
   have hkerφ (x : C) (hx : φ x = 0) : s * x = 0 := by
     apply hkill x
     apply hψ
-    show Localization.localRingHom qC qD φ.toRingHom rfl
+    change Localization.localRingHom qC qD φ.toRingHom rfl
       (algebraMap C Cq x) = ψ 0
     rw [Localization.localRingHom_to_map]
-    show algebraMap D Dq (φ x) = ψ 0
+    change algebraMap D Dq (φ x) = ψ 0
     rw [hx, map_zero, map_zero]
   let θ : Localization.Away s →ₐ[A] Localization.Away (φ s) :=
     IsLocalization.Away.mapₐ _ _ φ s

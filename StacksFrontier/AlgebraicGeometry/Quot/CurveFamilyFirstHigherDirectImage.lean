@@ -133,7 +133,7 @@ theorem bijective_algebraMap_globalFunctions_fibre_of_residueField (X : CurveFam
       (Space.globalFunctions B (Spec (.of p.carrier)) p.contained
         (Space.fibreOverFieldValuedPoint B integerBase hZ X.toBase.hom p))) := by
   obtain ⟨K, hK, t, v⟩ := p
-  show Function.Bijective (algebraMap K (Space.globalFunctions B (Spec (.of K)) hK
+  change Function.Bijective (algebraMap K (Space.globalFunctions B (Spec (.of K)) hK
     (Space.restrictedFibre B integerBase hZ X.toBase.hom hK ⟨t⟩ v)))
   let φ : Spec (.of K) ⟶ X.base.left.1 := v.left.1
   let s : X.base.left.1 := φ (IsLocalRing.closedPoint K)
@@ -147,13 +147,13 @@ theorem bijective_algebraMap_globalFunctions_fibre_of_residueField (X : CurveFam
   have hg : (⟨t⟩ : B.obj hK ⟶ B.obj hZ) = m ≫ (⟨q.toBase⟩ : B.obj q.contained ⟶ B.obj hZ) := by
     refine (Over.w v).symm.trans ?_
     apply ObjectProperty.hom_ext
-    show φ ≫ X.base.hom.1 = Spec.map ι ≫ (X.base.left.1.fromSpecResidueField s ≫ X.base.hom.1)
+    change φ ≫ X.base.hom.1 = Spec.map ι ≫ (X.base.left.1.fromSpecResidueField s ≫ X.base.hom.1)
     rw [← Category.assoc, hφ]
   have hv : (schemeSpace X.base).1.map (eqToHom (congrArg Over.mk hg.symm)).op v =
       (schemeSpace X.base).1.map (Over.homMk m rfl).op q.value := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (eqToHom (congrArg Over.mk hg.symm)).left.1 ≫ φ =
+    change (eqToHom (congrArg Over.mk hg.symm)).left.1 ≫ φ =
       Spec.map ι ≫ X.base.left.1.fromSpecResidueField s
     rw [hφ, Over.eqToHom_left, eqToHom_refl]
     rfl

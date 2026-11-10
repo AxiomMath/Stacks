@@ -114,7 +114,7 @@ theorem isConstant_of_finite_range [HasWeakSheafify J AddCommGrpCat.{max u v}]
     { app V := AddCommGrpCat.ofHom ((R.obj.map (hT.from V.unop).op).hom.comp H.subtype)
       naturality V W f := by
         ext x
-        show R.obj.map (hT.from W.unop).op x.val =
+        change R.obj.map (hT.from W.unop).op x.val =
           R.obj.map f (R.obj.map (hT.from V.unop).op x.val)
         rw [← Functor.map_comp_apply,
           show (hT.from W.unop).op = (hT.from V.unop).op ≫ f from

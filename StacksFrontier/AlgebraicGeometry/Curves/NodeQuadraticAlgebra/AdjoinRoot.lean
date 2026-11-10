@@ -88,7 +88,7 @@ theorem maximalIdeal_sq_eq_span_mul_of_quadratic_relation
   apply Submodule.le_of_le_smul_of_le_jacobson_bot (m ^ 2).fg_of_isNoetherianRing
     (IsLocalRing.jacobson_eq_maximalIdeal _ bot_ne_top).ge
   rw [smul_eq_mul]
-  show m ^ 2 ≤ J ⊔ m * m ^ 2
+  change m ^ 2 ≤ J ⊔ m * m ^ 2
   rw [← pow_succ']
   have hle : J ≤ J ⊔ m ^ 3 := le_sup_left
   have hyJ : ∀ z ∈ m, y.1 * z ∈ J := fun z hz =>
@@ -253,13 +253,13 @@ theorem stableIdealQuotient_quadratic_mem
       I.map (algebraMap R B) := by
   let B := stableIdealQuotient I y u hu hI
   let t := stableIdealQuotientLinearEquiv I y u hu hI hinj x
-  show algebraMap R B a * t ^ 2 + algebraMap R B b * t + algebraMap R B c ∈ _
+  change algebraMap R B a * t ^ 2 + algebraMap R B b * t + algebraMap R B c ∈ _
   rw [cube_eq_span_sq_mul_of_sq_eq_span_mul I y.1 hI] at hq
   obtain ⟨d, hd, he⟩ := Ideal.mem_span_singleton_mul.mp hq
   have ht : algebraMap R B a * t ^ 2 + algebraMap R B b * t + algebraMap R B c =
       algebraMap R B d := by
     apply Subtype.ext
-    show algebraMap R Q a * (↑(u⁻¹) * algebraMap R Q x.1) ^ 2 +
+    change algebraMap R Q a * (↑(u⁻¹) * algebraMap R Q x.1) ^ 2 +
       algebraMap R Q b * (↑(u⁻¹) * algebraMap R Q x.1) + algebraMap R Q c =
         algebraMap R Q d
     apply (u ^ 2).isUnit.mul_left_cancel
@@ -314,7 +314,7 @@ theorem adjoinRoot_equiv_of_basis
       e (algebraMap K (AdjoinRoot f) (b.repr y 0) +
           AdjoinRoot.root f * b.repr y 1) =
           algebraMap K L (b.repr y 0) + r * algebraMap K L (b.repr y 1) := by
-        show AdjoinRoot.liftAlgHom f (Algebra.ofId K L) r hr
+        change AdjoinRoot.liftAlgHom f (Algebra.ofId K L) r hr
           (AdjoinRoot.of f (b.repr y 0) + AdjoinRoot.root f *
             AdjoinRoot.of f (b.repr y 1)) = _
         rw [map_add, map_mul,
@@ -324,7 +324,7 @@ theorem adjoinRoot_equiv_of_basis
         simp
       _ = y := by simpa [Algebra.smul_def, mul_comm] using hb
   have hsrc : Module.finrank K (AdjoinRoot f) = 2 := by
-    show Module.finrank K (Polynomial K ⧸ Ideal.span {f}) = 2
+    change Module.finrank K (Polynomial K ⧸ Ideal.span {f}) = 2
     rw [finrank_quotient_span_eq_natDegree, hdeg]
   have hinj : Function.Injective e.toLinearMap :=
     (LinearMap.injective_iff_surjective_of_finrank_eq_finrank (hsrc.trans hL.symm)).mpr hsurj
@@ -370,18 +370,18 @@ theorem stableIdealQuotient_fibre_equiv_adjoinRoot
   have hβ0 : β 0 = r := by
     dsimp only [β]
     rw [Module.Basis.map_apply, Module.Basis.reindex_apply]
-    show E (e ⟨0⟩) = r
+    change E (e ⟨0⟩) = r
     rw [hx]
     rfl
   have hβ1 : β 1 = 1 := by
     dsimp only [β]
     rw [Module.Basis.map_apply, Module.Basis.reindex_apply]
-    show E (e ⟨1⟩) = 1
+    change E (e ⟨1⟩) = 1
     rw [hy]
-    show Ideal.Quotient.mk J (stableIdealQuotientLinearEquiv I y u hu hI hinj y) = 1
+    change Ideal.Quotient.mk J (stableIdealQuotientLinearEquiv I y u hu hI hinj y) = 1
     have h : stableIdealQuotientLinearEquiv I y u hu hI hinj y = 1 := by
       apply Subtype.ext
-      show ↑(u⁻¹) * algebraMap R Q y.1 = 1
+      change ↑(u⁻¹) * algebraMap R Q y.1 = 1
       rw [← hu]
       simp
     rw [h, map_one]
@@ -423,11 +423,11 @@ theorem stableIdealQuotient_map_eq_span
   apply le_antisymm
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show algebraMap R B a ∈ Ideal.span {algebraMap R B y.1}
+    change algebraMap R B a ∈ Ideal.span {algebraMap R B y.1}
     apply Ideal.mem_span_singleton.mpr
     refine ⟨stableIdealQuotientLinearEquiv I y u hu hI hinj ⟨a, ha⟩, ?_⟩
     apply Subtype.ext
-    show algebraMap R Q a = algebraMap R Q y.1 * (↑(u⁻¹) * algebraMap R Q a)
+    change algebraMap R Q a = algebraMap R Q y.1 * (↑(u⁻¹) * algebraMap R Q a)
     rw [← hu]
     simp
   · exact Ideal.span_le.mpr (Set.singleton_subset_iff.mpr
@@ -626,7 +626,7 @@ public theorem quadraticAlgebra_equiv_adjoinRoot (k : Type u) (A : Type v) [Fiel
     { __ := eF.toRingEquiv
       commutes' r := by
         obtain ⟨a, rfl⟩ := residue_surjective r
-        show eF (algebraMap A (B ⧸ J) a) = algebraMap A _ a
+        change eF (algebraMap A (B ⧸ J) a) = algebraMap A _ a
         exact eF.commutes a }
   exact ⟨eκ.symm.trans eB⟩
 

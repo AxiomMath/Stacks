@@ -6,7 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.WeilCohomology.WeakChernClasses.S
 /-!
 # The total Chern class of a Weil cohomology theory, in the weak standing situation
 
-The results of `StacksFrontier.AlgebraicGeometry.WeilCohomology.ChernClasses.TotalChernClass`, stated
+The results of `StacksFrontier.AlgebraicGeometry.WeilCohomology.ChernClasses.TotalChernClass`,
+stated
 for `Stacks.WeilCohomology.Weak.ChernSetup`: the standing situation
 of Stacks Section 45.12 in which the projective bundle formula, condition (4), is only asked to be
 injective and to resolve the top power `c₁^A(𝒪_P(1))^{r+1}` of the twist class (see
@@ -280,7 +281,7 @@ theorem chernClass_central (j : ℕ) (b : 𝔚.A X) :
         refine Finset.sum_congr rfl fun i _ => ?_
         rw [map_mul, ← mul_assoc, hx (𝔚.pull (𝔚.bundleDatum X E r hE).proj b) (i : ℕ),
           mul_assoc]
-      show ∑ i : Fin (r + 1), _ * _ = ∑ i : Fin (r + 1), _ * _
+      change ∑ i : Fin (r + 1), _ * _ = ∑ i : Fin (r + 1), _ * _
       rw [hL, hR, topTerm, neg_mul, mul_neg, smul_mul_assoc, mul_smul_comm,
         hx (𝔚.pull (𝔚.bundleDatum X E r hE).proj b) (r + 1)]
     exact fun i => congrFun heq i
@@ -332,7 +333,7 @@ theorem chernClass_eq_of_relation (d : ℕ → 𝔚.A X) (hd0 : d 0 = 1)
   · rw [hd0, 𝔚.chernClass_zero X E r hE]
   rcases le_or_gt j (r + 1) with hle | hgt
   · rw [𝔚.chernClass_of_le X E r hE (by omega) hle, ← htuple]
-    show d j = ((-1 : ℤ) ^ (r + 1 - j)) • (((-1 : ℤ) ^ (r + 1 - j)) • d (r + 1 - (r + 1 - j)))
+    change d j = ((-1 : ℤ) ^ (r + 1 - j)) • (((-1 : ℤ) ^ (r + 1 - j)) • d (r + 1 - (r + 1 - j)))
     rw [show r + 1 - (r + 1 - j) = j from by omega, neg_one_pow_smul_neg_one_pow_smul]
   · rw [hdtop j hgt, 𝔚.chernClass_of_gt X E r hE hgt]
 

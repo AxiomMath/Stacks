@@ -20,7 +20,8 @@ and a global section `t` of it such that
   *ample* invertible sheaf on `C`, isomorphic to the pullback of `M` by the comparison
   isomorphism Tag 09NE supplies.
 
-The third item is what the rest of the argument needs: the proof of Tag 09NX finishes by producing, for a
+The third item is what the rest of the argument needs: the proof of Tag 09NX finishes by producing,
+for a
 point `x` outside `T` lying on the single component `Z₁`, a section of a power of the ideal sheaf
 of the other components twisted by `M`, and it does so using ampleness *on `Z₁`* — which the
 comparison isomorphism transports to the pullback of `M`.  That step is

@@ -127,7 +127,7 @@ lemma pullTransition_id {B Z : TopCat.{u}}
     pullTransition (𝟙 B) b b (Category.id_comp _) F =
       eqToHom (show (pb b).obj F = (pf (𝟙 B)).obj ((pb b).obj F) from rfl) := by
   apply ((adj b).homEquiv _ _).injective
-  show ((adj b).homEquiv _ _) (((adj b).homEquiv _ _).symm
+  change ((adj b).homEquiv _ _) (((adj b).homEquiv _ _).symm
     ((adj b).unit.app F ≫ 𝟙 _)) = (adj b).unit.app F ≫ (pf b).map (𝟙 _)
   simp [Adjunction.homEquiv_id]
 
@@ -141,14 +141,14 @@ lemma pullTransition_comp {B C D Z : TopCat.{u}}
   subst b
   subst c
   apply ((adj d).homEquiv _ _).injective
-  show (adj d).unit.app F ≫ (pf d).map
+  change (adj d).unit.app F ≫ (pf d).map
     (pullTransition g (g ≫ d) d rfl F ≫
       (pf g).map (pullTransition f (f ≫ g ≫ d) (g ≫ d) rfl F)) =
     (adj d).unit.app F ≫ (pf d).map
       (pullTransition (f ≫ g) (f ≫ g ≫ d) d _ F)
   rw [Functor.map_comp]
   rw [← Category.assoc ((adj d).unit.app F), pullTransition_unit, pullTransition_unit]
-  show ((adj (g ≫ d)).unit.app F ≫ 𝟙 _) ≫
+  change ((adj (g ≫ d)).unit.app F ≫ 𝟙 _) ≫
       (pf (g ≫ d)).map (pullTransition f (f ≫ g ≫ d) (g ≫ d) rfl F) =
     (adj (f ≫ g ≫ d)).unit.app F ≫ 𝟙 _
   rw [Category.comp_id]
@@ -162,7 +162,7 @@ lemma pullTransition_naturality {B C Z : TopCat.{u}}
       pullTransition f b c h F ≫ (pf f).map ((pb b).map α) := by
   subst b
   apply ((adj c).homEquiv _ _).injective
-  show (adj c).unit.app F ≫ (pf c).map ((pb c).map α ≫ _) =
+  change (adj c).unit.app F ≫ (pf c).map ((pb c).map α ≫ _) =
     (adj c).unit.app F ≫ (pf c).map (_ ≫ _)
   have hn := (adj c).unit.naturality α
   dsimp only [Functor.id_map, Functor.comp_map] at hn
@@ -170,7 +170,7 @@ lemma pullTransition_naturality {B C Z : TopCat.{u}}
   rw [Category.assoc α, pullTransition_unit, Functor.map_comp,
     ← Category.assoc ((adj c).unit.app F),
     pullTransition_unit]
-  show α ≫ ((adj (f ≫ c)).unit.app G ≫ 𝟙 _) =
+  change α ≫ ((adj (f ≫ c)).unit.app G ≫ 𝟙 _) =
     ((adj (f ≫ c)).unit.app F ≫ 𝟙 _) ≫ (pf (f ≫ c)).map ((pb (f ≫ c)).map α)
   simpa only [Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
     Category.comp_id] using (adj (f ≫ c)).unit.naturality α
@@ -249,7 +249,7 @@ lemma pushTransition_id {B Z : TopCat.{u}}
     pushTransition (𝟙 B) b b (Category.id_comp _)
         (eqToHom (show F = (pf (𝟙 B)).obj F from rfl)) =
       𝟙 ((pf b).obj F) := by
-  show (pf b).map (𝟙 F) ≫ 𝟙 _ = _
+  change (pf b).map (𝟙 F) ≫ 𝟙 _ = _
   simp
 
 /-- The direct-image maps attached to two composable triangles compose. -/
@@ -262,7 +262,7 @@ lemma pushTransition_comp {B C D Z : TopCat.{u}}
       pushTransition (f ≫ g) b d (by rw [Category.assoc, k, h]) (s ≫ (pf g).map t) := by
   subst b
   subst c
-  show ((pf d).map s ≫ 𝟙 _) ≫ ((pf (g ≫ d)).map t ≫ 𝟙 _) =
+  change ((pf d).map s ≫ 𝟙 _) ≫ ((pf (g ≫ d)).map t ≫ 𝟙 _) =
     (pf d).map (s ≫ (pf g).map t) ≫ 𝟙 _
   simp only [Category.comp_id, Functor.map_comp]
   rfl
@@ -278,11 +278,11 @@ lemma mate_transition_iff {B C Z : TopCat.{u}}
         ((adj b).homEquiv _ _) α := by
   subst b
   rw [← Equiv.apply_eq_iff_eq ((adj c).homEquiv F ((pf f).obj G))]
-  show ((adj c).unit.app F ≫ (pf c).map (pullTransition f (f ≫ c) c rfl F ≫
+  change ((adj c).unit.app F ≫ (pf c).map (pullTransition f (f ≫ c) c rfl F ≫
       (pf f).map α) = (adj c).unit.app F ≫ (pf c).map (β ≫ t)) ↔ _
   simp only [Functor.map_comp]
   rw [← Category.assoc ((adj c).unit.app F), pullTransition_unit]
-  show (((adj (f ≫ c)).unit.app F ≫ 𝟙 _) ≫ (pf (f ≫ c)).map α =
+  change (((adj (f ≫ c)).unit.app F ≫ 𝟙 _) ≫ (pf (f ≫ c)).map α =
     (adj c).unit.app F ≫ (pf c).map β ≫ (pf c).map t) ↔
     ((adj c).unit.app F ≫ (pf c).map β) ≫ ((pf c).map t ≫ 𝟙 _) =
       (adj (f ≫ c)).unit.app F ≫ (pf (f ≫ c)).map α
@@ -351,10 +351,10 @@ lemma pushTransition_naturality {B C Z : TopCat.{u}}
     (pf c).map β ≫ pushTransition f b c h t' =
       pushTransition f b c h t ≫ (pf b).map α := by
   subst b
-  show (pf c).map β ≫ ((pf c).map t' ≫ 𝟙 _) =
+  change (pf c).map β ≫ ((pf c).map t' ≫ 𝟙 _) =
     ((pf c).map t ≫ 𝟙 _) ≫ (pf (f ≫ c)).map α
   simp only [Category.comp_id]
-  show (pf c).map β ≫ (pf c).map t' = (pf c).map t ≫ (pf c).map ((pf f).map α)
+  change (pf c).map β ≫ (pf c).map t' = (pf c).map t ≫ (pf c).map ((pf f).map α)
   rw [← Functor.map_comp, ← Functor.map_comp, ht]
 
 /-- `pushforwardDiagram`, as a functor on simplicial sheaf systems. -/
@@ -512,7 +512,7 @@ lemma inverseImage_preservesFiniteLimits :
     have : PreservesFiniteLimits (pb (a.app n)) :=
       (StacksZariskiSite.isMorphismOfSites_opensMap (a.app n)).preservesFiniteLimits
     have : PreservesLimits (TopCat.Sheaf.forget (Type u) (Y.obj n)) := by
-      show PreservesLimits (sheafToPresheaf (Opens.grothendieckTopology (Y.obj n)) (Type u))
+      change PreservesLimits (sheafToPresheaf (Opens.grothendieckTopology (Y.obj n)) (Type u))
       infer_instance
     have : PreservesFiniteLimits ev := by
       dsimp only [ev]
@@ -560,7 +560,7 @@ lemma cosimplicialEqualizerCone_pi_zero {C : Type*} [Category C] [HasEqualizers 
     (cosimplicialEqualizerCone D).π.app ⦋0⦌ =
       equalizer.ι (D.map (SimplexCategory.const ⦋0⦌ ⦋1⦌ 0))
         (D.map (SimplexCategory.const ⦋0⦌ ⦋1⦌ 1)) := by
-  show equalizer.ι _ _ ≫ D.map (SimplexCategory.const ⦋0⦌ ⦋0⦌ 0) = _
+  change equalizer.ι _ _ ≫ D.map (SimplexCategory.const ⦋0⦌ ⦋0⦌ 0) = _
   rw [SimplexCategory.const_eq_id, D.map_id, Category.comp_id]
 
 /-- `cosimplicialEqualizerCone` is a limit cone. -/

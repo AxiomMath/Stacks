@@ -95,6 +95,7 @@ abbrev graphPieceBase (d e : ℕ) :
     (graphPieceOpens k sX sY f d e).toScheme ⟶ (fieldChowSituation k).S :=
   (graphPieceOpens k sX sY f d e).ι ≫ partBase sY e
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- The graph piece `Y_e ∩ f⁻¹(X_d) ⟶ X_d ×_k Y_e` followed by the structure morphism of
 `X_d ×_k Y_e` is the structure morphism of `Y_e ∩ f⁻¹(X_d)`. -/
 theorem graphPiece_comp_prodBase (d e : ℕ) :
@@ -324,7 +325,8 @@ instance (d e d' e' : ℕ) {n m : ℕ} (hn : d + d' = n) (hm : e + e' = m) :
 
 variable [IsProper sX] [IsProper sX'] [IsProper sY] [IsProper sY']
 
-omit [IsProper sX] [IsProper sX'] [IsProper sY] [IsProper sY'] in
+omit [IsSeparated sX] [IsSeparated sX'] [IsSeparated sY] [IsSeparated sY']
+  [IsProper sX] [IsProper sX'] [IsProper sY] [IsProper sY'] in
 /-- **On a product of pieces, the graph of `f × g` is the product of the graphs**: the closed
 subscheme `(Γ_f ∩ (X_d × Y_e)) ×_k (Γ_g ∩ (X'_{d'} × Y'_{e'}))` of the fourfold product, read in
 the block `(X × X')_{d+d'} × (Y × Y')_{e+e'}`, is the restriction of `Γ_{f×g}` to the open piece

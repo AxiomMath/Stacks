@@ -146,7 +146,7 @@ lemma IsThickening.structureMap_surjective {i : RingedToposHom X Y} (hi : IsThic
       (Functor.whiskerRight i.fSharp.hom (forget CommRingCat.{w})) := inferInstance
   have hsurj : Presheaf.IsLocallySurjective Y.J
       ((sheafToPresheaf Y.J (Type w)).map (Y.forgetRing.map i.fSharp)) := by
-    show Presheaf.IsLocallySurjective Y.J
+    change Presheaf.IsLocallySurjective Y.J
       (Functor.whiskerRight i.fSharp.hom (forget CommRingCat.{w}))
     exact h0
   exact (Sheaf.isLocallySurjective_sheafToPresheaf_map_iff _).1 hsurj

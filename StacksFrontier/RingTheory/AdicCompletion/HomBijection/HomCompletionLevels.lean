@@ -82,7 +82,7 @@ theorem homCompletionEquiv_apply_val (w : AdicCompletion I (P →ₗ[A] Q)) (p :
     ((eval I Q n).comp ((LinearMap.applyₗ p).comp (homCompletionEquiv I).toLinearMap))
     ((LinearMap.applyₗ p).comp ((homQuotientMap I n).comp (eval I (P →ₗ[A] Q) n)))
     (fun f => by
-      show (homCompletionEquiv I (of I _ f) p).val n = homQuotientMap I n ((of I _ f).val n) p
+      change (homCompletionEquiv I (of I _ f) p).val n = homQuotientMap I n ((of I _ f).val n) p
       rw [homCompletionEquiv_of_apply]
       rfl)
   exact LinearMap.congr_fun h w
@@ -229,7 +229,7 @@ theorem bijective_limit_of_homQuotient {H : Type*} [AddCommGroup H] [Module A H]
       rw [hΦ]
       refine hψ n ?_
       rw [hc, LinearEquiv.apply_symm_apply]
-      show _ = cc (n + 1)
+      change _ = cc (n + 1)
       rw [← hw (n + 1), ← hg n]
       rfl
 

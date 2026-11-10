@@ -356,7 +356,7 @@ lemma exists_evaluationMk_eq {T : Over S} {f g : T ⟶ G.arrows} (h : f ≫ r = 
   have h₂ := (key _ _ (target_comp_eq hp) hy hy').symm
   refine ⟨h₁, h₂, ?_⟩
   apply GroupoidScheme.EvaluationHom.ext
-  show g = K.twistHom f hx hy h₂ h₁
+  change g = K.twistHom f hx hy h₂ h₁
   apply hp.hom_ext
   · rw [hr, h]
   · refine prod.hom_ext ?_ ?_
@@ -428,7 +428,7 @@ lemma singletonCover_fppf {X Y : Over S} (f : X ⟶ Y) [IsFiniteLocallyFree f.le
   have := IsFiniteLocallyFree.flat f.left
   have := IsFiniteLocallyFree.locallyOfFinitePresentation f.left
   rw [SingletonCover, ← Sieve.generateSingleton_eq, GrothendieckTopology.mem_over_iff]
-  show Sieve.functorPushforward (Over.forget S) (Sieve.generate (Presieve.singleton f)) ∈
+  change Sieve.functorPushforward (Over.forget S) (Sieve.generate (Presieve.singleton f)) ∈
     Scheme.fppfTopology Y.left
   rw [← Sieve.generate_map_eq_functorPushforward, Presieve.map_singleton]
   exact Precoverage.generate_mem_toGrothendieck f.left.singleton_mem_fppfPrecoverage

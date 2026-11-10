@@ -168,7 +168,7 @@ theorem rationalPointOfClosedPoint_comp
   rw [Category.assoc, ← Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField (f := f) x,
     ← Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField, ← Spec.map_comp,
     ← Spec.map_comp, ← Spec.map_comp, ← Spec.map_id, Spec.map_inj]
-  show CommRingCat.ofHom (algebraMap K (f x).asIdeal.ResidueField) ≫
+  change CommRingCat.ofHom (algebraMap K (f x).asIdeal.ResidueField) ≫
       (Scheme.Spec.residueFieldIso (.of K) (f x)).inv ≫ f.residueFieldMap x ≫
         CommRingCat.ofHom e.symm.toRingHom = 𝟙 (CommRingCat.of K)
   calc
@@ -239,7 +239,7 @@ private theorem quotientFromOpen_eq_tensor
     {B : Scheme.{u}} (G U : Over B) [GrpObj G] (i : U ⟶ G) :
     quotientFromOpen G U i =
       (i ⊗ₘ i) ≫ (𝟙 G ⊗ₘ ι[G]) ≫ μ[G] := by
-  show lift (fst U U ≫ i) (snd U U ≫ i ≫ ι[G]) ≫ μ[G] =
+  change lift (fst U U ≫ i) (snd U U ≫ i ≫ ι[G]) ≫ μ[G] =
     (i ⊗ₘ i) ≫ (𝟙 G ⊗ₘ ι[G]) ≫ μ[G]
   have hp : lift (fst U U ≫ i) (snd U U ≫ i ≫ ι[G]) =
       (i ⊗ₘ i) ≫ (𝟙 G ⊗ₘ ι[G]) := by
@@ -262,7 +262,7 @@ private theorem isOpenMap_quotientFromOpen
     ((Over.forget (Spec (.of K))).mapIso (asIso (𝟙 G ⊗ₘ ι[G]))).hom.homeomorph.isOpenMap
   have hm : IsOpenMap μ[G].left := isOpenMap_mul G
   rw [quotientFromOpen_eq_tensor]
-  show IsOpenMap ((i ⊗ₘ i).left ≫ (𝟙 G ⊗ₘ ι[G]).left ≫ μ[G].left)
+  change IsOpenMap ((i ⊗ₘ i).left ≫ (𝟙 G ⊗ₘ ι[G]).left ≫ μ[G].left)
   simpa only [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_assoc] using
     IsOpenMap.comp hm (IsOpenMap.comp ht hi)
 

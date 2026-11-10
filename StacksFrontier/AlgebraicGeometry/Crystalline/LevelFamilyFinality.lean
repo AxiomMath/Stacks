@@ -27,8 +27,8 @@ morphisms out of and the levels the hypothesis is stated over are built in oppos
 `Crystalline.levelCrystallineThickening` is the envelope of the truncation `P/(p)^e`, while the
 levels of `...SmallSite.wholeSpaceSystem` are the truncations `D̂/(p)^{N + e}` of the completed
 envelope.  `Crystalline.levelFamilyIso` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFamilyIdentification.lean` identifies them, for an
-object of `Cris^∧(C/A)` pinned down by three hypotheses, and
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFamilyIdentification.lean` identifies them, for
+an object of `Cris^∧(C/A)` pinned down by three hypotheses, and
 `Crystalline.exists_levelThickening_hom` draws [Stacks, Tag 07HP] for the second family — but at
 the object `Crystalline.completedCrystallineThickening s f hf`, the completed envelope of the
 presentation `f` itself, and at a single level.
@@ -103,8 +103,8 @@ items of [Stacks, Tag 07JG].
 modules is quasi-coherent by definition, and the half of [Stacks, Lemma 60.14.2, Tag 07IT] the
 library proves holds on the small site, as
 `...SmallSite.isLocallyQuasiCoherent_of_isQuasicoherentOnSite` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/QuasicoherentImpliesLocal.lean`.  That module
-is imported here and in none of `LevelFaithfulSurjectivity.lean`,
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/QuasicoherentImpliesLocal.lean`.  That
+module is imported here and in none of `LevelFaithfulSurjectivity.lean`,
 `LevelCrystalDeterminacy.lean`, `LevelAmbientDeterminacy.lean` or `LevelAffineFinality.lean`,
 which is the only reason those four thread `hlqc` through.
 

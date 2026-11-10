@@ -52,8 +52,7 @@ theorem isIso_restrictionBaseChange_baseChangePresheaf (M : ModuleCat.{max t r} 
   have key : ∀ z, restrictionBaseChange.{u, v, r, t} (R := commPresheaf O)
       ((baseChangePresheaf.{t} O hX).obj M) g.op z = e z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero e).symm
+    induction z using TensorProduct.inductionOn with
     | tmul s n =>
       have h₁ := restrictionBaseChange_tmul.{u, v, r, t} (R := commPresheaf O)
         ((baseChangePresheaf.{t} O hX).obj M) g.op s n
@@ -80,8 +79,7 @@ noncomputable def baseChangeComparison (G : PresheafOfModules.{max t r} O) :
   app U := restrictionBaseChange.{u, v, r, t} (R := commPresheaf O) G (iota hX U)
   naturality {U V} a := by
     refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul s m =>
       refine (congrArg (restrictionBaseChange.{u, v, r, t} (R := commPresheaf O) G
         (iota hX V)).hom (Stacks.PresheafOfModules.ChangeOfRings.cofMap_tmul (theta O hX)

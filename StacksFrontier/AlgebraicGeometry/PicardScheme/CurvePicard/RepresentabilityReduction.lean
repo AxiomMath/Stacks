@@ -110,7 +110,7 @@ theorem isRepresentable_picardFunctor_of_normalized
     intro T ξ t
     obtain ⟨g₀, hg₀⟩ := htrans T ((equivShrink _).symm ξ) t
     refine ⟨equivShrink _ g₀, ?_⟩
-    show t ∈ normalizedLocus B hX hk f σ hσ hOiso hdim T
+    change t ∈ normalizedLocus B hX hk f σ hσ hOiso hdim T
       ((translate B hX hk f ((equivShrink _).symm (equivShrink _ g₀))).hom.app (op T) _)
     rw [Equiv.symm_apply_apply]
     exact hg₀

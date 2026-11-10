@@ -228,6 +228,8 @@ variable {U V U' V' : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S h
   [IsAffine ((BigFppfOver.toScheme B S hS).obj V')]
   (f₀ : U ⟶ V) (g₀ : V' ⟶ V) (f₀' : U' ⟶ V') (g₀' : U' ⟶ U)
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 /-- The étale base change map of an affine square is invertible if and only if the ring-level
 comparison of Stacks 065Z, followed by the étale base change map and an automorphism of the
 identity, is. -/

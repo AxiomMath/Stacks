@@ -74,8 +74,7 @@ private lemma extendScalars_additive
     intro X Y a b
     apply ModuleCat.hom_ext
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s x => exact TensorProduct.tmul_add s (a x) (b x)
     | add x y hx hy => simp_all only [map_add]
 
@@ -135,9 +134,9 @@ private lemma unitComplex_quasiIso
       ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} (algebraMap R S)).unit.app
         (C.homology i)) :=
     (ConcreteCategory.isIso_iff_bijective _).2 (hunit i)
-  show IsIso (ShortComplex.homologyMap ((C.sc i).mapNatTrans η))
+  change IsIso (ShortComplex.homologyMap ((C.sc i).mapNatTrans η))
   rw [ShortComplex.homologyMap_mapNatTrans]
-  show IsIso (_ ≫
+  change IsIso (_ ≫
     (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} (algebraMap R S)).unit.app
       (C.homology i) ≫ _)
   exact IsIso.comp_isIso' (Iso.isIso_hom _)
@@ -173,7 +172,7 @@ private lemma unitComplex_quasiIso_of_support
       (TensorProduct.comm R (C.homology i) S₀)
   have hb : Function.Bijective (fun x : C.homology i => e (x ⊗ₜ[R] (1 : S))) :=
     e.bijective.comp h'
-  show Function.Bijective
+  change Function.Bijective
     (fun x : C.homology i =>
       ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} (algebraMap R S)).unit.app
         (C.homology i)).hom x)
@@ -218,11 +217,7 @@ private noncomputable def scalarExtensionEquiv
       map_add' := e.map_add
       map_smul' := by
         intro s x
-        induction x using TensorProduct.induction_on with
-        | zero =>
-          change e (s • (0 : (ModuleCat.extendScalars (algebraMap R S)).obj
-            (ModuleCat.of R M))) = _
-          rw [smul_zero, map_zero, smul_zero]
+        induction x using TensorProduct.inductionOn with
         | tmul a m =>
           change e ((s * (show S from a)) ⊗ₜ[R, algebraMap R S] m) =
             s • e (a ⊗ₜ[R, algebraMap R S] m)
@@ -277,7 +272,7 @@ private lemma koszul_baseChange_iso
       ULift.up (β j ((1 : S) ⊗ₜ[R] (Koszul.d (Koszul.seqDual f) j x)))
     rw [KoszulC.d_baseChange_comm f β hβ]
   · intro n v
-    show E n ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up (exteriorPower.ιMulti R n v)) = _
+    change E n ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up (exteriorPower.ιMulti R n v)) = _
     rw [hE, hβ]
 
 private noncomputable def localizedModuleCongr
@@ -308,7 +303,7 @@ private lemma localizedModuleCongr_cechι
     (LocalizedModule.mkLinearMap (Cech.cechSub f s) M)
     (Cech.isUnit_algebraMap f N h (LocalizedModule.mkLinearMap (Cech.cechSub f t) N))
   ext m
-  show localizedModuleCongr (Cech.cechSub f t) e
+  change localizedModuleCongr (Cech.cechSub f t) e
     (Cech.cechι f M h (LocalizedModule.mkLinearMap (Cech.cechSub f s) M m)) = _
   rw [Cech.cechι_mk]
   simp only [LinearMap.comp_apply, LocalizedModule.mkLinearMap_apply,
@@ -389,7 +384,7 @@ private lemma cech_baseChange_iso
     exact (LinearMap.congr_fun (Stacks.CechBaseChange.termBaseChangeS_comm_d f R S i)
       ((1 : S) ⊗ₜ[R] x)).symm
   · intro p x
-    show E p ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up x) = _
+    change E p ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up x) = _
     rw [hE, Stacks.CechBaseChange.termBaseChangeS_tmul, one_smul]
 
 private lemma baseChangeR_mk
@@ -407,7 +402,7 @@ private lemma baseChangeR_mk
     obtain ⟨n, hn⟩ := y.2
     exact ⟨n, by rw [← hn, map_pow, map_prod]⟩⟩
   apply IsLocalizedModule.smul_injective (LocalizedModule.mkLinearMap (Cech.cechSub g s) S) y'
-  show (y' : S) • (localizedModuleCongr (Cech.cechSub g s) (AlgebraTensorModule.rid R S S)
+  change (y' : S) • (localizedModuleCongr (Cech.cechSub g s) (AlgebraTensorModule.rid R S S)
     (Stacks.CechBaseChange.baseChangeR f R S s (LocalizedModule.mk x y))) =
       (y' : S) • LocalizedModule.mk (algebraMap R S x) y'
   rw [← map_smul, algebraMap_smul, ← map_smul]
@@ -495,10 +490,10 @@ public theorem quasiIso_koszulSeq_and_cechComplex_baseChange
   let c := ηC ≫ (G.mapHomologicalComplex (ComplexShape.up ℕ)).map eC.hom
   refine ⟨k, heK, inferInstance, c, ?_, inferInstance⟩
   · intro p s x y
-    show eC.hom.f p ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up
+    change eC.hom.f p ((1 : S) ⊗ₜ[R, algebraMap R S] ULift.up
       (DirectSum.lof R _ _ s (LocalizedModule.mk x y))) = _
     rw [heC, Stacks.CechBaseChange.termBaseChangeR, DirectSum.toModule_lof, LinearMap.comp_apply]
-    show ULift.up (cechTermCongr (fun i => algebraMap R S (f i))
+    change ULift.up (cechTermCongr (fun i => algebraMap R S (f i))
       (AlgebraTensorModule.rid R S S) p
       (DirectSum.lof S _ _ s
         (Stacks.CechBaseChange.baseChangeR f R S s.1 (LocalizedModule.mk x y)))) = _

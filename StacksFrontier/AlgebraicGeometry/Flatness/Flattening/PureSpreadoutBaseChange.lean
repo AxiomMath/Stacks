@@ -159,13 +159,13 @@ theorem nonempty_of_isLocalizedModule_away [IsLocalRing Y.A] (ht : t ∈ Y.S)
   have _itCN : IsScalarTower C Y.Bₛ Y.N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have _itBCN : IsScalarTower Y.B C Y.N := by
     refine IsScalarTower.of_algebraMap_smul fun r x => ?_
-    show (algebraMap C Y.Bₛ (algebraMap Y.B C r)) • x = _
+    change (algebraMap C Y.Bₛ (algebraMap Y.B C r)) • x = _
     rw [← IsScalarTower.algebraMap_apply Y.B C Y.Bₛ]
     rfl
   have _itAC : IsScalarTower Y.A C Y.Bₛ := IsScalarTower.to₁₃₄ Y.A Y.B C Y.Bₛ
   have _itACN : IsScalarTower Y.A C Y.N := by
     refine IsScalarTower.of_algebraMap_smul fun r x => ?_
-    show (algebraMap C Y.Bₛ (algebraMap Y.A C r)) • x = _
+    change (algebraMap C Y.Bₛ (algebraMap Y.A C r)) • x = _
     rw [← IsScalarTower.algebraMap_apply Y.A C Y.Bₛ]
     rfl
   have hunits : ∀ x : Submonoid.powers t,
@@ -249,7 +249,7 @@ theorem isScalarTower_algebraLocalizationBase :
   let := hbc.algebraBase
   let := X.algebraLocalizationBase hbc
   refine IsScalarTower.of_algebraMap_eq fun x => ?_
-  show _ = hbc.baseEquiv.symm (Ideal.Quotient.mk I
+  change _ = hbc.baseEquiv.symm (Ideal.Quotient.mk I
     (algebraMap X.A (Localization.AtPrime p) x))
   rw [← hbc.baseEquiv_algebraMap, RingEquiv.symm_apply_apply]
 
@@ -307,11 +307,11 @@ private theorem isScalarTower_algebraLocalizationBaseChangeAlgebra_aux :
     IsScalarTower.to₁₂₄ X.A (Localization.AtPrime p) Y.A Y.B
   let := X.algebraLocalizationBaseChangeAlgebra hbc
   refine ⟨_tAAB, _tXAB, ?_, ?_⟩ <;> refine IsScalarTower.of_algebraMap_eq fun x => ?_
-  · show _ = ((IsScalarTower.toAlgHom X.A X.B Y.B).liftEquiv X.A (Localization.AtPrime p) X.B
+  · change _ = ((IsScalarTower.toAlgHom X.A X.B Y.B).liftEquiv X.A (Localization.AtPrime p) X.B
       Y.B) (algebraMap (Localization.AtPrime p) ((Localization.AtPrime p) ⊗[X.A] X.B) x)
     rw [Algebra.TensorProduct.algebraMap_apply, AlgHom.liftEquiv_tmul]
     simp [Algebra.smul_def]
-  · show _ = ((IsScalarTower.toAlgHom X.A X.B Y.B).liftEquiv X.A (Localization.AtPrime p) X.B
+  · change _ = ((IsScalarTower.toAlgHom X.A X.B Y.B).liftEquiv X.A (Localization.AtPrime p) X.B
       Y.B) ((1 : Localization.AtPrime p) ⊗ₜ[X.A] x)
     rw [AlgHom.liftEquiv_tmul, one_smul]
     rfl

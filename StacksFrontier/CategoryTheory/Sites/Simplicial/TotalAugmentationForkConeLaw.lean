@@ -114,7 +114,7 @@ theorem whiskerLeft_precomp_eq (i j : A ⥤ T) (u : T ⥤ Dd) (ν : i ⟶ j) (h 
   have hc : u.map (ν.app X.unop) = eqToHom (Functor.congr_obj h X.unop) := by
     have hh := congrFun (congrArg NatTrans.app hν) X.unop
     simpa using hh
-  show P.map ((u.map (ν.app X.unop)).op) = _
+  change P.map ((u.map (ν.app X.unop)).op) = _
   rw [hc]
   simp [eqToHom_map, eqToHom_app]
 

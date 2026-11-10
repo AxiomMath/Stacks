@@ -392,7 +392,7 @@ private theorem precomp_elements_full {C : Type u} [Category.{v} C]
   intro x y f
   obtain ⟨g, hg⟩ := F.map_surjective f.hom
   refine ⟨Functor.Elements.homMk g ?_, ?_⟩
-  · show G.map (F.map g) x.val = y.val
+  · change G.map (F.map g) x.val = y.val
     rw [hg]
     exact f.map_val
   · exact Functor.Elements.hom_ext hg
@@ -458,7 +458,7 @@ private theorem isCofiltered_sheafifiedYoneda_fiber
   have : IsCofiltered G.Elements := p.isCofiltered_presheafFiber
   have : F.Full := inferInstance
   have : F.Faithful := inferInstance
-  show IsCofiltered (F ⋙ G).Elements
+  change IsCofiltered (F ⋙ G).Elements
   apply cofiltered_elements_comp_of_full_faithful F G
   rintro @⟨P, x⟩
   obtain ⟨j, y, hy⟩ := p.exists_map_coconeOfRepresentable_eq P x
@@ -495,7 +495,7 @@ private theorem sieve_uliftFunctorInclusion_isIso
       · rintro ⟨t, ht⟩
         rcases t with ⟨⟨k, hk⟩⟩
         change ULift.up k = ULift.up (g ≫ s.down) at ht
-        show S (g ≫ s.down)
+        change S (g ≫ s.down)
         have h' : k = g ≫ s.down := by simpa using congrArg ULift.down ht
         exact h' ▸ hk
       · exact fun hg => ⟨ULift.up ⟨g ≫ s.down, hg⟩, rfl⟩
@@ -541,7 +541,7 @@ theorem exists_sitePoint_fiber_eq {C : Type u} [Category.{v} C] {J : Grothendiec
   let y : G.obj P := inv (G.map f) x
   obtain ⟨j, z, hz⟩ := p.exists_map_coconeOfRepresentable_eq P y
   refine ⟨j.unop.obj.unop, j.unop.val.down.1, j.unop.val.down.2, z, ?_⟩
-  show G.map (uliftYoneda.map j.unop.val.down.1) z = x
+  change G.map (uliftYoneda.map j.unop.val.down.1) z = x
   let l := (Presheaf.coconeOfRepresentable P).ι.app j
   have hz' : G.map l z = y := hz
   have hmaps : G.map (uliftYoneda.map j.unop.val.down.1) =
@@ -573,7 +573,7 @@ private theorem fiberToSheafYoneda_hom_apply
   let Q := shrinkYoneda.{max u v}.obj X
   let ψ : Q ⟶ P := (uliftYonedaIsoShrinkYoneda.{u}.app X).inv
   let η : P ⟶ ((Sheaf.sheafifiedYoneda J).obj X).obj := toSheafify J P
-  show Φ.presheafFiber.map η
+  change Φ.presheafFiber.map η
       (Φ.presheafFiber.map ψ
         (Φ.shrinkYonedaCompPresheafFiberIso.inv.app X x)) =
       Φ.toPresheafFiber X x ((Sheaf.sheafifiedYoneda J).obj X).obj
@@ -606,7 +606,7 @@ theorem isIso_sheafFiberComparison :
     have h : (fiberToSheafYoneda Φ X).hom ≫
         α.app ((Sheaf.sheafifiedYoneda J).obj X) = e.hom.app X := by
       ext x
-      show α.app _ ((fiberToSheafYoneda Φ X).hom x) = e.hom.app X x
+      change α.app _ ((fiberToSheafYoneda Φ X).hom x) = e.hom.app X x
       rw [fiberToSheafYoneda_hom_apply,
         GrothendieckTopology.Point.sheafFiberComparison_toPresheafFiber, Equiv.symm_apply_apply,
         p.inverseImage.map_id]

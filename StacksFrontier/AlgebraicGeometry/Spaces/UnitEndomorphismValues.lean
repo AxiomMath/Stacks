@@ -152,7 +152,7 @@ theorem unitEndValue_bijective (T : BigFppfOver B S hS) :
   · intro s t h
     refine (SheafOfModules.unitHomEquiv (SheafOfModules.unit
       (structureRingSheaf B S hS (schemeSpace T)))).injective (Subtype.ext (funext fun V => ?_))
-    show unitEndValue V.unop s = unitEndValue V.unop t
+    change unitEndValue V.unop s = unitEndValue V.unop t
     rw [unitEndValue_map (toYonedaEtaleChart T V.unop) s,
       unitEndValue_map (toYonedaEtaleChart T V.unop) t, h]
   · intro a

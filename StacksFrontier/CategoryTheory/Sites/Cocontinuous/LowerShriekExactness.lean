@@ -124,7 +124,7 @@ public theorem gShriek_preservesFiniteLimits
     PreservesFiniteLimits
       (Functor.sheafPullbackConstruction.sheafPullback u Ab.{w} J K) := by
   have := preservesFiniteLimits_lan_ab u
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (sheafToPresheaf J Ab.{w} ⋙ u.op.lan ⋙ presheafToSheaf K Ab.{w})
   infer_instance
 

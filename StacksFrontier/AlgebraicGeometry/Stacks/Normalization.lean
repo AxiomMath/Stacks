@@ -186,7 +186,7 @@ theorem forall_smooth_chart_iff_finite_irreducibleComponents
     let _ := pointTopology B S hS (schemeStack.{u, w} B S hS W).val
     have hj : (BigFppfOver.toScheme B S hS).map j = V.ι := B.inclusion.map_preimage _
     have hWcompact : CompactSpace ((BigFppfOver.toScheme B S hS).obj W) := by
-      show CompactSpace V.toScheme
+      change CompactSpace V.toScheme
       exact isCompact_iff_compactSpace.mp (by simpa using hV)
     have hjEtale : (MorphismProperty.inverseImage
         (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
@@ -202,7 +202,7 @@ theorem forall_smooth_chart_iff_finite_irreducibleComponents
     have hfin := h (schemeStack.{u, w} B S hS W) (c ≫ e ≫ f) hWqc
       (AlgebraicStacks.isSmooth_comp B S hS c (e ≫ f) hcSmooth
         (AlgebraicStacks.isSmooth_comp B S hS e f heSmooth hf))
-    show (irreducibleComponents V.toScheme).Finite
+    change (irreducibleComponents V.toScheme).Finite
     exact finite_irreducibleComponents_of_homeomorph (pointsHomeomorphScheme B S hS W) hfin
 
 end Stack

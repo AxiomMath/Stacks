@@ -593,7 +593,7 @@ theorem exists_elementaryEtaleNeighborhood_approximation
     ⟨fun a ha => hlocY.map_nonunit a (hφ.map_nonunit _ (hlocX.map_nonunit _ ha))⟩
   have hφqeq : ∀ a : Y.presheaf.stalk y, φq (eY a) = completionEquiv eX (φ a) := by
     intro a
-    show completionEquiv eX (φ (eY.symm (eY a))) = _
+    change completionEquiv eX (φ (eY.symm (eY a))) = _
     rw [eY.symm_apply_apply]
   -- The hypothesis on `φ`, read on the charts.
   have hstalks : ∀ r : Γ(S, W),
@@ -617,7 +617,7 @@ theorem exists_elementaryEtaleNeighborhood_approximation
         (Y.presheaf.germ V₀ y hyV₀).hom (β r) := by
       refine eY.injective ?_
       rw [eY.apply_symm_apply, heY]
-    show completionEquiv eX
+    change completionEquiv eX
       (φ (eY.symm (algebraMap Γ(Y, V₀) (Localization.AtPrime qS.asIdeal) (β r)))) = _
     rw [hsy, hstalks r, completionEquiv_algebraMap, heX]
     rfl
@@ -651,7 +651,7 @@ theorem exists_elementaryEtaleNeighborhood_approximation
       Ea.residueField_bijective
   -- The morphism to `Y` is a morphism over `S`.
   have hFover : F ≫ g = Ue.toBase ≫ f := by
-    show (Spec.map (CommRingCat.ofHom Ea.toCarrier) ≫ hV₀.fromSpec) ≫ g =
+    change (Spec.map (CommRingCat.ofHom Ea.toCarrier) ≫ hV₀.fromSpec) ≫ g =
       (Spec.map (CommRingCat.ofHom gE) ≫ hU₀.fromSpec) ≫ f
     rw [Category.assoc, Category.assoc, spec_comp_fromSpec_comp g hW hV₀ hV₀W,
       spec_comp_fromSpec_comp f hW hU₀ hU₀W]

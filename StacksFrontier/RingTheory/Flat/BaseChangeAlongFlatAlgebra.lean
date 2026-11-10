@@ -51,8 +51,7 @@ theorem lTensor_tensorProduct_eq {N N' : Type*} [AddCommMonoid N] [AddCommMonoid
       ((AlgebraTensorModule.lTensor S M f).lTensor S').restrictScalars R ∘ₗ
         (AlgebraTensorModule.assoc R S S' S' M N).toLinearMap.restrictScalars R := by
   refine TensorProduct.ext' fun x n => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m => rfl
   | add x y hx hy =>
     simp only [LinearMap.coe_comp, Function.comp_apply] at hx hy ⊢

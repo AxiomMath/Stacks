@@ -63,11 +63,11 @@ theorem preimage_le_compl_support_exceptionalIdeal {S : Scheme.{u}} (I : S.Ideal
     blowUpToBase I ⁻¹ᵁ U ≤ (exceptionalIdeal I).support.compl := by
   have hsupp : ((exceptionalIdeal I).support : Set (blowUp I)) =
       (blowUpToBase I).base ⁻¹' (I.support : Set S) := by
-    show ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
+    change ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
     rw [Scheme.IdealSheafData.support_comap]
     rfl
   intro y hy
-  show y ∉ ((exceptionalIdeal I).support : Set (blowUp I))
+  change y ∉ ((exceptionalIdeal I).support : Set (blowUp I))
   rw [hsupp]
   exact Set.disjoint_left.mp h hy
 
@@ -93,7 +93,7 @@ theorem isIso_strictTransformToBlowUp_morphismRestrict {X S : Scheme.{u}} (f : X
       (preimage_le_exceptionalComplement f I h)
   have h2 : IsIso (pullback.snd f (blowUpToBase I) ∣_ (blowUpToBase I ⁻¹ᵁ U)) :=
     isIso_pullbackSnd_morphismRestrict f (blowUpToBase I) U
-  show IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I)) ∣_
       (blowUpToBase I ⁻¹ᵁ U))
   rw [morphismRestrict_comp]
@@ -102,7 +102,7 @@ theorem isIso_strictTransformToBlowUp_morphismRestrict {X S : Scheme.{u}} (f : X
 /-- The strict transform of a separated morphism is separated over the blowup. -/
 theorem isSeparated_strictTransformToBlowUp {X S : Scheme.{u}} (f : X ⟶ S) [IsSeparated f]
     (I : S.IdealSheafData) : IsSeparated (strictTransformToBlowUp f I) := by
-  show IsSeparated ((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change IsSeparated ((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I))
   infer_instance
 
@@ -111,21 +111,21 @@ blowup. -/
 theorem locallyOfFiniteType_strictTransformToBlowUp {X S : Scheme.{u}} (f : X ⟶ S)
     [LocallyOfFiniteType f] (I : S.IdealSheafData) :
     LocallyOfFiniteType (strictTransformToBlowUp f I) := by
-  show LocallyOfFiniteType ((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change LocallyOfFiniteType ((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I))
   infer_instance
 
 /-- The strict transform of a quasi-compact morphism is quasi-compact over the blowup. -/
 theorem quasiCompact_strictTransformToBlowUp {X S : Scheme.{u}} (f : X ⟶ S) [QuasiCompact f]
     (I : S.IdealSheafData) : QuasiCompact (strictTransformToBlowUp f I) := by
-  show QuasiCompact ((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change QuasiCompact ((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I))
   infer_instance
 
 /-- The strict transform of a quasi-separated morphism is quasi-separated over the blowup. -/
 theorem quasiSeparated_strictTransformToBlowUp {X S : Scheme.{u}} (f : X ⟶ S) [QuasiSeparated f]
     (I : S.IdealSheafData) : QuasiSeparated (strictTransformToBlowUp f I) := by
-  show QuasiSeparated ((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change QuasiSeparated ((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I))
   infer_instance
 

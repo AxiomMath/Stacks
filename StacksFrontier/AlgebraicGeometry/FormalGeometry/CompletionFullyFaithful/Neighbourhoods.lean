@@ -165,7 +165,7 @@ public theorem range_nthInfinitesimalNeighbourhoodι (n : ℕ) :
     (Scheme.IdealSheafData.range_subschemeι _).trans hsupp
   have h₂ : Set.range (nthInfinitesimalNeighbourhoodι i n).base =
       i.coborderRange.ι.base '' Set.range ((i.liftCoborder.ker ^ (n + 1)).subschemeι).base := by
-    show Set.range ((i.liftCoborder.ker ^ (n + 1)).subschemeι ≫ i.coborderRange.ι).base = _
+    change Set.range ((i.liftCoborder.ker ^ (n + 1)).subschemeι ≫ i.coborderRange.ι).base = _
     rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
   have h₃ : Set.range (i.liftCoborder ≫ i.coborderRange.ι).base =
       i.coborderRange.ι.base '' Set.range i.liftCoborder.base := by

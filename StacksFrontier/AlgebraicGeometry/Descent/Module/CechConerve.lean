@@ -90,7 +90,7 @@ lemma cechAugmentation_section_comp (s : f.right ⟶ f.left)
     (hs : f.hom ≫ s = 𝟙 f.left) :
     f.augmentedCechConerve.hom ≫ cechSectionMap s hs = 𝟙 _ := by
   ext n
-  show cechHead n ≫ cechSectionComponent s hs n = 𝟙 f.left
+  change cechHead n ≫ cechSectionComponent s hs n = 𝟙 f.left
   exact WidePushout.head_desc (cechLegs f n) _ _ _
 
 /-- `cechSectionMap s hs` followed by the augmentation of the Čech conerve is the map of Čech
@@ -102,11 +102,11 @@ lemma cechSection_augmentation_comp (s : f.right ⟶ f.left)
   ext n
   apply cech_hom_ext
   intro i
-  show cechι n i ≫ (cechSectionComponent s hs n ≫ cechHead n) =
+  change cechι n i ≫ (cechSectionComponent s hs n ≫ cechHead n) =
     cechι n i ≫ (Arrow.mapCechConerve (cechRetractionEndomorphism s hs)).app n
   rw [← Category.assoc, cechι_comp_sectionComponent (f := f) s hs n i,
     cechι_comp_mapCechConerve, ← hom_comp_cechι (f := f) n i]
-  show s ≫ (f.hom ≫ cechι n i) = (s ≫ f.hom) ≫ cechι n i
+  change s ≫ (f.hom ≫ cechι n i) = (s ≫ f.hom) ≫ cechι n i
   exact (Category.assoc _ _ _).symm
 
 end SplitCechMaps
@@ -126,16 +126,16 @@ theorem cechConerve_homotopyEquivalent_const_of_section
   let r := cechSectionMap (f := f) s hs
   let F := cechRetractionEndomorphism (f := f) s hs
   refine ⟨NatTrans.op i, ?_⟩
-  show ∃ b : ((CosimplicialObject.const C).obj f.left).op ⟶ f.cechConerve.op, _
+  change ∃ b : ((CosimplicialObject.const C).obj f.left).op ⟶ f.cechConerve.op, _
   refine ⟨NatTrans.op r, ?_, ?_⟩
-  · show Relation.EqvGen _ (NatTrans.op (r ≫ i)) (𝟙 _)
+  · change Relation.EqvGen _ (NatTrans.op (r ≫ i)) (𝟙 _)
     rw [cechSection_augmentation_comp (f := f) s hs]
     apply Relation.EqvGen.rel
     exact (CosimplicialObject.exists_homotopy_iff_nonempty_homotopy_op
       (Arrow.mapCechConerve F) (𝟙 f.cechConerve)).mp
         (Arrow.exists_homotopy_mapCechConerve_id F
           (by simp [F, cechRetractionEndomorphism]))
-  · show Relation.EqvGen _ (NatTrans.op (i ≫ r)) (𝟙 _)
+  · change Relation.EqvGen _ (NatTrans.op (i ≫ r)) (𝟙 _)
     rw [cechAugmentation_section_comp (f := f) s hs]
     exact Relation.EqvGen.refl _
 

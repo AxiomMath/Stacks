@@ -206,7 +206,7 @@ theorem higherDirectImageTensorMap_structureModule :
         (op W.unop) (a ⊗ₜ[Y.presheaf.obj (op W.unop)] t)) =
       unitRingSection (op W.unop) t •
         Scheme.Modules.Hom.app (unitValueMap f F n) W.unop a := by
-    show Scheme.Modules.Hom.app (unitValueMap f F n) W.unop
+    change Scheme.Modules.Hom.app (unitValueMap f F n) W.unop
         (((tensorUnitHom (topDirectImage f F n)).val.app (op W.unop)).hom
           (toTensorSheafSection Y.toRingedSpace (topDirectImage f F n) (Scheme.unitModule Y)
             (op W.unop) (a ⊗ₜ[Y.presheaf.obj (op W.unop)] t))) = _

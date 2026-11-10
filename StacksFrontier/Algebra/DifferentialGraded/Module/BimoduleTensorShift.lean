@@ -195,7 +195,7 @@ private theorem tensorShiftForward_pure (N : Bimodule A B)
     (tensorShiftForward N M k).toFun
       (((tensorDGFunctor N).pure M).toLinearMap x y) =
       ((tensorDGFunctor N).pure (shift M k)).toLinearMap x y := by
-  show (tensorShiftForwardAux N M k).toFun
+  change (tensorShiftForwardAux N M k).toFun
     (((tensorDGFunctor N).pure M).toLinearMap x y) = _
   exact tensorShiftForwardAux_pure N M k x y
 
@@ -213,7 +213,7 @@ private theorem tensorShiftForwardBackward_id (N : Bimodule A B)
   have hc : ∀ (x : M.M) (y : N.rightModule.M),
       c'.toFun ((T.pure M).toLinearMap x y) = (T.pure M).toLinearMap x y := by
     intro x y
-    show (tensorShiftBackward N M k).toFun
+    change (tensorShiftBackward N M k).toFun
       ((tensorShiftForward N M k).toFun ((T.pure M).toLinearMap x y)) = _
     rw [tensorShiftForward_pure, tensorShiftBackward_pure]
   have hid : ∀ (x : M.M) (y : N.rightModule.M),

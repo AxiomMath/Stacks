@@ -116,7 +116,7 @@ theorem stageMateHom_comp (A : C₀) (K : D₀) [IsIso (e₁.app K)] [IsIso (e�
   simp only [stageMateHom, Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   rw [hpaste (ℓ₀.obj A), hpaste K]
   simp only [Category.assoc, Functor.map_comp, Functor.map_inv, IsIso.inv_hom_id_assoc,
-    Iso.hom_inv_id_assoc, Iso.map_hom_inv_id_assoc]
+    Iso.hom_inv_id_assoc, Iso.hom_inv_id_map_assoc]
   have h₁ : G₂.map (adj₀.unit.app A) ≫ (cG (r₀.obj (ℓ₀.obj A))).inv =
       (cG A).inv ≫ G'.map (G₁.map (adj₀.unit.app A)) := by
     rw [Iso.comp_inv_eq]

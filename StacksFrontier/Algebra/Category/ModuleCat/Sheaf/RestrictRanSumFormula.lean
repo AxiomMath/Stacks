@@ -140,7 +140,8 @@ def isLimitFanOfModuleSections {f : I → _root_.SheafOfModules.{v} O}
     (h : ∀ X : Cᵒᵖ, IsLimit (Fan.mk (P.val.presheaf.obj X)
       fun i => ((PresheafOfModules.toPresheaf O.obj).map (p i).val).app X)) :
     IsLimit (Fan.mk P p) := by
-  haveI : Small.{v} (Discrete I) := small_of_injective (f := Discrete.as) fun _ _ h => Discrete.ext h
+  haveI : Small.{v} (Discrete I) :=
+    small_of_injective (f := Discrete.as) fun _ _ h => Discrete.ext h
   haveI : HasLimitsOfShape (Discrete I) (_root_.SheafOfModules.{v} O) :=
     _root_.SheafOfModules.hasLimitsOfShape _ _
   haveI : ReflectsLimitsOfShape (Discrete I)
@@ -200,7 +201,7 @@ lemma ranComparisonAb_smul (N : PresheafOfModules.{v} (vm.op ⋙ O)) (U : Cnᵒ�
       = ((ranComparisonAb.{v} vn vm t τ).app N.presheaf).app U ≫
         smulPresheaf N (t.op.obj U) ((ringComparison vn vm t τ O).app U s) := by
   rw [ranComparisonAb_app_app]
-  show ranSMul vm (unitRingHom vm (T := O)) N (vn.op.obj U) s ≫
+  change ranSMul vm (unitRingHom vm (T := O)) N (vn.op.obj U) s ≫
       ranπ vm.op N.presheaf (vn.op.obj U) (commaIndex vn vm t τ U) = _
   rw [ranSMul_π, scalarπ_unitRingHom]
   rfl

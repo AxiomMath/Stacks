@@ -85,7 +85,7 @@ private lemma connectedSpace_baseChange_of_galois
   let e : pullback f q ≅ pullback (f ≫ p) y := pullbackRightPullbackFstIso p y f
   let i : pullback (f ≫ p) y ⟶ pullback p y := e.inv ≫ pullback.snd f q
   let : IsIntegralHom y := by
-    show IsIntegralHom (Spec.map (ofHom (algebraMap k kbar)))
+    change IsIntegralHom (Spec.map (ofHom (algebraMap k kbar)))
     rw [IsIntegralHom.SpecMap_iff]
     exact algebraMap_isIntegral_iff.mpr ⟨IsGalois.integral k⟩
   have hclopen (U : Set (pullback p y : Scheme.{u})) (hU : IsClopen U) :
@@ -101,7 +101,7 @@ private lemma connectedSpace_baseChange_of_galois
       have h := congrArg (fun g : pullback (f ≫ p) y ⟶ X => g a) hpull.w
       simpa [Scheme.Hom.comp_apply] using h.symm
     have hb : b ∈ q ⁻¹' (f '' {qT a}) := by
-      show q b ∈ f '' {qT a}
+      change q b ∈ f '' {qT a}
       exact ⟨qT a, rfl, (hab.trans hqi).symm⟩
     rw [← Scheme.image_preimage_eq_of_isPullback hpull] at hb
     obtain ⟨a', _, ha'⟩ := hb

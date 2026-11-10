@@ -63,12 +63,12 @@ def toQuot [NeZero e] : standardTamelyRamifiedAlgebra A f e →+* A ⧸ Ideal.sp
 lemma toQuot_algebraMap [NeZero e] (a : A) :
     toQuot A f e (algebraMap A _ a) = Ideal.Quotient.mk _ a := by
   rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_eq]
-  show eval₂ (Ideal.Quotient.mk _) 0 (C a) = _
+  change eval₂ (Ideal.Quotient.mk _) 0 (C a) = _
   rw [eval₂_C]
 
 /-- `toQuot` sends the root to zero. -/
 lemma toQuot_root [NeZero e] : toQuot A f e (root A f e) = 0 := by
-  show eval₂ (Ideal.Quotient.mk _) 0 X = 0
+  change eval₂ (Ideal.Quotient.mk _) 0 X = 0
   rw [eval₂_X]
 
 /-- The map `toQuot : A[x]/(x^e - f) → A/(f)` is surjective. -/
@@ -192,8 +192,8 @@ theorem root_mem_nonZeroDivisors (hf0 : f ≠ 0) :
     obtain ⟨h, hh⟩ := Ideal.mem_span_singleton'.mp (Ideal.Quotient.eq_zero_iff_mem.mp hc')
     have hX : (X : A[X]) ∣ h * (X ^ e - C f) := ⟨g, hh⟩
     have hnd : ¬ (X : A[X]) ∣ X ^ e - C f := by
-      rwa [X_dvd_iff, coeff_sub, coeff_X_pow, coeff_C_zero, if_neg (NeZero.ne e).symm, zero_sub,
-        neg_eq_zero]
+      rwa [X_dvd_iff, coeff_sub, coeff_X_pow, coeff_C_zero, ite_eq_right (NeZero.ne e).symm,
+        zero_sub, neg_eq_zero]
     obtain ⟨h', rfl⟩ := (prime_X.dvd_or_dvd hX).resolve_right hnd
     have hg : g = h' * (X ^ e - C f) := by
       apply mul_left_cancel₀ (X_ne_zero (R := A))

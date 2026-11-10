@@ -128,7 +128,7 @@ The morphism `g = ∐_j C j ⟶ X` induced by the family is finite ([Stacks, Tag
 [Stacks, Tag 0B5V] — `Stacks.AmpleFiniteSurjective.isAmple_of_isAmple_modulePullback`, which
 carries no hypothesis beyond that tag's own — reduces ampleness of `𝓛` to ampleness of `g^*𝓛`.
 The restriction of `g^*𝓛` to the `j`th summand is `𝓛|_{C j}` by
-`AlgebraicGeometry.Scheme.Modules.pullbackComp` and `CategoryTheory.Limits.Sigma.ι_desc`, so
+`AlgebraicGeometry.Scheme.Modules.pullbackComp` and `CategoryTheory.Limits.Sigma.ι_comp_desc`, so
 `AlgebraicGeometry.isAmple_sigma_of_forall_isAmple_pullback_sigmaι` finishes. -/
 public theorem isAmple_of_forall_isAmple_pullback_of_iUnion_range_eq_univ
     (k : Type u) [Field k] {X : Scheme.{u}}
@@ -145,7 +145,7 @@ public theorem isAmple_of_forall_isAmple_pullback_of_iUnion_range_eq_univ
         ((Scheme.Modules.pullback (Sigma.desc i)).obj L)
       ≅ (Scheme.Modules.pullback (i j)).obj L :=
     (Scheme.Modules.pullbackComp (Sigma.ι C j) (Sigma.desc i)).app L ≪≫
-      (Scheme.Modules.pullbackCongr (Sigma.ι_desc i j)).app L
+      (Scheme.Modules.pullbackCongr (Sigma.ι_comp_desc i j)).app L
   refine (Stacks.PowerFamilyBridge.modulesIsAmple_iff_isAmple X L).mpr
     (Stacks.AmpleFiniteSurjective.isAmple_of_isAmple_modulePullback (Sigma.desc i) L k f ?_)
   refine (Stacks.PowerFamilyBridge.modulesIsAmple_iff_isAmple (∐ C)

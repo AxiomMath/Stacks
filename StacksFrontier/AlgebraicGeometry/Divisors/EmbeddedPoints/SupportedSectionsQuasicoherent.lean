@@ -95,12 +95,12 @@ lemma mem_supportedSectionsSubmodule_iff_unit_eq_zero (Z : Set X) (hZ : IsClosed
     Scheme.Modules.restrictAdjunction_unit_app_app]
   let W : X.Opens := j ''ᵁ (j ⁻¹ᵁ U)
   have hW : W ≤ U := j.image_preimage_le U
-  show (∀ (x : X) (hx : x ∈ U), x ∉ Z →
+  change (∀ (x : X) (hx : x ∈ U), x ∉ Z →
       TopCat.Presheaf.germ F.presheaf U x hx s = 0) ↔
     F.presheaf.map (homOfLE hW).op s = 0
   rw [map_eq_zero_iff_forall_germ_eq_zero F U W hW s]
   have hWmem (x : X) : x ∈ W ↔ x ∈ U ∧ x ∉ Z := by
-    show x ∈ Set.image j.base {y : V.toScheme | j.base y ∈ U} ↔ _
+    change x ∈ Set.image j.base {y : V.toScheme | j.base y ∈ U} ↔ _
     refine ⟨?_, ?_⟩
     · rintro ⟨y, hy, rfl⟩
       exact ⟨by simpa [j] using hy, y.2⟩
@@ -123,7 +123,7 @@ theorem supportedSectionsSubmodule_isQuasicoherent (Z : Set X) (hZ : IsClosed Z)
   let g : F ⟶ ((Scheme.Modules.pushforward j).obj ((Scheme.Modules.restrictFunctor j).obj F)) :=
     (Scheme.Modules.restrictAdjunction j).unit.app F
   have : QuasiCompact j := quasiCompact_iff_isSpectralMap.mpr (by
-    show IsSpectralMap (Subtype.val : V → X)
+    change IsSpectralMap (Subtype.val : V → X)
     exact IsRetrocompact_iff_isSpectralMap_subtypeVal.mp hZc)
   have hpush : ((Scheme.Modules.pushforward j).obj
       ((Scheme.Modules.restrictFunctor j).obj F)).IsQuasicoherent :=

@@ -326,7 +326,7 @@ theorem exists_map_comap_pow_smul_restrictScalars_eq
   · rintro z ⟨x, hx, rfl⟩
     refine ⟨x, ?_, rfl⟩
     have hx0 : f x = 0 := hx
-    show f x ∈ J ^ l • (⊤ : Submodule R N)
+    change f x ∈ J ^ l • (⊤ : Submodule R N)
     rw [hx0]
     exact zero_mem _
 

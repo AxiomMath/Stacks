@@ -210,7 +210,7 @@ lemma tripSection_transferInv_transfer {T : 𝒞}
     tripSection eY (transferInv hp c f i y x' α (transfer hp c f i y x' α τ h hτ) h rfl) =
       tripSection eY τ := by
   refine tripSection_eq_of_hom eY τ _ hτ rfl ?_
-  show _ = (θ hp c f i y x' α h ≫ (TwoYoneda.liftFunctor p hp X' x').map
+  change _ = (θ hp c f i y x' α h ≫ (TwoYoneda.liftFunctor p hp X' x').map
       (Over.homMk (𝟙 T) (by simp) : Over.mk (h ≫ i) ⟶ Over.mk (h ≫ i)) ≫
       inv (θ hp c f i y x' α h) ≫ (TwoYoneda.liftFunctor p hp Y y).map
       (Over.homMk (𝟙 T) (by simp [hτ]) : Over.mk (h ≫ f) ⟶ Over.mk τ.1) ≫ τ.2.2.1.hom) ≫
@@ -225,7 +225,7 @@ lemma tripSection_transfer_transferInv {T : 𝒞}
     tripSection eX' (transfer hp c f i y x' α (transferInv hp c f i y x' α τ h hτ) h rfl) =
       tripSection eX' τ := by
   refine tripSection_eq_of_hom eX' τ _ hτ rfl ?_
-  show _ = (inv (θ hp c f i y x' α h) ≫ (TwoYoneda.liftFunctor p hp Y y).map
+  change _ = (inv (θ hp c f i y x' α h) ≫ (TwoYoneda.liftFunctor p hp Y y).map
       (Over.homMk (𝟙 T) (by simp) : Over.mk (h ≫ f) ⟶ Over.mk (h ≫ f)) ≫
       θ hp c f i y x' α h ≫ (TwoYoneda.liftFunctor p hp X' x').map
       (Over.homMk (𝟙 T) (by simp [hτ]) : Over.mk (h ≫ i) ⟶ Over.mk τ.1) ≫ τ.2.2.1.hom) ≫
@@ -335,7 +335,7 @@ lemma chartComparisonInvApp_app (T : 𝒞) (x : (Presheaf.fibreProduct ρY (yone
       (chartComparisonApp hp c f i y x' α eY eX' ρY ρX' hρY hρX' T x) = x := by
   apply Subtype.ext
   refine Prod.ext ?_ rfl
-  show tripSection eY (transferInv hp c f i y x' α ((tripEquiv eX' T).symm (tripSection eX'
+  change tripSection eY (transferInv hp c f i y x' α ((tripEquiv eX' T).symm (tripSection eX'
     (transfer hp c f i y x' α ((tripEquiv eY T).symm x.1.1) x.1.2 _))) x.1.2 _) = x.1.1
   refine (congrArg (tripSection eY) (transferInv_congr hp c f i y x' α x.1.2 _ rfl
     ((tripEquiv eX' T).symm_apply_apply _))).trans ?_
@@ -349,7 +349,7 @@ lemma chartComparisonApp_invApp (T : 𝒞)
       (chartComparisonInvApp hp c f i y x' α eY eX' ρY ρX' hρY hρX' T x) = x := by
   apply Subtype.ext
   refine Prod.ext ?_ rfl
-  show tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T).symm (tripSection eY
+  change tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T).symm (tripSection eY
     (transferInv hp c f i y x' α ((tripEquiv eX' T).symm x.1.1) x.1.2 _))) x.1.2 _) = x.1.1
   refine (congrArg (tripSection eX') (transfer_congr hp c f i y x' α x.1.2 _ rfl
     ((tripEquiv eY T).symm_apply_apply _))).trans ?_
@@ -371,7 +371,7 @@ lemma chartComparisonApp_naturality {T T' : 𝒞} (g : T' ⟶ T)
   have key : (tripEquiv eY T').symm (FY.map g.op x.1.1) =
       τ.restrict hp hf₀ (TwoYoneda.liftFunctor_w p hp Y y) g := by
     rw [Equiv.symm_apply_eq, tripEquiv_apply, hx, map_tripSection]
-  show tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T').symm (FY.map g.op x.1.1))
+  change tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T').symm (FY.map g.op x.1.1))
     (g ≫ x.1.2) _) = FX'.map g.op (tripSection eX' (transfer hp c f i y x' α τ x.1.2 _))
   have hτ' : τ.1 = x.1.2 ≫ f := by rw [tripEquiv_symm_fst hp y eY ρY hρY]; exact x.2
   refine (congrArg (tripSection eX') (transfer_congr hp c f i y x' α (g ≫ x.1.2) _
@@ -411,7 +411,7 @@ lemma chartComparison_hom_app_fst {T : 𝒞} (τ : Trip p f₀ (TwoYoneda.liftFu
     ((chartComparison hp hf₀ c f i y x' α eY eX' ρY ρX' hρY hρX').hom.app (op T)
       ⟨(tripSection eY τ, h), by rw [hρY]; exact hτ⟩).1.1 =
       tripSection eX' (transfer hp c f i y x' α τ h hτ) := by
-  show tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T).symm (tripSection eY τ)) h _)
+  change tripSection eX' (transfer hp c f i y x' α ((tripEquiv eY T).symm (tripSection eY τ)) h _)
     = _
   exact congrArg (tripSection eX')
     (transfer_congr hp c f i y x' α h _ hτ ((tripEquiv eY T).symm_apply_apply τ))
@@ -502,7 +502,7 @@ theorem exists_glueMorphisms {V₁ U'₁ U₁ : 𝒞}
     exact IsHomLift.comp_lift_id_left' p U₁ _ r _
   · simp only [Category.assoc]
     rw [pointFactor_fac]
-    show inv Rg ≫ inv L ≫ liftπ p hp y (Over.mk (r ≫ f)) = _
+    change inv Rg ≫ inv L ≫ liftπ p hp y (Over.mk (r ≫ f)) = _
     rw [e1, ← liftFunctor_map_liftπ p hp y (Over.homMk g rfl : Over.mk (g ≫ τ.1) ⟶ Over.mk τ.1),
       reassoc_of% e3]
   · have key : inv Rk ≫ (TwoYoneda.liftFunctor p hp X' x').map (Over.homMk (𝟙 U₁)
@@ -518,7 +518,7 @@ theorem exists_glueMorphisms {V₁ U'₁ U₁ : 𝒞}
             Over.mk (k ≫ τ'.1) ⟶ Over.mk (r ≫ i)) ≫ inv (θ hp c f i y x' α r) ≫ L ≫ Rg :=
         hc₃.symm
       refine Eq.symm ?_
-      show (τ'.restrict hp hf₀ hPx k).2.2.1.hom ≫ _ ≫ _ = _
+      change (τ'.restrict hp hf₀ hPx k).2.2.1.hom ≫ _ ≫ _ = _
       rw [reassoc_of% h2, IsIso.hom_inv_id_assoc, IsIso.hom_inv_id_assoc, IsIso.inv_hom_id]
       exact Category.comp_id _
     have hLHS : (inv Rg ≫ inv L ≫ pointFactor p hp c f y (Over.mk r)) ≫ α.hom.1 ≫

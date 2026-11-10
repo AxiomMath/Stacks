@@ -108,7 +108,7 @@ private theorem stupidTrunc_d_eq {ι κ : Type*} {c : ComplexShape ι} {c' : Com
       (K.stupidTruncXIso e hj).inv := by
   subst i'
   subst j'
-  show ((K.restriction e).extend e).d (e.f i) (e.f j) =
+  change ((K.restriction e).extend e).d (e.f i) (e.f j) =
     (((K.restriction e).extendXIso e rfl).hom ≫ 𝟙 ((K.restriction e).X i)) ≫
       (K.restriction e).d i j ≫
         (𝟙 ((K.restriction e).X j) ≫ ((K.restriction e).extendXIso e rfl).inv)
@@ -220,7 +220,7 @@ private theorem epi_homologyMap_stupidTruncGEι (K : CochainComplex A ℤ) (a : 
       ((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) a).map
         (stupidTruncGEι K a))) :=
     ShortComplex.isIso_cyclesMap_of_isIso_of_mono _
-  show Epi (ShortComplex.homologyMap
+  change Epi (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) a).map (stupidTruncGEι K a)))
   exact ShortComplex.epi_homologyMap_of_epi_cyclesMap _
 
@@ -353,7 +353,7 @@ private theorem exists_mappingCone_approximation {P Q K L : CochainComplex A ℤ
   have heα (j : ℤ) (hj : m < j) :
       Epi (((HomotopyCategory.homologyFunctor A (ComplexShape.up ℤ) 0).shift j).map φ.hom₁) := by
     refine (epi_map_iff_of_natIso (HomotopyCategory.homologyFunctorFactors A _ j) α).mpr ?_
-    show Epi (HomologicalComplex.homologyMap α j)
+    change Epi (HomologicalComplex.homologyMap α j)
     by_cases h' : j = m + 1
     · subst j
       exact hαe
@@ -365,13 +365,13 @@ private theorem exists_mappingCone_approximation {P Q K L : CochainComplex A ℤ
     (NatIso.isIso_map_iff (HomotopyCategory.homologyFunctorFactors A _ j) β).mpr (hβi j hj)
   refine ⟨c, fun j hj => ?_, ?_⟩
   · refine (NatIso.isIso_map_iff (HomotopyCategory.homologyFunctorFactors A _ j) c).mp ?_
-    show IsIso (((HomotopyCategory.homologyFunctor A _ 0).shift j).map (q.map c))
+    change IsIso (((HomotopyCategory.homologyFunctor A _ 0).shift j).map (q.map c))
     rw [hc]
     have := hiβ (j + 1) (by omega)
     exact isIso_homology₃_of_triangleMap hS hT φ j
       (heα j hj) (hiβ j hj) (hiα (j + 1) (by omega)) inferInstance
   · refine (epi_map_iff_of_natIso (HomotopyCategory.homologyFunctorFactors A _ m) c).mp ?_
-    show Epi (((HomotopyCategory.homologyFunctor A _ 0).shift m).map (q.map c))
+    change Epi (((HomotopyCategory.homologyFunctor A _ 0).shift m).map (q.map c))
     rw [hc]
     have := hiβ (m + 1) (by omega)
     exact epi_homology₃_of_triangleMap hS hT φ m
@@ -718,7 +718,7 @@ private theorem isPseudoCoherentComplexFrom_shift (m n : ℤ)
       (SheafOfModules.{w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over V))
       (ComplexShape.up ℤ) 0
     have hfirst : Epi (HomologicalComplex.homologyMap (α⟦n⟧') (m - n)) := by
-      show Epi ((H.shift (m - n)).map (α⟦n⟧'))
+      change Epi ((H.shift (m - n)).map (α⟦n⟧'))
       let ε := H.shiftIso n (m - n) m (by omega)
       rw [show (H.shift (m - n)).map (α⟦n⟧') =
         ε.hom.app P ≫ (H.shift m).map α ≫ ε.inv.app (FHC.obj K) from

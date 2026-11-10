@@ -69,7 +69,7 @@ theorem injective_tmul_of_eq_one {M Q : Type*} [AddCommGroup M] [AddCommGroup Q]
     change
       (TensorProduct.rid ℤ M) (TensorProduct.map LinearMap.id r.toIntLinearMap (t ⊗ₜ[ℤ] z)) = t
     rw [TensorProduct.map_tmul]
-    show (TensorProduct.rid ℤ M) (t ⊗ₜ[ℤ] r z) = t
+    change (TensorProduct.rid ℤ M) (t ⊗ₜ[ℤ] r z) = t
     rw [hz, TensorProduct.rid_tmul, one_smul]
   intro t t' htt
   have := congrArg e htt

@@ -323,8 +323,9 @@ theorem relativeDimension_pr₁₂₄ {f : ℕ} (hZ : RelativeDimension sZ f) :
   RelativeDimension.of_isPullback (isPullback_pr₂₃₄_pr₁₂₄ sX sY sZ sW)
     (relativeDimension_pr₁₃ k sY sZ sW hZ)
 
-omit [Smooth sX] [IsSeparated sX] [Smooth sY] [IsSeparated sY] [LocallyOfFiniteType sZ] [Smooth sZ]
-    [IsSeparated sZ] [Smooth sW] [IsSeparated sW] in
+omit [Smooth sX] [IsSeparated sX] [LocallyOfFiniteType sY] [Smooth sY] [IsSeparated sY]
+    [LocallyOfFiniteType sZ] [Smooth sZ] [IsSeparated sZ] [LocallyOfFiniteType sW] [Smooth sW]
+    [IsSeparated sW] in
 /-- `pr₂₃₄ : X × Y × Z × W ⟶ Y × Z × W` has relative dimension `d` when `X` has dimension
 `d`. -/
 theorem relativeDimension_pr₂₃₄ {d : ℕ} (hX : RelativeDimension sX d) :
@@ -799,16 +800,13 @@ theorem DiagonalClassFamily.compositionAssoc_of {k : Type u} [Field k] {Δ : Dia
     (hmul : Δ.FlatPullbackMul) (hproj : Δ.ProjectionFormula) (hassoc : Δ.IntersectionAssoc) :
     Δ.CompositionAssoc := by
   intro X Y Z W sX sY sZ sW _ _ _ _ _ _ _ _ _ _ _ _ _ _ d e f g hX hY hZ hW r s t c c' c''
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction c using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
   | tmul q a =>
-    induction c' using TensorProduct.induction_on with
-    | zero => simp only [map_zero, LinearMap.zero_apply]
+    induction c' using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
     | tmul q' b =>
-      induction c'' using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction c'' using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy]
       | tmul q'' z =>
         rw [composition_tmul, composition_tmul, composition_tmul, composition_tmul,

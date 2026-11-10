@@ -55,7 +55,7 @@ variable {Y : Scheme.{u}}
 lemma iso_inv_hom_apply {R : Sheaf (Opens.grothendieckTopology Y) RingCat.{u}}
     {A B : SheafOfModules.{u} R} (e : A ≅ B) (V : (Opens Y)ᵒᵖ) (x : A.val.obj V) :
     e.inv.val.app V (e.hom.val.app V x) = x := by
-  show (e.hom ≫ e.inv).val.app V x = x
+  change (e.hom ≫ e.inv).val.app V x = x
   rw [e.hom_inv_id]
   rfl
 
@@ -63,7 +63,7 @@ lemma iso_inv_hom_apply {R : Sheaf (Opens.grothendieckTopology Y) RingCat.{u}}
 lemma iso_hom_inv_apply {R : Sheaf (Opens.grothendieckTopology Y) RingCat.{u}}
     {A B : SheafOfModules.{u} R} (e : A ≅ B) (V : (Opens Y)ᵒᵖ) (x : B.val.obj V) :
     e.hom.val.app V (e.inv.val.app V x) = x := by
-  show (e.inv ≫ e.hom).val.app V x = x
+  change (e.inv ≫ e.hom).val.app V x = x
   rw [e.inv_hom_id]
   rfl
 
@@ -116,7 +116,7 @@ lemma exact_sections_cochainComplex (W : Y.Opens) (hW : IsAffineOpen W) (i : ℤ
   refine ⟨(R0.cochainComplexXIso ((n + 1 : ℕ) - 1 : ℤ) n (by push_cast; ring)).inv.val.app
     (op W) x', ?_⟩
   rw [hd0]
-  show (R0.cochainComplexXIso ((n + 1 : ℕ) : ℤ) (n + 1) rfl).inv.val.app (op W)
+  change (R0.cochainComplexXIso ((n + 1 : ℕ) : ℤ) (n + 1) rfl).inv.val.app (op W)
     ((R0.cocomplex.d n (n + 1)).val.app (op W)
       ((R0.cochainComplexXIso ((n + 1 : ℕ) - 1 : ℤ) n (by push_cast; ring)).hom.val.app (op W)
         ((R0.cochainComplexXIso ((n + 1 : ℕ) - 1 : ℤ) n
@@ -257,7 +257,8 @@ lemma coord_piLiftSingle (M : ι → SheafOfModules.{u} R)
       ((g k).f 0).val.app V ((Pi.π M k).val.app V x) :=
   congrArg (fun φ : (HomologicalComplex.single (SheafOfModules.{u} R) (ComplexShape.up ℤ) 0).obj
       (∏ᶜ M) ⟶ K k ↦ (φ.f 0).val.app V x)
-    (Pi.lift_comp_π (fun k ↦ (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map (Pi.π M k) ≫ g k)
+    (Pi.lift_comp_π (fun k ↦ (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map (Pi.π M k) ≫
+        g k)
       k)
 
 /-- Degree zero of `quasiIso_piLiftSingle`: the product module is the kernel of the first

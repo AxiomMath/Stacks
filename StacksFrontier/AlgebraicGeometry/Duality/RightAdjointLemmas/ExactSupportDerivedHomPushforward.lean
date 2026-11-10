@@ -100,13 +100,15 @@ abbrev closedSite : RingedSite.{u, u, u} := Stacks.SheafOfModules.ringedSite S.Z
 /-- Pushforward `i_* : Mod(𝒪_Z) ⥤ Mod(𝒪_X)`, with its type written over the ring sheaves of the
 two ringed sites. -/
 def siteModulePushforward :
-    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O) ⥤ SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O) :=
+    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O) ⥤
+      SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O) :=
   modulePushforward S.i
 
 /-- Sheaf Hom with exact support `ℰom(𝒪_Z, -) : Mod(𝒪_X) ⥤ Mod(𝒪_Z)` of [Stacks, Tag 0A75],
 with its type written over the ring sheaves of the two ringed sites. -/
 def siteSheafHomExactSupport :
-    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O) ⥤ SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O) :=
+    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O) ⥤
+      SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O) :=
   S.sheafHomExactSupport
 
 /-- The retyped pushforward is the pushforward of [Stacks, Tag 0096]. -/
@@ -150,7 +152,8 @@ theorem siteModulePushforward_mapDerivedCategory_eq :
 type written over the ring sheaves of the two ringed sites. -/
 def siteDerivedSheafHomExactSupport :
     DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ⥤
-      DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) :=
+      DerivedCategory
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) :=
   S.derivedSheafHomExactSupport
 
 /-- The retyped right derived functor is the one of [Stacks, Tag 0A76]. -/
@@ -163,7 +166,9 @@ theorem siteDerivedSheafHomExactSupport_eq :
 complex of `𝒪_X`-modules then `ℰom(𝒪_Z, 𝒦)` is a K-injective complex of `𝒪_Z`-modules: sheaf
 Hom with exact support is the right adjoint of the exact functor `i_*`. -/
 instance isKInjective_mapHomologicalComplex_siteSheafHomExactSupport
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ)
+    [I.IsKInjective] :
     CochainComplex.IsKInjective
       ((S.siteSheafHomExactSupport.mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
   CochainComplex.isKInjective_mapHomologicalComplex_of_exact S.siteSheafHomExactSupport
@@ -172,7 +177,9 @@ instance isKInjective_mapHomologicalComplex_siteSheafHomExactSupport
 /-- A K-injective complex computes the right derived functor of sheaf Hom with exact support:
 `R ℰom(𝒪_Z, -)` at the class of a K-injective complex `𝒦` is the class of `ℰom(𝒪_Z, 𝒦)`. -/
 def derivedSheafHomExactSupportIsoOfIsKInjective
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ) [hI : I.IsKInjective] :
+    (I : CochainComplex
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ)
+    [hI : I.IsKInjective] :
     DerivedCategory.Q.obj
         ((S.siteSheafHomExactSupport.mapHomologicalComplex (ComplexShape.up ℤ)).obj I) ≅
       S.siteDerivedSheafHomExactSupport.obj (DerivedCategory.Q.obj I) :=
@@ -207,17 +214,24 @@ K-injective target, `ℰom(𝒪_Z, 𝒦)` is again K-injective by
 `derivedSheafHomExactSupportIsoOfIsKInjective`; the exact functor `i_*` passes through the
 localization. -/
 def derivedSheafHomDerivedModulePushforwardIsoOfModels
-    (hom : ∀ (N : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
-      (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ),
+    (hom : ∀ (N : CochainComplex
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
+      (I : CochainComplex
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ),
       (S.siteModulePushforward.mapHomologicalComplex (ComplexShape.up ℤ)).obj
           (RingedSite.sheafHomComplex S.closedSite N
             ((S.siteSheafHomExactSupport.mapHomologicalComplex (ComplexShape.up ℤ)).obj I)).obj ≅
         (RingedSite.sheafHomComplex S.ambientSite
           ((S.siteModulePushforward.mapHomologicalComplex (ComplexShape.up ℤ)).obj N) I).obj)
-    {M : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O))}
-    {K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O))}
-    (N : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ) [hI : I.IsKInjective]
+    {M : DerivedCategory
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O))}
+    {K : DerivedCategory
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O))}
+    (N : CochainComplex
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
+    (I : CochainComplex
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ)
+    [hI : I.IsKInjective]
     (eM : M ≅ DerivedCategory.Q.obj N) (eK : K ≅ DerivedCategory.Q.obj I) :
     ((RingedSite.derivedSheafHomBifunctor S.ambientSite).obj
           (op (S.siteModulePushforward.mapDerivedCategory.obj M))).obj K ≅
@@ -257,15 +271,19 @@ granted the underived identification `hom` of internal Hom complexes. The repres
 are the chosen K-injective models of `M` and `K`. -/
 @[stacks 0E2I "the derived isomorphism, granted the underived internal Hom identification"]
 def derivedSheafHomDerivedModulePushforwardIso
-    (hom : ∀ (N : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
-      (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ),
+    (hom : ∀ (N : CochainComplex
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)
+      (I : CochainComplex
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O)) ℤ),
       (S.siteModulePushforward.mapHomologicalComplex (ComplexShape.up ℤ)).obj
           (RingedSite.sheafHomComplex S.closedSite N
             ((S.siteSheafHomExactSupport.mapHomologicalComplex (ComplexShape.up ℤ)).obj I)).obj ≅
         (RingedSite.sheafHomComplex S.ambientSite
           ((S.siteModulePushforward.mapHomologicalComplex (ComplexShape.up ℤ)).obj N) I).obj)
-    (M : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)))
-    (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O))) :
+    (M : DerivedCategory
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)))
+    (K : DerivedCategory
+        (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.ambientSite.O))) :
     ((RingedSite.derivedSheafHomBifunctor S.ambientSite).obj
           (op (S.siteModulePushforward.mapDerivedCategory.obj M))).obj K ≅
       S.siteModulePushforward.mapDerivedCategory.obj

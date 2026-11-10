@@ -47,8 +47,7 @@ namespace Stacks.SheafOfModules
 theorem smul_tensorProduct_eq_zero_of_left {A : Type*} [CommRing A] {M N : Type*}
     [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N] (b : A)
     (hM : ∀ x : M, b • x = 0) (z : TensorProduct A M N) : b • z = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact smul_zero b
+  induction z using TensorProduct.inductionOn with
   | tmul m n => rw [TensorProduct.smul_tmul', hM m, TensorProduct.zero_tmul]
   | add z₁ z₂ h₁ h₂ => rw [smul_add, h₁, h₂, add_zero]
 
@@ -128,9 +127,9 @@ theorem annihilatedByKerIdeal_sheafTensor_modulePushforward (i : Z ⟶ X)
   refine annihilatedByKerIdeal_modulePushforward B S hS i G V _
     ((SheafOfModules.mem_kerIdeal (structureSharp B S hS i) V _).2 ?_) y
   rw [SheafOfModules.mem_kerIdeal, RingHom.mem_ker] at ha
-  show ((structureRingSheaf B S hS X).obj.map g ≫ (structureSharp B S hS i).hom.app V).hom a = 0
+  change ((structureRingSheaf B S hS X).obj.map g ≫ (structureSharp B S hS i).hom.app V).hom a = 0
   rw [(structureSharp B S hS i).hom.naturality g]
-  show ((structureRingSheafDirectImage B S hS i).obj.map g).hom
+  change ((structureRingSheafDirectImage B S hS i).obj.map g).hom
     (((structureSharp B S hS i).hom.app U).hom a) = 0
   rw [ha, map_zero]
 

@@ -83,7 +83,7 @@ lemma copowerObj_map_apply (E : Cᵒᵖ ⥤ Type v) {X Y : Cᵒᵖ} (f : X ⟶ Y
     (x : E.obj X →₀ M.obj X) :
     (copowerObj M E).map f x =
       Finsupp.mapDomain (E.map f) (Finsupp.mapRange (M.map f) (map_zero _) x) := by
-  show (Finsupp.lsum ℕ fun e => (M.map f ≫ (ModuleCat.restrictScalars (R.map f).hom).map
+  change (Finsupp.lsum ℕ fun e => (M.map f ≫ (ModuleCat.restrictScalars (R.map f).hom).map
     (ModuleCat.copowerMk (E.map f e))).hom) x = _
   rw [Finsupp.lsum_apply, Finsupp.mapDomain,
     Finsupp.sum_mapRange_index (fun _ => Finsupp.single_zero _)]
@@ -142,7 +142,7 @@ lemma copowerMap_comp_copowerSum {E E' : Cᵒᵖ ⥤ Type v} (g : E ⟶ E') :
     copowerMap M g ≫ copowerSum M E' = copowerSum M E := by
   ext X : 1
   refine ModuleCat.copower_hom_ext fun e => ?_
-  show ModuleCat.copowerMk e ≫ (copowerMap M g).app X ≫ (copowerSum M E').app X =
+  change ModuleCat.copowerMk e ≫ (copowerMap M g).app X ≫ (copowerSum M E').app X =
     ModuleCat.copowerMk e ≫ (copowerSum M E).app X
   rw [copowerMk_comp_copowerMap_app_assoc, copowerMk_comp_copowerSum_app,
     copowerMk_comp_copowerSum_app]

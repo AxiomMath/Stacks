@@ -165,7 +165,7 @@ theorem map_eqToHom_of_heq {D : Type v} [Category.{u} D]
     (hab : HEq (Discrete.mk a) b) :
     F.map (eqToHom h).op a = b.as := by
   cases h
-  show (F.map (𝟙 (Opposite.op X))) a = b.as
+  change (F.map (𝟙 (Opposite.op X))) a = b.as
   rw [Functor.map_id_apply]
   exact congrArg Discrete.as (eq_of_heq hab)
 
@@ -176,7 +176,7 @@ theorem map_eqToHom_heq {D : Type v} [Category.{u} D]
     (a : F.obj (Opposite.op X)) :
     HEq (F.map (eqToHom h).op a) a := by
   cases h
-  show (F.map (𝟙 (Opposite.op X))) a ≍ a
+  change (F.map (𝟙 (Opposite.op X))) a ≍ a
   rw [Functor.map_id_apply]
 
 /-- The arrow of the pointwise groupoid fibration named by a point `x` of the arrow space: it
@@ -354,7 +354,7 @@ theorem pointwiseArrow_endpoints_of_base_id
           (G.evaluationArrowEquiv (Opposite.op T) _ _ f.fiber).1 = y := by
   have h := (G.evaluationArrowEquiv (Opposite.op T) _ _ f.fiber).2
   refine ⟨h.1, h.2.trans ?_⟩
-  show G.objects.map f.base.op y = y
+  change G.objects.map f.base.op y = y
   rw [hf]
   exact G.objects.map_id_apply (Opposite.op T) y
 
@@ -440,7 +440,7 @@ theorem pointwiseHom_eq_comp_of_arrow_compose
   subst hm hx hy
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   refine pointwiseHom_ext G ?_ ?_
-  · show w.base = f.base ≫ g.base
+  · change w.base = f.base ≫ g.base
     rw [hf, hg, hw, Category.id_comp]
   · exact harrow.trans (pointwiseComp_arrow_of_base_id G f g hf hcomp).symm
 
@@ -617,7 +617,7 @@ theorem constructedTwoArrow_app_heq
     (x : (fibredCategory C S hS G.arrows.obj).val.obj) :
     HEq ((constructedTwoArrow G).app x)
       ((pointwiseToQuotientStack G).map (directArrowAt G x)) := by
-  show HEq (eqToHom _ ≫ (pointwiseToQuotientStack G).map
+  change HEq (eqToHom _ ≫ (pointwiseToQuotientStack G).map
     (pointwiseArrowAt G x) ≫ eqToHom _) _
   rw [pointwiseArrowAt]
   simp only [Functor.map_comp, eqToHom_map, eqToHom_comp_heq_iff, comp_eqToHom_heq_iff]
@@ -737,9 +737,6 @@ theorem quotientStackTwoArrow_app_compose
   rw [hc, hb, ha, hmul]
   simp only [Functor.map_comp, eqToHom_map]
   rfl
-
-add_to_stacks 04M7 "the two-commutative square of Stacks 044S, in the abbreviated notation \
-that writes U for the stack in sets associated to U" quotientStackTwoArrow
 
 end AlgebraicGeometry.Stack
 

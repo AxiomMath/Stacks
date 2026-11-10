@@ -72,7 +72,7 @@ theorem exists_covering_refining_sieve (B : BigFppfSite.{u}) {X : B.Schemes} {R 
         B.coverings_isSite.2.1 ⟨X, E⟩ hE (fun i ↦ ⟨E.X i, G i⟩) hG (fun _ ↦ rfl), ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((G i).f j ≫ E.f i)
+      change Q ((G i).f j ≫ E.f i)
       exact hGle i _ _ ⟨j⟩
 
 end AlgebraicGeometry.Space

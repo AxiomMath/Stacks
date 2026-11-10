@@ -56,7 +56,7 @@ theorem toPresheafFiber_tensorHom_μ_sheafFiber_map_tensorDesc
   have hi : ∀ K : Sheaf J A, Φ.sheafFiber.map (sheafificationIso K).hom = e.inv.app K.obj := by
     intro K
     rw [he]
-    show Φ.presheafFiber.map (isoSheafify J K.2).hom = _
+    change Φ.presheafFiber.map (isoSheafify J K.2).hom = _
     rw [isoSheafify_hom]
   have hμ : LaxMonoidal.μ Φ.sheafFiber (L.obj F.obj) (L.obj G.obj) =
       (e.hom.app _ ⊗ₘ e.hom.app _) ≫ LaxMonoidal.μ Φ.presheafFiber F.obj G.obj ≫
@@ -65,7 +65,7 @@ theorem toPresheafFiber_tensorHom_μ_sheafFiber_map_tensorDesc
   have hc : e.inv.app H.obj ≫ Φ.sheafFiber.map ((sheafificationAdjunction J A).counit.app H) =
       𝟙 _ := by
     rw [he]
-    show Φ.presheafFiber.map (toSheafify J H.obj) ≫
+    change Φ.presheafFiber.map (toSheafify J H.obj) ≫
       Φ.presheafFiber.map
         ((sheafToPresheaf J A).map ((sheafificationAdjunction J A).counit.app H)) = _
     rw [← Φ.presheafFiber.map_comp]

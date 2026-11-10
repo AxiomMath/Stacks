@@ -529,7 +529,7 @@ theorem upperShriekFactorIso_assoc {W X Y Z : FTS S} {f : W ⟶ X} {g : X ⟶ Y}
         (upperShriekFactorIso efg cf cg cfg).hom.app ((upperShriekPlus h ch).obj K) := by
   subst efg egh ek
   apply ObjectProperty.hom_ext
-  show ((upperShriekCompIso f (g ≫ h) cf cgh ck).hom.app K).hom ≫
+  change ((upperShriekCompIso f (g ≫ h) cf cgh ck).hom.app K).hom ≫
       (upperShriek f cf).map ((upperShriekCompIso g h cg ch cgh).hom.app K).hom =
     ((upperShriekCompIso (f ≫ g) h cfg ch ck).hom.app K).hom ≫
       ((upperShriekCompIso f g cf cg cfg).hom.app ((upperShriekPlus h ch).obj K)).hom

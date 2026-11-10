@@ -305,7 +305,7 @@ theorem localRoots_of_isLocallySurjective (n : ℕ)
         (a⁻¹ : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U) : Type w)ˣ).val :=
     congrArg (fun z => (unitsAddUnit X V z).val) h1
   rw [h3]
-  show ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map f.op) ((a⁻¹).val) *
+  change ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map f.op) ((a⁻¹).val) *
     ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map f.op) a.val = 1
   rw [← map_mul, Units.inv_mul, map_one]
 

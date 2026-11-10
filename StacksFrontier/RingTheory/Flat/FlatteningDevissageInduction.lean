@@ -55,8 +55,7 @@ theorem isFlatAtPrimesAbove_of_subsingleton {A : Type u} [CommRing A] {C : Type 
   intro 𝔮 _ _ _
   have : Subsingleton ((C ⊗[A] R) ⊗[C] N) := by
     refine subsingleton_of_forall_eq 0 fun a ↦ ?_
-    induction a using TensorProduct.induction_on with
-    | zero => rfl
+    induction a using TensorProduct.inductionOn with
     | tmul c n => rw [Subsingleton.elim n 0, TensorProduct.tmul_zero]
     | add x y hx hy => rw [hx, hy, add_zero]
   have : Subsingleton (LocalizedModule 𝔮.primeCompl ((C ⊗[A] R) ⊗[C] N)) := by

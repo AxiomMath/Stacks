@@ -127,7 +127,7 @@ theorem etale_lift_baseChange_iso
         Algebra.PreSubmersivePresentation.jacobiMatrix_apply]
     have h1 : QP'.map i = P.map i := rfl
     have h2 : QP'.relation j = P.relation j := by
-      show QP.relation j = P.relation j; rw [hrel]
+      change QP.relation j = P.relation j; rw [hrel]
     rw [h1, h2]
   have hxjac : x = QP'.jacobian := by
     rw [hx, hQP', Algebra.PreSubmersivePresentation.baseChange_jacobian]
@@ -143,7 +143,7 @@ theorem etale_lift_baseChange_iso
       P.toPreSubmersivePresentation).symm
   have hux : IsUnit x := by
     have h : IsUnit (e0.toRingEquiv x) := by
-      show IsUnit (e0 x); rw [he0x]; exact P.jacobian_isUnit
+      change IsUnit (e0 x); rw [he0x]; exact P.jacobian_isUnit
     rw [← e0.toRingEquiv.symm_apply_apply x]
     exact h.map e0.toRingEquiv.symm
   exact ⟨e1.trans (((IsLocalization.atUnit _ _ x hux).symm.restrictScalars (R ⧸ I)).trans e0)⟩
@@ -196,7 +196,7 @@ theorem etale_lift_construction
   refine ⟨S, inferInstance, inferInstance, Algebra.SubmersivePresentation.mk Q₀ hQunit, ?_, ⟨eBase⟩⟩
   have hcardσ : Nat.card σ ≤ Nat.card ι := Nat.card_le_card_of_injective _ P.map_inj
   have hPdim : P.dimension = Nat.card ι - Nat.card σ := rfl
-  show Nat.card (ι ⊕ Unit) - Nat.card (σ ⊕ Unit) = 0
+  change Nat.card (ι ⊕ Unit) - Nat.card (σ ⊕ Unit) = 0
   rw [Nat.card_sum, Nat.card_sum]
   omega
 
@@ -236,8 +236,7 @@ noncomputable def tensorQuotientAlgEquiv
   rw [Function.bijective_iff_has_inverse]
   refine ⟨inv, ?_, ?_⟩
   · intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a s =>
         rw [hfwd]
         obtain ⟨a₀, rfl⟩ := Ideal.Quotient.mk_surjective a
@@ -305,7 +304,7 @@ theorem etale_lift_along_surjection (A' : Type u) (A : Type v) (B : Type w)
     (ε.symm.restrictScalars A').toAlgHom.comp (Ideal.Quotient.mkₐ A' (I.map (algebraMap A' C)))
   refine ⟨C, inferInstance, inferInstance, hC, ψ, ?_, ?_⟩
   · exact ε.symm.surjective.comp Ideal.Quotient.mk_surjective
-  · show RingHom.ker ((ε.symm : (C ⧸ I.map (algebraMap A' C)) ≃+* B).toRingHom.comp
+  · change RingHom.ker ((ε.symm : (C ⧸ I.map (algebraMap A' C)) ≃+* B).toRingHom.comp
       (Ideal.Quotient.mk (I.map (algebraMap A' C)))) = _
     rw [← RingHom.comap_ker,
       show RingHom.ker (ε.symm : (C ⧸ I.map (algebraMap A' C)) ≃+* B).toRingHom = ⊥ from

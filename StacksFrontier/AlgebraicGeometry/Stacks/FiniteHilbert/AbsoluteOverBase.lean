@@ -126,7 +126,7 @@ theorem forgetRelativeStructure_base_full :
         eqToHom P.x_over ≫ χ.cover.g ≫ eqToHom Q.x_over.symm := by
       have := χ.a_over
       exact CategoryTheory.IsHomLift.fac' 𝒳.toBasedCategory.p χ.cover.g χ.a
-    show 𝒳.toBasedCategory.p.map χ.a ≫ Q.α = P.α ≫ _
+    change 𝒳.toBasedCategory.p.map χ.a ≫ Q.α = P.α ≫ _
     rw [ha, Functor.eq_of_isHomLift_id_over P.x_over P.y_over P.α_over,
       Functor.eq_of_isHomLift_id_over Q.x_over Q.y_over Q.α_over]
     exact eqToHom_comp_square P.x_over Q.x_over P.y_over Q.y_over χ.cover.square.w
@@ -185,7 +185,7 @@ theorem forgetRelativeToFiniteCover_base_full :
               a := eqToHom P.x_over ≫ χ.g ≫ eqToHom Q.x_over.symm
               a_over := Functor.isHomLift_idFunctor_eqToHom P.x_over Q.x_over χ.g
               compatible := ?_ }, rfl⟩
-    show (eqToHom P.x_over ≫ χ.g ≫ eqToHom Q.x_over.symm) ≫ Q.α = P.α ≫ _
+    change (eqToHom P.x_over ≫ χ.g ≫ eqToHom Q.x_over.symm) ≫ Q.α = P.α ≫ _
     rw [Functor.eq_of_isHomLift_id_over P.x_over P.y_over P.α_over,
       Functor.eq_of_isHomLift_id_over Q.x_over Q.y_over Q.α_over]
     exact eqToHom_comp_square P.x_over Q.x_over P.y_over Q.y_over χ.square.w

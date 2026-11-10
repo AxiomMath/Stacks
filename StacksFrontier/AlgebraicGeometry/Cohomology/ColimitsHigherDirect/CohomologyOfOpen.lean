@@ -163,7 +163,7 @@ public noncomputable def cohomologyOverNatIsoRestriction (X : SheafedSpace RingC
 public theorem jFun_obj_top (X : SheafedSpace RingCat.{u}) (U : Opens X.carrier) :
     (jFun X U).obj (⊤ : Opens ((Opens.toTopCat X.carrier).obj U)) = U := by
   apply Opens.ext
-  show (Subtype.val '' Set.univ : Set X.carrier) = (U : Set X.carrier)
+  change (Subtype.val '' Set.univ : Set X.carrier) = (U : Set X.carrier)
   rw [Set.image_univ, Subtype.range_coe]
 
 /-- The cohomology of a sheaf of modules over an open is naturally isomorphic, as a module over

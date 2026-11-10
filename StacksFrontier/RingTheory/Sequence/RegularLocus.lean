@@ -71,8 +71,8 @@ public abbrev fiberLocalRing (R : Type*) {S : Type*} [CommRing R] [CommRing S] [
 section Arithmetic
 
 /-- Relative dimension is never `-∞`: the fibre through `𝔮` contains `𝔮`, so it is nonempty. -/
-public theorem _root_.Algebra.zero_le_relativeDimensionAt (R : Type*) {S : Type*} [CommRing R] [CommRing S]
-    [Algebra R S] (q : Ideal S) [q.IsPrime] : 0 ≤ Algebra.relativeDimensionAt R q := by
+public theorem _root_.Algebra.zero_le_relativeDimensionAt (R : Type*) {S : Type*} [CommRing R]
+    [CommRing S] [Algebra R S] (q : Ideal S) [q.IsPrime] : 0 ≤ Algebra.relativeDimensionAt R q := by
   rw [Algebra.relativeDimensionAt]
   obtain ⟨⟨U, hxU, _, hEq⟩, -⟩ := topologicalKrullDimAt_isLeast _
     (⟨(⟨q, ‹_›⟩ : PrimeSpectrum S), rfl⟩ :
@@ -789,7 +789,8 @@ the set has to be a predicate in `𝔮` alone, and it is invariant under the can
 Cohen–Macaulayness of a Noetherian local ring is `Module.IsMaximalCohenMacaulay A A` (tag 00NF),
 that is `depth_{𝔪_A}(A) = dim A`, which is Definition 00N8 verbatim; that of the non-local
 Noetherian fibre (Definition 00NC) is spelled out as a `∀` over its primes at the concrete
-`Localization.AtPrime`, exactly as in the companion statements for tags 00ND and 00R9. "Equidimensional
+`Localization.AtPrime`, exactly as in the companion statements for tags 00ND and 00R9.
+"Equidimensional
 of dimension `d`" is `TopologicalSpace.Equidimensional (PrimeSpectrum (𝔭.Fiber S))`, the
 project's Definition 0058, together with `ringKrullDim (𝔭.Fiber S) = d`, again as in tag 00R9.
 Neither `[IsNoetherianRing S]` nor finite type of the fibre over `κ(𝔭)` is assumed: both follow

@@ -135,7 +135,7 @@ public theorem restrictScalars_relativeSpecQcohEquivalence_functor
   have hmap : AlgebraSheaf.structureMap 𝒜 ≫ (pushforwardRingIso 𝒜).inv =
       (relativeSpecToBase 𝒜).toRingCatSheafHom :=
     (Iso.comp_inv_eq _).2 (structureMap_comp_pushforwardRingIso 𝒜).symm
-  show (ObjectProperty.ι (SheafOfModules.isQuasicoherent (relativeSpec 𝒜).ringCatSheaf) ⋙
+  change (ObjectProperty.ι (SheafOfModules.isQuasicoherent (relativeSpec 𝒜).ringCatSheaf) ⋙
       Stacks.AlgebraicGeometry.AffineQcohPushforward.pushforwardModules
         (relativeSpecToBase 𝒜).base (relativeSpec 𝒜).ringCatSheaf ⋙
       SheafOfModules.restrictScalars

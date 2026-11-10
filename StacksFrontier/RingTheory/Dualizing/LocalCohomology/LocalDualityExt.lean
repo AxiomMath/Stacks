@@ -108,7 +108,7 @@ lemma mapHomologyIso_cyclesMk {R : Type u} [Ring R]
   let h := S.homologyData.left
   let k := h.map U
   rw [h.mapHomologyIso_eq U]
-  show k.homologyIso.inv (h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx))) = _
+  change k.homologyIso.inv (h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx))) = _
   have hh := ConcreteCategory.congr_hom (h.homologyπ_comp_homologyIso_hom S)
     (S.cyclesMk x hx)
   change h.homologyIso.hom (S.homologyπ (S.cyclesMk x hx)) =
@@ -135,7 +135,7 @@ lemma homComplexRHomologyAddEquiv_cyclesMk {A : Type u} [CommRing A]
           (CochainComplex.HomComplex.Cocycle.δ_eq_zero z _))) =
       CochainComplex.HomComplex.CohomologyClass.mk z := by
   let S := (CochainComplex.HomComplexR A P F).sc n
-  show CochainComplex.HomComplex.homologyAddEquiv P F n
+  change CochainComplex.HomComplex.homologyAddEquiv P F n
       ((S.mapHomologyIso (forget₂ (ModuleCat.{u} A) AddCommGrpCat)).inv
         (S.homologyπ (S.cyclesMk z.val
           (CochainComplex.HomComplex.Cocycle.δ_eq_zero z _)))) =
@@ -280,7 +280,7 @@ private lemma homology_to_single_surjective (K : CochainComplex C ℤ)
     (E : C) [Injective E] (i : ℤ) :
     Function.Surjective (fun f : K ⟶ (CochainComplex.singleFunctor C i).obj E =>
       homologyMap f i ≫ (singleObjHomologySelfIso (ComplexShape.up ℤ) i E).hom) := by
-  simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+  simp only [CochainComplex.singleFunctor]
   intro f
   let t := Injective.factorThru f (K.homologyι i)
   let g : K ⟶ (CochainComplex.singleFunctor C i).obj E :=
@@ -342,7 +342,7 @@ private lemma homotopyHomologyToSingle_map (R : Type*) [Ring R] [Linear R C]
   let e := HomotopyCategory.homologyFunctorFactors C (ComplexShape.up ℤ) i
   let J := (CochainComplex.singleFunctor C i).obj E
   let s := (singleObjHomologySelfIso (ComplexShape.up ℤ) i E).hom
-  show (e.inv.app K ≫ H.map (q.map f)) ≫ (e.hom.app J ≫ s) = homologyMap f i ≫ s
+  change (e.inv.app K ≫ H.map (q.map f)) ≫ (e.hom.app J ≫ s) = homologyMap f i ≫ s
   exact comp_naturality_cancel (e.inv.app K) (H.map (q.map f)) (e.hom.app J)
     (homologyMap f i) (e.hom.app K) s (e.hom.naturality f) (e.inv_hom_id_app K)
 
@@ -667,11 +667,11 @@ private lemma homologyToSingleLinearMap_Q_map
   let J := (CochainComplex.singleFunctor (ModuleCat.{u} A) i).obj E
   have h2 : H.map (DerivedCategory.Q.map g) ≫ (F.app J).hom =
       (F.app K).hom ≫ HomologicalComplex.homologyMap g i := F.hom.naturality g
-  show H.map (DerivedCategory.Q.map g ≫ sfc.inv) ≫
+  change H.map (DerivedCategory.Q.map g ≫ sfc.inv) ≫
       (H.mapIso sfc).hom ≫ (F.app J).hom ≫
         (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) i E).hom = _
   rw [Functor.map_comp, Category.assoc]
-  show H.map (DerivedCategory.Q.map g) ≫ H.map sfc.inv ≫ H.map sfc.hom ≫
+  change H.map (DerivedCategory.Q.map g) ≫ H.map sfc.inv ≫ H.map sfc.hom ≫
     (F.app J).hom ≫ _ = _
   rw [← Category.assoc (H.map sfc.inv), ← H.map_comp, Iso.inv_hom_id, H.map_id,
     Category.id_comp]
@@ -1034,7 +1034,7 @@ public theorem exists_natural_extToMatlisDualMap
             (Opposite.op K, (ω⟦-i⟧))))).hom).comp
       (extHomologyZeroLinearEquiv A K (ω⟦-i⟧)).toLinearMap), ?_⟩
   intro K K' g u
-  show θ K' (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
+  change θ K' (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
       ((DerivedCompletion.derivedCompletionUnit A f).app
         ((StacksDraft.DerivedHom.derivedHomAdjunction (R := A)).hom.obj
           (Opposite.op K', (ω⟦-i⟧))))).hom (extHomologyZeroLinearEquiv A K' (ω⟦-i⟧) (g ≫ u))) = _

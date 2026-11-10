@@ -133,10 +133,10 @@ lemma cohomologyClassMap_bijective [QuasiIso f] [QuasiIso g] [I'.IsKInjective] [
     funext x
     obtain ⟨z, rfl⟩ := CohomologyClass.mk_surjective x
     simp only [cohomologyClassMap]
-    show CohomologyClass.toHom (CohomologyClass.mk (cocycleMap f g n z)) = _
+    change CohomologyClass.toHom (CohomologyClass.mk (cocycleMap f g n z)) = _
     rw [CohomologyClass.toHom_mk]
     dsimp [CohomologyClass.homAddEquiv]
-    show Q.map (Cocycle.equivHomShift.symm (cocycleMap f g n z)) =
+    change Q.map (Cocycle.equivHomShift.symm (cocycleMap f g n z)) =
       Q.map f ≫ CohomologyClass.toHom (CohomologyClass.mk z) ≫ Q.map (g⟦n⟧')
     rw [CohomologyClass.toHom_mk]
     simp [cocycleMap, Cocycle.equivHomShift_symm_precomp, Cocycle.equivHomShift_symm_postcomp,
@@ -144,7 +144,7 @@ lemma cohomologyClassMap_bijective [QuasiIso f] [QuasiIso g] [I'.IsKInjective] [
     rfl
   refine (Function.Bijective.of_comp_iff'
     (CohomologyClass.homAddEquiv (K := K') (L := I) (n := n)).bijective _).1 ?_
-  show Function.Bijective
+  change Function.Bijective
     ((CohomologyClass.homAddEquiv (K := K') (L := I) (n := n)).toFun ∘ cohomologyClassMap f g n)
   rw [hcomp]
   exact hF.comp (CohomologyClass.homAddEquiv (K := K) (L := I') (n := n)).bijective

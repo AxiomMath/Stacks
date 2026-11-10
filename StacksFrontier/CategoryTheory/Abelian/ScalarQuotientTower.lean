@@ -514,7 +514,7 @@ public theorem towerHom_eq_zero_of_pro_mono {A K F : ℕᵒᵖ ⥤ C} (j : K ⟶
   obtain ⟨m, h, hm⟩ := hK n.unop
   have := hA n.unop m h
   apply (cancel_epi (towerMap A h)).1
-  show towerMap A h ≫ a.app n = towerMap A h ≫ 0
+  change towerMap A h ≫ a.app n = towerMap A h ≫ 0
   rw [comp_zero, a.naturality]
   have ham : a.app (Opposite.op m) ≫ j.app (Opposite.op m) = 0 :=
     NatTrans.congr_app ha (Opposite.op m)
@@ -568,7 +568,7 @@ public theorem presentationLift_map (P : QuotientPresentation (C := C) S ℓ) (A
   have : Epi (towerMap A (P.le_index n.unop)) :=
     Cofork.IsColimit.epi (hAc n.unop (P.index n.unop) (P.le_index n.unop))
   apply (cancel_epi (towerMap A (P.le_index n.unop))).1
-  show towerMap A (P.le_index n.unop) ≫
+  change towerMap A (P.le_index n.unop) ≫
     ((presentationLift P A l hA hAc).app n ≫ (presentationMap P F i hF).app n) =
     towerMap A (P.le_index n.unop) ≫ (l.app n ≫ i.app n)
   rw [← Category.assoc, presentationLift_fac, Category.assoc, presentationMap_fac,
@@ -582,7 +582,7 @@ public theorem presentationMap_comp_eq_zero (P : QuotientPresentation (C := C) S
   apply NatTrans.ext
   funext n
   apply (cancel_epi (P.π n.unop)).1
-  show P.π n.unop ≫ ((presentationMap P F i hF).app n ≫ f.app n) = P.π n.unop ≫ 0
+  change P.π n.unop ≫ ((presentationMap P F i hF).app n ≫ f.app n) = P.π n.unop ≫ 0
   rw [comp_zero, ← Category.assoc, presentationMap_fac, Category.assoc, f.naturality,
     ← Category.assoc]
   have h := NatTrans.congr_app hi (Opposite.op (P.index n.unop))

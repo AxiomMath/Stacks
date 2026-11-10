@@ -222,7 +222,7 @@ private theorem exists_dividedPowers_of_isPullback
       intro n x hx
       obtain ⟨y, hy₁, hy₂⟩ := Types.exists_of_isPullback ht
         ((dividedPowersBot A).dpow n (a x)) (δ.dpow n (b x)) (by
-          show f.hom ((dividedPowersBot A).dpow n (a x)) = g.hom (δ.dpow n (b x))
+          change f.hom ((dividedPowersBot A).dpow n (a x)) = g.hom (δ.dpow n (b x))
           obtain rfl | hn := eq_or_ne n 0
           · rw [DividedPowers.dpow_zero _ (show a x ∈ (⊥ : Ideal A) from hx),
               δ.dpow_zero (hb hx), map_one, map_one]
@@ -231,7 +231,7 @@ private theorem exists_dividedPowers_of_isPullback
               map_zero]
             exact (RingHom.mem_ker.mp (δ.dpow_mem hn (hb hx))).symm)
       refine ⟨y, fun hn ↦ ?_, hy₁, hy₂⟩
-      show a y = 0
+      change a y = 0
       exact hy₁.trans ((dividedPowersBot A).dpow_mem hn
         (show a x ∈ (⊥ : Ideal A) from hx)))
   exact ⟨γ, hγ⟩
@@ -394,9 +394,9 @@ theorem isDPMorphism_pushout_desc (Z : DividedPowerScheme.{u})
       Crystalline.sectionIdeal (pushout D.immersion g).sheaf
         (definingIdeal (pushout.inr D.immersion g)) (op (w ⁻¹ᵁ U)) := by
     refine Ideal.map_le_iff_le_comap.mpr fun x hx ↦ ?_
-    show ((pushout.inr D.immersion g ≫ w).app U).hom x = 0
+    change ((pushout.inr D.immersion g ≫ w).app U).hom x = 0
     exact h₂ U x hx
-  show (Z.dividedPowers.dividedPowers (op U)).IsDPMorphism
+  change (Z.dividedPowers.dividedPowers (op U)).IsDPMorphism
     ((exists_pushout_dividedPowerStructure D g).choose.dividedPowers (op (w ⁻¹ᵁ U)))
     ((w.app U).hom)
   refine isDPMorphism_of_comp_of_injOn _ _

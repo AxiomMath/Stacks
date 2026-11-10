@@ -71,7 +71,7 @@ private theorem smallAffineEtale_isCoverDense
   let E : PreZeroHypercover X := {
     I₀ := V.I₀
     X i := ⟨Over.mk (V.f i ≫ X.obj.hom), by
-      show Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map X.obj.hom)
+      change Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map X.obj.hom)
       have : Etale (B.inclusion.map (V.f i)) := by
         rw [← show (e i).hom ≫ U.f (β i) = B.inclusion.map (V.f i) by
           simpa [PreZeroHypercover.map] using he i]
@@ -85,7 +85,7 @@ private theorem smallAffineEtale_isCoverDense
       AlgebraicGeometry.BigEtaleOver.forget B S hS) = V := by
     ext <;> rfl
   have hE : AlgebraicGeometry.SmallEtale.IsCovering B S hS ⟨X, E⟩ := by
-    show B.IsCovering ⟨X.obj.left, E.map
+    change B.IsCovering ⟨X.obj.left, E.map
       (AlgebraicGeometry.SmallEtale.inclusion B S hS ⋙
         AlgebraicGeometry.BigEtaleOver.forget B S hS)⟩
     rwa [hmap]
@@ -97,9 +97,9 @@ private theorem smallAffineEtale_isCoverDense
   rintro Y f ⟨i⟩
   let Aobj : AlgebraicGeometry.SmallAffineEtale B S hS :=
     ⟨E.X i, by
-      show IsAffine ((V.map B.inclusion).X i)
+      change IsAffine ((V.map B.inclusion).X i)
       have : IsAffine (U.X (β i)) := by
-        show IsAffine (A.openCover.X (β i).down)
+        change IsAffine (A.openCover.X (β i).down)
         infer_instance
       exact IsAffine.of_isIso (e i).hom⟩
   exact ⟨⟨Aobj, 𝟙 _, E.f i, by simp [Aobj]⟩⟩
@@ -119,7 +119,7 @@ private theorem finite_standard_refinement
     X i := B.inclusion.obj (E.X i)
     f i := B.inclusion.map (E.f i)
     mem₀ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
       exact hE.1 }
   obtain ⟨V, q, hfin, hopen⟩ := finite_affine_refinement_etaleCover U
   let Q : PreZeroHypercover T := {
@@ -136,7 +136,7 @@ private theorem finite_standard_refinement
           B.inclusion.obj T from V.f i) }
   have hQf (i : Q.I₀) : B.inclusion.map (Q.f i) = V.f i := Functor.map_preimage _ _
   have hQ : AlgebraicGeometry.IsEtaleCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     rw [show Q.map B.inclusion = V.cover.toPreZeroHypercover by
       ext
       case f =>
@@ -152,7 +152,7 @@ private theorem finite_standard_refinement
   have hcomb' : PreZeroHypercover.CombinatoriallyEquivalent Q Rfam := hcomb.2
   let F := deduplicateFamily Q
   have hFet : AlgebraicGeometry.IsEtaleCovering ⟨T, F⟩ := by
-    show (F.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (F.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
       ← PreZeroHypercover.presieve₀_map]
     exact hQ
@@ -255,7 +255,7 @@ private theorem finite_affine_pullback_refinement
           exact congrArg (fun t => F.f i ≫ t) a.w)
     have hl : l ≫ E.f j = G.map (F'.f i) ≫ a := by
       apply Over.OverMorphism.ext
-      show (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
+      change (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
       calc
         (g ≫ π₁ j) ≫ (E.f j).left = g ≫ π₁ j ≫ (E.f j).left := Category.assoc _ _ _
         _ = g ≫ (π₂ j ≫ a.left) := by rw [hpbw]
@@ -287,7 +287,7 @@ theorem smallAffineEtale_inclusion_isCocontinuous
       subst P
       let Xbig : AlgebraicGeometry.BigAffineEtale B S hS :=
         ⟨(AlgebraicGeometry.SmallEtale.inclusion B S hS).obj (G.obj X), by
-          show IsAffine ((AlgebraicGeometry.SmallEtale.toScheme B S hS).obj (G.obj X))
+          change IsAffine ((AlgebraicGeometry.SmallEtale.toScheme B S hS).obj (G.obj X))
           exact X.property⟩
       let Yover := (AlgebraicGeometry.SmallEtale.inclusion B S hS).obj Y
       let Eover := E.map (AlgebraicGeometry.SmallEtale.inclusion B S hS)
@@ -304,7 +304,7 @@ theorem smallAffineEtale_inclusion_isCocontinuous
       let Fsmall : PreZeroHypercover X := {
         I₀ := F.I₀
         X i := ⟨⟨(F.X i).obj, hEtale i⟩, by
-          show IsAffine ((AlgebraicGeometry.BigEtaleOver.toScheme B S hS).obj (F.X i).obj)
+          change IsAffine ((AlgebraicGeometry.BigEtaleOver.toScheme B S hS).obj (F.X i).obj)
           exact (F.X i).property⟩
         f i := ObjectProperty.homMk (ObjectProperty.homMk
           ((AlgebraicGeometry.BigAffineEtale.inclusion B S hS).map (F.f i)))
@@ -335,7 +335,7 @@ theorem smallAffineEtale_inclusion_isCocontinuous
         ext <;> rfl
       have hFsmall : AlgebraicGeometry.SmallAffineEtale.IsCovering B S hS ⟨X, Fsmall⟩ := by
         constructor
-        · show AlgebraicGeometry.BigEtaleOver.IsCovering B S hS
+        · change AlgebraicGeometry.BigEtaleOver.IsCovering B S hS
             ⟨(AlgebraicGeometry.SmallEtale.inclusion B S hS).obj (G.obj X),
               Fsmall.map (AlgebraicGeometry.SmallAffineEtale.inclusion B S hS ⋙
                 AlgebraicGeometry.SmallEtale.inclusion B S hS)⟩
@@ -394,7 +394,7 @@ public theorem SmallAffineEtale.inclusion_isSpecialCocontinuous
       ((AlgebraicGeometry.SmallEtale.mem_precoverage_iff B S hS).2
         ⟨E.map G, rfl, hCover.1⟩)
   have hle : J ≤ G.restrictedTopology K := by
-    show P.toGrothendieck ≤ ((K.toPrecoverage).comap G).toGrothendieck
+    change P.toGrothendieck ≤ ((K.toPrecoverage).comap G).toGrothendieck
     exact Precoverage.toGrothendieck_monotone hPmap
   have hge : G.restrictedTopology K ≤ J := by
     intro X R hR
@@ -402,7 +402,7 @@ public theorem SmallAffineEtale.inclusion_isSpecialCocontinuous
       (Functor.mem_restrictedTopology_iff (G := G) (K := K)).mp hR
     have hpull := Functor.cover_lift (G := G) (J := J) (K := K) hpush
     rwa [Sieve.functorPullback_functorPushforward_eq] at hpull
-  show G.IsCocontinuous J K ∧ G.IsDenseSubsite J K
+  change G.IsCocontinuous J K ∧ G.IsDenseSubsite J K
   refine ⟨hco, ?_⟩
   rw [le_antisymm hle hge]
   infer_instance

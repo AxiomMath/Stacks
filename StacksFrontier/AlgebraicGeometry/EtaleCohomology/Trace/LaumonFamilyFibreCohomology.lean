@@ -254,6 +254,7 @@ public theorem exists_conj_of_isEtaleFundamentalGroupHomInducedBy
 end Twist
 
 set_option maxHeartbeats 400000 in
+-- a long proof building many local instances, fibre isomorphisms and fundamental-group maps
 /-- **(c) The fibres of Laumon's family over the `t`-line**
 ([Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)): the `E`-linear Frobenius of `κ(v)` on
 `H¹_c(Y_κ̄, K|_Y ⊗ ℚ_ℓ)` has the characteristic polynomial of the one on
@@ -277,7 +278,7 @@ public theorem laumonFamilyFibreLinearInput : LaumonFamilyFibreLinearInput.{u} :
   -- the fibre `Y ≅ 𝔸¹_{κ(v)}`
   obtain ⟨β, hβC, hβφ⟩ := exists_laumonFamilyFibre_iso jV' v jU g' hU i fY hY
   have hX' : schemeSizeBelow B.cutoff (Spec (.of (Polynomial (V'.1.residueField v)))) := by
-    show Scheme.size _ < B.cutoff
+    change Scheme.size _ < B.cutoff
     rw [← Scheme.size_congr β]
     exact Y.2
   let X' := Stacks.ArtinSchreier.specObject (Polynomial (V'.1.residueField v)) B hX'
@@ -382,7 +383,7 @@ public theorem laumonFamilyFibreLinearInput : LaumonFamilyFibreLinearInput.{u} :
     rw [Category.comp_id, Category.comp_id, hiφ, ← hg, ← hpr]
     simp only [Category.assoc]
   have hψ : ∀ a, ψ'' a = ψ' (Algebra.trace k' (V'.1.residueField v) a) := fun a => by
-    show ψ (Algebra.trace k (V'.1.residueField v) a) =
+    change ψ (Algebra.trace k (V'.1.residueField v) a) =
       ψ (Algebra.trace k k' (Algebra.trace k' (V'.1.residueField v) a))
     rw [Algebra.trace_trace]
   have hχ := artinSchreierCharacter_trace_baseChange_eq k' (V'.1.residueField v) ψ' ψ'' hψ

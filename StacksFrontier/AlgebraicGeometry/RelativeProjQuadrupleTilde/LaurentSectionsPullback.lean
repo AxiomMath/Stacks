@@ -179,9 +179,9 @@ private theorem pw_map_unit {X X' : Scheme.{u}}
     rw [← map_zpow]
     rfl
   have h2 : pw w n = y := by
-    show ((w ^ n : (Ring M (op ⊤))ˣ) : Ring M (op ⊤)) n = y
+    change ((w ^ n : (Ring M (op ⊤))ˣ) : Ring M (op ⊤)) n = y
     rw [hy, DirectSum.of_eq_same]
-  show ((Units.map f.toMonoidHom w ^ n : (Ring M' (op ⊤))ˣ) : Ring M' (op ⊤)) n = _
+  change ((Units.map f.toMonoidHom w ^ n : (Ring M' (op ⊤))ˣ) : Ring M' (op ⊤)) n = _
   rw [h1, hy, hf, DirectSum.of_eq_same, h2]
 
 /-- A ring homomorphism of Laurent sections that acts on homogeneous elements through additive maps
@@ -269,7 +269,7 @@ theorem coord_pullback (m : ℤ) :
       (((laurent L).mul m (-m)).app U
         (((laurent L).piece m).val.restrictₛₗ (topRes T U) (pw w m)) y))
   have e6 := coord_app w m U y
-  show (coord (pullbackUnit' k L w) m).val.app _ (pullbackSec k L (-m) U y) =
+  change (coord (pullbackUnit' k L w) m).val.app _ (pullbackSec k L (-m) U y) =
     (pullbackUnitComparison (ringedSpaceHom k)).val.app _
       (((pullbackFunctor (ringedSpaceHom k)).map (coord w m)).val.app _
         (pullbackUnit (ringedSpaceHom k) _ U y))
@@ -393,7 +393,7 @@ theorem coord_congr (w : (Ring L (op ⊤))ˣ)
       rintro k rfl z
       rfl
     exact h _ (add_neg_cancel m) z
-  show (coord (congrUnit e w) m).val.app U ((congrIso e (-m)).hom.val.app U y) =
+  change (coord (congrUnit e w) m).val.app U ((congrIso e (-m)).hom.val.app U y) =
     (coord w m).val.app U y
   refine e1.trans ?_
   refine Eq.trans ?_ (coord_app w m U y).symm

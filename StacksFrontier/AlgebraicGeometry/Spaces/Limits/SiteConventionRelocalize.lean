@@ -107,7 +107,7 @@ theorem relocalizeStageBaseChangeIsoApp_hom_fst (j : Over i₀) :
           (φ.hom ≫ (OverShriek.relocalizePresheafFunctor k).map σ) j =
       (OverShriek.relocalizePresheafFunctor k).map (stageBaseChangeFst B S hS i₀ D Z σ j) := by
   have h := isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j
-  haveI := h.hasPullback
+  have := h.hasPullback
   exact h.isoPullback_hom_fst
 
 /-- The comparison at a stage lies over the scheme-valued point. -/
@@ -118,7 +118,7 @@ theorem relocalizeStageBaseChangeIsoApp_hom_snd (j : Over i₀) :
       (OverShriek.relocalizePresheafFunctor k).map (stageBaseChangeSnd B S hS i₀ D Z σ j) ≫
         φ.inv := by
   have h := isPullback_relocalize_stageBaseChange k i₀ D Z σ Z' φ j
-  haveI := h.hasPullback
+  have := h.hasPullback
   exact h.isoPullback_hom_snd
 
 /-- **Relocalization of the diagram of base changes.** The relocalization along `k` of the

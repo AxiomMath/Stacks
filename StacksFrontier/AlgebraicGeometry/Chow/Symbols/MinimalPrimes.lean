@@ -52,13 +52,13 @@ private lemma supportDim_quotient_eq_one_of_minimal_support
     rw [Module.support_eq_zeroLocus, Ideal.annihilator_quotient] at hr
     exact Module.mem_support_mono hr hq.1
   have hle : Module.supportDim R (R ⧸ q.asIdeal) ≤ 1 := by
-    show Order.krullDim (Module.support R (R ⧸ q.asIdeal)) ≤ 1
+    change Order.krullDim (Module.support R (R ⧸ q.asIdeal)) ≤ 1
     exact (Order.krullDim_le_of_strictMono (Set.inclusion hsub) (fun _ _ h => h)).trans hM.le
   have hlt : q < IsLocalRing.closedPoint R :=
     lt_of_le_of_ne (IsLocalRing.le_maximalIdeal q.isPrime.ne_top)
       ((Set.ext_iff.mp (minimal_support_eq_nonclosed hM) q).mp hq).2
   have hpos : 0 < Module.supportDim R (R ⧸ q.asIdeal) := by
-    show 0 < Order.krullDim (Module.support R (R ⧸ q.asIdeal))
+    change 0 < Order.krullDim (Module.support R (R ⧸ q.asIdeal))
     apply Order.krullDim_pos_iff.mpr
     have hqQ : q ∈ Module.support R (R ⧸ q.asIdeal) := by
       rw [Module.support_eq_zeroLocus, Ideal.annihilator_quotient]
@@ -84,7 +84,7 @@ private lemma supportDim_quotient_eq_one_of_minimal_support
       have hnle : n ≤ 1 := by exact_mod_cast hle'
       have hnpos : 0 < n := by exact_mod_cast hpos'
       have hn : n = 1 := by omega
-      show ((n : ℕ∞) : WithBot ℕ∞) = ((1 : ℕ) : WithBot ℕ∞)
+      change ((n : ℕ∞) : WithBot ℕ∞) = ((1 : ℕ) : WithBot ℕ∞)
       exact congrArg (fun k : ℕ => ((k : ℕ∞) : WithBot ℕ∞)) hn
 
 /-- The residue field has zero-dimensional support. -/
@@ -142,7 +142,7 @@ private lemma supportDim_le_zero_of_exact
     exact Set.union_subset
       (support_subset_closed_of_supportDim_le_zero hA)
       (support_subset_closed_of_supportDim_le_zero hC)
-  show Order.krullDim (Module.support R B) ≤ 0
+  change Order.krullDim (Module.support R B) ≤ 0
   have : Subsingleton (Module.support R B) := ⟨fun x y => Subtype.ext <|
     (Set.mem_singleton_iff.mp (hsup x.property)).trans
       (Set.mem_singleton_iff.mp (hsup y.property)).symm⟩

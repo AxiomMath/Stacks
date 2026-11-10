@@ -97,7 +97,7 @@ theorem exists_smul_mem_range_linearCombination_of_smul_basis_eq {R T N ι : Typ
     have hSi : S = (s i : R) * ∏ j ∈ Finset.univ.erase i, (s j : R) :=
       (Finset.mul_prod_erase _ _ (Finset.mem_univ i)).symm
     rw [map_smul, ← hp i]
-    show (S * σ) • (b.repr (f u) i • b i) = r i • ((s i : R) • b i)
+    change (S * σ) • (b.repr (f u) i • b i) = r i • ((s i : R) • b i)
     rw [← algebraMap_smul (Localization.AtPrime Q) (S * σ), smul_smul,
       ← algebraMap_smul (Localization.AtPrime Q) (r i),
       ← algebraMap_smul (Localization.AtPrime Q) (s i : R), smul_smul]

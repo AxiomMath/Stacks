@@ -225,7 +225,7 @@ private theorem exists_descent_of_limitPreserving_univ
     exact specMap_comp_comp_eq_of_comp_eq _ _ _ (transition i j hij).comp_algebraMap uΛ
   let stage (j : J) : AlgebraicGeometry.BigAffineFppf B S hS :=
     ⟨siteObject B S hS (hGsite j) (fG j), by
-      show IsAffine (Spec (.of (G j)))
+      change IsAffine (Spec (.of (G j)))
       infer_instance⟩
   let stageMap {i j : Jᵒᵖ} (a : i ⟶ j) : stage i.unop ⟶ stage j.unop :=
     ObjectProperty.homMk (X := stage i.unop) (Y := stage j.unop)
@@ -238,7 +238,7 @@ private theorem exists_descent_of_limitPreserving_univ
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
         (transition i.unop i.unop le_rfl).toRingHom) = 𝟙 _
     have htr : (transition i.unop i.unop le_rfl).toRingHom = RingHom.id _ := by
       ext z
@@ -250,7 +250,7 @@ private theorem exists_descent_of_limitPreserving_univ
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
         (transition k.unop i.unop (leOfHom (a ≫ b).unop)).toRingHom) =
       Spec.map (CommRingCat.ofHom
         (transition j.unop i.unop (leOfHom a.unop)).toRingHom) ≫
@@ -268,7 +268,7 @@ private theorem exists_descent_of_limitPreserving_univ
     map_comp := hstageMap_comp }
   let limitStage : AlgebraicGeometry.BigAffineFppf B S hS :=
     ⟨siteObject B S hS hR fR, by
-      show IsAffine (Spec (.of R))
+      change IsAffine (Spec (.of R))
       infer_instance⟩
   let limitMap (j : Jᵒᵖ) : limitStage ⟶ D.obj j :=
     ObjectProperty.homMk (X := limitStage) (Y := D.obj j)
@@ -280,7 +280,7 @@ private theorem exists_descent_of_limitPreserving_univ
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (toR i.unop).toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (toR i.unop).toRingHom) ≫
       Spec.map (CommRingCat.ofHom
         (transition j.unop i.unop (leOfHom a.unop)).toRingHom) =
       Spec.map (CommRingCat.ofHom (toR j.unop).toRingHom)
@@ -351,7 +351,7 @@ private theorem exists_descent_of_limitPreserving_univ
         ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i₀)) γ := by
       apply IsHomLift.of_fac (baseFiberedCategory B S hS).val.p _ γ
         hxBase rfl
-      show (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i₀) =
+      change (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i₀) =
         (eqToIso hxBase).inv ≫ (eqToIso hxBase).hom ≫
           (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i₀)
       simp
@@ -463,7 +463,7 @@ public theorem exists_finiteType_approximation_univ
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal R))) ≫ fR
   let κpt : Spec (.of (R ⧸ maximalIdeal R)) := closedPoint (R ⧸ maximalIdeal R)
   have hpoint : fK κpt = s := by
-    show fR (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal R)))
+    change fR (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal R)))
       κpt) = s
     rw [Spec.map_apply, IsLocalRing.comap_closedPoint]
     exact hs
@@ -476,7 +476,7 @@ public theorem exists_finiteType_approximation_univ
   obtain ⟨fU, hfU⟩ := factorsThrough_affineOpen_of_closedPoint fR U s hs hsU
   have hUR : (⊤ : (Spec (.of R)).Opens) ≤ fR ⁻¹ᵁ U.1 := by
     intro z _
-    show fR z ∈ U.1
+    change fR z ∈ U.1
     rw [← hfU]
     exact (fU z).property
   let Λ := Γ(S, U.1)
@@ -547,7 +547,7 @@ public theorem exists_finiteType_approximation_univ
     have hpeq : p₂ = Ideal.comap (qAlg.comp f₂).toRingHom
         (⊥ : Ideal (R ⧸ maximalIdeal R)) := by
       ext z
-      show f₂ z ∈ maximalIdeal R ↔
+      change f₂ z ∈ maximalIdeal R ↔
         Ideal.Quotient.mk (maximalIdeal R) (f₂ z) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.symm
     rw [hpeq]
@@ -556,7 +556,7 @@ public theorem exists_finiteType_approximation_univ
       ∃ p : MvPolynomial (Fin s₂) Λ, r₀ - f₂ p ∈ maximalIdeal R := by
     obtain ⟨p, hp⟩ := hresSurj (qAlg r₀)
     refine ⟨p, Ideal.Quotient.eq_zero_iff_mem.mp ?_⟩
-    show (Ideal.Quotient.mk (maximalIdeal R)) (r₀ - f₂ p) = 0
+    change (Ideal.Quotient.mk (maximalIdeal R)) (r₀ - f₂ p) = 0
     rw [map_sub, sub_eq_zero]
     exact hp.symm
   have hspanB : Ideal.span (Set.range b) = maximalIdeal R := hb
@@ -587,7 +587,7 @@ public theorem exists_finiteType_approximation_univ
         f₂, a₂, Fin.append_right]
       rw [hr]
       simp [f₂, a₂, sub_mul, Finset.sum_sub_distrib]
-    show f₂ (p₀ + ∑ i, polys i * MvPolynomial.X (Fin.natAdd s₀ i)) - r₀ ∈
+    change f₂ (p₀ + ∑ i, polys i * MvPolynomial.X (Fin.natAdd s₀ i)) - r₀ ∈
       maximalIdeal R ^ 2
     rw [hcomb]
     apply Ideal.sum_mem
@@ -602,7 +602,7 @@ public theorem exists_finiteType_approximation_univ
   have hUsite : B.Contains U.1 :=
     Scheme.size_lt_of_isOpenImmersion U.1.ι hS
   have hΛsite : B.Contains (Spec (.of Λ)) := by
-    show (Spec Γ(S, U.1)).size < B.cutoff
+    change (Spec Γ(S, U.1)).size < B.cutoff
     rw [← Scheme.size_congr U.2.isoSpec]
     exact hUsite
   have hRN : B.Contains (Spec (.of (R ⧸ maximalIdeal R ^ N))) :=
@@ -678,12 +678,12 @@ public theorem exists_finiteType_approximation_univ
   have hrelPmem (i : Fin rC) :
       MvPolynomial.aeval aP (bC i) ∈ RingHom.ker φP := by
     rw [RingHom.mem_ker]
-    show φPAlg (MvPolynomial.aeval aP (bC i)) = 0
+    change φPAlg (MvPolynomial.aeval aP (bC i)) = 0
     rw [← AlgHom.comp_apply, hEvalP]
     exact hbCzero i
   have hrelPspan (i : Fin rC) :
       MvPolynomial.aeval aP (bC i) ∈ Ideal.span (Set.range bP) := by
-    show MvPolynomial.aeval aP (bC i) ∈
+    change MvPolynomial.aeval aP (bC i) ∈
       Submodule.span P (Set.range bP)
     rw [hbP]
     exact hrelPmem i
@@ -742,12 +742,12 @@ public theorem exists_finiteType_approximation_univ
       simp only [rel, MvPolynomial.eval₂_sub, MvPolynomial.eval₂_sum,
         MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X,
         MvPolynomial.eval₂_rename, MvPolynomial.eval₂_map]
-      show MvPolynomial.aeval aP (bC i) - ∑ j, cP i j * bP j = 0
+      change MvPolynomial.aeval aP (bC i) - ∑ j, cP i j * bP j = 0
       rw [hcP i, sub_self]
     | inr i =>
       simp only [rel, MvPolynomial.eval₂_sum,
         MvPolynomial.eval₂_mul, MvPolynomial.eval₂_X]
-      show (∑ j, kP i j * bP j) = 0
+      change (∑ j, kP i j * bP j) = 0
       exact hsyzygyP i
   let qΛ : Ideal Λ := (U.2.primeIdealOf ⟨s, hsU⟩).asIdeal
   have hqΛ : qΛ = Ideal.comap φΛR (maximalIdeal R) := by
@@ -756,7 +756,7 @@ public theorem exists_finiteType_approximation_univ
           U.2.primeIdealOf ⟨s, hsU⟩ := by
       let : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
       apply U.2.fromSpec.isOpenEmbedding.injective
-      show (Spec.map (CommRingCat.ofHom φΛR) ≫ U.2.fromSpec)
+      change (Spec.map (CommRingCat.ofHom φΛR) ≫ U.2.fromSpec)
           (closedPoint R) = U.2.fromSpec (U.2.primeIdealOf ⟨s, hsU⟩)
       rw [hφΛR, U.2.fromSpec_primeIdealOf, hs]
     exact congrArg PrimeSpectrum.asIdeal hpointΛ.symm
@@ -769,7 +769,7 @@ public theorem exists_finiteType_approximation_univ
     ext z
     simp only [Ideal.mem_comap]
     rw [← IsLocalRing.maximalIdeal_comap gP]
-    show gP (φΛT z) ∈ maximalIdeal R ↔ φΛR z ∈ maximalIdeal R
+    change gP (φΛT z) ∈ maximalIdeal R ↔ φΛR z ∈ maximalIdeal R
     rw [← RingHom.comp_apply, hgf]
   let : Algebra Λ T := φΛT.toAlgebra
   let : qΛ.IsPrime := inferInstance
@@ -794,7 +794,7 @@ public theorem exists_finiteType_approximation_univ
     have hloc : Algebra.EssFiniteType (MvPolynomial (Fin s₂) Λ) T :=
       Algebra.EssFiniteType.of_isLocalization T p₂.primeCompl
     apply RingHom.essFiniteType_algebraMap.mp
-    show φΛT.EssFiniteType
+    change φΛT.EssFiniteType
     exact (RingHom.FiniteType.essFiniteType
       (RingHom.finiteType_algebraMap.mpr
         (inferInstance : Algebra.FiniteType Λ (MvPolynomial (Fin s₂) Λ)))).comp
@@ -848,13 +848,13 @@ public theorem exists_finiteType_approximation_univ
       (Ideal.pow_le_self (by omega : N' ≠ 0)) (hcloseP _)
     have heq : ιB (bVec (Sum.inr (Sum.inl j))) =
         bP j - (bP j - ιB (bVec (Sum.inr (Sum.inl j)))) := by ring
-    show ιB (bVec (Sum.inr (Sum.inl j))) ∈ maximalIdeal P
+    change ιB (bVec (Sum.inr (Sum.inl j))) ∈ maximalIdeal P
     rw [heq]
     exact (maximalIdeal P).sub_mem (hbPmax j) hd
   let bB : Fin rP → B' := fun j ↦ bVec (Sum.inr (Sum.inl j))
   let JB : Ideal B' := Ideal.span (Set.range bB)
   have hJBle : JB ≤ mB := by
-    show Ideal.span (Set.range bB) ≤ mB
+    change Ideal.span (Set.range bB) ≤ mB
     rw [Ideal.span_le]
     rintro _ ⟨j, rfl⟩
     exact hbBmax j
@@ -883,7 +883,7 @@ public theorem exists_finiteType_approximation_univ
   let qA₀ : MvPolynomial (Fin sC) Λ →+* A₀ :=
     MvPolynomial.eval₂Hom φΛA₀ aA₀
   have hqA₀rel (i : Fin rC) : qA₀ (bC i) = 0 := by
-    show MvPolynomial.eval₂
+    change MvPolynomial.eval₂
       ((Ideal.Quotient.mk JB).comp φΛB)
       ((Ideal.Quotient.mk JB) ∘ aB) (bC i) = 0
     rw [← MvPolynomial.eval₂_comp_left, hBrel i]
@@ -935,11 +935,11 @@ public theorem exists_finiteType_approximation_univ
         Ideal.Quotient.mk (mA₀ ^ N) (φΛA₀ z) := by
     have hp : φP (φΛP z) = φΛR z := RingHom.congr_fun hφΛP z
     have hg : ιB (φΛB z) = φΛP z := ιB.commutes (φΛT z)
-    show eRtruncA₀ (Ideal.Quotient.mk _ (φΛR z)) =
+    change eRtruncA₀ (Ideal.Quotient.mk _ (φΛR z)) =
       Ideal.Quotient.mk _ (Ideal.Quotient.mk JB (φΛB z))
     rw [← hp]
     apply heApprox
-    show φΛP z - ιB (φΛB z) ∈ maximalIdeal P ^ N
+    change φΛP z - ιB (φΛB z) ∈ maximalIdeal P ^ N
     rw [hg, sub_self]
     exact zero_mem _
   have htruncRing₀ :
@@ -947,7 +947,7 @@ public theorem exists_finiteType_approximation_univ
           ((Ideal.Quotient.mk (mA₀ ^ N)).comp φΛA₀) =
         (Ideal.Quotient.mk ((maximalIdeal R) ^ N)).comp φΛR := by
     ext z
-    show eRtruncA₀.symm (Ideal.Quotient.mk (mA₀ ^ N) (φΛA₀ z)) =
+    change eRtruncA₀.symm (Ideal.Quotient.mk (mA₀ ^ N) (φΛA₀ z)) =
       Ideal.Quotient.mk ((maximalIdeal R) ^ N) (φΛR z)
     exact eRtruncA₀.symm_apply_eq.mpr (heRtruncA₀_Λ z).symm
   have heRtruncA₀_aC (i : Fin sC) :
@@ -969,7 +969,7 @@ public theorem exists_finiteType_approximation_univ
     have hpoly : f.comp qC.toRingHom = g.comp qC.toRingHom := by
       apply MvPolynomial.ringHom_ext
       · intro z
-        show eRtruncA₀ (Ideal.Quotient.mk _
+        change eRtruncA₀ (Ideal.Quotient.mk _
             (toRC (qC (MvPolynomial.C z)))) =
           Ideal.Quotient.mk _ (qCA₀ (qC (MvPolynomial.C z)))
         rw [← MvPolynomial.algebraMap_eq, qC.commutes, toRC.commutes]
@@ -978,12 +978,12 @@ public theorem exists_finiteType_approximation_univ
         rw [h]
         exact heRtruncA₀_Λ z
       · intro i
-        show eRtruncA₀ (Ideal.Quotient.mk _ (aC i)) =
+        change eRtruncA₀ (Ideal.Quotient.mk _ (aC i)) =
           Ideal.Quotient.mk _ (qCA₀ (qC (MvPolynomial.X i)))
         rw [show qCA₀ (qC (MvPolynomial.X i)) = qA₀ (MvPolynomial.X i) from
           RingHom.congr_fun hqCA₀ (MvPolynomial.X i)]
         simpa only [qA₀, MvPolynomial.eval₂Hom_X'] using heRtruncA₀_aC i
-    show f = g
+    change f = g
     apply RingHom.ext
     intro c
     obtain ⟨p, rfl⟩ := hqCsurj c
@@ -997,7 +997,7 @@ public theorem exists_finiteType_approximation_univ
     have h := RingHom.congr_fun htruncC c₀
     change eRtruncA₀ (Ideal.Quotient.mk _ (toRC c₀)) =
       Ideal.Quotient.mk _ (qCA₀ c₀) at h
-    show eRtruncA₀.symm (Ideal.Quotient.mk _ (qCA₀ c₀)) =
+    change eRtruncA₀.symm (Ideal.Quotient.mk _ (qCA₀ c₀)) =
       Ideal.Quotient.mk _ (toRC c₀)
     rw [← h, eRtruncA₀.symm_apply_apply]
   let : IsIso β := hβiso
@@ -1023,7 +1023,7 @@ public theorem exists_finiteType_approximation_univ
   let : Algebra Λ B' := φΛB.toAlgebra
   have hEssΛB' : Algebra.EssFiniteType Λ B' := by
     apply RingHom.essFiniteType_algebraMap.mp
-    show φΛB.EssFiniteType
+    change φΛB.EssFiniteType
     exact (RingHom.essFiniteType_algebraMap.mpr hEssΛT).comp
       (RingHom.essFiniteType_algebraMap.mpr
         (inferInstance : Algebra.EssFiniteType T B'))
@@ -1040,7 +1040,7 @@ public theorem exists_finiteType_approximation_univ
   let eAlg : (R ⧸ maximalIdeal R ^ N) ≃ₐ[Λ] (A₀ ⧸ mA₀ ^ N) :=
     AlgEquiv.ofRingEquiv (f := eRtruncA₀) (by
       intro z
-      show eRtruncA₀ (Ideal.Quotient.mk ((maximalIdeal R) ^ N) (φΛR z)) =
+      change eRtruncA₀ (Ideal.Quotient.mk ((maximalIdeal R) ^ N) (φΛR z)) =
         Ideal.Quotient.mk (mA₀ ^ N) (φΛA₀ z)
       exact heRtruncA₀_Λ z)
   let : Module.Finite Λ (R ⧸ maximalIdeal R) :=
@@ -1100,7 +1100,7 @@ public theorem exists_finiteType_approximation_univ
       ((Ideal.Quotient.mk (mAfin ^ N)).comp qCAfin.toRingHom) =
       (Ideal.Quotient.mk ((maximalIdeal R) ^ N)).comp toRC.toRingHom := by
     ext a
-    show eRtruncA₀.symm (eFinN (Ideal.Quotient.mk _ (qCAfin a))) = _
+    change eRtruncA₀.symm (eFinN (Ideal.Quotient.mk _ (qCAfin a))) = _
     rw [heFinN]
     have hq : inc (qCAfin a) = qCA₀ a := AlgHom.congr_fun hqCAfin a
     rw [hq]
@@ -1109,9 +1109,9 @@ public theorem exists_finiteType_approximation_univ
       ((Ideal.Quotient.mk (mAfin ^ N)).comp (algebraMap Λ Afin)) =
       (Ideal.Quotient.mk ((maximalIdeal R) ^ N)).comp φΛR := by
     ext z
-    show eRtruncA₀.symm (eFinN (Ideal.Quotient.mk _ (algebraMap Λ Afin z))) = _
+    change eRtruncA₀.symm (eFinN (Ideal.Quotient.mk _ (algebraMap Λ Afin z))) = _
     rw [heFinN]
-    show eRtruncA₀.symm (Ideal.Quotient.mk _ (φΛA₀ z)) = _
+    change eRtruncA₀.symm (Ideal.Quotient.mk _ (φΛA₀ z)) = _
     exact RingHom.congr_fun htruncRing₀ z
   have htruncFinGeom : Spec.map (CommRingCat.ofHom φ.symm.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (mAfin ^ N))) ≫ fAfin =
@@ -1134,7 +1134,7 @@ public theorem exists_finiteType_approximation_univ
   have : IsIso eBase := by
     apply (isIso_iff_of_reflects_iso eBase (Over.forget (B.obj hS))).mp
     apply (ObjectProperty.isIso_hom_iff _).mp
-    show IsIso (Spec.map (CommRingCat.ofHom φ.symm.toRingHom))
+    change IsIso (Spec.map (CommRingCat.ofHom φ.symm.toRingHom))
     let : IsIso (CommRingCat.ofHom φ.symm.toRingHom) :=
       Iso.isIso_hom φ.symm.toCommRingCatIso
     infer_instance
@@ -1162,7 +1162,7 @@ public theorem exists_finiteType_approximation_univ
       𝒳.isFiberedInGroupoids.isStronglyCartesian_homLift eBase eFinObj
     exact Functor.IsStronglyCartesian.isIso_of_base_isIso 𝒳.val.p eBase eFinObj
   have hJP : Ideal.map ιB.toRingHom JB = Ideal.span (Set.range bP') := by
-    show Ideal.map ιB.toRingHom (Ideal.span (Set.range bB)) = _
+    change Ideal.map ιB.toRingHom (Ideal.span (Set.range bB)) = _
     rw [Ideal.map_span, ← Set.range_comp']
     rfl
   obtain ⟨gr, hgrGrade, hgrZero⟩ := exists_gradedRingEquiv_of_approximation

@@ -121,7 +121,7 @@ theorem isFppfCovering_of_mem_precoverage (B : BigFppfSite.{u}) (Q : Precoverage
     (hQ : Q ≤ Scheme.fppfPrecoverage) {E : Covering B.Schemes}
     (hE : (E.2.map B.inclusion).presieve₀ ∈ Q (B.inclusion.obj E.1)) :
     IsFppfCovering E := by
-  show E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
+  change E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
   rw [Precoverage.mem_comap_iff]
   simpa [PreZeroHypercover.map] using hQ _ hE
 

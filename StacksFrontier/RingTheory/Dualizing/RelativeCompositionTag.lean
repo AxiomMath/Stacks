@@ -35,8 +35,9 @@ diagonal of `R → B` factors through `i`, so clause (2) for `K` follows from cl
 
 of `D(C')`, `Dualizing.DiagonalQuotientDerivedHom`
 (`Dualizing.diagonalDerivedHom_of_diagonalQuotientIso`).  (★) is proved in
-`StacksFrontier.RingTheory.Dualizing.RelativeCompositionAssembly`: its right-hand side is the derived
-extension of scalars `i^* W` of `W = K_{B/A} ⊗ᴸ_B C`, the unit `W ⟶ i_* i^* W` is surjective on
+`StacksFrontier.RingTheory.Dualizing.RelativeCompositionAssembly`: its right-hand side is the
+derived extension of scalars `i^* W` of `W = K_{B/A} ⊗ᴸ_B C`, the unit `W ⟶ i_* i^* W` is
+surjective on
 cohomology, and so (`Dualizing.nonempty_iso_of_restrictScalars_iso_of_epi_unit`) it suffices to
 identify the *restrictions* of the two sides to `D(C)` by any isomorphism at all.  That
 identification is `Dualizing.restrictExtendScalarsIsoDerivedHomTensor`, which consumes the

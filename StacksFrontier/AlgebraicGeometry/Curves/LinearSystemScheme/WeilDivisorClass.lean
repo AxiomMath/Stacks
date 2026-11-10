@@ -77,11 +77,11 @@ theorem ord_algebraMap_eq_length_quotient [IsLocallyNoetherian X] [IsIntegral X]
   have hne : algebraMap (X.presheaf.stalk Z.genericPoint) X.functionField c ≠ 0 := by
     rwa [ne_eq, map_eq_zero_iff _ (IsFractionRing.injective _ _)]
   rw [Scheme.ord_eq_iff hz hne]
-  show Ring.ordFrac _ _ = _
+  change Ring.ordFrac _ _ = _
   rw [Ring.ordFrac_eq_ord _ hc0, Ring.ordMonoidWithZeroHom_eq_coe _ hc hn.symm]
   have hlen : (Module.length (X.presheaf.stalk Z.genericPoint)
       ((X.presheaf.stalk Z.genericPoint) ⧸ Ideal.span {c})).toNat = n := by
-    show (Ring.ord (X.presheaf.stalk Z.genericPoint) c).toNat = n
+    change (Ring.ord (X.presheaf.stalk Z.genericPoint) c).toNat = n
     rw [← hn, ENat.toNat_natCast]
   rw [hlen]
 

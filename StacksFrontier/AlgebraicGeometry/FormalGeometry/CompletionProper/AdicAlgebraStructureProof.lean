@@ -14,7 +14,8 @@ public import StacksFrontier.AlgebraicGeometry.TwistedSheaf.ZeroDimensionalTenso
 # The algebra structure on a module algebraization: the transport, and the repair of its binder
 
 `AlgebraicGeometry.AdicAlgebraStructureTransport`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/FiniteAlgebraAlgebraization.lean`) is step 5 of the
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/FiniteAlgebraAlgebraization.lean`) is step 5 of
+the
 reduction `AlgebraicGeometry.adicFiniteAlgebraAlgebraization_of_moduleAlgebraization`, and through
 it the last residual behind the `halg` hypotheses of Stacks 09ZT, 0A42 and 0899. It asks: given a
 system `(B n)` of algebra sheaves on the adic thickenings `Xₙ` and a coherent `𝒪_X`-module `𝒩`
@@ -470,7 +471,7 @@ public theorem hasProperSupport_tensorSheaf {X S : Scheme.{u}} (f : X ⟶ S)
     _root_.SheafOfModules.isClosed_supp ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj (F)).obj (G)))⟩, rfl, ?_⟩
   refine isProperOver_of_le f ?_ hZproper
-  show _root_.SheafOfModules.supp ((((Stacks.SheafOfModules.Tensor.sheafTensor
+  change _root_.SheafOfModules.supp ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj (F)).obj (G))) ≤ (Z : Set X)
   rw [hZ]
   intro x hx

@@ -134,7 +134,7 @@ public theorem topologicalKrullDim_lt_of_forall_notMem {S A : Set X} {ι : Type*
     Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top.mpr
       ⟨Order.krullDim_ne_bot_iff.mpr inferInstance, ne_of_lt hfin⟩
   rw [← topologicalKrullDim_preimage_val S A hAS]
-  show Order.krullDim (IrreducibleCloseds ↥((Subtype.val : ↥S → X) ⁻¹' A)) <
+  change Order.krullDim (IrreducibleCloseds ↥((Subtype.val : ↥S → X) ⁻¹' A)) <
     Order.krullDim (IrreducibleCloseds ↥S)
   rw [Order.krullDim_eq_length_of_finiteDimensionalOrder (α := IrreducibleCloseds ↥S)]
   refine Order.krullDim_lt_coe_iff.mpr fun l ↦ ?_

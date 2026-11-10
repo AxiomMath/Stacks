@@ -234,20 +234,20 @@ theorem isZero_homology_derivedTensor_upperShriekFunctor_of_finitePresentation
     { toFun := TrivSqZeroExt.inr
       map_add' := by
         intro x y
-        show TrivSqZeroExt.inr (x + y) = _
+        change TrivSqZeroExt.inr (x + y) = _
         rw [TrivSqZeroExt.inr_add]
       map_smul' := by
         intro r x
-        show TrivSqZeroExt.inr (r • x) = algebraMap R S r * TrivSqZeroExt.inr x
+        change TrivSqZeroExt.inr (r • x) = algebraMap R S r * TrivSqZeroExt.inr x
         rw [show algebraMap R S r = TrivSqZeroExt.inl r from rfl, TrivSqZeroExt.inl_mul_inr] }
   let proj : S →ₗ[R] (M : Type u) :=
     { toFun := TrivSqZeroExt.snd
       map_add' := fun _ _ => rfl
       map_smul' := by
         intro r x
-        show TrivSqZeroExt.snd (algebraMap R S r * x) = r • TrivSqZeroExt.snd x
+        change TrivSqZeroExt.snd (algebraMap R S r * x) = r • TrivSqZeroExt.snd x
         rw [show algebraMap R S r = TrivSqZeroExt.inl r from rfl]
-        show (TrivSqZeroExt.inl r * x).snd = r • x.snd
+        change (TrivSqZeroExt.inl r * x).snd = r • x.snd
         rw [TrivSqZeroExt.snd_mul]
         simp }
   have hsplitCat : ModuleCat.ofHom inc ≫ ModuleCat.ofHom proj = 𝟙 M := by

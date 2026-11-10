@@ -88,16 +88,14 @@ theorem rTensor_baseChange_apply {E F : Type v} [AddCommGroup E] [AddCommGroup F
     [Module A F] (f : E →ₗ[A] F) {S' : Type w} [CommRing S'] [Algebra A S'] (π : S →ₐ[A] S')
     (x : S ⊗[A] E) :
     π.toLinearMap.rTensor F (f.baseChange S x) = f.baseChange S' (π.toLinearMap.rTensor E x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s e => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 
 /-- Multiplication by `t` on the left factor of `S ⊗ E` is the scalar action of `t`. -/
 theorem rTensor_mulLeft_apply {E : Type v} [AddCommGroup E] [Module A E] (t : S)
     (x : S ⊗[A] E) : (LinearMap.mulLeft A t).rTensor E x = t • x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s e => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp only [map_add, hx, hy, smul_add]
 
@@ -238,8 +236,7 @@ def InjOne : Prop :=
 theorem prodRight_coneD₀ (c : S ⊗[A] C₀) :
     TensorProduct.prodRight A S S C₁ D₀ ((coneD₀ d₀ φ₀).baseChange S c) =
       (d₀.baseChange S c, φ₀.baseChange S c) := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp [Prod.zero_eq_mk]
+  induction c using TensorProduct.inductionOn with
   | tmul s x => simp [coneD₀]
   | add x y hx hy => simp only [map_add, hx, hy, Prod.mk_add_mk]
 
@@ -250,8 +247,7 @@ theorem prodRight_coneD₁ (w : S ⊗[A] (C₁ × D₀)) :
       (d₁.baseChange S (TensorProduct.prodRight A S S C₁ D₀ w).1,
         φ₁.baseChange S (TensorProduct.prodRight A S S C₁ D₀ w).1 -
           δ₀.baseChange S (TensorProduct.prodRight A S S C₁ D₀ w).2) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp [Prod.zero_eq_mk]
+  induction w using TensorProduct.inductionOn with
   | tmul s x => simp [coneD₁, TensorProduct.tmul_sub]
   | add x y hx hy =>
     simp only [map_add, hx, hy, Prod.fst_add, Prod.snd_add, Prod.mk_add_mk]

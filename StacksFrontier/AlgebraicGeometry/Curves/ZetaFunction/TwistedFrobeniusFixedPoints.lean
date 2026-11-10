@@ -159,7 +159,7 @@ theorem exists_one_le_ord_sub [IsLocallyNoetherian C] {x : C} (hx : IsClosed ({x
   set d := s - (fieldToStalk g x).hom c with hd
   have hdm : d ∈ IsLocalRing.maximalIdeal (C.presheaf.stalk x) := by
     rw [← IsLocalRing.residue_eq_zero_iff, hd, map_sub, sub_eq_zero]
-    show C.residue x s = (fieldToStalk g x ≫ C.residue x).hom c
+    change C.residue x s = (fieldToStalk g x ≫ C.residue x).hom c
     exact hc.symm
   have heq : algebraMap (C.presheaf.stalk x) C.functionField s - algebraMap Ω C.functionField c =
       algebraMap (C.presheaf.stalk x) C.functionField d := by

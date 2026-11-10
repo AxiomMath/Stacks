@@ -97,7 +97,7 @@ theorem cube_transition_algebra {𝒜 : Type*} [Category* 𝒜]
     βj ≫ fd = dg ≫ tβ ≫ tsqfinv := by
   have K' : gtsqe ≫ sqjT ≫ ftsqh = tsqgN ≫ tsqi ≫ tsqfinv := by
     rw [← reassoc_of% K]
-    simp only [Category.assoc, hinv, Category.comp_id]
+    simp only [hinv, Category.comp_id]
   rw [hβj, hfd, hdg, htβ]
   simp only [Category.assoc]
   rw [reassoc_of% n₂, reassoc_of% e₃, K', reassoc_of% n₄]
@@ -448,15 +448,12 @@ variable {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)] [Nonempty I]
   (e : DY ⟶ DT) (w : ∀ i : Iᵒᵖ, h.app i ≫ f.app i = e.app i ≫ g.app i)
   [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DX.map a)]
   [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DS.map a)]
-  [∀ i : Iᵒᵖ, QuasiCompact (g.app i)] [∀ i : Iᵒᵖ, QuasiSeparated (g.app i)]
-  [∀ i : Iᵒᵖ, QuasiCompact (h.app i)] [∀ i : Iᵒᵖ, QuasiSeparated (h.app i)]
   {cX : Cone DX} {cS : Cone DS} {cT : Cone DT} {cY : Cone DY}
-  (hcX : IsLimit cX) (hcS : IsLimit cS) (hcT : IsLimit cT) (hcY : IsLimit cY)
+  (hcX : IsLimit cX) (hcS : IsLimit cS) (hcT : IsLimit cT)
   (F : EtaleSheafSystem DT (Type (u + 1)))
   {𝓕 : Sheaf (smallEtaleTopology cT.pt) (Type (u + 1))}
   (x : ∀ i : Iᵒᵖ, F.obj i ⟶ (smallEtalePushforward (cT.π.app i) (Type (u + 1))).obj 𝓕)
 
-include hcY in
 /-- **The transposed base change map of the limit square has the universal property of the
 colimit of those of the levels**: for every sheaf `𝒢` on `X`, composing with it is a bijection
 `(h_*e^{-1}ℱ ⟶ 𝒢) ≃ (g_*ℱ ⟶ f_*𝒢)`, as soon as the base change maps of the levels are
@@ -502,9 +499,9 @@ theorem existsUnique_limitTranspose_comp
     rw [stageMap_transition f g h e w hcS F 𝒢 a, hτ i, hτ j]
     exact hσ a
   obtain ⟨χ, hχ, hχu⟩ := LimitSetDirectImage.existsUnique_setDirectImage_desc.{u, u} h cX hcX
-    (inverseImageSystem e F) (inverseImageLeg e F cY cT hcT x) hcY (fun a => hG.1 a) hsech hτc
+    (inverseImageSystem e F) (inverseImageLeg e F cY cT hcT x) (fun a => hG.1 a) hsech hτc
   obtain ⟨_, _, hu⟩ := LimitSetDirectImage.existsUnique_setDirectImage_desc.{u, u} g cS hcS F x
-    hcT (fun a => hdir.1 a) hsecg hσ
+    (fun a => hdir.1 a) hsecg hσ
   refine ⟨χ, (hu _ fun i => ?_).trans (hu _ fun i => rfl).symm, fun χ' hχ' =>
     hχu χ' fun i => (hbij i).1 ?_⟩
   · rw [← stageMap_comp f g h e w hcX hcS hcT F x 𝒢 χ i]
@@ -512,7 +509,6 @@ theorem existsUnique_limitTranspose_comp
   · refine (stageMap_comp f g h e w hcX hcS hcT F x 𝒢 χ' i).trans ?_
     rw [hχ', hτ i]
 
-include hcY in
 /-- **The base change map of the limit square is invertible**, in terms of the limit morphisms of
 the cones, as soon as those of the levels are and the colimit descriptions of
 [Stacks, Tag 0EYM] hold. The commutativity `wL` of the limit square is a free argument, so that a
@@ -540,7 +536,7 @@ theorem isIso_smallEtaleSetBaseChange_limitMorphism
     (limitMorphism e cY cT hcT ≫ limitMorphism g cT cS hcS) rfl
     (limit_comm f g h e w hcX hcS hcT) 𝓕
   refine isIso_of_coyoneda_map_bijective _ fun 𝒢 => ?_
-  have key := existsUnique_limitTranspose_comp f g h e w hcX hcS hcT hcY F x hdir hsecg hsech
+  have key := existsUnique_limitTranspose_comp f g h e w hcX hcS hcT F x hdir hsecg hsech
     hstage 𝒢
   refine ⟨fun χ₁ χ₂ h₁₂ => ?_, fun φ => ?_⟩
   · have h' := congrArg ((setAdj (limitMorphism f cX cS hcS)).homEquiv _ _) h₁₂
@@ -633,7 +629,7 @@ theorem isIso_smallEtaleSetBaseChange_of_isLimit
   have hdir := isDirPresentation_of_isSetPullbackColimitPresentation cT F ι hι hpres
   generalize coneTranspose (Type (u + 1)) cT ι = x at hdir
   have hG := isDirPresentation_inverseImageSystem e F cY cT hcT x hdir
-  exact isIso_smallEtaleSetBaseChange_limitMorphism f g h e w hcX hcS hcT hcY F x hdir
+  exact isIso_smallEtaleSetBaseChange_limitMorphism f g h e w hcX hcS hcT F x hdir
     (fun i₀ V => by
       obtain ⟨h₁, h₂⟩ := LimitHigherDirectImage.qcqs_baseChange_affineEtale.{u, u} g i₀ V
       exact isSectionsColimitAt_of_presentation.{u, u} hcT F x hdir i₀ _)

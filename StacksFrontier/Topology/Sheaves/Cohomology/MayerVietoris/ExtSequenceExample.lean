@@ -46,7 +46,7 @@ def V : Opens (sp.{u}) := ⟨{x | x.down ≠ 0}, trivial⟩
 theorem cover : U.{u} ⊔ V.{u} = ⊤ := by
   ext x
   simp only [Opens.coe_sup, Set.mem_union, Opens.coe_top, Set.mem_univ, iff_true]
-  show x.down ≠ 2 ∨ x.down ≠ 0
+  change x.down ≠ 2 ∨ x.down ≠ 0
   omega
 
 theorem overlap_ne_bot : U.{u} ⊓ V.{u} ≠ ⊥ := by
@@ -75,9 +75,9 @@ def ringSheaf : Sheaf (Opens.grothendieckTopology (sp.{u})) RingCat.{u} :=
 /-- **The hypotheses of Stacks 08BW are satisfiable non-degenerately**: a space, a non-trivial
 sheaf of rings on it, and two proper opens that cover it and have non-empty intersection. -/
 theorem nondegenerate :
-    ∃ (Y : TopCat.{u}) (P : Sheaf (Opens.grothendieckTopology Y) RingCat.{u})
-      (A B : Opens Y), A ⊔ B = ⊤ ∧ A ⊓ B ≠ ⊥ ∧ A ≠ ⊤ ∧ B ≠ ⊤ :=
-  ⟨sp.{u}, ringSheaf.{u}, U.{u}, V.{u}, cover, overlap_ne_bot, U_ne_top, V_ne_top⟩
+    ∃ (Y : TopCat.{u}), Nonempty (Sheaf (Opens.grothendieckTopology Y) RingCat.{u}) ∧
+      ∃ (A B : Opens Y), A ⊔ B = ⊤ ∧ A ⊓ B ≠ ⊥ ∧ A ≠ ⊤ ∧ B ≠ ⊤ :=
+  ⟨sp.{u}, ⟨ringSheaf.{u}⟩, U.{u}, V.{u}, cover, overlap_ne_bot, U_ne_top, V_ne_top⟩
 
 attribute [local instance] HasDerivedCategory.standard
 

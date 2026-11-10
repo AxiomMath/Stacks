@@ -327,7 +327,7 @@ public theorem topologicalKrullDimAt_subtype_le {X : Type*} [TopologicalSpace X]
   simp only [topologicalKrullDimAt]
   refine le_iInf fun U => iInf_le_of_le
     ⟨Subtype.val ⁻¹' U.1, U.2.1, U.2.2.preimage continuous_subtype_val⟩ ?_
-  show topologicalKrullDim ↥((Subtype.val : s → X) ⁻¹' U.1) ≤ topologicalKrullDim ↥U.1
+  change topologicalKrullDim ↥((Subtype.val : s → X) ⁻¹' U.1) ≤ topologicalKrullDim ↥U.1
   rw [← Subtype.preimage_coe_inter_self s U.1,
     topologicalKrullDim_preimage_val s (U.1 ∩ s) Set.inter_subset_right]
   exact topologicalKrullDim_le_of_subset Set.inter_subset_left

@@ -720,7 +720,7 @@ theorem exists_isClosedImmersion_cartesianDiagram (alg₄ : IsAlgebraicSpace B S
           rw [Category.assoc, Category.assoc, SystemMorphism.stageTransition_app,
             SystemMorphism.stageTransition_app, pullback.condition_assoc]))
       (by
-        show _ = _ ≫ cartesianModelMap Fa Fb k h₅ h₆
+        change _ = _ ≫ cartesianModelMap Fa Fb k h₅ h₆
         simp only [Category.assoc, pullback.lift_fst_assoc]
         rw [stageTransition_ι_fst]
         rfl)

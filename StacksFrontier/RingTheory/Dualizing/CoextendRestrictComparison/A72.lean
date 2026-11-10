@@ -78,7 +78,7 @@ theorem isBoundedBelowCoherent_obj_rightDerivedCoextendScalars
   let M : ModuleCat.{max v u} A :=
     (ModuleCat.restrictScalars f).obj (ModuleCat.of B (ULift.{v} B))
   have : Module.Finite A M := by
-    show (let : Algebra A B := f.toAlgebra; Module.Finite A (ULift.{v} B))
+    change (let : Algebra A B := f.toAlgebra; Module.Finite A (ULift.{v} B))
     let : Algebra A B := f.toAlgebra
     have : Module.Finite A B := hf
     exact Module.Finite.ulift

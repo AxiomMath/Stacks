@@ -103,7 +103,7 @@ private lemma terminalClassMap_bijective (U : C) :
   · intro f
     obtain ⟨x, φ, hφ⟩ := hp.exists_lift f t rfl
     refine ⟨StacksRepresentableCFG.IsoClass.mk p ⟨x, IsHomLift.domain_eq p f φ⟩, ?_⟩
-    show eqToHom _ ≫ p.map (ht.from x) = f
+    change eqToHom _ ≫ p.map (ht.from x) = f
     rw [ht.hom_ext (ht.from x) φ, IsHomLift.fac' p f φ]
     simp
 
@@ -124,7 +124,7 @@ private lemma representableCFG_of_terminal : Stacks.RepresentableMorphism.IsRepr
       IsHomLift.fac' p (𝟙 U) (Functor.Fiber.fiberInclusion.map g)]
   · intro U V f x y hxy
     obtain ⟨φ, hφ, _⟩ := hxy
-    show eqToHom y.2.symm ≫ p.map (ht.from y.1) =
+    change eqToHom y.2.symm ≫ p.map (ht.from y.1) =
       f ≫ eqToHom x.2.symm ≫ p.map (ht.from x.1)
     rw [ht.hom_ext (ht.from y.1) (φ ≫ ht.from x.1), p.map_comp, IsHomLift.fac' p f φ]
     simp
@@ -297,7 +297,7 @@ private lemma representable_of_terminal_product
     exact (pairMorphism_naturality (ht.from (pairOfMorphism hF hG hq x β))).trans
       (pairMorphism_pairOfMorphism hF hG hq x β)
   · intro x x' f g
-    show F.map (f ≫ g) ≫ pairMorphism P = F.map f ≫ (F.map g ≫ pairMorphism P)
+    change F.map (f ≫ g) ≫ pairMorphism P = F.map f ≫ (F.map g ≫ pairMorphism P)
     rw [F.map_comp, Category.assoc]
 
 include hF hG hq in
@@ -317,7 +317,7 @@ private lemma terminal_product_of_representable
   refine ⟨⟨P, Limits.IsTerminal.ofUniqueHom toP (fun Q f => ?_)⟩⟩
   apply pullbackHom_ext
   apply R.homEquiv.injective
-  show R.homEquiv f.b = R.homEquiv (R.homEquiv.symm (pairMorphism Q))
+  change R.homEquiv f.b = R.homEquiv (R.homEquiv.symm (pairMorphism Q))
   rw [Equiv.apply_symm_apply, hR, ← hP]
   exact pairMorphism_naturality f
 
@@ -397,10 +397,10 @@ theorem _root_.Stacks.RepresentableMorphism.exists_isTerminal_costructuredArrow
   refine ⟨CostructuredArrow.mk (Y := x) (R.homEquiv (𝟙 x)),
     ⟨Limits.IsTerminal.ofUniqueHom (fun c => CostructuredArrow.homMk
       (R.homEquiv.symm c.hom) ?_) (fun c m => ?_)⟩⟩
-  · show F.map (R.homEquiv.symm c.hom) ≫ R.homEquiv (𝟙 x) = c.hom
+  · change F.map (R.homEquiv.symm c.hom) ≫ R.homEquiv (𝟙 x) = c.hom
     rw [← hR, Equiv.apply_symm_apply]
   · refine CostructuredArrow.hom_ext _ _ ?_
-    show m.left = R.homEquiv.symm c.hom
+    change m.left = R.homEquiv.symm c.hom
     rw [Equiv.eq_symm_apply, hR]
     exact CostructuredArrow.w m
 

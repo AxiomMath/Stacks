@@ -127,7 +127,7 @@ private lemma exists_small_quotient_annihilator_le {A : Type u} [CommRing A]
   have he : (Ideal.span {1 - r}).annihilator = J := by
     ext x
     rw [Submodule.mem_annihilator_span_singleton]
-    show x * (1 - r) = 0 ↔ x ∈ J
+    change x * (1 - r) = 0 ↔ x ∈ J
     constructor
     · intro hx
       have hf : r * x = x := by linear_combination -hx
@@ -369,7 +369,7 @@ private lemma supportedSections_rightDerivedPlus_isZero
       F.rightDerivedFunctorPlus.mapIso (plusQuotientCompQhIso K ≪≫ e)
   have he : Q.obj K.obj ≅ (singleFunctor C 0).obj M := Plus.ι.mapIso e
   have : K.obj.IsKInjective := by
-    show CochainComplex.IsKInjective
+    change CochainComplex.IsKInjective
       (((InjectiveObject.ι C).mapHomologicalComplex (ComplexShape.up ℤ)).obj L.obj)
     infer_instance
   have hzero := supportedSections_exactAt_injective_resolution.{u, v} A hdim T M K.obj he i hi
@@ -431,7 +431,7 @@ private lemma supportedSections_truncGE_comparison
     ((HomotopyCategory.Plus.singleFunctor C 0).obj Y))
   have hmono (Y : C) : ∃ (Z : C) (f : Y ⟶ Z) (_ : Mono f), P Z := by
     refine ⟨Injective.under Y, Injective.ι Y, inferInstance, ?_⟩
-    show IsIso (F.rightDerivedFunctorPlusUnith.app
+    change IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj (Injective.under Y)))
     have : ∀ m : ℤ, Injective
         (((HomotopyCategory.Plus.singleFunctor C 0).obj (Injective.under Y)).obj.as.X m) :=
@@ -486,7 +486,7 @@ private lemma isGE_rightAdjoint_mapDerivedCategory
     exact (F.map_isZero (Y.isZero_of_isLE (a - 1) i hi)).of_iso
       ((StacksDraft.PseudoCoherence.mapDerivedCategoryCompHomologyFunctorIso F i).app Y)
   apply (adj.homEquiv Y K).symm.injective
-  show F.mapDerivedCategory.map f ≫ adj.counit.app K =
+  change F.mapDerivedCategory.map f ≫ adj.counit.app K =
     F.mapDerivedCategory.map 0 ≫ adj.counit.app K
   rw [F.mapDerivedCategory.map_zero, zero_comp]
   exact (TStructure.t (C := D)).zero_of_isLE_of_isGE
@@ -546,7 +546,7 @@ private lemma isIso_homology_map_truncGEπ
   let Δ := (TStructure.t.triangleLEGE (a - 1) a (by omega)).obj K
   have hΔ := TStructure.t.triangleLEGE_distinguished (a - 1) a (by omega) K
   have : Δ.obj₁.IsLE (a - 1) := by
-    show ((TStructure.t.truncLE (a - 1)).obj K).IsLE (a - 1)
+    change ((TStructure.t.truncLE (a - 1)).obj K).IsLE (a - 1)
     infer_instance
   have hz : IsZero ((homologyFunctor C i).obj Δ.obj₁) :=
     Δ.obj₁.isZero_of_isLE (a - 1) i (by omega)
@@ -625,11 +625,11 @@ private lemma supportedModulesComparison_isEquivalence_of_counit
   have : F.mapDerivedCategory.Full := adj.fullyFaithfulLOfIsIsoUnit.full
   have : F.mapDerivedCategory.Faithful := adj.fullyFaithfulLOfIsIsoUnit.faithful
   have : (supportedModulesComparison.{u, v} A T).Full := by
-    show ((DerivedCategoryB.derivedCategoryB
+    change ((DerivedCategoryB.derivedCategoryB
       (supportModuleProperty A T)).lift F.mapDerivedCategory _).Full
     exact ObjectProperty.instFullFullSubcategoryLift _ _ _
   have : (supportedModulesComparison.{u, v} A T).Faithful := by
-    show ((DerivedCategoryB.derivedCategoryB
+    change ((DerivedCategoryB.derivedCategoryB
       (supportModuleProperty A T)).lift F.mapDerivedCategory _).Faithful
     exact ObjectProperty.instFaithfulFullSubcategoryLift _ _ _
   have : (supportedModulesComparison.{u, v} A T).EssSurj := ⟨fun K ↦ by
@@ -738,7 +738,7 @@ private lemma support_restrictScalars_subset_iff {A : Type u} [CommRing A] {B : 
       intro a ha
       rw [Module.mem_annihilator]
       intro m
-      show f a • m = 0
+      change f a • m = 0
       rw [RingHom.mem_ker.1 ha, zero_smul]
     have hp' : p ∈ Set.range (PrimeSpectrum.comap f) := by
       rw [_root_.range_comap_of_surjective B f hf, PrimeSpectrum.mem_zeroLocus,

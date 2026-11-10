@@ -84,8 +84,6 @@ surjective étale atlas `q : M ⟶ W` whose kernel pair is `f₁, f₂`, and an 
 theorem exists_quotient_of_isPullback_relation
     {U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hU : IsAlgebraicSpace B S hS U)
     {V R M Q : BigFppfOver B S hS} {a : yoneda.obj V ⟶ U}
-    (ha_surj : (MorphismProperty.inverseImage (@Surjective.{u} : MorphismProperty Scheme.{u})
-      (BigFppfOver.toScheme B S hS)).presheaf a)
     (ha_et : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf a)
     {s t : R ⟶ V} (hR : IsPullback (yoneda.map s) (yoneda.map t) a a)

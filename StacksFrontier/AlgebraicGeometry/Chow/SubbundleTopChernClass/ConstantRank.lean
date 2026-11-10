@@ -444,7 +444,7 @@ theorem subbundleEmbedding_pushforward_flatPullback_heq_chernCap (hdeg : (r : �
       locallyFinite_range_subschemeι_support C sX k c
     refine (h0.preimage_continuous
       (dualVectorBundleToBase N).continuous).subset fun t ↦ ?_
-    show Set.range ((Yc t).comap (dualVectorBundleToBase N)).subschemeι ⊆ _
+    change Set.range ((Yc t).comap (dualVectorBundleToBase N)).subschemeι ⊆ _
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap,
       Scheme.IdealSheafData.range_subschemeι]
     exact subset_rfl

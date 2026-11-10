@@ -124,7 +124,7 @@ theorem detBaseChange_one_tmul (hφ : letI : Algebra R A := φ.toAlgebra; Module
     Functor.mapIso_refl] at key
   have hcomp := presentationTransport_trans_refl ((presentation R K).baseChange φ)
     (P.baseChange φ) (presentation A (PerfectTwoTermComplex.baseChange φ K))
-  show presentationTransport ((presentation R K).baseChange φ)
+  change presentationTransport ((presentation R K).baseChange φ)
       (presentation A (PerfectTwoTermComplex.baseChange φ K)) (Iso.refl _)
       (presentationDeterminantBaseChange φ hφ (presentation R K) (1 ⊗ₜ[R] x)) =
     presentationTransport (P.baseChange φ)
@@ -159,7 +159,7 @@ theorem detBaseChange_one_tmul_delta
   rw [detPresentationIso_delta (PerfectTwoTermComplex.baseChange φ K) hR.choose hR.choose_spec,
     detBaseChange_one_tmul φ hφ K hK.choose (delta K hK),
     detPresentationIso_delta K hK.choose hK.choose_spec]
-  show (presentationTransport (presentation A (PerfectTwoTermComplex.baseChange φ K))
+  change (presentationTransport (presentation A (PerfectTwoTermComplex.baseChange φ K))
       hR.choose (Iso.refl _))
       (presentationTransport (hK.choose.baseChange φ)
         (presentation A (PerfectTwoTermComplex.baseChange φ K)) (Iso.refl _)

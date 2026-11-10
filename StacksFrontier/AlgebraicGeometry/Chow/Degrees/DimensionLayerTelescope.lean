@@ -118,7 +118,7 @@ def desc {A : ℕ → X.Modules} {W : X.Modules} (g : ∀ p, A p ⟶ W) : natCop
 @[reassoc (attr := simp)]
 theorem ι_desc {A : ℕ → X.Modules} {W : X.Modules} (g : ∀ p, A p ⟶ W) (p : ℕ) :
     ι A p ≫ desc g = g p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The direct sum of a sequence of morphisms. -/
 def map {A B : ℕ → X.Modules} (u : ∀ p, A p ⟶ B p) : natCoproduct A ⟶ natCoproduct B :=

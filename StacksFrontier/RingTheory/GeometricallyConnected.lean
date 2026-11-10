@@ -239,8 +239,7 @@ theorem geometricallyConnected_of_directedColimit
           = ((TensorProduct.equivFinsuppOfBasisRight (M := M) (N := k') B) z).mapRange ρ
               (map_zero ρ) := by
       intro M N _ _ _ _ ρ z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul m c =>
           rw [LinearMap.rTensor_tmul, TensorProduct.equivFinsuppOfBasisRight_apply_tmul,
               TensorProduct.equivFinsuppOfBasisRight_apply_tmul]
@@ -251,8 +250,7 @@ theorem geometricallyConnected_of_directedColimit
         (ρ : M →ₐ[k] N) (z : M ⊗[k] k'),
         Algebra.TensorProduct.map ρ (AlgHom.id k k') z = ρ.toLinearMap.rTensor k' z := by
       intro M N _ _ _ _ ρ z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a c => simp [Algebra.TensorProduct.map_tmul, LinearMap.rTensor_tmul]
       | add x y hx hy => simp [map_add, hx, hy]
     have bridgeψ : ∀ (i : ι) (z : Sfun i ⊗[k] k'), ψ' i z = (ψ i).toLinearMap.rTensor k' z :=
@@ -285,7 +283,7 @@ theorem geometricallyConnected_of_directedColimit
         nat (Sfun i) (Sfun j) (φ i j hij).toLinearMap v]
     ext b
     simp only [Finsupp.mapRange_apply]
-    show φ i j hij (cu b) = φ i j hij (cv b)
+    change φ i j hij (cu b) = φ i j hij (cv b)
     by_cases hb : b ∈ s
     · rw [← hφcomp i (jbf b) j (hjbf_le b) (hjbf_to_j b hb)]
       exact congrArg (φ (jbf b) j (hjbf_to_j b hb)) (hjbf_eq b)

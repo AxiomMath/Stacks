@@ -79,7 +79,7 @@ public theorem rationalInverseImageStalkEquiv_rationalStalkMap {F G : LAdicSheaf
       LAdicSheaf.rationalStalkMap φ (x.map (B.inclusion.map f)) ∘ₗ
         (rationalInverseImageStalkEquiv B f F x).toLinearMap := by
   refine TensorProduct.AlgebraTensorModule.ext fun c v => ?_
-  show (rationalInverseImageStalkEquiv B f G x) (c ⊗ₜ LAdicSheaf.stalkMap
+  change (rationalInverseImageStalkEquiv B f G x) (c ⊗ₜ LAdicSheaf.stalkMap
       (LAdicSheaf.inverseImageMap f φ) x v) = c ⊗ₜ LAdicSheaf.stalkMap φ _
         (inverseImageStalkEquiv B f F x v)
   exact congrArg (c ⊗ₜ ·) (inverseImageStalkEquiv_stalkMap B f φ x v)
@@ -109,7 +109,7 @@ public theorem LAdicSheaf.trace_rationalStalkMap_comp_rationalStalkFrobenius_inv
       (rationalInverseImageStalkEquiv_rationalStalkMap B f ψ (geometricPointAt X.obj y))
       (rationalInverseImageStalkEquiv_rationalStalkEnd B f F (geometricPointAt X.obj y)
         (frobeniusPointHom X.obj y)) k)
-  show LinearMap.trace ℚ_[ℓ] _ (_ ∘ₗ LAdicSheaf.rationalStalkEnd B X ℓ
+  change LinearMap.trace ℚ_[ℓ] _ (_ ∘ₗ LAdicSheaf.rationalStalkEnd B X ℓ
       (LAdicSheaf.inverseImage f F) (frobeniusPointHom X.obj y) ^ k) = LinearMap.trace ℚ_[ℓ] _
     (_ ∘ₗ LAdicSheaf.rationalStalkEnd B Y ℓ F
       (frobeniusPointHom Y.obj ((B.inclusion.map f).base y)) ^ ((e + 1) * k))

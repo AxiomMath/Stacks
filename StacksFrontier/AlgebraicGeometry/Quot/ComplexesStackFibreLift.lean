@@ -124,7 +124,7 @@ theorem fibreLiftSection_comp_retraction (y : FibreLift D iΛ x₀ hx₀ hk M) :
       overMapHom x₀.T.left (Over.mk (𝟙 x₀.T.left.left)) :=
     Over.OverMorphism.ext (Over.w y.1.hom.b)
   apply CostructuredArrow.hom_ext
-  show (fibreLiftSection y).left ≫ y.1.right.iso.hom.down.left ≫
+  change (fibreLiftSection y).left ≫ y.1.right.iso.hom.down.left ≫
     overMapHom x₀.T.left y.1.right.y = 𝟙 _
   calc _ = ((fibreLiftSection y).left ≫ y.1.right.iso.hom.down.left) ≫
           overMapHom x₀.T.left y.1.right.y := (Category.assoc _ _ _).symm

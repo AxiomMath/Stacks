@@ -134,10 +134,10 @@ private lemma almostIntegral_mem_maxLocalization
     Ideal.span {algebraMap A (Localization.AtPrime p) P}
   have hPco : ((P : Polynomial R) : PowerSeries R) =
       PowerSeries.C a * PowerSeries.X - PowerSeries.C b := by
-    show (((Polynomial.C a * Polynomial.X - Polynomial.C b : Polynomial R) : PowerSeries R)) = _
+    change (((Polynomial.C a * Polynomial.X - Polynomial.C b : Polynomial R) : PowerSeries R)) = _
     simp
   have hseries : f₀ P * f = -PowerSeries.C (r * b) := by
-    show ((P : Polynomial R) : PowerSeries R) * f = -PowerSeries.C (r * b)
+    change ((P : Polynomial R) : PowerSeries R) * f = -PowerSeries.C (r * b)
     rw [hPco]
     exact hf
   have hgen : φ (algebraMap A (Localization.AtPrime p) P) ∈ Ideal.map φ I :=
@@ -158,7 +158,7 @@ private lemma almostIntegral_mem_maxLocalization
     rw [heq]
     exact (Ideal.map φ I).neg_mem hmul
   have hmapC (x : R) : f₀ (Polynomial.C x) = PowerSeries.C x := by
-    show ((Polynomial.C x : Polynomial R) : PowerSeries R) = _
+    change ((Polynomial.C x : Polynomial R) : PowerSeries R) = _
     exact Polynomial.coe_C x
   have hconst : φ (algebraMap A (Localization.AtPrime p) (Polynomial.C (r * b))) =
       algebraMap B (Localization.AtPrime q) (PowerSeries.C (r * b)) := by
@@ -177,9 +177,9 @@ private lemma almostIntegral_mem_maxLocalization
     apply hsP
     apply Ideal.mem_comap.mpr
     apply Ideal.mem_comap.mpr
-    show PowerSeries.constantCoeff (f₀ s) ∈ m
+    change PowerSeries.constantCoeff (f₀ s) ∈ m
     have hcoeff0 : PowerSeries.constantCoeff (f₀ s) = s.coeff 0 := by
-      show PowerSeries.constantCoeff ((s : Polynomial R) : PowerSeries R) = _
+      change PowerSeries.constantCoeff ((s : Polynomial R) : PowerSeries R) = _
       exact Polynomial.constantCoeff_coe s
     rw [hcoeff0]
     exact hs0m
@@ -239,7 +239,7 @@ private lemma almostIntegral_mem_maxLocalization
     have hcoeff0 : sm.coeff 0 ≠ 0 := by
       simpa only [sm, Polynomial.coeff_map] using hs0unit.ne_zero
     have hmonic : qpoly.Monic := by
-      show (Polynomial.C ((u⁻¹ : Rmˣ) : Rm) * sm.reverse).Monic
+      change (Polynomial.C ((u⁻¹ : Rmˣ) : Rm) * sm.reverse).Monic
       rw [Polynomial.Monic.def,
         Polynomial.leadingCoeff_C_mul_of_isUnit (Units.isUnit (u⁻¹ : Rmˣ)),
         Polynomial.reverse_leadingCoeff, Polynomial.trailingCoeff_eq_coeff_zero hcoeff0]

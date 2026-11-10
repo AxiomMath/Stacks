@@ -161,7 +161,7 @@ theorem sectionHomogeneous_add {k : ℤ} (c c' : Cochain M.complex N.complex k)
     (U : Cᵒᵖ) :
     sectionHomogeneous (c + c') hcc' U = sectionHomogeneous c hc U + sectionHomogeneous c' hc' U :=
   sectionHomogeneous_ext U fun p x ↦ by
-    show (sectionHomogeneous (c + c') hcc' U).1 _ =
+    change (sectionHomogeneous (c + c') hcc' U).1 _ =
       (sectionHomogeneous c hc U).1 _ + (sectionHomogeneous c' hc' U).1 _
     rw [sectionHomogeneous_apply, sectionHomogeneous_apply,
       sectionHomogeneous_apply, cochainSectionAdd_of, cochainSectionAdd_of, cochainSectionAdd_of,
@@ -176,7 +176,7 @@ theorem sectionHomogeneous_delta {k : ℤ} (c : Cochain M.complex N.complex k)
       _root_.DifferentialGradedModule.homogeneousMapDifferential (A.sectionAlgebra U)
         (sectionHomogeneous c hc U) :=
   sectionHomogeneous_ext U fun p x ↦ by
-    show (sectionHomogeneous (δ k (k + 1) c) hδ U).1 _ =
+    change (sectionHomogeneous (δ k (k + 1) c) hδ U).1 _ =
       (N.sectionModule U).d ((sectionHomogeneous c hc U).1 (DirectSum.of (M.sectionsPiece U) p x)) -
         DifferentialGraded.gradedSign (ULift.{v, 0} ℤ) k •
           (sectionHomogeneous c hc U).1
@@ -212,7 +212,7 @@ theorem sectionHomogeneous_comp {k l m : ℤ} (c : Cochain M.complex N.complex k
       _root_.DifferentialGradedModule.homogeneousMapComp (A.sectionAlgebra U)
         (show l + k = m by omega) (sectionHomogeneous c' hc' U) (sectionHomogeneous c hc U) :=
   sectionHomogeneous_ext U fun p x ↦ by
-    show (sectionHomogeneous (c.comp c' h) hcc' U).1
+    change (sectionHomogeneous (c.comp c' h) hcc' U).1
         (DirectSum.of (M.sectionsPiece U) p x : (M.sectionModule U).M) =
       (sectionHomogeneous c' hc' U).1 ((sectionHomogeneous c hc U).1
         (DirectSum.of (M.sectionsPiece U) p x : (M.sectionModule U).M))
@@ -228,7 +228,7 @@ theorem sectionHomogeneous_ofHom (f : M ⟶ N)
     sectionHomogeneous (Cochain.ofHom f.toHomologicalComplex) hf U =
       (_root_.DifferentialGradedModule.cocycleOfHom (A.sectionAlgebra U) (sectionMap f U)).1 :=
   sectionHomogeneous_ext U fun p x ↦ by
-    show (sectionHomogeneous (Cochain.ofHom f.toHomologicalComplex) hf U).1
+    change (sectionHomogeneous (Cochain.ofHom f.toHomologicalComplex) hf U).1
         (DirectSum.of (M.sectionsPiece U) p x : (M.sectionModule U).M) =
       (sectionMap f U).toFun (DirectSum.of (M.sectionsPiece U) p x : (M.sectionModule U).M)
     rw [sectionHomogeneous_apply, cochainSectionAdd_of' _ U (add_zero p), Cochain.ofHom_v,

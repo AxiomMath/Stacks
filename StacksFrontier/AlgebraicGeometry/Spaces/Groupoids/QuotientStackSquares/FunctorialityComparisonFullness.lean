@@ -149,7 +149,7 @@ theorem map_ι (α : F ⟶ F') (T : 𝒮) {a b : F.obj ⟨op T⟩} (arr : a ⟶ 
     (CoGrothendieck.map α).map ((CoGrothendieck.ι F T).map arr) =
       (CoGrothendieck.ι F' T).map ((α.app ⟨op T⟩).toFunctor.map arr) := by
   refine hom_ext_heq _ _ rfl (heq_of_eq ?_)
-  show (α.app ⟨op T⟩).toFunctor.map (arr ≫ (F.mapId ⟨op T⟩).inv.toNatTrans.app b) ≫
+  change (α.app ⟨op T⟩).toFunctor.map (arr ≫ (F.mapId ⟨op T⟩).inv.toNatTrans.app b) ≫
       (α.naturality (𝟙 (⟨op T⟩ : LocallyDiscrete 𝒮ᵒᵖ))).hom.toNatTrans.app b =
     (α.app ⟨op T⟩).toFunctor.map arr ≫
       (F'.mapId ⟨op T⟩).inv.toNatTrans.app ((α.app ⟨op T⟩).toFunctor.obj b)

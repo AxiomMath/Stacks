@@ -86,7 +86,7 @@ variable {D : Type*} [Category D]
 maps of the system itself, between the shifted indices. -/
 theorem tr_successorOp (X : ℕᵒᵖ ⥤ D) {n m : ℕ} (h : n ≤ m) :
     tr (successorOp ⋙ X) h = tr X (Nat.add_le_add_right h 1) := by
-  show X.map (successorOp.map (homOfLE h).op) = X.map (homOfLE _).op
+  change X.map (successorOp.map (homOfLE h).op) = X.map (homOfLE _).op
   exact congrArg X.map (Subsingleton.elim _ _)
 
 /-- **A pro-isomorphism may be reindexed by the shift `n ↦ n + 1`.** Both systems are

@@ -54,13 +54,13 @@ noncomputable def monomialFamily (R : Type u) [CommRing R] (d₀ : σ →₀ ℕ
 theorem monomialFamily_of_le {d₀ d : σ →₀ ℕ} (h : d₀ ≤ d) :
     monomialFamily R d₀ d = ⊤ := by
   classical
-  rw [monomialFamily, if_pos h]
+  rw [monomialFamily, ite_eq_left h]
 
 /-- The family of the monomial `d₀` is the zero ideal in a degree not divisible by `d₀`. -/
 theorem monomialFamily_of_not_le {d₀ d : σ →₀ ℕ} (h : ¬ d₀ ≤ d) :
     monomialFamily R d₀ d = ⊥ := by
   classical
-  rw [monomialFamily, if_neg h]
+  rw [monomialFamily, ite_eq_right h]
 
 /-- The family of a monomial is monotone in the degree. -/
 theorem monotone_monomialFamily (d₀ : σ →₀ ℕ) : Monotone (monomialFamily R d₀) := by

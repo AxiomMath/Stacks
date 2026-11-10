@@ -30,8 +30,9 @@ presentation is finiteness of each half.
 
 ## Implementation notes
 
-The obstruction recorded in `StacksFrontier/AlgebraicGeometry/FinitelyPresentedOver/Basic.lean` — that the only construction of
-a presentation of a biproduct in this development, `biprod_presentation`, carries no universe
+The obstruction recorded in `StacksFrontier/AlgebraicGeometry/FinitelyPresentedOver/Basic.lean` —
+that the only construction of a presentation of a biproduct in this development,
+`biprod_presentation`, carries no universe
 parameters and so exists only for modules in `Type 0` — is sidestepped rather than repaired: the
 presentation of a biproduct is rebuilt here directly from the two cokernel diagrams, at an
 arbitrary universe, so nothing in that construction is used or needs generalising.
@@ -61,8 +62,8 @@ namespace FinitelyPresentedOver
 The `cocone_maps` half is `exists_hom_comp_eq`, the nonemptiness is `nonempty`, and the
 `cocone_objs` half is the biproduct, which is of finite presentation by
 `isFinitePresentation_biprod`.  This is exactly the derivation
-`StacksFrontier/AlgebraicGeometry/FinitelyPresentedOver/Basic.lean` describes as following from that closure "and nothing
-else". -/
+`StacksFrontier/AlgebraicGeometry/FinitelyPresentedOver/Basic.lean` describes as following from that
+closure "and nothing else". -/
 instance isFiltered {X : Scheme.{u}} (F : X.Modules) : IsFiltered (FinitelyPresentedOver F) := by
   have : IsFilteredOrEmpty (FinitelyPresentedOver F) :=
     { cocone_objs := by

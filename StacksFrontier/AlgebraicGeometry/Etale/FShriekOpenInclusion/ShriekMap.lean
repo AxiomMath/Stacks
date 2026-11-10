@@ -154,7 +154,7 @@ private theorem openInclusionShriekSection_zero
   let e := (smallEtaleBaseChange_compIso B X' X Y j f).val
   let c := openInclusionShriekSection B j f F V (0 : G'.obj.left.obj.obj (op V))
   let s : F.obj.obj (op W) := by
-    show F.obj.obj (op ((smallEtaleBaseChange B f).obj V))
+    change F.obj.obj (op ((smallEtaleBaseChange B f).obj V))
     exact G.arrow.hom.app (op V) c.val
   let eOpen := (openRestrictionIso B j).app F
   have hunit : F'.obj.map (e.hom.app V).op
@@ -186,7 +186,7 @@ private theorem openInclusionShriekSection_zero
     exact c.property.2.2.subset.trans (Set.image_subset_range _ _)
   have hzero := restriction_eq_zero_of_support_subset B X.obj X.property F W U' φ
     s hsupport hrestr0
-  show c.val = 0
+  change c.val = 0
   apply sheaf_hom_app_injective_of_mono G.arrow
   have hzero' : (G.arrow.hom.app (op V)).hom c.val = 0 := hzero
   simpa using hzero'
@@ -217,7 +217,7 @@ private theorem openInclusionShriekSection_add
         (openInclusionShriekSection B j f F V b).val := by
   classical
   let : LocallyOfFiniteType (B.inclusion.map (j ≫ f)) := by
-    show LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
+    change LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
     infer_instance
   let F' := ((smallEtaleBaseChange B j).sheafPullback AddCommGrpCat.{v}
     (SmallEtale.topology B X.obj X.property)
@@ -268,7 +268,7 @@ private theorem openInclusionShriekSection_add
       _ = (F'.obj.map (e.hom.app V).op).hom
           ((G'.arrow.hom.app (op V)).hom a +
             (G'.arrow.hom.app (op V)).hom b) := by
-        show (F'.obj.map (e.hom.app V).op).hom
+        change (F'.obj.map (e.hom.app V).op).hom
           ((G'.arrow.hom.app (op V)).hom (a + b)) = _
         rw [(G'.arrow.hom.app (op V)).hom.map_add]
       _ = (F'.obj.map (e.hom.app V).op).hom

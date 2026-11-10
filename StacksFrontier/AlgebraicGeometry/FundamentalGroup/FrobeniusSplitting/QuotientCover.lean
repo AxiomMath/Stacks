@@ -55,7 +55,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
   have hVo : IsOpen (V : Set (Aut F')) :=
     hUo.preimage ((continuous_autMulEquivEtaleFundamentalGroup X base).comp φ.symm.continuous)
   have hmem : ∀ σ : Aut F, φ σ ∈ V ↔ e σ ∈ U := fun σ => by
-    show e (φ.symm (φ σ)) ∈ U ↔ _
+    change e (φ.symm (φ σ)) ∈ U ↔ _
     rw [ContinuousMulEquiv.symm_apply_apply]
   have hVne : V ≠ ⊤ := by
     intro hV
@@ -80,7 +80,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
   have hquot : ∀ σ ∈ V, ∀ q : Aut F' ⧸ V, σ • q = q := by
     intro σ hσ q
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
-    show (QuotientGroup.mk (σ * g) : Aut F' ⧸ V) = QuotientGroup.mk g
+    change (QuotientGroup.mk (σ * g) : Aut F' ⧸ V) = QuotientGroup.mk g
     rw [QuotientGroup.eq]
     simpa [mul_assoc] using hconj _ (V.inv_mem hσ) g
   have htrivA : ∀ σ ∈ V, ∀ y : F'.obj A, σ • y = y := by
@@ -99,7 +99,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
         iso.inv.hom (QuotientGroup.mk g) := by
       rw [φ.apply_symm_apply]
       exact (hiso_inv g _).symm.trans (congrArg _ (by
-        show (QuotientGroup.mk (g * 1) : Aut F' ⧸ V) = QuotientGroup.mk g
+        change (QuotientGroup.mk (g * 1) : Aut F' ⧸ V) = QuotientGroup.mk g
         rw [mul_one]))
     rw [h1, h2, hg]
     exact (congrArg ψ (hiso_hom (ψ.symm y))).trans (ψ.apply_symm_apply y)
@@ -156,7 +156,7 @@ theorem exists_connected_cover_of_isOpen_normal (U : Subgroup (EtaleFundamentalG
       exact Subgroup.one_lt_index_of_ne_top hVne
     have hle : Nat.card (F.obj A) ≤ Nat.card (F.obj Z) :=
       Nat.card_le_card_of_surjective _ hsurj
-    show 2 ≤ Nat.card (F.obj Z)
+    change 2 ≤ Nat.card (F.obj Z)
     omega
 
 end AlgebraicGeometry

@@ -118,11 +118,11 @@ sequence of module-valued functors on a domain of algebras whose outer terms are
 adequate, given a base algebra object, the lifting property of [Stacks, Tag 06V0] on that
 domain, and the splitting property of [Stacks, Tag 06V7] there.
 
-The proof of 06V8 over all algebras goes through unchanged. A coproduct of linearly adequate functors
-covers the target by [Stacks, Tag 06UX] on the domain; the splitting property lifts the covering
-one summand at a time through the epimorphism, and the assembled lift splits the pullback of the
-extension along the covering, exhibiting that pullback as a biproduct. The middle term is then
-the cokernel of the kernel of the pullback's other projection, and both of those are adequate,
+The proof of 06V8 over all algebras goes through unchanged. A coproduct of linearly adequate
+functors covers the target by [Stacks, Tag 06UX] on the domain; the splitting property lifts the
+covering one summand at a time through the epimorphism, and the assembled lift splits the pullback
+of the extension along the covering, exhibiting that pullback as a biproduct. The middle term is
+then the cokernel of the kernel of the pullback's other projection, and both of those are adequate,
 so [Stacks, Tag 06V2] on the domain finishes. -/
 public theorem isAdequate_of_shortExact_on {ι : C ⥤ CommAlgCat.{max u v} A}
     (b : BaseAlgebraObject.{v} ι) (hlift : FiniteFreeKernelLifting.{w, v} ι)
@@ -156,7 +156,7 @@ public theorem isAdequate_of_shortExact_on {ι : C ⥤ CommAlgCat.{max u v} A}
   choose s hs using hlifts
   have hsec : Sigma.desc s ≫ S.g = cover := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     exact hs j
   obtain ⟨j, hj, hjSE⟩ := exists_shortExact_pullback hS cover
   obtain ⟨σ, hσ⟩ : ∃ σ : (∐ L) ⟶ pullback S.g cover, σ ≫ pullback.snd S.g cover = 𝟙 _ :=

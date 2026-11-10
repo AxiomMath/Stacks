@@ -214,7 +214,7 @@ public theorem isJ1_iff_zeroLocus_inter_regularLocus_contains_nonempty_open
                 {x | IsRegularLocalRing (Localization.AtPrime x.asIdeal)} := by
   let E : Set (PrimeSpectrum R) :=
     {x | IsRegularLocalRing (Localization.AtPrime x.asIdeal)}
-  show IsOpen E ↔ _
+  change IsOpen E ↔ _
   constructor
   · intro hE p hp
     exact ⟨E, hE, ⟨p, hp, (PrimeSpectrum.mem_zeroLocus _ _).mpr le_rfl⟩,
@@ -229,7 +229,7 @@ public theorem isJ1_iff_zeroLocus_inter_regularLocus_contains_nonempty_open
         PrimeSpectrum.isIrreducible_iff_vanishingIdeal_isPrime.mp hYirr⟩
       let : p.asIdeal.IsPrime := p.2
       have hY : Y = PrimeSpectrum.zeroLocus p.asIdeal := by
-        show Y = PrimeSpectrum.zeroLocus (PrimeSpectrum.vanishingIdeal Y)
+        change Y = PrimeSpectrum.zeroLocus (PrimeSpectrum.vanishingIdeal Y)
         rw [PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure, hYclosed.closure_eq]
       obtain ⟨q, hqE, hqY⟩ := hEY
       have hpq : p.asIdeal ≤ q.asIdeal := (PrimeSpectrum.mem_zeroLocus _ _).1 (hY ▸ hqY)
@@ -258,7 +258,7 @@ private theorem height_map_quotient_add_height_le' {B : Type*} [CommRing B]
   rw [PrimeSpectrum.height_eq_orderHeight ⟨F, hFp⟩,
     PrimeSpectrum.height_eq_orderHeight ⟨n, inferInstance⟩,
     PrimeSpectrum.height_eq_orderHeight ⟨Qt, inferInstance⟩]
-  show Order.height (⟨F, hFp⟩ : PrimeSpectrum (B ⧸ n))
+  change Order.height (⟨F, hFp⟩ : PrimeSpectrum (B ⧸ n))
       + Order.height (⟨n, inferInstance⟩ : PrimeSpectrum B)
       ≤ Order.height (⟨Qt, inferInstance⟩ : PrimeSpectrum B)
   set Qpt : PrimeSpectrum B := ⟨Qt, inferInstance⟩ with hQpt
@@ -269,7 +269,7 @@ private theorem height_map_quotient_add_height_le' {B : Type*} [CommRing B]
   have hφmono : StrictMono φ := fun a b hab => g.lt_iff_lt.mpr hab
   have hφF : φ Fpt = Qpt := by
     apply PrimeSpectrum.ext
-    show (Ideal.comap (Ideal.Quotient.mk n) F) = Qt
+    change (Ideal.comap (Ideal.Quotient.mk n) F) = Qt
     rw [hF, Ideal.comap_map_of_surjective' _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
     exact sup_eq_left.mpr hnle
   have : Nonempty (LTSeries (PrimeSpectrum (B ⧸ n))) := ⟨RelSeries.singleton _ Fpt⟩
@@ -655,7 +655,7 @@ public theorem isJ0_of_injective_finiteType
       fun _ => IsRegularRing.isRegularLocalRing_localization _
   let : Nontrivial T := (IsLocalization.injective T (M :=
       Algebra.algebraMapSubmonoid Sg (Submonoid.powers f)) (by
-    show Submonoid.map (algebraMap R Sg) (Submonoid.powers f) ≤ nonZeroDivisors Sg
+    change Submonoid.map (algebraMap R Sg) (Submonoid.powers f) ≤ nonZeroDivisors Sg
     rintro _ ⟨x, hx, rfl⟩
     rw [mem_nonZeroDivisors_iff_ne_zero]
     exact (map_ne_zero_iff _ hRinj).mpr
@@ -764,7 +764,7 @@ public theorem isJ0_of_finiteType_injective_of_isSeparable_fractionRing
   let : Algebra Rf T :=
     (IsLocalization.Away.map Rf T (algebraMap R Sg) f).toAlgebra
   have : IsScalarTower R Rf T := IsScalarTower.of_algebraMap_eq' (by
-    show (algebraMap Sg T).comp (algebraMap R Sg) =
+    change (algebraMap Sg T).comp (algebraMap R Sg) =
       (IsLocalization.Away.map Rf T (algebraMap R Sg) f).comp (algebraMap R Rf)
     exact (IsLocalization.map_comp _).symm)
   have : Algebra.FormallySmooth R T := Algebra.FormallySmooth.comp R Sg T
@@ -825,7 +825,7 @@ public theorem Algebra.exists_finite_subalgebra_isFractionRing
       exact (map_ne_zero_iff _ (algebraMap K L).injective).mpr
         ((map_ne_zero_iff _ (IsFractionRing.injective A K)).mpr
           (nonZeroDivisors.ne_zero t.2))
-    show z = ((t : A) • z) / algebraMap A L t
+    change z = ((t : A) • z) / algebraMap A L t
     rw [Algebra.smul_def]
     exact (mul_div_cancel_left₀ z ht0).symm
   exact ⟨B, hfin, hfrac⟩
@@ -855,7 +855,7 @@ private theorem exists_finite_subalgebra_residueField
   obtain ⟨B, hBfin, hBfrac⟩ :=
     Algebra.exists_finite_subalgebra_isFractionRing A K L
   refine ⟨B.restrictScalars R, ?_, hBfrac⟩
-  show Module.Finite R B
+  change Module.Finite R B
   exact Module.Finite.trans A B
 
 /-- The tensor-product image of two domain models has the compositum as its
@@ -890,9 +890,7 @@ private theorem isFractionRing_range_productMap
         Algebra.TensorProduct.productMap gL gK t =
           algebraMap T E a / algebraMap T E b := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        exact ⟨0, 1, by simp, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul l x =>
         obtain ⟨bn, bd, hbd, hl⟩ := IsFractionRing.div_surjective B l
         obtain ⟨an, ad, had, hx⟩ := IsFractionRing.div_surjective A x
@@ -947,7 +945,7 @@ private theorem isSeparableExtension_fractionRing_of_isFractionRing
       eB.toRingHom.comp (algebraMap (FractionRing A) (FractionRing B)) := by
     apply IsFractionRing.ringHom_ext (A := A) (K := FractionRing A)
     intro a
-    show algebraMap K L (eA (algebraMap A (FractionRing A) a)) =
+    change algebraMap K L (eA (algebraMap A (FractionRing A) a)) =
       eB (algebraMap (FractionRing A) (FractionRing B)
         (algebraMap A (FractionRing A) a))
     rw [eA.commutes a, hcomm a, ← eB.commutes (algebraMap A B a)]
@@ -978,7 +976,7 @@ private lemma isJ0_of_isJ1 (A : Type u) [CommRing A] [IsDomain A]
     (h : IsJ1 A) : IsJ0 A := by
   refine ⟨{x | IsRegularLocalRing (Localization.AtPrime x.asIdeal)}, h, ?_, fun _ hx => hx⟩
   refine ⟨⟨⊥, inferInstance⟩, ?_⟩
-  show IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal A))
+  change IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal A))
   have : IsFractionRing A (Localization.AtPrime (⊥ : Ideal A)) := by
     simpa [Ideal.primeCompl_bot] using
       (inferInstance : IsLocalization (⊥ : Ideal A).primeCompl
@@ -1069,7 +1067,7 @@ public theorem isJ2_tfae (R : Type u) [CommRing R] [IsNoetherianRing R] :
       { toRingHom := (algebraMap K K').comp (algebraMap S K)
         commutes' := by
           intro r
-          show algebraMap K K' (algebraMap S K (algebraMap R S r)) =
+          change algebraMap K K' (algebraMap S K (algebraMap R S r)) =
             algebraMap k' K' (algebraMap k k' (algebraMap R k r))
           rw [← IsScalarTower.algebraMap_apply R S K,
             IsScalarTower.algebraMap_apply R k K,

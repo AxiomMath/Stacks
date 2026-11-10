@@ -138,7 +138,7 @@ private theorem completion_map_bijective_of_equivalence
     have hfg' : ObjectProperty.homMk (X := E') (Y := F') f =
         ObjectProperty.homMk (X := E') (Y := F') g := by
       apply hb.1
-      show H.map (ObjectProperty.homMk (X := E') (Y := F') f) =
+      change H.map (ObjectProperty.homMk (X := E') (Y := F') f) =
         H.map (ObjectProperty.homMk (X := E') (Y := F') g)
       rw [hmap', hmap']
       exact hfg
@@ -146,7 +146,7 @@ private theorem completion_map_bijective_of_equivalence
   · intro f
     obtain ⟨g, hg⟩ := hb.2 f
     refine ⟨g.hom, ?_⟩
-    show H.map g = f
+    change H.map g = f
     rw [hmap']
     exact hg
 
@@ -420,7 +420,7 @@ private lemma idealPowerMultiple_pushforwardStructureSheaf_eq_bot
   have hz : (f.app U.1).hom r = 0 := f.ideal_ker_le U hr'
   have hsmul : r • m = 0 := by
     change Γ(Y, f ⁻¹ᵁ U.1) at m
-    show (f.app U.1).hom r * m = 0
+    change (f.app U.1).hom r * m = 0
     rw [hz, zero_mul]
   rw [hsmul]
   exact Submodule.zero_mem _
@@ -522,7 +522,7 @@ private lemma moduleHomOfAffine_app {X : Scheme.{u}} {F G : X.Modules}
       f V (F.val.map (homOfLE hVU).op s) = G.val.map (homOfLE hVU).op (f U s))
     (U : X.affineOpens) : (moduleHomOfAffine f hf).val.app (op U.1) = f U := by
   ext s
-  show ((TopCat.Sheaf.restrictHomEquivHom
+  change ((TopCat.Sheaf.restrictHomEquivHom
     (B := fun V : X.affineOpens => V.1) F.val.presheaf
     ((SheafOfModules.toSheaf X.ringCatSheaf).obj G) _ _).app (op U.1)).hom s = _
   exact congrArg (fun (k : F.val.presheaf.obj (op U.1) ⟶
@@ -568,7 +568,7 @@ private lemma module_exists_desc_of_surjective_affine {X : Scheme.{u}}
   apply moduleHom_ext_affine
   intro U
   ext s
-  show (moduleHomOfAffine k hn).val.app (op U.1) (f.val.app (op U.1) s) = _
+  change (moduleHomOfAffine k hn).val.app (op U.1) (f.val.app (op U.1) s) = _
   rw [moduleHomOfAffine_app]
   exact hk U s
 
@@ -652,7 +652,7 @@ private lemma ker_eq_map_of_isPushout
   let k : A →+* B ⧸ K := (Ideal.Quotient.lift _ (q.comp g.hom) hq).comp e.symm.toRingHom
   have hk : f ≫ CommRingCat.ofHom k = g ≫ CommRingCat.ofHom q := by
     ext r
-    show (Ideal.Quotient.lift _ (q.comp g.hom) hq) (e.symm (f.hom r)) = q (g.hom r)
+    change (Ideal.Quotient.lift _ (q.comp g.hom) hq) (e.symm (f.hom r)) = q (g.hom r)
     rw [he]
     rfl
   let d : P ⟶ CommRingCat.of (B ⧸ K) := h.desc (CommRingCat.ofHom k) (CommRingCat.ofHom q) hk
@@ -666,7 +666,7 @@ private lemma ker_eq_map_of_isPushout
     exact hd.symm
   · rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show b.hom (g.hom r) = 0
+    change b.hom (g.hom r) = 0
     have hw := congrArg (fun z : R ⟶ P => z.hom r) h.w
     change a.hom (f.hom r) = b.hom (g.hom r) at hw
     rw [show f.hom r = 0 from hr, map_zero] at hw
@@ -720,9 +720,9 @@ private lemma pushforwardStructureSheafMap_surjective_affine
     Function.Surjective ((pushforwardStructureSheafMap f).val.app (op U.1)) := by
   have hU : Y.hom ⁻¹ᵁ U.1 = f.left ⁻¹ᵁ (Z.hom ⁻¹ᵁ U.1) := by
     rw [← Scheme.Hom.comp_preimage, Over.w f]
-  show Function.Surjective ((pushforwardStructureSheafMap f).app U.1)
+  change Function.Surjective ((pushforwardStructureSheafMap f).app U.1)
   rw [pushforwardStructureSheafMap_app]
-  show Function.Surjective (f.left.appLE (Z.hom ⁻¹ᵁ U.1) (Y.hom ⁻¹ᵁ U.1) _).hom
+  change Function.Surjective (f.left.appLE (Z.hom ⁻¹ᵁ U.1) (Y.hom ⁻¹ᵁ U.1) _).hom
   have hs : ∀ (V : Y.left.Opens) (e : V = f.left ⁻¹ᵁ (Z.hom ⁻¹ᵁ U.1)),
       Function.Surjective (f.left.appLE (Z.hom ⁻¹ᵁ U.1) V e.le).hom := by
     intro V e
@@ -751,13 +751,13 @@ private lemma pushforwardStructureSheafMap_ker_of_isPullback
   have hs := Ideal.smul_top_eq_map (S := Γ(Z.left, Z.hom ⁻¹ᵁ U.1))
     (RingHom.ker (i.app U.1).hom)
   ext s
-  show ((pushforwardStructureSheafMap f).app U.1) s = 0 ↔
+  change ((pushforwardStructureSheafMap f).app U.1) s = 0 ↔
     s ∈ (RingHom.ker (i.app U.1).hom) •
       (⊤ : Submodule Γ(X, U.1) Γ(Z.left, Z.hom ⁻¹ᵁ U.1))
   rw [hs]
   rw [pushforwardStructureSheafMap_app]
-  show (f.left.appLE (Z.hom ⁻¹ᵁ U.1) (Y.hom ⁻¹ᵁ U.1) _).hom s = 0 ↔ _
-  show s ∈ RingHom.ker (f.left.appLE _ _ _).hom ↔ _
+  change (f.left.appLE (Z.hom ⁻¹ᵁ U.1) (Y.hom ⁻¹ᵁ U.1) _).hom s = 0 ↔ _
+  change s ∈ RingHom.ker (f.left.appLE _ _ _).hom ↔ _
   rw [hk]
   simp only [Scheme.Hom.appLE_eq_app]
   rfl
@@ -1039,10 +1039,10 @@ private lemma pushforwardStructureSheafMap_unit {X : Scheme.{u}} {Y Z : Over X}
       pushforwardStructureSheafMap f =
         SheafOfModules.unitToPushforwardObjUnit Y.hom.toRingCatSheafHom := by
   ext U
-  show (pushforwardStructureSheafMap f).app U.unop ((Z.hom.app U.unop).hom 1) =
+  change (pushforwardStructureSheafMap f).app U.unop ((Z.hom.app U.unop).hom 1) =
     (Y.hom.app U.unop).hom 1
   rw [pushforwardStructureSheafMap_app]
-  show (f.left.appLE _ _ _).hom ((Z.hom.app U.unop).hom 1) =
+  change (f.left.appLE _ _ _).hom ((Z.hom.app U.unop).hom 1) =
     (Y.hom.app U.unop).hom 1
   simp only [map_one]
 
@@ -1112,12 +1112,11 @@ private def tensorMulPresheafMap {X Y : Scheme.{u}} (f : Y ⟶ X) (E : X.Modules
     exact ModuleCat.ofHom ((LinearMap.mul' Γ(X, U.unop) Γ(Y, f ⁻¹ᵁ U.unop)).comp
       (TensorProduct.map pU pU))
   naturality {U V} g := by
-    letI : Algebra Γ(X, U.unop) Γ(Y, f ⁻¹ᵁ U.unop) := (f.app U.unop).hom.toAlgebra
-    letI : Algebra Γ(X, V.unop) Γ(Y, f ⁻¹ᵁ V.unop) := (f.app V.unop).hom.toAlgebra
+    let : Algebra Γ(X, U.unop) Γ(Y, f ⁻¹ᵁ U.unop) := (f.app U.unop).hom.toAlgebra
+    let : Algebra Γ(X, V.unop) Γ(Y, f ⁻¹ᵁ V.unop) := (f.app V.unop).hom.toAlgebra
     ext t
     change TensorProduct Γ(X, U.unop) (E.val.obj U) (E.val.obj U) at t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       change Mul.mul (α := Γ(Y, f ⁻¹ᵁ V.unop))
         (p.val.app V (E.val.map g x)) (p.val.app V (E.val.map g y)) =
@@ -1153,12 +1152,12 @@ private lemma tensorMulSheafMap_naturality {X : Scheme.{u}} {Y Z : Over X}
       tensorMulSheafMap Y.hom E (p ≫ pushforwardStructureSheafMap f) := by
   apply Stacks.SheafOfModules.TensorStalkRingedSpace.hom_ext_toTensorSheafSection X.toRingedSpace
   intro U x y
-  show (pushforwardStructureSheafMap f).app U.unop
+  change (pushforwardStructureSheafMap f).app U.unop
     ((tensorMulSheafMap Z.hom E p).val.app U
       (Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection X.toRingedSpace E E U
         (x ⊗ₜ[Γ(X, U.unop)] y))) = _
   rw [tensorMulSheafMap_apply, tensorMulSheafMap_apply]
-  show (pushforwardStructureSheafMap f).app U.unop
+  change (pushforwardStructureSheafMap f).app U.unop
     (Mul.mul (α := Γ(Z.left, Z.hom ⁻¹ᵁ U.unop)) (p.val.app U x) (p.val.app U y)) =
       Mul.mul (α := Γ(Y.left, Y.hom ⁻¹ᵁ U.unop))
         ((pushforwardStructureSheafMap f).app U.unop (p.val.app U x))
@@ -1231,7 +1230,7 @@ private lemma presheafHom_ext_of_completion
     apply (PresheafOfModules.sheafificationHomEquiv
       (𝟙 X.ringCatSheaf.obj)).injective
     ext U x
-    show (Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U
+    change (Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U
         ((sheafifyDesc f).val.app U
           ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace P).app U x)) =
       (Stacks.Algebraization.completionProjection X I E.obj n ≫ e.hom.hom.app (op n)).val.app U
@@ -1307,12 +1306,11 @@ private lemma algebraLaws_of_separating_homs {X : Scheme.{u}}
     apply hext (E.val ⊗ E.val) (tensorSheaf_finiteLocallyFree E E hE hE)
     intro n
     ext U t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul x y =>
-      show (p n).val.app U (m.app U (x ⊗ₜ[Γ(X, U.unop)] y)) =
+      change (p n).val.app U (m.app U (x ⊗ₜ[Γ(X, U.unop)] y)) =
         (p n).val.app U (m.app U (y ⊗ₜ[Γ(X, U.unop)] x))
       rw [hm, hm]
       exact @mul_comm Γ((T n).left, (T n).hom ⁻¹ᵁ U.unop) inferInstance _ _
@@ -1321,17 +1319,11 @@ private lemma algebraLaws_of_separating_homs {X : Scheme.{u}}
     apply hext _ (finiteLocallyFree_sheafify_triple E E E hE hE hE)
     intro n
     ext U t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul t z =>
-      induction t using TensorProduct.induction_on with
-      | zero =>
-        exact (DFunLike.congr_arg (((m ▷ E.val ≫ m) ≫ (p n).val).app U).hom
-          (TensorProduct.zero_tmul _ z)).trans ((map_zero _).trans ((map_zero _).symm.trans
-            (DFunLike.congr_arg ((((α_ E.val E.val E.val).hom ≫ E.val ◁ m ≫ m) ≫
-              (p n).val).app U).hom (TensorProduct.zero_tmul _ z)).symm))
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy =>
         let F := (((m ▷ E.val ≫ m) ≫ (p n).val).app U).hom
         let G := ((((α_ E.val E.val E.val).hom ≫ E.val ◁ m ≫ m) ≫ (p n).val).app U).hom
@@ -1340,7 +1332,7 @@ private lemma algebraLaws_of_separating_homs {X : Scheme.{u}}
         exact h1.trans ((F.map_add _ _).trans ((congrArg₂ (· + ·) hx hy).trans
           ((G.map_add _ _).symm.trans h2.symm)))
       | tmul x y =>
-        show (p n).val.app U (m.app U
+        change (p n).val.app U (m.app U
           (m.app U (x ⊗ₜ[Γ(X, U.unop)] y) ⊗ₜ[Γ(X, U.unop)] z)) =
             (p n).val.app U (m.app U
               (x ⊗ₜ[Γ(X, U.unop)] m.app U (y ⊗ₜ[Γ(X, U.unop)] z)))
@@ -1350,7 +1342,7 @@ private lemma algebraLaws_of_separating_homs {X : Scheme.{u}}
     apply hext _ (finiteLocallyFree_sheafify_val E hE)
     intro n
     ext U x
-    show (p n).val.app U (m.app U
+    change (p n).val.app U (m.app U
       (η.val.app U (1 : Γ(X, U.unop)) ⊗ₜ[Γ(X, U.unop)] x)) = (p n).val.app U x
     rw [hm, hη]
     exact @one_mul Γ((T n).left, (T n).hom ⁻¹ᵁ U.unop) inferInstance _
@@ -1456,7 +1448,7 @@ private lemma moduleSectionAlgebra_map {X : Scheme.{u}} (E : X.Modules)
     letI := moduleSectionCommRing E d U
     letI := moduleSectionAlgebra E d U
     algebraMap Γ(X, U.unop) (E.val.obj U) r = d.unit.val.app U r := by
-  show r • d.unit.val.app U (1 : Γ(X, U.unop)) = d.unit.val.app U r
+  change r • d.unit.val.app U (1 : Γ(X, U.unop)) = d.unit.val.app U r
   exact ((d.unit.val.app U).hom.map_smul r (1 : Γ(X, U.unop))).symm.trans
     (congrArg (fun t => d.unit.val.app U t) (mul_one r))
 
@@ -1648,7 +1640,7 @@ private lemma algebraSheafOfModuleToPushforward_underlying {X Y : Scheme.{u}}
   have h2 : ((algebraSheafOfModuleIso E d).hom).val.app U x = x := by
     unfold algebraSheafOfModuleIso
     exact rfl
-  show (pushforwardAlgebraUnderlyingIso f).hom.val.app U
+  change (pushforwardAlgebraUnderlyingIso f).hom.val.app U
       (((algebraUnderlyingFunctor X).map
         (algebraSheafOfModuleToPushforward E d f p hu hm)).val.app U x) =
     p.val.app U ((algebraSheafOfModuleIso E d).hom.val.app U x)
@@ -1689,7 +1681,7 @@ private lemma pushforwardAlgebraMap_app {X : Scheme.{u}} {Y Z : Over X}
   change f ≫ b = a at w
   subst a
   simp only [Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap, Over.homMk_left, Over.mk_hom]
-  show f.app (b ⁻¹ᵁ U) = f.appLE (b ⁻¹ᵁ U) ((f ≫ b) ⁻¹ᵁ U) _
+  change f.app (b ⁻¹ᵁ U) = f.appLE (b ⁻¹ᵁ U) ((f ≫ b) ⁻¹ᵁ U) _
   exact Scheme.Hom.app_eq_appLE f
 
 private lemma pushforwardAlgebraMap_underlying {X : Scheme.{u}} {Y Z : Over X}
@@ -1698,7 +1690,7 @@ private lemma pushforwardAlgebraMap_underlying {X : Scheme.{u}} {Y Z : Over X}
         (pushforwardAlgebraUnderlyingIso Y.hom).hom =
       (pushforwardAlgebraUnderlyingIso Z.hom).hom ≫ pushforwardStructureSheafMap f := by
   ext U x
-  show ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app (op U)).hom x =
+  change ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app (op U)).hom x =
     (pushforwardStructureSheafMap f).app U x
   rw [pushforwardAlgebraMap_app, pushforwardStructureSheafMap_app]
   rfl
@@ -1735,7 +1727,7 @@ private lemma affineHom_ext_of_pushforwardStructureSheafMap
     change (pushforwardStructureSheafMap f).app U.unop x =
       (pushforwardStructureSheafMap g).app U.unop x at h
     rw [pushforwardStructureSheafMap_app, pushforwardStructureSheafMap_app] at h
-    show ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app U).hom x =
+    change ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app U).hom x =
       ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap g).right.hom.app U).hom x
     rw [pushforwardAlgebraMap_app, pushforwardAlgebraMap_app]
     exact h
@@ -1815,7 +1807,7 @@ private lemma quotientIso_of_completionIso {X : Scheme.{u}} [IsLocallyNoetherian
   let eQ := (eqToIso (Stacks.Algebraization.completionFunctor_obj X I M n)).symm ≪≫
     ((ObjectProperty.ι (P := Stacks.Coherent.IsCoherentAdicSystem I)).mapIso eC).app (op n)
   refine ⟨eQ, ?_⟩
-  show Stacks.Algebraization.completionProjection X I M n ≫
+  change Stacks.Algebraization.completionProjection X I M n ≫
     (((Stacks.Algebraization.completionFunctor X I).map eM.hom).hom.app (op n) ≫
       e.hom.hom.app (op n)) = _
   exact (Category.assoc _ _ _).symm.trans
@@ -1859,11 +1851,11 @@ private lemma pushforwardStructureSheafMap_comp {X : Scheme.{u}}
     pushforwardStructureSheafMap (f ≫ g) =
       pushforwardStructureSheafMap g ≫ pushforwardStructureSheafMap f := by
   ext O x
-  show (pushforwardStructureSheafMap (f ≫ g)).app O x =
+  change (pushforwardStructureSheafMap (f ≫ g)).app O x =
     (pushforwardStructureSheafMap f).app O ((pushforwardStructureSheafMap g).app O x)
   rw [pushforwardStructureSheafMap_app, pushforwardStructureSheafMap_app,
     pushforwardStructureSheafMap_app]
-  show ((f.left ≫ g.left).appLE (W.hom ⁻¹ᵁ O) (U.hom ⁻¹ᵁ O) _).hom x =
+  change ((f.left ≫ g.left).appLE (W.hom ⁻¹ᵁ O) (U.hom ⁻¹ᵁ O) _).hom x =
     (f.left.appLE (V.hom ⁻¹ᵁ O) (U.hom ⁻¹ᵁ O) _).hom
       ((g.left.appLE (W.hom ⁻¹ᵁ O) (V.hom ⁻¹ᵁ O) _).hom x)
   exact congrArg (fun k => k.hom x)
@@ -1898,10 +1890,10 @@ private lemma affineHom_isIso_of_pushforwardStructureSheafMap {X : Scheme.{u}}
   have hh := Stacks.AlgebraPullbackQcoh.affineEquivalenceAlgebras.pushforwardIso_naturality X f
   have : IsIso (L.map (e.functor.map f.op)) := by
     have : IsIso (L.map (e.functor.map f.op) ≫ iU.hom) := by
-      show IsIso
+      change IsIso
         (_ ≫ (Stacks.AlgebraPullbackQcoh.affineEquivalenceAlgebras.pushforwardIso X U).hom)
       rw [hh]
-      show IsIso (iV.hom ≫ Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f.hom)
+      change IsIso (iV.hom ≫ Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f.hom)
       infer_instance
     exact IsIso.of_isIso_comp_right _ iU.hom
   have : IsIso (e.functor.map f.op) := isIso_of_reflects_iso _ L
@@ -1926,7 +1918,7 @@ private lemma isPullback_of_pushforward_quotient {X : Scheme.{u}}
   let pr : P ⟶ V := Over.homMk (pullback.fst V.hom i) pullback.condition
   have hs : g.left ≫ V.hom = a ≫ i := (Over.w g).trans ha.symm
   let k : W ⟶ P := Over.homMk (pullback.lift g.left a hs) (by
-    show pullback.lift g.left a hs ≫ (pullback.snd V.hom i ≫ i) = W.hom
+    change pullback.lift g.left a hs ≫ (pullback.snd V.hom i ≫ i) = W.hom
     rw [← Category.assoc, pullback.lift_snd, ha])
   have hk : k ≫ pr = g := by
     ext
@@ -2015,8 +2007,7 @@ private lemma tensor_mul_of_separating
     (he : ∀ a : A, (a ⊗ₜ[R] 1 - 1 ⊗ₜ[R] a) * e = 0)
     (t : A ⊗[R] A) :
     t * e = ((Algebra.TensorProduct.lmul' R t) ⊗ₜ[R] (1 : A)) * e := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp [add_mul, TensorProduct.add_tmul, hx, hy]
   | tmul a b =>
     have hb : (1 ⊗ₜ[R] b) * e = (b ⊗ₜ[R] (1 : A)) * e :=
@@ -2117,7 +2108,7 @@ private lemma mul_eq_mul_of_isPushout
         intro x hx; simpa only [Set.mem_ofPred_eq, map_neg, neg_mul] using congrArg Neg.neg hx
       mul_mem' := by
         intro x y hx hy
-        show f.hom (x * y) * e = g.hom (x * y) * e
+        change f.hom (x * y) * e = g.hom (x * y) * e
         rw [map_mul, map_mul, mul_assoc, hy]
         calc
           f.hom x * (g.hom y * e) = g.hom y * (f.hom x * e) := by ring
@@ -2223,7 +2214,7 @@ private lemma overSelfProduct_isPushout {X : Scheme.{u}} (A : Over X)
     (show (overSelfProduct A).hom ⁻¹ᵁ U.1 =
       pullback.fst A.hom A.hom ⁻¹ᵁ (A.hom ⁻¹ᵁ U.1) ⊓
       pullback.snd A.hom A.hom ⁻¹ᵁ (A.hom ⁻¹ᵁ U.1) by
-        show (pullback.fst A.hom A.hom ≫ A.hom) ⁻¹ᵁ U.1 = _
+        change (pullback.fst A.hom A.hom ≫ A.hom) ⁻¹ᵁ U.1 = _
         rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, pullback.condition, inf_idem])
   simp only [Scheme.Hom.appLE_eq_app] at h
   simp only [overRingMap, pushforwardAlgebraMap_app]
@@ -2322,8 +2313,8 @@ private def overSeparabilityMap {X : Scheme.{u}} (A : Over X)
   intro U V hVU s
   change Γ(X, U.1) at s
   let P := overSelfProduct A
-  letI : Algebra Γ(X, U.1) Γ(P.left, P.hom ⁻¹ᵁ U.1) := (P.hom.app U.1).hom.toAlgebra
-  letI : Algebra Γ(X, V.1) Γ(P.left, P.hom ⁻¹ᵁ V.1) := (P.hom.app V.1).hom.toAlgebra
+  let : Algebra Γ(X, U.1) Γ(P.left, P.hom ⁻¹ᵁ U.1) := (P.hom.app U.1).hom.toAlgebra
+  let : Algebra Γ(X, V.1) Γ(P.left, P.hom ⁻¹ᵁ V.1) := (P.hom.app V.1).hom.toAlgebra
   change ((X.presheaf.map (homOfLE hVU).op).hom s) • overSeparabilityElement A V =
     ((overSelfProduct A).left.presheaf.map
       ((TopologicalSpace.Opens.map (overSelfProduct A).hom.base).map
@@ -2387,7 +2378,7 @@ private lemma overDiagonal_naturality {X : Scheme.{u}} {A B : Over X} (f : A ⟶
 private lemma overRingMap_apply {X : Scheme.{u}} {A B : Over X}
     (f : A ⟶ B) (U : X.Opens) (x : Γ(B.left, B.hom ⁻¹ᵁ U)) :
     (overRingMap f U).hom x = (pushforwardStructureSheafMap f).val.app (op U) x := by
-  show ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app (op U)).hom x =
+  change ((Stacks.AffineAlgebraEquivalence.pushforwardAlgebraMap f).right.hom.app (op U)).hom x =
     (pushforwardStructureSheafMap f).app U x
   rw [pushforwardAlgebraMap_app, pushforwardStructureSheafMap_app]
   rfl
@@ -2435,7 +2426,7 @@ private lemma overSeparabilityMap_naturality {X : Scheme.{u}} {A B : Over X}
   apply moduleHom_ext_affine
   intro U
   ext
-  show (pushforwardStructureSheafMap (overSelfProductMap f)).val.app (op U.1)
+  change (pushforwardStructureSheafMap (overSelfProductMap f)).val.app (op U.1)
       ((overSeparabilityMap B).val.app (op U.1) (1 : Γ(X, U.1))) =
     (overSeparabilityMap A).val.app (op U.1) (1 : Γ(X, U.1))
   rw [overSeparabilityMap_apply_one, overSeparabilityMap_apply_one, ← overRingMap_apply]
@@ -2540,7 +2531,7 @@ private lemma isPullback_pullbackMap_self
     simpa only [Category.assoc, ha] using pullback.condition (f := pA) (g := pA)
   have hw : pullback.map pA pA pB pB f f (𝟙 X) (by simp [hf]) (by simp [hf]) ≫
       pullback.fst pB pB ≫ pB = (pullback.fst pA pA ≫ a) ≫ i := by
-    simp [pullback.map, hf, ha, pullback.lift_fst_assoc]
+    simp [pullback.map, hf, ha]
   refine ⟨⟨hw⟩, ⟨PullbackCone.IsLimit.mk _ (fun s => ?_) ?_ ?_ ?_⟩⟩
   · let l : s.pt ⟶ A := H.lift (s.fst ≫ pullback.fst pB pB) s.snd
       (by simpa only [Category.assoc] using s.condition)
@@ -2550,8 +2541,7 @@ private lemma isPullback_pullbackMap_self
       rw [← ha, ← Category.assoc, ← Category.assoc, H.lift_snd, H.lift_snd])
   · intro s
     apply pullback.hom_ext <;>
-      simp [pullback.map, Category.assoc, H.lift_fst, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [pullback.map, Category.assoc, H.lift_fst]
   · intro s
     simp only [pullback.lift_fst_assoc, H.lift_snd]
   · intro s m hm₁ hm₂
@@ -2615,11 +2605,11 @@ private lemma multiplyBySection_naturality {X : Scheme.{u}} {A B : Over X}
       pushforwardStructureSheafMap f ≫
         multiplyBySection A.hom (η ≫ pushforwardStructureSheafMap f) := by
   ext U x
-  show (pushforwardStructureSheafMap f).val.app (op U)
+  change (pushforwardStructureSheafMap f).val.app (op U)
       ((multiplyBySection B.hom η).val.app (op U) x) =
     (multiplyBySection A.hom (η ≫ pushforwardStructureSheafMap f)).val.app (op U)
       ((pushforwardStructureSheafMap f).val.app (op U) x)
-  show (pushforwardStructureSheafMap f).val.app (op U)
+  change (pushforwardStructureSheafMap f).val.app (op U)
       (Mul.mul (α := Γ(B.left, B.hom ⁻¹ᵁ U)) x (η.val.app (op U) (1 : Γ(X, U)))) =
     Mul.mul (α := Γ(A.left, A.hom ⁻¹ᵁ U))
       ((pushforwardStructureSheafMap f).val.app (op U) x)
@@ -2634,7 +2624,7 @@ private lemma overSeparabilityMap_diagonal {X : Scheme.{u}} (A : Over X)
   apply moduleHom_ext_affine
   intro U
   ext
-  show (pushforwardStructureSheafMap (overDiagonal A)).val.app (op U.1)
+  change (pushforwardStructureSheafMap (overDiagonal A)).val.app (op U.1)
       ((overSeparabilityMap A).val.app (op U.1) (1 : Γ(X, U.1))) =
     (A.hom.app U.1).hom 1
   rw [overSeparabilityMap_apply_one, ← overRingMap_apply, map_one]
@@ -2648,7 +2638,7 @@ private lemma overSeparabilityMap_annihilates {X : Scheme.{u}} (A : Over X)
   apply moduleHom_ext_affine
   intro U
   ext x
-  show (multiplyBySection (overSelfProduct A).hom (overSeparabilityMap A)).val.app (op U.1)
+  change (multiplyBySection (overSelfProduct A).hom (overSeparabilityMap A)).val.app (op U.1)
       ((pushforwardStructureSheafMap (overSelfProductFst A)).val.app (op U.1) x -
         (pushforwardStructureSheafMap (overSelfProductSnd A)).val.app (op U.1) x) = 0
   exact (congrArg₂ (fun (a b : Γ((overSelfProduct A).left, (overSelfProduct A).hom ⁻¹ᵁ U.1)) =>
@@ -2670,7 +2660,7 @@ private lemma formallyUnramified_of_separabilityElement_of_isPushout
   let : Algebra R A := a.hom.toAlgebra
   let : Algebra.EssFiniteType R A := hft
   obtain ⟨E', hEl, hEr, hd'⟩ := exists_tensorRingEquiv_of_isPushout a l r H d hl hr
-  show Algebra.FormallyUnramified R A
+  change Algebra.FormallyUnramified R A
   apply Algebra.FormallyUnramified.iff_exists_tensorProduct.mpr
   refine ⟨E'.symm e, ?_, ?_⟩
   · intro x
@@ -2691,7 +2681,7 @@ private lemma finiteLocallyFree_overSelfProduct {X : Scheme.{u}} (A : Over X)
   let := hflat
   let := hpres
   apply (Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation _).mpr
-  show IsFinite (pullback.fst A.hom A.hom ≫ A.hom) ∧
+  change IsFinite (pullback.fst A.hom A.hom ≫ A.hom) ∧
     Flat (pullback.fst A.hom A.hom ≫ A.hom) ∧
       LocallyOfFinitePresentation (pullback.fst A.hom A.hom ≫ A.hom)
   exact ⟨inferInstance, inferInstance, inferInstance⟩
@@ -2841,7 +2831,7 @@ private lemma etale_of_finiteLocallyFree_lift_tower
       exact (pullback.map_comp ..).symm
     rw [← pushforwardStructureSheafMap_comp, ← hcomp, hgnat]
   have hQ n : Stacks.Algebraization.idealPowerMultiple I (n + 1) (Q n) = ⊥ := by
-    show Stacks.Algebraization.idealPowerMultiple I (n + 1)
+    change Stacks.Algebraization.idealPowerMultiple I (n + 1)
       (Stacks.Morphisms.pushforwardStructureSheaf
         (pullback.fst (T.obj n).hom (T.obj n).hom ≫ ((C n).hom ≫ (I ^ (n + 1)).subschemeι))) = ⊥
     have hk := (pullback.fst (T.obj n).hom (T.obj n).hom ≫ (C n).hom).le_ker_comp

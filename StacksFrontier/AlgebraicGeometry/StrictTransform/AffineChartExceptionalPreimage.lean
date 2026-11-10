@@ -90,7 +90,7 @@ public theorem Ideal.map_algebraMap_tensorProduct_eq_span_of_right (R S T : Type
     Ideal.map (algebraMap R (S ⊗[R] T)) I =
         Ideal.map (algebraMap T (S ⊗[R] T)) (Ideal.map (algebraMap R T) I) := by
       rw [Ideal.map_map]
-      show Ideal.map ((Algebra.TensorProduct.includeLeftRingHom (R := R) (A := S)
+      change Ideal.map ((Algebra.TensorProduct.includeLeftRingHom (R := R) (A := S)
           (B := T)).comp (algebraMap R S)) I =
         Ideal.map ((Algebra.TensorProduct.includeRight (R := R) (A := S)
           (B := T)).toRingHom.comp (algebraMap R T)) I
@@ -103,7 +103,7 @@ public theorem Ideal.map_algebraMap_tensorProduct_eq_span_of_right (R S T : Type
         (congrArg (fun φ : R →+* S ⊗[R] T => φ a)
           (Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap (R := R) (A := S)
             (B := T))).symm
-      simpa only [Set.image_singleton, he]
+      simp only [Set.image_singleton, he]
 
 namespace AlgebraicGeometry
 
@@ -126,10 +126,10 @@ public theorem preimage_coe_support_eq_zeroLocus_map {S : Scheme.{u}} [IsAffine 
     g.base ⁻¹' (ℐ.support : Set S) =
       PrimeSpectrum.zeroLocus (Ideal.map ρ (ℐ.ideal ⟨⊤, isAffineOpen_top S⟩) : Set B) := by
   rw [Scheme.IdealSheafData.coe_support_eq_zeroLocus_top, ← S.toSpecΓ_preimage_zeroLocus]
-  show (g ≫ S.isoSpec.hom).base ⁻¹' _ = _
+  change (g ≫ S.isoSpec.hom).base ⁻¹' _ = _
   rw [hg]
   ext p
-  show ℐ.ideal ⟨⊤, isAffineOpen_top S⟩ ≤ p.asIdeal.comap ρ ↔
+  change ℐ.ideal ⟨⊤, isAffineOpen_top S⟩ ≤ p.asIdeal.comap ρ ↔
     (ℐ.ideal ⟨⊤, isAffineOpen_top S⟩).map ρ ≤ p.asIdeal
   exact Ideal.map_le_iff_le_comap.symm
 
@@ -168,11 +168,11 @@ public theorem exceptionalPreimage_blowUp_eq_preimage_support {X S : Scheme.{u}}
       (blowUpToBase ℐ).base ⁻¹' (ℐ.support : Set S) := by
     rw [exceptionalIdeal, Scheme.IdealSheafData.support_comap]
     rfl
-  show (pullback.snd f (blowUpToBase ℐ)).base ⁻¹'
+  change (pullback.snd f (blowUpToBase ℐ)).base ⁻¹'
       ((exceptionalIdeal ℐ).support : Set _) = _
   rw [hs]
   ext x
-  show (blowUpToBase ℐ) ((pullback.snd f (blowUpToBase ℐ)) x) ∈ ℐ.support ↔
+  change (blowUpToBase ℐ) ((pullback.snd f (blowUpToBase ℐ)) x) ∈ ℐ.support ↔
     f ((pullback.fst f (blowUpToBase ℐ)) x) ∈ ℐ.support
   have h := congrArg (fun g : baseChange f (blowUpToBase ℐ) ⟶ S => g x)
     (pullback.condition (f := f) (g := blowUpToBase ℐ))

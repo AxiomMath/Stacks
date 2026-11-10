@@ -123,10 +123,10 @@ theorem isFiniteSeparable_residueField_attachingPoint
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   have : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom = _
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom = _
     rw [← Scheme.Γevaluation_naturality]
     simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _

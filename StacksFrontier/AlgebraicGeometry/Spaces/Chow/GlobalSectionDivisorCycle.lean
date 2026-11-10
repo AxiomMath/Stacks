@@ -213,7 +213,7 @@ theorem invertibleDivisorCoefficients_globalSection_toIntegralClosedSubspace
       have : T0Space (points D.site D.base D.base_mem X) :=
         t0Space_points_of_isDecentSpace D.site D.base D.base_mem hX.1 hint.2.1
       have hW := ambientGenericPoint_toIntegralClosedSubspace_eq D sX hX W
-      show pointsMap D.site D.base D.base_mem _ _
+      change pointsMap D.site D.base D.base_mem _ _
         (γ (Zc.ambientGenericPoint D.site D.base D.base_mem)).image = _
       rw [hγ, ← hW, ← hZc, IntegralClosedSubspace.ambientGenericPoint_pushforward]
       rfl
@@ -235,7 +235,7 @@ theorem invertibleDivisorCoefficients_globalSection_toIntegralClosedSubspace
       rw [zeroSchemeCycleCoeff, ← hZc,
         cycleCoeffOfClosedSubspace_closedSubspaceComponentImage D sX hX
           (vanishingLocus D sX hX L s).1 (vanishingLocus D sX hX L s).2 (n - 1) γ Zc,
-        if_pos (hZc ▸ hdelta)]
+        ite_eq_left (hZc ▸ hdelta)]
     have hlen := geometricLength_unit_eq_length_quotient_definingIdealAt D.site D.base
       D.base_mem hX.1 (vanishingLocus D sX hX L s).1 (vanishingLocus D sX hX L s).2
       (γ (Zc.ambientGenericPoint D.site D.base D.base_mem))
@@ -376,7 +376,11 @@ any representatives lying over the points give the same cycle, and
 `sectionWeilDivisor_eq_zeroSchemeCycle_and_weilDivisorOfInvertibleSheaf_eq_of_liesOver` states
 the identities for all of them. That `[Z(s)]_{n-1}` is an `(n-1)`-cycle is part of the
 conclusion: its coefficients are those of `div_ℒ(s)`. -/
-@[stacks 0EQF "both identities: div_ℒ(s) = [Z(s)]_{n-1} in Z_{n-1}(X) and c₁(ℒ) ∩ [X] = [Z(s)]_{n-1} in CH_{n-1}(X), for X/B good and integral with n = dim_δ(X), ℒ invertible and s a nonzero global section; div_ℒ(s) and c₁(ℒ) ∩ [X] are Stacks 0EQE parts (1) and (2) with every ingredient constructed, CH_{n-1}(X) is Stacks 0EQ6, [Z(s)]_{n-1} is Stacks 0EE9 of the zero scheme of Stacks 0845 at the canonical geometric representatives; nothing carried"]
+@[stacks 0EQF "both identities: div_ℒ(s) = [Z(s)]_{n-1} in Z_{n-1}(X) and c₁(ℒ) ∩ [X] = \
+  [Z(s)]_{n-1} in CH_{n-1}(X), for X/B good and integral with n = dim_δ(X), ℒ invertible and s a \
+  nonzero global section; div_ℒ(s) and c₁(ℒ) ∩ [X] are Stacks 0EQE parts (1) and (2) with every \
+  ingredient constructed, CH_{n-1}(X) is Stacks 0EQ6, [Z(s)]_{n-1} is Stacks 0EE9 of the zero \
+  scheme of Stacks 0845 at the canonical geometric representatives; nothing carried"]
 theorem sectionWeilDivisor_eq_zeroSchemeCycle_and_weilDivisorOfInvertibleSheaf_eq
     {s : L.sections} (hs : s ≠ 0) :
     sectionWeilDivisor D sX hX hint L hL hn

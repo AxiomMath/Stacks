@@ -57,7 +57,7 @@ namespace Stacks.Discriminant
 polynomial ring. -/
 noncomputable def finOnePolyEquiv (A : Type u) [CommRing A] :
     MvPolynomial (Fin 1) A ≃ₐ[A] Polynomial A :=
-  (MvPolynomial.renameEquiv A finOneEquiv).trans (MvPolynomial.pUnitAlgEquiv A)
+  MvPolynomial.uniqueAlgEquiv A (Fin 1)
 
 private theorem finOnePolyEquiv_X (A : Type u) [CommRing A] :
     finOnePolyEquiv A (MvPolynomial.X 0) = Polynomial.X := by
@@ -128,12 +128,12 @@ theorem noetherDifferent_map_of_algEquiv {A : Type u} {B : Type v} {B' : Type w}
     · rwa [hzero, map_zero] at hz
     · rw [hzero] at hz
       exact e.injective (by simpa using hz.symm)
-  show Ideal.map (e : B →+* B')
+  change Ideal.map (e : B →+* B')
     (Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom (diagonalAnnihilator A B)) =
       Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom (diagonalAnnihilator A B')
   rw [Ideal.map_map, ← hring, ← Ideal.map_map]
   refine congrArg (Ideal.map (Algebra.TensorProduct.lmul' (R := A) (S := B')).toRingHom) ?_
-  show Ideal.map (E : (B ⊗[A] B) →+* (B' ⊗[A] B'))
+  change Ideal.map (E : (B ⊗[A] B) →+* (B' ⊗[A] B'))
     (RingHom.ker (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom).annihilator =
       (RingHom.ker (Algebra.TensorProduct.lmul' (R := A) (S := B')).toRingHom).annihilator
   rw [annihilator_map_of_ringEquiv, hker]
@@ -193,7 +193,7 @@ theorem exists_algEquiv_localizedHypersurface (A : Type u) [CommRing A] (f h : P
         (localizedHypersurfaceRelations A f)) e₁ hpow).trans
     (localizedQuotientEquiv A 1 (localizedHypersurfaceUnit A h)
       (localizedHypersurfaceRelations A f)), fun p ↦ ?_⟩
-  show localizedQuotientEquiv A 1 (localizedHypersurfaceUnit A h)
+  change localizedQuotientEquiv A 1 (localizedHypersurfaceUnit A h)
       (localizedHypersurfaceRelations A f)
     (IsLocalization.algEquivOfAlgEquiv (Localization.Away (AdjoinRoot.mk f h))
       (localizedQuotient A 1 (localizedHypersurfaceUnit A h)

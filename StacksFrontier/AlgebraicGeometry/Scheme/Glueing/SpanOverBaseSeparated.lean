@@ -70,8 +70,7 @@ theorem isSeparated_of_isOpenImmersion_cover {X S A B : Scheme.{u}} (f : X ⟶ S
   have hcomm : L ≫ pullback.mapDesc a.opensRange.ι b.opensRange.ι f =
       pullback.mapDesc a b f ≫ R := by
     apply pullback.hom_ext <;>
-      simp [hL, hR, pullback.mapDesc, pullback.map, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [hL, hR, pullback.mapDesc, pullback.map]
   have hiso : Arrow.mk (pullback.mapDesc a b f) ≅
       Arrow.mk (pullback.mapDesc a.opensRange.ι b.opensRange.ι f) :=
     Arrow.isoMk (asIso L) (asIso R) (by simpa using hcomm)
@@ -138,14 +137,14 @@ theorem isSeparated_desc [IsSeparated g₁] [IsSeparated g₂]
       pullback.mapDesc (ι₁ j₁ j₂) (ι₂ j₁ j₂) (desc j₁ j₂ g₁ g₂ h) =
       pullback.lift j₁ j₂ hw := by
     apply pullback.hom_ext <;>
-      simp [pullback.mapDesc, pullback.map, pullback.lift_fst, pullback.lift_snd]
+      simp [pullback.mapDesc, pullback.map]
   have hlift : IsClosedImmersion (pullback.lift j₁ j₂ hw) := by
     have e : Arrow.mk (pullback.lift (f := ι₁ j₁ j₂ ≫ desc j₁ j₂ g₁ g₂ h)
         (g := ι₂ j₁ j₂ ≫ desc j₁ j₂ g₁ g₂ h) j₁ j₂ hw) ≅
         Arrow.mk (pullback.lift j₁ j₂ h) :=
       Arrow.isoMk (Iso.refl W) (pullback.congrHom hd₁ hd₂) (by
         apply pullback.hom_ext <;>
-          simp [pullback.congrHom, pullback.map, pullback.lift_fst, pullback.lift_snd])
+          simp [pullback.congrHom, pullback.map])
     exact (MorphismProperty.arrow_mk_iso_iff (P := @IsClosedImmersion) e).mpr hcross
   rw [← hfac] at hlift
   exact (MorphismProperty.cancel_left_of_respectsIso (P := @IsClosedImmersion)

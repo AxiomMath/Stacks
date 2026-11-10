@@ -201,6 +201,7 @@ theorem openRestrictionPullbackIso_hom_snd {T : Scheme.{u}} (t : T ⟶ V) :
     (openRestrictionPullbackIso i iV ι hιi t).hom ≫ pullback.snd i (t ≫ ι) = pullback.snd iV t := by
   rw [openRestrictionPullbackIso, pullback.lift_snd, Category.comp_id]
 
+omit [LocallyOfFiniteType sZ] [LocallyOfFiniteType i] [LocallyOfFiniteType iV] in
 include hιi in
 /-- The identification `Z ×_V T ≅ Z ×_U T` lies over the base. -/
 theorem openRestrictionPullbackIso_hom_comp_fst_comp {T : Scheme.{u}} (t : T ⟶ V) :
@@ -242,6 +243,7 @@ theorem openShrinkTestMap_snd {T : Scheme.{u}} (t : T ⟶ X) :
     openShrinkTestMap j jV ι hιj t ≫ pullback.snd j t = pullback.snd jV t := by
   rw [pullback.lift_snd, Category.comp_id]
 
+omit [IsOpenImmersion j] [IsOpenImmersion jV] [IsOpenImmersion ι] in
 include hιj in
 /-- The square `V ×_X T ⟶ U ×_X T` over `ι : V ⟶ U` is cartesian. -/
 theorem isPullback_openShrinkTestMap {T : Scheme.{u}} (t : T ⟶ X) :
@@ -258,6 +260,7 @@ instance isOpenImmersion_openShrinkTestMap {T : Scheme.{u}} (t : T ⟶ X) :
   MorphismProperty.of_isPullback (isPullback_openShrinkTestMap j jV ι hιj t)
     (P := @IsOpenImmersion) inferInstance
 
+omit [LocallyOfFiniteType i] [LocallyOfFiniteType iV] [IsOpenImmersion j] [IsOpenImmersion jV] in
 include hιi hιj in
 /-- **`Z ×_U (V ×_X T) = Z ×_U (U ×_X T)`.** Since `i` factors through `V`, the base change of `i`
 along `V ×_X T ⟶ U ×_X T ⟶ U` is all of the base change along `U ×_X T ⟶ U`: the induced open
@@ -452,6 +455,8 @@ variable (C : ChowSituation.{u}) {Z N N' U V : Scheme.{u}} (sZ : Z ⟶ C.S) [Loc
   (hκ : κ ≫ sU = sV) (hιN : ιN ≫ sN = sN') (hii : i' ≫ ιN = i)
   (sq : IsPullback ιN j' j κ) (p : ℤ)
 
+omit [LocallyOfFiniteType i] [LocallyOfFiniteType i'] [IsOpenImmersion j] [IsOpenImmersion j']
+  [IsOpenImmersion κ] [IsOpenImmersion ιN] in
 include hii sq in
 /-- The factorization `(i' ≫ j') ≫ κ = i ≫ j` of the two composites. -/
 theorem openImmersionComposite_comp_eq_of_isPullback : (i' ≫ j') ≫ κ = i ≫ j := by

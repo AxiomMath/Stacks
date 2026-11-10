@@ -144,8 +144,7 @@ theorem bijective_productMap (U : X.Opens) (V : Y.Opens) (W : P.Opens) (hU : IsA
     · exact (Category.comp_id _).trans (Category.id_comp _).symm
   have heq : ∀ x, productMap H U V W (hWUV ▸ inf_le_left) (hWUV ▸ inf_le_right) x =
       Algebra.IsPushout.equiv A Γ(X, U) Γ(Y, V) Γ(P, W) x := fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s t => rw [Algebra.IsPushout.equiv_tmul, productMap_tmul]; rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   rw [show ⇑(productMap H U V W (hWUV ▸ inf_le_left) (hWUV ▸ inf_le_right)) =
@@ -450,8 +449,7 @@ theorem psi_rTensor (m n : ℕ) :
   let := cochainModule f U (OM X) (m + 1)
   let := cochainModule g V (OM Y) n
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul c d =>
     funext a b
@@ -478,8 +476,7 @@ theorem psi_lTensor (m n : ℕ) :
   let := cochainModule g V (OM Y) n
   let := cochainModule g V (OM Y) (n + 1)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul c d =>
     funext a b
@@ -996,8 +993,7 @@ theorem face2 {m : ℕ} (a : Fin (m + 1) → I) :
   let := cochainModule f U (OM X) m
   let := cochainModule g V (OM Y) 0
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]; exact map_zero _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, map_add, map_add]
     exact (map_add _ _ _).trans (congrArg₂ (· + ·) hx hy)
@@ -1058,8 +1054,7 @@ theorem face1 {n : ℕ} (b : Fin (n + 1) → J) :
   let := cochainModule f U (OM X) 0
   let := cochainModule g V (OM Y) n
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]; exact map_zero _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, map_add, map_add]
     exact (map_add _ _ _).trans (congrArg₂ (· + ·) hx hy)

@@ -61,8 +61,7 @@ lemma frame_span : Submodule.span B (Set.range (frameDiff (A' := A') R B)) = ⊤
     rw [smul_tmul', smul_eq_mul, mul_one]
   rw [eq_top_iff]
   rintro x -
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | tmul b ω =>
     have hω : ω ∈ Submodule.span R (Set.range (KaehlerDifferential.D A' R)) := by
@@ -114,8 +113,7 @@ def frameLift (q : B →ₐ[A'] C) (δ : DerAlong (q.comp (IsScalarTower.toAlgHo
     { toFun := TensorProduct.lift f
       map_add' := map_add _
       map_smul' := fun c x ↦ by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
         | tmul b ω =>
           rw [smul_tmul', TensorProduct.lift.tmul, TensorProduct.lift.tmul]

@@ -130,14 +130,14 @@ private theorem terminalIso_hom_comp_restrictedSection :
         (OverShriek.relocalizeRestrict m).map (restrictedSection B S hS Y hT g v) =
       restrictedSection B S hS Y hT' (m ≫ g) (Y.map (Over.homMk m rfl).op v) := by
   ext W h
-  show Y.map ((Over.map g).map (Over.homMk (W.unop.hom ≫ m) (by simp) :
+  change Y.map ((Over.map g).map (Over.homMk (W.unop.hom ≫ m) (by simp) :
         (Over.map m).obj W.unop ⟶ Over.mk (𝟙 (B.obj hT)))).op v =
       Y.map ((Over.map (m ≫ g)).map h).op (Y.map (Over.homMk m rfl).op v)
   rw [← Functor.map_comp_apply, ← op_comp]
   refine congrArg (fun t => Y.map (Quiver.Hom.op t) v) (Over.OverMorphism.ext ?_)
   have hh : h.left ≫ 𝟙 (B.obj hT') = W.unop.hom := Over.w h
   simp only [Over.comp_left, Over.map_map_left]
-  show W.unop.hom ≫ m = h.left ≫ m
+  change W.unop.hom ≫ m = h.left ≫ m
   simpa using congrArg (fun t => t ≫ m) hh.symm
 
 /-- The fibre over a section restricted along `m` is the restriction along `m` of the fibre:
@@ -327,7 +327,7 @@ private theorem isGeometricallyReducedFibre_iff_of_dominates
   have hm : fieldExtensionMap B p.carrier s.carrier p.contained s.contained = f₀.left := by
     apply B.inclusion.map_injective
     rw [map_fieldExtensionMap]
-    show Spec.map (CommRingCat.ofHom (Spec.preimage (B.inclusion.map f₀.left)).hom) = _
+    change Spec.map (CommRingCat.ofHom (Spec.preimage (B.inclusion.map f₀.left)).hom) = _
     rw [CommRingCat.ofHom_hom, Spec.map_preimage]
   have hg : fieldExtensionMap B p.carrier s.carrier p.contained s.contained ≫
       (⟨p.toBase⟩ : B.obj p.contained ⟶ B.obj hS) = ⟨s.toBase⟩ := by

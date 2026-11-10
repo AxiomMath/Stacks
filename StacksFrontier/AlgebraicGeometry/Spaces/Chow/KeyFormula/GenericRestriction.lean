@@ -415,7 +415,7 @@ theorem PrimeDivisor.chartDiagramPullback_genericFieldToStalk
       (Scheme.ΓSpecIso (CommRingCat.of (Z.genericResidueField B S hS hX hdec))).inv.hom
         (IsLocalRing.residue _
           ((Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).hom.hom w)) := by
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (Z.genericFieldToStalkSpec B S hS hX hdec)).op).hom w = _
   rw [Z.toScheme_map_genericFieldToStalkSpec B S hS hX hdec]
   have h : (Scheme.ΓSpecIso (CommRingCat.of (Z.genericResidueField B S hS hX hdec))).hom
@@ -500,7 +500,7 @@ theorem PrimeDivisor.henselianUnitRestriction_map
   let := henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
   have := Z.isLocalHom_stalkToGenericHenselianLocalRing B S hS hX hdec
   rw [henselianUnitRestriction, Units.coe_map, RingHom.toMonoidHom_eq_coe,
-    MonoidHom.coe_coe, ← Z.genericResidueFieldEquivHenselian_residue B S hS hX hdec,
+    MonoidHom.coe_ofClass, ← Z.genericResidueFieldEquivHenselian_residue B S hS hX hdec,
     RingEquiv.symm_apply_apply]
 
 end AlgebraicGeometry.Space

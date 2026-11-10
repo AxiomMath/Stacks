@@ -156,14 +156,14 @@ theorem hasLogPolesDeRhamComplex_of_smooth {X T S : Scheme.{u}} (h : X ⟶ T) (g
       (ToType (T.presheaf.stalk (h.base (I.subschemeι y))))
       (ToType (X.presheaf.stalk (I.subschemeι y))) :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show ((h ≫ g).stalkMap (I.subschemeι y)).hom a =
+      change ((h ≫ g).stalkMap (I.subschemeι y)).hom a =
         (h.stalkMap (I.subschemeι y)).hom ((g.stalkMap (h.base (I.subschemeι y))).hom a)
       rw [Scheme.Hom.stalkMap_comp]
       rfl
   have towerBRR' : IsScalarTower (ToType (T.presheaf.stalk (h.base (I.subschemeι y))))
       (ToType (X.presheaf.stalk (I.subschemeι y))) (ToType (I.subscheme.presheaf.stalk y)) :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show ((I.subschemeι ≫ h).stalkMap y).hom a =
+      change ((I.subschemeι ≫ h).stalkMap y).hom a =
         (I.subschemeι.stalkMap y).hom ((h.stalkMap (I.subschemeι y)).hom a)
       rw [Scheme.Hom.stalkMap_comp]
       rfl

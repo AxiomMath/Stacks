@@ -46,7 +46,7 @@ theorem mem_topology_of_family (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Co
         (fun i => (Over.homMk (m i) : Over.mk (m i ≫ U.hom) ⟶ U))
       ∈ BigFppfOver.topology B S hS U := by
   rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-  show Sieve.generate (Presieve.ofArrows W m) ∈ B.topology U.left
+  change Sieve.generate (Presieve.ofArrows W m) ∈ B.topology U.left
   refine Precoverage.generate_mem_toGrothendieck ?_
   rw [bigFppfPrecoverage_eq_comap B, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
   exact (Scheme.ofArrows_mem_precoverage_iff _).mpr ⟨hsurj, fun i ↦ ⟨hflat i, hlfp i⟩⟩

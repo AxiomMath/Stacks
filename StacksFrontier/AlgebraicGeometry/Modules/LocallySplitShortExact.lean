@@ -240,7 +240,7 @@ theorem exists_nonempty_splitting_restrict_of_iso_free (S : ShortComplex X.Modul
         = pushforwardRestrictSections S.X₂ U (b i) := by
       rw [hhdef]
       exact congrFun (((pushforward U.ι).obj (F.obj S.X₂)).freeHomEquiv.apply_symm_apply _) i
-    show SheafOfModules.sectionsMap ((pushforward U.ι).map (F.map S.g))
+    change SheafOfModules.sectionsMap ((pushforward U.ι).map (F.map S.g))
           (((pushforward U.ι).obj (F.obj S.X₂)).freeHomEquiv h i)
         = SheafOfModules.sectionsMap (adj.unit.app S.X₃) (S.X₃.freeHomEquiv e.inv i)
     rw [hA]
@@ -252,7 +252,7 @@ theorem exists_nonempty_splitting_restrict_of_iso_free (S : ShortComplex X.Modul
         (ConcreteCategory.hom ((adj.unit.app S.X₃).val.app V)) z
           = (S.X₃.presheaf.map
               (homOfLE (U.ι.image_preimage_le V.unop)).op).hom z := fun _ => rfl
-    show (ConcreteCategory.hom (((pushforward U.ι).map (F.map S.g)).val.app V))
+    change (ConcreteCategory.hom (((pushforward U.ι).map (F.map S.g)).val.app V))
         ((pushforwardRestrictSections S.X₂ U (b i)).val V)
           = (ConcreteCategory.hom ((adj.unit.app S.X₃).val.app V))
             ((S.X₃.freeHomEquiv e.inv i).val V)
@@ -267,7 +267,7 @@ theorem exists_nonempty_splitting_restrict_of_iso_free (S : ShortComplex X.Modul
   obtain ⟨hex, hmono⟩ := (Functor.preservesFiniteLimits_iff_forall_exact_map_and_mono F).1
     inferInstance S hS
   refine ⟨ShortComplex.Splitting.ofExactOfSection (S.map F) hex (F.map e.hom ≫ σ) ?_ hmono⟩
-  show (F.map e.hom ≫ σ) ≫ F.map S.g = 𝟙 _
+  change (F.map e.hom ≫ σ) ≫ F.map S.g = 𝟙 _
   rw [Category.assoc, key]
   exact (F.mapIso e).hom_inv_id
 

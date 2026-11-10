@@ -315,7 +315,7 @@ of the comparison isomorphism of the object carry the chosen arrows at its secon
 to the ones at its first. -/
 theorem fstHom_comp_eq (P : twoYonedaGraph hp x x' ga a gb b) :
     fstHom hp x x' ga a gb b P ≫ a = fstHom hp x x' ga a gb b P ≫ b := by
-  show TwoYonedaPair.chosenHom hp x ((graphFunctor hp x x' ga a).obj P.x).x ≫ a =
+  change TwoYonedaPair.chosenHom hp x ((graphFunctor hp x x' ga a).obj P.x).x ≫ a =
     TwoYonedaPair.chosenHom hp x ((graphFunctor hp x x' ga a).obj P.x).x ≫ b
   rw [← graphFunctor_obj_iso_hom_comp_chosenHom hp x x' ga a P.x,
     ← TwoYonedaPair.map_comp_chosenHom hp x' P.iso.hom.b, ← Category.assoc, ← P.iso.hom.w,

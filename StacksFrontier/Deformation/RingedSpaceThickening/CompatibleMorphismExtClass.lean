@@ -109,8 +109,6 @@ theorem derivedPullbackNaiveCotangentMap_eq :
   simp only [Category.assoc]
   first
     | exact congrArg _ (congrArg _ (Category.id_comp _).symm)
-    | (simp only [Category.id_comp]; done)
-    | (simp only [Category.id_comp]; rfl)
 
 namespace LiftGluing
 

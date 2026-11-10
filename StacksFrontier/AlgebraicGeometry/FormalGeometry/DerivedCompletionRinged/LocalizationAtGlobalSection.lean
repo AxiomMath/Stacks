@@ -126,7 +126,7 @@ abbrev toAwaySheaf (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.
 sheafification. -/
 theorem toAwaySheaf_hom (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{w})) :
     (toAwaySheaf h).hom = toAwayPresheaf h ≫ toSheafify X.J (awayPresheaf h) := by
-  show toSheafify X.J X.O.obj ≫ sheafifyMap X.J (toAwayPresheaf h) = _
+  change toSheafify X.J X.O.obj ≫ sheafifyMap X.J (toAwayPresheaf h) = _
   exact (toSheafify_naturality _ _).symm
 
 /-- Every power of a global section becomes invertible in `𝒪_f`. -/

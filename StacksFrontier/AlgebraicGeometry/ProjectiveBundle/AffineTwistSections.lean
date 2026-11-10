@@ -142,7 +142,7 @@ public theorem iSup_basicOpen_eq_top_of_span {ι' : Type*} (v : ι' → M)
   refine Proj.iSup_basicOpen_eq_top' (grading A M) (fun i => ι A M (v i))
     (fun i => ⟨1, (mem_grading_one_iff A M).mpr (LinearMap.mem_range_self _ _)⟩) ?_
   have hbase : ∀ a : A, algebraMap A (SymmetricAlgebra A M) a ∈ grading A M 0 := fun a => by
-    show algebraMap A (SymmetricAlgebra A M) a ∈ SymPow.symmetricPower 0 A M
+    change algebraMap A (SymmetricAlgebra A M) a ∈ SymPow.symmetricPower 0 A M
     rw [SymPow.symmetricPower, pow_zero, Submodule.one_eq_range]
     exact ⟨a, rfl⟩
   have hsub : ∀ m ∈ Submodule.span A (Set.range v), ι A M m ∈

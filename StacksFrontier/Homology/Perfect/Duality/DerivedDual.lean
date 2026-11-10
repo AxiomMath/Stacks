@@ -412,7 +412,7 @@ private theorem homologyUnitEquiv_naturality
       homologyUnitEquiv (R := R) X a ≫ f := by
   apply (unitToHomology_bijective Y).injective
   rw [homologyUnitEquiv, AddEquiv.ofBijective_apply_symm_apply]
-  show _ = (DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map
+  change _ = (DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map
     (homologyUnitEquiv (R := R) X a ≫ f) (unitHomologyClass (R := R))
   rw [Functor.map_comp_apply]
   exact congrArg ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map f)
@@ -440,7 +440,7 @@ private theorem derivedHomologyExtEquiv_naturality
   rw [homologyUnitEquiv_naturality]
   let D := derivedHomData (R := R)
   let b := homologyUnitEquiv (R := R) (D.hom.obj (Opposite.op K, L)) a
-  show (D.tensorUnitLeft K).inv ≫
+  change (D.tensorUnitLeft K).inv ≫
       D.homEquiv (unitObject (R := R)) K L'
         (b ≫ D.hom.map (𝟙 (Opposite.op K), f)) =
     ((D.tensorUnitLeft K).inv ≫ D.homEquiv (unitObject (R := R)) K L b) ≫ f
@@ -475,7 +475,7 @@ theorem exists_extZeroEquiv_of
         e L' ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map
             ((derivedHomData (R := R)).tensor.map (f, 𝟙 (derivedDual K))) a) = e L a ≫ f := by
   refine ⟨fun L => extZeroEquivOf K L (hIso L), fun {L L'} f a => ?_⟩
-  show derivedHomologyExtEquiv K L'
+  change derivedHomologyExtEquiv K L'
       ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map
         (tensorDualHom K L')
         ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} (ULift.{v} R)) 0).map

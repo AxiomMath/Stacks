@@ -67,7 +67,7 @@ theorem associatedPrime_add_map_ne_top_of_isAdicComplete
   have hz'_ne : z' ≠ 0 := fun hzero => hz_ne (eT.injective hzero)
   let _ : IsScalarTower R A P :=
     IsScalarTower.of_algebraMap_smul (R := R) (A := A) (M := P) fun r x => by
-      show algebraMap S A (algebraMap R S r) • x = r • x
+      change algebraMap S A (algebraMap R S r) • x = r • x
       rw [IsScalarTower.algebraMap_smul A, IsScalarTower.algebraMap_smul S]
   let _ : Module A (P ⊗[R] M) := TensorProduct.leftModule
   let _ : IsScalarTower S A (P ⊗[R] M) := inferInstance
@@ -78,7 +78,7 @@ theorem associatedPrime_add_map_ne_top_of_isAdicComplete
     have hkill : a • z = 0 := by
       have ha' : a ∈ (⊥ : Submodule S (N ⊗[R] M)).colon (Submodule.span S {z}) := hz.symm ▸ ha
       simpa [Submodule.mem_colon_span_singleton] using ha'
-    show (algebraMap S A a) • z' ∈ (⊥ : Submodule A (P ⊗[R] M))
+    change (algebraMap S A a) • z' ∈ (⊥ : Submodule A (P ⊗[R] M))
     rw [IsScalarTower.algebraMap_smul, ← eT.map_smul, hkill, map_zero]
     simp
   have hqA_ne : qA ≠ ⊤ := fun htop => hz'_ne <| by

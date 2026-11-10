@@ -66,7 +66,7 @@ theorem isQuasiCompact_π
       s.HoldsAtEtalePoints SheafGradedAlgebra.IsFinitelyGeneratedInDegreeOne ∨
       s.HoldsAtEtalePoints SheafGradedAlgebra.HasNilpotentPositiveQuotient) :
     IsQuasiCompact s.site s.base s.containsBase s.π.hom := by
-  obtain ⟨T, g, hgEt, hgSurj⟩ := s.relativeProjPoints.exists_etalePoint s.space.2
+  obtain ⟨T, g, hgEt, hgSurj⟩ := RelativeProjPoints.exists_etalePoint s.space.2
   refine s.relativeProjPoints.isQuasiCompact_of_etalePoint
     s.isAlgebraicSpace_relativeProjFunctor s.space.2 T g hgEt hgSurj
     ((s.relativeProjPoints.algebra T g).quasiCompact_toBase ?_)

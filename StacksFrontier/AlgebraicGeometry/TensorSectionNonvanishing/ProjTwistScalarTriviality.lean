@@ -176,7 +176,7 @@ twisting sheaf are given. -/
 theorem map_mul_mk {T : Submonoid S} (a u : S) (v : T) :
     LocalizedModule.map T (LinearMap.mul S S a) (Localization.mk u v) =
       Localization.mk (a * u) v := by
-  show LocalizedModule.map T (LinearMap.mul S S a) (LocalizedModule.mk u v) = _
+  change LocalizedModule.map T (LinearMap.mul S S a) (LocalizedModule.mk u v) = _
   rw [LocalizedModule.map_mk]
   rfl
 
@@ -227,7 +227,7 @@ theorem twistScalarSheafMap_trivializingSection
   have hm' : (-(m : ℤ)).toNat = 0 := by omega
   apply Subtype.ext
   funext x
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S c) (trivializingFun 𝒮 (n : ℤ) hWf x) = _
   rw [trivializingFun, map_mul_mk]
   refine mk_eq_mk_of_eq _ _ _ _ _ _ ?_ ?_
@@ -361,7 +361,7 @@ theorem twistScalarSheafMap_pow_trivializingSection (hf : f ∈ 𝒮 d) (m : ℕ
         (trivializingSection 𝒮 hf n hW) = trivializingSection 𝒮 hf j hW := by
   apply Subtype.ext
   funext x
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S (f ^ m)) (trivializingFun 𝒮 n hW x) = _
   rw [trivializingFun, map_mul_mk, ← pow_add]
   exact mk_pow_eq_mk_pow (T := x.1.asHomogeneousIdeal.toIdeal.primeCompl)

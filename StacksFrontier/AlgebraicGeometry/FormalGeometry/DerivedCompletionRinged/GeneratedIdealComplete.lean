@@ -215,6 +215,7 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
 attribute [local instance] HasDerivedCategory.standard
 attribute [local instance] linearCatCenterRingSheaf
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- Multiplication by the zero global section is the zero endomorphism. -/
 private theorem awaySmul_zeroGlobalSection : awaySmul X (zeroGlobalSection X) = 0 := by
   ext M V x
@@ -278,6 +279,7 @@ theorem memVanishingIdeal_of_eq_sum_mul
   exact memVanishingIdeal_sumGlobalSection X K _ _ fun i _ ↦
     memVanishingIdeal_mulGlobalSection_of_memVanishingIdeal X K _ _ (ha i)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Derived completeness along a sheaf of ideals is membership in the vanishing locus of the
 restriction, at every local section of the ideal.** For an *arbitrary* sheaf of ideals
 `ℐ ⊂ 𝒪`, an object `L` of `D(𝒪)` is derived complete along `ℐ` as soon as, for every object `U`
@@ -316,6 +318,7 @@ theorem isDerivedComplete_of_forall_memVanishingIdeal_over
   exact (isZero_derivedSheafHom_derivedAwayModule_iff_isDerivedCompleteAt (X.over U)
     (globalSectionOfTerminalSection (X := X.over U) Over.mkIdTerminal x) _).1 (hL U x hx)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **A derived-complete object has every local section of the ideal sheaf in the vanishing
 locus of its restriction.** This is the converse of
 `isDerivedComplete_of_forall_memVanishingIdeal_over`: it is the implication (3) ⇒ (1) of

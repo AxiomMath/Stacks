@@ -122,7 +122,7 @@ private theorem ker_ideal_map_of_isPullback
     intro z hz
     have he := congrArg (fun k : Y₀ ⟶ X => k z) h.w
     change f (iY z) = iX (g z) at he
-    show iX (g z) ∈ V.1
+    change iX (g z) ∈ V.1
     rw [← he]
     exact hW hz
   have hUY : iY ⁻¹ᵁ W.1 = g ⁻¹ᵁ (iX ⁻¹ᵁ V.1) ⊓ iY ⁻¹ᵁ W.1 := (inf_eq_right.mpr hle).symm

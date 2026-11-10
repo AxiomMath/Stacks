@@ -73,8 +73,10 @@ abbrev isoRingRes :=
   Deformation.AlgebraExtension.ringRes (J := SmallEtale.topology B S hS Z.1)
     (SmallEtale.topology B S hS Y.1) (smallEtalePostcomp B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ))
 
-set_option maxHeartbeats 400000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- the instance search below exceeds the default `synthInstance.maxHeartbeats`
+set_option maxHeartbeats 400000 in
+-- `inferInstance` for `PreservesFiniteProducts` of a sheaf pushforward between small étale sites
 /-- Restriction of sheaves of sets along the isomorphism `ρ : Y ≅ Z` of small étale sites
 preserves finite products (found once here, so that later uses do not repeat the search). -/
 local instance preservesFiniteProducts_isoSheafRes_properFlatChartProblem :
@@ -84,6 +86,7 @@ local instance preservesFiniteProducts_isoSheafRes_properFlatChartProblem :
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the inverse image along `ρ` and restriction on small étale sites
 /-- `ρ⁻¹F ≅ F|_Y` for the isomorphism `ρ : Y ≅ Z`: the inverse image along an étale morphism is
 restriction (Stacks 03LV). -/
 abbrev isoInverseImageRestrictionIso (F : Sheaf (SmallEtale.topology B S hS Z.1) CommRingCat.{u}) :
@@ -103,6 +106,7 @@ def inverseImageRestrictionIsoOfCompIso
     (smallEtaleInverseImageRing B S hS g).mapIso (isoInverseImageRestrictionIso ρ F)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the inverse-image and restriction functors between small étale sites
 /-- The identification `inverseImageRestrictionIsoOfCompIso` is compatible with a map
 `m : F ⟶ 𝒪_Z` and its restriction followed by `𝒪_Z|_Y ≅ 𝒪_Y`, against
 `(g ≫ ρ)⁻¹𝒪_Z ≅ g⁻¹𝒪_Y`. -/
@@ -126,7 +130,7 @@ theorem inverseImageRestrictionIsoOfCompIso_hom_comp_map
         (smallEtaleRingedToposHom B S hS ρ.hom).fSharpInverseImage := by
     rw [← Category.assoc, ← hR, Category.assoc]
     exact congrArg (_ ≫ ·) (Iso.hom_inv_id_assoc (isoInverseImageRestrictionIso ρ _) _)
-  show ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS g ρ.hom).inv.app F ≫
+  change ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS g ρ.hom).inv.app F ≫
       (smallEtaleInverseImageRing B S hS g).map (isoInverseImageRestrictionIso ρ F).hom) ≫
       (smallEtaleInverseImageRing B S hS g).map ((isoRingRes ρ).map m ≫
         (etaleRestrictionStructureSheafIso B S hS ρ.hom (isEtale_hom_of_iso B S hS ρ)).hom) =

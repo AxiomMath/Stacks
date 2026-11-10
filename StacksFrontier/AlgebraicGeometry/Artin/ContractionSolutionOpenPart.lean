@@ -341,9 +341,9 @@ theorem comp_openPartHom_ι (hX : IsAlgebraicSpace B S hS X)
   have h := congrArg (fun τ => (τ.app (op V) (ULift.up (yonedaEquiv (C := BigFppfOver B S hS)
     (X := V.obj) u))).down) (existsUnique_openPartHom c α hX hft).exists.choose_spec
   rw [Equiv.eq_symm_apply, yonedaEquiv_comp]
-  show ((openPartHom c α hX hft).app (op V.obj) (yonedaEquiv u)).1 = _
+  change ((openPartHom c α hX hft).app (op V.obj) (yonedaEquiv u)).1 = _
   refine (congrArg Subtype.val h).trans ?_
-  show (α.hom.app (op V) (c.emptyTriple V.obj (yonedaEquiv.symm (yonedaEquiv u)))).down = _
+  change (α.hom.app (op V) (c.emptyTriple V.obj (yonedaEquiv.symm (yonedaEquiv u)))).down = _
   rw [Equiv.symm_apply_apply]
 
 end AlgebraicGeometry.Artin.ContractionSituation

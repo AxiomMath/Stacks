@@ -45,7 +45,7 @@ private theorem det_mul_mem_span {R : Type*} [CommRing R] {n : ℕ}
   rw [Matrix.mulVec_mulVec, Matrix.adjugate_mul, Matrix.smul_mulVec, Matrix.one_mulVec,
     Pi.smul_apply, smul_eq_mul] at hj
   rw [hj]
-  show (∑ i, M.adjugate j i * f i) ∈ Ideal.span (Set.range f)
+  change (∑ i, M.adjugate j i * f i) ∈ Ideal.span (Set.range f)
   exact Submodule.sum_mem _ fun i _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
 
 /-- The determinant annihilates the image of every diagonal generator after
@@ -90,7 +90,7 @@ private theorem annihilator_ker_eq_map_colon
   have hcomap : ((RingHom.ker ψ).annihilator).comap φ =
       (RingHom.ker φ).colon (RingHom.ker (ψ.comp φ) : Set R) := by
     ext x
-    show φ x ∈ (RingHom.ker ψ).annihilator ↔
+    change φ x ∈ (RingHom.ker ψ).annihilator ↔
       x ∈ (RingHom.ker φ).colon (RingHom.ker (ψ.comp φ) : Set R)
     constructor
     · refine fun hx => Submodule.mem_colon.mpr fun z hz => RingHom.mem_ker.mpr ?_
@@ -132,7 +132,7 @@ theorem linearEquiv_annihilator_of_principal
       have h : z * s = z * algebraMap C S (ψ s) :=
         sub_eq_zero.mp (by simpa only [smul_eq_mul, mul_sub] using hzero)
       refine ⟨ψ s, Subtype.ext ?_⟩
-      show ψ s • z = (x : S)
+      change ψ s • z = (x : S)
       rw [hs, Algebra.smul_def, mul_comm, ← h]
   exact ⟨LinearEquiv.ofBijective m hm, fun c => rfl⟩
 
@@ -251,7 +251,7 @@ private theorem tensor_smul_eq_zero_of_mem_span
   | zero => simp
   | add a c ha hc ih₁ ih₂ => simp [add_smul, TensorProduct.tmul_add, ih₁, ih₂]
   | smul a c hc ih =>
-      show b ⊗ₜ[P] ((a * c) • x) = 0
+      change b ⊗ₜ[P] ((a * c) • x) = 0
       rw [mul_comm a c, mul_smul]
       exact ih _
 
@@ -317,9 +317,9 @@ theorem annihilator_equiv_of_tensor_comparison
     Algebra.TensorProduct.map_surjective q (AlgHom.id A B) hq (fun b => ⟨b, rfl⟩)
   have hkerφ : RingHom.ker φ =
       Ideal.span (Set.range (fun i => algebraMap P (P ⊗[A] B) (f i))) := by
-    show RingHom.ker (Algebra.TensorProduct.map q (AlgHom.id A B)) = _
+    change RingHom.ker (Algebra.TensorProduct.map q (AlgHom.id A B)) = _
     rw [Algebra.TensorProduct.rTensor_ker q hq]
-    show Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker q.toRingHom) = _
+    change Ideal.map Algebra.TensorProduct.includeLeft (RingHom.ker q.toRingHom) = _
     rw [hkerq, Ideal.map_span]
     congr 1
     ext x

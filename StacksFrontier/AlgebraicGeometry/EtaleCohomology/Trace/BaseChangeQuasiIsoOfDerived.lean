@@ -81,9 +81,9 @@ theorem baseChangeQuasiIsoAt_of_isIso_etaleModuleDerivedBaseChange
         inv ((etaleModuleDerivedDirectImageUnboundedUnit.{u, 0} Λ f').app T.obj) := by
     rw [← hnat, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
-  show IsIso (DerivedCategory.Q.map (Functor.baseChangeComp _ _ _ _ _ J ψ).hom)
+  change IsIso (DerivedCategory.Q.map (Functor.baseChangeComp _ _ _ _ _ J ψ).hom)
   rw [ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp]
-  show IsIso (_ ≫ DerivedCategory.Q.map
+  change IsIso (_ ≫ DerivedCategory.Q.map
     (((etaleModuleDirectImage.{u, 0} Λ f').mapHomologicalComplex (ComplexShape.up ℤ)).map ψ.hom))
   rw [hQ]
   exact @isIso_comp_comp_comp_of_isIso _ _ _ _ _ _ _ _ _ _ _ h2 inferInstance inferInstance

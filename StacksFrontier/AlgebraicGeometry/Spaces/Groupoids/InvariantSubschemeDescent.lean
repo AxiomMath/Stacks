@@ -259,7 +259,7 @@ theorem invariant_factorOfSiteRelation
       (b ≫ eqToHom ho.symm) := by
     rw [hQ, Subobject.mk_factors_iff]
     refine ⟨Z.1.factorThru b hb, ?_⟩
-    show _ ≫ Z.1.arrow ≫ _ = _
+    change _ ≫ Z.1.arrow ≫ _ = _
     rw [← Category.assoc, Subobject.factorThru_arrow]
   have ha := invariant_factorOfRelated B S hS target source Z _ _ _ htar' hsrc' hb'
   rw [hQ, Subobject.mk_factors_iff] at ha
@@ -320,10 +320,10 @@ private theorem subschemePoints_mk_eq_range {V : BigFppfOver B S hS} (f : V ⟶ 
     subschemePoints B S hS (Subobject.mk ((BigFppfOver.toScheme B S hS).map f)) =
       Subfunctor.range (yoneda.map f) := by
   ext T x
-  show (∃ g, g ≫ _ = _) ↔ ∃ y, y ≫ f = x
+  change (∃ g, g ≫ _ = _) ↔ ∃ y, y ≫ f = x
   apply (Subobject.factors_iff _ _).symm.trans
   rw [Subobject.mk_factors_iff]
-  show (∃ g, g ≫ (BigFppfOver.toScheme B S hS).map f =
+  change (∃ g, g ≫ (BigFppfOver.toScheme B S hS).map f =
     (BigFppfOver.toScheme B S hS).map x) ↔ ∃ y, y ≫ f = x
   constructor
   · rintro ⟨g, hg⟩
@@ -341,7 +341,7 @@ private theorem subschemePoints_mk_eq_range {V : BigFppfOver B S hS} (f : V ⟶ 
     refine ⟨Over.homMk g' hw, ?_⟩
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (g' ≫ f.left) = B.inclusion.map x.left
+    change B.inclusion.map (g' ≫ f.left) = B.inclusion.map x.left
     rw [Functor.map_comp, hmapg, hg']
   · rintro ⟨g, rfl⟩
     exact ⟨(BigFppfOver.toScheme B S hS).map g, (Functor.map_comp _ _ _).symm⟩
@@ -432,7 +432,7 @@ theorem descendedInvariantSubfunctor_preimage
   let Q := subschemePoints B S hS Z.1
   let k : Q.toFunctor ⟶ X := Q.ι ≫ P.toSpace
   ext T x
-  show P.toSpace.app T x ∈ ((Subfunctor.range k).sheafify J).obj T ↔ x ∈ Q.obj T
+  change P.toSpace.app T x ∈ ((Subfunctor.range k).sheafify J).obj T ↔ x ∈ Q.obj T
   refine ⟨fun hx => ?_, fun hx => Subfunctor.le_sheafify J (Subfunctor.range k) T ⟨⟨x, hx⟩, rfl⟩⟩
   · change (Subfunctor.range k).sieveOfSection (P.toSpace.app T x) ∈ J T.unop at hx
     have hQsheaf : Presieve.IsSheaf J Q.toFunctor :=
@@ -451,7 +451,7 @@ theorem descendedInvariantSubfunctor_preimage
           _ = (X.map i.op) (P.toSpace.app T x) := by
             simpa using NatTrans.naturality_apply P.toSpace i.op x
           _ = k.app (op T') z := hz.symm
-      show i ≫ x ∈ Q.obj (op T')
+      change i ≫ x ∈ Q.obj (op T')
       exact mem_subschemePoints_of_toSpace_eq B S hS P Z (u := i ≫ x) (v := z.1)
         (yonedaEquiv.injective (by
           simpa only [yonedaEquiv_comp, yonedaEquiv_yoneda_map] using hvalue)) z.2
@@ -466,7 +466,7 @@ theorem isPullback_subfunctor_preimage_base {C : Type*} [Category C] {F G : Cᵒ
     Subfunctor.lift (G := Z.preimage f) s.fst (by
       intro W x hx
       obtain ⟨y, rfl⟩ := hx
-      show f.app W (s.fst.app W y) ∈ Z.obj W
+      change f.app W (s.fst.app W y) ∈ Z.obj W
       have hh' : f.app W (s.fst.app W y) = Z.ι.app W (s.snd.app W y) := by
         simpa [NatTrans.comp_app] using congrFun (congrArg (fun k => k.app W) s.condition) y
       rw [hh']
@@ -527,7 +527,7 @@ theorem invariantDescentPullbackData_nonempty
       generalize hq : Q = Q' at hQRange ⊢
       cases hQRange
       rfl
-    show eRange.hom ≫ eQ.symm.hom ≫ Q.ι = yoneda.map p
+    change eRange.hom ≫ eQ.symm.hom ≫ Q.ι = yoneda.map p
     rw [htransport]
     exact Subfunctor.toRange_ι _
   let i := e.hom ≫ (descendedInvariantSubfunctor B S hS P Z).fromPreimage P.toSpace
@@ -622,11 +622,11 @@ theorem subspace_preimage_injective (W₁ W₂ : LocallyClosedQuotientSubspace B
     apply J.superset_covering ?_ (Presheaf.imageSieve_mem J P.toSpace x)
     intro T' i hi
     obtain ⟨y, hy⟩ := hi
-    show X.map i.op x ∈ V.1.obj (op T')
+    change X.map i.op x ∈ V.1.obj (op T')
     rw [← hy]
-    show y ∈ (V.1.preimage P.toSpace).obj (op T')
+    change y ∈ (V.1.preimage P.toSpace).obj (op T')
     rw [← he]
-    show P.toSpace.app (op T') y ∈ W.1.obj (op T')
+    change P.toSpace.app (op T') y ∈ W.1.obj (op T')
     rw [hy]
     exact W.1.map i.op hx
   exact Subtype.ext (le_antisymm (hle W₁ W₂ h) (hle W₂ W₁ h.symm))
@@ -646,7 +646,7 @@ theorem range_eq_preimage_of_isPullback {C : Type*} [Category C] {F : Cᵒᵖ �
     (i : yoneda.obj V ⟶ W.toFunctor) (h : IsPullback i (yoneda.map p) W.ι q) :
     Subfunctor.range (yoneda.map p) = W.preimage q := by
   ext T x
-  show (∃ y, y ≫ p = x) ↔ q.app T x ∈ W.obj T
+  change (∃ y, y ≫ p = x) ↔ q.app T x ∈ W.obj T
   constructor
   · rintro ⟨y, rfl⟩
     have hh : (i.app T y).val = q.app T (y ≫ p) :=
@@ -657,7 +657,7 @@ theorem range_eq_preimage_of_isPullback {C : Type*} [Category C] {F : Cᵒᵖ �
     let a : yoneda.obj T.unop ⟶ W.toFunctor := yonedaEquiv.symm ⟨q.app T x, hx⟩
     have ha : a ≫ W.ι = yoneda.map x ≫ q := by
       ext T' y
-      show F.map y.op (q.app T x) = q.app T' (y ≫ x)
+      change F.map y.op (q.app T x) = q.app T' (y ≫ x)
       exact (NatTrans.naturality_apply q y.op x).symm
     let b := h.lift a (yoneda.map x) ha
     refine ⟨Yoneda.fullyFaithful.preimage b, ?_⟩
@@ -673,7 +673,7 @@ theorem quotientSubspacePullbackSubobject_points
       W.1.preimage P.toSpace := by
   let d := Classical.choice (quotientSubspacePullbackData_nonempty B S hS P W)
   have := d.immersion
-  show subschemePoints B S hS
+  change subschemePoints B S hS
     (Subobject.mk ((BigFppfOver.toScheme B S hS).map d.toAtlas)) = _
   rw [subschemePoints_mk]
   exact range_eq_preimage_of_isPullback W.1 P.toSpace d.toAtlas d.toSubspace d.isPullback
@@ -699,7 +699,7 @@ theorem quotientSubspacePullbackSubobject_relation
   rw [subschemePoints_pullback, subschemePoints_pullback,
     quotientSubspacePullbackSubobject_points]
   ext T x
-  show P.toSpace.app T ((yoneda.map P.target).app T x) ∈ W.1.obj T ↔
+  change P.toSpace.app T ((yoneda.map P.target).app T x) ∈ W.1.obj T ↔
     P.toSpace.app T ((yoneda.map P.source).app T x) ∈ W.1.obj T
   have hh : P.toSpace.app T ((yoneda.map P.target).app T x) =
       P.toSpace.app T ((yoneda.map P.source).app T x) :=
@@ -742,7 +742,7 @@ theorem quotientSubspacePullbackSubobject_invariant
     change eqToHom hr.symm ≫ G.source.left ≫ eqToHom ho =
       (BigFppfOver.toScheme B S hS).map P.source at hh
     exact (cancel_epi (eqToHom hr.symm)).1 (hh.trans (by simp))
-  show (Subobject.pullback G.target.left).obj (Subobject.mk (Z.arrow ≫ eqToHom ho.symm)) =
+  change (Subobject.pullback G.target.left).obj (Subobject.mk (Z.arrow ≫ eqToHom ho.symm)) =
     (Subobject.pullback G.source.left).obj (Subobject.mk (Z.arrow ≫ eqToHom ho.symm))
   rw [he, ← Subobject.pullback_comp, ← Subobject.pullback_comp, ht, hs,
     Subobject.pullback_comp, Subobject.pullback_comp]

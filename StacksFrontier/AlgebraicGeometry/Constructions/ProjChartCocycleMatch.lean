@@ -248,7 +248,7 @@ theorem lift_mk_one_eq_ratio (ψ : VeroneseSections 𝒜 d L) (hd : 0 < d) {f g 
       = ψ.ratio hg hV 1 (ψ.pow hf 1) := by
   have hfd : f ∈ 𝒜 (1 * d) := by simpa using hf
   rw [(ψ.homogeneousRatios hg hV).lift_mk hd 1 f (by simpa using hf) ⟨f, hfd⟩ rfl]
-  show ψ.ratio hg hV 1 (ψ.toFun 1 ⟨f, hfd⟩) = _
+  change ψ.ratio hg hV 1 (ψ.toFun 1 ⟨f, hfd⟩) = _
   rw [ψ.toFun_eq_pow hf 1 ⟨f, hfd⟩ (pow_one f).symm]
 
 variable (ψ : VeroneseSections 𝒜 d L) (hd : 0 < d)

@@ -63,12 +63,14 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] smallEtaleTopology_subcanonical
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for products of presheaves of sets times out
 /-- Products of presheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceInjectiveChartOverBase
     (C : Type*) [Category C] : HasProducts.{0} (C ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for finite limits of sheaves of sets times out
 /-- Finite limits of sheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceInjectiveChartOverBase
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
@@ -76,6 +78,7 @@ local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceInject
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for the terminal sheaf of sets times out
 /-- The terminal sheaf of sets, supplied directly: instance search for it times out. -/
 local instance (priority := high) hasTerminal_sheaf_SpacesTangentSpaceInjectiveChartOverBase
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
@@ -162,7 +165,7 @@ theorem invCoord_app_terminalSheafSection
     hterm.hom_ext _ _
   have h2 : g.fSharpSet = (smallEtaleRingedTopos B S hS X).forgetRing.map g.fSharpInverseImage :=
     (RingedToposHom.forgetRing_map_fSharpInverseImage_eq_fSharpInverseImageForget g).symm
-  show g.toToposHom.inverseImage.map
+  change g.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm (t.hom.app (op V) _)) ≫ g.fSharpSet = _
   rw [← hy, Functor.map_comp, h1, h2]
   exact Category.assoc _ _ _

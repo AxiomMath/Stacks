@@ -208,7 +208,7 @@ public theorem isIso_morphismRestrict_of_isPullback {P X Y' Y : Scheme.{u}} {p :
   have hrange : Set.range ((q ⁻¹ᵁ g ⁻¹ᵁ Ω).ι ≫ p).base ⊆ Set.range (f ⁻¹ᵁ Ω).ι.base := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show f (p ((q ⁻¹ᵁ g ⁻¹ᵁ Ω).ι x)) ∈ Ω
+    change f (p ((q ⁻¹ᵁ g ⁻¹ᵁ Ω).ι x)) ∈ Ω
     rw [hbase]
     exact x.2
   let t : (q ⁻¹ᵁ g ⁻¹ᵁ Ω).toScheme ⟶ (f ⁻¹ᵁ Ω).toScheme :=

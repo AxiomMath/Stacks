@@ -420,7 +420,7 @@ theorem fibreLift_hom_base_left {M : SiteModule k B} {y y' : FibreLift D iΛ x�
     Category.id_comp, eqToHom_trans] at e1
   have h3 := φ.1.right.ha
   have e4 := IsHomLift.fac' (complexesFunctor D) φ.1.right.hbase φ.1.right.a
-  show (complexesFunctor D).map φ.1.right.a = _
+  change (complexesFunctor D).map φ.1.right.a = _
   exact e4.trans (eqToHom_comp_comp_eqToHom_of_eq _ _ _ _ _ e1)
 
 /-- **Stacks 0DLL, `c3 (a)`: naturality of the lift of `E₀` along morphisms of lifts of `w₀`.**

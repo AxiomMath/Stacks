@@ -94,7 +94,7 @@ lemma epi_kernelMap_of_epi {Y Z W : A} (p : Y ⟶ Z) [Epi p] (f : Z ⟶ W) :
   have hExact := (kernelCokernelCompSequence_exact p f).exact 1
   have hπ : cokernel.π p = 0 := IsZero.eq_of_tgt (isZero_cokernel_of_epi p) _ _
   have hDelta : s.map' 2 3 = 0 := by
-    show kernelCokernelCompSequence.δ p f = 0
+    change kernelCokernelCompSequence.δ p f = 0
     rw [kernelCokernelCompSequence.δ_fac, hπ]
     simp only [CategoryTheory.Limits.comp_zero, neg_zero]
   have hExact' :
@@ -103,7 +103,7 @@ lemma epi_kernelMap_of_epi {Y Z W : A} (p : Y ⟶ Z) [Epi p] (f : Z ⟶ W) :
     simpa only [hDelta] using hExact
   have hEpi' : Epi (s.map' 1 2) :=
     ((CategoryTheory.Abelian.tfae_epi (s.map' 1 2) (s.obj' 3)).out 3 1).mp hExact'
-  show Epi (kernel.map (p ≫ f) f p (𝟙 _) (by simp))
+  change Epi (kernel.map (p ≫ f) f p (𝟙 _) (by simp))
   convert hEpi' using 1 <;> rfl
 
 /-- If `kernel.ι ψ` factors through a monomorphism `ι` then the kernel of `ι ≫ ψ` is the kernel

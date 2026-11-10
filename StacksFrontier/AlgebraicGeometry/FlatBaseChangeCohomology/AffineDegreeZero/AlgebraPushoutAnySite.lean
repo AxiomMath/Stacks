@@ -248,7 +248,7 @@ public theorem tensorSectionsIso_hom_tmul_one_anySite (φ : R ⟶ R') (B : Under
         WalkingSpan.right).app U := by
     rw [tensorSectionsIso_hom_anySite, ← Category.assoc,
       IsColimit.comp_coconePointUniqueUpToIso_hom, colimit.cocone_ι, Iso.comp_inv_eq]
-    show pushout.inr (B.hom.hom.app U) (φ.hom.app U) = _
+    change pushout.inr (B.hom.hom.app U) (φ.hom.app U) = _
     simp [presheafPushoutObjIso_anySite]
   exact DFunLike.congr_fun (congrArg CommRingCat.Hom.hom hleg) a
 
@@ -294,12 +294,7 @@ public theorem tensorSectionsIso_hom_naturality_anySite (φ : R ⟶ R') (B : Und
   let := (B.hom.hom.app U).hom.toAlgebra
   let := (B.hom.hom.app V).hom.toAlgebra
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    exact ((congrArg (CommRingCat.Hom.hom (tensorSectionsIso_anySite φ B V).hom)
-      (map_zero (ModuleCat.Hom.hom (cofMap φ.hom (underlyingModule_anySite B).val f)))).trans
-      (map_zero _)).symm
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv =>
     simp only [map_add, hu, hv]
     exact ((congrArg (CommRingCat.Hom.hom (tensorSectionsIso_anySite φ B V).hom)
@@ -446,13 +441,7 @@ public theorem changeOfRingsComparison_app_anySite (φ : R ⟶ R') (B : Under R)
     DFunLike.congr_fun (congrArg CommRingCat.Hom.hom (NatTrans.congr_app
       (Sheaf.ι_colimitToColimitObj J (span B.hom φ) WalkingSpan.right) U)) y
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    refine (map_zero (ModuleCat.Hom.hom ((changeOfRingsComparison_anySite φ B).app U))).trans ?_
-    exact ((congrArg (CommRingCat.Hom.hom
-      ((Sheaf.colimitToColimitObj J (span B.hom φ)).app U))
-      (map_zero (CommRingCat.Hom.hom (tensorSectionsIso_anySite φ B U).hom))).trans
-      (map_zero _)).symm
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv =>
     refine (map_add (ModuleCat.Hom.hom ((changeOfRingsComparison_anySite φ B).app U)) u v).trans ?_
     refine (congrArg (fun z => z + ((changeOfRingsComparison_anySite φ B).app U).hom v) hu).trans
@@ -554,7 +543,7 @@ public theorem isIso_extendScalarsComparison_anySite (φ : R ⟶ R') (B : Under 
     rw [Equiv.apply_symm_apply, Adjunction.homEquiv_naturality_right,
       homEquiv_extendScalarsComparison_anySite]
     refine _root_.SheafOfModules.hom_ext ?_
-    show (pushoutInlModuleMap_anySite φ B).val ≫ (restrictScalars φ.hom).map y.val =
+    change (pushoutInlModuleMap_anySite φ B).val ≫ (restrictScalars φ.hom).map y.val =
       ((changeOfRingsAdjunction φ.hom).homEquiv (underlyingModule_anySite B).val Z.val)
         (changeOfRingsComparison_anySite φ B ≫ y.val)
     exact (congrArg (fun z => z ≫ (restrictScalars φ.hom).map y.val)

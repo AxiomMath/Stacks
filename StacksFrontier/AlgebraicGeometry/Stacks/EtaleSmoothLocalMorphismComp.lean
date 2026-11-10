@@ -168,7 +168,7 @@ private theorem exists_etaleChart_diagram
   let aInv : fibredCategory B S hS (yoneda.obj Wsch) ⟶ schemeFibredCategory B S hS Wsch :=
     equivalenceOverInvMap B S hS (yoneda.obj Wsch) eU
   have haInvEquiv : Functor.IsEquivalence aInv.hom.toFunctor := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   let cc : fibredCategory B S hS (yoneda.obj Wsch) ⟶ J₀.pt := aInv ≫ pres
   have hccet : IsRelativelyEtale B S hS cc :=
@@ -317,7 +317,7 @@ theorem hasEtaleSmoothLocalProperty_comp
   have hpt : AlgebraicStacks.pointsMap B S hS a₂S = AlgebraicStacks.pointsMap B S hS aOut :=
     AlgebraicStacks.pointsMap_eq_of_hom₂ B S hS
       (Bicategory.InducedBicategory.isoMk (f := a₂S) (g := aOut) k₂.isoSnd).hom
-  show Function.Surjective (AlgebraicStacks.pointsMap B S hS aOut)
+  change Function.Surjective (AlgebraicStacks.pointsMap B S hS aOut)
   rw [← hpt]
   exact pointsMap_surjective_of_isSurjectiveOnObjects B S hS a₂S hsu
 

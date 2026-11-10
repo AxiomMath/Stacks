@@ -105,7 +105,7 @@ theorem isGeneratedByOn_definingIdealOfHom_of_isPullback (hcart : IsPullback h i
       fun k => (g.appLE U U' hU'U).hom (s k) := by
     funext k
     rw [hs]
-    show (g.app W ≫ X'.presheaf.map (homOfLE hU'W).op).hom (e k) =
+    change (g.app W ≫ X'.presheaf.map (homOfLE hU'W).op).hom (e k) =
       (X.presheaf.map (homOfLE hUW).op ≫ g.appLE U U' hU'U).hom (e k)
     rw [Scheme.Hom.map_appLE, Scheme.Hom.app_eq_appLE, Scheme.Hom.appLE_map]
   rw [hfam]

@@ -24,8 +24,8 @@ comparison recorded as missing in the module documentation there — and so a st
 object of `D(𝒪_T)` appears at all.
 
 That is the shape the chart comparisons of
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` consume: both sides of the
-derived-sections dictionary at an affine étale chart of an algebraic space have been carried by
+`StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` consume: both sides of
+the derived-sections dictionary at an affine étale chart of an algebraic space have been carried by
 them to the small étale site of the chart's *scheme*, and the left-hand side arrives there as
 derived sections at that site's final object, not as anything on the small Zariski site.
 

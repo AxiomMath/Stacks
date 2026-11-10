@@ -144,7 +144,7 @@ theorem ker_completedDifferential_zero_eq :
     (LinearMap.ker (T.completedDifferential 0)).toAddSubgroup =
       AddMonoidHom.ker (T.deRhamComplexNat.d 0 1).hom := by
   ext x
-  show T.completedDifferential 0 x = 0 ↔ T.deRhamComplexNat.d 0 1 x = 0
+  change T.completedDifferential 0 x = 0 ↔ T.deRhamComplexNat.d 0 1 x = 0
   exact (iff_of_eq (congrArg (fun y : T.completedForms 1 ↦ y = 0) (T.deRhamComplexNat_d 0 x))).symm
 
 /-- The degree zero homology of the displayed complex is `𝐙_p`: it is the kernel of the degree zero
@@ -247,16 +247,16 @@ theorem exists_padicInt_crisCohomology_top (hr : 0 < T.r) :
   · exact φ.symm.injective.comp (T.injective_homologyClassTop_smul_etaTop hs)
   · obtain ⟨x, ⟨w, hw⟩, ξ, hξ⟩ := T.exists_series_eta_eq_add hs t
     refine ⟨φ.symm (T.homologyClassTop hs ξ), ?_⟩
-    show φ.symm (c 1) = _
+    change φ.symm (c 1) = _
     rw [hc, one_smul, ← map_nsmul, ← map_nsmul]
     congr 1
     have hx : T.homologyClassTop hs x = 0 := (T.homologyClassTop_eq_zero_iff hs x).mpr ⟨w, hw⟩
     rw [show T.etaTop hs = T.series hs (fun e ↦ T.p ^ e - 1) from rfl, hξ, map_add, hx, zero_add]
   · rintro ⟨g, hg⟩
     refine T.not_exists_padic_homology_top hs ⟨φ.toAddMonoidHom.comp g, ?_⟩
-    show φ (g 1) = _
+    change φ (g 1) = _
     rw [hg]
-    show φ (φ.symm (c 1)) = _
+    change φ (φ.symm (c 1)) = _
     rw [AddEquiv.apply_symm_apply, hc, one_smul]
 
 end AffineSpaceCrystallineSetup

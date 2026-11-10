@@ -211,7 +211,7 @@ private theorem isZero_rows_X_X
     (K : CochainComplex ((Opens X)ᵒᵖ ⥤ AddCommGrpCat.{v}) ℤ) (q p : ℤ) (hp : p < 0) :
     IsZero ((((((W ⋙ ComplexShape.embeddingUpNat.extendFunctor
       AddCommGrpCat.{v}).mapHomologicalComplex (ComplexShape.up ℤ)).obj K).X q).X p)) := by
-  show IsZero (((W.obj (K.X q)).extend ComplexShape.embeddingUpNat).X p)
+  change IsZero (((W.obj (K.X q)).extend ComplexShape.embeddingUpNat).X p)
   refine HomologicalComplex.isZero_extend_X _ _ p fun i hi ↦ ?_
   have hi' : (i : ℤ) = p := hi
   omega
@@ -223,7 +223,7 @@ private theorem isZero_rows_X
     (K : CochainComplex ((Opens X)ᵒᵖ ⥤ AddCommGrpCat.{v}) ℤ) (q : ℤ) (hq : IsZero (K.X q)) :
     IsZero ((((W ⋙ ComplexShape.embeddingUpNat.extendFunctor
       AddCommGrpCat.{v}).mapHomologicalComplex (ComplexShape.up ℤ)).obj K).X q) := by
-  show IsZero ((W ⋙ ComplexShape.embeddingUpNat.extendFunctor
+  change IsZero ((W ⋙ ComplexShape.embeddingUpNat.extendFunctor
     AddCommGrpCat.{v}).obj (K.X q))
   exact Functor.map_isZero _ hq
 

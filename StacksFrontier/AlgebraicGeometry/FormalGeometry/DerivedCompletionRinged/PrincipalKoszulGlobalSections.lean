@@ -175,6 +175,7 @@ variable {R : Type*} [CommRing R] {S : Type*} [CommRing S]
 
 include hrs
 
+omit [HasBinaryBiproducts 𝒜] [HasBinaryBiproducts ℬ] [H.Additive] in
 /-- A functor carrying multiplication by `r` to multiplication by `s` carries the powers of the
 one to the powers of the other. -/
 theorem map_pow_smul_id (k : ℕ) (M : 𝒜) : H.map (r ^ k • 𝟙 M) = s ^ k • 𝟙 (H.obj M) := by
@@ -183,6 +184,7 @@ theorem map_pow_smul_id (k : ℕ) (M : 𝒜) : H.map (r ^ k • 𝟙 M) = s ^ k 
   | succ k ih =>
     rw [pow_succ_smul_id r k M, H.map_comp, ih, hrs, pow_succ_smul_id s k]
 
+omit [HasBinaryBiproducts 𝒜] [HasBinaryBiproducts ℬ] in
 /-- Termwise application of the functor carries multiplication by `r` on a complex to
 multiplication by `s`. -/
 theorem mapHomologicalComplex_map_smul_id (C : CochainComplex 𝒜 ℤ) :
@@ -190,6 +192,7 @@ theorem mapHomologicalComplex_map_smul_id (C : CochainComplex 𝒜 ℤ) :
       s • 𝟙 ((H.mapHomologicalComplex (ComplexShape.up ℤ)).obj C) :=
   HomologicalComplex.hom_ext _ _ fun i ↦ hrs (C.X i)
 
+omit [HasBinaryBiproducts 𝒜] [HasBinaryBiproducts ℬ] in
 /-- Termwise application of the functor carries the powers of multiplication by `r` on a complex
 to the powers of multiplication by `s`. -/
 theorem mapHomologicalComplex_map_pow_smul_id (k : ℕ) (C : CochainComplex 𝒜 ℤ) :

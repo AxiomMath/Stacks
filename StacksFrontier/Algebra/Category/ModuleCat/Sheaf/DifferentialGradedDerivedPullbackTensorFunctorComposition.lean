@@ -9,7 +9,7 @@ Let `f` and `g` be two morphisms of ringed sites which compose, each carrying th
 Tag 0FTE: a homomorphism of sheaves of differential graded algebras, a pullback of differential
 graded modules and a bimodule to tensor with. The two functors of Tag 0FTE compose to a functor
 `K(Mod(ℬ'', d)) ⥤ K(Mod(𝒜', d))`, and
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedDerivedPullbackTensorFunctor.lean`
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedDerivedPullbackTensorFunctor`
 attaches a left derived extension to each factor. The composite of those two derived extensions
 is a left derived extension of the composite: the first functor carries good modules to good
 modules, so the counit of the second is invertible on the objects in the image of the first.

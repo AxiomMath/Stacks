@@ -101,6 +101,8 @@ def inverseImagePullbackCoordinates :
   f.inverseImage.map ι ≫
     piComparison f.inverseImage (fun _ : κ => Stacks.underlyingRingSheaf K O)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include hc₁ in
 /-- **The pulled-back coordinates of `g⁻¹H` solve `P` over `g⁻¹𝒪`.**  The equation downstairs is
 carried along by `g⁻¹` and then read in the sectionwise commutative ring object structure of the
@@ -166,7 +168,8 @@ variable {O' : Sheaf J CommRingCat.{w}}
   (α : pullbackCommRingSheaf J f.inverseImage O ⟶ O')
   (c' : Γ →+* (𝟙_ (Sheaf J (Type w)) ⟶ Stacks.underlyingRingSheaf J O'))
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The coordinates of `g⁻¹H` over `𝒪'` are its coordinates over `g⁻¹𝒪` pushed along the
 structure map.**  This is the definition of `Stacks.Sheaves.inverseImageCoordinates` reassociated
 so that the inverse image of the equalizer presentation, `Stacks.Sheaves.isLimitForkInverseImage`,
@@ -184,6 +187,8 @@ variable
   (hι : ι ≫ CommRingObj.evalSystemHom (Stacks.underlyingRingSheaf K O) c κ P =
     ι ≫ CommRingObj.zeroSystemHom (Stacks.underlyingRingSheaf K O) κ ν)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include hc₁ hc' hι in
 /-- **The comparison morphism is the canonical map of equalizers induced by the structure map.**
 
@@ -224,7 +229,8 @@ coefficients downstairs and the coefficients upstairs. -/
 
 section Discharge
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The coefficients of the system over `g⁻¹𝒪` exist, with their defining equation.**  There
 is a ring homomorphism from the coefficient ring to the global sections of `g⁻¹𝒪`, for the
 *sectionwise* commutative ring object structure, whose value at `r` is the global section
@@ -246,6 +252,8 @@ variable {O' : Sheaf J CommRingCat.{w}}
   (α : pullbackCommRingSheaf J f.inverseImage O ⟶ O')
   (c' : Γ →+* (𝟙_ (Sheaf J (Type w)) ⟶ Stacks.underlyingRingSheaf J O'))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The comparison morphism from the inverse image of a sheaf of solutions, with no coefficient
 datum upstairs.**
 

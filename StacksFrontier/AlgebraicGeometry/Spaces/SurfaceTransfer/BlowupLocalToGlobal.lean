@@ -117,7 +117,7 @@ theorem exists_iso_pullback_comp_of_isBlowupAtClosedPoint
   refine ⟨(pullbackRightPullbackFstIso f.hom a g.hom).symm ≪≫
     pullbackSymmetry _ _ ≪≫ asIso (pullback.fst φ.hom g.hom), ?_⟩
   simp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc]
-  show _ ≫ _ ≫ pullback.fst (pullback.fst f.hom a) g.hom ≫ pullback.snd f.hom a = _
+  change _ ≫ _ ≫ pullback.fst (pullback.fst f.hom a) g.hom ≫ pullback.snd f.hom a = _
   rw [pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_snd]
 
 /-- The composite of an inverse isomorphism with the base change of `f` along an étale `a` is
@@ -176,7 +176,7 @@ theorem exists_iso_pullback_comp_blowUp
     · simp
     · simp
     · simp
-    · show pullback.fst f.hom a ≫ 𝟙 _ = φ.hom ≫ φ.inv ≫ pullback.fst f.hom a
+    · change pullback.fst f.hom a ≫ 𝟙 _ = φ.hom ≫ φ.inv ≫ pullback.fst f.hom a
       simp
   let ε := (IsPullback.of_hasPullback φ'.hom g.hom).isoIsPullback _ _ hsq₂.flip
   let e₀' : pullback φ'.hom g.hom ≅ yoneda.obj N := (ObjectProperty.ι _).mapIso e₀
@@ -230,8 +230,8 @@ theorem exists_lift_isBlowupAtClosedPoint (i : Fin n) {A : AlgebraicSpaces B S h
         HasEtaleLocalProperty B S hS A'.obj (fun T : Scheme.{u} => IsLocallyNoetherian T) ∧
         D.StageRep i (g₁ ≫ g) (Over.mk (AlgebraicGeometry.blowUpToBase
           (Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds Z.left)) ≫ Z.hom)) ∧
-        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hP : IsAlgebraicSpace B S hS P)
-          (c : P ⟶ D.space.obj), IsEtale B S hS c →
+        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS P →
+          ∀ (c : P ⟶ D.space.obj), IsEtale B S hS c →
             (∀ p, pointsMap B S hS P c p ≠ D.point i) →
             ∃ e : pullback (g₁.hom ≫ g.hom) c ≅ pullback g.hom c,
               e.hom ≫ pullback.snd g.hom c = pullback.snd (g₁.hom ≫ g.hom) c := by
@@ -313,7 +313,7 @@ theorem exists_lift_isBlowupAtClosedPoint (i : Fin n) {A : AlgebraicSpaces B S h
       (D.neighborhood i).etale_toSpace q Φ hΦ hw hfib
     obtain ⟨m, hm⟩ := exists_blowUp_vanishingIdeal_iso_of_iso θ w hw hx
     refine ⟨N, q' ≫ q, e', ψ ≪≫ m, ?_, ?_⟩
-    · show e'.hom ≫ yoneda.map (q' ≫ q) = pullback.snd (b.hom ≫ g.hom) φ.hom
+    · change e'.hom ≫ yoneda.map (q' ≫ q) = pullback.snd (b.hom ≫ g.hom) φ.hom
       exact he'
     · simp only [Iso.trans_hom, Category.assoc, Functor.map_comp, Over.mk_hom]
       rw [← Category.assoc m.hom, hm, Category.assoc, hθ, ← Category.assoc, hq']
@@ -338,8 +338,8 @@ theorem exists_lift_pointBlowupChain (i : Fin n) {A₀ : AlgebraicSpaces B S hS}
     ∃ (A : AlgebraicSpaces B S hS) (g : A ⟶ D.space),
       HasEtaleLocalProperty B S hS A.obj (fun T : Scheme.{u} => IsLocallyNoetherian T) ∧
       Nonempty (BlowupFactorization B S hS (Set.range D.point) g) ∧ D.StageRep i g (Over.mk f) ∧
-        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hP : IsAlgebraicSpace B S hS P)
-          (c : P ⟶ D.space.obj), IsEtale B S hS c →
+        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS P →
+          ∀ (c : P ⟶ D.space.obj), IsEtale B S hS c →
             (∀ p, pointsMap B S hS P c p ≠ D.point i) →
             ∃ e : pullback g.hom c ≅ pullback g₀.hom c,
               e.hom ≫ pullback.snd g₀.hom c = pullback.snd g.hom c := by

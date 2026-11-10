@@ -220,7 +220,7 @@ public theorem fiberStalkComponent_openSupport (V : SmallEtale B Y.obj Y.propert
       (baseChange B f V) (finiteSupportOpen B f V E) _ _ ?_
     refine Eq.trans ?_ (openObjectLift_comp_ι B X.obj X.property (x.toGeometricPoint B f s)
       (baseChange B f V) (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) hmem).symm
-    show (p.1 ≫ (SmallEtale.toScheme B X.obj X.property).map
+    change (p.1 ≫ (SmallEtale.toScheme B X.obj X.property).map
       (openObjectHomOfLE B X.obj X.property (baseChange B f V) hle)) ≫
       (finiteSupportOpen B f V E).ι = fiberPointLift B f s V u x
     rw [openObjectHomOfLE_map, Category.assoc, Scheme.homOfLE_ι]

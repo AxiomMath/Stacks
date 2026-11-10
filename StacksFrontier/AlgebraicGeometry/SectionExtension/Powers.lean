@@ -191,7 +191,7 @@ theorem resTop_globalSection_powSec {d : ℕ} (a s : powSections L d) {U : X.Ope
       -- `powSec L _ (k + 1)` is `mul (powSec L _ k) _` by definition, and the degree
       -- `d * (k + 1)` is the numeral `d * k + d`; restate the goal in that spelling so that the
       -- three identities below, which `Stacks.GradedSections.mul` states at `d * k + d`, rewrite.
-      show resTop U (globalSection X (Stacks.TensorPowers.natTensorPow L (d * k + d))
+      change resTop U (globalSection X (Stacks.TensorPowers.natTensorPow L (d * k + d))
               (mul (powSec L s k) s))
             = f ^ (k + 1) • resTop U
               (globalSection X (Stacks.TensorPowers.natTensorPow L (d * k + d))

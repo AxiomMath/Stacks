@@ -259,7 +259,7 @@ theorem flat_quotMaximalIdeal_etaleLocalRing_of_isPullback_of_isField
       ↥(etaleLocalRing B S hS V.1 (geometricPointMap p.hom y'))
       ↥(etaleLocalRing B S hS Y'.1 y') := by
     refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a => ?_)
-    show (algebraMap ↥(etaleLocalRing B S hS Y.1 (geometricPointMap q.hom y'))
+    change (algebraMap ↥(etaleLocalRing B S hS Y.1 (geometricPointMap q.hom y'))
         ↥(etaleLocalRing B S hS Y'.1 y'))
         ((etaleLocalRingMap Y.2 h.hom (geometricPointMap q.hom y')) a) = _
     rw [hB]
@@ -417,7 +417,7 @@ theorem isFlatOverAtGeometricPoint_modulePullback_iff_isFibreFlatOverAtGeometric
       exact isLocalHom_etaleLocalRingMap B S hS X.2 Z.2 (f.hom ≫ h.hom)
         (geometricPointMap g'.hom x')
     exact IsLocalRing.quotient_map_maximalIdeal
-  refine (isFlatOverAtGeometricPoint_modulePullback_iff_flat_tensor B S hS hU F x').trans
+  refine (isFlatOverAtGeometricPoint_modulePullback_iff_flat_tensor B S hS (f := f) F x').trans
     (Iff.trans (Module.Flat.flatQuotSMul_iff_flat_tensor_of_isPushout (T := T)
       (M := ↥(geometricModuleStalk B S hS X (geometricPointMap g'.hom x') F))
       ((maximalIdeal ↥(etaleLocalRing B S hS Z.1 (geometricPointMap h.hom

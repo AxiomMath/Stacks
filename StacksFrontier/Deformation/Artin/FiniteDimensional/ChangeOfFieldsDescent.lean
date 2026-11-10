@@ -45,10 +45,10 @@ theorem finiteDimensional_tangentModuleAt_of_changeOfFields
   have hG := (finiteDimensional_artinianTangentSpace_iff_tangentModuleAt (𝓕 := 𝓖) h𝓖).mpr hfin
   refine (finiteDimensional_artinianTangentSpace_iff_tangentModuleAt h𝓕).mp ?_
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Elements.π
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨tangentConditionS2.{u, v, v} h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Elements.π
       (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨tangentConditionS2.{u, v, v} h𝓖⟩
   let : AddCommGroup (artinianTangentSpace S.Λ S.l
       (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered)) :=

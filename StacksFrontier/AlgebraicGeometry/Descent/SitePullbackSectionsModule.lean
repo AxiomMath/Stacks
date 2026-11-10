@@ -91,7 +91,7 @@ theorem sitePullbackSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
         (sitePullbackSectionsPresheaf S F toOver).map f m := by
   let := sitePullbackSectionsModule S F toOver X
   let := sitePullbackSectionsModule S F toOver Y
-  show (sitePullbackSectionsPresheaf S F toOver).map f (r • m) = _
+  change (sitePullbackSectionsPresheaf S F toOver).map f (r • m) = _
   let Q := quasiCoherentPresheafConstruction S F
   let TX := toOver.op.obj X
   let TY := toOver.op.obj Y
@@ -102,12 +102,12 @@ theorem sitePullbackSectionsPresheaf_map_smul (S : Scheme.{u}) (F : S.Modules)
     ((Q.objIso T).addCommGroupIsoToAddEquiv.linearEquiv _).map_smul r m
   let rX : Γ((toOver.obj X.unop).left, ⊤) := r
   let : Module ((Stacks.Sites.structurePresheaf S toOver).obj Y) (Q.functor.obj TY) := by
-    show Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
+    change Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
       ((sitePullbackSectionsPresheaf S F toOver).obj Y)
     exact sitePullbackSectionsModule S F toOver Y
   let : Module ((Stacks.Sites.structurePresheaf S toOver).obj Y)
       (Γ((Scheme.Modules.pullback TY.unop.hom).obj F, ⊤)) := by
-    show Module Γ(TY.unop.left, ⊤) _
+    change Module Γ(TY.unop.left, ⊤) _
     infer_instance
   have hmap (z : Q.functor.obj TX) :
       (Q.objIso TY).hom (Q.functor.map g z) =

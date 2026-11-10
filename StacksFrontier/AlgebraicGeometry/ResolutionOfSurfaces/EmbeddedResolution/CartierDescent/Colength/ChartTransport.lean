@@ -85,10 +85,10 @@ public theorem quotient_length_eq_of_ringEquiv_commutes {R S₁ S₂ : Type*} [C
       map_smul' := by
         intro r z
         obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective z
-        show eQ (r • Ideal.Quotient.mk I a) = r • eQ (Ideal.Quotient.mk I a)
+        change eQ (r • Ideal.Quotient.mk I a) = r • eQ (Ideal.Quotient.mk I a)
         rw [Algebra.smul_def, Algebra.smul_def, map_mul]
         refine congrArg (· * eQ (Ideal.Quotient.mk I a)) ?_
-        show eQ (Ideal.Quotient.mk I (algebraMap R S₁ r)) =
+        change eQ (Ideal.Quotient.mk I (algebraMap R S₁ r)) =
           Ideal.Quotient.mk (Ideal.map (e : S₁ →+* S₂) I) (algebraMap R S₂ r)
         rw [Ideal.quotientEquiv_mk, he r]
       invFun := eQ.symm

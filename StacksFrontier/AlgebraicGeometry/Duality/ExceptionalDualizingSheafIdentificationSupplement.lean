@@ -45,7 +45,7 @@ theorem isBoundedBelowQuasiCoherent_singleQuasiCoherent (ωX : (blowUpScheme S.A
     Stacks.Duality.isBoundedBelowQuasiCoherentAtModel (blowUpScheme S.A)
       (Stacks.Duality.singleQuasiCoherent ωX hq 0) := by
   refine ⟨0, fun m hm => ?_⟩
-  show IsZero ((DerivedCategory.homologyFunctor (blowUpScheme S.A).Modules m).obj
+  change IsZero ((DerivedCategory.homologyFunctor (blowUpScheme S.A).Modules m).obj
     ((DerivedCategory.singleFunctor (blowUpScheme S.A).Modules 0).obj ωX))
   exact DerivedCategory.isZero_of_isGE _ 0 m hm
 

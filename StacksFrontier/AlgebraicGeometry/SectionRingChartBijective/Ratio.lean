@@ -109,7 +109,7 @@ theorem exists_ratio_powSec_of_affine_cover {N : ℕ} (a : powSections L N)
     have h0 : X.presheaf.map (homOfLE (hDV i)).op (z i)
         = X.presheaf.map (homOfLE (hDV i)).op (f i) ^ e i
           * X.presheaf.map (homOfLE (hDU i)).op g := hz i
-    show X.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e i) * z i)
+    change X.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e i) * z i)
       = X.presheaf.map (homOfLE (h.trans (hDV i))).op (f i) ^ k
           * X.presheaf.map (homOfLE (h.trans (hDU i))).op g
     rw [← map_res_res h (hDV i) (f i ^ (k - e i) * z i)]

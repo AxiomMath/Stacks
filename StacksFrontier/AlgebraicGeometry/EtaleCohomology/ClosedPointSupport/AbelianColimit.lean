@@ -95,9 +95,9 @@ private theorem isZero_etaleStalk_comp_equivalence_iff (B : BigEtaleSite.{u}) (S
     (e : A ≌ A') (F : (SmallEtale B S hS)ᵒᵖ ⥤ A) :
     IsZero (etaleStalk B S hS p (F ⋙ e.functor)) ↔ IsZero (etaleStalk B S hS p F) := by
   let iso := preservesColimitIso e.functor
-      ((CategoryOfElements.π (geometricPointFiber B S hS p)).op ⋙ F) ≪≫
+      ((Functor.Elements.π (geometricPointFiber B S hS p)).op ⋙ F) ≪≫
     HasColimit.isoOfNatIso (Functor.associator _ _ _)
-  show IsZero (colimit _) ↔ IsZero (colimit _)
+  change IsZero (colimit _) ↔ IsZero (colimit _)
   rw [← iso.isZero_iff]
   exact isZero_equivalence_functor_obj_iff e _
 

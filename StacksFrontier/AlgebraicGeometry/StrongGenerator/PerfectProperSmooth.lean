@@ -223,7 +223,8 @@ itself carrying six hypotheses — with \
 `R pr_{2,*}(L pr_1^* K ⊗^𝐋 −)` with `Φ_K(𝒪_Δ) ≅ K` and `Φ_K(ℰ ⊠ 𝒢) ∈ ⟨𝒢⟩₀`, neither of which \
 the library has — Stacks 0FYV as formalized (base-only) explicitly does \
 NOT cover `Φ_{𝒪_Δ} = id`, which needs Stacks 0B55 for a projection, proved only for closed \
-embeddings, and Stacks 08EU as formalized (StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaInvertibility.lean:249, base-only) \
+embeddings, and Stacks 08EU as formalized (StacksFrontier/Topology/Sheaves/Cohomology/\
+DerivedPushforward/ProjectionFormulaInvertibility.lean:249, base-only) \
 covers only the base case `K = 𝒪_Y[0]`. Claimed: that `𝒢` is a STRONG generator, Stacks \
 09SJ(2), with the level uniform in `K` because it is read off the single object `𝒪_Δ`; and the \
 functoriality of the stages `⟨−⟩ₙ` along an exact functor, the content of Stacks 0FX5, proved \

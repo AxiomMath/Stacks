@@ -74,7 +74,7 @@ sends the closed point to the image of the closed point. -/
 lemma Spec_comp_apply_closedPoint {F L : Type u} [Field F] [Field L] {Q : Scheme.{u}}
     (g : Spec (.of F) ⟶ Spec (.of L)) (n : Spec (.of L) ⟶ Q) :
     (g ≫ n) (closedPoint F) = n (closedPoint L) := by
-  show n (g _) = _
+  change n (g _) = _
   congr 1
   exact Subsingleton.elim _ _
 
@@ -157,7 +157,7 @@ theorem natCard_algHom_eq_card_stabilizer (F : Type u) [Field F] [Algebra K F] [
     simpa using congrArg (fun χ ↦ χ.hom (e.symm l)) h1
   · let m := sF ≫ (a (.op (σ : G))).asIso.hom.left
     have hm : m (closedPoint F) = y := by
-      show (a (.op (σ : G))).asIso.hom.left (sF (closedPoint F)) = y
+      change (a (.op (σ : G))).asIso.hom.left (sF (closedPoint F)) = y
       rw [hsy]
       exact σ.2
     obtain ⟨φ₀, htφ₀⟩ := exists_ringHom_spec_map_comp_eq U Z L v e he _ hm

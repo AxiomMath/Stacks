@@ -63,7 +63,8 @@ homotopy category, through `DerivedCategory.Qh`, whereas
 `CochainComplex.DerivedTensor.DerivedTensorChangeOfRings` states it on complexes, through
 `DerivedCategory.Q`. The translation is `Dualizing.Independence.homotopyCategoryDerivedComparison`
 together with `Dualizing.Independence.leftDerivedFunctor_of_homotopyCategory`, which are private to
-`StacksFrontier/RingTheory/Dualizing/UpperShriek/Independence.lean` and reached here by `import all`;
+`StacksFrontier/RingTheory/Dualizing/UpperShriek/Independence.lean` and reached here by
+`import all`;
 so is the shift identification `Dualizing.derivedTensorPostcomposeShiftIso` of
 `StacksFrontier/RingTheory/Dualizing/UpperShriek/DerivedTensor.lean`. Everything in this file that
 mentions them is therefore private, except the final theorem, whose statement does not.

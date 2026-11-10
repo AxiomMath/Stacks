@@ -169,7 +169,7 @@ theorem existsUnique_depProdValue (f : V ⟶ W) (T : Subfunctor W) (Y : Over V)
     intro A'' k hk t₁ t₂ h₁ h₂
     refine eq_of_app_eq_of_mem B S hS Y.hom ((openComplement B S hS T).preimage f) hY
       (h₁.trans h₂.symm) ?_
-    show f.app (op A'') (Y.hom.app (op A'') t₁) ∈ (openComplement B S hS T).obj (op A'')
+    change f.app (op A'') (Y.hom.app (op A'') t₁) ∈ (openComplement B S hS T).obj (op A'')
     rw [h₁]
     exact hmemW₀ A'' k hk
   -- The decomposition covers `A'`.
@@ -219,7 +219,7 @@ theorem existsUnique_depProdValue (f : V ⟶ W) (T : Subfunctor W) (Y : Over V)
       (R := ((C ⊔ Subfunctor.range (pullback.diagonal f)).sieveOfSection s).arrows)
       (fun A'' k hk => φ A'' k hk) := by
     intro A₁ A₂ Z g₁ g₂ k₁ k₂ hk₁ hk₂ hcomm
-    show Y.left.map g₁.op (φ A₁ k₁ hk₁) = Y.left.map g₂.op (φ A₂ k₂ hk₂)
+    change Y.left.map g₁.op (φ A₁ k₁ hk₁) = Y.left.map g₂.op (φ A₂ k₂ hk₂)
     by_cases hc : (pullback f f).map (g₁ ≫ k₁).op s ∈ C.obj (op Z)
     · refine hsepC Z (g₁ ≫ k₁) hc _ _ ?_ ?_
       · rw [NatTrans.naturality_apply, hφover A₁ k₁ hk₁, ← Functor.map_comp_apply, ← op_comp]

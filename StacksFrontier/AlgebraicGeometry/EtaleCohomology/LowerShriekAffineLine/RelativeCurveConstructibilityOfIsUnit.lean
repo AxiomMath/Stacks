@@ -53,7 +53,8 @@ compactification `T` of `W` over `Y`, and `e ≫ f` is separated, quasi-compact 
 relative dimension one, so Tag 0GKX applies.
 
 Hypotheses: `h095T` is Stacks Tag 095T; `h0GKV` is Stacks Tag 0GKV. -/
-theorem isConstructibleEtaleComplex_derivedLowerShriekUnbounded_extensionByZero_constantSheaf_of_isUnit
+theorem
+  isConstructibleEtaleComplex_derivedLowerShriekUnbounded_extensionByZero_constantSheaf_of_isUnit
     (h095T : ∀ ⦃S T : Scheme.{u}⦄ (p : S ⟶ T) [IsProper p],
       CohomologyCommutesWithBaseChange.{u, u + 1} p)
     (h0GKV : ∀ {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] [Smooth f] [GeometricallyConnected f],
@@ -141,7 +142,8 @@ constructible sheaf, and the kernel of `R^{q+1} f_! 𝒦 → R^{q+1} f_! 𝒢`.
 Hypotheses: `h095T` is Stacks Tag 095T; `h0GKV` is Stacks Tag 0GKV (Tag 0GKW is
 `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedDirectImage_constant_of_isUnit`
 from it); `h095U` is Stacks Tag 095U. -/
-theorem isConstructibleEtaleComplex_derivedLowerShriekUnbounded_of_smoothOfRelativeDimension_one_of_isUnit
+theorem
+  isConstructibleEtaleComplex_derivedLowerShriekUnbounded_of_smoothOfRelativeDimension_one_of_isUnit
     (h095T : ∀ ⦃S T : Scheme.{u}⦄ (p : S ⟶ T) [IsProper p],
       CohomologyCommutesWithBaseChange.{u, u + 1} p)
     (h0GKV : ∀ {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] [Smooth f] [GeometricallyConnected f],

@@ -124,7 +124,7 @@ theorem exists_singleCover_lift (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.C
   let G : Ws ⟶ B.inclusion.obj T' := Sigma.desc fun k => B.inclusion.map (g k)
   have hG : G ≫ B.inclusion.map m = fW := by
     refine Sigma.hom_ext _ _ fun k => ?_
-    rw [Sigma.ι_desc_assoc, ← B.inclusion.map_comp, hg k, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, ← B.inclusion.map_comp, hg k, Sigma.ι_comp_desc]
   -- Descend the single morphism to a stage over `i`.
   let D' : Over i ⥤ Scheme.{u} := Over.forget i ⋙ D ⋙ affSch
   let c' : Cone D' := (affSch.mapCone c).whisker (Over.forget i)
@@ -202,7 +202,7 @@ theorem exists_singleCover_lift (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.C
       rfl
     let k : P ⟶ (Over.mk (m ≫ T.hom) : BigFppfOver B S hS) :=
       Over.homMk kl (by
-        show kl ≫ m ≫ T.hom = P.hom
+        change kl ≫ m ≫ T.hom = P.hom
         rw [← Category.assoc, hkl, Over.w π₂])
     have hk : k ≫ (Over.homMk m rfl : (Over.mk (m ≫ T.hom) : BigFppfOver B S hS) ⟶ T) = π₂ :=
       Over.OverMorphism.ext hkl

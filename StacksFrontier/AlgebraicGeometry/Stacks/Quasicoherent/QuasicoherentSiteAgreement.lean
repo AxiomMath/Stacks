@@ -191,7 +191,7 @@ theorem isClosedUnderColimitsOfShape_isQuasicoherentOnSite_siteKind (τ : SiteKi
     have := preservesColimitsOfShape_overFunctor_siteKind B S hS p hp τ x K
     infer_instance
   refine ⟨fun M hM => ?_⟩
-  show M.IsQuasicoherentOnSite
+  change M.IsQuasicoherentOnSite
   rw [Stacks.SheafOfModules.isQuasicoherentOnSite_iff_exists_cover_isQuasicoherentOnSite M]
   refine ⟨ULift.{u + 1} 𝒳, fun i => i.down,
     Stacks.SheafOfModules.coversTop_ulift_self _, fun i => ?_⟩

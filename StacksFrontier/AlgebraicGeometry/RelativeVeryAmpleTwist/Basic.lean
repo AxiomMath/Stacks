@@ -137,8 +137,8 @@ content goes through on the weaker predicate with the same single premise.
 **`IsDegreeOneTwist` is exhibited at a term**, by
 `Stacks.Tag01VMVeryAmple.isDegreeOneTwist_twistOne` in `DegreeOne.lean`: the glued degree-one
 twist of `𝐏(E)` satisfies it unconditionally. So the predicate is reached without a twist
-datum (`isDegreeOneTwist_piece_one`), and its satisfiability does not reduce to Tag 01NR. Constructing a degree-one twist directly over an affine base is
-still not enough: the
+datum (`isDegreeOneTwist_piece_one`), and its satisfiability does not reduce to Tag 01NR.
+Constructing a degree-one twist directly over an affine base is still not enough: the
 condition is asked at *every* affine open of the base, not at a covering of it, because that is
 what `Stacks.RelativeAmpleBasisRoute.HasRelativeBasisImmersion` consumes.
 

@@ -57,7 +57,7 @@ theorem exists_mem_baseRankLocus_of_isLimit [D.F.IsFinitePresentation]
   obtain ⟨i, B, -, hBpre⟩ :=
     D.exists_preimage_eq_transitionHom E c hc hE A₁ hA₁aff.isCompact
   have hyB : D.transitionHom (c.π.app i) ((D.baseChangeMap c.pt).fiberι τ ξ) ∈ B := by
-    show (D.baseChangeMap c.pt).fiberι τ ξ ∈ D.transitionHom (c.π.app i) ⁻¹ᵁ B
+    change (D.baseChangeMap c.pt).fiberι τ ξ ∈ D.transitionHom (c.π.app i) ⁻¹ᵁ B
     rwa [hBpre]
   obtain ⟨V, hVaff, hyV, hVle⟩ := exists_isAffineOpen_mem_and_subset hyB
   have hWle : D.transitionHom (c.π.app i) ⁻¹ᵁ V ≤ A := by
@@ -74,7 +74,7 @@ theorem exists_mem_baseRankLocus_of_isLimit [D.F.IsFinitePresentation]
     D.transitionHom_fiberι_of_isGenericPoint (c.π.app j) τ hξ hξj
   have hyjV : (D.baseChangeMap (E.obj j)).fiberι ((c.π.app j).left τ) ξj ∈
       D.transitionHom (E.map e) ⁻¹ᵁ V := by
-    show D.transitionHom (E.map e) _ ∈ V
+    change D.transitionHom (E.map e) _ ∈ V
     rw [← hmap]
     have hh : D.transitionHom (E.map e)
           (D.transitionHom (c.π.app j) ((D.baseChangeMap c.pt).fiberι τ ξ)) =

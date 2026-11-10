@@ -81,8 +81,8 @@ theorem monicOfCoefficients_natDegree [Nontrivial A] (d : ℕ) (a : ℕ → A) :
 theorem monicOfCoefficients_coeff (d : ℕ) (a : ℕ → A) {m : ℕ} (hm : m < d) :
     (monicOfCoefficients d a).coeff m = a (d - m) := by
   classical
-  simp only [monicOfCoefficients, coeff_add, coeff_X_pow, finset_sum_coeff, coeff_C_mul_X_pow]
-  rw [if_neg hm.ne, zero_add, Finset.sum_ite_eq, if_pos (Finset.mem_range.mpr hm)]
+  simp only [monicOfCoefficients, coeff_add, coeff_X_pow, finsetSum_coeff, coeff_C_mul_X_pow]
+  rw [ite_eq_right hm.ne, zero_add, Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.mpr hm)]
 
 end Polynomial
 
@@ -188,7 +188,7 @@ theorem frameTrace_oneForm_D_root (hd : 1 ≤ d)
       rw [zero_add, one_smul, pow_one, trace_root (universalPolynomial_monic _) hdeg, map_neg])
   rw [pow_zero, one_smul] at h
   rw [h, map_neg, map_D]
-  show oneForm A Ω[A⁄ℤ] (-D ℤ A (UniversalCoefficients.eval A _)) = _
+  change oneForm A Ω[A⁄ℤ] (-D ℤ A (UniversalCoefficients.eval A _)) = _
   rw [eval_coeff_universalPolynomial_monicOfCoefficients a (by omega),
     show n + 1 - n = 1 by omega]
 
@@ -287,7 +287,7 @@ theorem frameTrace_root_pow_smul_oneForm_D_root_X_pow_sub_C
     frameTrace A B 1 (e (AdjoinRoot.root (Polynomial.X ^ d - C a)) ^ i •
         oneForm B Ω[B⁄ℤ] (D ℤ B (e (AdjoinRoot.root (Polynomial.X ^ d - C a))))) = 0 := by
   rw [frameTrace_root_pow_smul_oneForm_D_X_pow_sub_C_eq hd a e i 0 (by
-    rw [trace_root_pow_X_pow_sub_C hd _ (Nat.succ_pos i) hi.le, if_neg hi.ne, map_zero,
+    rw [trace_root_pow_X_pow_sub_C hd _ (Nat.succ_pos i) hi.le, ite_eq_right hi.ne, map_zero,
       smul_zero]), map_zero, map_zero]
 
 include hd in
@@ -302,10 +302,10 @@ theorem frameTrace_root_pow_pred_smul_oneForm_D_root_X_pow_sub_C
       oneForm A Ω[A⁄ℤ] (D ℤ A a) := by
   rw [frameTrace_root_pow_smul_oneForm_D_X_pow_sub_C_eq hd a e (d - 1)
     (D ℤ (UniversalCoefficients A) (UniversalCoefficients.var a)) (by
-      rw [Nat.sub_add_cancel hd, trace_root_pow_X_pow_sub_C hd _ hd le_rfl, if_pos rfl,
+      rw [Nat.sub_add_cancel hd, trace_root_pow_X_pow_sub_C hd _ hd le_rfl, ite_eq_left rfl,
         Derivation.leibniz, Derivation.map_natCast, smul_zero, add_zero, Nat.cast_smul_eq_nsmul]),
     map_D]
-  show oneForm A Ω[A⁄ℤ] (D ℤ A (UniversalCoefficients.eval A (UniversalCoefficients.var a))) = _
+  change oneForm A Ω[A⁄ℤ] (D ℤ A (UniversalCoefficients.eval A (UniversalCoefficients.var a))) = _
   rw [UniversalCoefficients.eval_var]
 
 end PurePower

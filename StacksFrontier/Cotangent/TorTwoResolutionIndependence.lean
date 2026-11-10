@@ -113,7 +113,7 @@ theorem exists_faces_sub_of_isResolution (hres : CommAlgCat.IsResolution A B P �
     x hx0
   refine ⟨y, ?_⟩
   rw [← hy]
-  show _ = (AlternatingFaceMapComplex.obj (P ⋙ toAb)).d (0 + 1) 0 y
+  change _ = (AlternatingFaceMapComplex.obj (P ⋙ toAb)).d (0 + 1) 0 y
   rw [AlternatingFaceMapComplex.obj_d_eq, Fin.sum_univ_two]
   simp only [Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod, pow_zero, one_smul,
     Nat.one_mod, pow_one, neg_smul, AddCommGrpCat.hom_add, AddCommGrpCat.hom_neg,
@@ -372,7 +372,7 @@ theorem cokerMap_comp : cokerMap hP hQ ≫ cokerMap hQ hR = cokerMap hP hR := by
   obtain ⟨φ, hφ⟩ := exists_isLift hP hQ
   obtain ⟨φ', hφ'⟩ := exists_isLift hQ hR
   have hc : IsLift (ε := ε) (εQ := εR) (φ'.comp φ) := by
-    show (aug εR 0).comp (φ'.toRingHom.comp φ.toRingHom) = aug ε 0
+    change (aug εR 0).comp (φ'.toRingHom.comp φ.toRingHom) = aug ε 0
     rw [← RingHom.comp_assoc, hφ', hφ]
   rw [cokerMap_eq hP hQ φ hφ, cokerMap_eq hQ hR φ' hφ', cokerMap_eq hP hR _ hc]
   refine torTwoCoker_hom_ext hP _ _ fun k => ?_

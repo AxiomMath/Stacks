@@ -97,11 +97,11 @@ theorem SymAlgSheaf.hom_ext_of_gen (hG : G.IsQuasicoherentOnSite)
     refine RingHom.ext fun y => ?_
     induction y using SymmetricAlgebra.induction with
     | algebraMap r =>
-      show (ψ.right.hom.app (op V)).hom (e _) = (χ.right.hom.app (op V)).hom (e _)
+      change (ψ.right.hom.app (op V)).hom (e _) = (χ.right.hom.app (op V)).hom (e _)
       rw [symmetricAlgebraSheafSectionsRingEquiv_algebraMap]
       exact (ψ.comm (op V) r).trans (χ.comm (op V) r).symm
     | ι m =>
-      show (ψ.right.hom.app (op V)).hom (e _) = (χ.right.hom.app (op V)).hom (e _)
+      change (ψ.right.hom.app (op V)).hom (e _) = (χ.right.hom.app (op V)).hom (e _)
       rw [symmetricAlgebraSheafSectionsRingEquiv_ι]
       exact h (op V) m
     | mul a b ha hb => rw [map_mul f₁, map_mul f₂, ha, hb]
@@ -462,7 +462,7 @@ include hι hcart in
 /-- The transition `s n` commutes with the structure morphisms of `towerOver` to `X`. -/
 theorem towerOver_w (n : ℕ) :
     s n ≫ (towerOver B S hS ι W (n + 1)).hom = (towerOver B S hS ι W n).hom := by
-  show s n ≫ (W (n + 1)).obj.hom ≫ ι (n + 1) = (W n).obj.hom ≫ ι n
+  change s n ≫ (W (n + 1)).obj.hom ≫ ι (n + 1) = (W n).obj.hom ≫ ι n
   rw [← Category.assoc, (hcart n).w, Category.assoc, hι]
 
 /-- The transition `W n ⟶ W (n + 1)`, as a morphism over `X`. -/

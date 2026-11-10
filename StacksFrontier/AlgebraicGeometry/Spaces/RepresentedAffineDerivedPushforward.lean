@@ -57,7 +57,8 @@ theorem isIso_representedAffineTransportUnit
   have h₁ : IsIso ((representedAffineDerivedSections B S hS U).map t) :=
     Stacks.CategoryTheory.BaseChange.isIso_map_transportUnit _ _ _ _ _ adjU adjU' M
   have hsrc := qcohDerived_representedAffineDerivedAssociated_obj B S hS U
-    ((ModuleCat.restrictScalars (representedAffineCommRingCatHom B S hS g).hom).mapDerivedCategory.obj M)
+    ((ModuleCat.restrictScalars
+      (representedAffineCommRingCatHom B S hS g).hom).mapDerivedCategory.obj M)
   have htgt := qcohDerived_derivedModulePushforward_obj B S hS (representedSpaceMap B S hS g)
     (isQuasiCompact_of_isAffineHom_hom _ hg) (isQuasiSeparated_of_isAffineHom_hom _ hg) _
     (qcohDerived_representedAffineDerivedAssociated_obj B S hS U' M)

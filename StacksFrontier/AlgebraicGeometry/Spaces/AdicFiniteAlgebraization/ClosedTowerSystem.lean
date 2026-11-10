@@ -124,7 +124,7 @@ theorem hasProperSupport_affineTowerSystem_zero [IsNoetherianRing A]
   have hZ0 : IsProper B (Spec (.of A)) hA (h.hom ≫ g) := by
     have hw : h.hom ≫ g = (w0.hom ≫ adicFibreSnd A I B hA g 0) ≫
         yoneda.map (adicThickeningMap A I B hA (contains_adicThickening A I B hA) 0) := by
-      show (w0.hom ≫ pullback.fst g _) ≫ g = _
+      change (w0.hom ≫ pullback.fst g _) ≫ g = _
       rw [Category.assoc, Category.assoc, pullback.condition]
     rw [hw]
     exact isProper_comp' B (Spec (.of A)) hA _ _ (isAlgebraicSpace_yoneda _ _ hA _)
@@ -177,7 +177,7 @@ theorem hasProperSupport_affineTowerSystem_zero [IsNoetherianRing A]
   refine ⟨hcl, isProperOver_of_subset B (Spec (.of A)) hA hP (isAlgebraicSpace_yoneda _ _ hA _)
     g hft _ _ hcl himcl ?_ himpr⟩
   refine h1.trans ?_
-  show _ ⊆ pointsMap B (Spec (.of A)) hA (W 0).obj.left.1 (w0.hom ≫ ι0.hom) '' Set.univ
+  change _ ⊆ pointsMap B (Spec (.of A)) hA (W 0).obj.left.1 (w0.hom ≫ ι0.hom) '' Set.univ
   rw [pointsMap_comp, Set.image_comp]
   exact Set.image_mono h2
 

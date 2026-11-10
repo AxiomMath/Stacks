@@ -406,7 +406,7 @@ private lemma abelianSections_unit_isIso_of_moduleKInjective {X : TopCat.{u}}
     exact isIso_Qh_map_quotient_map_of_quasiIso
       (((abelianSectionsOnOpen X U).mapHomologicalComplex (.up ℤ)).map q)
   have hαK : IsIso (α.app (Q.obj K)) := by
-    haveI : IsIso ((DerivedCategory.Qh ⋙ RF).map (Q.map q)) := by
+    have : IsIso ((DerivedCategory.Qh ⋙ RF).map (Q.map q)) := by
       change IsIso (RF.map (DerivedCategory.Qh.map (Q.map q)))
       infer_instance
     have hcomp : IsIso (α.app (Q.obj K) ≫ (DerivedCategory.Qh ⋙ RF).map (Q.map q)) := by

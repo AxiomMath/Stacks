@@ -138,7 +138,7 @@ theorem app_mem_ideal_of_appLE
   let i : V ⟶ U := homOfLE (hVUW.trans inf_le_left)
   let j : f ⁻¹ᵁ V ⟶ f ⁻¹ᵁ U := (TopologicalSpace.Opens.map f.base).map i
   refine ⟨f ⁻¹ᵁ V, j, ?_, hzV⟩
-  show D.scheme.presheaf.map j.op (f.app U x) ∈ D.ideal.obj (op (f ⁻¹ᵁ V))
+  change D.scheme.presheaf.map j.op (f.app U x) ∈ D.ideal.obj (op (f ⁻¹ᵁ V))
   have hnat := congrArg (fun g => g x) (f.naturality i.op)
   exact hnat ▸ (isDPMorphism_app_of_appLE D E f W hW hI hf ⟨V, hV⟩
     (hVUW.trans inf_le_right)).ideal_comp (Ideal.mem_map_of_mem _ (E.ideal.map_mem i.op hx))
@@ -176,7 +176,7 @@ theorem isDPMorphism_of_appLE
         f.app V.1.1 (E.scheme.presheaf.map (i V).op a) =
         D.scheme.presheaf.map (j V).op (f.app U a) :=
       congrArg (fun g => g a) (f.naturality (i V).op)
-    show D.scheme.presheaf.map (j V).op
+    change D.scheme.presheaf.map (j V).op
         ((D.dividedPowers.dividedPowers (op (f ⁻¹ᵁ U))).dpow n (f.app U x)) =
       D.scheme.presheaf.map (j V).op
         (f.app U ((E.dividedPowers.dividedPowers (op U)).dpow n x))
@@ -333,7 +333,7 @@ theorem affineQuotientImmersion_isClosedImmersion
   have : IsAffine (E.immersion ⁻¹ᵁ V.1).toScheme := V.2.preimage E.immersion
   have : IsIso (E.immersion ⁻¹ᵁ V.1).toSpecΓ :=
     inferInstanceAs (IsIso (V.2.preimage E.immersion).isoSpec.hom)
-  show IsClosedImmersion ((E.immersion ⁻¹ᵁ V.1).toSpecΓ ≫ Spec.map (CommRingCat.ofHom r))
+  change IsClosedImmersion ((E.immersion ⁻¹ᵁ V.1).toSpecΓ ≫ Spec.map (CommRingCat.ofHom r))
   infer_instance
 
 /-- The quotient immersion is surjective on points, because the thickening is. -/
@@ -354,7 +354,7 @@ theorem affineQuotientImmersion_surjective
     V.2.range_fromSpec.le ⟨Spec.map (CommRingCat.ofHom q) x, rfl⟩
   obtain ⟨z, hz⟩ := E.isThickening.2 (g x)
   have hzV : z ∈ E.immersion ⁻¹ᵁ V.1 := by
-    show E.immersion z ∈ V.1
+    change E.immersion z ∈ V.1
     rwa [hz]
   exact ⟨⟨z, hzV⟩, hg <|
     (congrArg (fun f => f ⟨z, hzV⟩) (affineQuotientImmersion_comp E V q hq hk)).trans hz⟩
@@ -384,10 +384,10 @@ theorem affineQuotientImmersion_ker
     inferInstanceAs (IsIso ((E.immersion ⁻¹ᵁ V.1).toSpecΓ.app ⊤))
   rw [Scheme.ker_of_isAffine]
   congr 1
-  show RingHom.ker ((E.immersion ⁻¹ᵁ V.1).toSpecΓ ≫
+  change RingHom.ker ((E.immersion ⁻¹ᵁ V.1).toSpecΓ ≫
     Spec.map (CommRingCat.ofHom r)).appTop.hom = _
   rw [Scheme.Hom.comp_appTop]
-  show RingHom.ker ((E.immersion ⁻¹ᵁ V.1).toSpecΓ.appTop.hom.comp
+  change RingHom.ker ((E.immersion ⁻¹ᵁ V.1).toSpecΓ.appTop.hom.comp
     (Spec.map (CommRingCat.ofHom r)).appTop.hom) = _
   rw [RingHom.ker_comp_of_injective _
     (ConcreteCategory.bijective_of_isIso (E.immersion ⁻¹ᵁ V.1).toSpecΓ.appTop).1]

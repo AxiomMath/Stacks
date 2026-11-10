@@ -112,6 +112,7 @@ noncomputable def overMapExtensionByZeroIso :
     (Adjunction.ofIsRightAdjoint (SheafOfModules.overMap.{u} R f))
     (overMapExtensionByZeroAdjunction J R f)
 
+omit [HasWeakSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **Stacks 03DJ for a relocalization.** Extension by zero of sheaves of modules along
 `Over.map f : C/V ⥤ C/U` is exact: it is the slice equivalence, which is exact, followed by
 extension by zero along the localization of `C/U` at `Over.mk f`, which is exact by

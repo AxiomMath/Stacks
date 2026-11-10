@@ -83,7 +83,7 @@ theorem constantSheaf_zmod_stalk_torsion {X : Scheme.{u}} (ℓ : ℕ) [Fact ℓ.
     apply ε.injective
     rw [map_nsmul, map_zero]
     apply ULift.ext
-    show ℓ • (ε a).down = 0
+    change ℓ • (ε a).down = 0
     rw [nsmul_eq_mul, ZMod.natCast_self, zero_mul]
 
 section CaseA

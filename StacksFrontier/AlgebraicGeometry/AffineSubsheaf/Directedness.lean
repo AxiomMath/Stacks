@@ -17,27 +17,21 @@ The first of the two is already proved, unconditionally on the scheme, as
 (`StacksFrontier/AlgebraicGeometry/ResolutionsAndBounds/FiniteTypeSubobjects.lean`): the upper
 bound of two finite type quasi-coherent subobjects is the image of the map to the ambient module
 out of their direct sum, which is quasi-coherent by [Stacks, Tag 01BF] and of finite type by
-[Stacks, Tag 01B7]. No attribute was attached to it. This module attaches one.
+[Stacks, Tag 01B7]. It already carries `@[stacks 01PG]` where it is declared.
 
 ## Main results
 
-Nothing is proved here. The module registers
-`AlgebraicGeometry.finiteTypeQuasicoherentSubobject_isFiltered` against
-[Stacks, Tag 01PG] under the label `directedness`.
+Nothing is proved or registered here: the declaration that proves the directedness assertion,
+`AlgebraicGeometry.finiteTypeQuasicoherentSubobject_isFiltered`, is already registered against
+[Stacks, Tag 01PG] by the attribute on its declaration, so a second registration from this
+module would be a duplicate, which the `stacks` extension skips.
 
 ## Implementation notes
 
-The registration uses the `add_to_stacks` command rather than an `@[stacks]` attribute, because
-the declaration it names lives in a module that several other files already import; the command
-writes the same environment extension.
-
-The covering set of the label is complete and consists of that one declaration: the statement
-registered is `IsFiltered (FiniteTypeQuasicoherentSubobject F)` for a quasi-coherent `F` on an
-arbitrary scheme, with no hypothesis the tag does not grant — indeed with two fewer, since the
-tag's scheme is quasi-compact and quasi-separated and the registered statement needs neither. The
-label `colimit` of the same tag is **not** registered and may not be: the colimit assertion is
-not proved anywhere in this repository, and its missing input is the extension step
-[Stacks, Tag 01PF].
+This module once registered the declaration a second time with
+`add_to_stacks 01PG "directedness"`. That registration was a duplicate of the `@[stacks 01PG]`
+attribute on the declaration, and the `stacks` extension skipped it with a warning, so it was
+removed; the module now only collects the imports above.
 
 ## References
 
@@ -47,12 +41,5 @@ not proved anywhere in this repository, and its missing input is the extension s
 -/
 
 @[expose] public section
-
-namespace AlgebraicGeometry
-
-add_to_stacks 01PG "directedness"
-  AlgebraicGeometry.finiteTypeQuasicoherentSubobject_isFiltered
-
-end AlgebraicGeometry
 
 end

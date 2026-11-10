@@ -93,7 +93,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
     (0 : C.M →ₗ[R] K.M).prod (-(LinearMap.fst R K.M K.M))
   have hcontractC_smul (a : A.Aᵐᵒᵖ) (x : C.M) :
       contractC (a • x) = a • contractC x := by
-    show ((0 : K.M), -(a • x).1) = (a • (0 : K.M), a • -x.1)
+    change ((0 : K.M), -(a • x).1) = (a • (0 : K.M), a • -x.1)
     simp [show (a • x).1 = a • x.1 by rfl]
   have hcontractPair_smul (a : A.Aᵐᵒᵖ) (x : C.M) :
       ((0 : L.M), contractC (a • x)) =
@@ -104,7 +104,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
         ((0 : K.M), -(coneD (𝟙 K) x).1) = -x := by
     ext <;> simp [coneD_apply] <;> rfl
   have hgrade (n : ℤ) : D.grading (n + 1) = C.grading n := by
-    show D0.grading (n + 1) = C.grading n
+    change D0.grading (n + 1) = C.grading n
     rw [shift_grading]
     congr 1
     omega
@@ -115,7 +115,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
       ((α.toFun).prod (coneInclusion (𝟙 K)).toFun)
     map_smul := by
       intro x a
-      show E.coordinates.symm
+      change E.coordinates.symm
           (α.toFun (MulOpposite.op a • x),
             (coneInclusion (𝟙 K)).toFun (MulOpposite.op a • x)) =
         MulOpposite.op a • E.coordinates.symm
@@ -126,7 +126,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
     map_grading := by
       intro n x hx
       rw [E.grading_iff]
-      show α.toFun x ∈ L.grading n ∧
+      change α.toFun x ∈ L.grading n ∧
         (coneInclusion (𝟙 K)).toFun x ∈ D.grading (n + 1)
       refine ⟨α.map_grading n x hx, ?_⟩
       rw [hgrade]
@@ -135,7 +135,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
       apply LinearMap.ext
       intro x
       apply E.coordinates.injective
-      show E.coordinates (E.coordinates.symm
+      change E.coordinates (E.coordinates.symm
           (α.toFun (K.d x), (coneInclusion (𝟙 K)).toFun (K.d x))) =
         E.coordinates (E.module.d (E.coordinates.symm
           (α.toFun x, (coneInclusion (𝟙 K)).toFun x)))
@@ -144,7 +144,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
       simp only [E.coordinates.apply_symm_apply]
       apply Prod.ext
       · simpa [z] using (LinearMap.congr_fun α.map_d x)
-      · show (coneInclusion (𝟙 K)).toFun (K.d x) =
+      · change (coneInclusion (𝟙 K)).toFun (K.d x) =
           -D.d ((coneInclusion (𝟙 K)).toFun x)
         rw [hdD]
         exact LinearMap.congr_fun (coneInclusion (𝟙 K)).map_d x
@@ -157,7 +157,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
       apply LinearMap.ext
       intro x
       simp only [LinearMap.comp_apply]
-      show (LinearMap.fst R L.M D.M) (E.coordinates (E.module.d x)) =
+      change (LinearMap.fst R L.M D.M) (E.coordinates (E.module.d x)) =
         L.d ((LinearMap.fst R L.M D.M) (E.coordinates x))
       rw [E.differential]
       simp [z]
@@ -171,7 +171,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
     simp [Hlin]
   have hπscoord (x : L'.M) :
       E.coordinates ((π ≫ s).toFun x) = ((E.coordinates x).1, 0) := by
-    show E.coordinates (E.inclusion.toFun
+    change E.coordinates (E.inclusion.toFun
       ((LinearMap.fst R L.M D.M) (E.coordinates x))) = ((E.coordinates x).1, 0)
     rw [E.inclusion_coordinates]
     rfl
@@ -201,7 +201,7 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
       map_grading := ?_
     }, ?_⟩
     · intro x a
-      show (LinearMap.fst R K.M K.M)
+      change (LinearMap.fst R K.M K.M)
           ((LinearMap.snd R L.M D.M) (E.coordinates (MulOpposite.op a • x))) =
         MulOpposite.op a • (LinearMap.fst R K.M K.M)
           ((LinearMap.snd R L.M D.M) (E.coordinates x))
@@ -232,24 +232,24 @@ theorem exists_factorization_isAdmissibleMono (α : K ⟶ L) :
     }⟩
     · intro n x hx
       have hcparts := (coneGrading_mem n (E.coordinates x).2).mp (hcgrade n x hx)
-      show E.coordinates.symm
+      change E.coordinates.symm
           ((0 : L.M), contractC ((E.coordinates x).2)) ∈ L'.grading (n - 1)
       rw [E.grading_iff, E.coordinates.apply_symm_apply]
       rw [hgrade (n - 1)]
-      show (0 : L.M) ∈ L.grading (n - 1) ∧
+      change (0 : L.M) ∈ L.grading (n - 1) ∧
         contractC ((E.coordinates x).2) ∈ coneGrading K K (n - 1)
       refine ⟨(L.grading (n - 1)).zero_mem, ?_⟩
-      show ((0 : K.M), -(LinearMap.fst R K.M K.M ((E.coordinates x).2))) ∈
+      change ((0 : K.M), -(LinearMap.fst R K.M K.M ((E.coordinates x).2))) ∈
         coneGrading K K (n - 1)
       rw [coneGrading_mem]
       refine ⟨(K.grading (n - 1)).zero_mem, ?_⟩
-      show -(E.coordinates x).2.1 ∈ K.grading (n - 1 + 1)
+      change -(E.coordinates x).2.1 ∈ K.grading (n - 1 + 1)
       simpa only [show n - 1 + 1 = n by omega] using
         (K.grading n).neg_mem hcparts.1
     · intro x
       apply E.coordinates.injective
       simp only [map_sub, map_add]
-      show E.coordinates ((π ≫ s).toFun x) - E.coordinates x =
+      change E.coordinates ((π ≫ s).toFun x) - E.coordinates x =
         E.coordinates (L'.d (Hlin x)) + E.coordinates (Hlin (L'.d x))
       rw [hπscoord, hdcoord (Hlin x), hHcoord x,
         hHcoord (L'.d x), hdcoord x]
@@ -367,7 +367,7 @@ theorem exists_admissibleMono_sequence (n : ℕ)
             calc
               _ = eqToHom (hMcast (Fin.last n)) ≫ (α' ≫ π) ≫ eqToHom hLlast := by
                 rw [hg_last, hp_last]
-                show (eqToHom (hMcast (Fin.last n)) ≫ α' ≫
+                change (eqToHom (hMcast (Fin.last n)) ≫ α' ≫
                     eqToHom hMlastSucc.symm ≫ eqToHom hMlast ≫ π ≫ eqToHom hLlast) =
                   (eqToHom (hMcast (Fin.last n)) ≫ (α' ≫ π) ≫ eqToHom hLlast)
                 simp
@@ -375,7 +375,7 @@ theorem exists_admissibleMono_sequence (n : ℕ)
                 rw [hfactor]
               _ = Hom.comp (f (Fin.last n)) (p' (Fin.last n).castSucc) := by
                 rw [hp_cast]
-                show eqToHom (hMcast (Fin.last n)) ≫
+                change eqToHom (hMcast (Fin.last n)) ≫
                     (p₀ (Fin.last n) ≫ f (Fin.last n)) =
                   (eqToHom (hMcast (Fin.last n)) ≫ p₀ (Fin.last n)) ≫ f (Fin.last n)
                 exact (Category.assoc _ _ _).symm
@@ -386,7 +386,7 @@ theorem exists_admissibleMono_sequence (n : ℕ)
                     eqToHom (hMcast i.succ) ≫ p₀ i.succ := by
                   simpa only [Fin.succ_castSucc] using hp_cast i.succ
                 rw [hg_cast, hpTarget]
-                show (eqToHom (hMcast i.castSucc) ≫ g₀ i ≫
+                change (eqToHom (hMcast i.castSucc) ≫ g₀ i ≫
                     eqToHom (hMsucc i).symm ≫ eqToHom (hMcast i.succ) ≫ p₀ i.succ) =
                   (eqToHom (hMcast i.castSucc) ≫ (g₀ i ≫ p₀ i.succ))
                 simp
@@ -394,7 +394,7 @@ theorem exists_admissibleMono_sequence (n : ℕ)
                 congrArg (fun k => eqToHom (hMcast i.castSucc) ≫ k) (hcomm₀ i)
               _ = Hom.comp (f i.castSucc) (p' i.castSucc.castSucc) := by
                 rw [hp_cast]
-                show eqToHom (hMcast i.castSucc) ≫ Hom.comp (f₀ i) (p₀ i.castSucc) =
+                change eqToHom (hMcast i.castSucc) ≫ Hom.comp (f₀ i) (p₀ i.castSucc) =
                   Hom.comp (f i.castSucc) (eqToHom (hMcast i.castSucc) ≫ p₀ i.castSucc)
                 exact (Category.assoc _ _ _).symm
 

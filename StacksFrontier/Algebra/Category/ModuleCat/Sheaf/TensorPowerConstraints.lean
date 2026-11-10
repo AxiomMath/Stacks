@@ -298,7 +298,7 @@ theorem tensorSheafBraiding_self_eq_refl
           ((PresheafOfModules.toPresheaf _).map (TensorSheafification.toSheafify O hO (Mp ⊗ Mp)))
           _ _ (hfix (op V) (x k)))
       refine J.superset_covering (fun W g' hg' ↦ ?_) hS₂
-      show c (op W) = 1
+      change c (op W) = 1
       refine eq_one_of_dualBasis_smul_tmul_self (ψ.app (op W)).hom
         (fun k ↦ Mp.map g'.op (x k)) (fun k ↦ Np.map g'.op (y k)) ?_ fun k ↦ ?_
       · have h3 : ∀ k, ψ.app (op W) (Mp.map g'.op (x k) ⊗ₜ Np.map g'.op (y k))

@@ -112,7 +112,7 @@ private lemma relativeAssassin_mem_fiber_associatedPrimes
     rfl rfl rfl rfl rfl rfl
   rcases (Module.mem_relativeAssassin_iff (R := R) (S := S) (N := N)).mp h with ⟨m, hm⟩
   have hA : q ∈ A := by
-    show q.asIdeal ∈ associatedPrimes S _
+    change q.asIdeal ∈ associatedPrimes S _
     exact associatedPrimeStacks_mem_associatedPrimes
       ⟨q.2, m, by rwa [colon_span_singleton_eq_colon_singleton]⟩
   rw [hcomp.1] at hA
@@ -199,7 +199,7 @@ private lemma relativeAssassin_fiber_exact_annihilator
     have hscal : algebraMap R C r • (c • z) = (algebraMap S C s) • z := by
       rw [← mul_smul, hrs']
     have hmap : e ((algebraMap S C s) • z) = s • m := by
-      show e ((algebraMap S C s) • e.symm m) = s • m
+      change e ((algebraMap S C s) • e.symm m) = s • m
       rw [algebraMap_smul C s, e.map_smul, e.apply_symm_apply]
     have hsz : (algebraMap S C s) • z = 0 ↔ s ∈ q.asIdeal := by
       rw [← hcolonS, Submodule.mem_colon_singleton, Submodule.mem_bot, ← hmap,
@@ -262,7 +262,7 @@ private lemma relativeAssassin_of_fiber_associatedPrimeStacks
       (⊥ : Submodule S (C ⊗[S] N)).colon {z} := by
     ext r
     simp only [Submodule.mem_colon_singleton]
-    show r • e z = 0 ↔ r • z = 0
+    change r • e z = 0 ↔ r • z = 0
     rw [← e.map_smul, LinearEquiv.map_eq_zero_iff]
   refine (Module.mem_relativeAssassin_iff (R := R) (S := S) (N := N)).mpr ⟨e z, ?_⟩
   calc
@@ -294,7 +294,7 @@ private lemma isAssociatedPrimeStacks_iff_comap
       have h := Ideal.comap_isPrime e.symm.toRingHom (p.comap e.toRingHom)
       have he : (p.comap e.toRingHom).comap e.symm.toRingHom = p := by
         ext r
-        show e (e.symm r) ∈ p ↔ r ∈ p
+        change e (e.symm r) ∈ p ↔ r ∈ p
         rw [e.apply_symm_apply]
       rwa [he] at h
     refine ⟨hp', l.symm n, ?_⟩
@@ -313,7 +313,7 @@ private lemma primeIdealOf_spec_top (R : CommRingCat.{u}) (p : Spec R) :
   apply (isAffineOpen_top (Spec R)).fromSpec.isOpenEmbedding.injective
   rw [IsAffineOpen.fromSpec_primeIdealOf, IsAffineOpen.fromSpec_top,
     Scheme.isoSpec_Spec_inv]
-  show p = (Spec.map (Scheme.ΓSpecIso R).hom ≫
+  change p = (Spec.map (Scheme.ΓSpecIso R).hom ≫
     Spec.map (Scheme.ΓSpecIso R).inv) p
   simp
 
@@ -336,7 +336,7 @@ private lemma isAssociatedPrimeStacks_restrict_iff
       l (e.hom s • m) = s • l m := by
     rw [Scheme.Modules.smul_Spec_def]
     simp only [Opens.leTop, homOfLE_refl, op_id]
-    show (F.restrictAppIso g ⊤).hom
+    change (F.restrictAppIso g ⊤).hom
       ((Scheme.ΓSpecIso R).inv (e.hom s) • m) = _
     rw [Scheme.Modules.smul_restrictAppIso_hom_apply]
     simp only [e, Iso.trans_hom, ← CommRingCat.comp_apply, Category.assoc,

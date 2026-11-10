@@ -49,7 +49,7 @@ theorem ext_of_isTerminal {N : PresheafOfModules.{max m r} (R ⋙ forget₂ Comm
     (u.app V).hom.toAddMonoidHom (u'.app V).hom.toAddMonoidHom
     (fun a y => (u.app V).hom.map_smul a y) (fun a y => (u'.app V).hom.map_smul a y)
     (fun x => by
-      show u.app V (M.map (ht.from V.unop).op x) = u'.app V (M.map (ht.from V.unop).op x)
+      change u.app V (M.map (ht.from V.unop).op x) = u'.app V (M.map (ht.from V.unop).op x)
       rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, h])
   exact ModuleCat.hom_ext (LinearMap.ext fun y => DFunLike.congr_fun key y)
 
@@ -74,7 +74,7 @@ theorem homOfIsTerminalApp_map (V : C) (f : op t ⟶ op V) (x : M.obj (op t)) :
       (1 : R.obj (op V)) ⊗ₜ[R.obj (op t), (R.map (ht.from V).op).hom] x := by
     rw [← restrictionBaseChange_one_tmul M (ht.from V).op x]
     exact (asIso (restrictionBaseChange M (ht.from V).op)).hom_inv_id_apply _
-  show restrictionBaseChange N (ht.from V).op
+  change restrictionBaseChange N (ht.from V).op
       ((ModuleCat.extendScalars (R.map (ht.from V).op).hom).map l
         (inv (restrictionBaseChange M (ht.from V).op) (M.map (ht.from V).op x))) = _
   rw [h2]

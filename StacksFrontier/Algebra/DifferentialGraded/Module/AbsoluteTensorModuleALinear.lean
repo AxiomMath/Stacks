@@ -212,8 +212,7 @@ def absModComponentAEquiv (n : ℤ) :
     | add z w hz hw => simp only [smul_add, map_add, hz, hw]
     | of pq z =>
       rw [absModComponents_smul_of L N n pq a z]
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => simp only [smul_add, map_add, hz, hw]
       | tmul x y =>
         apply Subtype.ext
@@ -263,8 +262,7 @@ def absModSummandComm (p q : ℤ) :
   map_add' := map_add _
   map_smul' a z := by
     simp only [RingHom.id_apply]
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [smul_add, map_add, hz, hw]
     | tmul y x =>
       rw [TensorProduct.smul_tmul' a y (x : L.grading p), TensorProduct.comm_tmul,
@@ -457,8 +455,7 @@ theorem absModSummandToGrading_differential_linear (p q n : ℤ) (h : p + q = n)
         (p.negOnePow : ℤ) • ((absModSummandToGrading L N p (q + 1) (n + 1) (by omega)) ∘ₗ
           LinearMap.lTensor (A ⊗[R] L.grading p) (degreeZeroDifferential (A := A) N q)) := by
   refine TensorProduct.ext' fun w y => ?_
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add u v hu hv =>
     simp only [TensorProduct.add_tmul, map_add, LinearMap.add_apply, LinearMap.smul_apply,
       hu, hv]

@@ -44,12 +44,12 @@ theorem etale_coprod {A B T : Scheme.{u}} (f : A ⟶ T) (g : B ⟶ T) (hf : Etal
   cases i with
   | inl a =>
     cases a
-    show Etale (coprod.inl ≫ coprod.desc f g)
+    change Etale (coprod.inl ≫ coprod.desc f g)
     rw [coprod.inl_desc]
     exact inferInstance
   | inr b =>
     cases b
-    show Etale (coprod.inr ≫ coprod.desc f g)
+    change Etale (coprod.inr ≫ coprod.desc f g)
     rw [coprod.inr_desc]
     exact inferInstance
 

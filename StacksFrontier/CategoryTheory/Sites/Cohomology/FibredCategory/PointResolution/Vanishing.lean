@@ -86,7 +86,7 @@ lemma isZero_pointMooreComplex_homology_of_forall
     ((evaluation s.base.Cᵒᵖ AddCommGrpCat.{max w uD vD uC vC}).obj V))
     ((pointEvaluation s A).obj G)
   have := h V.unop
-  show IsZero ((((alternatingFaceMapComplex _ ⋙ ((evaluation s.base.Cᵒᵖ
+  change IsZero ((((alternatingFaceMapComplex _ ⋙ ((evaluation s.base.Cᵒᵖ
     AddCommGrpCat.{max w uD vD uC vC}).obj V).mapHomologicalComplex _).obj
       ((pointEvaluation s A).obj G)).sc n).homology)
   rwa [hmap]

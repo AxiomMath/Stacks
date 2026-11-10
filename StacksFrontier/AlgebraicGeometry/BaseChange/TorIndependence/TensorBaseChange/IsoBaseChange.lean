@@ -92,7 +92,7 @@ theorem isIso_ringBaseChangeCohomologyMap_of_bijective
   intro a'
   obtain ⟨r, rfl⟩ := hA'.2 a'
   exact ⟨(1 : A) ⊗ₜ[R] r, by
-    show baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A') ((1 : A) ⊗ₜ[R] r) = _
+    change baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A') ((1 : A) ⊗ₜ[R] r) = _
     rw [baseChangeTensorRingMap_tmul, map_one, one_mul]⟩
 
 end RingTheory.TorIndependence

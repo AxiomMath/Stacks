@@ -74,7 +74,7 @@ lemma exists_section_of_local_lifts
   have hfam : fam.Compatible := by
     rw [Presieve.compatible_iff_sieveCompatible]
     intro V W a b ha
-    show (c.inj _).hom.app _ (lift (b ≫ a) _) =
+    change (c.inj _).hom.app _ (lift (b ≫ a) _) =
       c.pt.obj.map b.op ((c.inj _).hom.app _ (lift a ha))
     rw [← NatTrans.naturality_apply]
     apply hcompat
@@ -85,7 +85,7 @@ lemma exists_section_of_local_lifts
     fun W b hb => ?_⟩
   change R (b ≫ a) at hb
   rw [← Functor.map_comp_apply]
-  show c.pt.obj.map (b ≫ a).op z =
+  change c.pt.obj.map (b ≫ a).op z =
     c.pt.obj.map b.op ((c.inj i).hom.app _ x)
   rw [hz (b ≫ a) hb, ← NatTrans.naturality_apply]
   apply hcompat

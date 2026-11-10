@@ -93,7 +93,7 @@ theorem SmallEtale.ofArrows_openChart_affineOpens_mem (W : SmallEtale B S hS F) 
       obtain ⟨y, hy⟩ := (Scheme.Opens.range_ι (X := (BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS F).obj W)) (O : _)).ge hO
       refine ⟨y, ?_⟩
-      show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map
+      change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map
         (openChartInclusion B S hS F W (O : _)))) y = x
       rw [heq]
       exact hy
@@ -157,8 +157,7 @@ theorem span_chartRestrictLinear_eq_top_of_surjective_sectionsBaseChange
   have himg : ∀ z, sectionsBaseChange G m z ∈ Submodule.span (chartRing B S hS F hF V)
       (Set.range fun i => chartRestrictLinear G m (g i)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
         rw [chartBaseChange_tmul]
         exact Submodule.smul_mem _ _ (hpush x)
@@ -198,7 +197,7 @@ theorem hasFiniteGlobalGenerators_over_of_locally_span (M : SheafOfModules.{w} R
   intro D q hq
   obtain ⟨c, hc'⟩ := hc q.left hq
   refine ⟨c, ?_⟩
-  show ∑ i, c i • (M.val.map D.hom.op).hom (g i) = (M.val.map q.left.op).hom x
+  change ∑ i, c i • (M.val.map D.hom.op).hom (g i) = (M.val.map q.left.op).hom x
   refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) hc'
   refine congrArg (fun z => c i • z) ?_
   exact M.val.congr_map_apply (congrArg Quiver.Hom.op (Over.w q).symm) (g i)
@@ -258,7 +257,7 @@ theorem hasFiniteGlobalGenerators_over_of_moduleFinite
     refine Eq.trans (chartRestrictLinear_smul_chartRestrictLinear B S hS F hF G _ h (c i) (g i))
       (congrArg (fun z => chartRestrict (hF := hF) h (c i) • z) ?_)
     exact G.val.congr_map_apply (congrArg Quiver.Hom.op hcomp) (g i)
-  show ∑ i, chartRestrict (hF := hF) h (c i) • chartRestrictLinear G (k ≫ p) (g i)
+  change ∑ i, chartRestrict (hF := hF) h (c i) • chartRestrictLinear G (k ≫ p) (g i)
       = chartRestrictLinear G k y
   refine Eq.trans hkey.symm (Eq.trans (congrArg (fun z => chartRestrictLinear G h z) hc) ?_)
   exact Eq.trans (chartRestrictLinear_comp G _ h y).symm

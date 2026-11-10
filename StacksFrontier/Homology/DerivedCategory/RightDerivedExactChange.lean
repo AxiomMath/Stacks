@@ -101,7 +101,7 @@ theorem isIso_rightDerivedUnit_app_of_exact (G : A ⥤ B) [G.Additive] [Preserve
   refine isIso_app_of_quasiIso_resolution DerivedCategory.Q RG α
     (invertsQuasiIso_mapHomologicalComplex_comp_Q G) (NR.inclusion.app Z) (NR.isKInjective Z)
     hq ?_
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map (NR.inclusion.app Z)))
   rw [DerivedCategory.isIso_Q_map_iff_quasiIso]
   infer_instance

@@ -70,8 +70,8 @@ theorem isLocallySurjective_sigmaDesc_of_fac {C : Type v} [Category.{w} C]
   have _ := hh
   have key : Limits.Sigma.map v ≫ Sigma.desc f = Sigma.desc u ≫ h := by
     refine Limits.Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Limits.Sigma.ι_desc,
-      ← Category.assoc, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Limits.Sigma.ι_comp_desc,
+      ← Category.assoc, Limits.Sigma.ι_comp_desc]
     exact hfac i
   exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac J (f₃ := Sigma.desc u ≫ h) key
 

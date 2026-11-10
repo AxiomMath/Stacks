@@ -78,7 +78,8 @@ and the one the charts can supply.
 **No Stacks attribute is attached.** Tag 01VN's covering set is its own theorem, whose statement
 mentions relative very ampleness and therefore the twist; nothing here states it. Tag 0B3E's
 attribute already sits on `Stacks.Tag0B3E.isAmple_modulePullback` and Tag 01Q3's clauses are
-registered on other declarations; `isAmple_pullbackModule_of_isBasisNonvanishing` is a strengthening of the
+registered on other declarations; `isAmple_pullbackModule_of_isBasisNonvanishing` is a
+strengthening of the
 first, not a restatement of it, so it earns neither.
 
 ## References
@@ -177,8 +178,9 @@ def HasRelativeBasisImmersion {X S : Scheme.{u}} (f : X ⟶ S) (L : X.Modules)
           ((modulePullback (p ⁻¹ᵁ V).ι.toLRSHom.toShHom).obj M)) ∧
       Nonempty (L ≅ (modulePullback i.toLRSHom.toShHom).obj M)
 
-/-- **The twist-immersion hypothesis of Stacks Tag 01VN forces the ambient scheme to be quasi-compact over
-the base.** `Stacks.RelativeAmple.IsRelativelyAmple p M` is `QuasiCompact p` together with the
+/-- **The twist-immersion hypothesis of Stacks Tag 01VN forces the ambient scheme to be
+quasi-compact over the base.** `Stacks.RelativeAmple.IsRelativelyAmple p M` is `QuasiCompact p`
+together with the
 affine-open clause, so `Stacks.RelativeVeryAmple.HasRelativeTwistImmersion` cannot be instantiated
 at an ambient `P` whose structure morphism is not quasi-compact. This is the obstruction described
 in the module documentation: `Proj_S(Sym(E)) ⟶ S` is not quasi-compact for a general
@@ -228,7 +230,8 @@ theorem isRelativelyAmple_of_hasRelativeBasisImmersion {X S : Scheme.{u}} (f : X
     (isCompact_iff_compactSpace.mp (quasiCompact_iff_forall_isAffineOpen.mp hf V hV))
 
 /-- **`Stacks.SectionExtension.isRelativelyAmple_of_relativeTwistImmersion` recovered**, which is
-what makes the theorem above a generalisation of the twist-immersion form of Tag 01VN's content rather than
+what makes the theorem above a generalisation of the twist-immersion form of Tag 01VN's content
+rather than
 a variant of it. -/
 theorem isRelativelyAmple_of_relativeTwistImmersion {X S : Scheme.{u}} (f : X ⟶ S)
     (L : X.Modules) [IsInvertibleModule X L] (hf : QuasiCompact f)

@@ -160,7 +160,7 @@ theorem HasFiniteDetectingPrimes.of_finite_weaklyAssociatedPrimes {R : Type u} [
     fun p => Algebra.linearMap R (Localization.AtPrime p.1.asIdeal)
   apply Module.injective_pi_localization_weaklyAssociatedPrimes f
   ext p
-  show algebraMap R (Localization.AtPrime p.1.asIdeal) x =
+  change algebraMap R (Localization.AtPrime p.1.asIdeal) x =
     algebraMap R (Localization.AtPrime p.1.asIdeal) y
   exact congrFun hxy ⟨p.1, hW.mem_toFinset.mpr p.2⟩
 
@@ -265,7 +265,7 @@ private theorem exists_away_finitePresentation
     apply (IsLocalizedModule.eq_zero_iff q.asIdeal.primeCompl
       (LocalizedModule.mkLinearMap q.asIdeal.primeCompl ((Fin k → S) ⧸ L))).mpr
     refine ⟨⟨t, htq⟩, ?_⟩
-    show (t : S) • L.mkQ x = 0
+    change (t : S) • L.mkQ x = 0
     rw [← map_smul]
     exact (Submodule.Quotient.mk_eq_zero L).mpr ht
   have hflatqM : Module.Flat R (LocalizedModule.AtPrime q.asIdeal M) := hflat
@@ -408,7 +408,7 @@ theorem Algebra.FinitePresentation.of_flat_of_localized
         (A := Localization (Algebra.algebraMapSubmonoid S p.asIdeal.primeCompl)) (by
         apply RingHom.ext
         intro x
-        show algebraMap (MvPolynomial (Fin n) R)
+        change algebraMap (MvPolynomial (Fin n) R)
           (Localization (Algebra.algebraMapSubmonoid S p.asIdeal.primeCompl)) x =
             floc (algebraMap (MvPolynomial (Fin n) R)
               (Localization (Algebra.algebraMapSubmonoid (MvPolynomial (Fin n) R)
@@ -535,7 +535,7 @@ private theorem exists_finite_weightedPolynomial
       induction hz using Algebra.adjoin_induction with
       | mem z hz =>
         have heq : algebraMap P S (MvPolynomial.X (e ⟨z, hz⟩)) = z := by
-          show MvPolynomial.aeval x (MvPolynomial.X _) = z
+          change MvPolynomial.aeval x (MvPolynomial.X _) = z
           simp [x]
         rw [← heq]
         exact isIntegral_algebraMap
@@ -577,21 +577,21 @@ private theorem exists_baseChange_weightedModule
   have hsmul (a : A) (k : σ →₀ ℕ) (m : M) :
       (MvPolynomial.monomial k a : P') • (1 ⊗ₜ[R] m : N) =
         a ⊗ₜ[R] ((MvPolynomial.monomial k 1 : P) • m) := by
-    show ψ' (MvPolynomial.monomial k a) (1 ⊗ₜ[R] m) = _
-    show ((AlgHom.liftEquiv R A P (Module.End A N)) ψ)
+    change ψ' (MvPolynomial.monomial k a) (1 ⊗ₜ[R] m) = _
+    change ((AlgHom.liftEquiv R A P (Module.End A N)) ψ)
       ((MvPolynomial.algebraTensorAlgEquiv R A).symm (MvPolynomial.monomial k a))
       (1 ⊗ₜ[R] m) = _
     rw [MvPolynomial.algebraTensorAlgEquiv_symm_monomial, AlgHom.liftEquiv_tmul]
-    show a • ((1 : A) ⊗ₜ[R] ((MvPolynomial.monomial k 1 : P) • m)) = _
+    change a • ((1 : A) ⊗ₜ[R] ((MvPolynomial.monomial k 1 : P) • m)) = _
     simp [smul_tmul']
   have htower : IsScalarTower A P' N := IsScalarTower.of_algebraMap_smul (fun a m ↦ by
-    show ψ' (algebraMap A P' a) m = a • m
+    change ψ' (algebraMap A P' a) m = a • m
     rw [ψ'.commutes]
     rfl)
   have hcompat (f : P) (m : M) :
       MvPolynomial.map (algebraMap R A) f • (1 ⊗ₜ[R] m : N) = 1 ⊗ₜ[R] (f • m) := by
-    show ψ' (MvPolynomial.map (algebraMap R A) f) (1 ⊗ₜ[R] m) = _
-    show ((AlgHom.liftEquiv R A P (Module.End A N)) ψ)
+    change ψ' (MvPolynomial.map (algebraMap R A) f) (1 ⊗ₜ[R] m) = _
+    change ((AlgHom.liftEquiv R A P (Module.End A N)) ψ)
       ((MvPolynomial.algebraTensorAlgEquiv R A).symm (MvPolynomial.map (algebraMap R A) f))
       (1 ⊗ₜ[R] m) = _
     rw [MvPolynomial.algebraTensorAlgEquiv_symm_map, AlgHom.liftEquiv_tmul]
@@ -608,11 +608,10 @@ private theorem exists_baseChange_weightedModule
     let F : P' ⊗[P] M →ₗ[P'] N := f.liftBaseChange P'
     apply Module.Finite.of_surjective F
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction y using TensorProduct.inductionOn with
     | tmul a m =>
       refine ⟨MvPolynomial.C a ⊗ₜ[P] m, ?_⟩
-      show (MvPolynomial.C a : P') • (1 ⊗ₜ[R] m : N) = a ⊗ₜ[R] m
+      change (MvPolynomial.C a : P') • (1 ⊗ₜ[R] m : N) = a ⊗ₜ[R] m
       rw [show (MvPolynomial.C a : P') = algebraMap A P' a from rfl, algebraMap_smul]
       simp [smul_tmul']
     | add y z hy hz =>
@@ -628,7 +627,7 @@ private theorem exists_baseChange_weightedModule
       rw [p.as_sum, Finset.sum_smul]
       apply Submodule.sum_mem
       intro k hk
-      show (MvPolynomial.monomial k (p.coeff k) : P') •
+      change (MvPolynomial.monomial k (p.coeff k) : P') •
         (1 ⊗ₜ[R] m : N) ∈ _
       rw [hsmul]
       apply Submodule.tmul_mem_baseChange_of_mem
@@ -655,7 +654,7 @@ private theorem finitePresentation_localizedModule
   let : Module (Localization U) N := Module.compHom N e.toRingHom
   have : IsScalarTower (Localization U) A N := IsScalarTower.of_algebraMap_smul (fun _ _ ↦ rfl)
   have : IsScalarTower P (Localization U) N := IsScalarTower.of_algebraMap_smul (fun r m ↦ by
-    show e (algebraMap P (Localization U) r) • m = r • m
+    change e (algebraMap P (Localization U) r) • m = r • m
     rw [e.commutes, algebraMap_smul])
   have : Module.FinitePresentation (Localization U) A :=
     Module.FinitePresentation.of_equiv
@@ -693,16 +692,16 @@ private theorem finitePresentation_localizedModule_of_tensorProduct
   let : Module P Mₚ := Module.compHom Mₚ (algebraMap P Pₚ)
   have : IsScalarTower P Pₚ Mₚ := IsScalarTower.of_algebraMap_smul (fun _ _ ↦ rfl)
   have : IsScalarTower R P Mₚ := IsScalarTower.of_algebraMap_smul (fun r x ↦ by
-    show (algebraMap P Pₚ (MvPolynomial.C r)) • x = r • x
+    change (algebraMap P Pₚ (MvPolynomial.C r)) • x = r • x
     rw [hmap]
     rw [MvPolynomial.map_C]
-    show (algebraMap Rₛ Pₚ (algebraMap R Rₛ r)) • x = r • x
+    change (algebraMap Rₛ Pₚ (algebraMap R Rₛ r)) • x = r • x
     rw [algebraMap_smul, algebraMap_smul])
   let f : M →ₗ[P] Mₚ :=
     { toFun := fun m ↦ 1 ⊗ₜ[R] m
       map_add' := fun _ _ ↦ TensorProduct.tmul_add _ _ _
       map_smul' := fun r m ↦ by
-        show (1 ⊗ₜ[R] (r • m) : Mₚ) = (algebraMap P Pₚ r) • (1 ⊗ₜ[R] m : Mₚ)
+        change (1 ⊗ₜ[R] (r • m) : Mₚ) = (algebraMap P Pₚ r) • (1 ⊗ₜ[R] m : Mₚ)
         rw [hmap]
         exact (hcompat r m).symm }
   have : IsLocalizedModule T (f.restrictScalars R) :=
@@ -776,13 +775,13 @@ private theorem finitePresentation_of_intGrading
     let : Module P M := Module.compHom M φ.toRingHom
     have : IsScalarTower P S M := IsScalarTower.of_algebraMap_smul (fun _ _ ↦ rfl)
     have : IsScalarTower R P M := IsScalarTower.of_algebraMap_smul (fun r m ↦ by
-      show φ (algebraMap R P r) • m = r • m
+      change φ (algebraMap R P r) • m = r • m
       rw [φ.commutes, algebraMap_smul])
     have : Module.Finite P M := Module.Finite.trans (R := P) S M
     have : SetLike.GradedSMul (MvPolynomial.weightedHomogeneousSubmodule R weight) ℳ := by
       constructor
       intro i j p m hp hm
-      show φ p • m ∈ ℳ (i + j)
+      change φ p • m ∈ ℳ (i + j)
       exact SetLike.GradedSMul.smul_mem (A := 𝒜) (B := ℳ) (hgraded i p hp) hm
     have : Module.FinitePresentation P M :=
       finitePresentation_of_flat_weightedPolynomial weight hweight ℳ hprimes
@@ -847,7 +846,7 @@ theorem finitePresentation_of_flat_of_finiteType_of_finite_degreeZero
   have : SetLike.GradedSMul 𝒜' ℳ := by
     constructor
     intro i j a m ha hm
-    show a • m ∈ ℳ (i + j)
+    change a • m ∈ ℳ (i + j)
     by_cases hi : 0 ≤ i
     · have ha' : a ∈ 𝒜 i.toNat := by simpa [𝒜', hi] using ha
       have h := SetLike.GradedSMul.smul_mem (A := 𝒜) (B := ℳ) ha' hm
@@ -899,7 +898,7 @@ private theorem reesDehom_surjective (hgens : Algebra.adjoin A (gens : Set B) = 
 private theorem reesFS_pow_fst (k : ℕ) (hk : k ≠ 0) :
     ((reesFS A B gens ^ k : reesS A B gens) : A × B[X]).1 = 0 := by
   rw [SubmonoidClass.coe_pow]
-  show ((reesF A B) ^ k).1 = 0
+  change ((reesF A B) ^ k).1 = 0
   unfold reesF
   rw [Prod.pow_def]
   exact zero_pow hk
@@ -949,7 +948,7 @@ private theorem ker_reesDehom :
         rw [Subalgebra.coe_mul, Prod.fst_mul]
         by_cases hdK : d = K
         · subst hdK
-          show (pcomp A B _ s).1 * _ = 0
+          change (pcomp A B _ s).1 * _ = 0
           rw [ReesGrad.pcomp_fst, ite_eq_right (by omega), zero_mul]
         · rw [reesFS_pow_fst gens _ (by rw [Finset.mem_range] at hd; omega), mul_zero]
       · rw [Prod.snd_sum]
@@ -959,7 +958,7 @@ private theorem ker_reesDehom :
           intro d hd
           rw [Finset.mem_range] at hd
           rw [Subalgebra.coe_mul, Prod.snd_mul, ReesGrad6.reesFS_pow_coe_snd]
-          show (pcomp A B d s).2 * X ^ (K - d) = _
+          change (pcomp A B d s).2 * X ^ (K - d) = _
           unfold pcomp
           split_ifs with h0
           · subst h0; simp
@@ -974,9 +973,9 @@ private theorem ker_reesDehom :
       simpa only [smul_eq_mul, mul_comm] using htop)
     simpa using this
   · rw [Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, RingHom.mem_ker]
-    show reesDehom gens _ = 0
+    change reesDehom gens _ = 0
     rw [map_sub, map_one, reesDehom_apply]
-    show (reesF A B).2.eval 1 - 1 = 0
+    change (reesF A B).2.eval 1 - 1 = 0
     simp [reesF]
 
 /-- The degree-zero part of the Rees algebra is a finite module over the base. -/
@@ -1009,7 +1008,7 @@ private theorem reesValSum_poly_smul (p : B[X]) (y : reesN B M) :
     | zero => rw [smul_zero, map_zero, smul_zero]
     | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
     | single k m =>
-      show reesValSum B M (reesActHom B M (monomial n b) (Finsupp.single k m)) = _
+      change reesValSum B M (reesActHom B M (monomial n b) (Finsupp.single k m)) = _
       rw [← C_mul_X_pow_eq_monomial, reesActHom_C_mul_X_pow_single, reesValSum_single,
         reesValSum_single]
       simp
@@ -1017,7 +1016,7 @@ private theorem reesValSum_poly_smul (p : B[X]) (y : reesN B M) :
 /-- Constants of `B[X]` act on the Rees module through `B`. -/
 private theorem C_smul_reesN (b : B) (y : reesN B M) :
     (C b : B[X]) • y = b • y := by
-  show reesActHom B M (C b) y = _
+  change reesActHom B M (C b) y = _
   rw [reesActHom, Polynomial.aeval_C, Module.algebraMap_end_apply]
 
 section FiniteModule
@@ -1045,7 +1044,7 @@ private theorem reesNfinReadOff_surjective (hgens : Algebra.adjoin A (gens : Set
 /-- Multiples of `f - 1` are killed by the read-off map. -/
 private theorem reesFS_sub_one_smul_mem (y : reesNfin A B M gens) :
     reesValSum B M ((reesFS A B gens - 1) • y : reesNfin A B M gens).1 = 0 := by
-  show reesValSum B M ((reesFS A B gens - 1) • (y : reesN B M)) = 0
+  change reesValSum B M ((reesFS A B gens - 1) • (y : reesN B M)) = 0
   rw [sub_smul, one_smul, map_sub, reesValSum_f_smul, sub_self]
 
 /-- The kernel of the read-off map is `(f - 1)` times the whole graded module. -/
@@ -1071,7 +1070,7 @@ private theorem mem_span_of_readOff_eq_zero (y : reesNfin A B M gens)
     apply Subtype.ext
     rw [AddSubmonoidClass.coe_finsetSum]
     simp only [hcomp]
-    show g' = ∑ n ∈ Finset.range (K + 1), Finsupp.single n (g' n)
+    change g' = ∑ n ∈ Finset.range (K + 1), Finsupp.single n (g' n)
     conv_lhs => rw [← Finsupp.sum_single g']
     exact Finsupp.sum_of_support_subset _ hsupp _ (by simp)
   have htop : ∑ n ∈ Finset.range (K + 1), reesFS A B gens ^ (K - n) • comp n = 0 := by
@@ -1082,14 +1081,14 @@ private theorem mem_span_of_readOff_eq_zero (y : reesNfin A B M gens)
           Finsupp.single K (g' n) := by
       intro n hn
       rw [Finset.mem_range] at hn
-      show (reesFS A B gens ^ (K - n)) • ((comp n : reesNfin A B M gens) : reesN B M) = _
+      change (reesFS A B gens ^ (K - n)) • ((comp n : reesNfin A B M gens) : reesN B M) = _
       rw [reesFS_pow_smul_single A B M gens (K - n) n _ _ (hcomp n)]
       congr 1; omega
     rw [Finset.sum_congr rfl h1]
-    show ∑ n ∈ Finset.range (K + 1), Finsupp.single K (g' n) = (0 : ℕ →₀ M)
+    change ∑ n ∈ Finset.range (K + 1), Finsupp.single K (g' n) = (0 : ℕ →₀ M)
     rw [← Finsupp.single_finsetSum]
     have hval : reesValSum B M g = ∑ n ∈ Finset.range (K + 1), g' n := by
-      show (Finsupp.liftAddHom (fun _ : ℕ => AddMonoidHom.id M)) g' = _
+      change (Finsupp.liftAddHom (fun _ : ℕ => AddMonoidHom.id M)) g' = _
       rw [Finsupp.liftAddHom_apply]
       exact Finsupp.sum_of_support_subset _ hsupp _ (by simp)
     rw [← hval, hy, Finsupp.single_zero]
@@ -1151,9 +1150,9 @@ private theorem reesNfin_finitePresentation [Module.Flat A M] :
   have : Module.IsTorsionFree A (reesNfin A B M gens) := by
     refine Function.Injective.moduleIsTorsionFree (N := ℕ →₀ M)
       (fun y => (y : reesN B M)) Subtype.val_injective fun a y => ?_
-    show ((algebraMap A (reesS A B gens) a) • (y : reesN B M) : ℕ →₀ M) = _
+    change ((algebraMap A (reesS A B gens) a) • (y : reesN B M) : ℕ →₀ M) = _
     rw [reesN_smul_def]
-    show ((C (algebraMap A B a) : B[X]) • (y : reesN B M) : ℕ →₀ M) = _
+    change ((C (algebraMap A B a) : B[X]) • (y : reesN B M) : ℕ →₀ M) = _
     rw [C_smul_reesN]
     apply Finsupp.ext
     intro n

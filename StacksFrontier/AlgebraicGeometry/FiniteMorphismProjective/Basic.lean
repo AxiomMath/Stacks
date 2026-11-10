@@ -30,8 +30,8 @@ because `X` is finite over `S`. Each step below is one of those.
 * `X` is affine and `Γ(X, 𝒪_X)` is a finite `Γ(S, 𝒪_S)`-module: Mathlib's
   `AlgebraicGeometry.isAffine_of_isAffineHom` and `AlgebraicGeometry.Scheme.Hom.finite_appTop`.
 * The surjection is `Stacks.FiniteMorphismProjective.awayEval_surjective` of
-  `StacksFrontier.AlgebraicGeometry.FiniteMorphismProjective.ChartAlgebra`: the degree-zero homogeneous
-  localization `R[T]_{(T₀)}` is the polynomial ring on the affine coordinates `T_j / T₀`
+  `StacksFrontier.AlgebraicGeometry.FiniteMorphismProjective.ChartAlgebra`: the degree-zero
+  homogeneous localization `R[T]_{(T₀)}` is the polynomial ring on the affine coordinates `T_j / T₀`
   (`Stacks.AlgebraicGeometry.ProjPolyChart.chartEquiv`), and evaluating those at the generators
   is surjective. The source's `R[T] → Sym^*_R(A)` is not formed: the only consequence it has in
   the argument is this surjection onto the chart, which is obtained directly.

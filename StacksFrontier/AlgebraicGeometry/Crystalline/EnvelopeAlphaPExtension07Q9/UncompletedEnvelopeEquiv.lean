@@ -150,7 +150,7 @@ private def reductionOfC₀ (ct : MvPolynomial κ s.A) :
 
 private theorem reductionOfC₀_apply (ct x : MvPolynomial κ s.A) :
     reductionOfC₀ hg ct (g x) = reductionOfP₀ (g := g) ct x := by
-  show Ideal.Quotient.lift (RingHom.ker g.toRingHom) (reductionOfP₀ (g := g) ct)
+  change Ideal.Quotient.lift (RingHom.ker g.toRingHom) (reductionOfP₀ (g := g) ct)
     (fun x hx => reductionOfP₀_eq_zero ct x hx)
     ((RingHom.quotientKerEquivOfSurjective (f := g.toRingHom) hg).symm (g.toRingHom x)) = _
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.Quotient.lift_mk]
@@ -180,7 +180,7 @@ private def reductionOfC'₀ :
 
 private theorem reductionOfC'₀_algebraMap (x : s.C) :
     reductionOfC'₀ hg hct (algebraMap s.C (alphaPSituation s c).C x) = reductionOfC₀ hg ct x := by
-  show Ideal.Quotient.lift _ (Polynomial.eval₂RingHom (reductionOfC₀ hg ct)
+  change Ideal.Quotient.lift _ (Polynomial.eval₂RingHom (reductionOfC₀ hg ct)
       (Ideal.Quotient.mk _ (zElt _ s.p _))) _ (Ideal.Quotient.mk _ (Polynomial.C x)) = _
   rw [Ideal.Quotient.lift_mk, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_C]
 
@@ -188,7 +188,7 @@ private theorem reductionOfC'₀_root :
     reductionOfC'₀ hg hct (alphaPRoot s c) =
       Ideal.Quotient.mk _ (zElt (polynomialDividedPowerEnvelope s g).object s.p
         (alphaPLift g ct)) := by
-  show Ideal.Quotient.lift _ (Polynomial.eval₂RingHom (reductionOfC₀ hg ct)
+  change Ideal.Quotient.lift _ (Polynomial.eval₂RingHom (reductionOfC₀ hg ct)
       (Ideal.Quotient.mk _ (zElt _ s.p _))) _ (Ideal.Quotient.mk _ Polynomial.X) = _
   rw [Ideal.Quotient.lift_mk, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_X]
 
@@ -230,7 +230,7 @@ public theorem alphaPPolynomialMap₀_ker_le :
       primeIdeal (polynomialDividedPowerEnvelope s g).object s.p (alphaPLift g ct) := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show alphaPPolynomialMap₀ g e ct x ∈
+  change alphaPPolynomialMap₀ g e ct x ∈
     primeIdeal (polynomialDividedPowerEnvelope s g).object s.p (alphaPLift g ct)
   rw [← Ideal.Quotient.eq_zero_iff_mem, reductionOfC'₀_comp hg hnone hsome hct,
     show g' x = 0 from hx, map_zero]
@@ -274,7 +274,7 @@ public theorem alphaPEnvelopeToPrime₀_envelopeMap
       s.p_ne_zero)
     ((alphaPEnvelopeToPrime₀ hg hnone hsome hct).comp (alphaPEnvelopeMap hsome))
     (alphaPAlgebraMapDP _ s.p (alphaPLift g ct) s.p_ne_zero) (fun y => by
-      show alphaPEnvelopeToPrime₀ hg hnone hsome hct (alphaPEnvelopeMap hsome
+      change alphaPEnvelopeToPrime₀ hg hnone hsome hct (alphaPEnvelopeMap hsome
         ((polynomialDividedPowerEnvelope s g).algebraMap.toRingHom y)) = _
       rw [alphaPEnvelopeMap_algebraMap, alphaPEnvelopeToPrime₀_algebraMap,
         alphaPPolynomialMap₀_rename]
@@ -291,9 +291,9 @@ public theorem alphaPRoot_pow_sub_mem₀ :
       (polynomialDividedPowerEnvelope (alphaPSituation s c) g').object.ideal := by
   refine (polynomialDividedPowerEnvelope (alphaPSituation s c) g').algebraMap.ideal_comp
     (Ideal.mem_map_of_mem _ ?_)
-  show g' (X (e none) ^ s.p - rename (e ∘ some) ct) = 0
+  change g' (X (e none) ^ s.p - rename (e ∘ some) ct) = 0
   rw [map_sub, map_pow, hnone, alphaP_rename_mem_ker hsome, hct, alphaPRoot]
-  show Ideal.Quotient.mk _ (Polynomial.X ^ s.p) - Ideal.Quotient.mk _ (Polynomial.C c) = 0
+  change Ideal.Quotient.mk _ (Polynomial.X ^ s.p) - Ideal.Quotient.mk _ (Polynomial.C c) = 0
   rw [← map_sub, Ideal.Quotient.eq_zero_iff_mem]
   exact Ideal.mem_span_singleton_self _
 
@@ -336,7 +336,7 @@ public theorem xiToEnvelope₀_eval₂_primePoly :
         (X (e none))) = 0 := by
   rw [primePoly, Polynomial.eval₂_sub, Polynomial.eval₂_sub, Polynomial.eval₂_X_pow,
     Polynomial.eval₂_C, Polynomial.eval₂_C]
-  show _ - xiToEnvelope₀ hnone hsome hct (xi _) -
+  change _ - xiToEnvelope₀ hnone hsome hct (xi _) -
     xiToEnvelope₀ hnone hsome hct (algebraMap _ _ (alphaPLift g ct)) = 0
   rw [(xiToEnvelope₀_spec hnone hsome hct).2, xiToEnvelope₀_algebraMap,
     alphaPLift, alphaPEnvelopeMap_algebraMap, map_sub, map_pow]
@@ -416,7 +416,7 @@ public theorem alphaPPrimeToEnvelope₀_comp
     apply MvPolynomial.ringHom_ext
     · intro a
       simp only [RingHom.comp_apply, alphaPPolynomialMap₀_C]
-      show alphaPPrimeToEnvelope₀ hnone hsome hct
+      change alphaPPrimeToEnvelope₀ hnone hsome hct
         (algebraMap (polynomialDividedPowerEnvelope s g).object _
           ((polynomialDividedPowerEnvelope s g).structureMap a)) = _
       rw [alphaPPrimeToEnvelope₀_algebraMap, alphaPEnvelopeMap_structureMap]
@@ -426,10 +426,10 @@ public theorem alphaPPrimeToEnvelope₀_comp
       simp only [RingHom.comp_apply, alphaPPolynomialMap₀_X]
       cases o with
       | none =>
-        show alphaPPrimeToEnvelope₀ hnone hsome hct (zElt _ s.p _) = _
+        change alphaPPrimeToEnvelope₀ hnone hsome hct (zElt _ s.p _) = _
         rw [alphaPPrimeToEnvelope₀_zElt]
       | some k =>
-        show alphaPPrimeToEnvelope₀ hnone hsome hct
+        change alphaPPrimeToEnvelope₀ hnone hsome hct
           (algebraMap (polynomialDividedPowerEnvelope s g).object _
             ((polynomialDividedPowerEnvelope s g).algebraMap.toRingHom (X k))) = _
         rw [alphaPPrimeToEnvelope₀_algebraMap, alphaPEnvelopeMap_algebraMap, rename_X]
@@ -439,7 +439,7 @@ public theorem alphaPPrimeToEnvelope₀_comp
     ((DPMorphism.mk' (alphaPPrimeToEnvelope₀_isDPMorphism hnone hsome hct)).comp
       (alphaPEnvelopeToPrime₀ hg hnone hsome hct))
     (DPMorphism.id _) (fun y => by
-      show alphaPPrimeToEnvelope₀ hnone hsome hct (alphaPEnvelopeToPrime₀ hg hnone hsome hct
+      change alphaPPrimeToEnvelope₀ hnone hsome hct (alphaPEnvelopeToPrime₀ hg hnone hsome hct
         ((polynomialDividedPowerEnvelope (alphaPSituation s c) g').algebraMap.toRingHom y)) = _
       rw [alphaPEnvelopeToPrime₀_algebraMap]
       exact RingHom.congr_fun hP y)
@@ -467,11 +467,11 @@ public theorem alphaPEnvelopeToPrime₀_comp
       refine ⟨?_, fun _ => ?_⟩
       · apply DPMorphism.ext
         funext d
-        show alphaPEnvelopeToPrime₀ hg hnone hsome hct
+        change alphaPEnvelopeToPrime₀ hg hnone hsome hct
           (xiToEnvelope₀ hnone hsome hct (algebraMap _ _ d)) = _
         rw [xiToEnvelope₀_algebraMap]
         rfl
-      · show alphaPEnvelopeToPrime₀ hg hnone hsome hct
+      · change alphaPEnvelopeToPrime₀ hg hnone hsome hct
           (xiToEnvelope₀ hnone hsome hct (xi _)) = _
         have hm := map_sub (alphaPEnvelopeToPrime₀ hg hnone hsome hct).toRingHom
           ((polynomialDividedPowerEnvelope (alphaPSituation s c) g').algebraMap.toRingHom
@@ -497,7 +497,7 @@ public theorem alphaPEnvelopeToPrime₀_comp
       refine ⟨?_, fun _ => ?_⟩
       · apply DPMorphism.ext
         funext d
-        show _ = alphaPEnvelopeToPrime₀ hg hnone hsome hct (alphaPEnvelopeMap hsome d)
+        change _ = alphaPEnvelopeToPrime₀ hg hnone hsome hct (alphaPEnvelopeMap hsome d)
         rw [alphaPEnvelopeToPrime₀_envelopeMap]
         rfl
       · rw [xiElt_one_zero_eq_mk]
@@ -509,11 +509,11 @@ public theorem alphaPEnvelopeToPrime₀_comp
     apply Ideal.Quotient.ringHom_ext
     apply Polynomial.ringHom_ext
     · intro y
-      show alphaPEnvelopeToPrime₀ hg hnone hsome hct
+      change alphaPEnvelopeToPrime₀ hg hnone hsome hct
         (alphaPPrimeToEnvelope₀ hnone hsome hct (AdjoinRoot.of _ y)) = AdjoinRoot.of _ y
       rw [alphaPPrimeToEnvelope₀, AdjoinRoot.lift_of]
       exact hxi y
-    · show alphaPEnvelopeToPrime₀ hg hnone hsome hct
+    · change alphaPEnvelopeToPrime₀ hg hnone hsome hct
         (alphaPPrimeToEnvelope₀ hnone hsome hct (zElt _ s.p _)) = zElt _ s.p _
       rw [alphaPPrimeToEnvelope₀_zElt, alphaPEnvelopeToPrime₀_algebraMap,
         alphaPPolynomialMap₀_X]
@@ -597,7 +597,7 @@ public theorem alphaPCompletedEnvelopeEquiv₀_envelopeMap (d : envelopeComplete
     (adicCompletionRingMap (algebraMap (polynomialDividedPowerEnvelope s g).object
         (primeRing (polynomialDividedPowerEnvelope s g).object s.p (alphaPLift g ct)))
         (map_pAdicIdeal_le _ _)) (fun x => by
-      show alphaPCompletedEnvelopeEquiv₀ hg hnone hsome hct
+      change alphaPCompletedEnvelopeEquiv₀ hg hnone hsome hct
         (alphaPCompletedEnvelopeMap hsome (AdicCompletion.of _ _ x)) = _
       rw [alphaPCompletedEnvelopeMap_of, alphaPCompletedEnvelopeEquiv₀_of,
         alphaPEnvelopeToPrime₀_envelopeMap, adicCompletionRingMap_of])
@@ -737,7 +737,7 @@ public def alphaPDegreeZeroVariables : Option (Fin 1 × ι) ≃ Fin 1 × Option 
 public theorem alphaPDegreeZero_none :
     tensorPowerPresentation (alphaPSituation s c) (alphaPPresentation s c f) 0
       (X (alphaPDegreeZeroVariables none)) = alphaPRoot s c := by
-  show alphaPPresentation s c f (rename Prod.snd (X ((0 : Fin 1), none))) = _
+  change alphaPPresentation s c f (rename Prod.snd (X ((0 : Fin 1), none))) = _
   rw [rename_X, alphaPPresentation_X_none]
 
 /-- The degree zero presentation `P'(0) → C'` restricts to `P(0) → C → C'` on the old
@@ -746,7 +746,7 @@ public theorem alphaPDegreeZero_some (k : Fin 1 × ι) :
     tensorPowerPresentation (alphaPSituation s c) (alphaPPresentation s c f) 0
       (X (alphaPDegreeZeroVariables (some k))) =
       algebraMap s.C (alphaPSituation s c).C (tensorPowerPresentation s f 0 (X k)) := by
-  show alphaPPresentation s c f (rename Prod.snd (X (k.1, some k.2))) =
+  change alphaPPresentation s c f (rename Prod.snd (X (k.1, some k.2))) =
     algebraMap s.C (alphaPSituation s c).C (f (rename Prod.snd (X k)))
   rw [rename_X, rename_X, alphaPPresentation_X_some]
 

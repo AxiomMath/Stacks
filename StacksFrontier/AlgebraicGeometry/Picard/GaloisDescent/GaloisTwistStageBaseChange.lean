@@ -23,7 +23,7 @@ universe u
 namespace Stacks.Picard
 
 variable {k K : Type u} [Field k] [Field K] [Algebra k K] (X : Over (Spec (.of k)))
-  (E : IntermediateField k K) [IsGalois k K]
+  (E : IntermediateField k K)
 
 /-- **The Galois twists of `X_K` and of `(X_E)_K` correspond.** For `τ ∈ Gal(K/E)`, the twist of
 `X_K` by `τ` viewed in `Gal(K/k)` is carried by `X_K ≅ (X_E)_K` to the twist of `(X_E)_K` by

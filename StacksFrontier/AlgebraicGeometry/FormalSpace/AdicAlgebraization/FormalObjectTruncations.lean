@@ -52,7 +52,7 @@ variable (hS) (A : FormalBase S) (hA : ∀ n, B.Contains (A.truncation n)) (L : 
 /-- The ring map `R/𝔪ⁿ⁺¹ ⟶ (R/L)/𝔪ⁿ⁺¹`. -/
 abbrev quotientTruncationRingHom (n : ℕ) :
     A.R ⧸ maximalIdeal A.R ^ (n + 1) →+* (A.R ⧸ L) ⧸ quotientBaseStage A L n :=
-  Ideal.Quotient.lift _ ((Ideal.Quotient.mk _).comp (Ideal.Quotient.mk L)) fun a ha =>
+  Ideal.Quotient.lift _ ((Ideal.Quotient.mk _).comp (Ideal.Quotient.mk L)) fun _ ha =>
     Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_map_of_mem _ ha)
 
 /-- Two squares of `Spec` of ring maps commute when the corresponding ring map squares do. -/
@@ -147,7 +147,7 @@ theorem quotientTruncationMap_comp_toTruncation {L L' : Ideal A.R} (h : L' ≤ L
       quotientTruncationToTruncation hS A hA L n := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   rw [Functor.map_comp]
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp]
   congr 1
   ext a
@@ -164,7 +164,7 @@ the global section corresponding to its class in `A/K`. -/
 theorem chartRing_quotientToAffineOver (K : Ideal A) (a : A) :
     chartRing (Space.quotientToAffineOver B S hS f hA K) a =
       (Scheme.ΓSpecIso (.of (A ⧸ K))).inv (Ideal.Quotient.mk K a) := by
-  show ((Scheme.ΓSpecIso (.of A)).inv ≫
+  change ((Scheme.ΓSpecIso (.of A)).inv ≫
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).appTop).hom a = _
   rw [← Scheme.ΓSpecIso_inv_naturality]
   rfl

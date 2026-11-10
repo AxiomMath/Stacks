@@ -131,7 +131,7 @@ theorem ideal_comap_lineInfinityDivisor_infinityChartOver (U : X.affineOpens) :
     infinityDivisor_ideal_comap_affineYChart X ⟨_, hA₀⟩, map_span_singleton_eq]
   congr 2
   rw [← CommRingCat.comp_apply, Scheme.Hom.map_appLE]
-  show q.appTop (affineCoordinate X) = _
+  change q.appTop (affineCoordinate X) = _
   rw [hqdef, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
     affineLineOverMap_appTop_affineCoordinate, affineLineOverIsoSpecPolynomial_inv_appTop]
 
@@ -388,7 +388,7 @@ theorem affineBlowupRingEquivOfRingEquiv_coe {R R' : Type*} [CommRing R] [CommRi
       localizationAwayEquivOfRingEquiv e a (x : Localization.Away a) := by
   rw [affineBlowupRingEquivOfRingEquiv, RingEquiv.trans_apply,
     (exists_affineBlowupAlgebraRingEquivOfRingEquiv e J J' hJ a).choose_spec,
-    AlgEquiv.toRingEquiv_eq_coe, AlgEquiv.coe_ringEquiv, Subalgebra.equivOfEq_apply]
+    AlgEquiv.coe_toRingEquiv, Subalgebra.equivOfEq_apply]
 
 /-- `affineBlowupRingEquivOfRingEquiv` sends the image of `x ∈ R` to the image of `e x`. -/
 theorem affineBlowupRingEquivOfRingEquiv_algebraMap {R R' : Type*} [CommRing R] [CommRing R']
@@ -459,7 +459,7 @@ theorem blowupAtInfinityPolyChart_comp (a : Polynomial Γ(X, U.1))
     blowupAtInfinityPolyChart ℐ U a ha ≫ blowupAtInfinityToLine ℐ =
       Spec.map (CommRingCat.ofHom (algebraMap (Polynomial Γ(X, U.1))
         (affineBlowup (infinityChartIdeal (ℐ.ideal U)) a))) ≫ infinityChartOver U := by
-  show (Spec.map _ ≫ blowUpAffineChart (infinityCentreIdeal ℐ) (infinityChartAffineOpen U)
+  change (Spec.map _ ≫ blowUpAffineChart (infinityCentreIdeal ℐ) (infinityChartAffineOpen U)
     ⟨infinityChartSectionsEquiv U a, infinityChartSectionsEquiv_mem ℐ U a ha⟩) ≫
       blowUpToBase (infinityCentreIdeal ℐ) = _
   rw [Category.assoc, blowUpAffineChart_comp_blowUpToBase, ← Spec.map_comp_assoc]
@@ -719,7 +719,7 @@ theorem specMap_infinityChartAlgebraMap_blowupAtInfinityChartS {U V : X.affineOp
       blowupAtInfinityChartS ℐ V := by
   have hg : Stacks.Blowup.IsCartierOver (infinityCentreIdeal ℐ)
       (Over.mk (blowupAtInfinityChartS ℐ V ≫ blowupAtInfinityToLine ℐ)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor
+    change Stacks.Divisors.IsEffectiveCartierDivisor
       ((infinityCentreIdeal ℐ).comap (blowupAtInfinityChartS ℐ V ≫ blowupAtInfinityToLine ℐ))
     rw [Scheme.IdealSheafData.comap_comp]
     exact isEffectiveCartierDivisor_comap_blowupAtInfinityChartS ℐ V
@@ -727,7 +727,7 @@ theorem specMap_infinityChartAlgebraMap_blowupAtInfinityChartS {U V : X.affineOp
         (map_ideal_infinityChart_le ℐ h))) ≫ blowupAtInfinityChartS ℐ U) ≫
       blowUpToBase (infinityCentreIdeal ℐ) =
       blowupAtInfinityChartS ℐ V ≫ blowupAtInfinityToLine ℐ := by
-    show _ ≫ blowupAtInfinityToLine ℐ = _
+    change _ ≫ blowupAtInfinityToLine ℐ = _
     rw [Category.assoc, blowupAtInfinityChartS, blowupAtInfinityChartS,
       blowupAtInfinityPolyChart_comp, blowupAtInfinityPolyChart_comp,
       ← specMap_map_infinityChartOver h, ← Category.assoc, ← Spec.map_comp, ← Category.assoc,

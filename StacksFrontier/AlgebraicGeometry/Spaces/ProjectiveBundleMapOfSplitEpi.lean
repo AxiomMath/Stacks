@@ -93,7 +93,7 @@ theorem chartModuleMap_comp_chartBundleModuleIso_hom {V V' : SmallEtale B S hS X
         (Scheme.Modules.pullback (chartSchemeMapOfSite h)).map (chartModuleMap u V) := by
   have nat := schemeReadingPullbackIso_hom_naturality ((SmallEtale.toOver B S hS X.1).map h)
     (representedSpaceMap_toOver_map_comp_chartToSpace h) hE hE' u
-  show chartModuleMap u V' ≫ (schemeReadingPullbackIso E' hE' _ _).inv =
+  change chartModuleMap u V' ≫ (schemeReadingPullbackIso E' hE' _ _).inv =
     (schemeReadingPullbackIso E hE _ _).inv ≫ _
   rw [Iso.comp_inv_eq, Category.assoc, nat, Iso.inv_hom_id_assoc]
 

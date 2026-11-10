@@ -66,7 +66,7 @@ theorem transportSections_rfl {X : Under A} (U : Cᵒᵖ) (x : X.right.obj.obj U
 theorem transportSections_trans {X Y Z : Under A} (h : X = Y) (h' : Y = Z) (U : Cᵒᵖ)
     (x : X.right.obj.obj U) :
     transportSections h' U (transportSections h U x) = transportSections (h.trans h') U x := by
-  show (((eqToHom h : X ⟶ Y) ≫ (eqToHom h' : Y ⟶ Z)).right.hom.app U) x = _
+  change (((eqToHom h : X ⟶ Y) ≫ (eqToHom h' : Y ⟶ Z)).right.hom.app U) x = _
   rw [eqToHom_trans]
   rfl
 
@@ -209,14 +209,14 @@ noncomputable def augLift (U : Cᵒᵖ) (p : (resolutionTerm J f (op ⦋0⦌)).o
 /-- The canonical section is a section of the augmentation. -/
 theorem augSections_augSection (U : Cᵒᵖ) (b : B.obj.obj U) :
     augSections J f U (augSection J f U b) = b := by
-  show ((standardResolution J f).hom.app (op ⦋0⦌)).right.hom.app U (augSection J f U b) = b
+  change ((standardResolution J f).hom.app (op ⦋0⦌)).right.hom.app U (augSection J f U b) = b
   rw [show ((standardResolution J f).hom.app (op ⦋0⦌)) =
       eqToHom (resObjEq J f 0) ≫ (standardResolutionComonad J A).ε.app (Under.mk f) from
     augmentation_eq J f]
-  show ((eqToHom (resObjEq J f 0) ≫
+  change ((eqToHom (resObjEq J f 0) ≫
     (standardResolutionComonad J A).ε.app (Under.mk f)).right.hom.app U) _ = b
   rw [comp_sections]
-  show ((standardResolutionComonad J A).ε.app (Under.mk f)).right.hom.app U
+  change ((standardResolutionComonad J A).ε.app (Under.mk f)).right.hom.app U
       (transportSections (resObjEq J f 0) U (augSection J f U b)) = b
   rw [augSection, transportSections_symm']
   exact counit_variableSections J (Under.mk f) U b
@@ -228,7 +228,7 @@ theorem faceSections_zero_augLift (U : Cᵒᵖ)
   rw [show faceSections J f 0 U (augLift J f U p) =
       ((standardResolution J f).left.δ (0 : Fin 2)).right.hom.app U (augLift J f U p) from rfl,
     delta_zero_eq J f, comp_sections, comp_sections]
-  show transportSections (resObjEq J f 0).symm U
+  change transportSections (resObjEq J f 0).symm U
       (((standardResolutionComonad J A).ε.app
         ((standardResolutionComonad J A).obj (Under.mk f))).right.hom.app U
           (transportSections (resObjEq J f 1) U (augLift J f U p))) = p
@@ -243,7 +243,7 @@ theorem faceSections_one_augLift (U : Cᵒᵖ)
   rw [show faceSections J f 1 U (augLift J f U p) =
       ((standardResolution J f).left.δ (1 : Fin 2)).right.hom.app U (augLift J f U p) from rfl,
     delta_one_eq J f, comp_sections, comp_sections]
-  show transportSections (resObjEq J f 0).symm U
+  change transportSections (resObjEq J f 0).symm U
       ((((standardResolutionComonad J A : Comonad (Under A)) : Under A ⥤ Under A).map
         ((standardResolutionComonad J A).ε.app (Under.mk f))).right.hom.app U
           (transportSections (resObjEq J f 1) U (augLift J f U p))) = _

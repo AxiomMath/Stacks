@@ -262,9 +262,7 @@ theorem gammaTensorInv_eq (hV : IsAffineOpen V) (F G : S.Modules)
     [F.IsQuasicoherent] [G.IsQuasicoherent] (z : Γ(F, V) ⊗[Γ(S, V)] Γ(G, V)) :
     gammaTensorInv hV F G z = gammaTensorMap F G V z := by
   dsimp only [gammaTensorInv]
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, chartComparisonInv_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
       rw [TensorProduct.congr_tmul, AffineTensorRecovery.gammaTensorEquiv_tmul]
       refine Eq.trans (congrArg (affineSectionsLinearEquiv (tensorMod F G) hV)
@@ -332,8 +330,7 @@ theorem span_gammaTmul_eq_top (hV : IsAffineOpen V) (F G : S.Modules)
       Submodule.span Γ(S, V)
         (Set.range fun p : Γ(F, V) × Γ(G, V) => gammaTmul F G V p.1 p.2) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simpa only [map_zero] using Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul a b => exact Submodule.subset_span ⟨(a, b), rfl⟩
     | add z w hz hw => simpa only [map_add] using Submodule.add_mem _ hz hw
   refine le_antisymm le_top fun x _ => ?_

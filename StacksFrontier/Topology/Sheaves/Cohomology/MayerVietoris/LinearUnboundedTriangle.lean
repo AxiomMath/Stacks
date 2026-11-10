@@ -416,7 +416,7 @@ lemma coverInr_comp_coverSecond :
 /-- The two maps of the Mayer--Vietoris sequence compose to zero. -/
 lemma coverFirst_comp_coverSecond : coverFirst X U V ≫ coverSecond X U V = 0 := by
   refine NatTrans.ext (funext fun M => ?_)
-  show biprod.lift _ _ ≫ biprod.desc _ _ = 0
+  change biprod.lift _ _ ≫ biprod.desc _ _ = 0
   rw [biprod.lift_desc, Preadditive.comp_neg, ← NatTrans.comp_app, ← NatTrans.comp_app,
     linearRestriction_comp, linearRestriction_comp]
   simp
@@ -786,7 +786,7 @@ private lemma distTriang_of_Q_obj (hUV : U ⊔ V = ⊤)
   · have hUV' : (sectionsResolutionIso X (U ⊓ V)).hom.app K ≫
         (sectionsResolutionIso X (U ⊓ V)).inv.app K = 𝟙 _ :=
       congr_app (sectionsResolutionIso X (U ⊓ V)).hom_inv_id K
-    show DerivedCategory.triangleOfSESδ (shortExact_resolutionCover X U V K hUV) ≫
+    change DerivedCategory.triangleOfSESδ (shortExact_resolutionCover X U V K hUV) ≫
       (shiftFunctor (DerivedCategory (ModuleCat.{u} (baseRing X))) (1 : ℤ)).map
         ((sectionsResolutionIso X ⊤).hom.app K) =
       (sectionsResolutionIso X (U ⊓ V)).hom.app K ≫ δ.app (DerivedCategory.Q.obj K)

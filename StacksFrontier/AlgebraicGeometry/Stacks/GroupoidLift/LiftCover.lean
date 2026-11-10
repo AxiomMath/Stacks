@@ -404,7 +404,7 @@ theorem map_descArr_eq_chartRbar_of_cover {T c c' c'' c₂ : BigFppfOver B S hS}
       m.hom.hom.comp u) (qC_rVₗ hC I hI)).symm
   unfold chartRbar
   refine eq_canArr _ _ _ _ _ _ hs ht' ?_
-  show eqToHom hX₀ ≫ Rh ≫ eqToHom hX₁.symm ≫
+  change eqToHom hX₀ ≫ Rh ≫ eqToHom hX₁.symm ≫
     StackChart.trans a ι (rVₗ hC I) ((qC hC I hI).hom.hom.comp u) ≫ cm =
       StackChart.trans a ι (rV₀ hC I) ((qC hC I hI).hom.hom.comp u) ≫ cm
   have : 𝒳.val.p.IsHomLift (specOverMap (rV₀ hC I) ≫
@@ -724,13 +724,13 @@ theorem exists_lift_of_cover_of_arrSpace (h𝒳 : IsAlgebraicStack.{u, w} B S hS
   obtain ⟨x', ζ, φe, hζl, hφel, hcφ⟩ := exists_lift_of_chartLift hA hC (kerIdeal i) hI hst b hb sV
     tV hsV htV hxb u cm hc εbar hε' hom hrq
   have hνf : Flat ((BigFppfOver.toScheme B S hS).map ν) := by
-    show Flat ((BigFppfOver.toScheme B S hS).map (specOverMap (SmallAlg.homMk u) ≫ ι))
+    change Flat ((BigFppfOver.toScheme B S hS).map (specOverMap (SmallAlg.homMk u) ≫ ι))
     rw [hu, Functor.map_comp]; infer_instance
   have hνs : Surjective ((BigFppfOver.toScheme B S hS).map ν) := by
-    show Surjective ((BigFppfOver.toScheme B S hS).map (specOverMap (SmallAlg.homMk u) ≫ ι))
+    change Surjective ((BigFppfOver.toScheme B S hS).map (specOverMap (SmallAlg.homMk u) ≫ ι))
     rw [hu, Functor.map_comp]; infer_instance
   have hνp : LocallyOfFinitePresentation ((BigFppfOver.toScheme B S hS).map ν) := by
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       ((BigFppfOver.toScheme B S hS).map (specOverMap (SmallAlg.homMk u) ≫ ι))
     rw [hu, Functor.map_comp]; infer_instance
   exact exists_lift_of_chartLift_of_cover h𝒳 harr i hI j l k hpb hl hA φT

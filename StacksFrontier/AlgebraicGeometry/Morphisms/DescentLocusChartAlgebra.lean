@@ -37,7 +37,7 @@ theorem isUnit_det_of_linearIndependent_residueField (M : Matrix (Fin r) (Fin r)
   by_contra hM
   obtain ⟨q, hq, hdet⟩ := exists_max_ideal_of_mem_nonunits hM
   have hunit : IsUnit (M.map (algebraMap B q.ResidueField)) :=
-    linearIndependent_cols_iff_isUnit.1 (h q)
+    linearIndependent_col_iff_isUnit.1 (h q)
   have hmap : (M.map (algebraMap B q.ResidueField)).det = algebraMap B q.ResidueField M.det :=
     (RingHom.map_det (algebraMap B q.ResidueField) M).symm
   rw [isUnit_iff_isUnit_det, hmap, IsScalarTower.algebraMap_apply B (B ⧸ q) q.ResidueField,

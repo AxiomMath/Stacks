@@ -202,7 +202,7 @@ theorem im_finsum_add_eq_zero {α : Type*} {K : Type*} [CommRing K] (ι : K →+
     (hP : {y | P y}.Finite) (d : α → ℕ) (t t' : α → K) (h : ∀ y, P y → (ι (t y + t' y)).im = 0) :
     (ι ((∑ᶠ (y) (_ : P y), (d y : K) * t y) + ∑ᶠ (y) (_ : P y), (d y : K) * t' y)).im = 0 := by
   classical
-  show (ι ((∑ᶠ y ∈ {y | P y}, (d y : K) * t y) + ∑ᶠ y ∈ {y | P y}, (d y : K) * t' y)).im = 0
+  change (ι ((∑ᶠ y ∈ {y | P y}, (d y : K) * t y) + ∑ᶠ y ∈ {y | P y}, (d y : K) * t' y)).im = 0
   rw [finsum_mem_eq_finite_toFinset_sum _ hP, finsum_mem_eq_finite_toFinset_sum _ hP,
     ← Finset.sum_add_distrib, map_sum, Complex.im_sum]
   refine Finset.sum_eq_zero fun y hy => ?_
@@ -237,7 +237,7 @@ Frobenius of `κ(w)` on `Hʳ_c` of the fibre, a smooth affine curve over `κ(w)`
 over the closed points of the fibre of traces at the image points in `U`, which are real. -/
 theorem LAdicSheaf.higherDirectImage_traces (R : LAdicSheaf.HigherDirectImageFamily B ℓ)
     (hS : LAdicSheaf.HigherDirectImageStalkInput R) (hT : LisseCurveTraceFormulaInput.{u})
-    {k : Type u} [Field k] [Fintype k] {p : ℕ} [Fact p.Prime] [CharP k p] (hℓ : ℓ ≠ p)
+    {k : Type u} [Field k] [Finite k] {p : ℕ} [Fact p.Prime] [CharP k p] (hℓ : ℓ ≠ p)
     (ι : ℚ_[ℓ] →+* ℂ) {U : B.Scheme} [IsNoetherian U.1] (fU : U.1 ⟶ Spec (.of k))
     [LocallyOfFiniteType fU] (G G' : LAdicSheaf.{u, u + 1} B U ℓ) (hG : G.IsLisse)
     (hG' : G'.IsLisse)
@@ -276,6 +276,7 @@ theorem LAdicSheaf.higherDirectImage_traces (R : LAdicSheaf.HigherDirectImageFam
           N)))).im =
       0 := by
   classical
+  let : Fintype k := Fintype.ofFinite k
   obtain ⟨w, hw⟩ := w
   dsimp only at hne ⊢
   -- the fibre over `w`, as an object of the site, smooth affine over `κ(w)`

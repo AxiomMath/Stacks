@@ -116,7 +116,7 @@ private theorem toBase_schemePointRepresentative (B : BigFppfSite.{u}) (S : Sche
     (z : (BigFppfOver.toScheme B S hS).obj U) :
     (schemePointRepresentative B S hS U z).toBase =
       ((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField z ≫ B.inclusion.map U.hom := by
-  show B.inclusion.map (B.inclusion.preimage _ ≫ U.hom) = _
+  change B.inclusion.map (B.inclusion.preimage _ ≫ U.hom) = _
   rw [B.inclusion.map_comp, B.inclusion.map_preimage]
 
 section BaseField
@@ -174,7 +174,7 @@ theorem dense_setOf_class_finiteSeparable_of_isSmooth
   refine ⟨_, hpO, FieldValuedPoint.map B (Spec (.of k)) hk (yoneda.obj U) a
     (schemePointRepresentative B (Spec (.of k)) hk U z), rfl,
     ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop ≫ Z.Γevaluation z).hom.toAlgebra, hz.2.1, hz.2.2, ?_⟩
-  show (schemePointRepresentative B (Spec (.of k)) hk U z).toBase = _
+  change (schemePointRepresentative B (Spec (.of k)) hk U z).toBase = _
   rw [toBase_schemePointRepresentative, ← hgBase]
   exact (SpecMap_algebraMap_residueField g z).symm
 

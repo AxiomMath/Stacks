@@ -154,7 +154,8 @@ def cokernelStalkLinearEquiv {A B : X.Modules} (f : A ⟶ B) (x : X) :
 /-! ### The stalk of the first denominator quotient
 
 The three objects of [Stacks, Tag 02P2] are ascribed at the declared type `X.Modules` below.
-They are the same objects as the ones `StacksFrontier.AlgebraicGeometry.Meromorphic.IdealTimesModule`
+They are the same objects as the ones
+`StacksFrontier.AlgebraicGeometry.Meromorphic.IdealTimesModule`
 builds, spelled `SheafOfModules X.ringCatSheaf` there; but the module structure on the stalk of
 a sheaf of modules on a scheme is found by instance search only at the `X.Modules` spelling, and
 instance search is syntactic, so a type ascription on the term does not suffice. -/

@@ -144,7 +144,7 @@ theorem map_transport
   rw [reassoc_of% h₁, ← ΦA'.map_comp_assoc, hr]
   simp only [Functor.map_comp, Category.assoc]
   have hh := hhex (ra.obj M)
-  simp only [Functor.map_comp, Category.assoc] at hh
+  simp only [Functor.map_comp] at hh
   rw [reassoc_of% hh, ← reassoc_of% h₂, Iso.hom_inv_id_app]
   exact (congrArg (fun t => eg.hom.app (ΦR.obj (ra.obj M)) ≫ ef.inv.app (ΦR.obj (ra.obj M)) ≫
     Lg'.map (βf.hom.app (ra.obj M)) ≫ t)

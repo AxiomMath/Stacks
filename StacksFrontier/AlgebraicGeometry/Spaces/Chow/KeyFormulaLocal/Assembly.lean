@@ -21,7 +21,8 @@ ring `A = 𝒪_{U, u}` of dimension two. This file assembles that chart.
   listed above.
 
 The height-one primes of `A` and the prime divisors of `X` through `ζ` are related in
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaLocal.HeightOnePoints`, and the local ring of
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaLocal.HeightOnePoints`, and the local ring
+of
 the base change of the chart to a prime divisor through `ζ` is described in
 `StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaLocal.PrimeDivisorChartStalk`.
 

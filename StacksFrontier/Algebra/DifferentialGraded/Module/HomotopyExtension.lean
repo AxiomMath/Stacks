@@ -171,7 +171,7 @@ theorem leftOrthogonal_acyclic_iff (M : DifferentialGradedModule A) :
     obtain ⟨N⟩ := Y
     induction f using Quot.inductionOn with
     | _ g =>
-      show (toHomotopyCategory A).map g = 0
+      change (toHomotopyCategory A).map g = 0
       rw [← (toHomotopyCategory A).map_zero M N]
       exact (CategoryTheory.Quotient.functor_map_eq_iff (homotopyRel A) g 0).2 (h N hY g)
 
@@ -203,7 +203,7 @@ theorem exists_homotopy_zero_extension
     ⟨h₁.toLinearMap ∘ₗ π.opLinearMap,
       fun n x hx => h₁.map_grading n _ (π.map_grading n x hx),
       fun x => by
-        show h₁.toLinearMap (π.toFun (incl.toFun x)) = h₁.toLinearMap x
+        change h₁.toLinearMap (π.toFun (incl.toFun x)) = h₁.toLinearMap x
         rw [hπ]⟩
   obtain ⟨e, he_apply⟩ : ∃ e : F₂ ⟶ N,
       ∀ x, e.toFun x = g.toFun x - (N.d (h' x) + h' (F₂.d x)) :=
@@ -236,7 +236,7 @@ theorem exists_homotopy_zero_extension
     have hsmul : ∀ (r : R) (y : Q.M),
         e.toFun (σ (r • y)) = (RingHom.id R) r • e.toFun (σ y) := by
       intro r y
-      show e.toFun (σ (r • y)) = r • e.toFun (σ y)
+      change e.toFun (σ (r • y)) = r • e.toFun (σ y)
       rw [← map_smul]
       exact hwd _ _ (by rw [hσ, map_smul, hσ])
     have hopsmul : ∀ (y : Q.M) (a : A.A),
@@ -274,7 +274,7 @@ theorem exists_homotopy_zero_extension
     simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero] at hk
     have hdq : quot.toFun (F₂.d x) = Q.d (quot.toFun x) :=
       LinearMap.congr_fun quot.map_d x
-    show g.toFun x - (0 : F₂ ⟶ N).toFun x =
+    change g.toFun x - (0 : F₂ ⟶ N).toFun x =
       N.d (h' x + k.toLinearMap (quot.toFun x)) +
         (h' (F₂.d x) + k.toLinearMap (quot.toFun (F₂.d x)))
     simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero, map_add, hdq]
@@ -287,7 +287,7 @@ theorem exists_homotopy_zero_extension
         from by abel, hex]
     abel
   · intro x
-    show h' (incl.toFun x) + k.toLinearMap (quot.toFun (incl.toFun x)) = h₁.toLinearMap x
+    change h' (incl.toFun x) + k.toLinearMap (quot.toFun (incl.toFun x)) = h₁.toLinearMap x
     rw [hh'_incl, hquot_incl, map_zero, add_zero]
 
 /-- **Stacks 09KM, the inductive core.** Let `P` carry an exhaustive filtration by the stages
@@ -323,7 +323,7 @@ theorem leftOrthogonal_acyclic_of_admissibleFiltration
     fun e => (leftOrthogonal_acyclic_iff _).1 hbot N hN e
   have hggcomp : ∀ i x, (emb i ≫ g).toFun x = (emb (i + 1) ≫ g).toFun ((incl i).toFun x) := by
     intro i x
-    show g.toFun ((emb i).toFun x) = g.toFun ((emb (i + 1)).toFun ((incl i).toFun x))
+    change g.toFun ((emb i).toFun x) = g.toFun ((emb (i + 1)).toFun ((incl i).toFun x))
     rw [hincl]
   have step : ∀ i (h : Homotopy (emb i ≫ g) 0),
       ∃ h' : Homotopy (emb (i + 1) ≫ g) 0,
@@ -386,12 +386,12 @@ theorem leftOrthogonal_acyclic_of_admissibleFiltration
     rw [← hcp₁ y, ← hcq₁ z, ← map_add, hH, hH, hH, map_add, hcp₂, hcq₂]
   · intro s x
     obtain ⟨p, y, rfl⟩ := hexh x
-    show H (s • (emb p).toFun y) = s • H ((emb p).toFun y)
+    change H (s • (emb p).toFun y) = s • H ((emb p).toFun y)
     rw [← MulOpposite.op_unop s, ← (emb p).map_smul, hH, hH]
     exact map_smul (T p).toLinearMap _ y
   · intro n x hx
     obtain ⟨p, y, rfl⟩ := hexh x
-    show H ((emb p).toFun y) ∈ N.grading (n - 1)
+    change H ((emb p).toFun y) ∈ N.grading (n - 1)
     rw [hH]
     exact (T p).map_grading n y (Hom.mem_grading_of_injective (hemb p) hx)
   · intro x
@@ -401,7 +401,7 @@ theorem leftOrthogonal_acyclic_of_admissibleFiltration
       Hom.comp_toFun_apply] at heq
     have hd : P.d ((emb p).toFun y) = (emb p).toFun ((F p).d y) :=
       (LinearMap.congr_fun (emb p).map_d y).symm
-    show g.toFun ((emb p).toFun y) - (0 : P ⟶ N).toFun ((emb p).toFun y) =
+    change g.toFun ((emb p).toFun y) - (0 : P ⟶ N).toFun ((emb p).toFun y) =
       N.d (H ((emb p).toFun y)) + H (P.d ((emb p).toFun y))
     simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero]
     rw [hd, hH, hH, heq]

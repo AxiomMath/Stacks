@@ -278,7 +278,7 @@ theorem equivariantActionArrowComposition_source_eq_snd {S : Scheme.{u}}
         (f ≫ equivariantActionArrowBase V) (equivariantActionArrowCondition V f) ≫ V.obj.hom =
       (g ≫ equivariantActionArrowBase V) ≫ G.target :=
     (V.action_comp_hom _ _ _).trans hbase
-  show V.action (f ≫ equivariantActionArrowTarget V)
+  change V.action (f ≫ equivariantActionArrowTarget V)
       (G.compose (f ≫ equivariantActionArrowBase V) (g ≫ equivariantActionArrowBase V) hbase) _ =
     g ≫ equivariantActionArrowSource V
   calc

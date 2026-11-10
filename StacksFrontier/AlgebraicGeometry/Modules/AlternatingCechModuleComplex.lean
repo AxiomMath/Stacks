@@ -173,7 +173,7 @@ theorem permIso_smul (p : ℕ) (i : Fin (p + 1) → I) (σ : Equiv.Perm (Fin (p 
     CechCochains.permIso U F.presheaf i σ ((baseRingHom f (CechCochains.inter U i)).hom a • x) =
       (baseRingHom f (CechCochains.inter U (i ∘ σ))).hom a •
         CechCochains.permIso U F.presheaf i σ x := by
-  show (F.presheaf.map _).hom _ = _
+  change (F.presheaf.map _).hom _ = _
   rw [Scheme.Modules.map_smul, map_baseRingHom_apply]
   rfl
 
@@ -186,7 +186,7 @@ theorem cechD_smul (p : ℕ) (a : A) (s : CechCochains.Cochain U F.presheaf p) :
   let := cochainModule f U F (p + 1)
   funext i
   rw [cochain_smul_apply]
-  show (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
         CechCochains.restr F.presheaf (CechCochains.inter_le_omit U i j)
           ((a • s) (i ∘ j.succAbove))) =
       _ • ∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
@@ -194,7 +194,7 @@ theorem cechD_smul (p : ℕ) (a : A) (s : CechCochains.Cochain U F.presheaf p) :
   rw [Finset.smul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [cochain_smul_apply]
-  show ((-1 : ℤ) ^ (j : ℕ)) • F.presheaf.map _ (_ • s (i ∘ j.succAbove)) = _
+  change ((-1 : ℤ) ^ (j : ℕ)) • F.presheaf.map _ (_ • s (i ∘ j.succAbove)) = _
   rw [Scheme.Modules.map_smul, map_baseRingHom_apply]
   exact (smul_comm _ _ _).symm
 

@@ -298,7 +298,7 @@ lemma externalMateTranspose_eq (M₂ : A₂) :
             Functor.whiskerLeft L₁ (Functor.LaxMonoidal.μNatTransFst R (L₂.obj M₂)) ≫
               (Functor.associator L₁ (tensorRight (L₂.obj M₂)) R).inv := by
   ext M₁
-  show ((S₁.map (adj₁.unit.app M₁) ≫ α₁.app (L₁.obj M₁)) ⊗ₘ
+  change ((S₁.map (adj₁.unit.app M₁) ≫ α₁.app (L₁.obj M₁)) ⊗ₘ
       (S₂.map (adj₂.unit.app M₂) ≫ α₂.app (L₂.obj M₂))) ≫ μ R (L₁.obj M₁) (L₂.obj M₂) = _
   rw [tensorHom_def']
   simp [Functor.LaxMonoidal.μNatTransFst]
@@ -325,7 +325,7 @@ lemma externalMateTransposeSnd_eq (M₁ : A₁) :
             Functor.whiskerLeft L₂ (Functor.LaxMonoidal.μNatTransSnd R (L₁.obj M₁)) ≫
               (Functor.associator L₂ (tensorLeft (L₁.obj M₁)) R).inv := by
   ext M₂
-  show ((S₁.map (adj₁.unit.app M₁) ≫ α₁.app (L₁.obj M₁)) ⊗ₘ
+  change ((S₁.map (adj₁.unit.app M₁) ≫ α₁.app (L₁.obj M₁)) ⊗ₘ
       (S₂.map (adj₂.unit.app M₂) ≫ α₂.app (L₂.obj M₂))) ≫ μ R (L₁.obj M₁) (L₂.obj M₂) = _
   rw [tensorHom_def]
   simp [Functor.LaxMonoidal.μNatTransSnd]

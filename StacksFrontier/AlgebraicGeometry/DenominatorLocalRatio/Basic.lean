@@ -49,7 +49,8 @@ and on an **affine** open that submonoid is exactly `nonZeroDivisors Γ(X, V)` b
 `AlgebraicGeometry.submonoidPresheafOfStalk_obj_eq_nonZeroDivisors`, which carries no Noetherian
 hypothesis.  This is why the affine shrinking is done last.  Note that
 `AlgebraicGeometry.isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen` is *not* used,
-even though it carries no Noetherian hypothesis: it is not what is wanted, because the localization property needed here is the
+even though it carries no Noetherian hypothesis: it is not what is wanted, because the localization
+property needed here is the
 one that `TopCat.Presheaf.SubmonoidPresheaf.localizationPresheaf` carries by construction, at the
 denominator submonoid itself rather than at all nonzerodivisors.
 
@@ -119,7 +120,7 @@ lemma exists_smul_tmulOneElt (θ : O₁ ⟶ O₂) (G : Stacks.PresheafOfModules.
       TensorProduct.rid_tmul, one_smul]
   refine ⟨E z, ?_⟩
   rw [tmulOneElt_eq_tmul]
-  show z = (E z) • ((1 : (O₂.obj V : Type w)) ⊗ₜ[(O₁.obj V : Type w)]
+  change z = (E z) • ((1 : (O₂.obj V : Type w)) ⊗ₜ[(O₁.obj V : Type w)]
     (e.symm (1 : (O₁.obj V : Type w))))
   exact E.injective (hcollapse (E z)).symm
 
@@ -133,7 +134,7 @@ lemma smul_smul_tmulOneElt (θ : O₁ ⟶ O₂) (G : Stacks.PresheafOfModules.Ch
   let := (θ.app V).hom.toAlgebra
   have halg : ∀ r : (O₁.obj V : Type w),
       algebraMap (O₁.obj V : Type w) (O₂.obj V : Type w) r = (θ.app V).hom r := fun _ => rfl
-  show ((θ.app V).hom b) • (q • ((1 : (O₂.obj V : Type w)) ⊗ₜ[(O₁.obj V : Type w)] t)) =
+  change ((θ.app V).hom b) • (q • ((1 : (O₂.obj V : Type w)) ⊗ₜ[(O₁.obj V : Type w)] t)) =
     (1 : (O₂.obj V : Type w)) ⊗ₜ[(O₁.obj V : Type w)] (a • t)
   rw [smul_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one,
     mul_comm ((θ.app V).hom b) q, h, ← halg, ← TensorProduct.smul_tmul,
@@ -239,7 +240,7 @@ lemma exists_preimage_toSheafifyMeromorphic (V : Opens X)
       ((PresheafOfModules.toPresheaf (O X).obj).map
         ((Stacks.PresheafOfModules.ChangeOfRings.restrictScalars (toK₀ X)).map
           (toSheafifyMeromorphic X L))) := by
-    show CategoryTheory.Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
+    change CategoryTheory.Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
       (CategoryTheory.toSheafify (Opens.grothendieckTopology X)
         (((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings (toK₀ X)).obj L.val).presheaf))
     infer_instance

@@ -341,8 +341,7 @@ theorem descSec_tmul (n : ℤ) (U : ((Spec R).Opens)ᵒᵖ) (a : Γ(Spec R, U.un
 theorem descSec_smul (n : ℤ) (U : ((Spec R).Opens)ᵒᵖ) (c : Γ(Spec R, U.unop))
     (x : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M n) :
     descSec M B κ hc n U (c • x) = (c : secRing R U) • descSec M B κ hc n U x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [smul_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a z =>
       rw [TensorProduct.smul_tmul' c a z, smul_eq_mul, descSec_tmul, descSec_tmul,
         show ((c * a : Γ(Spec R, U.unop)) : secRing R U) =
@@ -354,8 +353,7 @@ theorem descSec_naturality (n : ℤ) {U V : ((Spec R).Opens)ᵒᵖ} (f : U ⟶ V
     (x : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M n) :
     Stacks.sectionRestrict (pieceVal B n) f (descSec M B κ hc n U x) =
       descSec M B κ hc n V (pieceRestrict M f n x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a z =>
       have hp : Stacks.sectionRestrict (pieceVal B n) f
             ((presheafOf B).proj U n (theta M B κ hc U (z : SymmetricAlgebra R M))) =
@@ -430,14 +428,9 @@ theorem descSec_mul (i j : ℤ) (U : ((Spec R).Opens)ᵒᵖ)
     (y : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M j) :
     descSec M B κ hc (i + j) U (mulSec M U i j x y) =
       ((presheafOf B).mul i j).app U (descSec M B κ hc i U x) (descSec M B κ hc j U y) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero (mulSec M U i j), LinearMap.zero_apply, map_zero, map_zero,
-        bilApp_zero_left]
+  induction x using TensorProduct.inductionOn with
   | tmul a z =>
-      induction y using TensorProduct.induction_on with
-      | zero =>
-          rw [map_zero (mulSec M U i j (a ⊗ₜ[R] z)), map_zero, map_zero, bilApp_zero_right]
+      induction y using TensorProduct.inductionOn with
       | tmul b w =>
           rw [mulSec_tmul, descSec_tmul, descSec_tmul, descSec_tmul,
             ((presheafOf B).mul i j).map_smul_left U (a : secRing R U),

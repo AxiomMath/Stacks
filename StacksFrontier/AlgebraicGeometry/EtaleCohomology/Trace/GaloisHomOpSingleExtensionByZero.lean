@@ -97,6 +97,7 @@ lemma galoisHomOpSingleExtensionByZeroXIso_comm (F : EtaleModules.{u, 0} Λ X)
     homOpSingleExtensionByZeroXIso_hom_comm, Functor.map_comp, Category.assoc]
 
 set_option maxHeartbeats 1000000 in
+-- the statement and its components are large composites of functors on complexes
 /-- **`Γ^Gal(X̄, ℋom^•_ℤ((j_! F)[0], M)) ≅ Γ^Gal(X, ℋom_ℤ(F, j⁻¹ M))`**, as complexes of
 discrete Galois `Λᵐᵒᵖ`-modules. -/
 def galoisHomOpSingleExtensionByZeroIso (F : EtaleModules.{u, 0} Λ X)

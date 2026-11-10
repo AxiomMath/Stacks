@@ -64,7 +64,8 @@ Then some global section of `L` vanishes at `x` and at none of the `xs j`.
 
 This is `exists_globalSection_vanishing_at_rationalPoint` with its two hypotheses on the base
 field discharged: `x` is a rational point by `AlgebraicGeometry.isRationalPoint_of_isClosed`
-(`StacksFrontier/AlgebraicGeometry/Intersection/Projections/OffDiagonalIncidenceVariety.lean`), and an algebraically
+(`StacksFrontier/AlgebraicGeometry/Intersection/Projections/OffDiagonalIncidenceVariety.lean`),
+and an algebraically
 closed field is infinite.
 
 [Stacks, Tag 0B58] (not registered here: this is not the whole statement of the tag): the case of

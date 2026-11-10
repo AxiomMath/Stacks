@@ -88,7 +88,7 @@ theorem doubleToSingleNegOne_comp_shiftIso_inv {G : C} (g : X₀ ⟶ G) :
     simp only [HomologicalComplex.comp_f, HomologicalComplex.neg_f_apply, doubleToMappingCone,
       mkHomFromDouble_f₀, assoc]
     rw [reassoc_of% h3]
-    simp [CochainComplex.singleFunctors, CochainComplex.singleFunctor, single_map_f_self,
+    simp [CochainComplex.singleFunctor, single_map_f_self,
       shiftFunctorObjXIso, singleObjXSelf, singleObjXIsoOfEq]
   · exact (isZero_single_obj_X (ComplexShape.up ℤ) 0 G (n + 1) (by omega)).eq_of_tgt _ _
 

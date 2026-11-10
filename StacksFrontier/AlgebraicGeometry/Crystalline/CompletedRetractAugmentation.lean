@@ -211,7 +211,7 @@ public theorem map_algebraMap_comp_of_retract
     (b.comp a).toRingHom
         (algebraMap A (AdicCompletion (pAdicIdeal (A := A) p) A) (sm y)) =
       algebraMap A (AdicCompletion (pAdicIdeal (A := A) p) A) (sm y) := by
-  show b.toRingHom (a.toRingHom
+  change b.toRingHom (a.toRingHom
     (algebraMap A (AdicCompletion (pAdicIdeal (A := A) p) A) (sm y))) = _
   rw [haρ (sm y), show rho.toRingHom (sm y) = sm' y from
     congrArg (fun r : A₀ →+* A' ↦ r y) hsm, hb y]

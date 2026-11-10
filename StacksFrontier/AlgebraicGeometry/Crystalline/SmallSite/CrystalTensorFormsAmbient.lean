@@ -163,7 +163,7 @@ theorem isLocallyInjective_of_injective_basis {P Q : (X.Opens)ᵒᵖ ⥤ AddComm
   obtain ⟨W, hW, hpW, hWU⟩ := hB U.unop p hp
   refine ⟨W, homOfLE hWU, ?_, hpW⟩
   apply he W hW
-  show e.app (op W) (P.map (homOfLE hWU).op x) = e.app (op W) (P.map (homOfLE hWU).op y)
+  change e.app (op W) (P.map (homOfLE hWU).op x) = e.app (op W) (P.map (homOfLE hWU).op y)
   rw [NatTrans.naturality_apply, NatTrans.naturality_apply]
   exact congrArg _ hxy
 
@@ -198,7 +198,7 @@ theorem ringRestrictionSheafStructureIso_inv_app_apply (A : Thickening S)
     (r : ↑(A.thickening.target.scheme.ringCatSheaf.obj.obj (op W))) :
     ((Thickening.ringRestrictionSheafStructureIso A).inv.hom.app (op W)).hom r =
       ((Thickening.restrictOpenRingHom A).app (op W)).hom r := by
-  show W.topIso.inv.hom r = _
+  change W.topIso.inv.hom r = _
   rw [topIso_inv_eq_openTopRes]
   rfl
 
@@ -239,7 +239,7 @@ def tensorMapSemilinear : M₁ ⊗[R₁] N₁ →+ M₂ ⊗[R₂] N₂ :=
     (AddMonoidHom.mk' (fun m ↦ (TensorProduct.mk R₂ M₂ N₂ (f m)).toAddMonoidHom.comp g)
       (fun m m' ↦ by
         ext n
-        simp [TensorProduct.add_tmul]))
+        simp))
     (fun r m n ↦ by
       change f (r • m) ⊗ₜ[R₂] g n = f m ⊗ₜ[R₂] g (r • n)
       rw [hf, hg, TensorProduct.smul_tmul])
@@ -252,8 +252,7 @@ theorem tensorMapSemilinear_tmul (m : M₁) (n : N₁) :
 /-- The tensor product of two semilinear maps is semilinear. -/
 theorem tensorMapSemilinear_smul (r : R₁) (z : M₁ ⊗[R₁] N₁) :
     tensorMapSemilinear σ f g hf hg (r • z) = σ r • tensorMapSemilinear σ f g hf hg z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
     rw [TensorProduct.smul_tmul', tensorMapSemilinear_tmul, tensorMapSemilinear_tmul, hf,
       TensorProduct.smul_tmul']
@@ -264,8 +263,7 @@ omit [AddCommGroup M₂] [AddCommGroup N₂] [Module R₂ M₂] [Module R₂ N�
 theorem addMonoidHom_tensor_ext {P : Type*} [AddCommGroup P] {f g : M₁ ⊗[R₁] N₁ →+ P}
     (h : ∀ (m : M₁) (n : N₁), f (m ⊗ₜ n) = g (m ⊗ₜ n)) : f = g := by
   refine AddMonoidHom.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -285,14 +283,12 @@ theorem bijective_tensorMapSemilinear (σ : R₁ ≃+* R₂) (f : M₁ ≃+ M₂
     hf' hg'
   have h1 : ∀ z, inv (tensorMapSemilinear σ.toRingHom f.toAddMonoidHom g.toAddMonoidHom hf hg z) =
       z := fun z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => simp [inv]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have h2 : ∀ z, tensorMapSemilinear σ.toRingHom f.toAddMonoidHom g.toAddMonoidHom hf hg (inv z) =
       z := fun z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => simp [inv]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   exact ⟨Function.LeftInverse.injective h1, Function.RightInverse.surjective h2⟩
@@ -581,12 +577,7 @@ def tensorFormsAmbient : (tensorRestriction A F i).presheaf ⟶ ambientTensorPre
     ext z
     change tensorFormsAmbientApp F c W'.unop ((tensorRestriction A F i).map j z) =
       (ambientTensorPresheaf F N).map j (tensorFormsAmbientApp F c W.unop z)
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg (tensorFormsAmbientApp F c W'.unop)
-        (map_zero (ConcreteCategory.hom ((tensorRestriction A F i).map j)))).trans
-        ((map_zero _).trans ((congrArg (ConcreteCategory.hom ((ambientTensorPresheaf F N).map j))
-          (map_zero (tensorFormsAmbientApp F c W.unop))).trans (map_zero _)).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul x ω =>
       exact congrArg (fun η ↦ _ ⊗ₜ η) (c.naturality j.unop ω)
     | add z z' hz hz' =>

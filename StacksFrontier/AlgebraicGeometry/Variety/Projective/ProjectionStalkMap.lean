@@ -154,7 +154,7 @@ public theorem stalkMap_germ_awayToSection (ψ : 𝒜 →+*ᵍ ℬ) {d : ℕ} (h
           (ambientPoint 𝒜 ℬ ψ y) hfy
           ((Proj.awayToSection ℬ (ψ f)).hom'
             (HomogeneousLocalization.Away.map ψ f w))) := by
-  show (mapHom 𝒜 ℬ ψ).stalkMap y
+  change (mapHom 𝒜 ℬ ψ).stalkMap y
       ((AlgebraicGeometry.Proj 𝒜).presheaf.germ (Proj.basicOpen 𝒜 f)
         ((mapHom 𝒜 ℬ ψ).base y) hfx ((Proj.awayToSection 𝒜 f).hom' w)) =
     (mapDomain 𝒜 ℬ ψ).ι.stalkMap y
@@ -190,7 +190,7 @@ public theorem stalkIso_inv_comp_stalkMap (ψ : 𝒜 →+*ᵍ ℬ) (y : (mapDoma
     (notMem_mapHom_base_iff 𝒜 ℬ ψ y hf).mpr hfy0
   refine CommRingCat.hom_ext
     (atPrime_ringHom_ext 𝒜 hd hf (basePoint 𝒜 ℬ ψ y) hfx fun w => ?_)
-  show (mapHom 𝒜 ℬ ψ).stalkMap y ((Proj.stalkIso 𝒜 (basePoint 𝒜 ℬ ψ y)).inv.hom'
+  change (mapHom 𝒜 ℬ ψ).stalkMap y ((Proj.stalkIso 𝒜 (basePoint 𝒜 ℬ ψ y)).inv.hom'
       (HomogeneousLocalization.mapId 𝒜 (Submonoid.powers_le.mpr hfx) w)) =
     (mapDomain 𝒜 ℬ ψ).ι.stalkMap y ((Proj.stalkIso ℬ (ambientPoint 𝒜 ℬ ψ y)).inv.hom'
       (fibreHom 𝒜 ℬ ψ y (HomogeneousLocalization.mapId 𝒜 (Submonoid.powers_le.mpr hfx) w)))

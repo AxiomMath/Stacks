@@ -72,7 +72,7 @@ theorem IsPrincipalDivisorCycleOfGood.add {c c' : CycleGroup D sY k}
   refine ⟨((hf.unit * hg.unit : (rationalFunctions D.site D.base D.base_mem hY.1)ˣ) :
     rationalFunctions D.site D.base D.base_mem hY.1), (hf.unit * hg.unit).isUnit, ?_⟩
   funext W
-  show c.1 W + c'.1 W = _
+  change c.1 W + c'.1 W = _
   rw [show c.1 W = _ from congrFun hc W, show c'.1 W = _ from congrFun hc' W]
   simp only [principalDivisorCycleCoefficients]
   split_ifs with hcod
@@ -90,7 +90,7 @@ theorem isPrincipalDivisorCycleOfGood_zero :
   let := E.krullDimLE
   refine ⟨1, isUnit_one, ?_⟩
   funext W
-  show (0 : ℤ) = _
+  change (0 : ℤ) = _
   simp only [principalDivisorCycleCoefficients]
   split_ifs with hcod
   · exact (congrFun E.ord_one (W.toPrimeDivisor D.site D.base D.base_mem hY.1 hcod)).symm
@@ -137,7 +137,7 @@ theorem IsRationallyEquivalentToZeroWithinCanonical.neg
     fun j => isPrincipalDivisorCycleOfGood_neg D _ _ _ k (hprin j), ?_⟩
   rw [hsum]
   refine Subtype.ext (funext fun Z => ?_)
-  show -((cycleFamilySum D sX hX W hWfin k c).1 Z) = _
+  change -((cycleFamilySum D sX hX W hWfin k c).1 Z) = _
   rw [cycleFamilySum_apply, cycleFamilySum_apply, ← finsum_neg_distrib]
   refine finsum_congr fun j => ?_
   rw [map_neg]

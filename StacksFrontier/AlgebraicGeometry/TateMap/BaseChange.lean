@@ -189,6 +189,7 @@ theorem tateIso_baseChange_local (U : X.affineOpens) (V : Y.affineOpens) (U' : X
   · rw [← chartValue_restrict_source f' hf' (tateIso f' hf') U' V' hV'U' b' D₂ G G'']
     exact chartValue_tateIso f' hf' U' V' hV'U' b' k' instR' instC' Dκ' G''
 
+omit [IsLocallyNoetherian X] [IsLocallyNoetherian X'] in
 include hf hf' in
 /-- The principal opens `D(b')` of `V'` lying over a classified principal open of `V` and
 classified themselves generate the unit ideal of `Γ(Y', V')`. -/

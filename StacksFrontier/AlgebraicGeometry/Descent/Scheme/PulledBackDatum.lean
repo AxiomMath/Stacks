@@ -1157,11 +1157,11 @@ lemma pulledBackDatum_gluing (F : MorphismOfSchemeFamilies.{u})
   have hs : pulledBackDatumSourceMap F D i i' = localSourceMap F D i i' := by
     apply pullback.hom_ext <;>
       simp [pulledBackDatumSourceMap, localSourceMap, pulledBackDatum,
-        pullback.lift_fst, pullback.lift_snd, pulledBackDatumObjIso_hom_left]
+        pulledBackDatumObjIso_hom_left]
   have ht : pulledBackDatumTargetMap F D i i' = localTargetMap F D i i' := by
     apply pullback.hom_ext <;>
       simp [pulledBackDatumTargetMap, localTargetMap, pulledBackDatum,
-        pullback.lift_fst, pullback.lift_snd, pulledBackDatumObjIso_hom_left]
+        pulledBackDatumObjIso_hom_left]
   rw [hs, ht]
   simpa [pulledBackDatum, DescentData.gluingPullbackIso, localGluing,
     localIso] using localForward_comm F D i i'

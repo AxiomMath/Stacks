@@ -102,7 +102,7 @@ theorem hasFiniteChartAndRelationFibersAt_of_isEtale (f : X ⟶ Y) (hf : IsEtale
     have : Finite ↑targetFiber := hfinite.2.to_subtype
     let fiberMap : sourceFiber → targetFiber := fun z =>
       ⟨pointsMap B S hS R ρ z.1, by
-        show pointsMap B S hS RY θY (pointsMap B S hS R ρ z.1) = y
+        change pointsMap B S hS RY θY (pointsMap B S hS R ρ z.1) = y
         rw [← pointsMap_comp_apply, hρθ, pointsMap_comp_apply]
         exact congrArg (pointsMap B S hS X f) z.2⟩
     exact Set.finite_coe_iff.mp <| Finite.of_injective fiberMap fun a b h => Subtype.ext

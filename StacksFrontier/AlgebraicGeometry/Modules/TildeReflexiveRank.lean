@@ -85,7 +85,7 @@ theorem rank_stalk_tilde {R : CommRingCat.{u}} [IsDomain R] (M : ModuleCat.{u} R
   let : IsLocalization.AtPrime B p.asIdeal := StructureSheaf.IsLocalization.to_stalk R p
   have hS : S ≤ nonZeroDivisors R := fun y hy =>
     mem_nonZeroDivisors_of_ne_zero fun h => hy (h ▸ p.asIdeal.zero_mem)
-  show Module.rank B N = _
+  change Module.rank B N = _
   rw [IsLocalization.rank_eq B S hS]
   exact IsLocalizedModule.rank_eq S hS (tilde.toStalk M p).hom
 
@@ -107,7 +107,7 @@ theorem isReflexive_stalk_tilde {R : CommRingCat.{u}} [IsDomain R] [IsNoetherian
   have : IsNoetherianRing B := IsLocalization.isNoetherianRing S B inferInstance
   have : Module.Flat R B := IsLocalization.flat B S
   have : Module.IsReflexive B (TensorProduct R B M) := isReflexive_baseChange_of_flat
-  show Module.IsReflexive B N
+  change Module.IsReflexive B N
   exact Module.equiv (IsLocalizedModule.isBaseChange S B (tilde.toStalk M p).hom).equiv
 
 /-- Over a domain, if `M` is a finite module of rank one then every stalk of `M̃` has rank one
@@ -171,7 +171,7 @@ theorem fiberRank_tilde_genericPoint_eq_one {R : CommRingCat.{u}} [IsDomain R]
     have hpos : 0 < Module.finrank K N := Module.finrank_pos
     simpa using Nat.le_antisymm (by simpa using hle) hpos
   let : Algebra K (X.residueField x) := (X.residue x).hom.toAlgebra
-  show Module.finrank (X.residueField x) (TensorProduct K (X.residueField x) N) = 1
+  change Module.finrank (X.residueField x) (TensorProduct K (X.residueField x) N) = 1
   rw [Module.finrank_baseChange, hn]
 
 end AlgebraicGeometry

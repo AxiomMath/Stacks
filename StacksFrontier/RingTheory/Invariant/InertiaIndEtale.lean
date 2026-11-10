@@ -152,7 +152,7 @@ private lemma exists_etale_factorization_of_isUnit
       change h (algebraMap R₀ R₁ (algebraMap R R₀ x)) = _
       rw [hhalg, hμgalg, hμalg])
   refine ⟨R₁, inferInstance, inferInstance, hEtale, ν.comp θ, h, Eq.trans ?_ hθ⟩
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   exact congrArg (fun k : Localization.Away d →+* S => k.comp θ.toRingHom) hcompLoc
 
 /-- The ind-étale factorization criterion for a localization at a prime, in the form it is

@@ -362,7 +362,7 @@ theorem generates_middle_of_lifts {X₁ X₂ X₃ : SheafOfModules.{m} R} {ι : 
     Generates J X₂.val (Fin.append (fun i ↦ Hom.app ι.val (op U) (s₁ i)) b) := by
   let s₂ : Fin (n₁ + n₃) → X₂.val.obj (op U) :=
     Fin.append (fun i ↦ Hom.app ι.val (op U) (s₁ i)) b
-  show Generates J X₂.val s₂
+  change Generates J X₂.val s₂
   intro V f t
   let S : Sieve V :=
     { arrows := fun W g ↦ ∃ a : Fin (n₁ + n₃) → R.obj.obj (op W),
@@ -396,7 +396,7 @@ theorem generates_middle_of_lifts {X₁ X₂ X₃ : SheafOfModules.{m} R} {ι : 
   obtain ⟨S₁, hS₁, hgen₁⟩ := hs₁ W (g ≫ f) y
   refine J.superset_covering (fun Z k hk ↦ ?_) hS₁
   obtain ⟨d, hd⟩ := hgen₁ Z k hk
-  show S.arrows (k ≫ g)
+  change S.arrows (k ≫ g)
   refine ⟨Fin.append d (fun i ↦ R.obj.map k.op (c i)), ?_⟩
   simp only [Fin.sum_univ_add, Fin.append_left, Fin.append_right]
   have hleft : (∑ i, d i • X₂.val.restrictₛₗ ((k ≫ g) ≫ f).op (Hom.app ι.val (op U) (s₁ i)))

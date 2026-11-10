@@ -152,11 +152,11 @@ theorem evalChowGraded_prod_ofFn_firstChernShift_eq_iteratedChernCapOnChow {X : 
   | zero =>
     have hlhs : evalChowGraded C p deg α 0
         (List.ofFn fun i => firstChernShift C p deg (L i) (hfac i)).prod ≍ α := by
-      show (List.ofFn fun i => firstChernShift C p deg (L i) (hfac i)).prod
+      change (List.ofFn fun i => firstChernShift C p deg (L i) (hfac i)).prod
           (chowGradedUnit C p deg α) 0 ≍ α
       rw [List.ofFn_zero, List.prod_nil]
-      show chowGradedUnit C p deg α 0 ≍ α
-      show chowGroupDegreeCast C p _ (AddMonoidHom.id _) α ≍ α
+      change chowGradedUnit C p deg α 0 ≍ α
+      change chowGroupDegreeCast C p _ (AddMonoidHom.id _) α ≍ α
       rw [chowGroupDegreeCast_apply]
       exact chowGroupCast_heq C p _ α
     have hrhs : iteratedChernCapOnChow C p (List.ofFn fun i => invCap C p (L i))

@@ -74,7 +74,7 @@ lemma pointMooreComplex_d_one_zero_app (G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w u
     (((pointMooreComplex s A).obj G).d 1 0).app (op V) =
       G.map ((A.obj V).map (SimplexCategory.δ (0 : Fin 2))).op -
         G.map ((A.obj V).map (SimplexCategory.δ (1 : Fin 2))).op := by
-  show (((alternatingFaceMapComplex _).obj ((pointEvaluation s A).obj G)).d (0 + 1) 0).app
+  change (((alternatingFaceMapComplex _).obj ((pointEvaluation s A).obj G)).d (0 + 1) 0).app
     (op V) = _
   rw [AlgebraicTopology.alternatingFaceMapComplex_obj_d _ 0,
     AlgebraicTopology.AlternatingFaceMapComplex.objD, Fin.sum_univ_two, Fin.val_zero, Fin.val_one,
@@ -319,7 +319,7 @@ lemma d_one_zero_comp_pointZeroRestrict {G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w 
     Preadditive.sub_comp, sub_eq_zero]
   have := isHomLift_obj_map s hA V.unop (SimplexCategory.δ (0 : Fin 2))
   have := isHomLift_obj_map s hA V.unop (SimplexCategory.δ (1 : Fin 2))
-  show G.map _ ≫ ψ.app _ ≫ H.map _ = G.map _ ≫ ψ.app _ ≫ H.map _
+  change G.map _ ≫ ψ.app _ ≫ H.map _ = G.map _ ≫ ψ.app _ ≫ H.map _
   rw [map_comp_app_eqToHom s ψ (𝟙 V.unop) _ (obj_obj_proj s hA _ _) (obj_obj_proj s hA _ _),
     map_comp_app_eqToHom s ψ (𝟙 V.unop) _ (obj_obj_proj s hA _ _) (obj_obj_proj s hA _ _)]
 
@@ -339,7 +339,7 @@ lemma pointZeroRestrict_pointZeroLift {G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w uD
     ((A.map (eqToHom e)).app ⦋0⦌ ≫ pointSectionHom s hA hres ((A.obj V.unop).obj ⦋0⦌))
     (𝟙 _)
   have hnat := φ.naturality (eqToHom e).op
-  show (G.map (pointSectionHom s hA hres _).op ≫ φ.app _) ≫ H.map (eqToHom e).op = φ.app V
+  change (G.map (pointSectionHom s hA hres _).op ≫ φ.app _) ≫ H.map (eqToHom e).op = φ.app V
   rw [Category.assoc, ← hnat]
   simp only [op_comp, Functor.map_comp, Category.assoc] at key
   exact key.trans (by simp)
@@ -351,7 +351,7 @@ lemma pointZeroLift_pointZeroRestrict {G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w uD
     pointZeroLift hA hres (pointZeroRestrict hA ψ) (d_one_zero_comp_pointZeroRestrict s hA ψ) =
       ψ := by
   ext y : 2
-  show G.map _ ≫ ψ.app _ ≫ H.map _ = ψ.app y
+  change G.map _ ≫ ψ.app _ ≫ H.map _ = ψ.app y
   rw [map_comp_app_eqToHom s ψ (𝟙 (s.p.obj y.unop)) _ (obj_obj_proj s hA _ _) rfl]
   simp
 

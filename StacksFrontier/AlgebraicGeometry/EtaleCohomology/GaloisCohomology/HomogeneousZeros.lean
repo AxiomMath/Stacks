@@ -48,12 +48,12 @@ lemma exists_nonzero_common_zero_of_isHomogeneous
   let q : Ideal (MvPolynomial (Fin n) k) :=
     MvPolynomial.vanishingIdeal k ({(0 : Fin n → k)} : Set (Fin n → k))
   have hIker : I ≤ RingHom.ker (MvPolynomial.aeval (0 : Fin n → k)) := by
-    show Ideal.span (Set.range f) ≤ _
+    change Ideal.span (Set.range f) ≤ _
     rw [Ideal.span_le]
     rintro _ ⟨i, rfl⟩
-    show (MvPolynomial.aeval (0 : Fin n → k)) (f i) = 0
+    change (MvPolynomial.aeval (0 : Fin n → k)) (f i) = 0
     rw [MvPolynomial.aeval_zero]
-    show (f i).coeff 0 = 0
+    change (f i).coeff 0 = 0
     exact MvPolynomial.IsHomogeneous.coeff_eq_zero (hf i)
       (by simpa using (Nat.ne_of_gt (hd i)).symm)
   have hzeroLocus : MvPolynomial.zeroLocus k I = {0} := by
@@ -68,7 +68,7 @@ lemma exists_nonzero_common_zero_of_isHomogeneous
       (MvPolynomial.vanishingIdeal_zeroLocus_eq_radical (k := k) (K := k) I).symm
   have hqmax : q.IsMaximal := inferInstance
   have hqmin : q ∈ I.minimalPrimes := by
-    show I.IsMinimalPrime q
+    change I.IsMinimalPrime q
     exact ⟨⟨hqmax.isPrime, Ideal.le_radical.trans hrad.le⟩,
       fun r hr _ => hrad.ge.trans ((Ideal.radical_mono hr.2).trans hr.1.radical.le)⟩
   have hqheight : q.height = n := by exact_mod_cast height_maximal_ideal_eq n q hqmax
@@ -77,6 +77,6 @@ lemma exists_nonzero_common_zero_of_isHomogeneous
     exact (Set.ncard_image_le (Set.finite_univ)).trans (by simp)
   have hns : (n : ℕ∞) ≤ s := by
     rw [← hqheight]
-    exact (Ideal.height_le_card_of_mem_minimalPrimes_span (Set.finite_range f) hqmin).trans
+    exact (Ideal.height_le_ncard_of_mem_minimalPrimes_span (Set.finite_range f) hqmin).trans
       (by exact_mod_cast hcard)
   exact hsn.not_ge (by exact_mod_cast hns)

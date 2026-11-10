@@ -233,7 +233,7 @@ private theorem isIso_mateEquiv_iff_isIso_mateEquiv_symm {A B C D : Type*} [Cate
     {L₁ : A ⥤ B} {R₁ : B ⥤ A} {L₂ : C ⥤ D} {R₂ : D ⥤ C}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₃ : F₁ ⊣ U₁) (adj₄ : F₂ ⊣ U₂)
     (β : TwoSquare R₁ F₂ F₁ R₂) :
-    IsIso (mateEquiv adj₄ adj₃ β).natTrans ↔ IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    IsIso (mateEquiv adj₄ adj₃ β) ↔ IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   obtain ⟨α, rfl⟩ := (mateEquiv adj₁ adj₂).surjective β
   rw [Equiv.symm_apply_apply, iterated_mateEquiv_conjugateEquiv]
   exact ⟨fun h => conjugateEquiv_of_iso (adj₁.comp adj₄) (adj₃.comp adj₂) α,
@@ -246,7 +246,7 @@ theorem Hom.isIso_mateEquiv_localizationAdj_eqToHom :
     IsIso (mateEquiv ((Over.forget (f.u.obj V)).sheafAdjunctionCocontinuous (Type u)
       (X.J.over (f.u.obj V)) X.J)
       ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (Y.J.over V) Y.J)
-      (eqToHom (sheafPushforwardContinuous_overPost_eq Y.J X.J f.u V (Type u)).symm)).natTrans := by
+      (eqToHom (sheafPushforwardContinuous_overPost_eq Y.J X.J f.u V (Type u)).symm)) := by
   refine (isIso_mateEquiv_iff_isIso_mateEquiv_symm
     (f.u.sheafAdjunctionContinuous (Type u) Y.J X.J)
     ((Over.post (X := V) f.u).sheafAdjunctionContinuous (Type u) (Y.J.over V)
@@ -406,8 +406,8 @@ theorem Hom.isIso_moduleSheafFunctor_map_localizedPushforwardSquareMate_app
 /-- **The iterated mate of the localization square of sheaves of modules is invertible**, since
 its underlying morphism of sheaves of sets is the iterated mate of Stacks 03CF (d). -/
 theorem Hom.isIso_localizedPushforwardSquareMate :
-    IsIso (f.localizedPushforwardSquareMate V).natTrans := by
-  have hN : ∀ N, IsIso ((f.localizedPushforwardSquareMate V).natTrans.app N) := fun N =>
+    IsIso (f.localizedPushforwardSquareMate V) := by
+  have hN : ∀ N, IsIso ((f.localizedPushforwardSquareMate V).app N) := fun N =>
     Stacks.Sheaves.PushforwardEssentialImage.isIso_of_isIso_moduleSheafFunctor_map
       (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))
       ((f.localizedPushforwardSquareMate V).app N)
@@ -438,7 +438,7 @@ omit [HasWeakSheafify (X.J.over (f.u.obj V)) AddCommGrpCat.{u}]
 /-- **The localization mate of a morphism of ringed sites is invertible**: the Beck–Chevalley
 comparison `(f')^*(G|_V) ⟶ (f^*G)|_{u(V)}` is an isomorphism, being conjugate to the iterated
 mate of Stacks 03CF (d). -/
-theorem Hom.isIso_localizedPullbackMate : IsIso (f.localizedPullbackMate V).natTrans := by
+theorem Hom.isIso_localizedPullbackMate : IsIso (f.localizedPullbackMate V) := by
   exact (isIso_mateEquiv_iff_isIso_mateEquiv_symm
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} f.ringedToposHom)
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} (f.localized V).ringedToposHom)

@@ -329,14 +329,14 @@ public theorem inverseHom_app (T : (AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ)
 /-- The source of the inverse of an arrow is the target of that arrow. -/
 public theorem inverseHom_comp_source : inverseHom G ≫ G.source.hom = G.target.hom := by
   ext T a
-  show G.source.hom.app T ((inverseHom G).app T a) = G.target.hom.app T a
+  change G.source.hom.app T ((inverseHom G).app T a) = G.target.hom.app T a
   rw [inverseHom_app]
   exact Deformation.inverseArrow_source G.toGroupoidInFunctors T a
 
 /-- The target of the inverse of an arrow is the source of that arrow. -/
 public theorem inverseHom_comp_target : inverseHom G ≫ G.target.hom = G.source.hom := by
   ext T a
-  show G.target.hom.app T ((inverseHom G).app T a) = G.source.hom.app T a
+  change G.target.hom.app T ((inverseHom G).app T a) = G.source.hom.app T a
   rw [inverseHom_app]
   exact Deformation.inverseArrow_target G.toGroupoidInFunctors T a
 
@@ -353,11 +353,11 @@ public theorem comp_hom_app (T : (AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ)
       ⟨((pullback.fst G.source.hom G.target.hom).app T y,
         (pullback.snd G.source.hom G.target.hom).app T y), h⟩ = y := by
     refine pullback_obj_ext G.source.hom G.target.hom T _ y ?_ ?_
-    · show ((AlgebraicGeometry.composableToPullback G.source.hom G.target.hom ≫
+    · change ((AlgebraicGeometry.composableToPullback G.source.hom G.target.hom ≫
         pullback.fst G.source.hom G.target.hom).app T) _ = _
       rw [AlgebraicGeometry.composableToPullback, pullback.lift_fst]
       rfl
-    · show ((AlgebraicGeometry.composableToPullback G.source.hom G.target.hom ≫
+    · change ((AlgebraicGeometry.composableToPullback G.source.hom G.target.hom ≫
         pullback.snd G.source.hom G.target.hom).app T) _ = _
       rw [AlgebraicGeometry.composableToPullback, pullback.lift_snd]
       rfl
@@ -655,7 +655,7 @@ public theorem twistMap_untwistMap (z : T ⟶ G.arrows) (u a : T ⟶ G.objects)
         z.hom.app T' ((pullback.fst u.hom G.source.hom).app T' y) :=
       (congrArg (fun k => k.app T' ((twistMap G z u a hu ha).app T' y))
         (untwistPair_snd G z a ha)).trans (congrArg (fun q => z.hom.app T' q) hfstTw)
-    show G.comp.hom.app T'
+    change G.comp.hom.app T'
         ((untwistPair G z a ha).app T' ((twistMap G z u a hu ha).app T' y)) =
       (pullback.snd u.hom G.source.hom).app T' y
     exact (comp_hom_app_eq_compose G T' _ _ _ hfstUp hsndUp h₂).trans
@@ -716,7 +716,7 @@ public theorem untwistMap_twistMap (z : T ⟶ G.arrows) (u a : T ⟶ G.objects)
         (twistPair_snd G z u hu)).trans (inverseHom_app G T' _)).trans
         (congrArg (fun q => Deformation.inverseArrow G.toGroupoidInFunctors T'
           (z.hom.app T' q)) hfstUw)
-    show G.comp.hom.app T'
+    change G.comp.hom.app T'
         ((twistPair G z u hu).app T' ((untwistMap G z u a hu ha).app T' y)) =
       (pullback.snd a.hom G.source.hom).app T' y
     exact (comp_hom_app_eq_compose G T' _ _ _ hfstTp hsndTp h₂).trans

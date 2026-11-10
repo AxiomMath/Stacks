@@ -561,7 +561,7 @@ theorem intersectionNumber_modulePullback_eq_degree_mul (f : Y ⟶ X)
       Subtype.ext (Set.mem_singleton_iff.1 (hcomp ▸ C.2))
     have himg : ∀ C : irreducibleComponents T, Subtype.val '' (C : Set T) = T := fun C => by
       rw [hC C]
-      show Subtype.val '' (Set.univ : Set T) = T
+      change Subtype.val '' (Set.univ : Set T) = T
       rw [Set.image_univ, Subtype.range_coe]
     let x : irreducibleComponents T → GeometricPoint B (Spec (.of k)) hk X.1 :=
       fun _ => canonicalGeometricPoint B (Spec (.of k)) hk X.1 η
@@ -582,12 +582,12 @@ theorem intersectionNumber_modulePullback_eq_degree_mul (f : Y ⟶ X)
         (((modulePushforward B (Spec (.of k)) hk (i ≫ f)).rightDerivedZeroIsoSelf).app _)]
       have hl := IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree B (Spec (.of k))
         hk Y.2 X.2 hXdec hXLN f.hom hf Z h0 hη (x C₀) (canonicalGeometricPoint_image _ _ _ _ _)
-      exact (congrArg ENat.toNat hl).trans (ENat.toNat_coe _)
+      exact (congrArg ENat.toNat hl).trans (ENat.toNat_natCast _)
     have hset : {C : irreducibleComponents T | topologicalKrullDim (Subtype.val '' (C : Set T)) =
         topologicalKrullDim T} = {C₀} := by
       ext C
       refine ⟨fun _ => hC C, fun _ => ?_⟩
-      show topologicalKrullDim (Subtype.val '' (C : Set T)) = topologicalKrullDim T
+      change topologicalKrullDim (Subtype.val '' (C : Set T)) = topologicalKrullDim T
       rw [himg C]
     refine sum_neg_one_pow_mul_eq_mul_of_eval_eq_sub
       (fun n => @eulerCharacteristic.{u, w} k _ B hk X.1 X.2 pX hpX
@@ -623,8 +623,8 @@ theorem intersectionNumber_modulePullback_eq_degree_mul (f : Y ⟶ X)
     have hfib : {z : points B (Spec (.of k)) hk ZA.1 |
         pointsMap B (Spec (.of k)) hk ZA.1 (i ≫ f).hom z = η}.Finite := by
       have h := IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton B (Spec (.of k)) hk Y.2 X.2
-        hXdec hXLN f.hom hf Z h0 hη
-      show {z | pointsMap B (Spec (.of k)) hk Z.subspace.toFunctor (Z.subspace.ι ≫ f.hom) z =
+        hXdec f.hom hf Z h0 hη
+      change {z | pointsMap B (Spec (.of k)) hk Z.subspace.toFunctor (Z.subspace.ι ≫ f.hom) z =
         η}.Finite
       rw [h]
       exact Set.finite_singleton _

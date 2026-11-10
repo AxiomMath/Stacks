@@ -389,13 +389,13 @@ theorem isLimitPreservingOnObjects_finiteCoverPointHom
   have hδlift : (schemeFibredCategory B S hS U).val.p.IsHomLift
       ((BigAffineFppf.inclusion B S hS).map (cc.π.app i')) δ := by
     refine IsHomLift.of_fac' _ _ _ hdom rfl ?_
-    show δ.left = _
+    change δ.left = _
     rw [hδleft]
     rfl
   have hγ'lift : (finiteCoverFibered B S hS d).val.p.IsHomLift
       ((BigAffineFppf.inclusion B S hS).map (D.map j)) γ' := by
     refine IsHomLift.of_fac' _ _ _ rfl hcod ?_
-    show γ'.f = _
+    change γ'.f = _
     rw [hγ'f]
     rfl
   refine ⟨i', j, ⟨Over.mk xh', rfl⟩, x, δ, 𝟙 x.1, γ',
@@ -408,10 +408,10 @@ theorem isLimitPreservingOnObjects_finiteCoverPointHom
         (BigAffineFppf.inclusion B S hS).map (D.map j)
         = (BigAffineFppf.inclusion B S hS).map (cc.π.app i) := by
       rw [← CategoryTheory.Functor.map_comp, cc.w j]
-    show δ.left ≫ γ'.f = γ.f
+    change δ.left ≫ γ'.f = γ.f
     rw [hδleft, hγ'f, hf, Category.assoc,
       ← Category.assoc ((BigAffineFppf.inclusion B S hS).map (cc.π.app i')), hcone]
-  · show (finiteCoverPointMap cmap hcf δ).g ≫ γ'.g = γ.g
+  · change (finiteCoverPointMap cmap hcf δ).g ≫ γ'.g = γ.g
     rw [hγ'g]
     have h2 := finiteCoverPointMap_g_comp_snd cmap hcf δ
     rw [hδleft] at h2

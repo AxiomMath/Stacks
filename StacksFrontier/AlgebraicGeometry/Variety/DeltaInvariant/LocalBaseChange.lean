@@ -138,7 +138,7 @@ public theorem exists_common_fractionRing_localization_and_injective_tensorProdu
     refine ⟨?_, ?_, ?_⟩
     · rintro ⟨x, hx⟩
       obtain ⟨n, rfl⟩ := hx
-      show IsUnit ((algebraMap A (FractionRing A) f) ^ n)
+      change IsUnit ((algebraMap A (FractionRing A) f) ^ n)
       exact IsUnit.pow _
         (IsLocalization.map_units (FractionRing A) ⟨f, Submonoid.mem_powers f⟩)
     · intro z
@@ -175,7 +175,7 @@ public theorem exists_common_fractionRing_localization_and_injective_tensorProdu
     calc
       _ = (Submonoid.powers f).map
           (eT.toMonoidHom.comp Algebra.TensorProduct.includeRight.toMonoidHom) := by
-            show ((Submonoid.powers f).map Algebra.TensorProduct.includeRight.toMonoidHom).map
+            change ((Submonoid.powers f).map Algebra.TensorProduct.includeRight.toMonoidHom).map
               eT.toMonoidHom = _
             rw [Submonoid.map_map]
       _ = (Submonoid.powers f).map (algebraMap A B).toMonoidHom := by rw [hmapT']

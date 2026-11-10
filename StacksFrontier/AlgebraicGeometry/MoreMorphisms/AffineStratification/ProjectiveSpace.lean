@@ -104,7 +104,7 @@ private theorem nontrivial_negativeTwistPart (R : Type u) [CommRing R] [Nontrivi
     Nontrivial (negativeTwistPart R n (-(n + 1 : ℤ))) := by
   have hmem : (Finsupp.single (fun _ : Fin (n + 1) => (-1 : ℤ)) (1 : R)) ∈
       negativeTwistPart R n (-(n + 1 : ℤ)) := by
-    show _ ∈ Finsupp.supported R R (negativeLaurentMonomials n (-(n + 1 : ℤ)))
+    change _ ∈ Finsupp.supported R R (negativeLaurentMonomials n (-(n + 1 : ℤ)))
     rw [Finsupp.mem_supported]
     intro x hx
     have hx' : x ∈ ({(fun _ : Fin (n + 1) => (-1 : ℤ))} : Finset (Fin (n + 1) → ℤ)) :=

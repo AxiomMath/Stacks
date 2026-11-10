@@ -782,7 +782,7 @@ public theorem secondOrderThickeningIdealSheaf_eq_moduleKernel :
   intro W
   apply Submodule.ext
   intro x
-  show secondOrderExtFst x ∈ A.thickening.target.ideal.obj
+  change secondOrderExtFst x ∈ A.thickening.target.ideal.obj
       (secondOrderThickeningOpen A.thickening.target S.S.scheme A.toBase.hom W) ↔
     A.thickening.immersion.c.app
       (secondOrderThickeningOpen A.thickening.target S.S.scheme A.toBase.hom W)

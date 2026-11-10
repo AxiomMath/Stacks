@@ -47,8 +47,8 @@ This module states each assertion as one theorem, for the algebraic stack
 
 The ambient site is the big fppf site over `Spec ℤ`, which is the whole big fppf site, and it is
 assumed to contain `U`; see
-`StacksFrontier.AlgebraicGeometry.Stacks.GerbeStratificationQuotientStack`. The strata are indexed by
-`WithTop ℕ`, `⊤` being `∞`; the closure order is the reverse order, so the stratification is
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeStratificationQuotientStack`. The strata are indexed
+by `WithTop ℕ`, `⊤` being `∞`; the closure order is the reverse order, so the stratification is
 indexed by `(WithTop ℕ)ᵒᵈ`.
 
 ## References

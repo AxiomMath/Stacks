@@ -71,7 +71,7 @@ image. -/
 private lemma componentInclusion_range {X : Scheme.{u}} (Z : Set X)
     (hZ : Z ∈ irreducibleComponents X) :
     Set.range (componentInclusion Z hZ) = Z := by
-  show Set.range ((componentIdeal Z hZ).subschemeι) = Z
+  change Set.range ((componentIdeal Z hZ).subschemeι) = Z
   rw [Scheme.IdealSheafData.range_subschemeι]
   simp [componentIdeal, Scheme.IdealSheafData.coe_support_vanishingIdeal]
 
@@ -86,7 +86,7 @@ private theorem exists_irreducible_subobject_through_identity
       s ≫ j = η[Over.mk f] ∧ Set.range j.left.base = (Z : Set G) ∧ IrreducibleSpace T.left := by
   classical
   let _ : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   let U := Over.mk f
   let p : Spec (.of k) ⟶ G :=
@@ -114,7 +114,7 @@ private theorem exists_irreducible_subobject_through_identity
       exact ⟨default, rfl⟩
   let I : G.IdealSheafData := componentIdeal (Z : Set G) Z.2
   have hpSupport : p.ker.support ≤ I.support := by
-    show (p.ker.support : Set G) ⊆ (Z : Set G)
+    change (p.ker.support : Set G) ⊆ (Z : Set G)
     rw [Scheme.Hom.support_ker p]
     exact closure_minimal (by
       rw [hrange]
@@ -135,13 +135,13 @@ private theorem exists_irreducible_subobject_through_identity
   let T : Over (Spec (.of k)) := Over.mk (I.subschemeι ≫ f)
   let s' : (𝟙_ (Over (Spec (.of k)))) ⟶ T :=
     Over.homMk ((Over.tensorUnit_left (C := Scheme) (X := Spec (.of k))).symm ▸ s) (by
-      show ((Over.tensorUnit_left (C := Scheme) (X := Spec (.of k))).symm ▸ s) ≫
+      change ((Over.tensorUnit_left (C := Scheme) (X := Spec (.of k))).symm ▸ s) ≫
         (I.subschemeι ≫ f) = (𝟙_ (Over (Spec (.of k)))).hom
       rw [← Category.assoc, hs]
       exact hp)
   refine ⟨T, Over.homMk I.subschemeι, s', ?_, ?_, ?_⟩
   · apply Over.OverMorphism.ext
-    show (((Over.tensorUnit_left (C := Scheme) (X := Spec (.of k))).symm ▸ s) ≫
+    change (((Over.tensorUnit_left (C := Scheme) (X := Spec (.of k))).symm ▸ s) ≫
       I.subschemeι) = (η[U]).left
     simpa [← hs]
   · exact componentInclusion_range (Z : Set G) Z.2
@@ -165,7 +165,7 @@ private theorem unique_identity_component_over_algClosed
   obtain ⟨T₂, j₂, s₂', hs₂', hr₂, _⟩ := exists_irreducible_subobject_through_identity f Z₂ he₂
   let P := T₁ ⊗ T₂
   have : IrreducibleSpace P.left := by
-    show IrreducibleSpace ↥(pullback T₁.hom T₂.hom)
+    change IrreducibleSpace ↥(pullback T₁.hom T₂.hom)
     let _ : GeometricallyIrreducible T₁.hom :=
       geometricallyIrreducible_of_irreducibleSpace_of_isSepClosed k _ _
     infer_instance
@@ -244,7 +244,7 @@ theorem identityPoint_baseChange_fst
     dsimp [unit]
     rw [CategoryTheory.Over.grpObjMkPullbackSnd_one,
       CategoryTheory.Over.comp_left, CategoryTheory.Over.ε_pullback_left]
-    show (inv (pullback.snd (𝟙 (Spec (.of R))) g) ≫
+    change (inv (pullback.snd (𝟙 (Spec (.of R))) g) ≫
         ((Over.pullback g).map (η[G.X])).left) ≫ pullback.fst G.X.hom g = _
     dsimp [CategoryTheory.Over.pullback]
     have hproj : inv (pullback.snd (𝟙 (Spec (.of R))) g) ≫
@@ -254,7 +254,7 @@ theorem identityPoint_baseChange_fst
           pullback.snd (𝟙 (Spec (.of R))) g ≫ g := by simpa using hc
       rw [hfsteq]
       simp
-    show (inv (pullback.snd (𝟙 (Spec (.of R))) g) ≫
+    change (inv (pullback.snd (𝟙 (Spec (.of R))) g) ≫
       pullback.lift (pullback.fst (𝟙 (Spec (.of R))) g ≫ η[G.X].left)
         (pullback.snd (𝟙 (Spec (.of R))) g) _ ≫ pullback.fst G.X.hom g) = _
     rw [pullback.lift_fst, ← Category.assoc, hproj]
@@ -268,10 +268,10 @@ theorem identityPoint_baseChange_fst
       (Scheme.forget.map η[G.X].left) ((Scheme.forget.map g) eS) := by
     simpa only [Functor.map_comp, CategoryTheory.comp_apply] using hpt
   have : Subsingleton (Scheme.forget.obj (Spec (.of R))) := by
-    show Subsingleton (PrimeSpectrum R)
+    change Subsingleton (PrimeSpectrum R)
     infer_instance
   have hspec : (Scheme.forget.map g) eS = eR := Subsingleton.elim _ _
-  show (Scheme.forget.map (pullback.fst G.X.hom g)) ((Scheme.forget.map unit) eS) =
+  change (Scheme.forget.map (pullback.fst G.X.hom g)) ((Scheme.forget.map unit) eS) =
     (Scheme.forget.map η[G.X].left) eR
   rwa [hspec] at hpt'
 
@@ -308,14 +308,14 @@ theorem existsUnique_irreducibleComponent_containing_identity
       dsimp [identityPoint, GΩ, G₀, xΩ, fΩ]
       congr 1
       let _ : Subsingleton (Spec (.of Ω)) := by
-        show Subsingleton (PrimeSpectrum Ω)
+        change Subsingleton (PrimeSpectrum Ω)
         infer_instance
       exact Subsingleton.elim _ _
     have hk : identityPoint k G₀ = x := by
       dsimp [identityPoint, G₀, x]
       congr 1
       let _ : Subsingleton (Spec (.of k)) := by
-        show Subsingleton (PrimeSpectrum k)
+        change Subsingleton (PrimeSpectrum k)
         infer_instance
       exact Subsingleton.elim _ _
     rw [← hbar, ← hk]
@@ -329,7 +329,7 @@ theorem existsUnique_irreducibleComponent_containing_identity
           xΩ ∈ (D : Set XΩ) ∧ (D : Set XΩ) ⊆ π.base ⁻¹' (W : Set G) := by
       have hpre := preimage_irreducibleComponent_eq_sUnion k Ω G f (W : Set G) W.2
       have hxpre : xΩ ∈ π.base ⁻¹' (W : Set G) := by
-        show π.base xΩ ∈ (W : Set G)
+        change π.base xΩ ∈ (W : Set G)
         rw [hidentity]
         exact hW
       rw [hpre] at hxpre
@@ -339,9 +339,9 @@ theorem existsUnique_irreducibleComponent_containing_identity
     obtain ⟨D₂, hxD₂, hD₂⟩ := baseChangeComponent W₂ h₂
     have hD : D₁ = D₂ :=
       unique_identity_component_over_algClosed fΩ D₁ D₂ (by
-        show xΩ ∈ (D₁ : Set XΩ)
+        change xΩ ∈ (D₁ : Set XΩ)
         exact hxD₁) (by
-        show xΩ ∈ (D₂ : Set XΩ)
+        change xΩ ∈ (D₂ : Set XΩ)
         exact hxD₂)
     subst D₂
     have himage (W : irreducibleComponents G) (hD : (D₁ : Set XΩ) ⊆ π.base ⁻¹' (W : Set G)) :

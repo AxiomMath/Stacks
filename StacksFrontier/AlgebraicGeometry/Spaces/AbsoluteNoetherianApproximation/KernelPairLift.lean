@@ -97,7 +97,7 @@ theorem exists_lift_gluedRelation_of_kernelPair
       rw [hzs, Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hE.w]
     have hst : g ≫ sE = g ≫ tE := by
       apply Yoneda.fullyFaithful.map_injective
-      haveI : Mono (pullback.fst Z.ι f) := IsIso.mono_of_iso _
+      have : Mono (pullback.fst Z.ι f) := IsIso.mono_of_iso _
       have := congrArg (· ≫ pullback.snd Z.ι f) ((cancel_mono (pullback.fst Z.ι f)).1
         ((pullback.lift_fst z (yoneda.map (g ≫ sE)) hzs).trans
           (pullback.lift_fst z (yoneda.map (g ≫ tE)) hzt).symm))
@@ -143,13 +143,13 @@ theorem exists_lift_gluedRelation_of_kernelPair
     · obtain ⟨T', σ, c, hc, hmem⟩ := key U hu
       obtain ⟨w, hw⟩ := hUfac T' (σ ≫ sE) hmem
       right
-      show F.map sE e ∈ Set.range (F.map ιW)
+      change F.map sE e ∈ Set.range (F.map ιW)
       refine ⟨F.map w c, ?_⟩
       rw [← hc, ← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, ← F.map_comp, ← F.map_comp,
         hw]
     · obtain ⟨T', σ, c, hc, hmem⟩ := key Z hz
       left
-      show e ∈ Set.range (F.map Δ')
+      change e ∈ Set.range (F.map Δ')
       refine ⟨F.map (σ ≫ sE) c, ?_⟩
       rw [← hc, ← Scheme.Hom.comp_apply, ← F.map_comp, ← hZdiag T' σ hmem]
   obtain ⟨φ, hφt, hφs⟩ := AlgebraicGeometry.exists_lift_of_jointlyMono₂_of_forall

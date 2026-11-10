@@ -211,7 +211,7 @@ private lemma compareLeft_isIso (L K : CochainComplex (ModuleCat.{u} A) ℤ) (hK
   have hπ' : QuasiIso ((tensorLeft K).map π) :=
     StacksDraft.TorAmplitude.quasiIso_tensorLeft_map K hK π
   have h4 : IsIso (DerivedCategory.Q.map ((tensorLeft K).map π)) := by infer_instance
-  show IsIso ((Functor.whiskerLeft DerivedCategory.Q
+  change IsIso ((Functor.whiskerLeft DerivedCategory.Q
       (T.tensor.flip.mapIso (asIso (DerivedCategory.Q.map π))).symm.hom).app K ≫
     (Functor.isoWhiskerLeft DerivedCategory.Q (tensorFlatIso T P hP)).hom.app K ≫
     (liftedTensorFactors P hP).hom.app K ≫ DerivedCategory.Q.map ((tensorLeft K).map π))
@@ -334,7 +334,7 @@ private lemma compareRightUnit_isIso (K : CochainComplex (ModuleCat.{u} A) ℤ) 
   have h4 : IsIso ((Functor.whiskerRight
       (MonoidalCategory.leftUnitorNatIso (CochainComplex (ModuleCat.{u} A) ℤ)).inv
       DerivedCategory.Q).app K) := inferInstance
-  show IsIso ((Functor.whiskerLeft DerivedCategory.Q (canonicalLeftUnitor (A := A)).hom).app K ≫
+  change IsIso ((Functor.whiskerLeft DerivedCategory.Q (canonicalLeftUnitor (A := A)).hom).app K ≫
     (Functor.rightUnitor (DerivedCategory.Q (C := ModuleCat.{u} A))).hom.app K ≫
     (Functor.leftUnitor (DerivedCategory.Q (C := ModuleCat.{u} A))).inv.app K ≫
     (Functor.whiskerRight
@@ -381,14 +381,14 @@ private lemma compareRight_isIso (K L : CochainComplex (ModuleCat.{u} A) ℤ) (h
   by_cases h : K = unitComplex
   · subst K
     simpa [compareRight, TleftCochain] using compareRightUnit_isIso L
-  · simp only [compareRight, dif_neg h]
+  · simp only [compareRight, dite_eq_right h]
     have h1 : IsIso ((Functor.whiskerLeft DerivedCategory.Q
         ((canonicalSymmetricDerivedTensorProduct A).braiding.iso.hom.app
           (DerivedCategory.Q.obj K))).app L) := inferInstance
     have h2 : IsIso ((compareLeft K).app L) := compareLeft_isIso K L hL
     have h3 : IsIso ((Functor.whiskerRight
         (localTensorLeftIsoRight K).inv DerivedCategory.Q).app L) := inferInstance
-    show IsIso ((Functor.whiskerLeft DerivedCategory.Q
+    change IsIso ((Functor.whiskerLeft DerivedCategory.Q
         ((canonicalSymmetricDerivedTensorProduct A).braiding.iso.hom.app
           (DerivedCategory.Q.obj K))).app L ≫ (compareLeft K).app L ≫
         (Functor.whiskerRight (localTensorLeftIsoRight K).inv DerivedCategory.Q).app L)

@@ -173,7 +173,7 @@ theorem isMittagLefflerCategorical_adicHomologySystem [Module.Finite A K] [Modul
       ModuleCat.ofHom (adicHomologyMap I α β (Nat.le_succ n)) := by
     intro n
     refine hom_ext_mk I α β fun y => ?_
-    show transition n (Submodule.Quotient.mk y) = _
+    change transition n (Submodule.Quotient.mk y) = _
     rw [htransition n y ⟨(y : L), adicCycles_mono I β (Nat.le_succ n) y.2⟩ rfl]
     rfl
   -- Hence `adicHomologySystem` is the inverse system of Stacks 0EGU, where the Artin--Rees
@@ -181,7 +181,7 @@ theorem isMittagLefflerCategorical_adicHomologySystem [Module.Finite A K] [Modul
   have hsys : adicHomologySystem I α β =
       Functor.ofOpSequence (X := fun k => ModuleCat.of A (adicHomology I α β k))
         (fun k => ModuleCat.ofHom (transition k)) := by
-    show Functor.ofOpSequence (X := fun k => ModuleCat.of A (adicHomology I α β k))
+    change Functor.ofOpSequence (X := fun k => ModuleCat.of A (adicHomology I α β k))
       (fun k => ModuleCat.ofHom (adicHomologyMap I α β (Nat.le_succ k))) = _
     congr 1
     funext k
@@ -204,7 +204,7 @@ theorem isMittagLefflerCategorical_adicHomologySystem [Module.Finite A K] [Modul
         LinearMap.congr_fun (hcompat k) z
       rw [inverseSystem_transition_comp _ hik (Nat.le_succ k),
         Functor.ofOpSequence_map_homOfLE_succ]
-      show ((Functor.ofOpSequence (X := fun k => ModuleCat.of A (adicHomology I α β k))
+      change ((Functor.ofOpSequence (X := fun k => ModuleCat.of A (adicHomology I α β k))
           (fun k => ModuleCat.ofHom (transition k))).map (homOfLE hik).op).hom
           (transition k (toLevel (k + 1) z)) = toLevel i z
       rw [hstep]

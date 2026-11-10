@@ -361,7 +361,7 @@ isomorphism. -/
 public lemma alexanderWhitney_f_zero_eq :
     (alexanderWhitney M N).f 0 = HomologicalComplex.ιTensorObj
       ((alternatingFaceMapComplex C).obj M) ((alternatingFaceMapComplex C).obj N) 0 0 0 rfl := by
-  show awApp M N 0 = _
+  change awApp M N 0 = _
   have h : ∀ (X : SimplicialObject C) (f : ⦋0⦌ ⟶ ⦋0⦌), X.map f.op = 𝟙 (X _⦋0⦌) := fun X f => by
     rw [Subsingleton.elim f (𝟙 _), op_id, X.map_id]
   rw [awApp, Finset.Nat.antidiagonal_zero, Finset.sum_singleton,

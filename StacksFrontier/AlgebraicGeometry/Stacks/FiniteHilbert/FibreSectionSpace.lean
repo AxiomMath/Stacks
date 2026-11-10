@@ -283,7 +283,7 @@ private theorem sourceLift_hom_over {P Q : SourceLift (G := G) J} (φ : P ⟶ Q)
   have hb := φ.hb
   apply IsHomLift.of_fac' _ _ _ (P.hy.trans P.hx.symm) (Q.hy.trans Q.hx.symm)
   rw [IsHomLift.fac' _ φ.hbase φ.b]
-  show eqToHom P.hy ≫ φ.hbase ≫ eqToHom Q.hy.symm = _
+  change eqToHom P.hy ≫ φ.hbase ≫ eqToHom Q.hy.symm = _
   rw [φ.hbase_eq]
   simp [finiteHilbertCover]
 
@@ -501,7 +501,7 @@ private theorem sourceLiftToHilbertLift_verticalPreimages :
           (𝒳 := 𝒳) (𝒴 := 𝒴) (F := F) (d := d)) (𝟙 R.base) R.iso.hom
         change R.iso.hom.f = eqToHom ((familyBase J p hJ R.x).trans R.hx) ≫ 𝟙 R.base ≫
           eqToHom R.hy.symm at hf
-        show eqToHom (familyBase J p hJ R.x).symm ≫ R.iso.hom.f ≫ eqToHom R.hy =
+        change eqToHom (familyBase J p hJ R.x).symm ≫ R.iso.hom.f ≫ eqToHom R.hy =
           eqToHom rfl ≫ p.map (𝟙 R.x) ≫ eqToHom R.hx
         rw [hf, p.map_id]
         simp)
@@ -509,9 +509,9 @@ private theorem sourceLiftToHilbertLift_verticalPreimages :
         refine FiniteHilbert.Hom.ext (congrArg (·.f ≫ R.iso.hom.f) (J.map_id R.x))
           (congrArg (·.g ≫ R.iso.hom.g) (J.map_id R.x))
           (congrArg (·.b ≫ R.iso.hom.b) (J.map_id R.x)) ?_
-        show (J.map (𝟙 R.x)).a ≫ eX.hom = i.hom ≫ G.map a
+        change (J.map (𝟙 R.x)).a ≫ eX.hom = i.hom ≫ G.map a
         rw [J.map_id]
-        show (𝟙 (J.obj R.x).x) ≫ eX.hom = i.hom ≫ G.map a
+        change (𝟙 (J.obj R.x).x) ≫ eX.hom = i.hom ≫ G.map a
         simp [i])
   have hfiso : IsIso R.iso.hom.f :=
     inferInstanceAs (IsIso ((finiteHilbertProjection (B := B) (S := S) (hS := hS)
@@ -525,7 +525,7 @@ private theorem sourceLiftToHilbertLift_verticalPreimages :
     (finiteHilbertProjection (B := B) (S := S) (hS := hS)
       (𝒳 := 𝒳') (𝒴 := 𝒴) (F := F') (d := d)) R.iso.hom.f b
   have hta : IsIso t.a := by
-    show IsIso (𝟙 R.x)
+    change IsIso (𝟙 R.x)
     infer_instance
   have htb : IsIso t.b := hbi
   have htbase : IsIso t.hbase := by
@@ -674,7 +674,7 @@ attribute [local implicit_reducible] familyCover
 corresponding member of the universal family. -/
 private theorem familyCover_base_obj (T : Over ξ.U.left) :
     (Over.map ξ.Z.hom).obj ((familyCover ξ).obj T) = (ξ.universalFamily.obj T).Z := by
-  show Over.mk ((universalFamilyArrow ξ T).g.left ≫ ξ.Z.hom) = _
+  change Over.mk ((universalFamilyArrow ξ T).g.left ≫ ξ.Z.hom) = _
   rw [(universalFamilyArrow ξ T).g.w]
   rfl
 
@@ -733,7 +733,7 @@ private theorem familyCover_arrow (T : Over ξ.U.left) :
     (universalFamilyArrow ξ T).g = eqToHom (familyCover_base_obj ξ T).symm ≫
       ((Over.iteratedSliceBackward ξ.Z).obj ((familyCover ξ).obj T)).hom := by
   refine Over.OverMorphism.ext ?_
-  show (universalFamilyArrow ξ T).g.left =
+  change (universalFamilyArrow ξ T).g.left =
     (eqToHom (familyCover_base_obj ξ T).symm).left ≫ (universalFamilyArrow ξ T).g.left
   simp
 
@@ -853,7 +853,7 @@ private theorem familyProduct_isPullback (T : Over ξ.U.left) :
   have hf := congrArg (fun f => f.left) (universalFamilyArrow_base ξ T)
   change (universalFamilyArrow ξ T).f.left =
     (eqToHom (universalFamily_base_obj ξ T)).left ≫ T.hom at hf
-  show (universalFamilyArrow ξ T).f.left ≫ 𝟙 ξ.U.left =
+  change (universalFamilyArrow ξ T).f.left ≫ 𝟙 ξ.U.left =
     eqToHom (congrArg Over.left (universalFamily_base_obj ξ T)) ≫ T.hom
   simpa only [Over.eqToHom_left, Category.comp_id] using hf
 
@@ -924,7 +924,7 @@ private theorem familyProductMap_fst {T T' : Over ξ.U.left} (f : T ⟶ T') :
     (CategoryTheory.Functor.congr_hom (FiniteHilbert.Object.universalFamily_comp ξ) f)
   have hs := congrArg (fun f => f.left) (ξ.universalFamily.map f).square.w
   refine Over.OverMorphism.ext ?_
-  show (ξ.universalFamily.map f).g.left ≫
+  change (ξ.universalFamily.map f).g.left ≫
       ((ξ.universalFamily.obj T').q.left ≫
         eqToHom (congrArg Over.left (universalFamily_base_obj ξ T'))) =
     ((ξ.universalFamily.obj T).q.left ≫

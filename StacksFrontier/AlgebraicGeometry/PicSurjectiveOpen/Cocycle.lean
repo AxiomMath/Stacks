@@ -181,7 +181,7 @@ theorem transitionX_of_le (i j : ι) (V : X.Opens) (hi : V ≤ W i) (hj : V ≤ 
 theorem transitionX_self (i : ι) (V : X.Opens) (hi hi' : V ≤ W i) :
     transitionX D hWU i i V hi hi' = 1 := by
   rw [transitionX]
-  exact dif_pos rfl
+  exact dite_eq_left rfl
 
 /-- The cocycle on `X` glued from a unit cocycle on `U` whose charts are the preimages of a
 family of opens of `X` meeting pairwise inside `U`. -/

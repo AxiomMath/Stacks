@@ -107,7 +107,7 @@ public theorem surjective_baseChangeComparison
     Function.Surjective ⇑(baseChangeComparison k K Ω X f) := by
   have hcomp : spectrumMap k Ω =
       Spec.map (CommRingCat.ofHom (algebraMap K Ω)) ≫ spectrumMap k K := by
-    show Spec.map (CommRingCat.ofHom (algebraMap k Ω)) =
+    change Spec.map (CommRingCat.ofHom (algebraMap k Ω)) =
       Spec.map (CommRingCat.ofHom (algebraMap K Ω)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap k K))
     rw [← Spec.map_comp]
@@ -160,7 +160,7 @@ public theorem eq_connectedComponent_of_preimage_eq
         exact h
       refine ⟨⟨b, ?_⟩, rfl⟩
       have h : b ∈ ⇑q ⁻¹' T := by
-        show q b ∈ T
+        change q b ∈ T
         rw [hqb]
         exact haT
       rw [hT] at h
@@ -299,7 +299,7 @@ private theorem exists_connectedComponent_preimage_eq_of_galois_fixed
     exists_closed_subset_with_preimage_eq_of_galois_invariant k kbar X.left X.hom
       (ConnectedComponents.mk ⁻¹' {C}) hTbar_closed hstable
   have hint : IsIntegralHom (spectrumMap k kbar) := by
-    show IsIntegralHom (Spec.map (CommRingCat.ofHom (algebraMap k kbar)))
+    change IsIntegralHom (Spec.map (CommRingCat.ofHom (algebraMap k kbar)))
     rw [IsIntegralHom.SpecMap_iff]
     exact algebraMap_isIntegral_iff.mpr ⟨IsGalois.integral k⟩
   have hT' : ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T = connectedComponent y₀ := by
@@ -335,7 +335,7 @@ public theorem galoisActionOnGeometricConnectedComponents_fixed_iff
     exact rfl
   have hy2 : ((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y ∈
       ⇑(pullback.fst X.hom (spectrumMap k kbar)) ⁻¹' T := by
-    show (pullback.fst X.hom (spectrumMap k kbar))
+    change (pullback.fst X.hom (spectrumMap k kbar))
       (((galoisActionOnBaseChange k kbar X).ρ σ).asHom.base y) ∈ T
     rw [galoisActionOnBaseChange_fst_apply k kbar X σ y]
     exact hy

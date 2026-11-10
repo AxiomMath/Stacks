@@ -198,7 +198,7 @@ def affineTransferAlong {Z Z' : AffineCrystallineThickening S} {k : Z ⟶ B} {k'
     have e : affineSectionMap (ρ ≫ k) b = affineSectionMap ρ (affineSectionMap k b) := by
       rw [affineSectionMap, affineSectionMap, affineSectionMap, op_comp, Functor.map_comp,
         RingCat.hom_comp, RingHom.comp_apply]
-    show N.restrictₛₗ ρ.op (affineSectionMap k b • @id (N.obj (op Z)) x) =
+    change N.restrictₛₗ ρ.op (affineSectionMap k b • @id (N.obj (op Z)) x) =
       affineSectionMap (ρ ≫ k) b • @id (N.obj (op Z')) (N.restrictₛₗ ρ.op x)
     rw [LinearMap.map_smulₛₗ, e]
     rfl
@@ -209,7 +209,7 @@ theorem affineTransferAlong_comp {Z Z' : AffineCrystallineThickening S} {k : Z �
     (affineTransferAlong N ρ hρ).comp (affineRestrictAlong N k) = affineRestrictAlong N k' := by
   subst hρ
   ext x
-  show N.map ρ.op (N.map k.op x) = N.map (ρ ≫ k).op x
+  change N.map ρ.op (N.map k.op x) = N.map (ρ ≫ k).op x
   rw [op_comp, N.map_comp_apply]
 
 /-- The ambient scheme of an object of `AffineCris(X/S)` is affine. -/
@@ -248,7 +248,7 @@ instance isLocalization_restrictBasicOpen (B : AffineCrystallineThickening S)
     (r : Γ(B.obj.obj.thickening.target.scheme, ⊤)) :
     IsLocalization.Away (show affineSectionRing B from r)
       (affineRingAlong (restrictBasicOpenHom B r)) := by
-  haveI : IsAffine B.obj.obj.thickening.target.scheme := B.property.2
+  have : IsAffine B.obj.obj.thickening.target.scheme := B.property.2
   exact Γ_restrict_isLocalization _ r
 
 /-- **When the base change map along the restriction to a basic open `D(r)` is bijective, the
@@ -306,7 +306,7 @@ private theorem span_range_eq_top_iff_forall_exists_mem_basicOpen
       ∀ x : B.obj.obj.thickening.target.scheme,
         ∃ i, x ∈ B.obj.obj.thickening.target.scheme.basicOpen (f i) := by
   have := isAffine_target B
-  rw [← (isAffineOpen_top _).self_le_iSup_basicOpen_iff, SetLike.le_def]
+  rw [← (isAffineOpen_top _).self_le_iSup_basicOpen_iff, IsConcreteLE.le_iff]
   simp
 
 /-- **The standard basic open covers generate the topology of `AffineCris(X/S)`.**  A standard
@@ -323,7 +323,7 @@ theorem basicOpenCoverage_toGrothendieck (S : GlobalCrystallineSituation.{u}) :
       (restrictOpenCover B _ fun i ↦ isAffineOpen_basicOpen B (f i))
       (isZariskiCovering_restrictOpenCover B _ _
         ((span_range_eq_top_iff_forall_exists_mem_basicOpen B f).mp hf))
-  · show (affinePrecoverage S).toGrothendieck ≤ _
+  · change (affinePrecoverage S).toGrothendieck ≤ _
     rw [Precoverage.toGrothendieck_eq_sInf]
     refine sInf_le ?_
     rintro B R ⟨E, rfl, hE⟩
@@ -358,7 +358,7 @@ theorem basicOpenCoverage_toGrothendieck (S : GlobalCrystallineSituation.{u}) :
       refine ⟨E.X j, ObjectProperty.homMk
         (CrystallineThickening.restrictOpenLE B.obj hle ≫ a), E.f j, ⟨j⟩,
         ObjectProperty.hom_ext _ ?_⟩
-      show (CrystallineThickening.restrictOpenLE B.obj hle ≫ a) ≫
+      change (CrystallineThickening.restrictOpenLE B.obj hle ≫ a) ≫
         (E.map (affineι S)).f j = _
       rw [Category.assoc, fac]
       exact CrystallineThickening.restrictOpenLE_restrictOpenHom B.obj hle

@@ -220,7 +220,7 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
         MorphismProperty Scheme.{u}) F).presheaf g := fun g _ =>
     presheaf_of_isIso B S hS hRIe
       (fun V => by
-        show _root_.AlgebraicGeometry.Etale (F.map (𝟙 V))
+        change _root_.AlgebraicGeometry.Etale (F.map (𝟙 V))
         rw [F.map_id]
         infer_instance) g
   have isoS : ∀ {G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : G ⟶ H) [IsIso g],
@@ -228,7 +228,7 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
         MorphismProperty Scheme.{u}) F).presheaf g := fun g _ =>
     presheaf_of_isIso B S hS hRIs
       (fun V => by
-        show _root_.AlgebraicGeometry.Surjective (F.map (𝟙 V))
+        change _root_.AlgebraicGeometry.Surjective (F.map (𝟙 V))
         rw [F.map_id]
         infer_instance) g
   -- the closed subscheme of `Y₀` underlying `C`
@@ -294,9 +294,9 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
       have h1 := congrArg (fun m => m.app W (k ≫ s')) (sq0 i).w
       have h2 := congrArg (fun m => m.app W (k ≫ r)) hq'φ
       simp only [NatTrans.comp_app_apply, yoneda_map_app] at h1 h2
-      show (Ω i).ι.app W ((b i).app W (k ≫ s')) = _
+      change (Ω i).ι.app W ((b i).app W (k ≫ s')) = _
       rw [h1, ← h2]
-      show φ.app W ((k ≫ s') ≫ s₀ i) = φ.app W ((k ≫ r) ≫ q')
+      change φ.app W ((k ≫ s') ≫ s₀ i) = φ.app W ((k ≫ r) ≫ q')
       rw [Category.assoc, hw, Category.assoc]
     have hback : ∀ M : (pullback q (A i)).IdealSheafData,
         (M.comap sqS'.isoPullback.hom).comap sqS'.isoPullback.inv = M := fun M => by
@@ -329,7 +329,7 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
     exact hJft A'
   refine ⟨T, hTc, hTf, ?_, fun i => ?_, ?_⟩
   · refine le_of_preimage_le_of_iso e.symm ?_
-    show C.preimage φ ≤ T.preimage φ
+    change C.preimage φ ≤ T.preimage φ
     rw [← hK, hTφ]
     exact idealPoints_le_iff.2 hJK
   · have hb : ∀ G G' : Subfunctor (Ω i).toFunctor, G.preimage (b i) = G'.preimage (b i) →
@@ -468,12 +468,12 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
       have h1 := congrArg (fun m => m.app (op Y) k') sq.w
       simp only [NatTrans.comp_app_apply, yoneda_map_app] at h1
       apply Subtype.ext
-      show U₀.ι.app (op Y) (p₀.app (op Y) k') = U₀.ι.app (op Y) ω
+      change U₀.ι.app (op Y) (p₀.app (op Y) k') = U₀.ι.app (op Y) ω
       rw [h1]
-      show p.app (op Y) (k' ≫ i₀) = _
+      change p.app (op Y) (k' ≫ i₀) = _
       rw [hk', hω]
     have hk'm : k' ∈ (T₀.preimage p₀).obj (op Y) := by
-      show p₀.app (op Y) k' ∈ T₀.obj (op Y)
+      change p₀.app (op Y) k' ∈ T₀.obj (op Y)
       rwa [hp₀k]
     have := hT₀p₀ _ hk'm
     rwa [mem_idealPoints_comap, hk'] at this
@@ -539,14 +539,14 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
       U₀.ι.app (op Y) a = f.app (op Y) b → (a ∈ T₀.obj (op Y) ↔ b ∈ T₂.obj (op Y)) := by
     intro Y a b hab
     have hb : b ∈ Ω.obj (op Y) := by
-      show f.app (op Y) b ∈ U₀.obj (op Y)
+      change f.app (op Y) b ∈ U₀.obj (op Y)
       rw [← hab]
       exact a.2
     have hfa : (U₀.fromPreimage f).app (op Y) ⟨b, hb⟩ = a := Subtype.ext hab.symm
     have h2 : b ∈ T₂.obj (op Y) ↔
         (⟨b, hb⟩ : Ω.toFunctor.obj (op Y)) ∈ (T₂.preimage Ω.ι).obj (op Y) := Iff.rfl
     rw [h2, hT₂Ω]
-    show a ∈ T₀.obj (op Y) ↔ (U₀.fromPreimage f).app (op Y) ⟨b, hb⟩ ∈ T₀.obj (op Y)
+    change a ∈ T₀.obj (op Y) ↔ (U₀.fromPreimage f).app (op Y) ⟨b, hb⟩ ∈ T₀.obj (op Y)
     rw [hfa]
   -- `T₂` vanishes compatibly with the chart
   have hT₂J : ∀ (Y : BigFppfOver B S hS) (k : Y ⟶ U) (v : V.obj (op Y)),
@@ -558,7 +558,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
     have hi : yoneda.map k ≫ p = yoneda.map v' ≫ ψ := by
       apply yonedaEquiv.injective
       rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_yoneda_map, hψ]
-      show p.app (op Y) k = f.app (op Y) (e.inv.app (op Y) (e.hom.app (op Y) v))
+      change p.app (op Y) k = f.app (op Y) (e.inv.app (op Y) (e.hom.app (op Y) v))
       rw [← hv]
       exact congrArg _ hev.symm
     set k₂ := rp.lift (yoneda.map k) v' hi
@@ -566,7 +566,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
       yoneda.map_injective (by rw [Functor.map_comp, hprj, rp.lift_fst])
     have hk₂s : k₂ ≫ s = v' := rp.lift_snd _ _ _
     have hk₂ : k₂ ∈ (T₂.preimage pV).obj (op Y) := by
-      show e.inv.app (op Y) (k₂ ≫ s) ∈ T₂.obj (op Y)
+      change e.inv.app (op Y) (k₂ ≫ s) ∈ T₂.obj (op Y)
       rwa [hk₂s, hev]
     have := hT₂p _ hk₂
     rwa [mem_idealPoints_comap, hk₂p] at this
@@ -585,7 +585,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
       exact this
     · intro Y y v hy hv
       have hvC : v ∈ (C.preimage f).obj (op Y) := by
-        show f.app (op Y) v ∈ C.obj (op Y)
+        change f.app (op Y) v ∈ C.obj (op Y)
         rwa [hv]
       have : v ∈ (T.preimage f).obj (op Y) := by
         rw [hTdef, hpre₂]
@@ -600,7 +600,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
       exact hT₀p Y k _ rfl this
     · intro Y k v hk hv
       have : v ∈ (T.preimage f).obj (op Y) := by
-        show f.app (op Y) v ∈ T.obj (op Y)
+        change f.app (op Y) v ∈ T.obj (op Y)
         rwa [hv]
       rw [hTdef, hpre₂] at this
       exact hT₂J Y k v hv this

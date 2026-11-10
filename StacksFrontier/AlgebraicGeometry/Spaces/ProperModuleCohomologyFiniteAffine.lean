@@ -50,7 +50,7 @@ abbrev idChartRingHom :
 
 /-- On the identity chart of `V` the functions are those of `V`. -/
 theorem bijective_idChartRingHom : Function.Bijective (idChartRingHom B V) := by
-  show Function.Bijective (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change Function.Bijective (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (yoneda.preimage (𝟙 (yoneda.obj V) ≫ 𝟙 (yoneda.obj V)))).op).hom
   rw [Category.comp_id, Functor.preimage_id, CategoryTheory.Functor.map_id, op_id,
     CategoryTheory.Functor.map_id]
@@ -150,7 +150,7 @@ theorem moduleFinite_cohomology_of_isProper_of_isAffine
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS
         (yoneda.obj V) (isAlgebraicSpace_yoneda B S hS V)).O)) (op (idEtaleChart B S hS V))
   have : Q.Additive := ⟨fun {M N a b} => by
-    show ((modulePushforward B S hS f).map (a + b)).val.app _ = _
+    change ((modulePushforward B S hS f).map (a + b)).val.app _ = _
     rw [Functor.map_add]
     rfl⟩
   let Γ' := globalSectionsFunctor.{u + 1, u, u, u}

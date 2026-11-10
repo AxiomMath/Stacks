@@ -204,7 +204,7 @@ theorem isQuasiCompactMorphism_toSpecFieldStack_classifyingModel :
         _)
       (isSurjective_classifyingChart C hk G 𝒬 e hG))
 
-include hG e in
+include e in
 /-- **The scheme theoretic image of `BG ⟶ Spec k` is all of `Spec k`.** The whole of `Spec k` is a
 closed substack, being the essential image of the identity, and a closed substack through which the
 structure morphism factors contains the image of the point of `BG`, hence every point of `Spec k`,
@@ -224,7 +224,7 @@ theorem isSchemeTheoreticImage_toSpecFieldStack_classifyingModel :
   refine ⟨hclosed, (factorsThroughSubstack_iff_forall _).2 fun _ => trivial,
     fun Q hQ hfac => ?_⟩
   have := subsingleton_points_specFieldStack.{u, w} C hk
-  obtain ⟨x⟩ := nonempty_points_classifyingModel C hk G hG 𝒬 e
+  obtain ⟨x⟩ := nonempty_points_classifyingModel C hk G 𝒬 e
   obtain ⟨g, -⟩ := hfac
   have hsurj : IsSurjective C (Spec (.of k)) hk
       (fullSubcategoryInclusion (specFieldStack.{u, w} C hk) Q hQ.2.choose) := fun y =>
@@ -344,7 +344,7 @@ theorem classifyingStack_multiplicativeGroup_dimension_lt :
     ⟨AlgebraicStacks.smallModelEquivalenceOver C (Spec (.of k)) hk _ hBG⟩⟩, fun 𝒬 e => ?_⟩
   have h𝒳 : IsLocallyNoetherianStack.{u, w} C (Spec (.of k)) hk (specFieldStack.{u, w} C hk) :=
     hasPropertyOnSomeSchemeAtlas_specFieldStack C hk _ inferInstance
-  have hP := isSchemeTheoreticImage_toSpecFieldStack_classifyingModel C hk 𝒬 G hG e
+  have hP := isSchemeTheoreticImage_toSpecFieldStack_classifyingModel C hk 𝒬 G e
   have hZ := closedSubstackDimension_top_specFieldStack.{u, w} C hk hP.1 hP.isAlgebraicStack h𝒳
   have hdim :
       dimension C (Spec (.of k)) hk 𝒬 (isLocallyNoetherianStack_classifyingModel C hk G hG 𝒬 e) =
@@ -361,7 +361,7 @@ theorem classifyingStack_multiplicativeGroup_dimension_lt :
     isQuasiSeparatedAbs_schemeStack_base.{u, w, w} C (Spec (.of k)) hk, hZ, hdim, ?_, fun t =>
       relativeStackDimensionAt_toSpecFieldStack_classifyingModel C hk 𝒬 G hG e 1 hn h𝒳 t⟩
   · let := pointTopology C (Spec (.of k)) hk 𝒬.val
-    have := nonempty_points_classifyingModel C hk G hG 𝒬 e
+    have := nonempty_points_classifyingModel C hk G 𝒬 e
     have := subsingleton_points_classifyingModel C hk G hG 𝒬 e
     exact { isPreirreducible_univ := Set.subsingleton_univ.isPreirreducible
             toNonempty := inferInstance }

@@ -122,7 +122,7 @@ theorem range_homOfLe_eq_preimage_ι {C : Type*} [Category C] {F : C ⥤ Type*}
     {G G' : Subfunctor F} (h : G ≤ G') :
     Subfunctor.range (Subfunctor.homOfLe h) = G.preimage G'.ι := by
   ext i y
-  show y ∈ Set.range ((Subfunctor.homOfLe h).app i) ↔ (G'.ι.app i) y ∈ G.obj i
+  change y ∈ Set.range ((Subfunctor.homOfLe h).app i) ↔ (G'.ι.app i) y ∈ G.obj i
   refine ⟨?_, fun hy ↦ ⟨⟨y.1, hy⟩, Subtype.ext rfl⟩⟩
   rintro ⟨x, rfl⟩
   exact x.2

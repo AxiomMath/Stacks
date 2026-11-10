@@ -634,7 +634,7 @@ public theorem derivationOfLifts_toFun (p q : Lift D) (U : Cᵒᵖ)
 public theorem translate_derivationOfLifts (p q : Lift D) :
     translate p (derivationOfLifts p q) = q := by
   refine Lift.ext (sheafHom_ext J fun U x => ?_)
-  show p.hom.hom.app U x + D.back.incl (diff p q U x) = q.hom.hom.app U x
+  change p.hom.hom.app U x + D.back.incl (diff p q U x) = q.hom.hom.app U x
   rw [incl_diff]
   abel
 

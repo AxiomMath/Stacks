@@ -237,7 +237,7 @@ theorem exactAt_rowComplex_of_projective (M : ModuleCat.{v} Λ) [Module.Projecti
     · simp only [Finsupp.mapRange_apply, Finsupp.onFinset_apply, hk, w']
       exact hw k
   refine ⟨balancedTensorRecomb (G.X (p - 1)) w', ?_⟩
-  show balancedTensorMap Λ (G.d (p - 1) p) (𝟙 M) (balancedTensorRecomb (G.X (p - 1)) w') = t
+  change balancedTensorMap Λ (G.d (p - 1) p) (𝟙 M) (balancedTensorRecomb (G.X (p - 1)) w') = t
   rw [← balancedTensorRecomb_natural, hw', hu]
   exact balancedTensorRecomb_balancedTensorCoord s hs _ t
 
@@ -584,7 +584,7 @@ theorem projective_cokernel_of_balancedTensor_exact [Finite Λ] {X₁ X₂ X₃ 
     exact Finset.sum_congr rfl fun l _ => by rw [← hφ' l]
   have hmem (k : X₂) : φ k - (φ k ∘ₗ f.hom) ∘ₗ h ∈ V := by
     rw [← Submodule.Quotient.mk_eq_zero, Submodule.Quotient.mk_sub, sub_eq_zero]
-    show q (φ k) = q ((φ k ∘ₗ f.hom) ∘ₗ h)
+    change q (φ k) = q ((φ k ∘ₗ f.hom) ∘ₗ h)
     rw [← hcx k, ← hy, hy', ← sum_op_smul_eq_comp, balancedTensorMap_sum_pure,
       balancedTensorCoord_sum_pure, map_sum]
     simp only [map_smul]
@@ -598,7 +598,7 @@ theorem projective_cokernel_of_balancedTensor_exact [Finite Λ] {X₁ X₂ X₃ 
       Finset.sum_sub_distrib, hφ]
   refine projective_cokernel_of_comp_comp g (ModuleCat.ofHom s) ?_
   ext v
-  show g (s (g v)) = g v
+  change g (s (g v)) = g v
   rw [hs, map_sub, sub_eq_self]
   exact congrArg (fun u : X₁ ⟶ X₃ => u (h v)) hfg
 
@@ -708,7 +708,7 @@ theorem isZero_homology_mapBifunctor_single_of_truncated [Finite Λ]
     rw [CochainComplex.isStrictlyLE_iff]
     intro i hi
     refine (hS.map_of_exact (HomologicalComplex.eval _ (ComplexShape.up ℤ) i)).isIso_f_iff.1 ?_
-    show IsIso ((HomologicalComplex.ιStupidTrunc K
+    change IsIso ((HomologicalComplex.ιStupidTrunc K
       (ComplexShape.embeddingUpIntGE (-(m : ℤ)))).f i)
     rw [StacksDraft.StupidTruncation.ιStupidTruncGE_f K _ i (by omega)]
     infer_instance

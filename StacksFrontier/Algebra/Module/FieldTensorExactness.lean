@@ -106,8 +106,7 @@ theorem exists_eq_tmul_of_rTensor_eq_zero (f : A₀ →ₗ[k] A₁) (one : A₀)
   have hexf : Function.Exact (LinearMap.ker f).subtype f := LinearMap.exact_subtype_ker_map f
   obtain ⟨w, rfl⟩ := (Module.Flat.rTensor_exact B₀ hexf y).mp hy
   clear hy
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction w using TensorProduct.inductionOn with
   | tmul a n =>
     obtain ⟨c, hc⟩ := hker a.1 a.2
     exact ⟨c • n, by simp [hc, TensorProduct.smul_tmul]⟩

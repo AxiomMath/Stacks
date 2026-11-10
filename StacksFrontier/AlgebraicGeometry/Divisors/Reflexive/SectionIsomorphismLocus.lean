@@ -115,7 +115,7 @@ theorem isOpen_isIso_stalkFunctor_map {F G : SheafOfModules.{u} R} [G.IsFiniteTy
   have hmono : Mono ((SheafOfModules.toSheaf R).map (kernel.ι φ)) := by
     rw [Sheaf.Hom.mono_iff_presheaf_mono, NatTrans.mono_iff_mono_app]
     intro U
-    show Mono ((forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat).map
+    change Mono ((forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat).map
       ((SheafOfModules.evaluation R U).map (kernel.ι φ)))
     exact Functor.map_mono (forget₂ (ModuleCat (R.obj.obj U)) AddCommGrpCat)
       ((SheafOfModules.evaluation R U).map (kernel.ι φ))

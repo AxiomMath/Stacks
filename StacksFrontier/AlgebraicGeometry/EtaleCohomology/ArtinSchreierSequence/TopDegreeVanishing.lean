@@ -63,9 +63,9 @@ no Frobenius endomorphism of the structure sheaf of the small étale site, that 
 
 The third is [Stacks, Tag 0A3M], the finite dimensionality of `H ^ d (X, 𝒪_X)` over `k`, carried as
 `hfin`. The library proves that tag, in
-`StacksFrontier/AlgebraicGeometry/TopDegreeCoherentFiniteness/Basic.lean`, only for an affine `X` and
-for `dim(X) = 0`, not for a general separated `X` of finite type, so it cannot be discharged here
-in general. It is stated in the shape that file uses,
+`StacksFrontier/AlgebraicGeometry/TopDegreeCoherentFiniteness/Basic.lean`, only for an affine `X`
+and for `dim(X) = 0`, not for a general separated `X` of finite type, so it cannot be discharged
+here in general. It is stated in the shape that file uses,
 `FiniteDimensional k (cohomologyOverField k f (SheafOfModules.unit X.ringCatSheaf) d)`, so that
 those two cases do discharge it.
 

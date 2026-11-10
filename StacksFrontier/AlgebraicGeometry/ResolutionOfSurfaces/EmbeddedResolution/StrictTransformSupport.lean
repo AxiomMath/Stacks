@@ -74,7 +74,7 @@ public theorem coe_support_transformIdeal {X : Scheme.{u}} [IsNoetherian X]
     rw [AlgebraicGeometry.strictTransformCenterIdeal_eq_ker, Scheme.Hom.support_ker,
       Scheme.Opens.range_ι]
   have hmem : ∀ q : P, q ∈ W ↔ b (pr₂ q) ≠ p := fun q => by
-    show I.subschemeι (pr₁ q) ∉ ((AlgebraicGeometry.centerIdeal p hp).support : Set X) ↔ _
+    change I.subschemeι (pr₁ q) ∉ ((AlgebraicGeometry.centerIdeal p hp).support : Set X) ↔ _
     rw [hci, Set.mem_singleton_iff, hpt q]
   have himg : pr₂.base '' (W : Set P) =
       b.base ⁻¹' (I.support : Set X) \ b.base ⁻¹' {p} := by

@@ -735,7 +735,7 @@ theorem LocalProAdicDatum.restrict_comp_map_eq_zero (D : LocalProAdicDatum I P U
   simp only [InverseSequence.tr] at hψφ
   rw [map_homOfLE_op_comp P ((D.e.βle j).trans (D.e.αle _)) (hβj.trans (L.m_le_k (β j))) hj,
     map_homOfLE_op_comp P hβj (L.m_le_k (β j)), R.map_comp]
-  show R.map g ≫ Pu.map _ ≫ Pu.map _ ≫ Pu.map _ = 0
+  change R.map g ≫ Pu.map _ ≫ Pu.map _ ≫ Pu.map _ = 0
   rw [← hψφ, ← Category.assoc, ← hl]
   simp only [Category.assoc]
   have hz' : Fork.ι (KernelFork.ofι (C := U.toScheme.Modules) S.ι
@@ -1083,7 +1083,7 @@ theorem exists_coherentAdicReplacement (F : CoherentAdicSystems I) (P : ℕᵒ�
     R.map (F.obj.map (homOfLE (e'.αle n)).op) ≫ σ'.hom.app (op n) at hrhs
   have hψ := replacementπ_ψ hV hD hβle (e'.α n)
   have hτ := τ.naturality (homOfLE (le_k_β (L := L) hβle (e'.α n))).op
-  show R.map (F.obj.map (homOfLE hnK).op) ≫ R.map ((replacementLift L F τ).app (op n)) ≫
+  change R.map (F.obj.map (homOfLE hnK).op) ≫ R.map ((replacementLift L F τ).app (op n)) ≫
       (isoOfProIso c).hom.hom.app (op n) =
     R.map (F.obj.map (homOfLE hnK).op) ≫ σ'.hom.app (op n)
   have chase : ∀ {C : Type (u + 1)} [Category.{u} C] {FK Fa Fn PK Pa Hb Hn Nn : C}

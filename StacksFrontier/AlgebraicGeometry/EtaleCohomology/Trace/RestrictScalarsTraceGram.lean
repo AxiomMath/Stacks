@@ -125,7 +125,7 @@ public theorem restrictScalarsTraceGram_mul_transpose {m : ℕ} (M : Matrix (Fin
     ← finProdFinEquiv.sum_comp, Fintype.sum_prod_type]
   simp only [finProdBlockDiagonal_apply, Matrix.transpose_apply, restrictScalarsMatrix_apply,
     ite_mul, zero_mul, mul_ite, mul_zero, Finset.sum_ite_irrel, Finset.sum_const_zero,
-    Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have h := congrFun (congrFun (traceMatrix_mul_leftMulMatrix b (M j i)) l) l'
   rw [Matrix.mul_apply, Matrix.mul_apply] at h
   simpa only [Matrix.transpose_apply] using h

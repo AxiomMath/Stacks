@@ -95,7 +95,7 @@ theorem homEquiv_comp_modulePullbackCompUniq {X Y Z : RingedSpace.{u, u}} (f : X
   let adj' := (adjg.comp adjf).ofNatIsoRight (modulePushforwardCompSymm f g).symm
   have hu : adjfg.homEquiv _ _ ((modulePullbackCompUniq f g).hom.app A) = adj'.unit.app A :=
     Adjunction.homEquiv_leftAdjointUniq_hom_app adjfg adj' A
-  show adjfg.homEquiv _ _ ((modulePullbackCompUniq f g).hom.app A ≫ φ) =
+  change adjfg.homEquiv _ _ ((modulePullbackCompUniq f g).hom.app A ≫ φ) =
     adjg.homEquiv _ _ (adjf.homEquiv _ _ φ)
   rw [adjfg.homEquiv_naturality_right, hu, ← adj'.homEquiv_unit,
     Adjunction.homEquiv_ofNatIsoRight_apply, Adjunction.comp_homEquiv]
@@ -374,7 +374,7 @@ theorem transposedCompatibility_iff
       apply Subtype.ext
       refine (congrArg (fun φ => φ.val.app (op V) (baseIdealSectionsEquiv ht V x))
         (baseIdealPushforwardIso_hom_ι ht)).trans ?_
-      show ((baseIdealSectionsEquiv ht V).symm (baseIdealSectionsEquiv ht V x)).1 = x.1
+      change ((baseIdealSectionsEquiv ht V).symm (baseIdealSectionsEquiv ht V x)).1 = x.1
       rw [Equiv.symm_apply_apply]
     have h' := congrArg (fun φ => φ.val.app (op V) y) h
     rw [key, hy] at h'

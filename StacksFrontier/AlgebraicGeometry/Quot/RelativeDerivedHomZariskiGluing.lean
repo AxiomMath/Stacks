@@ -262,7 +262,7 @@ theorem existsUnique_zarOpens_glue (K E : derivedModules B S hS X)
   have : IsGrothendieckAbelian.{u} C := by
     have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS
         (baseChangeSpace f (restrictTest T h₀)).1 (baseChangeSpace f (restrictTest T h₀)).2).C := by
-      show EssentiallySmall.{u} (SmallEtale B S hS (baseChangeSpace f (restrictTest T h₀)).1)
+      change EssentiallySmall.{u} (SmallEtale B S hS (baseChangeSpace f (restrictTest T h₀)).1)
       infer_instance
     exact SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
   let r := baseChangeProjection f (restrictTest T h₀)
@@ -309,7 +309,7 @@ theorem isZariskiSheafOver_relativeDerivedHom (K E : derivedModules B S hS X)
       R.map (zarLeg T h₀ (U i)).op g =
         ((zarOpensTest T h₀).op ⋙ R).map (homOfLE (le_top : U i ≤ ⊤)).op (R.map σ.hom.op g) := by
     intro g i
-    show _ = R.map ((zarOpensTest T h₀).map (homOfLE (le_top : U i ≤ ⊤))).op
+    change _ = R.map ((zarOpensTest T h₀).map (homOfLE (le_top : U i ≤ ⊤))).op
       (R.map (zarLeg T h₀ ⊤).op g)
     rw [← Functor.map_comp_apply, ← op_comp, zarLeg_w]
   refine ⟨R.map σ.inv.op y, fun i => ?_, fun g hg => ?_⟩

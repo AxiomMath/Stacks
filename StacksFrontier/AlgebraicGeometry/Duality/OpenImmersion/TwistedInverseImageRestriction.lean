@@ -78,8 +78,9 @@ derived direct image along each of the four morphisms, and by restriction along 
 explicit arguments; this is the open-immersion case of [Stacks, Tag 08D5] and the first half of
 [Stacks, Tag 0A9E], both proved downstream of this module. That `Rf_*` and `Rf'_*` have right
 adjoints — the second half of Tag 0A9E — is an instance argument, as in
-`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizingModule.lean`. Openness of `j'` is likewise
-an instance argument, although it follows from the square, because `(j')^*` occurs in the type.
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizingModule.lean`. Openness of `j'` is
+likewise an instance argument, although it follows from the square, because `(j')^*` occurs in
+the type.
 
 *The model of the derived categories.* The derived categories here are the locally small ones of
 `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, as in

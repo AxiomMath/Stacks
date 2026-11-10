@@ -109,7 +109,7 @@ noncomputable def sliceToChartPoints :
 
 /-- The comparison functor commutes with the projections to `𝒞_Λ`. -/
 theorem sliceToChartPoints_comp_π :
-    sliceToChartPoints c ⋙ CategoryOfElements.π (chartPoints c) =
+    sliceToChartPoints c ⋙ Functor.Elements.π (chartPoints c) =
       (sliceDeformations iΛ v₀ hv₀).projection := rfl
 
 /-- The comparison functor is faithful. -/
@@ -122,6 +122,7 @@ instance : (sliceToChartPoints c).Faithful where
     rw [← (sliceDeformations iΛ v₀ hv₀).morphism_projection f,
       ← (sliceDeformations iΛ v₀ hv₀).morphism_projection g, h1]
 
+omit [IsOpenImmersion iΛ] in
 /-- Changing the name of the algebra of a chart value along an equality. -/
 theorem chartValue_trans
     (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀)
@@ -198,6 +199,7 @@ theorem eqToHom_comp_eqToHom_comp_comp_eqToHom {C : Type*} [Category C] {a b c :
     eqToHom h₁ ≫ (eqToHom h₂ ≫ x) ≫ eqToHom h₃ = x := by
   subst h₁; simp
 
+omit [IsOpenImmersion iΛ] in
 /-- The ring map out of the chart of the restriction of the chart to `Spec A` along `ψ` is
 `ψ`. -/
 theorem ringMap_specMap_fromSpec {A : CommRingCat.{u}} (ψ : c.ring ⟶ A)
@@ -305,8 +307,8 @@ theorem essSurj_sliceToChartPoints
         exact chartValue_chartPointDeformation c hfin hqc A ψ
       exact key _ hd _
     let m : (sliceToChartPoints c).obj a ⟶ (chartPoints c).elementsMk A ψ := ⟨eqToHom hA, hval⟩
-    have : IsIso ((CategoryOfElements.π (chartPoints c)).map m) :=
-      inferInstanceAs (IsIso (eqToHom hA))
+    have : IsIso ((Functor.Elements.π (chartPoints c)).map m) :=
+      show IsIso (eqToHom hA) from inferInstance
     have : IsIso m := isIso_of_isCofiberedInGroupoids_of_map_isIso
       (Deformation.isCofiberedInGroupoids_elementsProjection (chartPoints c)) m
     exact ⟨a, ⟨asIso m⟩⟩
@@ -318,7 +320,7 @@ noncomputable def sliceChartPointsEquivalence
     (hqc : QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ))
     (hcof : IsCofiberedInGroupoids (sliceDeformations iΛ v₀ hv₀).projection) :
     StacksRepresentableCFG.EquivalenceOver (sliceDeformations iΛ v₀ hv₀).projection
-      (CategoryOfElements.π (chartPoints c)) :=
+      (Functor.Elements.π (chartPoints c)) :=
   haveI := full_sliceToChartPoints c hcof
   haveI := essSurj_sliceToChartPoints c hfin hqc
   equivalenceOverOfCofibered hcof (sliceToChartPoints c) (sliceToChartPoints_comp_π c)
@@ -512,7 +514,7 @@ noncomputable def chartPointsIso
 of elements. -/
 noncomputable def elementsEquivalenceOverOfIso {C : Type*} [Category C] {P Q : C ⥤ Type u}
     (e : P ≅ Q) :
-    StacksRepresentableCFG.EquivalenceOver (CategoryOfElements.π P) (CategoryOfElements.π Q) :=
+    StacksRepresentableCFG.EquivalenceOver (Functor.Elements.π P) (Functor.Elements.π Q) :=
   haveI : (NatTrans.mapElements e.hom).Faithful := ⟨fun {a b} f g h =>
     Functor.Elements.hom_ext <| congrArg (fun m : (NatTrans.mapElements e.hom).obj a ⟶
       (NatTrans.mapElements e.hom).obj b => m.hom) h⟩
@@ -544,7 +546,7 @@ theorem exists_sliceEquivalence_completion
     letI : (RingHom.ker q.toRingHom).IsPrime := RingHom.ker_isPrime _
     ∃ A : CompleteLocalAlgCat.{u, u, u} Λ k,
       Nonempty (StacksRepresentableCFG.EquivalenceOver
-        (CategoryOfElements.π (restrictedCoyoneda A)) (sliceDeformations iΛ v₀ hv₀).projection) ∧
+        (Functor.Elements.π (restrictedCoyoneda A)) (sliceDeformations iΛ v₀ hv₀).projection) ∧
       ringKrullDim A = ringKrullDim (Localization.AtPrime (RingHom.ker q.toRingHom)) := by
   let : (RingHom.ker q.toRingHom).IsPrime := RingHom.ker_isPrime _
   have : Algebra.FiniteType Λ c.ring := RingHom.finiteType_algebraMap.mp c.finiteType_structureMap

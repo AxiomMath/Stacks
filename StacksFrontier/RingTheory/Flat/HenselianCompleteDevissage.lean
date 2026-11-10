@@ -33,7 +33,7 @@ theorem exists_isLocalization_away_of_etale_retraction {A : Type u} {R' : Type v
     RingHom.mem_ker.mp (hker ▸ Ideal.mem_span_singleton_self e₀)
   have he₀p : e₀ ∈ p' := by
     rw [← hσ, Ideal.mem_comap]
-    show σ e₀ ∈ maximalIdeal A
+    change σ e₀ ∈ maximalIdeal A
     rw [he₀ker]
     exact Submodule.zero_mem _
   have hone : (1 - e₀) ∈ p'.primeCompl := by
@@ -46,7 +46,7 @@ theorem exists_isLocalization_away_of_etale_retraction {A : Type u} {R' : Type v
     intro y
     have hsub : y - algebraMap A R' (σ y) ∈ RingHom.ker σ.toRingHom := by
       rw [RingHom.mem_ker]
-      show σ (y - algebraMap A R' (σ y)) = 0
+      change σ (y - algebraMap A R' (σ y)) = 0
       rw [map_sub, σ.commutes]
       simp
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp (hker ▸ hsub)
@@ -64,7 +64,7 @@ theorem exists_isLocalization_away_of_etale_retraction {A : Type u} {R' : Type v
     exact ⟨⟨r, 1⟩, by rw [hmap, hmap, hr]; simp⟩
   · have hyz : algebraMap A R' (σ y) = algebraMap A R' (σ z) := by
       rw [← hmap, ← hmap, h]
-    show (1 - e₀) * y = (1 - e₀) * z
+    change (1 - e₀) * y = (1 - e₀) * z
     rw [hkill y, hkill z, hyz]
 
 namespace ElementaryEtaleLocalization
@@ -294,7 +294,7 @@ theorem exists_locAway_completeDevissageAt_of_henselian (A C M : Type u) [CommRi
   have htower : IsScalarTower E.R' A (E.locAway a) := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
     refine hunit.mul_left_cancel ?_
-    show algebraMap E.R' (E.locAway a) a * algebraMap E.R' (E.locAway a) x
+    change algebraMap E.R' (E.locAway a) a * algebraMap E.R' (E.locAway a) x
       = algebraMap E.R' (E.locAway a) a *
         algebraMap E.R' (E.locAway a) (algebraMap A E.R' (σ x))
     rw [← map_mul, ← map_mul, hkill x]
@@ -309,7 +309,7 @@ theorem exists_locAway_completeDevissageAt_of_henselian (A C M : Type u) [CommRi
     exact congrArg (algebraMap E.S' (E.locAway a))
       (congrFun (congrArg (fun f : A →+* E.S' => (f : A → E.S')) E.commutes) y).symm
   · refine ⟨?_⟩
-    show q = Ideal.comap (algebraMap C (E.locAway a)) (E.locAwayPrime a)
+    change q = Ideal.comap (algebraMap C (E.locAway a)) (E.locAwayPrime a)
     rw [IsScalarTower.algebraMap_eq C E.S' (E.locAway a), ← Ideal.comap_comap,
       Stacks.Flatness.under_map_algebraMapSubmonoid_powers ha' (E.locAway a)]
     exact E.q'_liesOver_q

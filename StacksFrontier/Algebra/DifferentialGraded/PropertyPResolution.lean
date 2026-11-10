@@ -145,14 +145,14 @@ private lemma isInternal_comap_of_homogeneous
     intro i
     apply Subtype.ext
     apply Subtype.ext
-    show (inc i (x i) : X) = (inc i (y i) : X)
+    change (inc i (x i) : X) = (inc i (y i) : X)
     rw [← incl_apply x i, ← incl_apply y i, h]
   · intro x
     let z := DirectSum.decompose G (x : X)
     let c : ∀ i, H i := fun i => ⟨⟨z i, hK x x.property i⟩, (z i).property⟩
     refine ⟨∑ i ∈ z.support, DirectSum.of (fun i => H i) i (c i), ?_⟩
     apply Subtype.ext
-    show K.subtype (DirectSum.coeAddMonoidHom H _) = (x : X)
+    change K.subtype (DirectSum.coeAddMonoidHom H _) = (x : X)
     simp only [map_sum, DirectSum.coeAddMonoidHom_of]
     exact DirectSum.sum_support_decompose G (x : X)
 
@@ -239,11 +239,11 @@ private lemma isInternal_comap_addEquiv {ι X Y : Type*} [DecidableEq ι]
       fun i => (g i).map f := by
     funext i
     ext x
-    show e x ∈ G i ↔ ∃ y, y ∈ G i ∧ e.symm y = x
+    change e x ∈ G i ↔ ∃ y, y ∈ G i ∧ e.symm y = x
     constructor
     · intro hx; exact ⟨e x, hx, e.symm_apply_apply x⟩
     · rintro ⟨y, hy, rfl⟩; simpa using hy
-  show DirectSum.IsInternal
+  change DirectSum.IsInternal
     (fun i => ((G i).comap e.toAddMonoidHom).toIntSubmodule)
   rw [he, DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
   have hg : DirectSum.IsInternal g := hG
@@ -278,7 +278,7 @@ private lemma directSumGrading_isInternal {A : DGAlgebra.{u, v} R}
     (hN : ∀ i, DirectSum.IsInternal (N i).grading) :
     DirectSum.IsInternal (DGModule.directSumGrading N) := by
   classical
-  show Function.Bijective (DirectSum.coeAddMonoidHom (DGModule.directSumGrading N))
+  change Function.Bijective (DirectSum.coeAddMonoidHom (DGModule.directSumGrading N))
   have hbij : ∀ i, Function.Bijective (DirectSum.coeAddMonoidHom (N i).grading) :=
     fun i => hN i
   let pdeg : ∀ (i : ι) (n : ℤ), ↥(DGModule.directSumGrading N n) →+ ↥((N i).grading n) := fun i n =>
@@ -321,7 +321,7 @@ private lemma directSumGrading_isInternal {A : DGAlgebra.{u, v} R}
     have hcomp : (pdeg i n (z n) : ↥((N i).grading n)) = (0 : ↥((N i).grading n)) := by
       rw [← proj_apply i z n, hpz i]; simp
     have hval : ((z n : ↥(DGModule.directSumGrading N n)) : ⨁ j, (N j).carrier) i = 0 := by
-      show ((pdeg i n (z n) : ↥((N i).grading n)) : (N i).carrier) = 0
+      change ((pdeg i n (z n) : ↥((N i).grading n)) : (N i).carrier) = 0
       rw [hcomp]; simp
     rw [hval]; simp
   · -- surjective
@@ -340,7 +340,7 @@ private lemma directSumGrading_isInternal {A : DGAlgebra.{u, v} R}
             map_zero' := by apply Subtype.ext; simp
             map_add' := by
               intro c d; apply Subtype.ext
-              show (DirectSum.of (fun k => (N k).carrier) j) ((c : (N j).carrier) + d) = _
+              change (DirectSum.of (fun k => (N k).carrier) j) ((c : (N j).carrier) + d) = _
               rw [map_add]; rfl }
         let Z : (⨁ n, ↥((N j).grading n)) →+ (⨁ n, ↥(DGModule.directSumGrading N n)) :=
           DirectSum.map embj
@@ -431,7 +431,7 @@ private lemma resolutionMap_comp {A : DGAlgebra.{u, v} R}
     (hA : A.IsLawful) {M : DGModule.{u, w, v} A} (hM : M.IsLawful)
     (n : ℕ) (x : (resolutionCover hA hM (n + 2)).obj.carrier) :
     (resolutionMap hA hM n).toFun ((resolutionMap hA hM (n + 1)).toFun x) = 0 := by
-  show (((resolutionCover hA hM (n + 1)).map.toFun
+  change (((resolutionCover hA hM (n + 1)).map.toFun
     ((resolutionCover hA hM (n + 2)).map.toFun x).val).val) = 0
   have h := ((resolutionCover hA hM (n + 2)).map.toFun x).property
   exact congrArg Subtype.val h
@@ -531,7 +531,7 @@ private lemma totalModule_d_apply {A : DGAlgebra.{u, v} R}
     (totalDifferential P f x) i = (-1 : ℤ) ^ i • (P i).d (x i) +
       (f i).toFun (x (i + 1)) := by
   let y : ⨁ i, (P i).carrier := DGModule.directSumD (fun i => (P i).shift (i : ℤ)) x
-  show (y + horizontal P f x) i = _
+  change (y + horizontal P f x) i = _
   rw [DirectSum.add_apply, horizontal_apply]
   have hy : y i = ((P i).shift (i : ℤ)).d (x i) :=
     DifferentialGraded.NativeCover.Native.directSum_d_apply (fun i => (P i).shift (i : ℤ)) x i
@@ -547,13 +547,13 @@ private lemma totalModule_isLawful {A : DGAlgebra.{u, v} R} (hA : A.IsLawful)
     ?_, ?_, ?_, ?_⟩
   · intro n m x a hx ha i
     let x : ⨁ i, (P i).carrier := x
-    show (MulOpposite.op a • x) i ∈ (P i).grading (n + m + (i : ℤ))
+    change (MulOpposite.op a • x) i ∈ (P i).grading (n + m + (i : ℤ))
     rw [DirectSum.smul_apply]
     simpa [add_right_comm] using (hP i).grading_smul (n + i) m (x i) a (hx i) ha
   · intro n x hx i
     let x : ⨁ i, (P i).carrier := x
     change ∀ j, x j ∈ (P j).grading (n + j) at hx
-    show (totalDifferential P f x) i ∈ (P i).grading (n + 1 + (i : ℤ))
+    change (totalDifferential P f x) i ∈ (P i).grading (n + 1 + (i : ℤ))
     rw [totalModule_d_apply]
     apply add_mem
     · simpa [add_right_comm] using
@@ -561,7 +561,7 @@ private lemma totalModule_isLawful {A : DGAlgebra.{u, v} R} (hA : A.IsLawful)
     · simpa [Nat.cast_add, Nat.cast_one, add_assoc, add_comm, add_left_comm] using
         (f i).map_grading _ _ (hx (i + 1))
   · intro x
-    show totalDifferential P f (totalDifferential P f x) = 0
+    change totalDifferential P f (totalDifferential P f x) = 0
     apply DirectSum.ext
     intro i
     rw [totalModule_d_apply, totalModule_d_apply, totalModule_d_apply]
@@ -571,7 +571,7 @@ private lemma totalModule_isLawful {A : DGAlgebra.{u, v} R} (hA : A.IsLawful)
     rfl
   · intro n m x a hx ha
     let x : ⨁ i, (P i).carrier := x
-    show totalDifferential P f (MulOpposite.op a • x) =
+    change totalDifferential P f (MulOpposite.op a • x) =
       MulOpposite.op a • totalDifferential P f x +
         (-1 : ℤ) ^ n.natAbs • (MulOpposite.op (A.d a) • x)
     apply DirectSum.ext
@@ -594,10 +594,10 @@ private lemma total_of_mem {A : DGAlgebra.{u, v} R}
   intro j
   by_cases h : j = i
   · subst j
-    show (DirectSum.of (fun i => (P i).carrier) i x) i ∈ (P i).grading (n + i)
+    change (DirectSum.of (fun i => (P i).carrier) i x) i ∈ (P i).grading (n + i)
     rw [DirectSum.of_eq_same]
     exact hx
-  · show (DirectSum.of (fun i => (P i).carrier) i x) j ∈ (P j).grading (n + j)
+  · change (DirectSum.of (fun i => (P i).carrier) i x) j ∈ (P j).grading (n + j)
     rw [DirectSum.of_eq_of_ne _ _ _ h]
     exact zero_mem _
 
@@ -672,7 +672,7 @@ private lemma totalAugmentation_surjective_cocycles {A : DGAlgebra.{u, v} R}
       (totalAugmentation P f e he).toFun x = y := by
   obtain ⟨x, hx, hdx, hxy⟩ := hs n y hy hd
   refine ⟨DirectSum.of _ 0 x, total_of_mem P f 0 n x (by simpa using hx), ?_, ?_⟩
-  · show totalDifferential P f (DirectSum.of _ 0 x) = 0
+  · change totalDifferential P f (DirectSum.of _ 0 x) = 0
     rw [totalDifferential_of_zero, hdx, map_zero]
   · exact hxy
 
@@ -741,12 +741,12 @@ private lemma total_cycle_boundary_of_bounds {A : DGAlgebra.{u, v} R}
         hT.d_mem (n - 1) t ht
       simpa only [sub_add_cancel] using h
     have hzd : totalDifferential P f z = 0 := by
-      show totalDifferential P f (x - totalDifferential P f t) = 0
+      change totalDifferential P f (x - totalDifferential P f t) = 0
       rw [map_sub, hd, show totalDifferential P f (totalDifferential P f t) = 0 from
         hT.d_comp_d t, sub_self]
     have hzs : ∀ j, j < b + 1 ∨ b + 1 + k < j → z j = 0 := by
       intro j hj
-      show (x - totalDifferential P f t) j = 0
+      change (x - totalDifferential P f t) j = 0
       rw [hdt, DirectSum.sub_apply, DirectSum.add_apply]
       by_cases h : j = b
       · subst j
@@ -785,7 +785,7 @@ private lemma totalAugmentation_isQuasiIsomorphism {A : DGAlgebra.{u, v} R}
   apply isQuasiIsomorphism_of_acyclic_kernel hT _
     (totalAugmentation_surjective_degreewise P f e he hs)
     (totalAugmentation_surjective_cocycles P f e he hsc)
-  show ∀ n (x : ⨁ i, (P i).carrier), x ∈ (totalModule P f).grading n →
+  change ∀ n (x : ⨁ i, (P i).carrier), x ∈ (totalModule P f).grading n →
     totalDifferential P f x = 0 → e.toFun (x 0) = 0 →
       ∃ z : ⨁ i, (P i).carrier, z ∈ (totalModule P f).grading (n - 1) ∧
         totalDifferential P f z = x
@@ -1100,7 +1100,7 @@ private lemma leftEvaluation_surjective {A : DGAlgebra.{u, v} R}
   refine ⟨⟨DirectSum.of (fun i => (P i).carrier) i ((E i).incl.toFun y),
     single_mem_filtrationSubmodule P E t i _ (by omega)
       (fun _ => (E i).proj_incl y)⟩, ?_⟩
-  show (E i).retraction.toFun
+  change (E i).retraction.toFun
     ((DirectSum.of (fun i => (P i).carrier) i ((E i).incl.toFun y)) i) = y
   rw [DirectSum.of_eq_same, FreeExtension.retraction_incl]
 
@@ -1111,7 +1111,7 @@ private lemma leftEvaluation_eq_zero_iff {A : DGAlgebra.{u, v} R}
     (leftEvaluation P f E t i ht).toFun x = 0 ↔
       (DirectSum.component A.carrierᵐᵒᵖ ℕ (fun j => (P j).carrier) i) x.val = 0 := by
   let z : ⨁ j, (P j).carrier := x.val
-  show (E i).retraction.toFun (z i) = 0 ↔ z i = 0
+  change (E i).retraction.toFun (z i) = 0 ↔ z i = 0
   have hz : (E i).proj.toFun (z i) = 0 := x.property.2 i ht
   constructor
   · intro h
@@ -1142,7 +1142,7 @@ private lemma rightEvaluation_surjective {A : DGAlgebra.{u, v} R}
   obtain ⟨x, hx⟩ := (E i).exact.surjective y
   refine ⟨⟨DirectSum.of (fun i => (P i).carrier) i x,
     single_mem_filtrationSubmodule P E t i x (by omega) (by omega)⟩, ?_⟩
-  show (E i).proj.toFun ((DirectSum.of (fun i => (P i).carrier) i x) i) = y
+  change (E i).proj.toFun ((DirectSum.of (fun i => (P i).carrier) i x) i) = y
   rw [DirectSum.of_eq_same, hx]
 
 private lemma filtrationInclusion_range {A : DGAlgebra.{u, v} R}
@@ -1164,7 +1164,7 @@ private lemma rightEvaluation_ker {A : DGAlgebra.{u, v} R}
       LinearMap.range (filtrationInclusion P f E (2 * i)).toFun := by
   ext x
   rw [filtrationInclusion_range]
-  show (E i).proj.toFun
+  change (E i).proj.toFun
     ((DirectSum.component A.carrierᵐᵒᵖ ℕ (fun j => (P j).carrier) i) x.val) = 0 ↔ _
   constructor
   · intro hx
@@ -1220,7 +1220,7 @@ private lemma leftEvaluation_zero_injective {A : DGAlgebra.{u, v} R}
   apply Subtype.ext
   apply DirectSum.ext
   intro j
-  show (DirectSum.component A.carrierᵐᵒᵖ ℕ (fun j => (P j).carrier) j) x.val = 0
+  change (DirectSum.component A.carrierᵐᵒᵖ ℕ (fun j => (P j).carrier) j) x.val = 0
   by_cases h : j = 0
   · subst j
     exact h0

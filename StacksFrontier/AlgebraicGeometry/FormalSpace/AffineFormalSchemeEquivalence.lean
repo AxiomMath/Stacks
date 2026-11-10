@@ -271,7 +271,7 @@ theorem injective_presentationFunction (hA : TopologicalRing.IsWeaklyAdmissible 
   refine eq_of_forall_weakIdeals hA fun J => ?_
   have hι : ∀ c : A, (Sheaf.sectionEquiv τ).symm (presentationStageFunction P J c) =
       colimit.ι _ J ≫ P.colimitIso.inv ≫ presentationFunction P c := fun c => by
-    show _ = colimit.ι _ J ≫ P.colimitIso.inv ≫ P.colimitIso.hom ≫
+    change _ = colimit.ι _ J ≫ P.colimitIso.inv ≫ P.colimitIso.hom ≫
       colimit.desc _ (presentationCocone P c)
     rw [Iso.inv_hom_id_assoc]
     exact (colimit.ι_desc (presentationCocone P c) J).symm

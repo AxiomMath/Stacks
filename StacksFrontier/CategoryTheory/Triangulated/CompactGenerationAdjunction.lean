@@ -109,7 +109,7 @@ lemma isCompactObject_map_of_adjunction {L : C ⥤ D} {R : D ⥤ C} [L.Additive]
     simp only [AddMonoidHom.coe_comp, Function.comp_apply, DirectSum.map_of,
       AddEquiv.coe_toAddMonoidHom, cofanMap_of, Adjunction.homAddEquiv_apply]
     exact (adj.homEquiv_naturality_right f (Limits.Sigma.ι A i)).symm
-  show Function.Bijective (cofanMap (L.obj K) (Limits.Sigma.ι A))
+  change Function.Bijective (cofanMap (L.obj K) (Limits.Sigma.ι A))
   refine (Function.Bijective.of_comp_iff' (adj.homAddEquiv K (∐ A)).bijective _).mp ?_
   have hcomp : (adj.homAddEquiv K (∐ A)) ∘ (cofanMap (L.obj K) (Limits.Sigma.ι A)) =
       (cofanMap K fun i => R.map (Limits.Sigma.ι A i)) ∘

@@ -351,7 +351,7 @@ private lemma exists_distTriang_singleFunctor
       ?_ ?_ ?_)
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.f
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.g
-  · show (Plus.ι.map δ ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
+  · change (Plus.ι.map δ ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
           ((Plus.singleFunctor A 0).obj S.X₁)) ≫
         (shiftFunctor (DerivedCategory A) (1 : ℤ)).map
           (𝟙 ((DerivedCategory.singleFunctor A 0).obj S.X₁)) =
@@ -511,7 +511,7 @@ private theorem single_has_source_acyclic_terms
       (((CochainComplex.singleFunctor (PresheafOfModules.{v} rings) 0).obj system).X degree) := by
   by_cases same : degree = 0
   · subst degree
-    show sourceAcyclicSystem rings system
+    change sourceAcyclicSystem rings system
     exact computes
   · exact sourceAcyclicSystem_of_isZero rings _
       (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 system degree same)

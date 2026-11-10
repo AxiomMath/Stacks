@@ -284,7 +284,7 @@ theorem isPullback_pointFibreHom (k : Type u) [Field k] :
       (pointInfinity k) := by
   have hx := pointInfinity_comp k
   set σ := (relativeProjectiveLine (Spec (CommRingCat.of k)) ↘ Spec (CommRingCat.of k))
-  show IsPullback (graphMorphism σ σ (σ ≫ pointInfinity k)
+  change IsPullback (graphMorphism σ σ (σ ≫ pointInfinity k)
     (constantMorphism_comp_base σ (pointInfinity k) hx)) σ (pullback.fst σ σ) (pointInfinity k)
   refine IsPullback.of_right (h₁₂ := pullback.snd σ σ) (h₂₂ := σ) (v₁₃ := σ) ?_
     (graphMorphism_fst _ _ _ _) (IsPullback.of_hasPullback σ σ).flip
@@ -298,7 +298,7 @@ theorem isPullback_fibrePointHom (k : Type u) [Field k] :
       (pointInfinity k) := by
   have hx := pointInfinity_comp k
   set σ := (relativeProjectiveLine (Spec (CommRingCat.of k)) ↘ Spec (CommRingCat.of k))
-  show IsPullback (graphMorphism σ σ (σ ≫ pointInfinity k)
+  change IsPullback (graphMorphism σ σ (σ ≫ pointInfinity k)
       (constantMorphism_comp_base σ (pointInfinity k) hx) ≫ (pullbackSymmetry σ σ).hom) σ
     (pullback.snd σ σ) (pointInfinity k)
   refine IsPullback.of_right (h₁₂ := pullback.fst σ σ) (h₂₂ := σ) (v₁₃ := σ) ?_
@@ -441,13 +441,13 @@ theorem finrank_grade_projectiveLineObj [CharZero F] (i : ℤ) :
     exact fun h ↦ one_ne_zero (congrArg Subtype.val h)
   have h0 := hle 0
   have h2 := hle 2
-  simp only [true_or, or_true, if_true] at h0 h2
+  simp only [true_or, or_true, ite_true] at h0 h2
   by_cases hi : i = 0 ∨ i = 2
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     rcases hi with rfl | rfl <;> omega
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have := hle i
-    rw [if_neg hi] at this
+    rw [ite_eq_right hi] at this
     omega
 
 include hB hC in
@@ -466,7 +466,7 @@ theorem cohomology_projectiveLineObj [CharZero F] :
     by simpa using finrank_grade_projectiveLineObj hA hB hC 2, fun i h0 h2 ↦ ?_⟩
   have := hA.finiteDimensionality _ 1 hP i
   have h := finrank_grade_projectiveLineObj hA hB hC i
-  rw [if_neg (by tauto)] at h
+  rw [ite_eq_right (by tauto)] at h
   exact Submodule.finrank_eq_zero.mp h
 
 end Main

@@ -60,19 +60,19 @@ variable {A : Type u₁} {B : Type u₂} {C : Type u₃} {D : Type u₄}
 
 /-- **The mate of an isomorphism of right adjoints along two equivalences is an isomorphism.** -/
 lemma isIso_mateEquiv_symm_of_isEquivalence (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    [G.IsEquivalence] [H.IsEquivalence] (β : TwoSquare R₁ H G R₂) [IsIso β.natTrans] :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    [G.IsEquivalence] [H.IsEquivalence] (β : TwoSquare R₁ H G R₂) [IsIso β] :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   let adj₃ : G ⊣ G.inv := G.asEquivalence.toAdjunction
   let adj₄ : H ⊣ H.inv := H.asEquivalence.toAdjunction
   have : IsIso adj₃.unit := inferInstanceAs (IsIso G.asEquivalence.unitIso.hom)
   have : IsIso adj₄.counit := inferInstanceAs (IsIso H.asEquivalence.counitIso.hom)
   let γ := mateEquiv adj₄ adj₃ β
-  have hγ : IsIso γ.natTrans := by
+  have hγ : IsIso γ := by
     simp only [γ, mateEquiv_apply]
     infer_instance
   have hβ : β = (mateEquiv adj₄ adj₃).symm γ := ((mateEquiv adj₄ adj₃).symm_apply_apply β).symm
-  have e' : ((mateEquiv adj₁ adj₂).symm β).natTrans =
-      (conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂)).symm γ.natTrans := by
+  have e' : (mateEquiv adj₁ adj₂).symm β =
+      (conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂)).symm γ := by
     rw [hβ, iterated_mateEquiv_conjugateEquiv_symm adj₁ adj₂ adj₃ adj₄ γ]
   rw [e']
   infer_instance
@@ -129,12 +129,12 @@ noncomputable def leftAdjointNaturalityInv {X Y : C} (p : Y ⟶ X) :
     TwoSquare (τ X) (F.map p.op.toLoc).toFunctor (G.map p.op.toLoc).toFunctor (τ Y) :=
   (mateEquiv (adjF p) (adjG p)).symm (σ p)
 
-variable [∀ X, (τ X).IsEquivalence] (hσ : ∀ {X Y : C} (p : Y ⟶ X), IsIso (σ p).natTrans)
+variable [∀ X, (τ X).IsEquivalence] (hσ : ∀ {X Y : C} (p : Y ⟶ X), IsIso (σ p))
 
 include hσ in
 /-- The adjoint mate `leftAdjointNaturalityInv` of `σ p` is an isomorphism. -/
 lemma isIso_leftAdjointNaturalityInv {X Y : C} (p : Y ⟶ X) :
-    IsIso (leftAdjointNaturalityInv RF adjF RG adjG τ σ p).natTrans :=
+    IsIso (leftAdjointNaturalityInv RF adjF RG adjG τ σ p) :=
   have := hσ p
   isIso_mateEquiv_symm_of_isEquivalence (adjF p) (adjG p) (σ p)
 
@@ -146,14 +146,14 @@ abbrev leftAdjointApp (X : C) : F.obj (.mk (op X)) ⟶ G.obj (.mk (op X)) :=
 noncomputable def leftAdjointNaturality {X Y : C} (p : Y ⟶ X) :
     F.map p.op.toLoc ≫ leftAdjointApp τ Y ≅ leftAdjointApp τ X ≫ G.map p.op.toLoc :=
   have := isIso_leftAdjointNaturalityInv RF adjF RG adjG τ σ hσ p
-  Cat.Hom.isoMk (asIso (leftAdjointNaturalityInv RF adjF RG adjG τ σ p).natTrans).symm
+  Cat.Hom.isoMk (asIso (leftAdjointNaturalityInv RF adjF RG adjG τ σ p)).symm
 
 /-- The inverse of `leftAdjointNaturality` is the natural transformation underlying
 `leftAdjointNaturalityInv`. -/
 @[simp]
 lemma leftAdjointNaturality_inv_toNatTrans {X Y : C} (p : Y ⟶ X) :
     (leftAdjointNaturality RF adjF RG adjG τ σ hσ p).inv.toNatTrans =
-      (leftAdjointNaturalityInv RF adjF RG adjG τ σ p).natTrans :=
+      leftAdjointNaturalityInv RF adjF RG adjG τ σ p :=
   rfl
 
 variable
@@ -225,7 +225,7 @@ lemma leftAdjointNaturality_comp {X Y Z : C} (p : Y ⟶ X) (q : Z ⟶ Y) :
   ext M
   have k := NatTrans.congr_app (leftAdjointNaturalityInv_comp RF adjF RG adjG τ σ hcomp p q) M
   simp only [TwoSquare.whiskerRight, TwoSquare.whiskerLeft, TwoSquare.vComp, mapCompInvNatTrans,
-    TwoSquare.natTrans, NatTrans.comp_app, Functor.associator_hom_app, Functor.associator_inv_app,
+    NatTrans.comp_app, Functor.associator_hom_app, Functor.associator_inv_app,
     Category.id_comp, Category.comp_id] at k
   simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
     Cat.associator_inv_app, Cat.associator_hom_app, eqToHom_refl, Category.id_comp,

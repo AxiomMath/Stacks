@@ -92,7 +92,7 @@ theorem ranBaseChange_smul (hf : RX = f.op ⋙ RY) (hg : RY' = g.op ⋙ RY)
             Stacks.SheafOfModules.ranπ f'.op (g'.op ⋙ M.presheaf) y j (βK.hom.app y s)))
     (hsc : ∀ (y : 𝒴'ᵒᵖ) (j : StructuredArrow y f'.op) (r : RY'.obj y),
       (eqToHom hf.symm).app (g'.op.obj j.right)
-          (RY.map (g.op.map j.hom ≫ w.op.natTrans.app j.right) ((eqToHom hg).app y r)) =
+          (RY.map (g.op.map j.hom ≫ w.op.app j.right) ((eqToHom hg).app y r)) =
         (eqToHom hg').app j.right ((eqToHom hf'.symm).app j.right (RY'.map j.hom r)))
     (y : 𝒴'ᵒᵖ) (r : RY'.obj y) (s : N.obj (g.op.obj y)) :
     βK.inv.app y ((w.op.ranBaseChange.app M.presheaf).app y
@@ -108,7 +108,7 @@ theorem ranBaseChange_smul (hf : RX = f.op ⋙ RY) (hg : RY' = g.op ⋙ RY)
       Stacks.SheafOfModules.ranπ f'.op (g'.op ⋙ M.presheaf) y j
         ((w.op.ranBaseChange.app M.presheaf).app y z) =
       Stacks.SheafOfModules.ranπ f.op M.presheaf (g.op.obj y)
-        (StructuredArrow.mk (g.op.map j.hom ≫ w.op.natTrans.app j.right)) z := fun z j ↦ by
+        (StructuredArrow.mk (g.op.map j.hom ≫ w.op.app j.right)) z := fun z j ↦ by
     rw [← ConcreteCategory.comp_apply, Stacks.SheafOfModules.ranBaseChange_π]
   apply inj
   rw [hi]
@@ -172,7 +172,7 @@ variable
           Stacks.SheafOfModules.ranπ f'.op M.val.presheaf y j ((βP'.hom.app M).app y s)))
   (hsc : ∀ (y : 𝒴'ᵒᵖ) (j : StructuredArrow y f'.op) (r : OY'.obj.obj y),
     (eqToHom hf.symm).app (g'.op.obj j.right)
-        (OY.obj.map (g.op.map j.hom ≫ w.op.natTrans.app j.right) ((eqToHom hg).app y r)) =
+        (OY.obj.map (g.op.map j.hom ≫ w.op.app j.right) ((eqToHom hg).app y r)) =
       (eqToHom hg').app j.right ((eqToHom hf'.symm).app j.right (OY'.obj.map j.hom r)))
 
 /-- The base change morphism `g⁻¹ f_* ℱ ⟶ f'_* (g')⁻¹ ℱ` of sheaves of modules, for direct images

@@ -183,7 +183,7 @@ public theorem solution (R : Type*) [CommRing R] [IsNoetherianRing R]
   obtain ⟨p, ⟨hp, hpjac⟩, hpmax⟩ := set_has_maximal_iff_noetherian.mpr
     (inferInstance : IsNoetherian R R) {I : Ideal R | I.IsPrime ∧ I.jacobson ≠ I} hcon
   have : Ideal.IsPrime p := hp
-  obtain ⟨x, hxjac, hxp⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨x, hxjac, hxp⟩ := IsConcreteLE.not_le_iff_exists.mp
     (fun hle => hpjac (le_antisymm hle Ideal.le_jacobson))
   -- Every prime `q ⊋ p` has `q.jacobson = q` by maximality of `p`, hence contains `x`.
   have hxq : ∀ q : Ideal R, q.IsPrime → p < q → x ∈ q := fun q hq hpq =>

@@ -84,9 +84,9 @@ theorem preservesColimitsOfShape_rightDerived_etaleAbelianDirectImage_of_qcqs
     have : QuasiSeparatedSpace ((𝟭 Scheme.{u}).obj (W k).left) :=
       inferInstanceAs (QuasiSeparatedSpace (W k).left)
     refine ⟨?_, ?_⟩
-    · show CompactSpace (Limits.pullback (W k).hom f : Scheme.{u})
+    · change CompactSpace (Limits.pullback (W k).hom f : Scheme.{u})
       exact QuasiCompact.compactSpace_of_compactSpace (Limits.pullback.fst (W k).hom f)
-    · show QuasiSeparatedSpace (Limits.pullback (W k).hom f : Scheme.{u})
+    · change QuasiSeparatedSpace (Limits.pullback (W k).hom f : Scheme.{u})
       exact quasiSeparatedSpace_of_quasiSeparated (Limits.pullback.fst (W k).hom f)
   have := isIso_colimit_post_rightDerived_sheafSections_of_qcqs.{v} p
     ((smallEtaleBaseChange f).obj (W k)) hq F

@@ -491,14 +491,14 @@ public theorem solution
     refine Set.Subset.antisymm ?_ ?_
     · rintro _ ⟨a, rfl⟩
       refine ⟨a ∘ₗ t hk, ?_⟩
-      show (a ∘ₗ t hk) ∘ₗ t hii' = a ∘ₗ t (hii'.trans hk)
+      change (a ∘ₗ t hk) ∘ₗ t hii' = a ∘ₗ t (hii'.trans hk)
       ext x
       simp only [LinearMap.comp_apply]
       rw [ht]
     · rintro _ ⟨b, rfl⟩
       obtain ⟨φ₀, hφ₀⟩ := hφ k (hii'.trans hk)
       refine ⟨b ∘ₗ φ₀, ?_⟩
-      show (b ∘ₗ φ₀) ∘ₗ t (hii'.trans hk) = b ∘ₗ t hii'
+      change (b ∘ₗ φ₀) ∘ₗ t (hii'.trans hk) = b ∘ₗ t hii'
       ext x
       simp only [LinearMap.comp_apply]
       rw [hφ₀]

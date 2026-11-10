@@ -99,7 +99,7 @@ def totalFundamentalClass [IsNoetherian Y] : DirectSum ℤ fun n => chowGroup C 
 theorem totalFundamentalClass_apply [IsNoetherian Y] (n : ℤ) :
     totalFundamentalClass C sY n = fundamentalChowClass C sY n := by
   classical
-  rw [totalFundamentalClass, DFinsupp.finset_sum_apply]
+  rw [totalFundamentalClass, DFinsupp.finsetSum_apply]
   by_cases hn : n ∈ fundamentalClassDegrees C sY
   · refine (Finset.sum_eq_single_of_mem n
       ((fundamentalClassDegrees_finite C sY).mem_toFinset.2 hn) fun m _ hmn => ?_).trans ?_

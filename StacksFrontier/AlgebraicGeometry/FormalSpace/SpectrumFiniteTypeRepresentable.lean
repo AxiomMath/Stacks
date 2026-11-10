@@ -162,12 +162,13 @@ Condition (2) is taken in the form of \
 condition (a) of Stacks 0ANU, `TopologicalRing.FiniteTypeModuloEveryWeakIdeal`, which is what \
 the source's proof of this implication derives from condition (2) in its first sentence; that \
 derivation is \
-`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType` and assumes no \
-countability, so this implication is the source's with its hypothesis weakened. Condition (a) \
+`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType` and assumes \
+no countability, so this implication is the source's with its hypothesis weakened. Condition (a) \
 implies condition (2) back, with no countability assumption either, by \
 `TopologicalRing.isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal`; condition (2) \
 verbatim is the hypothesis of this implication as it appears in \
-`AlgebraicGeometry.FormalSpace.isFiniteType_formalSpectrumMap_iff_isTaut_and_isTopologicallyOfFiniteType`"]
+`AlgebraicGeometry.FormalSpace.isFiniteType_formalSpectrumMap_iff_\
+isTaut_and_isTopologicallyOfFiniteType`"]
 theorem isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -195,7 +196,8 @@ base change taken along an arbitrary scheme-valued point of `Spf A`. -/
 @[stacks 0ANT "the implication (2) ⟹ (1) for the local condition of Stacks 0AM4 part (1), \
 with the base change taken along an arbitrary scheme-valued point of `Spf A`; condition (2) is \
 taken in the form of condition (a) of Stacks 0ANU, as on \
-`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal`"]
+`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_\
+of_finiteTypeModuloEveryWeakIdeal`"]
 theorem isLocallyOfFiniteType_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -284,7 +286,8 @@ Stacks 0AKN consumes of a formal spectrum only its presentation by affine thicke
 verbatim and condition (2) read verbatim as tautness together with being topologically of \
 finite type. The forward \
 implication is \
-`AlgebraicGeometry.FormalSpace.isTaut_and_isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap'` \
+`AlgebraicGeometry.FormalSpace.isTaut_and_isTopologicallyOfFiniteType_\
+of_isFiniteType_formalSpectrumMap'` \
 and uses only the locally-of-finite-type half of condition (1); the backward implication \
 goes through condition (a) of Stacks 0ANU by \
 `TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType` and then \
@@ -308,7 +311,7 @@ theorem isFiniteType_formalSpectrumMap_iff_isTaut_and_isTopologicallyOfFiniteTyp
     fun h ↦ isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal
       hA hC D E f
       (TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType'
-        f.toRingHom f.continuous h.1 h.2)⟩
+        f.toRingHom h.1 h.2)⟩
 
 end AlgebraicGeometry.FormalSpace
 

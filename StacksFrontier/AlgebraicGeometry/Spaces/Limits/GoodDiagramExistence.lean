@@ -196,7 +196,7 @@ theorem nonempty_goodDiagram_of_noetherianApproximation
       hfft.2
   -- Stacks 0872: a closed immersion `X ⟶ X'` into a space of finite presentation over `B`
   obtain ⟨X', f', ι, hX', hf'fp, hι, hιf⟩ :=
-   exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherianApproximation
+    exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherian
       B S hS f hX hB hfft.1 hXqc
       (isAbsolutelyQuasiSeparated_of_isQuasiSeparated_limitCone_of_algebraicLimit hX hfqs)
       D.isQuasiCompactSpace_limitCone_pt

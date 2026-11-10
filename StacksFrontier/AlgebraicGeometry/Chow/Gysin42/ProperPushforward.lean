@@ -102,10 +102,10 @@ fibres of `g`. Those are `Stacks.Chow.ComponentRule.extendCoeff_map_apply` and
 The declarations below quantify over the two component rules `chern` and `chern'`, so they are
 statements about arbitrary rules on integral components rather than about `L` and `s`. Stacks 02TA
 is carried one step further on, in
-`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforwardInvertible`, where both rules are the
-first Chern class of an invertible module, the morphism `g` of Remark 0B6Y is constructed and the
-Stacks 02S2 hypothesis along it is discharged, leaving the integral-component compatibility as the
-one grant.
+`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforwardInvertible`, where both rules are
+the first Chern class of an invertible module, the morphism `g` of Remark 0B6Y is constructed and
+the Stacks 02S2 hypothesis along it is discharged, leaving the integral-component compatibility as
+the one grant.
 
 Stacks 0B79, that the degree-1 Gysin rule of a triple `(ℒ, s, i : D ⟶ X)` is a bivariant class,
 is `Stacks.Chow.gysinBivariantClass` in
@@ -302,7 +302,7 @@ theorem gysinHomomorphism_properPushforward
         ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) g hg k hfac
         (gysinHomomorphism C p' k ((Scheme.Modules.pullback f).obj L)
           (AlgebraicGeometry.pullbackGlobalSections f L s) chern' α) := by
-  show QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
+  change QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
     (properPushforward C p' p f hf (k + 1) α)) = _
   rw [properPushforward_gysinRule_extendCycleGroup C p k L s chern p' f hf chern' g hg hcomp α]
   rfl

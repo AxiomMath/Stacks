@@ -100,7 +100,7 @@ theorem isZero_relativeDifferentials_of_formallyUnramified {X S : Scheme.{u}} (f
   have hF : IsZero F := by
     rw [TopCat.Sheaf.isZero_iff_stalkFunctor_obj_isZero]
     intro x
-    show IsZero (M.presheaf.stalk x)
+    change IsZero (M.presheaf.stalk x)
     rw [IsZero.iff_id_eq_zero]
     apply TopCat.Presheaf.stalk_hom_ext (F := M.presheaf)
     intro W hxW
@@ -115,13 +115,13 @@ theorem isZero_relativeDifferentials_of_formallyUnramified {X S : Scheme.{u}} (f
       (hUW.trans inf_le_right)
     have : Subsingleton (M.presheaf.obj (.op U)) := ModuleCat.isZero_iff_subsingleton.mp hzU
     let i : U ⟶ W := homOfLE (show U ≤ W from hUW.trans inf_le_left)
-    show M.presheaf.germ W x hxW s = 0
+    change M.presheaf.germ W x hxW s = 0
     rw [← M.presheaf.germ_res_apply i x hxU s, Subsingleton.elim (M.presheaf.map i.op s) 0]
     simp
   have hP' : IsZero M.presheaf := by
     simpa [TopCat.Sheaf.forget, F] using Functor.map_isZero (TopCat.Sheaf.forget Ab X) hF
   refine (IsZero.iff_id_eq_zero _).mpr ((Scheme.Modules.toPresheaf X).map_injective ?_)
-  show 𝟙 ((Scheme.Modules.toPresheaf X).obj M) = 0
+  change 𝟙 ((Scheme.Modules.toPresheaf X).obj M) = 0
   change IsZero ((Scheme.Modules.toPresheaf X).obj M) at hP'
   exact (IsZero.iff_id_eq_zero _).mp hP'
 
@@ -158,7 +158,7 @@ theorem formallyEtale_respectsIso : RingHom.RespectsIso RingHom.FormallyEtale :=
   apply formallyEtale_stableUnderComposition.respectsIso
   intro R S _ _ e
   let : Algebra R S := e.toRingHom.toAlgebra
-  show Algebra.FormallyEtale R S
+  change Algebra.FormallyEtale R S
   exact Algebra.FormallyEtale.of_equiv (A := R) (AlgEquiv.ofRingEquiv (f := e) fun _ ↦ rfl)
 
 /-- A localization map is formally étale. -/
@@ -184,7 +184,7 @@ theorem formallyEtale_localizationPreserves :
   have : Algebra.FormallyEtale R S := by
     rw [← RingHom.formallyEtale_algebraMap]
     exact hφ
-  show Algebra.FormallyEtale R' S'
+  change Algebra.FormallyEtale R' S'
   exact Algebra.FormallyEtale.localization_map (R := R) (S := S) (Rₘ := R') (Sₘ := S') M
 
 /-- The map of local rings induced by an étale ring map at a prime is formally étale. -/
@@ -235,7 +235,7 @@ theorem isZero_relativeDifferentials_of_surjective_etale {X' X Y : Scheme.{u}} (
     RingHom.flat_algebraMap_iff.mp (Flat.stalkMap f x')
   have : Module.FaithfullyFlat (X.presheaf.stalk (f x')) (X'.presheaf.stalk x') :=
     Module.FaithfullyFlat.of_flat_of_isLocalHom
-  show RingHom.FormallyUnramified
+  change RingHom.FormallyUnramified
     (algebraMap (Y.presheaf.stalk (g (f x'))) (X.presheaf.stalk (f x')))
   rw [RingHom.formallyUnramified_algebraMap]
   exact Algebra.formallyUnramified_of_faithfullyFlat_formallyEtale hComp'

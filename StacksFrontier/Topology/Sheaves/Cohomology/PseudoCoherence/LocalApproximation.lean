@@ -123,7 +123,7 @@ theorem exists_strictlyPerfect_approximation_boundedAbove
       ((((restrictModules (X.restrict U.isOpenEmbedding) V).mapHomologicalComplex
         (ComplexShape.up ℤ)).map (stupidTruncGEInclusion P (r + 1))).f j) := by
     have h := isIso_stupidTruncGEInclusion_f P (r + 1) j hj
-    show IsIso ((restrictModules (X.restrict U.isOpenEmbedding) V).map
+    change IsIso ((restrictModules (X.restrict U.isOpenEmbedding) V).map
       ((stupidTruncGEInclusion P (r + 1)).f j))
     exact Functor.map_isIso _ _
   have hcyc : IsDirectSummandOfFiniteFree ((restrictComplex P V).cycles r) :=

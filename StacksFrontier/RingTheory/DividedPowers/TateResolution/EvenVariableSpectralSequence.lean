@@ -272,7 +272,7 @@ public theorem evenVariableToCoeff_ofCoeffNat (n : ℕ) (b : ↥(evenVariableGra
     evenVariableToCoeff 𝒜 dA f h0 (-(n : ℤ)) (evenVariableOfCoeffNat 𝒜 dA f h0 n b) =
       (b : EvenVariableAlgebra A) := by
   rw [evenVariableToCoeff_natCast, evenVariableToCoeffNat_apply]
-  show ((evenVariableXIso 𝒜 dA f h0 n).hom
+  change ((evenVariableXIso 𝒜 dA f h0 n).hom
     ((evenVariableXIso 𝒜 dA f h0 n).inv b) : EvenVariableAlgebra A) = _
   rw [Iso.inv_hom_id_apply]
 

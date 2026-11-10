@@ -178,6 +178,7 @@ def curveClassGroupPullback (π : X ⟶ Y) : curveClassGroup gY →+ curveClassG
       (schemePicardPullbackHom π)).comp
     (curveClassGroupAddEquivSchemePicard gY).toAddMonoidHom
 
+omit [IsAlgClosed k] in
 /-- Under the identification `Cl(-) ≅ Pic(-)`, the pullback of a divisor class along `π`
 corresponds to the pullback of its Picard class. -/
 @[simp]

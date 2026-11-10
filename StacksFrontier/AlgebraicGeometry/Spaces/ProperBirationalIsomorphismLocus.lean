@@ -293,13 +293,13 @@ private theorem bijOn_genericPoints_map_of_isBirational
         pointsMap B S hS (yoneda.obj A) (yoneda.map q)
           ((schemePointsHomeomorph B S hS A).symm y) :=
       schemePointsHomeomorph_symm_map B S hS q y
-    show pointsMap B S hS (yoneda.obj C) eC.hom
+    change pointsMap B S hS (yoneda.obj C) eC.hom
         ((schemePointsHomeomorph B S hS C).symm (qS y)) =
       pointsMap B S hS F f
         (pointsMap B S hS (yoneda.obj A) eA.hom ((schemePointsHomeomorph B S hS A).symm y))
     rw [hmap, ← pointsMap_comp_apply, ← pointsMap_comp_apply, hq]
   have hb := hf.bijOn B S hS hF hG hDF hDG hCF hCG
-  show Set.BijOn qS (genericPoints (T.obj A)) (genericPoints (T.obj C))
+  change Set.BijOn qS (genericPoints (T.obj A)) (genericPoints (T.obj C))
   refine ⟨fun y hy => ?_, fun y hy z hz hyz => ?_, fun z hz => ?_⟩
   · have hh := c.symm.mem_genericPoints (hb.mapsTo (a.mem_genericPoints hy))
     rwa [← hcompat, c.symm_apply_apply] at hh
@@ -354,7 +354,7 @@ private theorem isBirational_map_of_isBirational
       isOpen := isOpenImmersion_of_isIso B S hS eC.hom
       point := r
       mapsTo := by
-        show pointsMap B S hS (yoneda.obj C) eC.hom
+        change pointsMap B S hS (yoneda.obj C) eC.hom
             (pointsMap B S hS (yoneda.obj A) (yoneda.map q) (p.class B S hS (yoneda.obj A))) = _
         rw [← pointsMap_comp_apply, ← hq, pointsMap_comp_apply, ← hclass]
         rfl }
@@ -581,7 +581,7 @@ private theorem mem_isomorphismLocus_of_isFinite_over_neighbourhood
         Set.range (pointsMap B S hS V.toFunctor V.ι),
       hvopen.preimage ((continuous_pointsMap B S hS a).comp e.continuous)⟩
   have htD : t ∈ D := by
-    show pointsMap B S hS (yoneda.obj T) a (e t) ∈
+    change pointsMap B S hS (yoneda.obj T) a (e t) ∈
       Set.range (pointsMap B S hS V.toFunctor V.ι)
     rwa [het, hp]
   obtain ⟨W, hWaff, htW, hWD⟩ := exists_isAffineOpen_mem_and_subset htD
@@ -595,7 +595,7 @@ private theorem mem_isomorphismLocus_of_isFinite_over_neighbourhood
       rintro _ ⟨z, rfl⟩
       rw [pointsMap_comp_apply, ← Homeomorph.symm_apply_apply (schemePointsHomeomorph B S hS A) z,
         ← schemePointsHomeomorph_symm_map]
-      show K.map j (schemePointsHomeomorph B S hS A z) ∈ D
+      change K.map j (schemePointsHomeomorph B S hS A z) ∈ D
       rw [hjK]
       exact hWD (schemePointsHomeomorph B S hS A z).property)
   obtain ⟨C, q, i, -, hq, hs⟩ := hfin A inferInstance d

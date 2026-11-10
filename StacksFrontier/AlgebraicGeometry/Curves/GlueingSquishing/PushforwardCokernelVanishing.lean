@@ -61,7 +61,7 @@ theorem isIso_app_of_isIso_morphismRestrict {X' X : Scheme.{u}} (f : X' ⟶ X)
     (W : X.Opens) [IsIso (f ∣_ W)] (U : X.Opens) (hUW : U ≤ W) : IsIso (f.app U) := by
   have he : W.ι ''ᵁ (W.ι ⁻¹ᵁ U) = U := by
     ext x
-    show (∃ y : W.toScheme, y ∈ W.ι ⁻¹ᵁ U ∧ W.ι y = x) ↔ x ∈ U
+    change (∃ y : W.toScheme, y ∈ W.ι ⁻¹ᵁ U ∧ W.ι y = x) ↔ x ∈ U
     refine ⟨?_, fun hx => ⟨⟨x, hUW hx⟩, hx, rfl⟩⟩
     rintro ⟨y, hy, rfl⟩
     exact hy

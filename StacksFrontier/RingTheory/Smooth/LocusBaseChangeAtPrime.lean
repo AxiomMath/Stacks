@@ -217,7 +217,7 @@ theorem isSmoothAt_iff_isSmoothAt_of_isPushout_of_flat (R A R' A' : Type*) [Comm
             A →ₐ[R] (Ideal.under R q).Fiber A) = q := by
       refine ⟨Ideal.comap (algebraMap ((Ideal.under R q).Fiber A)
         ((Ideal.under R' q').Fiber A')) Q', inferInstance, ⟨rfl⟩, ?_⟩
-      show Ideal.comap ((Algebra.TensorProduct.includeRight :
+      change Ideal.comap ((Algebra.TensorProduct.includeRight :
         A →ₐ[R] (Ideal.under R q).Fiber A).toRingHom) _ = q
       rw [Ideal.comap_comap, Ideal.Fiber.algebraMap_baseChange_comp_includeRight R R' A A'
         (Ideal.under R q) (Ideal.under R' q'), ← Ideal.comap_comap, hQ'']

@@ -159,8 +159,8 @@ the three components it is not joined to all vanish, given that the weighted sum
 `2r₂ + r₃ + r₄` is below the common weight and each is a multiple of it.
 
 This is the one argument that the three branches `r₂ = 0`, `r₃ = 0`, `r₄ = 0` of
-`exists_weight_eq_d5_of_isMinusTwoIndex` share; factoring it out avoids three copies of the argument, each closing with its own
-`nlinarith` over the full context. -/
+`exists_weight_eq_d5_of_isMinusTwoIndex` share; factoring it out avoids three copies of the
+argument, each closing with its own `nlinarith` over the full context. -/
 private lemma eq_zero_of_dvd_of_weighted_sum_lt {w r₂ r₃ r₄ : ℤ} (hw : 0 < w)
     (h₂ : 0 ≤ r₂) (h₃ : 0 ≤ r₃) (h₄ : 0 ≤ r₄)
     (d₂ : w ∣ r₂) (d₃ : w ∣ r₃) (d₄ : w ∣ r₄)

@@ -171,9 +171,7 @@ theorem comp_etaleModulePullback_map_comp_val_app {D A C : AlgebraicSpaces B S h
 morphisms `h : D ⟶ A` and `g : A ⟶ C`, in the nested spelling of the iterated pullback. -/
 theorem modulePullbackIso_hom_compIso_val_app {D A C : AlgebraicSpaces B S hS} (h : D ⟶ A)
     (g : A ⟶ C) (hh : IsEtale B S hS h.hom) (hg : IsEtale B S hS g.hom)
-    (hhg : IsEtale B S hS (h ≫ g).hom) (hreph : yoneda.relativelyRepresentable h.hom)
-    (hrepg : yoneda.relativelyRepresentable g.hom)
-    (hrephg : yoneda.relativelyRepresentable (h ≫ g).hom) (G : Modules.{u, u} B S hS C.1 C.2)
+    (hhg : IsEtale B S hS (h ≫ g).hom) (G : Modules.{u, u} B S hS C.1 C.2)
     (U : SmallEtale B S hS D.1)
     (w : ((modulePullback B S hS h).obj ((modulePullback B S hS g).obj G)).val.obj (op U)) :
     ((modulePullbackIsoEtaleModulePullback B S hS (h ≫ g) hhg).hom.app G).val.app (op U)
@@ -184,8 +182,7 @@ theorem modulePullbackIso_hom_compIso_val_app {D A C : AlgebraicSpaces B S hS} (
           (((modulePullbackIsoEtaleModulePullback B S hS h hh).hom.app
             ((modulePullback B S hS g).obj G)).val.app (op U) w)) :=
   congrArg (fun t => (t.app G).val.app (op U) w)
-    (modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h g hh hg hhg
-      hreph hrepg hrephg)
+    (modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h g hh hg hhg)
 
 end ChartUnit
 
@@ -372,10 +369,6 @@ theorem modulePullbackIso_hom_directImageSelfOpensSection_restriction
           (selfOpensPreimageChartHom k hk W)).op
         (((modulePullbackIsoEtaleModulePullback B S hS (pointHom (X := X) f) hf).hom.app M).val.app
           (op ((selfOpensFunctor B S hS T).obj W)) x) := by
-  have hrep : ∀ {T₀ : BigFppfOver B S hS} (g : yonedaSpace B S hS T₀ ⟶ X),
-      yoneda.relativelyRepresentable g.hom := fun g =>
-    (Functor.relativelyRepresentable.diag_iff (F := yoneda) (X := X.1)).1
-      X.2.diagonal_representable g.hom
   have h2 := directImageSelfOpensSection_eq_moduleChartProjection k W
     ((modulePullback B S hS (representedSpaceMap B S hS k ≫ pointHom (X := X) f)).obj M)
     (((modulePushforward B S hS (representedSpaceMap B S hS k)).map
@@ -412,8 +405,7 @@ theorem modulePullbackIso_hom_directImageSelfOpensSection_restriction
         ((modulePullback B S hS (pointHom (X := X) f)).obj M)).val.app
         (op ((selfOpensFunctor B S hS T).obj W)) x)).symm
   have hcoh := modulePullbackIso_hom_compIso_val_app (representedSpaceMap B S hS k)
-    (pointHom (X := X) f) hk hf hf'
-    (relativelyRepresentable_yoneda_map B S hS k) (hrep _) (hrep _) M
+    (pointHom (X := X) f) hk hf hf' M
     ((selfOpensFunctor B S hS T').obj (preimageOpens k W))
     (directImageSelfOpensSection k W
         (moduleSetSheaf B S hS (yonedaSpace B S hS T')

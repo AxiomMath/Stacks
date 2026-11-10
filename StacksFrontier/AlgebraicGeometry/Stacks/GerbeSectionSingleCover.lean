@@ -153,7 +153,7 @@ theorem exists_fiber_glue_schemeFibredCategory
   let φ : (z i).1 ⟶ (Over.mk d : Over U) := Over.homMk (eqToHom (h₂ i) ≫ j i) hw
   have hφ : (schemeFibredCategory B S hS U).val.p.IsHomLift (j i) φ := by
     refine IsHomLift.of_fac' _ (j i) φ (z i).2 rfl ?_
-    show eqToHom (h₂ i) ≫ j i = eqToHom (h₂ i) ≫ j i ≫ eqToHom rfl
+    change eqToHom (h₂ i) ≫ j i = eqToHom (h₂ i) ≫ j i ≫ eqToHom rfl
     simp
   have : (schemeFibredCategory B S hS U).val.p.IsStronglyCartesian (j i) φ :=
     (schemeFibredCategory B S hS U).isFiberedInGroupoids.isStronglyCartesian_homLift (j i) φ
@@ -186,7 +186,7 @@ theorem flat_locallyOfFinitePresentation_surjective_of_iso_comp_eq_sigmaDesc
   · obtain ⟨i, a, ha⟩ := W.jointly_surjective t
     refine ⟨e.hom ((Limits.Sigma.ι W.X i) a), ?_⟩
     exact (congrArg (fun q : W.X i ⟶ X => q a)
-      (show Limits.Sigma.ι W.X i ≫ e.hom ≫ g = W.f i by rw [h, Limits.Sigma.ι_desc])).trans ha
+      (show Limits.Sigma.ι W.X i ≫ e.hom ≫ g = W.f i by rw [h, Limits.Sigma.ι_comp_desc])).trans ha
 
 /-- **The gathering step.** Let `x : 𝒰 ⟶ 𝒳` be a 1-morphism of categories fibred in groupoids
 over the big fppf site of `S` whose source satisfies descent and whose target has `Mor`-sheaves,
@@ -241,10 +241,10 @@ theorem exists_single_cover_fiber_image_of_locallyEssSurjOnFibers
   have hmap : e.hom ≫ B.inclusion.map f.left = Limits.Sigma.desc W.f := by
     refine Limits.Sigma.hom_ext _ _ fun i => ?_
     rw [← Category.assoc, he i]
-    show B.inclusion.map (j i).left ≫ B.inclusion.map f.left = _
+    change B.inclusion.map (j i).left ≫ B.inclusion.map f.left = _
     rw [← B.inclusion.map_comp]
-    show B.inclusion.map (j i ≫ f).left = _
-    rw [hfac, Limits.Sigma.ι_desc]
+    change B.inclusion.map (j i ≫ f).left = _
+    rw [hfac, Limits.Sigma.ι_comp_desc]
     exact B.inclusion.map_preimage (X := B.obj (hW i)) (Y := T.left) (W.f i)
   obtain ⟨hfFlat, hfLfp, hfSurj⟩ :=
     flat_locallyOfFinitePresentation_surjective_of_iso_comp_eq_sigmaDesc W e hmap
@@ -277,7 +277,7 @@ theorem fiberArrow_eq_of_iso {U T : BigFppfOver B S hS}
   have hlift : e.hom.1.left = eqToHom h ≫ 𝟙 T ≫ eqToHom h'.symm :=
     IsHomLift.fac' (schemeFibredCategory B S hS U).val.p (𝟙 T) e.hom.1
   have hw : e.hom.1.left ≫ z'.1.hom = z.1.hom := Over.w e.hom.1
-  show eqToHom h.symm ≫ z.1.hom = eqToHom h'.symm ≫ z'.1.hom
+  change eqToHom h.symm ≫ z.1.hom = eqToHom h'.symm ≫ z'.1.hom
   rw [← hw, hlift]
   simp
 

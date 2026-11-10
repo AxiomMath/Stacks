@@ -111,7 +111,7 @@ lemma ringStalkOverEquiv_toPresheafFiber (W : Over V) (y : (Φ.over q).fiber.obj
   have h := ConcreteCategory.congr_hom
     (GrothendieckTopology.Point.toPresheafFiber_comp_presheafFiberOverIso_hom_app Φ q
       CommRingCat.{w} O.obj W y) s
-  show ((GrothendieckTopology.Point.presheafFiberOverIso Φ q CommRingCat.{w}).app
+  change ((GrothendieckTopology.Point.presheafFiberOverIso Φ q CommRingCat.{w}).app
     O.obj).inv _ = _
   rw [← h]
   exact ConcreteCategory.congr_hom
@@ -134,6 +134,7 @@ variable (O : Sheaf J CommRingCat.{w}) [J.HasSheafCompose (forget₂ CommRingCat
   [(J.over V).HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 
 set_option maxHeartbeats 400000 in
+-- the `Iso.refl` steps check stalks of restricted module sheaves against each other by defeq
 /-- The underlying additive comparison of `Stacks.sheafModuleFiberOverIso`: the stalk at
 `Φ.over q` of the restriction of `M` to the localized site is the stalk of `M` at `Φ`, as
 abelian groups. It is `presheafFiberOverIso` for the underlying presheaf of abelian groups. -/
@@ -183,7 +184,7 @@ lemma moduleStalkOverAddEquiv_moduleStalkGerm
         (moduleStalkGerm (Φ.over q) (O.over V)
           ((SheafOfModules.overFunctor (commRingSheafToRingSheaf O) V).obj M) W y m) =
       moduleStalkGerm Φ O M W.left y.val m := by
-  show ((GrothendieckTopology.Point.presheafFiberOverIso Φ q AddCommGrpCat.{w}).app
+  change ((GrothendieckTopology.Point.presheafFiberOverIso Φ q AddCommGrpCat.{w}).app
       M.val.presheaf).hom
       ((Φ.over q).toPresheafFiber W y ((Over.forget V).op ⋙ M.val.presheaf) m) =
     Φ.toPresheafFiber W.left y.val M.val.presheaf m

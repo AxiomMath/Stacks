@@ -100,7 +100,7 @@ theorem isLocallySurjective_sigmaDesc_of_exists_section {ι : Type*}
   intro V g hg
   obtain ⟨i, t, ht⟩ := hcov g hg
   refine ⟨(Sigma.ι G i).hom.app (op V) t, ?_⟩
-  rw [← ht, ← NatTrans.comp_app_apply, ← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+  rw [← ht, ← NatTrans.comp_app_apply, ← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
 
 /-! ### Composing two layers of coverings -/
 
@@ -195,7 +195,7 @@ theorem isLocallySurjective_sigmaDesc_prodLift_of_exists_covering_anyIndex
   let Pr := (sheafifiedYoneda J).obj X ⨯ (sheafifiedYoneda J).obj X'
   let L : ∀ i, (sheafifiedYoneda J).obj (V i) ⟶ Pr := fun i =>
     prod.lift ((sheafifiedYoneda J).map (p i)) ((sheafifiedYoneda J).map (q i))
-  show IsLocallySurjective (Sigma.desc L)
+  change IsLocallySurjective (Sigma.desc L)
   refine isLocallySurjective_sigmaDesc_of_exists_section L ?_
   intro Y s
   obtain ⟨σ, rfl⟩ := (sectionEquiv J).surjective s
@@ -277,7 +277,7 @@ theorem isLocallySurjective_sigmaDesc_equalizerLift_of_exists_covering {X X' : C
         simpa only [Functor.map_comp] using congrArg (sheafifiedYoneda J).map (hp i))
   have hLι : ∀ i, L i ≫ ι = (sheafifiedYoneda J).map (p i) := fun i => equalizer.lift_ι _ _
   have hιmono : Mono ι := equalizer.ι_mono
-  show IsLocallySurjective (Sigma.desc L)
+  change IsLocallySurjective (Sigma.desc L)
   refine isLocallySurjective_sigmaDesc_of_exists_section L ?_
   intro Y s
   obtain ⟨τ, rfl⟩ := (sectionEquiv J).surjective s

@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.Sheaf
 public import StacksFrontier.AlgebraicGeometry.AffineQcohPushforward.Basic
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.AssociatedPointObstruction
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.AssociatedPointObstruction
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.PushforwardAffine
 import StacksCore.Tactic.EgaSgaAttribute

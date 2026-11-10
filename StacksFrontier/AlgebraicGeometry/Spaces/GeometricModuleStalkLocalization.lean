@@ -206,7 +206,7 @@ theorem bijective_localizedMap_geometricModuleStalkLinearMap
       refine (LocalizedModule.mk_eq.2 ⟨⟨germ₀ ^ (k + j), hmem (k + j)⟩, ?_⟩).trans
         (LocalizedModule.zero_mk c)
       rw [smul_zero, smul_zero, smul_comm]
-      show c • (germ₀ ^ (k + j) • z) = 0
+      change c • (germ₀ ^ (k + j) • z) = 0
       rw [pow_add, mul_smul, hk, smul_zero]
   · intro y
     induction y using LocalizedModule.induction_on with

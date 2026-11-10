@@ -88,13 +88,14 @@ public theorem isTaut_map_of_isTaut_completedMap {A B A' B' : Type u}
 @[stacks 0ANJ "axiom 0ANF for tautness"]
 public theorem isTaut_pi {B : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] (hB : IsCountablyWeaklyAdmissible B)
-    {ι : Type u} [Fintype ι] (A : ι → Type u)
+    {ι : Type u} [Finite ι] (A : ι → Type u)
     [∀ i, CommRing (A i)] [∀ i, TopologicalSpace (A i)]
     [∀ i, IsTopologicalRing (A i)] [∀ i, IsLinearTopology (A i) (A i)]
     (hA : ∀ i, IsCountablyWeaklyAdmissible (A i))
     (f : ∀ i, B →+* A i) (hf : ∀ i, Continuous (f i)) (h : ∀ i, RingHom.IsTaut (f i)) :
-    RingHom.IsTaut (RingHom.pi f) :=
-  isTaut_finiteProductPreserves hB.1 hB.2 A (fun i ↦ (hA i).1) (fun i ↦ (hA i).2) f hf hB hA h
+    RingHom.IsTaut (RingHom.pi f) := by
+  have := Fintype.ofFinite ι
+  exact isTaut_finiteProductPreserves hB.1 hB.2 A (fun i ↦ (hA i).1) (fun i ↦ (hA i).2) f hf hB hA h
 
 end TopologicalRing
 

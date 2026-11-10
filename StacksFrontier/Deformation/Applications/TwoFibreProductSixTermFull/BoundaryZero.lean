@@ -453,7 +453,8 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
         (β.asIso.hom.val ≫
           (crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered).hom) := by
       have h1 : (f ⋙ pF).IsHomLift
-          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) β.asIso.hom.val := β.asIso.hom.2
+          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) β.asIso.hom.val :=
+        β.asIso.hom.2
       have h2 := isHomLift_crossCompareFst.{u, v, w} f g PW M QH hH.predeformation.cofibered
       exact @IsHomLift.comp_of_lift_id _ _ _ _ (f ⋙ pF) _ _ _ _ _ _ h1 h2
     have hγv : (g ⋙ pF).IsHomLift
@@ -461,7 +462,8 @@ public theorem tangentClassAt_boundaryObject_eq_zero_iff
         (γ.asIso.hom.val ≫
           (crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered).hom) := by
       have h1 : (g ⋙ pF).IsHomLift
-          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) γ.asIso.hom.val := γ.asIso.hom.2
+          (𝟙 ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)) γ.asIso.hom.val :=
+        γ.asIso.hom.2
       have h2 := isHomLift_crossCompareSnd.{u, v, w} f g PW M QG hG.predeformation.cofibered
       exact @IsHomLift.comp_of_lift_id _ _ _ _ (g ⋙ pF) _ _ _ _ _ _ h1 h2
     refine ⟨fiberIsoOfVertical _ _

@@ -56,7 +56,7 @@ theorem isLocallySurjective_sigmaDesc_iso_comp {X : FppfSheaf B S hS} {I : Type 
   obtain ⟨i, t, ht⟩ := h g hg
   refine ⟨i, (e i).inv.hom.app _ t, ?_⟩
   rw [← ht]
-  show ((e i).inv ≫ (e i).hom ≫ f i).hom.app _ t = _
+  change ((e i).inv ≫ (e i).hom ≫ f i).hom.app _ t = _
   rw [Iso.inv_hom_id_assoc]
 
 /-- A locally Noetherian formal algebraic space has a jointly locally surjective family of affine

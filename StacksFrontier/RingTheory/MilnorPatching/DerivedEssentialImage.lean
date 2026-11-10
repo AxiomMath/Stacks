@@ -117,7 +117,7 @@ theorem patchedComplex_extendScalarsComp_compatible :
           ((patchedComplex I s E P φ hE hP).X n)) (toBase_comp_fibreProductFst I s)) ≫
         (StacksDraft.DerivedExtensionScalarsModelComp.extendScalarsComp.{u, u, u, u}
           (fibreProductSnd I s) surjection).hom.app ((patchedComplex I s E P φ hE hP).X n) := by
-    show ((ModuleGlueing.extendScalarsComp.{u} (fibreProductFst I s) toBase).symm ≪≫
+    change ((ModuleGlueing.extendScalarsComp.{u} (fibreProductFst I s) toBase).symm ≪≫
       eqToIso (congrArg ModuleCat.extendScalars.{u, u, u} (toBase_comp_fibreProductFst I s)) ≪≫
       ModuleGlueing.extendScalarsComp.{u} (fibreProductSnd I s) surjection).hom.app _ = _
     simp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, eqToIso.hom, eqToHom_app]
@@ -239,7 +239,7 @@ theorem patchedComplex_derivedExtensionIso_compatible (d : ℤ) [E.IsStrictlyLE 
       L).trans ?_
     rw [q₁]
     simp only [compComparisonOfEq, NatTrans.comp_app]
-    show (G₁.map (α₁.app L) ≫ β₁.app _ ≫
+    change (G₁.map (α₁.app L) ≫ β₁.app _ ≫
       (extensionOfScalarsComplexCompIso.{u, u, u, u, w₄} (fibreProductFst I s) toBase).hom.app L) ≫
         _ = _
     simp only [Category.assoc]
@@ -636,7 +636,7 @@ theorem isIso_homEquiv_symm_of_distinguished_glueingMap (hI : HenselianPair A' I
   obtain ⟨ha, hb, -⟩ := isIso_and_compatible_of_distinguished_glueingMap I s D₁.functor γ₁
     D₂.functor γ₂ D₃.functor γ₃ D₄.functor γ₄ hI
     M hM K' hK' α' _ hT e₂ e₃ (by
-      show glueingMap adjF adjI c M K' α.hom ≫ eJ.hom.app _ ≫
+      change glueingMap adjF adjI c M K' α.hom ≫ eJ.hom.app _ ≫
           (derivedRestrictFst I s).map (eF.hom.app _) ≫ (derivedRestrictFst I s).map
             ((ModuleCat.restrictScalars.{u} toBase).mapDerivedCategory.map (θI.hom.app K')) = _
       rw [reassoc_of% h₁, h₂]

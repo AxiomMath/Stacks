@@ -226,7 +226,7 @@ private theorem subschemeMap_comp_specialFiberComponentToSpec
         (S.specialFiberComponentIdeal W) (S.specialFiberComponentIdeal Z).subschemeι
         (Scheme.IdealSheafData.le_map_comap _ _) ≫ S.specialFiberComponentToSpec W =
       (S.componentIntersectionIdeal Z W).subschemeι ≫ S.specialFiberComponentToSpec Z := by
-  show _ ≫ (S.specialFiberComponentι W ≫ S.specialFiberToSpec) =
+  change _ ≫ (S.specialFiberComponentι W ≫ S.specialFiberToSpec) =
     _ ≫ (S.specialFiberComponentι Z ≫ S.specialFiberToSpec)
   simp only [← Category.assoc]
   congr 1
@@ -292,7 +292,7 @@ theorem isSeparable_of_specialFiberIntersectionMatrix_eq_weight
       Γ((S.componentIntersectionIdeal Z W).subscheme, ⊤) :=
     { M.appTop.hom with
       commutes' := fun c => by
-        show (M.appTop.hom ((S.specialFiberComponentToSpec W).appTop.hom
+        change (M.appTop.hom ((S.specialFiberComponentToSpec W).appTop.hom
             ((Scheme.ΓSpecIso (.of S.k)).inv.hom c))) =
           ((S.componentIntersectionIdeal Z W).subschemeι ≫
             S.specialFiberComponentToSpec Z).appTop.hom ((Scheme.ΓSpecIso (.of S.k)).inv.hom c)
@@ -409,7 +409,7 @@ private theorem forall_of_topologicalGenus_add_geometricGenus_eq
     rw [heq]
     simp
   have hmult' : ∀ i, T.multiplicity i = 1 := fun i => by
-    show (S.specialFiberMultiplicity (e' i) : ℤ) = 1
+    change (S.specialFiberMultiplicity (e' i) : ℤ) = 1
     exact_mod_cast hmult (e' i)
   exact T.forall_of_genusDefect_univ_le_zero χ c gg hstep hgg (e'.symm Z₀) hw₀ hbase hΔ hmult'
     hmin P hP1 hPg hPt i
@@ -450,7 +450,7 @@ theorem isSeparable_globalSections_specialFiberComponent_of_eq
   have hPg : ∀ i, T.componentGenus i ≠ 0 → P i := fun i hi =>
     S.isSeparable_globalSections_specialFiberComponent_of_genus_ne_zero x hx hsm n e heq (e' i)
       fun h0 => hi <| by
-        show (S.specialFiberComponentGenus (e' i) : ℤ) = 0
+        change (S.specialFiberComponentGenus (e' i) : ℤ) = 0
         exact_mod_cast h0
   have hPt : ∀ V i, V ≠ i → T.intersection V i = T.weight V → P V → P i :=
     fun V i hVi hVw hPV => S.isSeparable_of_specialFiberIntersectionMatrix_eq_weight
@@ -496,7 +496,7 @@ theorem smooth_specialFiberComponentToSpec_of_eq
   have hfac : S.specialFiberComponentToSpec Z = (S.specialFiberComponentIdeal Z).subscheme.toSpecΓ ≫
       Spec.map (CommRingCat.ofHom
         (algebraMap S.k Γ((S.specialFiberComponentIdeal Z).subscheme, ⊤))) := by
-    show _ = _ ≫ Spec.map ((Scheme.ΓSpecIso (.of S.k)).inv ≫
+    change _ = _ ≫ Spec.map ((Scheme.ΓSpecIso (.of S.k)).inv ≫
       (S.specialFiberComponentToSpec Z).appTop)
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
       toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]

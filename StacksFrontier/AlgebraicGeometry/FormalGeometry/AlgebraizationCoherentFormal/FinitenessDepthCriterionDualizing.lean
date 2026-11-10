@@ -281,7 +281,7 @@ theorem depth_localizedModule_comap_quotientMk {A : Type u} [CommRing A] (J : Id
     refine smul_eq_of_isLocalization_ringHom (q := (P.comap (Ideal.Quotient.mk J)).primeCompl)
       f E.toAddEquiv fun a m ↦ ?_
     rw [hfA, algebraMap_smul, algebraMap_smul B]
-    show E (a • m) = _
+    change E (a • m) = _
     rw [E.map_smul]
     exact (algebraMap_smul (A ⧸ J) a (E m)).symm
   refine (Stacks.CohenMacaulay.BaseFieldExtension.depth_eq_depth_map hfs (maximalIdeal Ap)
@@ -394,7 +394,7 @@ theorem hasDepthDimensionAt_two_of_hasLocallyFreeCodimensionThreeCondition
   -- the support of `F₁` lies in `Y`
   have hIp : S.I ≤ p.asIdeal := by
     refine le_of_nontrivial_localizedModule_of_forall_smul_eq_zero (fun s hs m ↦ ?_) p.asIdeal hnt
-    show Ideal.Quotient.mk S.I s • (m : (N : Type u)) = 0
+    change Ideal.Quotient.mk S.I s • (m : (N : Type u)) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hs, zero_smul]
   set R := S.A ⧸ S.I
   set P : Ideal R := p.asIdeal.map (Ideal.Quotient.mk S.I) with hPdef
@@ -491,7 +491,7 @@ abbrev intersectionUY : (Spec (CommRingCat.of (S.A ⧸ S.I))).Opens :=
 /-- `U ∩ Y` maps into `U` under the closed immersion `Y ⟶ X`. -/
 theorem intersectionUY_le_preimage : intersectionUY S ≤ S.Yι ⁻¹ᵁ S.U := by
   intro x hx
-  show S.Yι.base x ∈ (PrimeSpectrum.zeroLocus (S.a : Set S.A))ᶜ
+  change S.Yι.base x ∈ (PrimeSpectrum.zeroLocus (S.a : Set S.A))ᶜ
   intro hz
   exact hx fun b hb ↦ Ideal.map_le_iff_le_comap.mpr hz hb
 
@@ -542,7 +542,7 @@ theorem hasDepthDimensionAt_two_iff_forall_depth_stalk (G : S.U.toScheme.Modules
     rcases subsingleton_or_nontrivial
         (LocalizedModule (underlyingPrime S y).asIdeal.primeCompl M) with hsub | hnt
     · rw [Module.depth_eq_top_of_subsingleton, top_add]
-      exact ENat.coe_lt_top 2
+      exact ENat.natCast_lt_top 2
     · have := h _ q hya hqa hpq hnt
       rwa [hcast] at this
   · have hI := le_of_nontrivial_localizedModule_of_smul_top_eq_bot hM p.asIdeal hnt

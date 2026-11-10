@@ -57,7 +57,8 @@ universe u
 
 namespace Stacks.Duality
 
-open ChartCompactification ProjectiveSpace Stacks.AlgebraicGeometry.ProjPolyChart
+open ChartCompactification _root_.Stacks.Duality.ProjectiveSpace
+  _root_.AlgebraicGeometry.ProjectiveSpace Stacks.AlgebraicGeometry.ProjPolyChart
 
 attribute [local instance] MvPolynomial.gradedAlgebra
 

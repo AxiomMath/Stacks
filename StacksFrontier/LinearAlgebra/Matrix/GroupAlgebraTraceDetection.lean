@@ -221,7 +221,7 @@ end ZModTorsion
 
 section GroupAlgebra
 
-variable {G : Type v} [Group G] [Fintype G] {Λ : Type*} [CommRing Λ] {r : ℕ}
+variable {G : Type v} [Group G] [Finite G] {Λ : Type*} [CommRing Λ] {r : ℕ}
 
 /-- **`(H_N)` for `ℤ/ℓ^M[G]`.** A ring map out of the group algebra `ℤ/ℓ^M[G]` to matrices over a
 commutative ring in which `ℓ ^ a = 0` satisfies the torsion hypothesis `(H_N)` as soon as
@@ -231,6 +231,7 @@ theorem traceDetectionHypothesis_zmod_monoidAlgebra (ℓ : ℕ) [hℓ : Fact ℓ
     (hΛ : (ℓ : Λ) ^ a = 0) (hM : a + Nat.log ℓ N ≤ M) :
     TraceDetectionHypothesis φ N := by
   classical
+  have := Fintype.ofFinite G
   intro k hk hkN s hks
   set v := k.factorization ℓ
   have hvN : v ≤ Nat.log ℓ N :=
@@ -252,14 +253,14 @@ theorem traceDetectionHypothesis_zmod_monoidAlgebra (ℓ : ℕ) [hℓ : Fact ℓ
         if g = rep c then y c else 0 := by
       intro g
       split_ifs with h1 h2 h2
-      · rw [classSum_single, if_pos (by rw [h2, mk_rep]), h2, mk_rep]
-      · rw [classSum_single, if_neg]
+      · rw [classSum_single, ite_eq_left (by rw [h2, mk_rep]), h2, mk_rep]
+      · rw [classSum_single, ite_eq_right]
         intro h3
         exact h2 (h3 ▸ h1)
       · exact absurd (h2 ▸ (mk_rep c).symm ▸ rfl : g = rep (ConjClasses.mk g)) h1
       · exact map_zero _
     rw [Finset.sum_congr rfl fun g _ => this g, Finset.sum_ite_eq' Finset.univ (rep c),
-      if_pos (Finset.mem_univ _), nsmul_eq_mul, Nat.cast_pow]
+      ite_eq_left (Finset.mem_univ _), nsmul_eq_mul, Nat.cast_pow]
   obtain ⟨J, a', b', hab⟩ := exists_sum_commutators_of_q_eq_zero
     (q_eq_zero_of_classSum (s - t) fun c => by rw [map_sub, hclass, sub_self])
   refine ⟨J, a', b', t, by rw [← hab, sub_add_cancel], ?_, fun i hi => ?_⟩

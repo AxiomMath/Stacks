@@ -27,7 +27,7 @@ attribute [local instance] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
 @[expose] public noncomputable section
 
 open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
-open StacksDraft.DerivedModel
+open StacksDraft.DerivedModel Stacks.Cohomology.TorAmplitude
 
 universe w w' v u
 
@@ -61,7 +61,7 @@ theorem isZero_homology_of_hasTorAmplitude (X : RingedSpace.{u, u})
   let := hd
   let : HasDerivedCategory.{w} (RingedSpace.KFlatDerivedPullback.Modules X) := hd
   obtain ⟨K, -, hK, ⟨eK⟩⟩ :=
-    Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative.exists_flat_representative_of_hasTorAmplitude
+    BoundedFlatRepresentative.exists_flat_representative_of_hasTorAmplitude
       E a b hab hE
   refine IsZero.of_iso ?_ ((DerivedCategory.homologyFunctor _ i).mapIso eK.symm ≪≫
     (DerivedCategory.homologyFunctorFactors _ i).app K)
@@ -165,9 +165,9 @@ theorem exists_splitting_any_model {Z T : Scheme.{u}} (φ : Z ⟶ T) (M : T.Modu
   · exact (Stacks.Duality.isPerfect_modelEquiv_functor_obj_iff T.toRingedSpace
       (HasDerivedCategory.standard T.Modules) hT P₀).2 hP
   · obtain ⟨K, hKflat, hK, ⟨eK⟩⟩ :=
-      @Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative.exists_flat_representative_of_hasTorAmplitude
+      @BoundedFlatRepresentative.exists_flat_representative_of_hasTorAmplitude
         T.toRingedSpace (HasDerivedCategory.standard T.Modules) P₀ 1 b hb hPb
-    refine (@Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative.hasTorAmplitude_iff_exists_flat_representative
+    refine (@BoundedFlatRepresentative.hasTorAmplitude_iff_exists_flat_representative
       T.toRingedSpace hT (eT.obj P₀) 1 b hb).2 ⟨K, hKflat, hK, ⟨?_⟩⟩
     exact ((modelCompQIso (HasDerivedCategory.standard T.Modules) hT).app K).symm ≪≫ eT.mapIso eK
   · exact biprod.mapIso (modelEquivSingleIso (HasDerivedCategory.standard T.Modules) hT M).symm

@@ -74,7 +74,7 @@ lemma internalHomSwap_comp_mapLeft {X G G' I : Cᵒᵖ ⥤ AddCommGrpCat.{max u 
     have h : (g.app (op W.unop.left)).hom ((G'.map W.unop.hom.op).hom g₀) =
         (G.map W.unop.hom.op).hom ((g.app U).hom g₀) :=
       ConcreteCategory.congr_hom (g.naturality W.unop.hom.op) g₀
-    show ((ψ.app (op W.unop.left) x).app (op (Over.mk (𝟙 W.unop.left)))).hom
+    change ((ψ.app (op W.unop.left) x).app (op (Over.mk (𝟙 W.unop.left)))).hom
         ((g.app (op W.unop.left)).hom ((G'.map W.unop.hom.op).hom g₀)) =
       ((ψ.app (op W.unop.left) x).app (op (Over.mk (𝟙 W.unop.left)))).hom
         ((G.map W.unop.hom.op).hom ((g.app U).hom g₀))

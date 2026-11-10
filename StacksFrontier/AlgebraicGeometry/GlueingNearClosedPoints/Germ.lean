@@ -189,10 +189,10 @@ private lemma restrictionMorphisms_multiplicative
     (S : Scheme.{u}) (U : S.Opens) (s : S) :
     (restrictionMorphisms (S := S) (U := U) (s := s)).IsMultiplicative where
   id_mem X := by
-    show IsPullback (𝟙 _) X.hom X.hom (S.homOfLE le_rfl)
+    change IsPullback (𝟙 _) X.hom X.hom (S.homOfLE le_rfl)
     simpa using IsPullback.id_horiz X.hom
   comp_mem f g hf hg := by
-    show IsPullback (f.left ≫ g.left) _ _ _
+    change IsPullback (f.left ≫ g.left) _ _ _
     simpa using hf.paste_horiz hg
 attribute [local instance] restrictionMorphisms_multiplicative
 private lemma restrictionMorphisms_rightCalculus
@@ -398,8 +398,8 @@ private noncomputable def neighborhoodModelOpenPullback
     apply CategoryTheory.Over.OverMorphism.ext
     apply pullback.hom_ext <;>
       simp [FinitePresentationNeighborhoodModel.restrictMap,
-        FinitePresentationNeighborhoodModel.comp_left, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, Category.assoc]
+        FinitePresentationNeighborhoodModel.comp_left,
+        Category.assoc]
 
 private noncomputable def neighborhoodModelLocalPullback
     (S : Scheme.{u}) (U : S.Opens) (s : S) :
@@ -417,8 +417,8 @@ private noncomputable def neighborhoodModelLocalPullback
     apply CategoryTheory.Over.OverMorphism.ext
     apply pullback.hom_ext <;>
       simp [FinitePresentationNeighborhoodModel.restrictMap,
-        FinitePresentationNeighborhoodModel.comp_left, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, Category.assoc]
+        FinitePresentationNeighborhoodModel.comp_left,
+        Category.assoc]
 
 private lemma FinitePresentationNeighborhoodModel.overlapBase_eq
     {S : Scheme.{u}} {U : S.Opens} {s : S}
@@ -449,7 +449,7 @@ private noncomputable def FinitePresentationNeighborhoodModel.overlapIso
     fun Y ↦ FinitePresentation Y.hom).isoMk (Over.isoMk e (by
       have hh : (pullback.congrHom rfl h).hom ≫ pullback.snd X.hom (q ≫ l) =
           pullback.snd X.hom (p ≫ j) := by
-        simp [pullback.congrHom, pullback.map, pullback.lift_snd]
+        simp [pullback.congrHom, pullback.map]
       change e₁.hom ≫ (pullback.congrHom rfl h).hom ≫ e₂.inv ≫
         pullback.snd (pullback.snd X.hom l) q =
           pullback.snd (pullback.snd X.hom j) p
@@ -493,7 +493,7 @@ private lemma FinitePresentationNeighborhoodModel.overlapIso_hom_fst
   let e₂ := pullbackLeftPullbackSndIso X.hom l q
   let e₃ : pullback X.hom (p ≫ j) ≅ pullback X.hom (q ≫ l) :=
     pullback.congrHom rfl X.overlapBase_eq
-  show (e₁.hom ≫ e₃.hom ≫ e₂.inv) ≫
+  change (e₁.hom ≫ e₃.hom ≫ e₂.inv) ≫
       pullback.fst (pullback.snd X.hom l) q ≫ pullback.fst X.hom l =
     pullback.fst (pullback.snd X.hom j) p ≫ pullback.fst X.hom j
   calc
@@ -560,7 +560,7 @@ private lemma FinitePresentationNeighborhoodModel.overlapIso_naturality
       mR.hom.left ≫ ((restrictLocalToPuncturedLocal S U s).obj
         ((neighborhoodModelLocalRestrictionFunctor S U s).obj Y)).obj.hom :=
     mL.hom.w.trans mR.hom.w.symm
-  show mL = mR
+  change mL = mR
   apply (show ObjectProperty (Over (puncturedLocalScheme S U s)) from
     fun Z ↦ FinitePresentation Z.hom).ι.map_injective
   apply CategoryTheory.Over.OverMorphism.ext
@@ -588,7 +588,7 @@ private lemma FinitePresentationNeighborhoodModel.overlapIso_naturality
       refine Eq.trans (congrArg (fun g ↦ g ≫ f.left) X.overlapIso_hom_fst.symm) ?_
       refine Eq.trans (Category.assoc _ _ _) ?_
       exact congrArg (fun k ↦ X.overlapIso.hom.hom.left ≫ k) (Category.assoc _ _ _)
-    · show mL.hom.left ≫ (pullback.fst (pullback.snd Y.hom Y.localBase)
+    · change mL.hom.left ≫ (pullback.fst (pullback.snd Y.hom Y.localBase)
           (((S.fromSpecStalk s) ⁻¹ᵁ U).ι) ≫ pullback.snd Y.hom Y.localBase) =
         mR.hom.left ≫ (pullback.fst (pullback.snd Y.hom Y.localBase)
           (((S.fromSpecStalk s) ⁻¹ᵁ U).ι) ≫ pullback.snd Y.hom Y.localBase)
@@ -601,7 +601,7 @@ private lemma FinitePresentationNeighborhoodModel.overlapIso_naturality
       exact (congrArg (fun k ↦ mR.hom.left ≫ k)
         (pullback.condition (f := pullback.snd Y.hom Y.localBase)
           (g := (((S.fromSpecStalk s) ⁻¹ᵁ U).ι)))).symm
-  · show mL.hom.left ≫
+  · change mL.hom.left ≫
         ((restrictLocalToPuncturedLocal S U s).obj Y.localRestriction).obj.hom =
       mR.hom.left ≫
         ((restrictLocalToPuncturedLocal S U s).obj
@@ -683,7 +683,7 @@ private lemma pullback_map_isIso_of_isPullback
     · exact pullback.lift_snd x b hx
   have hm : IsPullback m (pullback.snd f₂ p) (pullback.snd g₁ q) (𝟙 T) :=
     IsPullback.mk' hw hExt hLift
-  show IsIso m
+  change IsIso m
   exact hm.isIso_fst_of_isIso
 
 private lemma FinitePresentationNeighborhoodModel.openRestrictionMap_isIso
@@ -928,15 +928,14 @@ public lemma over_pullback_map_fst {C : Type*} [Category C] [HasPullbacks C]
     {B T : C} (p : T ⟶ B) {X Y : Over B} (f : X ⟶ Y) :
     ((Over.pullback p).map f).left ≫ pullback.fst Y.hom p =
       pullback.fst X.hom p ≫ f.left := by
-  simp [Over.pullback, pullback.lift_fst]
+  simp [Over.pullback]
 
 private lemma FinitePresentationNeighborhoodModel.openAmbientIso_hom_fst
     {S : Scheme.{u}} {U : S.Opens} {s : S}
     (X : FinitePresentationNeighborhoodModel S U s) :
     X.openAmbientIso.hom.left ≫ pullback.fst (X.hom ≫ X.neighborhood.V.ι) U.ι =
       pullback.fst X.hom (S.homOfLE X.neighborhood.le_V) := by
-  simp [FinitePresentationNeighborhoodModel.openAmbientIso, pullback_factorization_iso,
-    pullback.lift_fst]
+  simp [FinitePresentationNeighborhoodModel.openAmbientIso, pullback_factorization_iso]
 
 private lemma FinitePresentationNeighborhoodModel.localAmbientIso_hom_fst
     {S : Scheme.{u}} {U : S.Opens} {s : S}
@@ -944,8 +943,7 @@ private lemma FinitePresentationNeighborhoodModel.localAmbientIso_hom_fst
     X.localAmbientIso.hom.left ≫
       pullback.fst (X.hom ≫ X.neighborhood.V.ι) (S.fromSpecStalk s) =
       pullback.fst X.hom X.localBase := by
-  simp [FinitePresentationNeighborhoodModel.localAmbientIso, pullback_factorization_iso,
-    pullback.lift_fst]
+  simp [FinitePresentationNeighborhoodModel.localAmbientIso, pullback_factorization_iso]
 
 private lemma neighborhoodModel_overlapComparison
     (S : Scheme.{u}) (U : S.Opens) (s : S)
@@ -959,7 +957,7 @@ private lemma neighborhoodModel_overlapComparison
   let b := X.overlapIso.hom.hom ≫
     (Over.pullback (((S.fromSpecStalk s) ⁻¹ᵁ U).ι)).map X.localAmbientIso.hom
   have hb := a.w.trans b.w.symm
-  show a = b
+  change a = b
   apply Over.OverMorphism.ext
   apply pullback.hom_ext
   · apply pullback.hom_ext
@@ -978,7 +976,7 @@ private lemma neighborhoodModel_overlapComparison
         at hq
       exact hp.trans (X.overlapIso_hom_fst.symm.trans
         (congrArg (fun k ↦ X.overlapIso.hom.hom.left ≫ k) hq.symm))
-    · show a.left ≫ (pullback.fst _ _ ≫ pullback.snd _ _) =
+    · change a.left ≫ (pullback.fst _ _ ≫ pullback.snd _ _) =
         b.left ≫ (pullback.fst _ _ ≫ pullback.snd _ _)
       dsimp only [Over.pullback_obj_hom, neighborhoodModelToAmbient] at *
       rw [pullback.condition]
@@ -1278,7 +1276,7 @@ private lemma affineNeighborhoodOverlap_quasiSeparatedSpace
     (S : Scheme.{u}) (U : S.Opens) (s : S) (V : AffineNeighborhood S s) :
     QuasiSeparatedSpace ((affineNeighborhoodOverlapDiagram S U s).obj V) := by
   have : IsAffine V.1.toScheme := V.2.1
-  show QuasiSeparatedSpace (V.1.ι ⁻¹ᵁ U).toScheme
+  change QuasiSeparatedSpace (V.1.ι ⁻¹ᵁ U).toScheme
   exact (V.1.ι ⁻¹ᵁ U).ι.isOpenEmbedding.quasiSeparatedSpace
 private lemma affineNeighborhoodOverlap_isAffineHom
     (S : Scheme.{u}) (U : S.Opens) (s : S)
@@ -1385,7 +1383,7 @@ private lemma germAmbientIso_overlapComparisonCompatible
       (finitePresentationGermToGlueingData S U s).asEquivalence
       (germOpenAmbientIso S U s) (germLocalAmbientIso S U s) := by
   intro X
-  show (Over.pullback ((S.fromSpecStalk s) ∣_ U)).map
+  change (Over.pullback ((S.fromSpecStalk s) ∣_ U)).map
       ((germOpenAmbientIso S U s).hom.app X) ≫
         (canonicalOverlapIso S U s (Over.mk (X.hom ≫ X.neighborhood.V.ι))).hom =
     X.overlapIso.hom.hom ≫
@@ -1444,7 +1442,7 @@ private lemma finitePresentation_of_twoOpenPullbacks
     FinitePresentation f := by
   let W : Bool → Y.Opens := fun b ↦ if b then U else V
   have hW : IsOpenCover W := by
-    show (⨆ b, W b) = ⊤
+    change (⨆ b, W b) = ⊤
     simpa [W, iSup_bool_eq] using h
   apply finitePresentation_of_openCover f (Y.openCoverOfIsOpenCover W hW)
   intro b
@@ -1462,7 +1460,7 @@ private lemma property_relativeGluing_toBase
     [IsZariskiLocalAtTarget P] (h : ∀ i, P (d.natTrans.app i)) : P d.toBase := by
   apply IsZariskiLocalAtTarget.of_openCover (P := P) 𝒰
   intro i
-  show P (pullback.snd d.toBase (𝒰.f i))
+  change P (pullback.snd d.toBase (𝒰.f i))
   exact (MorphismProperty.cancel_left_of_respectsIso P
       (d.isPullback_natTrans_ι_toBase i).flip.isoPullback.hom
       (pullback.snd d.toBase (𝒰.f i))).mp
@@ -1507,14 +1505,14 @@ private lemma hom_ext_of_sup_eq_top {X Y : Scheme.{u}}
     (hU : U.ι ≫ f = U.ι ≫ g) (hV : V.ι ≫ f = V.ι ≫ g) : f = g := by
   let W : Bool → X.Opens := fun b => if b then U else V
   have hW : IsOpenCover W := by
-    show (⨆ b, W b) = ⊤
+    change (⨆ b, W b) = ⊤
     simpa [W, iSup_bool_eq] using h
   apply (X.openCoverOfIsOpenCover W hW).hom_ext
   intro b
   cases b
-  · show V.ι ≫ f = V.ι ≫ g
+  · change V.ι ≫ f = V.ι ≫ g
     exact hV
-  · show U.ι ≫ f = U.ι ≫ g
+  · change U.ι ≫ f = U.ι ≫ g
     exact hU
 
 private lemma exists_gluedHom_of_sup_eq_top {X Y : Scheme.{u}}
@@ -1524,7 +1522,7 @@ private lemma exists_gluedHom_of_sup_eq_top {X Y : Scheme.{u}}
     ∃ f : X ⟶ Y, U.ι ≫ f = fU ∧ V.ι ≫ f = fV := by
   let W : Bool → X.Opens := fun b => if b then U else V
   have hW : IsOpenCover W := by
-    show (⨆ b, W b) = ⊤
+    change (⨆ b, W b) = ⊤
     simpa [W, iSup_bool_eq] using h
   let C := X.openCoverOfIsOpenCover W hW
   let fs : ∀ b : C.I₀, C.X b ⟶ Y := by
@@ -1536,16 +1534,16 @@ private lemma exists_gluedHom_of_sup_eq_top {X Y : Scheme.{u}}
       pullback.snd (C.f b) (C.f c) ≫ fs c := by
     intro b c
     cases b <;> cases c
-    · show pullback.fst V.ι V.ι ≫ fV = pullback.snd V.ι V.ι ≫ fV
+    · change pullback.fst V.ι V.ι ≫ fV = pullback.snd V.ι V.ι ≫ fV
       congr 1
       exact (cancel_mono V.ι).1 (pullback.condition)
-    · show pullback.fst V.ι U.ι ≫ fV = pullback.snd V.ι U.ι ≫ fU
+    · change pullback.fst V.ι U.ι ≫ fV = pullback.snd V.ι U.ι ≫ fU
       apply (cancel_epi (pullbackSymmetry U.ι V.ι).hom).1
       simpa only [← Category.assoc, pullbackSymmetry_hom_comp_fst,
         pullbackSymmetry_hom_comp_snd] using hUV.symm
-    · show pullback.fst U.ι V.ι ≫ fU = pullback.snd U.ι V.ι ≫ fV
+    · change pullback.fst U.ι V.ι ≫ fU = pullback.snd U.ι V.ι ≫ fV
       exact hUV
-    · show pullback.fst U.ι U.ι ≫ fU = pullback.snd U.ι U.ι ≫ fU
+    · change pullback.fst U.ι U.ι ≫ fU = pullback.snd U.ι U.ι ≫ fU
       congr 1
       exact (cancel_mono U.ι).1 (pullback.condition)
   refine ⟨C.glueMorphisms fs hfs, ?_, ?_⟩
@@ -1625,13 +1623,13 @@ private theorem exists_gluedScheme_of_openImmersions
   have he₁ : e.hom ≫ D.f ⟨false⟩ ⟨true⟩ = i₁ := by
     simp only [glueAlongTwoOpens, ne_eq, GlueData.ofGlueData', dite_eq_ite, GlueData'.f',
       Bool.false_eq_true, ↓dreduceIte, ULift.up.injEq, ↓reduceDIte, ← Category.assoc, D, e]
-    show (eqToHom hV.symm ≫ eqToHom hV) ≫ i₁ = i₁
+    change (eqToHom hV.symm ≫ eqToHom hV) ≫ i₁ = i₁
     simp
   have he₂ : e.hom ≫ D.t ⟨false⟩ ⟨true⟩ ≫ D.f ⟨true⟩ ⟨false⟩ = i₂ := by
     simp only [glueAlongTwoOpens, ne_eq, GlueData.ofGlueData', dite_eq_ite, GlueData'.f',
       ↓dreduceIte, ULift.up.injEq, Bool.false_eq_true, Bool.true_eq_false, ↓reduceDIte,
       ↓reduceIte, eqToHom_naturality, Category.comp_id, eqToHom_trans, ← Category.assoc, D, e]
-    show (eqToHom hV.symm ≫ eqToHom hV) ≫ i₂ = i₂
+    change (eqToHom hV.symm ≫ eqToHom hV) ≫ i₂ = i₂
     simp
   have hglue : i₁ ≫ j₁ = i₂ ≫ j₂ := by
     rw [← he₁, ← he₂]
@@ -1882,7 +1880,7 @@ private lemma pullbackCompIsoOver_fst {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y 
   let A' : (⊤ : MorphismProperty (Scheme.{u})).Over (⊤) Z :=
     MorphismProperty.Over.mk (P := ⊤) (Q := ⊤) A.hom (by trivial)
   dsimp [pullbackCompIsoOver]
-  show ((MorphismProperty.Over.pullbackComp
+  change ((MorphismProperty.Over.pullbackComp
     (P := (⊤ : MorphismProperty (Scheme.{u}))) (Q := ⊤) f g).hom.app A').left ≫
       pullback.fst (pullback.snd A.hom g) f ≫ pullback.fst A.hom g =
     pullback.fst A.hom (f ≫ g)
@@ -1901,7 +1899,7 @@ private lemma pullbackCompIsoOver_inv_fst {X Y Z : Scheme.{u}}
     _ = _ := by
       have hcancel : ((pullbackCompIsoOver f g).inv.app A).left ≫
           ((pullbackCompIsoOver f g).hom.app A).left = 𝟙 _ := by
-        show ((pullbackCompIsoOver f g).app A).inv.left ≫
+        change ((pullbackCompIsoOver f g).app A).inv.left ≫
             ((pullbackCompIsoOver f g).app A).hom.left = 𝟙 _
         exact congrArg (fun q :
           ((Over.pullback g ⋙ Over.pullback f).obj A ⟶
@@ -1942,7 +1940,7 @@ private lemma pullbackCongrIsoOver_fst {X Y : Scheme.{u}} {f g : X ⟶ Y}
   let A' : (⊤ : MorphismProperty (Scheme.{u})).Over (⊤) Y :=
     MorphismProperty.Over.mk (P := ⊤) (Q := ⊤) A.hom (by trivial)
   dsimp [pullbackCongrIsoOver]
-  show ((MorphismProperty.Over.pullbackCongr
+  change ((MorphismProperty.Over.pullbackCongr
     (P := (⊤ : MorphismProperty (Scheme.{u}))) (Q := ⊤) h).hom.app A').left ≫
       pullback.fst A.hom g = pullback.fst A.hom f
   exact MorphismProperty.Over.pullbackCongr_hom_app_left_fst
@@ -1972,7 +1970,7 @@ private lemma exists_nestedPullbackIso {T B' B : Scheme.{u}}
     pullbackCompIsoOver_inv_fst f g X
   have h2 : ((pullbackCongrIsoOver hfg).hom.app X).left ≫ pullback.fst X.hom h =
       pullback.fst X.hom (f ≫ g) := pullbackCongrIsoOver_fst hfg X
-  show (((pullbackCompIsoOver f g).inv.app X) ≫
+  change (((pullbackCompIsoOver f g).inv.app X) ≫
     ((pullbackCongrIsoOver hfg).hom.app X)).left ≫ pullback.fst X.hom h = _
   rw [Over.comp_left, Category.assoc, h2, h1]
 
@@ -2233,7 +2231,7 @@ private lemma range_morphismRestrict_opens {S : Scheme.{u}} (U W : S.Opens) :
   apply TopologicalSpace.Opens.ext
   apply Set.eq_of_subset_of_subset
   · rintro x ⟨y, rfl⟩
-    show U.ι ((W.ι ∣_ U) y) ∈ W
+    change U.ι ((W.ι ∣_ U) y) ∈ W
     rw [morphismRestrict_opens_apply U W y]
     exact ((W.ι ⁻¹ᵁ U).ι y).2
   · intro x hx
@@ -2303,7 +2301,7 @@ private lemma exists_gluing_of_overlap_iso_on_sup
         obtain ⟨w', rfl⟩ := hesurj w
         exact ⟨pullback.fst X.hom i w', hkpt w'⟩
     · rintro ⟨x, rfl⟩
-      show Ω.ι (Z.hom (k₁ x)) ∈ U
+      change Ω.ι (Z.hom (k₁ x)) ∈ U
       rw [hz₁ x, haι]
       exact (X.hom x).2
   have hpreW : ∀ z, (Z.hom z ∈ (Ω.ι ⁻¹ᵁ W : Ω.toScheme.Opens)) ↔ z ∈ Set.range k₂ := by
@@ -2322,7 +2320,7 @@ private lemma exists_gluing_of_overlap_iso_on_sup
         exact ⟨pullback.fst Y.hom j (e.hom.left x'), (hkpt x').symm⟩
       · exact h
     · rintro ⟨y, rfl⟩
-      show Ω.ι (Z.hom (k₂ y)) ∈ W
+      change Ω.ι (Z.hom (k₂ y)) ∈ W
       rw [hz₂ y, hbι]
       exact (Y.hom y).2
   refine ⟨Z, k₁, k₂, ?_, ?_, ?_⟩
@@ -2636,14 +2634,14 @@ private lemma exists_neighborhoodModel_of_glueingData
   have hfp : ∀ b : O.I₀, FinitePresentation (O.pullbackHom H.hom b) := by
     rintro ⟨b⟩
     cases b
-    · show FinitePresentation (pullback.snd H.hom
+    · change FinitePresentation (pullback.snd H.hom
         (S.homOfLE (le_sup_right : V₁.1 ≤ U ⊔ V₁.1)))
       rw [← hcartY.isoPullback_inv_snd]
       have : LocallyOfFinitePresentation YW.hom := hYW.1
       have : QuasiCompact YW.hom := hYW.2.1
       have : QuasiSeparated YW.hom := hYW.2.2
       exact ⟨inferInstance, inferInstance, inferInstance⟩
-    · show FinitePresentation (pullback.snd H.hom
+    · change FinitePresentation (pullback.snd H.hom
         (S.homOfLE (le_sup_left : U ≤ U ⊔ V₁.1)))
       rw [← hcartX.isoPullback_inv_snd]
       have : LocallyOfFinitePresentation XO.hom := hXO.1
@@ -2874,7 +2872,7 @@ private lemma exists_restriction_eq_of_map_eq
   refine ⟨M.restrictNeighborhood ⟨U ⊔ V'.1, le_sup_left, hmem⟩ hV''M,
     M.restrictNeighborhoodHom _ hV''M, M.restrictNeighborhoodHom_mem _ hV''M, ?_⟩
   apply FinitePresentationNeighborhoodModel.Hom.ext
-  show pullback.fst M.hom (S.homOfLE hV''M) ≫ g.left =
+  change pullback.fst M.hom (S.homOfLE hV''M) ≫ g.left =
     pullback.fst M.hom (S.homOfLE hV''M) ≫ g'.left
   refine hom_ext_of_range_union
     (pullback.fst (pullback.snd M.hom (S.homOfLE hV''M))
@@ -4043,7 +4041,7 @@ identifications with base change intertwine the gluing comparison with the canon
 iterated-pullback comparison on the overlap. -/
 @[stacks 0BQ5, no_expose]
 public noncomputable def glueingEquivalenceNearPoint
-    (S : Scheme.{u}) (U : S.Opens) (s : S) (hs : s ∉ U)
+    (S : Scheme.{u}) (U : S.Opens) (s : S)
     (hU : IsRetrocompact (U : Set S)) :
     { e : FinitePresentationGerm S U s ≌ glueingDataNearPoint S U s //
       ∃ a : (((FinitePresentationNeighborhoodModel.restrictionMorphisms
@@ -4119,7 +4117,7 @@ public lemma notMem_puncturedOpen (hs : IsClosed ({s} : Set S)) : s ∉ puncture
 public lemma isRetrocompact_of_quasiCompact_ι (V : S.Opens) (hqc : QuasiCompact V.ι) :
     IsRetrocompact (V : Set S) := by
   apply IsRetrocompact_iff_isSpectralMap_subtypeVal.mpr
-  show IsSpectralMap V.ι.base
+  change IsSpectralMap V.ι.base
   exact quasiCompact_iff_isSpectralMap.mp hqc
 
 /-- An open subscheme containing a closed point together with its complement is everything. -/
@@ -4263,7 +4261,7 @@ private lemma modelToAmbientFP_essSurj (hs : IsClosed ({s} : Set S)) :
     ⟨inferInstance, inferInstance, inferInstance⟩
   refine ⟨⟨⟨⊤, le_top, by trivial⟩, X.obj.left, X.obj.hom ≫ S.topIso.inv, hfp⟩, ⟨?_⟩⟩
   refine ObjectProperty.isoMk _ (CategoryTheory.Over.isoMk (Iso.refl _) ?_)
-  show 𝟙 X.obj.left ≫ X.obj.hom = (X.obj.hom ≫ S.topIso.inv) ≫ Scheme.Opens.ι ⊤
+  change 𝟙 X.obj.left ≫ X.obj.hom = (X.obj.hom ≫ S.topIso.inv) ≫ Scheme.Opens.ι ⊤
   rw [Category.id_comp, Category.assoc, Scheme.toIso_inv_ι, Category.comp_id]
 
 private lemma modelToAmbientFP_isEquivalence (hs : IsClosed ({s} : Set S)) :

@@ -256,7 +256,7 @@ theorem isZariskiCovering_restrictOpenCover (A : Thickening S) {ι : Type (u + 1
     (hV : ∀ x : A.thickening.target.scheme, ∃ i, x ∈ V i) :
     IsZariskiCovering (A.restrictOpenCover V) := by
   refine ⟨fun i ↦ A.isCartesian_restrictOpenHom (V i), ?_⟩
-  show Presieve.ofArrows (fun i ↦ (V i).toScheme) (fun i ↦ (V i).ι) ∈ _
+  change Presieve.ofArrows (fun i ↦ (V i).toScheme) (fun i ↦ (V i).ι) ∈ _
   rw [Scheme.ofArrows_mem_precoverage_iff]
   refine ⟨fun x ↦ ?_, fun i ↦ inferInstance⟩
   obtain ⟨i, hi⟩ := hV x

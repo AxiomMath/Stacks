@@ -98,9 +98,9 @@ theorem exists_notMem_algebraMap_sub_mem_map_pow (hJ : J.FG) [p.IsPrime] (hJp : 
   obtain ⟨a, ha, hat⟩ := exists_notMem_evalₐ_eq_mk J hJ hJp n ht
   refine ⟨a, ha, ?_⟩
   rw [← AdicCompletion.ker_evalₐ_eq_map_pow J hJ n, RingHom.mem_ker]
-  show (AdicCompletion.evalₐ J n).toRingHom (t - algebraMap R (AdicCompletion J R) a) = 0
+  change (AdicCompletion.evalₐ J n).toRingHom (t - algebraMap R (AdicCompletion J R) a) = 0
   rw [map_sub, sub_eq_zero]
-  show AdicCompletion.evalₐ J n t = AdicCompletion.evalₐ J n _
+  change AdicCompletion.evalₐ J n t = AdicCompletion.evalₐ J n _
   rw [hat]
   exact (AdicCompletion.evalₐ_of J n a).symm
 

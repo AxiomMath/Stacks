@@ -106,7 +106,7 @@ theorem fiber_isFpqcTorsor {S : Scheme.{u}} (G : GroupoidScheme S)
       (Scheme.Spec.obj (.op ((G.objects ⊗ G.objects).left.residueField p)))
       (fiberGroup G p) (fiberArrows G p) := by
   let B := Scheme.Spec.obj (.op ((G.objects ⊗ G.objects).left.residueField p))
-  show IsPseudoTorsor (fiberGroup G p) (fiberArrows G p) ∧
+  change IsPseudoTorsor (fiberGroup G p) (fiberArrows G p) ∧
     ∃ (I : Type (u + 1)) (T : I → Scheme.{u}) (f : ∀ i, T i ⟶ B),
       Presieve.ofArrows T f ∈ Scheme.fpqcPrecoverage B ∧
         ∀ i, Nonempty (𝟙_ (Over (T i)) ⟶ (Over.pullback (f i)).obj (fiberArrows G p))
@@ -121,7 +121,7 @@ theorem fiber_isFpqcTorsor {S : Scheme.{u}} (G : GroupoidScheme S)
       Functor.LaxMonoidal.modObj f M' (by rfl) (by rfl)
     have hBridge := Functor.LaxMonoidal.mapModObj_leftSMul (M := stabilizerOverPairs G)
       (X := arrowsOverPairs G) f M' (by rfl) (by rfl)
-    show IsIso (ModObj.leftSMul (fiberGroup G p) (fiberArrows G p))
+    change IsIso (ModObj.leftSMul (fiberGroup G p) (fiberArrows G p))
     rw [hBridge]
     have hPair : IsPseudoTorsor (stabilizerOverPairs G) (arrowsOverPairs G) :=
       stabilizerActionOverPairs_pseudoTorsor G
@@ -140,7 +140,7 @@ theorem fiber_isFpqcTorsor {S : Scheme.{u}} (G : GroupoidScheme S)
       (Spec.homEquiv (R := CommRingCat.of K) (S := CommRingCat.of L)).symm_apply_apply f
     have hFF : φ.hom.FaithfullyFlat := by
       let _ : Module K L := φ.hom.toModule
-      show Module.FaithfullyFlat K L
+      change Module.FaithfullyFlat K L
       infer_instance
     have hFlatSurj := (AlgebraicGeometry.flat_and_surjective_SpecMap_iff φ).2 hFF
     let _ : Flat f := hSpec ▸ hFlatSurj.1
@@ -154,7 +154,7 @@ theorem fiber_isFpqcTorsor {S : Scheme.{u}} (G : GroupoidScheme S)
     · intro i
       let qOver : (Over.map f).obj (𝟙_ (Over T)) ⟶ fiberArrows G p :=
         Over.homMk q (by
-          show q ≫ (fiberArrows G p).hom = q ≫ (fiberArrows G p).hom
+          change q ≫ (fiberArrows G p).hom = q ≫ (fiberArrows G p).hom
           rfl)
       exact ⟨(Over.mapPullbackAdj f).homEquiv (𝟙_ (Over T))
         (fiberArrows G p) qOver⟩

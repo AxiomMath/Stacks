@@ -51,7 +51,7 @@ theorem exists_lift_of_isPullback_etale {T₀ T A B C : Scheme.{u}} (i : T₀ �
   let B' : T.Etale := MorphismProperty.Over.mk ⊤ q ‹_›
   let m : F.obj A' ⟶ F.obj B' :=
     MorphismProperty.Over.homMk (hA.isoPullback.inv ≫ hB.isoPullback.hom) (by
-      show (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.snd q i = pullback.snd p i
+      change (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.snd q i = pullback.snd p i
       rw [Category.assoc, IsPullback.isoPullback_hom_snd, IsPullback.isoPullback_inv_snd])
   let ψ' : A' ⟶ B' := F.preimage m
   have hm : F.map ψ' = m := F.map_preimage m
@@ -203,11 +203,11 @@ theorem ChartFactor.immersion_thickenHom {V : SmallEtale B S hS (ambient E C hcU
 /-- **The thickened base-changed chart is the chart.** -/
 instance ChartFactor.isIso_thickenHom {V : SmallEtale B S hS (ambient E C hcU hcR).1}
     (F : ChartFactor V) : IsIso (F.thickenHom (hi := hi)) := by
-  haveI hFe : _root_.AlgebraicGeometry.Etale (show (BigFppfOver.toScheme B S hS).obj V.1.left ⟶
+  have hFe : _root_.AlgebraicGeometry.Etale (show (BigFppfOver.toScheme B S hS).obj V.1.left ⟶
       chartThickening B S hS E (presentationChart C.P) from
         (BigFppfOver.toScheme B S hS).map F.v) := F.etale
-  haveI := etale_chartThickeningMap B S hS E (F.hom (hi := hi))
-  haveI := (isFirstOrderThickening_chartImmersion B S hS E (presentationChart C.P)).1
+  have := etale_chartThickeningMap B S hS E (F.hom (hi := hi))
+  have := (isFirstOrderThickening_chartImmersion B S hS E (presentationChart C.P)).1
   refine isIso_of_isPullback_of_isPullback_of_surjective_isClosedImmersion
     (chartImmersion B S hS E (presentationChart C.P))
     (isFirstOrderThickening_chartImmersion B S hS E (presentationChart C.P)).isThickening.2
@@ -320,7 +320,7 @@ theorem ChartFactor.thickenHom_comp_of {V : SmallEtale B S hS (ambient E C hcU h
       refine ((BigFppfOver.toScheme B S hS).map_comp _ _).trans ?_
       exact (chartImmersion_comp_chartThickeningMap B S hS E (relChartHom (hi := hi) F F')).symm
     · refine (Category.assoc _ _ _).trans ?_
-      show F.thickenHom (hi := hi) ≫ (BigFppfOver.toScheme B S hS).map (relLift F F') ≫
+      change F.thickenHom (hi := hi) ≫ (BigFppfOver.toScheme B S hS).map (relLift F F') ≫
           (BigFppfOver.toScheme B S hS).map (ambTarget E C hcU hcR) = _
       rw [← Functor.map_comp, relLift_target, F.thickenHom_comp, ← chartThickeningMap_comp,
         relChartHom_target]
@@ -329,7 +329,7 @@ theorem ChartFactor.thickenHom_comp_of {V : SmallEtale B S hS (ambient E C hcU h
         (BigFppfOver.toScheme B S hS).map (ambSource E C hcU hcR) := by
     rw [← Functor.map_comp, relLift_source]
   rw [e1, ← Category.assoc, key]
-  show chartThickeningMap B S hS E (relChartHom (hi := hi) F F') ≫
+  change chartThickeningMap B S hS E (relChartHom (hi := hi) F F') ≫
     chartThickeningMap B S hS E (presentationRelationSourceHom C.P) = _
   rw [← chartThickeningMap_comp, relChartHom_source]
 
@@ -356,7 +356,7 @@ def ChartFactor.precomp {V₁ V₂ : SmallEtale B S hS (ambient E C hcU hcR).1} 
   v := g.hom.left ≫ F.v
   fac := by rw [Functor.map_comp, Category.assoc, F.fac]; exact CostructuredArrow.w g.hom
   etale := by
-    haveI := SmallEtale.etale_map B S hS _ g
+    have := SmallEtale.etale_map B S hS _ g
     rw [Functor.map_comp]
     exact inferInstanceAs (_root_.AlgebraicGeometry.Etale
       ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS _).map g) ≫ F.vS))

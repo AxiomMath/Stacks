@@ -285,7 +285,7 @@ public theorem dpow_dp_one [IsAddTorsionFree (DividedPowerAlgebra R M)]
   have : HasUniqueDiv (DividedPowerAlgebra R M) := hasUniqueDiv_of_isAddTorsionFree
   refine nsmul_right_injective (M := DividedPowerAlgebra R M)
     (Nat.factorial_ne_zero n) ?_
-  show (Nat.factorial n) • γ.dpow n (dp R 1 m) = (Nat.factorial n) • dp R n m
+  change (Nat.factorial n) • γ.dpow n (dp R 1 m) = (Nat.factorial n) • dp R n m
   rw [nsmul_eq_mul, nsmul_eq_mul, γ.factorial_mul_dpow_eq_pow (dp_mem_augIdeal one_ne_zero m),
     natFactorial_mul_dp_eq]
 

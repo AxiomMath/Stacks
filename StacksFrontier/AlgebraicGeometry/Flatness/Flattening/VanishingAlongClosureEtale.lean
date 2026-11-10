@@ -127,12 +127,12 @@ theorem forall_mem_ker_smul_top_of_projective_of_isOpenMap
     refine closure_minimal (Set.singleton_subset_iff.2 hs) isClosed_closure ?_
     rw [PrimeSpectrum.closure_singleton]
     intro a ha
-    show algebraMap R R' a ∈ (PrimeSpectrum.comap (algebraMap R' (R' ⊗[R] K)) q).asIdeal
+    change algebraMap R R' a ∈ (PrimeSpectrum.comap (algebraMap R' (R' ⊗[R] K)) q).asIdeal
     have hzero : algebraMap R' (R' ⊗[R] K) (algebraMap R R' a) = 0 := by
       have h : algebraMap R K a = 0 := (RingHom.mem_ker).mp ha
-      show algebraMap R R' a ⊗ₜ[R] (1 : K) = 0
+      change algebraMap R R' a ⊗ₜ[R] (1 : K) = 0
       rw [Algebra.TensorProduct.tmul_one_eq_one_tmul, h, TensorProduct.tmul_zero]
-    show algebraMap R' (R' ⊗[R] K) (algebraMap R R' a) ∈ q.asIdeal
+    change algebraMap R' (R' ⊗[R] K) (algebraMap R R' a) ∈ q.asIdeal
     rw [hzero]
     exact q.asIdeal.zero_mem
   -- The base change of `u` to the fibre vanishes.

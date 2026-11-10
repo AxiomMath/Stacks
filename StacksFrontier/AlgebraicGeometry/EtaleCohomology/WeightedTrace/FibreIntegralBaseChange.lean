@@ -193,7 +193,7 @@ public theorem fibreIntegral_comp_of_isPullback {h : U ⟶ X} {π : U ⟶ V} {π
     (hZ : IsFinite (i ≫ π)) (hsupp : ∀ x : U, s x ≠ 0 → x ∈ Set.range i.base) :
     fibreIntegral h π w hs ∘ ⇑g = fibreIntegral (p ≫ h) π' w hs' := by
   funext v'
-  show (∑ᶠ n : ℤ, fibreIntegralTerm h π w hs n (g v')) =
+  change (∑ᶠ n : ℤ, fibreIntegralTerm h π w hs n (g v')) =
     ∑ᶠ n : ℤ, fibreIntegralTerm (p ≫ h) π' w hs' n v'
   exact finsum_congr fun n =>
     congrFun (fibreIntegralTerm_comp_of_isPullback sq w hs hs' i hZ hsupp n) v'

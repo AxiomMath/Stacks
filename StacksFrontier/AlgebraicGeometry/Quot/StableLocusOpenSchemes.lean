@@ -69,7 +69,7 @@ theorem exists_isPullback_morphismRestrict_of_isPullback {C K : Scheme.{u}} {h :
     rintro _ ⟨x, rfl⟩
     have hx : f.base (h.base x) = c.base (g.base x) := by
       simp only [← Scheme.Hom.comp_apply, hpb.w]
-    show f.base (h.base x) ∈ (V : Set S)
+    change f.base (h.base x) ∈ (V : Set S)
     exact hx ▸ hcV ⟨_, rfl⟩
   have hc := IsOpenImmersion.lift_fac V.ι c hc'
   have ha := IsOpenImmersion.lift_fac (f ⁻¹ᵁ V).ι h ha'
@@ -115,8 +115,8 @@ theorem exists_mem_forall_isAmple_dualizingSheafOverField (hG : HasGorensteinCur
           (structureSheafRing C.toRingedSpace).property (dualizingSheafOverField g),
         Scheme.Modules.IsAmple C (dualizingSheafOverField g) := by
   have := isInvertibleModule_properFlatDualizingSheaf f hG
-  obtain ⟨C₀, h₀, g₀, hpb₀, _, hC₀, hinv, hamp⟩ := hs
-  let e₀ := (nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback f hG hpb₀ hC₀).some
+  obtain ⟨C₀, h₀, g₀, hpb₀, _, -, hinv, hamp⟩ := hs
+  let e₀ := (nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback f hG hpb₀).some
   have : Stacks.Ample.IsInvertibleModule C₀ (dualizingSheafOverField g₀) := hinv
   have h₀' : Stacks.Ample.IsAmple C₀ (pullbackModule h₀ (properFlatDualizingSheaf f)) :=
     (Stacks.RelativeVeryAmple.isAmple_congr _ _ e₀).2
@@ -135,7 +135,8 @@ theorem exists_mem_forall_isAmple_dualizingSheafOverField (hG : HasGorensteinCur
       (Stacks.AmplePullback.isAmple_modulePullback_of_isAffineHom hpb₀.isoPullback.inv _ h₀')
   obtain ⟨V, hsV, hrel⟩ := Stacks.AmpleFibreLimit.exists_mem_isRelativelyAmple_of_isAmple_fibre f
     (properFlatDualizingSheaf f) s hs'
-  refine ⟨V, hsV, fun k _ C h g c hpb _ hcV hC => ?_⟩
+  refine ⟨V, hsV, fun k _ C h g c hpb _ hcV => ?_⟩
+  rintro -
   obtain ⟨a, c', ha, hpb'⟩ := exists_isPullback_morphismRestrict_of_isPullback f hpb V hcV
   have h1 := Stacks.AmpleBridge.isRelativelyAmple_pullbackModule_of_isPullback hpb' _ hrel
   have h2 := (Stacks.RelativeAmpleAffineBase.isRelativelyAmple_iff_isAmple _ _).1 h1
@@ -143,7 +144,7 @@ theorem exists_mem_forall_isAmple_dualizingSheafOverField (hG : HasGorensteinCur
       dualizingSheafOverField g :=
     (Stacks.RelativeAmpleBaseChange.pullbackModuleCompIso a (f ⁻¹ᵁ V).ι _).symm ≪≫
       Stacks.RelativeAmpleBaseChange.pullbackModuleCongr ha _ ≪≫
-        (nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback f hG hpb hC).some
+        (nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback f hG hpb).some
   have : Stacks.Ample.IsInvertibleModule C (dualizingSheafOverField g) :=
     Stacks.SheafOfModules.Invertible.isInvertible_of_iso _ _ e2
   exact ⟨inferInstance, (Stacks.AmpleBridge.isAmple_iff_isAmple _ _).1

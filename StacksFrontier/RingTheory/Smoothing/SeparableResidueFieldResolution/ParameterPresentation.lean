@@ -178,7 +178,7 @@ private lemma parameterChartForward_comp_backward {K : Type*} [CommRing K]
   classical
   apply MvPolynomial.algHom_ext
   intro x
-  show parameterChartForward n b j hj
+  change parameterChartForward n b j hj
     (parameterChartBackward n b j (MvPolynomial.X x)) = MvPolynomial.X x
   rw [parameterChartBackward, MvPolynomial.aeval_X, parameterChartForward_mk,
     parameterChartForwardHom, MvPolynomial.aeval_X]
@@ -194,7 +194,7 @@ private lemma parameterChartBackward_comp_forward {K : Type*} [CommRing K]
   apply Ideal.Quotient.algHom_ext
   apply MvPolynomial.algHom_ext
   intro x
-  show parameterChartBackward n b j
+  change parameterChartBackward n b j
     (parameterChartForward n b j hj (Ideal.Quotient.mk _ (MvPolynomial.X x))) =
       Ideal.Quotient.mk _ (MvPolynomial.X x)
   rw [parameterChartForward_mk, parameterChartForwardHom, MvPolynomial.aeval_X]
@@ -209,7 +209,7 @@ private lemma parameterChartBackward_comp_forward {K : Type*} [CommRing K]
       simp only [parameterChartSubstitution, dite_true, parameterChartValue,
         map_mul, map_sub, map_pow, map_sum, parameterChartBackward,
         MvPolynomial.aeval_C, MvPolynomial.aeval_X]
-      show algebraMap K Q (Ring.inverse (b j)) *
+      change algebraMap K Q (Ring.inverse (b j)) *
         (mk (MvPolynomial.X (Sum.inl i)) ^ n -
           ∑ l : {l // l ≠ j}, algebraMap K Q (b l.1) *
             mk (MvPolynomial.X (Sum.inr (i, l.1)))) = _
@@ -248,7 +248,7 @@ private lemma formallySmooth_polynomial_over_parameters
   let ψP : P →ₐ[k] D :=
     { MvPolynomial.eval₂Hom ψ.toRingHom v with
       commutes' := fun x => by
-        show MvPolynomial.eval₂Hom ψ.toRingHom v (algebraMap k P x) = _
+        change MvPolynomial.eval₂Hom ψ.toRingHom v (algebraMap k P x) = _
         rw [IsScalarTower.algebraMap_apply k K P, MvPolynomial.algebraMap_eq,
           MvPolynomial.eval₂Hom_C]
         exact ψ.commutes x }
@@ -256,25 +256,25 @@ private lemma formallySmooth_polynomial_over_parameters
       IsScalarTower.toAlgHom k R D := by
     apply MvPolynomial.algHom_ext
     intro i
-    show ψP (algebraMap R P (MvPolynomial.X i)) = algebraMap R D (MvPolynomial.X i)
+    change ψP (algebraMap R P (MvPolynomial.X i)) = algebraMap R D (MvPolynomial.X i)
     rw [hX]
     exact MvPolynomial.eval₂Hom_X' _ _ _
   let ψR : P →ₐ[R] D :=
     { ψP.toRingHom with commutes' := fun x => AlgHom.congr_fun hc x }
   refine ⟨ψR, ?_⟩
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply MvPolynomial.ringHom_ext
   · intro x
-    show Ideal.Quotient.mk I
+    change Ideal.Quotient.mk I
       (MvPolynomial.eval₂Hom ψ.toRingHom v (MvPolynomial.C x)) = _
     rw [MvPolynomial.eval₂Hom_C]
     exact AlgHom.congr_fun hψ x
   · intro i
-    show Ideal.Quotient.mk I
+    change Ideal.Quotient.mk I
       (MvPolynomial.eval₂Hom ψ.toRingHom v (MvPolynomial.X i)) = _
     rw [MvPolynomial.eval₂Hom_X']
     rcases i with i | i
-    · show Ideal.Quotient.mk I (algebraMap R D (MvPolynomial.X i)) =
+    · change Ideal.Quotient.mk I (algebraMap R D (MvPolynomial.X i)) =
         φ (MvPolynomial.X (Sum.inl i))
       rw [← hX, φ.commutes, Ideal.Quotient.mk_algebraMap]
     · exact hz i
@@ -313,15 +313,15 @@ private lemma exists_parameterLocalizationEquiv
     IsLocalization.algEquiv (Submonoid.powers bj) _ _
   have hAQ (x : A) : algebraMap A Q x =
       algebraMap B Q (algebraMap A B x) := by
-    show Ideal.Quotient.mk J (MvPolynomial.C (algebraMap A Aj x)) =
+    change Ideal.Quotient.mk J (MvPolynomial.C (algebraMap A Aj x)) =
       algebraMap B Q (Ideal.Quotient.mk I (MvPolynomial.C x))
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient]
-    show _ = Ideal.Quotient.mk J (MvPolynomial.map (algebraMap A Aj) (MvPolynomial.C x))
+    change _ = Ideal.Quotient.mk J (MvPolynomial.map (algebraMap A Aj) (MvPolynomial.C x))
     rw [MvPolynomial.map_C]
   let eA : Localization.Away bj ≃ₐ[A] Q :=
     AlgEquiv.ofRingEquiv (f := e.toRingEquiv) (by
       intro x
-      show e (algebraMap A (Localization.Away bj) x) = algebraMap A Q x
+      change e (algebraMap A (Localization.Away bj) x) = algebraMap A Q x
       rw [IsScalarTower.algebraMap_apply A B (Localization.Away bj),
         e.commutes, ← hAQ])
   have hJ : J = parameterPresentationIdeal n c := by
@@ -329,7 +329,7 @@ private lemma exists_parameterLocalizationEquiv
     rw [Ideal.map_span, ← Set.range_comp]
     congr 2
     funext i
-    show MvPolynomial.map (algebraMap A Aj) (parameterPresentationRelation n a i) =
+    change MvPolynomial.map (algebraMap A Aj) (parameterPresentationRelation n a i) =
       parameterPresentationRelation n c i
     simp [parameterPresentationRelation, c]
   let eQ : Q ≃ₐ[Aj] (Pj ⧸ parameterPresentationIdeal n c) :=
@@ -337,13 +337,13 @@ private lemma exists_parameterLocalizationEquiv
   let ec := parameterChartEquiv (d := d) n c j
     (IsLocalization.Away.algebraMap_isUnit (a j))
   refine ⟨eA.trans ((eQ.trans ec).restrictScalars A), fun i => ?_⟩
-  show ec (eQ (e (algebraMap B (Localization.Away bj)
+  change ec (eQ (e (algebraMap B (Localization.Away bj)
     (Ideal.Quotient.mk I (MvPolynomial.X (Sum.inl i)))))) = _
   rw [e.commutes, Ideal.Quotient.algebraMap_quotient_map_quotient]
-  show ec (eQ (Ideal.Quotient.mk J
+  change ec (eQ (Ideal.Quotient.mk J
     (MvPolynomial.map (algebraMap A Aj) (MvPolynomial.X (Sum.inl i))))) = _
   rw [MvPolynomial.map_X]
-  show parameterChartForward n c j (IsLocalization.Away.algebraMap_isUnit (a j))
+  change parameterChartForward n c j (IsLocalization.Away.algebraMap_isUnit (a j))
     (Ideal.Quotient.mk _ (MvPolynomial.X (Sum.inl i))) = _
   rw [parameterChartForward_mk, parameterChartForwardHom, MvPolynomial.aeval_X]
   rfl
@@ -388,12 +388,12 @@ private lemma formallySmooth_parameter_localization
   have : IsScalarTower k R T := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap k T x = e (algebraMap R L (algebraMap k R x))
+    change algebraMap k T x = e (algebraMap R L (algebraMap k R x))
     rw [← IsScalarTower.algebraMap_apply k R L]
     exact ((e.restrictScalars k).commutes x).symm
   have heX (i : Fin d) : algebraMap R T (MvPolynomial.X i) =
       MvPolynomial.X (Sum.inl i) := by
-    show e (algebraMap R L (MvPolynomial.X i)) = _
+    change e (algebraMap R L (MvPolynomial.X i)) = _
     rw [IsScalarTower.algebraMap_apply R B L, hX]
     exact parameterLocalizationEquiv_X n a j i
   have : Algebra.FormallySmooth R T := formallySmooth_polynomial_over_parameters heX
@@ -492,7 +492,7 @@ private lemma canBeResolved_of_smooth_base
   let : Algebra A D := ((algebraMap C D).comp (algebraMap A C)).toAlgebra
   let : IsScalarTower A C D := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower k C D := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap R D (algebraMap k R x) = algebraMap C D (algebraMap k C x)
+    change algebraMap R D (algebraMap k R x) = algebraMap C D (algebraMap k C x)
     rw [IsScalarTower.algebraMap_apply k R C, ← IsScalarTower.algebraMap_apply R C D]
   have : IsScalarTower k A D := IsScalarTower.of_algebraMap_eq fun x => by
     rw [IsScalarTower.algebraMap_apply k C D,
@@ -526,7 +526,7 @@ private lemma map_singularIdeal_le_of_algEquiv
       Stacks.Smoothing.singularIdeal R D := by
   apply Ideal.map_le_iff_le_comap.mpr
   intro b hb
-  show e b ∈ Stacks.Smoothing.singularIdeal R D
+  change e b ∈ Stacks.Smoothing.singularIdeal R D
   have : Algebra.Smooth R (Localization.Away b) := smooth_away_of_mem_singularIdeal hb
   apply mem_singularIdeal_of_smooth_away
   exact Algebra.Smooth.of_equiv
@@ -604,12 +604,12 @@ private lemma exists_parameter_presentation_map
     exact RingHom.mem_ker.mpr (hrel i)
   refine ⟨Ideal.Quotient.liftₐ J ev (fun x hx => RingHom.mem_ker.mp (hJ hx)), ?_, ?_⟩
   · intro i
-    show (Ideal.Quotient.lift J ev.toRingHom _)
+    change (Ideal.Quotient.lift J ev.toRingHom _)
       (Ideal.Quotient.mk J (MvPolynomial.X (Sum.inl i))) = _
     rw [Ideal.Quotient.lift_mk]
     exact MvPolynomial.aeval_X _ _
   · intro i j
-    show (Ideal.Quotient.lift J ev.toRingHom _)
+    change (Ideal.Quotient.lift J ev.toRingHom _)
       (Ideal.Quotient.mk J (MvPolynomial.X (Sum.inr (i, j)))) = _
     rw [Ideal.Quotient.lift_mk]
     exact MvPolynomial.aeval_X _ _
@@ -716,7 +716,7 @@ private lemma polynomial_idealOfVars_eq_ker_constantCoeff
     MvPolynomial.idealOfVars ι R = RingHom.ker MvPolynomial.constantCoeff := by
   classical
   ext p
-  show p ∈ Ideal.span (Set.range MvPolynomial.X) ↔ _
+  change p ∈ Ideal.span (Set.range MvPolynomial.X) ↔ _
   rw [← Set.image_univ, MvPolynomial.mem_ideal_span_X_image,
     RingHom.mem_ker, MvPolynomial.constantCoeff_eq]
   simp only [Set.mem_univ, true_and]

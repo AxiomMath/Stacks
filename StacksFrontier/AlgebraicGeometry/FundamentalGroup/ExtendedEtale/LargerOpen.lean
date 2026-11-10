@@ -168,7 +168,7 @@ public theorem pullback_map_comp_eq_of_coverMap_comp (A' : Over U') [HasPullback
       (eRest.hom.left ≫ eV.inv.left) ≫ pullback.snd A'.hom i := by
     calc
       ((Over.pullback i).map e.hom).left ≫ pullback.snd A'.hom i = pullback.snd A.hom i := by
-            show (pullback.lift (pullback.fst A.hom i ≫ e.hom.left)
+            change (pullback.lift (pullback.fst A.hom i ≫ e.hom.left)
               (pullback.snd A.hom i) _) ≫ pullback.snd A'.hom i = pullback.snd A.hom i
             rw [pullback.lift_snd]
       _ = eRest.hom.left ≫ π := (Over.w eRest.hom).symm
@@ -178,7 +178,7 @@ public theorem pullback_map_comp_eq_of_coverMap_comp (A' : Over U') [HasPullback
     apply pullback.hom_ext
     · rw [pullback_map_left_comp_fst]
       simpa [coverMapOfPullbackIso, Category.assoc] using hfst
-    · show ((Over.pullback i).map e.hom).left ≫ pullback.snd A'.hom i =
+    · change ((Over.pullback i).map e.hom).left ≫ pullback.snd A'.hom i =
         eRest.hom.left ≫ eV.inv.left ≫ pullback.snd A'.hom i
       exact hsecond
   ext

@@ -250,7 +250,7 @@ private theorem span_range_eq_top_of_val_eq {T A : Type*} [CommRing T] [CommRing
       ∈ Submodule.span S (Set.range (idealMapHom f B))) ?_ ?_ ?_ ?_ hy
   · rintro _ ⟨b, hb, rfl⟩
     exact Submodule.subset_span ⟨⟨b, hb⟩, rfl⟩
-  · show (0 : ↥(Ideal.map f B)) ∈ _
+  · change (0 : ↥(Ideal.map f B)) ∈ _
     exact Submodule.zero_mem _
   · intro a b ha hb ha' hb'
     have h : (⟨a + b, Ideal.add_mem _ ha hb⟩ : ↥(Ideal.map f B)) = ⟨a, ha⟩ + ⟨b, hb⟩ := rfl

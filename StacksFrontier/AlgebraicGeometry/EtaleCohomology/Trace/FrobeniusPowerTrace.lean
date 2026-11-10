@@ -38,6 +38,7 @@ variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u
   [Fintype k'] (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP k' p]
   (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The trace of `(π_X^*)^m` is the trace of the Frobenius of `X ×_k k'`**, for `k'` with
 `p ^ (q m)` elements. -/
 theorem perfectDerivedTrace_pow_canonicalCompactSupportFrobenius_eq (m : ℕ) (hm : 0 < m)

@@ -118,7 +118,7 @@ invertible in `k`: it is a base change of the finite morphism `[n]`. -/
 theorem isFinite_torsionScheme_hom_of_isUnit [AlgebraicGeometry.IsAbelianVariety k A] (n : ℤ)
     (hn : IsUnit (n : k)) : IsFinite (torsionScheme A n).hom := by
   have := isFinite_zpow_id_left_of_isUnit A n hn
-  show IsFinite (pullback.snd ((𝟙 A : A ⟶ A) ^ n).left (η[A]).left)
+  change IsFinite (pullback.snd ((𝟙 A : A ⟶ A) ^ n).left (η[A]).left)
   infer_instance
 
 /-- The point of `Spec k` is closed, hence so is its image under the unit section. -/
@@ -147,7 +147,7 @@ theorem finite_torsionBy_of_isUnit [IsAlgClosed k] [AlgebraicGeometry.IsAbelianV
   set pk : Spec (.of k) := IsLocalRing.closedPoint k
   set e := ((η[A]).left : Spec (.of k) ⟶ A.left) pk
   have := (Scheme.Hom.finite_preimage_singleton ((𝟙 A : A ⟶ A) ^ (n : ℤ)).left e).to_subtype
-  show Finite (AddSubgroup.torsionBy (Additive (𝟙_ (Over (Spec (.of k))) ⟶ A)) (n : ℤ))
+  change Finite (AddSubgroup.torsionBy (Additive (𝟙_ (Over (Spec (.of k))) ⟶ A)) (n : ℤ))
   rw [(torsionKernelEquiv k A n).finite_iff]
   refine Finite.of_injective (β := ((𝟙 A : A ⟶ A) ^ (n : ℤ)).left ⁻¹' {e})
     (fun p => ⟨(p.1.left : Spec (.of k) ⟶ A.left) pk, ?_⟩) ?_
@@ -190,10 +190,10 @@ theorem pointBaseChange_left_fst (p : Additive (𝟙_ (Over (Spec (.of k))) ⟶ 
   set g := Spec.map (CommRingCat.ofHom (algebraMap k K))
   have hc : pullback.fst (𝟙 (Spec (.of k))) g = pullback.snd (𝟙 (Spec (.of k))) g ≫ g := by
     simpa using (pullback.condition : pullback.fst (𝟙 (Spec (.of k))) g ≫ 𝟙 _ = _)
-  show (Functor.LaxMonoidal.ε (Over.pullback g)).left ≫
+  change (Functor.LaxMonoidal.ε (Over.pullback g)).left ≫
     ((Over.pullback g).map p.toMul).left ≫ pullback.fst A.hom g = _
   simp only [Over.pullback_map_left, pullback.lift_fst, Over.ε_pullback_left]
-  show inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫ pullback.fst (𝟙 (Spec (.of k))) g ≫ _ = _
+  change inv (pullback.snd (𝟙 (Spec (.of k))) g) ≫ pullback.fst (𝟙 (Spec (.of k))) g ≫ _ = _
   rw [hc, Category.assoc, IsIso.inv_hom_id_assoc]
 
 /-- The base change `p_K` of a rational point is a section of `A_K ⟶ Spec K`. -/

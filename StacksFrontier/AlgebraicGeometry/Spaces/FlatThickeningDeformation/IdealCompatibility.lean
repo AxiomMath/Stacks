@@ -240,7 +240,7 @@ theorem squareBaseIso_hom_comp :
       (smallEtaleRingedToposHom B S hS (e₀ ≫ (subspaceInclusion B S hS Y'
           Z))).fSharpInverseImage :=
     (Iso.inv_comp_eq _).2 h.symm
-  show (eqToHom (congrArg (inverseImageStructureSheaf B S hS) hsq) ≫
+  change (eqToHom (congrArg (inverseImageStructureSheaf B S hS) hsq) ≫
       ((smallEtaleRingedToposHom_compInverseImageRingIso B S hS e₀ (subspaceInclusion B S hS Y'
           Z)).app
         (smallEtaleRingedTopos B S hS Y').O).inv) ≫
@@ -336,7 +336,7 @@ theorem homEquiv_homEquiv_compInverseImageIso_hom_app (p : U₁ ⟶ X₁) (f : X
     (smallToposMorphismTypeU_comp B S hS p f)
     ((smallEtaleRingedToposHom_compInverseImageIso B S hS p f).hom.app A ≫ φ)
   have h3 := h2.symm.trans (h1.trans (Adjunction.homEquiv_unit _ _ _ _).symm)
-  simp only [MorphismOfTopoi.comp, Adjunction.comp_homEquiv, Equiv.trans_apply] at h3
+  simp only [MorphismOfTopoi.comp, Adjunction.comp_homEquiv] at h3
   exact (Iso.eq_comp_inv ((smallToposMorphismTypeU_comp B S hS p f).app T)).2 h3
 
 omit hZ in
@@ -371,8 +371,7 @@ theorem homEquiv_forgetRing_eqToIso_inv {m₁ m₂ : U₁ ⟶ X₁} (h : m₁ = 
       (smallEtaleRingedToposHom B S hS m₁).toToposHom.adj.homEquiv _ _ ψ ≫
         eqToHom (congrArg (fun m ↦ (smallToposMorphismTypeU B S hS m).pushforward.obj T) h) := by
   subst h
-  simp only [eqToIso_refl, Iso.refl_inv, CategoryTheory.Functor.map_id, eqToHom_refl,
-    Category.comp_id]
+  simp only [eqToIso_refl, Iso.refl_inv, CategoryTheory.Functor.map_id]
   exact congrArg _ (Category.id_comp ψ)
 
 omit hZ in
@@ -388,6 +387,7 @@ theorem homEquiv_inverseImage_map (p : U₁ ⟶ X₁)
 end Mate
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for these discrete limits of presheaves times out
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_IdealCompatibility
@@ -396,6 +396,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_IdealCompatibility
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for these discrete limits of sheaves times out
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_sheaf_IdealCompatibility
@@ -609,15 +610,11 @@ theorem forget_map_structureSharpThroughThickeningAt_comp :
             (inverseImageStructureSheaf B S hS (subspaceInclusion B S hS X' Z₂)))) hsq)) ≫
         (smallToposMorphismTypeU_comp B S hS e₀ (subspaceInclusion B S hS Y' Z)).inv.app _ := by
   simp only [structureSharpThroughThickeningAt, structureSharpThroughThickening_eq,
-    pushforwardRingSheafCompInv, Functor.map_comp,
-    Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans,
-    Stacks.Sheaves.ToposPullback.sheafCompose_map_pullbackRingSheafComp_hom,
-    Stacks.Sheaves.ToposPullback.sheafCompose_map_pullbackRingSheafComp_inv, eqToHom_map,
-    Category.id_comp, Category.comp_id, Category.assoc]
+    pushforwardRingSheafCompInv, Functor.map_comp, eqToHom_map, Category.assoc]
   refine (congrArg₂ (· ≫ ·) (forget_map_structureSharp_eq g)
     (congrArg₂ (· ≫ ·) (forget_map_pushforward_ringUnit_comp Z₂ g)
       (congrArg (_ ≫ ·) (forget_map_pushforwardRingSheafCompInv_eq Z₂ e₀)))).trans ?_
-  simp only [Category.assoc]
+  simp only
   exact comp_comp_comp_eq_comp_comp_comp _ _ _ _
 
 omit hZ₂ in

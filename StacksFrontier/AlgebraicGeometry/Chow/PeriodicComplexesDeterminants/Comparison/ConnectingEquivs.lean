@@ -111,7 +111,7 @@ private theorem tensor_right_injective_of_finrank_one
     map_smul' := by
       intro c x
       ext z
-      show e z • (c • x) = c • (e z • x)
+      change e z • (c • x) = c • (e z • x)
       rw [smul_smul, smul_smul, mul_comm] }
   intro x y hxy
   have h := congrArg (TensorProduct.lift b) hxy
@@ -273,7 +273,7 @@ private lemma map_admissible_sequence
     refine Submodule.span_le.mpr ?_
     rintro _ ⟨_, ⟨j, hj, rfl⟩, rfl⟩
     exact Submodule.subset_span ⟨j, hj, rfl⟩
-  show r • f (e i) ∈ Submodule.span R ((f ∘ e) '' Set.Iio i)
+  change r • f (e i) ∈ Submodule.span R ((f ∘ e) '' Set.Iio i)
   rw [← map_smul]
   exact hmap ⟨r • e i, hmem, rfl⟩
 
@@ -317,7 +317,7 @@ private lemma admissible_tail_of_zero_prefix
           simpa only [Fin.val_natAdd] using hval
         omega
       exact Fin.lt_def.mpr hval'
-  show r • (p (tail j)) ∈ _
+  change r • (p (tail j)) ∈ _
   have hmem := htail j r hr
   simpa only [Fin.append_right, Function.comp_apply] using hspan hmem
 

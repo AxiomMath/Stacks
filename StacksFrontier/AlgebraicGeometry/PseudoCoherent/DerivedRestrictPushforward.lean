@@ -30,8 +30,8 @@ open subspace `V` of `Z` into a statement about `(Ri_*E)|_U` on the open subspac
 
 Nothing is computed. Both legs of the derived square are the functor induced on derived
 categories by a composite of two exact functors, and
-`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` identifies such a functor with the composite
-of the two induced functors. Applying it to the module-level square on one side and to the
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` identifies such a functor with the
+composite of the two induced functors. Applying it to the module-level square on one side and to the
 identity isomorphism on the other gives two descriptions of
 `(restrictModules Z V ⋙ pushforwardOXMod (i|_V)).mapDerivedCategory`, and the square is their
 difference.

@@ -121,7 +121,7 @@ theorem rightDerived_toSheaf_map_eq_zero_iff {F G : SheafOfModules.{u} (ringShea
   · exact (forget₂ (ModuleCat.{u} ((ringSheaf O).obj.obj (op ⊤))) AddCommGrpCat.{u}).map_injective
       ((Stacks.Cohomology.TopDegree.map_eq_zero_of_natIso e.symm f h).trans (Functor.map_zero
         (forget₂ (ModuleCat.{u} ((ringSheaf O).obj.obj (op ⊤))) AddCommGrpCat.{u}) _ _).symm)
-  · show (forget₂ (ModuleCat.{u} ((ringSheaf O).obj.obj (op ⊤))) AddCommGrpCat.{u}).map
+  · change (forget₂ (ModuleCat.{u} ((ringSheaf O).obj.obj (op ⊤))) AddCommGrpCat.{u}).map
       (hypercohomologyMap O (singlePlusMapAt O f 0) (n : ℤ)) = 0
     rw [h, Functor.map_zero]
 

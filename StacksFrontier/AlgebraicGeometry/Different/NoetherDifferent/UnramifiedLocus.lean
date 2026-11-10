@@ -70,7 +70,7 @@ private theorem noetherDifferent_eq_top_iff_formallyUnramified
   have hμ : Function.Surjective μ := fun b ↦
     ⟨b ⊗ₜ[A] (1 : B), by simp [μ, Algebra.TensorProduct.lmul'_apply_tmul]⟩
   rw [noetherDifferent, Ideal.eq_top_iff_one]
-  show (1 ∈ Ideal.map μ.toRingHom (diagonalAnnihilator A B)) ↔ _
+  change (1 ∈ Ideal.map μ.toRingHom (diagonalAnnihilator A B)) ↔ _
   rw [Ideal.mem_map_iff_of_surjective μ.toRingHom hμ]
   constructor
   · rintro ⟨t, ht, hμt⟩
@@ -85,7 +85,7 @@ private theorem noetherDifferent_eq_top_iff_formallyUnramified
       (Algebra.FormallyUnramified.iff_exists_tensorProduct
         (R := A) (S := B)).mp h
     refine ⟨t, ?_, hμt⟩
-    show t ∈ (KaehlerDifferential.ideal A B).annihilator
+    change t ∈ (KaehlerDifferential.ideal A B).annihilator
     rw [← KaehlerDifferential.span_range_eq_ideal, Submodule.mem_annihilator_span]
     rintro ⟨_, ⟨b, rfl⟩⟩
     simpa [Algebra.smul_def, mul_comm] using ht b
@@ -100,7 +100,7 @@ theorem zeroLocus_noetherDifferent
       (Algebra.unramifiedLocus A B)ᶜ := by
   classical
   ext q
-  show (noetherDifferent A B ≤ q.asIdeal) ↔
+  change (noetherDifferent A B ≤ q.asIdeal) ↔
     ¬ Algebra.IsUnramifiedAt A q.asIdeal
   constructor
   · intro hD hq

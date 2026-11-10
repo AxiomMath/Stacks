@@ -107,9 +107,9 @@ lemma exists_injective_homology_ext_one (T : CochainComplex C ℤ) (a : ℤ)
     let y' : X ⟶ T.X a := y
     have hy : lift (S.abToCycles y) = y' ≫ (cyclesShortComplex T a).g := by
       rw [← cancel_mono (T.iCycles (a + 1)), hlift, Category.assoc]
-      show y' ≫ T.d a (a + 1) = y' ≫ T.toCycles a (a + 1) ≫ T.iCycles (a + 1)
+      change y' ≫ T.d a (a + 1) = y' ≫ T.toCycles a (a + 1) ≫ T.iCycles (a + 1)
       rw [T.toCycles_i]
-    show (Ext.mk₀ (lift (S.abToCycles y))).comp hS.extClass (zero_add 1) = 0
+    change (Ext.mk₀ (lift (S.abToCycles y))).comp hS.extClass (zero_add 1) = 0
     rw [hy, ← Ext.mk₀_comp_mk₀, Ext.comp_assoc_of_second_deg_zero, hS.comp_extClass,
       Ext.comp_zero]
   let ψ : ((AddMonoidHom.ker S.g.hom) ⧸ AddMonoidHom.range S.abToCycles) →+
@@ -126,7 +126,7 @@ lemma exists_injective_homology_ext_one (T : CochainComplex C ℤ) (a : ℤ)
     apply Subtype.ext
     have := congrArg (· ≫ T.iCycles (a + 1)) hy
     simp only [Category.assoc, hlift, T.toCycles_i] at this
-    show y ≫ T.d a (a + 1) = x.1
+    change y ≫ T.d a (a + 1) = x.1
     exact this
   exact exists_injective_of_iso e ⟨ψ, hψ⟩
 

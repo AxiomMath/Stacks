@@ -110,7 +110,7 @@ private lemma simplexHomEquiv_natural (X : SimplicialObject TopCat.{u})
       (SSet.stdSimplex.obj V.degree.unop).map f (simplexHomEquiv X V i g) := by
   unfold wholeSpaceFunctor at *
   dsimp only [simplexHomEquiv]
-  show (SSet.stdSimplex.objEquiv.{0} (n := V.degree.unop) (m := j)).symm
+  change (SSet.stdSimplex.objEquiv.{0} (n := V.degree.unop) (m := j)).symm
       ((g ≫ (wholeSpaceFunctor X).map f).base.unop) =
     (SSet.stdSimplex.obj V.degree.unop).map f
       ((SSet.stdSimplex.objEquiv.{0} (n := V.degree.unop) (m := i)).symm g.base.unop)

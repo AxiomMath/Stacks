@@ -168,7 +168,7 @@ private theorem derivedForget_map_toDerivedCategory_map'' {Z Z' : HomotopyCatego
     (derivedForget.{w} A).map ((toDerivedCategory A).map f) = (homotopyForget.{w} A).map f := by
   have h := Functor.congr_hom (toDerivedCategory_comp_derivedForget.{w} A) f
   refine h.trans ?_
-  show 𝟙 _ ≫ (homotopyForget.{w} A).map f ≫ 𝟙 _ = (homotopyForget.{w} A).map f
+  change 𝟙 _ ≫ (homotopyForget.{w} A).map f ≫ 𝟙 _ = (homotopyForget.{w} A).map f
   rw [Category.id_comp, Category.comp_id]
 
 private theorem derivedForget_assemble

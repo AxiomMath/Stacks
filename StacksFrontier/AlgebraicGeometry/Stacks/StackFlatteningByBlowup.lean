@@ -59,7 +59,7 @@ theorem preimage_le_openComplement_preimage_of_disjoint {A A' : AlgebraicSpaces 
       (openComplementOfClosedSubspace B S hS A' (preimageClosedSubspace b Z)).1 := by
   refine le_of_range_pointsMap_ι_subset B S hS
     (openComplementOfClosedSubspace B S hS A' (preimageClosedSubspace b Z)).2 ?_
-  show _ ⊆ subspacePointSet B S hS A'.1
+  change _ ⊆ subspacePointSet B S hS A'.1
     (openComplementOfClosedSubspace B S hS A' (preimageClosedSubspace b Z)).1
   rw [subspacePointSet_openComplement, range_pointsMap_preimage_ι]
   intro x hx hxZ
@@ -75,6 +75,7 @@ namespace AlgebraicGeometry.Stack.AlgebraicStacks
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_StackFlatteningByBlowup :

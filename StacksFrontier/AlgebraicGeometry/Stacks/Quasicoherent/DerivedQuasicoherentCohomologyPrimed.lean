@@ -63,6 +63,7 @@ def homologyFunctorB (i : ℤ) :
     (derivedCategoryB B).FullSubcategory ⥤ B.FullSubcategory :=
   B.lift ((derivedCategoryB B).ι ⋙ DerivedCategory.homologyFunctor A i) fun X => X.property i
 
+omit [B.IsWeakSerreClass] in
 /-- The underlying object of `H^i(X)` in `𝒜` is the `i`-th cohomology object of the underlying
 object of `X` in `D(𝒜)`. -/
 @[simp]
@@ -160,7 +161,7 @@ def locallyQuasicoherentFlatBaseChangeFppfUnitIso :
       fppfToEtaleLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳 ⋙
         etaleToFppfLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳 :=
   NatIso.ofComponents (fun _ => Iso.refl _) fun _ => by
-    simp only [Functor.comp_map, Functor.id_map, Category.comp_id, Category.id_comp]
+    simp only [Functor.comp_map, Functor.id_map]
     rfl
 
 /-- Improving the sheaf condition and forgetting it again is the identity, for the same
@@ -171,7 +172,7 @@ def locallyQuasicoherentFlatBaseChangeFppfCounitIso :
       𝟭 (locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS 𝒳.val.val.p
         𝒳.val.isFiberedInGroupoids) :=
   NatIso.ofComponents (fun _ => Iso.refl _) fun _ => by
-    simp only [Functor.comp_map, Functor.id_map, Category.comp_id, Category.id_comp]
+    simp only [Functor.comp_map, Functor.id_map]
     rfl
 
 /-- The two readings of `LQCoh^fbc(𝒪_𝒳)`, on the étale and on the fppf site, are equivalent.  The
@@ -550,7 +551,7 @@ theorem isZero_iff_forall_isZero_cohomologyDerivedCategoryQuasicoherent
     IsZero X ↔ ∀ i : ℤ,
       IsZero ((cohomologyDerivedCategoryQuasicoherent' B E h S hS 𝒳 hinc hclosed hpres hsep i
         (hhom i) hQker).obj X) := by
-  haveI : (derivedQuasicoherentW B E h S hS 𝒳).Q.IsLocalization
+  have : (derivedQuasicoherentW B E h S hS 𝒳).Q.IsLocalization
       (derivedParasiticSubcategory' B E h S hS 𝒳).trW := by
     rw [← derivedQuasicoherentW_eq_trW_derivedParasiticSubcategory B E h S hS 𝒳]
     infer_instance
@@ -576,7 +577,7 @@ theorem isZero_iff_forall_isZero_cohomologyDerivedCategoryQuasicoherent
   constructor
   · intro hz i
     rw [hdeg i]
-    haveI := hhom i
+    have := hhom i
     obtain ⟨htri, hsat⟩ := Functor.isTriangulated_and_isSaturated_homologicalKernel
       (cohomologyQuasicoherent' B E h S hS 𝒳 hinc hclosed hpres hsep i)
     have hsub : (cohomologyQuasicoherent' B E h S hS 𝒳 hinc hclosed hpres hsep i).homologicalKernel
@@ -626,6 +627,8 @@ variable {𝒜 : Type uA} [Category.{vA} 𝒜]
   (hreq : (quasicoherentToFlatBaseChange B E h S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids hinc ⋙ r).IsEquivalence)
 
+omit [HasDerivedCategory (fppfModules B S hS 𝒳)]
+  [(derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).IsTriangulated] in
 include hinc hrpar hrcounit hreq in
 /-- **`hQker` is Stacks 0779 part (1).**  The kernel of the coherator
 `AlgebraicGeometry.Stack.quasicoheratorOfStack'` is exactly the parasitic part of
@@ -678,9 +681,9 @@ theorem isHomological_cohomologyQuasicoherent (i : ℤ)
   -- full subcategory of a preadditive category has.  The exactness lemma below reads its
   -- additivity hypothesis off the ambient `Abelian` instances instead, so pin the two
   -- `Preadditive` structures to those before anything about zero morphisms is stated.
-  letI : Preadditive (locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS
+  let : Preadditive (locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS
     𝒳.val.val.p 𝒳.val.isFiberedInGroupoids) := Abelian.toPreadditive
-  letI : Preadditive (FibredSite.quasicoherentModules.{u, u + 1, u, u} B S hS 𝒳.val.val.p
+  let : Preadditive (FibredSite.quasicoherentModules.{u, u + 1, u, u} B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids) := Abelian.toPreadditive
   have hQzero : (quasicoheratorOfStack' B E h S hS 𝒳 hinc hclosed hpres
       hsep).PreservesZeroMorphisms :=

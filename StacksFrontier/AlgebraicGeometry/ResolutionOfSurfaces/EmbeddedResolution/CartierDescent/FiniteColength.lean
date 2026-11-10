@@ -239,13 +239,13 @@ theorem bijective_pi_localizedModule_quotient
       apply pe.injective
       rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.apply_symm_apply]
-      show (g.comp F m) w = _
+      change (g.comp F m) w = _
       simp only [hg, hF, LinearMap.comp_apply, LinearMap.pi_apply, LinearMap.proj_apply]
       rfl
     rw [hkey]
     exact IsLocalizedModule.of_linearEquiv P.primeCompl (mkPe.toLinearMap.comp mkw) pe.symm
   · -- an element of `K ∖ P` annihilates everything, so both sides vanish
-    obtain ⟨s, hsK, hsP⟩ : ∃ s ∈ K, s ∉ P := SetLike.not_le_iff_exists.mp hKP
+    obtain ⟨s, hsK, hsP⟩ : ∃ s ∈ K, s ∉ P := IsConcreteLE.not_le_iff_exists.mp hKP
     have hq : ∀ c : B ⧸ K, s • c = 0 := fun c => smul_quotient_eq_zero K hsK c
     have hfac : ∀ p : T, Subsingleton (LocalizedModule P.primeCompl
         (LocalizedModule (p : PrimeSpectrum B).asIdeal.primeCompl (B ⧸ K))) := fun p =>
@@ -255,7 +255,7 @@ theorem bijective_pi_localizedModule_quotient
         (LocalizedModule (p : PrimeSpectrum B).asIdeal.primeCompl (B ⧸ K))) := inferInstance
     refine ⟨fun x => isUnit_of_subsingleton _, fun y => ⟨⟨0, 1⟩, Subsingleton.elim _ _⟩,
       fun {x₁ x₂} _ => ⟨⟨s, Ideal.mem_primeCompl_iff.mpr hsP⟩, ?_⟩⟩
-    show s • x₁ = s • x₂
+    change s • x₁ = s • x₂
     rw [hq x₁, hq x₂]
 
 /-- **The Chinese remainder step.** The composite of `B ⟶ B ⧸ K` with the canonical map to the

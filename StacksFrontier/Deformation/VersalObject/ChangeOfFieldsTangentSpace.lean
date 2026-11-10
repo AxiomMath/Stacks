@@ -620,14 +620,14 @@ private theorem dualNumberExtensionComparisonEquiv_coordinates
 private def changePullbackToElements
     {C : Type u} [Category.{v} C] {D : Type z} [Category.{w} D]
     (F : C ⥤ Type y) (G : D ⥤ C) :
-    CategoricalPullback (CategoryOfElements.π F) G ⥤ (G ⋙ F).Elements where
+    CategoricalPullback (Functor.Elements.π F) G ⥤ (G ⋙ F).Elements where
   obj x := (G ⋙ F).elementsMk x.snd (F.map x.iso.hom x.fst.2)
   map {x x'} f := Functor.Elements.homMk f.snd (by
     change F.map (G.map f.snd) (F.map x.iso.hom x.fst.2) =
       F.map x'.iso.hom x'.fst.2
     calc F.map (G.map f.snd) (F.map x.iso.hom x.fst.2)
         = F.map (x.iso.hom ≫ G.map f.snd) x.fst.2 := by rw [F.map_comp]; rfl
-      _ = F.map ((CategoryOfElements.π F).map f.fst ≫ x'.iso.hom) x.fst.2 :=
+      _ = F.map ((Functor.Elements.π F).map f.fst ≫ x'.iso.hom) x.fst.2 :=
           congrArg (fun φ => F.map φ x.fst.2) f.w.symm
       _ = F.map x'.iso.hom x'.fst.2 := by
           rw [F.map_comp]
@@ -638,7 +638,7 @@ private def changePullbackToElements
 private def elementsToChangePullback
     {C : Type u} [Category.{v} C] {D : Type z} [Category.{w} D]
     (F : C ⥤ Type y) (G : D ⥤ C) :
-    (G ⋙ F).Elements ⥤ CategoricalPullback (CategoryOfElements.π F) G where
+    (G ⋙ F).Elements ⥤ CategoricalPullback (Functor.Elements.π F) G where
   obj x := ⟨F.elementsMk (G.obj x.1) x.2, x.1, Iso.refl _⟩
   map {x x'} f :=
     { fst := Functor.Elements.homMk (G.map f.hom) (by simpa using f.map_val)
@@ -662,7 +662,7 @@ private def elementsToChangePullback
 private def changePullbackElementsEquivalence
     {C : Type u} [Category.{v} C] {D : Type z} [Category.{w} D]
     (F : C ⥤ Type y) (G : D ⥤ C) :
-    CategoricalPullback (CategoryOfElements.π F) G ≌ (G ⋙ F).Elements where
+    CategoricalPullback (Functor.Elements.π F) G ≌ (G ⋙ F).Elements where
   functor := changePullbackToElements F G
   inverse := elementsToChangePullback F G
   unitIso := NatIso.ofComponents (fun x =>
@@ -734,14 +734,14 @@ private theorem schlessingerS2_changePullbackElements
     (S : ChangeOfFieldsSituation.{u, v, v})
     (F : ArtinianLocalAlgCat.{u, v, v} S.Λ S.k ⥤ Type y)
     (h : SchlessingerConditionS2
-      (CategoricalPullback.π₂ (CategoryOfElements.π F)
+      (CategoricalPullback.π₂ (Functor.Elements.π F)
         (comparisonFunctor S).functor)) :
     SchlessingerConditionS2
-      (CategoryOfElements.π ((comparisonFunctor S).functor ⋙ F)) := by
+      (Functor.Elements.π ((comparisonFunctor S).functor ⋙ F)) := by
   let e := changePullbackElementsEquivalence F (comparisonFunctor S).functor
-  let p := CategoricalPullback.π₂ (CategoryOfElements.π F)
+  let p := CategoricalPullback.π₂ (Functor.Elements.π F)
     (comparisonFunctor S).functor
-  let q := CategoryOfElements.π ((comparisonFunctor S).functor ⋙ F)
+  let q := Functor.Elements.π ((comparisonFunctor S).functor ⋙ F)
   constructor
   · intro x xε x₀ d e' hdual Aε g gε hpull
     obtain ⟨P⟩ := h.completion (e.inverse.map d) (e.inverse.map e') hdual g gε hpull
@@ -813,11 +813,11 @@ private theorem schlessingerS2_of_pointwiseEquiv
     (e : ∀ A, F.obj A ≃ G.obj A)
     (hnat : ∀ {A B} (f : A ⟶ B) (x : F.obj A),
       e B (F.map f x) = G.map f (e A x))
-    (h : SchlessingerConditionS2 (CategoryOfElements.π F)) :
-    SchlessingerConditionS2 (CategoryOfElements.π G) := by
+    (h : SchlessingerConditionS2 (Functor.Elements.π F)) :
+    SchlessingerConditionS2 (Functor.Elements.π G) := by
   let E := elementsEquivalenceOfPointwiseEquiv S F G e hnat
-  let p := CategoryOfElements.π F
-  let q := CategoryOfElements.π G
+  let p := Functor.Elements.π F
+  let q := Functor.Elements.π G
   constructor
   · intro x xε x₀ d e' hdual Aε g gε hpull
     obtain ⟨P⟩ := h.completion (E.inverse.map d) (E.inverse.map e') hdual g gε hpull
@@ -1041,7 +1041,7 @@ public theorem associatedSchlessingerConditionS2_changeOfFields
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) :
     let q := changeOfFieldsProjection.{u, v, v, v, y, z} S 𝓕.p
     let hq := changeOfFieldsProjection_isPredeformationCategory
       S 𝓕.p hp
@@ -1049,7 +1049,7 @@ public theorem associatedSchlessingerConditionS2_changeOfFields
         (ArtinianLocalAlgCat.{u, v, v} S.Λ S.l) :=
       ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 hq.cofibered)) := by
+      (Functor.Elements.π (isomorphismClasses 𝓖 hq.cofibered)) := by
   let q := changeOfFieldsProjection.{u, v, v, v, y, z} S 𝓕.p
   let hq := changeOfFieldsProjection_isPredeformationCategory
     S 𝓕.p hp
@@ -1057,12 +1057,12 @@ public theorem associatedSchlessingerConditionS2_changeOfFields
       (ArtinianLocalAlgCat.{u, v, v} S.Λ S.l) :=
     ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
   change SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 hq.cofibered))
+    (Functor.Elements.π (isomorphismClasses 𝓖 hq.cofibered))
   let oldClasses := isomorphismClasses 𝓕 hp.cofibered
   let newClasses := isomorphismClasses 𝓖 hq.cofibered
   let comp := (comparisonFunctor S).functor
   have hChanged := schlessingerConditionS2_changeOfFields
-    S (CategoryOfElements.π oldClasses)
+    S (Functor.Elements.π oldClasses)
     (categoryOfElements_π_isCofibered oldClasses) hS2
   have hPulled := schlessingerS2_changePullbackElements S oldClasses hChanged
   let classEquiv (B : ArtinianLocalAlgCat.{u, v, v} S.Λ S.l) :
@@ -1206,7 +1206,7 @@ private noncomputable def tangentTensorToChangedAt
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered)))
     (V : FGModuleCat S.l) :
     let q := changeOfFieldsProjection.{u, v, v, v, y, z} S 𝓕.p
     let hq := changeOfFieldsProjection_isPredeformationCategory
@@ -1216,7 +1216,7 @@ private noncomputable def tangentTensorToChangedAt
       ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         𝓕 hp.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace S.Λ S.k
       (isomorphismClasses 𝓕 hp.cofibered)
@@ -1231,7 +1231,7 @@ private noncomputable def tangentTensorToChangedAt
     ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses
+    (Functor.Elements.π (isomorphismClasses
       𝓕 hp.cofibered))) := ⟨hS2⟩
   let T := artinianTangentSpace S.Λ S.k
     (isomorphismClasses 𝓕 hp.cofibered)
@@ -1487,10 +1487,10 @@ private theorem tangentTensorToChangedAt_naturality
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace S.Λ S.k
       (isomorphismClasses 𝓕 hp.cofibered)
     ∀ {V W : FGModuleCat S.l} (f : V ⟶ W) (x : TensorProduct S.k (V : Type v) T),
@@ -1505,7 +1505,7 @@ private theorem tangentTensorToChangedAt_naturality
         (tangentTensorToChangedAt S 𝓕 hp hS2 V x) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
   let T := artinianTangentSpace S.Λ S.k
     (isomorphismClasses 𝓕 hp.cofibered)
   dsimp only
@@ -1535,10 +1535,10 @@ private theorem tangentTensorToChangedAt_tmul
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace S.Λ S.k
       (isomorphismClasses 𝓕 hp.cofibered)
     ∀ (V : FGModuleCat S.l) (a : V) (t : T),
@@ -1549,7 +1549,7 @@ private theorem tangentTensorToChangedAt_tmul
               (squareZeroVectorMap S V a)) t) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
   dsimp only
   intro V a t
   let L := associatedTangentSpaceModuleStructureUnlifted 𝓕 hp hS2
@@ -1569,7 +1569,7 @@ public noncomputable def tangentSpaceChangeOfFields
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) :
     let q := changeOfFieldsProjection.{u, v, v, v, y, z} S 𝓕.p
     let hq := changeOfFieldsProjection_isPredeformationCategory
       S 𝓕.p hp
@@ -1578,11 +1578,11 @@ public noncomputable def tangentSpaceChangeOfFields
       ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         𝓕 hp.cofibered))) := ⟨hS2⟩
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨hq⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         𝓖 hq.cofibered))) :=
       ⟨associatedSchlessingerConditionS2_changeOfFields S 𝓕 hp hS2⟩
     letI : AddCommGroup (artinianTangentSpace S.Λ S.k
@@ -1610,11 +1610,11 @@ public noncomputable def tangentSpaceChangeOfFields
     ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
   letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨hq⟩
   let hS2' := associatedSchlessingerConditionS2_changeOfFields S 𝓕 hp hS2
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 hq.cofibered))) := ⟨hS2'⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 hq.cofibered))) := ⟨hS2'⟩
   let T := artinianTangentSpace S.Λ S.k
     (isomorphismClasses 𝓕 hp.cofibered)
   let F := tangentTensorFunctor S (ModuleCat.of S.k T)
@@ -1861,7 +1861,7 @@ public theorem tangentSpaceChangeOfFields_tmul_one
     (𝓕 : BasedCategory.{z, y} (ArtinianLocalAlgCat.{u, v, v} S.Λ S.k))
     (hp : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) :
     let q := changeOfFieldsProjection.{u, v, v, v, y, z} S 𝓕.p
     let hq := changeOfFieldsProjection_isPredeformationCategory
       S 𝓕.p hp
@@ -1876,7 +1876,7 @@ public theorem tangentSpaceChangeOfFields_tmul_one
     let j : A ⟶ C := (canonicalDualNumberInclusion S).val
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         𝓕 hp.cofibered))) := ⟨hS2⟩
     letI : AddCommGroup (artinianTangentSpace S.Λ S.k
       (isomorphismClasses 𝓕 hp.cofibered)) :=
@@ -1899,7 +1899,7 @@ public theorem tangentSpaceChangeOfFields_tmul_one
     ⟨ChangeOfFieldsCategory S 𝓕.p, inferInstance, q⟩
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
   dsimp only
   intro t
   have he : tangentSpaceChangeOfFields S 𝓕 hp hS2 (1 ⊗ₜ[S.k] t) =

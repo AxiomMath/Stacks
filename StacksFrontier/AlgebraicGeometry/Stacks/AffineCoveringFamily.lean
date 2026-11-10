@@ -102,7 +102,7 @@ theorem exists_isAffine_covering_of_object (x : 𝒳.val.obj) :
     rw [GrothendieckTopology.mem_toPrecoverage_iff, Presieve.map_ofArrows]
     have hBcover : Sieve.ofArrows Vobj vmap ∈ BigFppfOver.topology B S hS X := by
       rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-      show Sieve.ofArrows W.X W.f ∈ B.topology T
+      change Sieve.ofArrows W.X W.f ∈ B.topology T
       simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
     refine (BigFppfOver.topology B S hS).superset_covering ?_ hBcover
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]

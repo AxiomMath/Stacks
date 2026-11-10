@@ -70,7 +70,7 @@ abbrev puncturedOpenHom (V : U.Opens) : pullback V.ι j ⟶ U :=
 theorem top_le_preimage_puncturedOpenHom (V : U.Opens) :
     ⊤ ≤ puncturedOpenHom j V ⁻¹ᵁ V := by
   intro p _
-  show V.ι ((pullback.fst V.ι j) p) ∈ V
+  change V.ι ((pullback.fst V.ι j) p) ∈ V
   exact ((pullback.fst V.ι j) p).2
 
 /-- **A function on `V`, pulled back to `V ×_U U₀`.** -/
@@ -194,7 +194,7 @@ theorem localKummerClass_restrict {V W : U.Opens} (h : W ≤ V) (t : Γ(U, V))
   refine congrArg (fun x => ConcreteCategory.hom
     ((kummerDirectImageδ j hN0 hN).hom.app (op ((opensToEtale U).obj W)))
       (ofUnit.{u, 0} (X := U₀) (U := puncturedOpen j W) x)) (Units.ext ?_)
-  show ((smallEtaleBaseChange j).map ((opensToEtale U).map (homOfLE h))).left.appTop
+  change ((smallEtaleBaseChange j).map ((opensToEtale U).map (homOfLE h))).left.appTop
     (puncturedFunction j V t) = puncturedFunction j W (U.presheaf.map (homOfLE h).op t)
   rw [smallEtaleBaseChange_map_opensToEtale_left]
   exact appTop_puncturedFunction j h t
@@ -281,7 +281,7 @@ theorem localKummerClass_eq_of_isLocalEquation (hNU : IsUnit ((N : ℕ) : Γ(U, 
   refine TopCat.Sheaf.eq_of_locally_eq' (kummerTargetZariski j N) O V
     (fun x => homOfLE (hOV x)) (fun y hy => Opens.mem_iSup.2 ⟨⟨y, hy⟩, hxO ⟨y, hy⟩⟩) _ _ ?_
   intro x
-  show (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE (hOV x))).op _ =
+  change (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE (hOV x))).op _ =
     (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE (hOV x))).op _
   rw [map_localKummerClass_restrict j hN0 hN (hOV x) t₁ ht₁,
     map_localKummerClass_restrict j hN0 hN (hOV x) t₂ ht₂]
@@ -312,7 +312,7 @@ theorem existsUnique_section_restrict_eq_localKummerClass (hNU : IsUnit ((N : �
     exact Opens.mem_iSup.2 ⟨⟨⟨V, t⟩, ht⟩, hx⟩
   have hcompat : TopCat.Presheaf.IsCompatible (kummerTargetZariski j N).1 O sf := by
     intro p q
-    show (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE inf_le_left)).op (sf p) =
+    change (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE inf_le_left)).op (sf p) =
       (kummerTarget j N).obj.map ((opensToEtale U).map (homOfLE inf_le_right)).op (sf q)
     rw [map_localKummerClass_restrict j hN0 hN inf_le_left p.1.2,
       map_localKummerClass_restrict j hN0 hN inf_le_right q.1.2]

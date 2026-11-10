@@ -13,8 +13,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 Let `X` be a Noetherian scheme. Every ascending chain `F₁ ⊂ F₂ ⊂ F₃ ⊂ ⋯ ⊂ F` of subsheaves of a
 constructible sheaf of sets, or of a constructible sheaf of abelian groups, on the small étale
 site of `X` stabilizes: for some `n` one has `Fₙ = Fₙ₊₁ = Fₙ₊₂ = ⋯`. As in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ConstructibleAscendingChain`, this is
-stated as `F` being a Noetherian object of the ambient sheaf category, which by
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ConstructibleAscendingChain`,
+this is stated as `F` being a Noetherian object of the ambient sheaf category, which by
 `CategoryTheory.isNoetherianObject_iff_monotone_chain_condition` is the ascending chain condition
 on the subobjects of `F`.
 

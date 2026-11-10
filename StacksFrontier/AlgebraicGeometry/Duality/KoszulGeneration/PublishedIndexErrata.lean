@@ -523,7 +523,7 @@ theorem sesY_shortExact : (sesY k).ShortExact where
     have hsum : c 0 * MvPolynomial.X 0 + c 1 * MvPolynomial.X 1 = a := by
       simpa [Fin.sum_univ_two, smul_eq_mul] using hc
     refine ⟨Submodule.Quotient.mk (c 1), ?_⟩
-    show (MvPolynomial.X 1 : ringGEJ k) • (Submodule.Quotient.mk (c 1) : ringGEJ k ⧸ idealX k)
+    change (MvPolynomial.X 1 : ringGEJ k) • (Submodule.Quotient.mk (c 1) : ringGEJ k ⧸ idealX k)
       = Submodule.Quotient.mk a
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.eq, idealX_eq_span_singleton]
     refine Ideal.mem_span_singleton.2 ⟨-c 0, ?_⟩
@@ -582,13 +582,13 @@ abbrev triY : Triangle (DerivedCategory (ModuleCat.{u} (ringGEJ k))) :=
 /-- The first morphism of the triangle `triX` is multiplication by `x` on `A`. -/
 theorem triX_mor₁ : (triX k).mor₁
     = (MvPolynomial.X 0 : ringGEJ k) • 𝟙 ((SgJ k).obj (modA k)) := by
-  show (SgJ k).map ((MvPolynomial.X 0 : ringGEJ k) • 𝟙 (modA k)) = _
+  change (SgJ k).map ((MvPolynomial.X 0 : ringGEJ k) • 𝟙 (modA k)) = _
   rw [(SgJ k).map_smul, (SgJ k).map_id]
 
 /-- The first morphism of the triangle `triY` is multiplication by `y` on `A/(x)`. -/
 theorem triY_mor₁ : (triY k).mor₁
     = (MvPolynomial.X 1 : ringGEJ k) • 𝟙 ((SgJ k).obj (modX k)) := by
-  show (SgJ k).map ((MvPolynomial.X 1 : ringGEJ k) • 𝟙 (modX k)) = _
+  change (SgJ k).map ((MvPolynomial.X 1 : ringGEJ k) • 𝟙 (modX k)) = _
   rw [(SgJ k).map_smul, (SgJ k).map_id]
 
 /-- **`Ext²_{k[x,y]}(k, k) ≠ 0`.** The quotient map `A ⟶ A/(x, y)` is nonzero; both variables

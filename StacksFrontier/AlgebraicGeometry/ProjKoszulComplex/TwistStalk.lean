@@ -245,14 +245,14 @@ theorem zpowFiber_add {x : ProjectiveSpectrum.top 𝒮} (hx : f ∉ x.asHomogene
 theorem zpowFiber_natCast {x : ProjectiveSpectrum.top 𝒮} (hx : f ∉ x.asHomogeneousIdeal)
     (k : ℕ) : zpowFiber 𝒮 f hx (k : ℤ) = powFiber 𝒮 f k x := by
   rw [zpowFiber, zpow_natCast, Units.val_pow_eq_pow_val]
-  show (powFiber 𝒮 f 1 x) ^ k = _
+  change (powFiber 𝒮 f 1 x) ^ k = _
   rw [powFiber, powFiber, Localization.mk_pow, pow_one, one_pow]
 
 /-- A negative power of `f` is the fraction `1 / f ^ k`. -/
 theorem zpowFiber_neg_natCast {x : ProjectiveSpectrum.top 𝒮} (hx : f ∉ x.asHomogeneousIdeal)
     (k : ℕ) : zpowFiber 𝒮 f hx (-(k : ℤ)) = powFiberInv 𝒮 f k hx := by
   rw [zpowFiber, zpow_neg, zpow_natCast, ← inv_pow, Units.val_pow_eq_pow_val]
-  show (powFiberInv 𝒮 f 1 hx) ^ k = _
+  change (powFiberInv 𝒮 f 1 hx) ^ k = _
   rw [powFiberInv, powFiberInv, Localization.mk_pow, one_pow]
   exact congrArg (Localization.mk 1) (Subtype.ext (by simp))
 

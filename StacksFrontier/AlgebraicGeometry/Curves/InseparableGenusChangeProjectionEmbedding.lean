@@ -97,13 +97,13 @@ theorem coordProjHom_X_one (k : Type u) [CommRing k] :
 /-- The graded coordinate projection sends `S₀` to `T₀`. -/
 theorem coordProjGradedHom_X_zero (k : Type u) [CommRing k] :
     (coordProjGradedHom k) (MvPolynomial.X (0 : Fin 2)) = MvPolynomial.X (0 : Fin 3) := by
-  show coordProjHom k (MvPolynomial.X (0 : Fin 2)) = _
+  change coordProjHom k (MvPolynomial.X (0 : Fin 2)) = _
   exact coordProjHom_X_zero k
 
 /-- The graded coordinate projection sends `S₁` to `T₁`. -/
 theorem coordProjGradedHom_X_one (k : Type u) [CommRing k] :
     (coordProjGradedHom k) (MvPolynomial.X (1 : Fin 2)) = MvPolynomial.X (1 : Fin 3) := by
-  show coordProjHom k (MvPolynomial.X (1 : Fin 2)) = _
+  change coordProjHom k (MvPolynomial.X (1 : Fin 2)) = _
   exact coordProjHom_X_one k
 
 /-! ### The coordinates of `𝐏¹_k` and of `𝐏²_k` as homogeneous elements -/

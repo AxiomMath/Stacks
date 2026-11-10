@@ -222,7 +222,7 @@ theorem squareLeg_transpose (M : Sheaf (smallEtaleTopology Y) AddCommGrpCat.{u +
     (etaleAbelianDirectImageCompIso'.{u, u + 1} e' c (c' ≫ e) he)
     ((etaleAbelianInverseImageDirectImageAdj.{u, u + 1} c).homEquiv _ _ φ)
     ((etaleAbelianInverseImageDirectImageAdj.{u, u + 1} e').homEquiv N _ (𝟙 _))
-  simp only [Equiv.symm_apply_apply, CategoryTheory.Functor.map_id, Category.id_comp,
+  simp only [Equiv.symm_apply_apply, CategoryTheory.Functor.map_id,
     Category.comp_id] at LA₁ LA₂
   simp only [Adjunction.homEquiv_id] at LA₁ LA₂
   apply ((etaleAbelianInverseImageDirectImageAdj.{u, u + 1} (c' ≫ e)).homEquiv M

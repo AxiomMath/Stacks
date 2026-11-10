@@ -55,8 +55,7 @@ theorem flat_prod {M N : Type u} [AddCommGroup M] [AddCommGroup N] [Module R M] 
   have hcomm : ⇑(TensorProduct.prodLeft R R M N P') ∘ ⇑(f.lTensor (M × N)) =
       ⇑((f.lTensor M).prodMap (f.lTensor N)) ∘ ⇑(TensorProduct.prodLeft R R M N P) := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [Function.comp_apply, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul m p =>
       obtain ⟨a, b⟩ := m
       simp [TensorProduct.prodLeft_tmul]
@@ -189,7 +188,7 @@ cokernel admits a comparison square from a complex `K₀ ⟶ K₁` with `K₁` f
 finite projective.** -/
 theorem exists_finsuppModel [IsNoetherianRing R] {C₀ C₁ : Type u} [AddCommGroup C₀]
     [AddCommGroup C₁] [Module R C₀] [Module R C₁] [Module.Flat R C₀] [Module.Flat R C₁]
-    (d : C₀ →ₗ[R] C₁) (hker : Module.Finite R (LinearMap.ker d))
+    (d : C₀ →ₗ[R] C₁)
     (hcoker : Module.Finite R (C₁ ⧸ LinearMap.range d)) :
     ∃ (n : ℕ) (c : Fin n → C₁), Function.Surjective (FinsuppModel.π d c) := by
   obtain ⟨n, s, hs⟩ := Module.Finite.exists_fin (R := R) (M := C₁ ⧸ LinearMap.range d)

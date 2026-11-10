@@ -84,7 +84,7 @@ theorem projectiveLineStructureGraph_comp_pointGraph :
     projectiveLineStructureGraph k ≫ projectiveLinePointGraph x hx = 𝟙 (pointDegreeZero k) := by
   apply GradedCategory.DegreeZero.hom_ext
   rw [GradedCategory.DegreeZero.comp_val, GradedCategory.DegreeZero.id_val]
-  show (canonicalGraphFunctor k).map _ ≫ (canonicalGraphFunctor k).map _ = _
+  change (canonicalGraphFunctor k).map _ ≫ (canonicalGraphFunctor k).map _ = _
   rw [← Functor.map_comp, ← op_comp, ChowMotiveCat.comp_toTensorUnit, op_id,
     CategoryTheory.Functor.map_id]
   rfl
@@ -95,7 +95,7 @@ theorem projectiveLinePointGraph_comp_structureGraph :
       projectiveLinePointFibreDegreeZero x hx := by
   apply GradedCategory.DegreeZero.hom_ext
   rw [GradedCategory.DegreeZero.comp_val]
-  show (canonicalGraphFunctor k).map _ ≫ (canonicalGraphFunctor k).map _ = _
+  change (canonicalGraphFunctor k).map _ ≫ (canonicalGraphFunctor k).map _ = _
   rw [← Functor.map_comp, ← op_comp]
   rfl
 
@@ -188,7 +188,7 @@ theorem fibrePointImage_finrank_and_isZero :
   · have hz : pointRestrict hA hB hC x hx 2 = 0 := by
       have := Submodule.subsingleton_iff_eq_bot.2 (hpt 2 (by norm_num))
       exact LinearMap.ext fun v ↦ Subsingleton.elim _ _
-    show Module.finrank F (LinearMap.ker (pointRestrict hA hB hC x hx 2)) = 1
+    change Module.finrank F (LinearMap.ker (pointRestrict hA hB hC x hx 2)) = 1
     rw [hz, LinearMap.ker_zero, finrank_top, h2]
   · suffices Subsingleton (LinearMap.ker (pointRestrict hA hB hC x hx m)) from
       ModuleCat.isZero_of_subsingleton

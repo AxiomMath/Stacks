@@ -21,14 +21,14 @@ a divided power thickening in [Stacks, Tag 07HM].
 There the base is `E = D⟨ξ_i⟩^∧`, a `p`-adically *complete* ring, and `p` is only topologically
 nilpotent: no power of it vanishes, every term of the series is nonzero, and the sum is a genuine
 infinite one.  The module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetract.lean` records that as the second of the
-three pieces of theory the direction `G ∘ F ≅ id` of [Stacks, Tag 07L5] asks for: "A Taylor
+`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeRetract.lean` records that as the second of
+the three pieces of theory the direction `G ∘ F ≅ id` of [Stacks, Tag 07L5] asks for: "A Taylor
 summation over a `p`-adically complete base in which `p` is not nilpotent."
 
 **This module is that summation.**  The series is summed not in `E ⊗_D M` — where it does not
 converge, and where `Crystalline.not_isPrecomplete_finsupp_of_forall_pow_ne_zero` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFreeFinite.lean` exhibits partial sums of
-exactly such a series as a Cauchy family with no limit — but in the `p`-adic completion
+`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFreeFinite.lean` exhibits partial sums
+of exactly such a series as a Cauchy family with no limit — but in the `p`-adic completion
 
 `M ⊗̂_{D} E = AdicCompletion (p E) (E ⊗_D M)`,
 

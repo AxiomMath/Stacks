@@ -109,7 +109,7 @@ include hker in
 private theorem liftFamily_compatible {U : Cᵒᵖ} (b : B.obj U) :
     (liftFamily q g b).Compatible := by
   intro Y₁ Y₂ Z p₁ p₂ f₁ f₂ h₁ h₂ hcomm
-  show R.map p₁.op (g.app _ (Presheaf.localPreimage q b f₁ h₁)) =
+  change R.map p₁.op (g.app _ (Presheaf.localPreimage q b f₁ h₁)) =
     R.map p₂.op (g.app _ (Presheaf.localPreimage q b f₂ h₂))
   rw [← NatTrans.naturality_apply g p₁.op, ← NatTrans.naturality_apply g p₂.op]
   refine eq_of_q_eq q g hker ?_
@@ -137,7 +137,7 @@ private theorem map_descend {U : Cᵒᵖ} (b : B.obj U) {V : C} (p : V ⟶ U.uno
   refine (hglue.trans ?_ : R.map p.op (descend q g hq hR hker b) = _)
   exact eq_of_q_eq q g hker ((Presheaf.app_localPreimage q b p hp).trans ha.symm)
 
-include hq hR hker in
+include hR in
 private theorem eq_of_locally_eq {U : Cᵒᵖ} {S : Sieve U.unop} (hS : S ∈ J U.unop)
     (x y : R.obj U)
     (h : ∀ ⦃V : C⦄ (p : V ⟶ U.unop), S.arrows p → R.map p.op x = R.map p.op y) : x = y :=
@@ -152,7 +152,7 @@ private theorem eq_of_locally_lift_two {U : Cᵒᵖ} (b b' : B.obj U) (x y : R.o
       R.map p.op (descend q g hq hR hker b) = g.app (op V) a →
       R.map p.op (descend q g hq hR hker b') = g.app (op V) a' →
       R.map p.op x = R.map p.op y) : x = y := by
-  refine eq_of_locally_eq q g hq hR hker
+  refine eq_of_locally_eq hR
     (J.intersection_covering (imageSieve_mem_of_section q hq b)
       (imageSieve_mem_of_section q hq b')) _ _ fun V p hp => ?_
   obtain ⟨⟨a, ha⟩, ⟨a', ha'⟩⟩ := hp
@@ -177,19 +177,19 @@ private theorem descend_mul {U : Cᵒᵖ} (b b' : B.obj U) :
 
 include hq hR hker in
 private theorem descend_zero {U : Cᵒᵖ} : descend q g hq hR hker (0 : B.obj U) = 0 := by
-  refine eq_of_locally_eq q g hq hR hker (J.top_mem U.unop) _ _ fun V p _ => ?_
+  refine eq_of_locally_eq hR (J.top_mem U.unop) _ _ fun V p _ => ?_
   rw [map_descend q g hq hR hker (0 : B.obj U) p 0 (by rw [map_zero, map_zero]), map_zero,
     map_zero]
 
 include hq hR hker in
 private theorem descend_one {U : Cᵒᵖ} : descend q g hq hR hker (1 : B.obj U) = 1 := by
-  refine eq_of_locally_eq q g hq hR hker (J.top_mem U.unop) _ _ fun V p _ => ?_
+  refine eq_of_locally_eq hR (J.top_mem U.unop) _ _ fun V p _ => ?_
   rw [map_descend q g hq hR hker (1 : B.obj U) p 1 (by rw [map_one, map_one]), map_one, map_one]
 
 include hq hR hker in
 private theorem descend_naturality {U V : Cᵒᵖ} (f : U ⟶ V) (b : B.obj U) :
     descend q g hq hR hker (B.map f b) = R.map f (descend q g hq hR hker b) := by
-  refine eq_of_locally_eq q g hq hR hker
+  refine eq_of_locally_eq hR
     (imageSieve_mem_of_section q hq (B.map f b)) _ _ fun W k hk => ?_
   obtain ⟨a, ha⟩ := hk
   rw [map_descend q g hq hR hker (B.map f b) k a ha, ← Functor.map_comp_apply]
@@ -212,8 +212,8 @@ private noncomputable def factor : B ⟶ R where
 include hq hR hker in
 private theorem comp_factor : q ≫ factor q g hq hR hker = g := by
   ext U a
-  show descend q g hq hR hker (q.app U a) = g.app U a
-  refine eq_of_locally_eq q g hq hR hker
+  change descend q g hq hR hker (q.app U a) = g.app U a
+  refine eq_of_locally_eq hR
     (imageSieve_mem_of_section q hq (q.app U a)) _ _ fun V p _ => ?_
   rw [map_descend q g hq hR hker (q.app U a) p (A.map p.op a)
       (by rw [NatTrans.naturality_apply]), NatTrans.naturality_apply]
@@ -224,7 +224,7 @@ one factors uniquely through it.** -/
 theorem existsUnique_commRingFactor : ∃! s : B ⟶ R, q ≫ s = g := by
   refine ⟨factor q g hq hR hker, comp_factor q g hq hR hker, fun s hs => ?_⟩
   ext U b
-  refine eq_of_locally_eq q g hq hR hker (imageSieve_mem_of_section q hq b) _ _ fun V p hp => ?_
+  refine eq_of_locally_eq hR (imageSieve_mem_of_section q hq b) _ _ fun V p hp => ?_
   obtain ⟨a, ha⟩ := hp
   rw [← NatTrans.naturality_apply s p.op, ← ha]
   have hsa : s.app (op V) (q.app (op V) a) = g.app (op V) a :=
@@ -242,7 +242,7 @@ theorem commRingHom_ext_of_isLocallySurjective {A B R : Cᵒᵖ ⥤ CommRingCat.
     (h : q ≫ s₁ = q ≫ s₂) : s₁ = s₂ := by
   have hker : ∀ (U : Cᵒᵖ) (a : A.obj U), q.app U a = 0 → (q ≫ s₁).app U a = 0 := by
     intro U a ha
-    show s₁.app U (q.app U a) = 0
+    change s₁.app U (q.app U a) = 0
     rw [ha, map_zero]
   obtain ⟨_, _, huniq⟩ := existsUnique_commRingFactor q (q ≫ s₁) hq hR hker
   exact (huniq s₁ rfl).trans (huniq s₂ h.symm).symm

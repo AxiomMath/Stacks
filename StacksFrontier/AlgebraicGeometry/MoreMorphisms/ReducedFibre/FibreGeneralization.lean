@@ -261,7 +261,7 @@ private theorem isReduced_stalk_pullback_of_specializes {X Y : Scheme.{u}} (f : 
       (pullback.fst f ρ) ρ (IsPullback.of_hasPullback f ρ)
     have hmem : IsLocalRing.closedPoint (CommRingCat.of R) ∈ ρ ⁻¹'
         {y : Y | GeometricallyReduced (f.fiberToSpecResidueField y)} := by
-      show GeometricallyReduced (f.fiberToSpecResidueField ((r ≫ f) _))
+      change GeometricallyReduced (f.fiberToSpecResidueField ((r ≫ f) _))
       rw [show (r ≫ f) (IsLocalRing.closedPoint (CommRingCat.of R)) = f x from congrArg f hs]
       exact hx
     rwa [← hset] at hmem
@@ -269,7 +269,7 @@ private theorem isReduced_stalk_pullback_of_specializes {X Y : Scheme.{u}} (f : 
     isReduced_fiber_of_geometricallyReduced_fiberToSpecResidueField hZ _ hspecial
   have hσs : hZ (σ (IsLocalRing.closedPoint (CommRingCat.of R))) =
       IsLocalRing.closedPoint (CommRingCat.of R) := by
-    show (σ ≫ hZ) (IsLocalRing.closedPoint (CommRingCat.of R)) = _
+    change (σ ≫ hZ) (IsLocalRing.closedPoint (CommRingCat.of R)) = _
     rw [hσ]
     rfl
   have hredS := isReduced_stalk_of_flat_of_isReduced_closedFiber hZ _ hσs
@@ -406,7 +406,7 @@ private theorem isGeometricallyReducedAt_asFiber_of_specializes_of_isLocallyNoet
     have hcompat : f.residueFieldMap x' ≫ CommRingCat.ofHom (algebraMap (X.residueField x') L) =
         CommRingCat.ofHom (algebraMap (Y.residueField (f x')) k') ≫ CommRingCat.ofHom φ' := by
       ext c
-      show Ideal.Quotient.mk m ((algebraMap (Y.residueField (f x')) (X.residueField x') c) ⊗ₜ
+      change Ideal.Quotient.mk m ((algebraMap (Y.residueField (f x')) (X.residueField x') c) ⊗ₜ
           (1 : k')) =
         Ideal.Quotient.mk m ((1 : X.residueField x') ⊗ₜ (algebraMap (Y.residueField (f x')) k' c))
       rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
@@ -485,7 +485,7 @@ private theorem isGeometricallyReducedAt_fiber_of_specializes_of_isAffine {X Y :
       m.f₀.fiberι _ z₀ = m.toSource (f.fiberι y z) := by
     refine ⟨(m.f₀.fiberHomeo _).symm ⟨m.toSource (f.fiberι y z), ?_⟩, by simp⟩
     have hfz : f (f.fiberι y z) = y := (f.range_fiberι y).le ⟨z, rfl⟩
-    show m.f₀ (m.toSource _) = m.toBase y
+    change m.f₀ (m.toSource _) = m.toBase y
     rw [← Scheme.Hom.comp_apply, m.isPullback.w, Scheme.Hom.comp_apply, hfz]
   refine (isGeometricallyReducedAt_fiber_iff_of_isPullback m.isPullback y z z₀ hz₀).mpr ?_
   have hx₀ : GeometricallyReduced (m.f₀.fiberToSpecResidueField (m.f₀ (m.toSource x))) := by
@@ -549,11 +549,11 @@ theorem isGeometricallyReducedAt_fiber_of_specializes {X Y : Scheme.{u}} (f : X 
   let z₁ : (f ∣_ V).fiber yV := ((f ∣_ V).fiberHomeo yV).symm
     ⟨⟨w, hUV hwU⟩, Subtype.ext ((morphismRestrict_base_coe f V _).trans hwy)⟩
   let zU : g.fiber yV := (g.fiberHomeo yV).symm ⟨⟨w, hwU⟩, Subtype.ext <| by
-    show ((f ∣_ V) (X.homOfLE hUV ⟨w, hwU⟩)).1 = y
+    change ((f ∣_ V) (X.homOfLE hUV ⟨w, hwU⟩)).1 = y
     rw [morphismRestrict_base_coe]
     exact (congrArg f (Scheme.homOfLE_apply hUV ⟨w, hwU⟩)).trans hwy⟩
   have hz₁ : f.fiberι (V.ι yV) z = (f ⁻¹ᵁ V).ι ((f ∣_ V).fiberι yV z₁) := by
-    show f.fiberι y z = _
+    change f.fiberι y z = _
     simp [z₁, hw]
   have hzU : (f ∣_ V).fiberι yV z₁ = e (g.fiberι yV zU) := by
     apply Subtype.ext
@@ -573,7 +573,7 @@ theorem isGeometricallyReducedAt_fiber_of_specializes {X Y : Scheme.{u}} (f : X 
   -- the hypothesis on the restriction
   let vV : V.toScheme := ⟨f x, hxV⟩
   have hgu : g u = vV := Subtype.ext <| by
-    show ((f ∣_ V) (X.homOfLE hUV u)).1 = f x
+    change ((f ∣_ V) (X.homOfLE hUV u)).1 = f x
     rw [morphismRestrict_base_coe]
     exact congrArg f (Scheme.homOfLE_apply hUV u)
   rw [hgu]

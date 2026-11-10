@@ -90,7 +90,7 @@ theorem stepC_dX_n (d : A → ℕ∞) (hd : BoundedCohomologicalDimension d) (L 
   unfold stepC
   by_cases h0 : 0 < d (L.X n)
   · rw [ite_eq_left h0]
-    show d (XX L n _ _ n) = 0
+    change d (XX L n _ _ n) = 0
     rw [XX_n]
     exact (hd.embed (L.X n)).choose_spec.choose_spec.2
   · rw [ite_eq_right h0]
@@ -182,7 +182,7 @@ lemma stepC_d_off (L : CochainComplex A ℤ) (n j : ℤ) (hA : j ≠ n - 1) (hB 
     intro h1 h2
     set M := (hd.embed (L.X n)).choose
     set ι := (hd.embed (L.X n)).choose_spec.choose
-    show Kd L n M ι j (j + 1) = _
+    change Kd L n M ι j (j + 1) = _
     rw [show Kd L n M ι j (j + 1) = dd L n M ι j ≫ eqToHom rfl from by
         unfold Kd; rw [dite_eq_left rfl]]
     unfold dd
@@ -316,7 +316,7 @@ lemma stepF_f_off (L : CochainComplex A ℤ) (n j : ℤ) (hB : j ≠ n) (hC : j 
   by_cases h0 : 0 < d (L.X n)
   · rw [dite_eq_left h0]
     rw [HomologicalComplex.comp_f, HomologicalComplex.eqToHom_f]
-    show ff L n _ _ j ≫ _ = _
+    change ff L n _ _ j ≫ _ = _
     unfold ff
     rw [dite_eq_right hB, dite_eq_right hC]
     rw [eqToHom_trans]
@@ -336,7 +336,7 @@ lemma Kcomp_f_stable (j : ℤ) (s t : ℕ) (hs : j < m + (s : ℤ)) (hst : s ≤
     · have hst' : s ≤ t := by omega
       have e1 : (Kseq d hd K m s).X j = (Kseq d hd K m t).X j :=
         (Kseq_X_stable d hd K m j s t hs hst').symm
-      show (Kcomp d hd K m t ≫ Kstep d hd K m t).f j = _
+      change (Kcomp d hd K m t ≫ Kstep d hd K m t).f j = _
       rw [HomologicalComplex.comp_f, ih hst' e1]
       have hstepf :
         (Kstep d hd K m t).f j = eqToHom (Kseq_X_succ_off d hd K m t j (by omega)).symm := by
@@ -438,15 +438,15 @@ theorem gmap_quasiIso : QuasiIso (gmap d hd K m) := by
         (scIso d hd K m j s le_rfl).hom := by
     apply ShortComplex.hom_ext
     · rw [ShortComplex.comp_τ₁]
-      show gf d hd K m (j - 1) = (Kcomp d hd K m s).f (j - 1) ≫ _
+      change gf d hd K m (j - 1) = (Kcomp d hd K m s).f (j - 1) ≫ _
       rw [gf_eq d hd K m (j - 1) s (le_trans (stage_mono m (by omega)) le_rfl)]
       congr 1
     · rw [ShortComplex.comp_τ₂]
-      show gf d hd K m j = (Kcomp d hd K m s).f j ≫ _
+      change gf d hd K m j = (Kcomp d hd K m s).f j ≫ _
       rw [gf_eq d hd K m j s hsm1]
       congr 1
     · rw [ShortComplex.comp_τ₃]
-      show gf d hd K m (j + 1) = (Kcomp d hd K m s).f (j + 1) ≫ _
+      change gf d hd K m (j + 1) = (Kcomp d hd K m s).f (j + 1) ≫ _
       rw [gf_eq d hd K m (j + 1) s le_rfl]
       congr 1
   rw [hfact]
@@ -781,7 +781,7 @@ lemma step_reduced (d : A → ℕ∞) (hd : BoundedCohomologicalDimension d) (K 
     set n := nstar d K with hn
     obtain ⟨f, hqis, hzero, hbnd, hoff, hoffobj⟩ :=
       Classical.choose_spec (elementary_replacement' d hd K n)
-    show Reduced d (elementary_replacement' d hd K n).choose
+    change Reduced d (elementary_replacement' d hd K n).choose
     have hKpos : 0 < d (K.X n) := nstar_pos d K h.1 h.2
     obtain ⟨b, hb⟩ := hR.bddSupp
     have hnb : n ≤ b := hb n hKpos

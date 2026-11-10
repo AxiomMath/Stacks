@@ -48,7 +48,7 @@ omit [TopologicalSpace X] in
 private lemma stratSeq_antitone (f : Set X → Set X) {α β : Ordinal.{v}} (h : β ≤ α) :
     stratSeq f α ⊆ stratSeq f β := by
   rw [stratSeq_eq f α, stratSeq_eq f β]
-  refine Set.diff_subset_diff_right (Set.iUnion₂_subset fun γ hγ => ?_)
+  refine Set.sdiff_subset_sdiff_right (Set.iUnion₂_subset fun γ hγ => ?_)
   exact Set.subset_iUnion₂_of_subset γ (lt_of_lt_of_le hγ h) le_rfl
 
 omit [TopologicalSpace X] in
@@ -64,7 +64,7 @@ variable (f : Set X → Set X) (hsub : ∀ T, f T ⊆ T)
   (hopen : ∀ T, IsClosed T → ∃ O, IsOpen O ∧ f T = T ∩ O)
   (hne : ∀ T, IsClosed T → T.Nonempty → (f T).Nonempty)
 
-include hsub hopen in
+include hopen in
 private lemma isClosed_stratSeq (α : Ordinal.{v}) : IsClosed (stratSeq f α) := by
   induction α using WellFoundedLT.induction with
   | ind α ih =>
@@ -74,7 +74,7 @@ private lemma isClosed_stratSeq (α : Ordinal.{v}) : IsClosed (stratSeq f α) :=
         x ∈ ⋃ (γ : Ordinal.{v}) (_ : γ < α), f (stratSeq f γ) := by
       intro β h x hx
       rw [stratSeq_eq f β] at hx
-      simp only [Set.mem_diff, Set.mem_univ, true_and, not_not] at hx
+      simp only [Set.mem_sdiff, Set.mem_univ, true_and, not_not] at hx
       obtain ⟨γ, hγ, hxγ⟩ := Set.mem_iUnion₂.1 hx
       exact Set.mem_iUnion₂.2 ⟨γ, hγ.trans h, hxγ⟩
     have heq : (⋃ (β : Ordinal.{v}) (_ : β < α), f (stratSeq f β)) =
@@ -101,7 +101,7 @@ private lemma exists_stratSeq_eq_empty : ∃ α : Ordinal.{v}, stratSeq f α = �
     intro α β hlt h
     have hd := disjoint_stratSeq f hsub hlt
     rw [h, disjoint_self, Set.bot_eq_empty] at hd
-    exact (hne _ (isClosed_stratSeq f hsub hopen β) (hall β)).ne_empty hd
+    exact (hne _ (isClosed_stratSeq f hopen β) (hall β)).ne_empty hd
   have hinj : Function.Injective fun α : Ordinal.{v} => f (stratSeq f α) := fun α β h =>
     (lt_trichotomy α β).elim (fun hlt => (key β α hlt h.symm).elim)
       fun h' => h'.elim id fun hlt => (key α β hlt h).elim
@@ -121,11 +121,11 @@ private lemma stratSeq_Iio_stratification (α₀ : Ordinal.{v})
     simp only [Set.mem_iUnion, exists_prop]
     exact ⟨fun ⟨j, hj, hx⟩ => ⟨j.1, hj, hx⟩, fun ⟨γ, hγ, hx⟩ => ⟨⟨γ, hγ.trans_le hβ⟩, hγ, hx⟩⟩
   refine ⟨fun i => ?_, fun i => hmin i.1 i.2, ?_⟩
-  · show stratSeq f i.1 = Set.univ \ ⋃ (j : Set.Iio α₀) (_ : j.1 < i.1), f (stratSeq f j.1)
+  · change stratSeq f i.1 = Set.univ \ ⋃ (j : Set.Iio α₀) (_ : j.1 < i.1), f (stratSeq f j.1)
     rw [stratSeq_eq f i.1, hreindex i.1 i.2.le]
   · have h := stratSeq_eq f α₀
     rw [hα₀, ← hreindex α₀ le_rfl] at h
-    refine Set.eq_univ_of_univ_subset ((Set.diff_eq_empty.1 h.symm).trans ?_)
+    refine Set.eq_univ_of_univ_subset ((Set.sdiff_eq_empty.1 h.symm).trans ?_)
     exact Set.iUnion₂_subset fun j _ => Set.subset_iUnion_of_subset j subset_rfl
 
 include hsub hopen hne in
@@ -144,7 +144,7 @@ theorem exists_wellOrdered_stratification :
       Ordinal.lt_wf.not_lt_min {α | stratSeq f α = ∅} h hβ
   obtain ⟨h1, h2, h3⟩ := stratSeq_Iio_stratification f α₀ hα₀ hmin
   exact ⟨Set.Iio α₀, inferInstance, inferInstance, fun i => stratSeq f i.1, h1,
-    fun i => isClosed_stratSeq f hsub hopen i.1, h2, h3⟩
+    fun i => isClosed_stratSeq f hopen i.1, h2, h3⟩
 
 omit [TopologicalSpace X] in
 /-- An initial segment between two well-ordered stratifications for the same `f` matches their
@@ -186,7 +186,7 @@ private lemma exists_orderIso_of_initialSeg (f : Set X → Set X) (hsub : ∀ T,
       · exact absurd (g.mem_range_of_rel h) hm
     have hempty : T' m = ∅ := by
       rw [hT' m]
-      apply Set.diff_eq_empty.2
+      apply Set.sdiff_eq_empty.2
       intro x _
       have hx : x ∈ ⋃ i, f (T i) := hTcov ▸ Set.mem_univ x
       obtain ⟨j, hj⟩ := Set.mem_iUnion.1 hx
@@ -255,11 +255,11 @@ theorem stratificationSeq_nonempty (f : Set X → Set X) {α : Ordinal.{v}}
   Set.nonempty_iff_ne_empty.2 fun h =>
     (csInf_le' (s := {α : Ordinal.{v} | stratificationSeq f α = ∅}) h).not_gt hα
 
-include hsub hopen in
+include hopen in
 /-- The sets `T_α` are closed. -/
 theorem isClosed_stratificationSeq (α : Ordinal.{v}) : IsClosed (stratificationSeq f α) := by
   rw [stratificationSeq_eq_stratSeq]
-  exact isClosed_stratSeq f hsub hopen α
+  exact isClosed_stratSeq f hopen α
 
 include hsub hopen hne in
 /-- The canonical sequence reaches `∅` at its length. -/
@@ -282,7 +282,7 @@ theorem isWellOrderedStratification_stratificationIndex :
   obtain ⟨h1, h2, h3⟩ := stratSeq_Iio_stratification f (stratificationLength f)
     (stratificationSeq_stratificationLength f hsub hopen hne) fun β hβ =>
     stratificationSeq_nonempty f hβ
-  exact ⟨h1, fun i => isClosed_stratificationSeq f hsub hopen i.1, h2, h3⟩
+  exact ⟨h1, fun i => isClosed_stratificationSeq f hopen i.1, h2, h3⟩
 
 end TopologicalSpace
 

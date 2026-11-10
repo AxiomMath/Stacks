@@ -163,7 +163,7 @@ theorem W_whiskerRight_isLocallySurjective
           (b ⊗ₜ[𝒪.obj (.op U)] x) := by
     intro U b x V φ ⟨a, ha⟩
     refine ⟨a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x, ?_⟩
-    show ((f ▷ X).app (.op V)).hom (a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x)
+    change ((f ▷ X).app (.op V)).hom (a ⊗ₜ[𝒪.obj (.op V)] (X.map φ.op).hom x)
         = ((B ⊗ X).map φ.op).hom (b ⊗ₜ[𝒪.obj (.op U)] x)
     have imageEquality : (f.app (.op V)).hom a = (B.map φ.op).hom b := ha
     exact (ModuleCat.MonoidalCategory.whiskerRight_apply (f.app (.op V))
@@ -173,11 +173,8 @@ theorem W_whiskerRight_isLocallySurjective
         (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul φ.op b x).symm)
   constructor
   intro U t
-  show Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map (f ▷ X)) t ∈ J U
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    refine J.superset_covering (le_top.trans ?_) (J.top_mem U)
-    intro V φ _; exact ⟨0, (map_zero _).symm⟩
+  change Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map (f ▷ X)) t ∈ J U
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
     exact J.superset_covering (simple b x) (hf.imageSieve_mem b)
   | add s t hs ht =>
@@ -251,12 +248,12 @@ theorem c3_single
       k 0 ∈ J V := by
     apply Presheaf.IsLocallyInjective.equalizerSieve_mem
       (φ := (PresheafOfModules.toPresheaf _).map f)
-    show (f.app (.op V)).hom k = (f.app (.op V)).hom 0
+    change (f.app (.op V)).hom k = (f.app (.op V)).hom 0
     rw [hk, map_zero]
   refine J.superset_covering ?_ hcov
   intro W ψ hψ
   change (A.map ψ.op).hom k = (A.map ψ.op).hom 0 at hψ
-  show ((A ⊗ X).map ψ.op).hom (k ⊗ₜ[𝒪.obj (.op V)] y) =
+  change ((A ⊗ X).map ψ.op).hom (k ⊗ₜ[𝒪.obj (.op V)] y) =
     ((A ⊗ X).map ψ.op).hom 0
   exact (restrict_tmul_ker_eq_zero 𝒪 X k y ψ
     (hψ.trans (map_zero _))).trans (map_zero _).symm
@@ -295,7 +292,7 @@ theorem eq_sieve_add
   intro W ψ ⟨h1, h2⟩
   change ((A ⊗ X).map ψ.op).hom u = ((A ⊗ X).map ψ.op).hom 0 at h1
   change ((A ⊗ X).map ψ.op).hom v = ((A ⊗ X).map ψ.op).hom 0 at h2
-  show ((A ⊗ X).map ψ.op).hom (u + v) = ((A ⊗ X).map ψ.op).hom 0
+  change ((A ⊗ X).map ψ.op).hom (u + v) = ((A ⊗ X).map ψ.op).hom 0
   have firstZero := h1.trans (map_zero _)
   have secondZero := h2.trans (map_zero _)
   calc ((A ⊗ X).map ψ.op).hom (u + v)
@@ -364,7 +361,7 @@ theorem sum_tmul_restrict_ker_decomp
     rw [map_sum]
     apply Finset.sum_congr rfl
     intro i _
-    show TensorProduct.map σ rX (_ ⊗ₜ _) = _
+    change TensorProduct.map σ rX (_ ⊗ₜ _) = _
     rw [TensorProduct.map_tmul]
     congr 1
     apply Subtype.ext
@@ -474,7 +471,7 @@ theorem exists_locally_ker_decomp
   have hlift : ∀ b : ↥N',
       (B.restrictₛₗ ψ.op) (b : B.obj (.op U)) ∈ LinearMap.range (f.app (.op V)).hom := by
     rintro ⟨b, hb⟩
-    show (B.map ψ.op).hom b ∈ _
+    change (B.map ψ.op).hom b ∈ _
     rw [← hgens] at hb
     induction hb using Submodule.span_induction with
     | mem g hg => exact hliftgen g hg
@@ -520,7 +517,7 @@ theorem equalizerSieve_zero_mem_of_whiskerRight_eq_zero
   intro W φ hφ
   change ((A ⊗ X).map φ.op).hom
       (∑ p ∈ S, p.1 ⊗ₜ[𝒪.obj (.op V)] p.2) = ((A ⊗ X).map φ.op).hom 0 at hφ
-  show ((A ⊗ X).map (φ ≫ ψ).op).hom z = ((A ⊗ X).map (φ ≫ ψ).op).hom 0
+  change ((A ⊗ X).map (φ ≫ ψ).op).hom z = ((A ⊗ X).map (φ ≫ ψ).op).hom 0
   have restrictComposition : ((A ⊗ X).map (φ ≫ ψ).op).hom z =
       ((A ⊗ X).map φ.op).hom (((A ⊗ X).map ψ.op).hom z) :=
     congrArg (fun morphism => (ConcreteCategory.hom morphism) z)

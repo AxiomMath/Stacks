@@ -139,11 +139,9 @@ public theorem mulSec_comm (U : ((Spec R).Opens)ᵒᵖ) (i j : ℤ)
     (y : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M j) :
     HEq (mulSec M U i j x y) (mulSec M U j i y x) := by
   refine heq_tensor_of_eq (congrArg (gradedPiece (R := R) M) (add_comm i j)) ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x₀ =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y₀ =>
           rw [mulSec_tmul, mulSec_tmul, tensorCongr_tmul, mul_comm a b]
           exact congrArg (fun z : gradedPiece (R := R) M (j + i) => (b * a) ⊗ₜ[R] z)

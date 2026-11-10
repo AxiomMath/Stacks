@@ -63,7 +63,7 @@ theorem isStandardVCovering_of_flat_affineCover
     h ≫ pullback.snd g (𝒰.f i), ?_⟩
   · constructor
     · rw [RingHom.injective_iff_ker_eq_bot]
-      show Ideal.comap e ⊥ = ⊥
+      change Ideal.comap e ⊥ = ⊥
       have hegeneric : Spec.map (CommRingCat.ofHom e) (genericPoint (Spec (.of W))) =
           genericPoint (Spec (.of V)) := (hpt _).trans (by rw [hgeneric, hz'fst]; rfl)
       rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine] at hegeneric

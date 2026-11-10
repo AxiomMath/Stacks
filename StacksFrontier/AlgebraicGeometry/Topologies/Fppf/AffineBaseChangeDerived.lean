@@ -161,7 +161,7 @@ public def globalSectionsUnitComplex (M : CochainComplex (ModuleCat.{u} A) ℤ) 
 
 private lemma isIso_structureAlgebraMap_baseObject :
     IsIso (structureAlgebraMap B A hS (op (baseObject B A hS))) := by
-  show IsIso ((Scheme.ΓSpecIso A).inv ≫ Scheme.Hom.appTop (𝟙 (Spec A)))
+  change IsIso ((Scheme.ΓSpecIso A).inv ≫ Scheme.Hom.appTop (𝟙 (Spec A)))
   rw [Scheme.Hom.id_appTop, Category.comp_id]
   infer_instance
 
@@ -293,8 +293,7 @@ private def baseChangeModuleEvaluationIso (X : (BigAffineFppf B (Spec A) hS)ᵒ�
         (structureAlgebraMap B A hS X).hom := by
   refine NatIso.ofComponents (fun M ↦ Iso.refl _) fun f ↦
     ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul r m => rfl
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
@@ -481,7 +480,7 @@ private lemma abelianSectionsEquiv_naturality (U : C) {F G : Sheaf J AddCommGrpC
       (yoneda.obj U ⋙ AddCommGrpCat.free) ⟶ F) :
     abelianSectionsEquiv J U G (g ≫ f) =
       f.hom.app (op U) (abelianSectionsEquiv J U F g) := by
-  show freeEvaluationHomAddEquiv U G.obj
+  change freeEvaluationHomAddEquiv U G.obj
     (((sheafificationAdjunction J AddCommGrpCat.{u}).homEquiv _ G) (g ≫ f)) = _
   rw [Adjunction.homEquiv_naturality_right]
   rfl
@@ -568,7 +567,7 @@ private lemma isZero_cohomology_chgUniv {E : Type uC} [Category.{u} E]
   have hsmall : Subsingleton (Abelian.Ext.{u} X G n) :=
     AddCommGrpCat.isZero_iff_subsingleton.mp (h : IsZero ((Abelian.extFunctorObj.{u} X n).obj G))
   refine AddCommGrpCat.isZero_iff_subsingleton.mpr ?_
-  show Subsingleton (Abelian.Ext.{max uC u} X G n)
+  change Subsingleton (Abelian.Ext.{max uC u} X G n)
   exact ⟨fun x y ↦ (Abelian.Ext.chgUniv.{max uC u, u} (X := X) (Y := G) (n := n)).symm.injective
     (hsmall.elim _ _)⟩
 
@@ -760,7 +759,7 @@ public lemma isIso_derivedComparison_of_rightAcyclic
     ((baseChangeComplex B A hS).obj M)
     (property_truncGE_map L G.rightAcyclic hacyclic M)
   have : QuasiIso (((globalSections B A hS).mapHomologicalComplex (.up ℤ)).map f) := by
-    show QuasiIso (((baseSections B A hS).mapHomologicalComplex (.up ℤ)).map
+    change QuasiIso (((baseSections B A hS).mapHomologicalComplex (.up ℤ)).map
       ((G.mapHomologicalComplex (.up ℤ)).map f))
     exact @HomologicalComplex.quasiIso_map_of_preservesHomology _ _ _ _ _ _ _ _ _ _
       ((G.mapHomologicalComplex (.up ℤ)).map f) (baseSections B A hS)

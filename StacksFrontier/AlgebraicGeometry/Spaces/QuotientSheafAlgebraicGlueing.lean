@@ -125,6 +125,7 @@ private noncomputable def cofanIsColimitOfLeft {D : Type v} [Category.{w} D] {Z 
     ((Cofan.isColimitMapCoconeEquiv (Over.forget Z) Y c).symm hc)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for coproducts of presheaves on the large category `C : Type (u + 1)`
 /-- The coproduct of the presheaves represented by a covering family is locally surjective onto
 the presheaf represented by the base of the family. -/
 public theorem locallySurjective_sigmaDesc_yoneda_map {C : Type (u + 1)} [Category.{u} C]
@@ -135,7 +136,7 @@ public theorem locallySurjective_sigmaDesc_yoneda_map {C : Type (u + 1)} [Catego
   have : Presheaf.IsLocallySurjective J (Sigma.desc fun i ↦ shrinkYoneda.map (f i)) :=
     (GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_shrinkYoneda_map
       J f).mp hcover
-  haveI : HasColimitsOfShape (Discrete I) (Cᵒᵖ ⥤ Type u) :=
+  have : HasColimitsOfShape (Discrete I) (Cᵒᵖ ⥤ Type u) :=
     functorCategoryHasColimitsOfShape
   let e : (∐ fun i ↦ shrinkYoneda.{u}.obj (Y i)) ≅ ∐ fun i ↦ yoneda.obj (Y i) :=
     Sigma.mapIso fun i ↦ shrinkYonedaIsoYoneda.app (Y i)
@@ -143,7 +144,7 @@ public theorem locallySurjective_sigmaDesc_yoneda_map {C : Type (u + 1)} [Catego
       Sigma.desc (fun i ↦ shrinkYoneda.map (f i)) ≫ (shrinkYonedaIsoYoneda.app T).hom := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
     dsimp only [e]
-    simp only [Sigma.ι_mapIso_hom_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+    simp only [Sigma.ι_mapIso_hom_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
     exact (shrinkYonedaIsoYoneda.hom.naturality (f i)).symm
   rw [← Presheaf.comp_isLocallySurjective_iff J e.hom, hfac]
   infer_instance

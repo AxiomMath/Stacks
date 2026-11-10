@@ -341,7 +341,7 @@ theorem GradedAlgEquiv.quotientPieceEquiv_homogeneousMul {J : Ideal A}
     e.quotientPieceEquiv (i + j) (homogeneousMul (J.map (Ideal.Quotient.mk R)) x y) =
       homogeneousMul (J.map (Ideal.Quotient.mk R'))
         (e.quotientPieceEquiv i x) (e.quotientPieceEquiv j y) := by
-  show pieceRestrictScalarsEquiv J R' (i + j) (e.toPieceEquiv (i + j)
+  change pieceRestrictScalarsEquiv J R' (i + j) (e.toPieceEquiv (i + j)
       ((pieceRestrictScalarsEquiv J R (i + j)).symm
         (homogeneousMul (J.map (Ideal.Quotient.mk R)) x y))) = _
   rw [pieceRestrictScalarsEquiv_symm_homogeneousMul, e.map_homogeneousMul,
@@ -353,7 +353,7 @@ theorem GradedAlgEquiv.quotientPieceEquiv_homogeneousOne {J : Ideal A}
     (e : GradedAlgEquiv J (A ⧸ R) (A ⧸ R')) :
     e.quotientPieceEquiv 0 (homogeneousOne (J.map (Ideal.Quotient.mk R))) =
       homogeneousOne (J.map (Ideal.Quotient.mk R')) := by
-  show pieceRestrictScalarsEquiv J R' 0 (e.toPieceEquiv 0
+  change pieceRestrictScalarsEquiv J R' 0 (e.toPieceEquiv 0
       ((pieceRestrictScalarsEquiv J R 0).symm
         (homogeneousOne (J.map (Ideal.Quotient.mk R))))) = _
   rw [pieceRestrictScalarsEquiv_symm_homogeneousOne, e.map_homogeneousOne,
@@ -412,7 +412,7 @@ theorem GradedAlgEquiv.quotientPieceEquiv_mk_of_isInducedByIdentity {J : Ideal A
       _root_.AssociatedGraded.mk (J.map (Ideal.Quotient.mk R')) n
         ⟨Ideal.Quotient.mk R' (z : A),
           (mem_power_map_iff J R' n).2 (mk_mem_power_quotient J R' n z.property)⟩ := by
-  show pieceRestrictScalarsEquiv J R' n (e.toPieceEquiv n
+  change pieceRestrictScalarsEquiv J R' n (e.toPieceEquiv n
       ((pieceRestrictScalarsEquiv J R n).symm
         (_root_.AssociatedGraded.mk (J.map (Ideal.Quotient.mk R)) n _))) = _
   rw [pieceRestrictScalarsEquiv_symm_mk, he n z, pieceRestrictScalarsEquiv_mk]

@@ -146,7 +146,7 @@ public theorem image_preimage_image_eq (i : X ⟶ Y) (V : Y.Opens) (W : V.toSche
   refine inf_eq_right.mpr fun x hx => ?_
   change i x ∈ V.ι ''ᵁ W at hx
   obtain ⟨y, -, hxy⟩ := hx
-  show i x ∈ V
+  change i x ∈ V
   rw [← hxy]
   exact y.property
 

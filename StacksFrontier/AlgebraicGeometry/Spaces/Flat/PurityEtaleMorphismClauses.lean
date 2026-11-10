@@ -144,14 +144,14 @@ theorem exists_specializes_isRelativeWeaklyAssociatedPoint_fibre_of_iso
   have hψ : IsEtale B S hS ψ.hom := isEtale_of_isIso B S hS e.hom
   let f' : X ⟶ schemeSpace V := f ≫ ψinv
   have hf'ψ : f' ≫ ψ = f := ObjectProperty.hom_ext _ (by
-    show (f.hom ≫ e.inv) ≫ e.hom = f.hom
+    change (f.hom ≫ e.inv) ≫ e.hom = f.hom
     rw [Category.assoc, e.inv_hom_id, Category.comp_id])
   have hass : ∀ z, IsRelativeWeaklyAssociatedPoint B S hS f' F z ↔
       IsRelativeWeaklyAssociatedPoint B S hS f F z := fun z => by
     rw [← isRelativeWeaklyAssociatedPoint_comp_iff_of_isEtale B S hS f' ψ hψ F z, hf'ψ]
   have hpt : ∀ z : points B S hS X.1, pointsMap B S hS X.1 f'.hom z =
       pointsMap B S hS Y.1 e.inv s ↔ pointsMap B S hS X.1 f.hom z = s := fun z => by
-    show pointsMap B S hS X.1 (f.hom ≫ e.inv) z = _ ↔ _
+    change pointsMap B S hS X.1 (f.hom ≫ e.inv) z = _ ↔ _
     rw [pointsMap_comp_apply]
     have hinv : ∀ a, pointsMap B S hS (yoneda.obj V) e.hom (pointsMap B S hS Y.1 e.inv a) = a :=
       fun a => by rw [← pointsMap_comp_apply, e.inv_hom_id, pointsMap_id, id_eq]

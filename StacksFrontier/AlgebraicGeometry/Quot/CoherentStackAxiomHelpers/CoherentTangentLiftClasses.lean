@@ -82,7 +82,7 @@ theorem exists_iso_of_heq_fibreComp {La Lab : C₁ ⥤ C₀} {Lb : C₁ ⥤ C₁
     rw [← cancel_epi (τ.hom.app F₂), h1, Iso.hom_inv_id_app]
   refine ⟨(asIso fib).symm ≪≫ γ.app F₂, ?_⟩
   rw [← eq_of_heq hk]
-  show La.map (CategoryTheory.inv fib ≫ γ.hom.app F₂) ≫ τ.hom.app F₂ ≫ La.map fib ≫ f₁ = f₁
+  change La.map (CategoryTheory.inv fib ≫ γ.hom.app F₂) ≫ τ.hom.app F₂ ≫ La.map fib ≫ f₁ = f₁
   rw [Functor.map_comp, Category.assoc, h2, Iso.inv_hom_id_app_assoc, ← Functor.map_comp_assoc,
     IsIso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
 
@@ -319,7 +319,7 @@ theorem terminalTestMap_comp_eqToHom
       b := hw
   apply CostructuredArrow.hom_ext
   rw [CostructuredArrow.comp_left, CostructuredArrow.eqToHom_left]
-  show b ≫ _ = (coherentCFG D).val.p.map y.1.hom
+  change b ≫ _ = (coherentCFG D).val.p.map y.1.hom
   exact (comp_eqToHom_iff _ _ _).2 hw'.symm
 
 /-- The base of the arrow of a lift of `x` along `b` is the morphism of test schemes of `b`, read
@@ -338,7 +338,7 @@ theorem fiberHom_base {y y' : (Under.post (coherentCFG D).val.p).Fiber (Under.mk
   have hfac := IsHomLift.fac' (coherentCFG D).val.p (Under.Hom.right (𝟙 (Under.mk b))) φ.1.right
   apply CostructuredArrow.hom_ext
   rw [CostructuredArrow.eqToHom_left]
-  show (coherentCFG D).val.p.map φ.1.right = _
+  change (coherentCFG D).val.p.map φ.1.right = _
   rw [hfac]
   simp only [Under.id_right, Category.id_comp, eqToHom_trans]
   rfl
@@ -416,7 +416,7 @@ theorem fiberLiftClass_injective : Function.Injective (D.fiberLiftClass hY (b :=
   obtain ⟨L, hL, ⟨ψ, hψ, hc⟩, -⟩ := exists_lift_of_fiber hY y
   obtain ⟨-, ⟨χ, hχ, hc'⟩⟩ := exists_comp_eq_of_liftClassOf_eq_mk _ _ _ _ L (hcc.symm.trans hL.symm)
   refine Quotient.sound (isIsomorphic_of_coherentHom hY (ψ.comp χ) ?_ ?_)
-  · show ψ.base ≫ χ.base = _
+  · change ψ.base ≫ χ.base = _
     rw [hψ, hχ, eqToHom_trans]
   · exact comp_comp_eq_of_comp_eq hc hc'
 
@@ -464,7 +464,7 @@ theorem comp_comp_base_eq {A₁ A₂ A₃ A₄ : CoherentObject D} {T₁ T₄ : 
     (e₆ : T₄ = A₄.T) (hχ : χ.base = eqToHom e₁) (hΦ : Φ.base = eqToHom e₂ ≫ G ≫ eqToHom e₃)
     (hψ : ψ.base = eqToHom e₄) :
     ((χ.comp Φ).comp ψ).base = eqToHom e₅ ≫ G ≫ eqToHom e₆ := by
-  show (χ.base ≫ Φ.base) ≫ ψ.base = _
+  change (χ.base ≫ Φ.base) ≫ ψ.base = _
   rw [hχ, hΦ, hψ]
   simp
 

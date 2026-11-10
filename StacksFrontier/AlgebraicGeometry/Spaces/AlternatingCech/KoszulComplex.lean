@@ -98,7 +98,7 @@ theorem presheafDual_freeAbelianRepresentableTrace_of (U : SpacesEtale B S hS X)
     (V : (SpacesEtale B S hS X)ᵒᵖ) (φ : (yoneda.obj U).obj V) :
     AddCommGrpCat.presheafDual (freeAbelianRepresentableTrace B S hS X U) V
         (FreeAbelianGroup.of φ) = 1 := by
-  show (ULift.moduleEquiv (R := ℤ) (M := ℤ))
+  change (ULift.moduleEquiv (R := ℤ) (M := ℤ))
       (FreeAbelianGroup.lift (fun _ => (ULift.up 1 : ULift.{u + 1} ℤ))
         (FreeAbelianGroup.of φ)) = 1
   rw [FreeAbelianGroup.lift_apply_of]

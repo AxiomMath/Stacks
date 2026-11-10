@@ -153,7 +153,7 @@ private theorem local_branch_generic_artinian
   let : SMul W Q := Algebra.toSMul
   have : IsScalarTower R W Q := IsScalarTower.of_algebraMap_eq' (by
     ext x
-    show (algebraMap Rp Q) (algebraMap R Rp x) =
+    change (algebraMap Rp Q) (algebraMap R Rp x) =
       g (algebraMap R W x)
     simp [g, IsLocalization.Away.map])
   let N := IsLocalization.localizationLocalizationSubmodule p.primeCompl
@@ -284,7 +284,7 @@ private theorem tensor_base_ideal_vanishes
   rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq A B (B ⊗[A] E)]
   apply (Ideal.map_eq_bot_iff_le_ker (algebraMap A (B ⊗[A] E))).mpr
   intro a ha
-  show algebraMap A (B ⊗[A] E) a = 0
+  change algebraMap A (B ⊗[A] E) a = 0
   rw [Algebra.TensorProduct.algebraMap_apply', RingHom.mem_ker.mp (hI ha)]
   simp
 
@@ -364,7 +364,7 @@ private theorem local_residue_kills_source_maximal
     IsLocalRing.maximalIdeal_comap (algebraMap A C)
   intro a ha
   apply RingHom.mem_ker.mpr
-  show (Ideal.Quotient.mk _ (algebraMap A C a)) = 0
+  change (Ideal.Quotient.mk _ (algebraMap A C a)) = 0
   rw [← hcomap] at ha
   exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
 
@@ -648,7 +648,7 @@ private theorem tensor_basechange_ideal_map
         (IsScalarTower.toAlgHom A C D)).toRingHom =
       (I.map (algebraMap C D)).map
         (Algebra.TensorProduct.includeRight (R := A) (A := B)) := by
-  show (I.map (Algebra.TensorProduct.includeRight (R := A) (A := B)).toRingHom).map
+  change (I.map (Algebra.TensorProduct.includeRight (R := A) (A := B)).toRingHom).map
       (Algebra.TensorProduct.map (AlgHom.id A B)
         (IsScalarTower.toAlgHom A C D)).toRingHom =
     (I.map (algebraMap C D)).map
@@ -721,10 +721,10 @@ private theorem tensor_localized_branch_contracts_to_maximal
   have hunder : (q.comap (algebraMap D (B ⊗[A] D))).comap
       (algebraMap C D) = p := by
     ext c
-    show ((1 : B) ⊗ₜ[A] algebraMap C D c ∈ q) ↔ c ∈ p
+    change ((1 : B) ⊗ₜ[A] algebraMap C D c ∈ q) ↔ c ∈ p
     rw [← show f ((1 : B) ⊗ₜ[A] c) = (1 : B) ⊗ₜ[A] algebraMap C D c by
       simp [f, Algebra.TensorProduct.map_tmul]]
-    show ((1 : B) ⊗ₜ[A] c ∈ q.comap f.toRingHom) ↔ c ∈ p
+    change ((1 : B) ⊗ₜ[A] c ∈ q.comap f.toRingHom) ↔ c ∈ p
     rw [hq]
     exact (Ideal.ext_iff.mp hlie c)
   have heq := (IsLocalization.orderEmbedding p.primeCompl D).injective

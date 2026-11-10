@@ -96,8 +96,7 @@ theorem bijective_deRhamCohBaseChangeLinear :
         (bijective_deRhamBaseChangeLinear K X n)).toAddEquiv
   have h : ⇑(deRhamCohBaseChangeLinear K X) = ⇑(e₁.trans e₂) := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht => rw [map_add, map_add, hs, ht]
     | tmul c a =>
       induction a using DirectSum.induction_on with
@@ -194,7 +193,6 @@ theorem twistEquiv_deRhamCohBaseChangeAlgEquiv_firstChernClass
   refine hT.trans ?_
   congr 1
   all_goals first
-    | exact hA
     | (congr 1; funext; exact hB)
 
 end Comparison

@@ -279,7 +279,7 @@ theorem single_mem_M {i : I} {c : I →₀ ℚ} (hc : Box c) {v : V Sy K i}
   · subst hd
     rw [Finsupp.single_eq_same, W_of_box Sy K hc]
     exact hv
-  · rw [Finsupp.single_apply, if_neg hd]
+  · rw [Finsupp.single_apply, ite_eq_right hd]
     exact Submodule.zero_mem _
 
 /-! ### The action of the monomials -/
@@ -300,7 +300,7 @@ open scoped Classical in
 otherwise. -/
 theorem shiftAmb_apply (i : I) (a : I →₀ ℚ) (m : (I →₀ ℚ) →₀ V Sy K i) (c : I →₀ ℚ) :
     shiftAmb Sy K i a m c = if Box c then m (c - a) else 0 := by
-  show ((Finsupp.mapDomain (· + a) m).filter Box) c = _
+  change ((Finsupp.mapDomain (· + a) m).filter Box) c = _
   rw [Finsupp.filter_apply]
   congr 1
   have h : c = (c - a) + a := (sub_add_cancel c a).symm
@@ -480,7 +480,7 @@ theorem shift_eq_zero_of_mem_gens {i : I} {a : G I} (ha : a ∈ gens i) (m : M S
 theorem isTorsionBySet (i : I) : Module.IsTorsionBySet (P K I) (M Sy K i) (ideal K i) := by
   rw [ideal, ← Module.isTorsionBySet_iff_is_torsion_by_span]
   rintro m ⟨_, a, ha, rfl⟩
-  show (AddMonoidAlgebra.single a (1 : K) : P K I) • m = 0
+  change (AddMonoidAlgebra.single a (1 : K) : P K I) • m = 0
   rw [single_smul]
   exact shift_eq_zero_of_mem_gens Sy K ha m
 
@@ -630,15 +630,15 @@ theorem surjective_Mmap {i j : I} (h : j ≤ i) : Function.Surjective (Mmap Sy K
       exact hc (by simp [pre', h0]))
   have hm : m ∈ M Sy K i := by
     intro c
-    show pre' c ∈ W Sy K i c
+    change pre' c ∈ W Sy K i c
     by_cases h0 : (n : (I →₀ ℚ) →₀ V Sy K j) c = 0
     · simp [pre', h0]
     · simpa [pre', h0] using hpre c
   refine ⟨⟨m, hm⟩, Subtype.ext (Finsupp.ext fun c => ?_)⟩
   rw [Mmap_apply_coe, MmapAmb_apply]
-  show q Sy K h (pre' c) = _
+  change q Sy K h (pre' c) = _
   by_cases h0 : (n : (I →₀ ℚ) →₀ V Sy K j) c = 0
-  · simp only [pre', h0, if_true, map_zero]
+  · simp only [pre', h0, ite_true, map_zero]
   · simpa [pre', h0] using hqpre c
 
 /-- **The representability identity.** The kernel of `Mᵢ → Mⱼ` is `𝔍ⱼ Mᵢ`, that is the
@@ -691,7 +691,7 @@ theorem Mmap_eq_zero_iff {i j : I} (h : j ≤ i) (m : M Sy K i) :
         rw [Finsupp.mem_support_iff, hc'l l] at hl
         by_cases hlj : l = j
         · exact Finset.mem_insert.mpr (Or.inl hlj)
-        · rw [if_neg hlj] at hl
+        · rw [ite_eq_right hlj] at hl
           exact Finset.mem_insert_of_mem (Finsupp.mem_support_iff.mpr hl)
       have hvU : v ∈ U Sy K i c.support := by
         have := m.2 c
@@ -700,9 +700,9 @@ theorem Mmap_eq_zero_iff {i j : I} (h : j ≤ i) (m : M Sy K i) :
         U_anti Sy K hsupp (mem_U_insert Sy K h hvU (hq c))
       let t' : M Sy K i := ⟨Finsupp.single c' v, single_mem_M Sy K hbc' hvU'⟩
       have heg : e ∈ gens j := Or.inr ⟨j, le_rfl, by
-        show (0 : ℚ≥0) < Finsupp.single j ε j
+        change (0 : ℚ≥0) < Finsupp.single j ε j
         rw [Finsupp.single_eq_same]
-        show (0 : ℚ) < (1 + c j) / 2
+        change (0 : ℚ) < (1 + c j) / 2
         linarith [hcj.1]⟩
       refine ⟨(Ideal.Quotient.mk (ideal K i) (AddMonoidAlgebra.of' K (G I) e) : A K i) • t',
         ?_, ?_⟩
@@ -711,17 +711,17 @@ theorem Mmap_eq_zero_iff {i j : I} (h : j ≤ i) (m : M Sy K i) :
         rw [shiftAmb_apply]
         by_cases hd : d = c
         · subst hd
-          rw [if_pos hb, Finsupp.single_eq_same, Finsupp.single_eq_same]
+          rw [ite_eq_left hb, Finsupp.single_eq_same, Finsupp.single_eq_same]
         · have hR : Finsupp.single c v d = 0 := by
-            rw [Finsupp.single_apply, if_neg (Ne.symm hd)]
+            rw [Finsupp.single_apply, ite_eq_right (Ne.symm hd)]
           have hL : Finsupp.single c' v (d - toRat e) = 0 := by
-            rw [Finsupp.single_apply, if_neg]
+            rw [Finsupp.single_apply, ite_eq_right]
             intro hcd
             apply hd
             have := congrArg (· + toRat e) hcd
             simp only [hc', sub_add_cancel] at this
             exact this.symm
-          show (if Box d then Finsupp.single c' v (d - toRat e) else 0) = _
+          change (if Box d then Finsupp.single c' v (d - toRat e) else 0) = _
           rw [hR, hL, ite_self]
       · refine Submodule.smul_mem_smul ?_ Submodule.mem_top
         rw [RingHom.mem_ker, Amap_mk, Ideal.Quotient.eq_zero_iff_mem]
@@ -847,7 +847,7 @@ theorem surjective_proj (i : I) : Function.Surjective (proj Sy K i) := by
   refine ⟨TrivSqZeroExt.inr ⟨Finsupp.single 0 v, single_mem_M Sy K box_zero ?_⟩, ?_⟩
   · rw [Finsupp.support_zero, U_empty]
     trivial
-  · show Finsupp.single (0 : I →₀ ℚ) v 0 = v
+  · change Finsupp.single (0 : I →₀ ℚ) v 0 = v
     exact Finsupp.single_eq_same
 
 end Stacks.FractionalSystem

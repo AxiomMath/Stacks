@@ -522,7 +522,7 @@ theorem exists_section_of_surjective_finite_etale
       rw [← he]
       simp
     dsimp [m]
-    rw [Category.assoc, he', Sigma.ι_desc]
+    rw [Category.assoc, he', Sigma.ι_comp_desc]
   have hjClosed (a : Fin n) : IsClosed ((j a).opensRange : Set Z) := by
     have hEq : Set.range (j a) = f '' Set.range (m a) := by
       rw [← Set.range_comp]
@@ -581,7 +581,7 @@ theorem exists_section_of_surjective_finite_etale
     have hval : (j a) y = x := by
       calc
         (j a) y = (Sigma.desc j) (Sigma.ι U a y) :=
-          (congrArg (fun g : U a ⟶ Z => g y) (Sigma.ι_desc j a)).symm
+          (congrArg (fun g : U a ⟶ Z => g y) (Sigma.ι_comp_desc j a)).symm
         _ = (e.hom ≫ Sigma.desc j) v := by rw [hy']; rfl
         _ = f v := congrArg (fun g : V ⟶ Z => g v) he
         _ = x := hv
@@ -632,7 +632,7 @@ theorem exists_section_of_surjective_finite_etale
   have hdesc : Sigma.desc t ≫ f = Sigma.desc (fun a : Fin n => (O a).ι) := by
     apply Sigma.hom_ext
     intro a
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact ht a
   rw [Category.assoc, hdesc, heO]
 

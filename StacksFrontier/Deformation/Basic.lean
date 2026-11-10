@@ -470,7 +470,7 @@ private theorem quotientHom_isSmallExtension
       (CommRingCat.ofHom (quotientHom B J hJ).hom.toRingHom) := by
   refine ⟨inferInstance, inferInstance, inferInstance, inferInstance,
     Ideal.Quotient.mk_surjective, ?_⟩
-  show Module.length B (RingHom.ker (Ideal.Quotient.mk J)) = 1
+  change Module.length B (RingHom.ker (Ideal.Quotient.mk J)) = 1
   rw [Ideal.mk_ker]
   exact Module.length_eq_one_iff.mpr hJsimple
 
@@ -500,7 +500,7 @@ private theorem smallExtension_comp_iso
   have hker : RingHom.ker (e.hom.hom.comp f.hom).toRingHom =
       RingHom.ker f.hom.toRingHom := by
     ext x
-    show e.hom.hom (f.hom x) = 0 ↔ f.hom x = 0
+    change e.hom.hom (f.hom x) = 0 ↔ f.hom x = 0
     exact ⟨fun h => hEinj (by simpa using h), fun h => by simp [h]⟩
   refine ⟨inferInstance, inferInstance, inferInstance, inferInstance,
     ?_, ?_⟩
@@ -508,10 +508,10 @@ private theorem smallExtension_comp_iso
     obtain ⟨b, hb⟩ := hsurj (e.inv.hom c)
     have hb' : f.hom b = e.inv.hom c := by simpa using hb
     refine ⟨b, ?_⟩
-    show e.hom.hom (f.hom b) = c
+    change e.hom.hom (f.hom b) = c
     rw [hb']
     exact congrArg (fun g => g c) hcompinv
-  · show Module.length B (RingHom.ker (e.hom.hom.comp f.hom).toRingHom) = 1
+  · change Module.length B (RingHom.ker (e.hom.hom.comp f.hom).toRingHom) = 1
     rw [hker]
     exact hlen
 
@@ -552,10 +552,10 @@ theorem surjective_factors_into_smallExtensions
         refine ⟨0, F₀, hB₀,
           isoOfSurjectiveKerBot (B := B) (A := A) f hf (by simpa [I] using hI), ?_⟩
         constructor
-        · show eqToHom hB₀.symm ≫ F₀.hom ≫ f = f
+        · change eqToHom hB₀.symm ≫ F₀.hom ≫ f = f
           apply ArtinianLocalAlgCat.hom_ext
           ext b
-          show f.hom ((eqToHom hB₀.symm).hom b) = f.hom b
+          change f.hom ((eqToHom hB₀.symm).hom b) = f.hom b
           have hb : (eqToHom hB₀.symm).hom b = b := by
             dsimp [F₀, ComposableArrows.mk₀]
             rfl
@@ -565,7 +565,7 @@ theorem surjective_factors_into_smallExtensions
       · have hImax : I ≤ maximalIdeal B := by
           intro x hx
           rw [← IsLocalRing.maximalIdeal_comap f.hom.toRingHom]
-          show f.hom.toRingHom x ∈ maximalIdeal A
+          change f.hom.toRingHom x ∈ maximalIdeal A
           rw [show f.hom.toRingHom x = 0 from hx]
           exact Ideal.zero_mem _
         obtain ⟨J, hJI, hJne, hJsimple⟩ := exists_simpleSubideal I hI
@@ -581,7 +581,7 @@ theorem surjective_factors_into_smallExtensions
           change g.hom (Ideal.Quotient.mk J b) = f.hom b at h
           exact h
         have hmeasure : Module.length Q Q < Module.length B B := by
-          show Module.length (B ⧸ J) (B ⧸ J) < Module.length B B
+          change Module.length (B ⧸ J) (B ⧸ J) < Module.length B B
           exact quotient_length_lt J hJne hJmax
         rw [hlen] at hmeasure
         obtain ⟨n, F, hQ, e, hcomp, hsmall⟩ := ih (Module.length Q Q) hmeasure g hg rfl
@@ -590,13 +590,13 @@ theorem surjective_factors_into_smallExtensions
         have hpre : F'.hom = u ≫ F.hom := by
           cases n with
           | zero =>
-              show ComposableArrows.Precomp.map F u 0 1 (by decide) = u ≫ F.hom
+              change ComposableArrows.Precomp.map F u 0 1 (by decide) = u ≫ F.hom
               rw [ComposableArrows.Precomp.map_zero_one]
-              show u = u ≫ F.map' 0 0
+              change u = u ≫ F.map' 0 0
               rw [ComposableArrows.map'_self F 0 (by decide)]
               exact (Category.comp_id u).symm
           | succ n =>
-              show ComposableArrows.Precomp.map F u 0
+              change ComposableArrows.Precomp.map F u 0
                 ⟨n + 2, by simp [Nat.add_assoc]⟩
                 (Fin.zero_le _) =
                 u ≫ F.map' 0 (n + 1)
@@ -613,7 +613,7 @@ theorem surjective_factors_into_smallExtensions
         · intro i hi
           cases i with
           | zero =>
-              show InfinitesimalLifting.IsSmallExtension
+              change InfinitesimalLifting.IsSmallExtension
                 (CommRingCat.ofHom (u.hom).toRingHom)
               exact smallExtension_comp_iso (quotientHom B J hJmax)
                 (eqToIso hQ.symm) (quotientHom_isSmallExtension B J hJmax hJsimple)
@@ -667,7 +667,7 @@ theorem not_isEssentialSurjection_iff_exists_section
       obtain ⟨c₀, hc₀⟩ := hh_surj (f.hom b)
       let d : B := b - g.hom c₀
       have hdI : d ∈ I := by
-        show f.hom (b - g.hom c₀) = 0
+        change f.hom (b - g.hom c₀) = 0
         rw [map_sub, ← hc₀]
         simp [h]
       have hgc' : (⟨g.hom c, hfc⟩ : I) ≠ 0 :=
@@ -680,7 +680,7 @@ theorem not_isEssentialSurjection_iff_exists_section
       obtain ⟨c₁, hc₁⟩ := hh_surj (f.hom a)
       let e : B := a - g.hom c₁
       have heI : e ∈ I := by
-        show f.hom (a - g.hom c₁) = 0
+        change f.hom (a - g.hom c₁) = 0
         rw [map_sub, ← hc₁]
         simp [h]
       have he_mul : e * g.hom c = 0 := by
@@ -712,10 +712,10 @@ theorem not_isEssentialSurjection_iff_exists_section
     have hsAlg_comp_h : sAlg.comp h = g.hom := by
       apply AlgHom.ext
       intro c
-      show qlift (hEquiv.symm (h c)) = g.hom c
+      change qlift (hEquiv.symm (h c)) = g.hom c
       rw [show hEquiv.symm (h c) = Ideal.Quotient.mk _ c by
         exact Ideal.quotientKerAlgEquivOfSurjective_symm_apply hh_surj c]
-      show (qlift.comp
+      change (qlift.comp
         (Ideal.Quotient.mkₐ Λ (RingHom.ker h.toRingHom))) c = g.hom c
       exact congrArg (fun z : C →ₐ[Λ] B => z c) hqlift_comp
     have hsAlg_comp_f : f.hom.comp sAlg = AlgHom.id Λ A := by
@@ -724,7 +724,7 @@ theorem not_isEssentialSurjection_iff_exists_section
       obtain ⟨c, hc⟩ := hh_surj a
       have hval : sAlg (h c) = g.hom c := by
         simpa using congrArg (fun z : C →ₐ[Λ] B => z c) hsAlg_comp_h
-      show f.hom (sAlg a) = a
+      change f.hom (sAlg a) = a
       rw [← hc, hval]
       rfl
     have hs_eval (a : A) : f.hom (sAlg a) = a := by
@@ -837,7 +837,7 @@ theorem residueImageField_eq_range (Λ : Type u) (k : Type v) [CommRing Λ]
   have hs : (s : Set k) = Set.range (algebraMap Λ k) := by
     rw [RingHom.coe_fieldRange, ← RingHom.coe_range, Subring.range_subtype]
     exact RingHom.coe_range _
-  show (Subfield.closure (Set.range (algebraMap Λ k)) : Set k) = _
+  change (Subfield.closure (Set.range (algebraMap Λ k)) : Set k) = _
   rw [← hs, Subfield.closure_eq]
 
 
@@ -868,7 +868,7 @@ theorem finrank_residueImageField_eq_quotient_ker
   let q : Λ ⧸ RingHom.ker f →+* k :=
     (Subring.subtype (RingHom.range f)).comp e.toRingHom
   let : Algebra (Λ ⧸ RingHom.ker f) k := q.toAlgebra
-  show Module.finrank (residueImageField Λ k) k =
+  change Module.finrank (residueImageField Λ k) k =
     Module.finrank (Λ ⧸ RingHom.ker f) k
   have hs : (residueImageField Λ k).toSubring = f.range := by
     ext x
@@ -1105,10 +1105,10 @@ private lemma residue_surjective {A B : ArtinianLocalAlgCat.{u, v, w} Λ k}
     (A.residueEquiv.symm (B.residueEquiv (residue B y)))
   refine ⟨a, ?_⟩
   apply B.residueEquiv.injective
-  show B.residueEquiv (residue B (f.hom a)) =
+  change B.residueEquiv (residue B (f.hom a)) =
     B.residueEquiv (residue B y)
   rw [f.residue_comm]
-  show A.residueEquiv ((Ideal.Quotient.mk (maximalIdeal A)) a) = _
+  change A.residueEquiv ((Ideal.Quotient.mk (maximalIdeal A)) a) = _
   rw [ha]
   simp
 
@@ -1152,19 +1152,19 @@ public theorem surjective_iff_cotangentSpaceMap_surjective
   let g := Ideal.mapCotangent I J f.hom (by
     let _ : IsLocalHom f.hom.toRingHom := f.isLocal
     intro x hx
-    show x ∈ J.comap f.hom.toRingHom
+    change x ∈ J.comap f.hom.toRingHom
     rw [maximalIdeal_comap]
     exact hx)
-  show Function.Surjective f.hom ↔ Function.Surjective g
+  change Function.Surjective f.hom ↔ Function.Surjective g
   constructor
   · intro hf z
     obtain ⟨y, rfl⟩ := J.toCotangent_surjective z
     obtain ⟨x, hx⟩ := hf y
     have hxm : x ∈ I := by
       let _ : IsLocalHom f.hom.toRingHom := f.isLocal
-      show x ∈ maximalIdeal A
+      change x ∈ maximalIdeal A
       rw [← maximalIdeal_comap (f := f.hom.toRingHom)]
-      show f.hom x ∈ maximalIdeal B
+      change f.hom x ∈ maximalIdeal B
       exact hx ▸ y.2
     refine ⟨I.toCotangent ⟨x, hxm⟩, ?_⟩
     simpa only [g, Ideal.mapCotangent_toCotangent] using
@@ -1176,7 +1176,7 @@ public theorem surjective_iff_cotangentSpaceMap_surjective
       intro z _
       obtain ⟨x, rfl⟩ := hg z
       obtain ⟨a, rfl⟩ := I.toCotangent_surjective x
-      show (Ideal.mapCotangent I J f.hom _ (I.toCotangent a)) ∈ _
+      change (Ideal.mapCotangent I J f.hom _ (I.toCotangent a)) ∈ _
       rw [Ideal.mapCotangent_toCotangent]
       exact Submodule.mem_map_of_mem (Ideal.mem_map_of_mem f.hom.toRingHom a.2)
     exact surjective_of_map_toCotangent_eq_top f hM
@@ -1210,7 +1210,7 @@ public theorem cotangentSpaceMap_surjective_iff_relativeCotangentSpaceMap_surjec
   let g := Ideal.mapCotangent I J f.hom (by
     let _ : IsLocalHom f.hom.toRingHom := f.isLocal
     intro x hx
-    show x ∈ J.comap f.hom.toRingHom
+    change x ∈ J.comap f.hom.toRingHom
     rw [maximalIdeal_comap]
     exact hx)
   constructor
@@ -1219,10 +1219,10 @@ public theorem cotangentSpaceMap_surjective_iff_relativeCotangentSpaceMap_surjec
     obtain ⟨x, hx⟩ := hg (J.toCotangent y)
     obtain ⟨a, rfl⟩ := I.toCotangent_surjective x
     refine ⟨Submodule.mkQ (relativeCotangentSubmodule A) a, ?_⟩
-    show Submodule.mkQ (relativeCotangentSubmodule B) (maximalIdealMap f a) =
+    change Submodule.mkQ (relativeCotangentSubmodule B) (maximalIdealMap f a) =
       Submodule.mkQ (relativeCotangentSubmodule B) y
     apply (Submodule.Quotient.eq _).mpr
-    show ((maximalIdealMap f a - y : J) : B) ∈ K.map (algebraMap Λ B) + J ^ 2
+    change ((maximalIdealMap f a - y : J) : B) ∈ K.map (algebraMap Λ B) + J ^ 2
     have hsquare : ((maximalIdealMap f a - y : J) : B) ∈ J ^ 2 := by
       apply (J.toCotangent_eq).mp
       change g (I.toCotangent a) = J.toCotangent y at hx
@@ -1252,7 +1252,7 @@ public theorem cotangentSpaceMap_surjective_iff_relativeCotangentSpaceMap_surjec
       have heq : J.toCotangent (maximalIdealMap f a - y) =
           J.toCotangent (⟨u, huJ⟩ : J) := by
         apply (J.toCotangent_eq).mpr
-        show ((maximalIdealMap f a : B) - y - u) ∈ J ^ 2
+        change ((maximalIdealMap f a : B) - y - u) ∈ J ^ 2
         have hh : (maximalIdealMap f a : B) - y = u + v := by simpa using huv.symm
         rw [hh]
         simpa using hv

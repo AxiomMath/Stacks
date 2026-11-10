@@ -96,7 +96,7 @@ theorem cup_nondegenerate {p m : ℕ} [Fact p.Prime] {N : ℕ} (t : Ext.{w} (�
       rw [← hb₀, Ext.dualityPairing_apply, ← cup_eq_comp]
       exact ha b
     refine hΘ.1 ?_
-    show y = _
+    change y = _
     rw [hy]
     simp
   · refine hb.1 ?_

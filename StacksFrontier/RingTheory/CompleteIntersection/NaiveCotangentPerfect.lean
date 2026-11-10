@@ -181,7 +181,7 @@ private theorem isIso_comparison_app_of_bounded_flat
     have hflat' : ∀ i : ℤ, Module.Flat (ULift.{v} R)
         (((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K).X i) := by
       intro i
-      show Module.Flat (ULift.{v} R) (K.X i)
+      change Module.Flat (ULift.{v} R) (K.X i)
       rw [Module.Flat.ulift_left_iff]
       exact hflat i
     have hbounded' : ∃ n : ℤ, ∀ i : ℤ, n < i →
@@ -442,9 +442,9 @@ public theorem naiveCotangentComplex_isPerfect_and_hasTorAmplitude
     Algebra.Generators.ofSurjective (fun i => p (MvPolynomial.X i)) (by rwa [heval])
   have hP : Quasiregular.IsQuasiregularIdeal' P.toExtension.ker := by
     apply Ideal.IsKoszulRegular.isQuasiregular
-    show Ideal.IsKoszulRegular P.ker
+    change Ideal.IsKoszulRegular P.ker
     rw [Algebra.Generators.ker_eq_ker_aeval_val]
-    show Ideal.IsKoszulRegular
+    change Ideal.IsKoszulRegular
       (RingHom.ker (MvPolynomial.aeval (R := A) (fun i => p (MvPolynomial.X i))).toRingHom)
     rwa [heval]
   obtain ⟨hfin, hproj⟩ :=
@@ -685,7 +685,7 @@ private lemma cotangent_ker_transfer
         intro r x
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
         apply Algebra.Extension.Cotangent.ext
-        show r • x = (r • (Algebra.Extension.Cotangent.of x : P.Cotangent)).val
+        change r • x = (r • (Algebra.Extension.Cotangent.of x : P.Cotangent)).val
         exact (Algebra.Extension.Cotangent.val_smul' r _).symm }
   refine ⟨fun h => ?_, fun h => ?_⟩
   · let := h
@@ -765,9 +765,9 @@ public theorem hasTorAmplitude_tfae_isLocalCompleteIntersection
     let I : Ideal R := P.toExtension.ker
     have hI : I = LinearMap.ker g := by
       ext x
-      show x ∈ RingHom.ker (algebraMap P.toExtension.Ring B) ↔ x ∈ LinearMap.ker g
+      change x ∈ RingHom.ker (algebraMap P.toExtension.Ring B) ↔ x ∈ LinearMap.ker g
       simp only [LinearMap.mem_ker]
-      show MvPolynomial.aeval (fun i : Fin n => α (MvPolynomial.X i)) x = 0 ↔ α x = 0
+      change MvPolynomial.aeval (fun i : Fin n => α (MvPolynomial.X i)) x = 0 ↔ α x = 0
       rw [heval]
     have hpdI : Module.projectiveDimension R I ≠ ⊤ := by
       refine (CategoryTheory.projectiveDimension_ne_top_iff (ModuleCat.of R I)).2 ⟨d, ?_⟩

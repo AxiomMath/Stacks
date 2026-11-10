@@ -294,7 +294,7 @@ trivial subgroup in every negative degree, not only at `Int.negSucc`. -/
 theorem moduleGrading_eq_bot_of_neg (F L : C) {i : ℤ} (hi : i < 0) :
     moduleGrading F L i = ⊥ := by
   obtain ⟨k⟩ | ⟨k⟩ := i
-  · exact absurd hi (not_lt.mpr (Int.ofNat_nonneg k))
+  · exact absurd hi (not_lt.mpr (Int.natCast_nonneg k))
   · exact moduleGrading_negSucc k
 
 /-- A homogeneous element of negative degree is zero. -/
@@ -378,7 +378,7 @@ theorem moduleGrading_shift_neg_one (m : ℕ) (t : twistSections F L m) (ht : t 
   have hidx : (-1 : ℤ) + ((m : ℤ) + 1) = ((m : ℕ) : ℤ) := by ring
   have hmem : DirectSum.of (twistSections F L) m t ∈
       Stacks.GradedModule.shiftedGrading (moduleGrading F L) ((m : ℤ) + 1) (-1) := by
-    show DirectSum.of (twistSections F L) m t ∈
+    change DirectSum.of (twistSections F L) m t ∈
       moduleGrading F L ((-1 : ℤ) + ((m : ℤ) + 1))
     rw [hidx, moduleGrading_natCast]
     exact Stacks.ExternalGrading.of_mem_summand _ _

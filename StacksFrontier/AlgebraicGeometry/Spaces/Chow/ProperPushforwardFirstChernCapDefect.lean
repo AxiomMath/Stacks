@@ -219,8 +219,8 @@ theorem isRationallyEquivalentToZeroCanonical_properPushforward_firstChernCapCyc
     (fun W => α.1 W ≠ 0)).symm
   refine finsum_congr fun W => ?_
   by_cases hW : α.1 W = 0
-  · rw [hW, zero_mul, finsum_eq_if, if_neg (not_not.2 rfl)]
-  · rw [finsum_eq_if, if_pos hW]
+  · rw [hW, zero_mul, finsum_eq_if, ite_eq_right (not_not.2 rfl)]
+  · rw [finsum_eq_if, ite_eq_left hW]
 
 /-- **A defect read on the closure of the image.** For `W ⊆ X` with closure `W'` of the image of
 `|W|` and the component morphism `g : W ⟶ W'` of Stacks 0EEG, the defect at `W` is the

@@ -131,6 +131,7 @@ public def centre : (Spec (CommRingCat.of A)).IdealSheafData :=
 public theorem centre_eq_idealSheafOf :
     centre A = idealSheafOf A (IsLocalRing.maximalIdeal A) := rfl
 
+omit [IsLocalRing A] in
 /-- **The sections of `idealSheafOf A L` over all of `Spec A`.** They form the extension of `L`
 along `ι : A ≅ Γ(Spec A, ⊤)`. -/
 public theorem idealSheafOf_ideal_top (L : Ideal A) :

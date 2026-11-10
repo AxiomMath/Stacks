@@ -265,7 +265,7 @@ theorem cechLocalizationTriangleShrink_distinguished (M : ModuleCat.{v} R) :
       (extendedCechAugmentationShrink.{v} f M)) _ ?_
   refine Triangle.isoMk _ _ (cechComparisonIsoShrink.{v} f I hI hIf M)
     (singleIsoQShrink.{v} (R := R) M) (Iso.refl _) ?_ ?_ ?_
-  · show (Dualizing.localCohomologyAdjunction R I hI).counit.app
+  · change (Dualizing.localCohomologyAdjunction R I hI).counit.app
         ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj M) ≫
         (singleIsoQShrink.{v} (R := R) M).hom =
       (cechComparisonIsoShrink.{v} f I hI hIf M).hom ≫
@@ -274,18 +274,18 @@ theorem cechLocalizationTriangleShrink_distinguished (M : ModuleCat.{v} R) :
     exact (congrArg (fun x => x ≫ (singleIsoQShrink.{v} (R := R) M).hom)
       (cechComparisonIsoShrink_hom_comp_augmentation.{v} f I hI hIf M)).symm.trans
       (Category.assoc _ _ _)
-  · show (cechRestrictionShrink.{v} f).app M ≫ (Iso.refl _).hom =
+  · change (cechRestrictionShrink.{v} f).app M ≫ (Iso.refl _).hom =
       (singleIsoQShrink.{v} (R := R) M).hom ≫
         DerivedCategory.Q.map (cechConeInrShrink.{v} f M)
     rw [Iso.refl_hom, Category.comp_id]
     rfl
-  · show (cechBoundaryShrink.{v} f I hI hIf).app M ≫
+  · change (cechBoundaryShrink.{v} f I hI hIf).app M ≫
         ((cechComparisonIsoShrink.{v} f I hI hIf M).hom)⟦(1 : ℤ)⟧' =
       (Iso.refl _).hom ≫ DerivedCategory.Q.map (cechConeDeltaShrink.{v} f M) ≫
         (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
           (Cech.extendedCechComplexShrink.{v} f (M : Type v))
     rw [Iso.refl_hom, Category.id_comp]
-    show (DerivedCategory.Q.map (cechConeDeltaShrink.{v} f M) ≫
+    change (DerivedCategory.Q.map (cechConeDeltaShrink.{v} f M) ≫
         (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
             (Cech.extendedCechComplexShrink.{v} f (M : Type v)) ≫
           ((cechComparisonIsoShrink.{v} f I hI hIf M).inv)⟦(1 : ℤ)⟧') ≫

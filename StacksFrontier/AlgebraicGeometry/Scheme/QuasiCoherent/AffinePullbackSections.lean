@@ -116,8 +116,7 @@ public noncomputable def extendScalarsTensorEquiv {R S : Type u} [CommRing R] [C
   let e := TensorProduct.congr eS (LinearEquiv.refl R (M : Type u))
   have key : ∀ (s : S) (w : A ⊗[R] (M : Type u)), e (s • w) = s • e w := by
     intro s w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul a m => rfl
     | add w w' hw hw' => rw [smul_add, map_add, map_add, smul_add, hw, hw']
   exact { e.toAddEquiv with map_smul' := key }
@@ -178,7 +177,7 @@ section attached to `m` corresponds to the pure tensor `1 ⊗ m`. -/
 public theorem pullbackTildeΓEquiv_unit (m : M) :
     pullbackTildeΓEquiv R S φ M (pullbackTildeΓUnit R S φ M m)
       = (1 : S) ⊗ₜ[R, φ.hom] m := by
-  show (tilde.isoTop ((ModuleCat.extendScalars φ.hom).obj M)).inv.hom
+  change (tilde.isoTop ((ModuleCat.extendScalars φ.hom).obj M)).inv.hom
     (((moduleSpecΓFunctor (R := S)).map (pullbackTildeComponent R S φ M).hom).hom
       (pullbackTildeΓUnit R S φ M m)) = _
   have key : ((moduleSpecΓFunctor (R := S)).map (pullbackTildeComponent R S φ M).hom).hom
@@ -225,8 +224,7 @@ public theorem span_range_pullbackTildeΓUnit :
     rw [pullbackTildeΓEquiv_symm_tmul, hP]
     exact Submodule.smul_mem _ s (Submodule.subset_span ⟨m, rfl⟩)
   have hmem (y : (ModuleCat.extendScalars φ.hom).obj M) : y ∈ Q := by
-    induction y using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction y using TensorProduct.inductionOn with
     | tmul a m => exact hbase a m
     | add y z hy hz => exact Submodule.add_mem _ hy hz
   refine eq_top_iff.2 fun x _ ↦ ?_
@@ -254,7 +252,7 @@ public theorem pullbackTildeΓTensorEquiv_unit {R S : Type u} [CommRing R] [Comm
         (pullbackTildeΓUnit (CommRingCat.of R) (CommRingCat.of S)
           (CommRingCat.ofHom (algebraMap R S)) M m)
       = (1 : S) ⊗ₜ[R] m := by
-  show extendScalarsTensorEquiv M
+  change extendScalarsTensorEquiv M
       (pullbackTildeΓEquiv (CommRingCat.of R) (CommRingCat.of S)
         (CommRingCat.ofHom (algebraMap R S)) M
         (pullbackTildeΓUnit (CommRingCat.of R) (CommRingCat.of S)

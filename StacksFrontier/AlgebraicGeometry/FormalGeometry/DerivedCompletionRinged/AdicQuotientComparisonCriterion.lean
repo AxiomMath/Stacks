@@ -114,7 +114,7 @@ theorem exists_cone_shift_of_triangleTower {Y B : D} (T A : ℕᵒᵖ ⥤ D)
     intro n
     refine (Triangle.mk (α n) (β n) (γ n)).rotate.coyoneda_exact₃
       (rot_of_distTriang _ (htri n)) ((shiftFunctor D (1 : ℤ)).map (w n)) ?_
-    show (shiftFunctor D (1 : ℤ)).map (w n) ≫ (-(shiftFunctor D (1 : ℤ)).map (α n)) = 0
+    change (shiftFunctor D (1 : ℤ)).map (w n) ≫ (-(shiftFunctor D (1 : ℤ)).map (α n)) = 0
     rw [Preadditive.comp_neg, ← Functor.map_comp, hwα n, Functor.map_zero, neg_zero]
   choose u hu using hex
   refine ⟨u, fun n => ?_, ?_⟩

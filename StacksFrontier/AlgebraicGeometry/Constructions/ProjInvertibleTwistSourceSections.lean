@@ -25,7 +25,8 @@ The squares proved in
 their `θ_n` is the comparison attached to `ψ_ℓ : 𝒜 →+*ᵍ ℬ`, carrying a section of `𝒪_P(n)` to one
 of `𝒪_{P'}(n)`. **This file states the square in the source's direction**, for a twisting module
 with a global generator, by the same device as
-`StacksFrontier/AlgebraicGeometry/Constructions/ProjInvertibleTwistSourceTheta.lean`: for a generator
+`StacksFrontier/AlgebraicGeometry/Constructions/ProjInvertibleTwistSourceTheta.lean`: for a
+generator
 the comparison is an isomorphism of graded rings, and [Stacks, Tag 01MY]'s homogeneous-sections
 clause `Stacks.AlgebraicGeometry.ProjTwistTheta.twistMap_degreeSection`, which holds for every
 homomorphism of graded rings, applied to the inverse comparison gives exactly this square.

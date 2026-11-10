@@ -54,7 +54,7 @@ private theorem firstOrderThickening_sections_mul_eq_zero
     change i.ker.ideal ⟨V, hV⟩ ^ 2 = ⊥ at hsq
     rw [← pow_two, hsq] at hm
     exact hm
-  show Y.presheaf.germ U x hx (a * b) = Y.presheaf.germ U x hx 0
+  change Y.presheaf.germ U x hx (a * b) = Y.presheaf.germ U x hx 0
   rw [← TopCat.Presheaf.germ_res_apply Y.presheaf j x hxV (a * b)]
   simp only [map_mul, hz, map_zero]
 
@@ -103,7 +103,7 @@ private theorem firstOrderThickening_kernel_descends {X Y : Scheme.{u}}
       (((kernel.ι (immersionStructureMap i)).val.app (Opposite.op U)).hom.map_smul a m) ?_
     refine Eq.trans ?_
       ((kernel.ι (immersionStructureMap i)).val.app (Opposite.op U)).hom.map_zero.symm
-    show (a : Γ(Y, U)) * (show Γ(Y, U) from
+    change (a : Γ(Y, U)) * (show Γ(Y, U) from
       ((kernel.ι (immersionStructureMap i)).val.app (Opposite.op U)) m) = 0
     apply firstOrderThickening_sections_mul_eq_zero i hi U a _ ha
     exact (immersionKernel_sections_exact i U).apply_apply_eq_zero m
@@ -171,7 +171,7 @@ private theorem transportedKernelInclusion_naturality {X Y : Scheme.{u}}
     transportedKernelInclusion i hi I j V (I.val.map f x) =
       (transportedStructureSheaf (firstOrderThickeningBaseIso i hi)).presheaf.map f
         (transportedKernelInclusion i hi I j U x) := by
-  show j.val.app _ (I.val.map (eqToHom
+  change j.val.app _ (I.val.map (eqToHom
     (baseIso_preimage_inv (firstOrderThickeningBaseIso i hi) V.unop)).op (I.val.map f x)) =
     (SheafOfModules.unit Y.ringCatSheaf).val.map
       ((Opens.map (firstOrderThickeningBaseIso i hi).inv).op.map f) (j.val.app _ (I.val.map _ x))
@@ -238,7 +238,7 @@ private theorem transportedInclusion_eq {X Y : Scheme.{u}}
   apply SheafedSpace.ext _ _ (firstOrderThickeningBaseIso i hi).hom_inv_id
   apply NatTrans.ext
   funext U
-  show (𝟙 _ ≫ i.app _) ≫ X.presheaf.map _ = i.app _ ≫ X.presheaf.map _
+  change (𝟙 _ ≫ i.app _) ≫ X.presheaf.map _ = i.app _ ≫ X.presheaf.map _
   simp only [Category.id_comp]
   congr 2
   exact Subsingleton.elim _ _
@@ -251,11 +251,11 @@ private theorem transportedQuotient_locallySurjective {X Y : Scheme.{u}}
   intro x
   have hs : (transportedInclusion i hi).hom.stalkMap x =
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom := by
-    show (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom ≫
+    change (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom ≫
         TopCat.Presheaf.stalkPushforward CommRingCat (𝟙 (X : TopCat)) X.presheaf x =
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom
     rw [TopCat.Presheaf.stalkPushforward.id]
-    show (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom ≫
+    change (TopCat.Presheaf.stalkFunctor CommRingCat x).map (transportedQuotient i hi).hom ≫
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map
         (TopCat.Presheaf.Pushforward.id X.presheaf).hom = _
     refine Eq.trans ((TopCat.Presheaf.stalkFunctor CommRingCat x).map_comp
@@ -289,7 +289,7 @@ private theorem transportedQuotient_locallySurjective {X Y : Scheme.{u}}
     (congrArg (fun f => f.hom) (transportedInclusion_eq i hi).symm) x
   rw [hh]
   refine keyEq _ _ ?_
-  show Function.Surjective ((i.toLRSHom.toShHom.hom ≫
+  change Function.Surjective ((i.toLRSHom.toShHom.hom ≫
     (transportedStructureIso (firstOrderThickeningBaseIso i hi)).hom.hom).stalkMap x)
   rw [PresheafedSpace.stalkMap.comp]
   refine key _ _ ?_ ?_
@@ -306,7 +306,7 @@ private theorem transportedKernelInclusion_mem_kernel {X Y : Scheme.{u}}
     (transportedQuotient i hi).hom.app U (transportedKernelInclusion i hi I j U x) = 0 := by
   have hj' := hj (Opposite.op ((Opens.map (firstOrderThickeningBaseIso i hi).inv).obj U.unop))
     (I.val.map (eqToHom (baseIso_preimage_inv (firstOrderThickeningBaseIso i hi) U.unop)).op x)
-  show X.presheaf.map _ (i.app _ (j.val.app _
+  change X.presheaf.map _ (i.app _ (j.val.app _
     (I.val.map (eqToHom
       (baseIso_preimage_inv (firstOrderThickeningBaseIso i hi) U.unop)).op x))) = 0
   rw [hj', map_zero]
@@ -341,14 +341,14 @@ private theorem transportedKernelInclusion_exact {X Y : Scheme.{u}}
   let v : I.val.obj (Opposite.op (i ⁻¹ᵁ V)) := e.inv.val.app (Opposite.op V) k
   refine ⟨I.val.map (eqToHom (baseIso_preimage_inv
     (firstOrderThickeningBaseIso i hi) U.unop).symm).op v, ?_, ?_⟩
-  · show (kernel.ι (immersionStructureMap i)).val.app (Opposite.op V)
+  · change (kernel.ι (immersionStructureMap i)).val.app (Opposite.op V)
       (e.hom.val.app (Opposite.op V) (I.val.map t.op (I.val.map (eqToHom
         (baseIso_preimage_inv (firstOrderThickeningBaseIso i hi) U.unop).symm).op v))) = a
     have hv : I.val.map t.op (I.val.map (eqToHom
         (baseIso_preimage_inv (firstOrderThickeningBaseIso i hi) U.unop).symm).op v) = v := by
       exact map_map_apply_of_comp_eq_id I.val.presheaf _ t.op (Subsingleton.elim _ _) v
     rw [hv]
-    show (kernel.ι (immersionStructureMap i)).val.app (Opposite.op V)
+    change (kernel.ι (immersionStructureMap i)).val.app (Opposite.op V)
       (e.hom.val.app (Opposite.op V) (e.inv.val.app (Opposite.op V) k)) = a
     have he := ConcreteCategory.congr_hom
       (congrArg (fun f => f.val.app (Opposite.op V)) e.inv_hom_id) k
@@ -362,7 +362,7 @@ private theorem transportedKernelInclusion_exact {X Y : Scheme.{u}}
       (congrArg (fun f => f.val.app (Opposite.op V)) e.hom_inv_id) (I.val.map t.op x)
     change e.inv.val.app _ (e.hom.val.app _ (I.val.map t.op x)) = I.val.map t.op x at he
     rw [hx'] at he
-    show x = I.val.map _ v
+    change x = I.val.map _ v
     rw [show v = I.val.map t.op x from he]
     exact (map_map_apply_of_comp_eq_id I.val.presheaf t.op _ (Subsingleton.elim _ _) x).symm
 

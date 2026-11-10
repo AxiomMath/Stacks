@@ -237,7 +237,7 @@ lemma atiyahDifferentialsBaseChangeObjIso_naturality {V W : (atiyahSite A B)ᵒ�
     (augmentationRingHom (atiyahOverObj A B V)).toAlgebra
   let : Algebra (atiyahSiteRing A B W) (B : Type u) :=
     (augmentationRingHom (atiyahOverObj A B W)).toAlgebra
-  show ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings
+  change ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings
             (atiyahAugmentationComm A B).hom).obj
           (atiyahRelativeDifferentialsPresheaf A B)).map g ≫
         (((ModuleCat.extendScalars ((atiyahAugmentationComm A B).hom.app W).hom).mapIso

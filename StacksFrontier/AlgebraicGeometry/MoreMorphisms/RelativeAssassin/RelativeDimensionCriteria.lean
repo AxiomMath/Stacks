@@ -124,7 +124,7 @@ private theorem isGenericPoint_asFiber (f : X ⟶ S) (t : X)
 private theorem mem_genericPoints_of_isGenericPoint {T : Type*} [TopologicalSpace T] {t : T}
     {C : Set T} (hC : C ∈ irreducibleComponents T) (htC : IsGenericPoint t C) :
     t ∈ genericPoints T := by
-  show closure ({t} : Set T) ∈ irreducibleComponents T
+  change closure ({t} : Set T) ∈ irreducibleComponents T
   rwa [htC.def]
 
 /-- The inclusion of the fibre of a closed subscheme into the fibre of the ambient scheme. -/

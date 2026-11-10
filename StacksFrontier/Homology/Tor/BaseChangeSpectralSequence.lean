@@ -198,7 +198,7 @@ private theorem torResolutionComplex_bounded
   intro i hi
   let C := (((CochainComplex.Tor.moduleTensorBifunctor B).obj M).mapHomologicalComplex
     (ComplexShape.down ℕ)).obj (ProjectiveResolution.of N).complex
-  show IsZero ((ModuleCat.restrictScalars (algebraMap A B)).obj
+  change IsZero ((ModuleCat.restrictScalars (algebraMap A B)).obj
     ((C.extend ComplexShape.embeddingDownNat).X i))
   apply (ModuleCat.restrictScalars (algebraMap A B)).map_isZero
   apply HomologicalComplex.isZero_extend_X C ComplexShape.embeddingDownNat i
@@ -223,7 +223,7 @@ private theorem flat_of_injective_of_surjective
   have hc : (f.rTensor N).comp (i.lTensor V) =
       (i.lTensor W).comp (f.rTensor M) := by
     rw [LinearMap.rTensor_comp_lTensor, LinearMap.lTensor_comp_rTensor]
-  show ((f.rTensor N).comp (i.lTensor V)) x =
+  change ((f.rTensor N).comp (i.lTensor V)) x =
     ((f.rTensor N).comp (i.lTensor V)) y
   rw [hc]
   exact congrArg (i.lTensor W) hxy
@@ -235,7 +235,7 @@ private theorem flatOfProjectiveOverFlatAlgebra
   let : Module A P := Module.compHom P (algebraMap A B)
   let : IsScalarTower A B P :=
     IsScalarTower.of_algebraMap_smul (fun _ _ ↦ rfl)
-  show Module.Flat A P
+  change Module.Flat A P
   exact Module.Flat.trans A B P
 
 private theorem flatTensorOfProjective
@@ -253,7 +253,7 @@ private theorem flatTensorOfProjective
   let : AddCommGroup Q := Module.addCommMonoidToAddCommGroup B
   let : Module A M := Module.compHom M (algebraMap A B)
   have : Module.Flat A M := by
-    show Module.Flat A (restrictScalars A B M)
+    change Module.Flat A (restrictScalars A B M)
     infer_instance
   let : IsScalarTower A B M :=
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
@@ -276,7 +276,7 @@ private theorem flatTensorOfProjective
   let sT := (s.rTensor M).restrictScalars A
   apply Module.Flat.of_retract iT sT
   refine LinearMap.ext fun x => ?_
-  show (s.rTensor M) ((i.rTensor M) x) = x
+  change (s.rTensor M) ((i.rTensor M) x) = x
   rw [← LinearMap.comp_apply, ← LinearMap.rTensor_comp, his]
   simp
 
@@ -291,7 +291,7 @@ private theorem torResolutionComplex_flat
   let C := (F.mapHomologicalComplex (ComplexShape.down ℕ)).obj
     (ProjectiveResolution.of N).complex
   let R := ModuleCat.restrictScalars (algebraMap A B)
-  show Module.Flat A (R.obj ((C.extend ComplexShape.embeddingDownNat).X i))
+  change Module.Flat A (R.obj ((C.extend ComplexShape.embeddingDownNat).X i))
   cases hi : ComplexShape.embeddingDownNat.r i with
   | none =>
       have hz : IsZero ((C.extend ComplexShape.embeddingDownNat).X i) := by
@@ -324,14 +324,14 @@ private theorem torResolutionComplex_flat
           IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
         have h : Module.Flat A (P ⊗[B] M) :=
           flatTensorOfProjective A B P M
-        show Module.Flat A (M ⊗[B] P)
+        change Module.Flat A (M ⊗[B] P)
         have : LinearMap.CompatibleSMul (M ⊗[B] P) (P ⊗[B] M) A B :=
           ⟨fun f a x => by
-            show f ((algebraMap A B a) • x) = (algebraMap A B a) • f x
+            change f ((algebraMap A B a) • x) = (algebraMap A B a) • f x
             exact map_smul f _ _⟩
         have : LinearMap.CompatibleSMul (P ⊗[B] M) (M ⊗[B] P) A B :=
           ⟨fun f a x => by
-            show f ((algebraMap A B a) • x) = (algebraMap A B a) • f x
+            change f ((algebraMap A B a) • x) = (algebraMap A B a) • f x
             exact map_smul f _ _⟩
         have compat : LinearMap.CompatibleSMul (M ⊗[B] P) (P ⊗[B] M) A B :=
           inferInstance
@@ -431,7 +431,7 @@ private lemma baseChangeRestrictLinearEquiv_naturality
   let : IsScalarTower A B N := IsScalarTower.of_algebraMap_smul (fun _ _ ↦ rfl)
   apply TensorProduct.ext'
   intro a m
-  show (Algebra.IsPushout.cancelBaseChange A A' B (BaseChangedAlgebra A B A') N).symm
+  change (Algebra.IsPushout.cancelBaseChange A A' B (BaseChangedAlgebra A B A') N).symm
       (a.down ⊗ₜ[A] f m) =
     (f.hom.baseChange (BaseChangedAlgebra A B A'))
       ((Algebra.IsPushout.cancelBaseChange A A' B (BaseChangedAlgebra A B A') M).symm
@@ -592,8 +592,7 @@ private noncomputable def tensorBaseChangeRestrictIso
   apply TensorProduct.ext'
   intro a t
   let : Algebra A' (BaseChangedAlgebra A B A') := Algebra.TensorProduct.rightAlgebra
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.tmul_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, TensorProduct.tmul_add, ht, ht']
   | tmul m x =>
     let : Module A (M ⊗[B] X) := Module.compHom _ (algebraMap A B)
@@ -740,7 +739,7 @@ public theorem exists_tor_base_change_spectral_sequence
   let K := torResolutionComplex A B M N
   have hflat : ∀ i : ℤ, Module.Flat A (K.X i) := torResolutionComplex_flat A B M N
   have hle : K.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       (((ModuleCat.restrictScalars (algebraMap A B)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj _) 0
     rw [CochainComplex.isStrictlyLE_mapHomologicalComplex_obj_iff]

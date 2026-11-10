@@ -162,7 +162,7 @@ lemma stageCochain_precomp
       ((homOpMapLeft X.smallEtaleTopology (f.f (⟨(p, q), hpq⟩ : HomOpIndex m).1.1)
         ((zmodForgetComplex K).X (⟨(p, q), hpq⟩ : HomOpIndex m).1.2)).hom.app (op W)).hom
         (homOpComplexStageπ W L K ⟨(p, q), hpq⟩ s) := by
-    show ((homOpComplexPrecompX (M := zmodForgetComplex K) f m ≫
+    change ((homOpComplexPrecompX (M := zmodForgetComplex K) f m ≫
       homOpComplexπ X.smallEtaleTopology L' (zmodForgetComplex K) m ⟨(p, q), hpq⟩).hom.app
         (op W)).hom s = _
     rw [homOpComplexPrecompX_π]
@@ -292,7 +292,7 @@ theorem exists_homOpComplex_stage_eq_d (m : ℤ)
     Cocycle.mk _ (m + 1 + 1) rfl hc
   let g := ((stageRestrict W ψ).mapHomologicalComplex (ComplexShape.up ℤ)).map f
   have h1 : cohomologyClassMap g (𝟙 _) (m + 1) (CohomologyClass.mk zc) = 0 := by
-    show CohomologyClass.mk (cocycleMap g (𝟙 _) (m + 1) zc) = 0
+    change CohomologyClass.mk (cocycleMap g (𝟙 _) (m + 1) zc) = 0
     rw [CohomologyClass.mk_eq_zero_iff, mem_coboundaries_iff _ m rfl]
     exact ⟨stageCochain W ψ L' K m z, ((stageCochain_d W ψ L' K m z).symm.trans
       (congrArg (stageCochain W ψ L' K (m + 1)) hz'.symm)).trans

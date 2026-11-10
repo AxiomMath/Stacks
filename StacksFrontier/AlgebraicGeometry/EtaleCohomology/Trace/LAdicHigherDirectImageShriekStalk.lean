@@ -68,7 +68,7 @@ theorem charpoly_eq_of_comm_iso {ℓ : ℕ} [Fact ℓ.Prime] {M N : ModuleCat.{u
     have := congrArg (fun t => t.hom (e.inv.hom v)) h
     simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at this
     simp only [LinearEquiv.conj_apply, LinearMap.comp_apply]
-    show e.hom.hom (φ.hom (e.inv.hom v)) = ψ.hom v
+    change e.hom.hom (φ.hom (e.inv.hom v)) = ψ.hom v
     rw [this]
     congr 1
     exact congrArg (fun t => t.hom v) e.inv_hom_id
@@ -202,7 +202,7 @@ theorem LAdicSheaf.charpoly_rationalStalkFrobenius_higherDirectImageShriek
   let tors' : ℕᵒᵖ ⥤ Pw.FullSubcategory :=
     ObjectProperty.lift _ (tors ⋙ Pt.ι ⋙ etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map ιw))
       (fun m => ⟨m.unop + 1, by
-        show ℓ ^ (m.unop + 1) • 𝟙 ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ]
+        change ℓ ^ (m.unop + 1) • 𝟙 ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ]
           (B.inclusion.map ιw)).obj (towerObj (LAdicSheaf.padicTower B U ℓ F') m.unop)) = 0
         rw [← CategoryTheory.Functor.map_id, ← Functor.map_nsmul,
           LAdicSheaf.padicTower_annihilated B U ℓ F' m.unop, Functor.map_zero]⟩)
@@ -213,7 +213,7 @@ theorem LAdicSheaf.charpoly_rationalStalkFrobenius_higherDirectImageShriek
   let α₃ := Functor.whiskerRight L.stableImageι Φ
   have : IsIso (limMap α₃) := L.isIso_limMap_whiskerRight_stableImageι Φ
   have hα₃ : IsIso ((rationalLim.{u + 1} (ℓ := ℓ)).map α₃) := by
-    show IsIso ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map (limMap α₃))
+    change IsIso ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map (limMap α₃))
     infer_instance
   let e₃ := @asIso _ _ _ _ ((rationalLim.{u + 1} (ℓ := ℓ)).map α₃) hα₃
   let e₄ := Functor.isoWhiskerLeft tors (Functor.isoWhiskerRight BC H0)
@@ -225,12 +225,12 @@ theorem LAdicSheaf.charpoly_rationalStalkFrobenius_higherDirectImageShriek
     (LAdicSheaf.inverseImageMap ιw (LAdicSheaf.fromTorsionFreeModel G (LAdicSheaf.torsionBound G)))
     (LAdicSheaf.inverseImageMap ιw (LAdicSheaf.toTorsionFreeModel G (LAdicSheaf.torsionBound G)))
     (LAdicSheaf.torsionBound G) (by
-      show (LAdicSheaf.inverseImageFunctor ιw).map _ ≫
+      change (LAdicSheaf.inverseImageFunctor ιw).map _ ≫
         (LAdicSheaf.inverseImageFunctor ιw).map _ = _
       rw [← Functor.map_comp, LAdicSheaf.fromTorsionFreeModel_comp_toTorsionFreeModel,
         Functor.map_nsmul, CategoryTheory.Functor.map_id]
       rfl) (by
-      show (LAdicSheaf.inverseImageFunctor ιw).map _ ≫
+      change (LAdicSheaf.inverseImageFunctor ιw).map _ ≫
         (LAdicSheaf.inverseImageFunctor ιw).map _ = _
       rw [← Functor.map_comp, LAdicSheaf.toTorsionFreeModel_comp_fromTorsionFreeModel,
         Functor.map_nsmul, CategoryTheory.Functor.map_id]
@@ -292,7 +292,7 @@ theorem LAdicSheaf.charpoly_rationalStalkFrobenius_higherDirectImageShriek
       _ = ((rationalLim.{u + 1} (ℓ := ℓ)).map (Functor.whiskerLeft
           (LAdicSheaf.lowerShriekTower B ℓ g jg G r) φΦ)).hom.charpoly :=
         charpoly_eq_of_comm_iso hF2 hF3 e₃ _ _ (by
-          show (rationalLim.{u + 1} (ℓ := ℓ)).map _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map α₃ =
+          change (rationalLim.{u + 1} (ℓ := ℓ)).map _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map α₃ =
             (rationalLim.{u + 1} (ℓ := ℓ)).map α₃ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _
           rw [← Functor.map_comp, ← Functor.map_comp]
           congr 1

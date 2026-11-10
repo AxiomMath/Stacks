@@ -96,14 +96,14 @@ lemma shortExact_of_isPullback {P X Y Z : A} {p : P ⟶ X} {q : P ⟶ Y} {f : X 
       (ShortComplex.mk (biprod.lift p q) (biprod.desc f (-g)) hz).zero) := by
     refine IsLimit.ofIsoLimit hlim (Fork.ext h.isoPullback.symm ?_)
     rw [Iso.symm_hom, Fork.ι_ofι]
-    show h.isoPullback.inv ≫ biprod.lift p q = _
+    change h.isoPullback.inv ≫ biprod.lift p q = _
     rw [hlift, Iso.inv_hom_id_assoc]
     rfl
   refine ShortComplex.ShortExact.mk' (ShortComplex.exact_of_f_is_kernel _ hker)
     (mono_of_isLimit_fork hker) ?_
   have : Epi (biprod.inr ≫
       (ShortComplex.mk (biprod.lift p q) (biprod.desc f (-g)) hz).g) := by
-    show Epi (biprod.inr ≫ biprod.desc f (-g))
+    change Epi (biprod.inr ≫ biprod.desc f (-g))
     rw [biprod.inr_desc]
     infer_instance
   exact epi_of_epi biprod.inr _

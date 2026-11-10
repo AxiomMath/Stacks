@@ -99,11 +99,11 @@ theorem isPerfect_of_isPullback {A A' : Type u} [CommRing A] [CommRing A'] (φ :
       StacksDraft.PseudoCoherence.extendScalarsDerivedIsoOfFlat φ P b⟩⟩
   · let := φ.toAlgebra
     have := hfin i
-    show Module.Finite A' (TensorProduct A A' (P.X i))
+    change Module.Finite A' (TensorProduct A A' (P.X i))
     infer_instance
   · let := φ.toAlgebra
     have := hproj i
-    show Module.Projective A' (TensorProduct A A' (P.X i))
+    change Module.Projective A' (TensorProduct A A' (P.X i))
     infer_instance
 
 /-- `RΓ` depends only on the isomorphism class of the module. -/
@@ -157,7 +157,7 @@ theorem exists_isPullback_stage_of_isProper (hc : IsLimit c) {X : Scheme.{u}} (f
     simpa using Over.w e.hom
   refine ⟨j, Z.left, Z.hom, e.hom.left ≫ pullback.fst Z.hom (c.π.app j), hZp, hZfp,
     (IsPullback.of_iso_pullback ⟨?_⟩ ((Over.forget _).mapIso e) rfl he).flip⟩
-  show (e.hom.left ≫ pullback.fst Z.hom (c.π.app j)) ≫ Z.hom = f ≫ c.π.app j
+  change (e.hom.left ≫ pullback.fst Z.hom (c.π.app j)) ≫ Z.hom = f ≫ c.π.app j
   rw [Category.assoc, pullback.condition, ← Category.assoc, he]
 
 /-- A proper morphism of finite presentation to the limit of a cofiltered system of qcqs schemes
@@ -235,7 +235,7 @@ theorem exists_isFlatOver_stage_of_isPullback (hc : IsLimit c) {i : I} {X Y : Sc
   let s₁ : pullback (𝟙 (D.obj i)) (c.π.app i) ⟶ c.pt := pullback.snd (𝟙 _) (c.π.app i)
   have hm : ∀ {T : Scheme.{u}} (t : T ⟶ D.obj i),
       ((Over.pullback t).map fX).left ≫ pullback.snd (𝟙 (D.obj i)) t = pullback.snd hk t :=
-    fun t => by simpa [fX, X₀, Y₀, Over.pullback_map_left] using pullback.lift_snd _ _ _
+    fun t => by simp [fX, X₀, Y₀, Over.pullback_map_left]
   have hsq₁ : IsPullback τ.inv ((Over.pullback (c.π.app i)).map fX).left f s₁ :=
     IsPullback.of_horiz_isIso ⟨by rw [hm]; simp [τ]⟩
   have : G.IsQuasicoherent := isQuasicoherent_of_isFinitePresentation G

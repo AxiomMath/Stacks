@@ -94,7 +94,7 @@ theorem isConstructibleEtaleAbelianSheaf_extensionByZero {U X : Scheme.{u}} (j :
   let e : (_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, u + 1} (ULift.{u + 1} ℤ) X).obj
       ((etaleModuleExtensionByZero.{u, u + 1} (ULift.{u + 1} ℤ) j).obj G) ≅
       (extensionByZero.{u, 0} j).obj F :=
-    ((asIso (etaleModuleExtensionByZeroForget.{u, u + 1} (ULift.{u + 1} ℤ) j).natTrans).app
+    ((asIso (etaleModuleExtensionByZeroForget.{u, u + 1} (ULift.{u + 1} ℤ) j)).app
       G).symm ≪≫ (extensionByZero.{u, 0} j).mapIso (E.counitIso.app F)
   have hkill : (n : ℤ) • 𝟙 ((extensionByZero.{u, 0} j).obj F) = 0 := by
     rw [← CategoryTheory.Functor.map_id, ← Functor.map_zsmul, hFn, Functor.map_zero]

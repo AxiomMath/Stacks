@@ -96,7 +96,7 @@ theorem intersection_sub_weight_le_addSlack (s : Finset (Fin T.componentCount))
   have hmul : 0 ≤ ((P.card : ℤ) - 1) * (T.weight W - 1) := mul_nonneg (by omega) (by omega)
   unfold addSlack
   rw [hcard] at h3
-  show T.intersection W j - T.weight W ≤
+  change T.intersection W j - T.weight W ≤
     ∑ j ∈ s, T.intersection W j - (P.card : ℤ) - (T.weight W - 1)
   nlinarith
 

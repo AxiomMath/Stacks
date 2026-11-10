@@ -165,7 +165,7 @@ theorem finiteDimensional_infinitesimalAutomorphismFunctor_obj_of_natural_surjec
       t W ((G.map f) g) = (F.map f) (t V g) := by
     intro V W f g
     apply (I.autEquiv _).injective
-    show I.autEquiv _ ((I.autEquiv _).symm (θ W (G.map f g))) =
+    change I.autEquiv _ ((I.autEquiv _).symm (θ W (G.map f g))) =
       I.autEquiv _ (I.functor.map ((fgSiteModule B hk).map f) ((I.autEquiv _).symm (θ V g)))
     rw [Equiv.apply_symm_apply, I.autEquiv_natural, Equiv.apply_symm_apply]
     exact hθ f g
@@ -200,7 +200,7 @@ private theorem finiteDimensional_tangentModuleAt_of_tangentFunctor
   let T := tangentFunctor k B S hS toS hk _ x hx' hp hRS
   let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor (predeformationCategory iΛ
       (p ⋙ Over.post B.inclusion) x hx₀).projection).p) := ⟨hD.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor (predeformationCategory iΛ
         (p ⋙ Over.post B.inclusion) x hx₀).projection)
         hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩

@@ -294,7 +294,7 @@ theorem restrictBothMap_modelsComparison_eq :
           (kFlatQuotientCompQIso (Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf)).symm).hom ≫
         restrictBothMap (kFlatQuotientY (Y := Y)) (curryModelsTensorOfPullbacksIso f).hom := by
   ext K₁ K₂
-  show (modelsComparison f).hom.app ((kFlatQuotientY (Y := Y)).obj K₁,
+  change (modelsComparison f).hom.app ((kFlatQuotientY (Y := Y)).obj K₁,
       (kFlatQuotientY (Y := Y)).obj K₂) =
     ((restrictBothMap (kFlatQuotientY (Y := Y)) (curryModelsPullbackOfTensorIso f).inv).app
         K₁).app K₂ ≫
@@ -334,7 +334,7 @@ theorem modelsComparison_restrict_app_commShift (K₁ : (kFlatComplexesY (Y := Y
   let := kFlatQuotient_commShift (Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf)
   let := curryModelsPullbackOfTensor_commShift₂Int f
   let := curryModelsTensorOfPullbacks_commShift₂Int f
-  show NatTrans.CommShift ((restrictBothMap (kFlatQuotientY (Y := Y))
+  change NatTrans.CommShift ((restrictBothMap (kFlatQuotientY (Y := Y))
     (Functor.curry.map (modelsComparison f).hom)).app K₁) ℤ
   rw [restrictBothMap_modelsComparison_eq f]
   exact NatTrans.commShift_comp_of_eq_data _ _ ((modelsFactor₁_commShift₂ f).commShift_app K₁)
@@ -359,7 +359,7 @@ theorem modelsComparison_restrict_flipApp_commShift
   let := kFlatQuotient_commShift (Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf)
   let := curryModelsPullbackOfTensor_commShift₂Int f
   let := curryModelsTensorOfPullbacks_commShift₂Int f
-  show NatTrans.CommShift ((restrictBothMap (kFlatQuotientY (Y := Y))
+  change NatTrans.CommShift ((restrictBothMap (kFlatQuotientY (Y := Y))
     (Functor.curry.map (modelsComparison f).hom)).flipApp K₂) ℤ
   rw [restrictBothMap_modelsComparison_eq f]
   exact NatTrans.commShift_comp_of_eq_data _ _ ((modelsFactor₁_commShift₂ f).commShift_flipApp K₂)

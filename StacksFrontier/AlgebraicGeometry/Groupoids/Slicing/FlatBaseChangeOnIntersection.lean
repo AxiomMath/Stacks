@@ -96,7 +96,7 @@ lemma Scheme.presheaf_map_stageToSubset (X : Scheme.{u}) {I : Type u} (U : I →
     (homOfLE (by intro x hx; exact hE i.val x.2)).op
   let bt : (op (Om.obj (⊤ : X.Opens)) : (TopologicalSpace.Opens E)ᵒᵖ) ⟶ op ⊤ :=
     (homOfLE (by intro x _; trivial)).op
-  show X.toSheafedSpace.sheaf.obj.map a ≫ η.app (op (U i.val)) ≫ P.map bi =
+  change X.toSheafedSpace.sheaf.obj.map a ≫ η.app (op (U i.val)) ≫ P.map bi =
     η.app (op ⊤) ≫ P.map bt
   have step1 : X.toSheafedSpace.sheaf.obj.map a ≫ η.app (op (U i.val)) =
       η.app (op ⊤) ≫ P.map a' := η.naturality a

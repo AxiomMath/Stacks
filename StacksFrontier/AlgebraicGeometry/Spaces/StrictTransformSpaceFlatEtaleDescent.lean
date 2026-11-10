@@ -72,7 +72,7 @@ theorem isLocallyOfFinitePresentation_of_comp_of_isEtale_of_isSurjective
     ⟨PUnit.{1}, _, _, rfl, hY, fun _ => hX, isFppfCovering_of_isEtaleCovering B S hS
       ⟨hY, fun _ => hX, fun _ => hq,
         Set.eq_univ_iff_forall.mpr fun y => Set.mem_iUnion.mpr ⟨⟨⟩, hqs y⟩⟩⟩
-  show P (ObjectProperty.homMk f : Ys ⟶ Zs)
+  change P (ObjectProperty.homMk f : Ys ⟶ Zs)
   exact MorphismProperty.IsLocalAtSource.of_forall_comp (P := P) hR fun _ _ ⟨_⟩ => hf
 
 /-- The inverse image of a closed subspace along the identity is the closed subspace itself. -/
@@ -132,7 +132,7 @@ theorem isFlat_and_isLocallyOfFinitePresentation_strictTransformSpaceToBlowUp_of
   have hGpcl : IsClosedSubspace B S hS (G.preimage can.hom) :=
     isClosedSubspace_preimage B S hS can.hom G (strictTransformPullback B S hS f b).2
       (strictTransformPullback B S hS (u ≫ f) b).2 hGcl
-  show IsFlat B S hS (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom) ∧
+  change IsFlat B S hS (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom) ∧
     IsLocallyOfFinitePresentation B S hS
       (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom)
   -- the morphism `m : A' ⟶ A'` of part (1) is an isomorphism, being a base change of `𝟙 A`

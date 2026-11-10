@@ -140,7 +140,7 @@ theorem hasEtaleContraction_of_scheme {S : Scheme.{u}}
     have e1 := Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField A a
     have e2 := Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField j a
     have e3 := S.residueFieldCongr_fromSpecResidueField ha
-    show (Spec.map ((Scheme.Spec.residueFieldIso A a).inv ≫ inv (j.residueFieldMap a) ≫
+    change (Spec.map ((Scheme.Spec.residueFieldIso A a).inv ≫ inv (j.residueFieldMap a) ≫
       (S.residueFieldCongr ha).hom) ≫ _) ≫ j = _
     rw [Spec.map_comp, Spec.map_comp, Category.assoc, Category.assoc, reassoc_of% e1, ← e2,
       ← Category.assoc, Category.assoc (Spec.map (S.residueFieldCongr ha).hom),
@@ -198,7 +198,7 @@ theorem exists_elementaryEtaleNeighborhood_of_lift {S U : Scheme.{u}} (s : S) (e
     exact h1.trans (Scheme.fromSpecResidueField_apply s pt)
   refine ⟨⟨U, t pt, e, hpt⟩, ?_, rfl, by simp, fun x => ?_⟩
   · rw [EtaleNeighborhood.isElementary_iff]
-    show IsIso (e.residueFieldMap (t pt))
+    change IsIso (e.residueFieldMap (t pt))
     have hω : IsIso ((t ≫ e).residueFieldMap pt) := by
       rw [ht]
       exact isIso_residueFieldMap_fromSpecResidueField S s pt
@@ -209,7 +209,7 @@ theorem exists_elementaryEtaleNeighborhood_of_lift {S U : Scheme.{u}} (s : S) (e
       ⟨(t.residueFieldMap pt).hom.injective, hab.2.of_comp⟩
     rw [ConcreteCategory.isIso_iff_bijective]
     exact (Function.Bijective.of_comp_iff' hb _).mp hab
-  · show t x = t pt
+  · change t x = t pt
     exact congrArg t (Subsingleton.elim x pt)
 
 /-- Let `F` be a family of curves (Stacks 0D4Z) over a scheme `S` of the site, `s ∈ S`, `X₀` the

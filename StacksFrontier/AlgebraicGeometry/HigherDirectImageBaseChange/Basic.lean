@@ -501,7 +501,7 @@ public theorem δ_comp_higherBaseChangeNat {T : ShortComplex X.Modules} (hT : T.
       higherBaseChangeNat f g f' g' w q T.X₃ ≫
         (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
           (Scheme.Modules.pushforward f')).δ hT' q := by
-  show (Scheme.Modules.pullback g).map
+  change (Scheme.Modules.pullback g).map
       ((Stacks.DerivedIndexing.rightDerivedIso _ q).hom.app T.X₃ ≫
         Stacks.DerivedIndexing.canonicalδ (Scheme.Modules.pushforward f) hT q ≫
         (Stacks.DerivedIndexing.rightDerivedIso _ (q + 1)).inv.app T.X₁) ≫ _ =
@@ -510,7 +510,7 @@ public theorem δ_comp_higherBaseChangeNat {T : ShortComplex X.Modules} (hT : T.
       (Stacks.DerivedIndexing.rightDerivedIso _ (q + 1)).inv.app _
   unfold higherBaseChangeNat
   simp only [Functor.map_comp, Category.assoc]
-  have hc := Iso.map_inv_hom_id_assoc ((Stacks.DerivedIndexing.rightDerivedIso
+  have hc := Iso.inv_hom_id_map_assoc ((Stacks.DerivedIndexing.rightDerivedIso
     (Scheme.Modules.pushforward f) (q + 1)).app T.X₁) (Scheme.Modules.pullback g)
     (higherBaseChange f g f' g' w (q + 1) T.X₁ ≫
       (Stacks.DerivedIndexing.rightDerivedIso _ (q + 1)).inv.app _)

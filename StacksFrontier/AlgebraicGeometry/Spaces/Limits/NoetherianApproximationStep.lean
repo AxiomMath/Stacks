@@ -113,7 +113,7 @@ theorem isAbsolutelyQuasiSeparated_terminal :
   refine isAbsolutelyQuasiSeparated_of_isQuasiSeparatedScheme B (⊤_ Scheme.{u}) hZ _ hZ
     ⟨Over.mk (𝟙 (B.obj hZ)), ?_, ⟨Functor.representableByEquiv.symm
       (isTerminalYonedaObjMkId.uniqueUpToIso terminalIsTerminal)⟩⟩
-  show QuasiSeparatedSpace (⊤_ Scheme.{u})
+  change QuasiSeparatedSpace (⊤_ Scheme.{u})
   infer_instance
 
 /-- **An algebraic space over `Spec ℤ` with a surjective étale chart from a quasi-compact scheme
@@ -142,7 +142,7 @@ theorem isFiniteType_of_chart {Xs : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ �
         ha, ?_, has, terminal.hom_ext _ _, ?_⟩
     · exact presheaf_of_isIso B (⊤_ Scheme.{u}) hZ
         (MorphismProperty.RespectsIso.inverseImage _ _) (fun _ => by
-          show Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 _))
+          change Etale ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (𝟙 _))
           rw [CategoryTheory.Functor.map_id]
           infer_instance)
         eT.hom

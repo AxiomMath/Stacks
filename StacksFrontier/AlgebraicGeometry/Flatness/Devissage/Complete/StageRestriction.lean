@@ -120,7 +120,7 @@ lemma map_fiberι_genericPoint_of_isOpenImmersion {Y S Y' S' : Scheme.{u}} (g : 
     (hη' : IsGenericPoint η' Set.univ) : jY (g'.fiberι s' η') = g.fiberι s η := by
   have hset : g' ⁻¹' {s'} = jY ⁻¹' (g ⁻¹' {s}) := by
     ext y
-    show g' y = s' ↔ g (jY y) = s
+    change g' y = s' ↔ g (jY y) = s
     rw [← hs, ← Scheme.Hom.comp_apply, comm, Scheme.Hom.comp_apply]
     exact jS.isOpenEmbedding.injective.eq_iff.symm
   let e : g'.fiber s' ≃ₜ (jY ⁻¹' (g ⁻¹' {s})) :=
@@ -234,7 +234,7 @@ lemma exists_stageIsStandardRestriction_of_standardShrinking {X S : Scheme.{u}} 
         A.toOneStepDevissage.geometrically_irreducible
       let s' := E.restricted_morphism ⟨x, E.mem_source⟩
       have hs : E.S'.ι s' = f x := by
-        show E.S'.ι (E.restricted_morphism ⟨x, E.mem_source⟩) = f x
+        change E.S'.ι (E.restricted_morphism ⟨x, E.mem_source⟩) = f x
         rw [E.restricted_morphism_eq]
         exact Scheme.Hom.coe_resLE_apply _ _ _
       have hcartA : IsPullback jZ A'.toOneStepDevissage.π A.toOneStepDevissage.π jY := hcart
@@ -284,7 +284,7 @@ lemma exists_stageIsStandardRestriction_of_standardShrinking {X S : Scheme.{u}} 
             z_eq := hzpt
             z_is_pointed := HEq.rfl
             z'_is_pointed := HEq.rfl }
-      · show HEq (eqToHom eY ≫ E.Y'.ι) E.Y'.ι
+      · change HEq (eqToHom eY ≫ E.Y'.ι) E.Y'.ι
         exact eqToHom_comp_heq E.Y'.ι eY
 
 /-! ### The four opens of a shrinking -/
@@ -468,7 +468,7 @@ lemma exists_shrinkingOpens_source {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modul
   have : IsFinite A.π := A.finite
   obtain ⟨b, hbU, hb⟩ := (isAffineOpen_top X).exists_basicOpen_le (⟨x, hx⟩ : U) trivial
   have hz : D.z ∈ A.i ⁻¹ᵁ X.basicOpen b := by
-    show A.i D.z ∈ X.basicOpen b
+    change A.i D.z ∈ X.basicOpen b
     rwa [D.i_z]
   obtain ⟨V₀, hy, hV₀⟩ :=
     exists_open_preimage_le A.π D.z D.y D.π_z D.fiber_eq_singleton (A.i ⁻¹ᵁ X.basicOpen b) hz
@@ -510,7 +510,7 @@ lemma exists_stageIsStandardRestriction_of_shrinkingOpens {X S : Scheme.{u}} {f 
         exact ⟨⟨p, hp⟩, (resLE_apply_eq_iff B.toOneStepDevissage.g A.smooth_over_base _ t).2 hpt⟩⟩
       have hmemZ : B.z ∈ A.Z' := by
         rw [A.closed_eq_source]
-        show B.toOneStepDevissage.i B.z ∈ X'
+        change B.toOneStepDevissage.i B.z ∈ X'
         rw [B.i_z]
         exact A.mem_source
       have H := exists_stageIsStandardRestriction_of_standardShrinking

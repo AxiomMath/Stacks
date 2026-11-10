@@ -102,7 +102,7 @@ private lemma range_target_comp_le_of_preimage_le
             G.objects.obj.obj T) :=
     congrArg (fun k => k.hom.app T x)
       (fiberProduct_condition G.source (subspaceInclusion G Z hZ))
-  show G.source.hom.app T ((fiberProductFst G.source (subspaceInclusion G Z hZ)).hom.app T x)
+  change G.source.hom.app T ((fiberProductFst G.source (subspaceInclusion G Z hZ)).hom.app T x)
     ∈ Z.obj T
   rw [hcond]
   exact Subtype.property _
@@ -122,7 +122,7 @@ private lemma range_source_comp_le_of_preimage_le
             ((fiberProductSnd (subspaceInclusion G Z hZ) G.target).hom.app T x) :=
     congrArg (fun k => k.hom.app T x)
       (fiberProduct_condition (subspaceInclusion G Z hZ) G.target)
-  show G.target.hom.app T ((fiberProductSnd (subspaceInclusion G Z hZ) G.target).hom.app T x)
+  change G.target.hom.app T ((fiberProductSnd (subspaceInclusion G Z hZ) G.target).hom.app T x)
     ∈ Z.obj T
   rw [← hcond]
   exact Subtype.property _

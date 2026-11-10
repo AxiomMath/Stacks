@@ -128,7 +128,7 @@ public theorem mem_range_morphismRestrict_iff {U X : Scheme.{u}} (j : U ⟶ X) [
       (morphismRestrict_base_coe j V x).symm.trans (congrArg Subtype.val hx)⟩
   · obtain ⟨y, hy⟩ := hz
     have hyV : y ∈ j ⁻¹ᵁ V := by
-      show j.base y ∈ V
+      change j.base y ∈ V
       rw [hy]
       exact z.2
     exact ⟨(⟨y, hyV⟩ : (j ⁻¹ᵁ V).toScheme),

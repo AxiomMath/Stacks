@@ -95,7 +95,7 @@ instance hasFiniteBiproducts_quasicoherentModules (𝒳 : AlgebraicStacks.{u, w}
   have hc := FibredSite.hasColimitsOfSize_quasicoherentModules'.{u + 1, u, u} B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids
   have : HasFiniteCoproducts (quasicoherentModules B S hS 𝒳) :=
-    @hasFiniteCoproducts_of_hasCoproducts.{u} _ _ (fun J => hc.has_colimits_of_shape _)
+    @hasFiniteCoproducts_of_hasCoproducts.{u} _ _ (fun _ => hc.has_colimits_of_shape _)
   HasFiniteBiproducts.of_hasFiniteCoproducts
 
 variable {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)

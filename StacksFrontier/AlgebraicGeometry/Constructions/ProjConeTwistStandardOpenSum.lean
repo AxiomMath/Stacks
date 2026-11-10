@@ -62,7 +62,7 @@ theorem coneAlgebraSectionsRingEquiv_symm_of (m d : ℕ) (hf : f ∈ 𝒜 d) (hd
       (DirectSum.of (fun k : ℕ => ↥(awayGrading 𝒜 d hf k)) m y) =
       (y : HomogeneousLocalization.Away (grading 𝒜) (psi 𝒜 f)) :=
     DirectSum.decompose_symm_of _ y
-  show (eqToIso (coneAlgebra_sections_basicOpen 𝒜 d hf hd)).commRingCatIsoToRingEquiv.symm
+  change (eqToIso (coneAlgebra_sections_basicOpen 𝒜 d hf hd)).commRingCatIsoToRingEquiv.symm
       ((AlgebraicGeometry.Proj.basicOpenIsoAway (grading 𝒜) (psi 𝒜 f)
           ((psi 𝒜).map_mem hf) hd).commRingCatIsoToRingEquiv
         ((DirectSum.decomposeRingEquiv (awayGrading 𝒜 d hf)).symm

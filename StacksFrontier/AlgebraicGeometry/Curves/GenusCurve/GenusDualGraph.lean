@@ -641,7 +641,7 @@ theorem isTree_dualGraph_of_genus_eq_zero (Z : ℕ → X.IdealSheafData) (m : �
   · rw [dualGraph_adj]
     refine ⟨fun hcon => ?_, ?_⟩
     · exact absurd (congrArg Fin.val hcon) (show i₀ ≠ (j : ℕ) by omega)
-    · show 0 < Module.finrank k (structureSheafCohomology ((Z i₀ ⊔ Z ↑j).subschemeι ≫ f) 0)
+    · change 0 < Module.finrank k (structureSheafCohomology ((Z i₀ ⊔ Z ↑j).subschemeι ≫ f) 0)
       rw [hp']
       exact hi₀pos
   · obtain ⟨hxlt, hxadj⟩ := hx

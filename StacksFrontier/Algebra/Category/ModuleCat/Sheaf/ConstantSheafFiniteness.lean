@@ -322,10 +322,10 @@ private lemma presheaf_coproduct_point_decompose
         rw [Finset.sum_insert hi, Finset.sum_insert hi, AddCommGrpCat.hom_add_apply, ih]
   have hleg (i : I) :
       (Limits.Sigma.ι (fun _ : I => P) i).app X ≫ c.hom = Limits.biproduct.ι D i := by
-    show E.map (colimit.ι K ⟨i⟩) ≫ e.hom ≫
+    change E.map (colimit.ι K ⟨i⟩) ≫ e.hom ≫
       e'.hom ≫ (Limits.biproduct.isoCoproduct D).inv = Limits.biproduct.ι D i
     rw [← Category.assoc, ι_preservesColimitIso_hom]
-    rw [← Category.assoc, HasColimit.isoOfNatIso_ι_hom kIso ⟨i⟩]
+    rw [← Category.assoc, HasColimit.ι_isoOfNatIso_hom kIso ⟨i⟩]
     simp only [Functor.comp_obj, Discrete.functor_obj_eq_as, biproduct.isoCoproduct_inv,
       Category.assoc, colimit.ι_desc, Cofan.mk_pt, Cofan.mk_ι_app]
     exact Category.id_comp _
@@ -366,7 +366,8 @@ private lemma free_underlying_presheaf_locally_surjective
   have : PreservesColimitsOfShape (Discrete I) (PresheafOfModules.toPresheaf S.obj) :=
     PresheafOfModules.toPresheaf_preservesColimitsOfShape S.obj (Discrete I)
   have : PreservesColimitsOfShape (Discrete I) (presheafToSheaf J AddCommGrpCat.{w}) :=
-    (sheafificationAdjunction J AddCommGrpCat.{w}).leftAdjoint_preservesColimits.preservesColimitsOfShape
+    (sheafificationAdjunction J AddCommGrpCat.{w}).leftAdjoint_preservesColimits
+      |>.preservesColimitsOfShape
   have : PreservesColimitsOfShape (Discrete I) G := Limits.comp_preservesColimitsOfShape _ _
   have : PreservesColimit K (L.comp (SheafOfModules.toSheaf S)) :=
     Limits.preservesColimit_of_natIso K isoG.symm
@@ -421,7 +422,7 @@ private lemma free_underlying_presheaf_locally_surjective
     have hηi : colimit.ι D ⟨i⟩ ≫ η =
         (sheafToPresheaf J AddCommGrpCat.{w}).map
           (((SheafOfModules.toSheaf S).mapCocone (SheafOfModules.freeCofan I)).ι.app ⟨i⟩) :=
-      Limits.Sigma.ι_desc _ i
+      Sigma.ι_comp_desc _ i
     have hunit : (sheafToPresheaf J AddCommGrpCat.{w}).map unitIso.hom =
         toSheafify J (SheafOfModules.unit S).val.presheaf := by
       dsimp only [unitIso, Functor.preimageIso]
@@ -483,14 +484,14 @@ private lemma free_map_zero_locally
   obtain ⟨z, hz⟩ := hg
   obtain ⟨a, ha⟩ := presheaf_coproduct_point_decompose
     ((SheafOfModules.unit S).val.presheaf) (op W) z
-  show (β.app (op W)) ((SheafOfModules.free (R := S) I).val.presheaf.map g.op x) = 0
+  change (β.app (op W)) ((SheafOfModules.free (R := S) I).val.presheaf.map g.op x) = 0
   rw [← hz, ha, map_sum, map_sum]
   apply Finset.sum_eq_zero
   intro i _
   have hηi : Limits.Sigma.ι (fun _ : I => (SheafOfModules.unit S).val.presheaf) i ≫ η =
       (PresheafOfModules.toPresheaf S.obj).map
         ((SheafOfModules.forget S).map (SheafOfModules.ιFree (R := S) i)) :=
-    Limits.Sigma.ι_desc _ i
+    Sigma.ι_comp_desc _ i
   have hval := congrArg (fun k => (k.app (op W)) (a i)) hηi
   simp only [NatTrans.comp_app] at hval
   rw [AddCommGrpCat.comp_apply] at hval
@@ -507,7 +508,7 @@ private lemma free_map_zero_locally
         refine Eq.trans ?_
           (map_smul _ (show S.obj.obj (op W) from a i) (1 : S.obj.obj (op W)))
         congr 1
-        show (show S.obj.obj (op W) from a i) =
+        change (show S.obj.obj (op W) from a i) =
           (show S.obj.obj (op W) from a i) * 1
         exact (mul_one _).symm
       rw [h1, map_smul, map_smul, hgen i W (g ≫ f), smul_zero]
@@ -572,7 +573,7 @@ lemma constantSectionOver_value (M : ModuleCat.{w} R) (U : C) (m : M) (V : Over 
   let α := toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of R))
   let P := constantModulePresheaf (C := C) (R := R) M
   let η := (PresheafOfModules.sheafificationAdjunction α).unit.app P
-  show ((PresheafOfModules.toPresheaf ((Functor.const Cᵒᵖ).obj (RingCat.of R))).map η).app
+  change ((PresheafOfModules.toPresheaf ((Functor.const Cᵒᵖ).obj (RingCat.of R))).map η).app
       (op V.left) m = _
   have h := PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app α P
   exact ConcreteCategory.congr_hom (NatTrans.congr_app h (op V.left)) m
@@ -594,7 +595,7 @@ lemma constantModuleSheafMap_constantSectionOver {M N : ModuleCat.{w} R} (f : M 
   intro V
   have hnV := congrArg (fun g => g.app (op V.unop.left)) hn
   have hnVm := ConcreteCategory.congr_hom hnV m
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
       ((adj.unit.app P ≫ (PresheafOfModules.sheafification α ⋙
         SheafOfModules.forget ((presheafToSheaf J RingCat).obj
           ((Functor.const Cᵒᵖ).obj (RingCat.of R))) ⋙
@@ -639,7 +640,7 @@ lemma constantModuleSheaf_smul_constant (M : ModuleCat.{w} R) (U : C)
   let α := toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of R))
   let P := constantModulePresheaf (C := C) (R := R) M
   let φ := toSheafify J P.presheaf
-  show PresheafOfModules.Sheafify.smul α φ (α.app (op U) a) (φ.app (op U) m) =
+  change PresheafOfModules.Sheafify.smul α φ (α.app (op U) a) (φ.app (op U) m) =
     φ.app (op U) (a • m)
   simpa using PresheafOfModules.Sheafify.map_smul_eq α φ (α.app (op U) a) (φ.app (op U) m)
     (𝟙 (op U)) a (by simp) m (by simp)
@@ -710,7 +711,7 @@ lemma exists_cover_constantModule_representatives_over (M : ModuleCat.{w} R) (U 
     intro j
     obtain ⟨m, hm⟩ := (hrep i).2 j
     refine ⟨m, ?_⟩
-    show (constantModuleSheaf J M).val.presheaf.map (f₀ i).op (s j) = _
+    change (constantModuleSheaf J M).val.presheaf.map (f₀ i).op (s j) = _
     exact hm
 
 /-- If the restriction of `constantModuleSheaf J M` to a slice site over a non sheaf
@@ -755,11 +756,11 @@ lemma finite_of_generatingSections (M : ModuleCat.{w} R) (U : C)
     have hsi : (σ.s i).val (op W) = constantValue J M W.left (x i) := by
       rw [← PresheafOfModules.sections_property (σ.s i) g.op, hs]
       exact constantValue_map J M g.left (x i)
-    show q.val.app (op W) (p.val.app (op W)
+    change q.val.app (op W) (p.val.app (op W)
       ((SheafOfModules.ιFree i).val.app (op W)
         (1 : (((constantSheaf J RingCat).obj (RingCat.of R)).over U).obj.obj (op W)))) = 0
     rw [freeHomEquiv_value (J.over U) F p, Equiv.apply_symm_apply, hsi]
-    show (constantModuleSheafMap J q₀).val.app (op W.left)
+    change (constantModuleSheafMap J q₀).val.app (op W.left)
       (constantValue J M W.left (x i)) = 0
     rw [constantValue_map_hom]
     have hx : q₀.hom (x i) = 0 :=
@@ -1027,7 +1028,7 @@ lemma constantUnitHomEquiv_comp
           (toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of R)))).map p :=
     (PresheafOfModules.sheafificationAdjunction
       (toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of R)))).homEquiv_naturality_right h p
-  show PresheafOfModules.unitHomEquiv _ (PresheafOfModules.sheafificationHomEquiv
+  change PresheafOfModules.unitHomEquiv _ (PresheafOfModules.sheafificationHomEquiv
     (toSheafify J ((Functor.const Cᵒᵖ).obj (RingCat.of R))) (h ≫ p)) = _
   exact congrArg (PresheafOfModules.unitHomEquiv _) hadj
 

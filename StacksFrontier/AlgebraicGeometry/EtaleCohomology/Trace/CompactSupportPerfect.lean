@@ -75,7 +75,7 @@ theorem isZero_etaleRestriction_underlyingAbelian_reduction_fieldBaseChange_exte
       (compactificationFieldBaseChangeImmersion f j kbar) hv _
   refine isZero_of_forall_isZero_sections.{u, 0} _ fun W ↦ ?_
   have hW := ((sheafToPresheaf _ _ ⋙ (CategoryTheory.evaluation _ _).obj (op W)).map_isZero h0)
-  show IsZero ((forget₂ (ModuleCat.{u + 1} (ZMod p)) AddCommGrpCat.{u + 1}).obj
+  change IsZero ((forget₂ (ModuleCat.{u + 1} (ZMod p)) AddCommGrpCat.{u + 1}).obj
     ((ModuleCat.coextendScalars (torsionCoeff p m)).obj (_ : ModuleCat.{u + 1} (ZMod (p ^ m)))))
   exact (forget₂ (ModuleCat.{u + 1} (ZMod p)) AddCommGrpCat.{u + 1}).map_isZero
     ((ModuleCat.coextendScalars (torsionCoeff p m)).map_isZero hW)
@@ -112,7 +112,7 @@ theorem isZero_homology_derivedDirectImageSections_reduction_of_topologicalKrull
       isZero_etaleRestriction_underlyingAbelian_reduction_fieldBaseChange_extensionByZero
         f j kbar p m F v hv) q' (by omega)
 
-omit [IsSeparated f] in
+omit [Fintype k] [IsSeparated f] in
 /-- **Perfectness of `RΓ_c(X_k̄, F)` for a flat sheaf `F` of `ℤ/pᵐℤ`-modules** on a scheme of
 dimension at most `d`, granted that the cohomology of the reduction `((j_! F)|_{X̄_k̄})[p]` is
 finite. -/
@@ -145,7 +145,7 @@ theorem exists_topologicalKrullDim_le_of_compactification :
     obtain ⟨d, hd⟩ := exists_topologicalKrullDim_eq_natCast_of_isProper k j.toBase hne
     exact ⟨d, hd ▸ j.immersion.isOpenEmbedding.isInducing.topologicalKrullDim_le⟩
 
-omit [IsSeparated f] in
+omit [Fintype k] [IsSeparated f] in
 /-- **Perfectness of `RΓ_c(X_k̄, F)` for a flat sheaf `F` of `ℤ/pᵐℤ`-modules**, granted that the
 cohomology of the reduction `((j_! F)|_{X̄_k̄})[p]` is finite. -/
 theorem isPerfect_compactSupportFrobeniusCohomology_single_of_powExact_of_finite
@@ -186,7 +186,7 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
 
 local notation "model" F => LAdicSheaf.torsionFreeModel F (LAdicSheaf.torsionBound F)
 
-omit [IsSeparated f] in
+omit [Fintype k] [IsSeparated f] in
 /-- **The complexes `Kₙ = RΓ_c(X_k̄, F'ₙ)` of the torsion-free model of an `ℓ`-adic sheaf are
 perfect**, granted that the cohomology of the reductions `((j_! F'ₙ)|_{X̄_k̄})[ℓ]` is finite. -/
 theorem LAdicSheaf.isPerfect_compactSupportFrobeniusCohomology_levelComplex_of_finite

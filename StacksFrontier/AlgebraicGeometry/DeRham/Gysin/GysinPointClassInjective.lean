@@ -106,7 +106,7 @@ theorem injective_gysinCohomologyMap_zero_of_duality {k : Type u} [Field k] {X :
         ((shiftFunctorZero (DerivedCategory X.Modules) ℤ).app ω).symm).hom = 0 from h)
   have hs : (A.unitHomEquiv v).val (op ⊤) ≠ 0 := fun h0 => hv0 <| A.unitHomEquiv.injective <|
     (bijective_sections_eval_top X.toRingedSpace A.val).1 (by
-      show (A.unitHomEquiv v).val (op ⊤) = (A.unitHomEquiv 0).val (op ⊤)
+      change (A.unitHomEquiv v).val (op ⊤) = (A.unitHomEquiv 0).val (op ⊤)
       rw [h0, _root_.SheafOfModules.unitHomEquiv_apply_coe]
       rfl)
   apply Stacks.Duality.singleFunctor_map_comp_ne_zero π (show X.Modules from A) hdim v hs α hα

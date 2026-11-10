@@ -267,7 +267,7 @@ theorem nonempty_limChart_stageChartOf_hom
   have hmS : mS ≫ a.hom.left = μ := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp]
-    show B.inclusion.map (B.inclusion.preimage m) ≫ _ = _
+    change B.inclusion.map (B.inclusion.preimage m) ≫ _ = _
     rw [Functor.map_preimage]
     exact hm
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk mS ?_)⟩
@@ -325,6 +325,7 @@ variable {B S hS D} {i₀ : I} {U₀ : BigAffineFppf B S hS}
 variable (hf₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)).presheaf f₀)
 
+omit [IsCofiltered I] in
 /-- **Charts of the stages covering a member of the chart system cover the stage**, when the
 chart `U₀` of the distinguished stage is surjective on points. -/
 theorem pointsCover_of_chartSystem_cover
@@ -349,7 +350,7 @@ theorem pointsCover_of_chartSystem_cover
     rw [pointsToScheme_pointsMap_yoneda, pointsToScheme_pointsMap_yoneda, hζ]
   have hw : pointsMap B S hS _ (stageChartOf hD hf₀ (ν k) (hν k)).1.hom ζ' =
       pointsMap B S hS _ (stageTransition B S hS D hD (g k).left).hom y := by
-    show pointsMap B S hS _ (yoneda.map (ν k) ≫ C.stageMap (t k)) ζ' =
+    change pointsMap B S hS _ (yoneda.map (ν k) ≫ C.stageMap (t k)) ζ' =
       pointsMap B S hS _ (D.map (g k).left) y
     rw [pointsMap_comp_apply, key, ← pointsMap_comp_apply, C.stageMap_naturality,
       pointsMap_comp_apply]
@@ -461,14 +462,14 @@ theorem exists_stage_cover_of_finite {K : Type} [Finite K] {t : K → Over i₀}
     refine Set.mem_iUnion.2 ⟨k, ?_⟩
     have hw : L.cone.π.app c.pt ≫ C.siteDiagram.map (e k) = L.cone.π.app (t k) :=
       L.cone.w (e k)
-    show (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map (e k))
+    change (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map (e k))
       ((BigFppfOver.toScheme B S hS).map (L.cone.π.app c.pt) u) ∈
         Set.range ((BigFppfOver.toScheme B S hS).map (ν k))
     rwa [← Scheme.Hom.comp_apply, ← Functor.map_comp, hw]
   obtain ⟨s', e', he'⟩ := exists_map_eq_top C.schemeDiagram _ L.schemeIsLimit Oo hU
   refine ⟨s', fun k => e' ≫ e k, fun c' => ?_⟩
   have hc' : (C.schemeDiagram.map e') c' ∈ Oo := by
-    show c' ∈ C.schemeDiagram.map e' ⁻¹ᵁ Oo
+    change c' ∈ C.schemeDiagram.map e' ⁻¹ᵁ Oo
     rw [he']
     trivial
   obtain ⟨k, hk⟩ := Set.mem_iUnion.1 hc'

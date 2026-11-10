@@ -55,7 +55,7 @@ def sectionAlt (s : Γ(F, ⊤)) : (Stacks.Cech.alternatingCechModuleComplex f U 
 theorem cechD_sectionAlt (s : Γ(F, ⊤)) : cechD f U F (sectionAlt f U F s) = 0 := by
   apply Subtype.ext
   funext i
-  show ∑ j : Fin 2, ((-1 : ℤ) ^ (j : ℕ)) •
+  change ∑ j : Fin 2, ((-1 : ℤ) ^ (j : ℕ)) •
       CechCochains.restr F.presheaf (CechCochains.inter_le_omit U i j)
         (F.presheaf.map (homOfLE le_top).op s) = 0
   rw [Fin.sum_univ_two]
@@ -112,7 +112,7 @@ theorem sectionCochain_injective (hU : (⊤ : X.Opens) = ⨆ i, U i) :
   rw [← sub_eq_zero]
   refine eq_zero_of_sectionCochain_eq_zero U F hU _ ?_
   funext i
-  show F.presheaf.map _ (s - t) = 0
+  change F.presheaf.map _ (s - t) = 0
   rw [map_sub]
   exact sub_eq_zero.2 (congrFun h i)
 
@@ -125,7 +125,7 @@ theorem sectionCochain_smul (a : A) (s : Γ(F, ⊤)) :
   let := Stacks.Cech.cochainModule f U F 0
   funext i
   rw [Stacks.Cech.cochain_smul_apply]
-  show F.presheaf.map _ (_ • s) = _
+  change F.presheaf.map _ (_ • s) = _
   rw [Scheme.Modules.map_smul, Stacks.Cech.map_baseRingHom_apply]
   rfl
 
@@ -202,7 +202,7 @@ theorem cochainBaseChange_sectionCochain (s : Γ(F, ⊤)) :
   have key := congr($(Stacks.Cech.map_comp_pullbackSections g F
     (le_top : CechCochains.inter U ((Equiv.refl Cover.{u}) ∘ i) ≤ ⊤)) s)
   simp only [ConcreteCategory.comp_apply] at key
-  show CechCochains.restr _ _ (Stacks.Cech.pullbackSections g F _
+  change CechCochains.restr _ _ (Stacks.Cech.pullbackSections g F _
     (F.presheaf.map (homOfLE le_top).op s)) = _
   rw [key]
   simp only [CechCochains.restr, sectionCochain, pullbackGlobalSections]

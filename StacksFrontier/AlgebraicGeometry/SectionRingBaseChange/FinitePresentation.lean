@@ -121,7 +121,7 @@ theorem isBaseChange_of_extendScalars {R S : Type u} [CommRing R] [CommRing S] [
         map_zero' := AddMonoidHom.ext fun m => TensorProduct.zero_tmul _ _
         map_add' := fun _ _ => AddMonoidHom.ext fun m => TensorProduct.add_tmul _ _ _ }
       (fun r s m => by
-        show (r • s) ⊗ₜ[R, algebraMap R S] m = s ⊗ₜ[R, algebraMap R S] (r • m)
+        change (r • s) ⊗ₜ[R, algebraMap R S] m = s ⊗ₜ[R, algebraMap R S] (r • m)
         rw [Algebra.smul_def]
         exact TensorProduct.smul_tmul (R := R) (M := (ModuleCat.restrictScalars
           (algebraMap R S)).obj (ModuleCat.of S S)) (N := M) r s m)
@@ -134,21 +134,19 @@ theorem isBaseChange_of_extendScalars {R S : Type u} [CommRing R] [CommRing S] [
         map_zero' := AddMonoidHom.ext fun m => TensorProduct.zero_tmul _ _
         map_add' := fun _ _ => AddMonoidHom.ext fun m => TensorProduct.add_tmul _ _ _ }
       (fun r s m => by
-        show (algebraMap R S r * (show S from s)) ⊗ₜ[R] m = (show S from s) ⊗ₜ[R] (r • m)
+        change (algebraMap R S r * (show S from s)) ⊗ₜ[R] m = (show S from s) ⊗ₜ[R] (r • m)
         rw [← Algebra.smul_def]
         exact TensorProduct.smul_tmul r (show S from s) m)
   have hχχ' : ∀ z, χ (χ' z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg χ (map_zero χ')).trans (map_zero χ)
+    induction z using TensorProduct.inductionOn with
     | tmul s m => rfl
     | add z z' hz hz' =>
       exact (congrArg χ (map_add χ' z z')).trans ((map_add χ _ _).trans
         (congrArg₂ (· + ·) hz hz'))
   have hχ'χ : ∀ z, χ' (χ z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg χ' (map_zero χ)).trans (map_zero χ')
+    induction z using TensorProduct.inductionOn with
     | tmul s m => rfl
     | add z z' hz hz' =>
       exact (congrArg χ' (map_add χ z z')).trans ((map_add χ' _ _).trans
@@ -158,7 +156,7 @@ theorem isBaseChange_of_extendScalars {R S : Type u} [CommRing R] [CommRing S] [
   refine Stacks.FlatSectionsDescent.isBaseChange_of_bijective_liftBaseChange _
     (Stacks.FlatSectionsDescent.bijective_liftBaseChange_of_tmul _
       ((ConcreteCategory.hom G).toAddMonoidHom.comp χ) (hG.comp hχbij) fun s m => ?_)
-  show G (s ⊗ₜ[R, algebraMap R S] m) = s • f m
+  change G (s ⊗ₜ[R, algebraMap R S] m) = s • f m
   rw [extendScalars_hom_tmul (algebraMap R S) G s m, h1]
 
 /-- If `r ↦ r • 1` is surjective onto the degree-`0` piece, the degree-`0` part of the graded ring
@@ -212,7 +210,7 @@ theorem finitePresentation_strHom_of_isBaseChange {T : Scheme.{u}} (B : SheafGra
   let φa : B.sectionRing V →ₐ[Γ(T, V)] A.sectionRing U :=
     { φ with
       commutes' := fun r => by
-        show φ (algebraMap Γ(T, V) (B.sectionRing V) r) = A.strHom U (algebraMap _ _ r)
+        change φ (algebraMap Γ(T, V) (B.sectionRing V) r) = A.strHom U (algebraMap _ _ r)
         rw [algebraMap_sectionRingAlgebra]
         exact hφ0 r }
   have hφa : ∀ n, ∀ b ∈ gradingSubmodule B V n, φa b ∈ gradingSubmodule A U n := by
@@ -251,7 +249,7 @@ theorem finitePresentation_strHom_of_isBaseChange {T : Scheme.{u}} (B : SheafGra
         (@ConcreteCategory.bijective_of_isIso _ _ _ _ _ _ _ _ _ i1)
     refine isBaseChange_of_extendScalars _ G' hG' fun b => ?_
     obtain ⟨y, rfl⟩ := eB.surjective b
-    show eA (G ((1 : Γ(S, U)) ⊗ₜ[Γ(T, V), (algebraMap Γ(T, V) Γ(S, U))] (eB.symm (eB y)))) = _
+    change eA (G ((1 : Γ(S, U)) ⊗ₜ[Γ(T, V), (algebraMap Γ(T, V) Γ(S, U))] (eB.symm (eB y)))) = _
     rw [LinearEquiv.symm_apply_apply, hG1]
     exact Subtype.ext (hφ n y).symm
   rw [RingHom.FinitePresentation, hAalg]

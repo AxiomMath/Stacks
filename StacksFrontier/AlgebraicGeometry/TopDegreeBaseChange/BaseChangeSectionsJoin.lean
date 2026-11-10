@@ -171,7 +171,7 @@ theorem baseChangeSectionsMap_one_tmul_eq_app_pullbackSection_of_join
                     (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d ≫
                   (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                       (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                    (restrictPullbackRightDerivedPlusIso (h := h) h'
+                    (restrictPullbackRightDerivedPlusIso h'
                       (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) ≫
               (topDegreeFunctorObjIsoCohomologyUpstairs S F' h' f'' h hsq hWV).inv ≫
                 (topDegreeFunctorObjIsoTargetSections S F' h' f'' h hsq hWV).hom) ≫

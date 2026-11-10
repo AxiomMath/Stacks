@@ -57,7 +57,7 @@ theorem nonempty_finiteEtaleFiber_cover (s : GeometricPoint (Spec (.of A))) :
   have hr' : (poly k g).eval₂ φ r = 0 := (Polynomial.eval_map φ r).symm.trans hr
   let ψ : Ring k g →+* s.residueField := AdjoinRoot.lift φ r hr'
   refine ⟨⟨Spec.map (CommRingCat.ofHom ψ), ?_⟩⟩
-  show Spec.map (CommRingCat.ofHom ψ) ≫ coverHom k A g = s.hom
+  change Spec.map (CommRingCat.ofHom ψ) ≫ coverHom k A g = s.hom
   rw [← Spec.map_comp]
   have hψ : CommRingCat.ofHom (algebraMap A (Ring k g)) ≫ CommRingCat.ofHom ψ =
       Spec.preimage s.hom := by

@@ -216,7 +216,7 @@ public theorem normalizationPushforwardStalk_map_injective (X : Scheme.{u}) [IsR
   let e := normalizationStalkAlgEquivIntegralClosureSelf X hX x
   have hic : Function.Injective (algebraMap A (integralClosure A (FractionRing A))) :=
     fun _ _ hab => IsFractionRing.injective A (FractionRing A) (congrArg Subtype.val hab)
-  show Function.Injective (algebraMap A A')
+  change Function.Injective (algebraMap A A')
   intro a b hab
   apply hic
   calc

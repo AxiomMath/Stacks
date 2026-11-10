@@ -108,7 +108,7 @@ theorem isGRing_stalk_integerBase (s : integerBase.{u}) :
   have : Algebra.FiniteType (ULift.{u} ℤ) Γ(integerBase.{u}, ⊤) :=
     Algebra.FiniteType.of_surjective (Algebra.ofId _ _)
       (fun y => ⟨e.hom.hom y, by
-        show e.inv.hom (e.hom.hom y) = y
+        change e.inv.hom (e.hom.hom y) = y
         rw [← CommRingCat.comp_apply, e.hom_inv_id, CommRingCat.id_apply]⟩)
   have hΓ : IsGRing Γ(integerBase.{u}, ⊤) :=
     isGRing_basic_examples.{u, u}.2.2.2.2 _ _ isGRing_uliftInt

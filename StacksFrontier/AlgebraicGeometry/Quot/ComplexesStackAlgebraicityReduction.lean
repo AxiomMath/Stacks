@@ -156,7 +156,7 @@ theorem isAlgebraicStack_of_artinCriterion (Λ : Type u) [CommRing Λ] [Algebra.
                 𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F
@@ -212,7 +212,7 @@ theorem isAlgebraicStack_of_artinCriterion (Λ : Type u) [CommRing Λ] [Algebra.
                 𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F

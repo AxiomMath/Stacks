@@ -192,7 +192,7 @@ theorem exists_affineOpen_isFiniteLocallyFree_sections_conormalSheaf (i : Z ⟶ 
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
   have hsmul : (Ideal.Quotient.mk (RingHom.ker (i.liftCoborder.app V.1).hom) a) • x = a • x :=
     (IsScalarTower.algebraMap_smul _ a x).symm
-  show hc.toLinearEquiv.symm _ = _
+  change hc.toLinearEquiv.symm _ = _
   rw [hsmul, hc.toLinearEquiv.symm.map_smul]
   rfl
 

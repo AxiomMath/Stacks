@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.Annihilator
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.Annihilator
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.DisjointIrreducibleOpens
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.DisjointOpensSum
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.FiniteCohomology
@@ -50,11 +49,12 @@ variable (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
 omit [IsNoetherianRing Λ] in
 /-- A finite direct sum of sheaves of `Λ`-modules on `X_étale` has finite cohomology in degree
 `q` when every summand does. -/
-theorem module_finite_etaleCohomology_biproduct {X : Scheme.{u}} {ι : Type} [Fintype ι]
+theorem module_finite_etaleCohomology_biproduct {X : Scheme.{u}} {ι : Type} [Finite ι]
     (D : ι → EtaleModules.{u, r} Λ X) (q : ℕ)
     (hD : ∀ a, Module.Finite Λ (((etaleModuleGlobalSections.{u, r} Λ X).rightDerived q).obj
       (D a))) :
     Module.Finite Λ (((etaleModuleGlobalSections.{u, r} Λ X).rightDerived q).obj (⨁ D)) := by
+  have := Fintype.ofFinite ι
   let := HasDerivedCategory.standard (EtaleModules.{u, r} Λ X)
   let := HasDerivedCategory.standard (ModuleCat.{max (u + 1) r} Λ)
   let F := (etaleModuleGlobalSections.{u, r} Λ X).rightDerived q

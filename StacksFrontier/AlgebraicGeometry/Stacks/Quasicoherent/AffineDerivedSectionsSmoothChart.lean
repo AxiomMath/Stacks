@@ -109,7 +109,7 @@ def chartSliceCounitIso :
   NatIso.ofComponents
     (fun a => Over.isoMk (eqToIso (Functor.congr_obj (Functor.TwoYoneda.liftFunctor_w
         𝒳.val.val.p 𝒳.val.isFiberedInGroupoids _ (Functor.Fiber.mk (a := x₀) rfl)) a)) (by
-      haveI := (chartLift B S hS 𝒳 x₀ a).isStronglyCartesian.toIsHomLift
+      have := (chartLift B S hS 𝒳 x₀ a).isStronglyCartesian.toIsHomLift
       exact (IsHomLift.commSq 𝒳.val.val.p a.hom (chartLift B S hS 𝒳 x₀ a).φ).w.symm.trans
         (Category.comp_id _)))
     (fun {a a'} g => by
@@ -143,12 +143,12 @@ def chartSliceUnitIso :
         (Functor.IsCartesian.fac 𝒳.val.val.p (𝒳.val.val.p.map z.hom)
           ((chartSliceFunctor B S hS 𝒳 x₀).obj ((Over.post 𝒳.val.val.p).obj z)).hom z.hom))
     (fun {z y} a => by
-      haveI : 𝒳.val.val.p.IsStronglyCartesian (𝒳.val.val.p.map z.hom) z.hom :=
+      have : 𝒳.val.val.p.IsStronglyCartesian (𝒳.val.val.p.map z.hom) z.hom :=
         𝒳.val.isFiberedInGroupoids.isStronglyCartesian_homLift _ _
-      haveI : 𝒳.val.val.p.IsStronglyCartesian (𝒳.val.val.p.map y.hom) y.hom :=
+      have : 𝒳.val.val.p.IsStronglyCartesian (𝒳.val.val.p.map y.hom) y.hom :=
         𝒳.val.isFiberedInGroupoids.isStronglyCartesian_homLift _ _
-      haveI := isStronglyCartesian_chartSliceFunctor_obj_post B S hS 𝒳 x₀ z
-      haveI := isStronglyCartesian_chartSliceFunctor_obj_post B S hS 𝒳 x₀ y
+      have := isStronglyCartesian_chartSliceFunctor_obj_post B S hS 𝒳 x₀ z
+      have := isStronglyCartesian_chartSliceFunctor_obj_post B S hS 𝒳 x₀ y
       apply Over.OverMorphism.ext
       change a.left ≫ (Functor.IsCartesian.domainUniqueUpToIso 𝒳.val.val.p
           (𝒳.val.val.p.map y.hom)
@@ -156,17 +156,17 @@ def chartSliceUnitIso :
         (Functor.IsCartesian.domainUniqueUpToIso 𝒳.val.val.p (𝒳.val.val.p.map z.hom)
           ((chartSliceFunctor B S hS 𝒳 x₀).obj ((Over.post 𝒳.val.val.p).obj z)).hom z.hom).hom ≫
           ((chartSliceFunctor B S hS 𝒳 x₀).map ((Over.post 𝒳.val.val.p).map a)).left
-      haveI : 𝒳.val.val.p.IsHomLift (𝒳.val.val.p.map a.left)
+      have : 𝒳.val.val.p.IsHomLift (𝒳.val.val.p.map a.left)
           ((chartSliceFunctor B S hS 𝒳 x₀).map ((Over.post 𝒳.val.val.p).map a)).left := by
         change 𝒳.val.val.p.IsHomLift ((Over.post 𝒳.val.val.p).map a).left
           ((chartLiftFunctor B S hS 𝒳 x₀).map ((Over.post 𝒳.val.val.p).map a))
-        haveI : (Over.forget (𝒳.val.val.p.obj x₀)).IsHomLift ((Over.post 𝒳.val.val.p).map a).left
+        have : (Over.forget (𝒳.val.val.p.obj x₀)).IsHomLift ((Over.post 𝒳.val.val.p).map a).left
             ((Over.post 𝒳.val.val.p).map a) :=
           inferInstanceAs ((Over.forget (𝒳.val.val.p.obj x₀)).IsHomLift
             ((Over.forget (𝒳.val.val.p.obj x₀)).map ((Over.post 𝒳.val.val.p).map a)) _)
         exact Functor.isHomLift_map_of_comp_eq (Functor.TwoYoneda.liftFunctor_w 𝒳.val.val.p
           𝒳.val.isFiberedInGroupoids _ (Functor.Fiber.mk (a := x₀) rfl)) _ _
-      haveI : 𝒳.val.val.p.IsHomLift (𝒳.val.val.p.map a.left)
+      have : 𝒳.val.val.p.IsHomLift (𝒳.val.val.p.map a.left)
           ((Functor.IsCartesian.domainUniqueUpToIso 𝒳.val.val.p (𝒳.val.val.p.map z.hom)
             ((chartSliceFunctor B S hS 𝒳 x₀).obj ((Over.post 𝒳.val.val.p).obj z)).hom
               z.hom).hom ≫
@@ -548,7 +548,7 @@ theorem chartSectionsIso_hom_restrict (M : SheafOfModules.{u + 1}
     (chartSectionsIso B S hS 𝒳 x₀ M z).hom.hom
         ((((chartPullback B S hS 𝒳 x₀).obj M).val.map ((Over.post 𝒳.val.val.p).map a).op).hom x) =
       (M.val.map a.left.op).hom ((chartSectionsIso B S hS 𝒳 x₀ M y).hom.hom x) := by
-  show (M.val.map ((chartSliceUnitIso B S hS 𝒳 x₀).hom.app z).left.op).hom
+  change (M.val.map ((chartSliceUnitIso B S hS 𝒳 x₀).hom.app z).left.op).hom
       ((M.val.map ((chartSliceFunctor B S hS 𝒳 x₀).map ((Over.post 𝒳.val.val.p).map a)).left.op).hom
         x) =
     (M.val.map a.left.op).hom
@@ -691,7 +691,7 @@ theorem exists_lift_openCover_mem_zariski (W : 𝒳.val.val.obj)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .zariski (p.obj W) := by
     have hZ : IsZariskiCovering (⟨(p.obj W).left, V⟩ : Covering B.Schemes) := by
-      show (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
+      change (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
       simpa [V, PreZeroHypercover.map] using O.mem₀
     obtain ⟨⟨T', E'⟩, hE', hCE⟩ := B.zariskiCovering_has_representative ⟨(p.obj W).left, V⟩ hZ
     obtain ⟨hbase, hfamily⟩ := hCE
@@ -769,7 +769,7 @@ theorem exists_flatAffine_of_factor (x₁ : FlatFppf B S hS 𝒳) {w : 𝒳.val.
   let x₀ : FlatFppf B S hS 𝒳 :=
     ⟨x₁i, flatObject_of_flat B S hS 𝒳 ψ hflat x₁.property⟩
   have haff : IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x₀.obj)) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x₁i))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x₁i))
     rw [hdom]
     exact inferInstanceAs (IsAffine Ui)
   have hw : ObjectProperty.homMk (X := (p.obj w).left) (Y := UiB) gi ≫ fiB ≫ (p.obj x₁.obj).hom =

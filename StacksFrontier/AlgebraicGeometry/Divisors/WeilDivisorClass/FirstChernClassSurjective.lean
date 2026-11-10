@@ -287,8 +287,8 @@ omit [IsLocallyNoetherian X] in
 theorem positiveWeilDivisor_sub_neg (D : WeilDivisor X) :
     positiveWeilDivisor D - positiveWeilDivisor (-D) = D := by
   refine Subtype.ext (funext fun Z => ?_)
-  show ((D.val Z).toNat : ℤ) - (((-D).val Z).toNat : ℤ) = D.val Z
-  show ((D.val Z).toNat : ℤ) - ((-D.val Z).toNat : ℤ) = D.val Z
+  change ((D.val Z).toNat : ℤ) - (((-D).val Z).toNat : ℤ) = D.val Z
+  change ((D.val Z).toNat : ℤ) - ((-D.val Z).toNat : ℤ) = D.val Z
   omega
 
 /-! ### The Weil divisor class of the positive part -/
@@ -315,7 +315,7 @@ theorem ord_algebraMap_eq_of_span_eq_maximalIdeal_pow (x : X) (hx : coheight x =
   have hb0 : b ≠ 0 := fun h => hne (by rw [← hb, h, Ideal.span_singleton_zero])
   refine (X.ord_eq_iff hx ((map_ne_zero_iff _
     (IsFractionRing.injective (X.presheaf.stalk x) X.functionField)).mpr hb0)).mpr ?_
-  show Ring.ordFrac (X.presheaf.stalk x) _ = _
+  change Ring.ordFrac (X.presheaf.stalk x) _ = _
   rw [Ring.ordFrac_eq_ord _ hb0]
   exact Ring.ordMonoidWithZeroHom_eq_coe _ (mem_nonZeroDivisors_iff_ne_zero.mpr hb0)
     (Ring.ord_eq_of_span_eq_maximalIdeal_pow b n hb)

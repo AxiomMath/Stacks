@@ -111,7 +111,7 @@ lemma conjugateEquiv_pullbackSquareIso_hom (w : g' ≫ f = f' ≫ g) :
         (pullbackTwoSquare f f' g g' w) =
       (Stacks.AlgebraicGeometry.AffinePushforward.pushforwardSquareIso w).hom := by
   rw [Stacks.AlgebraicGeometry.AffinePushforward.pushforwardSquareIso]
-  show conjugateEquiv _ _
+  change conjugateEquiv _ _
       ((Scheme.Modules.pullbackComp f' g).hom ≫
         (Scheme.Modules.pullbackCongr w.symm).hom ≫
         (Scheme.Modules.pullbackComp g' f).inv) = _
@@ -128,7 +128,7 @@ theorem baseChangeNatTrans_eq_mateEquiv (w : g' ≫ f = f' ≫ g) :
     Stacks.AlgebraicGeometry.AffinePushforward.baseChangeNatTrans w =
       (mateEquiv (Scheme.Modules.pullbackPushforwardAdjunction f)
         (Scheme.Modules.pullbackPushforwardAdjunction f')
-        (pullbackTwoSquare f f' g g' w)).natTrans := by
+        (pullbackTwoSquare f f' g g' w)) := by
   have key := iterated_mateEquiv_conjugateEquiv
       (Scheme.Modules.pullbackPushforwardAdjunction f)
       (Scheme.Modules.pullbackPushforwardAdjunction f')

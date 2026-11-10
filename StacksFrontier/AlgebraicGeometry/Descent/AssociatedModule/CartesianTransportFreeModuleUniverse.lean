@@ -69,11 +69,7 @@ theorem bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff_freeM
   have hcomp : ∀ z, (restrictionBaseChange (R := R) M (q.op.map g)).hom (u z)
       = (restrictionBaseChange (R := R') NM g).hom z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (congrArg _ (map_zero u)) ?_
-      exact (map_zero (restrictionBaseChange (R := R) M (q.op.map g)).hom).trans
-        (map_zero (restrictionBaseChange (R := R') NM g).hom).symm
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       refine Eq.trans (restrictionBaseChange_tmul M (q.op.map g) ((ψ.app Y).hom c) x) ?_
       exact (restrictionBaseChange_tmul NM g c x).symm
@@ -85,7 +81,7 @@ theorem bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff_freeM
   have hfun : (⇑(restrictionBaseChange (R := R') NM g).hom)
       = (⇑(restrictionBaseChange (R := R) M (q.op.map g)).hom) ∘ (⇑u) :=
     (funext hcomp).symm
-  show Function.Bijective (⇑(restrictionBaseChange (R := R') NM g).hom) ↔ _
+  change Function.Bijective (⇑(restrictionBaseChange (R := R') NM g).hom) ↔ _
   rw [hfun]
   exact Function.Bijective.of_comp_iff _ hu
 

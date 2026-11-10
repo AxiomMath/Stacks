@@ -228,7 +228,7 @@ theorem idealPowSmul_pushforward_eq (f : Y ⟶ X) [IsAffineHom f] (J : X.IdealSh
     IdealPowerSmul.obj_idealPowSmul (J.comap f) 1 ℱ ⟨f ⁻¹ᵁ U.1, U.2.preimage f⟩
   refine SetLike.ext fun s ↦ ?_
   rw [IdealPowerSmul.obj_idealPowSmul J 1 ((Scheme.Modules.pushforward f).obj ℱ) U, pow_one]
-  show _ ↔ (s : Γ(ℱ, f ⁻¹ᵁ U.1)) ∈
+  change _ ↔ (s : Γ(ℱ, f ⁻¹ᵁ U.1)) ∈
     (IdealPowerSmul.idealPowSmul (J.comap f) 1 ℱ).toSubmodule.obj (op (f ⁻¹ᵁ U.1))
   rw [hpre, pow_one]
   exact Set.ext_iff.mp (AffineIdealPushforward.ideal_smul_pushforward_sections_eq f J ℱ U) s

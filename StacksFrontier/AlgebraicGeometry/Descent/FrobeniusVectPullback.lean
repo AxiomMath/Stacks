@@ -207,7 +207,7 @@ map, because `MilnorPatching.OneGeneratorFrobenius.toBase` and
 `MilnorPatching.OneGeneratorFrobenius.surjection` are the identity on representatives. -/
 theorem toMod_comp_modToExc : toMod A J ≫ modToExc A f J = toCtr A f ≫ ctrToExc A f J := by
   refine CommRingCat.hom_ext (RingHom.ext fun x ↦ ?_)
-  show MilnorPatching.OneGeneratorFrobenius.toBase f J (Ideal.Quotient.mk J x) =
+  change MilnorPatching.OneGeneratorFrobenius.toBase f J (Ideal.Quotient.mk J x) =
     MilnorPatching.OneGeneratorFrobenius.surjection f J (Ideal.Quotient.mk (Ideal.span {f}) x)
   rw [MilnorPatching.OneGeneratorFrobenius.toBase_mk,
     MilnorPatching.OneGeneratorFrobenius.surjection_mk]

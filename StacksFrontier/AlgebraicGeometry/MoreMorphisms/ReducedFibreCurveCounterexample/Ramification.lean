@@ -68,28 +68,28 @@ theorem exists_ringEquiv_stalk_genericExtensionHom_normalization (U : S.Opens)
     rintro F G rfl hF hG
     rfl
   have hq : q ∈ (Spec.map φ ≫ hU.fromSpec) ⁻¹ᵁ U := by
-    show (Spec.map φ ≫ hU.fromSpec) q ∈ U
+    change (Spec.map φ ≫ hU.fromSpec) q ∈ U
     rw [← hψ.w]
     exact hb
   have hF : π.app U ≫ (S.genericExtensionHom L).normalization.presheaf.germ (π ⁻¹ᵁ U) (ψ q) hb' ≫
       ψ.stalkMap q = φ ≫ (Scheme.ΓSpecIso _).inv ≫
         (Spec _).presheaf.germ ⊤ q (show q ∈ (⊤ : (Spec _).Opens) from trivial) := by
     rw [Scheme.Hom.germ_stalkMap, ← Category.assoc (π.app U) (ψ.app _)]
-    show (ψ ≫ π).app U ≫ (Spec _).presheaf.germ ((ψ ≫ π) ⁻¹ᵁ U) q hb'' = _
+    change (ψ ≫ π).app U ≫ (Spec _).presheaf.germ ((ψ ≫ π) ⁻¹ᵁ U) q hb'' = _
     rw [key (ψ ≫ π) (Spec.map φ ≫ hU.fromSpec) hψ.w hb'' hq]
     have hq' : q ∈ Spec.map φ ⁻¹ᵁ hU.fromSpec ⁻¹ᵁ U := hq
-    show hU.fromSpec.app U ≫ (Spec.map φ).app _ ≫
+    change hU.fromSpec.app U ≫ (Spec.map φ).app _ ≫
       (Spec _).presheaf.germ (Spec.map φ ⁻¹ᵁ hU.fromSpec ⁻¹ᵁ U) q hq' = _
     rw [hU.fromSpec_app_self, Category.assoc, Scheme.Hom.naturality_assoc,
       TopCat.Presheaf.germ_res', ← Category.assoc]
-    show ((Scheme.ΓSpecIso _).inv ≫ (Spec.map φ).appTop) ≫
+    change ((Scheme.ΓSpecIso _).inv ≫ (Spec.map φ).appTop) ≫
       (Spec _).presheaf.germ ⊤ q (show q ∈ (⊤ : (Spec _).Opens) from trivial) = _
     rw [← Scheme.ΓSpecIso_inv_naturality, Category.assoc]
   have hG := Spec.germ_stalkMapIso_hom (R := .of ↥(integralClosure Γ(S, U) L)) (x := q)
   have h1 := ConcreteCategory.congr_hom hF τ
   have h2 := ConcreteCategory.congr_hom hG ((Scheme.ΓSpecIso _).inv (φ τ))
   simp only [ConcreteCategory.comp_apply, Iso.inv_hom_id_apply] at h1 h2
-  show (Spec.stalkIso _ q).hom (ψ.stalkMap q
+  change (Spec.stalkIso _ q).hom (ψ.stalkMap q
     ((S.genericExtensionHom L).normalization.presheaf.germ (π ⁻¹ᵁ U) (ψ q) hb' (π.app U τ))) = _
   rw [h1, h2]
   rfl

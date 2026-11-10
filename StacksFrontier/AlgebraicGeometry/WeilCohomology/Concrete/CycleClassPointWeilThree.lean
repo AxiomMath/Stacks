@@ -88,7 +88,7 @@ theorem cycleClassPoint_toWeilData : (h.toWeilData hA1 hA3 hA5 hA6).CycleClassPo
     (h.traceContract_toWeilData_trace hA1 hA3 hA5 hA6 (point k) 0 isNonemptyEquidimensional_point))
   refine congrArg ((h.toWeilData hA1 hA3 hA5 hA6).trace (point k) 0
     isNonemptyEquidimensional_point) ?_
-  show h.cycleClassGrade hA1 hA3 (point k) 0 (fundamentalClass (point k)) =
+  change h.cycleClassGrade hA1 hA3 (point k) 0 (fundamentalClass (point k)) =
     (tateTwistCoordinates 𝔇.coord ((0 : ℕ) : ℤ)).symm
       (𝔇.projGrade (point k) (2 * ((0 : ℕ) : ℤ)) 1)
   rw [cycleClassGrade, AddMonoidHom.coe_mk, ZeroHom.coe_mk]
@@ -96,7 +96,7 @@ theorem cycleClassPoint_toWeilData : (h.toWeilData hA1 hA3 hA5 hA6).CycleClassPo
   refine Subtype.ext ?_
   rw [coe_projGrade, DirectSum.decompose_of_mem_same _
     (by simpa using SetLike.GradedOne.one_mem (A := 𝔇.grade (point k)))]
-  show 𝔇.κ (point k) ((0 : ℕ) : ℤ)
+  change 𝔇.κ (point k) ((0 : ℕ) : ℤ)
     (h.codimensionCycleClass (point k) 0 (fundamentalClass (point k))) = 1
   rw [h.codimensionCycleClass_fundamentalClass]
   exact 𝔇.κ_unitTw _

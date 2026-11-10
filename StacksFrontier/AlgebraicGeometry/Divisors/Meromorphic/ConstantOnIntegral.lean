@@ -63,7 +63,7 @@ private lemma totalQuotientDenominators_eq_nonZeroDivisors (X : Scheme.{u})
     totalQuotientDenominators X U = nonZeroDivisors Γ(X, U) := by
   classical
   ext s
-  show s ∈ (X.presheaf.submonoidPresheafOfStalk
+  change s ∈ (X.presheaf.submonoidPresheafOfStalk
     (fun x ↦ (X.presheaf.stalk x)⁰)).obj (Opposite.op U) ↔
       s ∈ nonZeroDivisors Γ(X, U)
   simp only [TopCat.Presheaf.submonoidPresheafOfStalk_obj,
@@ -117,7 +117,7 @@ private lemma totalQuotientOpenToFunctionField_algebraMap_localization (X : Sche
   let : Algebra Γ(X, U) X.functionField := (X.germToFunctionField U).hom.toAlgebra
   let g : Γ(X, U) →+* X.functionField := (X.germToFunctionField U).hom
   have hg : ∀ y : M, IsUnit (g y) := isUnit_germToFunctionField_denominator X U
-  show (IsLocalization.lift (M := M) (g := g) hg)
+  change (IsLocalization.lift (M := M) (g := g) hg)
       (algebraMap Γ(X, U) (Localization M) s) = g s
   exact IsLocalization.lift_eq hg s
 
@@ -128,7 +128,7 @@ private lemma totalQuotientOpenToFunctionFieldRingHom_bijective (X : Scheme.{u})
   have he : totalQuotientOpenToFunctionFieldRingHom X U = e.toRingEquiv.toRingHom := by
     apply IsLocalization.ringHom_ext (totalQuotientDenominators X U)
     ext s
-    show (totalQuotientOpenToFunctionField X U).hom
+    change (totalQuotientOpenToFunctionField X U).hom
         (algebraMap Γ(X, U) (Localization (totalQuotientDenominators X U)) s) = _
     rw [totalQuotientOpenToFunctionField_algebraMap_localization]
     simp [e, totalQuotientOpenFunctionFieldEquiv, RingHom.algebraMap_toAlgebra]
@@ -151,12 +151,12 @@ private lemma totalQuotientOpenToFunctionField_naturality (X : Scheme.{u})
   apply IsLocalization.ringHom_ext Mv
   ext s
   rw [RingHom.comp_assoc, IsLocalization.map_comp]
-  show (totalQuotientOpenToFunctionFieldRingHom X U)
+  change (totalQuotientOpenToFunctionFieldRingHom X U)
       (algebraMap Γ(X, U) (Localization Mu)
         ((X.presheaf.map (homOfLE hUV).op).hom s)) =
     (totalQuotientOpenToFunctionFieldRingHom X V)
       (algebraMap Γ(X, V) (Localization Mv) s)
-  show (totalQuotientOpenToFunctionField X U).hom _ =
+  change (totalQuotientOpenToFunctionField X U).hom _ =
     (totalQuotientOpenToFunctionField X V).hom _
   rw [totalQuotientOpenToFunctionField_algebraMap_localization,
     totalQuotientOpenToFunctionField_algebraMap_localization]
@@ -191,7 +191,7 @@ private lemma totalQuotientGenericStalkHom_germ (X : Scheme.{u}) [IsIntegral X]
     (U : X.Opens) [Nonempty U] (hU : genericPoint X ∈ U) :
     (X.presheaf.totalQuotientPresheaf).germ U (genericPoint X) hU ≫
       totalQuotientGenericStalkHom X = totalQuotientOpenToFunctionField X U := by
-  show colimit.ι _ (op ⟨U, hU⟩) ≫ colimit.desc _
+  change colimit.ι _ (op ⟨U, hU⟩) ≫ colimit.desc _
     (totalQuotientGenericStalkCocone X) = _
   rw [colimit.ι_desc]
   rfl
@@ -326,7 +326,7 @@ private lemma totalQuotientToGenericSkyscraper_isIso (X : Scheme.{u}) [IsIntegra
       (fun z ↦ (ConcreteCategory.isIso_iff_bijective _).2
         (totalQuotientToGenericSkyscraperPresheaf_stalk_bijective X z)) y
   let e := sheafificationIso (skyscraperSheaf (genericPoint X) X.functionField)
-  show IsIso (β ≫ e.inv)
+  change IsIso (β ≫ e.inv)
   exact IsIso.comp_isIso' hβ e.isIso_inv
 
 /-! ### The constant presheaf on the function field -/
@@ -350,7 +350,7 @@ private lemma constantGenericStalkHom_germ (X : Scheme.{u}) [IsIntegral X]
     TopCat.Presheaf.germ (C := CommRingCat) (X := X)
       ((Functor.const (Opens X)ᵒᵖ).obj X.functionField) U
       (genericPoint X) hU ≫ constantGenericStalkHom X = 𝟙 X.functionField := by
-  show colimit.ι _ (op ⟨U, hU⟩) ≫ colimit.desc _ (constantGenericStalkCocone X) = _
+  change colimit.ι _ (op ⟨U, hU⟩) ≫ colimit.desc _ (constantGenericStalkCocone X) = _
   rw [colimit.ι_desc]
   rfl
 
@@ -434,7 +434,7 @@ private lemma constantToGenericSkyscraper_isIso (X : Scheme.{u}) [IsIntegral X]
       (fun y ↦ (ConcreteCategory.isIso_iff_bijective _).2
         (constantToGenericSkyscraperPresheaf_stalk_bijective X y)) x
   let e := sheafificationIso (skyscraperSheaf (genericPoint X) X.functionField)
-  show IsIso (β ≫ e.inv)
+  change IsIso (β ≫ e.inv)
   exact IsIso.comp_isIso' hβ e.isIso_inv
 
 private lemma constantToGenericSkyscraper_toSheafify_app (X : Scheme.{u}) [IsIntegral X]
@@ -463,12 +463,12 @@ private lemma constantToGenericSkyscraper_toSheafify_app (X : Scheme.{u}) [IsInt
   have hUnit (b : (P.obj (op U))) :
       (σ.inv.hom.app (op U)).hom
         (((toSheafify (Opens.grothendieckTopology X) P).app (op U)).hom b) = b := by
-    show ((isoSheafify (Opens.grothendieckTopology X) hP).inv.app (op U)).hom
+    change ((isoSheafify (Opens.grothendieckTopology X) hP).inv.app (op U)).hom
         (((toSheafify (Opens.grothendieckTopology X) P).app (op U)).hom b) = b
     rw [isoSheafify_inv]
     have h := congrArg (fun q => (q.app (op U)).hom b)
       (toSheafify_sheafifyLift (Opens.grothendieckTopology X) (𝟙 P) hP)
-    show ((sheafifyLift (Opens.grothendieckTopology X) (𝟙 P) hP).app (op U)).hom
+    change ((sheafifyLift (Opens.grothendieckTopology X) (𝟙 P) hP).app (op U)).hom
         (((toSheafify (Opens.grothendieckTopology X) P).app (op U)).hom b) =
       ((𝟙 P : P ⟶ P).app (op U)).hom b
     exact h
@@ -479,7 +479,7 @@ private lemma constantToGenericSkyscraper_toSheafify_app (X : Scheme.{u}) [IsInt
     have h2 := congrArg (fun q => q.hom a)
       (constantGenericStalkHom_germ X U hU)
     simpa [CommRingCat.comp_apply] using h1.trans h2
-  show (eqToHom (ite_eq_left hU) : P.obj (op U) ⟶ CommRingCat.of X.functionField).hom
+  change (eqToHom (ite_eq_left hU) : P.obj (op U) ⟶ CommRingCat.of X.functionField).hom
       ((σ.inv.hom.app (op U)).hom
         ((β.hom.app (op U)).hom
           (((toSheafify (Opens.grothendieckTopology X) F).app (op U)).hom a))) = a
@@ -509,7 +509,7 @@ private lemma totalQuotientToGenericSkyscraper_toTotalQuotient_app (X : Scheme.{
     have h := congrArg (fun q : Q ⟶ sheafify J P =>
       (q.app (op U)).hom ((τ.app (op U)).hom s)) (toSheafify_naturality J α)
     simpa only [NatTrans.comp_app, CommRingCat.comp_apply] using h.symm
-  show (eqToHom (ite_eq_left hU) : P.obj (op U) ⟶ CommRingCat.of X.functionField).hom
+  change (eqToHom (ite_eq_left hU) : P.obj (op U) ⟶ CommRingCat.of X.functionField).hom
       (((σ.inv.hom.app (op U)).hom
         ((((sheafifyMap J α).app (op U)).hom)
           (((toSheafify J Q).app (op U)).hom ((τ.app (op U)).hom s))))) = _
@@ -518,7 +518,7 @@ private lemma totalQuotientToGenericSkyscraper_toTotalQuotient_app (X : Scheme.{
       (((toSheafify J P).app (op U)).hom
         ((α.app (op U)).hom ((τ.app (op U)).hom s))) =
       (α.app (op U)).hom ((τ.app (op U)).hom s) := by
-    show ((isoSheafify J (skyscraperSheaf (genericPoint X) X.functionField).property).inv.app
+    change ((isoSheafify J (skyscraperSheaf (genericPoint X) X.functionField).property).inv.app
         (op U)).hom (((toSheafify J P).app (op U)).hom
           ((α.app (op U)).hom ((τ.app (op U)).hom s))) = _
     rw [isoSheafify_inv]
@@ -526,7 +526,7 @@ private lemma totalQuotientToGenericSkyscraper_toTotalQuotient_app (X : Scheme.{
         ((α.app (op U)).hom ((τ.app (op U)).hom s)))
       (toSheafify_sheafifyLift J (𝟙 P)
         (skyscraperSheaf (genericPoint X) X.functionField).property)
-    show ((sheafifyLift J (𝟙 P)
+    change ((sheafifyLift J (𝟙 P)
         (skyscraperSheaf (genericPoint X) X.functionField).property).app
         (op U)).hom (((toSheafify J P).app (op U)).hom
           ((α.app (op U)).hom ((τ.app (op U)).hom s))) =
@@ -568,13 +568,13 @@ theorem nonempty_totalQuotientSheafIsoConstant (X : Scheme.{u}) [IsIntegral X] :
   refine ⟨⟨e, ?_⟩⟩
   intro U s h
   have : IsIso g.hom := by
-    show IsIso ((sheafToPresheaf
+    change IsIso ((sheafToPresheaf
       (Opens.grothendieckTopology X) CommRingCat).map g)
     exact Functor.map_isIso (sheafToPresheaf
       (Opens.grothendieckTopology X) CommRingCat) g
   have : IsIso (g.hom.app (op U)) := by infer_instance
   apply (ConcreteCategory.bijective_of_isIso (g.hom.app (op U))).1
-  show (g.hom.app (op U))
+  change (g.hom.app (op U))
       ((e.hom.hom.app (op U))
         ((toTotalQuotientSheaf X.sheaf).hom.app (op U) s)) =
     (g.hom.app (op U))
@@ -583,7 +583,7 @@ theorem nonempty_totalQuotientSheafIsoConstant (X : Scheme.{u}) [IsIntegral X] :
           (X.presheaf.germ U (genericPoint X) h s))
   dsimp only [e]
   dsimp only [Iso.trans, Iso.symm]
-  show (g.hom.app (op U)).hom
+  change (g.hom.app (op U)).hom
       (((asIso g).inv.hom.app (op U)).hom
         ((f.hom.app (op U)).hom
           ((toTotalQuotientSheaf X.sheaf).hom.app (op U) s))) =
@@ -598,7 +598,7 @@ theorem nonempty_totalQuotientSheafIsoConstant (X : Scheme.{u}) [IsIntegral X] :
     have hcomp : (asIso g).inv.hom.app (op U) ≫ (asIso g).hom.hom.app (op U) = 𝟙 _ :=
       congrArg (fun q => q.hom.app (op U)) (asIso g).inv_hom_id
     have hh := congrArg (fun q => q.hom v) hcomp
-    show ((asIso g).hom.hom.app (op U)).hom
+    change ((asIso g).hom.hom.app (op U)).hom
       (((asIso g).inv.hom.app (op U)).hom v) = v
     simpa only [CommRingCat.comp_apply, CategoryTheory.id_apply] using hh
   rw [hcancel]

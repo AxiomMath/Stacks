@@ -367,7 +367,7 @@ theorem isRegularSection_projectiveCompletionSection :
     AlgebraicGeometry.IsRegularSection (structureCommRings B S hS (projectiveCompletion E hr))
       (structureRingSheaf B S hS (projectiveCompletion E hr)).property
       (projectiveCompletionSection E hr) := by
-  show Mono ((projectiveCompletionTwist E hr).obj.unitHomEquiv.symm
+  change Mono ((projectiveCompletionTwist E hr).obj.unitHomEquiv.symm
     (projectiveCompletionSection E hr))
   rw [unitHomEquiv_symm_projectiveCompletionSection]
   exact mono_projectiveCompletionSectionHom E hr

@@ -30,7 +30,7 @@ theorem surjective_and_ker_of_isPushout {A R P : CommRingCat.{u}} (I : Ideal A) 
   let : Algebra A P := (a ≫ c).hom.toAlgebra
   have : IsScalarTower A R P := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A (A ⧸ I) P := IsScalarTower.of_algebraMap_eq fun x => by
-    show (a ≫ c) x = d (Ideal.Quotient.mk I x)
+    change (a ≫ c) x = d (Ideal.Quotient.mk I x)
     exact congrArg (fun φ : A ⟶ P => φ x) h.w
   have hp : Algebra.IsPushout A R (A ⧸ I) P :=
     (CommRingCat.isPushout_iff_isPushout (R := A) (S := A ⧸ I) (R' := R) (S' := P)).1 h

@@ -264,8 +264,7 @@ theorem exists_isWeakSolution_of_fieldFactor_ramification
     obtain ⟨t, rfl⟩ := hf x
     clear hx
     obtain ⟨v, rfl⟩ := Ideal.Quotient.mk_surjective t
-    induction v using TensorProduct.induction_on with
-    | zero => simpa only [map_zero] using (Algebra.adjoin M (Set.range ι)).zero_mem
+    induction v using TensorProduct.inductionOn with
     | tmul m e =>
       have he : ι e ∈ Algebra.adjoin M (Set.range ι) := Algebra.subset_adjoin ⟨e, rfl⟩
       have eq : f (Ideal.Quotient.mk _ (m ⊗ₜ[K] e)) = algebraMap M F m * ι e := by
@@ -386,7 +385,7 @@ theorem isWeakSolution_of_constant_artinSchreier_parameter
   let : Module.IsTorsionFree A₁ Q := Module.isTorsionFree_iff_algebraMap_injective.mpr hinj
   have hcontr : (IsLocalRing.maximalIdeal Q).under A₁ = IsLocalRing.maximalIdeal A₁ := by
     apply IsLocalRing.eq_maximalIdeal
-    apply Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := A)
+    apply Ideal.IsIntegral.isMaximal_of_isMaximal_under (R := A)
     change ((IsLocalRing.maximalIdeal Q).under A₁ |>.under A).IsMaximal
     rw [Ideal.under_under, Ideal.under_def, IsLocalRing.maximalIdeal_comap]
     infer_instance
@@ -584,7 +583,7 @@ private theorem exists_integralClosure_embedding_into_dvr
     change ι (algebraMap R L x) = ι (algebraMap R L y)
     rw [← hf, ← hf, h]
   have hc : ((IsLocalRing.maximalIdeal Q).comap f.toRingHom).IsMaximal := by
-    apply Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := B)
+    apply Ideal.IsIntegral.isMaximal_of_isMaximal_under (R := B)
     have hcomp : f.toRingHom.comp (algebraMap B R) = algebraMap B Q := f.comp_algebraMap
     change (Ideal.comap (f.toRingHom.comp (algebraMap B R)) (IsLocalRing.maximalIdeal Q)).IsMaximal
     rw [hcomp, IsLocalRing.maximalIdeal_comap]

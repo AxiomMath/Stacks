@@ -30,20 +30,20 @@ variable {I : Type w} (f : I → DifferentialGradedModule.{u, v, w} A)
 
 /-- The degree-`n` part of the product, as an `R`-submodule of `∏ᵢ (f i).M`:
 `Pⁿ = ∏ᵢ (f i).grading n`. -/
-private def prodPn (n : ℤ) : Submodule R (∀ i, (f i).M) :=
+def prodPn (n : ℤ) : Submodule R (∀ i, (f i).M) :=
   Submodule.pi Set.univ (fun i ↦ (f i).grading n)
 
-private theorem mem_prodPn {n : ℤ} (x : ∀ i, (f i).M) :
+theorem mem_prodPn {n : ℤ} (x : ∀ i, (f i).M) :
     x ∈ prodPn f n ↔ ∀ i, x i ∈ (f i).grading n := by
   simp [prodPn, Submodule.mem_pi]
 
-private theorem map_proj_prodPn (i : I) (m : ℤ) :
+theorem map_proj_prodPn (i : I) (m : ℤ) :
     Submodule.map (LinearMap.proj i) (prodPn f m) ≤ (f i).grading m := by
   rintro _ ⟨x, hx, rfl⟩
   exact (mem_prodPn f x).1 hx i
 
 /-- The degree-`n` pieces `Pⁿ` are independent. -/
-private theorem prodPn_indep : iSupIndep (prodPn f) := by
+theorem prodPn_indep : iSupIndep (prodPn f) := by
   rw [iSupIndep_def]
   intro n
   rw [Submodule.disjoint_def]
@@ -68,7 +68,7 @@ private theorem prodPn_indep : iSupIndep (prodPn f) := by
   simpa using hd (x i) ((mem_prodPn f x).1 hxn i) hproj
 
 /-- A homogeneous element `a ∈ A.grading m` sends `Pⁿ` into `P^(n+m)`. -/
-private theorem smul_prodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m) (x : ∀ i, (f i).M)
+theorem smul_prodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m) (x : ∀ i, (f i).M)
     (hx : x ∈ prodPn f n) : (MulOpposite.op a) • x ∈ prodPn f (n + m) := by
   rw [mem_prodPn] at hx ⊢
   intro i
@@ -77,7 +77,7 @@ private theorem smul_prodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m) (
   exact (f i).smul_mem n m (x i) a (hx i) ha
 
 /-- If `φ` sends each graded piece of `M` into `S`, then it sends all of `M` into `S`. -/
-private theorem map_mem_of_decompose {M N : Type*} [AddCommGroup M] [Module R M] [AddCommGroup N]
+theorem map_mem_of_decompose {M N : Type*} [AddCommGroup M] [Module R M] [AddCommGroup N]
     [Module R N] (G : ℤ → Submodule R M) [DirectSum.Decomposition G] (S : Submodule R N)
     (φ : M →+ N) (h : ∀ n y, y ∈ G n → φ y ∈ S) (y : M) : φ y ∈ S := by
   classical
@@ -86,7 +86,7 @@ private theorem map_mem_of_decompose {M N : Type*} [AddCommGroup M] [Module R M]
 
 /-- The submodule `⨆ₙ Pⁿ` of `∏ᵢ (f i).M`, for graded pieces `Pⁿ` stable under homogeneous
 elements of `A`, as an `Aᵐᵒᵖ`-submodule. -/
-private def iSupSub (P : ℤ → Submodule R (∀ i, (f i).M))
+def iSupSub (P : ℤ → Submodule R (∀ i, (f i).M))
     (hP : ∀ n m (a : A.A), a ∈ A.grading m → ∀ x, x ∈ P n → (MulOpposite.op a) • x ∈ P (n + m)) :
     Submodule (MulOpposite A.A) (∀ i, (f i).M) where
   carrier := {x | x ∈ ⨆ n, P n}
@@ -111,24 +111,24 @@ private def iSupSub (P : ℤ → Submodule R (∀ i, (f i).M))
     | add a b _ _ iha ihb => rw [smul_add]; exact (⨆ n, P n).add_mem iha ihb
 
 /-- The product object as an `Aᵐᵒᵖ`-submodule of `∏ᵢ (f i).M`, with carrier `⨆ₙ Pⁿ`. -/
-private def prodSub : Submodule (MulOpposite A.A) (∀ i, (f i).M) :=
+def prodSub : Submodule (MulOpposite A.A) (∀ i, (f i).M) :=
   iSupSub f (prodPn f) (smul_prodPn_hom f)
 
-private theorem mem_prodSub (x : ∀ i, (f i).M) :
+theorem mem_prodSub (x : ∀ i, (f i).M) :
     x ∈ prodSub f ↔ x ∈ ⨆ n, prodPn f n := Iff.rfl
 
-private theorem prodSub_restrict_eq : (prodSub f).restrictScalars R = ⨆ n, prodPn f n := by
+theorem prodSub_restrict_eq : (prodSub f).restrictScalars R = ⨆ n, prodPn f n := by
   apply SetLike.coe_injective; rfl
 
 /-- The componentwise differential on `∏ᵢ (f i).M`. -/
-private noncomputable def prodD0 : (∀ i, (f i).M) →ₗ[R] (∀ i, (f i).M) :=
+noncomputable def prodD0 : (∀ i, (f i).M) →ₗ[R] (∀ i, (f i).M) :=
   LinearMap.pi (fun i ↦ ((f i).d).comp (LinearMap.proj i))
 
-private theorem prodD0_apply (x : ∀ i, (f i).M) (i : I) : prodD0 f x i = (f i).d (x i) := by
+theorem prodD0_apply (x : ∀ i, (f i).M) (i : I) : prodD0 f x i = (f i).d (x i) := by
   simp [prodD0, LinearMap.pi_apply]
 
 /-- `prodD0` sends `Pⁿ` into `P^(n+1)`. -/
-private theorem prodD0_prodPn (n : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ prodPn f n) :
+theorem prodD0_prodPn (n : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ prodPn f n) :
     prodD0 f x ∈ prodPn f (n + 1) := by
   rw [mem_prodPn] at hx ⊢
   intro i
@@ -136,41 +136,41 @@ private theorem prodD0_prodPn (n : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ prodPn 
   exact (f i).d_mem n (x i) (hx i)
 
 /-- `prodD0` preserves `⨆ₙ Pⁿ` whenever it sends each `Pⁿ` into `P^(n+1)`. -/
-private theorem prodD0_mem_iSup (P : ℤ → Submodule R (∀ i, (f i).M))
+theorem prodD0_mem_iSup (P : ℤ → Submodule R (∀ i, (f i).M))
     (hP : ∀ n x, x ∈ P n → prodD0 f x ∈ P (n + 1)) (x : ∀ i, (f i).M) (hx : x ∈ ⨆ n, P n) :
     prodD0 f x ∈ ⨆ n, P n :=
   (iSup_le fun n y hy ↦ Submodule.mem_iSup_of_mem (n + 1) (hP n y hy) :
     ⨆ n, P n ≤ (⨆ n, P n).comap (prodD0 f)) hx
 
-private theorem prodD0_prodD0 (x : ∀ i, (f i).M) : prodD0 f (prodD0 f x) = 0 := by
+theorem prodD0_prodD0 (x : ∀ i, (f i).M) : prodD0 f (prodD0 f x) = 0 := by
   funext i
   rw [prodD0_apply, prodD0_apply]
   simpa using LinearMap.congr_fun (f i).d_comp_d (x i)
 
 /-- The Leibniz rule for `prodD0`, on homogeneous elements. -/
-private theorem prodD0_leibniz (n m : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ prodPn f n) (a : A.A)
+theorem prodD0_leibniz (n m : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ prodPn f n) (a : A.A)
     (ha : a ∈ A.grading m) : prodD0 f (MulOpposite.op a • x)
       = MulOpposite.op a • prodD0 f x + (n.negOnePow : ℤ) • (MulOpposite.op (A.d a) • x) := by
   funext i
   exact (f i).leibniz n m (x i) a ((mem_prodPn f x).1 hx i) ha
 
 /-- `prodD0` preserves the product submodule `prodSub`. -/
-private theorem prodD0_mem (x : ∀ i, (f i).M) (hx : x ∈ (prodSub f).restrictScalars R) :
+theorem prodD0_mem (x : ∀ i, (f i).M) (hx : x ∈ (prodSub f).restrictScalars R) :
     prodD0 f x ∈ (prodSub f).restrictScalars R := by
   rw [prodSub_restrict_eq] at hx ⊢
   exact prodD0_mem_iSup f _ (prodD0_prodPn f) x hx
 
 /-- The grading on the product object. -/
-private noncomputable def prodGrading (n : ℤ) : Submodule R ↥(prodSub f) :=
+noncomputable def prodGrading (n : ℤ) : Submodule R ↥(prodSub f) :=
   Submodule.inducedGrading (prodPn f) ((prodSub f).restrictScalars R) n
 
 /-- The differential on the product object. -/
-private noncomputable def prodD : ↥(prodSub f) →ₗ[R] ↥(prodSub f) :=
+noncomputable def prodD : ↥(prodSub f) →ₗ[R] ↥(prodSub f) :=
   LinearMap.restrict (prodD0 f) (p := (prodSub f).restrictScalars R)
     (q := (prodSub f).restrictScalars R) (prodD0_mem f)
 
 /-- The product object `P = ⊕ₙ ∏ᵢ (f i).grading n`. -/
-private noncomputable def prodObj : DifferentialGradedModule.{u, v, w} A where
+noncomputable def prodObj : DifferentialGradedModule.{u, v, w} A where
   M := ↥(prodSub f)
   grading := prodGrading f
   decomposition := by
@@ -193,14 +193,14 @@ private noncomputable def prodObj : DifferentialGradedModule.{u, v, w} A where
     intro n m x a hx ha
     exact Subtype.ext (prodD0_leibniz f n m x hx a ha)
 
-@[simp] private theorem prodObj_M : (prodObj f).M = ↥(prodSub f) := rfl
+@[simp] theorem prodObj_M : (prodObj f).M = ↥(prodSub f) := rfl
 
-@[simp] private theorem prodObj_grading : (prodObj f).grading = prodGrading f := rfl
+@[simp] theorem prodObj_grading : (prodObj f).grading = prodGrading f := rfl
 
-@[simp] private theorem prodObj_d : (prodObj f).d = prodD f := rfl
+@[simp] theorem prodObj_d : (prodObj f).d = prodD f := rfl
 
 /-- The `i`-th projection `prodObj f ⟶ f i`. -/
-private noncomputable def prodπ (i : I) : prodObj f ⟶ f i where
+noncomputable def prodπ (i : I) : prodObj f ⟶ f i where
   toFun := (LinearMap.proj i).comp ((prodSub f).restrictScalars R).subtype
   map_smul := by intro x a; rfl
   map_grading := by
@@ -211,11 +211,11 @@ private noncomputable def prodπ (i : I) : prodObj f ⟶ f i where
     ext x
     rfl
 
-@[simp] private theorem prodπ_toFun_apply (i : I) (x : ↥(prodSub f)) :
+@[simp] theorem prodπ_toFun_apply (i : I) (x : ↥(prodSub f)) :
     (prodπ f i).toFun x = (x : ∀ i, (f i).M) i := rfl
 
 /-- For `t` in a cone point `T`, the function `i ↦ (g i).toFun t` lies in `prodSub`. -/
-private theorem prodLift_mem {T : DifferentialGradedModule.{u, v, w} A}
+theorem prodLift_mem {T : DifferentialGradedModule.{u, v, w} A}
     (g : ∀ i, T ⟶ f i) (t : T.M) :
     (fun i => (g i).toFun t) ∈ (prodSub f).restrictScalars R := by
   rw [prodSub_restrict_eq]
@@ -224,7 +224,7 @@ private theorem prodLift_mem {T : DifferentialGradedModule.{u, v, w} A}
       ((mem_prodPn f _).2 fun i ↦ (g i).map_grading n y hy)) t
 
 /-- The lift of a cone `(g i : T ⟶ f i)` to `T ⟶ prodObj f`. -/
-private noncomputable def prodLift {T : DifferentialGradedModule.{u, v, w} A} (g : ∀ i, T ⟶ f i) :
+noncomputable def prodLift {T : DifferentialGradedModule.{u, v, w} A} (g : ∀ i, T ⟶ f i) :
     T ⟶ prodObj f where
   toFun := LinearMap.codRestrict ((prodSub f).restrictScalars R)
     (LinearMap.pi (fun i ↦ (g i).toFun)) (fun t ↦ prodLift_mem f g t)
@@ -257,7 +257,7 @@ variable {I : Type w} (f : I → DifferentialGradedModule.{u, v, w} A)
 
 /-- The finitely-supported functions inside `∏ᵢ (f i).M`, as an `R`-submodule. This is the
 underlying module of the direct sum `⊕ᵢ (f i).M`. -/
-private def finsuppSub : Submodule R (∀ i, (f i).M) where
+def finsuppSub : Submodule R (∀ i, (f i).M) where
   carrier := {x | {i | x i ≠ 0}.Finite}
   add_mem' := by
     intro a b ha hb
@@ -278,37 +278,37 @@ private def finsuppSub : Submodule R (∀ i, (f i).M) where
     simp only [Set.mem_ofPred_eq, Pi.smul_apply] at *
     intro h; apply hi; rw [h]; simp
 
-private theorem mem_finsuppSub (x : ∀ i, (f i).M) :
+theorem mem_finsuppSub (x : ∀ i, (f i).M) :
     x ∈ finsuppSub f ↔ {i | x i ≠ 0}.Finite := Iff.rfl
 
 /-- The degree-`n` part of the coproduct, as an `R`-submodule of `∏ᵢ (f i).M`:
 finitely-supported functions whose components are homogeneous of degree `n`. -/
-private def coprodPn (n : ℤ) : Submodule R (∀ i, (f i).M) :=
+def coprodPn (n : ℤ) : Submodule R (∀ i, (f i).M) :=
   finsuppSub f ⊓ prodPn f n
 
-private theorem mem_coprodPn {n : ℤ} (x : ∀ i, (f i).M) :
+theorem mem_coprodPn {n : ℤ} (x : ∀ i, (f i).M) :
     x ∈ coprodPn f n ↔ {i | x i ≠ 0}.Finite ∧ ∀ i, x i ∈ (f i).grading n := by
   simp [coprodPn, mem_finsuppSub, mem_prodPn]
 
-private theorem coprodPn_le_prodPn (n : ℤ) : coprodPn f n ≤ prodPn f n := inf_le_right
+theorem coprodPn_le_prodPn (n : ℤ) : coprodPn f n ≤ prodPn f n := inf_le_right
 
 /-- The degree-`n` pieces `coprodPn` are independent. -/
-private theorem coprodPn_indep : iSupIndep (coprodPn f) :=
+theorem coprodPn_indep : iSupIndep (coprodPn f) :=
   (prodPn_indep f).mono (coprodPn_le_prodPn f)
 
 /-- The support of `z` lies in `S` if it lies in the support of `x ⊆ S`. -/
-private theorem support_subset_of_forall {x z : ∀ i, (f i).M} {S : Set I}
+theorem support_subset_of_forall {x z : ∀ i, (f i).M} {S : Set I}
     (hx : {i | x i ≠ 0} ⊆ S) (h : ∀ i, x i = 0 → z i = 0) : {i | z i ≠ 0} ⊆ S :=
   fun i hi ↦ hx fun h0 ↦ hi (h i h0)
 
 /-- Finitely supported, homogeneous `z` whose support lies in that of `x ∈ coprodPn f n`
 lies in `coprodPn f m`. -/
-private theorem mem_coprodPn_of_forall {n m : ℤ} (x z : ∀ i, (f i).M) (hx : x ∈ coprodPn f n)
+theorem mem_coprodPn_of_forall {n m : ℤ} (x z : ∀ i, (f i).M) (hx : x ∈ coprodPn f n)
     (h : ∀ i, x i = 0 → z i = 0) (hz : z ∈ prodPn f m) : z ∈ coprodPn f m :=
   ⟨((mem_coprodPn f x).1 hx).1.subset (support_subset_of_forall f subset_rfl h), hz⟩
 
 /-- A homogeneous element `a ∈ A.grading m` sends `coprodPn n` into `coprodPn (n+m)`. -/
-private theorem smul_coprodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m) (x : ∀ i, (f i).M)
+theorem smul_coprodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m) (x : ∀ i, (f i).M)
     (hx : x ∈ coprodPn f n) : (MulOpposite.op a) • x ∈ coprodPn f (n + m) :=
   mem_coprodPn_of_forall f x _ hx (fun i h ↦ by
     change MulOpposite.op a • x i = 0
@@ -316,38 +316,38 @@ private theorem smul_coprodPn_hom (n m : ℤ) (a : A.A) (ha : a ∈ A.grading m)
     (smul_prodPn_hom f n m a ha x (coprodPn_le_prodPn f n hx))
 
 /-- The coproduct object as an `Aᵐᵒᵖ`-submodule of `∏ᵢ (f i).M`, carrier `⨆ₙ coprodPn n`. -/
-private def coprodSub : Submodule (MulOpposite A.A) (∀ i, (f i).M) :=
+def coprodSub : Submodule (MulOpposite A.A) (∀ i, (f i).M) :=
   iSupSub f (coprodPn f) (smul_coprodPn_hom f)
 
-private theorem mem_coprodSub (x : ∀ i, (f i).M) :
+theorem mem_coprodSub (x : ∀ i, (f i).M) :
     x ∈ coprodSub f ↔ x ∈ ⨆ n, coprodPn f n := Iff.rfl
 
-private theorem coprodSub_restrict_eq : (coprodSub f).restrictScalars R = ⨆ n, coprodPn f n := by
+theorem coprodSub_restrict_eq : (coprodSub f).restrictScalars R = ⨆ n, coprodPn f n := by
   apply SetLike.coe_injective; rfl
 
 /-- `prodD0` (componentwise differential) sends `coprodPn n` into `coprodPn (n+1)`. -/
-private theorem prodD0_coprodPn (n : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ coprodPn f n) :
+theorem prodD0_coprodPn (n : ℤ) (x : ∀ i, (f i).M) (hx : x ∈ coprodPn f n) :
     prodD0 f x ∈ coprodPn f (n + 1) :=
   mem_coprodPn_of_forall f x _ hx (fun i h ↦ by rw [prodD0_apply, h, map_zero])
     (prodD0_prodPn f n x (coprodPn_le_prodPn f n hx))
 
 /-- `prodD0` preserves the coproduct submodule `coprodSub`. -/
-private theorem prodD0_coprodMem (x : ∀ i, (f i).M) (hx : x ∈ (coprodSub f).restrictScalars R) :
+theorem prodD0_coprodMem (x : ∀ i, (f i).M) (hx : x ∈ (coprodSub f).restrictScalars R) :
     prodD0 f x ∈ (coprodSub f).restrictScalars R := by
   rw [coprodSub_restrict_eq] at hx ⊢
   exact prodD0_mem_iSup f _ (prodD0_coprodPn f) x hx
 
 /-- The grading on the coproduct object. -/
-private noncomputable def coprodGrading (n : ℤ) : Submodule R ↥(coprodSub f) :=
+noncomputable def coprodGrading (n : ℤ) : Submodule R ↥(coprodSub f) :=
   Submodule.inducedGrading (coprodPn f) ((coprodSub f).restrictScalars R) n
 
 /-- The differential on the coproduct object. -/
-private noncomputable def coprodD : ↥(coprodSub f) →ₗ[R] ↥(coprodSub f) :=
+noncomputable def coprodD : ↥(coprodSub f) →ₗ[R] ↥(coprodSub f) :=
   LinearMap.restrict (prodD0 f) (p := (coprodSub f).restrictScalars R)
     (q := (coprodSub f).restrictScalars R) (prodD0_coprodMem f)
 
 /-- The coproduct object `S = ⊕ₙ ⊕ᵢ (f i).grading n` (underlying direct sum). -/
-private noncomputable def coprodObj : DifferentialGradedModule.{u, v, w} A where
+noncomputable def coprodObj : DifferentialGradedModule.{u, v, w} A where
   M := ↥(coprodSub f)
   grading := coprodGrading f
   decomposition := by
@@ -370,14 +370,14 @@ private noncomputable def coprodObj : DifferentialGradedModule.{u, v, w} A where
     intro n m x a hx ha
     exact Subtype.ext (prodD0_leibniz f n m x (coprodPn_le_prodPn f n hx) a ha)
 
-@[simp] private theorem coprodObj_M : (coprodObj f).M = ↥(coprodSub f) := rfl
+@[simp] theorem coprodObj_M : (coprodObj f).M = ↥(coprodSub f) := rfl
 
-@[simp] private theorem coprodObj_grading : (coprodObj f).grading = coprodGrading f := rfl
+@[simp] theorem coprodObj_grading : (coprodObj f).grading = coprodGrading f := rfl
 
-@[simp] private theorem coprodObj_d : (coprodObj f).d = coprodD f := rfl
+@[simp] theorem coprodObj_d : (coprodObj f).d = coprodD f := rfl
 
 /-- Membership in `coprodSub` entails finite support. -/
-private theorem coprodSub_finite (x : ∀ i, (f i).M) (hx : x ∈ (coprodSub f).restrictScalars R) :
+theorem coprodSub_finite (x : ∀ i, (f i).M) (hx : x ∈ (coprodSub f).restrictScalars R) :
     {i | x i ≠ 0}.Finite := by
   rw [coprodSub_restrict_eq] at hx
   induction hx using Submodule.iSup_induction' with
@@ -394,24 +394,24 @@ private theorem coprodSub_finite (x : ∀ i, (f i).M) (hx : x ∈ (coprodSub f).
       exact hi (by rw [h.1, h.2, add_zero])
 
 /-- The canonical inclusion `(f i).M → ∏ⱼ (f j).M` (a single nonzero coordinate). -/
-private noncomputable def coprodIncl0 (i : I) : (f i).M →ₗ[R] (∀ j, (f j).M) :=
+noncomputable def coprodIncl0 (i : I) : (f i).M →ₗ[R] (∀ j, (f j).M) :=
   letI := Classical.decEq I
   LinearMap.single R (fun j ↦ (f j).M) i
 
-private theorem coprodIncl0_apply_self (i : I) (y : (f i).M) :
+theorem coprodIncl0_apply_self (i : I) (y : (f i).M) :
     coprodIncl0 f i y i = y := by
   classical
-  show (Pi.single i y : ∀ j, (f j).M) i = y
+  change (Pi.single i y : ∀ j, (f j).M) i = y
   simp
 
-private theorem coprodIncl0_apply_ne (i : I) (y : (f i).M) (j : I) (h : j ≠ i) :
+theorem coprodIncl0_apply_ne (i : I) (y : (f i).M) (j : I) (h : j ≠ i) :
     coprodIncl0 f i y j = 0 := by
   classical
-  show (Pi.single i y : ∀ k, (f k).M) j = 0
+  change (Pi.single i y : ∀ k, (f k).M) j = 0
   rw [Pi.single_eq_of_ne h]
 
 /-- `coprodIncl0 i y` is in `coprodPn n` when `y` is homogeneous of degree `n`. -/
-private theorem coprodIncl0_mem_coprodPn (i : I) (n : ℤ) (y : (f i).M) (hy : y ∈ (f i).grading n) :
+theorem coprodIncl0_mem_coprodPn (i : I) (n : ℤ) (y : (f i).M) (hy : y ∈ (f i).grading n) :
     coprodIncl0 f i y ∈ coprodPn f n := by
   rw [mem_coprodPn]
   refine ⟨(Set.finite_singleton i).subset fun j hj ↦ ?_, fun j ↦ ?_⟩
@@ -422,14 +422,14 @@ private theorem coprodIncl0_mem_coprodPn (i : I) (n : ℤ) (y : (f i).M) (hy : y
     · rw [coprodIncl0_apply_ne f i _ j hji]; exact Submodule.zero_mem _
 
 /-- `coprodIncl0 i y` lands in `coprodSub`. -/
-private theorem coprodIncl0_mem (i : I) (y : (f i).M) :
+theorem coprodIncl0_mem (i : I) (y : (f i).M) :
     coprodIncl0 f i y ∈ (coprodSub f).restrictScalars R := by
   rw [coprodSub_restrict_eq]
   exact map_mem_of_decompose (f i).grading _ (coprodIncl0 f i).toAddMonoidHom
     (fun n z hz ↦ Submodule.mem_iSup_of_mem n (coprodIncl0_mem_coprodPn f i n z hz)) y
 
 /-- The `i`-th coproduct injection `f i ⟶ coprodObj f`. -/
-private noncomputable def coprodι (i : I) : f i ⟶ coprodObj f where
+noncomputable def coprodι (i : I) : f i ⟶ coprodObj f where
   toFun := LinearMap.codRestrict ((coprodSub f).restrictScalars R) (coprodIncl0 f i)
     (fun y ↦ coprodIncl0_mem f i y)
   map_smul := by
@@ -463,11 +463,11 @@ private noncomputable def coprodι (i : I) : f i ⟶ coprodObj f where
 variable {T : DifferentialGradedModule.{u, v, w} A} (g : ∀ i, f i ⟶ T)
 
 /-- Underlying sum over a finset of the cocone components. -/
-private noncomputable def coprodGenSum (s : Finset I) (x : ∀ i, (f i).M) : T.M :=
+noncomputable def coprodGenSum (s : Finset I) (x : ∀ i, (f i).M) : T.M :=
   ∑ j ∈ s, (g j).toFun (x j)
 
 /-- The sum is unchanged when enlarging the finset beyond the support of `x`. -/
-private theorem coprodGenSum_subset (x : ∀ i, (f i).M) (s t : Finset I)
+theorem coprodGenSum_subset (x : ∀ i, (f i).M) (s t : Finset I)
     (hs : {i | x i ≠ 0} ⊆ ↑s) (hst : s ⊆ t) :
     coprodGenSum f g t x = coprodGenSum f g s x := by
   symm
@@ -479,7 +479,7 @@ private theorem coprodGenSum_subset (x : ∀ i, (f i).M) (s t : Finset I)
   rw [this, map_zero]
 
 /-- The descent map's underlying function: `x ↦ ∑ⱼ (g j) (x j)` over the (finite) support. -/
-private noncomputable def coprodDescent0 : ↥(coprodSub f) →ₗ[R] T.M where
+noncomputable def coprodDescent0 : ↥(coprodSub f) →ₗ[R] T.M where
   toFun x := coprodGenSum f g (coprodSub_finite f x x.2).toFinset (x : ∀ i, (f i).M)
   map_add' := by
     intro x y
@@ -541,12 +541,12 @@ private noncomputable def coprodDescent0 : ↥(coprodSub f) →ₗ[R] T.M where
     rw [this, map_smul]
 
 /-- The descent map composed with the `i`-th injection is `g i`. -/
-private theorem coprodDescent0_incl (i : I) (y : (f i).M) :
+theorem coprodDescent0_incl (i : I) (y : (f i).M) :
     coprodDescent0 f g ((coprodι f i).toFun y) = (g i).toFun y := by
   classical
   let w : ↥(coprodSub f) := (coprodι f i).toFun y
   have hzval : (w : ∀ j, (f j).M) = coprodIncl0 f i y := rfl
-  show coprodGenSum f g (coprodSub_finite f (w : ∀ j, (f j).M) w.2).toFinset
+  change coprodGenSum f g (coprodSub_finite f (w : ∀ j, (f j).M) w.2).toFinset
       (w : ∀ j, (f j).M) = (g i).toFun y
   have hsub : (coprodSub_finite f (w : ∀ j, (f j).M) w.2).toFinset ⊆ {i} := by
     intro j hj
@@ -563,11 +563,11 @@ private theorem coprodDescent0_incl (i : I) (y : (f i).M) :
   rw [hzval, coprodIncl0_apply_self]
 
 /-- `coprodDescent0 x` computed over any finset containing the support of `x`. -/
-private theorem coprodDescent0_eq_genSum (x : ↥(coprodSub f)) (s : Finset I)
+theorem coprodDescent0_eq_genSum (x : ↥(coprodSub f)) (s : Finset I)
     (hs : {i | (x : ∀ j, (f j).M) i ≠ 0} ⊆ ↑s) :
     coprodDescent0 f g x = coprodGenSum f g s (x : ∀ j, (f j).M) := by
   classical
-  show coprodGenSum f g (coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset
+  change coprodGenSum f g (coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset
       (x : ∀ j, (f j).M) = coprodGenSum f g s (x : ∀ j, (f j).M)
   have hsupp : {i | (x : ∀ j, (f j).M) i ≠ 0}
       ⊆ ↑(coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset := by
@@ -581,7 +581,7 @@ private theorem coprodDescent0_eq_genSum (x : ↥(coprodSub f)) (s : Finset I)
         ((coprodSub_finite f (x : ∀ j, (f j).M) x.2).toFinset ∪ s) hs Finset.subset_union_right]
 
 /-- The descent homomorphism `coprodObj f ⟶ T` for a cocone `g`. -/
-private noncomputable def coprodDesc : coprodObj f ⟶ T where
+noncomputable def coprodDesc : coprodObj f ⟶ T where
   toFun := coprodDescent0 f g
   map_smul := by
     intro x a
@@ -627,26 +627,26 @@ private noncomputable def coprodDesc : coprodObj f ⟶ T where
     rw [prodD0_apply]
     simpa using LinearMap.congr_fun (g j).map_d ((w : ∀ k, (f k).M) j)
 
-@[simp] private theorem coprodDesc_toFun_apply (x : ↥(coprodSub f)) :
+@[simp] theorem coprodDesc_toFun_apply (x : ↥(coprodSub f)) :
     (coprodDesc f g).toFun x = coprodDescent0 f g x := rfl
 
 /-- Every element of the coproduct is the (finite) sum of its single-coordinate parts. -/
-private theorem coprodSub_repr (x : ↥(coprodSub f)) (s : Finset I)
+theorem coprodSub_repr (x : ↥(coprodSub f)) (s : Finset I)
     (hs : {i | (x : ∀ j, (f j).M) i ≠ 0} ⊆ (↑s : Set I)) :
     x = ∑ i ∈ s, (coprodι f i).toFun ((x : ∀ j, (f j).M) i) := by
   classical
   apply Subtype.ext
   funext k
-  show (x : ∀ j, (f j).M) k = ((∑ i ∈ s, (coprodι f i).toFun ((x : ∀ j, (f j).M) i)
+  change (x : ∀ j, (f j).M) k = ((∑ i ∈ s, (coprodι f i).toFun ((x : ∀ j, (f j).M) i)
       : ↥(coprodSub f)) : ∀ j, (f j).M) k
   rw [AddSubmonoid.coe_finsetSum]
   rw [Finset.sum_apply]
   by_cases hk : k ∈ s
   · rw [Finset.sum_eq_single k]
-    · show (x : ∀ j, (f j).M) k = coprodIncl0 f k ((x : ∀ j, (f j).M) k) k
+    · change (x : ∀ j, (f j).M) k = coprodIncl0 f k ((x : ∀ j, (f j).M) k) k
       rw [coprodIncl0_apply_self]
     · intro b _ hbk
-      show coprodIncl0 f b ((x : ∀ j, (f j).M) b) k = 0
+      change coprodIncl0 f b ((x : ∀ j, (f j).M) b) k = 0
       rw [coprodIncl0_apply_ne f b _ k (fun h ↦ hbk h.symm)]
     · intro h; exact absurd hk h
   · have hxk : (x : ∀ j, (f j).M) k = 0 := by
@@ -658,7 +658,7 @@ private theorem coprodSub_repr (x : ↥(coprodSub f)) (s : Finset I)
     intro b hb
     rcases eq_or_ne k b with hkb | hkb
     · subst hkb; exact absurd hb hk
-    · show coprodIncl0 f b ((x : ∀ j, (f j).M) b) k = 0
+    · change coprodIncl0 f b ((x : ∀ j, (f j).M) b) k = 0
       rw [coprodIncl0_apply_ne f b _ k hkb]
 
 end Coproduct

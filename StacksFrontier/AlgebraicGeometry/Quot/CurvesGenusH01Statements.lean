@@ -165,7 +165,7 @@ theorem curvesGenus_decomposition_of_h01Statements
     fun g => isGenusCurveFamily_iff_of_h01Statements hbetti hstruct h3 g hG hR⟩
   have hcompl : (Ω g)ᶜ = ⋃ g' ∈ {g' | g' ≠ g}, Ω g' := by
     ext s
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     refine ⟨fun hs => ?_, fun ⟨g', hne, hs'⟩ hs =>
       hne (Space.eq_of_mem_rankLocus_of_mem_rankLocus hs' hs)⟩
     obtain ⟨g', hg'⟩ := Set.mem_iUnion.mp (hcov.symm ▸ Set.mem_univ s : s ∈ ⋃ g, Ω g)

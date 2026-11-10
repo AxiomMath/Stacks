@@ -103,7 +103,7 @@ lemma baseChange_naturality_snd {G G' : PresheafOfModules.{w} (ringPresheaf O₁
           γ).app X).hom.toAddMonoidHom
   refine tensorBaseChange_hom_ext L R ?_
   intro a s x
-  show tensorBaseChange
+  change tensorBaseChange
       (a ⊗ₜ[O₂.obj.obj X] (s ⊗ₜ[O₁.obj.obj X] (show G'.obj X from (γ.app X).hom x))) =
     (show H.obj X from s • a) ⊗ₜ[O₁.obj.obj X] (show G'.obj X from (γ.app X).hom x)
   rw [tensorBaseChange_tmul]

@@ -156,7 +156,7 @@ theorem fromPreimage_isIso_of_isIso
     · intro y
       refine ⟨⟨e.inv.app (Opposite.op T) y.1, ?_⟩, ?_⟩
       · change e.hom.app (Opposite.op T) (e.inv.app (Opposite.op T) y.1) ∈ U.obj _
-        simpa using y.2
+        simp
       · apply Subtype.ext
         change e.hom.app (Opposite.op T) (e.inv.app (Opposite.op T) y.1) = y.1
         simp

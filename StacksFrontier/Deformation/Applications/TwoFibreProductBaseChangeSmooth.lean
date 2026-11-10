@@ -125,7 +125,7 @@ public lemma isCofiberedInGroupoids_twoFibreProductBasedCategory
         w := Functor.IsCocartesian.fac 𝓖.p baseMap.unop (p₁.map firstMap)
           (original.iso.hom ≫ p₂.map secondMap) }
     refine ⟨Opposite.op image, lift.op, ?_⟩
-    show (twoFibreProductBasedCategory p₁ p₂).p.op.IsHomLift baseMap lift.op
+    change (twoFibreProductBasedCategory p₁ p₂).p.op.IsHomLift baseMap lift.op
     have hmap : (twoFibreProductBasedCategory p₁ p₂).p.op.map lift.op = baseMap :=
       Quiver.Hom.unop_inj rfl
     exact hmap ▸ IsHomLift.map _ _
@@ -244,9 +244,9 @@ private lemma mapLiftClasses_injective (q : BasedFunctor 𝓖 𝓕)
   have : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
   have : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   have : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2G⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2G⟩
   have : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2F⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2F⟩
   let := liftAction 𝓖 h𝓖 f hf hann x
   let := liftAction 𝓕 h𝓕 f hf hann ((fiberFunctor q A).obj x)
   let dq := IsLinearMap.mk' _
@@ -315,7 +315,7 @@ private lemma exists_iso_lift_of_differential_injective (q : BasedFunctor 𝓖 �
         { hom := a.inv
           isHomLift := IsHomLift.lift_id_inv 𝓕.p B a
           fac := by
-            show a.inv ≫ q.map (r₁ ≫ b.hom) = q.map r₂
+            change a.inv ≫ q.map (r₁ ≫ b.hom) = q.map r₂
             rw [q.map_comp, hw, ← Category.assoc, a.inv_hom_id, Category.id_comp] }
       hom_inv_id := Lift.Hom.ext a.hom_inv_id
       inv_hom_id := Lift.Hom.ext a.inv_hom_id }
@@ -348,12 +348,12 @@ private lemma exists_iso_lift_of_mapRelativeInfinitesimalAutomorphisms_surjectiv
       inv := ⟨a.inv ≫ q.map c.hom, IsHomLift.comp_of_lift_id 𝓕.p B a.inv (q.map c.hom)⟩
       hom_inv_id := by
         apply Functor.Fiber.hom_ext
-        show (q.map c.inv ≫ a.hom) ≫ (a.inv ≫ q.map c.hom) = 𝟙 (q.obj z₂.1)
+        change (q.map c.inv ≫ a.hom) ≫ (a.inv ≫ q.map c.hom) = 𝟙 (q.obj z₂.1)
         rw [Category.assoc, ← Category.assoc a.hom, a.hom_inv_id, Category.id_comp,
           ← q.map_comp, c.inv_hom_id, q.map_id]
       inv_hom_id := by
         apply Functor.Fiber.hom_ext
-        show (a.inv ≫ q.map c.hom) ≫ (q.map c.inv ≫ a.hom) = 𝟙 (q.obj z₂.1)
+        change (a.inv ≫ q.map c.hom) ≫ (q.map c.inv ≫ a.hom) = 𝟙 (q.obj z₂.1)
         rw [Category.assoc, ← Category.assoc (q.map c.hom), ← q.map_comp, c.hom_inv_id,
           q.map_id, Category.id_comp, a.inv_hom_id] }
   have hdifference : difference ∈ relativeInfinitesimalAutomorphisms
@@ -362,7 +362,7 @@ private lemma exists_iso_lift_of_mapRelativeInfinitesimalAutomorphisms_surjectiv
     refine (mem_relativeInfinitesimalAutomorphisms_iff
       (x' := (fiberFunctor q B).obj z₂) (x := (fiberFunctor q A).obj t₂)
       h𝓕 f (q.map r₂) (isHomLift_basedFunctor_map q f r₂ hr₂) difference).mpr ?_
-    show (q.map c.inv ≫ a.hom) ≫ q.map r₂ = q.map r₂
+    change (q.map c.inv ≫ a.hom) ≫ q.map r₂ = q.map r₂
     rw [Category.assoc, ← hw, ← q.map_comp, hcomm, q.map_comp, ← Category.assoc,
       ← q.map_comp, c.inv_hom_id, q.map_id, Category.id_comp]
   obtain ⟨correction, hcorrection⟩ := hsurj ⟨difference, hdifference⟩
@@ -376,12 +376,12 @@ private lemma exists_iso_lift_of_mapRelativeInfinitesimalAutomorphisms_surjectiv
     correction.1.asIso.hom.property
   let correctionIso : z₂.1 ≅ z₂.1 := isoOfIsHomLiftId h𝓖 correction.1.asIso.hom.val hvert
   refine ⟨c ≪≫ correctionIso, ?_, ?_, ?_⟩
-  · show 𝓖.p.IsHomLift (𝟙 B) (c.hom ≫ correction.1.asIso.hom.val)
+  · change 𝓖.p.IsHomLift (𝟙 B) (c.hom ≫ correction.1.asIso.hom.val)
     exact IsHomLift.comp_of_lift_id 𝓖.p B c.hom correction.1.asIso.hom.val
-  · show r₁ ≫ b.hom = (c.hom ≫ correction.1.asIso.hom.val) ≫ r₂
+  · change r₁ ≫ b.hom = (c.hom ≫ correction.1.asIso.hom.val) ≫ r₂
     rwa [Category.assoc, hfix]
   · apply Iso.ext
-    show q.map (c.hom ≫ correction.1.asIso.hom.val) = a.hom
+    change q.map (c.hom ≫ correction.1.asIso.hom.val) = a.hom
     rw [q.map_comp, hmap, ← Category.assoc, ← q.map_comp, c.hom_inv_id, q.map_id,
       Category.id_comp]
 
@@ -436,7 +436,7 @@ private lemma isSmooth_mapTwoFibreProductBaseChange_of_lifts
     { hbase := 𝟙 Y.base, a := 𝟙 Y.x, b := 𝟙 Y.y,
       ha := IsHomLift.id Y.hx, hb := IsHomLift.id Y.hy,
       w := by
-        show q.map (p₁.map (𝟙 Y.x)) ≫ Y.iso.hom =
+        change q.map (p₁.map (𝟙 Y.x)) ≫ Y.iso.hom =
           q.map comparison.hom ≫ q.map (p₂.map (𝟙 Y.y))
         rw [p₁.map_id, p₂.map_id, q.map_id, q.map_id]
         exact (Category.id_comp _).trans

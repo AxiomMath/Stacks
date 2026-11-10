@@ -148,7 +148,7 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
     Ideal.map_mono (Ideal.pow_le_pow_right (Nat.le_succ _))
   have hJ₂ : ∀ i k, ∃ n, Ji i n ≤ maximalIdeal (Ai i) ^ k := fun i k => ⟨k, by
     refine le_trans ?_ (Ideal.pow_le_pow_right (Nat.le_succ k))
-    show (maximalIdeal R ^ (k + 1)).map (algebraMap R (Ai i)) ≤ _
+    change (maximalIdeal R ^ (k + 1)).map (algebraMap R (Ai i)) ≤ _
     rw [Ideal.map_pow]
     exact Ideal.pow_right_mono (IsLocalRing.map_maximalIdeal_le _) _⟩
   have hJ₁ : ∀ i n, ∃ k, maximalIdeal (Ai i) ^ k ≤ Ji i n := fun i n => by
@@ -183,7 +183,7 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
   let qi : ∀ n i, A ⧸ J n →+* Ai i ⧸ Ji i n := fun n i =>
     Ideal.quotientMap (Ji i n) (pr i) (Ideal.map_le_iff_le_comap.1 (hqJ n i).le)
   let qe : ∀ n, A ⧸ J n ≃+* Π i, Ai i ⧸ Ji i n := fun n =>
-    RingEquiv.ofBijective (Pi.ringHom (qi n)) (by
+    RingEquiv.ofBijective (RingHom.pi (qi n)) (by
       constructor
       · rw [injective_iff_map_eq_zero]
         intro a ha
@@ -202,13 +202,12 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
         refine ⟨Ideal.Quotient.mk _ (e.symm fun i => (Ideal.Quotient.mk_surjective (b i)).choose),
           ?_⟩
         ext i
-        show Ideal.Quotient.mk (Ji i n) (e (e.symm _) i) = b i
+        change Ideal.Quotient.mk (Ji i n) (e (e.symm _) i) = b i
         rw [RingEquiv.apply_symm_apply]
         exact (Ideal.Quotient.mk_surjective (b i)).choose_spec)
-
   -- the factors and their truncations as objects of the site
   have hTA : B.Contains (Spec (.of A)) := by
-    show (Spec (.of A)).size < B.cutoff
+    change (Spec (.of A)).size < B.cutoff
     rw [← Scheme.size_congr eT]
     exact T.left.2
   have hTi : ∀ i, B.Contains (Spec (.of (Ai i))) := fun i => by
@@ -229,7 +228,7 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
   have hWhom : ∀ n, B.inclusion.map (W n).hom =
       (eW n).hom ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (J n))) ≫ sT := fun n => by
     rw [← Over.w (ι n), Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map (ι n) ≫ _ = _
+    change (BigFppfOver.toScheme B S hS).map (ι n) ≫ _ = _
     rw [← Category.comp_id ((BigFppfOver.toScheme B S hS).map (ι n)), ← eT.hom_inv_id,
       ← Category.assoc, hι n]
     simp [sT]
@@ -239,7 +238,7 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ji i n)))) rfl
   let τi : ∀ i n, Wi i n ⟶ Wi i (n + 1) := fun i n => Space.siteHomOfSchemeHom B S hS
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (hJmono i n)))) (by
-      show _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
+      change _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
       rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
         Ideal.Quotient.factor_comp_mk])
   have hqi : ∀ n i, (qi n i).comp (Ideal.Quotient.mk (J n)) =

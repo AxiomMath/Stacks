@@ -151,8 +151,7 @@ def baseAbsInverse (K : DifferentialGradedModule.{u, u, u} (baseAlgebra R))
     absoluteTensorModule K M.rightModule ⟶ baseAbsRelative B K M where
   toFun := TensorProduct.lift (baseAbsPureBilinear B K M)
   map_smul z b := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul x y =>
       rw [absMod_smul_tmul, TensorProduct.lift.tmul, TensorProduct.lift.tmul]
@@ -171,8 +170,7 @@ def baseAbsInverse (K : DifferentialGradedModule.{u, u, u} (baseAlgebra R))
     change TensorProduct.lift (baseAbsPureBilinear B K M)
         (absModDifferential K M.rightModule z) =
       (baseAbsRelative B K M).d (TensorProduct.lift (baseAbsPureBilinear B K M) z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul x y =>
       induction x using DirectSum.Decomposition.inductionOn K.grading with

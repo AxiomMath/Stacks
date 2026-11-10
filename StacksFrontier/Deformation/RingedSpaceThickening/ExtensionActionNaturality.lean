@@ -47,7 +47,8 @@ Naturality of the comparison is proved in two declarations rather than one. The 
 an adjoint transpose, so naturality amounts to naturality of the map it transposes — the
 Tag 01CD isomorphism followed by the counit of `i^* ⊣ i_*` in the second factor — and that is
 `extensionTensorComparisonTranspose_naturality`. Keeping the two apart matters: the two halves
-together exceed the default heartbeat budget of a single declaration. `comp_tensorSheafMap_comp_right`
+together exceed the default heartbeat budget of a single declaration.
+`comp_tensorSheafMap_comp_right`
 fixes the bracketing of the two induced maps in advance, so that no step has to transport an
 association across a spelling change, and `tensorSheafMap_eq_tensorSheaf_map` records that the
 tensor product of two morphisms and the corresponding map of the tensor-product bifunctor are
@@ -110,30 +111,42 @@ variable {X X' : RingedSpace.{u, u}} (i : X ⟶ X')
 of the tensor-product bifunctor: the two spellings agree on the nose. -/
 theorem tensorSheafMap_eq_tensorSheaf_map {Y : RingedSpace.{u, u}}
     {A B C D : SheafOfModules.{u} (structureSheafRing Y)} (f : A ⟶ B) (g : C ⟶ D) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩))).map ((f, g) : ((A, C) : _ × _) ⟶ (B, D)) := rfl
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf,
+          ((Y)).IsSheaf⟩))).map ((f, g) : ((A, C) : _ × _) ⟶ (B, D)) := rfl
 
 /-- **Stacks 01CD**, naturality in the second variable: the comparison isomorphism
 `i^*(A ⊗ B) ≅ i^* A ⊗ i^* B` is natural in `B`, with the identity in the first variable. -/
 theorem comparisonBifunctorIso_naturality_right (A : SheafOfModules.{u} (structureSheafRing X'))
     {C D : SheafOfModules.{u} (structureSheafRing X')} (g : C ⟶ D) :
-    (modulePullback i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 A), g) : (_, _) ⟶ (_, _)))) ≫
+    (modulePullback i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 A), g) : (_, _) ⟶ (_, _)))) ≫
         (Stacks.RingedSpace.comparisonBifunctorIso i).hom.app (A, D) =
       (Stacks.RingedSpace.comparisonBifunctorIso i).hom.app (A, C) ≫
-        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 ((modulePullback i).obj A)), ((modulePullback i).map g)) : (_, _) ⟶ (_, _))) := by
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+            ((X)).IsSheaf⟩)).map (((𝟙 ((modulePullback i).obj A)), ((modulePullback i).map g)) :
+            (_, _) ⟶ (_, _))) := by
   refine ((Stacks.RingedSpace.comparisonBifunctorIso i).hom.naturality
     ((𝟙 A, g) : ((A, C) : _ × _) ⟶ (A, D))).trans ?_
   exact congrArg (fun z => (Stacks.RingedSpace.comparisonBifunctorIso i).hom.app (A, C) ≫
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩))).map z)
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+          ((X)).IsSheaf⟩))).map z)
     (Prod.ext ((modulePullback i).map_id A) rfl)
 
 /-- Absorbing a second induced map into the first, after an arbitrary map in: the form of
 `tensorSheafMap_comp_right` whose two sides are already bracketed as they occur. -/
 theorem comp_tensorSheafMap_comp_right {Y : RingedSpace.{u, u}}
-    (A : SheafOfModules.{u} (structureSheafRing Y)) {C D E Z : SheafOfModules.{u} (structureSheafRing Y)}
-    (k : Z ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj (A)).obj (C))) (f : C ⟶ D) (g : D ⟶ E) :
-    (k ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), f) : (_, _) ⟶ (_, _)))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), g) : (_, _) ⟶ (_, _))) =
-      k ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), (f ≫ g)) : (_, _) ⟶ (_, _))) :=
+    (A : SheafOfModules.{u} (structureSheafRing Y)) {C D E Z : SheafOfModules.{u}
+        (structureSheafRing Y)}
+    (k : Z ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩).obj
+        (A)).obj (C))) (f : C ⟶ D) (g : D ⟶ E) :
+    (k ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map (((𝟙 A), f) : (_, _) ⟶ (_, _)))) ≫ ((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map
+        (((𝟙 A), g) : (_, _) ⟶ (_, _))) =
+      k ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((Y)).presheaf,
+          ((Y)).IsSheaf⟩)).map (((𝟙 A), (f ≫ g)) : (_, _) ⟶ (_, _))) :=
   (Category.assoc _ _ _).trans
     (congrArg (fun z => k ≫ z) (tensorSheafMap_comp_right A f g))
 
@@ -144,12 +157,20 @@ theorem extensionTensorComparisonTranspose_naturality
     (F G : SheafOfModules.{u} (structureSheafRing X)) (φ : F ⟶ G) :
     ((Stacks.RingedSpace.comparisonBifunctorIso i).hom.app
           (AlgebraicGeometry.SheafOfModules.idealSheaf i, (modulePushforward i).obj F) ≫
-        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), ((modulePullbackPushforwardAdjunction i).counit.app F)) : (_, _) ⟶ (_, _)))) ≫
-        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), φ) : (_, _) ⟶ (_, _))) =
-      (modulePullback i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), ((modulePushforward i).map φ)) : (_, _) ⟶ (_, _)))) ≫
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+            ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)),
+            ((modulePullbackPushforwardAdjunction i).counit.app F)) : (_, _) ⟶ (_, _)))) ≫
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+            ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), φ) : (_, _) ⟶ (_, _))) =
+      (modulePullback i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙
+          (AlgebraicGeometry.SheafOfModules.idealSheaf i)), ((modulePushforward i).map φ)) :
+          (_, _) ⟶ (_, _)))) ≫
         ((Stacks.RingedSpace.comparisonBifunctorIso i).hom.app
             (AlgebraicGeometry.SheafOfModules.idealSheaf i, (modulePushforward i).obj G) ≫
-          ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), ((modulePullbackPushforwardAdjunction i).counit.app G)) : (_, _) ⟶ (_, _)))) := by
+          ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+              ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)),
+              ((modulePullbackPushforwardAdjunction i).counit.app G)) : (_, _) ⟶ (_, _)))) := by
   have hcounit : (modulePullbackPushforwardAdjunction i).counit.app F ≫ φ =
       (modulePullback i).map ((modulePushforward i).map φ) ≫
         (modulePullbackPushforwardAdjunction i).counit.app G :=
@@ -165,8 +186,12 @@ tensor product from the thickening down to `X`. -/
 theorem extensionTensorComparison_naturality
     (F G : SheafOfModules.{u} (structureSheafRing X)) (φ : F ⟶ G) :
     extensionTensorComparison i F ≫
-        (modulePushforward i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), φ) : (_, _) ⟶ (_, _)))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), ((modulePushforward i).map φ)) : (_, _) ⟶ (_, _))) ≫
+        (modulePushforward i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback i)), φ) : (_, _) ⟶
+            (_, _)))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+          ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)),
+          ((modulePushforward i).map φ)) : (_, _) ⟶ (_, _))) ≫
         extensionTensorComparison i G := by
   exact ((modulePullbackPushforwardAdjunction i).homEquiv_naturality_right _ _).symm.trans
     ((congrArg ((modulePullbackPushforwardAdjunction i).homEquiv _ _)
@@ -220,7 +245,9 @@ theorem extensionAction_naturality_ambient (S : ExtensionPair.{u}) (c : Compatib
     (extensionTensorComparison S.i S.F ≫ (modulePushforward S.i).map
           (firstOrderExtensionAction S.i S.F S.K S.firstOrder S.firstExtension).val) ≫
         (modulePushforward S.i).map S.kernelMap =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X')).presheaf, ((S.X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf S.i)), ((modulePushforward S.i).map S.quotientMap)) : (_, _) ⟶ (_, _))) ≫
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X')).presheaf,
+          ((S.X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf S.i)),
+          ((modulePushforward S.i).map S.quotientMap)) : (_, _) ⟶ (_, _))) ≫
         (extensionTensorComparison S.i S.G ≫ (modulePushforward S.i).map
           (firstOrderExtensionAction S.i S.G S.L S.firstOrder S.secondExtension).val) := by
   have hgEpi : @Epi (SheafOfModules.{u} (structureSheafRing S.X')) _ _ _
@@ -248,7 +275,9 @@ then the canonical maps of the two extensions commute with `1 ⊗ φ` and `ψ`. 
 @[stacks 08L5 "part (1): compatibility of the canonical maps"]
 theorem extensionAction_naturality (S : ExtensionPair.{u}) (c : CompatibleMap S) :
     (firstOrderExtensionAction S.i S.F S.K S.firstOrder S.firstExtension).val ≫ S.kernelMap =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X)).presheaf, ((S.X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback S.i)), S.quotientMap) : (_, _) ⟶ (_, _))) ≫
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X)).presheaf,
+          ((S.X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback S.i)), S.quotientMap) : (_, _) ⟶
+          (_, _))) ≫
         (firstOrderExtensionAction S.i S.G S.L S.firstOrder S.secondExtension).val := by
   refine extensionTensorComparison_cancel S.i S.firstOrder.1 _ _ ?_
   refine (comp_functor_map_comp (modulePushforward S.i) (extensionTensorComparison S.i S.F)
@@ -259,7 +288,9 @@ theorem extensionAction_naturality (S : ExtensionPair.{u}) (c : CompatibleMap S)
       (firstOrderExtensionAction S.i S.G S.L S.firstOrder S.secondExtension).val)
     (extensionTensorComparison_naturality S.i S.F S.G S.quotientMap).symm).trans ?_)
   exact (comp_functor_map_comp (modulePushforward S.i) (extensionTensorComparison S.i S.F)
-    (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X)).presheaf, ((S.X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback S.i)), S.quotientMap) : (idealSheafPullback S.i, S.F) ⟶ (idealSheafPullback S.i, S.G))))
+    (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((S.X)).presheaf,
+        ((S.X)).IsSheaf⟩)).map (((𝟙 (idealSheafPullback S.i)), S.quotientMap) :
+        (idealSheafPullback S.i, S.F) ⟶ (idealSheafPullback S.i, S.G))))
     (firstOrderExtensionAction S.i S.G S.L S.firstOrder S.secondExtension).val).symm
 
 end ExtensionPair

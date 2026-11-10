@@ -591,7 +591,8 @@ variable {D : Type u} {D' : Type u'} [Category.{v} D] [Category.{v} D']
 the right adjoint carries a unique shift structure compatible with the adjunction, and for it
 the adjunction is triangulated. This is [Stacks, Tag 0A8D]. -/
 @[sga "4 XVII 2.2.13.1" "special case", sga "4½ Etat_0 2.6.7" "partial"]
-private alias exists_isTriangulated_rightAdjoint_of_isLeftAdjoint' := exists_isTriangulated_rightAdjoint_of_isLeftAdjoint
+private alias exists_isTriangulated_rightAdjoint_of_isLeftAdjoint' :=
+  exists_isTriangulated_rightAdjoint_of_isLeftAdjoint
 
 end Adjunction
 

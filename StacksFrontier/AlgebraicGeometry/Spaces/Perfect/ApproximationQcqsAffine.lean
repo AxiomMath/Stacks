@@ -234,7 +234,7 @@ theorem exists_koszul_lift (T : SmallEtale B S hS X.1) (hT : IsTerminal T)
         (hvanG a (hsub a List.mem_cons_self)) x
       obtain ⟨g, h, hT'⟩ := exists_distTriang_koszul_cons (a ^ N) l'
       obtain ⟨x', hx'⟩ := Triangle.yoneda_exact₂ _ hT' x (by
-        show (a ^ N • 𝟙 (koszul X.2 l')) ≫ x = 0
+        change (a ^ N • 𝟙 (koszul X.2 l')) ≫ x = 0
         rw [Linear.smul_comp, Category.id_comp, hN])
       refine ⟨a ^ N :: l', by simp [hlen'], fun U ⟨b, hb, hu⟩ => ?_, y ≫ g, x', ?_⟩
       · rcases List.mem_cons.1 hb with rfl | hb
@@ -284,7 +284,7 @@ theorem eq_zero_of_app_terminal (T : SmallEtale B S hS X.1) (hT : IsTerminal T)
       (Set.range fun y : M.val.obj (op T) => chartRestrictLinear M (hT.from U) y) := by
     rw [hspan]
     trivial
-  show (g.val.app (op U)).hom x = 0
+  change (g.val.app (op U)).hom x = 0
   induction hx using Submodule.span_induction with
   | mem z hz =>
     obtain ⟨y, rfl⟩ := hz
@@ -294,7 +294,7 @@ theorem eq_zero_of_app_terminal (T : SmallEtale B S hS X.1) (hT : IsTerminal T)
     have hg' : (g.val.app (op T)).hom y = 0 := by
       rw [hg]
       rfl
-    show (g.val.app (op U)).hom ((M.val.map (hT.from U).op).hom y) = 0
+    change (g.val.app (op U)).hom ((M.val.map (hT.from U).op).hom y) = 0
     rw [h, hg']
     exact (N.val.map (hT.from U).op).hom.map_zero
   | zero => exact map_zero _
@@ -650,11 +650,11 @@ theorem exists_list_unitLocus_of_isOpenSubspace (hXa : IsAffineSpace B S hS X.1)
         ∃ f ∈ gens, x ∈ (chartScheme U).basicOpen ((toG f).1 (op U)) := by
     intro U x
     rw [chartPointsMap_comp (g := hW₀.from U) (x := x), ← Set.notMem_compl_iff]
-    show ¬ (_ ∈ chartPointsMap W₀ ⁻¹' Zc) ↔ _
+    change ¬ (_ ∈ chartPointsMap W₀ ⁻¹' Zc) ↔ _
     rw [hI, ← hgens, Scheme.zeroLocus_span, Scheme.mem_zeroLocus_iff]
     push Not
     refine exists_congr fun f => and_congr Iff.rfl ?_
-    show _ ↔ x ∈ (chartScheme U).basicOpen (((BigFppfOver.toScheme B S hS).map
+    change _ ↔ x ∈ (chartScheme U).basicOpen (((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS X.1).map (hW₀.from U))).appTop f)
     exact SetLike.ext_iff.1 (Scheme.preimage_basicOpen _ f) x
   refine ⟨l, ?_, ?_⟩
@@ -669,10 +669,10 @@ theorem exists_list_unitLocus_of_isOpenSubspace (hXa : IsAffineSpace B S hS X.1)
     have hsurj : Function.Surjective (chartPointsMap W₀) := by
       intro z
       refine ⟨schemePointsHomeomorph B S hS T₀ (pointsMap B S hS _ i.hom z), ?_⟩
-      show pointsMap B S hS _ i.inv ((schemePointsHomeomorph B S hS T₀).symm
+      change pointsMap B S hS _ i.inv ((schemePointsHomeomorph B S hS T₀).symm
         (schemePointsHomeomorph B S hS T₀ (pointsMap B S hS _ i.hom z))) = z
       rw [Homeomorph.symm_apply_apply]
-      show (pointsMap B S hS _ i.inv ∘ pointsMap B S hS _ i.hom) z = z
+      change (pointsMap B S hS _ i.inv ∘ pointsMap B S hS _ i.hom) z = z
       rw [← pointsMap_comp, i.hom_inv_id, pointsMap_id, id]
     obtain ⟨z, hz⟩ := hsurj (pointsMap B S hS O.toFunctor O.ι y)
     obtain ⟨f, hf, hfz⟩ := (key W₀ z).1 (hz ▸ ⟨y, rfl⟩)

@@ -245,7 +245,7 @@ theorem restrictCplxIso_hom_comp_augmentationComplex :
     CechDerivedSupportBaseChange.augmentationComplex_f_zero,
     CechDerivedSupportBaseChange.augmentationComplex_f_zero, restrictCplxIso_hom_f_zero,
     Category.assoc, Iso.inv_hom_id_assoc, Functor.map_comp, Category.assoc,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
 
 /-- **The augmentation of [Stacks, Tag 0G7L] is carried across the identification of the two
 Čech complexes, after extending the grading from `ℕ` to `ℤ`.** -/

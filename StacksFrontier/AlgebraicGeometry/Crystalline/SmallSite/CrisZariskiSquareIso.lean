@@ -330,7 +330,7 @@ theorem crisZariskiRanBaseChange_app_app
   refine limit.hom_ext fun d ↦ ?_
   have hs : ((dominationProj S S' fS fX hf V).obj d).hom =
       (TopologicalSpace.Opens.map fX.base).op.map d.hom ≫
-        (crisZariskiTwoSquare S S' fS fX hf).natTrans.app d.right :=
+        (crisZariskiTwoSquare S S' fS fX hf).app d.right :=
     Subsingleton.elim _ _
   have hpre : limit.pre (StructuredArrow.proj (op (fX ⁻¹ᵁ V)) (forgetToOpens S).op ⋙ G.obj)
         (dominationProj S S' fS fX hf V) ≫

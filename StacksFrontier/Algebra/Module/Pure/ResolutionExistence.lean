@@ -111,7 +111,7 @@ private theorem resDiff_comp_resDiff (n : ℕ) :
   · rw [resDiff_succ, resDiff_zero]
     apply ModuleCat.hom_ext
     ext x
-    show (base A M).incl ((tower A M 0).2.proj
+    change (base A M).incl ((tower A M 0).2.proj
       ((tower A M 0).2.incl ((tower A M 1).2.proj x))) = 0
     rw [(tower A M 0).2.exact_incl_proj.apply_apply_eq_zero, map_zero]
   · rw [resDiff_succ, resDiff_succ]

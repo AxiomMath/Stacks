@@ -177,7 +177,7 @@ theorem restrictFunctor_map_unitToPushforwardObjUnit_comp (a : Z ⟶ U) (j : U �
         _root_.SheafOfModules.unitToPushforwardObjUnit
           (structureSheafHom a.toLRSHom.toShHom) :=
     (restrictFunctorAdjCounitIso j).hom.naturality _
-  show ((restrictFunctor j).map (_root_.SheafOfModules.unitToPushforwardObjUnit
+  change ((restrictFunctor j).map (_root_.SheafOfModules.unitToPushforwardObjUnit
         (structureSheafHom j.toLRSHom.toShHom)) ≫
       (restrictFunctor j).map ((pushforward j).map
         (_root_.SheafOfModules.unitToPushforwardObjUnit

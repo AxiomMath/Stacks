@@ -84,7 +84,8 @@ inclusion of the coborder neighbourhood, whose range is the neighbourhood itself
 
 ## Vocabulary
 
-No clause of any Stacks tag is stated here and **no `stacks` attribute is attached.** Every statement is an input to [Stacks, Tag 08S2] and to the part (2) clauses of
+No clause of any Stacks tag is stated here and **no `stacks` attribute is attached.** Every
+statement is an input to [Stacks, Tag 08S2] and to the part (2) clauses of
 [Stacks, Tag 01R3]; nothing about the conormal sheaf, an ideal sheaf or `Ideal.Cotangent` appears.
 
 Nothing is Noetherian, finite, quasi-compact or separated, and `f` is an arbitrary morphism of
@@ -116,7 +117,8 @@ resolves in the category of types — so the ambient chart's carrier is written 
 
 * **No clause of [Stacks, Tag 08S2] is discharged.** In particular nothing here says that
   `Stacks.LeibnizDerivation.kaehlerToConormal` is invertible, which is the single statement
-  separating `StacksFrontier.AlgebraicGeometry.LeibnizDerivation.Affine` from the statement of Tag 08S2.
+  separating `StacksFrontier.AlgebraicGeometry.LeibnizDerivation.Affine` from the statement
+  of Tag 08S2.
 * **No ring of sections is computed.** The identification
   `Γ(X ×_S X, ambientChart f U) ≅ Γ(X, U) ⊗_{Γ(S, V)} Γ(X, U)` is not stated; only surjectivity of
   the restricted diagonal on sections is, and that is proved by exhibiting a retraction, which
@@ -297,7 +299,7 @@ theorem le_coborderRange_ambientChart {V : S.Opens} (hV : IsAffineOpen V) (hU : 
     (diagRes f U).isClosedEmbedding.isClosed_range
   have hmem : a ∈ Set.range (diagRes f U).base := by
     rw [← hcl.closure_eq, hind.closure_eq_preimage_closure_image]
-    show (ambientChart f U).ι.base a ∈ closure _
+    change (ambientChart f U).ι.base a ∈ closure _
     rw [ambientChart_ι_image_range_diagRes, Set.inter_comm]
     exact hin
   obtain ⟨b, rfl⟩ := hmem

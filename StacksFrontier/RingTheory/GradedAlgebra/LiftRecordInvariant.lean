@@ -151,8 +151,7 @@ theorem gradedRecord_eq_of_algEquiv {Q' : Type t} [CommRing Q'] [Algebra A Q']
     g' = g := by
   have hθΦ : ∀ ξ : (↥I) ⊗[k] P, θ' ξ = Φ (θ ξ) := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction ξ using TensorProduct.inductionOn with
     | tmul b m =>
         obtain ⟨y, rfl⟩ := hπsurj m
         rw [hθ b y, ← hΦπ y, hθ' b (Φ y), map_smul]

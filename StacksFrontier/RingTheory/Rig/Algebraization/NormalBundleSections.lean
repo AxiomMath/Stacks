@@ -248,6 +248,7 @@ def Eb0 : Matrix (Fin Pres.variableCount) (Fin Pres.variableCount) (B0 Pres) :=
 theorem β_Eb0 (i j : Fin Pres.variableCount) : D.β (D.Eb0 i j) = D.Eb i j := rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis over the quotient ring `B0 Pres` in the matrix rewrites below
 /-- `E² = aᶜ E` over `B₀`. -/
 theorem Eb0_mul_Eb0 : D.Eb0 * D.Eb0 = algebraMap A (B0 Pres) (a ^ D.c) • D.Eb0 := by
   ext i j

@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.ProjectiveBundle.InversePointReadingSquares
 public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.PsiChartSquare
 public import
-    StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3TensorCompatAssembly
+  StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3TensorCompatAssembly
 public import
     StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.RepresentedC3UnitCompatAssembly
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.SpaceBaseDescentTensor
@@ -746,7 +746,7 @@ theorem chartPullbackIso_eq_trans_yonedaSpace (n : ℤ) :
           (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace n)))).obj) :=
   rfl
 
-include d hP in
+include d in
 /-- Step of `AlgebraicGeometry.Space.RelativeProjPoints.chartPullbackIso_trans_hom_mul`: the
 inverse of the composition comparison along `π_U ≫ u`. -/
 theorem chartPullbackIso_hom_mul_aux3 (i j : ℤ) :
@@ -769,7 +769,7 @@ theorem chartPullbackIso_hom_mul_aux3 (i j : ℤ) :
         ((modulesTensorObjIso B S hS X.1 X.2 (A.piece i) (A.piece j)).hom ≫
           SheafOfModules.GradedAlgebra.mulSheaf A i j))
 
-include d hP in
+include d in
 /-- Step of `AlgebraicGeometry.Space.RelativeProjPoints.chartPullbackIso_trans_hom_mul`: followed
 by the identification of `u^*𝒜_n` with `Z_n^a` and `π_U^*(Z_n^a) ≅ (π_U^*Z_n)^a`. -/
 theorem chartPullbackIso_hom_mul_aux34 (i j : ℤ)
@@ -785,14 +785,14 @@ theorem chartPullbackIso_hom_mul_aux34 (i j : ℤ)
       (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace j)
       (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace (i + j)) mZ) :
     type_of% (mulSquare_comp _ _ _ _ _ _ _ _ _
-    (chartPullbackIso_hom_mul_aux3 d Px hP A i j)
+    (chartPullbackIso_hom_mul_aux3 d Px A i j)
     (modulePullback_mapIso_zariskiReadingQuasicoherentIso_trans_hom_mul B S hS A
         (d.fibreHom Px.U Px.toSpace) Px.toSpace i j
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace i)
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace j)
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace (i + j)) mZ hζ)) :=
   mulSquare_comp _ _ _ _ _ _ _ _ _
-    (chartPullbackIso_hom_mul_aux3 d Px hP A i j)
+    (chartPullbackIso_hom_mul_aux3 d Px A i j)
     (modulePullback_mapIso_zariskiReadingQuasicoherentIso_trans_hom_mul B S hS A
         (d.fibreHom Px.U Px.toSpace) Px.toSpace i j
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace i)
@@ -834,7 +834,7 @@ theorem chartPullbackIso_hom_mul_aux234 (i j : ℤ)
         (A.piece i) (A.piece j) (A.piece (i + j))
         ((modulesTensorObjIso B S hS X.1 X.2 (A.piece i) (A.piece j)).hom ≫
           SheafOfModules.GradedAlgebra.mulSheaf A i j))
-    (chartPullbackIso_hom_mul_aux34 d Px hP A hA i j mZ hζ)) :=
+    (chartPullbackIso_hom_mul_aux34 d Px A hA i j mZ hζ)) :=
   mulSquare_comp _ _ _ _ _ _ _ _ _
     (modulePullbackTensorIso_inv_comp_map_comp_eqToIso B S hS
         (X := (⟨yoneda.obj (d.fibre Px.U Px.toSpace),
@@ -855,7 +855,7 @@ theorem chartPullbackIso_hom_mul_aux234 (i j : ℤ)
         (A.piece i) (A.piece j) (A.piece (i + j))
         ((modulesTensorObjIso B S hS X.1 X.2 (A.piece i) (A.piece j)).hom ≫
           SheafOfModules.GradedAlgebra.mulSheaf A i j))
-    (chartPullbackIso_hom_mul_aux34 d Px hP A hA i j mZ hζ)
+    (chartPullbackIso_hom_mul_aux34 d Px A hA i j mZ hζ)
 
 include d hP in
 /-- **The identification `c^*π^*𝒜_n ≅ (π_U^*Z_n)^a` of the source of `ψ` on the atlas is
@@ -917,7 +917,7 @@ variable {B S hS} {X : AlgebraicSpaces B S hS} {P : (BigFppfOver B S hS)ᵒᵖ �
   (A : SheafOfModules.GradedAlgebra.{u, u} (structureRingSheaf B S hS X))
   (hA : ∀ n, (A.piece n).IsQuasicoherentOnSite)
 
-include d hP in
+include d in
 /-- Step of `AlgebraicGeometry.Space.RelativeProjPoints.chartPullbackIso_trans_hom_one`: the
 inverse of the composition comparison along `π_U ≫ u`. -/
 theorem chartPullbackIso_hom_one_aux3 :
@@ -936,7 +936,7 @@ theorem chartPullbackIso_hom_one_aux3 :
         (Z := X) (representedSpaceMap B S hS (d.fibreHom Px.U Px.toSpace)) (pointHom Px.toSpace)
         (A.piece 0) (SheafOfModules.GradedAlgebra.oneHom A))
 
-include d hP in
+include d in
 /-- Step of `AlgebraicGeometry.Space.RelativeProjPoints.chartPullbackIso_trans_hom_one`: followed
 by the identification of `u^*𝒜_0` with `Z_0^a` and `π_U^*(Z_0^a) ≅ (π_U^*Z_0)^a`. -/
 theorem chartPullbackIso_hom_one_aux34
@@ -949,12 +949,12 @@ theorem chartPullbackIso_hom_one_aux34
         (modulePullback B S hS (pointHom Px.toSpace)).map
           (SheafOfModules.GradedAlgebra.oneHom A)) vZ) :
     type_of% (unitSquare_comp _ _ _ _ _
-    (chartPullbackIso_hom_one_aux3 d Px hP A)
+    (chartPullbackIso_hom_one_aux3 d Px A)
     (modulePullback_mapIso_zariskiReadingQuasicoherentIso_trans_hom_one B S hS A
         (d.fibreHom Px.U Px.toSpace) Px.toSpace
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace 0) vZ hζ)) :=
   unitSquare_comp _ _ _ _ _
-    (chartPullbackIso_hom_one_aux3 d Px hP A)
+    (chartPullbackIso_hom_one_aux3 d Px A)
     (modulePullback_mapIso_zariskiReadingQuasicoherentIso_trans_hom_one B S hS A
         (d.fibreHom Px.U Px.toSpace) Px.toSpace
         (isQuasicoherentOnSite_etalePointAlgebra_piece A hA Px.toSpace 0) vZ hζ)
@@ -989,7 +989,7 @@ theorem chartPullbackIso_hom_one_aux234
               (representedSpaceMap B S hS (d.fibreHom Px.U Px.toSpace)) (pointHom Px.toSpace))
       (d.presentationAtlas_comp_homMk Px hP))
         (A.piece 0) (SheafOfModules.GradedAlgebra.oneHom A))
-    (chartPullbackIso_hom_one_aux34 d Px hP A hA vZ hζ)) :=
+    (chartPullbackIso_hom_one_aux34 d Px A hA vZ hζ)) :=
   unitSquare_comp _ _ _ _ _
     (modulePullbackUnitIso_inv_comp_map_comp_eqToIso B S hS
         (X := (⟨yoneda.obj (d.fibre Px.U Px.toSpace),
@@ -1008,7 +1008,7 @@ theorem chartPullbackIso_hom_one_aux234
               (representedSpaceMap B S hS (d.fibreHom Px.U Px.toSpace)) (pointHom Px.toSpace))
       (d.presentationAtlas_comp_homMk Px hP))
         (A.piece 0) (SheafOfModules.GradedAlgebra.oneHom A))
-    (chartPullbackIso_hom_one_aux34 d Px hP A hA vZ hζ)
+    (chartPullbackIso_hom_one_aux34 d Px A hA vZ hζ)
 
 include d hP in
 /-- **The identification `c^*π^*𝒜_n ≅ (π_U^*Z_n)^a` of the source of `ψ` on the atlas is

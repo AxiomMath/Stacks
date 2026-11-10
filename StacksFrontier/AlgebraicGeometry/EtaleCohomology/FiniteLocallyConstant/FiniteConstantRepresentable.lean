@@ -143,7 +143,7 @@ condition `Stacks.Etale.isSplitOverOfIso` imposes. -/
 public theorem pullbackSigmaDescIdIso_hom_comp :
     (pullbackSigmaDescIdIso (V := V) ι).hom ≫ (Sigma.desc fun _ : ι ↦ 𝟙 V) =
       pullback.snd (Sigma.desc fun _ : ι ↦ 𝟙 V) (𝟙 V) := by
-  show pullback.fst _ _ ≫ (Sigma.desc fun _ : ι ↦ 𝟙 V) = pullback.snd _ _
+  change pullback.fst _ _ ≫ (Sigma.desc fun _ : ι ↦ 𝟙 V) = pullback.snd _ _
   rw [pullback.condition, Category.comp_id]
 
 variable [Finite ι]
@@ -162,7 +162,7 @@ public theorem isSplitOverSigmaDescId_I : (isSplitOverSigmaDescId (V := V) ι).I
 /-- The sheets of `isSplitOverSigmaDescId` are the components of the coproduct. -/
 public theorem isSplitOverSigmaDescId_sheet (i : ι) :
     (isSplitOverSigmaDescId (V := V) ι).sheet i = Sigma.ι (fun _ : ι ↦ V) i := by
-  show Sigma.ι (fun _ : ι ↦ V) i ≫ (pullbackSigmaDescIdIso (V := V) ι).inv ≫
+  change Sigma.ι (fun _ : ι ↦ V) i ≫ (pullbackSigmaDescIdIso (V := V) ι).inv ≫
     pullback.fst _ _ = _
   rw [show (pullbackSigmaDescIdIso (V := V) ι).inv ≫ pullback.fst _ _ = 𝟙 _ from
     (pullbackSigmaDescIdIso (V := V) ι).inv_hom_id, Category.comp_id]
@@ -213,7 +213,7 @@ public def splitSheetHom (Z : SmallEtale B V hV) (i : ι) : Z ⟶ splitObj B hV 
   mkHom B hV (B.inclusion.map Z.obj.hom ≫ Sigma.ι (fun _ : ι ↦ V) i)
     (Eq.trans (Category.assoc _ _ _)
       (Eq.trans (congrArg (fun k ↦ B.inclusion.map Z.obj.hom ≫ k)
-        (Sigma.ι_desc (fun _ : ι ↦ 𝟙 V) i)) (Category.comp_id _)))
+        (Sigma.ι_comp_desc (fun _ : ι ↦ 𝟙 V) i)) (Category.comp_id _)))
 
 /-- The underlying morphism of schemes of a sheet morphism. -/
 @[simp]

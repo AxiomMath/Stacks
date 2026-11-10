@@ -196,7 +196,7 @@ theorem bifunctorCommShiftIso_hom_app_app (n : M) (X₁ : C₁) (X₂ : C₂) :
         ((F.obj X₁).commShiftIso n).hom.app X₂ ≫
         (shiftFunctor E n).map (((Lifting₂.iso L₁ L₂ W₁ W₂ F F').inv.app X₁).app X₂) := by
   let _ := liftingShiftSnd L₁ L₂ W₁ W₂ F F' n
-  show (((lift₂NatTrans L₁ L₂ W₁ W₂ _ _ _ _
+  change (((lift₂NatTrans L₁ L₂ W₁ W₂ _ _ _ _
     (bifunctorCommShiftIsoSrc F n).hom).app (L₁.obj X₁)).app (L₂.obj X₂)) = _
   rw [lift₂NatTrans_app_app, Lifting₂.precompSnd_iso_hom_app_app,
     Lifting₂.compRight_iso_inv_app_app, bifunctorCommShiftIsoSrc_hom_app]

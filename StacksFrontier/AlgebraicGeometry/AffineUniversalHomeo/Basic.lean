@@ -71,7 +71,8 @@ independent of how the normalization of a scheme is assembled.
 No Tag 0C3N attribute is attached in this file. The tag's "universal homeomorphism" assertion is
 about the comparison for an arbitrary scheme locally of finite type over `k`; the results here
 cover the affine case over a normal base, which carries a normality hypothesis the assertion does
-not have, so these results do not cover the label and the tag is not attached. Assembling the general case from these results additionally needs the universal property
+not have, so these results do not cover the label and the tag is not attached. Assembling the
+general case from these results additionally needs the universal property
 of the normalization of a scheme, birationality of the normalization morphism, and finiteness of
 the normalization of a scheme of finite type over a field, none of which is available.
 
@@ -137,7 +138,7 @@ public theorem universalHomeomorphism_specMap_of_pow_mem_range
       expChar_of_injective_ringHom ((a.hom.comp f).comp (algebraMap k R)).injective p
     obtain ⟨n, r, hr⟩ := hpow s
     apply iterateFrobenius_inj F p n
-    show a.hom s ^ p ^ n = b.hom s ^ p ^ n
+    change a.hom s ^ p ^ n = b.hom s ^ p ^ n
     rw [← map_pow, ← map_pow, ← hr]
     exact congrArg (fun g : R →+* F => g r) hab'
   · exact ⟨(PrimeSpectrum.isHomeomorph_comap f hpos hker).surjective⟩
@@ -165,7 +166,7 @@ public theorem exists_pow_mem_range_fractionRing
   congr 1
   · simp only [map_pow, hr, ← pow_mul, ← pow_add]
   · apply Subtype.ext
-    show f (s ^ p ^ n) = (b : S) ^ p ^ (n + m)
+    change f (s ^ p ^ n) = (b : S) ^ p ^ (n + m)
     simp only [map_pow, hs, ← pow_mul, ← pow_add, Nat.add_comm]
 
 /-- Let `R → S` be an injective integral ring map with `R` integrally closed, sending
@@ -190,13 +191,13 @@ public theorem exists_pow_mem_range_normalization_of_isIntegrallyClosed
     simpa only [φ, AlgHom.coe_mk, IsLocalization.map_eq] using h
   obtain ⟨n, c, hc⟩ := exists_pow_mem_range_fractionRing (algebraMap R S) hf hreg p hpow b.1
   have hcint : _root_.IsIntegral R c := (isIntegral_algHom_iff φ hφ).mp (by
-    show _root_.IsIntegral R ((IsLocalization.map (FractionRing S) (algebraMap R S) hreg) c)
+    change _root_.IsIntegral R ((IsLocalization.map (FractionRing S) (algebraMap R S) hreg) c)
     rw [hc]
     exact (isIntegral_trans b.1 b.2).pow _)
   obtain ⟨r, hr⟩ := IsIntegrallyClosed.algebraMap_eq_of_integral hcint
   refine ⟨n, algebraMap R S r, ?_⟩
   apply Subtype.ext
-  show algebraMap S (FractionRing S) (algebraMap R S r) = (b : FractionRing S) ^ p ^ n
+  change algebraMap S (FractionRing S) (algebraMap R S r) = (b : FractionRing S) ^ p ^ n
   rw [← hc, ← hr, IsLocalization.map_eq]
 
 /-- An injective ring map `f : R →+* S` into a reduced ring, such that every element of `S` has
@@ -249,7 +250,7 @@ public theorem universalHomeomorphism_normalization_of_pow_mem_range
     obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective s
     obtain ⟨n, a, ha⟩ := hp t
     refine ⟨n, a, ?_⟩
-    show (Ideal.Quotient.mk _) (i a) = _
+    change (Ideal.Quotient.mk _) (i a) = _
     rw [ha, map_pow]
   have hpos := exists_pos_pow_mem_range_of_expChar (k := k) (algebraMap A S) p hp'
   have : Algebra.IsIntegral A S := isIntegral_of_pos_pow_mem_range hpos
@@ -257,7 +258,7 @@ public theorem universalHomeomorphism_normalization_of_pow_mem_range
     nonZeroDivisors_le_comap_of_pow_mem_range (algebraMap A S) hj hpos
   let B := integralClosure S (FractionRing S)
   let f : T →+* B := (algebraMap S B).comp (Ideal.Quotient.mk (nilradical T))
-  show UniversalHomeomorphism (Spec.map (CommRingCat.ofHom f))
+  change UniversalHomeomorphism (Spec.map (CommRingCat.ofHom f))
   have hinj : Function.Injective (algebraMap S B) := fun _ _ hab =>
     IsFractionRing.injective S (FractionRing S) (congrArg Subtype.val hab)
   apply universalHomeomorphism_specMap_of_pow_mem_range (k := k) f p
@@ -306,13 +307,13 @@ public theorem exists_separable_purelyInseparable_factorization
     let j : F →ₐ[k] K := IsScalarTower.toAlgHom k F K
     have hmap : H.map j = F₀ := by
       rw [IntermediateField.adjoin_map, ← Set.range_comp]
-      show IntermediateField.adjoin k (Set.range ((↑) : s → K)) = F₀
+      change IntermediateField.adjoin k (Set.range ((↑) : s → K)) = F₀
       rw [Subtype.range_coe]
     let e : H ≃ₐ[k] F₀ := (IntermediateField.equivMap H j).trans
       (IntermediateField.equivOfEq hmap)
     apply Algebra.IsSeparable.of_equiv_equiv e.symm.toRingEquiv (RingEquiv.refl F)
     ext r
-    show j ((e.symm r : H) : F) = (r : K)
+    change j ((e.symm r : H) : F) = (r : K)
     simpa only [e, AlgEquiv.trans_apply, IntermediateField.equivOfEq_apply,
       IntermediateField.coe_equivMap_apply] using
       congrArg (fun t : F₀ => (t : K)) (e.apply_symm_apply r)
@@ -356,7 +357,7 @@ public theorem universalHomeomorphism_normalization_tensorProduct_of_normal
     IsPurelyInseparable.exists_pow_pow_mem_range_tensorProduct_of_expChar
       (ringExpChar k) (e.symm t)
   refine ⟨n, a, ?_⟩
-  show e (algebraMap A (A ⊗[F] K) a) = t ^ (ringExpChar k) ^ n
+  change e (algebraMap A (A ⊗[F] K) a) = t ^ (ringExpChar k) ^ n
   rw [ha, map_pow, e.apply_symm_apply]
 
 end AlgebraicGeometry

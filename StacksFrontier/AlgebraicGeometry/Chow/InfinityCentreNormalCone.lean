@@ -289,7 +289,7 @@ theorem infinityChartMk_eq_iff {I : Ideal A} {n m : ℕ} {p q : A[X]}
   refine ⟨fun ⟨k, hk⟩ => ?_, fun h => ⟨0, by rw [h]; ring⟩⟩
   exact sub_eq_zero.mp
     ((mul_left_mem_nonZeroDivisors_eq_zero_iff
-      (pow_mem Polynomial.X_mem_nonzeroDivisors k)).mp hk)
+      (pow_mem Polynomial.X_mem_nonZeroDivisors k)).mp hk)
 
 /-- The fraction `p/sⁿ` depends only on `n` and `p`, not on the proof that `p ∈ Jⁿ`. -/
 theorem infinityChartMk_congr {I : Ideal A} {n n' : ℕ} {p p' : A[X]} (hn : n = n')
@@ -573,7 +573,7 @@ theorem exists_sum_infinityChartClass {I : Ideal A}
   have hx : ∀ n, (if n ≤ m then p.coeff (m - n) else 0) ∈ I ^ n := by
     intro n
     by_cases hn : n ≤ m
-    · simp [hn]
+    · rw [ite_eq_left hn]
       have h := (mem_pow_infinityChartIdeal_iff.mp hp) (m - n)
       have hrw : m - (m - n) = n := by omega
       rwa [hrw] at h

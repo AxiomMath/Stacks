@@ -66,7 +66,7 @@ theorem topologicalKrullDim_affineLine_spec (K : Type u) [Field K] :
     topologicalKrullDim (𝔸(ULift.{u} (Fin 1); Spec (.of K))) ≤ 1 := by
   rw [IsHomeomorph.topologicalKrullDim_eq _
     (Scheme.homeoOfIso (AffineSpace.SpecIso (ULift.{u} (Fin 1)) (.of K))).isHomeomorph]
-  show topologicalKrullDim (PrimeSpectrum (MvPolynomial (ULift.{u} (Fin 1)) K)) ≤ 1
+  change topologicalKrullDim (PrimeSpectrum (MvPolynomial (ULift.{u} (Fin 1)) K)) ≤ 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
   simp
@@ -116,7 +116,7 @@ theorem isZero_rightDerived_affineLine_of_two_le (h03SC2 : AffineCurveCohomology
   have : IsAffine ((AffineEtale.Spec X').obj Z).left :=
     (inferInstance : IsAffine (Spec Z.left.unop))
   have : IsAffine W.left := by
-    show IsAffine (pullback ((AffineEtale.Spec X').obj Z).hom h)
+    change IsAffine (pullback ((AffineEtale.Spec X').obj Z).hom h)
     have : IsAffineHom (pullback.fst ((AffineEtale.Spec X').obj Z).hom h) :=
       MorphismProperty.of_isPullback (IsPullback.of_hasPullback _ h).flip ‹IsAffineHom h›
     have : IsAffine ((𝟭 Scheme).obj ((AffineEtale.Spec X').obj Z).left) :=

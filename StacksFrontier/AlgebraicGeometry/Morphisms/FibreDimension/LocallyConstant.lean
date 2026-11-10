@@ -121,7 +121,7 @@ public theorem isLocallyConstant_fiberDimension {X Y : Scheme.{u}} (f : X ⟶ Y)
         ext y
         simpa only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_inter_iff, Set.mem_Ioi,
           Set.mem_Iio] using eq_natCast_iff_lt_lt n (f.fiberDimension y)
-      show IsOpen (f.fiberDimension ⁻¹' {(n : WithBot ℕ∞)})
+      change IsOpen (f.fiberDimension ⁻¹' {(n : WithBot ℕ∞)})
       rw [hcut]
       exact (hlower.isOpen_preimage _).inter (hupper.isOpen_preimage _)
 

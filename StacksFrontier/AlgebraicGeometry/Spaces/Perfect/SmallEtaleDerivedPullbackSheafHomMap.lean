@@ -106,7 +106,7 @@ theorem tensorHomEquivTargetNatural_smallEtale :
     EquivalenceTranspose.CurriedTargetNatural (smallEtaleDerivedSheafHom B S hS X)
       (Functor.uncurry.obj (smallEtaleDerivedTensor B S hS X))
       (smallEtaleTensorHomEquiv B S hS X) :=
-  fun A P _ _ φ ψ =>
+  fun _ P _ _ φ ψ =>
     (smallEtaleDerivedTensorSheafHomAdjunction B S hS X P).homEquiv_naturality_right_symm ψ φ
 
 /-- **Stacks 08J8 on an algebraic space, in the internal-Hom variable**: for `φ : P' ⟶ P`, the

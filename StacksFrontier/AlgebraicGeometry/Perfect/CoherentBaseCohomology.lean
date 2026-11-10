@@ -5,8 +5,7 @@ public import StacksFrontier.Homology.DerivedIndexing.Basic
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Proper.ProperSupport
 public import StacksFrontier.AlgebraicGeometry.Perfect.ProperFlatGlobalSections
 public import StacksFrontier.AlgebraicGeometry.RingedSpace.Flat
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ChangeOfTopology.DerivedPushforwardPreservesComparison
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChangeOfTopology.DerivedPushforwardPreservesComparison
 public import StacksFrontier.Homology.PseudoCoherent.Locality
 
 /-!
@@ -77,8 +76,8 @@ named `_hflat` and `_hsupp`.
 `CategoryTheory.HasDerivedCategory.standard`, which is the model `derivedGlobalSectionsOverBase`
 and `StacksDraft.Perfect.IsPerfect` are stated at. The exactness and injectivity instances that
 `derivedGlobalSectionsOverBase` was elaborated with are
-the named ones of `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatGlobalSections.lean`, reactivated
-below as local instances so that the terms match on the nose.
+the named ones of `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatGlobalSections.lean`,
+reactivated below as local instances so that the terms match on the nose.
 
 ## References
 

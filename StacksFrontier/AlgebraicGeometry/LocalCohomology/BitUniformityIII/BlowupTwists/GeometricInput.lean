@@ -136,9 +136,10 @@ raising the heartbeat limit is not available here.
 * every statement proved about the local factorisation is placed in its own declaration, because
   **the 200 000-heartbeat budget is per declaration.** Four distinct ways of exceeding it are
   recorded in
-  `StacksFrontier/AlgebraicGeometry/LocalCohomology/BitUniformityIII/TwistShiftLocal.lean`: forcing the inverse of the `asIso` comparison isomorphism into `whnf`; making
-  an equation that names `associatedModuleSheafMap` the body of an `∃`, whose anonymous
-  constructor then has to compare that map's implicit `Decomposition` and `SetLike.GradedSMul`
+  `StacksFrontier/AlgebraicGeometry/LocalCohomology/BitUniformityIII/TwistShiftLocal.lean`:
+  forcing the inverse of the `asIso` comparison isomorphism into `whnf`; making an equation that
+  names `associatedModuleSheafMap` the body of an `∃`, whose anonymous constructor then has to
+  compare that map's implicit `Decomposition` and `SetLike.GradedSMul`
   instances for the truncation; leaving the two sections of an `Eq` to be recovered from a
   pointwise hypothesis, which is a higher-order unification problem; and — the one that cost the
   factorisation itself — **destructuring anything by `rcases` while the goal is the
@@ -379,7 +380,7 @@ theorem blowupΓMap_thickeningTwistRestrict_thickeningSections {n m : ℕ} (h : 
     (x : (I ^ q : Ideal A)) :
     blowupΓMap I (thickeningTwistRestrict I h q) (thickeningSections I m q x) =
       thickeningSections I n q x := by
-  show blowupΓMap I (thickeningTwistRestrict I h q)
+  change blowupΓMap I (thickeningTwistRestrict I h q)
     (blowupΓMap I (thickeningTwistProj I m q) (ambientSections I q x)) = _
   rw [← blowupΓMap_comp, thickeningTwistProj_comp_thickeningTwistRestrict]
   rfl
@@ -508,7 +509,7 @@ theorem thickeningSections_one_eq_zero_of_mem (q : ℕ) (x : (I ^ q : Ideal A))
   have h : ambientSections I q x
       = blowupΓMap I (ambientTwistMap I q) (ambientSections I (q + 1) ⟨(x : A), hx⟩) :=
     (blowupΓMap_ambientTwistMap_ambientSections I q ⟨(x : A), hx⟩).symm
-  show blowupΓMap I (thickeningTwistProj I 1 q) (ambientSections I q x) = 0
+  change blowupΓMap I (thickeningTwistProj I 1 q) (ambientSections I q x) = 0
   rw [h, ← blowupΓMap_comp, ambientTwistMap_comp_thickeningTwistProj_eq_zero I q,
     blowupΓMap_zero]
 
@@ -530,7 +531,7 @@ theorem subsingleton_baseH {i q : ℕ} (hi : 1 ≤ i) (hq : G.q₀ ≤ q) :
 
 end Consequences
 
-variable [IsNoetherianRing A] (G : GeometricInput I)
+variable (G : GeometricInput I)
 
 /-- **Stacks Project, Tag 0GA7, clause (1).** In the Situation of Tag 0GA6, for `n ≥ 1`,
 `q ≥ q₀ = q(S)` and `i > 0` the cohomology `Hⁱ(X, 𝒪_{Yₙ}(q))` of the `q`-th twist of the
@@ -597,6 +598,8 @@ theorem surjective_blowupHMap_ambα {i q : ℕ} (hi : 1 ≤ i) (hq : G.q₀ ≤ 
     subsingleton_thickeningH I G le_rfl hi hq
   exact fun y =>
     (exact_blowupHMap I (G.amb_shortExact q) i y).1 (@Subsingleton.elim _ h _ _)
+
+variable [IsNoetherianRing A]
 
 /-- **Serre vanishing on `X`**, [Stacks, Tag 0AG6] part (2) read on the blowup: for `i > 0` the
 cohomology `Hⁱ(X, 𝒪_X(q))` vanishes once `q` is large.

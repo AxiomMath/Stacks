@@ -298,14 +298,14 @@ public theorem depth_add_dimension_bound_of_associatedPrimes
       (maximalIdeal (Localization.AtPrime p'.asIdeal))
       (LocalizedModule p'.asIdeal.primeCompl M) using ENat.recTopCoe with
   | top =>
-    show ((d + s : ℤ) : EInt) < (⊤ : EInt) + ((δ p' - δ q' : ℤ) : EInt)
+    change ((d + s : ℤ) : EInt) < (⊤ : EInt) + ((δ p' - δ q' : ℤ) : EInt)
     have ht : (⊤ : EInt) + ((δ p' - δ q' : ℤ) : EInt) = ⊤ :=
       congrArg (fun z : WithTop ℤ => (z : WithBot (WithTop ℤ)))
         (WithTop.top_add ((δ p' - δ q' : ℤ) : WithTop ℤ))
     rw [ht]
     exact WithBot.coe_lt_coe.mpr (WithTop.coe_lt_top _)
   | coe n =>
-    show ((d + s : ℤ) : EInt) < ((n : ℤ) : EInt) + ((δ p' - δ q' : ℤ) : EInt)
+    change ((d + s : ℤ) : EInt) < ((n : ℤ) : EInt) + ((δ p' - δ q' : ℤ) : EInt)
     by_cases hn : (n : ℤ) < s
     · have hsmall : enatToEInt
           (Module.depth (Localization.AtPrime p'.asIdeal)

@@ -64,10 +64,10 @@ theorem isDenseSubsite_overPost_of_fullyFaithful [G.IsDenseSubsite J K] [G.Full]
     rw [Sieve.overEquiv_iff]
     exact ⟨{ obj := Over.mk (G.preimage (h.map ≫ T.hom))
              lift := Over.homMk h.lift (by
-               show h.lift ≫ G.map (G.preimage (h.map ≫ T.hom)) = f ≫ T.hom
+               change h.lift ≫ G.map (G.preimage (h.map ≫ T.hom)) = f ≫ T.hom
                rw [G.map_preimage, ← Category.assoc, h.fac])
              map := Over.homMk h.map (by
-               show h.map ≫ T.hom = G.map (G.preimage (h.map ≫ T.hom))
+               change h.map ≫ T.hom = G.map (G.preimage (h.map ≫ T.hom))
                exact (G.map_preimage _).symm)
              fac := by
                ext
@@ -181,7 +181,7 @@ theorem exists_isFinite_iso_uliftYoneda_of_isFiniteLocallyConstant {X : Scheme.{
         ext ⟨a⟩
         apply ULift.ext
         apply hG.map_injective
-        show G.map (hG.preimage (G.map g.unop ≫ a)) = G.map (g.unop ≫ hG.preimage a)
+        change G.map (hG.preimage (G.map g.unop ≫ a)) = G.map (g.unop ≫ hG.preimage a)
         rw [hG.map_preimage, G.map_comp, hG.map_preimage]))
   exact ⟨G.obj U, hUfin, ⟨push.preimageIso
     (φ ≪≫ sheafifiedYonedaIsoUliftYoneda _ U ≪≫ e.symm)⟩⟩

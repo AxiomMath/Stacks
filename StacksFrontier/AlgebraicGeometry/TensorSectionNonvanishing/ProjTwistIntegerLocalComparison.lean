@@ -250,7 +250,6 @@ private theorem mulTrivSection_numerSection_of (hf : f ∈ 𝒮 d) (n : ℕ)
   rw [mulTrivSection_numerSection, degreeComponent_of]
 
 variable [Module S (twistedGlobalSections 𝒮 F)]
-  [SetLike.GradedSMul 𝒮 (twistedGlobalSectionsGrading 𝒮 F)]
 
 /-- **The numerator maps are compatible with multiplying numerator and denominator by `f`**:
 this is what makes them descend to the degree-zero localization. -/
@@ -279,7 +278,6 @@ section ChartLift
 
 variable (F : SheafOfModules.{u} (projRingSheaf 𝒮))
   [Module S (twistedGlobalSections 𝒮 F)]
-  [SetLike.GradedSMul 𝒮 (twistedGlobalSectionsGrading 𝒮 F)]
 
 /-- **The numerator maps are semilinear** over the comparison map
 `A₍f₎ → Γ(D₊(f), 𝒪)`: acting by a homogeneous `r` of degree `m d` on a numerator of degree
@@ -311,6 +309,8 @@ theorem numerSection_smul (hsmul : IsTwistedSectionsSMul 𝒮 F) (hf : f ∈ �
   refine Eq.trans ?_ (twistSheafScalarMap_mulTrivSection_smul 𝒮 hf hr' (Nat.add_comm m n) hk F
     hW _ hc _)
   exact congrArg _ (mulTrivSection_numerSection_of 𝒮 F hf n hW s).symm
+
+variable [SetLike.GradedSMul 𝒮 (twistedGlobalSectionsGrading 𝒮 F)]
 
 /-- **The comparison map on the chart `D₊(f)`, as an additive map**: the lift of the numerator
 maps to the degree-zero localization `M₍f₎`. -/
@@ -373,7 +373,7 @@ theorem chartAddHom_smul (hsmul : IsTwistedSectionsSMul 𝒮 F) (hf : f ∈ 𝒮
       (op (ProjectiveSpectrum.basicOpen 𝒮 f))) :
     chartAddHom 𝒮 F hsmul hf hd (a • z) =
       (ProjectiveSpectrum.Proj.awayToSection 𝒮 f).hom a • chartAddHom 𝒮 F hsmul hf hd z := by
-  show chartLift 𝒮 F hsmul hf
+  change chartLift 𝒮 F hsmul hf
       (associatedModuleSheafStandardOpenEquiv 𝒮 (twistedGlobalSectionsGrading 𝒮 F) hf hd
         (a • z)) = _
   rw [map_smul]

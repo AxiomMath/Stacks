@@ -67,7 +67,8 @@ For the module-level form, `twistSheafOfModules 𝒜 ℱ c` is *equal* to the te
 `ℱ ⊗ 𝒪_X(c)` that `moduleTwistMap` uses, by
 `Stacks.AlgebraicGeometry.ProjTwistDegreeOneCover.twistSheafOfModules_eq_tensorSheaf`. So
 `(ℱ(q))(dn)` is `(ℱ ⊗ 𝒪(q)) ⊗ 𝒪(dn)`, and the isomorphism is the associator of
-`Stacks.SheafOfModules.OnSpace.monoidal` followed by the multiplication isomorphism above tensored on the left with
+`Stacks.SheafOfModules.OnSpace.monoidal` followed by the multiplication isomorphism above
+tensored on the left with
 `ℱ`. Both steps are literally at the right type: no `eqToIso` is needed anywhere in that
 composite, because the two spellings of the twist agree on the nose.
 

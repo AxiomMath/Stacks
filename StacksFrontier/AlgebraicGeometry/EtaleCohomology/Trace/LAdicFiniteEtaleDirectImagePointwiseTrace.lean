@@ -44,6 +44,8 @@ variable {B : BigEtaleSite.{u}} {X Y : B.Scheme} (π : X ⟶ Y) [IsFinite (B.inc
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.obj] [IsNoetherian Y.obj]
 
+omit [IsFinite (B.inclusion.map π)] [AlgebraicGeometry.IsNoetherian X.obj]
+  [AlgebraicGeometry.IsNoetherian Y.obj] in
 /-- `#κ(x) = #κ(π(x)) ^ d_x` for a point `x` of `X` over a point with finite residue field. -/
 theorem natCard_residueField_eq_pow_liftResidueDegree (x : X.1)
     [Finite (Y.1.residueField ((B.inclusion.map π).base x))] :
@@ -83,9 +85,9 @@ theorem LAdicSheaf.trace_rationalStalkFrobenius_directImage_pow_of_pointwise
     LAdicSheaf.trace_rationalStalkFrobenius_directImage_pow_eq_sum π v N hN e, Finset.mul_sum]
   refine Finset.sum_congr rfl fun x _ => ?_
   by_cases hx : (B.inclusion.map π).base x = v
-  · rw [dif_pos hx, dif_pos hx]
+  · rw [dite_eq_left hx, dite_eq_left hx]
     by_cases hd : liftResidueDegree (B.inclusion.map π) x ∣ e + 1
-    · rw [if_pos hd, if_pos hd]
+    · rw [ite_eq_left hd, ite_eq_left hd]
       have hdpos : 0 < liftResidueDegree (B.inclusion.map π) x := by
         subst hx
         exact liftResidueDegree_pos π x
@@ -101,8 +103,8 @@ theorem LAdicSheaf.trace_rationalStalkFrobenius_directImage_pow_of_pointwise
         rw [mul_comm a, ← mul_assoc, Nat.mul_div_cancel' hd, mul_comm]
       rw [hcard]
       ring
-    · rw [if_neg hd, if_neg hd, mul_zero]
-  · rw [dif_neg hx, dif_neg hx, mul_zero]
+    · rw [ite_eq_right hd, ite_eq_right hd, mul_zero]
+  · rw [dite_eq_right hx, dite_eq_right hx, mul_zero]
 
 end Stacks.EtaleCohomology
 

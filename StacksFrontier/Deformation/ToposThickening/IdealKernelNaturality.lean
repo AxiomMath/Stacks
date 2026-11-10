@@ -67,6 +67,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Two morphisms from a tensor product sheaf restricted along a morphism of sheaves of rings
 agree as soon as they agree on the images of pure tensors whose *first* factor comes from a
 locally surjective family of sections. -/
@@ -109,7 +110,7 @@ lemma tensorSheaf_restrict_hom_ext_of_locallySurjective_left {R : Sheaf J RingCa
     (PresheafOfModules.naturality_apply k.val a.op _).symm.trans
       (congrArg (fun t => k.val.app (op V) t)
         (tensorSheafificationUnit_naturality M N a.op x y))
-  show P.val.map a.op _ = P.val.map a.op _
+  change P.val.map a.op _ = P.val.map a.op _
   refine (key f).trans (Eq.trans ?_ (key g).symm)
   change p.app _ z = M.val.map a.op x at hz
   rw [← hz]
@@ -149,7 +150,7 @@ theorem emb_natural (hf : Sheaf.IsLocallySurjective f) (h : FlatLiftHom L M φ)
   have hred : (h.red.f n).val.app U ((L.baseChange.unit n).val.app U x) =
       (M.baseChange.unit n).val.app U ((h.hom n).val.app U x) :=
     (congrArg (fun k : L.F.X n ⟶ _ => k.val.app U x) (h.unit_red n)).symm
-  show (TM.emb n).val.app U
+  change (TM.emb n).val.app U
       (((restrict f).map (((idealTensorFunctor O₀ I).map h.red).f n)).val.app U
         (((PresheafOfModules.sheafificationAdjunction
         (R := Stacks.SheafOfModules.Tensor.ringSheaf O₀)

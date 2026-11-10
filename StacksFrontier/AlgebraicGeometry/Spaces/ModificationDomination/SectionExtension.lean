@@ -79,7 +79,7 @@ theorem dominatesSections_of_isQuasiCompactSpace (Y : AlgebraicSpaces B S hS)
   refine ⟨Y', b, hb, ObjectProperty.homMk (g.hom ≫ (schemeTheoreticImageSubfunctor B S hS s).ι),
     ?_, ?_⟩
   · refine ObjectProperty.hom_ext _ ?_
-    show (g.hom ≫ (schemeTheoreticImageSubfunctor B S hS s).ι) ≫ f.hom = b.hom
+    change (g.hom ≫ (schemeTheoreticImageSubfunctor B S hS s).ι) ≫ f.hom = b.hom
     rw [Category.assoc]
     exact hg'
   · let st : U.1.toFunctor ⟶ (schemeTheoreticImageSubfunctor B S hS s).toFunctor :=
@@ -93,7 +93,7 @@ theorem dominatesSections_of_isQuasiCompactSpace (Y : AlgebraicSpaces B S hS)
         rw [Category.assoc, hg']
         exact (Subfunctor.fromPreimage_ι _ _).symm)
       (by rw [Category.assoc, ← Category.assoc st, hst, hs])
-    show (U.1.preimage b.hom).ι ≫ g.hom ≫ (schemeTheoreticImageSubfunctor B S hS s).ι = _
+    change (U.1.preimage b.hom).ι ≫ g.hom ≫ (schemeTheoreticImageSubfunctor B S hS s).ι = _
     rw [← Category.assoc, h, Category.assoc, hst]
 
 /-- **Stacks 0CPI.** Let `S` be a scheme, let `X`, `Y` be algebraic spaces over `S`, let
@@ -130,7 +130,7 @@ theorem exists_isAdmissibleBlowup_extending_section_of_isProper {X Y : Algebraic
   let sW : U'.1.toFunctor ⟶ X.1 := U.1.fromPreimage W.1.ι ≫ s
   have hsW : sW ≫ f.hom = U'.1.ι := by
     rw [← cancel_mono W.1.ι]
-    show (U.1.fromPreimage W.1.ι ≫ s) ≫ f.hom ≫ W.1.ι = (U.1.preimage W.1.ι).ι ≫ W.1.ι
+    change (U.1.fromPreimage W.1.ι ≫ s) ≫ f.hom ≫ W.1.ι = (U.1.preimage W.1.ι).ι ≫ W.1.ι
     rw [Category.assoc, ← Category.assoc s, hs, Subfunctor.homOfLe_ι, Subfunctor.fromPreimage_ι]
   obtain ⟨W', bW, hbW, g, hg, hext⟩ :=
     dominatesSections_of_isQuasiCompactSpace (openSubspace B S hS Y W) hWqc hWqs U' hU'qc X f hf
@@ -151,17 +151,17 @@ theorem exists_isAdmissibleBlowup_extending_section_of_isProper {X Y : Algebraic
   let k : (U.1.preimage b.hom).toFunctor ⟶ (U'.1.preimage bW.hom).toFunctor :=
     Subfunctor.lift (Subfunctor.homOfLe hle ≫ l) (by
       rintro T _ ⟨x, rfl⟩
-      show (bW.hom ≫ W.1.ι).app T ((Subfunctor.homOfLe hle ≫ l).app T x) ∈ U.1.obj T
+      change (bW.hom ≫ W.1.ι).app T ((Subfunctor.homOfLe hle ≫ l).app T x) ∈ U.1.obj T
       rw [← NatTrans.comp_app_apply, Category.assoc, key]
       exact ((U.1.fromPreimage b.hom).app T x).2)
   have hk : k ≫ (U'.1.preimage bW.hom).ι = Subfunctor.homOfLe hle ≫ l := Subfunctor.lift_ι _ _
   have hk' : k ≫ U'.1.fromPreimage bW.hom ≫ U.1.fromPreimage W.1.ι = U.1.fromPreimage b.hom := by
     rw [← cancel_mono U.1.ι, Category.assoc, Category.assoc, Subfunctor.fromPreimage_ι,
       ← Category.assoc (U'.1.fromPreimage bW.hom)]
-    show k ≫ (U'.1.fromPreimage bW.hom ≫ U'.1.ι) ≫ W.1.ι = _
+    change k ≫ (U'.1.fromPreimage bW.hom ≫ U'.1.ι) ≫ W.1.ι = _
     rw [Subfunctor.fromPreimage_ι, ← key, Category.assoc, ← Category.assoc k, hk]
     simp only [Category.assoc]
-  show Subfunctor.homOfLe hle ≫ l ≫ g.hom = _
+  change Subfunctor.homOfLe hle ≫ l ≫ g.hom = _
   rw [← Category.assoc, ← hk, Category.assoc, hext, ← hk']
   simp only [sW, Category.assoc]
 

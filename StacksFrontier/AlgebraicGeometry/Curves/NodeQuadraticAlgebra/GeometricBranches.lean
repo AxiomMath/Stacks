@@ -119,7 +119,7 @@ public theorem two_le_enatCard_sigma_sepDegree_of_surjective
           algebraMap (ResidueField A) T r := by
       intro r
       obtain ⟨a, rfl⟩ := residue_surjective r
-      show q (Ideal.quotientMap m.asIdeal (algebraMap A B)
+      change q (Ideal.quotientMap m.asIdeal (algebraMap A B)
         (le_of_eq (hcontract m)) (Ideal.Quotient.mk (maximalIdeal A) a)) = _
       rw [Ideal.quotientMap_mk]
       exact hπ a
@@ -132,7 +132,7 @@ public theorem two_le_enatCard_sigma_sepDegree_of_surjective
       norm_num
     refine le_trans (le_of_eq ?_) (ENat.card_le_card_of_injective
       (f := Sigma.mk m) sigma_mk_injective)
-    show (2 : ℕ∞) = ENat.card (Field.sepDegree (ResidueField A) (B ⧸ m.asIdeal)).ord.ToType
+    change (2 : ℕ∞) = ENat.card (Field.sepDegree (ResidueField A) (B ⧸ m.asIdeal)).ord.ToType
     simp [ENat.card, hdeg]
   · obtain ⟨m₁, m₂, hne⟩ := hnt
     have hfib : ∀ m : MaximalSpectrum B,
@@ -144,7 +144,7 @@ public theorem two_le_enatCard_sigma_sepDegree_of_surjective
       let fld : Field (B ⧸ m.asIdeal) := Ideal.Quotient.field m.asIdeal
       let alg : Algebra (ResidueField A) (B ⧸ m.asIdeal) :=
         (Ideal.quotientMap m.asIdeal (algebraMap A B) (le_of_eq (hcontract m))).toAlgebra
-      show Nonempty (Field.sepDegree (ResidueField A) (B ⧸ m.asIdeal)).ord.ToType
+      change Nonempty (Field.sepDegree (ResidueField A) (B ⧸ m.asIdeal)).ord.ToType
       exact Cardinal.nonempty_ord_toType (NeZero.ne _)
     exact two_le_enatCard_of_nontrivial _
       ⟨⟨m₁, (hfib m₁).some⟩, ⟨m₂, (hfib m₂).some⟩, fun h => hne (congrArg Sigma.fst h)⟩
@@ -162,7 +162,7 @@ public theorem two_le_numberOfGeometricBranchesOfLocalRing_of_isNodalAlgebra
     (henselizationData A).carrier (strictHenselizationData A).carrier
     (SeparableClosure (ResidueField A))
   obtain ⟨-, hcontract, hgeo⟩ := hfin (minimalPrimes.finite_of_isNoetherianRing A)
-  show 2 ≤ numberOfGeometricBranches A (SeparableClosure (ResidueField A))
+  change 2 ≤ numberOfGeometricBranches A (SeparableClosure (ResidueField A))
     (strictHenselizationData A).carrier
   rw [hgeo]
   let eC := integralClosureQuotNilradicalAlgEquiv A
@@ -173,7 +173,7 @@ public theorem two_le_numberOfGeometricBranchesOfLocalRing_of_isNodalAlgebra
         (algebraMap A ↥(integralClosure A (FractionRing A))))).comp eC.toRingHom)
     (Ideal.Quotient.mk_surjective.comp eC.surjective) (fun a => ?_)
     (finrank_quadraticAlgebra_of_isNodalAlgebra k A hA)
-  show Ideal.Quotient.mk _ (eC (algebraMap A _ a)) = _
+  change Ideal.Quotient.mk _ (eC (algebraMap A _ a)) = _
   rw [eC.commutes]
   rfl
 

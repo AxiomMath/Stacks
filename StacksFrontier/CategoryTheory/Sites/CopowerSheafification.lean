@@ -159,7 +159,7 @@ def copowerFunctorCompEvaluationIso (G : Cᵒᵖ ⥤ Type u) (V : Cᵒᵖ) :
         colimit ((Functor.const (Discrete (G.obj V))).obj (P.obj V))))
     (fun {P Q} b => by
       refine Sigma.hom_ext _ _ fun s => ?_
-      simp [copowerFunctor, abCopowerFunctor, HasColimit.isoOfNatIso_ι_hom])
+      simp [copowerFunctor, abCopowerFunctor])
 
 /-- `Stacks.copowerFunctor` preserves finite limits: limits of presheaves are computed objectwise,
 and after evaluation the functor becomes the copower endofunctor of abelian groups at a fixed

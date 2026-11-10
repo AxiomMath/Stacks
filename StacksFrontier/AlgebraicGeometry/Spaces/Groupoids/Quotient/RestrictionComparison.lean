@@ -260,7 +260,7 @@ theorem isPullback_restrictionArrowsOver (G : GroupoidInAlgebraicSpaces C S hS B
     Over.homMk
       (fiberProductFst (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom
       (by
-        show (fiberProductFst (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom ≫
+        change (fiberProductFst (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom ≫
             (fiberProductFst g G.target).hom ≫ (g ≫ G.objectsToBase).hom =
           (restrictionArrowsToArrows G g).hom ≫ G.arrowsToBase.hom
         rw [← Category.assoc]
@@ -271,7 +271,7 @@ theorem isPullback_restrictionArrowsOver (G : GroupoidInAlgebraicSpaces C S hS B
     Over.homMk
       (fiberProductSnd (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom
       (by
-        show (fiberProductSnd (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom ≫
+        change (fiberProductSnd (fiberProductSnd g G.target) (fiberProductFst G.source g)).hom ≫
             (fiberProductSnd G.source g).hom ≫ (g ≫ G.objectsToBase).hom =
           (restrictionArrowsToArrows G g).hom ≫ G.arrowsToBase.hom
         rw [← Category.assoc]

@@ -177,7 +177,7 @@ theorem sectionAvoidance_of_isEmbeddedPoint_of_genericPoints
       rw [AlgebraicGeometry.isEmbeddedPoint_iff_not_genericPoint] at hemb
       push Not at hemb
       obtain ⟨T, hT, hTgen⟩ := hemb hζ
-      show closure ({ζ} : Set Z.subscheme) ∈ irreducibleComponents Z.subscheme
+      change closure ({ζ} : Set Z.subscheme) ∈ irreducibleComponents Z.subscheme
       rwa [hTgen.def]
     rcases lt_trichotomy (relativeDimension C.dimensionFunction (familyBase f Z) ζ) k with
       hlt | heq | hgt

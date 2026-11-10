@@ -140,7 +140,7 @@ theorem awayChartInv_C (r : R) : awayChartInv n R (C r) =
   by
   apply HomogeneousLocalization.val_injective
   rw [awayChartInv, eval₂Hom_C, Away.val_mk]
-  show (HomogeneousLocalization.mk _).val = _
+  change (HomogeneousLocalization.mk _).val = _
   rw [HomogeneousLocalization.val_mk, Localization.mk_eq_mk_iff]
   apply Localization.r_of_eq
   simp [SetLike.GradeZero.coe_algebraMap, MvPolynomial.algebraMap_eq]
@@ -201,7 +201,7 @@ theorem awayChartInv_algebraMap_mem_range
       Set.range (awayChartInv n R) := by
   refine ⟨C ((gradeZeroEquiv (Fin (n + 1)) R).symm b), ?_⟩
   rw [awayChartInv, eval₂Hom_C, HomogeneousLocalization.algebraMap_eq]
-  show (fromZeroRingHom _ _) ((algebraMap R _) _) = (fromZeroRingHom _ _) b
+  change (fromZeroRingHom _ _) ((algebraMap R _) _) = (fromZeroRingHom _ _) b
   congr 1
   exact (gradeZeroEquiv (Fin (n + 1)) R).apply_symm_apply b
 

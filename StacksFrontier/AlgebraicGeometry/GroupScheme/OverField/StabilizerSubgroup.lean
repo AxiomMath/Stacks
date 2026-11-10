@@ -76,14 +76,14 @@ theorem exists_rightTranslate_mem_of_snd_eq (g : T ⟶ G) {U : G.left.Opens}
   have hsa : (snd G T).left a = t := ha₂
   let b := (rightShear g).inv.left a
   have hb : (rightShear g).hom.left b = a := by
-    show ((rightShear g).inv ≫ (rightShear g).hom).left a = a
+    change ((rightShear g).inv ≫ (rightShear g).hom).left a = a
     rw [Iso.inv_hom_id]
     rfl
   refine ⟨b, ?_, ?_⟩
-  · show (rightTranslate g).left b ∈ U
+  · change (rightTranslate g).left b ∈ U
     rw [← rightShear_hom_fst, Over.comp_left, Scheme.Hom.comp_apply, hb, hfa]
     exact hu
-  · show ((rightShear g).inv ≫ snd G T).left a = t
+  · change ((rightShear g).inv ≫ snd G T).left a = t
     rw [rightShear_inv_snd, hsa]
 
 omit [GrpObj G] in
@@ -124,10 +124,10 @@ theorem RightStabilises.inv {h : T ⟶ G} {U : G.left.Opens} {f : Γ(G.left, U)}
       (rightShear h⁻¹).hom.left ⁻¹ᵁ rightStabilizerLocus h U := by
     intro x hx
     refine ⟨?_, ?_⟩
-    · show ((rightShear h⁻¹).hom.left ≫ (fst G T).left) x ∈ U
+    · change ((rightShear h⁻¹).hom.left ≫ (fst G T).left) x ∈ U
       rw [hfst]
       exact hx.2
-    · show ((rightShear h⁻¹).hom.left ≫ (rightTranslate h).left) x ∈ U
+    · change ((rightShear h⁻¹).hom.left ≫ (rightTranslate h).left) x ∈ U
       rw [hρ]
       exact hx.1
   exact (Scheme.Hom.appLE_eq_appLE_of_comp _ hfst hρ _ _ e
@@ -164,10 +164,10 @@ theorem RightStabilises.mul [GeometricallyIrreducible G.hom]
   have e : L' ≤ (rightShear h).hom.left ⁻¹ᵁ rightStabilizerLocus h' U := by
     intro x hx
     refine ⟨?_, ?_⟩
-    · show ((rightShear h).hom.left ≫ (fst G T).left) x ∈ U
+    · change ((rightShear h).hom.left ≫ (fst G T).left) x ∈ U
       rw [hfst]
       exact hL'ρ hx
-    · show ((rightShear h).hom.left ≫ (rightTranslate h').left) x ∈ U
+    · change ((rightShear h).hom.left ≫ (rightTranslate h').left) x ∈ U
       rw [hρ]
       exact hL'ρ' hx
   have e₂ : (rightTranslate h).left.appLE U L' hL'ρ f =
@@ -215,11 +215,11 @@ theorem exists_closedSubgroupScheme_of_rightStabilises (G : Grp (Over (Spec (.of
   let Z : Over (Spec (.of k)) := Over.mk (K.subschemeι ≫ G.X.hom)
   let j : Z ⟶ G.X := Over.homMk K.subschemeι rfl
   have : IsClosedImmersion j.left := by
-    show IsClosedImmersion K.subschemeι
+    change IsClosedImmersion K.subschemeι
     infer_instance
   have hj : ∀ i, RightStabilises j U (f i) := by
     refine (hK Z j).mpr ?_
-    show K ≤ K.subschemeι.ker
+    change K ≤ K.subschemeι.ker
     rw [Scheme.IdealSheafData.ker_subschemeι]
   have hlift : ∀ {Y : Over (Spec (.of k))} (g : Y ⟶ G.X), (∀ i, RightStabilises g U (f i)) →
       ∃ g' : Y ⟶ Z, g' ≫ j = g := by
@@ -228,7 +228,7 @@ theorem exists_closedSubgroupScheme_of_rightStabilises (G : Grp (Over (Spec (.of
       rw [Scheme.IdealSheafData.ker_subschemeι]
       exact (hK Y g).mp hg
     refine ⟨Over.homMk (IsClosedImmersion.lift K.subschemeι g.left hle) ?_, ?_⟩
-    · show IsClosedImmersion.lift K.subschemeι g.left hle ≫ K.subschemeι ≫ G.X.hom = Y.hom
+    · change IsClosedImmersion.lift K.subschemeι g.left hle ≫ K.subschemeι ≫ G.X.hom = Y.hom
       rw [IsClosedImmersion.lift_fac_assoc]
       exact Over.w g
     · exact Over.OverMorphism.ext (IsClosedImmersion.lift_fac _ _ _)

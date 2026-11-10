@@ -63,7 +63,7 @@ private lemma isCompatibleWithShift_op (hW : W.IsSaturated) [W.IsCompatibleWithS
   condition a := by
     apply MorphismProperty.ext
     intro X Y f
-    show W.op ((shiftFunctor Cᵒᵖ a).map f) ↔ W.op f
+    change W.op ((shiftFunctor Cᵒᵖ a).map f) ↔ W.op f
     have := respectsIso_of_isSaturated (isSaturated_op hW)
     rw [shiftFunctor_op_map f a (-a) (by lia), W.op.cancel_left_of_respectsIso,
       W.op.cancel_right_of_respectsIso]
@@ -522,8 +522,8 @@ the triangulation exist. Since `IsSaturated` bundles both calculi of fractions a
 
 *Why the identities instance.* `ComputesRightDerived` and `ComputesLeftDerived` name the index
 `𝟙 X`, which `[W.ContainsIdentities]` provides. It is implied by `hW` (part of MS1) and appears as
-an instance argument only so that the two predicates elaborate, exactly as in the statements for Tags
-05SX and 05T0; it is not an assumption beyond `hW`.
+an instance argument only so that the two predicates elaborate, exactly as in the statements for
+Tags 05SX and 05T0; it is not an assumption beyond `hW`.
 
 *Duality.* The assertion for `LF` is given directly, in terms of the pro-object form in which
 Tag 05S9 gives `IsLeftDerivedValueAt`, rather than as the assertion for `F.op`, `W.op` and the

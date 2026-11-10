@@ -125,7 +125,7 @@ theorem derivedForget_map_toDerivedCategory_map {N N' : DifferentialGradedModule
     (derivedForget A).map ((toDerivedCategory.{u, u, u} A).map f) =
       (homotopyForget A).map f := by
   refine (Functor.congr_hom (toDerivedCategory_comp_derivedForget A) f).trans ?_
-  show 𝟙 _ ≫ (homotopyForget A).map f ≫ 𝟙 _ = (homotopyForget A).map f
+  change 𝟙 _ ≫ (homotopyForget A).map f ≫ 𝟙 _ = (homotopyForget A).map f
   rw [Category.id_comp, Category.comp_id]
 
 private theorem Q_map_eq_of_Qh_map_quotient_map {C : Type*} [Category C]
@@ -155,7 +155,7 @@ private theorem forgetUnitHom_aux {I : DifferentialGradedModule.{u, u, u} A} (n 
       ((toDerivedCategory.{u, u, u} A).map v ≫ (toDerivedCategoryIso b hb).inv)) ≫
       (((toDerivedCategory.{u, u, u} A).commShiftIso n).app
         ((HomotopyCategory.quotient A).obj M)).hom) = y := by
-  show forgetUnitHom A M n ((𝟙 _ ≫
+  change forgetUnitHom A M n ((𝟙 _ ≫
       ((toDerivedCategory.{u, u, u} A).map v ≫ (toDerivedCategoryIso b hb).inv)) ≫
       (((toDerivedCategory.{u, u, u} A).commShiftIso n).app
         ((HomotopyCategory.quotient A).obj M)).hom) = y
@@ -193,7 +193,7 @@ private theorem forgetUnitHom_aux {I : DifferentialGradedModule.{u, u, u} A} (n 
     exact Category.comp_id _
   unfold forgetUnitHom
   rw [h1, Functor.map_comp, derivedForget_map_toDerivedCategory_map, homotopyForget_quotient_map]
-  show _ ≫ (_ ≫ ((derivedForget A).mapIso (toDerivedCategoryIso b hb)).inv) ≫ _ = _
+  change _ ≫ (_ ≫ ((derivedForget A).mapIso (toDerivedCategoryIso b hb)).inv) ≫ _ = _
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ _) (Category.assoc _ _ _).symm).trans ?_
   refine (congrArg (fun t => (t ≫ _) ≫ _) hQ').trans ?_

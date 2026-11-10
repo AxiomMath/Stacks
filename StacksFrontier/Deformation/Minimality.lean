@@ -97,8 +97,8 @@ public def IsMinimal
     (pushforwards : ChosenPushforwards p)
     (e : G.objects.Elements ≌ (restrictedCoyoneda ξ.base).Elements),
     IsMinimalVersal (quotientProjection_cofibered G) ξ ∧
-    (e.functor ⋙ CategoryOfElements.π (restrictedCoyoneda ξ.base) =
-      CategoryOfElements.π G.objects) ∧
+    (e.functor ⋙ Functor.Elements.π (restrictedCoyoneda ξ.base) =
+      Functor.Elements.π G.objects) ∧
     Nonempty
       { α : quotientMorphism G ≅
           e.functor ⋙ (associatedMorphism (quotientProjection_cofibered G) ξ
@@ -133,8 +133,8 @@ public theorem exists_quotientMorphism_iso_associatedMorphism_of_isMinimal
       (pushforwards : ChosenPushforwards (Grothendieck.forget (evaluationFunctor G)))
       (e : G.objects.Elements ≌ (restrictedCoyoneda ξ.base).Elements),
       IsMinimalVersal (quotientProjection_cofibered G) ξ ∧
-      (e.functor ⋙ CategoryOfElements.π (restrictedCoyoneda ξ.base) =
-        CategoryOfElements.π G.objects) ∧
+      (e.functor ⋙ Functor.Elements.π (restrictedCoyoneda ξ.base) =
+        Functor.Elements.π G.objects) ∧
       Nonempty
         { α : quotientMorphism G ≅
             e.functor ⋙ (associatedMorphism (quotientProjection_cofibered G) ξ

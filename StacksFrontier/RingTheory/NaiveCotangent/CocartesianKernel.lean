@@ -63,11 +63,11 @@ private lemma finite_projective_ker_of_surjective
   let r : M →ₗ[R] LinearMap.ker f :=
     (LinearMap.id - s.comp f).codRestrict _ (by
       intro x
-      show f (x - s (f x)) = 0
+      change f (x - s (f x)) = 0
       simpa using sub_eq_zero.mpr (LinearMap.congr_fun hs (f x)).symm)
   have hr (x : LinearMap.ker f) : r x = x := by
     apply Subtype.ext
-    show x.1 - s (f x.1) = x.1
+    change x.1 - s (f x.1) = x.1
     simp
   exact ⟨Module.Finite.of_surjective r (fun x => ⟨x, hr x⟩),
     Module.Projective.of_split (LinearMap.ker f).subtype r (LinearMap.ext hr)⟩
@@ -257,7 +257,7 @@ private lemma exists_ker_map
   let s := AlgebraTensorModule.lTensor S' S' (Algebra.Extension.Cotangent.map a)
   have hs (x : LinearMap.ker (fP.domRestrict (LinearMap.ker dP))) : fQ (s x.1.1) = 0 := by
     rw [lift_cotangent_naturality_on_cycles a a' c e _ x.1.2]
-    show Algebra.Extension.Cotangent.map a' (fP x.1.1) = 0
+    change Algebra.Extension.Cotangent.map a' (fP x.1.1) = 0
     rw [show fP x.1.1 = 0 from x.2, map_zero]
   exact ⟨{ toFun := fun x => ⟨⟨s x.1.1, tensor_cotangent_map_cycles a _ x.1.2⟩, hs x⟩
            map_add' _ _ := Subtype.ext <| Subtype.ext <| map_add s _ _

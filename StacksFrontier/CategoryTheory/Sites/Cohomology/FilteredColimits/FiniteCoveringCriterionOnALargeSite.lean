@@ -20,8 +20,8 @@ the fppf, flat-fppf and lisse-étale sites of an algebraic stack all have object
 and morphisms in `Type u`.
 
 This file removes that restriction, as
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.GlobalCohomologyOnALargeSite` did for
-Stacks 0GN3. For an arbitrary site `C : Type u₁` with morphisms in `Type v`, every object the
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.GlobalCohomologyOnALargeSite` did
+for Stacks 0GN3. For an arbitrary site `C : Type u₁` with morphisms in `Type v`, every object the
 criterion mentions lives at the join `max u₁ v`: that is the universe of the sheaves of sets whose
 sheafification `CategoryTheory.Sheaf.sheafifiedYoneda` lands in, of `CategoryTheory.Sheaf`
 `.IsQuasiCompact`, and of the abelian coefficients, so all four conditions and the conclusion read
@@ -173,7 +173,7 @@ private theorem exists_isLocallySurjective_comp_of_mem_finiteCoproductSheafified
       _ = q₀ ⟨i, j⟩ := hfac₀ ⟨i, j⟩
       _ = Sigma.ι (fun j : β i => X ⟨i, j⟩) j ≫
           Sigma.ι (fun k : O => ∐ fun j : β k => X ⟨k, j⟩) i ≫
-            q := by simp only [q, q₀, hᵢ, ← Category.assoc, Sigma.ι_desc]
+            q := by simp only [q, q₀, hᵢ, ← Category.assoc, Sigma.ι_comp_desc]
   have hmem : K' ∈ FiniteCoproductSheafifiedYoneda J B := by
     simpa [K', X, α, β] using
       (nestedFiniteCoproduct_mem (B := B) (α := O) (β := β)
@@ -379,7 +379,7 @@ private theorem exists_isLocallySurjective_equalizer_of_mem_finiteCoproductSheaf
     (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ e.inv
   have hvEq (t : Tidx) : vK t ≫ a = vK t ≫ b := by
     apply (cancel_mono e'.hom).1
-    show (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ a' =
+    change (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ a' =
       (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ b'
     rcases t with ⟨z, l⟩
     dsimp only [pK]
@@ -403,7 +403,7 @@ private theorem exists_isLocallySurjective_equalizer_of_mem_finiteCoproductSheaf
   have hLmem : L ∈ FiniteCoproductSheafifiedYoneda J B :=
     mem_finiteCoproductSheafifiedYoneda_of_iso X (fun t => hW t.1 t.2) (Iso.refl _)
   refine ⟨L, hLmem, f, ?_⟩
-  show Presheaf.IsLocallySurjective J f.hom
+  change Presheaf.IsLocallySurjective J f.hom
   constructor
   intro Z y
   obtain ⟨x, rfl⟩ := (Sheaf.sectionEquiv J).surjective y
@@ -421,7 +421,7 @@ private theorem exists_isLocallySurjective_equalizer_of_mem_finiteCoproductSheaf
   rw [pullback_imageSieve_sectionEquiv]
   let x₂ : (Sheaf.sheafifiedYoneda J).obj Z₂ ⟶ equalizer a b :=
     (Sheaf.sheafifiedYoneda J).map t₂ ≫ x₁
-  show Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₂) ∈ J Z₂
+  change Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₂) ∈ J Z₂
   obtain ⟨k, c, hc⟩ := (Sieve.mem_ofArrows_iff (V i) (p i) (t₂ ≫ d)).1 ht₂
   have hx₂ : x₂ ≫ equalizer.ι a b ≫ e.hom =
       (Sheaf.sheafifiedYoneda J).map c ≫
@@ -454,7 +454,7 @@ private theorem exists_isLocallySurjective_equalizer_of_mem_finiteCoproductSheaf
   rw [pullback_imageSieve_sectionEquiv]
   let x₃ : (Sheaf.sheafifiedYoneda J).obj Z₃ ⟶ equalizer a b :=
     (Sheaf.sheafifiedYoneda J).map t₃ ≫ x₂
-  show Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₃) ∈ J Z₃
+  change Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₃) ∈ J Z₃
   obtain ⟨hij, hab⟩ := hequal t₃ ht₃
   let z : δ := ⟨⟨i, k⟩, hij⟩
   have hdEq : (t₃ ≫ c) ≫ ca i k = (t₃ ≫ c) ≫ cb' z :=
@@ -477,7 +477,7 @@ private theorem exists_isLocallySurjective_equalizer_of_mem_finiteCoproductSheaf
         (Sheaf.sheafifiedYoneda J).map (p i k) ≫ Sigma.ι A i := by
     refine Sigma.hom_ext _ _ fun l => ?_
     dsimp only [jL, f, qE]
-    simp only [Sigma.ι_desc_assoc, v, equalizer.lift_ι_assoc]
+    simp only [Sigma.ι_comp_desc_assoc, v, equalizer.lift_ι_assoc]
     simp only [vK, pK, z, Functor.map_comp, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have hx₃ : x₃ ≫ equalizer.ι a b ≫ e.hom =
       w ≫ equalizer.ι ((Sheaf.sheafifiedYoneda J).map (ca i k))

@@ -204,7 +204,7 @@ lemma isJapaneseRing_localizationAway {A : Type u} [CommRing A] [IsDomain A]
   have tower_A_FracA_L : IsScalarTower A (FractionRing A) L := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show (algebraMap A L) x = (algebraMap (FractionRing A) L) ((algebraMap A (FractionRing A)) x)
+    change (algebraMap A L) x = (algebraMap (FractionRing A) L) ((algebraMap A (FractionRing A)) x)
     have hRHS :
       (algebraMap (FractionRing A) L) ((algebraMap A (FractionRing A)) x) =
         (algebraMap (FractionRing (Localization.Away g)) L)
@@ -278,7 +278,7 @@ lemma isJapaneseRing_of_localizationSpan {B : Type u} [CommRing B] [IsDomain B] 
   have towerBgL : ∀ (gt : ↥t), IsScalarTower B (Bg gt.val gt.property) L := fun gt => by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show (algebraMap B L) x = (IsLocalization.lift _) _
+    change (algebraMap B L) x = (IsLocalization.lift _) _
     rw [IsLocalization.lift_eq]
   -- Algebra `Bg gt → FractionRing B` and the fraction-ring identification.
   let algBgFracB : ∀ (gt : ↥t), Algebra (Bg gt.val gt.property) (FractionRing B) := fun gt =>
@@ -290,7 +290,7 @@ lemma isJapaneseRing_of_localizationSpan {B : Type u} [CommRing B] [IsDomain B] 
     fun gt => by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show (algebraMap B (FractionRing B)) x = (IsLocalization.lift _) _
+    change (algebraMap B (FractionRing B)) x = (IsLocalization.lift _) _
     rw [IsLocalization.lift_eq]
   have isFR : ∀ (gt : ↥t), IsFractionRing (Bg gt.val gt.property) (FractionRing B) := fun gt =>
     IsFractionRing.isFractionRing_of_isLocalization (M := Submonoid.powers gt.val)
@@ -530,7 +530,7 @@ lemma nagata_backward_quotient_japanese (X : Scheme.{u}) [IsLocallyNoetherian X]
   set I := Scheme.IdealSheafData.vanishingIdeal Tcl with hI
   -- the preimage of `T` under `fromSpec` is `zeroLocus p` (Claim A, A1).
   have hpre : (V.property.fromSpec) ⁻¹' (Tcl : Set X) = Zp := by
-    show (V.property.fromSpec) ⁻¹' Tset = Zp
+    change (V.property.fromSpec) ⁻¹' Tset = Zp
     rw [hT, hZp]
     have hemb : Topology.IsEmbedding (V.property.fromSpec) :=
       (V.property.fromSpec.isOpenEmbedding (H := V.property.isOpenImmersion_fromSpec)).isEmbedding
@@ -572,7 +572,7 @@ lemma nagata_backward_quotient_japanese (X : Scheme.{u}) [IsLocallyNoetherian X]
       have : V.property.fromSpec x₀ ∈ Set.range V.property.fromSpec := ⟨x₀, rfl⟩
       rwa [V.property.range_fromSpec] at this
     refine ⟨⟨w, ?_⟩⟩
-    show I.subschemeι.base w ∈ V.val
+    change I.subschemeι.base w ∈ V.val
     rwa [hw]
   -- ring iso `Γ(Z, W) ≃+* Γ(X,V) ⧸ p`.
   have hringiso : Γ(I.subscheme, W) ≃+* (Γ(X, V.val) ⧸ p) := by

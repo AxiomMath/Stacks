@@ -361,7 +361,7 @@ private theorem appTop_coord_comp_affineLineNeg {T : Over (Spec (.of k))}
       (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
         -AffineSpace.coord (Spec (.of k)) PUnit.unit :=
     AffineSpace.homOfVector_appTop_coord _ _ _
-  show (f.left ≫ (affineLineNeg k).left).appTop _ = _
+  change (f.left ≫ (affineLineNeg k).left).appTop _ = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hn, map_neg]
 
 private theorem diskCoordinate_comp_affineLineNeg :
@@ -380,7 +380,7 @@ private theorem diskNegation_comp_diskCoordinate :
   · intro i
     simp only [Over.comp_left, diskCoordinate, diskNegativeCoordinate, Over.homMk_left,
       Scheme.Hom.comp_appTop, CommRingCat.comp_apply, AffineSpace.homOfVector_appTop_coord]
-    show (Spec.map (CommRingCat.ofHom (PowerSeries.rescale (-1 : k)))).appTop
+    change (Spec.map (CommRingCat.ofHom (PowerSeries.rescale (-1 : k)))).appTop
       ((Scheme.ΓSpecIso (.of (PowerSeries k))).inv PowerSeries.X) = _
     rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
     simp
@@ -402,7 +402,7 @@ private theorem exists_puncturedAffineLine_lift {T : Over (Spec (.of k))}
       (puncturedAffineLineOpen k).ι = f.left := IsOpenImmersion.lift_fac _ _ _
   refine ⟨Over.homMk (IsOpenImmersion.lift (puncturedAffineLineOpen k).ι f.left hr) ?_,
     Over.OverMorphism.ext hl⟩
-  show IsOpenImmersion.lift (puncturedAffineLineOpen k).ι f.left hr ≫
+  change IsOpenImmersion.lift (puncturedAffineLineOpen k).ι f.left hr ≫
     ((puncturedAffineLineOpen k).ι ≫ (affineLine k).hom) = T.hom
   rw [← Category.assoc, hl, f.w]
 
@@ -503,9 +503,9 @@ private theorem exists_over_coprod_factorization {S : Scheme.{u}} {T X Y : Over 
       Over.OverMorphism.ext hf'⟩
   rcases exists_coprod_factorization (r.left ≫ e.inv) with h | h
   · exact Or.inl (key _ coprod.inl
-      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inl (Over.forget S) X Y) h)
+      (by rw [PreservesColimitPair.iso_hom]; exact inl_coprodComparison (Over.forget S) X Y) h)
   · exact Or.inr (key _ coprod.inr
-      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inr (Over.forget S) X Y) h)
+      (by rw [PreservesColimitPair.iso_hom]; exact inr_coprodComparison (Over.forget S) X Y) h)
 
 /-- Away from characteristic two, the coordinate of the formal disk differs from its
 negative. -/
@@ -568,7 +568,7 @@ theorem diskMaps_ne (hchar : (2 : k) ≠ 0)
     (siteFormalDisk k B hS hD) (diskCoordinate k) (diskNegativeCoordinate k)
     (yonedaEquiv.symm.injective he)
   have : PreconnectedSpace (formalDisk k).left := by
-    show PreconnectedSpace (PrimeSpectrum (PowerSeries k))
+    change PreconnectedSpace (PrimeSpectrum (PowerSeries k))
     infer_instance
   rcases exists_over_coprod_factorization
       (show formalDisk k ⟶ relationScheme k from r) with ⟨f, hf⟩ | ⟨f, hf⟩
@@ -643,7 +643,7 @@ theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
     ?_, ?_⟩
   · rintro p x y ⟨r, hx, hy⟩
     rw [← hx, ← hy, congrArg Over.Hom.left ht, congrArg Over.Hom.left hs]
-    show (r.1 ≫ yoneda.map (siteDiskNegation k B hS hD)) ≫
+    change (r.1 ≫ yoneda.map (siteDiskNegation k B hS hD)) ≫
         diskToInvolutionQuotient k B hS hD =
       (r.1 ≫ 𝟙 _) ≫ diskToInvolutionQuotient k B hS hD
     rw [Category.assoc, hna, Category.comp_id, ← Yoneda.fullyFaithful.map_preimage r.1]
@@ -703,12 +703,12 @@ theorem isAbsolutelyQuasiSeparated_siteFormalDisk (hZ : B.Contains (⊤_ Scheme.
   · refine presheaf_id_of_iso B _ hS _ ?_ _
     intro _ _ f hf
     have := hiso f hf
-    show Surjective ((BigFppfOver.toScheme B (Spec (.of k)) hS).map f)
+    change Surjective ((BigFppfOver.toScheme B (Spec (.of k)) hS).map f)
     infer_instance
   · refine presheaf_id_of_iso B _ hS _ ?_ _
     intro _ _ f hf
     have := hiso f hf
-    show Etale ((BigFppfOver.toScheme B (Spec (.of k)) hS).map f)
+    change Etale ((BigFppfOver.toScheme B (Spec (.of k)) hS).map f)
     infer_instance
 
 /-- **Stacks 048Z.** The quotient of the affine line by the involution relation is a reduced
@@ -723,7 +723,7 @@ theorem hasEtaleLocalProperty_isReduced_involutionQuotient (hchar : (2 : k) ≠ 
   let eV : yoneda.obj V ≅ ⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u) :=
     hVterminal.uniqueUpToIso terminalIsTerminal
   have hV : IsReduced ((BigFppfOver.toScheme B (Spec (.of k)) hS).obj V) := by
-    show IsReduced (Spec (.of k))
+    change IsReduced (Spec (.of k))
     exact (affine_isReduced_iff _).2 inferInstance
   have hTerm : IsAlgebraicSpace B (Spec (.of k)) hS
       (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u)) :=

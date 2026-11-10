@@ -197,7 +197,7 @@ theorem standardAffineEffective_of_affineSingletonEffective (h : AffineSingleton
   set B : CommRingCat.{u} := CommRingCat.of (∀ k', (A' k' : Type u)) with hB
   set b : Spec B ⟶ T := inv (sigmaSpec A') ≫ Sigma.desc (fun k' ↦ g k'.down) with hbdef
   have hb : ∀ k', Spec.map (piComponent A' k') ≫ b = g k'.down := fun k' ↦ by
-    rw [hbdef, ← ι_sigmaSpec A' k', Category.assoc, IsIso.hom_inv_id_assoc, Sigma.ι_desc]
+    rw [hbdef, ← ι_sigmaSpec A' k', Category.assoc, IsIso.hom_inv_id_assoc, Sigma.ι_comp_desc]
   have hloc : IsZariskiLocalAtSource @Flat :=
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Flat)
   have hriso : MorphismProperty.RespectsIso @Flat :=

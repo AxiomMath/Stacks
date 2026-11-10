@@ -139,7 +139,7 @@ theorem bindObjPointsIsoOfHomIso_hom_app_bindConstLeg {K : 𝒜} {K₀ : 𝒞}
         ((Φ.hom.app (op ((seqOf (F.obj K)).obj (op n)))).app L
           (((pointsFunctor G).map a.op).app L x)) :=
     ConcreteCategory.congr_hom (congr_app
-      (HasColimit.isoOfNatIso_ι_hom (Functor.isoWhiskerLeft (seqOf (F.obj K)).rightOp Φ) n) L)
+      (HasColimit.ι_isoOfNatIso_hom (Functor.isoWhiskerLeft (seqOf (F.obj K)).rightOp Φ) n) L)
         (((pointsFunctor G).map a.op).app L x)
   have s3 : (Φ.hom.app (op ((seqOf (F.obj K)).obj (op n)))).app L
       (((pointsFunctor G).map a.op).app L x) =

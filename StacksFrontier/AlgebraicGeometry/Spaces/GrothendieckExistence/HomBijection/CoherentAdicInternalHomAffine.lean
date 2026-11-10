@@ -80,11 +80,11 @@ theorem internalHomChartEval_smul (M N : Modules.{u, u} B S hS F hF)
       r • internalHomChartEval B S hS F hF M N U s := by
   have h0 : fRestr (smallEtaleRingedSite B S hS F hF).O.obj
       U r (op (CategoryTheory.Over.mk (𝟙 U))) = r := by
-    show ((Oforget _).map (𝟙 (op U))).hom r = r
+    change ((Oforget _).map (𝟙 (op U))).hom r = r
     rw [CategoryTheory.Functor.map_id]
     rfl
   refine LinearMap.ext fun x => ?_
-  show fRestr (smallEtaleRingedSite B S hS F hF).O.obj U r (op (CategoryTheory.Over.mk (𝟙 U))) •
+  change fRestr (smallEtaleRingedSite B S hS F hF).O.obj U r (op (CategoryTheory.Over.mk (𝟙 U))) •
     ((s.app (op (CategoryTheory.Over.mk (𝟙 U)))).hom x :
       ((restrFun (smallEtaleRingedSite B S hS F hF).O.obj U).obj N.val).obj
         (op (CategoryTheory.Over.mk (𝟙 U)))) = _
@@ -129,7 +129,7 @@ theorem smallInternalHomChartEval_mapRight (M : Modules.{u, u} B S hS F hF)
     smallInternalHomChartEval B S hS F hF M N' U
         ((smallEtaleInternalHomSmallMapRight B S hS F hF M f).val.app (op U) s) =
       (f.val.app (op U)).hom ∘ₗ smallInternalHomChartEval B S hS F hF M N U s := by
-  show internalHomChartEval B S hS F hF M N' U
+  change internalHomChartEval B S hS F hF M N' U
     (smallEtaleInternalHomSmallShrink B S hS F hF M N' (op U)
       ((smallEtaleInternalHomSmallMapRight B S hS F hF M f).val.app (op U) s)) = _
   rw [smallEtaleInternalHomSmallShrink_mapRight]
@@ -254,13 +254,13 @@ theorem bijective_smallAdicSectionsMapAt_of_isAffine (V : (smallEtaleRingedSite 
         (LinearMap.ext fun p => (κ n).injective (LinearMap.congr_fun hyy p)))
     (fun n y => by
       refine LinearMap.ext fun p => ?_
-      show κ n (smallInternalHomChartEval B S hS F hF M _ V
+      change κ n (smallInternalHomChartEval B S hS F hF M _ V
         ((smallEtaleInternalHomSmallMapRight B S hS F hF M
           (smallEtaleAdicQuotientTransition B S hS F hF 𝓘 (n + 1) N)).val.app (op V) y) p) = _
       rw [smallInternalHomChartEval_mapRight]
       obtain ⟨q, hq⟩ := surjective_val_app_idealPowerQuotient_π B S hS F hF 𝓘 hIcart N hNcart
         (n + 1 + 1) hV (smallInternalHomChartEval B S hS F hF M _ V y p)
-      show κ n ((smallEtaleAdicQuotientTransition B S hS F hF 𝓘 (n + 1) N).val.app (op V)
+      change κ n ((smallEtaleAdicQuotientTransition B S hS F hF 𝓘 (n + 1) N).val.app (op V)
         (smallInternalHomChartEval B S hS F hF M _ V y p)) =
           AdicCompletion.transitionMap _ _ (Nat.le_succ (n + 1)) (κ (n + 1)
             (smallInternalHomChartEval B S hS F hF M _ V y p))
@@ -274,7 +274,7 @@ theorem bijective_smallAdicSectionsMapAt_of_isAffine (V : (smallEtaleRingedSite 
       refine LinearMap.ext fun p => ?_
       have h1 := hcomp (smallEtaleAdicQuotientProjection_comp_smallComparisonApp
         B S hS F hF 𝓘 M N n) h
-      show κ n (smallInternalHomChartEval B S hS F hF M _ V
+      change κ n (smallInternalHomChartEval B S hS F hF M _ V
         ((smallEtaleInternalHomSmallAdicComparisonApp B S hS F hF 𝓘 M N n).val.app (op V)
           ((smallEtaleAdicQuotientProjection B S hS F hF 𝓘 (n + 1)
             (smallEtaleInternalHomSmall B S hS F hF M N)).val.app (op V) h)) p) = _

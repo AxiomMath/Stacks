@@ -161,16 +161,16 @@ public theorem prod_smul_id_eq_zero_of_isGE_of_isLE {A : Type u} [CommRing A] (f
       push_cast [hb]
       omega
     have h₁ge : T.obj₁.IsGE a := by
-      show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
+      change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
       infer_instance
     have h₁le : T.obj₁.IsLE (a + n) := by
-      show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
+      change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
       infer_instance
     have h₃ge : T.obj₃.IsGE (b + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
       infer_instance
     have h₃le : T.obj₃.IsLE (b + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
       infer_instance
     have hleft : (∏ j ∈ Finset.range (n + 1), f (a + j)) • 𝟙 T.obj₁ = 0 := by
       exact ih T.obj₁ (smul_id_homology_truncLE_eq_zero f b X fun i _ => hX i)
@@ -204,13 +204,13 @@ public theorem prod_smul_eq_zero_of_isLE_of_isGE {A : Type u} [CommRing A] (f : 
   set T := (DerivedCategory.TStructure.t.triangleLEGE b (b + 1) (by omega)).obj Q
   have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished b (b + 1) (by omega) Q
   have h₁le : T.obj₁.IsLE b := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsLE b
+    change ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsLE b
     infer_instance
   have h₁ge : T.obj₁.IsGE a := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsGE a
+    change ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsGE a
     infer_instance
   have h₃ge : T.obj₃.IsGE (b + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj Q).IsGE (b + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj Q).IsGE (b + 1)
     infer_instance
   obtain ⟨k, hk⟩ := Triangle.coyoneda_exact₂ T hT g
     (DerivedCategory.TStructure.t.zero_of_isLE_of_isGE _ b (b + 1) (by omega)
@@ -269,7 +269,7 @@ public theorem smul_id_homComplex_homology_eq_zero {A : Type u} [CommRing A] (r 
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ z =>
-    show r • (Submodule.Quotient.mk z :
+    change r • (Submodule.Quotient.mk z :
       LinearMap.ker S.g.hom ⧸ LinearMap.range S.moduleCatToCycles) = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     set c : CochainComplex.HomComplex.Cocycle K L i :=
@@ -309,9 +309,9 @@ public theorem smul_id_homComplex_homology_eq_zero {A : Type u} [CommRing A] (r 
     have hprev : (ComplexShape.up ℤ).prev i = i - 1 := by simp
     refine ⟨(CochainComplex.HomComplexR A K L).XIsoOfEq hprev.symm |>.hom <| y, ?_⟩
     apply Subtype.ext
-    show (CochainComplex.HomComplexR A K L).d ((ComplexShape.up ℤ).prev i) i _ = _
+    change (CochainComplex.HomComplexR A K L).d ((ComplexShape.up ℤ).prev i) i _ = _
     have hy' : (CochainComplex.HomComplexR A K L).d (i - 1) i y = r • z.val := hy
-    show (((CochainComplex.HomComplexR A K L).XIsoOfEq hprev.symm).hom ≫
+    change (((CochainComplex.HomComplexR A K L).XIsoOfEq hprev.symm).hom ≫
       (CochainComplex.HomComplexR A K L).d ((ComplexShape.up ℤ).prev i) i).hom y =
         r • z.val
     rw [HomologicalComplex.XIsoOfEq_hom_comp_d]

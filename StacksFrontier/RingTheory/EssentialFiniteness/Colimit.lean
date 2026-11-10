@@ -814,7 +814,7 @@ lemma isLocalHom_φsys (hφ : IsLocalHom (algebraMap R S)) (hft : Algebra.EssFin
     exact ⟨fun hy hu => hy (isUnit_of_map_unit _ y hu), fun hy hu => hy (hu.map _)⟩
   have hcomap : RA i = Ideal.comap (φincl hft i) (SA hft i) := by
     refine Ideal.ext fun x => ?_
-    show algebraMap (Algebra.adjoin ℤ (↑i : Set R)) R x ∈ IsLocalRing.maximalIdeal R ↔
+    change algebraMap (Algebra.adjoin ℤ (↑i : Set R)) R x ∈ IsLocalRing.maximalIdeal R ↔
       algebraMap (Algebra.adjoin ℤ (Sset hft i)) S (φincl hft i x) ∈ IsLocalRing.maximalIdeal S
     exact hbij _
   exact Localization.isLocalHom_localRingHom (RA i) (SA hft i) (φincl hft i) hcomap
@@ -1044,12 +1044,12 @@ lemma Sleg_surj (R S : Type) [CommRing R] [CommRing S] [Algebra R S]
   have hval_d : algebraMap (Algebra.adjoin ℤ (Sset hft (Ad ∪ Am))) S d' = algebraMap D S d := by
     rw [Subalgebra.algebraMap_apply]
   have hm'compl : m' ∈ (SA hft (Ad ∪ Am)).primeCompl := by
-    show m' ∉ SA hft (Ad ∪ Am)
+    change m' ∉ SA hft (Ad ∪ Am)
     intro hmem
     exact IsLocalRing.notMem_maximalIdeal.mpr hmunit (hval_m ▸ hmem)
   refine ⟨IsLocalization.mk' (Localization.AtPrime (SA hft (Ad ∪ Am))) d' ⟨m', hm'compl⟩, ?_⟩
   rw [Sleg, IsLocalization.lift_mk'_spec]
-  show algebraMap (Algebra.adjoin ℤ (Sset hft (Ad ∪ Am))) S d'
+  change algebraMap (Algebra.adjoin ℤ (Sset hft (Ad ∪ Am))) S d'
       = algebraMap (Algebra.adjoin ℤ (Sset hft (Ad ∪ Am))) S m' * σ
   rw [hval_d, hval_m, ← hdm]; ring
 
@@ -1174,7 +1174,7 @@ lemma essFiniteType_adjoin_Sset (hft : Algebra.EssFiniteType R S) (i : Idx R) :
   have : IsScalarTower ℤ (Algebra.adjoin ℤ (↑i : Set R)) (Algebra.adjoin ℤ (Sset hft i)) := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap ℤ _ x = (φincl hft i) (algebraMap ℤ _ x)
+    change algebraMap ℤ _ x = (φincl hft i) (algebraMap ℤ _ x)
     simp only [algebraMap_int_eq, eq_intCast, map_intCast]
   have : Algebra.FiniteType (Algebra.adjoin ℤ (↑i : Set R)) (Algebra.adjoin ℤ (Sset hft i)) :=
     .of_restrictScalars_finiteType ℤ _ _
@@ -1202,7 +1202,7 @@ lemma essFiniteType_Sfun (hft : Algebra.EssFiniteType R S) (i : Idx R) :
       (algebraMap (Algebra.adjoin ℤ (↑i : Set R)) (Localization.AtPrime (RA i)))
       = (algebraMap (Algebra.adjoin ℤ (Sset hft i)) (Localization.AtPrime (SA hft i))).comp
         (φincl hft i) := by
-    show (IsLocalization.map (Localization.AtPrime (SA hft i)) (φincl hft i) (φhle hft i)).comp
+    change (IsLocalization.map (Localization.AtPrime (SA hft i)) (φincl hft i) (φhle hft i)).comp
         (algebraMap (Algebra.adjoin ℤ (↑i : Set R)) (Localization.AtPrime (RA i))) = _
     exact IsLocalization.map_comp (φhle hft i)
   let algRRi : Algebra (Algebra.adjoin ℤ (↑i : Set R)) (Localization.AtPrime (RA i)) :=
@@ -1297,7 +1297,7 @@ lemma localizationOfQuotient_holds (hft : Algebra.EssFiniteType R S) (i j : Idx 
           have hcf := RingHom.congr_fun leg_inr
             (algebraMap (Algebra.adjoin ℤ (↑j : Set R)) (Localization.AtPrime (RA j)) ⟨a, hain⟩)
           refine Eq.trans hcf ?_
-          show (IsLocalization.map (Localization.AtPrime (SA hft j)) (φincl hft j) (φhle hft j) :
+          change (IsLocalization.map (Localization.AtPrime (SA hft j)) (φincl hft j) (φhle hft j) :
               Localization.AtPrime (RA j) →+* Localization.AtPrime (SA hft j))
               (algebraMap (Algebra.adjoin ℤ (↑j : Set R)) (Localization.AtPrime (RA j)) ⟨a, hain⟩)
             = _
@@ -1313,7 +1313,7 @@ lemma localizationOfQuotient_holds (hft : Algebra.EssFiniteType R S) (i j : Idx 
           have hcf := RingHom.congr_fun leg_inl
             (algebraMap (Algebra.adjoin ℤ (Sset hft i)) (Localization.AtPrime (SA hft i)) ⟨x, hxin⟩)
           refine Eq.trans hcf ?_
-          show ((Sfun R S hft).map h.hom).hom _ = _
+          change ((Sfun R S hft).map h.hom).hom _ = _
           unfold Sfun
           rw [CommRingCat.hom_ofHom,
             Localization.localRingHom_to_map (SA hft i) (SA hft j) (Sincl hft h.hom)

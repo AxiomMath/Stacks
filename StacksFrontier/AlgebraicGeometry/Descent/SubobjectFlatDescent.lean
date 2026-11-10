@@ -230,13 +230,13 @@ theorem exists_comp_eq_of_mono_of_flatCover {b a T T' : BigFppfOver B S hS} {i :
   have hcompat : ∀ {Z : BigFppfOver B S hS} (p₁ p₂ : Z ⟶ T'), p₁ ≫ p = p₂ ≫ p →
       (yoneda.obj b).map p₁.op δ = (yoneda.obj b).map p₂.op δ := by
     intro Z p₁ p₂ hpp
-    show p₁ ≫ δ = p₂ ≫ δ
+    change p₁ ≫ δ = p₂ ≫ δ
     refine (cancel_mono i).1 ?_
     rw [Category.assoc, Category.assoc, hδ, ← Category.assoc, ← Category.assoc, hpp]
   obtain ⟨γ, hγ, -⟩ := Presieve.isSheafFor_singleton.1 hfor δ hcompat
   refine ⟨γ, eq_of_map_eq_of_flatCover (isAlgebraicSpace_yoneda B S hS a) p hps hpf hpc
     (γ ≫ i) s₀ ?_⟩
-  show p ≫ γ ≫ i = p ≫ s₀
+  change p ≫ γ ≫ i = p ≫ s₀
   rw [← Category.assoc, show p ≫ γ = δ from hγ, hδ]
 
 /-! ### A surjective étale chart of the descended fibre product -/

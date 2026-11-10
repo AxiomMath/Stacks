@@ -74,7 +74,7 @@ private theorem snoc_init_comp_swap {α : Type*} {n : ℕ}
       simp [σ] at h'
     simp [q, Fin.init, Function.update, hne]
   have hlast : q (Fin.last n) = a := by simp [q, σ]
-  show Fin.snoc (Fin.init (f ∘ σ)) a = q
+  change Fin.snoc (Fin.init (f ∘ σ)) a = q
   rw [hinit, ← hlast, Fin.snoc_init_self]
 
 private theorem isKoszulRegular_update_mul {R : Type u} [CommRing R] {r : ℕ}
@@ -155,7 +155,7 @@ private lemma preservesColimits_shortComplexHomology {R : Type u} [CommRing R] :
   have key : ι.app T.homology = (T.mapHomologyIso ((evaluation ℕ (ModuleCat.{u} R)).obj j)).inv ≫
       ShortComplex.homologyMap (T.mapNatTrans ι) ≫ (T.mapHomologyIso colim).hom :=
     NatTrans.app_homology ι T
-  show ((T.mapHomologyIso ((evaluation ℕ (ModuleCat.{u} R)).obj j)).hom ≫ ι.app T.homology) ≫
+  change ((T.mapHomologyIso ((evaluation ℕ (ModuleCat.{u} R)).obj j)).hom ≫ ι.app T.homology) ≫
       (T.mapHomologyIso
         (colim : Functor (Functor ℕ (ModuleCat.{u} R)) (ModuleCat.{u} R))).inv =
     ShortComplex.homologyMap (T.mapNatTrans ι)

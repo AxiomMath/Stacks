@@ -60,7 +60,7 @@ theorem surjective_etaleCohomologyRestrictionMap_X₃_of_shortExact
       (y - etaleCohomologyRestrictionMap.{u, v, w} i S.X₃ q x₃) = 0 := by
     rw [map_sub]
     refine sub_eq_zero.mpr ?_
-    show y.comp hS'.extClass rfl =
+    change y.comp hS'.extClass rfl =
       (etaleCohomologyRestrictionMap.{u, v, w} i S.X₃ q x₃).comp hS'.extClass rfl
     rw [← etaleCohomologyRestrictionMap_comp_extClass.{u, v, w} i hS q (q + 1) rfl, hx₃, hz]
   have hδ : (y - etaleCohomologyRestrictionMap.{u, v, w} i S.X₃ q x₃).comp

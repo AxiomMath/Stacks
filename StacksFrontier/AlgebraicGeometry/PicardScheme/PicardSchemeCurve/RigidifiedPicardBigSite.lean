@@ -256,7 +256,7 @@ theorem isRepresentable_picardFunctor_of_isRepresentable_smallPicardFunctor [IsC
     (ObjectProperty.homMk f)) (fun T => (smallPicardFunctorEquiv B hk f σ hσ T.unop).trans
       ((bigSitePicardFunctorIso B hX hk f σ hσ).app T).toEquiv) ?_).isRepresentable
   intro T T' g a
-  show (bigSitePicardFunctorIso B hX hk f σ hσ).hom.app T'
+  change (bigSitePicardFunctorIso B hX hk f σ hσ).hom.app T'
       (smallPicardFunctorEquiv B hk f σ hσ T'.unop ((smallPicardFunctor B hk f σ hσ).map g a)) =
     (Stacks.PicardFunctor.picardFunctor B hX hk (ObjectProperty.homMk f)).map g
       ((bigSitePicardFunctorIso B hX hk f σ hσ).hom.app T

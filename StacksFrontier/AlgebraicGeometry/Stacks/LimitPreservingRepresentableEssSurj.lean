@@ -422,6 +422,7 @@ private lemma down_comp_up_map {C : Type uC} [Category.{vC} C] {D : Type uD} [Ca
     AsSmall.down.map ((F ⋙ AsSmall.up.{vC, uC, wC}).map g) = F.map g := rfl
 
 set_option maxHeartbeats 1600000 in
+-- large `simp only` over `AsSmall`-wrapped fibre functors and `eqToHom` coherences
 /-- **The two components of the isomorphism witnessing essential surjectivity are compatible with
 the 2-cell of the canonical square.** This is the coherence condition that makes
 `AlgebraicGeometry.Stack.descentFstIso` and `AlgebraicGeometry.Stack.descentSndIso` the two

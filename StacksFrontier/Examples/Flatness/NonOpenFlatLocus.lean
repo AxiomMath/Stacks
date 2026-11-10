@@ -326,7 +326,7 @@ public theorem nf_finite {x y z : Amb}
     {i : ℤ | z.2 i ≠ C (z.1.eval (i : ℚ))}.Finite := by
   refine (hx.union hy).subset fun i hi ↦ ?_
   by_contra hc
-  simp only [Set.mem_union, not_or, Set.mem_setOf_eq, not_not] at hc
+  simp only [Set.mem_union, not_or, Set.mem_ofPred_eq, not_not] at hc
   exact hi (hz i hc.1 hc.2)
 
 /-- The normal-form model: the `ℚ`-subalgebra of `ℚ[X] × ∏_{i : ℤ} ℚ[X]` of normal forms.
@@ -379,7 +379,7 @@ public def nfU (i : ℤ) : Nf :=
     · simp [ambU]
     · simp [ambU, Pi.single_eq_of_ne h], by
     refine (Set.finite_singleton i).subset fun j hj ↦ ?_
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     by_contra hji
     exact hj (by simp [ambU, Pi.single_eq_of_ne (by simpa using hji)])⟩⟩
 
@@ -549,13 +549,13 @@ public theorem span_nfMonomial_mul_mem (v : Option ℤ) {x : A}
           cases v with
           | none =>
               refine Submodule.subset_span ⟨Sum.inl (n + 1), ?_⟩
-              show t ^ (n + 1) = t ^ n * t
+              change t ^ (n + 1) = t ^ n * t
               ring
           | some j =>
               have e : nfMonomial (Sum.inl n) *
                   Ideal.Quotient.mk rel (MvPolynomial.X (some j)) =
                   ((j : ℚ) ^ n) • nfMonomial (Sum.inr (j, 0)) := by
-                show t ^ n * u j = _
+                change t ^ n * u j = _
                 rw [show u j = u j ^ (0 + 1) by ring, t_pow_mul_u_pow n j 0,
                   show nfMonomial (Sum.inr (j, 0)) = u j ^ (0 + 1) from rfl, ← hsmul,
                   map_pow, map_intCast]
@@ -568,7 +568,7 @@ public theorem span_nfMonomial_mul_mem (v : Option ℤ) {x : A}
               have e : nfMonomial (Sum.inr (i, a)) *
                   Ideal.Quotient.mk rel (MvPolynomial.X (none : Option ℤ)) =
                   (i : ℚ) • nfMonomial (Sum.inr (i, a)) := by
-                show u i ^ (a + 1) * t = _
+                change u i ^ (a + 1) * t = _
                 rw [show u i ^ (a + 1) * t = t ^ 1 * u i ^ (a + 1) by ring,
                   t_pow_mul_u_pow 1 i a,
                   show nfMonomial (Sum.inr (i, a)) = u i ^ (a + 1) from rfl, ← hsmul,
@@ -578,11 +578,11 @@ public theorem span_nfMonomial_mul_mem (v : Option ℤ) {x : A}
           | some j =>
               rcases eq_or_ne i j with rfl | hij
               · refine Submodule.subset_span ⟨Sum.inr (i, a + 1), ?_⟩
-                show u i ^ (a + 1 + 1) = u i ^ (a + 1) * u i
+                change u i ^ (a + 1 + 1) = u i ^ (a + 1) * u i
                 ring
               · have e : nfMonomial (Sum.inr (i, a)) *
                     Ideal.Quotient.mk rel (MvPolynomial.X (some j)) = 0 := by
-                  show u i ^ (a + 1) * u j = _
+                  change u i ^ (a + 1) * u j = _
                   rw [show u j = u j ^ (0 + 1) by ring]
                   exact u_pow_mul_u_pow hij a 0
                 rw [e]
@@ -600,7 +600,7 @@ public theorem span_nfMonomial : Submodule.span ℚ (Set.range nfMonomial) = ⊤
         rw [Algebra.smul_def, mul_one]; rfl
       rw [h1]
       refine Submodule.smul_mem _ q (Submodule.subset_span ⟨Sum.inl 0, ?_⟩)
-      show t ^ 0 = (1 : A)
+      change t ^ 0 = (1 : A)
       exact pow_zero t
   | add p q hp hq => rw [map_add]; exact Submodule.add_mem _ hp hq
   | mul_X p i hp => rw [map_mul]; exact span_nfMonomial_mul_mem i hp
@@ -641,7 +641,7 @@ public theorem algebraMap_u_eq_zero {m i : ℤ} (h : i ≠ m) :
 public theorem J_eq_bot {m : ℤ} (hm : m ≤ 0) : J m = ⊥ := by
   rw [J, posIdeal, Ideal.map_span, Ideal.span_eq_bot]
   rintro x ⟨y, ⟨i, hi, rfl⟩, rfl⟩
-  simp only [Set.mem_setOf_eq] at hi
+  simp only [Set.mem_ofPred_eq] at hi
   exact algebraMap_u_eq_zero (by omega)
 
 /-- **Statement 3(b).** For `m ≥ 1` the ideal `I` localizes to the principal ideal generated
@@ -769,7 +769,7 @@ public theorem pt_zero_mem_closure : pt 0 ∈ closure (pt '' {m : ℤ | 1 ≤ m}
 `A_{p_m}` is exactly `{m : m ≤ 0}`. -/
 public theorem setOf_isFlatAt_pt : {m : ℤ | IsFlatAt (pt m)} = {m : ℤ | m ≤ 0} := by
   ext m
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   refine ⟨fun h ↦ ?_, isFlatAt_pt_of_nonpos⟩
   by_contra hc
   exact not_isFlatAt_pt_of_pos (by omega) h
@@ -811,7 +811,7 @@ public theorem rel_le_ker_shiftVar (n : ℤ) :
     rel ≤ RingHom.ker (MvPolynomial.aeval (shiftVar n) : Pre →ₐ[ℚ] A).toRingHom := by
   refine rel_le_ker_of_relations fun i ↦ ?_
   have h : shiftVar n none - (i : A) = t - ((i + n : ℤ) : A) := by
-    show t - (n : A) - (i : A) = _
+    change t - (n : A) - (i : A) = _
     push_cast
     ring
   simp only [MvPolynomial.aeval_X]
@@ -830,13 +830,13 @@ public theorem shift_mk (n : ℤ) (f : Pre) :
 /-- The shift by `n` sends `t` to `t - n`. -/
 @[simp]
 public theorem shift_t (n : ℤ) : shift n t = t - (n : A) := by
-  show MvPolynomial.aeval (shiftVar n) (MvPolynomial.X (none : Option ℤ)) = t - (n : A)
+  change MvPolynomial.aeval (shiftVar n) (MvPolynomial.X (none : Option ℤ)) = t - (n : A)
   simp [shiftVar]
 
 /-- The shift by `n` sends `u_i` to `u_{i + n}`. -/
 @[simp]
 public theorem shift_u (n i : ℤ) : shift n (u i) = u (i + n) := by
-  show MvPolynomial.aeval (shiftVar n) (MvPolynomial.X (some i)) = u (i + n)
+  change MvPolynomial.aeval (shiftVar n) (MvPolynomial.X (some i)) = u (i + n)
   simp [shiftVar]
 
 /-- The shift by `0` is the identity. -/

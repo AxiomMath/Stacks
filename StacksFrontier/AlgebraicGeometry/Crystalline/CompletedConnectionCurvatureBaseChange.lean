@@ -60,8 +60,7 @@ public theorem rawDifferential_one_smul_add_wedgeFlip (c : D) (y : M ⊗[D] Om 1
       c • rawDifferential p D Om wedge deRham M nabla hleib 1 y +
         toCompletedTensor p D (Om (1 + 1)) M
           (LinearMap.lTensor M ((wedge 1).flip (dmap c)) y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [TensorProduct.smul_tmul', rawDifferential_tmul, rawDifferential_tmul, nabla.leibniz,
       map_add, LinearMap.map_smul, wedgeMap_of_tmul, LinearMap.lTensor_tmul,

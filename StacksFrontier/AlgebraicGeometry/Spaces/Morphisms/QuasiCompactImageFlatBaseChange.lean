@@ -100,15 +100,15 @@ private lemma exists_schemeImage_site' {A V : BigFppfOver B S hS} (f : A ⟶ V) 
     refine B.inclusion.map_injective ?_
     rw [B.inclusion.map_comp, B.inclusion.map_preimage (X := A.left) (Y := B.obj hI)
       ((BigFppfOver.toScheme B S hS).map f).toImage, hqI]
-    show ((BigFppfOver.toScheme B S hS).map f).toImage ≫
+    change ((BigFppfOver.toScheme B S hS).map f).toImage ≫
       ((BigFppfOver.toScheme B S hS).map f).imageι = (BigFppfOver.toScheme B S hS).map f
     rw [Scheme.Hom.toImage_imageι]
   refine ⟨Over.mk (qI ≫ V.hom), Over.homMk qI, Over.homMk lI (by
-    show lI ≫ (qI ≫ V.hom) = A.hom
+    change lI ≫ (qI ≫ V.hom) = A.hom
     rw [← Category.assoc, hlI, f.w]), ?_, ?_, ?_⟩
-  · show AlgebraicGeometry.IsClosedImmersion (B.inclusion.map qI)
+  · change AlgebraicGeometry.IsClosedImmersion (B.inclusion.map qI)
     rw [hqI]; infer_instance
-  · show (B.inclusion.map qI).ker = _
+  · change (B.inclusion.map qI).ker = _
     rw [hqI, Scheme.Hom.imageι, Scheme.IdealSheafData.ker_subschemeι]
   · ext
     exact congrArg (fun k => k.hom) hlI
@@ -270,7 +270,7 @@ private theorem range_le_of_comp_locallySurjective {C : Type*} [Category C]
   rintro V k ⟨y, hy⟩
   have hn : H.map k.op (f.app U z) = f.app (op V) (F.map k.op z) :=
     (congrArg (fun m => m z) (f.naturality k.op)).symm
-  show H.map k.op (f.app U z) ∈ A.obj (op V)
+  change H.map k.op (f.app U z) ∈ A.obj (op V)
   rw [hn, ← hy]
   exact hcomp (op V) ⟨y, rfl⟩
 
@@ -289,7 +289,7 @@ private theorem subfunctor_le_of_preimage_le_of_locallySurjective {D : Type*} [C
   rintro V k ⟨y, hy⟩
   have hxy : e.app (op V) y = F.map k.op x := hy
   have hyA : y ∈ (A.preimage e).obj (op V) := by
-    show e.app (op V) y ∈ A.obj (op V)
+    change e.app (op V) y ∈ A.obj (op V)
     rw [hxy]; exact A.map k.op hx
   have hyC := hAC (op V) hyA
   change e.app (op V) y ∈ C.obj (op V) at hyC
@@ -545,11 +545,11 @@ private lemma schemeTheoreticImageSubfunctor_preimage_of_chart_square
         (IsPullback.of_hasPullback (pullback.snd g f) a),
       ← range_preimage_eq_of_isPullback (IsPullback.of_hasPullback g b),
       ← range_preimage_eq_of_isPullback (IsPullback.of_hasPullback g f)]
-    show (Subfunctor.range g).preimage (yoneda.map k ≫ b) =
+    change (Subfunctor.range g).preimage (yoneda.map k ≫ b) =
       (Subfunctor.range g).preimage (a ≫ f)
     rw [hcomm]
   rw [← hJT, ← hKJT, hK, hIU]
-  show (schemeTheoreticImageSubfunctor B S hS g).preimage (yoneda.map k ≫ b) =
+  change (schemeTheoreticImageSubfunctor B S hS g).preimage (yoneda.map k ≫ b) =
     (schemeTheoreticImageSubfunctor B S hS g).preimage (a ≫ f)
   rw [hcomm]
 
@@ -606,7 +606,7 @@ theorem schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact'
             (siteOpenObjectι B S hS U d.1.2.1)).base := by
         rw [hj, Scheme.Opens.range_ι]
         rintro _ ⟨z, rfl⟩
-        show ((BigFppfOver.toScheme B S hS).map
+        change ((BigFppfOver.toScheme B S hS).map
           (siteOpenObjectι B S hS T d.1.1.1 ≫ k)).base z ∈ d.1.2.1
         rw [(BigFppfOver.toScheme B S hS).map_comp]
         exact d.2 (by rw [hi] at *; exact z.property)

@@ -6,7 +6,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.Abeli
 # The pasting law for the derived base change map, with its six categories named
 
 `Stacks.Cohomology.BaseChange.derived_eq_derivedPaste_app`
-(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/AbelianDerivedBaseChangePasting.lean`)
+(module
+`StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.AbelianDerivedBaseChangePasting`)
 is the pasting law for the derived base change map, evaluated at an object.  Its six categories
 are implicit there.  This file restates it with them explicit and their `Category`, `Abelian`
 and `EnoughInjectives` structures named, so that a concrete application can pin them.
@@ -33,7 +34,8 @@ is typed at `SheafOfModules (structureRingSheaf (smallEtaleRingedTopos …))`, w
 image at that seating is typed at `AlgebraicGeometry.Space.Modules`.  The two are one category by
 definition and not one term, so with a bare direct image supplied the engine seats the whole law
 — `hτ` included — in the ringed-topoi vocabulary, and comparing that `hτ` against the
-degree-zero law is a `(deterministic) timeout at whnf`, even at `maxHeartbeats 4000000`.  The cure is a direct image whose *declared type* is
+degree-zero law is a `(deterministic) timeout at whnf`, even at `maxHeartbeats 4000000`.  The cure
+is a direct image whose *declared type* is
 already at `Modules` — `AlgebraicGeometry.Space.toposModulePushforward` — supplied here and used
 in the degree-zero law, in the square comparison and in the adjunction of **Stacks 03D7** it is
 proved from.  Then every category position on the two sides is the same term, and `hτ` is

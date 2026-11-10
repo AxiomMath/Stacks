@@ -53,7 +53,7 @@ theorem IsScalarFaithful.of_iso {M N : _root_.SheafOfModules.{u} R} (e : M ≅ N
   have h' := congrArg (e.inv.val.app V).hom h
   rw [map_zero] at h'
   refine Eq.trans ?_ h'
-  show _ = ((e.hom ≫ e.inv).val.app V).hom _
+  change _ = ((e.hom ≫ e.inv).val.app V).hom _
   rw [e.hom_inv_id]
   rfl
 
@@ -77,13 +77,14 @@ theorem IsScalarFaithful.eq_zero_of_mul_eq_smul_one {m n : ℕ}
   have : ∀ U, IsMulCommutative (((Stacks.SheafOfModules.Tensor.ringSheaf O)).obj.obj U) := fun U =>
     ⟨⟨fun a b => mul_comm (G := O.obj.obj U) a b⟩⟩
   let μ := terminalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf O)) T hT x
-  have hunit : μ.asHom.app (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf O))) =
-      (unitEndRingHom O hT x).asHom := by
+  have hunit :
+      μ.asHom.app (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf O))) =
+        (unitEndRingHom O hT x).asHom := by
     refine congrArg End.asHom (?_ : End.of (μ.asHom.app _) = unitEndRingHom O hT x)
     apply (unitEndRingEquiv O hT).injective
-    show _ = (unitEndRingEquiv O hT) ((unitEndRingEquiv O hT).symm x)
+    change _ = (unitEndRingEquiv O hT) ((unitEndRingEquiv O hT).symm x)
     rw [RingEquiv.apply_symm_apply]
-    show ((Stacks.SheafOfModules.Tensor.ringSheaf O)).obj.map (hT.from T).op x * 1 = x
+    change ((Stacks.SheafOfModules.Tensor.ringSheaf O)).obj.map (hT.from T).op x * 1 = x
     rw [mul_one, show hT.from T = 𝟙 T from hT.hom_ext _ _, op_id, CategoryTheory.Functor.map_id]
     rfl
   have hK0 := app_kernel_matrixHom_eq_zero_matrixKernelSplitting μ hunit hN
@@ -124,7 +125,7 @@ theorem isScalarFaithful_of_isFiniteLocallyFreeOfIntRank_one (M : _root_.SheafOf
       (_root_.SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection f j₀)
   have hφm : φ.val.app W m = (1 : (R.over (q.X i)).obj.obj W) := by
     refine (congrArg (φ.val.app W) (key σ.s).symm).trans ?_
-    show (σ.π ≫ inv σ.π ≫ ρ).val.app W _ = _
+    change (σ.π ≫ inv σ.π ≫ ρ).val.app W _ = _
     rw [IsIso.hom_inv_id_assoc]
     exact key _
   let t : (R.over (q.X i)).obj.obj W := (R.obj.map g.op).hom s

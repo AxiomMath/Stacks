@@ -104,7 +104,7 @@ theorem isIso_map_rightAdjointBaseChange_app_of_isAffineOpen_of_flat_right
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K)) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K)) := by
   have : IsAffine V.toScheme := hV
   have : IsAffine V'.toScheme := hV'
   have : IsNoetherian V.toScheme := isNoetherian_of_isOpenImmersion V.ι
@@ -121,7 +121,7 @@ theorem isIso_map_rightAdjointBaseChange_app_of_isAffineOpen_of_flat_right
   have sqO := sq₂.paste_horiz sq
   have hk : f' ⁻¹ᵁ V' ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ V) := by
     intro x hx
-    show f.base (g'.base x) ∈ V
+    change f.base (g'.base x) ∈ V
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply]
     exact hVV' hx
   have hp : g'.resLE (f ⁻¹ᵁ V) (f' ⁻¹ᵁ V') hk ≫ (f ⁻¹ᵁ V).ι = (f' ⁻¹ᵁ V').ι ≫ g' :=

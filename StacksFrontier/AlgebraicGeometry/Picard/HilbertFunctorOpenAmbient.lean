@@ -292,7 +292,7 @@ theorem isSeparated_structureMorphism_openAmbient (X : Over S) {U : X.left.Opens
     (hU : IsAffineOpen U) (T : Over S) :
     IsSeparated ((Over.pullback T.hom).obj (openAmbient X U)).hom := by
   have : IsAffine U.toScheme := hU
-  show IsSeparated (pullback.snd (U.ι ≫ X.hom) T.hom)
+  change IsSeparated (pullback.snd (U.ι ≫ X.hom) T.hom)
   infer_instance
 
 /-- `U ×_S T ⟶ X ×_S T` is compatible with base change of `T`. -/
@@ -383,20 +383,20 @@ theorem isClosed_range_of_isFinite_comp_structureMorphism (X : Over S) (T : Over
     exact fun _ hz => hz.1
   have hlW : IsOpenImmersion.lift (openAmbientMap X U T) O.ι hrangeW ≫
       openAmbientMap X U T = O.ι := IsOpenImmersion.lift_fac _ _ hrangeW
-  haveI : IsSeparated rO := by
-    haveI : IsSeparated (rO ≫ T'.ι) := by
+  have : IsSeparated rO := by
+    have : IsSeparated (rO ≫ T'.ι) := by
       rw [hrOfac, ← hlW, Category.assoc, openAmbientMap_comp_structureMorphism]
-      haveI := isSeparated_structureMorphism_openAmbient X hU T
+      have := isSeparated_structureMorphism_openAmbient X hU T
       infer_instance
     exact IsSeparated.of_comp rO T'.ι
   -- The restriction of `Z` over `T'` is universally closed, hence so is the factored morphism.
-  haveI : UniversallyClosed (q ∣_ T') :=
+  have : UniversallyClosed (q ∣_ T') :=
     MorphismProperty.of_isPullback (isPullback_morphismRestrict q T').flip inferInstance
   have hgOrO : gO ≫ rO = q ∣_ T' := by
     rw [← cancel_mono T'.ι, Category.assoc, hrOfac, ← Category.assoc, hgOfac,
       morphismRestrict_ι, Category.assoc, hq]
-  haveI : UniversallyClosed (gO ≫ rO) := hgOrO ▸ inferInstance
-  haveI : UniversallyClosed gO := UniversallyClosed.of_comp_of_isSeparated gO rO
+  have : UniversallyClosed (gO ≫ rO) := hgOrO ▸ inferInstance
+  have : UniversallyClosed gO := UniversallyClosed.of_comp_of_isSeparated gO rO
   -- Hence the image of `g` meets `O` in a closed subset of `O`.
   have hgOapply : ∀ w : (q ⁻¹ᵁ T').toScheme, O.ι (gO w) = g ((q ⁻¹ᵁ T').ι w) := by
     intro w
@@ -457,7 +457,7 @@ theorem isClosed_range_of_isFinite_comp_structureMorphism_of_hasAffineFinitePoin
     (((hfib.image _).image _).insert _) hEfib
   refine ⟨U, hU, hEU (Set.mem_insert _ _), fun z hz => ?_⟩
   refine hEU (Set.mem_insert_of_mem _ ⟨g z, ⟨z, ?_, rfl⟩, rfl⟩)
-  show (g ≫ ((Over.pullback T.hom).obj X).hom) z = _
+  change (g ≫ ((Over.pullback T.hom).obj X).hom) z = _
   rw [Scheme.Hom.comp_apply]
   exact hz
 
@@ -470,10 +470,10 @@ theorem isClosed_range_of_isFinite_comp_structureMorphism_of_isSeparated (X : Ov
     (g : Z ⟶ ((Over.pullback T.hom).obj X).left)
     [IsFinite (g ≫ ((Over.pullback T.hom).obj X).hom)] :
     IsClosed (Set.range g) := by
-  haveI : IsSeparated ((Over.pullback T.hom).obj X).hom :=
+  have : IsSeparated ((Over.pullback T.hom).obj X).hom :=
     show IsSeparated (pullback.snd X.hom T.hom) from inferInstance
-  haveI : UniversallyClosed (g ≫ ((Over.pullback T.hom).obj X).hom) := inferInstance
-  haveI : UniversallyClosed g :=
+  have : UniversallyClosed (g ≫ ((Over.pullback T.hom).obj X).hom) := inferInstance
+  have : UniversallyClosed g :=
     UniversallyClosed.of_comp_of_isSeparated g ((Over.pullback T.hom).obj X).hom
   exact g.isClosedMap.isClosed_range
 
@@ -561,7 +561,7 @@ def HilbertFamily.toRestrict (Z : HilbertFamily X T d) (U : X.left.Opens) :
 everything, because the subscheme lands inside `U`. -/
 theorem HilbertFamily.isIso_toRestrict {Z : HilbertFamily X T d} {U : X.left.Opens}
     (hZ : Z.SupportedIn U) : IsIso (Z.toRestrict U) := by
-  haveI : IsIso (pullback.snd (openAmbientMap X U T) Z.ideal.subschemeι) :=
+  have : IsIso (pullback.snd (openAmbientMap X U T) Z.ideal.subschemeι) :=
     isIso_pullback_snd_openAmbientMap _ fun z => by
       rw [range_openAmbientMap]
       simpa [HilbertFamily.toAmbient, Scheme.Hom.comp_apply] using hZ z
@@ -593,8 +593,8 @@ def HilbertFamily.restrictToOpenAmbient {U : X.left.Opens} (Z : HilbertFamily X 
     (hZ : Z.SupportedIn U) : HilbertFamily (openAmbient X U) T d where
   ideal := Z.ideal.comap (openAmbientMap X U T)
   isFiniteLocallyFreeOfRank := by
-    haveI := HilbertFamily.isIso_toRestrict hZ
-    haveI := Z.isFiniteLocallyFreeOfRank_structural
+    have := HilbertFamily.isIso_toRestrict hZ
+    have := Z.isFiniteLocallyFreeOfRank_structural
     exact Stacks.Morphisms.IsFiniteLocallyFreeOfRank.of_isPullback
       (f := Z.structural) (IsPullback.of_horiz_isIso
         ⟨by rw [Z.toRestrict_comp_structural U, Category.comp_id]⟩)
@@ -646,7 +646,7 @@ theorem HilbertFamily.range_subschemeι_map (hX : FamiliesClosedInAmbient X)
     (W : HilbertFamily (openAmbient X U) T d) :
     Set.range (W.ideal.map (openAmbientMap X U T)).subschemeι =
       Set.range (W.ideal.subschemeι ≫ openAmbientMap X U T) := by
-  haveI := HilbertFamily.isIso_toExtend hX W
+  have := HilbertFamily.isIso_toExtend hX W
   rw [← HilbertFamily.toExtend_comp_subschemeι hX W, range_isIso_comp]
 
 /-- The subscheme of `X ×_S T` cut out by the pushed-forward ideal sheaf lies in the image of
@@ -665,8 +665,8 @@ def HilbertFamily.extendToAmbient (hX : FamiliesClosedInAmbient X)
     (W : HilbertFamily (openAmbient X U) T d) : HilbertFamily X T d where
   ideal := W.ideal.map (openAmbientMap X U T)
   isFiniteLocallyFreeOfRank := by
-    haveI := HilbertFamily.isIso_toExtend hX W
-    haveI := W.isFiniteLocallyFreeOfRank_structural
+    have := HilbertFamily.isIso_toExtend hX W
+    have := W.isFiniteLocallyFreeOfRank_structural
     refine Stacks.Morphisms.IsFiniteLocallyFreeOfRank.of_isPullback
       (f := W.structural) (g' := inv (HilbertFamily.toExtend hX W)) (g := 𝟙 T.left)
       (IsPullback.of_horiz_isIso ⟨?_⟩)
@@ -690,7 +690,7 @@ theorem HilbertFamily.extendToAmbient_supportedIn (hX : FamiliesClosedInAmbient 
       familyProjection X T ⁻¹' (U : Set X.left) := by
     rw [← range_openAmbientMap]
     exact HilbertFamily.range_subschemeι_map_subset hX W ⟨z, rfl⟩
-  show ((HilbertFamily.extendToAmbient hX W).ideal.subschemeι ≫ familyProjection X T) z ∈ U
+  change ((HilbertFamily.extendToAmbient hX W).ideal.subschemeι ≫ familyProjection X T) z ∈ U
   rw [Scheme.Hom.comp_apply]
   exact hz
 
@@ -707,7 +707,7 @@ theorem HilbertFamily.extendToAmbient_restrictToOpenAmbient
     (hX : FamiliesClosedInAmbient X) {T : Over S} (Z : HilbertFamily X T d)
     (hZ : Z.SupportedIn U) :
     HilbertFamily.extendToAmbient hX (Z.restrictToOpenAmbient hZ) = Z := by
-  haveI := HilbertFamily.isIso_toRestrict hZ
+  have := HilbertFamily.isIso_toRestrict hZ
   refine HilbertFamily.ext ?_
   rw [HilbertFamily.extendToAmbient_ideal, HilbertFamily.restrictToOpenAmbient_ideal,
     Scheme.IdealSheafData.map, Z.toRestrict_comp_subschemeι U,
@@ -719,12 +719,12 @@ theorem HilbertFamily.restrictToOpenAmbient_extendToAmbient
     (W : HilbertFamily (openAmbient X U) T d) :
     (HilbertFamily.extendToAmbient hX W).restrictToOpenAmbient
         (HilbertFamily.extendToAmbient_supportedIn hX W) = W := by
-  haveI := HilbertFamily.isIso_toExtend hX W
+  have := HilbertFamily.isIso_toExtend hX W
   refine HilbertFamily.ext ?_
   rw [HilbertFamily.restrictToOpenAmbient_ideal, HilbertFamily.extendToAmbient_ideal]
   -- The base change of `U ×_S T ⟶ X ×_S T` along the inclusion of the pushed-forward
   -- subscheme is an isomorphism, because that subscheme lies in `U ×_S T`.
-  haveI : IsIso (pullback.snd (openAmbientMap X U T)
+  have : IsIso (pullback.snd (openAmbientMap X U T)
       (W.ideal.map (openAmbientMap X U T)).subschemeι) :=
     isIso_pullback_snd_openAmbientMap _ fun z =>
       HilbertFamily.range_subschemeι_map_subset hX W ⟨z, rfl⟩
@@ -738,7 +738,7 @@ theorem HilbertFamily.restrictToOpenAmbient_extendToAmbient
   have hfst : pullback.lift W.ideal.subschemeι (HilbertFamily.toExtend hX W) hcomm ≫
       pullback.fst (openAmbientMap X U T) (W.ideal.map (openAmbientMap X U T)).subschemeι =
       W.ideal.subschemeι := pullback.lift_fst _ _ _
-  haveI : IsIso (pullback.lift W.ideal.subschemeι (HilbertFamily.toExtend hX W) hcomm) :=
+  have : IsIso (pullback.lift W.ideal.subschemeι (HilbertFamily.toExtend hX W) hcomm) :=
     IsIso.of_isIso_fac_right hsnd
   have hinv : inv (pullback.lift W.ideal.subschemeι (HilbertFamily.toExtend hX W) hcomm) ≫
       W.ideal.subschemeι =

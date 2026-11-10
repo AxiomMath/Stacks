@@ -34,8 +34,7 @@ private theorem map_tensorProduct_mem {R M N P Q S : Type*} [CommRing R]
     [AddCommGroup P] [Module R P] [AddCommGroup Q] [Module R Q] [AddCommGroup S]
     (f : P ⊗[R] Q →+ S) (L : AddSubgroup S) (g : M →ₗ[R] P) (h : N →ₗ[R] Q)
     (H : ∀ m n, f (g m ⊗ₜ[R] h n) ∈ L) (z : M ⊗[R] N) : f (TensorProduct.map g h z) ∈ L := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m n => simpa using H m n
   | add z z' hz hz' => simpa only [map_add] using L.add_mem hz hz'
 
@@ -82,19 +81,19 @@ private lemma completedTensorProduct_coe_tensorProductSubmodule_le
     exact (Ideal.map_mono hIK).trans hKL
   have hfB : Continuous fB := by
     dsimp [fB, f]
-    show Continuous (fun b : B => (↑(b ⊗ₜ[A] (1 : C)) : D))
+    change Continuous (fun b : B => (↑(b ⊗ₜ[A] (1 : C)) : D))
     exact (UniformSpace.Completion.continuous_coe (B ⊗[A] C)).comp
       (TopologicalRing.continuous_tmul_const (R := A) (M := B) (N := C) (1 : C))
   have hJmap : ∀ b ∈ J, fB b ∈ L := by
     intro b hb
     have hb' : b ∈ closure (I.map (algebraMap A B) : Set B) := by
-      show b ∈ (Ideal.closure (I.map (algebraMap A B)) : Set B)
+      change b ∈ (Ideal.closure (I.map (algebraMap A B)) : Set B)
       rw [Ideal.coe_closure]
       exact hJ hb
     exact isClosed_closure.closure_subset
       (map_mem_closure hfB hb' fun x hx => hmap (Ideal.mem_map_of_mem fB hx))
   have hmul (b : B) (c : C) : f (b ⊗ₜ[A] c) = fB b * fC c := by
-    show f _ = f (b ⊗ₜ[A] (1 : C)) * f ((1 : B) ⊗ₜ[A] c)
+    change f _ = f (b ⊗ₜ[A] (1 : C)) * f ((1 : B) ⊗ₜ[A] c)
     rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   intro x hx
   change x ∈ LinearMap.range (TensorProduct.map (J.restrictScalars A).subtype LinearMap.id) ⊔
@@ -103,10 +102,10 @@ private lemma completedTensorProduct_coe_tensorProductSubmodule_le
   rw [map_add]
   refine L.add_mem (map_tensorProduct_mem f.toAddMonoidHom L.toAddSubgroup _ _ (fun b c => ?_) z₁)
     (map_tensorProduct_mem f.toAddMonoidHom L.toAddSubgroup _ _ (fun b c => ?_) z₂)
-  · show f ((b : B) ⊗ₜ[A] c) ∈ L
+  · change f ((b : B) ⊗ₜ[A] c) ∈ L
     rw [hmul]
     exact L.mul_mem_right _ (hJmap b b.2)
-  · show f (b ⊗ₜ[A] (c : C)) ∈ L
+  · change f (b ⊗ₜ[A] (c : C)) ∈ L
     rw [hmul, ← hφ]
     exact L.mul_mem_left _ (hKL (Ideal.mem_map_of_mem φ c.2))
 
@@ -131,7 +130,7 @@ public lemma isTaut_completedTensorProduct_baseChange
   let D := TopologicalRing.CompletedTensorProduct (R := A) (M := B) (N := C)
   let φ : C →+* D := algebraMap C D
   have hφ : Continuous φ := by
-    show Continuous (fun c : C => (↑((1 : B) ⊗ₜ[A] c) : D))
+    change Continuous (fun c : C => (↑((1 : B) ⊗ₜ[A] c) : D))
     exact (UniformSpace.Completion.continuous_coe (B ⊗[A] C)).comp
       (TopologicalRing.continuous_const_tmul (R := A) (M := B) (N := C) (1 : B))
   have hOpen : ∀ K : Ideal C, IsOpen (K : Set C) →
@@ -166,7 +165,7 @@ public lemma isTaut_completedTensorProduct_baseChange
   obtain ⟨K, hKopen, hKpre⟩ := IsLinearTopology.hasBasis_open_ideal.mem_iff.mp hpreC
   have hKmap : Ideal.map φ K ≤ H := Ideal.map_le_iff_le_comap.mpr fun c hc => hKpre hc
   refine ⟨K, hKopen, ?_⟩
-  show closure (Ideal.map φ K : Set D) ⊆ (H : Set D)
+  change closure (Ideal.map φ K : Set D) ⊆ (H : Set D)
   exact closure_minimal (fun _ hy => hKmap hy) (H.toAddSubgroup.isClosed_of_isOpen hH)
 
 end

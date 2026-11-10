@@ -162,7 +162,7 @@ theorem exists_isRegularClosedImmersionOfCodim_of_isRegular_stalk {W Y : Scheme.
   have hw : j w ∈ j.ker.support := by
     have hsupp : (j.ker.support : Set Y) = closure (Set.range j.base) := by
       rw [Scheme.Hom.support_ker]
-    show j w ∈ (j.ker.support : Set Y)
+    change j w ∈ (j.ker.support : Set Y)
     rw [hsupp]
     exact subset_closure ⟨w, rfl⟩
   have hofFn : List.ofFn (fun k : Fin xs.length => xs[k]) = xs := List.ofFn_getElem
@@ -215,7 +215,7 @@ theorem deltaDimension_irreducibleComponents_of_isOpenImmersion (C : ChowSituati
   have hη : IsGenericPoint T.2.1.genericPoint (T : Set V) :=
     T.2.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents (T : Set V) T.2)
   have hηgen : T.2.1.genericPoint ∈ genericPoints V := by
-    show closure {T.2.1.genericPoint} ∈ irreducibleComponents V
+    change closure {T.2.1.genericPoint} ∈ irreducibleComponents V
     rw [hη.def]
     exact T.2
   have hgen : j T.2.1.genericPoint ∈ genericPoints Y :=

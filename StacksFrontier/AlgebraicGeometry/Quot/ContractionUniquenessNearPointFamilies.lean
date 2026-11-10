@@ -91,7 +91,7 @@ theorem pointFieldObjectIso_hom_value (Q : BigFppfOver B integerBase hZ) (s : Q.
       Space.pointFieldMap Q s := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show 𝟙 _ ≫ Q.left.1.fromSpecResidueField s = Q.left.1.fromSpecResidueField s
+  change 𝟙 _ ≫ Q.left.1.fromSpecResidueField s = Q.left.1.fromSpecResidueField s
   exact Category.id_comp _
 
 /-- A presentation of the fibre over the residue field point by a cartesian square is a
@@ -145,7 +145,6 @@ theorem exists_iso_near_point_of_isPullback_fibres (Q : BigFppfOver B integerBas
     (hd₁ : Space.HasRelativeDimensionLE 1 B integerBase hZ g₁)
     (hfl₂ : Space.IsFlat B integerBase hZ g₂) (hpr₂ : Space.IsProper B integerBase hZ g₂)
     (hfp₂ : Space.IsFinitePresentation B integerBase hZ g₂)
-    (hd₂ : Space.HasRelativeDimensionLE 1 B integerBase hZ g₂)
     (c₁ : X ⟶ Y₁) (c₂ : X ⟶ Y₂) (hc₁ : c₁ ≫ g₁ = f) (hc₂ : c₂ ≫ g₂ = f)
     (s : Q.left.1) {VX V₁ V₂ : BigFppfOver B integerBase hZ}
     (vX : VX ⟶ (residueFieldValuedPoint B hZ Q s).siteObject)
@@ -196,7 +195,7 @@ theorem exists_iso_near_point_of_isPullback_fibres (Q : BigFppfOver B integerBas
     rw [← Iso.cancel_iso_hom_left sX.isoPullback, ← reassoc_of% ha₁, ← ha₂, ← hφa]
     simp [φ']
   obtain ⟨W, j, hj, hs, ψ, -, hψs, hψc, -⟩ := Space.exists_iso_near_point_of_iso_fibre Q s hX hY₁
-    hY₂ f g₁ g₂ hfl hpr hfp hd hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ hd₂ c₁ c₂ hc₁ hc₂ sX.isoPullback
+    hY₂ f g₁ g₂ hfl hpr hfp hd hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ c₁ c₂ hc₁ hc₂ sX.isoPullback
     s₁.isoPullback (vX ≫ (pointFieldObjectIso Q s).inv) (v₁ ≫ (pointFieldObjectIso Q s).inv)
     sX.isoPullback_hom_snd s₁.isoPullback_hom_snd a₁ ha₁ h0 hR' φ' hφ' hφc'
   exact ⟨W, j, hj, hs, ψ, hψs, hψc⟩
@@ -208,12 +207,12 @@ theorem extendsFibreIsoNearPoint : ExtendsFibreIsoNearPoint B hZ := by
   intro X Y₁ Y₂ hb₁ hb₂ c₁ c₂ hc₁ hc₂ s VX V₁ V₂ vX v₁ v₂ qX q₁ q₂ hqX hq₁ hq₂ a₁ a₂ hav₁ hav₂
     hqa₁ hqa₂ φ hφv hφa h0 hR
   obtain ⟨hfl₁, hpr₁, hfp₁, hd₁⟩ := curveFamilyConditions_toBase_comp_eqToHom Y₁ hb₁
-  obtain ⟨hfl₂, hpr₂, hfp₂, hd₂⟩ := curveFamilyConditions_toBase_comp_eqToHom Y₂ hb₂
+  obtain ⟨hfl₂, hpr₂, hfp₂, -⟩ := curveFamilyConditions_toBase_comp_eqToHom Y₂ hb₂
   obtain ⟨W, j, hj, hs, ψ, hψs, hψc⟩ := exists_iso_near_point_of_isPullback_fibres X.base
     X.total.2 Y₁.total.2 Y₂.total.2 X.toBase.hom
     (Y₁.toBase ≫ eqToHom (congrArg schemeSpace hb₁)).hom
     (Y₂.toBase ≫ eqToHom (congrArg schemeSpace hb₂)).hom X.flat X.proper X.finitePresentation
-    X.relativeDimensionLE hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ hd₂ c₁.hom c₂.hom
+    X.relativeDimensionLE hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ c₁.hom c₂.hom
     (congrArg (fun m => m.hom) hc₁) (congrArg (fun m => m.hom) hc₂) s vX v₁ v₂ qX.hom q₁.hom
     q₂.hom (AlgebraicSpaces.isPullback_hom B integerBase hZ hqX)
     (AlgebraicSpaces.isPullback_hom B integerBase hZ hq₁)
@@ -221,7 +220,7 @@ theorem extendsFibreIsoNearPoint : ExtendsFibreIsoNearPoint B hZ := by
     (congrArg (fun m => m.hom) hqa₁) (congrArg (fun m => m.hom) hqa₂) φ hφv hφa h0 hR
   refine ⟨W, j, hj, hs, (ObjectProperty.fullyFaithfulι _).preimageIso ψ,
     ObjectProperty.hom_ext _ hψs, ObjectProperty.hom_ext _ ?_⟩
-  show (Space.structureContractionBaseChange B integerBase hZ c₁ hc₁ (schemeSpaceMap j)).hom ≫
+  change (Space.structureContractionBaseChange B integerBase hZ c₁ hc₁ (schemeSpaceMap j)).hom ≫
       ψ.hom = (Space.structureContractionBaseChange B integerBase hZ c₂ hc₂ (schemeSpaceMap j)).hom
   rw [Space.structureContractionBaseChange_hom, Space.structureContractionBaseChange_hom]
   exact hψc

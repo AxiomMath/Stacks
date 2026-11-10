@@ -120,7 +120,7 @@ lemma twoOpenRestriction_comp {X : Scheme.{u}}
     twoOpenRestriction O (hZW.trans hVW) =
       (twoOpenRestriction O hZW).comp (twoOpenRestriction O hVW) := by
   ext x
-  show (O.obj.map (homOfLE (hZW.trans hVW)).op).hom x = _
+  change (O.obj.map (homOfLE (hZW.trans hVW)).op).hom x = _
   have hc : (homOfLE hVW).op ≫ (homOfLE hZW).op =
       (homOfLE (hZW.trans hVW)).op := Subsingleton.elim _ _
   rw [← hc, Functor.map_comp]
@@ -648,7 +648,7 @@ private lemma twoOpenModuleSection_trivialization {X : Scheme.{u}}
     twoOpenModuleSectionsLinearEquiv O U V a hcomm i hW
         ((twoOpenModuleSection O U V a hcomm t ht).eval (op W)) =
       twoOpenRestriction O hW (t i) := by
-  show twoOpenRestriction O (le_inf le_rfl hW)
+  change twoOpenRestriction O (le_inf le_rfl hW)
       (twoOpenRestriction O inf_le_right (t i)) = _
   rw [twoOpenRestriction_restriction]
 
@@ -679,12 +679,12 @@ private lemma twoOpenValues_compatible {X : Scheme.{u}}
     rwa [map_mul, twoOpenRestriction_restriction, twoOpenRestriction_restriction] at hh
   cases i <;> cases j
   · rfl
-  · show (↑((Units.map (twoOpenRestriction O (le_inf hi hj)).toMonoidHom a)⁻¹)) *
+  · change (↑((Units.map (twoOpenRestriction O (le_inf hi hj)).toMonoidHom a)⁻¹)) *
         twoOpenRestriction O hi x = twoOpenRestriction O hj y
     rw [show twoOpenRestriction O hi x =
         twoOpenRestriction O (le_inf hi hj) (a : O.obj.obj (op (U ⊓ V))) *
           twoOpenRestriction O hj y from hres hi hj]
-    show (↑((Units.map (twoOpenRestriction O (le_inf hi hj)).toMonoidHom a)⁻¹)) *
+    change (↑((Units.map (twoOpenRestriction O (le_inf hi hj)).toMonoidHom a)⁻¹)) *
         (↑(Units.map (twoOpenRestriction O (le_inf hi hj)).toMonoidHom a) *
           twoOpenRestriction O hj y) = _
     rw [← mul_assoc, Units.inv_mul, one_mul]
@@ -714,7 +714,7 @@ private lemma twoOpenModuleSection_unitHom_isIso {X : Scheme.{u}}
     apply LinearMap.ext
     intro r
     change (O.obj.obj (op W.unop.left) : Type u) at r
-    show twoOpenModuleSectionsLinearEquiv O U V a hcomm i W.unop.hom.le
+    change twoOpenModuleSectionsLinearEquiv O U V a hcomm i W.unop.hom.le
         (r • s.eval (op W.unop.left)) = r
     rw [map_smul]
     have he := twoOpenModuleSection_trivialization O U V a hcomm t ht i W.unop.hom.le
@@ -742,7 +742,7 @@ private lemma hom_ext_of_over_eq {X : Scheme.{u}}
       ((PresheafOfModules.toPresheaf (O.over (W i)).obj).map q.val).app
         (op (Over.mk c))) (h i)
     exact he
-  show F.app Z ≫ N.val.presheaf.map b.op = G.app Z ≫ N.val.presheaf.map b.op
+  change F.app Z ≫ N.val.presheaf.map b.op = G.app Z ≫ N.val.presheaf.map b.op
   exact (F.naturality b.op).symm.trans
     ((congrArg (fun k => M.val.presheaf.map b.op ≫ k) hh).trans (G.naturality b.op))
 
@@ -773,7 +773,7 @@ private lemma nonempty_generatingSections_of_unitHom_epi_over {X : Scheme.{u}}
       exact congrArg M.unitHomEquiv.symm (congrFun (M.freeHomEquiv.apply_symm_apply s) i)
     have hcomp : (SheafOfModules.ιFree i).over (W i) ≫ p.over (W i) =
         (M.unitHomEquiv.symm (s i)).over (W i) := by
-      show (SheafOfModules.overFunctor O (W i)).map (SheafOfModules.ιFree i) ≫
+      change (SheafOfModules.overFunctor O (W i)).map (SheafOfModules.ιFree i) ≫
           (SheafOfModules.overFunctor O (W i)).map p = _
       rw [← Functor.map_comp, hi]
     have : Epi ((SheafOfModules.ιFree i).over (W i) ≫ p.over (W i)) := by
@@ -894,7 +894,7 @@ private lemma twoOpenStalkProjection_section (X : Scheme.{u}) (U V : X.Opens)
         ((twoOpenModuleSection X.ringCatSheaf U V a
           (structureSheaf_mul_comm X) t ht).eval (op ⊤))) =
       X.presheaf.germ (twoOpenCover U V i) x hx (t i) := by
-  show twoOpenStalkProjection X U V a i x hx
+  change twoOpenStalkProjection X U V a i x hx
       (TopCat.Presheaf.germ (C := Ab.{u}) (twoOpenModuleGlueSheaf X.ringCatSheaf U V a
           (structureSheaf_mul_comm X)).val.presheaf ⊤ x (Opens.mem_top x)
         ((twoOpenModuleSection X.ringCatSheaf U V a
@@ -929,7 +929,7 @@ private lemma twoOpenModuleSection_mem_nonvanishing_of_isUnit (X : Scheme.{u}) (
     (Stacks.SheafOfModules.mem_smul_top_congr hinst _ _).mp h
   apply (IsLocalRing.notMem_maximalIdeal.mpr hu)
   rw [← twoOpenStalkProjection_section X U V a t ht i x hx]
-  show p _ ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x)
+  change p _ ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x)
   refine Submodule.smul_induction_on h' ?_ ?_
   · intro r hr m hm
     rw [map_smul]; exact Ideal.mul_mem_right _ _ hr
@@ -1012,11 +1012,11 @@ private lemma exists_invertible_of_inverse_sections (X : Scheme.{u}) (U V : X.Op
           twoOpenRestriction X.ringCatSheaf hj (t k j) := by
     cases k
     · apply twoOpenValues_compatible
-      show (X.presheaf.map _).hom 1 = _
+      change (X.presheaf.map _).hom 1 = _
       rw [map_one]
       exact hfg.symm
     · apply twoOpenValues_compatible
-      show _ = _ * (X.presheaf.map _).hom 1
+      change _ = _ * (X.presheaf.map _).hom 1
       rw [map_one, mul_one]
       rfl
   let s := twoOpenModuleSection X.ringCatSheaf U V a (structureSheaf_mul_comm X)
@@ -1026,12 +1026,12 @@ private lemma exists_invertible_of_inverse_sections (X : Scheme.{u}) (U V : X.Op
   · exact twoOpenModuleGlueSheaf_generatingSections X.ringCatSheaf U V a
       (structureSheaf_mul_comm X) hcover t ht (by intro i; cases i <;> rfl)
   · ext x
-    show x ∈ U ↔ x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) M s
+    change x ∈ U ↔ x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) M s
     constructor
     · intro hx
       apply twoOpenModuleSection_mem_nonvanishing_of_isUnit X U V a
         (t .first) (ht .first) .first x hx
-      show IsUnit ((X.presheaf.germ U x hx).hom 1)
+      change IsUnit ((X.presheaf.germ U x hx).hom 1)
       rw [map_one]
       exact isUnit_one
     · intro hx
@@ -1058,13 +1058,13 @@ lemma comap_ne_bot_of_fractionRing {B K : Type u} [CommRing B] [Field K]
     exact ht (Subtype.ext hbd.symm)
   have heq : β b = t * β d := by
     apply Subtype.ext
-    show (β b : K) = (t : K) * (β d : K)
+    change (β b : K) = (t : K) * (β d : K)
     rw [hβ, hβ]
     exact (div_eq_iff hd0).mp hbd
   intro hbot
   apply hb0
   have hb : b ∈ p.comap β := by
-    show β b ∈ p
+    change β b ∈ p
     rw [heq]
     exact p.mul_mem_right _ htp
   simpa [hbot] using hb
@@ -1134,7 +1134,7 @@ lemma subring_subtype_surjective_of_isField {B K : Type u} [CommRing B] [Field K
   obtain ⟨b, d, hd, hbd⟩ := IsFractionRing.div_surjective B z
   refine ⟨β b / β d, ?_⟩
   rw [map_div₀]
-  show (β b : K) / (β d : K) = z
+  change (β b : K) / (β d : K) = z
   rw [hβ, hβ]
   exact hbd
 
@@ -1159,11 +1159,11 @@ lemma tensorProduct_stalk_surjective (X : Scheme.{u}) [IsIntegral X] [X.IsSepara
   let β : X.presheaf.stalk x →+* T := ψ.toRingHom.rangeRestrict.comp
     (Algebra.TensorProduct.includeRight.toRingHom.comp eB.toRingHom)
   have hα (a : Γ(X, U)) : (α a : X.functionField) = X.germToFunctionField U a := by
-    show ψ (eA a ⊗ₜ[ℤ] (1 : B)) = _
+    change ψ (eA a ⊗ₜ[ℤ] (1 : B)) = _
     simpa [ψ] using heA a
   have hβ (b : X.presheaf.stalk x) : (β b : X.functionField) =
       algebraMap (X.presheaf.stalk x) X.functionField b := by
-    show ψ ((1 : A) ⊗ₜ[ℤ] eB b) = _
+    change ψ ((1 : A) ⊗ₜ[ℤ] eB b) = _
     simpa [ψ] using heB b
   have hT := isField_subring_of_contains_sections_and_stalk X U hU x hx hdim T α β hα hβ
   intro z; obtain ⟨t, ht⟩ := subring_subtype_surjective_of_isField T β hβ hT z
@@ -1291,7 +1291,7 @@ lemma exists_inverse_sections (X : Scheme.{u}) [IsIntegral X] [X.IsSeparated]
     apply germ_injective_of_isIntegral X (genericPoint X) hη
     rw [map_mul, map_one, X.presheaf.germ_res_apply (homOfLE inf_le_left) (genericPoint X) hη f,
       X.presheaf.germ_res_apply (homOfLE inf_le_right) (genericPoint X) hη t]
-    show X.germToFunctionField U f * X.presheaf.germ (iSup V) (genericPoint X) hηV t = 1
+    change X.germToFunctionField U f * X.presheaf.germ (iSup V) (genericPoint X) hηV t = 1
     rw [htK, mul_inv_cancel₀]
     exact fun h => hf (X.germToFunctionField_injective U (h.trans (map_zero _).symm))
   · intro y hy hyU

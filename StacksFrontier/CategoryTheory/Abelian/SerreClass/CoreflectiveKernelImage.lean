@@ -55,7 +55,7 @@ faithful. -/
 noncomputable def coreflectorKernelι {X Y : C} (φ : X ⟶ Y) : Q.obj (kernel (i.map φ)) ⟶ X :=
   Q.map (kernel.ι (i.map φ)) ≫ inv (adj.unit.app X)
 
-omit [Preadditive C] in
+omit [Preadditive C] [Abelian D] [i.Full] [i.Faithful] in
 private theorem unit_comp_map {X' Y' : C} (φ' : X' ⟶ Y') :
     adj.unit.app X' ≫ Q.map (i.map φ') = φ' ≫ adj.unit.app Y' :=
   (adj.unit.naturality φ').symm
@@ -98,11 +98,13 @@ variable (P : ObjectProperty D) (hiP : ∀ X, P (i.obj X))
 
 variable [P.IsWeakSerreClass] [PreservesFiniteColimits (P.ι ⋙ Q)]
 
+omit [Preadditive C] [i.Full] [i.Faithful] in
 include hiP in
 /-- The kernel of `i φ` computed in `D` lies in the weak Serre class `P`. -/
 theorem prop_kernel_map {X Y : C} (φ : X ⟶ Y) : P (kernel (i.map φ)) :=
   P.prop_kernel _ (hiP X) (hiP Y)
 
+omit [Preadditive C] [i.Full] [i.Faithful] in
 include hiP in
 /-- The image of `i φ` computed in `D` lies in the weak Serre class `P`: it is the kernel of the
 cokernel of `i φ`. -/
@@ -125,6 +127,7 @@ noncomputable def coreflectorImageMonoFactorisation {X Y : C} (φ : X ⟶ Y) :
     rw [Category.assoc, ← Category.assoc (Q.map _), ← Q.map_comp, Abelian.image.fac,
       ← Category.assoc, unit_comp_map, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
+omit [i.Full] [i.Faithful] in
 include adj hiP in
 /-- `Q` of the projection `i X ⟶ Coim(i φ)` onto the coimage computed in `D` is a regular
 epimorphism of `C`: the projection is the cokernel of `Ker(i φ) ⟶ i X`, a cokernel inside `P`,
@@ -159,7 +162,7 @@ theorem strongEpi_coreflectorImageMonoFactorisation_e {X Y : C} (φ : X ⟶ Y) :
   have hfac : Abelian.factorThruImage (i.map φ) =
       Abelian.coimage.π (i.map φ) ≫ Abelian.coimageImageComparison (i.map φ) := by
     simp [Abelian.coimageImageComparison]
-  show StrongEpi (adj.unit.app X ≫ Q.map (Abelian.factorThruImage (i.map φ)))
+  change StrongEpi (adj.unit.app X ≫ Q.map (Abelian.factorThruImage (i.map φ)))
   rw [hfac, Q.map_comp]
   infer_instance
 

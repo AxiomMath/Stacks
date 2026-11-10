@@ -19,7 +19,8 @@ the hypothesis `h0DL7` of `isEquivalence_complexesFiberSquareComparison_of_deriv
 `AlgebraicGeometry.Space.exists_glue_of_isPushout_of_derivedPushoutEssentialImage`. The base
 proves `DerivedPushoutEssentialImage` (`AlgebraicGeometry.Space.derivedPushoutEssentialImage`);
 the hypothesis-free forms are in
-`StacksFrontier/AlgebraicGeometry/Quot/ComplexesStackPushoutsProved.lean`. Nothing is registered here.
+`StacksFrontier/AlgebraicGeometry/Quot/ComplexesStackPushoutsProved.lean`. Nothing is registered
+here.
 
 ## Main results
 

@@ -65,7 +65,7 @@ theorem bijective_sections_eval_top (M : PresheafOfModules.{u} (structureSheafRi
       (fun U => M.map (homOfLE (le_top : U.unop ≤ ⊤)).op x) (fun U V f => ?_), ?_⟩
     · rw [← PresheafOfModules.map_comp_apply]
       rfl
-    · show M.map (homOfLE (le_top : (⊤ : Opens X) ≤ ⊤)).op x = x
+    · change M.map (homOfLE (le_top : (⊤ : Opens X) ≤ ⊤)).op x = x
       rw [show (homOfLE (le_top : (⊤ : Opens X) ≤ ⊤)).op = 𝟙 (op ⊤) from rfl,
         PresheafOfModules.map_id]
       rfl

@@ -82,7 +82,7 @@ theorem germ_smul_of_compat {A : Type u} [CommRing A] (α : A →+* O.obj (op �
   let : Module A (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) N.presheaf x) :=
     Module.compHom _ σ
   rw [PresheafOfModules.germ_smul]
-  show _ = σ r • (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) N.presheaf V x hV m)
+  change _ = σ r • (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) N.presheaf V x hV m)
   rw [hσ, ← TopCat.Presheaf.germ_res_apply O (homOfLE le_top) x hV]
 
 /-- Restriction of sections of a presheaf of modules along an inclusion of opens, with its
@@ -119,7 +119,7 @@ theorem presheafRes_smul {V' V : Opens X} (h₁ : V ≤ V') (c : O.obj (op ⊤))
   unfold presheafRes
   rw [PresheafOfModules.map_smul]
   congr 1
-  show (O.map (homOfLE h₁).op).hom ((O.map (homOfLE le_top).op).hom c) =
+  change (O.map (homOfLE h₁).op).hom ((O.map (homOfLE le_top).op).hom c) =
     (O.map (homOfLE le_top).op).hom c
   rw [← CommRingCat.comp_apply, ← O.map_comp]
   rfl
@@ -178,7 +178,7 @@ private theorem sum_tmul_germ_eq_zero_of_flat {A : Type u} [CommRing A]
       (fun k => (show (O ⋙ forget₂ CommRingCat RingCat).obj (op ⊤) from α (b k)) • t k)
       Finset.univ).symm.trans (congrArg _ hrel)).trans (map_zero _)
     refine Eq.trans (Finset.sum_congr rfl fun k _ => ?_) h
-    show σ (b k) • TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) N.presheaf ⊤ x trivial (t k) =
+    change σ (b k) • TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) N.presheaf ⊤ x trivial (t k) =
       _
     rw [hσ]
     exact (PresheafOfModules.germ_smul N x ⊤ trivial (α (b k)) (t k)).symm

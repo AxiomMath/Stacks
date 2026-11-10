@@ -42,7 +42,6 @@ def componentTraceSum (q : ℕ) : ZMod (ℓ ^ m) :=
       (componentSelfMap_not_constant f φ p hY e Ψ hΨ' i h) q else 0
 
 open Classical in
-include hΨ in
 /-- **The trace of `φ^*` on `H^q(Y, μ_{ℓ^m})`** is the sum over the components sent into
 themselves of the traces on their cohomology. -/
 theorem exists_model_rootsOfUnityPullbackMap_eq_sum (hm : 1 ≤ m) (hℓ : (ℓ : Ω) ≠ 0) (q : ℕ) :

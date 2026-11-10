@@ -324,7 +324,7 @@ exceptional divisor of `X' ⟶ X`. -/
 @[stacks 0FBG "(3): X' ∩ E is the exceptional divisor of X' ⟶ X"]
 theorem comap_exceptionalIdealAtInfinity :
     (exceptionalIdealAtInfinity ℐ).comap (blowUpToBlowupAtInfinity ℐ) = exceptionalIdeal ℐ := by
-  show ((infinityCentreIdeal ℐ).comap (blowupAtInfinityToLine ℐ)).comap
+  change ((infinityCentreIdeal ℐ).comap (blowupAtInfinityToLine ℐ)).comap
     (blowUpToBlowupAtInfinity ℐ) = _
   rw [← Scheme.IdealSheafData.comap_comp, blowUpToBlowupAtInfinity_comp,
     Scheme.IdealSheafData.comap_comp, comap_infinityCentreIdeal_lineInfinitySection]
@@ -348,7 +348,7 @@ theorem comap_infinityCentreIdeal_projectiveLineBaseChange :
     absoluteConstantSection_comp_projectiveLineBaseChange integralInfinitySection ℐ.subschemeι
   have hker : infinityCentreIdeal ℐ =
       (lineInfinityDivisor ℐ.subscheme).map (projectiveLineBaseChange ℐ.subschemeι) := by
-    show (ℐ.subschemeι ≫ lineInfinitySection X).ker = _
+    change (ℐ.subschemeι ≫ lineInfinitySection X).ker = _
     rw [← hsec, Scheme.Hom.ker_comp]
     rfl
   rw [hker,

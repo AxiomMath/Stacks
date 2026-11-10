@@ -171,7 +171,7 @@ theorem isIso_of_isIso_sheafifiedPullbackComparison_map (p : 𝒳 ⥤ BigFppfOve
     let G : PreZeroHypercover.{u + 1} W :=
       { I₀ := R.I₀
         X i := ⟨Over.mk (R.f i ≫ W.obj.hom), by
-          show Etale (E.inclusion.map (R.f i ≫ W.obj.hom))
+          change Etale (E.inclusion.map (R.f i ≫ W.obj.hom))
           rw [E.inclusion.map_comp]
           have := he i
           infer_instance⟩
@@ -184,7 +184,7 @@ theorem isIso_of_isIso_sheafifiedPullbackComparison_map (p : 𝒳 ⥤ BigFppfOve
     rintro Y f ⟨i⟩
     let g : G.X i ⟶ D.X (β i) := ObjectProperty.homMk
       (Over.homMk (eqToHom (hX' i)) (by
-        show eqToHom (hX' i) ≫ (D.X (β i)).obj.hom = R.f i ≫ W.obj.hom
+        change eqToHom (hX' i) ≫ (D.X (β i)).obj.hom = R.f i ≫ W.obj.hom
         rw [hf i]
         simp only [Category.assoc]
         congr 1

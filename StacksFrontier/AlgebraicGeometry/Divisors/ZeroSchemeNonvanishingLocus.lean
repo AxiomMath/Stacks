@@ -59,7 +59,7 @@ theorem mem_nonvanishingLocus_iff_notMem_supportSet_zeroScheme {X : Scheme.{u}} 
   have hgen := Stacks.PicSurjectiveOpen.notMem_maximalIdeal_smul_top_germ_of_bijective_smul L
     (U.2.basicOpen g) (e.symm 1) (by
       rw [funext hsmul]; exact e.symm.bijective) hxg
-  show x ∈ Stacks.NonvanishingOpen.nonvanishingOpen X L s
+  change x ∈ Stacks.NonvanishingOpen.nonvanishingOpen X L s
   rw [Stacks.NonvanishingSpelling.mem_nonvanishingOpen_iff, hgerm,
     Stacks.ModuleStalk.smul_mem_maximalSmul_iff]
   rintro (h | h)

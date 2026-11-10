@@ -100,7 +100,7 @@ theorem geometricEval_comp_of_relativelyRepresentable
     refine Eq.trans ?_ (colimit.ι_desc
       (geometricEvalCocone B S hS Y.1 (geometricPointMap f.hom x)) N).symm
     refine CommRingCat.hom_ext (RingHom.ext fun z => ULift.ext ?_)
-    show geometricEval B S hS X.1 x
+    change geometricEval B S hS X.1 x
         (φ (etaleLocalRingGerm B S hS Y.1 (geometricPointMap f.hom x) (op N.unop) z.down)) =
       geometricEvalApp B S hS Y.1 N.unop z.down
     exact (key N.unop z.down).trans

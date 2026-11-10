@@ -56,7 +56,7 @@ def etaleFunction {X : Scheme.{u}} (V : X.Etale) : Γ(X, ⊤) →+* Γ(V.left, �
 `X`-schemes is pulling it back to `W`. -/
 theorem appTop_etaleFunction {X : Scheme.{u}} {V W : X.Etale} (f : W ⟶ V) (a : Γ(X, ⊤)) :
     f.left.appTop.hom (etaleFunction V a) = etaleFunction W a := by
-  show (V.hom.appTop ≫ f.left.appTop).hom a = W.hom.appTop.hom a
+  change (V.hom.appTop ≫ f.left.appTop).hom a = W.hom.appTop.hom a
   rw [← Scheme.Hom.comp_appTop]
   exact congrArg (fun φ : W.left ⟶ X => φ.appTop.hom a)
     (MorphismProperty.Over.w f : f.left ≫ V.hom = W.hom)
@@ -98,7 +98,7 @@ private theorem additiveSheaf_hom_ext {X : Scheme.{u}}
 theorem additiveSmul_add (a b : Γ(X, ⊤)) :
     additiveSmul.{u, v} X (a + b) = additiveSmul.{u, v} X a + additiveSmul.{u, v} X b := by
   refine additiveSheaf_hom_ext fun V y => ?_
-  show ofSection.{u, v} (U := V) (etaleFunction V (a + b) * y) =
+  change ofSection.{u, v} (U := V) (etaleFunction V (a + b) * y) =
     ofSection.{u, v} (U := V) (etaleFunction V a * y) +
       ofSection.{u, v} (U := V) (etaleFunction V b * y)
   rw [map_add, add_mul]
@@ -108,14 +108,14 @@ theorem additiveSmul_add (a b : Γ(X, ⊤)) :
 theorem additiveSmul_mul (a b : Γ(X, ⊤)) :
     additiveSmul.{u, v} X (a * b) = additiveSmul.{u, v} X b ≫ additiveSmul.{u, v} X a := by
   refine additiveSheaf_hom_ext fun V y => ?_
-  show ofSection.{u, v} (U := V) (etaleFunction V (a * b) * y) =
+  change ofSection.{u, v} (U := V) (etaleFunction V (a * b) * y) =
     ofSection.{u, v} (U := V) (etaleFunction V a * (etaleFunction V b * y))
   rw [map_mul, mul_assoc]
 
 /-- Multiplication by `1` is the identity. -/
 theorem additiveSmul_one : additiveSmul.{u, v} X 1 = 𝟙 _ := by
   refine additiveSheaf_hom_ext fun V y => ?_
-  show ofSection.{u, v} (U := V) (etaleFunction V 1 * y) =
+  change ofSection.{u, v} (U := V) (etaleFunction V 1 * y) =
     ofSection.{u, v} (U := V) y
   rw [map_one, one_mul]
 
@@ -174,7 +174,7 @@ to `Y` back to `V ×_X Y`. -/
 theorem appTop_fst_etaleFunction (V : X.Etale) (a : Γ(X, ⊤)) :
     (pullback.fst V.hom g).appTop.hom (etaleFunction V a) =
       etaleFunction ((smallEtaleBaseChange g).obj V) (g.appTop.hom a) := by
-  show (V.hom.appTop ≫ (pullback.fst V.hom g).appTop).hom a =
+  change (V.hom.appTop ≫ (pullback.fst V.hom g).appTop).hom a =
     (g.appTop ≫ (pullback.snd V.hom g).appTop).hom a
   rw [← Scheme.Hom.comp_appTop, ← Scheme.Hom.comp_appTop, pullback.condition]
 
@@ -184,7 +184,7 @@ theorem additiveSmul_comp_additiveDirectImageComparison (a : Γ(X, ⊤)) :
       additiveDirectImageComparison.{u, v} g ≫
         (etaleAbelianDirectImage.{u, v} g).map (additiveSmul.{u, v} Y (g.appTop.hom a)) := by
   refine additiveSheaf_hom_ext fun V y => ?_
-  show ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
+  change ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
       ((pullback.fst V.hom g).appTop.hom (etaleFunction V a * y)) =
     ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
       ((id (etaleFunction ((smallEtaleBaseChange g).obj V) (g.appTop.hom a)) :
@@ -213,7 +213,7 @@ theorem frobeniusMap_comp_additiveDirectImageComparison {p : ℕ} (hp : p.Prime)
         (etaleAbelianDirectImage.{u, v} g).map
           (frobeniusMap.{u, v} Y hp (natCast_eq_zero_of_hom g hX)) := by
   refine additiveSheaf_hom_ext fun V y => ?_
-  show ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
+  change ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
       ((pullback.fst V.hom g).appTop.hom (y ^ p)) =
     ofSection.{u, v} (U := (smallEtaleBaseChange g).obj V)
       (((pullback.fst V.hom g).appTop.hom y) ^ p)
@@ -265,7 +265,7 @@ theorem constantSheafAdj_homEquiv_zmodSheafHom (Z : Scheme.{u}) {p : ℕ}
       (zmodPresheafHom.{u, v} Z hZ).app (op T) := by
   rw [Adjunction.homEquiv_unit]
   ext m
-  show ((toSheafify Z.smallEtaleTopology
+  change ((toSheafify Z.smallEtaleTopology
     ((Functor.const Z.Etaleᵒᵖ).obj (AddCommGrpCat.of (ULift.{max (u + 1) v} (ZMod p)))) ≫
       (zmodSheafHom.{u, v} Z hZ).hom).app (op T)) m = _
   exact congrArg (fun φ => (φ.app (op T)) m) (toSheafify_zmodSheafHom.{u, v} Z hZ)
@@ -300,12 +300,12 @@ theorem inverseImage_zmodSheafHom_comp_additiveInverseImageComparison {p : ℕ}
   refine (Adjunction.homEquiv_leftAdjointUniq_inv_app_comp
     ((constantSheafAdj _ _ hT).comp adj) (constantSheafAdj _ _ hGT) _ _).trans ?_
   rw [Adjunction.comp_homEquiv, Equiv.trans_apply]
-  show (constantSheafAdj _ _ hT).homEquiv _ _ (adj.homEquiv _ _ _) = _
+  change (constantSheafAdj _ _ hT).homEquiv _ _ (adj.homEquiv _ _ _) = _
   rw [Adjunction.homEquiv_naturality_left, additiveInverseImageComparison_transpose,
     Adjunction.homEquiv_naturality_right, constantSheafAdj_homEquiv_zmodSheafHom,
     constantSheafAdj_homEquiv_zmodSheafHom]
   ext m
-  show ofSection.{u, v} (U := (smallEtaleBaseChange g).obj T)
+  change ofSection.{u, v} (U := (smallEtaleBaseChange g).obj T)
       ((pullback.fst T.hom g).appTop.hom (constZModHom X hX T m.down)) =
     ofSection.{u, v} (U := (smallEtaleBaseChange g).obj T)
       (constZModHom Y (natCast_eq_zero_of_hom g hX) ((smallEtaleBaseChange g).obj T) m.down)

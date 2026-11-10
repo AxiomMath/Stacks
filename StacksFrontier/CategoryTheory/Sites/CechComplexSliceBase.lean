@@ -183,7 +183,7 @@ theorem interRestrictDown_comp_map_interMap (n : ℕ) (y : Fin (n + 2) → ι) (
         interRestrictDown U hU P y := by
   dsimp only [interRestrictDown]
   rw [← P.map_comp, ← op_comp]
-  show _ = P.map ((Over.forget V).map (interMap (overFamily U hU) y i.succAbove)).op ≫
+  change _ = P.map ((Over.forget V).map (interMap (overFamily U hU) y i.succAbove)).op ≫
     P.map (homOfLE (le_of_eq (interOver_left_eq U hU y).symm)).op
   rw [← P.map_comp, ← op_comp]
   exact map_op_eq_of_thin P _ _

@@ -244,6 +244,7 @@ noncomputable def globalHomologyClass (f : L ⟶ I) :
     (globalSectionsComplex X (sheafHomComplex X L I).obj).homology 0 :=
   (globalSectionsComplex X (sheafHomComplex X L I).obj).homologyπ 0 (globalHomCocycle X L I f)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Stacks 0A8Z at the class of a cocycle.** `globalHomologyClassEquiv`, followed by the
 identification of the cohomology of a Hom complex with cohomology classes, sends the class of a
 degree-zero cycle of the global section complex whose associated cochain is `Cochain.ofHom f` to

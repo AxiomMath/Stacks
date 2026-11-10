@@ -271,7 +271,7 @@ theorem restrictedDegreeSection_add (k : ℕ) (a b : 𝒮 k) :
     restrictedDegreeSection 𝒮 (AlgebraicGeometry.Proj.degreeOpen 𝒮 d) k (a + b) =
       restrictedDegreeSection 𝒮 (AlgebraicGeometry.Proj.degreeOpen 𝒮 d) k a +
         restrictedDegreeSection 𝒮 (AlgebraicGeometry.Proj.degreeOpen 𝒮 d) k b := by
-  show pullbackUnit (degreeOpenHom 𝒮 d)
+  change pullbackUnit (degreeOpenHom 𝒮 d)
       (Stacks.AlgebraicGeometry.TwistTensor.twist 𝒮 (k : ℤ)) (op ⊤)
       (degreeSection 𝒮 k (a + b)) = _
   rw [show degreeSection 𝒮 k (a + b) = degreeSection 𝒮 k a + degreeSection 𝒮 k b from

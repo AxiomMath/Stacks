@@ -143,7 +143,7 @@ theorem isZero_rightDerived_comp_restrictScalars_iff {A : Type*} [Category* A] [
   have := hF
   have : (ModuleCat.restrictScalars.{v} φ).PreservesHomology :=
     ((Functor.exact_tfae (ModuleCat.restrictScalars.{v} φ)).out 2 3).mp fun T hT ↦ by
-      rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+      rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢; assumption
   rw [((Functor.rightDerivedCompIso F (ModuleCat.restrictScalars.{v} φ) p).app M).isZero_iff,
     ModuleCat.isZero_iff_subsingleton, ModuleCat.isZero_iff_subsingleton]
   rfl

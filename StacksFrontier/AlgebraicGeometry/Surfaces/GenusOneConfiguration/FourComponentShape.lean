@@ -85,7 +85,7 @@ private lemma not_pairwise_intersecting_minusTwo_triple (T : NumericalType)
     rcases hd with rfl | rfl | rfl <;>
       simp only [DynkinShape.Edge, hrdef, hsdef] <;> omega
   have hzero : T.intersection (v r) (v s) = 0 := by
-    rw [hcfg.2.2.2.1 r s, if_neg hrs, if_neg hnotedge]
+    rw [hcfg.2.2.2.1 r s, ite_eq_right hrs, ite_eq_right hnotedge]
   have hmem : ∀ t, v t ∈ ({x, y, z} : Finset (Fin T.componentCount)) := fun t => by
     have : v t ∈ Set.range v := ⟨t, rfl⟩
     rw [hrange] at this
@@ -144,7 +144,7 @@ private lemma four_vertex_cut (T : NumericalType) (e : Fin 4 ≃ Fin T.component
   refine T.connected ⟨{u | S (e.symm u)}, ⟨e r₀, by simpa using hr₀⟩, ?_, ?_⟩
   · intro hS
     have hmem : e s₀ ∈ {u | S (e.symm u)} := hS ▸ Set.mem_univ _
-    simp only [Set.mem_setOf_eq, Equiv.symm_apply_apply] at hmem
+    simp only [Set.mem_ofPred_eq, Equiv.symm_apply_apply] at hmem
     exact hs₀ hmem
   · intro i hi j hj
     simpa using hcon' (e.symm i) (e.symm j) hi hj

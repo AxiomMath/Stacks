@@ -48,7 +48,7 @@ theorem IsPurelyInseparable.exists_tower
   · subst hf
     exact ⟨0, Fin.elim0, by simp, fun i ↦ i.elim0⟩
   replace hf : ∃ x, x ∉ F' ∧ x ^ p ∈ F' := by
-    simp_rw [eq_top_iff, SetLike.le_def, mem_top, true_implies, not_forall] at hf
+    simp_rw [eq_top_iff, IsConcreteLE.le_iff, mem_top, true_implies, not_forall] at hf
     obtain ⟨x, hx⟩ := hf
     obtain ⟨n, hn⟩ := IsPurelyInseparable.pow_mem F' p x
     rw [range_algebraMap, Subalgebra.mem_toSubring, mem_toSubalgebra] at hn
@@ -61,7 +61,7 @@ theorem IsPurelyInseparable.exists_tower
   obtain ⟨x, hx, hxp⟩ := hf
   let K := F'⟮x⟯
   have hfk : Module.finrank F' K ≠ 1 := bot_eq_top_iff_finrank_eq_one.not.mp <| by
-    simpa [K, eq_top_iff, SetLike.le_def, mem_bot, Subtype.ext_iff]
+    simpa [K, eq_top_iff, IsConcreteLE.le_iff, mem_bot, Subtype.ext_iff]
       using ⟨x, subset_adjoin _ _ (by simp), hx⟩
   rw [← Module.finrank_mul_finrank _ K] at hn
   have hke : Module.finrank K E < n := hn ▸ (lt_mul_iff_one_lt_left Module.finrank_pos).mpr <| by

@@ -224,7 +224,7 @@ theorem intValue_affineDatum (V : S.Opens) (d : ℕ) (p : A.grading V d) :
         (P.pullPow V d (f ⁻¹ᵁ V)
           ((Stacks.AlgebraicGeometry.CoherentMulSections.powCompare P.L d).hom.app (f ⁻¹ᵁ V)
             (P.value d V (A.componentEquiv V d p)))) := by
-  show (Stacks.AlgebraicGeometry.CoherentMulSections.powCompare (P.Lres V) d).hom.app ⊤
+  change (Stacks.AlgebraicGeometry.CoherentMulSections.powCompare (P.Lres V) d).hom.app ⊤
       (Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection P.L (f ⁻¹ᵁ V) d
         (P.value d V (A.componentEquiv V d p))) = _
   unfold Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection

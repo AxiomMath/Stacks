@@ -59,7 +59,7 @@ theorem toEtaleSiteBaseChangeIso_hom_app_comp_idOf (B' : AlgebraicGeometry.BigEt
       (AlgebraicGeometry.SmallEtale.toEtaleSite B' S.obj S.property).map
         ((smallEtaleBaseChange_factoredIdIso B' f hf).hom.app X) := by
   apply MorphismProperty.Over.Hom.ext
-  show (PreservesPullback.iso B'.inclusion X.obj.hom f).hom ≫
+  change (PreservesPullback.iso B'.inclusion X.obj.hom f).hom ≫
       ((Stacks.EtaleCohomology.smallEtaleBaseChangeIdOf (B'.inclusion.map f) h).hom.app
         ((AlgebraicGeometry.SmallEtale.toEtaleSite B' S.obj S.property).obj X)).left =
     B'.inclusion.map ((smallEtaleBaseChange_factoredIdIso B' f hf).hom.app X).hom.left
@@ -99,7 +99,7 @@ theorem etale_map_eqToHom_left {𝒞 : Type*} [Category 𝒞] {S : Scheme.{w}} (
 
 end Generic
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+variable {I : Type v} [Preorder I]
   {D : Iᵒᵖ ⥤ Scheme.{max u v}} {c : Cone D}
   {B : AlgebraicGeometry.BigEtaleSite.{max u v}}
   {hD : ∀ i, B.Contains (D.obj i)} {hX : B.Contains c.pt}

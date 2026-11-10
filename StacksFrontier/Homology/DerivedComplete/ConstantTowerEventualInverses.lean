@@ -79,8 +79,8 @@ of `StacksFrontier/RingTheory/LocalCohomology/TorsionColimit.lean`, together wit
 modules on a ringed site, where there is no derived `ℐ`-torsion functor at all; what the
 ringed-site tree has is the per-object Čech coreflection
 `AlgebraicGeometry.RingedSite.bijective_comp_cechAugmentation_of_derivedPowerTorsion` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/CechCoreflection.lean`, which is the *input* to such a functor and not
-the functor.
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/CechCoreflection.lean`,
+which is the *input* to such a functor and not the functor.
 
 Nothing below is conditional and nothing below carries a `@[stacks]` attribute: these are the
 general category-theoretic reductions, and the vanishing inputs are hypotheses.

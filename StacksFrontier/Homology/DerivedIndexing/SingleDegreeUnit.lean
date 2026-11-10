@@ -133,7 +133,7 @@ theorem singleFunctorIsoCompQh_hom_app (q : ℤ) (Z : C) :
     (DerivedCategory.singleFunctorIsoCompQh C q).hom.app Z =
       (DerivedCategory.quotientCompQhIso C).inv.app
         ((CochainComplex.singleFunctor C q).obj Z) := by
-  show (DerivedCategory.quotientCompQhIso C).inv.app
+  change (DerivedCategory.quotientCompQhIso C).inv.app
       ((CochainComplex.singleFunctor C q).obj Z) ≫ 𝟙 _ = _
   exact Category.comp_id _
 
@@ -196,8 +196,7 @@ theorem mkHomFromSingle_eq_single_map_comp (q : ℤ) {A : D} {Z : C} (u : A ⟶ 
         (HomologicalComplex.singleMapHomologicalComplex P (ComplexShape.up ℤ) q).inv.app Z := by
   refine HomologicalComplex.from_single_hom_ext ?_
   rw [HomologicalComplex.mkHomFromSingle_f, HomologicalComplex.comp_f]
-  simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
-    HomologicalComplex.single_map_f_self]
+  simp [CochainComplex.singleFunctor, HomologicalComplex.single_map_f_self]
 
 
 /-- **The canonical map `(Pℱ)[-q] ⟶ RP(ℱ[-q])` in `D⁺(ℬ)`**: the comparison

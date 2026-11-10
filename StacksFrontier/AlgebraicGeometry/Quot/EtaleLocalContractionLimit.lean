@@ -182,6 +182,7 @@ instance (j₀ : FGSubring A) : IsDirectedOrder (StageTail A j₀) where
 /-- There is a finitely generated subring containing `j₀`, namely `j₀` itself. -/
 instance (j₀ : FGSubring A) : Nonempty (StageTail A j₀) := ⟨⟨j₀, le_rfl⟩⟩
 
+omit [𝔭.IsPrime] in
 /-- For `A_j ⊆ A_{j'}`, the prime `𝔭_j` is the preimage of `𝔭_{j'}` under the inclusion. -/
 theorem stagePrime_comap {j j' : FGSubring A} (h : j ≤ j') :
     stagePrime A 𝔭 j =
@@ -360,7 +361,7 @@ theorem hasEtaleLocalExtension_of_residueStage {T KO F Y0O : BigFppfOver B integ
     Space.exists_closedFibreData_of_isPullback_field hκ₀ m hm hXM hYM hYM fM gM gM hflXM hprXM
       hfpXM hflM hprM hfpM hprM cM cM hcM hcM hFa hYa hYa (yoneda.map tX) (yoneda.map yp)
       (yoneda.map yp) qXM qYM qYM sqqXM sqqYM sqqYM hdX hyd (yoneda.map h₀O) (yoneda.map h₀O)
-      hcP hcP hcomp hcomp (Iso.refl _) (Iso.refl _) tX yp (by simp) (by simp) h₀O (by simp) h0 hR'
+      hcP hcomp hcomp (Iso.refl _) (Iso.refl _) tX yp (by simp) (by simp) h₀O (by simp) h0 hR'
       (Iso.refl _) (by simp) (by simp)
   have hiX' : IsPullback (eX₀.hom ≫ ψXM) (yoneda.map tX₀) f' (yoneda.map (integerSiteMap B hZ hκ₀ hR
       (Spec.map (CommRingCat.ofHom
@@ -374,7 +375,7 @@ theorem hasEtaleLocalExtension_of_residueStage {T KO F Y0O : BigFppfOver B integ
   have HN := hasEtaleLocalExtension_of_isNoetherianRing R hR 𝔭' hG 𝔭'.ResidueField hκ₀
     (RingEquiv.refl _) hX' f' hflX' hprX' hfpX' tX₀ (eX₀.hom ≫ ψXM) hiX' hdX₀
     pY₀' hd₁₀ ((𝒯).map a₁₀) (by
-      show (𝒯).map a₁₀ ≫ (𝒯).map t₁₀ = _
+      change (𝒯).map a₁₀ ≫ (𝒯).map t₁₀ = _
       rw [← Functor.map_comp, hat₁₀]) h0₀
     ((isZero_firstDirectImageStructureSheaf_iff _).1 hR₀)
   have sqc : IsPullback qXM (yoneda.map h₀O) cM qYM :=
@@ -459,7 +460,7 @@ theorem hasEtaleLocalExtension_of_affine (A : Type u) [CommRing A]
   set f₁ : X₁ ⟶ yoneda.obj (D.obj (op N)) := pullback.snd f₀ (yoneda.map (D.map e₀))
   obtain ⟨q₁, sq₁⟩ : ∃ q₁ : X ⟶ X₁, IsPullback q₁ f f₁ (yoneda.map (cn.π.app (op N))) := ⟨_, sq₁⟩
   have hRf : ∀ j, B.Contains (Spec ((stageResidueDiagram A 𝔭 N).obj j)) := fun j => by
-    show (Spec (.of (stagePrime A 𝔭 j.1).ResidueField)).size < B.cutoff
+    change (Spec (.of (stagePrime A 𝔭 j.1).ResidueField)).size < B.cutoff
     have h : (Spec (.of K)).size < B.cutoff := hK
     rw [Scheme.size_Spec] at h ⊢
     exact lt_of_le_of_lt (max_le_max le_rfl (Cardinal.mk_le_of_injective
@@ -486,13 +487,13 @@ theorem hasEtaleLocalExtension_of_affine (A : Type u) [CommRing A]
     intro j
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (𝟙 _ ≫ Spec.map ((stageResidueCocone A 𝔭 ψ N).ι.app j.unop)) ≫
+    change (𝟙 _ ≫ Spec.map ((stageResidueCocone A 𝔭 ψ N).ι.app j.unop)) ≫
         Spec.map (CommRingCat.ofHom (ρN j.unop)) =
       Spec.map (CommRingCat.ofHom κR) ≫ 𝟙 _ ≫ Spec.map ((fgSubringCocone A).ι.app N)
     rw [Category.id_comp, Category.id_comp]
     refine (spec_map_comp_eq_of_comp_eq _ _ _ rfl).trans
       ((spec_map_comp_eq_of_comp_eq _ _ _ (CommRingCat.hom_ext (RingHom.ext fun x => ?_))).symm)
-    show ψ (algebraMap A 𝔭.ResidueField (x : A)) =
+    change ψ (algebraMap A 𝔭.ResidueField (x : A)) =
       ψ (stageResidueToResidue A 𝔭 j.unop.1 (algebraMap j.unop.1.1
         (stagePrime A 𝔭 j.unop.1).ResidueField (Subalgebra.inclusion j.unop.2 x)))
     rw [stageResidueToResidue_algebraMap]
@@ -536,7 +537,7 @@ theorem hasEtaleLocalExtension_of_affine (A : Type u) [CommRing A]
   let φκ : κ₀ →+* K := ψ.toRingHom.comp (stageResidueToResidue A 𝔭 M.unop.1)
   let m : integerSiteObject B hZ hK ⟶ integerSiteObject B hZ hκ₀ := cf.π.app M
   have hmmap : (𝒯).map m = Spec.map (CommRingCat.ofHom φκ) := by
-    show 𝟙 _ ≫ Spec.map ((stageResidueCocone A 𝔭 ψ N).ι.app M.unop) = _
+    change 𝟙 _ ≫ Spec.map ((stageResidueCocone A 𝔭 ψ N).ι.app M.unop) = _
     rw [Category.id_comp]
     rfl
   let := φκ.toAlgebra
@@ -600,7 +601,7 @@ theorem hasEtaleLocalExtension_of_affine (A : Type u) [CommRing A]
   have hkm : kK ≫ cn.π.app (op M.unop.1) = m ≫ k' := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom κR) ≫ 𝟙 _ ≫ Spec.map ((fgSubringCocone A).ι.app M.unop.1) =
+    change Spec.map (CommRingCat.ofHom κR) ≫ 𝟙 _ ≫ Spec.map ((fgSubringCocone A).ι.app M.unop.1) =
       (𝟙 _ ≫ Spec.map ((stageResidueCocone A 𝔭 ψ N).ι.app M.unop)) ≫ Spec.map (CommRingCat.ofHom
         ((RingEquiv.refl κ₀).toRingHom.comp (algebraMap R (stagePrime A 𝔭 M.unop.1).ResidueField)))
     rw [Category.id_comp, Category.id_comp]

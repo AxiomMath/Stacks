@@ -162,7 +162,8 @@ Second, the trailing comparison
 identity *morphism* at these arguments, and the obstruction is the one the implementation notes of
 `…ComponentRingedTopos.ModuleSumFormulaLegCaseB` record: the two definitionally equal spellings of
 the underlying presheaf of the Kan extension cannot be crossed *underneath*
-`Stacks.SheafOfModules.ranPushforward`, as three formulations show. Stating that the comparison is the
+`Stacks.SheafOfModules.ranPushforward`, as three formulations show. Stating that the comparison is
+the
 identity at the spelling `(u_φ)^{op}.ran.obj T.val.presheaf` is `Eq.refl` and free; stating it at
 the spelling `((ranPushforward …).obj ((restrictScalars …).obj T.val)).presheaf`, which is what
 `CategoryTheory.Category.comp_id` would need, is a kernel deterministic timeout; and supplying

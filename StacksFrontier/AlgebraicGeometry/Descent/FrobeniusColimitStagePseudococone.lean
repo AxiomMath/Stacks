@@ -195,7 +195,7 @@ theorem Pseudococone.map_iterObjIso_hom_comp
       have h₂ := (P'.compat (n + k)).hom.naturality (squareIter F F' Φ α k E).inv
       have ih := Pseudococone.map_iterObjIso_hom_comp hβ n k E
       simp only [Functor.comp_map] at h₂
-      show Ψ.map ((P.compat (n + k)).hom.app ((F.endoIter k).obj E) ≫
+      change Ψ.map ((P.compat (n + k)).hom.app ((F.endoIter k).obj E) ≫
             (P.iterObjIso n k E).hom) ≫ (β n).hom.app E =
         (β (n + k + 1)).hom.app (F.obj ((F.endoIter k).obj E)) ≫
           (P'.stage (n + k + 1)).map (α.hom.app ((F.endoIter k).obj E) ≫

@@ -109,7 +109,7 @@ public theorem isConstant_moduleSheaf_of_finite_range
     { app V := ModuleCat.ofHom ((S.obj.map (hT.from V.unop).op).hom.comp H.subtype)
       naturality V W f := by
         ext x
-        show S.obj.map (hT.from W.unop).op x.val =
+        change S.obj.map (hT.from W.unop).op x.val =
           S.obj.map f (S.obj.map (hT.from V.unop).op x.val)
         rw [← Functor.map_comp_apply,
           show (hT.from W.unop).op = (hT.from V.unop).op ≫ f from
@@ -279,7 +279,7 @@ public theorem sheafCompose_forget₂_forget
         ((sheafCompose J (forget₂ (ModuleCat.{max u v} Λ) AddCommGrpCat.{max u v})).obj F) =
       (sheafCompose J (forget (ModuleCat.{max u v} Λ))).obj F := by
   refine ObjectProperty.FullSubcategory.ext ?_
-  show F.obj ⋙ forget₂ (ModuleCat.{max u v} Λ) AddCommGrpCat.{max u v} ⋙
+  change F.obj ⋙ forget₂ (ModuleCat.{max u v} Λ) AddCommGrpCat.{max u v} ⋙
     forget AddCommGrpCat.{max u v} = F.obj ⋙ forget (ModuleCat.{max u v} Λ)
   rw [HasForget₂.forget_comp]
 

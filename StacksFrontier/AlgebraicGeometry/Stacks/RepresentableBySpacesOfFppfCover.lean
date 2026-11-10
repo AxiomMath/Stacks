@@ -25,7 +25,7 @@ the converse (2) ⟹ (1) and assembles the equivalence.
   of covering sieves make a 1-morphism locally essentially surjective on fibres.
 * `AlgebraicGeometry.Stack.faithful_homFunctor_of_isTwoFibreProduct_of_locallyEssSurjOnFibers`:
   Stacks 06DV for a 2-fibre product square of categories fibred in groupoids at any universes.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.locallyEssSurjOnFibers_of_isSurjective_isFlat_isLocallyOfFinitePresentation`:
+* `AlgebraicStacks.locallyEssSurjOnFibers_of_isSurjective_isFlat_isLocallyOfFinitePresentation`:
   a surjective, flat, locally finitely presented 1-morphism from an algebraic space to an
   algebraic stack is locally essentially surjective on fibres, the hypothesis of Stacks 06DV.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.faithful_homFunctor_of_isTwoFibreProduct`: in the
@@ -33,9 +33,9 @@ the converse (2) ⟹ (1) and assembles the equivalence.
   `W ×_𝒴 𝒳 ⟶ W` is faithful because the fibres of an algebraic space are thin, and Stacks 06DV
   (`CategoryTheory.Functor.faithful_of_faithful_fst`) descends faithfulness along the locally
   essentially surjective `W ⟶ 𝒴`.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap`:
+* `AlgebraicStacks.isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap`:
   the implication (2) ⟹ (1) of Stacks 04ZP.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isRepresentableByAlgebraicSpaces_iff_isRepresentableByAlgebraicSpace_pt`:
+* `AlgebraicStacks.isRepresentableByAlgebraicSpaces_iff_isRepresentableByAlgebraicSpace_pt`:
   **Stacks 04ZP**.
 
 ## Implementation notes
@@ -266,7 +266,7 @@ space.
 The implication (1) ⟹ (2) is Stacks 0300,
 `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpace_of_isTwoFibreProduct`, which needs none
 of the hypotheses on `g`; the converse is
-`AlgebraicGeometry.Stack.AlgebraicStacks.isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap`. -/
+`isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap`. -/
 @[stacks 04ZP]
 theorem isRepresentableByAlgebraicSpaces_iff_isRepresentableByAlgebraicSpace_pt
     {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS}

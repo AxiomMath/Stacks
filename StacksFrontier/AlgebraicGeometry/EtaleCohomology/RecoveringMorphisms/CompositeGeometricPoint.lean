@@ -34,8 +34,8 @@ lifts of a geometric point of `Y`, so that the solution-set computation of
 `AlgebraicGeometry.exists_geometricPoint_inverseImage_iso` already says that every point of the
 small étale topos has a geometric stalk functor as its inverse image.  It is stated at the
 coefficient universe `Type (u + 1)`, because the reconstruction of a point of a site from a point
-of a topos (Stacks 00YA (2)) is formalized asking `Small.{w}` of the site, and the small étale site —
-objects in `Type (u + 1)`, morphisms in `Type u` — is `Small.{w}` only for `w = u + 1`.
+of a topos (Stacks 00YA (2)) is formalized asking `Small.{w}` of the site, and the small étale
+site — objects in `Type (u + 1)`, morphisms in `Type u` — is `Small.{w}` only for `w = u + 1`.
 
 The comparison of Stacks 04I6 lives one universe down: the representable sheaves
 `(SmallEtale.topology B Y.obj Y.property).yoneda.obj V` take values in `Type u`, because the

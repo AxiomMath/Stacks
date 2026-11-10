@@ -91,8 +91,7 @@ theorem baseChange_kaehlerDifferential_hom_ext
       α ((1 : C) ⊗ₜ[R] KaehlerDifferential.D A R r) =
         β ((1 : C) ⊗ₜ[R] KaehlerDifferential.D A R r)) : α = β := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul c ω =>
     rw [← mul_one c, ← smul_eq_mul, ← TensorProduct.smul_tmul', map_smul, map_smul]

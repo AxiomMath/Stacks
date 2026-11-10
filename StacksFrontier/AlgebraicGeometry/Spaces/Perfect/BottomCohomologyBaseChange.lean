@@ -88,7 +88,7 @@ theorem isIso_Q_map_pb (f : Y ⟶ X)
     (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) u).2 inferInstance
   have h₁ : IsIso ((smallEtaleModulePullbackOnHomotopy B S hS f).map (q.map u)) := by
     rw [← isIso_comp_left_iff (c.app (q.obj K)), ← c.naturality (q.map u)]
-    show IsIso ((smallEtaleDerivedModulePullback B S hS f).map
+    change IsIso ((smallEtaleDerivedModulePullback B S hS f).map
       (DerivedCategory.Qh.map (q.map u)) ≫ c.app (q.obj K'))
     infer_instance
   let F := Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
@@ -161,16 +161,13 @@ it. -/
 theorem isIso_homologyComparison (M : BottomModel K a ψ A) {r : ℕ}
     (h : A.HasFreeKernelSplittingKernelRankStratum r) (f : Y ⟶ X) :
     IsIso ((pb f).homologyComparisonRightExactHomologyComparison M.P a) := by
-  obtain ⟨U, V, W, h₁, h₂, h₃⟩ := h
+  obtain ⟨U, V, W, -, h₂, h₃⟩ := h
   let O := ringedToposUnit X
   let u : freeObjMatrixKernelSplitting O r ⟶ M.P.X a :=
     matrixHomMatrixKernelSplitting O ψ U ≫ M.e₀.inv
   let v : M.P.X a ⟶ freeObjMatrixKernelSplitting O r :=
     M.e₀.hom ≫ matrixHomMatrixKernelSplitting O ψ V
   let w : M.P.X (a + 1) ⟶ M.P.X a := M.e₁.hom ≫ matrixHomMatrixKernelSplitting O ψ W ≫ M.e₀.inv
-  have e₁ : u ≫ v = 𝟙 _ := by
-    simp only [u, v, Category.assoc, Iso.inv_hom_id_assoc, ← matrixHom_mul_matrixKernelSplitting,
-      h₁, matrixHom_one_matrixKernelSplitting]
   have e₂ : u ≫ M.P.d a (a + 1) = 0 := by
     rw [M.d_eq]
     simp only [u, Category.assoc, Iso.inv_hom_id_assoc]
@@ -186,7 +183,7 @@ theorem isIso_homologyComparison (M : BottomModel K a ψ A) {r : ℕ}
       ← Preadditive.comp_add, ← Preadditive.add_comp, ← matrixHom_add_matrixKernelSplitting, h₃,
       matrixHom_one_matrixKernelSplitting, Category.id_comp, Iso.hom_inv_id]
   have :=
-    (pb f).isIso_cyclesComparison_of_splitting_rightExactHomologyComparison M.P a u v w e₁ e₂ e₃
+    (pb f).isIso_cyclesComparison_of_splitting_rightExactHomologyComparison M.P a u v w e₂ e₃
   exact (pb f).isIso_homologyComparison_of_isIso_cyclesComparison_rightExactHomologyComparison M.P a
 
 /-- The complex of a bottom model is K-flat with flat terms. -/

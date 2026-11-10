@@ -107,7 +107,7 @@ theorem pullbackUnitIso_conj_tilde_toSpanSingleton_val_app_top
   have h2 := tilde_map_toSpanSingleton_val_app_top_one Γ(X, ⊤) a
   refine h1.trans ((congrArg (ConcreteCategory.hom
     ((Scheme.Hom.toRingCatSheafHom X.isoSpec.hom).hom.app (op ⊤))) h2).trans ?_)
-  show X.isoSpec.hom.appTop ((Scheme.ΓSpecIso Γ(X, ⊤)).inv a) = a
+  change X.isoSpec.hom.appTop ((Scheme.ΓSpecIso Γ(X, ⊤)).inv a) = a
   rw [show X.isoSpec.hom = X.toSpecΓ from rfl, Scheme.toSpecΓ_appTop]
   simp
 
@@ -320,13 +320,13 @@ theorem isIso_baseRingTensorModuleToAffineAssociated_app_self :
   have key : e₁ ∘ (fun x => (baseRingTensorModuleToAffineAssociated B S hS U).app
       (ModuleCat.of R R) ≫ x) = g := by
     funext x
-    show (((baseRingTensorModuleAdjunction B S hS (schemeSpace U)
+    change (((baseRingTensorModuleAdjunction B S hS (schemeSpace U)
             (baseRingHomOfMap (𝟙 (schemeSpace U)))).homEquiv _ _)
         ((baseRingTensorModuleToAffineAssociated B S hS U).app
       (ModuleCat.of R R) ≫ x)).hom 1 = _
     rw [Adjunction.homEquiv_naturality_right, baseRingTensorModuleToAffineAssociated_app,
       Equiv.apply_symm_apply]
-    show (baseRingGlobalSectionsModule B S hS (schemeSpace U) _).map x
+    change (baseRingGlobalSectionsModule B S hS (schemeSpace U) _).map x
         ((modelSectionsHomEquiv B S hS (schemeSpace U) _ _).symm
           (affineAssociatedSection B S hS U (ModuleCat.of R R) 1)) = _
     rw [← modelSectionsHomEquiv_symm_naturality, affineAssociatedSection_one]

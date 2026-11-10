@@ -88,7 +88,7 @@ private theorem exists_affine_etale_presieve₀_mem_etalePrecoverage (T : B.Sche
   have hVet : ∀ j, Etale (B.inclusion.map (V.f j)) := by
     intro j
     obtain ⟨e, he⟩ := hβ j
-    show Etale ((V.map B.inclusion).f j)
+    change Etale ((V.map B.inclusion).f j)
     rw [← he]
     infer_instance
   have hVsurj : ∀ t : B.inclusion.obj T,
@@ -97,7 +97,7 @@ private theorem exists_affine_etale_presieve₀_mem_etalePrecoverage (T : B.Sche
     obtain ⟨s, hs⟩ := U.covers t
     obtain ⟨e, he⟩ := hα (U.idx t)
     refine ⟨α (U.idx t), e.hom s, ?_⟩
-    show ((V.map B.inclusion).f (α (U.idx t))) (e.hom s) = t
+    change ((V.map B.inclusion).f (α (U.idx t))) (e.hom s) = t
     rw [← Scheme.Hom.comp_apply, he, hs]
   exact ⟨V, hVaff, hVet, hVsurj, V, rfl, hV,
     (Scheme.presieve₀_mem_precoverage_iff (P := @Etale) (V.map B.inclusion)).2 ⟨hVsurj, hVet⟩⟩
@@ -120,7 +120,7 @@ theorem exists_affine_etale_ofArrows (hp : p.IsFiberedInGroupoids) (W : 𝒳) :
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈ (etaleTopology B).over (B.obj hS) (p.obj W) := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V.X V.f ∈ etaleTopology B (p.obj W).left
+    change Sieve.ofArrows V.X V.f ∈ etaleTopology B (p.obj W).left
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   choose y φ hφ using fun j => hp.exists_lift (vmap j) W rfl
   have := hφ
@@ -253,7 +253,7 @@ private theorem exists_finsupp_relations_of_isCartesianBetweenAffines
     ((Stacks.SheafOfModules.FreeSheafification.map_finsupp_sum_smul F.val g.op c
       fun i ↦ (show F.val.obj (op w) from F.val.map f.op i)).symm.trans
       ((congrArg (fun m ↦ F.val.map g.op m) hc).trans (map_zero _)))
-  show F.val.map (g ≫ f).op i = F.val.map g.op (F.val.map f.op i)
+  change F.val.map (g ≫ f).op i = F.val.map g.op (F.val.map f.op i)
   rw [op_comp]
   exact F.val.map_comp_apply _ _ i
 

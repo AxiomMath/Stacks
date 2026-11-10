@@ -109,7 +109,7 @@ public theorem exists_movingFamily_over_projectiveLine_of_eq_univ
   refine ⟨lam, lam, hlamc, hlamc,
     ⟨Set.univ, IrreducibleSpace.isIrreducible_univ _, isClosed_univ⟩,
     closure_image_lineProductLine_univ k V (Fin 2 → k), ?_, ?_, ?_⟩
-  · show lineProductFibre k V (Fin 2 → k) lam hlamc Set.univ =
+  · change lineProductFibre k V (Fin 2 → k) lam hlamc Set.univ =
       (C : Set (projectiveSpaceOfModule k V))
     rw [lineProductFibre_univ, hC]
   · refine ⟨⟨lineProductConstant k V (Fin 2 → k) (X : Set (projectiveSpaceOfModule k V)),
@@ -119,7 +119,7 @@ public theorem exists_movingFamily_over_projectiveLine_of_eq_univ
   · intro i
     refine ⟨⟨Set.univ, IrreducibleSpace.isIrreducible_univ _, isClosed_univ⟩, ?_,
       intersectProperly_of_eq_univ _ _ rfl⟩
-    show (Set.univ : Set (projectiveSpaceOfModule k V)) =
+    change (Set.univ : Set (projectiveSpaceOfModule k V)) =
       lineProductFibre k V (Fin 2 → k) lam hlamc Set.univ
     rw [lineProductFibre_univ]
 

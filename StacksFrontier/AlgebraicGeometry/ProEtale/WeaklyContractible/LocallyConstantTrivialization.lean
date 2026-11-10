@@ -81,7 +81,7 @@ theorem bot_mem_topology_of_isEmpty (Z : S.ProEt) (hZ : IsEmpty Z.left) :
     (⊥ : Sieve Z) ∈ ProEt.topology S Z := by
   rw [← Sieve.generate_bot]
   refine Precoverage.generate_mem_toGrothendieck ?_
-  show (⊥ : Presieve Z).map (ProEt.forget S ⋙ Over.forget S) ∈
+  change (⊥ : Presieve Z).map (ProEt.forget S ⋙ Over.forget S) ∈
     Scheme.proetalePrecoverage.coverings Z.left
   rw [Presieve.map_bot]
   exact Scheme.bot_mem_propQCPrecoverage (P := @WeaklyEtale) Z.left

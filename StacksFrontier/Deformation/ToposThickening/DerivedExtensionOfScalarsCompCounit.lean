@@ -47,6 +47,7 @@ variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrp
 variable {O O' O₀ : Sheaf J CommRingCat.{u}} {f : O ⟶ O₀} {f' : O' ⟶ O₀} (g : O ⟶ O')
   (hg : g ≫ f' = f)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The unit along `f` is the unit along `g`, followed by the unit along `f'` restricted along
 `g`, the identification of the extensions of scalars and the identification of the
 restrictions of scalars. -/

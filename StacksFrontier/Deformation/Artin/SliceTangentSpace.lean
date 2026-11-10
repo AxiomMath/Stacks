@@ -236,6 +236,7 @@ abbrev AffineChart.ring : CommRingCat.{u} := Γ(Y, c.U)
 /-- The chart as an open immersion of the spectrum of its ring. -/
 abbrev AffineChart.fromSpec : Spec c.ring ⟶ Y := c.isAffineOpen.fromSpec
 
+omit [IsOpenImmersion iΛ] in
 theorem AffineChart.range_comp :
     Set.range (c.fromSpec ≫ s).base ⊆ Set.range iΛ.base := by
   rintro _ ⟨z, rfl⟩
@@ -264,15 +265,18 @@ def AffineChart.ringMap {A : CommRingCat.{u}} (g : Spec A ⟶ Y)
     (hg : Set.range g.base ⊆ c.U) : c.ring ⟶ A :=
   Spec.preimage (IsOpenImmersion.lift c.fromSpec g (by rwa [c.isAffineOpen.range_fromSpec]))
 
+omit [IsOpenImmersion iΛ] in
 theorem AffineChart.spec_ringMap {A : CommRingCat.{u}} (g : Spec A ⟶ Y)
     (hg : Set.range g.base ⊆ c.U) : Spec.map (c.ringMap g hg) ≫ c.fromSpec = g := by
   rw [AffineChart.ringMap, Spec.map_preimage, IsOpenImmersion.lift_fac]
 
+omit [IsOpenImmersion iΛ] in
 theorem AffineChart.ringMap_injective {A : CommRingCat.{u}} {g g' : Spec A ⟶ Y}
     (hg : Set.range g.base ⊆ c.U) (hg' : Set.range g'.base ⊆ c.U)
     (h : c.ringMap g hg = c.ringMap g' hg') : g = g' := by
   rw [← c.spec_ringMap g hg, ← c.spec_ringMap g' hg', h]
 
+omit [IsOpenImmersion iΛ] in
 theorem AffineChart.ringMap_comp {A A' : CommRingCat.{u}} (β : A ⟶ A') (g : Spec A ⟶ Y)
     (hg : Set.range g.base ⊆ c.U) (hg' : Set.range (Spec.map β ≫ g).base ⊆ c.U) :
     c.ringMap (Spec.map β ≫ g) hg' = c.ringMap g hg ≫ β := by
@@ -287,6 +291,7 @@ theorem AffineChart.structureMap_ringMap {A : CommRingCat.{u}} (α : CommRingCat
   apply (cancel_mono iΛ).mp
   rw [Spec.map_comp, Category.assoc, c.spec_structureMap, ← Category.assoc, c.spec_ringMap, h]
 
+omit [IsOpenImmersion iΛ] in
 /-- A morphism out of the spectrum of a local ring whose closed point maps into the chart
 lands in the chart. -/
 theorem AffineChart.range_subset {A : CommRingCat.{u}} [IsLocalRing A] (g : Spec A ⟶ Y)
@@ -374,18 +379,21 @@ theorem closedPoint_eq (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
 variable [IsOpenImmersion iΛ] (c : AffineChart iΛ (B.inclusion.map V.hom)
   ((pointMap hv₀).base (closedPt (.of k))))
 
+omit [IsOpenImmersion iΛ] in
 theorem AffineChart.ringMap_congr {Y : Scheme.{u}} {s' : Y ⟶ S} {y : Y}
     (c' : AffineChart iΛ s' y) {A : CommRingCat.{u}} {g g' : Spec A ⟶ Y}
     (hg : Set.range g.base ⊆ c'.U) (hg' : Set.range g'.base ⊆ c'.U) (h : g = g') :
     c'.ringMap g hg = c'.ringMap g' hg' := by
   subst h; rfl
 
+omit [IsOpenImmersion iΛ] in
 theorem range_pointMap : Set.range (pointMap hv₀).base ⊆ c.U := by
   rintro _ ⟨z, rfl⟩
   have hz : z = closedPt (.of k) := Subsingleton.elim _ _
   rw [hz]
   exact c.mem
 
+omit [IsOpenImmersion iΛ] in
 theorem range_chartPointMap
     (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀)
     {A : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) :
@@ -400,6 +408,7 @@ def chartValue (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusi
     c.ring ⟶ CommRingCat.of A :=
   c.ringMap (chartPointMap x hx) (range_chartPointMap c x hx)
 
+omit [IsOpenImmersion iΛ] in
 theorem chartValue_of_morphism
     {x y : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀}
     {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) (hy : y.algebra = A')
@@ -416,6 +425,7 @@ theorem structureMap_chartValue
     c.structureMap ≫ chartValue c x hx = CommRingCat.ofHom (algebraMap Λ A) :=
   c.structureMap_ringMap _ _ _ (chartPointMap_comp x hx)
 
+omit [IsOpenImmersion iΛ] in
 theorem chartValue_residue
     (x : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀)
     {A : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) :
@@ -424,6 +434,7 @@ theorem chartValue_residue
   rw [chartValue, ← c.ringMap_comp _ _ _ ((residue_chartPointMap x hx).symm ▸ range_pointMap c)]
   exact AffineChart.ringMap_congr c _ _ (residue_chartPointMap x hx)
 
+omit [IsOpenImmersion iΛ] in
 theorem exists_morphism_of_chartValue_eq
     {x x' : DeformationObject iΛ (Over.forget V ⋙ Over.post B.inclusion) v₀ hv₀}
     {A : ArtinianLocalAlgCat.{u, u, u} Λ k} (hx : x.algebra = A) (hx' : x'.algebra = A)
@@ -495,6 +506,7 @@ def fiberValue {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) : c.ring ⟶ CommRingCat.of A :=
   chartValue c x.1 x.2
 
+omit [IsOpenImmersion iΛ] in
 theorem fiberValue_of_isHomLift {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) (y : (sliceBased iΛ v₀ hv₀).p.Fiber A')
     (β : A ⟶ A') (a : x.1 ⟶ y.1) [(sliceBased iΛ v₀ hv₀).p.IsHomLift β a] :
@@ -502,6 +514,7 @@ theorem fiberValue_of_isHomLift {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k}
   apply chartValue_of_morphism c x.2 y.2 a β
   exact IsHomLift.fac' (sliceBased iΛ v₀ hv₀).p β a
 
+omit [IsOpenImmersion iΛ] in
 theorem fiberValue_eq_of_classOf_eq {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (x y : (sliceBased iΛ v₀ hv₀).p.Fiber A)
@@ -521,6 +534,7 @@ def classValue {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (z : (isomorphismClasses (sliceBased iΛ v₀ hv₀) h𝓕).obj A) : c.ring ⟶ CommRingCat.of A :=
   fiberValue c (classOf_surjective (sliceBased iΛ v₀ hv₀) h𝓕 A z).choose
 
+omit [IsOpenImmersion iΛ] in
 theorem classValue_classOf {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (x : (sliceBased iΛ v₀ hv₀).p.Fiber A) :
@@ -536,6 +550,7 @@ def tangentMap (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p) (g
     (powFunctor k gens).obj W :=
   fun i => TrivSqZeroExt.snd (R := k) (M := W) ((classValue c h𝓕 z).hom i.1)
 
+omit [IsOpenImmersion iΛ] in
 theorem tangentMap_naturality (h𝓕 : IsCofiberedInGroupoids (sliceBased iΛ v₀ hv₀).p)
     (gens : Set c.ring) {W W' : FGModuleCat.{u} k} (f : W ⟶ W')
     (z : (associatedTangentSpaceSetFunctor (sliceBased iΛ v₀ hv₀) h𝓕).obj W) :
@@ -572,8 +587,8 @@ theorem ringHom_ext_of_adjoin {R A : CommRingCat.{u}} (lR : CommRingCat.of Λ �
     (gens : Set R)
     (hgens : @Algebra.adjoin Λ R _ _ lR.hom.toAlgebra gens = ⊤) {φ ψ : R ⟶ A}
     (hl : lR ≫ φ = lR ≫ ψ) (h : ∀ r ∈ gens, φ r = ψ r) : φ = ψ := by
-  letI := lR.hom.toAlgebra
-  letI : Algebra Λ A := (lR ≫ φ).hom.toAlgebra
+  let := lR.hom.toAlgebra
+  let : Algebra Λ A := (lR ≫ φ).hom.toAlgebra
   have hc : ∀ r : Λ, ψ (lR r) = φ (lR r) := fun r => by
     rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, hl]
   let φ' : R →ₐ[Λ] A := { φ.hom with commutes' := fun _ => rfl }
@@ -663,6 +678,7 @@ section FiniteDimensional
 
 variable [IsOpenImmersion iΛ]
 
+omit [IsOpenImmersion iΛ] in
 theorem pointMap_mem_range :
     (B.inclusion.map V.hom).base ((pointMap hv₀).base (closedPt (.of k))) ∈
       Set.range iΛ.base := by
@@ -675,10 +691,10 @@ theorem finiteDimensional_artinianTangentSpace_sliceBased
     [LocallyOfFiniteType (B.inclusion.map V.hom)]
     (h : IsPredeformationCategory (sliceBased iΛ v₀ hv₀).p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) :
     letI : Fact (IsPredeformationCategory (sliceBased iΛ v₀ hv₀).p) := ⟨h⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered))) := ⟨hS2⟩
     FiniteDimensional k
       (artinianTangentSpace Λ k (isomorphismClasses (sliceBased iΛ v₀ hv₀) h.cofibered)) := by
   obtain ⟨c⟩ := nonempty_affineChart (s := B.inclusion.map V.hom) (iΛ := iΛ)
@@ -689,6 +705,7 @@ theorem finiteDimensional_artinianTangentSpace_sliceBased
     (fun f z => tangentMap_naturality c h.cofibered t f z)
     (tangentMap_injective c h.cofibered t ht)
 
+omit [IsOpenImmersion iΛ] in
 /-- The deformation category of a point of a scheme is a deformation category: the category
 represented by a scheme satisfies (RS) by the universal property of the pushout. -/
 theorem isDeformationCategory_sliceDeformations
@@ -706,7 +723,7 @@ theorem finiteDimensional_tangentSpaceArtinian_sliceBased
     [LocallyOfFiniteType (B.inclusion.map V.hom)]
     (hp : IsDeformationCategory (sliceBased iΛ v₀ hv₀).p) :
     letI : Fact (IsPredeformationCategory (sliceBased iΛ v₀ hv₀).p) := ⟨hp.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (sliceBased iΛ v₀ hv₀) hp.predeformation.cofibered))) :=
       ⟨tangentConditionS2 hp⟩
     FiniteDimensional k (tangentSpaceArtinian.{u, u, u} Λ k

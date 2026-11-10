@@ -150,7 +150,7 @@ the structure morphism of `𝒜`. -/
 theorem ungradedTotal_structureMap (W : (Opens X)ᵒᵖ) (r : X.ringCatSheaf.obj.obj W) :
     ungradedTotal A 𝒜 ψ W (A.toPresheafGradedAlgebra.structureMap W r) =
       (𝒜.hom.hom.app W).hom r := by
-  show ungradedTotal A 𝒜 ψ W (r • (1 : A.toPresheafGradedAlgebra.Total W)) = _
+  change ungradedTotal A 𝒜 ψ W (r • (1 : A.toPresheafGradedAlgebra.Total W)) = _
   rw [ungradedTotal_smul, ungradedTotal_one, mul_one]
 
 /-- A unital homomorphism into the degenerately graded `𝒜`, as a morphism of presheaves of
@@ -202,7 +202,7 @@ theorem structureMap_mul_incl (n : ℤ) (W : (Opens X)ᵒᵖ) (r : X.ringCatShea
     A.toPresheafGradedAlgebra.structureMap W r * A.toPresheafGradedAlgebra.incl n x =
       A.toPresheafGradedAlgebra.incl n (r • x) := by
   rw [Stacks.GradedAlgebra.incl_smul]
-  show r • (1 : A.toPresheafGradedAlgebra.Total W) * A.toPresheafGradedAlgebra.incl n x = _
+  change r • (1 : A.toPresheafGradedAlgebra.Total W) * A.toPresheafGradedAlgebra.incl n x = _
   rw [Stacks.GradedAlgebra.smul_mul_eq, one_mul]
 
 include hu in
@@ -215,7 +215,7 @@ theorem pieceAdd_smul (n : ℤ) (W : (Opens X)ᵒᵖ) (r : X.ringCatSheaf.obj.ob
       (𝒜.hom.hom.app W).hom r :=
     congrArg (fun k : X.sheaf.obj.obj W ⟶ 𝒜.right.obj.obj W => k.hom r)
       (NatTrans.congr_app hu W)
-  show (u.app W).hom (A.toPresheafGradedAlgebra.incl n (r • x)) = _
+  change (u.app W).hom (A.toPresheafGradedAlgebra.incl n (r • x)) = _
   exact (congrArg (u.app W).hom (structureMap_mul_incl A n W r x).symm).trans
     ((map_mul (u.app W).hom _ _).trans
       (congrArg (fun z => z * (u.app W).hom (A.toPresheafGradedAlgebra.incl n x)) hσ))

@@ -257,11 +257,11 @@ private lemma modelComparison_linear_on_injective
     J I q))
   have he : e.hom.app (DerivedCategory.Q.obj J) ≫ cJ.hom ≫ t.hom =
       H.map cY.hom ≫ cH.hom := by
-    show (Stacks.DerivedHom.BaseChange.modelRestrictScalarsNatIso f F α).hom.app
+    change (Stacks.DerivedHom.BaseChange.modelRestrictScalarsNatIso f F α).hom.app
       (Opposite.op (DerivedCategory.Q.obj K), DerivedCategory.Q.obj J) ≫ _ = _
     rw [Stacks.DerivedHom.BaseChange.modelRestrictScalarsNatIso_hom_app f F α K J I q hK]
     let eR := Stacks.DerivedHom.BaseChange.homModelIso K I (Iso.refl _) cY
-    show (eR ≪≫ t.symm ≪≫ cJ.symm).hom ≫ cJ.hom ≫ t.hom = _
+    change (eR ≪≫ t.symm ≪≫ cJ.symm).hom ≫ cJ.hom ≫ t.hom = _
     simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.inv_hom_id_assoc,
       Iso.inv_hom_id, Category.comp_id]
     rfl
@@ -330,14 +330,14 @@ private lemma modelComparison_linear_on_injective
       simp only [G, Functor.curry_obj_obj_map, cY, Iso.trans_inv, asIso_inv, Iso.app_inv,
         ← CategoryTheory.Functor.map_comp, prod_comp, Category.id_comp,
         IsIso.hom_inv_id_assoc]
-    show (tensorLeftIso P (Uc.obj J) hP).inv ≫
+    change (tensorLeftIso P (Uc.obj J) hP).inv ≫
       (tensor R).map (CategoryTheory.Prod.mkHom (𝟙 (DerivedCategory.Q.obj P)) (DerivedCategory.Q.map
         q)) ≫
       (tensor R).map (CategoryTheory.Prod.mkHom (DerivedCategory.Q.map p) (𝟙 (DerivedCategory.Q.obj
         I))) ≫
       G.map cY.inv ≫ act.app (DerivedCategory.Q.obj J) ≫ cY.hom = _
     rw [reassoc_of% hm]
-    show (tensorLeftIso P (Uc.obj J) hP).inv ≫
+    change (tensorLeftIso P (Uc.obj J) hP).inv ≫
       (tensor R).map (CategoryTheory.Prod.mkHom (DerivedCategory.Q.map p) (𝟙 (DerivedCategory.Q.obj
         (Uc.obj J)))) ≫
       G.map (β.inv.app J) ≫ act.app (DerivedCategory.Q.obj J) ≫ β.hom.app J ≫
@@ -347,7 +347,7 @@ private lemma modelComparison_linear_on_injective
     simp only [aJ, CategoryTheory.Functor.map_comp, Category.assoc]
     rfl
   rw [hleft, hright]
-  show _ = _ ≫ DerivedCategory.Q.map (Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K
+  change _ = _ ≫ DerivedCategory.Q.map (Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K
     J I q)
   rw [← DerivedCategory.Q.map_comp]
   have h := tensor_hom_action_localized hK (homComplexScalarAdjunction f K J) aJ aZ
@@ -413,6 +413,7 @@ end
 noncomputable section
 attribute [local instance] HasDerivedCategory.standard
 set_option backward.isDefEq.respectTransparency false
+set_option linter.checkUnivs false in
 private def ringLiftSingleIso {R : Type uR} [CommRing R]
     (B : ModuleCat.{max uR uA uM} R) :
     let e₀ := ModuleCat.restrictScalars.{max uR uA uM} (ULift.ringEquiv : ULift.{max uA uM} R ≃+*
@@ -522,7 +523,7 @@ private lemma isIso_modelUnitComparison_of_kFlat
   let δ : H ⋙ G ⟶ G ⋙ H :=
     { app L := diagonal B L (DerivedCategory.Q.obj K)
       naturality {L L'} g := StacksDraft.DerivedHom.derivedTensorHomDiagonal_natural.2.1 g }
-  show IsIso ((a.homEquiv _ _).symm (H.map (a.unit.app M) ≫ e.hom.app (F.obj M)))
+  change IsIso ((a.homEquiv _ _).symm (H.map (a.unit.app M) ≫ e.hom.app (F.obj M)))
   apply (isIso_unitComparison_iff a b H J e.hom M).mpr
   have hlin : G.map (e.hom.app (F.obj M)) ≫ proj.inv.app (U.obj (J.obj (F.obj M))) ≫
       U.map (b.counit.app (J.obj (F.obj M))) =
@@ -603,7 +604,7 @@ private lemma isIso_modelUnitComparison_of_diagonal
   rw [← isIso_comp_left_iff ((tensor R).map
     (CategoryTheory.Prod.mkHom (𝟙 B) ((hR.app M).hom)))]
   erw [hn]
-  show IsIso (diagonal B M K ≫ (hR.app ((tensor R).obj (B, M))).hom)
+  change IsIso (diagonal B M K ≫ (hR.app ((tensor R).obj (B, M))).hom)
   infer_instance
 end
 
@@ -629,8 +630,8 @@ public theorem isIso_derivedHomBaseChange
         (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
     [F.IsLeftDerivedFunctor comparison
       (HomologicalComplex.quasiIso (ModuleCat.{max uR uA uM} R) (ComplexShape.up ℤ))]
-    (K M : DerivedCategory (ModuleCat.{max uR uA uM} R))
-    (h : StacksDraft.Perfect.IsPerfect K ∨
+    (K M : DerivedCategory (ModuleCat.{max uR uA uM} R)),
+    (StacksDraft.Perfect.IsPerfect K ∨
       StacksDraft.Perfect.IsPerfect
         ((DerivedCategory.singleFunctor (ModuleCat.{max uR uA uM} R) 0).obj
           ((ModuleCat.restrictScalars f).obj (ModuleCat.of A (ULift.{max uR uM} A)))) ∨
@@ -650,7 +651,7 @@ public theorem isIso_derivedHomBaseChange
                   ((ModuleCat.restrictScalars f).obj
                     (ModuleCat.of A (ULift.{max uR uM} A)))))))) ∧
         StacksDraft.PseudoCoherence.IsPseudoCoherent K ∧
-        ∃ b : ℤ, DerivedCategory.IsGE M b)),
+        ∃ b : ℤ, DerivedCategory.IsGE M b)) →
     IsIso (Stacks.DerivedHom.ExtensionOfScalars.derivedHomBaseChange.{uR, uA, uM} f F comparison K
       M) := by
   intro F comparison hF K M h
@@ -674,7 +675,7 @@ public theorem isIso_derivedHomBaseChange
       have hBflat : Module.Flat (ULift.{max uR uA uM} R) (e.functor.obj B) := by
         let := f.toAlgebra
         have : Module.Flat R A := hf
-        show Module.Flat (ULift.{max uR uA uM} R) (ULift.{max uR uM} A)
+        change Module.Flat (ULift.{max uR uA uM} R) (ULift.{max uR uM} A)
         exact Module.Flat.ulift_left_iff.mpr inferInstance
       have ha : ∀ (N : ModuleCat.{max uR uA uM} (ULift.{max uR uA uM} R))
           (i : ℤ), i < 0 → IsZero
@@ -716,9 +717,6 @@ public theorem isIso_derivedHomBaseChange
         ((canonTensorMod N).mapIso
           (ringLiftSingleIso.{uR,uA,uM} B).symm))
   apply (@isIso_derivedHomBaseChange_iff_model.{uR,uA,uM} R A _ _ f
-    (ModuleCat.extendRestrictScalarsAdj.{max uR uM,uR,uA} f).isLeftAdjoint
-    (ModuleCat.extendRestrictScalarsAdj.{max uR uM,uR,uA} f).isRightAdjoint
-    (ModuleCat.restrictCoextendScalarsAdj.{max uR uM,uR,uA} f).isLeftAdjoint
     F comparison hF K M).mpr
   let f' : ULift.{max uR uA uM} R →+* ULift.{max uR uA uM} A :=
     (ULift.ringEquiv.symm.toRingHom.comp f).comp ULift.ringEquiv.toRingHom
@@ -745,7 +743,7 @@ public theorem isIso_derivedHomBaseChange
   rw [← isIso_comp_left_iff (D.map (CategoryTheory.Prod.mkHom i.hom
     (𝟙 (H.obj (Opposite.op (E.obj K), E.obj M)))))]
   erw [hn]
-  show IsIso (StacksDraft.DerivedHom.derivedTensorHomDiagonal (E.obj B₀) (E.obj M) (E.obj K) ≫
+  change IsIso (StacksDraft.DerivedHom.derivedTensorHomDiagonal (E.obj B₀) (E.obj M) (E.obj K) ≫
     H.map (CategoryTheory.Prod.mkHom (𝟙 (Opposite.op (E.obj K)))
       (D.map (CategoryTheory.Prod.mkHom i.hom (𝟙 (E.obj M))))))
   infer_instance

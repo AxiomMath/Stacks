@@ -95,11 +95,11 @@ theorem powNatIntertwineObj_succIso (e : A ≌ A) (e' : B ≌ B) (R : A ⥤ B)
           e'.functor.map (powNatIntertwineObj e e' R α n M).hom ≫
             (powNatSuccIso e' n (R.obj M)).hom
   | 0, M => by
-      show R.map (𝟙 (e.functor.obj M)) ≫ (α M).hom =
+      change R.map (𝟙 (e.functor.obj M)) ≫ (α M).hom =
         (α M).hom ≫ e'.functor.map (𝟙 (R.obj M)) ≫ 𝟙 (e'.functor.obj (R.obj M))
       simp
   | 1, M => by
-      show R.map (𝟙 (e.functor.obj (e.functor.obj M))) ≫
+      change R.map (𝟙 (e.functor.obj (e.functor.obj M))) ≫
           ((α (e.functor.obj M)).hom ≫ e'.functor.map (α M).hom) =
         (α (e.functor.obj M)).hom ≫
           e'.functor.map (α M).hom ≫ 𝟙 (e'.functor.obj (e'.functor.obj (R.obj M)))
@@ -126,7 +126,7 @@ theorem powNatIntertwineObj_inverseSuccIso (e : A ≌ A) (e' : B ≌ B) (R : A �
       have key : (inverseIntertwineObj e e' R α M).hom =
           e'.unit.app (R.obj (e.inverse.obj M)) ≫
             e'.inverse.map ((α (e.inverse.obj M)).inv ≫ R.map (e.counit.app M)) := rfl
-      show R.map (e.counit.app M) ≫ 𝟙 (R.obj M) =
+      change R.map (e.counit.app M) ≫ 𝟙 (R.obj M) =
         (α (e.inverse.obj M)).hom ≫
           e'.functor.map (inverseIntertwineObj e e' R α M).hom ≫ e'.counit.app (R.obj M)
       rw [key, Functor.map_comp, Category.assoc]
@@ -147,7 +147,7 @@ theorem powNatIntertwineObj_inverseSuccIso (e : A ≌ A) (e' : B ≌ B) (R : A �
               e'.counit.app (R.obj (e.inverse.obj M)) :=
         (Category.comp_id _).symm.trans
           (powNatIntertwineObj_inverseSuccIso e e' R α 0 (e.inverse.obj M))
-      show R.map (e.counit.app (e.inverse.obj M)) ≫ (inverseIntertwineObj e e' R α M).hom =
+      change R.map (e.counit.app (e.inverse.obj M)) ≫ (inverseIntertwineObj e e' R α M).hom =
         (α (e.inverse.obj (e.inverse.obj M))).hom ≫
           e'.functor.map ((inverseIntertwineObj e e' R α (e.inverse.obj M)).hom ≫
             e'.inverse.map (inverseIntertwineObj e e' R α M).hom) ≫

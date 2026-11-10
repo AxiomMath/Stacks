@@ -96,7 +96,7 @@ public theorem exists_affine_covering_refining_etale_cover
       obtain ⟨V, hV, hxV, -⟩ :=
         exists_isAffineOpen_mem_and_subset (U := ⊤) (x := x) (by simp)
       have hyV : y ∈ (𝒰.f i) ⁻¹ᵁ V := by
-        show 𝒰.f i y ∈ V
+        change 𝒰.f i y ∈ V
         rw [hy]
         exact hxV
       obtain ⟨U, hU, hyU, hUV⟩ := exists_isAffineOpen_mem_and_subset hyV
@@ -117,7 +117,7 @@ public theorem exists_affine_covering_refining_etale_cover
     s₀ := β
     h₀ := fun j => B.inclusion.map (eqToHom (hX j))
     w₀ j := by
-      show B.inclusion.map (eqToHom (hX j)) ≫
+      change B.inclusion.map (eqToHom (hX j)) ≫
           B.inclusion.map (𝒱.f (β j)) = B.inclusion.map (W'.2.f j)
       rw [← Functor.map_comp, hf j]
   }
@@ -173,7 +173,7 @@ private theorem exists_etale_mem_of_saturate
           (PreservesPullback.iso_hom_snd T g f)
       obtain ⟨z, hzf, hzs⟩ := Scheme.exists_preimage_of_isPullback hpb y x hy
       refine ⟨pullback g f, pullback.snd g f, ?_, ?_, z, hzs⟩
-      · show S ((pullback.snd g f) ≫ f)
+      · change S ((pullback.snd g f) ≫ f)
         rw [← pullback.condition]
         exact Sieve.downward_closed S hg (pullback.fst g f)
       · exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
@@ -187,7 +187,7 @@ private theorem exists_etale_mem_of_saturate
         exact MorphismProperty.comp_mem @Etale _ _ hfet hget
       · refine ⟨z, ?_⟩
         rw [Functor.map_comp]
-        show ((SmallEtale.toScheme B X.1 X.property).map g).base
+        change ((SmallEtale.toScheme B X.1 X.property).map g).base
           (((SmallEtale.toScheme B X.1 X.property).map f).base z) = x
         rw [hz, hy]
 
@@ -241,16 +241,16 @@ public theorem mem_of_comp_toScheme_map_eq {Y Z U : SmallEtale B X.1 X.property}
     refine ObjectProperty.homMk (Over.homMk (B.inclusion.preimage w) ?_)
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp, Functor.map_preimage B.inclusion]
-    show w ≫ B.inclusion.map Z.obj.hom = B.inclusion.map Y.obj.hom
+    change w ≫ B.inclusion.map Z.obj.hom = B.inclusion.map Y.obj.hom
     rw [← hcomp k, ← hcomp f, ← hw, Category.assoc]
   have hmapa : (SmallEtale.toScheme B X.1 X.property).map a = w := by
     dsimp [a]
-    show B.inclusion.map (B.inclusion.preimage w) = w
+    change B.inclusion.map (B.inclusion.preimage w) = w
     exact B.inclusion.map_preimage _
   have ha : a ≫ k = f := by
     apply ObjectProperty.hom_ext
     ext
-    show (SmallEtale.toScheme B X.1 X.property).map (a ≫ k) =
+    change (SmallEtale.toScheme B X.1 X.property).map (a ≫ k) =
       (SmallEtale.toScheme B X.1 X.property).map f
     rw [Functor.map_comp, hmapa, hw]
   rw [← ha]
@@ -311,7 +311,7 @@ public theorem exists_finite_affine_refinement_of_mem_topology
         ((Scheme.presieve₀_mem_precoverage_iff (V.map B.inclusion)).mp hV.1).2 i
       have : Etale (B.inclusion.map U.obj.hom) := U.property
       exact ⟨Over.mk (V.f i ≫ U.obj.hom), by
-        show Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map U.obj.hom)
+        change Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map U.obj.hom)
         infer_instance⟩
     f i := by
       change V.I₀ at i
@@ -325,10 +325,10 @@ public theorem exists_finite_affine_refinement_of_mem_topology
     f i := Vsite.f i.1
   }
   have h𝒱scheme : 𝒱.sieve₀ ∈ SmallEtale.topology B X.1 X.property U := by
-    show (SmallEtale.precoverage B X.1 X.property).Saturate U 𝒱.sieve₀
+    change (SmallEtale.precoverage B X.1 X.property).Saturate U 𝒱.sieve₀
     apply Precoverage.Saturate.of
     refine ⟨𝒱, rfl, ?_⟩
-    show B.IsCovering ⟨U.obj.left,
+    change B.IsCovering ⟨U.obj.left,
       (𝒱.map (SmallEtale.inclusion B X.1 X.property)).map
         (BigEtaleOver.forget B X.1 X.property)⟩
     have hmap :
@@ -344,7 +344,7 @@ public theorem exists_finite_affine_refinement_of_mem_topology
     obtain ⟨Z, k, hk, w, hw⟩ := hlift i.1
     exact S.downward_closed (mem_of_comp_toScheme_map_eq B X S (f := 𝒱.f i) hk w hw) g
   exact ⟨𝒱, inferInstance, h𝒱scheme, hle, fun i => by
-    show _root_.AlgebraicGeometry.IsAffine (B.inclusion.obj (V.X i.1))
+    change _root_.AlgebraicGeometry.IsAffine (B.inclusion.obj (V.X i.1))
     exact hAffineV i.1⟩
 
 /-- **The hypothesis of part (4) of Stacks 0738, for the small étale site.** On a quasi-compact

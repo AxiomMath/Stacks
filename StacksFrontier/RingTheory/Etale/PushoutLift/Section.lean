@@ -162,7 +162,7 @@ include hΓ₀ker hJ in
 /-- The kernel of `Γ → Γ₀` is a nilpotent ideal. -/
 lemma isNilpotent_ker_algebraMap :
     IsNilpotent (RingHom.ker (Algebra.ofId Γ Γ₀ : Γ →+* Γ₀)) := by
-  show IsNilpotent (RingHom.ker (algebraMap Γ Γ₀))
+  change IsNilpotent (RingHom.ker (algebraMap Γ Γ₀))
   rw [hΓ₀ker]
   exact isNilpotent_map_algebraMap hJ Γ
 
@@ -269,7 +269,7 @@ theorem exists_secondProjection :
       rw [hd, map_sub, offDiagonalBar_apply, hsx]
       have := AlgHom.congr_fun hsR x
       simp only [AlgHom.coe_comp, Function.comp_apply, Ideal.Quotient.mkₐ_eq_mk] at this
-      show Ideal.Quotient.mk _ (sR x) - _ = 0
+      change Ideal.Quotient.mk _ (sR x) - _ = 0
       rw [this]
       simp [secondBar, y]
     rw [offDiagonalBar_apply, Ideal.Quotient.eq_zero_iff_mem] at hbar

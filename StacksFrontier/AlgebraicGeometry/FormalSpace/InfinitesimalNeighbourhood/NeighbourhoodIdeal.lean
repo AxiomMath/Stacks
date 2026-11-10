@@ -185,7 +185,7 @@ theorem map_comap_pow_eq (D : QuotientSystem B S hS A)
   let e := (Scheme.ΓSpecIso (.of A)).commRingCatIsoToRingEquiv
   have h1 : Ideal.comap (Scheme.ΓSpecIso (.of A)).hom.hom (topologicalNilradical A ^ (k + 1)) =
       (Ideal.comap (Scheme.ΓSpecIso (.of A)).hom.hom (topologicalNilradical A)) ^ (k + 1) := by
-    show Ideal.comap e _ = (Ideal.comap e _) ^ (k + 1)
+    change Ideal.comap e _ = (Ideal.comap e _) ^ (k + 1)
     rw [← Ideal.map_symm, ← Ideal.map_symm, Ideal.map_pow]
   rw [h1, Ideal.map_pow]
 

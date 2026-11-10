@@ -208,7 +208,7 @@ public instance preorderBaseChangeCoverI₀ : Preorder (baseChangeCover g).I₀ 
 /-- The images of the components of the chart cover increase with the index. -/
 public theorem baseChangeCover_hle {p q : (baseChangeCover g).I₀} (hpq : p ≤ q) :
     Set.range ((baseChangeCover g).f p).base ⊆ Set.range ((baseChangeCover g).f q).base := by
-  show (relativeProjChart s' p.1.1).opensRange ≤ (relativeProjChart s' q.1.1).opensRange
+  change (relativeProjChart s' p.1.1).opensRange ≤ (relativeProjChart s' q.1.1).opensRange
   rw [opensRange_relativeProjChart, opensRange_relativeProjChart]
   exact fun z hz => hpq.1 hz
 

@@ -48,10 +48,10 @@ on Chow groups rather than on cycles.
 The rule pulls back along the base change of `f`, so writing it down needs an instance of Stacks
 02S1 for that morphism at every test scheme and every degree. Stacks 02S1 is not formalized in
 this repository and is carried as a hypothesis everywhere in this development; see the
-implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`. It is a `Prop`,
-and the rule recorded in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic` is that a `Prop` is
-quantified rather than parameterized, so the declarations below quantify over all the instances
-at once, in the shape `Stacks.Chow.ProperPushforwardDescends` of
+implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`. It is a
+`Prop`, and the rule recorded in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic` is that a
+`Prop` is quantified rather than parameterized, so the declarations below quantify over all the
+instances at once, in the shape `Stacks.Chow.ProperPushforwardDescends` of
 `StacksFrontier.AlgebraicGeometry.Chow.BivariantComposition.Basic` uses for Stacks 02S2. The
 hypothesis is written out rather than named, so that it is exactly — definitionally — the
 statement that `Stacks.Chow.FlatPullbackDescends` of

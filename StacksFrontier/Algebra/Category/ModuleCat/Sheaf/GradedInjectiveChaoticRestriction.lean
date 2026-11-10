@@ -233,7 +233,7 @@ theorem genHomApp_of_le (p : ℤ) {U : Cᵒᵖ} (h : U.unop ≤ n)
     (y : submodule n (A.piece (p + -d)) U) :
     genHomApp I x p U y = castHom I.piece (by omega : d + (p + -d) = p) U
       (I.smul d (p + -d) U (genRestrict I x U h) y.1) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- The components of the homomorphism attached to `x` commute with restriction. -/
 theorem genHomApp_naturality (p : ℤ) {U V : Cᵒᵖ} (f : U ⟶ V)
@@ -301,7 +301,7 @@ theorem gen_restrict {n n' : C} (h : n ≤ n') (d : ℤ) :
       (sheafLE h (A.piece (d + -d))).val.app (op n) (gen n d) := by
   apply Subtype.ext
   rw [presheaf_map_val, sheafLE_app_val]
-  show (A.piece (d + -d)).val.map _ (castHom A.piece _ (op n') (A.one.eval (op n'))) =
+  change (A.piece (d + -d)).val.map _ (castHom A.piece _ (op n') (A.one.eval (op n'))) =
     castHom A.piece _ (op n) (A.one.eval (op n))
   rw [castHom_naturality]
   congr 1
@@ -323,10 +323,10 @@ theorem GradedModule.surjective_map_of_injective [Injective I] {n n' : C} (h : n
   have hg : genModuleLE h d ≫ g = genHom I x := Injective.comp_factorThru _ _
   refine ⟨(g.app d).val.app (op n') (gen n' d), ?_⟩
   rw [← PresheafOfModules.naturality_apply (g.app d).val (homOfLE h).op (gen n' d)]
-  show (g.app d).val.app (op n) ((presheaf n' (A.piece (d + -d))).map (homOfLE h).op
+  change (g.app d).val.app (op n) ((presheaf n' (A.piece (d + -d))).map (homOfLE h).op
     (gen n' d)) = x
   rw [gen_restrict]
-  show (((genModuleLE h d ≫ g).app d).val.app (op n) (gen n d)) = x
+  change (((genModuleLE h d ≫ g).app d).val.app (op n) (gen n d)) = x
   rw [hg, genHom_app_apply, genHomApp_gen]
 
 /-- **The restriction maps of a graded injective differential graded module are surjective**, in

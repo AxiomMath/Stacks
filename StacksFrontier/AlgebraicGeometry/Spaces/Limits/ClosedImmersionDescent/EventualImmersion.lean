@@ -87,6 +87,7 @@ namespace AlgebraicGeometry.Space
 attribute [local instance] affinePullbackTail_nonempty affinePullbackTail_isDirected
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_eventualImmersion
@@ -100,6 +101,7 @@ private instance (priority := high) hasPullback_presheaf_eventualImmersion
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of presheaves on the big fppf site times out at the default limit
 private instance hasFiniteProducts_presheaf_eventualImmersion
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
     HasFiniteProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
@@ -138,7 +140,7 @@ private lemma isImmersion_of_isPullback_chart
   refine ⟨U', p, hpS, hpE, ?_⟩
   have heq : sq.flip.isoPullback.inv ≫ yoneda.map k = pullback.snd g p :=
     IsPullback.isoPullback_inv_snd _
-  show C (pullback.snd g p)
+  change C (pullback.snd g p)
   rw [← heq]
   exact MorphismProperty.RespectsIso.precomp C sq.flip.isoPullback.inv (yoneda.map k) hKC
 
@@ -676,7 +678,7 @@ theorem eventually_isImmersion_comp_limitπ_of_small
     exact h0.symm.trans ((h2.trans h3).trans h4)
   have hFT : IsLocallyOfFiniteType B S contains (g ≫ sE) := by
     have hgs : g ≫ sE = f ≫ s := by
-      show g ≫ (V.preimage (limit.π D (op i₀))).ι ≫ e.inv ≫ s = f ≫ s
+      change g ≫ (V.preimage (limit.π D (op i₀))).ι ≫ e.inv ≫ s = f ≫ s
       rw [← Category.assoc, hgι]
       simp
     rw [hgs]

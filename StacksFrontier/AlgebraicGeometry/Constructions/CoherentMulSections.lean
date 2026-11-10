@@ -106,10 +106,10 @@ theorem mulMap_natTensorPowUnitShift {n : ℕ} (s : powSections L n) : ∀ m : �
       = @mulMap _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L n
           (unitShiftSection 𝒪 h𝒪 L s) m
   | 0 => by
-      show _ = (unitIso 𝒪 h𝒪).inv ≫ s ≫ (natTensorPowUnitShift 𝒪 h𝒪 L n).hom
+      change _ = (unitIso 𝒪 h𝒪).inv ≫ s ≫ (natTensorPowUnitShift 𝒪 h𝒪 L n).hom
       rfl
   | m + 1 => by
-      show ((natTensorPowUnitShift 𝒪 h𝒪 L m).inv ▷ L) ≫ (mulMap s m ▷ L) ≫
+      change ((natTensorPowUnitShift 𝒪 h𝒪 L m).inv ▷ L) ≫ (mulMap s m ▷ L) ≫
           ((natTensorPowUnitShift 𝒪 h𝒪 L (n + m)).hom ▷ L)
         = (@mulMap _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L n
             (unitShiftSection 𝒪 h𝒪 L s) m) ▷ L
@@ -122,12 +122,12 @@ theorem unitShiftSection_mul {n m : ℕ} (s : powSections L n) (t : powSections 
     unitShiftSection 𝒪 h𝒪 L (mul s t)
       = @mul _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L n m
           (unitShiftSection 𝒪 h𝒪 L s) (unitShiftSection 𝒪 h𝒪 L t) := by
-  show (unitIso 𝒪 h𝒪).inv ≫ (t ≫ mulMap s m) ≫ (natTensorPowUnitShift 𝒪 h𝒪 L (n + m)).hom
+  change (unitIso 𝒪 h𝒪).inv ≫ (t ≫ mulMap s m) ≫ (natTensorPowUnitShift 𝒪 h𝒪 L (n + m)).hom
     = (unitShiftSection 𝒪 h𝒪 L t) ≫
         @mulMap _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L n
           (unitShiftSection 𝒪 h𝒪 L s) m
   rw [← mulMap_natTensorPowUnitShift 𝒪 h𝒪 L s m]
-  show _ = ((unitIso 𝒪 h𝒪).inv ≫ t ≫ (natTensorPowUnitShift 𝒪 h𝒪 L m).hom) ≫ _
+  change _ = ((unitIso 𝒪 h𝒪).inv ≫ t ≫ (natTensorPowUnitShift 𝒪 h𝒪 L m).hom) ≫ _
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
 
 /-! ### The comparison with the integer tensor powers -/
@@ -151,9 +151,9 @@ by `natTensorPowCompare`. -/
 theorem tensorPowerCompareSection_eq {n : ℕ} (s : powSections L n) :
     tensorPowerCompareSection 𝒪 h𝒪 L s
       = unitShiftSection 𝒪 h𝒪 L s ≫ (natTensorPowCompare 𝒪 h𝒪 L n).hom := by
-  show (unitIso 𝒪 h𝒪).inv ≫ s ≫ ((natTensorPowUnitShift 𝒪 h𝒪 L n).hom ≫
+  change (unitIso 𝒪 h𝒪).inv ≫ s ≫ ((natTensorPowUnitShift 𝒪 h𝒪 L n).hom ≫
       (natTensorPowCompare 𝒪 h𝒪 L n).hom) = _
-  show _ = ((unitIso 𝒪 h𝒪).inv ≫ s ≫ (natTensorPowUnitShift 𝒪 h𝒪 L n).hom) ≫ _
+  change _ = ((unitIso 𝒪 h𝒪).inv ≫ s ≫ (natTensorPowUnitShift 𝒪 h𝒪 L n).hom) ≫ _
   simp only [Category.assoc]
 
 /-- The comparison of the iterated tensor products of `Stacks.SheafInternalHom.monoidalCategory`
@@ -186,7 +186,7 @@ zeroth iterated tensor power to the identity. -/
 theorem unitShiftSection_id :
     unitShiftSection 𝒪 h𝒪 L (𝟙 (natTensorPow L 0) : powSections L 0)
       = 𝟙 (tensorPower 𝒪 h𝒪 L ((0 : ℕ) : ℤ)) := by
-  show (unitIso 𝒪 h𝒪).inv ≫ 𝟙 _ ≫ (natTensorPowUnitShift 𝒪 h𝒪 L 0).hom = _
+  change (unitIso 𝒪 h𝒪).inv ≫ 𝟙 _ ≫ (natTensorPowUnitShift 𝒪 h𝒪 L 0).hom = _
   rw [Category.id_comp]
   exact (unitIso 𝒪 h𝒪).inv_hom_id
 

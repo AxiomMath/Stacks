@@ -63,7 +63,6 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : RingedToposHom X Y)
 
 /-- **The pullback of a global section, on the unit section** (Stacks 03CZ, 03LU): for a global

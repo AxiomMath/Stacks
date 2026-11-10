@@ -95,6 +95,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_reduction :
@@ -148,7 +149,7 @@ theorem universallyOpen_of_arrowIso {X X' Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     (IsPullback.of_hasPullback (k ≫ e.inv.right) f).of_iso (Iso.refl _) (Iso.refl _)
       (Arrow.leftFunc.mapIso e) (Arrow.rightFunc.mapIso e) (by simp) rfl
       (by
-        show (k ≫ e.inv.right) ≫ e.hom.right = 𝟙 _ ≫ k
+        change (k ≫ e.inv.right) ≫ e.hom.right = 𝟙 _ ≫ k
         rw [Category.assoc, ← Arrow.comp_right, e.inv_hom_id, Arrow.id_right]
         exact (Category.comp_id k).trans (Category.id_comp k).symm)
       (Arrow.w e.hom).symm

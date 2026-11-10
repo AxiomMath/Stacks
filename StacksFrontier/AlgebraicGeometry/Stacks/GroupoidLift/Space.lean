@@ -217,7 +217,7 @@ theorem map_baseMap_v₀_eq_vₗ (hA : Cardinal.mk A' < κ) (x : X.obj (red I (b
       (N := nerve (A' := A') hκ C' hC 0) (N' := nerve (A' := A') hκ C' hC 1) (v₀ A' C' 1)) =
       (baseThk hκ hC hI hA).bot ≫ SmallAlg.homMk (redMap I
         (N := nerve (A' := A') hκ C' hC 0) (N' := nerve (A' := A') hκ C' hC 1) (vₗ A' C' 1)) := by
-    show SmallAlg.homMk (redMap I (N := baseAlg hA) (N' := nerve (A' := A') hκ C' hC 0)
+    change SmallAlg.homMk (redMap I (N := baseAlg hA) (N' := nerve (A' := A') hκ C' hC 0)
       (Algebra.ofId A' C')) ≫ _ = SmallAlg.homMk (redMap I (N := baseAlg hA)
         (N' := nerve (A' := A') hκ C' hC 0) (Algebra.ofId A' C')) ≫ _
     rw [SmallAlg.homMk_comp, SmallAlg.homMk_comp, redMap_comp, redMap_comp]

@@ -79,8 +79,8 @@ statement itself is `AlgebraicGeometry.StandardModel.exists_iso_mapDerivedCatego
 The derived category is the standard model, `CategoryTheory.HasDerivedCategory.standard`, which
 is the model `AlgebraicGeometry.affinePseudoCoherentDerivedSheafHomIso` and
 `Stacks.SheafOfModules.isBoundedBelow_derivedSheafHom` are stated at. The locally small model of
-`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` is a *global* instance and would displace
-that choice, giving a derived category that is a different type; the import surface is kept
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` is a *global* instance and would
+displace that choice, giving a derived category that is a different type; the import surface is kept
 minimal for that reason, and in particular the quasi-coherence statements of
 `StacksFrontier/AlgebraicGeometry/DerivedTilde/Basic.lean` are not used.
 

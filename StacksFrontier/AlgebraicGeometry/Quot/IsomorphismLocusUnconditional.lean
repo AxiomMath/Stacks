@@ -62,8 +62,6 @@ theorem isOpenSubspace_isomSubfunctor_of_isFinitePresentation
     (hz_proper : IsProper B S hS z) :
     IsOpenSubspace B S hS (isomSubfunctor B S hS Z X Q z x hZ hX hQ) :=
   isOpenSubspace_isomSubfunctor_of_quotAlgebraic z x hZ hX hQ hx_fp hx_proper hz_fp hz_flat
-    hz_proper fun W _ hfp hsep N =>
-      (structureSheafQuotSituation _ hfp).isAlgebraicSpace_quot_of_isFiniteTypeOnSite hsep
-        (isFiniteTypeOnSite_unit_structureRingSheaf B S hS W) N
+    hz_proper
 
 end AlgebraicGeometry.Space

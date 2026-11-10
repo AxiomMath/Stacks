@@ -100,11 +100,11 @@ lemma unramifiedAt_iff_morphisms_unramifiedAt
       (hV.primeIdealOf ⟨x, hxV⟩).asIdeal
     let e : X.basicOpen r ≤ f ⁻¹ᵁ U := (X.basicOpen_le r).trans hVU
     refine ⟨X.basicOpen r, hV.basicOpen r, ?_, U, hU, e, ?_⟩
-    · show (⟨x, hxV⟩ : V).1 ∈ X.basicOpen r
+    · change (⟨x, hxV⟩ : V).1 ∈ X.basicOpen r
       rw [← hV.fromSpec_primeIdealOf ⟨x, hxV⟩]
-      show hV.primeIdealOf ⟨x, hxV⟩ ∈ hV.fromSpec ⁻¹ᵁ X.basicOpen r
+      change hV.primeIdealOf ⟨x, hxV⟩ ∈ hV.fromSpec ⁻¹ᵁ X.basicOpen r
       rw [hV.fromSpec_preimage_basicOpen]
-      show r ∉ (hV.primeIdealOf ⟨x, hxV⟩).asIdeal; exact hr
+      change r ∉ (hV.primeIdealOf ⟨x, hxV⟩).asIdeal; exact hr
     · have := hV.isLocalization_basicOpen r
       let : Algebra Γ(Y, U) Γ(X, X.basicOpen r) :=
         (f.appLE U (X.basicOpen r) e).hom.toAlgebra
@@ -117,7 +117,7 @@ lemma unramifiedAt_iff_morphisms_unramifiedAt
       ext; dsimp
       rw [IsScalarTower.algebraMap_apply Γ(Y, U) Γ(X, V) (Localization _),
         (IsLocalization.algEquiv (.powers r) _ Γ(X, X.basicOpen r)).commutes]
-      show (f.appLE U (X.basicOpen r) e).hom _ =
+      change (f.appLE U (X.basicOpen r) e).hom _ =
         (X.presheaf.map (homOfLE (X.basicOpen_le r)).op).hom ((f.appLE U V hVU).hom _)
       have happ := f.appLE_map hVU (homOfLE (X.basicOpen_le r)).op
       exact DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp happ.symm) _

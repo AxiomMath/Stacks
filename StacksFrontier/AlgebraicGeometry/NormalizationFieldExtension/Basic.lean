@@ -122,7 +122,7 @@ public theorem ι_genericPointResidueSpectrumMap {X Y : Scheme.{u}} (f : X ⟶ Y
       Spec.map (f.residueFieldMap η.1) ≫
         Sigma.ι (fun ξ : genericPoints Y ↦ Spec (.of (Y.residueField ξ.1)))
           ⟨f η.1, hf η.1 η.2⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The induced morphism of generic-point residue spectra lies over the given morphism. -/
 @[reassoc]

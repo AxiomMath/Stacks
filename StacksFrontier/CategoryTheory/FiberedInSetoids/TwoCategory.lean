@@ -28,6 +28,7 @@ universe v₁ v₂ u₁ u₂
 
 variable {𝒞 : Type u₁} [Category.{v₁} 𝒞]
 
+set_option linter.checkUnivs false in
 /-- The 2-category of categories fibred in setoids over `𝒞`: the full sub-2-category of the
 2-category `BasedCategory 𝒞` of categories over `𝒞` spanned by the categories fibred in setoids.
 Explicitly:

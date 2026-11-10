@@ -254,7 +254,7 @@ theorem SmallEtaleModel.exists_finite_affine_hypercover_hom
   refine ⟨{ I₀ := ULift.{u} ι, X := fun i => V' i.down, f := fun i => f' i.down },
     { s₀ := fun i => jj i.down, h₀ := fun i => hh i.down, w₀ := fun i => hw i.down },
     ?_, inferInstance, fun i => hVaff' i.down⟩
-  show Sieve.generate (Presieve.ofArrows _ _) ∈ _
+  change Sieve.generate (Presieve.ofArrows _ _) ∈ _
   rw [hpre]
   exact hcov'
 

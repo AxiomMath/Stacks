@@ -310,7 +310,7 @@ theorem structureMapSquare_eq_structureMap (hsq : IsPullback a b c d) :
   refine hL.trans (Eq.trans ?_ hR.symm)
   have hnat : ((Stacks.Sites.CocontinuousExchange.twoSquare
         (Stacks.Sites.RelocalizationCofinality.overMapSquareEq
-          hsq.toCommSq)).op.natTrans.app j.right).unop.left = 𝟙 _ :=
+          hsq.toCommSq)).op.app j.right).unop.left = 𝟙 _ :=
     Stacks.Sites.RelocalizationCofinality.overMapSquare_app_left hsq.toCommSq j.right.unop
   have hleft : (Stacks.SheafOfModules.squareIndex
         (Stacks.Sites.RelocalizationCofinality.overMapSquareEq hsq.toCommSq) j).hom.unop.left
@@ -319,7 +319,7 @@ theorem structureMapSquare_eq_structureMap (hsq : IsPullback a b c d) :
           (Stacks.Sites.RelocalizationCofinality.overMapSquareEq hsq.toCommSq) j).hom.unop.left
         = ((Stacks.Sites.CocontinuousExchange.twoSquare
             (Stacks.Sites.RelocalizationCofinality.overMapSquareEq
-              hsq.toCommSq)).op.natTrans.app j.right).unop.left ≫ j.hom.unop.left from rfl,
+              hsq.toCommSq)).op.app j.right).unop.left ≫ j.hom.unop.left from rfl,
       hnat, Category.id_comp]
   exact congrArg (fun g => O.obj.map (Opposite.op g)) hleft
 

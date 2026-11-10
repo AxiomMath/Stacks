@@ -128,11 +128,11 @@ private theorem powerSheafCompare_ι
     (idealMultipleInclusion (I ^ m) (I ^ n) (Ideal.pow_le_pow_right hnm))
   let αn := Functor.whiskerLeft F.obj (idealMultipleι (I ^ n))
   let αm := Functor.whiskerLeft F.obj (idealMultipleι (I ^ m))
-  show (presheafToSheaf J (ModuleCat.{v} A)).map β ≫
+  change (presheafToSheaf J (ModuleCat.{v} A)).map β ≫
       (adj.homEquiv _ F).symm αn = (adj.homEquiv _ F).symm αm
   apply (adj.homEquiv _ F).injective
   simp only [adj.homEquiv_naturality_left, Equiv.apply_symm_apply]
-  show (Functor.whiskerLeft F.obj
+  change (Functor.whiskerLeft F.obj
       (idealMultipleInclusion (I ^ m) (I ^ n) (Ideal.pow_le_pow_right hnm)) ≫
         Functor.whiskerLeft F.obj (idealMultipleι (I ^ n))) =
       Functor.whiskerLeft F.obj (idealMultipleι (I ^ m))
@@ -739,7 +739,7 @@ private lemma mappedResolutionHomologyIso_naturality
         HomologicalComplex.homologyMap ((F.mapHomologicalComplex _).map φ.hom) p := by
   dsimp only [mappedResolutionHomologyIso, Iso.trans_hom, Functor.mapIso_hom]
   simp only [Functor.map_comp, Category.assoc]
-  show (DerivedCategory.homologyFunctor D (p : ℤ)).map
+  change (DerivedCategory.homologyFunctor D (p : ℤ)).map
     (DerivedCategory.Qh.map ((HomotopyCategory.Plus.ι D).map
       (F.mapHomotopyCategoryPlus.map (resolutionPlusMap φ)))) ≫ _ = _
   rw [← Functor.map_comp_assoc, ← Functor.map_comp, mappedResolutionQuotientIso_naturality F φ,
@@ -998,13 +998,13 @@ private lemma tower_range_eq_of_boundary_correction
     obtain ⟨y, hy, hδ⟩ := hc i n hn x
     have hx : x - y ∈ LinearMap.range t := by
       rw [hex]
-      show δ n (x - y) = 0
+      change δ n (x - y) = 0
       rw [map_sub, hδ, sub_self]
     obtain ⟨w, hw⟩ := hx
     refine ⟨w, ?_⟩
-    show g (t w) = g x
+    change g (t w) = g x
     rw [hw, map_sub]
-    show g x - (M.map _).hom y = g x
+    change g x - (M.map _).hom y = g x
     rw [hy, sub_zero]
 
 private lemma rightDerived_map_zero
@@ -1059,7 +1059,7 @@ private lemma uniform_correction_of_boundary
     if h : i ≤ n then LinearMap.ker (H.map (F.map (homOfLE h).op)).hom else ⊤
   have hπι : ∀ n x, π n (ι n x) = x := by
     intro n x
-    show (DirectSum.of (fun i => stableImage I F (p + 1) i) (n + 1) x) (n + 1) = x
+    change (DirectSum.of (fun i => stableImage I F (p + 1) i) (n + 1) x) (n + 1) = x
     exact DirectSum.of_eq_same _ _
   have hkill : ∀ (c i n j : ℕ), c + i + 1 ≤ n → j ≤ c →
       ∀ (x : M j) (a : AssociatedGraded.gradedRing I),
@@ -1092,24 +1092,24 @@ private lemma uniform_correction_of_boundary
           refine Submodule.mem_map.mpr ⟨(H.map g).hom x, ?_, ?_⟩
           · dsimp only [K]
             rw [dite_eq_left (by omega)]
-            show (H.map (F.map (homOfLE (show i ≤ k + j by omega)).op)).hom
+            change (H.map (F.map (homOfLE (show i ≤ k + j by omega)).op)).hom
               ((H.map g).hom x) = 0
             have hz := quotientTower_scalar_lift_comp_eq_zero I F hF j (k + j) i
               (Nat.le_add_left j k) (by omega) a'.1
               (Ideal.pow_le_pow_right (by omega : i + 1 ≤ k) a'.2) g hg
-            show (H.map g ≫ H.map (F.map (homOfLE (show i ≤ k + j by omega)).op)).hom x = 0
+            change (H.map g ≫ H.map (F.map (homOfLE (show i ≤ k + j by omega)).op)).hom x = 0
             rw [← H.map_comp, hz]
             have hz' : H.map (0 : F.obj (op j) ⟶ F.obj (op i)) = 0 :=
               rightDerived_map_zero ((sheafSections (Opens.grothendieckTopology X)
                 (ModuleCat.{v} A)).obj (op ⊤)) p _ _
             exact congrArg (fun t => t.hom x) hz'
           · apply Subtype.ext
-            show b (k + j) ((H.map g).hom x) =
+            change b (k + j) ((H.map g).hom x) =
               (π (k + j) (DirectSum.of _ k (AssociatedGraded.mk I k a) • ι j (d j x))).1
             simpa only [DirectSum.of_eq_same] using heval.symm
         · have hz : π n (DirectSum.of _ k (AssociatedGraded.mk I k a) • ι j (d j x)) = 0 := by
             apply Subtype.ext
-            show (π n (DirectSum.of _ k (AssociatedGraded.mk I k a) • ι j (d j x))).1 = 0
+            change (π n (DirectSum.of _ k (AssociatedGraded.mk I k a) • ι j (d j x))).1 = 0
             simpa [DirectSum.of_apply, hkn] using heval
           rw [show (⟦a⟧ : AssociatedGraded.piece (M := A) I k) =
             AssociatedGraded.mk I k a from rfl, hz]

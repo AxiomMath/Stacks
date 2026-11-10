@@ -166,11 +166,11 @@ private lemma restrict_pullback_adjunction_section {X Y : Scheme.{u}} (g : X ⟶
       ((M.restrict g).presheaf.map (eqToHom (g.preimage_image_eq W)).op).hom
           ((M.restrictAppIso g W).inv.hom s) =
         (((Scheme.Modules.restrictAdjunction g).unit.app M).app (g ''ᵁ W)).hom s := by
-    show (M.presheaf.map (g.opensFunctor.map (eqToHom (g.preimage_image_eq W))).op).hom s =
+    change (M.presheaf.map (g.opensFunctor.map (eqToHom (g.preimage_image_eq W))).op).hom s =
       (M.presheaf.map (homOfLE (g.image_preimage_le (g ''ᵁ W))).op).hom s
     rw [Subsingleton.elim (g.opensFunctor.map (eqToHom (g.preimage_image_eq W)))
       (homOfLE (g.image_preimage_le (g ''ᵁ W)))]
-  show (N.val.map (eqToHom (g.preimage_image_eq W)).op).hom
+  change (N.val.map (eqToHom (g.preimage_image_eq W)).op).hom
       ((c.val.app (.op W)).hom ((M.restrictAppIso g W).inv.hom s)) =
     (c.val.app (.op (g ⁻¹ᵁ g ''ᵁ W))).hom
       ((((Scheme.Modules.restrictAdjunction g).unit.app M).app (g ''ᵁ W)).hom s)
@@ -246,7 +246,7 @@ theorem restrictToResLE_d (e : U ≤ f ⁻¹ᵁ V) (W : U.toScheme.Opens) (x : �
     have happ :
         (U.ι.app (U.ι ''ᵁ W)).hom ((U.ι.appIso W).inv.hom x) =
           (U.toScheme.presheaf.map (eqToHom (U.ι.preimage_image_eq W)).op).hom x := by
-      show ((U.ι.appIso W).inv ≫ U.ι.app (U.ι ''ᵁ W)).hom x = _
+      change ((U.ι.appIso W).inv ≫ U.ι.app (U.ι ''ᵁ W)).hom x = _
       rw [Scheme.Hom.appIso_inv_app]
     rw [happ] at h
     change _ = d'.d

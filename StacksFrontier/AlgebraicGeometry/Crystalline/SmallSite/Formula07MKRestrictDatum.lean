@@ -49,8 +49,8 @@ open immersions **named at the types they have**: `restrictOpenTargetι`, `restr
 `pullbackSourceRestrictSnd` and `pullbackSituationRestrictToClosedFiber`.  The passage to the
 types of the two situations is left to elaboration, in
 `pullbackSituationRestrict_changeBase_condition`.  Compare `...restrictXι` and `...restrictSι` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SituationRestrict.lean`, which solve the same
-problem for the restriction of a situation.
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SituationRestrict.lean`, which solve the
+same problem for the restriction of a situation.
 
 ## Main definitions
 

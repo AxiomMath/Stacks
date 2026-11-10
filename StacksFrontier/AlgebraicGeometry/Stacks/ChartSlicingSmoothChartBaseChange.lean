@@ -211,8 +211,8 @@ This is what makes the lift usable at a *geometric* point: `z'` has the same ima
 the point one started with, its structural map to `Spec k` is the morphism of the site that its
 residue field names, and that morphism factors through `Spec k'`, so the lift pulls back to it.
 
-Both halves are in the library: the enlargement of the residue field until the structural map factors
-through a given presheaf-surjective morphism is
+Both halves are in the library: the enlargement of the residue field until the structural map
+factors through a given presheaf-surjective morphism is
 `AlgebraicGeometry.Space.exists_geometricPoint_factorThroughChart`, and the geometric point of
 the base change is
 `AlgebraicGeometry.Space.exists_geometricPoint_pullback_fst_eq`. The

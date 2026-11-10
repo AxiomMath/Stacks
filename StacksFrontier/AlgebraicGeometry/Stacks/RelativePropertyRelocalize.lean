@@ -75,7 +75,7 @@ theorem prop_algebraicSpaceMap_iff
   set i := (spacesOverSmallerBaseFunctorForgetIso B U.left.1 S U.left.2 hS U.hom).app ⟨F, hF⟩
   refine P.arrow_mk_iso_iff (Arrow.isoMk (ObjectProperty.isoMk _ i) (Iso.refl _) ?_)
   apply ObjectProperty.hom_ext
-  show i.hom ≫ OverShriek.relocalizeToYoneda U.hom F = _ ≫ 𝟙 _
+  change i.hom ≫ OverShriek.relocalizeToYoneda U.hom F = _ ≫ 𝟙 _
   rw [Category.comp_id]
   apply (cancel_epi i.inv).mp
   simp only [Iso.inv_hom_id_assoc]

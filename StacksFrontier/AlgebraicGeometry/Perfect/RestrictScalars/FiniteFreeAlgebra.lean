@@ -88,9 +88,9 @@ private lemma isModulePseudoCoherent_restrictScalars_op {A : Type uA} {R : Type 
         dsimp only [N, G]
         have hsource : MulOpposite.unop (a • b) = a • MulOpposite.unop b :=
           (congrArg MulOpposite.unop (eA.map_smul a (MulOpposite.unop b))).symm
-        show MulOpposite.unop (a • b) = MulOpposite.unop (algebraMap A Rᵐᵒᵖ a * b)
+        change MulOpposite.unop (a • b) = MulOpposite.unop (algebraMap A Rᵐᵒᵖ a * b)
         rw [hsource, MulOpposite.unop_mul, Algebra.smul_def]
-        show algebraMap A R a * MulOpposite.unop b =
+        change algebraMap A R a * MulOpposite.unop b =
           MulOpposite.unop b * algebraMap A R a
         exact Algebra.commutes a (MulOpposite.unop b) }
   have := hR.2

@@ -59,7 +59,7 @@ theorem galoisTwist_appTop_baseRingMap (τ : K ≃ₐ[R] K) (c : K) :
   set σ := Stacks.Picard.galoisTwist R K X τ
   set fS := pullback.snd X.hom (spectrumMap R K)
   have hsnd : σ ≫ fS = fS ≫ specMapAlgAut R K τ := Stacks.Picard.galoisTwist_comp_snd R K X τ
-  show ((Scheme.ΓSpecIso (.of K)).inv ≫ fS.appTop ≫
+  change ((Scheme.ΓSpecIso (.of K)).inv ≫ fS.appTop ≫
       Scheme.Hom.appTop (𝟙 (pullback X.hom (spectrumMap R K))) ≫ σ.appTop).hom c =
     ((Scheme.ΓSpecIso (.of K)).inv ≫ fS.appTop ≫
       Scheme.Hom.appTop (𝟙 (pullback X.hom (spectrumMap R K)))).hom (τ c)
@@ -147,7 +147,7 @@ theorem encard_eigen_h1RootsOfUnity_le {n : ℕ} (hn0 : n ≠ 0) (hS : IsUnit ((
       rw [← map_nsmul, ← ofMul_pow, hv]
       exact e.symm_apply_apply x
     have hσ' : ∀ x, (φ.comp e.toAddMonoidHom) (σU x) = (φ.comp e.toAddMonoidHom) x := fun x => by
-      show φ (e (σU x)) = φ (e x)
+      change φ (e (σU x)) = φ (e x)
       rw [sheafHZeroMultiplicativeAddEquiv_multiplicativeRestriction]
       exact hσφ (Additive.toMul (e x))
     have h := Stacks.EigenvectorCount.encard_image_eigen_le_of_ker_le δ hn0 hδn hδ0
@@ -270,7 +270,7 @@ theorem exists_galoisTwist_frobenius_pow_fixed :
   have hcomm : ∀ τ, σS τ ≫ jK = jK ≫ σ τ := fun τ =>
     galoisTwist_comp_baseChangeMap K₀ K (X := Over.mk (j ≫ r)) (Y := Over.mk r) (Over.homMk j rfl) τ
   have hinv : ∀ τ (x : C), (σ τ⁻¹).base ((σ τ).base x) = x := fun τ x => by
-    show (σ τ ≫ σ τ⁻¹).base x = x
+    change (σ τ ≫ σ τ⁻¹).base x = x
     simp only [σ]
     rw [← Stacks.Picard.galoisTwist_mul, mul_inv_cancel, Stacks.Picard.galoisTwist_one]
     rfl
@@ -307,9 +307,9 @@ theorem exists_galoisTwist_frobenius_pow_fixed :
     · simpa [Set.image_singleton] using (σ τ).homeomorph.isClosedMap _ b.2
     · rintro ⟨y, hy⟩
       refine hb ⟨(σS τ⁻¹).base y, ?_⟩
-      show (σS τ⁻¹ ≫ jK).base y = b.1
+      change (σS τ⁻¹ ≫ jK).base y = b.1
       rw [hcomm]
-      show (σ τ⁻¹).base (jK.base y) = b.1
+      change (σ τ⁻¹).base (jK.base y) = b.1
       rw [hy, hinv]
   let f : B → B := fun b => ⟨⟨(σ F).base b.1.1, (hmapB F b.1 b.2).1⟩, (hmapB F b.1 b.2).2⟩
   have hfinj : Function.Injective f := by
@@ -325,9 +325,9 @@ theorem exists_galoisTwist_frobenius_pow_fixed :
       rfl
     | succ k ih =>
       rw [pow_succ, pow_succ', Equiv.Perm.mul_apply]
-      show (Stacks.Picard.galoisTwist K₀ K (Over.mk r) (F ^ k * F)).base b.1 = _
+      change (Stacks.Picard.galoisTwist K₀ K (Over.mk r) (F ^ k * F)).base b.1 = _
       rw [Stacks.Picard.galoisTwist_mul]
-      show (σ F).base ((σ (F ^ k)).base b.1) = _
+      change (σ F).base ((σ (F ^ k)).base b.1) = _
       rw [ih]
       rfl
   rw [show Stacks.Picard.galoisTwist K₀ (AlgebraicClosure K₀) (Over.mk r) (F ^ orderOf π) =
@@ -420,7 +420,7 @@ theorem exists_forall_encard_eigen_h1RootsOfUnity_le {ℓ : ℕ} (hℓ : ℓ.Pri
   have hqm : 1 ≤ Fintype.card K₀ ^ m := Nat.one_le_pow _ _ (by omega)
   have hd0 : q ^ m - 1 ≠ 0 := by
     have h2 : (1 : ℤ) < q ^ m := by
-      show (1 : ℤ) < (Fintype.card K₀ : ℤ) ^ m
+      change (1 : ℤ) < (Fintype.card K₀ : ℤ) ^ m
       exact_mod_cast Nat.one_lt_pow hm.ne' hq1
     omega
   have hdunit : IsUnit (((Fintype.card K₀ ^ m - 1 : ℕ) : K₀)) := by

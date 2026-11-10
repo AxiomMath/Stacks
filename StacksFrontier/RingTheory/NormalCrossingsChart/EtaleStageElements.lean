@@ -43,8 +43,7 @@ private theorem lid_map_id {C D Λ : Type u} [CommRing C] [CommRing D] [CommRing
     [Algebra C D] [Algebra C Λ] (h : D →ₐ[C] Λ) (z : C ⊗[C] D) :
     Algebra.TensorProduct.lid C Λ (Algebra.TensorProduct.map (AlgHom.id C C) h z) =
       h (Algebra.TensorProduct.lid C D z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c d => simp
   | add z w hz hw => simp [hz, hw]
 

@@ -67,7 +67,7 @@ public theorem exists_fg_submodule_of_isCompact {C : Set E} (hC : IsCompact C) :
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [← algebraMap_smul ℚ_[p] (c i), smul_smul]
     congr 1
-    show e x i = ((p : ℚ_[p]) ^ m * e x i) * ((p : ℚ_[p]) ^ m)⁻¹
+    change e x i = ((p : ℚ_[p]) ^ m * e x i) * ((p : ℚ_[p]) ^ m)⁻¹
     field_simp
   rw [hx']
   exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
@@ -174,7 +174,7 @@ public theorem not_isFrobeniusCompatible_of_eq_ringChar [ConnectedSpace X]
   have hqinv : ((q : Ω))⁻¹ = u v * j a⁻¹ := by
     have hja0 : j a ≠ 0 := (map_ne_zero j).2 ha0
     rw [map_inv₀, hdet]
-    show (q : Ω)⁻¹ = (q : Ω)⁻¹ * j a * (j a)⁻¹
+    change (q : Ω)⁻¹ = (q : Ω)⁻¹ * j a * (j a)⁻¹
     rw [mul_assoc, mul_inv_cancel₀ hja0, mul_one]
   have hint : IsIntegral ℤ_[ℓ] (algebraMap ℚ_[ℓ] Ω ((q : ℚ_[ℓ]))⁻¹) := by
     rw [map_inv₀, map_natCast, hqinv]

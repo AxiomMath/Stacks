@@ -136,7 +136,7 @@ theorem exists_pow_smul_mem_ker_mkLinearMap [IsNoetherianRing R] [Module.Finite 
   have hlin : (LocalizedModule.mk (a • x) (1 : q.asIdeal.primeCompl) :
       LocalizedModule q.asIdeal.primeCompl M) = a • LocalizedModule.mk x 1 :=
     (LocalizedModule.mkLinearMap q.asIdeal.primeCompl M).map_smul a x
-  show LocalizedModule.mk (a • x) 1 = 0
+  change LocalizedModule.mk (a • x) 1 = 0
   rw [hlin, ← IsScalarTower.algebraMap_smul (Localization.AtPrime q.asIdeal) a]
   exact hmem
 
@@ -153,7 +153,7 @@ theorem support_quotient_ker_subset_zeroLocus [IsNoetherianRing R] [Module.Finit
   induction z using Submodule.Quotient.induction_on with
   | H x =>
       rw [Submodule.mem_bot]
-      show (LinearMap.ker (LocalizedModule.mkLinearMap q.asIdeal.primeCompl M)).mkQ (a • x) = 0
+      change (LinearMap.ker (LocalizedModule.mkLinearMap q.asIdeal.primeCompl M)).mkQ (a • x) = 0
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact hn a ha x
 

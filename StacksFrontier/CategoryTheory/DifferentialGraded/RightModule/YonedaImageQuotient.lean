@@ -93,7 +93,8 @@ quotient of `A₀` localizes at, and never for an abstract subcategory of it.
 
 ## Universes
 
-Nothing is added to `StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/YonedaVerdier.lean`:
+Nothing is added to
+`StacksFrontier/CategoryTheory/DifferentialGraded/RightModule/YonedaVerdier.lean`:
 `C : DGCategory.{v, u} R` with the index type of `G` arbitrary, and the localizing closure taken
 at `Type v` as there. The condition `C : DGCategory.{v, v} R` that step 1 carries through Brown
 representability is not needed here, and neither is `Nonempty C.Obj`: the essential image of `Φ`

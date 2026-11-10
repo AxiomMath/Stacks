@@ -292,10 +292,10 @@ theorem exists_chart_data (Z : GlueingData B U' U X' hU' hU hX' gU gX')
     BigFppfOver.isAffine_toScheme_obj_pullback B U U' hU hU' gU hgU T₁ hT₁
   have hR : IsAffine (TsM.obj ((Over.pullback gX').obj T')) :=
     BigFppfOver.isAffine_toScheme_obj_pullback B X' U' hX' hU' gX' hgX' T' hT'
-  obtain ⟨chain, hchain⟩ := BigFppfOver.exists_affineSpace_chain B gU gX' ψ p₁ q' hT₁ hT' hL hR
+  obtain ⟨chain, hchain⟩ := BigFppfOver.exists_affineSpace_chain B gU gX' ψ p₁ q' hL hR
     hp₁b hq'b
-  let k := BigFppfOver.affineSpaceProj B U hU n' T₁ hT₁ ≫ p₁
-  let k' := BigFppfOver.affineSpaceProj B X' hX' n₁ T' hT' ≫ q'
+  let k := BigFppfOver.affineSpaceProj B U hU n' T₁ ≫ p₁
+  let k' := BigFppfOver.affineSpaceProj B X' hX' n₁ T' ≫ q'
   have hk : TsU.map k = (𝔸(ULift.{u} (Fin n'); TsU.obj T₁) ↘ TsU.obj T₁) ≫ p₁s := by
     rw [Functor.map_comp, hp₁]
     rfl

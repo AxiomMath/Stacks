@@ -177,11 +177,10 @@ public theorem nonempty_free_quotient_torsion_of_algEquiv
   let ψ : (B ⊗[A] M) ≃ₗ[A] (B₀ ⊗[A] M) :=
     TensorProduct.congr eB.toLinearEquiv (LinearEquiv.refl A M)
   have hψ : ∀ (b : B) (w : B ⊗[A] M), ψ (b • w) = b • ψ w := fun b w ↦ by
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul cc m =>
       rw [TensorProduct.smul_tmul']
-      show (eB (b * cc)) ⊗ₜ[A] m = (b • eB cc) ⊗ₜ[A] m
+      change (eB (b * cc)) ⊗ₜ[A] m = (b • eB cc) ⊗ₜ[A] m
       rw [Algebra.smul_def, map_mul]
       rfl
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
@@ -245,7 +244,7 @@ public theorem exists_prime_comap_of_ringEquiv {B B₀ C T : Type u} [CommRing B
   · simpa [Ideal.mem_comap] using hg
   · refine Ideal.ext fun x ↦ ?_
     rw [Ideal.mem_comap, Ideal.mem_comap]
-    show e.symm (φ x) ∈ _ ↔ _
+    change e.symm (φ x) ∈ _ ↔ _
     rw [hφ x, ← Ideal.mem_comap, hcomap, Ideal.mem_comap, hικ x]
 
 /-! ### The sections of the strict transform on the base change of a chart -/

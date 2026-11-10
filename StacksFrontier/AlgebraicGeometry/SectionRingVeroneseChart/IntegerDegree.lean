@@ -126,7 +126,9 @@ the four of `Stacks.SectionRingVeroneseChart.pbTwistIsoTensorPow` and one more
   ascribed multiplication `Stacks.AlgebraicGeometry.TwistTensor.twistMulModules`.
 
 Two mechanical obstacles arise, and they are recorded with their resolutions in the
-implementation notes of `StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`: the multiplication of the twisting
+implementation notes of
+`StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`: the multiplication
+of the twisting
 sheaves has to be ascribed at the `Stacks.RelativeVeryAmple.tensorModules` spelling (at `⊗` the
 `MonoidalCategoryStruct` instance for the `projStructureRing 𝒮` spelling is not found at all), and
 every defeq step has to be isolated into its own `rfl` lemma, the two free-shape movers
@@ -163,8 +165,8 @@ The two statements at that spelling
 (`Stacks.AlgebraicGeometry.PullbackTwistPower.tensorPowerModuleCongr_coherentMulIso`,
 `StacksFrontier/AlgebraicGeometry/TwistTensor/PullbackTwistPowerFactors.lean`:204, and
 `Stacks.TensorPowerPullback.pullbackIntPowIso_coherentMulIso`,
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerPullbackMultiplication.lean`:138, read at
-a morphism of schemes by `Stacks.Algebraization.pullbackTensorPowSchemeIso_eq_pullbackIntPowIso`)
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerPullbackMultiplication.lean`:138, read
+at a morphism of schemes by `Stacks.Algebraization.pullbackTensorPowSchemeIso_eq_pullbackIntPowIso`)
 are real, but transporting them to the `Stacks.Ample.tensorPowModule` spelling the legs are written
 in needs the multiplicativity of the bridge between the two spellings of the powers, and **no
 statement in the repository relates `coherentMulIso` to `tensorPowModuleAddIso`** — searched by
@@ -199,7 +201,8 @@ diagram clause, not the clause.
 
 **`twistComparisonIso` in degree `d` is not identified with `twistIso`.** See the same note in
 `StacksFrontier/AlgebraicGeometry/SectionRingVeroneseChart/DegreeOne.lean`. With
-`twistComparison_mul` in hand the obstruction there is no longer the bidegree square; what is missing is
+`twistComparison_mul` in hand the obstruction there is no longer the bidegree square; what is
+missing is
 the uniqueness argument that two multiplicative families agreeing in degree one agree in every
 degree, which the repository does not carry.
 -/

@@ -100,7 +100,7 @@ theorem exists_comp_snd_eq_of_mem_preimage {P : (BigFppfOver B S hS)ᵒᵖ ⥤ T
   have hm : m ≫ D.ι = yoneda.map x ≫ φ := by
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show ((yonedaEquiv (yonedaEquiv.symm e)) : P.obj (op T)) = _
+    change ((yonedaEquiv (yonedaEquiv.symm e)) : P.obj (op T)) = _
     rw [Equiv.apply_symm_apply]
   let l := (hD.1.isPullback φ).lift m (yoneda.map x) hm
   refine ⟨Yoneda.fullyFaithful.preimage l, yoneda.map_injective ?_⟩
@@ -156,7 +156,7 @@ private theorem exists_fg_forall_mem_preimage_iff (P : AlgebraicSpaces B S hS)
   simp only [NatTrans.comp_app, types_comp_apply] at hw
   rw [Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.hom_comp, ← RingHom.comap_ker,
     ← Ideal.map_le_iff_le_comap, hJL, ← mem_idealPoints_ofIdealTop_iff, ← hLpts]
-  show _ ↔ D.1.ι.app (op T) (δ.app (op T) x') ∈ Y.1.obj (op T)
+  change _ ↔ D.1.ι.app (op T) (δ.app (op T) x') ∈ Y.1.obj (op T)
   rw [hw]
   rfl
 

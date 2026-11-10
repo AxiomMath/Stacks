@@ -70,8 +70,7 @@ def tensorLinearMapOfIncludes {M N : Type u} [AddCommGroup M] [Module (A ⊗[R] 
   map_add' := g.map_add
   map_smul' t m := by
     simp only [RingHom.id_apply]
-    induction t using TensorProduct.induction_on with
-    | zero => rw [zero_smul, zero_smul, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a s =>
       rw [tmul_eq_includeLeft_mul_includeRight, mul_smul, hL, hR, mul_smul]
     | add x y hx hy => rw [add_smul, add_smul, map_add, hx, hy]

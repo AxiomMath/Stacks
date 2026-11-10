@@ -130,7 +130,7 @@ private theorem quotPowSMulEquivQuotPow_mk
     {R S : Type*} [CommRing R] [CommRing S] (I : Ideal R)
     [Algebra R S] [IsScalarTower R S S] (n : ℕ) (x : S) :
     quotPowSMulEquivQuotPow I n (Submodule.Quotient.mk x) = Submodule.Quotient.mk x := by
-  show (Submodule.quotEquivOfEq _ _ (restrictScalars_map_pow_smul_top I n).symm).trans
+  change (Submodule.quotEquivOfEq _ _ (restrictScalars_map_pow_smul_top I n).symm).trans
       (Submodule.Quotient.restrictScalarsEquiv R
         ((I.map (algebraMap R S)) ^ n • (⊤ : Submodule S S)))
       (Submodule.Quotient.mk x) = Submodule.Quotient.mk x
@@ -147,7 +147,7 @@ private theorem quotPowSMulEquivQuotPow_transitionMap
   induction x using Quotient.inductionOn' with
   | _ x =>
       simp only [AdicCompletion.transitionMap, Submodule.factorPow]
-      show quotPowSMulEquivQuotPow I m (Submodule.Quotient.mk x) =
+      change quotPowSMulEquivQuotPow I m (Submodule.Quotient.mk x) =
         Submodule.factor (Submodule.pow_smul_top_le (I.map (algebraMap R S)) S h)
           (quotPowSMulEquivQuotPow I n (Submodule.Quotient.mk x))
       rw [quotPowSMulEquivQuotPow_mk, quotPowSMulEquivQuotPow_mk]
@@ -273,7 +273,7 @@ private noncomputable def adicCompletionQuotientEquiv
 private theorem adicCompletionQuotientEquiv_mk
     {R : Type*} [CommRing R] (I : Ideal R) (hIFG : I.FG) (x : AdicCompletion I R) :
     adicCompletionQuotientEquiv I hIFG (Ideal.Quotient.mk _ x) = AdicCompletion.evalOneₐ I x := by
-  show RingHom.quotientKerEquivOfSurjective (AdicCompletion.evalOneₐ_surjective I)
+  change RingHom.quotientKerEquivOfSurjective (AdicCompletion.evalOneₐ_surjective I)
     (Ideal.Quotient.mk (RingHom.ker (AdicCompletion.evalOneₐ I).toRingHom) x) = _
   rw [RingHom.quotientKerEquivOfSurjective_apply_mk]
   rfl
@@ -288,7 +288,7 @@ private theorem evalOneₐ_mapAdicCompletion
   rw [← AdicCompletion.factorₐ_evalₐ_one, Stacks.Nagata.PthRootDescent.evalₐ_mapAdicCompletion hmap]
   conv_rhs => rw [← AdicCompletion.factorₐ_evalₐ_one]
   rw [← hr]
-  show Ideal.Quotient.factor (show J ^ 1 ≤ J by simp)
+  change Ideal.Quotient.factor (show J ^ 1 ≤ J by simp)
       (Ideal.quotientMap (J ^ 1) (algebraMap R S)
         (Ideal.map_le_iff_le_comap.mp (by
           simpa only [pow_one, Ideal.map_pow] using hmap))
@@ -307,7 +307,7 @@ private theorem faithfullyFlat_of_flat_of_quotient
     (hquot : (Ideal.quotientMap J f (Ideal.map_le_iff_le_comap.mp hIJ)).FaithfullyFlat) :
     f.FaithfullyFlat := by
   let : Algebra R S := f.toAlgebra
-  show Module.FaithfullyFlat R S
+  change Module.FaithfullyFlat R S
   rw [Module.faithfullyFlat_iff]
   refine ⟨RingHom.flat_algebraMap_iff.mp hflat, ?_⟩
   intro m hm
@@ -364,7 +364,7 @@ private theorem faithfullyFlat_mapAdicCompletion
     ext x
     simp [fhat, Stacks.Nagata.PthRootDescent.mapAdicCompletion_of]
   have hmap : Ihat.map fhat ≤ Jhat := by
-    show (I.map (algebraMap R (AdicCompletion I R))).map fhat ≤
+    change (I.map (algebraMap R (AdicCompletion I R))).map fhat ≤
       J.map (algebraMap S (AdicCompletion J S))
     rw [Ideal.map_map, hcomp_of, Ideal.map_map]
   let eR := adicCompletionQuotientEquiv I I.fg_of_isNoetherianRing
@@ -397,13 +397,13 @@ private theorem faithfullyFlat_mapAdicCompletion
           obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective c
           simpa [RingHom.algebraMap_toAlgebra, q, Ideal.quotientMap_mk, Algebra.smul_def] using
             eN.symm.map_smul r x }
-    show Module.FaithfullyFlat (R ⧸ I) (S ⧸ J)
+    change Module.FaithfullyFlat (R ⧸ I) (S ⧸ J)
     exact Module.FaithfullyFlat.of_linearEquiv (R := R ⧸ I)
       (M := S ⧸ (I • (⊤ : Submodule R S))) (N := S ⧸ J) eQ
   have heq : eS.toRingHom.comp (Ideal.quotientMap Jhat fhat
       (Ideal.map_le_iff_le_comap.mp hmap)) = q.comp eR.toRingHom := by
     ext x
-    show adicCompletionQuotientEquiv J (I.fg_of_isNoetherianRing.map _)
+    change adicCompletionQuotientEquiv J (I.fg_of_isNoetherianRing.map _)
         (Ideal.Quotient.mk Jhat (fhat x)) =
       q (adicCompletionQuotientEquiv I I.fg_of_isNoetherianRing (Ideal.Quotient.mk Ihat x))
     rw [adicCompletionQuotientEquiv_mk, adicCompletionQuotientEquiv_mk]
@@ -509,9 +509,9 @@ public theorem denseRange_algebraMap_adicCompletion
     rw [← Ideal.map_pow, Ideal.smul_top_eq_map, Submodule.coe_restrictScalars]
   rw [hpow, AdicCompletion.pow_smul_top_eq_ker_eval hI]
   refine LinearMap.mem_ker.mpr ?_
-  show AdicCompletion.eval I R n (AdicCompletion.of I R r - x) = 0
+  change AdicCompletion.eval I R n (AdicCompletion.of I R r - x) = 0
   rw [map_sub, AdicCompletion.eval_of]
-  show (Submodule.Quotient.mk r : R ⧸ I ^ n • (⊤ : Submodule R R)) -
+  change (Submodule.Quotient.mk r : R ⧸ I ^ n • (⊤ : Submodule R R)) -
     AdicCompletion.eval I R n x = 0
   rw [hr]
   simp
@@ -549,7 +549,7 @@ public theorem isTopologicallyOfFiniteType_awayMap
     have hGF : G.comp c = g.comp F := by
       apply MvPolynomial.ringHom_ext
       · intro x
-        show G (c (MvPolynomial.C x)) = g (F (MvPolynomial.C x))
+        change G (c (MvPolynomial.C x)) = g (F (MvPolynomial.C x))
         simp only [G, c, MvPolynomial.map_C, MvPolynomial.eval₂Hom_C]
         rw [hψx]
         exact congrArg g (DFunLike.congr_fun hFC x).symm

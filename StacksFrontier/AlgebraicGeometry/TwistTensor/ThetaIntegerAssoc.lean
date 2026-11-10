@@ -244,6 +244,7 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategory
 
 variable (L : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) [IsInvertible 𝒪 h𝒪 L]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The associativity constraint at the localized structure, read at the retyping
 `Stacks.AlgebraicGeometry.ThetaMul.addIsoLoc`. -/
 theorem loc_addIso_assoc_natCast_right (n : ℤ) (b c : ℕ) :
@@ -274,7 +275,7 @@ theorem addIsoSheaf_assoc_natCast_right (n : ℤ) (b c : ℕ) :
     str_associator 𝒪 h𝒪, strStruct_tensorObj 𝒪 h𝒪,
     MonoidalCategory.comp_whiskerRight, MonoidalCategory.whiskerLeft_comp,
     MonoidalCategory.tensorHom_id, MonoidalCategory.id_tensorHom, Category.assoc,
-    Iso.inv_hom_id_assoc, Iso.hom_inv_id_assoc, MonoidalCategory.whiskerLeft_hom_inv_assoc]
+    Iso.hom_inv_id_assoc, MonoidalCategory.whiskerLeft_hom_inv_assoc]
   rw [loc_addIso_assoc_natCast_right 𝒪 h𝒪 L n b c]
 
 end Bridge

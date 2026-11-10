@@ -8,7 +8,8 @@ public import
 # The cohomology edge morphism of a composite of two left exact functors splits
 
 `Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.homologyComparison_comp`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismComposition.lean`) says that the complex-level comparison `H^q(F K) ⟶ F(H^q K)` of a
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismComposition.lean`)
+says that the complex-level comparison `H^q(F K) ⟶ F(H^q K)` of a
 composite `F ⋙ G` of two left exact additive functors is the comparison for `G` at `F K` followed
 by `G` of the comparison for `F`. This file carries that identity up to the **edge morphism of an
 unbounded right derived functor**, which is the level at which conclusion (c) of

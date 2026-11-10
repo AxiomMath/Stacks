@@ -58,15 +58,15 @@ theorem bijective_etaleModuleRestrictionDirectImageAdj_unit_app_of_iso {X Y : Sc
   let a : C.obj T ≅ U := MorphismProperty.Over.isoMk (Iso.refl _)
   let b : (Scheme.Etale.smallEtaleCompose h).obj ((smallEtaleBaseChange h).obj U) ≅ C.obj T' :=
     MorphismProperty.Over.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ pullback.fst U.hom h ≫ U.hom = pullback.snd U.hom h ≫ h
+      change 𝟙 _ ≫ pullback.fst U.hom h ≫ U.hom = pullback.snd U.hom h ≫ h
       rw [Category.id_comp, pullback.condition])
   have hc : c = b.hom ≫ C.map π ≫ a.hom := by
     apply MorphismProperty.Over.Hom.ext
-    show pullback.fst U.hom h = 𝟙 _ ≫ pullback.fst U.hom h ≫ 𝟙 _
+    change pullback.fst U.hom h = 𝟙 _ ≫ pullback.fst U.hom h ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
   have hφ : ((etaleModuleRestrictionDirectImageAdj.{u, 0} Λ h).unit.app F).hom.app (op U) =
       F.obj.map a.hom.op ≫ F.obj.map (C.map π).op ≫ F.obj.map b.hom.op := by
-    show F.obj.map c.op = _
+    change F.obj.map c.op = _
     rw [hc, op_comp, op_comp, Functor.map_comp, Functor.map_comp, Category.assoc]
   let Θ : ∀ U' : U.left.Etale, F.obj.obj (op (C.obj U')) →ₗ[Λ] LocallyConstant U'.left E :=
     fun U' => (eU.hom.hom.app (op U')).hom
@@ -87,7 +87,7 @@ theorem bijective_etaleModuleRestrictionDirectImageAdj_unit_app_of_iso {X Y : Sc
         funext hΘnat]
     exact hcomap.comp (hΘ T)
   rw [hφ]
-  show Function.Bijective (fun x => (F.obj.map b.hom.op).hom
+  change Function.Bijective (fun x => (F.obj.map b.hom.op).hom
     ((F.obj.map (C.map π).op).hom ((F.obj.map a.hom.op).hom x)))
   exact (ConcreteCategory.bijective_of_isIso (F.obj.map b.hom.op)).comp
     (hmid.comp (ConcreteCategory.bijective_of_isIso (F.obj.map a.hom.op)))
@@ -127,14 +127,14 @@ theorem lisseOpenUnitIsoInput : LisseOpenUnitIsoInput.{u} := by
         refine (hb i).1 ?_
         rw [hnat, hnat]
         exact congrArg _ hxy
-      show F.obj.map (k ≫ fi i).op x = F.obj.map (k ≫ fi i).op y
+      change F.obj.map (k ≫ fi i).op x = F.obj.map (k ≫ fi i).op y
       rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hi]
     · obtain ⟨I, Vi, fi, hI, hb⟩ := hcov W
       refine X.smallEtaleTopology.superset_covering ?_ hI
       rintro _ _ ⟨_, k, _, ⟨i⟩, rfl⟩
       obtain ⟨t, ht⟩ := (hb i).2 (G.obj.map (fi i).op s)
       refine ⟨F.obj.map k.op t, ?_⟩
-      show φ.hom.app _ (F.obj.map k.op t) = G.obj.map (k ≫ fi i).op s
+      change φ.hom.app _ (F.obj.map k.op t) = G.obj.map (k ≫ fi i).op s
       rw [hnat, ht, op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
   have : (etaleModuleInverseImageAdj.{u, 0} Λ h).unit.app F =
       (etaleModuleRestrictionDirectImageAdj.{u, 0} Λ h).unit.app F ≫

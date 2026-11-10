@@ -147,7 +147,7 @@ theorem hasQuasiCompactDiagonal_completionSheafMap_iff
   have hdiag : pullback.diagonal (Space.completionSheafMap B S hS f T) = e ≫ D ≫ i.hom := by
     rw [Space.pullback_diagonal_completionSheafMap B S hS f T,
       Space.completionSheafDiagonal_eq_completionSheafMap_diagonal, Category.assoc]
-  show IsQuasiCompact B S hS (pullback.diagonal (Space.completionSheafMap B S hS f T)) ↔ _
+  change IsQuasiCompact B S hS (pullback.diagonal (Space.completionSheafMap B S hS f T)) ↔ _
   rw [hdiag]
   refine ⟨fun h ↦ ?_, fun h ↦ IsQuasiCompact.iso_comp_comp B S hS e D i.hom h⟩
   simpa only [Category.assoc, IsIso.inv_hom_id_assoc, Iso.hom_inv_id, Category.comp_id]

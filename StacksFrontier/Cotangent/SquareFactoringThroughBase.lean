@@ -53,7 +53,8 @@ required to lie in a common universe, which is what the horizontal composition o
 The source reaches the same conclusion from its own claim about the standard resolutions, that the
 functoriality map `P_• → P'_•` is homotopic to the composition `P_• → B → A' → P'_•`. That claim
 is `CommAlgCat.eqvGen_homotopy_squareResolutionRingMap_baseMap` of
-`StacksFrontier.Cotangent.SquareResolutionBaseHomotopy`, which follows the source's proof through the
+`StacksFrontier.Cotangent.SquareResolutionBaseHomotopy`, which follows the source's proof through
+the
 standard resolution of `A'` over itself; the argument of this file is an independent route to the
 conclusion, and does not consume it.
 

@@ -85,8 +85,7 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 lemma relKoszulDiff_comp_relKoszulDiff (j : ℕ) :
     (relKoszulDiff A E V j).comp (relKoszulDiff A E V (j + 1)) = 0 := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v =>
     simp only [LinearMap.comp_apply, relKoszulDiff_tmul, LinearMap.zero_apply]
     rw [show Koszul.d (variableKoszulDual (MvPolynomial E A) E) j
@@ -148,8 +147,7 @@ omit [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 lemma relKoszulContract_homotopy (q : ℕ) (z : relKoszulType A E V (q + 1)) :
     relKoszulDiff A E V (q + 1) (relKoszulContract A E V (q + 1) z) +
       relKoszulContract A E V q (relKoszulDiff A E V q z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v =>
     rw [relKoszulContract_tmul, relKoszulDiff_tmul, relKoszulDiff_tmul,
       relKoszulContract_tmul, ← TensorProduct.add_tmul,
@@ -225,7 +223,7 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 @[simp]
 lemma relKoszulUnit_smul (t : MvPolynomial E A) (v : V) :
     relKoszulUnit A E V (t • v) = (variableKoszulUnit (MvPolynomial E A) E t) ⊗ₜ v := by
-  show (variableKoszulUnit (MvPolynomial E A) E 1) ⊗ₜ (t • v) = _
+  change (variableKoszulUnit (MvPolynomial E A) E 1) ⊗ₜ (t • v) = _
   rw [← TensorProduct.smul_tmul, ← variableKoszulUnit_eq_smul]
 
 omit [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
@@ -233,8 +231,7 @@ omit [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 lemma relKoszulContract_homotopy_zero (z : relKoszulType A E V 0) :
     relKoszulDiff A E V 0 (relKoszulContract A E V 0 z) +
       relKoszulUnit A E V (relKoszulAug A E V z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v =>
     rw [relKoszulContract_tmul, relKoszulDiff_tmul, relKoszulAug_tmul, relKoszulUnit_smul,
       ← TensorProduct.add_tmul]
@@ -248,11 +245,11 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 /-- The unit is a section of the augmentation. -/
 @[simp]
 lemma relKoszulAug_relKoszulUnit (v : V) : relKoszulAug A E V (relKoszulUnit A E V v) = v := by
-  show relKoszulAug A E V ((variableKoszulUnit (MvPolynomial E A) E 1) ⊗ₜ v) = v
+  change relKoszulAug A E V ((variableKoszulUnit (MvPolynomial E A) E 1) ⊗ₜ v) = v
   rw [relKoszulAug_tmul]
   have h : relKoszulAugDegZero A E (variableKoszulUnit (MvPolynomial E A) E 1) = 1 := by
     rw [relKoszulAugDegZero, LinearMap.comp_apply]
-    show relAugLinear A E (variableKoszulAug (MvPolynomial E A) E
+    change relAugLinear A E (variableKoszulAug (MvPolynomial E A) E
       (variableKoszulUnit (MvPolynomial E A) E 1)) = 1
     rw [variableKoszulAug_unit, relAugLinear_apply, MvPolynomial.eval₂Hom_C, RingHom.id_apply]
   rw [h, one_smul]
@@ -266,8 +263,7 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 /-- The augmentation vanishes on the image of the differential `1 → 0`. -/
 lemma relKoszulAug_relKoszulDiff (z : relKoszulType A E V 1) :
     relKoszulAug A E V (relKoszulDiff A E V 0 z) = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v =>
     rw [relKoszulDiff_tmul, relKoszulAug_tmul]
     rw [show relKoszulAugDegZero A E
@@ -313,11 +309,11 @@ lemma relAugLinear_diagShift (t : MvPolynomial E A) :
       RingHom.id (MvPolynomial E A) := by
     refine MvPolynomial.ringHom_ext ?_ ?_
     · intro a
-      show MvPolynomial.eval₂Hom (RingHom.id (MvPolynomial E A)) (0 : E → MvPolynomial E A)
+      change MvPolynomial.eval₂Hom (RingHom.id (MvPolynomial E A)) (0 : E → MvPolynomial E A)
         (diagShift A E (MvPolynomial.C a)) = _
       simp [diagShift]
     · intro e
-      show MvPolynomial.eval₂Hom (RingHom.id (MvPolynomial E A)) (0 : E → MvPolynomial E A)
+      change MvPolynomial.eval₂Hom (RingHom.id (MvPolynomial E A)) (0 : E → MvPolynomial E A)
         (diagShift A E (MvPolynomial.X e)) = _
       simp [diagShift]
   exact DFunLike.congr_fun h t
@@ -327,7 +323,7 @@ omit [LinearOrder E] in
 lemma relKoszulAugDegZero_diagShift_smul (t : MvPolynomial E A)
     (ω : ⋀[MvPolynomial E (MvPolynomial E A)]^0 (E →₀ MvPolynomial E (MvPolynomial E A))) :
     relKoszulAugDegZero A E (diagShift A E t • ω) = t * relKoszulAugDegZero A E ω := by
-  show relAugLinear A E ((exteriorPower.zeroEquiv _ _) (diagShift A E t • ω)) =
+  change relAugLinear A E ((exteriorPower.zeroEquiv _ _) (diagShift A E t • ω)) =
     t * relAugLinear A E ((exteriorPower.zeroEquiv _ _) ω)
   rw [map_smul, smul_eq_mul, relAugLinear_apply, relAugLinear_apply, map_mul]
   congr 1
@@ -337,8 +333,7 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] in
 /-- The augmentation is `T`-linear for the action of `T` through `diagShift`. -/
 lemma relKoszulAug_diagShift_smul (t : MvPolynomial E A) (z : relKoszulType A E V 0) :
     relKoszulAug A E V (diagShift A E t • z) = t • relKoszulAug A E V z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v =>
     rw [show diagShift A E t • (ω ⊗ₜ[MvPolynomial E A] v) = (diagShift A E t • ω) ⊗ₜ v from
       TensorProduct.smul_tmul' _ _ _]
@@ -359,7 +354,7 @@ lemma relKoszulAugHom_comp_d :
     (relKoszulComplex A E V).d 1 0 ≫ relKoszulAugHom A E V = 0 := by
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun z => ?_
-  show relKoszulAug A E V (((relKoszulComplex A E V).d 1 0) z) = 0
+  change relKoszulAug A E V (((relKoszulComplex A E V).d 1 0) z) = 0
   exact (congrArg (relKoszulAug A E V) (relKoszulComplex_d_apply A E V 0 z)).trans
     (relKoszulAug_relKoszulDiff A E V z)
 
@@ -453,8 +448,7 @@ lemma relKoszulMapTerm_comm (f : V →ₗ[MvPolynomial E A] V') (j : ℕ) :
     (relKoszulMapTerm A E f j).comp (relKoszulDiff A E V j) =
       (relKoszulDiff A E V' j).comp (relKoszulMapTerm A E f (j + 1)) := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -484,8 +478,7 @@ omit [LinearOrder E] [Module A V] [IsScalarTower A (MvPolynomial E A) V] [Module
 lemma relKoszulAug_relKoszulMapTerm (f : V →ₗ[MvPolynomial E A] V')
     (z : relKoszulType A E V 0) :
     relKoszulAug A E V' (relKoszulMapTerm A E f 0 z) = f (relKoszulAug A E V z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ω v => rw [relKoszulMapTerm_tmul, relKoszulAug_tmul, relKoszulAug_tmul, map_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -499,14 +492,14 @@ lemma relKoszulMap_pi (f : V →ₗ[MvPolynomial E A] V') :
           (ModuleCat.ofHom f) := by
   apply (ChainComplex.toSingle₀Equiv (relKoszulComplex A E V) _).injective
   apply Subtype.ext
-  show (relKoszulMap A E f ≫ relKoszulPi A E V').f 0 =
+  change (relKoszulMap A E f ≫ relKoszulPi A E V').f 0 =
     (relKoszulPi A E V ≫ (ChainComplex.single₀ (ModuleCat.{max u v} (MvPolynomial E A))).map
       (ModuleCat.ofHom f)).f 0
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, relKoszulPi_f_zero,
     relKoszulPi_f_zero, ChainComplex.single₀_map_f_zero]
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun z => ?_
-  show relKoszulAug A E V' (relKoszulMapTerm A E f 0 z) = f (relKoszulAug A E V z)
+  change relKoszulAug A E V' (relKoszulMapTerm A E f 0 z) = f (relKoszulAug A E V z)
   exact relKoszulAug_relKoszulMapTerm A E f z
 
 end Functoriality
@@ -555,16 +548,16 @@ lemma coeffVariableDual_coeffFinsuppMap (w : E →₀ MvPolynomial E A) :
       algebraMap (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A))
         (variableKoszulDual A E w) := by
   classical
-  show (Finsupp.linearCombination _ fun e => MvPolynomial.C (MvPolynomial.X e : MvPolynomial E A))
+  change (Finsupp.linearCombination _ fun e => MvPolynomial.C (MvPolynomial.X e : MvPolynomial E A))
       (Finsupp.mapRange (algebraMap (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A)))
         (map_zero _) w) = _
   rw [Finsupp.linearCombination_apply, Finsupp.sum_mapRange_index (by simp)]
-  show (w.sum fun e t => MvPolynomial.C t * MvPolynomial.C (MvPolynomial.X e)) = _
+  change (w.sum fun e t => MvPolynomial.C t * MvPolynomial.C (MvPolynomial.X e)) = _
   rw [show variableKoszulDual A E w = w.sum fun e t => t * MvPolynomial.X e from by
     rw [variableKoszulDual, Finsupp.linearCombination_apply]; rfl]
   rw [map_finsuppSum]
   refine Finset.sum_congr rfl fun e _ => ?_
-  show MvPolynomial.C (w e) * MvPolynomial.C (MvPolynomial.X e) =
+  change MvPolynomial.C (w e) * MvPolynomial.C (MvPolynomial.X e) =
     algebraMap (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A))
       (w e * MvPolynomial.X e)
   rw [map_mul, MvPolynomial.algebraMap_eq]
@@ -629,7 +622,7 @@ theorem exists_relKoszulCoordEquiv (A : Type u) [CommRing A] (E : Type v) [Linea
   have he₁ : ∀ (s : {s : Finset E // s.card = j}) (v : V),
       e₁ (b s ⊗ₜ v) = Finsupp.single s (1 ⊗ₜ v) := by
     intro s v
-    show TensorProduct.finsuppLeft (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A))
+    change TensorProduct.finsuppLeft (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A))
       (MvPolynomial E (MvPolynomial E A)) V {s : Finset E // s.card = j}
       (b.repr (b s) ⊗ₜ v) = _
     rw [Module.Basis.repr_self]
@@ -646,11 +639,11 @@ theorem exists_relKoszulCoordEquiv (A : Type u) [CommRing A] (E : Type v) [Linea
   refine ⟨(e₁.restrictScalars A).trans
     (Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V)), fun t x => ?_, fun s v => ?_⟩
   · have h : e₁ (diagShift A E t • x) = diagShift A E t • e₁ x := e₁.map_smul _ x
-    show Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V) (e₁ (diagShift A E t • x)) =
+    change Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V) (e₁ (diagShift A E t • x)) =
       t • Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V) (e₁ x)
     rw [h]
     exact Finsupp.ext fun i => TwoCopy.fullEquiv_smul A E V t (e₁ x i)
-  · show Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V) (e₁ (b s ⊗ₜ v)) =
+  · change Finsupp.mapRange.linearEquiv (TwoCopy.fullEquiv A E V) (e₁ (b s ⊗ₜ v)) =
       Finsupp.single s (1 ⊗ₜ v)
     rw [he₁ s v, hsingle, TwoCopy.fullEquiv_one_tmul]
 

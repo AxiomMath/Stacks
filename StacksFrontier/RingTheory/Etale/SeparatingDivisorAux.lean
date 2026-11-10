@@ -68,8 +68,8 @@ theorem Polynomial.exists_ne_zero_aeval_smul_eq_zero {K S N : Type*} [Field K] [
   have : P.IsPrime := hP.1.1
   have hPQ' : P = Q := by
     by_contra hne
-    obtain ⟨x, hxQ, hxP⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hPQ hne)
-    have hlt := Ideal.comap_lt_comap_of_integral_mem_sdiff hPQ ⟨hxQ, hxP⟩
+    obtain ⟨x, hxQ, hxP⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hPQ hne)
+    have hlt := Ideal.under_lt_under_of_integral_mem_sdiff hPQ ⟨hxQ, hxP⟩
       (Algebra.IsIntegral.isIntegral (R := K[X]) x)
     rw [hQc] at hlt
     exact not_lt_bot hlt

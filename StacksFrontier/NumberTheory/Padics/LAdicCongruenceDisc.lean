@@ -77,7 +77,7 @@ theorem toUnitsMatrix_mem_matrixDiscSubgroup {r : ℕ} {g : GL (Fin r) ℤ_[ℓ]
     toUnitsMatrix K g ∈ matrixDiscSubgroup ℓ K (Fin r) := by
   have hℓ : (1 : ℝ) < ℓ := by exact_mod_cast (Fact.out : ℓ.Prime).one_lt
   have hℓ0 : (0 : ℝ) < ℓ := by linarith
-  show ‖((toUnitsMatrix K g : (Matrix (Fin r) (Fin r) K)ˣ) : Matrix (Fin r) (Fin r) K) - 1‖ <
+  change ‖((toUnitsMatrix K g : (Matrix (Fin r) (Fin r) K)ˣ) : Matrix (Fin r) (Fin r) K) - 1‖ <
     (ℓ : ℝ)⁻¹
   have hlt : ((ℓ : ℝ)⁻¹) ^ 2 < (ℓ : ℝ)⁻¹ := by
     rw [sq]; exact mul_lt_of_lt_one_left (by positivity) (inv_lt_one_of_one_lt₀ hℓ)

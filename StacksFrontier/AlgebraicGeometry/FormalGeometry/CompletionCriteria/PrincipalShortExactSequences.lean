@@ -117,19 +117,19 @@ theorem exists_pow_smul_of_smul_eq_zero_of_free {B : Type u} [CommRing B] (b : B
   set φ : B → B := fun c => if h : ∃ d : B, c = b ^ t * d then h.choose else 0 with hφ
   have hφspec : ∀ c : B, b * c = 0 → c = b ^ t * φ c := by
     intro c hc
-    simp only [hφ, dif_pos (hb c hc)]
+    simp only [hφ, dite_eq_left (hb c hc)]
     exact (hb c hc).choose_spec
   let d : ι →₀ B := Finsupp.onFinset (bas.repr x).support
     (fun i => if i ∈ (bas.repr x).support then φ (bas.repr x i) else 0)
-    (fun i hi => not_not.mp fun hni => hi (if_neg hni))
+    (fun i hi => not_not.mp fun hni => hi (ite_eq_right hni))
   refine ⟨bas.repr.symm d, ?_⟩
   have hd : b ^ t • d = bas.repr x := by
     ext i
     by_cases hi : i ∈ (bas.repr x).support
     · have h := hφspec (bas.repr x i) (hcoef i)
-      simp only [Finsupp.smul_apply, smul_eq_mul, d, Finsupp.onFinset_apply, if_pos hi]
+      simp only [Finsupp.smul_apply, smul_eq_mul, d, Finsupp.onFinset_apply, ite_eq_left hi]
       exact h.symm
-    · simp only [Finsupp.smul_apply, smul_eq_mul, d, Finsupp.onFinset_apply, if_neg hi,
+    · simp only [Finsupp.smul_apply, smul_eq_mul, d, Finsupp.onFinset_apply, ite_eq_right hi,
         Finsupp.notMem_support_iff.mp hi]
       ring
   calc x = bas.repr.symm (bas.repr x) := by simp
@@ -321,7 +321,7 @@ theorem proj_eq_map (n : ℕ) :
       (Subsingleton.elim _ _), CategoryTheory.Functor.map_id]
     rfl
   | succ n ih =>
-    show systemMapSucc S F n ≫ proj (systemObj S F) (systemMapSucc S F) n = _
+    change systemMapSucc S F n ≫ proj (systemObj S F) (systemMapSucc S F) n = _
     rw [ih, ← CategoryTheory.Functor.map_comp]
     exact congrArg F.obj.map (Subsingleton.elim _ _)
 
@@ -446,14 +446,14 @@ theorem pointStalkRingEquiv_comp_baseToPointStalk (y : S.U.toScheme) :
           ((Scheme.Opens.stalkIso S.U y).trans (Spec.stalkIso (.of S.A) q)).hom =
         (Spec.stalkIso (.of S.A) q).hom := by
     rw [← hu]
-    show (Scheme.Opens.stalkIso S.U y).inv ≫
+    change (Scheme.Opens.stalkIso S.U y).inv ≫
       (Scheme.Opens.stalkIso S.U y).hom ≫ (Spec.stalkIso (.of S.A) q).hom = _
     calc
       _ = ((Scheme.Opens.stalkIso S.U y).inv ≫ (Scheme.Opens.stalkIso S.U y).hom) ≫
           (Spec.stalkIso (.of S.A) q).hom := (Category.assoc _ _ _).symm
       _ = _ := by
         rw [Iso.inv_hom_id]
-        show 𝟙 ((AlgebraicGeometry.Spec (CommRingCat.of S.A)).presheaf.stalk q) ≫
+        change 𝟙 ((AlgebraicGeometry.Spec (CommRingCat.of S.A)).presheaf.stalk q) ≫
           (Spec.stalkIso (.of S.A) q).hom = _
         exact Category.id_comp _
   have hmorph :
@@ -679,7 +679,8 @@ theorem hasPrincipalShortExactSequences_of_locallyFree (f : S.A)
   have w1 := comp_eq_zero_of_cokernelIso
     (((mulBySection S f) ^ (k + 1)).asHom.app (systemObj S F (k + 1))) (systemMapSucc S F k) e₁ he₁
   have hc1 := isColimit_cokernelCofork_of_iso
-    (((mulBySection S f) ^ (k + 1)).asHom.app (systemObj S F (k + 1))) (systemMapSucc S F k) e₁ he₁ w1
+    (((mulBySection S f) ^ (k + 1)).asHom.app (systemObj S F (k + 1))) (systemMapSucc S F k)
+    e₁ he₁ w1
   obtain ⟨ι, hmapι⟩ : ∃ ι : systemObj S F k ⟶ systemObj S F (k + 1),
       systemMapSucc S F k ≫ ι = (mulBySection S f).asHom.app (systemObj S F (k + 1)) :=
     ⟨hc1.desc (CokernelCofork.ofπ ((mulBySection S f).asHom.app (systemObj S F (k + 1))) hcomp),

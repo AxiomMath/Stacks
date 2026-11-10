@@ -149,7 +149,7 @@ theorem isOpen_setOf_fibre_cohomology [IsNoetherianRing A] [IsProper f] [F.IsCoh
         Module.finrank p.asIdeal.ResidueField
           (LinearMap.ker ((cechD f U F).baseChange p.asIdeal.ResidueField)) = r} := by
     ext p
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [isZero_cohomologyOverField_one_iff f U F hU hUaff p,
       finrank_cohomologyOverField_zero_eq f U F hU hUaff p]
   rw [this]
@@ -234,7 +234,7 @@ theorem isOpen_setOf_fibreCohomology [IsNoetherianRing A] [IsProper f] [F.IsCohe
         Module.finrank p.asIdeal.ResidueField (cohomologyOverField p.asIdeal.ResidueField
           (fibreProj f p) ((Scheme.Modules.pullback (fibreMap f p)).obj F) 0) = r} := by
     ext p
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [← finrank_fibre_eq_fibreCohomology f F p 1, ← finrank_fibre_eq_fibreCohomology f F p 0]
     refine and_congr_left fun _ => ?_
     have hfd := hM.finiteDimensional_coker_fibre p

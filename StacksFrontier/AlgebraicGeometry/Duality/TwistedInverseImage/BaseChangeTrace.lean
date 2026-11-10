@@ -66,7 +66,7 @@ theorem isIso_rightAdjointSquare_of_torIndependent (sq : IsPullback g' f' f g)
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))) := by
   rw [← twistedInverseImagePushforwardBaseChange_eq_rightAdjointSquare]
   exact isIso_twistedInverseImagePushforwardBaseChange_of_torIndependent sq hTor
 
@@ -88,7 +88,7 @@ theorem map_trace_eq_baseChange_comp_trace_of_torIndependent (sq : IsPullback g'
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
           (isQuasicoherent_homology_derivedPushforward_of_qcqs g)
           (isQuasicoherent_homology_derivedPullback' g)
-          (isQuasicoherent_homology_derivedPullback' g') sq.w).natTrans.app
+          (isQuasicoherent_homology_derivedPullback' g') sq.w).app
           ((twistedInverseImage f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).obj K) ≫
         (quasiCoherentDerivedPushforward f'
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')).map
@@ -134,7 +134,7 @@ theorem map_unit_comp_baseChange_comp_baseChange_of_torIndependent (sq : IsPullb
             (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
             (isQuasicoherent_homology_derivedPushforward_of_qcqs g)
             (isQuasicoherent_homology_derivedPullback' g)
-            (isQuasicoherent_homology_derivedPullback' g') sq.w).natTrans.app M) =
+            (isQuasicoherent_homology_derivedPullback' g') sq.w).app M) =
       (twistedInverseImageAdjunction f'
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')).unit.app
         ((quasiCoherentDerivedPullback g'
@@ -259,7 +259,7 @@ theorem map_twistedInverseImageCompareWithPullback_comp_baseChange_of_torIndepen
   have : NatTrans.IsMonoidal ef.hom :=
     inferInstanceAs (NatTrans.IsMonoidal ((quasiCoherentDerivedPullbackCompIso g' f).hom ≫
       (quasiCoherentDerivedPullbackCongr sq.w).hom))
-  have : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans := by
+  have : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef) := by
     have h := isIso_quasiCoherentDerivedBaseChange_natTrans hpg' hpf hpf' hpg sq hTor
     rwa [quasiCoherentDerivedBaseChange_eq_twoSquare] at h
   have hsq := Stacks.CategoryTheory.BaseChange.squareComposite_δ_compat eg ef

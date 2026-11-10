@@ -130,7 +130,7 @@ theorem exists_mem_isUnit_of_map_eq_top {k A R : Type*} [Field k] [CommRing A] [
     obtain ⟨a, hat, ha, haq⟩ := key q ((hmem_s q).mp hq)
     obtain ⟨f, hfJ, hfa⟩ := hts hat
     have hfR₀ : f ∈ R₀ := by
-      show φ f ∈ B.toSubring
+      change φ f ∈ B.toSubring
       rwa [hfa]
     exact haq (by simpa [ψ, hfa] using hle (show (⟨f, hfR₀⟩ : R₀) ∈ T from hfJ))
   have hiff := Ideal.subset_union_prime (f := fun q : Ideal B => Ideal.comap ψ q) (s := s)

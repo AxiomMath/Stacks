@@ -146,7 +146,7 @@ lemma restrictFunctorIsoPullback_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y 
         Functor.isoWhiskerLeft (Scheme.Modules.pullback g)
           (Scheme.Modules.restrictFunctorIsoPullback f) := by
   refine Iso.ext ?_
-  show (Scheme.Modules.restrictFunctorIsoPullback (f ≫ g)).hom ≫
+  change (Scheme.Modules.restrictFunctorIsoPullback (f ≫ g)).hom ≫
         (Scheme.Modules.pullbackComp f g).inv =
       (Scheme.Modules.restrictFunctorComp f g).hom ≫
         Functor.whiskerRight (Scheme.Modules.restrictFunctorIsoPullback g).hom

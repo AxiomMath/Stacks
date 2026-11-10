@@ -239,6 +239,7 @@ noncomputable def squareTransportSymm
         ((SheafOfModules.restrictScalars (ringSheafMap c)).obj M) :=
   restrictScalarsEqHom hsq M
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The transport does nothing to a section. -/
 theorem squareTransportSymm_val_app
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)) (U : Cᵒᵖ)
@@ -247,6 +248,7 @@ theorem squareTransportSymm_val_app
     (squareTransportSymm a b d c hsq M).val.app U x = x :=
   restrictScalarsEqHom_val_app hsq M U x
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The transport does nothing to a section. -/
 theorem squareTransport_val_app
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)) (U : Cᵒᵖ)
@@ -255,18 +257,21 @@ theorem squareTransport_val_app
     (squareTransport a b d c hsq M).val.app U x = x :=
   restrictScalarsEqHom_val_app hsq.symm M U x
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The two transports cancel. -/
 theorem squareTransportSymm_comp_squareTransport
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)) :
     squareTransportSymm a b d c hsq M ≫ squareTransport a b d c hsq M = 𝟙 _ :=
   restrictScalarsEqHom_trans hsq M
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The two transports cancel, the other way round. -/
 theorem squareTransport_comp_squareTransportSymm
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)) :
     squareTransport a b d c hsq M ≫ squareTransportSymm a b d c hsq M = 𝟙 _ :=
   restrictScalarsEqHom_trans hsq.symm M
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The transport is invertible. -/
 theorem isIso_squareTransportSymm
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)) :
@@ -274,6 +279,7 @@ theorem isIso_squareTransportSymm
   ⟨⟨squareTransport a b d c hsq M, squareTransportSymm_comp_squareTransport a b d c hsq M,
     squareTransport_comp_squareTransportSymm a b d c hsq M⟩⟩
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The transport is natural. -/
 theorem squareTransport_naturality
     {M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O₃)} (g : M ⟶ N) :
@@ -335,13 +341,13 @@ private theorem epi_of_comp_mono_eq_of_comp_cokernel_π_eq_zero {𝒜 : Type*} [
     [Abelian 𝒜] {A B K : 𝒜} (f : A ⟶ B) (ι : K ⟶ B) [Mono ι] (hι : ι ≫ cokernel.π f = 0)
     (e : A ⟶ K) (he : e ≫ ι = f) : Epi e := by
   have hu : kernel.lift (cokernel.π f) ι hι ≫ Abelian.image.ι f = ι := kernel.lift_ι _ _ _
-  haveI : Mono (kernel.lift (cokernel.π f) ι hι) := mono_of_mono_fac hu
+  have : Mono (kernel.lift (cokernel.π f) ι hι) := mono_of_mono_fac hu
   have hfac : e ≫ kernel.lift (cokernel.π f) ι hι = Abelian.factorThruImage f := by
     rw [← cancel_mono (Abelian.image.ι f), Category.assoc, hu, he, Abelian.image.fac]
-  haveI : Epi (kernel.lift (cokernel.π f) ι hι) := by
-    haveI : Epi (e ≫ kernel.lift (cokernel.π f) ι hι) := by rw [hfac]; infer_instance
+  have : Epi (kernel.lift (cokernel.π f) ι hι) := by
+    have : Epi (e ≫ kernel.lift (cokernel.π f) ι hι) := by rw [hfac]; infer_instance
     exact epi_of_epi e _
-  haveI : IsIso (kernel.lift (cokernel.π f) ι hι) := isIso_of_mono_of_epi _
+  have : IsIso (kernel.lift (cokernel.π f) ι hι) := isIso_of_mono_of_epi _
   rw [show e = Abelian.factorThruImage f ≫ inv (kernel.lift (cokernel.π f) ι hι) by
     rw [← hfac, Category.assoc, IsIso.hom_inv_id, Category.comp_id]]
   infer_instance
@@ -352,6 +358,11 @@ section IdealMap
 
 include comm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasWeakSheafify X'.J AddCommGrpCat.{w}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- The two routes around the square of structure maps on the thickened topos agree, read as
 morphisms of the underlying sheaves of rings. -/
 theorem ringMap_fSharpInverseImage_comp_fSharp :
@@ -401,13 +412,15 @@ noncomputable def inverseImageBaseIdealToIdeal :
       (ringMap (inverseImageBaseReduction t f'))).preimage
     (inverseImageBaseIdealToIdealRestricted i t f f' hi ht comm)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- `Deformation.ToposThickening.inverseImageBaseIdealToIdeal` is, as a morphism of
 `f⁻¹O_{ℬ'}`-modules, the adjoint transpose of the canonical map of ideals. -/
 theorem restrictScalars_map_inverseImageBaseIdealToIdeal :
     (SheafOfModules.restrictScalars (ringMap (inverseImageBaseReduction t f'))).map
         (inverseImageBaseIdealToIdeal i t f f' hi ht comm) =
       inverseImageBaseIdealToIdealRestricted i t f f' hi ht comm := by
-  letI : Sheaf.IsLocallySurjective (ringMap (inverseImageBaseReduction t f')) :=
+  let : Sheaf.IsLocallySurjective (ringMap (inverseImageBaseReduction t f')) :=
     ⟨(isLocallySurjective_inverseImageBaseReduction t f' ht).imageSieve_mem⟩
   exact (Stacks.SheafOfModules.ChangeOfRings.fullyFaithfulOfIsLocallySurjective
     (ringMap (inverseImageBaseReduction t f'))).map_preimage _
@@ -447,6 +460,8 @@ noncomputable abbrev pullbackBaseIdealToReduced :
     (inverseImageReducedStructureMap i t f f' comm)
     (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm) (inverseImageBaseIdeal t f' ht)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The two readings of the canonical map of ideals of Situation 08M7 agree**: the map
 `(f')^*𝒥 ⟶ I` is the comparison `(f')^*𝒥 ⟶ f^*𝒥` followed by the map `f^*𝒥 ⟶ I`. Both are
 adjoint transposes of the same map `f⁻¹𝒥 ⟶ I`. -/
@@ -461,6 +476,8 @@ theorem pullbackBaseIdealToReduced_comp_map :
     squareTransportSymm_comp_squareTransport, Category.comp_id]
   exact Equiv.symm_apply_apply _ _
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **Strictness makes the canonical map of ideals `f^*𝒥 ⟶ I` an epimorphism.** Strictness of
 Stacks 08M9 is surjectivity of `(f')^*𝒥 ⟶ I`, which factors through `f^*𝒥` by
 `Deformation.ToposThickening.pullbackBaseIdealToReduced_comp_map`; a composite is an
@@ -475,7 +492,7 @@ theorem epi_reducedPullbackBaseIdealMap
         (reducedPullbackBaseIdealMap i t f f' hi ht comm)) := by
     rw [pullbackBaseIdealToReduced_comp_map]
     exact h1
-  haveI := h2
+  have := h2
   exact epi_of_epi_restrictScalars_map (ringMap i.fSharp) _
     (epi_of_epi (pullbackBaseIdealToReduced i t f f' ht comm) _)
 
@@ -489,6 +506,9 @@ variable (F : SheafOfModules.{w}
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
   (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})] [HasWeakSheafify X'.J AddCommGrpCat.{w}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- Every local section of the square-zero ideal is killed by the structure map. -/
 theorem fSharp_incl_apply (U : X'.Cᵒᵖ) (a : hi.I.val.obj U) :
     i.fSharp.hom.app U
@@ -500,6 +520,8 @@ variable (q : F' ⟶ (SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F)
 
 include hq
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The reduction kills the multiplication map of the thickening.** The reduction kills the
 ideal product `I·ℱ'` by assumption, and a morphism out of `ℱ'` killing the ideal product kills
 the multiplication map. -/
@@ -522,6 +544,7 @@ noncomputable def isColimitCokernelCoforkMultiplication :
     i.fSharp hi.I F' hi.incl q hq hqex.gIsCokernel
     (multiplicationMap_comp_eq_zero_of_idealProduct i hi F F' q hq)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- **`I ⊗_{O'} ℱ' ⟶ I ⊗_O ℱ` is an isomorphism**: tensoring with the ideal does not see the
 difference between `ℱ'` and its reduction, because the ideal is square zero. This is the
 reduction comparison of Stacks 08M4 for the thickening `i`. -/
@@ -541,6 +564,8 @@ noncomputable def multiplicationToIdealProduct :
   (KernelFork.IsLimit.lift' hqex.fIsKernel (multiplicationMap i.fSharp hi.I F' hi.incl)
     (multiplicationMap_comp_eq_zero_of_idealProduct i hi F F' q hq)).1
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- The corestriction is the multiplication map. -/
 theorem multiplicationToIdealProduct_comp_ι :
     multiplicationToIdealProduct i hi F F' q hq hqex ≫ (idealProductSubmodule hi F').ι =
@@ -548,6 +573,7 @@ theorem multiplicationToIdealProduct_comp_ι :
   (KernelFork.IsLimit.lift' hqex.fIsKernel (multiplicationMap i.fSharp hi.I F' hi.incl)
     (multiplicationMap_comp_eq_zero_of_idealProduct i hi F F' q hq)).2
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- **The multiplication map is surjective onto the ideal product `I·ℱ'`.**
 
 This is the one point at which the ideal product being a *sheaf* submodule is used rather than
@@ -578,14 +604,16 @@ noncomputable def canonicalSecondFactor :
   inv (reductionTensorMap i.fSharp hi.I F' F q) ≫
     multiplicationToIdealProduct i hi F F' q hq hqex
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- **The second factor is surjective.** -/
 theorem epi_canonicalSecondFactor :
     Epi (canonicalSecondFactor i hi F F' q hq hqex) := by
-  letI := isIso_reductionTensorMap_thickening i hi F F' q hq hqex
-  letI := epi_multiplicationToIdealProduct i hi F F' q hq hqex
+  let := isIso_reductionTensorMap_thickening i hi F F' q hq hqex
+  let := epi_multiplicationToIdealProduct i hi F F' q hq hqex
   rw [canonicalSecondFactor]
   infer_instance
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
 /-- **The reduction comparison followed by the second factor is multiplication.** This is the
 characterisation of the second factor: on a pure tensor `α ⊗ q(x)` of `I ⊗_O ℱ` its value in
 `ℱ'` is `α·x`. -/
@@ -593,7 +621,7 @@ theorem reductionTensorMap_comp_canonicalSecondFactor :
     reductionTensorMap i.fSharp hi.I F' F q ≫ canonicalSecondFactor i hi F F' q hq hqex ≫
         (idealProductSubmodule hi F').ι =
       multiplicationMap i.fSharp hi.I F' hi.incl := by
-  letI := isIso_reductionTensorMap_thickening i hi F F' q hq hqex
+  let := isIso_reductionTensorMap_thickening i hi F F' q hq hqex
   rw [canonicalSecondFactor, Category.assoc, ← Category.assoc
     (reductionTensorMap i.fSharp hi.I F' F q), IsIso.hom_inv_id, Category.id_comp,
     multiplicationToIdealProduct_comp_ι]
@@ -627,7 +655,8 @@ theorem multiplicationMap_comp_eq_zero_of_smul {C : Type uA} [Category.{vA} C]
     {Z : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O')} (g : G ⟶ Z)
     (hg : ∀ (U : Cᵒᵖ) (a : I.val.obj U) (x : G.val.obj U),
       g.val.app U
-        ((show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from ii.val.app U a) • x) = 0) :
+        ((show (Stacks.SheafOfModules.Tensor.ringSheaf O').obj.obj U from ii.val.app U a) •
+            x) = 0) :
     multiplicationMap fr I G ii ≫ g = 0 := by
   apply (PresheafOfModules.sheafificationHomEquiv
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O').obj)).injective
@@ -658,7 +687,8 @@ noncomputable abbrev baseModule :
 /-- **`ℱ` read as a module over `f⁻¹O_ℬ`.** Flatness of `ℱ` over `O_ℬ` is, by definition,
 flatness of this module. -/
 noncomputable abbrev reducedBaseModule :
-    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')) :=
+    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf
+        (inverseImageReducedBaseRing t f')) :=
   (SheafOfModules.restrictScalars
     (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj F
 
@@ -677,6 +707,8 @@ noncomputable def baseReductionMap :
       (inverseImageReducedStructureMap i t f f' comm)
       (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm) F
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The reduction kills the multiplication map of the pulled-back base ideal.** Its target is
 a module over the quotient `f⁻¹O_ℬ`, and every section of `f⁻¹𝒥` is killed by the reduction
 `f⁻¹O_{ℬ'} ⟶ f⁻¹O_ℬ`, so each generator `j·x` is sent to `ρ(j)·q(x) = 0`. -/
@@ -707,6 +739,7 @@ noncomputable abbrev pullbackBaseIdealUnit :
     ((SheafOfModules.restrictScalars (ringMap (inverseImageBaseReduction t f'))).obj
       (inverseImageBaseIdeal t f' ht))
 
+omit [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The composite `f⁻¹𝒥 ⟶ (f')^*𝒥 ⟶ O'` is `(f')^♯` applied to the sections of `f⁻¹𝒥`.** This
 is the normalisation `Deformation.ToposThickening.pullbackBaseIdealToStructure` is defined
 by. -/
@@ -720,6 +753,7 @@ theorem pullbackBaseIdealUnit_comp_toStructure :
   (extendScalarsUnit_comp_map f'.fSharpInverseImage
     (pullbackBaseIdealToStructure t f' ht)).trans (Equiv.apply_symm_apply _ _)
 
+omit [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- The sectionwise form of
 `Deformation.ToposThickening.pullbackBaseIdealUnit_comp_toStructure`. -/
 theorem pullbackBaseIdealToStructure_unit_apply (U : X'.Cᵒᵖ)
@@ -732,6 +766,8 @@ theorem pullbackBaseIdealToStructure_unit_apply (U : X'.Cᵒᵖ)
   (congrArg (fun m ↦ m.val.app U z) (pullbackBaseIdealUnit_comp_toStructure t f' ht)).trans
     (unitToRestrictScalarsUnit_val_app (ringMap f'.fSharpInverseImage) U _)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **`(f⁻¹𝒥)·ℱ' = I·ℱ'` for a strict morphism of thickenings**, with the left-hand side written
 as the submodule generated by the products `(f')^♯(j)·x` of a section `j` of `f⁻¹𝒥` with a
 section `x` of `ℱ'`.
@@ -749,7 +785,7 @@ theorem idealProductSubmodule_eq_sectionsProductSubmodule
       Stacks.SheafOfModules.sectionsProductSubmodule
         (Stacks.SheafOfModules.unitImageSections (pullbackBaseIdealUnit t f' ht)
           (pullbackBaseIdealToStructure t f' ht)) F' := by
-  haveI : Epi (pullbackBaseIdealMap i t f f' hi ht comm) := hstrict
+  have : Epi (pullbackBaseIdealMap i t f f' hi ht comm) := hstrict
   have h1 : Stacks.SheafOfModules.imageProductSubmodule
         (pullbackBaseIdealToStructure t f' ht) F' =
       Stacks.SheafOfModules.sectionsProductSubmodule
@@ -767,6 +803,7 @@ theorem idealProductSubmodule_eq_sectionsProductSubmodule
       (pullbackBaseIdealMap i t f f' hi ht comm) hi.incl F'
   exact h2.symm.trans h1
 
+omit [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The family of sections `(f')^♯(j)` is stable under restriction.** -/
 theorem unitImageSections_restrict {U V : X'.Cᵒᵖ} (h : U ⟶ V)
     {a : (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U}
@@ -789,6 +826,7 @@ variable (q : F' ⟶ (SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F)
   (hk : multiplicationMap (inverseImageBaseReduction t f') (inverseImageBaseIdeal t f' ht)
     (baseModule f' F') (inverseImageBaseIdealIncl t f' ht) ≫ k = 0)
 
+omit [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 include hk in
 /-- A morphism out of `ℱ'` killing the multiplication map of `f⁻¹𝒥` kills every generator
 `(f')^♯(j)·x` of `(f⁻¹𝒥)·ℱ'`. -/
@@ -827,6 +865,8 @@ theorem apply_smul_eq_zero_of_multiplicationMap (U : X'.Cᵒᵖ)
       (inverseImageBaseIdeal t f' ht) (baseModule f' F')
       (inverseImageBaseIdealIncl t f' ht) U z m).symm).trans h1
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hk in
 /-- **A morphism out of `ℱ'` killing the multiplication map of `f⁻¹𝒥` kills the ideal product
 `I·ℱ'`.** The two submodules agree for a strict morphism of thickenings, and the morphism is
@@ -850,12 +890,12 @@ theorem restrictScalars_idealProductSubmodule_comp_eq_zero
     (fun U a b ↦ ?_) _
     (fun {U V} h {a} ha ↦ unitImageSections_restrict t f' ht h ha) k
     (fun U a ha n ↦ ?_) hm
-  · letI : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U) := by
+  · let : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U) := by
       change CommRing (X'.O.obj.obj U)
       infer_instance
     exact mul_comm a b
   · obtain ⟨j, rfl⟩ := ha
-    show Stacks.SheafOfModules.restrictedApply k U
+    change Stacks.SheafOfModules.restrictedApply k U
       (Stacks.SheafOfModules.ringValue (pullbackBaseIdealToStructure t f' ht) U
         ((pullbackBaseIdealUnit t f' ht).val.app U j) • n) = 0
     rw [pullbackBaseIdealToStructure_unit_apply t f' ht U j]
@@ -865,6 +905,9 @@ variable (hq : (idealProductSubmodule hi F').ι ≫ q = 0)
   (hqex : (ShortComplex.mk (idealProductSubmodule hi F').ι q hq).ShortExact)
   (hstrict : IsStrictPullbackIdealMap i t f f' hi ht comm)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasWeakSheafify X'.J AddCommGrpCat.{w}] in
 include hqex in
 /-- The sequence `0 ⟶ I·ℱ' ⟶ ℱ' ⟶ ℱ ⟶ 0` is still short exact read over `f⁻¹O_{ℬ'}`:
 restriction of scalars is exact. -/
@@ -874,13 +917,17 @@ theorem shortExact_map_restrictScalars_idealProduct :
         (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage))).ShortExact :=
   Stacks.SheafOfModules.ChangeOfRings.shortExact_map_restrictScalars _ hqex
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasWeakSheafify X'.J AddCommGrpCat.{w}] in
 include hqex in
 /-- The reduction, read over `f⁻¹O_{ℬ'}`, is an epimorphism. -/
 theorem epi_baseReductionMap : Epi (baseReductionMap i t f f' comm F F' q) := by
-  haveI : Epi ((SheafOfModules.restrictScalars
+  have : Epi ((SheafOfModules.restrictScalars
       (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map q) :=
     (shortExact_map_restrictScalars_idealProduct i f' hi F F' q hq hqex).epi_g
-  haveI := isIso_squareTransportSymm f'.fSharpInverseImage i.fSharp
+  have := isIso_squareTransportSymm f'.fSharpInverseImage i.fSharp
     (inverseImageBaseReduction t f') (inverseImageReducedStructureMap i t f f' comm)
     (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm) F
   rw [baseReductionMap]
@@ -911,6 +958,8 @@ noncomputable def isColimitCokernelCoforkBaseReduction :
     squareTransportSymm_comp_squareTransport, Category.id_comp]
   exact hl
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- **The reduction comparison `f⁻¹𝒥 ⊗ ℱ' ⟶ f⁻¹𝒥 ⊗ ℱ` is an isomorphism.** -/
 theorem isIso_reductionTensorMapBase :
@@ -944,6 +993,8 @@ noncomputable def baseMultiplicationFactor :
     multiplicationMap (inverseImageBaseReduction t f') (inverseImageBaseIdeal t f' ht)
       (baseModule f' F') (inverseImageBaseIdealIncl t f' ht)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- The reduction comparison followed by `mu` is multiplication. -/
 theorem reductionTensorMap_comp_baseMultiplicationFactor :
@@ -953,9 +1004,11 @@ theorem reductionTensorMap_comp_baseMultiplicationFactor :
         baseMultiplicationFactor i t f f' hi ht comm F F' q hq hqex hstrict =
       multiplicationMap (inverseImageBaseReduction t f') (inverseImageBaseIdeal t f' ht)
         (baseModule f' F') (inverseImageBaseIdealIncl t f' ht) := by
-  letI := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
+  let := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
   rw [baseMultiplicationFactor, ← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- **`mu` on a pure tensor**, which is the normalisation Stacks 08M4 pins it down by. -/
 theorem baseMultiplicationFactor_tmul (U : X'.Cᵒᵖ)
@@ -963,7 +1016,8 @@ theorem baseMultiplicationFactor_tmul (U : X'.Cᵒᵖ)
     (baseMultiplicationFactor i t f f' hi ht comm F F' q hq hqex hstrict).val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                (inverseImageReducedBaseRing t f')).obj)).unit.app
             (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
               (reducedBaseModule i t f f' comm F).val)).app U
           (a ⊗ₜ[(inverseImageReducedBaseRing t f').obj.obj U]
@@ -1015,6 +1069,8 @@ theorem baseMultiplicationFactor_tmul (U : X'.Cᵒᵖ)
       (inverseImageBaseIdeal t f' ht) (baseModule f' F')
       (inverseImageBaseIdealIncl t f' ht) U a x))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- **Stacks 08M4 applied to the pulled-back thickening of the base.** `ℱ'` is flat over
 `O_{ℬ'}` if and only if `ℱ` is flat over `O_ℬ` and the map `f⁻¹𝒥 ⊗_{f⁻¹O_ℬ} ℱ ⟶ ℱ'` is
@@ -1059,7 +1115,8 @@ open Stacks.SheafOfModules.FlatSquareZero (reductionTensorMap reductionTensorMap
 
 variable (F : SheafOfModules.{w}
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
-  {T : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))}
+  {T : SheafOfModules.{w}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))}
 
 include comm
 
@@ -1069,51 +1126,65 @@ private noncomputable def idealTensorApply
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T)
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T)
     (U : X'.Cᵒᵖ) (z : hi.I.val.obj U) (m : F.val.obj U) : T.val.obj U :=
   g.val.app U (((PresheafOfModules.sheafificationAdjunction
-      (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+      (R := Stacks.SheafOfModules.Tensor.ringSheaf
+          ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
       (PresheafOfModules.tensorObj hi.I.val
         F.val)).app U (z ⊗ₜ m))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 private lemma idealTensorApply_zero_left
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T)
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T)
     (U : X'.Cᵒᵖ) (m : F.val.obj U) :
     idealTensorApply i t f f' hi comm F g U 0 m = 0 := by
-  letI : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
+  let : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
       forget₂ CommRingCat RingCat).obj U) (hi.I.val.obj U) := (hi.I.val.obj U).isModule
-  letI : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
+  let : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
       forget₂ CommRingCat RingCat).obj U) (F.val.obj U) := (F.val.obj U).isModule
   refine Eq.trans (congrArg (fun y ↦ g.val.app U
       (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf
+              ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
           (PresheafOfModules.tensorObj hi.I.val
             F.val)).app U y)) (TensorProduct.zero_tmul _ m)) ?_
   exact (congrArg (fun y ↦ g.val.app U y) (map_zero _)).trans (map_zero _)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 private lemma idealTensorApply_add_left
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T)
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T)
     (U : X'.Cᵒᵖ) (z z' : hi.I.val.obj U) (m : F.val.obj U) :
     idealTensorApply i t f f' hi comm F g U (z + z') m =
       idealTensorApply i t f f' hi comm F g U z m +
         idealTensorApply i t f f' hi comm F g U z' m := by
-  letI : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
+  let : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
       forget₂ CommRingCat RingCat).obj U) (hi.I.val.obj U) := (hi.I.val.obj U).isModule
-  letI : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
+  let : Module ((((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj ⋙
       forget₂ CommRingCat RingCat).obj U) (F.val.obj U) := (F.val.obj U).isModule
   refine Eq.trans (congrArg (fun y ↦ g.val.app U
       (((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf
+              ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
           (PresheafOfModules.tensorObj hi.I.val
@@ -1121,33 +1192,44 @@ private lemma idealTensorApply_add_left
     (TensorProduct.add_tmul z z' m)) ?_
   exact (congrArg (fun y ↦ g.val.app U y) (map_add _ _ _)).trans (map_add _ _ _)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 private lemma idealTensorApply_smul_left
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T)
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T)
     (U : X'.Cᵒᵖ)
     (r : (Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U)
     (z : hi.I.val.obj U) (m : F.val.obj U) :
     idealTensorApply i t f f' hi comm F g U (r • z) m =
       idealTensorApply i t f f' hi comm F g U z (r • m) := by
-  letI : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf
+  let : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U) :=
     inferInstanceAs (CommRing (((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U))
   exact congrArg (fun y ↦ g.val.app U
     (((PresheafOfModules.sheafificationAdjunction
-        (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+        (R := Stacks.SheafOfModules.Tensor.ringSheaf
+            ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
           ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
         (PresheafOfModules.tensorObj hi.I.val
           F.val)).app U y)) (tmul_smul_comm r z m)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasSheafify X'.J AddCommGrpCat.{w}] in
 private lemma idealTensorApply_restrict
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T)
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T)
     {U V : X'.Cᵒᵖ} (h : U ⟶ V) (z : hi.I.val.obj U) (m : F.val.obj U) :
     T.val.restrictₛₗ h (idealTensorApply i t f f' hi comm F g U z m) =
       idealTensorApply i t f f' hi comm F g V (hi.I.val.restrictₛₗ h z)
@@ -1155,7 +1237,8 @@ private lemma idealTensorApply_restrict
   (PresheafOfModules.naturality_apply g.val h _).symm.trans
     (congrArg (g.val.app V)
       (PresheafOfModules.naturality_apply ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf
+              ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
           (PresheafOfModules.tensorObj hi.I.val
@@ -1169,7 +1252,8 @@ private noncomputable def tensorAnnihilatorPresubmodule
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T) :
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T) :
     hi.I.val.Submodule where
   obj U :=
     { carrier := {z : hi.I.val.obj U | ∀ (V : X'.Cᵒᵖ) (h : U ⟶ V) (m : F.val.obj V),
@@ -1192,7 +1276,8 @@ private noncomputable def tensorAnnihilatorSubmodule
     (g : (SheafOfModules.restrictScalars
           (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj
         (((sheafTensor.{u',
-          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I) ⟶ T) :
+          v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj
+              X.O)).flip.obj F).obj hi.I) ⟶ T) :
     hi.I.Submodule where
   toSubmodule := tensorAnnihilatorPresubmodule i t f f' hi comm F g
   isSheaf := by
@@ -1203,7 +1288,7 @@ private noncomputable def tensorAnnihilatorSubmodule
         (tensorAnnihilatorPresubmodule i t f f' hi comm F g).obj (Opposite.op W) := by
       rw [show h ≫ k.op = (k ≫ h.unop).op from rfl]
       exact hk
-    show T.val.restrictₛₗ k.op
+    change T.val.restrictₛₗ k.op
         (idealTensorApply i t f f' hi comm F g V (hi.I.val.restrictₛₗ h z) m) =
       T.val.restrictₛₗ k.op 0
     rw [map_zero, idealTensorApply_restrict, Stacks.SheafOfModules.restrictₛₗ_restrictₛₗ]
@@ -1219,6 +1304,8 @@ open Stacks.SheafOfModules.FlatSquareZero (reductionTensorMap reductionTensorMap
 variable (F : SheafOfModules.{w}
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include comm in
 /-- **The map `f⁻¹𝒥 ⟶ I` of Situation 08M7, on sections**: a local section `j` of `f⁻¹𝒥` goes to
 the unique section of `I` whose image in `O'` is `(f')^♯(j)`. -/
@@ -1280,6 +1367,8 @@ noncomputable def canonicalFirstFactor :
     reductionTensorMap (inverseImageReducedStructureMap i t f f' comm) hi.I
       (reducedBaseModule i t f f' comm F) F (𝟙 _)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include comm in
 /-- **The first factor on a pure tensor**: `j ⊗ m ↦ λ(j) ⊗ m`. -/
 theorem canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
@@ -1288,11 +1377,13 @@ theorem canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
     (canonicalFirstFactor i t f f' hi ht comm F).val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                (inverseImageReducedBaseRing t f')).obj)).unit.app
             (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
               (reducedBaseModule i t f f' comm F).val)).app U (z ⊗ₜ m)) =
       ((PresheafOfModules.sheafificationAdjunction
-          (R := Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
+          (R := Stacks.SheafOfModules.Tensor.ringSheaf
+              ((pushforwardCommRingFunctor i.toToposHom).obj X.O))
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
             ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).unit.app
           (PresheafOfModules.tensorObj hi.I.val
@@ -1303,12 +1394,14 @@ theorem canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
         (inverseImageBaseIdealToIdeal i t f f' hi ht comm)).val.app U
       (((PresheafOfModules.sheafificationAdjunction
           (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+              (inverseImageReducedBaseRing t f')).obj)).unit.app
           (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
             (reducedBaseModule i t f f' comm F).val)).app U (z ⊗ₜ m)) =
       ((PresheafOfModules.sheafificationAdjunction
           (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+              (inverseImageReducedBaseRing t f')).obj)).unit.app
           (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars
             (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj hi.I).val
             (reducedBaseModule i t f f' comm F).val)).app U
@@ -1317,7 +1410,8 @@ theorem canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
   have h2 : (canonicalFirstFactor i t f f' hi ht comm F).val.app U
       (((PresheafOfModules.sheafificationAdjunction
           (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+              (inverseImageReducedBaseRing t f')).obj)).unit.app
           (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
             (reducedBaseModule i t f f' comm F).val)).app U (z ⊗ₜ m)) =
       (reductionTensorMap (inverseImageReducedStructureMap i t f f' comm) hi.I
@@ -1327,7 +1421,8 @@ theorem canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
             (inverseImageBaseIdealToIdeal i t f f' hi ht comm)).val.app U
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                  (inverseImageReducedBaseRing t f')).obj)).unit.app
               (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
                 (reducedBaseModule i t f f' comm F).val)).app U (z ⊗ₜ m))) := rfl
   rw [h2, hnat]
@@ -1340,6 +1435,11 @@ variable (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
   (hqex : (ShortComplex.mk (idealProductSubmodule hi F').ι q hq).ShortExact)
   (hstrict : IsStrictPullbackIdealMap i t f f' hi ht comm)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})] [HasWeakSheafify X'.J AddCommGrpCat.{w}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- The reduction `ℱ' ⟶ ℱ` read over `f⁻¹O_{ℬ'}` does nothing to a section. -/
 theorem baseReductionMap_val_app (U : X'.Cᵒᵖ) (x : (baseModule f' F').val.obj U) :
@@ -1372,6 +1472,8 @@ noncomputable def canonicalMap :
           (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
         (canonicalSecondFactor i hi F F' q hq hqex)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex in
 /-- **The canonical map, on a pure tensor**: `j ⊗ q(x) ↦ (f')^♯(j)·x`, read inside `I·ℱ'`. -/
 theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
@@ -1380,7 +1482,8 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
         ((canonicalMap i t f f' hi ht comm F F' q hq hqex).val.app U
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                  (inverseImageReducedBaseRing t f')).obj)).unit.app
               (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
                 (reducedBaseModule i t f f' comm F).val)).app U
             (a ⊗ₜ (baseReductionMap i t f f' comm F F' q).val.app U x))) =
@@ -1389,7 +1492,8 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
   have e1 : (canonicalMap i t f f' hi ht comm F F' q hq hqex).val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                (inverseImageReducedBaseRing t f')).obj)).unit.app
             (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
               (reducedBaseModule i t f f' comm F).val)).app U
           (a ⊗ₜ (baseReductionMap i t f f' comm F F' q).val.app U x)) =
@@ -1403,14 +1507,16 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
           ((canonicalFirstFactor i t f f' hi ht comm F).val.app U
             (((PresheafOfModules.sheafificationAdjunction
                 (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+                (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                    (inverseImageReducedBaseRing t f')).obj)).unit.app
                 (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
                   (reducedBaseModule i t f f' comm F).val)).app U
               (a ⊗ₜ (baseReductionMap i t f f' comm F F' q).val.app U x)))) := rfl
   have e2 : (canonicalMap i t f f' hi ht comm F F' q hq hqex).val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                (inverseImageReducedBaseRing t f')).obj)).unit.app
             (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
               (reducedBaseModule i t f f' comm F).val)).app U
           (a ⊗ₜ (baseReductionMap i t f f' comm F F' q).val.app U x)) =
@@ -1418,7 +1524,8 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
         ((canonicalFirstFactor i t f f' hi ht comm F).val.app U
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                  (inverseImageReducedBaseRing t f')).obj)).unit.app
               (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
                 (reducedBaseModule i t f f' comm F).val)).app U
             (a ⊗ₜ (baseReductionMap i t f f' comm F F' q).val.app U x))) :=
@@ -1443,7 +1550,8 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
       (((PresheafOfModules.sheafificationAdjunction
           (R := Stacks.SheafOfModules.Tensor.ringSheaf X'.O)
           (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj)).unit.app
-          (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj hi.I).val
+          (PresheafOfModules.tensorObj
+              ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj hi.I).val
             F'.val)).app U
         ((inverseImageBaseIdealToIdeal i t f f' hi ht comm).val.app U a ⊗ₜ x)))
     (reductionTensorMap_comp_canonicalSecondFactor i hi F F' q hq hqex)) ?_
@@ -1454,6 +1562,8 @@ theorem canonicalMap_val_app_tmul (U : X'.Cᵒᵖ)
       r • (show F'.val.obj U from x))
     (incl_inverseImageBaseIdealToIdeal_apply i t f f' hi ht comm U a)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- **The canonical map of Stacks 08MQ followed by the inclusion of `I·ℱ'` is the multiplication
 map `mu` of Stacks 08M4.** Both are determined by their values on the images of the pure tensors
@@ -1464,7 +1574,7 @@ theorem canonicalMap_comp_idealProductSubmodule_ι :
             (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
           (idealProductSubmodule hi F').ι =
       baseMultiplicationFactor i t f f' hi ht comm F F' q hq hqex hstrict := by
-  letI := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
+  let := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
   have key : reductionTensorMap (inverseImageBaseReduction t f')
           (inverseImageBaseIdeal t f' ht) (baseModule f' F')
           (reducedBaseModule i t f f' comm F) (baseReductionMap i t f f' comm F F' q) ≫
@@ -1488,6 +1598,8 @@ theorem canonicalMap_comp_idealProductSubmodule_ι :
     (key.trans (reductionTensorMap_comp_baseMultiplicationFactor
       i t f f' hi ht comm F F' q hq hqex hstrict).symm)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hqex hstrict in
 /-- **The canonical map of Stacks 08MQ is surjective onto `I·ℱ'`.**
 
@@ -1497,8 +1609,8 @@ multiplication by `f⁻¹𝒥` is a sheaf submodule of `ℱ'` containing every g
 it contains `I·ℱ'`, and the inclusion of `I·ℱ'` is therefore killed by the cokernel of
 multiplication. No local sum of products is written down. -/
 theorem epi_canonicalMap : Epi (canonicalMap i t f f' hi ht comm F F' q hq hqex) := by
-  letI := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
-  haveI : (SheafOfModules.restrictScalars
+  let := isIso_reductionTensorMapBase i t f f' hi ht comm F F' q hq hqex hstrict
+  have : (SheafOfModules.restrictScalars
       (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).PreservesMonomorphisms :=
     CategoryTheory.preservesMonomorphisms_of_preservesLimitsOfShape _
   have : Epi (reductionTensorMap (inverseImageBaseReduction t f') (inverseImageBaseIdeal t f' ht)
@@ -1520,6 +1632,8 @@ theorem epi_canonicalMap : Epi (canonicalMap i t f f' hi ht comm F F' q hq hqex)
     (inverseImageBaseIdeal t f' ht) (baseModule f' F')
     (reducedBaseModule i t f f' comm F) (baseReductionMap i t f f' comm F F' q)) _
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hstrict in
 /-- **Strictness makes the first factor `f^*𝒥 ⊗_O ℱ ⟶ I ⊗_O ℱ` surjective.**
 
@@ -1536,9 +1650,9 @@ precisely because an `O`-scalar crosses the tensor product, the map `f⁻¹𝒥 
 surjective. Hence `N = I` and `g = 0`. -/
 theorem epi_canonicalFirstFactor :
     Epi (canonicalFirstFactor i t f f' hi ht comm F) := by
-  haveI hkappa : Epi (reducedPullbackBaseIdealMap i t f f' hi ht comm) :=
+  have hkappa : Epi (reducedPullbackBaseIdealMap i t f f' hi ht comm) :=
     epi_reducedPullbackBaseIdealMap i t f f' hi ht comm hstrict
-  haveI hrtm : Epi (reductionTensorMap (inverseImageReducedStructureMap i t f f' comm) hi.I
+  have hrtm : Epi (reductionTensorMap (inverseImageReducedStructureMap i t f f' comm) hi.I
       (reducedBaseModule i t f f' comm F) F (𝟙 _)) :=
     Stacks.SheafOfModules.FlatSquareZero.reductionTensorMap_epi _ _ _ _ _
   rw [Preadditive.epi_iff_cancel_zero]
@@ -1566,7 +1680,8 @@ theorem epi_canonicalFirstFactor :
       have hzero : (canonicalFirstFactor i t f f' hi ht comm F ≫ g).val.app V
           (((PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                  (inverseImageReducedBaseRing t f')).obj)).unit.app
               (PresheafOfModules.tensorObj (inverseImageBaseIdeal t f' ht).val
                 (reducedBaseModule i t f f' comm F).val)).app V
             ((inverseImageBaseIdeal t f' ht).val.restrictₛₗ h z ⊗ₜ m)) = 0 := by
@@ -1590,19 +1705,19 @@ theorem epi_canonicalFirstFactor :
         reducedPullbackBaseIdealMap i t f f' hi ht comm := by
       rw [reducedPullbackBaseIdealMap, ← hlift,
         Adjunction.homEquiv_naturality_right_symm]
-    haveI hcompEpi : Epi (((Stacks.FlatChangeOfRings.extendScalarsAdjunction
+    have hcompEpi : Epi (((Stacks.FlatChangeOfRings.extendScalarsAdjunction
           (inverseImageReducedStructureMap i t f f' comm)).homEquiv
           (inverseImageBaseIdeal t f' ht)
           (tensorAnnihilatorSubmodule i t f f' hi comm F g).toSheafOfModules).symm lift ≫
         (tensorAnnihilatorSubmodule i t f f' hi comm F g).ι) := by
       rw [hfac]
       exact hkappa
-    haveI : Epi ((tensorAnnihilatorSubmodule i t f f' hi comm F g).ι) :=
+    have : Epi ((tensorAnnihilatorSubmodule i t f f' hi comm F g).ι) :=
       epi_of_epi (((Stacks.FlatChangeOfRings.extendScalarsAdjunction
         (inverseImageReducedStructureMap i t f f' comm)).homEquiv
         (inverseImageBaseIdeal t f' ht)
         (tensorAnnihilatorSubmodule i t f f' hi comm F g).toSheafOfModules).symm lift) _
-    haveI : IsIso ((tensorAnnihilatorSubmodule i t f f' hi comm F g).ι) :=
+    have : IsIso ((tensorAnnihilatorSubmodule i t f f' hi comm F g).ι) :=
       isIso_of_mono_of_epi _
     intro U z
     have hz : (tensorAnnihilatorSubmodule i t f f' hi comm F g).ι.val.app U
@@ -1623,7 +1738,8 @@ theorem epi_canonicalFirstFactor :
           (reducedBaseModule i t f f' comm F) F (𝟙 _) ≫ g).val.app U
         (((PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f'))
-            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (inverseImageReducedBaseRing t f')).obj)).unit.app
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
+                (inverseImageReducedBaseRing t f')).obj)).unit.app
             (PresheafOfModules.tensorObj ((SheafOfModules.restrictScalars
               (ringMap (inverseImageReducedStructureMap i t f f' comm))).obj hi.I).val
               (reducedBaseModule i t f f' comm F).val)).app U (a ⊗ₜ x)) =
@@ -1638,6 +1754,8 @@ theorem epi_canonicalFirstFactor :
   exact (cancel_epi (reductionTensorMap (inverseImageReducedStructureMap i t f f' comm) hi.I
     (reducedBaseModule i t f f' comm F) F (𝟙 _))).mp (hcomp.trans (comp_zero).symm)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 include hstrict in
 /-- **Stacks 08MQ.** Let `(f, f')` be a morphism of first order thickenings of ringed topoi as
 in Situation 08M7, let `ℱ'` be an `O'`-module and let `ℱ = i^*ℱ'`, presented by the short exact
@@ -1682,25 +1800,25 @@ theorem isFlat_iff_isIso_canonicalMap
       (IsIso (canonicalMap i t f f' hi ht comm F F' q hq hqex) →
         IsIso (canonicalFirstFactor i t f f' hi ht comm F) ∧
           IsIso (canonicalSecondFactor i hi F F' q hq hqex)) := by
-  haveI : (SheafOfModules.restrictScalars
+  have : (SheafOfModules.restrictScalars
       (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).PreservesMonomorphisms :=
     CategoryTheory.preservesMonomorphisms_of_preservesLimitsOfShape _
-  haveI : (SheafOfModules.restrictScalars
+  have : (SheafOfModules.restrictScalars
       (Stacks.FlatChangeOfRings.ringSheafMap
         (inverseImageBaseReduction t f'))).PreservesEpimorphisms :=
     CategoryTheory.preservesEpimorphisms_of_preservesColimitsOfShape _
-  haveI hepi1 : Epi (canonicalFirstFactor i t f f' hi ht comm F) :=
+  have hepi1 : Epi (canonicalFirstFactor i t f f' hi ht comm F) :=
     epi_canonicalFirstFactor i t f f' hi ht comm F hstrict
-  haveI hepi2 : Epi (canonicalSecondFactor i hi F F' q hq hqex) :=
+  have hepi2 : Epi (canonicalSecondFactor i hi F F' q hq hqex) :=
     epi_canonicalSecondFactor i hi F F' q hq hqex
-  haveI hepi : Epi (canonicalMap i t f f' hi ht comm F F' q hq hqex) :=
+  have hepi : Epi (canonicalMap i t f f' hi ht comm F F' q hq hqex) :=
     epi_canonicalMap i t f f' hi ht comm F F' q hq hqex hstrict
-  haveI := isIso_squareTransportSymm f'.fSharpInverseImage i.fSharp
+  have := isIso_squareTransportSymm f'.fSharpInverseImage i.fSharp
     (inverseImageBaseReduction t f') (inverseImageReducedStructureMap i t f f' comm)
     (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm)
     (((sheafTensor.{u',
       v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I)
-  haveI : IsIso (squareTransport f'.fSharpInverseImage i.fSharp
+  have : IsIso (squareTransport f'.fSharpInverseImage i.fSharp
       (inverseImageBaseReduction t f') (inverseImageReducedStructureMap i t f f' comm)
       (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm)
       (((sheafTensor.{u',
@@ -1726,25 +1844,25 @@ theorem isFlat_iff_isIso_canonicalMap
         (canonicalSecondFactor i hi F F' q hq hqex) := by
     rw [canonicalMap, Category.assoc]
   refine ⟨⟨fun hflat ↦ ?_, fun hiso ↦ ?_⟩, fun hiso ↦ ?_⟩
-  · haveI : Mono (baseMultiplicationFactor i t f f' hi ht comm F F' q hq hqex hstrict) :=
+  · have : Mono (baseMultiplicationFactor i t f f' hi ht comm F F' q hq hqex hstrict) :=
       ((isFlat_baseModule_iff i t f f' hi ht comm F F' q hq hqex hstrict).mp hflat).2
-    haveI : Mono (canonicalMap i t f f' hi ht comm F F' q hq hqex ≫
+    have : Mono (canonicalMap i t f f' hi ht comm F F' q hq hqex ≫
         (SheafOfModules.restrictScalars
             (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
           (idealProductSubmodule hi F').ι) := by
       rw [hmu]; infer_instance
-    haveI : Mono (canonicalMap i t f f' hi ht comm F F' q hq hqex) :=
+    have : Mono (canonicalMap i t f f' hi ht comm F F' q hq hqex) :=
       mono_of_mono (canonicalMap i t f f' hi ht comm F F' q hq hqex)
         ((SheafOfModules.restrictScalars
             (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
           (idealProductSubmodule hi F').ι)
     exact isIso_of_mono_of_epi _
   · refine (isFlat_baseModule_iff i t f f' hi ht comm F F' q hq hqex hstrict).mpr ⟨hF, ?_⟩
-    haveI := hiso
+    have := hiso
     rw [← hmu]
     infer_instance
-  · haveI := hiso
-    haveI hcm : Mono (((SheafOfModules.restrictScalars
+  · have := hiso
+    have hcm : Mono (((SheafOfModules.restrictScalars
             (Stacks.FlatChangeOfRings.ringSheafMap (inverseImageBaseReduction t f'))).map
             (canonicalFirstFactor i t f f' hi ht comm F) ≫
           squareTransport f'.fSharpInverseImage i.fSharp (inverseImageBaseReduction t f')
@@ -1758,7 +1876,7 @@ theorem isFlat_iff_isIso_canonicalMap
           (canonicalSecondFactor i hi F F' q hq hqex)) := by
       rw [← hassoc]
       infer_instance
-    haveI hm : Mono (((SheafOfModules.restrictScalars
+    have hm : Mono (((SheafOfModules.restrictScalars
             (Stacks.FlatChangeOfRings.ringSheafMap (inverseImageBaseReduction t f'))).map
           (canonicalFirstFactor i t f f' hi ht comm F) ≫
         squareTransport f'.fSharpInverseImage i.fSharp (inverseImageBaseReduction t f')
@@ -1770,7 +1888,7 @@ theorem isFlat_iff_isIso_canonicalMap
       mono_of_mono _ ((SheafOfModules.restrictScalars
         (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
           (canonicalSecondFactor i hi F F' q hq hqex))
-    haveI : Mono ((SheafOfModules.restrictScalars
+    have : Mono ((SheafOfModules.restrictScalars
         (Stacks.FlatChangeOfRings.ringSheafMap (inverseImageBaseReduction t f'))).map
           (canonicalFirstFactor i t f f' hi ht comm F)) :=
       mono_of_mono _ (squareTransport f'.fSharpInverseImage i.fSharp
@@ -1778,13 +1896,13 @@ theorem isFlat_iff_isIso_canonicalMap
         (ringMap_fSharpInverseImage_comp_fSharp i t f f' comm)
         (((sheafTensor.{u',
           v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj hi.I))
-    haveI : Mono (canonicalFirstFactor i t f f' hi ht comm F) :=
+    have : Mono (canonicalFirstFactor i t f f' hi ht comm F) :=
       mono_of_mono_restrictScalars_map
         (Stacks.FlatChangeOfRings.ringSheafMap (inverseImageBaseReduction t f')) _ inferInstance
-    haveI hiso1 : IsIso (canonicalFirstFactor i t f f' hi ht comm F) :=
+    have hiso1 : IsIso (canonicalFirstFactor i t f f' hi ht comm F) :=
       isIso_of_mono_of_epi _
     refine ⟨hiso1, ?_⟩
-    haveI : IsIso ((SheafOfModules.restrictScalars
+    have : IsIso ((SheafOfModules.restrictScalars
         (Stacks.FlatChangeOfRings.ringSheafMap (inverseImageBaseReduction t f'))).map
           (canonicalFirstFactor i t f f' hi ht comm F) ≫
         squareTransport f'.fSharpInverseImage i.fSharp (inverseImageBaseReduction t f')
@@ -1793,7 +1911,7 @@ theorem isFlat_iff_isIso_canonicalMap
           (((sheafTensor.{u',
             v', w, w, w} ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).flip.obj F).obj
             hi.I)) := inferInstance
-    haveI : IsIso ((SheafOfModules.restrictScalars
+    have : IsIso ((SheafOfModules.restrictScalars
         (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage)).map
           (canonicalSecondFactor i hi F F' q hq hqex)) := by
       rw [show (SheafOfModules.restrictScalars
@@ -1810,7 +1928,7 @@ theorem isFlat_iff_isIso_canonicalMap
                 hi.I)) ≫ canonicalMap i t f f' hi ht comm F F' q hq hqex from by
         rw [hassoc, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]]
       infer_instance
-    haveI : Mono (canonicalSecondFactor i hi F F' q hq hqex) :=
+    have : Mono (canonicalSecondFactor i hi F F' q hq hqex) :=
       mono_of_mono_restrictScalars_map
         (Stacks.FlatChangeOfRings.ringSheafMap f'.fSharpInverseImage) _ inferInstance
     exact isIso_of_mono_of_epi _

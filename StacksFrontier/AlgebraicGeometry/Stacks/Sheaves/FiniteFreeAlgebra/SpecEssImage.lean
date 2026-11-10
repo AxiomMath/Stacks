@@ -110,7 +110,7 @@ theorem exists_openSubObj_specCoverHom (P : AlgebraicGeometry.Stack.FiniteCover 
       g := Over.homMk (ObjectProperty.homMk ψ) (by
         refine 𝒞.inclusion.map_injective ?_
         rw [Functor.map_comp]
-        show ψ ≫ P.Z.hom.hom =
+        change ψ ≫ P.Z.hom.hom =
           (cover V.toScheme m).hom ≫ (V.ι ≫ P.U.hom.hom)
         rw [← hq, ← Category.assoc, hψ.w, Category.assoc])
       square := isPullback_of_isPullback_toScheme hψ }, rfl⟩
@@ -167,7 +167,7 @@ theorem essImage_pullbackFiber_of_factors_openSubObj
   have hΦ : (AlgebraicGeometry.Stack.finiteCoverProjection
       (B := 𝒞) (S := S) (hS := hS) (d := d)).map Ψ = f := by
     rw [hΨ]
-    show h ≫ φ.f = f
+    change h ≫ φ.f = f
     rw [hφ]
     exact hfac
   have hlift : (AlgebraicGeometry.Stack.finiteCoverProjection

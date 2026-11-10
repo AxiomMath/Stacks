@@ -157,13 +157,13 @@ theorem semistableRank_le_finrank (hg : 1 ≤ genus (Y ↘ Spec (.of k))) :
   have := connectedSpace_of_isIso_globalSections k (Y ↘ Spec (.of k))
   let hω := isInvertible_dualizingSheafOverField_of_hasAtWorstNodalSingularities k Y hdim hnodal
   by_cases h1 : genus (Y ↘ Spec (.of k)) = 1
-  · rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1,
-      show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1]
+  · rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1,
+      show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1]
     exact le_of_eq
       (finrank_tensorPower_one_dualizingSheafOverField_eq_one k hdim hnodal h1).symm
   · rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 3 * genus (Y ↘ Spec (.of k)) - 3
-        from if_neg h1,
-      show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from if_neg h1]
+        from ite_eq_right h1,
+      show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from ite_eq_right h1]
     have := finrank_sub_finrank_tensorPower_two_dualizingSheafOverField k hdim hnodal
     omega
 
@@ -179,7 +179,7 @@ theorem isGeneratedByGlobalSections_of_noRationalTail (hg : 1 ≤ genus (Y ↘ S
   have := connectedSpace_of_isIso_globalSections k (Y ↘ Spec (.of k))
   let hω := isInvertible_dualizingSheafOverField_of_hasAtWorstNodalSingularities k Y hdim hnodal
   by_cases h1 : genus (Y ↘ Spec (.of k)) = 1
-  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1]
+  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1]
     obtain ⟨φ⟩ := nonempty_dualizingSheafOverField_iso_unit_of_forall_not_isRationalTail hdim
       hnodal htail h1
     have := AlgebraicGeometry.SheafOfModules.isInvertible_unit Y.presheaf Y.ringCatSheaf.2
@@ -187,7 +187,7 @@ theorem isGeneratedByGlobalSections_of_noRationalTail (hg : 1 ≤ genus (Y ↘ S
       φ 1 ≪≫ Stacks.SheafOfModules.Invertible.tensorPowerUnitIso Y.presheaf Y.ringCatSheaf.2 1
     exact Stacks.SheafOfModules.Intrinsic.isGeneratedByGlobalSections_of_iso e.symm
       ⟨Stacks.AlgebraicGeometry.CoherenceCriteria.unitGeneratingSections⟩
-  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from if_neg h1]
+  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from ite_eq_right h1]
     exact
       isGeneratedByGlobalSections_tensorPower_dualizingSheafOverField_of_forall_not_isRationalTail
         hdim hnodal htail (by omega) 2 le_rfl
@@ -208,13 +208,13 @@ theorem finrank_le_semistableRank (hg : 1 ≤ genus (Y ↘ Spec (.of k)))
   let S : CohenMacaulayCurveSituation.{u} := ⟨k, Y, Y ↘ Spec (.of k), hdim⟩
   have hgen := isGeneratedByGlobalSections_of_noRationalTail k hdim hnodal hg htail
   by_cases h1 : genus (Y ↘ Spec (.of k)) = 1
-  · rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1,
-      show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1]
+  · rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1,
+      show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1]
     exact le_of_eq
       (finrank_tensorPower_one_dualizingSheafOverField_eq_one k hdim hnodal h1)
-  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from if_neg h1] at hgen ⊢
+  · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from ite_eq_right h1] at hgen ⊢
     rw [show semistableRank (genus (Y ↘ Spec (.of k))) = 3 * genus (Y ↘ Spec (.of k)) - 3
-        from if_neg h1]
+        from ite_eq_right h1]
     obtain ⟨σ⟩ := hgen
     have : IsReduced Y := Stacks.Curves.isReduced_of_hasAtWorstNodalSingularities k Y hnodal
     have hequi : TopologicalSpace.Equidimensional Y :=
@@ -251,9 +251,9 @@ theorem noRationalTail_of_isGeneratedByGlobalSections
       (tensorPower Y.presheaf Y.ringCatSheaf.2
         (Stacks.Duality.dualizingSheafOverField (Y ↘ Spec (.of k))) n) := by
     by_cases h1 : genus (Y ↘ Spec (.of k)) = 1
-    · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from if_pos h1] at h
+    · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 1 from ite_eq_left h1] at h
       exact ⟨1, one_pos, h⟩
-    · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from if_neg h1] at h
+    · rw [show semistablePower (genus (Y ↘ Spec (.of k))) = 2 from ite_eq_right h1] at h
       exact ⟨2, two_pos, h⟩
   intro C hC
   have hneg := invertibleCurveDegree_pullback_dualizingSheafOverField_neg_of_isRationalTail

@@ -85,7 +85,7 @@ universe w' w v u
 
 namespace Stacks.EtaleCohomology
 
-open AlgebraicGeometry AlgebraicGeometry.Scheme
+open _root_.Stacks.AlgebraicGeometry AlgebraicGeometry.Scheme
 
 /-- **The algebra of the level cocycle law.** The shape in which the cocycle law of the transition
 datum on the levels is assembled from the two cocycle laws it rests on: an isomorphism and its
@@ -271,7 +271,7 @@ end Stacks.EtaleCohomology
 
 namespace Stacks.EtaleCohomology.AffineLimitCohomology
 
-open AlgebraicGeometry CategoryTheory.Sites.InverseSystem
+open _root_.Stacks.AlgebraicGeometry CategoryTheory.Sites.InverseSystem
 open Stacks.EtaleCohomology.QcSeparatedColimit (levelIndex levelToSmallEtale transitionScheme)
 
 variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
@@ -287,7 +287,7 @@ both are functorial. -/
 theorem transitionScheme_comp {n m p : (sys D c B hD hX hc).I} (a : n ⟶ m) (b : m ⟶ p) :
     transitionScheme D c B hD hX hc (a ≫ b) =
       transitionScheme D c B hD hX hc a ≫ transitionScheme D c B hD hX hc b := by
-  show D.map ((affineEtaleSiteColimit D c B hD hX hc).indexEquiv.functor.map (a ≫ b)) =
+  change D.map ((affineEtaleSiteColimit D c B hD hX hc).indexEquiv.functor.map (a ≫ b)) =
     D.map ((affineEtaleSiteColimit D c B hD hX hc).indexEquiv.functor.map a) ≫
       D.map ((affineEtaleSiteColimit D c B hD hX hc).indexEquiv.functor.map b)
   rw [Functor.map_comp, D.map_comp]

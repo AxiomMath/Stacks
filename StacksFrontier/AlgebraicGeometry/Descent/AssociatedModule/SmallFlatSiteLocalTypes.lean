@@ -151,7 +151,7 @@ theorem isFiniteType_lowerShriek_iff (𝓝 : SheafOfModules.{u} (ringStructureSh
     (exists_cover_iff_lowerShriek B S hS κ
       (fun _ M ↦ ∃ σ : M.GeneratingSections, σ.IsFiniteType)
       (fun _ M ↦ ∃ σ : M.GeneratingSections, σ.IsFiniteType)
-      (fun V M ↦ ⟨fun ⟨σ, hσ⟩ ↦ ⟨Stacks.Sheaves.GlobalTypeComparison.generatingSectionsMap
+      (fun V _ ↦ ⟨fun ⟨σ, hσ⟩ ↦ ⟨Stacks.Sheaves.GlobalTypeComparison.generatingSectionsMap
           (overLowerShriek B S hS κ V) (overLowerShriekUnitIso B S hS κ V) σ, ⟨hσ.finite⟩⟩,
         fun ⟨σ, hσ⟩ ↦ ⟨Stacks.Sheaves.GlobalTypeComparison.generatingSectionsOfMap
           (overLowerShriek B S hS κ V) (overLowerShriekUnitIso B S hS κ V) σ, ⟨hσ.finite⟩⟩⟩)
@@ -189,7 +189,7 @@ theorem isFinitePresentation_lowerShriek_iff
     (exists_cover_iff_lowerShriek B S hS κ
       (fun _ M ↦ ∃ P : M.Presentation, P.IsFinite)
       (fun _ M ↦ ∃ P : M.Presentation, P.IsFinite)
-      (fun V M ↦ ⟨fun ⟨P, _⟩ ↦ ⟨P.map (overLowerShriek B S hS κ V)
+      (fun V _ ↦ ⟨fun ⟨P, _⟩ ↦ ⟨P.map (overLowerShriek B S hS κ V)
           (overLowerShriekUnitIso B S hS κ V).symm,
           Stacks.SheafOfModules.presentation_map_isFinite _ _ P⟩,
         fun ⟨P, _⟩ ↦ ⟨Stacks.SheafOfModules.presentationOfMap (overLowerShriek B S hS κ V)
@@ -271,7 +271,7 @@ theorem isQuasicoherentOnSite_lowerShriek_iff
     (exists_cover_iff_lowerShriek B S hS κ
       (fun _ M ↦ M.HasGlobalPresentation)
       (fun _ M ↦ M.HasGlobalPresentation)
-      (fun V M ↦ ⟨fun h ↦
+      (fun V _ ↦ ⟨fun h ↦
           ((Stacks.SheafOfModules.nonempty_presentation_of_hasGlobalPresentation h).some.map
             (overLowerShriek B S hS κ V) (overLowerShriekUnitIso B S hS κ V).symm
             ).hasGlobalPresentation,

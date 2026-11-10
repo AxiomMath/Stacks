@@ -64,7 +64,7 @@ public lemma lan_map_restrictionHomNatTrans_comp_baseChangePointsHom
     ← Adjunction.homEquiv_naturality_left_symm, ← Adjunction.homEquiv_naturality_right_symm]
   congr 1
   ext N α
-  show ιU'.map (istar.map α ≫ e.hom.app N) ≫ β'.inv.app N =
+  change ιU'.map (istar.map α ≫ e.hom.app N) ≫ β'.inv.app N =
     δ.inv.app K ≫ istarU.map (ιU.map α ≫ β.inv.app N) ≫ ε.hom.app (ιX.obj N)
   have hδ : δ.inv.app K ≫ istarU.map (ιU.map α) = ιU'.map (istar.map α) ≫ δ.inv.app (jX.obj N) :=
     (δ.inv.naturality α).symm
@@ -82,6 +82,7 @@ variable {ℰ : Type u₇} [Category.{v} ℰ] {ℰp : Type u₈} [Category.{v} �
   (hlift : ∀ (K : 𝒞) (N : 𝒟p), RestrictionLifting (A.system K ⋙ ιX) jY N)
   (hlift' : ∀ (K : 𝒞') (N : 𝒟p), RestrictionLifting (A'.system K ⋙ ιX) jY' N)
 
+omit [∀ A : 𝒟 ⥤ Type v, (direct ⋙ ιY).HasLeftKanExtension A] in
 /-- `Rf̄_*` of the map `Rj'_!(i^* K) ⟶ Rj_! K` of [Stacks, Tag 0G4Y], viewed in `Pro-ℰ⁺`, acts on
 functors of points as the left Kan extension of the restriction map. -/
 public lemma shriekPro_covariance_unop_hom (K : 𝒞) :
@@ -110,7 +111,7 @@ public lemma shriekPro_covariance_unop_hom_comp_shriekPointsIso_hom
   have h₂ := lan_map_restrictionHomNatTrans_comp_baseChangePointsHom jX jX' istar e ιX ιU ιU' jY jY'
     β β' istarU δ ε hc K
   dsimp only [Functor.comp_map] at h₁
-  show ιY.lan.map (direct.lan.map (restrictionHomNatTrans jX jX' istar e K)) ≫
+  change ιY.lan.map (direct.lan.map (restrictionHomNatTrans jX jX' istar e K)) ≫
       (shriekLanIso ιX direct ιY directPlus γ adj).hom.app (jX' ⋙ coyoneda.obj (op (istar.obj K))) ≫
         (proPointsWhisker shriek).map (baseChangePointsHom ιX ιU' β' (istar.obj K)) =
       ((shriekLanIso ιX direct ιY directPlus γ adj).hom.app (jX ⋙ coyoneda.obj (op K)) ≫
@@ -141,7 +142,7 @@ public lemma shriekHomEquiv_covariance
           A'.toAssignment).app K))).unop.hom.app
           L (ProSeq.homConstEquiv _ L φ) := by
     rfl
-  simp only [shriekHomEquiv, Equiv.trans_apply, Iso.toEquiv_fun, h]
+  simp only [shriekHomEquiv, Equiv.trans_apply, Iso.toEquiv_fun]
   exact ConcreteCategory.congr_hom (congr_app
     (shriekPro_covariance_unop_hom_comp_shriekPointsIso_hom jX jX' istar e ιX ιU ιU' jY jY' β β'
       istarU δ ε direct ιY directPlus γ adj A A' hlift hlift' hc K) L) _

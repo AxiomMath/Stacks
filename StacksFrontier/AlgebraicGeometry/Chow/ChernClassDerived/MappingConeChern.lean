@@ -115,7 +115,7 @@ theorem commute_complexChernFactor (C : ChowSituation.{u}) {W : Scheme.{u}} (sW 
   have _ := h₂ n
   have h : Commute (totalChernUnit C sW (P₁.X m) (ρ m)) (totalChernUnit C sW (P₂.X n) (σ n)) :=
     .units_of_val (commute_totalChern C sW (P₁.X m) (P₂.X n) (ρ m) (σ n))
-  show Commute (totalChernUnit C sW (P₁.X m) (ρ m) ^ ((m.negOnePow : ℤˣ) : ℤ))
+  change Commute (totalChernUnit C sW (P₁.X m) (ρ m) ^ ((m.negOnePow : ℤˣ) : ℤ))
     (totalChernUnit C sW (P₂.X n) (σ n) ^ ((n.negOnePow : ℤˣ) : ℤ))
   exact h.zpow_zpow _ _
 
@@ -160,7 +160,7 @@ theorem complexChernFactor_eq_of_biprod (e : ∀ n, R.X n ≅ Q₁.X (n + 1) ⊞
   have hsign : ((n.negOnePow : ℤˣ) : ℤ) = -(((n + 1).negOnePow : ℤˣ) : ℤ) := by
     rw [Int.negOnePow_succ]
     simp
-  show totalChernUnit C sW (R.X n) (coneRank ρ σ n) ^ ((n.negOnePow : ℤˣ) : ℤ) =
+  change totalChernUnit C sW (R.X n) (coneRank ρ σ n) ^ ((n.negOnePow : ℤˣ) : ℤ) =
     (totalChernUnit C sW (Q₁.X (n + 1)) (ρ (n + 1)) ^ (((n + 1).negOnePow : ℤˣ) : ℤ))⁻¹ *
       totalChernUnit C sW (Q₂.X n) (σ n) ^ ((n.negOnePow : ℤˣ) : ℤ)
   rw [ha, hcomm.mul_zpow, hsign]

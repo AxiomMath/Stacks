@@ -61,7 +61,7 @@ theorem kummerDirectImageδ_comp_map_rootsOfUnityPowMap :
       (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
         (smallEtalePushforwardAb j)).δ (kummerSequence_shortExact.{u, 0} U₀ hN'0 hN') 0 := by
     refine h.symm.trans ?_
-    show ((smallEtalePushforwardAb j).rightDerived 0).map (𝟙 _) ≫ _ = _
+    change ((smallEtalePushforwardAb j).rightDerived 0).map (𝟙 _) ≫ _ = _
     rw [CategoryTheory.Functor.map_id]
     exact Category.id_comp _
   rw [kummerDirectImageδ_eq, kummerDirectImageδ_eq]

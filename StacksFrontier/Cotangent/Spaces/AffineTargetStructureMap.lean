@@ -246,7 +246,7 @@ theorem chartBaseGlobalStructureMap_comp_res (U : SmallEtale B S hS X.1) :
   refine (congrArg Q (ConcreteCategory.congr_hom hN _)).trans ?_
   refine (congrArg (fun y => Q (p.fSharp.hom.app (op d.V) y))
     (ConcreteCategory.congr_hom hA a)).trans (hC.trans ?_)
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap f U)).op
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap f U)).op
       ((st.app (op (schemeSpaceIdChart T))) a) =
     Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap f U)).op a
   exact congrArg _ (chartBaseStructurePresheafMap_app_schemeSpaceIdChart_apply T a)

@@ -72,7 +72,7 @@ No derived category appears in the statement.  The proof reads [Stacks, Tag 08DX
 of `Tot(C ⊗_{𝒪_X} P)` because `P` is K-flat. -/
 theorem isQuasicoherent_homology_tensorComplex (X : Scheme.{u})
     (C P : CochainComplex (Modules X.toRingedSpace.sheaf) ℤ)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat X.toRingedSpace.sheaf P)
+    (hP : Stacks.SheafOfModules.KFlat X.toRingedSpace.sheaf P)
     (hC : ∀ j : ℤ, (C.homology j).IsQuasicoherent)
     (hPq : ∀ j : ℤ, (P.homology j).IsQuasicoherent) (i : ℤ) :
     ((((Stacks.SheafOfModules.Tensor.tensorComplex X.toRingedSpace.sheaf).obj C).obj

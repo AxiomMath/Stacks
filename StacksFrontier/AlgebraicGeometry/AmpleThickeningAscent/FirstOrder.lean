@@ -168,7 +168,7 @@ theorem isAmple_of_isAmple_pullback_of_isFirstOrderThickening (hk : IsFirstOrder
   refine ⟨q + 1, by omega, s', ?_, ?_⟩
   · rw [hs']; exact hVaff
   · rw [hs']
-    show x ∈ k ⁻¹ᵁ V
+    change x ∈ k ⁻¹ᵁ V
     rw [hV]
     exact hxs
 

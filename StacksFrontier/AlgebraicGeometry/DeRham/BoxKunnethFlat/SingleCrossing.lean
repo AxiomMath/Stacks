@@ -367,7 +367,7 @@ theorem pushforward_tensor_single_eq :
       ((Stacks.Cohomology.BoxKunneth.boxProductRelativeCurried a b).obj
         (((HomologicalComplex.single _ (ComplexShape.up ℤ) i).obj F).X i)).obj
         (((HomologicalComplex.single _ (ComplexShape.up ℤ) j).obj G).X j) := by
-  show (StacksDraft.KFlat.modulePushforward (toInverseImageBase (pullback.fst a b ≫ a))).obj
+  change (StacksDraft.KFlat.modulePushforward (toInverseImageBase (pullback.fst a b ≫ a))).obj
       (((Stacks.SheafOfModules.Tensor.sheafTensor (pullback a b).toRingedSpace.sheaf).obj
           ((StacksDraft.KFlat.modulePullback (pullback.fst a b).toLRSHom.toShHom).obj
         (((HomologicalComplex.single X.Modules (ComplexShape.up ℤ) i).obj F.module).X i))).obj

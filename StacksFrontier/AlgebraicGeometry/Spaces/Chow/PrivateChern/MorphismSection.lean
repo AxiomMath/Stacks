@@ -115,7 +115,7 @@ theorem modulePullback_map_morphismSectionHom_eq_zero_iff {T : AlgebraicSpaces B
   · intro h
     have h' : F.map (A ◁ morphismSectionHom hA s) = 0 := by
       rw [h1, h]
-      show Functor.OplaxMonoidal.δ F A _ ≫
+      change Functor.OplaxMonoidal.δ F A _ ≫
         (tensorLeft (F.obj A)).map (0 : F.obj (𝟙_ _) ⟶ F.obj (morphismSectionModule hA M)) ≫
           Functor.LaxMonoidal.μ F A _ = 0
       rw [Functor.map_zero, Limits.zero_comp, Limits.comp_zero]
@@ -132,7 +132,7 @@ theorem modulePullback_map_morphismSectionHom_eq_zero_iff {T : AlgebraicSpaces B
       rwa [← F.map_comp, Iso.hom_inv_id, F.map_id, Category.comp_id] at h6
     rw [h1] at h3
     have h4 : (tensorLeft (F.obj A)).map (F.map (morphismSectionHom hA s)) = 0 := by
-      show F.obj A ◁ F.map (morphismSectionHom hA s) = 0
+      change F.obj A ◁ F.map (morphismSectionHom hA s) = 0
       have := congrArg (fun k => Functor.LaxMonoidal.μ F A _ ≫ k ≫
         Functor.OplaxMonoidal.δ F A _) h3
       simpa only [Category.assoc, Functor.Monoidal.μ_δ, Functor.Monoidal.μ_δ_assoc,

@@ -90,7 +90,6 @@ variable {C : Type u} [Category.{v} C] {C' : Type u} [Category.{v} C']
   [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J' AddCommGrpCat.{w}] [J'.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [EssentiallySmall.{w} C] [LocallySmall.{w} C']
-  [J.HasSheafCompose (forget CommRingCat.{w})] [J'.HasSheafCompose (forget CommRingCat.{w})]
 
 /-- **The lax comparison of the inverse of the reindexing on pure tensors**: it sends `x ⊗ y` to
 `x ⊗ y`. -/
@@ -161,7 +160,6 @@ theorem val_app_unit_tmul_of_eq_tensorCounitComposite_reindex
   subst ht
   exact tensorCounitComposite_reindex_val_app_unit_tmul J' e O P Q V x y
 
-omit [J.HasSheafCompose (forget CommRingCat.{w})] [J'.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **The lax comparison of the inverse of the reindexing is an isomorphism**: its unit and its
 two counits are those of an equivalence, and Stacks 03EL is an isomorphism. -/
 theorem isIso_tensorCounitComposite_reindex
@@ -405,7 +403,7 @@ theorem zariskiReadingTensor_comp_val_app_unit_tmul
     ((representedSmallEtaleModuleEquivalence B S hS U).inverse.obj Q)
     hP' hQ' V ((selfOpensPushforwardIso B S hS U P).inv.val.app V x)
     ((selfOpensPushforwardIso B S hS U Q).inv.val.app V y)
-  show (selfOpensPushforwardIso B S hS U
+  change (selfOpensPushforwardIso B S hS U
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
       (structureSheaf B S hS (yoneda.obj U)
           (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))).obj P).obj Q)).hom.val.app V

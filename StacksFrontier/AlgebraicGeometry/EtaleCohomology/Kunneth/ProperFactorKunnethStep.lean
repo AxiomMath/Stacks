@@ -69,7 +69,8 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `Stacks.EtaleCohomology.EtaleCoefficients.pullback` and `baseChangeMap`
--- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Kunneth/EtaleKunnethMap.lean:199`) are built on
+-- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Kunneth/EtaleKunnethMap.lean:199`) are built
+-- on
 -- `derivedPullback`, stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 

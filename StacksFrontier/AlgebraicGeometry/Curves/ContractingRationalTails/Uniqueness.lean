@@ -173,7 +173,7 @@ theorem finsum_finrank_unit_intersection_le {Y : Scheme.{u}} (gY : Y ⟶ Spec (.
     · exact Scheme.IdealSheafData.support_antitone inf_le_left hy
     · exact Scheme.IdealSheafData.support_antitone inf_le_right hy
   have hZY' : Z ≤ complementaryCurveIdeal D := by
-    show Z ≤ (Scheme.Opens.ι D.support.compl).ker
+    change Z ≤ (Scheme.Opens.ι D.support.compl).ker
     rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range,
       ← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
     refine closure_minimal (fun y hy => ?_) Z.support.isClosed
@@ -224,7 +224,7 @@ theorem isRationalTail_of_finsum_finrank_unit_le {Y : Scheme.{u}} (gY : Y ⟶ Sp
       D.subscheme.toSpecΓ.appTop) := by rw [Scheme.toSpecΓ_appTop]; infer_instance
   have hf : D.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(D.subscheme, ⊤))) =
       D.subschemeι ≫ (Y ↘ Spec (.of k)) := by
-    show D.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fD.appTop) = fD
+    change D.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fD.appTop) = fD
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   have hDχ := finsum_finrank_unit_eq_mul_one_sub_genus Γ(D.subscheme, ⊤) fD hDdim.le
@@ -247,10 +247,10 @@ theorem isRationalTail_of_finsum_finrank_unit_le {Y : Scheme.{u}} (gY : Y ⟶ Sp
   have hineq : (Module.finrank k Γ(I.subscheme, ⊤) : ℤ) ≤
       (Module.finrank k Γ(D.subscheme, ⊤) : ℤ) * (1 - genus D.subscheme.toSpecΓ) := by
     rw [← hDχ]
-    show _ ≤ ∑ᶠ n : ℕ, (-1 : ℤ) ^ n * (Module.finrank k (cohomologyOverField k
+    change _ ≤ ∑ᶠ n : ℕ, (-1 : ℤ) ^ n * (Module.finrank k (cohomologyOverField k
       (D.subschemeι ≫ gY) (SheafOfModules.unit D.subscheme.ringCatSheaf) n) : ℤ)
     rw [← hIχ]
-    show ∑ᶠ n : ℕ, (-1 : ℤ) ^ n * (Module.finrank k (cohomologyOverField k
+    change ∑ᶠ n : ℕ, (-1 : ℤ) ^ n * (Module.finrank k (cohomologyOverField k
       ((D ⊔ complementaryCurveIdeal D).subschemeι ≫ gY)
       (SheafOfModules.unit (D ⊔ complementaryCurveIdeal D).subscheme.ringCatSheaf) n) : ℤ) ≤ _
     linarith
@@ -258,7 +258,7 @@ theorem isRationalTail_of_finsum_finrank_unit_le {Y : Scheme.{u}} (gY : Y ⟶ Sp
   obtain ⟨h1, h2⟩ := eq_one_and_eq_zero_of_mul_le_mul_one_sub hpos hineq
   exact isRationalTail_of_finrank_globalSections_intersection_eq_one hYdim D hDdim
     (nonempty_complementaryCurve_of_support_ne_univ D hDY) Γ(D.subscheme, ⊤)
-    D.subscheme.toSpecΓ hf h1 h2
+    D.subscheme.toSpecΓ h1 h2
 
 /-- **A morphism onto a curve of positive genus without rational tails contracts every rational
 tail.** Let `X` be a proper nodal curve over `k` with `H⁰(X, 𝒪_X) = k`, `C` a rational tail of

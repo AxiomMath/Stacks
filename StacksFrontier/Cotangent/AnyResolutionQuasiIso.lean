@@ -85,7 +85,7 @@ def resolutionVarBound {P : SimplicialObject (CommAlgCat.{u} A)}
 lemma isPolynomialAlgebraBelow_resolutionVarBound {P : SimplicialObject (CommAlgCat.{u} A)}
     (hP : ∀ n, IsPolynomialAlgebra A (P.obj n)) (n : SimplexCategoryᵒᵖ) :
     IsPolynomialAlgebraBelow A (resolutionVarBound (B := B) hP) (P.obj n) :=
-  ⟨(hP n).choose, (le_ciSup (Cardinal.bddAbove_range _) n).trans (le_max_right _ _),
+  ⟨(hP n).choose, (le_ciSup Cardinal.bddAbove_of_small n).trans (le_max_right _ _),
     (hP n).choose_spec⟩
 
 /-- **Remark 08QI: every resolution computes the cotangent complex.** For every simplicial

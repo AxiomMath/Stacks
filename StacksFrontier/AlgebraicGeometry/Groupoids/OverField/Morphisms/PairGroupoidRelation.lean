@@ -56,15 +56,15 @@ noncomputable def prodPairGroupoid (U : Over S) : GroupoidScheme S where
   source_comp := by simp
   target_comp := by simp
   left_identity := by intros; apply prod.hom_ext <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
   right_identity := by intros; apply prod.hom_ext <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
   left_inverse := by intros; apply prod.hom_ext <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
   right_inverse := by intros; apply prod.hom_ext <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
   assoc := by intros; apply prod.hom_ext <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
 
 /-- The scheme of objects of `prodPairGroupoid U` is `U`. -/
 @[simp]
@@ -113,7 +113,7 @@ noncomputable def groupoidPreRelationHom (G : GroupoidScheme S) :
     intros
     dsimp only [prodPairGroupoid, GroupoidScheme.compose]
     apply prod.hom_ext <;>
-      simp [G.target_comp, G.source_comp, pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [G.target_comp, G.source_comp]
 
 /-- The map on objects of `groupoidPreRelationHom G` is the identity of `G.objects`. -/
 @[simp]

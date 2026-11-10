@@ -10,7 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.ChartClassI
 Let `S` be a scheme, `𝒜` a quasi-coherent graded `𝒪_S`-algebra (Situation 01NN), `d ≥ 1` and `X`
 a relative homogeneous spectrum of `𝒜` ([Stacks, Tag 01NQ]). For an affine open `U` of the base,
 `...RelativeProjQcohSheaf.Fd.chartHom` of
-`StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.ChartFdRepresentation` attaches to a point of
+`StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.ChartFdRepresentation` attaches to a point
+of
 `F_d(T)` for the restriction `𝒜|_U` a morphism `T ⟶ X`, by [Stacks, Tag 01NU] over the affine base
 `U` followed by the chart of `U`. Gluing those morphisms into one morphism out of a test scheme —
 the forward half of residue (i) of [Stacks, Tag 01NY] — needs them to **agree** where two charts

@@ -153,7 +153,7 @@ theorem isIso_pullbackPushforwardAdjunction_homEquiv_symm_of_isIso
     simp only [Function.comp_apply, ← key, Equiv.symm_apply_apply]
   have hsurj : ∀ X p, ∃ m, unitSectionsMap adj φ η X m = p := fun X p =>
     ⟨_, ConcreteCategory.congr_hom (IsIso.inv_hom_id (unitSectionsMap adj φ η X)) p⟩
-  show Function.Bijective (fun g : P ⟶ Q => c ≫ g)
+  change Function.Bijective (fun g : P ⟶ Q => c ≫ g)
   rw [hfun]
   refine (A.homEquiv M Q).symm.bijective.comp ⟨fun g₁ g₂ hg => ?_, fun k => ?_⟩
   · ext X p
@@ -178,7 +178,7 @@ theorem isIso_pullbackPushforwardAdjunction_homEquiv_symm_of_isIso
           simp only [Category.assoc, IsIso.hom_inv_id_assoc, h₂] }
     have hgab : ∀ X m, gab.app X (unitSectionsMap adj φ η X m) = unitSectionsMap adj φ k X m :=
       fun X m => by
-        show unitSectionsMap adj φ k X
+        change unitSectionsMap adj φ k X
           (inv (unitSectionsMap adj φ η X) (unitSectionsMap adj φ η X m)) = _
         rw [hinv]
     have hlin : ∀ (X : Dᵒᵖ) (r : R.obj X) (p : P.obj X), gab.app X (r • p) = r • gab.app X p := by
@@ -197,7 +197,7 @@ theorem isIso_pullbackPushforwardAdjunction_homEquiv_symm_of_isIso
     have hc : ∀ (N : PresheafOfModules.{v} R) (ζ : M ⟶ (pushforward.{v} φ).obj N),
         unitSectionsMap adj φ ζ (op (F.obj W.unop)) (M.map (adj.counit.app W.unop).op m) =
           ζ.app W m := fun N ζ => ConcreteCategory.congr_hom (unitSectionsMap_counit ζ W) m
-    show gab.app (op (F.obj W.unop)) (η.app W m) = k.app W m
+    change gab.app (op (F.obj W.unop)) (η.app W m) = k.app W m
     rw [← hc P η]
     exact (hgab _ _).trans (hc Q k)
 

@@ -90,7 +90,7 @@ abbrev overOpens (U : DiagramOpen X) (φ : Over U.index) : Opens (X.obj φ.left)
 /-- An arrow of the slice category carries the open `(X φ)⁻¹W` into the open `(X ψ)⁻¹W`. -/
 theorem overSpace_mapsTo {U : DiagramOpen X} {φ ψ : Over U.index} (h : φ ⟶ ψ)
     (x : ↥(overOpens U φ)) : X.map h.left x.1 ∈ overOpens U ψ := by
-  show X.map ψ.hom (X.map h.left x.1) ∈ U.toOpens
+  change X.map ψ.hom (X.map h.left x.1) ∈ U.toOpens
   rw [← Functor.map_comp_apply, Over.w h]
   exact x.2
 
@@ -337,7 +337,7 @@ private theorem functorPushforward_mem_of_mem_over [IsoRigid A] {V : Over U} {S 
         ((sliceEquivalence X U).functor.obj V).index.hom :=
       (Category.id_comp _).trans (Category.id_comp _)
     refine { base := Over.homMk (𝟙 V.left.index) hw, le := fun z hz => ?_ }
-    show X.map (𝟙 V.left.index) (overPt U (Over.mk V.hom.base) z) ∈ V₀
+    change X.map (𝟙 V.left.index) (overPt U (Over.mk V.hom.base) z) ∈ V₀
     rw [ConcreteCategory.congr_hom (X.map_id V.left.index)]
     exact hz
   · exact Hom.ext _ _ (Over.OverMorphism.ext (Category.id_comp _).symm)

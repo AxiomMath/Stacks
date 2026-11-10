@@ -191,7 +191,7 @@ theorem matlisPowerModuleIso_naturality
   apply LinearMap.ext
   intro f
   apply Subtype.ext
-  show (t ≫ f) (ULift.up (1 : A ⧸ IsLocalRing.maximalIdeal A ^ (n + 2))) =
+  change (t ≫ f) (ULift.up (1 : A ⧸ IsLocalRing.maximalIdeal A ^ (n + 2))) =
     f (ULift.up (1 : A ⧸ IsLocalRing.maximalIdeal A ^ (n + 1)))
   exact congrArg (fun x ↦ (show maximalIdealPowerQuotientModule A n ⟶ E from f) x)
     (highUniverseQuotientPowerSucc_apply_one A _ (n + 1))
@@ -270,7 +270,7 @@ private lemma highUniverseQuotientHom_ext
     apply ULift.ext
     simp [Algebra.smul_def]
   rw [hq]
-  show f.hom (a • ULift.up (1 : A ⧸ I)) =
+  change f.hom (a • ULift.up (1 : A ⧸ I)) =
     g.hom (a • ULift.up (1 : A ⧸ I))
   exact (f.hom.map_smul a _).trans
     ((congrArg (fun y ↦ a • y) h).trans (g.hom.map_smul a _).symm)
@@ -282,7 +282,7 @@ lemma fromSingleEquiv_smul {R : Type w} [Ring R]
     (h : p + n = q) (r : R)
     (z : Cochain ((CochainComplex.singleFunctor C p).obj X) K n) :
     Cochain.fromSingleEquiv h (r • z) = r • Cochain.fromSingleEquiv h z := by
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) p X).inv ≫
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) p X).inv ≫
       (r • z).v p q h = _
   rw [Cochain.smul_v, Linear.comp_smul]
   rfl
@@ -318,8 +318,8 @@ lemma highUniverseSingleEval_mem
       Submodule.torsionBySet A (J.X q) (I : Set A) := by
   rw [Submodule.mem_torsionBySet_iff]
   intro a
-  show a.val • (Cochain.fromSingleEquiv (zero_add q) z) (ULift.up 1) = 0
-  show a.val • ((Cochain.fromSingleEquiv (zero_add q) z).hom
+  change a.val • (Cochain.fromSingleEquiv (zero_add q) z) (ULift.up 1) = 0
+  change a.val • ((Cochain.fromSingleEquiv (zero_add q) z).hom
     (ULift.up (1 : A ⧸ I))) = 0
   have h : a.val • (ULift.up (1 : A ⧸ I) : ULift.{v} (A ⧸ I)) = 0 := by
     apply ULift.ext
@@ -342,10 +342,10 @@ lemma highUniverseSingleEval_surjective
     ModuleCat.ofHom (f.comp
       (ULift.moduleEquiv : ULift.{v} (A ⧸ I) ≃ₗ[A] A ⧸ I).toLinearMap)
   refine ⟨Cochain.fromSingleMk g (zero_add q), ?_⟩
-  show (Cochain.fromSingleEquiv (zero_add q)
+  change (Cochain.fromSingleEquiv (zero_add q)
     (Cochain.fromSingleMk g (zero_add q))) (ULift.up 1) = x
   rw [Cochain.fromSingleEquiv_fromSingleMk]
-  show f (Submodule.Quotient.mk (1 : A)) = x
+  change f (Submodule.Quotient.mk (1 : A)) = x
   exact one_smul A x
 
 /-- Evaluation at `1` commutes with the differential of the Hom complex. -/
@@ -356,7 +356,7 @@ lemma highUniverseSingleEval_d
       (J.d q q') (highUniverseSingleEval A I J q z) := by
   obtain ⟨f, rfl⟩ := Cochain.fromSingleMk_surjective z q (zero_add q)
   rw [Cochain.δ_fromSingleMk _ _ _ q' (zero_add q')]
-  show (Cochain.fromSingleEquiv (zero_add q')
+  change (Cochain.fromSingleEquiv (zero_add q')
     (Cochain.fromSingleMk (f ≫ J.d q q') (zero_add q'))) (ULift.up 1) =
     (J.d q q') ((Cochain.fromSingleEquiv (zero_add q)
       (Cochain.fromSingleMk f (zero_add q))) (ULift.up 1))
@@ -393,14 +393,14 @@ lemma highUniverseHomPowersToTorsion_naturality
   intro z
   apply Subtype.ext
   obtain ⟨f, rfl⟩ := Cochain.fromSingleMk_surjective z q (zero_add q)
-  show highUniverseSingleEval A (I ^ (n + 2)) J q
+  change highUniverseSingleEval A (I ^ (n + 2)) J q
       ((Cochain.ofHom ((CochainComplex.singleFunctor _ 0).map
         (highUniverseQuotientPowerSucc A I (n + 1)))).comp
         (Cochain.fromSingleMk f (zero_add q)) (zero_add q)) =
     highUniverseSingleEval A (I ^ (n + 1)) J q
       (Cochain.fromSingleMk f (zero_add q))
   rw [← Cochain.fromSingleMk_precomp]
-  show (Cochain.fromSingleEquiv (zero_add q)
+  change (Cochain.fromSingleEquiv (zero_add q)
     (Cochain.fromSingleMk
       (highUniverseQuotientPowerSucc A I (n + 1) ≫ f) (zero_add q)))
       (ULift.up 1) =

@@ -109,12 +109,11 @@ theorem bijective_algebraMap_tensor_of_model (e : A₁ ⊗[A] S ≃ₐ[A₁] B�
   let θ₀ : S ⊗[A] M →ₐ[A] S ⊗[A] M₁ := Algebra.TensorProduct.map (AlgHom.id A S) πM
   let θ : S ⊗[A] M →+* B₁ ⊗[A₁] M₁ := (Φ : S ⊗[A] M₁ →+* B₁ ⊗[A₁] M₁).comp θ₀.toRingHom
   have hθ : ∀ s m, θ (s ⊗ₜ m) = e (1 ⊗ₜ s) ⊗ₜ πM m := fun s m => by
-    show Φ (θ₀ (s ⊗ₜ m)) = _
+    change Φ (θ₀ (s ⊗ₜ m)) = _
     simp [θ₀, hΦ]
   have hθ₀surj : Function.Surjective θ₀ := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction y using TensorProduct.inductionOn with
     | tmul s m =>
       obtain ⟨m', rfl⟩ := hπM m
       exact ⟨s ⊗ₜ m', by simp [θ₀]⟩
@@ -127,7 +126,7 @@ theorem bijective_algebraMap_tensor_of_model (e : A₁ ⊗[A] S ≃ₐ[A₁] B�
     ext x
     simp only [RingHom.mem_ker, θ, RingHom.coe_comp, Function.comp_apply]
     exact ⟨fun h => Φ.injective (h.trans (map_zero Φ).symm), fun h => by
-      show Φ (θ₀ x) = 0
+      change Φ (θ₀ x) = 0
       rw [h, map_zero]⟩
   have hidn : RingHom.ker (AlgHom.id A S) ≤ nilradical S := by
     intro x hx
@@ -142,15 +141,14 @@ theorem bijective_algebraMap_tensor_of_model (e : A₁ ⊗[A] S ≃ₐ[A₁] B�
         (Algebra.TensorProduct.includeRight : M →ₐ[A] S ⊗[A] M).toRingHom hπMn)
   refine bijective_algebraMap_of_comp_eq θ hθsurj hkerθn πN ?_ ?_
   · refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m => rw [RingHom.comp_apply, hcomm, hθ]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   · refine hker.trans (Ideal.map_mono ?_)
     rw [Ideal.map_le_iff_le_comap]
     intro m hm
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show θ (1 ⊗ₜ m) = 0
+    change θ (1 ⊗ₜ m) = 0
     rw [hθ, RingHom.mem_ker.1 hm, TensorProduct.tmul_zero]
 
 /-- **The first comparison map of a model is bijective.** In the situation of
@@ -177,13 +175,13 @@ theorem bijective_chartMap_of_model {B C : Type*} [CommRing B] [CommRing C] [Alg
   have : Algebra.Etale (S ⊗[A] B) C := Algebra.Etale.of_restrictScalars B _ _
   refine bijective_algebraMap_tensor_of_model (M₁ := B₁) e πB hsB (hkB ▸ hKn) πC
     (fun s b => ?_) ?_
-  · show πC (chartMap p₁ p₂ β (s ⊗ₜ b)) = _
+  · change πC (chartMap p₁ p₂ β (s ⊗ₜ b)) = _
     rw [chartMap_tmul, map_mul, hC₁, hC₂, hβ, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
       one_mul]
   · rw [hkC, hK, hkB, Ideal.map_le_iff_le_comap]
     intro x hx
     rw [Ideal.mem_comap]
-    show p₂ x ∈ _
+    change p₂ x ∈ _
     rw [← h1]
     exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hx)
 
@@ -213,7 +211,7 @@ theorem bijective_tripleMap_of_model {B C D : Type*} [CommRing B] [CommRing C] [
   have : IsScalarTower C (S ⊗[A] C) D := IsScalarTower.of_algebraMap_eq fun c => (h1 c).symm
   have : Algebra.Etale (S ⊗[A] C) D := Algebra.Etale.of_restrictScalars C _ _
   refine bijective_algebraMap_tensor_of_model e πC hsC (hkC ▸ hLn) πD (fun s c => ?_) ?_
-  · show πD (tripleMap p₁ e₁₂ e₂₃ β (s ⊗ₜ c)) = _
+  · change πD (tripleMap p₁ e₁₂ e₂₃ β (s ⊗ₜ c)) = _
     rw [tripleMap_tmul, map_mul, hD₁₂, hD₂₃, hC₁, hβ, Algebra.TensorProduct.map_tmul,
       AlgHom.id_apply, Algebra.TensorProduct.includeLeft_apply,
       Algebra.TensorProduct.tmul_mul_tmul, mul_one, ← Algebra.TensorProduct.one_def, one_mul]
@@ -221,7 +219,7 @@ theorem bijective_tripleMap_of_model {B C D : Type*} [CommRing B] [CommRing C] [
     rw [hkC, Ideal.map_le_iff_le_comap]
     intro x hx
     rw [Ideal.mem_comap]
-    show e₂₃ x ∈ _
+    change e₂₃ x ∈ _
     rw [← h1]
     exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hx)
 
@@ -257,10 +255,9 @@ theorem isNerveReduction_bot_of_bijective_chartMap {R : Type u} [CommRing R] {B 
     have : ⇑(chartMap p₁' p₂' (AlgHom.id A B)) =
         chartMap p₁' p₂' β ∘ Algebra.TensorProduct.congr βe.symm AlgEquiv.refl := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b b' =>
-        show _ = chartMap p₁' p₂' β (βe.symm b ⊗ₜ b')
+        change _ = chartMap p₁' p₂' β (βe.symm b ⊗ₜ b')
         rw [chartMap_tmul, chartMap_tmul, hβe]; rfl
       | add x y hx hy => simp only [Function.comp_apply, map_add] at hx hy ⊢; rw [hx, hy]
     rw [this]
@@ -269,10 +266,9 @@ theorem isNerveReduction_bot_of_bijective_chartMap {R : Type u} [CommRing R] {B 
     have : ⇑(tripleMap p₁' e₁₂' e₂₃' (AlgHom.id A B)) =
         tripleMap p₁' e₁₂' e₂₃' β ∘ Algebra.TensorProduct.congr βe.symm AlgEquiv.refl := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b c =>
-        show _ = tripleMap p₁' e₁₂' e₂₃' β (βe.symm b ⊗ₜ c)
+        change _ = tripleMap p₁' e₁₂' e₂₃' β (βe.symm b ⊗ₜ c)
         rw [tripleMap_tmul, tripleMap_tmul, hβe]; rfl
       | add x y hx hy => simp only [Function.comp_apply, map_add] at hx hy ⊢; rw [hx, hy]
     rw [this]
@@ -328,11 +324,11 @@ theorem isNerveReduction_bot_of_model (p₁ p₂ : B →ₐ[R] C) (δ : C →ₐ
     commutes' := fun a => (AlgHom.congr_fun h₁₂₁₃ a).symm }
   let e₂₃' : C →ₐ[A] D := { (e₂₃ : C →+* D) with
     commutes' := fun a => by
-      show e₂₃ (p₁ a) = e₁₂ (p₁ a)
+      change e₂₃ (p₁ a) = e₁₂ (p₁ a)
       rw [← AlgHom.comp_apply, ← h₁₂₂₃, AlgHom.comp_apply, hAeq] }
   let δ' : C →ₐ[A] B := { (δ : C →+* B) with
     commutes' := fun a => by
-      show δ (p₁ a) = a
+      change δ (p₁ a) = a
       rw [← AlgHom.comp_apply, hδ₁, AlgHom.id_apply] }
   have hρ' : ∀ a : A, πB (algebraMap A B a) = algebraMap A B₁ a := fun a => (hρ a).symm
   let πBA : B →ₐ[A] B₁ := { πB with commutes' := hρ' }
@@ -355,7 +351,7 @@ theorem isNerveReduction_bot_of_model (p₁ p₂ : B →ₐ[R] C) (δ : C →ₐ
     bijective_chartMap_of_model p₁' p₂' hp₂ β e πBA hsB K hkBA hKn hK πC hkC hC₁' hC₂' hβψ
   have hπCA : ∀ a : A, πC (algebraMap A C a) = algebraMap A (B₁ ⊗[A₁] B₁) a := by
     intro a
-    show πC (p₁ a) = _
+    change πC (p₁ a) = _
     rw [hC₁', Algebra.TensorProduct.algebraMap_apply, ← hρ]
     rfl
   let πCA : C →ₐ[A] B₁ ⊗[A₁] B₁ := { πC with commutes' := hπCA }

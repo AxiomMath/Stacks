@@ -59,7 +59,8 @@ variable {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
 /-- Base change `V ↦ X ×_Y V` is fully faithful from the spaces-étale site of `Y` to that of `X`,
 for the inclusion `f` of a thickening of algebraic spaces — a monomorphism whose range is a
 closed subspace with the same points, with no hypothesis on its defining ideal. -/
-@[stacks 05ZH "full faithfulness at a thickening of unbounded order, not the integral universally injective case"]
+@[stacks 05ZH "full faithfulness at a thickening of unbounded order, not the integral \
+  universally injective case"]
 noncomputable def fullyFaithfulSpacesBaseChangeOfIsThickeningRange [Mono f.hom]
     (hT : IsThickening B S hS Y (Subfunctor.range f.hom)) :
     (spacesBaseChange B S hS f).functor.FullyFaithful :=

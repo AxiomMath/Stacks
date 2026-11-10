@@ -150,7 +150,7 @@ public lemma isIso_colimit_post_deltaFunctor_succ
       τ₂ := colimit.post S.X₃ (D.functor n)
       τ₃ := colimit.post S.X₁ (D.functor (n + 1))
       comm₁₂ := by
-        show colimit.post S.X₂ (D.functor n) ≫ (D.functor n).map (colim.map S.g) =
+        change colimit.post S.X₂ (D.functor n) ≫ (D.functor n).map (colim.map S.g) =
           colim.map (Functor.whiskerRight S.g (D.functor n)) ≫ colimit.post S.X₃ (D.functor n)
         apply colimit.hom_ext
         intro i
@@ -158,7 +158,7 @@ public lemma isIso_colimit_post_deltaFunctor_succ
           colimit.ι_post]
         rw [← Functor.map_comp, ← Functor.map_comp, colimit.ι_map]
       comm₂₃ := by
-        show colimit.post S.X₃ (D.functor n) ≫ D.δ hSc n =
+        change colimit.post S.X₃ (D.functor n) ≫ D.δ hSc n =
           colim.map δ ≫ colimit.post S.X₁ (D.functor (n + 1))
         apply colimit.hom_ext
         intro i
@@ -247,7 +247,7 @@ public lemma isIso_colimit_post_ext_succ
     have := hG i
     have : Subsingleton (Abelian.Ext.{u} X (G.obj i) (n + 1)) :=
       Abelian.Ext.subsingleton_of_injective X (G.obj i) n
-    show IsZero (AddCommGrpCat.of (Abelian.Ext.{u} X (G.obj i) (n + 1)))
+    change IsZero (AddCommGrpCat.of (Abelian.Ext.{u} X (G.obj i) (n + 1)))
     exact AddCommGrpCat.isZero_of_subsingleton _
   have hpost (G : I ⥤ A) : IsIso (colimit.post G (D.functor n)) :=
     have := hprev G

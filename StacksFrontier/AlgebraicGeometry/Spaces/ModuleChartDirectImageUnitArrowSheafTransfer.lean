@@ -143,8 +143,8 @@ side: a declaration naming the `CategoryTheory.Category` instance of
 `CategoryTheory.Functor.map_comp` for `CategoryTheory.Sheaf.moduleSheafFunctor` proved once at
 variable modules and arrows, so that the splitting is an instantiation rather than a match — the
 manoeuvre of `Stacks.AlgebraicGeometry.ProjInclusionTwist.comp_congr` and its neighbours
-(`StacksFrontier/AlgebraicGeometry/ProjInclusionTwist/Basic.lean`), whose implementation notes record
-the same distinction between instantiating a general `rfl` lemma and asking for `rfl` at the
+(`StacksFrontier/AlgebraicGeometry/ProjInclusionTwist/Basic.lean`), whose implementation notes
+record the same distinction between instantiating a general `rfl` lemma and asking for `rfl` at the
 instance.
 
 The clause is also stated for the first arrow only.  The two parallel arrows
@@ -289,9 +289,9 @@ followed by the composition comparison of Stacks 03G2, part (3), at `𝒱_U(F|_U
 
 This is the identification the two factor comparisons of
 `StacksFrontier/AlgebraicGeometry/Spaces/ModuleChartUnitArrowSheafTransfer.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/ModulePushforwardCompIsoSheafTransfer.lean` were waiting on:
-with it, the set-level first arrow of Stacks 03M8 at the sheaf of sets underlying a module is the
-composite of the sheaves of sets underlying the two factors of the module arrow.
+`StacksFrontier/AlgebraicGeometry/Spaces/ModulePushforwardCompIsoSheafTransfer.lean` were waiting
+on: with it, the set-level first arrow of Stacks 03M8 at the sheaf of sets underlying a module is
+the composite of the sheaves of sets underlying the two factors of the module arrow.
 
 It is two rungs of the ladder composed; stated as a single `rfl` it does not terminate, as this
 file's implementation notes record. -/

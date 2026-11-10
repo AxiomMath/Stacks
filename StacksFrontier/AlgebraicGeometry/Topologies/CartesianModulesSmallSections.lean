@@ -90,7 +90,7 @@ theorem isSheaf_of_cartesian_of_flat_covers'
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage flatProp.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _

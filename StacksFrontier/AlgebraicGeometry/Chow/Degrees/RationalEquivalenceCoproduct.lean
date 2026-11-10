@@ -162,7 +162,7 @@ theorem exists_isFinite_properPushforward_eq_of_isRationallyEquivalentToZero (k 
         (Sigma.desc fun j ↦ (W j).subschemeι) = (W j).subschemeι := by
     intro j
     rw [← Category.assoc, Scheme.Hom.isoOpensRange_hom_ι]
-    exact Sigma.ι_desc _ j
+    exact Sigma.ι_comp_desc _ j
   obtain ⟨c, hc, -⟩ := exists_properPushforward_eq_of_isClopenDecomposition C sX
     (Sigma.desc fun j ↦ (W j).subschemeι) k
     (isClopenDecomposition_opensRange_sigmaι fun j ↦ (W j).subscheme)

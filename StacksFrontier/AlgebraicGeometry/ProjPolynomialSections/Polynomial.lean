@@ -63,7 +63,8 @@ same `algebraMap` (`MvPolynomial.algebraMap_def` is `rfl`), so no transport alon
 
 **No project tag is attached.** `Proj_S(𝒪_S[T₀, …, Tₙ]) ≅ ℙⁿ_S` is not a labelled assertion of
 Tag 01NF — that tag's assertions are about projective space over a ring and over a scheme, both
-already formalized in `StacksFrontier.AlgebraicGeometry.Constructions.ProjectiveSpace` — and Tag 01NQ's
+already formalized in `StacksFrontier.AlgebraicGeometry.Constructions.ProjectiveSpace` — and Tag
+01NQ's
 assertions are about the glueing, which is formalized in a sibling file.
 
 **Nothing identifies `polyAlgebra` with the symmetric algebra of a free module.** That

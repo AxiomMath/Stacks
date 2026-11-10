@@ -48,15 +48,14 @@ theorem isIso_restrictionBaseChange_submodule
   have hθM : Function.Bijective θM := (ConcreteCategory.isIso_iff_bijective _).mp hM
   have nat : ∀ t, (θN t : M.obj Y) = θM (ιX.lTensor (R.obj Y) t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a n =>
       rw [LinearMap.lTensor_tmul]
       exact (congrArg Subtype.val (restrictionBaseChange_tmul N.toPresheafOfModules f a n)).trans
         (restrictionBaseChange_tmul M f a (n : M.obj X)).symm
     | add x y hx hy => rw [map_add, map_add, map_add, Submodule.coe_add, hx, hy]
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective θN
+  change Function.Bijective θN
   refine ⟨fun t t' h => ?_, fun y => ?_⟩
   · exact Module.Flat.lTensor_preserves_injective_linearMap ιX Subtype.val_injective
       (hθM.1 (by rw [← nat, ← nat, h]))

@@ -38,7 +38,8 @@ and between `(Sch/U)` and its slice at the identity changes nothing — is disch
 ## Implementation notes
 
 The three elementary transports the proof is assembled from are in
-`StacksFrontier/CategoryTheory/Sites/PresieveSheafTransport.lean`: passage to a slice, an equivalence
+`StacksFrontier/CategoryTheory/Sites/PresieveSheafTransport.lean`: passage to a slice, an
+equivalence
 of categories, and an isomorphism of the object the presieve lives on.  The last is needed because
 the localization functor carries the terminal object `id : x → x` of `𝒳/x` to `Over.mk (p(id_x))`
 rather than to `Over.mk (𝟙 U)` on the nose.
@@ -101,7 +102,7 @@ theorem isSheafFor_ofArrows_iff_overPost {I : Type*} {z : I → 𝒳} (φ : ∀ 
     Presieve.isSheafFor_ofArrows_map_iff_of_isEquivalence F Q g
   let ε : F.obj (Over.mk (𝟙 x)) ≅ Over.mk (𝟙 ((p ⋙ Over.forget (B.obj hS)).obj x)) :=
     Over.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ 𝟙 ((p ⋙ Over.forget (B.obj hS)).obj x) =
+      change 𝟙 _ ≫ 𝟙 ((p ⋙ Over.forget (B.obj hS)).obj x) =
         (p ⋙ Over.forget (B.obj hS)).map (𝟙 x)
       simp)
   have h4 := Presieve.isSheafFor_ofArrows_comp_iso_iff Q ε
@@ -112,7 +113,7 @@ theorem isSheafFor_ofArrows_iff_overPost {I : Type*} {z : I → 𝒳} (φ : ∀ 
           Over.mk (𝟙 ((p ⋙ Over.forget (B.obj hS)).obj x))) := by
     funext i
     ext : 1
-    show (p ⋙ Over.forget (B.obj hS)).map (φ i) ≫ 𝟙 _ =
+    change (p ⋙ Over.forget (B.obj hS)).map (φ i) ≫ 𝟙 _ =
       (p ⋙ Over.forget (B.obj hS)).map (φ i)
     simp
   rw [hfun] at h4

@@ -228,7 +228,7 @@ public theorem mem_transitionLocus_of_isClosed_singleton
     rw [hp, Category.assoc]
     exact pointOfClosedPoint_comp gU x hxc
   have hpa : p.base a = (transitionClassifyingOpen k V X Y hXc hYc b).ι.base x := by
-    show (transitionClassifyingOpen k V X Y hXc hYc b).ι.base
+    change (transitionClassifyingOpen k V X Y hXc hYc b).ι.base
       ((pointOfClosedPoint gU x hxc).base a) = _
     rw [pointOfClosedPoint_apply gU x hxc a]
   obtain ⟨c, u, u', w, h, hpeq⟩ := exists_eq_transitionSourcePoint k V X Y hXc hYc b p
@@ -254,7 +254,7 @@ public theorem mem_transitionLocus_of_isClosed_singleton
             projectiveSpaceOfModuleToSpec k V := by
       rw [hpt]
       exact Category.assoc _ _ _
-    show pt ≫ pullback.fst (closedSubschemeOfToSpec k V X hXc)
+    change pt ≫ pullback.fst (closedSubschemeOfToSpec k V X hXc)
         (closedSubschemeOfToSpec k V Y hYc) ≫ closedSubschemeOfι k V X hXc ≫
           projectiveSpaceOfModuleToSpec k V = 𝟙 _
     rw [hassoc, ← transitionSourceToSpec_eq]
@@ -444,7 +444,7 @@ public theorem range_transitionClassifyingToProd_subset_transitionLocusOver :
         ((transitionClassifyingOpen k V X Y hXc hYc b).ι ≫ tsSource k V X Y hXc hYc).base z := by
       rw [← transitionClassifyingToProd_comp_tpSource k V X Y hXc hYc b]
       rfl
-    show (tpSource k V).base ((transitionClassifyingToProd k V X Y hXc hYc b).base z) ∈ X
+    change (tpSource k V).base ((transitionClassifyingToProd k V X Y hXc hYc b).base z) ∈ X
     rw [h1]
     exact (range_closedSubschemeOfι k V X hXc).subset
       ⟨(pullback.fst (closedSubschemeOfToSpec k V X hXc)
@@ -455,7 +455,7 @@ public theorem range_transitionClassifyingToProd_subset_transitionLocusOver :
         ((transitionClassifyingOpen k V X Y hXc hYc b).ι ≫ tsTarget k V X Y hXc hYc).base z := by
       rw [← transitionClassifyingToProd_comp_tpTarget k V X Y hXc hYc b]
       rfl
-    show (tpTarget k V).base ((transitionClassifyingToProd k V X Y hXc hYc b).base z) ∈ Y
+    change (tpTarget k V).base ((transitionClassifyingToProd k V X Y hXc hYc b).base z) ∈ Y
     rw [h2]
     exact (range_closedSubschemeOfι k V Y hYc).subset
       ⟨(pullback.snd (closedSubschemeOfToSpec k V X hXc)

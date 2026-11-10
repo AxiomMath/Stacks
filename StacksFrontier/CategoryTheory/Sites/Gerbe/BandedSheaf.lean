@@ -343,7 +343,7 @@ attribute [local simp] fiberInclusion_map_fiberHom
 /-- The value of a band section at an object of `𝒮` is its value in the fibre over `p z`. -/
 private lemma hom_eq_fiberInclusion_map_fiberHom (a : Band p V) (z : 𝒮) (h : p.obj z ⟶ V) :
     a.hom z h = Fiber.fiberInclusion.map (a.fiberHom (Fiber.mk (rfl : p.obj z = p.obj z)) h) := by
-  show a.hom z h = a.hom z (eqToHom (rfl : p.obj z = p.obj z) ≫ h)
+  change a.hom z h = a.hom z (eqToHom (rfl : p.obj z = p.obj z) ≫ h)
   simp
 
 /-- The comparison depends on the morphism to `V` only through its value. -/

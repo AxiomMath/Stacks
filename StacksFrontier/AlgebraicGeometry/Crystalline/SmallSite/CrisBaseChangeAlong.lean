@@ -212,15 +212,13 @@ def crisBaseChangeCrossEquiv :
   invFun := crisBaseChangeCrossInv F k
   map_add' := map_add (crisBaseChangeCross F k)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [crisBaseChangeCross_tmul, crisBaseChangeCrossInv_tmul, ← crysSectionTopEquiv_apply,
           AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
         rw [crisBaseChangeCrossInv_tmul, crisBaseChangeCross_tmul, ← crysSectionTopEquiv_apply,
           AddEquiv.apply_symm_apply]
@@ -243,10 +241,7 @@ theorem crisSectionTop_crisBaseChangeAlong
     crysSectionTop F A₁ (crisBaseChangeAlong F k z) =
       ambientBaseChangeTensorFun k.hom (moduleRestrictionSheaf F A₀)
         (moduleRestrictionSheaf F A₁) (moduleFMapSheaf F k) (crisBaseChangeCross F k z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, ← crysSectionTopHom_apply, map_zero,
-        ambientBaseChangeTensorFun_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [crisBaseChangeAlong_tmul, crisBaseChangeCross_tmul, ambientBaseChangeTensorFun_tmul,
         fmapTopSection_crysSectionTop, crisSectionTop_smul]

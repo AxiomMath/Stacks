@@ -156,7 +156,7 @@ theorem isNode_of_isIso_of_comp_eq {k : Type u} [Field k] {X Y : Scheme.{u}}
       (pullback.fst f a) xbar = e y ∧
         (let : (pullback f a).Over (Spec (.of (AlgebraicClosure k))) := ⟨pullback.snd f a⟩
          IsOrdinaryDoublePoint (AlgebraicClosure k) (pullback f a) xbar) := h
-  show IsClosed ({y} : Set Y) ∧ ∃ ybar : (pullback (e ≫ f) a : Scheme.{u}),
+  change IsClosed ({y} : Set Y) ∧ ∃ ybar : (pullback (e ≫ f) a : Scheme.{u}),
       (pullback.fst (e ≫ f) a) ybar = y ∧
         (let : (pullback (e ≫ f) a).Over (Spec (.of (AlgebraicClosure k))) :=
           ⟨pullback.snd (e ≫ f) a⟩
@@ -168,7 +168,7 @@ theorem isNode_of_isIso_of_comp_eq {k : Type u} [Field k] {X Y : Scheme.{u}}
     infer_instance
   have hinj : Function.Injective e.base := (Scheme.homeoOfIso (asIso e)).injective
   have hEinv : E (inv E xbar) = xbar := by
-    show (inv E ≫ E) xbar = xbar
+    change (inv E ≫ E) xbar = xbar
     rw [IsIso.inv_hom_id]
     rfl
   have hfst : pullback.fst (e ≫ f) a ≫ e = E ≫ pullback.fst f a := by
@@ -179,9 +179,9 @@ theorem isNode_of_isIso_of_comp_eq {k : Type u} [Field k] {X Y : Scheme.{u}}
     rw [← hpre]
     exact hx.preimage e.continuous
   · apply hinj
-    show (pullback.fst (e ≫ f) a ≫ e) (inv E xbar) = e y
+    change (pullback.fst (e ≫ f) a ≫ e) (inv E xbar) = e y
     rw [hfst]
-    show (pullback.fst f a) (E (inv E xbar)) = e y
+    change (pullback.fst f a) (E (inv E xbar)) = e y
     rwa [hEinv]
   · let : (pullback f a).Over (Spec (.of (AlgebraicClosure k))) := ⟨pullback.snd f a⟩
     let : (pullback (e ≫ f) a).Over (Spec (.of (AlgebraicClosure k))) :=
@@ -233,7 +233,7 @@ theorem hasAtWorstNodalSingularities_of_isIso {k₁ k₂ : Type u} [Field k₁] 
   · right
     have hLfst : (pullback.fst f₁ (Spec.map (CommRingCat.ofHom (algebraMap k₁ k₂))))
         (hsq.isoPullback.hom y) = e y := by
-      show (hsq.isoPullback.hom ≫ pullback.fst _ _) y = e y
+      change (hsq.isoPullback.hom ≫ pullback.fst _ _) y = e y
       rw [hsq.isoPullback_hom_fst]
     have hnode := (isNode_iff_of_fieldExtension k₁ k₂ X₁ f₁ hdim (e y) _ hLfst).1 hn
     have := isNode_of_isIso_of_comp_eq
@@ -267,7 +267,7 @@ theorem hasAtWorstNodalSingularities_of_baseChange_algebraicClosure (k : Type u)
     obtain ⟨y, hy⟩ := (pullback.fst f a).surjective x
     have hyc : IsClosed ({y} : Set (pullback f a : Scheme.{u})) :=
       isClosed_singleton_baseChange_of_isClosed k (AlgebraicClosure k) X f y (by
-        show IsClosed {(pullback.fst f a) y}
+        change IsClosed {(pullback.fst f a) y}
         rwa [hy])
     have hns : ¬ InfinitesimalLifting.SmoothAt (pullback.snd f a) y := by
       rwa [AlgebraicGeometry.smoothAt_iff_smoothAt_of_isPullback (IsPullback.of_hasPullback f a)
@@ -306,12 +306,12 @@ theorem eq_specMap_algebraMap_fraction_or_residue (t : Spec (.of S.R)) :
       t = (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k))) (IsLocalRing.closedPoint S.k) := by
   have hK : ((Spec.map (CommRingCat.ofHom (algebraMap S.R S.K)))
       (IsLocalRing.closedPoint S.K)).asIdeal = ⊥ := by
-    show Ideal.comap (algebraMap S.R S.K) (IsLocalRing.maximalIdeal S.K) = ⊥
+    change Ideal.comap (algebraMap S.R S.K) (IsLocalRing.maximalIdeal S.K) = ⊥
     rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective S.R S.K)
   have hk : ((Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)))
       (IsLocalRing.closedPoint S.k)).asIdeal = IsLocalRing.maximalIdeal S.R := by
-    show Ideal.comap (algebraMap S.R S.k) (IsLocalRing.maximalIdeal S.k) = _
+    change Ideal.comap (algebraMap S.R S.k) (IsLocalRing.maximalIdeal S.k) = _
     rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
     have : algebraMap S.R S.k =
         S.residueEquiv.toRingEquiv.toRingHom.comp (IsLocalRing.residue S.R) := by

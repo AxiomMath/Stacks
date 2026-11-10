@@ -103,7 +103,8 @@ consumer extracting a finite subcover from quasi-compactness holds exactly this 
 
 No tag attribute is attached. [Stacks, Tag 01AN] is the equivalence, for an arbitrary ringed space
 and an arbitrary index set, between generation and generation of every stalk; that equivalence is
-`AlgebraicGeometry.generates_iff_stalkwise_generates`, which is in the library and is not this file. What
+`AlgebraicGeometry.generates_iff_stalkwise_generates`, which is in the library and is not this file.
+What
 is proved here is one direction of one corollary of it, for a finite family of sections of an
 invertible module on a scheme, so attaching the label would overclaim it. Tag 01Q3 asserts the
 equivalence of all nine of its clauses, and half of one clause earns no part of that label either.

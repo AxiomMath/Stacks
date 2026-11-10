@@ -89,7 +89,7 @@ public theorem Scheme.exists_hom_hom_comp_eq_comp_of_locallyOfFiniteType_of_domi
   have hc' : IsLimit c' := isLimitOfPreserves (Over.forget S) hlim
   have hAff : ∀ {x y : Jᵒᵖ} (b : x ⟶ y), IsAffineHom (A.map b) := by
     intro x y b
-    show IsAffineHom ((D.map (E.map b)).left)
+    change IsAffineHom ((D.map (E.map b)).left)
     have : IsAffineHom ((D.map (E.map b)).left ≫ (D.obj (E.obj y)).hom) := by
       rw [(D.map (E.map b)).w]
       infer_instance

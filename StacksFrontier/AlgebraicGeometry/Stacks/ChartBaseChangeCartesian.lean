@@ -168,7 +168,7 @@ theorem exists_fiber_preimage_of_conj {𝒞 𝒜 𝒮₁ : Type*} [Category 𝒞
     ∃ m : a ⟶ b, (Functor.fiberFunctorOfCompEq hF U).map m = Φ := by
   have hEa' : p.IsHomLift (𝟙 U) Ea.inv := IsHomLift.lift_id_inv p U Ea
   refine ⟨⟨Ea.inv ≫ ψ ≫ Eb.hom, inferInstance⟩, Functor.Fiber.hom_ext ?_⟩
-  show F.map (Ea.inv ≫ ψ ≫ Eb.hom) = Φ.1
+  change F.map (Ea.inv ≫ ψ ≫ Eb.hom) = Φ.1
   rw [F.map_comp, F.map_comp, hFψ]
   simp [← F.map_comp_assoc, ← F.map_comp]
 
@@ -292,7 +292,7 @@ theorem locallyEssSurjOnFibers_cartesianComparison (fU : W ⟶ U)
   have hf'a : f'.hom.obj a' = ⟨z₀.left, Discrete.mk (k ≫ yx.fiber.as)⟩ := by
     have := congrArg (fun F => F.obj wo) hq'
     refine this.trans ((associatedMap_obj B S hS (yoneda.map q') _).trans ?_)
-    show (⟨z₀.left, Discrete.mk (w ≫ q')⟩ : (fibredCategory B S hS (yoneda.obj M')).val.obj) = _
+    change (⟨z₀.left, Discrete.mk (w ≫ q')⟩ : (fibredCategory B S hS (yoneda.obj M')).val.obj) = _
     rw [hw₂]
   let ψa : f'.hom.obj a' ⟶ yx := eqToHom hf'a ≫ PresheafOfCategories.homMk k yx.fiber.as
   have hψa : (fibredCategory B S hS (yoneda.obj M')).val.p.IsHomLift (eqToHom hwo ≫ k) ψa :=
@@ -310,7 +310,7 @@ theorem locallyEssSurjOnFibers_cartesianComparison (fU : W ⟶ U)
     refine (representingMap_app_sectionOfObj (PresheafOfCategories.sliceElementsEquivalenceOver W)
       (PresheafOfCategories.sliceElementsEquivalenceOver U) (chartMap h x eK) wo rfl).symm.trans ?_
     rw [← hfU]
-    show (PresheafOfCategories.sectionOfObj (PresheafOfCategories.sliceElementsEquivalenceOver W)
+    change (PresheafOfCategories.sectionOfObj (PresheafOfCategories.sliceElementsEquivalenceOver W)
       wo rfl) ≫ fU = _
     rw [sectionOfObj_sliceElementsEquivalenceOver']
     refine Eq.trans ?_ (sectionOfObj_sliceElementsEquivalenceOver' z₀ rfl).symm

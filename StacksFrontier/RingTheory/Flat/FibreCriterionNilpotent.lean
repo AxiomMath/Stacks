@@ -175,14 +175,14 @@ theorem Module.Flat.localization_quotient_smul_top {A B : Type*} [CommRing A] [C
   have : IsLocalizedModule T gB := inferInstance
   let modY' : Module (B ⧸ KB) Y' := Module.compHom _ (algebraMap (B ⧸ KB) (Bₚ ⧸ KBₚ))
   have towBY' : IsScalarTower B (B ⧸ KB) Y' := IsScalarTower.of_algebraMap_smul fun b y => by
-    show (algebraMap (B ⧸ KB) (Bₚ ⧸ KBₚ) (algebraMap B (B ⧸ KB) b)) • y = b • y
+    change (algebraMap (B ⧸ KB) (Bₚ ⧸ KBₚ) (algebraMap B (B ⧸ KB) b)) • y = b • y
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ y
-    show Submodule.Quotient.mk (algebraMap B Bₚ b • y) = Submodule.Quotient.mk (b • y)
+    change Submodule.Quotient.mk (algebraMap B Bₚ b • y) = Submodule.Quotient.mk (b • y)
     rw [algebraMap_smul]
   let g : P ⧸ (KB • ⊤ : Submodule B P) →ₗ[B ⧸ KB] Y' :=
     gB.extendScalarsOfSurjective Ideal.Quotient.mk_surjective
   have : IsLocalizedModule T (g.restrictScalars B) := by
-    show IsLocalizedModule T gB
+    change IsLocalizedModule T gB
     infer_instance
   have : IsLocalizedModule (Algebra.algebraMapSubmonoid (B ⧸ KB) T) g :=
     IsLocalizedModule.of_restrictScalars T g
@@ -231,7 +231,7 @@ theorem RingHom.EssentiallyOfFinitePresentation.comp_ringEquiv {R S S₂ : Type*
   let := ((e : S →+* S₂).comp f).toAlgebra
   let : Algebra A S₂ := ((e : S →+* S₂).comp (algebraMap A S)).toAlgebra
   have : IsScalarTower R A S₂ := IsScalarTower.of_algebraMap_eq' <| by
-    show (e : S →+* S₂).comp f = ((e : S →+* S₂).comp (algebraMap A S)).comp (algebraMap R A)
+    change (e : S →+* S₂).comp f = ((e : S →+* S₂).comp (algebraMap A S)).comp (algebraMap R A)
     rw [RingHom.comp_assoc, ← h]
     rfl
   have : IsLocalization T S₂ := (IsLocalization.isLocalization_iff_of_ringEquiv T e).mp hloc
@@ -294,7 +294,7 @@ private theorem flat_localization_of_flat_fibre {R S S' : Type*} [CommRing R] [C
       (IsScalarTower.toAlgHom R S' Sq') fun _ _ => Commute.all _ _
     let : Algebra (Rp ⊗[R] S') Sq' := φ.toRingHom.toAlgebra
     have : IsScalarTower S' (Rp ⊗[R] S') Sq' := IsScalarTower.of_algebraMap_eq fun s => by
-      show _ = φ (1 ⊗ₜ s)
+      change _ = φ (1 ⊗ₜ s)
       simp [φ]
     have : IsScalarTower Rp (Rp ⊗[R] S') Sq' :=
       IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
@@ -324,8 +324,7 @@ theorem Ideal.exists_under_eq_and_nontrivial_localization_tensor {S S' : Type*} 
     refine not_subsingleton_iff_nontrivial.mp fun hcon => ?_
     have : Subsingleton (M ⊗[S] q.ResidueField) := by
       refine subsingleton_of_forall_eq 0 fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => rfl
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [hx, hy, add_zero]
       | tmul m k =>
         let φ : (S' ⧸ a) →ₗ[S] M :=
@@ -349,7 +348,7 @@ theorem Ideal.exists_under_eq_and_nontrivial_localization_tensor {S S' : Type*} 
   · have hmem : (⟨Q.asIdeal.comap (Ideal.Quotient.mk a), inferInstance⟩ : PrimeSpectrum S') ∈
         Module.support S' M :=
       Module.mem_support_iff_of_finite.mpr fun x hx => by
-        show Ideal.Quotient.mk a x ∈ Q.asIdeal
+        change Ideal.Quotient.mk a x ∈ Q.asIdeal
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
         exact zero_mem _
     rw [Module.mem_support_iff] at hmem

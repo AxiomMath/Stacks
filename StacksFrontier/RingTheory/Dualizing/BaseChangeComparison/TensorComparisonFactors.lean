@@ -102,6 +102,30 @@ variable {R : Type uR} {A : Type uA} {R' : Type uRp} [CommRing R] [CommRing A] [
         R' →ₐ[R] TensorProduct R A R').toRingHom).mapHomologicalComplex
       (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
 
+set_option linter.checkUnivs false in
+/-- The comparison of the chosen model of derived extension of scalars along `R → A` is
+invertible at a K-flat complex. -/
+theorem isIso_alphaf_app_of_kFlat
+    [hf : Ff.IsLeftDerivedFunctor alphaf
+      (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA uRp} R) (ComplexShape.up ℤ))]
+    (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
+    (hK : CochainComplex.KFlat.{uR, max v uA uRp} K) :
+    IsIso (alphaf.app K) :=
+  CochainComplex.DerivedExtensionScalars.isIso_comparison_app_of_kFlat.{uR, uA, max v uRp}
+    (algebraMap R A) Ff alphaf K hK
+
+set_option linter.checkUnivs false in
+/-- The comparison of the chosen model of derived extension of scalars along `R → R'` is
+invertible at a K-flat complex. -/
+theorem isIso_comparisonR_app_of_kFlat
+    [hR : baseChangeR.IsLeftDerivedFunctor comparisonR
+      (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA uRp} R) (ComplexShape.up ℤ))]
+    (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
+    (hK : CochainComplex.KFlat.{uR, max v uA uRp} K) :
+    IsIso (comparisonR.app K) :=
+  CochainComplex.DerivedExtensionScalars.isIso_comparison_app_of_kFlat.{uR, uRp, max v uA}
+    (algebraMap R R') baseChangeR comparisonR K hK
+
 variable [hf : Ff.IsLeftDerivedFunctor alphaf
     (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA uRp} R) (ComplexShape.up ℤ))]
   [hA : baseChangeA.IsLeftDerivedFunctor comparisonA
@@ -111,24 +135,7 @@ variable [hf : Ff.IsLeftDerivedFunctor alphaf
   [hi : Fi.IsLeftDerivedFunctor alphai
     (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA uRp} R') (ComplexShape.up ℤ))]
 
-include hf in
-/-- The comparison of the chosen model of derived extension of scalars along `R → A` is
-invertible at a K-flat complex. -/
-theorem isIso_alphaf_app_of_kFlat (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
-    (hK : CochainComplex.KFlat.{uR, max v uA uRp} K) :
-    IsIso (alphaf.app K) :=
-  CochainComplex.DerivedExtensionScalars.isIso_comparison_app_of_kFlat.{uR, uA, max v uRp}
-    (algebraMap R A) Ff alphaf K hK
-
-include hR in
-/-- The comparison of the chosen model of derived extension of scalars along `R → R'` is
-invertible at a K-flat complex. -/
-theorem isIso_comparisonR_app_of_kFlat (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
-    (hK : CochainComplex.KFlat.{uR, max v uA uRp} K) :
-    IsIso (comparisonR.app K) :=
-  CochainComplex.DerivedExtensionScalars.isIso_comparison_app_of_kFlat.{uR, uRp, max v uA}
-    (algebraMap R R') baseChangeR comparisonR K hK
-
+set_option linter.checkUnivs false in
 /-- The degreewise extension of scalars of a K-flat complex of `R`-modules along `R → A` is
 K-flat; this is [stacks 06Y1]. -/
 theorem kFlat_extendScalars_algebraMap
@@ -140,6 +147,7 @@ theorem kFlat_extendScalars_algebraMap
   CochainComplex.KFlat.ScalarBaseChange.kFlat_extendScalars.{uR, uA, max v uRp}
     (algebraMap R A) K hK
 
+set_option linter.checkUnivs false in
 /-- The degreewise extension of scalars of a K-flat complex of `R`-modules along `R → R'` is
 K-flat; this is [stacks 06Y1]. -/
 theorem kFlat_extendScalars_algebraMapR

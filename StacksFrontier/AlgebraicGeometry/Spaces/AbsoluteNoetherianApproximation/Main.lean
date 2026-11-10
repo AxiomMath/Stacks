@@ -212,7 +212,7 @@ theorem hasConventionalNoetherianApproximation_of_isElementaryDistinguishedSquar
     System.isQuasiCompactSpace_of_isFiniteType_viewOverIntegers (A.isFiniteTypeOverIntegers i)
   obtain ⟨i₀, Ws, ws, πW, hws', hwscart, hWscpt, hWslft, hWsaff, -, hπWcart, ⟨hWslim⟩⟩ :=
     exists_etaleSchemeSystem_of_isLimit A.diagram hconvA A.isAlgebraicSpace A.isAffineHom_map
-      hAqc A.isAbsolutelyQuasiSeparated A.isFiniteTypeOverIntegers h.isOpenSubspace.1 A.π
+      hAqc A.isAbsolutelyQuasiSeparated A.isFiniteTypeOverIntegers A.π
       A.isLimit P inferInstance inferInstance winf
       ((isEtale_iff_presheaf_of_yoneda B (⊤_ Scheme.{u}) hZ winf).mpr hwinf)
   have hws : ∀ i, (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})

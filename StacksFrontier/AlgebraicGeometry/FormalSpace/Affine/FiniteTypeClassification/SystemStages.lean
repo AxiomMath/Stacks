@@ -45,7 +45,7 @@ theorem contains_spec_systemStage
   let K := idealBasisIndex J i
   let T := Q.diagram.obj K
   have hT : B.Contains ((AlgebraicGeometry.BigAffineFppf.toScheme B S hS).obj T) := by
-    show _ < B.cutoff
+    change _ < B.cutoff
     exact T.1.left.property
   have hbase : (Spec (CommRingCat.of (A ⧸ K.1))).size < B.cutoff := by
     rw [← Scheme.size_congr (Q.quotientIso K)]
@@ -196,7 +196,7 @@ theorem surjective_and_ker_eq_of_isPushout
   · have he := RingHom.ker_comp_of_injective b.hom
       (ConcreteCategory.bijective_of_isIso e.hom).1
     rw [← he]
-    show RingHom.ker ((b ≫ e.hom).hom) = K
+    change RingHom.ker ((b ≫ e.hom).hom) = K
     rw [hb]
     exact Ideal.mk_ker
 
@@ -388,7 +388,7 @@ private theorem systemDiagram_isThickening
     {i j : I} (f : i ⟶ j) :
     Stacks.Thickenings.IsThickening ((AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map
       ((systemDiagram B S hS A P Q).map f)) := by
-  show Stacks.Thickenings.IsThickening (Spec.map (P.B.map f.op))
+  change Stacks.Thickenings.IsThickening (Spec.map (P.B.map f.op))
   exact transition_specMap_isThickening P f.le
 
 /-- The algebra structure maps give a morphism to the base quotient diagram. -/
@@ -565,7 +565,7 @@ theorem systemColimitMap_baseChange_stage
     let g := p.diag.map WalkingCospan.Hom.inr
     have hp := IsPullback.of_isLimit_cone p.isLimit
     let e : Z ≅ pullback f g := hp.isoPullback
-    show Z.size < B.cutoff
+    change Z.size < B.cutoff
     rw [Scheme.size_congr e]
     exact Scheme.size_pullback_lt f g
       (p.prop_diag_obj WalkingCospan.left) (p.prop_diag_obj WalkingCospan.right)
@@ -681,7 +681,7 @@ private theorem singleton_mem_bigFppf_topology
       (B.inclusion.map f)).2 ⟨Scheme.Hom.surjective _, he⟩
   let E : Covering B.Schemes := ⟨X, PreZeroHypercover.singleton f⟩
   have hE : _root_.AlgebraicGeometry.IsFppfCovering E := by
-    show (PreZeroHypercover.singleton f).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton f).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj X)
     simpa only [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton] using
       AlgebraicGeometry.Scheme.etalePrecoverage_le_fppfPrecoverage _ hEt
@@ -712,7 +712,7 @@ private theorem isLocallySurjective_of_surjective_etale
     (hs.property_snd ξ) (he.property ξ (hs.rep.fst ξ) q (hs.rep.isPullback ξ))
   have hcover : Sieve.generate (Presieve.singleton q) ∈
       AlgebraicGeometry.BigFppfOver.topology B S hS T := by
-    show Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
+    change Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
       Presieve.map_singleton]

@@ -115,7 +115,7 @@ theorem exists_closedSubspace_isEtaleAt_of_closure_pullback (hU : IsAlgebraicSpa
     isOpenSubspace_preimage B S hS p₂ _ hX₂ hP (isOpenSubspace_subfunctorRange B S hS hV₂ hι₂)
   have hQpts : Set.range (pointsMap B S hS _ Q.ι) =
       pointsMap B S hS P p₂ ⁻¹' Set.range (pointsMap B S hS V₂ ι₂) := by
-    show subspacePointSet B S hS P Q = _
+    change subspacePointSet B S hS P Q = _
     rw [hQ, subspacePointSet_preimage, subspacePointSet_range]
   set C := pointsMap B S hS _ (pullback.fst ψ₁ ψ₂) ⁻¹' T
   have hCcl : IsClosed C := hT.preimage (continuous_pointsMap B S hS _)
@@ -254,7 +254,7 @@ theorem exists_isFlat_cover_closure_of_isEtaleAt (hZ : B.Contains (⊤_ Scheme.{
     fun a ha => (hcov a ha).imp fun _ h => h.1⟩
   have hsq : (strictTransformPullbackToSource B S hS f b).hom ≫ f.hom =
       (strictTransformPullbackToBlowUp B S hS f b).hom ≫ b.hom := pullback.condition
-  show (strictTransformSpaceι B S hS f b (Yc.1.preimage b.hom)).hom ≫
+  change (strictTransformSpaceι B S hS f b (Yc.1.preimage b.hom)).hom ≫
       (strictTransformPullbackToSource B S hS f b).hom ≫ f.hom =
     (strictTransformSpaceι B S hS f b (Yc.1.preimage b.hom)).hom ≫
       (strictTransformPullbackToBlowUp B S hS f b).hom ≫ b.hom

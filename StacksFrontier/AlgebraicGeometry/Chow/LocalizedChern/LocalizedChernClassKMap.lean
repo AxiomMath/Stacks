@@ -169,7 +169,7 @@ theorem supportedTotalLocalizedChern_fst (E : supportedPerfectDerivedCategory i)
     by_cases h0 : n = 0
     · subst h0
       rw [localizedGrading_one_fst_of_eq rfl, TotalChowClass.intComponent, dite_eq_left le_rfl]
-      show bivariantClassDegreeCongr C _ a a (𝟙 X) (Category.id_comp a) _ (c 0) = _
+      change bivariantClassDegreeCongr C _ a a (𝟙 X) (Category.id_comp a) _ (c 0) = _
       rw [hc, TotalChowClass.one_apply_zero, bivariantClassDegreeCongr_bivariantClassDegreeCongr]
     · rw [localizedGrading_one_fst_of_ne h0,
         TotalChowClass.intComponent_of_neg _ (show n < 0 by push_cast at hn; omega)]

@@ -82,7 +82,7 @@ theorem faithful_quasicoherentEvaluation_of_isTerminal :
     exact semilinearMap_ext_of_restriction (M := M.obj) M.property n ha y.unop.property
       (σ := RingHom.id _) (θ₁ := (f.hom.val.app (op y.unop.obj)).hom)
       (θ₂ := (g.hom.val.app (op y.unop.obj)).hom) fun s => by
-        show f.hom.val.app (op y.unop.obj) (M.obj.val.map n.op s) =
+        change f.hom.val.app (op y.unop.obj) (M.obj.val.map n.op s) =
           g.hom.val.app (op y.unop.obj) (M.obj.val.map n.op s)
         rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply]
         exact congrArg (N.obj.val.map n.op) (ConcreteCategory.congr_hom hfg s)
@@ -114,7 +114,7 @@ theorem extendAlong_from_self_of_isTerminal
     extendAlong_map M hM (h₀.from x₀) ha ha N ((restrictionLinear N (h₀.from x₀)).comp θ) t
   rw [ht] at this
   refine this.trans ?_
-  show N.val.map (h₀.from x₀).op (θ t) = θ t
+  change N.val.map (h₀.from x₀).op (θ t) = θ t
   exact (N.val.congr_map_apply (congrArg Quiver.Hom.op hid) _).trans (by simp; rfl)
 
 omit [EssentiallySmall.{u} 𝒳] in
@@ -162,7 +162,7 @@ theorem full_quasicoherentEvaluation_of_isTerminal :
         Module.compHom _ (algebraMap (objRing B S hS p x₀) (objRing B S hS p z))
       map_extendAlong' M.obj M.property (h₀.from y) ha hy N.obj k (h₀.from z)
         (h₀.hom_ext _ _) hz _ _ (fun s => by
-          show N.obj.val.map (h₀.from z).op (θ₀ s) =
+          change N.obj.val.map (h₀.from z).op (θ₀ s) =
             N.obj.val.map k.op (N.obj.val.map (h₀.from y).op (θ₀ s))
           rw [h₀.hom_ext (h₀.from z) (k ≫ h₀.from y), op_comp]
           exact N.obj.val.map_comp_apply _ _ _) t

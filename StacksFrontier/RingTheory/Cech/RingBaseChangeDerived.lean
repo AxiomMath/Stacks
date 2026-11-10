@@ -343,7 +343,7 @@ def termBaseChangeEquiv (p : ℕ) :
 /-- The degreewise base-change isomorphism sends `1 ⊗ z` to the change of rings of `z`. -/
 theorem termBaseChangeEquiv_one_tmul (p : ℕ) (z : Cech.cechTerm f A p) :
     termBaseChangeEquiv f B p ((1 : B) ⊗ₜ z) = termMap (algebraMap A B) f p z := by
-  show termBaseChange f B p ((1 : B) ⊗ₜ z) = _
+  change termBaseChange f B p ((1 : B) ⊗ₜ z) = _
   rw [termBaseChange_tmul, one_smul]
   rfl
 
@@ -369,7 +369,7 @@ theorem termExtendScalarsIso_hom_one_tmul (φ : A →+* B) (f : Fin r → A) (p 
     (z : Cech.cechTerm f A p) :
     (termExtendScalarsIso φ f p).hom ((1 : B) ⊗ₜ[A,φ] z) = termMap φ f p z := by
   let _ := φ.toAlgebra
-  show termBaseChangeEquiv f B p ((1 : B) ⊗ₜ[A] z) = _
+  change termBaseChangeEquiv f B p ((1 : B) ⊗ₜ[A] z) = _
   exact termBaseChangeEquiv_one_tmul f B p z
 
 /-- A map `u : X → Y` of an `A`-module to a `B`-module restricted to `A` has an invertible

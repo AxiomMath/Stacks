@@ -74,7 +74,7 @@ theorem schemeSpaceIdeal_zeroScheme
   rw [Stacks.Divisors.zeroScheme_ideal]
   have hL := ideal_ker_closedSubspaceBaseChangeChartProj_zeroScheme B S hS (schemeSpace T)
     N hinv τ (selfChart B S hS T) O
-  show (closedSubspaceBaseChangeChartProj B S hS (isAlgebraicSpace_yoneda B S hS T)
+  change (closedSubspaceBaseChangeChartProj B S hS (isAlgebraicSpace_yoneda B S hS T)
       (zeroScheme B S hS (schemeSpace T) N τ).1
       (zeroScheme B S hS (schemeSpace T) N τ).2 (selfChart B S hS T)).ker.ideal O = _
   refine hL.trans ?_
@@ -123,7 +123,7 @@ theorem schemeSpaceIdeal_zeroScheme
           (congrArg (fun t => ρ (l t)) (e.symm.map_add y y')).trans
             ((congrArg ρ (l.map_add _ _)).trans (ρ.map_add _ _))
         map_smul' := fun r y => by
-          show ρ (l (e.symm (r • y))) = _
+          change ρ (l (e.symm (r • y))) = _
           refine (congrArg (fun t => ρ (l t)) (hes r y)).trans ?_
           refine (congrArg ρ (l.map_smul _ _)).trans ?_
           refine (ρ.map_mul (ρ' r) (l (e.symm y))).trans ?_
@@ -131,7 +131,7 @@ theorem schemeSpaceIdeal_zeroScheme
           rfl }
     refine Ideal.mem_comap.2 (Ideal.subset_span ⟨φ, ?_⟩)
     rw [hσ]
-    show ρ (l x) = ρ (l (e.symm (c x)))
+    change ρ (l x) = ρ (l (e.symm (c x)))
     rw [show e.symm (c x) = x from e.symm_apply_apply x]
   · refine Ideal.span_le.2 ?_
     rintro _ ⟨φ, rfl⟩
@@ -143,7 +143,7 @@ theorem schemeSpaceIdeal_zeroScheme
           (congrArg (fun t => ρ' (φ t)) (c.map_add z z')).trans
             ((congrArg ρ' (φ.map_add _ _)).trans (ρ'.map_add _ _))
         map_smul' := fun a z => by
-          show ρ' (φ (c (a • z))) = _
+          change ρ' (φ (c (a • z))) = _
           have ha := hsmul (ρ a) z
           have hca : c (a • z) = (show (chartScheme (selfChart B S hS T)).ringCatSheaf.obj.obj
               (op O.1) from ρ a) • c z := by
@@ -166,7 +166,7 @@ theorem exists_representedRestrictionSection_eq
   have hA : IsTerminal (openChart B S hS (yoneda.obj T) (selfChart B S hS T) ⊤) :=
     (isTerminal_idChart B S hS T).ofIso (openChartTopIso B S hS _ (selfChart B S hS T)).symm
   refine ⟨(Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal N hA).symm x, ?_⟩
-  show chartSectionsToRestrict (schemeSpace T) N (selfChart B S hS T) ⊤
+  change chartSectionsToRestrict (schemeSpace T) N (selfChart B S hS T) ⊤
     ((Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal N hA)
       ((Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal N hA).symm x)) = σ
   exact (congrArg (chartSectionsToRestrict (schemeSpace T) N (selfChart B S hS T) ⊤)

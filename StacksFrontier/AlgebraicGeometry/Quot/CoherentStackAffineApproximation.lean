@@ -122,7 +122,7 @@ theorem countable_adjoinFinset (i : Finset R) :
 theorem contains_specAdjoinFinsetDiagram_objSE (i : (Finset R)ᵒᵖ) :
     B.Contains ((specAdjoinFinsetDiagram R).obj i) := by
   have := countable_adjoinFinset R i.unop
-  show (Spec (CommRingCat.of (Algebra.adjoin ℤ ((i.unop : Finset R) : Set R)))).size < B.cutoff
+  change (Spec (CommRingCat.of (Algebra.adjoin ℤ ((i.unop : Finset R) : Set R)))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt B.aleph0_lt_cutoff)
 
@@ -375,7 +375,7 @@ theorem exists_stageModelSE (D : CoherentSituation B (⊤_ Scheme.{u}) hZ)
   refine ⟨op jj, Xj, fj, k, hXj, hfjfp, hfjsep, ?_⟩
   have hb : eY.hom ≫ yoneda.map ((BigAffineFppf.inclusion _ _ hZ).map
       ((finsetStageCone hZ T).π.app (op jj))) = φ ≫ limit.π D' (op jj) := by
-    show _ = (eY.hom ≫ (stageLimitIso hZ T).inv) ≫ limit.π (stageSystem hZ T) (op jj)
+    change _ = (eY.hom ≫ (stageLimitIso hZ T).inv) ≫ limit.π (stageSystem hZ T) (op jj)
     rw [Category.assoc, stageLimitIso_inv_π]
     rfl
   rw [hb]

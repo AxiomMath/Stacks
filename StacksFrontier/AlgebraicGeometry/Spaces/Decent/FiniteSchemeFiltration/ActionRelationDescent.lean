@@ -87,7 +87,7 @@ private theorem actionRelationSiteι_comp_source
   apply (Over.post B.inclusion).map_injective
   rw [Functor.map_comp, post_map_actionRelationSiteι,
     post_map_siteActionRelationSource, CategoryTheory.Functor.map_id]
-  exact Limits.Sigma.ι_desc _ _
+  exact Limits.Sigma.ι_comp_desc _ _
 
 private theorem actionRelationSiteι_comp_target
     (hR : B.Contains (AlgebraicGeometry.Space.actionRelationScheme
@@ -99,7 +99,7 @@ private theorem actionRelationSiteι_comp_target
   apply (Over.post B.inclusion).map_injective
   rw [Functor.map_comp, post_map_actionRelationSiteι,
     post_map_siteActionRelationTarget, Functor.map_preimage]
-  exact Limits.Sigma.ι_desc _ _
+  exact Limits.Sigma.ι_comp_desc _ _
 
 omit [Group G] in
 private theorem inclusion_map_actionRelationSiteι
@@ -258,6 +258,7 @@ local instance (priority := high) hasPullback_presheaf_ActionRelationDescent
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_ActionRelationDescent
@@ -293,7 +294,7 @@ theorem openSubspace_le_of_range_subset
   let := AlgebraicGeometry.Space.pointTopology B S hS X
   let e := AlgebraicGeometry.Space.openSubspacesOrderIso B S hS X hX
   have he : e ⟨U, hU⟩ ≤ e ⟨V, hV⟩ := by
-    show (e ⟨U, hU⟩).1 ⊆ (e ⟨V, hV⟩).1
+    change (e ⟨U, hU⟩).1 ⊆ (e ⟨V, hV⟩).1
     simpa only [e, AlgebraicGeometry.Space.openSubspacesOrderIso_apply] using h
   exact e.le_iff_le.mp he
 
@@ -358,7 +359,7 @@ theorem exists_lift_of_isOpenImmersion_range_subset
   have hl : l ≫ q.map d = q.map g := IsOpenImmersion.lift_fac _ _ _
   let l' : T ⟶ E := Over.homMk (ObjectProperty.homMk l) (by
     apply ObjectProperty.hom_ext
-    show l ≫ E.hom.hom = T.hom.hom
+    change l ≫ E.hom.hom = T.hom.hom
     have hdw : q.map d ≫ P.hom.hom = E.hom.hom := congrArg (fun k ↦ k.hom) d.w
     rw [← hdw, ← Category.assoc, hl]
     exact congrArg (fun k ↦ k.hom) g.w)
@@ -401,7 +402,7 @@ theorem mapsTo_distinctFiberPowerLocus_of_injective_coordinates
     (ho.property_snd _) hrange
   apply hij
   apply hg
-  show g ≫ fiberPowerProjection f hf n i = g ≫ fiberPowerProjection f hf n j
+  change g ≫ fiberPowerProjection f hf n i = g ≫ fiberPowerProjection f hf n j
   rw [← hl, Category.assoc, Category.assoc,
     coordinateDiagonal_projection_eq f hf ho.rep n i j]
 
@@ -463,7 +464,7 @@ theorem exists_fieldValuedPoint_lift_of_surjective
   let w' : AlgebraicGeometry.Space.FieldValuedPoint B S hS F :=
     ⟨r.carrier, r.contained, r.toBase, F.map a.op w.value⟩
   refine ⟨w', b, ?_⟩
-  show f.app _ (F.map a.op w.value) = G.map b.op z.value
+  change f.app _ (F.map a.op w.value) = G.map b.op z.value
   exact (NatTrans.naturality_apply f a.op w.value).trans (ha.trans hb.symm)
 
 private theorem exists_perm_of_injective_of_range_subset
@@ -526,7 +527,7 @@ theorem exists_perm_or_distinctFiberPower_succ
     apply (cancel_mono i).mp
     have hact : (a ≫ (distinctFiberPowerSiteAction B S hS f hf ho hc n σ.symm).asHom) ≫ i =
         (a ≫ i) ≫ fiberPowerPermute f hf n σ := by
-      show (a ≫ openSubschemeMap B S hS _ _
+      change (a ≫ openSubschemeMap B S hS _ _
         (fiberPowerPermute f hf n σ.symm.symm)
         (mapsTo_distinctFiberPowerLocus B S hS f hf ho hc n σ.symm.symm)) ≫ i = _
       rw [Category.assoc, openSubschemeMap_inclusion, Category.assoc]
@@ -585,7 +586,7 @@ private theorem surjective_diagonal_of_fieldValuedPoint_lifts
   apply AlgebraicGeometry.Space.FieldValuedPoint.class_eq_class_of_hasCommonExtension
   refine ⟨w, ?_, e, he⟩
   refine ⟨𝟙 _, ?_⟩
-  show (pullback f f).map (𝟙 _) ((pullback.diagonal f).app _ wf.value) = w.value
+  change (pullback f f).map (𝟙 _) ((pullback.diagonal f).app _ wf.value) = w.value
   simpa only [CategoryTheory.Functor.map_id, types_id_apply] using hval
 
 /-- A surjective étale map is locally surjective on the fppf site, as can be
@@ -604,7 +605,7 @@ private theorem isLocallySurjective_of_etale_surjective
   have hpPoints :=
     (AlgebraicGeometry.Space.presheafSurjective_iff_isSurjective B S hS hU hF p hpSurj.1).mp hpSurj
   have hcompPoints : AlgebraicGeometry.Space.IsSurjective B S hS (p ≫ f) := by
-    show Function.Surjective (AlgebraicGeometry.Space.pointsMap B S hS _ (p ≫ f))
+    change Function.Surjective (AlgebraicGeometry.Space.pointsMap B S hS _ (p ≫ f))
     rw [AlgebraicGeometry.Space.pointsMap_comp B S hS (yoneda.obj U) p f]
     exact hs.comp hpPoints
   have hcompSurj :=
@@ -737,7 +738,7 @@ theorem subfunctor_eq_sheafify_bot_of_isEmpty_points
         (fun j : PEmpty.{u + 1} ↦ j.elim) (fun j ↦ j.elim)
         (fun x ↦ (hT.false x).elim) (fun j ↦ j.elim) (fun j ↦ j.elim)
       simpa only [Sieve.ofArrows, Presieve.ofArrows_of_isEmpty, Sieve.generate_bot] using hcov
-    show (⊥ : Subfunctor X).sieveOfSection t ∈
+    change (⊥ : Subfunctor X).sieveOfSection t ∈
       AlgebraicGeometry.BigFppfOver.topology B S hS T.unop
     convert hbot using 1
     ext V g

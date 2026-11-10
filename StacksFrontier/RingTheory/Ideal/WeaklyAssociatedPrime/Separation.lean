@@ -100,7 +100,7 @@ private theorem annihilator_span_singleton_le_iff_map_ne_zero {R : Type*} [CommS
     {p : PrimeSpectrum R} (f : M →ₗ[R] Mₚ) [IsLocalizedModule.AtPrime p.asIdeal f] (x : M) :
     (R ∙ x).annihilator ≤ p.asIdeal ↔ f x ≠ 0 := by
   rw [Ne, IsLocalizedModule.eq_zero_iff p.asIdeal.primeCompl f, not_exists]
-  simp only [SetLike.le_def, Submodule.mem_annihilator_span_singleton]
+  simp only [IsConcreteLE.le_iff, Submodule.mem_annihilator_span_singleton]
   exact ⟨fun h s hs => s.2 (h hs), fun h r hr => by_contra fun hrp => h ⟨r, hrp⟩ hr⟩
 
 /-- A nonzero element `x` of `M` has a weakly associated prime of `M` containing `Ann(x)`: the

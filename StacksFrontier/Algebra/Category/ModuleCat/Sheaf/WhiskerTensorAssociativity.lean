@@ -225,6 +225,7 @@ public theorem sheafificationUnit_comp_whiskerRight_val
     (sheafificationUnit_naturality_sheafify O hO (f.val ▷ Z.val))
 
 set_option maxHeartbeats 1000000 in
+-- the term proof unifies long composites of sheafification units of tensor products
 /-- **The associativity constraint of the tensor product sheaf, read through the sheafification
 units of the objectwise tensor products.**
 

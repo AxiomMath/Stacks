@@ -98,7 +98,7 @@ public theorem image_eq_of_image_eq_of_comm (e : X ≅ Y) (a : Y ⟶ Y) (b : X �
     rw [show a.base (e.hom.base x) = e.hom.base (b.base x) from comp_base_apply_eq _ _ _ hcomm x,
       Scheme.hom_inv_apply]
   rw [Set.image_congr' hpt]
-  show (e.inv.base ∘ a.base ∘ e.hom.base) '' (e.hom.base ⁻¹' Z) = e.hom.base ⁻¹' Z
+  change (e.inv.base ∘ a.base ∘ e.hom.base) '' (e.hom.base ⁻¹' Z) = e.hom.base ⁻¹' Z
   rw [Set.image_comp, Set.image_comp,
     Set.image_preimage_eq _ (surjective_hom_base_of_iso e), hZ,
     ← preimage_eq_image_inv_of_iso]

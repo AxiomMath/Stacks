@@ -115,7 +115,7 @@ theorem whiskerRight_counit_comp_transposeRingHom :
   have hφ : O₀.map (adj.counit.app U.unop).op ≫ φ.app (op (L.obj (F.obj U.unop))) =
       φ.app U ≫ O.map (F.map (adj.counit.app U.unop)).op :=
     φ.naturality (adj.counit.app U.unop).op
-  show O₀.map (adj.counit.app U.unop).op ≫ φ.app (op (L.obj (F.obj U.unop))) ≫
+  change O₀.map (adj.counit.app U.unop).op ≫ φ.app (op (L.obj (F.obj U.unop))) ≫
     O.map (adj.unit.app (F.obj U.unop)).op = φ.app U
   rw [← Category.assoc, hφ, Category.assoc, ← CategoryTheory.Functor.map_comp, h, op_id]
   simp
@@ -174,7 +174,7 @@ theorem modelAdjunction_counit_app_app_tmul
     fun x => Stacks.PullbackModel.transposeApp_tmul (transposeRingHom adj φ) (𝟙 _) V x
   have e2 : N.map (𝟙 (op (F.obj (L.obj V.unop)))) n = n :=
     _root_.PresheafOfModules.map_id_apply N _ n
-  show ((Stacks.PullbackModel.extendScalarsAdjunction
+  change ((Stacks.PullbackModel.extendScalarsAdjunction
       (transposeRingHom adj φ)).counit.app N).app V
         (Stacks.PullbackModel.tmul ((transposeRingHom adj φ).app V).hom 1
           (N.map (adj.unit.app V.unop).op (N.map (𝟙 (op (F.obj (L.obj V.unop)))) n))) = _

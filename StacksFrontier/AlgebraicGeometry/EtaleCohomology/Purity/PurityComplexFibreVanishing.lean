@@ -141,7 +141,7 @@ theorem not_isProper_componentIdealSheafData_compl {k : Type u} [Field k] {X U :
   have hη : IsGenericPoint η S := by
     simpa [hSc.closure_eq] using hScomp.1.isGenericPoint_genericPoint_closure
   have hηgen : η ∈ genericPoints X := by
-    show closure {η} ∈ irreducibleComponents X
+    change closure {η} ∈ irreducibleComponents X
     rw [hη.def]
     exact hScomp
   have hηe : η ∈ Set.range e.base := by
@@ -233,7 +233,7 @@ theorem isZero_homology_two_derivedLowerShriek_purityComplex_of_isAlgClosed (Ω 
   have hφ : Set.range j.base = Set.range (e ⁻¹ᵁ V).ι.base := by
     rw [Scheme.Opens.range_ι, hj]
     ext x
-    show x ∉ Set.range i.base ↔ e.base x ∉ Zs
+    change x ∉ Set.range i.base ↔ e.base x ∉ Zs
     constructor
     · rintro hx ⟨z, hz⟩
       exact hx ⟨z, e.isOpenEmbedding.injective (by rw [← hie z, hz])⟩

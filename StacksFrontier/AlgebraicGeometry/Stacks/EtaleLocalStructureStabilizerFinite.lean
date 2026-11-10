@@ -109,7 +109,7 @@ theorem arrowFiberOverArrow_mk {W : Over T}
     (hs : (G.realization B hS hU hR hP).source.hom.app (op W.left) r =
       (G.realization B hS hU hR hP).objects.obj.map W.hom.op a) :
     arrowFiberOverArrow hS G hU hR hP a (arrowFiberOverMk hS G hU hR hP a r ht hs) = r := by
-  show (pullback.snd (prod.lift (yonedaEquiv.symm a) (yonedaEquiv.symm a))
+  change (pullback.snd (prod.lift (yonedaEquiv.symm a) (yonedaEquiv.symm a))
       (prod.lift (G.realization B hS hU hR hP).target.hom
         (G.realization B hS hU hR hP).source.hom)).app (op W.left)
     (yonedaEquiv (pullback.lift _ _ _)) = r
@@ -191,7 +191,7 @@ theorem finite_stabilizer_of_iso_arrowFiberOver (u : G.objects.left)
     exact h2
   have hr₀ : r = GR.arrows.obj.map ((Over.iteratedSliceBackward T).map m).left.op r₀ := by
     rw [← arrowFiberOverArrow_mk hS G hU hR hP a r hrt hrs]
-    show arrowFiberOverArrow hS G hU hR hP a sX = _
+    change arrowFiberOverArrow hS G hU hR hP a sX = _
     rw [hm, arrowFiberOverArrow_map]
   have hr' : ι ≫ pullback.fst π â ≫ ρ =
       (siteToOver B hS).map ((Over.iteratedSliceBackward T).map m).left ≫
@@ -212,7 +212,7 @@ theorem finite_stabilizer_of_iso_arrowFiberOver (u : G.objects.left)
     have hpt := congrArg (fun k => k.left (hsq.isoPullback.inv ξ)) hr'
     simp only [Over.comp_left] at hpt
     refine hpt.symm.trans ?_
-    show ρ.left ((pullback.fst π â).left (hsq.isoPullback.inv ξ)) = ρ.left y
+    change ρ.left ((pullback.fst π â).left (hsq.isoPullback.inv ξ)) = ρ.left y
     rw [← Scheme.Hom.comp_apply hsq.isoPullback.inv, IsPullback.isoPullback_inv_fst, hξ]
   have : Finite ((siteToOver B hS).obj V's.left).left := inferInstanceAs (Finite V'.left.1)
   have hfin : (Set.range (yonedaSchemePointEquiv B hS hR (op V's.left) r₀).left).Finite :=

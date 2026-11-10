@@ -74,7 +74,7 @@ theorem nsmul_id_purityComplex_zmod (N : ℕ) {U U₀ : Scheme.{u}} (j : U₀ �
     N • 𝟙 ((purityComplex (ZMod N) j).obj H) = 0 := by
   have hF : N • 𝟙 ((etaleModuleRestriction.{u, 0} (ZMod N) j).obj H) = 0 := by
     rw [nsmul_id_sheaf_zmod_eq _ (a := N) (b := 0) (by simp), zero_smul]
-  show N • 𝟙 ((etaleModuleDerivedDirectImage.{u, 0} (ZMod N) j).obj
+  change N • 𝟙 ((etaleModuleDerivedDirectImage.{u, 0} (ZMod N) j).obj
     ((DerivedCategory.Plus.singleFunctor _ 0).obj
       ((etaleModuleRestriction.{u, 0} (ZMod N) j).obj H))) = 0
   rw [← CategoryTheory.Functor.map_id (etaleModuleDerivedDirectImage.{u, 0} (ZMod N) j),
@@ -131,7 +131,7 @@ theorem lowerShriekPurityComplexVanishing_of_purity (ℓ : ℕ) [Fact ℓ.Prime]
     rcases isEmpty_or_nonempty U' with h | h
     · have : IsEmpty (TopologicalSpace.IrreducibleCloseds U') :=
         ⟨fun Z => h.elim Z.isIrreducible.nonempty.some⟩
-      show Order.krullDim (TopologicalSpace.IrreducibleCloseds U') ≤ 1
+      change Order.krullDim (TopologicalSpace.IrreducibleCloseds U') ≤ 1
       rw [Order.krullDim_eq_bot]; exact bot_le
     · rw [topologicalKrullDim_eq_of_smoothOfRelativeDimension_over_field 1 g']; rfl
   have hfib' : ∀ C ∈ irreducibleComponents U', (∃ x ∈ C, ∃ y ∈ C, x ≠ y) →

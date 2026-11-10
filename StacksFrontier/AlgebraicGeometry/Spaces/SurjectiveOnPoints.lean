@@ -108,7 +108,7 @@ theorem schemePointRepresentative_point (T : BigFppfOver B S hS)
     schemePoint B S hS T (schemePointRepresentative B S hS T x) = x := by
   let Z := (BigFppfOver.toScheme B S hS).obj T
   let kobj : B.Schemes := B.obj (B.residueField_spec_contains T.left.property x)
-  show (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := T.left)
+  change (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := T.left)
     (Z.fromSpecResidueField x))) _ = x
   rw [B.inclusion.map_preimage]
   exact Scheme.fromSpecResidueField_apply x _
@@ -133,12 +133,12 @@ theorem schemePointRepresentative_class (U : BigFppfOver B S hS)
   have hqmap : B.inclusion.map q.value.left =
       (AlgebraicGeometry.FieldValuedPoint.canonical X x).map := by
     let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property x)
-    show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+    change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
       (X.fromSpecResidueField x)) = X.fromSpecResidueField x
     rw [B.inclusion.map_preimage]
   let φ' : B.inclusion.obj (p.siteObject B S hS (yoneda.obj U)).left ⟶
       B.inclusion.obj (q.siteObject B S hS (yoneda.obj U)).left := by
-    show Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
+    change Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
     exact φ
   let fbase : (p.siteObject B S hS (yoneda.obj U)).left ⟶
       (q.siteObject B S hS (yoneda.obj U)).left := B.inclusion.preimage φ'
@@ -156,7 +156,7 @@ theorem schemePointRepresentative_class (U : BigFppfOver B S hS)
   have hbase : fbase ≫ (q.siteObject B S hS (yoneda.obj U)).hom =
       (p.siteObject B S hS (yoneda.obj U)).hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map fbase ≫ q.toBase = p.toBase
+    change B.inclusion.map fbase ≫ q.toBase = p.toBase
     rw [← hbase₀ q, ← hbase₀ p]
     exact congrArg (fun k ↦ k ≫ B.inclusion.map U.hom) hleftScheme
   have hdom : FieldValuedPoint.Dominates B S hS (yoneda.obj U) p q :=
@@ -218,7 +218,7 @@ theorem isSurjective_of_presheafSurjective {F G : (BigFppfOver B S hS)ᵒᵖ ⥤
     ⟨_, FieldValuedPoint.dominates_refl B S hS G _, ⟨σ ≫ hf.rep.snd g, ?_⟩⟩
   have hw : (yoneda.map σ ≫ hf.rep.fst g) ≫ f = yoneda.map (σ ≫ hf.rep.snd g) ≫ g := by
     rw [Functor.map_comp, Category.assoc, Category.assoc, hf.rep.w]
-  show G.map (σ ≫ hf.rep.snd g).op q.value =
+  change G.map (σ ≫ hf.rep.snd g).op q.value =
     f.app _ (yonedaEquiv (yoneda.map σ ≫ hf.rep.fst g))
   rw [← yonedaEquiv_comp, hw, ← hgv, yonedaEquiv_naturality]
 

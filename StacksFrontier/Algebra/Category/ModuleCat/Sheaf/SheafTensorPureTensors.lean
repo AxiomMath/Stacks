@@ -212,9 +212,7 @@ theorem sheafTensor_hom_ext₁₂ {F G H N : _root_.SheafOfModules.{w} (ringShea
               (x ⊗ₜ[R.obj.obj U] y) ⊗ₜ[R.obj.obj U] z))) : f = g := by
   refine sheafTensor_hom_ext_sheafify_left R (P := PresheafOfModules.tensorObj (O := R.obj)
     F.val G.val) fun U t z => ?_
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    erw [map_zero, TensorProduct.zero_tmul, map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h U x y z
   | add t t' ht ht' =>
     erw [map_add, TensorProduct.add_tmul, map_add, map_add, map_add, ht, ht']
@@ -241,9 +239,7 @@ theorem sheafTensor_hom_ext₂₃ {F G H N : _root_.SheafOfModules.{w} (ringShea
                 (y ⊗ₜ[R.obj.obj U] z)))) : f = g := by
   refine sheafTensor_hom_ext_sheafify_right R (P := PresheafOfModules.tensorObj (O := R.obj)
     G.val H.val) fun U x t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    erw [map_zero, TensorProduct.tmul_zero, map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul y z => exact h U x y z
   | add t t' ht ht' =>
     erw [map_add, TensorProduct.tmul_add, map_add, map_add, map_add, ht, ht']

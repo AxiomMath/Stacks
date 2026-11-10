@@ -171,7 +171,7 @@ theorem isIso_stalkMap_blowUpToBase_of_ne {X : Scheme.{u}} (M : X.IdealSheafData
   let U : X.Opens := ⟨M.supportᶜ, M.support.isClosed.isOpen_compl⟩
   refine isIso_stalkMap_of_isIso_morphismRestrict (U := U) _
     (isIso_blowUp_restrict_compl_support M) ?_
-  show blowUpToBase M z ∉ (M.support : Set X)
+  change blowUpToBase M z ∉ (M.support : Set X)
   rwa [hM]
 
 /-- The stalk of an inverse-image ideal sheaf is the unit ideal iff the image point is off the
@@ -344,7 +344,7 @@ private theorem comap_fromSpecStalk_vanishingIdeal_eq_ker_residuePoint {Y : Sche
       (Stacks.Blowup.residuePoint (Y.presheaf.stalk y)).ker := by
   rw [vanishingIdeal_singleton_comap_fromSpecStalk y hy, Scheme.ker_SpecMap,
     ker_residuePoint_eq_ofIdealTop_map]
-  show Scheme.IdealSheafData.ofIdealTop
+  change Scheme.IdealSheafData.ofIdealTop
     (Ideal.map _ (RingHom.ker (IsLocalRing.residue (Y.presheaf.stalk y)))) = _
   rw [IsLocalRing.ker_residue]
   rfl
@@ -523,7 +523,7 @@ theorem pointBlowupDescent : PointBlowupColengthDescent.{u} := by
     exact Finset.mem_image_of_mem h hv
   have hfib : ∑ w ∈ T.filter (fun w => blowUpToBase M w = y), ℓK w < ℓJ y :=
     (sum_length_le_of_subset_image h K _ T₀ hsub).trans_lt (by rwa [hKh])
-  show ∑ w ∈ T, ℓK w < ∑ s ∈ S, ℓJ s
+  change ∑ w ∈ T, ℓK w < ∑ s ∈ S, ℓJ s
   exact sum_lt_sum_of_sum_filter_lt (blowUpToBase M) T S hyS ℓK ℓJ hfib
     (sum_length_filter_ne_le M y hMsupp K J T S hKoff hTS) fun s hs =>
       have := hSreg s (Finset.mem_of_mem_erase hs)

@@ -190,7 +190,7 @@ public theorem toCover_comp_toIntersection :
   have h (W : Opens X) (hW : U ⊓ V ≤ W) :
       (coverUnit O P W ≫ coverTransition O P (U ⊓ V) W hW).app M =
         P.map ((jStarAdjunction (U ⊓ V) O).unit.app M) := by
-    show P.map _ ≫ P.map _ = _
+    change P.map _ ≫ P.map _ = _
     rw [← Functor.map_comp]
     exact congrArg P.map (congrFun (congrArg NatTrans.app
       (restrictPushTransition_unit O (U ⊓ V) W hW)) M)
@@ -522,19 +522,19 @@ public theorem mayerVietoris_exact (n : ℕ) (F : SheafOfModules.{u} O) :
     (Iso.refl _) ((midIso O U V (n + 1)).app F) ((termIso O (U ⊓ V) (n + 1)).app F)
     ?_ ?_ ?_ ?_ ?_
   · exact (Category.id_comp _).symm
-  · show (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) n).app F ≫
+  · change (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) n).app F ≫
         (termIso O (U ⊓ V) n).hom.app F =
       (midIso O U V n).hom.app F ≫ (midIso O U V n).inv.app F ≫
         (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) n).app F ≫
           (termIso O (U ⊓ V) n).hom.app F
     rw [← Category.assoc, (midIso O U V n).hom_inv_id_app, Category.id_comp]
   · refine (Category.comp_id _).trans ?_
-    show (rawDelta O U V hUV n).app F =
+    change (rawDelta O U V hUV n).app F =
       (termIso O (U ⊓ V) n).hom.app F ≫ (termIso O (U ⊓ V) n).inv.app F ≫
         (rawDelta O U V hUV n).app F
     rw [← Category.assoc, (termIso O (U ⊓ V) n).hom_inv_id_app, Category.id_comp]
   · exact (Category.id_comp _).symm
-  · show (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) (n + 1)).app F ≫
+  · change (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) (n + 1)).app F ≫
         (termIso O (U ⊓ V) (n + 1)).hom.app F =
       (midIso O U V (n + 1)).hom.app F ≫ (midIso O U V (n + 1)).inv.app F ≫
         (NatTrans.rightDerived (toIntersection O (secF O ⊤) U V) (n + 1)).app F ≫
@@ -563,7 +563,7 @@ public theorem mono_mvFirst_zero (F : SheafOfModules.{u} O) :
       (fun M hM => secF_shortExact_on_injectives O U V hUV M hM) F
   have h2 : IsIso ((midIso O U V 0).hom.app F) :=
     inferInstanceAs (IsIso ((midIso O U V 0).app F).hom)
-  show Mono ((NatTrans.rightDerived (toCover O (secF O ⊤) U V) 0).app F ≫
+  change Mono ((NatTrans.rightDerived (toCover O (secF O ⊤) U V) 0).app F ≫
     (midIso O U V 0).hom.app F)
   infer_instance
 

@@ -124,7 +124,7 @@ theorem exists_affine_etale_chart_of_fieldValuedPoint
   let aut : (L ≃ₐ[p.carrier] L) → (Q ⟶ Q) := fun γ =>
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom γ.toRingHom))) (by
       apply ObjectProperty.hom_ext
-      show Spec.map (CommRingCat.ofHom γ.toRingHom) ≫ algKL ≫ p.toBase = algKL ≫ p.toBase
+      change Spec.map (CommRingCat.ofHom γ.toRingHom) ≫ algKL ≫ p.toBase = algKL ≫ p.toBase
       rw [← Category.assoc, halgKL, specMap_algEquiv_comp_specMap_algebraMap])
   have hautmap : ∀ γ : L ≃ₐ[p.carrier] L, (BigFppfOver.toScheme B S hS).map (aut γ) =
       Spec.map (CommRingCat.ofHom γ.toRingHom) := fun _ => rfl
@@ -160,7 +160,7 @@ theorem exists_affine_etale_chart_of_fieldValuedPoint
   let i₀ : Q ⟶ T := Over.homMk
     (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ fE)) (by
       apply ObjectProperty.hom_ext
-      show (Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ fE) ≫ T.hom.hom = algKL ≫ p.toBase
+      change (Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ fE) ≫ T.hom.hom = algKL ≫ p.toBase
       calc (Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ fE) ≫ T.hom.hom
           = Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
               (fE ≫ (BigFppfOver.toScheme B S hS).map (haRep.snd xP)) ≫ p.toBase := by
@@ -189,7 +189,7 @@ theorem exists_affine_etale_chart_of_fieldValuedPoint
     · rw [hsame _ (e i).2, hsame _ (e j).2]
   have hover : ∀ i, yoneda.map (c i) ≫ aA = yoneda.map r ≫ xP := by
     intro i
-    show yoneda.map ((e i).1 ≫ haRep.fst' xP) ≫ aA = yoneda.map r ≫ xP
+    change yoneda.map ((e i).1 ≫ haRep.fst' xP) ≫ aA = yoneda.map r ≫ xP
     rw [Functor.map_comp, Category.assoc, haRep.map_fst', haRep.w,
       ← Category.assoc, ← Functor.map_comp, hsame _ (e i).2]
   have hequiv : ∀ γ : L ≃ₐ[p.carrier] L, ∃ τ : Equiv.Perm (Fin (n + 1)),
@@ -199,7 +199,7 @@ theorem exists_affine_etale_chart_of_fieldValuedPoint
       intro i
       obtain ⟨δ, hδ⟩ := (e i).2
       refine ⟨δ.trans γ, ?_⟩
-      show aut (δ.trans γ) ≫ i₀ = aut γ ≫ (e i).1
+      change aut (δ.trans γ) ≫ i₀ = aut γ ≫ (e i).1
       rw [← hautcomp, Category.assoc]
       exact congrArg (fun k => aut γ ≫ k) hδ
     let σ : Fin (n + 1) → Fin (n + 1) := fun i => e.symm ⟨aut γ ≫ (e i).1, hmem i⟩
@@ -207,7 +207,7 @@ theorem exists_affine_etale_chart_of_fieldValuedPoint
       intro i
       have hval : (e (σ i)).1 = aut γ ≫ (e i).1 :=
         congrArg Subtype.val (e.apply_symm_apply ⟨aut γ ≫ (e i).1, hmem i⟩)
-      show aut γ ≫ (e i).1 ≫ haRep.fst' xP = (e (σ i)).1 ≫ haRep.fst' xP
+      change aut γ ≫ (e i).1 ≫ haRep.fst' xP = (e (σ i)).1 ≫ haRep.fst' xP
       rw [hval, Category.assoc]
     refine ⟨Equiv.ofBijective σ (Finite.injective_iff_bijective.mp ?_), hσ⟩
     intro i j hij

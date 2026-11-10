@@ -103,7 +103,7 @@ def natMVTriangleComparison :
     (by
       refine Sigma.hom_ext _ _ fun j ↦ ?_
       simp only [coproductTriangle, natMVTriangle, Triangle.mk_obj₃, Triangle.mk_obj₁,
-        Triangle.mk_mor₃, Sigma.ι_desc_assoc, Category.assoc, ι_comp_sigmaComparison_assoc]
+        Triangle.mk_mor₃, Sigma.ι_comp_desc_assoc, Category.assoc, ι_comp_sigmaComparison_assoc]
       rw [shift_ι_comp_shift_sigmaComparison]
       exact (δ.naturality (Sigma.ι K j)).symm)
 

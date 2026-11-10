@@ -65,6 +65,7 @@ abbrev restrictedTilde (M : GradedModuleCat.{u, u, u} (grading L)) : X.Modules :
 abbrev restrictedTildeFunctor : GradedModuleCat.{u, u, u} (grading L) ⥤ X.Modules :=
   associatedSchemeFunctor L ⋙ Scheme.Modules.restrictFunctor (projHomOfIsAmple L hL)
 
+omit [IsOpenImmersion (projHomOfIsAmple L hL)] in
 include hL in
 /-- **The chart ring map is injective** when the canonical morphism is an isomorphism: it is the
 ring map of the isomorphism on the sections over `D₊(a)`, preceded by the bijection
@@ -174,7 +175,7 @@ public theorem coe_chartSections_map {M N : GradedModuleCat.{u, u, u} (grading L
         ((ProjectiveSpectrum.Proj.imageSectionsIso (projHomOfIsAmple L hL)
           ((associatedSchemeFunctor L).obj M) (nvOpen L c.1.val) _
           (image_nvOpen L hL c)).hom x) := by
-    show ((associatedSchemeFunctor L).obj N).presheaf.map _
+    change ((associatedSchemeFunctor L).obj N).presheaf.map _
         (((associatedSchemeFunctor L).map φ).app _ x) =
       ((associatedSchemeFunctor L).map φ).app _
         (((associatedSchemeFunctor L).obj M).presheaf.map _ x)

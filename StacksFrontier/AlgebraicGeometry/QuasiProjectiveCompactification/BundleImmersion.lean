@@ -89,7 +89,7 @@ theorem chartsAreImmersions_of_cover {A : SheafGradedAlgebra.{u} S} (Q : GradedP
         (ht j) (f ∣_ V j)
     have hW := nonvanishingOpen_eq_nvCover (Q.affineDatum (V j)) (Φ j) (a j) i (t j) (hval j)
     have hi' : x' ∈ chartOpen Q (a j i).2 := by
-      show x' ∈ NonvanishingOpen.nonvanishingOpen _ _ ((Q.affineDatum (V j)).toFun 1 (a j i))
+      change x' ∈ NonvanishingOpen.nonvanishingOpen _ _ ((Q.affineDatum (V j)).toFun 1 (a j i))
       rw [hW]; exact hi
     refine ⟨V j, hV j, (a j i : A.sectionRing (V j)), (a j i).2, ⟨x', hi'⟩, rfl, ?_⟩
     refine isImmersion_toSpecAway (Q.affineDatum (V j)) (Φ j) (a j) i le_rfl (t j) (hval j)
@@ -140,7 +140,7 @@ theorem exists_isImmersion_projectiveBundle_of_cover [CompactSpace S] [QuasiSepa
         Scheme.Modules.Hom.app (Scheme.Modules.symmetricAlgebraGen S E) (V j) (e ⟨j, k⟩) :=
       AddEquiv.apply_symm_apply _ _
     rw [h1]
-    show (Φ j).hom.app ⊤ (restrictPowSection P.L (f ⁻¹ᵁ V j) 1 (P.value 1 (V j)
+    change (Φ j).hom.app ⊤ (restrictPowSection P.L (f ⁻¹ᵁ V j) 1 (P.value 1 (V j)
       (((symLift E B u).app 1).app (V j)
         (Scheme.Modules.Hom.app (Scheme.Modules.symmetricAlgebraGen S E) (V j) (e ⟨j, k⟩))))) = _
     rw [symLift_app_one_symmetricAlgebraGen, hue ⟨j, k⟩]

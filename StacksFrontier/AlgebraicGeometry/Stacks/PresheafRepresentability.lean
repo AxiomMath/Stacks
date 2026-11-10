@@ -35,8 +35,8 @@ direction and a fibre product of algebraic spaces over `U` in the other.
   change of the map along that point is an algebraic space over `S`.
 * `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_iff_associatedMap`: **Stacks 0458**,
   representability equivalence.
-* `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_iff_associatedMap`: the same equivalence under the
-  shorter name used by the consumers that quantify only over maps of presheaves.
+* `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_iff_associatedMap`: the same equivalence
+  under the shorter name used by the consumers that quantify only over maps of presheaves.
 * `AlgebraicGeometry.Stack.holdsOnEverySchemePoint_iff_hasRelativeProperty`: **Stacks 045A**.
 
 ## Implementation notes

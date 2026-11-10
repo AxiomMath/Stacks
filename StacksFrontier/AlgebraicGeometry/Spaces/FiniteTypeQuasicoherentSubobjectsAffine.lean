@@ -62,7 +62,7 @@ theorem isEtaleChart_mk_inv : IsEtaleChart B S hS V (CostructuredArrow.mk e.inv)
     rwa [h.isoIsPullback_hom_snd _ _ h'] at h2
   have _ : IsIso snd := isIso_of_reflects_iso snd yoneda
   have _ : IsIso ((BigFppfOver.toScheme B S hS).map snd) := inferInstance
-  show Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- The chart of an algebraic space `V` given by an isomorphism `e : V ≅ yoneda.obj T₀`, with
@@ -135,6 +135,7 @@ theorem isoChartSectionHom_app_one (n : H.val.obj (op (invIsoChart B S hS e)))
   exact h.symm
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis (image, `Epi`) for sheaves of modules on the small étale site
 /-- The image of a morphism out of the structure sheaf is a finite type quasi-coherent
 subobject. -/
 theorem imageSubobject_unit_mem [H.IsQuasicoherentOnSite]
@@ -165,7 +166,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_isAffineSpa
     Nonempty (IsColimit (finiteTypeQuasicoherentSubobjectCocone B S hS V hV H)) := by
   classical
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS V hV).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS V)
+    change EssentiallySmall.{u} (SmallEtale B S hS V)
     infer_instance
   have hgr : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS V hV) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
@@ -188,7 +189,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_isAffineSpa
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS V hV).O).obj.obj
         (op W)), ?_⟩
     rw [← isoChartSectionHom_app_one B S hS hV e H n W]
-    show (((factorThruImageSubobject u ≫ Subobject.ofLE _ _ hle) ≫ T.arrow).val.app (op W)) _ = _
+    change (((factorThruImageSubobject u ≫ Subobject.ofLE _ _ hle) ≫ T.arrow).val.app (op W)) _ = _
     rw [← hfac]
   have hepi : Epi T.arrow := by
     refine Stacks.SheafOfModules.EpiMono.epi_of_isLocallySurjective T.arrow ⟨fun {W} s => ?_⟩
@@ -204,8 +205,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_isAffineSpa
     have key : ∀ y, sectionsBaseChange H f y ∈
         LinearMap.range (T.arrow.val.app (op (openChart B S hS V W O.down.1))).hom := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => rw [map_zero]; exact Submodule.zero_mem _
+      induction y using TensorProduct.inductionOn with
       | tmul b n =>
         rw [chartBaseChange_tmul]
         exact Submodule.smul_mem _ b (hgen _ n)

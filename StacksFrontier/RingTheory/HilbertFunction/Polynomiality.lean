@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -154,7 +154,7 @@ theorem xpow_four_term_class (hneg : ∀ d : ℤ, d < 0 → 𝒮 d = ⊥) (x : S
         Subtype.val_injective hgsurj ?_
     rw [Submodule.range_subtype, hkerg]
   -- combine: hilbertFun unfolds to gradedFinModule.cls
-  show (xpowDegKerFin 𝒮 ℳ hneg x hx r n).cls = _
+  change (xpowDegKerFin 𝒮 ℳ hneg x hx r n).cls = _
   rw [hilbertFun, hilbertFun, hilbertFun]
   -- hI: [ℳ n] = ker.cls + imFin.cls ; hII: [ℳ(n+r)] = imFin.cls + [quot]
   change
@@ -239,7 +239,7 @@ theorem hilbertFun_xpow_step_identity (hneg : ∀ d : ℤ, d < 0 → 𝒮 d = �
     rw [hA]
     rw [htrans (Ideal.span {x ^ 1} • (⊤ : Submodule S M)) hspan]
   -- unfold hilbertFun everywhere to gradedFinModule classes
-  show hilbertFun 𝒮 ℳ hneg m = _
+  change hilbertFun 𝒮 ℳ hneg m = _
   -- goal index m-1 = n (defeq), m
   simp only [hilbertFun] at hA' ⊢
   rw [hB] at hA'
@@ -331,7 +331,7 @@ theorem hilbertFun_xpowann_isNumpoly_aux (k : ℕ)
       rw [hKdef, LinearMap.mem_ker] at hq
       have hxq : x • q = 0 := by simpa using hq
       rw [hKdef, LinearMap.mem_ker]
-      show x • (DirectSum.decompose 𝒬 q n : Q) = 0
+      change x • (DirectSum.decompose 𝒬 q n : Q) = 0
       have hkey := gp_decompose_smul_homog 𝒮 𝒬 1 x hx q n
       rw [show (1 : ℤ) + n = 1 + n by rfl] at hkey
       rw [← hkey, hxq]
@@ -351,7 +351,7 @@ theorem hilbertFun_xpowann_isNumpoly_aux (k : ℕ)
       obtain ⟨q, rfl⟩ := K.mkQ_surjective qb
       rw [Submodule.mkQ_apply, ← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, hKdef,
         LinearMap.mem_ker]
-      show x • (x ^ r • q) = 0
+      change x • (x ^ r • q) = 0
       rw [← mul_smul, ← pow_succ']
       exact hxann q
     have hinv_K := module_inv_quotient 𝒮 t K hinv

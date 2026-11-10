@@ -133,13 +133,13 @@ theorem exists_isProper_baseChange_of_isLimit_of_hasChowModification
   set pr : P ⟶ Y₀ := Over.homMk (ProjectiveSpace n Y₀.left ↘ Y₀.left) rfl with hpr
   set ρ : Xp ⟶ X₀ := Over.homMk π rfl with hρ
   have hu : jimm ≫ P.hom = Xp.hom := by
-    show jimm ≫ (ProjectiveSpace n Y₀.left ↘ Y₀.left) ≫ Y₀.hom = π ≫ X₀.hom
+    change jimm ≫ (ProjectiveSpace n Y₀.left ↘ Y₀.left) ≫ Y₀.hom = π ≫ X₀.hom
     rw [← Category.assoc, ← hcomm, Category.assoc, Over.w f₀]
   set u : Xp ⟶ P := Over.homMk jimm hu with hu'
   -- The Chow triangle, as an identity of morphisms over `D.obj i₀`.
   have hupr : u ≫ pr = ρ ≫ f₀ := by
     ext
-    show jimm ≫ (ProjectiveSpace n Y₀.left ↘ Y₀.left) = π ≫ f₀.left
+    change jimm ≫ (ProjectiveSpace n Y₀.left ↘ Y₀.left) = π ≫ f₀.left
     exact hcomm.symm
   have : CompactSpace Xp.left := QuasiCompact.compactSpace_of_compactSpace π
   have : QuasiSeparatedSpace Xp.left := (quasiSeparated_iff_quasiSeparatedSpace π).mp inferInstance

@@ -84,7 +84,7 @@ private theorem etale_productMap (R : Type u) (S : Type v) (A : Type w) [CommRin
       (fun a ↦ by change (Algebra.TensorProduct.comm R A S) (a ⊗ₜ 1) = 1 ⊗ₜ a; simp))
   have : IsScalarTower A (S ⊗[R] A) A := by
     refine IsScalarTower.of_algebraMap_eq fun x ↦ ?_
-    show x = mul (1 ⊗ₜ x)
+    change x = mul (1 ⊗ₜ x)
     simp [mul]
   exact Algebra.Etale.of_restrictScalars A (S ⊗[R] A) A
 
@@ -129,7 +129,7 @@ private theorem isGeometricallyRegular_tower_top_of_etale (k : Type u) (k' : Typ
   have : Algebra.Etale (k' ⊗[k] A) A := etale_productMap k k' A
   have : IsScalarTower k' (k' ⊗[k] A) A := by
     refine IsScalarTower.of_algebraMap_eq fun x ↦ ?_
-    show algebraMap k' A x = mul (x ⊗ₜ 1)
+    change algebraMap k' A x = mul (x ⊗ₜ 1)
     simp [mul]
   have : Algebra.IsGeometricallyRegular k' (k' ⊗[k] A) :=
     isGeometricallyRegular_tensorProduct k k' A
@@ -147,7 +147,7 @@ private theorem isGeometricallyRegular_toSubfield (k : Type u) (k' : Type v) (A 
   have : Algebra.IsSeparable k ↥F.toSubfield := inferInstanceAs (Algebra.IsSeparable k ↥F)
   have : IsScalarTower k ↥F.toSubfield A := by
     refine IsScalarTower.of_algebraMap_eq fun x ↦ ?_
-    show algebraMap k A x = algebraMap k' A (algebraMap k k' x)
+    change algebraMap k A x = algebraMap k' A (algebraMap k k' x)
     rw [← IsScalarTower.algebraMap_apply]
   have := etale_of_isSeparable k ↥F.toSubfield
   exact isGeometricallyRegular_tower_top_of_etale k _ A
@@ -263,7 +263,7 @@ public lemma exists_tensorProduct_ringEquiv
     intro s b l
     obtain ⟨r, rfl⟩ := e.surjective s
     simp only [Algebra.smul_def]
-    show (algebraMap R B r * b) ⊗ₜ[R] l = b ⊗ₜ[R] (algebraMap R L r * l)
+    change (algebraMap R B r * b) ⊗ₜ[R] l = b ⊗ₜ[R] (algebraMap R L r * l)
     exact TensorProduct.smul_tmul r b l
   exact ⟨(Algebra.TensorProduct.congr F G).toRingEquiv.trans
     (Algebra.TensorProduct.equivOfCompatibleSMul R S S B L).symm.toRingEquiv, fun _ _ ↦ rfl⟩
@@ -287,7 +287,7 @@ public lemma exists_fiber_ringEquiv
   obtain ⟨E, hE⟩ := exists_tensorProduct_ringEquiv e ek f
     (fun r ↦ Ideal.ResidueField.map_algebraMap p q e.toRingHom rfl r) hf
   refine ⟨E, fun a ↦ ?_⟩
-  show E (a ⊗ₜ[R] (1 : A)) = ek a ⊗ₜ[S] (1 : B)
+  change E (a ⊗ₜ[R] (1 : A)) = ek a ⊗ₜ[S] (1 : B)
   rw [hE, map_one]
 
 end Stacks.FormalFibres

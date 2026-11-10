@@ -437,6 +437,8 @@ theorem isIso_globalSectionsToDerived_of_injective
 
 /-! ### The tag -/
 
+omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat]
+  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **[Stacks, Tag 0FLH]** Let `(X, O_X)` be a ringed space, let `U : I → Opens X` be an open
 covering of `X` and let `K^•` be a bounded below complex of `O_X`-modules with
 `H^i(U_{i_0 … i_p}, K^q) = 0` for all `i > 0`, all tuples `i_0, …, i_p` of members of the
@@ -455,7 +457,7 @@ theorem isIso_cechToDerivedGlobalSections_app
   set f := (injectiveResolutionUnit X R).app K with hfdef
   have hqi : QuasiIso f.hom := injectiveResolution_quasiIso X R K
   have hLinj : ∀ q : ℤ, Injective (L.1.X q) := fun q => by
-    show Injective ((InjectiveObject.ι (SheafOfModules.{u} R)).obj _)
+    change Injective ((InjectiveObject.ι (SheafOfModules.{u} R)).obj _)
     infer_instance
   obtain ⟨a, ha⟩ := (CochainComplex.plus_iff _ K.1).mp K.2
   obtain ⟨b, hb⟩ := (CochainComplex.plus_iff _ L.1).mp L.2
@@ -468,12 +470,12 @@ theorem isIso_cechToDerivedGlobalSections_app
         ((underlyingPresheafComplexFunctor X R).map f.hom)) :=
       quasiIso_cechTotalComplexFunctor_map X U R f.hom K.2 L.2 (min a b) hKz hLz hLinj
         hacyclic
-    show IsIso (DerivedCategory.Q.map ((cechTotalComplexFunctor U).map
+    change IsIso (DerivedCategory.Q.map ((cechTotalComplexFunctor U).map
       ((underlyingPresheafComplexFunctor X R).map f.hom)))
     exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 hq
   have hunit : IsIso ((globalSectionsToDerivedNat X R).app L) :=
     isIso_globalSectionsToDerived_of_injective X R L hLinj
-  show IsIso ((cechToDerivedComparison X R U hU).app K)
+  change IsIso ((cechToDerivedComparison X R U hU).app K)
   rw [cechToDerivedComparison_app]
   infer_instance
 

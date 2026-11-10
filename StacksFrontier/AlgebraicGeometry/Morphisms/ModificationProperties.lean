@@ -77,7 +77,7 @@ private lemma awayModel_ambient (hs : IsClosed ({s} : Set S))
     (neighborhoodModelToAmbient S (puncturedOpen hs) s).obj (awayModel hs X) = X.obj := by
   have h : (X.obj.hom ≫ S.topIso.inv) ≫ (⊤ : S.Opens).ι = X.obj.hom := by
     rw [Category.assoc, Scheme.toIso_inv_ι, Category.comp_id]
-  show Over.mk ((X.obj.hom ≫ S.topIso.inv) ≫ (⊤ : S.Opens).ι) = X.obj
+  change Over.mk ((X.obj.hom ≫ S.topIso.inv) ≫ (⊤ : S.Opens).ι) = X.obj
   rw [h]
   rfl
 

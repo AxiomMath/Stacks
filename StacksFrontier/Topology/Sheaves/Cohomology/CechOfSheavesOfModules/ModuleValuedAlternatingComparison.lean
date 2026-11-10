@@ -72,7 +72,8 @@ of sections. No limit cone has to be compared, since
 slice site, the same one the slice model carries.
 
 **The index type is in the universe of the module values**, as in
-`StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.SliceSiteComparison`: the explicit
+`StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.SliceSiteComparison`: the
+explicit
 cochain group is a product over the tuples of indices, so the degree-`p` terms of the two models
 can be compared only when the maximum of the two universes is the universe of the module values.
 The explicit universes in `cechComplex.{uX, uR, uM, uM}` are needed for the same reason they are

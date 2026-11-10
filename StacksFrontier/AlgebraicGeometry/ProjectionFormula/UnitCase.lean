@@ -68,7 +68,8 @@ new mathematics is the right-hand coherence, and the invertibility is the triang
 (`Stacks.AffineProjectionFormula.isIso_projectionFormulaMap_biproduct`, in
 `ProjectionFormula/FiniteFree.lean`) passes to `𝒪_X^{⊕ n}`, and locality on the target
 (`ProjectionFormula/LocalityRingedSpace.lean`) to a finite locally free module, which is
-`Stacks.AffineProjectionFormula.isIso_projectionFormulaMap_of_isFiniteLocallyFree_class_ringedSpace`.
+`isIso_projectionFormulaMap_of_isFiniteLocallyFree_class_ringedSpace` (in the namespace
+`Stacks.AffineProjectionFormula`).
 The tag itself, in every degree and in `D⁺`, for an arbitrary morphism of ringed spaces, is
 `Stacks.ProjectionFormula.higherDirectImageProjectionFormulaRingedSpaceIso` and
 `Stacks.ProjectionFormula.derivedPushforwardTensorRightRingedSpacePlusIso` in
@@ -137,14 +138,16 @@ theorem toSheafify_tensorProductRightUnitor
     (m : M.val.obj U) :
     Hom.app (tensorProductRightUnitor O hO M).hom.val U
         (Hom.app (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-          ((PresheafOfModules.tensorObj (O := O) (M.val) ((_root_.SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
+          ((PresheafOfModules.tensorObj (O := O) (M.val) ((_root_.SheafOfModules.unit
+            (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
               hO)).val)))) U
           (m ⊗ₜ unitOne U)) = m := by
   have rightUnitorApp : ∀ {R : CommRingCat.{w}} (N : ModuleCat.{w} R) (z : N),
       ConcreteCategory.hom (MonoidalCategory.rightUnitor N).hom (z ⊗ₜ[R] (1 : R)) = z :=
     fun N z => (ModuleCat.MonoidalCategory.rightUnitor_hom_apply z 1).trans (one_smul _ z)
   have key : Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
-        ((PresheafOfModules.tensorObj (O := O) (M.val) ((_root_.SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
+        ((PresheafOfModules.tensorObj (O := O) (M.val) ((_root_.SheafOfModules.unit
+          (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
             hO)).val))) ≫
         (tensorProductRightUnitor O hO M).hom.val = (MonoidalCategory.rightUnitor M.val).hom :=
     ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).unit_comp_map_eq_iff
@@ -161,7 +164,8 @@ universe u'
 `Stacks.RingedSpace.structureRingSheaf` spelling. -/
 abbrev structureUnitorRight {W : RingedSpace.{u', u'}}
     (M : SheafOfModules.{u'} (structureRingSheaf W)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).obj (M, structureModule W) ≅ M :=
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+      W.sheaf))).obj (M, structureModule W) ≅ M :=
   Stacks.SheafOfModules.Invertible.tensorProductRightUnitor W.presheaf
     (structureSheafRing W).property M
 
@@ -175,9 +179,12 @@ theorem structureUnitorRight_tensorSheafUnit_tmul {W : RingedSpace.{u', u'}}
     (a' : ToType ((structureModule W).val.obj U))
     (ha : a' = Stacks.SheafOfModules.toUnit U a) :
     Hom.app (structureUnitorRight M).hom.val U
-        (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U (m ⊗ₜ a')) = a • m := by
+        (Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf
+          (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val
+          ((structureModule W)).val)) U (m ⊗ₜ a')) = a • m := by
   rw [ha]
-  letI : TensorProduct.CompatibleSMul (W.presheaf.obj U)
+  let : TensorProduct.CompatibleSMul (W.presheaf.obj U)
       ((structureRingSheaf W).obj.obj U) (M.val.obj U) ((structureModule W).val.obj U) := by
     change TensorProduct.CompatibleSMul (W.presheaf.obj U)
       (W.presheaf.obj U) (M.val.obj U) ((structureModule W).val.obj U)
@@ -200,21 +207,41 @@ theorem structureUnitorRight_tensorSheafUnit_tmul {W : RingedSpace.{u', u'}}
 `m ⊗ a` both sides are `a • u m`, the right-hand one because `u` is linear on sections. -/
 theorem structureUnitorRight_naturality {W : RingedSpace.{u', u'}}
     {M N : SheafOfModules.{u'} (structureRingSheaf W)} (u : M ⟶ N) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).map (u ×ₘ 𝟙 (structureModule W)) ≫ (structureUnitorRight N).hom =
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+      W.sheaf))).map (u ×ₘ 𝟙 (structureModule W)) ≫ (structureUnitorRight N).hom =
       (structureUnitorRight M).hom ≫ u := by
   refine PresheafOfModules.sheafification_hom_ext
     (PresheafOfModules.tensorObj_hom_ext fun U m a => ?_)
   have key : ∀ (m : ToType (M.val.obj U)) (a : ToType ((structureModule W).val.obj U)),
       Hom.app (structureUnitorRight N).hom.val U
-          (Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).map (u ×ₘ 𝟙 (structureModule W))).val U
-            (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U (m ⊗ₜ a)))
+          (Hom.app (((Functor.uncurry.obj
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).map
+            (u ×ₘ 𝟙 (structureModule W))).val U
+            (Hom.app ((PresheafOfModules.sheafificationAdjunction
+              (R := Stacks.RingedSpace.structureRingSheaf (W))
+              (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app
+              (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U
+              (m ⊗ₜ a)))
         = Hom.app u.val U
             (Hom.app (structureUnitorRight M).hom.val U
-              (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U (m ⊗ₜ a))) := by
+              (Hom.app ((PresheafOfModules.sheafificationAdjunction
+                (R := Stacks.RingedSpace.structureRingSheaf (W))
+                (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app
+                (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val))
+                U (m ⊗ₜ a))) := by
     intro m a
-    have b1 : Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).map (u ×ₘ 𝟙 (structureModule W))).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U (m ⊗ₜ a))
-        = Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (N).val ((structureModule W)).val)) U
+    have b1 : Hom.app (((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} W.sheaf))).map
+        (u ×ₘ 𝟙 (structureModule W))).val U
+          (Hom.app ((PresheafOfModules.sheafificationAdjunction
+            (R := Stacks.RingedSpace.structureRingSheaf (W))
+            (𝟙 (Stacks.RingedSpace.structureRingSheaf (W)).obj)).unit.app
+            (PresheafOfModules.tensorObj (O := (W).presheaf) (M).val ((structureModule W)).val)) U
+            (m ⊗ₜ a))
+        = Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (W)) (𝟙 (Stacks.RingedSpace.structureRingSheaf
+          (W)).obj)).unit.app (PresheafOfModules.tensorObj (O := (W).presheaf) (N).val
+          ((structureModule W)).val)) U
             (Hom.app u.val U m ⊗ₜ a) :=
       tensorSheaf_map_unit_tmul W u (𝟙 (structureModule W)) U _ _
     have b2 := structureUnitorRight_tensorSheafUnit_tmul N U
@@ -253,7 +280,8 @@ theorem comparisonTranspose_comp_structureUnitorRight
     (A : SheafOfModules.{u'} (structureRingSheaf X)) :
     comparisonTranspose f A (structureModule X) ≫
         (pushforwardFunctor f).map
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
+          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+            Z.sheaf))).map
               (𝟙 ((pullbackFunctor f).obj A) ×ₘ pullbackStructureComparison f) ≫
             (structureUnitorRight ((pullbackFunctor f).obj A)).hom) =
       (structureUnitorRight A).hom ≫ (pullbackAdjunction f).unit.app A := by
@@ -262,26 +290,51 @@ theorem comparisonTranspose_comp_structureUnitorRight
   have key : ∀ (x : ToType (A.val.obj U)) (y : ToType ((structureModule X).val.obj U)),
       Hom.app (structureUnitorRight ((pullbackFunctor f).obj A)).hom.val
           ((opensMap f).op.obj U)
-          (Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
+          (Hom.app (((Functor.uncurry.obj
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
               (𝟙 ((pullbackFunctor f).obj A) ×ₘ pullbackStructureComparison f)).val
             ((opensMap f).op.obj U)
             (Hom.app (comparisonTranspose f A (structureModule X)).val U
-              (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val)) U (x ⊗ₜ y))))
+              (Hom.app ((PresheafOfModules.sheafificationAdjunction
+                (R := Stacks.RingedSpace.structureRingSheaf (X))
+                (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+                (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val))
+                U (x ⊗ₜ y))))
         = Hom.app ((pullbackAdjunction f).unit.app A).val U
             (Hom.app (structureUnitorRight A).hom.val U
-              (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val)) U (x ⊗ₜ y))) := by
+              (Hom.app ((PresheafOfModules.sheafificationAdjunction
+                (R := Stacks.RingedSpace.structureRingSheaf (X))
+                (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+                (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val))
+                U (x ⊗ₜ y))) := by
     intro x y
     have a1 : Hom.app (comparisonTranspose f A (structureModule X)).val U
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (X)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val)) U (x ⊗ₜ y))
-        = Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (Z)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app (PresheafOfModules.tensorObj (O := (Z).presheaf) (((pullbackFunctor f).obj A)).val (((pullbackFunctor f).obj (structureModule X))).val)) ((opensMap f).op.obj U)
+          (Hom.app ((PresheafOfModules.sheafificationAdjunction
+            (R := Stacks.RingedSpace.structureRingSheaf (X))
+            (𝟙 (Stacks.RingedSpace.structureRingSheaf (X)).obj)).unit.app
+            (PresheafOfModules.tensorObj (O := (X).presheaf) (A).val ((structureModule X)).val)) U
+            (x ⊗ₜ y))
+        = Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (Z)) (𝟙 (Stacks.RingedSpace.structureRingSheaf
+          (Z)).obj)).unit.app (PresheafOfModules.tensorObj (O := (Z).presheaf)
+          (((pullbackFunctor f).obj A)).val (((pullbackFunctor f).obj (structureModule X))).val))
+          ((opensMap f).op.obj U)
             (pullbackUnit f A U x ⊗ₜ pullbackUnit f (structureModule X) U y) :=
       comparisonTranspose_unit_tmul f A (structureModule X) U x y
-    have a2 : Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
+    have a2 : Hom.app (((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
             (𝟙 ((pullbackFunctor f).obj A) ×ₘ pullbackStructureComparison f)).val
           ((opensMap f).op.obj U)
-          (Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (Z)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app (PresheafOfModules.tensorObj (O := (Z).presheaf) (((pullbackFunctor f).obj A)).val (((pullbackFunctor f).obj (structureModule X))).val)) ((opensMap f).op.obj U)
+          (Hom.app ((PresheafOfModules.sheafificationAdjunction
+            (R := Stacks.RingedSpace.structureRingSheaf (Z))
+            (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app
+            (PresheafOfModules.tensorObj (O := (Z).presheaf) (((pullbackFunctor f).obj A)).val
+            (((pullbackFunctor f).obj (structureModule X))).val)) ((opensMap f).op.obj U)
             (pullbackUnit f A U x ⊗ₜ pullbackUnit f (structureModule X) U y))
-        = Hom.app ((PresheafOfModules.sheafificationAdjunction (R := Stacks.RingedSpace.structureRingSheaf (Z)) (𝟙 (Stacks.RingedSpace.structureRingSheaf (Z)).obj)).unit.app (PresheafOfModules.tensorObj (O := (Z).presheaf) (((pullbackFunctor f).obj A)).val ((structureModule Z)).val))
+        = Hom.app ((PresheafOfModules.sheafificationAdjunction
+          (R := Stacks.RingedSpace.structureRingSheaf (Z)) (𝟙 (Stacks.RingedSpace.structureRingSheaf
+          (Z)).obj)).unit.app (PresheafOfModules.tensorObj (O := (Z).presheaf)
+          (((pullbackFunctor f).obj A)).val ((structureModule Z)).val))
             ((opensMap f).op.obj U)
             (pullbackUnit f A U x ⊗ₜ
               Hom.app (pullbackStructureComparison f).val ((opensMap f).op.obj U)
@@ -307,7 +360,8 @@ theorem projectionFormulaMap_eq_homEquiv (G : SheafOfModules.{u'} (structureRing
     projectionFormulaMap f G H =
       (pullbackAdjunction f).homEquiv _ _
         (comparison f ((pushforwardFunctor f).obj G) H ≫
-          ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map ((pullbackAdjunction f).counit.app G ×ₘ
+          ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+            Z.sheaf))).map ((pullbackAdjunction f).counit.app G ×ₘ
             𝟙 ((pullbackFunctor f).obj H))) := rfl
 
 /-- **The projection-formula map at `ℋ = 𝒪_X` is the right unit constraint**, after the two
@@ -320,7 +374,8 @@ theorem projectionFormulaMap_comp_structureUnitorRight
     (G : SheafOfModules.{u'} (structureRingSheaf Z)) :
     projectionFormulaMap f G (structureModule X) ≫
         (pushforwardFunctor f).map
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+            Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
             (structureUnitorRight G).hom) =
       (structureUnitorRight ((pushforwardFunctor f).obj G)).hom := by
   have hprod :
@@ -332,11 +387,14 @@ theorem projectionFormulaMap_comp_structureUnitorRight
         ((pullbackAdjunction f).counit.app G ×ₘ 𝟙 (structureModule Z)) := by
     simp
   have step1 :
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map ((pullbackAdjunction f).counit.app G ×ₘ
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+        Z.sheaf))).map ((pullbackAdjunction f).counit.app G ×ₘ
             𝟙 ((pullbackFunctor f).obj (structureModule X))) ≫
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+            Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
             (structureUnitorRight G).hom) =
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 ((pullbackFunctor f).obj ((pushforwardFunctor f).obj G)) ×ₘ
+        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+          Z.sheaf))).map (𝟙 ((pullbackFunctor f).obj ((pushforwardFunctor f).obj G)) ×ₘ
               pullbackStructureComparison f) ≫
             (structureUnitorRight
               ((pullbackFunctor f).obj ((pushforwardFunctor f).obj G))).hom) ≫
@@ -374,21 +432,26 @@ theorem isIso_projectionFormulaMap_structureModule
     (G : SheafOfModules.{u'} (structureRingSheaf Z)) :
     IsIso (projectionFormulaMap f G (structureModule X)) := by
   have h2 := isIso_tensor_map_id_prod G (pullbackStructureComparison f)
-  have h3 : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+  have h3 : IsIso (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map
+      (𝟙 G ×ₘ pullbackStructureComparison f) ≫
       (structureUnitorRight G).hom) := inferInstance
   have h4 : IsIso ((pushforwardFunctor f).map
-      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+        Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
         (structureUnitorRight G).hom)) := Functor.map_isIso _ _
   have h5 : IsIso (projectionFormulaMap f G (structureModule X) ≫
       (pushforwardFunctor f).map
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+          Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
           (structureUnitorRight G).hom)) := by
     rw [projectionFormulaMap_comp_structureUnitorRight]
     infer_instance
   exact @IsIso.of_isIso_comp_right _ _ _ _ _
     (projectionFormulaMap f G (structureModule X))
     ((pushforwardFunctor f).map
-      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
+      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+        Z.sheaf))).map (𝟙 G ×ₘ pullbackStructureComparison f) ≫
         (structureUnitorRight G).hom)) h4 h5
 
 /-- Invertibility of the projection-formula map depends only on the isomorphism class of the
@@ -402,10 +465,13 @@ theorem isIso_projectionFormulaMap_of_iso
   rw [CategoryTheory.Functor.map_id] at hnat
   have ha := isIso_tensor_map_id_prod ((pushforwardFunctor f).obj G) e.hom
   have hd : IsIso ((pushforwardFunctor f).map
-      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} Z.sheaf))).map (𝟙 G ×ₘ (pullbackFunctor f).map e.hom))) := by
+      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'}
+        Z.sheaf))).map (𝟙 G ×ₘ (pullbackFunctor f).map e.hom))) := by
     have := isIso_tensor_map_id_prod G ((pullbackFunctor f).map e.hom)
     exact Functor.map_isIso _ _
-  have hab : IsIso (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} X.sheaf))).map (𝟙 ((pushforwardFunctor f).obj G) ×ₘ e.hom) ≫
+  have hab : IsIso (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u', u', u', u', u'} X.sheaf))).map
+      (𝟙 ((pushforwardFunctor f).obj G) ×ₘ e.hom) ≫
       projectionFormulaMap f G H') := by
     rw [hnat]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ h hd

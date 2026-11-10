@@ -294,9 +294,9 @@ theorem exists_affine_factorization_over {S : Scheme.{u}} {W' W : Over S} (f : W
   refine ⟨Over.mk (relativeSpecToBase A ≫ W.hom),
     Over.homMk (toIntermediate f.left A ψ) ?_, Over.homMk (relativeSpecToBase A) rfl,
     Over.OverMorphism.ext ?_, inferInstanceAs (IsAffineHom (relativeSpecToBase A))⟩
-  · show toIntermediate f.left A ψ ≫ relativeSpecToBase A ≫ W.hom = W'.hom
+  · change toIntermediate f.left A ψ ≫ relativeSpecToBase A ≫ W.hom = W'.hom
     rw [← Category.assoc, toIntermediate_comp_relativeSpecToBase, Over.w]
-  · show toIntermediate f.left A ψ ≫ relativeSpecToBase A = f.left
+  · change toIntermediate f.left A ψ ≫ relativeSpecToBase A = f.left
     exact toIntermediate_comp_relativeSpecToBase f.left A ψ
 
 end Stacks.GlueSquishFactor

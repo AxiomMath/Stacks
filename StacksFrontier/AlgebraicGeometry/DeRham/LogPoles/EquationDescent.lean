@@ -151,7 +151,7 @@ theorem exists_unit_mul_of_span_singleton_eq {t s : R} (ht : IsSMulRegular R t)
   obtain ⟨y, hy⟩ := Ideal.mem_span_singleton'.mp (h.symm ▸ Ideal.mem_span_singleton_self t)
   have hyx : y * x = 1 := by
     refine ht ?_
-    show t • (y * x) = t • (1 : R)
+    change t • (y * x) = t • (1 : R)
     rw [smul_eq_mul, smul_eq_mul, mul_one]
     calc t * (y * x) = y * (x * t) := by ring
       _ = y * s := by rw [hx]
@@ -200,7 +200,7 @@ theorem logComplexUnitHom_comp {t s w : R} (u v : Rˣ) (hs : s = (u : R) * t)
       logComplexUnitHom (u * v)
         (show w = (↑(u * v) : R) * t by rw [hw, hs, Units.val_mul]; ring) hw' ht := by
   refine logComplex_hom_ext (fun _ => rfl) fun q x => ?_
-  show Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q))
+  change Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q))
       (logPairUnit A u q (logPairUnit A v q x)) =
     Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q))
       (logPairUnit A (u * v) q x)
@@ -232,7 +232,7 @@ theorem logPairTowerMap_logPairUnit (u : Rˣ) (p : ℕ)
     rw [mapExteriorPower_wedgeLeft]
     congr 1
     rw [dlogUnit, dlogUnit, map_smul, KaehlerDifferential.map_D, Units.coe_map_inv, Units.coe_map]
-    simp only [MonoidHom.coe_coe]
+    simp only [MonoidHom.coe_ofClass]
     rw [algebraMap_smul]
   rw [logPairUnit_apply, logPairTowerMap_apply, logPairTowerMap_apply, logPairUnit_apply]
   refine Prod.ext ?_ rfl
@@ -270,7 +270,7 @@ theorem logComplexUnitHom_comp_logComplexTowerMap {t s : R} (u : Rˣ) (hs : s = 
               (↑(Units.map (algebraMap R R' : R →* R') u) : R') * algebraMap R R' t by
             rw [hs, map_mul, Units.coe_map]; rfl) hφs hφt := by
   refine logComplex_hom_ext (fun _ => rfl) fun q x => ?_
-  show Submodule.Quotient.mk
+  change Submodule.Quotient.mk
       (p := Submodule.restrictScalars A (logRel A (algebraMap R R' t) q))
       (logPairTowerMap A R R' q (logPairUnit A u q x)) =
     Submodule.Quotient.mk
@@ -378,7 +378,7 @@ theorem unit_mul_algebraMap_of_tower {t : R} {t' : R'} {t'' : R''} (w' : R'ˣ) (
       algebraMap R R'' t := by
   rw [hw'', hw', map_mul, Units.val_mul, Units.coe_map,
     IsScalarTower.algebraMap_apply R R' R'' t]
-  simp only [MonoidHom.coe_coe]
+  simp only [MonoidHom.coe_ofClass]
   ring
 
 /-- **The cocycle law of the descent datum of Stacks Tag 0FMW.**  The restriction maps compose
@@ -403,7 +403,7 @@ theorem logComplexRestrict_comp {t : R} {t' : R'} {t'' : R''} (w' : R'ˣ) (w'' :
     rw [mul_inv_rev, map_inv, mul_comm]
   refine logComplex_hom_ext (fun ω => ?_) fun q x => ?_
   · exact mapExteriorPower_mapExteriorPower A R R' R'' 0 ω
-  · show Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t'' q))
+  · change Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t'' q))
         (logPairUnit A w''⁻¹ q (logPairTowerMap A R' R'' q
           (logPairUnit A w'⁻¹ q (logPairTowerMap A R R' q x)))) =
       Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t'' q))

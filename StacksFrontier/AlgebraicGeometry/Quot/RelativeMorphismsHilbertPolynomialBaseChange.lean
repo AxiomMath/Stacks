@@ -344,7 +344,7 @@ private theorem mem_hilbertPolynomialSubfunctor_graph_baseChange_iff
       xf.subspaceInclusion ≫ schemeBaseChangeProjectionHom B S hS f'
         (CostructuredArrow.mk xf.toBase) := by
     apply ObjectProperty.hom_ext
-    show e0.hom ≫ (Subfunctor.range (graphMap q)).ι ≫
+    change e0.hom ≫ (Subfunctor.range (graphMap q)).ι ≫
         pullback.snd (pullback.fst z x ≫ z) q.base =
       (Subfunctor.range (graphMap p')).ι ≫
         pullback.snd (pullback.fst (pullback.fst ξ z) (pullback.fst ξ x) ≫ pullback.fst ξ z)
@@ -356,7 +356,7 @@ private theorem mem_hilbertPolynomialSubfunctor_graph_baseChange_iff
     schemeBaseChangeSpace f (CostructuredArrow.mk yf.toBase) ⟶ _)
   have hp : p ≫ graphAmbientBaseChangeHom hZ hX hQ ξ hZ' hX' hW = pp := by
     apply ObjectProperty.hom_ext
-    show ((Subfunctor.range (graphMap p')).ι ≫
+    change ((Subfunctor.range (graphMap p')).ι ≫
         pullback.fst (pullback.fst (pullback.fst ξ z) (pullback.fst ξ x) ≫ pullback.fst ξ z)
           p'.base) ≫
         pullback.map (pullback.fst ξ z) (pullback.fst ξ x) z x

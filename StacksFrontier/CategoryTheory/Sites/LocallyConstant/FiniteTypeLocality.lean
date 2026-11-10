@@ -149,7 +149,7 @@ theorem isFiniteTypeLocallyConstantModuleSheaf_of_local
       (fun j => (g i j).left))
     · intro Z a ha
       obtain ⟨W, b, c, ⟨j⟩, rfl⟩ := ha
-      show (Sieve.ofArrows V' g') ((b ≫ (g i j).left) ≫ f i)
+      change (Sieve.ofArrows V' g') ((b ≫ (g i j).left) ≫ f i)
       rw [Category.assoc]
       exact (Sieve.ofArrows V' g').downward_closed
         (Sieve.le_generate _ _ _ ⟨⟨i, j⟩⟩) b

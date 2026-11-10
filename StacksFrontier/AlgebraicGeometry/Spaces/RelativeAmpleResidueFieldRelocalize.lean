@@ -76,7 +76,7 @@ theorem isPullback_relocalizeSpaceMap {P X Y Z : AlgebraicSpaces B W hW} {fst : 
   refine IsPullback.of_map (ObjectProperty.ι _) ?_
     ((AlgebraicSpaces.isPullback_hom B W hW hsq).map (OverShriek.relocalizePresheafFunctor h))
   ext1
-  show (OverShriek.relocalizePresheafFunctor h).map fst.hom ≫
+  change (OverShriek.relocalizePresheafFunctor h).map fst.hom ≫
       (OverShriek.relocalizePresheafFunctor h).map f.hom =
     (OverShriek.relocalizePresheafFunctor h).map snd.hom ≫
       (OverShriek.relocalizePresheafFunctor h).map g.hom
@@ -121,7 +121,7 @@ theorem relocalizeRepresentedIsoOfIso_comp {A U : BigFppfOver B W hW} {A' : BigF
     Category.assoc]
   congr 1
   ext1
-  show yoneda.map ((Over.map h).map a) = yoneda.map α.hom ≫ yoneda.map a'
+  change yoneda.map ((Over.map h).map a) = yoneda.map α.hom ≫ yoneda.map a'
   rw [← Functor.map_comp, ha]
 
 /-- The relocalization of the residue-field object of a point is the residue-field object of the

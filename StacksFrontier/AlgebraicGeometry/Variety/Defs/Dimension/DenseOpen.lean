@@ -43,7 +43,7 @@ theorem _root_.IsGenericPoint.mem_of_isOpen_of_dense_of_mem_irreducibleComponent
   have hfin := NoetherianSpace.finite_irreducibleComponents (α := T)
   let O : Set T := (⋃₀ (irreducibleComponents T \ {Z}))ᶜ
   have hO : IsOpen O := by
-    show IsOpen (⋃₀ (irreducibleComponents T \ {Z}))ᶜ
+    change IsOpen (⋃₀ (irreducibleComponents T \ {Z}))ᶜ
     rw [Set.sUnion_eq_biUnion, isOpen_compl_iff]
     exact hfin.sdiff.isClosed_biUnion fun W hW ↦ isClosed_of_mem_irreducibleComponents W hW.1
   have hcl : closure O = Z := closure_sUnion_irreducibleComponents_sdiff_singleton hfin Z hZ

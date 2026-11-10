@@ -577,7 +577,7 @@ theorem isLimitPreservingOnObjects_toTerminalCFG_twoFibreProduct
       rw [Category.assoc, ← Functor.map_comp, hδznfac]
     have hWisohom : Wiso.hom = Functor.Fiber.fiberInclusion.map u.hom ≫ φ ≫
         Functor.Fiber.fiberInclusion.map v.inv := by
-      show Functor.Fiber.fiberInclusion.map
+      change Functor.Fiber.fiberInclusion.map
         (u.hom ≫ (⟨φ, hφ⟩ : an ⟶ bn) ≫ v.inv) = _
       rw [Functor.map_comp, Functor.map_comp]
       rfl
@@ -620,7 +620,7 @@ theorem isLimitPreservingOnObjects_toTerminalCFG_twoFibreProduct
         simpa using (inferInstance :
           𝒵.val.p.IsHomLift (𝟙 d.pt ≫ eqToHom hW.symm) βz)
       w := by
-        show Fp.map βx ≫ W.1.iso.hom =
+        change Fp.map βx ≫ W.1.iso.hom =
           (Fp.map βx ≫ W.1.iso.hom ≫ Gq.map (inv βz)) ≫ Gq.map βz
         rw [Category.assoc, Category.assoc, ← Functor.map_comp, IsIso.inv_hom_id,
           CategoryTheory.Functor.map_id, Category.comp_id] }
@@ -632,7 +632,7 @@ theorem isLimitPreservingOnObjects_toTerminalCFG_twoFibreProduct
       (d.π.app n) Δ hΔlift hδxnSC hδznSC
   have hΒlift : T.IsHomLift (𝟙 d.pt) Β := by
     apply IsHomLift.of_commsq T (𝟙 d.pt) Β rfl hW
-    show eqToHom hW.symm ≫ eqToHom hW = eqToHom rfl ≫ 𝟙 d.pt
+    change eqToHom hW.symm ≫ eqToHom hW = eqToHom rfl ≫ 𝟙 d.pt
     simp
   have hΒiso : IsIso Β := TwoFibreProductOver.isIso_of_components Β
   exact exists_descent_datum_of_descent T E d i y W γ hγ n (rr ≫ j₂ ≫ j₁)

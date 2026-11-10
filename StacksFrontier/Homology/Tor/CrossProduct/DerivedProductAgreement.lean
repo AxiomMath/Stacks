@@ -46,7 +46,7 @@ private lemma liftedCochain_kFlat
     (K : ChainComplex (ModuleCat.{max uR uA v} A) ℕ)
     [∀ n, Projective (K.X n)] : (liftedCochain.{uR, uA, v} A K).KFlat := by
   have := projective_liftScalars_mapHomologicalComplex_X.{uR, uA, v} K
-  show CochainComplex.KFlat
+  change CochainComplex.KFlat
     (((((liftScalars.{uR, uA, v} A).mapHomologicalComplex
       (ComplexShape.down ℕ)).obj K)).extend ComplexShape.embeddingDownNat)
   exact CochainComplex.KFlat.kFlat_of_flat _ 0
@@ -346,7 +346,7 @@ private lemma isIso_liftedTensorXMap_neg
     apply Cofan.IsColimit.hom_ext hc
     rintro ⟨⟨p, q⟩, h⟩
     dsimp only [Cofan.mk_ι_app, Cofan.inj]
-    show F.map (ιMapBifunctor K L _ _ p q n h) ≫ v ≫
+    change F.map (ιMapBifunctor K L _ _ p q n h) ≫ v ≫
       liftedTensorXMap.{uR, uA, v} K L (-(n : ℤ)) = _
     rw [reassoc_of% (hv p q h), ι_liftedTensorXMap.{uR, uA, v} K L p q n h]
     simp only [tensorHom_comp_tensorHom_assoc, Iso.inv_hom_id,
@@ -419,7 +419,6 @@ private lemma liftedTensorXMap_d₁
           n (-(n : ℤ)) rfl).inv := by
   cases p with
   | zero =>
-    try simp only [Nat.cast_zero, neg_zero]
     have hz : (liftedCochain.{uR, uA, v} A K).d 0 1 = 0 :=
       (liftedCochain_isZero_X.{uR, uA, v} K 1 (by rintro ⟨n, hn⟩; omega)).eq_of_tgt _ _
     erw [mapBifunctor.d₁_eq_zero K L _ _ 0 q n (by simp),
@@ -429,7 +428,7 @@ private lemma liftedTensorXMap_d₁
   | succ p =>
     have hp : (ComplexShape.down ℕ).Rel (p + 1) p := by simp
     have hp' : (ComplexShape.up ℤ).Rel (-((p + 1 : ℕ) : ℤ)) (-(p : ℤ)) := by
-      show -((p + 1 : ℕ) : ℤ) + 1 = -(p : ℤ); omega
+      change -((p + 1 : ℕ) : ℤ) + 1 = -(p : ℤ); omega
     by_cases h : p + q = n
     · rw [mapBifunctor.d₁_eq _ _ _ _ hp' _ _ (by change -(p : ℤ) + -(q : ℤ) = -(n : ℤ); omega),
         mapBifunctor.d₁_eq _ _ _ _ hp _ _ h]
@@ -445,7 +444,7 @@ private lemma liftedTensorXMap_d₁
       simp only [curriedTensor_map_app, whiskerRight_comp_tensorHom_assoc,
         tensorHom_comp_whiskerRight_assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     · rw [mapBifunctor.d₁_eq_zero' _ _ _ _ hp' _ _ (by
-          show -(p : ℤ) + -(q : ℤ) ≠ -(n : ℤ); omega),
+          change -(p : ℤ) + -(q : ℤ) ≠ -(n : ℤ); omega),
         mapBifunctor.d₁_eq_zero' _ _ _ _ hp _ _ h]
       simp
 
@@ -465,7 +464,6 @@ private lemma liftedTensorXMap_d₂
           n (-(n : ℤ)) rfl).inv := by
   cases q with
   | zero =>
-    try simp only [Nat.cast_zero, neg_zero]
     have hz : (liftedCochain.{uR, uA, v} A L).d 0 1 = 0 :=
       (liftedCochain_isZero_X.{uR, uA, v} L 1 (by rintro ⟨n, hn⟩; omega)).eq_of_tgt _ _
     erw [mapBifunctor.d₂_eq_zero K L _ _ p 0 n (by simp),
@@ -476,7 +474,7 @@ private lemma liftedTensorXMap_d₂
   | succ q =>
     have hq : (ComplexShape.down ℕ).Rel (q + 1) q := by simp
     have hq' : (ComplexShape.up ℤ).Rel (-((q + 1 : ℕ) : ℤ)) (-(q : ℤ)) := by
-      show -((q + 1 : ℕ) : ℤ) + 1 = -(q : ℤ); omega
+      change -((q + 1 : ℕ) : ℤ) + 1 = -(q : ℤ); omega
     by_cases h : p + q = n
     · rw [mapBifunctor.d₂_eq _ _ _ _ _ hq' _ (by change -(p : ℤ) + -(q : ℤ) = -(n : ℤ); omega),
         mapBifunctor.d₂_eq _ _ _ _ _ hq _ h]
@@ -484,7 +482,7 @@ private lemma liftedTensorXMap_d₂
           (ComplexShape.up ℤ) (-(p : ℤ), -((q + 1 : ℕ) : ℤ)) =
           ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
             (ComplexShape.down ℕ) (p, q + 1) := by
-        show (-1 : ℤˣ) ^ (-(p : ℤ)) = (-1 : ℤˣ) ^ p
+        change (-1 : ℤˣ) ^ (-(p : ℤ)) = (-1 : ℤˣ) ^ p
         simp
       rw [hs]
       simp only [Linear.units_smul_comp, Functor.map_units_smul, Linear.comp_units_smul,
@@ -497,7 +495,7 @@ private lemma liftedTensorXMap_d₂
       simp only [curriedTensor_obj_map, whiskerLeft_comp_tensorHom_assoc,
         tensorHom_comp_whiskerLeft_assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     · rw [mapBifunctor.d₂_eq_zero' _ _ _ _ _ hq' _ (by
-          show -(p : ℤ) + -(q : ℤ) ≠ -(n : ℤ); omega),
+          change -(p : ℤ) + -(q : ℤ) ≠ -(n : ℤ); omega),
         mapBifunctor.d₂_eq_zero' _ _ _ _ _ hq _ h]
       simp
 
@@ -586,7 +584,7 @@ private lemma homologyπ_mapHomologyIso_hom
   simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom, Category.assoc]
   rw [reassoc_of% (h.map F).homologyπ_comp_homologyIso_hom]
   congr 1
-  show F.map h.π ≫ F.map h.homologyIso.inv =
+  change F.map h.π ≫ F.map h.homologyIso.inv =
     F.map h.cyclesIso.inv ≫ F.map S.homologyπ
   rw [← F.map_comp, ← F.map_comp]
   congr 1
@@ -617,7 +615,7 @@ private lemma liftedCochain_isKProjective
     (K : ChainComplex (ModuleCat.{max uR uA v} A) ℕ)
     [∀ n, Projective (K.X n)] : (liftedCochain.{uR, uA, v} A K).IsKProjective := by
   have := projective_liftScalars_mapHomologicalComplex_X.{uR, uA, v} K
-  show CochainComplex.IsKProjective
+  change CochainComplex.IsKProjective
     ((((liftScalars.{uR, uA, v} A).mapHomologicalComplex
       (ComplexShape.down ℕ)).obj K).extend ComplexShape.embeddingDownNat)
   infer_instance
@@ -704,13 +702,13 @@ lemma chainHomologyProduct_agreesWith068H
       ((ModuleCat.epi_iff_surjective (P.homologyπ i)).1 inferInstance)
       ((ModuleCat.epi_iff_surjective (Q.homologyπ j)).1 inferInstance)
   rw [← cancel_epi (P.homologyπ i ⊗ₘ Q.homologyπ j)]
-  show (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫
+  change (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫
       ((liftedCochainHomologyIso.{uR, uA, v} A K n i rfl).hom ⊗ₘ
         (liftedCochainHomologyIso.{uR, uA, v} A L m j rfl).hom) ≫
       liftScalarsTensorMap.{uR, uA, v} A (K.homology n) (L.homology m) ≫ F.map c.map =
     (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫ _
   rw [reassoc_of% hpair]
-  show _ = z₀ ≫ (P ⊗ Q : CochainComplex (ModuleCat B) ℤ).homologyπ k ≫ homologyMap t.iso.hom k ≫
+  change _ = z₀ ≫ (P ⊗ Q : CochainComplex (ModuleCat B) ℤ).homologyπ k ≫ homologyMap t.iso.hom k ≫
     (liftedCochainHomologyIso.{uR, uA, v} A V (n + m) k hk).hom
   rw [homologyπ_naturality_assoc]
   dsimp only [z₀, zc]

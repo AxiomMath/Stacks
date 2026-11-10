@@ -186,7 +186,7 @@ public theorem seriesMixed_pow_le_coeffIdeal (I : Ideal B) (n N : ℕ) :
     seriesMixed I n ^ N ≤ coeffIdeal I n N := by
   induction N with
   | zero =>
-      rw [SetLike.le_def]
+      rw [IsConcreteLE.le_iff]
       intro f _
       rw [mem_coeffIdeal]
       intro d
@@ -215,7 +215,7 @@ public theorem mem_polyMixed_pow_of_coeff_mem {I : Ideal B} {n N : ℕ}
       intro hde
       rw [hde] at he
       exact lt_irrefl _ he
-    rw [MvPolynomial.coeff_monomial, if_neg hne]
+    rw [MvPolynomial.coeff_monomial, ite_eq_right hne]
   have hC : (MvPolynomial.C (p.coeff d)) ∈ polyMixed I n ^ (N - ∑ i, d i) := by
     refine Ideal.pow_right_mono (map_C_le_polyMixed I n) _ ?_
     rw [← Ideal.map_pow]
@@ -374,7 +374,7 @@ public theorem map_polyMixed_le_seriesMixed :
             MvPowerSeries (Fin n) (AdicCompletion (maximalIdeal R) R)).comp
           (algebraMap R (AdicCompletion (maximalIdeal R) R)) := by
       refine RingHom.ext fun r => ?_
-      show toSeries R n (MvPolynomial.C r) = _
+      change toSeries R n (MvPolynomial.C r) = _
       rw [toSeries_apply, MvPolynomial.map_C, MvPolynomial.coe_C]
       rfl
     rw [hcomp, ← Ideal.map_map, ← AdicCompletion.maximalIdeal_eq_map]
@@ -415,7 +415,7 @@ private theorem coe_mem_map_C_of_mem_map_C {S σ : Type*} [CommRing S] {J : Idea
   have hcompC : (MvPolynomial.coeToMvPowerSeries.ringHom (σ := σ) (R := S)).comp
       MvPolynomial.C = MvPowerSeries.C := by
     refine RingHom.ext fun a => ?_
-    show ((MvPolynomial.C a : MvPolynomial σ S) : MvPowerSeries σ S) = _
+    change ((MvPolynomial.C a : MvPolynomial σ S) : MvPowerSeries σ S) = _
     rw [MvPolynomial.coe_C]
   rwa [hcompC] at hmap
 
@@ -442,9 +442,9 @@ private theorem exists_sub_map_mem_map_C (N : ℕ)
   intro e
   rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_map, hcoeffp]
   by_cases he : e ∈ q.support
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     exact hr e
-  · rw [if_neg he, map_zero, MvPolynomial.notMem_support_iff.mp he, sub_zero]
+  · rw [ite_eq_right he, map_zero, MvPolynomial.notMem_support_iff.mp he, sub_zero]
     exact Submodule.zero_mem _
 
 /-- **The comparison map is surjective modulo every power of the mixed ideal.** Truncate the

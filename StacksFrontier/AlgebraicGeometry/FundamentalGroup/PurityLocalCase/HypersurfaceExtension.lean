@@ -171,7 +171,7 @@ private theorem idealSheafNearVanishing_eq_ofIdealTop_span_singleton
       Scheme.IdealSheafData.ofIdealTop (Ideal.span
         {((Scheme.ΓSpecIso (CommRingCat.of S.A)).inv ≫
           (complementZeroLocus S.A (maximalIdeal S.A)).ι.appTop).hom S.f}) := by
-  show Scheme.IdealSheafData.ofIdealTop
+  change Scheme.IdealSheafData.ofIdealTop
       (Ideal.map ((Scheme.ΓSpecIso (CommRingCat.of S.A)).inv ≫
         (complementZeroLocus S.A (maximalIdeal S.A)).ι.appTop).hom (Ideal.span {S.f})) = _
   rw [Ideal.map_span, Set.image_singleton]

@@ -39,7 +39,8 @@ generality than the Remark asks for.
 
 Covered here: the two objects the Remark introduces, `ω_{X/Y}^• = a(𝒪_Y)` and `Tr_{f, 𝒪_Y}`.
 
-Covered in `StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizingComplexTensorDescription.lean`,
+Covered in
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizingComplexTensorDescription.lean`,
 at exactly the Remark's hypotheses:
 
 * the functorial identification `a(K) = Lf^* K ⊗^{\mathbf L}_{𝒪_X} ω_{X/Y}^•` for

@@ -358,7 +358,7 @@ object `(u, Z)` of `U'` which `(u, Z, z)` is sent to has `u` as its morphism to 
 the source of `z`. -/
 theorem sourceHom_comp_toBase (fp : FinitePart G) :
     fp.sourceHom ≫ fp.pair.toBase.hom = fp.arrowHom ≫ G.source.hom := by
-  show (fp.pair.subspace.ι ≫ pullback.fst fp.pair.toBase.hom G.source.hom) ≫
+  change (fp.pair.subspace.ι ≫ pullback.fst fp.pair.toBase.hom G.source.hom) ≫
       fp.pair.toBase.hom =
     (fp.pair.subspace.ι ≫ pullback.snd fp.pair.toBase.hom G.source.hom) ≫ G.source.hom
   rw [Category.assoc, Category.assoc, pullback.condition]

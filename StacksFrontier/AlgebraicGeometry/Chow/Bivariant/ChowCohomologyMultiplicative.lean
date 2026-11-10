@@ -23,8 +23,8 @@ nothing more; its two functoriality laws are
 `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ChowCohomologyFunctoriality`. This file supplies
 the multiplicative half: `res` carries the product of Stacks 0B7E to the product, and the unit to
 the unit, so that it is a homomorphism of the rings and of the `ℤ`-algebras that
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ChowCohomologyCompositionRing` builds on `A^*(Y)` and
-`A^*(Y')`.
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ChowCohomologyCompositionRing` builds on
+`A^*(Y)` and `A^*(Y')`.
 
 ## Main results
 

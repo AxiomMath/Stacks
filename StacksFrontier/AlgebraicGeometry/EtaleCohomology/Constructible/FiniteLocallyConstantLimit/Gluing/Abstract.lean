@@ -250,7 +250,7 @@ public theorem exists_iso_of_isEquivalence_toDescentData_of_isPullback
                f_p₁ := h₁₃₁ i j k
                f_p₂ := h₁₃₂ i j k
                f_p := by
-                 show a₁₃ i j k ≫ r i k = a₁₂ i j k ≫ r i j
+                 change a₁₃ i j k ≫ r i k = a₁₂ i j k ≫ r i j
                  rw [← hr₁ i k, ← hr₁ i j, ← Category.assoc, ← Category.assoc, h₁₃₁ i j k,
                    h₁₂₁ i j k] }
         hp₁ := h₁₂₁ i j k

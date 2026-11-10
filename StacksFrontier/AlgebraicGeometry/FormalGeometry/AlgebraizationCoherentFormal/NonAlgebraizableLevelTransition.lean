@@ -125,7 +125,7 @@ public theorem preimage_levelChart (r : AmbientRing k) (n : ℕ)
 charts of level `n`. -/
 public theorem preimage_levelOverlap (n : ℕ) :
     levelOpenMap k n ⁻¹ᵁ levelOverlap k (n + 1) = levelOverlap k n := by
-  show levelOpenMap k n ⁻¹ᵁ levelChart k (xVar k) (n + 1) ⊓
+  change levelOpenMap k n ⁻¹ᵁ levelChart k (xVar k) (n + 1) ⊓
       levelOpenMap k n ⁻¹ᵁ levelChart k (yVar k) (n + 1) = _
   rw [preimage_levelChart k (xVar k) n (le_sup_left : chartOpen k (xVar k) (n + 1) ≤ _),
     preimage_levelChart k (yVar k) n (le_sup_right : chartOpen k (yVar k) (n + 1) ≤ _)]
@@ -167,7 +167,7 @@ public theorem app_levelSchemeMap_chartOpenEquiv (r : AmbientRing k) (n : ℕ)
           (levelReductionRing k n z) := by
       rw [chartReduction_levelToChart]
       exact (chartOpenEquiv k r n).commutes _
-    show ((levelSchemeMap k n).app (chartOpen k r (n + 1))).hom
+    change ((levelSchemeMap k n).app (chartOpen k r (n + 1))).hom
         (chartOpenEquiv k r (n + 1) (levelToChart k r (n + 1) z)) =
       chartOpenEquiv k r n (chartReduction k r n (levelToChart k r (n + 1) z))
     exact (congrArg ((levelSchemeMap k n).app (chartOpen k r (n + 1))).hom h1).trans
@@ -260,7 +260,7 @@ public theorem app_levelOverlapUnit (a : ℕ → PlaneRing k) (φ : ℕ → ℕ)
       Stacks.SheafOfModules.overlapUnit (levelOverlapUnit k a φ n)
         (levelOpenMap k n ⁻¹ᵁ levelOverlap k (n + 1)) (preimage_levelOverlap k n).le := by
   refine Units.ext ?_
-  show ((levelOpenMap k n).app (levelOverlap k (n + 1))).hom
+  change ((levelOpenMap k n).app (levelOverlap k (n + 1))).hom
       (levelOverlapRingEquiv k (n + 1) (isUnit_transitionElement k a φ (n + 1)).unit.val) =
     ((levelOpen k n).toScheme.presheaf.map (homOfLE (preimage_levelOverlap k n).le).op).hom
       (levelOverlapRingEquiv k n (isUnit_transitionElement k a φ n).unit.val)

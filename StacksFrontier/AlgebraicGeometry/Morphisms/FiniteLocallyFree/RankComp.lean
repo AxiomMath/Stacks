@@ -87,7 +87,7 @@ theorem isFiniteLocallyFreeOfRank_comp_of_specTarget {K : Type u} [Field K] {W T
   have : IsScalarTower K ↑Γ(T, ⊤) ↑Γ(W, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     ext x
-    show (p ≫ p₀).appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom x) =
+    change (p ≫ p₀).appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom x) =
       p.appTop.hom (p₀.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom x))
     rw [show (p ≫ p₀).appTop = p₀.appTop ≫ p.appTop from Scheme.Hom.comp_appTop p p₀]
     rfl

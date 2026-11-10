@@ -92,7 +92,7 @@ private theorem rTensor_subtype_injective_of_isH1Regular
     simp [hτ]
   have htriv (i j : Fin r) : τ (Koszul.trivRel (algebraMap R B ∘ f) i j) = 0 := by
     rw [Koszul.trivRel, map_sub, hτsingle, hτsingle, sub_eq_zero]
-    show v j ⊗ₜ[R] (algebraMap R B (f i)) = v i ⊗ₜ[R] (algebraMap R B (f j))
+    change v j ⊗ₜ[R] (algebraMap R B (f i)) = v i ⊗ₜ[R] (algebraMap R B (f j))
     rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
       ← TensorProduct.smul_tmul, ← TensorProduct.smul_tmul]
     congr 1
@@ -107,8 +107,7 @@ private theorem rTensor_subtype_injective_of_isH1Regular
     | smul c b _ hb => rw [hτsmul, hb, map_zero]
   have hsurj : Function.Surjective τ := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero τ⟩
+    induction x using TensorProduct.inductionOn with
     | tmul y b =>
       obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun R).mp y.property
       have hy : (∑ i, a i • v i) = y := by
@@ -169,13 +168,13 @@ private theorem bijective_algebraMap_quotient_vars
   let I : Ideal (MvPolynomial (Fin r) A) := Ideal.span (Set.range MvPolynomial.X)
   let l : (MvPolynomial (Fin r) A ⧸ I) →+* A :=
     Ideal.Quotient.lift I MvPolynomial.constantCoeff (by
-      show I ≤ RingHom.ker MvPolynomial.constantCoeff
+      change I ≤ RingHom.ker MvPolynomial.constantCoeff
       rw [Ideal.span_le]
       rintro _ ⟨i, rfl⟩
       simp)
   refine ⟨?_, ?_⟩
   · have hl (a : A) : l (algebraMap A (MvPolynomial (Fin r) A ⧸ I) a) = a := by
-      show MvPolynomial.constantCoeff (MvPolynomial.C a) = a
+      change MvPolynomial.constantCoeff (MvPolynomial.C a) = a
       simp
     intro a b hab
     exact (hl a).symm.trans ((congrArg l hab).trans (hl b))
@@ -218,7 +217,7 @@ private theorem flat_localizationAtPrime_of_isH1Regular
   let R := MvPolynomial (Fin r) A
   let : Algebra R B := (MvPolynomial.aeval f).toRingHom.toAlgebra
   have : IsScalarTower A R B := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A B a = MvPolynomial.aeval f (MvPolynomial.C a)
+    change algebraMap A B a = MvPolynomial.aeval f (MvPolynomial.C a)
     simp
   have : Algebra.FinitePresentation R B :=
     Algebra.FinitePresentation.of_restrict_scalars_finitePresentation A R B
@@ -235,7 +234,7 @@ private theorem flat_localizationAtPrime_of_isH1Regular
       (by rintro _ ⟨a, ha, rfl⟩; exact ha)
   have hX (i : Fin r) : algebraMap P T (fP i) = algebraMap B T (f i) := by
     rw [← IsScalarTower.algebraMap_apply R P T, IsScalarTower.algebraMap_apply R B T]
-    show algebraMap B T (MvPolynomial.aeval f (MvPolynomial.X i)) = _
+    change algebraMap B T (MvPolynomial.aeval f (MvPolynomial.X i)) = _
     simp
   have hfP : Koszul.IsH1Regular (algebraMap P T ∘ fP) := by
     convert isH1Regular_map_of_flat (S := T) f hf using 1
@@ -246,7 +245,7 @@ private theorem flat_localizationAtPrime_of_isH1Regular
     rintro _ ⟨i, rfl⟩
     rw [← Localization.AtPrime.map_eq_maximalIdeal]
     apply Ideal.mem_map_of_mem
-    show MvPolynomial.aeval f (MvPolynomial.X i) ∈ q
+    change MvPolynomial.aeval f (MvPolynomial.X i) ∈ q
     simpa using hq (Ideal.subset_span (Set.mem_range_self i))
   let I : Ideal B := Ideal.span (Set.range f)
   let I₀ : Ideal R := Ideal.span (Set.range (MvPolynomial.X : Fin r → R))
@@ -385,7 +384,7 @@ private theorem exists_open_flat_of_affine_sequence
     dsimp only [q]
     rw [← he]
     intro a ha
-    show (i.appLE U.1 (i ⁻¹ᵁ U.1) le_rfl) a ∈ (hZ.primeIdealOf ⟨z, hz⟩).asIdeal
+    change (i.appLE U.1 (i ⁻¹ᵁ U.1) le_rfl) a ∈ (hZ.primeIdealOf ⟨z, hz⟩).asIdeal
     rw [← Scheme.Hom.app_eq_appLE]
     rw [show i.app U.1 a = 0 from ha]
     exact Ideal.zero_mem _
@@ -396,7 +395,7 @@ private theorem exists_open_flat_of_affine_sequence
   refine ⟨V, ?_, ?_⟩
   · have hfs : U.2.fromSpec q = i z := U.2.fromSpec_primeIdealOf ⟨i z, hz⟩
     have hmem : U.2.fromSpec q ∈ V := by
-      show q ∈ U.2.fromSpec ⁻¹ᵁ X.basicOpen b
+      change q ∈ U.2.fromSpec ⁻¹ᵁ X.basicOpen b
       rw [U.2.fromSpec_preimage_basicOpen b]
       exact hb
     exact hfs ▸ hmem
@@ -406,7 +405,7 @@ private theorem exists_open_flat_of_affine_sequence
     let : Algebra B D := k.hom.toAlgebra
     let : Algebra A D := g'.hom.toAlgebra
     have : IsScalarTower A B D := IsScalarTower.of_algebraMap_eq fun a => by
-      show g' a = k (g a)
+      change g' a = k (g a)
       exact (ConcreteCategory.congr_hom (f.appLE_map (U := ⊤) (V := U.1) hUle
         (homOfLE (X.basicOpen_le b)).op) a).symm
     have : IsLocalization.Away b D := U.2.isLocalization_basicOpen b

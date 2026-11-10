@@ -119,17 +119,17 @@ public theorem nonempty_triangleOfSES_truncLE_iso (K : CochainComplex C ℤ) (k 
   have hB : B ∈ distTriang (DerivedCategory C) :=
     DerivedCategory.TStructure.t.triangleLEGT_distinguished (k - 1) (DerivedCategory.Q.obj T)
   have hLEA : DerivedCategory.TStructure.t.IsLE A.obj₁ (k - 1) := by
-    show (DerivedCategory.Q.obj (T.truncLE (k - 1))).IsLE (k - 1)
+    change (DerivedCategory.Q.obj (T.truncLE (k - 1))).IsLE (k - 1)
     rw [DerivedCategory.isLE_Q_obj_iff]
     infer_instance
   have hGEA : DerivedCategory.TStructure.t.IsGE A.obj₃ k := by
     exact isGE_Q_obj_shortComplexTruncLE_X₃ T k
   have hLEB : DerivedCategory.TStructure.t.IsLE B.obj₁ (k - 1) := by
-    show DerivedCategory.TStructure.t.IsLE
+    change DerivedCategory.TStructure.t.IsLE
       ((DerivedCategory.TStructure.t.truncLE (k - 1)).obj (DerivedCategory.Q.obj T)) (k - 1)
     infer_instance
   have hGEB : DerivedCategory.TStructure.t.IsGE B.obj₃ k := by
-    show DerivedCategory.TStructure.t.IsGE
+    change DerivedCategory.TStructure.t.IsGE
       ((DerivedCategory.TStructure.t.truncGT (k - 1)).obj (DerivedCategory.Q.obj T)) k
     infer_instance
   obtain ⟨e, -⟩ := DerivedCategory.TStructure.t.triangle_iso_exists

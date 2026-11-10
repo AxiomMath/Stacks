@@ -61,7 +61,7 @@ theorem free_of_injective_of_range_le_maximalIdeal_smul (φ : M →ₗ[A] M)
     have ha : (a : A) ∈ Ideal.span {ϖ} := (irreducible_iff_uniformizer ϖ).mp hϖ ▸ a.2
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp ha
     apply Subtype.ext
-    show a.1 • m.1 = 0
+    change a.1 • m.1 = 0
     rw [← hc, mul_smul, (hmemS m.1).mp m.2, smul_zero]
   let : Module (A ⧸ maximalIdeal A) S := htors.module
   have : IsScalarTower A (A ⧸ maximalIdeal A) S := htors.isScalarTower

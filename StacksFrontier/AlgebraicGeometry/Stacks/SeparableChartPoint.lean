@@ -153,21 +153,21 @@ theorem exists_affineSpace_chartPoint
     AffineSpace.homOfVector_over _ _
   let m : u₀.left ⟶ V' := Over.homMk (ObjectProperty.homMk mS) (by
     apply B.inclusion.map_injective
-    show B.inclusion.map (ObjectProperty.homMk mS ≫ pr ≫ V.hom) = B.inclusion.map u₀.left.hom
+    change B.inclusion.map (ObjectProperty.homMk mS ≫ pr ≫ V.hom) = B.inclusion.map u₀.left.hom
     rw [Functor.map_comp, Functor.map_comp, ← Category.assoc]
-    show (mS ≫ (AffineSpace n X ↘ X)) ≫ _ = _
+    change (mS ≫ (AffineSpace n X ↘ X)) ≫ _ = _
     rw [hmS, ← Functor.map_comp, Over.w u₀.hom])
   let u₀' : Over V' := Over.mk m
   have hu₀' : (Over.forget V' ⋙ Over.post B.inclusion).obj u₀' =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ l)) ≫ iΛ) := hu₀
   refine ⟨V', g', u₀', hu₀', AlgebraicStacks.isSmooth_comp B S hS _ _
     (isSmooth_schemeStackMap.{u, w} B S hS P hPsm) hg, ?_, ?_⟩
-  · show (CatFiberedInGroupoids.homFunctor g.hom).obj ((Over.map P).obj u₀') = _
+  · change (CatFiberedInGroupoids.homFunctor g.hom).obj ((Over.map P).obj u₀') = _
     congr 1
     have hmP : m ≫ P = u₀.hom := by
       ext
       exact hmS
-    show Over.mk (m ≫ P) = u₀
+    change Over.mk (m ≫ P) = u₀
     rw [hmP]
     rfl
   · intro c

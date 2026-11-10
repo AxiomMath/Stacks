@@ -113,7 +113,7 @@ private theorem hasSchemePropertyULift_of_iso
   have : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show Q ((BigFppfOver.toScheme B S hS).map snd)
+  change Q ((BigFppfOver.toScheme B S hS).map snd)
   exact hQ _ (Functor.map_isIso _ snd)
 
 /-- On a subcanonical site, the sheafified Yoneda embedding followed by the inclusion of sheaves
@@ -162,7 +162,8 @@ subcanonical the two embeddings agree after including sheaves into presheaves, a
 scheme-valued point of the target lifts to the sheaf level along that identification, and the
 inclusion of sheaves into presheaves carries the resulting cartesian square to a cartesian
 square of presheaves. -/
-alias relative_uliftYoneda_of_relative_sheafifiedYoneda' := relative_uliftYoneda_of_relative_sheafifiedYoneda
+alias relative_uliftYoneda_of_relative_sheafifiedYoneda' :=
+  relative_uliftYoneda_of_relative_sheafifiedYoneda
 
 /-! ### The canonical presentation of the formal spectrum -/
 
@@ -196,7 +197,7 @@ private theorem isThickening_specMap_quotientFactor
           (hker.trans (nilradical_le_prime p.asIdeal))⟩
     refine ⟨p', ?_⟩
     apply PrimeSpectrum.ext
-    show (p.asIdeal.map q).comap q = p.asIdeal
+    change (p.asIdeal.map q).comap q = p.asIdeal
     rw [Ideal.comap_map_of_surjective q hqSurj p.asIdeal,
       ← RingHom.ker_eq_comap_bot,
       sup_eq_left.mpr (hker.trans (nilradical_le_prime p.asIdeal))]
@@ -213,9 +214,9 @@ private theorem isDirected_weakIdealOfDefinition
       (· ≤ ·) := by
   refine ⟨fun i j => ⟨OrderDual.toDual ⟨i.1 ⊓ j.1,
     TopologicalRing.isWeakIdealOfDefinition_inf_of_isOpen_right i.2 j.2.1⟩, ?_, ?_⟩⟩
-  · show i.1 ⊓ j.1 ≤ i.1
+  · change i.1 ⊓ j.1 ≤ i.1
     exact inf_le_left
-  · show i.1 ⊓ j.1 ≤ j.1
+  · change i.1 ⊓ j.1 ≤ j.1
     exact inf_le_right
 
 /-- Every quotient stage of the formal spectrum maps to it by a morphism which is representable
@@ -257,7 +258,7 @@ private theorem relative_isThickening_formalSpectrumInclusion
     let L₁ : { I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I } :=
       OrderDual.ofDual (eI.inverse.obj j)
     have hJL : L₁.1 ≤ J₁.1 := leOfHom (eI.inverse.map f)
-    show Stacks.Thickenings.IsThickening
+    change Stacks.Thickenings.IsThickening
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJL)))
     exact isThickening_specMap_quotientFactor hJL
   let H := BigAffineFppf.inclusion B S hS
@@ -281,7 +282,7 @@ private theorem relative_isThickening_formalSpectrumInclusion
     colimit.ι K i ≫ eCol.symm.hom
   let g : K₀.obj j ⟶ formalSpectrum D := formalSpectrumInclusion D j
   have hcomm : eSrc.hom ≫ g = f := by
-    show (K.map (eI.counitInv.app i) ≫ hw.hom.app j' ≫
+    change (K.map (eI.counitInv.app i) ≫ hw.hom.app j' ≫
       eqToHom (congrArg K₀.obj hj) ≫ colimit.ι K₀ j) =
       colimit.ι K i ≫ eCol.inv
     rw [colimit.eqToHom_comp_ι K₀ hj.symm]
@@ -489,7 +490,7 @@ public theorem isReduction_formalSpectrum
         (fun _ _ f hf ↦ by have := hf; infer_instance) hatlas
     · exact hasSchemePropertyULift_of_iso _
         (fun _ _ f hf ↦ by have := hf; infer_instance) hatlas
-    · show IsReduced (Spec (CommRingCat.of (A ⧸ topologicalNilradical A)))
+    · change IsReduced (Spec (CommRingCat.of (A ⧸ topologicalNilradical A)))
       have : _root_.IsReduced (A ⧸ topologicalNilradical A) :=
         TopologicalRing.isReduced_quotient_topologicalNilradical
       infer_instance

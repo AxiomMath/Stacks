@@ -86,7 +86,7 @@ private theorem comp_factorThroughRange
     (hg : ∀ x, g x ∈ LinearMap.range c) :
     c.comp (factorThroughRange c g hc hg) = g := by
   ext x
-  show ((LinearEquiv.ofInjective c hc)
+  change ((LinearEquiv.ofInjective c hc)
       ((LinearEquiv.ofInjective c hc).symm ⟨g x, hg x⟩)).val = g x
   exact congrArg Subtype.val
     ((LinearEquiv.ofInjective c hc).apply_symm_apply ⟨g x, hg x⟩)
@@ -143,10 +143,10 @@ private theorem cartanRemainder_comm
       sigma n (cartanRemainder Y dY h s n y) := by
   cases n with
   | zero =>
-    show s 0 (sigma 0 y) - h 0 (dY 0 (sigma 0 y)) = sigma 0 (s 0 y - h 0 (dY 0 y))
+    change s 0 (sigma 0 y) - h 0 (dY 0 (sigma 0 y)) = sigma 0 (s 0 y - h 0 (dY 0 y))
     rw [hs, hd, map_add, hh, hW0, add_zero, map_sub]
   | succ n =>
-    show s (n + 1) (sigma (n + 1) y) - dY n (h n (sigma (n + 1) y)) -
+    change s (n + 1) (sigma (n + 1) y) - dY n (h n (sigma (n + 1) y)) -
         h (n + 1) (dY (n + 1) (sigma (n + 1) y)) =
       sigma (n + 1) (s (n + 1) y - dY n (h n y) - h (n + 1) (dY (n + 1) y))
     have hz : h (n + 1) (W (n + 1) y) = -W n (h n y) :=

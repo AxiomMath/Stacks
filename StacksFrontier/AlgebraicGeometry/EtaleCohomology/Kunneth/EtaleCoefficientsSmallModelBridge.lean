@@ -108,14 +108,14 @@ instance isContinuous_smallModelComparisonInv :
 
 /-- The comparison of the two small models is representably flat. -/
 instance representablyFlat_smallModelComparison : RepresentablyFlat (smallModelComparison X) := by
-  haveI : (AsSmall.down : AsSmall.{u + 1} X.Etale ⥤ X.Etale).IsRightAdjoint :=
+  have : (AsSmall.down : AsSmall.{u + 1} X.Etale ⥤ X.Etale).IsRightAdjoint :=
     (AsSmall.equiv : X.Etale ≌ AsSmall.{u + 1} X.Etale).toAdjunction.isRightAdjoint
   exact RepresentablyFlat.comp _ _
 
 /-- The comparison in the other direction is representably flat. -/
 instance representablyFlat_smallModelComparisonInv :
     RepresentablyFlat (smallModelComparisonInv X) := by
-  haveI : (AsSmall.up : X.Etale ⥤ AsSmall.{u + 1} X.Etale).IsRightAdjoint :=
+  have : (AsSmall.up : X.Etale ⥤ AsSmall.{u + 1} X.Etale).IsRightAdjoint :=
     (AsSmall.equiv : X.Etale ≌ AsSmall.{u + 1} X.Etale).symm.toAdjunction.isRightAdjoint
   exact RepresentablyFlat.comp _ _
 

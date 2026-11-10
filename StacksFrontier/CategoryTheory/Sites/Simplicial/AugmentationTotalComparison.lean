@@ -141,7 +141,7 @@ theorem exactAt_doubleComplexFunctor_X (hinj : ∀ q : ℤ, Injective (Z.X q)) (
       fun j => by change ((j : ℕ) : ℤ) ≠ p; omega
   · exact absurd h hp
   · have hk : ComplexShape.embeddingUpNat.f p.toNat = p := by
-      show ((p.toNat : ℕ) : ℤ) = p; omega
+      change ((p.toNat : ℕ) : ℤ) = p; omega
     refine (HomologicalComplex.extend_exactAt_iff _ ComplexShape.embeddingUpNat hk).2 ?_
     have := hinj q
     exact exactAt_degreewisePushforwardComplexNat S D K a (Z.X q) p.toNat (by omega)

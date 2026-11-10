@@ -223,6 +223,7 @@ theorem localizationPullbackToposIsoRestriction_eq :
         X.localizationPullbackIsoRestriction U :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The comparison of Stacks 04IX for the localization morphism of the modules development is
 `extendScalars` of the inverse-image identification of Stacks 03D2 followed by the counit of
 Stacks 03CZ: the two identities that the associator and the right unitor contribute to
@@ -245,6 +246,7 @@ theorem localizationPullbackIsoRestriction_hom_app
       ((X.localizationExtendRestrictCounitIso U).hom.app
         ((SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).obj Z)))
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison of Stacks 04IX is the transpose of the inverse-image identification.** The
 comparison is `extendScalars` of `Stacks.Sheaves.ToposPullback.restrictionModuleIso` followed by
 the counit of Stacks 03CZ for the structure map of the localization, which is exactly an inverse
@@ -274,6 +276,10 @@ theorem unit_comp_restrictScalars_map_localizationPullbackIsoRestriction
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).hom.app Z)
   exact h1.trans h2
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The unit of `AlgebraicGeometry.RingedSite.localizationExtendRestrictAdjunction` is the unit of
 Stacks 03CZ for the structure map of the localization followed by the transport of the right
 adjoint that the adjunction is retyped along. -/
@@ -289,6 +295,12 @@ theorem localizationExtendRestrictAdjunction_unit_app
       (Stacks.SheafOfModules.pullbackExtendAdj (X.localizationMorphism U))
       (eqToIso (X.localizationRestrictScalars_eq U)))
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
+  [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The transport of the right adjoint that
 `AlgebraicGeometry.RingedSite.localizationExtendRestrictAdjunction` is retyped along is the
 identity on underlying sheaves of sets: restriction of scalars along either of the two equal

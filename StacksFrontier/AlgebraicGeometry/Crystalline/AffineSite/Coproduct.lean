@@ -398,7 +398,7 @@ private theorem completion_mem_iff (E : DividedPowerRing.{r}) (p : ℕ)
     (hp : IsNilpotent (Ideal.Quotient.mk E.ideal (p : E))) (x : E) :
     algebraMap E (completionRing E p hp) x ∈ (completionRing E p hp).ideal ↔
       x ∈ E.ideal := by
-  show DividedPowers.completionToQuotient E.ideal p hp
+  change DividedPowers.completionToQuotient E.ideal p hp
     (algebraMap E (AdicCompletion (DividedPowers.pAdicIdeal (A := E) p) E) x) = 0 ↔ _
   simp [DividedPowers.completionToQuotient, AdicCompletion.algebraMap_apply,
     AdicCompletion.evalₐ_of, Ideal.Quotient.eq_zero_iff_mem]
@@ -448,7 +448,7 @@ private theorem completion_ringHom_ext {R S : Type*} [CommRing R] [CommRing S]
   have hx : x - algebraMap R D y ∈ DividedPowers.pAdicIdeal (A := D) p ^ n := by
     have hm : x - algebraMap R D y ∈ I ^ n • (⊤ : Submodule R D) := by
       rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton _)]
-      show AdicCompletion.eval I R n (x - algebraMap R D y) = 0
+      change AdicCompletion.eval I R n (x - algebraMap R D y) = 0
       rw [map_sub, AdicCompletion.algebraMap_apply, AdicCompletion.eval_of,
         Algebra.algebraMap_self, RingHom.id_apply, hy, sub_self]
     rw [Ideal.smul_top_eq_map] at hm
@@ -472,7 +472,7 @@ private theorem presentationMap_base
   rcases X with ⟨hp, ⟨R, b, hc, t, ht, hbij⟩, hr, m, hm, ha, hq⟩
   dsimp only at hr hm ha ⊢
   subst R
-  show m.comp (algebraMap s.A _) = b.toRingHom
+  change m.comp (algebraMap s.A _) = b.toRingHom
   rw [eq_of_heq hm, eq_of_heq ha]
   let env := polynomialDividedPowerEnvelope s g
   exact RingHom.ext fun x => congrArg
@@ -487,7 +487,7 @@ private theorem presentationMap_quotient
   rcases X with ⟨hp, ⟨R, b, hc, t, ht, hbij⟩, hr, m, hm, ha, hq⟩
   dsimp only at hr hm hq ⊢
   subst R
-  show (Ideal.Quotient.mk (completedEnvelopeDPRing s g hg hp).ideal).comp m =
+  change (Ideal.Quotient.mk (completedEnvelopeDPRing s g hg hp).ideal).comp m =
     t.comp g.toRingHom
   rw [eq_of_heq hm]
   exact RingHom.ext fun x => (eq_of_heq (hq x)).symm
@@ -553,7 +553,7 @@ private theorem existsUnique_completedEnvelope_hom
   have hfI : (RingHom.ker g.toRingHom).map f ≤ B.ring.ideal := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show f x ∈ B.ring.ideal
+    change f x ∈ B.ring.ideal
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     have hx' : g x = 0 := hx
     simpa [hx'] using
@@ -570,21 +570,21 @@ private theorem existsUnique_completedEnvelope_hom
   let lift : DividedPowers.DPMorphism D.dividedPowers B.ring.dividedPowers :=
     (fromCompletion B.ring s.p hpB).comp (completionMorphism E B.ring s.p hp hpB q.1).1
   have hlift (x : E) : lift (algebraMap E D x) = q.1 x := by
-    show (AdicCompletion.ofAlgEquiv (DividedPowers.pAdicIdeal (A := B.ring) s.p)).symm
+    change (AdicCompletion.ofAlgEquiv (DividedPowers.pAdicIdeal (A := B.ring) s.p)).symm
       ((completionMorphism E B.ring s.p hp hpB q.1).1 (algebraMap E D x)) = _
     rw [completionMorphism_of, AdicCompletion.algebraMap_apply,
       Algebra.algebraMap_self, RingHom.id_apply, AdicCompletion.ofAlgEquiv_symm_of]
   have hliftA : lift.comp b = B.fromBase := by
     refine dpMorphism_ext (RingHom.ext fun x => ?_)
-    show lift (b.toRingHom x) = B.fromBase.toRingHom x
+    change lift (b.toRingHom x) = B.fromBase.toRingHom x
     rw [ha']
-    show lift (algebraMap E D (env.structureMap x)) = _
+    change lift (algebraMap E D (env.structureMap x)) = _
     rw [hlift]
     exact congrArg
       (fun k : DividedPowers.DPMorphism s.A.dividedPowers B.ring.dividedPowers => k x) q.2
   have hliftP : lift.toRingHom.comp (toPAdicCompletedDividedPowerEnvelope s g hg) = f := by
     refine RingHom.ext fun x => ?_
-    show lift (algebraMap E D (env.algebraMap.toRingHom x)) = f x
+    change lift (algebraMap E D (env.algebraMap.toRingHom x)) = f x
     rw [hlift]
     exact RingHom.congr_fun hqf x
   let T : CompletedCrystallineThickening s :=
@@ -594,7 +594,7 @@ private theorem existsUnique_completedEnvelope_hom
         B.toQuotient := by
     ext c
     obtain ⟨x, rfl⟩ := hg c
-    show (DividedPowerRing.quotientRingHom (A := T.ring) (B := B.ring) lift) (t (g x)) =
+    change (DividedPowerRing.quotientRingHom (A := T.ring) (B := B.ring) lift) (t (g x)) =
       B.toQuotient (g x)
     exact (congrArg
       (DividedPowerRing.quotientRingHom (A := T.ring) (B := B.ring) lift) (hq' x)).trans
@@ -623,7 +623,7 @@ private theorem existsUnique_completedEnvelope_hom
     rw [env.homEquiv_apply, env.homEquiv_apply]
     exact IdealPair.Hom.ext_toRingHom _ _
       (RingHom.ext fun y => (RingHom.congr_fun hk y).trans (RingHom.congr_fun hqf y).symm)
-  show qk x = lift (algebraMap E D x)
+  change qk x = lift (algebraMap E D x)
   rw [show qk = q.1 from congrArg Subtype.val hqkeq, hlift]
 
 /-- **A morphism out of a realisation of the completed divided power envelope in `Cris^∧(C/A)`
@@ -715,7 +715,7 @@ public theorem completedEnvelope_isCoproduct
         B.toQuotient.comp (tensorPowerPresentation s g n).toRingHom := by
       apply MvPolynomial.ringHom_ext
       · intro x
-        show Ideal.Quotient.mk B.ring.ideal (f (MvPolynomial.C x)) =
+        change Ideal.Quotient.mk B.ring.ideal (f (MvPolynomial.C x)) =
           B.toQuotient (tensorPowerPresentation s g n (MvPolynomial.C x))
         rw [show f (MvPolynomial.C x) = B.fromBase x from f.commutes x,
           show tensorPowerPresentation s g n (MvPolynomial.C x) = algebraMap s.A s.C x from
@@ -729,7 +729,7 @@ public theorem completedEnvelope_isCoproduct
       existsUnique_completedEnvelope_hom s _ _ Y B f.toRingHom hfA hfC
     have hfac (j : Fin (n + 1)) : completedEnvelopeCoprojection s g hg n j ≫ m = k j := by
       refine completedEnvelope_hom_ext s g hg X B _ _ (RingHom.ext fun x => ?_)
-      show m.hom.toRingHom
+      change m.hom.toRingHom
         ((completedEnvelopeCoprojection s g hg n j).hom.toRingHom (X.presentationMap x)) =
         (k j).hom.toRingHom (X.presentationMap x)
       rw [(completedEnvelopeCoprojections s g hg n).2 j x]

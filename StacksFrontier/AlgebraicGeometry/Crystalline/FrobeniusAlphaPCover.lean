@@ -149,7 +149,7 @@ private theorem isAlphaPCover_spec_X_pow (R : Type u) [CommRing R]
         CommRingCat.ofHom (AdjoinRoot.of (X ^ p - C (X : R[X]))) ≫
           CommRingCat.ofHom e.toRingHom :=
       CommRingCat.hom_ext (RingHom.ext fun r => (adjoinRootXPowSubXEquiv_of R p r).symm)
-    show Spec.map _ ≫ 𝟙 _ = Spec.map (CommRingCat.ofHom e.toRingHom) ≫
+    change Spec.map _ ≫ 𝟙 _ = Spec.map (CommRingCat.ofHom e.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (AdjoinRoot.of (X ^ p - C (X : R[X]))))
     rw [Category.comp_id, ← Spec.map_comp, ← h]
 
@@ -163,7 +163,7 @@ private theorem isAlphaPCover_spec_of_ringEquiv
   apply isAlphaPCover_of_iso p _ _
     (Scheme.Spec.mapIso eS.symm.toCommRingCatIso.op)
     (Scheme.Spec.mapIso eR.symm.toCommRingCatIso.op) ?_ hg
-  show Spec.map _ ≫ Spec.map (CommRingCat.ofHom eR.symm.toRingHom) =
+  change Spec.map _ ≫ Spec.map (CommRingCat.ofHom eR.symm.toRingHom) =
     Spec.map (CommRingCat.ofHom eS.symm.toRingHom) ≫ Spec.map _
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
@@ -172,7 +172,7 @@ private theorem isAlphaPCover_spec_of_ringEquiv
   intro r
   apply eS.injective
   have hr := congrArg (fun k : R →+* S' => k (eR.symm r)) h
-  show eS (f (eR.symm r)) = eS (eS.symm (g r))
+  change eS (f (eR.symm r)) = eS (eS.symm (g r))
   rw [eS.apply_symm_apply]
   change eS (f (eR.symm r)) = g (eR (eR.symm r)) at hr
   simpa only [eR.apply_symm_apply] using hr
@@ -321,13 +321,13 @@ theorem hasFiniteBasis_of_iso {R S R' S' : Type u}
     { eS.toAddEquiv with
       map_smul' := by
         intro r x
-        show eS (f r * x) = g (eR r) * eS x
+        change eS (f r * x) = g (eR r) * eS x
         rw [map_mul]
         exact congrArg (fun a => a * eS x) (congrArg (fun k : R →+* S' => k r) h) }
   obtain ⟨b⟩ := hg
   exact ⟨(b.mapCoeffs eR.symm (by
     intro r x
-    show g (eR (eR.symm r)) * x = g r * x
+    change g (eR (eR.symm r)) * x = g r * x
     rw [eR.apply_symm_apply])).map e.symm⟩
 
 /-- A bijective ring map admits a basis of one element. -/
@@ -343,7 +343,7 @@ theorem hasFiniteBasis_adjoinRoot_X_pow_sub_C
     (R : Type u) [CommRing R] (p : ℕ) (hp : p ≠ 0) (c : R) :
     HasFiniteBasis (AdjoinRoot.of (Polynomial.X ^ p - Polynomial.C c)) p := by
   classical
-  show HasFiniteBasis (algebraMap R (AdjoinRoot (Polynomial.X ^ p - Polynomial.C c))) p
+  change HasFiniteBasis (algebraMap R (AdjoinRoot (Polynomial.X ^ p - Polynomial.C c))) p
   unfold HasFiniteBasis
   rw [toAlgebra_algebraMap]
   by_cases hR : Nontrivial R
@@ -367,7 +367,7 @@ private theorem hasFiniteBasis_eval₂_X_pow (R : Type u) [CommRing R]
   apply RingHom.ext
   intro r
   apply e.injective
-  show e (e.symm (Polynomial.eval₂RingHom C (X ^ p) r)) = e (AdjoinRoot.of _ r)
+  change e (e.symm (Polynomial.eval₂RingHom C (X ^ p) r)) = e (AdjoinRoot.of _ r)
   rw [e.apply_symm_apply]
   exact (adjoinRootXPowSubXEquiv_of R p r).symm
 
@@ -442,7 +442,7 @@ theorem hasFiniteBasis_appTop_of_iso {X Y X' Y' : Scheme.{u}}
   apply RingHom.ext
   intro r
   apply eS.injective
-  show eS (eS.symm (f.appTop r)) = eS (g.appTop (eR.symm r))
+  change eS (eS.symm (f.appTop r)) = eS (g.appTop (eR.symm r))
   rw [eS.apply_symm_apply]
   have hr := congrArg (fun k : Γ(Y', ⊤) ⟶ Γ(X, ⊤) => k (eR.symm r)) h'
   change f.appTop (eR (eR.symm r)) = eS (g.appTop (eR.symm r)) at hr
@@ -504,7 +504,7 @@ private theorem exists_etale_affineSpace_chart
     Siso.hom ≫ Spec.map gCat ≫ Pspace.inv ≫ Biso.hom
   refine ⟨V, hV, U, hU, hxU, hUV, π, ?_, ?_⟩
   · have hg' : RingHom.Etale g'.toRingHom := by
-      show RingHom.Etale (g.toRingHom.comp
+      change RingHom.Etale (g.toRingHom.comp
         (MvPolynomial.renameEquiv (↑R) e).toRingEquiv.toRingHom)
       exact (RingHom.Etale.respectsIso.cancel_left_isIso renameIso.hom gFinCat).mpr hg
     let _ : Etale (Spec.map gCat) := HasRingHomProperty.Spec_iff.mpr hg'
@@ -512,7 +512,7 @@ private theorem exists_etale_affineSpace_chart
     infer_instance
   · have hbase : cCat ≫ gCat = φCat := by
       ext r
-      show g' (algebraMap (↑R) (MvPolynomial (ULift.{u} (Fin d)) (↑R)) r) = φ r
+      change g' (algebraMap (↑R) (MvPolynomial (ULift.{u} (Fin d)) (↑R)) r) = φ r
       rw [g'.commutes]
       rfl
     have hBiso : Biso.hom ≫
@@ -522,7 +522,7 @@ private theorem exists_etale_affineSpace_chart
       exact AffineSpace.map_over Tiso.inv
     have hPspace : Pspace.inv ≫
         (AffineSpace (ULift.{u} (Fin d)) (Spec R) ↘ Spec R) = Spec.map cCat := by
-      show (AffineSpace.SpecIso (ULift.{u} (Fin d)) R).inv ≫
+      change (AffineSpace.SpecIso (ULift.{u} (Fin d)) R).inv ≫
         (AffineSpace (ULift.{u} (Fin d)) (Spec R) ↘ Spec R) = Spec.map cCat
       rw [AffineSpace.SpecIso_inv_over]
       rfl
@@ -652,7 +652,7 @@ private theorem affineSpacePower_SpecIso_inv
       AffineSpace.SpecIso_inv_appTop_coord]
     rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality,
       CommRingCat.comp_apply, ConcreteCategory.hom_ofHom]
-    show _ = (Scheme.ΓSpecIso (.of (MvPolynomial n R))).inv
+    change _ = (Scheme.ΓSpecIso (.of (MvPolynomial n R))).inv
       (MvPolynomial.expand p (MvPolynomial.X i))
     rw [MvPolynomial.expand_X, map_pow]
 
@@ -706,9 +706,9 @@ theorem HasFiniteBasis.of_isPushout
   let h' := CommRingCat.isPushout_tensorProduct R B A
   let e := h'.isoPushout ≪≫ h.flip.isoPushout.symm
   have he : CommRingCat.ofHom (algebraMap B (B ⊗[R] A)) ≫ e.hom = j := by
-    show CommRingCat.ofHom (algebraMap B (B ⊗[R] A)) ≫
+    change CommRingCat.ofHom (algebraMap B (B ⊗[R] A)) ≫
       h'.isoPushout.hom ≫ h.flip.isoPushout.inv = j
-    show CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom ≫
+    change CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom ≫
       h'.isoPushout.hom ≫ h.flip.isoPushout.inv = j
     rw [← Category.assoc, h'.inl_isoPushout_hom]
     exact h.flip.inl_isoPushout_inv
@@ -718,7 +718,7 @@ theorem HasFiniteBasis.of_isPushout
   apply RingHom.ext
   intro b
   have he' := congrArg (fun k : B ⟶ C => k b) he
-  show e.inv (j b) = (algebraMap B (B ⊗[R] A)) b
+  change e.inv (j b) = (algebraMap B (B ⊗[R] A)) b
   rw [← he']
   exact ConcreteCategory.congr_hom e.hom_inv_id _
 
@@ -755,7 +755,7 @@ theorem isAlphaPCover_spec_tensor_adjoinRoot
   refine ⟨T, inferInstance, ?_, algebraMap R T c, Iso.refl _,
     Scheme.Spec.mapIso e.symm.toRingEquiv.toCommRingCatIso.op, ?_⟩
   · simpa using congrArg (algebraMap R T) hp
-  · show Spec.map _ ≫ 𝟙 _ = Spec.map (CommRingCat.ofHom e.symm.toRingHom) ≫
+  · change Spec.map _ ≫ 𝟙 _ = Spec.map (CommRingCat.ofHom e.symm.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap T (AdjoinRoot _)))
     rw [Category.comp_id, ← Spec.map_comp]
     congr 1
@@ -854,7 +854,7 @@ theorem isPullback_frobeniusTwist_map
       simpa only [frobeniusTwist_obj_hom] using ((frobeniusTwist S p hS).map f).w
     rw [hsnd, Over.w]
     exact (IsPullback.of_hasPullback X.hom (absoluteFrobenius S p hS)).flip
-  · simp [frobeniusTwist, Over.pullback, pullback.lift_fst]
+  · simp [frobeniusTwist, Over.pullback]
 
 /-- **The relative Frobenius square of an étale morphism is a fibre square.**  This is the fibre
 square the source's proof of [Stacks, Tag 07QB] observes: for `f : X ⟶ Y` étale over `S`, the
@@ -901,10 +901,10 @@ private theorem relativeFrobenius_comp_frobeniusTwistBaseIso
       pullback.snd X.hom (absoluteFrobenius V p (isInCharacteristic_of_hom g p hS)) ≫ g :=
     H.isoPullback_hom_snd
   apply pullback.hom_ext
-  · show (_ ≫ _) ≫ pullback.fst (X.hom ≫ g) (absoluteFrobenius S p hS) = _
+  · change (_ ≫ _) ≫ pullback.fst (X.hom ≫ g) (absoluteFrobenius S p hS) = _
     rw [Category.assoc, hfst, relativeFrobenius_fst]
     exact (relativeFrobenius_fst S p hS (Over.mk (X.hom ≫ g))).symm
-  · show (_ ≫ _) ≫ pullback.snd (X.hom ≫ g) (absoluteFrobenius S p hS) = _
+  · change (_ ≫ _) ≫ pullback.snd (X.hom ≫ g) (absoluteFrobenius S p hS) = _
     rw [Category.assoc, hsnd, ← Category.assoc, relativeFrobenius_snd]
     exact (relativeFrobenius_snd S p hS (Over.mk (X.hom ≫ g))).symm
 
@@ -1033,7 +1033,7 @@ theorem exists_affine_relativeFrobenius_restriction
   refine ⟨W, isAffineOpen_opensRange j, ?_,
     isAlphaPCoverComposite_of_iso p _ _ eX eY.symm hcompat hcov,
     hasFiniteBasis_appTop_of_iso _ _ eX eY.symm hcompat _ hbas⟩
-  show x ∈ Set.range j
+  change x ∈ Set.range j
   refine ⟨(relativeFrobenius S p hS X₁).left ⟨x', hxU⟩, ?_⟩
   exact (congrArg (fun k : U.toScheme ⟶ ((frobeniusTwist S p hS).obj X).left =>
     k ⟨x', hxU⟩) hi.w).trans hx'
@@ -1046,7 +1046,7 @@ theorem hasFiniteBasis_app_of_morphismRestrict
   apply hasFiniteBasis_of_iso _ _ U.topIso.symm.commRingCatIsoToRingEquiv
     (f ⁻¹ᵁ U).topIso.symm.commRingCatIsoToRingEquiv ?_ n h
   apply CommRingCat.hom_ext_iff.mp
-  show f.app U ≫ (f ⁻¹ᵁ U).topIso.inv = U.topIso.inv ≫ (f ∣_ U).appTop
+  change f.app U ≫ (f ⁻¹ᵁ U).topIso.inv = U.topIso.inv ≫ (f ∣_ U).appTop
   rw [← Scheme.Hom.resLE_eq_morphismRestrict]
   simp only [Scheme.Hom.appTop, Scheme.Hom.resLE_app_top, Scheme.Hom.appLE_eq_app]
   rw [← Category.assoc, Iso.inv_hom_id, Category.id_comp]

@@ -136,7 +136,7 @@ theorem mul_eq_zero_of_apply_eq_zero (U : (Opens (space X G).carrier)ᵒᵖ)
 /-- `i : X ⟶ X'` is a thickening of ringed spaces. -/
 theorem isThickening_thickening : IsThickening (thickening X G) := by
   refine ⟨?_, ?_, ?_⟩
-  · show IsIso (𝟙 X.carrier)
+  · change IsIso (𝟙 X.carrier)
     infer_instance
   · have h : Presheaf.IsLocallySurjective
         (Opens.grothendieckTopology (space X G).carrier)

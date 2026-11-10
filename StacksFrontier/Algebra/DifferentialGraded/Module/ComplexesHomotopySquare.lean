@@ -76,7 +76,7 @@ theorem complexesHomotopySquare (A : DifferentialGradedAlgebra.{u, u} R) :
       DGCategory.compToK (dgCategory.{u, u, u} A) := by
   apply Functor.hext
   · intro X
-    show (homotopyCategoryEquivalence A).functor.obj
+    change (homotopyCategoryEquivalence A).functor.obj
       ((toHomotopyCategory A).obj ((dgCategoryCompEquivalence A).1.functor.obj X)) = X
     rw [homotopyCategoryEquivalence_obj, (dgCategoryCompEquivalence A).2.1]
   · intro X Y f

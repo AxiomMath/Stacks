@@ -136,7 +136,7 @@ public lemma ker_factorPow_le_nilradical (n : ℕ) :
 spectrum of a surjective ring map with square-zero kernel. -/
 public lemma bijective_base_adicThickeningSucc (n : ℕ) :
     Function.Bijective (adicThickeningSucc A I n).base := by
-  show Function.Bijective
+  change Function.Bijective
     (PrimeSpectrum.comap (Ideal.Quotient.factorPow I (Nat.le_succ (n + 1))))
   refine (PrimeSpectrum.isHomeomorph_comap _ (fun x => ?_)
     (ker_factorPow_le_nilradical A I n)).bijective

@@ -46,17 +46,17 @@ private theorem numericalType_dotProduct_nonpos (T : NumericalType)
   let m : Fin T.componentCount → ℚ := fun i => (T.multiplicity i : ℚ)
   have hAoff : ∀ i j, i ≠ j → 0 ≤ A i j := by
     intro i j hij
-    show 0 ≤ (T.intersection i j : ℚ)
+    change 0 ≤ (T.intersection i j : ℚ)
     exact_mod_cast T.intersection_nonneg i j hij
   have hmpos : ∀ i, 0 < m i := by
     intro i
-    show 0 < (T.multiplicity i : ℚ)
+    change 0 < (T.multiplicity i : ℚ)
     exact_mod_cast T.multiplicity_pos i
   have hAm : A *ᵥ m = 0 := by
     ext i
     have hrow : (∑ j, (T.intersection i j : ℚ) * (T.multiplicity j : ℚ)) = 0 := by
       exact_mod_cast T.intersection_mul_multiplicity i
-    show (∑ j, A i j * m j) = 0
+    change (∑ j, A i j * m j) = 0
     simpa [A, m] using hrow
   exact dotProduct_mulVec_nonpos_of_positive_kernel (intersection_matrix_isSymm T) hAoff hmpos hAm x
 

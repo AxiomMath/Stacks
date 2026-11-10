@@ -662,7 +662,7 @@ lemma stalkExact_of_sectionExact (K : CochainComplex (SheafOfModules.{u} O) ℕ)
     have hsplit : P₃.map iAV.op = P₃.map iW₀V.op ≫ P₃.map iAW₀.op := by
       rw [← P₃.map_comp, ← op_comp]
     rw [hsplit]
-    show P₃.map iAW₀.op (P₃.map iW₀V.op (S.g.val.app (op V) s)) = 0
+    change P₃.map iAW₀.op (P₃.map iW₀V.op (S.g.val.app (op V) s)) = 0
     rw [hs0]
     simp
   have hsA : (L.sc n).g sA = 0 :=
@@ -673,7 +673,7 @@ lemma stalkExact_of_sectionExact (K : CochainComplex (SheafOfModules.{u} O) ℕ)
   refine ⟨P₁.germ A x hxA tA', ?_⟩
   refine Eq.trans (TopCat.Presheaf.stalkFunctor_map_germ_apply A x hxA
     ((PresheafOfModules.toPresheaf O.obj).map S.f.val) tA') ?_
-  show P₂.germ A x hxA ((S.f.val.app (op A)) tA') = z
+  change P₂.germ A x hxA ((S.f.val.app (op A)) tA') = z
   rw [htA'']
   exact (P₂.germ_res_apply iAV x hxA s).trans hs
 

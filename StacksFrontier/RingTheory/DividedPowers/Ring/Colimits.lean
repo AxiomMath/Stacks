@@ -200,7 +200,7 @@ private theorem equalizerStable {A B : DividedPowerRing.{u}}
     (f g : A ⟶ B) (n : ℕ) (x : A)
     (hx : x ∈ f.toRingHom.eqLocus g.toRingHom) (hI : x ∈ A.ideal) :
     A.dividedPowers.dpow n x ∈ f.toRingHom.eqLocus g.toRingHom := by
-  show f.toRingHom (A.dividedPowers.dpow n x) =
+  change f.toRingHom (A.dividedPowers.dpow n x) =
     g.toRingHom (A.dividedPowers.dpow n x)
   rw [← f.dpow_comp x hI, ← g.dpow_comp x hI]
   exact congrArg (B.dividedPowers.dpow n) hx
@@ -495,7 +495,7 @@ private theorem constSolutionSet {J : Type u} [Category.{u} J] :
   let g : S.toRing ⟶ B :=
     smallToTermRange B v ≫ termRangeInclusion B v
   refine ⟨⟨S, k⟩, g, ?_⟩
-  show k ≫ (Functor.const J).map g = h
+  change k ≫ (Functor.const J).map g = h
   calc
     k ≫ (Functor.const J).map g =
         t ≫ (Functor.const J).map (termRangeToSmall B v ≫ g) := by
@@ -503,7 +503,7 @@ private theorem constSolutionSet {J : Type u} [Category.{u} J] :
     _ = t ≫ (Functor.const J).map (termRangeInclusion B v) := by
           congr 1
           congr 1
-          show termRangeToSmall B v ≫ smallToTermRange B v ≫
+          change termRangeToSmall B v ≫ smallToTermRange B v ≫
             termRangeInclusion B v = termRangeInclusion B v
           rw [← Category.assoc, termRange_retraction, Category.id_comp]
     _ = h := termRangeCocone_fac D B h

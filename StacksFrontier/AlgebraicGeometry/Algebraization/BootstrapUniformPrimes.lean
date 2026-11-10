@@ -18,7 +18,8 @@ independent of `𝔮` through local duality: the maps `H^i_𝔮((IᵏM)_𝔮) �
 the faithfully flat completion of `A_𝔮` and Matlis duality, the maps
 `Extʲ_A(IᵐM, ω) → Extʲ_A(IᵏM, ω)`, which are maps out of one finite module; their kernels
 increase in `k`, so stabilize, and every property of the base-changed map depends only on its
-kernel (`StacksFrontier/RingTheory/LocalCohomology/LocalDualityTransfer/Uniform.lean`). Only finitely
+kernel (`StacksFrontier/RingTheory/LocalCohomology/LocalDualityTransfer/Uniform.lean`). Only
+finitely
 many `j` are relevant, because `Extʲ_A(-, ω)` vanishes on modules outside a fixed window.
 
 This file carries that argument out and feeds the globalization lemmas
@@ -170,7 +171,7 @@ theorem exists_uniform_ker_stable (ω : DerivedCategory (ModuleCat.{u} A))
     if h : m ≤ k then LinearMap.ker ((extIntoDualizing A ω j).map
       ((idealPowerTower.{u, u} I N).map (homOfLE h).op).op).hom else ⊥
   have hKf : ∀ j k (h : m ≤ k), Kf j k = LinearMap.ker ((extIntoDualizing A ω j).map
-      ((idealPowerTower.{u, u} I N).map (homOfLE h).op).op).hom := fun j k h => dif_pos h
+      ((idealPowerTower.{u, u} I N).map (homOfLE h).op).op).hom := fun j k h => dite_eq_left h
   have hmono : ∀ j, Monotone (Kf j) := by
     intro j k k' hkk'
     by_cases hk : m ≤ k
@@ -179,7 +180,7 @@ theorem exists_uniform_ker_stable (ω : DerivedCategory (ModuleCat.{u} A))
       rw [LinearMap.mem_ker] at hx ⊢
       rw [map_homOfLE_op_trans _ hk hkk', op_comp, Functor.map_comp, ModuleCat.hom_comp,
         LinearMap.comp_apply, hx, map_zero]
-    · simp only [Kf, dif_neg hk, bot_le]
+    · simp only [Kf, dite_eq_right hk, bot_le]
   have hstab : ∀ j, ∃ n, ∀ k, n ≤ k → Kf j n = Kf j k := fun j =>
     have := hP j
     (monotone_stabilizes_iff_noetherian.mpr inferInstance) ⟨Kf j, hmono j⟩

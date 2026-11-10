@@ -198,7 +198,7 @@ private theorem exists_image_eq_irreducibleComponent_of_universallyClosed {U V Y
       ((apply_genericPoint_eq_of_specializes p W D hηWz hE).trans hE.symm)) ▸
       ⟨(genericPoints.ofComponent E).1, hηE.mem, rfl⟩
   refine ⟨W, hEW.antisymm ?_⟩
-  show (W : Set V) ⊆ _
+  change (W : Set V) ⊆ _
   rw [← genericPoints.isGenericPoint_ofComponent W]
   exact closure_minimal (Set.singleton_subset_iff.mpr hηWE)
     (q.isClosedMap _ (isClosed_of_mem_irreducibleComponents _ E.2))
@@ -240,7 +240,7 @@ private theorem generalizingMap_of_locallyQuasiFinite_of_dominant_components
   let ξ : X := (genericPoints.ofComponent C).1
   have hξC : IsGenericPoint ξ (C : Set X) := genericPoints.isGenericPoint_ofComponent C
   have hfξD : IsGenericPoint (f ξ) (D : Set Y) := by
-    show closure ({f ξ} : Set Y) = (D : Set Y)
+    change closure ({f ξ} : Set Y) = (D : Set Y)
     rw [← closure_image_eq_closure_singleton_of_isGenericPoint f.base f.continuous
       (C : Set X) ξ hξC]
     exact hD
@@ -325,7 +325,7 @@ private theorem range_affineSpace_map {X Y : Scheme.{u}} (n : Type u) (i : X ⟶
         Set.range (H.isoPullback.hom ≫ pullback.fst (𝔸(n; Y) ↘ Y) i) :=
       congrArg (fun k : 𝔸(n; X) ⟶ 𝔸(n; Y) => Set.range k) H.isoPullback_hom_fst.symm
     _ = Set.range (pullback.fst (𝔸(n; Y) ↘ Y) i) := by
-      show Set.range ((pullback.fst (𝔸(n; Y) ↘ Y) i) ∘ H.isoPullback.hom) = _
+      change Set.range ((pullback.fst (𝔸(n; Y) ↘ Y) i) ∘ H.isoPullback.hom) = _
       rw [Set.range_comp, Set.range_eq_univ.mpr (Scheme.Hom.surjective H.isoPullback.hom),
         Set.image_univ]
     _ = (𝔸(n; Y) ↘ Y) ⁻¹' Set.range i := Scheme.Pullback.range_fst (𝔸(n; Y) ↘ Y) i

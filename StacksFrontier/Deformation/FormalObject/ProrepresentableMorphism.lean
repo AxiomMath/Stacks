@@ -86,7 +86,7 @@ structure ProrepresentableMorphism (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k
   prorepresentable : IsProrepresentable functor
   /-- The morphism from its category of elements to `F`, over `𝒞_Λ`. -/
   toF : BasedFunctor
-    (BasedCategory.ofFunctor (CategoryOfElements.π functor))
+    (BasedCategory.ofFunctor (Functor.Elements.π functor))
     (BasedCategory.ofFunctor p)
 
 namespace ProrepresentableMorphism
@@ -95,9 +95,9 @@ namespace ProrepresentableMorphism
 transformation of functors. For a map of representing complete local algebras this is
 `Deformation.restrictedRepresentableMap` of `Deformation.restrictedCoyonedaMap`. -/
 def elementsMap {U V : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type v} (a : U ⟶ V) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
-      (BasedCategory.ofFunctor (CategoryOfElements.π V)) where
-  toFunctor := CategoryOfElements.map a
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
+      (BasedCategory.ofFunctor (Functor.Elements.π V)) where
+  toFunctor := NatTrans.mapElements a
   w := rfl
 
 /-- **Stacks 06HD.** A morphism of prorepresentable pairs: a natural transformation of the
@@ -154,7 +154,7 @@ theorem restrictedCoyonedaMap_bijective (R S : CompleteLocalAlgCat.{u, v, w} Λ 
     apply CompleteLocalAlgCat.Hom.ext
     dsimp [e]
     rw [coyonedaIsoAdicCompletion_hom_apply]
-    show _ = (canonicalQuotientPoint S n).hom.comp f.hom
+    change _ = (canonicalQuotientPoint S n).hom.comp f.hom
     rw [canonicalQuotientPoint_hom]
     rfl
   constructor
@@ -229,7 +229,7 @@ private lemma represented_hom_over_equiv
       have hlift : q.IsHomLift (𝟙 S) φ := a.2
       have ha' : φ.base = 𝟙 S :=
         (IsHomLift.eq_of_isHomLift q (a := z) (b := y) (𝟙 S) φ).symm
-      show j.base ≫ φ.base = f
+      change j.base ≫ φ.base = f
       rw [hj', ha', Category.comp_id]⟩
   have hg : Function.Bijective g := by
     constructor
@@ -239,7 +239,7 @@ private lemma represented_hom_over_equiv
       have hlφ : q.IsHomLift (𝟙 S) φ := a.2
       have hlψ : q.IsHomLift (𝟙 S) ψ := b.2
       apply Functor.Fiber.hom_ext
-      show φ = ψ
+      change φ = ψ
       apply IsStronglyCocartesian.ext q f j (𝟙 S)
       exact congrArg Subtype.val hab
     · intro a
@@ -291,9 +291,9 @@ private lemma represented_hom_equiv
 /-- Restriction of morphisms into `F` along a natural transformation of functors on `𝒞_Λ`. -/
 private def precompose {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
     {U V : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type v} (a : U ⟶ V) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π V))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π V))
       (BasedCategory.ofFunctor p) ⥤
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor p) where
   obj φ := (ProrepresentableMorphism.elementsMap a).comp φ
   map t := BasedCategory.whiskerLeft (ProrepresentableMorphism.elementsMap a) t
@@ -310,9 +310,9 @@ morphisms into `F`. -/
 private noncomputable def precomposeEquivalence
     {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
     {U V : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type v} (e : U ≅ V) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π V))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π V))
       (BasedCategory.ofFunctor p) ≌
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
       (BasedCategory.ofFunctor p) :=
   CategoryTheory.Equivalence.mk (precompose (p := p) e.hom) (precompose e.inv)
     (eqToIso (by rw [← precompose_comp, e.inv_hom_id]; rfl))
@@ -349,7 +349,7 @@ private lemma presentation_nonempty {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ 
     E.equivalence.unitIso.app φ ≪≫ E.equivalence.inverse.mapIso (eqToIso hx) ≪≫
       inverseObjIsoAssociatedMorphism hp ξ E (chosenPushforwardsOfCofibered p hp)
   refine ⟨⟨ξ, e, (precompose e.hom).mapIso t.symm ≪≫ ?_⟩⟩
-  show (precompose (e.hom ≫ e.inv)).obj X.toF ≅ X.toF
+  change (precompose (e.hom ≫ e.inv)).obj X.toF ≅ X.toF
   rw [e.hom_inv_id]
   exact Iso.refl _
 
@@ -369,7 +369,7 @@ private lemma presentation_hom_equiv
     (homSigmaEquiv (representedPair hp PX.object) (representedPair hp PY.object)))⟩
   let l : (precompose PY.iso.hom).obj ((precompose (e a)).obj
       (associated hp PX.object)) ≅ (precompose a).obj X.toF := by
-    show (precompose (PY.iso.hom ≫ (PY.iso.inv ≫ a ≫ PX.iso.hom))).obj
+    change (precompose (PY.iso.hom ≫ (PY.iso.inv ≫ a ≫ PX.iso.hom))).obj
       (associated hp PX.object) ≅ _
     simp only [Iso.hom_inv_id_assoc]
     exact (precompose a).mapIso PX.comparison
@@ -385,10 +385,10 @@ private lemma isIso_of_restrictedCoyonedaMap
     (inv (restrictedCoyonedaMap f))
   refine ⟨⟨g, ?_, ?_⟩⟩
   · apply (restrictedCoyonedaMap_bijective R R).injective
-    show restrictedCoyonedaMap g ≫ restrictedCoyonedaMap f = 𝟙 _
+    change restrictedCoyonedaMap g ≫ restrictedCoyonedaMap f = 𝟙 _
     rw [hg, IsIso.inv_hom_id]
   · apply (restrictedCoyonedaMap_bijective S S).injective
-    show restrictedCoyonedaMap f ≫ restrictedCoyonedaMap g = 𝟙 _
+    change restrictedCoyonedaMap f ≫ restrictedCoyonedaMap g = 𝟙 _
     rw [hg, IsIso.hom_inv_id]
 
 /-- A presentation of the pair represented by a formal object presents it by an isomorphic

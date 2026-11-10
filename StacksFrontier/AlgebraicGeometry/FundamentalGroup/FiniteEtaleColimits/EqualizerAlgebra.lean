@@ -250,7 +250,7 @@ include he in
 lemma algebraMap_eq_one_of_isIdempotentElem : algebraMap T T' e = 1 := by
   have hu := IsLocalization.map_units (M := Submonoid.powers e) T' ⟨e, Submonoid.mem_powers e⟩
   refine hu.mul_left_cancel ?_
-  show algebraMap T T' e * algebraMap T T' e = algebraMap T T' e * 1
+  change algebraMap T T' e * algebraMap T T' e = algebraMap T T' e * 1
   rw [← map_mul, he.eq, mul_one]
 
 include he in
@@ -394,7 +394,7 @@ lemma isLocalizationAway_pieceEqualizer :
     rw [OneMemClass.coe_one, map_one, mul_one]
     refine Subtype.ext (funext fun i ↦ ?_)
     rw [halg]
-    show (z : ι → T') i = algebraMap T T' (piRefineIdem α β s * w i)
+    change (z : ι → T') i = algebraMap T T' (piRefineIdem α β s * w i)
     rw [map_mul, hone, one_mul, hw]
   · intro x y hxy
     refine ⟨⟨algebraMap T (AlgHom.equalizer α β) (piRefineIdem α β s), Submonoid.mem_powers _⟩, ?_⟩
@@ -404,7 +404,7 @@ lemma isLocalizationAway_pieceEqualizer :
       rwa [halg, halg] at h
     have h2 : piRefineIdem α β s * ((x : ι → T) i - (y : ι → T) i) = 0 :=
       (hzero _).mp (by rw [map_sub, h1, sub_self])
-    show ((algebraMap T (AlgHom.equalizer α β) (piRefineIdem α β s) : ι → T) i)
+    change ((algebraMap T (AlgHom.equalizer α β) (piRefineIdem α β s) : ι → T) i)
         * (x : ι → T) i
       = ((algebraMap T (AlgHom.equalizer α β) (piRefineIdem α β s) : ι → T) i) * (y : ι → T) i
     have h3 : ((algebraMap T (AlgHom.equalizer α β) (piRefineIdem α β s) : ι → T) i)
@@ -724,7 +724,7 @@ theorem etale_and_moduleFinite_equalizer (α β : B →ₐ[R] C) :
   obtain ⟨h1, h2⟩ := etale_and_moduleFinite_of_algEquiv E.symm
   have hloc : IsLocalization.Away (algebraMap R (AlgHom.equalizer α β) (r : R))
       (Localization.Away (r : R) ⊗[R] AlgHom.equalizer α β) := by
-    show IsLocalization (Submonoid.powers (algebraMap R (AlgHom.equalizer α β) (r : R))) _
+    change IsLocalization (Submonoid.powers (algebraMap R (AlgHom.equalizer α β) (r : R))) _
     rw [← Submonoid.map_powers (algebraMap R (AlgHom.equalizer α β)) (r : R)]
     infer_instance
   have hmap : IsLocalization.Away.map (Localization.Away (r : R))
@@ -735,7 +735,7 @@ theorem etale_and_moduleFinite_equalizer (α β : B →ₐ[R] C) :
     refine IsLocalization.ringHom_ext (Submonoid.powers (r : R)) ?_
     simp only [IsLocalization.Away.map, IsLocalization.map_comp]
     refine RingHom.ext fun t ↦ ?_
-    show (1 : Localization.Away (r : R)) ⊗ₜ[R] (algebraMap R (AlgHom.equalizer α β) t)
+    change (1 : Localization.Away (r : R)) ⊗ₜ[R] (algebraMap R (AlgHom.equalizer α β) t)
       = algebraMap R (Localization.Away (r : R)) t ⊗ₜ[R] 1
     rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
   refine ⟨?_, ?_⟩

@@ -96,7 +96,8 @@ the same datum read through the equivalence of
 `Stacks.Smoothing.hasSmoothFactorization_tensor_of_exists` and
 `Stacks.Smoothing.exists_of_hasSmoothFactorization_tensor`; and composing that with items
 (22) and (23) at a local smoothing situation is done by
-`Stacks.Smoothing.isResolvableAfterLocalizing_twistedQuotient`, which *constructs* the two structure maps of the auxiliary base instead of assuming them, and is
+`Stacks.Smoothing.isResolvableAfterLocalizing_twistedQuotient`, which *constructs* the two
+structure maps of the auxiliary base instead of assuming them, and is
 therefore the one that applies to the twisted quotient chain.
 
 ## References
@@ -186,11 +187,11 @@ theorem exists_smoothFactorizationData {kx Aop R₀ E L₀ : Type u} [CommRing k
   refine ⟨T, instT, algT, hT,
     g'.toRingHom.comp (Algebra.TensorProduct.includeRight (R := kx) (A := R₀) (B := Aop)),
     kE.comp k'.toRingHom, fun y => ?_, fun x => ?_, fun x => ?_⟩
-  · show g' (Algebra.TensorProduct.includeRight (algebraMap kx Aop y)) = _
+  · change g' (Algebra.TensorProduct.includeRight (algebraMap kx Aop y)) = _
     rw [AlgHom.commutes, IsScalarTower.algebraMap_apply kx R₀ (R₀ ⊗[kx] Aop), g'.commutes]
-  · show kE (k' (algebraMap R₀ T x)) = _
+  · change kE (k' (algebraMap R₀ T x)) = _
     rw [k'.commutes, hkE]
-  · show kE (k' (g' (Algebra.TensorProduct.includeRight x))) = _
+  · change kE (k' (g' (Algebra.TensorProduct.includeRight x))) = _
     rw [show k' (g' (Algebra.TensorProduct.includeRight x)) =
       G' (Algebra.TensorProduct.includeRight x) from
       AlgHom.congr_fun hg'k' (Algebra.TensorProduct.includeRight x),
@@ -221,9 +222,9 @@ theorem exists_smoothFactorizationData_of_algHom {kx Aop Cop R₀ L₀ : Type u}
         ∀ c : Cop, kk (g c) = cL c := by
   obtain ⟨T, instT, algT, hT, g, kk, hgkx, hkkR₀, hcomp⟩ := h
   refine ⟨T, instT, algT, hT, g.comp σ.toRingHom, kk, fun y => ?_, hkkR₀, fun c => ?_⟩
-  · show g (σ (algebraMap kx Cop y)) = _
+  · change g (σ (algebraMap kx Cop y)) = _
     rw [σ.commutes y, hgkx y]
-  · show kk (g (σ c)) = _
+  · change kk (g (σ c)) = _
     rw [hcL c, hcomp (σ c)]
 
 /-! ### The twisted factorization over `Λ₀[t_1, …, t_d]` -/
@@ -299,12 +300,12 @@ theorem exists_smoothFactorizationData_twisted (k : Type u) {A Λ₀ D' L₀ : T
         (MvPolynomial.map (algebraMap Λ₀ D')).comp
           (algebraMap (MvPolynomial (Fin d) k) (MvPolynomial (Fin d) Λ₀)) := by
       refine MvPolynomial.ringHom_ext (fun r => ?_) fun i => ?_
-      · show MvPolynomial.aeval (R := k)
+      · change MvPolynomial.aeval (R := k)
           (fun i => MvPolynomial.C (π i) * MvPolynomial.X i) (MvPolynomial.C r) = _
         rw [MvPolynomial.aeval_C, IsScalarTower.algebraMap_apply k D' (MvPolynomial (Fin d) D'),
           MvPolynomial.algebraMap_eq]
         exact (hsqC r).symm
-      · show MvPolynomial.aeval (R := k)
+      · change MvPolynomial.aeval (R := k)
           (fun i => MvPolynomial.C (π i) * MvPolynomial.X i) (MvPolynomial.X i) = _
         rw [MvPolynomial.aeval_X]
         exact (hsqX i).symm
@@ -318,10 +319,10 @@ theorem exists_smoothFactorizationData_twisted (k : Type u) {A Λ₀ D' L₀ : T
     have key : (MvPolynomial.eval₂Hom cD τ).comp (MvPolynomial.map (algebraMap Λ₀ D')) =
         (algebraMap (MvPolynomial (Fin d) Λ₀) L₀ : _ →+* _) := by
       refine MvPolynomial.ringHom_ext (fun y => ?_) fun i => ?_
-      · show MvPolynomial.eval₂Hom cD τ
+      · change MvPolynomial.eval₂Hom cD τ
           (MvPolynomial.map (algebraMap Λ₀ D') (MvPolynomial.C y)) = _
         rw [MvPolynomial.map_C, MvPolynomial.eval₂Hom_C, hcD]
-      · show MvPolynomial.eval₂Hom cD τ
+      · change MvPolynomial.eval₂Hom cD τ
           (MvPolynomial.map (algebraMap Λ₀ D') (MvPolynomial.X i)) = _
         rw [MvPolynomial.map_X, MvPolynomial.eval₂Hom_X']
         exact hτ i
@@ -332,11 +333,11 @@ theorem exists_smoothFactorizationData_twisted (k : Type u) {A Λ₀ D' L₀ : T
       MvPolynomial.eval₂Hom cD τ (ψ x) = fB x := by
     have key : (MvPolynomial.eval₂Hom cD τ).comp (ψ : _ →+* MvPolynomial (Fin d) D') = fB := by
       refine parameterPowerAlgebra_ringHom_ext (fun x => ?_) (fun i => ?_) fun i j => ?_
-      · show MvPolynomial.eval₂Hom cD τ (ψ (algebraMap A _ x)) = _
+      · change MvPolynomial.eval₂Hom cD τ (ψ (algebraMap A _ x)) = _
         rw [hψA x, MvPolynomial.eval₂Hom_C, hfBA x]
-      · show MvPolynomial.eval₂Hom cD τ (ψ _) = _
+      · change MvPolynomial.eval₂Hom cD τ (ψ _) = _
         rw [hψX i, hfBX i, map_mul, MvPolynomial.eval₂Hom_C, MvPolynomial.eval₂Hom_X']
-      · show MvPolynomial.eval₂Hom cD τ (ψ _) = _
+      · change MvPolynomial.eval₂Hom cD τ (ψ _) = _
         rw [hψZ i j, map_mul, MvPolynomial.eval₂Hom_C, map_pow, MvPolynomial.eval₂Hom_X',
           map_mul, map_pow]
         calc cD (lam i j) * cD ((↑(hδ i).unit⁻¹ : D')) ^ (2 * N) * τ i ^ (2 * N)

@@ -373,7 +373,8 @@ noncomputable def isLimitFanSectionsOver (W : C) {ι : Type w} (M : ι → Sheaf
       (fun i ↦ (sectionsOver.{w} R W).map (Pi.π M i))) :=
   isLimitFanMkObjOfIsLimit (sectionsOver.{w} R W) _ _ (productIsProduct M)
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- **The degree-zero differential of the sheaf-level Čech complex, componentwise.**  Composed
 with the projection indexed by a pair `y`, it is the difference of the two transition maps of the
 morphisms of fibre products that forget one of the two indices. -/
@@ -403,14 +404,16 @@ theorem d_zero_comp_pi (F : SheafOfModules.{w} R)
               (SimplexCategory.δ (0 : Fin 2)).op).φ y).left - z)
           (delta_comp_pi R E F 1 y))))
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- **The sections of the augmentation are killed by the sections of the first differential.** -/
 theorem sectionsOver_map_augmentation_comp_d (F : SheafOfModules.{w} R) (W : C) :
     (sectionsOver.{w} R W).map (augmentation R E F) ≫
       (sectionsOver.{w} R W).map (((complexFunctor R E).obj F).d 0 1) = 0 := by
   rw [← Functor.map_comp, augmentation_comp_d, Functor.map_zero]
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- **The sections of the augmentation at one factor of the degree-zero term**: over `W`, the
 unit `F ⟶ j_{U_x,*} j^{-1} F` is `F` applied to the projection `U_x ⨯ W ⟶ W`. -/
 theorem sectionsOver_map_augmentation_comp_pi (F : SheafOfModules.{w} R) (W : C)
@@ -423,7 +426,8 @@ theorem sectionsOver_map_augmentation_comp_pi (F : SheafOfModules.{w} R) (W : C)
     (congrArg (sectionsOver.{w} R W).map (augmentation_comp_pi R E F x))).trans
       (sectionsOver_map_augmentationAt R F _ W)
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- **The sections of the degree-zero differential at one factor of the degree-one term.** -/
 theorem sectionsOver_map_d_zero_comp_pi (F : SheafOfModules.{w} R) (W : C)
     (y : ((cechSimplicialObject E).obj (op (⦋1⦌ : SimplexCategory))).I) :
@@ -513,7 +517,8 @@ noncomputable def sectionsHomotopy (hX : IsTerminal X) (F : SheafOfModules.{w} R
           (Fin.cons (x 0) (fun _ ↦ i₀))) ≫
         F.val.presheaf.map (pairDiagonal E hX q x).op)))
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- The components of `Stacks.CechSite.SheafLevel.sectionsHomotopy`. -/
 theorem sectionsHomotopy_comp_pi (hX : IsTerminal X) (F : SheafOfModules.{w} R) {W : C}
     {i₀ : E.I₀} (q : W ⟶ E.X i₀)
@@ -524,7 +529,8 @@ theorem sectionsHomotopy_comp_pi (hX : IsTerminal X) (F : SheafOfModules.{w} R) 
         F.val.presheaf.map (pairDiagonal E hX q x).op) :=
   (isLimitFanSectionsOver R W (degreeFamily R E F 0)).fac _ ⟨x⟩
 
-omit [HasFiniteProducts C] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] [HasFiniteProducts C] in
 /-- **Two morphisms into the degree-zero term agree as soon as their factors do.**  This is
 `Stacks.CechSite.SheafLevel.isLimitFanSectionsOver` in degree zero. -/
 theorem hom_ext_degreeZero (F : SheafOfModules.{w} R) (W : C) {Z : AddCommGrpCat.{w}}
@@ -638,6 +644,7 @@ noncomputable def isLimit_augmentationFork_of_coversTop (hX : IsTerminal X)
 
 variable [HasZeroObject (SheafOfModules.{w} R)]
 
+omit [HasFiniteProducts C] in
 /-- **The augmentation is a quasi-isomorphism in degree zero.**  By
 `CochainComplex.quasiIsoAt₀_iff` and `CategoryTheory.ShortComplex.quasiIso_iff_of_zeros` this is
 exactness of `F ⟶ Č⁰ ⟶ Č¹` together with the augmentation being a monomorphism. -/

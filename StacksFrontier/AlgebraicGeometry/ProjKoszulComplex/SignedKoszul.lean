@@ -229,7 +229,7 @@ theorem sum_koszulRatioCoeff_mul (f : Fin m → B) {j : ℤ} (c : koszulIndex m 
     refine (Finset.sum_eq_single_of_mem (koszulErase t hk) (Finset.mem_univ _) ?_).trans ?_
     · intro s _ hs
       refine ite_eq_right fun h => hs (Subtype.ext ?_)
-      show s.1 = t.1.erase k
+      change s.1 = t.1.erase k
       rw [h.1, Finset.erase_insert h.2]
     · refine Eq.trans (ite_eq_left ⟨(Finset.insert_erase hk).symm,
         Finset.notMem_erase k t.1⟩) ?_

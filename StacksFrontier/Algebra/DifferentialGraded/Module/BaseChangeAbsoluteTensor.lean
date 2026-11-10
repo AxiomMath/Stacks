@@ -181,11 +181,9 @@ action of `A'` on `M ⊗_R R'` is an action. -/
 theorem baseChangeAct_mul (z w : (A.baseChange R').A) :
     baseChangeAct M R' (z * w) = baseChangeAct M R' w * baseChangeAct M R' z := by
   induction z using DifferentialGraded.gradedTensor_induction with
-  | zero => simp
   | add z z' hz hz' => rw [add_mul, map_add, hz, hz', map_add, mul_add]
   | tmul a s =>
     induction w using DifferentialGraded.gradedTensor_induction with
-    | zero => simp
     | add w w' hw hw' => rw [mul_add, map_add, hw, hw', map_add, add_mul]
     | tmul a' s' =>
       refine TensorProduct.ext' fun m t => ?_
@@ -344,8 +342,7 @@ theorem baseChangeAct_one_tmul (c : (degreeZero R R').A)
     (x : M.M ⊗[R] (degreeZero R R').A) :
     baseChangeAct M R' (((1 : A.A) ᵍ⊗ₜ[R] c) : A.grading ᵍ⊗[R] (degreeZero R R').grading) x =
       rightActionBilinear (M.absoluteTensor (degreeZero R R')) x c := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, hx, hy, map_add, LinearMap.add_apply]
   | tmul m t =>
     rw [baseChangeAct_tmul, rightActionBilinear_apply, absTensor_smul_tmul,
@@ -454,11 +451,9 @@ theorem absUnbalance_mul (x : M.M) (y b : A.grading ᵍ⊗[R] (degreeZero R R').
     absUnbalance A (degreeZero R R') M x (y * b) =
       baseChangeAct M R' b (absUnbalance A (degreeZero R R') M x y) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add y y' hy hy' => simp only [add_mul, map_add, hy, hy']
   | tmul c t =>
     induction b using gradedTensor_induction with
-    | zero => simp
     | add b b' hb hb' => simp only [mul_add, map_add, LinearMap.add_apply, hb, hb']
     | tmul a s =>
       rw [baseChange_tmul_mul_tmul, absUnbalance_tmul, absUnbalance_tmul, baseChangeAct_tmul,
@@ -514,7 +509,6 @@ theorem baseChangeTensorInverseLinear_absUnbalance (x : M.M)
     baseChangeTensorInverseLinear A R' M (absUnbalance A (degreeZero R R') M x y) =
       baseChangePureBilinear A R' M x y := by
   induction y using gradedTensor_induction with
-  | zero => rw [map_zero, map_zero, map_zero]
   | add z w hz hw => rw [map_add, map_add, hz, hw, map_add]
   | tmul a s =>
     rw [absUnbalance_tmul, baseChangeTensorInverseLinear_tmul, baseChangePureBilinear_balance,
@@ -523,8 +517,7 @@ theorem baseChangeTensorInverseLinear_absUnbalance (x : M.M)
 /-- `baseChangeTensorInverseLinear` is a right inverse of the canonical map. -/
 theorem baseChangeTensorForward_inverseLinear (z : M.M ⊗[R] R') :
     (baseChangeTensorForward A R' M).toFun (baseChangeTensorInverseLinear A R' M z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul x s =>
     rw [baseChangeTensorInverseLinear_tmul, baseChangeTensorForward_pure, absUnbalance_tmul]

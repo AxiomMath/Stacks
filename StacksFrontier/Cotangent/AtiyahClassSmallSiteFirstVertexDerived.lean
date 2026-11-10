@@ -60,8 +60,8 @@ the module that defines the equivalence.
 `Stacks.ChaoticSite.constantModulePresheafEquivalence` lives in a section that is not
 `@[expose]` (`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/DerivedLowerShriek.lean`),
 and the factor carrying its `functor`, `Stacks.ChaoticSite.constantModuleDiagram`, is a
-`private def` built by `rcases`/`subst` in another non-exposed section
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/DerivedLowerShriekOfInverseImage.lean`),
+`private def` built by `rcases`/`subst` in another non-exposed section (
+`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/DerivedLowerShriekOfInverseImage.lean`),
 so `((...).functor.obj G).obj V` does not reduce to `G.obj V` outside those files. Exposing the
 two sections unblocks the reduction but breaks the existing proof at
 `StacksFrontier/Cotangent/DerivedLowerShriekRestrictedCoefficients.lean:325`, whose `IsIso`

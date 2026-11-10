@@ -65,9 +65,9 @@ inside the proof below.
 
 Stacks 0CVV itself is
 `AlgebraicGeometry.Space.isLocallyConstructible_relativeAssassinContainmentLocus` of
-`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/RepresentedFibreComparison.lean`,
-which reads the locus on a chart by the étale invariance proved here and then identifies the
-relative weak assassin of the represented chart with the scheme-level one.
+`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/RepresentedFibreComparison.lean`
+(which reads the locus on a chart by the étale invariance proved here and then identifies the
+relative weak assassin of the represented chart with the scheme-level one).
 
 ## Implementation notes
 

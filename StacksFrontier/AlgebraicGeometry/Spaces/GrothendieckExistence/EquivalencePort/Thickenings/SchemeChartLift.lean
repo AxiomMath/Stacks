@@ -142,12 +142,12 @@ theorem C1573.schemeChartLiftProperty_of_thickeningRepresentable
       congrArg (·.hom) (Over.w eW.hom.hom : eW.hom.hom.left ≫ Uo.1.hom = bc.1.hom)
     refine IsPullback.of_iso (AlgebraicSpaces.isPullback_hom B S hS hpb)
       ((ObjectProperty.ι _).mapIso eU) φ.symm (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-    · show pr.hom ≫ φ.inv = eU.hom.hom ≫ eU.inv.hom ≫ pr.hom ≫ φ.inv
+    · change pr.hom ≫ φ.inv = eU.hom.hom ≫ eU.inv.hom ≫ pr.hom ≫ φ.inv
       rw [← Category.assoc eU.hom.hom, ← InducedCategory.comp_hom, eU.hom_inv_id]
       rfl
-    · show bc.1.hom.hom ≫ 𝟙 _ = eU.hom.hom ≫ m
+    · change bc.1.hom.hom ≫ 𝟙 _ = eU.hom.hom ≫ m
       rw [Category.comp_id, hm']
-    · show Wo.1.hom.hom ≫ 𝟙 _ = φ.inv ≫ φ.hom ≫ Wo.1.hom.hom
+    · change Wo.1.hom.hom ≫ 𝟙 _ = φ.inv ≫ φ.hom ≫ Wo.1.hom.hom
       simp
     · simp
 

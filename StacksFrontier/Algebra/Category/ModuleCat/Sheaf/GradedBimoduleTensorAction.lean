@@ -110,7 +110,7 @@ variable {R : Cᵒᵖ ⥤ RingCat.{t}}
 /-- Restriction along an identity morphism is the identity. -/
 @[simp]
 theorem restr_id (M : PresheafOfModules.{w} R) {U : Cᵒᵖ} (x : M.obj U) : restr M (𝟙 U) x = x := by
-  show M.map (𝟙 U) x = x
+  change M.map (𝟙 U) x = x
   simp
   rfl
 
@@ -762,7 +762,7 @@ noncomputable def actSum (n i d : ℤ) (h : n + i = d) :
 summand. -/
 theorem tensorSumι_actSum (n i d : ℤ) (h : n + i = d) (p : TensorIndex n) :
     tensorSumι M N.toLeftGradedModule p ≫ actSum M N n i d h = actSummand M N n i d h p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The action on the direct sum sends `x ⊗ y` and `b` to `x|_V ⊗ (y|_V b)`. -/
 theorem actSum_tmul (n i d : ℤ) (h : n + i = d) (p : TensorIndex n) (X : Cᵒᵖ)
@@ -865,7 +865,7 @@ theorem actPre_assoc (n i j d₁ d : ℤ) (h₁ : n + i = d₁) (h₂ : d₁ + j
       actPre M N n (i + j) d h₃ ≫
         bilinHomUncurry (B.mul i j) (gradedTensorPre M N.toLeftGradedModule d) := by
   refine gradedTensorPre_hom_ext M N fun p X x y => hApp_ext fun V f b => hApp_ext fun W g b' => ?_
-  show hApp (hApp (PresheafOfModules.Hom.app
+  change hApp (hApp (PresheafOfModules.Hom.app
       (bilinHomMap (B.piece i).val (actPre M N d₁ j d h₂)) X
       (PresheafOfModules.Hom.app (actPre M N n i d₁ h₁) X (tmulPre M N n p X x y))) f b) g b' =
     hApp (hApp (PresheafOfModules.Hom.app
@@ -890,7 +890,7 @@ theorem actPre_assoc_apply (n i j d₁ d : ℤ) (h₁ : n + i = d₁) (h₂ : d�
         ((B.mul i j).app U b b') := by
   refine Eq.trans (congrArg (fun w => hApp (hApp w (𝟙 U) b) (𝟙 U) b')
     (PresheafOfModules.hom_congr_apply (actPre_assoc M N n i j d₁ d h₁ h₂ h₃) U z)) ?_
-  show hApp (hApp (PresheafOfModules.Hom.app
+  change hApp (hApp (PresheafOfModules.Hom.app
       (bilinHomUncurry (B.mul i j) (gradedTensorPre M N.toLeftGradedModule d)) U
       (PresheafOfModules.Hom.app (actPre M N n (i + j) d h₃) U z)) (𝟙 U) b) (𝟙 U) b' = _
   rw [hApp_bilinHomUncurry, Category.id_comp, restr_id]
@@ -902,7 +902,7 @@ theorem actPre_one (n : ℤ) :
         bilinHomEval B.one (gradedTensorPre M N.toLeftGradedModule n) =
       𝟙 (gradedTensorPre M N.toLeftGradedModule n) := by
   refine gradedTensorPre_hom_ext M N fun p X x y => ?_
-  show hApp (PresheafOfModules.Hom.app (actPre M N n 0 n (add_zero n)) X
+  change hApp (PresheafOfModules.Hom.app (actPre M N n 0 n (add_zero n)) X
     (tmulPre M N n p X x y)) (𝟙 X) (B.one.eval X) = tmulPre M N n p X x y
   rw [actPre_tmulPre, restr_id, restr_id]
   have hidx : actIndex p 0 n (add_zero n) = p := Subtype.ext (by simp)
@@ -1027,7 +1027,7 @@ theorem actPre_comp_descHom (n i : ℤ) :
       ofBilinHom ((K.smulBil n i).compLeft
         ((preGradedModule M N).toSheafifyPiece n ≫ (β.descHom n).val)) := by
   refine gradedTensorPre_hom_ext M N fun p X x y => hApp_ext fun V f b => ?_
-  show PresheafOfModules.Hom.app ((preGradedModule M N).toSheafifyPiece (n + i) ≫
+  change PresheafOfModules.Hom.app ((preGradedModule M N).toSheafifyPiece (n + i) ≫
       (β.descHom (n + i)).val) V
       (hApp (PresheafOfModules.Hom.app (actPre M N n i (n + i) rfl) X
         (tmulPre M N n p X x y)) f b) =

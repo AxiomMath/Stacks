@@ -78,7 +78,8 @@ device recorded for this crossing; no `set_option` is used.
 The gap to `hunit` is not a model problem and not a crossing: Tag 08DF's hypothesis is
 `CohomologySupportedOn O T E`, while `hunit` asks for right orthogonality to the shifts of the
 Koszul object, and the passage from the second to the first is [Stacks, Tag 09IR]. The
-implication `(2) ⇒ (1)` of 09IR is proved and tagged, as `Stacks.Koszul.Truncation.isIso_unit_of_hom_koszulObject_eq_zero` of
+implication `(2) ⇒ (1)` of 09IR is proved and tagged, as
+`Stacks.Koszul.Truncation.isIso_unit_of_hom_koszulObject_eq_zero` of
 `StacksFrontier/AlgebraicGeometry/Duality/KoszulOrthogonality/AffineSituation.lean`
 (registered for 09IR, implication (2) to (1)), and it bypasses the passage described
 above: it concludes
@@ -232,7 +233,7 @@ theorem descendedUnit_eq_derivedAdjunction_unit :
       (derivedAdjunction adj (Iso.refl F.mapDerivedCategory) β hC₂).unit := by
   refine (Localization.fullyFaithfulWhiskeringLeft DerivedCategory.Qh
     (HomotopyCategory.quasiIso C₁ (ComplexShape.up ℤ)) _).map_injective ?_
-  show whiskerLeft DerivedCategory.Qh (descendedUnit adj RG β) =
+  change whiskerLeft DerivedCategory.Qh (descendedUnit adj RG β) =
     whiskerLeft DerivedCategory.Qh _
   rw [whiskerLeft_descendedUnit, homotopyDescendedUnit_eq]
   refine NatTrans.ext (funext fun Z => ?_)

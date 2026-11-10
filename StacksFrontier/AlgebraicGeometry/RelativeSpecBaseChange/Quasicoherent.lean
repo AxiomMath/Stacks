@@ -204,9 +204,9 @@ public theorem baseChangeProjection_comp_overMap (X Y : Over S) (k : X ⟶ Y) :
     baseChangeProjection g X ≫ k =
       (Over.map g).map ((Over.pullback g).map k) ≫ baseChangeProjection g Y :=
   Over.OverMorphism.ext (by
-    show pullback.fst X.hom g ≫ k.left =
+    change pullback.fst X.hom g ≫ k.left =
       ((Over.pullback g).map k).left ≫ pullback.fst Y.hom g
-    simp [Over.pullback, pullback.lift_fst])
+    simp [Over.pullback])
 
 /-- The base-change morphism of algebra sheaves as a morphism of functors
 `(Over S)ᵒᵖ ⥤ AlgebraSheaf T`, from the base change of `X ↦ X.hom _* 𝒪_X` to the pushed-forward

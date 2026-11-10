@@ -51,9 +51,9 @@ theorem exists_sigmaι_app_eq {I : Type v} (F : I → Cᵒᵖ ⥤ Type v) (T : C
   let e := sigmaObjIso F T ≪≫ Limits.Types.coproductIso fun i ↦ (F i).obj T
   rcases h : e.hom s with ⟨i, t⟩
   refine ⟨i, t, e.toEquiv.injective ?_⟩
-  show e.hom ((Sigma.ι F i).app T t) = e.hom s
+  change e.hom ((Sigma.ι F i).app T t) = e.hom s
   rw [h]
-  show ((Sigma.ι F i).app T ≫ e.hom) t = _
+  change ((Sigma.ι F i).app T ≫ e.hom) t = _
   simp [e]
 
 /-- **Refining a jointly locally surjective family of morphisms from representable presheaves.**
@@ -83,12 +83,12 @@ theorem isLocallySurjective_sigmaDesc_refinement (J : GrothendieckTopology C) {I
     obtain ⟨j, v, hv⟩ := exists_sigmaι_app_eq (fun j ↦ yoneda.obj (V i j)) (op W) s
     have hqv : (yoneda.map (q i j)).app (op W) v = (yoneda.obj (U i)).map g.op t := by
       rw [← hv] at hs
-      simpa only [← NatTrans.comp_app_apply, ri, Sigma.ι_desc] using hs
+      simpa only [← NatTrans.comp_app_apply, ri, Sigma.ι_comp_desc] using hs
     refine ⟨(Sigma.ι G ⟨i, j⟩).app (op W) v, ?_⟩
     calc
       r.app (op W) ((Sigma.ι G ⟨i, j⟩).app (op W) v) =
           (Sigma.ι F i).app (op W) ((yoneda.map (q i j)).app (op W) v) := by
-        simp only [← NatTrans.comp_app_apply, r, Sigma.ι_desc]
+        simp only [← NatTrans.comp_app_apply, r, Sigma.ι_comp_desc]
       _ = (∐ F).map g.op ((Sigma.ι F i).app (op T) t) := by
             rw [hqv]
             exact NatTrans.naturality_apply (Sigma.ι F i) g.op t
@@ -96,7 +96,7 @@ theorem isLocallySurjective_sigmaDesc_refinement (J : GrothendieckTopology C) {I
   have hfactor : r ≫ Sigma.desc f =
       Sigma.desc fun ij : Σ i, K i ↦ yoneda.map (q ij.1 ij.2) ≫ f ij.1 :=
     Sigma.hom_ext _ _ fun ij ↦ by
-      rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+      rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
   rw [← hfactor]
   infer_instance
 

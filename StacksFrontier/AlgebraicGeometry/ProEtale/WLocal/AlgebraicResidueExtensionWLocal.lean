@@ -125,7 +125,7 @@ theorem closedPoints_wLocalExtension_map_eq_preimage (f : A →+* B) (I : Ideal 
   ext x
   rw [closedPoints_wLocalExtension B (Ideal.map f I)
     (isProfiniteStacks_zeroLocus_map_of_isAlgebraic_residueField f I hzero halg), ← hzero]
-  show (Ideal.map f I).map (algebraMap B (wLocalExtension (Ideal.map f I))) ≤ x.asIdeal ↔
+  change (Ideal.map f I).map (algebraMap B (wLocalExtension (Ideal.map f I))) ≤ x.asIdeal ↔
     I ≤ Ideal.comap f
       (Ideal.comap (algebraMap B (wLocalExtension (Ideal.map f I))) x.asIdeal)
   rw [Ideal.map_le_iff_le_comap, Ideal.map_le_iff_le_comap]

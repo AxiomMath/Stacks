@@ -105,7 +105,7 @@ theorem relative_inverseImage_of_openCover_source
   have hri : (P₀.inverseImage (BigFppfOver.toScheme B S hS)).RespectsIso :=
     MorphismProperty.RespectsIso.inverseImage _ _
   refine MorphismProperty.relative_of_snd hrep fun c kk => ?_
-  show P₀ ((BigFppfOver.toScheme B S hS).map (hrep.snd kk))
+  change P₀ ((BigFppfOver.toScheme B S hS).map (hrep.snd kk))
   set π : ∀ k, Limits.pullback (p k) (hrep.fst' kk) ⟶ hrep.pullback kk :=
     fun k => Limits.pullback.snd (p k) (hrep.fst' kk) with hπdef
   have hschpb : ∀ k, IsPullback

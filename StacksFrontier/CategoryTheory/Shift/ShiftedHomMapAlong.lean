@@ -96,12 +96,12 @@ lemma mapAlong_comp (F : C ⥤ D) [F.CommShift M] {X Y Z : C} {X' Y' Z' : D} (z 
     simp only [comp, assoc, Functor.map_comp]
     congr 2
     exact ((shiftFunctorAdd' D b a c h).inv.naturality κZ).symm
-  simp only [mapAlong, map_comp, assoc, hκ, hg]
+  simp only [mapAlong, map_comp, hκ, hg]
   simp only [comp, assoc, Functor.map_comp]
 
 section Preadditive
 
-variable [Preadditive C] [Preadditive D] [∀ a : M, (shiftFunctor D a).Additive]
+variable [Preadditive C] [Preadditive D]
 
 /-- Transporting is additive. -/
 @[simp]
@@ -135,7 +135,7 @@ end Preadditive
 
 section ShiftTarget
 
-variable [Preadditive C] [∀ a : M, (shiftFunctor C a).Additive]
+variable [Preadditive C]
 
 /-- Shifted morphisms `X ⟶ (Y⟦b⟧)⟦a⟧` are shifted morphisms `X ⟶ Y⟦c⟧` for `b + a = c`: the
 composition with the unit shifted morphism `𝟙 (Y⟦b⟧)` of degree `b`. -/

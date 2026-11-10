@@ -93,7 +93,7 @@ theorem gradedLeftHomologyData_i_apply (M : RightModule.{v} C) (X : C.Obj) (n : 
     (a : gradedCocycles M X n) :
     ((gradedLeftHomologyData M X n).i).hom a = (a : M.obj X n) := by
   have h2 := gradedScIso_inv_τ₂ M X (show n - 1 + 1 = n by omega)
-  show ((gradedScIso M X (show n - 1 + 1 = n by omega)).symm.hom.τ₂).hom
+  change ((gradedScIso M X (show n - 1 + 1 = n by omega)).symm.hom.τ₂).hom
       (a : M.obj X n) = _
   rw [Iso.symm_hom, h2]
   rfl

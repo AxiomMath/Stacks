@@ -118,8 +118,8 @@ is `Module.Free` alone. In 051T, 051W, 051X and 051Y no `R`-module structure on 
 the `R_f`-action on `M_f` being the restriction of its `S_f`-action.
 
 **The locus `U(R → S, M)` is written out** as the union of standard opens it is, since the library
-has no definition for the construction 051V. Membership of a prime then unfolds to "some `f` outside it
-satisfies 051U", which is how the source's proofs read. Openness of the locus, asserted by the
+has no definition for the construction 051V. Membership of a prime then unfolds to "some `f` outside
+it satisfies 051U", which is how the source's proofs read. Openness of the locus, asserted by the
 source alongside Equation 051V, is `isOpen_iUnion`. Mathlib's `Module.freeLocus R M` is the
 pointwise analogue for one module over one ring and neither contains nor is contained in this
 locus.
@@ -154,8 +154,9 @@ overview of Stacks section 051Q is the module docstring above. This part contain
 on extensions of free modules and flat base change, and generic freeness over a Noetherian domain,
 `Module.exists_ne_zero_free_localizedModule_away` (051R). Stacks 051S is in
 `StacksFrontier.Algebra.Category.Ring.Epi.GenericFlatness.FinitePresentation`, 051T in
-`StacksFrontier.Algebra.Category.Ring.Epi.GenericFlatness.GenericFinitePresentation`, and the generic
-freeness locus (051W, 051X, 051Y) in `StacksFrontier.Algebra.Category.Ring.Epi.GenericFlatness.Locus`.
+`StacksFrontier.Algebra.Category.Ring.Epi.GenericFlatness.GenericFinitePresentation`, and the
+generic freeness locus (051W, 051X, 051Y) in
+`StacksFrontier.Algebra.Category.Ring.Epi.GenericFlatness.Locus`.
 -/
 
 @[expose] public section
@@ -179,7 +180,7 @@ private theorem baseChange_injective {S : Type*} [CommSemiring S] (T : Type*) [S
     [Algebra S T] [Module.Flat S T] {M N : Type*} [AddCommMonoid M] [Module S M] [AddCommMonoid N]
     [Module S N] {f : M →ₗ[S] N} (hf : Function.Injective f) :
     Function.Injective (f.baseChange T) := by
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_preserves_injective_linearMap f hf
 
 /-- Base change along a flat algebra preserves exactness. This is `Module.Flat.lTensor_exact` for
@@ -188,7 +189,7 @@ private theorem baseChange_exact {S : Type*} [CommRing S] (T : Type*) [Ring T] [
     [Module.Flat S T] {M N P : Type*} [AddCommGroup M] [Module S M] [AddCommGroup N] [Module S N]
     [AddCommGroup P] [Module S P] {f : M →ₗ[S] N} {g : N →ₗ[S] P} (h : Function.Exact f g) :
     Function.Exact (f.baseChange T) (g.baseChange T) := by
-  rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_exact T h
 
 /-! ### Generic freeness over a Noetherian domain (051R) -/
@@ -379,7 +380,7 @@ private theorem free_tensor_quotient_of_free_quotient {R : Type u} [CommRing R] 
   refine Module.Free.of_equiv' h
     (((Algebra.TensorProduct.tensorQuotientEquiv (R := R) B (MvPolynomial σ R) B I).trans
       (Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R B) ?_)).symm.toLinearEquiv)
-  show Ideal.map (MvPolynomial.map (algebraMap R B)) I =
+  change Ideal.map (MvPolynomial.map (algebraMap R B)) I =
     Ideal.map (MvPolynomial.algebraTensorAlgEquiv R B).toAlgHom.toRingHom
       (Ideal.map (Algebra.TensorProduct.includeRight (R := R) (A := B)
         (B := MvPolynomial σ R)).toRingHom I)

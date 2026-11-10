@@ -112,7 +112,7 @@ public theorem directImageStalkBridge_hom_app_pointHom (a : GeometricPoint.Hom s
       T.app (L.obj P) ≫ (Scheme.pointSmallEtale s.hom).sheafFiber.map BC :=
     T.naturality BC
   rw [directImageStalkBridge_hom_app, Category.assoc]
-  show _ ≫ (Scheme.pointSmallEtale s.hom).sheafFiber.map BC ≫ _ = _
+  change _ ≫ (Scheme.pointSmallEtale s.hom).sheafFiber.map BC ≫ _ = _
   rw [hn, ← Category.assoc, h, Category.assoc]
 
 end Bridge
@@ -126,12 +126,12 @@ public theorem etaleStalk_addMonoidHom_ext {R : Type} [Ring R]
     (P : (SmallEtale B S hS)ᵒᵖ ⥤ ModuleCat.{u + 1} R) {M : Type (u + 1)} [AddCommGroup M]
     {g₁ g₂ : (etaleStalk B S hS s P : ModuleCat.{u + 1} R) →+ M}
     (h : ∀ (j : (geometricPointFiber B S hS s).Elementsᵒᵖ)
-      (x : P.obj ((CategoryOfElements.π (geometricPointFiber B S hS s)).op.obj j)),
-      g₁ ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x) =
-        g₂ ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x)) :
+      (x : P.obj ((Functor.Elements.π (geometricPointFiber B S hS s)).op.obj j)),
+      g₁ ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x) =
+        g₂ ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x)) :
     g₁ = g₂ := by
   have hc := (isColimitOfPreserves (forget₂ (ModuleCat.{u + 1} R) AddCommGrpCat.{u + 1})
-    (colimit.isColimit ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P)))
+    (colimit.isColimit ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P)))
   exact congrArg AddCommGrpCat.Hom.hom (hc.hom_ext (W := AddCommGrpCat.of M)
     (f := AddCommGrpCat.ofHom g₁) (f' := AddCommGrpCat.ofHom g₂) fun j => by
       ext x
@@ -142,9 +142,9 @@ private theorem etaleStalk_addMonoidHom_apply_eq {R : Type} [Ring R]
     (P : (SmallEtale B S hS)ᵒᵖ ⥤ ModuleCat.{u + 1} R) {M : Type (u + 1)} [AddCommGroup M]
     {g₁ g₂ : (etaleStalk B S hS s P : ModuleCat.{u + 1} R) →+ M}
     (h : ∀ (j : (geometricPointFiber B S hS s).Elementsᵒᵖ)
-      (x : P.obj ((CategoryOfElements.π (geometricPointFiber B S hS s)).op.obj j)),
-      g₁ ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x) =
-        g₂ ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x))
+      (x : P.obj ((Functor.Elements.π (geometricPointFiber B S hS s)).op.obj j)),
+      g₁ ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x) =
+        g₂ ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) j).hom x))
     (w : (etaleStalk B S hS s P : ModuleCat.{u + 1} R)) : g₁ w = g₂ w :=
   DFunLike.congr_fun (etaleStalk_addMonoidHom_ext S hS s P h) w
 
@@ -173,13 +173,13 @@ public def levelAdjunctStalkMap (F : LAdicSheaf.{u, u + 1} B Y ℓ) (F' : LAdicS
     (χ : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F ⟶ F') (n : ℕ) :
     finiteLevelStalk B Y ℓ F s n ⟶
       etaleStalk B Y.1 Y.2 s ((levelPushforward f n).obj (F'.level n)).obj :=
-  colim.map (Functor.whiskerLeft ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+  colim.map (Functor.whiskerLeft ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
     (((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom)
 
 /-- For `χ = 𝟙` the stalk of the adjunct is the stalk of the unit. -/
 public theorem levelAdjunctStalkMap_id (F : LAdicSheaf.{u, u + 1} B Y ℓ) (n : ℕ) :
     levelAdjunctStalkMap f s F _ (𝟙 _) n = levelUnitStalkMap f F s n := by
-  show colim.map (Functor.whiskerLeft _
+  change colim.map (Functor.whiskerLeft _
     (((levelAdjunction f n).homEquiv _ _) (𝟙 ((levelPullback f n).obj (F.level n)))).hom) = _
   rw [Adjunction.homEquiv_id]
   rfl
@@ -200,7 +200,7 @@ public def levelAdjunctPadicStalkMap (F : LAdicSheaf.{u, u + 1} B Y ℓ)
   (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1))).map
       (levelAdjunctStalkMap f s F F' χ n) ≫
     (preservesColimitIso (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1)))
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
         ((levelPushforward f n).obj (F'.level n)).obj)).hom ≫
     (directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)
 
@@ -210,36 +210,36 @@ public theorem levelAdjunctPadicStalkMap_germ (F : LAdicSheaf.{u, u + 1} B Y ℓ
     (F' : LAdicSheaf.{u, u + 1} B X ℓ)
     (χ : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F ⟶ F') (n : ℕ)
     (j : (geometricPointFiber B Y.1 Y.2 s).Elementsᵒᵖ)
-    (x : (F.level n).obj.obj ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
+    (x : (F.level n).obj.obj ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
     (levelAdjunctPadicStalkMap f s F F' χ n).hom
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
           (F.level n).obj) j).hom x) =
       ((directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)).hom
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
           ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj
             (LAdicSheaf.padicLevel B X ℓ F' n)).obj) j).hom
           (((((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom.app
-            ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)) := by
+            ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)) := by
   have h1 := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
     (((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom) j) x
   have h2 := ConcreteCategory.congr_hom (ι_preservesColimitIso_hom
     (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1)))
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
       ((levelPushforward f n).obj (F'.level n)).obj) j)
     (((((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom.app
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)
-  show ((directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)).hom
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)
+  change ((directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ F' n)).hom
     ((preservesColimitIso
       (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1)))
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
         ((levelPushforward f n).obj (F'.level n)).obj)).hom.hom
       ((levelAdjunctStalkMap f s F F' χ n).hom ((colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj) j).hom
+        ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj) j).hom
           x))) = _
   refine congrArg _ ?_
   exact (congrArg (preservesColimitIso (ModuleCat.restrictScalars.{u + 1}
-    (PadicInt.toZModPow (p := ℓ) (n + 1))) ((CategoryOfElements.π
+    (PadicInt.toZModPow (p := ℓ) (n + 1))) ((Functor.Elements.π
       (geometricPointFiber B Y.1 Y.2 s)).op ⋙
         ((levelPushforward f n).obj (F'.level n)).obj)).hom.hom h1).trans h2
 
@@ -259,23 +259,23 @@ public theorem directImageStalkBridge_germ_naturality
     {F₁ F₂ : Sheaf (SmallEtale.topology B X.1 X.2) (ModuleCat.{u + 1} ℤ_[ℓ])} (g : F₁ ⟶ F₂)
     (j : (geometricPointFiber B Y.1 Y.2 s).Elementsᵒᵖ)
     (y : ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj F₁).obj.obj
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
     ((Scheme.pointSmallEtale s.hom).sheafFiber.map
         ((etaleModuleDirectImage.{u, 0} ℤ_[ℓ] (B.inclusion.map f)).map
           ((SmallEtale.sheafEquiv B X.1 X.2 (ModuleCat.{u + 1} ℤ_[ℓ])).functor.map g))).hom
         (((directImageStalkBridge f s ℓ).hom.app F₁).hom
-          ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+          ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
             ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj F₁).obj) j).hom y)) =
       ((directImageStalkBridge f s ℓ).hom.app F₂).hom
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
             ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj F₂).obj) j).hom
           ((((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).map g).hom.app
-            ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom y)) := by
+            ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom y)) := by
   have h := ConcreteCategory.congr_hom ((directImageStalkBridge f s ℓ).hom.naturality g)
-    ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+    ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
       ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj F₁).obj) j).hom y)
   have h2 := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
       ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).map g).hom) j) y
   exact h.symm.trans (congrArg ((directImageStalkBridge f s ℓ).hom.app F₂).hom h2)
 
@@ -283,23 +283,23 @@ public theorem directImageStalkBridge_germ_naturality
 public theorem stalkTransition_germ (F : LAdicSheaf.{u, u + 1} B Y ℓ) (n : ℕ)
     (j : (geometricPointFiber B Y.1 Y.2 s).Elementsᵒᵖ)
     (x : (F.level (n + 1)).obj.obj
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)) :
     LAdicSheaf.stalkTransition B Y ℓ F s n
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
           (F.level (n + 1)).obj) j).hom x) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
           (F.level n).obj) j).hom
         (((F.transition n).hom.app
-          ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x) := by
+          ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x) := by
   have h1 := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op) (F.transition n).hom) j) x
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op) (F.transition n).hom) j) x
   have h2 := ConcreteCategory.congr_hom (ι_preservesColimitIso_inv
     (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj) j)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj) j)
     (((F.transition n).hom.app
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op.obj j)).hom x)
   exact (congrArg (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
       (F.level n).obj)).inv.hom h1).trans h2
 
 /-- **The adjuncts commute with the transition maps**, as maps of sheaves `F_{n+1} → f_* F'ₙ`. -/
@@ -440,17 +440,17 @@ public theorem levelAdjunctPadicStalkMap_stalkEnd (F : LAdicSheaf.{u, u + 1} B Y
     (g₁ := P₁.hom.toAddMonoidHom.comp (finiteLevelStalkEnd B Y ℓ F a n).hom.toAddMonoidHom)
     (g₂ := T.hom.toAddMonoidHom.comp P₁.hom.toAddMonoidHom) (fun j x => ?_) w
   have hpre := ConcreteCategory.congr_hom (colimit.ι_pre
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙ (F.level n).obj)
     (neighborhoodFunctor B Y.1 Y.2 a).op j) x
   have hpre' := ConcreteCategory.congr_hom (colimit.ι_pre
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
       ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj
         (LAdicSheaf.padicLevel B X ℓ F' n)).obj)
     (neighborhoodFunctor B Y.1 Y.2 a).op j)
     ((((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom.app _ |>.hom x)
   have hb := ConcreteCategory.congr_hom (directImageStalkBridge_hom_app_pointHom f s ℓ a
     (LAdicSheaf.padicLevel B X ℓ F' n))
-    ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+    ((colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
       ((B.smallPushforward f (ModuleCat.{u + 1} ℤ_[ℓ])).obj
         (LAdicSheaf.padicLevel B X ℓ F' n)).obj) j).hom
       ((((levelAdjunction f n).homEquiv _ _) (χ.app n)).hom.app _ |>.hom x))
@@ -481,7 +481,7 @@ public theorem levelAdjunctPadicStalkMap_nsmul (F : LAdicSheaf.{u, u + 1} B Y �
     (levelAdjunctPadicStalkMap f s F F' (k • χ) n).hom w =
       k • (levelAdjunctPadicStalkMap f s F F' χ n).hom w := by
   have e0 : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap f (k • 𝟙 F) = k • 𝟙 _ := by
-    show (AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageFunctor f).map (k • 𝟙 F) = _
+    change (AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageFunctor f).map (k • 𝟙 F) = _
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     rfl
   have e : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap f (k • 𝟙 F) ≫ χ = k • χ := by
@@ -500,7 +500,7 @@ public theorem levelAdjunctStalkMap_eq_zero_of_padic (F : LAdicSheaf.{u, u + 1} 
     (LAdicSheaf.padicLevel B X ℓ F' n)).toLinearEquiv.injective
   have i1 := (preservesColimitIso
     (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (p := ℓ) (n + 1)))
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
         ((levelPushforward f n).obj (F'.level n)).obj)).toLinearEquiv.injective
   exact i1 ((i2 (h.trans (map_zero _).symm)).trans (map_zero _).symm)
 

@@ -91,7 +91,7 @@ a cartesian sheaf on the total site. -/
 theorem isCartesianSheaf_inverseImage (G : Sheaf K (Type u)) :
     IsCartesianSheaf S ((inverseImage S D K a).obj G) := by
   intro m n φ
-  show IsIso ((fiberTransition S φ).app (inverseImageSheaf S D K a G))
+  change IsIso ((fiberTransition S φ).app (inverseImageSheaf S D K a G))
   rw [fiberTransition_inverseImageSheaf]
   infer_instance
 

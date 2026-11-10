@@ -132,7 +132,7 @@ private theorem periodicDeterminant_localized_quotient_eq_moduleSymbol
           ((Ideal.Quotient.mk (Ideal.span {a * b})) (1 : A))) =
       Submodule.Quotient.mk (LocalizedModule.mkLinearMap p A (1 : A)) := by
     rw [localizedQuotientEquiv]
-    show (IsLocalizedModule.linearEquiv p
+    change (IsLocalizedModule.linearEquiv p
         ((Ideal.span {a * b}).toLocalizedQuotient p)
         (LocalizedModule.mkLinearMap p M)).symm
         ((LocalizedModule.mkLinearMap p M) (Submodule.Quotient.mk (1 : A))) = _
@@ -230,7 +230,7 @@ private theorem exact_mul_quotient_ab
         sub_eq_zero.mp ((mem_nonZeroDivisors_iff.mp hb).2 _ h0)
       refine ⟨Submodule.Quotient.mk w, ?_⟩
       rw [LinearMap.lsmul_apply, hzw]
-      show (algebraMap A (A ⧸ Ideal.span {a * b}) a) *
+      change (algebraMap A (A ⧸ Ideal.span {a * b}) a) *
           (Ideal.Quotient.mk (Ideal.span {a * b}) w) = _
       rw [Ideal.Quotient.algebraMap_eq]
       exact (map_mul (Ideal.Quotient.mk (Ideal.span {a * b})) a w).symm
@@ -299,7 +299,7 @@ private theorem quotient_heightOne_krullDimLE
     exact hJ.comap (Ideal.Quotient.mk q)
   have hqp : q ≤ p := by
     intro x hx
-    show Ideal.Quotient.mk q x ∈ J
+    change Ideal.Quotient.mk q x ∈ J
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
     exact J.zero_mem
   by_cases hJbot : J = ⊥
@@ -353,7 +353,7 @@ private theorem quotient_heightOne_krullDimLE
     have hJmax : J = IsLocalRing.maximalIdeal (A ⧸ q) := by
       apply Ideal.comap_injective_of_surjective (Ideal.Quotient.mk q)
         Ideal.Quotient.mk_surjective
-      show p = (IsLocalRing.maximalIdeal (A ⧸ q)).comap (Ideal.Quotient.mk q)
+      change p = (IsLocalRing.maximalIdeal (A ⧸ q)).comap (Ideal.Quotient.mk q)
       rw [hpmax, IsLocalRing.maximalIdeal_comap]
     simpa [hJmax] using (IsLocalRing.maximalIdeal.isMaximal (A ⧸ q))
 
@@ -471,7 +471,7 @@ private theorem mem_support_self
     {A : Type u} [CommRing A] (q : PrimeSpectrum A) :
     q ∈ Module.support A A := by
   rw [Module.support_eq_zeroLocus]
-  show RingHom.ker (Module.toAddMonoidEnd A A) ≤ q.asIdeal
+  change RingHom.ker (Module.toAddMonoidEnd A A) ≤ q.asIdeal
   intro x hx
   have hx0 := RingHom.mem_ker.mp hx
   have hxeq : x = 0 := by
@@ -503,7 +503,7 @@ private theorem min_support_quotient_mem_minimalPrimes
     have hz' : q.1 ∈ PrimeSpectrum.zeroLocus I := hz.2
     rw [PrimeSpectrum.mem_zeroLocus] at hz'
     exact SetLike.coe_subset_coe.mp hz'
-  show I.IsMinimalPrime q.1.asIdeal
+  change I.IsMinimalPrime q.1.asIdeal
   refine ⟨⟨q.1.isPrime, hIq⟩, ?_⟩
   intro J hJlt hJ
   let r : PrimeSpectrum A := ⟨J, hJlt.1⟩
@@ -780,7 +780,7 @@ theorem sum_ord_heightOneSymbol_eq_zero
     let : q.1.IsPrime := q.2.1
     exact quotient_heightOne_krullDimLE hdim q.1 q.2.2
   refine ⟨hquot, ?_⟩
-  show (∑ᶠ q : {q : Ideal A // q.IsPrime ∧ q.height = 1},
+  change (∑ᶠ q : {q : Ideal A // q.IsPrime ∧ q.height = 1},
       let : q.1.IsPrime := q.2.1
       localSymbolOrder (q := q) (hquot q) (heightOneSymbol q ha hb)) = 0
   by_cases haunit : IsUnit a
@@ -820,7 +820,7 @@ theorem sum_ord_heightOneSymbol_eq_zero
       intro h
       apply hnot
       simpa [mul_comm] using q.1.mul_mem_right a h
-    show localSymbolOrder (q := q) (hquot q) (heightOneSymbol q ha hb) = 0
+    change localSymbolOrder (q := q) (hquot q) (heightOneSymbol q ha hb) = 0
     rw [heightOneSymbol_eq_one_of_notMem q ha hb haq hbq]
     exact localSymbolOrder_one (q := q) (hquot q)
   have hglobal : (∑ᶠ q : {q : Ideal A // q.IsPrime ∧ q.height = 1}, term q) =
@@ -908,7 +908,7 @@ theorem sum_ord_heightOneSymbol_eq_zero
             hdimR haR hbR (hfinite x) (hexactab x) (hexactba x)
         _ = heightOneSymbol q ha hb := rfl
     rw [heq]
-    show localSymbolOrder (q := q) (hquot q) (heightOneSymbol q ha hb) = _
+    change localSymbolOrder (q := q) (hquot q) (heightOneSymbol q ha hb) = _
     rw [← hdet]
     rfl
   calc

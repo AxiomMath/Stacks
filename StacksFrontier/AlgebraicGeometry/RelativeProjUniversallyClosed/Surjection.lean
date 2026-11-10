@@ -48,7 +48,7 @@ theorem gradedZeroRingHom_surjective (hf : Function.Surjective f) :
   rintro ⟨y, hy⟩
   obtain ⟨x, hx⟩ := hf y
   refine ⟨DirectSum.decompose 𝒜 x 0, Subtype.ext ?_⟩
-  show f (DirectSum.decompose 𝒜 x 0 : A) = y
+  change f (DirectSum.decompose 𝒜 x 0 : A) = y
   rw [GradedRingHom.map_directSumDecompose, hx, DirectSum.decompose_of_mem_same _ hy]
 
 /-- Finite type over the degree-zero part passes along a surjective graded ring homomorphism. -/
@@ -70,7 +70,7 @@ theorem isIntegral_degreeZero_of_surjective (hf : Function.Surjective f) (a : R 
   have he : f.gradedZeroRingHom.comp ((GradedRing.projZeroRingHom' 𝒜).comp a) =
       (GradedRing.projZeroRingHom' ℬ).comp b := by
     refine RingHom.ext fun r => Subtype.ext ?_
-    show f (DirectSum.decompose 𝒜 (a r) 0 : A) = (DirectSum.decompose ℬ (b r) 0 : B)
+    change f (DirectSum.decompose 𝒜 (a r) 0 : A) = (DirectSum.decompose ℬ (b r) 0 : B)
     rw [DirectSum.decompose_of_mem_same _ (ha r), DirectSum.decompose_of_mem_same _ (hb r)]
     exact hab r
   rw [← he]

@@ -84,7 +84,7 @@ theorem preimage_le_preimage_of_comp_eq {f : X ⟶ Y} {f' : X' ⟶ Y'} {g' : X' 
     (w : g' ≫ f = f' ≫ g) {U : Y.Opens} {A : Y'.Opens} (hA : A ≤ g ⁻¹ᵁ U) :
     f' ⁻¹ᵁ A ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ U) := by
   intro x hx
-  show f (g' x) ∈ U
+  change f (g' x) ∈ U
   rw [← Scheme.Hom.comp_apply, w, Scheme.Hom.comp_apply]
   exact hA hx
 

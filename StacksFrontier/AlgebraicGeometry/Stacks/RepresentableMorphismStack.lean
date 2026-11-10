@@ -139,7 +139,7 @@ private lemma pairIsoClass_isSheaf
     let : ι.functor.IsContinuous
         ((AlgebraicGeometry.BigFppfOver.topology B S hS).over U)
         (AlgebraicGeometry.BigFppfOver.topology B U.left.1 U.left.2) := by
-      show U.iteratedSliceForward.IsContinuous
+      change U.iteratedSliceForward.IsContinuous
         ((B.topology.over (B.obj hS)).over U) (B.topology.over U.left)
       infer_instance
     exact ι.functor.op_comp_isSheaf_of_isSheaf
@@ -219,7 +219,7 @@ private lemma fiberInclusion_inv_homMk_comp
         ⟶ T)) ≫ ψ = 𝟙 T.1 := by
   let φ : (Functor.Fiber.mapOfComp 𝒳.val.p 𝒴.val.p (CatFiberedInGroupoids.homFunctor f)
     hF V).obj x ⟶ T := Functor.Fiber.homMk 𝒴.val.p V ψ
-  show Functor.Fiber.fiberInclusion.map (inv φ) ≫ Functor.Fiber.fiberInclusion.map φ = _
+  change Functor.Fiber.fiberInclusion.map (inv φ) ≫ Functor.Fiber.fiberInclusion.map φ = _
   rw [← Functor.map_comp, IsIso.inv_hom_id]
   exact CategoryTheory.Functor.map_id _ _
 
@@ -236,7 +236,7 @@ private lemma comp_fiberInclusion_inv_homMk
         ⟶ T)) = 𝟙 ((CatFiberedInGroupoids.homFunctor f).obj x.1) := by
   let φ : (Functor.Fiber.mapOfComp 𝒳.val.p 𝒴.val.p (CatFiberedInGroupoids.homFunctor f)
     hF V).obj x ⟶ T := Functor.Fiber.homMk 𝒴.val.p V ψ
-  show Functor.Fiber.fiberInclusion.map φ ≫ Functor.Fiber.fiberInclusion.map (inv φ) = _
+  change Functor.Fiber.fiberInclusion.map φ ≫ Functor.Fiber.fiberInclusion.map (inv φ) = _
   rw [← Functor.map_comp, IsIso.hom_inv_id]
   exact CategoryTheory.Functor.map_id _ _
 
@@ -383,7 +383,7 @@ private lemma pairIsoClassOfHom_eq_iff
       CategoryTheory.Functor.IsStronglyCartesian.ext q g (c.map g y) (𝟙 V) (by
         rw [Category.assoc, hβ'fac, hβfac]
         exact hcomp)
-    show CategoryTheory.Functor.Fiber.fiberInclusion.map (inv ψf) ≫
+    change CategoryTheory.Functor.Fiber.fiberInclusion.map (inv ψf) ≫
       F.map (CategoryTheory.Functor.Fiber.fiberInclusion.map eF) =
       CategoryTheory.Functor.Fiber.fiberInclusion.map (inv ψ'f)
     exact comp_eq_of_section (fiberInclusion_inv_homMk_comp B S hS f hF x (c.obj g y) ψ)
@@ -503,7 +503,7 @@ private lemma pairIsoClassOfHom_restrict_eq_of_common
   have h₂ := pairIsoClassOfHom_restrict B S hS f c h𝒳 h𝒴 hF h g y x' z χ' hχ' β' hβ'
     β₂ hβ₂ rfl
   rw [h₁, h₂]
-  show pairIsoClassOfHom B S hS f c h𝒳 h𝒴 hF (g ≫ h) y z β₁ hβ₁ =
+  change pairIsoClassOfHom B S hS f c h𝒳 h𝒴 hF (g ≫ h) y z β₁ hβ₁ =
     pairIsoClassOfHom B S hS f c h𝒳 h𝒴 hF (g ≫ h) y z β₂ hβ₂
   congr 1
 
@@ -558,7 +558,7 @@ private lemma pairIsoClass_sheaf_separated
   let kc : (Over.mk (k.left ≫ h) : Over U) ⟶ A := Over.homMk k.left (by rfl)
   have hfactor : e.hom ≫ kc = k := by
     apply Over.OverMorphism.ext
-    show (𝟙 Z.left ≫ k.left) = k.left
+    change (𝟙 Z.left ≫ k.left) = k.left
     simp
   have hlocal := pairIsoClassOfHom_restrict_eq_of_common B S hS f c h𝒳 h𝒴 hF h
     k.left y x x' z χ hχ χ' hχ' β hβ β' hβ' hcomp
@@ -662,7 +662,7 @@ private lemma pairIsoClassFamily_compatible
     Over.homMk l.left (by dsimp [g']; simp [Category.assoc])
   have hdiag : l ≫ e.hom = e'.hom ≫ klocal := by
     apply Over.OverMorphism.ext
-    show (l.left ≫ 𝟙 Z.left) = 𝟙 Z'.left ≫ l.left
+    change (l.left ≫ 𝟙 Z.left) = 𝟙 Z'.left ≫ l.left
     simp
   have hx := obj_eq_of_isHomLift B S hS f (g ≫ h) (fs g hg)
   have hx' := obj_eq_of_isHomLift B S hS f (g' ≫ h) (fs g' hg')
@@ -793,7 +793,7 @@ private lemma exists_glue_of_compatible
     _ = sec k hk := ha k hk
     _ = pairIsoClassOfHom B S hS f c 𝒳.2 𝒴.2 hF (g ≫ h) yF
           ⟨xs g hg, hx⟩ (fs g hg) (hfs g hg) := by
-      show P.map (𝟙 (Over.mk (g ≫ h))).op _ = _
+      change P.map (𝟙 (Over.mk (g ≫ h))).op _ = _
       rw [op_id, P.map_id]
       rfl
 

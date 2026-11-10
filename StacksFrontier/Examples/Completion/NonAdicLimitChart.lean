@@ -88,7 +88,7 @@ def relationPoly : ambientPoly k :=
 /-- **The relation of `A` is a polynomial**: `xs − yt` is the image of
 `Stacks.Examples.NonAdicLimit.relationPoly`. -/
 theorem coe_relationPoly : ((relationPoly k : ambientPoly k) : ambient k) = relation k := by
-  show MvPolynomial.coeToMvPowerSeries.ringHom (relationPoly k) = relation k
+  change MvPolynomial.coeToMvPowerSeries.ringHom (relationPoly k) = relation k
   rw [relationPoly, map_sub, map_mul, map_mul]
   simp [relation, ambientX, ambientY, ambientS, ambientT,
     MvPolynomial.coeToMvPowerSeries.ringHom_apply]

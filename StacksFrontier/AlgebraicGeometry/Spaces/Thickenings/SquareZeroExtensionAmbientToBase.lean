@@ -148,7 +148,7 @@ theorem exists_ambientToBase :
       (⟨yoneda.map (ambTarget E C hcU hcR)⟩ : (⟨yoneda.obj (ambR E C hcR), hRsh⟩ :
       Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ ⟨yoneda.obj (ambU E C hcU), hUsh⟩) ≫ g := by
     apply Sheaf.hom_ext
-    show yoneda.map (ambSource E C hcU hcR) ≫ yoneda.map (ambUToBase E C hcU) ≫
+    change yoneda.map (ambSource E C hcU hcR) ≫ yoneda.map (ambUToBase E C hcU) ≫
         C.Q.toSpace =
       yoneda.map (ambTarget E C hcU hcR) ≫ yoneda.map (ambUToBase E C hcU) ≫ C.Q.toSpace
     rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc, ambSource_comp_ambUToBase,
@@ -165,7 +165,7 @@ include hi hp in
 /-- **The ambient space lies over the base**: `X ⟶ X' ⟶ Y` is `f`. -/
 theorem ambientMap_comp_toBase : i ≫ p = f := by
   refine ObjectProperty.hom_ext _ (hom_ext_of_presentation C.P Y.2.isSheaf ?_)
-  show C.P.toSpace ≫ i.hom ≫ p.hom = C.P.toSpace ≫ f.hom
+  change C.P.toSpace ≫ i.hom ≫ p.hom = C.P.toSpace ≫ f.hom
   rw [← Category.assoc, hi, Category.assoc, hp, ← Category.assoc, ← Functor.map_comp,
     incU_comp_ambUToBase, C.comm]
 

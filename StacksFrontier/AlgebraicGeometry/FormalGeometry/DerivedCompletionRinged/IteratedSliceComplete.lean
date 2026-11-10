@@ -81,7 +81,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section Descent
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}]
   (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 

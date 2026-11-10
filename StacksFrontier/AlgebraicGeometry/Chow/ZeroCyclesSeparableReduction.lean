@@ -61,7 +61,7 @@ theorem hasSeparableResidueField_comp_iff (k : Type u) [Field k] {X Z : Scheme.{
     (RingEquiv.ofBijective (g.residueFieldMap z).hom
       (bijective_residueFieldMap_of_isPreimmersion g z)) ?_).symm
   ext a
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ (g ≫ p).appTop ≫ Z.Γevaluation z).hom a =
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ (g ≫ p).appTop ≫ Z.Γevaluation z).hom a =
     (g.residueFieldMap z).hom
       (((Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop ≫ X.Γevaluation (g z)).hom a)
   rw [← CommRingCat.comp_apply, Category.assoc, Category.assoc,

@@ -151,7 +151,7 @@ public theorem exists_finite_local_extension_with_prescribed_localizations
   let : Module A B := Algebra.toModule
   let e : B ≃ₐ[A] T := AlgEquiv.ofRingEquiv (f := r) (by
     intro a
-    show r (fB a) = algebraMap A T a
+    change r (fB a) = algebraMap A T a
     simp [fB])
   let : IsLocalRing B := e.toRingEquiv.symm.isLocalRing
   have heq : e.toRingHom.comp (algebraMap A B) = algebraMap A T :=

@@ -68,6 +68,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf :
@@ -79,6 +80,7 @@ private instance (priority := high) hasPullback_presheaf
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Binary products of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasBinaryProducts_presheaf :
@@ -161,6 +163,7 @@ private theorem atlas_isFppfCovering {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   exact ⟨hX, (fun _ => hV), isFppfCovering_of_isEtaleCovering B S hS het⟩
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for pullbacks of presheaves on the big fppf site in the statement and proof
 /-- The test defining `AlgebraicGeometry.Space.HasProperty` may be applied at an
 algebraic-space-valued point of the target, not merely a scheme-valued one: if `P` is local
 on the base for the fppf topology and `a` has `P`, then for every algebraic space `X` over
@@ -221,6 +224,7 @@ theorem hasProperty_pullback_fst_of_isAlgebraicSpace
 add_to_stacks 046G "representability" isRepresentableByAlgebraicSpaces_comp
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for pullbacks of presheaves on the big fppf site in the statement and proof
 /-- **Stacks 046G.** A composite of morphisms of presheaves on the big fppf site of `S`
 representable by algebraic spaces has a property `P` of morphisms of algebraic spaces over
 `S` as soon as both factors do, provided `P` is stable under base change, local on the base

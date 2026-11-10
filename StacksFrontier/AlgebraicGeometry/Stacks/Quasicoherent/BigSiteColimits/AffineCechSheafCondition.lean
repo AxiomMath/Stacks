@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.IsTensorProduct
 public import
   StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineCokernelDescent
 public import
-  StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineLocallySpannedDischarge
+StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineLocallySpannedDischarge
 
 /-!
 # The degree-zero data of the Amitsur complex of a covering family
@@ -219,11 +219,11 @@ theorem exists_pairBaseChange {N : PresheafOfModules.{y} R} {T Y₁ Y₂ Pb : C}
     fun _ _ => rfl
   refine ⟨F.toAddMonoidHom, F.bijective.1, fun b n => ?_, fun b n => ?_⟩
   · rw [restrictₛₗ_baseChange_tmul g₁ q₁ A B₁ D e₁ he₁ eP heP (algebraMap B₁ D) hsm₁ b n]
-    show _ = F ((b ⊗ₜ[A] (1 : B₂)) ⊗ₜ[A] n)
+    change _ = F ((b ⊗ₜ[A] (1 : B₂)) ⊗ₜ[A] n)
     rw [hF, hψ, map_one, mul_one]
   · rw [restrictₛₗ_baseChange_tmul g₂ q₂ A B₂ D e₂ he₂ eP
       (fun n => (heP n).trans (by rw [hq])) (algebraMap B₂ D) hsm₂ b n]
-    show _ = F (((1 : B₁) ⊗ₜ[A] b) ⊗ₜ[A] n)
+    change _ = F (((1 : B₁) ⊗ₜ[A] b) ⊗ₜ[A] n)
     rw [hF, hψ, map_one, one_mul]
 
 /-- A finite product of rings base changes a module into the product of its base changes. -/
@@ -275,17 +275,17 @@ private theorem amitsurDiff₀_eq_sub_restrictₛₗ {N : PresheafOfModules.{y} 
   induction c with
   | add c c' hc hc' =>
     rw [map_add, map_add]
-    show eV (Module.Descent.amitsurDiff₀ A (∀ i, Bi i) (N.obj (op T)) c) i j +
+    change eV (Module.Descent.amitsurDiff₀ A (∀ i, Bi i) (N.obj (op T)) c) i j +
         eV (Module.Descent.amitsurDiff₀ A (∀ i, Bi i) (N.obj (op T)) c') i j = _
     rw [hc, hc', show eW (c + c') i = eW c i + eW c' i from congrFun (map_add eW c c') i,
       show eW (c + c') j = eW c j + eW c' j from congrFun (map_add eW c c') j, map_add, map_add]
     abel
   | tmul u m =>
     rw [Module.Descent.amitsurDiff₀_tmul, map_sub]
-    show eV (u ⊗ₜ[A] ((1 : ∀ i, Bi i) ⊗ₜ[A] m)) i j -
+    change eV (u ⊗ₜ[A] ((1 : ∀ i, Bi i) ⊗ₜ[A] m)) i j -
         eV ((1 : ∀ i, Bi i) ⊗ₜ[A] (u ⊗ₜ[A] m)) i j = _
     rw [heV, heV, heW, heW]
-    show f i j ((u i ⊗ₜ[A] (1 : Bi j)) ⊗ₜ[A] m) - f i j (((1 : Bi i) ⊗ₜ[A] u j) ⊗ₜ[A] m) =
+    change f i j ((u i ⊗ₜ[A] (1 : Bi j)) ⊗ₜ[A] m) - f i j (((1 : Bi i) ⊗ₜ[A] u j) ⊗ₜ[A] m) =
       N.restrictₛₗ (pr₁ i j).op (e i (u i ⊗ₜ[A] m)) -
         N.restrictₛₗ (pr₂ i j).op (e j (u j ⊗ₜ[A] m))
     rw [hnat₁ i j (u i) m, hnat₂ i j (u j) m]
@@ -475,7 +475,7 @@ theorem exists_amitsurDiff₁_data {N : PresheafOfModules.{y} R} {T : C} {ιi : 
     | tmul v m =>
       intro i j k
       rw [Module.Descent.amitsurDiff₁_tmul, ha₃, hs₃']
-      show f₃ i j k (((1 : Bi i) ⊗ₜ[A] (u j ⊗ₜ[A] v k)) ⊗ₜ[A] m) -
+      change f₃ i j k (((1 : Bi i) ⊗ₜ[A] (u j ⊗ₜ[A] v k)) ⊗ₜ[A] m) -
             f₃ i j k ((u i ⊗ₜ[A] ((1 : Bi j) ⊗ₜ[A] v k)) ⊗ₜ[A] m) +
           f₃ i j k ((u i ⊗ₜ[A] (v j ⊗ₜ[A] (1 : Bi k))) ⊗ₜ[A] m) =
         N.restrictₛₗ (s₁ i j k).op (f j k ((u j ⊗ₜ[A] v k) ⊗ₜ[A] m)) -
@@ -602,7 +602,7 @@ theorem exists_familyBaseChange {N : PresheafOfModules.{y} R} {T : C} {ιi : Typ
   have hΨ : ∀ (i j k) (b : Bi i) (c : Bi j) (d : Bi k), Ψ i j k (b ⊗ₜ[A] (c ⊗ₜ[A] d)) =
       u₃ i j k b * v₃ i j k (u j k c * v j k d) := by
     intro i j k b c d
-    show ψ₃ i j k (b ⊗ₜ[A] ψ j k (c ⊗ₜ[A] d)) = _
+    change ψ₃ i j k (b ⊗ₜ[A] ψ j k (c ⊗ₜ[A] d)) = _
     rw [hψ, hψ₃]
   let fP : ∀ i j, (Bi i ⊗[A] Bi j) ⊗[A] N.obj (op T) ≃+ N.obj (op (Pb i j)) := fun i j =>
     (TensorProduct.congr (ψA i j).toLinearEquiv
@@ -891,14 +891,14 @@ theorem isSheafFor_ofArrows_of_isPresheafCokernel_of_fppf {ιi : Type*} [Finite 
         Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Y i).left), ⊤)
         Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Pb i j).left), ⊤) :=
       IsScalarTower.of_algebraMap_eq fun c => by
-        show (((BigFppfOver.toScheme B S hS).map (p.map (q₁ i j ≫ g i).left)).appTop) c = _
+        change (((BigFppfOver.toScheme B S hS).map (p.map (q₁ i j ≫ g i).left)).appTop) c = _
         rw [Over.comp_left, Functor.map_comp, Functor.map_comp, Scheme.Hom.comp_appTop]
         rfl
     have t₂ : IsScalarTower Γ((BigFppfOver.toScheme B S hS).obj (p.obj W.left), ⊤)
         Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Y j).left), ⊤)
         Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Pb i j).left), ⊤) :=
       IsScalarTower.of_algebraMap_eq fun c => by
-        show (((BigFppfOver.toScheme B S hS).map (p.map (q₁ i j ≫ g i).left)).appTop) c = _
+        change (((BigFppfOver.toScheme B S hS).map (p.map (q₁ i j ≫ g i).left)).appTop) c = _
         rw [hq i j, Over.comp_left, Functor.map_comp, Functor.map_comp, Scheme.Hom.comp_appTop]
         rfl
     have hpush : Algebra.IsPushout Γ((BigFppfOver.toScheme B S hS).obj (p.obj W.left), ⊤)

@@ -319,7 +319,7 @@ theorem bcTraceCohomology_smul_cohomologyPullback (F : S.X.Modules) [F.IsQuasico
             ((Scheme.Modules.pullback (S.baseChangeProj K)).obj F)) =
       ((S.f.appLE ⊤ ⊤ (le_preimage_top S.f ⊤)).hom (f b) • x :
         ((moduleGlobalSections S.X).rightDerived 1).obj F) := by
-  show (((moduleGlobalSections S.X).rightDerived 1).map (S.bcTrace K F f)).hom
+  change (((moduleGlobalSections S.X).rightDerived 1).map (S.bcTrace K F f)).hom
       ((cohomologyIsoPushforward (S.baseChangeProj K)
         ((Scheme.Modules.pullback (S.baseChangeProj K)).obj F) 1).hom.hom
         (Stacks.Tag0CKW.restrictScalarsMk (S.baseChangeProj K).appTop.hom
@@ -345,10 +345,7 @@ theorem injective_cohomologyBaseChangeLinearMap (F : S.X.Modules) [F.IsQuasicohe
       (Stacks.Tag0CKW.cohomologyBaseChangeLinearMap (S.bcSquare K) F 1 w) =
       TensorProduct.lid _ _ (LinearMap.rTensor _ f w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero, map_zero, map_zero]
-      exact (S.bcTraceCohomology K F f).map_zero
+    induction w using TensorProduct.inductionOn with
     | tmul b x =>
       rw [Stacks.Tag0CKW.cohomologyBaseChangeLinearMap_tmul, LinearMap.rTensor_tmul,
         TensorProduct.lid_tmul]
@@ -519,8 +516,7 @@ theorem dual_ext_of_cohomologyPullback (E : S.X.Modules) [E.IsQuasicoherent] [E.
   let := baseAlgebra (S.bcq K)
   ext y
   obtain ⟨z, rfl⟩ := S.surjective_cohomologyBaseChangeLinearMap K E y
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero μ₁).trans (map_zero μ₂).symm
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
     rw [Stacks.Tag0CKW.cohomologyBaseChangeLinearMap_tmul]
     exact (S.map_appLE_smul K _ b μ₁ _).trans
@@ -576,7 +572,8 @@ theorem sum_baseSmul_comp_eq_zero {E : S.X.Modules} {ι : Type*} (s : Finset ι)
     exact Stacks.FlatTrace.twistedUnit_comp_trace (S.bcSquare K) (S.flat_bcSquare K)
       S.isCompact_opens S.omega f (b l)
   have hsm : φ l ≫ S.baseSmul S.omega (f (b l)) = S.baseSmul E (f (b l)) ≫ φ l :=
-    (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f (b l)))).asHom.naturality (φ l)
+    (Scheme.smulEnd S.X
+      ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f (b l)))).asHom.naturality (φ l)
   rw [Functor.map_comp, ← Category.assoc, ← Category.assoc, ← hu, Category.assoc, Category.assoc,
     htw, ← hsm]
 
@@ -656,7 +653,7 @@ theorem exists_comp_omegaComparison_eq (E : S.X.Modules) [E.IsQuasicoherent] [E.
       (Module.Dual (S.baseChange K).k (cohomologyOverField (S.baseChange K).k
         (S.baseChange K).f ((Scheme.Modules.pullback (S.baseChangeProj K)).obj E) 1)) := by
     rw [Fintype.card_fin, Subspace.dual_finrank_eq]
-    show Module.finrank S.k (Module.Dual S.k _) = _
+    change Module.finrank S.k (Module.Dual S.k _) = _
     rw [Subspace.dual_finrank_eq]
     exact (finrank_cohomologyOverField_baseChange_field S.k K (S.baseChangeProj K)
       (S.baseChange K).f S.f (S.bcSquare K) E 1).symm

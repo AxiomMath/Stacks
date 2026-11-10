@@ -170,9 +170,9 @@ public theorem adicCompletion_T_eq [IsLocalRing S.A] (hT : S.T = {closedPoint S.
       (maximalIdeal S.A).map f :=
     (IsLocalRing.eq_maximalIdeal hmax).symm
   ext p
-  show PrimeSpectrum.comap f p ∈ S.T ↔ p = closedPoint S.adicCompletion.A
+  change PrimeSpectrum.comap f p ∈ S.T ↔ p = closedPoint S.adicCompletion.A
   rw [hT, Set.mem_singleton_iff, PrimeSpectrum.ext_iff, PrimeSpectrum.ext_iff]
-  show (p.asIdeal : Ideal (AdicCompletion S.I S.A)).comap f = maximalIdeal S.A ↔
+  change (p.asIdeal : Ideal (AdicCompletion S.I S.A)).comap f = maximalIdeal S.A ↔
     (p.asIdeal : Ideal (AdicCompletion S.I S.A)) =
       (maximalIdeal S.adicCompletion.A : Ideal (AdicCompletion S.I S.A))
   rw [hm]

@@ -88,8 +88,8 @@ of `AlgebraicGeometry.projectiveSpaceOverRing`, which is not in the library eith
 model carries the twists, the hypotheses below are what it has to produce.
 
 **Which coherence predicate.** `SheafOfModules.IsCoherent` here is the root-level class declared
-in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`, which is the one
-`AlgebraicGeometry.forall_finiteDimensional_cohomologyOverField_of_exists_epi_of_le`,
+in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`, which is the
+one `AlgebraicGeometry.forall_finiteDimensional_cohomologyOverField_of_exists_epi_of_le`,
 `AlgebraicGeometry.SheafOfModules.isCoherent_biprodPow` and
 `AlgebraicGeometry.exists_eulerPolynomial_twistedSheaf_of_finiteDimensional_cohomology` all use.
 `Stacks.SheafOfModules.IsCoherent` is a *different constant* with the same two fields; nothing

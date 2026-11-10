@@ -226,13 +226,13 @@ theorem isLocalizedModule_awayToAtPrimeLinear :
     rw [Module.End.isUnit_iff] at h ⊢
     convert h using 1
     funext y
-    show awayToAtPrime p hgp.out (algebraMap A (Localization.Away g) s) • y = s • y
+    change awayToAtPrime p hgp.out (algebraMap A (Localization.Away g) s) • y = s • y
     rw [awayToAtPrime_algebraMap, algebraMap_smul]
   surj y := by
     induction y using LocalizedModule.induction_on with
     | h m s =>
     refine ⟨⟨LocalizedModule.mk m 1, ⟨_, s, s.2, rfl⟩⟩, ?_⟩
-    show awayToAtPrime p hgp.out (algebraMap A (Localization.Away g) s) •
+    change awayToAtPrime p hgp.out (algebraMap A (Localization.Away g) s) •
       LocalizedModule.mk m s = awayToAtPrimeModule p hgp.out (LocalizedModule.mk m 1)
     rw [awayToAtPrime_algebraMap, algebraMap_smul, awayToAtPrimeModule_mk,
       LocalizedModule.smul'_mk]
@@ -247,7 +247,7 @@ theorem isLocalizedModule_awayToAtPrimeLinear :
     rw [awayToAtPrimeModule_mk, awayToAtPrimeModule_mk] at h'
     obtain ⟨u, hu⟩ := LocalizedModule.mk_eq.1 h'
     refine ⟨⟨_, u, u.2, rfl⟩, ?_⟩
-    show algebraMap A (Localization.Away g) u • LocalizedModule.mk m s =
+    change algebraMap A (Localization.Away g) u • LocalizedModule.mk m s =
       algebraMap A (Localization.Away g) u • LocalizedModule.mk m' s'
     rw [algebraMap_smul, algebraMap_smul, LocalizedModule.smul'_mk, LocalizedModule.smul'_mk,
       LocalizedModule.mk_eq]
@@ -391,7 +391,7 @@ theorem degreeZeroToAtPrime_mk {m : ℕ} (hg : g ∈ 𝒜 (2 * m + 1)) (k : ℕ)
     degreeZeroToAtPrime 𝒜 p hgp.out (Away.mk 𝒜 hg k a ha) =
       IsLocalization.mk' (Localization.AtPrime p) a
         (⟨g ^ k, p.primeCompl.pow_mem hgp.out k⟩ : p.primeCompl) := by
-  show awayToAtPrime p hgp.out (Away.mk 𝒜 hg k a ha).val = _
+  change awayToAtPrime p hgp.out (Away.mk 𝒜 hg k a ha).val = _
   rw [Away.val_mk, awayToAtPrime_mk, Localization.mk_eq_mk']
 
 /-- A degree-zero fraction `a / gᵏ` lies in `𝔮` iff `a ∈ 𝔭`. -/
@@ -418,7 +418,7 @@ theorem map_conePrime_eq {c b : A} {m : ℕ} (hc : c ∈ 𝒜 (m + 1)) (hb : b �
     rw [Ideal.mem_comap, degreeZeroToAtPrime_mk p hg k a ha, IsLocalization.mk'_eq_mul_mk'_one]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ haP)
   · rw [Ideal.map_le_iff_le_comap]
-    show Ideal.span _ ≤ _
+    change Ideal.span _ ≤ _
     rw [Ideal.span_le]
     rintro _ ⟨⟨a, ⟨d, had⟩⟩, hap, rfl⟩
     have hab : a * b ^ (2 * d) ∈ 𝒜 (d • (2 * m + 1)) := by
@@ -468,7 +468,7 @@ theorem one_le_depth_coneFibre {c b : A} {m : ℕ} (hc : c ∈ 𝒜 (m + 1)) (hb
     Set.disjoint_left.2 fun _ hx hxP => hx (hPle hxP)
   have hQprime : (P.map (algebraMap A (Localization.AtPrime p))).IsPrime :=
     IsLocalization.isPrime_of_isPrime_disjoint p.primeCompl _ P hPprime hdisj
-  obtain ⟨t, htp, htP⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hPle hne)
+  obtain ⟨t, htp, htP⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hPle hne)
   have htmem : algebraMap A (Localization.AtPrime p) t ∈ maximalIdeal (Localization.AtPrime p) :=
     (IsLocalization.AtPrime.to_map_mem_maximal_iff (Localization.AtPrime p) p t).2 htp
   have htQ : algebraMap A (Localization.AtPrime p) t ∉

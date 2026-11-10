@@ -99,7 +99,8 @@ in both directions, with Tag 0B7L split into its two implications:
   `Stacks.Thickenings.isQuasiAffineHom_left_iff_right_of_ascends` derives the whole of part (9)
   from that one statement and nothing else. It is proved — by the limit argument of
   [Stacks Project, Tag 09MW] — in
-  `StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineLimit.lean`, which is
+  `StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineLimit.lean`, which
+  is
   where part (9) and the whole of Tag 0B7L are therefore registered. No declaration in *this* file
   claims part (9), because every statement here either carries that `Prop` as a hypothesis or is
   only one implication of it.
@@ -309,8 +310,8 @@ part (9) is registered. The opposite implication needs no hypothesis and is
 
 It holds for every **finite-order** thickening, by
 `Stacks.Thickenings.isQuasiAffine_of_isFiniteOrderThickening` of
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineAscent.lean`, hence for
-every thickening whose ambient scheme is locally Noetherian; what it still quantifies over, and
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineAscent.lean`, hence
+for every thickening whose ambient scheme is locally Noetherian; what it still quantifies over, and
 all it still quantifies over, is a thickening no power of whose ideal sheaf vanishes.
 
 It is itself reduced further, to a statement about global functions carrying no hypothesis the
@@ -421,8 +422,8 @@ theorem isQuasiAffine_of_affineBasicOpenLifts {Y Y' : Scheme.{u}} {k : Y ⟶ Y'}
 closed subscheme, it holds for every finite-order thickening with quasi-affine closed subscheme.
 
 The filtration of
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/Filtration.lean` writes `t` as the
-canonical isomorphism onto level zero, followed by the first-order steps
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/Filtration.lean` writes `t` as
+the canonical isomorphism onto level zero, followed by the first-order steps
 `Stacks.Thickenings.PowerFiltration.baseStep`, followed by the inclusion of the last level, which
 is an isomorphism because the relevant power of the ideal sheaf vanishes. Each level is
 quasi-affine by `Stacks.Thickenings.isQuasiAffine_of_affineBasicOpenLifts` applied to the
@@ -492,7 +493,8 @@ affine.
 
 It holds for every **finite-order** thickening:
 `Stacks.Thickenings.affineBasicOpenLifts_of_isFiniteOrderThickening` of
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineAscent.lean`, where the
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/QuasiAffineAscent.lean`, where
+the
 first-order case is proved by an elementary Čech computation needing no cohomology group. What is
 still quantified over here is a thickening no power of whose ideal sheaf vanishes. -/
 def AffineBasicOpenLiftsAlongThickening : Prop :=

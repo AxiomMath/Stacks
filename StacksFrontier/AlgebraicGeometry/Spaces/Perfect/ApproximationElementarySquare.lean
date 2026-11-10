@@ -35,7 +35,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- An isomorphism of abelian sheaves on the small étale site of an algebraic space does not
 enlarge the support: it is a monomorphism, so Stacks 04KB applies. -/
-private theorem supportOfSheaf_subset_of_isIso (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
+theorem supportOfSheaf_subset_of_isIso (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (hX : IsAlgebraicSpace B S hS X)
     {F G : Sheaf (SmallEtale.topology B S hS X) AddCommGrpCat.{u}} (f : F ⟶ G) (hf : IsIso f) :
     supportOfSheaf B S hS X F ⊆ supportOfSheaf B S hS X G :=

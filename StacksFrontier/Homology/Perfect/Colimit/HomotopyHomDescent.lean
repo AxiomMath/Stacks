@@ -105,12 +105,12 @@ private theorem finite_projective_hom_lift
   have hv : (c.ι.app j).hom.comp v = φ.hom.comp f := by
     apply b.ext
     intro k
-    show (c.ι.app j).hom (v (b k)) = φ.hom (f (b k))
+    change (c.ι.app j).hom (v (b k)) = φ.hom (f (b k))
     rw [show v (b k) = y k from b.constr_basis A y k]
     exact hy k
   refine ⟨j, ModuleCat.ofHom (v.comp g), ?_⟩
   apply ModuleCat.hom_ext
-  show (c.ι.app j).hom.comp (v.comp g) = φ.hom
+  change (c.ι.app j).hom.comp (v.comp g) = φ.hom
   rw [← LinearMap.comp_assoc, hv, LinearMap.comp_assoc, hfg, LinearMap.comp_id]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -135,7 +135,7 @@ private theorem finite_projective_hom_eventually_eq
     b.ext fun k => hf k
   refine ⟨j, f, ?_⟩
   apply ModuleCat.hom_ext
-  show (F.map f).hom.comp φ.hom = (F.map f).hom.comp ψ.hom
+  change (F.map f).hom.comp φ.hom = (F.map f).hom.comp ψ.hom
   simpa only [LinearMap.comp_assoc, hpq, LinearMap.comp_id] using
     congrArg (fun u => u.comp q) he
 
@@ -184,7 +184,7 @@ private theorem bounded_projective_cochain_lift
   apply Cochain.ext
   intro p q hpq
   subst q
-  show u p ≫ (c.ι.app j).f (p + n) = z.v p (p + n) rfl
+  change u p ≫ (c.ι.app j).f (p + n) = z.v p (p + n) rfl
   by_cases hp : p ∈ s
   · have hu : u p = y ⟨p, hp⟩ ≫ (F.map (f ⟨p, hp⟩)).f (p + n) := dite_eq_left hp
     rw [hu, Category.assoc]
@@ -226,7 +226,7 @@ private theorem bounded_projective_cochain_eventually_eq
   intro p q hpq
   subst q
   by_cases hp : p ∈ s
-  · show x.v p (p + n) rfl ≫ (F.map g).f (p + n) =
+  · change x.v p (p + n) rfl ≫ (F.map g).f (p + n) =
       y.v p (p + n) rfl ≫ (F.map g).f (p + n)
     rw [← hl ⟨p, hp⟩, F.map_comp, HomologicalComplex.comp_f, ← Category.assoc,
       ← Category.assoc]
@@ -388,7 +388,6 @@ theorem derivedExtensionScalarsComp_exists (E : DerivedExtendScalars.{uR})
     simp only [β, NatTrans.comp_app, Functor.associator_inv_app,
       Functor.whiskerRight_app, Category.id_comp]
     first
-    | rfl
     | (erw [NatTrans.comp_app, NatTrans.comp_app, Category.id_comp]; rfl)
   have hIso (P : CochainComplex (ModuleCat.{uR} A) ℤ) (hP : P.KFlat) :
       IsIso (α.app (DerivedCategory.Q.obj P)) := by

@@ -66,12 +66,12 @@ theorem maximalIdeal_stalk_pullback_eq_sup {X S Y : Scheme.{u}} (f : X ⟶ S) (g
   have _ : IsLocalization M C := hM
   have hL : IsLocalHom ((algebraMap (TensorProduct R A B) C).comp
       Algebra.TensorProduct.includeLeftRingHom) := by
-    show IsLocalHom (φ.comp _)
+    change IsLocalHom (φ.comp _)
     rw [h1]
     infer_instance
   have hR : IsLocalHom ((algebraMap (TensorProduct R A B) C).comp
       (Algebra.TensorProduct.includeRight (R := R) (A := A) (B := B)).toRingHom) := by
-    show IsLocalHom (φ.comp _)
+    change IsLocalHom (φ.comp _)
     rw [h2]
     infer_instance
   have key := Stacks.maximalIdeal_eq_map_sup_map_of_isLocalization_tensorProduct
@@ -177,7 +177,7 @@ private theorem surjective_residue_comp_stalkMap {X Y : Scheme.{u}} (g : X ⟶ Y
     (h : Function.Surjective (g.residueFieldMap x)) :
     Function.Surjective ((residue (X.presheaf.stalk x)).comp (g.stalkMap x).hom) := by
   have hsq := congrArg CommRingCat.Hom.hom (Scheme.residue_residueFieldMap g x)
-  show Function.Surjective ((Scheme.Hom.stalkMap g _ ≫ X.residue _).hom)
+  change Function.Surjective ((Scheme.Hom.stalkMap g _ ≫ X.residue _).hom)
   rw [← hsq, CommRingCat.hom_comp, RingHom.coe_comp]
   exact h.comp residue_surjective
 
@@ -264,3 +264,5 @@ theorem map_maximalIdeal_stalk_pullback_scalarExtensionFst {U : Scheme.{u}} (q :
     exact (e1.trans e2).trans_le e3
   rw [maximalIdeal_stalk_pullback_eq_sup q (scalarExtensionFst k k' g) w hres']
   exact (sup_eq_left.mpr h2).symm
+
+end Stacks.EtaleCohomology

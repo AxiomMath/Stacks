@@ -118,7 +118,7 @@ theorem rightDerived_map_deRham_d_comp_etale_eq_zero_iff (a : X ⟶ S) (t : S �
       ((sectionsFunctor X.carrier ⊤).rightDerived q).map φ = 0 ↔
         F.map ((abelianRestrictOpen U).map φ) = 0 := by
     intro G H φ
-    show (Stacks.Cohomology.AbelianSheaf.cohomologyOver.{u, u} U q).map φ = 0 ↔ _
+    change (Stacks.Cohomology.AbelianSheaf.cohomologyOver.{u, u} U q).map φ = 0 ↔ _
     rw [← Preadditive.IsIso.comp_right_eq_zero
       ((Stacks.Cohomology.AbelianSheaf.cohomologyOver.{u, u} U q).map φ) (E.hom.app H),
       E.hom.naturality φ, Preadditive.IsIso.comp_left_eq_zero]

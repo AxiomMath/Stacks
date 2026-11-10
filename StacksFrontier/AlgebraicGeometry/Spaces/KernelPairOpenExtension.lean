@@ -328,10 +328,10 @@ theorem contains_glued : B.Contains E.glued := by
     cases b with
     | up b =>
       cases b
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         rw [← Scheme.size_congr (pushout.inr ((F).map E.j) ((F).map E.δ)).isoOpensRange]
         exact le_max_right _ _
-      · simp only [if_true]
+      · simp only [ite_true]
         rw [← Scheme.size_congr (pushout.inl ((F).map E.j) ((F).map E.δ)).isoOpensRange]
         exact le_max_left _ _
 
@@ -409,10 +409,10 @@ theorem isEtaleEquivalenceRelation :
     RelationExtension.isEquivalenceRelation (j := (F).map E.j) (δ := (F).map E.δ)
       E.map_δ_q₁ E.map_δ_q₂
   have htarget : (relation B S hS E.s E.t).target = (Over.post B.inclusion).map E.t := by
-    show prod.lift _ _ ≫ prod.fst = _
+    change prod.lift _ _ ≫ prod.fst = _
     exact prod.lift_fst _ _
   have hsource : (relation B S hS E.s E.t).source = (Over.post B.inclusion).map E.s := by
-    show prod.lift _ _ ≫ prod.snd = _
+    change prod.lift _ _ ≫ prod.snd = _
     exact prod.lift_snd _ _
   have : IsEquivalenceRelation (relation B S hS E.s E.t).target
       (relation B S hS E.s E.t).source :=

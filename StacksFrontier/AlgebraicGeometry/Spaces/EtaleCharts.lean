@@ -154,7 +154,7 @@ theorem presheaf_etale_id (T : BigFppfOver B S hS) :
     MorphismProperty.RespectsIso.inverseImage _ _
   refine MorphismProperty.relative.of_exists
     (fun W g ↦ ⟨W, g, 𝟙 W, IsPullback.of_vert_isIso (by simp), ?_⟩)
-  show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 W))
+  change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 W))
   simpa using (inferInstance : Etale (𝟙 ((BigFppfOver.toScheme B S hS).obj W)))
 
 /-- **Stacks 03EC.** An étale morphism of the big fppf site of `S` followed by an étale chart

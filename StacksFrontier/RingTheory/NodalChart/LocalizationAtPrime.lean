@@ -194,7 +194,7 @@ public theorem exists_ringEquiv_localizationAtPrime_chartOrigin (hh : h ∈ 𝔭
           (chartOrigin (maximalIdeal (Localization.AtPrime 𝔭))
             (algebraMap R (Localization.AtPrime 𝔭) h))).primeCompl :=
     Submonoid.ext fun c => by
-      show c ∉ chartOrigin 𝔭 h ↔ c ∉ _
+      change c ∉ chartOrigin 𝔭 h ↔ c ∉ _
       rw [comap_chartOrigin_maximalIdeal 𝔭 h hh]
       simp
   have hloc' : IsLocalization (chartOrigin 𝔭 h).primeCompl

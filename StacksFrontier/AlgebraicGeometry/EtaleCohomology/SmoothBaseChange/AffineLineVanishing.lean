@@ -124,7 +124,6 @@ on `T` and `r ≥ 1`, the higher direct image `R^r h_*(ℤ/dℤ)` of a normalize
 Stacks 03SC, part (2). -/
 theorem not_normalFailureDiagram_affineLine (h03SC2 : AffineCurveCohomologyVanishing.{u})
     (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -146,7 +145,7 @@ theorem not_normalFailureDiagram_affineLine (h03SC2 : AffineCurveCohomologyVanis
   obtain rfl | hr2 : r = 1 ∨ 2 ≤ r := by omega
   · exact affineLineFirstVanishing h03SC6
       (fun _ _ f _ _ _ _ _ _ _ _ σ hσ G _ _ hG Z z hz =>
-        exists_finiteEtaleGaloisCover_extending_genericFiber h0BMA h0EYD f σ hσ G hG Z z hz)
+        exists_finiteEtaleGaloisCover_extending_genericFiber h0EYD f σ hσ G hG Z z hz)
       s p f' hp hnorm K g h e sq d hdpos hdunit
   · exact isZero_rightDerived_affineLine_of_two_le hp sq h03SC2 _
       (torsionSheafProperty_of_nsmul_eq_zero _ hdpos fun U x =>
@@ -160,7 +159,6 @@ theorem baseChangeAllDegrees_of_smooth' (h0EYS : FlatReducedFibresBaseChange.{u}
     (h0EZR : EtaleLocalHigherBaseChange.{u}) (h0EZS : HigherBaseChangePaste.{u})
     (h0F08 : FirstFailureNormalization.{u}) (h03SC2 : AffineCurveCohomologyVanishing.{u})
     (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -170,7 +168,7 @@ theorem baseChangeAllDegrees_of_smooth' (h0EYS : FlatReducedFibresBaseChange.{u}
   refine baseChangeAllDegrees_of_smooth h0EZR h0EZS (fun T hT => ?_) f hn
   have : Smooth (𝔸(ULift.{u} (Fin 1); T) ↘ T) := affineSpace_smooth_over
   exact baseChangeAllDegrees_of_not_normalFailureDiagram h0EYS h0F08 _ n
-    (not_normalFailureDiagram_affineLine h03SC2 h03SC6 h0BMA h0EYD hT)
+    (not_normalFailureDiagram_affineLine h03SC2 h03SC6 h0EYD hT)
 
 end Stacks.EtaleCohomology.SmoothBaseChange
 

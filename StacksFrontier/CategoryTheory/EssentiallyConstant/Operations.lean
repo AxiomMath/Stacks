@@ -7,8 +7,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-! # Essentially constant systems: composition, (co)limits, and a product index category
 
 Every statement here concerns `IsEssentiallyConstantInd` (from
-`StacksFrontier.CategoryTheory.EssentiallyConstant.IndObject`, faithfully following Stacks 05PU), not
-Mathlib's `Functor.IsEventuallyConstantFrom` / `IsEventuallyConstantTo`. Three results:
+`StacksFrontier.CategoryTheory.EssentiallyConstant.IndObject`, faithfully following Stacks 05PU),
+not Mathlib's `Functor.IsEventuallyConstantFrom` / `IsEventuallyConstantTo`. Three results:
 
 * Stacks 05SH: essential constancy of `M` is inherited by `M ⋙ F` for any functor `F`, in both
   the ind form and the pro (opposite) form.

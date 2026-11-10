@@ -69,7 +69,7 @@ theorem IntegralClosedSubspace.pushforward_pushforward (hX : IsAlgebraicSpace B 
       IntegralClosedSubspace.pushforward B S hS hX hZ hXdec hl W := by
   subst hij
   refine injective_integralClosedSubspaceSupport B S hS hX (IrreducibleCloseds.ext ?_)
-  show subspacePointSet B S hS X _ = subspacePointSet B S hS X _
+  change subspacePointSet B S hS X _ = subspacePointSet B S hS X _
   rw [IntegralClosedSubspace.subspacePointSet_pushforward,
     IntegralClosedSubspace.subspacePointSet_pushforward,
     IntegralClosedSubspace.subspacePointSet_pushforward, Set.image_image, pointsMap_comp]
@@ -270,7 +270,7 @@ theorem closedSubspaceCyclePushforward_gysinCycleMap_sub_firstChernCapCycleMap
     · rw [gysinComponentCycle_of_not_le D p E hE k rule hW hWE, ← hG W hW hWE, hF,
         dite_eq_left ⟨hα, hWE⟩, map_zsmul, map_sub, ← mul_sub]
       rfl
-  show (closedSubspaceCyclePushforward D p hp E k (gysinCycleMap D p E hE k rule α)).1 V -
+  change (closedSubspaceCyclePushforward D p hp E k (gysinCycleMap D p E hE k rule α)).1 V -
       (firstChernCapCycleMap D p hp k chern α).1 V = _
   rw [closedSubspaceCyclePushforward_gysinCycleMap_apply, firstChernCapCycleMap_apply,
     ← finsum_sub_distrib

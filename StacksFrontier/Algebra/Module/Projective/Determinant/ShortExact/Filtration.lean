@@ -122,7 +122,7 @@ public theorem determinantEquiv_filtration
                   obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective (K.submoduleOf L) x
                   obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective (K.submoduleOf L) y
                   change K.mkQ x.1 = K.mkQ y.1 at hxy
-                  show Submodule.Quotient.mk x = Submodule.Quotient.mk y
+                  change Submodule.Quotient.mk x = Submodule.Quotient.mk y
                   rw [Submodule.Quotient.eq]
                   exact (Submodule.Quotient.eq K).mp hxy
                 let hpQ : Function.Surjective pQ := by
@@ -141,8 +141,8 @@ public theorem determinantEquiv_filtration
                   · rintro ⟨y, rfl⟩
                     induction y using Submodule.Quotient.induction_on with
                     | _ y =>
-                      show L.mkQ y.1 = 0
-                      show Submodule.Quotient.mk y.1 = Submodule.Quotient.mk 0
+                      change L.mkQ y.1 = 0
+                      change Submodule.Quotient.mk y.1 = Submodule.Quotient.mk 0
                       exact (Submodule.Quotient.eq L).mpr (by simpa only [sub_zero] using y.2)
                 let γKL := determinantTensorDeterminantEquiv_of_exact
                   (Submodule.inclusion hKL) (K.submoduleOf L).mkQ
@@ -181,7 +181,7 @@ public theorem determinantEquiv_filtration
     obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective (K.submoduleOf L) x
     obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective (K.submoduleOf L) y
     change K.mkQ x.1 = K.mkQ y.1 at hxy
-    show Submodule.Quotient.mk x = Submodule.Quotient.mk y
+    change Submodule.Quotient.mk x = Submodule.Quotient.mk y
     rw [Submodule.Quotient.eq]
     exact (Submodule.Quotient.eq K).mp hxy
   have hexQ : Function.Exact iQ pQ := by
@@ -195,8 +195,8 @@ public theorem determinantEquiv_filtration
     · rintro ⟨y, rfl⟩
       induction y using Submodule.Quotient.induction_on with
       | _ y =>
-        show L.mkQ y.1 = 0
-        show Submodule.Quotient.mk y.1 = Submodule.Quotient.mk 0
+        change L.mkQ y.1 = 0
+        change Submodule.Quotient.mk y.1 = Submodule.Quotient.mk 0
         exact (Submodule.Quotient.eq L).mpr (by simpa only [sub_zero] using y.2)
   let : Module.Finite R (M ⧸ K) := Module.Finite.of_exact hexQ hpQ
   let : Module.Projective R (M ⧸ K) := projective_of_exact iQ pQ hiQ hexQ hpQ
@@ -207,13 +207,11 @@ public theorem determinantEquiv_filtration
     inferInstance, ?_⟩
   apply LinearEquiv.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using
       (congrArg₂ (fun a b => a + b) hx hy)
   | tmul xy z =>
-    induction xy using TensorProduct.induction_on with
-    | zero => simp
+    induction xy using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add, TensorProduct.add_tmul] using
         (congrArg₂ (fun a b => a + b) hx hy)
     | tmul x y =>
@@ -230,7 +228,7 @@ public theorem determinantEquiv_filtration
         K.subtype K.mkQ K.subtype_injective
         (LinearMap.exact_subtype_mkQ _) (Submodule.mkQ_surjective _)
       let γQ := determinantTensorDeterminantEquiv_of_exact iQ pQ hiQ hexQ hpQ
-      show γLM.1 (γKL.1 (x ⊗ₜ[R] y) ⊗ₜ[R] z) =
+      change γLM.1 (γKL.1 (x ⊗ₜ[R] y) ⊗ₜ[R] z) =
         γKM.1 (x ⊗ₜ[R] γQ.1 (y ⊗ₜ[R] z))
       obtain ⟨y₀, hy₀⟩ := (ExteriorAlgebra.map_surjective_iff.mpr
         (Submodule.mkQ_surjective (K.submoduleOf L))) (y : ExteriorAlgebra R _)
@@ -242,7 +240,7 @@ public theorem determinantEquiv_filtration
       have hpz : ExteriorAlgebra.map pQ (ExteriorAlgebra.map K.mkQ z₀) =
           (z : ExteriorAlgebra R (M ⧸ L)) := by
         rw [exteriorAlgebra_map_map]
-        show ExteriorAlgebra.map L.mkQ z₀ = _
+        change ExteriorAlgebra.map L.mkQ z₀ = _
         exact hz₀
       have hQ := γQ.2 y z (ExteriorAlgebra.map K.mkQ z₀) hpz
       have hiqy : ExteriorAlgebra.map iQ (y : ExteriorAlgebra R _) =

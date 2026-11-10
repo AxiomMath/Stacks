@@ -55,8 +55,6 @@ namespace Stacks.Sheaves
 variable {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
   {J : GrothendieckTopology C} {K : GrothendieckTopology D}
   [J.HasSheafCompose (forget CommRingCat.{w})] [K.HasSheafCompose (forget CommRingCat.{w'})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [K.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
   [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w'})]
   (f : MorphismOfTopoi (Sheaf J (Type w)) (Sheaf K (Type w')))
   (O : Sheaf K CommRingCat.{w'})

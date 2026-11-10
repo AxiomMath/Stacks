@@ -128,11 +128,11 @@ public lemma quasiIso_fromSingle₀_of_exact
     · refine (ShortComplex.exact_and_mono_f_iff_of_iso ?_).2 ⟨hzero, inferInstance⟩
       exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _)
         (by
-          show 𝟙 F ≫ ι = ((K.fromSingle₀Equiv F).symm ⟨ι, hι⟩).f 0 ≫ 𝟙 (K.X 0)
+          change 𝟙 F ≫ ι = ((K.fromSingle₀Equiv F).symm ⟨ι, hι⟩).f 0 ≫ 𝟙 (K.X 0)
           rw [CochainComplex.fromSingle₀Equiv_symm_apply_f_zero]
           simp)
         (by
-          show 𝟙 (K.X 0) ≫ K.d 0 1 = K.d 0 1 ≫ 𝟙 (K.X 1)
+          change 𝟙 (K.X 0) ≫ K.d 0 1 = K.d 0 1 ≫ 𝟙 (K.X 1)
           simp)
     all_goals first | rfl | exact K.shape 0 0 (by simp)
   | succ n =>
@@ -418,7 +418,7 @@ private lemma nonempty_cokernel_boundaries_inf_cycles_iso
   let H := F (p + 1) n
   let A0 := imageSubobject (N.X.d (n - 1) n) ⊓ F p n
   have hcycleSup : U ⊔ H = kernelSubobject (N.X.d n (n + 1)) ⊓ F p n ⊔ F (p + 1) n := by
-    show F p n ⊓ (Subobject.pullback (N.X.d n (n + 1))).obj
+    change F p n ⊓ (Subobject.pullback (N.X.d n (n + 1))).obj
       (F (p + S) (n + 1)) ⊔ F (p + 1) n = _
     exact CochainComplex.cycles_sup_eq_of_mono_homologyMap N F hF p (p + S) n (by omega)
   have hDformula : D S p n = Z (S - 1) (p + 1) n ⊔ A0 :=
@@ -442,7 +442,7 @@ private lemma nonempty_cokernel_boundaries_inf_cycles_iso
   have hHUle : H ⊓ U ≤ D S p n := by
     have hUpull : U ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
         (F (p + S) (n + 1)) := by
-      show Z S p n ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
+      change Z S p n ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
         (F (p + S) (n + 1))
       exact inf_le_right
     have hcycle : H ⊓ U ≤ Z (S - 1) (p + 1) n :=
@@ -588,7 +588,7 @@ private lemma totalFiltration₁_eventually_isZero
     · exact (hK i j (Or.inr (by change i + j = n at hij; omega))).eq_of_src _ _
     · rfl
   apply ShortComplex.isZero_homology_of_isZero_X₂
-  show IsZero (imageSubobject (K.totalProjector (fun i (_ : ℤ) => p ≤ i) n) : A)
+  change IsZero (imageSubobject (K.totalProjector (fun i (_ : ℤ) => p ≤ i) n) : A)
   exact IsZero.of_mono_eq_zero _
     (zero_of_epi_comp _ ((imageSubobject_arrow_comp _).trans he))
 
@@ -608,7 +608,7 @@ private lemma totalFiltration₁_eventually_isIso
       split_ifs with hi
       · rfl
       · exact (hK i j (Or.inl (by omega))).eq_of_src _ _
-    show IsIso (imageSubobject (K.totalProjector (fun i (_ : ℤ) => p ≤ i) m)).arrow
+    change IsIso (imageSubobject (K.totalProjector (fun i (_ : ℤ) => p ≤ i) m)).arrow
     have : Epi (imageSubobject (K.totalProjector (fun i (_ : ℤ) => p ≤ i) m)).arrow :=
       epi_of_epi_fac ((imageSubobject_arrow_comp _).trans he)
     exact isIso_of_mono_of_epi _

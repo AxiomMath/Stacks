@@ -108,7 +108,7 @@ theorem canonicalLift_comm :
       (bigFppfTwoSquare a).app ⟨X₂.base.unop, X₃⟩ ≫
         (SpacesEtale.inclusion T.schemeSite S T.scheme_mem X).map (𝟙 X₃) = g := by
   refine Over.OverMorphism.ext ?_
-  show ((SimplicialOver.augmentationFunctor U a).map (canonicalLift g)).left ≫
+  change ((SimplicialOver.augmentationFunctor U a).map (canonicalLift g)).left ≫
     pullback.fst X₃.1.hom (a.app (op X₂.base.unop)) ≫ 𝟙 _ = g.left
   exact (whisker_eq _ (Category.comp_id _)).trans
     ((eq_whisker
@@ -186,7 +186,7 @@ theorem zigzag_canonicalObj (j : (bigFppfTwoSquare a).StructuredArrowRightwards 
   have comm' : (SimplicialOver.augmentationFunctor U a).map b₁' ≫ (bigFppfTwoSquare a).app X₁' ≫
       (SpacesEtale.inclusion T.schemeSite S T.scheme_mem X).map b = g := by
     refine Over.OverMorphism.ext ?_
-    show ((SimplicialOver.augmentationFunctor U a).map b₁').left ≫
+    change ((SimplicialOver.augmentationFunctor U a).map b₁').left ≫
       pullback.fst X₁.obj.1.hom (a.app (op m)) ≫ b.hom.left = g.left
     exact (eq_whisker
       ((SimplicialOver.augmentationFunctor_map_left_overSimplicialObjectAugmentationFunctorLeft a
@@ -234,7 +234,6 @@ theorem zigzag_canonicalObj (j : (bigFppfTwoSquare a).StructuredArrowRightwards 
 end BigFppfSquare
 
 open BigFppfSquare in
-
 /-- **The square of sites of Stacks 0DH5 is Guitart exact**: the categories of factorizations of
 an arrow `W/X ⟶ V/X` through the square are connected. -/
 instance guitartExact_bigFppfTwoSquare : (bigFppfTwoSquare a).GuitartExact := by
@@ -242,7 +241,7 @@ instance guitartExact_bigFppfTwoSquare : (bigFppfTwoSquare a).GuitartExact := by
   intro X₂ X₃ g
   have : Nonempty ((bigFppfTwoSquare a).StructuredArrowRightwards g) := ⟨canonicalObj g⟩
   exact zigzag_isConnected fun j₁ j₂ ↦
-    (zigzag_canonicalObj j₁).trans (zigzag_symmetric.symm _ _ (zigzag_canonicalObj j₂))
+    (zigzag_canonicalObj j₁).trans (zigzag_symm.symm _ _ (zigzag_canonicalObj j₂))
 
 /-- Base change along the augmentation followed by `u` is continuous. -/
 instance pullbackFunctor_comp_toBigFppfTotal_isContinuous :
@@ -254,6 +253,7 @@ instance pullbackFunctor_comp_toBigFppfTotal_isContinuous :
     (SimplicialOver.totalTopology T.topology U)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the continuity and cocontinuity of the functors in the statement
 /-- **Stacks 0FN1 for the square of Stacks 0DH5**: right Kan extension along the cocontinuous
 functors `V/U_n ↦ V/X` and "forget the degree" exchanges with restriction along the continuous
 functors `V/X ↦ V ×_X U_n / U_n` and `X_{spaces,étale} ⊂ (Spaces/X)_fppf`. -/

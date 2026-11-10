@@ -116,7 +116,8 @@ lemma characterizing quasi-coherence of a module on an algebraic space by its re
 in the chart-scheme reading, for *algebras*, is proved unconditionally as
 `AlgebraicGeometry.Space.AlgebraSheaf.isQuasicoherent_restrictToChartScheme`.  The invertibility
 of the comparison is the cartesianness of Descent, Proposition 03DX together with the
-identification of the chart restriction with an inverse image, Stacks 03LY.  Nothing here is registered as 03M0, 03DX or 03LY.
+identification of the chart restriction with an inverse image, Stacks 03LY.
+Nothing here is registered as 03M0, 03DX or 03LY.
 
 ## References
 

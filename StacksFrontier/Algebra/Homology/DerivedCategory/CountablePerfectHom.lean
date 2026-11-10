@@ -54,7 +54,7 @@ theorem countable_hom_obj₂ (T : Triangle (DerivedCategory (ModuleCat.{u} R)))
   have hex : ∀ f : T.obj₂ ⟶ N, ∃ g : T.obj₃ ⟶ N, f = s (T.mor₁ ≫ f) + T.mor₂ ≫ g := by
     intro f
     have h : ∃ f' : T.obj₂ ⟶ N, T.mor₁ ≫ f' = T.mor₁ ≫ f := ⟨f, rfl⟩
-    have hs : s (T.mor₁ ≫ f) = h.choose := dif_pos h
+    have hs : s (T.mor₁ ≫ f) = h.choose := dite_eq_left h
     obtain ⟨g, hg⟩ := Triangle.yoneda_exact₂ T hT (f - h.choose) (by
       rw [Preadditive.comp_sub, h.choose_spec, sub_self])
     exact ⟨g, by rw [hs, ← hg, add_sub_cancel]⟩
@@ -83,7 +83,7 @@ theorem countable_hom_of_isPerfect {P : DerivedCategory (ModuleCat.{u} R)}
   · have : Subsingleton (X ⟶ N) := ⟨fun f g => hX.eq_of_src f g⟩
     infer_instance
   · refine (Set.finite_Icc a b).subset fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     simp only [Set.mem_Icc]
     constructor <;> by_contra h
     · exact hi (CochainComplex.isZero_of_isStrictlyGE K a i (by omega))

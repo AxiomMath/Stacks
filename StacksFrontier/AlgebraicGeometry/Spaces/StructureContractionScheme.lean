@@ -189,7 +189,7 @@ theorem isIso_unitToPushforwardUnit_of_isIso_structureSharp
     have hc : (BigFppfOver.toScheme B S hS).map (yonedaEquiv V.1.hom) = W.ι := by
       have hy : yonedaEquiv V.1.hom = openSubHom
           ((SmallEtale.toOver B S hS (yoneda.obj T)).obj (idEtaleChart B S hS T)) W := by
-        show yonedaEquiv (yoneda.map (openSubHom _ W) ≫ 𝟙 _) = _
+        change yonedaEquiv (yoneda.map (openSubHom _ W) ≫ 𝟙 _) = _
         rw [Category.comp_id, yonedaEquiv_yoneda_map]
         rfl
       rw [hy]
@@ -246,7 +246,7 @@ theorem isZero_rightDerived_one_schemeSpaceMap_iff
     (SheafOfModules.unit ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf) inferInstance 1
   have e₁ := ((modulePushforward B S hS (schemeSpaceMap g)).rightDerived 1).mapIso
     (representedAssociatedModuleObjUnitIso B S hS T' (isAlgebraicSpace_yoneda B S hS T'))
-  show IsZero _ ↔ _
+  change IsZero _ ↔ _
   refine (Iso.isZero_iff (e₁.symm ≪≫ e)).trans ?_
   have : (((Scheme.Modules.pushforward ((BigFppfOver.toScheme B S hS).map g)).rightDerived 1).obj
       (SheafOfModules.unit ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf)).IsQuasicoherent :=

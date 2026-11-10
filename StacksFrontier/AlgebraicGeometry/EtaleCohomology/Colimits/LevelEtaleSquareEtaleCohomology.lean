@@ -180,6 +180,7 @@ attribute [local instance] isContinuous_transition isContinuous_stageBaseChange
   isContinuous_transition_comp_levelEtale isContinuous_levelEtale_comp_stageBaseChange
   isContinuous_transition_comp isContinuous_stageBaseChange_comp
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The direct image along a transition morphism of the stages preserves injective abelian
 sheaves**, in the spelling instance search consumes. This is
 `AlgebraicGeometry.preservesInjectiveObjects_smallEtaleBaseChange_sheafPushforward_ab` at the
@@ -267,6 +268,7 @@ public def levelEtaleCohomologyIso (V : E.system.C i)
       ((sheafSections (E.system.J i) Ab.{max u v + 1}).obj (op V)) p).app M) ≪≫
     (sectionsRightDerivedIsoEtaleCohomology E i V hV p).app M
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The forward map of `levelEtaleCohomologyIso` is the edge morphism of the restriction to the
 level followed by the forward map of `sectionsRightDerivedIsoEtaleCohomology`. -/
 @[simp]
@@ -344,6 +346,7 @@ public def stageEtaleCohomologyMap
             ((sheafSections (E.system.J j) Ab.{max u v + 1}).obj (op V))) p).app 𝒢i ≫
           (transitionSectionsRightDerivedIsoEtaleCohomology E a V hV' p).hom.app 𝒢i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The index-naturality clause of Stacks 03Q6, in the étale-cohomology spelling.** The
 transition map of the derived sections of the levels — which is the transition map of the
 cohomology diagram of Stacks 09YP, by

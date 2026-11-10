@@ -115,7 +115,7 @@ theorem ker_fromSpecResidueField_attachingPoint_comp_subschemeι
     Scheme.IdealSheafData.map_vanishingIdeal]
   congr 1
   apply TopologicalSpace.Closeds.ext
-  show closure (C.subschemeι '' ({hC.attachingPoint} : Set C.subscheme)) =
+  change closure (C.subschemeι '' ({hC.attachingPoint} : Set C.subscheme)) =
     ({C.subschemeι hC.attachingPoint} : Set X)
   rw [Set.image_singleton, hC.attachingPoint_isClosed.closure_eq]
 

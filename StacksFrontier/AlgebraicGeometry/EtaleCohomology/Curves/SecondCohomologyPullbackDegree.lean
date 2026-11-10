@@ -112,7 +112,7 @@ variable {k : Type u} [Field k] [IsAlgClosed k] {X Y : Scheme.{u}} (gX : X ⟶ S
   (hnc : ¬ ∃ y : Y, ∀ x : X, π.base x = y)
 
 omit [IsAlgClosed k] [IsCurve k gY] [Smooth gX] [Smooth gY] [IsProper gX] [IsProper gY] in
-include hπ hnc in
+include gX hnc in
 /-- A nonconstant morphism has a nontrivial range. -/
 theorem nontrivial_range_of_not_constant : (Set.range π).Nontrivial := by
   by_contra h
@@ -125,7 +125,7 @@ include hπ hnc in
 theorem flat_of_not_constant : Flat π :=
   have := isNormal_of_isCurve_of_smooth gY
   (Flat.iff_flat_stalkMap π).2 (isFlat_of_nonconstant_of_isNormal gX gY π hπ
-    (nontrivial_range_of_not_constant gX gY π hπ hnc))
+    (nontrivial_range_of_not_constant gX π hnc))
 
 omit [IsAlgClosed k] [Smooth gX] [Smooth gY] in
 include hπ hnc in
@@ -162,7 +162,7 @@ theorem isClosed_base_of_mem_closedPoints (x : closedPoints X) :
     IsClosed ({π.base x.1} : Set Y) := by
   have : LocallyOfFiniteType π := locallyOfFiniteType_of_isCurve_comp k gX gY π hπ
   have : JacobsonSpace Y := LocallyOfFiniteType.jacobsonSpace gY
-  exact π.closePoints_subset_preimage_closedPoints x.2
+  exact π.closedPoints_subset_preimage_closedPoints x.2
 
 /-- The image under `π` of a closed point of `X`, as a closed point of `Y`. -/
 def closedPointBase (x : closedPoints X) : closedPoints Y :=
@@ -403,7 +403,7 @@ theorem closedPointDivisorSheafTopAddEquiv_curveDivisorRamifiedTop_ι (y : close
         ((closedPointDivisorSheaf.ι.{u, u + 1} X x.1).hom.app (op (Scheme.Etale.mk (𝟙 X)))).hom
           (((closedPointSkyscraper.{u, u + 1} X x.1).obj.map r.op).hom
             (ramifiedSummandMap.{u, u + 1} π (Scheme.Etale.mk (𝟙 Y)) x.1 y (hF y x.1 x.2) t)) := by
-    show ((closedPointDivisorSheaf.{u, u + 1} X).obj.map r.op).hom
+    change ((closedPointDivisorSheaf.{u, u + 1} X).obj.map r.op).hom
         (((curveDivisorSequenceHom gX gY π hπ hnc).τ₃.hom.app (op (Scheme.Etale.mk (𝟙 Y)))).hom
           (((closedPointDivisorSheaf.ι.{u, u + 1} Y y).hom.app (op (Scheme.Etale.mk (𝟙 Y)))).hom
             t)) = _
@@ -446,7 +446,7 @@ theorem multiplicativeRestriction_one_eq_curveClassGroupRamifiedPullback
       (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX).symm
         (curveClassGroupRamifiedPullback gX gY π
           (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY b)) := by
-  show _ = (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX).symm
+  change _ = (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX).symm
     (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX
       (multiplicativeRestriction.{u, u + 1, u + 1} π 1
         ((sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY).symm
@@ -474,7 +474,7 @@ theorem curveClassGroupRamifiedPullback_single (y : closedPoints Y) :
   have he := sheafHOneMultiplicativeAddEquivClosedPointClassGroup_divisorBoundary gY sy
   rw [hsy] at he
   rw [← he]
-  show sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX
+  change sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX
     (multiplicativeRestriction.{u, u + 1, u + 1} π 1
       ((sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY).symm
         (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY (divisorBoundary gY sy)))) = _
@@ -497,6 +497,7 @@ attribute [local instance] AlgebraicGeometry.SmallEtale.zariskiPicardAddCommGrou
 variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
   [IsCurve k g] [Smooth g]
 
+omit [IsAlgClosed k] in
 /-- **Under `Cl(X) ≅ Pic(X)` a divisor goes to the class of `𝒪_X(D)`** when its Weil divisor
 class is that of `D`: the identification is built from the first Chern class, so this is what
 remains after the Weil divisor class has been computed. -/
@@ -518,11 +519,11 @@ theorem curveClassGroupAddEquivSchemePicard_mk_of_weilDivisorClass
     (AddEquiv.symm_apply_eq _).2 rfl
   have h2 : (curveClassGroupAddEquivSchemePicard g).symm (divisorSchemePicardClass D) =
       (QuotientAddGroup.mk d : curveClassGroup g) := by
-    show weilDivisorClassGroupAddEquivClosedPointClassGroup g
+    change weilDivisorClassGroupAddEquivClosedPointClassGroup g
       (picardToWeilDivisorClassGroup X ((Stacks.SheafOfModules.picardGroupShrinkAddEquiv
         X.sheaf.obj X.ringCatSheaf.property).symm (divisorSchemePicardClass D))) = _
     rw [h1]
-    show weilDivisorClassGroupAddEquivClosedPointClassGroup g
+    change weilDivisorClassGroupAddEquivClosedPointClassGroup g
       (weilDivisorClassOfPicardClass X _) = _
     refine (congrArg (weilDivisorClassGroupAddEquivClosedPointClassGroup g)
       ((@weilDivisorClassOfPicardClass_picardClass X _ _ _
@@ -644,7 +645,7 @@ theorem sum_single_ramificationLength_apply (y : closedPoints Y) (z : closedPoin
     rw [h]
     exact (mem_curveClosedPointFibre gX gY π hπ hnc y x.1).1 x.2
 
-omit [IsLocallyNoetherian Y] in
+omit [IsAlgClosed k] [IsLocallyNoetherian Y] in
 include hπ hnc in
 /-- **The fibre divisor of a closed point `y`, weighted by the local multiplicities of `π`, has
 the pullback of `𝒪_Y(y)` as its line bundle.** Its coefficients are the orders of vanishing of a
@@ -748,7 +749,7 @@ theorem sheafHOneMultiplicativeDegreeMod_multiplicativeRestriction (n : ℕ)
         (multiplicativeRestriction.{u, u + 1, u + 1} π 1 a) =
       curveClassGroupRamifiedPullback gX gY π
         (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY a) := by
-    show _ = sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX
+    change _ = sheafHOneMultiplicativeAddEquivClosedPointClassGroup gX
       (multiplicativeRestriction.{u, u + 1, u + 1} π 1
         ((sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY).symm
           (sheafHOneMultiplicativeAddEquivClosedPointClassGroup gY a)))
@@ -807,7 +808,7 @@ theorem sheafHTwoRootsOfUnityAddEquivZMod_rootsOfUnityRestriction
   have hbox : rootsOfUnityRestriction.{u, u + 1, u + 1} π n 2 (curveKummerCoboundary gY hn a) =
       curveKummerCoboundary gX hn (multiplicativeRestriction.{u, u + 1, u + 1} π 1 a) :=
     Stacks.Kummer.etaleCohomologyRestrictionMap_kummerExtClass.{u, u + 1, u + 1} π
-      (ne_zero_of_isUnit_natCast gY hn) (isUnit_natCast_globalSections_of_isUnit gY hn) 1 2 rfl a
+      (ne_zero_of_isUnit_natCast hn) (isUnit_natCast_globalSections_of_isUnit gY hn) 1 2 rfl a
   rw [hbox, sheafHTwoRootsOfUnityAddEquivZMod_curveKummerCoboundary,
     sheafHTwoRootsOfUnityAddEquivZMod_curveKummerCoboundary,
     sheafHOneMultiplicativeDegreeMod_multiplicativeRestriction gX gY π hπ hnc]

@@ -128,7 +128,7 @@ theorem derivedBoxMapLeft_smul (r : k) {E E' : DerivedCategory A.left.Modules} (
     (Over.homMk (pullback.fst A.hom B.hom) rfl : overPullback k A B ⟶ A)
   have hT := derivedTensor_flip_obj_linear k (overPullback k A B)
     ((dpull (pullback.snd A.hom B.hom)).obj C)
-  show ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).flip.obj
+  change ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).flip.obj
       ((dpull (pullback.snd A.hom B.hom)).obj C)).map ((fourierMukaiPullback A.hom B.hom).map
         (r • a)) =
     r • ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).flip.obj
@@ -155,7 +155,7 @@ theorem derivedBoxMapRight_smul (r : k) (E : DerivedCategory A.left.Modules)
     (Over.homMk (pullback.snd A.hom B.hom) pullback.condition.symm : overPullback k A B ⟶ B)
   have hT := derivedTensor_obj_linear k (overPullback k A B)
     ((fourierMukaiPullback A.hom B.hom).obj E)
-  show ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).obj
+  change ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).obj
       ((fourierMukaiPullback A.hom B.hom).obj E)).map ((dpull (pullback.snd A.hom B.hom)).map
         (r • b)) = r • ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).obj
       ((fourierMukaiPullback A.hom B.hom).obj E)).map ((dpull (pullback.snd A.hom B.hom)).map b)
@@ -189,7 +189,7 @@ theorem derivedBoxMapLeft_add {E E' : DerivedCategory A.left.Modules} (a a' : E 
     (C : DerivedCategory B.left.Modules) :
     derivedBoxMapLeft A.hom B.hom (a + a') C =
       derivedBoxMapLeft A.hom B.hom a C + derivedBoxMapLeft A.hom B.hom a' C := by
-  show ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).flip.obj
+  change ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).flip.obj
       ((dpull (pullback.snd A.hom B.hom)).obj C)).map ((fourierMukaiPullback A.hom B.hom).map
         (a + a')) = _
   rw [Functor.map_add]
@@ -200,7 +200,7 @@ theorem derivedBoxMapRight_add (E : DerivedCategory A.left.Modules)
     {C C' : DerivedCategory B.left.Modules} (b b' : C ⟶ C') :
     derivedBoxMapRight A.hom B.hom E (b + b') =
       derivedBoxMapRight A.hom B.hom E b + derivedBoxMapRight A.hom B.hom E b' := by
-  show ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).obj
+  change ((derivedTensorProductFunctor (pullback A.hom B.hom).toRingedSpace.sheaf).obj
       ((fourierMukaiPullback A.hom B.hom).obj E)).map ((dpull (pullback.snd A.hom B.hom)).map
         (b + b')) = _
   rw [Functor.map_add]

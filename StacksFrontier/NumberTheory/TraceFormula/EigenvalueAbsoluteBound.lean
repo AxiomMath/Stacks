@@ -36,7 +36,7 @@ monotonicity spreads to all degrees, contradicting unboundedness.
   value at most `π / 6` has real part at least `3 / 4` of its modulus.
 * `Stacks.TraceFormula.exists_even_le_sum_pow_re`: for arbitrarily large even `m` the real part
   of `∑_{i ∈ s} α_i^m` is at least `3 / 4 * ∑_{i ∈ s} ‖α_i‖^m`.
-* `Stacks.TraceFormula.le_of_forall_exists_pow_le`: a real `x ≥ 0` with `x ^ m ≤ C * q ^ m` for
+* `Stacks.TraceFormula.le_of_forall_exists_pow_le`: a real `x` with `x ^ m ≤ C * q ^ m` for
   arbitrarily large `m` satisfies `x ≤ q`.
 * `Stacks.TraceFormula.exists_conj_eq_of_monic_map_eq_prod`: the roots of a monic integral
   polynomial are stable under complex conjugation.
@@ -78,7 +78,7 @@ public theorem mul_norm_le_re_of_abs_arg_le {z : ℂ} (h : |z.arg| ≤ Real.pi /
 /-- For arbitrarily large **even** exponents `m`, the real part of `∑_{i ∈ s} α_i^m` is at least
 `3 / 4` of `∑_{i ∈ s} ‖α_i‖^m`: the sector lemma puts every `α_i^m` simultaneously into the
 sector of half-angle `π / 6`, where the real part dominates the modulus. -/
-public theorem exists_even_le_sum_pow_re {ι : Type*} [Fintype ι] (α : ι → ℂ) (s : Finset ι)
+public theorem exists_even_le_sum_pow_re {ι : Type*} [Finite ι] (α : ι → ℂ) (s : Finset ι)
     (n : ℕ) :
     ∃ m : ℕ, n + 1 ≤ m ∧ Even m ∧
       3 / 4 * ∑ i ∈ s, ‖α i‖ ^ m ≤ (∑ i ∈ s, α i ^ m).re := by
@@ -95,7 +95,7 @@ public theorem exists_even_le_sum_pow_re {ι : Type*} [Fintype ι] (α : ι → 
 /-! ### Growth -/
 
 /-- If `x ^ m ≤ C * q ^ m` for arbitrarily large `m`, then `x ≤ q`. -/
-public theorem le_of_forall_exists_pow_le {x q C : ℝ} (hx : 0 ≤ x) (hq : 0 < q)
+public theorem le_of_forall_exists_pow_le {x q C : ℝ} (hq : 0 < q)
     (h : ∀ n : ℕ, ∃ m : ℕ, n + 1 ≤ m ∧ x ^ m ≤ C * q ^ m) : x ≤ q := by
   by_contra hlt
   rw [not_le] at hlt
@@ -176,7 +176,7 @@ public theorem norm_lt_of_pointCount {ι : Type*} [Fintype ι] (α : ι → ℂ)
   -- Step 1: every eigenvalue has absolute value at most `q`.
   have hstep1 : ∀ j, ‖α j‖ ≤ (q : ℝ) := by
     intro j
-    refine le_of_forall_exists_pow_le (norm_nonneg _) hq0 (C := 8 / 3) fun n => ?_
+    refine le_of_forall_exists_pow_le hq0 (C := 8 / 3) fun n => ?_
     obtain ⟨m, hm, -, hle⟩ := exists_even_le_sum_pow_re α Finset.univ n
     refine ⟨m, hm, ?_⟩
     have hone : (1 : ℝ) ≤ (q : ℝ) ^ m := one_le_pow₀ hq1
@@ -237,7 +237,7 @@ public theorem norm_lt_of_pointCount {ι : Type*} [Fintype ι] (α : ι → ℂ)
     ring
   have hstep4 : ∀ j ∈ t, ‖α j‖ ≤ 1 := by
     intro j hj
-    refine le_of_forall_exists_pow_le (norm_nonneg _) one_pos (C := 4 / 3) fun n => ?_
+    refine le_of_forall_exists_pow_le one_pos (C := 4 / 3) fun n => ?_
     obtain ⟨m, hm, hev, hle⟩ := exists_even_le_sum_pow_re α t n
     refine ⟨m, hm, ?_⟩
     have hb := hsplit m (by omega) hev

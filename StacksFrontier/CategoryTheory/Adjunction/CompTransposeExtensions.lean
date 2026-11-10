@@ -7,8 +7,9 @@ public import Mathlib.CategoryTheory.Adjunction.Unique
 /-!
 # Additions to `CompTranspose`
 
-Declarations this development adds alongside `StacksFrontier.CategoryTheory.Adjunction.CompTranspose`,
-kept in their own module so that the base file is unchanged: 1 declaration(s) that the base file
+Declarations this development adds alongside
+`StacksFrontier.CategoryTheory.Adjunction.CompTranspose`, kept in their own module so that the base
+file is unchanged: 1 declaration(s) that the base file
 does not have, with the section variables, namespaces and options they are stated in.
 -/
 

@@ -98,7 +98,7 @@ after composing to `S`. -/
 theorem prodAssocInv_cond₂ :
     Limits.pullback.lift _ _ (prodAssocInv_cond₁ sA₁ sA₂ sA₃) ≫ prodBase sA₁ sA₂ =
       (Limits.pullback.snd sA₁ (prodBase sA₂ sA₃) ≫ Limits.pullback.snd sA₂ sA₃) ≫ sA₃ := by
-  show Limits.pullback.lift _ _ _ ≫ Limits.pullback.fst sA₁ sA₂ ≫ sA₁ = _
+  change Limits.pullback.lift _ _ _ ≫ Limits.pullback.fst sA₁ sA₂ ≫ sA₁ = _
   rw [Limits.pullback.lift_fst_assoc, prodAssocInv_cond₁, Category.assoc, Category.assoc,
     Limits.pullback.condition (f := sA₂) (g := sA₃)]
 

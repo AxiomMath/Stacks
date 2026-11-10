@@ -304,7 +304,7 @@ noncomputable def cycleSection (K : CochainComplex (SheafOfModules.{m} R) ℤ) (
 /-- The cocycle of degree `n` carried by the local section `cycleSection K n V ξ` is `ξ`. -/
 @[simp] theorem cycleSection_cyc_self (K : CochainComplex (SheafOfModules.{m} R) ℤ) (n : ℤ)
     (V : Cᵒᵖ) (ξ : (K.cycles n).val.obj V) : (cycleSection K n V ξ).cyc n = ξ := by
-  show (if h : n = n then castHom (fun j => K.cycles j) h V ξ else 0) = ξ
+  change (if h : n = n then castHom (fun j => K.cycles j) h V ξ else 0) = ξ
   rw [dite_eq_left rfl]
   exact castHom_rfl (fun j => K.cycles j) V ξ
 

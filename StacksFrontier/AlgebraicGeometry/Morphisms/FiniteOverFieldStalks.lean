@@ -182,7 +182,7 @@ private theorem finrank_globalSections_eq_sum_finrank_stalk [IsAffine Y] [IsFini
       (MaximalSpectrum.algebraMap_pi_bijective A R)
   have : ∀ m : MaximalSpectrum A, Module.Finite k (R m) := fun m ↦
     finite_stalk_of_isFinite_over_field k g (x m)
-  show Module.finrank k A = ∑ m : MaximalSpectrum A, Module.finrank k (R m)
+  change Module.finrank k A = ∑ m : MaximalSpectrum A, Module.finrank k (R m)
   calc Module.finrank k A = Module.finrank k (∀ m : MaximalSpectrum A, R m) :=
         (e.toLinearEquiv.restrictScalars k).finrank_eq
     _ = _ := Module.finrank_pi_fintype k

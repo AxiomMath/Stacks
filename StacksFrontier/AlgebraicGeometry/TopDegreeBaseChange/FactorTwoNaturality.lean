@@ -5,13 +5,14 @@ public import StacksFrontier.AlgebraicGeometry.TopDegreeBaseChange.LerayOpenSubs
 public import StacksFrontier.Homology.DerivedCategory.MapHomologyIso
 
 /-!
-# Factor (2) of the base-change comparison: the comparison of the two models of `Rg_*` carried across
+# Factor (2) of base change: the comparison of the two models of `Rg_*` carried across
 
 Factor (2) of the `ψ` side's [Stacks, Tag 089W], as
 `Stacks.Cohomology.AffineComparison.cohomologyIsoPushforward_inv_eq_lerayComparison` prints it, is
 the degree-`n` cohomology of `Stacks.Cohomology.DerivedSectionsLeray.derivedSectionsOverOpen` of
 the open subscheme `f⁻¹V` at `⊤`, applied to a comparison `c` of the two models of `Rg_*`. The
-first leading factor of the other side of the match is `(derivedPreimageSections f V).map c` — the **same** comparison read
+first leading factor of the other side of the match is `(derivedPreimageSections f V).map c` — the
+**same** comparison read
 in the ambient model, as derived sections over `f⁻¹V` of `X` over `Γ(S, V)`. This file carries the
 one into the other.
 
@@ -118,9 +119,11 @@ private theorem split_app_two_of_map {C D E : Type*} [Category* C] [Category* D]
 
 variable {X S : Scheme.{u}} (f : X ⟶ S) (V : S.Opens)
 
-/-- **Factor (2) of the base-change comparison of [Stacks, Tag 0EX3] (c).** For a morphism of schemes
+/-- **Factor (2) of the base-change comparison of [Stacks, Tag 0EX3] (c).** For a morphism of
+schemes
 `f : X ⟶ S`, an open `V ⊆ S`, a degree `n` and an arbitrary morphism `c : K ⟶ L` of `D(𝒪_X)`, the
-degree-`n` cohomology of `(derivedPreimageSections f V).map c` — the first leading factor of the other side,
+degree-`n` cohomology of `(derivedPreimageSections f V).map c` — the first leading factor of the
+other side,
 the comparison of the two models of the inner derived pushforward read in the ambient model —
 followed by the open-subscheme crossing
 `…TopDegreeBaseChange.openSubschemeSectionsComparison f V` at `L` and by

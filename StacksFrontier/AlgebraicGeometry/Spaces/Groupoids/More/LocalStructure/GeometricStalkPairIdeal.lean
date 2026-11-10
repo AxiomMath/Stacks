@@ -117,7 +117,7 @@ theorem ker_eq_map_of_weaklyEtale_of_sepClosed
           Ideal.Quotient.mk (RingHom.ker (ε.comp φ)) t := by
         refine Ideal.Quotient.eq.mpr ?_
         rw [RingHom.mem_ker, map_sub]
-        show ε (φ (ι (ε (φ t)))) - ε (φ t) = 0
+        change ε (φ (ι (ε (φ t)))) - ε (φ t) = 0
         rw [hsec (ε (φ t))]
         exact sub_self _
       have hkey (u : T) :
@@ -188,7 +188,7 @@ theorem ker_eq_sup_map_of_weaklyEtale_tensor
   have hεa : ({ ε.comp φ with commutes' := hcommutes' } : (B₁ ⊗[A₀] B₂) →ₐ[A₀] A₀) =
       Algebra.TensorProduct.lift e₁ e₂ (fun _ _ => Commute.all _ _) := by
     refine Algebra.TensorProduct.ext' (fun b₁ b₂ => ?_)
-    show ε (φ (b₁ ⊗ₜ[A₀] b₂)) = _
+    change ε (φ (b₁ ⊗ₜ[A₀] b₂)) = _
     rw [Algebra.TensorProduct.lift_tmul]
     have hb : (b₁ ⊗ₜ[A₀] b₂) = (Algebra.TensorProduct.includeLeftRingHom b₁) *
         ((Algebra.TensorProduct.includeRight : B₂ →ₐ[A₀] B₁ ⊗[A₀] B₂) b₂) := by

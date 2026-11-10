@@ -72,7 +72,7 @@ theorem isLocallyOfFiniteType_of_isCategoricalModuliSpace_of_isFinite_inertia
   have hq₀ : Nonempty (f₀.hom ≫ (associatedMap B S hS (e.hom ≫ q).hom).1 ≅ p.hom) := by
     obtain ⟨η⟩ := hq
     refine ⟨?_⟩
-    show f₀.hom ≫ (associatedMap B S hS (e.hom.hom ≫ q.hom)).1 ≅ p.hom
+    change f₀.hom ≫ (associatedMap B S hS (e.hom.hom ≫ q.hom)).1 ≅ p.hom
     rw [associatedMap_comp]
     exact (Bicategory.associator _ _ _).symm ≪≫ Bicategory.whiskerRightIso (eqToIso he) _ ≪≫ η
   have h₀ : Space.IsLocallyOfFiniteType B S hS (e.hom ≫ q).hom := by
@@ -86,7 +86,7 @@ theorem isLocallyOfFiniteType_of_isCategoricalModuliSpace_of_isFinite_inertia
   have h := Space.isLocallyOfFiniteType_iso_hom_comp B S hS M.property M₀.property Y.property
     ((ObjectProperty.ι _).mapIso e.symm) (e.hom ≫ q).hom h₀
   convert h using 1
-  show q.hom = e.inv.hom ≫ e.hom.hom ≫ q.hom
+  change q.hom = e.inv.hom ≫ e.hom.hom ≫ q.hom
   rw [← Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom, e.inv_hom_id]
   rfl
 

@@ -226,13 +226,13 @@ public theorem exists_lift_succ {S : Type u} [CommRing S] [Algebra A S]
     with hF
   have hmemF : ∀ x : levelQuot R p (e + 1), (π x, r x) ∈ F := by
     intro x
-    show levelMap ρ p e (π x) = π' (r x)
+    change levelMap ρ p e (π x) = π' (r x)
     exact congrArg (fun g : levelQuot R p (e + 1) →ₐ[A] levelQuot R' p e => g x)
       (levelTrans_comp_levelMap (A := A) ρ p (Nat.le_succ e)).symm
   set φ : levelQuot R p (e + 1) →ₐ[A] F := (π.prod r).codRestrict F hmemF with hφ
   have hmemg : ∀ x : S, (βe x, c x) ∈ F := by
     intro x
-    show levelMap ρ p e (βe x) = π' (c x)
+    change levelMap ρ p e (βe x) = π' (c x)
     exact (congrArg (fun g : S →ₐ[A] levelQuot R' p e => g x) hc).symm
   set g : S →ₐ[A] F := (βe.prod c).codRestrict F hmemg with hg
   -- `φ` is surjective: this is the surjectivity of `R → R'` on the powers of `(p)`.
@@ -248,10 +248,10 @@ public theorem exists_lift_succ {S : Type u} [CommRing S] [Algebra A S]
     obtain ⟨w, hwmem, hwρ⟩ := exists_mem_pAdicIdeal_pow_map_eq ρ.toRingHom hρ p e hw'mem
     have h1 : π (Ideal.Quotient.mk (pAdicIdeal (A := R) p ^ (e + 1)) (a₀ + w)) =
         Ideal.Quotient.mk (pAdicIdeal (A := R) p ^ e) a₀ := by
-      show Ideal.Quotient.mk (pAdicIdeal (A := R) p ^ e) (a₀ + w) = _
+      change Ideal.Quotient.mk (pAdicIdeal (A := R) p ^ e) (a₀ + w) = _
       rw [map_add, Ideal.Quotient.eq_zero_iff_mem.mpr hwmem, add_zero]
     have h2 : r (Ideal.Quotient.mk (pAdicIdeal (A := R) p ^ (e + 1)) (a₀ + w)) = v := by
-      show Ideal.Quotient.mk (pAdicIdeal (A := R') p ^ (e + 1)) (ρ (a₀ + w)) = v
+      change Ideal.Quotient.mk (pAdicIdeal (A := R') p ^ (e + 1)) (ρ (a₀ + w)) = v
       have hww : Ideal.Quotient.mk (pAdicIdeal (A := R') p ^ (e + 1)) (ρ w) =
           v - Ideal.Quotient.mk (pAdicIdeal (A := R') p ^ (e + 1)) (ρ a₀) := by
         rw [show ρ w = w' from hwρ]
@@ -357,14 +357,14 @@ public theorem exists_compatible_lifts {S : Type u} [CommRing S] [Algebra A S]
             (by omega : n₀ + m ≤ n₀ + k) (Nat.le_succ (n₀ + k))]
   refine ⟨fun e => (levelTrans A R p (Nat.le_add_left e n₀)).comp (G e).1, ?_, ?_⟩
   · intro m e h
-    show (levelTrans A R p h).comp ((levelTrans A R p (Nat.le_add_left e n₀)).comp (G e).1) =
+    change (levelTrans A R p h).comp ((levelTrans A R p (Nat.le_add_left e n₀)).comp (G e).1) =
       (levelTrans A R p (Nat.le_add_left m n₀)).comp (G m).1
     rw [← AlgHom.comp_assoc, levelTrans_comp_levelTrans (A := A) p h (Nat.le_add_left e n₀),
       ← key m e h, ← AlgHom.comp_assoc,
       levelTrans_comp_levelTrans (A := A) p (Nat.le_add_left m n₀)
         (by omega : n₀ + m ≤ n₀ + e)]
   · intro e
-    show (levelMap ρ p e).comp ((levelTrans A R p (Nat.le_add_left e n₀)).comp (G e).1) =
+    change (levelMap ρ p e).comp ((levelTrans A R p (Nat.le_add_left e n₀)).comp (G e).1) =
       (Ideal.Quotient.mkₐ A (pAdicIdeal (A := R') p ^ e)).comp c
     rw [← AlgHom.comp_assoc, ← levelTrans_comp_levelMap (A := A) ρ p (Nat.le_add_left e n₀),
       AlgHom.comp_assoc, (G e).2]
@@ -583,7 +583,7 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
       (by
         rw [Ideal.map_le_iff_le_comap]
         intro x hx
-        show f' (algebraMap s.A P' x) = 0
+        change f' (algebraMap s.A P' x) = 0
         rw [f'.commutes]
         have hx' : algebraMap s.A s.C x ∈ s.A.ideal.map (algebraMap s.A s.C) :=
           Ideal.mem_map_of_mem _ hx
@@ -596,9 +596,9 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
     refine Ideal.span_le.mpr ?_
     rintro x ⟨n, hn, k, hk, rfl⟩
     have hkJ : k ∈ presentationKernel s f := by
-      show f k = 0
+      change f k = 0
       rw [hf]
-      show f' (q k) = 0
+      change f' (q k) = 0
       rw [show q k = 0 from hk]
       exact map_zero f'
     exact R.dividedPowers.dpow_mem (Nat.ne_of_gt hn)
@@ -646,7 +646,7 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
       Type u))) := by
     intro e he
     refine ⟨e, ?_⟩
-    show ((s.p : ℕ) : levelQuot R s.p e) ^ e = 0
+    change ((s.p : ℕ) : levelQuot R s.p e) ^ e = 0
     rw [← map_natCast (Ideal.Quotient.mk (pAdicIdeal (A := R) s.p ^ e)) s.p, ← map_pow,
       Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.pow_mem_pow (Ideal.subset_span (Set.mem_singleton _)) e
@@ -750,10 +750,10 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
         DFunLike.congr_fun (hθstruct e he he') x
       have hρx : ρ (env.structureMap x) = env'.structureMap x :=
         DFunLike.congr_fun hρstruct x
-      show (levelMap ρalg s.p e) ((θ e he he') (env'.structureMap x)) =
+      change (levelMap ρalg s.p e) ((θ e he he') (env'.structureMap x)) =
         Ideal.Quotient.mk (pAdicIdeal (A := R') s.p ^ e) (env'.structureMap x)
       rw [hθx]
-      show Ideal.Quotient.mk (pAdicIdeal (A := R') s.p ^ e) (ρ (env.structureMap x)) = _
+      change Ideal.Quotient.mk (pAdicIdeal (A := R') s.p ^ e) (ρ (env.structureMap x)) = _
       rw [hρx]
     · apply RingHom.ext
       intro x
@@ -762,7 +762,7 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
       have h3 : (levelMap ρalg s.p e) ((β e) x) =
           Ideal.Quotient.mk (pAdicIdeal (A := R') s.p ^ e) (c x) :=
         DFunLike.congr_fun (hβlift e) x
-      show (levelMap ρalg s.p e) ((θ e he he') (env'.algebraMap.toRingHom x)) =
+      change (levelMap ρalg s.p e) ((θ e he he') (env'.algebraMap.toRingHom x)) =
         Ideal.Quotient.mk (pAdicIdeal (A := R') s.p ^ e) (env'.algebraMap.toRingHom x)
       rw [hβx, h3]
       rfl
@@ -798,7 +798,7 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
         DFunLike.congr_fun (hθstruct e he he') x
       have h2 : (θ m hm hm') (env'.structureMap x) = (aQ m hm) x :=
         DFunLike.congr_fun (hθstruct m hm hm') x
-      show Ideal.Quotient.factor
+      change Ideal.Quotient.factor
           (Ideal.pow_le_pow_right (I := pAdicIdeal (A := R) s.p) hme)
           ((θ e he he') (env'.structureMap x)) = (θ m hm hm') (env'.structureMap x)
       rw [h1, h2]
@@ -813,7 +813,7 @@ public theorem exists_compatible_levelRetract (q : P →ₐ[s.A] P') (f' : P' �
         DFunLike.congr_fun (hβcompat m e hme) x
       have h4 := DFunLike.congr_fun
         (levelTrans_toRingHom (A := (s.A : Type u)) (R := (R : Type u)) s.p hme) ((β e) x)
-      show Ideal.Quotient.factor
+      change Ideal.Quotient.factor
           (Ideal.pow_le_pow_right (I := pAdicIdeal (A := R) s.p) hme)
           ((θ e he he') (env'.algebraMap.toRingHom x)) =
         (θ m hm hm') (env'.algebraMap.toRingHom x)
@@ -916,7 +916,7 @@ private theorem adicCompletion_ext_evalₐ {R : Type u} [CommRing R] (J : Ideal 
     simpa [RingHom.injective_iff_ker_eq_bot, Ideal.Quotient.factor_ker] using
       Ideal.map_mk_eq_bot_of_le (le_of_eq hEq.symm)
   refine hinj ?_
-  show (Ideal.Quotient.factor (le_of_eq hEq)) (AdicCompletion.eval J R n x) =
+  change (Ideal.Quotient.factor (le_of_eq hEq)) (AdicCompletion.eval J R n x) =
     (Ideal.Quotient.factor (le_of_eq hEq)) (AdicCompletion.eval J R n y)
   simpa [← AdicCompletion.factor_eval_eq_evalₐ] using h n
 
@@ -1063,7 +1063,7 @@ public theorem exists_completionRetract [Fact p.Prime]
     have hθ := congrArg (fun g : A' →+* A ⧸ pAdicIdeal (A := A) p ^ k m => g y)
       (hcompat (k m) (k e) (hkN m) (hkN e) (hkmono hme))
     simp only [RingHom.comp_apply] at hθ
-    show Ideal.Quotient.factor _ (Ideal.Quotient.factor _ ((θ (k e) (hkN e)).toRingHom y)) =
+    change Ideal.Quotient.factor _ (Ideal.Quotient.factor _ ((θ (k e) (hkN e)).toRingHom y)) =
       Ideal.Quotient.factor _ ((θ (k m) (hkN m)).toRingHom y)
     rw [← hθ]
     obtain ⟨w, hw⟩ := Ideal.Quotient.mk_surjective ((θ (k e) (hkN e)).toRingHom y)
@@ -1090,7 +1090,7 @@ public theorem exists_completionRetract [Fact p.Prime]
     have hθ := congrArg (fun g : A' →+* A ⧸ pAdicIdeal (A := A) p ^ e => g y)
       (hcompat e (k e) heN (hkN e) (hek e))
     simp only [RingHom.comp_apply] at hθ
-    show Ideal.Quotient.factor _ ((θ (k e) (hkN e)).toRingHom y) = (θ e heN).toRingHom y
+    change Ideal.Quotient.factor _ ((θ (k e) (hkN e)).toRingHom y) = (θ e heN).toRingHom y
     exact hθ
   refine ⟨a, b, ?_, ?_, ?_⟩
   · -- `a ∘ b = id`, by the uniqueness half of the universal property of `Â'`
@@ -1104,7 +1104,7 @@ public theorem exists_completionRetract [Fact p.Prime]
       A' ⧸ pAdicIdeal (A := A') p ^ e => g (b.toRingHom x)) (ha e he)
     simp only [RingHom.comp_apply] at hax
     rw [RingHom.comp_apply]
-    show AdicCompletion.evalₐ (pAdicIdeal (A := A') p) e (a.toRingHom (b.toRingHom x)) =
+    change AdicCompletion.evalₐ (pAdicIdeal (A := A') p) e (a.toRingHom (b.toRingHom x)) =
       AdicCompletion.evalₐ (pAdicIdeal (A := A') p) e x
     rw [show AdicCompletion.evalₐ (pAdicIdeal (A := A') p) e (a.toRingHom (b.toRingHom x)) =
         (coneA e he).toRingHom (b.toRingHom x) from hax, hconeAval e he,
@@ -1117,12 +1117,12 @@ public theorem exists_completionRetract [Fact p.Prime]
       (hsplit (k e) (hkN e))
     simp only [RingHom.comp_apply] at hs
     obtain ⟨w, hw⟩ := Ideal.Quotient.mk_surjective ((θ (k e) (hkN e)).toRingHom y)
-    show Ideal.quotientMap _ ρ.toRingHom (hleρ e)
+    change Ideal.quotientMap _ ρ.toRingHom (hleρ e)
         (levelDescend p (k e) (θ (k e) (hkN e)).toRingHom (Ideal.Quotient.mk _ y)) =
       Ideal.Quotient.factor _ (Ideal.Quotient.mk _ y)
     rw [levelDescend_mk, ← hw]
     rw [← hw] at hs
-    show Ideal.Quotient.mk (pAdicIdeal (A := A') p ^ e) (ρ.toRingHom w) =
+    change Ideal.Quotient.mk (pAdicIdeal (A := A') p ^ e) (ρ.toRingHom w) =
       Ideal.Quotient.mk (pAdicIdeal (A := A') p ^ e) y
     have hs' : Ideal.Quotient.mk (pAdicIdeal (A := A') p ^ k e) (ρ.toRingHom w) =
         Ideal.Quotient.mk (pAdicIdeal (A := A') p ^ k e) y := hs

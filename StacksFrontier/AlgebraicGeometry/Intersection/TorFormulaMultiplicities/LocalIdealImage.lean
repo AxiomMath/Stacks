@@ -113,7 +113,7 @@ public theorem map_stalkMap_localIdealAt_le (f : X ⟶ S) {c ξ : X}
   have ha' : a ∈ IdealSheafData.stalk I ((J.subschemeι ≫ f).base z) := ha
   have h0 : ((J.subschemeι ≫ f).stalkMap z).hom a = 0 := RingHom.mem_ker.mp (hle ha')
   rw [Scheme.Hom.stalkMap_comp] at h0
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply] at h0
+  simp only at h0
   have hmem : (f.stalkMap ξ).hom a ∈ RingHom.ker (J.subschemeι.stalkMap z).hom :=
     RingHom.mem_ker.mpr h0
   rwa [IdealSheafData.ker_stalkMap_subschemeι] at hmem

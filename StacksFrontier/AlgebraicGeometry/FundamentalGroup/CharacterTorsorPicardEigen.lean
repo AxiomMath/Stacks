@@ -45,8 +45,7 @@ variable {K₀ : Type u} [Field K₀] [Fintype K₀] (r : Y.left ⟶ Spec (.of K
 omit [ConnectedSpace X] in
 /-- **The Frobenius twist pulls a constant back to its `q`-th power**: for `c ∈ k̄₀`, the twist
 `σ = id_Y × Spec(Frob)` of `Y ×_{k₀} k̄₀` sends the constant function `c` to `c ^ q`. -/
-theorem galoisTwist_appTop_baseRingMap [DecidableEq (AlgebraicClosure K₀)]
-    (c : AlgebraicClosure K₀) :
+theorem galoisTwist_appTop_baseRingMap (c : AlgebraicClosure K₀) :
     (Stacks.Picard.galoisTwist K₀ (AlgebraicClosure K₀) (Over.mk r)
         (FiniteField.frobeniusAlgEquivOfAlgebraic K₀ (AlgebraicClosure K₀))).appTop.hom
         (baseRingMap (pullback.snd r (spectrumMap K₀ (AlgebraicClosure K₀))) (𝟙 _) c) =
@@ -59,7 +58,7 @@ theorem galoisTwist_appTop_baseRingMap [DecidableEq (AlgebraicClosure K₀)]
       (FiniteField.frobeniusAlgEquivOfAlgebraic K₀ (AlgebraicClosure K₀)) :=
     Stacks.Picard.galoisTwist_comp_snd K₀ (AlgebraicClosure K₀) (Over.mk r) _
   rw [← map_pow]
-  show ((Scheme.ΓSpecIso (.of (AlgebraicClosure K₀))).inv ≫ fS.appTop ≫
+  change ((Scheme.ΓSpecIso (.of (AlgebraicClosure K₀))).inv ≫ fS.appTop ≫
       Scheme.Hom.appTop (𝟙 (pullback r (spectrumMap K₀ (AlgebraicClosure K₀)))) ≫ σ.appTop).hom c =
     ((Scheme.ΓSpecIso (.of (AlgebraicClosure K₀))).inv ≫ fS.appTop ≫
       Scheme.Hom.appTop (𝟙 (pullback r (spectrumMap K₀ (AlgebraicClosure K₀))))).hom

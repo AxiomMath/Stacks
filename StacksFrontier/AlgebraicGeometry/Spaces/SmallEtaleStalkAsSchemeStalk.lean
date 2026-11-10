@@ -89,7 +89,7 @@ theorem exists_chart_stalkSetFunctor_iso_schemeStalk (hF : IsAlgebraicSpace B S 
           ((representedSmallEtaleEquivalence B S hS X.obj.left).inverse ⋙
             e.functor ⋙ Over.forget X).op ⋙
         (Functor.whiskeringLeft _ _ _).obj
-          (CategoryOfElements.π (geometricPointFiber (associatedBigEtaleSite B)
+          (Functor.Elements.π (geometricPointFiber (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj X.obj.left)
             X.obj.left.left.property s)).op ⋙ colim) :=
   let ⟨X, e, he, s, ⟨hs⟩⟩ :=
@@ -150,7 +150,7 @@ structure ChartStalkPresentation (x : GeometricPoint B S hS F) where
         ((representedSmallEtaleEquivalence B S hS chart.obj.left).inverse ⋙
           chartEquivalence.functor ⋙ Over.forget chart).op ⋙
       (Functor.whiskeringLeft _ _ _).obj
-        (CategoryOfElements.π (geometricPointFiber (associatedBigEtaleSite B)
+        (Functor.Elements.π (geometricPointFiber (associatedBigEtaleSite B)
           ((BigFppfOver.toScheme B S hS).obj chart.obj.left)
           chart.obj.left.left.property point)).op ⋙ colim
 
@@ -182,7 +182,7 @@ def chartStalkFunctorIso (hF : IsAlgebraicSpace B S hS F) (x : GeometricPoint B 
           (chartStalkPresentation B S hS F hF x).chartEquivalence.functor ⋙
             Over.forget (chartStalkPresentation B S hS F hF x).chart).op ⋙
       (Functor.whiskeringLeft _ _ _).obj
-        (CategoryOfElements.π (geometricPointFiber (associatedBigEtaleSite B)
+        (Functor.Elements.π (geometricPointFiber (associatedBigEtaleSite B)
           ((BigFppfOver.toScheme B S hS).obj
             (chartStalkPresentation B S hS F hF x).chart.obj.left)
           (chartStalkPresentation B S hS F hF x).chart.obj.left.left.property

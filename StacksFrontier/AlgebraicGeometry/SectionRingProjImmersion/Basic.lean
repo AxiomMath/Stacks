@@ -80,7 +80,8 @@ namespace Stacks.SectionRingProjImmersion
 section Monoidal
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
-  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules Stacks.SheafInternalHom.isMonoidal_localIso
+  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules
+  Stacks.SheafInternalHom.isMonoidal_localIso
   Stacks.SheafInternalHom.isLocalization_sheafify Stacks.SheafInternalHom.monoidalCategory
   Stacks.SheafInternalHom.sheafifyMonoidal Stacks.SheafInternalHom.braidedCategory
   Stacks.SheafInternalHom.schemeMonoidalCategory

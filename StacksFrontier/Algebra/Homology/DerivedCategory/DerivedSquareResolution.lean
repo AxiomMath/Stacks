@@ -137,7 +137,7 @@ theorem resolutionQhIso_pushResolution_hom {X : C₀} {K : HomotopyCategory.Plus
   let d := singleFunctorPlusIsoCompQh (A := C) 0
   let c := P.mapHomotopyCategoryPlusObjSingleIso 0 X
   rw [Category.assoc, Category.assoc, Category.assoc]
-  show _ ≫ _ ≫ DerivedCategory.Plus.Qh.map c.hom ≫ d.inv.app (P.obj X) ≫ d.hom.app (P.obj X) ≫
+  change _ ≫ _ ≫ DerivedCategory.Plus.Qh.map c.hom ≫ d.inv.app (P.obj X) ≫ d.hom.app (P.obj X) ≫
       DerivedCategory.Plus.Qh.map (c.inv ≫ P.mapHomotopyCategoryPlus.map r) =
     P.mapDerivedCategoryPlus.map ((singleFunctorPlusIsoCompQh (A := C₀) 0).hom.app X ≫
       DerivedCategory.Plus.Qh.map r) ≫ P.mapDerivedCategoryPlusFactorsh.hom.app K
@@ -433,7 +433,7 @@ theorem pushResolution_quotientHomMk_comp (c : P₁ ⋙ P₂ ≅ P) {X : C₀} {
     (congrArg (P₂.mapHomotopyCategory _).map t6).trans rfl
   simp only [pushResolution, Functor.map_comp, Category.assoc]
   ext
-  show (HomotopyCategory.quotient C₂ _).map
+  change (HomotopyCategory.quotient C₂ _).map
         ((HomologicalComplex.single C₂ (ComplexShape.up ℤ) 0).map (c.hom.app X)) ≫
       (P.mapHomotopyCategoryPlusObjSingleIso 0 X).inv.hom ≫
         (HomotopyCategory.quotient C₂ _).map ((P.mapHomologicalComplex _).map ι) =
@@ -451,7 +451,7 @@ theorem pushResolution_quotientHomMk_comp (c : P₁ ⋙ P₂ ≅ P) {X : C₀} {
   refine congrArg (HomotopyCategory.quotient C₂ _).map ?_
   refine HomologicalComplex.from_single_hom_ext (V := C₂) (c := ComplexShape.up ℤ) (j := 0)
     (A := P₂.obj (P₁.obj X)) ?_
-  show ((HomologicalComplex.single C₂ (ComplexShape.up ℤ) 0).map (c.hom.app X)).f 0 ≫
+  change ((HomologicalComplex.single C₂ (ComplexShape.up ℤ) 0).map (c.hom.app X)).f 0 ≫
       ((HomologicalComplex.singleMapHomologicalComplex P (ComplexShape.up ℤ) 0).inv.app X).f 0 ≫
         P.map (ι.f 0) =
     ((HomologicalComplex.singleMapHomologicalComplex P₂ (ComplexShape.up ℤ) 0).inv.app
@@ -534,9 +534,9 @@ theorem mapDerivedCategoryPlusCompTransOfComp_compat (ρ₀ : r₂ ⋙ r₁ ⟶ 
         ((congrArg r₁.mapDerivedCategoryPlus.map (Iso.inv_hom_id_app _ L)).trans
           (r₁.mapDerivedCategoryPlus.map_id _))
     rw [reassoc_of% e, Iso.inv_hom_id_app]
-  show _ = DerivedCategory.Plus.Qh.map ρ₀' ≫ r.mapDerivedCategoryPlusFactorsh.inv.app L
+  change _ = DerivedCategory.Plus.Qh.map ρ₀' ≫ r.mapDerivedCategoryPlusFactorsh.inv.app L
   rw [mapDerivedCategoryPlusCompTransOfComp, Localization.liftNatTrans_app]
-  show _ ≫ _ ≫ (r₁.mapDerivedCategoryPlus.map (r₂.mapDerivedCategoryPlusFactorsh.hom.app L) ≫
+  change _ ≫ _ ≫ (r₁.mapDerivedCategoryPlus.map (r₂.mapDerivedCategoryPlusFactorsh.hom.app L) ≫
       r₁.mapDerivedCategoryPlusFactorsh.hom.app (r₂.mapHomotopyCategoryPlus.obj L)) ≫
     DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso (Iso.refl (r₂ ⋙ r₁))).hom.app L ≫
       (Functor.mapHomotopyCategoryPlusNatTrans ρ₀).app L) ≫

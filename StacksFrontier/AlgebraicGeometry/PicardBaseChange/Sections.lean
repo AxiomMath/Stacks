@@ -61,10 +61,12 @@ The hypotheses are those of the Chapter 33 decomposition of Tag 0CDX, with Tag 0
 `AlgebraicGeometry.Scheme.Modules.pullback p`, to which it is equal by `rfl`.
 
 Only this one clause of Tag 0CDX is proved here. The clause for the inverse tensor power is in
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`; it needs **no** comparison between the pullback of a tensor power and the
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`; it needs **no**
+comparison between the pullback of a tensor power and the
 tensor power of the pullback — the binary Tag 01CD comparison and the defining iteration of
 Tag 01CU suffice. The clause about the canonical multiplication is in
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/MulIsomorphism.lean`, transcribed with Tag 01CU's coherent multiplication
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/MulIsomorphism.lean`, transcribed with
+Tag 01CU's coherent multiplication
 in `StacksFrontier/AlgebraicGeometry/PicardBaseChange/CoherentMul.lean`; the
 compatibility of that multiplication with base change is available and is proved there. The tag
 is part-qualified exactly as the decomposition qualifies it, with one site per clause.

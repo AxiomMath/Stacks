@@ -279,7 +279,7 @@ theorem exists_dimensionFunction_inducedDimensionValue_of_isDecentSpace
       (BigFppfOver.toScheme B S hS).map τ w := by
     rw [← pointsMap_comp_apply, ← hmapT, pointsEquivScheme_pointsMap_yoneda,
       Equiv.apply_symm_apply]
-  show _ = inducedDimensionValue B S hS _ g
+  change _ = inducedDimensionValue B S hS _ g
     (pointsMap B S hS (yoneda.obj U) φ ((pointsEquivScheme B S hS U).symm w))
   rw [hd w, hval, himg, Cardinal.toNat_toENat]
 

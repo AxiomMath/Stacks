@@ -4,14 +4,13 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.LevelEta
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.BaseChangeAlgebraSystemInverseImages
 public import StacksFrontier.CategoryTheory.Sites.InverseSystem.InverseImagesOfASingleSheaf
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.BiggerSiteGlobalCohomologySupplement
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.BiggerSiteGlobalCohomologySupplement
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.DenseSubsiteGlobalCohomologySupplement
 
 /-! # The cocone of direct images along the projections to the vertex, and the system of sheaves
 
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelEtaleSquareCoherence.lean` proves the
-identity and composition laws of the pasted base-change square of Stacks 0EYL's levels, and its
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelEtaleSquareCoherence.lean` proves
+the identity and composition laws of the pasted base-change square of Stacks 0EYL's levels, and its
 closing section names the one remaining input of Stacks 03Q6's system of sheaves: the pseudofunctor
 coherence of `AlgebraicGeometry.smallEtaleBaseChange` along the legs of a cocone of schemes — the
 unit and associativity laws of Stacks 021J's comparison, read on sheaves.
@@ -67,9 +66,9 @@ In the namespace `Stacks.EtaleCohomology.BaseChangeAlgebraSystem`:
 ## Implementation notes
 
 Every isomorphism of sheaves here is restriction along an isomorphism of functors of sites, so
-the calculus of `StacksFrontier/CategoryTheory/Sites/PushforwardContinuousCalculus.lean` reduces each
-law to an equation of morphisms in the small étale site of `X_i`, and each such equation is pinned
-by the projection `CategoryTheory.Limits.pullback.fst` through
+the calculus of `StacksFrontier/CategoryTheory/Sites/PushforwardContinuousCalculus.lean` reduces
+each law to an equation of morphisms in the small étale site of `X_i`, and each such equation is
+pinned by the projection `CategoryTheory.Limits.pullback.fst` through
 `AlgebraicGeometry.SmallEtale.hom_ext_fst`. No new geometry is used: the two site-level equations
 are the unit and associativity laws of Stacks 021J proved in
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/TransitionBaseChangeCoherence.lean`.
@@ -128,6 +127,7 @@ attribute [local instance] isContinuous_transition isContinuous_stageBaseChange
 variable (A : Type u') [Category.{v'} A] {V : B.Scheme}
   (p : ∀ i : E.system.I, B.obj (D.obj (stage E i)) (hD (stage E i)) ⟶ V)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **Base change along a leg of the cocone is continuous**, in the spelling the statements below
 need. As with `isContinuous_stageBaseChange`, `AlgebraicGeometry.smallEtaleBaseChange_isContinuous`
 names the topologies of `(B.obj (D.obj _) _).obj` while the statements here carry
@@ -139,6 +139,7 @@ theorem isContinuous_projBaseChange (i : E.system.I) :
 
 attribute [local instance] isContinuous_projBaseChange
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- A leg of the cocone followed by base change along a transition morphism is continuous: the
 target of the comparison `projSquare`. -/
 theorem isContinuous_projBaseChange_comp {i j : E.system.I} (a : i ⟶ j) :
@@ -172,6 +173,7 @@ def projSquare {i j : E.system.I} (a : i ⟶ j) :
       (hp a)) A (AlgebraicGeometry.SmallEtale.topology B V.obj V.property)
     (stageTopology E j) (stageTopology E i)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- The presheaf component of the comparison. -/
 theorem projSquare_inv_app_hom_app {i j : E.system.I} (a : i ⟶ j)
     (Z : Sheaf (stageTopology E i) A) (Y : (AlgebraicGeometry.SmallEtale B V.obj V.property)ᵒᵖ) :
@@ -181,6 +183,7 @@ theorem projSquare_inv_app_hom_app {i j : E.system.I} (a : i ⟶ j)
   rw [projSquare, Functor.sheafPushforwardContinuousComp'_inv_eq,
     Functor.sheafPushforwardContinuousIso_inv_app_hom_app]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The identity law of the cocone of direct images.** At an identity arrow the comparison is,
 read across the identity comparison of the direct images along the transition morphisms of schemes,
 the identity.
@@ -195,6 +198,7 @@ theorem projSquare_id_inv_app (i : E.system.I) (Z : Sheaf (stageTopology E i) A)
       (stageMap_id E i) (p i) (hp (𝟙 i)) (Opposite.unop Y)]
   exact (stagePushIdIso_hom_app_hom_app E A i Z _).symm
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The composition law of the cocone of direct images.** At a composite `a ≫ b` the comparison
 is the comparison at `a` followed by the comparison at `b`, read across the composition comparison
 of the direct images along the transition morphisms of schemes.
@@ -233,6 +237,7 @@ def stageInverseImageTransition {i j : E.system.I} (a : i ⟶ j) :
     (L j).obj 𝓕 ⟶ (stagePush E A a).obj ((L i).obj 𝓕) :=
   CategoryTheory.PushforwardCocone.transitionPushforward adj (projSquare E A p hp) 𝓕 a
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The transition map of `𝒢` at an identity arrow is the canonical identification.** This is
 `projSquare_id_inv_app` transposed. -/
 theorem stageInverseImageTransition_id (i : E.system.I) :
@@ -241,6 +246,7 @@ theorem stageInverseImageTransition_id (i : E.system.I) :
   CategoryTheory.PushforwardCocone.transitionPushforward_id adj (fun i => stagePushIdIso E A i)
     (projSquare E A p hp) (projSquare_id_inv_app E A p hp) 𝓕 i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The transition maps of `𝒢` compose.** This is `projSquare_comp_inv_app` transposed. -/
 theorem stageInverseImageTransition_comp {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k) :
     stageInverseImageTransition E A p hp adj 𝓕 (a ≫ b) =
@@ -268,6 +274,7 @@ def levelTransition {i j : E.system.I} (a : i ⟶ j) :
       (levelPush E A a).obj ((levelEtaleRestrict E A i).obj (𝒢 i)) :=
   (levelEtaleRestrict E A j).map (ψ a) ≫ (levelEtaleSquare E A a).inv.app (𝒢 i)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The identity law of the carried transition maps.** This is
 `levelEtaleSquare_id_inv_app`. -/
 theorem levelTransition_id (hψid : ∀ i : E.system.I, ψ (𝟙 i) = (stagePushIdIso E A i).hom.app (𝒢 i))
@@ -276,6 +283,7 @@ theorem levelTransition_id (hψid : ∀ i : E.system.I, ψ (𝟙 i) = (stagePush
       (levelPushIdIso E A i).hom.app ((levelEtaleRestrict E A i).obj (𝒢 i)) := by
   rw [levelTransition, hψid, levelEtaleSquare_id_inv_app E A i (𝒢 i)]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The composition law of the carried transition maps.** This is
 `levelEtaleSquare_comp_inv_app` together with the naturality of `(levelEtaleSquare b).inv`, and
 nothing else. -/
@@ -319,6 +327,7 @@ def levelTransitionAb {i j : E.system.I} (a : i ⟶ j) :
         ((levelEtaleRestrict E (Ab.{max u v + 1}) i).obj (𝒢 i)) :=
   levelTransition E (Ab.{max u v + 1}) 𝒢 ψ a
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- `levelTransition_id` in the spelling
 `Stacks.WeakSites.ColimitSiteCohomology.systemOfDirectImageMaps` asks for. -/
 theorem levelTransitionAb_id
@@ -330,6 +339,7 @@ theorem levelTransitionAb_id
         ((levelEtaleRestrict E (Ab.{max u v + 1}) i).obj (𝒢 i)) :=
   levelTransition_id E (Ab.{max u v + 1}) 𝒢 ψ hψid i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- `levelTransition_comp` in the spelling
 `Stacks.WeakSites.ColimitSiteCohomology.systemOfDirectImageMaps` asks for. -/
 theorem levelTransitionAb_comp
@@ -391,6 +401,7 @@ def levelInverseImageSystem
     (fun i => stageInverseImageTransition_id E (Ab.{max u v + 1}) p hp adj 𝓕 i)
     (fun a b => stageInverseImageTransition_comp E (Ab.{max u v + 1}) p hp adj 𝓕 a b)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The sheaf of the system at the level `i` is the restriction to that level of the inverse image
 of `ℱ` along the leg `p i`. -/
 theorem levelInverseImageSystem_obj
@@ -418,6 +429,7 @@ def coconeProj (i : E.system.I) :
     (X := B.obj (D.obj (stage E i)) (hD (stage E i))) (Y := B.obj d.pt hS)
     (d.ι.app (stage E i))
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- The image of `coconeProj E d hS i` under the inclusion of the bounded category is the leg
 `d.ι.app (stage E i)` of the cocone. -/
 @[simp]
@@ -425,6 +437,7 @@ theorem inclusion_map_coconeProj (i : E.system.I) :
     B.inclusion.map (coconeProj E d hS i) = d.ι.app (stage E i) :=
   B.inclusion.map_preimage _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- **The legs of a cocone are compatible with the transition morphisms of the stages**, which is
 the hypothesis `hp` of the comparison `projSquare`. -/
 theorem stageMap_comp_coconeProj {i j : E.system.I} (a : i ⟶ j) :

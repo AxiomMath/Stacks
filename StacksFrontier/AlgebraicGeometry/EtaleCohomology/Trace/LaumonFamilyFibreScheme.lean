@@ -135,7 +135,7 @@ public theorem exists_laumonFamilyFibre_iso
   · have hw := S1.w
     rw [Category.assoc] at hw
     have h1 := fromSpecResidueField_comp_map_laumonPointRingHom jV' v
-    show (B.inclusion.map i ≫ B.inclusion.map jU) ≫
+    change (B.inclusion.map i ≫ B.inclusion.map jU) ≫
         B.inclusion.map (laumonFamilyProjection k' B hS hL) = _
     rw [Category.assoc, hw, h1, ← hβ₂, Category.assoc, ← Spec.map_comp, Category.assoc,
       ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]

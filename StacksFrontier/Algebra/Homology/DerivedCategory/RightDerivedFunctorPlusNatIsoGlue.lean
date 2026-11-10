@@ -69,7 +69,7 @@ lemma mapHomotopyCategoryPlusNatIso_refl_hom_app (F : A ⥤ B) [F.Additive]
     (mapHomotopyCategoryPlusNatIso (Iso.refl F)).hom.app K =
       𝟙 (F.mapHomotopyCategoryPlus.obj K) := by
   apply (HomotopyCategory.Plus.ι B).map_injective
-  show (NatTrans.mapHomotopyCategory (Iso.refl F).hom (ComplexShape.up ℤ)).app K.obj = _
+  change (NatTrans.mapHomotopyCategory (Iso.refl F).hom (ComplexShape.up ℤ)).app K.obj = _
   rw [Iso.refl_hom, NatTrans.mapHomotopyCategory_id]
   rfl
 
@@ -81,7 +81,7 @@ lemma mapHomotopyCategoryPlusNatIso_trans_hom_app {F G H : A ⥤ B} [F.Additive]
       (mapHomotopyCategoryPlusNatIso e).hom.app K ≫
         (mapHomotopyCategoryPlusNatIso e').hom.app K := by
   apply (HomotopyCategory.Plus.ι B).map_injective
-  show (NatTrans.mapHomotopyCategory (e ≪≫ e').hom (ComplexShape.up ℤ)).app K.obj = _
+  change (NatTrans.mapHomotopyCategory (e ≪≫ e').hom (ComplexShape.up ℤ)).app K.obj = _
   rw [Iso.trans_hom, NatTrans.mapHomotopyCategory_comp]
   rfl
 

@@ -273,12 +273,12 @@ theorem comparisonOddToTensor_koszulToComparisonOdd (f : R) (N t : ℕ)
   have hswap : (comparisonOddToPowPair f N t).toAlgebraHom
       ((koszulToComparisonOdd f N t).toAlgebraHom a) =
       (koszulToPowPairLeft f N t).toAlgebraHom a := by
-    show ExteriorAlgebra.map (comparisonSwap R)
+    change ExteriorAlgebra.map (comparisonSwap R)
       (ExteriorAlgebra.map (zInclusion R) a) = ExteriorAlgebra.map (powPairCoord R 0) a
     exact AlgHom.congr_fun (map_comparisonSwap_comp_map_zInclusion R) a
   have hleft : (tensorInclLeft (powOne f N) (powOne f t)).toAlgebraHom a =
       GradedTensorProduct.includeLeft (powOne f N).grading (powOne f t).grading a := rfl
-  show (powPairToTensorAlgHom f N t)
+  change (powPairToTensorAlgHom f N t)
     ((comparisonOddToPowPair f N t).toAlgebraHom
       ((koszulToComparisonOdd f N t).toAlgebraHom a)) = _
   rw [hswap, hleft, ← powPairFromTensor_includeLeft f N t a]

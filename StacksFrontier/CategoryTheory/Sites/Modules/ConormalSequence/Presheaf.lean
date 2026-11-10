@@ -220,8 +220,7 @@ noncomputable def tensorMapₛₗ {X Y : Cᵒᵖ} (f : X ⟶ Y) :
 lemma tensorMapₛₗ_smul {X Y : Cᵒᵖ} (f : X ⟶ Y) (r : A.obj X ⧸ kernelIdeal φ X)
     (x : (A.obj X ⧸ kernelIdeal φ X) ⊗[A.obj X] ((differentialsPresheaf a).obj X)) :
     tensorMapₛₗ φ a f (r • x) = ((quotientPresheaf φ).map f r) • tensorMapₛₗ φ a f x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     change tensorMapₛₗ φ a f ((r * b) ⊗ₜ ω) =
       ((quotientPresheaf φ).map f r) • tensorMapₛₗ φ a f (b ⊗ₜ ω)
@@ -244,8 +243,7 @@ noncomputable def tensorMap {X Y : Cᵒᵖ} (f : X ⟶ Y) :
 lemma tensorMapₛₗ_id (X : Cᵒᵖ)
     (x : (A.obj X ⧸ kernelIdeal φ X) ⊗[A.obj X] ((differentialsPresheaf a).obj X)) :
     tensorMapₛₗ φ a (𝟙 X) x = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact map_zero _
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     refine (TensorProduct.map_tmul _ _ b ω).trans ?_
     exact congrArg₂ (fun b (ω : (differentialsPresheaf a).obj X) ↦ b ⊗ₜ[A.obj X] ω)
@@ -257,8 +255,7 @@ lemma tensorMapₛₗ_id (X : Cᵒᵖ)
 lemma tensorMapₛₗ_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) (g : Y ⟶ Z)
     (x : (A.obj X ⧸ kernelIdeal φ X) ⊗[A.obj X] ((differentialsPresheaf a).obj X)) :
     tensorMapₛₗ φ a (f ≫ g) x = tensorMapₛₗ φ a g (tensorMapₛₗ φ a f x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     refine (TensorProduct.map_tmul _ _ b ω).trans ?_
     refine Eq.trans ?_ (congrArg (tensorMapₛₗ φ a g) (TensorProduct.map_tmul _ _ b ω)).symm
@@ -314,8 +311,7 @@ lemma tensor_hom_ext (X : Cᵒᵖ) {M : ModuleCat.{z} ((quotientPresheaf φ).obj
         exact (congrArg f (TensorProduct.smul_tmul r b ω).symm).trans
           ((ih (r • b)).trans (congrArg g (TensorProduct.smul_tmul r b ω)))
   refine LinearMap.ext fun x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero f).trans (map_zero g).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b ω => exact hω ω b
   | add x y hx hy =>
       exact (map_add f x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add g x y).symm)
@@ -369,7 +365,8 @@ noncomputable def conormalToTensor : conormalPresheaf φ ⟶ tensorPresheaf φ a
     rw [map_one ((quotientPresheaf φ).map f).hom]
     exact congrArg (fun ω : (differentialsPresheaf a).obj Y ↦
       (1 : A.obj Y ⧸ kernelIdeal φ Y) ⊗ₜ[A.obj Y] ω)
-      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a f x).symm
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
+        a f x).symm
 
 /-- The canonical base-change map on objectwise differentials. -/
 noncomputable def tensorToDifferentialsApp (X : Cᵒᵖ) :
@@ -639,8 +636,7 @@ lemma tensorMapOfSquareₛₗ_smul (X : Cᵒᵖ) (r : A₁.obj X ⧸ kernelIdeal
     tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X (r • x) =
       quotientMapOfSquare φ₁ φ₂ ψ β hsq X r •
         tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     change tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X ((r * b) ⊗ₜ ω) =
       quotientMapOfSquare φ₁ φ₂ ψ β hsq X r •
@@ -655,8 +651,7 @@ lemma tensorMapOfSquareₛₗ_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)
     (x : (A₁.obj X ⧸ kernelIdeal φ₁ X) ⊗[A₁.obj X] ((differentialsPresheaf a₁).obj X)) :
     tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha Y (tensorMapₛₗ φ₁ a₁ f x) =
       tensorMapₛₗ φ₂ a₂ f (tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     refine (congrArg (tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha Y)
       (TensorProduct.map_tmul _ _ b ω)).trans ?_

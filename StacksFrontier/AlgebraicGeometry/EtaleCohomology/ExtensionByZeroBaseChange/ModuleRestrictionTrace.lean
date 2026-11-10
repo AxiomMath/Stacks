@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.SurjectivityFromGraphCover
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZeroBaseChange.Trace
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZeroBaseChange.FinitePushforwardSheetCount
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZeroBaseChange.FinitePushforwardSheetCount
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZeroBaseChange.ModuleExactness
 
@@ -151,7 +150,7 @@ public theorem moduleExtensionByZeroAdjunction_counit_app_map_unit_app_restricti
   let W := smallEtaleLift B X hX U Q φ
   let t := G.obj.map (smallEtaleLiftGraph B X hX U Q φ).op
     (((moduleRestrictionUnit B X hX U Λ).app F).hom.app (Opposite.op Q) a)
-  show (adj.counit.app F).hom.app (Opposite.op Q)
+  change (adj.counit.app F).hom.app (Opposite.op Q)
     (((moduleExtensionByZero B X hX U Λ).obj G).obj.map e.inv.op
       ((adj.unit.app G).hom.app (Opposite.op W) t)) = a
   have hnat : (adj.counit.app F).hom.app (Opposite.op Q)
@@ -166,7 +165,7 @@ public theorem moduleExtensionByZeroAdjunction_counit_app_map_unit_app_restricti
       ((adj.unit.app G).hom.app (Opposite.op W) t) = t :=
     sheaf_hom_app_apply_congr (adj.right_triangle_components F) _ t
   rw [hnat, htri]
-  show F.obj.map e.inv.op (F.obj.map
+  change F.obj.map e.inv.op (F.obj.map
     ((smallEtalePostcompose B X hX U).map (smallEtaleLiftGraph B X hX U Q φ)).op
       (F.obj.map (smallEtaleBaseChangeProj B X hX U Q).op a)) = a
   rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← F.obj.map_comp,
@@ -234,7 +233,7 @@ public theorem moduleTrace_app_moduleRestrictionUnit_app_eq_natCard_smul
       (adj.counit.app F).hom.app (Opposite.op Q)
         (((moduleExtensionByZeroIsoPushforward B X hX U Λ).inv.app G).hom.app
           (Opposite.op Q) s) := rfl
-  show ((moduleTrace B X hX U Λ).app F).hom.app (Opposite.op Q) s = _
+  change ((moduleTrace B X hX U Λ).app F).hom.app (Opposite.op Q) s = _
   rw [htr, hinv, map_sum, Finset.sum_congr rfl fun i _ =>
       moduleExtensionByZeroAdjunction_counit_app_map_unit_app_restriction B X hX U Λ F Q (φ i) a,
     Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card]
@@ -250,7 +249,7 @@ public theorem moduleRestrictionUnit_comp_moduleTrace (d : ℕ)
   let τ := (moduleRestrictionUnit B X hX U Λ).app F ≫ (moduleTrace B X hX U Λ).app F
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun V => ?_))
   refine ModuleCat.hom_ext (LinearMap.ext fun a => ?_)
-  show τ.hom.app V a = d • a
+  change τ.hom.app V a = d • a
   let R : Sieve V.unop :=
     { arrows := fun Y f => F.obj.map f.op (τ.hom.app V a) = F.obj.map f.op (d • a)
       downward_closed := by
@@ -264,7 +263,7 @@ public theorem moduleRestrictionUnit_comp_moduleTrace (d : ℕ)
   refine ⟨Q, q, ?_, hx⟩
   obtain ⟨n, -⟩ := hx
   have : Nonempty (B.inclusion.obj Q.obj.left) := ⟨n⟩
-  show F.obj.map q.op (τ.hom.app V a) = F.obj.map q.op (d • a)
+  change F.obj.map q.op (τ.hom.app V a) = F.obj.map q.op (d • a)
   have hnat : τ.hom.app (Opposite.op Q) (F.obj.map q.op a) = F.obj.map q.op (τ.hom.app V a) :=
     sheaf_hom_app_map_apply τ q.op a
   rw [← hnat, map_nsmul, ← hN d inferInstance]

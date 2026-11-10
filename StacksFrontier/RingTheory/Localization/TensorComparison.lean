@@ -26,8 +26,8 @@ along an isomorphism, and nothing has to be checked about the transport.
 
 This is the tensor counterpart of
 `IsLocalization.isLocalizedModule_of_exteriorPower` in
-`StacksFrontier/LinearAlgebra/ExteriorPower/Localization.lean`, which recognises an exterior power of
-a localization from its values on wedges, and the two are used together: the coefficient sheaf
+`StacksFrontier/LinearAlgebra/ExteriorPower/Localization.lean`, which recognises an exterior power
+of a localization from its values on wedges, and the two are used together: the coefficient sheaf
 `F ⊗_{𝒪_{X/S}} Ω^i_{X/S}` of [Stacks, Tag 07LF] has to be shown to localize on the basic opens of
 an affine scheme, and its two factors are a tensor product and an exterior power.
 

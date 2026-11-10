@@ -167,7 +167,7 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
   have hMapAffine (J : Over J₀) : IsAffineHom (D'.map J.hom) := by
     have : IsAffineHom (D.obj J₀).hom := (hStage J₀).toIsAffineHom
     have hcomp : IsAffineHom ((D'.map J.hom) ≫ (D.obj J₀).hom) := by
-      show IsAffineHom ((D.map J.hom).left ≫ (D.obj J₀).hom)
+      change IsAffineHom ((D.map J.hom).left ≫ (D.obj J₀).hom)
       rw [Over.w (D.map J.hom)]
       exact (hStage J.left).toIsAffineHom
     exact IsAffineHom.of_comp (D'.map J.hom) (D.obj J₀).hom
@@ -181,13 +181,13 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
     simpa using (Over.w e.hom).symm
   let p := c'.π.app J₀
   have hg0 : p ≫ (D.obj J₀).hom = g := by
-    show (coneOver.π.app J₀).left ≫ (D.obj J₀).hom = coneOver.pt.hom
+    change (coneOver.π.app J₀).left ≫ (D.obj J₀).hom = coneOver.pt.hom
     exact Over.w (coneOver.π.app J₀)
   have hg : p ≫ eS.hom = g := by
     rw [← heqES]
     exact hg0
   have hOpen : (c'.π.app J₀) ⁻¹ᵁ V = g ⁻¹ᵁ U := by
-    show p ⁻¹ᵁ (eS.hom ⁻¹ᵁ U) = g ⁻¹ᵁ U
+    change p ⁻¹ᵁ (eS.hom ⁻¹ᵁ U) = g ⁻¹ᵁ U
     rw [← Scheme.Hom.comp_preimage, hg]
   let gpre : X.Opens := g ⁻¹ᵁ U
   let eX : d.pt ≅ (gpre.toScheme) := c'.pt.isoOfEq hOpen
@@ -196,11 +196,11 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
   let q : Scheme := (D.obj J.left).left
   let qhom : q ⟶ S := (D.obj J.left).hom
   have hcompJ : (D'.map J.hom) ≫ eS.hom = qhom := by
-    show (D.map J.hom).left ≫ eS.hom = (D.obj J.left).hom
+    change (D.map J.hom).left ≫ eS.hom = (D.obj J.left).hom
     rw [← heqES]
     exact Over.w (D.map J.hom)
   have hJopen : (D'.map J.hom) ⁻¹ᵁ V = qhom ⁻¹ᵁ U := by
-    show (D'.map J.hom) ⁻¹ᵁ (eS.hom ⁻¹ᵁ U) = qhom ⁻¹ᵁ U
+    change (D'.map J.hom) ⁻¹ᵁ (eS.hom ⁻¹ᵁ U) = qhom ⁻¹ᵁ U
     rw [← Scheme.Hom.comp_preimage, hcompJ]
   let qpre : q.Opens := qhom ⁻¹ᵁ U
   let eOpen : Eo.obj J ≅ qpre.toScheme := q.isoOfEq hJopen
@@ -215,7 +215,7 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
     have he : eOpen.inv.appTop ≫ eOpen.hom.appTop = 𝟙 _ := by
       rw [← Scheme.Hom.comp_appTop]
       simp
-    show t = (eOpen.inv.appTop ≫ eOpen.hom.appTop) t
+    change t = (eOpen.inv.appTop ≫ eOpen.hom.appTop) t
     rw [he]
     rfl
   have htC : (((d.π.app J).appTop).hom.comp
@@ -231,10 +231,10 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
     simp [Jt]
   let eT : Eo.obj Jt ≅ V.toScheme := (D'.obj J₀).isoOfEq hOpenT
   have heT : eT.hom ≫ V.ι = (opensDiagramι D' J₀ V).app Jt := by
-    show ((D'.obj J₀).isoOfEq hOpenT).hom ≫ V.ι = _
+    change ((D'.obj J₀).isoOfEq hOpenT).hom ≫ V.ι = _
     exact Scheme.isoOfEq_hom_ι _ _
   have heOpen : eOpen.hom ≫ qpre.ι = (opensDiagramι D' J₀ V).app J := by
-    show (q.isoOfEq hJopen).hom ≫ qpre.ι = _
+    change (q.isoOfEq hJopen).hom ≫ qpre.ι = _
     exact Scheme.isoOfEq_hom_ι _ _
   have hNat : Eo.map m ≫ (opensDiagramι D' J₀ V).app Jt =
       (opensDiagramι D' J₀ V).app J ≫ D'.map J.hom := by
@@ -264,12 +264,12 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
   have hRestrictStage : eOpen.hom ≫ (qhom ∣_ U) =
       Eo.map m ≫ eT.hom ≫ (eS.hom ∣_ U) := by
     apply (cancel_mono U.ι).1
-    show eOpen.hom ≫ ((qhom ∣_ U) ≫ U.ι) =
+    change eOpen.hom ≫ ((qhom ∣_ U) ≫ U.ι) =
       Eo.map m ≫ eT.hom ≫ ((eS.hom ∣_ U) ≫ U.ι)
     rw [morphismRestrict_ι, morphismRestrict_ι]
     calc
       _ = (opensDiagramι D' J₀ V).app J ≫ qhom := by
-        show (eOpen.hom ≫ qpre.ι) ≫ qhom = _
+        change (eOpen.hom ≫ qpre.ι) ≫ qhom = _
         rw [heOpen]
       _ = (opensDiagramι D' J₀ V).app J ≫ D'.map J.hom ≫ eS.hom := by
         rw [hcompJ]
@@ -279,16 +279,16 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
         simpa [Category.assoc] using
           (congrArg (fun k => Eo.map m ≫ k ≫ eS.hom) heT).symm
   have hEX : eX.hom ≫ (g ⁻¹ᵁ U).ι = (c'.π.app J₀ ⁻¹ᵁ V).ι := by
-    show (c'.pt.isoOfEq hOpen).hom ≫ (g ⁻¹ᵁ U).ι = _
+    change (c'.pt.isoOfEq hOpen).hom ≫ (g ⁻¹ᵁ U).ι = _
     exact Scheme.isoOfEq_hom_ι c'.pt hOpen
   have hscheme : d.π.app J ≫ eOpen.hom ≫ (qhom ∣_ U) = eX.hom ≫ (g ∣_ U) := by
     apply (cancel_mono U.ι).1
-    show d.π.app J ≫ (eOpen.hom ≫ (qhom ∣_ U)) ≫ U.ι = (eX.hom ≫ (g ∣_ U)) ≫ U.ι
+    change d.π.app J ≫ (eOpen.hom ≫ (qhom ∣_ U)) ≫ U.ι = (eX.hom ≫ (g ∣_ U)) ≫ U.ι
     rw [hRestrictStage]
-    show d.π.app J ≫ Eo.map m ≫ eT.hom ≫ ((eS.hom ∣_ U) ≫ U.ι) =
+    change d.π.app J ≫ Eo.map m ≫ eT.hom ≫ ((eS.hom ∣_ U) ≫ U.ι) =
       eX.hom ≫ ((g ∣_ U) ≫ U.ι)
     rw [morphismRestrict_ι, morphismRestrict_ι, hbase]
-    show (c'.π.app J₀ ⁻¹ᵁ V).ι ≫ g = (eX.hom ≫ (g ⁻¹ᵁ U).ι) ≫ g
+    change (c'.π.app J₀ ⁻¹ᵁ V).ι ≫ g = (eX.hom ≫ (g ⁻¹ᵁ U).ι) ≫ g
     rw [hEX]
     rfl
   let φ : Γ(d.pt, ⊤) →+* Γ(X, gpre) :=
@@ -394,7 +394,7 @@ theorem isIntegralHom_product {I : Type u} (S : Scheme.{u})
           rw [hIso]
         _ = (gpre.topIso.hom.hom).comp gpre.topIso.inv.hom := by simp
         _ = RingHom.id _ := hOpenIso
-    show ((gpre.topIso.hom.hom).comp
+    change ((gpre.topIso.hom.hom).comp
       ((eX.inv.appTop).hom.comp
         ((eX.hom.appTop).hom.comp gpre.topIso.inv.hom))) s = s
     simpa only [RingHom.id_apply] using congrArg (fun k => k s) hComp

@@ -308,15 +308,16 @@ lemma imageSubobject_d_eq_exists_kernelSubobject :
 /-- `g' ∘ α' = 0`: on the class `α a`, `g' (α' (α a))` is the class of the cycle `g (α a) = 0`. -/
 @[reassoc (attr := simp)]
 lemma α'_g' : X.α' ≫ X.g' = 0 := by
-  rw [← cancel_epi (Abelian.factorThruImage X.α.asHom), factorThruImage_α'_assoc, factorThruImage_g',
-    comp_zero, ShortComplex.comp_liftCycles_assoc,
+  rw [← cancel_epi (Abelian.factorThruImage X.α.asHom), factorThruImage_α'_assoc,
+    factorThruImage_g', comp_zero, ShortComplex.comp_liftCycles_assoc,
     X.dComplex.liftCycles_homologyπ_eq_zero_of_boundary _ 0 (by rw [X.α_g, zero_comp])]
 
 /-- `f' ∘ g' = 0`, since `f ∘ g = 0`. -/
 @[reassoc (attr := simp)]
 lemma g'_f' : X.g' ≫ X.f' = 0 := by
-  rw [← cancel_mono (Abelian.image.ι X.α.asHom), ← cancel_epi (Abelian.factorThruImage X.α.asHom), assoc,
-    factorThruImage_g'_assoc, liftCycles_homologyπ_f'_ι, X.g_f, zero_comp, comp_zero]
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom),
+    ← cancel_epi (Abelian.factorThruImage X.α.asHom), assoc, factorThruImage_g'_assoc,
+    liftCycles_homologyπ_f'_ι, X.g_f, zero_comp, comp_zero]
 
 /-- `α' ∘ f' = 0`, since `α ∘ f = 0`. -/
 @[reassoc (attr := simp)]

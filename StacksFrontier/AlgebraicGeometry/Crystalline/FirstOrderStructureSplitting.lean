@@ -71,7 +71,7 @@ theorem sqZeroExtSnd_firstOrderThickeningP₀_mul (W : (Opens ↑T.scheme)ᵒᵖ
     sqZeroExtSnd (M := dpDifferentialsModules T Y f)
         (((firstOrderThickeningP₀ T Y f).app W).hom a * x) =
       a • sqZeroExtSnd (M := dpDifferentialsModules T Y f) x := by
-  show a • sqZeroExtSnd (M := dpDifferentialsModules T Y f) x +
+  change a • sqZeroExtSnd (M := dpDifferentialsModules T Y f) x +
       sqZeroExtFst (M := dpDifferentialsModules T Y f) x •
         (0 : (dpDifferentialsModules T Y f).obj W) =
     a • sqZeroExtSnd (M := dpDifferentialsModules T Y f) x

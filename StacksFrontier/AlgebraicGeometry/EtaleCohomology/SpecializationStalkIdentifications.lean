@@ -126,7 +126,7 @@ theorem isIso_smallEtaleGlobalSectionsToStalkAb
       IsIso ((smallEtaleGlobalSectionsToStalkAb σ eσ).app G) := by
     intro G
     have := isIso_toPresheafFiber_of_isInitial σ (Scheme.Etale.mk (𝟙 T)) eσ hinit G.obj
-    show IsIso ((Sheaf.ΓNatIsoSheafSections (smallEtaleTopology T) Ab.{u + 1}
+    change IsIso ((Sheaf.ΓNatIsoSheafSections (smallEtaleTopology T) Ab.{u + 1}
         (isTerminalEtaleMkId T)).hom.app G ≫
       (Scheme.pointSmallEtale σ).toPresheafFiber (Scheme.Etale.mk (𝟙 T)) eσ G.obj)
     infer_instance

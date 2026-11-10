@@ -166,7 +166,7 @@ public def trivSqZeroExtFunctor :
       ext x
       simp)
   map_id M := by
-    ext x <;> simp
+    ext x; simp
   map_comp f g := by
     ext x
     apply TrivSqZeroExt.ext
@@ -207,10 +207,10 @@ theorem trivSqZeroExtFunctor_preservesFiniteProducts :
           change f i (x * y) = f i x * f i y at h
           have hx : (f i x).fst = s.pt.hom.hom x := congrArg (fun q ↦ q x) (s.π.app ⟨i⟩).w
           have hy : (f i y).fst = s.pt.hom.hom y := congrArg (fun q ↦ q y) (s.π.app ⟨i⟩).w
-          convert congrArg (TrivSqZeroExt.snd (R := R) (M := Z i)) h using 1 <;>
-            simp [f, Z, hx, hy, TrivSqZeroExt.snd_mul,
-              TrivSqZeroExt.fst, TrivSqZeroExt.snd, TrivSqZeroExt.mul, Prod.snd, Pi.mul_apply] <;>
-            try { rw [← hx, ← hy]; rfl }
+          convert congrArg (TrivSqZeroExt.snd (R := R) (M := Z i)) h using 1
+          simp only [TrivSqZeroExt.snd, Functor.const_obj_obj, Functor.comp_obj,
+            Discrete.functor_obj_eq_as, Z, f]
+          try { rw [← hx, ← hy]; rfl }
       map_zero' := by
         apply Prod.ext
         · exact s.pt.hom.hom.map_zero
@@ -247,7 +247,7 @@ theorem trivSqZeroExtFunctor_preservesFiniteProducts :
       dsimp [t, ModuleCat.productCone, trivSqZeroExtFunctor] at h
       apply TrivSqZeroExt.ext
       · change TrivSqZeroExt.fst (TrivSqZeroExt.map (LinearMap.proj j) _) = _
-        simp [t, ModuleCat.productCone, TrivSqZeroExt.fst_map]
+        simp only [ModuleCat.productCone, Fan.mk_pt, Over.homMk_left, TrivSqZeroExt.fst_map]
         exact h.symm
       · change (TrivSqZeroExt.map (LinearMap.proj j) _).snd = _
         exact (TrivSqZeroExt.snd_map (LinearMap.proj j) _).trans rfl
@@ -261,10 +261,9 @@ theorem trivSqZeroExtFunctor_preservesFiniteProducts :
         change ((m.left.hom x).snd i) = ((s.π.app ⟨i⟩).left.hom x).snd
         have hi := congrArg (fun g ↦ (g x).snd) (congrArg (fun q ↦ q.left.hom) (w ⟨i⟩))
         dsimp [t, ModuleCat.productCone, trivSqZeroExtFunctor] at hi
-        simp only [Over.comp_left, CommAlgCat.comp_apply, AlgHom.coe_comp,
-          Function.comp_apply] at hi
+        simp only at hi
         exact (TrivSqZeroExt.snd_map (LinearMap.proj i) _).symm.trans hi
-  letI := hZ
+  let := hZ
   exact preservesLimit_of_iso_diagram (trivSqZeroExtFunctor S R) e.symm
 
 end

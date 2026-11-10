@@ -163,7 +163,7 @@ theorem subsingleton_ext_iff_of_exact (R : B ⥤ A) [PreservesFiniteLimits R]
       refine ⟨fun hl q' => ?_, fun hl q => ?_⟩
       · obtain ⟨h, hh⟩ := hl ((e S.X₃).symm q')
         refine ⟨e S.X₂ h, ?_⟩
-        show e S.X₂ h ≫ R.map S.g = q'
+        change e S.X₂ h ≫ R.map S.g = q'
         rw [← he, hh, Equiv.apply_symm_apply]
       · obtain ⟨h', hh'⟩ := hl (e S.X₃ q)
         refine ⟨(e S.X₂).symm h', (e S.X₃).injective ?_⟩
@@ -359,7 +359,7 @@ theorem extAcyclic_extensionByZeroUnit_anyUniverse (U : s.C) :
       (extensionByZeroUnit (inverseImageRing s.topology s.base.J s.p O) U) := by
   intro I _ n hn
   rw [s.subsingleton_ext_extensionByZeroUnit_iff _ U _ n hn]
-  show Subsingleton (Abelian.Ext _
+  change Subsingleton (Abelian.Ext _
     (s.abelianInverseImage.obj ((SheafOfModules.toSheaf O).obj I)) n)
   rw [s.subsingleton_ext_extensionByZeroUnitAb_abelianInverseImage_iff U _ n hn]
   exact subsingleton_ext_extensionByZeroUnitAb_toSheaf_obj_of_injective s.base.J O I _ n hn

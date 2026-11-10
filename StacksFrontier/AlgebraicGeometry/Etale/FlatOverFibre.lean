@@ -132,7 +132,7 @@ theorem exists_isOpen_nhds_fiber_forall_mem {X S T : Scheme.{u}} (f : X ⟶ S) (
   · have hmem : (pullback.snd f b).fiberι y (e w) ∈ ({V.ι v} : Set ↑(pullback f b)) := by
       rw [← hv]
       exact he w
-    show (pullback.snd f b).fiberι y (e w) ∈ V.1
+    change (pullback.snd f b).fiberι y (e w) ∈ V.1
     rw [Set.eq_of_mem_singleton hmem]
     exact v.2
   · intro w' hw' p hp
@@ -225,7 +225,7 @@ theorem exists_open_isFinitePresentation_isFlatOver_of_subset
     have hcomp : IsFlatOverAt (W.ι ≫ q).toLRSHom.toShHom
         ((Scheme.Modules.pullback W.ι).obj ((Scheme.Modules.pullback p).obj F)) t :=
       (isFlatOverAt_iff_modulePullback_isFlatOverAt W.ι q _ t (Flat.stalkMap W.ι t)).mp hbase
-    show IsFlatOverAt (W.ι ≫ q).toLRSHom.toShHom G t
+    change IsFlatOverAt (W.ι ≫ q).toLRSHom.toShHom G t
     rw [hG]
     exact (isFlatOverAt_iff_of_moduleIso (W.ι ≫ q).toLRSHom.toShHom
       ((Scheme.Modules.pullbackComp W.ι p).app F) t).mp hcomp

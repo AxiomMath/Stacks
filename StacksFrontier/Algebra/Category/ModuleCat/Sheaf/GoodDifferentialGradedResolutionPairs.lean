@@ -238,7 +238,7 @@ noncomputable def boundaryPairSection (φ : K ⟶ L) (n : ℤ) (V : Cᵒᵖ)
 /-- The degree-`n` component of `boundaryPairSection φ n V y` is `y`. -/
 @[simp] theorem boundaryPairSection_pair_self (φ : K ⟶ L) (n : ℤ) (V : Cᵒᵖ)
     (y : (boundaryPairObj φ n).val.obj V) : (boundaryPairSection φ n V y).pair n = y := by
-  show (if h : n = n then castHom (fun j => boundaryPairObj φ j) h V y else 0) = y
+  change (if h : n = n then castHom (fun j => boundaryPairObj φ j) h V y else 0) = y
   rw [dite_eq_left rfl]
   exact castHom_rfl (fun j => boundaryPairObj φ j) V y
 
@@ -297,7 +297,7 @@ theorem boundaryPairFamily_eq_iCycles (τ : P ⟶ M) (n : ℤ) (V : Cᵒᵖ)
         (boundaryPairSection_hasDegree τ.toHomologicalComplex n V y) =
       homSections (P.complex.iCycles n) V
         (homSections (boundaryPairCycle τ.toHomologicalComplex n) V y) := by
-  show homSections (boundaryPairCycle τ.toHomologicalComplex n ≫ P.complex.iCycles n) V
+  change homSections (boundaryPairCycle τ.toHomologicalComplex n ≫ P.complex.iCycles n) V
     ((boundaryPairSection τ.toHomologicalComplex n V y).pair n) = _
   rw [boundaryPairSection_pair_self]
   exact homSections_comp (boundaryPairCycle τ.toHomologicalComplex n) (P.complex.iCycles n) V y

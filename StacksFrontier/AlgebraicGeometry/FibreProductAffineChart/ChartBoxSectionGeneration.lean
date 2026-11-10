@@ -254,11 +254,7 @@ theorem apply_boxSectionOfTensor_eq
     (z : Γ((Scheme.Modules.pullback c.fromSpecLeft).obj F, ⊤) ⊗[Γ(S, c.base)]
       Γ((Scheme.Modules.pullback c.fromSpecRight).obj G, ⊤)) :
     φ (c.boxSectionOfTensor hl hr F G z) = ψ (c.boxSectionOfTensor hl hr F G z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    have e := c.boxSectionOfTensor_zero hl hr F G
-    exact (congrArg φ e).trans
-      ((map_zero φ).trans ((map_zero ψ).symm.trans (congrArg ψ e).symm))
+  induction z using TensorProduct.inductionOn with
   | tmul ms mt => exact c.apply_boxSectionOfTensor_tmul_eq hl hr F G h₁ h₂ φ ψ h ms mt
   | add z₁ z₂ ih₁ ih₂ =>
     have e := c.boxSectionOfTensor_add hl hr F G z₁ z₂

@@ -73,7 +73,6 @@ theorem retargetDualizingMap_dualizingModule_equiv_of_isLocalization_away
   let : IsNoetherianRing Af :=
     IsLocalization.isNoetherianRing (Submonoid.powers f) Af inferInstance
   induction m using dualizingModule.induction_on F with
-  | zero => simp only [map_zero]
   | add m n hm hn => simp only [map_add, hm, hn]
   | tmul φ b =>
     rw [dualizingModule_equiv_of_isLocalization_away_formula,
@@ -93,12 +92,11 @@ theorem retargetDualizingMap_dualizingModule_equiv_of_isLocalization_away
       (AlgEquiv.restrictScalars Af (baseChangeTargetEquiv f))) σf
     have hE : ∀ c : Af ⊗[A] F.middle, algebraMap Y.middle C c = algebraMap X.middle C c := by
       intro c
-      induction c using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction c using TensorProduct.inductionOn with
       | add c d hc hd =>
         exact (map_add _ c d).trans ((congrArg₂ (· + ·) hc hd).trans (map_add _ c d).symm)
       | tmul a m =>
-        show σf (baseChangeTargetAlgEquiv f (a ⊗ₜ[A] algebraMap F.middle B m)) =
+        change σf (baseChangeTargetAlgEquiv f (a ⊗ₜ[A] algebraMap F.middle B m)) =
           baseChangeTargetAlgEquiv f (a ⊗ₜ[A] σ (algebraMap F.middle B m))
         rw [baseChangeTargetAlgEquiv_tmul, baseChangeTargetAlgEquiv_tmul, map_mul,
           AlgEquiv.commutes, hσ]
@@ -127,7 +125,6 @@ theorem retargetDualizingMap_dualizingModuleEquiv_locFact
           (targetLocalizationMap (Bg := Cg) (σ g) (dualizingModule.retargetFactorization F σ)
             (dualizingModule.retargetDualizingMap F σ m))) := by
   induction m using dualizingModule.induction_on F with
-  | zero => simp only [map_zero]
   | add m n hm hn => simp only [map_add, hm, hn]
   | tmul φ b =>
     rw [dualizingTensorLocalizationEquiv_tmul, dualizingModule.retargetDualizingMap_tmul,

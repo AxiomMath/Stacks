@@ -66,7 +66,7 @@ theorem mem_maximalSmul_iff_lrs {Z : RingedSpace.{u, u}}
       m ∈ IsLocalRing.maximalIdeal (Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk Z y) •
         (⊤ : Submodule (Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk Z y)
           (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk Z M.val y)) := by
-  show m ∈ IsLocalRing.maximalIdeal (Z.presheaf.stalk y) •
+  change m ∈ IsLocalRing.maximalIdeal (Z.presheaf.stalk y) •
     (⊤ : Submodule (Z.presheaf.stalk y)
       (TopCat.Presheaf.stalk (C := Ab.{u}) M.val.presheaf y)) ↔ _
   rw [← stalkModule_eq M y]

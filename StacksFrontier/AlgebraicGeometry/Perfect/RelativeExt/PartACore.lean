@@ -69,10 +69,10 @@ instance derivedTensorObj_additive (Z : RingedSpace.{u, u})
     (K : Stacks.DerivedTensor.RingedSite.DerivedModules Z.sheaf) :
     ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf).obj
       K).Additive := by
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf).obj
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf).obj
       K).CommShift ℤ := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
     Z.sheaf).commShift_right K
-  haveI := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
+  have := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
     Z.sheaf).exact_right K
   infer_instance
 
@@ -81,25 +81,25 @@ instance derivedTensorFlipObj_additive (Z : RingedSpace.{u, u})
     (K : Stacks.DerivedTensor.RingedSite.DerivedModules Z.sheaf) :
     ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf).flip.obj
       K).Additive := by
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor
       Z.sheaf).flip.obj K).CommShift ℤ :=
     (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
       Z.sheaf).commShift_left K
-  haveI := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
+  have := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
     Z.sheaf).exact_left K
   infer_instance
 
 /-- The functor `Φ = Lf^*(-) ⊗^L 𝒢` from `D(𝒪_S)` to `D(𝒪_X)` is additive. -/
 instance pullbackTensorDerivedFunctor_additive :
     (pullbackTensorDerivedFunctor hG).Additive := by
-  haveI : (derivedPullbackTensorFunctor f.toLRSHom.toShHom G).Additive := by
-    haveI : (derivedPushforward f.toLRSHom.toShHom).Additive := by
-      letI := Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforwardCommShift
+  have : (derivedPullbackTensorFunctor f.toLRSHom.toShHom G).Additive := by
+    have : (derivedPushforward f.toLRSHom.toShHom).Additive := by
+      let := Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforwardCommShift
         f.toLRSHom.toShHom
-      haveI := Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforward_isTriangulated
+      have := Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforward_isTriangulated
         f.toLRSHom.toShHom
       infer_instance
-    haveI : (derivedPullback f.toLRSHom.toShHom).Additive :=
+    have : (derivedPullback f.toLRSHom.toShHom).Additive :=
       (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedAdjunction
         f.toLRSHom.toShHom).left_adjoint_additive
     exact @Functor.instAdditiveComp _ _ _ _ _ _ (derivedPullback f.toLRSHom.toShHom) this _ _ _

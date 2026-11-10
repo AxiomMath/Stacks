@@ -64,7 +64,7 @@ theorem isIrreducible_preimage_of_isOpenMap {α β : Type*} [TopologicalSpace α
     hS.2 (f '' u) (f '' v) (hf u hu) (hf v hv) ⟨f a, ha, a, hau, rfl⟩ ⟨f b, hb, b, hbv, rfl⟩
   obtain ⟨z, hz, hzu, hzv⟩ := hfib (f a') hyS u v hu hv ⟨a', rfl, ha'u⟩ ⟨b', hb', hb'v⟩
   refine ⟨z, ?_, hzu, hzv⟩
-  show f z ∈ S
+  change f z ∈ S
   rw [show f z = f a' from hz]
   exact hyS
 
@@ -108,7 +108,7 @@ theorem isIrreducible_preimage_singleton_torsorOfInvertibleProjection
         (ht.trans hv.symm)
       exact ⟨w, hw2, hw1⟩
     · rintro ⟨w, hw, rfl⟩
-      show pointsMap D.site D.base D.base_mem _ _
+      change pointsMap D.site D.base D.base_mem _ _
         (pointsMap D.site D.base D.base_mem _ (torsorOfInvertibleChartToSpace D p hp L hL V) w) = x
       rw [← pointsMap_comp_apply, (isPullback_torsorOfInvertible_chart D p hp L hL V).w,
         pointsMap_comp_apply, show pointsMap D.site D.base D.base_mem _

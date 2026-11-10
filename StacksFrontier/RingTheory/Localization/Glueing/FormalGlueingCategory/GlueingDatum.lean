@@ -155,9 +155,9 @@ theorem localize_isLocalized_union {M L : Type*} [AddCommGroup M] [Module R M]
       (LocalizedModule.mkLinearMap (cechSub f t) _) x
     obtain ⟨⟨m, a⟩, ha⟩ := IsLocalizedModule.surj (Submonoid.closure (f '' (↑s : Set (Fin r)))) l y
     refine ⟨⟨m, ⟨a * b, mul_mem_closure_union f s t a.2 b.2⟩⟩, ?_⟩
-    show ((a : R) * b) • x = _
+    change ((a : R) * b) • x = _
     rw [mul_smul]
-    show (a : R) • (b • x) = _
+    change (a : R) • (b • x) = _
     rw [hb, ← map_smul]
     exact congrArg (LocalizedModule.mkLinearMap (cechSub f t) _) ha
   exists_of_eq h := by
@@ -574,8 +574,7 @@ public noncomputable def canonicalDatum (M : ModuleCat.{max u v w} R) :
   alpha_compatibility i j m := by
     change TensorProduct.map _ _ (TensorProduct.map _ _ (canonicalAlpha S f M i _)) =
       TensorProduct.map _ _ (canonicalAlpha S f M j _)
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul s m => simp only [canonicalAlpha_mk, TensorProduct.map_tmul,
         LinearMap.id_apply, LinearEquiv.coe_coe, canonicalAlphaIJ_mk]
     | add x y hx hy => simp_all only [map_add]
@@ -635,8 +634,7 @@ public noncomputable def canonicalDatumMap {M N : ModuleCat.{max u v w} R} (g : 
         (((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
           (canonicalLocalMap f g i)).hom)
         (canonicalAlpha S f M i (LocalizedModule.mkLinearMap _ (TensorProduct R S M) m))
-    induction m using TensorProduct.induction_on with
-    | zero => simp
+    induction m using TensorProduct.inductionOn with
     | tmul s m =>
       change canonicalAlpha S f N i (LocalizedModule.mkLinearMap _ _ (s ⊗ₜ[R] g m)) = _
       rw [canonicalAlpha_mk]

@@ -115,7 +115,7 @@ theorem ext_of_isSheaf_presheaf {N : PresheafOfModules.{w} R₀}
     (G.is_cover_of_isCoverDense K X.unop) x y ?_
   rintro Y p hp
   obtain ⟨Z, l, m, rfl⟩ := hp.some
-  show N.presheaf.map (l ≫ m).op x = N.presheaf.map (l ≫ m).op y
+  change N.presheaf.map (l ≫ m).op x = N.presheaf.map (l ≫ m).op y
   simp only [op_comp, CategoryTheory.Functor.map_comp, CategoryTheory.comp_apply, h Z m]
 
 omit [G.IsLocallyFull K] in

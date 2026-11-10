@@ -3,8 +3,8 @@ module
 public import Mathlib.Algebra.Category.Grp.Basic
 public import Mathlib.AlgebraicTopology.SimplexCategory.Basic
 public import Mathlib.Data.Fin.Tuple.Sort
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
 public import Mathlib.GroupTheory.Perm.Fin
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Tactic.Abel
 public import Mathlib.Tactic.LinearCombination
 public import Mathlib.Topology.Sheaves.Presheaf
@@ -80,7 +80,7 @@ theorem inter_le_omit {p : ℕ} (i : Fin (p + 1) → I) (j : Fin (p + 1)) :
 /-- The intersection is invariant under permuting the index tuple. -/
 theorem inter_comp_perm {p : ℕ} (i : Fin p → I) (e : Equiv.Perm (Fin p)) :
     inter U (i ∘ e) = inter U i := by
-  show (⨅ k, U (i (e k))) = ⨅ k, U (i k)
+  change (⨅ k, U (i (e k))) = ⨅ k, U (i k)
   exact e.iInf_comp (g := fun k => U (i k))
 
 /-! ## The (full) Čech complex -/
@@ -366,7 +366,7 @@ theorem c_isAlternating (p : ℕ) (s : OrdCochain U ℱ p) :
           = (-(Equiv.Perm.sign σ : ℤ)) • ℱ.map (eqToHom eC).op (s ⟨i ∘ σ, hwmono⟩) := by
       rw [map_zsmul, neg_smul, permIso_apply, map_eqToHom_op_apply, map_eqToHom_op_apply,
         restr_restr]
-    show (Equiv.Perm.sign σ' : ℤ) •
+    change (Equiv.Perm.sign σ' : ℤ) •
           ℱ.map (eqToHom (by rw [inter_comp_perm U (i ∘ Equiv.swap a b) σ'])).op
           (s ⟨(i ∘ Equiv.swap a b) ∘ σ', hwmono'⟩)
         = -(permIso U ℱ i (Equiv.swap a b))
@@ -385,7 +385,7 @@ theorem pi_c (p : ℕ) (s : OrdCochain U ℱ p) : pi U ℱ p (c U ℱ p s) = s :
   have hinj : Function.Injective i := hi.injective
   have hsort : Tuple.sort i = Equiv.refl _ :=
     Tuple.sort_eq_refl_iff_monotone.2 hi.monotone
-  show (c U ℱ p s) i = s ⟨i, hi⟩
+  change (c U ℱ p s) i = s ⟨i, hi⟩
   rw [c_apply_injective U ℱ s i hinj]
   have hsign : (Equiv.Perm.sign (Tuple.sort i) : ℤ) = 1 := by
     simp [hsort]
@@ -393,7 +393,7 @@ theorem pi_c (p : ℕ) (s : OrdCochain U ℱ p) : pi U ℱ p (c U ℱ p s) = s :
   have hjj : (⟨i ∘ (Tuple.sort i), strictMono_sort i hinj⟩ : OrdIndex (I := I) p)
       = ⟨i, hi⟩ := by
     apply Subtype.ext
-    show i ∘ (Tuple.sort i) = i
+    change i ∘ (Tuple.sort i) = i
     rw [hsort]
     rfl
   exact map_eqToHom_ordIndex U ℱ s _ _ hjj (by rw [hjj])
@@ -476,7 +476,7 @@ theorem c_pi_of_isAlternating (p : ℕ) (t : Cochain U ℱ p) (ht : IsAlternatin
   by_cases hi : Function.Injective i
   · rw [c_apply_injective U ℱ (pi U ℱ p t) i hi]
     -- `(pi t) ⟨i ∘ sort i, _⟩` is definitionally `t (i ∘ sort i)`.
-    show (Equiv.Perm.sign (Tuple.sort i) : ℤ) •
+    change (Equiv.Perm.sign (Tuple.sort i) : ℤ) •
         ℱ.map (eqToHom (by rw [inter_comp_perm U i (Tuple.sort i)])).op
           (t (i ∘ (Tuple.sort i))) = t i
     rw [alt_perm U ℱ t ht i (Tuple.sort i), map_zsmul, smul_smul,
@@ -552,7 +552,7 @@ theorem cechD_cechD (p : ℕ) (s : Cochain U ℱ p) :
     cechD U ℱ (p + 1) (cechD U ℱ p s) = 0 := by
   funext i
   rw [Cochain.zero_apply]
-  show (∑ k : Fin (p + 3),
+  change (∑ k : Fin (p + 3),
       ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i k)
         ((cechD U ℱ p s) (i ∘ k.succAbove))) = 0
   -- Unfold the inner differential and merge the two nested restrictions.
@@ -563,7 +563,7 @@ theorem cechD_cechD (p : ℕ) (s : Cochain U ℱ p) :
             restr ℱ ((inter_le_omit U i k).trans (inter_le_omit U (i ∘ k.succAbove) j))
               (s ((i ∘ k.succAbove) ∘ j.succAbove)) := by
     intro k
-    show ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i k)
+    change ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i k)
         (∑ j : Fin (p + 2),
           ((-1 : ℤ) ^ (j : ℕ)) • restr ℱ (inter_le_omit U (i ∘ k.succAbove) j)
             (s ((i ∘ k.succAbove) ∘ j.succAbove))) = _
@@ -582,7 +582,7 @@ theorem ordD_ordD (p : ℕ) (s : OrdCochain U ℱ p) :
     ordD U ℱ (p + 1) (ordD U ℱ p s) = 0 := by
   funext i
   rw [OrdCochain.zero_apply]
-  show (∑ k : Fin (p + 3),
+  change (∑ k : Fin (p + 3),
       ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i.1 k)
         ((ordD U ℱ p s) ⟨i.1 ∘ k.succAbove, strictMono_omit i.2 k⟩)) = 0
   -- Unfold the inner differential and merge the two nested restrictions.
@@ -596,7 +596,7 @@ theorem ordD_ordD (p : ℕ) (s : OrdCochain U ℱ p) :
               (s ⟨(i.1 ∘ k.succAbove) ∘ j.succAbove,
                 strictMono_omit (strictMono_omit i.2 k) j⟩) := by
     intro k
-    show ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i.1 k)
+    change ((-1 : ℤ) ^ (k : ℕ)) • restr ℱ (inter_le_omit U i.1 k)
         (∑ j : Fin (p + 2),
           ((-1 : ℤ) ^ (j : ℕ)) • restr ℱ (inter_le_omit U (i.1 ∘ k.succAbove) j)
             (s ⟨(i.1 ∘ k.succAbove) ∘ j.succAbove,
@@ -727,7 +727,7 @@ theorem cechD_mem_alternating (p : ℕ) (s : Cochain U ℱ p) (hs : IsAlternatin
           (le_trans (inter_le_omit U i x) (le_of_eq (by rw [harg]))),
         alt_perm U ℱ s hs (i ∘ y.succAbove) θ, map_zsmul, smul_smul,
         hscalar hxyne hθsign, neg_smul, permIso_apply, restr_restr, neg_add_cancel]
-    show (∑ j : Fin (p + 2),
+    change (∑ j : Fin (p + 2),
         ((-1 : ℤ) ^ (j : ℕ)) • restr ℱ (inter_le_omit U i j) (s (i ∘ j.succAbove))) = 0
     apply Finset.sum_involution (g := fun (j : Fin (p + 2)) _ => Equiv.swap a b j)
     · intro j _
@@ -753,7 +753,7 @@ theorem cechD_mem_alternating (p : ℕ) (s : Cochain U ℱ p) (hs : IsAlternatin
     · exact fun j _ => Finset.mem_univ _
     · intro j _
       simp
-  · show (∑ j : Fin (p + 2),
+  · change (∑ j : Fin (p + 2),
         ((-1 : ℤ) ^ (j : ℕ)) • restr ℱ (inter_le_omit U (i ∘ Equiv.swap a b) j)
           (s ((i ∘ Equiv.swap a b) ∘ j.succAbove)))
       = - permIso U ℱ i (Equiv.swap a b)
@@ -851,7 +851,7 @@ theorem c_chainMap (p : ℕ) (s : OrdCochain U ℱ p) :
   -- Goal: ordD s = π (cechD (c s)).  Componentwise computation using `c_on_ord`.
   funext i
   obtain ⟨i, hi⟩ := i
-  show (∑ j : Fin (p + 2),
+  change (∑ j : Fin (p + 2),
         ((-1 : ℤ) ^ (j : ℕ)) •
           restr ℱ (inter_le_omit U (⟨i, hi⟩ : OrdIndex (I := I) (p + 1)).1 j)
             (s ⟨(⟨i, hi⟩ : OrdIndex (I := I) (p + 1)).1 ∘ j.succAbove,

@@ -290,7 +290,7 @@ theorem isPullback_limit_atlas [IsCofiltered I] (hthin : ∀ i j : I, Subsinglet
     rw [Category.assoc, hg, ← Category.assoc, hlift _ _ s.condition]
     exact IsPullback.lift_snd _ _ _ _
   · refine hVlim.hom_ext fun i => ?_
-    show m ≫ yoneda.map (cV.π.app i) = lift s.fst s.snd s.condition ≫ yoneda.map (cV.π.app i)
+    change m ≫ yoneda.map (cV.π.app i) = lift s.fst s.snd s.condition ≫ yoneda.map (cV.π.app i)
     rw [hlift _ _ s.condition]
     refine (hP i).hom_ext ?_ ?_
     · rw [IsPullback.lift_fst, Category.assoc, ← Functor.map_comp, cV.w (h₀ i).some]
@@ -337,19 +337,19 @@ theorem isPullback_limit_kernel [IsCofiltered I] (c : Cone A.diagram) (hc : IsLi
   refine IsPullback.of_isLimit' ⟨hw⟩ (PullbackCone.IsLimit.mk _
     (fun s => lift s.fst s.snd s.condition) (fun s => ?_) (fun s => ?_) (fun s m hm₁ hm₂ => ?_))
   · refine hVlim.hom_ext fun i => ?_
-    show (lift s.fst s.snd s.condition ≫ yoneda.map sL) ≫ yoneda.map (cV.π.app i) =
+    change (lift s.fst s.snd s.condition ≫ yoneda.map sL) ≫ yoneda.map (cV.π.app i) =
       s.fst ≫ yoneda.map (cV.π.app i)
     rw [Category.assoc, ← Functor.map_comp, hsL, Functor.map_comp, ← Category.assoc,
       hlift _ _ s.condition]
     exact IsPullback.lift_fst _ _ _ _
   · refine hVlim.hom_ext fun i => ?_
-    show (lift s.fst s.snd s.condition ≫ yoneda.map tL) ≫ yoneda.map (cV.π.app i) =
+    change (lift s.fst s.snd s.condition ≫ yoneda.map tL) ≫ yoneda.map (cV.π.app i) =
       s.snd ≫ yoneda.map (cV.π.app i)
     rw [Category.assoc, ← Functor.map_comp, htL, Functor.map_comp, ← Category.assoc,
       hlift _ _ s.condition]
     exact IsPullback.lift_snd _ _ _ _
   · refine hRlim.hom_ext fun i => ?_
-    show m ≫ yoneda.map (cR.π.app i) = lift s.fst s.snd s.condition ≫ yoneda.map (cR.π.app i)
+    change m ≫ yoneda.map (cR.π.app i) = lift s.fst s.snd s.condition ≫ yoneda.map (cR.π.app i)
     rw [hlift _ _ s.condition]
     refine (A.isPullback i).hom_ext ?_ ?_
     · rw [IsPullback.lift_fst, Category.assoc, ← Functor.map_comp, ← hsL, Functor.map_comp,
@@ -368,7 +368,7 @@ theorem isIso_lift_limitCone [IsCofiltered I] (hthin : ∀ i j : I, Subsingleton
   let φ := hc.lift (A.limitCone sL tL hsL htL hX a ha_surj ha_et hker)
   let g := a ≫ φ
   have hg : ∀ i, g ≫ c.π.app i = yoneda.map (cV.π.app i) ≫ A.v i := fun i => by
-    show (a ≫ φ) ≫ c.π.app i = _
+    change (a ≫ φ) ≫ c.π.app i = _
     rw [Category.assoc, hc.fac]
     exact A.a_limitProj sL tL hsL htL hX a ha_surj ha_et hker i
   have hLsh : Presheaf.IsSheaf (BigFppfOver.topology B S hS) c.pt :=

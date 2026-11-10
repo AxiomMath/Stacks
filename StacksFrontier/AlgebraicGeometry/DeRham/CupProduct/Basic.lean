@@ -232,7 +232,7 @@ theorem tensorForms_hom_ext (p q : ℕ)
     exact (map_neg _ _).trans ((congrArg Neg.neg (hx y)).trans (map_neg _ _).symm)
   · intro V x S hS hx y
     refine N.isSheaf.isSeparated _ _ hS _ _ fun W r hr => ?_
-    show N.val.map r.op _ = N.val.map r.op _
+    change N.val.map r.op _ = N.val.map r.op _
     exact (nat f r.op x y).trans ((hx W r hr _).trans (nat g r.op x y).symm)
   · intro V a x hx y
     have hy : ∀ r : V ⟶ V,
@@ -253,7 +253,7 @@ theorem tensorForms_hom_ext (p q : ℕ)
         exact (map_neg _ _).trans ((congrArg Neg.neg (hy r)).trans (map_neg _ _).symm)
       · intro W y S hS hy r
         refine N.isSheaf.isSeparated _ _ hS _ _ fun Z t ht => ?_
-        show N.val.map t.op _ = N.val.map t.op _
+        change N.val.map t.op _ = N.val.map t.op _
         refine (nat f t.op _ y).trans (Eq.trans ?_ (nat g t.op _ y).symm)
         have hc : (B.exteriorPower p).val.map t.op
             ((B.exteriorPower p).val.map r (a • x)) =
@@ -436,7 +436,7 @@ theorem exteriorProductComponent_d (p q : ℕ) :
   intro U a b ω η hω hη
   refine (sheafificationHomEquiv_apply _ U _).trans
     (Eq.trans ?_ (sheafificationHomEquiv_apply _ U _).symm)
-  show sheafHomEval (N := (deRhamComplex B D).X (p + q + 1)) U _
+  change sheafHomEval (N := (deRhamComplex B D).X (p + q + 1)) U _
       (exteriorProductComponent B p q ≫ (deRhamComplex B D).d (p + q) (p + q + 1)) =
     sheafHomEval
       (M := ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A).obj
@@ -450,7 +450,7 @@ theorem exteriorProductComponent_d (p q : ℕ) :
               ((deRhamComplex B D).X p)).map ((deRhamComplex B D).d q (q + 1)) ≫
               exteriorProductComponent B p (q + 1) ≫ ((deRhamComplex B D).XIsoOfEq hp₂).hom))
   rw [map_add, map_zsmul]
-  show ((deRhamComplex B D).d (p + q) (p + q + 1)).val.app U
+  change ((deRhamComplex B D).d (p + q) (p + q + 1)).val.app U
       ((exteriorProductComponent B p q).val.app U _) =
     ((deRhamComplex B D).XIsoOfEq hp₁).hom.val.app U
         ((exteriorProductComponent B (p + 1) q).val.app U
@@ -479,7 +479,7 @@ theorem exteriorProductComponent_d (p q : ℕ) :
     (congrArg (fun z => (-1 : ℤ) ^ p •
       ((deRhamComplex B D).XIsoOfEq hp₂).hom.val.app U z) e2)).symm
   refine DirectSum.of_injective (β := gradedForms B U) ((p + q + 1 : ℕ) : ℤ) ?_
-  show localDifferential B D (p + q) U (formProduct B p q U (a • ω) (b • η)) = _
+  change localDifferential B D (p + q) U (formProduct B p q U (a • ω) (b • η)) = _
   refine (localLeibniz_smul_exactWedge B D p q U a b ω η hω hη).trans (Eq.trans ?_
     (map_add (ofGradedForm B U ((p + q + 1 : ℕ) : ℤ)) _ _).symm)
   refine congrArg₂ (· + ·) ?_ ?_
@@ -509,7 +509,7 @@ noncomputable abbrev tensorSquare :
     (deRhamComplex B D) (deRhamComplex B D)
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} A)
     (Functor.preservesZeroMorphisms_of_additive _)
-    (fun moduleSheaf => Functor.preservesZeroMorphisms_of_additive _)
+    (fun _ => Functor.preservesZeroMorphisms_of_additive _)
     (ComplexShape.up ℕ) inferInstance inferInstance inferInstance
 
 end AlgebraicGeometry.SheafOfModules

@@ -153,7 +153,7 @@ theorem mem_idealUnitLocus_pc_of_points
         P.1.hom y) ∈ idealUnitLocus B S hS X I :=
     (range_pointsMap_ι_openSubspaceOfPoints B S hS (F := X.1)
       (idealUnitLocus B S hS X I)).le ⟨_, rfl⟩
-  show pointsMap B S hS
+  change pointsMap B S hS
       (yoneda.obj ((SmallEtale.toOver B S hS (idealComplement B S hS X I).1).obj P))
       (P.1.hom ≫ (idealComplementι B S hS X I).hom) y ∈ idealUnitLocus B S hS X I
   rw [pointsMap_comp]

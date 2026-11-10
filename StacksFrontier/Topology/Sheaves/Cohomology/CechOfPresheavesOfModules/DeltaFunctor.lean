@@ -184,14 +184,14 @@ private theorem alternatingCofaceMapComplex_exact.{uR', uX}
     apply HomologicalComplex.preservesLimitsOfShape_of_eval; intro n
     dsimp [AlgebraicTopology.alternatingCofaceMapComplex,
       AlgebraicTopology.AlternatingCofaceMapComplex.obj]
-    show PreservesLimitsOfShape J
+    change PreservesLimitsOfShape J
       ((evaluation SimplexCategory (ModuleCat.{uX} R)).obj ⦋n⦌)
     infer_instance
   · refine ⟨fun J _ _ => ?_⟩
     apply HomologicalComplex.preservesColimitsOfShape_of_eval; intro n
     dsimp [AlgebraicTopology.alternatingCofaceMapComplex,
       AlgebraicTopology.AlternatingCofaceMapComplex.obj]
-    show PreservesColimitsOfShape J
+    change PreservesColimitsOfShape J
       ((evaluation SimplexCategory (ModuleCat.{uX} R)).obj ⦋n⦌)
     infer_instance
 
@@ -206,7 +206,7 @@ public theorem fixedRingCechComplex_exact
       (CategoryTheory.cechComplexFunctor.{w, v, max w uM, u, max uR (max w uM + 1)}
         (A := ModuleCat.{max w uM} R) U) := by
   let E : SimplicialObject (FormalCoproduct.{w} C) := (FormalCoproduct.mk _ U).cech
-  show exactFunctor _ _ (FormalCoproduct.cochainComplexFunctor E)
+  change exactFunctor _ _ (FormalCoproduct.cochainComplexFunctor E)
   have h := (exactFunctor_iff _).mp (cechCosimplicial_exact.{u, v, w, uR, uM} R E)
   have h' := (exactFunctor_iff _).mp (alternatingCofaceMapComplex_exact.{uR, max w uM} R)
   have : PreservesFiniteLimits (FormalCoproduct.cosimplicialObjectFunctor E) := h.1

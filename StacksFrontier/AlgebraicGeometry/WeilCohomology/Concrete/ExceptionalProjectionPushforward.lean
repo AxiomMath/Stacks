@@ -117,7 +117,7 @@ theorem exists_iso_bundle_pullbackSnd_blowUpToBase (i : Z ⟶ X) [IsClosedImmers
     rw [← cancel_epi κ.hom, Iso.hom_inv_id_assoc, ← Category.assoc, h'.isoPullback_hom_snd,
       Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   rw [← cancel_mono i.toImage]
-  show (κ.inv ≫ δ.hom ≫ ε.inv ≫ inv β) ≫ Stacks.Chow.bundleProj M' ≫ i.toImage = _
+  change (κ.inv ≫ δ.hom ≫ ε.inv ≫ inv β) ≫ Stacks.Chow.bundleProj M' ≫ i.toImage = _
   refine (congrArg _ hb).trans ?_
   refine (Category.assoc _ _ _).trans (congrArg (κ.inv ≫ ·) ?_) |>.trans hκ
   refine (Category.assoc _ _ _).trans (congrArg (δ.hom ≫ ·) ?_) |>.trans
@@ -177,7 +177,7 @@ theorem exists_iso_bundle_exceptionalObj {n e : ℕ} (hX : RelativeDimension X.o
     SmoothProjectiveScheme.hom_ext' φ.hom_inv_id, SmoothProjectiveScheme.hom_ext' φ.inv_hom_id,
     SmoothProjectiveScheme.hom_ext' hφ⟩
   · exact hφ'
-  · show φ.inv ≫ pullback.snd _ _ ≫ Z.obj.hom = Stacks.Chow.bundleProj _ ≫ Z.obj.hom
+  · change φ.inv ≫ pullback.snd _ _ ≫ Z.obj.hom = Stacks.Chow.bundleProj _ ≫ Z.obj.hom
     exact (congrArg (φ.inv ≫ ·) hφ').symm.trans (Iso.inv_hom_id_assoc φ _)
 
 end Stacks.WeilCohomology.SmoothProjectiveScheme

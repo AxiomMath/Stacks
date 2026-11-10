@@ -125,7 +125,7 @@ theorem fromSpec_appIso_inv_res (W : (Spec Γ(X, U)).Opens) (b : Γ(X, U)) :
   have hid : (Opens.leTop (⊤ : (Spec Γ(X, U)).Opens)) = 𝟙 _ := Subsingleton.elim _ _
   rw [hid, op_id, CategoryTheory.Functor.map_id] at t
   refine n.trans ?_
-  show X.presheaf.map _ ((hU.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso Γ(X, U)).inv b)) = _
+  change X.presheaf.map _ ((hU.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso Γ(X, U)).inv b)) = _
   have t' : (hU.fromSpec.appIso ⊤).inv ((Scheme.ΓSpecIso Γ(X, U)).inv b) =
       X.presheaf.map (eqToHom hU.fromSpec_image_top).op b := t.symm
   rw [t', ← ConcreteCategory.comp_apply, ← X.presheaf.map_comp]
@@ -348,7 +348,7 @@ theorem restrictedStalkIso_hom_germ (k : ℤ)
     (Sheaf.germSquare (cotangentBase f) (hU.fromSpec y) (nbhdU hU y)) k m
   have hsq₂ := CommAlgCat.squareCotangentComplexMap_apply_of_eq_comp.{u}
     (stalkSquare f hU e y) (stalkTransportSquare f hU e y) (specStalkSquare_eq f hU e y) k m
-  show (CommAlgCat.cotangentComplexAbMap (stalkTransportSquare f hU e y)).f k
+  change (CommAlgCat.cotangentComplexAbMap (stalkTransportSquare f hU e y)).f k
       ((Sheaf.cotangentComplexStalkAbIso (cotangentBase f) (hU.fromSpec y)).hom.f k
         ((Scheme.Modules.restrictStalkNatIso hU.fromSpec (specPoint y)).hom.app L
           (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
@@ -403,7 +403,7 @@ theorem restrictedStalkIso_hom_smul (k : ℤ) (b : Γ(X, U))
     hxW' c' r''
   have hgerm : (Sheaf.germSquare (cotangentBase f) (hU.fromSpec y)
       (OrderDual.toDual ⟨W', hxW'⟩)).map c' = (stalkSquare f hU e y).map b := by
-    show (TopCat.Presheaf.germ X.presheaf W' (hU.fromSpec y) hxW').hom
+    change (TopCat.Presheaf.germ X.presheaf W' (hU.fromSpec y) hxW').hom
       ((hU.fromSpec.appIso W).inv ((Spec Γ(X, U)).presheaf.map (homOfLE le_top : W ⟶ ⊤).op
         ((Scheme.ΓSpecIso Γ(X, U)).inv b))) = _
     rw [fromSpec_appIso_inv_res]

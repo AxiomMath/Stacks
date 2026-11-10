@@ -87,7 +87,7 @@ theorem freeSheafFiberIso_hom_app_toPresheafFiber (P : Sheaf J (Type w)) (X : C)
       (CategoryTheory.toSheafify J (P.obj ⋙ ModuleCat.freeSplit.{w, 0} R)) X x)
       (ModuleCat.freeSplitMk p)).symm
   rw [h1]
-  show (Φ.presheafFiberCompIso (ModuleCat.freeSplit.{w, 0} R)).hom.app P.obj
+  change (Φ.presheafFiberCompIso (ModuleCat.freeSplit.{w, 0} R)).hom.app P.obj
       (inv (Φ.presheafFiber.map
         (CategoryTheory.toSheafify J (P.obj ⋙ ModuleCat.freeSplit.{w, 0} R)))
         (Φ.presheafFiber.map (CategoryTheory.toSheafify J (P.obj ⋙ ModuleCat.freeSplit.{w, 0} R))

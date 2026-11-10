@@ -148,7 +148,7 @@ public theorem exists_ringEquiv_quotientPowBaseChange {m : ℕ} (hm : 0 < m)
   rw [RingEquiv.trans_apply, BC.algebraMap_completedTensorProductEquiv, RingEquiv.trans_apply,
     ← hof, show algebraMap T (AdicCompletion K T) (Algebra.TensorProduct.includeRight
       (Ideal.Quotient.mk _ x)) = φ (Algebra.TensorProduct.includeRight (Ideal.Quotient.mk _ x))
-      from rfl, RingEquiv.symm_apply_apply, AlgEquiv.toRingEquiv_eq_coe, AlgEquiv.coe_ringEquiv,
+      from rfl, RingEquiv.symm_apply_apply, AlgEquiv.coe_toRingEquiv,
     AlgEquiv.symm_apply_eq, Ideal.Quotient.algebraMap_quotient_map_quotient,
     Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk, Algebra.TensorProduct.includeRight_apply,
     ← Ideal.Quotient.algebraMap_eq]
@@ -206,7 +206,7 @@ public theorem exists_level
   let γ : AdicCompletion K₂ C₀ ≃ₐ[Q]
       B.carrier ⧸ (Ideal.span {a ^ m}).map (algebraMap A B.carrier) :=
     AlgEquiv.ofRingEquiv (f := E₀.symm.toRingEquiv.trans β) fun y ↦ by
-      rw [RingEquiv.trans_apply, AlgEquiv.toRingEquiv_eq_coe, AlgEquiv.coe_ringEquiv,
+      rw [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
         AlgEquiv.commutes, hβ]
   refine ⟨Localization.Away g, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, ?_, ⟨?_⟩⟩

@@ -48,7 +48,7 @@ theorem exists_le_etaleSubmoduleRestrict_of_isAffineSpace (W : AlgebraicSpaces B
   classical
   have : F.IsQuasicoherentOnSite := hF
   have hesW : EssentiallySmall.{u} (smallEtaleRingedSite B S hS W.1 W.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS W.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS W.1)
     infer_instance
   let habW : Abelian (Modules.{u, u} B S hS W.1 W.2) :=
     SheafOfModules.instAbelian.{u, u, u, u + 1}
@@ -82,7 +82,7 @@ theorem exists_le_etaleSubmoduleRestrict_of_isAffineSpace (W : AlgebraicSpaces B
   have hc'col : IsColimit c' := hcol.whiskerEquivalence eqv
   have hιmono : ∀ i, Mono (c'.ι.app i) := by
     intro i
-    show Mono (eqv.functor.obj i).obj.arrow
+    change Mono (eqv.functor.obj i).obj.arrow
     infer_instance
   have hDmono : ∀ {i i' : SmallModel.{u} (FiniteTypeQuasicoherentSubobject B S hS W.1 W.2 F)}
       (f : i ⟶ i'), Mono (D'.map f) := fun {i _} f ↦

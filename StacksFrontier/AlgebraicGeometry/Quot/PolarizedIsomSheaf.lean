@@ -412,7 +412,7 @@ theorem Hom.exists_comp_eq_of_mem_fpqcPrecoverage {ι : Type*} {a b : PolarizedF
             CategoryTheory.Functor.map_id] }
   refine ⟨⟨β₀, M, hcart, e⟩, rfl, rfl, fun i => ?_⟩
   refine Hom.comp_eq_of_lineBundleIso_hom (c i) _ (φ i) (hbase i) (hM i) ?_
-  show (Scheme.Modules.pullback (c i).totalMap).map α ≫ (c i).lineBundleIso.hom = _
+  change (Scheme.Modules.pullback (c i).totalMap).map α ≫ (c i).lineBundleIso.hom = _
   rw [hα i, lineBundleComparison]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
@@ -525,7 +525,7 @@ theorem polarizedMorPresheaf_map_eq_iff {x y : (polarizedSliceProjection B hS hT
   · intro hn
     symm
     refine Functor.morRestrict_uniq _ x y ((Over.iteratedSliceBackward U).map f) m n ?_
-    show n.1 ≫ _ = _ ≫ m.1 ≫ _
+    change n.1 ≫ _ = _ ≫ m.1 ≫ _
     rw [← Functor.pullbackFiberMap_fac _ y ((Over.iteratedSliceBackward U).map f),
       ← Category.assoc, hn, Category.assoc]
 
@@ -764,7 +764,7 @@ theorem polarizedSliceProjection_isHomLift_id_of_baseMap_eq {W : BigFppfOver B S
     (polarizedSliceProjection B hS hT).IsHomLift (𝟙 W) χ := by
   refine IsHomLift.of_fac' _ _ _ a.2 b.2 ?_
   apply Over.OverMorphism.ext
-  show χ.baseMap = _
+  change χ.baseMap = _
   rw [hχ]
   simp only [Over.eqToHom_left, Category.id_comp, eqToHom_trans]
   rfl
@@ -799,11 +799,11 @@ theorem isSheafFor_polarizedMorPresheaf (x y : (polarizedSliceProjection B hS hT
         inv ((polarizedMorPresheaf B hS hT U x y).map g.op n) := by
     intro W V' g n
     refine IsIso.eq_inv_of_inv_hom_id ?_
-    show Functor.morRestrict _ y x _ (inv n) ≫ Functor.morRestrict _ x y _ n = 𝟙 _
+    change Functor.morRestrict _ y x _ (inv n) ≫ Functor.morRestrict _ x y _ n = 𝟙 _
     rw [← Functor.morRestrict_comp_hom, IsIso.inv_hom_id, Functor.morRestrict_id_hom]
   have hm' : Presieve.Arrows.Compatible (polarizedMorPresheaf B hS hT U y x) f m' := by
     intro i j Z g₁ g₂ h
-    show (polarizedMorPresheaf B hS hT U y x).map g₁.op (inv (m i)) =
+    change (polarizedMorPresheaf B hS hT U y x).map g₁.op (inv (m i)) =
       (polarizedMorPresheaf B hS hT U y x).map g₂.op (inv (m j))
     rw [hinv, hinv]
     exact IsIso.inv_eq_inv.mpr (hm i j Z g₁ g₂ h)
@@ -856,12 +856,12 @@ theorem isSheafFor_polarizedMorPresheaf (x y : (polarizedSliceProjection B hS hT
   refine PolarizedFamily.Hom.ext_of_comp_eq_of_mem_fpqcPrecoverage _ hcx ?_ fun i => ?_
   · have : (polarizedSliceProjection B hS hT).IsHomLift
         (𝟙 ((Over.iteratedSliceBackward U).obj V₀).left) t'.1 := t'.2
-    show t'.1.baseMap = χ.baseMap
+    change t'.1.baseMap = χ.baseMap
     rw [polarizedSliceProjection_baseMap_eq B hS hT
       (𝟙 ((Over.iteratedSliceBackward U).obj V₀).left) t'.1, hχb]
     simp only [Over.id_left, Category.id_comp, eqToHom_trans]
     rfl
-  · show _ ≫ t'.1 = _ ≫ χ
+  · change _ ≫ t'.1 = _ ≫ χ
     rw [← (polarizedMorPresheaf_map_eq_iff (f i) t' (m i)).1 (ht' i), hχ i]
 
 /-- **`Mor(x, y)` is an fppf sheaf on the big fppf site of `U`.** -/

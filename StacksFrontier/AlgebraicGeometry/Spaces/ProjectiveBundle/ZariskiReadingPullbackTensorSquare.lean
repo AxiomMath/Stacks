@@ -196,12 +196,14 @@ theorem conjugateEquiv_pullbackModulesBaseChangeIso_hom_sections :
     (congrArg Iso.inv (smallEtaleRingedSiteHom (associatedBigEtaleSite B)
       h.left).pushforwardModulesToposIsoSections_eq.symm)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the inferred type of the proof term, which is therefore elaborated twice.
 /-- The conjugate of `representedSquareModulePullbackIso` through the equivalences
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos`, with comparisons which are the
 identity on sections by definition, as a term whose type fixes the spelling of the categories of
 modules. -/
-def conjugateEquivRepresentedSquareSectionsAux :=
-  Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+theorem conjugateEquivRepresentedSquareSectionsAux : type_of%
+  (Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
     (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
     (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
     (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
@@ -231,7 +233,38 @@ def conjugateEquivRepresentedSquareSectionsAux :=
       (relativelyRepresentable_yoneda_map B S hS h))
     (conjugateEquiv_pullbackModulesBaseChangeIso_hom_sections h)
     (conjugateEquiv_representedReindexPullbackIso_hom_sections T')
-    (conjugateEquiv_representedReindexPullbackIso_hom_sections T)
+    (conjugateEquiv_representedReindexPullbackIso_hom_sections T)) :=
+  (Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+    (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
+    (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
+    (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
+    (pullbackAdjPushforwardModules (representedReindexHom B S hS T))
+    (pullbackAdjPushforwardModules
+      (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)))
+    (smallEtaleRingedSiteHom (associatedBigEtaleSite B)
+      h.left).toRingedToposSiteHom.pullbackPushforwardAdjunctionToposGeneral
+    (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
+    (representedSchemeRoutePullbackCompIso B S hS h)
+    (representedSpaceRoutePullbackCompIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+    (pushforwardModulesCompIso (representedReindexHom B S hS T')
+      (representedSchemeBaseChangeHom B S hS h) (representedSquareHom B S hS h) (Iso.refl _)
+      (fSharpSetComp_representedSquareHom B S hS h))
+    (pushforwardModulesCompIso
+      (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h))
+      (representedReindexHom B S hS T) (representedSquareHom B S hS h)
+      (representedSquareDirectImageIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+      (fSharpSetComp_representedSquareDirectImageIso B S hS h
+        (relativelyRepresentable_yoneda_map B S hS h)))
+    (representedSchemeBaseChangePullbackIso B S hS h)
+    (representedReindexPullbackIso B S hS T') (representedReindexPullbackIso B S hS T)
+    (representedSchemeBaseChangePushforwardIsoSections h)
+    (representedReindexPushforwardIsoSections T') (representedReindexPushforwardIsoSections T)
+    (conjugateEquiv_representedSchemeRoutePullbackCompIso_hom B S hS h)
+    (conjugateEquiv_representedSpaceRoutePullbackCompIso_hom B S hS h
+      (relativelyRepresentable_yoneda_map B S hS h))
+    (conjugateEquiv_pullbackModulesBaseChangeIso_hom_sections h)
+    (conjugateEquiv_representedReindexPullbackIso_hom_sections T')
+    (conjugateEquiv_representedReindexPullbackIso_hom_sections T) :)
 
 /-- **The conjugate of `representedSquareModulePullbackIso`** through the equivalences
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos` is the composite of the comparisons
@@ -241,11 +274,14 @@ theorem conjugateEquiv_representedSquareFactorizationIso_hom_eq_comp_sections :
     type_of% (conjugateEquivRepresentedSquareSectionsAux h) :=
   conjugateEquivRepresentedSquareSectionsAux h
 
+set_option maxHeartbeats 400000 in
+-- The statement is the inferred type of the proof term, which is therefore elaborated twice.
 /-- The description of the transposed base change of the Zariski reading through
 `AlgebraicGeometry.Space.representedReindexEquivalenceTopos` and
 `AlgebraicGeometry.Space.conjugateEquiv_representedSquareFactorizationIso_hom_eq_comp_sections`,
 as a term whose type fixes the spelling of the categories of modules. -/
-def zariskiReadingPullbackHomAppSectionsAux := fun (hH : _)
+theorem zariskiReadingPullbackHomAppSectionsAux : type_of%
+  (fun (hH : _)
     (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
     (hN : N.IsQuasicoherentOnSite) =>
   Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalenceTopos T) _
@@ -276,7 +312,39 @@ def zariskiReadingPullbackHomAppSectionsAux := fun (hH : _)
     hH N _
     (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
       (associatedBigEtaleSite B) h.left _
-      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN))
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN))) :=
+  (fun (hH : _)
+    (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN : N.IsQuasicoherentOnSite) =>
+  Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalenceTopos T) _
+    (Stacks.RingedSpace.pullbackAdjunction (ringedSpaceHom ((BigFppfOver.toScheme B S hS).map h)))
+    (representedReindexEquivalenceTopos T') _
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T) T.left.property)
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T') T'.left.property)
+    (zariskiReadingIsoTopos T) (zariskiReadingIsoTopos T')
+    (Functor.whiskerRight
+      (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS h)).pushforwardModulesIso.hom
+      (SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)) ≫
+      zariskiDirectImageNatTrans h)
+    (SheafOfModules.pushforwardSquareIso.{u}
+      (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B)
+        h.left).toRingCatSheafHom
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T'.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.smallEtaleStructureMapRing (associatedBigEtaleSite B)
+        h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.baseChangeOpensIso (associatedBigEtaleSite B) h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap_comp_baseChangeOpensIso
+        (associatedBigEtaleSite B) h.left)) _
+    (conjugateEquiv_representedSquareFactorizationIso_hom_eq_comp_sections h)
+    hH N _
+    (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
+      (associatedBigEtaleSite B) h.left _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)) :)
 
 /-- **The base change of the Zariski reading through the comparisons of Stacks 04M0**, read
 through `AlgebraicGeometry.Space.representedReindexEquivalenceTopos` with comparisons which are
@@ -475,10 +543,13 @@ theorem representedSquareDirectImageIso_hom_app_hom_app
       representedSquareDirectImageSection h F W z := by
   delta representedSquareDirectImageIso representedSquareDirectImageSection; rfl
 
+set_option maxHeartbeats 400000 in
+-- The statement is the inferred type of the proof term, which is therefore elaborated twice.
 /-- The sections compatibility of
 `AlgebraicGeometry.Space.zariskiReadingPullbackHomAppSectionsAux` from its two sides and a
 comparison of the two formulas, as a term whose type fixes the spelling of the four hypotheses. -/
-def zariskiReadingSectionsCompatAux := fun (hL : _) (hΦ : _) (hκ : _) (hR : _) =>
+theorem zariskiReadingSectionsCompatAux : type_of%
+  (fun (hL : _) (hΦ : _) (hκ : _) (hR : _) =>
   (Adjunction.equivalenceMateCompat_of_val_app
     (fun M₀ O x =>
       representedSquareDirectImageSection h ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀)
@@ -505,7 +576,35 @@ def zariskiReadingSectionsCompatAux := fun (hL : _) (hΦ : _) (hκ : _) (hR : _)
             chartRanIso B S hS (representedSpaceMap B S hS h)
               (relativelyRepresentable_yoneda_map B S hS h)).hom.app
               ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀)) x)))
-    hL hΦ hκ hR : HypothesisOf (zariskiReadingPullbackHomAppSectionsAux h))
+    hL hΦ hκ hR : HypothesisOf (zariskiReadingPullbackHomAppSectionsAux h))) :=
+  (fun (hL : _) (hΦ : _) (hκ : _) (hR : _) =>
+  (Adjunction.equivalenceMateCompat_of_val_app
+    (fun M₀ O x =>
+      representedSquareDirectImageSection h ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀)
+        (op ((SmallEtale.opensToSmallEtale (associatedBigEtaleSite B) _ T.left.property).obj
+          O.unop)) x)
+    (fun M₀ O y =>
+      ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀).obj.map
+        ((representedSmallEtaleEquivalence B S hS T').inverse.map
+          ((SmallEtale.baseChangeOpensIso (associatedBigEtaleSite B) h.left).hom.app O.unop)).op y)
+    (fun M₀ O x =>
+      ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀).obj.map
+        ((representedSmallEtaleEquivalence B S hS T').inverse.map
+          ((SmallEtale.baseChangeOpensIso (associatedBigEtaleSite B) h.left).hom.app O.unop)).op
+      (((Sheaf.moduleSheafFunctor (testRing T')).obj M₀).obj.map
+        ((representedEquivInverseBaseChangeIso B S hS h
+            (relativelyRepresentable_yoneda_map B S hS h)).inv.app
+          ((SmallEtale.opensToSmallEtale (associatedBigEtaleSite B) _ T.left.property).obj
+            O.unop)).op
+        ((Sheaf.sectionsFunctor _
+        (Opposite.op ((representedSmallEtaleEquivalence B S hS T).inverse.obj
+                ((SmallEtale.opensToSmallEtale (associatedBigEtaleSite B) _
+                  T.left.property).obj O.unop)))).map
+          ((smallEtaleDirectImageRanIso B S hS (representedSpaceMap B S hS h) ≪≫
+            chartRanIso B S hS (representedSpaceMap B S hS h)
+              (relativelyRepresentable_yoneda_map B S hS h)).hom.app
+              ((Sheaf.moduleSheafFunctor (testRing T')).obj M₀)) x)))
+    hL hΦ hκ hR : HypothesisOf (zariskiReadingPullbackHomAppSectionsAux h)) :)
 
 /-- The left-hand side of the sections compatibility: the identification of sections of the direct
 image is restriction of the section given by the chart comparison, along the base change of the

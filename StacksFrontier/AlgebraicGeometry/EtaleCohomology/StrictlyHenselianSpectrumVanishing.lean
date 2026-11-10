@@ -341,7 +341,7 @@ private lemma eq_zero_of_basicOpen_add
         change P.map (homOfLE (hb t)).op x = 0 at ht
         have H := hadd (b * s) (b * t)
         rw [show b * s + b * t = b * (s + t) from (_root_.mul_add b s t).symm] at H
-        show P.map (homOfLE (hb (s + t))).op x = 0
+        change P.map (homOfLE (hb (s + t))).op x = 0
         refine H _ ?_ ?_
         · rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp]
           exact restrict_zero (hb s)
@@ -352,7 +352,7 @@ private lemma eq_zero_of_basicOpen_add
       smul_mem' := by
         intro c s hs
         change P.map (homOfLE (hb s)).op x = 0 at hs
-        show P.map (homOfLE (hb (c * s))).op x = 0
+        change P.map (homOfLE (hb (c * s))).op x = 0
         refine restrict_zero (hb s) ?_ hs
         simp only [PrimeSpectrum.basicOpen_mul]
         exact le_inf inf_le_left (inf_le_right.trans inf_le_right) }

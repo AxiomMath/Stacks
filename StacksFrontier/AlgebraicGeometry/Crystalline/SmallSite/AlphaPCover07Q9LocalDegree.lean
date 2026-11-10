@@ -173,17 +173,15 @@ sheaves killed by `p ^ D`.
 This is the proof of [Stacks, Tag 07Q9] run with a locally constant instead of a constant degree:
 the conclusion is local on `X`, and over an open over which `f` is a chain of `n ≤ D` successive
 `α_p`-extensions the cone is killed by `p ^ n`.  The hypothesis `p ∈ I` of the source is not used
-by the argument: what the `α_p`-extension step uses is that `p` is nilpotent on `X`, which is part
-of the situation. -/
+by the argument, so it is not taken here: what the `α_p`-extension step uses is that `p` is
+nilpotent on `X`, which is part of the situation. -/
 theorem annihilation07Q9_of_isIteratedAlphaPCover_localDegree
-    (hpI : (T.p : Γ(T.S.scheme, ⊤)) ∈ T.S.ideal.obj (op ⊤))
     (hf : IsIteratedAlphaPCover T.p f) (D : ℕ)
     (hD : ∀ x : T.X, ∃ U : T.X.Opens, x ∈ U ∧ ∃ n ≤ D, HasConstantDegree (f ∣_ U) (T.p ^ n))
     (F : SheafOfModules.{u} (structureSheaf T)) (hF : IsQuasiCoherentCrystal T F) :
     Annihilation07Q9 T (T.p ^ D)
       (moduleComparison07Q9 (overSituation T f) T (𝟙 T.S) f (overSituation_compat T f)
         ((moduleULift T).obj F)) := by
-  clear hpI
   exact annihilation07Q9_of_chainConeAnnihilation_localDegree07Q9 hf hD _ fun _ _ hW =>
     chainConeAnnihilation_isChainOpen07Q9 T f F hF hW
 

@@ -158,7 +158,7 @@ theorem fSharpCompatible_coefficientHom_square :
   unfold RingedToposSiteHom.FSharpCompatible
   rw [c₂]
   refine (Category.comp_id _).trans ?_
-  show structureMap Λ h ≫
+  change structureMap Λ h ≫
       ((baseChange h).sheafPushforwardContinuous CommRingCat.{u + 1} (topology X) (topology Y)).map
         (coefficientMap φ Y) ≫ 𝟙 _ =
     coefficientMap φ X ≫ structureMap Λ' h ≫ 𝟙 _
@@ -170,7 +170,7 @@ theorem fSharpCompatible_coefficientHom_square :
     (Opposite.op ((baseChange h).obj V.unop))
   have h₃ := toSheafify_app_comp_coefficientMap_app φ X V
   have h₄ := toSheafify_app_comp_structureMap_app Λ' h V
-  show (toSheafify (topology X) ((Functor.const _).obj (CommRingCat.of Λ))).app V ≫
+  change (toSheafify (topology X) ((Functor.const _).obj (CommRingCat.of Λ))).app V ≫
       (structureMap Λ h).hom.app V ≫ (coefficientMap φ Y).hom.app
         (Opposite.op ((baseChange h).obj V.unop)) =
     (toSheafify (topology X) ((Functor.const _).obj (CommRingCat.of Λ))).app V ≫

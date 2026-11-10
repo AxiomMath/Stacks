@@ -485,7 +485,7 @@ theorem comp_identity_left (P : SchemePresentation G)
   have key : P.pairMap P.containsArrows k ≫ compOnPairs G = P.arrowsIso.inv := by
     refine (toGroupoidObject G).comp_identity_left P.arrowsIso.inv
       (P.pairMap P.containsArrows k) ?_ ?_
-    · show P.pairMap P.containsArrows k ≫ pullback.fst G.source.hom G.target.hom =
+    · change P.pairMap P.containsArrows k ≫ pullback.fst G.source.hom G.target.hom =
         P.arrowsIso.inv ≫ G.target.hom ≫ (identityHom G).hom
       rw [P.pairMap_comp_fst P.containsArrows k, h₁,
         Space.schemeSiteMap_comp C hS P.containsArrows P.containsObjects P.containsArrows,
@@ -506,7 +506,7 @@ theorem comp_identity_right (P : SchemePresentation G)
     refine (toGroupoidObject G).comp_identity_right P.arrowsIso.inv
       (P.pairMap P.containsArrows k) ?_ ?_
     · exact P.pairMap_comp_fst_of_eq_id k h₁
-    · show P.pairMap P.containsArrows k ≫ pullback.snd G.source.hom G.target.hom =
+    · change P.pairMap P.containsArrows k ≫ pullback.snd G.source.hom G.target.hom =
         P.arrowsIso.inv ≫ G.source.hom ≫ (identityHom G).hom
       rw [P.pairMap_comp_snd P.containsArrows k, h₂,
         Space.schemeSiteMap_comp C hS P.containsArrows P.containsObjects P.containsArrows,
@@ -526,7 +526,7 @@ theorem comp_inverse_left (P : SchemePresentation G)
       P.arrowsIso.inv ≫ G.source.hom ≫ (identityHom G).hom := by
     refine (toGroupoidObject G).comp_inverse_left P.arrowsIso.inv
       (P.pairMap P.containsArrows k) ?_ ?_
-    · show P.pairMap P.containsArrows k ≫ pullback.fst G.source.hom G.target.hom =
+    · change P.pairMap P.containsArrows k ≫ pullback.fst G.source.hom G.target.hom =
         P.arrowsIso.inv ≫ (inverseHom G).hom
       rw [P.pairMap_comp_fst P.containsArrows k, h₁, P.yoneda_inverse]
       simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -548,7 +548,7 @@ theorem comp_inverse_right (P : SchemePresentation G)
     refine (toGroupoidObject G).comp_inverse_right P.arrowsIso.inv
       (P.pairMap P.containsArrows k) ?_ ?_
     · exact P.pairMap_comp_fst_of_eq_id k h₁
-    · show P.pairMap P.containsArrows k ≫ pullback.snd G.source.hom G.target.hom =
+    · change P.pairMap P.containsArrows k ≫ pullback.snd G.source.hom G.target.hom =
         P.arrowsIso.inv ≫ (inverseHom G).hom
       rw [P.pairMap_comp_snd P.containsArrows k, h₂, P.yoneda_inverse]
       simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -582,26 +582,26 @@ theorem comp_assoc (P : SchemePresentation G)
       (P.pairMap P.containsTriples (pullback.snd (pullback.snd P.source P.target)
         (pullback.fst P.source P.target)))
       (P.pairMap P.containsTriples m) (P.pairMap P.containsTriples n) ?_ ?_ ?_ ?_ ?_
-    · show P.pairMap P.containsTriples (pullback.fst (pullback.snd P.source P.target)
+    · change P.pairMap P.containsTriples (pullback.fst (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ pullback.snd G.source.hom G.target.hom =
           P.pairMap P.containsTriples (pullback.snd (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ pullback.fst G.source.hom G.target.hom
       rw [P.pairMap_comp_snd P.containsTriples _, P.pairMap_comp_fst P.containsTriples _,
         pullback.condition]
-    · show P.pairMap P.containsTriples m ≫ pullback.fst G.source.hom G.target.hom =
+    · change P.pairMap P.containsTriples m ≫ pullback.fst G.source.hom G.target.hom =
           P.pairMap P.containsTriples (pullback.fst (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ compOnPairs G
       rw [P.pairMap_comp_fst P.containsTriples m, hm₁, P.yoneda_comp_pairMap P.containsTriples _]
       simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
-    · show P.pairMap P.containsTriples m ≫ pullback.snd G.source.hom G.target.hom =
+    · change P.pairMap P.containsTriples m ≫ pullback.snd G.source.hom G.target.hom =
           P.pairMap P.containsTriples (pullback.snd (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ pullback.snd G.source.hom G.target.hom
       rw [P.pairMap_comp_snd P.containsTriples m, P.pairMap_comp_snd P.containsTriples _, hm₂]
-    · show P.pairMap P.containsTriples n ≫ pullback.fst G.source.hom G.target.hom =
+    · change P.pairMap P.containsTriples n ≫ pullback.fst G.source.hom G.target.hom =
           P.pairMap P.containsTriples (pullback.fst (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ pullback.fst G.source.hom G.target.hom
       rw [P.pairMap_comp_fst P.containsTriples n, P.pairMap_comp_fst P.containsTriples _, hn₁]
-    · show P.pairMap P.containsTriples n ≫ pullback.snd G.source.hom G.target.hom =
+    · change P.pairMap P.containsTriples n ≫ pullback.snd G.source.hom G.target.hom =
           P.pairMap P.containsTriples (pullback.snd (pullback.snd P.source P.target)
             (pullback.fst P.source P.target)) ≫ compOnPairs G
       rw [P.pairMap_comp_snd P.containsTriples n, hn₂, P.yoneda_comp_pairMap P.containsTriples _]

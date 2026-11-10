@@ -63,6 +63,7 @@ universe u w
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out by default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ReducedStackClosedSubstack :
@@ -151,7 +152,8 @@ theorem prop_of_isReduced_fiber {𝒳 : AlgebraicStacks.{u, w} B S hS}
   set q := hciU.rep.snd g₀
   set pr := hciU.rep.fst g₀
   have hsq := hciU.rep.isPullback g₀
-  have hprw : pr ≫ h = yoneda.map q := by simpa only [hg₀, Category.id_comp, Category.comp_id] using hsq.w
+  have hprw : pr ≫ h = yoneda.map q := by
+    simpa only [hg₀, Category.id_comp, Category.comp_id] using hsq.w
   have hpriso : IsIso pr := hsq.isIso_fst_of_isIso
   -- It is a closed immersion of schemes, and it is surjective.
   have hqCI : AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map q) :=
@@ -201,7 +203,7 @@ theorem prop_of_isReduced_fiber {𝒳 : AlgebraicStacks.{u, w} B S hS}
     have h₁ : IsIso ((BigFppfOver.forget B S hS).map
         (Over.homMk (Over.mk t.1.1).hom rfl :
           (Over.mk ((Over.mk t.1.1).hom ≫ U.hom) : BigFppfOver B S hS) ⟶ U)) := by
-      show IsIso t.1.1
+      change IsIso t.1.1
       rw [ht1]
       exact IsIso.id _
     exact isIso_of_reflects_iso _ (BigFppfOver.forget B S hS)

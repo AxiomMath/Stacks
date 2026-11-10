@@ -213,7 +213,7 @@ theorem preservesColimitsOfShape_rightDerived_pushforwardTopos [QuasiCompact f]
 /-- **Finite cohomological dimension of `f` and torsion coefficients bound the higher direct
 images**: `R^q f_* M = 0` for every sheaf of `Λ̲`-modules `M` and every `q > cd(f)`. -/
 theorem exists_isZero_rightDerived_pushforwardTopos [QuasiCompact f] [QuasiSeparated f]
-    (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : AddMonoid.IsTorsion Λ) :
+    (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : IsAddTorsion Λ) :
     ∃ d : ℕ, ∀ q : ℕ, d ≤ q → ∀ M : SheafOfModules.{u + 1} (etaleRing Λ X),
       IsZero (((ringedToposHom Λ f).pushforwardTopos.rightDerived q).obj M) := by
   obtain ⟨d, hd⟩ := ENat.ne_top_iff_exists.1 hcd.ne
@@ -233,7 +233,7 @@ theorem exists_isZero_rightDerived_pushforwardTopos [QuasiCompact f] [QuasiSepar
 quasi-separated morphism of schemes with `cd(f) < ∞` and let `Λ` be a torsion ring. Then
 `Rf_* : D(X_étale, Λ) ⟶ D(Y_étale, Λ)` commutes with direct sums. -/
 theorem preservesColimitsOfShape_pushforward [QuasiCompact f] [QuasiSeparated f]
-    (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : AddMonoid.IsTorsion Λ) (I : Type (u + 1)) :
+    (hcd : f.etaleCohomologicalDimension < ⊤) (hΛ : IsAddTorsion Λ) (I : Type (u + 1)) :
     PreservesColimitsOfShape (Discrete I) (pushforward Λ f) := by
   obtain ⟨d, hd⟩ := exists_isZero_rightDerived_pushforwardTopos Λ f hcd hΛ
   exact Stacks.DerivedFunctor.Coproducts.preservesCoproductsOfShape_of_finiteCohomologicalDimension

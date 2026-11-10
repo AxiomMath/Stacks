@@ -69,8 +69,8 @@ search target; `Ideal.mapCotangent` is stated for a map of *different* rings fro
 
 **No `stacks` attribute is attached, and the reason is not caution.** Everything here is a
 statement about *rings of sections* and ideals inside them: no sheaf, no module pullback and no
-`Stacks.Conormal.conormalSheaf` occurs. The two labelled assertions of [Stacks, Tag 08S2] are about the
-comparison `Scheme.Hom.relativeDifferentials f ≅`
+`Stacks.Conormal.conormalSheaf` occurs. The two labelled assertions of [Stacks, Tag 08S2] are about
+the comparison `Scheme.Hom.relativeDifferentials f ≅`
 `Stacks.Conormal.conormalSheaf (pullback.diagonal f)`
 and about its hom on sections, and the single statement separating
 `StacksFrontier.AlgebraicGeometry.LeibnizDerivation.Affine` from the statement is
@@ -88,8 +88,8 @@ map `kaehlerToConormal`.
 
 ## Universe situation
 
-A single universe `u`, as in the statements of the tag: `Ideal.Cotangent` of an ideal of a ring in `Type u` is
-again in `Type u`, so the ring-level statements stay in one universe.
+A single universe `u`, as in the statements of the tag: `Ideal.Cotangent` of an ideal of a ring in
+`Type u` is again in `Type u`, so the ring-level statements stay in one universe.
 
 ## Vocabulary
 

@@ -233,7 +233,7 @@ theorem baseExtMap_existenceObstructionClass
   have huniv := D.universalClass_pushforward_eq_comp hi₁ hi₂ hj P₂ P₃ biprod.snd u₂ hu₂ hg₂
   rw [existenceObstructionClass_eq_obstruction hi₁ (D.basePushforward.obj F) K₁ c₁ P₃,
     existenceObstructionClass_eq_obstruction hi₂ F K₂ c₂ P₂]
-  show D.baseExtMap hj F K₂ 2 (P₂.universalClass.comp (Abelian.Ext.mk₀ c₂) (add_zero 2)) =
+  change D.baseExtMap hj F K₂ 2 (P₂.universalClass.comp (Abelian.Ext.mk₀ c₂) (add_zero 2)) =
     (P₃.universalClass.comp (Abelian.Ext.mk₀ c₁) (add_zero 2)).comp
       (Abelian.Ext.mk₀ κ) (add_zero 2)
   rw [baseExtMap_apply, Abelian.Ext.mapExactFunctor_comp, Abelian.Ext.mapExactFunctor_mk₀,

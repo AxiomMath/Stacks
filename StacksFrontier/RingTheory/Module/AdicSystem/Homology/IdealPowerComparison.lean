@@ -322,7 +322,7 @@ private lemma fromPower_apply_of_cycle {A : Type u} [CommRing A]
     ⟨y0, cycle0_mem_power I β n y.1 y.2.1 hy⟩
   have hs : z = sourceToPower I α β n s := by
     apply Subtype.ext
-    show z.1 = (boundaries I α β 0).mkQ y0
+    change z.1 = (boundaries I α β 0).mkQ y0
     rw [hzy, transition_mk]
     rfl
   subst z
@@ -512,7 +512,7 @@ public theorem homologyIdealPowers_proIsomorphic
         exact (transition_mk_restrict I α β m n 0 hmn _ y).symm
       have hψm := fromPower_apply_of_cycle I α β c m hm (hb m hm) z y hy hzm
       have hψn := fromPower_apply_of_cycle I α β c n hn (hb n hn) z' yn hyn hzn
-      show transition I α β (m - c) (n - c) (Nat.sub_le_sub_right hmn c)
+      change transition I α β (m - c) (n - c) (Nat.sub_le_sub_right hmn c)
           (fromPower I α β c m hm (hb m hm) z) =
         fromPower I α β c n hn (hb n hn) z'
       rw [hψm, hψn]
@@ -529,7 +529,7 @@ public theorem homologyIdealPowers_proIsomorphic
       have hn₂ : c ≤ n - c := by omega
       obtain ⟨y, hy, hz⟩ := exists_cycle_of_mem_smul I α β n z
       have hψ := fromPower_apply_of_cycle I α β c n hn₁ (hb n hn₁) z y hy hz
-      show transition I α β (n - c) 0 (Nat.zero_le (n - c))
+      change transition I α β (n - c) 0 (Nat.zero_le (n - c))
           (fromPower I α β c n hn₁ (hb n hn₁) z) = z.1
       rw [hψ, transition_transition]
       exact hz.symm
@@ -557,7 +557,7 @@ public theorem homologyIdealPowers_proIsomorphic
         have hψ := fromPower_apply_of_cycle I α β c (n - c) hn₂
           (hb (n - c) hn₂) (toPower I α β c n hn₁ (hk n hn₁)
             (Submodule.Quotient.mk y)) y' hy' hzy
-        show fromPower I α β c (n - c) hn₂ (hb (n - c) hn₂)
+        change fromPower I α β c (n - c) hn₂ (hb (n - c) hn₂)
             (toPower I α β c n hn₁ (hk n hn₁) (Submodule.Quotient.mk y)) =
           transition I α β n ((n - c) - c) (by omega)
             (Submodule.Quotient.mk y)

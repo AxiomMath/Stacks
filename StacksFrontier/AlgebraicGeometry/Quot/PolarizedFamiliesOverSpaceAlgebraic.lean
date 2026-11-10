@@ -112,20 +112,20 @@ theorem projection_isFiberedInGroupoids : (projection B S hS A).IsFiberedInGroup
       have hfac := IsHomLift.fac' (polarizedProjection B) f.left φ
       change PolarizedFamily.Hom.baseMap φ = _ at hfac
       rw [hfac]
-      show 𝟙 _ ≫ f.left ≫ 𝟙 _ = f.left
+      change 𝟙 _ ≫ f.left ≫ 𝟙 _ = f.left
       simp
     have hV : PolarizedFamily.Hom.baseMap φ ≫ X.toBase = Vh := by
       rw [hφb]
       exact Over.w f
     refine ⟨ofLift X φ, ofLiftHom X φ, IsHomLift.of_fac' _ f _ ?_ rfl ?_⟩
-    · show Over.mk (PolarizedFamily.Hom.baseMap φ ≫ X.toBase) = Over.mk Vh
+    · change Over.mk (PolarizedFamily.Hom.baseMap φ ≫ X.toBase) = Over.mk Vh
       rw [hV]
     · apply Over.OverMorphism.ext
       simp only [Over.comp_left, Over.eqToHom_left, eqToHom_refl, Category.comp_id,
         projection_map_left]
-      show PolarizedFamily.Hom.baseMap φ = _
+      change PolarizedFamily.Hom.baseMap φ = _
       refine hφb.trans ?_
-      show f.left = 𝟙 _ ≫ f.left
+      change f.left = 𝟙 _ ≫ f.left
       exact (Category.id_comp _).symm
   unique_lift {X Y Z} φ ψ f hcomm := by
     have hp := (polarizedProjection_isFiberedInGroupoids_unconditional (B := B))
@@ -140,7 +140,7 @@ theorem projection_isFiberedInGroupoids : (projection B S hS A).IsFiberedInGroup
     have hover : (Over.homMk (PolarizedFamily.Hom.baseMap χ) hbase :
         Over.mk Z.toBase ⟶ Over.mk Y.toBase) ≫ Hom.over φ = Hom.over ψ := by
       apply Over.OverMorphism.ext
-      show PolarizedFamily.Hom.baseMap χ ≫ PolarizedFamily.Hom.baseMap φ.polarizedHom =
+      change PolarizedFamily.Hom.baseMap χ ≫ PolarizedFamily.Hom.baseMap φ.polarizedHom =
         PolarizedFamily.Hom.baseMap ψ.polarizedHom
       rw [← PolarizedFamily.comp_baseMap, hχ₂]
     let χ' : Z ⟶ Y :=
@@ -226,7 +226,7 @@ theorem sliceProjection_map_comp_eqToHom' {X Y : PolarizedFamilyOver B S hS A}
   apply (Over.forget (B.obj hS)).map_injective
   simp only [Functor.map_comp, eqToHom_map]
   rw [forget_map_sliceProjection_map]
-  show _ ≫ 𝟙 _ = 𝟙 _ ≫ _
+  change _ ≫ 𝟙 _ = 𝟙 _ ≫ _
   exact (Category.comp_id _).trans (Category.id_comp _).symm
 
 /-- The base map of a morphism of polarized families over `A`, read in the slice over the terminal
@@ -318,7 +318,7 @@ theorem toTwoFibreProduct_comp_structureFunctor :
       projection B S hS A := by
   refine CategoryTheory.Functor.ext (fun X => sliceProjection_obj_polarized hT X)
     (fun {X Y} f => ?_)
-  show eqToHom rfl ≫ (polarizedSliceProjection B hS hT).map f.polarizedHom ≫ eqToHom rfl = _
+  change eqToHom rfl ≫ (polarizedSliceProjection B hS hT).map f.polarizedHom ≫ eqToHom rfl = _
   rw [eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
   exact (show (polarizedSliceProjection B hS hT).map f.polarizedHom =
       eqToHom (sliceProjection_obj_polarized hT X) ≫ Hom.over f ≫
@@ -343,7 +343,7 @@ theorem sliceProjection_map_a_eq_base {X Y : PolarizedFamilyOver B S hS A}
   have e₁ := IsHomLift.fac' (polarizedSliceProjection B hS hT) h.hbase h.a
   have e₂ := IsHomLift.fac' (spaceForget B hS A) h.hbase h.b
   rw [e₁]
-  show _ = (spaceForget B hS A).map h.b
+  change _ = (spaceForget B hS A).map h.b
   rw [e₂]
   rfl
 

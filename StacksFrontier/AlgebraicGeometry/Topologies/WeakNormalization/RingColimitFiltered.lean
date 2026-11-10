@@ -111,7 +111,7 @@ theorem exists_cocone_maps_absoluteWeakNormalization
     ⟨CommAlgCat.ofHom qalg⟩, ?_⟩
   apply InducedCategory.hom_ext
   apply CommAlgCat.hom_ext
-  show qalg.comp f.hom.hom = qalg.comp g.hom.hom
+  change qalg.comp f.hom.hom = qalg.comp g.hom.hom
   apply AlgHom.ext_of_adjoin_eq_top hs
   intro b hb
   have hgen : f.hom.hom b - g.hom.hom b ∈ I := Ideal.subset_span ⟨⟨b, hb⟩, rfl⟩

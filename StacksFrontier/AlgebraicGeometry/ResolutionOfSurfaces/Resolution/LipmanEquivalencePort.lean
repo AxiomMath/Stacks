@@ -194,17 +194,17 @@ private theorem isNormalizedBlowUpOutside_of_source_iso {X : Scheme.{u}} (U : X.
   refine ⟨hCfin, y, hy, ?_, eB ≪≫ (asIso g).symm, ?_⟩
   · have hw : C.hom y = A.hom x := by
       rw [← e.hom.w]
-      show A.hom (a.hom y) = A.hom x
+      change A.hom (a.hom y) = A.hom x
       rw [hyx]
     simpa only [hw] using hout
   · let νC := Stacks.Blowup.normalizedBlowUp C.left hCfin y hy
     let νA := Stacks.Blowup.normalizedBlowUp A.left hA x hx
     have hf : νC ≫ C.hom = g ≫ νA ≫ A.hom := by
       rw [← e.hom.w]
-      show νC ≫ a.hom ≫ A.hom = g ≫ νA ≫ A.hom
+      change νC ≫ a.hom ≫ A.hom = g ≫ νA ≫ A.hom
       rw [← Category.assoc, ← hg.w, Category.assoc]
     have hi : inv g ≫ νC ≫ C.hom = νA ≫ A.hom := (IsIso.inv_comp_eq g).mpr hf
-    show (eB.hom ≫ inv g) ≫ νC ≫ C.hom = B.hom
+    change (eB.hom ≫ inv g) ≫ νC ≫ C.hom = B.hom
     rw [Category.assoc, hi, heB]
 
 /-- Quasi-compact opens of every stage of a sequence of normalized blowups over a normal base
@@ -297,7 +297,7 @@ private theorem quasiCompactCover_localizationPrecover :
     cases i with
     | none => exact D.complement.ι.isCompact_preimage hV.isCompact
     | some i =>
-      show IsCompact (↑(if D.points i ∈ V then ⊤ else ⊥ : (D.localScheme i).Opens) :
+      change IsCompact (↑(if D.points i ∈ V then ⊤ else ⊥ : (D.localScheme i).Opens) :
         Set (D.localScheme i))
       split_ifs
       · exact isCompact_univ
@@ -319,9 +319,9 @@ private theorem quasiCompactCover_localizationPrecover :
       · obtain ⟨i, rfl⟩ : x ∈ Set.range D.points := not_not.mp hcomp
         refine ⟨some i, IsLocalRing.closedPoint (D.S.presheaf.stalk (D.points i)), ?_,
           Scheme.fromSpecStalk_closedPoint⟩
-        show IsLocalRing.closedPoint (D.S.presheaf.stalk (D.points i)) ∈
+        change IsLocalRing.closedPoint (D.S.presheaf.stalk (D.points i)) ∈
           (if D.points i ∈ V then ⊤ else ⊥ : (D.localScheme i).Opens)
-        rw [if_pos (show D.points i ∈ V from hx)]
+        rw [ite_eq_left (show D.points i ∈ V from hx)]
         exact Set.mem_univ _
 
 /-- The open complement of the distinguished points together with the spectra of the local rings
@@ -368,10 +368,10 @@ theorem isRegular_of_localizations (A : Over D.S) [IsLocallyNoetherian A.left]
     let : IsPreimmersion ((localizationPrecover D).f i) :=
       isPreimmersion_localizationPrecover D i
     let : Flat (E.f i) := by
-      show Flat (Limits.pullback.fst A.hom ((localizationPrecover D).f i))
+      change Flat (Limits.pullback.fst A.hom ((localizationPrecover D).f i))
       infer_instance
     let : IsPreimmersion (E.f i) := by
-      show IsPreimmersion (Limits.pullback.fst A.hom ((localizationPrecover D).f i))
+      change IsPreimmersion (Limits.pullback.fst A.hom ((localizationPrecover D).f i))
       infer_instance
     let : IsIso ((E.f i).stalkMap y) := isIso_stalkMap_of_flat_preimmersion (E.f i) y
     let : IsRegularLocalRing ((E.X i).presheaf.stalk y) :=
@@ -500,7 +500,7 @@ private theorem exists_isNormalizedBlowUpOutside_lift (i : Fin D.n) (A : Over D.
   let C : Over D.S := Over.mk (Stacks.Blowup.normalizedBlowUp A.left hA x hx ≫ A.hom)
   have hAC : IsNormalizedBlowUpOutside D.complement A C := by
     refine ⟨hA, x, hx, ?_, Iso.refl _, by simp [C]⟩
-    show A.hom x ∉ (Set.range D.points)ᶜ
+    change A.hom x ∉ (Set.range D.points)ᶜ
     exact fun hn => hn ⟨i, hxs.symm⟩
   refine ⟨C, hAC, ?_, ?_, ?_⟩
   · obtain ⟨hy', hideal⟩ := vanishingIdeal_singleton_comap_pullbackFst A.hom s x hx
@@ -563,14 +563,14 @@ private theorem exists_reflTransGen_lift (i : Fin D.n) [IsNormal D.S]
     have hBproper : IsProper B.hom := by
       refine isProper_of_localizations D B ?_ ?_
       · exact isProper_of_overIso eBU (by
-          show IsProper (Limits.pullback.snd C.hom D.complement.ι)
+          change IsProper (Limits.pullback.snd C.hom D.complement.ι)
           infer_instance)
       · intro j
         by_cases hji : j = i
         · subst j
           exact isProper_of_overIso eB hZW.2
         · exact isProper_of_overIso (hBother j hji).some (by
-            show IsProper (Limits.pullback.snd C.hom (D.S.fromSpecStalk (D.points j)))
+            change IsProper (Limits.pullback.snd C.hom (D.S.fromSpecStalk (D.points j)))
             infer_instance)
     refine ⟨B, hAC.tail ⟨hCB, hBproper⟩, hBproper, ⟨eB⟩, ?_, ⟨eBU ≪≫ eCU⟩⟩
     intro j hji
@@ -769,7 +769,7 @@ private theorem singularPointsSituation_points_mem (N : Scheme.{u}) [IsNoetheria
   classical
   let T := {y : N // y ∈ singularLocus N}
   let : Fintype T := hsing.fintype
-  show ((Fintype.equivFin T).symm i).1 ∈ singularLocus N
+  change ((Fintype.equivFin T).symm i).1 ∈ singularLocus N
   exact ((Fintype.equivFin T).symm i).2
 
 /-- The distinguished points of the situation attached to the singular locus are exactly the
@@ -852,7 +852,7 @@ theorem hasResolutionByNormalizedBlowUps_of_local (Y : Scheme.{u}) [IsIntegral Y
     let : IsNormal (D.localScheme i) :=
       isNormal_of_flat_preimmersion (D.S.fromSpecStalk (D.points i))
     let : IsLocallyNoetherian (D.localScheme i) := by
-      show IsLocallyNoetherian (Spec (.of (D.S.presheaf.stalk (D.points i))))
+      change IsLocallyNoetherian (Spec (.of (D.S.presheaf.stalk (D.points i))))
       exact isLocallyNoetherian_Spec.mpr inferInstance
     refine exists_reflTransGen_of_hasResolutionByNormalizedBlowUps _ (fun z hz hzU => ?_) ?_
     · exact hzU (Set.mem_singleton_iff.mpr
@@ -873,7 +873,7 @@ theorem hasResolutionByNormalizedBlowUps_of_local (Y : Scheme.{u}) [IsIntegral Y
       ((Over.pullback (D.S.fromSpecStalk (D.points i))).obj A).left := by
     intro i
     let : IsProper ((Over.pullback (D.S.fromSpecStalk (D.points i))).obj A).hom := by
-      show IsProper (Limits.pullback.snd A.hom (D.S.fromSpecStalk (D.points i)))
+      change IsProper (Limits.pullback.snd A.hom (D.S.fromSpecStalk (D.points i)))
       infer_instance
     let : IsLocallyNoetherian ((Over.pullback (D.S.fromSpecStalk (D.points i))).obj A).left :=
       LocallyOfFiniteType.isLocallyNoetherian

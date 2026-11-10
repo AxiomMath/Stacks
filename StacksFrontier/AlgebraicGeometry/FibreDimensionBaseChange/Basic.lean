@@ -243,7 +243,7 @@ public theorem topologicalKrullDimAt_fiber_eq_of_isPullback {X' X S' S : Scheme.
   let : Algebra ↥(S.residueField (g y')) ↥(S'.residueField y') :=
     (g.residueFieldMap y').hom.toAlgebra
   have : LocallyOfFiniteType (f.fiberToSpecResidueField (g y')) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (g y')))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (g y')))
     infer_instance
   let q : f'.fiber y' ⟶ f.fiber (g y') :=
     pullback.map f' (S'.fromSpecResidueField y') f (S.fromSpecResidueField (g y'))

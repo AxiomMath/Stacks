@@ -63,7 +63,7 @@ theorem subsingleton_ext_unitSheaf_of_curve {k : Type u} [Field k] [IsAlgClosed 
       isTorsion := by
         intro U x
         refine ⟨⊤, T.smallEtaleTopology.top_mem U, fun V h _ => ⟨ℓ, (Fact.out : ℓ.Prime).pos, ?_⟩⟩
-        show ℓ • (K.obj.map h.op x : K.obj.obj (Opposite.op V)) = 0
+        change ℓ • (K.obj.map h.op x : K.obj.obj (Opposite.op V)) = 0
         rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul] }
   have : Subsingleton (Sheaf.H.{u + 1} ((etaleModuleUnderlyingAbelian T (ZMod ℓ)).obj K) q) :=
     S.isVanishingAboveDegreeTwo q hq
@@ -82,6 +82,7 @@ section Curve
 variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   [IsCurve k f] [Smooth f] [IsProper f]
 
+omit [IsProper f] in
 include f in
 /-- `Ext^q(ℤ/ℓ_T, K) = 0` for `q > 2` on a finite étale cover `T` of a curve. -/
 theorem subsingleton_ext_unitSheaf_of_finiteEtale_curve {T : Scheme.{u}} (π : T ⟶ X)

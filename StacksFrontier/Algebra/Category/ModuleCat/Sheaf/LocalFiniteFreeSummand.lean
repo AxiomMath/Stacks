@@ -275,7 +275,8 @@ lemma tensorSection_map
       (f : A ⟶ A') (g : B ⟶ B'),
       eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
         (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
     {A A' B B' : SheafOfModules.{w} (Tensor.ringSheaf
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)}
     (f : A ⟶ A') (g : B ⟶ B') (V : Cᵒᵖ) (x : A.val.obj V) (y : B.val.obj V) :
@@ -289,7 +290,8 @@ lemma tensorSection_map
       φ.val.app V ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
         V
         (x ⊗ₜ[(Tensor.ringSheaf
-            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y)))
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+              (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y)))
     ((htensorMap f g).trans
       (Stacks.SheafOfModules.Tensor.sheafTensor_uncurry_map.{u, v, w, w, w}
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩ f g))
@@ -305,7 +307,8 @@ lemma tensorSection_map
         ((f ⊗ₘ g).val.app V (tensorSection 𝒪 h𝒪 htensor A B V x y)) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A'.val ⊗ B'.val)).app V
         (f.val.app V x ⊗ₜ[(Tensor.ringSheaf
-            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] g.val.app V y) :=
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+              (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] g.val.app V y) :=
     h1.trans (h2.trans mappedPureTensor)
   exact (eqToHom_symm_val_app_apply (htensor A' B') V _).symm.trans
     (congrArg ((eqToHom (htensor A' B').symm).val.app V) step)
@@ -317,7 +320,8 @@ lemma tensorSection_whiskerRight
       (f : A ⟶ A') (g : B ⟶ B'),
       eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
         (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
     {A A' B : SheafOfModules.{w} (Tensor.ringSheaf
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)}
     (f : A ⟶ A') (V : Cᵒᵖ) (x : A.val.obj V) (y : B.val.obj V) :
@@ -334,7 +338,8 @@ lemma tensorSection_whiskerLeft
       (f : A ⟶ A') (g : B ⟶ B'),
       eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
         (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
     {A B B' : SheafOfModules.{w} (Tensor.ringSheaf
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)}
     (g : B ⟶ B') (V : Cᵒᵖ) (x : A.val.obj V) (y : B.val.obj V) :
@@ -347,12 +352,14 @@ lemma tensorSection_whiskerLeft
 /-- A sum of pure tensors of local sections, read in the tensor product. -/
 lemma tensorSection_sum
     (A B : SheafOfModules.{w} (Tensor.ringSheaf
-        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ) {n : ℕ}
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+          (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ) {n : ℕ}
     (a : Fin n → A.val.obj V) (b : Fin n → B.val.obj V) :
     (eqToHom (htensor A B).symm).val.app V
         ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app V
           (∑ j, a j ⊗ₜ[(Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] b j)) =
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] b j)) =
       ∑ j, tensorSection 𝒪 h𝒪 htensor A B V (a j) (b j) := by
   refine (congrArg ((eqToHom (htensor A B).symm).val.app V)
     (map_sum ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app
@@ -363,17 +370,20 @@ lemma tensorSection_sum
 /-- Restriction of a pure tensor of local sections is the pure tensor of the restrictions. -/
 lemma tensorSection_restrict
     (A B : SheafOfModules.{w} (Tensor.ringSheaf
-        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) {V W : Cᵒᵖ} (k : V ⟶ W)
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+          (forget₂ CommRingCat RingCat) h𝒪⟩)) {V W : Cᵒᵖ} (k : V ⟶ W)
     (x : A.val.obj V) (y : B.val.obj V) :
     (A ⊗ B).val.map k (tensorSection 𝒪 h𝒪 htensor A B V x y) =
       tensorSection 𝒪 h𝒪 htensor A B W (A.val.map k x) (B.val.map k y) :=
   ((PresheafOfModules.naturality_apply (eqToHom (htensor A B).symm).val k
       ((Stacks.SheafOfModules.TensorSheafification.toSheafify 𝒪 h𝒪 (A.val ⊗ B.val)).app V
         (x ⊗ₜ[(Tensor.ringSheaf
-            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y))).symm).trans
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+              (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y))).symm).trans
     (congrArg ((eqToHom (htensor A B).symm).val.app W)
       (toSheafify_naturality 𝒪 h𝒪 (A.val ⊗ B.val) k (x ⊗ₜ[(Tensor.ringSheaf
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V] y)))
 
 /-- A pure tensor is additive in its first argument. -/
 lemma tensorSection_sum_left
@@ -434,7 +444,8 @@ lemma unitSection_map
         ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩))).val.map k
         (unitTensorSection 𝒪 h𝒪 hunit V r) =
       unitTensorSection 𝒪 h𝒪 hunit W ((Tensor.ringSheaf
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.map k r) :=
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩).obj.map k r) :=
   (PresheafOfModules.naturality_apply (eqToHom hunit.symm).val k r).symm
 
 end Lemmas
@@ -469,7 +480,8 @@ theorem exists_cover_localDualBasis
           (f : A ⟶ A') (g : B ⟶ B'),
           eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
             (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
       (_hassociator : ∀ (A B D : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩))
           (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) (c : D.val.obj V),
@@ -481,13 +493,15 @@ theorem exists_cover_localDualBasis
       (_hleftUnitor : ∀ (A : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ)
           (r : (Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V) (a : A.val.obj V),
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V) (a : A.val.obj V),
           (λ_ A).hom.val.app V
               (tensorSection 𝒪 h𝒪 htensor _ A V (unitTensorSection 𝒪 h𝒪 hunit V r) a) = r • a)
       (_hrightUnitor : ∀ (A : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ)
           (a : A.val.obj V) (r : (Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V),
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V),
           (ρ_ A).hom.val.app V
               (tensorSection 𝒪 h𝒪 htensor A _ V a (unitTensorSection 𝒪 h𝒪 hunit V r)) = r • a)
       (_p : ExactPairing F G) (U : C),
@@ -495,7 +509,8 @@ theorem exists_cover_localDualBasis
         (ExactPairing.coevaluation F G).val.app V (unitTensorSection 𝒪 h𝒪 hunit V 1)
       let eval (V : Cᵒᵖ) (t : (G ⊗ F).val.obj V) :
           (Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V :=
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V :=
         (eqToHom hunit).val.app V ((ExactPairing.evaluation F G).val.app V t)
       ∃ S : Sieve U, S ∈ J U ∧
         ∀ (V : C) (i : V ⟶ U), S i →
@@ -503,7 +518,8 @@ theorem exists_cover_localDualBasis
             coev (op V) = ∑ j, tensorSection 𝒪 h𝒪 htensor F G (op V) (f j) (g j) ∧
             ∀ (W : C) (k : W ⟶ V) (x : F.val.obj (op W)),
               x = ∑ j, @SMul.smul ((Tensor.ringSheaf
-                  ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W))
+                  ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                    (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W))
                   (F.val.obj (op W)) _
                   (eval (op W) (tensorSection 𝒪 h𝒪 htensor G F (op W)
                     (G.val.map k.op (g j)) x))
@@ -524,7 +540,8 @@ theorem exists_cover_localDualBasis
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩))).val.map k
           (unitTensorSection 𝒪 h𝒪 hunit V₁ r) =
         unitTensorSection 𝒪 h𝒪 hunit V₂ ((Tensor.ringSheaf
-            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.map k r) :=
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+              (forget₂ CommRingCat RingCat) h𝒪⟩).obj.map k r) :=
     fun k r ↦ unitSection_map 𝒪 h𝒪 hunit k r
   -- the coevaluation, read in the tensor product sheaf
   have hcoevRestrict : ∀ {V₁ V₂ : Cᵒᵖ} (k : V₁ ⟶ V₂),
@@ -539,7 +556,8 @@ theorem exists_cover_localDualBasis
     exact congrArg (unitTensorSection 𝒪 h𝒪 hunit V₂) (map_one _)
   have hcRestrict : ∀ {V₁ V₂ : Cᵒᵖ} (k : V₁ ⟶ V₂),
       (((Stacks.SheafOfModules.Tensor.sheafTensor
-        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G).val.map k
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+          (forget₂ CommRingCat RingCat) h𝒪⟩).obj F).obj G).val.map k
           ((eqToHom (htensor F G)).val.app V₁
             ((ExactPairing.coevaluation F G).val.app V₁ (unitTensorSection 𝒪 h𝒪 hunit V₁ 1))) =
         (eqToHom (htensor F G)).val.app V₂
@@ -659,7 +677,8 @@ theorem exists_cover_localDualBasis
               ((ExactPairing.evaluation F G).val.app (op W)
                 (tensorSection 𝒪 h𝒪 htensor G F (op W) (G.val.map k.op (g j)) x))))) =
       ∑ j, @SMul.smul ((Tensor.ringSheaf
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W)) (F.val.obj (op W)) _
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W)) (F.val.obj (op W)) _
         ((eqToHom hunit).val.app (op W)
           ((ExactPairing.evaluation F G).val.app (op W)
             (tensorSection 𝒪 h𝒪 htensor G F (op W) (G.val.map k.op (g j)) x)))
@@ -771,7 +790,8 @@ theorem nonempty_retract_free_of_localDualBasis [ExactPairing F G] (V : C) {n : 
     (a : Fin n → F.val.obj (op V)) (b : Fin n → G.val.obj (op V))
     (hab : ∀ (W : C) (k : W ⟶ V) (y : F.val.obj (op W)),
       y = ∑ j, @SMul.smul ((Tensor.ringSheaf
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op W))
         (F.val.obj (op W)) _
         (dualCoord 𝒪 h𝒪 F G hunit htensor (op W) (G.val.map k.op (b j)) y)
         (F.val.map k.op (a j))) :
@@ -800,7 +820,8 @@ theorem nonempty_retract_free_of_localDualBasis [ExactPairing F G] (V : C) {n : 
           (SheafOfModules.freeHomEquiv (F.over V)).symm
             fun j' ↦ overGlobalSection 𝒪 h𝒪 F V (a j'.down)).val.app X y =
         @SMul.smul ((Tensor.ringSheaf
-            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op X.unop.left))
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+              (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op X.unop.left))
           (F.val.obj (op X.unop.left)) _
           (dualCoord 𝒪 h𝒪 F G hunit htensor (op X.unop.left)
             (G.val.map X.unop.hom.op (b j.down)) y)
@@ -810,7 +831,8 @@ theorem nonempty_retract_free_of_localDualBasis [ExactPairing F G] (V : C) {n : 
   refine (Finset.sum_congr rfl fun j _ ↦ hterm j).trans ?_
   refine (Fintype.sum_equiv Equiv.ulift _
     (fun j : Fin n ↦ @SMul.smul ((Tensor.ringSheaf
-        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op X.unop.left))
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+          (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj (op X.unop.left))
       (F.val.obj (op X.unop.left)) _
       (dualCoord 𝒪 h𝒪 F G hunit htensor (op X.unop.left)
         (G.val.map X.unop.hom.op (b j)) y)
@@ -854,7 +876,8 @@ theorem exists_cover_retract_finiteFree_of_exactPairing
           (f : A ⟶ A') (g : B ⟶ B'),
           eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
             (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
-          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
+          ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+            (forget₂ CommRingCat RingCat) h𝒪⟩)).map ((f, g) : (_, _) ⟶ (_, _)))
       (_hassociator : ∀ (A B D : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩))
           (V : Cᵒᵖ) (a : A.val.obj V) (b : B.val.obj V) (c : D.val.obj V),
@@ -866,13 +889,15 @@ theorem exists_cover_retract_finiteFree_of_exactPairing
       (_hleftUnitor : ∀ (A : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ)
           (r : (Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V) (a : A.val.obj V),
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V) (a : A.val.obj V),
           (λ_ A).hom.val.app V
               (tensorSection 𝒪 h𝒪 htensor _ A V (unitTensorSection 𝒪 h𝒪 hunit V r) a) = r • a)
       (_hrightUnitor : ∀ (A : SheafOfModules.{w} (Tensor.ringSheaf
           ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩)) (V : Cᵒᵖ)
           (a : A.val.obj V) (r : (Tensor.ringSheaf
-              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V),
+              ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                (forget₂ CommRingCat RingCat) h𝒪⟩).obj.obj V),
           (ρ_ A).hom.val.app V
               (tensorSection 𝒪 h𝒪 htensor A _ V a (unitTensorSection 𝒪 h𝒪 hunit V r)) = r • a)
       (_p : ExactPairing F G) (U : C),
@@ -881,7 +906,8 @@ theorem exists_cover_retract_finiteFree_of_exactPairing
           ∃ I : Type w, Finite I ∧
             Nonempty (Retract (F.over V)
               (SheafOfModules.free (R := (Tensor.ringSheaf
-                  ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪 (forget₂ CommRingCat RingCat) h𝒪⟩).over V) I)) := by
+                  ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ 𝒪
+                    (forget₂ CommRingCat RingCat) h𝒪⟩).over V) I)) := by
   intro hunit htensor htensorMap hassociator hleftUnitor hrightUnitor p U
   obtain ⟨S, hS, hcov⟩ := exists_cover_localDualBasis 𝒪 h𝒪 F G M hunit htensor htensorMap
     hassociator hleftUnitor hrightUnitor p U

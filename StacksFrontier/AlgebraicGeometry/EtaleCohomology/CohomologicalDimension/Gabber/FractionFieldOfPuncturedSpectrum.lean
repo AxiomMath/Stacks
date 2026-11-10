@@ -140,9 +140,9 @@ theorem exists_height_coheight_eq_of_ringKrullDim_eq {B : Type u} [CommRing B] {
   rw [hd, ← WithBot.coe_add] at h
   have h' : Order.height y + Order.coheight y ≤ (d : ℕ∞) := by exact_mod_cast h
   obtain ⟨a, ha⟩ := ENat.ne_top_iff_exists.1
-    (ne_top_of_le_ne_top (ENat.coe_ne_top d) (le_trans le_self_add h'))
+    (ne_top_of_le_ne_top (ENat.natCast_ne_top d) (le_trans le_self_add h'))
   obtain ⟨b, hb⟩ := ENat.ne_top_iff_exists.1
-    (ne_top_of_le_ne_top (ENat.coe_ne_top d) (le_trans le_add_self h'))
+    (ne_top_of_le_ne_top (ENat.natCast_ne_top d) (le_trans le_add_self h'))
   refine ⟨a, b, ha.symm, hb.symm, ?_⟩
   rw [← ha, ← hb] at h'
   exact_mod_cast h'
@@ -240,7 +240,7 @@ theorem isTorsionVanishingBound_opens_spec_of_upTo (h : PuncturedSpectrumVanishi
     by_cases hx : x ∈ U <;> simp only [c, hx, ↓reduceIte]
     · exact isTorsionVanishingBound_top _ n
     · obtain ⟨a, b, ha, hb, hab, ha1⟩ := hcoh x hx
-      rw [hb, ENat.toNat_coe]
+      rw [hb, ENat.toNat_natCast]
       exact isTorsionVanishingBound_residueField_spec_of_upTo hn0 ih hn x hb (by omega)
   have hsup : (⨆ (x : Spec (.of B)) (_ : x ∉ U),
       (c x + 2 * ringKrullDim ((Spec (.of B)).presheaf.stalk x))) ≤
@@ -255,7 +255,7 @@ theorem isTorsionVanishingBound_opens_spec_of_upTo (h : PuncturedSpectrumVanishi
       rw [ringKrullDim_stalk_spec (CommRingCat.of B) x]
       exact congrArg (fun t : ℕ∞ => (t : WithBot ℕ∞)) h1
     simp only [c, hx, ↓reduceIte]
-    rw [hb, ENat.toNat_coe, hstalk]
+    rw [hb, ENat.toNat_natCast, hstalk]
     exact_mod_cast (by omega : 2 * b - 1 + 2 * a ≤ 2 * e)
   exact isZero_rightDerived_opensSupport_of_genericPointSupportKilling
     (genericPointSupportKilling_of_localInputs

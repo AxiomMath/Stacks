@@ -69,13 +69,13 @@ theorem comp_assoc (f : RingedToposHom X Y) (g : RingedToposHom Y Z) (h : Ringed
     apply Adjunction.ext
     apply NatTrans.ext
     funext V
-    show (h.toToposHom.adj.comp (g.toToposHom.adj.comp f.toToposHom.adj)).unit.app V =
+    change (h.toToposHom.adj.comp (g.toToposHom.adj.comp f.toToposHom.adj)).unit.app V =
       ((h.toToposHom.adj.comp g.toToposHom.adj).comp f.toToposHom.adj).unit.app V
     simp only [Adjunction.comp_unit_app, CategoryTheory.Functor.map_comp,
       CategoryTheory.Functor.comp_obj, CategoryTheory.Functor.comp_map, Category.assoc]
   · apply heq_of_eq
     apply W.forgetRing.map_injective
-    show W.forgetRing.map (h.comp (g.comp f)).fSharp =
+    change W.forgetRing.map (h.comp (g.comp f)).fSharp =
       W.forgetRing.map ((h.comp g).comp f).fSharp
     simp only [comp_fSharp_forget]
     exact pushforward_map_comp_assoc g h _ _ _

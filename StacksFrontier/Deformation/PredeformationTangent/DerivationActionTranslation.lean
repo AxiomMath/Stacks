@@ -79,7 +79,7 @@ theorem action_eq_add_gamma
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (V : FGModuleCat.{w} k)
     (A₀ : ArtinianLocalAlgCat.{u, w, w} Λ k)
     (i₀ : A₀ ≃ₐ[Λ] k)

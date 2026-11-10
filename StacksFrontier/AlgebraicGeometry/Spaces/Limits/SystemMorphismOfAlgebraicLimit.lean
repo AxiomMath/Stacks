@@ -61,6 +61,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {pY : Y ⟶ D.limitCone.pt}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site over `S` is deep
 /-- Limits of presheaves on the big fppf site over `S` (instance search times out without this
 shortcut). -/
 local instance hasLimits_presheaf_systemMorphismOfAlgebraicLimit :

@@ -107,12 +107,12 @@ theorem exists_widePullback_in {C : Type*} [Category* C] (B : Set C)
       refine ⟨s, ⟨?_⟩, hqB⟩
       apply WidePullbackCone.IsLimit.mk s lift
       · intro c
-        show lift c ≫ (q.fst ≫ f 0) = c.base
+        change lift c ≫ (q.fst ≫ f 0) = c.base
         rw [← Category.assoc, hfst, c.condition]
       · intro c i
         refine Fin.cases ?_ (fun j ↦ ?_) i
         · exact hfst c
-        · show lift c ≫ (q.snd ≫ t.π j) = _
+        · change lift c ≫ (q.snd ≫ t.π j) = _
           rw [← Category.assoc, hsnd, htailπ]
       · intro c m hm hπ
         change c.pt ⟶ q.pt at m

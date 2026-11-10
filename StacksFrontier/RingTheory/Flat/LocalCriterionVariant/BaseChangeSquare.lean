@@ -107,15 +107,13 @@ private theorem isBaseChange_one_tmul {R S R' M : Type*} [CommRing R] [CommRing 
   have hΘ : ∀ (s : S) (r' : R') (m : M), Θ (s ⊗ₜ[R] r') m = r' • g (s • m) := fun _ _ _ => rfl
   have hbal : ∀ (s : S) (b : S ⊗[R] R') (m : M), Θ (s • b) m = Θ b (s • m) := by
     intro s b m
-    induction b using TensorProduct.induction_on with
-    | zero => simp
+    induction b using TensorProduct.inductionOn with
     | tmul s₀ r' => rw [hsmulS, hΘ, hΘ, mul_comm, mul_smul]
     | add x y hx hy =>
       rw [smul_add, map_add, map_add]; simp [hx, hy]
   have hsm : ∀ (r' : R') (b : S ⊗[R] R') (m : M), Θ (r' • b) m = r' • Θ b m := by
     intro r' b m
-    induction b using TensorProduct.induction_on with
-    | zero => simp
+    induction b using TensorProduct.inductionOn with
     | tmul s₀ r'' => rw [hsmulR', hΘ, hΘ, mul_smul]
     | add x y hx hy =>
       rw [smul_add, map_add, map_add]; simp [hx, hy]
@@ -129,8 +127,7 @@ private theorem isBaseChange_one_tmul {R S R' M : Type*} [CommRing R] [CommRing 
   have hg₀ : ∀ (b : S ⊗[R] R') (m : M), g₀ (b ⊗ₜ[S] m) = Θ b m := fun _ _ => rfl
   have hsmul' : ∀ (r' : R') (z : (S ⊗[R] R') ⊗[S] M), g₀ (r' • z) = r' • g₀ z := by
     intro r' z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
       rw [TensorProduct.smul_tmul', hg₀, hg₀]; exact hsm r' b m
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
@@ -143,11 +140,9 @@ private theorem isBaseChange_one_tmul {R S R' M : Type*} [CommRing R] [CommRing 
   · intro h hh
     have hh' : ∀ m : M, h ((1 : S ⊗[R] R') ⊗ₜ[S] m) = g m := fun m => LinearMap.congr_fun hh m
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
-      induction b using TensorProduct.induction_on with
-      | zero => simp
+      induction b using TensorProduct.inductionOn with
       | tmul s r' =>
         rw [hgen]
         simp only [map_smul]
@@ -161,8 +156,7 @@ private theorem lTensor_smul {A B X P Q : Type*} [CommRing A] [CommRing B] [Alge
     [AddCommGroup X] [Module A X] [Module B X] [IsScalarTower A B X] [SMulCommClass A B X]
     [AddCommGroup P] [Module A P] [AddCommGroup Q] [Module A Q] (g : P →ₗ[A] Q) (b : B)
     (u : X ⊗[A] P) : LinearMap.lTensor X g (b • u) = b • LinearMap.lTensor X g u := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul x p =>
     rw [TensorProduct.smul_tmul', LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
       TensorProduct.smul_tmul']
@@ -250,8 +244,7 @@ private theorem rTensor_subtype_map_injective_square {R R' S S' M M' : Type*} [C
       have hlift : ∀ m : M, (hjB.lift f) ((TensorProduct.mk S (S ⊗[R] R') M 1) m) = f m :=
         hjB.lift_eq f
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a
         m =>
         rw [LinearMap.rTensor_tmul, hΨ, LinearMap.comp_apply, LinearEquiv.coe_coe, bc_tmul]
@@ -273,8 +266,7 @@ private theorem rTensor_subtype_map_injective_square {R R' S S' M M' : Type*} [C
         LinearMap.lTensor M' (I.map (algebraMap R R')).subtype (Γ v) =
           ΓR (LinearMap.lTensor ((S ⊗[R] R') ⊗[S] M) (I.map (algebraMap R R')).subtype v) := by
       intro v
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | tmul n a => simp [hΓ, hΓR]
       | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     have h1 :
@@ -386,8 +378,7 @@ private theorem rTensor_subtype_injective_of_mem {R R' S S' M M' : Type*} [CommR
       have hlift : ∀ m : M, (hjB.lift f) ((TensorProduct.mk S (S ⊗[R] R') M 1) m) = f m :=
         hjB.lift_eq f
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a
         m =>
         rw [LinearMap.rTensor_tmul, hΨ, LinearMap.comp_apply, LinearEquiv.coe_coe, bc_tmul]
@@ -407,8 +398,7 @@ private theorem rTensor_subtype_injective_of_mem {R R' S S' M M' : Type*} [CommR
         LinearMap.lTensor M' J.subtype (Γ v) =
           ΓR (LinearMap.lTensor ((S ⊗[R] R') ⊗[S] M) J.subtype v) := by
       intro v
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | tmul n a => simp [hΓ, hΓR]
       | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     have h1 : ΓR (LinearMap.lTensor ((S ⊗[R] R') ⊗[S] M) J.subtype y) = 0 := by
@@ -469,8 +459,7 @@ public theorem lTensor_injective_of_isLocalizedModule {A C P P' X Y : Type*} [Co
   have hsq : ∀ z : P ⊗[A] X,
       α' (AlgebraTensorModule.rTensor A X g z) = AlgebraTensorModule.rTensor A Y g (α z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p x => simp [α, α']
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add, map_add]
   rw [← hcα']
@@ -513,11 +502,9 @@ public theorem lTensor_baseChange_injective_iff {R' A' P X Y : Type*} [CommRing 
       LinearMap.lTensor P (u.restrictScalars R') (eX z) =
         eY (LinearMap.lTensor (A' ⊗[R'] P) u z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul w x =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul a p => simp [heX, heY]
       | add w1 w2 h1 h2 => rw [TensorProduct.add_tmul, map_add, map_add, map_add, map_add, h1, h2]
     | add z1 z2 h1 h2 => rw [map_add, map_add, map_add, map_add, h1, h2]

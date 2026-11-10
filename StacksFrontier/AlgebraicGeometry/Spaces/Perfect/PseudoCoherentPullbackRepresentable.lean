@@ -235,9 +235,10 @@ theorem approximation_of_arrowIso {C : Type*} [Category C] [Abelian C]
 /-- Homology conditions of the degreewise image of an approximation transport along an
 equality of additive functors. -/
 theorem approximation_mapHomologicalComplex_of_eq {C D : Type*} [Category C] [Abelian C]
-    [Category D] [Abelian D] {F G : C ⥤ D} (hFa : F.Additive) (hGa : G.Additive) (h : F = G)
+    [Category D] [Abelian D] {F G : C ⥤ D} (hGa : G.Additive) (h : F = G)
     {P K : CochainComplex C ℤ} (β : P ⟶ K) (m : ℤ)
-    (hβ : (∀ j : ℤ, m < j → IsIso (HomologicalComplex.homologyMap
+    (hβ : haveI : F.Additive := h ▸ hGa
+      (∀ j : ℤ, m < j → IsIso (HomologicalComplex.homologyMap
         ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map β) j)) ∧
       Epi (HomologicalComplex.homologyMap
         ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map β) m)) :
@@ -268,10 +269,11 @@ theorem exists_isStrictlyLE_of_finite {C : Type*} [Category C] [Limits.HasZeroMo
 it transports along an equality of additive functors. -/
 theorem isKFlat_mapHomologicalComplex_of_eq {Z Z' : AlgebraicSpaces B S hS}
     {F G : SheafOfModules.{u} (structureRingSheaf B S hS Z) ⥤
-      SheafOfModules.{u} (structureRingSheaf B S hS Z')} (hFa : F.Additive) (hGa : G.Additive)
+      SheafOfModules.{u} (structureRingSheaf B S hS Z')} (hGa : G.Additive)
     (h : F = G)
     (K : CochainComplex (SheafOfModules.{u} (structureRingSheaf B S hS Z)) ℤ)
-    (hF : Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.IsKFlat
+    (hF : haveI : F.Additive := h ▸ hGa
+      Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.IsKFlat
       (Y := smallEtaleRingedTopos B S hS Z')
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
         ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K))) :
@@ -294,7 +296,6 @@ theorem isKFlat_modulePullback {Z Z' : AlgebraicSpaces B S hS} (k : Z' ⟶ Z)
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
         (((modulePullback B S hS k).mapHomologicalComplex (ComplexShape.up ℤ)).obj K)) :=
   isKFlat_mapHomologicalComplex_of_eq B S hS
-    ((pullbackModules_eq_modulePullback B S hS k).symm ▸ additive_modulePullback B S hS k)
     (additive_modulePullback B S hS k) (pullbackModules_eq_modulePullback B S hS k) K
     (Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom.isKFlat_pullbackMapHomotopy
       (smallEtaleRingedToposHom B S hS k) _ hK)
@@ -386,7 +387,6 @@ theorem modulePullback_approximation {Z Z' : AlgebraicSpaces B S hS} (k : Z' ⟶
       Epi (HomologicalComplex.homologyMap
         (((modulePullback B S hS k).mapHomologicalComplex (ComplexShape.up ℤ)).map β) m) :=
   approximation_mapHomologicalComplex_of_eq
-    ((pullbackModules_eq_modulePullback B S hS k).symm ▸ additive_modulePullback B S hS k)
     (additive_modulePullback B S hS k) (pullbackModules_eq_modulePullback B S hS k) β m
     (Stacks.Cohomology.DerivedPullbackOfToposHom.pullbackComplex_approximation
       (smallEtaleRingedToposHom B S hS k) β hR hP m hiso hepi)
@@ -509,9 +509,10 @@ theorem isPseudoCoherentComplexFrom_modulePullback
 /-- Pseudo-coherence of the degreewise image of a complex depends only on the functor. -/
 theorem isPseudoCoherentComplexFrom_mapHomologicalComplex_of_eq {Z Z' : AlgebraicSpaces B S hS}
     {F G : SheafOfModules.{u} (structureRingSheaf B S hS Z) ⥤
-      SheafOfModules.{u} (structureRingSheaf B S hS Z')} (hFa : F.Additive) (hGa : G.Additive)
+      SheafOfModules.{u} (structureRingSheaf B S hS Z')} (hGa : G.Additive)
     (h : F = G) (K : CochainComplex (SheafOfModules.{u} (structureRingSheaf B S hS Z)) ℤ) (m : ℤ)
-    (hF : (smallEtaleRingedSite B S hS Z'.1 Z'.2).IsPseudoCoherentComplexFrom
+    (hF : haveI : F.Additive := h ▸ hGa
+      (smallEtaleRingedSite B S hS Z'.1 Z'.2).IsPseudoCoherentComplexFrom
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) m) :
     (smallEtaleRingedSite B S hS Z'.1 Z'.2).IsPseudoCoherentComplexFrom
       ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) m := by
@@ -557,7 +558,6 @@ theorem isPseudoCoherent_smallEtaleDerivedModulePullback_of_representable :
   refine ⟨(((smallEtaleRingedToposHom B S hS g).toModulesHom.pullbackModules).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj K, fun m => ?_, ⟨?_⟩⟩
   · exact isPseudoCoherentComplexFrom_mapHomologicalComplex_of_eq B S hS
-      (additive_modulePullback B S hS g)
       (heq.symm ▸ additive_modulePullback B S hS g) heq.symm K m
       (isPseudoCoherentComplexFrom_modulePullback B S hS g hg K hK m (hKm m))
   · exact (derivedPullbackObjIsoOfIsKFlat B S hS g K hK).symm ≪≫

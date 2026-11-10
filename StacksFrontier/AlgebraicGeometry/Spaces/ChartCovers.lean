@@ -124,7 +124,7 @@ theorem generate_mem_of_isEtaleCovering {I : Type v} {Z : (BigFppfOver B S hS)�
   rw [Sieve.ofArrows, Sieve.generate_le_iff]
   rintro _ _ ⟨i⟩
   refine ⟨E i, 𝟙 _, φ i, ⟨i, a i ≫ pullback.fst (qi i) z, ?_⟩, Category.id_comp _⟩
-  show _ = yoneda.map (h i) ≫ z
+  change _ = yoneda.map (h i) ≫ z
   rw [hh, Category.assoc, Category.assoc, pullback.condition]
 
 /-- Opens covering the scheme of a surjective étale morphism `g : A ⟶ P` give an étale
@@ -179,7 +179,7 @@ private theorem SmallEtale.exists_lift_of_comp_eq {T R : SmallEtale B S hS X}
         etale_comp_of_scheme B S hS f T.1.hom hf T.property⟩ : SmallEtale B S hS X),
       k.hom.left = k₀ ∧ k ≫ ObjectProperty.homMk (CostructuredArrow.homMk f rfl) = d := by
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk k₀ ?_), rfl, SmallEtale.hom_ext' hk⟩
-  show yoneda.map k₀ ≫ yoneda.map f ≫ T.1.hom = R.1.hom
+  change yoneda.map k₀ ≫ yoneda.map f ≫ T.1.hom = R.1.hom
   rw [← Category.assoc, ← Functor.map_comp, hk, CostructuredArrow.w d.hom]
 
 /-- **Finitely many affine charts covering the fibre product of a quasi-compact chart with a
@@ -239,10 +239,10 @@ theorem exists_finite_affine_pullback_cover (hZ : B.Contains (⊤_ Scheme.{u}))
   let y : ∀ l, yoneda.obj (E l).1.left ⟶ Y := fun l =>
     yoneda.map (oi l) ≫ g ≫ pullback.snd a q
   refine ⟨n, E, e, y, fun l => ?_, fun l => ?_, fun R c yR hR => ?_⟩
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (openSub Z₀ (O l : _)))
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (openSub Z₀ (O l : _)))
     have : IsAffine ((O l : ((BigFppfOver.toScheme B S hS).obj Z₀).Opens) : Scheme) := (O l).2
     exact this
-  · show _ = yoneda.map (oi l ≫ h₀) ≫ a
+  · change _ = yoneda.map (oi l ≫ h₀) ≫ a
     rw [Functor.map_comp, hh₀]
     simp only [y, Category.assoc, pullback.condition]
   · -- the members `O l ⟶ Z₀ ⟶ T ×_Z Y` form an étale covering of the fibre product
@@ -262,7 +262,7 @@ theorem exists_finite_affine_pullback_cover (hZ : B.Contains (⊤_ Scheme.{u}))
         congrArg (fun m => m ≫ pullback.fst a q) hw)
     obtain ⟨k, hk, hke⟩ := SmallEtale.exists_lift_of_comp_eq (oi l ≫ h₀) (hEt l) (d₂ ≫ c) k₀ hfst'
     refine ⟨l, k, hke, ?_⟩
-    show yoneda.map k.hom.left ≫ yoneda.map (oi l) ≫ g ≫ pullback.snd a q = _
+    change yoneda.map k.hom.left ≫ yoneda.map (oi l) ≫ g ≫ pullback.snd a q = _
     rw [hk, hk₀]
     simpa only [Category.assoc, pullback.lift_snd] using
       congrArg (fun m => m ≫ pullback.snd a q) hw

@@ -199,7 +199,7 @@ modules on a scheme is always defined. -/
 theorem scheme_stalksNontrivial (S : Scheme.{u}) : StalksNontrivial S.toTopCat S.sheaf := by
   intro x
   let _ : IsLocalRing (S.presheaf.stalk x) := S.isLocalRing x
-  show Nontrivial (S.presheaf.stalk x)
+  change Nontrivial (S.presheaf.stalk x)
   infer_instance
 
 /-- The generating sections transported along an isomorphism out of a free sheaf of modules

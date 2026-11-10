@@ -158,7 +158,7 @@ private theorem exists_oddVariable_lift
         abel
       commutes' := by
         intro r
-        show f (algebraMap R A r) + f 0 * t = algebraMap R D r
+        change f (algebraMap R A r) + f 0 * t = algebraMap R D r
         simp }
   have hi (a : A) : g (inclusion Aᵢ d a) = f a := by simp [g, q]
   have hg : g (generator Aᵢ d) = t := by simp [g, q]
@@ -196,7 +196,7 @@ private theorem evenPart_commute
     induction y using DirectSum.Decomposition.inductionOn Dᵢ with
     | zero => exact Commute.zero_right _
     | @homogeneous m y =>
-      show x * y = y * x
+      change x * y = y * x
       rw [IsStrictlyGradedComm.graded_comm hx y.property]
       simp [mul_assoc, pow_mul]
     | add a b ha hb => exact ha.add_right hb
@@ -240,7 +240,7 @@ private theorem exists_evenVariable_lift
   let q : EvenVariableAlgebra A →ₗ[R] D :=
     (Finsupp.lsum R (fun n => (LinearMap.mulRight R (ε.dpow n t)).comp f.toLinearMap)).comp c
   have hq (n : ℕ) (a : A) : q (monomial n a) = f a * ε.dpow n t := by
-    show Finsupp.lsum R _ (Finsupp.single n a) = _
+    change Finsupp.lsum R _ (Finsupp.single n a) = _
     rw [Finsupp.lsum_single]; rfl
   have hmul (x y : EvenVariableAlgebra A) : q (x*y) = q x * q y := by
     induction x using EvenVariableAlgebra.induction_on generalizing y with
@@ -268,7 +268,7 @@ private theorem exists_evenVariable_lift
       map_zero' := map_zero q
       map_add' := map_add q
       map_one' := by
-        show q (monomial 0 1) = 1
+        change q (monomial 0 1) = 1
         rw [hq, map_one, ε.dpow_zero hp, one_mul]
       map_mul' := hmul
       commutes' := by
@@ -280,7 +280,7 @@ private theorem exists_evenVariable_lift
     (P := fun x => g x ∈ Dᵢ m) hx ?_ ?_ ?_
   · simp
   · intro n a hn ha
-    show q (monomial n a) ∈ Dᵢ m
+    change q (monomial n a) ∈ Dᵢ m
     rw [hq]
     simpa only [Nat.sub_add_cancel hn] using
       SetLike.mul_mem_graded (hf (m-n*d) a ha) (hdeg n)
@@ -477,7 +477,7 @@ theorem prodDividedPowerStructure_dpow
     (prodDividedPowerStructure Aᵢ Bᵢ γ δ).dpow n x =
       (γ.dpow n x.1, δ.dpow n x.2) := by
   classical
-  show (if x ∈ positiveEvenPart (fun m => (Aᵢ m).prod (Bᵢ m)) then _ else _) = _
+  change (if x ∈ positiveEvenPart (fun m => (Aᵢ m).prod (Bᵢ m)) then _ else _) = _
   exact ite_eq_left hx
 
 private theorem map_dpow_of_finiteVariableStage
@@ -543,7 +543,7 @@ private theorem map_dpow_of_finiteVariableStage
       have hp := hfst ha
       obtain ⟨b, hb⟩ := hclosed m a hp
       refine ⟨b, ?_⟩
-      show k (ι b) = η.dpow m (k (ι a))
+      change k (ι b) = η.dpow m (k (ι a))
       rw [hdp (fun n hp => hcoeff n a hp), hb]) n (k x) hxQ (hkpos hp)
   let G : Subring (C × D) :=
     { carrier := {p | f p.1 = p.2}
@@ -638,7 +638,7 @@ public theorem existsUnique_oddVariable_dividedPower_lift
       g hg.2.2
       (fun n a ha => by
         rw [hcoeff n a ha]
-        show ε.dpow n (g (inclusion Aᵢ d a)) = g (inclusion Aᵢ d (γ.dpow n a))
+        change ε.dpow n (g (inclusion Aᵢ d a)) = g (inclusion Aᵢ d (γ.dpow n a))
         rw [hg.1, hg.1]
         exact hfDP n a (hreflect a ha))
       (fun n j hj => ?_) (hfinite x) hx n
@@ -710,7 +710,7 @@ public theorem existsUnique_evenVariable_dividedPower_lift
     evenVariable_dpow_generator Aᵢ γ d hd n
   have hmon (n : ℕ) (a : A) : monomial n a = ι a * δ.dpow n (T ()) := by
     rw [hδT n ()]
-    show monomial n a = monomial 0 a * monomial n 1
+    change monomial n a = monomial 0 a * monomial n 1
     simp [monomial_mul_monomial]
   have hfinite (x : EvenVariableAlgebra A) : x ∈ finiteVariableStage δ ι T {()} := by
     induction x using EvenVariableAlgebra.induction_on with
@@ -731,12 +731,12 @@ public theorem existsUnique_evenVariable_dividedPower_lift
       (fun n a ha => ⟨γ.dpow n a, (hcoeff n a ha).symm⟩) g hggrade
       (fun n a ha => by
         rw [hcoeff n a ha]
-        show ε.dpow n (g (coeffEmbedding a)) = g (coeffEmbedding (γ.dpow n a))
+        change ε.dpow n (g (coeffEmbedding a)) = g (coeffEmbedding (γ.dpow n a))
         rw [hgcoeff, hgcoeff]
         exact hfDP n a (hreflect a ha))
       (fun n j hj => by
         rw [hδT n j]
-        show ε.dpow n (g (monomial 1 1)) = g (monomial n 1)
+        change ε.dpow n (g (monomial 1 1)) = g (monomial n 1)
         rw [hgT, hg, map_one, one_mul]) (hfinite x) hx n
   refine ⟨g, ⟨hgcoeff, hgT, hggrade, hgDP⟩, ?_⟩
   intro k hk
@@ -749,10 +749,10 @@ public theorem existsUnique_evenVariable_dividedPower_lift
     rw [map_add, map_add, hx]
     congr 1
     rw [hmon, map_mul, map_mul]
-    show k (coeffEmbedding a) * k (δ.dpow n (T ())) =
+    change k (coeffEmbedding a) * k (δ.dpow n (T ())) =
       g (coeffEmbedding a) * g (δ.dpow n (T ()))
     rw [hk.1, hgcoeff, ← hk.2.2.2 n (T ()) hTp, ← hgDP n (T ()) hTp]
-    show f a * ε.dpow n (k (monomial 1 1)) = f a * ε.dpow n (g (monomial 1 1))
+    change f a * ε.dpow n (k (monomial 1 1)) = f a * ε.dpow n (g (monomial 1 1))
     rw [hk.2.1, hgT]
 end
 

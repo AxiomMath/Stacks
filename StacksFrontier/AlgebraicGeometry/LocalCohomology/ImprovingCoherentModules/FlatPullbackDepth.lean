@@ -119,7 +119,7 @@ public theorem two_le_depth_stalk_pullback_of_flat {X Y : Scheme.{u}}
   have hdepthEq : Module.depth S (IsLocalRing.maximalIdeal S) N =
       Module.depth S (IsLocalRing.maximalIdeal S) (TensorProduct R S M) :=
     Module.depth_eq_depth_of_linearEquiv (IsLocalRing.maximalIdeal S) E
-  show (2 : ℕ∞) ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
+  change (2 : ℕ∞) ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
   rw [hdepthEq, hformula]
   exact le_trans hdepth (le_add_of_nonneg_right (by positivity))
 

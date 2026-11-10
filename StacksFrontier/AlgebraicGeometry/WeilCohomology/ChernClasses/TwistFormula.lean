@@ -130,7 +130,7 @@ theorem apply_sum_classOf_invertible (hc : IsTotalChernClassOnLocallyFree 𝔄 c
       rw [Finset.sum_empty, hc.map_zero]
       rcases Nat.eq_zero_or_pos n with rfl | hn
       · simp
-      · rw [if_neg (by omega : ¬ n = 0), Finset.empty_val, Multiset.map_zero,
+      · rw [ite_eq_right (by omega : ¬ n = 0), Finset.empty_val, Multiset.map_zero,
           Multiset.esymm_of_card_lt (by simpa using hn)]
         simp
   | insert a s ha ih =>

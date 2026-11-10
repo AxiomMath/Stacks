@@ -454,7 +454,7 @@ def pointTwoSpaceCompIso {Z : BigFppfOver B S hS} (f' : Z ⟶ T') :
 /-- A square `eS ≫ x₀ ≫ y ≫ aH ≫ aE ≫ aI ≫ j = k₀`, with its edges identified up to identities and
 an inverse pair `ε₂i ≫ ε₂ = 𝟙`, gives `(eφ ≫ x) ≫ y ≫ A ≫ j = k`. -/
 theorem _root_.CategoryTheory.comp_eq_of_square_of_eqToHom {𝒞 : Type*} [Category 𝒞]
-    {P₀ P₀' P₁ P₁' P₂ P₂' P₃ P₄ P₅ P₆ P₇ : 𝒞} (eφ : P₀ ⟶ P₁) (eS : P₀' ⟶ P₁') (ε₁ : P₁' ⟶ P₁)
+    {P₀ P₀' P₁ P₁' P₂ P₃ P₄ P₅ P₆ P₇ : 𝒞} (eφ : P₀ ⟶ P₁) (eS : P₀' ⟶ P₁') (ε₁ : P₁' ⟶ P₁)
     (x : P₁ ⟶ P₂) (ε₁' : P₂ ⟶ P₂) (y : P₂ ⟶ P₃) (aH : P₃ ⟶ P₄) (aE : P₄ ⟶ P₅) (aI : P₅ ⟶ P₆)
     (j : P₆ ⟶ P₇) (A : P₃ ⟶ P₆) (ε₂ : P₀' ⟶ P₀) (ε₂i : P₀ ⟶ P₀') (k : P₀ ⟶ P₇) (ε₂' : P₇ ⟶ P₇)
     (x₀ : P₁' ⟶ P₂) (k₀ : P₀' ⟶ P₇) (sq : eS ≫ x₀ ≫ y ≫ aH ≫ aE ≫ aI ≫ j = k₀)

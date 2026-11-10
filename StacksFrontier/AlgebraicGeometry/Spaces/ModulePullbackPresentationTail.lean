@@ -43,7 +43,8 @@ form there is rejected by the kernel, for the reason recorded in the implementat
 
 ## Implementation notes
 
-**Why the clause is not stated at `AlgebraicGeometry.Space.modulePushforward`.**  The two shapes meet at the triple composite, which the two comparisons spell
+**Why the clause is not stated at `AlgebraicGeometry.Space.modulePushforward`.**  The two shapes
+meet at the triple composite, which the two comparisons spell
 differently: `AlgebraicGeometry.Space.modulePushforwardCompIso g (i ≫ f)` has `(g ≫ i ≫ f)_*` as
 its target and `AlgebraicGeometry.Space.modulePushforwardCompIso (g ≫ i) f` has
 `((g ≫ i) ≫ f)_*`, so a statement mentioning both at a module forces the identification of the

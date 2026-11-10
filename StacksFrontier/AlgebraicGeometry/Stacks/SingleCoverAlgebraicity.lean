@@ -88,10 +88,10 @@ theorem exists_single_cover_of_mem_topology {T : BigFppfOver C S hS} {R : Sieve 
   have hmap : e.hom ≫ C.inclusion.map f.left = Sigma.desc W.f := by
     refine Sigma.hom_ext _ _ fun i => ?_
     rw [← Category.assoc, he i]
-    show C.inclusion.map (j i).left ≫ C.inclusion.map f.left = _
+    change C.inclusion.map (j i).left ≫ C.inclusion.map f.left = _
     rw [← C.inclusion.map_comp]
-    show C.inclusion.map (j i ≫ f).left = _
-    rw [hfac, Sigma.ι_desc]
+    change C.inclusion.map (j i ≫ f).left = _
+    rw [hfac, Sigma.ι_comp_desc]
     exact C.inclusion.map_preimage (X := C.obj (hW i)) (Y := T.left) (W.f i)
   have := W.flat
   have := W.lfp
@@ -115,9 +115,9 @@ theorem exists_single_cover_of_mem_topology {T : BigFppfOver C S hS} {R : Sieve 
     refine ⟨e.hom ((Sigma.ι W.X i) a), ?_⟩
     exact (congrArg (fun q : W.X i ⟶ T.left.obj => q a)
       (show Sigma.ι W.X i ≫ e.hom ≫ C.inclusion.map f.left = W.f i by
-        rw [hmap, Sigma.ι_desc])).trans ha
+        rw [hmap, Sigma.ι_comp_desc])).trans ha
   have hopen i : Etale (C.inclusion.map (j i).left) := by
-    show Etale ((BigFppfOver.toScheme C S hS).map (j i))
+    change Etale ((BigFppfOver.toScheme C S hS).map (j i))
     rw [← he i]
     infer_instance
   have hjs (x : C.inclusion.obj V.left) :
@@ -126,7 +126,7 @@ theorem exists_single_cover_of_mem_topology {T : BigFppfOver C S hS} {R : Sieve 
     obtain ⟨⟨i, a⟩, rfl⟩ :=
       (sigmaMk (fun i => (BigFppfOver.toScheme C S hS).obj (Wi i))).surjective y
     refine ⟨i, a, ?_⟩
-    show (BigFppfOver.toScheme C S hS).map (j i) a = _
+    change (BigFppfOver.toScheme C S hS).map (j i) a = _
     rw [← he i, Scheme.Hom.comp_apply, sigmaMk_mk]
     rfl
   exact ⟨W.ι, Wi, fi, V, j, f, hfi, hfac, hm, hj, hd, hopen, hjs, hfFlat, hfLfp, hfSurj⟩
@@ -145,6 +145,7 @@ private theorem singleton_presieve₀_mem_fppfPrecoverage {U V : BigFppfOver C S
   exact ⟨PUnit.unit, z, hz⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for presheaves and sheaves on slices of the big fppf site is deep
 /-- **Descending algebraicity of a large sheaf along one fppf covering morphism.** Let `P` be a
 sheaf on the slice of the big fppf site of `S` over `T`, with values in any universe, and let
 `v : V ⟶ T` be a morphism of the site which is surjective, flat and locally of finite
@@ -184,11 +185,11 @@ theorem exists_isAlgebraicSpace_of_single_cover {T : BigFppfOver C S hS}
     let a : BigFppfOver C V.left.1 V.left.2 := Over.mk h.left
     let ea : Over.mk (h ≫ v) ≅ (Over.map v).obj ((Over.iteratedSliceBackward V).obj a) :=
       Over.isoMk (Over.isoMk (Iso.refl A.left) (by
-        show 𝟙 A.left ≫ h.left ≫ V.hom = A.hom
+        change 𝟙 A.left ≫ h.left ≫ V.hom = A.hom
         rw [Category.id_comp]
         exact Over.w h)) (by
         apply Over.OverMorphism.ext
-        show 𝟙 A.left ≫ h.left ≫ v.left = (h ≫ v).left
+        change 𝟙 A.left ≫ h.left ≫ v.left = (h ≫ v).left
         simp)
     exact Small.mk' ((P.mapIso ea.op).toEquiv.symm.trans
       (Equiv.ulift.symm.trans ((e₀.app (op a)).toEquiv.symm.trans Equiv.ulift)))
@@ -227,13 +228,13 @@ theorem exists_isAlgebraicSpace_of_single_cover {T : BigFppfOver C S hS}
     (by
       intro U V f
       ext z
-      show ULift.up ((equivShrink (I.obj V)).symm
+      change ULift.up ((equivShrink (I.obj V)).symm
         (equivShrink (I.obj V) (I.map f ((equivShrink (I.obj U)).symm z.down)))) = _
       simp only [Equiv.symm_apply_apply]
       rfl)
   let J' := BigFppfOver.topology C T.left.obj T.left.property
   have : (Over.iteratedSliceBackward T).IsContinuous J' (J.over T) := by
-    show T.iteratedSliceBackward.IsContinuous (C.topology.over T.left)
+    change T.iteratedSliceBackward.IsContinuous (C.topology.over T.left)
       ((C.topology.over (C.obj hS)).over T)
     infer_instance
   have hI : Presheaf.IsSheaf J' I :=

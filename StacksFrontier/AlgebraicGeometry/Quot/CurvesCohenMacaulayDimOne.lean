@@ -91,7 +91,7 @@ theorem CurveFamily.compl_cohenMacaulayDimOneBaseLocus (X : CurveFamily B hZ) :
             Space.HasRelativeDimensionAt ((1 : ℕ) : ℕ∞) B integerBase hZ X.toBase.hom x}ᶜ := by
   ext y
   simp only [CurveFamily.cohenMacaulayDimOneBaseLocus, CurveFamily.relativeDimensionOneBaseLocus,
-    Space.cohenMacaulayBaseLocus, Set.mem_compl_iff, Set.mem_inter_iff, Set.mem_setOf_eq,
+    Space.cohenMacaulayBaseLocus, Set.mem_compl_iff, Set.mem_inter_iff, Set.mem_ofPred_eq,
     Set.mem_image]
   refine ⟨fun hy => ?_, fun ⟨x, hx, hxy⟩ ⟨hCM, hdim⟩ => hx ⟨hCM x hxy, hdim x hxy⟩⟩
   by_contra hne
@@ -177,7 +177,7 @@ theorem isCohenMacaulayDimOneFamily_curveFamilyOfSchemeMorphism_iff
   have := locallyOfFinitePresentation_of_eq_spec_field (F.map g) k hU
   have hfib : ∀ v : F.obj U, IsLocallyNoetherian ((F.map g).fiber v) := fun v => by
     have : LocallyOfFiniteType ((F.map g).fiberToSpecResidueField v) := by
-      show LocallyOfFiniteType (pullback.snd (F.map g) ((F.obj U).fromSpecResidueField v))
+      change LocallyOfFiniteType (pullback.snd (F.map g) ((F.obj U).fromSpecResidueField v))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian ((F.map g).fiberToSpecResidueField v)
   have hCM := isCohenMacaulay_schemeSpaceMap_iff_of_target_eq_spec B hZ g k hU hfib

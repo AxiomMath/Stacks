@@ -113,14 +113,14 @@ theorem isLocalization_of_ringEquiv {R R' S S' : Type*} [CommRing R] [CommRing R
   · intro z
     obtain ⟨⟨x, s⟩, hx⟩ := IsLocalization.surj M (eS.symm z)
     refine ⟨⟨eR x, ⟨eR s, ⟨s, s.2, rfl⟩⟩⟩, ?_⟩
-    show z * algebraMap R' S' (eR s) = algebraMap R' S' (eR x)
+    change z * algebraMap R' S' (eR s) = algebraMap R' S' (eR x)
     rw [h, h, ← eS.apply_symm_apply z, ← map_mul, hx]
   · intro x y hxy
     have hx : eS (algebraMap R S (eR.symm x)) = eS (algebraMap R S (eR.symm y)) := by
       rw [← h, ← h, eR.apply_symm_apply, eR.apply_symm_apply, hxy]
     obtain ⟨c, hc⟩ := IsLocalization.exists_of_eq (M := M) (S := S) (eS.injective hx)
     refine ⟨⟨eR c, ⟨c, c.2, rfl⟩⟩, ?_⟩
-    show eR c * x = eR c * y
+    change eR c * x = eR c * y
     rw [← eR.apply_symm_apply x, ← eR.apply_symm_apply y, ← map_mul, ← map_mul, hc]
 
 /-- **Two evaluations of a polynomial ring agreeing modulo an ideal on the variables agree modulo
@@ -228,10 +228,10 @@ def awayPolyHom (π : A →ₐ[D] Q) (G : A) (QL : Type*) [CommRing QL] [Algebra
   { Polynomial.eval₂RingHom ((algebraMap Q QL).comp (π : A →+* Q))
       (IsLocalization.Away.invSelf (π G)) with
     commutes' := fun c => by
-      show Polynomial.eval₂ ((algebraMap Q QL).comp (π : A →+* Q))
+      change Polynomial.eval₂ ((algebraMap Q QL).comp (π : A →+* Q))
         (IsLocalization.Away.invSelf (π G)) (Polynomial.C (algebraMap D A c)) = _
       rw [Polynomial.eval₂_C]
-      show algebraMap Q QL (π (algebraMap D A c)) = _
+      change algebraMap Q QL (π (algebraMap D A c)) = _
       rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply] }
 
 /-- The presentation sends a constant polynomial `C a` to the image of `π a` in `Q[1/π G]`. -/

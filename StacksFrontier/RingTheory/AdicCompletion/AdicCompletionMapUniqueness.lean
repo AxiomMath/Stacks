@@ -55,7 +55,7 @@ private lemma evalₐ_eq_zero_of_mem_map_algebraMap {B : Type v} [CommRing B] (I
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show AdicCompletion.evalₐ I n (algebraMap B (AdicCompletion I B) r) = 0
+    change AdicCompletion.evalₐ I n (algebraMap B (AdicCompletion I B) r) = 0
     have hval : AdicCompletion.evalₐ I n (algebraMap B (AdicCompletion I B) r) =
         Ideal.Quotient.mk (I ^ n) r := by
       rw [AdicCompletion.algebraMap_apply]
@@ -99,7 +99,7 @@ theorem eq_adicCompletionMap_of_apply_algebraMap {A : Type u} {B : Type v}
   have hmem : z - algebraMap A (AdicCompletion J A) a ∈
       Ideal.map (algebraMap A (AdicCompletion J A)) (J ^ n) := by
     rw [← AdicCompletion.ker_evalₐ_eq_map_pow J hJ n, RingHom.mem_ker]
-    show AdicCompletion.evalₐ J n (z - algebraMap A (AdicCompletion J A) a) = 0
+    change AdicCompletion.evalₐ J n (z - algebraMap A (AdicCompletion J A) a) = 0
     have hval : AdicCompletion.evalₐ J n (algebraMap A (AdicCompletion J A) a) =
         Ideal.Quotient.mk (J ^ n) a := by
       rw [AdicCompletion.algebraMap_apply]
@@ -142,7 +142,7 @@ theorem sub_mem_of_apply_algebraMap_sub_mem {A C : Type u} [CommRing A] [CommRin
   have hmem : z - algebraMap A (AdicCompletion J A) a ∈
       Ideal.map (algebraMap A (AdicCompletion J A)) (J ^ n) := by
     rw [← AdicCompletion.ker_evalₐ_eq_map_pow J hJ n, RingHom.mem_ker]
-    show AdicCompletion.evalₐ J n (z - algebraMap A (AdicCompletion J A) a) = 0
+    change AdicCompletion.evalₐ J n (z - algebraMap A (AdicCompletion J A) a) = 0
     have hval : AdicCompletion.evalₐ J n (algebraMap A (AdicCompletion J A) a) =
         Ideal.Quotient.mk (J ^ n) a := by
       rw [AdicCompletion.algebraMap_apply]

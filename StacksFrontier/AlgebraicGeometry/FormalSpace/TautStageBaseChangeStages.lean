@@ -42,12 +42,12 @@ theorem quotientSystem_transition_isThickening' {B : BigFppfSite.{u}} {S : Schem
     {J L : { I : Ideal R // TopologicalRing.IsWeakIdealOfDefinition I }} (h : J.1 ≤ L.1) :
     Stacks.Thickenings.IsThickening
       ((BigAffineFppf.toScheme B S hS).map (D.transition h)) := by
-  show Stacks.Thickenings.IsThickening
+  change Stacks.Thickenings.IsThickening
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
   have hsur := Ideal.Quotient.factor_surjective h
   refine ⟨_root_.AlgebraicGeometry.IsClosedImmersion.spec_of_surjective _ hsur, ?_⟩
   intro P
-  show P ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.factor h))
+  change P ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.factor h))
   rw [range_comap_of_surjective _ _ hsur]
   intro x hx
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
@@ -77,7 +77,7 @@ theorem mono_formalSpectrumDiagram_map' (D : QuotientSystem B S hS R)
     (g : I ⟶ J) : Mono ((formalSpectrumDiagram D).map g) := by
   apply Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying
     (BigFppfOver.topology B S hS) (BigFppfOver.toScheme B S hS)
-  show Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
+  change Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
   let : IsClosedImmersion
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g)))) :=
     IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective (leOfHom g))

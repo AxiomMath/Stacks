@@ -159,7 +159,7 @@ private lemma eW_hom_snd :
 private lemma eB_hom_snd :
     (eB k a q g).hom ≫ pullback.snd k (dToY a q g) =
       pullback.snd (kT k q g) (aT a q g) := by
-  simp [eB, dToY, common, pullback.lift_snd]
+  simp [eB, dToY, common]
 
 private noncomputable def intersectionIso :
     pullback ((pullback.snd k a) ≫ (a ≫ q)) g ≅ pullback (kT k q g) (aT a q g) :=
@@ -199,7 +199,7 @@ private theorem idealMapSubschemeIso_fac {X Y : Scheme.{u}} (k : X ⟶ Y)
   have hback : eqToHom hImage ≫ (I.map k).subschemeι = c.imageι := by
     cases hImage
     rfl
-  show c.toImage ≫ eqToHom hImage ≫ (I.map k).subschemeι = I.subschemeι ≫ k
+  change c.toImage ≫ eqToHom hImage ≫ (I.map k).subschemeι = I.subschemeι ≫ k
   rw [hback]
   exact c.toImage_imageι
 
@@ -223,7 +223,7 @@ private lemma map_comap_eq_of_pullback_snd_isIso {X Y : Scheme.{u}} (k : X ⟶ Y
     let : IsIso (pullback.snd k K.subschemeι) := h
     have heq : J.subschemeι ≫ k = (e.hom ≫ pullback.snd k K.subschemeι) ≫
         K.subschemeι := by
-      show (K.comap k).subschemeι ≫ k =
+      change (K.comap k).subschemeι ≫ k =
         (e.hom ≫ pullback.snd k K.subschemeι) ≫ K.subschemeι
       rw [← Scheme.IdealSheafData.comapIso_hom_fst K k, Category.assoc,
         pullback.condition, ← Category.assoc]
@@ -336,7 +336,7 @@ private theorem iteratedBaseChangeIso_inv_fst_fst {S : Scheme.{u}} {X : Over S}
     {H T : Over S} (g : T ⟶ H) :
     (iteratedBaseChangeIso g).inv ≫ pullback.fst (pullback.snd X.hom H.hom) g.left ≫
       pullback.fst X.hom H.hom = pullback.fst X.hom T.hom := by
-  show ((pullback.congrHom rfl (Over.w g)).inv ≫
+  change ((pullback.congrHom rfl (Over.w g)).inv ≫
       (pullbackLeftPullbackSndIso X.hom H.hom g.left).inv) ≫
       pullback.fst (pullback.snd X.hom H.hom) g.left ≫ pullback.fst X.hom H.hom = _
   calc
@@ -349,7 +349,7 @@ private theorem iteratedBaseChangeIso_inv_snd {S : Scheme.{u}} {X : Over S}
     {H T : Over S} (g : T ⟶ H) :
     (iteratedBaseChangeIso g).inv ≫ pullback.snd (pullback.snd X.hom H.hom) g.left =
       pullback.snd X.hom T.hom := by
-  show ((pullback.congrHom rfl (Over.w g)).inv ≫
+  change ((pullback.congrHom rfl (Over.w g)).inv ≫
       (pullbackLeftPullbackSndIso X.hom H.hom g.left).inv) ≫
       pullback.snd (pullback.snd X.hom H.hom) g.left = _
   calc
@@ -387,7 +387,7 @@ private theorem iteratedBaseChangeIso_inv_fst {S : Scheme.{u}} {X : Over S}
   · calc
       (iteratedBaseChangeIso g).inv ≫ pullback.fst (pullback.snd X.hom H.hom) g.left ≫
           pullback.snd X.hom H.hom = pullback.snd X.hom T.hom ≫ g.left := by
-            show ((pullback.congrHom rfl (Over.w g)).inv ≫
+            change ((pullback.congrHom rfl (Over.w g)).inv ≫
                 (pullbackLeftPullbackSndIso X.hom H.hom g.left).inv) ≫
                 pullback.fst (pullback.snd X.hom H.hom) g.left ≫ pullback.snd X.hom H.hom = _
             simp only [Category.assoc, pullbackLeftPullbackSndIso_inv_fst_snd]
@@ -438,7 +438,7 @@ private theorem exists_universal_family_weil_restriction {S : Scheme.{u}}
   let k := familyAmbientMap i H_Y
   let p : F.ideal.subscheme ⟶ H_Y.left := F.ideal.subschemeι ≫ YH.hom
   let : Stacks.Morphisms.IsFiniteLocallyFreeOfRank p d := by
-    show Stacks.Morphisms.IsFiniteLocallyFreeOfRank
+    change Stacks.Morphisms.IsFiniteLocallyFreeOfRank
       (F.ideal.subschemeι ≫ YH.hom) d
     exact F.isFiniteLocallyFreeOfRank
   let : Stacks.Morphisms.IsFiniteLocallyFree p :=
@@ -530,10 +530,10 @@ private theorem universalFamilyBaseChange_subscheme_fac {S : Scheme.{u}}
     simp
   have hfac : e.hom ≫ (U.ideal.comap j).subschemeι =
       Bridge.aT a q f.left ≫ eY.hom := by
-    show r.symm.hom ≫ c.hom ≫ (pullbackSymmetry j a).symm.hom ≫
+    change r.symm.hom ≫ c.hom ≫ (pullbackSymmetry j a).symm.hom ≫
       (U.ideal.comapIso j).inv ≫ (U.ideal.comap j).subschemeι = _
     rw [Scheme.IdealSheafData.comapIso_inv_subschemeι, hs]
-    show r.inv ≫ cF ≫ pullback.snd a j = _
+    change r.inv ≫ cF ≫ pullback.snd a j = _
     dsimp [cF]
     rw [pullback.lift_snd, reassoc_of% hr]
   exact ⟨e, hfac⟩
@@ -641,7 +641,7 @@ private theorem universalFamilyRestrictionProperty_iff {S : Scheme.{u}}
             (m ≫ pullback.snd kDirect K.subschemeι) := by rw [hm]
       _ = eAll.hom ≫ pullback.snd kDirect K.subschemeι := by
             simp [eAll, eI, Category.assoc]
-  show IsIso (Bridge.wMap k a q f.left) ↔
+  change IsIso (Bridge.wMap k a q f.left) ↔
     IsIso (pullback.snd kDirect (hY.family f).ideal.subschemeι)
   rw [hnat, ← isIso_comp_right_iff (Bridge.wMap k a q f.left) eU.hom, heq,
     isIso_comp_left_iff eAll.hom]
@@ -759,11 +759,11 @@ public theorem exists_closedSubschemeRepresentingHilbertFunctor {S : Scheme.{u}}
           ((hY.family).symm FY) (by rw [hFY]; exact pullback_snd_isIso_of_map kT F.ideal)
         have hcomp' : fX ≫ inclusion = (hY.family).symm FY := hcomp
         refine ⟨fX, HilbertFamily.ext ?_⟩
-        show (hY.family (fX ≫ inclusion)).ideal.comap kT = F.ideal
+        change (hY.family (fX ≫ inclusion)).ideal.comap kT = F.ideal
         rw [hcomp', hFY]
         exact comap_map_eq_of_closedImmersion kT F.ideal
     · intro T' T g f
-      show (familyX (g ≫ f)).ideal = (familyX f).ideal.comap (familyBaseChangeMap X g)
+      change (familyX (g ≫ f)).ideal = (familyX f).ideal.comap (familyBaseChangeMap X g)
       rw [familyX_ideal, familyX_ideal]
       rw [show (g ≫ f) ≫ inclusion = g ≫ (f ≫ inclusion) from by simp [Category.assoc]]
       rw [hY.naturality g (f ≫ inclusion)]

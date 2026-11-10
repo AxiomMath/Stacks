@@ -186,7 +186,7 @@ lemma ι_comp_refinementAugmentation (x : Σ i, (𝒱 i).I₀) :
         refinementAugmentation.{u₁, v₁, w, t} R 𝒱 =
       extensionByZeroUnitMap.{u₁, v₁, w, t} R ((𝒱 x.1).f x.2) ≫
         Sigma.ι (fun i ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i)) x.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The inclusion of the block of index `i` into `⊕_i ⊕_k j_{U_ik!} O_{U_ik}`. -/
 noncomputable def blockInclusion (i : Fin n) :
@@ -202,7 +202,7 @@ lemma ι_comp_blockInclusion (i : Fin n) (k : (𝒱 i).I₀) :
         blockInclusion.{u₁, v₁, w, t} R 𝒱 i =
       Sigma.ι (fun y : Σ i, (𝒱 i).I₀ ↦
         extensionByZeroUnit.{u₁, v₁, w, t} R ((𝒱 y.1).X y.2)) ⟨i, k⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The restriction of `refinementAugmentation` to the block of index `i` is the augmentation
 `⊕_k j_{U_ik!} O_{U_ik} ⟶ j_{U_i!} O_{U_i}` of the covering `𝒱 i` followed by the `i`-th
@@ -212,7 +212,7 @@ lemma blockInclusion_comp_refinementAugmentation (i : Fin n) :
       (Sigma.desc fun k ↦ extensionByZeroUnitMap.{u₁, v₁, w, t} R ((𝒱 i).f k)) ≫
         Sigma.ι (fun i' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i')) i := by
   refine Sigma.hom_ext _ _ fun k ↦ ?_
-  rw [ι_comp_blockInclusion_assoc, ι_comp_refinementAugmentation, Sigma.ι_desc_assoc]
+  rw [ι_comp_blockInclusion_assoc, ι_comp_refinementAugmentation, Sigma.ι_comp_desc_assoc]
 
 variable [∀ i, (𝒱 i).HasPullbacks]
 
@@ -284,9 +284,9 @@ theorem isIso_cokernelMap_refinementAugmentation
     (h𝒱cov i) (blockInclusion.{u₁, v₁, w, t} R 𝒱 i ≫ cokernel.π g)
     (cechRelationsMap_comp_blockInclusion_comp.{u₁, v₁, w, t} R 𝒱 i _ (hrel i))
   refine isIso_cokernelMap _ _ _ _ h (Sigma.desc σ) (Sigma.hom_ext _ _ fun x ↦ ?_)
-  rw [ι_comp_refinementAugmentation_assoc, Sigma.ι_desc]
+  rw [ι_comp_refinementAugmentation_assoc, Sigma.ι_comp_desc]
   have hx := Sigma.ι (fun k ↦ extensionByZeroUnit.{u₁, v₁, w, t} R ((𝒱 x.1).X k)) x.2 ≫= hσ x.1
-  rw [Sigma.ι_desc_assoc, ι_comp_blockInclusion_assoc] at hx
+  rw [Sigma.ι_comp_desc_assoc, ι_comp_blockInclusion_assoc] at hx
   exact hx
 
 /-! ### The refined square -/
@@ -332,7 +332,7 @@ lemma ι_inl_comp_refinedRelations (x : (i : Fin n) × (pp : (𝒱 i).I₀ × (�
         refinedRelations.{u₁, v₁, w, t} R 𝒱 κ Y M Z y d =
       extensionByZeroUnitMap.{u₁, v₁, w, t} R (y x.1 x.2.1 x.2.2) ≫
         cechRelation.{u₁, v₁, w, t} R 𝒱 x.1 x.2.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- On the summand of index `(j, c)`, `refinedRelations` is the chosen lift `d j c`. -/
 @[reassoc]
@@ -340,7 +340,7 @@ lemma ι_inr_comp_refinedRelations (x : (j : Fin m) × M j) :
     Sigma.ι (fun l ↦ extensionByZeroUnit.{u₁, v₁, w, t} R
           (refinedObjects 𝒱 κ Y M Z l)) (Sum.inr x) ≫
         refinedRelations.{u₁, v₁, w, t} R 𝒱 κ Y M Z y d = d x.1 x.2 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **The left-hand vertical map of the refined square.** It is zero on the summands carrying
 the Čech relations and the functoriality map of `Z j c → V j` on the others. -/
@@ -358,7 +358,7 @@ lemma ι_inl_comp_refinedLifts (x : (i : Fin n) × (pp : (𝒱 i).I₀ × (𝒱 
     Sigma.ι (fun l ↦ extensionByZeroUnit.{u₁, v₁, w, t} R
           (refinedObjects 𝒱 κ Y M Z l)) (Sum.inl x) ≫
         refinedLifts.{u₁, v₁, w, t} R V 𝒱 κ Y M Z g' = 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 omit [∀ i, (𝒱 i).HasPullbacks] in
 /-- On the summand of index `(j, c)`, `refinedLifts` is the functoriality map of `Z j c → V j`
@@ -370,7 +370,7 @@ lemma ι_inr_comp_refinedLifts (x : (j : Fin m) × M j) :
         refinedLifts.{u₁, v₁, w, t} R V 𝒱 κ Y M Z g' =
       extensionByZeroUnitMap.{u₁, v₁, w, t} R (g' x.1 x.2) ≫
         Sigma.ι (fun j ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (V j)) x.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The refined square commutes: the Čech relations are killed by the augmentation, and the
 chosen lifts commute with it by construction. -/
@@ -410,7 +410,7 @@ lemma epi_refinedLifts
         extensionByZeroUnitMap.{u₁, v₁, w, t} R (g' x.1 x.2) ≫
           Sigma.ι (fun j ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (V j)) x.1 :=
     Sigma.hom_ext _ _ fun x ↦ by
-      rw [Sigma.ι_desc_assoc, ι_inr_comp_refinedLifts, Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc_assoc, ι_inr_comp_refinedLifts, Sigma.ι_comp_desc]
   have hcomp : Epi ((Sigma.desc fun x : (j : Fin m) × M j ↦
       Sigma.ι (fun l ↦ extensionByZeroUnit.{u₁, v₁, w, t} R
         (refinedObjects 𝒱 κ Y M Z l)) (Sum.inr x)) ≫
@@ -499,7 +499,7 @@ theorem exists_refinement_isIso_cokernelMap
       (refinedObjects 𝒱 (fun i pp ↦ ↥(N i pp))
         (fun i pp c ↦ (𝒲 i pp).X c.1) M Zv l)) (Sum.inl ⟨i, pp, c⟩))
     (Sigma.hom_ext _ _ fun c ↦ ?_)
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc]
   exact ι_inl_comp_refinedRelations.{u₁, v₁, w, t} R 𝒱 (fun i pp ↦ ↥(N i pp))
     (fun i pp c ↦ (𝒲 i pp).X c.1) M Zv (fun i pp c ↦ (𝒲 i pp).f c.1) d ⟨i, pp, c⟩
 

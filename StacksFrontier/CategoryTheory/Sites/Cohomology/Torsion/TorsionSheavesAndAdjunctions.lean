@@ -60,14 +60,14 @@ private lemma sheaf_section_eq_zero (F : Sheaf J AddCommGrpCat.{w}) {U : C}
     (GrothendieckTopology.HasSheafCompose.isSheaf F.obj F.2
       (F := forget AddCommGrpCat.{w}))
   refine (hF.isSeparated _ hR).ext fun V f hf ↦ ?_
-  show F.obj.map f.op x = F.obj.map f.op 0
+  change F.obj.map f.op x = F.obj.map f.op 0
   exact (hx f hf).trans (map_zero _).symm
 
 /-- Multiples of a morphism of abelian sheaves are computed sectionwise. -/
 private lemma sheafHom_nsmul_app_apply {F G : Sheaf J AddCommGrpCat.{w}} (g : F ⟶ G) (n : ℕ)
     {U : Cᵒᵖ} (x : F.obj.obj U) : (n • g).hom.app U x = n • g.hom.app U x := by
   let E := sheafToPresheaf J AddCommGrpCat.{w} ⋙ (evaluation Cᵒᵖ AddCommGrpCat.{w}).obj U
-  show (E.map (n • g)) x = n • (E.map g) x
+  change (E.map (n • g)) x = n • (E.map g) x
   rw [E.map_nsmul]
   rfl
 
@@ -98,12 +98,12 @@ theorem eq_zero_of_torsionSheafProperty [HasSheafify J AddCommGrpCat.{w}]
     (hF : torsionSheafProperty J F) (hG : ∀ n : ℕ, 0 < n → Mono (n • 𝟙 G)) (g : F ⟶ G) :
     g = 0 := by
   ext U x
-  show g.hom.app U x = 0
+  change g.hom.app U x = 0
   obtain ⟨R, hR, hx⟩ := hF U.unop x
   refine sheaf_section_eq_zero J G _ hR fun V f hf ↦ ?_
   obtain ⟨n, hn, hnx⟩ := hx V f hf
   apply nsmul_injective_of_mono J (hG n hn) (op V)
-  show n • G.obj.map f.op (g.hom.app U x) = n • 0
+  change n • G.obj.map f.op (g.hom.app U x) = n • 0
   rw [← g.hom.naturality_apply f.op, ← _root_.map_nsmul, hnx, map_zero, nsmul_zero]
 
 /-! ### The torsion subsheaf -/
@@ -238,14 +238,14 @@ private lemma mono_nsmul_cokernel_localTorsionSheafι [J.WEqualsLocallyBijective
     apply (cokernel_localTorsionSheafι_app_eq_zero_iff J F V y).mpr
     have hny : n • y ∈ (localTorsionSubfunctor J F).obj (op V) := by
       apply (cokernel_localTorsionSheafι_app_eq_zero_iff J F V (n • y)).mp
-      show q.hom.app (op V) (n • y) = 0
+      change q.hom.app (op V) (n • y) = 0
       rw [_root_.map_nsmul, hy, ← _root_.map_nsmul, hx, map_zero]
     rw [mem_localTorsionSubfunctor_iff] at hny ⊢
     refine J.superset_covering ?_ hny
     rintro W g ⟨m, hm, hmy⟩
     refine ⟨m * n, Nat.mul_pos hm hn, ?_⟩
     change m • (F.obj.map g.op) (n • y) = 0 at hmy
-    show (m * n) • F.obj.map g.op y = 0
+    change (m * n) • F.obj.map g.op y = 0
     simpa only [_root_.map_nsmul, smul_smul] using hmy
   refine mono_of_injective_app J _ fun U ↦ ?_
   rw [injective_iff_map_eq_zero]

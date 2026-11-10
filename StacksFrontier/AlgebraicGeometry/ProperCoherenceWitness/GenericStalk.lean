@@ -42,7 +42,7 @@ theorem smul_pushforward_eq_zero_of_app_eq_zero {Z X : _root_.AlgebraicGeometry.
     b • m = 0 := by
   let _ : Module Γ(Z, i ⁻¹ᵁ V) Γ((Scheme.Modules.pushforward i).obj N, V) :=
     inferInstanceAs (Module Γ(Z, i ⁻¹ᵁ V) Γ(N, i ⁻¹ᵁ V))
-  show (i.app V b) • m = 0
+  change (i.app V b) • m = 0
   rw [hb, zero_smul]
 
 /-- **The stalk of `i_* N` at the image of the generic point of an integral closed subscheme is

@@ -76,7 +76,7 @@ private theorem comparisonFunctor_oneHypercoverDense
     p₁ := fun {_ _} _ => C.preimage p
     p₂ := fun {_ _} _ => C.preimage q
     w := fun {_ _} _ => by
-      show C.map _ ≫ a = C.map _ ≫ a
+      change C.map _ ≫ a = C.map _ ≫ a
       simpa only [C.map_preimage] using hpq.w
     mem₀ := ?_
     mem₁₀ := ?_ }⟩
@@ -143,7 +143,7 @@ private theorem spacesModuleSections_map_zero
   apply (cancel_mono ((spacesModuleSectionsIso B S hS X).hom.app G)).1
   refine ((spacesModuleSectionsIso B S hS X).hom.naturality (0 : F ⟶ G)).trans ?_
   ext U s
-  show 0 = ((spacesModuleSectionsIso B S hS X).hom.app G).hom.app U 0
+  change 0 = ((spacesModuleSectionsIso B S hS X).hom.app G).hom.app U 0
   exact (map_zero _).symm
 
 /-- The zero map of `𝒪_X`-modules induces the zero map on sections over any object of the
@@ -249,7 +249,7 @@ private theorem range_of_restriction_mem_range
   have hcompat : F.obj.map p.op t = F.obj.map q.op t := by
     apply hm W
     simp only [← ConcreteCategory.comp_apply, m.hom.naturality]
-    show G.obj.map p.op (m.hom.app (op V) t) = G.obj.map q.op (m.hom.app (op V) t)
+    change G.obj.map p.op (m.hom.app (op V) t) = G.obj.map q.op (m.hom.app (op V) t)
     rw [ht]
     simpa only [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp] using
       congrArg (fun k : W ⟶ U => G.obj.map k.op s) hpq.w
@@ -384,7 +384,7 @@ private theorem range_pointsMap_pullback
   ext x
   constructor
   · rintro ⟨w, rfl⟩
-    show pointsMap B S hS X.1 f.hom
+    change pointsMap B S hS X.1 f.hom
         (pointsMap B S hS P.1 p.hom w) ∈
           Set.range (pointsMap B S hS Z.1 g.hom)
     have h := congrArg
@@ -495,7 +495,7 @@ private theorem chart_complement_pullback
   have hbcomm : qq ≫ (KY.obj U).1.hom =
       (KX.obj E).1.hom ≫ f := by
     apply ObjectProperty.hom_ext
-    show yoneda.map q₀ ≫ U.1.hom = (yoneda.map p₀ ≫ Q.1.hom) ≫ f.hom
+    change yoneda.map q₀ ≫ U.1.hom = (yoneda.map p₀ ≫ Q.1.hom) ≫ f.hom
     rw [Category.assoc, ← hc, ← Category.assoc, hpq.w, Category.assoc, i.hom.w]
   let b : KX.obj E ⟶ C.functor.obj (KY.obj U) :=
     ⟨Over.homMk ((C.isPullback (KY.obj U)).lift qq (KX.obj E).1.hom hbcomm)
@@ -505,7 +505,7 @@ private theorem chart_complement_pullback
     apply Over.OverMorphism.ext
     apply (C.isPullback (KY.obj W)).hom_ext
     · have hn := C.projection.naturality (KY.map i)
-      show pp ≫ a.hom.left ≫ C.projection.app (KY.obj W) =
+      change pp ≫ a.hom.left ≫ C.projection.app (KY.obj W) =
         b.hom.left ≫ (C.functor.map (KY.map i)).hom.left ≫ C.projection.app (KY.obj W)
       change (C.functor.map (KY.map i)).hom.left ≫ C.projection.app (KY.obj W) =
         C.projection.app (KY.obj U) ≫ (KY.map i).hom.left at hn
@@ -518,7 +518,7 @@ private theorem chart_complement_pullback
         ((congrArg (fun k => yoneda.map p₀ ≫ k) hg).symm.trans hpq.w)
     · exact (KX.map e ≫ a).hom.w.trans (b ≫ C.functor.map (KY.map i)).hom.w.symm
   · have hr := range_pointsMap_pullback B S hS hsq
-    show Set.range (pointsMap B S hS _ (yoneda.map p₀)) = _
+    change Set.range (pointsMap B S hS _ (yoneda.map p₀)) = _
     change Set.range (pointsMap B S hS _ (yoneda.map p₀)) =
       pointsMap B S hS _ (yoneda.map g) ⁻¹'
         Set.range (pointsMap B S hS _ (yoneda.map i.hom.left)) at hr
@@ -622,7 +622,7 @@ private theorem supportedOn_iff_zeroOnOpenChart
   let : TopologicalSpace (points B S hS
       (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj W))) :=
     pointTopology B S hS _
-  show supportOfSection B S hS X.1 H W sH ⊆
+  change supportOfSection B S hS X.1 H W sH ⊆
         (pointsMap B S hS
           (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj W)) W.1.hom) ⁻¹' T ↔ _
   have hmap : (F.val.map i.op) s = H.obj.map i.op sH := rfl
@@ -745,7 +745,7 @@ private theorem chart_over_complement
         (pointsMap B S hS _ (C.projection.app V).hom
           (pointsMap B S hS _ b.hom.left.hom x)) :=
     congrFun (pointsMap_comp B S hS _ (C.projection.app V).hom U.1.hom) _
-  show pointsMap B S hS X.1 f.hom
+  change pointsMap B S hS X.1 f.hom
     (pointsMap B S hS _ Q.1.hom x) ∈ Tᶜ
   rw [← hl, key, hr, hr2]
   exact hU _
@@ -787,7 +787,7 @@ private theorem spaces_supported_range_eq_zero
     have hz := (sectionSupportedIn_iff_restrict_eq_zero B S hS X Tx hTx F Q _).mp hsup
       Q (𝟙 Q) (by
         intro x
-        show pointsMap B S hS _ (yoneda.map (𝟙 Q.1.left)) x ∈
+        change pointsMap B S hS _ (yoneda.map (𝟙 Q.1.left)) x ∈
           pointsMap B S hS _ Q.1.hom ⁻¹' Txᶜ
         rw [yoneda.map_id, pointsMap_id]
         exact chart_over_complement B S hS f T W U i hi Q b x)
@@ -854,7 +854,7 @@ private theorem exists_openSubchart
   let i : U ⟶ W := ⟨CostructuredArrow.homMk q (by rfl)⟩
   refine ⟨U, i, hq, ?_⟩
   have h := range_pointsMap_pullback B S hS hsq
-  show Set.range (pointsMap B S hS (yoneda.obj C) (yoneda.map q)) = O
+  change Set.range (pointsMap B S hS (yoneda.obj C) (yoneda.map q)) = O
   change Set.range (pointsMap B S hS (yoneda.obj C) (yoneda.map q)) =
     pointsMap B S hS (yoneda.obj A) (𝟙 _) ⁻¹'
       Set.range (pointsMap B S hS V.1.toFunctor V.1.ι) at h

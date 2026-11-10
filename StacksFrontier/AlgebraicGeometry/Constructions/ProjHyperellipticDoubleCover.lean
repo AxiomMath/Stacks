@@ -420,14 +420,14 @@ public theorem zGen_mul_zGen :
     zGen k d lam * zGen k d lam = binaryForm k d lam (branchForm k d lam) := by
   rw [← sq, zGen_sq_eq_prod, branchForm, map_prod]
   refine Finset.prod_congr rfl fun i _ => ?_
-  simp [binaryForm, Algebra.algebraMap_eq_smul_one, smul_mul_assoc]
+  simp [binaryForm, Algebra.algebraMap_eq_smul_one]
 
 /-- **The inverse of the splitting**, `p + q ω ↦ p + q Z`. -/
 public def unsplit : Splitting k d lam →+* ring k d lam where
   toFun x := binaryForm k d lam x.re + binaryForm k d lam x.im * zGen k d lam
   map_one' := by simp [QuadraticAlgebra.re_one, QuadraticAlgebra.im_one]
   map_mul' x y := by
-    simp only [QuadraticAlgebra.re_mul, QuadraticAlgebra.im_mul, map_add, map_mul, map_zero,
+    simp only [QuadraticAlgebra.re_mul, QuadraticAlgebra.im_mul, map_add, map_mul,
       zero_mul, add_zero]
     linear_combination (binaryForm k d lam x.im * binaryForm k d lam y.im) *
       (zGen_mul_zGen k d lam).symm
@@ -480,7 +480,7 @@ public theorem mul_mem_zCoeffSubmodule {N M : ℕ} {p q : MvPolynomial (Fin 2) k
     p * q ∈ zCoeffSubmodule k d (N + M) := by
   unfold zCoeffSubmodule at hq ⊢
   split_ifs at hq with hM
-  · rw [if_pos (by omega)]
+  · rw [ite_eq_left (by omega)]
     rw [mem_homogeneousSubmodule] at hp hq ⊢
     have := hp.mul hq
     rwa [show N + (M - d) = N + M - d by omega] at this
@@ -532,7 +532,7 @@ public theorem IsSplitHomogeneous.smul {N : ℕ} (c : k) {x : Splitting k d lam}
   · simpa using Submodule.smul_mem _ c hx.2
 
 public theorem isSplitHomogeneous_zero (N : ℕ) : IsSplitHomogeneous k d lam N 0 :=
-  ⟨by simpa using Submodule.zero_mem _, by simpa using Submodule.zero_mem _⟩
+  ⟨by simp, by simp⟩
 
 public theorem isSplitHomogeneous_one : IsSplitHomogeneous k d lam 0 1 := by
   refine ⟨?_, ?_⟩
@@ -546,14 +546,14 @@ public theorem isSplitHomogeneous_splitVar (i : Vars) :
   cases i with
   | u => exact ⟨by simpa [splitVar, mem_homogeneousSubmodule, weight,
             QuadraticAlgebra.algebraMap_re] using isHomogeneous_X k (0 : Fin 2),
-          by simpa [splitVar, QuadraticAlgebra.algebraMap_im] using Submodule.zero_mem _⟩
+          by simp [splitVar, QuadraticAlgebra.algebraMap_im]⟩
   | v => exact ⟨by simpa [splitVar, mem_homogeneousSubmodule, weight,
             QuadraticAlgebra.algebraMap_re] using isHomogeneous_X k (1 : Fin 2),
-          by simpa [splitVar, QuadraticAlgebra.algebraMap_im] using Submodule.zero_mem _⟩
+          by simp [splitVar, QuadraticAlgebra.algebraMap_im]⟩
   | z =>
-      refine ⟨by simpa [splitVar, QuadraticAlgebra.re_omega] using Submodule.zero_mem _, ?_⟩
+      refine ⟨by simp [splitVar, QuadraticAlgebra.re_omega], ?_⟩
       simp only [splitVar, QuadraticAlgebra.im_omega, zCoeffSubmodule, weight, le_refl,
-        if_true, Nat.sub_self, mem_homogeneousSubmodule]
+        ite_true, Nat.sub_self, mem_homogeneousSubmodule]
       exact isHomogeneous_one (Fin 2) k
 
 /-- **The splitting respects degrees.** -/
@@ -685,8 +685,7 @@ public theorem exists_twoChart_fraction {n : ℤ} (hn : n < d)
   have hre := congrArg QuadraticAlgebra.re hsplit
   simp only [QuadraticAlgebra.im_mul, QuadraticAlgebra.re_mul, QuadraticAlgebra.im_sub,
     QuadraticAlgebra.re_sub, QuadraticAlgebra.algebraMap_re, QuadraticAlgebra.algebraMap_im,
-    QuadraticAlgebra.im_zero, QuadraticAlgebra.re_zero, mul_zero, zero_mul, add_zero,
-    sub_zero, zero_add] at him hre
+    QuadraticAlgebra.im_zero, QuadraticAlgebra.re_zero, mul_zero, zero_mul, add_zero] at him hre
   have him' := sub_eq_zero.mp ((mul_eq_zero.mp him).resolve_left hne)
   have hre' := sub_eq_zero.mp ((mul_eq_zero.mp hre).resolve_left hne)
   have hoa : (split k d lam a).im = 0 :=
@@ -802,7 +801,7 @@ public theorem bijective_degreeSection_binaryForm (hd : 0 < d) {n : ℕ} (hn : n
         simp [Finsupp.weight_apply, Finsupp.sum_fintype, Fin.sum_univ_two]
       have := hra hc
       rw [hws] at this ⊢
-      simp [Finsupp.single_apply] at this
+      simp at this
       omega
     have hrb : (split k d lam b).re = p * X 0 ^ M := by
       apply mul_right_cancel₀ (pow_ne_zero N (X_ne_zero (1 : Fin 2)) :
@@ -815,7 +814,7 @@ public theorem bijective_degreeSection_binaryForm (hd : 0 < d) {n : ℕ} (hn : n
     have hy : y.1 ∈ Proj.basicOpen (grading k d lam) (uGen k d lam) ⊔
         Proj.basicOpen (grading k d lam) (vGen k d lam) := by
       rw [sup_basicOpen_eq_top k d lam hd]; trivial
-    haveI := y.1.isPrime
+    have := y.1.isPrime
     rcases hy with hy | hy
     · have h1 := hub y.1 hy
       have h2 : (LocalizedModule.mk b ⟨uGen k d lam ^ M,
@@ -861,7 +860,7 @@ public def tangentEval (hd : 0 < d) : Splitting k d lam →+* DualNumber k where
     · simp [QuadraticAlgebra.re_mul, eval_branchForm k d lam hd]
     · simp [QuadraticAlgebra.im_mul]
   map_zero' := by ext <;> simp
-  map_add' x y := by ext <;> simp <;> ring
+  map_add' x y := by ext <;> simp
 
 /-- **The vertical tangent vector at the branch point**, `A_d → k[ε]`, `U ↦ λ₁, V ↦ 1, Z ↦ ε`. -/
 public def tangent (hd : 0 < d) : ring k d lam →+* DualNumber k :=
@@ -1030,16 +1029,16 @@ public theorem localHom_mapId (hd : 0 < d) (ρ : ring k d lam →+* DualNumber k
     localHom k d lam hd ρ hρV hρ (HomogeneousLocalization.mapId (grading k d lam)
       (Submonoid.powers_le.mpr (vGen_mem_primeCompl k d lam hd)) w) =
       awayHom k d lam ρ hρV w := by
-  haveI : ((AlgebraicGeometry.ProjectiveSpectrum.Proj.toSpec (grading k d lam)
+  have : ((AlgebraicGeometry.ProjectiveSpectrum.Proj.toSpec (grading k d lam)
       (vGen k d lam)).base ⟨branchPoint k d lam hd,
         vGen_notMem_branchPoint k d lam hd⟩).asIdeal.IsPrime :=
     ((AlgebraicGeometry.ProjectiveSpectrum.Proj.toSpec (grading k d lam)
       (vGen k d lam)).base ⟨branchPoint k d lam hd, vGen_notMem_branchPoint k d lam hd⟩).isPrime
-  letI _inst : Algebra (Away (grading k d lam) (vGen k d lam))
+  let _inst : Algebra (Away (grading k d lam) (vGen k d lam))
       (AtPrime (grading k d lam) (branchPoint k d lam hd).asHomogeneousIdeal.toIdeal) :=
     (HomogeneousLocalization.mapId (grading k d lam)
       (Submonoid.powers_le.mpr (vGen_mem_primeCompl k d lam hd))).toAlgebra
-  haveI _hloc : @IsLocalization (Away (grading k d lam) (vGen k d lam)) _
+  have _hloc : @IsLocalization (Away (grading k d lam) (vGen k d lam)) _
       ((AlgebraicGeometry.ProjectiveSpectrum.Proj.toSpec (grading k d lam)
         (vGen k d lam)).base ⟨branchPoint k d lam hd,
           vGen_notMem_branchPoint k d lam hd⟩).asIdeal.primeCompl
@@ -1057,8 +1056,8 @@ public theorem localHom_mk_mul (hd : 0 < d) (ρ : ring k d lam →+* DualNumber 
     (z : NumDenSameDeg (grading k d lam)
       (branchPoint k d lam hd).asHomogeneousIdeal.toIdeal.primeCompl) :
     localHom k d lam hd ρ hρV hρ (HomogeneousLocalization.mk z) * ρ z.den = ρ z.num := by
-  have hc : (z.num : ring k d lam) ∈ grading k d lam (z.deg • 1) := by simpa using z.num.2
-  have he : (z.den : ring k d lam) ∈ grading k d lam (z.deg • 1) := by simpa using z.den.2
+  have hc : (z.num : ring k d lam) ∈ grading k d lam (z.deg • 1) := by simp
+  have he : (z.den : ring k d lam) ∈ grading k d lam (z.deg • 1) := by simp
   have hP := vGen_mem_primeCompl k d lam hd
   have key : HomogeneousLocalization.mk z * HomogeneousLocalization.mapId (grading k d lam)
       (Submonoid.powers_le.mpr hP)
@@ -1123,8 +1122,8 @@ public theorem stalkHom_stalkIso'_symm (hd : 0 < d) (ρ : ring k d lam →+* Dua
 public instance isLocalHom_stalkHom (hd : 0 < d) (ρ : ring k d lam →+* DualNumber k)
     (hρV : ρ (vGen k d lam) = 1) (hρ : ∀ a, (ρ a).fst = branchEval k d lam hd a) :
     IsLocalHom (stalkHom k d lam hd ρ hρV hρ).hom := by
-  haveI := isLocalHom_localHom k d lam hd ρ hρV hρ
-  haveI := isLocalHom_of_iso (AlgebraicGeometry.Proj.stalkIso (grading k d lam)
+  have := isLocalHom_localHom k d lam hd ρ hρV hρ
+  have := isLocalHom_of_iso (AlgebraicGeometry.Proj.stalkIso (grading k d lam)
     (branchPoint k d lam hd))
   exact CommRingCat.isLocalHom_comp _ _
 
@@ -1251,7 +1250,7 @@ public theorem le_of_isRelativelyVeryAmple (hd : 0 < d) {S : Scheme.{u}} [IsAffi
     (d : ℤ) ≤ n := by
   by_contra hn
   push Not at hn
-  haveI := isInvertible_twistingSheaf k d lam hd n
+  have := isInvertible_twistingSheaf k d lam hd n
   obtain ⟨E, hE, α, hα, -, ⟨e⟩⟩ :=
     Stacks.VeryAmpleAffineBase.exists_immersion_proj_of_isRelativelyVeryAmple
       (isAffineOpen_top S) f _ h

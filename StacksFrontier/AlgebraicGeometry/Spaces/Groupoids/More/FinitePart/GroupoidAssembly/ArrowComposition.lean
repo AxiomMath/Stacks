@@ -217,7 +217,7 @@ public theorem composeMor_app {X : (AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ 
     congrArg (fun k => k.app V x) (pullback.lift_snd α β h)
   have hcond := pullback_condition_app G.source.hom G.target.hom V
     ((pullback.lift α β h).app V x)
-  show G.comp.hom.app V ((pullback.lift α β h).app V x) = _
+  change G.comp.hom.app V ((pullback.lift α β h).app V x) = _
   rw [comp_hom_app G V _ hcond]
   exact compose_congr G V _ _ _ _ hcond hx hfst hsnd
 
@@ -253,7 +253,7 @@ public theorem composeMor_comp_source
   ext V x
   have hx : G.source.hom.app V (α.app V x) = G.target.hom.app V (β.app V x) :=
     congrArg (fun k => k.app V x) h
-  show G.source.hom.app V ((composeMor G α β h).app V x) =
+  change G.source.hom.app V ((composeMor G α β h).app V x) =
     G.source.hom.app V (β.app V x)
   rw [composeMor_app G α β h V x hx]
   exact source_comp_hom_app G V _ _ hx
@@ -266,7 +266,7 @@ public theorem composeMor_comp_target
   ext V x
   have hx : G.source.hom.app V (α.app V x) = G.target.hom.app V (β.app V x) :=
     congrArg (fun k => k.app V x) h
-  show G.target.hom.app V ((composeMor G α β h).app V x) =
+  change G.target.hom.app V ((composeMor G α β h).app V x) =
     G.target.hom.app V (α.app V x)
   rw [composeMor_app G α β h V x hx]
   exact target_comp_hom_app G V _ _ hx
@@ -303,7 +303,7 @@ public theorem composeMor_assoc {X : (AlgebraicGeometry.BigFppfOver C S hS)ᵒ�
       G.target.hom.app V
         (G.toGroupoidInFunctors.compose V (β.app V x) (δ.app V x) e₂) := by
     rw [← hB]; exact e₄
-  show (composeMor G (composeMor G α β h₁) δ h₃).app V x =
+  change (composeMor G (composeMor G α β h₁) δ h₃).app V x =
     (composeMor G α (composeMor G β δ h₂) h₄).app V x
   exact ((composeMor_app G _ _ h₃ V x e₃).trans
     ((compose_congr G V _ _ _ _ e₃ f₃ hA rfl).trans
@@ -329,7 +329,7 @@ public theorem composeMor_unit_right (e : G.objects ⟶ G.arrows)
       G.target.hom.app V
         (G.toGroupoidInFunctors.identity V (G.source.hom.app V (α.app V x))) := by
     rw [← hval]; exact hx
-  show (composeMor G α (α ≫ G.source.hom ≫ e.hom) h).app V x = α.app V x
+  change (composeMor G α (α ≫ G.source.hom ≫ e.hom) h).app V x = α.app V x
   rw [composeMor_app G _ _ h V x hx]
   exact (compose_congr G V _ _ _ _ hx hx' rfl hval).trans
     (compose_identity_right G.toGroupoidInFunctors V (α.app V x) hx')
@@ -353,7 +353,7 @@ public theorem identity_comp_target (e : G.objects ⟶ G.arrows)
     (he : ∀ T x, e.hom.app T x = G.toGroupoidInFunctors.identity T x) :
     e.hom ≫ G.target.hom = 𝟙 G.objects.obj := by
   ext T x
-  show G.target.hom.app T (e.hom.app T x) = x
+  change G.target.hom.app T (e.hom.app T x) = x
   rw [he T x]
   exact target_identity_app G T x
 

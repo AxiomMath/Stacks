@@ -241,7 +241,7 @@ def isColimitQuotientCofan
     change (HomotopyCategory.quotient A).map (Sigma.ι M t) ≫
       (HomotopyCategory.quotient A).map
         (Sigma.desc fun j => (HomotopyCategory.quotient A).preimage (s.inj j)) = s.inj t
-    rw [← Functor.map_comp, Sigma.ι_desc, Functor.map_preimage]
+    rw [← Functor.map_comp, Sigma.ι_comp_desc, Functor.map_preimage]
   · intro s m hm
     rw [cofan_mk_inj] at hm
     have hpre : (HomotopyCategory.quotient A).map
@@ -251,7 +251,7 @@ def isColimitQuotientCofan
       (Sigma.desc fun t => (HomotopyCategory.quotient A).preimage (s.inj t))).2
       ⟨coproductHomotopy _ _ fun t => ?_⟩
     refine (HomotopyCategory.quotient_map_eq_iff _ _).1 ?_
-    rw [Sigma.ι_desc, Functor.map_preimage, Functor.map_comp, hpre]
+    rw [Sigma.ι_comp_desc, Functor.map_preimage, Functor.map_comp, hpre]
     exact hm t
 
 /-- The image in the derived category of a direct sum of right differential graded modules,

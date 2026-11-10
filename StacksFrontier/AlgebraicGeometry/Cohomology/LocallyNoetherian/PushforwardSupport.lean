@@ -278,7 +278,7 @@ theorem eq_zero_of_forall_stalk_eq_zero {X : TopCat.{u}} {R : TopCat.Sheaf RingC
     intro x hx
     exact ⟨V ⟨x, hx⟩, f ⟨x, hx⟩, Sieve.ofArrows_mk V f ⟨x, hx⟩, hxV ⟨x, hx⟩⟩
   refine M.isSheaf.isSeparated W _ hS s 0 fun Y g hg => ?_
-  show P.map g.op s = P.map g.op 0
+  change P.map g.op s = P.map g.op 0
   rcases hg with ⟨Z, k, _, ⟨y⟩, rfl⟩
   simp only [op_comp, P.map_comp, ConcreteCategory.comp_apply]
   rw [hzero y]
@@ -309,7 +309,7 @@ theorem isZero_pushforward_over_of_notMem {X : Scheme.{u}} (U : X.Opens) (T : Se
     IsZero (((Scheme.Modules.pushforward U.ι).obj F).over V) := by
   refine (IsZero.iff_id_eq_zero _).mpr ?_
   ext W s
-  show s = 0
+  change s = 0
   exact pushforward_section_eq_zero_of_notMem U T F hF W.unop.left s
     fun x hx => hV x ((leOfHom W.unop.hom) hx)
 
@@ -356,11 +356,11 @@ theorem isCoherent_pushforward_of_supp_subset {X : Scheme.{u}} (U : X.Opens) (T 
   let Xc : ULift.{u} Bool → X.Opens := fun b => if b.down then V else U
   have hcover : (Opens.grothendieckTopology (X : Type u)).CoversTop Xc := by
     refine (Opens.coversTop_iff (X : Type u) Xc).2 ?_
-    show (⨆ b, Xc b) = ⊤
+    change (⨆ b, Xc b) = ⊤
     rw [iSup_ulift, iSup_bool_eq]
-    show V ⊔ U = ⊤
+    change V ⊔ U = ⊤
     ext x
-    show (x ∈ V ∨ x ∈ U) ↔ True
+    change (x ∈ V ∨ x ∈ U) ↔ True
     exact ⟨fun _ => trivial, fun _ => (em (x ∈ T)).elim (fun hx => Or.inr (hTU hx)) Or.inl⟩
   have hloc : ∀ b, Stacks.SheafOfModules.IsCoherentOn
       ((Scheme.Modules.pushforward U.ι).obj F) (Xc b) := by

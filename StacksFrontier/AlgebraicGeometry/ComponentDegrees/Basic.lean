@@ -149,7 +149,7 @@ theorem reducedComponentι_genericPoint (X : Scheme.{u}) (ξ : genericPointsOne 
       closure ({ξ.1} : Set X) := by
     rw [← Set.image_singleton, I.subschemeι.isClosedEmbedding.closure_image_eq,
       genericPoint_closure, Set.image_univ, I.range_subschemeι, hsupport]
-  show I.subschemeι (genericPoint I.subscheme) = ξ.1
+  change I.subschemeι (genericPoint I.subscheme) = ξ.1
   exact isGenericPoint_closure.eq (hclosure ▸ isGenericPoint_closure)
 
 /-- A reduced one-dimensional component has dimension exactly one. -/
@@ -270,7 +270,7 @@ theorem exists_isIso_hom_to_reducedComponent {X Z : Scheme.{u}} (i : Z ⟶ X)
   let J : X.IdealSheafData := Scheme.IdealSheafData.vanishingIdeal V
   have hsupport : i.ker.support = V := by
     apply SetLike.coe_injective
-    show (i.ker.support : Set X) = closure ({ξ.1} : Set X)
+    change (i.ker.support : Set X) = closure ({ξ.1} : Set X)
     rw [support_ker_eq_closure_genericPoint, hξ]
   have : IsReduced i.ker.subscheme :=
     ObjectProperty.IsClosedUnderIsomorphisms.of_iso (asIso i.toImage)
@@ -278,7 +278,7 @@ theorem exists_isIso_hom_to_reducedComponent {X Z : Scheme.{u}} (i : Z ⟶ X)
   have hker : i.ker = J :=
     Scheme.IdealSheafData.eq_vanishingIdeal_of_isReduced_subscheme i.ker V hsupport
   have hkerJ : ι.ker = J := by
-    show (Scheme.IdealSheafData.vanishingIdeal V).subschemeι.ker = J
+    change (Scheme.IdealSheafData.vanishingIdeal V).subschemeι.ker = J
     rw [Scheme.IdealSheafData.ker_subschemeι]
   let ψ : Z ⟶ reducedComponent X ξ := IsClosedImmersion.lift ι i (by rw [hkerJ, hker])
   have hfac : ψ ≫ ι = i := IsClosedImmersion.lift_fac _ _ _
@@ -303,7 +303,7 @@ private theorem closure_singleton_mem_irreducibleComponents_of_topologicalKrullD
       IrreducibleCloseds.map_strictMono_of_isInducing Topology.IsInducing.subtypeVal
     have hB : m B ≤ C := by
       apply SetLike.coe_subset_coe.mp
-      show closure ((Subtype.val : closure ({x} : Set X) → X) '' B) ⊆ closure {x}
+      change closure ((Subtype.val : closure ({x} : Set X) → X) '' B) ⊆ closure {x}
       exact (closure_mono (by
         rintro y ⟨z, hz, rfl⟩
         exact z.2)).trans_eq closure_closure

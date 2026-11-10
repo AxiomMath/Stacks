@@ -179,7 +179,7 @@ theorem smallEtaleDualHomAddEquiv_naturality
     smallEtaleDualHomAddEquiv B S hS K hK M' (g ≫ q) =
       smallEtaleDualHomAddEquiv B S hS K hK M g ≫
         ((smallEtaleDerivedTensor B S hS Y).obj K).map q := by
-  show smallEtaleHomAddEquivUnitTensorDual B S hS Y _ _ M' (g ≫ q) ≫ _ =
+  change smallEtaleHomAddEquivUnitTensorDual B S hS Y _ _ M' (g ≫ q) ≫ _ =
     (smallEtaleHomAddEquivUnitTensorDual B S hS Y _ _ M g ≫ _) ≫ _
   rw [smallEtaleHomAddEquivUnitTensorDual_naturality, Category.assoc, Category.assoc,
     NatTrans.naturality]
@@ -607,8 +607,8 @@ theorem exists_isPseudoCoherent_extPerfectDual_of_coefficient
             (e ≫ ((DerivedCategory.singleFunctor (Modules.{u, u} B S hS Y.1 Y.2) 0).map q)⟦i⟧') =
           Φ F hF i e ≫ ((extPerfectCoefficientModulesFunctor B S hS f G).map q)⟦i⟧') ∧
       (∀ (T : ShortComplex (Modules.{u, u} B S hS Y.1 Y.2)) (hT : T.ShortExact)
-        (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-        (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+        (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+        ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
         (e : ShiftedHom Linf
           ((DerivedCategory.singleFunctor (Modules.{u, u} B S hS Y.1 Y.2) 0).obj T.X₃) i),
         Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) =

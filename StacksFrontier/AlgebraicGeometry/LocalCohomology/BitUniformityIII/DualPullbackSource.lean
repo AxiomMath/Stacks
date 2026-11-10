@@ -106,7 +106,7 @@ theorem tilde_map_smul_id_val_app (M : ModuleCat.{u} R) (a : R) (U : (Spec R).Op
     (tilde.map (a • 𝟙 M)).val.app (op U) x = a • x := by
   apply Subtype.ext
   funext p
-  show LocalizedModule.map p.val.asIdeal.primeCompl (a • LinearMap.id) (x.val p) =
+  change LocalizedModule.map p.val.asIdeal.primeCompl (a • LinearMap.id) (x.val p) =
     (algebraMap R (Localization.AtPrime p.val.asIdeal) a) • x.val p
   rw [algebraMap_smul]
   induction x.val p using LocalizedModule.induction_on with
@@ -239,7 +239,7 @@ theorem dualTildeSpec_naturality {M N : ModuleCat.{u} R} (g : M ⟶ N) :
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right, dualTildeSpec,
     dualTildeSpec, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
   ext φ
-  show (Stacks.Algebraization.topOverForget (Spec R)).map
+  change (Stacks.Algebraization.topOverForget (Spec R)).map
       (tildeForm ((show Module.Dual R N from φ) ∘ₗ g.hom)) =
     (moduleSpecΓFunctor.map (tildeDualMap g)).hom
       ((Stacks.Algebraization.topOverForget (Spec R)).map

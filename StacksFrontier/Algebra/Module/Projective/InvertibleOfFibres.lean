@@ -93,7 +93,7 @@ theorem finrank_residueField_tensorProduct_eq_one (M : Type u) [AddCommGroup M] 
       (fun _ _ => Commute.all _ _)
   let : Algebra (B ⊗[R] k) F := ψ.toRingHom.toAlgebra
   have : IsScalarTower B (B ⊗[R] k) F := IsScalarTower.of_algebraMap_eq fun b => by
-    show _ = ψ (b ⊗ₜ 1)
+    change _ = ψ (b ⊗ₜ 1)
     rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
     rfl
   let e₁ : F ⊗[B ⊗[R] k] ((B ⊗[R] k) ⊗[B] M) ≃ₗ[F] F ⊗[B] M :=
@@ -123,7 +123,7 @@ theorem nonempty_linearEquiv_of_isLocalRing_of_invertible_baseChange (M : Type u
     obtain ⟨c, rfl⟩ := (finrank_eq_one_iff_of_nonzero' _ hv).1 h₁ w
     obtain ⟨b, rfl⟩ := residue_surjective c
     refine ⟨b • m, Submodule.smul_mem _ b (Submodule.mem_span_singleton_self m), ?_⟩
-    show (1 : ResidueField B) ⊗ₜ[B] (b • m) = residue B b • ((1 : ResidueField B) ⊗ₜ[B] m)
+    change (1 : ResidueField B) ⊗ₜ[B] (b • m) = residue B b • ((1 : ResidueField B) ⊗ₜ[B] m)
     rw [TensorProduct.tmul_smul, ← algebraMap_smul (ResidueField B) b, ResidueField.algebraMap_eq]
   let φ : B →ₗ[B] M := LinearMap.toSpanSingleton B M m
   have hφ : Function.Surjective φ := by
@@ -132,12 +132,11 @@ theorem nonempty_linearEquiv_of_isLocalRing_of_invertible_baseChange (M : Type u
   let ψ : (B ⊗[R] k) →ₗ[B ⊗[R] k] N := LinearMap.toSpanSingleton (B ⊗[R] k) N (1 ⊗ₜ m)
   have hψ : Function.Surjective ψ := by
     intro n
-    induction n using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero ψ⟩
+    induction n using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨b, rfl⟩ := hφ y
       refine ⟨x * algebraMap B (B ⊗[R] k) b, ?_⟩
-      show (x * algebraMap B (B ⊗[R] k) b) • ((1 : B ⊗[R] k) ⊗ₜ[B] m) = x ⊗ₜ[B] (b • m)
+      change (x * algebraMap B (B ⊗[R] k) b) • ((1 : B ⊗[R] k) ⊗ₜ[B] m) = x ⊗ₜ[B] (b • m)
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, TensorProduct.tmul_smul,
         TensorProduct.smul_tmul', Algebra.smul_def, mul_comm]
     | add x y hx hy =>
@@ -150,10 +149,9 @@ theorem nonempty_linearEquiv_of_isLocalRing_of_invertible_baseChange (M : Type u
       ((AlgebraTensorModule.cancelBaseChange R B B M k).restrictScalars R)
   have he : ∀ x : B ⊗[R] k, e (ψ x) = (φ.restrictScalars R).rTensor k x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b c =>
-      show e ((b ⊗ₜ[R] c) • ((1 : B ⊗[R] k) ⊗ₜ[B] m)) = (b • m) ⊗ₜ[R] c
+      change e ((b ⊗ₜ[R] c) • ((1 : B ⊗[R] k) ⊗ₜ[B] m)) = (b • m) ⊗ₜ[R] c
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
@@ -219,7 +217,7 @@ theorem nonempty_linearEquiv_localizedModule_of_invertible_baseChange (M : Type 
   let C := B ⊗[R] k
   have hk : (maximalIdeal B).comap (algebraMap R B) = RingHom.ker (algebraMap R k) := by
     rw [IsScalarTower.algebraMap_eq R A B, ← Ideal.comap_comap]
-    show Ideal.comap (algebraMap R A) ((maximalIdeal B).under A) = _
+    change Ideal.comap (algebraMap R A) ((maximalIdeal B).under A) = _
     rw [Localization.AtPrime.under_maximalIdeal, hq]
   have : Module.Flat R (LocalizedModule q.primeCompl M) :=
     Module.Flat.localizedModule_of_isScalarTower q.primeCompl
@@ -230,7 +228,7 @@ theorem nonempty_linearEquiv_localizedModule_of_invertible_baseChange (M : Type 
   let ρ : A' →ₐ[R] C := Algebra.pushoutDesc A' f g H
   let : Algebra A' C := ρ.toRingHom.toAlgebra
   have : IsScalarTower A A' C := IsScalarTower.of_algebraMap_eq fun a => by
-    show _ = ρ (algebraMap A A' a)
+    change _ = ρ (algebraMap A A' a)
     rw [Algebra.pushoutDesc_left A' f g H a]
     simp [f]
     rfl

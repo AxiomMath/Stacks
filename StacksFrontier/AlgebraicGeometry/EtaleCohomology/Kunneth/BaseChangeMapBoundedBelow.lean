@@ -56,8 +56,9 @@ the identification of `Rh_*` on `D⁺` with its bounded below right derived func
 ## Implementation notes
 
 `baseChangeMap` and `pullback` of `D(-_étale, Λ)` are built on the standard model of the derived
-category (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
-StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), and so are `Stacks.Cohomology.BaseChange.derived` and
+category (`AdjunctionForRingedTopoi.lean:394` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`), and so are
+`Stacks.Cohomology.BaseChange.derived` and
 `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb`; that fixes the model here.
 -/
 
@@ -261,7 +262,8 @@ end MateFac
 section DerivedIsIso
 
 -- `Stacks.Cohomology.BaseChange.derived` (`StacksFrontier/Topology/Sheaves/Cohomology/
--- StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/AbelianBaseChangeMap.lean:204`) is built under the standard model.
+-- StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/AbelianBaseChangeMap.lean:204`) is
+-- built under the standard model.
 attribute [local instance] HasDerivedCategory.standard
 attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 
@@ -526,8 +528,10 @@ end ModuleCounit
 
 section DerivedPullback
 
--- `pullback` of `D(-_étale, Λ)` (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`) is built under the standard model of the derived category.
+-- `pullback` of `D(-_étale, Λ)`
+-- (`AdjunctionForRingedTopoi.lean:394` in
+-- `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`)
+-- is built under the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
 open Stacks.Cohomology.DerivedPullbackPushforwardAdjunction
@@ -719,8 +723,9 @@ end DerivedPullback
 
 section BoundedBelow
 
--- `pullback`, `pushforward` and `baseChangeMap` of `D(-_étale, Λ)` (`StacksFrontier/CategoryTheory/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`) and
+-- `pullback`, `pushforward` and `baseChangeMap` of `D(-_étale, Λ)`
+-- (`AdjunctionForRingedTopoi.lean:394` in
+-- `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`) and
 -- `Stacks.Cohomology.BaseChange.derived` are built under the standard model.
 attribute [local instance] HasDerivedCategory.standard
 attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso

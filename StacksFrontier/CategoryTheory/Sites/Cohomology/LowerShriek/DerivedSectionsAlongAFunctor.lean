@@ -287,7 +287,7 @@ theorem rightDerivedUnit_isIso_of_corepresentable
     refine bijective_postcomp_of_qh_bijective _ (hZ n) ?_
     exact CochainComplex.IsKInjective.Qh_map_bijective _
       (((Stacks.Injectives.kInjectiveResolutionFunctor A).obj Z)⟦n⟧)
-  show IsIso (DerivedCategory.Qh.map ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map
+  change IsIso (DerivedCategory.Qh.map ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map
     ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map
       ((Stacks.Injectives.kInjectiveResolutionInclusion A).app Z))))
   rw [Functor.mapHomotopyCategory_map]
@@ -320,7 +320,7 @@ theorem map_bijective_of_adjunction_comparison
     (Equiv.ofBijective _ hQ).trans
       ((Iso.homCongr (asIso (a.app X)).symm (Iso.refl _)).trans (adjD.homEquiv _ _))
   have he (f : L.obj X ⟶ Y) : ε f = QA.map (adj.homEquiv X Y f) ≫ b.app Y := by
-    show adjD.unit.app _ ≫ RD.map ((a.app X) ≫ QB.map f ≫ 𝟙 _) = _
+    change adjD.unit.app _ ≫ RD.map ((a.app X) ≫ QB.map f ≫ 𝟙 _) = _
     rw [Category.comp_id, Functor.map_comp, ← Category.assoc, h]
     simp only [Adjunction.homEquiv_unit, Functor.map_comp, Category.assoc]
     congr 1

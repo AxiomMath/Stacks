@@ -71,7 +71,7 @@ lemma exists_puncturedSpectrum_eq_basicOpen (A : Type u) [CommRing A] [IsLocalRi
   obtain ⟨f, hfm, hf⟩ := exists_mem_maximalIdeal_notMem_minimalPrimes A h0
   refine ⟨f, ?_⟩
   ext x
-  show (x : PrimeSpectrum A) ≠ closedPoint A ↔ f ∉ (x : PrimeSpectrum A).asIdeal
+  change (x : PrimeSpectrum A) ≠ closedPoint A ↔ f ∉ (x : PrimeSpectrum A).asIdeal
   refine ⟨fun hx => ?_, fun hx hxc => hx ?_⟩
   · rcases Ring.krullDimLE_one_iff.mp hA (x : PrimeSpectrum A).asIdeal
       (x : PrimeSpectrum A).isPrime with hmin | hmax

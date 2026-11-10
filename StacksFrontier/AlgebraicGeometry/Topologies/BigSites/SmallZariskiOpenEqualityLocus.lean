@@ -107,7 +107,7 @@ public theorem smallZariskiPullback_map_eq_iff {T : B.Schemes} (f : T ⟶ S)
     ((smallZariskiSheafEquiv B S.obj S.property).functor.map s)
     ((smallZariskiSheafEquiv B S.obj S.property).functor.map t) hA']
   refine ⟨fun h x => ?_, fun h => top_le_iff.mp fun x _ => h x⟩
-  show x ∈ (Opens.map (B.inclusion.map f).base).obj (zariskiOpenEqLocus B S s t)
+  change x ∈ (Opens.map (B.inclusion.map f).base).obj (zariskiOpenEqLocus B S s t)
   rw [zariskiOpenEqLocus, h]
   trivial
 

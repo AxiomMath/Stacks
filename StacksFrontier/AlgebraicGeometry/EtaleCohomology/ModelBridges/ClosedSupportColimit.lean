@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ClosedPointSupport.AbelianColimit
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmallEtaleStalkFrameworkBridge
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.TorsionConstructibleSubsheaves
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.TorsionConstructibleSubsheaves
 
 /-!
 # Abelian sheaves on Mathlib's small étale site supported in a specialization-closed set

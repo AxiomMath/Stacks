@@ -198,6 +198,10 @@ instance preservesFiniteColimits_sheafTensorRight_overRingHom :
         (RestrictedRingModule (overRingHom α V)))) :=
   ((exactFunctor_iff _).mp (isFlatMap_overRingHom α V)).2
 
+omit [PreservesFiniteLimits (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} O).flip.obj
+    (RestrictedRingModule α)))]
+  [PreservesFiniteColimits (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} O).flip.obj
+    (RestrictedRingModule α)))] in
 /-- An invertible canonical map `M ⟶ M ⊗_𝒪 𝒪'` stays invertible on a slice, by
 `tensorUnitMap_over`. -/
 theorem isIso_tensorUnitMap_over (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))
@@ -215,6 +219,10 @@ theorem isIso_tensorUnitMap_over (M : SheafOfModules.{u} (Stacks.SheafOfModules.
 variable {I : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
   (i : I ⟶ RingModule O)
 
+omit [PreservesFiniteLimits (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} O).flip.obj
+    (RestrictedRingModule α)))]
+  [PreservesFiniteColimits (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} O).flip.obj
+    (RestrictedRingModule α)))] in
 /-- **"`𝒪/ℐ ≅ 𝒪'/ℐ𝒪'`" restricts to a slice.** If `𝒪/ℐ ⟶ (𝒪/ℐ) ⊗_𝒪 𝒪'` is invertible then so
 is the corresponding map for `ℐ|_V ⊂ 𝒪|_V` and `α|_V`: restriction to a slice is exact, so it
 carries `𝒪/ℐ` to `𝒪|_V/ℐ|_V`, and it commutes with extension of scalars. -/
@@ -230,6 +238,8 @@ end Slice
 
 section Restriction
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The restriction of `η = α` to a slice is `η` for `α|_V`, on the nose. -/
 theorem overModules_map_ringModuleMap :
     (SheafOfModules.overFunctor.{u}
@@ -262,8 +272,8 @@ def overRingModuleMapArrowIso₀ :
     Arrow.mk (RingedSite.ringModuleMap ((ringedSite J O).over V) (overRingHom α V)) :=
   Arrow.isoMk (overUnitIso V) (overRestrictedRingModuleIso α V) (by
     simp only [overUnitIso, overRestrictedRingModuleIso, Iso.symm_hom,
-      Stacks.SheafOfModules.FiniteTypeKernel.unitOverIso_inv, Iso.refl_hom, Category.id_comp,
-      Category.comp_id, Arrow.mk_hom]
+      Stacks.SheafOfModules.FiniteTypeKernel.unitOverIso_inv, Iso.refl_hom,
+      Arrow.mk_hom]
     exact (overModules_map_ringModuleMap α V).symm)
 
 attribute [local instance] HasDerivedCategory.standard
@@ -309,6 +319,8 @@ end Restriction
 
 section Generation
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Local generators of `ℐ` generate `ℐ|_U` on the slice, in the sense of [Stacks, Tag 099H].**
 If finitely many sections `s_j` of `ℐ` over `U` generate `ℐ` sectionwise
 (`PresheafOfModules.Generates`), then every section of `ℐ|_U` is, locally on `C/U`, an

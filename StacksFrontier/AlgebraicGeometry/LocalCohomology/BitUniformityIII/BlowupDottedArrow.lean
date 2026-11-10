@@ -275,6 +275,7 @@ variable (n : ℕ) {N N' N'' : ModuleCat.{u} (A ⧸ I ^ n)} (u : N ⟶ N') (v : 
 
 include hv
 
+omit [IsNoetherianRing A] in
 /-- The twisted short exact sequence `0 → (p^*M'')^∨(t) → (p^*M')^∨(t) → im(D_u)(t) → 0`. -/
 theorem shortExact_blowupDualMap_twist (t : ℤ) :
     (ShortComplex.mk (blowupDualMap I n v ▷ blowupTwistInt I t)
@@ -300,6 +301,7 @@ def blowupDualMapTwistSeqMap {t t' : ℤ} (h : t' ≤ t) :
   comm₁₂ := whisker_exchange _ _
   comm₂₃ := whisker_exchange _ _
 
+omit [IsNoetherianRing A] in
 /-- The connecting map of the twisted dual sequence is natural in the twist. -/
 theorem blowupDualMap_δ_naturality {t t' : ℤ} (h : t' ≤ t)
     (x : blowupHmod I 0 (Abelian.image (blowupDualMap I n u) ⊗ blowupTwistInt I t)) :
@@ -312,6 +314,7 @@ theorem blowupDualMap_δ_naturality {t t' : ℤ} (h : t' ≤ t)
     (shortExact_blowupDualMap_twist I n u v hex hv t') (blowupDualMapTwistSeqMap I n u v hex h)
     0) x
 
+omit [IsNoetherianRing A] in
 /-- The long exact sequence of the twisted dual sequence at `H⁰(X, im(D_u)(q))`. -/
 theorem exact_blowupDualMap_δ (q : ℕ) :
     Function.Exact (blowupHmodMap I 0
@@ -319,6 +322,7 @@ theorem exact_blowupDualMap_δ (q : ℕ) :
       ((blowupDeltaMod I).δ (shortExact_blowupDualMap_twist I n u v hex hv q) 0).hom :=
   exact_blowupHmodMap_δ I _ _ _ (shortExact_blowupDualMap_twist I n u v hex hv q) 0
 
+omit [IsNoetherianRing A] in
 /-- The naturality of the connecting map, at natural-number twists. -/
 theorem blowupDualMap_δ_naturality_nat {q q' : ℕ} (hq : q' ≤ q)
     (x : blowupHmod I 0 (Abelian.image (blowupDualMap I n u) ⊗ blowupTwistInt I q)) :
@@ -353,6 +357,7 @@ theorem subsingleton_blowupHmod_two_kernel_blowupCan (M : ANCModule I (m + 1) c)
   have := isQuasicoherent_blowupDual I (m + 1) M.1
   exact subsingleton_blowupHmod_twist_kernel I (blowupCanM I M) q hd
 
+omit [IsNoetherianRing A] in
 /-- The twisting map on the sections of `coker(D_u)` vanishes after `c` steps, as a linear map. -/
 theorem blowupHmodMap_cokernel_blowupDualMap_hom_eq_zero {M M' : ANCModule I (m + 1) c}
     (u : M.1 ⟶ M'.1)
@@ -375,7 +380,7 @@ theorem blowupEvDual_imgDToDual_dualToImgD {q₀ : ℕ} (h : IsBaseThreshold I q
             (Abelian.factorThruImage (blowupDualMap I (m + 1) u) ▷ blowupTwistInt I q)).hom τ)) =
       (blowupEvDual I m h hq M'.1 τ).comp (resMap I (m + 1) u) := by
   refine LinearMap.ext fun z => ?_
-  show blowupEvDual I m h hq M.1 _ z = blowupEvDual I m h hq M'.1 τ (resMap I (m + 1) u z)
+  change blowupEvDual I m h hq M.1 _ z = blowupEvDual I m h hq M'.1 τ (resMap I (m + 1) u z)
   have key : (Abelian.factorThruImage (blowupDualMap I (m + 1) u) ▷ blowupTwistInt I q) ≫
       (Abelian.image.ι (blowupDualMap I (m + 1) u) ▷ blowupTwistInt I q) ≫
         (blowupDualEval I (m + 1) M.1 z ▷ blowupTwistInt I q) =
@@ -386,6 +391,7 @@ theorem blowupEvDual_imgDToDual_dualToImgD {q₀ : ℕ} (h : IsBaseThreshold I q
   rw [blowupEvDual_apply, blowupEvDual_apply, ← key, blowupHmodMap_comp_apply,
     blowupHmodMap_comp_apply]
 
+omit [IsNoetherianRing A] in
 /-- The inclusion of the twisted image of `D_u` is natural in the twist. -/
 theorem blowupDualMap_imgDToDual_HimgDtr {M M' : ANCModule I (m + 1) c} (u : M.1 ⟶ M'.1)
     (q q' : ℕ) (hq : q' ≤ q)
@@ -399,6 +405,7 @@ theorem blowupDualMap_imgDToDual_HimgDtr {M M' : ANCModule I (m + 1) c} (u : M.1
   (blowupHmodMap_whiskerRight_whiskerLeft_apply I 0 (Abelian.image.ι (blowupDualMap I (m + 1) u))
     (Nat.cast_le.2 hq) t).symm
 
+omit [IsNoetherianRing A] in
 /-- The projection onto the twisted cokernel of `D_u` is natural in the twist. -/
 theorem blowupDualMap_dualToCokerD_Hdualtr {M M' : ANCModule I (m + 1) c} (u : M.1 ⟶ M'.1)
     (q q' : ℕ) (hq : q' ≤ q)
@@ -425,17 +432,17 @@ def blowupDottedArrowSituation (m c : ℕ) (hcn : c ≤ m + 1) {q₀ : ℕ}
   Hdual₁ M q := blowupHmod I 1 (blowupDual I (m + 1) M.1 ⊗ blowupTwistInt I q)
   Hdual₁tr M _ _ hq :=
     (blowupHmodMap I 1 (blowupDual I (m + 1) M.1 ◁ blowupTwistLE I (Nat.cast_le.2 hq))).hom
-  Hdual₁tr_trans M _ _ _ hq hq' x :=
+  Hdual₁tr_trans _ _ _ _ _ _ x :=
     blowupHmodMap_whiskerLeft_blowupTwistLE_trans _ 1 _ _ _ x
   Himg₁ M q := blowupHmod I 1 (Abelian.image (blowupCanM I M) ⊗ blowupTwistInt I q)
   Himg₁tr M _ _ hq :=
     (blowupHmodMap I 1 (Abelian.image (blowupCanM I M) ◁ blowupTwistLE I (Nat.cast_le.2 hq))).hom
-  Himg₁tr_trans M _ _ _ hq hq' x :=
+  Himg₁tr_trans _ _ _ _ _ _ x :=
     blowupHmodMap_whiskerLeft_blowupTwistLE_trans _ 1 _ _ _ x
   Hker₂ M q := blowupHmod I 2 (kernel (blowupCanM I M) ⊗ blowupTwistInt I q)
   img₁ToDual₁ M q :=
     (blowupHmodMap I 1 (Abelian.image.ι (blowupCanM I M) ▷ blowupTwistInt I q)).hom
-  img₁ToDual₁_Himg₁tr M q q' hq x :=
+  img₁ToDual₁_Himg₁tr M _ _ hq x :=
     (blowupHmodMap_whiskerRight_whiskerLeft_apply I 1 (Abelian.image.ι (blowupCanM I M))
       (Nat.cast_le.2 hq) x).symm
   dual₁ToImg₁ M q e he := (blowupHmodMap I 1 (dualToImageTwist I M q e he)).hom
@@ -444,7 +451,7 @@ def blowupDottedArrowSituation (m c : ℕ) (hcn : c ≤ m + 1) {q₀ : ℕ}
       (congrArg (fun φ => blowupHmodMap I 1 φ x) (dualToImageTwist_comp I M q e he))
   canToImg₁ M q :=
     (blowupHmodMap I 1 (Abelian.factorThruImage (blowupCanM I M) ▷ blowupTwistInt I q)).hom
-  canToImg₁_Htr M q q' hq hq' x :=
+  canToImg₁_Htr M _ _ _ hq' x :=
     blowupHmodMap_whiskerRight_whiskerLeft_apply I 1 (Abelian.factorThruImage (blowupCanM I M))
       hq' x
   img₁ToPullback₁ M q e he := (blowupHmodMap I 1 (imageToPullbackTwist I M q e he)).hom
@@ -476,7 +483,7 @@ def blowupDottedArrowSituation (m c : ℕ) (hcn : c ≤ m + 1) {q₀ : ℕ}
   evDual_imgDToDual_dualToImgD u q hq τ := blowupEvDual_imgDToDual_dualToImgD I h u q hq τ
   imgDδ u v hex hv q :=
     ((blowupDeltaMod I).δ (shortExact_blowupDualMap_twist I (m + 1) u v hex hv q) 0).hom
-  imgDδ_HimgDtr u v hex hv q q' hq t :=
+  imgDδ_HimgDtr u v hex hv _ _ hq t :=
     blowupDualMap_δ_naturality_nat I (m + 1) u v hex hv hq t
   exact_imgDδ u v hex hv q := exact_blowupDualMap_δ I (m + 1) u v hex hv q
 

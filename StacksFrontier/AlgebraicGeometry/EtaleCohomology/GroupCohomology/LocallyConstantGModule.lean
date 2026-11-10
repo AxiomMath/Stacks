@@ -201,10 +201,12 @@ def orbitHom (X : ContinuousGModule.{u, max u v} G) (ψ : X.obj.obj.V →+ B) :
 
 variable (X : ContinuousGModule.{u, max u v} G) (ψ : X.obj.obj.V →+ B)
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The orbit map sends `z` to the function `g ↦ ψ (g • z)`. -/
 @[simp] lemma orbitHom_apply_coe (z : X.obj.obj.V) (g : G) :
     ((orbitHom X ψ z : lcFun G B) : G → B) g = ψ ((X.obj.obj.ρ g).asHom.hom z) := rfl
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The orbit map is `G`-equivariant for the action by right translation. -/
 lemma orbitHom_smul (g : G) (z : X.obj.obj.V) :
     orbitHom X ψ ((X.obj.obj.ρ g).asHom.hom z) = g • orbitHom X ψ z := by

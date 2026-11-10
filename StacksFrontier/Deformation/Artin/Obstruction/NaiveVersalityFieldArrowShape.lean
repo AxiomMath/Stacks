@@ -216,9 +216,9 @@ public theorem exists_unique_eq_canonicalDualNumbersArrow [Mono baseMap]
       RingHom.congr_fun (CommRingCat.hom_ext_iff.mp hring) l
     rw [hl, ← IsScalarTower.algebraMap_apply]
     refine TrivSqZeroExt.ext ?_ ?_
-    · show (j.hom (algebraMap Λ k l)).fst = algebraMap Λ k l
+    · change (j.hom (algebraMap Λ k l)).fst = algebraMap Λ k l
       exact hjfst _
-    · show (j.hom (algebraMap Λ k l)).snd = 0
+    · change (j.hom (algebraMap Λ k l)).snd = 0
       exact hjsnd _
   -- The same ring map, read in `TrivSqZeroExt k k`: the two rings have the same carrier and
   -- the same operations, and differ only in which instance supplies the right action of `k`
@@ -239,7 +239,7 @@ public theorem exists_unique_eq_canonicalDualNumbersArrow [Mono baseMap]
           (fun z => ((TrivSqZeroExt.fst z, (TrivSqZeroExt.snd z : k)) : TrivSqZeroExt k k))
           (map_mul r.hom a b)).trans ?_
         refine TrivSqZeroExt.ext rfl ?_
-        show ((r.hom a).fst * ((r.hom b).snd : k) + (r.hom b).fst * ((r.hom a).snd : k) : k) =
+        change ((r.hom a).fst * ((r.hom b).snd : k) + (r.hom b).fst * ((r.hom a).snd : k) : k) =
           (r.hom a).fst * ((r.hom b).snd : k) + ((r.hom a).snd : k) * (r.hom b).fst
         ring
       commutes' := fun l => by

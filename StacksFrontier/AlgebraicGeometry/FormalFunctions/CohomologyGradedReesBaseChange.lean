@@ -411,7 +411,7 @@ theorem isCohomologyReesFiniteOfGradedModule_of_baseChange [IsNoetherianRing A]
   let := gradedCohomologySumModuleRees I X M p hneg
   have hfinB : Module.Finite ↥(reesAlgebra I) (gradedCohomologySum M p) :=
     moduleFinite_gradedCohomologySum A (reesGrading I) X.hom M hqc hft p f' F' cmp
-  show Module.Finite (⨁ n, ↥(reesGrading I n))
+  change Module.Finite (⨁ n, ↥(reesGrading I n))
     (⨁ n, gradedCohomologyPiece I X M p n)
   exact Module.Finite.of_surjective
     (σ := (DirectSum.decomposeRingEquiv (reesGrading I)).toRingHom)

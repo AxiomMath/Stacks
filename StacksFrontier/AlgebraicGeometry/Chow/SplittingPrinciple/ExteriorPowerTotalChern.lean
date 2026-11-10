@@ -131,12 +131,12 @@ theorem totalChern_mem_chernTotalSubring (F : Y.Modules) (r : ℕ)
     rw [TotalChowClass.sum_apply]
     by_cases hp : p < r + 1
     · rw [Finset.sum_eq_single_of_mem p (mem_range.2 hp), TotalChowClass.homComponent_apply,
-        if_pos rfl]
+        ite_eq_left rfl]
       intro b _ hb
-      rw [TotalChowClass.homComponent_apply, if_neg (Ne.symm hb)]
+      rw [TotalChowClass.homComponent_apply, ite_eq_right (Ne.symm hb)]
     · rw [totalChern_apply_of_lt C sY F r (by omega)]
       refine (Finset.sum_eq_zero fun b hb => ?_).symm
-      rw [TotalChowClass.homComponent_apply, if_neg (by have := mem_range.1 hb; omega)]
+      rw [TotalChowClass.homComponent_apply, ite_eq_right (by have := mem_range.1 hb; omega)]
   rw [h]
   exact Subring.sum_mem _ fun i _ => Subring.subset_closure ⟨F, r, inferInstance, i, rfl⟩
 
@@ -158,14 +158,14 @@ theorem chernTotal_rank_one (L : Y.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} L 1] :
     chernTotal C sY L 1 = 1 + firstChernTot C sY L := by
   refine Subtype.ext (TotalChowClass.ext fun p => ?_)
-  show totalChern C sY L 1 p = (1 : TotalChowClass C sY) p +
+  change totalChern C sY L 1 p = (1 : TotalChowClass C sY) p +
     TotalChowClass.homComponent 1 (totalChern C sY L 1) p
   rw [TotalChowClass.homComponent_apply]
   rcases p with _ | _ | p
-  · rw [if_neg (by omega), add_zero, totalChern_apply_zero]
-  · rw [if_pos rfl, TotalChowClass.one_apply_of_ne (by omega)]
+  · rw [ite_eq_right (by omega), add_zero, totalChern_apply_zero]
+  · rw [ite_eq_left rfl, TotalChowClass.one_apply_of_ne (by omega)]
     exact (zero_add _).symm
-  · rw [if_neg (by omega), add_zero, TotalChowClass.one_apply_of_ne (by omega),
+  · rw [ite_eq_right (by omega), add_zero, TotalChowClass.one_apply_of_ne (by omega),
       totalChern_apply_of_lt C sY L 1 (by omega)]
 
 /-- The first Chern class in the subring is homogeneous of degree one. -/
@@ -187,7 +187,7 @@ theorem binomialFamily_one {G : ℤ → Type*} [∀ k, AddCommGroup (G k)] {x : 
     (hx : x.IsHomogeneous 1) : binomialFamily 1 x = 1 + x := by
   funext k m
   rw [binomialFamily, gradedSeries_apply]
-  show (Ring.choose (1 : ℤ) m • x ^ m) k m = (1 : GradedCapFamily G) k m + x k m
+  change (Ring.choose (1 : ℤ) m • x ^ m) k m = (1 : GradedCapFamily G) k m + x k m
   rcases m with _ | _ | m
   · rw [hx k 0 (by omega), add_zero, pow_zero, Ring.choose_zero_right, one_smul]
   · rw [gradedCap_one_of_ne (by omega), zero_add]
@@ -279,7 +279,7 @@ theorem chernTotal_tensorObj_of_eq_prod {ι : Type*} (E Lr : Y.Modules) (s : Fin
   have h3 : totalChern C sY E s.card =
       ((∏ J ∈ s, (1 + y J) : chernTotalSubring C sY) : TotalChowClass C sY) :=
     congrArg Subtype.val hE
-  show totalChern C sY (Scheme.Modules.tensorObj E Lr) s.card = _
+  change totalChern C sY (Scheme.Modules.tensorObj E Lr) s.card = _
   refine h1.trans ?_
   rw [h2, h3]
   exact twist_prod_one_add C sY s (firstChernTot C sY Lr) (isHomogeneous_firstChernTot C sY Lr)
@@ -424,7 +424,7 @@ theorem totalChern_exteriorPower_of_hasQuotients : ∀ (r : ℕ) (V : Y.Modules)
             (Scheme.Modules.exteriorPower Q ((k + 1 : ℕ) : ℤ)) (Scheme.Modules.exteriorPower N 1)
             s (fun J => ∑ i ∈ J, x i.castSucc)
             (fun J => by
-              rw [AddSubmonoidClass.coe_finset_sum]
+              rw [AddSubmonoidClass.coe_finsetSum]
               exact isHomogeneous_sum C sY _ _ fun i _ => isHomogeneous_firstChernTot C sY _)
             hQk
           rw [firstChernTot_congr C sY (show Scheme.Modules.exteriorPower N 1 ≅ L (Fin.last r) from

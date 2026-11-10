@@ -86,7 +86,7 @@ theorem purelyTranscendental_of_ringEquiv {k k' K K' : Type*} [Field k] [Field k
       IsScalarTower.algebraMap_apply k (MvPolynomial ↥s k) (MvRatFunc ↥s k)]
     congr 1
     simp [MvPolynomial.algebraMap_eq]
-  show E (ψ (μ (algebraMap k' (MvRatFunc s k') a))) = _
+  change E (ψ (μ (algebraMap k' (MvRatFunc s k') a))) = _
   rw [h1, ψ.commutes, hE, e.apply_symm_apply]
 
 /-- Localising at an element `a ∉ 𝔭` maps `𝔭` to a prime which contracts back to `𝔭`. -/
@@ -180,7 +180,7 @@ theorem exists_quasiFinite_mvPolynomial_away_purelyTranscendental
     intro z
     obtain ⟨u, rfl⟩ := eA.surjective z
     rw [RingEquiv.symm_apply_apply]
-    show Ideal.ResidueField.map P _ (algebraMap A (MvPolynomial (Fin n) A)) _
+    change Ideal.ResidueField.map P _ (algebraMap A (MvPolynomial (Fin n) A)) _
         (Ideal.ResidueField.map p P (algebraMap R A) hPp.symm u) =
       Ideal.ResidueField.map p _ _ hQp u
     exact RingHom.congr_fun (Algebra.residueField_map_comp (R := R) (T := A)
@@ -344,7 +344,7 @@ theorem exists_quasiFinite_over_affineSpace_of_isAffineOpen
     ⟨(hV.primeIdealOf ⟨x, hxV⟩).asIdeal.map (algebraMap ↥Γ(X, V) (Localization.Away b)), hQBprime⟩
   have hιx : ι x₀ = x := by
     have h1 : (Spec.map β).base x₀ = hV.primeIdealOf ⟨x, hxV⟩ := PrimeSpectrum.ext hQBq
-    show hV.fromSpec ((Spec.map β).base x₀) = x
+    change hV.fromSpec ((Spec.map β).base x₀) = x
     rw [h1]
     exact hV.fromSpec_primeIdealOf _
   have hιopen : IsOpenImmersion ι := by
@@ -353,7 +353,7 @@ theorem exists_quasiFinite_over_affineSpace_of_isAffineOpen
     infer_instance
   have hsq : ι ≫ f = Spec.map Φ' ≫ hYm := by
     refine specMap_fromSpec_comp_eq_of_comp_eq f hU hV hVU (α ≫ γ) Φ' β (CommRingCat.hom_ext ?_)
-    show Φ.comp ((MvPolynomial.C).comp (algebraMap ↥Γ(S, U) (Localization.Away a))) =
+    change Φ.comp ((MvPolynomial.C).comp (algebraMap ↥Γ(S, U) (Localization.Away a))) =
       (algebraMap ↥Γ(X, V) (Localization.Away b)).comp (f.appLE U V hVU).hom
     rw [hcomm, ← (f.appLE U V hVU).hom.algebraMap_toAlgebra, ← IsScalarTower.algebraMap_eq]
   have hπft : LocallyOfFiniteType (Spec.map Φ') :=

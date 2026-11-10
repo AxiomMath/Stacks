@@ -45,7 +45,6 @@ variable {X : RingedTopos.{v, u', w}} {B' : RingedTopos.{v', u'', w'}}
   [X.J.HasSheafCompose (forget RingCat.{w})] [B'.J.HasSheafCompose (forget RingCat.{w'})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [B'.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
-  [X.J.HasSheafCompose (forget CommRingCat.{w})]
   (S : RingedToposExtensionProblem X B')
   [Presheaf.IsLocallySurjective X.J S.baseReductionInverseImagePresheafHom]
 

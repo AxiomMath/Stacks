@@ -359,6 +359,7 @@ theorem isLocallySurjective_whiskerRight_commRingCatULift {P Q : Cᵒᵖ ⥤ Com
     rintro Z g ⟨t, ht⟩
     exact ⟨ULift.up t, congrArg ULift.up ht⟩
 
+set_option linter.checkUnivs false in
 /-- The ring isomorphism `↑R[↑σ] ≃ R[σ]` between a polynomial ring with lifted coefficients and
 lifted variables and the polynomial ring it lifts. -/
 noncomputable def mvPolynomialULiftEquiv (σ : Type w) (R : Type w) [CommRing R] :

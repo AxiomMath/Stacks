@@ -264,14 +264,13 @@ theorem irreducibleSpace_baseChange_purelyInseparable
     rw [hzz]; exact Subring.pow_mem _ hm _
   have key : ∀ z : R, ∃ n : ℕ, z ^ (q ^ n) ∈ φ.range := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
         obtain ⟨n, c, hc⟩ := IsPurelyInseparable.pow_mem Ls' q x
         refine ⟨n, ?_⟩
         have hpt : (b ⊗ₜ[Ls'] x : R) ^ (q ^ n) = φ (c • b ^ (q ^ n)) := by
           rw [Algebra.TensorProduct.tmul_pow, ← hc, hφ]
-          show _ = Algebra.TensorProduct.includeLeftRingHom (c • b ^ (q ^ n))
+          change _ = Algebra.TensorProduct.includeLeftRingHom (c • b ^ (q ^ n))
           rw [Algebra.TensorProduct.includeLeftRingHom_apply,
             Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul]
         rw [hpt]; exact ⟨_, rfl⟩
@@ -379,9 +378,9 @@ theorem perfectBase_algClosure_tensor_isField
     have key : (φ L).toLinearMap = LinearMap.lTensor L' (L.val.toLinearMap) := by
       apply TensorProduct.ext'
       intro x y
-      show (φ L) (x ⊗ₜ[P] y) = LinearMap.lTensor L' (L.val.toLinearMap) (x ⊗ₜ[P] y)
+      change (φ L) (x ⊗ₜ[P] y) = LinearMap.lTensor L' (L.val.toLinearMap) (x ⊗ₜ[P] y)
       rw [LinearMap.lTensor_tmul]
-      show Algebra.TensorProduct.map (AlgHom.id L' L') L.val (x ⊗ₜ[P] y) = _
+      change Algebra.TensorProduct.map (AlgHom.id L' L') L.val (x ⊗ₜ[P] y) = _
       rw [Algebra.TensorProduct.map_tmul]
       rfl
     rw [show ⇑(φ L) = ⇑(LinearMap.lTensor L' (L.val.toLinearMap)) from by rw [← key]; rfl]
@@ -391,7 +390,7 @@ theorem perfectBase_algClosure_tensor_isField
     intro L₁ L₂ h
     have hfac : φ L₁ = (φ L₂).comp
         (Algebra.TensorProduct.map (AlgHom.id L' L') (IntermediateField.inclusion h)) := by
-      show Algebra.TensorProduct.map (AlgHom.id L' L') (L₁.val) = _
+      change Algebra.TensorProduct.map (AlgHom.id L' L') (L₁.val) = _
       rw [← Algebra.TensorProduct.map_comp]; congr 1
     rw [hfac, AlgHom.range_comp]
     rintro x ⟨y, -, rfl⟩
@@ -399,14 +398,13 @@ theorem perfectBase_algClosure_tensor_isField
   have hcov : ∀ x : R, ∃ L : IntermediateField P (SeparableClosure P),
       FiniteDimensional P L ∧ x ∈ (φ L).range := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨⊥, inferInstance, Subalgebra.zero_mem _⟩
+    induction x using TensorProduct.inductionOn with
     | tmul k s =>
         refine ⟨IntermediateField.adjoin P {s}, ?_, ?_⟩
         · exact IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral s)
         · refine ⟨k ⊗ₜ[P] ⟨s, ?_⟩, ?_⟩
           · exact IntermediateField.subset_adjoin P {s} (Set.mem_singleton s)
-          · show Algebra.TensorProduct.map (AlgHom.id L' L') _ _ = _
+          · change Algebra.TensorProduct.map (AlgHom.id L' L') _ _ = _
             rw [Algebra.TensorProduct.map_tmul]; rfl
     | add a b ha hb =>
         obtain ⟨L₁, hL₁, haL₁⟩ := ha
@@ -478,7 +476,7 @@ theorem algClosure_tensor_fg
     have hsub : S ⊆ ((K.restrictScalars P).comap
         (Algebra.TensorProduct.includeRight)) := by
       intro s hs
-      show Algebra.TensorProduct.includeRight s ∈ K
+      change Algebra.TensorProduct.includeRight s ∈ K
       exact IntermediateField.subset_adjoin _ _ ⟨s, hs, rfl⟩
     have hle : IntermediateField.adjoin P S ≤
         (K.restrictScalars P).comap (Algebra.TensorProduct.includeRight) :=
@@ -494,7 +492,7 @@ theorem algClosure_tensor_fg
         = algebraMap Ω (Ω ⊗[P] L') a * Algebra.TensorProduct.includeRight b := by
       rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.algebraMap_apply,
         Algebra.TensorProduct.tmul_mul_tmul]; simp
-    show a ⊗ₜ[P] b ∈ K.toSubalgebra
+    change a ⊗ₜ[P] b ∈ K.toSubalgebra
     rw [hx]
     exact mul_mem (K.algebraMap_mem a) (hmem b)
   rw [eq_top_iff]

@@ -53,7 +53,7 @@ theorem iSup_add_coe {ι : Sort*} (f : ι → EInt) (n : ℤ) :
 
 /-- The embedding of the integers into the extended integers is additive. -/
 theorem coe_add_coe_eq_coe_add (a b : ℤ) : ((a + b : ℤ) : EInt) = (a : EInt) + (b : EInt) := by
-  show (↑(↑(a + b) : WithTop ℤ) : WithBot (WithTop ℤ)) =
+  change (↑(↑(a + b) : WithTop ℤ) : WithBot (WithTop ℤ)) =
     (↑(↑a : WithTop ℤ) : WithBot (WithTop ℤ)) + (↑(↑b : WithTop ℤ) : WithBot (WithTop ℤ))
   rw [← WithBot.coe_add, ← WithTop.coe_add]
 

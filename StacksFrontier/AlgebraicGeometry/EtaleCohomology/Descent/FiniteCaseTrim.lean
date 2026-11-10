@@ -238,11 +238,11 @@ theorem exists_notMem_forall_dvd_subordinateFactor_of_etale_pair
     (t : Ideal F) [t.IsPrime] [t.LiesOver p'] (s : Ideal D) [s.IsPrime] [s.LiesOver t]
     [s.LiesOver p']
     [Algebra (Localization.AtPrime p') (Localization.AtPrime t)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' t]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime t)]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower F (Localization.AtPrime t) (Localization.AtPrime s)]
     [Algebra (Localization.AtPrime p') (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra p' s]
+    [IsScalarTower A' (Localization.AtPrime p') (Localization.AtPrime s)]
     (huniqF : ∀ u : Ideal F, u.IsPrime → u.LiesOver p' → u = t)
     (huniq : ∀ q₁ q₂ : Ideal D, q₁.IsPrime → q₂.IsPrime → q₁.LiesOver p' → q₂.LiesOver p' →
       q₁ = q₂)

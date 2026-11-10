@@ -95,7 +95,7 @@ private theorem dualRestrict_surjective_of_quotient_torsionFree
     ((LinearMap.id : L →ₗ[ℤ] L) - sec.comp S.mkQ).codRestrict S (by
       intro x
       have hz : S.mkQ (((LinearMap.id : L →ₗ[ℤ] L) - sec.comp S.mkQ) x) = 0 := by
-        show S.mkQ x - S.mkQ (sec (S.mkQ x)) = 0
+        change S.mkQ x - S.mkQ (sec (S.mkQ x)) = 0
         rw [← LinearMap.comp_apply, hsec]
         simp
       simpa only [S.ker_mkQ] using (LinearMap.mem_ker.mpr hz :
@@ -105,7 +105,7 @@ private theorem dualRestrict_surjective_of_quotient_torsionFree
   ext x
   apply congrArg f
   apply Subtype.ext
-  show (x : L) - sec (S.mkQ (x : L)) = x
+  change (x : L) - sec (S.mkQ (x : L)) = x
   simp [show S.mkQ (x : L) = 0 by simp]
 
 private theorem quotient_torsionFree_orthogonal
@@ -161,7 +161,7 @@ private theorem orthogonal_orthogonal_eq_of_torsionFree_quotient
     have hborth : b ∈ A.orthogonalBilin form := by
       intro a ha
       have hφa : φ a = 0 := by
-        show ψ (A.mkQ a) = 0
+        change ψ (A.mkQ a) = 0
         rw [show A.mkQ a = 0 by
           rw [← LinearMap.mem_ker, A.ker_mkQ]
           exact ha, map_zero]
@@ -196,15 +196,15 @@ private theorem exists_injective_to_discriminantGroup
       refine ⟨s, s.property, x - s, ?_, by simp⟩
       intro a ha
       have heq := LinearMap.congr_fun hs ⟨a, ha⟩
-      show form a (x - s) = 0
+      change form a (x - s) = 0
       rw [map_sub]
       exact sub_eq_zero.mpr (by simpa [r, hform_symm.eq] using heq.symm)
     · rintro ⟨s, hs, b, hb, rfl⟩
-      show Submodule.Quotient.mk (r (s + b)) = 0
+      change Submodule.Quotient.mk (r (s + b)) = 0
       rw [Submodule.Quotient.mk_eq_zero]
       refine ⟨⟨s, hs⟩, ?_⟩
       ext a
-      show form s a = form (s + b) a
+      change form s a = form (s + b) a
       simp only [map_add, LinearMap.add_apply]
       rw [show form b a = 0 from (hform_symm.eq b a).trans (hb a a.property), add_zero]
   let i := (S ⊔ S.orthogonalBilin form).liftQ p hker.ge
@@ -215,7 +215,7 @@ private theorem exists_injective_to_discriminantGroup
       (show Module.Dual ℤ L →ₗ[ℤ] SubmoduleDiscriminantGroup form S from
         (LinearMap.range (form.restrict S)).mkQ.comp S.dualRestrict) (by
         rintro _ ⟨x, rfl⟩
-        show _ ∈ LinearMap.range i
+        change _ ∈ LinearMap.range i
         refine ⟨(S ⊔ S.orthogonalBilin form).mkQ x, ?_⟩
         simp [i, p, r])
     refine ⟨q, fun y ↦ ?_⟩
@@ -232,7 +232,6 @@ discriminant group of the ambient lattice. -/
 public theorem exists_injective_to_discriminantGroup_left
     {L : Type*} [AddCommGroup L] [Module.Free ℤ L] [Module.Finite ℤ L]
     (form : LinearMap.BilinForm ℤ L) (hform_symm : form.IsSymm)
-    (hform_pos : ∀ x : L, x ≠ 0 → 0 < form x x)
     (A : Submodule ℤ L) (hA : Module.IsTorsionFree ℤ (L ⧸ A)) :
     ∃ i : OrthogonalSumQuotient form A →ₗ[ℤ]
         SubmoduleDiscriminantGroup form A,
@@ -263,7 +262,7 @@ public theorem exists_injective_to_discriminantGroup_orthogonal
       (A.orthogonalBilin form).orthogonalBilin form = A ⊔ A.orthogonalBilin form := by
     rw [orthogonal_orthogonal_eq_of_torsionFree_quotient form hform_symm hform_pos A hA,
       sup_comm]
-  show ∃ i : (L ⧸ (A ⊔ A.orthogonalBilin form)) →ₗ[ℤ]
+  change ∃ i : (L ⧸ (A ⊔ A.orthogonalBilin form)) →ₗ[ℤ]
       SubmoduleDiscriminantGroup form (A.orthogonalBilin form),
     Function.Injective i ∧
       ∃ q : DiscriminantGroup form →ₗ[ℤ]
@@ -286,7 +285,6 @@ public theorem torsionCokernelEquiv_discriminantGroup_range
     [AddCommGroup L₁] [Module.Free ℤ L₁] [Module.Finite ℤ L₁]
     (form₀ : LinearMap.BilinForm ℤ L₀) (form₁ : LinearMap.BilinForm ℤ L₁)
     (hform₀_symm : form₀.IsSymm) (hform₁_symm : form₁.IsSymm)
-    (hform₀_pos : ∀ x : L₀, x ≠ 0 → 0 < form₀ x x)
     (hform₁_pos : ∀ x : L₁, x ≠ 0 → 0 < form₁ x x)
     (d : L₀ →ₗ[ℤ] L₁) (dStar : L₁ →ₗ[ℤ] L₀)
     (hadjoint : LinearMap.IsAdjointPair form₀ form₁ d dStar)
@@ -308,10 +306,10 @@ public theorem torsionCokernelEquiv_discriminantGroup_range
   have hpg : (p.comp g).comp r = f := by
     ext x
     apply e₀.injective
-    show e₀ (e₀.symm (r.dualMap (g (r x)))) = e₀ (f x)
+    change e₀ (e₀.symm (r.dualMap (g (r x)))) = e₀ (f x)
     rw [LinearEquiv.apply_symm_apply]
     ext y
-    show form₁ (d x) (d y) = form₀ (dStar (d x)) y
+    change form₁ (d x) (d y) = form₀ (dStar (d x)) y
     rw [hform₀_symm.eq, hform₁_symm.eq]
     exact hadjoint y (d x)
   have hrange : LinearMap.range (p.comp g) = LinearMap.range f := by
@@ -337,7 +335,7 @@ public theorem torsionCokernelEquiv_discriminantGroup_range
   have hq_torsion (x : Module.Dual ℤ A ⧸ LinearMap.range g) : q x ∈
       AddCommGroup.torsion (L₀ ⧸ LinearMap.range f) := by
     rw [← Submodule.torsion_int]
-    show q x ∈ Submodule.torsion ℤ (L₀ ⧸ LinearMap.range f)
+    change q x ∈ Submodule.torsion ℤ (L₀ ⧸ LinearMap.range f)
     rw [Submodule.mem_torsion_iff]
     obtain ⟨n, hn⟩ := hquot_torsion (x := x)
     exact ⟨n, by simpa using congr_arg q hn⟩
@@ -377,7 +375,7 @@ public theorem torsionCokernelEquiv_discriminantGroup_range
       rcases hdual with ⟨b, hb⟩
       refine ⟨Submodule.Quotient.mk b, ?_⟩
       apply Subtype.ext
-      show q (Submodule.Quotient.mk b) = Submodule.Quotient.mk x
+      change q (Submodule.Quotient.mk b) = Submodule.Quotient.mk x
       rw [Submodule.mapQ_apply, Submodule.Quotient.eq]
       simp [show p b = x from e₀.injective (by simpa [p, e₀] using hb)]
   exact ⟨(LinearEquiv.ofBijective qt ⟨fun x y h => hq_inj (congr_arg Subtype.val h),

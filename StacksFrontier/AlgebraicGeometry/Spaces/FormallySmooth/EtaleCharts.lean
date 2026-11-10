@@ -249,12 +249,12 @@ theorem exists_lift_of_formallyEtale_yonedaMap_of_contains
   let g₁ : A ⟶ U := Over.homMk g₀
   let p₁ : A' ⟶ V := Over.homMk p₀
   let i₁ : A ⟶ A' := Over.homMk i₀ (by
-    show i₀ ≫ (p₀ ≫ V.hom) = g₀ ≫ U.hom
+    change i₀ ≫ (p₀ ≫ V.hom) = g₀ ≫ U.hom
     rw [← Category.assoc, ← hc₀, Category.assoc, ψ.w])
   have hAi : IsAffine ((BigFppfOver.toScheme B S hS).obj A) := inferInstanceAs (IsAffine T)
   have hA'i : IsAffine ((BigFppfOver.toScheme B S hS).obj A') := inferInstanceAs (IsAffine T')
   have hi₁ : IsSquareZeroClosedImmersion B S hS i₁ := by
-    show _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map i₀) ∧
+    change _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map i₀) ∧
       (B.inclusion.map i₀).ker ^ 2 = ⊥
     rw [hi₀]
     exact ⟨hi.1, hi.2⟩
@@ -308,7 +308,7 @@ theorem exists_lift_of_formallyEtale_yonedaMap_of_isAffine
   have hD : D.sourceToQuotient.comp D.pSmall =
       D.gSmall.comp ((BigFppfOver.toScheme B S hS).map ψ).appTop.hom := by
     refine RingHom.ext fun x => Subtype.val_injective ?_
-    show D.quotient.subtype (D.sourceToQuotient (D.pSmall x)) =
+    change D.quotient.subtype (D.sourceToQuotient (D.pSmall x)) =
       D.quotient.subtype (D.gSmall (((BigFppfOver.toScheme B S hS).map ψ).appTop.hom x))
     rw [← D.quotientFactor, ← D.pFactor, ← D.gFactor]
     exact DFunLike.congr_fun hring x
@@ -421,7 +421,7 @@ theorem formallyEtale_resLE_of_formallyEtale_yonedaMap
   have hres : fOpen ≫ U.ι = V.ι ≫ f := Scheme.Hom.resLE_comp_ι f hVU
   let ψOpen : P' ⟶ Q' := Over.homMk fOpenBase (by
     apply B.inclusion.map_injective
-    show B.inclusion.map fOpenBase ≫ B.inclusion.map uBase ≫
+    change B.inclusion.map fOpenBase ≫ B.inclusion.map uBase ≫
       B.inclusion.map Q.hom = B.inclusion.map vBase ≫ B.inclusion.map P.hom
     rw [hMapFOpen, hMapU, hMapV, reassoc_of% hres]
     exact V.ι ≫= (B.inclusion.map_comp _ _).symm.trans (congrArg B.inclusion.map (Over.w ψ)))
@@ -437,11 +437,11 @@ theorem formallyEtale_resLE_of_formallyEtale_yonedaMap
       _ = B.inclusion.map (Over.Hom.left a ≫ Over.Hom.left ψ) := by
           rw [Functor.map_comp, hMapa, hMapψ]
   have ha : AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map a) := by
-    show AlgebraicGeometry.Etale (B.inclusion.map vBase)
+    change AlgebraicGeometry.Etale (B.inclusion.map vBase)
     rw [hMapV]
     infer_instance
   have hb : AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map b) := by
-    show AlgebraicGeometry.Etale (B.inclusion.map uBase)
+    change AlgebraicGeometry.Etale (B.inclusion.map uBase)
     rw [hMapU]
     infer_instance
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj P') := hV
@@ -602,13 +602,13 @@ theorem formallyEtale_yonedaMap_of_schemeFormallyEtale
     exact hk.2
   let s : T' ⟶ U := Over.homMk (B.inclusion.preimage k) (by
     rw [← Over.w ψ, ← Category.assoc]
-    show (B.inclusion.preimage k ≫ (BigFppfOver.forget B S hS).map ψ) ≫ V.hom = T'.hom
+    change (B.inclusion.preimage k ≫ (BigFppfOver.forget B S hS).map ψ) ≫ V.hom = T'.hom
     rw [hkψ]
     exact p.w)
   have hsmap : (BigFppfOver.toScheme B S hS).map s = k := B.inclusion.map_preimage k
   refine ⟨s, ⟨?_, (BigFppfOver.forget B S hS).map_injective hkψ⟩, fun z hz => ?_⟩
   · refine (BigFppfOver.toScheme B S hS).map_injective ?_
-    show (BigFppfOver.toScheme B S hS).map i ≫ (BigFppfOver.toScheme B S hS).map s =
+    change (BigFppfOver.toScheme B S hS).map i ≫ (BigFppfOver.toScheme B S hS).map s =
       (BigFppfOver.toScheme B S hS).map t
     rw [hsmap]
     exact hk.1

@@ -679,7 +679,7 @@ theorem descentDatum_exists_source_cocone
   have he (i j : I) : (e i j).f =
       eqToHom (D.xrij i j).hpt ≫ pr₂ i j ≫ eqToHom (D.hx j).symm := by
     have h1 := Hom.f_eq_of_fibreHom _ _ _ (D.φ_fibreHom i j)
-    show (D.φ i j).f ≫ (D.xrji i j).hom.f = _
+    change (D.φ i j).f ≫ (D.xrji i j).hom.f = _
     rw [h1, restriction_hom_f (D.xrji i j)]
     simp
   have hb₁₂ (i j k : I) : (b₁₂ i j k).f =
@@ -691,7 +691,7 @@ theorem descentDatum_exists_source_cocone
     have h1 : (D.αij i j k).f = _ :=
       CategoryTheory.IsHomLift.fac' (finiteHilbertProjection (B := B) (S := S) (hS := hS)
         (𝒳 := 𝒳) (𝒴 := 𝒴) (F := F) (d := d)) (𝟙 (Vijk i j k)) (D.αij i j k)
-    show (D.αij i j k).f ≫ _ = _
+    change (D.αij i j k).f ≫ _ = _
     rw [h1, restriction_compTo_f]
     simp
   have htriple (i j k : I) : IsPullback (b₁₂ i j k).g (b₂₃ i j k).g (e i j).g (c j k).g := by
@@ -811,7 +811,7 @@ theorem descentDatum_isEffective_of_source_cocone
     { f := eqToHom (D.hx i) ≫ f i
       g := g i
       square := by
-        show IsPullback (g i) (D.x i).q q (eqToHom (D.hx i) ≫ f i)
+        change IsPullback (g i) (D.x i).q q (eqToHom (D.hx i) ≫ f i)
         simpa only [Iso.refl_hom, eqToIso.hom, Category.id_comp, Category.comp_id,
           Category.assoc, eqToHom_trans, eqToHom_refl] using
           (sq i).of_iso (Iso.refl _) (Iso.refl _) (eqToIso (D.hx i).symm) (Iso.refl _)
@@ -831,7 +831,7 @@ theorem descentDatum_isEffective_of_source_cocone
     simp [finiteHilbertProjection, ν]
   · refine Hom.ext ?_ (hg i j).symm (hbcompat i j).symm (hacompat i j).symm
     have h3 := Hom.f_eq_of_fibreHom _ _ _ (D.φ_fibreHom i j)
-    show (D.φ i j).f ≫ (D.xrji i j).hom.f ≫ (eqToHom (D.hx j) ≫ f j) =
+    change (D.φ i j).f ≫ (D.xrji i j).hom.f ≫ (eqToHom (D.hx j) ≫ f j) =
       (D.xrij i j).hom.f ≫ (eqToHom (D.hx i) ≫ f i)
     rw [restriction_hom_f (D.xrij i j), restriction_hom_f (D.xrji i j), h3]
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_trans, eqToHom_refl,
@@ -931,7 +931,7 @@ theorem descentDatum_isEffective
   have hB' := congrArg G.map hB
   have hC' := congrArg (fun z => G.map (Fiber.fiberInclusion.map z)) hC
   simp only [Functor.map_comp] at hA' hB' hC'
-  show G.map (D.xrij i j).hom ≫ G.map (κ i) ≫ ζ (f i) _ =
+  change G.map (D.xrij i j).hom ≫ G.map (κ i) ≫ ζ (f i) _ =
     G.map (D.φ i j) ≫ G.map (D.xrji i j).hom ≫ G.map (κ j) ≫ ζ (f j) _
   have hA'' := congrArg (fun z => z ≫ ζ (f i) (Sieve.ofArrows_mk V f i)) hA'
   have hB'' := congrArg (fun z => z ≫ ζ (f j) (Sieve.ofArrows_mk V f j)) hB'

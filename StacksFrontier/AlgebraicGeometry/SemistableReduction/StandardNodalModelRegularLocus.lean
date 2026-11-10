@@ -124,6 +124,7 @@ public theorem isRegularLocalRing_stalk_nodalModel_of_asIdeal_ne {π : R} (hπ :
   exact (isRegularLocalRing_stalk_spec_iff z).mpr
     (isRegularLocalRing_localization_nodalChartRing_of_ne hπ n z.asIdeal hz)
 
+omit [IsDomain R] [IsDiscreteValuationRing R] in
 /-- At exponent zero the origin of the standard nodal model is the unit ideal. -/
 public theorem nodalModelOrigin_zero_eq_top (π : R) : nodalModelOrigin R π 0 = ⊤ := by
   rw [Ideal.eq_top_iff_one]

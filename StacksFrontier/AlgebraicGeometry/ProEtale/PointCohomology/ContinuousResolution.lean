@@ -93,14 +93,14 @@ lemma orbitMap_bijective : Function.Bijective (orbitMap (K := K)) := by
       have h3 : e.symm (algebraMap K _ a) = (structureMap (pointObj K)).hom a := by
         rw [← h2]
         exact e.symm_apply_apply _
-      show evalRingHom φ (e.symm (algebraMap K _ a)) = _
+      change evalRingHom φ (e.symm (algebraMap K _ a)) = _
       rw [h3, h1]
     let σa : SeparableClosure K →ₐ[K] SeparableClosure K := { σ with commutes' := hσ }
     let g : galoisGroup K := AlgEquiv.ofBijective σa (Algebra.IsAlgebraic.algHom_bijective σa)
     refine ⟨g, evalRingHom_injective ?_⟩
     rw [orbitMap, evalRingHom_smul]
     refine RingHom.ext fun s ↦ ?_
-    show evalRingHom φ (e.symm (e s)) = _
+    change evalRingHom φ (e.symm (e s)) = _
     rw [e.symm_apply_apply]
 
 /-- The orbit map of the tautological geometric point is continuous. -/
@@ -172,6 +172,7 @@ private theorem smallSiteWEqualsLocallyBijective_ab {D : Type w} [SmallCategory 
     (J : GrothendieckTopology D) : J.WEqualsLocallyBijective AddCommGrpCat.{w} :=
   inferInstance
 
+set_option linter.checkUnivs false in
 variable (K) in
 /-- Morphisms of abelian presheaves on the pro-étale site of `Spec K` with isomorphic
 sheafifications are the locally bijective ones. -/
@@ -238,6 +239,8 @@ lemma TopRep_ρ_apply_inv_apply (Y : TopRep.{w} Λ (galoisGroup K)) (g : galoisG
   rfl
 
 set_option maxHeartbeats 1000000 in
+-- the proof unfolds sections of the sheafified pro-étale representation sheaves and checks
+-- `change`/`rw` steps against them, which is slow to elaborate
 /-- **Local splitting.** Let `Y₁ ⟶ Y₂ ⟶ Y₃` be a complex of topological representations whose
 first two terms have jointly continuous actions, and suppose that a continuous function
 `s : Y₂ → Y₁` splits the first map on the kernel of the second. Then the induced complex of
@@ -274,7 +277,7 @@ theorem exact_repAbSheaf
         inv_mul_cancel, map_one, TopRep_ρ_mul_apply Y₁]
       rfl
     · have hγc : Continuous fun φ ↦ γ (GeomPt.map c φ) := by
-        show Continuous fun φ ↦ GeomPt.pointHomeomorph.symm (GeomPt.map t (GeomPt.map c φ))
+        change Continuous fun φ ↦ GeomPt.pointHomeomorph.symm (GeomPt.map t (GeomPt.map c φ))
         exact GeomPt.pointHomeomorph.symm.continuous.comp
           ((GeomPt.continuous_map t).comp (GeomPt.continuous_map c))
       have hzc : Continuous fun φ ↦ z.down.1 (GeomPt.map p (GeomPt.map c φ)) := by
@@ -464,6 +467,7 @@ section Cohomology
 
 variable (Λ : Type r) [Ring Λ] [TopologicalSpace Λ]
 
+set_option linter.checkUnivs false in
 /-- The underlying abelian group of a topological module, in the coefficient universe of the
 sheaves on the pro-étale site of `Spec K`. -/
 def underlyingAb : TopModuleCat.{max u w} Λ ⥤ AddCommGrpCat.{max (u + 1) r w} :=

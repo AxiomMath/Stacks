@@ -206,7 +206,7 @@ theorem Scheme.Modules.exists_stalkBasis (N : X.Modules) {U : X.Opens} {x : X} (
   refine ⟨Module.Basis.ofEquivFun (LinearEquiv.ofBijective θ ⟨hinj, hsurj⟩).symm, fun k => ?_,
     fun s k => ?_⟩
   · rw [Module.Basis.coe_ofEquivFun]
-    show (LinearEquiv.ofBijective θ ⟨hinj, hsurj⟩) (Pi.single k 1) = _
+    change (LinearEquiv.ofBijective θ ⟨hinj, hsurj⟩) (Pi.single k 1) = _
     rw [show (LinearEquiv.ofBijective θ ⟨hinj, hsurj⟩) (Pi.single k 1) = θ (Pi.single k 1) from rfl,
       hθ, Finset.sum_eq_single_of_mem k (Finset.mem_univ k)
         (fun j _ hj => by rw [Pi.single_eq_of_ne hj, zero_smul]), Pi.single_eq_same, one_smul]
@@ -227,10 +227,9 @@ theorem exists_basis_restrict (M : DerivedFreeModel K U) {V : X.Opens} (hVU : V 
     ∃ b : Module.Basis (Fin (M.rank i)) Γ(X, V) Γ(M.model.X i, V),
       ∀ k, b k = (M.model.X i).presheaf.map (homOfLE hVU).op (M.basis i k) := by
   obtain ⟨g, g', hgg⟩ := M.exists_basis_pair hVU i
-  exact ⟨Stacks.basisOfSemilinearImage (X.presheaf.map (homOfLE hVU).op).hom
-      (Scheme.Modules.resAddHom (M.model.X i) hVU)
-      (Scheme.Modules.resAddHom_smul (M.model.X i) hVU) g g' hgg (M.basis i),
-    fun k => Stacks.basisOfSemilinearImage_apply _ _ _ _ _ _ _ k⟩
+  exact ⟨Stacks.basisOfSemilinearImage (X.presheaf.map (homOfLE hVU).op).hom g g' (M.basis i),
+    fun k => Stacks.basisOfSemilinearImage_apply _ (Scheme.Modules.resAddHom (M.model.X i) hVU)
+      (Scheme.Modules.resAddHom_smul (M.model.X i) hVU) g g' hgg (M.basis i) k⟩
 
 /-- **The stalk at a point of `U` of one degree of a finite free model is free on the germs of
 the chosen basis**, and the coordinates there of the germ of a section are the germs of its
@@ -315,7 +314,7 @@ theorem nonempty_stalkCochain_iso (M : DerivedFreeModel K U) {x : X} (hx : x ∈
         ((M.model.d i (i + 1)).val.app (op U) (M.basis i k)) := by
     rw [hβ i k]
     exact Scheme.Modules.map_stalkGerm _ x U hx _
-  show Matrix.toLin' ((M.stalkFreeData hx).d i) ((β i).equivFun (β i k)) =
+  change Matrix.toLin' ((M.stalkFreeData hx).d i) ((β i).equivFun (β i k)) =
     (β (i + 1)).equivFun
       (((Stacks.Duality.modulesStalkFunctor x).map (M.model.d i (i + 1))).hom (β i k))
   have h4 : Matrix.toLin' ((M.stalkFreeData hx).d i) ((β i).equivFun (β i k)) =
@@ -324,7 +323,7 @@ theorem nonempty_stalkCochain_iso (M : DerivedFreeModel K U) {x : X} (hx : x ∈
       (Matrix.mulVec_single_one ((M.stalkFreeData hx).d i) k)
   rw [h4, h2]
   funext a
-  show X.presheaf.germ U x hx (M.matrix i a k) =
+  change X.presheaf.germ U x hx (M.matrix i a k) =
     (β (i + 1)).equivFun (Scheme.Modules.stalkGerm (M.model.X (i + 1)) x U hx
       ((M.model.d i (i + 1)).val.app (op U) (M.basis i k))) a
   rw [Module.Basis.equivFun_apply,

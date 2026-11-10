@@ -40,8 +40,8 @@ space by Proposition 08K9.
 **Stacks 08W6 is not carried here, and no declaration in this file claims it.**  It is carried,
 unconditionally and for the canonical `AlgebraicGeometry.Space.CoherentSituation.coherentCFG`, by
 `AlgebraicGeometry.Space.CoherentSituation.coherentCFG_diagonal_isRepresentableByAlgebraicSpaces`
-in `StacksFrontier/AlgebraicGeometry/Stacks/CoherentStackDiagonalRepresentable.lean`; the rest of this
-note describes the state of the development when this file was written.  The second step
+in `StacksFrontier/AlgebraicGeometry/Stacks/CoherentStackDiagonalRepresentable.lean`; the rest of
+this note describes the state of the development when this file was written.  The second step
 of the proof is Proposition 08K9, that the relative isomorphism sheaf of two quasi-coherent
 modules of finite presentation, flat with proper support, is an algebraic space affine and of
 finite presentation over the base, applied after the reduction to a common base map over the

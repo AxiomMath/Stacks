@@ -254,7 +254,7 @@ public theorem decomposition_locally (U : S.Opens)
     CategoryTheory.congr_fun (congrArg (fun φ => PresheafOfModules.Hom.app φ (op U))
       A.pushforwardValIso.inv_hom_id) a
   rw [A.pushforwardHomogeneousSum_eq]
-  show PresheafOfModules.Hom.app A.pushforwardValIso.hom (op V)
+  change PresheafOfModules.Hom.app A.pushforwardValIso.hom (op V)
       (PresheafOfModules.Hom.app
         (Stacks.RelativeSpec.ungradedDirectSumHom S A.grading A.mul_comm) (op V) s) = _
   rw [key, PresheafOfModules.naturality_apply, hid]

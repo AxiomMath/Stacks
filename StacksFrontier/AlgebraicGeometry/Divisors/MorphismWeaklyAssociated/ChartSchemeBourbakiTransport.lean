@@ -73,7 +73,7 @@ theorem isWeaklyAssociatedPoint_iff_of_iso {X : AlgebraicGeometry.Scheme.{u}}
     let g : (G : OXModule X.toRingedSpace) ⟶ (F : OXModule X.toRingedSpace) := e.inv
     have hf : Mono f := mono_of_mono_fac (show f ≫ g = 𝟙 _ from e.hom_inv_id)
     change IsWeaklyAssociatedPrime _ (OXModule.stalk F x) _ at hx
-    show IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
+    change IsWeaklyAssociatedPrime _ (OXModule.stalk G x) _
     exact Module.weaklyAssociatedPrimes_subset_of_injective
       (f := OXModule.stalkLinearMap F G f x)
       (@OXModule.stalkMapAdd_injective_of_mono _ F G f hf x) hx

@@ -24,7 +24,8 @@ This is [Stacks, Tag 0D2N], and this file registers it.
 
 The proof is the source's.  Tag 01VS on the fibre produces, for every large `d`, finitely many
 sections of `ℒ_y ^⊗ d` generating it whose attached morphism `X_y ⟶ ℙʳ_{κ(y)}` is an immersion
-(`Stacks.AmpleFibreNeighbourhood.exists_generatesStalks_isImmersion_toProjectiveSpaceOver_of_isAmple`).
+(`exists_generatesStalks_isImmersion_toProjectiveSpaceOver_of_isAmple`, in the namespace
+`Stacks.AmpleFibreNeighbourhood`).
 Assertion (B) of [Stacks, Tag 0D2M] lifts them to sections over `f ⁻¹ᵁ U` for a neighbourhood `U`
 of `y` — that is
 `Stacks.AmpleFibreNeighbourhood.exists_mem_pullbackSection_fiberι_eq`, which reduces a general

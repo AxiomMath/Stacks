@@ -108,7 +108,7 @@ public theorem forget_map_associatedModuleAdjunction_unit_comp_isoSectionsPreshe
   have hinv : Pf.map esp ≫ Pf.map (inv esp) = 𝟙 _ :=
     (Pf.map_comp esp (inv esp)).symm.trans
       ((congrArg Pf.map (IsIso.hom_inv_id esp)).trans (Pf.map_id _))
-  show (SheafOfModules.forget S.ringCatSheaf).map
+  change (SheafOfModules.forget S.ringCatSheaf).map
         ((associatedModuleAdjunction B S hS).unit.app F) ≫
       Pf.map (Phi.map nu ≫ inv esp) = sectionsUnit B S hS F
   refine Eq.trans (congrArg (fun t => (SheafOfModules.forget S.ringCatSheaf).map

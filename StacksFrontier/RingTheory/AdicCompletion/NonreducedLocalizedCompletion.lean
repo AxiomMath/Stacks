@@ -299,7 +299,7 @@ theorem not_isReduced_adicCompletion_localization_away_X {D R : Type*} [CommRing
   have hψa : (ψ α) ^ 2 = algebraMap Sx Cx (algebraMap D Sx a) := by
     rw [← map_pow, hα, Stacks.Nagata.PthRootDescent.mapAdicCompletion_of hIMap]
   have hβa : β ^ 2 = algebraMap Sx Cx (algebraMap D Sx a) := by
-    show (algebraMap R Cx t) ^ 2 = _
+    change (algebraMap R Cx t) ^ 2 = _
     rw [← map_pow, ht]
     exact (IsScalarTower.algebraMap_apply D R Cx a).symm.trans
       (IsScalarTower.algebraMap_apply D Sx Cx a)

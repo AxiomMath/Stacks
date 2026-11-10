@@ -201,7 +201,7 @@ theorem finite_image_of_restrictScalars [IsAdicComplete (maximalIdeal S) S] {t :
       rw [hsmul, map_pow, hφX, ← hy, mul_comm]
     simp only [f, AddMonoidHom.coe_comp, Function.comp_apply, AddMonoidHom.coe_mulRight,
       LinearMap.toAddMonoidHom_coe, this, map_smul, Module.Basis.coord_apply, smul_eq_mul]
-    show PowerSeries.coeff k (PowerSeries.X ^ (k + 1) * _) = 0
+    change PowerSeries.coeff k (PowerSeries.X ^ (k + 1) * _) = 0
     rw [PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega)]
   have hΨ : Continuous Ψ := by
     refine continuous_pi fun a => continuous_pi fun c => ?_
@@ -311,8 +311,8 @@ theorem finite_quotient_span_of_finite_image [IsTopologicalGroup π]
   have hartfin : ∀ J : Ideal R, P₀ ≤ J → J ≤ maximalIdeal R →
       (∀ Q : Ideal R, Q.IsPrime → J ≤ Q → Q = maximalIdeal R) → Finite (R ⧸ J) := by
     intro J hP₀J hJm hJ
-    have : IsLocalRing (R ⧸ J) := h.isLocalRing_quotient_of_le J hJm
-    have : CharP (R ⧸ J) ℓ := h.charP_quotient J (hP₀J (Ideal.mem_span_singleton_self _))
+    have : IsLocalRing (R ⧸ J) := isLocalRing_quotient_of_le J hJm
+    have : CharP (R ⧸ J) ℓ := charP_quotient J (hP₀J (Ideal.mem_span_singleton_self _))
     let : Algebra (ZMod ℓ) (R ⧸ J) := ZMod.algebra (R ⧸ J) ℓ
     have : IsArtinianRing (R ⧸ J) := IsLocalRing.isArtinianRing_of_forall_isPrime fun Q hQ => by
       have hc := hJ (Q.comap (Ideal.Quotient.mk J)) (hQ.comap _) fun a ha => by
@@ -331,7 +331,7 @@ theorem finite_quotient_span_of_finite_image [IsTopologicalGroup π]
   obtain ⟨𝔮, ⟨h𝔮p, hP₀𝔮, h𝔮m⟩, hmax⟩ :=
     set_has_maximal_iff_noetherian.2 hnoeth _ hex
   have h𝔮le : 𝔮 ≤ maximalIdeal R := IsLocalRing.le_maximalIdeal h𝔮p.ne_top
-  obtain ⟨a, ham, ha𝔮⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h𝔮le h𝔮m)
+  obtain ⟨a, ham, ha𝔮⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne h𝔮le h𝔮m)
   -- every prime strictly above `𝔮` is the maximal ideal
   have habove : ∀ Q : Ideal R, Q.IsPrime → 𝔮 ≤ Q → a ∈ Q → Q = maximalIdeal R := by
     intro Q hQ h𝔮Q haQ
@@ -344,8 +344,8 @@ theorem finite_quotient_span_of_finite_image [IsTopologicalGroup π]
       (hJQ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _)))
   -- the quotient `S = R/𝔮`
   set S := R ⧸ 𝔮
-  have : IsLocalRing S := h.isLocalRing_quotient_of_le 𝔮 h𝔮le
-  have : CharP S ℓ := h.charP_quotient 𝔮 (hP₀𝔮 (Ideal.mem_span_singleton_self _))
+  have : IsLocalRing S := isLocalRing_quotient_of_le 𝔮 h𝔮le
+  have : CharP S ℓ := charP_quotient 𝔮 (hP₀𝔮 (Ideal.mem_span_singleton_self _))
   let : Algebra (ZMod ℓ) S := ZMod.algebra S ℓ
   have hcompS : IsAdicComplete (maximalIdeal S) S := (quotient_isNoetherianCompleteLocalRing
     ⟨inferInstance, inferInstance, h.isAdicComplete⟩ 𝔮 h𝔮p.ne_top).isComplete
@@ -368,7 +368,7 @@ theorem finite_quotient_span_of_finite_image [IsTopologicalGroup π]
       exact ⟨Ideal.Quotient.mk J x, rfl⟩
   -- a power of the maximal ideal of `S` lies in `tS`
   obtain ⟨k₀, hk₀⟩ : ∃ k₀, maximalIdeal S ^ k₀ ≤ Ideal.span {t} := by
-    have : IsLocalRing (R ⧸ J) := h.isLocalRing_quotient_of_le J hJm
+    have : IsLocalRing (R ⧸ J) := isLocalRing_quotient_of_le J hJm
     have : IsArtinianRing (R ⧸ J) := IsArtinianRing.of_finite (R ⧸ J) (R ⧸ J)
     obtain ⟨k, hk⟩ := IsArtinianRing.isNilpotent_jacobson_bot (R := R ⧸ J)
     rw [Ideal.jacobson_bot, ringJacobson_eq_maximalIdeal] at hk

@@ -63,7 +63,7 @@ theorem constantSheaf_additive {C : Type u} [Category.{v} C]
     have := preservesBinaryBiproducts_of_preservesBinaryCoproducts
       (presheafToSheaf J AddCommGrpCat.{w})
     exact Functor.additive_of_preservesBinaryBiproducts _
-  show (Functor.const Cᵒᵖ ⋙ presheafToSheaf J AddCommGrpCat.{w}).Additive
+  change (Functor.const Cᵒᵖ ⋙ presheafToSheaf J AddCommGrpCat.{w}).Additive
   infer_instance
 
 /-- The constant sheaf `Z/ℓZ` is killed by `ℓ`. -/
@@ -74,7 +74,7 @@ theorem nsmul_id_constantSheaf_zmod {C : Type u} [Category.{v} C]
   have := constantSheaf_additive.{w} J
   have h : ℓ • 𝟙 (AddCommGrpCat.of (ULift.{w} (ZMod ℓ))) = 0 := by
     ext x
-    show (ℓ • x).down = (0 : ULift.{w} (ZMod ℓ)).down
+    change (ℓ • x).down = (0 : ULift.{w} (ZMod ℓ)).down
     simp
   rw [← CategoryTheory.Functor.map_id, ← Functor.map_nsmul, h, Functor.map_zero]
 
@@ -86,7 +86,7 @@ theorem isIso_constantSheaf_map_cokernel_π {C : Type u} [Category.{v} C]
     IsIso ((constantSheaf J AddCommGrpCat.{w}).map (cokernel.π (ℓ • 𝟙 E))) := by
   let K := constantSheaf J AddCommGrpCat.{w}
   have : PreservesColimitsOfSize.{0, 0} K := by
-    show PreservesColimitsOfSize.{0, 0} (Functor.const Cᵒᵖ ⋙ presheafToSheaf J _)
+    change PreservesColimitsOfSize.{0, 0} (Functor.const Cᵒᵖ ⋙ presheafToSheaf J _)
     infer_instance
   have : K.Additive := constantSheaf_additive J
   exact CokernelCofork.IsColimit.isIso_π _ (isColimitOfHasCokernelOfPreservesColimit K _)

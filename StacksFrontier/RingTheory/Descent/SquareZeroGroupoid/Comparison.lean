@@ -93,7 +93,7 @@ def cmpP {A P : Type*} [CommRing A] [CommRing P] [Algebra A B] [Algebra A P] (σ
     ((AddMonoidHom.mul.comp (algebraMap B C).toAddMonoidHom).compl₂ σ.toAddMonoidHom)
     (fun a x y => by
       simp only [AddMonoidHom.compl₂_apply, AddMonoidHom.coe_comp, Function.comp_apply,
-        AddMonoidHom.mul_apply, RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe,
+        AddMonoidHom.mul_apply, RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass,
         Algebra.smul_def, map_mul, h]
       ring)
 
@@ -144,8 +144,7 @@ theorem injective_pushout_comparison (e : A ⊗[R] B' ≃ₗ[R] D')
     Function.Injective ξ := by
   have key : ∀ z : B' ⊗[R] M, ξ z = κ (pushoutBaseChangeEquiv e he z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
         have hsm : (algebraMap B' D' b) • ((1 : D') ⊗ₜ[A] x) = (algebraMap B' D' b) ⊗ₜ[A] x := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -169,19 +168,18 @@ theorem IsEffective.of_ringEquiv {B' C' : Type u} [CommRing B'] [CommRing C'] [A
   let : Algebra A B' := (eB.toRingHom.comp (algebraMap A B)).toAlgebra
   have hA' : ∀ a : A, s' (algebraMap A B' a) = algebraMap B' C' (algebraMap A B' a) := by
     intro a
-    show s' (eB (algebraMap A B a)) = algebraMap B' C' (eB (algebraMap A B a))
+    change s' (eB (algebraMap A B a)) = algebraMap B' C' (eB (algebraMap A B a))
     rw [← hs, ← heC, hA]
   let eL : B ≃ₗ[A] B' :=
     { eB with
       map_smul' := fun a b => by
-        show eB (a • b) = eB (algebraMap A B a) * eB b
+        change eB (a • b) = eB (algebraMap A B a) * eB b
         rw [Algebra.smul_def, map_mul] }
   have : Module.FaithfullyFlat A B' := Module.FaithfullyFlat.of_linearEquiv A B eL.symm
   refine ⟨A, inferInstance, inferInstance, hA', inferInstance, ?_⟩
   have key : ∀ z : B ⊗[A] B, cmp s' A hA' (TensorProduct.congr eL eL z) = eC (cmp s A hA z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul x y =>
       rw [TensorProduct.congr_tmul, cmp_tmul, cmp_tmul, map_mul, heC, hs]
@@ -294,8 +292,7 @@ lemma reduceTensor_tmul (c : C) (m : M) :
 /-- The reduction `C ⊗[B] M → C₀ ⊗[B₀] M` is surjective. -/
 lemma reduceTensor_surjective : Function.Surjective (reduceTensor C J (M := M)) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul c j =>
     obtain ⟨c', rfl⟩ := Ideal.Quotient.mk_surjective c
     exact ⟨c' ⊗ₜ j, rfl⟩
@@ -320,8 +317,7 @@ to `C`. -/
 lemma liftBaseChange_reduceTensor (ℓ : M →ₗ[B ⧸ J] N) (z : C ⊗[B] M) :
     LinearMap.liftBaseChange (C ⧸ extJ C J) ℓ (reduceTensor C J z) =
       LinearMap.liftBaseChange C (ℓ.restrictScalars B) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c m =>
     rw [reduceTensor_tmul, LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul,
       mk_smul_of_towerC]
@@ -403,7 +399,7 @@ lemma κ_bijective [Module.Flat B C] : Function.Bijective (κ C J) := by
   have : IsScalarTower (B ⧸ J) (C ⧸ extJ C J) (extJ C J) :=
     ⟨fun x y z => by rw [Algebra.smul_def, mul_smul]; rfl⟩
   have : IsScalarTower B (B ⧸ J) (extJ C J) := ⟨fun b β p => by
-    show (algebraMap (B ⧸ J) (C ⧸ extJ C J) (b • β)) • p = b • (algebraMap _ _ β • p)
+    change (algebraMap (B ⧸ J) (C ⧸ extJ C J) (b • β)) • p = b • (algebraMap _ _ β • p)
     rw [Algebra.smul_def, map_mul, mul_smul, Ideal.Quotient.algebraMap_eq, t₀_mk,
       mk_smul_extJ, algebraMap_smul]
     rfl⟩
@@ -418,8 +414,7 @@ lemma κ_bijective [Module.Flat B C] : Function.Bijective (κ C J) := by
         ((LinearMap.liftBaseChange C ((tJ₀ C J).restrictScalars B) z : extJ C J) : C) =
           TensorProduct.rid B C (LinearMap.lTensor C J.subtype z) := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul c j =>
         rw [LinearMap.liftBaseChange_tmul, LinearMap.lTensor_tmul, TensorProduct.rid_tmul,
           Submodule.subtype_apply, Algebra.smul_def, mul_comm]
@@ -550,8 +545,7 @@ noncomputable def cmpPEquiv (hbij : Function.Bijective (cmpP σP hP)) :
     { toFun := cmpP σP hP
       map_add' := map_add _
       map_smul' := fun a z => by
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul x y =>
           rw [TensorProduct.smul_tmul', RingHom.id_apply]
           change algebraMap _ _ (a • x) * σP y = a • (algebraMap _ _ x * σP y)
@@ -573,7 +567,7 @@ lemma pTower :
   let := pModule J σP
   refine ⟨fun a b p => ?_⟩
   rw [Algebra.smul_def]
-  show σP (algebraMap A₀ P a * b) • p = a • (σP b • p)
+  change σP (algebraMap A₀ P a * b) • p = a • (σP b • p)
   rw [map_mul, mul_smul, hP, ← IsScalarTower.algebraMap_apply, algebraMap_smul]
 
 include hP in
@@ -586,7 +580,6 @@ noncomputable def αP : P ⊗[A₀] J →ₗ[A₀] extJ C J :=
 /-- `αP (b ⊗ j) = σP(b) t(j)`. -/
 lemma αP_tmul (b : P) (j : J) : αP J σP hP (b ⊗ₜ j) = σP b • tJ C J j := rfl
 
-include hJ in
 /-- If `t` is flat and `B₀ ⊗[A₀] P → C₀` is bijective, then `αP : P ⊗[A₀] J → J C` is
 bijective. -/
 lemma αP_bijective [Module.Flat B C] (hbij : Function.Bijective (cmpP σP hP)) :
@@ -594,7 +587,7 @@ lemma αP_bijective [Module.Flat B C] (hbij : Function.Bijective (cmpP σP hP)) 
   let : Algebra P (C ⧸ extJ C J) := σP.toAlgebra
   refine Module.Descent.bijective_pushout_comparison (cmpPEquiv J σP hP hbij)
     (fun _ _ => rfl) (κ C J) (κ_bijective C J) (αP J σP hP) (fun b x => ?_)
-  show _ = _ • ((1 : C ⧸ extJ C J) • tJ C J x)
+  change _ = _ • ((1 : C ⧸ extJ C J) • tJ C J x)
   rw [one_smul]
   rfl
 
@@ -608,12 +601,11 @@ noncomputable abbrev α : (B ⧸ J) ⊗[A₀] J →ₗ[A₀] extJ C J :=
 lemma α_tmul (b : B ⧸ J) (j : J) :
     α s J hinv hcomp (b ⊗ₜ j) = s₀ s J hinv b • tJ C J j := rfl
 
-include hJ in
 /-- If `t` is flat and the reduced comparison `B₀ ⊗[A₀] B₀ → C₀` is bijective, then
 `α : B₀ ⊗[A₀] J → J C` is bijective. -/
 lemma α_bijective [Module.Flat B C] (hbij : Function.Bijective (cmp (s₀ s J hinv) A₀ hcomp)) :
     Function.Bijective (α s J hinv hcomp) :=
-  αP_bijective J hJ _ hcomp hbij
+  αP_bijective J _ hcomp hbij
 
 /-- `α (β • x) = s₀(β) α(x)`. -/
 lemma α_smul (β : B ⧸ J) (x : (B ⧸ J) ⊗[A₀] J) :

@@ -137,7 +137,7 @@ private lemma universallyInjective_pullback_iff_surjective_diagonal
       Surjective ((Over.pullback f).map
         (Over.homMk (pullback.diagonal X.hom) :
           X ⟶ Over.mk (pullback.snd X.hom X.hom ≫ X.hom))).left := by
-  show UniversallyInjective (pullback.snd X.hom f) ↔ _
+  change UniversallyInjective (pullback.snd X.hom f) ↔ _
   have h : (pullbackSymmetry f X.hom).hom ≫ pullback.snd X.hom f =
       pullback.fst f X.hom := by simp
   rw [← MorphismProperty.cancel_left_of_respectsIso
@@ -579,7 +579,7 @@ private lemma stageBaseChangeDiagram_obj_compact
     [∀ i : I, CompactSpace (D.obj i)]
     (i : I) (X : Over (D.obj i)) [QuasiCompact X.hom] (j : Over i) :
     CompactSpace ((stageBaseChangeDiagram D i X).obj j) := by
-  show CompactSpace (pullback (D.map j.hom) X.hom : Scheme)
+  change CompactSpace (pullback (D.map j.hom) X.hom : Scheme)
   infer_instance
 
 private lemma stageBaseChangeDiagram_obj_quasiSeparated
@@ -588,7 +588,7 @@ private lemma stageBaseChangeDiagram_obj_quasiSeparated
     [∀ i : I, QuasiSeparatedSpace (D.obj i)]
     (i : I) (X : Over (D.obj i)) [QuasiSeparated X.hom] (j : Over i) :
     QuasiSeparatedSpace ((stageBaseChangeDiagram D i X).obj j) := by
-  show QuasiSeparatedSpace (pullback (D.map j.hom) X.hom : Scheme)
+  change QuasiSeparatedSpace (pullback (D.map j.hom) X.hom : Scheme)
   have : QuasiSeparated (pullback.fst (D.map j.hom) X.hom) :=
     MorphismProperty.of_isPullback (IsPullback.of_hasPullback (D.map j.hom) X.hom).flip
       (inferInstanceAs (QuasiSeparated X.hom))
@@ -657,7 +657,7 @@ private lemma exists_closedFiltration_model
   · have hs : Surjective (Y' 0).hom := by
       exact property_hom_baseChange_comp _ D h₁ a (Y 0) hsurj
     exact hs.1
-  · show IsEmpty ((Over.pullback (D.map (a ≫ h₁))).obj (Y (Fin.last t))).left
+  · change IsEmpty ((Over.pullback (D.map (a ≫ h₁))).obj (Y (Fin.last t))).left
     rw [hab, D.map_comp]
     have : IsEmpty ((Over.pullback (D.map h₂)).obj (Y (Fin.last t))).left := hempty
     exact ⟨fun x => isEmptyElim
@@ -706,14 +706,14 @@ private theorem diagram_obj_compact
     {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
     (i : (Index p)ᵒᵖ) :
     CompactSpace ((diagram p).obj i) := by
-  show CompactSpace (Spec (.of (Localization.Away (i.unop : R))))
+  change CompactSpace (Spec (.of (Localization.Away (i.unop : R))))
   infer_instance
 
 private theorem diagram_obj_quasiSeparated
     {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
     (i : (Index p)ᵒᵖ) :
     QuasiSeparatedSpace ((diagram p).obj i) := by
-  show QuasiSeparatedSpace (Spec (.of (Localization.Away (i.unop : R))))
+  change QuasiSeparatedSpace (Spec (.of (Localization.Away (i.unop : R))))
   infer_instance
 
 /-- The cone over the system with vertex `Spec R_𝔭`. -/
@@ -728,7 +728,7 @@ lemma cone_comp_baseMap {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
     (i : (Index p)ᵒᵖ) :
     (cone p).π.app i ≫ baseMap p i =
       Spec.map (CommRingCat.ofHom (algebraMap R (Localization.AtPrime p))) := by
-  show Spec.map (CommRingCat.ofHom (StageFactor.leg R p i.unop)) ≫
+  change Spec.map (CommRingCat.ofHom (StageFactor.leg R p i.unop)) ≫
     Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away (i.unop : R)))) = _
   rw [← Spec.map_comp]
   congr 1
@@ -739,7 +739,7 @@ lemma cone_comp_baseMap {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
 lemma baseMap_naturality {R : Type u} [CommRing R] (p : Ideal R) [p.IsPrime]
     {i j : (Index p)ᵒᵖ} (h : i ⟶ j) :
     (diagram p).map h ≫ baseMap p j = baseMap p i := by
-  show Spec.map (CommRingCat.ofHom (StageFactor.trans R p j.unop i.unop h.unop.le)) ≫
+  change Spec.map (CommRingCat.ofHom (StageFactor.trans R p j.unop i.unop h.unop.le)) ≫
     Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away (j.unop : R)))) = _
   rw [← Spec.map_comp]
   congr 1
@@ -752,7 +752,7 @@ lemma baseMap_mem_range {R : Type u} [CommRing R] (p : PrimeSpectrum R)
   let q : Spec (.of (Localization.AtPrime p.asIdeal)) :=
     IsLocalRing.closedPoint (Localization.AtPrime p.asIdeal)
   refine ⟨(cone p.asIdeal).π.app i q, ?_⟩
-  show ((cone p.asIdeal).π.app i ≫
+  change ((cone p.asIdeal).π.app i ≫
     baseMap p.asIdeal i) q = p
   rw [cone_comp_baseMap]
   exact PrimeSpectrum.ext
@@ -809,7 +809,7 @@ private lemma isCompact_of_isConstructible
     WithConstructibleTopology.isOpen_iff.mpr (hU.2.isOpen_constructibleTopology_of_isOpen hU.1)
   have hclosed : IsClosed (e ⁻¹' s) := by
     apply WithConstructibleTopology.isClosed_iff.mpr
-    show @IsClosed T (constructibleTopology T) s
+    change @IsClosed T (constructibleTopology T) s
     apply (@isOpen_compl_iff T s (constructibleTopology T)).mp
     rw [constructibleTopology_eq_generateFrom_isConstructible]
     exact TopologicalSpace.isOpen_generateFrom_of_mem hs.compl
@@ -854,7 +854,7 @@ private lemma range_of_isPullback
     {X Y Z T : Scheme.{u}} {a : T ⟶ Z} {j' : T ⟶ Y} {j : Z ⟶ X} {q : Y ⟶ X}
     (sq : IsPullback a j' j q) : Set.range j' = q ⁻¹' Set.range j := by
   rw [← sq.isoPullback_hom_snd]
-  show Set.range (pullback.snd j q ∘ sq.isoPullback.hom) = _
+  change Set.range (pullback.snd j q ∘ sq.isoPullback.hom) = _
   rw [Set.range_comp, sq.isoPullback.hom.surjective.range_eq, Set.image_univ]
   exact Scheme.Pullback.range_snd _ _
 
@@ -866,9 +866,9 @@ private lemma stratumOpen_baseChange
     (hj : a ≫ j = j' ≫ q) (hk : IsPullback b k' k q) :
     stratumOpen j' k' = a ⁻¹ᵁ stratumOpen j k := by
   ext x
-  show j' x ∉ Set.range k' ↔ j (a x) ∉ Set.range k
+  change j' x ∉ Set.range k' ↔ j (a x) ∉ Set.range k
   rw [range_of_isPullback hk]
-  show q (j' x) ∉ Set.range k ↔ j (a x) ∉ Set.range k
+  change q (j' x) ∉ Set.range k ↔ j (a x) ∉ Set.range k
   rw [← Scheme.Hom.comp_apply, ← hj, Scheme.Hom.comp_apply]
 
 private lemma isPullback_of_overIso
@@ -1043,7 +1043,7 @@ private lemma exists_smooth_closedFiltration_overDiagram
     (isLimitOfPreserves _ hc) (isLimitOfPreserves _ hc)
     (pullbackDiagramToBase F f) (pullback.fst c.pt.hom f)
     (fun i => by
-      show FinitePresentation (pullback.fst (F.obj i).hom f)
+      change FinitePresentation (pullback.fst (F.obj i).hom f)
       exact ⟨inferInstance, inferInstance, inferInstance⟩)
     (fun i => isPullback_pullbackMap_fst f (c.π.app i))
     (fun h => isPullback_pullbackMap_fst f (F.map h)) t Z hZ k hthick hsm
@@ -1053,7 +1053,7 @@ private lemma stratumOpen_comp_iso
     [IsClosedImmersion k] (e : A ≅ B) :
     stratumOpen (j ≫ e.hom) (k ≫ e.hom) = stratumOpen j k := by
   ext x
-  show e.hom (j x) ∉ Set.range (e.hom ∘ k) ↔ j x ∉ Set.range k
+  change e.hom (j x) ∉ Set.range (e.hom ∘ k) ↔ j x ∉ Set.range k
   rw [Set.range_comp, e.hom.injective.mem_set_image]
 
 private lemma finitePresentation_comp_iso
@@ -1141,16 +1141,16 @@ private theorem field_stratification_as_schemes
   · intro i
     exact closedImmersion_idealSheaf_finiteType (j i)
   · refine ⟨inferInstance, ?_⟩
-    show Function.Surjective (j 0)
+    change Function.Surjective (j 0)
     rw [← Set.range_eq_univ, ← (j 0).isClosedEmbedding.isClosed_range.closure_eq,
       ← Scheme.Hom.support_ker]
     rw [show (j 0).ker = J 0 by simp [j], hzero,
       Scheme.IdealSheafData.vanishingIdeal_top]
-    show ((Y.nilradical.support : Set Y) = Set.univ)
+    change ((Y.nilradical.support : Set Y) = Set.univ)
     exact congrArg (fun Z : TopologicalSpace.Closeds Y => (Z : Set Y))
       (Scheme.support_nilradical Y)
   · have hlast : J (Fin.last t) = ⊤ := by simpa [Fin.last] using htop
-    show IsEmpty ((J (Fin.last t)).subscheme)
+    change IsEmpty ((J (Fin.last t)).subscheme)
     rw [hlast]
     infer_instance
   · intro i
@@ -1166,7 +1166,7 @@ private theorem field_stratification_as_schemes
       Scheme.IdealSheafData.range_subschemeι (J i.succ)
     have hsupp (y : Y) :
         y ∈ (J i.succ).support ↔ y ∈ Set.range ((J i.succ).subschemeι) := by
-      show y ∈ ((J i.succ).support : Set Y) ↔ _
+      change y ∈ ((J i.succ).support : Set Y) ↔ _
       rw [← hrange]
     exact (Iff.of_eq hmem).trans (not_congr (hsupp (j i.castSucc x)))
   · intro i
@@ -1204,7 +1204,7 @@ private theorem pureInseparable_field_specMap_good
       exact RingHom.flat_algebraMap_iff.mpr inferInstance
     have hfp : LocallyOfFinitePresentation g := by
       rw [LocallyOfFinitePresentation.SpecMap_iff]
-      show (algebraMap k K).FinitePresentation
+      change (algebraMap k K).FinitePresentation
       let : Module.FinitePresentation k K := Module.finitePresentation_of_finite k K
       exact RingHom.finitePresentation_algebraMap.mpr inferInstance
     exact (Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation g).2
@@ -1354,15 +1354,15 @@ theorem exists_smooth_stratification_at_generic_point
   let eK : Spec (.of K) ≅ cF.pt.left :=
     (Over.forget _).mapIso eV ≪≫ pullbackSymmetry V.hom (c₀.π.app i₀)
   have heK : eK.hom ≫ cF.pt.hom ≫ v = gK ≫ ξ := by
-    show ((Over.forget _).mapIso eV ≪≫
+    change ((Over.forget _).mapIso eV ≪≫
       pullbackSymmetry V.hom (c₀.π.app i₀)).hom ≫
       pullback.snd (c₀.π.app i₀) V.hom ≫ V.hom ≫ β = _
     simp only [Iso.trans_hom, Functor.mapIso_hom, Over.forget_map, Category.assoc,
       pullbackSymmetry_hom_comp_snd_assoc]
-    show eV.hom.left ≫ pullback.fst V.hom (c₀.π.app i₀) ≫ V.hom ≫ β = _
+    change eV.hom.left ≫ pullback.fst V.hom (c₀.π.app i₀) ≫ V.hom ≫ β = _
     rw [pullback.condition_assoc, ← Category.assoc]
     rw [show eV.hom.left ≫ pullback.snd V.hom (c₀.π.app i₀) = gK from Over.w eV.hom]
-    show gK ≫ (PrincipalLocalization.cone p.asIdeal).π.app i ≫
+    change gK ≫ (PrincipalLocalization.cone p.asIdeal).π.app i ≫
       PrincipalLocalization.baseMap p.asIdeal i ≫ α = gK ≫ ξ
     rw [← Category.assoc ((PrincipalLocalization.cone p.asIdeal).π.app i),
       PrincipalLocalization.cone_comp_baseMap]
@@ -1376,7 +1376,7 @@ theorem exists_smooth_stratification_at_generic_point
   have hfpZ' (a : Fin (t + 1)) : FinitePresentation (Z' a).hom :=
     finitePresentation_comp_iso _ (hfpZ a) eX
   have : ∀ a, IsClosedImmersion (Z' a).hom := fun a => by
-    show IsClosedImmersion (jZ a ≫ eX.hom)
+    change IsClosedImmersion (jZ a ≫ eX.hom)
     infer_instance
   let k' (a : Fin t) : Z' a.succ ⟶ Z' a.castSucc :=
     Over.homMk (kZ a) (by dsimp [Z']; rw [← Category.assoc, hcommZ])
@@ -1387,12 +1387,12 @@ theorem exists_smooth_stratification_at_generic_point
       ((stratumOpen (Z' a.castSucc).hom (Z' a.succ).hom).ι ≫ (Z' a.castSucc).hom ≫
         pullback.fst cF.pt.hom fV) := by
     have hw : stratumOpen (Z' a.castSucc).hom (Z' a.succ).hom = W a := by
-      show stratumOpen (jZ a.castSucc ≫ eX.hom) (jZ a.succ ≫ eX.hom) = _
+      change stratumOpen (jZ a.castSucc ≫ eX.hom) (jZ a.succ ≫ eX.hom) = _
       rw [stratumOpen_comp_iso]
       ext x
       exact (hWZ a x).symm
     rw [hw]
-    show Smooth ((W a).ι ≫ (jZ a.castSucc ≫ eX.hom) ≫ pullback.fst cF.pt.hom fV)
+    change Smooth ((W a).ι ≫ (jZ a.castSucc ≫ eX.hom) ≫ pullback.fst cF.pt.hom fV)
     rw [Category.assoc, heX]
     have : Smooth ((W a).ι ≫ jZ a.castSucc ≫ pullback.snd fη gK) := hsmZ a
     simpa only [Category.assoc] using
@@ -1423,11 +1423,11 @@ theorem exists_smooth_stratification_at_generic_point
     dsimp [g]
     rw [Category.assoc, Scheme.Hom.isoOpensRange_hom_ι]
     have hn : D₀.map a.hom ≫ β = β' := by
-      show (PrincipalLocalization.diagram p.asIdeal).map (F₀.map a.hom) ≫
+      change (PrincipalLocalization.diagram p.asIdeal).map (F₀.map a.hom) ≫
         PrincipalLocalization.baseMap p.asIdeal i ≫ α = _
       rw [← Category.assoc, PrincipalLocalization.baseMap_naturality]
     rw [← hn, ← Category.assoc]
-    show (pullback.fst (D₀.map a.hom) V.hom ≫ D₀.map a.hom) ≫ β =
+    change (pullback.fst (D₀.map a.hom) V.hom ≫ D₀.map a.hom) ≫ β =
       pullback.snd (D₀.map a.hom) V.hom ≫ V.hom ≫ β
     rw [pullback.condition, Category.assoc]
   let eA : ((Over.pullback fV).obj (F.obj a)).left ≅ pullback f (g ≫ β'.opensRange.ι) :=
@@ -1449,7 +1449,7 @@ theorem exists_smooth_stratification_at_generic_point
   · intro b
     rw [← Category.assoc, Over.w]
   · intro b x
-    show (Y b.castSucc).hom x ∉ Set.range (Y b.succ).hom ↔
+    change (Y b.castSucc).hom x ∉ Set.range (Y b.succ).hom ↔
       eA.hom ((Y b.castSucc).hom x) ∉ Set.range (eA.hom ∘ (Y b.succ).hom)
     rw [Set.range_comp, eA.hom.injective.mem_set_image]
   · intro b

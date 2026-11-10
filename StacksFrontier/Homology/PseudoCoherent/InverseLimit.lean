@@ -115,7 +115,7 @@ theorem isIso_derivedTensorProductComparison_nat
     (ModuleCat.{max v w} (SmallRing.{u, v, w} R)) 0
   let F := T.tensor.obj K
   let c := derivedTensorProductComparison R T K (fun n => S.obj (M n))
-  show IsIso c
+  change IsIso c
   obtain ⟨E, hE, ⟨eK⟩⟩ := id hK
   obtain ⟨b, hb⟩ := hE.upperBound
   let Kminus : DerivedCategory.Minus
@@ -127,7 +127,7 @@ theorem isIso_derivedTensorProductComparison_nat
   let := P.hasProduct A (fun a => F.obj (EU a))
   let cU := derivedTensorProductComparison R T K EU
   have : IsIso cU := by
-    show IsIso (derivedTensorProductComparison R T K (fun a : A => S.obj (M a.down)))
+    change IsIso (derivedTensorProductComparison R T K (fun a : A => S.obj (M a.down)))
     rw [derivedTensorProductComparison_single R T P K A (fun a => M a.down)]
     have hprod := (pseudoCoherent_iff_derivedTensor_preserves_products T P Kminus 0).1.out 1 2
     exact hprod.mp hK A (fun a => M a.down)
@@ -235,7 +235,7 @@ theorem derivedLimit_tensor_iso
   refine ⟨asIso f, ?_⟩
   unfold Functor.mapTriangle at hf
   change ι' ≫ cinv = f ≫ F.map ι at hf
-  show f ≫ F.map ι ≫ c = ι'
+  change f ≫ F.map ι ≫ c = ι'
   rw [← Category.assoc, ← hf, Category.assoc, hc₂, Category.comp_id]
 
 end Stacks.PseudoCoherent.DerivedInverseLimit

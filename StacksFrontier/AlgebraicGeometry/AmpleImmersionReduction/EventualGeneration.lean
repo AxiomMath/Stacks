@@ -20,8 +20,8 @@ file uses that:
   `Stacks.TwistPullbackChart.twistPullback_of_atUniverse` applied to
   `Stacks.TwistPullbackPinned.twistPullbackAtUniverse`, which is unconditional. The reduction in
   `./Basic.lean` carries it as a hypothesis, and the documentation of
-  `StacksFrontier/AlgebraicGeometry/TwistPullbackChart/Basic.lean` still records the absolute form as
-  "**not** proved"; both predate the proof.
+  `StacksFrontier/AlgebraicGeometry/TwistPullbackChart/Basic.lean`
+  still records the absolute form as "**not** proved"; both predate the proof.
 * `IsEventuallyFinGenPowers X L` follows from the ampleness hypothesis that Tag 01VS already
   assumes, by `Stacks.AmpleLocalGeneration.isEventuallyFinGenPowers_of_isAmple`, which is also
   unconditional. It is an input of the four-way reduction only because that reduction is stated as
@@ -71,8 +71,8 @@ which `Stacks.ProjectiveSpace.tfae_of_immersionTwistGapUniform` already carries 
   - the finite-type algebra generators of [Stacks, Tag 01T2] are
     `AlgebraicGeometry.locallyOfFiniteType_iff`, the `mk_iff` lemma of the class, which carries the
     Tag 01T2 attribute at
-    `StacksFrontier/AlgebraicGeometry/FiniteTypeClosedInFinitePresentation/QuasiAffine.lean:69` under
-    the key `"(1) implies (2) and conversely"` — exactly the clause of the tag that is wanted;
+    `StacksFrontier/AlgebraicGeometry/FiniteTypeClosedInFinitePresentation/QuasiAffine.lean:69`
+    under the key `"(1) implies (2) and conversely"` — exactly the clause of the tag that is wanted;
   - the refinement of the cover so that each chart maps into an affine open of `S` is
     `Stacks.AmpleChartsOverBase.exists_generating_family_over_of_isAmple`
     (`../AmpleChartsOverBase/Basic.lean:125`), from ampleness alone, which produces step 1's family
@@ -137,7 +137,8 @@ input, as `Stacks.StalkwiseGeneration.exists_immersion_projectiveSpaceOver_of_is
 
 **Conditions (3) and (4) of Tag 01VT are statable but not linkable.** The claim recorded in
 `StacksFrontier/AlgebraicGeometry/AmpleAffineBaseTFAE/Basic.lean` and in
-`StacksFrontier/AlgebraicGeometry/VeryAmplePowersUniformDegree/Basic.lean` that the projective bundle
+`StacksFrontier/AlgebraicGeometry/VeryAmplePowersUniformDegree/Basic.lean`
+that the projective bundle
 `𝐏(E)` "has no library form in this repository", so that [Stacks, Tag 01VM] cannot be written down,
 is **false**: `Stacks.Tag01VMVeryAmple.IsRelativelyVeryAmple`
 (`../RelativeVeryAmpleTwist/DegreeOne.lean`) carries the Tag 01VM attribute, and everything it

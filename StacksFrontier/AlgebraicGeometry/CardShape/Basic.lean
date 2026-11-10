@@ -31,7 +31,8 @@ supplies the instantiation, at the predicate the subalgebras actually satisfy.
   rather than an edit there.
 * `exists_small_index_finite_of_isColimit`: given that the canonical cocone of the finite
   quasi-coherent subalgebras of an integral quasi-coherent algebra sheaf is colimiting, the
-  conclusion of [Stacks, Tag 0817] **in the shape of its statement** — index in `Type u`, nonempty directed
+  conclusion of [Stacks, Tag 0817] **in the shape of its statement** — index in `Type u`, nonempty
+  directed
   preorder, diagram, colimiting cocone — with every object of the diagram quasi-coherent and
   finite.  No hypothesis on `X`.
 * `exists_small_index_finite_of_affineSections`: the same from the affine sections statement
@@ -65,7 +66,8 @@ The conclusion asserts `IsQuasicoherent` and `IsFinite` of the objects of the di
 and those are not finitely presented in general.  Supplying finite presentation means replacing
 each subalgebra by an approximating system, which is [Stacks, Tag 086N], and then composing two
 filtered colimits.  That composition does **not** follow from the two statements as the
-Stacks Project states them.  [Stacks, Tag 086N] is an existential — for each finite `B` *some* directed
+Stacks Project states them.  [Stacks, Tag 086N] is an existential — for each finite `B` *some*
+directed
 system of finite, finitely presented algebras has colimit `B` — and a bare existential provides
 no compatibility between the systems chosen for `B` and for a larger `B'`, which is precisely
 what a colimit of colimits needs: a morphism out of `B`'s approximation has to be lifted through
@@ -160,7 +162,8 @@ theorem exists_small_index_finite_of_isColimit (A : AlgebraSheaf X)
   exact exists_finite_index_of_isFiltered A (finiteSubalgebraCocone A).ι hc fun B => B.property
 
 /-- **The conclusion of [Stacks, Tag 0817] in the shape of its statement, from the affine sections
-statement alone.**  An integral quasi-coherent sheaf of commutative `𝒪_X`-algebras is a directed colimit,
+statement alone.**  An integral quasi-coherent sheaf of commutative `𝒪_X`-algebras is a directed
+colimit,
 over an index in `Type u`, of quasi-coherent finite algebra sheaves, as soon as every section
 over every affine open comes from a finite quasi-coherent subalgebra.
 
@@ -184,7 +187,8 @@ theorem exists_small_index_finite_of_affineSections (A : AlgebraSheaf X)
   exists_small_index_finite_of_isColimit A hAqc hAint
     (nonempty_isColimit_finiteSubalgebraCocone_of_affineSections A hAqc hAint hsec)
 
-/-- **The conclusion of [Stacks, Tag 0817] in the shape of its statement, for an affine scheme.**  An
+/-- **The conclusion of [Stacks, Tag 0817] in the shape of its statement, for an affine scheme.**
+An
 integral quasi-coherent sheaf of commutative `𝒪_X`-algebras on an affine scheme is a directed
 colimit, indexed by a nonempty directed preorder in `Type u`, of quasi-coherent finite algebra
 sheaves.

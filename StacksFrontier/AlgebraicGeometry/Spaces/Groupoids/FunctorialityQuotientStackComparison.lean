@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityQuotientStackCell
-public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialitySquareTerminality
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialitySquareTerminality
 
 /-!
 # The comparison 1-morphism of the square of Section 78.21

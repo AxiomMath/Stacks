@@ -36,7 +36,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- The spectrum of a ring of size below the cutoff is contained in the site. -/
 theorem contains_spec {Rc : CommRingCat.{u}} (h : #Rc < B.cutoff) : B.Contains (Spec Rc) := by
-  show (Spec Rc).size < B.cutoff
+  change (Spec Rc).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff h
 
@@ -166,7 +166,7 @@ noncomputable def pDiag : R.R →+* P D.C R.R where
 /-- The action map `σ : E ×_Q R → R` is a retraction of the diagonal `R → E ×_Q R`. -/
 theorem sigma_comp_pDiag : (sigma D.C R.R).comp (pDiag R) = RingHom.id _ := by
   ext r
-  show r + (((inlE D.C R.R (Ideal.Quotient.mk _ r)).snd : M D.C R.R) : R.R) = r
+  change r + (((inlE D.C R.R (Ideal.Quotient.mk _ r)).snd : M D.C R.R) : R.R) = r
   simp
 
 /-- The projection `E ×_Q R → R` is a retraction of the diagonal `R → E ×_Q R`. -/

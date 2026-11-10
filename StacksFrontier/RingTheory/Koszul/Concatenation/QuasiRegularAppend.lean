@@ -286,7 +286,7 @@ private theorem fpow_map (g : Fin m → R) {S : Type*} [CommRing S]
 private theorem mem_sup_iff_mk_mem_map (I L : Ideal R) (x : R) :
     x ∈ L ⊔ I ↔ Ideal.Quotient.mk I x ∈ Ideal.map (Ideal.Quotient.mk I) L := by
   rw [← Ideal.mem_comap, Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective]
-  show x ∈ L ⊔ I ↔ x ∈ L ⊔ RingHom.ker (Ideal.Quotient.mk I)
+  change x ∈ L ⊔ I ↔ x ∈ L ⊔ RingHom.ker (Ideal.Quotient.mk I)
   rw [Ideal.mk_ker]
 
 private theorem coeff_mem_sup_of_sum_mem_sup (g : Fin m → R) (I : Ideal R)
@@ -316,7 +316,7 @@ private theorem mem_pow_mul_sup_of_mem_sup (f : Fin n → R) (g : Fin m → R)
   have hint := Koszul.inf_span_eq_smul_span (Jid f ^ k) g
     (isH1Regular_quotient_pow f g hf hg k)
   have hymul : y ∈ Jid f ^ k * Jid g := by
-    show y ∈ Jid f ^ k * Ideal.span (Set.range g)
+    change y ∈ Jid f ^ k * Ideal.span (Set.range g)
     rw [← hint]
     exact ⟨hy', hy⟩
   exact Submodule.add_mem _

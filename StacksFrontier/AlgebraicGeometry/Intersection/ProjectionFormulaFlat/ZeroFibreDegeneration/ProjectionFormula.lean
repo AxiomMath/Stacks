@@ -44,6 +44,7 @@ section Projection
 variable {K} [IsAlgClosed K] {X P : Scheme.{u}} (sP : P ⟶ Spec (.of K)) [IsVariety K sP]
   (ι : X ⟶ P) [IsClosedImmersion ι] [IsVariety K (ι ≫ sP)]
 
+omit [IsAlgClosed K] [IsVariety K sP] in
 /-- The part of the image of the zero section lying over `A ⊆ P` is the image of `A`. -/
 theorem range_zeroSection_inter_preimage (A : Set P) :
     Set.range (zeroSection sP).base ∩
@@ -58,11 +59,13 @@ theorem range_zeroSection_inter_preimage (A : Set P) :
     refine ⟨⟨y, rfl⟩, ?_⟩
     rwa [Set.mem_preimage, ← Scheme.Hom.comp_apply, zeroSection_comp_fst]
 
+omit [IsAlgClosed K] [IsVariety K sP] in
 /-- The zero section preserves dimensions of subsets. -/
 theorem topologicalKrullDim_image_zeroSection (A : Set P) :
     topologicalKrullDim ((zeroSection sP).base '' A) = topologicalKrullDim A :=
   topologicalKrullDim_image_eq_of_isEmbedding (zeroSection sP).isClosedEmbedding.isEmbedding A
 
+omit [IsAlgClosed K] in
 /-- The closure of the image of the generic point of `P` under the zero section is the image of
 the zero section. -/
 theorem closure_zeroSection_genericPoint :
@@ -429,7 +432,7 @@ theorem torFormula_properPushforward_eq_properPushforward_zeroSection (hP : IsRe
       have h := properPushforward_single_zeroSection sP
         ((pullback.fst sP (relativeProjectiveLine (Spec (.of K)) ↘ Spec (.of K))).base q) r
         (hdimq q hq) (by rw [hsec q hq]; exact hmemq q hq)
-      convert h using 4 <;> rw [hsec q hq]
+      convert h using 4; rw [hsec q hq]
   -- the coefficients of the pushforward
   have hinj : ∀ q ∈ hfin.toFinset, ∀ q' ∈ hfin.toFinset,
       (pullback.fst sP (relativeProjectiveLine (Spec (.of K)) ↘ Spec (.of K))).base q =
@@ -448,7 +451,7 @@ theorem torFormula_properPushforward_eq_properPushforward_zeroSection (hP : IsRe
     · simp
     · intro q' hq' hne
       rw [Function.locallyFinsuppWithin.coe_zsmul, Pi.smul_apply,
-        Function.locallyFinsuppWithin.single_apply, if_neg, smul_zero]
+        Function.locallyFinsuppWithin.single_apply, ite_eq_right, smul_zero]
       exact fun h => hne (hinj q' hq' q hq h.symm)
     · exact fun h => (h hq).elim
   have hpropq : ∀ q ∈ hfin.toFinset, AlgebraicGeometry.IntersectProperly
@@ -459,7 +462,7 @@ theorem torFormula_properPushforward_eq_properPushforward_zeroSection (hP : IsRe
     refine hγX _ _ ?_ ?_
     · rw [genericPoint_closure_singleton, hcoef q hq]; exact hfin.mem_toFinset.1 hq
     · rw [genericPoint_closure_singleton, Function.locallyFinsuppWithin.single_apply,
-        if_pos rfl]; exact one_ne_zero
+        ite_eq_left rfl]; exact one_ne_zero
   -- both sides as sums over the components of `γ`
   rw [hpush, torFormulaCycleIntersectionProduct, cycleIntersectionProduct_sum_left,
     torFormulaCycleIntersectionProduct_eq_sum_single_left _ _ _ _ _ hfin,
@@ -511,6 +514,7 @@ theorem properPushforward_zeroFiber_familyBaseChange (e : projectiveLineProduct 
     hker]
   rfl
 
+omit [IsAlgClosed K] in
 open scoped Classical in
 /-- Pushing forward a prime cycle along a closed immersion gives the prime cycle of the image. -/
 theorem properPushforward_single_of_isClosedImmersion {Y Z : Scheme.{u}}

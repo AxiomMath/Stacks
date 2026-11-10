@@ -52,7 +52,7 @@ private theorem isLocalization_away_algebraMapSubmonoid {A B : Type*} [CommRing 
     [Algebra A B] (x : A) :
     IsLocalization.Away (algebraMap A B x)
       (Localization (Algebra.algebraMapSubmonoid B (Submonoid.powers x))) := by
-  show IsLocalization (Submonoid.powers _) _
+  change IsLocalization (Submonoid.powers _) _
   rw [← Submonoid.map_powers]
   exact Localization.isLocalization
 

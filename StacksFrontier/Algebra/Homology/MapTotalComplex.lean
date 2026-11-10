@@ -258,7 +258,7 @@ theorem totalMap_naturality_functor {G' : C ⥤ D} [G'.Additive] (α : G ⟶ G')
   intro n
   apply HomologicalComplex₂.total.hom_ext c₁₂
   intro i₁ i₂ h
-  show (mapBicomplex G K).ιTotal c₁₂ i₁ i₂ n h ≫
+  change (mapBicomplex G K).ιTotal c₁₂ i₁ i₂ n h ≫
       ((HomologicalComplex₂.total.map _ c₁₂).f n ≫ totalMapf G' K n) =
     (mapBicomplex G K).ιTotal c₁₂ i₁ i₂ n h ≫
       (totalMapf G K n ≫ α.app ((K.total c₁₂).X n))

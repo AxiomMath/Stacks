@@ -160,8 +160,7 @@ private theorem mem_map_iff_mul_eq_zero_of_flat {R S : Type*} [CommRing R] [Comm
       (TensorProduct.lid R S) ((LinearMap.lsmul R R f).rTensor S z) =
         algebraMap R S f * (TensorProduct.lid R S) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a
       b =>
       simp only [LinearMap.rTensor_tmul, LinearMap.lsmul_apply, TensorProduct.lid_tmul,
@@ -373,13 +372,12 @@ private theorem isN1_of_faithfullyFlat (R S : Type*) [CommRing R] [CommRing S] [
   set g : S ⊗[R] (integralClosure R (FractionRing R)) →ₗ[S] FractionRing S :=
     fA.toLinearMap ∘ₗ ι.baseChange S with hgdef
   have hbinj : Function.Injective (ι.baseChange S) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap ι hιinj
   have hginj : Function.Injective g := hfinj.comp hbinj
   have hmem : ∀ z, g z ∈ (integralClosure S (FractionRing S)).toSubmodule := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s
       x =>
       have hz : (s ⊗ₜ[R] x : S ⊗[R] (integralClosure R (FractionRing R))) = s • (1 ⊗ₜ[R] x) := by
@@ -480,7 +478,7 @@ private theorem isN1_of_forall_isN1_quotient_minimalPrimes {A : Type*} [CommRing
     ∀ z : FractionRing A, (∀ q : minimalPrimes A, liftResidueField q.2 z = 0) → z = 0 := by
     intro z hz
     obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective (nonZeroDivisors A) z
-    show IsLocalization.mk' (FractionRing A) a s = 0
+    change IsLocalization.mk' (FractionRing A) a s = 0
     have ha : ∀ q ∈ minimalPrimes A, a ∈ q := by
       intro q hq
       have : q.IsPrime := hq.1.1

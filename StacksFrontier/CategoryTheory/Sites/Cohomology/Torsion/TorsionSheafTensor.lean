@@ -30,8 +30,6 @@ universe u
 open Stacks.SheafOfModules.Tensor
 
 variable {C : Type u} [SmallCategory.{u} C] {J : GrothendieckTopology C}
-  (R : Sheaf J CommRingCat.{u})
-  [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- **The objectwise tensor product of presheaves of modules with a locally torsion left factor
 is locally torsion**: a pure tensor `x ⊗ y` is killed wherever `x` is, and the locally torsion
@@ -41,8 +39,7 @@ theorem mem_torsionSections_tensorObj {O : Cᵒᵖ ⥤ CommRingCat.{u}}
     (hF : ∀ (U : Cᵒᵖ) (x : F.obj U), x ∈ torsionSections J F U) (U : Cᵒᵖ)
     (z : (PresheafOfModules.tensorObj F G).obj U) :
     z ∈ torsionSections J (PresheafOfModules.tensorObj F G) U := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => exact Submodule.add_mem _ ha hb
   | tmul x y =>
     have hx := hF U x
@@ -50,13 +47,15 @@ theorem mem_torsionSections_tensorObj {O : Cᵒᵖ ⥤ CommRingCat.{u}}
     refine (mem_torsionSections_iff J _ U _).2 (J.superset_covering ?_ hx)
     rintro V f ⟨n, hn, h⟩
     refine ⟨n, hn, ?_⟩
-    show n • (PresheafOfModules.tensorObj F G).restrictₛₗ f.op (x ⊗ₜ y) = 0
+    change n • (PresheafOfModules.tensorObj F G).restrictₛₗ f.op (x ⊗ₜ y) = 0
     change n • F.restrictₛₗ f.op x = 0 at h
     rw [PresheafOfModules.tensorObj_restrictₛₗ_tmul]
-    show n • (F.restrictₛₗ f.op x ⊗ₜ[(O ⋙ forget₂ CommRingCat RingCat).obj (op V)]
+    change n • (F.restrictₛₗ f.op x ⊗ₜ[(O ⋙ forget₂ CommRingCat RingCat).obj (op V)]
       G.restrictₛₗ f.op y : F.obj (op V) ⊗[(O ⋙ forget₂ CommRingCat RingCat).obj (op V)]
         G.obj (op V)) = 0
     rw [TensorProduct.smul_tmul', h, TensorProduct.zero_tmul]
+
+variable (R : Sheaf J CommRingCat.{u}) [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- **The tensor product of a torsion sheaf of modules with any sheaf of modules is torsion.** -/
 theorem torsionModules_sheafTensor_obj_obj

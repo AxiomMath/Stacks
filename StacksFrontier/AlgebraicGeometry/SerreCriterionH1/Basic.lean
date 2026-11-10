@@ -208,7 +208,7 @@ private theorem isZero_rightDerived1_subobject_biprod
     apply biprod.hom_ext
     · simpa only [u, Category.assoc, zero_comp] using hf
     · simp only [Category.assoc, zero_comp]
-      show f ≫ kernel.ι q ≫ p = 0
+      change f ≫ kernel.ι q ≫ p = 0
       simpa [q] using f ≫= kernel.condition_assoc q (imageSubobject p).arrow
   have : M.IsQuasicoherent := hMqc
   have himageQC : (Subobject.underlying.obj (imageSubobject p)).IsQuasicoherent := by
@@ -295,13 +295,13 @@ private theorem preimage_sup_eq_top_and_inf_eq_bot {X Y : Scheme.{u}} (i : Y ⟶
   have hyV (y : Y) : i.base y ∈ V ↔ i.base y ≠ x := Set.ext_iff.mp hV _
   constructor
   · ext y
-    show (i.base y ∈ U ∨ i.base y ∈ V) ↔ True
+    change (i.base y ∈ U ∨ i.base y ∈ V) ↔ True
     refine iff_true_intro ?_
     rcases hyW y with hyZ | hyx
     · exact Or.inr ((hyV y).2 fun heq => hyZ (heq ▸ hxU))
     · exact Or.inl (hyx ▸ hxU)
   · ext y
-    show (i.base y ∈ U ∧ i.base y ∈ V) ↔ False
+    change (i.base y ∈ U ∧ i.base y ∈ V) ↔ False
     refine iff_false_intro ?_
     rintro ⟨hyU, hyNotx⟩
     rcases hyW y with hyZ | hyx
@@ -344,7 +344,7 @@ private theorem exists_basicOpen_containing_closedPoint_subset_affine
   let A : D.subscheme.Opens := i ⁻¹ᵁ U
   let B : D.subscheme.Opens := i ⁻¹ᵁ Xminusx
   have hrange : Set.range i.base = (W : Set X) := by
-    show Set.range (D.subschemeι : D.subscheme → X) = (W : Set X)
+    change Set.range (D.subschemeι : D.subscheme → X) = (W : Set X)
     rw [AlgebraicGeometry.Scheme.IdealSheafData.range_subschemeι]
     simp [D, W]
   obtain ⟨hcover, hdisj⟩ := preimage_sup_eq_top_and_inf_eq_bot i U Xminusx x hxU rfl hrange
@@ -358,7 +358,7 @@ private theorem exists_basicOpen_containing_closedPoint_subset_affine
   obtain ⟨y, hy⟩ : x ∈ Set.range i.base := hrange ▸ (Or.inr rfl : x ∈ (W : Set X))
   refine ⟨f, ?_, ?_⟩
   · have hx' : i.base y ∈ X.basicOpen f := by
-      show y ∈ i ⁻¹ᵁ X.basicOpen f
+      change y ∈ i ⁻¹ᵁ X.basicOpen f
       rw [AlgebraicGeometry.Scheme.Hom.preimage_basicOpen_top i f]
       exact hA_le (show i.base y ∈ U from hy ▸ hxU)
     simpa [hy] using hx'
@@ -366,7 +366,7 @@ private theorem exists_basicOpen_containing_closedPoint_subset_affine
     by_contra hzu
     obtain ⟨y, rfl⟩ : z ∈ Set.range i.base := hrange ▸ (Or.inl hzu : z ∈ (W : Set X))
     have hyB : y ∈ B := by
-      show i.base y ∉ ({x} : Set X)
+      change i.base y ∉ ({x} : Set X)
       exact fun heq => hzu (Set.mem_singleton_iff.mp heq ▸ hxU)
     have hybasic : y ∈ D.subscheme.basicOpen (i.appTop f) := by
       rwa [← AlgebraicGeometry.Scheme.Hom.preimage_basicOpen_top i f]
@@ -481,7 +481,7 @@ private theorem sectionsMap_unitHomEquiv_symm_eval
     (SheafOfModules.sectionsMap ((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv.symm r)
       s).eval (Opposite.op ⊤) =
       @Mul.mul Γ(X, ⊤) inferInstance (r.eval (Opposite.op ⊤)) (s.eval (Opposite.op ⊤)) := by
-  show @Mul.mul Γ(X, ⊤) inferInstance (s.eval (Opposite.op ⊤)) (r.eval (Opposite.op ⊤)) = _
+  change @Mul.mul Γ(X, ⊤) inferInstance (s.eval (Opposite.op ⊤)) (r.eval (Opposite.op ⊤)) = _
   exact mul_comm _ _
 
 private noncomputable def sectionFromTop
@@ -503,7 +503,7 @@ private theorem sectionFromTop_eval_top
     (X : Scheme.{u}) (M : SheafOfModules X.ringCatSheaf)
     (t : ToType (M.val.obj (Opposite.op ⊤))) :
     (sectionFromTop X M t).eval (Opposite.op ⊤) = t := by
-  show M.val.map (homOfLE (show ⊤ ≤ ⊤ from le_top)).op t = t
+  change M.val.map (homOfLE (show ⊤ ≤ ⊤ from le_top)).op t = t
   rw [show (homOfLE (show ⊤ ≤ ⊤ from le_top)).op = 𝟙 (Opposite.op ⊤) from
     Subsingleton.elim _ _]
   exact congrArg (fun f => f t) (M.val.map_id _)
@@ -531,14 +531,14 @@ private theorem span_germ_sectionFromTop_eq_top (X : Scheme.{u}) {I : Type u}
     have hunit : e gmod = ConcreteCategory.hom
         (TopCat.Presheaf.germ (C := RingCat) (X := X.toTopCat) X.ringCatSheaf.obj ⊤ x
           (Set.mem_univ x)) (f i) := by
-      show e ((TopCat.Presheaf.Γgerm unit.val.presheaf x).hom
+      change e ((TopCat.Presheaf.Γgerm unit.val.presheaf x).hom
         ((family i).eval (Opposite.op ⊤))) = _
       rw [show (family i).eval (Opposite.op ⊤) = f i from sectionFromTop_eval_top X unit (f i)]
-      show LocallyFreeRank.unitStalkLEquiv X.ringCatSheaf.obj x
+      change LocallyFreeRank.unitStalkLEquiv X.ringCatSheaf.obj x
         (TopCat.Presheaf.germ unit.val.presheaf ⊤ x (Set.mem_univ x) (f i)) = _
       exact LocallyFreeRank.unitStalkLEquiv_germ X.ringCatSheaf.obj x ⊤ (Set.mem_univ x) (f i)
     rw [hunit]
-    show ConcreteCategory.hom
+    change ConcreteCategory.hom
         (TopCat.Presheaf.germ (C := RingCat) (X := X.toTopCat) X.ringCatSheaf.obj ⊤ x
           (Set.mem_univ x)) (f i) =
       (SemilinearStalk.commStalkRingEquiv X.sheaf.obj x).symm
@@ -654,7 +654,7 @@ private theorem eval_unitHomEquiv_comp_freeHomEquiv_symm_mem_span (X : Scheme.{u
       { toFun g := (unit.unitHomEquiv g).eval (.op ⊤)
         map_zero' := rfl
         map_add' _ _ := rfl }
-    show ev (η ≫ q) = _
+    change ev (η ≫ q) = _
     rw [htotal, map_sum]
     exact Finset.sum_congr rfl (fun i _ => hterm i)
   rw [← hr, hsum]
@@ -667,10 +667,11 @@ private theorem idealSpan_eq_top_of_finite_basicOpen_cover
       (Subobject.underlying.obj I).IsQuasicoherent →
         IsZero (((SheafOfModules.evaluation X.ringCatSheaf (Opposite.op ⊤)).rightDerived 1).obj
           (Subobject.underlying.obj I)))
-    {I : Type u} [Fintype I] [Nonempty I]
+    {I : Type u} [Finite I] [Nonempty I]
     (f : I → Γ(X, ⊤)) (hcover : ∀ x : X, ∃ i, x ∈ X.basicOpen (f i)) :
     Ideal.span (Set.range f) = ⊤ := by
   classical
+  have := Fintype.ofFinite I
   let unit := SheafOfModules.unit X.ringCatSheaf
   let family : I → unit.sections := fun i => sectionFromTop X unit (f i)
   let q := unit.freeHomEquiv.symm family
@@ -686,7 +687,7 @@ private theorem idealSpan_eq_top_of_finite_basicOpen_cover
     rw [SheafOfModules.unitHomEquiv_comp_apply]
     dsimp only [η]
     rw [Equiv.apply_symm_apply]
-    show ConcreteCategory.hom (E.map q)
+    change ConcreteCategory.hom (E.map q)
       ((sectionFromTop X (SheafOfModules.free I) t).eval (Opposite.op ⊤)) = _
     exact (congrArg (ConcreteCategory.hom (E.map q))
       (sectionFromTop_eval_top X (SheafOfModules.free I) t)).trans ht

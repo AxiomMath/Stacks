@@ -6,8 +6,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.OpenImm
 /-!
 # [Stacks, Tag 08FE] at an open of the target, in the restriction spelling
 
-[Stacks, Tag 08FE] — "forming the total direct image commutes with localization" — is formalized, and
-it is formalized at an open of the target of a morphism of schemes:
+[Stacks, Tag 08FE] — "forming the total direct image commutes with localization" — is formalized,
+and it is formalized at an open of the target of a morphism of schemes:
 `AlgebraicGeometry.DerivedChow.derivedPushforwardRestrictOpenIso`,
 
 > `Rf_* ⋙ L(V.ι)^* ≅ L((f ⁻¹ᵁ V).ι)^* ≫ R(f ∣_ V)_*`,
@@ -17,8 +17,8 @@ the cartesian square `AlgebraicGeometry.DerivedChow.isPullback_morphismRestrict`
 that comparison is re-proved here, and no `@[stacks 08FE]` attribute is placed: it sits where the
 comparison is built and where its scheme form is instantiated.
 
-What this file adds is the **spelling bridge**. The restriction functor in 08FE's formalized forms is
-the derived pullback of [Stacks, Tag 079W] along the inclusion of the open subscheme, while the
+What this file adds is the **spelling bridge**. The restriction functor in 08FE's formalized forms
+is the derived pullback of [Stacks, Tag 079W] along the inclusion of the open subscheme, while the
 model crossings of conclusion (c) of [Stacks, Tag 0EX3] — `LerayOpenSubschemeSections.lean` and
 `LerayOpenSubschemeDerived.lean` — are written with ordinary restriction
 `Stacks.Cohomology.HigherDirectImage.moduleRestriction` and its `mapDerivedCategory`. The two

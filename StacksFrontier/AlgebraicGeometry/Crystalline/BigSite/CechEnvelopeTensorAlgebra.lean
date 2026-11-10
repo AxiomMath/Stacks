@@ -131,7 +131,7 @@ end Smooth
 
 section RingHomExt
 
-variable {R : Type u} [CommRing R] {ι : Type} [Fintype ι] [DecidableEq ι] {B : ι → Type u}
+variable {R : Type u} [CommRing R] {ι : Type} [Finite ι] [DecidableEq ι] {B : ι → Type u}
   [∀ i, CommRing (B i)] [∀ i, Algebra R (B i)] {T : Type*} [CommRing T]
 
 /-- Two ring maps out of a finite tensor product of algebras agree as soon as they agree on the
@@ -229,7 +229,7 @@ theorem isBaseChange_restrictScalars_of_isPushout {ρ : M' →ₗ[R'] N} (hρ : 
   refine IsBaseChange.of_equiv
     ((Algebra.IsPushout.cancelBaseChange A' A R' R M').symm.trans (hρ.equiv.restrictScalars A))
     fun x ↦ ?_
-  show hρ.equiv ((Algebra.IsPushout.cancelBaseChange A' A R' R M').symm (1 ⊗ₜ x)) = ρ x
+  change hρ.equiv ((Algebra.IsPushout.cancelBaseChange A' A R' R M').symm (1 ⊗ₜ x)) = ρ x
   rw [Algebra.IsPushout.cancelBaseChange_symm_tmul, map_one, IsBaseChange.equiv_tmul, one_smul]
 
 end IsPushout

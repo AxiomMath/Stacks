@@ -26,8 +26,8 @@ statement, for any index category `I`:
   (pullbacks of epimorphisms are epimorphisms in `𝒜`).
 
 Cartesian morphisms (Mathlib's `IsStrictHom`) are stable under base change as well
-(`isStrictHom_pullback_snd`, in `StacksCore.CategoryTheory.Filtration.Limits`), and a strict morphism
-factors as a strict epimorphism followed by a strict monomorphism
+(`isStrictHom_pullback_snd`, in `StacksCore.CategoryTheory.Filtration.Limits`), and a strict
+morphism factors as a strict epimorphism followed by a strict monomorphism
 (`exists_isStrict_epi_comp_isStrict_mono`, in `StacksCore.CategoryTheory.Filtration.Strict`); base
 changing each factor gives a second proof of 05SN, not carried out here.
 -/

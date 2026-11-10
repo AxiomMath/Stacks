@@ -649,7 +649,7 @@ theorem epi_mulSheafTensorId (k p : ℕ) :
       AF.exterior_isExteriorAlgebra k
   have hid : Epi (𝟙 (A.exteriorPower p)) := inferInstance
   exact @Stacks.SheafOfModules.TensorEncodings.epi_tensorSheafBifunctor_map _ _
-    (Opens.grothendieckTopology ↥X) _ _ _ Osharp _ _ _ _ _
+    (Opens.grothendieckTopology ↥X) _ _ _ Osharp _ _ _ _
     (GradedAlgebra.mulSheaf AF.exterior (k : ℤ) 1) (𝟙 (A.exteriorPower p)) hmul hid
 
 /-- **The image of the wedge-product morphism out of `⋀^{k+1} F ⊗ ⋀^p H` is contained in the
@@ -769,13 +769,13 @@ morphism. -/
 theorem exteriorImageFiltration_of_le (n k : ℕ) (h : k ≤ n) :
     exteriorImageFiltration AF A iF n k =
       imageSubobject (prodWedgeHomOfEq AF A A iF (𝟙 H) k (n - k) n (Nat.add_sub_cancel' h)) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- **The filtration of `⋀ⁿ H` vanishes above `n`**: there is no wedge of more than `n` sections
 of `F` inside `⋀ⁿ H`. -/
 theorem exteriorImageFiltration_eq_bot (n k : ℕ) (h : n < k) :
     exteriorImageFiltration AF A iF n k = ⊥ :=
-  dif_neg (by omega)
+  dite_eq_right (by omega)
 
 /-- **The filtration of `⋀ⁿ H` decreases by one step.** -/
 theorem exteriorImageFiltration_succ_le (n k : ℕ) :

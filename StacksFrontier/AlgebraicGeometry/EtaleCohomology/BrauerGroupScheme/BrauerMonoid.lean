@@ -244,7 +244,7 @@ theorem brauerClass_tensorPow (A : Azumaya S) (n : ℕ) :
   induction n with
   | zero => rw [pow_zero]; rfl
   | succ n ih =>
-    show brauerClass (Azumaya.tensor A (A.tensorPow n)) = _
+    change brauerClass (Azumaya.tensor A (A.tensorPow n)) = _
     rw [brauerClass_tensor, ih, pow_succ']
 
 /-- **The monoidal `n`-fold tensor power of an Azumaya algebra sheaf is similar to its

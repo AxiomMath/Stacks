@@ -88,7 +88,7 @@ theorem addNatIso_natCast {L : C} (h : TensorInverse L) (a : ℕ) : ∀ k : ℕ,
       exact (powAddIso_zero_right L a).symm
   | k + 1 => by
       refine Iso.ext ?_
-      show (natTensorPow L a ◁ 𝟙 (natTensorPow L (k + 1))) ≫
+      change (natTensorPow L a ◁ 𝟙 (natTensorPow L (k + 1))) ≫
           (α_ (natTensorPow L a) (natTensorPow L k) L).inv ≫
             ((h.addNatIso (a : ℤ) k).hom ▷ L) ≫
               𝟙 (intTensorPow L h.inv ((a : ℤ) + (k : ℤ)) ⊗ L) ≫

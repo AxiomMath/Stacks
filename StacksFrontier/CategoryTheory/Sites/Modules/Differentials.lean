@@ -106,8 +106,8 @@ theorem liftedDiffHom_ext
   have hk : LinearMap.ker (α' - β') = ⊤ := by
     rw [← top_le_iff, ← hspan, Submodule.span_le]
     rintro _ ⟨b, rfl⟩
-    show (α' - β') (CommRingCat.KaehlerDifferential.d b) = 0
-    show α (ULift.up (CommRingCat.KaehlerDifferential.d b)) -
+    change (α' - β') (CommRingCat.KaehlerDifferential.d b) = 0
+    change α (ULift.up (CommRingCat.KaehlerDifferential.d b)) -
       β (ULift.up (CommRingCat.KaehlerDifferential.d b)) = 0
     rw [h b]
     simp

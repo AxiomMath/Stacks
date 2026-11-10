@@ -322,7 +322,7 @@ private theorem spectralSequenceEvaluate_hasEdgeMonoAt
     [E.HasEdgeMonoAt pq r] : (spectralSequenceEvaluate E X).HasEdgeMonoAt pq r where
   le := E.le₀_of_hasEdgeMonoAt pq r
   zero pq' := by
-    show ((E.page r _).d pq' pq).app X = 0
+    change ((E.page r _).d pq' pq).app X = 0
     rw [E.d_eq_zero_of_hasEdgeMonoAt pq' pq r]
     rfl
 
@@ -414,7 +414,7 @@ private theorem rightDerivedFunctorPlus_isGE
   obtain ⟨L, hL, ⟨e⟩⟩ := DerivedCategory.Plus.exists_injective_nonempty_iso Y a
   let N := (InjectiveObject.ι A).mapCochainComplexPlus.obj L
   have hN : (F.mapCochainComplexPlus.obj N).obj.IsStrictlyGE a := by
-    show CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
+    change CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
       (((InjectiveObject.ι A).mapHomologicalComplex _).obj L.obj)) a
     infer_instance
   have hiso : IsIso (F.rightDerivedFunctorPlusUnith.app
@@ -424,7 +424,7 @@ private theorem rightDerivedFunctorPlus_isGE
     infer_instance
   have : (DerivedCategory.Plus.Q.obj (F.mapCochainComplexPlus.obj N)).IsGE a := by
     rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-    show (DerivedCategory.Q.obj (F.mapCochainComplexPlus.obj N).obj).IsGE a
+    change (DerivedCategory.Q.obj (F.mapCochainComplexPlus.obj N).obj).IsGE a
     infer_instance
   exact DerivedCategory.Plus.TStructure.t.isGE_of_iso
     ((quotientPlusQhIso (F.mapCochainComplexPlus.obj N)).symm ≪≫
@@ -505,7 +505,7 @@ private theorem derivedTruncationSpectralObject_isZero₁
     IsZero ((((derivedTruncationSpectralObjectFunctor F G).obj K).H n).obj
       (mk₁ (homOfLE hij))) := by
   have hF := rightDerivedFunctorPlus_isGE F K a
-  show IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
+  change IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
     (G.rightDerivedFunctorPlus.obj
       ((DerivedCategory.Plus.TStructure.t.eTruncGE.obj i).obj
         ((DerivedCategory.Plus.TStructure.t.eTruncLT.obj j).obj
@@ -529,7 +529,7 @@ private theorem derivedTruncationSpectralObject_isZero₂
     (i j : EInt) (hij : i ≤ j) (n : ℤ) (hi : n < i) :
     IsZero ((((derivedTruncationSpectralObjectFunctor F G).obj K).H n).obj
       (mk₁ (homOfLE hij))) := by
-  show IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
+  change IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
     (G.rightDerivedFunctorPlus.obj
       ((DerivedCategory.Plus.TStructure.t.eTruncGE.obj i).obj
         ((DerivedCategory.Plus.TStructure.t.eTruncLT.obj j).obj

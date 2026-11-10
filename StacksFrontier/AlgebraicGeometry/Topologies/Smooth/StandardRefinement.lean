@@ -99,9 +99,9 @@ public theorem exists_finite_affine_standardSmooth_refinement {T : Scheme.{u}} [
     simp only [Set.mem_range, Set.mem_image, g, Scheme.Hom.comp_apply]; aesop
   have hmem (t : T) : t ∈ Set.range (g t) := by
     use (hW t).isoSpec.hom ⟨y t, hxW t⟩
-    show U.f (i t) ((hW t).fromSpec ((hW t).isoSpec.hom ⟨y t, hxW t⟩)) = t
+    change U.f (i t) ((hW t).fromSpec ((hW t).isoSpec.hom ⟨y t, hxW t⟩)) = t
     have hh : (hW t).fromSpec ((hW t).isoSpec.hom ⟨y t, hxW t⟩) = y t := by
-      show ((hW t).isoSpec.hom ≫ (hW t).fromSpec) ⟨y t, hxW t⟩ = y t
+      change ((hW t).isoSpec.hom ≫ (hW t).fromSpec) ⟨y t, hxW t⟩ = y t
       rw [IsAffineOpen.isoSpec_hom_fromSpec]; rfl
     simpa only [hh] using hy t
   let hc := CompactSpace.elim_nhds_subcover

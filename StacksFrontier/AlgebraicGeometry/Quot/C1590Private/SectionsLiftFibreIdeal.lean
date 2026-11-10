@@ -160,7 +160,7 @@ theorem exists_fibreSubspace_ι_eq
   have hr : inv (Subfunctor.toRange (yoneda.map j)) ≫ yoneda.map j = R.ι := by
     rw [IsIso.inv_comp_eq, Subfunctor.toRange_ι]
   have hk : (fibreSubspace Vb f p).1.ι ≫ f.hom = k ≫ yoneda.map p := by
-    show _ = (R.fromPreimage fh ≫ inv (Subfunctor.toRange (yoneda.map j)) ≫
+    change _ = (R.fromPreimage fh ≫ inv (Subfunctor.toRange (yoneda.map j)) ≫
       yoneda.map (adicQuotientToFibreBase Vb p hp)) ≫ yoneda.map p
     rw [Category.assoc, Category.assoc, ← Functor.map_comp, adicQuotientToFibreBase_comp, hr,
       Subfunctor.fromPreimage_ι]
@@ -182,14 +182,14 @@ theorem mem_idealKernel_of_mem_kerIdeal
   have hZ := (fibreSubspace Vb f p).2.2.rep
   rw [Space.mem_kerIdeal_structureSharp_iff B S hS (fibrePresentationMap q) hq.rep U] at hs
   rw [← Space.definingIdealSheaf_fibreThickening]
-  show s ∈ Space.definingIdealAt B S hS X (fibreSubspace Vb f p) (op U)
+  change s ∈ Space.definingIdealAt B S hS X (fibreSubspace Vb f p) (op U)
   rw [Space.definingIdealAt_eq_ker]
   have hw : (hZ.fst U.1.hom ≫ h) ≫ q = yoneda.map (hZ.snd U.1.hom) ≫ U.1.hom := by
     rw [Category.assoc, hh]
     exact hZ.w U.1.hom
   have hws : hq.rep.lift (hZ.fst U.1.hom ≫ h) (hZ.snd U.1.hom) hw ≫ hq.rep.snd U.1.hom =
       hZ.snd U.1.hom := hq.rep.lift_snd _ _ hw
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hZ.snd U.1.hom)).op).hom s = 0
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hZ.snd U.1.hom)).op).hom s = 0
   rw [← hws, Functor.map_comp, op_comp, Functor.map_comp, CommRingCat.hom_comp]
   exact (congrArg (fun z => (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (hq.rep.lift (hZ.fst U.1.hom ≫ h) (hZ.snd U.1.hom) hw)).op).hom z) hs).trans (map_zero _)

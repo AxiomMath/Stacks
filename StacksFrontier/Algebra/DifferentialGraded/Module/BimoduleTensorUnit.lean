@@ -216,7 +216,7 @@ theorem tensorShiftRegularIso_hom_pure (N : Bimodule A B) (k : ℤ)
     (tensorShiftRegularIso N k).hom.toFun
         (((tensorDGFunctor N).pure (shift (regularModule A) k)).toLinearMap a y) =
       leftActionTotal A B N.rightModule N.leftAction.1 a y := by
-  show ((DifferentialGradedModule.shiftFunctor B k).map (tensorRegularIso N).1.hom).toFun
+  change ((DifferentialGradedModule.shiftFunctor B k).map (tensorRegularIso N).1.hom).toFun
     ((tensorShiftIso N (regularModule A) k).1.inv.toFun _) = _
   rw [tensorShiftIso_inv_pure N (regularModule A) k a y,
     DifferentialGradedModule.shiftFunctor_map_toFun]

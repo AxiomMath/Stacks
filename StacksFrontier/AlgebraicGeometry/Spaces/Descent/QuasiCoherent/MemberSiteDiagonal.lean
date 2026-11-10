@@ -8,8 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.Memb
 
 Let `D` be a descent datum for quasi-coherent modules relative to a family `(f i : Y i ⟶ X)` of
 algebraic spaces étale over an algebraic space `X`.
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteAbFunctor.lean` assembles the
-presheaf of abelian groups of `D` on the site of the charts of the members, and
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteAbFunctor.lean` assembles
+the presheaf of abelian groups of `D` on the site of the charts of the members, and
 `StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteCompatibleFamily.lean`
 reduces its sheaf condition to unique gluing along the arrows of that site which come from
 morphisms of charts of one member — the *diagonal* arrows

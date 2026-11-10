@@ -245,7 +245,7 @@ theorem exists_geometricPoint_flat_geometricFibreModuleStalk_of_mem_etaleFreeLoc
   obtain ⟨V, a, hae, ⟨v, hv⟩, hfree⟩ := hx
   obtain ⟨vbar, hvbar⟩ := exists_geometricRepresentative B S hS V.1 v
   refine ⟨geometricPointMap a.hom vbar, ?_, ?_⟩
-  · show (geometricPointMap a.hom vbar).image = x
+  · change (geometricPointMap a.hom vbar).image = x
     rw [geometricPointMap_image, hvbar]
     exact hv
   · exact (flat_geometricFibreModuleStalk_comp_modulePullback_iff B S hS hae f F vbar).2

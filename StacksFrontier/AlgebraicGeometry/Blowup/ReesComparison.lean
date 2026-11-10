@@ -217,12 +217,12 @@ public theorem reesSectionFromAddHom_comp_toAddHom (U : X.affineOpens) :
     (reesSectionFromAddHom I U).comp (reesSectionToAddHom I U) = AddMonoidHom.id _ := by
   refine DirectSum.addHom_ext fun n a ↦ ?_
   rw [AddMonoidHom.comp_apply, reesSectionToAddHom_of, AddMonoidHom.id_apply]
-  show DirectSum.toAddMonoid (reesFromPieceHom I U)
+  change DirectSum.toAddMonoid (reesFromPieceHom I U)
     (DirectSum.decompose (reesGrading (I.ideal U))
       ((reesGradedPieceEquiv I U n a : ↥(reesGrading (I.ideal U) n)) :
         ↥(reesAlgebra (I.ideal U)))) = _
   rw [DirectSum.decompose_coe, DirectSum.toAddMonoid_of]
-  show DirectSum.of ((reesSituation I).sectionPieces U.1) n
+  change DirectSum.of ((reesSituation I).sectionPieces U.1) n
     ((reesGradedPieceEquiv I U n).symm (reesGradedPieceEquiv I U n a)) = _
   rw [AddEquiv.symm_apply_apply]
 
@@ -233,7 +233,7 @@ public theorem reesSectionToAddHom_comp_fromAddHom (U : X.affineOpens) :
       (DirectSum.decomposeAddEquiv (reesGrading (I.ideal U))).symm.toAddMonoidHom := by
     refine DirectSum.addHom_ext fun n y ↦ ?_
     rw [AddMonoidHom.comp_apply, DirectSum.toAddMonoid_of]
-    show reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) n
+    change reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) n
       ((reesGradedPieceEquiv I U n).symm y)) = _
     refine Eq.trans ?_ (DirectSum.decompose_symm_of (reesGrading (I.ideal U)) y).symm
     rw [reesSectionToAddHom_of, AddEquiv.apply_symm_apply]
@@ -256,7 +256,7 @@ public theorem reesSectionToAddHom_map_mul (U : X.affineOpens) :
   rw [(reesSectionToAddHom I U).map_mul_iff]
   refine DirectSum.addHom_ext' fun n ↦ AddMonoidHom.ext fun a ↦ ?_
   refine DirectSum.addHom_ext' fun m ↦ AddMonoidHom.ext fun b ↦ ?_
-  show reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) n a *
+  change reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) n a *
       DirectSum.of ((reesSituation I).sectionPieces U.1) m b) =
     reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) n a) *
       reesSectionToAddHom I U (DirectSum.of ((reesSituation I).sectionPieces U.1) m b)
@@ -299,7 +299,7 @@ public theorem reesSectionToAddHom_mem (U : X.affineOpens) (n : ℕ)
 public theorem reesSectionFromAddHom_mem (U : X.affineOpens) (n : ℕ)
     {y : ↥(reesAlgebra (I.ideal U))} (hy : y ∈ reesGrading (I.ideal U) n) :
     reesSectionFromAddHom I U y ∈ (reesSituation I).sectionRingGrading U.1 n := by
-  show DirectSum.toAddMonoid (reesFromPieceHom I U)
+  change DirectSum.toAddMonoid (reesFromPieceHom I U)
     (DirectSum.decompose (reesGrading (I.ideal U)) y) ∈
       (reesSituation I).sectionRingGrading U.1 n
   rw [DirectSum.decompose_of_mem _ hy, DirectSum.toAddMonoid_of]
@@ -377,7 +377,7 @@ public theorem coe_sectionRingZeroMap (U : X.affineOpens) (r : Γ(X, U.1)) :
     (((Situation.sectionRingZeroMap (reesSituation I) U.1).hom r :
         ↥((reesSituation I).sectionRingGrading U.1 0)) : (reesSituation I).sectionRing U.1) =
       (reesSituation I).sectionRingBaseMap U.1 r := by
-  show ((GradedRing.projZeroRingHom' ((reesSituation I).sectionRingGrading U.1)
+  change ((GradedRing.projZeroRingHom' ((reesSituation I).sectionRingGrading U.1)
     ((reesSituation I).sectionRingBaseMap U.1 r) : (reesSituation I).sectionRing U.1)) = _
   rw [GradedRing.projZeroRingHom'_apply_coe _
     (⟨(reesSituation I).sectionRingBaseMap U.1 r,

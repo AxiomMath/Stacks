@@ -89,7 +89,7 @@ theorem fromOpcycles_comp_eq :
       (opcyclesFreeIso P e₁ e₀ D₁ hd q s t h₁ h₂ h₃).hom ≫ matMap c (s * D₀) := by
   rw [← Iso.cancel_iso_inv_left (opcyclesFreeIso P e₁ e₀ D₁ hd q s t h₁ h₂ h₃),
     Iso.inv_hom_id_assoc]
-  show (matMap c s ≫ e₀.inv ≫ P.pOpcycles 0) ≫ P.fromOpcycles 0 1 ≫ e₁'.hom = _
+  change (matMap c s ≫ e₀.inv ≫ P.pOpcycles 0) ≫ P.fromOpcycles 0 1 ≫ e₁'.hom = _
   rw [Category.assoc, Category.assoc, HomologicalComplex.p_fromOpcycles_assoc, hd₀]
   simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id, matMap_mul]
 
@@ -146,14 +146,14 @@ theorem dotProduct_eq_zero_of_isZero_homology (hz : IsZero (F.homology (-1)))
   have hex' := (F.exactAt_iff' (-2) (-1) 0 (by simp) (by simp)).mp hex
   let S := F.sc' (-2) (-1) 0
   have hgl : S.f ≫ e₁.hom ≫ lm = 0 := by
-    show F.d (-2) (-1) ≫ e₁.hom ≫ lm = 0
+    change F.d (-2) (-1) ≫ e₁.hom ≫ lm = 0
     rw [hd₂, Category.assoc, Category.assoc, Iso.inv_hom_id_assoc, ← Category.assoc (matMap T D₂),
       ← matMap_mul, hL, matMap_zero, zero_comp, comp_zero]
   have hi : S.iCycles ≫ e₁.hom ≫ lm = 0 := by
     have := hex'.epi_toCycles
     rw [← cancel_epi S.toCycles, ← Category.assoc, S.toCycles_i, hgl, comp_zero]
   have hXg : (X ≫ e₁.inv) ≫ S.g = 0 := by
-    show (X ≫ e₁.inv) ≫ F.d (-1) 0 = 0
+    change (X ≫ e₁.inv) ≫ F.d (-1) 0 = 0
     rw [hd₁, Category.assoc, Iso.inv_hom_id_assoc, ← Category.assoc, hX, zero_comp]
   have hzero : X ≫ lm = 0 := by
     have h1 : X ≫ lm = S.liftCycles (X ≫ e₁.inv) hXg ≫ S.iCycles ≫ e₁.hom ≫ lm := by
@@ -164,9 +164,9 @@ theorem dotProduct_eq_zero_of_isZero_homology (hz : IsZero (F.homology (-1)))
     rw [freePointEquiv_comp_matMap, Equiv.apply_symm_apply]
     simp [Matrix.vecMul, dotProduct, L]
   rw [← hval]
-  show unitEndValueHom T ((X ≫ matMap T L) ≫ biproduct.π _ 0) = 0
+  change unitEndValueHom T ((X ≫ matMap T L) ≫ biproduct.π _ 0) = 0
   rw [Category.assoc]
-  show unitEndValueHom T (X ≫ lm) = 0
+  change unitEndValueHom T (X ≫ lm) = 0
   rw [hzero, map_zero]
 
 end Exactness

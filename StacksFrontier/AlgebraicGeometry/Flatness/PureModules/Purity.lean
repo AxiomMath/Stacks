@@ -93,7 +93,7 @@ theorem structureSheaf_isFiniteType (X : Scheme.{u}) :
   intro i
   constructor
   dsimp only [q, SheafOfModules.GeneratingSections.localGeneratorsData]
-  show Finite G.I
+  change Finite G.I
   infer_instance
 
 /-- Replace the distinguished base point in a pre-pure situation. -/

@@ -385,10 +385,10 @@ lemma exists_bijective_dualNumberRingHom (x : X) [IsIso (f.residueFieldMap x)] :
   refine ⟨dualNumberRingHomOfRingEquiv e.symm,
     bijective_dualNumberRingHomOfRingEquiv e.symm, fun _ => rfl, fun _ => rfl, ?_⟩
   ext z
-  · show e.symm ((f.residueFieldMap x).hom z) = z
-    show e.symm (e z) = z
+  · change e.symm ((f.residueFieldMap x).hom z) = z
+    change e.symm (e z) = z
     exact e.symm_apply_apply z
-  · show e.symm 0 = 0
+  · change e.symm 0 = 0
     exact map_zero _
 
 /-- **The content of condition (2) of Stacks Project, Tag 0E8S.** Let `f : X ⟶ Y` be a morphism
@@ -498,7 +498,7 @@ theorem mono_of_isProper_of_formallyUnramified {k : Type u} [Field k] [IsAlgClos
       · simp [hd']
       · simpa [hd'] using hab
     refine ⟨(c ≫ Limits.pullback.fst f f) (IsLocalRing.closedPoint k), ?_⟩
-    show ((c ≫ Limits.pullback.fst f f) ≫ d) (IsLocalRing.closedPoint k) = z
+    change ((c ≫ Limits.pullback.fst f f) ≫ d) (IsLocalRing.closedPoint k) = z
     rw [hcd]
     exact pointOfClosedPoint_apply r z hz _
   have : Surjective d := ⟨fun z => by

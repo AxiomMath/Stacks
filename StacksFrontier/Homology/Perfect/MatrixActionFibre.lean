@@ -87,7 +87,7 @@ lemma entry_ofEntries {M N : Mat_ (SingleObj A)} (c : M.ι → N.ι → A) (i : 
 lemma moduleCat_unit_hom_eq_smul (f : 𝟙_ (ModuleCat.{u} A) ⟶ 𝟙_ (ModuleCat.{u} A)) :
     f = (show A from f.hom (1 : A)) • 𝟙 _ := by
   ext
-  show f.hom (1 : A) = (f.hom (1 : A)) • (1 : A)
+  change f.hom (1 : A) = (f.hom (1 : A)) • (1 : A)
   rw [smul_eq_mul, mul_one]
 
 /-- The functor `realizeModule A` is faithful. -/
@@ -161,7 +161,7 @@ lemma isIso_mapBifunctorMap_ιStupidTrunc_f (P : CochainComplex (ModuleCat.{u} A
   by_cases hq : k ≤ q
   · have := HomologicalComplex.isIso_ιStupidTrunc_f R (ComplexShape.embeddingUpIntGE k)
       (i := (q - k).toNat) (by change k + ((q - k).toNat : ℤ) = q; omega)
-    show IsIso (((matrixAction A).map (𝟙 (P.X p))).app _ ≫
+    change IsIso (((matrixAction A).map (𝟙 (P.X p))).app _ ≫
       ((matrixAction A).obj (P.X p)).map ((R.ιStupidTrunc _).f q))
     rw [Functor.map_id, NatTrans.id_app, Category.id_comp]
     exact Functor.map_isIso _ _
@@ -221,7 +221,7 @@ theorem fibreCohomologyVanishes_of_resolution (p : Ideal A) [p.IsPrime]
   have hT : ∀ (X : ModuleCat.{u} A) (a : A),
       ((curriedTensor (ModuleCat.{u} A)).obj X).map (a • 𝟙 (𝟙_ (ModuleCat.{u} A))) =
         a • 𝟙 _ := fun X a => by
-    show X ◁ (a • 𝟙 _) = _
+    change X ◁ (a • 𝟙 _) = _
     rw [MonoidalLinear.whiskerLeft_smul, MonoidalCategory.whiskerLeft_id]
     rfl
   have hiso : IsIso (HomologicalComplex.homologyMap (HomologicalComplex.mapBifunctorMap (𝟙 P)

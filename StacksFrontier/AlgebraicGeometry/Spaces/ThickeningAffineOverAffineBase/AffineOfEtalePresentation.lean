@@ -44,6 +44,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S` is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_affineOfEtalePresentation :
@@ -130,13 +131,14 @@ theorem factorThroughEtaleOpenImage_comp :
     factorThroughEtaleOpenImage B S hS φ ψ w hw β hβ ≫ yoneda.map (etaleOpenImageι B S hS ψ) =
       φ := by
   ext V x
-  show etaleOpenImageFactor B S hS ψ (φ.app V x)
+  change etaleOpenImageFactor B S hS ψ (φ.app V x)
     (range_app_subset B S hS φ ψ w hw β hβ V x) ≫ etaleOpenImageι B S hS ψ = φ.app V x
   exact etaleOpenImageFactor_comp_ι B S hS ψ _ _
 
 end Factor
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site over `S` is deep
 /-- **An algebraic space presented étale-locally by an affine chart is represented by a
 scheme.** -/
 theorem exists_iso_yoneda_of_etalePresentation {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -201,6 +203,7 @@ theorem exists_iso_yoneda_of_etalePresentation {X : (BigFppfOver B S hS)ᵒᵖ �
   exact ⟨a, ⟨(asIso fst).symm⟩⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks and limit preservation over the big fppf site is deep
 /-- **A represented algebraic space over an affine base whose base change to a thickening of
 the base is affine is affine.**  This is Stacks 06AD for the representing scheme. -/
 theorem isAffineSpace_of_iso_yoneda_of_isThickening {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

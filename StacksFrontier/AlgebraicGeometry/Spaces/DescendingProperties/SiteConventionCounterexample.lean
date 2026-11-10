@@ -222,7 +222,7 @@ theorem isEmpty_of_compatible {X : Scheme.{u}} (hX : X.size < #F)
         closureMap F h ≫ (Scheme.ΓSpecIso (closureObj F T')).inv ≫ (leg T').appTop := by
       rw [← Category.assoc, Scheme.ΓSpecIso_inv_naturality, Category.assoc,
         ← Scheme.Hom.comp_appTop, hleg T T' h]
-    show ((Scheme.ΓSpecIso (closureObj F T')).inv ≫ (leg T').appTop ≫ _).hom ⟨x, hx'⟩ =
+    change ((Scheme.ΓSpecIso (closureObj F T')).inv ≫ (leg T').appTop ≫ _).hom ⟨x, hx'⟩ =
       ((Scheme.ΓSpecIso (closureObj F T)).inv ≫ (leg T).appTop ≫ _).hom ⟨x, hx⟩
     rw [← Category.assoc, ← Category.assoc (Scheme.ΓSpecIso (closureObj F T)).inv, key]
     rfl
@@ -237,7 +237,7 @@ subobjects. -/
 theorem contains_puncturedPlaneSystem_obj (B : BigFppfSite.{u}) (T : Finset F) :
     B.Contains ((puncturedPlaneSystem F).obj (op T)) := by
   have hplane : B.Contains (affinePlane (Subring.closure (↑T : Set F))) := by
-    show (Spec _).size < B.cutoff
+    change (Spec _).size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt B.aleph0_lt_cutoff)
   exact Scheme.size_lt_of_mono_of_isStrongPrelimit (X := punctured (Subring.closure (↑T : Set F)))
@@ -290,7 +290,7 @@ theorem isEmpty_toScheme_cone_pt (hF : B.cutoff ≤ #F) (s : Cone (siteSystem F 
   isEmpty_of_compatible F (lt_of_lt_of_le s.pt.left.property hF)
     (fun T => (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (s.π.app (op T)))
     (fun T T' h => by
-      show _ ≫ (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map
+      change _ ≫ (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map
         ((siteSystem F B hZ).map (homOfLE h).op) = _
       rw [← Functor.map_comp, Cone.w])
 

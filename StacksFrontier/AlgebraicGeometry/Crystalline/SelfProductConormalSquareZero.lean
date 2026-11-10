@@ -162,7 +162,7 @@ theorem ker_smallSelfProductDiagonalSection (h : IsLimit (BinaryFan.mk pr₀ pr�
       smallSelfProductDiagonalIdeal h (smallSelfProductOpen pr₀ pr₁ V) := by
   have he := (diagonal_preimage_smallSelfProductOpen h V).symm
   have : IsIso (homOfLE (le_of_eq he)) := by
-    show IsIso (eqToHom he)
+    change IsIso (eqToHom he)
     infer_instance
   have hinj := (ConcreteCategory.bijective_of_isIso
     (B.obj.thickening.target.scheme.presheaf.map (homOfLE (le_of_eq he)).op)).1
@@ -227,7 +227,7 @@ theorem smallSelfProductClassRep_add (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     smallSelfProductClassRep h V (x + y) =
       smallSelfProductClassRep h V x + smallSelfProductClassRep h V y := by
   apply Subtype.ext
-  show x + y - firstCoprojectionSection pr₀ pr₁ V
+  change x + y - firstCoprojectionSection pr₀ pr₁ V
       (smallSelfProductDiagonalSection h V (x + y)) =
     (x - firstCoprojectionSection pr₀ pr₁ V (smallSelfProductDiagonalSection h V x)) +
       (y - firstCoprojectionSection pr₀ pr₁ V (smallSelfProductDiagonalSection h V y))
@@ -250,7 +250,7 @@ theorem smallSelfProductClassOf_first (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     smallSelfProductClassOf h V (firstCoprojectionSection pr₀ pr₁ V b) = 0 := by
   have hr : smallSelfProductClassRep h V (firstCoprojectionSection pr₀ pr₁ V b) = 0 := by
     apply Subtype.ext
-    show firstCoprojectionSection pr₀ pr₁ V b - firstCoprojectionSection pr₀ pr₁ V
+    change firstCoprojectionSection pr₀ pr₁ V b - firstCoprojectionSection pr₀ pr₁ V
       (smallSelfProductDiagonalSection h V (firstCoprojectionSection pr₀ pr₁ V b)) = 0
     rw [smallSelfProductDiagonalSection_firstCoprojectionSection, sub_self]
   rw [smallSelfProductClassOf, hr]
@@ -264,7 +264,7 @@ theorem smallSelfProductClassOf_kernel (h : IsLimit (BinaryFan.mk pr₀ pr₁))
         (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V)) =
       smallSelfProductClass h V k := by
   refine congrArg (smallSelfProductClass h V) (Subtype.ext ?_)
-  show (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V)) -
+  change (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V)) -
       firstCoprojectionSection pr₀ pr₁ V (smallSelfProductDiagonalSection h V k) =
     (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V))
   rw [smallSelfProductDiagonalSection_eq_zero h V k.property, map_zero, sub_zero]
@@ -278,7 +278,7 @@ theorem smallSelfProductClassOf_second (h : IsLimit (BinaryFan.mk pr₀ pr₁))
     smallSelfProductClassOf h V (secondCoprojectionSection pr₀ pr₁ V f) =
       smallSelfProductDifference h V f := by
   refine congrArg (smallSelfProductClass h V) (Subtype.ext ?_)
-  show secondCoprojectionSection pr₀ pr₁ V f - firstCoprojectionSection pr₀ pr₁ V
+  change secondCoprojectionSection pr₀ pr₁ V f - firstCoprojectionSection pr₀ pr₁ V
       (smallSelfProductDiagonalSection h V (secondCoprojectionSection pr₀ pr₁ V f)) =
     secondCoprojectionSection pr₀ pr₁ V f - firstCoprojectionSection pr₀ pr₁ V f
   rw [smallSelfProductDiagonalSection_secondCoprojectionSection]
@@ -350,13 +350,13 @@ theorem smallSelfProductClassOf_dpow (h : IsLimit (BinaryFan.mk pr₀ pr₁))
         (firstCoprojectionSection pr₀ pr₁ V
           (smallSelfProductDiagonalSection h V y)) :=
     fun _ ↦ (firstCoprojectionSection_isDPMorphism pr₀ pr₁ V).map_dpow hqy
-  show smallSelfProductClass h V (smallSelfProductClassRep h V
+  change smallSelfProductClass h V (smallSelfProductClassRep h V
       (sectionDpow D.obj.thickening.target (smallSelfProductOpen pr₀ pr₁ V) (m + 1) y)) =
     sectionDpow B.obj.thickening.target V m (smallSelfProductDiagonalSection h V y) •
       smallSelfProductClass h V (smallSelfProductClassRep h V y)
   rw [← smallSelfProductClass_smul]
   refine smallSelfProductClass_eq h V ?_
-  show sectionDpow D.obj.thickening.target (smallSelfProductOpen pr₀ pr₁ V) (m + 1) y -
+  change sectionDpow D.obj.thickening.target (smallSelfProductOpen pr₀ pr₁ V) (m + 1) y -
         firstCoprojectionSection pr₀ pr₁ V (smallSelfProductDiagonalSection h V
           (sectionDpow D.obj.thickening.target (smallSelfProductOpen pr₀ pr₁ V)
             (m + 1) y)) -
@@ -462,11 +462,11 @@ theorem smallSelfProductGraphRingHom_surjective (h : IsLimit (BinaryFan.mk pr₀
   refine ⟨firstCoprojectionSection pr₀ pr₁ V b +
     (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V)), ?_⟩
   apply TrivSqZeroExt.ext
-  · show smallSelfProductDiagonalSection h V (firstCoprojectionSection pr₀ pr₁ V b +
+  · change smallSelfProductDiagonalSection h V (firstCoprojectionSection pr₀ pr₁ V b +
       (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V))) = b
     rw [map_add, smallSelfProductDiagonalSection_firstCoprojectionSection,
       smallSelfProductDiagonalSection_eq_zero h V k.property, add_zero]
-  · show smallSelfProductClassOf h V (firstCoprojectionSection pr₀ pr₁ V b +
+  · change smallSelfProductClassOf h V (firstCoprojectionSection pr₀ pr₁ V b +
       (k : Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V))) = _
     rw [smallSelfProductClassOf_add, smallSelfProductClassOf_first, zero_add]
     exact smallSelfProductClassOf_kernel h V k
@@ -492,7 +492,7 @@ theorem smallSelfProductGraphRingHom_ker (h : IsLimit (BinaryFan.mk pr₀ pr₁)
     have hyK := smallSelfProductDividedSquare_le h (smallSelfProductOpen pr₀ pr₁ V) hy
     refine RingHom.mem_ker.mpr
       (TrivSqZeroExt.ext (smallSelfProductDiagonalSection_eq_zero h V hyK) ?_)
-    show smallSelfProductClassOf h V y = 0
+    change smallSelfProductClassOf h V y = 0
     exact (smallSelfProductClassOf_kernel h V ⟨y, hyK⟩).trans
       ((smallSelfProductClass_eq_zero h V ⟨y, hyK⟩).mpr hy)
 
@@ -580,7 +580,7 @@ theorem smallSelfProductSquareZeroIdeal_mem_iff (h : IsLimit (BinaryFan.mk pr₀
       ((smallSelfProductSquareZeroIdeal_eq h V).le hx)
   have heq : smallSelfProductDiagonalSection h V z =
     smallSelfProductDiagonalSection h V y := congrArg TrivSqZeroExt.fst he
-  show smallSelfProductDiagonalSection h V y ∈ B.obj.thickening.target.ideal.obj (op V)
+  change smallSelfProductDiagonalSection h V y ∈ B.obj.thickening.target.ideal.obj (op V)
   rw [← heq]
   exact (smallSelfProductDiagonalSection_mem_ideal_iff h V z).mpr hz
 

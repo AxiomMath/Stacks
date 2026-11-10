@@ -53,12 +53,13 @@ variable {C : Type u} [Category.{v} C] [Preadditive C] [HasCoproductsOfShape ℕ
 def telescopeShift : ∐ X.obj ⟶ ∐ X.obj :=
   Sigma.desc fun k => X.map (homOfLE (Nat.le_succ k)) ≫ Sigma.ι X.obj (k + 1)
 
+omit [Preadditive C] in
 /-- The shift `s` restricted to the summand `X k` is the transition map `X k ⟶ X (k + 1)`
 followed by the inclusion of the summand `X (k + 1)`. -/
 @[reassoc (attr := simp)]
 theorem ι_telescopeShift (k : ℕ) :
     Sigma.ι X.obj k ≫ telescopeShift X = X.map (homOfLE (Nat.le_succ k)) ≫ Sigma.ι X.obj (k + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The difference `1 - s` of the telescope. -/
 def telescopeDiff : ∐ X.obj ⟶ ∐ X.obj := 𝟙 _ - telescopeShift X
@@ -77,10 +78,11 @@ variable {X}
 def telescopeπ (c : Cocone X) : ∐ X.obj ⟶ c.pt :=
   Sigma.desc fun k => (c.ι.app k : X.obj k ⟶ c.pt)
 
+omit [Preadditive C] in
 /-- The map `telescopeπ c` restricted to the summand `X k` is the cocone leg `c.ι.app k`. -/
 @[reassoc (attr := simp)]
 theorem ι_telescopeπ (c : Cocone X) (k : ℕ) : Sigma.ι X.obj k ≫ telescopeπ c = c.ι.app k :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The map out of `∐ₖ X k` induced by a cocone kills `1 - s`. -/
 @[reassoc (attr := simp)]
@@ -279,7 +281,7 @@ theorem mono_telescopeDiff : Mono (telescopeDiff D) := by
     inferInstance
   have : (stalkFunctor O x).Additive := Functor.additive_of_preserves_binary_products _
   rw [← ModuleCat.mono_iff_injective]
-  show Mono ((stalkFunctor O x).map (telescopeDiff D))
+  change Mono ((stalkFunctor O x).map (telescopeDiff D))
   rw [map_telescopeDiff]
   have := mono_telescopeDiff_moduleCat (D ⋙ stalkFunctor O x)
   infer_instance

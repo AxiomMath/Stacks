@@ -239,7 +239,7 @@ whichever proof of `i ≤ k` is at hand. -/
 theorem transition_comp {i j k : I} (hij : i ≤ j) (hjk : j ≤ k) (hik : i ≤ k) :
     D.transition hjk ≫ D.transition hij = D.transition hik := by
   apply ObjectProperty.hom_ext
-  show D.system.map (homOfLE hjk).op ≫ D.system.map (homOfLE hij).op
+  change D.system.map (homOfLE hjk).op ≫ D.system.map (homOfLE hij).op
       = D.system.map (homOfLE hik).op
   rw [← D.system.map_comp]
   rfl
@@ -249,7 +249,7 @@ theorem transition_comp {i j k : I} (hij : i ≤ j) (hjk : j ≤ k) (hik : i ≤
 theorem projection_comp_transition {i j : I} (h : i ≤ j) :
     D.projection j ≫ D.transition h = D.projection i := by
   apply ObjectProperty.hom_ext
-  show D.limitCone.π.app (op j) ≫ D.system.map (homOfLE h).op = D.limitCone.π.app (op i)
+  change D.limitCone.π.app (op j) ≫ D.system.map (homOfLE h).op = D.limitCone.π.app (op i)
   exact D.limitCone.w (homOfLE h).op
 
 /-! ### The system of derived pullbacks -/

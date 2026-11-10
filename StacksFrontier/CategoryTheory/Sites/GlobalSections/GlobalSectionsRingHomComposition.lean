@@ -179,7 +179,7 @@ and of `φ`. -/
 theorem globalSectionsRingHom_natTrans :
     globalSectionsRingHom χ = (globalSectionsRingHom φ).comp (globalSectionsRingHom ψ) := by
   refine RingHom.ext fun a ↦ (unitEndEquiv (ringSheaf X.O)).injective ?_
-  show unitEnd (ringSheaf X.O) (globalSectionsRingHom χ a) =
+  change unitEnd (ringSheaf X.O) (globalSectionsRingHom χ a) =
     unitEnd (ringSheaf X.O) (globalSectionsRingHom φ (globalSectionsRingHom ψ a))
   rw [unitEnd_globalSectionsRingHom, unitEnd_globalSectionsRingHom, pushforwardUnitEndMap_eq,
     pushforwardUnitEndMap_eq, unitEnd_globalSectionsRingHom, pushforwardUnitEndMap_eq,

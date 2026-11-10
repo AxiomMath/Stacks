@@ -13,8 +13,8 @@ at `(QK, QL)` is `Q(Tot(F(K, L)))`.  `derivedComparisonNatIso` bundles it as an 
 bifunctors on the (left) K-flat complexes, and that bundling is *not* the level at which to prove
 it shift-compatible: written out, it exposes three junctions, each needing a generic
 `CategoryTheory.Functor.CommShift₂` closure property which does not exist (see the implementation
-note in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/PullbackTensorCommShiftComparisons.lean`).
+note in `PullbackTensorCommShiftComparisons.lean`, in the directory
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/`).
 
 This file does it **one variable at a time**, which is all `CategoryTheory.NatTrans.CommShift₂`
 ever asks for: that class is two one-variable conditions.  At one variable the toolbox is

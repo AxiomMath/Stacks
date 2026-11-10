@@ -141,7 +141,7 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
       Functor.whiskerRight iR.hom (T₂.obj ((@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₂).obj X₁)) ≫
       j₂.hom.app X₁) ?_
     ext K
-    show ((derivedBifunctorModel₂LiftingIso F hA₁ hA₂ hB₁ hB₂ hD₂ resL resR GA GB eA eB).hom.app
+    change ((derivedBifunctorModel₂LiftingIso F hA₁ hA₂ hB₁ hB₂ hD₂ resL resR GA GB eA eB).hom.app
       X₁).app K = _
     simp [derivedBifunctorModel₂LiftingIso, iL, iR, j₂, T₂]
   · intro X₁
@@ -161,7 +161,7 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
       Functor.whiskerLeft (kFlatObjects F).ι (Functor.whiskerLeft
         ((homotopyBifunctor F).obj ((kFlatObjectsLeft F).ι.obj X₁)) eD.hom)) ?_
     ext K
-    show (((Functor.isoWhiskerRight j₁ ((Functor.whiskeringRight _ _ _).obj GD) ≪≫
+    change (((Functor.isoWhiskerRight j₁ ((Functor.whiskeringRight _ _ _).obj GD) ≪≫
         kFlatToDerivedModelIso F hD₁ hD₂ GD eD).hom.app X₁).app K) = _
     simp [kFlatToDerivedModelIso, j₁, T₁]
   · intro X₂
@@ -175,7 +175,7 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
         (T₂.flip.map (iR.hom.app X₂)) ≫
       j₂.hom.flipApp X₂) ?_
     ext K
-    show ((derivedBifunctorModel₂LiftingIso F hA₁ hA₂ hB₁ hB₂ hD₂ resL resR GA GB eA eB).hom.app
+    change ((derivedBifunctorModel₂LiftingIso F hA₁ hA₂ hB₁ hB₂ hD₂ resL resR GA GB eA eB).hom.app
       K).app X₂ = _
     simp [derivedBifunctorModel₂LiftingIso, iL, iR, j₂, T₂]
   · intro X₂
@@ -197,7 +197,7 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
       Functor.whiskerLeft (kFlatObjectsLeft F).ι (Functor.whiskerLeft
         ((homotopyBifunctor F).flip.obj ((kFlatObjects F).ι.obj X₂)) eD.hom)) ?_
     ext K
-    show (((Functor.isoWhiskerRight j₁ ((Functor.whiskeringRight _ _ _).obj GD) ≪≫
+    change (((Functor.isoWhiskerRight j₁ ((Functor.whiskeringRight _ _ _).obj GD) ≪≫
         kFlatToDerivedModelIso F hD₁ hD₂ GD eD).hom.app K).app X₂) = _
     simp [kFlatToDerivedModelIso, j₁, T₁]
 

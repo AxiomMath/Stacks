@@ -70,7 +70,7 @@ private theorem commutator_map_smul (H : M.M →ₗ[MulOpposite A.A] N.M)
         (H.restrictScalars R).comp M.d) x := by
   let Hlin : M.M →ₗ[R] N.M := H.restrictScalars R
   let D : M.M →ₗ[R] N.M := N.d.comp Hlin + Hlin.comp M.d
-  show D (MulOpposite.op a • x) = MulOpposite.op a • D x
+  change D (MulOpposite.op a • x) = MulOpposite.op a • D x
   induction x using DirectSum.Decomposition.inductionOn M.grading with
     | zero => simp [D]
     | @homogeneous n y =>
@@ -96,7 +96,7 @@ private theorem commutator_map_smul (H : M.M →ₗ[MulOpposite A.A] N.M)
         have hsign : ((n - 1).negOnePow : ℤ) = -(n.negOnePow : ℤ) := by
           rw [Int.negOnePow_sub]
           simp
-        show D (MulOpposite.op a • (y : M.M)) = MulOpposite.op a • D y
+        change D (MulOpposite.op a • (y : M.M)) = MulOpposite.op a • D y
         dsimp [D]
         rw [hHsmul, hNd]
         rw [hLd, map_add, hZsmul, hHsmul2, hHsmulD]
@@ -141,7 +141,7 @@ theorem exists_rectification_of_isAdmissibleEpi (S : HomotopyCommutativeSquare A
       map_add' := by intro x y; simp only [H₀.map_add, s.toFun.map_add]
       map_smul' := by
         intro c x
-        show s.toFun (H₀ (c • x)) = c • s.toFun (H₀ x)
+        change s.toFun (H₀ (c • x)) = c • s.toFun (H₀ x)
         rw [H₀.map_smul c x]
         simpa using s.map_smul (H₀ x) (MulOpposite.unop c) }
   let Hlin : S.K.M →ₗ[R] S.M.M := H.restrictScalars R
@@ -174,23 +174,23 @@ theorem exists_rectification_of_isAdmissibleEpi (S : HomotopyCommutativeSquare A
     · intro n x hx
       exact Submodule.neg_mem _ (hHgrade n x hx)
     · intro x
-      show S.a.toFun x - (S.a.toFun x + C x) = S.M.d (-H x) + (-H) (S.K.d x)
+      change S.a.toFun x - (S.a.toFun x + C x) = S.M.d (-H x) + (-H) (S.K.d x)
       simp only [map_neg, LinearMap.neg_apply]
       dsimp [C, Hlin]
       abel
   · ext x
-    show S.g.toFun (a'.toFun x) = S.b.toFun (S.f.toFun x)
+    change S.g.toFun (a'.toFun x) = S.b.toFun (S.f.toFun x)
     have hgHx : S.g.toFun (H x) = H₀ x := hs (H₀ x)
     have hgHKdx : S.g.toFun (H (S.K.d x)) = H₀ (S.K.d x) := hs (H₀ (S.K.d x))
     have hgMd : S.g.toFun (S.M.d (H x)) = S.N.d (S.g.toFun (H x)) := by
       simpa using LinearMap.congr_fun S.g.map_d (H x)
     have hCg : S.g.toFun (C x) = S.N.d (H₀ x) + H₀ (S.K.d x) := by
-      show S.g.toFun (S.M.d (H x) + H (S.K.d x)) = _
+      change S.g.toFun (S.M.d (H x) + H (S.K.d x)) = _
       rw [map_add, hgMd, hgHx, hgHKdx]
     have hrel : S.b.toFun (S.f.toFun x) - S.g.toFun (S.a.toFun x) =
         S.N.d (H₀ x) + H₀ (S.K.d x) := by
       simpa [Hom.comp] using h₀.homotopy_eq x
-    show S.g.toFun (S.a.toFun x + C x) = S.b.toFun (S.f.toFun x)
+    change S.g.toFun (S.a.toFun x + C x) = S.b.toFun (S.f.toFun x)
     rw [map_add, hCg, ← hrel]
     abel
 
@@ -207,7 +207,7 @@ theorem exists_rectification_of_isAdmissibleMono (S : HomotopyCommutativeSquare 
       map_add' := by intro x y; simp only [π.toFun.map_add, map_add]
       map_smul' := by
         intro c x
-        show H₀ (π.toFun (MulOpposite.op (MulOpposite.unop c) • x)) = c • H₀ (π.toFun x)
+        change H₀ (π.toFun (MulOpposite.op (MulOpposite.unop c) • x)) = c • H₀ (π.toFun x)
         rw [π.map_smul x (MulOpposite.unop c)]
         exact H₀.map_smul c (π.toFun x) }
   let Hlin : S.L.M →ₗ[R] S.N.M := H.restrictScalars R
@@ -238,7 +238,7 @@ theorem exists_rectification_of_isAdmissibleMono (S : HomotopyCommutativeSquare 
   refine ⟨b', ?_, ?_⟩
   · refine ⟨⟨H, hHgrade, ?_⟩⟩
     intro x
-    show S.b.toFun x - (S.b.toFun x - C x) = C x
+    change S.b.toFun x - (S.b.toFun x - C x) = C x
     abel_nf
   · ext x
     have hLdf : S.L.d (S.f.toFun x) = S.f.toFun (S.K.d x) := by
@@ -247,10 +247,10 @@ theorem exists_rectification_of_isAdmissibleMono (S : HomotopyCommutativeSquare 
         S.N.d (H₀ x) + H₀ (S.K.d x) := by
       simpa [Hom.comp] using h₀.homotopy_eq x
     have hCfx : C (S.f.toFun x) = S.N.d (H₀ x) + H₀ (S.K.d x) := by
-      show S.N.d (H (S.f.toFun x)) + H (S.L.d (S.f.toFun x)) = _
+      change S.N.d (H (S.f.toFun x)) + H (S.L.d (S.f.toFun x)) = _
       rw [hLdf]
       simp [H, hπ]
-    show S.b.toFun (S.f.toFun x) - C (S.f.toFun x) = S.g.toFun (S.a.toFun x)
+    change S.b.toFun (S.f.toFun x) - C (S.f.toFun x) = S.g.toFun (S.a.toFun x)
     rw [hCfx, ← hhom]
     abel
 
@@ -320,13 +320,13 @@ theorem comp_homotopic_zero_of_isAdmissibleShortExact
   have hzero : Hom.comp b₂ b₁ = 0 := by
     ext x
     have hx : b₁.toFun x ∈ LinearMap.ker g₂.toFun := by
-      show g₂.toFun (b₁.toFun x) = 0
+      change g₂.toFun (b₁.toFun x) = 0
       have := congrArg (fun f : Hom L₁ M₂ => f.toFun x) hgb₁
       simpa [S₁, Hom.comp, Hom.zero, Hom.id] using this
     rw [← h₂.exact] at hx
     obtain ⟨y, hy⟩ := LinearMap.mem_range.mp hx
     have hkill := congrArg (fun f : Hom K₂ L₃ => f.toFun y) hb₂f
-    show b₂.toFun (b₁.toFun x) = 0
+    change b₂.toFun (b₁.toFun x) = 0
     rw [← hy]
     simpa [S₂, Hom.comp, Hom.zero, Hom.id] using hkill
   have hcomp := homotopyComp (Classical.choice hb₂) (Classical.choice hb₁)

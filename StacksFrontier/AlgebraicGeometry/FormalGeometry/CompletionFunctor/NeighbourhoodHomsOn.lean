@@ -494,10 +494,10 @@ theorem nbhdHomComparisonOn_bijective_of_sectionsEquiv
       have h1 : x = ConcreteCategory.hom α.inv (ConcreteCategory.hom α.hom x) :=
         (Iso.hom_inv_id_apply α x).symm
       rw [h1, ← ht]
-      show ConcreteCategory.hom ((HasColimit.isoOfNatIso N).inv ≫
+      change ConcreteCategory.hom ((HasColimit.isoOfNatIso N).inv ≫
         (colimitSectionsNearVanishingUnderIso V HU).hom)
           (ConcreteCategory.hom (colimit.ι (sectionsNearVanishingOn V HV) W) t) = _
-      rw [← ConcreteCategory.comp_apply, ← Category.assoc, HasColimit.isoOfNatIso_ι_inv,
+      rw [← ConcreteCategory.comp_apply, ← Category.assoc, HasColimit.ι_isoOfNatIso_inv,
         Category.assoc]
       have hfin : colimit.ι (Under.forget V ⋙ sectionsNearVanishing A I a HU) W ≫
           (colimitSectionsNearVanishingUnderIso V HU).hom =

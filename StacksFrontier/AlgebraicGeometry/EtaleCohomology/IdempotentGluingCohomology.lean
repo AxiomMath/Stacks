@@ -98,7 +98,7 @@ abbrev idemMap (e : Idem C) : Idem Γ(T, ⊤) := ⟨φ e, e.2.map φ⟩
 /-- Mapping idempotents along `φ` is monotone. -/
 theorem idemMap_mono : Monotone (idemMap φ) := fun e f h => by
   have h' : (e : C) * (f : C) = e := h
-  show φ e * φ f = φ e
+  change φ e * φ f = φ e
   rw [← map_mul, h']
 
 /-- Mapping idempotents along `φ` sends `⊥` to `⊥`. -/
@@ -122,13 +122,13 @@ theorem basicOpen_idemMap_mono : Monotone fun e : Idem C => T.basicOpen (φ e) :
 
 /-- The basic open cut out by the image of the idempotent `⊥ = 0` of `C` is empty. -/
 theorem basicOpen_idemMap_bot : T.basicOpen (φ ((⊥ : Idem C) : C)) = ⊥ := by
-  show T.basicOpen (φ 0) = ⊥
+  change T.basicOpen (φ 0) = ⊥
   rw [map_zero]
   exact Scheme.basicOpen_zero T ⊤
 
 /-- The basic open cut out by the image of the idempotent `⊤ = 1` of `C` is all of `T`. -/
 theorem basicOpen_idemMap_top : T.basicOpen (φ ((⊤ : Idem C) : C)) = ⊤ := by
-  show T.basicOpen (φ 1) = ⊤
+  change T.basicOpen (φ 1) = ⊤
   rw [map_one]
   exact Scheme.basicOpen_one T
 
@@ -161,13 +161,13 @@ theorem range_homOfLE {A W : X.Opens} (h : A ≤ W) :
   ext z
   constructor
   · rintro ⟨a, rfl⟩
-    show (X.homOfLE h ≫ W.ι).base a ∈ A
+    change (X.homOfLE h ≫ W.ι).base a ∈ A
     rw [Scheme.homOfLE_ι]
     exact a.2
   · intro hz
     refine ⟨⟨W.ι.base z, hz⟩, ?_⟩
     apply W.ι.isOpenEmbedding.injective
-    show (X.homOfLE h ≫ W.ι).base _ = _
+    change (X.homOfLE h ≫ W.ι).base _ = _
     rw [Scheme.homOfLE_ι]
     rfl
 
@@ -547,7 +547,7 @@ theorem bijective_etaleCohomologyPullback_iff_points {C : Type*} [CommRing C]
       etaleCohomologyPullback_eq_zero_of_range_subset (pullback.fst π (t P hP)) _ q (π ⁻¹ᵁ U e)
         (by
           rintro _ ⟨z, rfl⟩
-          show π.base ((pullback.fst π (t P hP)).base z) ∈ U e
+          change π.base ((pullback.fst π (t P hP)).base z) ∈ U e
           rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
           exact ht P hP e he ⟨_, rfl⟩) x hx⟩)
     (fun P hP => etaleCohomologyPullback (pullback.snd π (t P hP))

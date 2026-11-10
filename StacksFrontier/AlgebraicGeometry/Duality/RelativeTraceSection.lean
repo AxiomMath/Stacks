@@ -113,9 +113,9 @@ variable {Y : Scheme.{u}}
 /-- Restriction of sections of a sheaf of modules composes. -/
 theorem restrictₗ_restrictₗ (M : Y.Modules) {U V W : Y.Opens} (h₁ : U ≤ V) (h₂ : V ≤ W)
     (s : Γ(M, W)) : restrictₗ M h₁ (restrictₗ M h₂ s) = restrictₗ M (h₁.trans h₂) s := by
-  show (M.presheaf.map (homOfLE h₁).op).hom ((M.presheaf.map (homOfLE h₂).op).hom s) =
+  change (M.presheaf.map (homOfLE h₁).op).hom ((M.presheaf.map (homOfLE h₂).op).hom s) =
     (M.presheaf.map (homOfLE (h₁.trans h₂)).op).hom s
-  show ((M.presheaf.map (homOfLE h₂).op) ≫ (M.presheaf.map (homOfLE h₁).op)).hom s =
+  change ((M.presheaf.map (homOfLE h₂).op) ≫ (M.presheaf.map (homOfLE h₁).op)).hom s =
     (M.presheaf.map (homOfLE (h₁.trans h₂)).op).hom s
   rw [← M.presheaf.map_comp]
   congr 2
@@ -182,7 +182,7 @@ theorem localEquiv_localTraceSection (D : RelativeDualizingModuleData f) (U : X.
   intro F
   let G : FiniteOpenFactorization.{u, u, u} Γ(X, U.1) Γ(Y, V.1) :=
     Classical.choice (D.factorization U V hVU)
-  show D.localEquiv U V hVU F
+  change D.localEquiv U V hVU F
     ((D.localEquiv U V hVU G).symm (dualizingModule.traceCandidate G)) = _
   rw [D.localEquiv_natural U V hVU G F]
   simpa using dualizingModuleEquiv_traceCandidate G F
@@ -209,7 +209,7 @@ theorem localTraceSection_sourceRestrict (D : RelativeDualizingModuleData f)
   let : IsLocalization.Away g Γ(Y, W.1) := V.2.isLocalization_basicOpen g
   let : IsScalarTower Γ(X, U.1) Γ(Y, V.1) Γ(Y, W.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U W hWU).hom =
+      change (f.appLE U W hWU).hom =
         ((Y.presheaf.map (homOfLE (Y.basicOpen_le g)).op).hom).comp (f.appLE U V hVU).hom
       rw [← CommRingCat.hom_comp, ← f.appLE_map hVU (homOfLE (Y.basicOpen_le g)).op])
   let : Module.Flat Γ(Y, V.1) Γ(Y, W.1) := IsLocalization.flat (Γ(Y, W.1)) (Submonoid.powers g)
@@ -259,7 +259,7 @@ theorem localTraceSection_baseRestrict (D : RelativeDualizingModuleData f)
   let : IsLocalization.Away a Γ(X, Ua.1) := U.2.isLocalization_basicOpen a
   let : IsScalarTower Γ(X, U.1) Γ(X, Ua.1) Γ(Y, V.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U V hVU).hom =
+      change (f.appLE U V hVU).hom =
         ((f.appLE Ua V hVa).hom).comp
           (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom
       rw [← CommRingCat.hom_comp, f.map_appLE hVa (homOfLE (X.basicOpen_le a)).op])
@@ -343,7 +343,7 @@ theorem isCompatible_localTraceSection (D : RelativeDualizingModuleData f) :
       ((localTraceSection_heq D Ua₁ Ua₂ T₁ T₂ hUa hT hT₁Ua₁ hT₂Ua₂).trans
         (heq_of_eq hRestr₂).symm)).trans
       (restrictₗ_heq_of_eq D.sheaf hb hT₁V₂ hT₂V₂ (localTraceSection D U₂ V₂ hV₂U₂)).symm
-  show restrictₗ D.sheaf (le_inf hT₁V₁ hT₁V₂)
+  change restrictₗ D.sheaf (le_inf hT₁V₁ hT₁V₂)
       (restrictₗ D.sheaf inf_le_left (localTraceSection D U₁ V₁ hV₁U₁)) =
     restrictₗ D.sheaf (le_inf hT₁V₁ hT₁V₂)
       (restrictₗ D.sheaf inf_le_right (localTraceSection D U₂ V₂ hV₂U₂))

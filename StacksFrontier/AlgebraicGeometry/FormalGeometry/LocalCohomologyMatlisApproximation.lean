@@ -311,7 +311,7 @@ public theorem isFiniteLength_of_isFiniteLength_matlisDual
       intro r hr
       have hz : algebraMap A (IsLocalRing.ResidueField A) r = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (IsLocalRing.le_maximalIdeal hkertop hr)
-      show i (algebraMap A (IsLocalRing.ResidueField A) r) = 0
+      change i (algebraMap A (IsLocalRing.ResidueField A) r) = 0
       rw [hz, map_zero]
     obtain ⟨φ, hφ⟩ := Module.Injective.out (R := A) (Q := E)
       (LinearMap.range g).subtype (Submodule.injective_subtype _)
@@ -325,7 +325,7 @@ public theorem isFiniteLength_of_isFiniteLength_matlisDual
     change φ (g 1) = j 1 at h
     rw [hgx] at h
     rw [h]
-    show i (algebraMap A (IsLocalRing.ResidueField A) 1) ≠ 0
+    change i (algebraMap A (IsLocalRing.ResidueField A) 1) ≠ 0
     rw [map_one]
     exact fun h0 => one_ne_zero (hiinj (h0.trans (map_zero i).symm))
   set D : X →ₗ[A] ((X →ₗ[A] E) →ₗ[A] E) :=

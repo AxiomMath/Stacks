@@ -95,10 +95,10 @@ theorem actMap_comp_twistPowAddIso {F L : C} {m : ℕ} (t : twistSections F L m)
       (λ_ (natTensorPow L j)).inv ≫ t ▷ natTensorPow L j := by
   induction j with
   | zero =>
-      show t ≫ (ρ_ (twistPow F L m)).inv = (λ_ (𝟙_ C : C)).inv ≫ t ▷ (𝟙_ C : C)
+      change t ≫ (ρ_ (twistPow F L m)).inv = (λ_ (𝟙_ C : C)).inv ≫ t ▷ (𝟙_ C : C)
       rw [rightUnitor_inv_naturality, MonoidalCategory.unitors_inv_equal]
   | succ j ih =>
-      show actMap t j ▷ L ≫ (twistPowAddIso F L m j).hom ▷ L ≫
+      change actMap t j ▷ L ≫ (twistPowAddIso F L m j).hom ▷ L ≫
           (α_ (twistPow F L m) (natTensorPow L j) L).hom =
         (λ_ (natTensorPow L j ⊗ L)).inv ≫ t ▷ (natTensorPow L j ⊗ L)
       rw [← Category.assoc, ← comp_whiskerRight, ih, comp_whiskerRight, Category.assoc,
@@ -111,10 +111,10 @@ theorem mulMap_comp_natTensorPowAddIso {L : C} {i : ℕ} (x : powSections L i) (
       (λ_ (natTensorPow L j)).inv ≫ x ▷ natTensorPow L j := by
   induction j with
   | zero =>
-      show x ≫ (ρ_ (natTensorPow L i)).inv = (λ_ (𝟙_ C : C)).inv ≫ x ▷ (𝟙_ C : C)
+      change x ≫ (ρ_ (natTensorPow L i)).inv = (λ_ (𝟙_ C : C)).inv ≫ x ▷ (𝟙_ C : C)
       rw [rightUnitor_inv_naturality, MonoidalCategory.unitors_inv_equal]
   | succ j ih =>
-      show mulMap x j ▷ L ≫ (natTensorPowAddIso L i j).hom ▷ L ≫
+      change mulMap x j ▷ L ≫ (natTensorPowAddIso L i j).hom ▷ L ≫
           (α_ (natTensorPow L i) (natTensorPow L j) L).hom =
         (λ_ (natTensorPow L j ⊗ L)).inv ≫ x ▷ (natTensorPow L j ⊗ L)
       rw [← Category.assoc, ← comp_whiskerRight, ih, comp_whiskerRight, Category.assoc,
@@ -127,7 +127,7 @@ theorem twistPowAddIso_add (F L : C) (m i : ℕ) :
       eqToHom (congrArg (twistPow F L) (Nat.add_assoc m i j)) ≫
         (twistPowAddIso F L m (i + j)).hom ≫ twistPow F L m ◁ (natTensorPowAddIso L i j).hom
   | 0 => by
-      show (ρ_ (twistPow F L (m + i))).inv ≫ (twistPowAddIso F L m i).hom ▷ (𝟙_ C) ≫
+      change (ρ_ (twistPow F L (m + i))).inv ≫ (twistPowAddIso F L m i).hom ▷ (𝟙_ C) ≫
           (α_ (twistPow F L m) (natTensorPow L i) (𝟙_ C)).hom =
         𝟙 _ ≫ (twistPowAddIso F L m i).hom ≫ twistPow F L m ◁ (ρ_ (natTensorPow L i)).inv
       rw [← rightUnitor_inv_naturality_assoc]
@@ -139,7 +139,7 @@ theorem twistPowAddIso_add (F L : C) (m i : ℕ) :
         rw [eqToHom_whiskerRight]
         rfl
       rw [heq]
-      show ((twistPowAddIso F L (m + i) j).hom ▷ L ≫
+      change ((twistPowAddIso F L (m + i) j).hom ▷ L ≫
             (α_ (twistPow F L (m + i)) (natTensorPow L j) L).hom) ≫
           (twistPowAddIso F L m i).hom ▷ (natTensorPow L j ⊗ L) ≫
             (α_ (twistPow F L m) (natTensorPow L i) (natTensorPow L j ⊗ L)).hom =
@@ -201,11 +201,11 @@ theorem twistPowAddIso_naturality {F G L : C} (φ : F ⟶ G) (m : ℕ) :
     ∀ j : ℕ, (twistPowAddIso F L m j).hom ≫ twistPowMap L φ m ▷ natTensorPow L j =
       twistPowMap L φ (m + j) ≫ (twistPowAddIso G L m j).hom
   | 0 => by
-      show (ρ_ _).inv ≫ twistPowMap L φ m ▷ (𝟙_ C) = twistPowMap L φ m ≫ (ρ_ _).inv
+      change (ρ_ _).inv ≫ twistPowMap L φ m ▷ (𝟙_ C) = twistPowMap L φ m ≫ (ρ_ _).inv
       rw [rightUnitor_inv_naturality]
   | j + 1 => by
       have ih := twistPowAddIso_naturality (L := L) φ m j
-      show ((twistPowAddIso F L m j).hom ▷ L ≫ (α_ _ _ _).hom) ≫
+      change ((twistPowAddIso F L m j).hom ▷ L ≫ (α_ _ _ _).hom) ≫
           twistPowMap L φ m ▷ (natTensorPow L j ⊗ L) =
         twistPowMap L φ (m + j) ▷ L ≫ (twistPowAddIso G L m j).hom ▷ L ≫ (α_ _ _ _).hom
       rw [Category.assoc, ← associator_naturality_left, ← comp_whiskerRight_assoc, ih,

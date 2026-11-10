@@ -91,9 +91,9 @@ theorem exists_isPullback_of_isFinitePresentationColimit {I : Type u} [Category.
   refine ⟨i, Yi.obj.left, Yi.obj.hom, b ≫ pullback.fst _ _, Yi.property.1, Yi.property.2, ?_⟩
   refine IsPullback.of_iso (IsPullback.of_hasPullback Yi.obj.hom (yoneda.map (p i)))
     ⟨a, b, hab, hba⟩ (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
-  · show pullback.fst _ _ ≫ 𝟙 _ = a ≫ b ≫ pullback.fst _ _
+  · change pullback.fst _ _ ≫ 𝟙 _ = a ≫ b ≫ pullback.fst _ _
     rw [← Category.assoc, hab, Category.id_comp, Category.comp_id]
-  · show pullback.snd _ _ ≫ 𝟙 _ = a ≫ f
+  · change pullback.snd _ _ ≫ 𝟙 _ = a ≫ f
     rw [ha, Category.comp_id]
 
 /-- The morphism of fibre products induced by a morphism `c` over the base of two cartesian
@@ -834,19 +834,13 @@ to the stage `j`. -/
 theorem exists_iso_stage_of_iso_of_aux {I : Type u} [Category.{u} I] [IsCofiltered I]
     {W : I ⥤ BigFppfOver B S hS} {M : BigFppfOver B S hS}
     {p : (i : I) → (M ⟶ W.obj i)} {hp : ∀ {i j : I} (e : j ⟶ i), p j ≫ W.map e = p i}
-    (P : FinitePresentationSpacesOver.IsFinitePresentationColimit B S hS W M p hp) (i : I)
-    {X Y₁ Y₂ Xi Y₁i Y₂i : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hXi : IsAlgebraicSpace B S hS Xi)
-    (hY₁i : IsAlgebraicSpace B S hS Y₁i) (hY₂i : IsAlgebraicSpace B S hS Y₂i)
-    {fX : X ⟶ yoneda.obj M} {g₁ : Y₁ ⟶ yoneda.obj M} {g₂ : Y₂ ⟶ yoneda.obj M}
+    (i : I) {Y₁ Y₂ Xi Y₁i Y₂i : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    {g₁ : Y₁ ⟶ yoneda.obj M} {g₂ : Y₂ ⟶ yoneda.obj M}
     {fXi : Xi ⟶ yoneda.obj (W.obj i)} {g₁i : Y₁i ⟶ yoneda.obj (W.obj i)}
-    {g₂i : Y₂i ⟶ yoneda.obj (W.obj i)} (hfpXi : IsFinitePresentation B S hS fXi)
-    (hfp₁i : IsFinitePresentation B S hS g₁i) (hfp₂i : IsFinitePresentation B S hS g₂i)
-    {qX : X ⟶ Xi} {q₁ : Y₁ ⟶ Y₁i} {q₂ : Y₂ ⟶ Y₂i}
-    (sqX : IsPullback qX fX fXi (yoneda.map (p i))) (sq₁ : IsPullback q₁ g₁ g₁i (yoneda.map (p i)))
+    {g₂i : Y₂i ⟶ yoneda.obj (W.obj i)} {q₁ : Y₁ ⟶ Y₁i} {q₂ : Y₂ ⟶ Y₂i}
+    (sq₁ : IsPullback q₁ g₁ g₁i (yoneda.map (p i)))
     (sq₂ : IsPullback q₂ g₂ g₂i (yoneda.map (p i))) (c₁i : Xi ⟶ Y₁i) (c₂i : Xi ⟶ Y₂i)
-    (hc₁i : c₁i ≫ g₁i = fXi) (hc₂i : c₂i ≫ g₂i = fXi) (c₁ : X ⟶ Y₁) (c₂ : X ⟶ Y₂)
-    (hc₁ : c₁ ≫ g₁ = fX) (hc₂ : c₂ ≫ g₂ = fX) (hcq₁ : c₁ ≫ q₁ = qX ≫ c₁i)
-    (hcq₂ : c₂ ≫ q₂ = qX ≫ c₂i) (ψ : Y₁ ≅ Y₂) (hψg : ψ.hom ≫ g₂ = g₁) (hψc : c₁ ≫ ψ.hom = c₂)
+    (hc₁i : c₁i ≫ g₁i = fXi) (hc₂i : c₂i ≫ g₂i = fXi) (ψ : Y₁ ≅ Y₂) (hψg : ψ.hom ≫ g₂ = g₁)
     {j₁ : I} (e₁ : j₁ ⟶ i)
     (Θ : pullback g₁i (yoneda.map (W.map e₁)) ≅ pullback g₂i (yoneda.map (W.map e₁)))
     (hΘs : Θ.hom ≫ pullback.snd _ _ = pullback.snd _ _)
@@ -942,8 +936,8 @@ theorem exists_iso_stage_of_iso {I : Type u} [Category.{u} I] [IsCofiltered I]
       q₂j ≫ g₂j = g₂ ≫ yoneda.map (p j) ∧ ψ.hom ≫ q₂j = q₁j ≫ ψj.hom := by
   obtain ⟨j₁, e₁, Θ, hΘs, hΘc, j, e₂, heq'⟩ := exists_iso_stage_of_iso_aux P i hXi hY₁i hY₂i
     hfpXi hfp₁i hfp₂i sqX sq₁ sq₂ c₁i c₂i hc₁i hc₂i c₁ c₂ hc₁ hc₂ hcq₁ hcq₂ ψ hψg hψc
-  exact ⟨j, exists_iso_stage_of_iso_of_aux P i hXi hY₁i hY₂i hfpXi hfp₁i hfp₂i sqX sq₁ sq₂ c₁i
-    c₂i hc₁i hc₂i c₁ c₂ hc₁ hc₂ hcq₁ hcq₂ ψ hψg hψc e₁ Θ hΘs hΘc e₂ heq'⟩
+  exact ⟨j, exists_iso_stage_of_iso_of_aux (hp := hp) i sq₁ sq₂ c₁i c₂i hc₁i hc₂i ψ hψg e₁ Θ
+    hΘs hΘc e₂ heq'⟩
 
 end General
 
@@ -967,7 +961,7 @@ theorem contains_spec_of_essFiniteType (R : Type u) [CommRing R] [Algebra.EssFin
       · simp
       · exact Cardinal.lift_le_aleph0.2 (Cardinal.mk_le_aleph0_iff.2 inferInstance)
     exact Cardinal.lift_le_aleph0.1 h'
-  show (Spec (.of R)).size < B.cutoff
+  change (Spec (.of R)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact lt_of_le_of_lt (max_le le_rfl (hl.trans hs)) B.aleph0_lt_cutoff
 
@@ -976,7 +970,7 @@ variable (B) in
 site. -/
 theorem contains_spec_residueField_of_contains (R : Type u) [CommRing R] [IsLocalRing R]
     (hR : B.Contains (Spec (.of R))) : B.Contains (Spec (.of (ResidueField R))) := by
-  show (Spec (.of (ResidueField R))).size < B.cutoff
+  change (Spec (.of (ResidueField R))).size < B.cutoff
   rw [Scheme.size_Spec]
   refine lt_of_le_of_lt (max_le_max le_rfl
     (Cardinal.mk_le_of_surjective (IsLocalRing.residue_surjective (R := R)))) ?_
@@ -1109,7 +1103,7 @@ theorem exists_iso_of_closedFibre_of_isLocalRing_of_siteObject (A : Type u) [Com
     exact contains_spec_of_essFiniteType B (R.obj i)
   have hc := isLimitSpecStageCone (hZ := hZ) R hcont ρ hcolim ε
   have hD : ∀ j, IsAffine ((𝒯).obj ((specStageDiagram (hZ := hZ) R hcont).obj j)) := fun j => by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   obtain ⟨M, X₀, Y₁₀, Y₂₀, f₀, g₁₀, g₂₀, c₁₀, c₂₀, qX, q₁, q₂, hX₀, hY₁₀, hY₂₀, hfl₀, hpr₀, hfp₀,
       hfl₁₀, hpr₁₀, hfp₁₀, hfl₂₀, hpr₂₀, -, hc₁₀, hc₂₀, sqX, sq₁, sq₂, hcq₁, hcq₂⟩ :=
@@ -1132,7 +1126,7 @@ theorem exists_iso_of_closedFibre_of_isLocalRing_of_siteObject (A : Type u) [Com
       m ≫ closedPointSiteMap (R.obj M.unop) (hcont M.unop) hκ := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (𝒯).map k ≫ ε.hom ≫ Spec.map (ρ.app M.unop) =
+    change (𝒯).map k ≫ ε.hom ≫ Spec.map (ρ.app M.unop) =
       mmap ≫ Spec.map (CommRingCat.ofHom (residue (R.obj M.unop)))
     have hk : (𝒯).map k ≫ ε.hom = ι.inv ≫ ContractionUniquenessComplete.closedPoint A := by
       rw [← hι]
@@ -1144,17 +1138,17 @@ theorem exists_iso_of_closedFibre_of_isLocalRing_of_siteObject (A : Type u) [Com
     congr 1
   have haff : IsAffine ((𝒯).obj K) := .of_isIso ι.inv
   have haff₀ : IsAffine ((𝒯).obj (integerSiteObject B hZ hκ)) := by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   let := φκ.toAlgebra
   have hmfl : Flat ((𝒯).map m) := by
-    show Flat (ι.inv ≫ Spec.map (CommRingCat.ofHom (algebraMap _ _)))
+    change Flat (ι.inv ≫ Spec.map (CommRingCat.ofHom (algebraMap _ _)))
     have : Flat (Spec.map (CommRingCat.ofHom (algebraMap (ResidueField (R.obj M.unop))
         (ResidueField A)))) :=
       Flat.SpecMap_iff.2 (RingHom.flat_algebraMap_iff.2 inferInstance)
     infer_instance
   have hmsu : Surjective ((𝒯).map m) := by
-    show Surjective (ι.inv ≫ Spec.map (CommRingCat.ofHom φκ))
+    change Surjective (ι.inv ≫ Spec.map (CommRingCat.ofHom φκ))
     have : Surjective (Spec.map (CommRingCat.ofHom φκ)) :=
       (AlgebraicGeometry.surjective_iff _).2 (Function.surjective_to_subsingleton _)
     infer_instance

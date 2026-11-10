@@ -218,7 +218,7 @@ theorem kernelClass_tangentClassAt
     D.kernelClass iΛ x₀ hx₀ h𝓕 h𝓖 M (tangentClassAt.{u, u, u} _ h𝓕 M x) =
       D.fiberExtClass iΛ x₀ hx₀ x
         (D.hasTrivialBase_of_tangentMapAt_eq_zero iΛ x₀ hx₀ M h𝓕 h𝓖 x hx) := by
-  rw [kernelClass, dif_pos hx]
+  rw [kernelClass, dite_eq_left hx]
   obtain ⟨e⟩ := (tangentClassAt_eq_iff.{u, u, u} _ h𝓕 M _ x).1
     (D.tangentClassAt_tangentRep iΛ x₀ hx₀ h𝓕 M _)
   exact D.fiberExtClass_eq_of_iso iΛ x₀ hx₀ _ _ _ _ e

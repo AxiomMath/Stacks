@@ -100,7 +100,8 @@ public theorem galoisActionOnGeometricIrreducibleComponents_fixed_iff_and_compat
     (∀ Tbar : (galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).V,
       (∀ σ : MulOpposite (ksep ≃ₐ[k] ksep),
         ConcreteCategory.hom
-          ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ).asHom Tbar = Tbar) ↔
+          ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ).asHom Tbar =
+            Tbar) ↔
         ∃ T : irreducibleComponents X,
           GeometricallyIrreducible
             ((Scheme.IdealSheafData.vanishingIdeal

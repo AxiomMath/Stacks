@@ -298,11 +298,13 @@ lemma ι_pullbackTensorComplexIsoOfIsIso_hom
     (h : ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q) = n) :
     (StacksDraft.KFlat.modulePullback f).map
           (HomologicalComplex.ιMapBifunctor K L
-            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf) (ComplexShape.up ℤ) p q n h) ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf) (ComplexShape.up ℤ)
+            p q n h) ≫
         (pullbackTensorComplexIsoOfIsIso f K L).hom.f n =
       (comparisonAppIso f (K.X p) (L.X q)).hom ≫
         HomologicalComplex.ιMapBifunctor ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
-          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ) p q n h := by
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ)
+          p q n h := by
   rw [pullbackTensorComplexIsoOfIsIso_eq_mapBifunctorTotalIso f K L]
   refine CategoryTheory.Functor.ι_mapBifunctorTotalIso_hom _ _ _ _ _ _ _ _ ?_ ?_ K L p q n h
 
@@ -313,7 +315,8 @@ lemma ι_pullbackTensorComplexIsoOfIsIso_inv
     (p q n : ℤ)
     (h : ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q) = n) :
     HomologicalComplex.ιMapBifunctor ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
-          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ) p q n h ≫
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ)
+          p q n h ≫
         (pullbackTensorComplexIsoOfIsIso f K L).inv.f n =
       (comparisonAppIso f (K.X p) (L.X q)).inv ≫
         (StacksDraft.KFlat.modulePullback f).map
@@ -400,7 +403,8 @@ morphisms; every statement that reads a summand of a total tensor complex agains
 product category needs it. -/
 lemma tensorSheaf_map_pair {W : RingedSpace.{u, u}}
     {A A' B B' : SheafOfModules.{u} (structureRingSheaf W)} (a : A ⟶ A') (b : B ⟶ B') :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.sheaf))).map ((a, b) : ((A, B) : _ × _) ⟶ (A', B')) =
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.sheaf))).map
+        ((a, b) : ((A, B) : _ × _) ⟶ (A', B')) =
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.sheaf).map a).app B ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} W.sheaf).obj A').map b :=
   rfl
@@ -457,7 +461,8 @@ theorem pullbackTensorComplexIsoOfIsIso_comp
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ) =
       (pullbackComplexCompIso f g).hom.app
           (HomologicalComplex.mapBifunctor K L
-            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) (ComplexShape.up ℤ)) ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)
+            (ComplexShape.up ℤ)) ≫
         (pullbackTensorComplexIsoOfIsIso (f ≫ g) K L).hom :=
   Stacks.TotalTensorComplexComposite.totalComplexComparison_comp
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)
@@ -497,7 +502,8 @@ theorem pullbackTensorComplexNatIso_comp
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℤ) =
       (pullbackComplexCompIso f g).hom.app
           (HomologicalComplex.mapBifunctor K L
-            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) (ComplexShape.up ℤ)) ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)
+            (ComplexShape.up ℤ)) ≫
         (pullbackTensorComplexNatIso (f ≫ g)).hom.app (K, L) :=
   pullbackTensorComplexIsoOfIsIso_comp f g K L
 

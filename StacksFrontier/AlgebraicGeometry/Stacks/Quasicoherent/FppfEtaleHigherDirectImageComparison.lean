@@ -113,7 +113,7 @@ def etaleComparisonPushforwardULiftIso (𝒵 : AlgebraicStacks.{u, w} B S hS) :
     etaleComparisonPushforward B S hS 𝒵.val.val.p 𝒵.val.isFiberedInGroupoids ⋙
         stackModuleULift B S hS .etale 𝒵 ≅
       stackModuleULift B S hS .fppf 𝒵 ⋙ etaleComparisonPushforwardSucc B S hS 𝒵 :=
-  NatIso.ofComponents (fun M ↦ (SheafOfModules.fullyFaithfulForget _).preimageIso
+  NatIso.ofComponents (fun _ ↦ (SheafOfModules.fullyFaithfulForget _).preimageIso
     (PresheafOfModules.isoMk (fun _ ↦ Iso.refl _) (fun _ _ _ ↦ rfl))) (fun _ ↦ rfl)
 
 variable {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)

@@ -406,13 +406,13 @@ theorem augClass_app_eq_zero {F : X.Modules} (L : CochainComplex X.Modules ℕ) 
     have e2 := congrArg (fun ψ => ψ.app U y) (L.toCycles_i p (p + 1))
     exact e1.trans (h.trans e2.symm)
   have hπ := congrArg (fun ψ => ψ.app U y) (L.toCycles_comp_homologyπ p (p + 1))
-  show (augHomology L a hT hL (p + 1)).app U ((L.homologyπ (p + 1)).app U
+  change (augHomology L a hT hL (p + 1)).app U ((L.homologyπ (p + 1)).app U
       ((L.liftCycles u (p + 1 + 1) (CochainComplex.next ℕ (p + 1)) hu).app U s)) = 0
   rw [hc]
-  show (augHomology L a hT hL (p + 1)).app U
+  change (augHomology L a hT hL (p + 1)).app U
     ((L.toCycles p (p + 1) ≫ L.homologyπ (p + 1)).app U y) = 0
   rw [L.toCycles_comp_homologyπ p (p + 1)]
-  show (augHomology L a hT hL (p + 1)).app U 0 = 0
+  change (augHomology L a hT hL (p + 1)).app U 0 = 0
   exact map_zero _
 
 /-- **The class kills the multiples of the equations**, on sections over opens of the chart. -/

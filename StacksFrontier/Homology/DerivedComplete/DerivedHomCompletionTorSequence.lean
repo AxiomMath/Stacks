@@ -371,8 +371,8 @@ public def singleExtendIso :
     intro N N' g
     apply HomologicalComplex.to_single_hom_ext
     simp only [Functor.comp_obj, HomologicalComplex.single, ↓dreduceIte,
-      CochainComplex.singleFunctor, CochainComplex.singleFunctors,
-      CochainComplex.shiftFunctor_obj_X', Functor.comp_map,
+      CochainComplex.singleFunctor,
+      Functor.comp_map,
       ComplexShape.Embedding.extendFunctor_map, HomologicalComplex.comp_f,
       HomologicalComplex.extendMap_f _ ComplexShape.embeddingDownNat (i := 0) (i' := 0) (by simp),
       ChainComplex.single₀_obj_zero, ChainComplex.single₀_map_f_zero,
@@ -448,7 +448,7 @@ public def tensorSingleIso (K : CochainComplex (ModuleCat.{u} R) ℤ) :
   ext n : 1
   dsimp [tensorSingleInclusion, complexTensorRight, TleftCochain, HomologicalComplex.ιTensorObj]
   erw [HomologicalComplex.ι_mapBifunctorMap]
-  simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+  simp [CochainComplex.singleFunctor,
     HomologicalComplex.single_map_f_self, HomologicalComplex.singleObjXSelf,
     HomologicalComplex.singleObjXIsoOfEq]
   rfl

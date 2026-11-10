@@ -402,7 +402,7 @@ theorem chartBaseChangeCompComparison_counit (V : SmallEtale B S hS C.1) :
       (smallEtalePostcompBaseChangeAdjunction B S hS (h ≫ g) hhg hrephg).counit.app V := by
   refine postcompLeft_injective B S hS (h ≫ g) hhg
     ((smallBaseChange B S hS (h ≫ g) hrephg).obj V) V ?_
-  show (chartBaseChangeCompComparison B S hS h g hreph hrepg hrephg V).hom.left ≫
+  change (chartBaseChangeCompComparison B S hS h g hreph hrepg hrephg V).hom.left ≫
       ((smallEtalePostcompBaseChangeAdjunction B S hS h hh hreph).counit.app
         ((smallBaseChange B S hS g hrepg).obj V)).hom.left ≫
       ((smallEtalePostcompBaseChangeAdjunction B S hS g hg hrepg).counit.app V).hom.left =

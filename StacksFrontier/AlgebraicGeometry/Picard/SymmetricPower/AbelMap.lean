@@ -49,7 +49,7 @@ theorem schemePullbackClass_picardClass_of_eq_comap {Y Y' : Scheme.{u}} (b : Y' 
     [IsEffectiveCartierDivisor D'] (h : D' = D.comap b) :
     Stacks.Picard.schemePullbackClass b (picardClass D) = picardClass D' := by
   let : IsPullbackDefined b D := by
-    show IsEffectiveCartierDivisor (D.comap b)
+    change IsEffectiveCartierDivisor (D.comap b)
     rw [← h]
     infer_instance
   refine (Stacks.Picard.pullbackClass_classOf b.toLRSHom.toShHom (invertibleSheaf' D)

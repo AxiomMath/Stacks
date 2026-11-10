@@ -155,7 +155,7 @@ end CategoryTheory.Functor
 
 namespace CategoryTheory.Pseudofunctor.DescentData
 
-open Functor Functor.IsFibered Opposite Limits
+open _root_.CategoryTheory.Functor _root_.CategoryTheory.Functor.IsFibered Opposite Limits
 
 universe w v₁ v₂ u₁ u₂
 

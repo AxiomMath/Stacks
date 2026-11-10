@@ -55,7 +55,7 @@ omit [BraidedCategory 𝒜] in
 theorem coh_pd {X Y : 𝒜} (ξ : X ≅ Y) :
     Coh L Ψ 𝕋 ω (e := pd X) (e' := pd Y) (𝟙 (𝟙_ 𝒟)) ξ ξ.hom := by
   unfold Coh presIso
-  show (𝟙 (𝟙_ 𝒟) ⊗ₘ Ψ.map ξ.hom) ≫ (λ_ (Ψ.obj Y)).hom = (λ_ (Ψ.obj X)).hom ≫ Ψ.map ξ.hom
+  change (𝟙 (𝟙_ 𝒟) ⊗ₘ Ψ.map ξ.hom) ≫ (λ_ (Ψ.obj Y)).hom = (λ_ (Ψ.obj X)).hom ≫ Ψ.map ξ.hom
   rw [id_tensorHom, leftUnitor_naturality]
 
 variable (L Ψ 𝕋 ω)
@@ -218,12 +218,12 @@ theorem RelX.padRight {e e' : Expr 𝒜} {u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋
   unfold RelX at *
   rw [θ_tensor_right, θ_tensor_right]
   simp only [Iso.trans_hom, Iso.symm_hom, whiskerRightIso_hom, Functor.map_comp,
-    whiskerLeft_comp, Category.assoc, Iso.map_hom_inv_id_assoc]
+    whiskerLeft_comp, Category.assoc, Iso.hom_inv_id_map_assoc]
   have e₁ : (ev Ψ 𝕋).obj e' ◁ Ψ.map (α_ ((Expr.pad L).obj e') Y D).hom ≫
       (ev Ψ 𝕋).obj e' ◁ Ψ.map (α_ ((Expr.pad L).obj e') Y D).inv ≫
       (ev Ψ 𝕋).obj e' ◁ δ Ψ ((Expr.pad L).obj e' ⊗ Y) D =
       (ev Ψ 𝕋).obj e' ◁ δ Ψ ((Expr.pad L).obj e' ⊗ Y) D := by
-    rw [← whiskerLeft_comp_assoc, Iso.map_hom_inv_id, whiskerLeft_id, Category.id_comp]
+    rw [← whiskerLeft_comp_assoc, Iso.hom_inv_id_map, whiskerLeft_id, Category.id_comp]
   have e₂ : (ev Ψ 𝕋).obj e' ◁ Ψ.map (φ.hom ▷ D) ≫
       (ev Ψ 𝕋).obj e' ◁ δ Ψ ((Expr.pad L).obj e' ⊗ Y) D =
       (ev Ψ 𝕋).obj e' ◁ δ Ψ ((Expr.pad L).obj e ⊗ X) D ≫
@@ -240,13 +240,14 @@ def presPad (e : Expr 𝒜) (X : 𝒜) :
     ((ev Ψ 𝕋).obj e ⊗ 𝟙_ 𝒟) ⊗ Ψ.obj ((Expr.pad L).obj e ⊗ X) ≅ Ψ.obj ((base).obj e ⊗ X) :=
   presIso L Ψ 𝕋 ω (e ⊗ pd X)
 
+omit [BraidedCategory 𝒜] in
 /-- `θ e X` is the presentation of `e ⊗ pd X`. -/
 theorem θ_eq_presPad (e : Expr 𝒜) (X : 𝒜) :
     (θ L Ψ 𝕋 ω e X).hom =
       (ρ_ ((ev Ψ 𝕋).obj e)).inv ▷ Ψ.obj ((Expr.pad L).obj e ⊗ X) ≫
         (presPad L Ψ 𝕋 ω e X).hom := by
   rw [presPad, presIso_tensor_hom, θ_hom]
-  show _ = _ ≫ (𝟙 _ ⊗ₘ (Ψ.map (𝟙 _) ≫ δ Ψ _ _)) ≫ tensorδ _ _ _ _ ≫
+  change _ = _ ≫ (𝟙 _ ⊗ₘ (Ψ.map (𝟙 _) ≫ δ Ψ _ _)) ≫ tensorδ _ _ _ _ ≫
     ((presIso L Ψ 𝕋 ω e).hom ⊗ₘ (λ_ (Ψ.obj X)).hom) ≫ μ Ψ _ _ ≫ Ψ.map (𝟙 _)
   simp only [Functor.map_id, Category.id_comp, Category.comp_id, tensorHom_def,
     Category.assoc]
@@ -260,13 +261,14 @@ theorem θ_eq_presPad (e : Expr 𝒜) (X : 𝒜) :
     ← whisker_exchange_assoc (presIso L Ψ 𝕋 ω e).hom (λ_ (Ψ.obj X)).hom,
     ← whisker_exchange_assoc, reassoc_of% hstr]
 
+omit [BraidedCategory 𝒜] in
 /-- A presented morphism is a cohering triple on the padded expressions. -/
 theorem relX_iff_coh {e e' : Expr 𝒜} (u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋).obj e') (X Y : 𝒜)
     (φ : (Expr.pad L).obj e ⊗ X ≅ (Expr.pad L).obj e' ⊗ Y)
     (c : (base).obj e ⊗ X ⟶ (base).obj e' ⊗ Y) :
     RelX L Ψ 𝕋 ω u X Y φ c ↔
       Coh L Ψ 𝕋 ω (e := e ⊗ pd X) (e' := e' ⊗ pd Y) (u ▷ 𝟙_ 𝒟) φ c := by
-  show _ ↔ ((u ▷ 𝟙_ 𝒟) ⊗ₘ Ψ.map φ.hom) ≫ (presPad L Ψ 𝕋 ω e' Y).hom =
+  change _ ↔ ((u ▷ 𝟙_ 𝒟) ⊗ₘ Ψ.map φ.hom) ≫ (presPad L Ψ 𝕋 ω e' Y).hom =
     (presPad L Ψ 𝕋 ω e X).hom ≫ Ψ.map c
   unfold RelX
   rw [θ_eq_presPad, θ_eq_presPad, Category.assoc]
@@ -309,6 +311,7 @@ theorem Good.comp {e e' e'' : Expr 𝒜} {u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋
   exact ⟨_, _, _, _, IsInvertible.map_tensor Ψ hX hY', IsInvertible.map_tensor Ψ hZ hY,
     ((h.padRight Y').changeRight (β_ Y Y')).comp (h'.padRight Y)⟩
 
+omit [BraidedCategory 𝒜] in
 /-- Whiskering a good morphism on the left keeps it good. -/
 theorem Good.whiskerLeft (e₂ : Expr 𝒜) {e e' : Expr 𝒜} {u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋).obj e'}
     (h : Good (L := L) (ω := ω) u) :
@@ -321,7 +324,7 @@ theorem Good.whiskerLeft (e₂ : Expr 𝒜) {e e' : Expr 𝒜} {u : (ev Ψ 𝕋)
   refine ⟨X, Y, _, _, hX, hY, (relX_iff_coh _ X Y _ _).2 (h₁.congr ?_ rfl rfl)⟩
   rw [map_associator, map_associator_inv]
   simp only [Category.assoc, μ_δ_assoc]
-  show 𝟙 _ ≫ δ (ev Ψ 𝕋) e₂ e ▷ 𝟙_ 𝒟 ≫ (α_ ((ev Ψ 𝕋).obj e₂) ((ev Ψ 𝕋).obj e) (𝟙_ 𝒟)).hom ≫
+  change 𝟙 _ ≫ δ (ev Ψ 𝕋) e₂ e ▷ 𝟙_ 𝒟 ≫ (α_ ((ev Ψ 𝕋).obj e₂) ((ev Ψ 𝕋).obj e) (𝟙_ 𝒟)).hom ≫
       (ev Ψ 𝕋).obj e₂ ◁ 𝟙 _ ≫ (𝟙 ((ev Ψ 𝕋).obj e₂) ⊗ₘ u ▷ 𝟙_ 𝒟) ≫ (ev Ψ 𝕋).obj e₂ ◁ 𝟙 _ ≫
         (α_ ((ev Ψ 𝕋).obj e₂) ((ev Ψ 𝕋).obj e') (𝟙_ 𝒟)).inv ≫ μ (ev Ψ 𝕋) e₂ e' ▷ 𝟙_ 𝒟 ≫ 𝟙 _ =
     (δ (ev Ψ 𝕋) e₂ e ≫ (ev Ψ 𝕋).obj e₂ ◁ u ≫ μ (ev Ψ 𝕋) e₂ e') ▷ 𝟙_ 𝒟
@@ -335,21 +338,24 @@ theorem Good.congr {e e' : Expr 𝒜} {u u' : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋
     (h : Good (L := L) (ω := ω) u) (hu : u = u') : Good (L := L) (ω := ω) u' :=
   hu ▸ h
 
+omit [BraidedCategory 𝒜] in
 /-- The images of the morphisms of the free monoidal category are good. -/
 theorem good_map {e e' : Expr 𝒜} (w : e ⟶ e') : Good (L := L) (ω := ω) ((ev Ψ 𝕋).map w) :=
   (coh_map w).good
 
+omit [BraidedCategory 𝒜] in
 /-- The images under `Ψ` of the morphisms of `𝒜` are good. -/
 theorem good_atom {A B : 𝒜} (g : A ⟶ B) :
     Good (L := L) (ω := ω) (e := atom A) (e' := atom B) (Ψ.map g) :=
   (coh_atom g).good
 
+omit [BraidedCategory 𝒜] in
 /-- Whiskering on the left, with the structure maps of `ev` written as identities. -/
 theorem Good.whiskerLeft' (e₂ : Expr 𝒜) {e e' : Expr 𝒜} {u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋).obj e'}
     (h : Good (L := L) (ω := ω) u) :
     Good (L := L) (ω := ω) (e := e₂ ⊗ e) (e' := e₂ ⊗ e') ((ev Ψ 𝕋).obj e₂ ◁ u) :=
   (h.whiskerLeft e₂).congr (by
-    show 𝟙 _ ≫ (ev Ψ 𝕋).obj e₂ ◁ u ≫ 𝟙 _ = _
+    change 𝟙 _ ≫ (ev Ψ 𝕋).obj e₂ ◁ u ≫ 𝟙 _ = _
     rw [Category.id_comp, Category.comp_id]
     rfl)
 
@@ -370,7 +376,7 @@ theorem good_braiding (e₁ e₂ : Expr 𝒜) :
     Good (L := L) (ω := ω) (e := e₁ ⊗ e₂) (e' := e₂ ⊗ e₁)
       (β_ ((ev Ψ 𝕋).obj e₁) ((ev Ψ 𝕋).obj e₂)).hom :=
   (coh_braiding e₁ e₂).good.congr (by
-    show 𝟙 _ ≫ (β_ ((ev Ψ 𝕋).obj e₁) ((ev Ψ 𝕋).obj e₂)).hom ≫ 𝟙 _ = _
+    change 𝟙 _ ≫ (β_ ((ev Ψ 𝕋).obj e₁) ((ev Ψ 𝕋).obj e₂)).hom ≫ 𝟙 _ = _
     rw [Category.id_comp, Category.comp_id])
 
 /-- Whiskering on the right keeps a morphism good. -/

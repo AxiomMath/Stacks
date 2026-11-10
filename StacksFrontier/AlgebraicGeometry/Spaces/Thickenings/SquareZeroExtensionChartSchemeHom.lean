@@ -96,7 +96,7 @@ theorem chartZariskiInclusion_comp_chartThickeningMapSh {U V : SmallEtale B S hS
       (chartSchemeMap g).toLRSHom.toShHom ≫ chartZariskiInclusion B S hS E U := by
   refine InducedCategory.hom_ext (PresheafedSpace.hext _ _ rfl (heq_of_eq ?_))
   ext O a
-  show (Scheme.restrictFunctorΓ (X := chartScheme V)).hom.app (op (chartSchemeMap g ⁻¹ᵁ O))
+  change (Scheme.restrictFunctorΓ (X := chartScheme V)).hom.app (op (chartSchemeMap g ⁻¹ᵁ O))
       (E.π.hom.app _ (E.A.obj.map (openChartRestrict B S hS X.1 g O).op a)) =
     (chartSchemeMap g).app O
       ((Scheme.restrictFunctorΓ (X := chartScheme U)).hom.app (op O) (E.π.hom.app _ a))
@@ -155,7 +155,7 @@ theorem _root_.AlgebraicGeometry.Space.openChartRestrict_comp_of_le
     (openChartFunctor B S hS F W).map i ≫ openChartRestrict B S hS F (g ≫ g') O =
       openChartRestrict B S hS F g (chartSchemeMap g' ⁻¹ᵁ O) ≫ openChartRestrict B S hS F g' O := by
   apply hom_ext_of_toScheme_map_eq
-  show (chartScheme W).homOfLE i.le ≫ (chartSchemeMap (g ≫ g') ∣_ O) =
+  change (chartScheme W).homOfLE i.le ≫ (chartSchemeMap (g ≫ g') ∣_ O) =
     (chartSchemeMap g ∣_ (chartSchemeMap g' ⁻¹ᵁ O)) ≫ (chartSchemeMap g' ∣_ O)
   rw [← cancel_mono O.ι, Category.assoc, Category.assoc, morphismRestrict_ι, morphismRestrict_ι,
     ← Category.assoc, Scheme.homOfLE_ι, ← Category.assoc, morphismRestrict_ι, Category.assoc]
@@ -175,7 +175,7 @@ theorem chartThickeningMapSh_comp {W V U : SmallEtale B S hS X.1} (g : W ⟶ V) 
   obtain ⟨O, rfl⟩ : ∃ O' : (chartScheme U).Opens, O' = O := ⟨O, rfl⟩
   intro a
   rw [NatTrans.comp_app, Functor.whiskerRight_app, eqToHom_app]
-  show (E.A.obj.map (openChartRestrict B S hS X.1 (g ≫ g') O).op ≫
+  change (E.A.obj.map (openChartRestrict B S hS X.1 (g ≫ g') O).op ≫
       E.A.obj.map ((openChartFunctor B S hS X.1 W).op.map (eqToHom _))) a =
     (E.A.obj.map (openChartRestrict B S hS X.1 g' O).op ≫
       E.A.obj.map (openChartRestrict B S hS X.1 g (chartSchemeMap g' ⁻¹ᵁ O)).op) a
@@ -192,7 +192,7 @@ theorem _root_.AlgebraicGeometry.Space.openChartRestrict_id
     (i : O ⟶ chartSchemeMap (𝟙 U) ⁻¹ᵁ O) :
     (openChartFunctor B S hS F U).map i ≫ openChartRestrict B S hS F (𝟙 U) O = 𝟙 _ := by
   apply hom_ext_of_toScheme_map_eq
-  show (chartScheme U).homOfLE i.le ≫ (chartSchemeMap (𝟙 U) ∣_ O) = 𝟙 _
+  change (chartScheme U).homOfLE i.le ≫ (chartSchemeMap (𝟙 U) ∣_ O) = 𝟙 _
   rw [← cancel_mono O.ι, Category.assoc, morphismRestrict_ι, ← Category.assoc,
     Scheme.homOfLE_ι, Category.id_comp]
   simp [chartSchemeMap]
@@ -256,7 +256,7 @@ theorem etale_chartThickeningMap {U V : SmallEtale B S hS X.1} (g : V ⟶ U) :
     (openChartFunctor B S hS X.1 V).map (homOfLE e) ≫ openChartRestrict B S hS X.1 g O
   let : Algebra (E.A.obj.obj (op (openChart B S hS X.1 U O)))
       (E.A.obj.obj (op (openChart B S hS X.1 V Q))) := (E.A.obj.map m.op).hom.toAlgebra
-  show RingHom.Etale ((chartThickeningMap B S hS E g).appLE O Q e).hom
+  change RingHom.Etale ((chartThickeningMap B S hS E g).appLE O Q e).hom
   rw [chartThickeningMap_appLE B S hS E g O Q e]
   exact SquareZeroExtension.algebraEtale_app_of_isAffine B S hS E m
     (isAffineOpen_of_isAffineOpen_chartThickening B S hS E V hQ)
@@ -318,22 +318,22 @@ theorem _root_.AlgebraicGeometry.isIso_of_isPullback_of_isPullback_of_surjective
   have hl : (F.map ψ').left = hA.isoPullback.inv ≫ hB.isoPullback.hom := by
     apply pullback.hom_ext
     · refine (pullback.lift_fst _ _ _).trans ?_
-      show pullback.fst p i ≫ ψ = (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.fst q i
+      change pullback.fst p i ≫ ψ = (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.fst q i
       rw [Category.assoc, IsPullback.isoPullback_hom_fst, ← Category.assoc,
         IsPullback.isoPullback_inv_fst]
     · refine (pullback.lift_snd _ _ _).trans ?_
-      show pullback.snd p i = (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.snd q i
+      change pullback.snd p i = (hA.isoPullback.inv ≫ hB.isoPullback.hom) ≫ pullback.snd q i
       rw [Category.assoc, IsPullback.isoPullback_hom_snd, IsPullback.isoPullback_inv_snd]
   have : IsIso ((Over.forget T₀).map
       ((Scheme.Etale.forget T₀).map (F.map ψ'))) := by
-    show IsIso (F.map ψ').left
+    change IsIso (F.map ψ').left
     rw [hl]
     exact inferInstanceAs (IsIso (hA.isoPullback.symm ≪≫ hB.isoPullback).hom)
   have : IsIso ((Scheme.Etale.forget T₀).map (F.map ψ')) :=
     isIso_of_reflects_iso _ (Over.forget T₀)
   have : IsIso (F.map ψ') := isIso_of_reflects_iso _ (Scheme.Etale.forget T₀)
   have : IsIso ψ' := isIso_of_reflects_iso ψ' F
-  show IsIso ((Over.forget T).map ((Scheme.Etale.forget T).map ψ'))
+  change IsIso ((Over.forget T).map ((Scheme.Etale.forget T).map ψ'))
   infer_instance
 
 /-- **The thickened chart functor carries fibre products of the small étale site to fibre

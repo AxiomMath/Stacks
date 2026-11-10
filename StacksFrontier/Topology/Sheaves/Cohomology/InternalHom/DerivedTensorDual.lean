@@ -201,7 +201,7 @@ theorem derivedTensorDualToSheafHom_naturality_tensorMap
     exact (congrArg (((derivedTensor Rc).map m).app (derivedDual Rc L) ≫ ·)
       (((derivedTensor Rc).obj M').map_id (derivedDual Rc L))).trans (Category.comp_id _)
   have hhom : derivedSheafHomMap Rc (𝟙 L) m = ((derivedSheafHom Rc).obj (op L)).map m := by
-    show RingedSite.derivedSheafHomMap (ringedSite Rc) (derivedInternalHom Rc) (𝟙 L) m =
+    change RingedSite.derivedSheafHomMap (ringedSite Rc) (derivedInternalHom Rc) (𝟙 L) m =
       ((derivedInternalHom Rc).hom.obj (op L)).map m
     exact (congrArg (· ≫ ((derivedInternalHom Rc).hom.obj (op L)).map m)
       (NatTrans.congr_app ((derivedInternalHom Rc).hom.map_id (op L)) M)).trans

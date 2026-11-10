@@ -64,7 +64,7 @@ theorem Scheme.Hom.ι_mem_preimage_morphismRestrict {X S : Scheme.{u}} (f : X �
     (V : S.Opens) (s : V.toScheme) (y : (f ∣_ V) ⁻¹' {s}) :
     (f ⁻¹ᵁ V).ι y.1 ∈ f ⁻¹' {V.ι s} := by
   have h : (f ∣_ V) y.1 = s := y.2
-  show f ((f ⁻¹ᵁ V).ι y.1) = V.ι s
+  change f ((f ⁻¹ᵁ V).ι y.1) = V.ι s
   rw [f.apply_ι_preimage, h]
 
 /-- The set-theoretic fibre of the restriction `f ∣_ V` over a point of `V` is homeomorphic to

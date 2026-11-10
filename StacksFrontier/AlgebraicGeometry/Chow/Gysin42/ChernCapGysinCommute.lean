@@ -27,8 +27,8 @@ the identity
 ### Why no component-level input is needed
 
 A component-level route would need `Stacks.Chow.GysinChernCapRationallyEquivalentOnComponents`,
-Stacks 02TM read on the integral closed subschemes of `X`. That hypothesis has no producer: Stacks 02TM is proved for
-an *integral ambient* scheme, as
+Stacks 02TM read on the integral closed subschemes of `X`. That hypothesis has no producer:
+Stacks 02TM is proved for an *integral ambient* scheme, as
 `Stacks.Chow.gysinHomomorphismOfInvertible_eq_firstChernClassCapOfInvertible`, and restricting it
 to the components of a general `X` needs a transport across the two presentations of `D ∩ W`
 that this repository does not have, as well as a separate argument in the contained branch

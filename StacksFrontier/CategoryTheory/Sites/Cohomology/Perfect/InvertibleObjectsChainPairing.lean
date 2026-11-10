@@ -101,7 +101,7 @@ def restrictModHomologyIso (E : CochainComplex (Mod Z.O) ℤ) (W : Z.C) (k : ℤ
 /-- An isomorphism of sheaves of modules followed by its inverse is the identity on sections. -/
 private theorem inv_val_app_hom_val_app {Y : RingedSite.{u, u, u}} {G H : Mod Y.O} (e : G ≅ H)
     (U : Y.Cᵒᵖ) (x : G.val.obj U) : e.inv.val.app U (e.hom.val.app U x) = x := by
-  show (e.hom ≫ e.inv).val.app U x = x
+  change (e.hom ≫ e.inv).val.app U x = x
   rw [Iso.hom_inv_id]
   rfl
 
@@ -109,7 +109,7 @@ private theorem inv_val_app_hom_val_app {Y : RingedSite.{u, u, u}} {G H : Mod Y.
 sections. -/
 private theorem hom_val_app_inv_val_app {Y : RingedSite.{u, u, u}} {G H : Mod Y.O} (e : G ≅ H)
     (U : Y.Cᵒᵖ) (x : H.val.obj U) : e.hom.val.app U (e.inv.val.app U x) = x := by
-  show (e.inv ≫ e.hom).val.app U x = x
+  change (e.inv ≫ e.hom).val.app U x = x
   rw [Iso.inv_hom_id]
   rfl
 

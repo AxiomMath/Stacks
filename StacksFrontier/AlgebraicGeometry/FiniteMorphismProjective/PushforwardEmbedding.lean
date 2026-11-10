@@ -154,12 +154,12 @@ def symLift (U : S.Opens) :
 
 theorem symLift_ι (U : S.Opens) (m : Γ(structurePushforward f, U)) :
     symLift f U (SymmetricAlgebra.ι _ _ m) = (m : Γ(X, f ⁻¹ᵁ U)) := by
-  letI := (f.app U).hom.toAlgebra
+  let := (f.app U).hom.toAlgebra
   exact SymmetricAlgebra.lift_ι_apply (sectionsToRing f U) m
 
 theorem symLift_algebraMap (U : S.Opens) (r : Γ(S, U)) :
     symLift f U (algebraMap _ _ r) = f.app U r := by
-  letI := (f.app U).hom.toAlgebra
+  let := (f.app U).hom.toAlgebra
   exact (SymmetricAlgebra.lift (sectionsToRing f U)).commutes r
 
 /-! ### The multiplication on the sections of `Sym(f_*𝒪_X)` over an affine open -/

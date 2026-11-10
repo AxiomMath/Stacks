@@ -238,7 +238,7 @@ theorem mem_range_fieldPointTestSchemeHom (T : SchemesOver D.Y)
     (w : (BigFppfOver.toScheme B S hS).obj T.left) :
     w ∈ Set.range ((BigFppfOver.toScheme B S hS).map
       (D.fieldPointTestSchemeHom T w).left).base := by
-  show w ∈ Set.range (Scheme.fromSpecResidueField _ w).base
+  change w ∈ Set.range (Scheme.fromSpecResidueField _ w).base
   rw [Scheme.range_fromSpecResidueField]
   rfl
 
@@ -265,7 +265,7 @@ theorem mem_of_range_toLimit_zero_subset
   let Z : Set (PrimeSpectrum L.cR.pt) := L.eLimit.inv.base ⁻¹' (W : Set _)ᶜ
   have hZ : IsClosed Z := W.isOpen.isClosed_compl.preimage L.eLimit.inv.continuous
   have hne : Z.Nonempty := ⟨L.eLimit.hom.base z, by
-    show L.eLimit.inv.base (L.eLimit.hom.base z) ∉ W
+    change L.eLimit.inv.base (L.eLimit.hom.base z) ∉ W
     rwa [show L.eLimit.inv.base (L.eLimit.hom.base z) = z from
       (Scheme.homeoOfIso L.eLimit).symm_apply_apply z]⟩
   obtain ⟨p, hpZ, hpI⟩ := exists_mem_inter_zeroLocus_of_isClosed hZ hne (L.ker_π_le_jacobson 0)
@@ -760,7 +760,7 @@ theorem isEffective_formalObject_of
     (complexesFunctor_isFiberedInGroupoids D)
     (x := (⟨formalObjectTestScheme hY ξ, E, h₁, h₂⟩ : ComplexesObject D)) (hx := rfl)
     ⟨r, hrc, fun n => ?_⟩
-  show ((r n).base).left = _
+  change ((r n).base).left = _
   rw [hr n]
   rfl
 

@@ -283,7 +283,7 @@ theorem derivedBaseChangeHomologyMap_diagram
       (derivedBaseChangeHomologyMap sa gj gi ta hgt p Lj Li κT)),
     reassoc_of% (smallEtalePullbackAbCompApp_inv_naturality ri xa rj hrj
       (derivedBaseChangeHomologyMap fj gj hj ej wj p Lj Lj' κj)), k3,
-    reassoc_of% hc, Iso.map_hom_inv_id_assoc]
+    reassoc_of% hc, Iso.hom_inv_id_map_assoc]
 
 end Diagram
 

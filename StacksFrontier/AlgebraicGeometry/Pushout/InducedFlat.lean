@@ -88,7 +88,7 @@ private lemma flat_and_finitePresentation_iff_of_isPullback
     ((f.hom.comp base.pullbackCone.fst.hom).prod
       (g.hom.comp base.pullbackCone.snd.hom)) (RingHom.pullback i'.hom j'.hom)
     (fun x => by
-      show i'.hom (f.hom x.1.1) = j'.hom (g.hom x.1.2)
+      change i'.hom (f.hom x.1.1) = j'.hom (g.hom x.1.2)
       have hf' := congrArg (fun q : A ⟶ C' => q.hom x.1.1) Hf.w
       have hg' := congrArg (fun q : B ⟶ C' => q.hom x.1.2) Hg.w
       exact hf'.trans ((congrArg k.hom x.2).trans hg'.symm))

@@ -82,7 +82,7 @@ lemma fromSpecResidueField_appLE_eval
     exact hs.mem_open U.isOpen hx
   have h2 : ⊤ ≤ Spec.map (X.residue x) ⁻¹ᵁ (⊤ : (Spec (X.presheaf.stalk x)).Opens) := by
     simp
-  show (Spec.map (X.residue x) ≫ X.fromSpecStalk x).appLE U ⊤ hle ≫
+  change (Spec.map (X.residue x) ≫ X.fromSpecStalk x).appLE U ⊤ hle ≫
       (Scheme.ΓSpecIso (X.residueField x)).hom = _
   rw [← Scheme.Hom.appLE_comp_appLE (Spec.map (X.residue x)) (X.fromSpecStalk x)
     U ⊤ ⊤ h1 h2]
@@ -174,16 +174,16 @@ lemma genericPointsAffineOpenEquiv_asIdeal {X : Scheme.{u}} {U : X.Opens}
     rw [← f.isClosedMap.closure_image_eq_of_continuous f.continuous, Set.image_singleton]
   let η' : genericPoints (PrimeSpectrum Γ(X, U)) :=
     ⟨f x, by
-      show closure {f x} ∈ irreducibleComponents (PrimeSpectrum Γ(X, U))
+      change closure {f x} ∈ irreducibleComponents (PrimeSpectrum Γ(X, U))
       rw [← hcl]
-      show f '' (genericPoints.component η).1 ∈ irreducibleComponents _
+      change f '' (genericPoints.component η).1 ∈ irreducibleComponents _
       exact (ce.symm (genericPoints.component η)).property⟩
   have hcomp : genericPoints.component η' = ce.symm (genericPoints.component η) :=
     Subtype.ext hcl.symm
-  show PrimeSpectrum.vanishingIdeal
+  change PrimeSpectrum.vanishingIdeal
       (ce.symm (genericPoints.component η)).1 = _
   rw [← hcomp]
-  show PrimeSpectrum.vanishingIdeal (closure ({f x} : Set (PrimeSpectrum Γ(X, U)))) = _
+  change PrimeSpectrum.vanishingIdeal (closure ({f x} : Set (PrimeSpectrum Γ(X, U)))) = _
   rw [PrimeSpectrum.vanishingIdeal_closure]
   exact PrimeSpectrum.vanishingIdeal_singleton (f x)
 
@@ -206,7 +206,7 @@ lemma genericPointsInOpenEquivMinimalPrimes_asIdeal
   have hη : (Scheme.genericPointsInOpenEquiv X U η).1 =
       (⟨η.1.1, η.2⟩ : U.toScheme) :=
     Subtype.ext rfl
-  show ((genericPointsAffineOpenEquiv hU (Scheme.genericPointsInOpenEquiv X U η) :
+  change ((genericPointsAffineOpenEquiv hU (Scheme.genericPointsInOpenEquiv X U η) :
       minimalPrimes Γ(X, U)) : Ideal Γ(X, U)) = _
   simpa only [IsAffineOpen.primeIdealOf, hη] using
     genericPointsAffineOpenEquiv_asIdeal hU (Scheme.genericPointsInOpenEquiv X U η)
@@ -271,7 +271,7 @@ noncomputable def genericPreimageIsoSigma (X : Scheme.{u}) (U : X.Opens) :
   have (η : I) : IsOpenImmersion (Sigma.ι B η) := inferInstance
   have : IsOpenImmersion g :=
     isOpenImmersion_sigmaDesc B (fun η => Sigma.ι C η.1) hpair
-  have hg (η : I) : Sigma.ι B η ≫ g = Sigma.ι C η.1 := Sigma.ι_desc _ η
+  have hg (η : I) : Sigma.ι B η ≫ g = Sigma.ι C η.1 := Sigma.ι_comp_desc _ η
   have hfcomp (η : genericPoints X) : Sigma.ι C η ≫ f = X.fromSpecResidueField η.1 := by
     simp [C, f]
   have hrange : Set.range g = Set.range W.ι := by
@@ -363,8 +363,8 @@ lemma genericPreimageIsoSigma_ι_comp (X : Scheme.{u}) (U : X.Opens)
       rfl
     _ = (Sigma.ι B η ≫ g) ≫ f := by rw [hfac]
     _ = (Sigma.ι C η.1) ≫ f := by
-      show (Sigma.ι B η ≫ Sigma.desc (fun ξ : I => Sigma.ι C ξ.1)) ≫ f = _
-      rw [Sigma.ι_desc]
+      change (Sigma.ι B η ≫ Sigma.desc (fun ξ : I => Sigma.ι C ξ.1)) ≫ f = _
+      rw [Sigma.ι_comp_desc]
     _ = X.fromSpecResidueField η.1.1 := by
       simp [C, f]
 
@@ -415,9 +415,9 @@ lemma genericPreimageSectionsRingEquiv_eval_component
   let eW : W.toScheme ≅ Spec (.of (∀ η : I, X.residueField η.1.1)) :=
     (genericPreimageIsoSigma X U).symm ≪≫ eSigma
   have : IsIso eW.inv.appTop := by
-    show IsIso (eW.inv.app ⊤)
+    change IsIso (eW.inv.app ⊤)
     infer_instance
-  show (W.topIso.symm ≪≫ asIso eW.inv.appTop ≪≫
+  change (W.topIso.symm ≪≫ asIso eW.inv.appTop ≪≫
       Scheme.ΓSpecIso (.of (∀ η : I, X.residueField η.1.1))).hom ≫
         CommRingCat.ofHom (Pi.evalRingHom _ η) = _
   simp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc,
@@ -427,7 +427,7 @@ lemma genericPreimageSectionsRingEquiv_eval_component
           (fun η : I => X.residueField η.1.1) η)) ≫ eW.inv =
         Sigma.ι (fun η : I => Spec (.of (X.residueField η.1.1))) η ≫
           (genericPreimageIsoSigma X U).hom := by
-    show Spec.map (CommRingCat.ofHom (Pi.evalRingHom
+    change Spec.map (CommRingCat.ofHom (Pi.evalRingHom
         (fun η : I => X.residueField η.1.1) η)) ≫
       eSigma.inv ≫ (genericPreimageIsoSigma X U).hom = _
     rw [← ι_sigmaSpec R η]
@@ -474,11 +474,11 @@ lemma genericPreimageSectionsRingEquiv_comp_app
   have hle : ⊤ ≤ (m ≫ W.ι ≫ f) ⁻¹ᵁ U := by
     rw [hm]
     intro y _
-    show X.fromSpecResidueField η.1.1 y ∈ U
+    change X.fromSpecResidueField η.1.1 y ∈ U
     rw [Scheme.fromSpecResidueField_apply]
     exact η.2
   rw [genericPreimageSectionsRingEquiv_eval_component X U η]
-  show f.app U ≫ W.topIso.inv ≫ m.appTop ≫
+  change f.app U ≫ W.topIso.inv ≫ m.appTop ≫
       (Scheme.ΓSpecIso (X.residueField η.1.1)).hom = _
   have hle' : ⊤ ≤ (X.fromSpecResidueField η.1.1) ⁻¹ᵁ U := by
     simpa only [hm] using hle
@@ -578,7 +578,7 @@ lemma affineOpenCoordinateRingEquiv_specMap
     rfl
   rw [heR]
   have : IsAffine U.toScheme := hU
-  show (U.toScheme.isoSpec.hom ≫ Spec.map U.topIso.inv) ≫
+  change (U.toScheme.isoSpec.hom ≫ Spec.map U.topIso.inv) ≫
     Spec.map ((Scheme.ΓSpecIso (.of A)).inv ≫ e.inv.appTop ≫ U.topIso.hom) = e.inv
   simp only [Spec.map_comp, Category.assoc]
   simp only [← Spec.map_comp]
@@ -625,8 +625,8 @@ lemma genericPreimageSectionsRingEquivFractionRingAffine_commutes
   let eQ : FractionRing Γ(X, U) ≃+* FractionRing A :=
     IsFractionRing.ringEquivOfRingEquiv eR.symm
   unfold genericPreimageSectionsRingEquivFractionRingAffine
-  show eQ (eS ((Scheme.fromGenericPointResidueFields X).app U (eR a))) = _
-  show eQ (eS (algebraMap Γ(X, U)
+  change eQ (eS ((Scheme.fromGenericPointResidueFields X).app U (eR a))) = _
+  change eQ (eS (algebraMap Γ(X, U)
     Γ(Scheme.genericPointResidueSpectrum X,
       Scheme.fromGenericPointResidueFields X ⁻¹ᵁ U) (eR a))) = _
   rw [eS.commutes]
@@ -750,19 +750,19 @@ theorem preimageNormalizationIsoSpecIntegralClosure_hom_comp
       rw [eIntegral.apply_symm_apply]
       exact Subtype.ext (eSA.commutes a).symm
     exact congrArg Subtype.val hEq
-  show (relativeNormalizationPreimageIso f U hU ≪≫
+  change (relativeNormalizationPreimageIso f U hU ≪≫
       Scheme.Spec.mapIso eIntegral.toCommRingCatIso.symm.op).hom ≫
         Spec.map (CommRingCat.ofHom
           (algebraMap A (integralClosure A (FractionRing A)))) =
       (f.fromNormalization ∣_ U) ≫ e.inv
-  show ((relativeNormalizationPreimageIso f U hU).hom ≫
+  change ((relativeNormalizationPreimageIso f U hU).hom ≫
       Spec.map eIntegral.symm.toCommRingCatIso.hom) ≫
         Spec.map (CommRingCat.ofHom
           (algebraMap A (integralClosure A (FractionRing A)))) =
       (f.fromNormalization ∣_ U) ≫ e.inv
   rw [Category.assoc, ← Spec.map_comp, he, Spec.map_comp, ← Category.assoc,
     relativeNormalizationPreimageIso_comp f U hU]
-  show (f.fromNormalization ∣_ U ≫ hU.isoSpec.hom) ≫
+  change (f.fromNormalization ∣_ U ≫ hU.isoSpec.hom) ≫
     Spec.map (CommRingCat.ofHom (affineOpenCoordinateRingEquiv U e).toRingHom) =
       (f.fromNormalization ∣_ U) ≫ e.inv
   rw [affineOpenCoordinateRingEquiv_specMap U hU e]

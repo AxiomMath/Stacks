@@ -179,11 +179,7 @@ theorem chowExteriorProduct_fundamentalChowClass_base_tmul_heq {T : Scheme.{u}}
     (pullback.fst (𝟙 (fieldChowSituation k).S) sT ≫ 𝟙 (fieldChowSituation k).S) sT
     (pullback.snd (𝟙 (fieldChowSituation k).S) sT) pullback.condition.symm 0 hrel m
   have hprod := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct
-    (fieldChowSituation k) (fun _ _ ↦ rfl) (𝟙 (fieldChowSituation k).S) sT 0 hrel hd m
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends _
-      (flatPullbackDescends _) (𝟙 (fieldChowSituation k).S) sT m)
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends _
-      (flatPullbackDescends _) sT (𝟙 (fieldChowSituation k).S) ((0 : ℕ) : ℤ)) hfac γ
+    (fieldChowSituation k) (fun _ _ ↦ rfl) (𝟙 (fieldChowSituation k).S) sT 0 hrel hd m hfac γ
   -- the flat pullback along the isomorphism `pr_T` is the pushforward along its inverse
   have hiso := flatPullbackChow_chowPushforwardOfIso (fieldChowSituation k) sT sT sT
     (pullback.fst (𝟙 (fieldChowSituation k).S) sT ≫ 𝟙 (fieldChowSituation k).S) (𝟙 T)

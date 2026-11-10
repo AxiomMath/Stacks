@@ -241,18 +241,18 @@ public theorem solution
     rw [map_pow]
     exact (isUnit_iff_ne_zero.2 hg'ne).pow n
   have hφx : φ P.x = algebraMap S' B (β i) := by
-    show (P.lift (algebraMap S' B (β i)) hmapB) (P.equivRing P.x) = _
+    change (P.lift (algebraMap S' B (β i)) hmapB) (P.equivRing P.x) = _
     rw [P.equivRing_x, StandardEtalePair.lift_X]
   set θ : B →+* q'.ResidueField := IsLocalization.lift hunits with hθdef
   have hθalg : θ.comp (algebraMap R B) = algebraMap R q'.ResidueField := by
-    show θ.comp ((algebraMap S' B).comp (algebraMap R S')) = _
+    change θ.comp ((algebraMap S' B).comp (algebraMap R S')) = _
     rw [← RingHom.comp_assoc, hθdef, IsLocalization.lift_comp]
     exact (IsScalarTower.algebraMap_eq R S' q'.ResidueField).symm
   let θₐ : B →ₐ[R] q'.ResidueField := AlgHom.mk θ fun r ↦ RingHom.congr_fun hθalg r
   have hcomp : θₐ.comp φ = χ := by
     refine P.hom_ext ?_
     rw [AlgHom.comp_apply, hφx]
-    show θ (algebraMap S' B (β i)) = χ P.x
+    change θ (algebraMap S' B (β i)) = χ P.x
     rw [hθdef, IsLocalization.lift_eq, hbi]
   refine ⟨φ, ?_, ?_⟩
   · rw [AlgHom.comp_algebraMap]

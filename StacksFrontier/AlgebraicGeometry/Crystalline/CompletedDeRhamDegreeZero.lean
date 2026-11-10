@@ -123,7 +123,7 @@ public theorem completedTensorUnitAddEquivOfComplete_of_tmul (e : Omega ≃ₗ[D
     completedTensorUnitAddEquivOfComplete p D Omega M e
         (toCompletedTensor p D Omega M (m ⊗ₜ[D] omega)) = e omega • m := by
   refine (adicCompletionOfAddEquiv p D M).injective ?_
-  show (adicCompletionOfAddEquiv p D M) ((adicCompletionOfAddEquiv p D M).symm
+  change (adicCompletionOfAddEquiv p D M) ((adicCompletionOfAddEquiv p D M).symm
     (completedTensorUnitEquiv p D Omega M e
       (toCompletedTensor p D Omega M (m ⊗ₜ[D] omega)))) = _
   rw [AddEquiv.apply_symm_apply, completedTensorUnitEquiv_of_tmul,

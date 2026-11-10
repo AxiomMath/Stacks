@@ -67,7 +67,7 @@ theorem isIso_of_tangentSpace_bijective
   let ψ : G ⟶ G := e.inv ≫ φ ≫ e.hom
   let X := artinianDualNumbers.{u, w, v} Λ k
   have hψbij : Function.Bijective (ψ.app X) := by
-    show Function.Bijective
+    change Function.Bijective
       ((ConcreteCategory.hom (e.hom.app X)) ∘ (ConcreteCategory.hom (φ.app X)) ∘
         (ConcreteCategory.hom (e.inv.app X)))
     exact ((isIso_iff_bijective (e.hom.app X)).mp inferInstance).comp
@@ -111,7 +111,7 @@ theorem isIso_of_tangentSpace_bijective
             (cIso.inv.app (artinianToComplete.obj A) x)) := by simpa using hcp.symm
       _ = (restrictedCoyonedaMap f).app A x := by
         rw [hεeq A]
-        show θ.app (artinianToComplete.obj A) x = (restrictedCoyonedaMap f).app A x
+        change θ.app (artinianToComplete.obj A) x = (restrictedCoyonedaMap f).app A x
         rw [hθ]
         rfl
   have htan : Function.Injective (tangentSpaceMapArtinian f) := by
@@ -120,7 +120,7 @@ theorem isIso_of_tangentSpace_bijective
     rw [hψeq]
     refine CompleteLocalAlgCat.Hom.ext (AlgHom.ext fun z => ?_)
     rw [tangentSpaceMapArtinian_apply, tangentSpaceMapArtinian_apply] at hxy
-    show (x.hom.comp f.hom) z = (y.hom.comp f.hom) z
+    change (x.hom.comp f.hom) z = (y.hom.comp f.hom) z
     exact congrArg (fun g : R ⟶ artinianToComplete.obj X => g.hom z) hxy
   have hresidueAlgebra := congrArg
     (fun q : R →ₐ[Λ] k => q.toRingHom.toAlgebra) (residueAlgHom_eq_residueHom R)
@@ -133,7 +133,7 @@ theorem isIso_of_tangentSpace_bijective
         tangentSpaceMapArtinian f (ER.symm d₂) := by
       refine ER.injective (DFunLike.ext _ _ fun r => ?_)
       rw [tangentSpaceMapArtinian_apply, tangentSpaceMapArtinian_apply]
-      show (tangentSpaceDerivationsLinearEquiv R (f ≫ ER.symm d₁)) r =
+      change (tangentSpaceDerivationsLinearEquiv R (f ≫ ER.symm d₁)) r =
         (tangentSpaceDerivationsLinearEquiv R (f ≫ ER.symm d₂)) r
       rw [tangentSpaceDerivationsLinearEquiv_precomp,
         tangentSpaceDerivationsLinearEquiv_precomp, ER.apply_symm_apply d₁,

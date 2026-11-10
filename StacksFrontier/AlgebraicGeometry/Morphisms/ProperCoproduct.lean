@@ -99,7 +99,7 @@ theorem universallyClosed_sigmaDesc (g : ∀ j, X j ⟶ T) [∀ j, UniversallyCl
   have he : e.hom ≫ f' = k := by simp [e, k]
   refine IsClosedMap.of_comp_surjective (Scheme.homeoOfIso e).surjective
     (Scheme.Hom.continuous _) ?_
-  show IsClosedMap (e.hom ≫ f').base
+  change IsClosedMap (e.hom ≫ f').base
   rw [he]
   refine isClosedMap_of_sigma _ fun j => ?_
   rw [show Sigma.ι P j ≫ k = pullback.fst i₂ (g j) from Cofan.IsColimit.fac _ _ _]
@@ -122,7 +122,7 @@ theorem preimage_sigmaDesc_id (T : Scheme.{u}) (U : T.Opens) :
     intro j
     rw [← Scheme.Hom.image_preimage_eq_opensRange_inf]
     congr 1
-    rw [← Scheme.Hom.comp_preimage, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_preimage, Sigma.ι_comp_desc]
     simp
   have hcov : ⨆ j : ι, (Sigma.ι (fun _ : ι => T) j).opensRange = ⊤ :=
     (sigmaOpenCover (fun _ : ι => T)).iSup_opensRange
@@ -165,7 +165,7 @@ theorem isProper_sigmaMap {Y : ι → Scheme.{u}} (g : ∀ j, X j ⟶ Y j) [∀ 
     IsProper (Limits.Sigma.map g) := by
   have hg : ∀ j, IsProper (g j) := fun j => inferInstance
   refine IsZariskiLocalAtTarget.of_openCover (P := @IsProper) (sigmaOpenCover Y) fun j => ?_
-  show IsProper (pullback.snd (Limits.Sigma.map g) (Sigma.ι Y j))
+  change IsProper (pullback.snd (Limits.Sigma.map g) (Sigma.ι Y j))
   rw [← MorphismProperty.cancel_left_of_respectsIso @IsProper
       (isPullback_sigmaMap g j).isoPullback.hom,
     (isPullback_sigmaMap g j).isoPullback_hom_snd]

@@ -64,6 +64,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_AffineStageSiteSmall :
@@ -664,7 +665,7 @@ theorem exists_isAffineSpace_system_obj_of_isTerminal_of_siteContainsBaseChangeL
       ((fun k => MvPolynomial.map (D.modelProjection m.1)
         (MvPolynomial.map (D.modelTransition j m.1 hm) (q k))) l) = 0 := by
     intro l
-    show MvPolynomial.eval₂ _ _ (MvPolynomial.map (D.modelProjection m.1)
+    change MvPolynomial.eval₂ _ _ (MvPolynomial.map (D.modelProjection m.1)
       (MvPolynomial.map (D.modelTransition j m.1 hm) (q l))) = 0
     rw [MvPolynomial.map_map_eq_of_comp hmodel.hφ hm (q l)]
     exact hrelLim l

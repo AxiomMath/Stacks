@@ -125,7 +125,7 @@ theorem hasPropertyOnSomeSmoothDiagram_of_comp_of_representableTarget
     isRelativelySmooth_id B S hS (isRepresentableByAlgebraicSpace_fibredCategory B S hS V₀ hV₀)
   have hideq : Functor.IsEquivalence
       (CatFiberedInGroupoids.homFunctor (𝟙 (fibredCategory B S hS V₀))) := by
-    show Functor.IsEquivalence (𝟭 _)
+    change Functor.IsEquivalence (𝟭 _)
     infer_instance
   have hidsu := isSurjectiveOnObjects_of_isEquivalence B S hS
     (𝟙 (fibredCategory B S hS V₀)) hideq

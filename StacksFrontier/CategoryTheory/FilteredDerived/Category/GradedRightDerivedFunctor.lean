@@ -95,7 +95,7 @@ lemma imageMapOfMonoIso_naturality {X Y : FiniteFilteredObject A} (G : A ⥤ B) 
       (imageMapOfMonoIso G X.obj hX).hom ≫ mapOfMonoMap G f.hom hX hY := by
   apply FilteredObject.hom_ext
   · dsimp [imageMapOfMonoIso, mapOfMonoMap, mapFilteredObjectMap]
-    show G.map f.hom.hom ≫ 𝟙 _ = 𝟙 _ ≫ G.map f.hom.hom
+    change G.map f.hom.hom ≫ 𝟙 _ = 𝟙 _ ≫ G.map f.hom.hom
     simp
 
 /-- An additive functor preserves the cokernel of a monomorphism out of an injective object:
@@ -171,7 +171,7 @@ lemma gradedImageIso_naturality (T : A ⥤ B) [T.Additive] {X Y : FiniteFiltered
       (Y.obj.filtration.step (FilteredObject.succHom p))
       (f.hom.natTrans.app (op (p + 1))) (f.hom.natTrans.app (op p))
       (FilteredObject.step_natTrans_app f.hom (FilteredObject.succHom p))
-  show (FilteredObject.gr p).map (mapFilteredObjectMap T f.hom) ≫
+  change (FilteredObject.gr p).map (mapFilteredObjectMap T f.hom) ≫
       ((FilteredObject.gr p).map (imageMapOfMonoIso T Y.obj hYm).hom ≫
         (PreservesCokernel.iso T
           (Y.obj.filtration.step (FilteredObject.succHom p))).inv) =

@@ -98,7 +98,7 @@ lemma formallyUnramified_baseChange_iff
   have tBSB : IsScalarTower B₀ (S ⊗[R] B₀) (S ⊗[R] C₀) := by
     apply IsScalarTower.of_algebraMap_eq
     intro b
-    show (1 : S) ⊗ₜ[R] (φ₀ b) = φS ((1 : S) ⊗ₜ[R] b)
+    change (1 : S) ⊗ₜ[R] (φ₀ b) = φS ((1 : S) ⊗ₜ[R] b)
     simp [φS]
   have hCalg : Algebra C₀ ((S ⊗[R] B₀) ⊗[B₀] C₀) := Algebra.TensorProduct.rightAlgebra
   let g : ((S ⊗[R] B₀) ⊗[B₀] C₀) →ₐ[S ⊗[R] B₀] (S ⊗[R] C₀) :=
@@ -114,7 +114,7 @@ lemma formallyUnramified_baseChange_iff
   have smulb : ∀ (s : S) (b : B₀), (b • (s ⊗ₜ[R] (1:B₀)) : S ⊗[R] B₀) = s ⊗ₜ[R] b := by
     intro s b
     rw [Algebra.smul_def]
-    show ((1:S) ⊗ₜ[R] b) * (s ⊗ₜ[R] 1) = s ⊗ₜ[R] b
+    change ((1:S) ⊗ₜ[R] b) * (s ⊗ₜ[R] 1) = s ⊗ₜ[R] b
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
   have balance : ∀ (s : S) (b : B₀) (c : C₀),
       (((s ⊗ₜ[R] (1:B₀)) ⊗ₜ[B₀] ((φ₀ b) * c)) : (S ⊗[R] B₀) ⊗[B₀] C₀)
@@ -138,7 +138,7 @@ lemma formallyUnramified_baseChange_iff
           Algebra.TensorProduct.includeRight_apply]
         rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
       rw [hh, gtmul]
-      show φS (x ⊗ₜ[R] 1) * ((1:S) ⊗ₜ[R] c) = x ⊗ₜ[R] c
+      change φS (x ⊗ₜ[R] 1) * ((1:S) ⊗ₜ[R] c) = x ⊗ₜ[R] c
       simp only [φS, Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq, map_one,
         Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
   have hhg : ∀ z, h (g z) = z := by
@@ -150,7 +150,7 @@ lemma formallyUnramified_baseChange_iff
       | add a₁ a₂ ha₁ ha₂ =>
         rw [TensorProduct.add_tmul, map_add, map_add, ha₁, ha₂, ← TensorProduct.add_tmul]
       | tmul s b =>
-        show h (g ((s ⊗ₜ[R] b) ⊗ₜ[B₀] c)) = (s ⊗ₜ[R] b) ⊗ₜ[B₀] c
+        change h (g ((s ⊗ₜ[R] b) ⊗ₜ[B₀] c)) = (s ⊗ₜ[R] b) ⊗ₜ[B₀] c
         rw [gtmul]
         show h (φS (s ⊗ₜ[R] b) * ((1:S) ⊗ₜ[R] c)) = (s ⊗ₜ[R] b) ⊗ₜ[B₀] c
         have hφ : φS (s ⊗ₜ[R] b) = s ⊗ₜ[R] (φ₀ b) := by
@@ -169,9 +169,9 @@ lemma formallyUnramified_baseChange_iff
     refine IsBaseChange.of_equiv e.toLinearEquiv ?_
     intro c
     have : e ((1 : S ⊗[R] B₀) ⊗ₜ[B₀] c) = g ((1 : S ⊗[R] B₀) ⊗ₜ[B₀] c) := rfl
-    show e ((1 : S ⊗[R] B₀) ⊗ₜ[B₀] c) = (IsScalarTower.toAlgHom B₀ C₀ (S ⊗[R] C₀)).toLinearMap c
+    change e ((1 : S ⊗[R] B₀) ⊗ₜ[B₀] c) = (IsScalarTower.toAlgHom B₀ C₀ (S ⊗[R] C₀)).toLinearMap c
     rw [this, gtmul]
-    show φS (1 : S ⊗[R] B₀) * ((1:S) ⊗ₜ[R] c) = algebraMap C₀ (S ⊗[R] C₀) c
+    change φS (1 : S ⊗[R] B₀) * ((1:S) ⊗ₜ[R] c) = algebraMap C₀ (S ⊗[R] C₀) c
     simp [φS]
     rfl
   let kE := KaehlerDifferential.tensorKaehlerEquiv B₀ (S ⊗[R] B₀) C₀ (S ⊗[R] C₀)
@@ -234,8 +234,7 @@ lemma tensorBaseChange_subsingleton_of_gens_vanish
     | add x y hx hy ihx ihy => rw [TensorProduct.tmul_add, ihx, ihy, add_zero]
     | smul c x hx ih => rw [TensorProduct.tmul_smul, ih, smul_zero]
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => rfl
+  induction y using TensorProduct.inductionOn with
   | tmul b m => exact hpure b m
   | add x z hx hz => rw [hx, hz, add_zero]
 
@@ -276,7 +275,7 @@ lemma colimit_baseChange_descent
     { f a.val b.val hab with
       commutes' := by
         intro r
-        show f a.val b.val hab (f O a.val a.property r) = f O b.val b.property r
+        change f a.val b.val hab (f O a.val a.property r) = f O b.val b.property r
         exact DirectedSystem.map_map (f := fun i j h => f i j h) a.property hab r }
   let gN : (a b : J) → a ≤ b → G a.val →ₗ[G O] G b.val := fun a b hab => (φAlg a b hab).toLinearMap
   have hgNcomp : ∀ (a b c : J) (hab : a ≤ b) (hbc : b ≤ c),
@@ -295,13 +294,13 @@ lemma colimit_baseChange_descent
     { Ring.DirectLimit.of G _ a.val with
       commutes' := by
         intro r
-        show Ring.DirectLimit.of G _ a.val (f O a.val a.property r) = Ring.DirectLimit.of G _ O r
+        change Ring.DirectLimit.of G _ a.val (f O a.val a.property r) = Ring.DirectLimit.of G _ O r
         exact Ring.DirectLimit.of_f a.property r }
   let ψ : ∀ a : J, G a.val →ₗ[G O] A := fun a => (ofAlg a).toLinearMap
   let H : DL →ₗ[G O] A := Module.DirectLimit.lift (G O) J (fun a : J => G a.val)
     (fun a b h => gN a b h) ψ (by
       intro a b hab x
-      show Ring.DirectLimit.of G _ b.val (f a.val b.val hab x) = Ring.DirectLimit.of G _ a.val x
+      change Ring.DirectLimit.of G _ b.val (f a.val b.val hab x) = Ring.DirectLimit.of G _ a.val x
       exact Ring.DirectLimit.of_f (i := a.val) (j := b.val) hab x)
   have hHof : ∀ (a : J) (x : G a.val),
       H (Module.DirectLimit.of (G O) J _ _ a x) = Ring.DirectLimit.of G _ a.val x :=
@@ -332,9 +331,9 @@ lemma colimit_baseChange_descent
       eA (Ring.DirectLimit.of G _ a.val x) = Module.DirectLimit.of (G O) J _ _ a x := by
     intro a x
     apply (LinearEquiv.ofBijective H ⟨hinj, hsurj⟩).injective
-    show H (eA (Ring.DirectLimit.of G _ a.val x)) = H (Module.DirectLimit.of (G O) J _ _ a x)
+    change H (eA (Ring.DirectLimit.of G _ a.val x)) = H (Module.DirectLimit.of (G O) J _ _ a x)
     rw [hHof]
-    show (LinearEquiv.ofBijective H ⟨hinj, hsurj⟩) (eA (Ring.DirectLimit.of G _ a.val x)) =
+    change (LinearEquiv.ofBijective H ⟨hinj, hsurj⟩) (eA (Ring.DirectLimit.of G _ a.val x)) =
         Ring.DirectLimit.of G _ a.val x
     rw [LinearEquiv.apply_symm_apply]
   let algCAC : Algebra C₀ (A ⊗[G O] C₀) :=
@@ -350,7 +349,7 @@ lemma colimit_baseChange_descent
         = Module.DirectLimit.of (G O) J (fun a : J => G a.val ⊗[G O] C₀)
             (fun a b h => LinearMap.rTensor C₀ (gN a b h)) a (g ⊗ₜ[G O] c) := by
     intro a g c
-    show (TensorProduct.directLimitLeft (fun a b h => gN a b h) C₀)
+    change (TensorProduct.directLimitLeft (fun a b h => gN a b h) C₀)
         ((LinearEquiv.rTensor C₀ eA) ((Ring.DirectLimit.of G _ a.val g) ⊗ₜ[G O] c)) = _
     rw [LinearEquiv.rTensor_tmul, heA]
     exact TensorProduct.directLimitLeft_tmul_of (fun a b h => gN a b h) C₀ g c
@@ -366,16 +365,15 @@ lemma colimit_baseChange_descent
   have hg1 : ∀ (a b : J) (hab : a ≤ b) (x : G a.val ⊗[G O] C₀),
       g1 a b hab x = LinearMap.rTensor C₀ (gN a b hab) x := by
     intro a b hab x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul g c =>
-      show g1Alg a b hab (g ⊗ₜ[G O] c) = LinearMap.rTensor C₀ (gN a b hab) (g ⊗ₜ[G O] c)
+      change g1Alg a b hab (g ⊗ₜ[G O] c) = LinearMap.rTensor C₀ (gN a b hab) (g ⊗ₜ[G O] c)
       rw [LinearMap.rTensor_tmul]; rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   let dsC : DirectedSystem (fun a : J => G a.val ⊗[G O] C₀) (fun a b h => g1 a b h) := by
     refine ⟨?_, ?_⟩
     · intro a x
-      show g1 a a (le_refl a) x = x
+      change g1 a a (le_refl a) x = x
       rw [hg1]
       have hid : gN a a (le_refl a) = LinearMap.id := by
         ext y; exact DirectedSystem.map_self (F := G) (f := fun i j h => f i j h) (i := a.val) y
@@ -394,18 +392,17 @@ lemma colimit_baseChange_descent
   have hincl : ∀ (a : J) (g : G a.val) (c : C₀),
       incl a (g ⊗ₜ[G O] c) = (Ring.DirectLimit.of G _ a.val g) ⊗ₜ[G O] c := by
     intro a g c
-    show inclAlg a (g ⊗ₜ[G O] c) = (Ring.DirectLimit.of G _ a.val g) ⊗ₜ[G O] c
+    change inclAlg a (g ⊗ₜ[G O] c) = (Ring.DirectLimit.of G _ a.val g) ⊗ₜ[G O] c
     simp only [inclAlg, Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq]
     rfl
   have hinclcompat : ∀ (a b : J) (hab : a ≤ b) (x : G a.val ⊗[G O] C₀),
       incl b (g1 a b hab x) = incl a x := by
     intro a b hab x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul g c =>
       show incl b (g1 a b hab (g ⊗ₜ[G O] c)) = incl a (g ⊗ₜ[G O] c)
       have : g1 a b hab (g ⊗ₜ[G O] c) = (f a.val b.val hab g) ⊗ₜ[G O] c := by
-        show g1Alg a b hab (g ⊗ₜ[G O] c) = _
+        change g1Alg a b hab (g ⊗ₜ[G O] c) = _
         simp [g1Alg, φAlg]
       rw [this, hincl, hincl]
       congr 1
@@ -421,8 +418,7 @@ lemma colimit_baseChange_descent
       Φ2 (incl a x) = Module.DirectLimit.of (G O) J (fun a : J => G a.val ⊗[G O] C₀)
         (fun a b h => LinearMap.rTensor C₀ (gN a b h)) a x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul g c => rw [hincl, hΦ2]
     | add x y hx hy => simp only [map_add]; rw [hx, hy]
   have hHbsurj : Function.Surjective Hb := by
@@ -468,10 +464,10 @@ lemma colimit_baseChange_descent
       have hv := hvanish _ hmem
       have hgone : g i₀ a hi ((1 : G i₀.val ⊗[G O] C₀) ⊗ₜ[C₀] m)
           = (1 : G a.val ⊗[G O] C₀) ⊗ₜ[C₀] m := by
-        show LinearMap.rTensor M (g1 i₀ a hi) ((1 : G i₀.val ⊗[G O] C₀) ⊗ₜ[C₀] m) = _
+        change LinearMap.rTensor M (g1 i₀ a hi) ((1 : G i₀.val ⊗[G O] C₀) ⊗ₜ[C₀] m) = _
         rw [LinearMap.rTensor_tmul]
         congr 1
-        show g1Alg i₀ a hi (1 : G i₀.val ⊗[G O] C₀) = (1 : G a.val ⊗[G O] C₀)
+        change g1Alg i₀ a hi (1 : G i₀.val ⊗[G O] C₀) = (1 : G a.val ⊗[G O] C₀)
         exact map_one _
       rw [hgone] at hv
       exact hv)
@@ -510,7 +506,7 @@ lemma finiteType_baseChange_map
       algebraMap_mem' b := by
         have : (1 : S) ⊗ₜ[R] algebraMap B₀ C₀ b = algebraMap (S ⊗[R] B₀) _ (1 ⊗ₜ[R] b) := by
           simp [φS, RingHom.algebraMap_toAlgebra]
-        show _ ∈ AdT
+        change _ ∈ AdT
         rw [this]
         exact AdT.algebraMap_mem _ }
   have hDtop : D = ⊤ := by
@@ -518,7 +514,7 @@ lemma finiteType_baseChange_map
     refine Algebra.adjoin_le fun c hc => Algebra.subset_adjoin ?_
     simpa using ⟨c, hc, rfl⟩
   have h1c (c : C₀) : (1 : S) ⊗ₜ[R] c ∈ AdT := by
-    show c ∈ D
+    change c ∈ D
     simp [hDtop]
   rw [eq_top_iff]
   rintro z -

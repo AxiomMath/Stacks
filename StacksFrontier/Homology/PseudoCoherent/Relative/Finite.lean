@@ -113,7 +113,7 @@ private lemma isModulePseudoCoherent_adjoinRoot_of
     { __ := Equiv.refl _
       map_add' := fun _ _ => rfl
       map_smul' := fun a b => by
-        show a • b = AdjoinRoot.of p a * b
+        change a • b = AdjoinRoot.of p a * b
         rw [Algebra.smul_def, AdjoinRoot.algebraMap_eq] }
   have := hp.free_adjoinRoot
   have := hp.finite_adjoinRoot
@@ -158,7 +158,7 @@ private lemma isPseudoCoherentFrom_restrictScalars_mvPolynomial_eval₂
         f.comp (MvPolynomial.isEmptyAlgEquiv R (Fin 0)).toRingEquiv.toRingHom := by
       ext r
       · simp only [RingHom.comp_apply, MvPolynomial.eval₂Hom_C]
-        show f r = f ((MvPolynomial.isEmptyAlgEquiv R (Fin 0)) (MvPolynomial.C r))
+        change f r = f ((MvPolynomial.isEmptyAlgEquiv R (Fin 0)) (MvPolynomial.C r))
         congr 1
         exact ((MvPolynomial.isEmptyAlgEquiv R (Fin 0)).commutes r).symm
       · exact Fin.elim0 r
@@ -208,7 +208,7 @@ private lemma isRelativelyPseudoCoherentFrom_iff_restrictScalars_of_finite
   let g : MvPolynomial (Fin t) (MvPolynomial (Fin n) R) →ₐ[R] B :=
     { __ := MvPolynomial.eval₂Hom f.toRingHom b
       commutes' := fun r => by
-        show MvPolynomial.eval₂Hom f.toRingHom b
+        change MvPolynomial.eval₂Hom f.toRingHom b
           (MvPolynomial.C (MvPolynomial.C r)) = algebraMap R B r
         rw [MvPolynomial.eval₂Hom_C]
         exact f.commutes r }

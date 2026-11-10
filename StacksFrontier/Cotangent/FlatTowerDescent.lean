@@ -358,7 +358,7 @@ theorem nonempty_iso_mapDerivedCategory_cone_of_isZero
     ((ModuleCat.extendScalars.{u, u, u} (algebraMap D C)).mapDerivedCategory.map_distinguished
       _ hD)
     (Arrow.isoMk (flatTowerVertex₁Iso R B D C).symm m.symm (by
-      show _ = _ ≫ m.inv
+      change _ = _ ≫ m.inv
       exact (Iso.eq_comp_inv m).2 ((Category.assoc _ _ _).trans
         (flatTowerVertexMap_rightColumn R A B D C))))
   exact ⟨Triangle.π₃.mapIso e''⟩

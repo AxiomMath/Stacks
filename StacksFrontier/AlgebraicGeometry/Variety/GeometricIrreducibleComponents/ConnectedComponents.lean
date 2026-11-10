@@ -82,7 +82,8 @@ theorem geometricallyConnected_of_geometricallyIrreducible
 
 /-- **A geometrically irreducible morphism is geometrically connected**: every base change of it
 to a field is irreducible, hence connected. -/
-alias GeometricallyIrreducible.geometricallyConnected := geometricallyConnected_of_geometricallyIrreducible
+alias GeometricallyIrreducible.geometricallyConnected :=
+  geometricallyConnected_of_geometricallyIrreducible
 
 /-- **Stacks Project, Tag 054S.** If each of the finitely many irreducible components of a
 scheme over a field is geometrically irreducible, each connected component has an open

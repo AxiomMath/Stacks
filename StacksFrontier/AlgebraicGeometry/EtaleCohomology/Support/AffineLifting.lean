@@ -105,7 +105,7 @@ private theorem affine_lift_piece
     Scheme.Spec.mapIso gIso.op
   let eSpec := Scheme.Spec.mapIso (.op e.toCommRingCatIso)
   refine ⟨P.hom ≫ eSpec.hom ≫ locMap, inferInstance, ?_, ?_⟩
-  · show Scheme.Hom.opensRange ((P.hom ≫ eSpec.hom) ≫ locMap) = _
+  · change Scheme.Hom.opensRange ((P.hom ≫ eSpec.hom) ≫ locMap) = _
     rw [Scheme.Hom.opensRange_comp_of_isIso (P.hom ≫ eSpec.hom) locMap]
     simpa [locMap] using
       (Scheme.Hom.opensRange_localizationAway (R := CommRingCat.of B) r)
@@ -117,7 +117,7 @@ private theorem affine_lift_piece
     have hmaps : eSpec.hom ≫ locMap ≫ bSpec = Spec.map (CommRingCat.ofHom qb) := by
       dsimp [eSpec, locMap, bSpec]
       rw [← Spec.map_comp, ← Spec.map_comp]
-      show Scheme.Spec.map
+      change Scheme.Spec.map
           (((CommRingCat.ofHom b ≫ CommRingCat.ofHom
               (algebraMap B (Localization.Away r))) ≫
             e.toCommRingCatIso.op.hom.unop).op) =
@@ -128,7 +128,7 @@ private theorem affine_lift_piece
       apply RingHom.ext
       intro x
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show G (Ideal.Quotient.mk (Ideal.map (algebraMap A C) I)
+      change G (Ideal.Quotient.mk (Ideal.map (algebraMap A C) I)
         (algebraMap A C a)) =
         Algebra.TensorProduct.includeLeftRingHom (Ideal.Quotient.mk I a)
       rw [Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk,
@@ -302,7 +302,7 @@ private theorem transport_affine_piece
   refine ⟨ed.inv ≫ gl ≫ v, ?_, ?_, ?_⟩
   · infer_instance
   · apply (cancel_epi ed.hom).1
-    show ed.hom ≫ (ed.inv ≫ gl ≫ v ≫ p) =
+    change ed.hom ≫ (ed.inv ≫ gl ≫ v ≫ p) =
       ed.hom ≫ pullback.snd (qS ≫ w) i
     rw [Iso.hom_inv_id_assoc]
     calc
@@ -320,7 +320,7 @@ private theorem transport_affine_piece
             pullback.snd qS mS ≫ e.inv := by
           have hh : hm ≫ pullback.snd qS mS =
               pullback.snd qS (pullback.fst w i) ≫ e.hom := by
-            simp [hm, pullback.map, pullback.lift_snd]
+            simp [hm, pullback.map]
           apply (cancel_mono e.hom).1
           calc
             (e₁.inv ≫ pullback.snd qS (pullback.fst w i)) ≫ e.hom =
@@ -433,7 +433,7 @@ private theorem exists_affine_chart_data (τ : AffineLifting.Topology)
     have hvpt : v s ∈ v.opensRange := ⟨s, rfl⟩
     have hmem := hvsub hvpt
     change (p ≫ i) (v s) ∈ w.opensRange at hmem
-    show (v ≫ p) s ∈ Scheme.Hom.opensRange (pullback.snd w i)
+    change (v ≫ p) s ∈ Scheme.Hom.opensRange (pullback.snd w i)
     rw [Scheme.Hom.opensRange_pullbackSnd]
     exact hmem
   have hpre : f ⁻¹ᵁ W = ⊤ := eq_top_iff.2 fun s _ => hfW ⟨s, rfl⟩
@@ -455,7 +455,7 @@ private theorem exists_affine_chart_data (τ : AffineLifting.Topology)
         dsimp [fRes]
         rw [Category.assoc, Scheme.Hom.resLE_comp_ι]
       _ = f := by
-        show ((Spec B).topIso.inv ≫ (⊤ : (Spec B).Opens).ι) ≫ f = f
+        change ((Spec B).topIso.inv ≫ (⊤ : (Spec B).Opens).ι) ≫ f = f
         rw [Scheme.toIso_inv_ι]
         simp
   have : IsClosedImmersion t₁ := inferInstance
@@ -553,7 +553,7 @@ public theorem exists_zariskiCover_baseChange_of_affine_lifting (τ : AffineLift
       (specMap_hasTopology τ (q k.1 k.2) (hq k.1 k.2))
       (schemeMapHasTopology_of_openImmersion τ (w k.1))
   refine ⟨Index, V, qScheme, gScheme, hqScheme, fun k => hgp k.1 k.2, ?_⟩
-  show Presieve.ofArrows (fun k : Index ↦ pullback (qScheme k) i) gScheme ∈
+  change Presieve.ofArrows (fun k : Index ↦ pullback (qScheme k) i) gScheme ∈
     Scheme.precoverage @IsOpenImmersion U
   rw [Scheme.ofArrows_mem_precoverage_iff]
   refine ⟨fun x => ?_, fun k => hg k.1 k.2⟩
@@ -566,7 +566,7 @@ public theorem exists_zariskiCover_baseChange_of_affine_lifting (τ : AffineLift
   obtain ⟨j, hj⟩ := TopologicalSpace.Opens.mem_iSup.mp hyBasic
   obtain ⟨t, ht⟩ := hcoverLocal x j y hj
   refine ⟨⟨x, j⟩, t, ?_⟩
-  show g x j t = x
+  change g x j t = x
   rw [ht, hy]
 
 end AlgebraicGeometry

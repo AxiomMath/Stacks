@@ -250,9 +250,9 @@ public theorem isReflexive_dualSheaf_of_isFinitePresentation (X : Scheme.{u}) [I
   refine isIso_of_bijective_stalkHom _ fun x => ?_
   -- The local ring at `x` is a Noetherian domain and the stalk of `F` is a finite module.
   have hdom : IsDomain (ringStalk X.sheaf x) := by
-    show IsDomain (X.presheaf.stalk x); infer_instance
+    change IsDomain (X.presheaf.stalk x); infer_instance
   have hnoe : IsNoetherianRing (ringStalk X.sheaf x) := by
-    show IsNoetherianRing (X.presheaf.stalk x); infer_instance
+    change IsNoetherianRing (X.presheaf.stalk x); infer_instance
   have : Module.Finite (ringStalk X.sheaf x) (modStalk F x) :=
     SheafOfModules.finite_stalk X.sheaf F x
   -- Tag 0AV3: the dual of the stalk is a reflexive module.

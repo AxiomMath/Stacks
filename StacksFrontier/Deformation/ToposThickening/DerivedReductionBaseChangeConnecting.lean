@@ -60,6 +60,7 @@ def derivedTensorRightMap : derivedTensorRight.{d₀} I₀ ⟶ derivedTensorRigh
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', u, u, u} O₀).flip.map u₀)
         (ComplexShape.up ℤ)) DerivedCategory.Q)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The derived map of ideal parts, at a complex: the degreewise map, through the comparisons of
 the derived tensor products with the degreewise ones. -/
 @[reassoc]

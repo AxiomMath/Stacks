@@ -69,7 +69,7 @@ section RegularDescent
 
 variable {k : Type u} [Field k] {X : Scheme.{u}} {f : X ⟶ Spec (.of k)}
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
-  {ℓ : ℕ} [Fact ℓ.Prime] {n : ℕ} [NeZero n] {H : Type} [Group H] [Fintype H]
+  {ℓ : ℕ} [Fact ℓ.Prime] {n : ℕ} [NeZero n] {H : Type} [Group H] [Finite H]
   (G : EtaleGaloisCovering X H)
 
 omit [NeZero n] in
@@ -84,6 +84,7 @@ theorem epi_homSheafPrecomp_fieldBaseChange_extensionByZero_regularDescentSheaf
         (fieldBaseChangeProj (Over.mk j.toBase) kbar)).obj
         ((etaleModuleExtensionByZero.{u, 0} (MonoidAlgebra (ZMod (ℓ ^ n)) H) j.immersion).obj
           (G.regularDescentSheaf (A := ZMod (ℓ ^ n)))))) := by
+  have := Fintype.ofFinite H
   let R := MonoidAlgebra (ZMod (ℓ ^ n)) H
   have : NeZero (ℓ ^ n) := ⟨pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero⟩
   have : Finite R := Module.finite_of_finite (ZMod (ℓ ^ n))

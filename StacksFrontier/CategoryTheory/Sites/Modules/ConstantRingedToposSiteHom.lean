@@ -90,7 +90,7 @@ theorem fSharpCompatible_of_isConstantFSharp
   have h₂ := app_toSheafify_comp_fSharp hψ V
   have hn := (toSheafify JC ((Functor.const Cᵒᵖ).obj R)).naturality (e.hom.app V.unop).op
   simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp] at hn
-  show (toSheafify JD ((Functor.const Dᵒᵖ).obj R)).app V ≫ φ.fSharp.hom.app V ≫
+  change (toSheafify JD ((Functor.const Dᵒᵖ).obj R)).app V ≫ φ.fSharp.hom.app V ≫
       (sheafify JC ((Functor.const Cᵒᵖ).obj R)).map (e.hom.app V.unop).op =
     (toSheafify JD ((Functor.const Dᵒᵖ).obj R)).app V ≫ ψ.fSharp.hom.app V
   exact (Category.assoc _ _ _).symm.trans ((h₁ =≫ _).trans (hn.symm.trans h₂.symm))
@@ -104,7 +104,7 @@ theorem isConstantFSharp_comp
   refine NatTrans.ext (funext fun V => ?_)
   have h₁ := app_toSheafify_comp_fSharp hg V
   have h₂ := app_toSheafify_comp_fSharp hf (Opposite.op (g.u.obj V.unop))
-  show (toSheafify JE ((Functor.const Eᵒᵖ).obj R)).app V ≫ g.fSharp.hom.app V ≫
+  change (toSheafify JE ((Functor.const Eᵒᵖ).obj R)).app V ≫ g.fSharp.hom.app V ≫
       f.fSharp.hom.app (Opposite.op (g.u.obj V.unop)) =
     (toSheafify JC ((Functor.const Cᵒᵖ).obj R)).app (Opposite.op (f.u.obj (g.u.obj V.unop)))
   exact (Category.assoc _ _ _).symm.trans ((h₁ =≫ _).trans h₂)

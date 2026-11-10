@@ -119,8 +119,8 @@ kernel of the transformed pairing only when `F(a • b) = a • F(b)`.
 `AlgebraicGeometry.exists_kunnethComplex_of_tensorPairings` with that hypothesis discharged,
 carrying the one remaining input and nothing else. No statement carrying a Künneth input is
 registered under [Stacks, Tag 0G0A]: the tag sits on the generic declarations of
-`StacksFrontier.AlgebraicGeometry.DerivedVarieties.TransformedDiagonal.Basic` and on the statement at
-the hypotheses of [Stacks, Tag 0G08] that carries none.
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.TransformedDiagonal.Basic` and on the statement
+at the hypotheses of [Stacks, Tag 0G08] that carries none.
 
 Through the duality of the box product `hbox` is the surjectivity of
 `Γ(X, 𝒜) ⊗_k Γ(X, ℬ) ⟶ Γ(X ×_k X, 𝒜 ⊠ ℬ)` for finite locally free `𝒜` and `ℬ`, and the two
@@ -224,8 +224,7 @@ theorem freeAbelianGroupToTensor_of (p : M × N) :
 theorem surjective_freeAbelianGroupToTensor :
     Function.Surjective (freeAbelianGroupToTensor k M N) := by
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact ⟨FreeAbelianGroup.of (m, n), freeAbelianGroupToTensor_of k M N (m, n)⟩
   | add x y hx hy =>
     obtain ⟨u, hu⟩ := hx

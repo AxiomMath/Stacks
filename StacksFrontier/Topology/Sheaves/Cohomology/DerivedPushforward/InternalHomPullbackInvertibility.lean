@@ -68,7 +68,8 @@ arbitrary categories, where there is nothing to prove them from.  So each is a c
 discharge, and the paragraphs below record exactly how far each one gets.
 
 *The naturality of the bijection of Tag 08DI in its source variable,* on `Y` and on `X`, is not
-carried as a hypothesis.  It is `tensorHomEquivNaturalLeft_ringedSpace` below, proved from the source
+carried as a hypothesis.  It is `tensorHomEquivNaturalLeft_ringedSpace` below, proved from the
+source
 clause of Tag 08J8,
 `AlgebraicGeometry.RingedSite.derivedCurryHomEquiv_naturality_source`.
 
@@ -164,7 +165,8 @@ commit to one branch of each, and the choice is forced in both cases by
 whose naturality on both `X` and `Y` its chain consumes and which alone has an evaluation formula
 at an image `Q K`, and at the `ν` of
 `Stacks.Cohomology.DerivedProjectionFormula.derivedPullbackUnitIso` and not at the
-`Stacks.Cohomology.DerivedPullbackUnit.derivedPullbackUnitIso`.  Since `uY`, `uX` and `ν` all enter the theorem below only through binders, that
+`Stacks.Cohomology.DerivedPullbackUnit.derivedPullbackUnitIso`.  Since `uY`, `uX` and `ν` all enter
+the theorem below only through binders, that
 is an *instantiation* of the binders and not a restatement of anything: the statement below fixes
 no unitor and no unit comparison.
 

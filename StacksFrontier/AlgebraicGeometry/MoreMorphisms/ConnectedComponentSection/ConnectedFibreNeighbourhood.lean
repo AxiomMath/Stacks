@@ -145,12 +145,12 @@ theorem exists_isCompact_opens_geometricallyConnected_fibers
           ((pullback.fst f g ⁻¹ᵁ U : (pullback f g : Scheme.{u}).Opens) : Set ↥(pullback f g)) =
         (pullback.snd f g).fiberι z ⁻¹' (sectionedPullback f g σ hσ).locus := by
       ext w
-      show _ ∈ pullback.fst f g ⁻¹' (U : Set X) ↔ _
+      change _ ∈ pullback.fst f g ⁻¹' (U : Set X) ↔ _
       rw [hU]
       exact and_iff_left (hq _ (hfib _ z w))
     have hs : (sectionedPullback f g σ hσ).s z ∈
         ((pullback.fst f g ⁻¹ᵁ U : (pullback f g : Scheme.{u}).Opens) : Set ↥(pullback f g)) := by
-      show _ ∈ pullback.fst f g ⁻¹' (U : Set X)
+      change _ ∈ pullback.fst f g ⁻¹' (U : Set X)
       rw [hU]
       refine ⟨((sectionedPullback f g σ hσ).mem_locus _).mpr
         ⟨z, (sectionedPullback f g σ hσ).sectionPoint _,
@@ -177,7 +177,7 @@ theorem exists_isCompact_opens_geometricallyConnected_fibers
     ⟨pullback.fst f g '' ((sectionedPullback f g σ hσ).locus ∩ (W : Set ↥(pullback f g))), hUopen⟩
   refine ⟨U, hUcompact, ?_, ?_⟩
   · ext x
-    show f.fiberι y x ∈ pullback.fst f g '' _ ↔ True
+    change f.fiberι y x ∈ pullback.fst f g '' _ ↔ True
     refine iff_true_intro ?_
     obtain ⟨z⟩ := hZy
     have hx := hfib f y x
@@ -185,7 +185,7 @@ theorem exists_isCompact_opens_geometricallyConnected_fibers
       (f.fiberι y x) (g.fiberι y z) (hx.trans (hfib g y z).symm)
     refine ⟨e, ⟨mem_sectionedPullback_locus_of_fiber f g σ hσ y hconnected e
       (by simpa [Scheme.Hom.comp_apply, he₀] using hx), ?_⟩, he₀⟩
-    show (pullback.fst f g ≫ f) e ∈ (V₀ : Set Y)
+    change (pullback.fst f g ≫ f) e ∈ (V₀ : Set Y)
     simpa [Scheme.Hom.comp_apply, he₀, hx] using hyV₀
   · rintro y' ⟨v⟩
     have hu : U.ι ((U.ι ≫ f).fiberι y' v) ∈ (U : Set X) := by

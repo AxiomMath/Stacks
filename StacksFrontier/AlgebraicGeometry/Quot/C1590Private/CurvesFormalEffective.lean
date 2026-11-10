@@ -125,7 +125,7 @@ theorem closedPoint_mem_range_adicThickeningι_zero :
   obtain ⟨s⟩ : Nonempty (PrimeSpectrum (R ⧸ maximalIdeal R ^ (0 + 1))) := inferInstance
   refine ⟨s, ?_⟩
   apply PrimeSpectrum.ext
-  show Ideal.comap (Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1))) s.asIdeal = maximalIdeal R
+  change Ideal.comap (Ideal.Quotient.mk (maximalIdeal R ^ (0 + 1))) s.asIdeal = maximalIdeal R
   refine le_antisymm (le_maximalIdeal (Ideal.comap_ne_top _ s.isPrime.ne_top)) fun x hx => ?_
   rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr (by rwa [zero_add, pow_one])]
   exact s.asIdeal.zero_mem
@@ -284,7 +284,7 @@ theorem isPullback_levelHom (n : ℕ) :
   have : IsIso (schemeSpaceMap (𝟙 (ξ.level n).base)) :=
     inferInstanceAs (IsIso ((schemeSpaceFunctor B integerBase hZ).map (𝟙 _)))
   refine IsPullback.of_horiz_isIso ⟨ObjectProperty.hom_ext _ ?_⟩
-  show (levelIso ξ n).hom ≫ (ξ.level n).toBase.hom = yoneda.map (levelHom ξ n) ≫ yoneda.map (𝟙 _)
+  change (levelIso ξ n).hom ≫ (ξ.level n).toBase.hom = yoneda.map (levelHom ξ n) ≫ yoneda.map (𝟙 _)
   rw [CategoryTheory.Functor.map_id, yoneda_map_levelHom]
   exact (Category.comp_id _).symm
 
@@ -583,7 +583,7 @@ theorem isEffective_curvesProjectionOver (hp : (curvesProjectionOver B hZ).IsFib
         · have e : schemeSpaceMap (levelHom ξ n ≫ eqToHom (level_base ξ n)) ≫
               ((schemeSpaceFunctor B integerBase hZ).mapIso
                 (eqToIso (level_base ξ n).symm)).hom = schemeSpaceMap (levelHom ξ n) := by
-            show (schemeSpaceFunctor B integerBase hZ).map _ ≫
+            change (schemeSpaceFunctor B integerBase hZ).map _ ≫
               (schemeSpaceFunctor B integerBase hZ).map _ =
                 (schemeSpaceFunctor B integerBase hZ).map _
             rw [← Functor.map_comp, Category.assoc, eqToIso.hom, eqToHom_trans, eqToHom_refl,
@@ -603,16 +603,16 @@ theorem isEffective_curvesProjectionOver (hp : (curvesProjectionOver B hZ).IsFib
       comp_transition := fun n => ?_
       map_eq := fun n => ?_ }
   · apply CurveFamily.Hom.ext
-    · show (ξ.transition n).baseMap ≫ eqToHom (level_base ξ (n + 1)) ≫
+    · change (ξ.transition n).baseMap ≫ eqToHom (level_base ξ (n + 1)) ≫
           restrictionToBase B integerBase hZ ξ.base hA ξ.contains (n + 1) =
         eqToHom (level_base ξ n) ≫ restrictionToBase B integerBase hZ ξ.base hA ξ.contains n
       rw [transition_baseMap, Category.assoc, Category.assoc, eqToHom_trans_assoc, eqToHom_refl,
         Category.id_comp, restrictionToBase_succ]
-    · show (ξ.transition n).totalMap ≫ (levelTotalIso ξ (n + 1)).inv ≫
+    · change (ξ.transition n).totalMap ≫ (levelTotalIso ξ (n + 1)).inv ≫
           schemeSpaceMap (K (n + 1)) = (levelTotalIso ξ n).inv ≫ schemeSpaceMap (K n)
       rw [← hK n, schemeSpaceMap_comp, ← Category.assoc (levelTotalIso ξ n).inv,
         levelTotalIso_inv_comp_schemeSpaceMap_towerTransitionSite, Category.assoc]
-  · show eqToHom (level_base ξ n) ≫ restrictionToBase B integerBase hZ ξ.base hA ξ.contains n =
+  · change eqToHom (level_base ξ n) ≫ restrictionToBase B integerBase hZ ξ.base hA ξ.contains n =
       eqToHom (ξ.level_eq n) ≫ restrictionToBase B integerBase hZ ξ.base hA ξ.contains n ≫
         eqToHom rfl
     rw [eqToHom_refl, Category.comp_id]

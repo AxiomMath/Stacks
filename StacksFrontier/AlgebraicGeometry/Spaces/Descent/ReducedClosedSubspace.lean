@@ -129,7 +129,7 @@ theorem mem_subschemePoints_atlasReducedSubscheme_of_isReduced (φ : yoneda.obj 
   obtain ⟨g, hg⟩ := (Scheme.IdealSheafData.exists_lift_subschemeι_iff_range_subset_support
     (atlasVanishingIdeal B S hS φ T hT) ((BigFppfOver.toScheme B S hS).map α)).2 hrange
   rw [mem_subschemePoints_iff]
-  show (Subobject.mk (atlasVanishingIdeal B S hS φ T hT).subschemeι).Factors _
+  change (Subobject.mk (atlasVanishingIdeal B S hS φ T hT).subschemeι).Factors _
   rw [Subobject.mk_factors_iff]
   exact ⟨g, hg⟩
 

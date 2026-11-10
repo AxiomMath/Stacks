@@ -67,6 +67,7 @@ variable {C : Type u} [Category.{u} C]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   {A : DifferentialGradedAlgebra.{u, m} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The cone of a homomorphism between modules whose sections are K-projective has
 K-projective sections**: over every object its sections are the middle term of the admissible
 short exact sequence `0 → L(U) → C(f)(U) → K(U)[1] → 0`. -/
@@ -96,7 +97,8 @@ theorem sectionGood_cone {K L : DifferentialGradedModule.{u, m, m} A} (f : K ⟶
 /-- The degree-one translation of `K(Mod(A, d))` is the shift of differential graded modules
 (Tag 0FS7), for `A` over `Stacks.SheafOfModules.Tensor.ringSheaf O`. -/
 theorem toRingCat_shiftFunctor_obj (M : DifferentialGradedModule.{u, m, m} A) :
-    (shiftFunctor (HomotopyCategory.{u, m, m} A) (1 : ℤ)).obj ((HomotopyCategory.quotient A).obj M) =
+    (shiftFunctor (HomotopyCategory.{u, m, m} A) (1 : ℤ)).obj
+        ((HomotopyCategory.quotient A).obj M) =
       (HomotopyCategory.quotient A).obj (shift M) :=
   HomotopyCategory.shiftFunctor_obj (X := ⟨C, ⊥, Osharp⟩) A M
 
@@ -141,7 +143,8 @@ theorem coneTriangle_distinguished {K L : DifferentialGradedModule.{u, m, m} A} 
     exact (congrArg (_ ≫ ·) (eqToHom_refl _ _)).trans
       ((Category.comp_id _).trans (Category.id_comp _).symm)
   · dsimp [Triangle.rotate, coneTriangle, coneRotatedTriangle, E', E]
-    refine ((congrArg (_ ≫ ·) (CategoryTheory.Functor.map_id _ _)).trans (Category.comp_id _)).trans ?_
+    refine ((congrArg (_ ≫ ·) (CategoryTheory.Functor.map_id _ _)).trans
+      (Category.comp_id _)).trans ?_
     refine Eq.trans ?_ (Preadditive.neg_comp _ _).symm
     refine congrArg Neg.neg ?_
     exact (((Category.id_comp _).symm.trans (congrArg (· ≫ _) (eqToHom_refl _ _).symm)).trans

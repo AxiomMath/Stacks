@@ -65,7 +65,8 @@ and to the two commutative squares used in Tag 0FME. For every natural pairing o
 groups along multiplications of complexes, both squares are proved in
 `AlgebraicGeometry.SheafOfModules.TruncationCupProduct.truncationMap_cup` and
 `AlgebraicGeometry.SheafOfModules.TruncationCupProduct.gradedPieceMap_cup`
-(`StacksFrontier/AlgebraicGeometry/DeRham/FirstChernClass/FilteredChernCupProduct.lean`), through the
+(`StacksFrontier/AlgebraicGeometry/DeRham/FirstChernClass/FilteredChernCupProduct.lean`), through
+the
 identification of this file. The cup product of Cohomology, Section 0FKU is the natural pairing
 `AlgebraicGeometry.SheafOfModules.truncationCupProduct`, built from the canonical global cup
 product in `StacksFrontier/AlgebraicGeometry/DeRham/HodgeFiltration/CanonicalCupProduct.lean`, and
@@ -125,11 +126,11 @@ lemma isIso_stupidTruncGEMapLE (K : CochainComplex C ℤ) {a b : ℤ} (h : a ≤
     by_cases hn : b ≤ n
     · have : IsIso ((ιStupidTrunc K (embeddingUpIntGE a)).f n) :=
         isIso_ιStupidTrunc_f K _ (i := (n - a).toNat) (by
-          show a + (((n - a).toNat : ℕ) : ℤ) = n
+          change a + (((n - a).toNat : ℕ) : ℤ) = n
           omega)
       have : IsIso ((ιStupidTrunc K (embeddingUpIntGE b)).f n) :=
         isIso_ιStupidTrunc_f K _ (i := (n - b).toNat) (by
-          show b + (((n - b).toNat : ℕ) : ℤ) = n
+          change b + (((n - b).toNat : ℕ) : ℤ) = n
           omega)
       have hc : (stupidTruncGEMapLE K h).f n ≫ (ιStupidTrunc K (embeddingUpIntGE a)).f n =
           (ιStupidTrunc K (embeddingUpIntGE b)).f n := by
@@ -142,7 +143,7 @@ lemma isIso_stupidTruncGEMapLE (K : CochainComplex C ℤ) {a b : ℤ} (h : a ≤
         by_cases hna : a ≤ n
         · exact IsZero.of_iso (hz n hna (by omega))
             (stupidTruncXIso K (embeddingUpIntGE a) (i := (n - a).toNat) (by
-              show a + (((n - a).toNat : ℕ) : ℤ) = n
+              change a + (((n - a).toNat : ℕ) : ℤ) = n
               omega))
         · exact isZero_stupidTrunc_X K _ n
             ((notMem_range_embeddingUpIntGE_iff _ n).2 (by omega))

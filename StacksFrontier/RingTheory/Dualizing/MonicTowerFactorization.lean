@@ -174,7 +174,7 @@ theorem nonempty_monicTowerFactorization_of_adjoin_eq_top (n : ℕ) :
               surjective_toTarget := F.surjective_toTarget
               comp_eq := ?_ }⟩
     ext r
-    show F.toTarget (algebraMap B F.middle (algebraMap R B r)) = algebraMap R A r
+    change F.toTarget (algebraMap B F.middle (algebraMap R B r)) = algebraMap R A r
     rw [F.algebraMap_eq]
     exact (IsScalarTower.algebraMap_apply R B A r).symm
 

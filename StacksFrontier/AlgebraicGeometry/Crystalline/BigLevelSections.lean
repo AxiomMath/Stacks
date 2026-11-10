@@ -127,7 +127,7 @@ theorem levelSectionsTrans_comp_levelSectionsTransition {m e : ℕ} (hm : S.IsLe
     S.levelSectionsTrans he ≫ S.levelSectionsTransition hm he hme = S.levelSectionsTrans hm := by
   refine NatTrans.ext (funext fun N => ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
   refine Subtype.ext (funext fun B => ?_)
-  show N.val.map ((S.levelStepCompIso hm he hme).inv.app B.unop).op
+  change N.val.map ((S.levelStepCompIso hm he hme).inv.app B.unop).op
       (x.val (op ((S.levelChangeBase he).obj ((S.levelStepChangeBase hm he hme).obj B.unop)))) =
     x.val (op ((S.levelChangeBase hm).obj B.unop))
   exact x.2 _
@@ -191,7 +191,7 @@ on its global sections, so lies in the image of `CRIS(X/S_{e(n)})` for `e(n) ≥
 theorem coversTop_levelChangeBase :
     (topology S).CoversTop (fun i : Σ n : ℕ, Thickening (S.levelSituation (hN.isLevel n)) =>
       (S.levelChangeBase (hN.isLevel i.1)).obj i.2) := by
-  show ∀ V, _
+  change ∀ V, _
   intro V
   choose W hW hmem k hk using fun t : ULift.{u + 1} V.thickening.target.scheme =>
     Thickening.exists_isAffineOpen_mem_and_pow_eq_zero V t.down
@@ -297,7 +297,7 @@ theorem levelValue_levelSectionsTransition {m e : ℕ} (hm : S.IsLevel m) (he : 
       (S.levelChangeBase he).map j = (Z.levelLiftViaIso S he _ hφ').inv := by
     apply Thickening.Hom.ext
     all_goals
-      show 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = 𝟙 _
+      change 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ = 𝟙 _
       simp
   calc S.levelValue hm N (((S.levelSectionsTransition hm he hme).app N).hom x) Z φ hφ
       = F.map (Z.levelLiftViaIso S hm φ hφ).inv.op

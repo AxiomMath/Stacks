@@ -136,7 +136,7 @@ public theorem exists_smooth_finiteType_neighborhood
           letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) :=
             ⟨hD.predeformation⟩
           letI : Fact (Deformation.SchlessingerConditionS2
-            (CategoryOfElements.π
+            (Functor.Elements.π
               (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
             ⟨hS2⟩
           let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered

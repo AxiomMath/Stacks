@@ -73,7 +73,7 @@ private theorem coconeToHom_first_component_cast
         (show n + 1 - 1 = n by omega))
         (coconeRawFirst A f I (n + 1) y index) := by
   rw [telescopeHom_next_index_iso_fst]
-  show cast (congrArg (fun degree : ℤ => (I.X degree : Type u))
+  change cast (congrArg (fun degree : ℤ => (I.X degree : Type u))
     (show n + 1 - 1 = n by omega))
       (((coconeToHomPairComponentIso A f I (n + 1)).hom y).1 index) = _
   rw [coconeToHomPairComponentIso_fst]
@@ -285,7 +285,7 @@ private theorem differenceCocone_isDerivedLimit
   have hdist : triangle ∈ distTriang _ := by
     exact DerivedCategory.mappingCocone_triangle_distinguished φ
   have hdiff : productIso.hom ≫ difference = triangle.mor₂ ≫ productIso.hom := by
-    show productIso.hom ≫ difference =
+    change productIso.hom ≫ difference =
       DerivedCategory.Q.map φ ≫ productIso.hom
     have h := constantProductDifferenceDerived_square A f I
     change productIso.inv ≫ DerivedCategory.Q.map φ ≫ productIso.hom = difference at h
@@ -293,7 +293,7 @@ private theorem differenceCocone_isDerivedLimit
     simp
   simp only [Functor.ofOpSequence_map_homOfLE_succ]
   erw [pi_lift_sub_comp_smul_id]
-  show Triangle.mk p difference δ ∈ distTriang _
+  change Triangle.mk p difference δ ∈ distTriang _
   apply isomorphic_distinguished triangle hdist
   exact (Triangle.isoMk triangle (Triangle.mk p difference δ)
     (Iso.refl _) productIso productIso
@@ -316,7 +316,7 @@ private theorem derivedLimit_of_objectIso
   let newConnecting := connecting ≫
     ((CategoryTheory.shiftFunctor (DerivedCategory (ModuleCat.{u} A)) (1 : ℤ)).mapIso e.symm).hom
   refine ⟨newProjection, newConnecting, ?_⟩
-  show Triangle.mk newProjection difference newConnecting ∈ distTriang _
+  change Triangle.mk newProjection difference newConnecting ∈ distTriang _
   apply isomorphic_distinguished (Triangle.mk projection difference connecting) distinguished
   exact Triangle.isoMk (Triangle.mk newProjection difference newConnecting)
     (Triangle.mk projection difference connecting)
@@ -387,7 +387,7 @@ private theorem derivedLimit_constantTower_of_iso
   simp only [Functor.ofOpSequence_map_homOfLE_succ] at distinguished ⊢
   erw [pi_lift_sub_comp_smul_id] at distinguished
   erw [pi_lift_sub_comp_smul_id]
-  show Triangle.mk newProjection differenceF newConnecting ∈ distTriang _
+  change Triangle.mk newProjection differenceF newConnecting ∈ distTriang _
   apply isomorphic_distinguished (Triangle.mk projection differenceG connecting) distinguished
   exact Triangle.isoMk (Triangle.mk newProjection differenceF newConnecting)
     (Triangle.mk projection differenceG connecting)
@@ -404,7 +404,7 @@ private theorem derivedLimit_constantTower_of_iso
         rw [hm]
         exact Category.comp_id _)
 
-private theorem derivedHomFromAway_isDerivedLimit
+theorem derivedHomFromAway_isDerivedLimit
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     IsDerivedLimit
@@ -484,7 +484,7 @@ private noncomputable def telescopeCohomologyExtAddEquiv
     (addHomCongr_local (asIso (DerivedCategory.Q.map augmentation))
       ((CategoryTheory.shiftFunctor (DerivedCategory (ModuleCat.{u} A)) n).mapIso eI.symm))
 
-private theorem derivedHomHomologyExtAddEquiv_nonempty
+theorem derivedHomHomologyExtAddEquiv_nonempty
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     Nonempty (∀ n : ℤ,
@@ -523,7 +523,7 @@ private theorem isZero_iff_forall_subsingleton_homology_local
   rw [(DerivedCategory.homologyFunctor (ModuleCat.{u} A) n).map_zero,
     ← isZero_iff_isIso_zero_local, ModuleCat.isZero_iff_subsingleton]
 
-private theorem extVanishing_iff_isZero_derivedHom
+theorem extVanishing_iff_isZero_derivedHom
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     (∀ n : ℤ, Subsingleton
@@ -575,7 +575,7 @@ private theorem constantTower_difference_eq_local
   simp only [Functor.ofOpSequence_map_homOfLE_succ]
   exact pi_lift_sub_comp_smul_id A f K
 
-private theorem rhom_zero_iff_constant_difference_iso
+theorem rhom_zero_iff_constant_difference_iso
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     IsZero (DerivedHomAway.derivedHomFromAway A f K) ↔
@@ -602,7 +602,7 @@ private theorem exists_derivedLimit_zero_iff_difference_iso_local
     obtain ⟨L, hL⟩ := exists_isDerivedLimit F
     exact ⟨L, hL, (isZero_iff_isIso_difference_local F L hL).2 hIso⟩
 
-private theorem derivedLimitZero_iff_constant_difference_iso
+theorem derivedLimitZero_iff_constant_difference_iso
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     (∃ L : DerivedCategory (ModuleCat.{u} A),
@@ -615,7 +615,7 @@ private theorem derivedLimitZero_iff_constant_difference_iso
     constantTower_difference_eq_local]
   exact Iff.rfl
 
-private theorem extVanishing_iff_derivedLimitZero
+theorem extVanishing_iff_derivedLimitZero
     (A : Type u) [CommRing A] (f : A)
     (K : DerivedCategory (ModuleCat.{u} A)) :
     (∀ n : ℤ, Subsingleton

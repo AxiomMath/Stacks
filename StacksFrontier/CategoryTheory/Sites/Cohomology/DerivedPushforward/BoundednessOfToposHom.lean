@@ -58,7 +58,7 @@ theorem isGE_obj_rightAdjoint_of_isLE_boundednessOfToposHom {𝒞 𝒞' : Type*}
     (hF : ∀ (L : DerivedCategory 𝒞') (n : ℤ), L.IsLE n → (F.obj L).IsLE n)
     (M : DerivedCategory 𝒞) (n : ℤ) (hM : M.IsGE n) : (G.obj M).IsGE n := by
   have := hM
-  show DerivedCategory.TStructure.t.IsGE (G.obj M) n
+  change DerivedCategory.TStructure.t.IsGE (G.obj M) n
   rw [DerivedCategory.TStructure.t.isGE_iff_orthogonal (n - 1) n (by omega)]
   intro L g hL
   have := hF L (n - 1) hL
@@ -118,19 +118,6 @@ theorem isLE_derivedPullbackOfToposHom_obj_boundednessOfToposHom
           (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O)))).app K) ≪≫
       (DerivedPullbackOfToposHom.derivedPullback f).mapIso e) n
 
-/-- **The derived direct image along a morphism of ringed topoi preserves boundedness below.**
-`D^{≥ n}` is the right orthogonal of `D^{≤ n - 1}`, and a morphism from an object `L` of
-`D^{≤ n - 1}` into `Rf_*E` is adjoint to a morphism `Lf^*L ⟶ E` with `Lf^*L` again in
-`D^{≤ n - 1}`, hence zero. -/
-theorem _root_.AlgebraicGeometry.RingedToposHom.isGE_derivedPushforward_obj_unconditional_boundednessOfToposHom
-    (M : DerivedCategory
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O)))) (n : ℤ)
-    (hM : M.IsGE n) : ((derivedPushforward (X := X) (Y := Y) f).obj M).IsGE n :=
-  have := DerivedPullbackOfToposHom.derivedPullback_isTriangulated_general f
-  DerivedCategory.isGE_obj_rightAdjoint_of_isLE_boundednessOfToposHom
-    (derivedPullbackPushforwardAdjunctionOfToposHom f)
-    (isLE_derivedPullbackOfToposHom_obj_boundednessOfToposHom f) M n hM
-
 /-- The compatibility of `Rf_*` with the shift that it inherits as the right adjoint of `Lf^*`. -/
 @[instance_reducible]
 def derivedPushforwardCommShiftOfToposHomBoundednessOfToposHom :
@@ -150,5 +137,36 @@ theorem isTriangulated_derivedPushforward_ofToposHom_boundednessOfToposHom :
   exact (derivedPullbackPushforwardAdjunctionOfToposHom f).isTriangulated_rightAdjoint
 
 end Stacks.Cohomology.DerivedPushforward
+
+namespace AlgebraicGeometry.RingedToposHom
+
+open Stacks.Cohomology.DerivedPushforward
+
+attribute [local instance 10000] HasDerivedCategory.standard
+
+variable {X Y : RingedTopos.{u, u, u}}
+  [X.J.HasSheafCompose (forget RingCat.{u})] [Y.J.HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  (f : RingedToposHom X Y)
+
+/-- **The derived direct image along a morphism of ringed topoi preserves boundedness below.**
+`D^{≥ n}` is the right orthogonal of `D^{≤ n - 1}`, and a morphism from an object `L` of
+`D^{≤ n - 1}` into `Rf_*E` is adjoint to a morphism `Lf^*L ⟶ E` with `Lf^*L` again in
+`D^{≤ n - 1}`, hence zero. -/
+theorem isGE_derivedPushforward_obj_unconditional_boundednessOfToposHom
+    (M : DerivedCategory
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O)))) (n : ℤ)
+    (hM : M.IsGE n) : ((derivedPushforward (X := X) (Y := Y) f).obj M).IsGE n :=
+  have := Stacks.Cohomology.DerivedPullbackOfToposHom.derivedPullback_isTriangulated_general f
+  DerivedCategory.isGE_obj_rightAdjoint_of_isLE_boundednessOfToposHom
+    (derivedPullbackPushforwardAdjunctionOfToposHom f)
+    (isLE_derivedPullbackOfToposHom_obj_boundednessOfToposHom f) M n hM
+
+end AlgebraicGeometry.RingedToposHom
 
 end

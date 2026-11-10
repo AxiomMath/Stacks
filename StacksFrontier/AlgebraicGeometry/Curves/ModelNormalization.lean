@@ -22,7 +22,8 @@ projective curve over `K` with the same function field, hence a nonsingular proj
 
 * `AlgebraicGeometry.normalizationModel` is the nonsingular projective model of a proper curve
   given by its normalization.
-* `AlgebraicGeometry.normalizationModel'` is the same model with nothing carried.
+* `AlgebraicGeometry.normalizationModel'` is the same model, with projectivity proved by another
+  route.
 
 ## Main results
 
@@ -30,19 +31,16 @@ projective curve over `K` with the same function field, hence a nonsingular proj
   variety over a field has the same dimension as the variety.
 * `AlgebraicGeometry.exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange`: a
   nonsingular projective model of `(X_K)_red` whose underlying scheme is the normalization of
-  `X_K` over `K`, granted `h09NZ`.
+  `X_K` over `K`.
 * `AlgebraicGeometry.exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange'`:
   Tag 0BY4(1), the same statement with nothing carried.
 
 ## Implementation notes
 
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ] — the existence of an ample invertible sheaf on a
-Noetherian separated scheme of dimension at most one — carried unchanged from
-`AlgebraicGeometry.isProjectiveMorphism_of_topologicalKrullDim_le_one`, a special case of the
-library's Tag 0A26 that still assumes it. It enters at exactly one point: the source's step
-"a proper curve is projective".
+The unprimed declarations obtain the source's step "a proper curve is projective" from
+`AlgebraicGeometry.isProjectiveMorphism_of_topologicalKrullDim_le_one`, which assumes nothing.
 
-**Nothing need be carried**, and the primed declarations — `normalizationModel'` and
+The primed declarations — `normalizationModel'` and
 `exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange'`, which is where Tag
 0BY4(1) is registered — assume nothing. The source's step "a proper curve is projective" is
 applied to a *normalization*, which is an integral scheme of dimension one, and in that
@@ -52,8 +50,7 @@ H-quasi-projectivity to H-projectivity, which is [Stacks, Tag 0BCL],
 `AlgebraicGeometry.isProjectiveMorphism_iff_isHQuasiProjective_and_isProper`. The library's
 general Tag 0A26 does not assume [Stacks, Tag 09NZ] either; it is
 `Stacks.HQuasiProjectiveDimensionOne.isProjectiveMorphism_of_isProper_of_topologicalKrullDim_le_one`
-in `StacksFrontier/AlgebraicGeometry/HQuasiProjectiveDimensionOne/Basic.lean`. The unprimed
-declarations, which carry `h09NZ`, are kept unchanged.
+in `StacksFrontier/AlgebraicGeometry/HQuasiProjectiveDimensionOne/Basic.lean`.
 
 That the normalization is one-dimensional is read off the dimension formula for a dominant
 morphism of integral schemes, `topologicalKrullDim_eq_add_trdeg_of_isClosedMap` (Tag 02JX): the
@@ -166,11 +163,11 @@ public theorem functionFieldMap_normalizationOverField_algebraMap
     ⟨⟨genericPoint (normalizationSchemeOverField K sZ), trivial⟩⟩
   have hle : (⊤ : (normalizationSchemeOverField K sZ).Opens) ≤
       normalizationOverField K sZ ⁻¹ᵁ (⊤ : Z.Opens) := by simp
-  show (Scheme.Hom.functionFieldMap (normalizationOverField K sZ)).hom
+  change (Scheme.Hom.functionFieldMap (normalizationOverField K sZ)).hom
       ((Z.germToFunctionField ⊤).hom
         ((sZ.appTop).hom (((Scheme.ΓSpecIso (.of K)).inv).hom a))) = _
   rw [Scheme.Hom.functionFieldMap_germToFunctionField (normalizationOverField K sZ) hle]
-  show _ = ((normalizationSchemeOverField K sZ).germToFunctionField ⊤).hom
+  change _ = ((normalizationSchemeOverField K sZ).germToFunctionField ⊤).hom
       (((normalizationOverField K sZ ≫ sZ).appTop).hom
         (((Scheme.ΓSpecIso (.of K)).inv).hom a))
   have happ : (normalizationOverField K sZ).appLE ⊤ ⊤ hle =
@@ -186,13 +183,8 @@ public theorem functionFieldMap_normalizationOverField_algebraMap
 /-- **The nonsingular projective model of a proper curve, as its normalization.** The
 normalization of a proper curve `Z` over a field `K` is normal and proper over `K`, of the same
 dimension, hence a regular projective curve with the same function field as `Z`, that is a
-nonsingular projective model of `Z`.
-
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ], carried unchanged from
-`AlgebraicGeometry.isProjectiveMorphism_of_topologicalKrullDim_le_one`, a special case of
-Tag 0A26 that still assumes it. -/
+nonsingular projective model of `Z`. -/
 public def normalizationModel
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (K : Type u) [Field K] {Z : Scheme.{u}} (sZ : Z ⟶ Spec (.of K)) [IsCurve K sZ]
     [IsProper sZ] :
     NonsingularProjectiveModel K Z sZ := by
@@ -214,7 +206,7 @@ public def normalizationModel
   let _ : IsLocallyNoetherian (normalizationSchemeOverField K sZ) :=
     LocallyOfFiniteType.isLocallyNoetherian (normalizationOverField K sZ ≫ sZ)
   let _ : IsProjectiveVariety K (normalizationOverField K sZ ≫ sZ) :=
-    { isProjective := isProjectiveMorphism_of_topologicalKrullDim_le_one h09NZ
+    { isProjective := isProjectiveMorphism_of_topologicalKrullDim_le_one
         (normalizationOverField K sZ ≫ sZ) (le_of_eq hdim) }
   let _ : Algebra K Z.functionField := functionFieldAlgebra K sZ
   let _ : Algebra K (normalizationSchemeOverField K sZ).functionField :=
@@ -236,7 +228,7 @@ public def normalizationModel
           commutes' := functionFieldMap_normalizationOverField_algebraMap K sZ } }
 
 /-- **The nonsingular projective model of a proper curve, as its normalization, with nothing
-carried.** This is `AlgebraicGeometry.normalizationModel` with the hypothesis `h09NZ` dropped.
+carried.** This is `AlgebraicGeometry.normalizationModel`, built another way.
 
 The step "a proper curve is projective" is applied to the normalization, which is integral of
 dimension one, and there [Stacks, Tag 0A25] is
@@ -292,10 +284,9 @@ public def normalizationModel'
 /-- The scheme underlying `AlgebraicGeometry.normalizationModel` is the normalization. -/
 @[simp]
 public theorem normalizationModel_Y
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (K : Type u) [Field K] {Z : Scheme.{u}} (sZ : Z ⟶ Spec (.of K)) [IsCurve K sZ]
     [IsProper sZ] :
-    (normalizationModel h09NZ K sZ).Y = normalizationSchemeOverField K sZ := rfl
+    (normalizationModel K sZ).Y = normalizationSchemeOverField K sZ := rfl
 
 /-- The scheme underlying `AlgebraicGeometry.normalizationModel'` is the normalization. -/
 @[simp]
@@ -308,10 +299,9 @@ public theorem normalizationModel'_Y
 morphism followed by the structure morphism. -/
 @[simp]
 public theorem normalizationModel_structureMap
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (K : Type u) [Field K] {Z : Scheme.{u}} (sZ : Z ⟶ Spec (.of K)) [IsCurve K sZ]
     [IsProper sZ] :
-    (normalizationModel h09NZ K sZ).structureMap = normalizationOverField K sZ ≫ sZ := rfl
+    (normalizationModel K sZ).structureMap = normalizationOverField K sZ ≫ sZ := rfl
 
 /-- The structure morphism of `AlgebraicGeometry.normalizationModel'` is the normalization
 morphism followed by the structure morphism. -/
@@ -443,13 +433,8 @@ private theorem exists_iso_normalization_reducedBaseChange_aux
 
 /-- **Stacks Project, Tag 0BY4, part (1).** Let `k` be a field, let `X` be a proper
 geometrically irreducible curve over `k` and let `K/k` be a field extension. Then `(X_K)_red` has
-a nonsingular projective model whose underlying scheme is the normalization of `X_K` over `K`.
-
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ], carried unchanged from
-`AlgebraicGeometry.isProjectiveMorphism_of_topologicalKrullDim_le_one`, a special case of
-Tag 0A26 that still assumes it. -/
+a nonsingular projective model whose underlying scheme is the normalization of `X_K` over `K`. -/
 public theorem exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (k K : Type u) [Field k] [Field K] [Algebra k K] {X : Scheme.{u}}
     (sX : X ⟶ Spec (.of k)) [IsCurve k sX] [GeometricallyIrreducible sX] [IsProper sX] :
     ∃ M : NonsingularProjectiveModel K (reducedBaseChange k K sX)
@@ -467,7 +452,7 @@ public theorem exists_nonsingularProjectiveModel_iso_normalization_reducedBaseCh
   have hP : IsProper (reducedBaseChangeStructureMap k K sX) := inferInstance
   have hL : LocallyOfFiniteType (reducedBaseChangeStructureMap k K sX) :=
     IsProper.toLocallyOfFiniteType
-  refine ⟨normalizationModel h09NZ K (reducedBaseChangeStructureMap k K sX), ?_⟩
+  refine ⟨normalizationModel K (reducedBaseChangeStructureMap k K sX), ?_⟩
   rw [normalizationModel_structureMap]
   exact exists_iso_normalization_reducedBaseChange_aux k K sX
 
@@ -477,8 +462,8 @@ a nonsingular projective model whose underlying scheme is the normalization of `
 
 Nothing is carried: the model is `AlgebraicGeometry.normalizationModel'`, whose projectivity is
 the step "a proper curve is projective" applied to a normalization. This is
-`AlgebraicGeometry.exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange` with
-the hypothesis `h09NZ` dropped. -/
+`AlgebraicGeometry.exists_nonsingularProjectiveModel_iso_normalization_reducedBaseChange`, proved
+another way. -/
 @[stacks 0BY4 "part (1), with nothing carried: the source's step `a proper curve is projective` \
 is applied to a normalization, which is integral of dimension one, so Tag 0A25 holds outright as \
 `Stacks.HQuasiProjectiveDimensionOne.isHQuasiProjective_of_isIntegral` and Tag 09NZ is not \

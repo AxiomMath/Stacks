@@ -38,8 +38,8 @@ into a linear equivalence by assembling it into a `CategoryTheory.Iso` in `Modul
 The `congrArg` is written with no type ascription on its lambda: ascribing `_ ⟶ _` leaves the
 two objects as metavariables and the field projection `k.val` then has no constant head.
 
-No `@[stacks]` attribute is carried: both halves are identifications proved elsewhere and this is their
-composite.
+No `@[stacks]` attribute is carried: both halves are identifications proved elsewhere and this is
+their composite.
 
 ## References
 

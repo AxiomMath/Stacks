@@ -204,7 +204,7 @@ theorem representedAffineDerivedPullbackHomEquivBase_factorHom (g : U' ⟶ U) (g
           (representedSpaceMap_comp B S hS g₂ g) φ) =
       representedAffineDerivedPullbackHomEquivBase B S hS g M N φ ≫
         representedAffineDerivedBaseTransition B S hS g g₂ N := by
-  show (representedAffineDerivedExtensionAdjunction B S hS (g₂ ≫ g)).homEquiv M _
+  change (representedAffineDerivedExtensionAdjunction B S hS (g₂ ≫ g)).homEquiv M _
       (representedAffineDerivedPullbackHomEquiv B S hS (g₂ ≫ g) M N
         ((canonicalPullbackData B S hS).factorHom
           (representedSpaceMap_comp B S hS g₂ g) φ)) = _

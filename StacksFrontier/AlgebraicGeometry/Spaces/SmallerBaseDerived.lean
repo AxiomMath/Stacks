@@ -186,24 +186,23 @@ isomorphism `R₁ ⋙ G ≅ H ⋙ R₂` is an isomorphism: its mate along the ad
 equivalences is built from their units and counits, and it is the conjugate of the original
 transformation (`CategoryTheory.iterated_mateEquiv_conjugateEquiv`). -/
 theorem isIso_mateEquiv_symm_of_equivalence (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    (β : TwoSquare R₁ H.functor G.functor R₂) (hβ : IsIso β.natTrans) :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    (β : TwoSquare R₁ H.functor G.functor R₂) (hβ : IsIso β) :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   have key := iterated_mateEquiv_conjugateEquiv adj₁ adj₂ G.toAdjunction H.toAdjunction
     ((mateEquiv adj₁ adj₂).symm β)
   have e : (mateEquiv adj₁ adj₂) ((mateEquiv adj₁ adj₂).symm β) = β :=
     Equiv.apply_symm_apply _ _
   rw [e] at key
-  have : IsIso (mateEquiv H.toAdjunction G.toAdjunction β).natTrans := by
+  have : IsIso (mateEquiv H.toAdjunction G.toAdjunction β) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro X
     rw [mateEquiv_apply]
-    dsimp only [TwoSquare.mk, TwoSquare.natTrans]
-    have hβ : ∀ Y, IsIso (β.natTrans.app Y) := fun Y => NatIso.isIso_app_of_isIso _ Y
+    have hβ : ∀ Y, IsIso (β.app Y) := fun Y => NatIso.isIso_app_of_isIso _ Y
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
       Equivalence.toAdjunction_unit, Equivalence.toAdjunction_counit]
     have := hβ (H.inverse.obj X)
     have : IsIso ((Functor.whiskerRight β G.inverse).app (H.inverse.obj X)) :=
-      inferInstanceAs (IsIso (G.inverse.map (β.natTrans.app (H.inverse.obj X))))
+      inferInstanceAs (IsIso (G.inverse.map (β.app (H.inverse.obj X))))
     infer_instance
   rw [key] at this
   exact conjugateEquiv_of_iso (adj₁.comp H.toAdjunction) (G.toAdjunction.comp adj₂) _
@@ -446,7 +445,7 @@ theorem homotopySquareIso_hom_app {A A' B B' : Type*} [Category* A] [Category* A
         ((Functor.mapHomologicalComplexCompIso τ (ComplexShape.up ℤ)).hom.app K) := by
   have e : (Functor.mapHomotopyCategoryCompIso (Iso.refl (E' ⋙ k)) (ComplexShape.up ℤ)).inv.app
       ((HomotopyCategory.quotient A _).obj K) = 𝟙 _ := by
-    show (HomotopyCategory.quotient B' _).map
+    change (HomotopyCategory.quotient B' _).map
       ((Functor.mapHomologicalComplexCompIso (Iso.refl (E' ⋙ k)) _).inv.app K) = _
     refine Eq.trans (congrArg (HomotopyCategory.quotient B' _).map (?_ : _ = 𝟙 _))
       ((HomotopyCategory.quotient B' _).map_id _)
@@ -700,7 +699,7 @@ abbrev smallerBasePushforwardSquare :
 
 /-- The square `AlgebraicGeometry.Space.smallerBasePushforwardSquare` is an isomorphism. -/
 instance isIso_smallerBasePushforwardSquare :
-    IsIso (smallerBasePushforwardSquare B h ε₁ ε₂ hfg hf hg).natTrans :=
+    IsIso (smallerBasePushforwardSquare B h ε₁ ε₂ hfg hf hg) :=
   inferInstanceAs (IsIso (smallerBasePushforwardIso B h ε₁ ε₂ hfg hf hg).hom)
 
 /-- The mate of `AlgebraicGeometry.Space.smallerBasePushforwardSquare` under the adjunctions
@@ -716,7 +715,7 @@ abbrev smallerBasePullbackSquare :
 
 /-- The square `AlgebraicGeometry.Space.smallerBasePullbackSquare` is an isomorphism. -/
 instance isIso_smallerBasePullbackSquare :
-    IsIso (smallerBasePullbackSquare B h ε₁ ε₂ hfg hf hg).natTrans :=
+    IsIso (smallerBasePullbackSquare B h ε₁ ε₂ hfg hf hg) :=
   isIso_mateEquiv_symm_of_equivalence (G := smallerBaseModulesEquivalenceOfIso B h ε₂)
     (H := smallerBaseModulesEquivalenceOfIso B h ε₁)
     (RingedToposHom.pullbackAdjPushforwardModules (smallEtaleRingedToposHom B S hS g))
@@ -733,7 +732,7 @@ def smallerBasePullbackIso :
         (smallerBaseModulesEquivalenceOfIso B h ε₁).functor ≅
       (smallerBaseModulesEquivalenceOfIso B h ε₂).functor ⋙
         (smallEtaleRingedToposHom B W hW f).toModulesHom.pullbackModules :=
-  (asIso (smallerBasePullbackSquare B h ε₁ ε₂ hfg hf hg).natTrans).symm
+  (asIso (smallerBasePullbackSquare B h ε₁ ε₂ hfg hf hg)).symm
 
 end BaseChange
 
@@ -846,7 +845,7 @@ theorem mem_quasiIso_mapHomotopyCategory_map_iff {A A' : Type*} [Category* A] [A
         ((F.mapHomotopyCategory (ComplexShape.up ℤ)).map t) ↔
       HomotopyCategory.quasiIso A (ComplexShape.up ℤ) t := by
   obtain ⟨φ, rfl⟩ := (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map_surjective t
-  show HomotopyCategory.quasiIso A' (ComplexShape.up ℤ) ((HomotopyCategory.quotient A' _).map
+  change HomotopyCategory.quasiIso A' (ComplexShape.up ℤ) ((HomotopyCategory.quotient A' _).map
     ((F.mapHomologicalComplex _).map φ)) ↔ _
   rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
   exact (HomologicalComplex.quasiIso_map_iff_of_preservesHomology φ F).trans

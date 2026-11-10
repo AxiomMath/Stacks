@@ -86,7 +86,7 @@ theorem unit_comp_cosk_map_comp_counit {D : Type u} [Category.{w} D] (K : Simpli
       K.obj (op (SimplexCategory.mk k)) :=
     ((SimplicialObject.coskAdj m).counit.app ((SimplicialObject.truncation m).obj K)).app
       (op ⟨SimplexCategory.mk k, hk⟩)
-  show ((SimplicialObject.coskAdj m).unit.app K).app (op (SimplexCategory.mk l)) ≫
+  change ((SimplicialObject.coskAdj m).unit.app K).app (op (SimplexCategory.mk l)) ≫
     ((SimplicialObject.cosk m).obj K).map φ.op ≫ cu = K.map φ.op
   have ht := congrArg
     (fun t : (SimplicialObject.truncation m).obj K ⟶ (SimplicialObject.truncation m).obj K ↦
@@ -232,14 +232,18 @@ private def faceArrow (d : Fin 2) : StructuredArrow (op ⦋1⦌) L :=
 private theorem leg_face_f (K : SimplicialObject (FC X))
     (i₀ i₁ : (K.obj (op ⦋0⦌)).I) (d : Fin 2) :
     (leg K i₀ i₁ (faceArrow d)).f PUnit.unit = if d = 0 then i₀ else i₁ := by
-  fin_cases d <;> simp [leg, faceArrow, StructuredArrow.mk, vertex, SimplexCategory.δ,
-    FormalCoproduct.Hom.fromIncl] <;>
-    dsimp [StructuredArrow.hom, Comma.hom, SimplexCategory.Hom.toOrderHom,
-      SimplexCategory.Hom.mk, Fin.succAboveOrderEmb] <;>
-    first
-    | rfl
-    | (intro h; exact absurd rfl h)
-    | (intro h; exact absurd h (by decide))
+  fin_cases d
+  · simp only [Fin.zero_eta, Fin.isValue, faceArrow, StructuredArrow.mk, ObjectProperty.ι_obj,
+      SimplexCategory.δ, SimplexCategory.mkHom, Nat.reduceAdd, leg, op_obj, const_obj_obj,
+      FormalCoproduct.Hom.fromIncl, vertex, homOfLE_leOfHom, ↓reduceIte, ite_eq_left_iff]
+    intro h
+    exact absurd rfl h
+  · simp only [Fin.mk_one, Fin.isValue, faceArrow, StructuredArrow.mk, ObjectProperty.ι_obj,
+      SimplexCategory.δ, SimplexCategory.mkHom, Nat.reduceAdd, leg, op_obj, const_obj_obj,
+      FormalCoproduct.Hom.fromIncl, vertex, homOfLE_leOfHom, Fin.one_eq_zero_iff, zero_add,
+      OfNat.ofNat_ne_one, ↓reduceIte, ite_eq_right_iff]
+    intro h
+    exact absurd h (by decide)
 
 private theorem matchingLift_face (K : SimplicialObject (FC X))
     (i₀ i₁ : (K.obj (op ⦋0⦌)).I) (d : Fin 2) :
@@ -406,7 +410,7 @@ private lemma matchingLimitCone_π_face (a : Fin (n + 3)) :
   let U := (SimplicialObject.truncation (n + 1)).obj K
   let hπex := (SimplicialObject.Truncated.existsUnique_cone_app_δ_eq_iff
     U (matchingObject X K n) (matchingFace X K n)).mpr (matchingFace_compat X K n)
-  show (Classical.choose hπex).app _ = _
+  change (Classical.choose hπex).app _ = _
   exact (Classical.choose_spec hπex).1 a
 
 /-- The comparison of `matchingObject` with the degree-`n + 2` term of the `(n + 1)`-st
@@ -506,7 +510,7 @@ theorem intersection_eq_union_of_isHypercovering
     obtain ⟨j, hjk, hxj⟩ := exists_component_of_isCoveringOver X q
       (hK.2 (n + 1)) (e.inv.f m) x ((e.inv.φ m).left.le hx)
     have hindex : (toMatchingObject X K n).f j = m := by
-      show e.hom.f (q.f j) = m
+      change e.hom.f (q.f j) = m
       rw [hjk]
       exact congrFun (congrArg FormalCoproduct.Hom.f e.inv_hom_id) m
     have hfaces : ∀ a, (K.δ a).f j = i a := fun a ↦

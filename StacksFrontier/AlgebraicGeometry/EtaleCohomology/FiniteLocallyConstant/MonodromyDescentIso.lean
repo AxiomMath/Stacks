@@ -53,7 +53,7 @@ theorem exists_iso_monodromyDescentSheaf
   let N₀ := N.obj.obj.obj
   have hN : ∀ σ, galoisAut x σ A = 1 → actionLinearRepr N₀ σ = 1 := fun σ hσ ↦ by
     have h1 : N₀.ρ σ = 1 := hK σ (hA hσ)
-    show ModuleCat.Hom.hom (N₀.ρ σ).asHom = 1
+    change ModuleCat.Hom.hom (N₀.ρ σ).asHom = 1
     rw [h1]
     rfl
   have : Module.Finite Λ N₀.V := N.property
@@ -71,10 +71,10 @@ theorem exists_iso_monodromyDescentSheaf
           e.monodromyEquiv hX
             (D.obj.map ((finiteEtaleToEtale X).map (galoisAutHom x σ A)).op d) :=
         monodromyAction_ρ_ι_apply D.obj σ (op A) d
-      show E ((((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d)) =
+      change E ((((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d)) =
         (N₀.ρ σ).asHom.hom (E (e.monodromyEquiv hX d))
       rw [h1]
-      show monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
+      change monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
           (e.monodromyEquiv hX _)) =
         (N₀.ρ σ).asHom.hom (monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
           (e.monodromyEquiv hX d)))

@@ -305,7 +305,7 @@ theorem schemeDeltaDimension_inner {n : ℤ} (hn : schemeDeltaDimension C sX = (
   rw [schemeDeltaDimension_congr C (show nestedInnerMap DY DZ hZY ≫ defBase C sX DZ =
     deformationSpaceToBase (idealZY DY DZ hZY) ≫ innerBase DY DZ hZY ≫
       DZ.subschemeι.coborderRange.ι ≫ sX by
-        show nestedInnerMap DY DZ hZY ≫ deformationSpaceToBase (idealZX DZ) ≫ _ = _
+        change nestedInnerMap DY DZ hZY ≫ deformationSpaceToBase (idealZX DZ) ≫ _ = _
         rw [← Category.assoc, nestedInnerMap_toBase, Category.assoc])]
   exact h2
 

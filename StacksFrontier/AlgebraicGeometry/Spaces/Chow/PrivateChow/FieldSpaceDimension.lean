@@ -104,7 +104,7 @@ theorem deltaDimensionSubspace_le_of_dimension_eq (Z : ClosedSubspaces B (Spec (
     exact hsub hx'
   rw [hdimW, hd] at hle
   have : (deltaDimension (fieldSpaceSituation k B hk) f W).toNat ≤ d := by exact_mod_cast hle
-  show (fieldSpaceSituation k B hk).deltaValue f t ≤ d
+  change (fieldSpaceSituation k B hk).deltaValue f t ≤ d
   omega
 
 /-- **The dimension function of `Spec k` over itself vanishes**: the δ-value of the identity of

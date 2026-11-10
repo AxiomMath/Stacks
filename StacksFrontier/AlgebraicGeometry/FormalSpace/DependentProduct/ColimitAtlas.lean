@@ -333,13 +333,13 @@ theorem exists_pointsMapULift_colimitChart_eq
   have hξpt : Space.pointsMapULift B S hS (uliftYoneda.{u + 1}.obj A) ξ (q₀.class B S hS _)
       = pt.class B S hS (colimit E).obj := by
     refine Quot.sound ⟨pt, ⟨𝟙 _, ?_⟩, ⟨𝟙 _, by simp⟩⟩
-    show (colimit E).obj.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
+    change (colimit E).obj.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
     simp [ξ]
   have hw : r.hom ≫ (liftAlongBase B S hS (colimit.ι E o) (c k)).hom =
       uliftYoneda.{u + 1}.map q ≫ ξ :=
     congrArg (fun m ↦ m.hom) hr.w
   refine ⟨k, Space.pointsMapULift B S hS _ r.hom pW, ?_⟩
-  show _ = pt.class B S hS (colimit E).obj
+  change _ = pt.class B S hS (colimit E).obj
   have hc : ∀ {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)} (α : F ⟶ G) (β : G ⟶ H) z,
       Space.pointsMapULift.{u + 1} B S hS F (α ≫ β) z =
         Space.pointsMapULift B S hS G β (Space.pointsMapULift B S hS F α z) :=

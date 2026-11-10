@@ -99,7 +99,7 @@ theorem geometricLength_unit_eq_of_isIso {X Y : AlgebraicSpaces B S hS} (f : X �
   refine le_antisymm (geometricLength_unit_le_of_isFlat B S hS f hfl x) ?_
   have h := geometricLength_unit_le_of_isFlat B S hS g hgl (geometricPointMap f.hom x)
   have hx : geometricPointMap g.hom (geometricPointMap f.hom x) = x := by
-    show geometricPointMap (f.hom ≫ inv f.hom) x = x
+    change geometricPointMap (f.hom ≫ inv f.hom) x = x
     rw [IsIso.hom_inv_id]
     rfl
   rwa [hx] at h

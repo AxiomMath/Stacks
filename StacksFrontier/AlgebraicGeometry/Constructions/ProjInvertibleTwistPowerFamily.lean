@@ -180,14 +180,14 @@ theorem spanCoord_mul {t : T} (ht : ∀ (n : ℕ) (r : R), r • t ^ n = 0 → r
     (hlm : (l : T) * m ∈ Submodule.span R {t ^ (i + j)}) :
     spanCoord ht (i + j) ⟨(l : T) * m, hlm⟩ = spanCoord ht i l * spanCoord ht j m := by
   refine spanCoord_eq_of_smul ht (i + j) _ _ ?_
-  show (spanCoord ht i l * spanCoord ht j m) • t ^ (i + j) = (l : T) * (m : T)
+  change (spanCoord ht i l * spanCoord ht j m) • t ^ (i + j) = (l : T) * (m : T)
   rw [pow_add, ← smul_mul_smul_comm, spanCoord_smul ht i l, spanCoord_smul ht j m]
 
 /-- **The coordinate of the unit in degree zero is one.** -/
 theorem spanCoord_one {t : T} (ht : ∀ (n : ℕ) (r : R), r • t ^ n = 0 → r = 0)
     (h0 : (1 : T) ∈ Submodule.span R {t ^ 0}) : spanCoord ht 0 ⟨1, h0⟩ = 1 := by
   refine spanCoord_eq_of_smul ht 0 _ 1 ?_
-  show (1 : R) • t ^ 0 = (1 : T)
+  change (1 : R) • t ^ 0 = (1 : T)
   rw [pow_zero, one_smul]
 
 variable {A : Type u} [CommRing A] [Algebra R A]

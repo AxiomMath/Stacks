@@ -64,7 +64,7 @@ variable {k : Type*} [Field k] {p : ℕ} [hp : Fact p.Prime] [CharP k p]
 /-- The coefficient of `X ^ (p * m)` in `u ^ p` is the `p`-th power of the coefficient of
 `X ^ m` in `u`. -/
 theorem coeff_pow_char_mul (u : k[X]) (m : ℕ) : (u ^ p).coeff (p * m) = u.coeff m ^ p := by
-  rw [← map_frobenius_expand, coeff_map, coeff_expand hp.out.pos, if_pos (dvd_mul_right p m),
+  rw [← map_frobenius_expand, coeff_map, coeff_expand hp.out.pos, ite_eq_left (dvd_mul_right p m),
     Nat.mul_div_cancel_left m hp.out.pos]
   rfl
 
@@ -127,7 +127,7 @@ theorem mem_sup_range_ringArtinSchreier_of_perfectRing [PerfectRing k p] (g : k[
       have := add_mem (ih m hlt d) (AddSubgroup.mem_sup_right hsub)
       rwa [add_sub_cancel] at this
     · refine AddSubgroup.mem_sup_left fun i hi hpi => ?_
-      rw [coeff_monomial, if_neg]
+      rw [coeff_monomial, ite_eq_right]
       rintro rfl
       exact hn ⟨hi, hpi⟩
 
@@ -148,7 +148,7 @@ theorem sub_mem_range_ringArtinSchreier_iff {f f' : k[X]} (hf : f ∈ noCoeffPos
     rw [hC, ← C_pow, ← C_sub] at hu
     refine ⟨fun n hn => ?_, ⟨u.coeff 0, ?_⟩⟩
     · have := congrArg (coeff · n) hu
-      simp only [coeff_C, if_neg hn, coeff_sub] at this
+      simp only [coeff_C, ite_eq_right hn, coeff_sub] at this
       exact (sub_eq_zero.mp this.symm)
     · have := congrArg (coeff · 0) hu
       simpa only [coeff_C_zero, coeff_sub, ringArtinSchreier_apply] using this
@@ -159,7 +159,7 @@ theorem sub_mem_range_ringArtinSchreier_iff {f f' : k[X]} (hf : f ∈ noCoeffPos
     rcases eq_or_ne n 0 with rfl | h0
     · rw [coeff_C_zero]
       exact ha
-    · rw [coeff_C, if_neg h0, hn n h0, sub_self]
+    · rw [coeff_C, ite_eq_right h0, hn n h0, sub_self]
 
 /-- **[Stacks, Tag 0A47], the representatives of the cokernel.** Let `k` be an algebraically
 closed field of characteristic `p > 0`. Every polynomial `g ∈ k[x]` is congruent modulo the image
@@ -194,12 +194,12 @@ theorem existsUnique_sub_mem_range_ringArtinSchreier [IsAlgClosed k] (g : k[X]) 
   refine ⟨f₀ - C (f₀.coeff 0), ⟨fun n hn => ?_, hmem⟩, ?_⟩
   · rcases eq_or_ne n 0 with rfl | h0
     · rw [coeff_sub, coeff_C_zero, sub_self]
-    · rw [coeff_sub, coeff_C, if_neg h0, sub_zero]
+    · rw [coeff_sub, coeff_C, ite_eq_right h0, sub_zero]
       exact hf₀ n (Nat.pos_of_ne_zero h0) hn
   · rintro f ⟨hf, hg⟩
     have hf0 : f ∈ noCoeffPosDvdSubgroup k p := fun n _ hn => hf n hn
     have hf₁ : f₀ - C (f₀.coeff 0) ∈ noCoeffPosDvdSubgroup k p := fun n h0 hn => by
-      rw [coeff_sub, coeff_C, if_neg h0.ne', sub_zero]
+      rw [coeff_sub, coeff_C, ite_eq_right h0.ne', sub_zero]
       exact hf₀ n h0 hn
     have hdiff : f - (f₀ - C (f₀.coeff 0)) ∈ (ringArtinSchreier k[X] p).range := by
       have := sub_mem hmem hg
@@ -255,7 +255,7 @@ theorem not_exists_sub_mem_range_ringArtinSchreier_of_not_pth_power {t : k}
     have h := hc (p ^ j)
     have hne : p * p ^ j ≠ p :=
       (lt_mul_right hp.out.pos (Nat.one_lt_pow (by omega) hp1)).ne'
-    rw [coeff_sub, coeff_C_mul_X_pow, if_neg hne, hf _ (by positivity) (dvd_mul_right _ _),
+    rw [coeff_sub, coeff_C_mul_X_pow, ite_eq_right hne, hf _ (by positivity) (dvd_mul_right _ _),
       sub_zero, sub_eq_zero] at h
     rw [pow_succ', h]
   have hvan : ∀ j, 1 ≤ j → u.coeff (p ^ j) = 0 := by
@@ -273,7 +273,7 @@ theorem not_exists_sub_mem_range_ringArtinSchreier_of_not_pth_power {t : k}
     calc u.natDegree < p ^ u.natDegree := Nat.lt_pow_self hp1
       _ ≤ p ^ (j + u.natDegree) := Nat.pow_le_pow_right hp.out.pos (by omega)
   have h1 := hc 1
-  rw [mul_one, coeff_sub, coeff_C_mul_X_pow, if_pos rfl, hf p hp.out.pos dvd_rfl, sub_zero,
+  rw [mul_one, coeff_sub, coeff_C_mul_X_pow, ite_eq_left rfl, hf p hp.out.pos dvd_rfl, sub_zero,
     show u.coeff p = u.coeff (p ^ 1) by rw [pow_one], hvan 1 le_rfl, sub_zero] at h1
   exact ht _ h1
 
@@ -284,8 +284,8 @@ theorem pow_eq_self_of_ringArtinSchreier_eq_C_mul (w : k[X]) (c : k)
     (h : w ^ p - w = C c * (X ^ p - X)) : c ^ p = c := by
   have hp1 := hp.out.one_lt
   have hR : ∀ n, n ≠ p → n ≠ 1 → (C c * (X ^ p - X)).coeff n = 0 := fun n h₁ h₂ => by
-    rw [coeff_C_mul, coeff_sub, coeff_X_pow, coeff_X, if_neg h₁, if_neg (Ne.symm h₂), sub_zero,
-      mul_zero]
+    rw [coeff_C_mul, coeff_sub, coeff_X_pow, coeff_X, ite_eq_right h₁, ite_eq_right (Ne.symm h₂),
+      sub_zero, mul_zero]
   -- `w` has degree at most one
   have hdeg : w.natDegree ≤ 1 := by
     by_contra hd
@@ -297,16 +297,16 @@ theorem pow_eq_self_of_ringArtinSchreier_eq_C_mul (w : k[X]) (c : k)
   have hcoeff1 : w.coeff 1 = c := by
     have hc := congrArg (coeff · 1) h
     have hpow : (w ^ p).coeff 1 = 0 := by
-      rw [← map_frobenius_expand, coeff_map, coeff_expand hp.out.pos, if_neg, map_zero]
+      rw [← map_frobenius_expand, coeff_map, coeff_expand hp.out.pos, ite_eq_right, map_zero]
       exact fun hd => hp1.ne' (Nat.dvd_one.mp hd)
-    rw [coeff_sub, hpow, zero_sub, coeff_C_mul, coeff_sub, coeff_X_pow, if_neg hp1.ne,
+    rw [coeff_sub, hpow, zero_sub, coeff_C_mul, coeff_sub, coeff_X_pow, ite_eq_right hp1.ne,
       coeff_X_one, zero_sub, mul_neg, mul_one, neg_inj] at hc
     exact hc
   -- the coefficient of `xᵖ`
   have hc := congrArg (coeff · (p * 1)) h
   rw [coeff_sub, coeff_pow_char_mul, hcoeff1, mul_one,
     coeff_eq_zero_of_natDegree_lt (hdeg.trans_lt hp1), sub_zero, coeff_C_mul, coeff_sub,
-    coeff_X_pow, if_pos rfl, coeff_X, if_neg hp1.ne, sub_zero, mul_one] at hc
+    coeff_X_pow, ite_eq_left rfl, coeff_X, ite_eq_right hp1.ne, sub_zero, mul_one] at hc
   exact hc
 
 end Polynomial

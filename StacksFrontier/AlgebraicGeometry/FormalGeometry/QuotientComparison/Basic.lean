@@ -79,7 +79,8 @@ isomorphism whenever `I ^ n` annihilates `G`, equivalently that `ι_*` is essent
 onto the `I ^ n`-annihilated modules. Given it at `G = F / I ^ n F`, the comparison is
 `unit ≫ ι_*` of the inverse of `ι^*` applied to the projection, hence an isomorphism.
 
-**That statement is proved for a closed immersion of schemes**: it is `Stacks.ClosedImmersion.isIso_unit_app_of_smul_eq_zero`, with the
+**That statement is proved for a closed immersion of schemes**: it is
+`Stacks.ClosedImmersion.isIso_unit_app_of_smul_eq_zero`, with the
 essential image characterized by `Stacks.ClosedImmersion.pushforward_essImage_iff` and full
 faithfulness by `Stacks.ClosedImmersion.fullyFaithfulPushforward`, all in
 `StacksFrontier/AlgebraicGeometry/ClosedPushforward/Basic.lean`. Consequently the comparison *is*
@@ -139,7 +140,7 @@ of scalars along `f^♯` on `U`. -/
 public theorem pushforward_smul_eq_zero (f : Z ⟶ X) {M : Z.Modules} {U : X.Opens}
     {a : Γ(X, U)} (ha : f.app U a = 0) (t : Γ((Scheme.Modules.pushforward f).obj M, U)) :
     a • t = 0 := by
-  show (f.app U a) • (show Γ(M, f ⁻¹ᵁ U) from t) = 0
+  change (f.app U a) • (show Γ(M, f ⁻¹ᵁ U) from t) = 0
   rw [ha, zero_smul]
 
 /-- The `n`-th power of the ideal annihilates, over every affine open, the sections of a

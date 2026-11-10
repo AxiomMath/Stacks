@@ -145,7 +145,7 @@ theorem localRelation_ne_zero (B : Type u) [CommRing B] [Nontrivial B] (f : B) :
     ⟨Finsupp.single (0 : Fin 2) 1 + Finsupp.single (1 : Fin 2) 1, ?_⟩
   rw [localRelation, MvPolynomial.coeff_sub, MvPolynomial.X, MvPolynomial.X,
     MvPolynomial.monomial_mul_monomial, one_mul, MvPolynomial.coeff_monomial,
-    MvPolynomial.coeff_C, if_pos rfl, if_neg (Ne.symm hm), sub_zero]
+    MvPolynomial.coeff_C, ite_eq_left rfl, ite_eq_right (Ne.symm hm), sub_zero]
   exact one_ne_zero
 
 /-- The defining relation `z₁z₂ - f` of the local model is not a unit: it vanishes at the point

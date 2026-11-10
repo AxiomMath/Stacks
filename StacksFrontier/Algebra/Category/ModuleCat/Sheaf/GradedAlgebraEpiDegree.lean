@@ -95,7 +95,7 @@ theorem isLocallySurjective_comp {M N P : PresheafOfModules.{w} R} {f : M ⟶ N}
     (hf : PresheafOfModules.IsLocallySurjective J f)
     (hg : PresheafOfModules.IsLocallySurjective J g) :
     PresheafOfModules.IsLocallySurjective J (f ≫ g) := by
-  show Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R).map (f ≫ g))
+  change Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R).map (f ≫ g))
   rw [Functor.map_comp]
   infer_instance
 

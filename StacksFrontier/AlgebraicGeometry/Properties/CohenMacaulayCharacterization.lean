@@ -97,7 +97,7 @@ being maximal Cohen–Macaulay over itself. -/
 private lemma localCohenMacaulayPropForm_iff_maximal (R : Type*) [CommRing R]
     [IsNoetherianRing R] [IsLocalRing R] :
     IsCohenMacaulayLocalRingPropForm R ↔ Module.IsMaximalCohenMacaulay R R := by
-  show (localRingDepth R : WithBot ℕ∞) = ringKrullDim R ↔ _
+  change (localRingDepth R : WithBot ℕ∞) = ringKrullDim R ↔ _
   rw [localRingDepth_eq_depthSup, ← depth_eq_depthSup_of_isLocalRing,
     Module.IsMaximalCohenMacaulay]
 
@@ -155,7 +155,7 @@ private lemma affine_sections_iff_stalks {X : Scheme.{u}} {U : X.Opens}
   · intro hCM P hP
     let y : PrimeSpectrum Γ(X, U) := ⟨P, hP⟩
     have hprime : hU.primeIdealOf (hU.isoSpec.inv y) = y := by
-      show hU.isoSpec.hom (hU.isoSpec.inv y) = y
+      change hU.isoSpec.hom (hU.isoSpec.inv y) = y
       exact congr($(hU.isoSpec.inv_hom_id).base y)
     have hx : hU.fromSpec y = (hU.isoSpec.inv y).1 :=
       (congrArg hU.fromSpec hprime).symm.trans
@@ -270,7 +270,7 @@ theorem isCohenMacaulay_tfae_stalk (X : Scheme.{u}) :
         px.primeCompl := by simp [hqcomap]
     let : IsLocalization px.primeCompl
         (Localization.AtPrime (q.comap (algebraMap Γ(X, V) (Localization.AtPrime py)))) := by
-      show IsLocalization px.primeCompl
+      change IsLocalization px.primeCompl
         (Localization (q.comap (algebraMap Γ(X, V) (Localization.AtPrime py))).primeCompl)
       rw [← hsub]
       infer_instance

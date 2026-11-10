@@ -158,7 +158,7 @@ theorem isTorsionFree_iff_isLocalized_maximal
       simpa using
         (IsLocalization.injective (Rₚ P) P.primeCompl_le_nonZeroDivisors).ne hr.ne_zero
     apply hr'.isSMulRegular
-    show algebraMap R (Rₚ P) r • f P m = algebraMap R (Rₚ P) r • f P m'
+    change algebraMap R (Rₚ P) r • f P m = algebraMap R (Rₚ P) r • f P m'
     rw [IsScalarTower.algebraMap_smul, IsScalarTower.algebraMap_smul]
     simpa only [map_smul] using congrArg (f P) hmm'
 
@@ -278,7 +278,7 @@ private theorem associatedPrimes_eq_singleton_bot_iff_noEmbedded
     have hbot : (⊥ : Ideal R) ∈ associatedPrimes R M := by
       apply Module.associatedPrimes.minimalPrimes_annihilator_subset_associatedPrimes R M
       rw [hann]
-      show (⊥ : Ideal R) ∈ minimalPrimes R
+      change (⊥ : Ideal R) ∈ minimalPrimes R
       rw [IsDomain.minimalPrimes_eq_singleton_bot]
       simp
     ext p

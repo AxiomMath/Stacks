@@ -9,7 +9,8 @@ public import Mathlib.Algebra.Homology.Embedding.ExtendHomology
 # The cobar resolution of a monad, as a functor of the coefficient object
 
 Let `L ⊣ R` be an adjunction between abelian categories with `L` additive and let `T = L ⋙ R` be
-the induced monad on `A`. `StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteDescent.CobarExact`
+the induced monad on `A`.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteDescent.CobarExact`
 produces, for each object `X : A`, differentials making
 `0 ⟶ X ⟶ T X ⟶ T² X ⟶ T³ X ⟶ ⋯`
 an exact complex; but it produces them existentially, and an existential statement carries no
@@ -473,7 +474,7 @@ public theorem quasiIso_cobarAugmentation (X : A) :
       ComplexShape.embeddingUpNat) := by
     rw [HomologicalComplex.quasiIso_extendMap_iff]
     exact quasiIso_cobarNatAugmentation adj hrefl hmono X
-  show QuasiIso ((singleCompExtendFunctorIso (A := A)).hom.app X ≫
+  change QuasiIso ((singleCompExtendFunctorIso (A := A)).hom.app X ≫
     HomologicalComplex.extendMap (cobarNatAug adj X) ComplexShape.embeddingUpNat)
   rw [quasiIso_iff_comp_left ((singleCompExtendFunctorIso (A := A)).hom.app X)
       (HomologicalComplex.extendMap (cobarNatAug adj X) ComplexShape.embeddingUpNat)]

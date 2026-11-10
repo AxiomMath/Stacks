@@ -106,7 +106,7 @@ public theorem isZero_homology_mappingCone
             (ComplexShape.up ℤ) n).app G).hom ≫ HomologicalComplex.homologyMap f n ≫
           ((HomotopyCategory.homologyFunctorFactors (OXMod.{u, u} X)
             (ComplexShape.up ℤ) n).app F).inv := by
-    show (HomotopyCategory.homologyFunctor (OXMod.{u, u} X) (ComplexShape.up ℤ) n).map
+    change (HomotopyCategory.homologyFunctor (OXMod.{u, u} X) (ComplexShape.up ℤ) n).map
       ((HomotopyCategory.quotient (OXMod.{u, u} X) (ComplexShape.up ℤ)).map f) = _
     simp only [Functor.comp_obj, Iso.app_hom, Iso.app_inv]
     exact (NatIso.naturality_2

@@ -144,7 +144,7 @@ theorem isInducedOpen_restrictι (X : DividedPowerScheme.{u}) (W : X.scheme.Open
     (closedFiberι X) ?_ ?_
   · rw [hmap]
     exact closedFiberMap_comp_closedFiberι (X.restrictι W)
-  · show closedFiberι X ⁻¹ᵁ W.ι.opensRange = _
+  · change closedFiberι X ⁻¹ᵁ W.ι.opensRange = _
     rw [Scheme.Hom.opensRange_comp_of_isIso, Scheme.Opens.opensRange_ι,
       Scheme.Opens.opensRange_ι]
 
@@ -172,7 +172,7 @@ theorem mem_preimage_of_comp_restrictOpenHom {A D : Thickening S}
     (hk : k ≫ A.restrictOpenHom V = e) {W : A.thickening.target.scheme.Opens}
     (x : D.thickening.target.scheme) (hx : e.targetHom.hom x ∈ W) :
     k.targetHom.hom x ∈ V.ι ⁻¹ᵁ W := by
-  show (k ≫ A.restrictOpenHom V).targetHom.hom x ∈ W
+  change (k ≫ A.restrictOpenHom V).targetHom.hom x ∈ W
   rw [hk]
   exact hx
 
@@ -503,14 +503,14 @@ theorem patchLift_prodFan_snd {T : Thickening S} (P : ProductPatch A B) (f : T �
 @[reassoc]
 theorem patchLift_fstHom {T : Thickening S} (P : ProductPatch A B) (f : T ⟶ A) (g : T ⟶ B)
     (hf) (hg) : P.patchLift f g hf hg ≫ P.fstHom = f := by
-  show P.patchLift f g hf hg ≫ (P.prodFan.fst ≫ A.restrictOpenHom _) = f
+  change P.patchLift f g hf hg ≫ (P.prodFan.fst ≫ A.restrictOpenHom _) = f
   rw [← Category.assoc, patchLift_prodFan_fst, liftLeft_restrictOpenHom]
 
 /-- The morphism into a local product recovers the second of the two given morphisms. -/
 @[reassoc]
 theorem patchLift_sndHom {T : Thickening S} (P : ProductPatch A B) (f : T ⟶ A) (g : T ⟶ B)
     (hf) (hg) : P.patchLift f g hf hg ≫ P.sndHom = g := by
-  show P.patchLift f g hf hg ≫ (P.prodFan.snd ≫ B.restrictOpenHom _) = g
+  change P.patchLift f g hf hg ≫ (P.prodFan.snd ≫ B.restrictOpenHom _) = g
   rw [← Category.assoc, patchLift_prodFan_snd, liftRight_restrictOpenHom]
 
 /-! ### The diagram of local products -/

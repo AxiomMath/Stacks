@@ -146,11 +146,11 @@ def sec (p : PointedFiniteFreeAlgebra R d) : Carrier p.table →ₐ[R] R where
           exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
   map_zero' := by simp [Carrier.zero_apply]
   map_add' x y := by
-    show ∑ i, (x + y) i * p.coord i = (∑ i, x i * p.coord i) + ∑ i, y i * p.coord i
+    change ∑ i, (x + y) i * p.coord i = (∑ i, x i * p.coord i) + ∑ i, y i * p.coord i
     rw [← Finset.sum_add_distrib]
     exact Finset.sum_congr rfl fun i _ => by rw [Carrier.add_apply, add_mul]
   commutes' r := by
-    show ∑ i, (algebraMap R (Carrier p.table) r) i * p.coord i = r
+    change ∑ i, (algebraMap R (Carrier p.table) r) i * p.coord i = r
     simp only [Carrier.algebraMap_coord]
     rw [Fintype.sum_eq_single (0 : Fin d) fun i hi => by simp [hi]]
     simp [p.coord_zero]
@@ -233,13 +233,13 @@ its values on the universal structure constants. -/
 theorem classify_tableOfHom (c : universalRing d →+* R) : (tableOfHom c).classify = c := by
   refine Ideal.Quotient.ringHom_ext ?_
   refine MvPolynomial.ringHom_ext (fun r => ?_) (fun q => ?_)
-  · show (tableOfHom c).classify (Ideal.Quotient.mk _ (MvPolynomial.C r)) =
+  · change (tableOfHom c).classify (Ideal.Quotient.mk _ (MvPolynomial.C r)) =
       c (Ideal.Quotient.mk _ (MvPolynomial.C r))
     rw [show (MvPolynomial.C r : MvPolynomial (CoeffIndex d) ℤ) =
       (r : MvPolynomial (CoeffIndex d) ℤ) from
         (map_intCast (MvPolynomial.C : ℤ →+* MvPolynomial (CoeffIndex d) ℤ) r).symm]
     simp
-  · show (tableOfHom c).classify (universalStructureConstant d q.1 q.2.1 q.2.2) =
+  · change (tableOfHom c).classify (universalStructureConstant d q.1 q.2.1 q.2.2) =
       c (universalStructureConstant d q.1 q.2.1 q.2.2)
     rw [classify_universalStructureConstant, tableOfHom_coeff]
 
@@ -330,24 +330,24 @@ def universalCarrierClassify (d : ℕ) [NeZero d] (s : UniversalAlgebraStructure
       map_mul' := fun x y => Carrier.ext fun k => ?_
       map_zero' := Carrier.ext fun k => ?_
       map_add' := fun x y => Carrier.ext fun k => ?_ }
-  · show m.classify ((1 : UniversalFiniteFreeModule d).coeff k) = (1 : Carrier m) k
+  · change m.classify ((1 : UniversalFiniteFreeModule d).coeff k) = (1 : Carrier m) k
     rw [Carrier.one_apply, s.one_eq]
-    show m.classify (if (0 : Fin d) = k then 1 else 0) = _
+    change m.classify (if (0 : Fin d) = k then 1 else 0) = _
     rw [apply_ite m.classify, map_one, map_zero]
     exact if_congr eq_comm rfl rfl
-  · show m.classify ((x * y).coeff k) =
+  · change m.classify ((x * y).coeff k) =
       ∑ i, ∑ j, m.classify (x.coeff i) * m.classify (y.coeff j) * m.coeff i j k
     rw [s.mul_eq]
-    show m.classify (∑ i, ∑ j, x.coeff i * y.coeff j * universalStructureConstant d i j k) =
+    change m.classify (∑ i, ∑ j, x.coeff i * y.coeff j * universalStructureConstant d i j k) =
       ∑ i, ∑ j, m.classify (x.coeff i) * m.classify (y.coeff j) * m.coeff i j k
     rw [map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [map_mul, map_mul, classify_universalStructureConstant]
-  · show m.classify ((0 : UniversalFiniteFreeModule d).coeff k) = (0 : R)
+  · change m.classify ((0 : UniversalFiniteFreeModule d).coeff k) = (0 : R)
     rw [s.zero_coeff k, map_zero]
-  · show m.classify ((x + y).coeff k) = m.classify (x.coeff k) + m.classify (y.coeff k)
+  · change m.classify ((x + y).coeff k) = m.classify (x.coeff k) + m.classify (y.coeff k)
     rw [s.add_coeff, map_add]
 
 /-- The coordinatewise classifying map classifies each coordinate. -/
@@ -380,7 +380,7 @@ theorem universalCarrierClassify_basisVector (d : ℕ) [NeZero d] (s : Universal
   let := s.ring
   refine Carrier.ext fun k => ?_
   rw [universalCarrierClassify_apply, Carrier.basisVector_apply]
-  show m.classify (if i = k then 1 else 0) = _
+  change m.classify (if i = k then 1 else 0) = _
   rw [apply_ite m.classify, map_one, map_zero]
   exact if_congr eq_comm rfl rfl
 
@@ -404,7 +404,7 @@ theorem universalCarrierSectionHom_algebraMap (d : ℕ) [NeZero d]
       p.table.classify a := by
   let := s.ring
   let := s.algebra
-  show p.sec (universalCarrierClassify d s p.table _) = _
+  change p.sec (universalCarrierClassify d s p.table _) = _
   rw [universalCarrierClassify_algebraMap, AlgHom.commutes]
   simp
 
@@ -415,7 +415,7 @@ theorem universalCarrierSectionHom_basisVector (d : ℕ) [NeZero d]
     letI := s.ring
     universalCarrierSectionHom d s p (universalBasisVector d i) = p.coord i := by
   let := s.ring
-  show p.sec (universalCarrierClassify d s p.table _) = _
+  change p.sec (universalCarrierClassify d s p.table _) = _
   rw [universalCarrierClassify_basisVector, PointedFiniteFreeAlgebra.sec_basisVector]
 
 /-- A ring map out of the universal free carrier is determined by its restriction along the
@@ -496,7 +496,7 @@ def universalCarrierHomEquiv (d : ℕ) [NeZero d] (s : UniversalAlgebraStructure
   · intro ψ
     refine (universalCarrierHom_ext d s (fun a => ?_) (fun i => ?_)).symm
     · rw [universalCarrierSectionHom_algebraMap]
-      show _ = (tableOfHom (ψ.comp
+      change _ = (tableOfHom (ψ.comp
         (algebraMap (universalRing d) (UniversalFiniteFreeModule d)))).classify a
       rw [classify_tableOfHom]
       rfl
@@ -579,10 +579,10 @@ theorem universalTotalPointHom_algebraMap (d : ℕ) [NeZero d] {T : Scheme.{u}}
     CommRingCat.ofHom (RingHom.ulift
       (algebraMap (universalRing d) (UniversalFiniteFreeModule d)))
   have hnat := congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso_inv_naturality ρ)
-  show a.appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of
+  change a.appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of
       (ULift.{u} (UniversalFiniteFreeModule d)))).inv.hom
         (ρ.hom (ULift.up x))) = _
-  show _ = a.appTop.hom ((Spec.map ρ).appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of
+  change _ = a.appTop.hom ((Spec.map ρ).appTop.hom ((Scheme.ΓSpecIso (CommRingCat.of
       (ULift.{u} (universalRing d)))).inv.hom (ULift.up x)))
   exact congrArg a.appTop.hom (DFunLike.congr_fun hnat (ULift.up x))
 
@@ -664,7 +664,9 @@ def pointedFamilyEquiv (d : ℕ) [NeZero d] (T : Scheme.{u}) :
       PointedFiniteFreeAlgebra Γ(T, ⊤) d where
   toFun := pointedFamilyTable.{u} d
   invFun := pointedFamilyHom.{u} d
-  left_inv a := universalTotal_hom_ext.{u} d (pointedFamilyTable_pointedFamilyHom.{u} d _)
+  left_inv a :=
+    universalTotal_hom_ext.{u} d
+      (pointedFamilyTable_pointedFamilyHom.{u} d (pointedFamilyTable.{u} d a))
   right_inv p := pointedFamilyTable_pointedFamilyHom.{u} d p
 
 /-- The open `V_d` of Stacks 0FL3: the preimage under the universal finite free family of rank

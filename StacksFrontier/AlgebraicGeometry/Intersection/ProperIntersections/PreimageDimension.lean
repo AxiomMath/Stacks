@@ -489,7 +489,7 @@ theorem spanFinrank_ker_stalkMap_liftCoborder_le_of_conormal_rank {Z X : Scheme.
     (Stacks.Intersection.span_range_map_eq_top
       (Stacks.Conormal.conormalSheafStalkEquivCotangent j z) v hv)
   intro a m
-  show (RingHom.quotientKerEquivOfSurjective
+  change (RingHom.quotientKerEquivOfSurjective
     (j.liftCoborder.stalkMap_surjective z)).symm
       ((j.liftCoborder.stalkMap z).hom a) • m = a • m
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply, ← Ideal.Quotient.algebraMap_eq]
@@ -619,8 +619,7 @@ bound. The tag is registered on the statement of both bounds,
 `AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds`. -/
 theorem topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (hf : f ≫ sY = sX)
-    (hreg : Stacks.AlgebraicGeometry.RegularIdealSheaf.IsRegularImmersion f) (c : ℕ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) [IsImmersion f] (c : ℕ)
     [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} (Stacks.Conormal.conormalSheaf f) c]
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
@@ -637,7 +636,7 @@ private lemma topologicalKrullDim_affineSpace_field (k : Type u) [Field k] (J : 
     [Fintype J] :
     topologicalKrullDim (AffineSpace J (Spec (.of k))) = (Fintype.card J : WithBot ℕ∞) := by
   rw [(Scheme.homeoOfIso (AffineSpace.SpecIso J (.of k))).isHomeomorph.topologicalKrullDim_eq]
-  show topologicalKrullDim (PrimeSpectrum (MvPolynomial J k)) = _
+  change topologicalKrullDim (PrimeSpectrum (MvPolynomial J k)) = _
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
   simp
@@ -744,7 +743,7 @@ bound. The tag is registered on the statement of both bounds,
 `AlgebraicGeometry.topologicalKrullDim_component_pullback_bounds`. -/
 theorem exists_add_relativeDimension_le_topologicalKrullDim_component_pullback
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX) (r : ℤ)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (r : ℤ)
     (hlci : IsLocalCompleteIntersectionOfRelativeDimension f r)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
@@ -852,7 +851,7 @@ an inequality in `ℤ`. The two bounds are \
 `AlgebraicGeometry.exists_add_relativeDimension_le_topologicalKrullDim_component_pullback`."]
 theorem topologicalKrullDim_component_pullback_bounds
     (k : Type u) [Field k] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))
-    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y) (hf : f ≫ sY = sX)
+    [IsVariety k sX] [IsVariety k sY] (f : X ⟶ Y)
     (I : Y.IdealSheafData) [IsIntegral I.subscheme]
     (W : Set (pullback f I.subschemeι : Scheme.{u}))
     (hW : W ∈ irreducibleComponents (pullback f I.subschemeι : Scheme.{u})) :
@@ -863,10 +862,9 @@ theorem topologicalKrullDim_component_pullback_bounds
       (∀ r : ℤ, IsLocalCompleteIntersectionOfRelativeDimension f r →
         ∃ d m : ℕ, topologicalKrullDim I.subscheme = (d : WithBot ℕ∞) ∧
           topologicalKrullDim W = (m : WithBot ℕ∞) ∧ (d : ℤ) + r ≤ (m : ℤ)) := by
-  refine ⟨fun hreg c => ?_, fun r hlci => ?_⟩
-  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f hf hreg c
-      I W hW
-  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f hf r
+  refine ⟨fun _ c => ?_, fun r hlci => ?_⟩
+  · exact topologicalKrullDim_le_component_pullback_add_of_isRegularImmersion k sX sY f c I W hW
+  · exact exists_add_relativeDimension_le_topologicalKrullDim_component_pullback k sX sY f r
       hlci I W hW
 
 end AlgebraicGeometry

@@ -254,7 +254,7 @@ theorem retractionProjection_app_eq_zero_iff (U : SmallEtale B S hS X₀.1)
     haveI : Mono ψ.hom := ⟨fun g g' e => by
       simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using congrArg (· ≫ ψ.inv) e⟩
     Stacks.SheafOfModules.injective_val_app_of_mono ψ.hom (op U)
-  show ψ.hom.val.app (op U) ((reductionMap B S hS r hrep i hi F).val.app (op U) x) = 0 ↔ _
+  change ψ.hom.val.app (op U) ((reductionMap B S hS r hrep i hi F).val.app (op U) x) = 0 ↔ _
   exact ⟨fun h0 => hinj (h0.trans (map_zero _).symm), fun h0 => by rw [h0, map_zero]⟩
 
 include hF h in
@@ -399,7 +399,7 @@ theorem ker_eq_span_basis (U : SmallEtale B S hS X₀.1)
   rw [h.ker_eq U hU]
   refine le_antisymm (Ideal.span_le.2 ?_) (Ideal.span_mono ?_)
   · rintro _ ⟨v, rfl⟩
-    show (ι v).1 _ ∈ _
+    change (ι v).1 _ ∈ _
     rw [← (Deformation.ModuleDeformation.stdBasis M).sum_repr v, map_sum]
     have hsum : ∀ (s : Finset (Fin (Module.finrank k M))),
         (∑ j ∈ s, ι ((Deformation.ModuleDeformation.stdBasis M).repr v j •
@@ -477,7 +477,7 @@ theorem mono_copowerDesc_retractionMultiplicationFamily :
   have hrel := hflat V hV n hy
   have hzero : ∀ j, (retractionProjection B S hS r hrep i hi F G ψ).val.app (op V) (n j) = 0 :=
     fun j => (retractionProjection_app_eq_zero_iff B S hS F G ψ hF h V hV (n j)).2 (hrel j)
-  show y = 0
+  change y = 0
   rw [hyeq]
   exact Finset.sum_eq_zero fun j _ => by rw [hzero j, map_zero]
 
@@ -500,7 +500,7 @@ theorem exact_copowerDesc_retractionProjection :
   obtain ⟨n, hn⟩ := exists_sum_of_mem_span_range_smul_top _ hx'
   refine ⟨∑ j, (biproduct.ι (fun _ : Fin (Module.finrank k M) => G) j).val.app (op V)
       ((retractionProjection B S hS r hrep i hi F G ψ).val.app (op V) (n j)), ?_⟩
-  show (copowerDesc G (retractionMultiplicationFamily B S hS F G ψ hF h)).val.app (op V) _ = x
+  change (copowerDesc G (retractionMultiplicationFamily B S hS F G ψ hF h)).val.app (op V) _ = x
   rw [copowerDesc_app_sum B S hS F G ψ hF h V n]
   exact hn.symm
 

@@ -156,7 +156,6 @@ theorem oppLeftEquiv_map_d (x : (oppAlgebra A).grading ᵍ⊗[R] C.grading) :
     oppLeftEquiv A C ((tensorProduct (oppAlgebra A) C).d x) =
       (tensorProduct A C).d (oppLeftEquiv A C x) := by
   induction x using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => simp only [map_add, hz, hw]
   | tmul y c =>
       induction y using DirectSum.Decomposition.inductionOn (oppAlgebra A).grading with

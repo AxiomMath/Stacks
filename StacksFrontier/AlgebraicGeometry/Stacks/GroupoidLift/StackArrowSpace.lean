@@ -112,7 +112,7 @@ theorem relToArr_arrPt {C : SmallAlg (ringOf B S hS T') B.cutoff} (h : pairAlg P
     relToArr a ι (arrPt a ι h s) = morToArr a ι h.hom.hom s.1 := by
   refine (relToArr_eq a ι _ h rfl).trans ?_
   have e : pairOverTo (P := P) h rfl = 𝟙 _ := Over.OverMorphism.ext rfl
-  show morToArr a ι h.hom.hom ((pairIsom a ι).map (pairOverTo h rfl).op s).1 = _
+  change morToArr a ι h.hom.hom ((pairIsom a ι).map (pairOverTo h rfl).op s).1 = _
   rw [e, op_id]
   exact congrArg (fun t => morToArr a ι h.hom.hom (Subtype.val t))
     ((pairIsom a ι).map_id_apply _ s)
@@ -167,7 +167,7 @@ theorem relToArr_map {C D : SmallAlg (ringOf B S hS T') B.cutoff} (f : C ⟶ D)
       (Over.homMk (specOverMap f) rfl : Over.mk (specOverMap f ≫ specOverMap h) ⟶
         Over.mk (specOverMap h)) = pairOverMap f h.hom.hom :=
     Over.OverMorphism.ext (Category.id_comp _)
-  show morToArr a ι (h ≫ f).hom.hom ((pairIsom a ι).map (pairOverTo (h ≫ f)
+  change morToArr a ι (h ≫ f).hom.hom ((pairIsom a ι).map (pairOverTo (h ≫ f)
     (specOverMap_comp h f)).op ((pairIsom a ι).map (Over.homMk (specOverMap f) rfl :
       Over.mk (specOverMap f ≫ specOverMap h) ⟶ Over.mk (specOverMap h)).op s)).1 = _
   rw [OverShriek.map_op_comp, e]

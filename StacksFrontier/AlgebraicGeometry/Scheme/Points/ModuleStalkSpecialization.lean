@@ -358,7 +358,7 @@ theorem exists_smul_eq_of_germ_eq (F : X.Modules) [F.IsQuasicoherent] {U : X.Ope
   have hloc : IsLocalizedModule.Away a (restrictₗ F hbU) :=
     isLocalizedModule_restrictₗ F hU a rfl hbU
   have hr : restrictₗ F hbU s = restrictₗ F hbU t := by
-    show F.presheaf.map (homOfLE hbU).op s = F.presheaf.map (homOfLE hbU).op t
+    change F.presheaf.map (homOfLE hbU).op s = F.presheaf.map (homOfLE hbU).op t
     have e₁ : F.presheaf.map (homOfLE hbU).op s
         = F.presheaf.map (homOfLE haW).op (F.presheaf.map iU.op s) := by
       rw [← Functor.map_comp_apply]; congr 1
@@ -476,7 +476,7 @@ theorem isScalarTower_stalkSpecializes (F : X.Modules) {U : X.Opens} {x y : X} (
   let := stalkSpecializesModule F h
   let := sectionsStalkModule F (h.mem_open U.isOpen hx)
   IsScalarTower.of_algebraMap_smul fun r m ↦ by
-    show (X.presheaf.stalkSpecializes h) (X.presheaf.germ U x hx r) • m
+    change (X.presheaf.stalkSpecializes h) (X.presheaf.germ U x hx r) • m
       = X.presheaf.germ U y (h.mem_open U.isOpen hx) r • m
     rw [ringGerm_stalkSpecializes_apply hx h]
 
@@ -538,7 +538,7 @@ theorem isLocalizedModule_atPrime_stalkSpecializes (F : X.Modules) [F.IsQuasicoh
   have hlocx : IsLocalization.AtPrime (X.presheaf.stalk x) pp := hU.isLocalization_stalk _
   have hlocy : IsLocalization.AtPrime (X.presheaf.stalk y) qq := hU.isLocalization_stalk _
   have hqp : qq ≤ pp := (PrimeSpectrum.le_iff_specializes _ _).mpr (by
-    show (Scheme.homeoOfIso hU.isoSpec) ⟨y, hyU⟩ ⤳ (Scheme.homeoOfIso hU.isoSpec) ⟨x, hxU⟩
+    change (Scheme.homeoOfIso hU.isoSpec) ⟨y, hyU⟩ ⤳ (Scheme.homeoOfIso hU.isoSpec) ⟨x, hxU⟩
     exact ((subtype_specializes_iff (⟨y, hyU⟩ : U) ⟨x, hxU⟩).mpr h).map
       (Scheme.homeoOfIso hU.isoSpec).continuous)
   have : IsScalarTower Γ(X, U) (X.presheaf.stalk x) (X.presheaf.stalk y) :=

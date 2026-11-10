@@ -114,9 +114,9 @@ theorem topReading_comp {M N P : Z.Modules} (U : Z.Opens)
     (ψ : (Scheme.Modules.restrictFunctor U.ι).obj N ⟶
       (Scheme.Modules.restrictFunctor U.ι).obj P) (a : Γ(M, U)) :
     topReading U (φ ≫ ψ) a = topReading U ψ (topReading U φ a) := by
-  show P.presheaf.map (eqToHom U.ι_image_top.symm).op
+  change P.presheaf.map (eqToHom U.ι_image_top.symm).op
       (ψ.app ⊤ (φ.app ⊤ (M.presheaf.map (eqToHom U.ι_image_top).op a))) = _
-  show _ = P.presheaf.map (eqToHom U.ι_image_top.symm).op
+  change _ = P.presheaf.map (eqToHom U.ι_image_top.symm).op
       (ψ.app ⊤ (N.presheaf.map (eqToHom U.ι_image_top).op
         (N.presheaf.map (eqToHom U.ι_image_top.symm).op
           (φ.app ⊤ (M.presheaf.map (eqToHom U.ι_image_top).op a)))))
@@ -139,7 +139,7 @@ theorem topReading_restrictFunctor_map {M N : Z.Modules} (U : Z.Opens) (ρ : M �
     topReading U ((Scheme.Modules.restrictFunctor U.ι).map ρ) a = ρ.app U a := by
   have he : (eqToHom U.ι_image_top : U.ι ''ᵁ ⊤ ⟶ U) = homOfLE (U.ι_image_le ⊤) :=
     Subsingleton.elim _ _
-  show N.presheaf.map (eqToHom U.ι_image_top.symm).op
+  change N.presheaf.map (eqToHom U.ι_image_top.symm).op
       (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctor U.ι).map ρ) ⊤
         (M.presheaf.map (eqToHom U.ι_image_top).op a)) = _
   rw [restrictFunctor_map_app, he, ← ModuleLimits.Hom_app_presheaf_map ρ (U.ι_image_le ⊤) a,

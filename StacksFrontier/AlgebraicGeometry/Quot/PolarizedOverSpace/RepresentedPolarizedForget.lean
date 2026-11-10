@@ -34,7 +34,7 @@ of schemes of the site is finitely presented, flat and proper. -/
 theorem properFlatProperty_schemeSpaceMap {Z V : Site B} (s : Z ⟶ V) (hp : IsProper (sch B s))
     (hf : Flat (sch B s)) (hfp : FinitePresentation (sch B s)) :
     SpacesOverSpace.properFlatProperty B integerBase (hZ B) (schemeSpaceMap s) := by
-  show Space.IsFinitePresentation B integerBase (hZ B) (yoneda.map s) ∧
+  change Space.IsFinitePresentation B integerBase (hZ B) (yoneda.map s) ∧
     Space.IsFlat B integerBase (hZ B) (yoneda.map s) ∧
       Space.IsProper B integerBase (hZ B) (yoneda.map s)
   have hqc : Space.IsQuasiCompact B integerBase (hZ B) (yoneda.map s) :=

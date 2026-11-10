@@ -428,8 +428,8 @@ assertion that it is an isomorphism, which is the content of the second claim of
 [Stacks, Tag 01QI].  The absolute first claim of that tag is proved, as
 `Stacks.SectionRingProjGoodOpen.projHomOfIsAmple_preimage_whereInvertible`; its second claim is
 recorded as not addressed in the "What is not done" section of
-`StacksFrontier/AlgebraicGeometry/SectionRingProjGoodOpen/Basic.lean`, and neither claim is available
-over a base.  The one `IsIso (P.theta.app 1)` in the library,
+`StacksFrontier/AlgebraicGeometry/SectionRingProjGoodOpen/Basic.lean`, and neither claim is
+available over a base.  The one `IsIso (P.theta.app 1)` in the library,
 `Stacks.VeryAmpleGlue.isIso_theta_one`, is for `P` a graded map out of the symmetric algebra of a
 quasi-coherent module, where the degree-one twist of the relative `Proj` is invertible outright;
 for `⨁_{d ≥ 0} g_* M^{⊗ d}` it need not be, which is exactly why [Stacks, Tag 01QI] runs through

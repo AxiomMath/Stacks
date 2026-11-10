@@ -76,11 +76,11 @@ theorem hasEigenvalue_exteriorPower_map_mul_det (f : Module.End K V) (W : Submod
     intro φ
     have h := (φ.compAlternatingMap A).eq_smul_basis_det e
     have h1 := congrArg (fun g => g ((f.restrict hW) ∘ e)) h
-    simp only [LinearMap.compAlternatingMap_apply, AlternatingMap.smul_apply, smul_eq_mul,
+    simp only [LinearMap.compAlternatingMap_apply, smul_apply, smul_eq_mul,
       Module.Basis.det_comp, Module.Basis.det_self, mul_one] at h1
     rw [map_sub, map_smul, h1, smul_eq_mul, mul_comm, sub_self]
   have hli : LinearIndependent K (Fin.cons w (W.subtype ∘ e) : Fin (d + 1) → V) := by
-    rw [linearIndependent_fin_cons]
+    rw [linearIndependent_finCons]
     refine ⟨(e.linearIndependent.map' W.subtype (Submodule.ker_subtype W)), ?_⟩
     rwa [Set.range_comp, ← Submodule.map_span, e.span_eq, Submodule.map_top,
       Submodule.range_subtype]

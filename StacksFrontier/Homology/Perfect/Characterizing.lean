@@ -337,7 +337,7 @@ theorem isPerfect_eq_triangEnvelope_singleton_regularModule {R : Type u} [Ring R
   let S : ObjectProperty (DerivedCategory (ModuleCat.{u} R)) :=
     ObjectProperty.singleton
       ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj (ModuleCat.of R R))
-  show (IsPerfect : ObjectProperty _) = S.triangEnvelope
+  change (IsPerfect : ObjectProperty _) = S.triangEnvelope
   let : S.Nonempty := ⟨⟨
     (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj (ModuleCat.of R R),
     ObjectProperty.ofObj_apply _ ()⟩⟩
@@ -620,7 +620,7 @@ private lemma homotopyCoproductDesc_fac {J : Type*}
     (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map (Sigma.ι K j) ≫
       homotopyCoproductDesc A K P inj
       = inj j := by
-  rw [homotopyCoproductDesc]; rw [← Functor.map_comp]; rw [Sigma.ι_desc]
+  rw [homotopyCoproductDesc]; rw [← Functor.map_comp]; rw [Sigma.ι_comp_desc]
   exact Functor.map_preimage _ _
 
 /-- The image of a termwise coproduct of cochain complexes is a coproduct in the homotopy
@@ -738,7 +738,7 @@ public theorem isCompactObject_regularModule {R : Type u} [Ring R] :
   simp only [a, ModuleCat.hom_sum, ModuleCat.hom_comp, ModuleCat.hom_ofHom,
     LinearMap.comp_apply, LinearMap.sum_apply, LinearMap.toSpanSingleton_apply,
     one_smul, DirectSum.lof]
-  show ∑ j ∈ x.support, DFinsupp.single j (x j) = x
+  change ∑ j ∈ x.support, DFinsupp.single j (x j) = x
   exact DFinsupp.sum_single
 
 /-- The regular module is a separator of the category of `R`-modules. -/
@@ -836,7 +836,7 @@ theorem isCompactObject_of_map_injective
     have hterm (i : J) : (a i ≫ ι i) ≫ F.map (p j) =
         if h : i = j then a j else 0 := by
       dsimp [ι, p]
-      rw [Category.assoc, ← F.map_comp, Sigma.ι_desc]
+      rw [Category.assoc, ← F.map_comp, Sigma.ι_comp_desc]
       split_ifs with h
       · subst i; simp
       · rw [Pi.single_eq_of_ne h, F.map_zero, comp_zero]

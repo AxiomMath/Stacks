@@ -227,7 +227,8 @@ theorem internalHomToTensor_naturality_left
     (internalHomTensorUncurried Z).map (DerivedCategory.Q.map g ×ₘ 𝟙 (DerivedCategory.Q.obj B)) ≫
         internalHomToTensor Z A' B =
       internalHomToTensor Z A B ≫ DerivedCategory.Q.map
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map (g ×ₘ 𝟙 B)) := by
+        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map
+          (g ×ₘ 𝟙 B)) := by
   have h := internalHomToTensor_naturality Z g (𝟙 B)
   rw [CategoryTheory.Functor.map_id] at h
   exact h
@@ -280,13 +281,13 @@ theorem isIso_derivedPullbackSheafHomMap_of_models (h : X ⟶ Y)
     [IsIso (homComplexComparison X ((pullbackComplex h).obj E) ((pullbackComplex h).obj F))]
     [QuasiIso (pullbackHomComplexMapSite h E F)] :
     IsIso (derivedPullbackSheafHomMap h (DerivedCategory.Q.obj E) (DerivedCategory.Q.obj F)) := by
-  haveI := isIso_derivedPullbackNatTrans_app h F hF
-  haveI : IsIso ((derivedPullbackNatTrans h).app
+  have := isIso_derivedPullbackNatTrans_app h F hF
+  have : IsIso ((derivedPullbackNatTrans h).app
       (((AlgebraicGeometry.RingedSite.sheafHomComplexBifunctor
         (Stacks.SheafOfModules.ringedSite Y.sheaf)).obj (op E)).obj F)) :=
     isIso_derivedPullbackNatTrans_app h _ hH
-  haveI := isIso_derivedPullbackNatTrans_app h E hE
-  haveI : IsIso (DerivedCategory.Q.map (pullbackHomComplexMapSite h E F)) :=
+  have := isIso_derivedPullbackNatTrans_app h E hE
+  have : IsIso (DerivedCategory.Q.map (pullbackHomComplexMapSite h E F)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 inferInstance
   refine Transpose.isIso_homComparison_of_models (P := derivedPullbackFunctor h)
     (H₁ := Stacks.SheafOfModules.derivedSheafHom Y.sheaf)

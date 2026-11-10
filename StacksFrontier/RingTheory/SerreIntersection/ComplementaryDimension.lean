@@ -79,8 +79,7 @@ theorem pairResidueFwd_tmul (M : Type u) [AddCommGroup M] [Module R M] (y : Twis
 theorem pairResidueFwd_smul (M : Type u) [AddCommGroup M] [Module R M] (b : B)
     (z : Pair α β M (ResidueField R)) :
     pairResidueFwd α β ψ hψα hker M (b • z) = ψ b • pairResidueFwd α β ψ hψα hker M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y c => rw [TensorProduct.smul_tmul', pairResidueFwd_tmul, pairResidueFwd_tmul,
       contractT_smul, smul_comm]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -91,7 +90,7 @@ theorem tmul_one_eq_zero_of_mem (M : Type u) [AddCommGroup M] [Module R M]
     (w ⊗ₜ[R] (1 : ResidueField R) : Pair α β M (ResidueField R)) = 0 := by
   refine Submodule.smul_induction_on hw (fun s hs y _ => ?_) (fun x y hx hy => ?_)
   · rw [TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
-    show y ⊗ₜ[R] residue R s = 0
+    change y ⊗ₜ[R] residue R s = 0
     rw [(residue_eq_zero_iff s).mpr hs, TensorProduct.tmul_zero]
   · rw [TensorProduct.add_tmul, hx, hy, add_zero]
 
@@ -104,11 +103,7 @@ def pairResidueEquiv (M : Type u) [AddCommGroup M] [Module R M] :
   map_smul' b z := pairResidueFwd_smul α β ψ hψα hker M b z
   invFun m := Twist.mk β (Twist.mk α (1 : B) ⊗ₜ (m : M) : Ext α M) ⊗ₜ (1 : ResidueField R)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      change Twist.mk β (Twist.mk α (1 : B) ⊗ₜ pairResidueFwd α β ψ hψα hker M 0 : Ext α M) ⊗ₜ
-        (1 : ResidueField R) = 0
-      rw [map_zero, TensorProduct.tmul_zero, Twist.mk_zero, TensorProduct.zero_tmul]
+    induction z using TensorProduct.inductionOn with
     | tmul y c =>
       obtain ⟨r, rfl⟩ := residue_surjective c
       change Twist.mk β (Twist.mk α (1 : B) ⊗ₜ pairResidueFwd α β ψ hψα hker M
@@ -159,8 +154,7 @@ theorem length_pair_eq_mul (M : Type u) [AddCommGroup M] [Module R M]
   | @of_subsingleton N0 _ _ _ =>
     have : Subsingleton (Pair α β M N0) := ⟨fun x y => by
       have h0 : ∀ z : Pair α β M N0, z = 0 := fun z => by
-        induction z using TensorProduct.induction_on with
-        | zero => rfl
+        induction z using TensorProduct.inductionOn with
         | tmul y n => rw [Subsingleton.elim n 0, TensorProduct.tmul_zero]
         | add a b ha hb => rw [ha, hb, add_zero]
       rw [h0 x, h0 y]⟩
@@ -180,10 +174,10 @@ theorem length_pair_eq_mul (M : Type u) [AddCommGroup M] [Module R M]
       { pairMap α β (LinearMap.id : M →ₗ[R] M) e.toLinearMap with
         invFun := pairMap α β (LinearMap.id : M →ₗ[R] M) e.symm.toLinearMap
         left_inv := fun z => by
-          show pairMap α β _ _ (pairMap α β _ _ z) = z
+          change pairMap α β _ _ (pairMap α β _ _ z) = z
           rw [pairMap_pairMap, e.symm_comp, LinearMap.id_comp, pairMap_id_apply]
         right_inv := fun z => by
-          show pairMap α β _ _ (pairMap α β _ _ z) = z
+          change pairMap α β _ _ (pairMap α β _ _ z) = z
           rw [pairMap_pairMap, e.comp_symm, LinearMap.id_comp, pairMap_id_apply] }
     rw [hex, ih, eP.length_eq, length_pair_residueField α β ψ hψα hker M, hexR,
       Module.length_eq_one (R := R) (M := N' ⧸ P), mul_add, mul_one]
@@ -199,13 +193,12 @@ omit [AddCommGroup N] [Module R N] in
 /-- For `a ∈ I`, the element `α a` annihilates `B ⊗_{R, α} M/IM`. -/
 theorem smul_ext_quot_eq_zero {a : R} (ha : a ∈ I) (y : Ext α (M ⧸ I • (⊤ : Submodule R M))) :
     α a • y = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨b, rfl⟩ : ∃ b' : B, Twist.mk α b' = b := ⟨b, rfl⟩
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ m
     rw [TensorProduct.smul_tmul']
-    show (a • Twist.mk α b) ⊗ₜ[R] Submodule.Quotient.mk m = 0
+    change (a • Twist.mk α b) ⊗ₜ[R] Submodule.Quotient.mk m = 0
     rw [TensorProduct.smul_tmul, ← Submodule.Quotient.mk_smul,
       (Submodule.Quotient.mk_eq_zero _).mpr (Submodule.smul_mem_smul ha Submodule.mem_top),
       TensorProduct.tmul_zero]
@@ -218,8 +211,7 @@ theorem map_left_le_annihilator_pair :
   intro a ha
   rw [Ideal.mem_comap, Module.mem_annihilator]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul y n =>
     obtain ⟨y, rfl⟩ : ∃ y' : Ext α (M ⧸ I • (⊤ : Submodule R M)), Twist.mk β y' = y := ⟨y, rfl⟩
     rw [TensorProduct.smul_tmul', Twist.smul_mk, smul_ext_quot_eq_zero α I M ha, Twist.mk_zero,
@@ -234,12 +226,11 @@ theorem map_right_le_annihilator_pair (M : Type u) [AddCommGroup M] [Module R M]
   intro a ha
   rw [Ideal.mem_comap, Module.mem_annihilator]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul y n =>
     obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective _ n
     rw [TensorProduct.smul_tmul']
-    show (a • y) ⊗ₜ[R] Submodule.Quotient.mk n = 0
+    change (a • y) ⊗ₜ[R] Submodule.Quotient.mk n = 0
     rw [TensorProduct.smul_tmul, ← Submodule.Quotient.mk_smul,
       (Submodule.Quotient.mk_eq_zero _).mpr (Submodule.smul_mem_smul ha Submodule.mem_top),
       TensorProduct.tmul_zero]
@@ -289,16 +280,15 @@ theorem ker_pairQuot_le :
   clear hx
   refine Submodule.add_mem _ ?_ ?_
   · obtain ⟨w, rfl⟩ := hu
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul y n =>
       rw [LinearMap.lTensor_tmul]
-      show y ⊗ₜ[R] (n : N) ∈ _
+      change y ⊗ₜ[R] (n : N) ∈ _
       refine Submodule.smul_induction_on
         (p := fun n₀ => y ⊗ₜ[R] n₀ ∈ J • (⊤ : Submodule B (Pair α β M N))) n.2
         (fun a ha n₀ _ => ?_) (fun n₁ n₂ h₁ h₂ => ?_)
       · rw [TensorProduct.tmul_smul]
-        show (β a • y) ⊗ₜ[R] n₀ ∈ J • (⊤ : Submodule B (Pair α β M N))
+        change (β a • y) ⊗ₜ[R] n₀ ∈ J • (⊤ : Submodule B (Pair α β M N))
         rw [← TensorProduct.smul_tmul']
         exact Submodule.smul_mem_smul (Ideal.mem_sup_right (Ideal.mem_map_of_mem β ha))
           Submodule.mem_top
@@ -306,19 +296,14 @@ theorem ker_pairQuot_le :
         exact Submodule.add_mem _ h₁ h₂
     | add w w' hw hw' => rw [map_add]; exact Submodule.add_mem _ hw hw'
   · obtain ⟨w, rfl⟩ := hv
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul y n =>
       rw [LinearMap.rTensor_tmul]
       obtain ⟨y, rfl⟩ : ∃ y' : Ext α ↥(I • (⊤ : Submodule R M)), Twist.mk β y' = y := ⟨y, rfl⟩
-      induction y using TensorProduct.induction_on with
-      | zero =>
-        show Twist.mk β (extMap α _ 0) ⊗ₜ[R] n ∈ _
-        rw [map_zero, Twist.mk_zero, TensorProduct.zero_tmul]
-        exact Submodule.zero_mem _
+      induction y using TensorProduct.inductionOn with
       | tmul b m =>
         obtain ⟨b, rfl⟩ : ∃ b' : B, Twist.mk α b' = b := ⟨b, rfl⟩
-        show Twist.mk β (Twist.mk α b ⊗ₜ[R] (m : M) : Ext α M) ⊗ₜ[R] n ∈ _
+        change Twist.mk β (Twist.mk α b ⊗ₜ[R] (m : M) : Ext α M) ⊗ₜ[R] n ∈ _
         refine Submodule.smul_induction_on
           (p := fun m₀ => Twist.mk β (Twist.mk α b ⊗ₜ[R] m₀ : Ext α M) ⊗ₜ[R] n ∈
             J • (⊤ : Submodule B (Pair α β M N))) m.2
@@ -330,7 +315,7 @@ theorem ker_pairQuot_le :
         · rw [TensorProduct.tmul_add, ← Twist.mk_add, TensorProduct.add_tmul]
           exact Submodule.add_mem _ h₁ h₂
       | add y y' hy hy' =>
-        show Twist.mk β (extMap α _ (y + y')) ⊗ₜ[R] n ∈ _
+        change Twist.mk β (extMap α _ (y + y')) ⊗ₜ[R] n ∈ _
         rw [map_add, ← Twist.mk_add, TensorProduct.add_tmul]
         exact Submodule.add_mem _ hy hy'
     | add w w' hw hw' => rw [map_add]; exact Submodule.add_mem _ hw hw'

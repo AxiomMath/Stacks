@@ -316,7 +316,6 @@ family over a relation of étale charts. -/
 def quotient : AlgebraicSpaces B S hS :=
   ⟨F.quotientPresheaf pr₁ pr₂, F.isAlgebraicSpace_quotientPresheaf pr₁ pr₂ hsq⟩
 
-include hsq in
 /-- The chart's morphism to `X`, read on the restricted functor of points, identifies the two
 projections of the relation. -/
 theorem sourceMap_comp_siteToSpace :
@@ -339,7 +338,7 @@ def quotientHom : F.quotient pr₁ pr₂ hsq ⟶ X :=
     (Stacks.Groupoids.quotientSheafDesc (BigFppfOver.topology B S hS) (Over.post B.inclusion)
       (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁)) ⟨X.1, X.property.isSheaf⟩
       ((pointsYonedaIso (Over.post B.inclusion) (F.site V₂)).hom ≫ F.siteToSpace V₂)
-      (F.sourceMap_comp_siteToSpace pr₁ pr₂ hsq)).hom
+      (F.sourceMap_comp_siteToSpace pr₁ pr₂)).hom
 
 /-- The structure morphism restricts on the chart to the chart's own morphism to `X`. -/
 theorem toQuotientSheaf_comp_quotientHom :
@@ -361,7 +360,7 @@ theorem quotientHom_unique (d : F.quotient pr₁ pr₂ hsq ⟶ X)
     (Over.post B.inclusion) (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁))
     ⟨X.1, X.property.isSheaf⟩
     ((pointsYonedaIso (Over.post B.inclusion) (F.site V₂)).hom ≫ F.siteToSpace V₂)
-    (F.sourceMap_comp_siteToSpace pr₁ pr₂ hsq) ⟨d.hom⟩ hd)
+    (F.sourceMap_comp_siteToSpace pr₁ pr₂) ⟨d.hom⟩ hd)
 
 /-! ### The chart of the glued space -/
 

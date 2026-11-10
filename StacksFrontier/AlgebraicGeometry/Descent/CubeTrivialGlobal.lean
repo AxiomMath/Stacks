@@ -31,7 +31,7 @@ namespace Stacks.Cube
 variable {Z X Y P : Scheme.{u}} {fX : X ⟶ Z} {fY : Y ⟶ Z} {r : P ⟶ X} {q : P ⟶ Y}
 
 /-- The base change of `r : P ⟶ X` along `t : T ⟶ Z`, between the canonical base changes. -/
-abbrev baseChangeFst (H : IsPullback r q fX fY) {T : Scheme.{u}} (t : T ⟶ Z) :
+abbrev baseChangeFst {T : Scheme.{u}} (t : T ⟶ Z) :
     pullback (r ≫ fX) t ⟶ pullback fX t :=
   pullback.lift (pullback.fst _ _ ≫ r) (pullback.snd _ _)
     (by rw [Category.assoc]; exact pullback.condition)
@@ -45,23 +45,23 @@ abbrev baseChangeSnd (H : IsPullback r q fX fY) {T : Scheme.{u}} (t : T ⟶ Z) :
 /-- **Base change of a fibre product square.** If `P = X ×_Z Y`, then for every `t : T ⟶ Z`,
 `P ×_Z T = (X ×_Z T) ×_T (Y ×_Z T)`. -/
 theorem isPullback_baseChange (H : IsPullback r q fX fY) {T : Scheme.{u}} (t : T ⟶ Z) :
-    IsPullback (baseChangeFst H t) (baseChangeSnd H t) (pullback.snd fX t)
+    IsPullback (baseChangeFst (r := r) t) (baseChangeSnd H t) (pullback.snd fX t)
       (pullback.snd fY t) := by
-  have h1 : baseChangeFst H t ≫ pullback.snd fX t = pullback.snd (r ≫ fX) t :=
+  have h1 : baseChangeFst (r := r) t ≫ pullback.snd fX t = pullback.snd (r ≫ fX) t :=
     pullback.lift_snd _ _ _
   have h2 : baseChangeSnd H t ≫ pullback.snd fY t = pullback.snd (r ≫ fX) t :=
     pullback.lift_snd _ _ _
-  have h3 : baseChangeFst H t ≫ pullback.fst fX t = pullback.fst (r ≫ fX) t ≫ r :=
+  have h3 : baseChangeFst (r := r) t ≫ pullback.fst fX t = pullback.fst (r ≫ fX) t ≫ r :=
     pullback.lift_fst _ _ _
   have h4 : baseChangeSnd H t ≫ pullback.fst fY t = pullback.fst (r ≫ fX) t ≫ q :=
     pullback.lift_fst _ _ _
-  have hs : IsPullback (pullback.fst (r ≫ fX) t) (baseChangeFst H t ≫ pullback.snd fX t)
+  have hs : IsPullback (pullback.fst (r ≫ fX) t) (baseChangeFst (r := r) t ≫ pullback.snd fX t)
       (r ≫ fX) t := by
     rw [h1]
     exact IsPullback.of_hasPullback (r ≫ fX) t
-  have hX : IsPullback (pullback.fst (r ≫ fX) t) (baseChangeFst H t) r (pullback.fst fX t) :=
+  have hX : IsPullback (pullback.fst (r ≫ fX) t) (baseChangeFst (r := r) t) r (pullback.fst fX t) :=
     IsPullback.of_bot hs h3.symm (IsPullback.of_hasPullback fX t)
-  have hbig : IsPullback (baseChangeSnd H t ≫ pullback.fst fY t) (baseChangeFst H t) fY
+  have hbig : IsPullback (baseChangeSnd H t ≫ pullback.fst fY t) (baseChangeFst (r := r) t) fY
       (pullback.snd fX t ≫ t) := by
     rw [h4, ← pullback.condition]
     exact hX.paste_horiz H.flip
@@ -204,7 +204,7 @@ theorem exists_isAffineOpen_trivial (z : Z)
   set fXA := pullback.snd fX ι
   set fYA := pullback.snd fY ι
   have HA := isPullback_baseChange H ι
-  set rA := baseChangeFst H ι
+  set rA := baseChangeFst (r := r) ι
   set qA := baseChangeSnd H ι
   have hrA : rA ≫ fXA = pullback.snd (r ≫ fX) ι := pullback.lift_snd _ _ _
   have hrA' : rA ≫ pullback.fst fX ι = pullback.fst (r ≫ fX) ι ≫ r := pullback.lift_fst _ _ _
@@ -265,12 +265,12 @@ theorem exists_isAffineOpen_trivial (z : Z)
     rwa [Scheme.Hom.preimage_top, inf_top_eq] at this
   have hσU₀ : σA ⁻¹ᵁ U₀ = ⊤ := by
     refine eq_top_iff.2 fun w _ => ?_
-    show (σA ≫ pullback.fst fX ι).base w ∈ U'
+    change (σA ≫ pullback.fst fX ι).base w ∈ U'
     rw [pullback.lift_fst, Scheme.Hom.comp_apply]
     exact (hVsub (hιV w)).1.2
   have hτV₁ : τA ⁻¹ᵁ V₁ = ⊤ := by
     refine eq_top_iff.2 fun w _ => ?_
-    show (τA ≫ pullback.fst fY ι).base w ∈ V'
+    change (τA ≫ pullback.fst fY ι).base w ∈ V'
     rw [pullback.lift_fst, Scheme.Hom.comp_apply]
     exact (hVsub (hιV w)).2
   -- the prime of `A` at `z`, and the fibre over it
@@ -310,7 +310,7 @@ theorem exists_isAffineOpen_trivial (z : Z)
       rfl
     have hinj : w = (pullback.snd (r ≫ fX) ι).base (k.base y) :=
       ι.isOpenEmbedding.injective (hw.trans h1.symm)
-    show (rA ≫ fXA).base (k.base y) ∈ D
+    change (rA ≫ fXA).base (k.base y) ∈ D
     rw [hrA, ← hinj]
     exact hwD
   rw [Stacks.NonvanishingPullback.preimage_nonvanishingLocus k LA s] at hall
@@ -359,7 +359,7 @@ theorem nonempty_iso_unit_fibre_of_mem_closure [IsProper fX] [IsProper fY] (z : 
         Set.range ((r ≫ fX) ⁻¹ᵁ U).ι.base := by
       rintro _ ⟨y, rfl⟩
       rw [Scheme.Opens.range_ι]
-      show (pullback.fst h sq ≫ gA ≫ r ≫ fX).base y ∈ U
+      change (pullback.fst h sq ≫ gA ≫ r ≫ fX).base y ∈ U
       rw [pullback.condition, ← Category.assoc, pullback.condition, Category.assoc,
         Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hsq]
       convert hwU
@@ -375,7 +375,7 @@ theorem nonempty_iso_unit_fibre_of_mem_closure [IsProper fX] [IsProper fY] (z : 
   have ht'p : ∀ y, t'.base y = pz := by
     intro y
     apply ι.isOpenEmbedding.injective
-    show (t' ≫ ι).base y = ι.base pz
+    change (t' ≫ ι).base y = ι.base pz
     rw [ht', hpz]
     exact Scheme.fromSpecResidueField_apply z y
   obtain ⟨m₀, hm₀⟩ := exists_fac_algebraMap_residueField pz t' (ht'p _)

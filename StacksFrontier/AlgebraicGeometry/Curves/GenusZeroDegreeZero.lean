@@ -68,7 +68,7 @@ public theorem isTrivial_of_genus_eq_zero_of_invertibleCurveDegree_eq_zero [IsCu
     (cohomologyOverFieldZeroEquivSections k f L).injective.nontrivial
   obtain ⟨t, ht⟩ := exists_ne (0 : Γ(L, ⊤))
   let : SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L := by
-    show SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.property L
+    change SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.property L
     infer_instance
   exact isTrivial_of_invertibleCurveDegree_nonpos k f hdim L
     (Stacks.SheafOfModules.sectionsOfTopOfRingSheaf L t)

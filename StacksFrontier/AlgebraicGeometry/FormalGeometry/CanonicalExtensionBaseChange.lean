@@ -182,7 +182,7 @@ public instance [Module.Flat S.A A'] : Flat (S.baseChangeMap A') :=
 public theorem AlgebraizationSituation.baseChange_U_eq_preimage :
     (S.baseChange A').U = S.baseChangeMap A' ⁻¹ᵁ S.U := by
   ext x
-  show ¬(S.a.map (algebraMap S.A A') ≤ (x : PrimeSpectrum A').asIdeal) ↔
+  change ¬(S.a.map (algebraMap S.A A') ≤ (x : PrimeSpectrum A').asIdeal) ↔
     ¬(S.a ≤ (x : PrimeSpectrum A').asIdeal.comap (algebraMap S.A A'))
   exact not_congr Ideal.map_le_iff_le_comap
 

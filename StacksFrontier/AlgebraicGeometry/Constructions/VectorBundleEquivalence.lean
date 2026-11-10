@@ -373,7 +373,7 @@ theorem isQuasicoherent_piece_natCast (X : AbstractCone S) (n : ℕ) :
   let N : ℕ → S.Modules := fun m => X.grading.piece (m : ℤ)
   exact Scheme.Modules.isQuasicoherent_of_split (X := S) (F := N n) (H := ∐ N) (Sigma.ι N n)
     (Sigma.desc (Function.update (β := fun m : ℕ => N m ⟶ N n) (fun _ => 0) n (𝟙 (N n))))
-    ((Sigma.ι_desc _ n).trans (Function.update_self n _ _))
+    ((Sigma.ι_comp_desc _ n).trans (Function.update_self n _ _))
     ((SheafOfModules.isQuasicoherent S.ringCatSheaf).prop_of_iso X.coprodIsoPushforward.symm
       X.isQuasicoherent_pushforward)
 

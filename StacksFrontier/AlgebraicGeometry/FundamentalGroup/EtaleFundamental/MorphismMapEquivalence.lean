@@ -103,7 +103,7 @@ theorem exists_finiteEtaleEquivalenceOfIsGaloisCategory_mapIso :
   have hq (V : FiniteEtaleOver Y) (b : ((EX.functor.obj (H.obj V)).obj.V.obj)) :
       aY.hom.app V ((equivEquivIso.symm (g.app V)) b) =
         finiteEtaleFiberProjection f x V (aX.hom.app (H.obj V) b) := by
-    show aY.hom.app V
+    change aY.hom.app V
         ((aY.symm.app V).toEquiv
           (((finiteEtaleFiberProjectionIso f x).app V).toEquiv
             (((Functor.isoWhiskerLeft H aX).app V).toEquiv b))) = _
@@ -117,7 +117,7 @@ theorem exists_finiteEtaleEquivalenceOfIsGaloisCategory_mapIso :
       apply FintypeCat.hom_ext
       intro a
       apply (equivEquivIso.symm (aY.app V)).injective
-      show aY.hom.app V ((equivEquivIso.symm (g.app V))
+      change aY.hom.app V ((equivEquivIso.symm (g.app V))
           (ConcreteCategory.hom ((EX.functor.obj (H.obj V)).obj.ρ s).asHom a)) =
         aY.hom.app V (ConcreteCategory.hom ((EY.functor.obj V).obj.ρ (r s)).asHom
           ((equivEquivIso.symm (g.app V)) a))

@@ -78,7 +78,7 @@ theorem comap_ofIdealTop [IsAffine X] (f : Y ⟶ X) (I : Ideal Γ(X, ⊤)) :
     rw [Scheme.Hom.comp_appTop, Scheme.Opens.ι_appTop]
     exact restriction_comp_heq (Scheme.Opens.ι_image_top U.1) f.appTop
   have hB : Γ(U.1.toScheme, ⊤) = Γ(Y, U.1) := by
-    show Γ(Y, U.1.ι ''ᵁ ⊤) = Γ(Y, U.1)
+    change Γ(Y, U.1.ι ''ᵁ ⊤) = Γ(Y, U.1)
     rw [Scheme.Opens.ι_image_top]
   exact eq_of_heq (heq.trans (ideal_map_heq rfl hB happ HEq.rfl))
 

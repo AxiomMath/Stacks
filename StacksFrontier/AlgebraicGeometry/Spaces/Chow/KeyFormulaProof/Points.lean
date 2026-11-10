@@ -65,7 +65,7 @@ theorem IntegralClosedSubspace.pointsMap_eq_genericPoint_pushforward
   have hemb := isClosedEmbedding_pointsMap_of_isClosedImmersion B S hS hX hi
   have e : ({pointsMap B S hS Y i ξ} : Set (points B S hS X)) = pointsMap B S hS Y i '' {ξ} :=
     Set.image_singleton.symm
-  show closure _ = _
+  change closure _ = _
   rw [e, hemb.closure_image_eq, hξ.def]
 
 include hX in

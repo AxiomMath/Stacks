@@ -65,7 +65,7 @@ private theorem isLocalHom_codRestrict_of_range_le {R L : Type u} [CommRing R] [
     [Field L] (r : R →+* L) (B : ValuationSubring L)
     (hB : LocalSubring.range r ≤ B.toLocalSubring) :
     IsLocalHom (r.codRestrict B.toSubring fun a => (LocalSubring.le_def.mp hB).1 ⟨a, rfl⟩) := by
-  show IsLocalHom ((Subring.inclusion (LocalSubring.le_def.mp hB).1).comp r.rangeRestrict)
+  change IsLocalHom ((Subring.inclusion (LocalSubring.le_def.mp hB).1).comp r.rangeRestrict)
   exact @RingHom.isLocalHom_comp _ _ _ _ _ _ _ _ (LocalSubring.le_def.mp hB).2
     (IsLocalHom.of_surjective _ r.rangeRestrict_surjective)
 
@@ -97,7 +97,7 @@ private theorem valuationSubring_comap_eq_of_dominates
     refine ha_nonunit ((isUnit_map_iff (f.codRestrict B.toSubring fun a => hsub ⟨a, rfl⟩) a).mp ?_)
     refine isUnit_iff_exists_inv.mpr ⟨⟨e x, hx⟩, ?_⟩
     apply Subtype.ext
-    show e (algebraMap R K a) * e x = 1
+    change e (algebraMap R K a) * e x = 1
     rw [← map_mul, ha, inv_mul_cancel₀ hx0, map_one]
   · obtain ⟨a, rfl⟩ := (hA_mem x).1 hx
     exact hsub ⟨a, rfl⟩
@@ -111,7 +111,7 @@ private theorem ringHom_factor_of_surjective_of_ker_eq
   let e₁ : A ⧸ RingHom.ker f ≃+* B := RingHom.quotientKerEquivOfSurjective hf
   refine ⟨q.comp e₁.symm.toRingHom, ?_⟩
   ext a
-  show q (e₁.symm (f a)) = g a
+  change q (e₁.symm (f a)) = g a
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply hf a]
   simp [q]
 
@@ -148,7 +148,7 @@ private theorem exists_specMap_comp_eq {R : Type u} [CommRing R] {T : CommRingCa
     (ha : Set.range a ⊆ Set.range j) :
     ∃ τ : T →+* R, Spec.map (CommRingCat.ofHom τ) ≫ j = a := by
   refine ⟨(Spec.preimage (IsOpenImmersion.lift j a ha)).hom, ?_⟩
-  show Spec.map (Spec.preimage (IsOpenImmersion.lift j a ha)) ≫ j = a
+  change Spec.map (Spec.preimage (IsOpenImmersion.lift j a ha)) ≫ j = a
   rw [Spec.map_preimage, IsOpenImmersion.lift_fac]
 
 private theorem specMap_residue_closedPoint (A : Type u) [CommRing A] [IsLocalRing A] :
@@ -194,13 +194,13 @@ private theorem exists_composite_valuation_subring
   have ht (a : T) : algebraMap A K (τ a) ∈ C := by
     apply mem_residueValuationSubring.mpr
     refine ⟨(E (τ a)).property, ?_⟩
-    show ResidueField.map E.symm.toRingHom (residue A₀ (E (τ a))) ∈ B
+    change ResidueField.map E.symm.toRingHom (residue A₀ (E (τ a))) ∈ B
     simpa only [ResidueField.map_residue, RingEquiv.toRingHom_eq_coe,
       RingEquiv.coe_toRingHom, RingEquiv.symm_apply_apply] using hτ a
   let t : T →+* C := ((algebraMap A K).comp τ).codRestrict C.toSubring ht
   refine ⟨C, ι, ρ, t, ?_, rfl, ?_⟩
   · ext c
-    show algebraMap A K (E.symm _) = (c : K)
+    change algebraMap A K (E.symm _) = (c : K)
     exact congrArg (fun a : A₀ => (a : K)) (E.apply_symm_apply _)
   · ext a
     exact E.symm_apply_apply (τ a)
@@ -263,16 +263,16 @@ private theorem exists_lift_of_valuation_extension
   have heδ := ringHom_comp_eq_of_specMap_comp_eq j B.subtype e hδ hα' hl
   have hα (x : F) : ∃ y : R, algebraMap R K y = α x := by
     apply (ValuationRing.mem_integer_iff R K (α x)).mp
-    show α x ∈ (ValuationRing.valuation R K).valuationSubring
+    change α x ∈ (ValuationRing.valuation R K).valuationSubring
     rw [← hB]
-    show e (α x) ∈ B
+    change e (α x) ∈ B
     rw [← RingHom.comp_apply, ← heδ]
     exact (δ x).property
   obtain ⟨γ, hγ⟩ := exists_ringHom_factor_of_range (algebraMap R K)
     (IsFractionRing.injective R K) α hα
   have hrγ : r.comp γ = δ := by
     ext x
-    show B.subtype (r (γ x)) = B.subtype (δ x)
+    change B.subtype (r (γ x)) = B.subtype (δ x)
     exact (RingHom.congr_fun hr (γ x)).trans
       ((congrArg e (RingHom.congr_fun hγ x)).trans (RingHom.congr_fun heδ x).symm)
   refine ⟨Spec.map (CommRingCat.ofHom γ) ≫ j, ?_, hom_ext_of_comp_specMap_eq r ?_ _ b ?_⟩
@@ -349,7 +349,7 @@ private theorem hasLift_of_dominating_valuationSubring
   have : IsLocalHom rB := isLocalHom_codRestrict_of_range_le _ B₀ hB₀
   have hρt : ρ.comp t = rB.comp β := by
     ext a
-    show B₀.subtype (ρ (t a)) = e (algebraMap D.R D.K (β a))
+    change B₀.subtype (ρ (t a)) = e (algebraMap D.R D.K (β a))
     calc
       _ = residue A (ι (t a)) := congrArg (fun f : C →+* ResidueField A => f (t a)) hρ
       _ = residue A (τ a) := congrArg (fun f : R₀ →+* A => residue A (f a)) ht
@@ -385,7 +385,7 @@ private theorem exists_flat_spec_of_field_point {X : Scheme.{u}} {K : Type u} [F
     exact Flat.comp _ j
   · have hring : φ.toRingHom.comp (algebraMap B (MvPolynomial K B)) = α := by
       ext b
-      show φ (algebraMap B (MvPolynomial K B) b) = α b
+      change φ (algebraMap B (MvPolynomial K B) b) = α b
       rw [φ.commutes]
       exact congrArg (fun r : B →+* K => r b) (RingHom.algebraMap_toAlgebra α)
     rw [← Category.assoc, specMap_comp_ringHom, hring, hα]
@@ -410,17 +410,17 @@ private theorem exists_valuationRing_diagram_of_field_point
       ((asIso v.imageι).inv (Spec.map (CommRingCat.ofHom φ) (closedPoint K)))
   let ψ : P →+* A := (Spec.preimage (i ≫ v.imageι)).hom
   have hψ : Spec.map (CommRingCat.ofHom ψ) = i ≫ v.imageι := by
-    show Spec.map (Spec.preimage (i ≫ v.imageι)) = _
+    change Spec.map (Spec.preimage (i ≫ v.imageι)) = _
     exact Spec.map_preimage _
   have hker : RingHom.ker φ = RingHom.ker ((residue A).comp ψ) := by
     apply ker_eq_of_specMap_closedPoint_eq
     let xL : Spec (.of (ResidueField A)) := closedPoint (ResidueField A)
     let xA : Spec (.of A) := closedPoint A
     have hres : Spec.map (CommRingCat.ofHom (residue A)) xL = xA := specMap_residue_closedPoint A
-    show Spec.map (CommRingCat.ofHom ((residue A).comp ψ)) xL = _
+    change Spec.map (CommRingCat.ofHom ((residue A).comp ψ)) xL = _
     rw [← specMap_comp_ringHom, hψ, Scheme.Hom.comp_apply, hres, Scheme.Hom.comp_apply,
       hclosed]
-    show (asIso v.imageι).hom ((asIso v.imageι).inv
+    change (asIso v.imageι).hom ((asIso v.imageι).inv
       (Spec.map (CommRingCat.ofHom φ) (closedPoint K))) = _
     exact congrArg (fun m : Spec (.of P) ⟶ Spec (.of P) =>
       m (Spec.map (CommRingCat.ofHom φ) (closedPoint K))) (asIso v.imageι).inv_hom_id
@@ -430,7 +430,7 @@ private theorem exists_valuationRing_diagram_of_field_point
   refine ⟨A, hA, hAd, hAv, L, hL, hAL, hfrac, g ≫ CategoryTheory.Limits.pullback.fst h gP,
     i ≫ v.imageι ≫ gP, e, ?_, ?_⟩
   · rw [Category.assoc, CategoryTheory.Limits.pullback.condition, ← Category.assoc]
-    show (g ≫ v) ≫ gP = _
+    change (g ≫ v) ≫ gP = _
     rw [hv]
     simp only [Category.assoc]
   · rw [← Category.assoc i, ← hψ, ← Category.assoc, specMap_comp_ringHom, ← he,
@@ -462,7 +462,7 @@ private theorem hasLift_of_reduction_lift
     have hres : Spec.map (CommRingCat.ofHom (residue A)) xL = xA := specMap_residue_closedPoint A
     have hh' := congrArg (fun m => m xL) hh
     simp only [Scheme.Hom.comp_apply, hres] at hh'
-    show (w ≫ f₀) xA ∈ _
+    change (w ≫ f₀) xA ∈ _
     rw [Scheme.Hom.comp_apply, hh']
     exact hi₂R ⟨_, rfl⟩
   obtain ⟨τ, hτ⟩ := exists_specMap_comp_eq (w ≫ f₀) jR hwR
@@ -518,9 +518,9 @@ private theorem refinedValuativeExistence
     convert hdense' using 1
     funext y
     apply eX.injective
-    show eX (h₀ y) = eX (eX.symm (h (jU y)))
+    change eX (h₀ y) = eX (eX.symm (h (jU y)))
     rw [eX.apply_symm_apply]
-    show jX (h₀ y) = h (jU y)
+    change jX (h₀ y) = h (jU y)
     simpa only [Scheme.Hom.comp_apply] using
       congrArg (fun q : U₀ ⟶ X => q y) hh₀.1
   have : QuasiCompact (h₀ ≫ jX) := by

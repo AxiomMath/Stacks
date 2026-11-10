@@ -173,7 +173,7 @@ theorem transitionCyclePullback_id (i : I) (k : ℤ)
     simpa using h
   have happly := baseChangeCyclePullbackOfIsPullback_apply' (s.transitionBaseChange (𝟙 i)) rfl
     (pullback.snd s.X.hom (s.stageToBase i)) (s.isPullback_stageTransition (𝟙 i)) k z y
-  show (baseChangeCyclePullbackOfIsPullback (s.transitionBaseChange (𝟙 i)) rfl
+  change (baseChangeCyclePullbackOfIsPullback (s.transitionBaseChange (𝟙 i)) rfl
     (pullback.snd s.X.hom (s.stageToBase i)) (s.isPullback_stageTransition (𝟙 i)) k z).1 y =
       z.1 y
   rw [happly, hpt]

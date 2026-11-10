@@ -167,7 +167,7 @@ theorem topologicalKrullDimAt_map_subschemeι_comp_le [IsOpenImmersion i] [Quasi
   have hft : LocallyOfFiniteType ((Z.ideal.map j).subschemeι ≫ f) := inferInstance
   obtain ⟨z, rfl⟩ : ∃ z, (Scheme.IdealSheafData.mapSubschemeIso Z.ideal j).hom z = x := by
     refine ⟨(Scheme.IdealSheafData.mapSubschemeIso Z.ideal j).inv x, ?_⟩
-    show ((Scheme.IdealSheafData.mapSubschemeIso Z.ideal j).inv ≫
+    change ((Scheme.IdealSheafData.mapSubschemeIso Z.ideal j).inv ≫
       (Scheme.IdealSheafData.mapSubschemeIso Z.ideal j).hom) x = x
     rw [Iso.inv_hom_id]
     rfl

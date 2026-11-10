@@ -91,7 +91,7 @@ theorem GermOfScheme.isEtaleLocal_ringKrullDim_stalk_eq (d : WithBot ℕ∞) :
     (ringKrullDim_stalk_eq_of_etale g.hom ⟨X.point, g.mem_source⟩)
   rw [show Scheme.Opens.ι g.source ⟨X.point, g.mem_source⟩ = X.point from rfl,
     g.map_point] at h
-  show (ringKrullDim (Y.scheme.presheaf.stalk Y.point) = d) ↔
+  change (ringKrullDim (Y.scheme.presheaf.stalk Y.point) = d) ↔
     (ringKrullDim (X.scheme.presheaf.stalk X.point) = d)
   rw [h]
 

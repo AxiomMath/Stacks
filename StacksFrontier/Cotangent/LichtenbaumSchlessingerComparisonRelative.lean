@@ -112,7 +112,7 @@ local notation "e₀" => CommAlgCat.standardResolutionZeroAlgEquiv A (CommAlgCat
 omit [Algebra A B'] [IsScalarTower A A' B'] [IsScalarTower A B B'] in
 /-- For two relative choices, `ψ(p) - ψ'(p)` lies in the kernel of `P' → B'`. -/
 theorem ψ_sub_ψ_mem (p : (𝒫).left.obj (op ⦋0⦌)) : c.ψ p - c'.ψ p ∈ P'.ker := by
-  show algebraMap P'.Ring B' _ = 0
+  change algebraMap P'.Ring B' _ = 0
   rw [map_sub, c.algebraMap_ψ, c'.algebraMap_ψ, sub_self]
 
 /-- A biderivation `f` with `a 1 = b 1 = 1` vanishes at `1`. -/
@@ -138,7 +138,7 @@ theorem difference_mul (x y : (𝒫).left.obj (op ⦋0⦌)) :
   have h := (exists_biderivation_freeQuotient P' (c.ψ.comp (e₀).symm.toAlgHom)
     (c'.ψ.comp (e₀).symm.toAlgHom) fun _ => c.ψ_sub_ψ_mem c' _).choose_spec.1
       ((e₀) x) ((e₀) y)
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply, ← map_mul] at h
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply, ← map_mul] at h
   exact h
 
 omit [Algebra A B'] [IsScalarTower A A' B'] [IsScalarTower A B B'] in
@@ -147,7 +147,7 @@ theorem freeQuotientRelationMap_difference (x : (𝒫).left.obj (op ⦋0⦌)) :
     freeQuotientRelationMap P' (c.difference c' x) = c.ψ x - c'.ψ x := by
   have h := (exists_biderivation_freeQuotient P' (c.ψ.comp (e₀).symm.toAlgHom)
     (c'.ψ.comp (e₀).symm.toAlgHom) fun _ => c.ψ_sub_ψ_mem c' _).choose_spec.2 ((e₀) x)
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply] at h
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply] at h
   exact h
 
 omit [Algebra A B'] [IsScalarTower A A' B'] [IsScalarTower A B B'] in
@@ -458,18 +458,18 @@ def homotopyHom (i j : ℤ) (hij : (ComplexShape.up ℤ).Rel j i) :
 /-- In degree `0`, `homotopyHom` is `homotopyHomZero`. -/
 theorem homotopyHom_zero (h : (ComplexShape.up ℤ).Rel (-1) 0) :
     c.homotopyHom c' 0 (-1) h = c.homotopyHomZero c' := by
-  rw [homotopyHom, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
+  rw [homotopyHom, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- In degree `-1`, `homotopyHom` is `homotopyHomOne`. -/
 theorem homotopyHom_negOne (h : (ComplexShape.up ℤ).Rel (-2) (-1)) :
     c.homotopyHom c' (-1) (-2) h = c.homotopyHomOne c' := by
-  rw [homotopyHom, dif_neg (by decide), dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [homotopyHom, dite_eq_right (by decide), dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- `homotopyHom` vanishes outside degrees `0` and `-1`. -/
 theorem homotopyHom_eq_zero (i j : ℤ) (h : (ComplexShape.up ℤ).Rel j i) (h0 : i ≠ 0)
     (h1 : i ≠ -1) : c.homotopyHom c' i j h = 0 := by
-  rw [homotopyHom, dif_neg h0, dif_neg h1]
+  rw [homotopyHom, dite_eq_right h0, dite_eq_right h1]
 
 /-- `g` corrected by the null-homotopic map of the homotopy `(θ, u)` between `c` and `c'`. -/
 def correctedMap (g : cotangentComplexULift.{u, v, max u' w} A B ⟶
@@ -498,7 +498,7 @@ theorem correctedMap_f_zero (g : cotangentComplexULift.{u, v, max u' w} A B ⟶
       (cotangentComplexULift.{u, v, max u' w} A B).X 0 ⟶
         (((𝓡).mapHomologicalComplex (ComplexShape.up ℤ)).obj
           (lichtenbaumSchlessingerComplex P').complex).X 0) := by
-  show g.f 0 + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f 0 = _
+  change g.f 0 + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f 0 = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -1) (k₀ := 1) (by simp) (by simp),
     c.homotopyHom_eq_zero c' 1 0 _ (by decide) (by decide), Limits.comp_zero, zero_add,
     homotopyHom_zero]
@@ -517,7 +517,7 @@ theorem correctedMap_f_negOne (g : cotangentComplexULift.{u, v, max u' w} A B �
         (cotangentComplexULift.{u, v, max u' w} A B).X (-1) ⟶
           (((𝓡).mapHomologicalComplex (ComplexShape.up ℤ)).obj
             (lichtenbaumSchlessingerComplex P').complex).X (-1)) := by
-  show g.f (-1) + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f (-1) = _
+  change g.f (-1) + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f (-1) = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -2) (k₀ := 0) (by simp) (by simp), homotopyHom_zero,
     homotopyHom_negOne, add_assoc]
   rfl
@@ -531,7 +531,7 @@ theorem correctedMap_f_negTwo (g : cotangentComplexULift.{u, v, max u' w} A B �
       (cotangentComplexULift.{u, v, max u' w} A B).X (-2) ⟶
         (((𝓡).mapHomologicalComplex (ComplexShape.up ℤ)).obj
           (lichtenbaumSchlessingerComplex P').complex).X (-2)) := by
-  show g.f (-2) + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f (-2) = _
+  change g.f (-2) + (Homotopy.nullHomotopicMap' (c.homotopyHom c')).f (-2) = _
   rw [Homotopy.nullHomotopicMap'_f (k₂ := -3) (k₀ := -1) (by simp) (by simp), homotopyHom_negOne,
     c.homotopyHom_eq_zero c' (-2) (-3) _ (by decide) (by decide), Limits.zero_comp, add_zero]
 

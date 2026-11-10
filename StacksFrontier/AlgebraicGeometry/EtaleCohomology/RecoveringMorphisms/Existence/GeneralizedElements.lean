@@ -119,7 +119,7 @@ theorem yoneda_map_comp_smallEtaleSectionRingEquiv_symm {U U' : SmallEtale B S h
       (smallEtaleSectionRingEquiv B S hS U').symm (smallEtaleRestrict B S hS k b) := by
   refine (smallEtaleSectionRingEquiv B S hS U').injective ?_
   rw [RingEquiv.apply_symm_apply, smallEtaleSectionRingEquiv_apply]
-  show ((smallEtaleSectionRingEquiv B S hS U).symm b).hom.app (op U') (𝟙 U' ≫ k) = _
+  change ((smallEtaleSectionRingEquiv B S hS U).symm b).hom.app (op U') (𝟙 U' ≫ k) = _
   rw [smallEtaleSectionRingEquiv_symm_hom_app, Category.id_comp]
 
 /-- The value of a generalized element of shape `Z` on a section `z` of `Z` over `U` is the

@@ -167,7 +167,7 @@ theorem canonicalDivisorCycleAt_pushforwardOfIso (hcomp : e.hom ≫ sY = sX) {k 
   refine Subtype.ext (funext fun T => ?_)
   obtain ⟨T₀, rfl⟩ := IntegralClosedSubspace.surjective_pushforward_of_iso D.site D.base
     D.base_mem hX.1 hY.1 hdecX hdecY e T
-  show cycleClosedPushforward D hY.1 hX.1 hdecY
+  change cycleClosedPushforward D hY.1 hX.1 hdecY
       (isClosedImmersion_of_isIso D.site D.base D.base_mem e.hom)
       (canonicalDivisorCycleAt D sX hX hintX _ _ _ _ hkX).1 _ = _
   rw [cycleClosedPushforward_apply_pushforward]

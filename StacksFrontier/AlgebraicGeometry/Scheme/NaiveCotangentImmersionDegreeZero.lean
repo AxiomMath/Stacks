@@ -105,7 +105,8 @@ theorem derivation_d_eq_zero {M : PresheafOfModules.{z} (R ⋙ forget₂ CommRin
 /-- Along a locally surjective homomorphism of sheaves of rings there is exactly one relative
 derivation with values in a sheaf of modules, the zero one. -/
 theorem derivation_eq {M : PresheafOfModules.{z} (R ⋙ forget₂ CommRingCat RingCat)}
-    (hM : Presheaf.IsSheaf J M.presheaf) (d d' : PresheafOfModulesOfCommRing.Derivation' M φ) : d = d' := by
+    (hM : Presheaf.IsSheaf J M.presheaf) (d d' : PresheafOfModulesOfCommRing.Derivation' M φ) :
+    d = d' := by
   refine PresheafOfModulesOfCommRing.Derivation.ext ?_
   funext U
   ext b

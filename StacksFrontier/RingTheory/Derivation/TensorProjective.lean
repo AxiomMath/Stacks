@@ -50,9 +50,9 @@ def rTensorHom : Derivation R C M ⊗[R] B →ₗ[R] Derivation R C (M ⊗[R] B)
   TensorProduct.lift
     { toFun := fun d =>
         { toFun := fun b => ((AlgebraTensorModule.mk R C M B).flip b).compDer d
-          map_add' := fun b b' => by ext c; simp [tmul_add]
-          map_smul' := fun r b => by ext c; simp [tmul_smul] }
-      map_add' := fun d d' => by ext b c; simp [add_tmul]
+          map_add' := fun b b' => by ext c; simp
+          map_smul' := fun r b => by ext c; simp }
+      map_add' := fun d d' => by ext b c; simp
       map_smul' := fun r d => by ext b c; simp [smul_tmul'] }
 
 /-- `rTensorHom` sends `d ⊗ b` to the derivation `c ↦ d(c) ⊗ b`. -/
@@ -66,8 +66,8 @@ def homRTensor (Ω : Type*) [AddCommGroup Ω] [Module C Ω] :
   TensorProduct.lift
     { toFun := fun φ =>
         { toFun := fun b => ((AlgebraTensorModule.mk R C M B).flip b) ∘ₗ φ
-          map_add' := fun b b' => by ext ω; simp [tmul_add]
-          map_smul' := fun r b => by ext ω; simp [tmul_smul] }
+          map_add' := fun b b' => by ext ω; simp
+          map_smul' := fun r b => by ext ω; simp }
       map_add' := fun φ φ' => by ext b ω; simp [add_tmul]
       map_smul' := fun r φ => by
         ext b ω
@@ -93,8 +93,7 @@ lemma bijective_homRTensor (Ω : Type*) [AddCommGroup Ω] [Module C Ω] [Module.
     apply TensorProduct.ext'
     intro φ b
     obtain ⟨t, rfl⟩ := (dualTensorHomEquiv C Ω M).surjective φ
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht =>
       simp only [map_add, add_tmul] at hs ht ⊢
       rw [hs, ht]
@@ -164,7 +163,7 @@ derivation along `ρ` valued in `M ⊗_R B`. -/
 lemma along_rTensor_mem (d : along ρ M) (b : B) :
     ((AlgebraTensorModule.mk R A M B).flip b).restrictScalars R ∘ₗ d.1 ∈ along ρ (M ⊗[R] B) := by
   intro c c'
-  show d.1 (c * c') ⊗ₜ b = ρ c • (d.1 c' ⊗ₜ[R] b) + ρ c' • (d.1 c ⊗ₜ[R] b)
+  change d.1 (c * c') ⊗ₜ b = ρ c • (d.1 c' ⊗ₜ[R] b) + ρ c' • (d.1 c ⊗ₜ[R] b)
   rw [d.2 c c', add_tmul, smul_tmul', smul_tmul']
 
 /-- The map `Der_ρ(C, M) ⊗_R B → Der_ρ(C, M ⊗_R B)`, `d ⊗ b ↦ (c ↦ d(c) ⊗ b)`. -/
@@ -172,8 +171,8 @@ def alongRTensorHom : along ρ M ⊗[R] B →ₗ[R] along ρ (M ⊗[R] B) :=
   TensorProduct.lift
     { toFun := fun d =>
         { toFun := fun b => ⟨_, along_rTensor_mem ρ M B d b⟩
-          map_add' := fun b b' => by ext c; simp [tmul_add]
-          map_smul' := fun r b => by ext c; simp [tmul_smul] }
+          map_add' := fun b b' => by ext c; simp
+          map_smul' := fun r b => by ext c; simp }
       map_add' := fun d d' => by ext b c; simp [add_tmul]
       map_smul' := fun r d => by ext b c; simp [smul_tmul'] }
 
@@ -188,11 +187,10 @@ theorem bijective_alongRTensorHom [Module.Finite C Ω[C⁄R]] [Module.Projective
     Function.Bijective (alongRTensorHom ρ M B) := by
   let : Module C M := Module.compHom M ρ.toRingHom
   have : IsScalarTower R C M := ⟨fun r c m => by
-    show ρ (r • c) • m = r • (ρ c • m)
+    change ρ (r • c) • m = r • (ρ c • m)
     rw [ρ.map_smul_of_tower, smul_assoc]⟩
   have hsmul : ∀ (c : C) (t : M ⊗[R] B), c • t = ρ c • t := fun c t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht => rw [smul_add, smul_add, hs, ht]
     | tmul m b => rfl
   let e₁ : along ρ M ≃ₗ[R] Derivation R C M :=
@@ -204,10 +202,10 @@ theorem bijective_alongRTensorHom [Module.Finite C Ω[C⁄R]] [Module.Projective
       right_inv := fun D => rfl }
   let e₂ : along ρ (M ⊗[R] B) ≃ₗ[R] Derivation R C (M ⊗[R] B) :=
     { toFun := fun d => ⟨d.1, along_map_one d, fun c c' => by
-        show d.1 (c * c') = c • d.1 c' + c' • d.1 c
+        change d.1 (c * c') = c • d.1 c' + c' • d.1 c
         rw [d.2 c c', hsmul, hsmul]⟩
       invFun := fun D => ⟨D.toLinearMap, fun c c' => by
-        show D (c * c') = ρ c • D c' + ρ c' • D c
+        change D (c * c') = ρ c • D c' + ρ c' • D c
         rw [D.leibniz, hsmul, hsmul]⟩
       map_add' := fun d d' => rfl
       map_smul' := fun r d => rfl

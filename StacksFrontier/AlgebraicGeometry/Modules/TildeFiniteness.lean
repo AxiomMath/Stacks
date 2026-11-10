@@ -111,7 +111,7 @@ private theorem module_finite_localization_of_localGenerators
           ((algebraMap R (Localization.Away f) r) • x) =
           r • (F.restrictAppIso ψ ⊤).hom x :=
         Scheme.Modules.restrictAppIso_smul_Spec (f := a) r x
-      show F.presheaf.map (eqToHom (by simp [ψ, a]; rfl)).op
+      change F.presheaf.map (eqToHom (by simp [ψ, a]; rfl)).op
           ((F.restrictAppIso ψ ⊤).hom ((algebraMap R (Localization.Away f) r) • x)) =
         r • F.presheaf.map (eqToHom (by simp [ψ, a]; rfl)).op
           ((F.restrictAppIso ψ ⊤).hom x)
@@ -148,7 +148,7 @@ theorem tilde_isFiniteType_iff {R : CommRingCat.{u}} (M : ModuleCat.{u} R) :
     let : q.IsFiniteType := hq
     have hcoverPS : (⨆ i, q.X i) =
         (⊤ : TopologicalSpace.Opens (PrimeSpectrum (↑R))) := by
-      show (⨆ i, q.X i) = (⊤ : (Spec R).Opens)
+      change (⨆ i, q.X i) = (⊤ : (Spec R).Opens)
       exact (Opens.coversTop_iff (Spec R) q.X).mp q.coversTop
     obtain ⟨n, g, a, hgcover, hgle⟩ :=
         PrimeSpectrum.exists_finite_basicOpen_refinement
@@ -173,7 +173,7 @@ theorem tilde_isFiniteType_iff {R : CommRingCat.{u}} (M : ModuleCat.{u} R) :
     have hG : Finite G.I := (Set.finite_range s).to_subtype
     let : G.IsFiniteType := ⟨hG⟩
     let Q : (tilde M).LocalGeneratorsData.{u} := G.localGeneratorsData
-    show SheafOfModules.IsFiniteType (M := tilde M)
+    change SheafOfModules.IsFiniteType (M := tilde M)
     refine SheafOfModules.IsFiniteType.mk (M := tilde M) ⟨Q, ?_⟩
     constructor
     intro i
@@ -188,10 +188,10 @@ private lemma finitePresentation_of_presentation {R : CommRingCat.{u}}
   constructor
   intro i
   exact ⟨⟨by
-      show Finite p.generators.I
+      change Finite p.generators.I
       exact (inferInstance : p.IsFinite).isFiniteType_generators.finite⟩,
     ⟨by
-      show Finite p.relations.I
+      change Finite p.relations.I
       exact (inferInstance : p.IsFinite).isFiniteType_relations.finite⟩⟩
 
 /-- The quasi-coherent sheaf on `Spec R` associated to an `R`-module `M` is of finite
@@ -207,7 +207,7 @@ theorem tilde_isFinitePresentation_iff {R : CommRingCat.{u}} (M : ModuleCat.{u} 
       have hdata : q.localGeneratorsData.IsFiniteType.{u, u, u, u} := by
         constructor
         intro i
-        show (q.presentation i).generators.IsFiniteType
+        change (q.presentation i).generators.IsFiniteType
         exact (hq.isFinite_presentation i).isFiniteType_generators
       exact SheafOfModules.IsFiniteType.mk.{u, u, u}
         (show ∃ σ : SheafOfModules.LocalGeneratorsData.{u, u, u, u} (tilde M),
@@ -254,7 +254,7 @@ theorem tilde_isFinitePresentation_iff {R : CommRingCat.{u}} (M : ModuleCat.{u} 
       have hdata : data.IsFiniteType.{u, u, u, u} := by
         constructor
         intro i
-        show ((σ.generators i).equivOfIso
+        change ((σ.generators i).equivOfIso
           ((SheafOfModules.overFunctor (Spec R).ringCatSheaf (σ.X i)).mapIso e.symm)).IsFiniteType
         exact ⟨(hσ.isFiniteType i).finite⟩
       exact SheafOfModules.IsFiniteType.mk.{u, u, u}

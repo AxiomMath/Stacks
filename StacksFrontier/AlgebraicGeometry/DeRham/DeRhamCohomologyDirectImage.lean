@@ -56,7 +56,7 @@ instance search does not unfold to `Γ(f⁻¹V, 𝒪_X)`, and its exactness inst
 restated here at the spelling the consumer uses, following
 `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/DerivedSectionsOfAPushforward.lean`
 and `StacksFrontier/Topology/Sheaves/Cohomology/CechAndResolutions/`
-`StacksFrontier/Topology/Sheaves/Cohomology/CechAndResolutions/DerivedGlobalSectionsViaResolutions.lean`, which carry the same local instances for the same
+`DerivedGlobalSectionsViaResolutions.lean`, which carry the same local instances for the same
 reason.
 
 **The comparison is proved by the K-injective recognition criterion, not by hand.** Both

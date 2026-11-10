@@ -169,8 +169,7 @@ theorem sectionsOverFieldRestrict_boxSectionMapOpens
       = boxSectionMapOpens k a b P Q U' V' W' hW'₁ hW'₂
           (TensorProduct.map (sectionsOverFieldRestrict k a P hU)
             (sectionsOverFieldRestrict k b Q hV) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul s t =>
     exact (Stacks.Tag01VSPullbackTensor.externalTensorSection_presheaf_map a b P Q s t
       hW₁ hW₂ (hW.trans hW₁) (hW.trans hW₂) (homOfLE hW)).trans <|

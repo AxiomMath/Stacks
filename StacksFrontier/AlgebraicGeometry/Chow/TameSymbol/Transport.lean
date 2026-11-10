@@ -210,7 +210,7 @@ theorem map_periodicDeterminant_restrictScalars
   convert hd using 1
   · congr 1
   · congr 1
-    show ρ.symm ((-1) ^ (moduleLength R (LinearMap.range φ) *
+    change ρ.symm ((-1) ^ (moduleLength R (LinearMap.range φ) *
         moduleLength R (LinearMap.range ψ)) *
           ρ (d₀ : IsLocalRing.ResidueField R₀)) = _
     simp only [map_mul, map_pow, map_neg, map_one, RingEquiv.symm_apply_apply]
@@ -571,7 +571,7 @@ theorem map_tameSymbol_ringEquiv (ε : A ≃+* B) (η : K ≃+* L)
   refine Eq.trans ?_ h
   have hinv : ∀ u : Kˣ, Units.map (η.symm : L →+* K).toMonoidHom
       (Units.map (η : K →+* L).toMonoidHom u) = u := fun u => Units.ext (η.symm_apply_apply _)
-  show _ = Units.map (IsLocalRing.ResidueField.mapEquiv ε).toMonoidHom
+  change _ = Units.map (IsLocalRing.ResidueField.mapEquiv ε).toMonoidHom
     (tameSymbol (K := K) hA _ _)
   rw [hinv, hinv]
 
@@ -630,7 +630,7 @@ theorem map_milnorKTwoSteinbergSubmodule (φ : k₁ ≃+* k₂) :
     rw [milnorKTwoUnitsTensorEquiv_tmul]
     refine congrArg₂ (TensorProduct.tmul ℤ) (congrArg Additive.ofMul (Units.ext rfl))
       (congrArg Additive.ofMul (Units.ext ?_))
-    show φ (1 - x) = 1 - φ x
+    change φ (1 - x) = 1 - φ x
     rw [map_sub, map_one]
   rw [milnorKTwoSteinbergSubmodule, milnorKTwoSteinbergSubmodule, Submodule.map_span]
   refine congrArg (Submodule.span ℤ) (Set.ext fun z => ⟨?_, ?_⟩)
@@ -646,7 +646,7 @@ theorem map_milnorKTwoSteinbergSubmodule (φ : k₁ ≃+* k₂) :
     refine congrArg₂ (TensorProduct.tmul ℤ)
       (congrArg Additive.ofMul (Units.ext (φ.apply_symm_apply y.1)))
       (congrArg Additive.ofMul (Units.ext ?_))
-    show (1 : k₂) - φ (φ.symm y.1) = 1 - y.1
+    change (1 : k₂) - φ (φ.symm y.1) = 1 - y.1
     rw [φ.apply_symm_apply]
 
 /-- **The degree-two Milnor K-group transported along an isomorphism of fields.** The group is
@@ -670,7 +670,7 @@ theorem milnorKTwoRingEquiv_pureSymbol (φ : k₁ ≃+* k₂) (f g : k₁ˣ) :
         (milnorKTwoEquivTensorProductQuotient k₂).symm
           (Submodule.Quotient.mk (milnorKTwoUnitsTensorEquiv φ t)) := by
     intro t
-    show (milnorKTwoEquivTensorProductQuotient k₂).symm
+    change (milnorKTwoEquivTensorProductQuotient k₂).symm
         ((Submodule.Quotient.equiv (milnorKTwoSteinbergSubmodule k₁)
             (milnorKTwoSteinbergSubmodule k₂) (milnorKTwoUnitsTensorEquiv φ)
             (map_milnorKTwoSteinbergSubmodule φ))
@@ -717,7 +717,6 @@ theorem milnorKTwoTameSymbol_ringEquiv (ε : A ≃+* B) (η : K ≃+* L)
         (milnorKTwoTameSymbol (A := A) (K := K) hA α) =
       milnorKTwoTameSymbol (A := B) (K := L) hB (milnorKTwoRingEquiv η α) := by
   induction α using milnorKTwo_induction with
-  | h0 => rw [map_zero, map_zero, map_zero, map_zero]
   | hsymb f g =>
       rw [milnorKTwoTameSymbol_pureSymbol, milnorKOneRingEquiv_apply,
         milnorKTwoRingEquiv_pureSymbol, milnorKTwoTameSymbol_pureSymbol,

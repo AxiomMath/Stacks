@@ -243,8 +243,7 @@ theorem lift_sepClosedPointTensorPairing_sepClosedPointTensorInv
     (w : sepClosedPointSections k Λ A ⊗[sepClosedPointRing k Λ] sepClosedPointSections k Λ B) :
     TensorProduct.lift (sepClosedPointTensorPairing k Λ A B) (sepClosedPointTensorInv k Λ A B w) =
       (sepClosedTensorUnit k Λ A B).hom w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]; rfl
+  induction w using TensorProduct.inductionOn with
   | tmul x y => exact TensorProduct.lift.tmul _ _
   | add x y hx hy => rw [map_add, map_add, hx, hy]; exact (map_add _ _ _).symm
 
@@ -269,16 +268,7 @@ def sepClosedPointTensorLinearEquiv :
   __ := TensorProduct.lift (sepClosedPointTensorPairing k Λ A B)
   invFun z := sepClosedPointTensorInv k Λ A B ((sepClosedTensorUnitEquiv k Λ A B).symm z)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      change sepClosedPointTensorInv k Λ A B ((sepClosedTensorUnitEquiv k Λ A B).symm
-        (TensorProduct.lift (sepClosedPointTensorPairing k Λ A B) 0)) = 0
-      exact (congrArg
-          (fun t => sepClosedPointTensorInv k Λ A B ((sepClosedTensorUnitEquiv k Λ A B).symm t))
-        (map_zero (TensorProduct.lift (sepClosedPointTensorPairing k Λ A B)))).trans
-        ((congrArg (sepClosedPointTensorInv k Λ A B)
-          ((sepClosedTensorUnitEquiv k Λ A B).symm.map_zero)).trans
-          (map_zero _))
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
       change sepClosedPointTensorInv k Λ A B ((sepClosedTensorUnitEquiv k Λ A B).symm
         ((sepClosedTensorUnitEquiv k Λ A B) (_ ⊗ₜ _))) = _

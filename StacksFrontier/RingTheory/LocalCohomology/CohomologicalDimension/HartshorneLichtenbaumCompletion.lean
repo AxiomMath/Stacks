@@ -325,7 +325,7 @@ private theorem exists_isPrime_ringKrullDim_quotient_eq_one
   set p₀ : Ideal A := Ideal.comap f qQ with hp₀def
   have hp₀ : p₀.IsPrime := hqQprime.comap f
   have hIp₀ : I ≤ p₀ := fun x hx => by
-    show f x ∈ qQ
+    change f x ∈ qQ
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
     exact Ideal.zero_mem qQ
   have hp₀lt : p₀ < IsLocalRing.maximalIdeal A := by
@@ -357,7 +357,7 @@ private theorem exists_isPrime_ringKrullDim_quotient_eq_one
     have : x.asIdeal.IsPrime := x.isPrime
     have hrprime : r.IsPrime := x.isPrime.comap g
     have hpr : p ≤ r := fun a ha => by
-      show g a ∈ x.asIdeal
+      change g a ∈ x.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
       exact Ideal.zero_mem x.asIdeal
     have hmap : r.map g = x.asIdeal := Ideal.map_comap_of_surjective g hgsurj x.asIdeal
@@ -458,11 +458,11 @@ theorem cohomologicalDimension_lt_of_minimalPrimes_of_isAdicComplete
           (localCohomologyModule (A ⧸ q.asIdeal) (I.map (Ideal.Quotient.mk q.asIdeal))
             (hI.map (Ideal.Quotient.mk q.asIdeal))
             (ModuleCat.of (A ⧸ q.asIdeal) (A ⧸ q.asIdeal)) (d : ℤ))) := by
-        rwa [ModuleCat.isZero_iff_subsingleton] at hzero ⊢
+        rw [ModuleCat.isZero_iff_subsingleton] at hzero ⊢; assumption
       have hres := hrestr.of_iso (localCohomologyModuleRestrictScalarsIso
         (Ideal.Quotient.mk q.asIdeal) I hI
         (ModuleCat.of (A ⧸ q.asIdeal) (A ⧸ q.asIdeal)) (d : ℤ))
-      rwa [ModuleCat.isZero_iff_subsingleton] at hres ⊢
+      rw [ModuleCat.isZero_iff_subsingleton] at hres ⊢; assumption
     · have hav : ∀ r : PrimeSpectrum A, IsMinimalPrime r.asIdeal →
           ringKrullDim (A ⧸ r.asIdeal) = (d : WithBot ℕ∞) →
             r ∉ Module.support A (A ⧸ q.asIdeal) := by
@@ -513,7 +513,7 @@ theorem cohomologicalDimension_lt_of_minimalPrimes_adicCompletion
   set B := AdicCompletion (IsLocalRing.maximalIdeal A) A with hB
   set f : A →+* B := algebraMap A B with hf
   have hff : f.FaithfullyFlat := by
-    show Module.FaithfullyFlat A B
+    change Module.FaithfullyFlat A B
     exact AdicCompletion.faithfullyFlat_of_le_ringJacobson (IsLocalRing.maximalIdeal A)
       (by rw [IsLocalRing.ringJacobson_eq_maximalIdeal])
   have hdB : ringKrullDim B = (d : WithBot ℕ∞) :=

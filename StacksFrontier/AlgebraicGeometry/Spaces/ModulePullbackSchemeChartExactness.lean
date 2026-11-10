@@ -28,7 +28,9 @@ homology-preservation instances and the surjectivity of the chart supplying fait
 
 For short exactness the same functor reflects the monomorphism at the left and the epimorphism at
 the right, a faithful functor reflecting both, which is the argument already made for
-monomorphisms alone in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean`, in the directory
+monomorphisms alone in
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/
+ConormalShortExact.lean`, in the directory
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`,
 by `AlgebraicGeometry.Space.mono_modulePullback_schemeChart_iff`.
 

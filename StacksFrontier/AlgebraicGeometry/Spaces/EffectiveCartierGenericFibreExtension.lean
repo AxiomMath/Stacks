@@ -185,7 +185,7 @@ private theorem relocalize_factors {F : (Over V)ᵒᵖ ⥤ Type v}
     simpa [T'] using hx)
   refine ⟨T', e, yonedaEquiv.symm x.1.2, ?_⟩
   apply yonedaEquiv.injective
-  show x = _
+  change x = _
   apply Subtype.ext
   dsimp [yonedaEquiv, e, relocalizedYonedaIso, Functor.representableByEquiv,
     relocalizedYonedaRepresentableBy]
@@ -219,12 +219,12 @@ private theorem presheaf_relocalize (P : MorphismProperty (Over U)) [P.RespectsI
       iR.symm (Iso.refl _) iT.symm (Iso.refl _)
     · simp [iR, t]
     · simp only [Iso.symm_hom, Functor.map_comp]
-      show L.map (yoneda.map s) ≫ iT.inv =
+      change L.map (yoneda.map s) ≫ iT.inv =
         iR.inv ≫ yoneda.map (J.map s) ≫ yoneda.map e.inv
       apply (cancel_epi iR.hom).mp
       simp only [iT, Iso.trans_inv, Functor.mapIso_inv,
         Iso.hom_inv_id_assoc]
-      show (relocalizedYonedaIso c R).hom ≫
+      change (relocalizedYonedaIso c R).hom ≫
         (OverShriek.relocalizePresheafFunctor c).map (yoneda.map s) ≫
         (relocalizedYonedaIso c T').inv ≫ yoneda.map e.inv = _
       rw [← reassoc_of% (relocalizedYonedaIso_naturality c s)]
@@ -283,7 +283,7 @@ private theorem relocalizeRestriction_isPullback (F : (Over U)ᵒᵖ ⥤ Type v)
     let e : W.unop ≅ Over.mk (y.left ≫ c) :=
       Over.isoMk (Iso.refl _) (by simpa using y.w)
     refine ⟨⟨⟨y.left, F.map e.inv.op x⟩, y.w⟩, ?_, ?_⟩
-    · show F.map e.hom.op (F.map e.inv.op x) = x
+    · change F.map e.hom.op (F.map e.inv.op x) = x
       simp [← Functor.map_comp_apply, ← op_comp]
     · apply Over.OverMorphism.ext
       rfl
@@ -339,7 +339,7 @@ private theorem preimage_eq_range_of_isPullback
   · rintro ⟨y, rfl⟩
     have hw := congrArg (fun α => α.app W y) h.w
     change (t.app W y).val = f.app W (s.app W y) at hw
-    show f.app W (s.app W y) ∈ D.obj W
+    change f.app W (s.app W y) ∈ D.obj W
     exact hw ▸ (t.app W y).property
 
 private theorem exists_scheme_pullback
@@ -481,7 +481,7 @@ private theorem preimage_relocalizeRestrict_eq_range_pullback
   let t := eU.inv.app W x
   have hbase : a.app ((Over.map g).op.obj W) t ∈ Z.obj ((Over.map g).op.obj W) ↔
       t ∈ (Subfunctor.range (yoneda.map j)).obj ((Over.map g).op.obj W) := by
-    show t ∈ (Z.preimage a).obj ((Over.map g).op.obj W) ↔ _
+    change t ∈ (Z.preimage a).obj ((Over.map g).op.obj W) ↔ _
     rw [hpre]
   have hnat := congrArg (fun φ => φ.app W)
     (relocalizeRestrictYonedaIso_naturality B S S' hS hS' g j)
@@ -512,7 +512,7 @@ private theorem preimage_relocalizeRestrict_eq_range_pullback
         _ = t := congrArg (eU.inv.app W) hy
     have hx : a.app ((Over.map g).op.obj W) t ∈ Z.obj ((Over.map g).op.obj W) :=
       hbase.mpr ⟨y', ht⟩
-    show (eU.inv ≫ R.map a).app W x ∈
+    change (eU.inv ≫ R.map a).app W x ∈
       (Subfunctor.range (R.map Z.ι)).obj W
     rw [mem_range_relocalizeRestrict_subfunctor B S S' hS hS' g Z W]
     exact hx
@@ -616,7 +616,7 @@ private theorem schemeTheoreticImage_restrict_eq
     apply Space.schemeTheoreticImageSubfunctor_le B S' hS' _ hd
     rw [hpb]
     exact Subfunctor.range_comp_le _ _
-  show Subfunctor.range (R.map Z.ι) = D.1
+  change Subfunctor.range (R.map Z.ι) = D.1
   ext W x
   constructor
   · rintro ⟨z, rfl⟩
@@ -625,7 +625,7 @@ private theorem schemeTheoreticImage_restrict_eq
     have haeval : j.app ((Over.map g).op.obj W) a = z.1 :=
       OverShriek.relocalizeDescend_self g (F := X.1) (𝟙 XK) W.unop.hom z.1
     have ha : a ∈ (Z.preimage j).obj ((Over.map g).op.obj W) := by
-      show j.app ((Over.map g).op.obj W) a ∈ Z.obj ((Over.map g).op.obj W)
+      change j.app ((Over.map g).op.obj W) a ∈ Z.obj ((Over.map g).op.obj W)
       rw [haeval]
       exact z.2
     obtain ⟨y, hy⟩ := hpre _ ha
@@ -721,7 +721,7 @@ private theorem mono_spec_map_algebraMap {R K : Type u} [CommRing R] [IsDomain R
     Mono (Spec.map (CommRingCat.ofHom (algebraMap R K))) := by
   have : Epi (CommRingCat.ofHom (algebraMap R K)) :=
     IsLocalization.epi (nonZeroDivisors R) K
-  show Mono (Scheme.Spec.map (CommRingCat.ofHom (algebraMap R K)).op)
+  change Mono (Scheme.Spec.map (CommRingCat.ofHom (algebraMap R K)).op)
   exact Functor.map_mono Scheme.Spec _
 
 /-- The inclusion of the generic point of the spectrum of a domain is a monomorphism of the
@@ -737,7 +737,7 @@ private theorem specAlgebraMapHom_mono {R K : Type u} [CommRing R] [IsDomain R]
 private theorem flat_spec_map_algebraMap {R K : Type u} [CommRing R] [Field K] [Algebra R K]
     [IsFractionRing R K] : Flat (Spec.map (CommRingCat.ofHom (algebraMap R K))) := by
   apply Flat.SpecMap_iff.mpr
-  show (algebraMap R K).Flat
+  change (algebraMap R K).Flat
   exact RingHom.flat_algebraMap_iff.mpr (IsLocalization.flat K (nonZeroDivisors R))
 
 private theorem isFlat_relocalizeCounit
@@ -990,7 +990,7 @@ theorem _root_.AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_genericF
     relocalize_map_comp_counit g D.1.ι
   let Z := Space.schemeTheoreticImage B (Spec (.of R)) hR i X.2
   have hgQC : QuasiCompact (B.inclusion.map g) := by
-    show QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap R K)))
+    change QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap R K)))
     infer_instance
   have hDglobal :
       Subfunctor.range ((OverShriek.relocalizeRestrict g).map Z.1.ι) = D.1 := by
@@ -1103,7 +1103,7 @@ theorem _root_.AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_genericF
     have hb : bS ≫ B.inclusion.map U.hom =
         B.inclusion.map ψ ≫
           Spec.map (CommRingCat.ofHom (algebraMap R K)) := by
-      show B.inclusion.map b.left ≫ B.inclusion.map U.hom =
+      change B.inclusion.map b.left ≫ B.inclusion.map U.hom =
         B.inclusion.map ψ ≫ B.inclusion.map g
       rw [← Functor.map_comp, ← Functor.map_comp, b.w, hψ]
     let t := H.lift bS (B.inclusion.map ψ) hb
@@ -1236,7 +1236,7 @@ theorem exists_isEffectiveCartierDivisor_preimage_eq_of_isPullback
   let Z := Space.schemeTheoreticImage B S hS i Y.2
   have hDglobal : Z.1.preimage j.hom = D.1 := by
     apply le_antisymm
-    · show (Space.schemeTheoreticImageSubfunctor B S hS i).preimage j.hom ≤ D.1
+    · change (Space.schemeTheoreticImageSubfunctor B S hS i).preimage j.hom ≤ D.1
       rw [← Space.schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact'
         B S hS j.hom i YK.2 Y.2 D.2.1 hjFlat hiQC]
       apply Space.schemeTheoreticImageSubfunctor_le B S hS _ D.2
@@ -1314,7 +1314,7 @@ theorem exists_isEffectiveCartierDivisor_preimage_eq_of_isPullback
     rw [← preimage_range_yoneda_map_of_isPullback (IsPullback.of_hasPullback jV pr₁), ← hpre,
       ← hDglobal]
     ext W x
-    show j.hom.app W (aK.app W x) ∈ Z.1.obj W ↔ a.app W ((yoneda.map pr₁).app W x) ∈ Z.1.obj W
+    change j.hom.app W (aK.app W x) ∈ Z.1.obj W ↔ a.app W ((yoneda.map pr₁).app W x) ∈ Z.1.obj W
     rw [show j.hom.app W (aK.app W x) = a.app W ((yoneda.map pr₁).app W x) from
       congrArg (fun φ => φ.app W x) haKj]
   have hKker : ((BigFppfOver.toScheme B S hS).map jVK).ker =

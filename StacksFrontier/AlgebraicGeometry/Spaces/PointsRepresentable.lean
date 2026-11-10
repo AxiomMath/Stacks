@@ -155,7 +155,7 @@ theorem hasCommonExtension_of_schemePoint_eq (U : BigFppfOver B S hS)
       q.siteObject := Over.homMk (⟨cb⟩ : B.obj hΩ ⟶ B.obj q.contained) (by ext; exact hbase)
   refine ⟨{ carrier := Ω, contained := hΩ, toBase := ca ≫ p.toBase
             value := σ ≫ p.value }, ⟨σ, rfl⟩, ⟨τ, ?_⟩⟩
-  show τ ≫ q.value = σ ≫ p.value
+  change τ ≫ q.value = σ ≫ p.value
   ext
   exact hkey.symm
 

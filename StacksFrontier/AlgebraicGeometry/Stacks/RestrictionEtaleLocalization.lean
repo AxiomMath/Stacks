@@ -86,7 +86,8 @@ variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   [J.HasSheafCompose (forget CommRingCat.{ww})] [K.HasSheafCompose (forget CommRingCat.{ww})]
   (G : C ⥤ D) [G.IsContinuous J K] (O : Sheaf K CommRingCat.{ww})
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [J.HasSheafCompose (forget RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The comparison of the inverse image of a sheaf of commutative rings with its restriction,
 followed by a transport along an equality of the restriction with another sheaf, is on
 underlying sheaves of sets the transport alone. -/
@@ -339,7 +340,7 @@ theorem forgetRing_structureSheaf_map_restrictionFunctorPostcompIso_hom_app_heq
     (𝟙 (q.obj ((restrictionFunctor B S hS F p eF ⋙ f).obj U)))
     ((restrictionFunctorPostcompIso B S hS (X := ⟨F, hF⟩) (Y := ⟨G, hG⟩) p q eF eG f
         hf.comp_eq hg).hom.app U)
-  show HEq ((forget CommRingCat).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change HEq ((forget CommRingCat).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (q.map ((restrictionFunctorPostcompIso B S hS (X := ⟨F, hF⟩) (Y := ⟨G, hG⟩) p q eF eG f
         hf.comp_eq hg).hom.app U))).op) z) z
   rw [hφ, Category.id_comp, eqToHom_trans, eqToHom_map, eqToHom_op, eqToHom_map, eqToHom_map]

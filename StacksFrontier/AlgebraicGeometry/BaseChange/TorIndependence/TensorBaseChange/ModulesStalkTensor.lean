@@ -154,8 +154,7 @@ theorem congr_stalkModuleEquiv_map {M M' N N' : X.Modules}
         (TensorProduct.map a b w) =
       (a' ⊗ₘ b').hom (TensorProduct.congr (stalkModuleEquiv x M).symm
         (stalkModuleEquiv x N).symm w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul m n =>
     rw [TensorProduct.map_tmul, TensorProduct.congr_tmul, TensorProduct.congr_tmul,
       ModuleCat.MonoidalCategory.tensorHom_tmul]

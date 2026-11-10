@@ -242,10 +242,10 @@ theorem isPerfect_derivedExtensionScalars_of_comparison
   refine ⟨((ModuleCat.extendScalars.{uA, uB, max v uA uB} f).mapHomologicalComplex
     (ComplexShape.up ℤ)).obj P, a, b, hGE, hLE, ?_, ?_, ⟨F.mapIso e ≪≫ asIso (c.app P)⟩⟩
   · intro i
-    show Module.Finite B (TensorProduct A B (P.X i))
+    change Module.Finite B (TensorProduct A B (P.X i))
     infer_instance
   · intro i
-    show Module.Projective B (TensorProduct A B (P.X i))
+    change Module.Projective B (TensorProduct A B (P.X i))
     infer_instance
 
 end ExtendScalars

@@ -36,10 +36,10 @@ theorem fibreGeometricallyReducedAt_of_isPullback {X S Y : Scheme.{u}} (f : X �
   let y : Spec (.of K) ⟶ S := Spec.map (CommRingCat.ofHom ψ) ≫ φ
   have hy : y (IsLocalRing.closedPoint K) = s := by
     refine Eq.trans ?_ hp
-    show φ ((Spec.map (CommRingCat.ofHom ψ)) (IsLocalRing.closedPoint K)) = _
+    change φ ((Spec.map (CommRingCat.ofHom ψ)) (IsLocalRing.closedPoint K)) = _
     congr 1
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap ψ (IsLocalRing.maximalIdeal K) = p
+    change Ideal.comap ψ (IsLocalRing.maximalIdeal K) = p
     rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot, hψ]
   have key : ∀ (x : S) (_ : x = s) (ι : S.residueField x ⟶ .of K),
       Spec.map ι ≫ S.fromSpecResidueField x = y →

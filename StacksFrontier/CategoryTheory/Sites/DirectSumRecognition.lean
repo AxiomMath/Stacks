@@ -254,7 +254,7 @@ private lemma val_eq_sum (h : Setup e) (q : Cocone D) {X : Cᵒᵖ} {x : e.pt.ob
   refine finsum_eq_sum_of_support_subset _ fun k hk => ?_
   by_contra hkT
   refine hk ?_
-  show (leg D q k).hom.app X ((h.p k).hom.app X x) = 0
+  change (leg D q k).hom.app X ((h.p k).hom.app X x) = 0
   rw [proj_eq_zero_of_notMem h hx (Finset.mem_coe.not.mp hkT), map_zero]
 
 /-- The candidate value is additive on the subpresheaf of global finite sums. -/
@@ -369,7 +369,7 @@ private lemma desc_uniq (h : Setup e) (q : Cocone D) (m : e.pt ⟶ q.pt)
     hom_app_comp_eq (hm k) Y y
   apply (ObjectProperty.fullyFaithfulι _).map_injective
   ext X x
-  show m.hom.app X x = descFun h q X x
+  change m.hom.app X x = descFun h q X x
   refine hom_ext_of_sieve q.pt (sieveOfSection_mem h X x) fun V a ha => ?_
   obtain ⟨T, hT⟩ := ha
   have hT' : e.pt.obj.map a.op x = ∑ k ∈ T, (leg D e k).hom.app (op V)

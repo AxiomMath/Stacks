@@ -22,7 +22,7 @@ which is compatible with inverse image.  This file says that such a comparison c
 `Stacks.ClosedImmersion.conormalSheafMap` (Stacks 01R4) as soon as it carries the map of
 defining ideal sheaves to the map of ideal sheaves.
 
-This is item 3 of the carry note of the file `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` under
+This is item 3 of the carry note of the file `ConormalShortExact.lean` under
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/` —
 "naturality of that identification in squares of closed subspaces, which is what makes the two
 conormal *maps* of Stacks 04CP correspond" — reduced to item 2, the identification of the
@@ -62,7 +62,9 @@ its ring-level shadow
 `AlgebraicGeometry.Space.representedStructureMapRing_square`.  The object
 identification it feeds is `AlgebraicGeometry.Space.definingIdealSheafIsoRepresented` of
 `StacksFrontier/AlgebraicGeometry/Spaces/RepresentedDefiningIdealSheafObject.lean`, which assumes
-nothing; the note of `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/Conormal.lean` beside `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` cites it as available.
+nothing; the note of `Conormal.lean` beside `ConormalShortExact.lean`, both under
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`,
+cites it as available.
 
 **Which of the three compatibilities is available.**  Read with the comparison of module
 categories taken from the scheme to the space — the comparison functor being the associated

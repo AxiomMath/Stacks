@@ -50,7 +50,7 @@ def idealBasicOpen (J : Ideal Γ(X, ⊤)) : X.Opens :=
 /-- A point lies in `D(J)` exactly when it lies in `D(f)` for some `f ∈ J`. -/
 theorem mem_idealBasicOpen {J : Ideal Γ(X, ⊤)} {x : X} :
     x ∈ X.idealBasicOpen J ↔ ∃ f ∈ J, x ∈ X.basicOpen f := by
-  show x ∈ (X.zeroLocus (U := ⊤) (J : Set Γ(X, ⊤)))ᶜ ↔ _
+  change x ∈ (X.zeroLocus (U := ⊤) (J : Set Γ(X, ⊤)))ᶜ ↔ _
   rw [Set.mem_compl_iff, mem_zeroLocus_iff]
   push Not
   rfl
@@ -120,7 +120,7 @@ theorem exists_comp_cutOutι_iff [IsAffine X] {T : Scheme.{u}} (g : T ⟶ X) :
         Set.range (Scheme.Opens.ι (C.subschemeι ⁻¹ᵁ X.idealBasicOpen J)).base := by
       rintro _ ⟨t, rfl⟩
       rw [Scheme.Opens.range_ι]
-      show C.subschemeι.base (g'.base t) ∈ X.idealBasicOpen J
+      change C.subschemeι.base (g'.base t) ∈ X.idealBasicOpen J
       rw [← Scheme.Hom.comp_apply, hg']
       exact hJ ⟨t, rfl⟩
     refine ⟨IsOpenImmersion.lift _ g' hrange, ?_⟩
@@ -140,7 +140,7 @@ theorem range_subset_idealBasicOpen_iff {T : Scheme.{u}} [IsAffine T] (g : T ⟶
   · rintro h _ ⟨t, rfl⟩
     obtain ⟨⟨_, ⟨f, hfJ, rfl⟩⟩, ht⟩ := Opens.mem_iSup.1 (h (Set.mem_univ t))
     refine mem_idealBasicOpen.2 ⟨f, hfJ, ?_⟩
-    show t ∈ g ⁻¹ᵁ X.basicOpen f
+    change t ∈ g ⁻¹ᵁ X.basicOpen f
     rwa [Scheme.preimage_basicOpen_top]
 
 /-- **Factorization through `V(I) ∩ D(J)` between affine schemes**: a morphism `g : T ⟶ X` of
@@ -180,7 +180,7 @@ theorem locallyOfFinitePresentation_subschemeι_ofIdealTop [IsAffine X] (hI : I.
   have hsurj : Function.Surjective (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop :=
     (Scheme.IdealSheafData.ofIdealTop I).subschemeι.app_surjective ⊤ (isAffineOpen_top X)
   have hker : (RingHom.ker (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop.hom).FG := by
-    show (RingHom.ker ((Scheme.IdealSheafData.ofIdealTop I).subschemeι.app ⊤).hom).FG
+    change (RingHom.ker ((Scheme.IdealSheafData.ofIdealTop I).subschemeι.app ⊤).hom).FG
     rw [h]
     exact hI.map _
   exact RingHom.FinitePresentation.of_surjective _ hsurj hker
@@ -199,7 +199,7 @@ theorem isCompact_idealBasicOpen [IsAffine X] (hJ : J.FG) :
   obtain ⟨s, rfl⟩ := hJ
   have heq : (X.idealBasicOpen (Ideal.span (s : Set Γ(X, ⊤))) : Set X) =
       ⋃ f ∈ s, (X.basicOpen f : Set X) := by
-    show (X.zeroLocus (U := ⊤) (Ideal.span (s : Set Γ(X, ⊤)) : Set Γ(X, ⊤)))ᶜ = _
+    change (X.zeroLocus (U := ⊤) (Ideal.span (s : Set Γ(X, ⊤)) : Set Γ(X, ⊤)))ᶜ = _
     rw [zeroLocus_span, zeroLocus_def, Set.compl_iInter₂]
     simp
   rw [heq]

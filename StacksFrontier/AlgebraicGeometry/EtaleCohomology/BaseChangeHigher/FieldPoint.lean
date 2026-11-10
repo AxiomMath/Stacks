@@ -213,7 +213,7 @@ private theorem chainSup_property {B X : Scheme.{u}} [CompactSpace X]
     dsimp [D, chainSubschemeDiagram]
     simp
   · intro i
-    show Scheme.IdealSheafData.inclusion (le_sSup i.unop.2) ≫
+    change Scheme.IdealSheafData.inclusion (le_sSup i.unop.2) ≫
       (i.unop.1.subschemeι ≫ f) = (sSup S).subschemeι ≫ f
     rw [← Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
   · intro i
@@ -240,7 +240,7 @@ private theorem iso_is_thickening {X Y : Scheme.{u}} (f : X ⟶ Y)
   refine ⟨inferInstance, ?_⟩
   intro y
   refine ⟨(asIso f).inv y, ?_⟩
-  show ((asIso f).inv ≫ (asIso f).hom) y = y
+  change ((asIso f).inv ≫ (asIso f).hom) y = y
   exact congrArg (fun q : Y ⟶ Y => q y) (Iso.inv_hom_id (asIso f))
 
 private theorem closedSubscheme_not_property_of_maximal
@@ -268,7 +268,7 @@ private theorem closedSubscheme_not_property_of_maximal
   have hKne : Nonempty K.subscheme := Nonempty.map e.inv hJne
   have hKmem : K ∈ S := hS K hKP hKne
   have hIK : I ≤ K := by
-    show I ≤ J.map f
+    change I ≤ J.map f
     calc
       I = (⊥ : I.subscheme.IdealSheafData).map f := by
         rw [Scheme.IdealSheafData.map_bot, Scheme.IdealSheafData.ker_subschemeι]
@@ -384,7 +384,7 @@ private theorem affinePointNhdsInclusion_final {X : Scheme.{u}} (x : X) :
       (U := V.unop.1) V.unop.2
     let i : affinePointNhds x := ⟨⟨W, hxW⟩, hW⟩
     have hle : i.obj ≤ V.unop := by
-      show (W : X.Opens) ≤ V.unop.1
+      change (W : X.Opens) ≤ V.unop.1
       exact SetLike.coe_subset_coe.mp hWV
     let a : V ⟶ (affinePointNhdsInclusion x).obj (Opposite.op i) :=
       Quiver.Hom.op (homOfLE hle)
@@ -494,7 +494,7 @@ private theorem property_specStalk {T : Scheme.{u}} (P : ∀ X : Scheme.{u}, (X 
   · intro i
     let i₀ : affinePointNhds x := i.unop.unop
     dsimp [c, cR, stalkCocone, D, fi, affinePointNhdsRingDiagram, affinePointNhdsInclusion]
-    show i₀.property.fromSpecStalk i₀.obj.2 ≫ g = X.fromSpecStalk x ≫ g
+    change i₀.property.fromSpecStalk i₀.obj.2 ≫ g = X.fromSpecStalk x ≫ g
     exact congrArg (fun q => q ≫ g) (i₀.property.fromSpecStalk_eq_fromSpecStalk i₀.obj.2)
   · let j : affinePointNhds x := i.unop.unop
     let U : X.Opens := j.obj.1
@@ -508,7 +508,7 @@ private theorem isThickening_inclusion_radical {X : Scheme.{u}} (I : X.IdealShea
     IsThickening (Scheme.IdealSheafData.inclusion (Scheme.IdealSheafData.le_radical I)) := by
   let k : I.radical.subscheme ⟶ I.subscheme :=
     Scheme.IdealSheafData.inclusion (Scheme.IdealSheafData.le_radical I)
-  show IsThickening k
+  change IsThickening k
   refine ⟨inferInstance, fun y => ?_⟩
   have hy' : I.subschemeι y ∈ (I.radical.support : Set X) :=
     (Scheme.IdealSheafData.support_radical I).symm ▸ subschemeι_mem_support I y
@@ -618,7 +618,7 @@ public theorem exists_field_point {T : Scheme.{u}} [Nonempty T] [CompactSpace T]
     isField_stalk_of_closure_mem_irreducibleComponents I.subscheme η hηcomponent
   refine ⟨I.subscheme.presheaf.stalk η, hηfield.toField,
     I.subscheme.fromSpecStalk η ≫ I.subschemeι, ?_⟩
-  show P (Spec (I.subscheme.presheaf.stalk η)) (I.subscheme.fromSpecStalk η ≫ I.subschemeι)
+  change P (Spec (I.subscheme.presheaf.stalk η)) (I.subscheme.fromSpecStalk η ≫ I.subschemeι)
   exact property_specStalk P hThickening hLimit I.subschemeι η fun U hU hηU =>
     compactOpen_neighborhood_has_property P hThickening hClosedOrOpen S I hI
       (fun {J} hJ hIJ => hmax hJ hIJ) (fun J hJP hJne => ⟨hJP, hJne⟩) η hI.1 hU.isCompact hηU

@@ -134,15 +134,15 @@ theorem baseRingToSections_isoSpec :
     baseRingToSections Γ(Y, ⊤) (Over.mk (f ≫ Y.isoSpec.hom)) (op ⊤) = f.appTop.hom := by
   have h : (Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ (f ≫ Y.isoSpec.hom).appTop = f.appTop := by
     rw [Scheme.Hom.comp_appTop]
-    show (Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ Y.toSpecΓ.appTop ≫ f.appTop = f.appTop
+    change (Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ Y.toSpecΓ.appTop ≫ f.appTop = f.appTop
     rw [Scheme.toSpecΓ_appTop, Iso.inv_hom_id_assoc]
   have hid : (TopologicalSpace.Opens.leTop (⊤ : X.Opens)).op = 𝟙 (op ⊤) := rfl
   ext a
-  show ((forget₂ CommRingCat RingCat).map ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫
+  change ((forget₂ CommRingCat RingCat).map ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫
     (f ≫ Y.isoSpec.hom).appTop) ≫
       X.ringCatSheaf.obj.map (TopologicalSpace.Opens.leTop (⊤ : X.Opens)).op).hom a = _
   rw [hid, CategoryTheory.Functor.map_id]
-  show ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ (f ≫ Y.isoSpec.hom).appTop).hom a = _
+  change ((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ (f ≫ Y.isoSpec.hom).appTop).hom a = _
   rw [h]
   rfl
 
@@ -245,7 +245,7 @@ theorem nonempty_proIso_rightDerivedPlus_idealPowerSystem
   let I₀ := J.ideal ⟨⊤, isAffineOpen_top Y⟩
   let X' : Over (Spec (.of Γ(Y, ⊤))) := Over.mk (f ≫ Y.isoSpec.hom)
   have hX : IsProper X'.hom := by
-    show IsProper (f ≫ Y.isoSpec.hom)
+    change IsProper (f ≫ Y.isoSpec.hom)
     infer_instance
   obtain ⟨-, -, -, -, -, -, ⟨p02⟩⟩ := exists_uniform_bound_cohomology_of_isProper I₀ X' F hX i
   let G := ((Scheme.Modules.pushforward f).rightDerivedPlus (i : ℤ)).obj F

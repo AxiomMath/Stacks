@@ -108,7 +108,7 @@ theorem totalSiteMap_homOfToScheme (bm : y.base ⟶ y'.base)
     totalSiteMap hy' hy (homOfToScheme hy hy' bm g hg) = integerSiteHom g := by
   apply yoneda.map_injective
   rw [yoneda_map_totalSiteMap]
-  show (totalSiteIso hy).hom ≫ ((totalSiteIso hy).inv ≫ yoneda.map (integerSiteHom g) ≫
+  change (totalSiteIso hy).hom ≫ ((totalSiteIso hy).inv ≫ yoneda.map (integerSiteHom g) ≫
     (totalSiteIso hy').hom) ≫ (totalSiteIso hy').inv = _
   simp
 
@@ -136,12 +136,12 @@ theorem isThickening_specMap_of_surjective_of_ker_le_nilradical {R K : Type u} [
   intro (q : PrimeSpectrum R)
   obtain ⟨t⟩ : Nonempty (PrimeSpectrum K) := inferInstance
   refine ⟨t, ?_⟩
-  show PrimeSpectrum.comap f t = q
+  change PrimeSpectrum.comap f t = q
   ext1
   have h1 : (PrimeSpectrum.comap f t).asIdeal = RingHom.ker f := by
     have := t.isPrime
     have ht : t.asIdeal = ⊥ := Ideal.eq_bot_of_prime t.asIdeal
-    show Ideal.comap f t.asIdeal = _
+    change Ideal.comap f t.asIdeal = _
     rw [ht]
     rfl
   have := q.isPrime
@@ -181,9 +181,9 @@ theorem isThickening_toScheme_squareZeroArrow (M : SiteModule k B) :
   have h0 : a.fst = 0 := ha
   rw [pow_two]
   refine TrivSqZeroExt.ext ?_ ?_
-  · show (a * a).fst = 0
+  · change (a * a).fst = 0
     rw [TrivSqZeroExt.fst_mul, h0, zero_mul]
-  · show (a * a).snd = 0
+  · change (a * a).snd = 0
     rw [TrivSqZeroExt.snd_mul, h0]
     simp
 
@@ -275,7 +275,7 @@ theorem isPullback_squareZeroRingMap :
   apply (Types.isPullback_iff _ _ _ _).2
   refine ⟨?_, ?_, ?_⟩
   · ext z
-    show (TrivSqZeroExt.map (LinearMap.fst k M.obj N.obj) z).fst =
+    change (TrivSqZeroExt.map (LinearMap.fst k M.obj N.obj) z).fst =
       (TrivSqZeroExt.map (LinearMap.snd k M.obj N.obj) z).fst
     exact (TrivSqZeroExt.fst_map _ z).trans (TrivSqZeroExt.fst_map _ z).symm
   · intro a b hab
@@ -296,9 +296,9 @@ theorem isPullback_squareZeroRingMap :
   · intro a b hab
     change a.fst = b.fst at hab
     refine ⟨⟨a.fst, (a.snd, b.snd)⟩, ?_, ?_⟩
-    · show TrivSqZeroExt.map (LinearMap.fst k M.obj N.obj) _ = a
+    · change TrivSqZeroExt.map (LinearMap.fst k M.obj N.obj) _ = a
       exact TrivSqZeroExt.ext (TrivSqZeroExt.fst_map _ _) (TrivSqZeroExt.snd_map _ _)
-    · show TrivSqZeroExt.map (LinearMap.snd k M.obj N.obj) _ = b
+    · change TrivSqZeroExt.map (LinearMap.snd k M.obj N.obj) _ = b
       exact TrivSqZeroExt.ext ((TrivSqZeroExt.fst_map _ _).trans hab)
         (TrivSqZeroExt.snd_map _ _)
 
@@ -608,9 +608,9 @@ theorem existsUnique_fiberHom (θ₁ : b₁ ⟶ b₁') (θ₂ : b₂ ⟶ b₂') 
       eqToHom e₃'.symm := baseMap_lift_hom x hx c'
   have hw : c.1.hom ≫ Θ = c'.1.hom := by
     apply CurveFamily.hom_ext_of_toScheme hxr hcr'
-    · show c.1.hom.baseMap ≫ bm = c'.1.hom.baseMap
+    · change c.1.hom.baseMap ≫ bm = c'.1.hom.baseMap
       rw [hcb, hcb']
-      show (eqToHom hx ≫ squareZeroArrow k B integerBase hZ toS hk _ ≫ eqToHom e₃.symm) ≫
+      change (eqToHom hx ≫ squareZeroArrow k B integerBase hZ toS hk _ ≫ eqToHom e₃.symm) ≫
         eqToHom (e₃.trans e₃'.symm) = _
       rw [Category.assoc, Category.assoc, eqToHom_trans]
     · rw [← toScheme_map_totalSiteMap_comp hxr hcr hcr', hΘt, ← hc₁,
@@ -620,16 +620,16 @@ theorem existsUnique_fiberHom (θ₁ : b₁ ⟶ b₁') (θ₂ : b₂ ⟶ b₂') 
   have hΘlift : (curvesProjectionOver B hZ).IsHomLift
       (Under.Hom.right (𝟙 (Under.mk (arrow x hx (siteModuleProd k B hk M N))))) Θ := by
     refine IsHomLift.of_fac' (curvesProjectionOver B hZ) _ Θ e₃ e₃' ?_
-    show eqToHom (e₃.trans e₃'.symm) = eqToHom e₃ ≫ 𝟙 _ ≫ eqToHom e₃'.symm
+    change eqToHom (e₃.trans e₃'.symm) = eqToHom e₃ ≫ 𝟙 _ ≫ eqToHom e₃'.symm
     simp
   let θ : c ⟶ c' := ⟨Under.homMk Θ hw, underPost_isHomLift_of_isHomLift_right x _ _ hΘlift⟩
   have key₁ : θ₁.1 ≫ φ₁' = φ₁ ≫ θ.1 := by
     apply Under.UnderMorphism.ext
     apply CurveFamily.hom_ext_of_toScheme (isRepresentable_total_lift x hx b₁) hcr'
-    · show θ₁.1.right.baseMap ≫ φ₁'.right.baseMap = φ₁.right.baseMap ≫ bm
+    · change θ₁.1.right.baseMap ≫ φ₁'.right.baseMap = φ₁.right.baseMap ≫ bm
       rw [hθ₁b, hφ₁'b, hφ₁b]
       simp [bm]
-    · show (BigFppfOver.toScheme B integerBase hZ).map
+    · change (BigFppfOver.toScheme B integerBase hZ).map
         (CurveFamily.totalSiteMap _ _ (θ₁.1.right ≫ φ₁'.right)) =
         (BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteMap _ _ (φ₁.right ≫ Θ))
       rw [← toScheme_map_totalSiteMap_comp _ (isRepresentable_total_lift x hx b₁') hcr',
@@ -637,10 +637,10 @@ theorem existsUnique_fiberHom (θ₁ : b₁ ⟶ b₁') (θ₂ : b₂ ⟶ b₂') 
   have key₂ : θ₂.1 ≫ φ₂' = φ₂ ≫ θ.1 := by
     apply Under.UnderMorphism.ext
     apply CurveFamily.hom_ext_of_toScheme (isRepresentable_total_lift x hx b₂) hcr'
-    · show θ₂.1.right.baseMap ≫ φ₂'.right.baseMap = φ₂.right.baseMap ≫ bm
+    · change θ₂.1.right.baseMap ≫ φ₂'.right.baseMap = φ₂.right.baseMap ≫ bm
       rw [hθ₂b, hφ₂'b, hφ₂b]
       simp [bm]
-    · show (BigFppfOver.toScheme B integerBase hZ).map
+    · change (BigFppfOver.toScheme B integerBase hZ).map
         (CurveFamily.totalSiteMap _ _ (θ₂.1.right ≫ φ₂'.right)) =
         (BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteMap _ _ (φ₂.right ≫ Θ))
       rw [← toScheme_map_totalSiteMap_comp _ (isRepresentable_total_lift x hx b₂') hcr',
@@ -650,7 +650,7 @@ theorem existsUnique_fiberHom (θ₁ : b₁ ⟶ b₁') (θ₂ : b₂ ⟶ b₂') 
   apply Under.UnderMorphism.ext
   apply CurveFamily.hom_ext_of_toScheme hcr hcr'
   · exact (baseMap_of_fiber_hom x hx θ').trans (eqToHom_trans _ _)
-  · show (BigFppfOver.toScheme B integerBase hZ).map
+  · change (BigFppfOver.toScheme B integerBase hZ).map
       (CurveFamily.totalSiteMap hcr' hcr θ'.1.right) =
       (BigFppfOver.toScheme B integerBase hZ).map (CurveFamily.totalSiteMap hcr' hcr Θ)
     rw [hΘt]

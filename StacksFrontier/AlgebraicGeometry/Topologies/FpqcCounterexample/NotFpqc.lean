@@ -109,7 +109,7 @@ private theorem charts_agree_at_punctured {k : Type u} [Field k]
   have hfirst' := hf 0 1 z x rfl
   have hsecond' := hf 1 0 z x rfl
   apply (D.glueData.ι_eq_iff i j x0 x1).2
-  show ∃ w : (D.glueData.V (i, j)).carrier,
+  change ∃ w : (D.glueData.V (i, j)).carrier,
       (D.glueData.f i j) w = x0 ∧
         (D.glueData.t i j ≫ D.glueData.f j i) w = x1
   refine ⟨e01.hom.base z, hfirst', ?_⟩
@@ -165,7 +165,7 @@ private lemma map_inr_apply (S : DoubledOriginSource.{u})
 
 private lemma mem_coordinateBasicOpen_iff {k : Type u} [Field k] (p : infiniteAffineSpace k)
     (i : ℕ) : p ∈ coordinateBasicOpen (k := k) i ↔ MvPolynomial.X i ∉ p.asIdeal := by
-  show p ∈ (infiniteAffineSpace k).basicOpen
+  change p ∈ (infiniteAffineSpace k).basicOpen
     ((Scheme.ΓSpecIso (.of (MvPolynomial ℕ k))).inv (MvPolynomial.X i)) ↔ _
   rw [basicOpen_eq_of_affine]
   exact PrimeSpectrum.mem_basicOpen _ _
@@ -238,7 +238,7 @@ private lemma X_sub_one_notMem_of_map_inr_eq (S : DoubledOriginSource.{u})
     (PrimeSpectrum.asIdeal_le_asIdeal p S.origin).mpr
       ((PrimeSpectrum.le_iff_specializes p S.origin).mpr hspec)
   have hnotOrigin : MvPolynomial.X j - 1 ∉ S.origin.asIdeal := by
-    show MvPolynomial.X j - 1 ∉
+    change MvPolynomial.X j - 1 ∉
       (PrimeSpectrum.comap (MvPolynomial.eval 0) (⊤ : PrimeSpectrum S.k)).asIdeal
     rw [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
     simp
@@ -295,10 +295,10 @@ public theorem map_image_ne_range_secondChart (S : DoubledOriginSource)
         apply (mem_coordinateBasicOpen_iff p i).1 (by
           rw [← hxp]
           exact (inl_mem_range_coordinateBasicOpen_iff S i x).1 hya)
-        show MvPolynomial.X i ∈ RingHom.ker ev
+        change MvPolynomial.X i ∈ RingHom.ker ev
         exact RingHom.mem_ker.mpr (by simp [ev, hiT])
   · refine X_sub_one_notMem_of_map_inr_eq S b p hyq j ?_
-    show MvPolynomial.X j - 1 ∈ RingHom.ker ev
+    change MvPolynomial.X j - 1 ∈ RingHom.ker ev
     exact RingHom.mem_ker.mpr (by simp [ev, hj])
 
 /-- Every point of the doubled-origin scheme has a neighbourhood that is the image of a

@@ -180,7 +180,7 @@ coordinate**: the differential of a cofree module sends `(x, y)` to `(y, 0)`. -/
 theorem cofree_d_comp_fstHom (P : GradedModule.{t, a, m} A.toGradedAlgebra) (n : ℤ) :
     (Cofree.cofree P).complex.d n (n + 1) ≫ cofreeFstHom P (n + 1) = cofreeSndHom P n := by
   rw [show (Cofree.cofree P).complex.d n (n + 1) = Cofree.d P n from CochainComplex.of_d _ _ n]
-  show (biprod.snd ≫ biprod.inl) ≫
+  change (biprod.snd ≫ biprod.inl) ≫
     (biprod.fst : Cofree.piece P (n + 1) ⟶ P.piece (n + 1)) = biprod.snd
   rw [Category.assoc, biprod.inl_fst, Category.comp_id]
 
@@ -200,7 +200,7 @@ theorem liftDgHom_f {M : DifferentialGradedModule.{t, a, m} A}
 theorem liftHom_comp_fstHom {M : DifferentialGradedModule.{t, a, m} A}
     (φ : GradedModule.Hom (GradedModule.ofDifferentialGraded M) P) (n : ℤ) :
     Cofree.liftHom P φ n ≫ cofreeFstHom P n = φ.app n := by
-  show biprod.lift (φ.app n) (M.complex.d n (n + 1) ≫ φ.app (n + 1)) ≫
+  change biprod.lift (φ.app n) (M.complex.d n (n + 1) ≫ φ.app (n + 1)) ≫
     (biprod.fst : Cofree.piece P n ⟶ P.piece n) = _
   rw [biprod.lift_fst]
 
@@ -208,7 +208,7 @@ theorem liftHom_comp_fstHom {M : DifferentialGradedModule.{t, a, m} A}
 theorem liftHom_comp_sndHom {M : DifferentialGradedModule.{t, a, m} A}
     (φ : GradedModule.Hom (GradedModule.ofDifferentialGraded M) P) (n : ℤ) :
     Cofree.liftHom P φ n ≫ cofreeSndHom P n = M.complex.d n (n + 1) ≫ φ.app (n + 1) := by
-  show biprod.lift (φ.app n) (M.complex.d n (n + 1) ≫ φ.app (n + 1)) ≫
+  change biprod.lift (φ.app n) (M.complex.d n (n + 1) ≫ φ.app (n + 1)) ≫
     (biprod.snd : Cofree.piece P n ⟶ P.piece (n + 1)) = _
   rw [biprod.lift_snd]
   rfl
@@ -228,7 +228,7 @@ theorem cofreeMap_comp_fst (k : GradedModule.Hom P P') (n : ℤ) :
     (fun α : GradedModule.Hom (GradedModule.ofDifferentialGraded (Cofree.cofree P)) P' =>
       α.app n)
     (Cofree.lowerHom_liftDgHom P' ((Cofree.lowerHom P (𝟙 (Cofree.cofree P))).comp k))) ?_)
-  show (Cofree.lowerHom P (𝟙 (Cofree.cofree P))).app n ≫ k.app n = _
+  change (Cofree.lowerHom P (𝟙 (Cofree.cofree P))).app n ≫ k.app n = _
   rw [lowerHom_app, id_f, Category.id_comp]
   rfl
 
@@ -245,7 +245,7 @@ theorem lift_comp_coords {Z W : SheafOfModules.{m} R}
     (q : Z ⟶ P.piece (n + 1)) (u : P.piece n ⟶ W) (v : P.piece (n + 1) ⟶ W) :
     (biprod.lift p q : Z ⟶ (Cofree.cofree P).complex.X n) ≫
         (cofreeFstHom P n ≫ u + cofreeSndHom P n ≫ v) = p ≫ u + q ≫ v := by
-  show biprod.lift p q ≫ ((biprod.fst : Cofree.piece P n ⟶ P.piece n) ≫ u +
+  change biprod.lift p q ≫ ((biprod.fst : Cofree.piece P n ⟶ P.piece n) ≫ u +
     (biprod.snd : Cofree.piece P n ⟶ P.piece (n + 1)) ≫ v) = _
   rw [Preadditive.comp_add, ← Category.assoc, ← Category.assoc, biprod.lift_fst, biprod.lift_snd]
 
@@ -275,7 +275,7 @@ theorem liftDgHom_comp {M : DifferentialGradedModule.{t, a, m} A}
   have hφ : (Cofree.liftDgHom P φ).toHomologicalComplex.f n ≫ cofreeFstHom P n = φ.app n :=
     liftHom_comp_fstHom φ n
   refine hleft.trans (Eq.trans ?_ (lowerHom_app (Cofree.liftDgHom P φ ≫ cofreeMap k) n).symm)
-  show φ.app n ≫ k.app n =
+  change φ.app n ≫ k.app n =
     ((Cofree.liftDgHom P φ).toHomologicalComplex.f n ≫
       (cofreeMap k).toHomologicalComplex.f n) ≫ cofreeFstHom P' n
   rw [Category.assoc, cofreeMap_comp_fst, ← Category.assoc, hφ]
@@ -454,7 +454,7 @@ noncomputable def cofreeShiftDownFirst (N : DifferentialGradedModule.{t, a, m} A
 `cofreeFstHom (gradedShiftDown N) n`. -/
 theorem shiftDownApp_cofreeShiftDownFirst (N : DifferentialGradedModule.{t, a, m} A) (n : ℤ) :
     shiftDownApp (cofreeShiftDownFirst N) n = cofreeFstHom (gradedShiftDown N) n := by
-  show (Cofree.lowerHom (gradedShiftDown N) (𝟙 (Cofree.cofree (gradedShiftDown N)))).app n = _
+  change (Cofree.lowerHom (gradedShiftDown N) (𝟙 (Cofree.cofree (gradedShiftDown N)))).app n = _
   rw [lowerHom_app, id_f, Category.id_comp]
 
 /-- **The counit of the cofree construction at a shift down by one**: the morphism of right

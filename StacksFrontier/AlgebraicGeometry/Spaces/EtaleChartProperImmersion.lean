@@ -65,8 +65,7 @@ theorem exists_surjective_eval₂Hom_of_surjective_globalSectionsTensorLift {P U
     rw [eq_top_iff]
     rintro y -
     obtain ⟨t, rfl⟩ := hsurj y
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
       rw [globalSectionsTensorLift_tmul]
       exact mul_mem (Algebra.subset_adjoin ⟨a, rfl⟩) (Subalgebra.algebraMap_mem _ b)
@@ -183,7 +182,7 @@ theorem exists_isImmersion_isProper_of_isEtale_of_isAffine
   have hrμ : r ≫ μ = pV ≫ cV := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp, Functor.map_comp]
-    show AffineSpace.homOfVector _ _ ≫ AffineSpace.map (ULift.{u} (Fin m)) Dhom =
+    change AffineSpace.homOfVector _ _ ≫ AffineSpace.map (ULift.{u} (Fin m)) Dhom =
       (BigFppfOver.toScheme B S hS).map pV ≫ AffineSpace.homOfVector _ c
     rw [hcomp, AffineSpace.comp_homOfVector, BigFppfOver.toScheme_map_comp_structureHom,
       BigFppfOver.toScheme_map_comp_structureHom]

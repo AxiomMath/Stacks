@@ -144,7 +144,7 @@ private lemma sheafify_section_eq_zero_of_locally_zero {D : Type u} [Category.{v
   apply section_eq_zero_of_cover J _ ((presheafToSheaf J Ab.{max u v}).obj (B.op ⋙ H)).property R
   intro g
   have hn := NatTrans.naturality_apply η g.f.op (H.map (ε.app U).op x)
-  show _ = 0
+  change _ = 0
   rw [← hn]
   have he : H.map (B.map g.f).op (H.map (ε.app U).op x) = 0 := by
     rw [← ConcreteCategory.comp_apply, ← H.map_comp, ← op_comp, ε.naturality g.f, op_comp,
@@ -223,7 +223,7 @@ theorem exists_coarseCovering_restrict_eq_zero_of_equalizer (S : CohomologyCompa
     simpa only [← ConcreteCategory.comp_apply, ← H.map_comp, ← op_comp, hl₁, hl₂] using hl
   have hs₀ : η.app (op U) (K.map t.op s) = 0 := by
     have he : K.map t.op s = H.map (ε.app U).op x := by
-      show H.map (B.map t).op (H.map (baseChangeProjection f T).op x) = _
+      change H.map (B.map t).op (H.map (baseChangeProjection f T).op x) = _
       rw [← ConcreteCategory.comp_apply, ← H.map_comp, ← op_comp,
         baseChangeProjection_naturality]
       exact hpair
@@ -271,7 +271,7 @@ theorem exists_coarseCovering_restrict_eq_zero_of_equalizer (S : CohomologyCompa
       Over.mk_hom] using (IsPullback.of_hasPullback g f).flip
   · apply (sectionHomologyIso (J.over Y) F I (n + 1)
       (B.obj V)).addCommGroupIsoToAddEquiv.injective
-    show (sectionHomologyIso (J.over Y) F I (n + 1) (B.obj V)).hom
+    change (sectionHomologyIso (J.over Y) F I (n + 1) (B.obj V)).hom
         (Stacks.sheafCohomologyRestriction (J.over Y) (baseChangeProjection f V) (n + 1) F θ) =
       (sectionHomologyIso (J.over Y) F I (n + 1) (B.obj V)).hom 0
     rw [map_zero, sectionHomologyIso_restrict]

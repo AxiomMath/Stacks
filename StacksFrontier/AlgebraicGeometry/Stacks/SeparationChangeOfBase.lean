@@ -62,7 +62,8 @@ conclusions of the other two conditions are not of that shape:
 the target, and `AlgebraicGeometry.Space.IsProper` is a conjunction of four clauses of which the
 first is a closed-immersion condition on a diagonal and the last is a condition on the topology of
 the point set of every base change. Quasi-compactness and quasi-separatedness are read over two
-bases in `StacksFrontier/AlgebraicGeometry/Spaces/QuasiCompactSmallerBase.lean`, which is Stacks 03HE
+bases in `StacksFrontier/AlgebraicGeometry/Spaces/QuasiCompactSmallerBase.lean`, which is Stacks
+03HE
 and Stacks 03HL part (3); the separated and universally closed clauses of Stacks 03ZM are read
 over two bases in `StacksFrontier/AlgebraicGeometry/Spaces/ProperSmallerBase.lean`, the universally
 closed one resting on the comparison of point sets and point topologies of

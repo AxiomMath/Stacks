@@ -178,7 +178,7 @@ theorem hasSurjectiveEtaleSmoothDiagram_of_etalePresentation
   let aInv : fibredCategory B S hS (yoneda.obj W) ⟶ schemeFibredCategory B S hS W :=
     equivalenceOverInvMap B S hS (yoneda.obj W) eU
   have haInvEquiv : Functor.IsEquivalence aInv.hom.toFunctor := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   let pU : fibredCategory B S hS (yoneda.obj W) ⟶ R.pt := aInv ≫ pres
   have hpUet : IsRelativelyEtale B S hS pU :=

@@ -104,7 +104,7 @@ theorem span_eq_top_of_span_one_tmul_eq_top {R S M I : Type u} [CommRing R] [Com
     rintro _ ⟨i, rfl⟩
     exact ⟨(1 : S) ⊗ₜ[R] Finsupp.single i 1, by simp [φ]⟩
   have hsurj : Function.Surjective (φ.lTensor S) := by
-    rw [← LinearMap.baseChange_eq_ltensor]
+    rw [← LinearMap.baseChange_eq_lTensor]
     exact LinearMap.range_eq_top.mp hrange
   rw [← Finsupp.range_linearCombination]
   exact LinearMap.range_eq_top.mpr
@@ -234,10 +234,7 @@ theorem mem_span_pullbackGlobalSection (H : IsPullback g' f' f g) [Flat g] [Quas
     baseAlgebra g
   obtain ⟨e, he⟩ := exists_linearEquiv_sections_pushforward_pullback H F
   obtain ⟨z, rfl⟩ := e.surjective t
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero]
-      exact Submodule.zero_mem _
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw =>
       rw [map_add]
       exact Submodule.add_mem _ hz hw

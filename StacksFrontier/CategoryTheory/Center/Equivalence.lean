@@ -131,7 +131,7 @@ lemma transport_transport_symm (w : CatCenter D) : transport E (transport E.symm
       E.counit.app (E.functor.obj X) =
       E.counit.app (E.functor.obj X) ≫ w.app (E.functor.obj X) := E.counit.naturality _
   rw [transport_app_functor, transport_app]
-  show E.functor.map
+  change E.functor.map
     (E.unit.app X ≫ E.inverse.map (w.app (E.functor.obj X)) ≫ E.unitInv.app X) = _
   rw [E.functor.map_comp, E.functor.map_comp, ← E.counitInv_app_functor, ← E.counit_app_functor,
     ← Functor.comp_map, hc]

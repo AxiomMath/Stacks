@@ -190,7 +190,7 @@ theorem smul_top_eq_bot_of_constantSheaf_iso (J : Ideal Λ)
   obtain ⟨U, hU⟩ := hne
   have hinj : Function.Injective (e.hom.hom.app (op U)).hom :=
     Function.LeftInverse.injective (g := (e.inv.hom.app (op U)).hom) fun y => by
-      show ((e.hom ≫ e.inv).hom.app (op U)).hom y = y
+      change ((e.hom ≫ e.inv).hom.app (op U)).hom y = y
       rw [e.hom_inv_id]
       rfl
   refine le_antisymm (Submodule.smul_le.2 fun a ha m _ => ?_) bot_le
@@ -297,12 +297,12 @@ theorem isQuotientBy_of_iso {J : Ideal Λ}
     {F F' G : Sheaf (Scheme.ProEt.topology X) (ModuleCat.{w} Λ)} {q : F ⟶ G} (e : F' ≅ F)
     (h : IsQuotientBy X Λ J F G q) : IsQuotientBy X Λ J F' G (e.hom ≫ q) := by
   refine ⟨h.1, fun H hH f => ⟨(h.2 H hH (e.inv ≫ f)).choose, ?_, fun y hy => ?_⟩⟩
-  · show (e.hom ≫ q) ≫ _ = f
+  · change (e.hom ≫ q) ≫ _ = f
     rw [Category.assoc, (h.2 H hH (e.inv ≫ f)).choose_spec.1, ← Category.assoc,
       e.hom_inv_id, Category.id_comp]
   · change (e.hom ≫ q) ≫ y = f at hy
     refine (h.2 H hH (e.inv ≫ f)).choose_spec.2 y ?_
-    show q ≫ y = e.inv ≫ f
+    change q ≫ y = e.inv ≫ f
     rw [← hy, Category.assoc, ← Category.assoc e.inv e.hom, e.inv_hom_id, Category.id_comp]
 
 variable (I : Ideal Λ)
@@ -322,14 +322,14 @@ theorem isQuotientBy_map_of_tower
     ⟨((hq m).2 H hH (q.app (op n) ≫ g)).choose, ?_, fun y hy => ?_⟩⟩
   · have hbig := (hq n).2 H
       (hH.mono X Λ (Ideal.pow_le_pow_right hmn)) (q.app (op n) ≫ g)
-    show Q.map (homOfLE hmn).op ≫ _ = g
+    change Q.map (homOfLE hmn).op ≫ _ = g
     refine (hbig.choose_spec.2 _ ?_).trans (hbig.choose_spec.2 g rfl).symm
-    show q.app (op n) ≫ Q.map (homOfLE hmn).op ≫ _ = _
+    change q.app (op n) ≫ Q.map (homOfLE hmn).op ≫ _ = _
     rw [← Category.assoc, hnat]
     exact ((hq m).2 H hH (q.app (op n) ≫ g)).choose_spec.1
   · change Q.map (homOfLE hmn).op ≫ y = g at hy
     refine ((hq m).2 H hH (q.app (op n) ≫ g)).choose_spec.2 y ?_
-    show q.app (op m) ≫ y = q.app (op n) ≫ g
+    change q.app (op m) ≫ y = q.app (op n) ≫ g
     rw [← hnat, Category.assoc, hy]
 
 /-- `isQuotientBy_map_of_tower`, for an arbitrary morphism of `ℕᵒᵖ`. -/

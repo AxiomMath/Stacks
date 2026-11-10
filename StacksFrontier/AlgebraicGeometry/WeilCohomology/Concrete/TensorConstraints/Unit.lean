@@ -236,6 +236,7 @@ theorem corrEquivOfIso_tensor_diagonal_right_tmul (r : ℤ) (d e : ℕ) (q : ℚ
   rw [correspondenceEquivOfIso_tmul, mul_one]
   exact congrArg (TensorProduct.tmul ℤ q) hc.symm
 
+omit [IsProper sP] in
 /-- For `P ≅ Spec k`, the diagonal class `[Δ_P]` as a pure tensor of a pure block. -/
 theorem diagonalCorr_eq_lof_lof_tmul :
     diagonalCorr k sP = DirectSum.lof ℚ ℕ _ 0 (DirectSum.lof ℚ ℕ _ 0
@@ -243,6 +244,7 @@ theorem diagonalCorr_eq_lof_lof_tmul :
   diagonalCorr_eq_diagonalBlock_zero k sP
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the transports `corrEquivOfIso` of tensor products of correspondences is heavy
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **`[Δ_P]` is a left unit for the tensor product of correspondences** (Stacks 0FG7), for
 `P ≅ Spec k`: transporting `[Δ_P] ⊗ c` along the projections `P × A ≅ A` and `P × B ≅ B` gives
@@ -253,8 +255,8 @@ theorem corrEquivOfIso_tensor_diagonalCorr_left (r : ℤ) (a : Corr k sA sB r) :
         (0 + r) (tensor k sP sA sP sB (canonicalDiagonalClassFamily k) 0 r (diagonalCorr k sP) a) =
       corrCongr k sA sB (zero_add r).symm a := by
   rw [diagonalCorr_eq_lof_lof_tmul k sP]
-  haveI : Smooth (prodBase sP sA) := inferInstance
-  haveI : Smooth (prodBase sP sB) := inferInstance
+  have : Smooth (prodBase sP sA) := inferInstance
+  have : Smooth (prodBase sP sB) := inferInstance
   let T : Corr k sA sB r →ₗ[ℚ] Corr k (prodBase sP sA) (prodBase sP sB) (0 + r) :=
     tensor k sP sA sP sB (canonicalDiagonalClassFamily k) 0 r
       (DirectSum.lof ℚ ℕ _ 0 (DirectSum.lof ℚ ℕ _ 0
@@ -269,6 +271,7 @@ theorem corrEquivOfIso_tensor_diagonalCorr_left (r : ℤ) (a : Corr k sA sB r) :
   exact corrEquivOfIso_tensor_diagonal_left_tmul k sA sB sP r d e q α
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the transports `corrEquivOfIso` of tensor products of correspondences is heavy
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **`[Δ_P]` is a right unit for the tensor product of correspondences** (Stacks 0FG7), for
 `P ≅ Spec k`: transporting `c ⊗ [Δ_P]` along the projections `A × P ≅ A` and `B × P ≅ B` gives
@@ -279,8 +282,8 @@ theorem corrEquivOfIso_tensor_diagonalCorr_right (r : ℤ) (a : Corr k sA sB r) 
         (tensor k sA sP sB sP (canonicalDiagonalClassFamily k) r 0 a (diagonalCorr k sP)) =
       corrCongr k sA sB (add_zero r).symm a := by
   rw [diagonalCorr_eq_lof_lof_tmul k sP]
-  haveI : Smooth (prodBase sA sP) := inferInstance
-  haveI : Smooth (prodBase sB sP) := inferInstance
+  have : Smooth (prodBase sA sP) := inferInstance
+  have : Smooth (prodBase sB sP) := inferInstance
   let T : Corr k sA sB r →ₗ[ℚ] Corr k (prodBase sA sP) (prodBase sB sP) (r + 0) :=
     (tensor k sA sP sB sP (canonicalDiagonalClassFamily k) r 0).flip
       (DirectSum.lof ℚ ℕ _ 0 (DirectSum.lof ℚ ℕ _ 0

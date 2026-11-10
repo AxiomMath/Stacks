@@ -44,7 +44,7 @@ quasi-isomorphism are not proved here.
   sections over the terminal open set.
 * `Stacks.CechTotalComplex.CoveringResolution.coveringTerm X R U F p` is the degree-`p` term,
   indexed by the intersections `cechIntersection X U p s`.
-* `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution` is the structure the source
+* `Stacks.CechTotalComplex.CoveringResolution` is the structure the source
   lemma asserts to be inhabited.
 
 ## Main results
@@ -238,7 +238,7 @@ instance moduleUniverseLift_single_hasHomology (F : SheafOfModules.{w} R) (p : �
 product coordinates, natural in both the open set and the module sheaf, in which the
 differential is the alternating sum of restrictions and the augmentation, a
 quasi-isomorphism, is the product of the restriction maps. -/
-structure CoveringResolution where
+structure _root_.Stacks.CechTotalComplex.CoveringResolution where
   /-- The Čech complex, functorial in the module sheaf. -/
   complex : SheafOfModules.{w} R ⥤ CochainComplex (SheafOfModules.{max u v w t} R) ℕ
   /-- The canonical augmentation is a natural transformation of functors. -/
@@ -372,7 +372,7 @@ theorem map_id_apply (M : PresheafOfModules.{y} R.obj) (V : (Opens X)ᵒᵖ)
 theorem infPushforwardRestriction_refl (F : SheafOfModules.{w} R) (W : Opens X) :
     infPushforwardRestriction.{u, v, w, t} X R F (le_refl W) = 𝟙 _ := by
   ext V x
-  show (uliftSheaf.{u, v, w, t} X R F).val.map
+  change (uliftSheaf.{u, v, w, t} X R F).val.map
     ((infFunctorLE X (le_refl W)).app V.unop).op x = x
   rw [show ((infFunctorLE X (le_refl W)).app V.unop).op = 𝟙 _ from Subsingleton.elim _ _]
   exact map_id_apply X R _ V x

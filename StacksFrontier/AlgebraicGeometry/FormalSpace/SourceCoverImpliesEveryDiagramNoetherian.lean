@@ -24,7 +24,7 @@ the implication (3) ⟹ (1) of that variant, with nothing assumed beyond the sou
   property "Noetherian".
 * `AlgebraicGeometry.FormalSpace.hasChartsPresentedByClass_of_isLocallyNoetherian`: the charts
   of a locally Noetherian formal algebraic space are presented by rings of `WAdmᴺᵒᵉᵗʰ`.
-* `AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyNoetherian`:
+* `FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyNoetherian`:
   the variant of Stacks 0ANG of Remark 0ANI, condition (3) implies condition (1).
 
 ## Implementation notes
@@ -49,7 +49,7 @@ invariant under isomorphism of source and target in this category" satisfying th
 and Remark 0ANI asks the same on `WAdm^{Noeth}`. The three axioms are
 `TopologicalRing.PropertyIsLocalNoetherian`; the invariance under isomorphism is the
 hypothesis `hPiso`, as in
-`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyCountablyIndexed`.
+`FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyCountablyIndexed`.
 
 ## References
 
@@ -88,7 +88,7 @@ theorem isNoetherian_of_isRepresentableEtale_of_isLocallyNoetherian {X : FppfShe
     (hZ : IsAffineFormalAlgebraicSpace B S hS Z) (hg : IsRepresentableEtale B S hS g) :
     IsNoetherian B S hS Z := by
   classical
-  letI : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
+  let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   have hZc : IsCountablyIndexed B S hS Z :=
     isCountablyIndexed_of_isRepresentableEtale_of_isLocallyCountablyIndexed B S hS X
       (isLocallyCountablyIndexed_of_isLocallyNoetherian' hX) Z g hZ hg
@@ -127,7 +127,7 @@ theorem isNoetherian_of_isRepresentableEtale_of_isLocallyNoetherian {X : FppfShe
         exists_continuous_ringEquiv_of_formalSpectrum_iso hMwa (hCW i).1
           ((eW i).symm ≪≫ Pr.formalSpectrumIso)
       exact TopologicalRing.isNoetherianAdic_of_ringEquiv φ hφ hφ' ⟨hMadic, hMnoeth⟩
-    haveI : ∀ i, IsNoetherianRing (Wr i) := fun i ↦ (hWnoeth i).2
+    have : ∀ i, IsNoetherianRing (Wr i) := fun i ↦ (hWnoeth i).2
     have hprod : TopologicalRing.IsNoetherianAdic (∀ i, Wr i) :=
       ⟨Rig.isAdic_pi Wr fun i ↦ (hWnoeth i).1, inferInstance⟩
     have hcompl : TopologicalRing.IsAdic (TopologicalRing.CompletionOver c) ∧
@@ -159,7 +159,7 @@ for every commutative square with affine formal algebraic spaces `U`, `V` and re
 étale maps `U ⟶ X`, `V ⟶ Y`, the morphism `U ⟶ V` has `P`.
 
 This is
-`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_hasChartsPresentedByClass`
+`FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_hasChartsPresentedByClass`
 at the class `WAdmᴺᵒᵉᵗʰ`: its rings are weakly admissible with a countable fundamental system
 of open ideals, being adic; the class is closed under completion along an étale ring map by
 clause (5) of Stacks 0ANB, an étale algebra over a Noetherian ring being Noetherian; and it is
@@ -191,9 +191,9 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyNoe
     TopologicalRing.IsNoetherianAdic P hP hPiso
     (fun _ _ _ _ _ hR ↦ ⟨hR.1.isWeaklyAdmissible, Rig.countablyGenerated_nhds_of_isAdicRing hR.1⟩)
     (fun {X Y} _ _ _ _ _ φ _ hφ hR ↦ by
-      letI : Algebra X Y := φ.toAlgebra
+      let : Algebra X Y := φ.toAlgebra
       have : Algebra.Etale X Y := hφ
-      haveI : IsNoetherianRing X := hR.2
+      have : IsNoetherianRing X := hR.2
       exact TopologicalRing.completionOver_isNoetherianAdic φ hR
         (Algebra.FiniteType.isNoetherianRing X Y))
     (fun e he he' hR ↦ TopologicalRing.isNoetherianAdic_of_ringEquiv e he he' hR) f

@@ -212,8 +212,7 @@ noncomputable def productFactorizationEquiv
       ∀ t : Module.Dual A F.middle ⊗[F.middle] (B × C),
         e (r • t) = r • e t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => change e (0 : _) = 0; exact e.map_zero
+    induction t using TensorProduct.inductionOn with
     | tmul f bc =>
         rcases bc with ⟨b, c⟩
         have hsource : r • (f ⊗ₜ[F.middle] (b, c)) =
@@ -310,7 +309,7 @@ theorem productFactorizationEquiv_tmul
         @SMul.smul F.middle (B × C)
           (@Prod.instModule F.middle B C _ _ _ _ _).toSMul r p := by
       rcases p with ⟨b, c⟩
-      show ((algebraMap F.middle (B × C) r).1 * b,
+      change ((algebraMap F.middle (B × C) r).1 * b,
           (algebraMap F.middle (B × C) r).2 * c) = (r • b, r • c)
       have hmap : algebraMap F.middle (B × C) r =
           (algebraMap F.middle B r, algebraMap F.middle C r) := by
@@ -335,7 +334,7 @@ theorem productFactorizationEquiv_tmul
       (RingHom.id F.middle) _ _
       (LinearEquiv.refl F.middle (Module.Dual A F.middle)) eMod
   let e := eCongr.trans (TensorProduct.prodRight F.middle F.middle (Module.Dual A F.middle) B C)
-  show e (f ⊗ₜ[F.middle] (b, c)) = _
+  change e (f ⊗ₜ[F.middle] (b, c)) = _
   simp [e, eCongr, eMod, TensorProduct.congr_tmul, TensorProduct.prodRight_tmul,
     moduleLinearEquivOfSmulEq_apply, dualizingModule.tmul]
   rfl

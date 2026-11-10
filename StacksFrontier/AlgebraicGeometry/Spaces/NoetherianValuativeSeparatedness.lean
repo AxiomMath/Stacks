@@ -195,6 +195,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in this presheaf category exceeds the default synthesis budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_NoetherianValuativeSeparatedness :
@@ -244,11 +245,11 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
     Over.homMk (B.inclusion.preimage (X := B.obj hAmem) (Y := U.left) i₂) (by
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-      show i₂ ≫ B.inclusion.map U.hom = baseA
+      change i₂ ≫ B.inclusion.map U.hom = baseA
       rw [hbaseA]) with huAdef
   have hWbase : (BigFppfOver.toScheme B S hS).map s ≫ B.inclusion.map U.hom =
       B.inclusion.map W.hom := by
-    show B.inclusion.map s.left ≫ B.inclusion.map U.hom = _
+    change B.inclusion.map s.left ≫ B.inclusion.map U.hom = _
     rw [← B.inclusion.map_comp, s.w]
   set uK : siteObject B S hS hKmem
       (Spec.map (CommRingCat.ofHom
@@ -256,7 +257,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
     Over.homMk (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK) (by
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-      show iK ≫ B.inclusion.map W.hom =
+      change iK ≫ B.inclusion.map W.hom =
         Spec.map (CommRingCat.ofHom
           (algebraMap A (((BigFppfOver.toScheme B S hS).obj W).residueField η))) ≫ baseA
       rw [← hWbase, ← Category.assoc, hiKdef, sq.w, hbaseA, ← hsubtype, Category.assoc]
@@ -274,7 +275,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
     apply B.inclusion.map_injective
     rw [Over.comp_left, Over.comp_left, B.inclusion.map_comp, B.inclusion.map_comp, huKdef,
       huAdef, huFracdef]
-    show B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK) ≫
+    change B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK) ≫
         B.inclusion.map s.left =
       Spec.map (CommRingCat.ofHom
           (algebraMap A (((BigFppfOver.toScheme B S hS).obj W).residueField η))) ≫
@@ -303,7 +304,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
       generic := yoneda.map uK ≫ c
       special := yoneda.map uA ≫ atlas ≫ pullback.fst f f ≫ f
       comm := by
-        show (yoneda.map uK ≫ c) ≫ f =
+        change (yoneda.map uK ≫ c) ≫ f =
           yoneda.map uFrac ≫ yoneda.map uA ≫ atlas ≫ pullback.fst f f ≫ f
         rw [← hgenproj _ hcf]
         simp only [Category.assoc] } with hqdef
@@ -315,10 +316,10 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
         (algebraMap A (((BigFppfOver.toScheme B S hS).obj W).residueField η))) ≫ baseA
       value := yonedaEquiv (yoneda.map uK) } with hpWdef
   have hschemePoint : schemePoint B S hS W pW = η := by
-    show (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map uK))
+    change (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map uK))
       (IsLocalRing.closedPoint _) = η
     rw [yonedaEquiv_yoneda_map, huKdef]
-    show B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK)
+    change B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK)
       (IsLocalRing.closedPoint _) = η
     rw [B.inclusion.map_preimage, hiKdef]
     exact Scheme.fromSpecResidueField_apply _ _
@@ -340,7 +341,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
       generic_comm := hgen₁
       special_comm := by
         rw [hm₁def]
-        show _ = q.special
+        change _ = q.special
         simp only [Category.assoc]
         rfl }
     with hl₁def
@@ -349,7 +350,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
       generic_comm := hgen₂
       special_comm := by
         rw [hm₂def]
-        show _ = q.special
+        change _ = q.special
         simp only [Category.assoc, ← pullback.condition]
         rfl }
     with hl₂def
@@ -381,7 +382,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
       exact (congrArg yoneda.map huKs).symm
   have huKScheme : (BigFppfOver.toScheme B S hS).map uK = iK := by
     rw [huKdef]
-    show B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK) = iK
+    change B.inclusion.map (B.inclusion.preimage (X := B.obj hKmem) (Y := W.left) iK) = iK
     rw [B.inclusion.map_preimage]
   have hschemeLeft : Spec.map (CommRingCat.ofHom A.subtype) ≫
       (BigFppfOver.toScheme B S hS).map lA = iK := by
@@ -394,7 +395,7 @@ private theorem nonempty_liftStruct_of_codimensionZeroUniqueness
   have hschemeRight : (BigFppfOver.toScheme B S hS).map lA ≫
       (BigFppfOver.toScheme B S hS).map s = i₂ := by
     rw [← (BigFppfOver.toScheme B S hS).map_comp, hlAs, huAdef]
-    show B.inclusion.map (B.inclusion.preimage (X := B.obj hAmem) (Y := U.left) i₂) = i₂
+    change B.inclusion.map (B.inclusion.preimage (X := B.obj hAmem) (Y := U.left) i₂) = i₂
     rw [B.inclusion.map_preimage]
   refine ⟨⟨{ l := (BigFppfOver.toScheme B S hS).map lA
              fac_left := hschemeLeft

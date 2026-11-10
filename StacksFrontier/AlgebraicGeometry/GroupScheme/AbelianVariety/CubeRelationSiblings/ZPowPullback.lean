@@ -14,10 +14,11 @@ The closed form of the class of `[n]^*L` in `Pic(A)`
 [Stacks, Tag 0BFE](https://stacks.math.columbia.edu/tag/0BFE)
 (`Stacks.Groupoids.pullbackPicardClass_cubeRelation`). This file states that relation as the
 property `Stacks.Groupoids.HasCubeRelation A` — the cube class `D_L(f, g, t)` of
-`StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianTorsion/Cube/FibreSubgroup.lean` vanishes for every invertible `L` and every triple `f, g, t` — and
-derives the closed form from it. `HasCubeRelation A` follows from `HasTheoremOfTheCube A`
-(`Stacks.Groupoids.hasCubeRelation_of_hasTheoremOfTheCube`) and is proved for every abelian
-variety over an algebraically closed field in `Cube/`.
+`StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianTorsion/Cube/FibreSubgroup.lean` vanishes for
+every invertible `L` and every triple `f, g, t` — and derives the closed form from it.
+`HasCubeRelation A` follows from `HasTheoremOfTheCube A`
+(`Stacks.Groupoids.hasCubeRelation_of_hasTheoremOfTheCube`) and is proved for every abelian variety
+over an algebraically closed field in `Cube/`.
 
 ## Main definitions
 

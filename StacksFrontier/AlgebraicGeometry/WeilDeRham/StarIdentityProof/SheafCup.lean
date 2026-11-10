@@ -460,10 +460,10 @@ theorem tensor_hom_ext_of_sum_eq_id {ι : Type*} [Fintype ι]
       ((PresheafOfModules.tensorSheafUnit F G).app U).hom.toAddMonoidHom).comp
         (TensorProduct.mk ((Osharp.obj ⋙ forget₂ CommRingCat RingCat).obj U) (F.val.obj U)
           (G.val.obj U) x).toAddMonoidHom
-  show g φ ω = g ψ ω
+  change g φ ω = g ψ ω
   rw [← hω, map_sum, map_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
-  show φ.val.app U ((PresheafOfModules.tensorSheafUnit F G).app U
+  change φ.val.app U ((PresheafOfModules.tensorSheafUnit F G).app U
       (x ⊗ₜ (i k).val.app U ((p k).val.app U ω))) =
     ψ.val.app U ((PresheafOfModules.tensorSheafUnit F G).app U
       (x ⊗ₜ (i k).val.app U ((p k).val.app U ω)))

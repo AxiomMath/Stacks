@@ -125,12 +125,11 @@ variable {ι κ : Type u}
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 /-- The divided power morphism of the uncompleted envelopes in tensor degree `n`. -/
 abbrev envelopeMap07Q9 (n : ℕ) :=
-  tensorPowerEnvelopeMapOver (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hrC hr n
+  tensorPowerEnvelopeMapOver (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hr n
 
 /-- **The divided power morphism `D(n) ⟶ D'(n)` of the completed envelopes**, on the transparent
 realisation `Crystalline.completedTensorPowerDividedPowerRing`: the `p`-adic completion of the
@@ -140,12 +139,12 @@ def completedEnvelopeMap07Q9 (n : ℕ) :
       completedTensorPowerDividedPowerRing (openAffineSituation₂07Q9 S hVW f hW₂) g₂ hg₂ n :=
   DividedPowers.DPMorphism.mk' (adicCompletionRingMap_isDPMorphism _ _ S.p
     (completedTensorPowerDifferential _ g hg n).1 (completedTensorPowerDifferential _ g₂ hg₂ n).1
-    (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr n))
+    (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr n))
 
 /-- The completed map is the completion of the uncompleted one. -/
 theorem completedEnvelopeMap07Q9_toRingHom (n : ℕ) :
-    (completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n).toRingHom =
-      adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr n).toRingHom
+    (completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n).toRingHom =
+      adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr n).toRingHom
         (map_pAdicIdeal_le S.p _) := rfl
 
 /-- **The divided power morphism `D(n) ⟶ D'(n)`**, on the rings of the objects
@@ -156,15 +155,15 @@ def envelopeRingMap07Q9 (n : ℕ) :
         n).thickening.ring :=
   DividedPowerRing.dpMorphismCongr (tensorPowerEnvelopeThickening_ring_eq _ g hg n)
     (tensorPowerEnvelopeThickening_ring_eq _ g₂ hg₂ n)
-    (completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n)
+    (completedEnvelopeMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n)
 
 /-- `envelopeRingMap07Q9` read through the identifications with the transparent realisations. -/
 theorem ringEquiv_envelopeRingMap07Q9 (n : ℕ)
     (x : (tensorPowerEnvelopeThickening (openAffineSituation07Q9 S hW hVW) g hg
       n).thickening.ring) :
     tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ n
-        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n x) =
-      adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr n).toRingHom
+        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n x) =
+      adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr n).toRingHom
         (map_pAdicIdeal_le S.p _) (tensorPowerEnvelopeThickeningRingEquiv _ g hg n x) :=
   DividedPowerRing.ringEquivOfEq_dpMorphismCongr _ _ _ x
 
@@ -172,7 +171,7 @@ theorem ringEquiv_envelopeRingMap07Q9 (n : ℕ)
 algebra. -/
 theorem envelopeRingMap07Q9_presentationMap (n : ℕ)
     (q : MvPolynomial (Fin (n + 1) × ι) (openAffineSituation07Q9 S hW hVW).A) :
-    envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n
+    envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n
         ((tensorPowerEnvelopeThickening _ g hg n).presentationMap q) =
       (tensorPowerEnvelopeThickening _ g₂ hg₂ n).presentationMap
         (tensorPowerRingHom (openAffineSituationHom07Q9 S hW hVW f hW₂) r n q) := by
@@ -182,17 +181,17 @@ theorem envelopeRingMap07Q9_presentationMap (n : ℕ)
   simp only [tensorPowerEnvelopeMap, toPAdicCompletedDividedPowerEnvelope, RingHom.comp_apply,
     AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
   exact (adicCompletionRingMap_of _ _ _).trans (congrArg _ (tensorPowerEnvelopeMapOver_polynomial
-    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hrC hr n q))
+    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hr n q))
 
 /-- **`D(n) ⟶ D'(n)` is over `Γ(V, ⊤)`.** -/
 theorem envelopeRingMap07Q9_fromBase (n : ℕ) (a : (openAffineSituation07Q9 S hW hVW).A) :
-    envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n
+    envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n
         ((tensorPowerEnvelopeThickening _ g hg n).thickening.fromBase a) =
       (tensorPowerEnvelopeThickening _ g₂ hg₂ n).thickening.fromBase a :=
-  (congrArg (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n)
+  (congrArg (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n)
       (CompletedEnvelopeThickening.presentationMap_C _ _ _
         (tensorPowerEnvelopeThickening _ g hg n) a).symm).trans
-    ((envelopeRingMap07Q9_presentationMap S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n _).trans
+    ((envelopeRingMap07Q9_presentationMap S hW hVW f hW₂ g hg g₂ hg₂ r hr n _).trans
       ((congrArg (tensorPowerEnvelopeThickening _ g₂ hg₂ n).presentationMap
         (tensorPowerRingHom_C (openAffineSituationHom07Q9 S hW hVW f hW₂) r n a)).trans
         (CompletedEnvelopeThickening.presentationMap_C _ _ _
@@ -200,7 +199,7 @@ theorem envelopeRingMap07Q9_fromBase (n : ℕ) (a : (openAffineSituation07Q9 S h
 
 /-- **`D(n) ⟶ D'(n)` is compatible with `f^♯` on the quotients by the divided power ideals.** -/
 theorem envelopeRingMap07Q9_toQuotient (n : ℕ) (c : (openAffineSituation07Q9 S hW hVW).C) :
-    DividedPowerRing.quotientRingHom (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n)
+    DividedPowerRing.quotientRingHom (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n)
         ((tensorPowerEnvelopeThickening _ g hg n).thickening.toQuotient c) =
       (tensorPowerEnvelopeThickening _ g₂ hg₂ n).thickening.toQuotient
         ((restrictMap07Q9 S hVW f).appTop.hom c) := by
@@ -208,45 +207,45 @@ theorem envelopeRingMap07Q9_toQuotient (n : ℕ) (c : (openAffineSituation07Q9 S
   rw [CompletedEnvelopeThickening.toQuotient_apply, DividedPowerRing.quotientRingHom_mk,
     envelopeRingMap07Q9_presentationMap, ← CompletedEnvelopeThickening.toQuotient_apply]
   exact congrArg _ (RingHom.congr_fun (tensorPowerRingHom_comp_presentation
-    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hrC hr n) q)
+    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hr n) q)
 
 /-- **`D(n) ⟶ D'(n)` commutes with the cosimplicial structure maps of `D(•)` and `D'(•)`.** -/
 theorem envelopeRingMap07Q9_comp_map {n m : SimplexCategory} (φ : n ⟶ m) :
     ((envelopeCosimplicial _ g hg).map φ).hom ≫
-        envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m.len =
-      envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n.len ≫
+        envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr m.len =
+      envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n.len ≫
         ((envelopeCosimplicial _ g₂ hg₂).map φ).hom := by
   apply DividedPowers.DPMorphism.ext
   funext x
   apply (tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ m.len).injective
   have h := tensorPowerEnvelopeMapOver_comp_envelopeReindex
-    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hrC hr φ
+    (openAffineSituationHom07Q9 S hW hVW f hW₂) g g₂ r hr φ
   have hcomp : (adicCompletionRingMap
-          (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr m.len).toRingHom
+          (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr m.len).toRingHom
           (map_pAdicIdeal_le S.p _)).comp
         (adicCompletionRingMap (envelopeReindex _ g φ).1.toRingHom (map_pAdicIdeal_le S.p _)) =
       (adicCompletionRingMap (envelopeReindex _ g₂ φ).1.toRingHom (map_pAdicIdeal_le S.p _)).comp
-        (adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr n.len).toRingHom
+        (adicCompletionRingMap (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr n.len).toRingHom
           (map_pAdicIdeal_le S.p _)) := by
-    have h' : (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr m.len).toRingHom.comp
+    have h' : (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr m.len).toRingHom.comp
           (envelopeReindex _ g φ).1.toRingHom =
         (envelopeReindex _ g₂ φ).1.toRingHom.comp
-          (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hrC hr n.len).toRingHom := by
+          (envelopeMap07Q9 S hW hVW f hW₂ g g₂ r hr n.len).toRingHom := by
       ext y
       exact congrArg (fun q : DividedPowers.DPMorphism _ _ ↦ q y) h
     rw [← adicCompletionRingMap_comp, ← adicCompletionRingMap_comp, h']
-  have e1 := ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m.len
+  have e1 := ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr m.len
     (((envelopeCosimplicial _ g hg).map φ).hom.toRingHom x)
   have e2 := tensorPowerEnvelopeThickeningRingEquiv_envelopeCosimplicial_map _ g hg φ x
-  have e3 := ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n.len x
+  have e3 := ringEquiv_envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n.len x
   have e4 := tensorPowerEnvelopeThickeningRingEquiv_envelopeCosimplicial_map _ g₂ hg₂ φ
-    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n.len x)
+    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n.len x)
   change tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ m.len
-      (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m.len
+      (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr m.len
         (((envelopeCosimplicial _ g hg).map φ).hom.toRingHom x)) =
     tensorPowerEnvelopeThickeningRingEquiv _ g₂ hg₂ m.len
       (((envelopeCosimplicial _ g₂ hg₂).map φ).hom.toRingHom
-        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n.len x))
+        (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n.len x))
   rw [e1, e2, e4, e3]
   exact RingHom.congr_fun hcomp _
 

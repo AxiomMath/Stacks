@@ -104,7 +104,7 @@ lemma restrictScalars_exact {R S : Sheaf J RingCat.{w}} (α : R ⟶ S)
       PreservesFiniteColimits (SheafOfModules.restrictScalars.{w'} α) := by
   refine ((Functor.exact_tfae (SheafOfModules.restrictScalars.{w'} α)).out 1 4).mp fun T hT => ?_
   apply ShortExact.reflects_shortExact_of_faithful (SheafOfModules.toSheaf R)
-  show (T.map (SheafOfModules.toSheaf S)).ShortExact
+  change (T.map (SheafOfModules.toSheaf S)).ShortExact
   exact hT.map_of_exact (SheafOfModules.toSheaf S)
 
 /-- Two morphisms of sheaves of modules agree on a family of elements built from a bilinear
@@ -159,8 +159,7 @@ private theorem tensor_hom_ext {F R M N P : Type*} [CommSemiring R] [AddCommMono
     [FunLike F (M ⊗[R] N) P] [AddMonoidHomClass F (M ⊗[R] N) P] (f g : F)
     (h : ∀ (x : M) (y : N), f (x ⊗ₜ[R] y) = g (x ⊗ₜ[R] y)) : f = g := by
   refine DFunLike.ext _ _ fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add x y hx hy =>
     exact (map_add _ _ _).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ _ _).symm)
@@ -259,8 +258,7 @@ noncomputable def tensorSheafLift (O : Sheaf J CommRingCat.{w})
         intro U V f
         refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
         change M.val.obj U ⊗[O.obj.obj U] N.val.obj U at t
-        induction t using TensorProduct.induction_on with
-        | zero => exact (map_zero _).trans (map_zero _).symm
+        induction t using TensorProduct.inductionOn with
         | tmul x y => exact hb f x y
         | add x y hx hy =>
           exact (map_add _ _ _).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ _ _).symm) }

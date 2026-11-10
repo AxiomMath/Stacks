@@ -416,8 +416,8 @@ This is the square for `AlgebraicGeometry.Scheme.Hom.gysinFormulaHom`.  The squa
 `AlgebraicGeometry.Scheme.Hom.gysinMap` itself needs in addition restriction of `p`-forms to `Z`
 as a morphism of abelian sheaves together with its commutation with the de Rham differentials;
 those are supplied in
-`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinMapDeRham.lean`, which reduces the square for the
-Gysin map to this one and carries the `@[stacks 0G85]` attribute.  That is why no
+`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinMapDeRham.lean`, which reduces the square for
+the Gysin map to this one and carries the `@[stacks 0G85]` attribute.  That is why no
 `@[stacks 0G85]` attribute is attached here. -/
 theorem gysinFormulaCommutesWithDeRham {S : Scheme.{u}} (π : X ⟶ S) (p : ℕ) :
     AlgebraicGeometry.Scheme.Hom.GysinFormulaCommutesWithDeRham π f p :=

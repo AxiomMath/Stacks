@@ -244,7 +244,7 @@ theorem le_preimage_of_comp_eq : Z.1 ≤ Y.1.preimage g.hom := by
   intro T z hz
   have h₂ : g.hom.app T z = (f.hom.app T ⟨z, hz⟩).1 :=
     ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg (fun k => k.hom) sq) T) ⟨z, hz⟩
-  show g.hom.app T z ∈ Y.1.obj T
+  change g.hom.app T z ∈ Y.1.obj T
   rw [h₂]
   exact (f.hom.app T ⟨z, hz⟩).2
 
@@ -262,7 +262,7 @@ whenever `g` carries `Z` into `Y`. -/
 theorem range_le_preimage_of_comp_eq :
     Subfunctor.range ((Z.1.preimage c'.hom).ι ≫ g'.hom) ≤ Y.1.preimage c.hom := by
   rintro T _ ⟨x, rfl⟩
-  show c.hom.app T (g'.hom.app T x.1) ∈ Y.1.obj T
+  change c.hom.app T (g'.hom.app T x.1) ∈ Y.1.obj T
   rw [app_comp_eq_of_mem_preimage B S hS Z Y f hc sq x]
   exact (f.hom.app T ⟨_, x.2⟩).2
 
@@ -328,7 +328,7 @@ theorem isIso_preimageLift_hom (hZF : Z.1 ≤ F.1) :
         (yoneda_map_representedClosedHom B S hS V (preimageSubspace B S hS c F)) T) t]
       exact congrArg Subtype.val ht
     refine ⟨⟨t, ?_⟩, Subtype.ext hv⟩
-    show c.hom.app T ((representedClosedMap B S hS V (preimageSubspace B S hS c F)).hom.app T
+    change c.hom.app T ((representedClosedMap B S hS V (preimageSubspace B S hS c F)).hom.app T
       t).1 ∈ Z.1.obj T
     rw [ht]
     exact z.2

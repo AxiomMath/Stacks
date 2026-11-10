@@ -251,7 +251,7 @@ theorem existsUnique_hom_relativeProj_blowUpGlueingData {V : BigFppfOver B S hS}
     ⟨siteHomOfScheme gs hgsS, rfl⟩
   have hwsπ : ws ≫ (blowUpGlueingData Z P hcU hcR hcRR).projChartHom = w := by
     refine BigFppfOver.map_toScheme_injective B S hS ?_
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       (ws ≫ (blowUpGlueingData Z P hcU hcR hcRR).projChartHom) =
       (BigFppfOver.toScheme B S hS).map w
     rw [Functor.map_comp, hwsg, hπ]

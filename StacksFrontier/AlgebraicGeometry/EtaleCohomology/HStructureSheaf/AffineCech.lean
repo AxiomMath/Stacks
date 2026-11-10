@@ -185,7 +185,7 @@ theorem perfectionTower_ι_app_succ (n : ℕ) (X : (BigHOver B S hS)ᵒᵖ)
   have h := colimit.w (perfectionTower B S hS p hSp) (homOfLE n.le_succ)
   rw [perfectionTower_map_succ] at h
   refine (ConcreteCategory.congr_hom (congr_app h X) (ULift.up a)).symm.trans ?_
-  show (colimit.ι (perfectionTower B S hS p hSp) (n + 1)).app X
+  change (colimit.ι (perfectionTower B S hS p hSp) (n + 1)).app X
     (ULift.up ((frobeniusSections B S hS p hSp).app X a)) = _
   rw [frobeniusSections_app_apply]
 

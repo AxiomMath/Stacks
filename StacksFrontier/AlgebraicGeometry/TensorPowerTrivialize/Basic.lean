@@ -208,7 +208,7 @@ theorem triv_trivializationOfSection (u : Γ(M, ⊤)) {V : X.Opens}
 theorem basis_trivializationOfSection (u : Γ(M, ⊤)) {V : X.Opens}
     (hV : V ≤ Stacks.NonvanishingOpen.nonvanishingOpen X M u) :
     Stacks.NonvanishingOpen.basis (trivializationOfSection M u hV) = resTop M u V := by
-  show (trivEquiv M u ((𝟙 V).le.trans hV)).symm.symm 1 = resTop M u V
+  change (trivEquiv M u ((𝟙 V).le.trans hV)).symm.symm 1 = resTop M u V
   rw [LinearEquiv.symm_symm, trivEquiv_apply, one_smul]
 
 /-- **The ratio of a global section by the generator**, and the identity that defines it:

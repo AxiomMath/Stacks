@@ -110,7 +110,7 @@ public lemma scheme_genericPoints_mem_dense_open (Y : Scheme.{u})
     preimage_mem_irreducibleComponents hy V.ι.isOpenEmbedding
       ⟨y, subset_closure (Set.mem_singleton y), v, rfl⟩
   have hv : v ∈ genericPoints V := by
-    show closure ({v} : Set V) ∈ irreducibleComponents V
+    change closure ({v} : Set V) ∈ irreducibleComponents V
     convert hcomp using 1
     rw [V.ι.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage
       V.ι.continuous]

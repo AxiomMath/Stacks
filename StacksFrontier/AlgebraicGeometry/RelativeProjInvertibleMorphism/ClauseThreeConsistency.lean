@@ -91,7 +91,7 @@ public theorem affineDatum_hchi (n : ℕ) (a : A.grading V n) :
         ((A.res h).gradedAddHom n a)
       = (A.piece (n : ℤ)).presheaf.map (homOfLE h).op (A.componentEquiv V n a) :=
     A.resRingHom_apply h (a : A.sectionRing V) n
-  show Scheme.Modules.Hom.app
+  change Scheme.Modules.Hom.app
       (natTensorPowCongr (restrictCompIso P.L (f.preimage_mono h)) n).hom ⊤
       (restrictPowSection P.L (f ⁻¹ᵁ Z) n
         (P.value n Z (A.componentEquiv Z n ((A.res h).gradedAddHom n a)))) = _

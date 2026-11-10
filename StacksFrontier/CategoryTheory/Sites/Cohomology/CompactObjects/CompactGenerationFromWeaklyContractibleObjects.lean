@@ -171,7 +171,7 @@ private lemma surjective_directSum_of_isColimit {I : Type t} [DecidableEq I]
   have hgf : g ≫ f = 𝟙 S := by
     apply hc.hom_ext
     rintro ⟨i⟩
-    show ι i ≫ g ≫ f = ι i ≫ 𝟙 S
+    change ι i ≫ g ≫ f = ι i ≫ 𝟙 S
     have hi : ι i ≫ g = d.inj i := hc.fac d ⟨i⟩
     rw [← Category.assoc, hi]
     ext x
@@ -245,7 +245,7 @@ private lemma isCompactObject_freeSheafOnObject (U : C) (hU : J.IsQuasiCompactOb
   let y := DirectSum.map (fun i ↦ (e (E i)).symm.toAddMonoidHom) x
   refine ⟨y, ?_⟩
   apply (e (∐ E)).injective
-  show e (∐ E) (DirectSum.toAddMonoid
+  change e (∐ E) (DirectSum.toAddMonoid
     (fun i ↦ Preadditive.rightComp (freeSheafOnObject J R U) (Sigma.ι E i)) y) = _
   rw [← hx]
   dsimp only [y]
@@ -255,10 +255,10 @@ private lemma isCompactObject_freeSheafOnObject (U : C) (hU : J.IsQuasiCompactOb
   | add x y hx hy => simp only [map_add, hx, hy]
   | of i g =>
     simp only [DirectSum.map_of, DirectSum.toAddMonoid_of]
-    show freeSheafOnObjectHomEquiv J R U (∐ E)
+    change freeSheafOnObjectHomEquiv J R U (∐ E)
       ((e (E i)).symm g ≫ Sigma.ι E i) = _
     rw [freeSheafOnObjectHomEquiv_naturality]
-    show (S.map (Sigma.ι E i)).hom (e (E i) ((e (E i)).symm g)) = _
+    change (S.map (Sigma.ι E i)).hom (e (E i) ((e (E i)).symm g)) = _
     rw [AddEquiv.apply_symm_apply]
     rfl
 
@@ -299,7 +299,7 @@ private lemma projective_freeSheafOnObject_of_isWeaklyContractible (U : C)
   refine ⟨eM.symm s, ?_⟩
   apply eN.injective
   rw [freeSheafOnObjectHomEquiv_naturality]
-  show f.val.app (op U) (eM (eM.symm s)) = eN g
+  change f.val.app (op U) (eM (eM.symm s)) = eN g
   simpa only [Equiv.apply_symm_apply] using hs
 
 /-- If every object of the site is covered by objects with the property `P`, then the free
@@ -346,7 +346,7 @@ private lemma isSeparating_freeSheavesOnObjects (P : ObjectProperty C)
         N.val.map q.op x = N.val.map a.op (N.val.map (p i).op x) := by
       rw [ha, CategoryTheory.op_comp]
       exact N.val.map_comp_apply (p i).op a.op x
-    show N.val.map q.op (f.val.app (op T) s) =
+    change N.val.map q.op (f.val.app (op T) s) =
       N.val.map q.op (g.val.app (op T) s)
     rw [hcomp, hcomp]
     exact hkq

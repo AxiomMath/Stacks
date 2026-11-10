@@ -135,7 +135,7 @@ theorem hasTorAmplitude_derivedModulePushforward_structureModule_of_hasRelativeD
 /-- **`Hⁱ(Rf_*𝒪_X ⊗^L K) = 0` for `i ≥ 2`** and every `𝒪_Y`-module `K`, for `f : X ⟶ Y` proper,
 flat, of finite presentation and of relative dimension at most one, with `Y` represented by an
 affine scheme. -/
-theorem isZero_homology_derivedTensor_derivedModulePushforward_structureModule_of_hasRelativeDimensionLE_one
+theorem isZero_homology_derivedTensor_pushforward_structureModule_of_hasRelativeDimensionLE_one
     (U : BigFppfOver B S hS) [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
     {X : AlgebraicSpaces B S hS} (f : X ⟶ ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩)
     (hf : IsProper B S hS f.hom) (hfl : IsFlat B S hS f.hom)

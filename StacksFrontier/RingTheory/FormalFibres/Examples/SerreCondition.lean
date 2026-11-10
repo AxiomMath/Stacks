@@ -225,7 +225,7 @@ private lemma serre_of_localizations {R : Type*} [CommRing R] [IsNoetherianRing 
   have : IsLocalization m.primeCompl (Localization.AtPrime p) :=
     IsLocalization.self (fun x hx => by
       change x ∉ IsLocalRing.maximalIdeal (Localization.AtPrime p) at hx
-      show IsUnit x
+      change IsUnit x
       rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff] at hx
       exact Classical.not_not.mp hx)
   let e : T ≃ₐ[Localization.AtPrime p] Localization.AtPrime p :=
@@ -324,7 +324,7 @@ public theorem serreProperty_satisfies_formalFiberAxioms
         (Q.ResidueField ⊗[q.ResidueField] q.Fiber C) :=
       iteratedFiberRingEquiv q Q
     let : CommRing (Q.Fiber D) := by
-      show CommRing (Q.ResidueField ⊗[p.asIdeal.Fiber B] D)
+      change CommRing (Q.ResidueField ⊗[p.asIdeal.Fiber B] D)
       exact Algebra.TensorProduct.instCommRing
         (R := p.asIdeal.Fiber B) (A := Q.ResidueField) (B := D)
     have hD : HasSerreCondition (Q.Fiber D) n :=
@@ -450,7 +450,7 @@ public theorem cohenMacaulayProperty_satisfies_formalFiberAxioms
     have : IsNoetherianRing (R ⊗[k] K) :=
       Algebra.EssFiniteType.isNoetherianRing R (R ⊗[k] K)
     rw [key] at h
-    show P (algebraMap K (R ⊗[k] K))
+    change P (algebraMap K (R ⊗[k] K))
     rw [key]
     exact fun n hn ↦ (serreProperty_satisfies_formalFiberAxioms.{u, u, u} n hn).1 k K R (h n hn)
   · intro k R _ _ _ _

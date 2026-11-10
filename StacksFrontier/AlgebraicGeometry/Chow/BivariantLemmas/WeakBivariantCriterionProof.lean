@@ -147,7 +147,7 @@ theorem WeakCapRule.cap_add (c : WeakCapRule C G sX sY f hf p) {T : Scheme.{u}} 
   let Z : ULift.{u} Bool → Scheme.{u} := fun _ ↦ T
   let ι : ∀ _ : ULift.{u} Bool, T ⟶ ∐ Z := fun i ↦ Sigma.ι Z i
   let ν : (∐ Z) ⟶ T := Sigma.desc fun _ ↦ 𝟙 T
-  have hιν (i : ULift.{u} Bool) : ι i ≫ ν = 𝟙 T := Sigma.ι_desc _ _
+  have hιν (i : ULift.{u} Bool) : ι i ≫ ν = 𝟙 T := Sigma.ι_comp_desc _ _
   have : ∀ i, IsOpenImmersion (ι i) := fun i ↦ inferInstanceAs (IsOpenImmersion (Sigma.ι Z i))
   have : ∀ i, IsClosedImmersion (ι i) := fun i ↦ isClosedImmersion_sigmaι Z i
   have : ∀ i, IsProper (ι i) := fun _ ↦ inferInstance

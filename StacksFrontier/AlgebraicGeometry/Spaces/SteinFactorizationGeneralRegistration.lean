@@ -141,9 +141,9 @@ theorem connectedPullback_of_isProper_of_isIso_fSharp_unconditional (f : X ⟶ Y
   have hZ : setFibre B S hS g p =
       {x | pointsToScheme B S hS W (pointsMap B S hS XW g x) = w} := by
     ext x
-    show pointsMap B S hS XW g x = p.class B S hS (yoneda.obj W) ↔ _
+    change pointsMap B S hS XW g x = p.class B S hS (yoneda.obj W) ↔ _
     refine ⟨fun h => ?_, fun h => injective_pointsToScheme B S hS W (h.trans hpw.symm)⟩
-    show pointsToScheme B S hS W (pointsMap B S hS XW g x) = w
+    change pointsToScheme B S hS W (pointsMap B S hS XW g x) = w
     rw [h]
     exact hpw
   have hpre := isPreconnected_fibre_of_forall_isClopen_eq_preimage hXW g hg

@@ -307,6 +307,7 @@ theorem holdsOnSurjectiveEtaleChart (Q : MorphismProperty Scheme.{u}) (hQiso : Q
     d.map_projHom_property Q hQiso hQ⟩
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the `HasPullback` instances of the presheaf pullbacks in the statement
 /-- The projection of the base change of `π` along the chart of the target is, up to the
 canonical isomorphism, the structure morphism of the chart of the source. -/
 private theorem isPullback_pullback_snd :
@@ -702,7 +703,7 @@ theorem pointEquivOver_natural (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
         rw [Category.assoc, (d.pointEquivOver T f r u).2]⟩ := by
   refine (Equiv.eq_symm_apply _).1 ?_
   apply Subtype.ext
-  show yoneda.map r' ≫ u.1 =
+  change yoneda.map r' ≫ u.1 =
     yoneda.map (r' ≫ (d.pointEquivOver T f r u).1) ≫ d.fibreToSpace T f
   rw [CategoryTheory.Functor.map_comp, Category.assoc, map_pointEquivOver]
 
@@ -715,7 +716,7 @@ theorem pointEquivProjOver_natural (T : BigFppfOver B S hS) (f : yoneda.obj T �
       = (BigFppfOver.toScheme B S hS).map r' ≫ (d.pointEquivProjOver T f r u).1 := by
   rw [pointEquivProjOver_apply, pointEquivProjOver_apply,
     congrArg Subtype.val (pointEquivOver_natural d T f r r' u)]
-  show (BigFppfOver.toScheme B S hS).map (r' ≫ _) ≫ _ = _
+  change (BigFppfOver.toScheme B S hS).map (r' ≫ _) ≫ _ = _
   rw [CategoryTheory.Functor.map_comp, Category.assoc]
 
 section Represents

@@ -113,8 +113,7 @@ def firstOrderMul (a : firstOrderExtension D Omega) :
   map_add' z w := smul_add a z w
   map_smul' c z := by
     change a • (c • z) = c • (a • z)
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, smul_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
         calc a • (c • (b ⊗ₜ[D] m))
             = (a • (c • b)) ⊗ₜ[D] m := by
@@ -177,8 +176,7 @@ theorem firstOrderDifferentialComm_comp_lTensor {M' : Type w} [AddCommGroup M']
       TensorProduct.map phi (LinearMap.id (R := (D : Type u)) (M := Omega)) ∘ₗ
         firstOrderDifferentialComm D Omega M := by
   refine LinearMap.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       rw [LinearMap.comp_apply, LinearMap.lTensor_tmul, firstOrderDifferentialComm_tmul,
         LinearMap.comp_apply, firstOrderDifferentialComm_tmul, TensorProduct.map_tmul]
@@ -193,8 +191,7 @@ theorem firstOrderMul_comp_lTensor {M' : Type w} [AddCommGroup M'] [Module D M']
   refine LinearMap.ext fun z ↦ ?_
   change a • LinearMap.lTensor (firstOrderExtension D Omega) phi z =
     LinearMap.lTensor (firstOrderExtension D Omega) phi (a • z)
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero, smul_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [LinearMap.lTensor_tmul, TensorProduct.smul_tmul' a b (phi m),
         TensorProduct.smul_tmul' a b m, LinearMap.lTensor_tmul]

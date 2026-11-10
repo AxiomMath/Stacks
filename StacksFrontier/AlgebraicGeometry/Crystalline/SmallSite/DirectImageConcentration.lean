@@ -18,7 +18,8 @@ of `SmallSite/ZariskiDimensionVanishing.lean`, and the concentration of `Ru_{X/S
 `≤ e`.  This file is about the second.
 
 The statement that `Ru_{X/S, *}F` lives in degrees `≤ e` as soon as `R^j u_{X/S, *}F = 0` for
-`j > e` is the theorem `isLE_derivedZariskiDirectImage_obj`, together with its converse — the two are the two directions
+`j > e` is the theorem `isLE_derivedZariskiDirectImage_obj`,
+together with its converse — the two are the two directions
 of the t-structure characterization of boundedness above, [Stacks, Tag 0118], at `D⁺(Ab(X_Zar))`.
 So the reduction of the degreewise vanishing to the derived-category concentration costs nothing,
 and what clause (1) is owed is the degreewise vanishing itself.
@@ -217,6 +218,7 @@ attribute [local instance] Stacks.DerivedIndexing.commShiftRightDerivedFunctorPl
   Stacks.DerivedIndexing.natTransCommShiftRightDerivedFunctorPlusUnit
   Stacks.DerivedIndexing.isTriangulated_rightDerivedFunctorPlus
 
+omit [HasDerivedCategory.{w} (Sheaf (smallTopology S) AddCommGrpCat.{u + 1})] in
 /-- **`RΓ(X_Zar, K)` is concentrated in degrees `≤ e + d` for `K` concentrated in `[0, e]`**, on
 the small Zariski site of an `X` of topological Krull dimension at most `d`.
 
@@ -297,6 +299,9 @@ def AbelianVanishing07MRClauseTwo : Prop :=
                 S.toClosedFiber.HasEmbeddingDimensionLE e →
                   ∀ i : ℕ, q + e < i → Subsingleton (cohomology S (abelianSheaf F) i)
 
+omit [HasDerivedCategory.{w} (Sheaf (smallTopology S) AddCommGrpCat.{u + 1})]
+  [HasDerivedCategory.{w'} (Sheaf (opensTopology S) AddCommGrpCat.{u + 1})]
+  [HasDerivedCategory.{w''} AddCommGrpCat.{u + 1}] in
 /-- **The abelian form of [Stacks, Tag 07MR] is exactly its two clauses.**  Both clauses carry the
 same hypotheses, so the decomposition is by `fun … => ⟨_, _⟩` and no hypothesis is duplicated or
 dropped; this is what makes `AbelianVanishing07MRClauseOne` a faithful reading of clause (1). -/
@@ -346,7 +351,6 @@ theorem abelianVanishing07MRClauseOne_of_directImageVanishing07MR
       ((derivedZariskiGlobalSectionsFunctor S).obj
         ((derivedZariskiDirectImage S).obj (abelianSheaf F)))) :=
     (DerivedCategory.Plus.isLE_iff _ ((e : ℤ) + (d : ℤ))).1 hLE (i : ℤ) (by
-      push_cast
       omega)
   have hRΓ : IsZero ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u + 1} (i : ℤ)).obj
       ((derivedGlobalSections S).obj (abelianSheaf F))) :=

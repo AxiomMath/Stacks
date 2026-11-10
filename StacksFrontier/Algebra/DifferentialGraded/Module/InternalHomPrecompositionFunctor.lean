@@ -107,7 +107,7 @@ theorem precompModuleHom_comp (f : M ⟶ N) (g : N ⟶ L) (P : DifferentialGrade
       (precompGraded f (homPresentation N P) (homPresentation M P) n
         (precompGraded g (homPresentation L P) (homPresentation N P) n h) :
           (homPresentation M P).module.M) := by
-    show (precompModuleHom f P).toFun ((precompModuleHom g P).toFun
+    change (precompModuleHom f P).toFun ((precompModuleHom g P).toFun
       (h : (homPresentation L P).module.M)) = _
     rw [precompModuleHom_apply_grading g P n h, precompModuleHom_apply_grading f P n]
   rw [show (⟨(precompModuleHom g P ≫ precompModuleHom f P).toFun
@@ -173,7 +173,7 @@ identity is the identity. -/
 @[simp] theorem precompDGNatTrans_onK_id (M : Bimodule A B) :
     (precompDGNatTrans (𝟙 M)).onK = 𝟙 _ := by
   ext P
-  show Quotient.mk _ (cocycleOfHom A (precompModuleHom (𝟙 M) P)) =
+  change Quotient.mk _ (cocycleOfHom A (precompModuleHom (𝟙 M) P)) =
     Quotient.mk _ ⟨(dgCategory A).id (homPresentation M P).module, (dgCategory A).d_id _⟩
   refine congrArg (Quotient.mk _) (Subtype.ext (Subtype.ext ?_))
   exact congrArg DifferentialGradedModule.Hom.toFun (precompModuleHom_id M P)
@@ -184,7 +184,7 @@ theorem precompDGNatTrans_onK_comp (f : M ⟶ N) (g : N ⟶ L) :
     (precompDGNatTrans (f ≫ g)).onK =
       (precompDGNatTrans g).onK ≫ (precompDGNatTrans f).onK := by
   ext P
-  show Quotient.mk _ (cocycleOfHom A (precompModuleHom (f ≫ g) P)) =
+  change Quotient.mk _ (cocycleOfHom A (precompModuleHom (f ≫ g) P)) =
     (dgCategory A).compK (Quotient.mk _ (cocycleOfHom A (precompModuleHom f P)))
       (Quotient.mk _ (cocycleOfHom A (precompModuleHom g P)))
   refine congrArg (Quotient.mk _) (Subtype.ext (Subtype.ext ?_))

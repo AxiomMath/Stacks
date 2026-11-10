@@ -132,8 +132,10 @@ theorem levelGen_inv_pow (m : ℕ) :
     (((levelGen k m)⁻¹ : levelField k m) : Omega k) ^ towerN k m = (xΩ k)⁻¹ := by
   rw [IntermediateField.coe_inv, inv_pow, levelGen_pow]
 
+omit [Fintype k] in
 /-- The characteristic of a finite field is prime. -/
-theorem prime_ringChar : (ringChar k).Prime := by
+theorem prime_ringChar [Finite k] : (ringChar k).Prime := by
+  have := Fintype.ofFinite k
   have := ringChar.charP k
   obtain ⟨_, hp, -⟩ := FiniteField.card k (ringChar k)
   exact hp
@@ -249,7 +251,7 @@ theorem isUnramifiedAt_level_of_not_mem (m : ℕ)
       (localAway (transcendental_levelGen k m))
       ⟨adjoinGen (towerField k m) (levelGen k m) ^ towerN k m, towerN k m, rfl⟩).unit ?_ P hP
   rw [IsUnit.unit_spec]
-  show (((adjoinGen (towerField k m) (levelGen k m) ^ towerN k m :
+  change (((adjoinGen (towerField k m) (levelGen k m) ^ towerN k m :
     Algebra.adjoin (towerField k m) {levelGen k m}) : levelField k m) : Omega k) = xΩ k
   rw [SubmonoidClass.coe_pow, SubmonoidClass.coe_pow]
   exact levelGen_pow k m
@@ -272,7 +274,7 @@ theorem isUnramifiedAt_level_inv_of_not_mem (m : ℕ)
   refine isUnramifiedAt_of_not_mem_of_unit φ hfin hfu ψ hψ m (transcendental_levelGen_inv k m)
     u⁻¹ ((map_units_inv ((algebraMap (levelField k m) (Omega k)).comp
       (localAway _).val.toRingHom) u).trans ?_) P hP
-  show ((((adjoinGen (towerField k m) (levelGen k m)⁻¹ ^ towerN k m :
+  change ((((adjoinGen (towerField k m) (levelGen k m)⁻¹ ^ towerN k m :
     Algebra.adjoin (towerField k m) {(levelGen k m)⁻¹}) : levelField k m) : Omega k))⁻¹ = xΩ k
   rw [SubmonoidClass.coe_pow, SubmonoidClass.coe_pow, levelGen_inv_pow, inv_inv]
 

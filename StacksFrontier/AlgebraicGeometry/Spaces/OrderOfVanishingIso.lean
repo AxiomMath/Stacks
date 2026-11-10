@@ -79,7 +79,7 @@ theorem ordTotalFrac_ringEquiv (k : K) :
   have h₂ := ordTotalFrac_mk'_mul_ord (K := K') (σ a)
     ⟨σ b, (mem_nonZeroDivisors_ringEquiv_iff σ).2 b.2⟩
   rw [ordMonoidWithZeroHom_ringEquiv, ordMonoidWithZeroHom_ringEquiv] at h₂
-  show ordTotalFrac R' (IsLocalization.ringEquivOfRingEquiv K K' σ
+  change ordTotalFrac R' (IsLocalization.ringEquivOfRingEquiv K K' σ
     _ (IsLocalization.mk' K a b)) = _
   rw [IsLocalization.ringEquivOfRingEquiv_mk']
   exact mul_right_cancel₀ hb (h₂.trans h₁.symm)

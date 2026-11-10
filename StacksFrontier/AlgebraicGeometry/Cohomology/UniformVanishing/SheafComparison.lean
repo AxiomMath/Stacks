@@ -127,7 +127,7 @@ theorem isZero_sheafCohomology_bot
     IsZero (Sheaf.H' G p (⊥ : Opens T)) := by
   have hP := isZero_freeYonedaSheaf_bot (T := T)
   rw [AddCommGrpCat.isZero_iff_subsingleton]
-  show Subsingleton (Ext.{u} (Stacks.Cohomology.Locality.freeYonedaSheaf
+  change Subsingleton (Ext.{u} (Stacks.Cohomology.Locality.freeYonedaSheaf
     (J := Opens.grothendieckTopology T) (⊥ : Opens T)) G p)
   cases p with
   | zero =>
@@ -155,7 +155,7 @@ theorem isZero_sheafCohomology_sup
   have hg : (hseq.sc 2).g = 0 := by
     have h₂ : (G.cohomologyPresheaf (n + 1)).map S.f₂₄.op = 0 := hU.eq_of_tgt _ _
     have h₃ : (G.cohomologyPresheaf (n + 1)).map S.f₃₄.op = 0 := hV.eq_of_tgt _ _
-    show biprod.lift ((G.cohomologyPresheaf (n + 1)).map S.f₂₄.op)
+    change biprod.lift ((G.cohomologyPresheaf (n + 1)).map S.f₂₄.op)
       ((G.cohomologyPresheaf (n + 1)).map S.f₃₄.op) = 0
     rw [h₂, h₃]
     apply biprod.hom_ext <;> simp

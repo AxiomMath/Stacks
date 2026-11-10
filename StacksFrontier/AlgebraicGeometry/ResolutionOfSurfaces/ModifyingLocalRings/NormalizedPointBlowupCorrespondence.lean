@@ -103,7 +103,7 @@ theorem isEmpty_blowUp_vanishingIdeal_of_forall_eq {X : Scheme.{u}} (x : X)
     ⟨irreducibleComponent y, irreducibleComponent_mem_irreducibleComponents y⟩
   have hmaps := (bijOn_genericPoints_blowUpToBase I).mapsTo (genericPoints.ofComponent Z).2
   refine hmaps.2 (Scheme.IdealSheafData.mem_supportSet_iff_mem_support.mpr ?_)
-  show _ ∈ (I.support : Set X)
+  change _ ∈ (I.support : Set X)
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   exact hX _
 
@@ -169,7 +169,7 @@ theorem not_factorsAsNormalizedPointBlowups_complementObject (hn : 0 < D.n)
       simpa using he
     have hmem := (e.inv (D.points ⟨0, hn⟩)).2
     have h1 : e.hom (e.inv (D.points ⟨0, hn⟩)) = D.points ⟨0, hn⟩ := by
-      show (e.inv ≫ e.hom) (D.points ⟨0, hn⟩) = _
+      change (e.inv ≫ e.hom) (D.points ⟨0, hn⟩) = _
       rw [e.inv_hom_id]
       rfl
     have hval : D.complement.ι (e.inv (D.points ⟨0, hn⟩)) = D.points ⟨0, hn⟩ :=
@@ -302,10 +302,10 @@ theorem nonempty_over_iso_of_isIso_complement (hinj : Function.Injective s)
     intro A B _ e f g hf hg
     refine over_hom_ext_of_baseChange s hs hqc _ _ ?_
     rintro (_ | i)
-    · show (Over.pullback (complementOfClosedPoints s hs).ι).map _ =
+    · change (Over.pullback (complementOfClosedPoints s hs).ι).map _ =
         (Over.pullback (complementOfClosedPoints s hs).ι).map _
       exact over_hom_ext_of_isIso ‹_› _ _
-    · show (Over.pullback (S.fromSpecStalk (s i))).map _ =
+    · change (Over.pullback (S.fromSpecStalk (s i))).map _ =
         (Over.pullback (S.fromSpecStalk (s i))).map _
       rw [CategoryTheory.Functor.map_comp, hf, hg, Iso.hom_inv_id, CategoryTheory.Functor.map_id]
   obtain ⟨f, hf⟩ := exists_over_hom_of_isIso_complement s hs hinj hqc hB (fun i => (e i).hom)
@@ -327,7 +327,7 @@ theorem nonempty_pullback_normalizedBlowUp_iso {S C T : Scheme.{u}} (p : C ⟶ S
   have hmiss : ∀ z : ↥(pullback p t),
       pullback.fst p t z ∈ (⟨({x} : Set C)ᶜ, hx.isOpen_compl⟩ : C.Opens) := by
     intro z
-    show pullback.fst p t z ∉ ({x} : Set C)
+    change pullback.fst p t z ∉ ({x} : Set C)
     intro hz
     exact ht (pullback.snd p t z)
       ((pullback_condition_apply p t z).symm.trans (congrArg p (Set.mem_singleton_iff.mp hz)))
@@ -383,7 +383,7 @@ theorem nonempty_over_iso_of_baseChange {A B : Over D.S}
     apply Opens.ext
     apply Set.ext
     intro x
-    show x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
+    change x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
       x ∈ (Set.range D.points)ᶜ
     simp only [Set.mem_iInter, Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_range]
     exact ⟨fun h ⟨i, hi⟩ => h ⟨i⟩ hi.symm, fun h i hi => h ⟨i.down, hi.symm⟩⟩
@@ -432,12 +432,12 @@ theorem exists_normalizedBlowUp_localization (i : Fin D.n) {C : Scheme.{u}} {p :
       constructor
       · rintro rfl
         rw [hyd]
-        show (d ≫ inv d) w = w
+        change (d ≫ inv d) w = w
         rw [IsIso.hom_inv_id]
         rfl
       · intro hz
         rw [hyd, ← hz]
-        show z = (inv d ≫ d) z
+        change z = (inv d ≫ d) z
         rw [IsIso.inv_hom_id]
         rfl
     rw [hset]
@@ -449,7 +449,7 @@ theorem exists_normalizedBlowUp_localization (i : Fin D.n) {C : Scheme.{u}} {p :
   have hx : IsClosed ({x} : Set C) :=
     isClosed_singleton_pullbackFst_fromSpecStalk p (D.points i) (D.points_closed i) y hy hys
   have hpx : p x = D.points i := by
-    show p (q y) = _
+    change p (q y) = _
     rw [pullback_condition_apply, hys, Scheme.fromSpecStalk_closedPoint]
   obtain ⟨hy', hideal⟩ := vanishingIdeal_singleton_comap_pullbackFst p g x hx
     (pointToSpecStalk p x hpx) (pointToSpecStalk_comp_fromSpecStalk p x hpx) y rfl
@@ -641,7 +641,7 @@ theorem coe_inlComplement :
     (inlComplement K A : Set ↥(Spec (.of K) ⨿ Spec (.of A))) =
       Set.range (coprod.inr : Spec (.of A) ⟶ Spec (.of K) ⨿ Spec (.of A)) := by
   rw [← compl_singleton_inlPoint]
-  show (Set.range fun _ : Fin 1 => inlPoint K A)ᶜ = _
+  change (Set.range fun _ : Fin 1 => inlPoint K A)ᶜ = _
   rw [Set.range_const]
 
 omit [Finite (PrimeSpectrum A)] in

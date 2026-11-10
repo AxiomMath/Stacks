@@ -200,7 +200,7 @@ locally free modules. -/
   refine QuotientAddGroup.addMonoidHom_ext _ (FreeAbelianGroup.lift_ext _ _ fun M => ?_)
   by_cases hM : IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M
   · exact h M hM
-  · show φ (classOf X M) = ψ (classOf X M)
+  · change φ (classOf X M) = ψ (classOf X M)
     rw [classOf_eq_zero_of_not_isFiniteLocallyFree M hM, map_zero, map_zero]
 
 /-- **An additive map out of `K₀(Vect(X))` from a function on sheaves of modules.** A function

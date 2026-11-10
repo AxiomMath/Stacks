@@ -183,7 +183,7 @@ public theorem exists_elementaryEtaleNeighborhood_absoluteApproximation_full_sec
           rw [← pullbackMapOver_snd fX (jX ≫ fX) jX rfl _, ← Category.assoc, hal'fac,
             Category.assoc]
         refine (congrArg (fun g : U' ⟶ _ => g u') e2).trans ?_
-        show pullback.snd fX _ (q (jU u')) = _
+        change pullback.snd fX _ (q (jU u')) = _
         rw [hjUu, hq]
         exact hxσ')
       al' be' hal'e hbe'e rfl hcomm'.symm hal'res hbe'res rfl
@@ -207,7 +207,7 @@ public theorem exists_elementaryEtaleNeighborhood_absoluteApproximation_full_sec
   · -- the point of `Y ×_{T, τ} V` lies over `y`
     have hpt : pullbackMapOver gY (jY ≫ gY) jY rfl
         (Spec.map (CommRingCat.ofHom σ) ≫ T.fromSpecStalk t) (be' u') = yσ := by
-      show (be' ≫ pullbackMapOver gY (jY ≫ gY) jY rfl _) u' = yσ
+      change (be' ≫ pullbackMapOver gY (jY ≫ gY) jY rfl _) u' = yσ
       rw [hbe'fac, Scheme.Hom.comp_apply, hjUu]
       exact U.map_point
     have hy : jY (pullback.fst (jY ≫ gY)
@@ -218,14 +218,14 @@ public theorem exists_elementaryEtaleNeighborhood_absoluteApproximation_full_sec
           pullback.fst (jY ≫ gY) (Spec.map (CommRingCat.ofHom σ) ≫ T.fromSpecStalk t) ≫ jY :=
         pullbackMapOver_fst ..
       refine (congrArg (fun g : pullback (jY ≫ gY) _ ⟶ Y => g (be' u')) e1).symm.trans ?_
-      show pullback.fst gY _ (pullbackMapOver gY (jY ≫ gY) jY rfl _ (be' u')) = y
+      change pullback.fst gY _ (pullbackMapOver gY (jY ≫ gY) jY rfl _ (be' u')) = y
       rw [hpt]
       exact hyσ₁
     have e2 : (FY' ≫ pullbackMapOver gY (jY ≫ gY) jY rfl tau) ≫ pullback.fst gY tau =
         FY' ≫ pullback.fst (jY ≫ gY) tau ≫ jY := by
       rw [Category.assoc, pullbackMapOver_fst]
     refine (congrArg (fun g : W ⟶ Y => g w) e2).trans ?_
-    show jY (pullback.fst (jY ≫ gY) tau (FY' w)) = y
+    change jY (pullback.fst (jY ≫ gY) tau (FY' w)) = y
     rw [hFYfst]
     exact hy
   · -- the point of `Y ×_{T, τ} V` lies over the marked point of `V`
@@ -242,10 +242,10 @@ public theorem exists_elementaryEtaleNeighborhood_absoluteApproximation_full_sec
       rw [← pullbackMapOver_fst fX (jX ≫ fX) jX rfl _, ← Category.assoc, ← Category.assoc,
         hal'fac]
     refine (congrArg (fun g : W ⟶ X => g w) e1).trans ?_
-    show jX (pullback.fst (jX ≫ fX) pV (FX' w)) = x
+    change jX (pullback.fst (jX ≫ fX) pV (FX' w)) = x
     rw [hFXfstx]
     refine (congrArg (fun g : U' ⟶ X => g u') e3).trans ?_
-    show pullback.fst fX _ (q (jU u')) = x
+    change pullback.fst fX _ (q (jU u')) = x
     rw [hjUu, hq]
     exact hxσ
   · -- the morphism to `X` is trivial on residue fields at the marked point

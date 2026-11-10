@@ -89,7 +89,7 @@ theorem isPullback_liftOver_baseChange {p : X' ⟶ X} {f' : X' ⟶ S'} {f : X �
         Stacks.AmpleProjectiveImmersion.liftOver_fst, Category.assoc, hover]
       exact hbc.w.symm
     · rw [Category.assoc]
-      show i' ≫ projectiveSpaceOverMap n g ≫
+      change i' ≫ projectiveSpaceOverMap n g ≫
         projectiveSpaceOver.toIntegralAtUniverse n S = _
       rw [projectiveSpaceOverMap_snd, hi',
         Stacks.AmpleProjectiveImmersion.liftOver_snd, Category.assoc]

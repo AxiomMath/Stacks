@@ -90,7 +90,7 @@ theorem map_comp_chartPointMap {V V' : SmallEtale B S hS Y.1} [IsAffine (chartSc
       chartPointMap hb V = chartPointMap hb V' := by
   apply Sheaf.hom_ext
   ext U s
-  show Y.1.map (chartOverHom hb V U.unop ((g.toToposHom.inverseImage.map
+  change Y.1.map (chartOverHom hb V U.unop ((g.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yoneda.map c)).hom.app (op U.unop) s)).op _ =
     Y.1.map (chartOverHom hb V' U.unop s).op _
   rw [chartOverHom_map, op_comp, Functor.map_comp_apply, yonedaEquiv_naturality]

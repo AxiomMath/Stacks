@@ -237,7 +237,7 @@ private theorem moduleSheaf_stalk_preservesColimits {X : TopCat.{u}}
     (C := RingCat.{u}) (X := X) O.obj x)) AddCommGrpCat.{u}
   have h : PreservesColimits
       (AlgebraicGeometry.SheafOfModules.stalkFunctor O x ⋙ G) := by
-    show PreservesColimits ((SheafOfModules.toSheaf O ⋙
+    change PreservesColimits ((SheafOfModules.toSheaf O ⋙
       TopCat.Sheaf.forget AddCommGrpCat.{u} X) ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x)
     have hM : PreservesColimits (SheafOfModules.toSheaf.{u,u,u,u} O) :=
@@ -248,7 +248,7 @@ private theorem moduleSheaf_stalk_preservesColimits {X : TopCat.{u}}
     have hs' : PreservesColimitsOfSize.{u,u,u,u,u+1,u+1}
         (TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
           TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x) := hS
-    show PreservesColimits (SheafOfModules.toSheaf O ⋙
+    change PreservesColimits (SheafOfModules.toSheaf O ⋙
       (TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
         TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x))
     exact @comp_preservesColimits.{u,u,u,u,u,u+1,u+1,u+1}
@@ -421,7 +421,7 @@ theorem genericPoint_notMem_of_nowhereDense (X : Scheme.{u})
     preimage_mem_irreducibleComponents hZ U.isOpen.isOpenEmbedding_subtypeVal
       ⟨x, hx.mem, ⟨⟨x, hxU'⟩, rfl⟩⟩
   have hgen : IsGenericPoint (⟨x, hxU'⟩ : ↥(U : Set X)) (Subtype.val ⁻¹' Z) := by
-    show closure {(⟨x, hxU'⟩ : ↥(U : Set X))} = Subtype.val ⁻¹' Z
+    change closure {(⟨x, hxU'⟩ : ↥(U : Set X))} = Subtype.val ⁻¹' Z
     rw [Topology.IsInducing.subtypeVal.closure_eq_preimage_closure_image,
       Set.image_singleton, hx.def]
   exact genericPoint_not_mem_nowhereDense Subtype.val
@@ -470,7 +470,7 @@ private lemma stalk_sSup_isZero_of_isGenericPoint {X : Scheme.{u}} [IsLocallyNoe
   apply genericPoint_not_mem_nowhereDense e he
     ((support_closed_of_coherent_module (L : X.Modules)).preimage continuous_subtype_val)
     hL.2 hZ hy
-  show (e y : X) ∈ (⟨(L : X.Modules).val, (L : X.Modules).isSheaf⟩ :
+  change (e y : X) ∈ (⟨(L : X.Modules).val, (L : X.Modules).isSheaf⟩ :
     RingedSpace.ModuleSheaf X.toRingedSpace).supp
   rwa [support_eq_nontrivial_stalks]
 
@@ -494,7 +494,7 @@ private lemma isNowhereDense_supp_of_le_sSup {X : Scheme.{u}} [IsLocallyNoetheri
     exists_isAffineOpen_mem_and_subset (U := (⊤ : X.Opens)) (x := (x : X)) (by simp)
   let V : Set U := {z | z.1 ∈ SF}
   have hVclosed : IsClosed V := by
-    show IsClosed (Subtype.val ⁻¹' SF)
+    change IsClosed (Subtype.val ⁻¹' SF)
     exact (support_closed_of_coherent_module F).preimage continuous_subtype_val
   have : IsNoetherianRing Γ(X, U) := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
   have : NoetherianSpace U := noetherianSpace_of_isAffineOpen U hU
@@ -509,12 +509,12 @@ private lemma isNowhereDense_supp_of_le_sSup {X : Scheme.{u}} [IsLocallyNoetheri
   let e : V → ↥SF := fun q => (e₀ q).1
   have he : Topology.IsOpenEmbedding e := by
     have hUrel : IsOpen {q : ↥SF | (q : X) ∈ U} := U.2.preimage continuous_subtype_val
-    show Topology.IsOpenEmbedding ((Subtype.val : {q : ↥SF // (q : X) ∈ U} → ↥SF) ∘ e₀)
+    change Topology.IsOpenEmbedding ((Subtype.val : {q : ↥SF // (q : X) ∈ U} → ↥SF) ∘ e₀)
     exact hUrel.isOpenEmbedding_subtypeVal.comp e₀.isOpenEmbedding
   have hyW : y ∈ e ⁻¹' W := by
     apply hy.mem_open_set_iff (hWopen.preimage he.continuous) |>.2
     refine ⟨z, mem_irreducibleComponent, ?_⟩
-    show e z ∈ W
+    change e z ∈ W
     rw [show e z = x from Subtype.ext rfl]
     exact hxW
   have hGzero := stalk_sSup_isZero_of_isGenericPoint F he hZ hy
@@ -609,7 +609,7 @@ private lemma supportedSections_stalk_isZero {X : Scheme.{u}} (Z : Set X)
     apply hinj
     refine (TopCat.Presheaf.stalkFunctor_map_germ_apply (C := AddCommGrpCat.{u}) U x hxU
       ((SheafOfModules.toSheaf X.ringCatSheaf).map H.ι).hom s).trans ?_
-    show TopCat.Presheaf.germ F.val.presheaf U x hxU s.1 = _
+    change TopCat.Presheaf.germ F.val.presheaf U x hxU s.1 = _
     rw [(AlgebraicGeometry.Scheme.Modules.mem_supportedSectionsSubmodule_iff Z F U s.1).mp
       s.2 x hxU hx]
     exact ((T.map H.ι).hom.map_zero).symm

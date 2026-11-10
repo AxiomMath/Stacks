@@ -239,7 +239,7 @@ theorem isBaseChange_gradedRestrictₗ (N : X.Modules) [N.IsQuasicoherent] {U U'
       (restrictSemilinear N h) := by
     refine SymPow.ext_of_prod_ι fun s => Subtype.ext ?_
     refine Eq.trans (hE ⟨_, SymmetricAlgebra.prod_ι_mem _ s⟩) ?_
-    show SymmetricAlgebra.mapₛₗ (RingHom.id Γ(X, U)) hbc.equiv.toLinearMap
+    change SymmetricAlgebra.mapₛₗ (RingHom.id Γ(X, U)) hbc.equiv.toLinearMap
         (SymPow.symAlgBaseChangeHom Γ(X, U) Γ(N, U')
           ((1 : Γ(X, U)) ⊗ₜ[Γ(X, U')] ∏ i : Fin n,
             SymmetricAlgebra.ι Γ(X, U') Γ(N, U') (s i))) =
@@ -273,8 +273,7 @@ theorem isBaseChange_gradedRestrictₗ_of_neg (N : X.Modules) {U U' : X.Opens} (
         exact Subtype.ext hmem
   have hsub : ∀ z : Γ(X, U) ⊗[Γ(X, U')] gradedPiece (R := Γ(X, U')) Γ(N, U') n, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul b y => rw [hbot y, TensorProduct.tmul_zero]
     | add p q hp hq => rw [hp, hq, add_zero]
   exact IsBaseChange.of_equiv

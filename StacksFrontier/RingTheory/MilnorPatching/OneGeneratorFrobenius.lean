@@ -194,7 +194,7 @@ public theorem situation (f : A) (J : Ideal A) :
     have h2 : Ideal.comap (Ideal.Quotient.mk (Ideal.span {f}))
         (Ideal.map (Ideal.Quotient.mk (Ideal.span {f})) J) = J ⊔ Ideal.span {f} := by
       rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective]
-      show J ⊔ RingHom.ker (Ideal.Quotient.mk (Ideal.span {f})) = J ⊔ Ideal.span {f}
+      change J ⊔ RingHom.ker (Ideal.Quotient.mk (Ideal.span {f})) = J ⊔ Ideal.span {f}
       rw [Ideal.mk_ker]
     rw [h1, h2]
 

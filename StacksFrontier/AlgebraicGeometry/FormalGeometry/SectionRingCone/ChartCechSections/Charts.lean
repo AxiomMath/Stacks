@@ -179,7 +179,7 @@ theorem exists_singletonChart_eq (j : Fin r) (m : ℕ)
     mem_gradedPiece_of_localizedModuleAwayCongr _ _ (prod_singleton_famRing L fam j) _
       (by rw [LinearEquiv.apply_symm_apply]; exact hz)
   refine ⟨(chartSectionsEquiv L hL one_pos (fam j) m).symm ⟨_, hz'⟩, ?_⟩
-  show e (chartMap L hL one_pos (fam j) m _) = z
+  change e (chartMap L hL one_pos (fam j) m _) = z
   rw [chartMap, AddEquiv.apply_symm_apply]
   exact e.apply_symm_apply z
 

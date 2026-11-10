@@ -53,18 +53,16 @@ private theorem tensor_subtype_kernel_transition_eq_zero
   have hnat : K.subtype.lTensor U ∘ₗ eK.toLinearMap.restrictScalars A =
       eP.toLinearMap.restrictScalars A ∘ₗ (f.lTensor U).restrictScalars A := by
     refine LinearMap.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul a b =>
-      induction b using TensorProduct.induction_on with
-      | zero => simp
+      induction b using TensorProduct.inductionOn with
       | add x y hx hy => simpa only [tmul_add, map_add] using congrArg₂ (· + ·) hx hy
       | tmul b c => simp [eK, eP, f]
   have hw : f.lTensor U w = 0 := by
     apply eP.injective
     rw [map_zero]
-    show eP (f.lTensor U w) = 0
+    change eP (f.lTensor U w) = 0
     have hn := congrArg (fun t => t w) hnat
     change K.subtype.lTensor U (eK w) = eP (f.lTensor U w) at hn
     rw [← hn]
@@ -78,8 +76,7 @@ private theorem tensor_subtype_kernel_transition_eq_zero
   have hzero : ∀ t : U ⊗[S] LinearMap.ker f,
       g.rTensor K (eK ((LinearMap.ker f).subtype.lTensor U t)) = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul a b =>
       obtain ⟨q, hq⟩ := (TensorProduct.quotTensorEquivQuotSMul K J).symm.surjective b.val
@@ -105,7 +102,7 @@ private theorem tensor_subtype_kernel_transition_eq_zero
       dsimp only [eK]
       simp only [LinearMap.lTensor_tmul, Submodule.subtype_apply, hb,
         AlgebraTensorModule.cancelBaseChange_tmul, one_smul, LinearMap.rTensor_tmul]
-      show g a ⊗ₜ[A] x = 0
+      change g a ⊗ₜ[A] x = 0
       refine Submodule.smul_induction_on hxK ?_ ?_
       · intro r hr x _
         rw [← TensorProduct.smul_tmul, hV r hr, zero_tmul]
@@ -237,9 +234,9 @@ private theorem finiteFree_tensorComparison_bijective
           ((limit.π T i) y)
         have hw := congrArg (fun t : (limit T : ModuleCat.{u} A) ⟶ T.obj k => t y)
           (limit.w T f)
-        show (M.map f) (finiteFreeTensorEquiv r (M.obj i) ((limit.π T i) y) j) = _
+        change (M.map f) (finiteFreeTensorEquiv r (M.obj i) ((limit.π T i) y) j) = _
         rw [← congrFun hn j]
-        show finiteFreeTensorEquiv r (M.obj k) ((T.map f) ((limit.π T i) y)) j = _
+        change finiteFreeTensorEquiv r (M.obj k) ((T.map f) ((limit.π T i) y)) j = _
         change (T.map f) ((limit.π T i) y) = (limit.π T k) y at hw
         rw [hw]⟩
     let e := Types.isLimitEquivSections

@@ -273,7 +273,7 @@ theorem mem_annihilator_tor_pow_of_span_singleton {I : Ideal A} {a : A}
       rw [← hφapp]
       exact congrArg Subtype.val (LinearMap.mem_ker.mp x.2)
     exact Subtype.ext (by
-      show a ^ q₀ * (x : A) = 0
+      change a ^ q₀ * (x : A) = 0
       rw [mul_comm]
       exact hstab _ hx)
   exact mem_annihilator_tor_of_iso_quotient

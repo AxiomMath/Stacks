@@ -77,7 +77,7 @@ private theorem polynomial_mem_X_sq_iff_powerSeries_mem_X_sq {R : Type*} [CommRi
     (p : PowerSeries R) ∈ Ideal.span {(PowerSeries.X : PowerSeries R) ^ 2} ↔
       p ∈ Ideal.span {(Polynomial.X : Polynomial R) ^ 2} := by
   rw [Ideal.mem_span_singleton, Ideal.mem_span_singleton]
-  show (PowerSeries.X : PowerSeries R) ^ 2 ∣ (p : PowerSeries R) ↔
+  change (PowerSeries.X : PowerSeries R) ^ 2 ∣ (p : PowerSeries R) ↔
     (Polynomial.X : Polynomial R) ^ 2 ∣ p
   rw [PowerSeries.X_pow_dvd_iff, Polynomial.X_pow_dvd_iff]
   simp only [Polynomial.coeff_coe]
@@ -126,7 +126,7 @@ private theorem powerSeriesQuotient_X_sq_equiv_polynomialQuotient_C
         Ideal.Quotient.mk _ (Polynomial.C a) := by
   apply (powerSeriesQuotient_X_sq_equiv_polynomialQuotient R).symm.injective
   rw [RingEquiv.symm_apply_apply]
-  show Ideal.Quotient.mk _ (PowerSeries.C a) =
+  change Ideal.Quotient.mk _ (PowerSeries.C a) =
     Ideal.Quotient.mk _ ((Polynomial.C a : Polynomial R) : PowerSeries R)
   rw [Polynomial.coe_C]
 
@@ -137,7 +137,7 @@ private theorem powerSeriesQuotient_X_sq_equiv_polynomialQuotient_X
         Ideal.Quotient.mk _ (Polynomial.X : Polynomial R) := by
   apply (powerSeriesQuotient_X_sq_equiv_polynomialQuotient R).symm.injective
   rw [RingEquiv.symm_apply_apply]
-  show Ideal.Quotient.mk _ (PowerSeries.X : PowerSeries R) =
+  change Ideal.Quotient.mk _ (PowerSeries.X : PowerSeries R) =
     Ideal.Quotient.mk _ ((Polynomial.X : Polynomial R) : PowerSeries R)
   rw [Polynomial.coe_X]
 
@@ -244,17 +244,17 @@ private theorem killCompl_eightVariableIdeal_le_sevenVariableIdeal
       (MvPowerSeries.X (4 : Fin 8)) = MvPowerSeries.X (4 : Fin 7) := hX 4
   rcases hx with rfl | rfl | rfl | rfl
   · simp only [map_pow]
-    show (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
+    change (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
       (MvPowerSeries.X (0 : Fin 8))) ^ 3 ∈ sevenVariableIdeal k
     rw [h0]
     exact Ideal.subset_span (by simp)
   · simp only [map_pow]
-    show (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
+    change (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
       (MvPowerSeries.X (1 : Fin 8))) ^ 3 ∈ sevenVariableIdeal k
     rw [h1]
     exact Ideal.subset_span (by simp)
   · simp only [map_add, map_mul, map_pow]
-    show MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
+    change MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
         (MvPowerSeries.X (2 : Fin 8)) *
           (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
             (MvPowerSeries.X (0 : Fin 8))) ^ 2 +
@@ -271,7 +271,7 @@ private theorem killCompl_eightVariableIdeal_le_sevenVariableIdeal
     rw [h0, h1, h2, h3, h4]
     exact Ideal.subset_span (by simp)
   · simp only [map_pow]
-    show (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
+    change (MvPowerSeries.killCompl (sevenToEight : Fin 7 ↪ Fin 8)
       (MvPowerSeries.X (7 : Fin 8))) ^ 2 ∈ sevenVariableIdeal k
     exact Ideal.pow_mem_of_mem _ (killCompl_X_seven k) 2 (by norm_num)
 
@@ -340,7 +340,7 @@ private theorem coordinateReduction_surjective (k : Type u) [Field k] :
 
 theorem squareZeroCoordinate_sq (k : Type u) [Field k] :
     squareZeroCoordinate k ^ 2 = 0 := by
-  show Ideal.Quotient.mk (eightVariableIdeal k)
+  change Ideal.Quotient.mk (eightVariableIdeal k)
     ((MvPowerSeries.X (7 : Fin 8)) ^ 2) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
   exact Ideal.subset_span (by simp)
@@ -433,11 +433,11 @@ private theorem rotateFinSuccPowerSeriesEquiv_rename (k : Type u) [Field k]
     funext i
     rw [show sevenToEight i = i.castSucc from Fin.ext rfl]
     exact lastCoordinateToPowerSeriesIndex_fin i
-  show MvPowerSeries.finSuccEquiv k 7
+  change MvPowerSeries.finSuccEquiv k 7
     (MvPowerSeries.rename lastCoordinateToPowerSeriesIndex
       (MvPowerSeries.rename sevenToEight p)) = _
   rw [MvPowerSeries.rename_rename]
-  show MvPowerSeries.finSuccEquiv k 7
+  change MvPowerSeries.finSuccEquiv k 7
     (MvPowerSeries.rename (fun i => lastCoordinateToPowerSeriesIndex (sevenToEight i)) p) = _
   rw [hidx]
   ext n x
@@ -449,7 +449,7 @@ private theorem rotateFinSuccPowerSeriesEquiv_rename (k : Type u) [Field k]
       refine Fin.cases ?_ (fun j => ?_) i
       · simp [Finsupp.embDomain_apply]
       · exact (Finsupp.embDomain_apply_self (Fin.succEmb 7) x j).symm
-    show MvPowerSeries.coeff (x.cons 0) (MvPowerSeries.rename (Fin.succEmb 7) p) = _
+    change MvPowerSeries.coeff (x.cons 0) (MvPowerSeries.rename (Fin.succEmb 7) p) = _
     rw [hx, MvPowerSeries.coeff_embDomain_rename]
     simp
   · rw [MvPowerSeries.coeff_rename_eq_zero]
@@ -464,7 +464,7 @@ private theorem rotateFinSuccPowerSeriesEquiv_rename (k : Type u) [Field k]
 
 private theorem rotateFinSuccPowerSeriesEquiv_X_seven (k : Type u) [Field k] :
     rotateFinSuccPowerSeriesEquiv k (MvPowerSeries.X (7 : Fin 8)) = PowerSeries.X := by
-  show MvPowerSeries.finSuccEquiv k 7
+  change MvPowerSeries.finSuccEquiv k 7
     (MvPowerSeries.rename lastCoordinateToPowerSeriesIndex (MvPowerSeries.X 7)) = _
   rw [MvPowerSeries.rename_X, lastCoordinateToPowerSeriesIndex_seven,
     MvPowerSeries.finSuccEquiv_X_zero]
@@ -486,7 +486,7 @@ private theorem rotateFinSuccPowerSeriesEquiv_map_eightVariableIdeal
   have h4 : E (MvPowerSeries.X 4) = _ := hX 4
   have h7 : E (MvPowerSeries.X (7 : Fin 8)) = PowerSeries.X :=
     rotateFinSuccPowerSeriesEquiv_X_seven k
-  show Ideal.map E (eightVariableIdeal k) = _
+  change Ideal.map E (eightVariableIdeal k) = _
   rw [eightVariableIdeal, sevenVariableIdeal, Ideal.map_span, Ideal.map_span]
   simp only [Set.image_insert_eq, Set.image_singleton, map_pow, map_add, map_mul,
     h0, h1, h2, h3, h4, h7]
@@ -508,7 +508,7 @@ private theorem powerSeries_map_quotient_X_sq_ker {R S : Type*} [CommRing R]
   let K' : Ideal (PowerSeries S) := Ideal.span { (PowerSeries.X : PowerSeries S) ^ 2 }
   let L : Ideal (PowerSeries R) := Ideal.map PowerSeries.C (RingHom.ker q)
   ext f
-  show Ideal.Quotient.mk K' (PowerSeries.map q f) = 0 ↔ f ∈ K ⊔ L
+  change Ideal.Quotient.mk K' (PowerSeries.map q f) = 0 ↔ f ∈ K ⊔ L
   rw [Ideal.Quotient.eq_zero_iff_mem]
   constructor
   · intro hf
@@ -540,7 +540,7 @@ private theorem powerSeries_map_quotient_X_sq_ker {R S : Type*} [CommRing R]
         have hker : L ≤ RingHom.ker (PowerSeries.map q) := by
           rw [Ideal.map_le_iff_le_comap]
           intro y hy
-          show PowerSeries.map q (PowerSeries.C y) = 0
+          change PowerSeries.map q (PowerSeries.C y) = 0
           rw [PowerSeries.map_C, show q y = 0 from hy, map_zero]
         have hz : PowerSeries.map q x = 0 := hker hx
         simp [hz]
@@ -573,14 +573,14 @@ private theorem exampleToPowerSeriesQuotientMap_ker (k : Type u) [Field k] :
     rw [hq]
     exact rotateFinSuccPowerSeriesEquiv_map_eightVariableIdeal k
   ext p
-  show F (E p) = 0 ↔ p ∈ eightVariableIdeal k
+  change F (E p) = 0 ↔ p ∈ eightVariableIdeal k
   have hF : F (E p) = 0 ↔ E p ∈
       Ideal.span {(PowerSeries.X : PowerSeries (powerSeriesRing k 7)) ^ 2} ⊔
         Ideal.map PowerSeries.C (RingHom.ker q) := by
     rw [← powerSeries_map_quotient_X_sq_ker q]
     rfl
   rw [hF, ← hmap]
-  show E p ∈ Ideal.map E (eightVariableIdeal k) ↔ _
+  change E p ∈ Ideal.map E (eightVariableIdeal k) ↔ _
   rw [Ideal.mem_map_of_equiv]
   exact ⟨fun ⟨x, hx, hxp⟩ => E.injective hxp ▸ hx, fun hp => ⟨p, hp, rfl⟩⟩
 
@@ -611,7 +611,7 @@ private theorem exampleToTruncatedPolynomialEquiv_inclusion (k : Type u) [Field 
   let : CommRing (PowerSeries (intermediateRing k)) := inferInstance
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective a
   rw [coordinateInclusion_mk, exampleToTruncatedPolynomialEquiv_mk]
-  show powerSeriesQuotient_X_sq_equiv_polynomialQuotient (intermediateRing k)
+  change powerSeriesQuotient_X_sq_equiv_polynomialQuotient (intermediateRing k)
     (Ideal.Quotient.mk (Ideal.span {(PowerSeries.X : PowerSeries (intermediateRing k)) ^ 2})
       (PowerSeries.map (Ideal.Quotient.mk (sevenVariableIdeal k))
       (rotateFinSuccPowerSeriesEquiv k (MvPowerSeries.rename sevenToEight p)))) = _
@@ -623,7 +623,7 @@ private theorem exampleToTruncatedPolynomialEquiv_coordinate (k : Type u) [Field
       Ideal.Quotient.mk _ (Polynomial.X : Polynomial (intermediateRing k)) := by
   let : CommRing (PowerSeries (intermediateRing k)) := inferInstance
   rw [squareZeroCoordinate, exampleToTruncatedPolynomialEquiv_mk]
-  show powerSeriesQuotient_X_sq_equiv_polynomialQuotient (intermediateRing k)
+  change powerSeriesQuotient_X_sq_equiv_polynomialQuotient (intermediateRing k)
     (Ideal.Quotient.mk (Ideal.span {(PowerSeries.X : PowerSeries (intermediateRing k)) ^ 2})
       (PowerSeries.map (Ideal.Quotient.mk (sevenVariableIdeal k))
       (rotateFinSuccPowerSeriesEquiv k (MvPowerSeries.X 7)))) = _
@@ -728,7 +728,7 @@ public theorem exampleRing_depth (k : Type u) [Field k] :
   let : IsNoetherianRing R :=
     isNoetherianRing_of_surjective _ _ (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective
   have hx : (PowerSeries.X : PowerSeries R) ∈ IsLocalRing.maximalIdeal (PowerSeries R) := by
-    show ¬ IsUnit (PowerSeries.X : PowerSeries R)
+    change ¬ IsUnit (PowerSeries.X : PowerSeries R)
     simp [PowerSeries.isUnit_iff_constantCoeff]
   have hx2 : (PowerSeries.X : PowerSeries R) ^ 2 ∈
       IsLocalRing.maximalIdeal (PowerSeries R) := by

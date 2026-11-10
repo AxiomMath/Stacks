@@ -113,7 +113,7 @@ private theorem exists_stage_map_of_isPullback
   let y : colimit (D.op ⋙ G) := colimit.ι (D.op ⋙ G) (op i) ⟨b⟩
   have hw : U.map ((yoneda.map φ).app (op c.pt)) ⟨g⟩ =
       colimit.desc (D.op ⋙ G) (G.mapCocone c.op) y := by
-    show ULift.up (g ≫ φ) = (colimit.ι (D.op ⋙ G) (op i) ≫
+    change ULift.up (g ≫ φ) = (colimit.ι (D.op ⋙ G) (op i) ≫
       colimit.desc (D.op ⋙ G) (G.mapCocone c.op)) ⟨b⟩
     rw [colimit.ι_desc]
     exact congrArg ULift.up hsq
@@ -163,13 +163,13 @@ private theorem exists_stage_eq_of_isPullback
   let α := Functor.whiskerLeft D.op (Functor.whiskerRight (yoneda.map φ) U)
   have heq : colimit.ι (D.op ⋙ F) (op i) ⟨r⟩ = colimit.ι (D.op ⋙ F) (op i) ⟨s⟩ := by
     refine Types.ext_of_isPullback hp ?_ ?_
-    · show (colimit.ι (D.op ⋙ F) (op i) ≫
+    · change (colimit.ι (D.op ⋙ F) (op i) ≫
           colimit.desc (D.op ⋙ F) (F.mapCocone c.op)) ⟨r⟩ =
         (colimit.ι (D.op ⋙ F) (op i) ≫
           colimit.desc (D.op ⋙ F) (F.mapCocone c.op)) ⟨s⟩
       rw [colimit.ι_desc]
       exact congrArg ULift.up hlim
-    · show colimMap α (colimit.ι (D.op ⋙ F) (op i) ⟨r⟩) =
+    · change colimMap α (colimit.ι (D.op ⋙ F) (op i) ⟨r⟩) =
         colimMap α (colimit.ι (D.op ⋙ F) (op i) ⟨s⟩)
       calc colimMap α (colimit.ι (D.op ⋙ F) (op i) ⟨r⟩)
           = colimit.ι (D.op ⋙ G) (op i) (α.app (op i) ⟨r⟩) :=

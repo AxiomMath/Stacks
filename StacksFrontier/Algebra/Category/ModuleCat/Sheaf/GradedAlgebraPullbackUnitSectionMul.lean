@@ -78,7 +78,7 @@ theorem pullbackAdjPushforwardModulesViaComparison_unit_app_val_app
   rw [hiso]
   exact h
 
-variable [EssentiallySmall.{w} X.C] [EssentiallySmall.{w} Y.C]
+variable [EssentiallySmall.{w} Y.C]
 
 /-- **The unit sections of a pullback of a sheaf of graded algebras multiply as the original
 sections do**, read through any family of maps out of the sections of a direct image which is

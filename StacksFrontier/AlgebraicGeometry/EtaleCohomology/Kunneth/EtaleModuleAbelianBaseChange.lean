@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.EtaleModuleRestrictScalars
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleDirectImageForget
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleForgetBaseChange
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperProjectionFormula.RingedBaseChangeComparison
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperProjectionFormula.RingedBaseChangeComparison
 public import StacksFrontier.Algebra.Homology.DerivedCategory.BaseChangeTransportCompat
 public import StacksFrontier.Algebra.Homology.DerivedCategory.BaseChangeDerivedTransport
 public import StacksFrontier.Homology.DerivedCategory.MapHomologyIso
@@ -105,7 +104,7 @@ def etaleModuleForgetPullbackAbIso :
     etaleModuleForgetAb.{u, 0} Λ X ⋙ smallEtalePullbackAb g ≅
       etaleModuleInverseImage.{u, 0} Λ g ⋙ etaleModuleForgetAb.{u, 0} Λ Y :=
   asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange g) X.smallEtaleTopology
-    Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1})).natTrans
+    Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}))
 
 /-- **The comparison matches the units** of the inverse image adjunctions of sheaves of modules
 and of abelian sheaves. -/

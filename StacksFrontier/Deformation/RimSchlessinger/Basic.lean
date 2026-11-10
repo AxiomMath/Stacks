@@ -102,10 +102,10 @@ public theorem isLimit_of_map_isLimit
   let i := hcp.conePointUniqueUpToIso hdp
   have hm : p.map m = i.hom := by
     apply PullbackCone.IsLimit.hom_ext hdp
-    · show p.map m ≫ p.map d.fst = i.hom ≫ p.map d.fst
+    · change p.map m ≫ p.map d.fst = i.hom ≫ p.map d.fst
       rw [← p.map_comp, hm₁]
       exact (hcp.conePointUniqueUpToIso_hom_comp hdp WalkingCospan.left).symm
-    · show p.map m ≫ p.map d.snd = i.hom ≫ p.map d.snd
+    · change p.map m ≫ p.map d.snd = i.hom ≫ p.map d.snd
       rw [← p.map_comp, hm₂]
       exact (hcp.conePointUniqueUpToIso_hom_comp hdp WalkingCospan.right).symm
   have : IsIso (p.map m) := hm ▸ i.isIso_hom
@@ -151,7 +151,7 @@ public abbrev IsDeformationFunctor
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t) : Prop :=
   IsPredeformationFunctor F ∧
-    SatisfiesRS (CategoryOfElements.π F)
+    SatisfiesRS (Functor.Elements.π F)
 
 /-- A functor is a deformation functor exactly when its associated cofibered set
 is a deformation category. -/
@@ -159,7 +159,7 @@ is a deformation category. -/
 public theorem isDeformationCategory_iff
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t) :
-    IsDeformationCategory (CategoryOfElements.π F) ↔
+    IsDeformationCategory (Functor.Elements.π F) ↔
       IsDeformationFunctor F := ⟨fun h => ⟨(isPredeformationCategory_iff F).mp h.predeformation,
         h.satisfiesRS⟩, fun ⟨h₁, h₂⟩ => ⟨(isPredeformationCategory_iff F).mpr h₁, h₂⟩⟩
 
@@ -205,13 +205,13 @@ public theorem satisfiesRS_objectsOverFunctor
     PullbackCone.mk
       (Over.homMk (U := D) c.fst rfl)
       (Over.homMk c.snd (by
-        show c.snd ≫ B.hom = c.fst ≫ A.hom
+        change c.snd ≫ B.hom = c.fst ≫ A.hom
         rw [← Over.w f₂, ← Over.w f₁, ← Category.assoc, ← c.condition, Category.assoc]))
       (Over.OverMorphism.ext c.condition)
   refine ⟨d, ⟨?_, ?_⟩⟩
   · refine ⟨PullbackCone.isLimitAux d
       (fun s => Over.homMk (U := s.pt) (V := D) (hc.lift (toF s)) (by
-        show hc.lift (toF s) ≫ (c.fst ≫ A.hom) = s.pt.hom
+        change hc.lift (toF s) ≫ (c.fst ≫ A.hom) = s.pt.hom
         rw [← Category.assoc, hc.fac (toF s) WalkingCospan.left]
         exact s.fst.w))
       (fun s => Over.OverMorphism.ext (hc.fac (toF s) WalkingCospan.left))
@@ -230,14 +230,14 @@ public theorem satisfiesRS_objectsOverFunctor
     have hi : d.map q ≅ c.map p :=
       PullbackCone.ext (Iso.refl _)
         (by
-          show q.map d.fst = 𝟙 (q.obj d.pt) ≫ p.map c.fst
+          change q.map d.fst = 𝟙 (q.obj d.pt) ≫ p.map c.fst
           rw [objectsOverFunctor_map]
-          show p.map c.fst = 𝟙 (p.obj c.pt) ≫ p.map c.fst
+          change p.map c.fst = 𝟙 (p.obj c.pt) ≫ p.map c.fst
           rw [Category.id_comp])
         (by
-          show q.map d.snd = 𝟙 (q.obj d.pt) ≫ p.map c.snd
+          change q.map d.snd = 𝟙 (q.obj d.pt) ≫ p.map c.snd
           rw [objectsOverFunctor_map]
-          show p.map c.snd = 𝟙 (p.obj c.pt) ≫ p.map c.snd
+          change p.map c.snd = 𝟙 (p.obj c.pt) ≫ p.map c.snd
           rw [Category.id_comp])
     exact IsLimit.ofIsoLimit hcp hi
 
@@ -293,10 +293,10 @@ public theorem schlessingerConditionS1_of_satisfiesRS
   have hmapInv : p.map (inv φ) = eqToHom heq ≫ α.inv := by
     simp [hmapφ]
   have hαfirst : α.hom ≫ g₁ = p.map c.fst := by
-    show (hcp.some.conePointUniqueUpToIso hc').hom ≫ g₁ = p.map c.fst
+    change (hcp.some.conePointUniqueUpToIso hc').hom ≫ g₁ = p.map c.fst
     simpa [d] using hcp.some.conePointUniqueUpToIso_hom_comp hc' WalkingCospan.left
   have hαsecond : α.hom ≫ g₂ = p.map c.snd := by
-    show (hcp.some.conePointUniqueUpToIso hc').hom ≫ g₂ = p.map c.snd
+    change (hcp.some.conePointUniqueUpToIso hc').hom ≫ g₂ = p.map c.snd
     simpa [d] using hcp.some.conePointUniqueUpToIso_hom_comp hc' WalkingCospan.right
   have hfirst : α.inv ≫ p.map c.fst = g₁ := (Iso.inv_comp_eq α).2 hαfirst.symm
   have hsecond : α.inv ≫ p.map c.snd = g₂ := (Iso.inv_comp_eq α).2 hαsecond.symm
@@ -363,11 +363,11 @@ public theorem schlessingerConditionS2_of_satisfiesRS
       PullbackCone.IsLimit.lift_snd hQ P.toFirst P.toSecond P.comm.symm
     have hbase : p.map b = eqToHom P.apex_eq ≫ eqToHom Q.apex_eq.symm := by
       apply PullbackCone.IsLimit.hom_ext hmapQ
-      · show p.map b ≫ p.map Q.toFirst =
+      · change p.map b ≫ p.map Q.toFirst =
           (eqToHom P.apex_eq ≫ eqToHom Q.apex_eq.symm) ≫ p.map Q.toFirst
         rw [← Functor.map_comp, hbfirst, P.map_toFirst, Q.map_toFirst]
         simp
-      · show p.map b ≫ p.map Q.toSecond =
+      · change p.map b ≫ p.map Q.toSecond =
           (eqToHom P.apex_eq ≫ eqToHom Q.apex_eq.symm) ≫ p.map Q.toSecond
         rw [← Functor.map_comp, hbsecond, P.map_toSecond, Q.map_toSecond]
         simp

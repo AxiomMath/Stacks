@@ -195,11 +195,11 @@ public lemma exists_leftInverse_baseChange_cotangentComplex {R S T : Type*} [Com
   have : Module.Projective T (T ⊗[S] Ω[S⁄R]) :=
     Module.Projective.of_equiv (KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale R S T).symm
   have hsurj : Function.Surjective (P.toExtension.toKaehler.baseChange T) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective T Algebra.Extension.toKaehler_surjective
   have hex : Function.Exact (P.toExtension.cotangentComplex.baseChange T)
       (P.toExtension.toKaehler.baseChange T) := by
-    simp only [LinearMap.baseChange_eq_ltensor]
+    simp only [LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact T Algebra.Extension.exact_cotangentComplex_toKaehler
       Algebra.Extension.toKaehler_surjective
   obtain ⟨s, hs⟩ := Module.projective_lifting_property _ LinearMap.id hsurj

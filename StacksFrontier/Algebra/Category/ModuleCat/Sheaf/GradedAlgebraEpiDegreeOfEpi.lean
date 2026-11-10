@@ -116,11 +116,7 @@ private theorem imageSieve_mem_of_tensor (u : F ⟶ F') (v : G ⟶ G')
     (t : (PresheafOfModules.tensorObj F' G').obj (op U)) :
     ∀ s : P.obj (op U), PresheafOfModules.Hom.app m' (op U) t = s →
       Presheaf.imageSieve ((PresheafOfModules.toPresheaf _).map m) s ∈ J U := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    intro s hs
-    have h0 : (0 : P.obj (op U)) = s := (map_zero _).symm.trans hs
-    exact h0 ▸ imageSieve_zero_mem ((PresheafOfModules.toPresheaf _).map m) U
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     intro s hs
     refine J.superset_covering (fun W f hf => ?_) (J.intersection_covering
@@ -134,7 +130,7 @@ private theorem imageSieve_mem_of_tensor (u : F ⟶ F') (v : G ⟶ G')
         F'.restrictₛₗ f.op x ⊗ₜ[O.obj (op W)] G'.restrictₛₗ f.op y :=
       PresheafOfModules.tensorObj_restrictₛₗ_tmul f.op x y
     refine ⟨p ⊗ₜ[O.obj (op W)] q, ?_⟩
-    show PresheafOfModules.Hom.app m (op W) (p ⊗ₜ[O.obj (op W)] q) = P.map f.op s
+    change PresheafOfModules.Hom.app m (op W) (p ⊗ₜ[O.obj (op W)] q) = P.map f.op s
     rw [hm, hp', hq', ← htm, ← hs]
     exact PresheafOfModules.naturality_apply m' f.op (x ⊗ₜ[O.obj (op U)] y)
   | add a b ha hb =>

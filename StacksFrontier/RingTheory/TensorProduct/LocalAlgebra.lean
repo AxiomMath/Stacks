@@ -124,8 +124,7 @@ private lemma tensorField_isPurelyInseparable_unique_prime_aux
       congr 1
       rw [smul_mul_assoc, one_mul]
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul l m =>
         obtain ⟨n, c, hc⟩ := IsPurelyInseparable.pow_mem K p m
         refine ⟨n, ?_⟩
@@ -238,7 +237,7 @@ private lemma specComap_bijective_of_surjective_of_ker_le_nilradical
   have := x.isPrime
   have hkx : RingHom.ker f ≤ x.asIdeal := hk.trans (nilradical_le_prime x.asIdeal)
   refine ⟨⟨Ideal.map f x.asIdeal, Ideal.map_isPrime_of_surjective hf hkx⟩, PrimeSpectrum.ext ?_⟩
-  show Ideal.comap f (Ideal.map f x.asIdeal) = x.asIdeal
+  change Ideal.comap f (Ideal.map f x.asIdeal) = x.asIdeal
   rw [Ideal.comap_map_of_surjective' f hf, sup_eq_left.mpr hkx]
 
 -- large elaboration; raise heartbeats
@@ -393,9 +392,11 @@ lemma existsUnique_isPrime_fibre
         obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective r; rfl)
     rcases hins with h | h
     · refine Or.inl ?_
-      convert h using 2 <;> first | rfl | exact halgC.symm
+      convert h using 2
+      exact halgC.symm
     · refine Or.inr ?_
-      convert h using 2 <;> first | rfl | exact halgB.symm
+      convert h using 2
+      exact halgB.symm
   -- κ(m_B) ⊗[κ(m_A)] (κ(m_A) ⊗[A] C) ≅ κ(m_B) ⊗[A] C  (cancelBaseChange)
   have eBC : (ResidueField B) ⊗[ResidueField A] ((ResidueField A) ⊗[A] C) ≃ₐ[ResidueField B]
       (ResidueField B) ⊗[A] C :=
@@ -523,7 +524,7 @@ theorem isLocalRing_tensorProduct_of_isIntegral
   have hcomp : ir.comp (algebraMap A C) = algebraMap A D := by ext a; simp [hir]
   have hcomp2 : algebraMap A D = (algebraMap B D).comp (algebraMap A B) := by
     ext a
-    show (algebraMap A D) a = _
+    change (algebraMap A D) a = _
     rw [Algebra.TensorProduct.algebraMap_apply]
     rfl
   have hmapN : Ideal.map ir (Ideal.map (algebraMap A C) (maximalIdeal A)) ≤ maximalIdeal D := by

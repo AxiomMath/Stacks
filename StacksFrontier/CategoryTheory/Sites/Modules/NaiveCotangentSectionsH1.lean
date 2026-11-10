@@ -69,7 +69,7 @@ theorem mem_selfKer_iff (U : Cᵒᵖ)
     p ∈ (Generators.self (ToType (A.obj.obj U)) (ToType (B.obj.obj U))).toExtension.ker ↔
       p ∈ kernelIdeal (polynomialEvaluation J A B (underlyingPresheaf J B) a (𝟙 _)) U := by
   let := algebraSections J A B a U
-  show MvPolynomial.aeval _root_.id p = 0 ↔
+  change MvPolynomial.aeval _root_.id p = 0 ↔
     (MvPolynomial.eval₂Hom (a.hom.app U).hom _root_.id) p = 0
   rw [MvPolynomial.aeval_def]
   rfl
@@ -133,7 +133,7 @@ theorem sectionsH1Restrict_val {U V : Cᵒᵖ} (f : U ⟶ V)
         NaiveCotangent.selfRingHomOfSquare_mem_ker _ _ (sectionsSquare_comm J A B a f) g⟩ := by
   let := algebraSections J A B a U
   let := algebraSections J A B a V
-  show NaiveCotangent.cotangentMapOfSquare _ _ (sectionsSquare_comm J A B a f) z.1 = _
+  change NaiveCotangent.cotangentMapOfSquare _ _ (sectionsSquare_comm J A B a f) z.1 = _
   rw [hg]
   exact NaiveCotangent.cotangentMapOfSquare_mk _ _ _ g
 
@@ -199,7 +199,7 @@ theorem sectionsH1Comparison_apply (U : Cᵒᵖ)
         ⟨freeAlgebraSectionsMap J A B U g.1,
           ker_le_comap_freeAlgebraSectionsMap J A B a U g.2⟩ := by
   let := algebraSections J A B a U
-  show sectionsConormalComparison.{v, u, w, z} J A B a U z.1 = _
+  change sectionsConormalComparison.{v, u, w, z} J A B a U z.1 = _
   rw [hg]
   exact sectionsConormalComparison_mk.{v, u, w, z} J A B a U g
 
@@ -221,10 +221,10 @@ theorem sectionsH1Comparison_d (U : Cᵒᵖ)
         (sectionsH1Comparison.{v, u, w, z} J A B a U z) = 0 := by
   let := algebraSections J A B a U
   have h := LinearMap.congr_fun (sectionsComparison_comm.{v, u, w, z} J A B a U) z.1
-  show sectionsDifferential.{v, u, w, z} J A B a U
+  change sectionsDifferential.{v, u, w, z} J A B a U
     (sectionsConormalComparison.{v, u, w, z} J A B a U z.1) = 0
   refine h.trans ?_
-  show sectionsTensorComparison.{v, u, w, z} J A B a U
+  change sectionsTensorComparison.{v, u, w, z} J A B a U
     ((Generators.self (ToType (A.obj.obj U)) (ToType (B.obj.obj U))).toExtension.cotangentComplex
       z.1) = 0
   rw [show (Generators.self (ToType (A.obj.obj U))
@@ -355,7 +355,7 @@ theorem sectionsH1VanishingSieve_mem {X : C}
     (underlyingPresheaf J B) a (𝟙 _) _ hY
   refine J.superset_covering (fun Z k hk ↦ ?_) hS₂
   let := algebraSections J A B a (op Z)
-  show sectionsH1Restrict J A B a (k ≫ g).op z = 0
+  change sectionsH1Restrict J A B a (k ≫ g).op z = 0
   apply Subtype.ext
   rw [sectionsH1Restrict_val J A B a (k ≫ g).op z g₀ hg₀.symm]
   refine (Extension.Cotangent.mk_eq_zero_iff _).mpr ?_
@@ -363,7 +363,7 @@ theorem sectionsH1VanishingSieve_mem {X : C}
       (ToType (B.obj.obj (op Z)))).toExtension.ker =
       kernelIdeal (polynomialEvaluation J A B (underlyingPresheaf J B) a (𝟙 _)) (op Z) :=
     Ideal.ext fun p ↦ mem_selfKer_iff J A B a (op Z) p
-  show (polynomialPresheaf J A (underlyingPresheaf J B)).map (k ≫ g).op g₀.1 ∈
+  change (polynomialPresheaf J A (underlyingPresheaf J B)).map (k ≫ g).op g₀.1 ∈
     (Generators.self (ToType (A.obj.obj (op Z))) (ToType (B.obj.obj (op Z)))).toExtension.ker ^ 2
   rw [hideal]
   rw [op_comp]

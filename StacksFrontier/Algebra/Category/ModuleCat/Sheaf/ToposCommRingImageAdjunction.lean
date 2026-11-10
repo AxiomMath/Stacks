@@ -112,6 +112,7 @@ variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})]
   (Φ : Sheaf K (Type ww') ⥤ Sheaf J (Type ww)) [PreservesFiniteProducts Φ]
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- The sections of the underlying sheaf of rings of a sheaf of commutative rings commute. -/
 lemma commRingSheaf_mul_comm (O : Sheaf K CommRingCat.{ww'}) (X : Dᵒᵖ)
     (a b : (Sheaf.sectionsFunctor K X).obj (Sheaf.ringSheaf (SheafOfModules.Tensor.ringSheaf O))) :
@@ -128,7 +129,8 @@ noncomputable def pullbackCommRingSheaf (O : Sheaf K CommRingCat.{ww'}) :
     Presheaf.isSheaf_of_isSheaf_comp J _ (forget₂ CommRingCat.{ww} RingCat.{ww})
       (pullbackRingSheaf J Φ (SheafOfModules.Tensor.ringSheaf O)).property⟩
 
-omit [J.HasSheafCompose (forget RingCat.{ww})] in
+omit [J.HasSheafCompose (forget RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- The underlying sheaf of rings of the inverse image of a sheaf of commutative rings is the
 inverse image of its underlying sheaf of rings, on the nose. -/
 lemma forgetCommRingSheaf_pullbackCommRingSheaf (O : Sheaf K CommRingCat.{ww'}) :
@@ -265,7 +267,8 @@ noncomputable def restrictionCommRingIso :
   hom_inv_id := rfl
   inv_hom_id := rfl
 
-omit [J.HasSheafCompose (forget RingCat.{ww})] in
+omit [J.HasSheafCompose (forget RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
 /-- Forgetting commutativity carries the comparison to the ring-valued comparison. -/
 lemma forgetCommRingSheaf_map_restrictionCommRingIso_hom :
     (Stacks.forgetCommRingSheaf J).map (restrictionCommRingIso J K G O).hom =
@@ -273,7 +276,8 @@ lemma forgetCommRingSheaf_map_restrictionCommRingIso_hom :
   rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
-  [J.HasSheafCompose (forget RingCat.{ww})] in
+  [J.HasSheafCompose (forget RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
 /-- The comparison of the inverse image with restriction is the identity on underlying sheaves
 of sets. -/
 @[simp]
@@ -285,7 +289,8 @@ lemma restrictionCommRingIso_hom_forget [J.HasSheafCompose (forget CommRingCat.{
   rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
-  [J.HasSheafCompose (forget RingCat.{ww})] in
+  [J.HasSheafCompose (forget RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
 /-- The inverse comparison is also the identity on underlying sheaves of sets. -/
 @[simp]
 lemma restrictionCommRingIso_inv_forget [J.HasSheafCompose (forget CommRingCat.{ww})]

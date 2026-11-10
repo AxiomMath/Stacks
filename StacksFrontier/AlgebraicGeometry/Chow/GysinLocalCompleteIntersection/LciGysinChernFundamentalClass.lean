@@ -378,7 +378,7 @@ theorem lciGysinClass_completedCap_chernCharacterOfModule_cap
   simp only [chernCharacterOfModule, LinearMap.lTensor_tmul]
   congr 1
   funext k n
-  show completedCap C sX sY f hfs (lciGysinClass C sX sY f hfs hf F)
+  change completedCap C sX sY f hfs (lciGysinClass C sX sY f hfs hf F)
       (componentClassCap C sY p (modulePowerSumArbitraryRank C sY E p p)
         (componentFundamentalClass C sY)) k n =
     componentClassCap C sX p

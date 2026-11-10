@@ -59,8 +59,7 @@ lemma tensorSquare_prod_decomp
           (TensorProduct.map (LinearMap.snd A B C) (LinearMap.fst A B C) t) +
         TensorProduct.map (LinearMap.inr A B C) (LinearMap.inr A B C)
           (TensorProduct.map (LinearMap.snd A B C) (LinearMap.snd A B C) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
       rcases x with ⟨x₁, x₂⟩
       rcases y with ⟨y₁, y₂⟩
@@ -86,8 +85,7 @@ private lemma tensorContract_map_inl
     tensorContract A (B × C) f
         (TensorProduct.map (LinearMap.inl A B C) (LinearMap.inl A B C) t) =
       (tensorContract A B (f.comp (LinearMap.inl A B C)) t, 0) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp [tensorContract, Prod.zero_eq_mk]
+  induction t using TensorProduct.inductionOn with
   | tmul x y => simp [tensorContract]
   | add t₁ t₂ h₁ h₂ => simp [h₁, h₂]
 
@@ -101,8 +99,7 @@ private lemma tensorContract_map_inr
     tensorContract A (B × C) f
         (TensorProduct.map (LinearMap.inr A B C) (LinearMap.inr A B C) t) =
       (0, tensorContract A C (f.comp (LinearMap.inr A B C)) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp [tensorContract, Prod.zero_eq_mk]
+  induction t using TensorProduct.inductionOn with
   | tmul x y => simp [tensorContract]
   | add t₁ t₂ h₁ h₂ => simp [h₁, h₂]
 

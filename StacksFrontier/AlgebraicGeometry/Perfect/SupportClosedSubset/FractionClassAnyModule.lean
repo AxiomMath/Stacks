@@ -131,7 +131,7 @@ induced map of Čech complexes is `Stacks.Perfect.SupportedFraction.prodMap`. -/
 public theorem fracTermTop_naturality_succ {n : ℕ} (f : Fin (n + 1) → Γ(X, ⊤))
     {F G : X.Modules} (φ : F ⟶ G) :
     fracTermTop f F ≫ (cplxMap f φ).f (n + 1) = φ ≫ fracTermTop f G := by
-  show fracTerm f F ≫ prodMap f φ n = φ ≫ fracTerm f G
+  change fracTerm f F ≫ prodMap f φ n = φ ≫ fracTerm f G
   rw [GysinFractionDeRham.fracTerm_eq_fractionHom, GysinFractionDeRham.fracTerm_eq_fractionHom]
   exact SupportedFraction.fractionHom_naturality f φ n
 
@@ -208,7 +208,7 @@ public theorem classMapToPushforward_natural {c : ℕ} (f : Fin c → Γ(X, ⊤)
 /-- The coprojection followed by `equationsMap` is multiplication by the corresponding equation. -/
 private theorem sigmaι_comp_equationsMap {c : ℕ} (f : Fin c → Γ(X, ⊤)) (F : X.Modules)
     (i : Fin c) : Sigma.ι (fun _ : Fin c => F) i ≫ equationsMap f F = smulHom (f i) F :=
-  Limits.Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- Multiplication by one of the equations is killed by the projection onto the quotient by the
 equations: it is the corresponding coprojection followed by

@@ -237,7 +237,7 @@ theorem topDegreeFunctorObjSelfIso_inv_comp_map_comp_cohomologyUpstairs
             inferInstance S.d ≫
           (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
               (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-            (restrictPullbackRightDerivedPlusIso (h := h) h'
+            (restrictPullbackRightDerivedPlusIso h'
               (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) := by
   have hcoh := rightDerived_tensorSheafUnitRightIso_inv_comp_pullbackTildeUnit S F' h' f'' h
     hsq hWV ψ hψ
@@ -258,7 +258,7 @@ theorem topDegreeFunctorObjSelfIso_inv_comp_map_comp_cohomologyUpstairs
               (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d).inv ≫
             (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                 (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-              (restrictPullbackRightDerivedPlusIso (h := h) h'
+              (restrictPullbackRightDerivedPlusIso h'
                 (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) := rfl
   refine comp₃_congr (restrictBase_topDegreeFunctorObjSelfIso_inv_eq S F' (V := V))
     (restrictBase_topDegreeFunctor_map_eq S F' (V := V) ψ)

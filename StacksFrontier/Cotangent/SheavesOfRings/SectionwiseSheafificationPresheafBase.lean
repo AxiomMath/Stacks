@@ -123,7 +123,7 @@ theorem exists_derivation_extension_of_W_base {A R : Sheaf J CommRingCat.{max u 
       (fun U (x y : R.obj.obj U) => x • Dadd U y + y • Dadd U x)
       ?_ ?_ ?_ U x y
     · rintro U V g (x : R.obj.obj U) (y : R.obj.obj U)
-      show M.val.map g (Dadd U (x * y)) = Dadd V (_ * _)
+      change M.val.map g (Dadd U (x * y)) = Dadd V (_ * _)
       rw [enat, map_mul]
       rfl
     · rintro U V g (x : R.obj.obj U) (y : R.obj.obj U)
@@ -132,7 +132,7 @@ theorem exists_derivation_extension_of_W_base {A R : Sheaf J CommRingCat.{max u 
       rw [enat] at e₁ e₂
       exact ((M.val.map g).hom.map_add _ _).trans (congrArg₂ (· + ·) e₁ e₂)
     · intro U q r
-      show Dadd U (c.app U q * c.app U r) =
+      change Dadd U (c.app U q * c.app U r) =
         c.app U q • Dadd U (c.app U r) + c.app U r • Dadd U (c.app U q)
       rw [← map_mul, heq, heq, heq]
       exact d.d_mul q r
@@ -144,13 +144,13 @@ theorem exists_derivation_extension_of_W_base {A R : Sheaf J CommRingCat.{max u 
       (fun U (x _ : A.obj.obj U) => Dadd U (a.hom.app U x))
       (fun U (_ _ : A.obj.obj U) => (0 : M.val.obj U)) ?_ ?_ ?_ U x x
     · rintro U V g (x : A.obj.obj U) -
-      show M.val.map g (Dadd U (a.hom.app U x)) = Dadd V (a.hom.app V (A.obj.map g x))
+      change M.val.map g (Dadd U (a.hom.app U x)) = Dadd V (a.hom.app V (A.obj.map g x))
       rw [enat]
       exact congrArg (Dadd V) (ConcreteCategory.congr_hom (a.hom.naturality g) x).symm
     · rintro U V g - -
       exact map_zero (M.val.map g).hom
     · intro U r _
-      show Dadd U (a.hom.app U (a₀.app U r)) = 0
+      change Dadd U (a.hom.app U (a₀.app U r)) = 0
       have hr : a.hom.app U (a₀.app U r) = c.app U (b.app U r) :=
         (ConcreteCategory.congr_hom (NatTrans.congr_app hbc U) r).symm
       rw [hr, heq]
@@ -225,9 +225,9 @@ theorem W_of_bijective_presheafHom {R R' Q Q' : Cᵒᵖ ⥤ CommRingCat.{max u v
         (fun g : Q' ⟶ T => (b' ≫ g, x' ≫ Functor.whiskerRight g (forget _))) := by
     funext g
     refine Prod.ext ?_ ?_
-    · show b ≫ c ≫ g = ρ ≫ b' ≫ g
+    · change b ≫ c ≫ g = ρ ≫ b' ≫ g
       rw [reassoc_of% hb]
-    · show x ≫ Functor.whiskerRight (c ≫ g) (forget _) =
+    · change x ≫ Functor.whiskerRight (c ≫ g) (forget _) =
         π ≫ x' ≫ Functor.whiskerRight g (forget _)
       rw [Functor.whiskerRight_comp, reassoc_of% hx]
   exact ((hQ T).of_comp_iff' _).mp (key ▸ hΨ.comp (hQ' T))
@@ -583,7 +583,7 @@ theorem exists_comp_presheafBaseCotangentTermComparison (ha : J.W a) (n : ℕ)
   funext U
   refine sectionsCotangentComplex_hom_ext.{u, v, w} ⊥
       (presheafBaseHom.{u, v, w} J f a) U n _ _ fun p => ?_
-  show (((cotangentComplex_degreeIso.{u, v, w} J f n).hom ≫
+  change (((cotangentComplex_degreeIso.{u, v, w} J f n).hom ≫
       ((cotangentSimplicialModule.{u, v, w} J f).derivationEquiv (op ⦋n⦌) M).symm D).val.app U)
         ((presheafBaseCotangentTermComparison.{u, v, w} J f a (-(n : ℤ))).app U
           (sectionsCotangentDifferential'.{u, v, w} ⊥ (presheafBaseHom.{u, v, w} J f a) U n p)) = _

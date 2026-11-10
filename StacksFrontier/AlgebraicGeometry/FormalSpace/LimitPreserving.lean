@@ -106,7 +106,7 @@ theorem exists_comp_eq_of_isLimit (hc : IsLimit ((BigFppfOver.toScheme B S hS).m
   obtain ⟨i, g, hg, hgf⟩ := Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation (D ⋙ T)
     (structureMorphisms D) (B.inclusion.map Z.hom) (T.mapCone c) hc (T.map a) (by
       ext i
-      show B.inclusion.map (c.π.app i).left ≫ B.inclusion.map (D.obj i).hom =
+      change B.inclusion.map (c.π.app i).left ≫ B.inclusion.map (D.obj i).hom =
         B.inclusion.map a.left ≫ B.inclusion.map Z.hom
       rw [← Functor.map_comp, ← Functor.map_comp, Over.w, Over.w]
       rfl)
@@ -164,13 +164,13 @@ theorem exists_comp_eq_map_of_isLimit (hc : IsLimit ((BigFppfOver.toScheme B S h
   obtain ⟨j, u, hu, hup⟩ := Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation D' t
     (T.map p) c' hc' (T.map σ) (by
       ext j
-      show T.map (c.π.app j.left) ≫ T.map (D.map j.hom) = T.map σ ≫ T.map p
+      change T.map (c.π.app j.left) ≫ T.map (D.map j.hom) = T.map σ ≫ T.map p
       rw [← T.map_comp, ← T.map_comp, c.w, hσ])
   have hu' : u ≫ B.inclusion.map E.hom = B.inclusion.map (D.obj j.left).hom := by
     rw [← Over.w p, B.inclusion.map_comp, ← Category.assoc]
-    show (u ≫ T.map p) ≫ _ = _
+    change (u ≫ T.map p) ≫ _ = _
     rw [hup]
-    show B.inclusion.map (D.map j.hom).left ≫ B.inclusion.map (D.obj i).hom = _
+    change B.inclusion.map (D.map j.hom).left ≫ B.inclusion.map (D.obj i).hom = _
     rw [← B.inclusion.map_comp, Over.w]
   obtain ⟨σⱼ, rfl⟩ := exists_map_eq_of_comp_eq u hu'
   exact ⟨j.left, j.hom, σⱼ, T.map_injective hu, T.map_injective hup⟩

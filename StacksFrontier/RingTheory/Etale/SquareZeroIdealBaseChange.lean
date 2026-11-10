@@ -112,8 +112,7 @@ theorem IsBaseChange.of_bijective_liftBaseChange_reduction
       rw [hbar, hmIsmul, smul_tmul])
   have hρ : ∀ b i, ρ (b ⊗ₜ i) = algebraMap B B₀ b ⊗ₜ[A₀] mI i := fun _ _ => rfl
   have hLρ : ∀ t, L (ρ t) = Λ t := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b i =>
       rw [hρ]
       simp only [L, Λ, LinearMap.liftBaseChange_tmul, Submodule.subtype_apply]
@@ -121,8 +120,7 @@ theorem IsBaseChange.of_bijective_liftBaseChange_reduction
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   -- `ρ`, hence `Λ`, is surjective.
   have hρsurj : Function.Surjective ρ := fun u => by
-    induction u using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero ρ⟩
+    induction u using TensorProduct.inductionOn with
     | tmul s m =>
       obtain ⟨b, rfl⟩ := hB s
       obtain ⟨i, rfl⟩ := hmIbij.2 m
@@ -138,8 +136,7 @@ theorem IsBaseChange.of_bijective_liftBaseChange_reduction
   -- Elements of `J` are killed in `B ⊗_A I`.
   have hK : ∀ (j : J) (i : I), (j : B) ⊗ₜ[A] i = 0 := fun j i => by
     obtain ⟨t, rfl⟩ := hΛsurj j
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b i' =>
       have h0 : (i' : A) • i = 0 := Subtype.ext (by simpa using hI2 i' i)
       have : ((Λ (b ⊗ₜ i') : J) : B) = (i' : A) • b := by
@@ -183,8 +180,7 @@ theorem IsBaseChange.of_bijective_liftBaseChange_reduction
       rw [hfinvsmul, ← smul_tmul]
       exact hlift _ _ _ (by rw [hbar, Function.surjInv_eq hB]))
   have hζρ : ∀ t, ζ (ρ t) = t := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b i =>
       rw [hρ]
       change Function.surjInv hB (algebraMap B B₀ b) ⊗ₜ[A] e.symm (e i) = b ⊗ₜ[A] i

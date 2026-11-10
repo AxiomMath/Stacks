@@ -278,7 +278,7 @@ theorem bijective_one_tmul_of_bijective_algebraMap
     (TensorProduct.lid R M).symm.trans (TensorProduct.congr e (LinearEquiv.refl R M))
   convert t.bijective using 1
   ext m
-  show 1 ⊗ₜ[R] m = (algebraMap R S) 1 ⊗ₜ[R] m
+  change 1 ⊗ₜ[R] m = (algebraMap R S) 1 ⊗ₜ[R] m
   rw [map_one]
 
 variable {X Y : AlgebraicGeometry.RingedSpace.{u, u}} (f : X ⟶ Y)

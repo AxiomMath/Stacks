@@ -226,7 +226,7 @@ theorem galoisCompactSupportRestrictScalarsMapOfBar_apply (F : EtaleModules.{u, 
           (pullback j.toBase (specAlgebraMap k kbar))).rightDerivedPlus ((2 : ℕ) : ℤ)).map θ).hom
         (etaleModuleCohomologyRestrictScalars ψ (pullback j.toBase (specAlgebraMap k kbar)) _ 2
           ((galoisCompactSupportSingleIso f j kbar Λ F ((2 : ℕ) : ℤ)).hom.hom x)) := by
-  show (galoisCompactSupportSingleIso f j kbar R G ((2 : ℕ) : ℤ)).hom.hom
+  change (galoisCompactSupportSingleIso f j kbar R G ((2 : ℕ) : ℤ)).hom.hom
       ((galoisCompactSupportSingleIso f j kbar R G ((2 : ℕ) : ℤ)).inv.hom _) = _
   rw [← LinearMap.comp_apply, ← ModuleCat.hom_comp, Iso.inv_hom_id, ModuleCat.hom_id,
     LinearMap.id_apply]

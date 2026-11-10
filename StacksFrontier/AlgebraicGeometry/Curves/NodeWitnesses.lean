@@ -501,7 +501,7 @@ theorem hasMulticrossCompletion_of_isIso
       (h.stalkMap y).hom
         (stalkCoeffHom k (X ↘ Spec (CommRingCat.of k)) (h.base y) ((inv ψ).hom a)) :=
     congrArg (fun g : CommRingCat.of K ⟶ Y.presheaf.stalk y => g.hom a) key2
-  show σ (((asIso (h.stalkMap y)).symm.commRingCatIsoToRingEquiv)
+  change σ (((asIso (h.stalkMap y)).symm.commRingCatIsoToRingEquiv)
     (stalkCoeffHom K (Y ↘ Spec (CommRingCat.of K)) y a)) = algebraMap K A a
   rw [hz]
   have hinv : ((asIso (h.stalkMap y)).symm.commRingCatIsoToRingEquiv)

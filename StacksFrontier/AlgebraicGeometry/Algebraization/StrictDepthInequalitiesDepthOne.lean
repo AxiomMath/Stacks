@@ -100,7 +100,7 @@ private theorem intCast_zero_add (x : EInt) : ((0 : ℤ) : EInt) + x = x := by
     induction x using WithTop.recTopCoe with
     | top => rfl
     | coe x =>
-      show ((((0 : ℤ) + x : ℤ) : WithTop ℤ) : EInt) = ((x : WithTop ℤ) : EInt)
+      change ((((0 : ℤ) + x : ℤ) : WithTop ℤ) : EInt) = ((x : WithTop ℤ) : EInt)
       rw [zero_add]
 
 variable (S : AlgebraizationSituation.{u})
@@ -123,18 +123,18 @@ public theorem one_le_completedStalkDepth_of_satisfiesStrictDepthInequalities
     (hdim : krullDimToEInt (ringKrullDim (completedLocalRing (idealOnOpen S) y ⧸ p.asIdeal)) ≤
       ((d : ℤ) : EInt)) :
     1 ≤ completedStalkDepth (idealOnOpen S) F y p := by
-  rw [ENat.one_le_iff_ne_zero]
+  rw [Order.one_le_iff_ne_zero]
   intro hzero
   have hγ : enatToEInt (S.distanceToZ z) = ((1 : ℤ) : EInt) :=
     (congrArg enatToEInt hdist).trans rfl
   have hα : enatToEInt (completedStalkDepth (idealOnOpen S) F y p) = ((0 : ℤ) : EInt) := by
     rw [hzero, enatToEInt_zero]
   have hda : depthAddDistance S F y z p = ((1 : ℤ) : EInt) := by
-    show enatToEInt (completedStalkDepth (idealOnOpen S) F y p) +
+    change enatToEInt (completedStalkDepth (idealOnOpen S) F y p) +
       enatToEInt (S.distanceToZ z) = ((1 : ℤ) : EInt)
     rw [hα, hγ, intCast_zero_add]
   have hdd : depthAddDimAddDistance S F y z p ≤ ((1 + d : ℤ) : EInt) := by
-    show enatToEInt (completedStalkDepth (idealOnOpen S) F y p) +
+    change enatToEInt (completedStalkDepth (idealOnOpen S) F y p) +
         krullDimToEInt (ringKrullDim (completedLocalRing (idealOnOpen S) y ⧸ p.asIdeal)) +
         enatToEInt (S.distanceToZ z) ≤ ((1 + d : ℤ) : EInt)
     rw [hα, hγ, intCast_zero_add, Stacks.Chow.coe_add_coe_eq_coe_add, add_comm ((1 : ℤ) : EInt)]

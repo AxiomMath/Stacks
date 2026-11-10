@@ -92,9 +92,8 @@ flat morphism of affine formal algebraic spaces representable by algebraic space
 rings of the target and of the source are related by a continuous taut homomorphism with
 faithfully flat maps on quotients by open ideals. -/
 theorem hasTautFaithfullyFlatPresentation : HasTautFaithfullyFlatPresentation' B S hS := by
-  intro X Y f _ hY hf hsurj hflat C _ _ _ _ hC A _ _ _ _ hA
-  exact exists_taut_faithfullyFlatQuotients_of_surjective_flat B S hS f hY hf hsurj hflat
-    hC hA
+  rintro X Y f - hY - hsurj hflat C _ _ _ _ hC A _ _ _ _ hA
+  exact exists_taut_faithfullyFlatQuotients_of_surjective_flat B S hS f hY hsurj hflat hC hA
 
 /-- The target of a surjective flat morphism representable by algebraic spaces with countably
 indexed source is countably indexed and McQuillan, and has a presenting ring. -/
@@ -175,7 +174,7 @@ theorem hasAffineEtaleRefinementWithProperty (P : FppfSheaf B S hS → Prop)
     (Sigma.desc fun n : {n : Σ i, M i // n ∈ t} ↦
       v n.1.1 n.1.2 ≫ pullback.snd (fi n.1.1) g).hom y).symm.trans ?_
   refine Eq.trans (congrArg (Space.pointsMapULift B S hS _ · y) ?_) hy
-  rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+  rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
 
 /-- Let `X` be a formal algebraic space over `S` and let `P` be a property of
 affine formal algebraic spaces which descends along a morphism representable by algebraic

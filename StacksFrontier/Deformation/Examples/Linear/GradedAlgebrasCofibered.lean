@@ -284,8 +284,7 @@ public theorem pushout_symm_mem_baseChange
   let pY := GradedAlgebra.proj Y.grading d
   have hproj : pY.comp e.toLinearMap = e.toLinearMap.comp (pX.baseChange (↑Y.base)) := by
     ext s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul a x =>
         calc
@@ -444,8 +443,7 @@ private lemma exists_fill
     exact hqBC
   have hlift_mem (d : ℕ) (t : TensorProduct (↑X.base) (↑Y.base) (X.grading d)) :
       lift ((X.grading d).subtype.baseChange (↑Y.base) t) ∈ Z.grading d := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simpa [map_add] using (Z.grading d).add_mem ht ht'
     | tmul s a =>
         have hs : algebraMap (↑Y.base) Z.carrier s =

@@ -107,7 +107,8 @@ Mathlib's name, every stalk computation here with the other.
 The group `Hom_{𝒪_X}(ℱ, 𝒢 ⊗_{𝒪_X} f^* 𝒥)` of Tag 08LJ has its tensor factors in the order the
 source writes them, which is the opposite of the order the criterion above uses; the symmetry
 `tensorSheafCommIso` crosses between the two, and `restrictionTensorBaseIdeal` names the result
-in the `structureSheafRing` spelling so that sums of morphisms out of it are found by instance search.
+in the `structureSheafRing` spelling so that sums of morphisms out of it are found by instance
+search.
 Tag 08LJ is **Stacks 08LH** transported along that identification, so only the first-order
 condition on `i` — not on `t` — is needed for it.
 
@@ -301,7 +302,8 @@ private theorem unitStalkLinearEquiv_germ (X : RingedSpace.{u, u}) (x : X)
 
 /-- The stalk of a morphism into the unit module carries the germ of a section to the germ of
 its image, read as a section of the structure sheaf. -/
-private theorem unit_stalkMap_germ (Y : RingedSpace.{u, u}) (I : SheafOfModules.{u} (structureSheafRing Y))
+private theorem unit_stalkMap_germ (Y : RingedSpace.{u, u})
+    (I : SheafOfModules.{u} (structureSheafRing Y))
     (k : I ⟶ SheafOfModules.unit (structureSheafRing Y)) (x : Y) (U : Opens Y) (hx : x ∈ U)
     (m : I.val.obj (op U)) :
     unitStalkLinearEquiv Y x
@@ -341,19 +343,26 @@ private theorem idealTensorMultiplication_app_tmul (Y : RingedSpace.{u, u})
         ((adj.unit.app N.val).app (op U) y) = y := fun y =>
     congrArg (fun α : N.val ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom y)
       (adj.right_triangle_components N)
-  have hnat : ∀ t : ((PresheafOfModules.tensorObj (O := (Y).presheaf) ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val))).obj (op U),
+  have hnat : ∀ t : ((PresheafOfModules.tensorObj (O := (Y).presheaf)
+      ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val))).obj (op U),
       (((sheafifyFunctor Y).map (λ_ N.val).hom).val.app (op U)).hom
-          ((adj.unit.app ((PresheafOfModules.tensorObj (O := (Y).presheaf) ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val)))).app (op U) t) =
+          ((adj.unit.app ((PresheafOfModules.tensorObj (O := (Y).presheaf)
+            ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val)))).app (op U) t) =
         (adj.unit.app N.val).app (op U) (((λ_ N.val).hom.app (op U)).hom t) := fun t =>
     (congrArg (fun α : _ ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom t)
       (adj.unit.naturality (λ_ N.val).hom)).symm
   change ((adj.counit.app N).val.app (op U)).hom
       ((((sheafifyFunctor Y).map (λ_ N.val).hom).val.app (op U)).hom
-        (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
+        (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
+          ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
           (toTensorSheafSection Y I N (op U) (a ⊗ₜ[Y.presheaf.obj (op U)] n)))) = r • n
-  have hmap : ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
+  have hmap : ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
+      ((j, (𝟙 N)) : (_, _) ⟶ (_, _)))).val.app (op U)).hom
       (toTensorSheafSection Y I N (op U) (a ⊗ₜ[Y.presheaf.obj (op U)] n)) =
-      (adj.unit.app ((PresheafOfModules.tensorObj (O := (Y).presheaf) ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val)))).app (op U)
+      (adj.unit.app ((PresheafOfModules.tensorObj (O := (Y).presheaf)
+        ((SheafOfModules.unit (structureSheafRing Y)).val) (N.val)))).app (op U)
         (r ⊗ₜ[Y.presheaf.obj (op U)] n) :=
     (tensorSheafMap_app_toTensorSheafSection Y I N
       (SheafOfModules.unit (structureSheafRing Y)) N j (𝟙 N) U a n).trans rfl
@@ -368,7 +377,9 @@ private theorem idealTensorMultiplication_app_tmul (Y : RingedSpace.{u, u})
 agree; `AlgebraicGeometry.RingedSpaceThickening.tensorSheaf_hom_ext` with the arguments in the
 shape used here. -/
 private theorem tensorSheaf_hom_ext' {Y : RingedSpace.{u, u}}
-    {F G Q : SheafOfModules.{u} (structureSheafRing Y)} {p q : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ⟶ Q}
+    {F G Q : SheafOfModules.{u} (structureSheafRing Y)}
+    {p q : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ⟶ Q}
     (h : ∀ (V : Opens Y) (m : F.val.obj (op V)) (n : G.val.obj (op V)),
       (p.val.app (op V)).hom (toTensorSheafSection Y F G (op V)
           (m ⊗ₜ[Y.presheaf.obj (op V)] n)) =
@@ -383,12 +394,16 @@ private theorem idealTensorMultiplication_naturality_left (Y : RingedSpace.{u, u
     {J I : SheafOfModules.{u} (structureSheafRing Y)} (a : J ⟶ I)
     (j : I ⟶ SheafOfModules.unit (structureSheafRing Y))
     (M : SheafOfModules.{u} (structureSheafRing Y)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((a, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫ idealTensorMultiplication Y j M =
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
+      ((a, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫ idealTensorMultiplication Y j M =
       idealTensorMultiplication Y (a ≫ j) M := by
   refine tensorSheaf_hom_ext' fun V b n => ?_
   have hmap := (tensorSheafMap_app_toTensorSheafSection Y J M I M a (𝟙 M) V b n).trans rfl
   calc ((idealTensorMultiplication Y j M).val.app (op V)).hom
-          (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((a, (𝟙 M)) : (_, _) ⟶ (_, _)))).val.app (op V)).hom
+          (((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map
+            ((a, (𝟙 M)) : (_, _) ⟶ (_, _)))).val.app (op V)).hom
             (toTensorSheafSection Y J M (op V) (b ⊗ₜ[Y.presheaf.obj (op V)] n)))
       = ((idealTensorMultiplication Y j M).val.app (op V)).hom
           (toTensorSheafSection Y I M (op V)
@@ -425,7 +440,9 @@ private theorem idealTensorMultiplication_stalk_formula (Y : RingedSpace.{u, u})
     let R := ringStalk Y y
     let MF := grpStalk Y F.val y
     letI : Module R MF := stalkModule Y F.val y
-    stalkMapL Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val F.val (idealTensorMultiplication Y j F).val y =
+    stalkMapL Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val F.val
+      (idealTensorMultiplication Y j F).val y =
       ((TensorProduct.lid R MF).toLinearMap.comp
         (((unitStalkLinearEquiv Y y).toLinearMap.comp
           (stalkMapL Y I.val (SheafOfModules.unit (structureSheafRing Y)).val j.val
@@ -438,13 +455,14 @@ private theorem idealTensorMultiplication_stalk_formula (Y : RingedSpace.{u, u})
   apply LinearMap.ext
   intro z
   obtain ⟨w, rfl⟩ : ∃ w, e.symm w = z := ⟨e z, e.symm_apply_apply z⟩
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | add w₁ w₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   | tmul p m =>
       obtain ⟨W, hxW, aW, sW, hp, hs⟩ := exists_grpGerm_pair Y I.val F.val y p m
       have hsymm : e.symm (grpGerm Y I.val y W hxW aW ⊗ₜ[R] grpGerm Y F.val y W hxW sW) =
-          grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val y W hxW
+          grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val
+            y W hxW
             (toTensorSheafSection Y I F (op W) (aW ⊗ₜ[Y.presheaf.obj (op W)] sW)) := by
         rw [LinearEquiv.symm_apply_eq]
         exact (tensorStalkIso_germ Y y I F W hxW aW sW).symm
@@ -453,9 +471,13 @@ private theorem idealTensorMultiplication_stalk_formula (Y : RingedSpace.{u, u})
             (grpGerm Y I.val y W hxW aW) =
           Y.presheaf.germ W y hxW ((j.val.app (op W)).hom aW) :=
         unit_stalkMap_germ Y I j y W hxW aW
-      have hL : stalkMapL Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val F.val
+      have hL : stalkMapL Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val
+            F.val
             (idealTensorMultiplication Y j F).val y
-              (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val y W hxW
+              (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+                (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val
+                y W hxW
                 (toTensorSheafSection Y I F (op W) (aW ⊗ₜ[Y.presheaf.obj (op W)] sW))) =
           (Y.presheaf.germ W y hxW ((j.val.app (op W)).hom aW)) •
             grpGerm Y F.val y W hxW sW := by
@@ -467,7 +489,9 @@ private theorem idealTensorMultiplication_stalk_formula (Y : RingedSpace.{u, u})
               (((unitStalkLinearEquiv Y y).toLinearMap.comp
                 (stalkMapL Y I.val (SheafOfModules.unit (structureSheafRing Y)).val j.val
                   y)).rTensor MF)).comp (tensorStalkIso Y y I F).toLinearMap
-            (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val y W hxW
+            (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+              (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val
+              y W hxW
               (toTensorSheafSection Y I F (op W) (aW ⊗ₜ[Y.presheaf.obj (op W)] sW))) =
           (Y.presheaf.germ W y hxW ((j.val.app (op W)).hom aW)) •
             grpGerm Y F.val y W hxW sW := by
@@ -476,7 +500,9 @@ private theorem idealTensorMultiplication_stalk_formula (Y : RingedSpace.{u, u})
               (stalkMapL Y I.val (SheafOfModules.unit (structureSheafRing Y)).val j.val
                 y)).rTensor MF)
               ((tensorStalkIso Y y I F)
-                (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj (F))).val y W hxW
+                (grpGerm Y ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+                  (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (I)).obj
+                  (F))).val y W hxW
                   (toTensorSheafSection Y I F (op W)
                     (aW ⊗ₜ[Y.presheaf.obj (op W)] sW))))) = _
         rw [tensorStalkIso_germ Y y I F W hxW aW sW, LinearMap.rTensor_tmul,
@@ -553,11 +579,11 @@ theorem isFlatOver_unit_of_isFlat {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
     AlgebraicGeometry.IsFlatOver f (SheafOfModules.unit (structureSheafRing X)) := by
   intro x
   refine (flat_stalkModule_iff_isFlatOverAt f _ x).1 ?_
-  letI := stalkModule X (SheafOfModules.unit (structureSheafRing X)).val x
-  letI : Module (Y.presheaf.stalk (f.hom.base x))
+  let := stalkModule X (SheafOfModules.unit (structureSheafRing X)).val x
+  let : Module (Y.presheaf.stalk (f.hom.base x))
       (grpStalk X (SheafOfModules.unit (structureSheafRing X)).val x) :=
     Module.compHom _ (f.hom.stalkMap x).hom
-  letI : Algebra (Y.presheaf.stalk (f.hom.base x)) (X.presheaf.stalk x) :=
+  let : Algebra (Y.presheaf.stalk (f.hom.base x)) (X.presheaf.stalk x) :=
     (f.hom.stalkMap x).hom.toAlgebra
   have : Module.Flat (Y.presheaf.stalk (f.hom.base x)) (X.presheaf.stalk x) := hf x
   let e := unitStalkLinearEquiv X x
@@ -741,7 +767,8 @@ private theorem pullback_stalk_transpose {X Y : RingedSpace.{u, u}} (f : X ⟶ Y
 /-- The stalk of the map `f^* 𝒥 ⟶ 𝒪_X` obtained by pulling back an ideal inclusion: on the base
 change `B ⊗_A 𝒥_{f(x)}` it is `b ⊗ z ↦ b · f^♯(j z)`. -/
 private theorem pullbackIdeal_stalk_formula {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
-    (J : SheafOfModules.{u} (structureSheafRing Y)) (j : J ⟶ SheafOfModules.unit (structureSheafRing Y)) (x : X) :
+    (J : SheafOfModules.{u} (structureSheafRing Y))
+    (j : J ⟶ SheafOfModules.unit (structureSheafRing Y)) (x : X) :
     letI : Algebra (Y.presheaf.stalk (f.hom.base x)) (X.presheaf.stalk x) :=
       (f.hom.stalkMap x).hom.toAlgebra
     letI := stalkModule Y J.val (f.hom.base x)
@@ -1001,7 +1028,8 @@ private theorem exists_stalkIdealLinearEquiv {X Y : RingedSpace.{u, u}} (f : X �
     ∃ e : grpStalk Y (AlgebraicGeometry.SheafOfModules.idealSheaf f).val (f.hom.base x)
         ≃ₗ[Y.presheaf.stalk (f.hom.base x)] RingHom.ker (f.hom.stalkMap x).hom,
       ∀ m, (e m).val = unitStalkLinearEquiv Y (f.hom.base x)
-        (((stalkAddCommGroupFunctor (structureSheafRing Y) (f.hom.base x)).map (idealSheafι f)).hom m) := by
+        (((stalkAddCommGroupFunctor (structureSheafRing Y) (f.hom.base x)).map
+          (idealSheafι f)).hom m) := by
   let J := AlgebraicGeometry.SheafOfModules.idealSheaf f
   let _iJ := stalkModule Y J.val (f.hom.base x)
   have : IsIso f.hom.base := hf.1
@@ -1045,7 +1073,8 @@ private theorem stalkIdeal_eq_stalkMap_ker {X Y : RingedSpace.{u, u}} (f : X ⟶
       grpStalk Y (AlgebraicGeometry.SheafOfModules.idealSheaf f).val (f.hom.base x)
         ≃ₗ[Y.presheaf.stalk (f.hom.base x)] J)
     (he : ∀ z, (e z).val = unitStalkLinearEquiv Y (f.hom.base x)
-      (((stalkAddCommGroupFunctor (structureSheafRing Y) (f.hom.base x)).map (idealSheafι f)).hom z)) :
+      (((stalkAddCommGroupFunctor (structureSheafRing Y) (f.hom.base x)).map
+        (idealSheafι f)).hom z)) :
     J = RingHom.ker (f.hom.stalkMap x).hom := by
   have : IsIso f.hom.base := hf.1
   have hex := (stalkIdeal_exact f hf.2.1 x).1
@@ -1120,11 +1149,9 @@ private theorem baseChange_idealAction_injective_iff {A B J M : Type u} [CommRin
   let ν := (TensorProduct.lid B M).toLinearMap.comp (q.rTensor M)
   have h : ν.restrictScalars A = μ.comp e.toLinearMap := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul z m =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul b z =>
         simp only [LinearMap.restrictScalars_apply, LinearMap.comp_apply,
           LinearMap.rTensor_tmul, TensorProduct.lid_tmul, hq, LinearEquiv.coe_coe,
@@ -1168,12 +1195,10 @@ private theorem squareZero_baseChange_injectiveAction_smul_eq_zero {A B J : Type
     (hj : Function.Injective j) (hjj : ∀ z w : J, j z * j w = 0) (q : B ⊗[A] J →ₗ[B] B)
     (hq : ∀ (b : B) (z : J), q (b ⊗ₜ[A] z) = b * algebraMap A B (j z)) (z w : B ⊗[A] J) :
     q z • w = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, add_smul, hz, hz', add_zero]
   | tmul b a =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => simp only [smul_add, hw, hw', add_zero]
     | tmul c d =>
       have had : j a • d = 0 := by
@@ -1293,8 +1318,7 @@ private theorem ideal_eq_map_of_surjective_tensor {A B : Type u} [CommRing A] [C
   · intro b hb
     obtain ⟨w, hw⟩ := hq (⟨b, hb⟩ : I)
     have hmem (w : B ⊗[A] J) : (q w : B) ∈ J.map (algebraMap A B) := by
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add w z hw hz =>
         rw [map_add, Submodule.coe_add]
         exact Ideal.add_mem _ hw hz
@@ -1325,8 +1349,13 @@ attribute [local irreducible] Stacks.SheafOfModules.Tensor.sheafTensor
 `ℱ = i^* ℱ'`: the map `f^* 𝒥 ⊗_{𝒪_X} ℱ ⟶ i^* ℐ ⊗_{𝒪_X} ℱ`. -/
 noncomputable def baseToSourceIdealTensor (D : MorphismOfThickenings.{u})
     (F' : SheafOfModules.{u} (structureSheafRing D.X')) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ)))).obj (((modulePullback D.i).obj F'))) ⟶
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj (((modulePullback D.i).obj D.idealI))).obj (((modulePullback D.i).obj F'))) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj
+      (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ)))).obj
+      (((modulePullback D.i).obj F'))) ⟶
+      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj
+        (((modulePullback D.i).obj D.idealI))).obj (((modulePullback D.i).obj F'))) :=
   ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map
     ((D.baseToSourceIdeal, (𝟙 ((modulePullback D.i).obj F'))) : (_, _) ⟶ (_, _)))
@@ -1336,7 +1365,9 @@ action `ℐ ⊗_{𝒪_{X'}} ℱ' ⟶ ℱ'` by the **Stacks 01CD** comparison for
 of the ideal multiple with the kernel of the reduction. -/
 noncomputable def sourceIdealActionImage (D : MorphismOfThickenings.{u})
     (F' : SheafOfModules.{u} (structureSheafRing D.X')) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj (((modulePullback D.i).obj D.idealI))).obj (((modulePullback D.i).obj F'))) ⟶
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj
+      (((modulePullback D.i).obj D.idealI))).obj (((modulePullback D.i).obj F'))) ⟶
       (modulePullback D.i).obj
         (kernel ((modulePullbackPushforwardAdjunction D.i).unit.app F')) :=
   (Stacks.RingedSpace.comparisonBifunctorIso D.i).inv.app (D.idealI, F') ≫
@@ -1348,7 +1379,10 @@ noncomputable def sourceIdealActionImage (D : MorphismOfThickenings.{u})
 action. -/
 noncomputable def baseToInfinitesimal (D : MorphismOfThickenings.{u})
     (F' : SheafOfModules.{u} (structureSheafRing D.X')) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ)))).obj (((modulePullback D.i).obj F'))) ⟶
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj
+      (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ)))).obj
+      (((modulePullback D.i).obj F'))) ⟶
       (modulePullback D.i).obj
         (kernel ((modulePullbackPushforwardAdjunction D.i).unit.app F')) :=
   baseToSourceIdealTensor D F' ≫ sourceIdealActionImage D F'
@@ -1386,7 +1420,10 @@ invertible exactly when `i^*` of the ideal action, factored through its image, i
 private theorem baseToInfinitesimal_isIso_iff_pullback_imageMap_isIso
     (D : MorphismOfThickenings.{u}) (M : SheafOfModules.{u} (structureSheafRing D.X')) :
     IsIso (baseToInfinitesimal D M) ↔
-      IsIso ((modulePullback D.i).map (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map ((D.idealMap.1, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫
+      IsIso ((modulePullback D.i).map (((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map
+          ((D.idealMap.1, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫
         Abelian.factorThruImage (idealAction D.i M))) :=
   isIso_tensor_pullback_map_iff (modulePullback D.i) _ _
     (Stacks.RingedSpace.comparisonBifunctorIso D.i) D.reducedPullbackComparison.symm
@@ -1404,7 +1441,9 @@ private theorem ambientIdealMap_eq (D : MorphismOfThickenings.{u}) :
 `(f')^* 𝒥 ⊗ ℱ' ⟶ ℐ ⊗ ℱ' ⟶ ℐℱ'` is monomorphic exactly when the action of `(f')^* 𝒥` is. -/
 private theorem mono_imageMap_iff_mono_ambientIdealAction (D : MorphismOfThickenings.{u})
     (M : SheafOfModules.{u} (structureSheafRing D.X')) :
-    Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map ((D.idealMap.1, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫
+    Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map
+      ((D.idealMap.1, (𝟙 M)) : (_, _) ⟶ (_, _))) ≫
         Abelian.factorThruImage (idealAction D.i M)) ↔
       Mono (idealTensorMultiplication D.X' D.ambientIdealMap M) := by
   have heq : (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -1454,7 +1493,9 @@ private theorem baseToInfinitesimal_isIso_iff_ambientIdealAction_mono
     (D : MorphismOfThickenings.{u}) (hs : D.IsStrict)
     (M : SheafOfModules.{u} (structureSheafRing D.X'))
     (hunit : Mono ((modulePullbackPushforwardAdjunction D.i).unit.app
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M))))) :
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+        (((modulePullback D.f').obj D.idealJ))).obj (M))))) :
     IsIso (baseToInfinitesimal D M) ↔
       Mono (idealTensorMultiplication D.X' D.ambientIdealMap M) := by
   have hepi := epi_idealMap_tensor_comp_factorThruImage D hs M
@@ -1468,7 +1509,8 @@ private theorem baseToInfinitesimal_isIso_iff_ambientIdealAction_mono
 the action of `f^* 𝒥` on `ℳ` is a monomorphism: on stalks it is the base change of the
 multiplication map of `𝒥`, which flatness makes injective. -/
 private theorem pullbackIdealAction_mono_of_isFlatOver {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
-    (J : SheafOfModules.{u} (structureSheafRing Y)) (j : J ⟶ SheafOfModules.unit (structureSheafRing Y)) [Mono j]
+    (J : SheafOfModules.{u} (structureSheafRing Y))
+    (j : J ⟶ SheafOfModules.unit (structureSheafRing Y)) [Mono j]
     (M : SheafOfModules.{u} (structureSheafRing X)) (hM : AlgebraicGeometry.IsFlatOver f M) :
     Mono (idealTensorMultiplication X
       ((modulePullback f).map j ≫ modulePullbackUnitToUnit f) M) := by
@@ -1505,7 +1547,9 @@ private theorem pullbackIdealAction_mono_of_isFlatOver {X Y : RingedSpace.{u, u}
   let M' : SheafOfModules.{u} (structureSheafRing X) := M
   let a' : P' ⟶ SheafOfModules.unit (structureSheafRing X) :=
     (modulePullback f).map j ≫ modulePullbackUnitToUnit f
-  change Function.Injective (stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P')).obj (M'))).val M'.val
+  change Function.Injective (stalkMapL X
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P')).obj (M'))).val M'.val
     (idealTensorMultiplication X a' M').val x)
   rw [idealTensorMultiplication_stalk_formula]
   exact hinj'.comp (tensorStalkIso X x P' M').injective
@@ -1531,13 +1575,18 @@ private theorem pullbackIdeal_tensorAction_eq_zero {X Y Z : RingedSpace.{u, u}} 
     (t : Z ⟶ Y) (ht : IsFirstOrderThickening t) (M : SheafOfModules.{u} (structureSheafRing X)) :
     idealTensorMultiplication X
         ((modulePullback f).map (idealSheafι t) ≫ modulePullbackUnitToUnit f)
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (((modulePullback f).obj (AlgebraicGeometry.SheafOfModules.idealSheaf t)))).obj (M))) = 0 := by
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj
+          (((modulePullback f).obj (AlgebraicGeometry.SheafOfModules.idealSheaf t)))).obj
+          (M))) = 0 := by
   let J : SheafOfModules.{u} (structureSheafRing Y) := AlgebraicGeometry.SheafOfModules.idealSheaf t
   let j : J ⟶ SheafOfModules.unit (structureSheafRing Y) := idealSheafι t
   let P : SheafOfModules.{u} (structureSheafRing X) := (modulePullback f).obj J
   let q : P ⟶ SheafOfModules.unit (structureSheafRing X) :=
     (modulePullback f).map j ≫ modulePullbackUnitToUnit f
-  let N : SheafOfModules.{u} (structureSheafRing X) := (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P)).obj (M))
+  let N : SheafOfModules.{u} (structureSheafRing X) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P)).obj (M))
   apply hom_eq_zero_of_stalkMap_eq_zero X
   intro x
   let A := Y.presheaf.stalk (f.hom.base x)
@@ -1576,25 +1625,26 @@ private theorem pullbackIdeal_tensorAction_eq_zero {X Y Z : RingedSpace.{u, u}} 
       rw [e.symm_apply_apply]]
     exact hsq' (e a) (e b)
   have hq_tensor (a : Q) (z : Q ⊗[B] V) : qB a • z = 0 := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [smul_add, hz, hw, add_zero]
     | tmul b v => rw [TensorProduct.smul_tmul', hq_smul a b, TensorProduct.zero_tmul]
   apply AddCommGrpCat.hom_ext
   apply AddMonoidHom.ext
   intro z
   let P' : SheafOfModules.{u} (structureSheafRing X) := (modulePullback f).obj J
-  let N' : SheafOfModules.{u} (structureSheafRing X) := (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P)).obj (M))
+  let N' : SheafOfModules.{u} (structureSheafRing X) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P)).obj (M))
   let q' : P' ⟶ SheafOfModules.unit (structureSheafRing X) :=
     (modulePullback f).map j ≫ modulePullbackUnitToUnit f
-  change (stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P')).obj (N'))).val N'.val
+  change (stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+    (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (P')).obj (N'))).val N'.val
     (idealTensorMultiplication X q' N').val x) z = 0
   rw [idealTensorMultiplication_stalk_formula]
   let eN := tensorStalkIso X x P' N'
   let eM := tensorStalkIso X x P' M
   change (TensorProduct.lid B _) (qB.rTensor _ (eN z)) = 0
-  induction eN z using TensorProduct.induction_on with
-  | zero => simp
+  induction eN z using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb, add_zero]
   | tmul a n =>
     rw [LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
@@ -1608,7 +1658,9 @@ zero by `pullbackIdeal_tensorAction_eq_zero`. -/
 private theorem sourceIdeal_action_on_baseIdealTensor_eq_zero (D : MorphismOfThickenings.{u})
     (ht : IsFirstOrderThickening D.t) (hs : D.IsStrict)
     (M : SheafOfModules.{u} (structureSheafRing D.X')) :
-    idealAction D.i ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M))) = 0 := by
+    idealAction D.i ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+      (((modulePullback D.f').obj D.idealJ))).obj (M))) = 0 := by
   let PJ : SheafOfModules.{u} (structureSheafRing D.X') := (modulePullback D.f').obj D.idealJ
   let II : SheafOfModules.{u} (structureSheafRing D.X') := D.idealI
   let jI : II ⟶ SheafOfModules.unit (structureSheafRing D.X') := idealSheafι D.i
@@ -1617,18 +1669,29 @@ private theorem sourceIdeal_action_on_baseIdealTensor_eq_zero (D : MorphismOfThi
       idealTensorMultiplication D.X' (aI ≫ jI) N = 0 →
       idealTensorMultiplication D.X' jI N = 0 := by
     intro N hzero
-    have hepi : Epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map ((aI, (𝟙 N)) : (_, _) ⟶ (_, _)))) :=
+    have hepi : Epi (((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u}))).map
+          ((aI, (𝟙 N)) : (_, _) ⟶ (_, _)))) :=
       @AlgebraicGeometry.SheafOfModules.tensorSheafMap_epi D.X' _ _ N aI hs
     refine (@cancel_epi _ _ _ _ _ _ hepi _ _).1 ?_
     rw [comp_zero, idealTensorMultiplication_naturality_left]
     exact hzero
-  refine key ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M))) ?_
+  refine key ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+    (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+    (((modulePullback D.f').obj D.idealJ))).obj (M))) ?_
   have hmap : idealTensorMultiplication D.X' (aI ≫ jI)
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M))) =
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+        (((modulePullback D.f').obj D.idealJ))).obj (M))) =
       idealTensorMultiplication D.X' D.ambientIdealMap
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M))) :=
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+          (((modulePullback D.f').obj D.idealJ))).obj (M))) :=
     congrArg (fun z => idealTensorMultiplication D.X' z
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (M)))) D.idealMap.2
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+        (((modulePullback D.f').obj D.idealJ))).obj (M)))) D.idealMap.2
   rw [hmap, ambientIdealMap_eq]
   exact pullbackIdeal_tensorAction_eq_zero D.f' D.t ht M
 
@@ -1677,7 +1740,10 @@ private theorem ambientIdealAction_stalk_injective (D : MorphismOfThickenings.{u
   have hi : Function.Injective ((TensorProduct.lid B V).toLinearMap.comp (q.rTensor V)) := by
     have hm := (mono_iff_stalk_injective D.X' _ _ _).mp
       (ambientIdealMap_eq D ▸ hmono) x
-    change Function.Injective (stalkMapL D.X' ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (P')).obj (M'))).val M'.val
+    change Function.Injective (stalkMapL D.X'
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (P')).obj
+        (M'))).val M'.val
       (idealTensorMultiplication D.X' q'' M').val x) at hm
     rw [idealTensorMultiplication_stalk_formula] at hm
     exact (Function.Injective.of_comp_iff' _ (tensorStalkIso D.X' x P M).bijective).mp hm
@@ -1804,7 +1870,9 @@ theorem isFlatOver_iff_baseToInfinitesimal_isIso (D : MorphismOfThickenings.{u})
   constructor
   · exact baseToInfinitesimal_isIso_of_isFlatOver D hs F'
   · intro h
-    let N := (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj (((modulePullback D.f').obj D.idealJ))).obj (F'))
+    let N := (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+      (((modulePullback D.f').obj D.idealJ))).obj (F'))
     have hzero := sourceIdeal_action_on_baseIdealTensor_eq_zero D ht hs F'
     have hunit : Mono ((modulePullbackPushforwardAdjunction D.i).unit.app N) :=
       mono_reduction_unit_of_idealAction_eq_zero D.i D.i_isThickening N hzero
@@ -1941,8 +2009,7 @@ lemma tCommAdd_comp_tRestrAdd {Y : RingedSpace.{u, u}} (F G : PresheafOfModules.
       (((PresheafOfModules.tensorObj (O := Y.presheaf) G F).restrictₛₗ f).toAddMonoidHom).comp
         (tCommAdd F G U) := by
   refine AddMonoidHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul m n => rfl
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -1985,7 +2052,10 @@ lemma presheafTensorCommHom_comp {Y : RingedSpace.{u, u}}
 on a ringed space, obtained by sheafifying the symmetry of the presheaf tensor product. -/
 noncomputable def tensorSheafCommIso (Y : RingedSpace.{u, u})
     (F G : SheafOfModules.{u} (structureSheafRing Y)) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ≅ (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (G)).obj (F)) where
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (F)).obj (G)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u})).obj (G)).obj (F)) where
   hom := (sheafifyFunctor Y).map (presheafTensorCommHom F.val G.val)
   inv := (sheafifyFunctor Y).map (presheafTensorCommHom G.val F.val)
   hom_inv_id := ((sheafifyFunctor Y).map_comp _ _).symm.trans
@@ -2004,8 +2074,12 @@ alias isIso_baseToInfinitesimal_of_isFlatOver := baseToInfinitesimal_isIso_of_is
 of the restriction `𝒢 = i^* 𝒢'` with the pullback to `X` of the ideal `𝒥` of the lower
 thickening. -/
 noncomputable def restrictionTensorBaseIdeal (D : MorphismOfThickenings.{u})
-    (G' : SheafOfModules.{u} (structureSheafRing D.X')) : SheafOfModules.{u} (structureSheafRing D.X) :=
-  (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj (((modulePullback D.i).obj G'))).obj (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ))))
+    (G' : SheafOfModules.{u} (structureSheafRing D.X')) :
+    SheafOfModules.{u} (structureSheafRing D.X) :=
+  (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+    (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u})).obj
+    (((modulePullback D.i).obj G'))).obj
+    (((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ))))
 
 /-- **Stacks Project, Tag 08LJ.** For a strict morphism of thickenings and an `𝒪_{X'}`-module
 `𝒢'` flat over `S'`, the canonical map identifies `𝒢 ⊗_{𝒪_X} f^* 𝒥` with the ideal multiple
@@ -2185,28 +2259,28 @@ theorem isFlatOver_modulePullback_of_stalkSquareIsPushout {Y Z T W : RingedSpace
   let AT := T.presheaf.stalk (gY.hom.base y)
   let AZ := Z.presheaf.stalk (q.hom.base y)
   let AY := Y.presheaf.stalk y
-  letI _iWT : Algebra AW AT :=
+  let _iWT : Algebra AW AT :=
     (eqToHom (congrArg W.presheaf.stalk (stalkSquare_point hcomm y)) ≫
       qS.hom.stalkMap (gY.hom.base y)).hom.toAlgebra
-  letI _iWZ : Algebra AW AZ := (gZ.hom.stalkMap (q.hom.base y)).hom.toAlgebra
-  letI _iTY : Algebra AT AY := (gY.hom.stalkMap y).hom.toAlgebra
-  letI _iZY : Algebra AZ AY := (q.hom.stalkMap y).hom.toAlgebra
-  letI _iWY : Algebra AW AY :=
+  let _iWZ : Algebra AW AZ := (gZ.hom.stalkMap (q.hom.base y)).hom.toAlgebra
+  let _iTY : Algebra AT AY := (gY.hom.stalkMap y).hom.toAlgebra
+  let _iZY : Algebra AZ AY := (q.hom.stalkMap y).hom.toAlgebra
+  let _iWY : Algebra AW AY :=
     ((q.hom.stalkMap y).hom.comp (gZ.hom.stalkMap (q.hom.base y)).hom).toAlgebra
-  haveI : IsScalarTower AW AZ AY := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  haveI : IsScalarTower AW AT AY :=
+  have : IsScalarTower AW AZ AY := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+  have : IsScalarTower AW AT AY :=
     IsScalarTower.of_algebraMap_smul fun a b => congrArg (fun r => r * b)
       (congrArg (fun g : W.presheaf.stalk (gZ.hom.base (q.hom.base y)) ⟶
         Y.presheaf.stalk y => g.hom a) (stalkSquare_comm hcomm y)).symm
-  haveI : Algebra.IsPushout AW AT AZ AY := hpo y
+  have : Algebra.IsPushout AW AT AZ AY := hpo y
   let V := grpStalk Z M.val (q.hom.base y)
   let N := grpStalk Y ((modulePullback q).obj M).val y
-  letI _iV : Module AZ V := stalkModule Z M.val (q.hom.base y)
-  letI _iN : Module AY N := stalkModule Y ((modulePullback q).obj M).val y
-  letI _iWV : Module AW V := Module.compHom _ (gZ.hom.stalkMap (q.hom.base y)).hom
-  letI _iTN : Module AT N := Module.compHom _ (gY.hom.stalkMap y).hom
-  haveI : IsScalarTower AW AZ V := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  haveI : IsScalarTower AT AY N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+  let _iV : Module AZ V := stalkModule Z M.val (q.hom.base y)
+  let _iN : Module AY N := stalkModule Y ((modulePullback q).obj M).val y
+  let _iWV : Module AW V := Module.compHom _ (gZ.hom.stalkMap (q.hom.base y)).hom
+  let _iTN : Module AT N := Module.compHom _ (gY.hom.stalkMap y).hom
+  have : IsScalarTower AW AZ V := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+  have : IsScalarTower AT AY N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have hV : Module.Flat AW V := (flat_stalkModule_iff_isFlatOverAt gZ M (q.hom.base y)).2
     (hM (q.hom.base y))
   obtain ⟨e, -⟩ := pullback_stalk_formula q M y
@@ -2227,24 +2301,24 @@ theorem stalkSquareIsPushout_of_isStrict (D : MorphismOfThickenings.{u})
   obtain ⟨hp, -, hsurj, hker⟩ := stalkMap_facts_of_isStrict D hi ht hs x (D.i.hom.base x) rfl
     (stalkSquare_point D.comm x)
   simp only [eqToHom_refl, Category.id_comp] at hsurj hker
-  letI : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
+  let : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
       (D.S.presheaf.stalk (D.f.hom.base x)) :=
     (eqToHom (congrArg D.S'.presheaf.stalk (stalkSquare_point D.comm x)) ≫
       D.t.hom.stalkMap (D.f.hom.base x)).hom.toAlgebra
-  letI : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
+  let : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
       (D.X'.presheaf.stalk (D.i.hom.base x)) :=
     (D.f'.hom.stalkMap (D.i.hom.base x)).hom.toAlgebra
-  letI : Algebra (D.S.presheaf.stalk (D.f.hom.base x)) (D.X.presheaf.stalk x) :=
+  let : Algebra (D.S.presheaf.stalk (D.f.hom.base x)) (D.X.presheaf.stalk x) :=
     (D.f.hom.stalkMap x).hom.toAlgebra
-  letI : Algebra (D.X'.presheaf.stalk (D.i.hom.base x)) (D.X.presheaf.stalk x) :=
+  let : Algebra (D.X'.presheaf.stalk (D.i.hom.base x)) (D.X.presheaf.stalk x) :=
     (D.i.hom.stalkMap x).hom.toAlgebra
-  letI : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
+  let : Algebra (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
       (D.X.presheaf.stalk x) :=
     ((D.i.hom.stalkMap x).hom.comp (D.f'.hom.stalkMap (D.i.hom.base x)).hom).toAlgebra
-  haveI : IsScalarTower (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
+  have : IsScalarTower (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
       (D.X'.presheaf.stalk (D.i.hom.base x)) (D.X.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  haveI : IsScalarTower (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
+  have : IsScalarTower (D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)))
       (D.S.presheaf.stalk (D.f.hom.base x)) (D.X.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_smul fun a b => congrArg (fun r => r * b)
       (congrArg (fun g : D.S'.presheaf.stalk (D.f'.hom.base (D.i.hom.base x)) ⟶

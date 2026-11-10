@@ -24,8 +24,7 @@ is a relative dualizing complex.
   cohomology module in the same degree of `R' ⊗_R P`, for `P` regarded as a complex of
   `R`-modules.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_fibre_isGE_of_flat`: the derived
-  fibre `ω_{A/R} ⊗_R^L κ(p)` is bounded below, given the projection-formula compatibility at
-  `κ(p)`.
+  fibre `ω_{A/R} ⊗_R^L κ(p)` is bounded below.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_isRelativelyPerfect_of_flat`:
   `ω_{A/R}` is perfect relative to `R`.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_isRelativeDualizing_of_flat`:
@@ -147,8 +146,7 @@ def baseChangeAlgebraIso :
         (StacksDraft.TorAmplitude.FaithfullyFlat.restrictScalarsSelfEquiv R R').symm)
   have hm : ∀ (a : A) (z : TensorProduct R R' A), m0 (a • z) = a • m0 z := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r b =>
         rw [hsmul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
         change m0 (r ⊗ₜ[R] (a * b)) = a • m0 (r ⊗ₜ[R] b)
@@ -233,13 +231,12 @@ private theorem isZero_homology_totalDerived_iff {S T : Type u} [CommRing S] [Co
       @asIso _ _ _ _ _ hP) ≪≫ (DerivedCategory.homologyFunctorFactors _ i).app _).isZero_iff
 
 /-- **The derived fibres of the relative dualizing complex are bounded below.** Let `φ : R → A` be
-flat of finite type between Noetherian rings and let `q` be a prime of `R`. Given the
-projection-formula compatibility `hProj` at the residue field `κ(q)`, the derived fibre
+flat of finite type between Noetherian rings and let `q` be a prime of `R`. The derived fibre
 `ω_{A/R} ⊗_R^L κ(q)` is cohomologically bounded below. -/
 theorem relativeDualizingComplex_fibre_isGE_of_flat
     [IsNoetherianRing R] [IsNoetherianRing A]
     (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (q : PrimeSpectrum R) (hProj : p.ProjectionCompatibility q.asIdeal.ResidueField) :
+    (q : PrimeSpectrum R) :
     ∃ a : ℤ,
       ((totalDerivedExtensionScalars.{u, u, u}
           (algebraMap R q.asIdeal.ResidueField)).functor.obj
@@ -289,12 +286,10 @@ theorem relativeDualizingComplex_fibre_isGE_of_flat
 /-- **The relative dualizing complex of a flat homomorphism of finite type of Noetherian rings is
 perfect relative to the base.** For `φ : R → A` flat of finite type between Noetherian rings,
 `ω_{A/R} = φ^!(R)` is perfect relative to `R` with respect to the canonical derived tensor
-product, given the projection-formula compatibility `hProj` at the residue field of every prime of
-`R`. -/
+product. -/
 theorem relativeDualizingComplex_isRelativelyPerfect_of_flat
     [IsNoetherianRing R] [IsNoetherianRing A]
-    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (hProj : ∀ q : PrimeSpectrum R, p.ProjectionCompatibility q.asIdeal.ResidueField) :
+    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     letI : Algebra.FinitePresentation R A :=
       Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
@@ -315,17 +310,15 @@ theorem relativeDualizingComplex_isRelativelyPerfect_of_flat
   · obtain ⟨a, ha⟩ := p.upperShriekFunctor_isBoundedBelow.{u, 0}
       ((derivedCategoryBBounded_singleFunctor_obj.{u, 0} (ModuleCat.of R R) inferInstance).1.1)
     exact ⟨a, (DerivedCategory.isGE_iff _ a).2 ha⟩
-  · exact fun q => p.relativeDualizingComplex_fibre_isGE_of_flat hflat q (hProj q)
+  · exact fun q => p.relativeDualizingComplex_fibre_isGE_of_flat hflat q
 
 /-- For `φ : R → A` flat of finite type between Noetherian rings, `ω_{A/R} = φ^!(R)` is a
-relative dualizing complex, given the projection-formula compatibility `hProj` at the residue field
-of every prime of `R` and the diagonal condition `hdiag`:
+relative dualizing complex, given the diagonal condition `hdiag`:
 `RHom_{A ⊗_R A}(A, ω_{A/R} ⊗_A^L (A ⊗_R A)) ≅ A[0]`, which is the second condition of
 `IsRelativeDualizingComplex`. -/
 theorem relativeDualizingComplex_isRelativeDualizing_of_flat
     [IsNoetherianRing R] [IsNoetherianRing A]
     (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (hProj : ∀ q : PrimeSpectrum R, p.ProjectionCompatibility q.asIdeal.ResidueField)
     (hdiag :
       letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
       Nonempty
@@ -345,7 +338,7 @@ theorem relativeDualizingComplex_isRelativeDualizing_of_flat
   let : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
   let : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
-  exact ⟨p.relativeDualizingComplex_isRelativelyPerfect_of_flat hflat hProj, hdiag⟩
+  exact ⟨p.relativeDualizingComplex_isRelativelyPerfect_of_flat hflat, hdiag⟩
 
 end PolynomialPresentation
 

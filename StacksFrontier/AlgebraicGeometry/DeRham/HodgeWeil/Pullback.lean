@@ -612,7 +612,7 @@ theorem hodgePullback_id (f : X ⟶ S) (w : 𝟙 X ≫ f = f ≫ 𝟙 S) (p : �
 theorem hodgeBaseRingHom_id (f : X ⟶ S) (w : 𝟙 X ≫ f = f ≫ 𝟙 S) :
     hodgeBaseRingHom (𝟙 X) f f (𝟙 S) w = RingHom.id _ := by
   ext a
-  show ((inverseImageBaseMap (𝟙 X) f f (𝟙 S) w).hom.c.app (op ⊤)).hom a = a
+  change ((inverseImageBaseMap (𝟙 X) f f (𝟙 S) w).hom.c.app (op ⊤)).hom a = a
   rw [inverseImageBaseMap_id]
   rfl
 
@@ -684,7 +684,7 @@ theorem hodgeBaseRingHom_comp :
     hodgeBaseRingHom (g'' ≫ g') f'' f (h ≫ g) w'' =
       (hodgeBaseRingHom g'' f'' f' h w').comp (hodgeBaseRingHom g' f' f g w) := by
   ext a
-  show ((inverseImageBaseMap (g'' ≫ g') f'' f (h ≫ g) w'').hom.c.app (op ⊤)).hom a = _
+  change ((inverseImageBaseMap (g'' ≫ g') f'' f (h ≫ g) w'').hom.c.app (op ⊤)).hom a = _
   rw [inverseImageBaseMap_comp g' f' f g w g'' f'' h w' w'']
   rfl
 

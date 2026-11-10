@@ -170,7 +170,7 @@ private theorem evalSpan_map_basicOpen (X : Scheme.{u}) (L : X.Modules)
     (L.presheaf.map (homOfLE le_top).op s)
   have hres : Scheme.Modules.restrictionLinearMap L (homOfLE (X.basicOpen_le f))
       (L.presheaf.map (homOfLE le_top).op s) = L.presheaf.map (homOfLE le_top).op s := by
-    show L.presheaf.map (homOfLE (X.basicOpen_le f)).op
+    change L.presheaf.map (homOfLE (X.basicOpen_le f)).op
       (L.presheaf.map (homOfLE le_top).op s) = _
     exact congrArg (fun k => (ConcreteCategory.hom k) s)
       (((L.presheaf.map_comp (homOfLE le_top).op (homOfLE (X.basicOpen_le f)).op).symm.trans
@@ -201,7 +201,7 @@ theorem zeroScheme_ideal (X : Scheme.{u}) (L : X.Modules)
         A (X.affineBasicOpen g) :=
     evalSpan_map_basicOpen X L s V g
   let J : X.IdealSheafData := { ideal := A, map_ideal_basicOpen := hmap }
-  show (Scheme.IdealSheafData.ofIdeals A).ideal U = A U
+  change (Scheme.IdealSheafData.ofIdeals A).ideal U = A U
   rw [show A = J.ideal from rfl, Scheme.IdealSheafData.ofIdeals_ideal J]
 
 end Stacks.Divisors

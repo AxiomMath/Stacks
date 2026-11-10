@@ -167,7 +167,7 @@ theorem exists_isPerfect_lift_of_structureSheaf_of_isAffine (X : Scheme.{u}) [Is
     (derivedRestrictComp j.inv U.ι).symm ≪≫ derivedRestrictEq hj.symm ≪≫
       derivedRestrictComp U'.ι e.inv
   have hU' : IsCompact (U' : Set (Spec Γ(X, ⊤))) := by
-    show IsCompact (e.hom.base '' (U : Set X))
+    change IsCompact (e.hom.base '' (U : Set X))
     exact hU.image e.hom.base.hom.continuous
   exact Functor.exists_map_comp_eq_map_of_equivalence Φ (derivedRestrict U.ι)
     (derivedRestrict U'.ι) Θ κ _ _ (derivedRestrictStructureSheafIso e.inv)

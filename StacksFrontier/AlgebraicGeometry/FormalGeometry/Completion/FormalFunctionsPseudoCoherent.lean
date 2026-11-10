@@ -90,7 +90,8 @@ public theorem finite_homology_derivedSections_of_isPseudoCoherent (X : Scheme.{
   have hqc : ∀ q : ℤ, ((DerivedCategory.homologyFunctor X.Modules q).obj K).IsQuasicoherent :=
     AlgebraicGeometry.isQuasicoherentDerived_of_isPseudoCoherent X K ⟨P, hP, e⟩
   have hac : ∀ V ∈ X.affineOpens, ∀ r : ℕ, 0 < r → ∀ q : ℤ,
-      IsZero (((SheafOfModules.evaluation (structureSheafRing X.toRingedSpace) (op V)).rightDerived r).obj
+      IsZero (((SheafOfModules.evaluation (structureSheafRing X.toRingedSpace)
+          (op V)).rightDerived r).obj
         ((DerivedCategory.homologyFunctor
           (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) q).obj K)) := by
     intro V hV r hr q

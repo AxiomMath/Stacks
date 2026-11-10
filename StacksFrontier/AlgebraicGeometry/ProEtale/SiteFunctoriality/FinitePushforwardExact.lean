@@ -77,7 +77,7 @@ theorem SmallProetale.isWContractibleObject_baseChange
   have haff' : IsAffine (B.inclusion.obj (pullback U.obj.hom f)) :=
     isAffine_of_isAffineHom (B.inclusion.map (pullback.fst U.obj.hom f))
   refine ⟨haff', ?_⟩
-  show IsWContractible.{u, u} Γ(B.inclusion.obj (pullback U.obj.hom f), ⊤)
+  change IsWContractible.{u, u} Γ(B.inclusion.obj (pullback U.obj.hom f), ⊤)
   let p := B.inclusion.map (pullback.fst U.obj.hom f)
   exact @isWContractible_of_finite_of_finitePresentation
     Γ(B.inclusion.obj U.obj.left, ⊤) Γ(B.inclusion.obj (pullback U.obj.hom f), ⊤) _ _

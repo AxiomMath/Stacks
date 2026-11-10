@@ -6,7 +6,7 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.Order.Ring.Star
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Topology.Sheaves.Presheaf
 
 public import StacksFrontier.RingTheory.HilbertFunction
@@ -237,7 +237,7 @@ private lemma IsNumericalPoly.shift {f : ℕ → ℤ} (h : IsNumericalPoly f) :
   obtain ⟨N, hN⟩ := eventually_atTop.mp ha
   refine ⟨r, fun i => (if i ≤ r then a i else 0) + (if i + 1 ≤ r then a (i + 1) else 0),
     eventually_atTop.mpr ⟨N, fun n hn => ?_⟩⟩
-  show f (n + 1) = ∑ i ∈ range (r + 1), (n.choose i : ℤ) *
+  change f (n + 1) = ∑ i ∈ range (r + 1), (n.choose i : ℤ) *
     ((if i ≤ r then a i else 0) + (if i + 1 ≤ r then a (i + 1) else 0))
   have hA : ∀ i ∈ range (r + 1), ((n + 1).choose i : ℤ) * a i
       = ((n + 1).choose i : ℤ) * (if i ≤ r then a i else 0) := fun i hi => by
@@ -589,7 +589,7 @@ private lemma mem_relCyc {d : ℕ} {f : MvPolynomial (Fin s) R} :
     f ∈ relCyc x ν N' d ↔
       MvPolynomial.aeval x f • ν ∈ filt (Ideal.span (Set.range x)) N' d ∧ f.IsHomogeneous d := by
   rw [relCyc, Submodule.mem_inf, MvPolynomial.mem_homogeneousSubmodule, LinearMap.mem_ker]
-  show (filt (Ideal.span (Set.range x)) N' d).mkQ (MvPolynomial.aeval x f • ν) = 0 ∧ _ ↔ _
+  change (filt (Ideal.span (Set.range x)) N' d).mkQ (MvPolynomial.aeval x f • ν) = 0 ∧ _ ↔ _
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
 
 private lemma X_mul_mem_relCyc_succ (i : Fin s) {d : ℕ} {f : MvPolynomial (Fin s) R}
@@ -876,7 +876,7 @@ private lemma ker_evalRes (hmν : IsLocalRing.maximalIdeal R • Submodule.span 
           (relCyc x ν N' d) := by
   ext f
   rw [LinearMap.mem_ker, Submodule.mem_comap, Submodule.subtype_apply]
-  show (Submodule.mkQ (homogPiece (relIdealRes x ν N') d)) (homogPart d f) = 0 ↔ _
+  change (Submodule.mkQ (homogPiece (relIdealRes x ν N') d)) (homogPart d f) = 0 ↔ _
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, homogPiece, Submodule.mem_comap,
     Submodule.subtype_apply, Submodule.restrictScalars_mem, homogPart_coe]
   exact mem_relIdealRes_iff x ν N' hmν ((MvPolynomial.mem_homogeneousSubmodule _ _).mp f.2)

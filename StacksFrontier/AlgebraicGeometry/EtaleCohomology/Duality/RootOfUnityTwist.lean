@@ -105,10 +105,10 @@ theorem map_restriction_extForgetSheafH {FX : Sheaf X.smallEtaleTopology AddComm
         intro y
         obtain ⟨z, hz⟩ := ZMod.intCast_surjective y.down
         refine ⟨ULift.up z, ULift.ext ?_⟩
-        show z • (1 : ZMod n) = y.down
+        change z • (1 : ZMod n) = y.down
         rw [zsmul_eq_mul, mul_one, hz]
       have : Epi (etaleModuleUnderlyingAbelianConstantMap (ZMod n) X) := by
-        show Epi ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).map
+        change Epi ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).map
           (uliftIntToULiftHom.{u} (ZMod n)) ≫ _)
         have : (constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).IsLeftAdjoint :=
           (constantSheafAdj X.smallEtaleTopology AddCommGrpCat.{u + 1}
@@ -205,11 +205,11 @@ theorem rootSheafHom_app_one {X : Scheme.{u}} (fX : X ⟶ Spec (.of k)) (U : X.E
     ((uliftIntToULiftHom.{u} (ZMod n)) (ULift.up 1))
   have h3 : ((uliftIntToULiftHom.{u} (ZMod n)) (ULift.up 1) : ULift.{u + 1} (ZMod n)).down =
       ((1 : ℤ) : ZMod n) := by
-    show (1 : ℤ) • (1 : ZMod n) = _
+    change (1 : ℤ) • (1 : ZMod n) = _
     simp
   refine (congrArg ((Stacks.Kummer.rootSheafHom fX hζ hn).hom.app (Opposite.op U)) h1.symm).trans
     (h2.trans ?_)
-  show Stacks.Kummer.rootHom fX hζ hn U
+  change Stacks.Kummer.rootHom fX hζ hn U
     ((uliftIntToULiftHom.{u} (ZMod n)) (ULift.up 1) : ULift.{u + 1} (ZMod n)).down = _
   rw [h3, Stacks.Kummer.rootHom_intCast, one_zsmul]
 

@@ -72,7 +72,9 @@ complex is exact there too; that is the argument of [Stacks, Tag 09VW].
 ## Implementation notes
 
 No `@[stacks]` attribute is placed here, for the reason recorded in
-`CohomologyZeroCanonical.lean` and in `StacksFrontier/CategoryTheory/Sites/Cohomology/ObjectSections/DerivedSectionsComparison.lean`: the statements are about
+`CohomologyZeroCanonical.lean` and in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/ObjectSections/DerivedSectionsComparison.lean`:
+the statements are about
 the complex `s(**Z**_A^♯)` of an augmented simplicial presheaf and about an abstract additive
 functor, not about Tag 01GX's Čech complex, and in the general statements the three defining
 conditions of a hypercovering play no role.  The hypercovering specialisation at the end is the
@@ -315,7 +317,7 @@ lemma exactAt_homComplexFunctor_obj_succ_iff (K : ChainComplex W ℕ) (F : W) (n
         K.fromOpcycles (n + 1) n ≫ b = a := by
   rw [((homComplexFunctor K).obj F).exactAt_iff' n (n + 1) (n + 2) (by simp) (by simp),
     ShortComplex.ab_exact_iff]
-  show (∀ x : K.X (n + 1) ⟶ F, K.d (n + 2) (n + 1) ≫ x = 0 →
+  change (∀ x : K.X (n + 1) ⟶ F, K.d (n + 2) (n + 1) ≫ x = 0 →
       ∃ y : K.X n ⟶ F, K.d (n + 1) n ≫ y = x) ↔ _
   constructor
   · intro h a
@@ -385,7 +387,7 @@ lemma freeAbelianSheafEpsZero_comp_d (F : Sheaf J AddCommGrpCat.{w}) (k : ℕ)
     (hk : (ComplexShape.up ℕ).Rel 0 k) :
     freeAbelianSheafEpsZero J A F ≫ ((freeAbelianSheafHomCx J A).obj F).d 0 k = 0 := by
   obtain rfl : k = 1 := by simpa using hk.symm
-  show (preadditiveYoneda.obj F).map (freeAbelianSheafAugZero J A).op ≫
+  change (preadditiveYoneda.obj F).map (freeAbelianSheafAugZero J A).op ≫
       (preadditiveYoneda.obj F).map
         (((SimplicialObject.freeAbelianSheafComplexFunctor J).obj A.left).d 1 0).op = 0
   rw [← Functor.map_comp, ← op_comp, d_comp_freeAbelianSheafAugZero, op_zero,

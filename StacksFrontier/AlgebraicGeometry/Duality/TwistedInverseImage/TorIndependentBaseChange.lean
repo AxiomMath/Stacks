@@ -90,9 +90,9 @@ theorem quasiCoherentDerivedAdjunction_counit_app_hom {X Y : Scheme.{u}} (f : X 
     (ObjectProperty.fullyFaithfulι _) (ObjectProperty.fullyFaithfulι _)
     (quasiCoherentDerivedPullbackCompιIso f hpull).symm
     (DerivedPushforward.quasiCoherentDerivedPushforwardCompιIso f hpush).symm K
-  simp only [Iso.symm_hom, Iso.symm_inv] at h
+  simp only [Iso.symm_inv] at h
   refine h.trans ?_
-  show 𝟙 _ ≫ (derivedPullback f).map (𝟙 _) ≫ _ = _
+  change 𝟙 _ ≫ (derivedPullback f).map (𝟙 _) ≫ _ = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp]
   rfl
 
@@ -111,9 +111,9 @@ theorem quasiCoherentDerivedAdjunction_unit_app_hom {X Y : Scheme.{u}} (f : X �
     (ObjectProperty.fullyFaithfulι _) (ObjectProperty.fullyFaithfulι _)
     (quasiCoherentDerivedPullbackCompιIso f hpull).symm
     (DerivedPushforward.quasiCoherentDerivedPushforwardCompιIso f hpush).symm K
-  simp only [Iso.symm_hom, Iso.symm_inv] at h
+  simp only [Iso.symm_hom] at h
   refine h.trans ?_
-  show _ ≫ (derivedPushforward f).map (𝟙 _) ≫ 𝟙 _ = _
+  change _ ≫ (derivedPushforward f).map (𝟙 _) ≫ 𝟙 _ = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
   rfl
 
@@ -250,7 +250,7 @@ theorem quasiCoherentDerivedPushforwardSquareIso_hom_eq (w : g' ≫ f = f' ≫ g
         (quasiCoherentDerivedAdjunction g' (isQuasicoherent_homology_derivedPullback' g') hpushg')
         (quasiCoherentDerivedPullbackCompIso f' g)
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫
-          quasiCoherentDerivedPullbackCongr w)).natTrans :=
+          quasiCoherentDerivedPullbackCongr w)) :=
   ObjectProperty.eq_conjugateEquiv_restrict_comp (derivedAdjunction f) (derivedAdjunction f')
     (derivedAdjunction g) (derivedAdjunction g') _ hpushf _ hpushf' _ hpushg _ hpushg' _ _
     (squareCompositeIso_quasiCoherentDerivedPullbackCompIso_hom_app_hom g' f' f g w) _
@@ -298,10 +298,10 @@ theorem twistedInverseImagePushforwardBaseChange_eq_conjugateEquiv (sq : IsPullb
         ((twistedInverseImageAdjunction f hpushf).comp
           (quasiCoherentDerivedAdjunction g hpullg hpushg))
         (quasiCoherentDerivedBaseChange g' f' f g hpushg' hpushf hpushf' hpushg hpullg hpullg'
-          sq.w).natTrans := by
+          sq.w) := by
   rw [← iterated_mateEquiv_conjugateEquiv]
   exact (congrArg (fun γ => (mateEquiv (twistedInverseImageAdjunction f' hpushf')
-    (twistedInverseImageAdjunction f hpushf) γ).natTrans)
+    (twistedInverseImageAdjunction f hpushf) γ))
       ((mateEquiv (quasiCoherentDerivedAdjunction g' hpullg' hpushg')
         (quasiCoherentDerivedAdjunction g hpullg hpushg)).apply_symm_apply _)).symm
 
@@ -309,7 +309,7 @@ theorem twistedInverseImagePushforwardBaseChange_eq_conjugateEquiv (sq : IsPullb
 proof of [Stacks, Tag 0A9K] from the invertibility of the base change map. -/
 theorem isIso_twistedInverseImagePushforwardBaseChange_of_isIso (sq : IsPullback g' f' f g)
     [IsIso (quasiCoherentDerivedBaseChange g' f' f g hpushg' hpushf hpushf' hpushg hpullg hpullg'
-      sq.w).natTrans] :
+      sq.w)] :
     IsIso (twistedInverseImagePushforwardBaseChange g' f' f g hpushg' hpushf hpushf' hpushg
       sq) := by
   rw [twistedInverseImagePushforwardBaseChange_eq_conjugateEquiv g' f' f g hpushg' hpushf

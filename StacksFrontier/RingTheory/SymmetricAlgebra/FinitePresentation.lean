@@ -187,7 +187,7 @@ theorem ofQuotient_mk (y : SymmetricAlgebra R N) :
 theorem toQuotient_comp_mapQuotient :
     (toQuotient K).comp (mapQuotient K) = Ideal.Quotient.mkₐ R (idealOfSubmodule K) := by
   refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun x => ?_)
-  show (toQuotient K) ((mapQuotient K) (ι R N x)) =
+  change (toQuotient K) ((mapQuotient K) (ι R N x)) =
     Ideal.Quotient.mk (idealOfSubmodule K) (ι R N x)
   rw [mapQuotient_ι, toQuotient, SymmetricAlgebra.lift_ι_apply, quotientGen_mkQ]
 

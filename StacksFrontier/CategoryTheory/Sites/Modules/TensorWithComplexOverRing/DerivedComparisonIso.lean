@@ -69,7 +69,7 @@ theorem tensorWithComplexHomotopy_adj_homEquiv_quotient
     Adjunction.ofNatIsoRight, NatTrans.comp_app, Quotient.natIsoLift]
   rw [Category.assoc]
   refine (congrArg _ ?_).trans (Category.comp_id _)
-  show (homWithComplexHomotopyOver.{u, u, u, u, u, u} X R L).map (𝟙 _) ≫ 𝟙 _ = 𝟙 _
+  change (homWithComplexHomotopyOver.{u, u, u, u, u, u} X R L).map (𝟙 _) ≫ 𝟙 _ = 𝟙 _
   exact (congrArg (· ≫ 𝟙 _) ((homWithComplexHomotopyOver.{u, u, u, u, u, u} X R L).map_id _)).trans
     (Category.comp_id _)
 
@@ -228,7 +228,7 @@ theorem tensorHomComparisonHomotopy_app
   simp only [tensorHomComparisonHomotopy, Quotient.natTransLift_app, NatTrans.comp_app,
     Functor.associator_inv_app, Functor.associator_hom_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app, Category.id_comp, eqToHom_app]
-  show _ ≫ 𝟙 _ ≫ _ ≫ 𝟙 _ = _
+  change _ ≫ 𝟙 _ ≫ _ ≫ 𝟙 _ = _
   rw [Category.id_comp]
   exact congrArg (_ ≫ ·) (Category.comp_id _)
 

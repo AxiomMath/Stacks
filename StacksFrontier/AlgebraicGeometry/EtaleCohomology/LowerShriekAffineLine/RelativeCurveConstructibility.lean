@@ -261,7 +261,7 @@ theorem exists_epi_sigma_etaleModuleExtensionByZero_quotientNSMul
   refine ⟨m, W, e, he, hW, Sigma.desc q', ?_⟩
   have hfac : Limits.Sigma.map (fun i ↦ (Ψ i).map (cokernel.π f)) ≫ Sigma.desc q' = p := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    simp only [Limits.Sigma.ι_map_assoc, Sigma.ι_desc, hq']
+    simp only [Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc, hq']
     rfl
   rw [← hfac] at hp
   exact epi_of_epi (Limits.Sigma.map fun i ↦ (Ψ i).map (cokernel.π f)) (Limits.Sigma.desc q')

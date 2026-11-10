@@ -66,10 +66,10 @@ public theorem two_le_depth_of_bijective_restrict_maximalIdeal {R : Type u} [Com
     have hcomp : (φ.comp I.mkQ).comp I.subtype = (ψ.comp I.mkQ).comp I.subtype := by
       ext x
       have hx : I.mkQ (x : R) = 0 := by
-        show Submodule.Quotient.mk (x : R) = 0
+        change Submodule.Quotient.mk (x : R) = 0
         rw [Submodule.Quotient.mk_eq_zero]
         exact x.property
-      show φ (I.mkQ (x : R)) = ψ (I.mkQ (x : R))
+      change φ (I.mkQ (x : R)) = ψ (I.mkQ (x : R))
       rw [hx, map_zero, map_zero]
     have hmaps : φ.comp I.mkQ = ψ.comp I.mkQ := h.1 hcomp
     refine LinearMap.ext fun q => ?_

@@ -144,7 +144,7 @@ theorem supp_pullback (f : Y ⟶ X) (F : X.Modules) [F.IsFiniteType] :
   refine Iff.trans
     (SheafOfModules.mem_supp_iff_nontrivial_stalk ((Scheme.Modules.pullback f).obj F) y)
     (Iff.trans ?_ (SheafOfModules.mem_supp_iff_nontrivial_stalk F (f y)).symm)
-  show Nontrivial ↑(TopCat.Presheaf.stalk ((Scheme.Modules.pullback f).obj F).val.presheaf y) ↔
+  change Nontrivial ↑(TopCat.Presheaf.stalk ((Scheme.Modules.pullback f).obj F).val.presheaf y) ↔
     Nontrivial ↑(TopCat.Presheaf.stalk F.val.presheaf (f y))
   let : Module ↑(X.presheaf.stalk (f y)) ↑(TopCat.Presheaf.stalk F.val.presheaf (f y)) :=
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier F.val (f y)

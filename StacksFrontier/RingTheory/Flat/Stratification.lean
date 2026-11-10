@@ -206,10 +206,10 @@ lemma Module.IsFlatAtPrimesOver.baseChange
     rw [Ideal.add_eq_sup]
     refine sup_le (Ideal.map_le_iff_le_comap.mpr fun a ha => ?_)
       (Ideal.map_le_iff_le_comap.mpr fun a ha => ?_)
-    · show f (1 ⊗ₜ[R] a) ∈ q
+    · change f (1 ⊗ₜ[R] a) ∈ q
       rw [Algebra.TensorProduct.map_tmul, map_one]
       exact hcontain (Ideal.mem_sup_left (Ideal.mem_map_of_mem _ (hI (Ideal.mem_map_of_mem _ ha))))
-    · show f (a ⊗ₜ[R] 1) ∈ q
+    · change f (a ⊗ₜ[R] 1) ∈ q
       rw [Algebra.TensorProduct.map_tmul, map_one]
       exact hcontain (Ideal.mem_sup_right (Ideal.mem_map_of_mem _ ha))
   have hflatp := hflat p hp hpcontain
@@ -219,11 +219,11 @@ lemma Module.IsFlatAtPrimesOver.baseChange
   let : IsScalarTower R' R'' S'' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   let : Algebra S' S'' := f.toRingHom.toAlgebra
   let : IsScalarTower R' S' S'' := IsScalarTower.of_algebraMap_eq fun a => by
-    show f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap R' R'' a
+    change f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap R' R'' a
     rw [Algebra.TensorProduct.map_tmul, map_one]
     rfl
   let : IsScalarTower S S' S'' := IsScalarTower.of_algebraMap_eq fun a => by
-    show a ⊗ₜ[R] 1 = f (a ⊗ₜ[R] 1)
+    change a ⊗ₜ[R] 1 = f (a ⊗ₜ[R] 1)
     symm
     rw [Algebra.TensorProduct.map_tmul, map_one]
     rfl
@@ -258,7 +258,7 @@ theorem Stacks.Flatness.Stratification.exists_prime_tensorProduct_quotient
   let pQ : Ideal (C ⧸ I) := p.map (Ideal.Quotient.mk I)
   have hpQ : pQ.IsPrime := Ideal.isPrime_map_quotientMk_of_isPrime hIp
   have hcomap : pQ.comap (algebraMap A (C ⧸ I)) = r := by
-    show (p.map (Ideal.Quotient.mk I)).comap
+    change (p.map (Ideal.Quotient.mk I)).comap
       ((Ideal.Quotient.mk I).comp (algebraMap A C)) = _
     rwa [← Ideal.comap_comap, Ideal.comap_map_mk hIp]
   let : Nontrivial (r.ResidueField ⊗[A] (C ⧸ I)) :=
@@ -297,10 +297,10 @@ theorem Stacks.Flatness.Stratification.exists_prime_pushout_of_closed_surjective
     ext c
     simp [φ, e, Algebra.IsPushout.equiv_symm_algebraMap_right]
   refine ⟨t.comap φ, ht.comap _, ?_, ?_⟩
-  · show t.comap (φ.comp (algebraMap B D)) = q
+  · change t.comap (φ.comp (algebraMap B D)) = q
     rwa [hφB]
   · intro c hc
-    show φ (algebraMap C D c) ∈ t
+    change φ (algebraMap C D c) ∈ t
     rw [← RingHom.comp_apply, hφC, RingHom.comp_apply]
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr hc]
 
@@ -345,19 +345,19 @@ private theorem Module.Flat.localizedModule_tensor_of_flat_localization
   let : IsScalarTower R'' (Localization.AtPrime p'')
       (LocalizedModule q''.primeCompl (S'' ⊗[S] M)) :=
     IsScalarTower.of_algebraMap_smul fun r z => by
-      show (algebraMap (Localization.AtPrime p'') D
+      change (algebraMap (Localization.AtPrime p'') D
         (algebraMap R'' (Localization.AtPrime p'') r)) • z = r • z
-      rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq,
+      rw [Localization.AtPrime.algebraMap_eq,
         Localization.localRingHom_to_map,
         ← IsScalarTower.algebraMap_apply R'' S'' D,
         IsScalarTower.algebraMap_smul D]
   let : IsScalarTower R' (Localization.AtPrime p'')
       (LocalizedModule q''.primeCompl (S'' ⊗[S] M)) :=
     IsScalarTower.of_algebraMap_smul fun r z => by
-      show (algebraMap (Localization.AtPrime p'') D
+      change (algebraMap (Localization.AtPrime p'') D
         (algebraMap R' (Localization.AtPrime p'') r)) • z = r • z
       rw [IsScalarTower.algebraMap_apply R' R'' (Localization.AtPrime p''),
-        Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq,
+        Localization.AtPrime.algebraMap_eq,
         Localization.localRingHom_to_map]
       calc
         (algebraMap S'' D (algebraMap R'' S'' (algebraMap R' R'' r))) • z =
@@ -436,11 +436,11 @@ lemma Module.IsFlatAtPrimesOver.of_baseChange
   let : IsScalarTower R' R'' S'' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   let : Algebra S' S'' := f.toRingHom.toAlgebra
   let : IsScalarTower R' S' S'' := IsScalarTower.of_algebraMap_eq fun a => by
-    show f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap R' R'' a
+    change f (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] algebraMap R' R'' a
     rw [Algebra.TensorProduct.map_tmul, map_one]
     rfl
   let : IsScalarTower S S' S'' := IsScalarTower.of_algebraMap_eq fun a => by
-    show a ⊗ₜ[R] 1 = f (a ⊗ₜ[R] 1)
+    change a ⊗ₜ[R] 1 = f (a ⊗ₜ[R] 1)
     symm
     rw [Algebra.TensorProduct.map_tmul, map_one]
     rfl
@@ -465,7 +465,7 @@ lemma Module.IsFlatAtPrimesOver.of_baseChange
       hqcontain (Ideal.mem_sup_right (Ideal.mem_map_of_mem _ ha))
     change algebraMap S S' a ∈ q at hmem
     rw [← hqf] at hmem
-    show algebraMap S S'' a ∈ q''
+    change algebraMap S S'' a ∈ q''
     rwa [IsScalarTower.algebraMap_apply S S' S'']
   have hflatq'' := h q'' hq'' hq''contain
   let p'' : Ideal R'' := q''.comap (algebraMap R'' S'')
@@ -488,7 +488,7 @@ private theorem Module.isTorsionBySet_quotient_map_smul_top
   intro z r
   induction z using Quotient.inductionOn' with
   | _ m =>
-    show (Submodule.Quotient.mk ((r : R) • m) :
+    change (Submodule.Quotient.mk ((r : R) • m) :
       M ⧸ A.map (algebraMap R S) • (⊤ : Submodule S M)) = 0
     refine (Submodule.Quotient.mk_eq_zero _).mpr ?_
     rw [← IsScalarTower.algebraMap_smul S (r : R) m]
@@ -504,7 +504,7 @@ private theorem Module.isTorsionBySet_localizedModule_quotient_map_smul_top
   intro z r
   obtain ⟨⟨z, s⟩, rfl⟩ := IsLocalizedModule.mk'_surjective P
     (LocalizedModule.mkLinearMap P (M ⧸ A.map (algebraMap R S) • (⊤ : Submodule S M))) z
-  show (r : R) • IsLocalizedModule.mk'
+  change (r : R) • IsLocalizedModule.mk'
     (LocalizedModule.mkLinearMap P (M ⧸ A.map (algebraMap R S) • (⊤ : Submodule S M))) z s = 0
   rw [← IsLocalizedModule.mk'_smul, Module.isTorsionBySet_quotient_map_smul_top A]
   exact IsLocalizedModule.mk'_zero _ _
@@ -542,7 +542,7 @@ private theorem Module.flat_quotient_smul_localizedModule_atPrime
         (⊤ : Submodule S M) (A.map (algebraMap R S))
       rwa [Submodule.localized'_top] at hsmul
     rw [hloc]
-    show (((A.map (algebraMap R S)).localized' B q.primeCompl
+    change (((A.map (algebraMap R S)).localized' B q.primeCompl
         (Algebra.linearMap S B) • (⊤ : Submodule B N)).restrictScalars S).restrictScalars R = _
     rw [Submodule.restrictScalars_localized'_smul,
       Ideal.smul_restrictScalars, Submodule.restrictScalars_top,
@@ -826,7 +826,7 @@ private theorem exists_stage_flat_localizedModule_atPrime_comap
   have hmap : Ideal.map (σ i₀).toRingHom K =
       Ideal.map τ'.toRingHom (Ideal.span (G : Set (C ⊗[R] L))) :=
     Ideal.map_span_range_eq_map_span_finset _ _ G (fun a => τ i₀ (y a)) fun a => by
-      show τ' a.1 = σ i₀ (τ i₀ (y a))
+      change τ' a.1 = σ i₀ (τ i₀ (y a))
       rw [hτ', hy]
   obtain ⟨j, hij, hjcover⟩ := Ideal.exists_ge_sup_map_eq_top hB J hJ i₀ K
     (by rwa [hmap])
@@ -835,7 +835,7 @@ private theorem exists_stage_flat_localizedModule_atPrime_comap
         (Algebra.TensorProduct.map (AlgHom.id R C) (f (hik.trans hkl)) (y a))
         ((C ⊗[R] A l) ⊗[C] N)) := fun a => by
     apply Module.Flat.exists_ge_flat_localizationAway_tensorProduct N hc i₀ (y a)
-    show Module.Flat L (LocalizedModule.Away
+    change Module.Flat L (LocalizedModule.Away
       (Algebra.TensorProduct.map (AlgHom.id R C) (ρ i₀) (y a))
         ((C ⊗[R] L) ⊗[C] N))
     rw [hy]
@@ -1079,7 +1079,7 @@ theorem Module.exists_isFlatAtPrimesOver_of_isColimit
   obtain ⟨a, ha⟩ := exists_isFlatAtPrimesOver_of_isDirectedColimit
     (M := M) J hS hdir (fun a => I (H.obj a))
     (fun {_ _} h => hI (H.map (homOfLE h))) (by
-      show Module.IsFlatAtPrimesOver (R := R) (M := M) J (c.pt : Type x)
+      change Module.IsFlatAtPrimesOver (R := R) (M := M) J (c.pt : Type x)
         (⨆ a, Ideal.map (c.ι.app (H.obj a)).hom.toRingHom (I (H.obj a)))
       rwa [he])
   exact ⟨H.obj a, ha⟩

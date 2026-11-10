@@ -102,7 +102,7 @@ theorem toProjectiveSpace_pullbackAlong {Y : Scheme.{u}} (g : Y ⟶ D.X) {n : �
     (b : Module.Basis (Fin (n + 1)) D.k D.V) (hb : D.GeneratesBy b) :
     (D.pullbackAlong g).toProjectiveSpace b (generatesBy_pullbackAlong g hb) =
       g ≫ D.toProjectiveSpace b hb := by
-  show toProjectiveSpaceOver (fun i => (D.pullbackAlong g).sectionOf (b i))
+  change toProjectiveSpaceOver (fun i => (D.pullbackAlong g).sectionOf (b i))
       (generatesBy_pullbackAlong g hb) (g ≫ D.toBase) ≫ (basisProjectiveSpaceIso b).hom =
     g ≫ (toProjectiveSpaceOver (fun i => D.sectionOf (b i)) hb D.toBase ≫
       (basisProjectiveSpaceIso b).hom)
@@ -118,7 +118,7 @@ theorem isImmersive_pullbackAlong {Y : Scheme.{u}} (g : Y ⟶ D.X) [AlgebraicGeo
     (himm : D.IsImmersive b hb) :
     (D.pullbackAlong g).IsImmersive b (generatesBy_pullbackAlong g hb) := by
   have : AlgebraicGeometry.IsImmersion (D.toProjectiveSpace b hb) := himm
-  show AlgebraicGeometry.IsImmersion
+  change AlgebraicGeometry.IsImmersion
     ((D.pullbackAlong g).toProjectiveSpace b (generatesBy_pullbackAlong g hb))
   rw [toProjectiveSpace_pullbackAlong g b hb]
   exact AlgebraicGeometry.IsImmersion.comp g (D.toProjectiveSpace b hb)

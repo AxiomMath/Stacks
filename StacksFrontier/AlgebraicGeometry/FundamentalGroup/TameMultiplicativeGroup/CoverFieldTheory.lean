@@ -45,7 +45,7 @@ theorem tensorLift_tmul (e : E) (c : C) : tensorLift ψ (e ⊗ₜ c) = algebraMa
 /-- Each `ψ(c)` lies in the image of `E ⊗_A C`. -/
 theorem mem_range_tensorLift (c : C) : ψ c ∈ (tensorLift (E := E) ψ).range :=
   ⟨1 ⊗ₜ c, by
-    show tensorLift ψ (1 ⊗ₜ c) = ψ c
+    change tensorLift ψ (1 ⊗ₜ c) = ψ c
     rw [tensorLift_tmul, map_one, one_mul]⟩
 
 variable [Module.Finite A C]

@@ -551,7 +551,7 @@ theorem roundTrip_exists_lift (M : Type u) [AddCommGroup M] [Module (D : Type u)
   obtain ⟨ψ₂, hψ₂, hψ₂i⟩ := CompletedConnection.exists_baseChange_lift p R.ring D
     (CompletedConnection.baseChangeCarrier p D R.ring M) (RingHom.id _) hN ψ₁ hψ₁
   refine ⟨{ toFun := ψ₂, map_add' := map_add ψ₂, map_smul' := hψ₂ }, fun m ↦ ?_⟩
-  show ψ₂ (CompletedConnection.baseChangeInclusion p R.ring D _
+  change ψ₂ (CompletedConnection.baseChangeInclusion p R.ring D _
     (CompletedConnection.baseChangeInclusion p D R.ring M m)) = φ m
   rw [hψ₂i, hψ₁i]
 

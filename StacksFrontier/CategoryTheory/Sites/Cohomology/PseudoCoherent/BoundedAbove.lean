@@ -66,7 +66,7 @@ public theorem CochainComplex.exists_isZero_homologyFunctor_obj_of_finite
   obtain ⟨b, hb⟩ := h.bddAbove
   refine ⟨b, fun j hj => HomologicalComplex.isZero_homologyFunctor_obj_of_isZero_X E j ?_⟩
   by_contra hz
-  exact absurd (hb (Set.mem_setOf.2 hz)) (not_le.2 hj)
+  exact absurd (hb (Set.mem_ofPred.2 hz)) (not_le.2 hj)
 
 namespace AlgebraicGeometry.RingedSite
 

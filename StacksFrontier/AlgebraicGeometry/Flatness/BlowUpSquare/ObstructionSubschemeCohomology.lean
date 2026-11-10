@@ -98,10 +98,10 @@ theorem subschemeRingHom_apply (C : AffineChart S) (T : S.D.subscheme.IdealSheaf
     (C.subschemeRingHom T).hom a = (T.subschemeObjIso C.divisorAffineOpen).inv.hom
       (Ideal.Quotient.mk _ ((S.D.subschemeι.app C.U.1).hom a)) := by
   rw [subschemeRingHom, Scheme.Hom.comp_appLE]
-  show (T.subscheme.presheaf.map (homOfLE _).op).hom ((T.subschemeι.app
+  change (T.subscheme.presheaf.map (homOfLE _).op).hom ((T.subschemeι.app
     (C.divisorAffineOpen : S.D.subscheme.Opens)).hom ((S.D.subschemeι.app C.U.1).hom a)) = _
   rw [Scheme.IdealSheafData.subschemeι_app T C.divisorAffineOpen]
-  show (T.subscheme.presheaf.map (𝟙 (Opposite.op
+  change (T.subscheme.presheaf.map (𝟙 (Opposite.op
     ((C.subschemeAffineOpen T : T.subscheme.affineOpens) : T.subscheme.Opens)))).hom _ = _
   rw [CategoryTheory.Functor.map_id]
   rfl
@@ -126,7 +126,7 @@ theorem subschemeRingHom_eq (C : AffineChart S) (T : S.D.subscheme.IdealSheafDat
         (Ideal.Quotient.mk (Ideal.span {C.f}))) := by
   ext a
   rw [subschemeRingHom_apply]
-  show _ = (T.subschemeObjIso C.divisorAffineOpen).inv.hom
+  change _ = (T.subschemeObjIso C.divisorAffineOpen).inv.hom
     (Ideal.Quotient.mk _ (C.divisorQuotEquiv.symm (Ideal.Quotient.mk _ a)))
   rw [divisorQuotEquiv_symm_mk]
 

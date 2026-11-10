@@ -107,7 +107,12 @@ def liftDiagramTwoTerm (obj : T)
   proj := proj
   distinguished := hT
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] [single.Full] [single.Faithful]
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] [single.Full] [single.Faithful]
   [single.Additive] in
 /-- The differential of `liftDiagramTwoTerm` is the differential of the conormal sequence. -/
 @[simp] theorem liftDiagramTwoTerm_d (obj : T)

@@ -66,7 +66,7 @@ public lemma reesMultiple_natCast_eq_idealPowerMultiple {X : Scheme.{u}}
     have hfin := hgen (Submodule.smul_mem_smul hmem
       (Submodule.mem_top (x := Stacks.restr F.val (homOfLE hle).op m)))
     rw [Subsingleton.elim hiV (homOfLE hle)]
-    show Stacks.restr F.val (homOfLE hle).op (reesPieceAmbient I (n : ℤ) U r • m) ∈
+    change Stacks.restr F.val (homOfLE hle).op (reesPieceAmbient I (n : ℤ) U r • m) ∈
       (idealPowerMultiple I n F).toSubmodule.obj (op V.1)
     exact hres ▸ hfin
   · refine (idealPowerMultiple_le_iff I n F _).2 fun U => ?_

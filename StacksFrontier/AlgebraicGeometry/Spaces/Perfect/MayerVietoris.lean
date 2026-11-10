@@ -222,7 +222,7 @@ theorem mem_distTriang_biprod_of_natural_shortExact [Ψ.Additive] [PreservesFini
     Functor.biprodIsoOfAdditive_inv_map_desc _ _ _ _ _
   have hz' : biprod.lift a' (-b') ≫ biprod.desc cU' cV' = 0 := by
     ext n
-    show (ev n).map (biprod.lift a' (-b') ≫ biprod.desc cU' cV') = 0
+    change (ev n).map (biprod.lift a' (-b') ≫ biprod.desc cU' cV') = 0
     rw [(ev n).map_comp, e1 n, assoc, e2 n, hzero (K.X n)]
   have hS : (ShortComplex.mk _ _ hz').ShortExact := by
     refine HomologicalComplex.shortExact_of_degreewise_shortExact _ (fun n => ?_)

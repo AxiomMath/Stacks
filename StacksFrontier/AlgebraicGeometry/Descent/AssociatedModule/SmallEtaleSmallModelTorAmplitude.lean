@@ -103,7 +103,8 @@ This is registered as an instance because it is the instance argument every clau
 Stacks 06YY, 07A4 and 08H5 carries. -/
 public instance hasLeftDerivedFunctor_toZariskiSmallModel :
     (pullbackOnHomotopy (toZariskiSmallModelHom B S hS)).HasLeftDerivedFunctor
-      (HomotopyCategory.quasiIso (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedTopos.O))
+      (HomotopyCategory.quasiIso
+        (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedTopos.O))
         (ComplexShape.up ℤ)) :=
   hasLeftDerivedFunctor_pullbackOnHomotopy (toZariskiSmallModelHom B S hS)
     (isMorphismOfSites_toZariskiSmallModelHom_u B S hS)
@@ -142,26 +143,27 @@ public theorem hasTorAmplitude_derivedPullback_toZariskiSmallModel
       (Stacks.SheafOfModules.Tensor.sheafTensor_additive S.zariskiRingedTopos.toRingedSite.O)
       (fun moduleSheaf => Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive
         S.zariskiRingedTopos.toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance))
+      (fun _ _ _ => inferInstance))
     (T' : @Stacks.SheafOfModules.DerivedTensorProduct (smallModelRingedTopos B S hS).toRingedSite
       inferInstance inferInstance inferInstance
-      (Stacks.SheafOfModules.Tensor.sheafTensor_additive (smallModelRingedTopos B S hS).toRingedSite.O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor_additive
+        (smallModelRingedTopos B S hS).toRingedSite.O)
       (fun moduleSheaf => Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive
         (smallModelRingedTopos B S hS).toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance))
+      (fun _ _ _ => inferInstance))
     (E : RingedSite.DerivedModules S.zariskiRingedTopos.toRingedSite) (a b : ℤ)
     (hamp : @HasTorAmplitude S.zariskiRingedTopos.toRingedSite
       inferInstance inferInstance inferInstance
       (Tensor.sheafTensor_additive.{u, u, u, u, u} S.zariskiRingedTopos.toRingedSite.O)
       (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
         S.zariskiRingedTopos.toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance) T E a b) :
+      (fun _ _ _ => inferInstance) T E a b) :
     @HasTorAmplitude (smallModelRingedTopos B S hS).toRingedSite
       inferInstance inferInstance inferInstance
       (Tensor.sheafTensor_additive.{u, u, u, u, u} (smallModelRingedTopos B S hS).toRingedSite.O)
       (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
         (smallModelRingedTopos B S hS).toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance)
+      (fun _ _ _ => inferInstance)
       T' ((derivedPullback (X := smallModelRingedTopos B S hS) (Y := S.zariskiRingedTopos)
       (toZariskiSmallModelHom B S hS)).obj E) a b :=
   @hasTorAmplitude_derivedPullback (smallModelRingedTopos B S hS) S.zariskiRingedTopos
@@ -169,11 +171,11 @@ public theorem hasTorAmplitude_derivedPullback_toZariskiSmallModel
     (Tensor.sheafTensor_additive.{u, u, u, u, u} (smallModelRingedTopos B S hS).O)
     (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
       (smallModelRingedTopos B S hS).O moduleSheaf)
-    (fun leftComplex rightComplex degree => inferInstance)
+    (fun _ _ _ => inferInstance)
     (Tensor.sheafTensor_additive.{u, u, u, u, u} S.zariskiRingedTopos.O)
     (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
       S.zariskiRingedTopos.O moduleSheaf)
-    (fun leftComplex rightComplex degree => inferInstance)
+    (fun _ _ _ => inferInstance)
     (toZariskiSmallModelHom B S hS) (isMorphismOfSites_toZariskiSmallModelHom_u B S hS)
     (hasLeftDerivedFunctor_toZariskiSmallModel B S hS) T T' E a b hamp
 
@@ -186,26 +188,27 @@ public theorem hasFiniteTorDimension_derivedPullback_toZariskiSmallModel
       (Stacks.SheafOfModules.Tensor.sheafTensor_additive S.zariskiRingedTopos.toRingedSite.O)
       (fun moduleSheaf => Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive
         S.zariskiRingedTopos.toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance))
+      (fun _ _ _ => inferInstance))
     (T' : @Stacks.SheafOfModules.DerivedTensorProduct (smallModelRingedTopos B S hS).toRingedSite
       inferInstance inferInstance inferInstance
-      (Stacks.SheafOfModules.Tensor.sheafTensor_additive (smallModelRingedTopos B S hS).toRingedSite.O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor_additive
+        (smallModelRingedTopos B S hS).toRingedSite.O)
       (fun moduleSheaf => Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive
         (smallModelRingedTopos B S hS).toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance))
+      (fun _ _ _ => inferInstance))
     (E : RingedSite.DerivedModules S.zariskiRingedTopos.toRingedSite)
     (h : @HasFiniteTorDimension S.zariskiRingedTopos.toRingedSite
       inferInstance inferInstance inferInstance
       (Tensor.sheafTensor_additive.{u, u, u, u, u} S.zariskiRingedTopos.toRingedSite.O)
       (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
         S.zariskiRingedTopos.toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance) T E) :
+      (fun _ _ _ => inferInstance) T E) :
     @HasFiniteTorDimension (smallModelRingedTopos B S hS).toRingedSite
       inferInstance inferInstance inferInstance
       (Tensor.sheafTensor_additive.{u, u, u, u, u} (smallModelRingedTopos B S hS).toRingedSite.O)
       (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
         (smallModelRingedTopos B S hS).toRingedSite.O moduleSheaf)
-      (fun leftComplex rightComplex degree => inferInstance)
+      (fun _ _ _ => inferInstance)
       T' ((derivedPullback (X := smallModelRingedTopos B S hS) (Y := S.zariskiRingedTopos)
       (toZariskiSmallModelHom B S hS)).obj E) := by
   obtain ⟨a, b, hamp⟩ := h
@@ -235,7 +238,7 @@ public def derivedPullbackTensorIsoSmallModel :
             (Tensor.sheafTensor_additive.{u, u, u, u, u} S.zariskiRingedTopos.O)
             (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
               S.zariskiRingedTopos.O moduleSheaf)
-            (fun leftComplex rightComplex degree => inferInstance)) ⋙
+            (fun _ _ _ => inferInstance)) ⋙
         derivedPullbackSmallModel B S hS ≅
       (derivedPullbackSmallModel B S hS).prod (derivedPullbackSmallModel B S hS) ⋙
         Functor.uncurry.obj
@@ -246,7 +249,7 @@ public def derivedPullbackTensorIsoSmallModel :
             (Tensor.sheafTensor_additive.{u, u, u, u, u} (smallModelRingedTopos B S hS).O)
             (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
               (smallModelRingedTopos B S hS).O moduleSheaf)
-            (fun leftComplex rightComplex degree => inferInstance)) :=
+            (fun _ _ _ => inferInstance)) :=
   @Stacks.Sheaves.DerivedPullback.derivedPullbackTensorIso
     (smallModelRingedTopos B S hS) S.zariskiRingedTopos
     inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
@@ -256,8 +259,8 @@ public def derivedPullbackTensorIsoSmallModel :
     (Tensor.sheafTensor_additive.{u, u, u, u, u} S.zariskiRingedTopos.O)
     (fun moduleSheaf => Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
       S.zariskiRingedTopos.O moduleSheaf)
-    (fun leftComplex rightComplex degree => inferInstance)
-    (fun leftComplex rightComplex degree => inferInstance)
+    (fun _ _ _ => inferInstance)
+    (fun _ _ _ => inferInstance)
     (toZariskiSmallModelHom B S hS) (hasLeftDerivedFunctor_toZariskiSmallModel B S hS)
     (isMorphismOfSites_toZariskiSmallModelHom_u B S hS)
 

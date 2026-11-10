@@ -52,7 +52,7 @@ variable {R : Type u} [CommRing R] {r : ℕ} (f : Fin r → R) (I : Ideal R)
 generators. -/
 theorem mem_complementZeroLocus_iff (hIf : Ideal.span (Set.range f) = I) (p : PrimeSpectrum R) :
     p ∈ (complementZeroLocus R I : Opens (PrimeSpectrum.Top R)) ↔ ∃ i, p ∈ basicOpen (f i) := by
-  show p ∉ PrimeSpectrum.zeroLocus (I : Set R) ↔ _
+  change p ∉ PrimeSpectrum.zeroLocus (I : Set R) ↔ _
   rw [← hIf, PrimeSpectrum.mem_zeroLocus, SetLike.coe_subset_coe, Ideal.span_le,
     Set.range_subset_iff]
   simp only [SetLike.mem_coe, PrimeSpectrum.mem_basicOpen, not_forall]

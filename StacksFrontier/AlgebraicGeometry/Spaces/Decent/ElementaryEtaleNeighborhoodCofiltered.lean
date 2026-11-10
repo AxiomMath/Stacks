@@ -199,7 +199,7 @@ theorem isIso_liftedResidueFieldHom (V : ElementaryEtaleNeighborhood B S hS X hX
     (_root_.AlgebraicGeometry.FieldValuedPoint.canonical V.scheme.left.1 V.point) rfl
   have hone : φ ≫ Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm) = 𝟙 _ := by
     refine hsmall.unique ?_ (Category.id_comp _)
-    show (φ ≫ Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm)) ≫
+    change (φ ≫ Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm)) ≫
       V.scheme.left.1.fromSpecResidueField V.point =
       V.scheme.left.1.fromSpecResidueField V.point
     rw [Category.assoc, specMap_liftedResidueFieldHom B S hS X hX x V P q m hm,
@@ -226,7 +226,7 @@ theorem contains_liftedResidueField (V : ElementaryEtaleNeighborhood B S hS X hX
     B.Contains (Spec (.of (P.left.1.residueField (liftedPoint B S hS X hX x V P m)))) := by
   have := isIso_liftedResidueFieldHom B S hS X hX x V P q m hm
   have : IsIso (Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm)) := inferInstance
-  show (Spec (.of (P.left.1.residueField (liftedPoint B S hS X hX x V P m)))).size < B.cutoff
+  change (Spec (.of (P.left.1.residueField (liftedPoint B S hS X hX x V P m)))).size < B.cutoff
   rw [Scheme.size_congr (asIso (Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm)))]
   exact V.residueField_contained
 
@@ -252,7 +252,7 @@ theorem isIso_liftedResidueFieldObjectMap (V : ElementaryEtaleNeighborhood B S h
   have := isIso_liftedResidueFieldHom B S hS X hX x V P q m hm
   have : IsIso ((BigFppfOver.toScheme B S hS).map
       (liftedResidueFieldObjectMap B S hS X hX x V P q m hm)) := by
-    show IsIso (Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm))
+    change IsIso (Spec.map (liftedResidueFieldHom B S hS X hX x V P q m hm))
     infer_instance
   exact isIso_of_reflects_iso _ (BigFppfOver.toScheme B S hS)
 

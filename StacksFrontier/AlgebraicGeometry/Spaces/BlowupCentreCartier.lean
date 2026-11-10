@@ -258,7 +258,7 @@ theorem isPullbackDefined_blowUpAlongHom'
         (blowUpGlueingData Z P hcU hcR hcRR).chart =
       Subfunctor.range (yoneda.map (Z.2.2.rep.snd
         (yoneda.map (blowUpGlueingData Z P hcU hcR hcRR).projChartHom ≫ P.toSpace))) := by
-    show Z.1.preimage ((blowUpGlueingData Z P hcU hcR hcRR).chart ≫
+    change Z.1.preimage ((blowUpGlueingData Z P hcU hcR hcRR).chart ≫
       (blowUpGlueingData Z P hcU hcR hcRR).toBase) = _
     rw [hcomp]
     exact preimage_eq_range_rep_snd B S hS X Z _

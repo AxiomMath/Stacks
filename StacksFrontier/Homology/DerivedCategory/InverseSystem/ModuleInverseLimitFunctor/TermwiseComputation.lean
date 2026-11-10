@@ -110,7 +110,8 @@ private theorem shift_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
       ModuleInverseLimit.productMap rings morphism ≫ shift rings target := by
   apply Pi.hom_ext
   intro index
-  simp only [shift, ModuleInverseLimit.productMap, Category.assoc, Pi.lift_comp_π_assoc, Pi.lift_comp_π]
+  simp only [shift, ModuleInverseLimit.productMap, Category.assoc, Pi.lift_comp_π_assoc,
+    Pi.lift_comp_π]
   rw [(ModuleInverseLimit.moduleDiagramMap rings morphism).naturality]
 
 private theorem delta_naturality (rings : ℕᵒᵖ ⥤ RingCat.{u})
@@ -295,10 +296,10 @@ private theorem finiteDifference_map_shortExact_of_epi
     exact := shortExact.exact.map_of_mono_of_preservesKernel (inverseLimit rings)
       inferInstance inferInstance
     mono_f := by
-      show Mono ((inverseLimit rings).map sequence.f)
+      change Mono ((inverseLimit rings).map sequence.f)
       infer_instance
     epi_g := by
-      show Epi ((inverseLimit rings).map sequence.g)
+      change Epi ((inverseLimit rings).map sequence.g)
       infer_instance }
 
 private theorem finiteResolution_isStrictlyGE (rings : ℕᵒᵖ ⥤ RingCat.{u})
@@ -334,7 +335,7 @@ private theorem sourceAcyclicSystem_of_delta_epi
   have : IsIso (original.map comparison) := by
     suffices IsIso (DerivedCategory.Plus.ι.map (original.map comparison)) from
       isIso_of_reflects_iso _ DerivedCategory.Plus.ι
-    show IsIso (DerivedCategory.Qh.map
+    change IsIso (DerivedCategory.Qh.map
       (((inverseLimit rings).mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((HomotopyCategory.quotient _ _).map (finiteResolutionUnit rings system))))
     exact (NatIso.isIso_map_iff
@@ -360,12 +361,12 @@ private theorem sourceAcyclicSystem_of_delta_epi
   have : IsIso (DerivedCategory.Plus.Qh.map comparison) := by
     suffices IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map comparison)) from
       isIso_of_reflects_iso _ DerivedCategory.Plus.ι
-    show IsIso (DerivedCategory.Qh.map
+    change IsIso (DerivedCategory.Qh.map
       ((HomotopyCategory.quotient _ _).map (finiteResolutionUnit rings system)))
     exact (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso (PresheafOfModules.{v} rings))
       (finiteResolutionUnit rings system)).2 inferInstance
   have : IsIso ((DerivedCategory.Plus.Qh ⋙ derivedFunctor).map comparison) := by
-    show IsIso (derivedFunctor.map (DerivedCategory.Plus.Qh.map comparison))
+    change IsIso (derivedFunctor.map (DerivedCategory.Plus.Qh.map comparison))
     infer_instance
   apply (CategoryTheory.Functor.computesRightDerived_iff_isIso_unit_of_enough_source_acyclic_objects
     (inverseLimit.{u, v} rings) (inverseLimit_enough_source_acyclic rings) derivedFunctor unit _).2

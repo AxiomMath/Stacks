@@ -342,7 +342,7 @@ public theorem trace_pow_eq_sum_pow {Ω : Type*} [CommRing Ω] {n : Type w} [Fin
   have hc := congrArg (PowerSeries.coeff m) hlog
   rw [map_neg, map_sum] at hc
   simp only [map_neg, coeff_traceSeries, one_dvd, hm, ne_eq, not_false_eq_true, and_true,
-    if_true, Nat.div_one, Matrix.diagonal_pow, Matrix.trace_diagonal, Finset.sum_const,
+    ite_true, Nat.div_one, Matrix.diagonal_pow, Matrix.trace_diagonal, Finset.sum_const,
     Finset.card_univ, Fintype.card_fin, one_smul, Pi.pow_apply] at hc
   refine neg_inj.1 ?_
   rw [hc]
@@ -458,8 +458,8 @@ public theorem exists_integral_curveNumerator [IsAddTorsionFree Λ] [CharZero Λ
     exact_mod_cast (hcoeff m).trans (Polynomial.natDegree_le_iff_coeff_eq_zero.1 hdegA m hm)
   refine ⟨PowerSeries.trunc (2 * g + 1) (integralCurveNumerator f q), ?_, ?_, ?_, ?_⟩
   · refine Polynomial.natDegree_le_iff_coeff_eq_zero.2 fun m hm => ?_
-    rw [PowerSeries.coeff_trunc, if_neg (by lia)]
-  · rw [PowerSeries.coeff_trunc, if_pos (by lia)]
+    rw [PowerSeries.coeff_trunc, ite_eq_right (by lia)]
+  · rw [PowerSeries.coeff_trunc, ite_eq_left (by lia)]
     exact_mod_cast (hcoeff 0).trans (coeff_zero_localCharPolynomial A one_ne_zero)
   · ext m
     rw [Polynomial.coeff_coe, PowerSeries.coeff_trunc]

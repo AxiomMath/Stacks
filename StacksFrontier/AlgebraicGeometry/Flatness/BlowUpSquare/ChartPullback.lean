@@ -154,12 +154,12 @@ theorem kFlat_toCochainComplex {A : Type u} [CommRing A] (M : BoundedComplex A) 
     have hr : M.rank i = 0 := by
       by_contra hcon
       exact (not_le_of_gt hi) (hb hcon)
-    show IsZero (ModuleCat.of A (Fin (M.rank i) → A))
+    change IsZero (ModuleCat.of A (Fin (M.rank i) → A))
     rw [hr]
     exact ModuleCat.isZero_iff_subsingleton.mpr inferInstance
   have hflat : ∀ i : ℤ, Module.Flat A (M.toCochainComplex.X i) := by
     intro i
-    show Module.Flat A (Fin (M.rank i) → A)
+    change Module.Flat A (Fin (M.rank i) → A)
     infer_instance
   exact CochainComplex.KFlat.kFlat_of_flat _ b
 

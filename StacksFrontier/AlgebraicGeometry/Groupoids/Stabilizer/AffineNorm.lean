@@ -210,7 +210,7 @@ theorem norm_targetMap_mem_invariantRing {S : Scheme.{u}} (G : GroupoidScheme S)
   have hcomp := norm_baseChange_of_ring_pushout
     (sourceMap G) (sourceMap G) c p1 (composition_source_isPushout G).flip
     hfinite hprojective hfiniteD hprojectiveD (targetMap G f)
-  show sourceMap G (ProjectiveDeterminant.det
+  change sourceMap G (ProjectiveDeterminant.det
       (Algebra.lmul Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤) (targetMap G f))) =
     targetMap G (ProjectiveDeterminant.det
       (Algebra.lmul Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤) (targetMap G f)))

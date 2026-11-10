@@ -71,7 +71,7 @@ preimage under `r` of the image of `W` under `c`. -/
 theorem image_preimage_le_preimage_image (W : Z.Opens) :
     j ''ᵁ (pl ⁻¹ᵁ W) ≤ r ⁻¹ᵁ (c ''ᵁ W) := by
   rintro _ ⟨y, hy, rfl⟩
-  show (j ≫ r).base y ∈ c ''ᵁ W
+  change (j ≫ r).base y ∈ c ''ᵁ W
   rw [← h]
   exact ⟨pl.base y, hy, rfl⟩
 

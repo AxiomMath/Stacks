@@ -92,7 +92,7 @@ theorem precomp_of_flat (P : MorphismProperty Scheme.{u})
         (PreZeroHypercover.singleton.{0} (𝟙 X)).Hom 𝒰.toPreZeroHypercover)
   let 𝒱 : X.Cover Scheme.fpqcPrecoverage :=
     ⟨𝒰.toPreZeroHypercover, by
-      show 𝒰.presieve₀ ∈ Scheme.propQCPrecoverage (@Flat) X
+      change 𝒰.presieve₀ ∈ Scheme.propQCPrecoverage (@Flat) X
       exact ⟨Scheme.presieve₀_mem_qcPrecoverage_iff.mpr hqc, 𝒰.mem₀⟩⟩
   exact ‹P.IsLocalAtSource Scheme.fpqcPrecoverage›.comp 𝒱.mem₀ a
     (Presieve.ofArrows.mk (Sum.inl ())) hf

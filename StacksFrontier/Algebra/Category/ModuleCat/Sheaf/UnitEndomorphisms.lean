@@ -60,7 +60,8 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 lemma unit_app_eq
     (f : End (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))
     (x : O.obj.obj (op T)) :
-    unitObjEquiv O ((f.asHom.val.app (op T)).hom ((unitObjEquiv O).symm x)) = x * unitEndEval O f := by
+    unitObjEquiv O ((f.asHom.val.app (op T)).hom ((unitObjEquiv O).symm x)) =
+      x * unitEndEval O f := by
   have h := (f.asHom.val.app (op T)).hom.map_smul
     (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj (op T) from x)
     ((unitObjEquiv O).symm 1)

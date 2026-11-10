@@ -64,7 +64,7 @@ theorem squareZeroKerModule_smul (hψ : Function.Surjective ψ) (hsq : RingHom.k
   have he : (RingHom.quotientKerEquivOfSurjective hψ).symm (ψ a) = Ideal.Quotient.mk _ a :=
     (RingEquiv.symm_apply_eq _).2 (RingHom.quotientKerEquivOfSurjective_apply_mk hψ a).symm
   let := (isTorsionBySet_ker_of_sq_eq_bot ψ hsq).module
-  show (((RingHom.quotientKerEquivOfSurjective hψ).symm (ψ a) • x : RingHom.ker ψ) : A) = _
+  change (((RingHom.quotientKerEquivOfSurjective hψ).symm (ψ a) • x : RingHom.ker ψ) : A) = _
   rw [he, Module.IsTorsionBySet.mk_smul]
   rfl
 

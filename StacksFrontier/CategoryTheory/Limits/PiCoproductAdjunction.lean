@@ -221,8 +221,6 @@ def piDiscreteCompEvaluation (G : ∀ i, B i ⥤ A) (i : Discrete I) :
     piDiscrete G ⋙ (evaluation (Discrete I) A).obj i ≅ Pi.eval B i.as ⋙ G i.as :=
   Iso.refl _
 
-variable [HasFiniteLimits A]
-
 /-- `piDiscrete` preserves finite limits as soon as every `G i` does: limits in a functor
 category out of a discrete category are computed at each object, and there the functor is
 evaluation followed by `G i`. -/
@@ -237,12 +235,38 @@ theorem preservesFiniteLimits_piDiscrete (G : ∀ i, B i ⥤ A) [∀ i, HasFinit
 coproducts of that shape are exact. Together with `piCoproductAdjunction`, which makes
 `piCoproduct G` a left adjoint and so right exact, this is exactness of `piCoproduct G`. -/
 theorem preservesFiniteLimits_piCoproduct (G : ∀ i, B i ⥤ A)
-    [HasColimitsOfShape (Discrete I) A] [HasExactColimitsOfShape (Discrete I) A]
-    [∀ i, HasFiniteLimits (B i)] (hG : ∀ i, PreservesFiniteLimits (G i)) :
+    [HasColimitsOfShape (Discrete I) A] [HasFiniteLimits A]
+    [HasExactColimitsOfShape (Discrete I) A] [∀ i, HasFiniteLimits (B i)]
+    (hG : ∀ i, PreservesFiniteLimits (G i)) :
     PreservesFiniteLimits (piCoproduct G) :=
   have := preservesFiniteLimits_piDiscrete G hG
   have := HasExactColimitsOfShape.preservesFiniteLimits (J := Discrete I) (C := A)
   comp_preservesFiniteLimits (piDiscrete G) colim
+
+/-- A cone in a product of categories is a limit cone as soon as each of its components is:
+limits in a product of categories are computed componentwise. -/
+def isLimitOfIsLimitEvalPi {J : Type u₃} [Category.{v₃} J] (F : J ⥤ ∀ i, B i) (c : Cone F)
+    (hc : ∀ i, IsLimit (coneEvalPi F c i)) : IsLimit c where
+  lift s i := (hc i).lift (coneEvalPi F s i)
+  fac s j := funext fun i => (hc i).fac (coneEvalPi F s i) j
+  uniq s m w := funext fun i => (hc i).uniq (coneEvalPi F s i) (m i) fun j => congrFun (w j) i
+
+/-- A functor into a product of categories preserves limits of a shape as soon as each of its
+components does. -/
+lemma preservesLimitsOfShape_pi_of_eval {D : Type u₁} [Category.{v₁} D] (H : D ⥤ ∀ i, B i)
+    (J : Type u₃) [Category.{v₃} J]
+    (h : ∀ i, PreservesLimitsOfShape J (H ⋙ Pi.eval B i)) : PreservesLimitsOfShape J H where
+  preservesLimit {F} :=
+    ⟨fun {c} hc => ⟨isLimitOfIsLimitEvalPi (F ⋙ H) (H.mapCone c) fun i =>
+      have := h i
+      isLimitOfPreserves (H ⋙ Pi.eval B i) hc⟩⟩
+
+/-- A functor into a product of categories preserves finite limits as soon as each of its
+components does. -/
+lemma preservesFiniteLimits_pi_of_eval {D : Type u₁} [Category.{v₁} D] (H : D ⥤ ∀ i, B i)
+    (h : ∀ i, PreservesFiniteLimits (H ⋙ Pi.eval B i)) : PreservesFiniteLimits H where
+  preservesFiniteLimits J _ _ :=
+    preservesLimitsOfShape_pi_of_eval H J fun i => (h i).preservesFiniteLimits J
 
 /-! ### Extension by zero into a product of categories
 
@@ -253,7 +277,19 @@ section Concentrate
 
 open scoped ZeroObject
 
-variable [∀ i, HasZeroObject (B i)] [DecidableEq I]
+variable [∀ i, HasZeroObject (B i)]
+
+/-- The constant functor at a zero object preserves limits of any shape: a zero object is
+terminal, so the constant cone at it is a limit cone. -/
+theorem preservesLimitsOfShape_constZero (k : I) {D : Type u₁} [Category.{v₁} D]
+    (J : Type u₃) [Category.{v₃} J] :
+    PreservesLimitsOfShape J ((Functor.const D).obj (0 : B k)) where
+  preservesLimit := ⟨fun _ => ⟨{
+    lift := fun s => (isZero_zero (B k)).from_ s.pt
+    fac := fun _ _ => (isZero_zero (B k)).eq_of_tgt _ _
+    uniq := fun _ _ _ => (isZero_zero (B k)).eq_of_tgt _ _ }⟩⟩
+
+variable [DecidableEq I]
 
 /-- The functor `B j ⥤ B k` which is the identity when `j = k` and constant at the zero object
 otherwise. Transport along `j = k` rather than an `eqToHom` on objects, so that the two
@@ -264,12 +300,12 @@ noncomputable def concentrateComponent (j k : I) : B j ⥤ B k :=
 /-- On the diagonal, `concentrateComponent` is the identity functor. -/
 theorem concentrateComponent_self (j : I) :
     concentrateComponent (B := B) j j = 𝟭 (B j) :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- Off the diagonal, `concentrateComponent` is constant at the zero object. -/
 theorem concentrateComponent_of_ne {j k : I} (h : j ≠ k) :
     concentrateComponent (B := B) j k = (Functor.const (B j)).obj 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- The single coherence isomorphism of `concentrateComponent` on the diagonal. -/
 noncomputable def concentrateComponentSelfIso (j : I) :
@@ -333,7 +369,7 @@ noncomputable def concentrateHomMk (j : I) {X : B j} {Y : ∀ k, B k} (h : X ⟶
 theorem concentrateHomMk_self (j : I) {X : B j} {Y : ∀ k, B k} (h : X ⟶ Y j) :
     concentrateHomMk j h j = eqToHom (concentrate_obj_self j X) ≫ h := by
   unfold concentrateHomMk
-  exact dif_pos rfl
+  exact dite_eq_left rfl
 
 /-- Two maps out of the family concentrated at `j` agree as soon as their `j`-th components
 do: off the diagonal the source is a zero object. -/
@@ -380,42 +416,6 @@ noncomputable def concentrateAdjunction (j : I) : concentrate (B := B) j ⊣ Pi.
           (fun z => (concentrateComponent (B := B) j j).map f ≫ z) key'.symm)))
       homEquiv_naturality_right := fun {X Y Y'} g h =>
         (Category.assoc (eqToHom (concentrate_obj_self j X).symm) (g j) (h j)).symm }
-
-/-- A cone in a product of categories is a limit cone as soon as each of its components is:
-limits in a product of categories are computed componentwise. -/
-def isLimitOfIsLimitEvalPi {J : Type u₃} [Category.{v₃} J] (F : J ⥤ ∀ i, B i) (c : Cone F)
-    (hc : ∀ i, IsLimit (coneEvalPi F c i)) : IsLimit c where
-  lift s i := (hc i).lift (coneEvalPi F s i)
-  fac s j := funext fun i => (hc i).fac (coneEvalPi F s i) j
-  uniq s m w := funext fun i => (hc i).uniq (coneEvalPi F s i) (m i) fun j => congrFun (w j) i
-
-/-- A functor into a product of categories preserves limits of a shape as soon as each of its
-components does. -/
-lemma preservesLimitsOfShape_pi_of_eval {D : Type u₁} [Category.{v₁} D] (H : D ⥤ ∀ i, B i)
-    (J : Type u₃) [Category.{v₃} J]
-    (h : ∀ i, PreservesLimitsOfShape J (H ⋙ Pi.eval B i)) : PreservesLimitsOfShape J H where
-  preservesLimit {F} :=
-    ⟨fun {c} hc => ⟨isLimitOfIsLimitEvalPi (F ⋙ H) (H.mapCone c) fun i =>
-      have := h i
-      isLimitOfPreserves (H ⋙ Pi.eval B i) hc⟩⟩
-
-/-- A functor into a product of categories preserves finite limits as soon as each of its
-components does. -/
-lemma preservesFiniteLimits_pi_of_eval {D : Type u₁} [Category.{v₁} D] (H : D ⥤ ∀ i, B i)
-    (h : ∀ i, PreservesFiniteLimits (H ⋙ Pi.eval B i)) : PreservesFiniteLimits H where
-  preservesFiniteLimits J _ _ :=
-    preservesLimitsOfShape_pi_of_eval H J fun i => (h i).preservesFiniteLimits J
-
-/-- The constant functor at a zero object preserves limits of any shape: a zero object is
-terminal, so the constant cone at it is a limit cone. -/
-@[instance_reducible]
-def preservesLimitsOfShape_constZero (k : I) {D : Type u₁} [Category.{v₁} D]
-    (J : Type u₃) [Category.{v₃} J] :
-    PreservesLimitsOfShape J ((Functor.const D).obj (0 : B k)) where
-  preservesLimit := ⟨fun {c} _ => ⟨{
-    lift := fun s => (isZero_zero (B k)).from_ s.pt
-    fac := fun s j => (isZero_zero (B k)).eq_of_tgt _ _
-    uniq := fun s m _ => (isZero_zero (B k)).eq_of_tgt _ _ }⟩⟩
 
 /-- Every component of `concentrate j` preserves finite limits: on the diagonal it is the
 identity, and off the diagonal it is constant at a zero object. -/

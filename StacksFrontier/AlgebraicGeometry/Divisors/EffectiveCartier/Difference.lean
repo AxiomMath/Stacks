@@ -193,7 +193,7 @@ theorem mul_colon_eq_of_isEffectiveCartierDivisor (D Z : X.IdealSheafData)
   refine Scheme.IdealSheafData.ext_of_iSup_eq_top
     (fun x : X => (⟨U x, hU x⟩ : X.affineOpens)) ?_ fun x => ?_
   · exact iSup_eq_top_of_mem hxU
-  · show D.ideal ⟨U x, hU x⟩ *
+  · change D.ideal ⟨U x, hU x⟩ *
       (Z.ideal ⟨U x, hU x⟩).colon ((D.ideal ⟨U x, hU x⟩ : Ideal Γ(X, U x)) : Set Γ(X, U x)) = _
     rw [hgen x]
     exact Ideal.span_singleton_mul_colon_eq _ _ (by rw [← hgen x]; exact hZD ⟨U x, hU x⟩)

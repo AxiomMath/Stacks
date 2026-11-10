@@ -14,7 +14,7 @@ produces the source's isomorphism `β`, with the proper support of the algebraiz
 **open `V` of a scheme `Y'` H-projective over a complete base**, along the ideal sheaf
 `(I 𝒪_{Y'}).comap V.ι`. The binder `hTransport` of
 `Stacks.Algebraization.isProper_systemAnnihilatorIdeal_of_transport`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ProperSupportAlgebraization.lean`)
+(`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProper.ProperSupportAlgebraization`)
 asks for it on **a proper modification `π : Y ⟶ X`**, along `(I 𝒪_X).comap π`. This file closes
 that gap.
 

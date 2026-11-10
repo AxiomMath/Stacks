@@ -88,7 +88,7 @@ private lemma basicOpen_norm_eq_compl_image {X Y : Scheme.{u}}
     have hunit := X.toRingedSpace.isUnit_res_basicOpen s
     have hunit' := hunit.map (X.presheaf.map k.op).hom
     convert hunit' using 1
-    show X.presheaf.map ((Opens.map f.base).map i).op s =
+    change X.presheaf.map ((Opens.map f.base).map i).op s =
       X.presheaf.map k.op (X.presheaf.map (homOfLE (X.basicOpen_le s)).op s)
     rw [← CommRingCat.comp_apply, ← X.presheaf.map_comp]
     rfl
@@ -131,7 +131,7 @@ is an isomorphism. -/
 lemma isIso_over_eqToHom_left {S : Scheme.{u}} {X Y : Over S} (e : X = Y) :
     IsIso (eqToHom e).left := by
   cases e
-  show IsIso (𝟙 X.left)
+  change IsIso (𝟙 X.left)
   infer_instance
 
 /-- A base change of a finite morphism of schemes over a base is finite, for the second
@@ -171,11 +171,11 @@ lemma finite_restriction_maps {S : Scheme.{u}} (G : Stacks.Groupoids.GroupoidSch
   have : IsFinite (pullback.fst (pullback.snd g G.target)
       (pullback.fst G.source g)).left := finite_over_pullback_fst _ _
   have : IsFinite (AlgebraicGeometry.restrictionSource G g).left := by
-    show IsFinite ((pullback.snd (pullback.snd g G.target)
+    change IsFinite ((pullback.snd (pullback.snd g G.target)
       (pullback.fst G.source g)).left ≫ (pullback.snd G.source g).left)
     infer_instance
   have : IsFinite (AlgebraicGeometry.restrictionTarget G g).left := by
-    show IsFinite ((pullback.fst (pullback.snd g G.target)
+    change IsFinite ((pullback.fst (pullback.snd g G.target)
       (pullback.fst G.source g)).left ≫ (pullback.fst g G.target).left)
     infer_instance
   rw [R.source_eq, R.target_eq]
@@ -205,13 +205,13 @@ private lemma exists_restriction_arrow {S : Scheme.{u}} (G : Stacks.Groupoids.Gr
     (pullback.snd g G.target) (pullback.fst G.source g) a b (ha₂.trans hb₁.symm)
   refine ⟨(eqToHom R.arrows_eq.symm).left p, ?_, ?_⟩
   · rw [R.source_eq]
-    show (eqToHom R.objects_eq.symm).left
+    change (eqToHom R.objects_eq.symm).left
       ((pullback.snd G.source g).left
         ((pullback.snd (pullback.snd g G.target) (pullback.fst G.source g)).left
           ((eqToHom R.arrows_eq).left ((eqToHom R.arrows_eq.symm).left p)))) = _
     rw [over_eqToHom_left_symm_apply R.arrows_eq p, hp₂, hb₂]
   · rw [R.target_eq]
-    show (eqToHom R.objects_eq.symm).left
+    change (eqToHom R.objects_eq.symm).left
       ((pullback.fst g G.target).left
         ((pullback.fst (pullback.snd g G.target) (pullback.fst G.source g)).left
           ((eqToHom R.arrows_eq).left ((eqToHom R.arrows_eq.symm).left p)))) = _
@@ -258,7 +258,7 @@ lemma restriction_source_property_iff_of_invariant_open
   have := isIso_restriction_projection_of_invariant_open G g hg
   rw [R.source_eq]
   simp only [Over.comp_left, P.cancel_left_of_respectsIso, P.cancel_right_of_respectsIso]
-  show P ((pullback.snd (pullback.snd g G.target) (pullback.fst G.source g)).left ≫
+  change P ((pullback.snd (pullback.snd g G.target) (pullback.fst G.source g)).left ≫
     (pullback.snd G.source g).left) ↔ _
   exact P.cancel_left_of_respectsIso _ _
 
@@ -270,7 +270,7 @@ lemma groupoid_source_property_iff_target {S : Scheme.{u}}
     P G.source.left ↔ P G.target.left := by
   have : IsIso G.inverse.left := groupoidInverse_left_isIso G
   rw [← G.source_inverse]
-  show P G.source.left ↔ P (G.inverse.left ≫ G.source.left)
+  change P G.source.left ↔ P (G.inverse.left ≫ G.source.left)
   exact (P.cancel_left_of_respectsIso _ _).symm
 
 /-- An arrow of the ambient groupoid between the images of two points of the restricted groupoid
@@ -316,7 +316,7 @@ lemma restriction_mapObjects_property_iff
     P R.hom.mapObjects.left ↔ P g.left := by
   have := isIso_over_eqToHom_left R.objects_eq
   rw [R.mapObjects_eq]
-  show P ((eqToHom R.objects_eq).left ≫ g.left) ↔ _
+  change P ((eqToHom R.objects_eq).left ≫ g.left) ↔ _
   exact P.cancel_left_of_respectsIso _ _
 
 /-- The image of the map on objects of a groupoid scheme realizing a restriction is the image of
@@ -330,7 +330,7 @@ lemma range_restriction_mapObjects
     intro x
     exact ⟨_, over_eqToHom_left_symm_apply R.objects_eq x⟩
   rw [R.mapObjects_eq]
-  show Set.range (g.left ∘ (eqToHom R.objects_eq).left) = _
+  change Set.range (g.left ∘ (eqToHom R.objects_eq).left) = _
   rw [Set.range_comp, hsurj.range_eq, Set.image_univ]
 
 /-- The largest invariant subset of an open subscheme of the objects: the set of points all of
@@ -350,7 +350,7 @@ lemma mem_invariantCore_iff {S : Scheme.{u}}
     x ∈ invariantCore G V ↔
       ∀ r : G.arrows.left, G.source.left r = x → G.target.left r ∈ V := by
   classical
-  show (¬ ∃ r, G.target.left r ∉ V ∧ G.source.left r = x) ↔ _
+  change (¬ ∃ r, G.target.left r ∉ V ∧ G.source.left r = x) ↔ _
   exact ⟨fun h r hr => not_not.mp fun ht => h ⟨r, ht, hr⟩, fun h ⟨r, ht, hr⟩ => ht (h r hr)⟩
 
 /-- The invariant core of an open is contained in it, as witnessed by the identity arrow. -/
@@ -397,7 +397,7 @@ private lemma exists_basicOpen_eq_preimage_invariantCore
       (F r).val = G.source.left r.val :=
     congrArg (fun f => f r) (morphismRestrict_ι G.source.left K)
   ext x
-  show (¬ ∃ r, G.target.left r ∉ G.objects.left.basicOpen a ∧
+  change (¬ ∃ r, G.target.left r ∉ G.objects.left.basicOpen a ∧
     G.source.left r = x.1) ↔
     ¬ ∃ r : (G.source.left ⁻¹ᵁ K).toScheme,
       T r ∉ G.objects.left.basicOpen a ∧ F r = x
@@ -405,7 +405,7 @@ private lemma exists_basicOpen_eq_preimage_invariantCore
   constructor
   · rintro ⟨r, hr, heq⟩
     have hrK : r ∈ G.source.left ⁻¹ᵁ K := by
-      show G.source.left r ∈ K
+      change G.source.left r ∈ K
       rw [heq]
       exact x.2
     exact ⟨⟨r, hrK⟩, hr, Subtype.ext ((hF _).trans heq)⟩

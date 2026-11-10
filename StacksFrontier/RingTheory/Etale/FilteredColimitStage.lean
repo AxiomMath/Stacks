@@ -59,7 +59,8 @@ cocone leg is what makes the conclusion say that `B` is the base change along th
 `A_i → A` of the source rather than along some other map.
 
 A pushout-square form of this statement, for a small index category, is `exists_isPushout_etale` in
-`StacksFrontier.RingTheory.Etale.FilteredColimit.Basic`, where it is used (untagged) as the spreading
+`StacksFrontier.RingTheory.Etale.FilteredColimit.Basic`, where it is used (untagged) as the
+spreading
 out property of the morphism property of étale ring maps; the statement here is the source's own,
 in the language of algebras and with the tensor product as the model of the base change.
 

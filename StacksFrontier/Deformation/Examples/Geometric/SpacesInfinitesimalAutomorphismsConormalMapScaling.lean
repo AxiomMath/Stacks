@@ -273,7 +273,7 @@ theorem id_comp_spaceTotalToBase_eq :
       spaceTotalToBase B hΛ hSpec P ≫ schemeSpaceMap (spaceBaseOverMap B hΛ hSpec (𝟙 P.base)) := by
   rw [spaceBaseOverMap_id, Category.id_comp]
   apply ObjectProperty.hom_ext
-  show P.toBase = P.toBase ≫ yoneda.map (𝟙 _)
+  change P.toBase = P.toBase ≫ yoneda.map (𝟙 _)
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 variable (hann : ∀ a : P.base, εA * a = 0 ↔ a ∈ Ideal.span {εA})

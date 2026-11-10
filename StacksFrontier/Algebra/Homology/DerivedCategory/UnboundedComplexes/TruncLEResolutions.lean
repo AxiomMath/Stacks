@@ -248,7 +248,7 @@ public lemma homOfDegreewiseSplit_glueSC :
     CochainComplex.homOfDegreewiseSplit (glueSC h u) (glueSplitting h u) =
       u ≫ (mappingCone.triangle h).mor₃ := by
   ext n
-  show (CochainComplex.homOfDegreewiseSplit (glueSC h u) (glueSplitting h u)).f n
+  change (CochainComplex.homOfDegreewiseSplit (glueSC h u) (glueSplitting h u)).f n
       = u.f n ≫ (mappingCone.triangle h).mor₃.f n
   rw [CochainComplex.homOfDegreewiseSplit_f, tri_mor₃_f h n (n + 1) rfl]
   simp only [CochainComplex.cocycleOfDegreewiseSplit, glueSC, glueSplitting,

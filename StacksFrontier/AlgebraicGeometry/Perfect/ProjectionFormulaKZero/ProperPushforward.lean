@@ -86,7 +86,7 @@ theorem IsLocallyBoundedCoherent.derivedPushforward [IsLocallyNoetherian Y] [IsP
       (f ∣_ V) RK hcoh (fun j => ?_) a b hGE hLE, fun q =>
       ⟨restrictHomologyIso V _ q ≪≫ (DerivedCategory.homologyFunctor _ q).mapIso
         (schemeDerivedPushforwardRestrictOpensIso f V K)⟩⟩
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ (f ∣_ V))
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ (f ∣_ V))
   infer_instance
 
 /-- **`Rf_*` commutes with direct sums of objects with locally bounded coherent cohomology**,

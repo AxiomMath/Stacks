@@ -69,7 +69,7 @@ theorem isClosedImmersion_algebraicSpaceMap_of_isClosedSubspace (U : BigFppfOver
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   refine (prop_algebraicSpaceMap_iff B S hS (Space.closedImmersionProperty B S hS) U
     G.toFunctor hG.1).mpr ?_
-  show Space.IsClosedImmersion B S hS (OverShriek.relocalizeToYoneda U.hom G.toFunctor)
+  change Space.IsClosedImmersion B S hS (OverShriek.relocalizeToYoneda U.hom G.toFunctor)
   have _ := isIso_relocalizeToYoneda_yonedaId B U.left.1 S U.left.2 hS U.hom
   have : MorphismProperty.RespectsIso
       (@AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u}) :=

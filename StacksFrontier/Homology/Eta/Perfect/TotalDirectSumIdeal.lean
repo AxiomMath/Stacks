@@ -315,7 +315,7 @@ private theorem map_le_ker_algebraMap_iff {R S D : Type*} [CommRing R] [CommRing
     (h : ∀ x, algebraMap R D x = algebraMap S D (ψ x)) (J : Ideal R) :
     J.map ψ ≤ RingHom.ker (algebraMap S D) ↔ J ≤ RingHom.ker (algebraMap R D) := by
   rw [Ideal.map_le_iff_le_comap]
-  simp only [SetLike.le_def, Ideal.mem_comap, RingHom.mem_ker, h]
+  simp only [IsConcreteLE.le_iff, Ideal.mem_comap, RingHom.mem_ker, h]
 
 /-- **Flat base change of the canonical obstruction ideal.**  Let `A → B` be a flat ring map,
 let `f ∈ A` be a nonzerodivisor, and let `M^•` be a bounded complex of finite free `A`-modules

@@ -60,7 +60,7 @@ public theorem norm_le_of_norm_sum_pow_le (α : ι → ℂ) {B C : ℝ} (hB : 0 
     (i : ι) : ‖α i‖ ≤ B := by
   have hBd : 0 < B ^ d := pow_pos hB d
   have hle : ‖α i‖ ^ d ≤ B ^ d := by
-    refine le_of_forall_exists_pow_le (by positivity) hBd (C := 4 / 3 * C) fun n => ?_
+    refine le_of_forall_exists_pow_le hBd (C := 4 / 3 * C) fun n => ?_
     obtain ⟨m, hm, -, hsec⟩ := exists_even_le_sum_pow_re (fun j => α j ^ d) Finset.univ
       (max n m₀)
     refine ⟨m, by omega, ?_⟩

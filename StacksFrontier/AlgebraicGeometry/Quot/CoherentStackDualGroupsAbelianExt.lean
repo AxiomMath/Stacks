@@ -129,7 +129,7 @@ def extGroupAbelianExtEquiv (M : ModuleCat.{u} A) (n : ℕ) :
 theorem extGroupAbelianExtEquiv_hom (M : ModuleCat.{u} A) (n : ℕ) (c : D.extGroup x e M n) :
     (D.extGroupAbelianExtEquiv x e M n c).hom =
       D.extGroupEquiv x e M n c ≫ (D.extCoefficientIso x e M).hom⟦(n : ℤ)⟧' := by
-  show Abelian.Ext.homAddEquiv (Abelian.Ext.homAddEquiv.symm _) = _
+  change Abelian.Ext.homAddEquiv (Abelian.Ext.homAddEquiv.symm _) = _
   exact AddEquiv.apply_symm_apply _ _
 
 omit [HasExt.{w} (Modules.{u, u} B S hS (D.space x.T).1 (D.space x.T).2)] in

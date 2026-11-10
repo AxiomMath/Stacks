@@ -84,7 +84,7 @@ lemma tensor_lift_surjective_of_isPullback_comp {U V W Z P : Scheme.{u}} [IsAffi
         (Algebra.TensorProduct.mapOfCompatibleSMul base ℤ ℤ left right) := by
     apply Algebra.TensorProduct.ext'
     intro first second
-    show _ = (Algebra.IsPushout.equiv base left right result) (first ⊗ₜ[base] second)
+    change _ = (Algebra.IsPushout.equiv base left right result) (first ⊗ₜ[base] second)
     rw [Algebra.IsPushout.equiv_tmul]
     simp [RingHom.algebraMap_toAlgebra]
   rw [heq]

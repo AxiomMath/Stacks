@@ -122,7 +122,7 @@ theorem chowPushforwardOfIso_eqToHom_cancel {X : Scheme.{u}} {I J : X.IdealSheaf
         (chowPushforwardOfIso C _ _ (eqToHom (congrArg Scheme.IdealSheafData.subscheme h)) h₁ k
           x) = x := by
   subst h
-  show chowPushforwardOfIso C _ _ (𝟙 _) _ k (chowPushforwardOfIso C _ _ (𝟙 _) _ k x) = x
+  change chowPushforwardOfIso C _ _ (𝟙 _) _ k (chowPushforwardOfIso C _ _ (𝟙 _) _ k x) = x
   rw [chowPushforwardOfIso_id C _ k, chowPushforwardOfIso_id C _ k]
 
 /-- A proper pushforward followed by two pushforwards along isomorphisms is the proper
@@ -247,7 +247,7 @@ def envelopeFibreSquareFstInv :
     pullback (pullback.fst f g) (pullback.fst f g) ⟶
       pullback (pullback.snd f g) (pullback.fst g g) :=
   pullback.lift (pullback.fst (pullback.fst f g) (pullback.fst f g))
-    (envelopeFibreSquareMap f g) (by simp [pullback.lift_fst])
+    (envelopeFibreSquareMap f g) (by simp)
 
 /-- The comparison `X' ×_{Y'} (Y' ×_Y Y') ⟶ X' ×_X X'` along the second projection
 `b : X' ×_X X' ⟶ X'`. -/
@@ -279,12 +279,10 @@ def envelopeFibreSquareFstIso :
   inv := envelopeFibreSquareFstInv f g
   hom_inv_id := by
     refine pullback.hom_ext ?_ (pullback.hom_ext ?_ ?_) <;>
-      simp [envelopeFibreSquareFstHom, envelopeFibreSquareFstInv, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+      simp [envelopeFibreSquareFstHom, envelopeFibreSquareFstInv, pullback.condition]
   inv_hom_id := by
     refine pullback.hom_ext ?_ (pullback.hom_ext ?_ ?_) <;>
-      simp [envelopeFibreSquareFstHom, envelopeFibreSquareFstInv, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+      simp [envelopeFibreSquareFstHom, envelopeFibreSquareFstInv, pullback.condition]
 
 /-- The identification `X' ×_{Y'} (Y' ×_Y Y') ≅ X' ×_X X'`, the fibre product on the left taken
 along the second projection `q : Y' ×_Y Y' ⟶ Y'`. -/
@@ -295,12 +293,10 @@ def envelopeFibreSquareSndIso :
   inv := envelopeFibreSquareSndInv f g
   hom_inv_id := by
     refine pullback.hom_ext ?_ (pullback.hom_ext ?_ ?_) <;>
-      simp [envelopeFibreSquareSndHom, envelopeFibreSquareSndInv, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+      simp [envelopeFibreSquareSndHom, envelopeFibreSquareSndInv, pullback.condition]
   inv_hom_id := by
     refine pullback.hom_ext (pullback.hom_ext ?_ ?_) ?_ <;>
-      simp [envelopeFibreSquareSndHom, envelopeFibreSquareSndInv, pullback.lift_fst,
-        pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+      simp [envelopeFibreSquareSndHom, envelopeFibreSquareSndInv, pullback.condition]
 
 /-- Under `envelopeFibreSquareFstIso`, the morphism `f''` becomes the second projection
 `X' ×_{Y'} (Y' ×_Y Y') ⟶ Y' ×_Y Y'`. -/
@@ -309,8 +305,7 @@ theorem envelopeFibreSquareFstIso_hom_map :
     (envelopeFibreSquareFstIso f g).hom ≫ envelopeFibreSquareMap f g =
       pullback.snd (pullback.snd f g) (pullback.fst g g) := by
   refine pullback.hom_ext ?_ ?_ <;>
-    simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstHom, pullback.lift_fst,
-      pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+    simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstHom, pullback.condition]
 
 /-- Under `envelopeFibreSquareSndIso`, the morphism `f''` becomes the second projection
 `X' ×_{Y'} (Y' ×_Y Y') ⟶ Y' ×_Y Y'`. -/
@@ -319,8 +314,7 @@ theorem envelopeFibreSquareSndIso_hom_map :
     (envelopeFibreSquareSndIso f g).hom ≫ envelopeFibreSquareMap f g =
       pullback.snd (pullback.snd f g) (pullback.snd g g) := by
   refine pullback.hom_ext ?_ ?_ <;>
-    simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom, pullback.lift_fst,
-      pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.condition]
+    simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom, pullback.condition]
 
 /-- The inverse of `envelopeFibreSquareFstIso` followed by the projection to `X'` is the first
 projection `a : X' ×_X X' ⟶ X'`. -/
@@ -328,7 +322,7 @@ projection `a : X' ×_X X' ⟶ X'`. -/
 theorem envelopeFibreSquareFstIso_inv_fst :
     (envelopeFibreSquareFstIso f g).inv ≫ pullback.fst (pullback.snd f g) (pullback.fst g g) =
       pullback.fst (pullback.fst f g) (pullback.fst f g) := by
-  simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstInv, pullback.lift_fst]
+  simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstInv]
 
 /-- `envelopeFibreSquareFstIso` followed by the first projection `a : X' ×_X X' ⟶ X'` is the
 projection `X' ×_{Y'} (Y' ×_Y Y') ⟶ X'`. -/
@@ -336,7 +330,7 @@ projection `X' ×_{Y'} (Y' ×_Y Y') ⟶ X'`. -/
 theorem envelopeFibreSquareFstIso_hom_fst :
     (envelopeFibreSquareFstIso f g).hom ≫ pullback.fst (pullback.fst f g) (pullback.fst f g) =
       pullback.fst (pullback.snd f g) (pullback.fst g g) := by
-  simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstHom, pullback.lift_fst]
+  simp [envelopeFibreSquareFstIso, envelopeFibreSquareFstHom]
 
 /-- `envelopeFibreSquareSndIso` followed by the second projection `b : X' ×_X X' ⟶ X'` is the
 projection `X' ×_{Y'} (Y' ×_Y Y') ⟶ X'`. -/
@@ -344,7 +338,7 @@ projection `X' ×_{Y'} (Y' ×_Y Y') ⟶ X'`. -/
 theorem envelopeFibreSquareSndIso_hom_snd :
     (envelopeFibreSquareSndIso f g).hom ≫ pullback.snd (pullback.fst f g) (pullback.fst f g) =
       pullback.fst (pullback.snd f g) (pullback.snd g g) := by
-  simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom, pullback.lift_snd]
+  simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom]
 
 /-- `envelopeFibreSquareSndIso` followed by `a : X' ×_X X' ⟶ X'` and `X' ⟶ X` agrees with the
 projection `X' ×_{Y'} (Y' ×_Y Y') ⟶ X'` followed by `X' ⟶ X`. -/
@@ -353,8 +347,7 @@ theorem envelopeFibreSquareSndIso_hom_fst_fst :
     (envelopeFibreSquareSndIso f g).hom ≫ pullback.fst (pullback.fst f g) (pullback.fst f g) ≫
         pullback.fst f g =
       pullback.fst (pullback.snd f g) (pullback.snd g g) ≫ pullback.fst f g := by
-  simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom, pullback.lift_fst,
-    pullback.lift_fst_assoc]
+  simp [envelopeFibreSquareSndIso, envelopeFibreSquareSndHom]
 
 /-- The morphism `f''` is locally of finite type when `f` is. -/
 instance [LocallyOfFiniteType f] : LocallyOfFiniteType (envelopeFibreSquareMap f g) := by
@@ -730,7 +723,7 @@ theorem exists_canonical_envelopeDescentPush {T T₀ : Scheme.{u}} (t : T ⟶ Y)
   refine ⟨chowPush C _ _ φ (by simp [Category.assoc]) k (chowGroupCongr C hq k γ), ?_, ?_⟩
   · rw [chowPush_comp C _ _ _ φ (pullback.snd g t) (φ ≫ pullback.snd g t) rfl _ _
       (envelopeDescent_comp_structureMorphism C sY g t _ _ hcond) k]
-    · show envelopeLiftPush C sY g t (φ ≫ pullback.snd g t) (φ ≫ pullback.fst g t) hcond k
+    · change envelopeLiftPush C sY g t (φ ≫ pullback.snd g t) (φ ≫ pullback.fst g t) hcond k
         (chowGroupCongr C hq k γ) = _
       rw [envelopeLiftPush_congr C sY g t hφ₂ hφ₁ hcond hm k hq.symm, chowGroupCongr_chowGroupCongr]
       rfl
@@ -840,7 +833,7 @@ theorem envelopeDescentCap_proper_naturality {T T' : Scheme.{u}} (t : T ⟶ Y)
     chowPush_comp C _ _ _ _ _ _ rfl _ _ _ k β'
   rw [hlift, envelopeDescentCap_envelopeLiftPush, envelopeDescentCap_envelopeLiftPush,
     envelopeDescentPush_apply, envelopeDescentPush_apply]
-  show _ = chowPush C _ _ h' _ (k - p) _
+  change _ = chowPush C _ _ h' _ (k - p) _
   rw [chowPush_comp C _ _ _ _ h' _
     (envelopeDescentMap_comp_baseChange f g (h ≫ t) _ _ _ t h h' hfst sq.w.symm hm)]
 

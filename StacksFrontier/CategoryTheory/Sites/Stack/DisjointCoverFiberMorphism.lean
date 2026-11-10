@@ -90,7 +90,7 @@ theorem exists_fiberHom_of_disjointCover {J : GrothendieckTopology 𝒮} {x y : 
       (fun i => overArrow (U := U) (jj i)) ∈ (J.over U) (Over.mk (𝟙 U)) := by
     refine (J.mem_over_iff _).mpr ?_
     rw [Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows X jj ∈ J U
+    change Sieve.ofArrows X jj ∈ J U
     exact hj
   have hd' : ∀ i l, i ≠ l → ∀ {Y : Over U} (a : Y ⟶ (Over.mk (jj i) : Over U))
       (b : Y ⟶ (Over.mk (jj l) : Over U)),

@@ -513,7 +513,7 @@ theorem exists_comp_X_pow_add_pow_sub
       rw [mul_assoc, ← pow_succ, Nat.sub_add_cancel hNpos]
     exact hpow ▸ Nat.mul_le_mul_right p hdG
   · have hG : G ^ p - G = -∑ i ∈ P.support, (U i ^ p - U i) := by
-      show (-∑ i ∈ P.support, U i) ^ p - (-∑ i ∈ P.support, U i) = _
+      change (-∑ i ∈ P.support, U i) ^ p - (-∑ i ∈ P.support, U i) = _
       rw [← frobenius_def, map_neg, map_sum]
       simp only [frobenius_def, Finset.sum_sub_distrib]
       ring
@@ -577,7 +577,7 @@ private theorem isDegreePExtensionOfFiniteLevel_and_extensionLevel_le_of_numerat
     simp only [map_pow, map_mul] at hwcK
     rw [map_mul, ha, map_pow, hwcK]
     ring
-  · show ((sInf (Stacks.DegreePExtensionLevel.extensionLevelNumerators A K L P π) : ℕ) : ℚ) / e ≤
+  · change ((sInf (Stacks.DegreePExtensionLevel.extensionLevelNumerators A K L P π) : ℕ) : ℚ) / e ≤
     _
     apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg e)
     exact_mod_cast Nat.sInf_le hn

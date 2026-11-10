@@ -88,7 +88,6 @@ namespace Stacks.SheafOfModules.TensorLocalProperties
 attribute [local instance] AlgebraicGeometry.SheafOfModules.hasSheafify_of_locallyBijective
 
 variable (X : AlgebraicGeometry.RingedSite.{u, v, w}) [UnivLE.{max v u, w}]
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : X.C, HasWeakSheafify (X.J.over U) AddCommGrpCat.{w}]
@@ -98,8 +97,7 @@ variable (X : AlgebraicGeometry.RingedSite.{u, v, w}) [UnivLE.{max v u, w}]
 at an object `U`. -/
 noncomputable abbrev sliceO (U : X.C) : (Over U)ᵒᵖ ⥤ CommRingCat.{w} := (X.O.over U).obj
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : X.C, HasWeakSheafify (X.J.over U) AddCommGrpCat.{w}]
   [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The restricted structure presheaf is a sheaf of rings on the slice site at `U`. -/
@@ -111,7 +109,8 @@ theorem isSheaf_sliceO (U : X.C) : Presheaf.IsSheaf (X.J.over U)
 /-- A presentation of the restriction of `F ⊗ G` to the slice site at `U`, built from
 presentations of `F.over U` and of `G.over U` by forming their tensor presentation on the slice
 site and transporting it along `tensorOverIso`. -/
-noncomputable def tensorOverPresentation (U : X.C) (F G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+noncomputable def tensorOverPresentation (U : X.C)
+    (F G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     (P : (F.over U).Presentation) (Q : (G.over U).Presentation) :
     ((((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj G).over U).Presentation :=
   @SheafOfModules.Presentation.ofIsIso _ _ _ _ _ _ _ _ (tensorOverIso X.O U F G).hom
@@ -120,7 +119,8 @@ noncomputable def tensorOverPresentation (U : X.C) (F G : SheafOfModules.{w} (St
       P Q)
 
 /-- The tensor product of two finite presentations on the slice at `U` is finite. -/
-theorem tensorOverPresentation_isFinite (U : X.C) (F G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+theorem tensorOverPresentation_isFinite (U : X.C)
+    (F G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     (P : (F.over U).Presentation) (Q : (G.over U).Presentation)
     [hP : P.IsFinite] [hQ : Q.IsFinite] :
     (tensorOverPresentation X U F G P Q).IsFinite :=
@@ -145,7 +145,7 @@ theorem tensorSheaf_isFinitePresentation
     SheafOfModules.IsFinitePresentation
       (((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj F).obj G) := by
   classical
-  letI : ∀ (V W : X.C) (f : W ⟶ V),
+  let : ∀ (V W : X.C) (f : W ⟶ V),
       PreservesColimitsOfSize.{w, w}
         (SheafOfModules.overMap.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) f) :=
     fun _ _ f => Stacks.SheafOfModules.overMap_preservesColimits

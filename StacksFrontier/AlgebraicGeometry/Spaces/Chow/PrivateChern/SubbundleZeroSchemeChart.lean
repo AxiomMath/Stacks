@@ -98,7 +98,7 @@ theorem pullback_map_readingMap_comp_eq_zero {X P : AlgebraicSpaces B S hS}
   have h3 : (Scheme.Modules.pullback (siteSchemeHom x)).map
       (pulledBackQuotientReading hL i φ π wρ univ) = 0 := by
     rw [← hθ, Functor.map_comp]
-    show (Scheme.Modules.pullback (siteSchemeHom x)).map
+    change (Scheme.Modules.pullback (siteSchemeHom x)).map
       ((SmallEtale.restrictModule (associatedBigEtaleSite B)
         ((BigFppfOver.toScheme B S hS).obj U) U.left.property).map ((readingInverse U).map
           ((modulePullback B S hS φ).map ((modulePullback B S hS π).map i ≫ τ)))) ≫ _ = 0
@@ -116,7 +116,7 @@ theorem exists_comp_eq_of_siteSchemeHom {T U' U : BigFppfOver B S hS} (j : U' �
   · apply ObjectProperty.hom_ext
     have h1 : j.left.hom ≫ U.hom.hom = U'.hom.hom := congrArg (fun k => k.hom) (Over.w j)
     have h2 : x.left.hom ≫ U.hom.hom = T.hom.hom := congrArg (fun k => k.hom) (Over.w x)
-    show t' ≫ U'.hom.hom = T.hom.hom
+    change t' ≫ U'.hom.hom = T.hom.hom
     rw [← h1, ← Category.assoc]
     exact (congrArg (· ≫ U.hom.hom) ht').trans h2
   · exact Over.OverMorphism.ext (ObjectProperty.hom_ext _ ht')

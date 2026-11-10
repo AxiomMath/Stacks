@@ -264,9 +264,11 @@ end Pushforward
 section Comparison
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the left adjoint of spaces-étale restriction is not found within the default budget
 /-- Restriction of sheaves of sets along spaces-étale base change has a left adjoint. Instance
 search no longer finds it within the default budget, so it is supplied as for abelian sheaves. -/
-local instance isRightAdjoint_sheafPushforwardContinuous_spacesBaseChange_GeometricPointStalkSections
+local instance
+    isRightAdjoint_sheafPushforwardContinuous_spacesBaseChange_GeometricPointStalkSections
     {X' Y' : AlgebraicSpaces B S hS} (g : X' ⟶ Y') :
     ((spacesBaseChange B S hS g).functor.sheafPushforwardContinuous (Type (u + 1))
       (SpacesEtale.topology B S hS Y') (SpacesEtale.topology B S hS X')).IsRightAdjoint :=

@@ -328,7 +328,7 @@ theorem CurveFamily.isZero_homology_relativeDualizingComplex_of_base_eq (Y : Cur
   have hg₀ : yoneda.map g₀ = e.hom ≫ toBase.hom := Yoneda.fullyFaithful.map_preimage _
   have hcomm : e'.hom ≫ toBase = schemeSpaceMap g₀ ≫ 𝟙 _ := by
     refine ObjectProperty.hom_ext _ ?_
-    show e.hom ≫ toBase.hom = yoneda.map g₀ ≫ 𝟙 _
+    change e.hom ≫ toBase.hom = yoneda.map g₀ ≫ 𝟙 _
     rw [hg₀]
     exact (Category.comp_id _).symm
   have sq : IsPullback e'.hom (schemeSpaceMap g₀) toBase (𝟙 _) :=
@@ -425,7 +425,7 @@ theorem CurveFamily.isZero_homology_smallEtaleDerivedModulePullback_pullbackFst
   have hj : j'.inv ≫ φ.totalMap = ObjectProperty.homMk (pullback.fst X.toBase.hom
       (yoneda.map φ.baseMap)) := by
     refine ObjectProperty.hom_ext _ ?_
-    show j.inv ≫ φ.totalMap.hom = pullback.fst _ _
+    change j.inv ≫ φ.totalMap.hom = pullback.fst _ _
     exact hpb.isoPullback_inv_fst
   exact isZero_homology_smallEtaleDerivedModulePullback_of_comp_eq j'.inv φ.totalMap _ hj
     (isEtale_hom_of_isIso B integerBase hZ j'.inv) _ i h₀

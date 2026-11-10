@@ -131,7 +131,7 @@ theorem pullbackModulesCompIso_four_symm_eq (φ : RingedToposHom X Y) (ψ : Ring
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.hom_inv_id_assoc]
   apply (conjugateEquiv Aχ (Aψ.comp Aφ)).injective
   rw [← conjugateEquiv_comp Aχ Ac (Aψ.comp Aφ)]
-  show _ = conjugateEquiv Aχ Ac _ ≫ conjugateEquiv Ac (Aψ.comp Aφ)
+  change _ = conjugateEquiv Aχ Ac _ ≫ conjugateEquiv Ac (Aψ.comp Aφ)
     (Adjunction.leftAdjointUniq _ _).inv
   rw [hR1, hR2]
   refine (hL.trans ?_)
@@ -501,7 +501,8 @@ theorem strictComponentDerivedTransitionIso_comp {l m n : SimplexCategory} (ψ :
     (spacesEtaleRingedToposHomCompTwoIsoSpacesEtaleRingedToposHomComp (X.map φ.op) (X.map ψ.op))
     (congrArg spacesEtaleRingedToposHom (SimplicialObject.map_op_comp_map_op X ψ φ))
     (fun K' => by
-      simp only [SimplicialSiteSituation.derivedTransitionPullbackIsoDerivedPullbackSimplicialSmallEtaleStrictBridge,
+      open SimplicialSiteSituation in
+      simp only [derivedTransitionPullbackIsoDerivedPullbackSimplicialSmallEtaleStrictBridge,
         Iso.refl_hom, NatTrans.id_app]
       refine (Category.comp_id _).trans (((strictSituation X).derivedTransitionCompComparison_app_eq
         (strictStructureSheaf X) ψ φ K').trans ?_)

@@ -72,8 +72,8 @@ plain instance search resolves `HasDerivedCategory X.Modules` to the *locally sm
 instance `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory` of
 `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, and an unprioritised file-level
 `attribute [local instance] HasDerivedCategory.standard` does not displace it — only
-`attribute [local instance 10000] HasDerivedCategory.standard` does. (This can be checked both ways, by
-`inferInstance` being `rfl`-equal to each of the two in turn; the same observation is recorded in
+`attribute [local instance 10000] HasDerivedCategory.standard` does. (This can be checked both ways,
+by `inferInstance` being `rfl`-equal to each of the two in turn; the same observation is recorded in
 the module documentation of
 `StacksFrontier/AlgebraicGeometry/Cohomology/QuasicoherentAmplitude.lean`.) The free binder is what
 makes the choice irrelevant here.

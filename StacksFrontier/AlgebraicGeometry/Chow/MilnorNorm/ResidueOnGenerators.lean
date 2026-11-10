@@ -108,13 +108,13 @@ theorem exists_unitList_of_quotUnitsOfLowDegree {p : Polynomial k} [(Ideal.span 
         rcases List.mem_cons.mp hv with hvw | hvl
         · rw [hvw]
           refine ⟨f, hf0, hfd.le, Units.ext ?_⟩
-          show algebraMap (Polynomial k) (RatFunc k) f =
+          change algebraMap (Polynomial k) (RatFunc k) f =
             algebraMap (Localization.AtPrime (Ideal.span {p})) (RatFunc k) (w : _)
           rw [hw, ← IsScalarTower.algebraMap_apply]
         · exact hl'deg v hvl
       · rw [List.map_cons, List.map_cons, hl'res]
         refine congrArg (· :: _) (Units.ext ?_)
-        show residue (Localization.AtPrime (Ideal.span {p})) (w : _) =
+        change residue (Localization.AtPrime (Ideal.span {p})) (w : _) =
           quotientRingEquivResidueField (Ideal.span {p}) (u : _)
         rw [hw, residue_algebraMap_eq_quotientRingEquivResidueField, hfu]
 

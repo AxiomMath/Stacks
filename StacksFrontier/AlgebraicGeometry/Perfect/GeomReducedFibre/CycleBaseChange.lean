@@ -65,9 +65,9 @@ theorem DegreeZeroCyclesSurjective.of_iso {T : Type u} [CommRing T] {φ : R →+
     rfl
   have := congrArg (fun m => m y) hc
   simp only [ModuleCat.comp_apply] at this
-  show F.map (D'.iCycles 0) (F.map (HomologicalComplex.cyclesMap e.hom 0) y) = x
+  change F.map (D'.iCycles 0) (F.map (HomologicalComplex.cyclesMap e.hom 0) y) = x
   rw [this]
-  show e0.hom ((F.map (D.iCycles 0)).hom y) = x
+  change e0.hom ((F.map (D.iCycles 0)).hom y) = x
   rw [hy]
   exact e0.inv_hom_id_apply x
 
@@ -123,13 +123,13 @@ theorem DegreeZeroCyclesSurjective.of_flat_comp {B T : Type u} [CommRing B] [Com
   let c := ModuleCat.extendScalarsComp φ ψ
   have hx' : (extendScalarsCx ψ (extendScalarsCx φ D)).d 0 1 ((c.hom.app (D.X 0)) x) = 0 := by
     refine (NatTrans.naturality_apply c.hom (D.d 0 1) x).symm.trans ?_
-    show (c.hom.app (D.X 1)) ((extendScalarsCx (ψ.comp φ) D).d 0 1 x) = 0
+    change (c.hom.app (D.X 1)) ((extendScalarsCx (ψ.comp φ) D).d 0 1 x) = 0
     rw [hx, map_zero]
   obtain ⟨y, hy⟩ := h _ hx'
   have := isIso_cyclesBaseChange_of_flat φ hφ D
   let y' := Fψ.map (inv (cyclesBaseChange φ D)) y
   refine ⟨c.inv.app (D.cycles 0) y', ?_⟩
-  show Fψφ.map (D.iCycles 0) (c.inv.app (D.cycles 0) y') = x
+  change Fψφ.map (D.iCycles 0) (c.inv.app (D.cycles 0) y') = x
   refine (NatTrans.naturality_apply c.inv (D.iCycles 0) y').symm.trans ?_
   have key : Fψ.map (inv (cyclesBaseChange φ D)) ≫ Fψ.map (Fφ.map (D.iCycles 0)) =
       Fψ.map ((extendScalarsCx φ D).iCycles 0) := by
@@ -139,7 +139,7 @@ theorem DegreeZeroCyclesSurjective.of_flat_comp {B T : Type u} [CommRing B] [Com
     have := congrArg (fun m => m y) key
     simp only [ModuleCat.comp_apply] at this
     exact this.trans hy
-  show c.inv.app (D.X 0) (Fψ.map (Fφ.map (D.iCycles 0)) y') = x
+  change c.inv.app (D.X 0) (Fψ.map (Fφ.map (D.iCycles 0)) y') = x
   rw [hy']
   exact (c.app (D.X 0)).hom_inv_id_apply x
 
@@ -157,24 +157,24 @@ theorem DegreeZeroCyclesSurjective.of_field_comp {κ k : Type u} [Field κ] [Fie
   let π := cokernel.π j
   let y : Fι.obj (Fφ.obj (D.X 0)) := (1 : k) ⊗ₜ[κ, ι] x
   have hdy : Fι.map (Fφ.map (D.d 0 1)) y = 0 := by
-    show (1 : k) ⊗ₜ[κ, ι] ((extendScalarsCx φ D).d 0 1 x) = 0
+    change (1 : k) ⊗ₜ[κ, ι] ((extendScalarsCx φ D).d 0 1 x) = 0
     rw [hx]
     let : Module κ k := Module.compHom k ι
     exact TensorProduct.tmul_zero _ _
   have hz : (extendScalarsCx (ι.comp φ) D).d 0 1 (c.inv.app (D.X 0) y) = 0 := by
-    show Fιφ.map (D.d 0 1) (c.inv.app (D.X 0) y) = 0
+    change Fιφ.map (D.d 0 1) (c.inv.app (D.X 0) y) = 0
     refine (NatTrans.naturality_apply c.inv (D.d 0 1) y).symm.trans ?_
-    show c.inv.app (D.X 1) (Fι.map (Fφ.map (D.d 0 1)) y) = 0
+    change c.inv.app (D.X 1) (Fι.map (Fφ.map (D.d 0 1)) y) = 0
     rw [hdy, map_zero]
   obtain ⟨w, hw⟩ := h _ hz
   have hyw : Fι.map j (c.hom.app (D.cycles 0) w) = y := by
     refine (NatTrans.naturality_apply c.hom (D.iCycles 0) w).symm.trans ?_
-    show c.hom.app (D.X 0) (Fιφ.map (D.iCycles 0) w) = y
+    change c.hom.app (D.X 0) (Fιφ.map (D.iCycles 0) w) = y
     rw [show Fιφ.map (D.iCycles 0) w = c.inv.app (D.X 0) y from hw]
     exact (c.app (D.X 0)).inv_hom_id_apply y
   have hπy : Fι.map π y = 0 := by
     rw [← hyw]
-    show (Fι.map j ≫ Fι.map π) (c.hom.app (D.cycles 0) w) = 0
+    change (Fι.map j ≫ Fι.map π) (c.hom.app (D.cycles 0) w) = 0
     rw [← Functor.map_comp, cokernel.condition, Functor.map_zero]
     rfl
   have h1 : (1 : k) ⊗ₜ[κ, ι] (π x) = 0 := by

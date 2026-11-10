@@ -171,7 +171,7 @@ theorem smallerBaseModulesEquivalence_functor_linear :
     Linear.ofRingHom (baseRingHom k B hk (spaceOverSmallerBase B _ S hk hS g Y φ).1
       (spaceOverSmallerBase B _ S hk hS g Y φ).2)
   refine ⟨fun {M N} f c => ?_⟩
-  show (smallerBaseModulesEquivalence.{u, u} B _ S hk hS g Y φ).functor.map
+  change (smallerBaseModulesEquivalence.{u, u} B _ S hk hS g Y φ).functor.map
       (Stacks.Cohomology.SiteModules.globalSmul _ (smallerBaseRingHom B S hS Y k hk g φ c) M ≫ f) =
     Stacks.Cohomology.SiteModules.globalSmul _
       (baseRingHom k B hk (spaceOverSmallerBase B _ S hk hS g Y φ).1

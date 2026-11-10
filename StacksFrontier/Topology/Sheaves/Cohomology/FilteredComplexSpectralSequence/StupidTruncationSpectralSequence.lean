@@ -61,8 +61,8 @@ sequence from a filtered K-injective (or, in the bounded below case, filtered in
 replacement, whereas the 015J sequence is built from a Cartan–Eilenberg resolution; the
 identification of the two is
 `Stacks.Cohomology.FilteredComplex.nonempty_spectralSequence_iso_cartanEilenbergFirst` in the
-module
-`StacksFrontier.Topology.Sheaves.Cohomology.FilteredComplexSpectralSequence.CartanEilenbergComparison`
+module `CartanEilenbergComparison` of this directory
+(`StacksFrontier.Topology.Sheaves.Cohomology.FilteredComplexSpectralSequence`)
 and cannot be stated here because the 015J side needs the total complex of a
 Cartan–Eilenberg bicomplex, one import layer further on. The `@[stacks 0FLK]` attributes below
 therefore cover clauses (1) and (2) — the existence of the sequence with the stated `E₁`-page,

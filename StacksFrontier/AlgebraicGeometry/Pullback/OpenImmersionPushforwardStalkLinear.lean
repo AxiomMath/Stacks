@@ -234,7 +234,7 @@ def pushforwardStalkLinearEquivOfRingEquiv {A : Type u} [CommRing A]
     ↑(U.ι.pushforwardStalk x) ≃ₗ[↑(X.presheaf.stalk x)] A where
   __ := er.toAddEquiv
   map_smul' r z := by
-    show er (r • z) = r • er z
+    change er (r • z) = r • er z
     rw [Algebra.smul_def, Algebra.smul_def, map_mul]
     exact congrArg (fun y => y * er z) (her r)
 
@@ -273,7 +273,7 @@ theorem exists_linearEquiv_pushforwardUnitStalk (U : X.Opens) (x : X) {W : X.Ope
   refine ⟨(pushforwardUnitStalkLinearEquiv U x).trans
     (pushforwardStalkLinearEquivOfRingEquiv U x er fun r => (her r).trans ?_), ?_⟩
   · exact congrArg (fun φ : ↑(X.presheaf.stalk x) →+* _ => φ r) halg.symm
-  · show er (pushforwardUnitStalkLinearEquiv U x _) = 1
+  · change er (pushforwardUnitStalkLinearEquiv U x _) = 1
     rw [pushforwardUnitStalkLinearEquiv_one]
     exact map_one er
 

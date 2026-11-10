@@ -78,7 +78,7 @@ private theorem finite_standard_refinement
     X i := B.inclusion.obj (E.X i)
     f i := B.inclusion.map (E.f i)
     mem₀ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T'
       exact hE.2 }
   obtain ⟨V, q, hfin, hopen⟩ := finite_affine_refinement_etaleCover U
   let Q : PreZeroHypercover T := {
@@ -94,11 +94,11 @@ private theorem finite_standard_refinement
           (Scheme.size_lt_of_isOpenImmersion (q.h₀ i) (E.X (q.s₀ i)).property)) ⟶
           B.inclusion.obj T from V.f i) }
   have hQ : IsEtaleCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     rw [show Q.map B.inclusion = V.cover.toPreZeroHypercover from
       PreZeroHypercover.ext (x := _) (y := _) rfl (by rfl) (heq_of_eq (by
         funext i
-        show B.inclusion.map (B.inclusion.preimage (show
+        change B.inclusion.map (B.inclusion.preimage (show
           B.inclusion.obj (Q.X i) ⟶ B.inclusion.obj T from V.f i)) = V.f i
         rw [Functor.map_preimage]))]
     simpa [T', Scheme.etalePrecoverage] using V.cover.mem₀
@@ -110,7 +110,7 @@ private theorem finite_standard_refinement
   have hcomb' : PreZeroHypercover.CombinatoriallyEquivalent Q Rfam := hcomb.2
   let F := deduplicateFamily Q
   have hFet : IsEtaleCovering ⟨T, F⟩ := by
-    show (F.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (F.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
       ← PreZeroHypercover.presieve₀_map]
     exact hQ
@@ -138,7 +138,7 @@ private theorem finite_standard_refinement
       B.inclusion.obj (Q.X k) ⟶ B.inclusion.obj (E.X (q.s₀ k)) from q.h₀ k)
     have htri : g ≫ E.f (q.s₀ k) = Q.f k := by
       apply B.inclusion.map_injective
-      show B.inclusion.map (g ≫ E.f (q.s₀ k)) =
+      change B.inclusion.map (g ≫ E.f (q.s₀ k)) =
         B.inclusion.map (B.inclusion.preimage (show
           B.inclusion.obj (Q.X k) ⟶ B.inclusion.obj T from V.f k))
       rw [Functor.map_comp, Functor.map_preimage, Functor.map_preimage]
@@ -182,7 +182,7 @@ theorem exists_finite_affine_pullback_refinement
   }
   have hP₀ : B.IsCovering ⟨X₀, P₀⟩ := hcov
   have hP₀et : IsEtaleCovering ⟨X₀, P₀⟩ := by
-    show (P₀.map B.inclusion).presieve₀ ∈
+    change (P₀.map B.inclusion).presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj X₀)
     apply (Scheme.presieve₀_mem_precoverage_iff
       (P₀.map B.inclusion)).mpr
@@ -200,7 +200,7 @@ theorem exists_finite_affine_pullback_refinement
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback hpb'
       (etale_map_of_etaleCovering hE.2 i)
   have : IsAffine (B.inclusion.obj X₀) := by
-    show IsAffine ((AffineEtale.toScheme B S hS F).obj X)
+    change IsAffine ((AffineEtale.toScheme B S hS F).obj X)
     exact X.property
   obtain ⟨F₁, hF₁, hfinite, hFaff, hrefine⟩ :=
     finite_standard_refinement B X₀ P₀ ⟨hP₀, hP₀et⟩
@@ -224,10 +224,10 @@ theorem exists_finite_affine_pullback_refinement
   have hmap : (F'.map G).map L = F₁ := by
     ext <;> simp [F', G, H, L, Y, ei, ci, Xc, PreZeroHypercover.map]
   have hFcover : AffineEtale.IsCovering B S hS F ⟨X, F'⟩ := by
-    show SmallEtale.IsCovering B S hS F
+    change SmallEtale.IsCovering B S hS F
         ⟨G.obj X, F'.map G⟩ ∧ Finite F'.I₀
     constructor
-    · show B.etaleCovering ⟨X₀, (F'.map G).map L⟩
+    · change B.etaleCovering ⟨X₀, (F'.map G).map L⟩
       rw [hmap]
       exact hF₁
     · simpa [F'] using hfinite
@@ -241,7 +241,7 @@ theorem exists_finite_affine_pullback_refinement
   have hfactor : (g ≫ π₁ j) ≫ E₀.f j = F₁.f i ≫ L.map a := by
     rw [Category.assoc, (hpb j).w, ← Category.assoc, ← hg]
   have hEw : E₀.f j ≫ Uc.left.hom = Ec.left.hom := by
-    show (L.map (E.f j)) ≫ Uc.left.hom = Ec.left.hom
+    change (L.map (E.f j)) ≫ Uc.left.hom = Ec.left.hom
     exact Over.w (H.map (E.f j)).left
   have haw : L.map a ≫ Uc.left.hom = Xc.left.hom := Over.w (H.map a).left
   have heOver : (g ≫ π₁ j) ≫ Ec.left.hom = (Y i).hom := by
@@ -336,7 +336,7 @@ private theorem affine_inclusion_topology_eq_restricted
     Precoverage.mem_comap_iff.mpr
       (Q.le_toPrecoverage_toGrothendieck _ (Precoverage.mem_comap_iff.mp hR))
   have hle : P.toGrothendieck ≤ G.restrictedTopology K := by
-    show P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
+    change P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
     exact (Precoverage.toGrothendieck_monotone hpre).trans
       (Precoverage.toGrothendieck_monotone hcomp)
   have hge : G.restrictedTopology K ≤ P.toGrothendieck := by
@@ -367,11 +367,11 @@ public theorem exists_etaleCovering_tautologicallyEquivalent
   have hmap : W.2.map B.inclusion = U :=
     PreZeroHypercover.ext (x := _) (y := _) rfl (by rfl) (heq_of_eq (by
       funext i
-      show B.inclusion.map (B.inclusion.preimage (show
+      change B.inclusion.map (B.inclusion.preimage (show
         B.inclusion.obj (W.2.X i) ⟶ B.inclusion.obj T from U.f i)) = U.f i
       rw [Functor.map_preimage]))
   have hW : IsEtaleCovering W := by
-    show (W.2.map B.inclusion).presieve₀ ∈
+    change (W.2.map B.inclusion).presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj T)
     rwa [hmap]
   obtain ⟨W', hW', hcomb⟩ := exists_chosen_etaleCovering B W hW
@@ -446,7 +446,7 @@ private theorem affineEtale_inclusion_isCoverDense
     obtain ⟨β, hβ⟩ := hEq.2
     obtain ⟨e, he⟩ := hβ i
     have : IsAffine (U.X (β i)) := by
-      show IsAffine (A.openCover.X (β i).down)
+      change IsAffine (A.openCover.X (β i).down)
       infer_instance
     exact @IsAffine.of_isIso (B.inclusion.obj (V.X i)) (U.X (β i))
       e.hom e.isIso_hom (inferInstance : IsAffine (U.X (β i)))
@@ -458,7 +458,7 @@ private theorem affineEtale_inclusion_isCoverDense
   have hmap : E.map L = V := by
     ext <;> simp [E, L, H, Y, ei, ci, Uc, PreZeroHypercover.map]
   have hE : SmallEtale.IsCovering B S hS F ⟨X, E⟩ := by
-    show B.etaleCovering ⟨T, E.map L⟩
+    change B.etaleCovering ⟨T, E.map L⟩
     rw [hmap]
     exact hV
   have hpre : E.presieve₀ ∈ SmallEtale.precoverage B S hS F X :=
@@ -499,7 +499,7 @@ theorem AffineEtale.inclusion_isSpecialCocontinuous
       isLocallyFaithful' := inferInstance
       functorPushforward_mem_iff := ?_ }
     intro X R
-    show R.functorPushforward G ∈ K (G.obj X) ↔
+    change R.functorPushforward G ∈ K (G.obj X) ↔
       R ∈ AffineEtale.topology B S hS F X
     rw [hTopo]
     exact (Functor.mem_restrictedTopology_iff (G := G)).symm

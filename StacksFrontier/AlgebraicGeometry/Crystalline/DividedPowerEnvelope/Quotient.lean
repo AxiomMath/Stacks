@@ -273,7 +273,7 @@ private lemma ringHom_eq_of_vanishing (A : DividedPowerRing.{u}) {B : Type v} [C
       (dpMorphismToBot D.object.dividedPowers q₂ h₂).comp D.structureMap := by
     apply DividedPowers.DPMorphism.ext
     funext z
-    show q₁ (D.structureMap.toRingHom z) = q₂ (D.structureMap.toRingHom z)
+    change q₁ (D.structureMap.toRingHom z) = q₂ (D.structureMap.toRingHom z)
     rw [← D.algebraMap_comp]
     exact DFunLike.congr_fun hagree (f z)
   exact congrArg DividedPowers.DPMorphism.toRingHom
@@ -406,7 +406,7 @@ public lemma dividedPowerEnvelope_quotient
     k ∈ RingHom.ker phi ∧
       x = D'.object.dividedPowers.dpow n (D'.algebraMap.toRingHom k)}
   let hK' : DividedPowers.IsSubDPIdeal D'.object.dividedPowers K' := by
-    show DividedPowers.IsSubDPIdeal D'.object.dividedPowers (Ideal.span S)
+    change DividedPowers.IsSubDPIdeal D'.object.dividedPowers (Ideal.span S)
     have hS : S ⊆ D'.object.ideal := by
       rintro x ⟨n, hn, k, hk, rfl⟩
       exact D'.object.dividedPowers.dpow_mem (Nat.ne_of_gt hn) (hkI k hk)
@@ -438,10 +438,10 @@ public lemma dividedPowerEnvelope_quotient
   let b' : B' →+* C.carrier := pi.comp D'.algebraMap.toRingHom
   have hb'ker : RingHom.ker phi ≤ RingHom.ker b' := by
     intro k hk
-    show b' k = 0
-    show pi (D'.algebraMap.toRingHom k) = 0
+    change b' k = 0
+    change pi (D'.algebraMap.toRingHom k) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
-    show D'.algebraMap.toRingHom k ∈ K'
+    change D'.algebraMap.toRingHom k ∈ K'
     rw [← D'.object.dividedPowers.dpow_one (hkI k hk)]
     exact Ideal.subset_span ⟨1, by decide, k, hk, rfl⟩
   let b : B →+* C.carrier :=
@@ -450,7 +450,7 @@ public lemma dividedPowerEnvelope_quotient
       (RingHom.quotientKerEquivOfSurjective hphi_surjective).symm.toRingHom
   have hb_comp : b.comp phi = b' := by
     ext x
-    show (Ideal.Quotient.lift (RingHom.ker phi) b'
+    change (Ideal.Quotient.lift (RingHom.ker phi) b'
       (fun y hy => RingHom.mem_ker.mp (hb'ker hy)))
       ((RingHom.quotientKerEquivOfSurjective hphi_surjective).symm (phi x)) = b' x
     simp
@@ -460,7 +460,7 @@ public lemma dividedPowerEnvelope_quotient
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
     obtain ⟨x', rfl⟩ := hphi_surjective x
-    show b (phi x') ∈ D'.object.ideal.map pi
+    change b (phi x') ∈ D'.object.ideal.map pi
     rw [← RingHom.comp_apply, hb_comp]
     exact Ideal.mem_map_of_mem pi (D'.algebraMap.ideal_comp
       (Ideal.mem_map_of_mem _ (Ideal.mem_comap.mpr (by simpa using hx))))
@@ -468,13 +468,13 @@ public lemma dividedPowerEnvelope_quotient
   let basePair : IdealPair.Hom A.ideal C.ideal := IdealPair.Hom.ofDPMorphism a
   have hbOver : IdealPair.Hom.comp bPair (IdealPair.Hom.ofRingHom f hJ) = basePair := by
     apply IdealPair.Hom.ext_toRingHom
-    show b.comp f = a.toRingHom
+    change b.comp f = a.toRingHom
     calc
       b.comp f = b.comp (phi.comp f') := by rw [hphi]
       _ = (b.comp phi).comp f' := by ext x; rfl
       _ = b'.comp f' := by rw [hb_comp]
       _ = piDP.toRingHom.comp D'.structureMap.toRingHom := by
-        show (pi.comp D'.algebraMap.toRingHom).comp f' =
+        change (pi.comp D'.algebraMap.toRingHom).comp f' =
           pi.comp D'.structureMap.toRingHom
         ext x
         calc
@@ -498,7 +498,7 @@ public lemma dividedPowerEnvelope_quotient
   have hgOver : IdealPair.Hom.comp gPair (IdealPair.Hom.ofRingHom f' hJ') =
       IdealPair.Hom.ofDPMorphism D.structureMap := by
     apply IdealPair.Hom.ext_toRingHom
-    show (D.algebraMap.toRingHom.comp phi).comp f' = D.structureMap.toRingHom
+    change (D.algebraMap.toRingHom.comp phi).comp f' = D.structureMap.toRingHom
     rw [RingHom.comp_assoc, hphi, D.algebraMap_comp]
   let qData := (D'.homEquiv D.object D.structureMap).symm ⟨gPair, hgOver⟩
   let q : DividedPowers.DPMorphism D'.object.dividedPowers D.object.dividedPowers := qData.1
@@ -507,10 +507,10 @@ public lemma dividedPowerEnvelope_quotient
       D.algebraMap.toRingHom.comp phi := by
     exact symm_homEquiv_toRingHom_comp D' D.object D.structureMap ⟨gPair, hgOver⟩
   have hKker : K' ≤ RingHom.ker q.toRingHom := by
-    show Ideal.span S ≤ RingHom.ker q.toRingHom
+    change Ideal.span S ≤ RingHom.ker q.toRingHom
     rw [Ideal.span_le]
     rintro x ⟨n, hn, k, hk, rfl⟩
-    show q.toRingHom (D'.object.dividedPowers.dpow n
+    change q.toRingHom (D'.object.dividedPowers.dpow n
       (D'.algebraMap.toRingHom k)) = 0
     rw [← q.dpow_comp (D'.algebraMap.toRingHom k) (hkI k hk)]
     have hqk : q.toRingHom (D'.algebraMap.toRingHom k) = 0 := by
@@ -525,14 +525,14 @@ public lemma dividedPowerEnvelope_quotient
   let sDP : DividedPowers.DPMorphism C.dividedPowers D.object.dividedPowers :=
     DividedPowers.DPMorphism.mk' (f := s) (by
       refine ⟨?_, ?_⟩
-      · show (D'.object.ideal.map pi).map s ≤ D.object.ideal
+      · change (D'.object.ideal.map pi).map s ≤ D.object.ideal
         rw [Ideal.map_map, hs_pi]
         exact q.ideal_comp
       · intro n x hx
         obtain ⟨y, hy, rfl⟩ :=
           (Ideal.mem_map_iff_of_surjective pi hpi_surj).mp hx
         rw [DividedPowers.Quotient.dpow_apply D'.object.dividedPowers hKInf hy]
-        show D.object.dividedPowers.dpow n (s (pi y)) =
+        change D.object.dividedPowers.dpow n (s (pi y)) =
           s (pi (D'.object.dividedPowers.dpow n y))
         rw [show s (pi y) = q.toRingHom y from
         RingHom.ext_iff.mp hs_pi y,
@@ -542,7 +542,7 @@ public lemma dividedPowerEnvelope_quotient
   have hs_alg : sDP.toRingHom.comp b = D.algebraMap.toRingHom := by
     ext x
     obtain ⟨x', rfl⟩ := hphi_surjective x
-    show s (b (phi x')) = D.algebraMap.toRingHom (phi x')
+    change s (b (phi x')) = D.algebraMap.toRingHom (phi x')
     have hb : b (phi x') = b' x' := by
       simpa [RingHom.comp_apply] using (RingHom.ext_iff.mp hb_comp x')
     have hq : q.toRingHom (D'.algebraMap.toRingHom x') =
@@ -559,7 +559,7 @@ public lemma dividedPowerEnvelope_quotient
   have hrq_base : rq.comp D'.structureMap = a := by
     rw [show rq.comp D'.structureMap = r.comp (q.comp D'.structureMap) from rfl, hq_base, hr_base]
   have hrq_alg : rq.toRingHom.comp D'.algebraMap.toRingHom = b' := by
-    show (r.toRingHom.comp q.toRingHom).comp D'.algebraMap.toRingHom = b'
+    change (r.toRingHom.comp q.toRingHom).comp D'.algebraMap.toRingHom = b'
     rw [RingHom.comp_assoc, hq_alg, ← RingHom.comp_assoc, hr_alg, hb_comp]
   have hrq_eq_pi : rq.toRingHom = pi :=
     congrArg DividedPowers.DPMorphism.toRingHom
@@ -578,7 +578,7 @@ public lemma dividedPowerEnvelope_quotient
         ((DFunLike.congr_fun hs_pi _).trans (DFunLike.congr_fun hq_base x))
     exact congrArg DividedPowers.DPMorphism.toRingHom
       (envelopeHom_ext D D.object (sDP.comp r) (.id _) ht_base (by
-        show (sDP.toRingHom.comp r.toRingHom).comp D.algebraMap.toRingHom =
+        change (sDP.toRingHom.comp r.toRingHom).comp D.algebraMap.toRingHom =
           (RingHom.id _).comp D.algebraMap.toRingHom
         rw [RingHom.comp_assoc, hr_alg, hs_alg, RingHom.id_comp]))
   have hsp : ∀ y, s (pi y) = q.toRingHom y := DFunLike.congr_fun hs_pi

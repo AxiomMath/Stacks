@@ -149,6 +149,7 @@ lemma eq_of_liftedSheafification_map_eq
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_quasiFiniteRepresentable :
@@ -160,6 +161,7 @@ local instance (priority := high) hasPullback_presheaf_quasiFiniteRepresentable
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs a larger budget
 /-- Binary products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasBinaryProducts_presheaf_quasiFiniteRepresentable :
@@ -170,6 +172,7 @@ local instance (priority := high) hasBinaryProduct_presheaf_quasiFiniteRepresent
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs a larger budget
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_quasiFiniteRepresentable
@@ -195,7 +198,7 @@ private theorem isImmersion_of_isOpenImmersion
       (BigFppfOver.toScheme B S hS)) ?_ _ hf
   intro A A' g hg
   let _ : AlgebraicGeometry.IsOpenImmersion _ := hg
-  show AlgebraicGeometry.IsImmersion _
+  change AlgebraicGeometry.IsImmersion _
   exact inferInstance
 
 /-- A morphism from a quasi-compact algebraic space over `S` to an affine formal algebraic

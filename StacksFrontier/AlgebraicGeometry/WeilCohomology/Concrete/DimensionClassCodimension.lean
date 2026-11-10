@@ -52,13 +52,13 @@ theorem chowGroupToCodimension_apply_of_eq (m c : ℤ) (α : chowGroup (fieldCho
     chowGroupToCodimension sX m c α d =
       chowGroupDegreeEquiv _ _ h
         (chowGroupRestrict (fieldChowSituation k) sX (partBase sX d) (dimPart sX d).ι rfl m α) := by
-  simp only [chowGroupToCodimension, AddMonoidHom.pi_apply, dif_pos h]
+  simp only [chowGroupToCodimension, AddMonoidHom.pi_apply, dite_eq_left h]
   rfl
 
 /-- On a part `X_d` with `m ≠ d - c`, the component of `chowGroupToCodimension` is `0`. -/
 theorem chowGroupToCodimension_apply_of_ne (m c : ℤ) (α : chowGroup (fieldChowSituation k) sX m)
     (d : ℕ) (h : m ≠ d - c) : chowGroupToCodimension sX m c α d = 0 := by
-  simp only [chowGroupToCodimension, AddMonoidHom.pi_apply, dif_neg h]
+  simp only [chowGroupToCodimension, AddMonoidHom.pi_apply, dite_eq_right h]
   rfl
 
 /-- The component of `chowGroupToCodimension` on a part where the degrees match is the restriction

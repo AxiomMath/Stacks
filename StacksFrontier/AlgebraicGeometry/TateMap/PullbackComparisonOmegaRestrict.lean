@@ -137,7 +137,7 @@ theorem omegaChartPullbackEquiv_restrict (U : X.affineOpens) (V : Y.affineOpens)
         (Scheme.Modules.pullbackSection sq.cover (omega f hf) V.1 V'.1 hV'V t))
     have hD := omegaChartPullbackEquiv_pullbackSection hf hf' sq U V U' V' hVU hU'U hV'U' hV'V
       D F G t
-    show omegaBaseChange D₀ F₀ G₀ (1 ⊗ₜ (omegaData f hf).localEquiv Ua Vb hba F₀
+    change omegaBaseChange D₀ F₀ G₀ (1 ⊗ₜ (omegaData f hf).localEquiv Ua Vb hba F₀
       (restrictₗ (omegaData f hf).sheaf (Y.basicOpen_le b) t)) = (omegaData f' hf').localEquiv
         Ua' Vb' hb'a' G₀ (restrictₗ (omegaData f' hf').sheaf (Y'.basicOpen_le b') _)
     rw [hY, hY', hD]
@@ -155,20 +155,20 @@ theorem omegaChartPullbackEquiv_restrict (U : X.affineOpens) (V : Y.affineOpens)
     let : Algebra Γ(Y', V'.1) Γ(Y', Vb'.1) :=
       (Y'.presheaf.map (homOfLE (Y'.basicOpen_le b')).op).hom.toAlgebra
     have : IsScalarTower Γ(X, U.1) Γ(X, Ua.1) Γ(X', Ua'.1) := IsScalarTower.of_algebraMap_eq' (by
-      show (sq.base.appLE U.1 Ua'.1 hUa').hom = (sq.base.appLE Ua.1 Ua'.1 ha'a).hom.comp
+      change (sq.base.appLE U.1 Ua'.1 hUa').hom = (sq.base.appLE Ua.1 Ua'.1 ha'a).hom.comp
         (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom
       rw [← CommRingCat.hom_comp, Scheme.Hom.map_appLE])
     have : IsScalarTower Γ(Y, V.1) Γ(Y, Vb.1) Γ(Y', Vb'.1) := IsScalarTower.of_algebraMap_eq' (by
-      show (sq.cover.appLE V.1 Vb'.1 hVb').hom = (sq.cover.appLE Vb.1 Vb'.1 hb'b).hom.comp
+      change (sq.cover.appLE V.1 Vb'.1 hVb').hom = (sq.cover.appLE Vb.1 Vb'.1 hb'b).hom.comp
         (Y.presheaf.map (homOfLE (Y.basicOpen_le b)).op).hom
       rw [← CommRingCat.hom_comp, Scheme.Hom.map_appLE])
     have : IsScalarTower Γ(X, U.1) Γ(X', U'.1) Γ(X', Ua'.1) := IsScalarTower.of_algebraMap_eq' (by
-      show (sq.base.appLE U.1 Ua'.1 hUa').hom =
+      change (sq.base.appLE U.1 Ua'.1 hUa').hom =
         (X'.presheaf.map (homOfLE (X'.basicOpen_le a')).op).hom.comp
           (sq.base.appLE U.1 U'.1 hU'U).hom
       rw [← CommRingCat.hom_comp, Scheme.Hom.appLE_map])
     have : IsScalarTower Γ(Y, V.1) Γ(Y', V'.1) Γ(Y', Vb'.1) := IsScalarTower.of_algebraMap_eq' (by
-      show (sq.cover.appLE V.1 Vb'.1 hVb').hom =
+      change (sq.cover.appLE V.1 Vb'.1 hVb').hom =
         (Y'.presheaf.map (homOfLE (Y'.basicOpen_le b')).op).hom.comp
           (sq.cover.appLE V.1 V'.1 hV'V).hom
       rw [← CommRingCat.hom_comp, Scheme.Hom.appLE_map])
@@ -187,8 +187,7 @@ theorem omegaChartPullbackEquiv_restrict (U : X.affineOpens) (V : Y.affineOpens)
   -- sections of the pullback are combinations of pulled-back sections
   obtain ⟨z, rfl⟩ :=
     (pullbackSectionsTensorEquiv sq.cover (omega f hf) V V' hV'V).surjective s
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw]
   | tmul y t =>
       have h1 : pullbackSectionsTensorEquiv sq.cover (omega f hf) V V' hV'V

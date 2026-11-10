@@ -133,7 +133,7 @@ public theorem supportOpenOffSupport_preimage (W : SmallEtale B S hS)
       ((supportOpen B S hS W Z hZ).ι.base ⁻¹' Z)ᶜ := by
   ext z
   have hz : z.1 ∈ coborder Z := z.2
-  show z.1 ∈ (supportOpen B S hS W Z hZ : Set _) \ closure Z ↔ z.1 ∉ Z
+  change z.1 ∈ (supportOpen B S hS W Z hZ : Set _) \ closure Z ↔ z.1 ∉ Z
   rw [Set.mem_sdiff]
   exact ⟨fun hzmem hzZ => hzmem.2 (subset_closure hzZ),
     fun hzZ => ⟨hz, fun hc => hzZ (mem_coborder_iff_imp.1 hz hc)⟩⟩

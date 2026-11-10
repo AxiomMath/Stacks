@@ -31,10 +31,9 @@ the triangulated structure is
 `Stacks.Perfect.BoundedLocallyFreeComplexes.perfectDerivedProperty_isTriangulated` (Tag 08CR),
 and saturation is proved below from Tag 08CS.
 
-Saturation appears twice in the trees already, in
-`StacksFrontier.AlgebraicGeometry.Perfect.BoundedLocallyFreeComplexes.SaturationFromRetractModels`
-and in
-`StacksFrontier.AlgebraicGeometry.Perfect.BoundedLocallyFreeComplexes.SaturationFromPseudoCoherence`,
+Saturation appears twice in the trees already, in the modules `SaturationFromRetractModels`
+and `SaturationFromPseudoCoherence` of
+`StacksFrontier.AlgebraicGeometry.Perfect.BoundedLocallyFreeComplexes`,
 in both cases with the content of Tag 08CS carried as a hypothesis because that tag was then
 unproved. It is now `Stacks.Cohomology.TorAmplitude.isPerfect_of_biprod`, so the hypothesis is
 discharged here and the conclusion is unconditional.

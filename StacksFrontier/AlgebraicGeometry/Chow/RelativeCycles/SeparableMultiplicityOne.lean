@@ -51,7 +51,7 @@ theorem componentMultiplicity_eq_one_of_isReduced {Y Z : Scheme.{u}} (i : Z ⟶ 
     intro b hb c
     obtain ⟨a, ha⟩ := i.stalkMap_surjective ξ.1 (c / b)
     refine ⟨a, ?_⟩
-    show (i.stalkMap ξ.1).hom a * b = c
+    change (i.stalkMap ξ.1).hom a * b = c
     calc
       (i.stalkMap ξ.1).hom a * b = (c / b) * b := by rw [ha]
       _ = c := div_mul_cancel₀ c hb

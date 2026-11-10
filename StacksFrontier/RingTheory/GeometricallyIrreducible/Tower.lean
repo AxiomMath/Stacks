@@ -298,7 +298,7 @@ public theorem solution (k K : Type u) [Field k]
         (algebraicClosure.algebraicClosure_eq_bot k K)
     exact Algebra.IsGeometricallyIrreducible.trans k ↥(algebraicClosure k K) K
   · intro h
-    rw [eq_bot_iff, SetLike.le_def]
+    rw [eq_bot_iff, IsConcreteLE.le_iff]
     intro α hα
     have hsep : IsSeparable k α := mem_separableClosure_iff.mp hα
     have : FiniteDimensional k ↥k⟮α⟯ :=

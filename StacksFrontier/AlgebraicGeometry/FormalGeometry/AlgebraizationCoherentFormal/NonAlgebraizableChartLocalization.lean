@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.NonAlgebraizableExample
+StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.NonAlgebraizableExample
 public import StacksFrontier.RingTheory.Rig.AdicBasic
 
 /-!
@@ -86,10 +86,10 @@ public theorem isLocalization_away_levelToChart (r : AmbientRing k) (n : ℕ) :
     (AlgEquiv.ofRingEquiv (f := Ideal.quotEquivOfEq (span_algebraMap_tVar_pow k r n).symm)
       fun z => ?_)
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-  show Ideal.quotEquivOfEq (span_algebraMap_tVar_pow k r n).symm
+  change Ideal.quotEquivOfEq (span_algebraMap_tVar_pow k r n).symm
       (i (Ideal.Quotient.mk _ x)) = levelToChart k r n (Ideal.Quotient.mk _ x)
   rw [levelToChart_mk]
-  show Ideal.quotEquivOfEq (span_algebraMap_tVar_pow k r n).symm
+  change Ideal.quotEquivOfEq (span_algebraMap_tVar_pow k r n).symm
       (Ideal.Quotient.mk _ (algebraMap (AmbientRing k) L x)) = _
   exact Ideal.quotEquivOfEq_mk _ _
 

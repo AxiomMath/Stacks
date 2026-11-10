@@ -181,7 +181,7 @@ private theorem bijective_pairBaseChange_of_lift
     rw [hring] at e₁
     have e₂ := ConcreteCategory.congr_hom (ψx.hom.naturality a.op) z
     simp only [ConcreteCategory.comp_apply] at e₂
-    show (ψx.hom.app (op W)).hom ((RU.map a.op).hom z) = _
+    change (ψx.hom.app (op W)).hom ((RU.map a.op).hom z) = _
     refine e₂.trans ?_
     rw [e₁]
     have hcancel := ConcreteCategory.congr_hom
@@ -190,7 +190,7 @@ private theorem bijective_pairBaseChange_of_lift
     simp only [ConcreteCategory.comp_apply] at hcancel
     refine (congrArg (fun r => (ConcreteCategory.hom ((restrictToSmallEtale B E h S hS p hp x
       (ringStructureSheafCore B S hS p hp τ hτ).obj).map a.op)) r) hcancel).trans ?_
-    show (O.map ℓ.op).hom ((O.map φ'.op).hom (α t)) = (O.map ψa.op).hom (α t)
+    change (O.map ℓ.op).hom ((O.map φ'.op).hom (α t)) = (O.map ψa.op).hom (α t)
     rw [← ConcreteCategory.comp_apply, ← O.map_comp]
     rfl
   have hg : ∀ m : F.obj (op yl), ((pairGenerator.{max (u + 1) v w m, u, u, u + 1, u + 1, u}
@@ -199,7 +199,7 @@ private theorem bijective_pairBaseChange_of_lift
     intro m
     have hgm : ((restrictModulePushforwardComparison B E h S hS p hp φ τ hτ F).app (op V')).hom m =
         F.map φ'.op m := ConcreteCategory.congr_hom hmod m
-    show F.map ℓ.op (((restrictModulePushforwardComparison B E h S hS p hp φ τ hτ F).app
+    change F.map ℓ.op (((restrictModulePushforwardComparison B E h S hS p hp φ τ hτ F).app
       (op V')).hom m) = _
     rw [hgm]
     exact (PresheafOfModules.map_comp_apply F φ'.op ℓ.op m).symm

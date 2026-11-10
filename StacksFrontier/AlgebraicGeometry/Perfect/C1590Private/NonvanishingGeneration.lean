@@ -68,14 +68,14 @@ theorem nonempty_generatingSections_of_forall_mem_nonvanishingLocus (M : Y.Modul
     refine ⟨fun j => if j = i then a' else 0, ?_⟩
     refine (Fintype.sum_eq_single i fun j hj => ?_).trans ?_
     · dsimp only
-      rw [if_neg hj, zero_smul]
+      rw [ite_eq_right hj, zero_smul]
     dsimp only
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h1 : (s' i).val (op U) = M.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (s i) :=
       Stacks.NonvanishingSpelling.sectionsEquiv_symm_eval Y M (s i) U
     have hres : Stacks.Sheaves.LocalGeneration.restr M (homOfLE (inf_le_left : W ≤ U)).op
         ((s' i).val (op U)) = M.presheaf.map (homOfLE (le_top : W ≤ ⊤)).op (s i) := by
-      show M.presheaf.map (homOfLE (inf_le_left : W ≤ U)).op ((s' i).val (op U)) = _
+      change M.presheaf.map (homOfLE (inf_le_left : W ≤ U)).op ((s' i).val (op U)) = _
       rw [h1, ← ConcreteCategory.comp_apply, ← Functor.map_comp]
       rfl
     exact (congrArg (fun t => a' • t) hres).trans ha

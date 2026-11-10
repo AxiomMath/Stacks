@@ -128,7 +128,7 @@ public lemma smul_restrict_eq_zero (F : X.Modules) [F.IsQuasicoherent]
         = (X.presheaf.map (homOfLE hWV).op a) • (affineGerm F W y hyW t) :=
       (affineGerm F W y hyW).map_smul _ _
     refine h1.trans ?_
-    show (X.presheaf.germ W y hyW).hom ((X.presheaf.map (homOfLE hWV).op) a) •
+    change (X.presheaf.germ W y hyW).hom ((X.presheaf.map (homOfLE hWV).op) a) •
         (F.presheaf.germ W y hyW t) = (X.presheaf.germ V y hyV).hom a •
           (F.presheaf.germ W y hyW t)
     rw [TopCat.Presheaf.germ_res_apply X.presheaf (homOfLE hWV) y hyW a]
@@ -141,13 +141,13 @@ public lemma smul_restrict_eq_zero (F : X.Modules) [F.IsQuasicoherent]
     (IsLocalization.AtPrime.isUnit_to_map_iff (X.presheaf.stalk y)
       (hV.primeIdealOf ⟨y, hyV⟩).asIdeal (c : Γ(X, V))).mpr c.2
   refine hunit.smul_left_cancel.mp ?_
-  show (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) • (a • (F.presheaf.germ W y hyW t))
+  change (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) • (a • (F.presheaf.germ W y hyW t))
       = (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) • (0 : F.presheaf.stalk y)
   rw [smul_zero]
   have hcomm : (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) •
       (a • (F.presheaf.germ W y hyW t))
       = a • ((c : Γ(X, V)) • (F.presheaf.germ W y hyW t)) := by
-    show (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) •
+    change (X.presheaf.germ V y hyV).hom (c : Γ(X, V)) •
         ((X.presheaf.germ V y hyV).hom a • (F.presheaf.germ W y hyW t))
       = (X.presheaf.germ V y hyV).hom a •
         ((X.presheaf.germ V y hyV).hom (c : Γ(X, V)) • (F.presheaf.germ W y hyW t))

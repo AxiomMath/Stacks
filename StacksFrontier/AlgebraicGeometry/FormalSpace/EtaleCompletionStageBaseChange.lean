@@ -90,6 +90,7 @@ private theorem etale_quotientMap_ker_projection (f : B →+* A) (hf : f.Etale)
   subst hK
   exact TopologicalRing.CompletionOver.etale_quotientMap_canonicalMap hf J
 
+omit [IsTopologicalRing B] [IsLinearTopology B B] in
 /-- **Stacks 0AN8**, the first step of the proof read in the site. For an étale ring map
 `f : B →+* A` and a weak ideal of definition `J` of `B`, the morphism of quotient stages
 `Spec (A^∧ ⧸ K) ⟶ Spec (B ⧸ J)` induced by the canonical map `B → A^∧` is étale, where `K` is
@@ -117,11 +118,11 @@ theorem etale_stageMap_canonicalMap (f : B →+* A) (hf : f.Etale)
     rw [hK, hg, TopologicalRing.CompletionOver.ker_projection_eq_closure]
   have hJK' : J.1 ≤
       Ideal.comap (TopologicalRing.CompletionOver.canonicalMap f) K.1 := hg ▸ hJK
-  show AlgebraicGeometry.Etale
+  change AlgebraicGeometry.Etale
     (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hJK)))
   refine (AlgebraicGeometry.HasRingHomProperty.Spec_iff
     (P := @AlgebraicGeometry.Etale.{u})).mpr ?_
-  show RingHom.Etale (Ideal.quotientMap K.1 g.toRingHom hJK)
+  change RingHom.Etale (Ideal.quotientMap K.1 g.toRingHom hJK)
   simpa only [hg] using etale_quotientMap_ker_projection f hf J K.1 hker hJK'
 
 /-- **Stacks 0AN8**, the base change over a quotient stage. For an étale `f : B →+* A` and a
@@ -148,7 +149,7 @@ theorem exists_isPullback_etale_formalSpectrumMap_completionOver_of_factorsThrou
   let F := Sheaf.sheafifiedYoneda (BigFppfOver.topology 𝔅 S hS)
   let _ : (BigFppfOver.topology 𝔅 S hS).Subcanonical := bigFppfOver_subcanonical 𝔅 S hS
   let _ : PreservesLimitsOfShape WalkingCospan F := by
-    show PreservesLimitsOfShape WalkingCospan
+    change PreservesLimitsOfShape WalkingCospan
       (uliftYoneda.{u + 1} (C := BigFppfOver 𝔅 S hS) ⋙
         presheafToSheaf (BigFppfOver.topology 𝔅 S hS) (Type (u + 1)))
     infer_instance

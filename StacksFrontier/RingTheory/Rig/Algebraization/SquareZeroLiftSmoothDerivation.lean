@@ -72,7 +72,7 @@ theorem isLocalizedModule_llcomp :
         L.symm.toLinearMap := by
     refine LinearMap.ext fun D ↦ Derivation.ext fun x ↦ ?_
     simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply]
-    show g (D x) = L' (E (IsLocalizedModule.map p fΩ g (L.symm D))) x
+    change g (D x) = L' (E (IsLocalizedModule.map p fΩ g (L.symm D))) x
     simp only [L', E, L, LinearEquiv.ofBijective_apply, LinearMap.lcomp_apply,
       linearMapEquivDerivation_apply_apply]
     rw [← LinearMap.comp_apply, IsLocalizedModule.map_comp]
@@ -126,7 +126,7 @@ theorem bijective_derivationBaseChange [Module.Flat S S'] [Module.FinitePresenta
     simp only [e, e1, e3, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
       LinearEquiv.rTensor_tmul, TensorProduct.comm_tmul, LinearEquiv.restrictScalars_apply,
       IsBaseChange.equiv_tmul]
-    show (TensorProduct.comm S S' P) ((x • (LinearMap.liftBaseChangeEquiv S').symm
+    change (TensorProduct.comm S S' P) ((x • (LinearMap.liftBaseChangeEquiv S').symm
       (LinearMap.baseChange S' (L.symm D))) (KaehlerDifferential.D R S v)) = D v ⊗ₜ x
     rw [LinearMap.smul_apply, LinearMap.liftBaseChangeEquiv_symm_apply, LinearMap.baseChange_tmul,
       show (L.symm D) (KaehlerDifferential.D R S v) = D v from
@@ -174,7 +174,7 @@ private theorem surjective_compAlgebraMap_of_isLocalization :
   let ψ : Ω[T⁄R] →ₗ[T] Y := (LinearMap.liftBaseChange T φ) ∘ₗ
     (tensorKaehlerEquivOfFormallyEtale R S T).symm.toLinearMap
   refine ⟨linearMapEquivDerivation R T ψ, Derivation.ext fun a ↦ ?_⟩
-  show ψ (KaehlerDifferential.D R T (algebraMap S T a)) = δ a
+  change ψ (KaehlerDifferential.D R T (algebraMap S T a)) = δ a
   simp only [ψ, LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
     tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap, LinearMap.liftBaseChange_tmul, one_smul]
   exact Derivation.liftKaehlerDifferential_comp_D δ a

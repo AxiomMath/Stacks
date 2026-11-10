@@ -110,7 +110,7 @@ private lemma nilpotent_ker_includeLeft
   have hsurj' : Function.Surjective
       (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] S) := by
     rw [hf]
-    show Function.Surjective (F ∘ s)
+    change Function.Surjective (F ∘ s)
     exact (Algebra.TensorProduct.map_surjective (AlgHom.id R A) g (fun a => ⟨a, rfl⟩)
       hsurj).comp e.symm.surjective
   have hkerF : RingHom.ker F =
@@ -130,7 +130,7 @@ private lemma nilpotent_ker_includeLeft
         (Algebra.TensorProduct.includeRight : R →ₐ[R] A ⊗[R] R) = Algebra.ofId R A := by
       ext
     rw [he] at hmap
-    show a ∈ Ideal.map (Algebra.ofId R A) (RingHom.ker (algebraMap R S))
+    change a ∈ Ideal.map (Algebra.ofId R A) (RingHom.ker (algebraMap R S))
     simpa [s] using hmap
   refine ⟨hsurj', ?_⟩
   obtain ⟨n, hn⟩ := hnil

@@ -194,7 +194,7 @@ private noncomputable def chartQuotientCoproductMap (k : Type u) [Field k] :
 private lemma chartQuotientCoproductMap_ι (k : Type u) [Field k] (n : ℕ) :
     Sigma.ι (fun n : ℕ => Spec (.of (polynomialRing k ⧸ chartIdeal k n))) n ≫
       chartQuotientCoproductMap k = chartQuotientToPunctured k n :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 private lemma sigmaOpenCover_f_comp_chartQuotientCoproductMap (k : Type u) [Field k] (n : ℕ) :
     (AlgebraicGeometry.sigmaOpenCover

@@ -100,7 +100,7 @@ theorem finrank_stalk_relativeDifferentials_eq_fiberDimensionAt {X S : Scheme.{u
     exact (Scheme.Hom.germ_stalkMap f U x hxU).symm
   have : IsScalarTower A B B₀ := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
-    show (f.stalkMap x).hom ((S.presheaf.germ U (f x) hxU).hom a) = _
+    change (f.stalkMap x).hom ((S.presheaf.germ U (f x) hxU).hom a) = _
     exact DFunLike.congr_fun (congrArg CommRingCat.Hom.hom hcompat.symm) a
   have : IsLocalization.AtPrime A₀ p.asIdeal := hU.isLocalization_stalk ⟨f x, hxU⟩
   have : IsLocalization.AtPrime B₀ q.asIdeal := hV.isLocalization_stalk ⟨x, hxV⟩

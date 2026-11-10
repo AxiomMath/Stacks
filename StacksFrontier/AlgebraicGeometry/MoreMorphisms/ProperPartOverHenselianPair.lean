@@ -151,7 +151,7 @@ private theorem exists_isClopen_preimage_eq_of_range_eq {X Y Z : Type*} [Topolog
   ext x
   obtain ⟨y, hy⟩ := hr ▸ Set.mem_range_self x
   have hty : t y = x := hj.injective ((hjt y).trans hy)
-  show j x ∈ V ↔ x ∈ U
+  change j x ∈ V ↔ x ∈ U
   rw [← hy, ← hty]
   exact Set.ext_iff.mp he y
 
@@ -194,7 +194,7 @@ theorem subset_of_isClosed_of_forall_mem_zeroLocus {A : Type u} [CommRing A]
 theorem range_spec_map_quotient_mk {A : Type u} [CommRing A] (I : Ideal A) :
     Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) =
       PrimeSpectrum.zeroLocus (I : Set A) := by
-  show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+  change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
   rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
 
 /-- **Lifting an open and closed subset along the quotient of an integral algebra.**  If `(A, I)`
@@ -213,10 +213,10 @@ theorem exists_isClopen_preimage_eq_of_isIntegral_of_henselianPair (A : Type u) 
   refine ⟨PrimeSpectrum.basicOpen b, PrimeSpectrum.isClopen_iff.mpr ⟨b, hb, rfl⟩, ?_⟩
   rw [hEq]
   ext x
-  show b ∉ (PrimeSpectrum.comap
+  change b ∉ (PrimeSpectrum.comap
     (Ideal.Quotient.mk (I.map (algebraMap A B))) x).asIdeal ↔ e ∉ x.asIdeal
   rw [PrimeSpectrum.comap_asIdeal]
-  show Ideal.Quotient.mk (I.map (algebraMap A B)) b ∉ x.asIdeal ↔ e ∉ x.asIdeal
+  change Ideal.Quotient.mk (I.map (algebraMap A B)) b ∉ x.asIdeal ↔ e ∉ x.asIdeal
   rw [show Ideal.Quotient.mk _ b = e from congrArg Subtype.val hmk]
 
 /-! ### Base change of a subscheme -/
@@ -245,7 +245,7 @@ private theorem range_eq_preimage_range_of_isPullback {P X Y S : Scheme.{u}} {a 
     {b : P ⟶ Y} {f : X ⟶ S} {g : Y ⟶ S} (hp : IsPullback a b f g) :
     Set.range a = f ⁻¹' Set.range g := by
   rw [← hp.isoPullback_hom_fst]
-  show Set.range (pullback.fst f g ∘ hp.isoPullback.hom) = _
+  change Set.range (pullback.fst f g ∘ hp.isoPullback.hom) = _
   rw [Set.range_comp, hp.isoPullback.hom.surjective.range_eq, Set.image_univ,
     Scheme.Pullback.range_fst]
 
@@ -281,16 +281,16 @@ theorem exists_isClopen_preimage_eq_of_isIntegralHom_of_henselianPair (A : Type 
   let j := pullback.fst h q ≫ T.isoSpec.hom
   have hr : Set.range j =
       Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (I.map (algebraMap A B)))) := by
-    show Set.range (T.isoSpec.hom ∘ pullback.fst h q) = _
+    change Set.range (T.isoSpec.hom ∘ pullback.fst h q) = _
     rw [Set.range_comp, Scheme.Pullback.range_fst,
       show Set.range q = PrimeSpectrum.zeroLocus (I : Set A) from range_spec_map_quotient_mk I,
       range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
     ext b
     constructor
     · rintro ⟨t, ht, rfl⟩
-      show I.map φ.hom ≤ (T.isoSpec.hom t).asIdeal
+      change I.map φ.hom ≤ (T.isoSpec.hom t).asIdeal
       rw [Ideal.map_le_iff_le_comap]
-      show I ≤ (PrimeSpectrum.comap φ.hom (T.isoSpec.hom t)).asIdeal
+      change I ≤ (PrimeSpectrum.comap φ.hom (T.isoSpec.hom t)).asIdeal
       have hh : (Spec.map φ) (T.isoSpec.hom t) = h t := by
         rw [hφ]
         simp
@@ -299,9 +299,9 @@ theorem exists_isClopen_preimage_eq_of_isIntegralHom_of_henselianPair (A : Type 
       exact ht
     · intro hb
       refine ⟨T.isoSpec.inv b, ?_, by simp⟩
-      show I ≤ (h (T.isoSpec.inv b)).asIdeal
+      change I ≤ (h (T.isoSpec.inv b)).asIdeal
       have hh : h (T.isoSpec.inv b) = PrimeSpectrum.comap φ.hom b := by
-        show (T.isoSpec.inv ≫ h) b = (Spec.map φ) b
+        change (T.isoSpec.inv ≫ h) b = (Spec.map φ) b
         rw [hφ]
       rw [hh]
       exact Ideal.map_le_iff_le_comap.mp hb
@@ -344,9 +344,9 @@ theorem exists_isClopen_preimage_eq_of_isProper_of_henselianPair (A : Type u) [C
   refine ⟨g ⁻¹' V, hV.preimage g.continuous, ?_⟩
   have hc : g₀ ≫ pullback.fst h q = pullback.fst f q ≫ g := pullback.lift_fst _ _ _
   ext x
-  show g (pullback.fst f q x) ∈ V ↔ x ∈ U
+  change g (pullback.fst f q x) ∈ V ↔ x ∈ U
   rw [← Scheme.Hom.comp_apply, ← hc]
-  show g₀ x ∈ pullback.fst h q ⁻¹' V ↔ x ∈ U
+  change g₀ x ∈ pullback.fst h q ⁻¹' V ↔ x ∈ U
   rw [he]
   exact Set.ext_iff.mp hpre x
 
@@ -422,7 +422,7 @@ theorem exists_isClopen_isProper_of_henselianPair_of_compactification (A : Type 
       rw [Scheme.Pullback.range_fst]
       rwa [range_spec_map_quotient_mk I]
     have hx₀V : x₀ ∈ pullback.fst π q ⁻¹' V := by
-      show pullback.fst π q x₀ ∈ V
+      change pullback.fst π q x₀ ∈ V
       rwa [hx₀]
     rw [hV₀] at hx₀V
     obtain ⟨y, hy⟩ := hx₀V
@@ -431,7 +431,7 @@ theorem exists_isClopen_isProper_of_henselianPair_of_compactification (A : Type 
       j (pullback.fst f q (i y)) = pullback.fst π q (j₀ (i y)) :=
         (congrArg (fun k : pullback f q ⟶ P ↦ k (i y)) hj₀.w).symm
       _ = x := by
-        show pullback.fst π q ((i ≫ j₀) y) = x
+        change pullback.fst π q ((i ≫ j₀) y) = x
         rw [hy, hx₀]
   -- Cut `V` down to an open and closed subscheme of `X`.
   obtain ⟨W, v, hvOpen, hvClosed, hv⟩ := exists_isOpenImmersion_isClosedImmersion_range_eq hV
@@ -447,7 +447,7 @@ theorem exists_isClopen_isProper_of_henselianPair_of_compactification (A : Type 
     rw [← hj, ← Category.assoc, hwj]
     infer_instance
   refine ⟨W, w, inferInstance, inferInstance, inferInstance, ?_⟩
-  show ∃ e : Y ≅ pullback (w ≫ f) q, e.hom ≫ pullbackMapOfFac w f (w ≫ f) rfl q = i
+  change ∃ e : Y ≅ pullback (w ≫ f) q, e.hom ≫ pullbackMapOfFac w f (w ≫ f) rfl q = i
   have : IsOpenImmersion (pullbackMapOfFac w f (w ≫ f) rfl q) :=
     MorphismProperty.of_isPullback (isPullback_pullbackMapOfFac w f (w ≫ f) rfl q).flip
       inferInstance
@@ -456,7 +456,7 @@ theorem exists_isClopen_isProper_of_henselianPair_of_compactification (A : Type 
       hwRange]
     rw [range_eq_preimage_range_comp i j₀ j₀.isOpenEmbedding.injective, ← hV₀]
     ext x₀
-    show j₀ x₀ ∈ pullback.fst π q ⁻¹' V ↔ j (pullback.fst f q x₀) ∈ V
+    change j₀ x₀ ∈ pullback.fst π q ⁻¹' V ↔ j (pullback.fst f q x₀) ∈ V
     rw [← Scheme.Hom.comp_apply, ← hj₀.w]
     rfl
   exact ⟨IsOpenImmersion.isoOfRangeEq i (pullbackMapOfFac w f (w ≫ f) rfl q) hr,

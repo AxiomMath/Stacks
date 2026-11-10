@@ -172,7 +172,7 @@ theorem exists_integralChart_of_finiteLocallyFreeRefinement
   refine ⟨A, a, haint, hasurj, Z, d, hdopen, ?_, ?_⟩
   · intro p hp
     rw [hdrange]
-    show a.base p ∈ Ω
+    change a.base p ∈ Ω
     rw [hp]
     exact hxΩ
   · intro ζ
@@ -227,7 +227,7 @@ theorem exists_factorization_of_integralChart {I : Type v} {S : Scheme.{u}}
     rintro _ ⟨p, rfl⟩
     have hb : b (((pA ⁻¹ᵁ V).ι ≫ pB) p) = pA ((pA ⁻¹ᵁ V).ι p) := by
       rw [← Scheme.Hom.comp_apply, Category.assoc, hpB, Scheme.Hom.comp_apply]
-    show b (((pA ⁻¹ᵁ V).ι ≫ pB) p) ∈ V
+    change b (((pA ⁻¹ᵁ V).ι ≫ pB) p) ∈ V
     rw [hb]
     exact p.2
   obtain ⟨loc, hloc⟩ := exists_comp_eq_of_range_subset dd _ hrange
@@ -315,7 +315,7 @@ theorem exists_integral_surjective_refinement_of_mem_fppfPrecoverage
   · rw [Scheme.ofArrows_mem_precoverage_iff (P := @IsOpenImmersion)]
     refine ⟨fun z => ⟨z, ?_⟩, fun z => inferInstance⟩
     rw [Scheme.Opens.range_ι]
-    show (pC (g.base z) ≫ c (g.base z)) z ∈ V (g.base z) (ζPick z)
+    change (pC (g.base z) ≫ c (g.base z)) z ∈ V (g.base z) (ζPick z)
     rw [← hζPick z]
     exact hVmem _ _
   · intro z

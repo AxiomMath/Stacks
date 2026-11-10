@@ -17,8 +17,9 @@ proves that every covering sieve of an object of `𝒳` lying over an affine sch
 
 That assertion is condition (2) of **Stacks 0GN4** for the collection `B` of the proof of
 **Stacks 0GQV**, namely the objects of the site lying over affine schemes, and it is the hypothesis
-`HasFiniteCoverRefinementsFrom` of the criterion proved in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoveringCriterionOnALargeSite`.
+`HasFiniteCoverRefinementsFrom` of the criterion proved in the module
+`FiniteCoveringCriterionOnALargeSite` of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits`.
 
 ## Main results
 
@@ -42,8 +43,8 @@ affineness of the sources, read off `AlgebraicGeometry.IsStandardFppfCovering.fi
 Transporting the refinement up to `𝒳` is
 `AlgebraicGeometry.Stack.exists_chosenCovering_le_of_mem_associatedTopology`, whose base-level
 hypothesis is quantified over *every* object of the big fppf category over `S`, whereas Stacks 021P
-needs the target to be affine. Rather than restate that transport — it is an existing result, and its
-proof applies the hypothesis only at the image of the object being covered — the class of chosen
+needs the target to be affine. Rather than restate that transport — it is an existing result, and
+its proof applies the hypothesis only at the image of the object being covered — the class of chosen
 covering families fed to it is taken to be *conditional on affineness of the target*: for a
 non-affine target the class holds of every family, and the tautological family of all arrows of the
 given sieve discharges the hypothesis there. At the affine object the condition is then available

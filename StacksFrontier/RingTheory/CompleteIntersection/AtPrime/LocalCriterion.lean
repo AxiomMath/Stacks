@@ -106,7 +106,7 @@ private theorem mem_ofList_of_sum_eq_zero {A : Type*} [CommRing A] :
         exact hmemg
       have h1 : (Ideal.ofList init • (⊤ : Submodule A A)).mkQ (a init.length) = 0 := by
         refine hg ?_
-        show g • _ = g • (0 : A ⧸ (Ideal.ofList init • (⊤ : Submodule A A)))
+        change g • _ = g • (0 : A ⧸ (Ideal.ofList init • (⊤ : Submodule A A)))
         rw [smul_zero]
         exact h0
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, hpeq] at h1
@@ -162,11 +162,11 @@ private theorem mem_of_mem_smul_top_pi {J : Ideal A} {n : ℕ} {a : Fin n → A}
     (h : a ∈ J • (⊤ : Submodule A (Fin n → A))) (i : Fin n) : a i ∈ J := by
   refine Submodule.smul_induction_on (p := fun x ↦ x i ∈ J) h ?_ ?_
   · intro r hr b _
-    show r • b i ∈ J
+    change r • b i ∈ J
     rw [smul_eq_mul]
     exact J.mul_mem_right _ hr
   · intro x y hx hy
-    show x i + y i ∈ J
+    change x i + y i ∈ J
     exact add_mem hx hy
 
 private theorem mem_smul_top_pi_of_forall {J : Ideal A} {n : ℕ} {a : Fin n → A}
@@ -248,7 +248,7 @@ theorem Ideal.free_and_finrank_cotangent_of_isWeaklyRegular (hrs : IsWeaklyRegul
       have : a = (a - b) + b := by ring_nf
       rw [this]; exact add_mem hsub hbmem
     funext i
-    show c i = 0
+    change c i = 0
     rw [← ha i, Ideal.Quotient.eq_zero_iff_mem]
     exact mem_of_mem_smul_top_pi hamem i
   refine ⟨Module.Free.of_equiv (LinearEquiv.ofBijective φ ⟨hinj, hsurj⟩), ?_⟩
@@ -469,7 +469,7 @@ theorem ringKrullDim_quotient_map_ker_eq_height
   have hQp : Q.IsPrime := Ideal.comap_isPrime _ _
   have hmemQ : ∀ x : R, Ideal.Quotient.mk (RingHom.ker f) x ∈ Q ↔ f x ∈ q := by
     intro x
-    show e (Ideal.Quotient.mk (RingHom.ker f) x) ∈ q ↔ f x ∈ q
+    change e (Ideal.Quotient.mk (RingHom.ker f) x) ∈ q ↔ f x ∈ q
     rw [show e (Ideal.Quotient.mk (RingHom.ker f) x) = f x from
       RingHom.quotientKerEquivOfSurjective_apply_mk hf x]
   have hsub : Algebra.algebraMapSubmonoid (R ⧸ RingHom.ker f) (q.comap f).primeCompl
@@ -479,7 +479,7 @@ theorem ringKrullDim_quotient_map_ker_eq_height
     simp only [Submonoid.mem_map]
     constructor
     · rintro ⟨x, hx, rfl⟩
-      show Ideal.Quotient.mk (RingHom.ker f) x ∉ Q
+      change Ideal.Quotient.mk (RingHom.ker f) x ∉ Q
       rw [hmemQ]
       exact hx
     · intro hy

@@ -106,7 +106,7 @@ private lemma isFinitelyPresentable_fullSubcategory {C : Type (u + 1)} [Category
   have hiso : coyoneda.obj (op M) ≅ P.ι ⋙ coyoneda.obj (op M.obj) :=
     NatIso.ofComponents
       (fun N => Equiv.toIso (by
-        show (M ⟶ N) ≃ (M.obj ⟶ N.obj)
+        change (M ⟶ N) ≃ (M.obj ⟶ N.obj)
         exact P.fullyFaithfulι.homEquiv (X := M) (Y := N)))
       (by intros; ext h; rfl)
   refine isFinitelyPresentable_iff_preservesFilteredColimitsOfSize.mpr ⟨fun J _ _ => ?_⟩
@@ -208,7 +208,7 @@ lemma essentiallySmall_coherentProperty (X : Scheme.{u}) [IsLocallyNoetherian X]
       (fun M : SheafOfModules.{u} X.ringCatSheaf => M.IsCoherent) :=
     ObjectProperty.EssentiallySmall.of_le hle
   have hCoh : EssentiallySmall.{u} (CoherentModules X.ringCatSheaf) := by
-    show EssentiallySmall.{u}
+    change EssentiallySmall.{u}
       (ObjectProperty.FullSubcategory
         (fun M : SheafOfModules.{u} X.ringCatSheaf => M.IsCoherent))
     infer_instance

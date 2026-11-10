@@ -38,7 +38,8 @@ compatibility: the comparison on sections is multiplicative.
 
 Four identifications were checked, and all four hold by `rfl`, so no bridge is needed between
 the ringed-space vocabulary in which Tag 01CD is proved and the scheme vocabulary in which the
-Proj statements are stated: the structure sheaf of a scheme read as a sheaf of rings is the structure
+Proj statements are stated: the structure sheaf of a scheme read as a sheaf of rings is the
+structure
 sheaf of its underlying ringed space read the same way; the morphism of sheaves of rings that
 `CategoryTheory.SheafOfModules.pushforward` consumes is the same on both sides; hence
 `AlgebraicGeometry.Scheme.Modules.pullback` of a morphism of schemes *is*

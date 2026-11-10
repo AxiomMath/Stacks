@@ -134,7 +134,7 @@ public lemma forgetFShriekModPullNatIso_hom_app (M : ModuleSheaf.{u, v, r} B Y �
         (pullbackModForgetIso.{u, v, r} B Λ f)).hom.app M = 𝟙 _ := by
   have h := map_eq_id_of_eq_id (fShriekFunctor.{u, max v r} B f)
     (pullbackModForgetIso_inv_app.{u, v, r} B Λ f M)
-  show (fShriekFunctor.{u, max v r} B f).map
+  change (fShriekFunctor.{u, max v r} B f).map
       ((pullbackModForgetIso.{u, v, r} B Λ f).inv.app M) ≫
     (fShriekModForgetIso.{u, v, r} B Λ f).inv.app ((pullbackMod.{u, v, r} B Λ f).obj M) = 𝟙 _
   erw [h, fShriekModForgetIso_inv_app]
@@ -208,12 +208,12 @@ public theorem weightedTraceMod_hasWeightedTraceStalksMod (M : ModuleSheaf.{u, v
   have h : forgetModTrace.{u, v, r} B Λ f (pullbackMod.{u, v, r} B Λ f)
         (pullbackModForgetIso.{u, v, r} B Λ f) M (weightedTraceMod.{u, v, r} B Λ f hw M) =
       (forgetModuleSheaf.{u, v, r} B Y Λ).map (weightedTraceMod.{u, v, r} B Λ f hw M) := by
-    show (forgetFShriekModPullNatIso.{u, v, r} B Λ f (pullbackMod.{u, v, r} B Λ f)
+    change (forgetFShriekModPullNatIso.{u, v, r} B Λ f (pullbackMod.{u, v, r} B Λ f)
         (pullbackModForgetIso.{u, v, r} B Λ f)).hom.app M ≫
       (forgetModuleSheaf.{u, v, r} B Y Λ).map (weightedTraceMod.{u, v, r} B Λ f hw M) = _
     rw [forgetFShriekModPullNatIso_hom_app.{u, v, r} B Λ f M]
     exact Category.id_comp _
-  show HasWeightedTraceStalks.{u, max v r} B f w _
+  change HasWeightedTraceStalks.{u, max v r} B f w _
     (forgetModTrace.{u, v, r} B Λ f (pullbackMod.{u, v, r} B Λ f)
       (pullbackModForgetIso.{u, v, r} B Λ f) M (weightedTraceMod.{u, v, r} B Λ f hw M))
   rw [h, forgetModuleSheaf_map_weightedTraceMod.{u, v, r} B Λ f hw M]
@@ -314,6 +314,8 @@ public lemma forgetModuleSheaf_map_fShriekBaseChangeMod_hom_app
         ((forgetModuleSheaf.{u, u + 1, u} B X Λ).obj n) :=
   rfl
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
+  [LocallyOfFiniteType (B.inclusion.map f')] [LocallyQuasiFinite (B.inclusion.map f')] in
 /-- The morphism of abelian sheaves underlying a component of
 `AlgebraicGeometry.SmallEtale.inverseImageSquareMod` is the corresponding component of the
 abelian comparison `AlgebraicGeometry.SmallEtale.inverseImageSquareIso`. -/
@@ -349,6 +351,8 @@ public theorem fShriekBaseChangeMod_forget (n : ModuleSheaf.{u, u + 1, u} B X Λ
   erw [h, h', fShriekModForgetIso_hom_app, pullbackModForgetIso_hom_app]
   exact comp_id_comp_id _
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
+  [LocallyOfFiniteType (B.inclusion.map f')] [LocallyQuasiFinite (B.inclusion.map f')] in
 /-- **The comparison of the two iterated inverse images at `Λ`-coefficients induces the abelian
 one on underlying abelian sheaves**, through the identifications of the `Λ`-linear inverse images
 with the abelian ones. -/

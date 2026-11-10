@@ -89,7 +89,7 @@ theorem of_map_kunnethMot_gradedMul (X Y : (SmoothProjectiveScheme k).FullSubcat
           (Functor.gradedMul G.functorTK _ _ i j (i + j) rfl x y)) =
       G.toWeilData.pull (fst X Y) (DirectSum.of (G.cohAlg X).piece i x) *
         G.toWeilData.pull (snd X Y) (DirectSum.of (G.cohAlg Y).piece j y) := by
-  show _ = G.cohPull _ (DirectSum.of (G.cohAlg X).piece i x) *
+  change _ = G.cohPull _ (DirectSum.of (G.cohAlg X).piece i x) *
     G.cohPull _ (DirectSum.of (G.cohAlg Y).piece j y)
   rw [cohPull, cohPull]
   refine Eq.trans ?_ (congrArg₂ (· * ·) (G.functorTK.cohomologyMap_of _ i x).symm
@@ -325,7 +325,7 @@ theorem map_eq_blockAct (hP : G.toWeilData.PerfectPairing) (hK : G.toWeilData.Ku
         (G.functorTK.map (kunnethMot X Y) l).hom := by
     refine Functor.linearMap_ext_gradedMul fun i j hij x y ↦ ?_
     subst hij
-    show Functor.gradedContract G.functorTK (TwistedKaroubi.ofObj (R := ℚ) (𝐎 X))
+    change Functor.gradedContract G.functorTK (TwistedKaroubi.ofObj (R := ℚ) (𝐎 X))
         (TwistedKaroubi.ofObj (R := ℚ) (𝐎 X) ⊗
           TwistedKaroubi.tateTriple ℚ (canonicalCorrespondenceCompositionData k).Obj d)
         (TwistedKaroubi.ofObj (R := ℚ) (𝐎 Y) ⊗

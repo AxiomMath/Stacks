@@ -70,7 +70,7 @@ private theorem appTop_ΓSpecIso_inv_eq_zero_of_comp_specMap_eq {X : Scheme.{u}}
       ((Scheme.ΓSpecIso (CommRingCat.of R)).inv x) =
         (Scheme.ΓSpecIso (CommRingCat.of R')).inv (q x) :=
     (congrArg (fun f => f.hom x) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom q))).symm
-  show g.appTop ((Spec.map (CommRingCat.ofHom q)).appTop
+  change g.appTop ((Spec.map (CommRingCat.ofHom q)).appTop
     ((Scheme.ΓSpecIso (CommRingCat.of R)).inv x)) = 0
   rw [key, RingHom.mem_ker.1 hx, map_zero]
   exact g.appTop.hom.map_zero
@@ -146,7 +146,7 @@ theorem exists_lift_iff_ker_le_of_stage {F Q V : FppfSheaf B S hS} {ι : F ⟶ Q
     have hn₀ : n₀ ≫ (BigAffineFppf.inclusion B S hS).map st = v :=
       (Sheaf.fullyFaithfulSheafifiedYoneda (BigFppfOver.topology B S hS)).map_injective (by
         rw [Functor.map_comp]
-        show Y.map n₀ ≫ _ = _
+        change Y.map n₀ ≫ _ = _
         rw [hn₀']
         exact sqst.lift_snd _ _ _)
     exact fun x hx => appTop_ΓSpecIso_inv_eq_zero_of_comp_specMap_eq

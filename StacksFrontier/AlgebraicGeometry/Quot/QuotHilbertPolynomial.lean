@@ -160,7 +160,7 @@ def isoOfModel (M M' : D.SubfunctorModel Q) : M.presheaf ≅ M'.presheaf :=
 theorem isoOfModel_hom_comp_toBase (M M' : D.SubfunctorModel Q) :
     (isoOfModel M M').hom ≫ M'.toBase = M.toBase := by
   ext T z
-  show (D.quotSitePresheafToBase.app T (Q.ι.app T (M'.iso.hom.app T
+  change (D.quotSitePresheafToBase.app T (Q.ι.app T (M'.iso.hom.app T
     (M'.iso.inv.app T (M.iso.hom.app T ⟨z⟩))))).down = _
   rw [show M'.iso.hom.app T (M'.iso.inv.app T (M.iso.hom.app T ⟨z⟩)) = M.iso.hom.app T ⟨z⟩ from
     types_congr_hom (M'.iso.inv_hom_id_app T) _]

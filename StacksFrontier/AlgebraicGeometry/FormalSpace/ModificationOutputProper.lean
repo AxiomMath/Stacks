@@ -73,11 +73,11 @@ theorem adicModuleTopology_adicCompletion_eq {A : Type u} [CommRing A] [IsNoethe
     intro n
     rw [AdicCompletion.maximalIdeal_eq_map, ← Ideal.map_pow]
     ext x
-    show x ∈ I ^ n • (⊤ : Submodule A R₀) ↔ x ∈ Ideal.map (algebraMap A R₀) (I ^ n)
+    change x ∈ I ^ n • (⊤ : Submodule A R₀) ↔ x ∈ Ideal.map (algebraMap A R₀) (I ^ n)
     rw [Ideal.smul_top_eq_map]
     rfl
   refine IsTopologicalAddGroup.ext (b.toAddGroupFilterBasis.isTopologicalAddGroup)
-    (@IsTopologicalRing.to_topologicalAddGroup _ _ (IsLocalRing.maximalIdeal R₀).adicTopology
+    (@IsTopologicalRing.isTopologicalAddGroup _ _ (IsLocalRing.maximalIdeal R₀).adicTopology
       (Ideal.ringFilterBasis _).isTopologicalRing) ?_
   apply le_antisymm
   · rw [((IsLocalRing.maximalIdeal R₀).hasBasis_nhds_zero_adic).ge_iff]
@@ -149,13 +149,13 @@ theorem completionComparison_comp_completionToUpliftedSheaf
       (upliftedSheaf (yoneda.obj (affineOver B S hS hA f))
         (isAlgebraicSpace_yoneda B S hS _)).property (zeroLocusPoints B S hS hA f I))
   refine key.trans ?_
-  show ULift.up (quotientStageToAffine B S hS hA f I D hD J) =
+  change ULift.up (quotientStageToAffine B S hS hA f I D hD J) =
     ULift.up ((BigAffineFppf.inclusion B S hS).map (stageToSpec D hA' _ J (hq J)) ≫
       Space.specSiteObjectMap (algebraMap A (AdicCompletion I A)) hA hA' f ≫ 𝟙 _)
   congr 1
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       ((Ideal.Quotient.mk J.1).comp (algebraMap A (AdicCompletion I A)))) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A (AdicCompletion I A))) ≫ 𝟙 _
@@ -234,7 +234,7 @@ theorem formalSpectrumMap_comp_formalSpectrumToSpec_comp
         Space.specSiteObjectMap (e.toRingHom.comp φ) hA hR'S a := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 e.toRingHom hJ)) ≫
+    change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 e.toRingHom hJ)) ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫
           Spec.map (CommRingCat.ofHom φ) =
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K.1)) ≫
@@ -347,7 +347,7 @@ theorem exists_lift_of_isRigSurjective_completionSheafMap
   have : IsIso Φ := isIso_completionComparison B S hS hRS a I hIfg D hD
   have hset : zeroLocusPoints B S hS hRS a I = Space.pointsMap B S hS _ h ⁻¹' T := by
     ext x
-    show x ∈ zeroLocusPoints B S hS hRS a I ↔ Space.pointsMap B S hS _ h x ∈ T
+    change x ∈ zeroLocusPoints B S hS hRS a I ↔ Space.pointsMap B S hS _ h x ∈ T
     rw [hpre x]
     obtain ⟨p, rfl⟩ := Quot.exists_rep x
     have hzl : ∀ y : PrimeSpectrum R, y ∈ PrimeSpectrum.zeroLocus (I : Set R) ↔
@@ -381,7 +381,7 @@ theorem exists_lift_of_isRigSurjective_completionSheafMap
     have he₀ : P = e₀.hom ≫ Space.completionSheafMap B S hS h T :=
       (Category.assoc _ _ _).symm
     rw [he₀]
-    show _ ≫ 𝟙 _ = (sheafToPresheaf _ _).map e₀.inv ≫
+    change _ ≫ 𝟙 _ = (sheafToPresheaf _ _).map e₀.inv ≫
       (sheafToPresheaf _ _).map (e₀.hom ≫ Space.completionSheafMap B S hS h T)
     rw [Category.comp_id, ← Functor.map_comp, ← Category.assoc, e₀.inv_hom_id, Category.id_comp]
     rfl
@@ -612,23 +612,23 @@ theorem nonempty_lift_dominatingExtensionOfRingHom {X' X : (BigFppfOver B S hS)�
       jK.injective.comp (IsFractionRing.injective q.R q.K)
     refine spec_map_ne_closedPoint _ hι (Space.pointsToScheme B S hS _ w) ?_
     refine Eq.trans ?_ h1
-    show _ = (Spec.map (CommRingCat.ofHom jK) ≫
+    change _ = (Spec.map (CommRingCat.ofHom jK) ≫
       Spec.map (CommRingCat.ofHom (algebraMap q.R q.K))) _
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   obtain ⟨k, hk⟩ := (Space.exists_factor_openSubspaceOfPoints_iff B S hS Tᶜ _).2 hrange
   refine eq_of_comp_eq_of_isIso_pullback_snd hfU _ _ k ?_ ?_
   · refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hy).trans (Eq.trans ?_ hk.symm))
-    show yoneda.map _ ≫ yoneda.map e.specialOver ≫ q.special =
+    change yoneda.map _ ≫ yoneda.map e.specialOver ≫ q.special =
       yoneda.map e.genericOver ≫ jq ≫ q.special
     rw [← Category.assoc, ← Functor.map_comp, ← Category.assoc, ← Functor.map_comp]
     congr 2
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (algebraMap R' L)) ≫ Spec.map (CommRingCat.ofHom ψ) =
+    change Spec.map (CommRingCat.ofHom (algebraMap R' L)) ≫ Spec.map (CommRingCat.ofHom ψ) =
       Spec.map (CommRingCat.ofHom jK) ≫ Spec.map (CommRingCat.ofHom (algebraMap q.R q.K))
     rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp,
       hij]
-  · show (yoneda.map e.genericOver ≫ q.generic) ≫ f = _
+  · change (yoneda.map e.genericOver ≫ q.generic) ≫ f = _
     rw [Category.assoc, q.comm, hk]
 
 /-- An injective ring map `A →+* R'` into a domain with fraction field `L` extends to a map of
@@ -736,7 +736,7 @@ theorem subsingleton_lift_of_iff_closedPoint
       Space.pointsToScheme B S hS (siteObject B S hS q.ring_mem q.base) x =
         IsLocalRing.closedPoint q.R := by
     intro x
-    show Space.pointsMap B S hS _ (pullback.fst f f ≫ f) (Space.pointsMap B S hS _ σ x) ∈ T ↔ _
+    change Space.pointsMap B S hS _ (pullback.fst f f ≫ f) (Space.pointsMap B S hS _ σ x) ∈ T ↔ _
     rw [← Space.pointsMap_comp_apply, ← Category.assoc, pullback.lift_fst, l₁.special_comm]
     exact hpre x
   obtain ⟨R', _, _, _, ψ, hψl, hψi, hc', hR'S, y, hy⟩ :=

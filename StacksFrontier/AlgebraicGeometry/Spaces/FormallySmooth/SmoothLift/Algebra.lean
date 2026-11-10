@@ -120,7 +120,7 @@ theorem homTensorMap_bijective_pi (n : ℕ) :
     ext φ b i
     simp [eN, eNB, homTensorMap_tmul]
   refine (EquivLike.comp_bijective _ eNB).mp ?_
-  show Function.Bijective (eNB.toLinearMap ∘ₗ homTensorMap (A := A) (N := N) B' (Fin n → P))
+  change Function.Bijective (eNB.toLinearMap ∘ₗ homTensorMap (A := A) (N := N) B' (Fin n → P))
   rw [key]
   exact (TensorProduct.piLeft A B' (fun _ : Fin n => N)).bijective.comp
     (LinearEquiv.rTensor B' eN).bijective

@@ -52,7 +52,7 @@ universe u w t vF uF vG uG
 /-- The fibre of a category of elements over `A` is the value of the functor at `A`. -/
 private def elementsFiberEquiv {C : Type u} [Category.{w, u} C]
     (F : C ⥤ Type t) (A : C) :
-    Functor.Fiber (CategoryOfElements.π F) A ≃ F.obj A where
+    Functor.Fiber (Functor.Elements.π F) A ≃ F.obj A where
   toFun x := by
     rcases x with ⟨@⟨B, b⟩, h⟩
     cases h
@@ -67,8 +67,8 @@ private def elementsFiberEquiv {C : Type u} [Category.{w, u} C]
 /-- A morphism of elements lying over the identity of `A` identifies its source and target. -/
 private theorem eq_of_isHomLift_id {C : Type u} [Category.{w, u} C] {F : C ⥤ Type t} {A : C}
     {x y : F.obj A} (g : F.elementsMk A x ⟶ F.elementsMk A y)
-    (hg : (CategoryOfElements.π F).IsHomLift (𝟙 A) g) : x = y := by
-  have hfac : 𝟙 A = 𝟙 A ≫ g.hom ≫ 𝟙 A := IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) g
+    (hg : (Functor.Elements.π F).IsHomLift (𝟙 A) g) : x = y := by
+  have hfac : 𝟙 A = 𝟙 A ≫ g.hom ≫ 𝟙 A := IsHomLift.fac (p := Functor.Elements.π F) (𝟙 A) g
   have hval : g.hom = 𝟙 A := by simpa using hfac.symm
   simpa [hval] using g.map_val
 
@@ -77,10 +77,10 @@ one fibre lies over the identity, so the two elements coincide. -/
 private theorem classOf_injective_elements
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : ArtinianLocalAlgCat.{u, w, w} Λ k ⥤ Type t}
-    (hcof : IsCofiberedInGroupoids (CategoryOfElements.π F))
+    (hcof : IsCofiberedInGroupoids (Functor.Elements.π F))
     (A : ArtinianLocalAlgCat.{u, w, w} Λ k) :
     Function.Injective
-      (classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A)) := by
+      (classOf (BasedCategory.ofFunctor (Functor.Elements.π F)) hcof (A := A)) := by
   intro x y h
   rcases x with ⟨@⟨A₁, x⟩, hx⟩
   rcases y with ⟨@⟨A₂, y⟩, hy⟩
@@ -91,14 +91,14 @@ private theorem classOf_injective_elements
   apply Subtype.ext
   have hq := congrArg (fun z => cast
     (isomorphismClasses_obj
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof A) z) h
+      (BasedCategory.ofFunctor (Functor.Elements.π F)) hcof A) z) h
   have hqx := classOf_eq
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨F.elementsMk A x, rfl⟩
+    (BasedCategory.ofFunctor (Functor.Elements.π F)) hcof (A := A) ⟨F.elementsMk A x, rfl⟩
   have hqy := classOf_eq
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨F.elementsMk A y, rfl⟩
+    (BasedCategory.ofFunctor (Functor.Elements.π F)) hcof (A := A) ⟨F.elementsMk A y, rfl⟩
   rw [hqx, hqy] at hq
   obtain ⟨i⟩ := Quotient.exact hq
-  show F.elementsMk A x = F.elementsMk A y
+  change F.elementsMk A x = F.elementsMk A y
   rw [eq_of_isHomLift_id i.hom.1 i.hom.2]
 
 /-! ### Propagating bijectivity along a small extension -/
@@ -136,12 +136,12 @@ private theorem differential_bijective_of_app_bijective
   let A := augmentedDualNumbers (Λ := Λ) (k := k)
   let hFCat := (isDeformationCategory_iff F).2 hF
   let hGCat := (isDeformationCategory_iff G).2 hG
-  let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
-  let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π G)
+  let 𝓕 := BasedCategory.ofFunctor (Functor.Elements.π F)
+  let 𝓖 := BasedCategory.ofFunctor (Functor.Elements.π G)
   let h𝓕 : IsCofiberedInGroupoids
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)).p := hFCat.predeformation.cofibered
+      (BasedCategory.ofFunctor (Functor.Elements.π F)).p := hFCat.predeformation.cofibered
   let h𝓖 : IsCofiberedInGroupoids
-      (BasedCategory.ofFunctor (CategoryOfElements.π G)).p := hGCat.predeformation.cofibered
+      (BasedCategory.ofFunctor (Functor.Elements.π G)).p := hGCat.predeformation.cofibered
   have hGclass := classOf_injective_elements h𝓖 A
   have hcomm (z : 𝓕.p.Fiber A) :
       φ.app A (elementsFiberEquiv F A z) =
@@ -175,7 +175,7 @@ private theorem differential_bijective_of_app_bijective
       rw [← hcomm x]
       simpa [x] using hxv
     refine ⟨classOf 𝓕 h𝓕 x, ?_⟩
-    show mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x) =
+    change mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x) =
         classOf 𝓖 h𝓖 y
     rw [mapIsomorphismClasses_classOf h𝓕 h𝓖 (elementsBasedFunctor φ) x]
     exact congrArg (classOf 𝓖 h𝓖) himage
@@ -210,9 +210,9 @@ private theorem mapLiftClasses_injective_of_differential_bijective
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖.predeformation⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.predeformation.cofibered))) := ⟨hS2𝓖⟩
   let := liftAction 𝓕 h𝓕 f hf hann x
   let := liftAction 𝓖 h𝓖 f hf hann ((fiberFunctor φ A).obj x)
   let dφ := IsLinearMap.mk'
@@ -266,8 +266,8 @@ private theorem injective_app_of_small_extension
   have hann := smallExtension_kernel_annihilated f hsmall
   let hFCat := (isDeformationCategory_iff F).2 hF
   let hGCat := (isDeformationCategory_iff G).2 hG
-  let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
-  let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π G)
+  let 𝓕 := BasedCategory.ofFunctor (Functor.Elements.π F)
+  let 𝓖 := BasedCategory.ofFunctor (Functor.Elements.π G)
   intro y₁ y₂ hy
   have hdown : F.map f y₁ = F.map f y₂ := by
     apply hbase
@@ -294,27 +294,27 @@ private theorem injective_app_of_small_extension
       mapLiftClasses (elementsBasedFunctor φ) f x a₂ := by
     let L₁ := (liftFunctor (elementsBasedFunctor φ) f x).obj l₁
     let L₂ := (liftFunctor (elementsBasedFunctor φ) f x).obj l₂
-    show ThinSkeleton.mk L₁ = ThinSkeleton.mk L₂
+    change ThinSkeleton.mk L₁ = ThinSkeleton.mk L₂
     apply Quotient.sound
     let g : L₁.obj ⟶ L₂.obj := Functor.Elements.homMk (𝟙 A') (by
-      show G.map (𝟙 A') (φ.app A' y₁) = φ.app A' y₂
+      change G.map (𝟙 A') (φ.app A' y₁) = φ.app A' y₂
       simpa using hy)
     let ginv : L₂.obj ⟶ L₁.obj := Functor.Elements.homMk (𝟙 A') (by
-      show G.map (𝟙 A') (φ.app A' y₂) = φ.app A' y₁
+      change G.map (𝟙 A') (φ.app A' y₂) = φ.app A' y₁
       simpa using hy.symm)
     let gh : Lift.Hom L₁ L₂ :=
       { hom := g
         isHomLift := IsHomLift.map (p := 𝓖.p) g
         fac := by
           apply Functor.Elements.hom_ext
-          show (g.hom ≫ f) = f
+          change (g.hom ≫ f) = f
           exact Category.id_comp f }
     let gih : Lift.Hom L₂ L₁ :=
       { hom := ginv
         isHomLift := IsHomLift.map (p := 𝓖.p) ginv
         fac := by
           apply Functor.Elements.hom_ext
-          show (ginv.hom ≫ f) = f
+          change (ginv.hom ≫ f) = f
           exact Category.id_comp f }
     exact ⟨
       { hom := gh
@@ -322,12 +322,12 @@ private theorem injective_app_of_small_extension
         hom_inv_id := by
           apply Lift.Hom.ext
           apply Functor.Elements.hom_ext
-          show (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
+          change (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
           simp
         inv_hom_id := by
           apply Lift.Hom.ext
           apply Functor.Elements.hom_ext
-          show (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
+          change (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
           simp }⟩
   have hclass := mapLiftClasses_injective_of_differential_bijective
     hFCat hGCat (elementsBasedFunctor φ) f hf hann x hd hmap

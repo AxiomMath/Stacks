@@ -107,8 +107,8 @@ public noncomputable def zariskiNeighborhoodMap
     S.homOfLE hle
   have hf : f ≫ Scheme.Opens.ι (X := S) V.1 = Scheme.Opens.ι (X := S) U.1 :=
     Scheme.homOfLE_ι S hle
-  let fOver : (zariskiNeighborhood B S hS s x hx U).fst.obj ⟶
-      (zariskiNeighborhood B S hS s x hx V).fst.obj :=
+  let fOver : (zariskiNeighborhood B S hS s x hx U).obj.obj ⟶
+      (zariskiNeighborhood B S hS s x hx V).obj.obj :=
     Over.homMk (ObjectProperty.homMk f) (ObjectProperty.hom_ext _ hf)
   let fSmall := ObjectProperty.homMk fOver
   refine Functor.Elements.homMk fSmall ?_
@@ -476,7 +476,7 @@ private theorem augmentedNeighborhoodFunctor_faithful
     have he := congrArg (fun k => (SmallEtale.toScheme B S hS).map k.1) h
     have he' : CommAlgCat.AugmentedEtale.map f.unop =
         CommAlgCat.AugmentedEtale.map g.unop :=
-      AlgHom.coe_ringHom_injective (CommRingCat.hom_ext_iff.mp (Spec.map_injective he))
+      AlgHom.toRingHom_injective (CommRingCat.hom_ext_iff.mp (Spec.map_injective he))
     apply Quiver.Hom.unop_inj
     apply CostructuredArrow.hom_ext
     apply ObjectProperty.hom_ext

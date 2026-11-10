@@ -103,7 +103,7 @@ theorem ker_app_eq_map_ker_app_of_isAffine {U V : SmallEtale B S hS X.1} (h : U 
     exact ker_le_map_ker_app_of_isAffine B S hS E h hU hV halg
   · rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show (E.π.hom.app (op U)).hom ((E.A.obj.map h.op).hom x) = 0
+    change (E.π.hom.app (op U)).hom ((E.A.obj.map h.op).hom x) = 0
     rw [SquareZeroExtension.π_app_map_apply B S hS E h x, RingHom.mem_ker.mp hx, map_zero]
 
 /-- **The naturality square of the reduction on sections over affine charts is a pushout of

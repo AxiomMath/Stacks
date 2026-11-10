@@ -89,7 +89,7 @@ theorem ι_totalComparison (P : CochainComplex (ModuleCat.{w} Λ) ℤ)
       comparison J J' G (K.X i₁) (P.X i₂) ≫
         G.map (HomologicalComplex.ιMapBifunctor K P (sheafTensor J Λ) (ComplexShape.up ℤ)
           i₁ i₂ n h) := by
-  show HomologicalComplex₂.ιTotal (tensorBicomplex J' ((G.mapHomologicalComplex _).obj K) P)
+  change HomologicalComplex₂.ιTotal (tensorBicomplex J' ((G.mapHomologicalComplex _).obj K) P)
     (ComplexShape.up ℤ) i₁ i₂ n h ≫ (HomologicalComplex₂.total.map (comparisonBicomplex J J' G K P)
     (ComplexShape.up ℤ)).f n ≫ HomologicalComplex₂.totalMapf G (tensorBicomplex J K P) n = _
   rw [HomologicalComplex₂.ιTotal_map_assoc]
@@ -151,7 +151,7 @@ theorem totalComparison_comp {C'' : Type u₃} [Category.{v₃} C''] (J'' : Grot
         (H.mapHomologicalComplex _).map (totalComparison J J' G P K) := by
   refine hom_ext_mapBifunctor _ fun n i₁ i₂ h => ?_
   rw [HomologicalComplex.comp_f, ι_totalComparison]
-  show _ = HomologicalComplex.ιMapBifunctor ((H.mapHomologicalComplex _).obj
+  change _ = HomologicalComplex.ιMapBifunctor ((H.mapHomologicalComplex _).obj
     ((G.mapHomologicalComplex _).obj K)) P (sheafTensor J'' Λ) (ComplexShape.up ℤ) i₁ i₂ n h ≫
       _ ≫ _
   rw [ι_totalComparison_assoc, Functor.mapHomologicalComplex_map_f, ← H.map_comp,
@@ -229,7 +229,7 @@ theorem isIso_totalComparison (a b : ℤ) [P.IsStrictlyLE b] [P.IsStrictlyGE a]
       (ComplexShape.up ℤ) ⁻¹' {n}),
       ∀ i ∉ s, IsZero (((tensorBicomplex J K P).X i.1.1).X i.1.2) := fun n => by
     refine ⟨(Finset.Icc a b).image fun q => ⟨(n - q, q), by
-      show (n - q) + q = n
+      change (n - q) + q = n
       omega⟩, fun i hi => ?_⟩
     have hq : i.1.2 ∉ Finset.Icc a b := fun hq => hi (Finset.mem_image.2 ⟨i.1.2, hq, by
       have h2 := i.2
@@ -237,7 +237,7 @@ theorem isIso_totalComparison (a b : ℤ) [P.IsStrictlyLE b] [P.IsStrictlyGE a]
       change i.1.1 + i.1.2 = n at h2
       apply Subtype.ext
       ext
-      · show n - i.1.2 = i.1.1
+      · change n - i.1.2 = i.1.1
         omega
       · rfl⟩)
     have hz : IsZero (P.X i.1.2) := by

@@ -67,7 +67,7 @@ open Stacks.ChartedFunctor
 contained in the site. -/
 lemma contains_spec_of_boundedAlg (P : BoundedAlg (sectionsRing T') B.cutoff) :
     B.Contains (Spec (CommRingCat.of P.obj)) := by
-  show (Spec (CommRingCat.of P.obj)).size < B.cutoff
+  change (Spec (CommRingCat.of P.obj)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff P.2
 
@@ -128,7 +128,7 @@ lemma specOverMap_comp_specOverToBase {P Q : BoundedAlg (sectionsRing T') B.cuto
 lemma specOverMap_id (P : BoundedAlg (sectionsRing T') B.cutoff) :
     specOverMap T' (𝟙 P) = 𝟙 _ := by
   apply (BigFppfOver.toScheme B S hS).map_injective
-  show Spec.map (CommRingCat.ofHom (AlgHom.id _ P.obj).toRingHom) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (AlgHom.id _ P.obj).toRingHom) = 𝟙 _
   exact Spec.map_id _
 
 /-- `specOverMap` is contravariantly functorial: it sends `f ≫ g` to
@@ -136,7 +136,7 @@ lemma specOverMap_id (P : BoundedAlg (sectionsRing T') B.cutoff) :
 lemma specOverMap_comp {P Q W : BoundedAlg (sectionsRing T') B.cutoff} (f : P ⟶ Q) (g : Q ⟶ W) :
     specOverMap T' (f ≫ g) = specOverMap T' g ≫ specOverMap T' f := by
   apply (BigFppfOver.toScheme B S hS).map_injective
-  show Spec.map (CommRingCat.ofHom ((BoundedAlg.toAlgHom g).comp
+  change Spec.map (CommRingCat.ofHom ((BoundedAlg.toAlgHom g).comp
     (BoundedAlg.toAlgHom f)).toRingHom) = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp]
   rfl
@@ -240,7 +240,7 @@ theorem chartedFunctor_existsUnique_of_isPushout
     have hY := (isAlgebraicSpace_yoneda B S hS T').isSheaf
     obtain ⟨t, -, htu⟩ := (Presieve.isSheafFor_singleton.1 (hsheaf _ hY))
       (specOverToBase T' P'') (hcompat _ _ (by
-        show specOverMap T' i₁ ≫ specOverToBase T' P'' =
+        change specOverMap T' i₁ ≫ specOverToBase T' P'' =
           specOverMap T' i₂ ≫ specOverToBase T' P''
         rw [specOverMap_comp_specOverToBase, specOverMap_comp_specOverToBase]))
     have e₁ : (yoneda.obj T').map f.op (p.app _ η) = specOverToBase T' P'' := by
@@ -347,7 +347,7 @@ lemma specOverMap_comp_chartHom {P Q : BoundedAlg (sectionsRing T') B.cutoff} (f
     specOverMap T' f ≫ chartHom U₀ q ρ = chartHom U₀ q (ρ ≫ f.hom) := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   rw [Functor.map_comp]
-  show Spec.map _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
+  change Spec.map _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
   rw [← Category.assoc, ← Spec.map_comp]
   rfl
 
@@ -375,7 +375,7 @@ lemma exists_chartHom_eq {P : BoundedAlg (sectionsRing T') B.cutoff} (z : specOv
       commutes' := fun a => congrArg (fun k => k.hom a) hcomm }
   let ρ : chartAlgebra U₀ q ⟶ P.obj := CommAlgCat.ofHom ρh
   refine ⟨ρ, (BigFppfOver.toScheme B S hS).map_injective ?_⟩
-  show chartSchemeHom U₀ q ρ = zS
+  change chartSchemeHom U₀ q ρ = zS
   rw [chartSchemeHom, show chartRingHom U₀ q ρ = φ from rfl, hφ]
   simp [g]
 
@@ -452,7 +452,7 @@ theorem chartTrans_formallyEtale (a : yoneda.obj U₀ ⟶ X) (haq : a ≫ p = yo
       (ρ' ≫ π.hom = ρ₀ ∧ (chartTrans U₀ q a haq).app Q ρ' = ξ) ↔ chartHom U₀ q ρ' = z := by
     refine fun ρ' => ⟨fun ⟨h₁, h₂⟩ => hzu _ ⟨?_, congrArg Subtype.val h₂⟩, fun h =>
       ⟨chartHom_injective U₀ q ?_, Subtype.ext ?_⟩⟩
-    · show specOverMap T' π ≫ chartHom U₀ q ρ' = chartHom U₀ q ρ₀
+    · change specOverMap T' π ≫ chartHom U₀ q ρ' = chartHom U₀ q ρ₀
       rw [specOverMap_comp_chartHom, h₁]
     · rw [← specOverMap_comp_chartHom, h]
       exact hz₁

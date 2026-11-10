@@ -130,7 +130,7 @@ theorem exists_comp_restrictOpenHom_eq {A B : Thickening S}
   have hP : pullbackOpen (A.restrictOpenHom V) r = ⊤ := by
     rw [eq_top_iff]
     intro x _
-    show r.targetHom.hom.base x ∈ Set.range (A.restrictOpenHom V).targetHom.hom.base
+    change r.targetHom.hom.base x ∈ Set.range (A.restrictOpenHom V).targetHom.hom.base
     exact ⟨⟨r.targetHom.hom.base x, hr x⟩, rfl⟩
   have hiso : IsIso (B.restrictOpenHom (pullbackOpen (A.restrictOpenHom V) r)) := by
     rw [hP]
@@ -304,7 +304,7 @@ def coverage (S : GlobalCrystallineSituation.{u}) : Coverage (Thickening S) wher
 covering families.** -/
 theorem topology_eq_coverage_toGrothendieck (S : GlobalCrystallineSituation.{u}) :
     topology S = (coverage S).toGrothendieck := by
-  show (coverage S).toPrecoverage.toGrothendieck = (coverage S).toGrothendieck
+  change (coverage S).toPrecoverage.toGrothendieck = (coverage S).toGrothendieck
   exact Coverage.toGrothendieck_toPrecoverage (coverage S)
 
 /-- **Stacks Project, Tag 07IX.**  The structure presheaf of rings of the big crystalline site is

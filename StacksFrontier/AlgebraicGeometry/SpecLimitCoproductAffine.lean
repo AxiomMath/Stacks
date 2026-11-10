@@ -125,7 +125,7 @@ theorem exists_spec_limit_hom_of_isColimit_cofan [∀ j, IsAffine (W j)]
       rfl
     obtain ⟨j, hj, y, hy⟩ := Set.mem_iUnion₂.1 (hF ⟨z, rfl⟩)
     refine ⟨Sigma.ι (fun j : F => W j.1) ⟨j, hj⟩ y, ?_⟩
-    rw [← e, ← hy, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← e, ← hy, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   let lift : ∀ n, Spec (A.obj (op n)) ⟶ ∐ (fun j : F => W j.1) := fun n =>
     IsOpenImmersion.lift G (t n) (hrange n)
   let ψ : ∀ n, Γ(∐ (fun j : F => W j.1), ⊤) ⟶ A.obj (op n) := fun n =>

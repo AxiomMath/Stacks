@@ -76,13 +76,12 @@ lemma theta_naturality :
     theta ρ P I ≫ T₀map ρ g I = S₀map ρ g I ≫ theta ρ P' I := by
   ext n : 1
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
-  show (T₀map ρ g I).f n (thetaLin ρ P I n x) = thetaLin ρ P' I n
+  change (T₀map ρ g I).f n (thetaLin ρ P I n x) = thetaLin ρ P' I n
     (LinearMap.lTensor (RR ρ) ((Stacks.HomComplex.TensorHomMap.precomp A P' P I g).f n).hom x)
   rw [T₀map_f_apply]
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, Cochain.comp_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b c =>
-    show (Cochain.ofHom g).comp (thetaCochain ρ P I b c) (zero_add n) =
+    change (Cochain.ofHom g).comp (thetaCochain ρ P I b c) (zero_add n) =
       thetaCochain ρ P' I b ((Cochain.ofHom g).comp c (zero_add n))
     refine Cochain.ext _ _ (fun p q hpq => ?_)
     rw [Cochain.zero_cochain_comp_v, Cochain.ofHom_v, thetaCochain_v ρ P' I b _ p q hpq,
@@ -139,11 +138,11 @@ lemma quasiIsoAt_of_isIso_f {C : Type*} [Category C] [HasZeroMorphisms C]
   rw [quasiIsoAt_iff]
   have : IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map φ) := by
     have : IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map φ).τ₁ := by
-      show IsIso (φ.f ((ComplexShape.up ℤ).prev n))
+      change IsIso (φ.f ((ComplexShape.up ℤ).prev n))
       rw [CochainComplex.prev]
       exact h₁
     have : IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map φ).τ₃ := by
-      show IsIso (φ.f ((ComplexShape.up ℤ).next n))
+      change IsIso (φ.f ((ComplexShape.up ℤ).next n))
       rw [CochainComplex.next]
       exact h₃
     have : IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map φ).τ₂ := h₂

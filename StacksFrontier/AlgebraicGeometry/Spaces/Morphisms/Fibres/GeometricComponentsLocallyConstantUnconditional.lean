@@ -147,7 +147,7 @@ theorem h0FibreRank_eq_toENat_rank_globalFunctions_fibreOverFieldValuedPoint :
     (ObjectProperty.fullyFaithfulι _).preimageIso (pullback.congrHom rfl hw.symm)
   have hJ : J.hom ≫ snd = h0FibreProj B S hS g p := by
     refine ObjectProperty.hom_ext _ ?_
-    show (pullback.congrHom rfl hw.symm).hom ≫ pullback.snd g.hom β =
+    change (pullback.congrHom rfl hw.symm).hom ≫ pullback.snd g.hom β =
       pullback.snd g.hom (schemeSpaceMap p.value).hom
     exact (pullback.lift_snd _ _ _).trans (Category.comp_id _)
   let σ : globalFunctions' B S hS (h0Fibre B S hS g p).obj ≃+*
@@ -166,7 +166,7 @@ theorem h0FibreRank_eq_toENat_rank_globalFunctions_fibreOverFieldValuedPoint :
           globalFunctionsMap B S hS snd ι := by
       rw [RingEquiv.symm_apply_eq, ← hJ, globalFunctionsMap_comp]
       rfl
-    show globalFunctionsRelocalizeEquiv B (Spec (.of p.carrier)) S p.contained hS
+    change globalFunctionsRelocalizeEquiv B (Spec (.of p.carrier)) S p.contained hS
         (p.siteObject B S hS _).hom F (globalFunctionsMap B S hS I.hom
           ((globalFunctionsMapEquiv B S hS J).symm
             (globalFunctionsMap B S hS (h0FibreProj B S hS g p) ι))) = _
@@ -219,7 +219,7 @@ theorem isLocallyConstant_numberGeometricConnectedComponents
         (fun T : Scheme.{u} => _root_.AlgebraicGeometry.IsReduced T) := by
       have hw : IsGeometricallyReducedFibreAt B S hS (pullback.snd f V.obj.hom) P.2 hW
           q.image := by
-        show q.image ∈ geometricallyReducedFibreLocus B S hS _ _ _
+        change q.image ∈ geometricallyReducedFibreLocus B S hS _ _ _
         rw [geometricallyReducedFibreLocus_pullback B S hS f V.obj.hom hX hY hW]
         exact hred _
       exact (isGeometricallyReducedFibreAt_iff_forall_isReduced B S hS _ P.2 hW q.image).1 hw
@@ -231,22 +231,22 @@ theorem isLocallyConstant_numberGeometricConnectedComponents
     rw [← Module.finrank_eq_rank, Cardinal.toENat_nat] at hr
     have hv : schemePoint B S hS W q.val = v := by
       rw [← pointsToScheme_class B S hS W q.val]
-      show e q.image = v
+      change e q.image = v
       rw [hq, e.apply_symm_apply]
     rw [← hv, ← hbq q.val, hr]
-    refine ⟨?_, ENat.coe_ne_top _⟩
+    refine ⟨?_, ENat.natCast_ne_top _⟩
     rw [hv, ← hq]
     exact numberGeometricConnectedComponents_class_eq_finrank B S hS P.2 hW g.hom q.val _ hz hredq
   refine ⟨fun v => (b v).toNat, ?_, fun v => ?_⟩
   · intro v n hn
     have hbv : b v < n := by
-      rw [← ENat.coe_toNat (hval v).2]
+      rw [← ENat.natCast_toNat (hval v).2]
       exact_mod_cast hn
     filter_upwards [hb v n hbv] with v' hv'
     have hv'' : b v' < n := hv'
-    rw [← ENat.coe_toNat (hval v').2] at hv''
+    rw [← ENat.natCast_toNat (hval v').2] at hv''
     exact_mod_cast hv''
-  · rw [(hval v).1, ENat.coe_toNat (hval v).2]
+  · rw [(hval v).1, ENat.natCast_toNat (hval v).2]
 
 end LocallyConstant
 

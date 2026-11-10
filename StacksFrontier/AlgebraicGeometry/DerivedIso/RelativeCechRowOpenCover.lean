@@ -68,7 +68,7 @@ extension of an `ℕ`-indexed complex, so its term in the preceding degree is ze
 theorem relativeCechComplexZ_d_prev_zero
     (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory) :
     ((relativeCechComplexZ f 𝒰).obj F).d ((ComplexShape.up ℤ).prev 0) 0 = 0 := by
-  show (((CategoryTheory.cechComplexFunctor (fun i ↦ Over.mk (𝒰.f i))).obj
+  change (((CategoryTheory.cechComplexFunctor (fun i ↦ Over.mk (𝒰.f i))).obj
       ((relativeCechPresheaf f).obj F)).extend ComplexShape.embeddingUpNat).d
       ((ComplexShape.up ℤ).prev 0) 0 = 0
   refine (_root_.HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat

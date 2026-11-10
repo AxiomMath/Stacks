@@ -185,7 +185,7 @@ public theorem finiteSupportBaseChange_tensorSupportedSections
         (finiteSupportBaseChange B f
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) g E).sectionsMap := by
   refine AddMonoidHom.ext fun s => Subtype.ext ?_
-  show (F ⊗ ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)).obj.map
+  change (F ⊗ ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)).obj.map
         (finiteSupportBaseChange B f
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) g E).openMap.op
         ((Stacks.ModuleSheafTensorSection.moduleToTensorSection

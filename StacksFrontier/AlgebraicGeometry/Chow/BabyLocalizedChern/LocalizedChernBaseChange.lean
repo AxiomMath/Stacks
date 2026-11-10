@@ -149,7 +149,7 @@ theorem closedCoverLocalizedClass_baseChange
         (pullback.fst (pullback.snd i₂ q) g ≫ pullback.fst i₂ q)
         (pullbackLeftPullbackSndIso i₂ q g).hom (pullbackLeftPullbackSndIso_hom_fst i₂ q g) _
         (by rw [Category.assoc, ← pullbackLeftPullbackSndIso_hom_fst_assoc]; exact hv) hv k α]
-    show chowPushforwardOfIso C _ _ _ _ (k - p) (chowPushforwardOfIso C _ _ _ _ (k - p)
+    change chowPushforwardOfIso C _ _ _ _ (k - p) (chowPushforwardOfIso C _ _ _ _ (k - p)
       (chowPushforwardOfIso C _ _ (pullbackLeftPullbackSndIso i₂ q g).hom _ (k - p) _)) = _
     have hid : (pullbackLeftPullbackSndIso i₂ q g).hom ≫ (pullbackLeftPullbackSndIso i₂ q g).inv ≫
         (transportPullbackIso (pullback.snd i₂ q) (pullback.snd i₂ q) (Iso.refl _)
@@ -299,7 +299,7 @@ theorem res_perfectRankClass_derivedPullback
   refine TotalChowClass.eq_of_res_eq (isClopenDecomposition_eulerLoci perfect') fun m ↦ ?_
   have hz : ∀ z, (eulerLocus perfect' m.down).ι.base z ∈ eulerLocus perfect' m.down := by
     intro z
-    show _ ∈ ((eulerLocus perfect' m.down : Z.Opens) : Set Z)
+    change _ ∈ ((eulerLocus perfect' m.down : Z.Opens) : Set Z)
     rw [← Scheme.Opens.range_ι]
     exact ⟨z, rfl⟩
   have h1 := res_perfectRankClass_of_range perfect C sX hE ((eulerLocus perfect' m.down).ι ≫ h)
@@ -329,7 +329,7 @@ theorem res_perfectPowerSumTotal_derivedPullback
   subst hs
   refine TotalChowClass.ext fun n ↦ ?_
   rw [TotalChowClass.res_rfl_apply, perfectPowerSumTotal_apply]
-  show _ = perfectPowerSumComponent C (h ≫ sX) hE' n
+  change _ = perfectPowerSumComponent C (h ≫ sX) hE' n
   rcases n with _ | n
   · rw [perfectPowerSumComponent_zero C sX hE, perfectPowerSumComponent_zero C (h ≫ sX) hE',
       ← TotalChowClass.res_rfl_apply,

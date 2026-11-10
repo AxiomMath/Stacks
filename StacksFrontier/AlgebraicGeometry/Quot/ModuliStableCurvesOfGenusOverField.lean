@@ -168,7 +168,7 @@ theorem hasUniversallyBijectiveGlobalFunctions_curveFamilyOfScheme_iff {k : Type
       (schemeSpaceFunctor B integerBase hZ).map_id _
     have hsq : IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
         (curveFamilyOfScheme X B hZ hk hdim).toBase (schemeSpaceMap p₀.value) := by
-      show IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
+      change IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
         (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
         (schemeSpaceMap (𝟙 (integerSiteObject B hZ hk)))
       rw [h1]
@@ -247,7 +247,7 @@ theorem isAtWorstNodalOfRelativeDimensionOne_iff_of_field (k : Type u) [Field k]
   let φinv : CommRingCat.of ((Spec (.of k)).residueField s) ⟶ CommRingCat.of k := inv φ
   have hφinv : IsIso φinv := by dsimp only [φinv]; infer_instance
   have hinvφ : ψ ≫ Spec.map φinv = 𝟙 _ := by
-    show ψ ≫ Spec.map (inv φ) = _
+    change ψ ≫ Spec.map (inv φ) = _
     rw [← hφ, ← Spec.map_comp, IsIso.inv_hom_id, Spec.map_id]
     rfl
   have he₂ : f.fiberι s ≫ f ≫ Spec.map φinv = f.fiberToSpecResidueField s := by

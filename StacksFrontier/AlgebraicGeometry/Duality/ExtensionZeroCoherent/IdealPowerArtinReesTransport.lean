@@ -133,7 +133,7 @@ lemma idealPowerSub_le_inf (I : X.IdealSheafData) (n : ℕ) {L : X.Modules} (N :
     have h2 : secs (Stacks.Algebraization.idealPowerMultiple I n L ⊓ N) U.1 =
         I.ideal U ^ n • (⊤ : Submodule Γ(X, U.1) Γ(L, U.1)) ⊓ secs N U.1 := by
       rw [secs_inf, secs_idealPowerMultiple I n L hL U]
-    show secs (idealPowerSub I n N) U.1 ≤ secs _ U.1
+    change secs (idealPowerSub I n N) U.1 ≤ secs _ U.1
     rw [h1, h2]
     exact le_inf (Submodule.smul_mono le_rfl le_top) Submodule.smul_le_right
 

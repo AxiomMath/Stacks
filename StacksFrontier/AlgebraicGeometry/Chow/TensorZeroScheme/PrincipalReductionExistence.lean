@@ -135,6 +135,7 @@ def presentationMap {D₀ : X.IdealSheafData} (hD₀ : Stacks.Divisors.zeroSchem
       (Stacks.Divisors.zeroScheme X L s).subscheme :=
   Scheme.IdealSheafData.inclusion hB.ge ≫ q ≫ Scheme.IdealSheafData.inclusion hD₀.le
 
+omit [LocallyOfFiniteType g] in
 include hL in
 /-- `presentationMap` lies over the given square. -/
 theorem presentationMap_comm {D₀ : X.IdealSheafData}
@@ -146,6 +147,7 @@ theorem presentationMap_comm {D₀ : X.IdealSheafData}
   rw [presentationMap, Category.assoc, Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι,
     ← hcomm, ← Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType g] in
 include hL in
 /-- The structure morphisms of the two divisors of `presentationMap` agree. -/
 theorem presentationMap_base {D₀ : X.IdealSheafData}

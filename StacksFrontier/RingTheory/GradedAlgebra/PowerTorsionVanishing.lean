@@ -132,7 +132,7 @@ omit [GradedRing 𝒮] [SetLike.GradedSMul 𝒮 𝒨] in
 theorem coe_decompose_sum {κ : Type*} (s : Finset κ) (g : κ → M) (n : ℤ) :
     ((DirectSum.decompose 𝒨 (∑ i ∈ s, g i) n : 𝒨 n) : M)
       = ∑ i ∈ s, ((DirectSum.decompose 𝒨 (g i) n : 𝒨 n) : M) := by
-  rw [DirectSum.decompose_sum, DFinsupp.finset_sum_apply, AddSubmonoidClass.coe_finsetSum]
+  rw [DirectSum.decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
 
 /-! ### Every homogeneous scalar of large degree kills a power-torsion element -/
 
@@ -169,12 +169,13 @@ degree is large enough for `Stacks.GradedModule.smul_eq_zero_of_mem_grade` to ap
 theorem eq_zero_of_mem_span_of_sum_lt {r : ℕ} (f : Fin r → S) (deg : Fin r → ℕ)
     (hfdeg : ∀ i, f i ∈ 𝒮 (deg i))
     (hgen : Algebra.adjoin (Stacks.Veronese.gradeZero 𝒮) (Set.range f) = ⊤)
-    {ι : Type*} [Fintype ι] (y : ι → M) (c : ι → ℤ) (hy : ∀ j, y j ∈ 𝒨 (c j))
+    {ι : Type*} [Finite ι] (y : ι → M) (c : ι → ℤ) (hy : ∀ j, y j ∈ 𝒨 (c j))
     (N : Fin r → ι → ℕ) (hN : ∀ i j, f i ^ N i j • y j = 0)
     {n : ℤ} (hn : ∀ j, c j + ((∑ i, N i j * deg i : ℕ) : ℤ) < n)
     {x : M} (hx : x ∈ 𝒨 n) (hspan : x ∈ Submodule.span S (Set.range y)) :
     x = 0 := by
   classical
+  have := Fintype.ofFinite ι
   obtain ⟨cf, hcf⟩ := Submodule.mem_span_range_iff_exists_fun S |>.mp hspan
   -- the degree-`n` component of each term of the span expression vanishes
   have key : ∀ j : ι, ((DirectSum.decompose 𝒨 (cf j • y j) n : 𝒨 n) : M) = 0 := by

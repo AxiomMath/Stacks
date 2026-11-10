@@ -324,6 +324,7 @@ public theorem restrictTwistIso_hom_eq (n : ℤ) :
         (projInclusionTwistIso A W U h hW hU n).hom := rfl
 
 set_option maxHeartbeats 800000 in
+-- unifying the two readings of the restricted twisting-sheaf sections in `exact` is slow
 /-- **The pointwise value of Tag 01NO's chart comparison, over the preimage of an open of the
 larger chart.** -/
 public theorem restrictTwistIso_val_app_preimage (n : ℤ)

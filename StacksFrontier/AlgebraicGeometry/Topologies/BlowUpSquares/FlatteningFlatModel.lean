@@ -284,7 +284,8 @@ applied at the model at all, its own hypothesis (5) being exactly that flatness.
 @[stacks 0EVC "the conclusion in full, under exactly the source's hypotheses and with no \
 Noetherian hypothesis on the base: the affine case of the flatness \
 assertion of [Stacks, Tag 0815] that the proof consumes is \
-`AlgebraicGeometry.AffineChartFlatteningCentreUnderSourceHypotheses.of_compactSpace`, itself proved from \
+`AlgebraicGeometry.AffineChartFlatteningCentreUnderSourceHypotheses.of_compactSpace`, \
+itself proved from \
 [Stacks, Tag 0811]"]
 theorem hasFlatAlmostBlowUpSquarePair_of_affineCase {X Y : Scheme.{u}} [CompactSpace Y]
     [QuasiSeparatedSpace Y] (f : X ⟶ Y) (hf : FinitePresentation f) (V : Y.Opens)

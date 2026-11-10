@@ -37,10 +37,11 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} [Linear k X.Modules]
 sections and `b : ι → Hom(𝒪_X, ℳ)` spans `Hom(𝒪_X, ℳ)` over `k`, with `ι` finite, then the
 morphism `⨁_ι 𝒪_X ⟶ ℳ` given by `b` is an epimorphism. -/
 theorem epi_sigmaDesc_of_span_eq_top {M : X.Modules}
-    (hM : SheafOfModules.IsGeneratedByGlobalSections M) {ι : Type*} [Fintype ι]
+    (hM : SheafOfModules.IsGeneratedByGlobalSections M) {ι : Type*} [Finite ι]
     (b : ι → (Stacks.Ample.unitModule X ⟶ M))
     (hb : Submodule.span k (Set.range b) = ⊤) :
     Epi (Sigma.desc b : ∐ (fun _ : ι => Stacks.Ample.unitModule X) ⟶ M) := by
+  have := Fintype.ofFinite ι
   obtain ⟨σ⟩ := hM
   have hc : ∀ i : σ.I, ∃ c : ι → k,
       ∑ j, c j • b j = Sigma.ι (fun _ : σ.I => Stacks.Ample.unitModule X) i ≫ σ.π :=
@@ -51,8 +52,8 @@ theorem epi_sigmaDesc_of_span_eq_top {M : X.Modules}
     Sigma.desc fun i => ∑ j, c i j • Sigma.ι (fun _ : ι => Stacks.Ample.unitModule X) j
   have hfac : φ ≫ Sigma.desc b = σ.π := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc_assoc, Preadditive.sum_comp, ← hc i]
-    exact Finset.sum_congr rfl fun j _ => by rw [Linear.smul_comp, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Preadditive.sum_comp, ← hc i]
+    exact Finset.sum_congr rfl fun j _ => by rw [Linear.smul_comp, Sigma.ι_comp_desc]
   have : Epi (φ ≫ Sigma.desc b) := hfac ▸ σ.epi
   exact epi_of_epi φ _
 

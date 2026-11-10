@@ -59,7 +59,8 @@ Three inputs meet here.
    ideals and not only inside a proof.
 2. **The comparison of the two Rees constructions.**  This repository builds the Rees algebra of
    a quasi-coherent sheaf of ideals twice.  `Stacks.Blowup.reesSituation` is assembled from the
-   explicitly given `Stacks.Blowup.reesAlgebraData`, and `AlgebraicGeometry.Space.reesChartSituation`
+   explicitly given `Stacks.Blowup.reesAlgebraData`, and
+   `AlgebraicGeometry.Space.reesChartSituation`
    — the situation whose relative `Proj` is the chart `P_U` — is that one.
    `AlgebraicGeometry.reesSituation` is assembled from `AlgebraicGeometry.reesAlgebraData`, which
    is `Classical.choice` of an existence statement, and its relative `Proj` is

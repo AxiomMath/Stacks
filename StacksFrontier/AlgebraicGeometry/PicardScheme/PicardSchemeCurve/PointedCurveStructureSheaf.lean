@@ -197,7 +197,7 @@ theorem isIso_c_of_section_of_universallyClosed {k : Type u} [Field k] {X : Sche
     intro x
     have h : σ.appTop.hom (f.appTop.hom ((Scheme.ΓSpecIso (.of k)).inv.hom x)) =
         (Scheme.ΓSpecIso (.of k)).inv.hom x := DFunLike.congr_fun hring _
-    show (Scheme.ΓSpecIso (.of k)).hom.hom
+    change (Scheme.ΓSpecIso (.of k)).hom.hom
       (σ.appTop.hom (f.appTop.hom ((Scheme.ΓSpecIso (.of k)).inv.hom x))) = x
     rw [h]
     simp

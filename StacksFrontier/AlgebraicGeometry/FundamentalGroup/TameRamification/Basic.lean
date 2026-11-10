@@ -98,7 +98,7 @@ public theorem standardTamelyRamifiedCover_etale
   let : Algebra R T :=
     (Localization.awayMap (algebraMap A C) f).toAlgebra
   let : IsScalarTower A R T := IsScalarTower.of_algebraMap_eq' (by
-    show (algebraMap C T).comp (algebraMap A C) =
+    change (algebraMap C T).comp (algebraMap A C) =
       (Localization.awayMap (algebraMap A C) f).comp (algebraMap A R)
     exact (IsLocalization.map_comp _).symm)
   obtain ⟨u, hu, _⟩ := (isUnit_iff_exists).mp he
@@ -119,7 +119,7 @@ public theorem standardTamelyRamifiedCover_etale
                   (Nat.one_le_iff_ne_zero.mpr (NeZero.ne e))]]
           simp [pow_one]⟩⟩
   let : Algebra.Etale A T := by
-    show Algebra.Etale A
+    change Algebra.Etale A
       (Localization.Away
         (AdjoinRoot.mk (Polynomial.X ^ e - Polynomial.C f) (Polynomial.C f)))
     exact Algebra.Etale.of_equiv P.equivAwayAdjoinRoot

@@ -137,7 +137,7 @@ reduction of `f`. -/
 theorem reduceCompletionOver_canonicalMap (b : B) :
     reduceCompletionOver f hI hIadic (CompletionOver.canonicalMap f b) =
       Ideal.Quotient.mk (I.map f) (f b) := by
-  show (AdicCompletion.evalOneₐ (I.map f))
+  change (AdicCompletion.evalOneₐ (I.map f))
     ((CompletionOver.adicCompletionRingEquiv hI hIadic f :
       CompletionOver f →+* AdicCompletion (I.map f) A) (CompletionOver.canonicalMap f b)) = _
   rw [show (CompletionOver.adicCompletionRingEquiv hI hIadic f :
@@ -194,10 +194,10 @@ theorem etale_quotientMap_canonicalMap (hf : f.Etale) :
       Ideal.quotientMap (I.map f) f Ideal.le_comap_map := by
     refine RingHom.ext fun x ↦ ?_
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show completionOverQuotientEquiv f hI hIadic
+    change completionOverQuotientEquiv f hI hIadic
       (Ideal.Quotient.mk (I.map (CompletionOver.canonicalMap f))
         (CompletionOver.canonicalMap f b)) = Ideal.Quotient.mk (I.map f) (f b)
-    show reduceCompletionOver f hI hIadic (CompletionOver.canonicalMap f b) = _
+    change reduceCompletionOver f hI hIadic (CompletionOver.canonicalMap f b) = _
     exact reduceCompletionOver_canonicalMap f hI hIadic b
   have hsymm : (completionOverQuotientEquiv f hI hIadic).symm.toRingHom.comp
       (Ideal.quotientMap (I.map f) f Ideal.le_comap_map) =
@@ -244,8 +244,7 @@ theorem canonicalMap_facts {B A : Type u} [CommRing B] [TopologicalSpace B]
     (IsTopologicalAddGroup.rightUniformSpace (CompletionOver f)) := hC.2.2
   have hweak := weaklyAdmissible_of_isAdicRing hB
   refine ⟨hA, TopologicalRing.continuous_canonicalMap f,
-    RingHom.isAdic_of_isTaut _ (TopologicalRing.continuous_canonicalMap f)
-      (TopologicalRing.isTaut_canonicalMap f hweak.1)
+    RingHom.isAdic_of_isTaut _ (TopologicalRing.isTaut_canonicalMap f hweak.1)
       (exists_fg_isAdic_of_isAdicRing hB),
     TopologicalRing.isTopologicallyOfFiniteType_canonicalMap f hweak.1
       (TopologicalRing.finiteType_of_etale hf),
@@ -413,7 +412,7 @@ theorem isNaivelyRigFlat_of_ringEquiv {R S T : Type*}
   have hE : E.toRingHom.comp ((algebraMap S (Localization.Away (f x))).comp f) =
       (algebraMap T (Localization.Away (g x))).comp g := by
     ext r
-    show E (algebraMap S (Localization.Away (f x)) (f r)) = _
+    change E (algebraMap S (Localization.Away (f x)) (f r)) = _
     rw [IsLocalization.ringEquivOfRingEquiv_eq]
     exact congrArg (algebraMap T (Localization.Away (g x))) (DFunLike.congr_fun he r)
   apply (_root_.RingHom.Flat.comp_iff_of_bijective_left (g := E.toRingHom) E.bijective).mp
@@ -487,7 +486,7 @@ theorem adicCompletionPiMap_evalₐ {ι : Type*} [Finite ι]
     AdicCompletion.evalₐ (I.map (Pi.evalRingHom R i)) n (adicCompletionPiMap R I x i) =
       quotientPiPowEquiv R I n (AdicCompletion.evalₐ I n x) i := by
   let : Algebra (∀ i, R i) (R i) := (Pi.evalRingHom R i).toAlgebra
-  show AdicCompletion.evalₐ _ n (Stacks.Nagata.PthRootDescent.mapAdicCompletion I _ le_rfl x) = _
+  change AdicCompletion.evalₐ _ n (Stacks.Nagata.PthRootDescent.mapAdicCompletion I _ le_rfl x) = _
   rw [Stacks.Nagata.PthRootDescent.evalₐ_mapAdicCompletion]
   obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n x)
   rw [← hr]
@@ -589,7 +588,7 @@ theorem exists_completedAway_pi_equiv {A : Type*} [CommRing A]
   refine AdicCompletion.ext_evalₐ fun n ↦ ?_
   have hrefl : (K.map (Pi.evalRingHom S i)).map (RingEquiv.refl (S i)).toRingHom = Ji i := by
     simpa using hJi i
-  show AdicCompletion.evalₐ (Ji i) n
+  change AdicCompletion.evalₐ (Ji i) n
     (adicCompletionMap (RingEquiv.refl (S i)).toRingHom (K.map (Pi.evalRingHom S i)) (Ji i)
         hrefl.le
       (adicCompletionPiMap S K (adicCompletionMap eL.toRingHom J K le_rfl
@@ -608,7 +607,7 @@ theorem exists_completedAway_pi_equiv {A : Type*} [CommRing A]
     exact Stacks.Nagata.PthRootDescent.evalₐ_mapAdicCompletion _ n x
   rw [hmain n]
   let : Algebra Af (S i) := (fi i).toAlgebra
-  show _ = AdicCompletion.evalₐ (Ji i) n
+  change _ = AdicCompletion.evalₐ (Ji i) n
     (Stacks.Nagata.PthRootDescent.mapAdicCompletion Ia (Ji i) (hf i) x)
   rw [Stacks.Nagata.PthRootDescent.evalₐ_mapAdicCompletion]
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ Ia n x)
@@ -637,12 +636,12 @@ theorem continuous_symm_pi_of_map_ideal {R : Type*} [CommRing R]
       refine ⟨fun h ↦ ⟨e.symm x, h, e.apply_symm_apply x⟩, ?_⟩
       rintro ⟨y, hy, rfl⟩
       simpa using hy
-    show e.symm x ∈ I ^ n ↔ _
+    change e.symm x ∈ I ^ n ↔ _
     rw [hx, ← Ideal.piOrderIso.symm_apply_apply ((I ^ n).map e.toRingHom)]
-    show (∀ i, x i ∈ ((I ^ n).map e.toRingHom).map (Pi.evalRingHom S i)) ↔ _
+    change (∀ i, x i ∈ ((I ^ n).map e.toRingHom).map (Pi.evalRingHom S i)) ↔ _
     simp only [Ideal.map_map, Ideal.map_pow, hmap, Set.mem_iInter,
       Set.mem_preimage, SetLike.mem_coe]
-  show e.symm ⁻¹' (↑(I ^ n) : Set R) ∈ nhds 0
+  change e.symm ⁻¹' (↑(I ^ n) : Set R) ∈ nhds 0
   rw [hpre]
   refine IsOpen.mem_nhds (isOpen_iInter_of_finite fun i ↦
     ((isAdic_iff.mp (hJ i)).1 n).preimage (continuous_apply i)) ?_

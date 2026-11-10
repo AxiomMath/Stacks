@@ -59,9 +59,9 @@ below use the three identifications silently.
 
 The three additivity and adjointness facts about `modulePushforward` and about the
 presheaf-valued sections functor `Stacks.Cohomology.cohFunctor` are `local instance`s in
-`StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.SheafifiedCohomologyPresheaf` and so are
-  not exported; they are reinstalled here, since
-without them the statements of [Stacks, Tag 01E4] do not even elaborate.
+`StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.SheafifiedCohomologyPresheaf` and so
+are not exported; they are reinstalled here, since without them the statements of [Stacks, Tag 01E4]
+do not even elaborate.
 
 `AlgebraicGeometry.IsSeparated.of_isAffineHom` is a lemma rather than an instance, so
 quasi-separatedness of an affine morphism — needed for the degree-`0` input [Stacks, Tag 01LC] —

@@ -119,7 +119,7 @@ theorem exists_bijective_restriction_square (a : Y' ⟶ X) (b : Y ⟶ X) (a' : Z
   let φ₂ := (etaleAbelianInverseImageCompIso'.{u, v} a' b c rfl).hom.app F
   refine ⟨fun y => y.comp (Ext.mk₀ (inv φ₁ ≫ φ₂)) (add_zero q),
     bijective_comp_mk₀_of_isIso _ q, fun x => ?_⟩
-  show Ext.comp _ _ _ = _
+  change Ext.comp _ _ _ = _
   rw [etaleCohomologyRestrictionMap_comp_eq_comp_mk₀.{u, v, w} a b' c h.symm,
     etaleCohomologyRestrictionMap_comp_eq_comp_mk₀.{u, v, w} b a' c rfl,
     Ext.comp_assoc_of_third_deg_zero,

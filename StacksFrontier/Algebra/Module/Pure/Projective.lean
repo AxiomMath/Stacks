@@ -67,7 +67,7 @@ public theorem pureProjective_of_directSum_retract
     intro φ
     choose ψ hψ using fun i => hLiftSummand i (φ.comp (DirectSum.lof A ι Q i))
     refine ⟨DirectSum.toModule A ι M ψ, ?_⟩
-    show g.comp (DirectSum.toModule A ι M ψ) = φ
+    change g.comp (DirectSum.toModule A ι M ψ) = φ
     apply DirectSum.linearMap_ext
     intro i
     apply LinearMap.ext
@@ -90,15 +90,15 @@ public theorem pureProjective_of_directSum_retract
       LinearMap.ker (LinearMap.compRight (M := P) A g) := by
     apply le_antisymm
     · rintro φ ⟨ψ, rfl⟩
-      show g.comp (f.comp ψ) = 0
+      change g.comp (f.comp ψ) = 0
       rw [← LinearMap.comp_assoc, hCompEqZero]
       simp
     · intro φ hφ
       let φ' : P →ₗ[A] LinearMap.range f :=
         LinearMap.codRestrict (LinearMap.range f) φ (fun x => by
-          show φ x ∈ LinearMap.range f
+          change φ x ∈ LinearMap.range f
           rw [hRangeKer]
-          show g (φ x) = 0
+          change g (φ x) = 0
           exact LinearMap.congr_fun hφ x)
       have hRangeRestrictInj : Function.Injective (LinearMap.rangeRestrict f) := by
         intro x y hxy
@@ -268,7 +268,7 @@ public theorem pureProjective_iff_directSum_finitelyPresented_retract
       exact ⟨x, ULift.ext (by simpa [pUp, up] using hx)⟩
     have hKer : LinearMap.ker p = LinearMap.ker pUp := by
       ext x
-      show p x = 0 ↔ ULift.up (p x) = ULift.up 0
+      change p x = 0 ↔ ULift.up (p x) = ULift.up 0
       simp
     have hRangeP : LinearMap.range inc = LinearMap.ker p := by ext x; simp [inc]
     have hRange : LinearMap.range inc = LinearMap.ker pUp := hRangeP.trans hKer

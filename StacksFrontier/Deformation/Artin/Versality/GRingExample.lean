@@ -928,7 +928,7 @@ public theorem exists_algHom_henselian_of_isGRing (hφ : RingHom.FiniteType φ)
   have hvers := isVersal_formalObject_stalk m C φ B hS ψ hψ hR
   refine ⟨fun T => ⟨inferInstance, ⟨fun z => z.some.down.down,
     fun h => ⟨ULift.up (PLift.up h)⟩⟩⟩, hlimit, heff, hvers, ?_⟩
-  obtain ⟨U, u₀, V, -, x, hx, hfin, hqc, hu₀ft, -, -, xR, e, r, eR, -, hrbase⟩ :=
+  obtain ⟨U, u₀, V, -, x, hx, hfin, hqc, hu₀ft, -, -, xR, ⟨e⟩, r, eR, -, hrbase⟩ :=
     @Deformation.Artin.exists_finiteType_versal_approximation B (Spec (CommRingCat.of Λ)) hS _
       (stack m C φ B hS) (formalObject m C φ B hS ψ hψ hR) heff (point m)
       (base_toS_closedPoint m C φ B hS ψ hψ hR) hG hlimit

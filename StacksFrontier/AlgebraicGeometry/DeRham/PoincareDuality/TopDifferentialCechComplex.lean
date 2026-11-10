@@ -120,7 +120,7 @@ theorem exists_inverseImageStructureMap_app_eq_baseRingHom (W : X.Opens) (a : A)
       (TopCat.Sheaf.pushforward CommRingCat h.base).obj X.sheaf := ⟨h.c⟩
   have htriangle : baseUnit ≫ (TopCat.Sheaf.pushforward CommRingCat h.base).map
       (inverseImageStructureMap h) = structureMap := by
-    show baseAdjunction.homEquiv (Spec (.of A)).sheaf X.sheaf (inverseImageStructureMap h) =
+    change baseAdjunction.homEquiv (Spec (.of A)).sheaf X.sheaf (inverseImageStructureMap h) =
       structureMap
     exact (baseAdjunction.homEquiv (Spec (.of A)).sheaf X.sheaf).apply_symm_apply structureMap
   let a₀ : Γ(Spec (.of A), ⊤) := (_root_.AlgebraicGeometry.toSpecΓ (CommRingCat.of A)).hom a
@@ -131,7 +131,7 @@ theorem exists_inverseImageStructureMap_app_eq_baseRingHom (W : X.Opens) (a : A)
     ((baseUnit.hom.app (op ⊤)).hom a₀)
   have htop := ConcreteCategory.congr_hom
     (congrArg (fun φ => φ.hom.app (op (⊤ : Opens (Spec (.of A))))) htriangle) a₀
-  show _ = (X.presheaf.map (homOfLE le_top).op).hom ((h.appTop).hom a₀)
+  change _ = (X.presheaf.map (homOfLE le_top).op).hom ((h.appTop).hom a₀)
   exact hnat.trans (congrArg (X.presheaf.map (homOfLE le_top).op).hom htop)
 
 /-- The de Rham differential `Ω^p_{X/S} ⟶ Ω^{p+1}_{X/S}`, as a morphism of the underlying

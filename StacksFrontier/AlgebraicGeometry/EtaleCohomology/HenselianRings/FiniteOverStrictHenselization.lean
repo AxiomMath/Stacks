@@ -2,8 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Morphisms.Finite
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.HenselianRings.FiniteBaseChangeStrictHenselization
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.HenselianRings.FiniteBaseChangeStrictHenselization
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.HenselianRings.StrictHenselization
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.HenselianRings.StrictlyHenselianFiniteAlgebras
 import StacksCore.Tactic.EgaSgaAttribute

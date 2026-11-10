@@ -187,7 +187,7 @@ variable {N : ModuleCat.{u} (A ⧸ I ^ n)}
 /-- `A → M`, `1 ↦ z`, sends `1` to `z`. -/
 theorem resModulePointMap_apply_one (z : resModule I n N) :
     (resModulePointMap I n N z).hom (1 : A) = z := by
-  show (Ideal.Quotient.mk (I ^ n) (1 : A)) • (z : (N : Type u)) = z
+  change (Ideal.Quotient.mk (I ^ n) (1 : A)) • (z : (N : Type u)) = z
   rw [map_one, one_smul]
 
 /-- `p^*(1 ↦ z) = p^*(A~) ≅ 𝒪_X --p^*z--> p^*M`. -/
@@ -322,7 +322,7 @@ theorem blowupPointSection_comp_homEquiv_symm {E : (blowupScheme I).Modules}
     apply ((blowupPullbackAdjunction I).homEquiv _ _).injective
     rw [blowupPullbackAdjunction_homEquiv_naturality_left, Equiv.apply_symm_apply]
     refine ModuleCat.hom_ext (LinearMap.ext_ring ?_)
-    show blowupLiftSections I n e he_add he_smul ((resModulePointMap I n N z).hom 1) =
+    change blowupLiftSections I n e he_add he_smul ((resModulePointMap I n N z).hom 1) =
       ((blowupPullbackAdjunction I).homEquiv _ _
         ((blowupPullbackSelfIso I).hom ≫ blowupHomOfUnit I (e z))).hom (1 : A)
     rw [resModulePointMap_apply_one, blowupPullbackAdjunction_homEquiv_selfIso_apply_one]

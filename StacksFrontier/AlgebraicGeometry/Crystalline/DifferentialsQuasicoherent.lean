@@ -289,7 +289,7 @@ theorem ι_comp_toDpDifferentials :
     (dpRelationSubmodule T Y f).ι ≫ toDpDifferentials T Y f =
       (0 : (dpRelationSubmodule T Y f).toSheafOfModules ⟶ dpDiffAsSheaf T Y f) := by
   ext W s
-  show (toDpDifferentials T Y f).val.app W s.1 = 0
+  change (toDpDifferentials T Y f).val.app W s.1 = 0
   exact toDpDifferentials_apply_eq_zero T Y f W.unop s.2
 
 /-- **The map from the quotient to the divided power differentials** induced by the comparison
@@ -334,7 +334,7 @@ theorem dpQuotientApp_mul (W : T.scheme.Opens) (x y : ↑(T.scheme.sheaf.obj.obj
     dpQuotientApp T Y f W (x * y) =
       x • dpQuotientApp T Y f W y + y • dpQuotientApp T Y f W x := by
   have hd := (Scheme.Hom.universalRelativeDerivation f).d_mul (X := op W) x y
-  show (dpQuotientMk T Y f).val.app (op W)
+  change (dpQuotientMk T Y f).val.app (op W)
     ((Scheme.Hom.universalRelativeDerivation f).d (x * y)) = _
   rw [hd, map_add, dpQuotientMk_smul, dpQuotientMk_smul]
   rfl
@@ -342,7 +342,7 @@ theorem dpQuotientApp_mul (W : T.scheme.Opens) (x y : ↑(T.scheme.sheaf.obj.obj
 /-- The divided power derivation of the quotient vanishes on sections pulled back from `Y`. -/
 theorem dpQuotientApp_appLE (W : T.scheme.Opens) (V : Y.Opens) (h : W ≤ f ⁻¹ᵁ V)
     (a : Γ(Y, V)) : dpQuotientApp T Y f W ((f.appLE V W h).hom a) = 0 := by
-  show (dpQuotientMk T Y f).val.app (op W)
+  change (dpQuotientMk T Y f).val.app (op W)
     ((Scheme.Hom.universalRelativeDerivation f).d ((f.appLE V W h).hom a)) = _
   rw [Stacks.AlgebraicGeometry.AffineDifferentials.d_appLE_eq_zero f _
     (Scheme.Hom.universalRelativeDerivation f) V W h a]
@@ -368,7 +368,7 @@ theorem dpQuotientApp_naturality {W W' : T.scheme.Opens} (i : W' ⟶ W)
       (Scheme.Hom.relativeDifferentials f).val.map i.op
         ((Scheme.Hom.universalRelativeDerivation f).d x) :=
     (Scheme.Hom.universalRelativeDerivation f).d_map i.op x
-  show (dpQuotient T Y f).val.map i.op
+  change (dpQuotient T Y f).val.map i.op
       ((dpQuotientMk T Y f).val.app (op W)
         ((Scheme.Hom.universalRelativeDerivation f).d x)) = _
   rw [← PresheafOfModules.naturality_apply (dpQuotientMk T Y f).val i.op, ← hd]
@@ -687,7 +687,7 @@ theorem dpPresentation_relation_vanish (V : T.scheme.Opens)
     (dpRestrict T V).map (dpRelationSubmodule T Y f).ι ≫
       cokernel.π (dpPresentation T Y f V) = 0 := by
   ext U s
-  show ((cokernel.π (dpPresentation T Y f V)).val.app (op U)).hom (id s.1) = 0
+  change ((cokernel.π (dpPresentation T Y f V)).val.app (op U)).hom (id s.1) = 0
   refine hom_app_eq_zero_of_local (cokernel.π (dpPresentation T Y f V)) fun p hp ↦ ?_
   obtain ⟨Z, hZle, hpZ, hZmem⟩ := s.2 (V.ι.base p) ⟨p, hp, rfl⟩
   have hZtop : Z ≤ dpTop T V := hZle.trans (image_le_dpTop V U)

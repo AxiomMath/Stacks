@@ -65,7 +65,7 @@ theorem ker_resLE_appTop {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
     RingHom.ker_comp_of_injective _
       (ConcreteCategory.bijective_of_isIso (f ⁻¹ᵁ (U : Y.Opens)).topIso.inv).1]
   rw [← Scheme.Hom.app_eq_appLE]
-  show Ideal.map e.toRingHom (f.ker.ideal U) =
+  change Ideal.map e.toRingHom (f.ker.ideal U) =
     (RingHom.ker (f.app U).hom).comap e.symm.toRingHom
   rw [f.ker_apply U]
   exact Ideal.map_comap_of_equiv e

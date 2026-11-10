@@ -70,13 +70,13 @@ theorem powerSumKFun_eq (p : ℕ) (M : Y.Modules)
   have h : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := Y.ringCatSheaf) M :=
     ⟨(‹AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M›
       ).exists_isFiniteLocallyFreeData⟩
-  rw [powerSumKFun, dif_pos h]
+  rw [powerSumKFun, dite_eq_left h]
 
 /-- The homomorphism `P_p : K_0(Vect(Y)) → ∏_q A^q(Y)` sending the class of a finite locally free
 module `ℰ` to `P_p(ℰ)`, well defined since `P_p` is additive on short exact sequences. -/
 def powerSumKHom (p : ℕ) : AlgebraicGeometry.VectorBundleKZero Y →+ TotalChowClass C sY :=
   AlgebraicGeometry.VectorBundleKZero.liftAddHom (powerSumKFun C sY p)
-    (fun M hM => dif_neg hM)
+    (fun M hM => dite_eq_right hM)
     (fun {E F G} f g w hE hF hG hmono hepi hex => by
       rw [powerSumKFun_eq, powerSumKFun_eq, powerSumKFun_eq]
       exact powerSumOfFiniteLocallyFree_eq_add_of_shortExact C sY (ShortComplex.mk f g w)

@@ -111,7 +111,8 @@ step, through
 hence `AlgebraicGeometry.Stack.isQuasiSeparatedOver_schemeStack_of_isAffine`. The dictionary for
 that 2-fibre product — the analogue of
 `StacksFrontier/CategoryTheory/TwoFibreProduct/TwoYonedaPairs.lean`, on objects and on morphisms
-alike — is `StacksFrontier/CategoryTheory/TwoFibreProduct/TwoYonedaGraphs.lean`, and condition (4) is
+alike — is `StacksFrontier/CategoryTheory/TwoFibreProduct/TwoYonedaGraphs.lean`, and condition
+(4) is
 `AlgebraicGeometry.Stack.exists_fin_affineObjects_isLocallySurjective_equalizerLift`, in
 `StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyEqualizerAffineCover.lean`.
 
@@ -432,7 +433,7 @@ private theorem exists_fin_affineObjects_isLocallySurjective_terminal_of_topolog
   obtain ⟨x, hxaff, hx⟩ := h
   refine ⟨1, fun _ => x, fun _ => hxaff, (Sheaf.isLocallySurjective_iff_epi _).2 ?_⟩
   have := (Sheaf.isLocallySurjective_iff_epi _).1 hx
-  exact epi_of_epi_fac (Limits.Sigma.ι_desc _ 0)
+  exact epi_of_epi_fac (Limits.Sigma.ι_comp_desc _ 0)
 
 /-- Condition (1) of Stacks 0GN4 for a quasi-compact algebraic stack, in the shape the criterion
 consumes: the single affine object of

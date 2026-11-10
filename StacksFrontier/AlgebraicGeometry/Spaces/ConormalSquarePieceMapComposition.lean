@@ -63,14 +63,14 @@ the steps below.  The implementation notes below explain why.
 ## Why the assembly is not done here
 
 The assembly —
-`conormalAlgebraSquarePieceMap_comp` and `conormalMapOfImmersions_comp` — is not blocked merely by the
-definitional equality between the two spellings `(conormalAlgebra i').piece n` and
+`conormalAlgebraSquarePieceMap_comp` and `conormalMapOfImmersions_comp` — is not blocked merely by
+the definitional equality between the two spellings `(conormalAlgebra i').piece n` and
 `(modulePullback i').obj (kernelIdealSheafZPow i' n).toSheafOfModules` of the degree-`n`
 piece, equal by `AlgebraicGeometry.Space.conormalAlgebra_piece` (`rfl`, through
 the unfolding of `AlgebraicGeometry.Space.conormalAlgebra` to `toposPullbackGradedAlgebra` of
-`kernelIdealGradedAlgebra`), which fits a heartbeat budget once and not twice.  Even with the whole chain
-carried out at the second spelling, where the first never occurs, the steps fail, each as its
-own declaration with its own budget:
+`kernelIdealGradedAlgebra`), which fits a heartbeat budget once and not twice.  Even with the
+whole chain carried out at the second spelling, where the first never occurs, the steps fail,
+each as its own declaration with its own budget:
 
 * the composite step by `eq_whisker` and `Functor.map_comp` — kernel deterministic timeout;
 * the same step as a single application of the generic

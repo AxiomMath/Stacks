@@ -112,16 +112,16 @@ end AlgebraicGeometry.Grassmannian
 
 namespace AlgebraicGeometry.ProjectiveQuot
 
-variable {n r : ℕ} (hr : 1 ≤ r) {P : Polynomial ℚ}
+variable {n r : ℕ} {P : Polynomial ℚ}
 
 /-- **`(T ⟶ G)^* q_G ≅ π_*(𝒬(m))`.** The presentation
 `𝒪_T^{⊕ N} ≅ π_*(𝒪^{⊕ r}(m)) ⟶ π_*(𝒬(m))` of `K ∈ Quot^P(T)` is isomorphic to the pullback of
 the universal quotient along the classifying morphism `toGrassmannian K : T ⟶ G(N - p, N)`. -/
 theorem grassmannianPresentation_isomorphic_pullback
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    (grassmannianPresentation hr hp hK).Isomorphic
-      (Grassmannian.pullbackPresentation (toGrassmannian hr hp hK)
+    (grassmannianPresentation hp hK).Isomorphic
+      (Grassmannian.pullbackPresentation (toGrassmannian hp hK)
         (Grassmannian.universalPresentation _ _)) :=
   Grassmannian.isomorphic_pullbackPresentation_universalPresentation _ _ (by
     rw [toGrassmannian, Equiv.apply_symm_apply, grassmannianPoint, Equiv.apply_symm_apply])

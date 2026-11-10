@@ -79,7 +79,7 @@ lemma residueAlgebraMap_comp {K : Type u} [Field K] {Y Z : Scheme.{u}}
     residueAlgebraMap (e ≫ g) z =
       residueAlgebraMap g (e z) ≫ e.residueFieldMap z := by
   let _ : (g (e z)).asIdeal.IsPrime := (g (e z)).isPrime
-  show CommRingCat.ofHom (algebraMap K (g (e z)).asIdeal.ResidueField) ≫
+  change CommRingCat.ofHom (algebraMap K (g (e z)).asIdeal.ResidueField) ≫
       (Scheme.Spec.residueFieldIso (.of K) (g (e z))).inv ≫
         (e ≫ g).residueFieldMap z =
     CommRingCat.ofHom (algebraMap K (g (e z)).asIdeal.ResidueField) ≫

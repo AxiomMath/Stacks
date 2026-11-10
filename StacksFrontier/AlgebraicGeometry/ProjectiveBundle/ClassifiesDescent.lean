@@ -206,7 +206,8 @@ principle the compatibility is going to be checked by, and `…GenuineChern.Twis
 `restrictFunctorIsoPullback_inv_unitSection`, which evaluates the comparison of the two
 restriction functors on a pulled-back section. Neither is restated here: there are already two
 copies of the latter in the repository (`…GenuineChern.TwistPullback` and
-`…GenuineChern.SubbundleZeroScheme`), and a third would be a duplicate. Both add few modules to this file's import closure, whereas
+`…GenuineChern.SubbundleZeroScheme`), and a third would be a duplicate. Both add few modules to this
+file's import closure, whereas
 `…GenuineChern.SubbundleZeroScheme`, which holds the same lemma, would add over two thousand and
 is not used.
 
@@ -247,8 +248,8 @@ No heartbeat limit is raised anywhere below, and none needs to be.
 `pullbackSection_preimage_self` — pulling a section back to the whole preimage of its open is the
 adjunction unit — which is what matches the output of
 `pullbackQuotientMap_tautologicalDatum_val_app` with the input of
-`Stacks.ProjectiveBundleConormal.projectiveBundle_chartTwistIso_hom_pullbackSection`. Restating the lemma here
-instead would be a duplicate. `…ChartCocycleRigidity.DegreeSection` is imported for
+`Stacks.ProjectiveBundleConormal.projectiveBundle_chartTwistIso_hom_pullbackSection`. Restating the
+lemma here instead would be a duplicate. `…ChartCocycleRigidity.DegreeSection` is imported for
 `app_val_congr`.
 
 **Five more modules are imported for item 3.**
@@ -378,7 +379,8 @@ only defined on morphisms that land in the standard open.
    Three statements are used in between. That the nonvanishing open of a section is carried
    along an isomorphism of modules is `Stacks.Ample.nonvanishingLocus_congr`. The other two are
    the transport of item 2 from `V.ι ⁻¹ᵁ V` to `⊤`
-   (`classifyingTrivialisationOfSection_hom_pullbackSection_top`) and the `Γ(M, ⊤)` spelling `nonvanishingLocus_unit_eq_basicOpen` of the nonvanishing locus of a
+   (`classifyingTrivialisationOfSection_hom_pullbackSection_top`) and the `Γ(M, ⊤)` spelling
+   `nonvanishingLocus_unit_eq_basicOpen` of the nonvanishing locus of a
    section of the structure sheaf, the library's identification with the basic open being stated
    over a restriction-compatible family instead, which is not the spelling
    `Stacks.NonvanishingOpen.nonvanishingOpen` is built on. The identification of
@@ -427,7 +429,8 @@ With item 4 and the `chartHomEquiv`-valued form of item 2, `eq_of_chartHomEquiv_
 `sectionChartMap V σ hσ hV = sectionChartMap V σ' hσ' hV`, hence `V.ι ≫ σ = V.ι ≫ σ'` over every
 trivialising affine open (`ι_comp_eq_of_classifies`), and a morphism out of `X` is determined on
 an open cover (`eq_of_classifies_tautologicalDatum`).
-`Stacks.AlgebraicGeometry.RelativeProj.comp_chart_injective` **is not used and cannot be**: it goes from the composites with the chart
+`Stacks.AlgebraicGeometry.RelativeProj.comp_chart_injective` **is not used and cannot be**: it goes
+from the composites with the chart
 to the chart morphisms, and the route needs the converse, which is `congrArg` and
 `CategoryTheory.cancel_mono`.
 

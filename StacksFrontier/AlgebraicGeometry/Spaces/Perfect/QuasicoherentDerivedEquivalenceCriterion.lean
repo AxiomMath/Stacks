@@ -98,8 +98,8 @@ lemma isIso_of_isIso_biprod_lift {C : Type*} [Category* C] [Preadditive C] [HasB
     ⟨⟨biprod.inr, by
       apply biprod.hom_ext <;>
         simp only [Category.assoc, BinaryBicone.inr_fst, BinaryBicone.inr_snd, comp_zero,
-          Category.comp_id, Category.id_comp] <;>
-        exact hX.eq_of_tgt _ _, by simp⟩⟩
+          Category.comp_id, Category.id_comp]
+      exact hX.eq_of_tgt _ _, by simp⟩⟩
   have h : g = biprod.lift f g ≫ biprod.snd := by simp
   rw [h]
   infer_instance
@@ -314,7 +314,7 @@ theorem coheratorClaim_step
   have he₁ : IsEtale B S hS e₁.hom := isEtale_of_isIso B S hS _
   have heq : o ≫ k = e₁ ≫ openSubspaceHom B S hS _ hW₁ := by
     apply ObjectProperty.hom_ext
-    show (Subfunctor.range (Subfunctor.homOfLe hle)).ι ≫ W₂.ι =
+    change (Subfunctor.range (Subfunctor.homOfLe hle)).ι ≫ W₂.ι =
       (asIso (Subfunctor.toRange (Subfunctor.homOfLe hle))).inv ≫ W₁.ι
     rw [← (asIso (Subfunctor.toRange (Subfunctor.homOfLe hle))).cancel_iso_hom_left,
       Iso.hom_inv_id_assoc, asIso_hom, ← Category.assoc, Subfunctor.toRange_ι,

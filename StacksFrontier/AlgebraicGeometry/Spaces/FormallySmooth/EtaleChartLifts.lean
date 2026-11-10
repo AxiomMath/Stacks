@@ -49,7 +49,7 @@ theorem specOverHom_injective {R R' : Type u} [CommRing R] [CommRing R'] [Algebr
   have h' := congrArg (BigFppfOver.toScheme B S hS).map h
   rw [toScheme_map_specOverHom, toScheme_map_specOverHom] at h'
   have h'' := Spec.map_injective h'
-  exact AlgHom.coe_ringHom_injective (congrArg CommRingCat.Hom.hom h'')
+  exact AlgHom.toRingHom_injective (congrArg CommRingCat.Hom.hom h'')
 
 /-- **A morphism of spectra of `A'`-algebras lying over `Spec A'` is `Spec` of a unique map of
 algebras.** -/
@@ -95,9 +95,9 @@ theorem chartSection_map {C E : Type u} [CommRing C] [CommRing E] [Algebra A' C]
     (q : C →ₐ[A'] E) :
     (RelSec.map q (relChartSection c hcp)).1 = c.app _ (specOverHom B S hS s₀ hC.out hE.out q) := by
   rw [RelSec.map_val]
-  show X.map _ (c.app _ (𝟙 _)) = _
+  change X.map _ (c.app _ (𝟙 _)) = _
   rw [← NatTrans.naturality_apply]
-  show c.app _ (specOverHom B S hS s₀ hC.out hE.out q ≫ 𝟙 _) = _
+  change c.app _ (specOverHom B S hS s₀ hC.out hE.out q ≫ 𝟙 _) = _
   rw [Category.comp_id]
 
 /-- For a surjective map of `A'`-algebras `π : E → F` with square-zero kernel, the induced
@@ -137,7 +137,7 @@ theorem chartUniqueLifts_of_formallyEtale {C : Type u} [CommRing C] [Algebra A' 
     exact hu₁
   · exact RelSec.ext ((chartSection_map c hcp q).trans (by rw [hq]; exact hu₂))
   · refine hquniq q' (huniq _ ⟨?_, ?_⟩)
-    · show specOverHom B S hS s₀ hE.out hF.out π ≫ specOverHom B S hS s₀ hC.out hE.out q' = _
+    · change specOverHom B S hS s₀ hE.out hF.out π ≫ specOverHom B S hS s₀ hC.out hE.out q' = _
       rw [specOverHom_comp, hq'₁]
     · exact (chartSection_map c hcp q').symm.trans (congrArg Subtype.val hq'₂)
 

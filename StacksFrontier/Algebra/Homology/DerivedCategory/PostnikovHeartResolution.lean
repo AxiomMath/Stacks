@@ -80,12 +80,12 @@ theorem exists_distTriang_sequenceStep (n : ℕ) :
   let e := zsmulIso a.symm ε hε
   refine ⟨e.inv ≫ T'.mor₂, T'.mor₃, isomorphic_distinguished _ hT' _ ?_⟩
   refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) e.symm (Iso.refl _) ?_ ?_ ?_
-  · show P.sequenceStep n ≫ (ε • a.hom) = 𝟙 _ ≫ ((n : ℤ).negOnePow • ((P.δ n)⟦(n : ℤ)⟧'))
+  · change P.sequenceStep n ≫ (ε • a.hom) = 𝟙 _ ≫ ((n : ℤ).negOnePow • ((P.δ n)⟦(n : ℤ)⟧'))
     rw [Units.smul_def, Category.id_comp, Preadditive.comp_zsmul,
       SequentialPostnikovSystem.sequenceStep, Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  · show (e.inv ≫ T'.mor₂) ≫ 𝟙 _ = e.inv ≫ T'.mor₂
+  · change (e.inv ≫ T'.mor₂) ≫ 𝟙 _ = e.inv ≫ T'.mor₂
     rw [Category.comp_id]
-  · show T'.mor₃ ≫ (𝟙 _)⟦(1 : ℤ)⟧' = 𝟙 _ ≫ T'.mor₃
+  · change T'.mor₃ ≫ (𝟙 _)⟦(1 : ℤ)⟧' = 𝟙 _ ≫ T'.mor₃
     rw [Functor.map_id, Category.comp_id, Category.id_comp]
 
 end Step
@@ -271,6 +271,7 @@ theorem isZero_homology_obj_of_pos_of_lt (n : ℕ) (i : ℤ) (hi₀ : 0 < i) (hi
     · exact P.isZero_homology_obj_succ_of_isZero n i (ih (i - 1) (by omega) (by omega))
         (hX (n + 1) i (by omega))
 
+omit hexact in
 /-- `Hⁿ(Yₙ) ⟶ Hⁿ⁺¹(Yₙ₊₁)` is an isomorphism for `n ≥ 1`. -/
 theorem isIso_homologySequenceδ (n : ℕ) (hn : 1 ≤ n) :
     IsIso (DerivedCategory.HomologySequence.δ (P.triangle n) (n : ℤ) ((n + 1 : ℕ) : ℤ)
@@ -320,11 +321,7 @@ private theorem nonempty_homology_obj_one_iso :
     ((ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ).2 hεexact).gIsCokernel⟩
 
 /-- **`Hⁿ(Yₙ) ≅ O` for `n ≥ 1`.** -/
-theorem nonempty_homology_obj_iso (hd : ∀ n, d (n + 1) ≫ d n = 0)
-    (hexact : ∀ n, (ShortComplex.mk ((DerivedCategory.homologyFunctor C 0).map (d (n + 1)))
-      ((DerivedCategory.homologyFunctor C 0).map (d n))
-      (homologyMap_comp_eq_zero hd n)).Exact)
-    (n : ℕ) (hn : 1 ≤ n) :
+theorem nonempty_homology_obj_iso (n : ℕ) (hn : 1 ≤ n) :
     Nonempty ((DerivedCategory.homologyFunctor C n).obj (P.obj n) ≅ O) := by
   induction n with
   | zero => omega
@@ -332,7 +329,7 @@ theorem nonempty_homology_obj_iso (hd : ∀ n, d (n + 1) ≫ d n = 0)
     rcases Nat.eq_zero_or_pos n with rfl | hn'
     · exact P.nonempty_homology_obj_one_iso hX ε hε hεexact
     · obtain ⟨e⟩ := ih hn'
-      have := P.isIso_homologySequenceδ hX hd hexact n hn'
+      have := P.isIso_homologySequenceδ hX n hn'
       exact ⟨(asIso (DerivedCategory.HomologySequence.δ (P.triangle n) (n : ℤ)
         ((n + 1 : ℕ) : ℤ) (Nat.cast_succ n).symm)).symm ≪≫ e⟩
 
@@ -426,7 +423,7 @@ theorem exists_distTriang_shift_obj (n : ℕ) (hn : 1 ≤ n) :
     exact (DerivedCategory.isZero_of_isLE Z 0 i hi).of_iso
       (asIso ((DerivedCategory.homologyFunctor C i).map T.mor₂)).symm
   obtain ⟨Y, ⟨eY⟩⟩ := DerivedCategory.exists_iso_singleFunctor_obj_of_isGE_of_isLE T.obj₃ 0
-  obtain ⟨eO⟩ := P.nonempty_homology_obj_iso hX ε hε hεexact hd hexact n hn
+  obtain ⟨eO⟩ := P.nonempty_homology_obj_iso hX ε hε hεexact n hn
   have := hiso 0 (by omega)
   let eH : Y ≅ O :=
     ((DerivedCategory.singleFunctorCompHomologyFunctorIso C 0).app Y).symm ≪≫

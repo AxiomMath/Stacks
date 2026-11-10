@@ -52,7 +52,7 @@ theorem cls_shift_one (Y : C) : cls (Y⟦(1 : ℤ)⟧) = - cls Y := by
 followed by the shift by one. -/
 theorem cls_shift_succ (Y : C) (n : ℤ) : cls (Y⟦n + 1⟧) = - cls (Y⟦n⟧) := by
   rw [cls_eq_of_iso ((shiftFunctorAdd' C n 1 (n + 1) rfl).app Y)]
-  show cls ((Y⟦n⟧)⟦(1 : ℤ)⟧) = - cls (Y⟦n⟧)
+  change cls ((Y⟦n⟧)⟦(1 : ℤ)⟧) = - cls (Y⟦n⟧)
   exact cls_shift_one _
 
 /-- **Shifting one step back negates the class.** This is `cls_shift_succ` at `n - 1`. -/

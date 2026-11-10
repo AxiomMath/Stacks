@@ -214,6 +214,7 @@ theorem disjoint_range_pointsMap_ι_of_inf_eq_sheafify_bot
     (f := pointsMap B S hS (W ⊓ W').toFunctor (W ⊓ W').ι) w) (by rw [hempty]; exact id)
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance synthesis for the biproduct `⊞` of module sheaves on algebraic spaces
 /-- **The restriction of a direct image to an étale neighbourhood splits along the clopen
 decomposition of [Stacks, Tag 0ADU].**
 

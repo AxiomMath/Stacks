@@ -177,7 +177,7 @@ theorem pairingMap_comp_baseMap
       Limits.pullback.fst P.baseMap P.baseMap ≫ P.baseMap := by
   ext T z
   apply yonedaEquiv.symm.injective
-  show yonedaEquiv.symm (P.baseMap.app T ((pairingMap P opr hopr).app T z)) =
+  change yonedaEquiv.symm (P.baseMap.app T ((pairingMap P opr hopr).app T z)) =
     yonedaEquiv.symm (P.baseMap.app T ((Limits.pullback.fst P.baseMap P.baseMap).app T z))
   rw [P.baseMap_spec, P.baseMap_spec, sections_pairingMap]
   exact congrArg (fun m : schemeSpace T.unop ⟶ Y => m.hom) (hbase _ _ _)
@@ -190,7 +190,7 @@ theorem isPairingBaseChangeCompatible_of_restrict
     (hres : ∀ {T T' : AlgebraicSpaces B S hS} {a : T ⟶ Y} (h : T' ⟶ T)
       (Z₁ Z₂ : FinitePartFibre B S hS f a),
       (opr Z₁ Z₂).restrict h = opr (Z₁.restrict h) (Z₂.restrict h)) :
-    IsPairingBaseChangeCompatible (fun {T} p q hpq =>
+    IsPairingBaseChangeCompatible (fun p _ hpq =>
       (opr (FinitePartFibre.ofPair (rfl : p.toBase = p.toBase))
         (FinitePartFibre.ofPair hpq)).toPair) := by
   intro T T' p q hpq h

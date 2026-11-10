@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.Cosimplicial.DoubleCo
 # The rowwise hypothesis of [Stacks, Tag 07LG] from [Stacks, Tag 07LD] in each cosimplicial degree
 
 `Crystalline.quasiIso_flipMap_of_rowDegreewiseHomotopyEquiv` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/DoubleComplexRowQuasiIso.lean` reduces the
-rowwise hypothesis `hrows` of `...SmallSite.computes07LG_of_doubleComplex` to a homotopy
+`StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/DoubleComplexRowQuasiIso.lean` reduces
+the rowwise hypothesis `hrows` of `...SmallSite.computes07LG_of_doubleComplex` to a homotopy
 equivalence of each row of `K` with the comparison complex `R`.  For a `K` built from a
 `Crystalline.CosimplicialCompletedPair` the rows are known: by
 `Crystalline.CosimplicialCompletedPair.rowDeRhamIso` the row `b` *is* the completed de Rham
@@ -300,7 +300,7 @@ public theorem quasiIso_flipMap_of_deRhamAddHomHomotopyEquiv
   · exact hiota c i x
   · exact hpi c i x
   · exact h0 c x
-  · show hDeg c (i + 1) (W.degreeDifferential c (i + 1) x) +
+  · change hDeg c (i + 1) (W.degreeDifferential c (i + 1) x) +
         W.degreeDifferential c i (hDeg c i x) +
         iotaDeg c (i + 1) (piDeg c (i + 1) x) = x
     refine Eq.trans ?_ (hsucc c i x)

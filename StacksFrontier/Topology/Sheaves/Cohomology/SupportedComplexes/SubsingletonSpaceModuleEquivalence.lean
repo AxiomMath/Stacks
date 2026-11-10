@@ -162,7 +162,7 @@ public instance evaluationTop_full : (evaluationTop Z).Full where
     classical
     let app : ∀ U, N.obj U ⟶ G.obj U := fun U ↦
       if hU : U.unop = ⊤ then (Opposite.unop_injective hU : U = op ⊤) ▸ h else 0
-    have happ : app (op ⊤) = h := dif_pos rfl
+    have happ : app (op ⊤) = h := dite_eq_left rfl
     refine ⟨⟨app, ?_⟩, happ⟩
     intro U V i
     by_cases hV : V.unop = ⊤
@@ -186,6 +186,7 @@ public theorem isEquivalence_restrictScalars_id {R : Type u} [Ring R] :
 
 attribute [local instance] isEquivalence_restrictScalars_id
 
+omit [Subsingleton Z.carrier] in
 /-- **The scalar map of construction (3) of [Stacks, Tag 01BH] at the identity is the identity.**
 -/
 public theorem globalSectionsMap_id_app_top :
@@ -193,6 +194,7 @@ public theorem globalSectionsMap_id_app_top :
       RingHom.id (baseRing Z) :=
   RingHom.ext (globalSectionsMap_app_top_apply Z (RingHom.id (baseRing Z)))
 
+omit [Subsingleton Z.carrier] in
 /-- **Global sections along the identity scalar map are evaluation on the whole space**, up to
 restriction of scalars along `RingHom.id`.  The two functors are *equal*: they differ only in the
 ring map along which scalars are restricted, and those are equal by

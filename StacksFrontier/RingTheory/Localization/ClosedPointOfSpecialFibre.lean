@@ -148,7 +148,7 @@ theorem isLocalizationOfQuotientMap_comp
         (Algebra.algebraMapSubmonoid ((B ⧸ I) ⧸ J₀) T) T'), ?_, ?_⟩
   · ext b
     rw [hgeq, hheq]
-    show f' (Ideal.Quotient.mk J (f (Ideal.Quotient.mk I b))) =
+    change f' (Ideal.Quotient.mk J (f (Ideal.Quotient.mk I b))) =
       f' ((algebraMap ((B ⧸ I) ⧸ J₀) (C ⧸ J)) (e (Ideal.Quotient.mk I' b)))
     congr 1
   · exact part3
@@ -185,7 +185,7 @@ theorem isLocalization_algebraMapSubmonoid_of_le_aux
     obtain ⟨t, ht⟩ := key
     refine ⟨⟨algebraMap P A (t * sx.val * sy.val), ⟨t * sx.val * sy.val, ?_, rfl⟩⟩, ?_⟩
     · exact mul_mem (mul_mem t.property (hST sx.property)) (hST sy.property)
-    · show algebraMap P A (↑t * sx.val * sy.val) * x = algebraMap P A (↑t * sx.val * sy.val) * y
+    · change algebraMap P A (↑t * sx.val * sy.val) * x = algebraMap P A (↑t * sx.val * sy.val) * y
       have ht' := congrArg (algebraMap P A) ht
       simp only [map_mul] at ht' ⊢
       linear_combination (algebraMap P A t * algebraMap P A sy) * hx -
@@ -231,7 +231,7 @@ lemma loc_of_quot_of_lift {P S : Type*} [CommRing P] [CommRing S]
   have htower : f.comp (algebraMap (P ⧸ RingHom.ker ψ) (B ⧸ I))
       = algebraMap (P ⧸ RingHom.ker ψ) S := by
     ext x
-    show f ((algebraMap (P ⧸ RingHom.ker ψ) (B ⧸ I)) (Ideal.Quotient.mk _ x))
+    change f ((algebraMap (P ⧸ RingHom.ker ψ) (B ⧸ I)) (Ideal.Quotient.mk _ x))
         = (algebraMap (P ⧸ RingHom.ker ψ) S) (Ideal.Quotient.mk _ x)
     rw [hcompat, Ideal.Quotient.lift_mk]
     have hAM : algebraMap (P ⧸ RingHom.ker ψ) (B ⧸ I) (Ideal.Quotient.mk _ x)
@@ -245,7 +245,7 @@ lemma loc_of_quot_of_lift {P S : Type*} [CommRing P] [CommRing S]
     IsLocalization.instQuotientIdealAlgebraMapSubmonoidMapRingHomAlgebraMap M B (RingHom.ker ψ)
   have tower : IsScalarTower (P ⧸ RingHom.ker ψ) (B ⧸ I) S := by
     apply IsScalarTower.of_algebraMap_eq'
-    show algebraMap (P ⧸ RingHom.ker ψ) S
+    change algebraMap (P ⧸ RingHom.ker ψ) S
         = (algebraMap (B ⧸ I) S).comp (algebraMap (P ⧸ RingHom.ker ψ) (B ⧸ I))
     have hAB : (algebraMap (B ⧸ I) S) = f := rfl
     rw [hAB, htower]
@@ -253,7 +253,7 @@ lemma loc_of_quot_of_lift {P S : Type*} [CommRing P] [CommRing S]
     rintro _ ⟨m, hm, rfl⟩
     have heq : algebraMap (P ⧸ RingHom.ker ψ) S (algebraMap P (P ⧸ RingHom.ker ψ) m) = ψ m := by
       rw [hcompat]
-      show Ideal.Quotient.lift (RingHom.ker ψ) ψ _ (Ideal.Quotient.mk (RingHom.ker ψ) m) = ψ m
+      change Ideal.Quotient.lift (RingHom.ker ψ) ψ _ (Ideal.Quotient.mk (RingHom.ker ψ) m) = ψ m
       rw [Ideal.Quotient.lift_mk]
     rw [heq]
     exact hM ⟨m, hm⟩
@@ -307,9 +307,9 @@ theorem exists_isLocalizationOfQuotientMap
     set kl : Q →+* S := Ideal.Quotient.lift (RingHom.ker ψ) ψ (fun a ha ↦ ha) with hkl
     have hcompat : kl = ι.comp e'.toRingHom := by
       refine Ideal.Quotient.ringHom_ext (RingHom.ext fun p ↦ ?_)
-      show kl (Ideal.Quotient.mk _ p) = ι (e' (Ideal.Quotient.mk _ p))
+      change kl (Ideal.Quotient.mk _ p) = ι (e' (Ideal.Quotient.mk _ p))
       rw [hkl, Ideal.Quotient.lift_mk]
-      show ψ p = ι (equivφ (eqQ (Ideal.Quotient.mk (RingHom.ker ψ) p)))
+      change ψ p = ι (equivφ (eqQ (Ideal.Quotient.mk (RingHom.ker ψ) p)))
       have hinner : equivφ (eqQ (Ideal.Quotient.mk (RingHom.ker ψ) p)) = φ p := by
         rw [show eqQ (Ideal.Quotient.mk (RingHom.ker ψ) p)
               = Ideal.Quotient.mk (RingHom.ker φ.toRingHom) p from rfl, hequivφ]
@@ -385,14 +385,14 @@ private theorem sup_maximalIdeal_ne_top_of_valuationSubring
   have hsubtypeτ : (A.toSubring.subtype).comp τ = σ := by
     apply MvPolynomial.ringHom_ext
     · intro r
-      show A.toSubring.subtype (τ (MvPolynomial.C r)) = σ (MvPolynomial.C r)
+      change A.toSubring.subtype (τ (MvPolynomial.C r)) = σ (MvPolynomial.C r)
       rw [hτ, MvPolynomial.eval₂Hom_C]
-      show (gR r : κ) = σ (MvPolynomial.C r)
+      change (gR r : κ) = σ (MvPolynomial.C r)
       rw [hgR]
-      show σ (algebraMap R P r) = σ (MvPolynomial.C r)
+      change σ (algebraMap R P r) = σ (MvPolynomial.C r)
       rw [MvPolynomial.algebraMap_eq]
     · intro j
-      show A.toSubring.subtype (τ (MvPolynomial.X j)) = σ (MvPolynomial.X j)
+      change A.toSubring.subtype (τ (MvPolynomial.X j)) = σ (MvPolynomial.X j)
       rw [hτ, MvPolynomial.eval₂Hom_X']
       rfl
   have hsubtypeτ' : ∀ p : P, (τ p : κ) = σ p := fun p ↦ RingHom.congr_fun hsubtypeτ p
@@ -598,7 +598,7 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
   have hgΨ : g.comp Ψ.toRingHom = aq := by
     apply MvPolynomial.ringHom_ext
     · intro r
-      show g (Ψ (MvPolynomial.C r)) = aq (MvPolynomial.C r)
+      change g (Ψ (MvPolynomial.C r)) = aq (MvPolynomial.C r)
       rw [hΨ, MvPolynomial.aeval_C,
         show algebraMap R Lq' r = aq' (MvPolynomial.C r) by
           rw [IsScalarTower.algebraMap_apply R P Lq', MvPolynomial.algebraMap_eq],
@@ -606,7 +606,7 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
         show algebraMap R Lq r = aq (MvPolynomial.C r) by
           rw [IsScalarTower.algebraMap_apply R P Lq, MvPolynomial.algebraMap_eq]]
     · intro j
-      show g (Ψ (MvPolynomial.X j)) = aq (MvPolynomial.X j)
+      change g (Ψ (MvPolynomial.X j)) = aq (MvPolynomial.X j)
       rw [hΨX]
       by_cases hj : j = i
       · subst hj; rw [hwi, hgyiI]
@@ -633,7 +633,7 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
   have hg'Φ : g'.comp Φ.toRingHom = aq' := by
     apply MvPolynomial.ringHom_ext
     · intro r
-      show g' (Φ (MvPolynomial.C r)) = aq' (MvPolynomial.C r)
+      change g' (Φ (MvPolynomial.C r)) = aq' (MvPolynomial.C r)
       rw [hΦ, MvPolynomial.aeval_C,
         show algebraMap R Lq r = aq (MvPolynomial.C r) by
           rw [IsScalarTower.algebraMap_apply R P Lq, MvPolynomial.algebraMap_eq],
@@ -641,20 +641,20 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
         show algebraMap R Lq' r = aq' (MvPolynomial.C r) by
           rw [IsScalarTower.algebraMap_apply R P Lq', MvPolynomial.algebraMap_eq]]
     · intro j
-      show g' (Φ (MvPolynomial.X j)) = aq' (MvPolynomial.X j)
+      change g' (Φ (MvPolynomial.X j)) = aq' (MvPolynomial.X j)
       rw [hΦX]
       by_cases hj : j = i
       · subst hj; rw [hvi, hg'xiI]
       · rw [hvj j hj, map_mul, hg'comp, hΨX, hwj j hj, hg'xiI, mul_assoc, hmulY', mul_one]
   have hgg' : g.comp g' = RingHom.id Lq := by
     apply IsLocalization.ringHom_ext q.primeCompl
-    show (g.comp g').comp aq = (RingHom.id Lq).comp aq
+    change (g.comp g').comp aq = (RingHom.id Lq).comp aq
     rw [RingHom.comp_assoc]
     have : g'.comp aq = Ψ.toRingHom := RingHom.ext (fun z ↦ hg'comp z)
     rw [this, hgΨ, RingHom.id_comp]
   have hg'g : g'.comp g = RingHom.id Lq' := by
     apply IsLocalization.ringHom_ext q'.primeCompl
-    show (g'.comp g).comp aq' = (RingHom.id Lq').comp aq'
+    change (g'.comp g).comp aq' = (RingHom.id Lq').comp aq'
     rw [RingHom.comp_assoc]
     have : g.comp aq' = Φ.toRingHom := RingHom.ext (fun z ↦ hgcomp' z)
     rw [this, hg'Φ, RingHom.id_comp]
@@ -698,7 +698,7 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
       intro r
       rw [hσ, RingHom.comp_apply]
       rw [show Φ.toRingHom (algebraMap R P r) = aq (algebraMap R P r) from ?_, hρaq]
-      · show Φ (algebraMap R P r) = aq (algebraMap R P r)
+      · change Φ (algebraMap R P r) = aq (algebraMap R P r)
         rw [show aq (algebraMap R P r) = algebraMap R Lq r from
           (IsScalarTower.algebraMap_apply R P Lq r).symm, Φ.commutes]
     have hmemX : ∀ j, σ (MvPolynomial.X j) ∈ A := by
@@ -709,12 +709,12 @@ lemma exists_goodPosition_isLocalizationOfQuotientMap
     have hkerσ : ∀ p : P, p ∈ q' ↔ σ p = 0 := by
       intro p
       rw [hq']
-      show Φ.toRingHom p ∈ IsLocalRing.maximalIdeal Lq ↔ σ p = 0
+      change Φ.toRingHom p ∈ IsLocalRing.maximalIdeal Lq ↔ σ p = 0
       rw [← hkerρ (Φ.toRingHom p), hσ]; rfl
     have hσf : σ.comp (algebraMap R P) = toκ.comp (algebraMap R P) := RingHom.ext hσC
     exact fun htop ↦ sup_maximalIdeal_ne_top_of_valuationSubring A σ (hσf ▸ hArange) hmemX q'
       (fun p hp ↦ (hkerσ p).mp hp) htop
-  · show g.comp (algebraMap R Lq') = algebraMap R Lq
+  · change g.comp (algebraMap R Lq') = algebraMap R Lq
     rw [IsScalarTower.algebraMap_eq R P Lq', ← RingHom.comp_assoc,
       show g.comp aq' = Φ.toRingHom from RingHom.ext hgcomp']
     exact AlgHom.comp_algebraMap Φ
@@ -745,7 +745,7 @@ theorem exists_goodPosition_prime_localization
   obtain ⟨i₀, _, hlamne, hinv, hvars⟩ :=
     pick_max_val κ A n (fun j ↦ toκ (MvPolynomial.X j)) ⟨i, hi⟩
   have hxi : MvPolynomial.X i₀ ∉ q := fun hmem ↦ hlamne <| by
-    show toκ (MvPolynomial.X i₀) = 0
+    change toκ (MvPolynomial.X i₀) = 0
     rw [htoκ, RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem.mpr hmem, map_zero]
   exact exists_goodPosition_isLocalizationOfQuotientMap R n q hq i₀ hxi A hA hvars hinv
 

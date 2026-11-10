@@ -1280,7 +1280,7 @@ theorem splitRestrictionExtHom_extClass_of_hom
       τ₃ := (splitRestrictionIso i π F).hom
       comm₁₂ := hv.symm
       comm₂₃ := hv' }
-  show (Abelian.Ext.mk₀ (splitRestrictionIso i π F).inv).comp
+  change (Abelian.Ext.mk₀ (splitRestrictionIso i π F).inv).comp
       ((hT.extClass.mapExactFunctor (splitRestriction i π)).comp
         (Abelian.Ext.mk₀ (splitRestrictionIso i π K).hom) (add_zero 1)) (zero_add 1) =
     hS.extClass

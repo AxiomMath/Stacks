@@ -253,7 +253,7 @@ def fullyFaithfulPushforwardCoherent
 /-- **Essential surjectivity of Stacks 08AM.**  Every coherent `𝒪_X`-module annihilated by the
 ideal `ℐ` cutting out `Z` is the direct image of a coherent `𝒪_Z`-module, by
 `AlgebraicGeometry.Space.exists_isCoherent_modulePushforward_iso_of_annihilatedByKerIdeal`. -/
-def essSurj_pushforwardCoherent
+theorem essSurj_pushforwardCoherent
     (hX : HasEtaleLocalProperty B S hS X.1 (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (hZ : HasEtaleLocalProperty B S hS Z.1 (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (i : Z ⟶ X) (hi : IsClosedImmersion B S hS i.hom) :
@@ -266,7 +266,7 @@ def essSurj_pushforwardCoherent
 
 /-- `AlgebraicGeometry.Space.pushforwardCoherent` is an equivalence: it is fully faithful and
 essentially surjective. -/
-def isEquivalence_pushforwardCoherent
+theorem isEquivalence_pushforwardCoherent
     (hX : HasEtaleLocalProperty B S hS X.1 (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (hZ : HasEtaleLocalProperty B S hS Z.1 (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (i : Z ⟶ X) (hi : IsClosedImmersion B S hS i.hom) :

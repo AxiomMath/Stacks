@@ -30,8 +30,9 @@ site along the two equivalences that `Stacks.Duality.HasDualizingModelOn` seals:
 `V ≅ Spec Γ(X, V)` and the equivalence `Scheme.Modules.overEquiv V` between modules on the open
 subscheme and on the slice site. Along an equivalence carrying tensor products to tensor products
 the derived internal hom is carried to the derived internal hom and the evaluation morphism to the
-evaluation morphism; that is `CategoryTheory.InternalHomTransfer.exists_iso_and_isIso_iff_of_equivalence`,
-whose only input is the tensor comparison, naturally in the first variable.
+evaluation morphism; that is
+`CategoryTheory.InternalHomTransfer.exists_iso_and_isIso_iff_of_equivalence`, whose only input is
+the tensor comparison, naturally in the first variable.
 
 ## Main results
 
@@ -103,7 +104,8 @@ local instance abelianOpen (X : Scheme.{u}) (U : X.Opens) :
 /-- Sheaves of modules on the slice ringed site form an abelian category, supplied as a term. -/
 local instance abelianSliceSite (X : Scheme.{u}) (U : X.Opens) :
     Abelian (_root_.SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)) :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)) :=
   abelianSlice X U
 
 namespace AlgebraicGeometry.RingedSite
@@ -195,8 +197,8 @@ theorem isInvertible_derivedSheafHom_derivedTilde [IsNoetherianRing R]
     IsInvertible (((derivedSheafHom (Spec R).sheaf).obj
       (op ((derivedTildeStructureSheafModules R).obj ω))).obj
         ((derivedTildeStructureSheafModules R).obj ω')) := by
-  letI := derivedMonoidalStructure (Spec R).sheaf
-  letI := derivedSymmetricStructure (Spec R).sheaf
+  let := derivedMonoidalStructure (Spec R).sheaf
+  let := derivedSymmetricStructure (Spec R).sheaf
   obtain ⟨P, hP, ⟨u⟩⟩ := exists_isInvertible_tensor_iso_derivedTildeStandard R hω hω'
   set A := (derivedTildeStructureSheafModules R).obj ω
   set A' := (derivedTildeStructureSheafModules R).obj ω'
@@ -273,7 +275,8 @@ def overEquivDerivedTensorNatIso :
       (Stacks.Cohomology.SliceDerivedSheafHom.kFlatTensorBridge
         ((Stacks.SheafOfModules.ringedSite X.sheaf).over U)).symm
       ((Functor.whiskeringRight _ _ _).obj (overEquivDerivedEquivalence X U).functor)
-  have transported := derivedTransportIsoOfEquivalence (sheafTensor.{u, u, u, u, u} (sliceRingSheaf X U))
+  have transported :=
+    derivedTransportIsoOfEquivalence (sheafTensor.{u, u, u, u, u} (sliceRingSheaf X U))
       (sheafTensor.{u, u, u, u, u} (openRingSheaf X U)) (overEquivMod X U)
       (overEquivTensorIso X U)
       (fun f B => overEquivTensorIso_naturality_left X U f B)
@@ -343,7 +346,8 @@ objects `A`, `B` of `D(𝒪_X|_U)` on the slice site, `e R𝓗om(A, B) ≅ R𝓗
 evaluation morphism at `(A, B)` is an isomorphism exactly when the one at `(e A, e B)` is. -/
 theorem exists_iso_and_isIso_derivedSheafHomCounit_iff
     (A B : DerivedCategory (_root_.SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O))) :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O))) :
     Nonempty ((overEquivMod X U).functor.mapDerivedCategory.obj
         (((RingedSite.derivedSheafHomBifunctor
           ((Stacks.SheafOfModules.ringedSite X.sheaf).over U)).obj (op A)).obj B) ≅
@@ -368,7 +372,8 @@ structure `AlgebraicGeometry.RingedSite.derivedTensorMonoidal` of the slice site
 product is the derived tensor product of [Stacks, Tag 08J8] on the nose. -/
 theorem isInvertible_derivedTensorMonoidal_of_isInvertible_overEquiv
     (A : DerivedCategory (_root_.SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)))
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)))
     (hA : letI := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal (openRingSheaf X U)
       MonoidalCategory.IsInvertible ((overEquivMod X U).functor.mapDerivedCategory.obj A)) :
     letI := RingedSite.derivedTensorMonoidal ((Stacks.SheafOfModules.ringedSite X.sheaf).over U)
@@ -392,7 +397,8 @@ theorem isInvertible_derivedTensorMonoidal_of_isInvertible_overEquiv
 at the re-seated monoidal structure there. -/
 theorem isInvertible_derivedTensorMonoidal_of_iso
     (A : DerivedCategory (_root_.SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)))
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((Stacks.SheafOfModules.ringedSite X.sheaf).over U).O)))
     {L : DerivedCategory (_root_.SheafOfModules.{u} (PullbackIsoTensor.modRingSheaf U.toScheme))}
     (hL : letI := Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal U.toScheme.sheaf
       MonoidalCategory.IsInvertible L)
@@ -436,7 +442,8 @@ theorem isInvertible_derivedTensorMonoidal_of_iso_pullback
     {W : Scheme.{u}} (V : W.Opens) (hV : IsAffineOpen V)
     (M : DerivedCategory (StructureSheafModules (Spec Γ(W, V)).sheaf))
     (A : DerivedCategory (_root_.SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((Stacks.SheafOfModules.ringedSite W.sheaf).over V).O)))
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((Stacks.SheafOfModules.ringedSite W.sheaf).over V).O)))
     (hM : @MonoidalCategory.IsInvertible _ _
       (DerivedMonoidal.derivedMonoidal (Spec Γ(W, V)).sheaf) M)
     (t : (PullbackIsoTensor.pullbackEquivMod hV.isoSpec.hom).functor.mapDerivedCategory.obj M ≅
@@ -469,8 +476,10 @@ theorem isIso_derivedSheafHomCounit_restrictD_of_iso
         ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K')) ∧
       (letI := RingedSite.derivedTensorMonoidal ((ringedSite W.sheaf).over V);
         IsInvertible (((RingedSite.derivedSheafHomBifunctor ((ringedSite W.sheaf).over V)).obj
-          (op ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K))).obj
-            ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K'))) := by
+          (op ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj
+            K))).obj
+            ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj
+              K'))) := by
   have a := i ≪≫ (Dualizing.mapDerivedCategoryComp (tilde.functor Γ(W, V))
       (Scheme.Modules.restrictFunctor hV.isoSpec.hom)).app ω ≪≫
     (PullbackIsoTensor.restrictFunctorDerivedIsoPullback hV.isoSpec.hom).app
@@ -528,9 +537,11 @@ theorem isIso_derivedSheafHomCounit_restrictD_of_isDualizingComplex
         ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K')) ∧
       (letI := RingedSite.derivedTensorMonoidal ((ringedSite W.sheaf).over V);
         IsInvertible (((RingedSite.derivedSheafHomBifunctor ((ringedSite W.sheaf).over V)).obj
-          (op ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K))).obj
-            ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj K'))) := by
-  letI : IsNoetherianRing Γ(W, V) := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
+          (op ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj
+            K))).obj
+            ((Stacks.Cohomology.SliceDerivedSheafHom.restrictD (ringedSite W.sheaf) V).obj
+              K'))) := by
+  let : IsNoetherianRing Γ(W, V) := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
   obtain ⟨ω, hω, ⟨i⟩⟩ := exists_isDualizingComplex_iso_overFunctor_of_isDualizingComplex V K hV hK
   obtain ⟨ω', hω', ⟨i'⟩⟩ :=
     exists_isDualizingComplex_iso_overFunctor_of_isDualizingComplex V K' hV hK'

@@ -99,9 +99,9 @@ predicate below. In the source that input is Stacks 0A3D, in its clause (2), whi
 `H^p(W ∖ E, F|_{W ∖ E})` for constructible `E` with the filtered colimit of `H^p(V ∖ E, F)` over
 the quasi-compact open neighbourhoods `V` of `E`, where `W` is the set of points specializing
 into `E`. (Clause (1) of that tag, over `W` rather than `W ∖ E`, is the companion statement and
-is not what this induction consumes.) Both clauses of 0A3D are themselves proved, in
-`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/GeneralizationsOfCohomology.lean` and
-`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/GeneralizationsOfComplementCohomology.lean`.
+is not what this induction consumes.) Both clauses of 0A3D are themselves proved, in the files
+`GeneralizationsOfCohomology.lean` and `GeneralizationsOfComplementCohomology.lean` of
+`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/`.
 
 **Nothing of Stacks 0A3G is left open by the library.** Downstream of this file,
 `StacksFrontier/Topology/Sheaves/Cohomology/Vanishing/SpectralSpaces.lean` discharges
@@ -721,7 +721,8 @@ one clause of the tag as an input and returning another, and a declaration shape
 states nothing about the tag. Clause (1) itself, with the dimension hypothesis and no surjectivity
 input, is `Stacks.CohomologyVanishing.subsingleton_sheafH_of_topologicalKrullDim_le`; the whole
 proposition is
-`Stacks.CohomologyVanishing.subsingleton_sheafH_and_surjective_and_subsingleton_supported_of_topologicalKrullDim_eq`.
+`subsingleton_sheafH_and_surjective_and_subsingleton_supported_of_topologicalKrullDim_eq`,
+in the namespace `Stacks.CohomologyVanishing`.
 The proof
 replaces the source's Čech-and-Leray route by induction on `q`: a positive-degree class over a
 quasi-compact open is locally trivial (Stacks 01FW), the quasi-compact opens of a spectral space
@@ -756,7 +757,8 @@ theorem cohomology_subsingleton_of_surjective_top_restrictions
 /-- **Stacks 0A3G, clause (1) in dimension zero.** Let `X` be a spectral space of Krull dimension
 `0` and let `F` be an abelian sheaf on `X`. Then `H^q(X, F) = 0` for every `q > 0`.
 
-This is the base case of the induction on the dimension in Stacks 0A3G: a zero-dimensional spectral space is profinite
+This is the base case of the induction on the dimension in Stacks 0A3G: a zero-dimensional spectral
+space is profinite
 (`isProfiniteStacks_of_topologicalKrullDim_eq_zero`), and on a profinite space positive-degree
 cohomology vanishes (`cohomology_subsingleton_of_isProfiniteStacks`).
 

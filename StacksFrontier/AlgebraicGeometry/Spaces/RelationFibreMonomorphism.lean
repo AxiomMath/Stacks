@@ -219,22 +219,22 @@ private theorem exists_mono_quotientSheafDesc (B : BigFppfSite.{u}) (S : Scheme.
   let G : BigFppfOver B S hS ⥤ Over S := Over.post B.inclusion
   let j := relation B S hS s t
   let _ : G.Full := by
-    show (Over.post (X := B.obj hS) B.inclusion).Full
+    change (Over.post (X := B.obj hS) B.inclusion).Full
     infer_instance
   let _ : G.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful
     infer_instance
   let eU := G.yonedaMapIso U
   let eR := G.yonedaMapIso R
   let k : Stacks.Groupoids.points G (G.obj U) ⟶ F := eU.inv ≫ f
   have hs : yoneda.map s ≫ eU.hom = eR.hom ≫ Stacks.Groupoids.sourceMap G j := by
     ext A a
-    show G.map (a ≫ s) ≫ 𝟙 _ =
+    change G.map (a ≫ s) ≫ 𝟙 _ =
       (G.map a ≫ 𝟙 _) ≫ (prod.lift (G.map t) (G.map s) ≫ prod.snd)
     simp
   have ht : yoneda.map t ≫ eU.hom = eR.hom ≫ Stacks.Groupoids.targetMap G j := by
     ext A a
-    show G.map (a ≫ t) ≫ 𝟙 _ =
+    change G.map (a ≫ t) ≫ 𝟙 _ =
       (G.map a ≫ 𝟙 _) ≫ (prod.lift (G.map t) (G.map s) ≫ prod.fst)
     simp
   have hk : IsPullback (Stacks.Groupoids.sourceMap G j) (Stacks.Groupoids.targetMap G j) k k :=
@@ -251,6 +251,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for the pullback `pullback f f` of presheaves on the big fppf site
 /-- A scheme property tested after representable base change on the two projections of a
 represented kernel pair holds for the two projections themselves. -/
 private theorem kernelPair_property (P : MorphismProperty Scheme.{u})
@@ -304,16 +305,16 @@ private theorem exists_field_quotient_of_kernelPair
     rw [hrt, hrs]
     exact isEquivalenceRelation_of_isPullback B S hS _ t s hR.flip
   have haU : IsAffine ((Over.post (X := B.obj hS) B.inclusion).obj U).left := by
-    show IsAffine (Spec (CommRingCat.of p.carrier))
+    change IsAffine (Spec (CommRingCat.of p.carrier))
     infer_instance
   have hsf : IsFiniteLocallyFree (relation B S hS s t).source.left := by rwa [hrs]
   have htf : IsFiniteLocallyFree (relation B S hS s t).target.left := by rwa [hrt]
   have hdom : IsDomain Γ(((Over.post (X := B.obj hS) B.inclusion).obj U).left, ⊤) := by
-    show IsDomain Γ(Spec (CommRingCat.of p.carrier), ⊤)
+    change IsDomain Γ(Spec (CommRingCat.of p.carrier), ⊤)
     exact (Scheme.ΓSpecIso (CommRingCat.of p.carrier)).commRingCatIsoToRingEquiv.toMulEquiv.isDomain
       p.carrier
   have hsub : Subsingleton ↥((Over.post (X := B.obj hS) B.inclusion).obj U).left := by
-    show Subsingleton ↥(Spec (CommRingCat.of p.carrier))
+    change Subsingleton ↥(Spec (CommRingCat.of p.carrier))
     infer_instance
   exact exists_field_quotient_of_extendsRelation (relation B S hS s t)
     (groupoidSchemeOfIsEquivalenceRelation (relation B S hS s t))
@@ -333,7 +334,7 @@ private theorem hasMonomorphicFieldRepresentative_of_mono_comp {x : points B S h
   have hfm : fieldMorphism B S hS F p' = g := Equiv.symm_apply_apply _ _
   have hdom : FieldValuedPoint.Dominates B S hS F p p' := by
     refine ⟨m, ?_⟩
-    show F.map m.op (yonedaEquiv g) = p.value
+    change F.map m.op (yonedaEquiv g) = p.value
     rw [yonedaEquiv_naturality g m, hg]
     exact yonedaEquiv_fieldMorphism B S hS F p
   have hclass : p.class B S hS F = p'.class B S hS F :=
@@ -343,6 +344,7 @@ private theorem hasMonomorphicFieldRepresentative_of_mono_comp {x : points B S h
   infer_instance
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for the sheafification and the pullbacks of presheaves on the big fppf site
 private theorem hasMonomorphicFieldRepresentative_of_quotient
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
     (hFsh : Presheaf.IsSheaf (BigFppfOver.topology B S hS) F) {x : points B S hS F}
@@ -369,23 +371,23 @@ private theorem hasMonomorphicFieldRepresentative_of_quotient
   let U' : BigFppfOver B S hS := Over.mk (⟨b'⟩ : B.obj hk' ⟶ B.obj hS)
   let G : BigFppfOver B S hS ⥤ Over S := Over.post B.inclusion
   let _ : G.Full := by
-    show (Over.post (X := B.obj hS) B.inclusion).Full
+    change (Over.post (X := B.obj hS) B.inclusion).Full
     infer_instance
   let _ : G.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful
     infer_instance
   let eU : yoneda.obj U ≅ Stacks.Groupoids.points G (G.obj U) := G.yonedaMapIso U
   let eU' : yoneda.obj U' ≅ Stacks.Groupoids.points G (Over.mk b') := G.yonedaMapIso U'
   let gpre : yoneda.obj U' ⟶ F := eU'.hom ≫ inv w.hom ≫ d.hom
   have _ : Mono gpre := by
-    show Mono (eU'.hom ≫ inv w.hom ≫ d.hom)
+    change Mono (eU'.hom ≫ inv w.hom ≫ d.hom)
     infer_instance
   let m : U ⟶ U' := G.preimage (show G.obj U ⟶ G.obj U' from q)
   have hm : G.map m = q := G.map_preimage (show G.obj U ⟶ G.obj U' from q)
   have h1 : yoneda.map m ≫ eU'.hom = eU.hom ≫
       (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft (yoneda.map q) := by
     ext A a
-    show G.map (a ≫ m) = G.map a ≫ q
+    change G.map (a ≫ m) = G.map a ≫ q
     rw [G.map_comp, hm]
   refine hasMonomorphicFieldRepresentative_of_mono_comp B S hS F p hpx hk' b' m gpre ?_
   calc yoneda.map m ≫ gpre

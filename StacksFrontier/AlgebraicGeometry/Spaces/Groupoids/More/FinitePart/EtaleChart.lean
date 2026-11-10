@@ -106,7 +106,7 @@ private theorem isStableUnderBaseChange_inverseImage_isOpenImmersion
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS)).IsStableUnderBaseChange := by
   refine ⟨fun hpb hg => ?_⟩
   change AlgebraicGeometry.IsOpenImmersion (BigFppfOver.toScheme B S hS |>.map _) at hg
-  show AlgebraicGeometry.IsOpenImmersion (BigFppfOver.toScheme B S hS |>.map _)
+  change AlgebraicGeometry.IsOpenImmersion (BigFppfOver.toScheme B S hS |>.map _)
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback (hpb.map _) hg
 
 /-- **Stacks 04QE.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` and let `U` be
@@ -174,7 +174,7 @@ theorem isEtale_of_isEtale_comp_baseMap
       (MorphismProperty.relative_map_iff (F := yoneda) (P := Popen)).mp hmOpenPresheaf
     have _ : Etale (Q.map k₂) := hbase.property_snd (q ≫ g)
     have : P (m ≫ k₂) := by
-      show Etale (Q.map (m ≫ k₂))
+      change Etale (Q.map (m ≫ k₂))
       rw [Q.map_comp]
       infer_instance
     rwa [hm₂] at this

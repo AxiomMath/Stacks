@@ -103,9 +103,9 @@ theorem firstChernTotal_eq_homComponent_totalChern :
   rw [homComponent_apply]
   by_cases hp : p = 1
   · subst hp
-    rw [if_pos rfl, firstChernTotal_apply_one]
+    rw [ite_eq_left rfl, firstChernTotal_apply_one]
     exact (totalChern_apply C sY L 1 1).symm
-  · rw [if_neg hp, firstChernTotal_apply_of_ne C sY L hp]
+  · rw [ite_eq_right hp, firstChernTotal_apply_of_ne C sY L hp]
 
 /-- **Restriction of the first Chern class**: the restriction of `c_1(ℒ)` along `h : Y' ⟶ Y` is
 `c_1(h^*ℒ)`. -/
@@ -234,7 +234,7 @@ theorem perfectChernClass_derivedTwist (perfect : RingedSpace.IsPerfect.{u, u + 
   set H := definedChernClasses.some
   have := isInvertible_pullback H.f L
   refine (eq_perfectChernClass C sX _ (H.twist L) ?_).symm
-  show TotalChowClass.res H.f rfl _ =
+  change TotalChowClass.res H.f rfl _ =
     complexChern C (H.f ≫ sX) (isLocallyBoundedFiniteLocallyFree_twistComplex H.locallyBounded _)
   rw [TotalChowClass.res_twist, TotalChowClass.res_firstChernTotal,
     res_perfectChernClass C sX definedChernClasses H]

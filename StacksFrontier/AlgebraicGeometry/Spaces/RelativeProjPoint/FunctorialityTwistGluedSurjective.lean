@@ -81,7 +81,8 @@ local notation "𝔰₁" => RelativeProjSituation.mk B S hS X 𝒜₁ h₁c h₁
 
 /-- **Stacks 085H (3), surjectivity: the maps `θ : r_ψ^*𝒪_P(n) ⟶ 𝒪_Q(n)` are surjective** when
 `ψ_d` is surjective for `d ≫ 0`. -/
-@[stacks 085H "(3), first half: the maps θ : r_ψ^*O_P(n) → O_Q(n) are surjective (θ the glued map of 085F, twistMap), for ψ_d surjective for d ≫ 0"]
+@[stacks 085H "(3), first half: the maps θ : r_ψ^*O_P(n) → O_Q(n) are surjective \
+(θ the glued map of 085F, twistMap), for ψ_d surjective for d ≫ 0"]
 theorem epi_twistMap
     (hsurj : ∀ᶠ d : ℕ in atTop, Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X.1)
       ((PresheafOfModules.toPresheaf _).map (ψ.app (d : ℤ)).val))

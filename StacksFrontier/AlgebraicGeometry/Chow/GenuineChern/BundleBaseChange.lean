@@ -255,7 +255,7 @@ theorem baseChangeGradedHom_of (W : X.AffineZariskiSite) (W' : X'.AffineZariskiS
           (Opposite.op W'.toOpens)
           (Scheme.Modules.pullbackSection g ((symSituation E).algebra.piece (n : ℤ)) W.toOpens
             W'.toOpens h a)) := by
-  show situationSectionRingHomInv E' hqc' W'.toOpens
+  change situationSectionRingHomInv E' hqc' W'.toOpens
       (Stacks.RelativeProj.Situation.sectionRingBaseChange (s := symSituation E)
         (s' := symSituation E') g (Stacks.RelativeProj.symmetricSituationPullbackHom g E E' hE)
         W.toOpens W'.toOpens h (situationSectionRingHom E hqc W.toOpens

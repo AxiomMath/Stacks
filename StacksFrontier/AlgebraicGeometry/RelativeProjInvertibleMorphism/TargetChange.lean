@@ -188,7 +188,7 @@ theorem epi_baseChangeUp_app_iff (χ : Twisting f' (baseAlgebra g A) d L) (i : �
     Epi ((χ.baseChangeUp g f' A d).app i) ↔ Epi (χ.app i) := by
   change Epi (baseChangeUpApp g f' A d χ i) ↔ _
   unfold baseChangeUpApp
-  haveI : Epi (compComparison f' g (A.piece (i * d))) := IsIso.epi_of_iso _
+  have : Epi (compComparison f' g (A.piece (i * d))) := IsIso.epi_of_iso _
   exact epi_comp_iff_of_epi (compComparison f' g (A.piece (i * d))) (χ.app i)
 
 end BaseChange

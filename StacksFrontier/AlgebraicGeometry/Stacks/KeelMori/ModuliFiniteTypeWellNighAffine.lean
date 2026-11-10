@@ -209,7 +209,7 @@ theorem isLocallyOfFiniteType_of_isWellNighAffine_of_isCategoricalModuliSpace
   obtain ⟨ε⟩ := hq
   have hqK : Nonempty (K.moduliMap.hom ≫ (associatedMap B S hS (e.hom ≫ q).hom).1 ≅ p.hom) := by
     refine ⟨eqToIso ?_ ≪≫ ε⟩
-    show K.moduliMap.hom ≫ (associatedMap B S hS (e.hom.hom ≫ q.hom)).1 = _
+    change K.moduliMap.hom ≫ (associatedMap B S hS (e.hom.hom ≫ q.hom)).1 = _
     rw [associatedMap_comp, ← Category.assoc, he]
   have h := K.isLocallyOfFiniteType_of_comp_moduliMap hY p hp (e.hom ≫ q) hqK
   have hq' : q.hom = e.inv.hom ≫ (e.hom ≫ q).hom :=

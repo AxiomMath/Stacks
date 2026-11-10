@@ -148,16 +148,15 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_comp_chartFractionMa
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     {T U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)}
     [IsAffine T.scheme.left.1] [IsAffine U.scheme.left.1] (c : T ⟶ U)
-    (hCof : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (y : FractionRing Γ(U.scheme.left.1, ⊤)) :
-    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec T hCof
+    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec T
         (chartFractionMap B S hS c.hom
           (ElementaryEtaleNeighborhood.nonZeroDivisors_le_comap_hom B S hS hX c) y) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof y := by
-  have h : (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec T hCof).comp
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U y := by
+  have h : (Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec T).comp
         (chartFractionMap B S hS c.hom
           (ElementaryEtaleNeighborhood.nonZeroDivisors_le_comap_hom B S hS hX c)) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof := by
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U := by
     refine IsLocalization.ringHom_ext (Γ(U.scheme.left.1, ⊤))⁰ (RingHom.ext fun a => ?_)
     rw [RingHom.comp_apply, RingHom.comp_apply, RingHom.comp_apply, chartFractionMap_algebraMap,
       PrimeDivisor.neighborhoodTotalFractionRingToGeneric,
@@ -189,17 +188,16 @@ theorem PrimeDivisor.neighborhoodTotalFractionRingToGeneric_neighborhoodFlatRead
     {V U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)}
     [IsAffine V.scheme.left.1] [IsLocallyNoetherian V.scheme.left.1]
     [IsAffine U.scheme.left.1] [IsLocallyNoetherian U.scheme.left.1] (c : V ⟶ U)
-    (hCof : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (g : rationalFunctions B S hS hT) :
-    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V hCof
+    Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec V
         (neighborhoodFlatReading B S hS hX hT hintT f hf V g) =
-      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof
+      Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
         (neighborhoodFlatReading B S hS hX hT hintT f hf U g) := by
   rw [neighborhoodFlatReading, neighborhoodFlatReading,
     rationalFunctionsToTotalFractionRingOfFlat_comp B S hS hT hintT (V.toSpace ≫ f) _
       (U.toSpace ≫ f) _ c.hom (by rw [← Category.assoc, c.over])
       (ElementaryEtaleNeighborhood.nonZeroDivisors_le_comap_hom B S hS hX c) g]
-  exact Z.neighborhoodTotalFractionRingToGeneric_comp_chartFractionMap B S hS hX hdec c hCof _
+  exact Z.neighborhoodTotalFractionRingToGeneric_comp_chartFractionMap B S hS hX hdec c _
 
 /-- **The reading at the generic point of a prime divisor, on any affine neighbourhood.** The
 reading `AlgebraicGeometry.Space.PrimeDivisor.rationalFunctionsToGenericTotalFractionRingOfFlat`
@@ -214,8 +212,6 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRingOfFlat_eq_neighb
       henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
     Z.rationalFunctionsToGenericTotalFractionRingOfFlat B S hS hX hdec hN hT hintT f hf g =
       Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U
-        (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-          (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩)
         (neighborhoodFlatReading B S hS hX hT hintT f hf U g) := by
   let := Z.isLocallyNoetherian_chart B S hS hX hN U
   let : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
@@ -228,8 +224,6 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRingOfFlat_eq_neighb
   have hgen : Z.rationalFunctionsToGenericTotalFractionRingOfFlat B S hS hX hdec hN hT hintT f
       hf g = Z.neighborhoodTotalFractionRingToGeneric B S hS hX hdec
         (Z.genericChart B S hS hX hdec)
-        (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-          (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩)
         (neighborhoodFlatReading B S hS hX hT hintT f hf (Z.genericChart B S hS hX hdec) g) :=
     rfl
   rw [hgen, ← Z.neighborhoodTotalFractionRingToGeneric_neighborhoodFlatReading_comp B S hS hX
@@ -357,18 +351,14 @@ theorem PrimeDivisor.exists_henselianLocalRingHom_rationalFunctionsToGenericTota
             (chartGlobalSectionsRestrict B S hS (r.hom ≫ j₀) a) :=
       map_stalkToHenselianLocalRing_germ_eq_neighborhoodSections B S hS hX hdec Z hY _ j₀ hj₀ r φ
         hcompat₀
-    have hCofX := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-      (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
-    have hCofY := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS Y hY
-      (W.genericPoint B S hS Y) ⟨V⟩
     intro g
     rw [Z.rationalFunctionsToGenericTotalFractionRingOfFlat_eq_neighborhood B S hS hX hdec hN
         hY hintY f hf U g, neighborhoodFlatReading,
       rationalFunctionsToTotalFractionRingOfFlat_comp B S hS hY hintY (U.toSpace ≫ f) _
         V.toSpace (isFlat_of_isEtale B S hS V.etale_toSpace) (r.hom ≫ j₀) hsq hj g,
-      ← W.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hY hdecY hintY hNY V hCofY]
+      ← W.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hY hdecY hintY hNY V]
     exact neighborhoodTotalFractionRingToGeneric_chartFractionMap B S hS hX hY hdec hdecY Z W U
-      V hCofX hCofY (r.hom ≫ j₀) hj φ _ hcompat _
+      V (r.hom ≫ j₀) hj φ _ hcompat _
   · let := stalkAlgebra B S hS X hX (Z.genericPoint B S hS X) hdec U₀
     have : IsLocalRing.IsHenselization (U₀.scheme.left.1.presheaf.stalk U₀.point)
         (ResidueField (U₀.scheme.left.1.presheaf.stalk U₀.point))
@@ -416,7 +406,7 @@ private theorem natCast_toNat_mul_sub_toNat_mul (L x y : ℕ∞) (hx : x ≠ ⊤
   · lift L to ℕ using hL
     lift x to ℕ using hx
     lift y to ℕ using hy
-    simp only [← ENat.coe_mul, ENat.toNat_coe]
+    simp only [← ENat.natCast_mul, ENat.toNat_natCast]
     push_cast
     ring
 
@@ -509,7 +499,7 @@ theorem PrimeDivisor.exists_natCast_ord_sub_eq_length_mul_ordRationalFunction
   rw [toNat_ord_sub_eq_of_mk'_eq (Z.genericTotalFractionRing B S hS hX hdec) a b ⟨_, hφa⟩ ⟨_, hφb⟩
     hread, ordRationalFunction_eq_length_sub_length B S hS hY hintY hNY g W a' b' hab',
     ← hlen]
-  show (((Ring.ord _ (φ (a' : ↥(W.genericHenselianLocalRing B S hS hY
+  change (((Ring.ord _ (φ (a' : ↥(W.genericHenselianLocalRing B S hS hY
       hintY.isDecentSpace)))).toNat : ℕ) : ℤ) -
     ((Ring.ord _ (φ (b' : ↥(W.genericHenselianLocalRing B S hS hY
       hintY.isDecentSpace)))).toNat : ℤ) = _
@@ -576,7 +566,7 @@ theorem PrimeDivisor.natCast_ord_sub_eq_zero_of_pointsMap_eq_genericPoint
   have hηgen : _root_.AlgebraicGeometry.Space.genericPoint B S hS hY hintY ∈
       genericPoints (points B S hS Y) := by
     have : IrreducibleSpace (points B S hS Y) := hintY.2.2
-    show closure {_root_.AlgebraicGeometry.Space.genericPoint B S hS hY hintY} ∈
+    change closure {_root_.AlgebraicGeometry.Space.genericPoint B S hS hY hintY} ∈
       irreducibleComponents (points B S hS Y)
     rw [(_root_.AlgebraicGeometry.Space.isGenericPoint_genericPoint B S hS hY hintY).def]
     exact ⟨IrreducibleSpace.isIrreducible_univ _, fun _ _ _ => Set.subset_univ _⟩
@@ -607,8 +597,6 @@ theorem PrimeDivisor.natCast_ord_sub_eq_zero_of_pointsMap_eq_genericPoint
       (Q := FractionRing Γ(V.scheme.left.1, ⊤)) ?_
     rw [← IsLocalization.mk'_spec (FractionRing Γ(V.scheme.left.1, ⊤)) s t, hst]
     exact (g.isUnit.map _).mul (IsLocalization.map_units _ t)
-  have hCofX := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
   have hread : Z.rationalFunctionsToGenericTotalFractionRingOfFlat B S hS hX hdec hN hY hintY f hf
       (g : rationalFunctions B S hS hY) =
       IsLocalization.mk' (Z.genericTotalFractionRing B S hS hX hdec)
@@ -624,7 +612,7 @@ theorem PrimeDivisor.natCast_ord_sub_eq_zero_of_pointsMap_eq_genericPoint
   rw [toNat_ord_sub_eq_of_mk'_eq (Z.genericTotalFractionRing B S hS hX hdec) a b
     ⟨_, (hunit _ hs).mem_nonZeroDivisors⟩ ⟨_, (hunit _ t.2).mem_nonZeroDivisors⟩
     (hab.trans hread)]
-  show (((Ring.ord _ (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U
+  change (((Ring.ord _ (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U
       (chartGlobalSectionsRestrict B S hS (r.hom ≫ j₀) s))).toNat : ℕ) : ℤ) -
     ((Ring.ord _ (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U
       (chartGlobalSectionsRestrict B S hS (r.hom ≫ j₀) (t : Γ(V.scheme.left.1, ⊤))))).toNat :

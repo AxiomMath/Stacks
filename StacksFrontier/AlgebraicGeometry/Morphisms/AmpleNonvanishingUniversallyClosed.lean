@@ -102,7 +102,7 @@ theorem isAffineOpen_nonvanishingOpen_of_isAmple (hL : Stacks.Ample.IsAmple X L)
       (natTensorPow L 1)).apply_symm_apply _
   have hnv : nvOpen L a = nonvanishingOpen X L s := by
     refine TopologicalSpace.Opens.ext ?_
-    show Stacks.Ample.nonvanishingLocus (natTensorPow L 1) (globalSection X _ a) = _
+    change Stacks.Ample.nonvanishingLocus (natTensorPow L 1) (globalSection X _ a) = _
     rw [hgs]
     exact Stacks.Ample.nonvanishingLocus_congr (oneIso L).symm s
   rw [← hnv, ← Stacks.SectionRingProjMorphism.projHomOfIsAmple_preimage_projBasicOpen L hL a
@@ -139,7 +139,7 @@ theorem isAffineHom_nonvanishingOpen {X S : Scheme.{u}} (f : X ⟶ S) [Universal
   have hYU : nonvanishingOpen Y.toScheme ((modulePullback Y.ι.toLRSHom.toShHom).obj L)
       (Stacks.NonvanishingPullback.pullbackGlobalSection Y.ι L s) = Y.ι ⁻¹ᵁ U := by
     refine TopologicalSpace.Opens.ext ?_
-    show Stacks.Ample.nonvanishingLocus _ _ = _
+    change Stacks.Ample.nonvanishingLocus _ _ = _
     rw [← Stacks.NonvanishingPullback.preimage_nonvanishingLocus Y.ι L s]
     rfl
   rw [hYU] at hcore

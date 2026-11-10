@@ -101,14 +101,14 @@ theorem associatedPrimes_quotient_primaryComponent
       hp.ne_top ((Ideal.eq_top_iff_one p).mpr ((hpx 1).mpr (by
         simpa using mem_primaryComponent_of_smul_mem J (Ideal.fg_of_isNoetherianRing J) x
           fun a ha => (hpx a).mp (hJ ha))))
-    obtain ⟨f, hfJ, hfp⟩ := SetLike.not_le_iff_exists.mp hJp
+    obtain ⟨f, hfJ, hfp⟩ := IsConcreteLE.not_le_iff_exists.mp hJp
     refine ⟨⟨hp, f ^ n • x, ?_⟩, hJp⟩
     ext b
     rw [Submodule.mem_colon_singleton, Submodule.mem_bot, smul_comm]
     refine ⟨fun hb => hn b hb _ (Ideal.pow_mem_pow hfJ n), fun hb => ?_⟩
     exact mem_of_pow_mul_mem hp hfp n ((hpx _).mpr (by rw [mul_smul, hb]; exact zero_mem _))
   · rintro ⟨⟨hp, x, hx⟩, hJp⟩
-    obtain ⟨g, hgJ, hgp⟩ := SetLike.not_le_iff_exists.mp hJp
+    obtain ⟨g, hgJ, hgp⟩ := IsConcreteLE.not_le_iff_exists.mp hJp
     have hax : ∀ a : A, a ∈ p ↔ a • x = 0 := fun a => by
       rw [hx, Submodule.mem_colon_singleton, Submodule.mem_bot]
     refine ⟨hp, (Ideal.primaryComponent M J).mkQ x, ?_⟩

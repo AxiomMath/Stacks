@@ -103,10 +103,10 @@ theorem exists_iso_of_isPullback_of_hasStableContractionFibres {X₁ X₂ Y₁ Y
     (Y₂ := Y₂.ofIsPullback B hZ (t₂ ≫ eqToHom hb₂.symm) pY₂ fY₂
       (Y₂.isPullback_toBase_of_isPullback_toBase_comp_eqToHom hb₂ t₂ sqY₂))
     (hb₁ := rfl) (hb₂ := rfl) hXF hg hgen (hb hc₁₂) (hb hc₂₂)
-    (isUniversalStructureContraction_ofIsPullback t₁ sq₁ sqY₁ hc₁₁ hc₁₂ h1₁)
-    (isUniversalStructureContraction_ofIsPullback t₂ sq₂ sqY₂ hc₂₁ hc₂₂ h1₂)
-    (hasStableContractionFibres_ofIsPullback t₁ sq₁ sqY₁ hc₁₁ hc₁₂ h2₁)
-    (hasStableContractionFibres_ofIsPullback t₂ sq₂ sqY₂ hc₂₁ hc₂₂ h2₂)
+    (isUniversalStructureContraction_ofIsPullback t₁ sq₁ sqY₁ hc₁₁ h1₁)
+    (isUniversalStructureContraction_ofIsPullback t₂ sq₂ sqY₂ hc₂₁ h1₂)
+    (hasStableContractionFibres_ofIsPullback t₁ sq₁ sqY₁ hc₁₁ h2₁)
+    (hasStableContractionFibres_ofIsPullback t₂ sq₂ sqY₂ hc₂₁ h2₂)
   refine ⟨e, he, ?_⟩
   rw [← Category.comp_id fY₂, ← Category.comp_id fY₁]
   exact heb

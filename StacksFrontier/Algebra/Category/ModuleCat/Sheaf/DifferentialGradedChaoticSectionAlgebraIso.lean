@@ -198,7 +198,7 @@ theorem sectionAlgebraIso_hom_naturality {V : Cᵒᵖ} (a : V ⟶ U) :
     (systemAlgebra A).sectionRestriction a ≫ (sectionAlgebraIso A U).hom =
       (sectionAlgebraIso A V).hom ≫ (A.map a).restrictBase (ULift.{u} ℤ) :=
   DifferentialGradedAlgebra.hom_eq_of_toAlgebraHom_eq (AlgHom.ext fun x => by
-    show sectionRingHom A U ((systemAlgebra A).sectionRestrictRing a x) =
+    change sectionRingHom A U ((systemAlgebra A).sectionRestrictRing a x) =
       (A.map a).toAlgebraHom (sectionRingHom A V x)
     induction x using DirectSum.induction_on with
     | zero => rw [map_zero, map_zero, map_zero, map_zero]

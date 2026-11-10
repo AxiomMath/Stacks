@@ -172,7 +172,7 @@ theorem kFlat_of_rTensor_exact (C : CochainComplex (ModuleCat.{max u v} R) ℤ)
     C.KFlat := by
   have hseq : ∀ k : ℕ, ((truncLEFromSequence C (m + 1)).obj k).KFlat := by
     intro k
-    show (C.truncLE (m + 1 + k)).KFlat
+    change (C.truncLE (m + 1 + k)).KFlat
     have : ∀ i, Module.Flat R ((C.truncLE (m + 1 + k)).X i) :=
       flat_truncLE_X_of_rTensor_exact C (m + 1 + k)
         (fun M _ _ => hC M (m + 1 + k) (by omega))

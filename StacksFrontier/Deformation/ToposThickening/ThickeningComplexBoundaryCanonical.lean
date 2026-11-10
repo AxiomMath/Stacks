@@ -220,7 +220,6 @@ section Boundary
 variable [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   [HasSheafify Y.J AddCommGrpCat.{w'}] [HasWeakSheafify Y.J AddCommGrpCat.{w'}]
   [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
-  [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
   [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf S.O₃))]
 
 /-- **Stacks Project, Tag 08MM.** Let `(Sh(C), O)` be a ringed topos, `F` an `O`-module and
@@ -316,7 +315,6 @@ namespace FirstOrderThickeningComplex
 
 variable (S : FirstOrderThickeningComplex i) (hS : S.IsComplex)
   [HasExt.{e} (SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
-  [HasExt.{e} (SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
   [HasExt.{e} (SheafOfModules.{max v₂ u₂} (Stacks.SheafOfModules.Tensor.ringSheaf S.O₃))]
 
 /-- **Stacks Project, Tag 08MM**, for the extension `F'₁` that Stacks 08MJ constructs. Let

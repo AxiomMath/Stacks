@@ -154,8 +154,8 @@ presentation over one of the stages `Sᵢ`.
 This is the Stacks statement verbatim apart from the two added hypotheses `IsAffine (D.obj i)`
 and `IsAffine X.left`, and the index hypothesis `CategoryTheory.FinallySmall.{u} I`, which asks
 that `I` have a `u`-small cofinal set of objects; see the module docstring. The quasi-compactness
-and quasi-separatedness hypotheses on `X` are those of the source, and are carried unused, being implied by
-affineness. -/
+and quasi-separatedness hypotheses on `X` are those of the source, and are carried unused, being
+implied by affineness. -/
 @[ega "IV 8.1.1" "special case",
   ega "IV 8.8.2" "special case",
   ega "IV 8.8.3" "special case",

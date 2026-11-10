@@ -110,7 +110,7 @@ private theorem spec_residueFieldMap_eq_ideal_residueFieldMap
     (Spec (CommRingCat.of A)).toLocallyRingedSpace.isLocalRing _
   let : IsLocalRing ((Spec (CommRingCat.of B)).presheaf.stalk q) :=
     (Spec (CommRingCat.of B)).toLocallyRingedSpace.isLocalRing _
-  show (Ideal.ResidueField.map (PrimeSpectrum.comap g q).asIdeal q.asIdeal g rfl).comp
+  change (Ideal.ResidueField.map (PrimeSpectrum.comap g q).asIdeal q.asIdeal g rfl).comp
       (IsLocalRing.ResidueField.map (Spec.stalkIso (.of A)
         (PrimeSpectrum.comap g q)).hom.hom) =
     (IsLocalRing.ResidueField.map (Spec.stalkIso (.of B) q).hom.hom).comp
@@ -248,7 +248,7 @@ private theorem algebraic_residueField_of_algebraic_residueField_tower
   let : pA.IsPrime := Ideal.comap_isPrime _ _
   have hAC : pA = pC.comap (algebraMap A C) := by
     dsimp [pA, pB, pC]
-    show q.comap ((algebraMap B D).comp (algebraMap A B)) =
+    change q.comap ((algebraMap B D).comp (algebraMap A B)) =
       q.comap ((algebraMap C D).comp (algebraMap A C))
     congr 1
     ext a
@@ -261,7 +261,7 @@ private theorem algebraic_residueField_of_algebraic_residueField_tower
   let : Algebra pA.ResidueField q.ResidueField :=
     (Ideal.ResidueField.map pA q (algebraMap A D) (by
       dsimp [pA, pB]
-      show q.comap ((algebraMap B D).comp (algebraMap A B)) = q.comap (algebraMap A D)
+      change q.comap ((algebraMap B D).comp (algebraMap A B)) = q.comap (algebraMap A D)
       congr 1
       ext a
       simp [← IsScalarTower.algebraMap_apply A B D])).toAlgebra
@@ -356,7 +356,7 @@ private theorem stratification_closedPoints_surjective (A : Type u) [CommRing A]
     (stratificationLimit_closedScheme_bijective (A := A) L).2 (eA x)
   let y : PrimeSpectrum A' := eA'.symm (L.inclusion.base z)
   refine ⟨y, ?_, ?_⟩
-  · show IsClosed ({eA' y} : Set (stratificationLimitScheme (A := A)))
+  · change IsClosed ({eA' y} : Set (stratificationLimitScheme (A := A)))
     have hy : L.inclusion.base z ∈ closedPoints (stratificationLimitScheme (A := A)) := by
       rw [← range_inclusion_eq_closedPoints L]
       exact ⟨z, rfl⟩
@@ -383,7 +383,7 @@ private theorem primeSpectrum_quotient_lift
         exact hIq)⟩
   refine ⟨qbar, ?_⟩
   apply PrimeSpectrum.ext
-  show Ideal.comap (Ideal.Quotient.mk I)
+  change Ideal.comap (Ideal.Quotient.mk I)
     (Ideal.map (Ideal.Quotient.mk I) q.asIdeal) = q.asIdeal
   rw [Ideal.comap_map_of_surjective (f := Ideal.Quotient.mk I)
     Ideal.Quotient.mk_surjective]
@@ -409,7 +409,7 @@ private theorem prime_lift_of_quotient_bijective
   let r : PrimeSpectrum S := PrimeSpectrum.comap (Ideal.Quotient.mk J) rbar
   have hbar : PrimeSpectrum.comap f rbar = qbar := by
     apply PrimeSpectrum.ext
-    show Ideal.comap f (Ideal.comap e.symm.toRingHom qbar.asIdeal) = qbar.asIdeal
+    change Ideal.comap f (Ideal.comap e.symm.toRingHom qbar.asIdeal) = qbar.asIdeal
     rw [Ideal.comap_comap]
     have heq : e.symm.toRingHom.comp f = RingHom.id _ := by
       ext x
@@ -424,9 +424,9 @@ private theorem prime_lift_of_quotient_bijective
     rw [← PrimeSpectrum.comap_comp_apply g (Ideal.Quotient.mk J) rbar,
       hcomp, PrimeSpectrum.comap_comp_apply, hbar, hqbar]
   refine ⟨r, ?_, hcontract⟩
-  show J ≤ Ideal.comap (Ideal.Quotient.mk J) rbar.asIdeal
+  change J ≤ Ideal.comap (Ideal.Quotient.mk J) rbar.asIdeal
   intro x hx
-  show Ideal.Quotient.mk J x ∈ rbar.asIdeal
+  change Ideal.Quotient.mk J x ∈ rbar.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
   exact rbar.asIdeal.zero_mem
 
@@ -505,7 +505,7 @@ private theorem exists_initial_extension (A : Type u) [CommRing A] :
       (Under.mk (CommRingCat.ofHom f)) :=
     indZariski_under_to_indEtale A A' hfIndZ
   let : WLocalSpace (PrimeSpectrum A') := by
-    show WLocalSpace (stratificationLimitScheme (A := A))
+    change WLocalSpace (stratificationLimitScheme (A := A))
     exact stratificationLimitScheme_wLocal (A := A)
   have hclosedA' : IsClosed (closedPoints (PrimeSpectrum A')) :=
     WLocalSpace.isClosed_closedPoints
@@ -557,13 +557,13 @@ private theorem exists_initial_extension (A : Type u) [CommRing A] :
       show p ∈ PrimeSpectrum.zeroLocus (I : Set A') by rwa [hzero]
     have hI'q' : I' ≤ q'.asIdeal := by
       apply Ideal.map_le_iff_le_comap.mpr
-      show I ≤ (PrimeSpectrum.comap (algebraMap A' C') q').asIdeal
+      change I ≤ (PrimeSpectrum.comap (algebraMap A' C') q').asIdeal
       simpa [hq'] using hpI
     obtain ⟨y, hyJ, hyq'⟩ :=
       prime_lift_of_quotient_bijective g I' q' hI'q' hquot
     have hyclosed : y ∈ closedPoints (PrimeSpectrum C) := by
       rw [hclosedC]
-      show PrimeSpectrum.comap ((algebraMap C' C).comp (algebraMap A' C')) y ∈
+      change PrimeSpectrum.comap ((algebraMap C' C).comp (algebraMap A' C')) y ∈
         closedPoints (PrimeSpectrum A')
       rwa [PrimeSpectrum.comap_comp_apply, hyq', hq']
     refine ⟨y, hyclosed, ?_⟩
@@ -609,7 +609,7 @@ private theorem exists_initial_extension (A : Type u) [CommRing A] :
     have hJm : J ≤ m := by
       apply Ideal.map_le_iff_le_comap.mpr
       apply Ideal.map_le_iff_le_comap.mpr
-      show I ≤ (PrimeSpectrum.comap (algebraMap A' C')
+      change I ≤ (PrimeSpectrum.comap (algebraMap A' C')
         (PrimeSpectrum.comap g mSpec)).asIdeal
       simpa [p, PrimeSpectrum.comap_comp_apply, Ideal.comap_comap] using hpI
     obtain ⟨q', hI'q', hq'm⟩ :=
@@ -762,7 +762,7 @@ theorem exists_wLocal_faithfullyFlat_indEtale_extensions
       _ = algebraMap (C ⧸ J) (B ⊗[A] (C ⧸ J)) (algebraMap A (C ⧸ J) a) :=
             IsScalarTower.algebraMap_apply A (C ⧸ J) (B ⊗[A] (C ⧸ J)) a
       _ = e (algebraMap (C ⧸ J) P (algebraMap A (C ⧸ J) a)) := by
-            show algebraMap (C ⧸ J) (B ⊗[A] (C ⧸ J))
+            change algebraMap (C ⧸ J) (B ⊗[A] (C ⧸ J))
                 (algebraMap A (C ⧸ J) a) =
               eQuot.symm (eQuot (Algebra.TensorProduct.includeRight
                 (R := A) (A := B) (B := C ⧸ J)
@@ -775,12 +775,12 @@ theorem exists_wLocal_faithfullyFlat_indEtale_extensions
     intro x
     obtain ⟨y, hyclosed, hyx⟩ := hclosedSurjA x
     have hyJ : J ≤ y.asIdeal := by
-      show y ∈ PrimeSpectrum.zeroLocus (J : Set C)
+      change y ∈ PrimeSpectrum.zeroLocus (J : Set C)
       rwa [hzeroJ]
     obtain ⟨z, hzy⟩ := primeSpectrum_quotient_lift J y hyJ
     refine ⟨specPointEquiv (C ⧸ J) z, ?_⟩
     rw [schemeSpecMap_specPointEquiv]
-    show PrimeSpectrum.comap (algebraMap A (C ⧸ J)) z = x
+    change PrimeSpectrum.comap (algebraMap A (C ⧸ J)) z = x
     have hcomp : algebraMap A (C ⧸ J) =
         (Ideal.Quotient.mk J).comp (algebraMap A C) := by
       ext a
@@ -824,11 +824,11 @@ theorem exists_wLocal_faithfullyFlat_indEtale_extensions
   let : IsScalarTower B D' D := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   let : IsScalarTower C D' D := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   let : IsScalarTower A B D := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show g (algebraMap A D' a) =
+    change g (algebraMap A D' a) =
       g (algebraMap B D' (algebraMap A B a))
     rw [← IsScalarTower.algebraMap_apply A B D' a]
   let : IsScalarTower A C D := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show g (algebraMap A D' a) =
+    change g (algebraMap A D' a) =
       g (algebraMap C D' (algebraMap A C a))
     rw [← IsScalarTower.algebraMap_apply A C D' a]
   have hquotD : Function.Bijective
@@ -842,12 +842,12 @@ theorem exists_wLocal_faithfullyFlat_indEtale_extensions
     let q' : PrimeSpectrum D' := PrimeSpectrum.comap (Ideal.Quotient.mk K) z
     have hKq' : K ≤ q'.asIdeal := by
       intro r hr
-      show Ideal.Quotient.mk K r ∈ z.asIdeal
+      change Ideal.Quotient.mk K r ∈ z.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hr]
       exact z.asIdeal.zero_mem
     have hq'B : PrimeSpectrum.comap (algebraMap B D') q' = x := by
       have hcomp : algebraMap B P = (Ideal.Quotient.mk K).comp (algebraMap B D') := rfl
-      show PrimeSpectrum.comap (algebraMap B D')
+      change PrimeSpectrum.comap (algebraMap B D')
         (PrimeSpectrum.comap (Ideal.Quotient.mk K) z) = x
       rwa [← PrimeSpectrum.comap_comp_apply, ← hcomp]
     obtain ⟨y, hyK, hyq'⟩ :=
@@ -861,14 +861,14 @@ theorem exists_wLocal_faithfullyFlat_indEtale_extensions
       rwa [hzeroJ] at hqzero
     have hyclosed : y ∈ closedPoints (PrimeSpectrum D) := by
       rw [hclosedD]
-      show PrimeSpectrum.comap (g.comp (algebraMap C D')) y ∈
+      change PrimeSpectrum.comap (g.comp (algebraMap C D')) y ∈
         closedPoints (PrimeSpectrum C)
       rwa [PrimeSpectrum.comap_comp_apply, hyq']
     refine ⟨y, hyclosed, ?_⟩
     calc
       PrimeSpectrum.comap (algebraMap B D) y =
           PrimeSpectrum.comap (algebraMap B D') (PrimeSpectrum.comap g y) := by
-            show PrimeSpectrum.comap (g.comp (algebraMap B D')) y = _
+            change PrimeSpectrum.comap (g.comp (algebraMap B D')) y = _
             rw [← PrimeSpectrum.comap_comp_apply]
       _ = x := by rw [hyq', hq'B]
   have hD'indEt : ObjectProperty.ind.{u}

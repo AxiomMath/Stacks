@@ -170,7 +170,7 @@ private lemma inclEq
       (CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf)).obj P).obj 𝒪 ⟶
         P :=
     (tensorProductRightUnitor X.sheaf.obj (Oₓ).property P).hom
-  show (powSuccIso T.asEquivalence n M).inv ≫ c ≫ r =
+  change (powSuccIso T.asEquivalence n M).inv ≫ c ≫ r =
     (powSuccIso T.asEquivalence n M).inv ≫ (𝟙 _ ≫ c ≫ r)
   rw [Category.id_comp]
 

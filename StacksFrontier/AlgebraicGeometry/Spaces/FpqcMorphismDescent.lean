@@ -71,7 +71,7 @@ private theorem contains_affineOpen
     (T : BigFppfOver B S hS)
     (V : ((BigFppfOver.toScheme B S hS).obj T).affineOpens) :
     B.Contains V.1.toScheme := by
-  show V.1.toScheme.size < B.cutoff
+  change V.1.toScheme.size < B.cutoff
   exact (Scheme.size_coe_opens_le _ V.1).trans_lt T.left.2
 
 private noncomputable def object_open
@@ -98,7 +98,7 @@ private theorem object_open_map_eq
         (object_open_inclusion B S hS T V) = V.1.ι := by
   let vhom : B.inclusion.obj (B.obj (contains_affineOpen B S hS T V)) ⟶
     B.inclusion.obj T.left := V.1.ι
-  show B.inclusion.map (B.inclusion.preimage vhom) = vhom
+  change B.inclusion.map (B.inclusion.preimage vhom) = vhom
   exact B.inclusion.map_preimage vhom
 
 private theorem ofArrows_object_open_mem_zariskiPrecoverage
@@ -117,7 +117,7 @@ private theorem ofArrows_object_open_mem_zariskiPrecoverage
       (Q.obj T).isBasis_affineOpens.mem_nhds_iff.mp
         ((⊤ : TopologicalSpace.Opens (Q.obj T)).isOpen.mem_nhds (by simp))
     refine ⟨⟨V, hV⟩, ⟨x, hxV⟩, ?_⟩
-    show (Q.map (object_open_inclusion B S hS T ⟨V, hV⟩)).base ⟨x, hxV⟩ = x
+    change (Q.map (object_open_inclusion B S hS T ⟨V, hV⟩)).base ⟨x, hxV⟩ = x
     rw [object_open_map_eq]
     rfl
   · rw [object_open_map_eq]
@@ -431,7 +431,7 @@ public theorem existsUnique_desc_of_fpqcCovering_of_target_isSheaf_fpqc
         rw [yonedaEquiv_comp]
         simp [b, y]
       have hl := (localDesc T y).choose_spec.1 T (𝟙 T) i b (by simpa using hb)
-      show η.app (Opposite.op T) y = (g i).hom.app (Opposite.op T) x
+      change η.app (Opposite.op T) y = (g i).hom.app (Opposite.op T) x
       rw [hηapp]
       have hglocal : yonedaEquiv (b ≫ (g i).hom) =
           (g i).hom.app (Opposite.op T) x := by
@@ -442,7 +442,7 @@ public theorem existsUnique_desc_of_fpqcCovering_of_target_isSheaf_fpqc
   ext T y
   cases T with
   | op T =>
-    show h'.hom.app (Opposite.op T) y = η.app (Opposite.op T) y
+    change h'.hom.app (Opposite.op T) y = η.app (Opposite.op T) y
     rw [hηapp]
     exact (localDesc T y).choose_spec.2 _ (localSection_of_comp_eq B S hS f g h' hh' T y)
 

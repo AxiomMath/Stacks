@@ -54,6 +54,7 @@ section Sup
 variable {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {hX : IsAlgebraicSpace B S hS X}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis through the sheaf-of-modules and `Subobject` APIs over the small étale site
 /-- The subobject defined by a finite type quasi-coherent submodule is a finite type
 quasi-coherent subobject. -/
 theorem finiteTypeQuasicoherentSubobjectProperty_mk {H : Modules.{u, u} B S hS X hX}
@@ -64,6 +65,7 @@ theorem finiteTypeQuasicoherentSubobjectProperty_mk {H : Modules.{u, u} B S hS X
     Stacks.SheafOfModules.isFiniteType_of_epi (Subobject.underlyingIso K.ι).inv hK.2⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis through the sheaf-of-modules and `Subobject` APIs over the small étale site
 /-- The submodule attached to a finite type quasi-coherent subobject is a finite type
 quasi-coherent submodule. -/
 theorem isQuasicoherentOnSite_isFiniteType_monoRangeSubmodule {H : Modules.{u, u} B S hS X hX}
@@ -87,6 +89,7 @@ theorem submoduleInclusion_ι {M : Modules.{u, u} B S hS X hX} {N₁ N₂ : M.Su
     (h : N₁ ≤ N₂) : submoduleInclusion B S hS h ≫ N₂.ι = N₁.ι := rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis through the sheaf-of-modules and `Subobject` APIs over the small étale site
 /-- **The least upper bound of two finite type quasi-coherent submodules.**  For two finite type
 quasi-coherent submodules `K₁, K₂` of a quasi-coherent `𝒪_X`-module `ℋ`, the image of
 `K₁ ⊕ K₂ ⟶ ℋ` is a finite type quasi-coherent submodule containing both, and it is contained in
@@ -212,10 +215,7 @@ theorem exists_submodule_isFiniteType_mem_of_isAffineSpace
     obtain ⟨K, hK, hmem⟩ := h x
     exact ⟨K, hK, hx ▸ hmem⟩
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    obtain ⟨K, hK⟩ := exists_submodule_bot_isQuasicoherentOnSite_isFiniteType B S hS hH
-    exact ⟨K, hK, (by rw [map_zero]; exact Submodule.zero_mem _)⟩
+  induction y using TensorProduct.inductionOn with
   | tmul b n =>
     rw [chartBaseChange_tmul]
     have := hH
@@ -226,7 +226,7 @@ theorem exists_submodule_isFiniteType_mem_of_isAffineSpace
     refine ⟨(factorThruImageSubobject u).val.app (op T)
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS V hV).O).obj.obj
         (op T)), ?_⟩
-    show ((factorThruImageSubobject u ≫ G.arrow).val.app (op T)) _ = _
+    change ((factorThruImageSubobject u ≫ G.arrow).val.app (op T)) _ = _
     rw [imageSubobject_arrow_comp, isoChartSectionHom_app_one B S hS hV e H n T]
     rfl
   | add a c ha hc =>
@@ -307,13 +307,13 @@ theorem exists_finite_affine_sections_of_isFiniteType {Z : AlgebraicSpaces B S h
   refine J.superset_covering ?_ hS'
   intro Y'' a ha
   obtain ⟨coef, hcoef⟩ := hlin Y'' a ha
-  show M.val.map (a ≫ h).op x ∈ N.obj (op Y'')
+  change M.val.map (a ≫ h).op x ∈ N.obj (op Y'')
   have hval : M.val.map (a ≫ h).op x =
       (G.toSheafOfModules.val.restrictₛₗ a.op (G.toSheafOfModules.val.map h.op ⟨x, hx⟩)).1 := by
-    show M.val.map (a ≫ h).op x = M.val.map a.op (M.val.map h.op x)
+    change M.val.map (a ≫ h).op x = M.val.map a.op (M.val.map h.op x)
     rw [op_comp, PresheafOfModules.map_comp_apply]
   rw [hval, ← hcoef]
-  show (G.ι.val.app (op Y'')) _ ∈ N.obj (op Y'')
+  change (G.ι.val.app (op Y'')) _ ∈ N.obj (op Y'')
   rw [map_sum]
   refine Submodule.sum_mem _ fun j _ => ?_
   rw [map_smul]

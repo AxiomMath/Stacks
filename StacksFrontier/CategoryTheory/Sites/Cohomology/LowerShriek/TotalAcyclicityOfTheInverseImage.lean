@@ -228,7 +228,7 @@ sheafification of the sectionwise free abelian group, which is flat. -/
 lemma isTorsionFree_freeAbelianSheaf (X : Sheaf K (Type w)) (V : Dᵒᵖ) :
     Module.IsTorsionFree ℤ (((Presheaf.freeAbelianSheaf K).obj X.obj).obj.obj V) :=
   ModuleSheafCohomology.isTorsionFree_sheafify K (X.obj ⋙ AddCommGrpCat.free) (fun V' ↦ by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup (X.obj.obj V'))
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup (X.obj.obj V'))
     exact Module.Flat.isTorsionFree) V
 
 /-- **An injective module is totally acyclic.** This is Stacks 072Z for the identity morphism of

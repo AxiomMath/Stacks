@@ -80,7 +80,7 @@ theorem exists_mono_yoneda_of_isPullback
   let H : BigFppfOver B S hS ⥤ Over S := Over.post (X := B.obj hS) B.inclusion
   have hHfull : H.Full := by change (Over.post (X := B.obj hS) B.inclusion).Full; infer_instance
   have hHfaith : H.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful; infer_instance
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful; infer_instance
   let m : U ⟶ U' := H.preimage π
   have hmπ : H.map m = π := Functor.map_preimage H π
   have hts : t ≫ m = s ≫ m := by
@@ -102,7 +102,7 @@ theorem exists_mono_yoneda_of_isPullback
   let ff : UF ⟶ FF := ⟨f⟩
   have hwm : tf ≫ mf = sf ≫ mf := by
     apply Sheaf.hom_ext
-    show yoneda.map t ≫ yoneda.map m = yoneda.map s ≫ yoneda.map m
+    change yoneda.map t ≫ yoneda.map m = yoneda.map s ≫ yoneda.map m
     rw [← Functor.map_comp, ← Functor.map_comp, hts]
   have hwf : tf ≫ ff = sf ≫ ff := Sheaf.hom_ext_iff.mpr hR.w
   have hkerf : ∀ ⦃V : BigFppfOver B S hS⦄ (x y : V ⟶ U),
@@ -148,7 +148,7 @@ theorem exists_mono_yoneda_of_isPullback
       rfl
     rw [hcomp, hcomp, ha', hb', hdk]
   obtain ⟨r, hrt, hrs⟩ := hkerf a' b' hfab
-  show k ≫ a = k ≫ b
+  change k ≫ a = k ≫ b
   rw [← ha', ← hb', ← hrt, ← hrs, Category.assoc, Category.assoc, hts]
 
 /-! ### Monomorphic field-valued representatives -/
@@ -228,7 +228,7 @@ theorem hasMonomorphicFieldRepresentative_of_hasEtaleQuasiCompactFieldRepresenta
   refine ((FieldValuedPoint.class_eq_class_iff B S hS F p p').mpr
     ⟨p, FieldValuedPoint.dominates_refl B S hS F p,
       (show p.siteObject ⟶ p'.siteObject from m), ?_⟩).symm
-  show F.map m.op (yonedaEquiv d) = p.value
+  change F.map m.op (yonedaEquiv d) = p.value
   rw [yonedaEquiv_naturality, hfd]
   exact yonedaEquiv_fieldMorphism B S hS F p
 

@@ -58,7 +58,7 @@ public theorem const_of_isField_sections {Z : Scheme.{u}} (hZ : IsField Γ(Z, �
     rw [← Scheme.toSpecΓ_naturality, Category.assoc,
       AlgebraicGeometry.toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
   rw [hg]
-  show (Spec.map _ ≫ Spec.map _) (Z.toSpecΓ x) = (Spec.map _ ≫ Spec.map _) (Z.toSpecΓ y)
+  change (Spec.map _ ≫ Spec.map _) (Z.toSpecΓ x) = (Spec.map _ ≫ Spec.map _) (Z.toSpecΓ y)
   exact congrArg _ (Subsingleton.elim (α := PrimeSpectrum Γ(Z, ⊤)) _ _)
 
 /-- An exceptional curve of the first kind is carried to a single point by any morphism to an
@@ -90,7 +90,7 @@ public theorem exists_factor_of_contraction {X X' : Scheme.{u}} (D : X.IdealShea
 /-- Let `b : X ⟶ X'` be, up to the isomorphism `ε`, the blow-up of `X'` at the closed point `z`.
 If `b ≫ f'` is at worst nodal of relative dimension one, then so is the restriction of `f'` to the
 complement of `z`. -/
-public theorem nodal_on_compl_centre {X X' S : Scheme.{u}} (D : X.IdealSheafData)
+public theorem nodal_on_compl_centre {X X' S : Scheme.{u}}
     (b : X ⟶ X') (z : X') (hz : IsClosed ({z} : Set X'))
     (ε : X ≅ blowUp (Scheme.IdealSheafData.vanishingIdeal (⟨{z}, hz⟩ : Closeds X')))
     (hε : ε.hom ≫ blowUpToBase
@@ -102,7 +102,7 @@ public theorem nodal_on_compl_centre {X X' S : Scheme.{u}} (D : X.IdealSheafData
       (@IsAtWorstNodalOfRelativeDimensionOne.{u} : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   let W : X'.Opens := ⟨({z} : Set X')ᶜ, hz.isOpen_compl⟩
-  show IsAtWorstNodalOfRelativeDimensionOne (W.ι ≫ f')
+  change IsAtWorstNodalOfRelativeDimensionOne (W.ι ≫ f')
   have hoff : IsIso (b ∣_ W) :=
     isIso_morphismRestrict_compl_of_blowUp_iso _ z hz
       (Scheme.IdealSheafData.coe_support_vanishingIdeal _) ε hε

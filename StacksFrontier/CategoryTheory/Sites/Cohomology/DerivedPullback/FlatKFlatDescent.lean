@@ -47,8 +47,9 @@ whose localization is read off `flatKFlatModelPairsQ_isLocalization`, and
 
 *Why this is not already available.*  The localization input
 `Stacks.Sheaves.DerivedPullback.flatKFlatModelPairsQ_isLocalization` is used in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorComparison.lean`
-only to *descend* an isomorphism, through `CategoryTheory.Localization.liftNatIso`, and never to
+`DerivedPullbackTensorComparison.lean` (in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`) only to *descend* an
+isomorphism, through `CategoryTheory.Localization.liftNatIso`, and never to
 *compare* two transformations.  The ringed-space counterpart of the present lemma is
 `Stacks.Cohomology.DerivedPullbackTensor.natTrans_ext_of_kFlat` of
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/KFlatPairDescent.lean`; it is stated
@@ -110,6 +111,7 @@ variable (Y : RingedTopos.{u, u, u})
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **An equality of natural transformations on `D(𝒪') × D(𝒪')` may be checked on pairs of
 K-flat complexes with flat terms.**  Two natural transformations between functors on
 `D(𝒪') × D(𝒪')` whose components at `(QK, QL)` agree for every pair of K-flat cochain complexes
@@ -160,6 +162,7 @@ abbrev flatKFlatModelTriplesW :
       (IsKFlat (Y := Y)).FullSubcategory × (IsKFlat (Y := Y)).FullSubcategory) :=
   (flatKFlatModelsW Y).prod ((flatKFlatModelsW Y).prod (flatKFlatModelsW Y))
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Triples of K-flat complexes with flat terms localize to triples of objects of `D(𝒪')`.**
 A localization of a product is the product of the localizations, and each factor is
 `Stacks.Sheaves.DerivedPullback.flatKFlatModelsQ_isLocalization`, i.e. the resolutions of
@@ -182,6 +185,7 @@ def flatKFlatModelTriplesIso
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).app
       P.1.obj.as).prod (flatKFlatModelPairsIso Y P.2)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **An identity of natural transformations on `D(𝒪')³` may be checked on triples of K-flat
 complexes with flat terms.**
 

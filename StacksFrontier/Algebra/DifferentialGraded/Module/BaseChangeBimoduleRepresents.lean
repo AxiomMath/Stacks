@@ -66,11 +66,11 @@ theorem kFlat_regularModule_degreeZero {R : Type u} [CommRing R] (S : Type u) [C
     rw [CochainComplex.isStrictlyLE_iff]
     intro i hi
     refine ModuleCat.isZero_iff_subsingleton.mpr ?_
-    show Subsingleton (degreeZeroGrading R S i)
+    change Subsingleton (degreeZeroGrading R S i)
     rw [degreeZeroGrading_eq_bot R S (by omega)]
     infer_instance
   have hflat (i : ℤ) : Module.Flat R (K.X i) := by
-    show Module.Flat R (degreeZeroGrading R S i)
+    change Module.Flat R (degreeZeroGrading R S i)
     by_cases hi : i = 0
     · subst hi
       rw [degreeZeroGrading_zero R S]

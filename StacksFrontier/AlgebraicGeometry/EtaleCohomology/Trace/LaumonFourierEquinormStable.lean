@@ -136,7 +136,7 @@ public theorem laumonFourier_specMap_evalRingHom_X_comp_pr₁ (k' : Type u) [Fie
   congr 1
   ext1
   exact RingHom.ext fun r => by
-    show Polynomial.eval Polynomial.X (Polynomial.C r) = r
+    change Polynomial.eval Polynomial.X (Polynomial.C r) = r
     rw [Polynomial.eval_C]
 
 /-- **The pullback of a representation along a morphism of fundamental groups, transported along

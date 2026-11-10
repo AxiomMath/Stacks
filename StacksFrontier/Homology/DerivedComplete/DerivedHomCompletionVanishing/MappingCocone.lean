@@ -27,7 +27,7 @@ namespace DerivedHomAway
 attribute [local instance] instHasExactLimitsOfShapeDiscreteNatModuleCat_stacksFrontier
 attribute [local instance] instHasProductsOfShapeNatDerivedCategoryModuleCat_stacksFrontier
 
-private noncomputable def constantProductDerivedIso
+noncomputable def constantProductDerivedIso
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) :
     DerivedCategory.Q.obj (∏ᶜ fun _ : ℕ => I) ≅
@@ -36,7 +36,7 @@ private noncomputable def constantProductDerivedIso
     (A := ModuleCat.{u} A) (I := ℕ) (fun _ : ℕ => I))
   exact h.conePointUniqueUpToIso (productIsProduct (fun _ : ℕ => DerivedCategory.Q.obj I))
 
-private theorem constantProductDerivedIso_π
+theorem constantProductDerivedIso_π
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (index : ℕ) :
     (constantProductDerivedIso A I).hom ≫
@@ -49,21 +49,21 @@ private theorem constantProductDerivedIso_π
         (A := ModuleCat.{u} A) (I := ℕ) (fun _ : ℕ => I)))
       (productIsProduct (fun _ : ℕ => DerivedCategory.Q.obj I)) ⟨index⟩)
 
-private noncomputable def constantProductDifferenceComplex
+noncomputable def constantProductDifferenceComplex
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) :
     (∏ᶜ fun _ : ℕ => I) ⟶ (∏ᶜ fun _ : ℕ => I) :=
   Pi.lift (fun index : ℕ => Pi.π (fun _ : ℕ => I) index -
     f • Pi.π (fun _ : ℕ => I) (index + 1))
 
-private theorem constantProductDifferenceComplex_π
+theorem constantProductDifferenceComplex_π
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (index : ℕ) :
     constantProductDifferenceComplex A f I ≫ Pi.π (fun _ : ℕ => I) index =
       Pi.π (fun _ : ℕ => I) index - f • Pi.π (fun _ : ℕ => I) (index + 1) := by
   simp [constantProductDifferenceComplex]
 
-private theorem constantProductDifferenceDerived_square
+theorem constantProductDifferenceDerived_square
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) :
     (constantProductDerivedIso A I).inv ≫
@@ -74,7 +74,7 @@ private theorem constantProductDifferenceDerived_square
         f • Pi.π (fun _ : ℕ => DerivedCategory.Q.obj I) (index + 1)) := by
   apply Pi.hom_ext
   intro index
-  simp only [Category.assoc, Pi.lift_π, constantProductDerivedIso_π]
+  simp only [Category.assoc, constantProductDerivedIso_π]
   rw [← Functor.map_comp, constantProductDifferenceComplex_π,
     Functor.map_sub, Functor.map_smul]
   rw [Preadditive.comp_sub, Linear.comp_smul]
@@ -82,7 +82,7 @@ private theorem constantProductDifferenceDerived_square
     ← constantProductDerivedIso_π A I (index + 1)]
   simp
 
-private noncomputable def constantDifferenceCoconeXIso
+noncomputable def constantDifferenceCoconeXIso
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     (CochainComplex.mappingCocone (constantProductDifferenceComplex A f I)).X n ≅
@@ -93,7 +93,7 @@ private noncomputable def constantDifferenceCoconeXIso
     HomologicalComplex.homotopyCofiber.XIsoBiprod φ (n - 1) n
       (show (ComplexShape.up ℤ).Rel (n - 1) n by simp [ComplexShape.up_Rel])
 
-private noncomputable def constantProductXIso
+noncomputable def constantProductXIso
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     (∏ᶜ fun _ : ℕ => I).X n ≅ ModuleCat.of A (ℕ → I.X n) := by
@@ -104,7 +104,7 @@ private noncomputable def constantProductXIso
       (HomologicalComplex.eval (ModuleCat.{u} A) (ComplexShape.up ℤ) n)
         (fun _ : ℕ => I)) ≪≫ ModuleCat.piIsoPi (fun _ : ℕ => I.X n)
 
-private noncomputable def constantDifferenceCoconePairIso
+noncomputable def constantDifferenceCoconePairIso
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     (CochainComplex.mappingCocone (constantProductDifferenceComplex A f I)).X n ≅
@@ -115,7 +115,7 @@ private noncomputable def constantDifferenceCoconePairIso
       (ModuleCat.of A (ℕ → I.X (n - 1))) ≪≫
     (LinearEquiv.prodComm A (ℕ → I.X n) (ℕ → I.X (n - 1))).toModuleIso
 
-private theorem coconeSign (n : ℤ) :
+theorem coconeSign (n : ℤ) :
     (-1 : ℤ).negOnePow = -1 ∧
       -(n + 2).negOnePow = (n + 1).negOnePow := by
   constructor
@@ -123,7 +123,7 @@ private theorem coconeSign (n : ℤ) :
   · have h := Int.negOnePow_succ (n + 1)
     simpa [add_assoc] using congrArg Neg.neg h
 
-private noncomputable def signTwistPairIso
+noncomputable def signTwistPairIso
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     ModuleCat.of A ((ℕ → I.X (n - 1)) × (ℕ → I.X n)) ≅
@@ -133,7 +133,7 @@ private noncomputable def signTwistPairIso
       (ℕ → I.X (n - 1)) ≃ₗ[A] (ℕ → I.X (n - 1))).prodCongr
         (LinearEquiv.refl A (ℕ → I.X n))).toModuleIso
 
-private theorem signTwistPairIso_fst
+theorem signTwistPairIso_fst
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (pair : (ℕ → I.X (n - 1)) × (ℕ → I.X n)) (index : ℕ) :
@@ -142,19 +142,19 @@ private theorem signTwistPairIso_fst
   simp only [signTwistPairIso, LinearEquiv.toModuleIso_hom, LinearEquiv.coe_prodCongr,
     LinearEquiv.refl_toLinearMap, ConcreteCategory.hom_ofHom, LinearMap.prodMap_apply,
     LinearEquiv.coe_coe, LinearMap.id_coe, id_eq, Units.smul_def]
-  show ((Units.map (Int.castRingHom A) (n + 1).negOnePow : Aˣ) : A) •
+  change ((Units.map (Int.castRingHom A) (n + 1).negOnePow : Aˣ) : A) •
       pair.1 index = ((n + 1).negOnePow : ℤ) • pair.1 index
   rw [← Int.cast_smul_eq_zsmul (R := A) ((n + 1).negOnePow : ℤ) (pair.1 index)]
   simp
 
-private theorem signTwistPairIso_snd
+theorem signTwistPairIso_snd
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (pair : (ℕ → I.X (n - 1)) × (ℕ → I.X n)) (index : ℕ) :
     ((signTwistPairIso A I n).hom pair).2 index = pair.2 index := by
   simp [signTwistPairIso]
 
-private theorem signTwistPairIso_inv_fst
+theorem signTwistPairIso_inv_fst
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (pair : (ℕ → I.X (n - 1)) × (ℕ → I.X n)) (index : ℕ) :
@@ -166,7 +166,7 @@ private theorem signTwistPairIso_inv_fst
   have hforward := signTwistPairIso_fst A I n twisted index
   rw [hback] at hforward
   change pair.1 index = ((n + 1).negOnePow : ℤ) • twisted.1 index at hforward
-  show twisted.1 index = ((n + 1).negOnePow : ℤ) • pair.1 index
+  change twisted.1 index = ((n + 1).negOnePow : ℤ) • pair.1 index
   calc
     twisted.1 index = (1 : ℤ) • twisted.1 index := (one_smul ℤ _).symm
     _ = (((n + 1).negOnePow : ℤ) * (n + 1).negOnePow) • twisted.1 index := by
@@ -174,14 +174,14 @@ private theorem signTwistPairIso_inv_fst
     _ = ((n + 1).negOnePow : ℤ) • pair.1 index := by
       rw [mul_smul, hforward]
 
-private theorem signTwistPairIso_inv_snd
+theorem signTwistPairIso_inv_snd
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (pair : (ℕ → I.X (n - 1)) × (ℕ → I.X n)) (index : ℕ) :
     ((signTwistPairIso A I n).inv pair).2 index = pair.2 index := by
   simp [signTwistPairIso]
 
-private theorem biprodIsoProd_hom_fst
+theorem biprodIsoProd_hom_fst
     (A : Type u) [CommRing A]
     (M N : ModuleCat.{u} A) (x : (M ⊞ N : ModuleCat.{u} A)) :
     ((ModuleCat.biprodIsoProd M N).hom x).1 =
@@ -198,7 +198,7 @@ private theorem biprodIsoProd_hom_fst
   simpa only [ModuleCat.hom_comp, LinearMap.comp_apply,
     ModuleCat.hom_ofHom, LinearMap.fst_apply] using hx
 
-private theorem biprodIsoProd_hom_snd
+theorem biprodIsoProd_hom_snd
     (A : Type u) [CommRing A]
     (M N : ModuleCat.{u} A) (x : (M ⊞ N : ModuleCat.{u} A)) :
     ((ModuleCat.biprodIsoProd M N).hom x).2 =
@@ -215,7 +215,7 @@ private theorem biprodIsoProd_hom_snd
   simpa only [ModuleCat.hom_comp, LinearMap.comp_apply,
     ModuleCat.hom_ofHom, LinearMap.snd_apply] using hx
 
-private theorem constantDifferenceCoconePairIso_fst
+theorem constantDifferenceCoconePairIso_fst
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (x : (CochainComplex.mappingCocone (constantProductDifferenceComplex A f I)).X n) :
@@ -229,14 +229,14 @@ private theorem constantDifferenceCoconePairIso_fst
     LinearEquiv.toModuleIso_hom, ModuleCat.hom_comp, ConcreteCategory.hom_ofHom, LinearMap.coe_comp,
     LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.prodComm_apply, Prod.fst_swap]
   rw [biprodIsoProd_hom_snd]
-  show (biprod.map (constantProductXIso A I n).hom
+  change (biprod.map (constantProductXIso A I n).hom
       (constantProductXIso A I (n - 1)).hom ≫ biprod.snd).hom
         ((constantDifferenceCoconeXIso A f I n).hom x) =
       (biprod.snd ≫ (constantProductXIso A I (n - 1)).hom).hom
         ((constantDifferenceCoconeXIso A f I n).hom x)
   rw [biprod.map_snd]
 
-private theorem constantDifferenceCoconePairIso_snd
+theorem constantDifferenceCoconePairIso_snd
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (x : (CochainComplex.mappingCocone (constantProductDifferenceComplex A f I)).X n) :
@@ -250,7 +250,7 @@ private theorem constantDifferenceCoconePairIso_snd
     LinearEquiv.toModuleIso_hom, ModuleCat.hom_comp, ConcreteCategory.hom_ofHom, LinearMap.coe_comp,
     LinearEquiv.coe_coe, Function.comp_apply, LinearEquiv.prodComm_apply, Prod.snd_swap]
   rw [biprodIsoProd_hom_fst]
-  show (biprod.map (constantProductXIso A I n).hom
+  change (biprod.map (constantProductXIso A I n).hom
       (constantProductXIso A I (n - 1)).hom ≫ biprod.fst).hom
         ((constantDifferenceCoconeXIso A f I n).hom x) =
       (biprod.fst ≫ (constantProductXIso A I n).hom).hom
@@ -276,7 +276,7 @@ private theorem coconeToHomPairComponentIso_fst
             ((∏ᶜ fun _ : ℕ => I).X n ⊞ (∏ᶜ fun _ : ℕ => I).X (n - 1)) ⟶
               (∏ᶜ fun _ : ℕ => I).X (n - 1)).hom
             ((constantDifferenceCoconeXIso A f I n).hom x))) index := by
-  show (((constantDifferenceCoconePairIso A f I n).hom ≫
+  change (((constantDifferenceCoconePairIso A f I n).hom ≫
     (signTwistPairIso A I n).hom).hom x).1 index = _
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   rw [signTwistPairIso_fst, constantDifferenceCoconePairIso_fst]
@@ -292,12 +292,12 @@ private theorem coconeToHomPairComponentIso_snd
           ((∏ᶜ fun _ : ℕ => I).X n ⊞ (∏ᶜ fun _ : ℕ => I).X (n - 1)) ⟶
             (∏ᶜ fun _ : ℕ => I).X n).hom
           ((constantDifferenceCoconeXIso A f I n).hom x))) index := by
-  show (((constantDifferenceCoconePairIso A f I n).hom ≫
+  change (((constantDifferenceCoconePairIso A f I n).hom ≫
     (signTwistPairIso A I n).hom).hom x).2 index = _
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   rw [signTwistPairIso_snd, constantDifferenceCoconePairIso_snd]
 
-private theorem constantDifferenceCoconeXIso_comp_fst
+theorem constantDifferenceCoconeXIso_comp_fst
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -310,14 +310,14 @@ private theorem constantDifferenceCoconeXIso_comp_fst
         HomologicalComplex.homotopyCofiber.fstX φ (n - 1) n
           (by simp [ComplexShape.up_Rel]) := by
   dsimp only
-  show (((CochainComplex.mappingCone (constantProductDifferenceComplex A f I)).shiftFunctorObjXIso
+  change (((CochainComplex.mappingCone (constantProductDifferenceComplex A f I)).shiftFunctorObjXIso
       (-1) n (n - 1) (by omega)).hom ≫
     (HomologicalComplex.homotopyCofiber.XIsoBiprod
       (constantProductDifferenceComplex A f I) (n - 1) n
       (by simp [ComplexShape.up_Rel])).hom) ≫ biprod.fst = _
   exact Category.assoc _ _ _
 
-private theorem constantDifferenceCoconeXIso_comp_snd
+theorem constantDifferenceCoconeXIso_comp_snd
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -329,7 +329,7 @@ private theorem constantDifferenceCoconeXIso_comp_snd
         (by omega)).hom ≫
         HomologicalComplex.homotopyCofiber.sndX φ (n - 1) := by
   dsimp only
-  show (((CochainComplex.mappingCone (constantProductDifferenceComplex A f I)).shiftFunctorObjXIso
+  change (((CochainComplex.mappingCone (constantProductDifferenceComplex A f I)).shiftFunctorObjXIso
       (-1) n (n - 1) (by omega)).hom ≫
     (HomologicalComplex.homotopyCofiber.XIsoBiprod
       (constantProductDifferenceComplex A f I) (n - 1) n
@@ -362,7 +362,7 @@ private theorem constantDifferenceCoconeXIso_comp_snd
           (constantProductDifferenceComplex A f I) (n - 1) index.1 index.2).hom ≫
             biprod.snd) hindex
 
-private theorem shiftedCone_first_projection_cast
+theorem shiftedCone_first_projection_cast
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -392,7 +392,7 @@ private theorem shiftedCone_first_projection_cast
         (constantProductDifferenceComplex A f I) index.1 (n + 1) index.2) hindex
 
 set_option backward.isDefEq.respectTransparency false in
-private theorem shiftedCone_second_projection_cast
+theorem shiftedCone_second_projection_cast
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -431,7 +431,7 @@ private theorem shiftedCone_second_projection_cast
   rw [hleftShift]
   simpa [leftIndex, rightIndex, productComplex] using h
 
-private theorem mappingCocone_first_differential
+theorem mappingCocone_first_differential
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -455,7 +455,7 @@ private theorem mappingCocone_first_differential
   simp [HomologicalComplex.homotopyCofiber.d_fstX]
   rfl
 
-private theorem mappingCoconeXIso_d_fst
+theorem mappingCoconeXIso_d_fst
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     (CochainComplex.mappingCocone (constantProductDifferenceComplex A f I)).d n (n + 1) ≫
@@ -476,7 +476,7 @@ private theorem mappingCoconeXIso_d_fst
   rw [shiftedCone_first_projection_cast A f I n]
   exact mappingCocone_first_differential A f I n
 
-private theorem mappingCocone_second_differential
+theorem mappingCocone_second_differential
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -503,7 +503,7 @@ private theorem mappingCocone_second_differential
     HomologicalComplex.homotopyCofiber_d, ComplexShape.up_Rel, neg_add_cancel_right,
     HomologicalComplex.homotopyCofiber.d_sndX, neg_add_rev, shiftFunctor_obj_X,
     HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Category.id_comp]
-  show -HomologicalComplex.homotopyCofiber.sndX
+  change -HomologicalComplex.homotopyCofiber.sndX
       (constantProductDifferenceComplex A f I) (n - 1) ≫
         (∏ᶜ fun _ : ℕ => I).d (n - 1) n +
       -HomologicalComplex.homotopyCofiber.fstX
@@ -521,7 +521,7 @@ private theorem mappingCocone_second_differential
   exact add_comm _ _
 
 set_option backward.isDefEq.respectTransparency false in
-private theorem mappingCoconeXIso_d_snd_cast
+theorem mappingCoconeXIso_d_snd_cast
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -567,7 +567,7 @@ private theorem mappingCoconeXIso_d_snd_cast
       (shiftedCone_second_projection_cast A f I n)
 
 set_option backward.isDefEq.respectTransparency false in
-private theorem mappingCoconeXIso_d_snd
+theorem mappingCoconeXIso_d_snd
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     let φ := constantProductDifferenceComplex A f I
@@ -611,7 +611,7 @@ private theorem transportHom_d_comp_component_iso
         (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom z) := by
   simp only [telescopeHom_transport_complex, CochainComplex.of_d,
     telescopeHom_component_iso]
-  show (telescopeHom_product_equiv A f I (n + 1))
+  change (telescopeHom_product_equiv A f I (n + 1))
     (((HomComplexR A (telescopeResolution A f) I).d n (n + 1)).hom
       ((telescopeHom_product_equiv A f I n).symm
         ((telescopeHom_product_equiv A f I n) z))) = _
@@ -641,7 +641,7 @@ private theorem transportHom_second_differential
   rw [transportHom_d_comp_component_iso A f I n z]
   exact telescopeHom_pair_second_differential A f I n z index
 
-private theorem constantProductXIso_projection
+theorem constantProductXIso_projection
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) (index : ℕ) :
     (constantProductXIso A I n).hom ≫
@@ -655,7 +655,7 @@ private theorem constantProductXIso_projection
     (fun _ : ℕ => I) index
 
 /-- The `k`-th coordinate of `constantProductXIso` is the degree-`n` part of the projection. -/
-private theorem constantProductXIso_hom_apply
+theorem constantProductXIso_hom_apply
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) (z : (∏ᶜ fun _ : ℕ => I).X n) (k : ℕ) :
     ((constantProductXIso A I n).hom z) k = ((Pi.π (fun _ : ℕ => I) k).f n).hom z := by
@@ -665,7 +665,7 @@ private theorem constantProductXIso_hom_apply
   simpa only [ModuleCat.hom_comp, LinearMap.comp_apply,
     ModuleCat.hom_ofHom, LinearMap.proj_apply] using hk
 
-private theorem constantProductXIso_d
+theorem constantProductXIso_d
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (x : (∏ᶜ fun _ : ℕ => I).X n) (index : ℕ) :
@@ -676,7 +676,7 @@ private theorem constantProductXIso_d
   exact (congrArg (fun φ : (∏ᶜ fun _ : ℕ => I).X n ⟶ I.X (n + 1) => φ.hom x)
     ((Pi.π (fun _ : ℕ => I) index).comm n (n + 1))).symm
 
-private theorem constantProductXIso_cast
+theorem constantProductXIso_cast
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n m : ℤ)
     (h : n = m) (x : (∏ᶜ fun _ : ℕ => I).X n) (index : ℕ) :
@@ -687,7 +687,7 @@ private theorem constantProductXIso_cast
   cases h
   simp
 
-private theorem constantProductXIso_d_at
+theorem constantProductXIso_d_at
     (A : Type u) [CommRing A]
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (j k : ℤ)
     (h : j + 1 = k) (x : (∏ᶜ fun _ : ℕ => I).X j) (index : ℕ) :
@@ -723,7 +723,7 @@ private theorem coconeToHom_second_differential
         (∏ᶜ fun _ : ℕ => I).X n).hom
       ((constantDifferenceCoconeXIso A f I n).hom x)) index
 
-private theorem constantProductDifferenceComplex_point
+theorem constantProductDifferenceComplex_point
     (A : Type u) [CommRing A] (f : A)
     (I : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ)
     (x : (∏ᶜ fun _ : ℕ => I).X n) (index : ℕ) :

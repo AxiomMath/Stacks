@@ -48,8 +48,8 @@ either tag, and no tag is attached to them.
 
 **First input, now reduced to a domain hypothesis.** Stacks 02MJ, the multiplicativity
 `ord_A(Nm_{L/K}(y)) = ∑_𝔮 [κ(𝔮) : κ(𝔪_A)] · ord_{B_𝔮}(y)`, is proved — with `[IsDomain A]`,
-`[IsDomain B]`, a field of fractions, and `ordInt`. A priori it is not clear that it says anything about
-`AlgebraicGeometry.Space.PrimeDivisor.ord`, which is `Ring.ordTotalFracInt` on a total ring of
+`[IsDomain B]`, a field of fractions, and `ordInt`. A priori it is not clear that it says anything
+about `AlgebraicGeometry.Space.PrimeDivisor.ord`, which is `Ring.ordTotalFracInt` on a total ring of
 fractions; the two might be different functions on different inputs.
 `Ring.ordTotalFracInt_eq_ordInt` settles that: they are one function, so the whole of Stacks
 02MJ transports, termwise by `Ring.ordTotalFracInt_eq_sum_of_ordInt_eq_sum`, and what remains of

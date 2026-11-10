@@ -149,7 +149,7 @@ theorem exists_quadratic_point_of_planeConic (R K : Type u) [CommRing R] [IsDoma
       refine ⟨L, inferInstance, inferInstance, hLfin, hLsep, hLdeg,
         (algebraMap K L).comp eKM.symm.toRingHom, ?_⟩
       ext a
-      show algebraMap K L (eKM.symm (eKM a)) = algebraMap K L a
+      change algebraMap K L (eKM.symm (eKM a)) = algebraMap K L a
       rw [RingEquiv.symm_apply_apply]
     · exact ⟨M, inferInstance, inferInstance, hMfin, hMsep, h2, RingHom.id M, by simp⟩
   refine ⟨L, inferInstance, inferInstance, hLfin, hLsep, hLdeg,

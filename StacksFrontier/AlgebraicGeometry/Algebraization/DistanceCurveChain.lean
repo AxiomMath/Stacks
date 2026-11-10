@@ -151,7 +151,7 @@ private lemma sum_ite_le_split {m : ℕ} (g : Fin m → ℤ) (a : ℕ) (i : Fin 
       simp [h1, h2, hne]
   have hsum := Finset.sum_congr rfl (fun j (_ : j ∈ Finset.univ) => hterm j)
   rw [Finset.sum_sub_distrib, Finset.sum_ite_eq' Finset.univ i g] at hsum
-  simp only [Finset.mem_univ, if_true] at hsum
+  simp only [Finset.mem_univ, ite_true] at hsum
   linarith
 
 /-- Only the last index contributes to a tail sum starting at the last index. -/
@@ -337,9 +337,9 @@ public theorem distanceFunction_le_of_curveChain [IsNoetherian Y] [JacobsonSpace
     if h : (i : ℕ) < c.length then c.curve ⟨i, h⟩ else closureSingleton y
   have hWlt : ∀ (i : Fin (c.length + 1)) (h : (i : ℕ) < c.length), W i = c.curve ⟨i, h⟩ := by
     intro i h
-    simp only [W, dif_pos h]
+    simp only [W, dite_eq_left h]
   have hWlast : W (Fin.last c.length) = closureSingleton y := by
-    simp only [W, Fin.val_last, dif_neg (lt_irrefl c.length)]
+    simp only [W, Fin.val_last, dite_eq_right (lt_irrefl c.length)]
   let s : DistanceSystem Y (⟨{z}, hz⟩ : Closeds Y) y :=
     { k := c.length
       V := fun i => closureSingleton (c.pt i)
@@ -364,7 +364,7 @@ public theorem distanceFunction_le_of_curveChain [IsNoetherian Y] [JacobsonSpace
         have := c.mem_succ i
         rwa [show (⟨(i.castSucc : ℕ), hi⟩ : Fin c.length) = i from Fin.ext rfl]
       V_zero_subset := by
-        show (closureSingleton (c.pt 0) : Set Y) ⊆ ({z} : Set Y)
+        change (closureSingleton (c.pt 0) : Set Y) ⊆ ({z} : Set Y)
         rw [coe_closureSingleton, c.pt_zero, hz.closure_eq]
       W_last_eq_closure := by
         rw [hWlast]
@@ -375,7 +375,7 @@ public theorem distanceFunction_le_of_curveChain [IsNoetherian Y] [JacobsonSpace
     have h1 : IsGenericPoint (lowerGenericPoint s i) (s.V i : Set Y) :=
       (s.V i).isIrreducible'.isGenericPoint_genericPoint (s.V i).isClosed'
     have h2 : IsGenericPoint (c.pt i) (s.V i : Set Y) := by
-      show IsGenericPoint (c.pt i) ((closureSingleton (c.pt i) : IrreducibleCloseds Y) : Set Y)
+      change IsGenericPoint (c.pt i) ((closureSingleton (c.pt i) : IrreducibleCloseds Y) : Set Y)
       rw [coe_closureSingleton]
       exact isGenericPoint_closure
     exact h1.eq h2
@@ -387,7 +387,7 @@ public theorem distanceFunction_le_of_curveChain [IsNoetherian Y] [JacobsonSpace
     · exact toNat_le_sup_lowerGenericPoint δ hδ hz s
   have hweight : s.weight = (δ y).toNat + c.length := by
     rw [s.weight_eq_add_sup δ, hsup]
-    show c.length + (δ y).toNat = (δ y).toNat + c.length
+    change c.length + (δ y).toNat = (δ y).toNat + c.length
     omega
   calc distanceFunction Y (⟨{z}, hz⟩ : Closeds Y) y ≤ (s.weight : ℕ∞) := by
         rw [distanceFunction_eq_iInf_of_nonempty Y _ y hmeet]
@@ -566,7 +566,7 @@ public theorem distanceFunction_eq_add_curveChainDistance
     { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian f
       toCompactSpace := QuasiCompact.compactSpace_of_compactSpace f }
   let : JacobsonSpace Y := LocallyOfFiniteType.jacobsonSpace f
-  show distanceFunction Y (⟨{z}, hz⟩ : Closeds Y) y =
+  change distanceFunction Y (⟨{z}, hz⟩ : Closeds Y) y =
     ((δ y).toNat : ℕ∞) + curveChainDistance Y z (closure {y})
   refine le_antisymm (distanceFunction_le_add_curveChainDistance δ hδ z y hz) ?_
   by_cases hmeet : (connectedComponent y ∩ (({z} : Set Y))).Nonempty
@@ -604,7 +604,7 @@ public theorem distanceFunction_eq_topologicalKrullDim_add_curveChainDistance
   let : Algebra k (Y.residueField y) := CurveThroughPoints.residueAlgebra f y
   have hδ : ∀ p : Y, IsClosed ({p} : Set Y) →
       residueFieldTrdegDimensionFunction k Y f p = 0 := fun p hp => by
-    show ((natTrdegResidueField k Y f p : ℕ) : ℤ) = 0
+    change ((natTrdegResidueField k Y f p : ℕ) : ℤ) = 0
     rw [natTrdegResidueField_eq_zero_of_isClosed k Y f p hp]
     rfl
   have h := distanceFunction_eq_add_curveChainDistance f
@@ -613,12 +613,12 @@ public theorem distanceFunction_eq_topologicalKrullDim_add_curveChainDistance
   have : FinTrdeg k (Y.residueField y) := residueField_finTrdeg k f y
   have hfin : Algebra.trdeg k (Y.residueField y) < Cardinal.aleph0 :=
     trdeg_lt_aleph0 k _
-  show (((((natTrdegResidueField k Y f y : ℕ) : ℤ).toNat : ℕ∞) +
+  change (((((natTrdegResidueField k Y f y : ℕ) : ℤ).toNat : ℕ∞) +
       curveChainDistance Y z (closure {y}) : ℕ∞) : WithBot ℕ∞) = _
   rw [Int.toNat_natCast]
   have hcast : ((natTrdegResidueField k Y f y : ℕ) : ℕ∞) =
       Cardinal.toENat (Algebra.trdeg k (Y.residueField y)) := by
-    show ((Cardinal.toNat (Algebra.trdeg k (Y.residueField y)) : ℕ) : ℕ∞) = _
+    change ((Cardinal.toNat (Algebra.trdeg k (Y.residueField y)) : ℕ) : ℕ∞) = _
     exact Cardinal.natCast_eq_toENat.mpr (Cardinal.cast_toNat_of_lt_aleph0 hfin)
   rw [hcast]
   push_cast

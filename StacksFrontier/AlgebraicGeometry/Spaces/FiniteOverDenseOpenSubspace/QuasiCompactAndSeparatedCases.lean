@@ -28,6 +28,7 @@ attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the larger budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_QuasiCompactAndSeparatedCases :
@@ -39,6 +40,7 @@ local instance (priority := high) hasPullback_presheaf_QuasiCompactAndSeparatedC
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasProducts` of presheaves on the big fppf site needs the larger budget
 /-- Small products of presheaves on the big fppf site (needed by `simp` side goals; instance
 search times out without this shortcut). -/
 local instance (priority := high) hasProducts_presheaf_QuasiCompactAndSeparatedCases :
@@ -74,7 +76,7 @@ private lemma exists_dense_open_subspace_containing_zero_points
   let V : Subfunctor Y := Vdata.1
   have hV : IsOpenSubspace B S hS V := Vdata.2
   have hEv : e Vdata = O := by
-    show e (e.symm O) = O
+    change e (e.symm O) = O
     exact e.apply_symm_apply O
   have hImage : Set.range (pointsMap B S hS V.toFunctor V.ι) =
       (O : Set (points B S hS Y)) := by
@@ -87,7 +89,7 @@ private lemma exists_dense_open_subspace_containing_zero_points
     intro y hy
     let i : I := ⟨y, hy⟩
     have hyi : y ∈ (e (V₀ i) : Set (points B S hS Y)) := by
-      show y ∈ (e (V₀ i)).1
+      change y ∈ (e (V₀ i)).1
       rw [openSubspacesOrderIso_apply
         B S hS Y hY (V₀ i)]
       exact (hnear y hy).choose_spec.2
@@ -160,7 +162,7 @@ private theorem openSubspace_eq_top_of_closed_range_points
     simpa [topData, eTop, topSubfunctorIso'] using hcomp.symm
   have htop : e Udata = e topData := by
     ext x
-    show x ∈ (e Udata).1 ↔ x ∈ (e topData).1
+    change x ∈ (e Udata).1 ↔ x ∈ (e topData).1
     rw [openSubspacesOrderIso_apply
       B S hS F hF Udata,
       openSubspacesOrderIso_apply
@@ -514,13 +516,13 @@ private theorem exists_affine_open_neighborhood_of_representable
   let U : BigFppfOver B S hS := Over.mk (k₀ ≫ T.hom)
   let k : U ⟶ T := Over.homMk k₀ (by simp [U])
   have hk : Q.map k = A.ι := by
-    show B.inclusion.map (B.inclusion.preimage kScheme) = kScheme
+    change B.inclusion.map (B.inclusion.preimage kScheme) = kScheme
     exact B.inclusion.map_preimage kScheme
   have hmap : Set.range (Q.map m).base ⊆ Set.range A.ι.base := by
     rintro _ ⟨t, rfl⟩
     have heq : t = IsLocalRing.closedPoint p.carrier := by
       let : Subsingleton (Q.obj (p.siteObject B S hS (yoneda.obj T))) := by
-        show Subsingleton (PrimeSpectrum p.carrier)
+        change Subsingleton (PrimeSpectrum p.carrier)
         infer_instance
       exact Subsingleton.elim _ _
     subst t
@@ -534,15 +536,15 @@ private theorem exists_affine_open_neighborhood_of_representable
   let l : p.siteObject B S hS (yoneda.obj T) ⟶ U :=
     Over.homMk (B.inclusion.preimage lScheme) (by
       apply B.inclusion.map_injective
-      show B.inclusion.map (B.inclusion.preimage lScheme ≫ (k₀ ≫ T.hom)) = _
+      change B.inclusion.map (B.inclusion.preimage lScheme ≫ (k₀ ≫ T.hom)) = _
       simp only [Functor.map_comp, Functor.map_preimage, k₀]
-      show l₀ ≫ A.ι ≫ B.inclusion.map T.hom = _
+      change l₀ ≫ A.ι ≫ B.inclusion.map T.hom = _
       rw [← Category.assoc, hl₀]
       exact congrArg B.inclusion.map m.w)
   have hl : l ≫ k = m := by
     apply Q.map_injective
     rw [Functor.map_comp, hk]
-    show B.inclusion.map (B.inclusion.preimage lScheme) ≫ A.ι = Q.map m
+    change B.inclusion.map (B.inclusion.preimage lScheme) ≫ A.ι = Q.map m
     rw [Functor.map_preimage, hl₀]
   let q : FieldValuedPoint B S hS (yoneda.obj U) :=
     { carrier := p.carrier
@@ -551,10 +553,10 @@ private theorem exists_affine_open_neighborhood_of_representable
       value := l }
   have hq : pointsMap B S hS (yoneda.obj U) (yoneda.map k)
       (q.class B S hS (yoneda.obj U)) = p.class B S hS (yoneda.obj T) := by
-    show Quot.mk _ (FieldValuedPoint.map B S hS (yoneda.obj U)
+    change Quot.mk _ (FieldValuedPoint.map B S hS (yoneda.obj U)
       (yoneda.map k) q) = Quot.mk _ p
     congr 1
-    show ({
+    change ({
       carrier := p.carrier
       contained := p.contained
       toBase := p.toBase
@@ -564,18 +566,18 @@ private theorem exists_affine_open_neighborhood_of_representable
   · let P := MorphismProperty.inverseImage
       (@AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u}) Q
     have hkopen : P k := by
-      show AlgebraicGeometry.IsOpenImmersion (Q.map k)
+      change AlgebraicGeometry.IsOpenImmersion (Q.map k)
       rw [hk]
       infer_instance
     let : ObjectProperty.IsClosedUnderIsomorphisms
         (AlgebraicGeometry.schemeSizeBelow B.cutoff) := ⟨by
       intro X Y e h
-      show Y.size < B.cutoff
+      change Y.size < B.cutoff
       rwa [← Scheme.size_congr e]⟩
     let : ObjectProperty.IsClosedUnderLimitsOfShape
         (AlgebraicGeometry.schemeSizeBelow B.cutoff) WalkingCospan := .mk' (by
       rintro _ ⟨G, hG⟩
-      show (limit G).size < B.cutoff
+      change (limit G).size < B.cutoff
       rw [Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan G))]
       exact Scheme.size_pullback_lt _ _ (hG .left) (hG .right))
     let : HasPullbacks B.Schemes := hasLimitsOfShape_of_closedUnderLimits
@@ -728,13 +730,13 @@ private theorem exists_finite_open_neighborhood_of_separated
       (localRingDimension_zero_map_of_openSubspace B S hS hW.1 hY W.ι hW.2 v hv)).preimage
         (pointsMap_injective_of_mono B S hS p).injOn).subset
     intro x hx
-    show pointsMap B S hS X f (pointsMap B S hS P p x) = _
+    change pointsMap B S hS X f (pointsMap B S hS P p x) = _
     calc
       pointsMap B S hS X f (pointsMap B S hS P p x) =
           pointsMap B S hS P (p ≫ f) x :=
         (congrFun (pointsMap_comp B S hS _ p f) x).symm
       _ = pointsMap B S hS W.toFunctor W.ι v := by
-        show pointsMap B S hS P (pullback.fst f W.ι ≫ f) x = _
+        change pointsMap B S hS P (pullback.fst f W.ι ≫ f) x = _
         rw [pullback.condition, pointsMap_comp, Function.comp_apply, hx]
   obtain ⟨V, hV, hdense, hfin⟩ :=
     exists_dense_open_isFinite_of_separated_quasiSeparated_target

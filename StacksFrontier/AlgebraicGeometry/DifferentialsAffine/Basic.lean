@@ -114,7 +114,7 @@ theorem exists_addMonoidHom_of_isLocalization
     have h : F.comp L = RingHom.id S := by
       apply IsLocalization.ringHom_ext P
       ext a
-      show (L (algebraMap A S a)).fst = _
+      change (L (algebraMap A S a)).fst = _
       rw [IsLocalization.lift_eq]
       rfl
     exact RingHom.congr_fun h
@@ -123,11 +123,11 @@ theorem exists_addMonoidHom_of_isLocalization
   · intro x y
     have h := congrArg TrivSqZeroExt.snd (map_mul L x y)
     rw [snd_mul] at h
-    show (L (x * y)).snd = _
+    change (L (x * y)).snd = _
     rw [h, hfst, hfst]
     rfl
   · intro a
-    show (L (algebraMap A S a)).snd = _
+    change (L (algebraMap A S a)).snd = _
     rw [IsLocalization.lift_eq]
     rfl
 
@@ -210,7 +210,7 @@ theorem eq_of_eq_on_affineOpen {U : X.Opens} (hU : IsAffineOpen U)
     have := hU.isLocalization_basicOpen g
     refine addMonoidHom_eq_of_isLocalization (Submonoid.powers g) (RingHom.id _) _ _
       (fun x y => hmul _ _ x y) (fun x y => hmul' _ _ x y) (fun a => ?_)
-    show d (X.basicOpen g) (X.basicOpen_le g)
+    change d (X.basicOpen g) (X.basicOpen_le g)
           (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a) =
         d' (X.basicOpen g) (X.basicOpen_le g)
           (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a)
@@ -266,11 +266,11 @@ theorem restrict_extension_basicOpen (g h : Γ(X, U)) (hle : X.basicOpen h ≤ X
     (fun z w => by
       exact map_leibniz hle (E g) (hE1 g) z w)
     (fun z w => by
-      show E h (X.presheaf.map (homOfLE hle).op (z * w)) = _
+      change E h (X.presheaf.map (homOfLE hle).op (z * w)) = _
       rw [map_mul, hE1 h]
       rfl)
     (fun a => by
-      show M.presheaf.map (homOfLE hle).op
+      change M.presheaf.map (homOfLE hle).op
           (E g (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a)) =
         E h (X.presheaf.map (homOfLE hle).op
           (X.presheaf.map (homOfLE (X.basicOpen_le g)).op a))
@@ -351,7 +351,7 @@ theorem exists_restrictions {U : X.Opens} (hU : IsAffineOpen U)
   refine ⟨fun W hW => AddMonoidHom.mk' (T W hW) (hadd W hW), hleib, hrc, ?_⟩
   ext s
   refine eq_of_eq_on_basicOpens hU le_rfl _ _ (fun f hf => ?_)
-  show M.presheaf.map (homOfLE hf).op (T U le_rfl s) = _
+  change M.presheaf.map (homOfLE hf).op (T U le_rfl s) = _
   exact (hT U le_rfl s f hf).trans (hE2 f s)
 
 /-- **Stacks 01UO, affine-open form.** On the opens contained in an affine open `U` of a scheme

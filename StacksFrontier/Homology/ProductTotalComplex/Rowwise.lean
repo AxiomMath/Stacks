@@ -273,10 +273,10 @@ private theorem cone_internal_exact {c c' : CplxCplx} (g : c.Hom c')
   have hw' : g.app p q x + c'.dTo p (q-1) q (by ring) w = r := hw
   refine ⟨(w, c.cast p (by ring) (-t + s • x)), ?_⟩
   apply Prod.ext
-  · show ((cone g).cast p (by ring)
+  · change ((cone g).cast p (by ring)
         ((cone g).d p (q-1) (w, c.cast p (by ring) (-t+s • x)))).1 = z.1
     rw [cone_cast_fst]
-    show c'.cast p (by ring)
+    change c'.cast p (by ring)
         (c'.d p (q-1) w + s • g.app p ((q-1)+1)
           (c.cast p (by ring) (-t + s • x))) = z.1
     rw [map_add, map_zsmul, app_cast, c'.cast_cast,
@@ -288,10 +288,10 @@ private theorem cone_internal_exact {c c' : CplxCplx} (g : c.Hom c')
     calc
       _ = (g.app p q x + c'.dTo p (q-1) q (by ring) w) - s • g.app p q t := by abel
       _ = z.1 := by rw [hw']; abel
-  · show ((cone g).cast p (by ring)
+  · change ((cone g).cast p (by ring)
         ((cone g).d p (q-1) (w, c.cast p (by ring) (-t+s • x)))).2 = z.2
     rw [cone_cast_snd]
-    show c.cast p (by ring)
+    change c.cast p (by ring)
         (-c.d p ((q-1)+1) (c.cast p (by ring) (-t + s • x))) = z.2
     rw [c.d_cast, map_neg, map_add, map_neg, map_zsmul, hx, smul_zero]
     simp only [add_zero]
@@ -363,11 +363,11 @@ private theorem shiftTot_D (c : CplxCplx) (n k : ℤ) (x : c.Tot (k + n)) :
   funext p
   cases p with
   | zero =>
-    show (shift c n).totalD k (shiftTot c n k x) 0 =
+    change (shift c n).totalD k (shiftTot c n k x) 0 =
       c.cast 0 (by ring) (c.cast 0 (by ring) (c.totalD (k+n) x 0))
     rw [totalD_apply_zero, totalD_apply_zero, dPartHom_apply, dPartHom_apply]
     rw [shift_cast, shift_d, shiftTot_apply]
-    show c.cast 0 (show (k-(0:ℕ)+1)+n = (k+1-(0:ℕ))+n by ring) (((-1:ℤ)^0) •
+    change c.cast 0 (show (k-(0:ℕ)+1)+n = (k+1-(0:ℕ))+n by ring) (((-1:ℤ)^0) •
       c.cast 0 (show (k-(0:ℕ))+n+1 = (k-(0:ℕ)+1)+n by ring)
         (c.d 0 ((k-(0:ℕ))+n)
           (c.cast 0 (show (k+n)-(0:ℕ) = (k-(0:ℕ))+n by ring) (x 0)))) =
@@ -377,7 +377,7 @@ private theorem shiftTot_D (c : CplxCplx) (n k : ℤ) (x : c.Tot (k + n)) :
             (((-1:ℤ)^0) • c.d 0 ((k+n)-(0:ℕ)) (x 0))))
     simp only [pow_zero, one_smul, c.d_cast, c.cast_cast]
   | succ p =>
-    show (shift c n).totalD k (shiftTot c n k x) (p+1) =
+    change (shift c n).totalD k (shiftTot c n k x) (p+1) =
       c.cast (p+1) (by ring) (c.cast (p+1) (by ring) (c.totalD (k+n) x (p+1)))
     rw [totalD_apply_succ, totalD_apply_succ, dPartHom_apply, dPartHom_apply,
       fPartHom_apply, fPartHom_apply]
@@ -389,7 +389,7 @@ private theorem D_castTot (c : CplxCplx) {n n' : ℤ} (h : n = n')
     c.totalD n' (c.castTot h x) = c.castTot (by rw [h]) (c.totalD n x) := by
   cases h
   funext p
-  show c.totalD n (fun p => c.cast p rfl (x p)) p = c.cast p rfl (c.totalD n x p)
+  change c.totalD n (fun p => c.cast p rfl (x p)) p = c.cast p rfl (c.totalD n x p)
   simp
 
 private theorem castTot_castTot (c : CplxCplx) {n n' n'' : ℤ}
@@ -420,7 +420,7 @@ private theorem shift_internal_exact (c : CplxCplx) (n : ℤ)
     exact (c.cast_eq_zero_iff p _ _).mp hz
   obtain ⟨w, hw⟩ := hH p (-(p:ℤ)+n) z hz'
   refine ⟨c.cast p (by ring) w, ?_⟩
-  show (shift c n).cast p (by ring)
+  change (shift c n).cast p (by ring)
     ((shift c n).d p (-(p:ℤ)-1) (c.cast p (by ring) w)) = z
   rw [shift_cast, shift_d, c.d_cast, c.cast_cast, c.cast_cast]
   exact hw

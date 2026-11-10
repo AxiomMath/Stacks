@@ -267,7 +267,7 @@ theorem eq_zero_of_imageInOpen_zeroImages
     obtain ⟨w, hwp, -⟩ := exists_points_of_isPullback B S hS hsq qx z hzy.symm
     refine ⟨pointsToScheme B S hS
       ((SmallEtale.toOver B S hS X).obj (pullback f g)) w, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS X).map (pullback.fst f g)) _ = _
     rw [← pointsToScheme_pointsMap_yoneda B S hS
       ((SmallEtale.toOver B S hS X).map (pullback.fst f g)) w, hwp]
@@ -293,7 +293,7 @@ theorem eq_zero_of_imageInOpen_zeroImages
         (Over.homMk (U := Over.mk (Rfam.f j ≫ ((SmallEtale.toOver B S hS X).obj V).hom))
           (Rfam.f j) rfl : _ ⟶ (SmallEtale.toOver B S hS X).obj V) rfl) }
   have hRsmall : SmallEtale.IsCovering B S hS X ⟨V, Rsmall⟩ := by
-    show B.etaleCovering ⟨T, Rsmall.map (SmallEtale.toSchemes B S hS X)⟩
+    change B.etaleCovering ⟨T, Rsmall.map (SmallEtale.toSchemes B S hS X)⟩
     rwa [show Rsmall.map (SmallEtale.toSchemes B S hS X) = Rfam by ext <;> rfl]
   have hzraw : ∀ i : I, F.obj.map (E₀.f i).op (F.obj.map f.op σ) = 0 := fun i ↦ by
     have hzcomp : F.obj.map (E₀.f i ≫ f).op σ = 0 := by
@@ -306,7 +306,7 @@ theorem eq_zero_of_imageInOpen_zeroImages
   have hebase : ebase ≫ (E₀.f k).hom.left.left = Rfam.f j := (hf j).symm
   let eover : (Rsmall.X j).obj.left ⟶ (E₀.X k).obj.left :=
     Over.homMk ebase (by
-      show ebase ≫ (E₀.X k).obj.left.hom = Rfam.f j ≫ V.obj.left.hom
+      change ebase ≫ (E₀.X k).obj.left.hom = Rfam.f j ≫ V.obj.left.hom
       rw [← (E₀.f k).hom.left.w, ← Category.assoc, hebase])
   have heover : eover ≫ (E₀.f k).hom.left = (Rsmall.f j).hom.left :=
     Over.OverMorphism.ext hebase
@@ -566,7 +566,7 @@ theorem supportOfSection_restrict
         (yoneda.map ((SmallEtale.toOver B S hS X).map f)) ⁻¹'
           supportOfSection B S hS X F U σ :=
   Set.ext fun x ↦ by
-    show x ∉ zeroImages B S hS X F V (F.obj.map f.op σ) ↔
+    change x ∉ zeroImages B S hS X F V (F.obj.map f.op σ) ↔
       pointsMap B S hS (yoneda.obj ((SmallEtale.toOver B S hS X).obj V))
         (yoneda.map ((SmallEtale.toOver B S hS X).map f)) x ∉
           zeroImages B S hS X F U σ

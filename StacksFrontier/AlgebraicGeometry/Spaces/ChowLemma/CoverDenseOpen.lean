@@ -86,7 +86,7 @@ theorem denseRange_of_denseRange_comp_isOpenImmersion {A T Z : Scheme.{u}} (a : 
   refine ⟨a.base y, ?_, Set.mem_range_self y⟩
   have hinj : Function.Injective ⇑b.base := hb'.base_open.injective
   have key : b.base (a.base y) = b.base x := by
-    show (a ≫ b).base y = b.base x
+    change (a ≫ b).base y = b.base x
     rw [hzy, ← hxz]
   rw [hinj key]
   exact hxO

@@ -42,7 +42,7 @@ theorem homEquiv_app_apply (φ : (Scheme.Modules.pullback f).obj E ⟶ N) (V : X
   rw [Adjunction.homEquiv_unit]
   rfl
 
-include hU hfU in
+include hU in
 /-- Over a basic open of `U`, two morphisms `ℰ ⟶ f_*𝒩` agreeing on `Γ(U, ℰ)` agree. -/
 theorem app_basicOpen_eq {t₁ t₂ : E ⟶ (Scheme.Modules.pushforward f).obj N}
     (h : ∀ x : Γ(E, U), t₁.app U x = t₂.app U x) (g : Γ(X, U))
@@ -92,7 +92,7 @@ theorem pullback_hom_ext_of_isAffineOpen {φ ψ : (Scheme.Modules.pullback f).ob
   set t₁ := (Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv E N φ
   set t₂ := (Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv E N ψ
   have hU' : ∀ x : Γ(E, U), t₁.app U x = t₂.app U x := fun x => by
-    show t₁.val.app (op U) x = t₂.val.app (op U) x
+    change t₁.val.app (op U) x = t₂.val.app (op U) x
     rw [homEquiv_app_apply, homEquiv_app_apply]
     exact h x
   have hUW : (⊤ : Y.Opens) ≤ f ⁻¹ᵁ U := hfU.ge
@@ -101,10 +101,10 @@ theorem pullback_hom_ext_of_isAffineOpen {φ ψ : (Scheme.Modules.pullback f).ob
   refine Stacks.Smooth.section_ext_of_restrict_basicOpen f N hU hUW V _ _ fun g hg => ?_
   have n₁ := PresheafOfModules.naturality_apply t₁.val (homOfLE hg).op y
   have n₂ := PresheafOfModules.naturality_apply t₂.val (homOfLE hg).op y
-  show ((Scheme.Modules.pushforward f).obj N).presheaf.map (homOfLE hg).op
+  change ((Scheme.Modules.pushforward f).obj N).presheaf.map (homOfLE hg).op
       (t₁.app V y) =
     ((Scheme.Modules.pushforward f).obj N).presheaf.map (homOfLE hg).op (t₂.app V y)
-  exact n₁.symm.trans ((app_basicOpen_eq f hU hfU E hU' g _).trans n₂)
+  exact n₁.symm.trans ((app_basicOpen_eq f hU E hU' g _).trans n₂)
 
 end Stacks.Chow.GenuineChern
 

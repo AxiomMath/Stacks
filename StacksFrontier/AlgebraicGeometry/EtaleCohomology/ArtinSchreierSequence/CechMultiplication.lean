@@ -153,7 +153,7 @@ end General
 def multMap (c : Γ(pullback (pullback.snd (𝟙 S) f) V.ι, ⊤)) :
     additiveSheaf.{u, 0} S ⟶ (etaleAbelianDirectImage.{u, 0} f).obj (openDirectImage X V) :=
   ⟨{ app T := multMapApp f V c T.unop.hom
-     naturality T₁ T₂ α :=
+     naturality _ _ α :=
        multMapApp_naturality f V α.unop.left (MorphismProperty.Over.w α.unop)
          ((smallEtaleBaseChange f).map α.unop).left (smallEtaleBaseChange_map_left_fst f α.unop)
          (smallEtaleBaseChange_w f ((smallEtaleBaseChange f).map α.unop))

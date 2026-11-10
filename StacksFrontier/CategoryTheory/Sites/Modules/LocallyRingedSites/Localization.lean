@@ -112,7 +112,7 @@ theorem locallyEitherUnit_over {C : Type u} [Category.{v} C] {J : GrothendieckTo
   · rw [GrothendieckTopology.mem_over_iff]
     simpa using hS
   · intro W g hg
-    show IsUnit (O.obj.map g.left.op f) ∨ IsUnit (O.obj.map g.left.op (1 - f))
+    change IsUnit (O.obj.map g.left.op f) ∨ IsUnit (O.obj.map g.left.op (1 - f))
     exact hP g.left (by simpa using hg)
 
 /-- Nonvanishing of `1` passes to the localization: restriction along `Over.forget U` preserves

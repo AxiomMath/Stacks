@@ -38,6 +38,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasPullbacks` search on presheaves over the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_dimensionBaseChange :
@@ -49,6 +50,7 @@ private instance (priority := high) hasPullback_presheaf_dimensionBaseChange
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- limit-instance searches on presheaves over the big fppf site in the statement and proof
 /-- **Stacks 0D4N.** The fibre-dimension function of the base change of a finite type morphism of
 algebraic spaces over `S` is the pullback of the fibre-dimension function of the morphism along
 the map on points of the morphism of targets. -/

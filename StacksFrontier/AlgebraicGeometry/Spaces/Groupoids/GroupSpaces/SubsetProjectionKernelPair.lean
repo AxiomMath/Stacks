@@ -102,7 +102,7 @@ theorem subsetProjectionSection_comp {n : ℕ} {I J : Finset (Fin n)} (h : J ⊆
       𝟙 (projectiveLinePower k B hk J) := by
   refine Pi.hom_ext _ _ fun j => ?_
   rw [Category.assoc, Pi.map'_comp_π, Category.comp_id, subsetProjectionSection, Pi.lift_comp_π,
-    dif_pos (show ((⟨(j : Fin n), h j.2⟩ : I) : Fin n) ∈ J from j.2), Category.id_comp]
+    dite_eq_left (show ((⟨(j : Fin n), h j.2⟩ : I) : Fin n) ∈ J from j.2), Category.id_comp]
 
 /-! ### The kernel pair -/
 
@@ -134,7 +134,7 @@ theorem subsetKernelPairFst_comp_π_of_mem {I J : Finset (Fin n)} (i : I)
     subsetKernelPairFst k B hk I J ≫
         Pi.π (fun _ : I => projectiveLineFunctor k B hk) i =
       Pi.π (fun _ : subsetComplIndex I J ⊕ I => projectiveLineFunctor k B hk) (Sum.inr i) := by
-  rw [subsetKernelPairFst, Pi.map'_comp_π, Category.comp_id, dif_pos hi]
+  rw [subsetKernelPairFst, Pi.map'_comp_π, Category.comp_id, dite_eq_left hi]
 
 /-- For a coordinate `i ∈ I` lying outside `J`, the first leg of the kernel pair reads coordinate
 `i` off the block indexed by the coordinates of `I` outside `J`. -/
@@ -145,7 +145,7 @@ theorem subsetKernelPairFst_comp_π_of_notMem {I J : Finset (Fin n)} (i : I)
         Pi.π (fun _ : I => projectiveLineFunctor k B hk) i =
       Pi.π (fun _ : subsetComplIndex I J ⊕ I => projectiveLineFunctor k B hk)
         (Sum.inl ⟨i, hi⟩) := by
-  rw [subsetKernelPairFst, Pi.map'_comp_π, Category.comp_id, dif_neg hi]
+  rw [subsetKernelPairFst, Pi.map'_comp_π, Category.comp_id, dite_eq_right hi]
 
 /-- The second leg of the kernel pair reads coordinate `i ∈ I` off the second copy of `I`. -/
 @[reassoc]
@@ -202,10 +202,10 @@ theorem isPullback_subsetKernelPair {I J : Finset (Fin n)} (h : J ⊆ I) :
     rw [Pi.lift_comp_π]
     cases b with
     | inl a =>
-      show m ≫ _ = s.fst ≫ Pi.π (fun _ : I => projectiveLineFunctor k B hk) (a : I)
+      change m ≫ _ = s.fst ≫ Pi.π (fun _ : I => projectiveLineFunctor k B hk) (a : I)
       rw [← hm₁, Category.assoc, subsetKernelPairFst_comp_π_of_notMem k B hk (a : I) a.2]
     | inr i =>
-      show m ≫ _ = s.snd ≫ Pi.π (fun _ : I => projectiveLineFunctor k B hk) i
+      change m ≫ _ = s.snd ≫ Pi.π (fun _ : I => projectiveLineFunctor k B hk) i
       rw [← hm₂, Category.assoc, subsetKernelPairSnd_comp_π]
 
 /-! ### The reduction -/

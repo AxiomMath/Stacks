@@ -107,7 +107,7 @@ theorem exists_etaleNeighborhood_isClopen_of_isFinite {T S : Scheme.{u}} (π₀ 
     obtain ⟨⟨a⟩, y, rfl⟩ := Scheme.IsLocallyDirected.ι_jointly_surjective (Discrete.functor R) y
     refine ⟨a, y, ?_⟩
     change (Sigma.desc j) ((Sigma.ι R a) y) = _ at hy
-    rw [← hy, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← hy, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   -- points over `u` of the piece of `x i` map to `x i`
   have hpiece : ∀ (i : Fin n) (y : R (some i)),
       (j (some i) ≫ pullback.snd π₀ U.toBase) y = U.point →
@@ -123,7 +123,7 @@ theorem exists_etaleNeighborhood_isClopen_of_isFinite {T S : Scheme.{u}} (π₀ 
       j b p = j c q → b = c := by
     intro b c p q hpq
     have : (Sigma.ι R b ≫ Sigma.desc j) p = (Sigma.ι R c ≫ Sigma.desc j) q := by
-      simpa only [Sigma.ι_desc] using hpq
+      simpa only [Sigma.ι_comp_desc] using hpq
     rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at this
     exact congrArg Sigma.fst ((sigmaι_eq_iff R b c p q).mp
       ((ConcreteCategory.bijective_of_isIso (Sigma.desc j).base).1 this))
@@ -199,12 +199,12 @@ theorem exists_fg_subalgebra_separates {R R' : Type*} [CommRing R] [CommRing R']
     rfl
   have hsum : aA + bA + cA = algebraMap R A t :=
     Subtype.val_injective (by
-      show a + b + A.val cA = algebraMap R R' t
+      change a + b + A.val cA = algebraMap R R' t
       rw [hcA, habc])
   intro q hq hqp ⟨hIq, hJq⟩
   have hcq : cA ∈ q := by
     refine Ideal.sum_mem _ fun i _ => Ideal.mul_mem_left _ _ ?_
-    show x i ∈ q.comap (algebraMap R A)
+    change x i ∈ q.comap (algebraMap R A)
     rw [hqp]
     exact hx i
   have htq : algebraMap R A t ∈ q :=
@@ -256,12 +256,12 @@ theorem exists_etaleNeighborhood_isClopen_of_isIntegralHom {S' S : Scheme.{u}} (
     let y : PrimeSpectrum R' := ⟨q, hq⟩
     let x : S' := S'.isoSpec.inv y
     have hxy : S'.isoSpec.hom x = y := by
-      show (S'.isoSpec.inv ≫ S'.isoSpec.hom) y = y
+      change (S'.isoSpec.inv ≫ S'.isoSpec.hom) y = y
       rw [Iso.inv_hom_id]
       rfl
     have hx : π x = s := by
       apply (ConcreteCategory.bijective_of_isIso S.isoSpec.hom.base).1
-      show S.isoSpec.hom (π x) = S.isoSpec.hom s
+      change S.isoSpec.hom (π x) = S.isoSpec.hom s
       rw [hmap, hxy]
       exact PrimeSpectrum.ext hqp
     have hxmem : ∀ Z : Set S', IsClosed Z →
@@ -296,7 +296,7 @@ theorem exists_etaleNeighborhood_isClopen_of_isIntegralHom {S' S : Scheme.{u}} (
   have : IsFinite π₀ := inferInstance
   have hπ₀ : ∀ y : T, S.isoSpec.hom (π₀ y) = PrimeSpectrum.comap (algebraMap R A) y := by
     intro y
-    show (S.isoSpec.inv ≫ S.isoSpec.hom) (Spec.map ι y) = _
+    change (S.isoSpec.inv ≫ S.isoSpec.hom) (Spec.map ι y) = _
     rw [Iso.inv_hom_id]
     rfl
   let P₀ : Set T := {y | I.comap A.val ≤ (y : PrimeSpectrum A).asIdeal}
@@ -315,7 +315,7 @@ theorem exists_etaleNeighborhood_isClopen_of_isIntegralHom {S' S : Scheme.{u}} (
   obtain ⟨ψ, hψfst, hψsnd⟩ := exists_pullback_map π π₀ U.toBase ρ hρπ
   refine ⟨U, hU, ψ ⁻¹' Z₀, hZ₀.preimage ψ.continuous, fun w hw => ?_⟩
   have hπw := apply_fst_eq_of_snd_eq_point π U w hw
-  show ψ w ∈ Z₀ ↔ _
+  change ψ w ∈ Z₀ ↔ _
   rw [hZ₀p (ψ w) ((hψsnd w).trans hw), hψfst]
   refine ⟨fun hP₀ => ?_, hPP₀ _⟩
   by_contra hnP
@@ -400,7 +400,7 @@ theorem exists_etaleNeighborhood_isClopen_of_isProper_of_isAffine {X S : Scheme.
   obtain ⟨ψ, hψfst, hψsnd⟩ := exists_pullback_map f π U.toBase g hgπ
   refine ⟨U, hU, ψ ⁻¹' Z, hZ.preimage ψ.continuous, fun z hz => ?_⟩
   have hfz := apply_fst_eq_of_snd_eq_point f U z hz
-  show ψ z ∈ Z ↔ _
+  change ψ z ∈ Z ↔ _
   rw [hZp (ψ z) ((hψsnd z).trans hz), hψfst]
   refine ⟨fun ⟨a, ha, hga⟩ => ?_, fun h => ⟨_, h, rfl⟩⟩
   by_contra hnP

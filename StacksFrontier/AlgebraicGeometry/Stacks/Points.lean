@@ -182,7 +182,7 @@ private theorem asSitePoint_hasCommonExtension {a q : FieldValuedPoint B S hS �
       (asSitePoint a f) (asSitePoint q (𝟙 _)) := by
   refine ⟨asSitePoint a f, ⟨𝟙 _, ?_⟩, ⟨f, ?_⟩⟩
   · simp [Space.FieldValuedPoint.siteObject]
-  · show f ≫ 𝟙 (canonicalSiteObject q) = f
+  · change f ≫ 𝟙 (canonicalSiteObject q) = f
     exact Category.comp_id _
 
 /-- In a category fibred in groupoids, two arrows `a ⟶ q` and `b ⟶ q` of field-valued points
@@ -237,7 +237,7 @@ theorem hasCommonExtension_trans (h𝒳 : 𝒳.p.IsFiberedInGroupoids)
   have hbasePath : (gza ≫ (siteObjectIso a).hom) ≫ pointBaseMap faq =
       (gzb ≫ (siteObjectIso b).hom) ≫ pointBaseMap fbq := by
     refine (cancel_mono (siteObjectIso q).inv).1 ?_
-    show gza ≫ (siteObjectIso a).hom ≫ pointBaseMap faq ≫ (siteObjectIso q).inv =
+    change gza ≫ (siteObjectIso a).hom ≫ pointBaseMap faq ≫ (siteObjectIso q).inv =
       gzb ≫ (siteObjectIso b).hom ≫ pointBaseMap fbq ≫ (siteObjectIso q).inv
     exact hza
   obtain ⟨w, ⟨ψa⟩, ⟨ψb⟩⟩ := hasCommonExtension_of_pointBaseMap_eq h𝒳 faq fbq (K := z.carrier)

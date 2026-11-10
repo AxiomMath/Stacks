@@ -53,7 +53,7 @@ private theorem natCard_ker_mulVecMod_eq_natCard_tors {N : ℕ}
     Nat.card (mulVecMod (ℓ := ℓ) B N).ker = Nat.card (tors (aeval (asEnd u) R).ker (ℓ ^ N)) :=
   Nat.card_congr
     { toFun := fun z => ⟨⟨E.symm z.1, by
-        show (aeval (asEnd u) R) _ = 0
+        change (aeval (asEnd u) R) _ = 0
         rw [← aeval_levelMatrix_mulVec]
         have hz := z.2
         rw [AddMonoidHom.mem_ker] at hz
@@ -75,7 +75,7 @@ private theorem natCard_ker_mulVecMod_eq_natCard_tors {N : ℕ}
           push_cast at h'
           exact h'⟩, by
           rw [AddMonoidHom.mem_ker]
-          show (B.map (Int.castRingHom (ZMod (ℓ ^ N)))).mulVec _ = 0
+          change (B.map (Int.castRingHom (ZMod (ℓ ^ N)))).mulVec _ = 0
           rw [← RingHom.mapMatrix_apply, hB]
           refine E.symm.injective (Subtype.ext ?_)
           rw [map_zero, Submodule.coe_zero, aeval_levelMatrix_mulVec, AddEquiv.symm_apply_apply]
@@ -130,7 +130,7 @@ private theorem norm_resultant_eq_norm_natCard_ker
       Stacks.Polynomial.det_aeval_eq_resultant_charpoly_int,
       show (PadicInt.toZModPow N).comp (Int.castRingHom ℤ_[ℓ]) =
         Int.castRingHom (ZMod (ℓ ^ N)) from RingHom.ext_int _ _]
-    show A.charpoly.resultant _ r R.natDegree = _
+    change A.charpoly.resultant _ r R.natDegree = _
     rw [← hB, Matrix.charpoly_map, resultant_map_map, eq_intCast]
   have hsub : ‖F.resultant (R.map (Int.castRingHom ℤ_[ℓ])) r R.natDegree - (BR.det : ℤ_[ℓ])‖ ≤
       (ℓ : ℝ) ^ (-(N : ℤ)) := by
@@ -194,10 +194,10 @@ theorem exists_charpoly_levelMatrix_eq_of_normForm (p : ℕ) (hp : p.Prime) (hp�
     have hR : Nat.card (aeval (asEnd u) R).ker ≠ 0 := fun h0 =>
       hres (by rw [← hker R hR0, h0, Nat.cast_zero, map_zero])
     rw [hχres, hFres, ← hker R hR0]
-    show ‖((F.resultant (R.map (Int.castRingHom ℤ_[ℓ])) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
+    change ‖((F.resultant (R.map (Int.castRingHom ℤ_[ℓ])) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
       ‖ιQ ((Nat.card (aeval (asEnd u) R).ker : ℕ) : ℚ)‖
-    rw [PadicInt.padic_norm_e_of_padicInt, norm_resultant_eq_norm_natCard_ker u E' hF hR,
-      ← PadicInt.padic_norm_e_of_padicInt, PadicInt.coe_intCast, map_natCast]
+    rw [PadicInt.norm_coe, norm_resultant_eq_norm_natCard_ker u E' hF hR,
+      ← PadicInt.norm_coe, PadicInt.coe_intCast, map_natCast]
     norm_cast
   · rw [← charpoly_levelMatrix_map u n (E' n) le_rfl E, ZMod.castHom_self, Polynomial.map_id]
     exact (hF n).symm

@@ -117,10 +117,10 @@ the cycles of an acyclic K-flat complex with flat terms are flat on every ringed
 theorem kFlat_pullbackComplex (f : RingedToposSiteHom X Y)
     (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((Stacks.Sheaves.DerivedPullback.KFlatPullback.pullbackComplex f).obj K) :=
   Stacks.Sheaves.DerivedPullback.KFlatPullback.kFlat_pullbackComplex f hmos
     (RingedToposSiteHom.pullbackPreservesIsFlat f)
@@ -134,10 +134,10 @@ so the morphism-of-sites hypothesis is the one already carried for `f`. -/
 theorem kFlat_pullbackComplex_auxHomG (f : RingedToposSiteHom X Y)
     (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat (auxTopos f).O
+    Stacks.SheafOfModules.KFlat (auxTopos f).O
       ((Stacks.Sheaves.DerivedPullback.KFlatPullback.pullbackComplex (auxHomG f)).obj K) :=
   kFlat_pullbackComplex (auxHomG f) hmos K hK hflatK
 

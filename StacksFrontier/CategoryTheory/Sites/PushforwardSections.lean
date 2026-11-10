@@ -671,7 +671,7 @@ lemma pushforwardSectionsEquivAux_naturality
   apply Functor.sections_ext_iff.mpr
   intro P
   rw [pushforwardSectionsEquivAux_apply (P := P.unop), globalSectionsEquivSections_naturality]
-  show (f.op.ranCounit.app 𝒢).app (op P.unop.y)
+  change (f.op.ranCounit.app 𝒢).app (op P.unop.y)
       ((f.op.ran.obj 𝒢).map
         (P.unop.iso.inv ≫ D.cone P.unop.x).op
         (((f.op.ran.map η).app (op Y)) s)) =

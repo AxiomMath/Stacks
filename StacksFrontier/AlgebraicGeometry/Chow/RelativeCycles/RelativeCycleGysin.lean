@@ -374,7 +374,7 @@ theorem relativeCycleCap_gysin_rationallyEquivalent {T : Scheme.{u}} (g : T ⟶ 
     · obtain ⟨e, rfl⟩ := ht
       rw [properPushforward_apply_image_of_isClosedImmersion]
       simp_rw [properPushforward_apply_image_of_isClosedImmersion]
-      show ∑ᶠ x : T, β.1 x * (gysinComponentCycleAt C (g ≫ sY) k L s chT x).1 e = _
+      change ∑ᶠ x : T, β.1 x * (gysinComponentCycleAt C (g ≫ sY) k L s chT x).1 e = _
       exact hsum _ fun t ht ↦ by rw [ht, zero_mul]
     · rw [properPushforward_apply_eq_zero_of_notMem_range_of_isClosedImmersion C _ _ _ _ _ _ ht]
       refine (finsum_eq_zero_of_forall_eq_zero fun j ↦ ?_).symm
@@ -419,9 +419,9 @@ theorem relativeCycleCap_gysin_rationallyEquivalent {T : Scheme.{u}} (g : T ⟶ 
     · rw [finsum_mem_def, mul_finsum]
       refine finsum_congr fun x ↦ ?_
       by_cases hx : π.base x = (j : T)
-      · rw [Set.indicator_of_mem (by exact hx), if_pos hx, hx]
+      · rw [Set.indicator_of_mem (by exact hx), ite_eq_left hx, hx]
         ring
-      · rw [Set.indicator_of_notMem (by exact hx), if_neg hx]
+      · rw [Set.indicator_of_notMem (by exact hx), ite_eq_right hx]
         ring
   -- the support facts
   have hclosD : ∀ (j : J) (t : T), (properPushforward C (D.subschemeι ≫ g ≫ sY) (g ≫ sY)
@@ -471,7 +471,7 @@ theorem relativeCycleCap_gysin_rationallyEquivalent {T : Scheme.{u}} (g : T ⟶ 
       rw [properPushforward_apply_image_of_isClosedImmersion, hext]
       congr 1
       refine finsum_congr fun x ↦ ?_
-      show _ = ((cycleAssociatedToClosedSubscheme C (g ≫ sY)
+      change _ = ((cycleAssociatedToClosedSubscheme C (g ≫ sY)
         (integralComponentAt (j : T)).subschemeι (k + 1)).1 (π.base x) * a x) * _
       rw [hprime]
     · rw [properPushforward_apply_eq_zero_of_notMem_range_of_isClosedImmersion C _ _ _ _ _ _ hy]
@@ -500,20 +500,20 @@ theorem relativeCycleCap_gysin_rationallyEquivalent {T : Scheme.{u}} (g : T ⟶ 
       rw [hprime] at hx
       have hxj : π.base x = (j : T) := by
         by_contra hne
-        rw [if_neg hne, zero_mul, zero_mul] at hx
+        rw [ite_eq_right hne, zero_mul, zero_mul] at hx
         exact hx rfl
-      rw [if_pos hxj, one_mul] at hx
+      rw [ite_eq_left hxj, one_mul] at hx
       refine ⟨x, ⟨⟨_, rfl, hρsupp x (right_ne_zero_of_mul hx)⟩, ?_⟩, hxj⟩
-      show (β.1 (π.base x) * a x) ≠ 0
+      change (β.1 (π.base x) * a x) ≠ 0
       rw [hxj]
       exact mul_ne_zero j.2 (left_ne_zero_of_mul hx)
     · refine Set.finite_empty.subset fun j hj ↦ hj ?_
-      show β.1 j * B j = 0
+      change β.1 j * B j = 0
       simp only [hB]
       rw [properPushforward_apply_eq_zero_of_notMem_range_of_isClosedImmersion C _ _ _ _ _ _ hy,
         mul_zero]
   simp only [AddSubgroupClass.coe_sub, Function.locallyFinsuppWithin.coe_sub, Pi.sub_apply]
-  show (properPushforward C (D.subschemeι ≫ g ≫ sY) (g ≫ sY) D.subschemeι rfl k
+  change (properPushforward C (D.subschemeι ≫ g ≫ sY) (g ≫ sY) D.subschemeι rfl k
       ((gysinRule C (g ≫ sY) k L s chT).extendCycleGroup β)).1 (π.base y) * a y - _ = _
   rw [hLy, hRy, ← finsum_sub_distrib hfinA hfinB]
   exact finsum_congr fun j ↦ by rw [hΔy, mul_sub]

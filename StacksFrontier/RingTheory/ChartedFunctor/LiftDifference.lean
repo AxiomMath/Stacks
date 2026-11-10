@@ -115,7 +115,7 @@ lemma addLift_apply (σ : C ⟶ Q.obj) (δ : LiftDer π σ) (c : C) :
 lemma addLift_comp (σ : C ⟶ Q.obj) (δ : LiftDer π σ) :
     addLift hπ σ δ ≫ π.hom = σ ≫ π.hom := by
   ext c
-  show BoundedAlg.toAlgHom π (σ.hom c + δ.1 c) = BoundedAlg.toAlgHom π (σ.hom c)
+  change BoundedAlg.toAlgHom π (σ.hom c + δ.1 c) = BoundedAlg.toAlgHom π (σ.hom c)
   rw [map_add, LiftDer.map_eq_zero δ, add_zero]
 
 /-- **The difference of two lifts with the same reduction**, as a derivation along the first. -/
@@ -141,14 +141,14 @@ lemma liftSub_apply (σ₁ σ₂ : C ⟶ Q.obj) (h : σ₁ ≫ π.hom = σ₂ �
 lemma addLift_liftSub (σ₁ σ₂ : C ⟶ Q.obj) (h : σ₁ ≫ π.hom = σ₂ ≫ π.hom) :
     addLift hπ σ₁ (liftSub hπ σ₁ σ₂ h) = σ₂ := by
   ext c
-  show σ₁.hom c + (σ₂.hom c - σ₁.hom c) = σ₂.hom c
+  change σ₁.hom c + (σ₂.hom c - σ₁.hom c) = σ₂.hom c
   ring
 
 /-- The difference from a translate is the translating derivation. -/
 lemma liftSub_addLift (σ : C ⟶ Q.obj) (δ : LiftDer π σ) :
     liftSub hπ σ (addLift hπ σ δ) (addLift_comp hπ σ δ).symm = δ := by
   ext c
-  show σ.hom c + δ.1 c - σ.hom c = δ.1 c
+  change σ.hom c + δ.1 c - σ.hom c = δ.1 c
   ring
 
 /-- Two lifts with the same reduction are equal exactly when their difference vanishes. -/

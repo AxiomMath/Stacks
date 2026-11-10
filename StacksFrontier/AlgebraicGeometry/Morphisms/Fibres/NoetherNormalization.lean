@@ -54,9 +54,9 @@ theorem exists_mem_ideal_transcendental_residue
       rcases (hp.prod_le).mp hprod with ⟨j, hj, hjp⟩
       exact hinc j i (Finset.mem_erase.mp hj).1 hjp
     have hLnot : ¬ L ≤ (p i).asIdeal := fun hL => (hp.mul_le.mp hL).elim (hJ i) hprodnot
-    obtain ⟨c, hcL, hcp⟩ := SetLike.not_le_iff_exists.mp hLnot
+    obtain ⟨c, hcL, hcp⟩ := IsConcreteLE.not_le_iff_exists.mp hLnot
     have hcJ : c ∈ J := Ideal.mul_le_left hcL
-    obtain ⟨m, hmIdeal, hmnot⟩ := SetLike.not_le_iff_exists.mp hprodnot
+    obtain ⟨m, hmIdeal, hmnot⟩ := IsConcreteLE.not_le_iff_exists.mp hprodnot
     obtain ⟨ξ, hξ⟩ : ∃ ξ : (p i).asIdeal.ResidueField, ¬ IsAlgebraic (k i) ξ :=
       not_forall.mp fun hall => htrans i ⟨hall⟩
     let A := R ⧸ (p i).asIdeal

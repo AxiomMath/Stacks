@@ -81,7 +81,7 @@ private theorem supp_subset_of_epi {X : Scheme.{u}}
   obtain ⟨a, ha⟩ := hsurj b
   refine ⟨a, fun ha0 => hb ?_⟩
   rw [← ha, ha0]
-  show ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+  change ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
     ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map q.val)) 0 = 0
   exact map_zero _
 
@@ -108,7 +108,7 @@ private theorem supp_subset_of_mono {X : Scheme.{u}}
   have hinj : Function.Injective q :=
     (AddCommGrpCat.mono_iff_injective q).mp (mono_stalkAddCommGroupFunctor_map_of_mono i x)
   refine ⟨q.hom a, fun hzero => ha (hinj ?_)⟩
-  show (ConcreteCategory.hom q) a = (ConcreteCategory.hom q) 0
+  change (ConcreteCategory.hom q) a = (ConcreteCategory.hom q) 0
   rw [hzero]
   exact (map_zero (AddCommGrpCat.Hom.hom q)).symm
 

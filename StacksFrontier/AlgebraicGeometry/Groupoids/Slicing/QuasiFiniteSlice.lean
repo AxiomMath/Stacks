@@ -247,7 +247,7 @@ private lemma exists_open_with_locallyQuasiFinite
     rw [relativeDimensionLEAt_iff, fiberDimensionAt_openImmersion_comp V.ι D.h z]
     exact z.2
   have hxV : x ∈ V := by
-    show topologicalKrullDimAt (D.h.fiber (D.h x)) (D.h.asFiber x) ≤ 0
+    change topologicalKrullDimAt (D.h.fiber (D.h x)) (D.h.asFiber x) ≤ 0
     rw [hx]
   obtain ⟨W, hW⟩ := exists_open_with_preimage_maximal_relativeDimensionLE D 0
   refine ⟨W, hW.2 hV hxV, ?_⟩
@@ -344,7 +344,7 @@ public theorem exists_affine_slice_locallyQuasiFinite_of_isFiniteTypePoint {S : 
     (pullback.fst D.groupoid.source D.g)).left D.sliceIdentityPoints.restrictedIdentity
   let x : A.fiberProduct := e₀.hom x₀
   have hmap : e₀.hom ≫ A.h = D.sourceMap.left := by
-    show e₀.hom ≫ pullback.snd g.left G.target.left ≫ G.source.left =
+    change e₀.hom ≫ pullback.snd g.left G.target.left ≫ G.source.left =
       (pullback.snd D.g D.groupoid.target ≫ D.groupoid.source).left
     rw [← Category.assoc, overPullbackLeftIso_hom_snd, Over.comp_left]
   have hsmD : LocallyOfFiniteType D.sourceMap.left := inferInstance
@@ -394,14 +394,14 @@ public theorem exists_affine_slice_locallyQuasiFinite_of_isFiniteTypePoint {S : 
     refine Set.ext fun y => ⟨?_, ?_⟩
     · rintro ⟨z, rfl⟩
       rw [Scheme.Opens.range_ι]
-      show (e₀.hom ≫ π) (Vo.ι z) ∈ V
+      change (e₀.hom ≫ π) (Vo.ι z) ∈ V
       rw [congrArg (fun k => k (Vo.ι z)) he₀fst]
       exact z.2
     · rw [Scheme.Opens.range_ι]
       intro hy
       change π y ∈ V at hy
       refine ⟨⟨e₀.inv y, by change (e₀.inv ≫ πOver) y ∈ V; rw [he₀fstInv]; exact hy⟩, ?_⟩
-      show e₀.hom (e₀.inv y) = y
+      change e₀.hom (e₀.inv y) = y
       simp
   have : IsOpenImmersion (Vo.ι ≫ e₀.hom) := inferInstance
   let e₁ := pullbackRightPullbackFstIso g G.target j
@@ -457,7 +457,7 @@ public theorem exists_affine_slice_locallyQuasiFinite_of_isFiniteTypePoint {S : 
               ((congrArg (fun k => k ≫ A.h) hq).trans (Category.assoc q.left e₀.hom A.h))
       _ = (e₁.inv ≫ q ≫ pullback.snd g G.target ≫ G.source).left := by
             rw [hmap]
-            show e₁.inv.left ≫ q.left ≫
+            change e₁.inv.left ≫ q.left ≫
               (pullback.snd g G.target ≫ G.source).left = _
             simp only [Over.comp_left]
       _ = h2 := by
@@ -472,7 +472,7 @@ public theorem exists_affine_slice_locallyQuasiFinite_of_isFiniteTypePoint {S : 
   have hpull : g.left (πOver x₀) = G.target.left ((pullback.snd g G.target).left x₀) :=
     congrArg (fun k => k x₀) (congrArg Over.Hom.left (pullback.condition (f := g) (g := G.target)))
   have harrow : (pullback.snd g G.target).left x₀ = G.identity.left u := by
-    show ((pullback.fst (pullback.snd D.g D.groupoid.target)
+    change ((pullback.fst (pullback.snd D.g D.groupoid.target)
       (pullback.fst D.groupoid.source D.g) ≫
       pullback.snd D.g D.groupoid.target).left D.sliceIdentityPoints.restrictedIdentity) = _
     exact D.sliceIdentityPoints.restrictedIdentity_arrow
@@ -482,16 +482,16 @@ public theorem exists_affine_slice_locallyQuasiFinite_of_isFiniteTypePoint {S : 
     refine g.left.isEmbedding.injective ?_
     rw [hpull, harrow, htid, hgu]
   have hcoord : π x = u' := by
-    show π (e₀.hom x₀) = u'
+    change π (e₀.hom x₀) = u'
     simpa using (congrArg (fun k => k x₀) he₀fst).trans hcoordOver
   let u2 : V.toScheme := ⟨π x, hxV⟩
   have hpoint : g2.left u2 = u := by
-    show g.left (V.ι u2) = u
+    change g.left (V.ι u2) = u
     simpa [u2] using (congrArg g.left hcoord).trans hgu
   refine ⟨U2, g2, u2, hpoint, hV, ?_, ?_, ⟨hflat2, hlfp2, hqf2⟩, ?_, ?_⟩
-  · show IsImmersion (V.ι ≫ g.left)
+  · change IsImmersion (V.ι ≫ g.left)
     infer_instance
-  · show LocallyOfFinitePresentation (V.ι ≫ g.left)
+  · change LocallyOfFinitePresentation (V.ι ≫ g.left)
     infer_instance
   · exact ⟨restriction_source_mem G g2 (GroupoidScheme.restrict G g2) _ hflat2,
       restriction_source_mem G g2 (GroupoidScheme.restrict G g2) _ hlfp2,

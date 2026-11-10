@@ -32,7 +32,7 @@ namespace Quasiregular
 theorem isQuasiregularIdeal_span_range {R : Type u} [CommRing R] {r : ℕ} (f : Fin r → R)
     (hf : RingTheory.Sequence.IsQuasiRegular R (List.ofFn f)) :
     IsQuasiregularIdeal' (Ideal.span (Set.range f)) := by
-  show IsQuasiregularIdeal (Ideal.span (Set.range f))
+  change IsQuasiregularIdeal (Ideal.span (Set.range f))
   rw [Ideal.isQuasiregularIdeal_iff_isLocallySpannedBy]
   intro p _
   refine ⟨1, p.asIdeal.ne_top_iff_one.mp p.isPrime.ne_top, r,

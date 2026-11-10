@@ -197,7 +197,7 @@ theorem range_stalkHom_unitToInvertibleSheaf (D : X.IdealSheafData)
     (congrArg (fun J : X.IdealSheafData => J.ideal V)
         (Stacks.Divisors.zeroScheme_canonicalSection D)).symm.trans
       (Stacks.Divisors.zeroScheme_ideal_eq_span_idealSheafSection D V b _ rfl)
-  show Ideal.span {ringGermAt X (V : X.Opens) x hxV (Stacks.Divisors.idealSheafSection D b.e)}
+  change Ideal.span {ringGermAt X (V : X.Opens) x hxV (Stacks.Divisors.idealSheafSection D b.e)}
       = AlgebraicGeometry.IdealSheafData.stalk D x
   rw [AlgebraicGeometry.IdealSheafData.stalk_eq_map_germ D x V hxV, hid, Ideal.map_span,
     Set.image_singleton]

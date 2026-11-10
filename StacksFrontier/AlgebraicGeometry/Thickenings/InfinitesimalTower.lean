@@ -110,7 +110,7 @@ theorem ker_inclusion_pow_eq_bot {K I : X.IdealSheafData} (h : K ≤ I) {m : ℕ
   have hzero : Ideal.map (K.subschemeι.app V.1).hom (I.ideal V ^ m) = ⊥ :=
     le_bot_iff.mp (Ideal.map_le_iff_le_comap.mpr
       (hmV.trans_eq (RingHom.ker_eq_comap_bot _)))
-  show ((Scheme.IdealSheafData.inclusion h).ker ^ m).ideal _ = ⊥
+  change ((Scheme.IdealSheafData.inclusion h).ker ^ m).ideal _ = ⊥
   rw [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply,
     Stacks.ClosedImmersion.ker_inclusion_ideal h V, ← Ideal.map_pow, hzero]
 

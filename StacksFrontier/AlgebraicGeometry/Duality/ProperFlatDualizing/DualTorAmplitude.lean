@@ -107,7 +107,7 @@ theorem isLE_derivedDual_of_hasTorAmplitude {W : Scheme.{u}} [CompactSpace W]
   have hind : ∀ m : ℕ, D'.IsLE (-a + m) → D'.IsLE (-a) := by
     intro m
     induction m with
-    | zero => simpa using id
+    | zero => simp
     | succ m ih =>
       intro hm
       have h' := hstep (-a + (m + 1 : ℕ)) (by omega) hm

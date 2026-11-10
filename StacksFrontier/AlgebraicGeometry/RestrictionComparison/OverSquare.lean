@@ -108,9 +108,8 @@ noncomputable def pullbackSquareIso (w : q ≫ u = v ≫ p) :
     intro X Y f
     ext
     apply (isPullback_pullback_snd_pullback' w Y).hom_ext
-    · simp [Over.pullback_obj_hom, Over.pullback_obj_left, pullback.lift_fst,
-        pullback.lift_fst_assoc]
-    · simp [Over.pullback_obj_hom, Over.pullback_obj_left, pullback.lift_snd])
+    · simp [Over.pullback_obj_hom, Over.pullback_obj_left]
+    · simp [Over.pullback_obj_hom, Over.pullback_obj_left])
 
 /-- The component of `pullbackSquareIso w` at `X : Over S` is `pullbackSquareObjIso w X`. -/
 @[simp]

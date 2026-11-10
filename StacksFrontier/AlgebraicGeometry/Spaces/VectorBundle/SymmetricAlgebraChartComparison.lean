@@ -91,7 +91,7 @@ theorem symmetricAlgebraGen_app (V : SmallEtale B S hS W.1) (m : F.val.obj (op V
     conv_lhs => rw [← htri]
     exact congrArg (fun g => (SheafOfModules.Hom.val g).app (op V) _)
       (symmetricAlgebraSheafificationIso B S hS W F).hom_inv_id
-  show (@PresheafOfModules.symmetricAlgebraSheafifyGen.{u, u + 1, u, u} _ _
+  change (@PresheafOfModules.symmetricAlgebraSheafifyGen.{u, u + 1, u, u} _ _
       (SmallEtale.topology B S hS W.1) (structureSheaf B S hS W.1 W.2).obj
       (structureRingSheaf B S hS W) (𝟙 _) (isLocallyInjective_id_structureRingSheaf B S hS W)
       (isLocallySurjective_id_structureRingSheaf B S hS W)
@@ -265,10 +265,11 @@ theorem map_chartSymAlgHom_ι {U V : SmallEtale B S hS W.1} (f : V ⟶ U) (m : F
 identification `AlgebraicGeometry.Space.SymAlgSections.symSectionsRingEquiv`. -/
 theorem bijective_chartSymAlgHom (V : SmallEtale B S hS W.1)
     (hV : IsAffine ((SmallEtale.toOver B S hS W.1 ⋙ BigFppfOver.toScheme B S hS).obj V))
-    {ι : Type u} [DecidableEq ι] [Finite ι]
+    {ι : Type u} [Finite ι]
     (e : SheafOfModules.over (R := structureRingSheaf B S hS W) F V ≅
       SheafOfModules.free (R := (structureRingSheaf B S hS W).over V) ι) :
     Function.Bijective (chartSymAlgHom B S hS W F V) := by
+  classical
   have h : ⇑(chartSymAlgHom B S hS W F V) = ⇑(symSectionsRingEquiv B S hS W F V e hV) :=
     funext fun s => (chartSymAlgHom_apply B S hS W F V s).trans
       (symSectionsRingEquiv_apply B S hS W F V e hV s).symm

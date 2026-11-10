@@ -165,7 +165,7 @@ variable (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
 theorem mono_subspaceInclusion {X : AlgebraicSpaces C S hS} (Z : ClosedSubspaces C S hS X.1) :
     Mono (subspaceInclusion C S hS X Z) := by
   apply (ObjectProperty.ι _).mono_of_mono_map
-  show Mono Z.1.ι
+  change Mono Z.1.ι
   infer_instance
 
 /-- **The inverse image of a closed subspace is the fibre product.**  For a morphism
@@ -189,7 +189,7 @@ theorem isPullback_subspaceInclusion_preimage {X X' : AlgebraicSpaces C S hS} (�
       Subfunctor.range c.fst.hom ≤ Z'.1.preimage φ.hom := by
     intro c T point hpoint
     obtain ⟨x, rfl⟩ := hpoint
-    show φ.hom.app T (c.fst.hom.app T x) ∈ Z'.1.obj T
+    change φ.hom.app T (c.fst.hom.app T x) ∈ Z'.1.obj T
     have hx : φ.hom.app T (c.fst.hom.app T x) = (c.snd.hom.app T x).val :=
       congrArg (fun m : c.pt ⟶ X' => m.hom.app T x) c.condition
     rw [hx]
@@ -218,6 +218,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   (U₀ : ClosedSubspaces C S hS G.objects.1)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SectionsInfinitesimal :
@@ -366,7 +367,7 @@ theorem isInfinitesimalSection_iff_restrictedSection (δ : Section G) :
       restrictedSection_comp_subspaceInclusion, restrictedUnit_comp_subspaceInclusion]
     exact h
   · intro h
-    show subspaceInclusion C S hS G.objects U₀ ≫ δ.1 =
+    change subspaceInclusion C S hS G.objects U₀ ≫ δ.1 =
       subspaceInclusion C S hS G.objects U₀ ≫ identityArrow G
     rw [← restrictedSection_comp_subspaceInclusion G U₀ δ, h,
       restrictedUnit_comp_subspaceInclusion]
@@ -442,7 +443,7 @@ theorem sectionCompHom_hom_app (δ₁ δ₂ : Section G) (T : (BigFppfOver C S h
       rfl
   have happ : (sectionCompHom G δ₁ δ₂).hom.app T y =
       (composableToPullback G.source.hom G.target.hom ≫ G.comp.hom).app T (q.app T y) := by
-    show G.comp.hom.app T
+    change G.comp.hom.app T
         ((pullback.lift (δ₂.1.hom ≫ G.target.hom ≫ δ₁.1.hom) δ₂.1.hom
           (by simp [Category.assoc, hh])).app T y) =
       G.comp.hom.app T
@@ -487,7 +488,7 @@ theorem isInfinitesimalSection_sectionComp {δ₁ δ₂ : Section G}
   have hid : G.source.hom.app T (G.toGroupoidInFunctors.identity T x.val) =
       G.target.hom.app T (G.toGroupoidInFunctors.identity T x.val) := by
     rw [← hide, hunitSrc, hunitTgt]
-  show (sectionCompHom G δ₁ δ₂).hom.app T x.val = (identityArrow G).hom.app T x.val
+  change (sectionCompHom G δ₁ δ₂).hom.app T x.val = (identityArrow G).hom.app T x.val
   rw [sectionCompHom_hom_app G δ₁ δ₂ T x.val (source_app_of_comp_eq_id G δ₁.2 T _),
     compose_congr G T ha hb (source_app_of_comp_eq_id G δ₁.2 T _) hid,
     compose_identity_identity G T x.val hid]
@@ -555,7 +556,7 @@ theorem mem_infinitesimalSectionsLiftSheaf {δ : Section G}
     (hδ : IsInfinitesimalSection G U₀ δ) (U' : Space.SmallEtale C S hS G.objects.1) :
     yonedaEquiv (U'.1.hom ≫ δ.1.hom) ∈
       (infinitesimalSectionsLiftSheaf G U₀).obj (op U') := by
-  show IsChartLift C S hS (𝟙 G.objects) G.source
+  change IsChartLift C S hS (𝟙 G.objects) G.source
     (subspaceInclusion C S hS G.objects U₀ ≫ identityArrow G).hom U'
     (yonedaEquiv.symm (yonedaEquiv (U'.1.hom ≫ δ.1.hom)))
   rw [Equiv.symm_apply_apply]

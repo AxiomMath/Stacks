@@ -342,7 +342,7 @@ noncomputable def adjunction : restrictFunctor c ⊣ glueFunctor aT aC ε s :=
 @[reassoc (attr := simp)]
 lemma adjunction_unit_app_fst (M : 𝒱') :
     (adjunction aV aA aT aC c ε hs).unit.app M ≫ pullback.fst _ _ = aV.unit.app M := by
-  show homEquiv aV aA aT aC c ε hs M _ (𝟙 _) ≫ pullback.fst _ _ = _
+  change homEquiv aV aA aT aC c ε hs M _ (𝟙 _) ≫ pullback.fst _ _ = _
   rw [homEquiv_apply_fst]
   exact aV.homEquiv_id M
 
@@ -350,7 +350,7 @@ lemma adjunction_unit_app_fst (M : 𝒱') :
 @[reassoc (attr := simp)]
 lemma adjunction_unit_app_snd (M : 𝒱') :
     (adjunction aV aA aT aC c ε hs).unit.app M ≫ pullback.snd _ _ = aA.unit.app M := by
-  show homEquiv aV aA aT aC c ε hs M _ (𝟙 _) ≫ pullback.snd _ _ = _
+  change homEquiv aV aA aT aC c ε hs M _ (𝟙 _) ≫ pullback.snd _ _ = _
   rw [homEquiv_apply_snd]
   exact aA.homEquiv_id M
 
@@ -360,7 +360,7 @@ by the counit of `aV`. -/
 lemma adjunction_counit_app_target (T : Triple pT pC) :
     ((adjunction aV aA aT aC c ε hs).counit.app T).target =
       pV.map (pullback.fst _ _) ≫ aV.counit.app T.target := by
-  show ((homEquiv aV aA aT aC c ε hs _ T).symm (𝟙 _)).target = _
+  change ((homEquiv aV aA aT aC c ε hs _ T).symm (𝟙 _)).target = _
   rw [homEquiv_symm_apply_target, Category.id_comp]
   exact aV.homEquiv_counit _ _ _
 
@@ -370,7 +370,7 @@ followed by the counit of `aA`. -/
 lemma adjunction_counit_app_ambient (T : Triple pT pC) :
     ((adjunction aV aA aT aC c ε hs).counit.app T).ambient =
       pA.map (pullback.snd _ _) ≫ aA.counit.app T.ambient := by
-  show ((homEquiv aV aA aT aC c ε hs _ T).symm (𝟙 _)).ambient = _
+  change ((homEquiv aV aA aT aC c ε hs _ T).symm (𝟙 _)).ambient = _
   rw [homEquiv_symm_apply_ambient, Category.id_comp]
   exact aA.homEquiv_counit _ _ _
 

@@ -100,7 +100,8 @@ statement with `halg` deleted. Over an affine base it is
 ## Implementation notes
 
 Neither reducedness of the complement nor density of the Chow open is a hypothesis anywhere
-below; see the module docstring of `StacksFrontier/AlgebraicGeometry/Scheme/SubschemeIdealJoin.lean`.
+below; see the module docstring of
+`StacksFrontier/AlgebraicGeometry/Scheme/SubschemeIdealJoin.lean`.
 
 `hc` is stated at the open `𝒦₀.support.compl` while Chow's lemma produces the open `U`, and the
 two agree because the support of the vanishing ideal of a closed set is that closed set,

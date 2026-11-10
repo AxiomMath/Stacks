@@ -183,7 +183,7 @@ theorem subsingleton_of_isZero {M : SheafOfModules.{w} R} (hM : IsZero M) (X : C
     have h : (𝟙 M : M ⟶ M).val.app X x = (0 : M ⟶ M).val.app X x := by
       rw [hM.eq_of_src (𝟙 M) 0]
     have h0 : (0 : M ⟶ M).val.app X x = 0 := by
-      show (0 : M.val ⟶ M.val).app X x = 0
+      change (0 : M.val ⟶ M.val).app X x = 0
       simp
     simpa [h0] using h
   exact subsingleton_of_forall_eq 0 key

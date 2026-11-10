@@ -146,7 +146,7 @@ private theorem epi_whiskerLeft_strict {Z : Scheme.{u}} (D : Z.Modules) {B C : Z
     Epi (D ◁ f) := by
   let : MonoidalCategory Z.Modules := Stacks.SheafOfModules.Strict.monoidalCategory Z.sheaf.obj
     (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf Z.sheaf)
-  show Epi (D ◁ f)
+  change Epi (D ◁ f)
   rw [show D ◁ f = ((Stacks.SheafOfModules.Tensor.sheafTensor Z.sheaf).obj D).map f
     from Stacks.SheafOfModules.Strict.whiskerLeft_eq_sheafTensor Z.sheaf D f]
   exact @preserves_epi_of_preservesColimit _ _ _ _ _ _ _ f
@@ -162,7 +162,7 @@ private theorem epi_whiskerRight_strict {Z : Scheme.{u}} (D : Z.Modules) {B C : 
     (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf Z.sheaf)
   let : BraidedCategory Z.Modules := Stacks.SheafOfModules.Strict.braidedCategory Z.sheaf.obj
     (Stacks.SheafOfModules.Strict.isSheaf_ringSheaf Z.sheaf)
-  show Epi (f ▷ D)
+  change Epi (f ▷ D)
   have : Epi (D ◁ f) := epi_whiskerLeft_strict D f
   rw [show f ▷ D = (β_ B D).hom ≫ D ◁ f ≫ (β_ C D).inv by
     rw [← Category.assoc, ← BraidedCategory.braiding_naturality_left, Category.assoc,

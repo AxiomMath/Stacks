@@ -151,7 +151,7 @@ theorem isAffineAlgebraicSpaceOver_of_isLimit_fork {a b : R₁ ⟶ R₂}
       fac := by
         rintro s ⟨_ | _⟩
         · exact equalizer.lift_ι _ _
-        · show (equalizer.lift _ _ ≫ equalizer.ι _ _ ≫ D.map l) = s.π.app o
+        · change (equalizer.lift _ _ ≫ equalizer.ι _ _ ≫ D.map l) = s.π.app o
           rw [equalizer.lift_ι_assoc]
           exact (s.π.naturality l).symm.trans (Category.id_comp _)
       uniq := fun s m hm => equalizer.hom_ext ((hm z).trans (equalizer.lift_ι _ _).symm) }

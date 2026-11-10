@@ -69,7 +69,8 @@ private lemma flat_localRingHom_of_isEtaleAt
     [Algebra A B] [Algebra.FinitePresentation A B]
     (p : Ideal A) [p.IsPrime] (q : Ideal B) [q.IsPrime] [q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q] (h : Algebra.IsEtaleAt A q) :
+    [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q)]
+    (h : Algebra.IsEtaleAt A q) :
     (Localization.localRingHom p q (algebraMap A B) Ideal.LiesOver.over).Flat := by
   obtain ⟨g, hg, hge⟩ := Algebra.exists_etale_of_isEtaleAt (R := A) q
   have hle : Submonoid.powers g ≤ q.primeCompl := Submonoid.powers_le.mpr hg
@@ -94,7 +95,7 @@ private lemma flat_localRingHom_of_isEtaleAt
   have : Module.Flat (Localization.AtPrime p) (Localization.AtPrime q) :=
     (Module.flat_iff_of_isLocalization (Localization.AtPrime p) p.primeCompl
       (Localization.AtPrime q)).2 inferInstance
-  simpa only [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq] using
+  simpa only [Localization.AtPrime.algebraMap_eq] using
     (RingHom.flat_algebraMap_iff.mpr
       (inferInstance : Module.Flat (Localization.AtPrime p) (Localization.AtPrime q)))
 
@@ -120,7 +121,7 @@ theorem isEtaleAt_iff_isEtaleLocalHom
     IsLocalization.isNoetherianRing q.primeCompl _ inferInstance
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
     Localization.AtPrime.algebraOfLiesOver p q
-  let : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+  have : IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
   have : Algebra.FinitePresentation A B :=
     Algebra.FinitePresentation.of_finiteType.mp inferInstance
   refine ⟨fun h => ?_, fun ⟨hflat, hunram, _⟩ => ?_⟩

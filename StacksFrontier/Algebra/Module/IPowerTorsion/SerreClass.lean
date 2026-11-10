@@ -50,7 +50,7 @@ public theorem isSerreClass_isIPowerTorsion
   let hExt :=
     (torsionBySet_quotient_primaryComponent_eq_bot_and_isIPowerTorsion_of_exact.{u,
       v, v, v, v} I hI).2
-  show P.IsSerreClass
+  change P.IsSerreClass
   refine
     { exists_zero := ?_
       prop_of_mono := ?_

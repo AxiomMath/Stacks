@@ -183,8 +183,7 @@ theorem bijective_lTensor_of_isBaseChange {T T₁ : Type*} [CommRing T] [CommRin
     Function.Bijective (g.lTensor T₁) := by
   have key : ∀ x, g.lTensor T₁ x = hh.equiv.symm (hhg.equiv x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, hx, hy, map_add, map_add]
     | tmul t n =>
       rw [LinearMap.lTensor_tmul, IsBaseChange.equiv_tmul, LinearEquiv.map_smul,
@@ -247,8 +246,7 @@ theorem isBaseChange_iff_bijective_lift {C T : Type*} [CommRing C] [CommRing T] 
   refine ⟨fun hq => ?_, fun hbij => ?_⟩
   · have : (hmk.lift q : T ⊗[C] H → H') = hq.equiv := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero]
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [map_add, map_add, hx, hy]
       | tmul t m =>
         have h1 : (t ⊗ₜ[C] m : T ⊗[C] H) = t • ((1 : T) ⊗ₜ[C] m) := by

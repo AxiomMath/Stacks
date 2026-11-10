@@ -78,7 +78,7 @@ theorem range_rTensor_le_ker_gradedMulMap (n : ℕ) :
   rw [LinearMap.range_le_ker_iff]
   refine TensorProduct.ext' fun w m => ?_
   have hw : ((w : ↥(𝔪 ^ n)) : R) ∈ 𝔪 ^ (n + 1) := (mem_smul_top_pow_iff 𝔪 n _).1 w.2
-  show (𝔪 ^ (n + 1) • (⊤ : Submodule R M)).mkQ (((w : ↥(𝔪 ^ n)) : R) • m) = 0
+  change (𝔪 ^ (n + 1) • (⊤ : Submodule R M)).mkQ (((w : ↥(𝔪 ^ n)) : R) • m) = 0
   exact (Submodule.Quotient.mk_eq_zero _).2 (Submodule.smul_mem_smul hw Submodule.mem_top)
 
 /-! ### `k` copies of `M/𝔪M`, as `(𝔪ⁿ/𝔪ⁿ⁺¹) ⊗ M` -/
@@ -120,13 +120,13 @@ theorem piQuotEquivTensor_apply {k : ℕ} (n : ℕ)
     rw [hv, map_sum]
     exact Finset.sum_congr rfl fun i _ =>
       TensorProduct.piRight_symm_single R R M (fun _ : Fin k => (R ⧸ 𝔪)) (m i) i _
-  show (TensorProduct.comm R M _) ((LinearEquiv.lTensor M e.symm)
+  change (TensorProduct.comm R M _) ((LinearEquiv.lTensor M e.symm)
     ((TensorProduct.piRight R R M fun _ : Fin k => (R ⧸ 𝔪)).symm
       (fun i => (TensorProduct.tensorQuotEquivQuotSMul M 𝔪).symm
         (Submodule.Quotient.mk (m i))))) = _
   rw [hstep1, hstep2, map_sum, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
-  show (TensorProduct.comm R M _) (m i ⊗ₜ[R] e.symm (Pi.single i (1 : R ⧸ 𝔪))) = _
+  change (TensorProduct.comm R M _) (m i ⊗ₜ[R] e.symm (Pi.single i (1 : R ⧸ 𝔪))) = _
   rw [hx i]
   rfl
 

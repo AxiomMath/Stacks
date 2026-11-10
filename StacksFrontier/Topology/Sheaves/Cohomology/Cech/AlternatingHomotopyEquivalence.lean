@@ -123,7 +123,7 @@ theorem cechComparisonProjection_homotopic_id :
     apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro s
-    show s = cochainHomotopy U F 0 (CechCochains.cechD U F 0 s) +
+    change s = cochainHomotopy U F 0 (CechCochains.cechD U F 0 s) +
       CechCochains.c U F 0 (CechCochains.pi U F 0 s)
     rw [cochainHomotopy_zero, zero_add, comparison_zero]
   | succ p =>
@@ -132,7 +132,7 @@ theorem cechComparisonProjection_homotopic_id :
     apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro s
-    show s = cochainHomotopy U F (p + 1) (CechCochains.cechD U F (p + 1) s) +
+    change s = cochainHomotopy U F (p + 1) (CechCochains.cechD U F (p + 1) s) +
       CechCochains.cechD U F p (cochainHomotopy U F p s) +
         CechCochains.c U F (p + 1) (CechCochains.pi U F (p + 1) s)
     rw [cochainHomotopy_identity, sub_add_cancel]
@@ -156,7 +156,7 @@ theorem alternatingCechInclusion_homotopyEquivalence
         intro s
         apply Subtype.ext
         simp only [alternatingCechComplex_d, cechComplex_d]
-        show CechCochains.cechD U G p
+        change CechCochains.cechD U G p
             (CechCochains.c U G p (CechCochains.pi U G p s)) =
           CechCochains.c U G (p + 1)
             (CechCochains.pi U G (p + 1) (CechCochains.cechD U G p s))
@@ -172,7 +172,7 @@ theorem alternatingCechInclusion_homotopyEquivalence
         apply AddMonoidHom.ext
         intro s
         apply Subtype.ext
-        show CechCochains.c U G p (CechCochains.pi U G p s.1) = s.1
+        change CechCochains.c U G p (CechCochains.pi U G p s.1) = s.1
         exact CechCochains.c_pi_of_isAlternating U G p s.1 s.2)
       homotopyInvHomId := by
         convert (cechComparisonProjection_homotopic_id U G).some using 1

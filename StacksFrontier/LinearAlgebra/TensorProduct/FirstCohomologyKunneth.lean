@@ -43,8 +43,7 @@ theorem exists_eq_tmul_of_mem_range {M N : Type u} [AddCommGroup M] [Module k M]
     [AddCommGroup N] [Module k N] (v : M) (S : Submodule k M) (hS : S ≤ k ∙ v)
     (x : M ⊗[k] N) (hx : x ∈ range (S.subtype.rTensor N)) : ∃ n : N, x = v ⊗ₜ n := by
   obtain ⟨y, rfl⟩ := hx
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul s n =>
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.1 (hS s.2)
     exact ⟨c • n, by simp [← hc, TensorProduct.smul_tmul]⟩
@@ -75,8 +74,7 @@ private theorem exists_eq_tmul_of_lTensor_eq_zero {M N P : Type u} [AddCommGroup
   obtain ⟨γ, hγ⟩ := (Module.Flat.lTensor_exact M (LinearMap.exact_subtype_ker_map f) _).1 hx
   have key : ∀ g : M ⊗[k] ker f, (ker f).subtype.rTensor M (TensorProduct.comm k M _ g) =
       TensorProduct.comm k M N ((ker f).subtype.lTensor M g) := fun g => by
-    induction g using TensorProduct.induction_on with
-    | zero => simp
+    induction g using TensorProduct.inductionOn with
     | tmul a b => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   have hγ' : TensorProduct.comm k M N x ∈ range ((ker f).subtype.rTensor M) :=
@@ -169,7 +167,7 @@ theorem exists_eq_of_faces (dC0 : C0 →ₗ[k] C1) (dC1 : C1 →ₗ[k] C2) (dD0 
   classical
   set Z1 := ker dC1
   have hdC' : ∀ x, dC0 x ∈ Z1 := fun x => by
-    show dC1 (dC0 x) = 0
+    change dC1 (dC0 x) = 0
     exact congrArg (fun φ : C0 →ₗ[k] C2 => φ x) hdC
   set δ : C0 →ₗ[k] Z1 := dC0.codRestrict Z1 hdC'
   set H := Z1 ⧸ range δ

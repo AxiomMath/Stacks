@@ -120,7 +120,7 @@ theorem isLocallyInjective_pullback_snd_of_flat (sq : IsPullback m r f (yoneda.m
     (generate_singleton_pullback_fst_mem_topology hqs hqf hqp s)
   rintro Z k ⟨Z', u, bb, hbb, hfac⟩
   cases hbb
-  show (pullback f h).map k.op x = (pullback f h).map k.op y
+  change (pullback f h).map k.op x = (pullback f h).map k.op y
   rw [← hfac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h1]
 
 /-- **The geometric input of Stacks 03I2 for open immersions along a flat chart, outright.**

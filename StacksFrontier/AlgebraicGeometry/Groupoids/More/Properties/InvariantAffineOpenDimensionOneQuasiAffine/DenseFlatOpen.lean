@@ -196,7 +196,7 @@ private lemma eq_of_specializes_same_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
     [IsIntegralHom f] {x y : X} (hxy : x ⤳ y) (hfy : f.base x = f.base y) : x = y := by
   let yF : f.fiber (f.base x) := (f.fiberHomeo (f.base x)).symm ⟨y, hfy.symm⟩
   have hF : f.asFiber x ⤳ yF := by
-    show (f.fiberHomeo (f.base x)).symm ⟨x, rfl⟩ ⤳ yF
+    change (f.fiberHomeo (f.base x)).symm ⟨x, rfl⟩ ⤳ yF
     exact ((subtype_specializes_iff ..).2 hxy).map
       (f.fiberHomeo (f.base x)).symm.continuous
   have h := congrArg (f.fiberι (f.base x)) (Set.mem_singleton_iff.mp
@@ -732,7 +732,7 @@ lemma exists_invariant_affineOpen_of_dense_flat_open
     exact ⟨y, G.objects.left.toSpecΓ.isEmbedding.injective hy⟩
   have himage : k.left ''ᵁ (j ⁻¹ᵁ PrimeSpectrum.basicOpen f) =
       G.objects.left.basicOpen f := by
-    show k.left ''ᵁ (k.left ⁻¹ᵁ G.objects.left.toSpecΓ ⁻¹ᵁ PrimeSpectrum.basicOpen f) = _
+    change k.left ''ᵁ (k.left ⁻¹ᵁ G.objects.left.toSpecΓ ⁻¹ᵁ PrimeSpectrum.basicOpen f) = _
     rw [G.objects.left.toSpecΓ_preimage_basicOpen]
     exact SetLike.coe_injective (Set.image_preimage_eq_of_subset hfW)
   have hfinv : Stacks.Groupoids.IsInvariantOpen G (G.objects.left.basicOpen f) := by

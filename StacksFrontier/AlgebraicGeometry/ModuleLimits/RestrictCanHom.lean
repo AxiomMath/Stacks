@@ -108,7 +108,7 @@ theorem restrictPullbackObjIso_hom_pullbackSection {Y X : Scheme.{u}} (f : Y ⟶
   have h₁ : V' ≤ V.ι ⁻¹ᵁ (V.ι ''ᵁ V') := (V.ι.preimage_image_eq V').ge
   have h₂ : V' ≤ (V.ι ≫ f) ⁻¹ᵁ U' := h₁.trans (Scheme.Hom.preimage_mono _ h)
   rw [Stacks.Modules.restrictPullbackObjIso, Stacks.Modules.restrictPullbackIso]
-  show ((Scheme.Modules.pullback (Scheme.Hom.resLE f U V e)).map
+  change ((Scheme.Modules.pullback (Scheme.Hom.resLE f U V e)).map
       ((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app F)).val.app (op V')
     (((Scheme.Modules.pullbackComp (Scheme.Hom.resLE f U V e) U.ι).inv.app F).val.app (op V')
       (((Scheme.Modules.pullbackCongr (Scheme.Hom.resLE_comp_ι f e).symm).hom.app F).val.app

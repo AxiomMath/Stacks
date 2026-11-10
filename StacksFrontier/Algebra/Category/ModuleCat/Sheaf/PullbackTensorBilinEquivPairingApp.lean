@@ -114,7 +114,6 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   (f : Stacks.Sheaves.RingedToposModules.RingedToposHom X Y)
   (F G : SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
   (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))

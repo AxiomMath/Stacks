@@ -109,14 +109,14 @@ end Pi
 `K ⊗_A A_i` is perfect for every `i`, then `K` is perfect. -/
 theorem isPerfect_of_extendScalars_of_faithfullyFlat_pi {A : Type u} [CommRing A]
     {ι : Type u} [Finite ι] {S : ι → Type u} [∀ i, CommRing (S i)] (f : ∀ i, A →+* S i)
-    (hφ : (Pi.ringHom f).FaithfullyFlat)
+    (hφ : (RingHom.pi f).FaithfullyFlat)
     (K : CochainComplex (ModuleCat.{u} A) ℤ)
     (hK : ∀ i, IsPerfect (DerivedCategory.Q.obj
       (((ModuleCat.extendScalars.{u, u, u} (f i)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj K))) :
     IsPerfect (DerivedCategory.Q.obj K) := by
   classical
-  let φ : A →+* ∀ i, S i := Pi.ringHom f
+  let φ : A →+* ∀ i, S i := RingHom.pi f
   refine isPerfect_of_faithfullyFlat_baseChange.{u, u, u} φ hφ K ?_
   refine isPerfect_of_localizationSpan.{u, u} (piIdempotent S) (span_range_piIdempotent S) _
     fun i => ?_
@@ -128,7 +128,7 @@ theorem isPerfect_of_extendScalars_of_faithfullyFlat_pi {A : Type u} [CommRing A
       σ.symm.toRingHom.comp (f i) := by
     ext r
     apply σ.injective
-    show σ (algebraMap _ _ (φ r)) = σ (σ.symm (f i r))
+    change σ (algebraMap _ _ (φ r)) = σ (σ.symm (f i r))
     rw [RingEquiv.apply_symm_apply]
     exact (IsLocalization.algEquiv (Submonoid.powers (piIdempotent S i)) _ (S i)).commutes (φ r)
   have h2 := isPerfect_of_iso (extendScalarsCompQIso (f i) σ.symm.toRingHom K)

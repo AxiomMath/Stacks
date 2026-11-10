@@ -116,14 +116,14 @@ theorem rankPieceChernCap_of_le (i : ℕ) (r : ULift.{u} ℕ) (hi : i ≤ r.down
           (ObjectProperty.homMk (rankSubspace (Y := ⟨X, hX.1⟩) E r.down).ι) E) r.down
         (isFiniteLocallyFreeOfRank_modulePullback_rankSubspace (Y := ⟨X, hX.1⟩) E hE r.down
           (isGood_rankSubspace D sX hX E r.down).1) g hY ⟨i, Nat.lt_succ_of_le hi⟩ k :=
-  dif_pos hi
+  dite_eq_left hi
 
 /-- For `i > r`, `c_i(ℰ|_{X_r}) ∩ -` is zero. -/
 theorem rankPieceChernCap_of_lt (i : ℕ) (r : ULift.{u} ℕ) (hi : r.down < i) {Y : D.Ambient}
     (g : Y ⟶ (rankSubspace (Y := ⟨X, hX.1⟩) E r.down).toFunctor)
     (hY : D.IsGood (g ≫ (rankSubspace (Y := ⟨X, hX.1⟩) E r.down).ι ≫ sX)) (k : ℤ) :
     rankPieceChernCap D sX hX E hE i r g hY k = 0 :=
-  dif_neg (Nat.not_le.2 hi)
+  dite_eq_right (Nat.not_le.2 hi)
 
 /-- `c_i(ℰ|_{X_r}) ∩ -` commutes with proper pushforward. -/
 theorem rankPieceChernCap_properPushforward (i : ℕ) (r : ULift.{u} ℕ) {Y₁ Y₂ : D.Ambient}
@@ -322,7 +322,7 @@ c_i(E|_{X_r}) ∩ - on the factors"]
 theorem rankDecomposition_chowGroup_chernClassOfFiniteLocallyFree :
     IsClopenSubspaceDecomposition D sX
         (fun r : ULift.{u} ℕ => (rankSubspace (Y := ⟨X, hX.1⟩) E r.down).ι) ∧
-      (∀ {Y : D.Ambient} (g : Y ⟶ X) (hY : D.IsGood (g ≫ sX)),
+      (∀ {Y : D.Ambient} (g : Y ⟶ X), D.IsGood (g ≫ sX) →
         ∃ hdec : IsClopenSubspaceDecomposition D (g ≫ sX)
             (fun r : ULift.{u} ℕ => ((rankSubspace (Y := ⟨X, hX.1⟩) E r.down).preimage g).ι),
           ∀ k : ℤ, Function.Bijective (chowGroupCanonicalDecompositionRestrict hdec k)) ∧

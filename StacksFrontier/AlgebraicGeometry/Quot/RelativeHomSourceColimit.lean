@@ -137,7 +137,7 @@ theorem moduleHomOverPrecomp_app_apply {F F' : Modules.{u, u} B S hS X.1 X.2} (�
 theorem moduleHomOverPrecompApp_id (F G : Modules.{u, u} B S hS X.1 X.2) (Z : Over X)
     (α : (modulePullback B S hS Z.hom).obj F ⟶ (modulePullback B S hS Z.hom).obj G) :
     moduleHomOverPrecompApp (𝟙 F) Z α = α := by
-  show (modulePullback B S hS Z.hom).map (𝟙 F) ≫ α = α
+  change (modulePullback B S hS Z.hom).map (𝟙 F) ≫ α = α
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- Precomposing with the inverse image of a composite is precomposing twice. -/
@@ -146,7 +146,7 @@ theorem moduleHomOverPrecompApp_comp {F F' F'' G : Modules.{u, u} B S hS X.1 X.2
     (α : (modulePullback B S hS Z.hom).obj F'' ⟶ (modulePullback B S hS Z.hom).obj G) :
     moduleHomOverPrecompApp (ψ ≫ ψ') Z α =
       moduleHomOverPrecompApp ψ Z (moduleHomOverPrecompApp ψ' Z α) := by
-  show (modulePullback B S hS Z.hom).map (ψ ≫ ψ') ≫ α =
+  change (modulePullback B S hS Z.hom).map (ψ ≫ ψ') ≫ α =
     (modulePullback B S hS Z.hom).map ψ ≫
       (modulePullback B S hS Z.hom).map ψ' ≫ α
   rw [CategoryTheory.Functor.map_comp, Category.assoc]

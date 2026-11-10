@@ -166,7 +166,7 @@ theorem universalFamily_isFiniteLocallyFreeOfRank (d : ℕ) [NeZero d] :
       CommRingCat.of (ULift.{u} (UniversalFiniteFreeModule d)) :=
     CommRingCat.ofHom (RingHom.ulift (algebraMap (universalRing d) (UniversalFiniteFreeModule d)))
   let f := Spec.map φ
-  show Stacks.Morphisms.IsFiniteLocallyFreeOfRank f d
+  change Stacks.Morphisms.IsFiniteLocallyFreeOfRank f d
   let Q : (Spec (CommRingCat.of (ULift.{u} (universalRing d)))).Modules :=
     (Scheme.Modules.pushforward f).obj
       (SheafOfModules.unit

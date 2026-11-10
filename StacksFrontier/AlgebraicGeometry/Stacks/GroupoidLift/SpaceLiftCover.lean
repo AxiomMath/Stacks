@@ -63,7 +63,7 @@ theorem exists_etale_lift_of_etale {T c : BigFppfOver B S hS}
     ((BigFppfOver.toScheme B S hS).map (g ≫ i)).appTop.hom.toAlgebra
   have : IsScalarTower A' Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)
       Γ((BigFppfOver.toScheme B S hS).obj c, ⊤) := .of_algebraMap_eq fun r ↦ by
-    show ((BigFppfOver.toScheme B S hS).map (g ≫ i)).appTop.hom r =
+    change ((BigFppfOver.toScheme B S hS).map (g ≫ i)).appTop.hom r =
       gS.appTop.hom (iS.appTop.hom r)
     rw [Functor.map_comp, Scheme.Hom.comp_appTop]
     rfl
@@ -93,7 +93,7 @@ theorem exists_etale_lift_of_etale {T c : BigFppfOver B S hS}
     rw [← PrimeSpectrum.comap_comp_apply, ← PrimeSpectrum.comap_comp_apply]
     congr 1
     ext a
-    show ψ (algebraMap A' C' a) = _
+    change ψ (algebraMap A' C' a) = _
     rw [ψ.commutes]
     rfl
   · exact ((Ideal.quotientEquivAlgOfEq A' hψk).symm.trans
@@ -200,7 +200,7 @@ theorem formallyEtale_sectionsPoint {U₁ : BigFppfOver B S hS}
       (BigFppfOver.toScheme B S hS)).presheaf (yonedaEquiv.symm ξ)) :
     Space.FormallyEtale (yonedaEquiv.symm (sectionsPoint π ξ).1) := by
   refine Space.formallyEtale_of_etale B S hS _ ?_
-  show (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
+  change (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)).presheaf
       (yonedaEquiv.symm (X.map (sectionsHom U₁ (π.app (op U₁) ξ)).op ξ))
   rw [← yonedaEquiv_symm_naturality_left]
@@ -261,7 +261,7 @@ theorem exists_lift_of_chart_cover (hX : Presheaf.IsSheaf (BigFppfOver.topology 
   have hubar : (relChart π P p).app _ ubar =
       (relPoints T' π).map (baseThk B.aleph0_lt_cutoff hC hI hA).bot x' := by
     apply Subtype.ext
-    show X.map (specOverMap (sectionsMap m hmj ≫ γ)).op (X.map (sectionsHom U₁ j₁).op ξ) =
+    change X.map (specOverMap (sectionsMap m hmj ≫ γ)).op (X.map (sectionsHom U₁ j₁).op ξ) =
       X.map (specOverMap (baseThk B.aleph0_lt_cutoff hC hI hA).bot).op (X.map φ.op x)
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       specOverMap_comp, Category.assoc, specOverMap_sectionsMap, ← hkey, op_comp, op_comp,

@@ -179,7 +179,6 @@ end Generic
 /-! ### The extended action -/
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [HasWeakSheafify J AddCommGrpCat.{max u v m}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max u v m}]
   (O : Sheaf J CommRingCat.{w}) (U : C)
@@ -248,7 +247,7 @@ theorem gradedExtendedAction_map
           ((f.app k).val.app W y) :=
     congrArg (fun s => s.val.app W y)
       ((extendSheafAdjunction.{m} O U).unit.naturality (f.app k)).symm
-  show ((extendSheaf.{m} O U).map (f.app (n + i))).val.app (op W.unop.left)
+  change ((extendSheaf.{m} O U).map (f.app (n + i))).val.app (op W.unop.left)
       ((gradedExtendedAction.{m} O U A M n i).app (op W.unop.left)
         (((extendSheafAdjunction.{m} O U).unit.app (M.piece n)).val.app W z) b) =
     (gradedExtendedAction.{m} O U A N n i).app (op W.unop.left)
@@ -268,7 +267,7 @@ theorem gradedExtendedAction_one
     (congrArg (fun k => (extendSheaf.{m} O U).obj (M.piece k)) (add_zero n))
     (bilinearApplySection (gradedExtendedAction.{m} O U A M n 0) A.one) (𝟙 _) ?_ V x
   intro W y
-  show HEq ((gradedExtendedAction.{m} O U A M n 0).app (op W.unop.left)
+  change HEq ((gradedExtendedAction.{m} O U A M n 0).app (op W.unop.left)
     (((extendSheafAdjunction.{m} O U).unit.app (M.piece n)).val.app W y)
     (A.one.eval (op W.unop.left))) _
   rw [gradedExtendedAction_unit]
@@ -291,7 +290,7 @@ theorem gradedExtendedAction_assoc
     (trilinearCompRight (gradedExtendedAction.{m} O U A M n (i + j))
       (A.mul i j)) ?_ V x a b
   intro W y c d
-  show HEq ((gradedExtendedAction.{m} O U A M (n + i) j).app (op W.unop.left)
+  change HEq ((gradedExtendedAction.{m} O U A M (n + i) j).app (op W.unop.left)
       ((gradedExtendedAction.{m} O U A M n i).app (op W.unop.left)
         (((extendSheafAdjunction.{m} O U).unit.app (M.piece n)).val.app W y) c) d)
     ((gradedExtendedAction.{m} O U A M n (i + j)).app (op W.unop.left)

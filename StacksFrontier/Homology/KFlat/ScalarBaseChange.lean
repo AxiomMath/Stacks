@@ -392,12 +392,10 @@ public theorem projectionFormulaIso_natural_left (φ : R →+* R') {V V' : Modul
   by
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [_root_.map_add, ha, hb]
   | tmul v y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => simp only [TensorProduct.tmul_add, _root_.map_add, ha, hb]
     | tmul r' w =>
       let : Module R V := ((ModuleCat.restrictScalars φ).obj V).isModule
@@ -442,12 +440,10 @@ public theorem projectionFormulaIso_natural_right (φ : R →+* R') (V : ModuleC
   let : Algebra R R' := φ.toAlgebra
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [_root_.map_add, ha, hb]
   | tmul v y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => simp only [TensorProduct.tmul_add, _root_.map_add, ha, hb]
     | tmul r' w => rfl
 

@@ -50,8 +50,7 @@ theorem not_top_le_maximalIdeal_smul_of_tensorEquiv {R M P : Type*} [CommRing R]
   intro h
   have key : ∀ ξ : M ⊗[R] P, Θ ξ ∈ maximalIdeal R := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => simp
+    induction ξ using TensorProduct.inductionOn with
     | tmul m n =>
       have hm : m ∈ maximalIdeal R • (⊤ : Submodule R M) := h Submodule.mem_top
       refine Submodule.smul_induction_on (p := fun m => Θ (m ⊗ₜ n) ∈ maximalIdeal R) hm ?_ ?_
@@ -88,7 +87,7 @@ theorem exists_mem_nonvanishingOpen_of_generatingSections (g : L.GeneratingSecti
 structure sheaf.**  For a finite family `s_j` of global sections of an invertible `L` such that
 every point lies in some `X_{s_j}`, the morphism `𝒪_X ⟶ L^{⊕ J}`, `c ↦ (c • s_j)_j`, is a
 monomorphism. -/
-theorem mono_biproductLift_unitHomEquiv_symm {J : Type} [Fintype J] (s : J → L.sections)
+theorem mono_biproductLift_unitHomEquiv_symm {J : Type} [Finite J] (s : J → L.sections)
     (hs : ∀ x : X.carrier, ∃ j, x ∈ nonvanishingOpen L (s j))
     [HasFiniteBiproducts (SheafOfModules.{u} (structureSheafRing X))] :
     Mono (biproduct.lift fun j : J => L.unitHomEquiv.symm (s j)) := by
@@ -114,13 +113,13 @@ theorem mono_biproductLift_unitHomEquiv_symm {J : Type} [Fintype J] (s : J → L
       have h := congrArg (fun t => L.val.map (homOfLE hWU).op t) (hi j)
       simp only [map_zero] at h
       rw [PresheafOfModules.map_smul] at h
-      show X.presheaf.map (homOfLE hWU).op r • (s j).eval (op W) =
+      change X.presheaf.map (homOfLE hWU).op r • (s j).eval (op W) =
         (0 : X.presheaf.obj (op W)) • (s j).eval (op W)
       have hs' : L.val.map (homOfLE hWU).op ((s j).eval U) = (s j).eval (op W) :=
         PresheafOfModules.sections_property (s j) (homOfLE hWU).op
       rwa [zero_smul, ← hs']
     rw [← X.sheaf.presheaf.germ_res_apply (homOfLE hWU) x hxW r, map_zero]
-    show X.presheaf.germ W x hxW (X.presheaf.map (homOfLE hWU).op r) = 0
+    change X.presheaf.germ W x hxW (X.presheaf.map (homOfLE hWU).op r) = 0
     rw [hres, map_zero]
   refine ⟨fun {Z} a b hab => ?_⟩
   apply SheafOfModules.hom_ext

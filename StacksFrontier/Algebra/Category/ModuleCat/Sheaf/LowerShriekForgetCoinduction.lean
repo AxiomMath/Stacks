@@ -189,13 +189,13 @@ theorem isIso_lowerShriekForgetComparison_of_bijective
     rw [sec_homEquiv, Adjunction.homEquiv_unit, sec_comp_coinductionRestriction]
     ext W r
     rw [toHom_eval]
-    show ap x (op (F.obj W.left)) ((adjM.unit.app M).val.app (op W.left)
+    change ap x (op (F.obj W.left)) ((adjM.unit.app M).val.app (op W.left)
         (r • res M.val W.hom.op m)) =
       (sec (homEquiv N' N x) (op (F.obj V.unop))
         (id ((adjM.unit.app M).val.app V m) : N'.val.obj (op (F.obj V.unop)))).eval
           ((Over.post F).obj W) r
     rw [sec_homEquiv]
-    show _ = ap x (op (F.obj W.left)) ((id r : R.obj.obj (op (F.obj W.left))) •
+    change _ = ap x (op (F.obj W.left)) ((id r : R.obj.obj (op (F.obj W.left))) •
       res N'.val (F.map W.hom).op
         (id ((adjM.unit.app M).val.app V m) : N'.val.obj (op (F.obj V.unop))))
     congr 1

@@ -66,7 +66,7 @@ private theorem exists_geometricLift_of_mem_fiber_of_isIntegralHom
       P.isoSpec.hom.continuous
     let := ((Scheme.ΓSpecIso (.of y.residueField)).commRingCatIsoToRingEquiv.toMulEquiv.isField
       (Field.toIsField y.residueField)).toField
-    apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' _ _ _ _
+    apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _ _ _ _
       q.appTop.hom (isIntegral_appTop_of_universallyClosed q) p.asIdeal p.2
     rw [(Ideal.eq_bot_or_top _).resolve_right (p.2.comap q.appTop.hom).ne_top]
     exact Ideal.bot_isMaximal
@@ -87,7 +87,7 @@ private theorem exists_geometricLift_of_mem_fiber_of_isIntegralHom
   refine ⟨⟨s ≫ pullback.fst f y.hom, ?_⟩, ?_⟩
   · rw [Category.assoc, pullback.condition, ← Category.assoc]
     exact (congrArg (· ≫ y.hom) hs).trans (Category.id_comp _)
-  · show (pullback.fst f y.hom) (s default) = x
+  · change (pullback.fst f y.hom) (s default) = x
     rw [hsz, hz]
 
 /-- For an integral morphism, an open of the source containing every lift of a geometric point
@@ -145,7 +145,7 @@ private theorem exists_baseChange_refinement_range_subset_of_isIntegralHom
   let j : B.obj O' hsize ⟶ V.1.obj.left := ObjectProperty.homMk O'.ι
   let V' : SmallEtale B Y.1 Y.property :=
     ⟨Over.mk (j ≫ V.1.obj.hom), by
-      show Etale (O'.ι ≫ B.inclusion.map V.1.obj.hom)
+      change Etale (O'.ι ≫ B.inclusion.map V.1.obj.hom)
       infer_instance⟩
   have hrange : Set.range V.2.1 ⊆ Set.range O'.ι := by
     rintro _ ⟨a, rfl⟩
@@ -156,7 +156,7 @@ private theorem exists_baseChange_refinement_range_subset_of_isIntegralHom
   have hv' : v' ≫ O'.ι = V.2.1 := IsOpenImmersion.lift_fac _ _ _
   let N : (geometricPointFiber B Y.1 Y.property y).Elements :=
     Functor.elementsMk _ V' ⟨v', by
-      show v' ≫ (O'.ι ≫ B.inclusion.map V.1.obj.hom) = y.hom
+      change v' ≫ (O'.ι ≫ B.inclusion.map V.1.obj.hom) = y.hom
       rw [← Category.assoc, hv']
       exact V.2.2⟩
   let a : N ⟶ V := ⟨ObjectProperty.homMk (Over.homMk j rfl), Subtype.ext hv'⟩
@@ -165,13 +165,13 @@ private theorem exists_baseChange_refinement_range_subset_of_isIntegralHom
   apply hO'
   have hπ : T.map ((smallEtaleBaseChange B f).map a.1) ≫ π =
       B.inclusion.map (pullback.fst V'.obj.hom f) ≫ O'.ι := by
-    show B.inclusion.map ((Over.pullback f).map a.1.hom).left ≫ _ =
+    change B.inclusion.map ((Over.pullback f).map a.1.hom).left ≫ _ =
       B.inclusion.map (pullback.fst V'.obj.hom f) ≫ B.inclusion.map j
     rw [← Functor.map_comp, ← Functor.map_comp]
     congr 1
     exact pullback.lift_fst _ _ _
   have hz := congrArg (fun k => k z) hπ
-  show π (T.map ((smallEtaleBaseChange B f).map a.1) z) ∈ O'
+  change π (T.map ((smallEtaleBaseChange B f).map a.1) z) ∈ O'
   change π (T.map ((smallEtaleBaseChange B f).map a.1) z) =
     O'.ι (B.inclusion.map (pullback.fst V'.obj.hom f) z) at hz
   rw [hz]
@@ -203,7 +203,7 @@ private theorem map_eq_of_range_subset_iUnion
   let e₂ : PUnit.{u + 2} ⟶ F.obj.obj (op V) := ↾fun _ ↦ F.obj.map a.op t'
   have he : e₁ = e₂ := F.property.hom_ext_ofArrows _ hcov fun i ↦ by
     ext z
-    show F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
+    change F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
       F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t')
     have hsq : a.op ≫ (pullback.snd (b i) a).op = (b i).op ≫ (pullback.fst (b i) a).op :=
       congrArg Quiver.Hom.op (pullback.condition (f := b i) (g := a)).symm
@@ -221,7 +221,7 @@ private theorem exists_eq_of_finitePushforwardStalkComponent_germ_eq
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom})
     (V : (geometricPointFiber B Y.1 Y.property y).Elements)
     (t t' : F.obj.obj (op ((smallEtaleBaseChange B f).obj V.1)))
-    (h : let D := (CategoryOfElements.π
+    (h : let D := (Functor.Elements.π
       (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)
@@ -235,7 +235,7 @@ private theorem exists_eq_of_finitePushforwardStalkComponent_germ_eq
   dsimp only at h
   rw [finitePushforwardStalkComponent_germ, finitePushforwardStalkComponent_germ] at h
   obtain ⟨W, a, ha⟩ := (Types.FilteredColimit.isColimit_eq_iff' (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj))
     (i := op (liftedEtaleNeighborhood B f y x V)) t t').mp h
   exact ⟨W.unop, a.unop, ha⟩
@@ -255,7 +255,7 @@ public theorem finitePushforwardStalkComponent_injective_of_isIntegralHom
     Function.Injective (fun z x => finitePushforwardStalkComponent B f y F x z) := by
   classical
   intro z z' hz
-  let D := (CategoryOfElements.π
+  let D := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)

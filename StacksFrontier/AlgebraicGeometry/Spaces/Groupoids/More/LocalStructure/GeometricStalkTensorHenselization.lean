@@ -91,7 +91,7 @@ theorem isCompl_range_ker_of_comp_eq_id {A B : Type*} [Ring A] [Ring B] (s : A �
     rw [h0, map_zero]
   · refine eq_top_iff.mpr fun x _ => AddSubgroup.mem_sup.mpr
       ⟨s (e x), ⟨e x, rfl⟩, x - s (e x), ?_, add_sub_cancel _ _⟩
-    show e (x - s (e x)) = 0
+    change e (x - s (e x)) = 0
     rw [map_sub, h', sub_self]
 
 section PushoutHenselization
@@ -133,7 +133,7 @@ include hs ht in
 theorem pushoutAugmentation_inl (b : B) :
     (pushoutAugmentation hs ht).hom
       ((pushout.inl (CommRingCat.ofHom s) (CommRingCat.ofHom t)).hom b) = e b := by
-  show (pushout.inl (CommRingCat.ofHom s) (CommRingCat.ofHom t) ≫
+  change (pushout.inl (CommRingCat.ofHom s) (CommRingCat.ofHom t) ≫
     pushoutAugmentation hs ht).hom b = e b
   rw [pushoutAugmentation, pushout.inl_desc]
   rfl
@@ -143,7 +143,7 @@ include hs ht in
 theorem pushoutAugmentation_inr (b : B) :
     (pushoutAugmentation hs ht).hom
       ((pushout.inr (CommRingCat.ofHom s) (CommRingCat.ofHom t)).hom b) = e b := by
-  show (pushout.inr (CommRingCat.ofHom s) (CommRingCat.ofHom t) ≫
+  change (pushout.inr (CommRingCat.ofHom s) (CommRingCat.ofHom t) ≫
     pushoutAugmentation hs ht).hom b = e b
   rw [pushoutAugmentation, pushout.inr_desc]
   rfl
@@ -690,7 +690,7 @@ theorem localStructure :
         RingHom.congr_fun (identityPairTensorMap_comp_inl G z) b
       have h2 : identityPairFst G z (identityPairLeft G z b) = b :=
         RingHom.congr_fun (identityPairFst_comp_identityPairLeft G z) b
-      show identityPairStalk G z (identityPairTensorMap G z _) =
+      change identityPairStalk G z (identityPairTensorMap G z _) =
         (pushoutAugmentation hs ht).hom _
       rw [pushoutAugmentation_inl hs ht, h1, identityPairStalk_eq, RingHom.comp_apply, h2]
     · have h1 : identityPairTensorMap G z ((pushout.inr (CommRingCat.ofHom (sourceStalk G z))
@@ -701,7 +701,7 @@ theorem localStructure :
         RingHom.congr_fun (identityPairFst_comp_identityPairRight_eq G z) b
       have h3 : identityStalk G z (sourceStalk G z (identityStalk G z b)) = identityStalk G z b :=
         RingHom.congr_fun hs _
-      show identityPairStalk G z (identityPairTensorMap G z _) =
+      change identityPairStalk G z (identityPairTensorMap G z _) =
         (pushoutAugmentation hs ht).hom _
       rw [pushoutAugmentation_inr hs ht, h1, identityPairStalk_eq, RingHom.comp_apply, h2, h3]
   obtain ⟨φ, hφ, hφloc, hφh⟩ := exists_isHenselization_localization_pushout hs ht

@@ -71,7 +71,7 @@ theorem isReductionIdeal_restrict_quotientTruncation (L : Ideal A.R) (n : ℕ) :
   rw [Ideal.map_map] at h
   convert h using 2
   ext a
-  show _ = chartRing (quotientTruncationToTruncation hS A hA L n ≫ truncationToChart hS A hA n) a
+  change _ = chartRing (quotientTruncationToTruncation hS A hA L n ≫ truncationToChart hS A hA n) a
   rw [quotientTruncationToTruncation_comp]
 
 /-- The truncation `Spec((R/L)/𝔪ⁿ⁺¹)` is an affine scheme. -/
@@ -109,7 +109,7 @@ theorem restrictFamily_succ (k n : ℕ) :
     (reductionNeighbourhood i k).toFunctor.map (quotientTruncationSucc hS A hA _ n).op
       (restrictFamily hred A hA w hw k (n + 1)) = restrictFamily hred A hA w hw k n := by
   apply Subtype.ext
-  show W.obj.map _ (W.obj.map _ (w (n + 1))) = W.obj.map _ (w n)
+  change W.obj.map _ (W.obj.map _ (w (n + 1))) = W.obj.map _ (w n)
   rw [← Functor.map_comp_apply, ← op_comp, quotientTruncationSucc_comp_toTruncation,
     op_comp, Functor.map_comp_apply, hw]
 
@@ -155,10 +155,10 @@ theorem formalObjectAlgebraization_compatible {k m : ℕ} (h : k ≤ m) :
     (y₂ := ⟨_, hy₂⟩)
     (fun n => Subtype.ext (formalObjectAlgebraization_restrict hW hred A hA w hw k n))
     (fun n => Subtype.ext (by
-      show W.obj.map _ (W.obj.map _ _) = _
+      change W.obj.map _ (W.obj.map _ _) = _
       rw [← Functor.map_comp_apply, ← op_comp]
       have e := quotientTruncationMap_comp_ι hS A hA hle n
-      show W.obj.map (quotientTruncationι hS A hA _ n ≫ _).op _ = _
+      change W.obj.map (quotientTruncationι hS A hA _ n ≫ _).op _ = _
       rw [← e, op_comp, Functor.map_comp_apply,
         formalObjectAlgebraization_restrict hW hred A hA w hw m n,
         ← Functor.map_comp_apply, ← op_comp, quotientTruncationMap_comp_toTruncation]))

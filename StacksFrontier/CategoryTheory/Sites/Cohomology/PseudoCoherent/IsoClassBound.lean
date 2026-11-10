@@ -101,7 +101,7 @@ theorem exists_family_quasiIso_of_isPseudoCoherentComplex {ν : Cardinal.{t}} (h
       (e' : ∀ (n : ℤ) (i : ι), (M.X n).val.obj (op (c i)) → L),
       (∀ n i, Function.Injective (e' n i)) ∧ code M e' = code (subcomplex hGd) (fun n i => e n i) :=
     ⟨_, fun n i => e n i, fun n i => (e n i).injective, rfl⟩
-  have hF : F (code (subcomplex hGd) (fun n i => e n i)) = hex.choose := dif_pos hex
+  have hF : F (code (subcomplex hGd) (fun n i => e n i)) = hex.choose := dite_eq_left hex
   obtain ⟨iso⟩ := nonempty_iso_of_code_eq (c := c) _ _ hex.choose_spec.choose_spec.1
     (fun n i => (e n i).injective) hex.choose_spec.choose_spec.2
   exact ⟨_, eqToHom hF ≫ iso.hom ≫ incl hGd, inferInstance⟩

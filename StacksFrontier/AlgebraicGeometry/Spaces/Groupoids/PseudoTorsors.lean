@@ -110,7 +110,7 @@ private lemma isIso_of_bijective_on_representable_sections
       have heq : xx ≫ f = yy ≫ f := by
         apply Over.OverMorphism.ext
         apply eG.injective
-        show yonedaEquiv (xx.left ≫ f.left) = yonedaEquiv (yy.left ≫ f.left)
+        change yonedaEquiv (xx.left ≫ f.left) = yonedaEquiv (yy.left ≫ f.left)
         rw [yonedaEquiv_comp, yonedaEquiv_comp]
         simpa [xx, yy, eF, eG] using hxy
       have := congrArg Over.Hom.left ((h T.unop _).injective heq)
@@ -120,7 +120,7 @@ private lemma isIso_of_bijective_on_representable_sections
           Over B) ⟶ G := Over.homMk (eG.symm y) (hw T G y)
       obtain ⟨x, hx⟩ := (h T.unop _).surjective yy
       refine ⟨eF (Over.Hom.left x), ?_⟩
-      show f.left.app T (eF (Over.Hom.left x)) = y
+      change f.left.app T (eF (Over.Hom.left x)) = y
       calc
         f.left.app T (eF (Over.Hom.left x)) = eG (Over.Hom.left x ≫ f.left) := by
           rw [yonedaEquiv_comp]
@@ -145,7 +145,7 @@ theorem isPseudoTorsor_iff_points
   · intro h T b x y
     exact (ModObj.isIso_leftSMul_iff.mp h) (Over.mk b) x y
   · intro h
-    show IsIso (ModObj.leftSMul G X)
+    change IsIso (ModObj.leftSMul G X)
     apply isIso_of_bijective_on_representable_sections 𝒞 S hS B (ModObj.leftSMul G X)
     intro T b
     rw [Function.bijective_iff_existsUnique]
@@ -156,7 +156,7 @@ theorem isPseudoTorsor_iff_points
       CartesianMonoidalCategory.lift_comp_fst_snd k
     obtain ⟨g, hg, hgu⟩ := h T b x y
     refine ⟨CartesianMonoidalCategory.lift g x, ?_, ?_⟩
-    · show CartesianMonoidalCategory.lift g x ≫ ModObj.leftSMul G X = k
+    · change CartesianMonoidalCategory.lift g x ≫ ModObj.leftSMul G X = k
       rw [ModObj.lift_leftSMul, hg, hk]
     · intro q hq
       let g' := q ≫ CartesianMonoidalCategory.fst G X

@@ -93,7 +93,7 @@ theorem numGeometricConnectedComponents_comp_eq {X T S : Scheme.{u}} (h : X ⟶ 
   let directX : Scheme.{u} := pullback (h ≫ g) q
   let nestedX : Scheme.{u} := pullback h (pullback.fst g q)
   let directT : Scheme.{u} := pullback g q
-  show ENat.card (_root_.ConnectedComponents (geometricFiber (h ≫ g) s K)) =
+  change ENat.card (_root_.ConnectedComponents (geometricFiber (h ≫ g) s K)) =
     ENat.card (_root_.ConnectedComponents (geometricFiber g s K))
   calc
     ENat.card (_root_.ConnectedComponents (geometricFiber (h ≫ g) s K)) =
@@ -121,7 +121,7 @@ private lemma isClosed_singleton_of_isIntegralHom_over_field
     X.isoSpec.hom.continuous
   let := ((Scheme.ΓSpecIso (.of K)).commRingCatIsoToRingEquiv.toMulEquiv.isField
     (Field.toIsField K)).toField
-  apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' _ _ _ _
+  apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _ _ _ _
     f.appTop.hom (isIntegral_appTop_of_universallyClosed f) p.asIdeal p.2
   rw [(Ideal.eq_bot_or_top _).resolve_right (p.2.comap f.appTop.hom).ne_top]
   exact Ideal.bot_isMaximal
@@ -160,7 +160,7 @@ private lemma exists_section_of_isIntegralHom_over_algClosed
   refine ⟨Spec.map (inv φ) ≫ X.fromSpecResidueField x, ?_,
     X.fromSpecResidueField_apply x _⟩
   rw [Category.assoc, ← Spec.map_preimage (X.fromSpecResidueField x ≫ f)]
-  show Spec.map (inv φ) ≫ Spec.map φ = _
+  change Spec.map (inv φ) ≫ Spec.map φ = _
   rw [← Spec.map_comp, IsIso.hom_inv_id, Spec.map_id]
 
 /-- Two sections of a morphism to the spectrum of a field agree as soon as they have the same
@@ -226,7 +226,7 @@ private lemma exists_universallyOpen_fiberPower
       · intro i
         refine Fin.cases ?_ (fun j => ?_) i
         · exact pullback.lift_fst _ _ _
-        · show m ≫ pullback.snd f p ≫ a j = t j.succ
+        · change m ≫ pullback.snd f p ≫ a j = t j.succ
           rw [show m ≫ pullback.snd f p ≫ a j = l ≫ a j from
             pullback.lift_snd_assoc _ _ _ _, hla]
 
@@ -239,7 +239,7 @@ private lemma exists_lift_of_isClosedImmersion
   let q := pullback.snd i a
   have : Surjective q := ⟨fun z => by
     have hz : a z ∈ Set.range i := (Subsingleton.elim z (IsLocalRing.closedPoint K)) ▸ ha
-    show z ∈ Set.range q
+    change z ∈ Set.range q
     rw [show Set.range q = a ⁻¹' Set.range i from Scheme.Pullback.range_snd i a]
     exact hz⟩
   have : IsIso q := isIso_of_isClosedImmersion_of_surjective q
@@ -275,7 +275,7 @@ private lemma enatCard_connectedComponents_pullback_eq
     ENat.card (_root_.ConnectedComponents (pullback (C := Scheme) f a)) =
       numGeometricConnectedComponents f (a (IsLocalRing.closedPoint K)) := by
   obtain ⟨⟨s, φ⟩, rfl⟩ := (Scheme.SpecToEquivOfField K S).symm.surjective a
-  show ENat.card (_root_.ConnectedComponents
+  change ENat.card (_root_.ConnectedComponents
     (pullback (C := Scheme) f (Spec.map φ ≫ S.fromSpecResidueField s))) = _
   let : Algebra (S.residueField s) K := φ.hom.toAlgebra
   have he := enatCard_connectedComponents_iso
@@ -283,7 +283,7 @@ private lemma enatCard_connectedComponents_pullback_eq
   have h := enatCard_connectedComponents_fiberBaseChange f s K
   have hp : (Spec.map φ ≫ S.fromSpecResidueField s) (IsLocalRing.closedPoint K) = s :=
     S.fromSpecResidueField_apply s _
-  show _ = numGeometricConnectedComponents f
+  change _ = numGeometricConnectedComponents f
     ((Spec.map φ ≫ S.fromSpecResidueField s) (IsLocalRing.closedPoint K))
   rw [hp]
   exact he.symm.trans h
@@ -377,7 +377,7 @@ theorem isOpen_le_numGeometricConnectedComponents_of_isIntegralHom
     · intro hw i j heq
       by_contra hij
       refine hw i j hij ((mem_range_diagonal_iff g (l ≫ d i j)).mpr ?_)
-      show (l ≫ pullback.lift (a i) (a j) _) ≫ pullback.fst g g =
+      change (l ≫ pullback.lift (a i) (a j) _) ≫ pullback.fst g g =
         (l ≫ pullback.lift (a i) (a j) _) ≫ pullback.snd g g
       rw [Category.assoc, Category.assoc, pullback.lift_fst, pullback.lift_snd]
       exact heq
@@ -410,7 +410,7 @@ theorem isOpen_le_numGeometricConnectedComponents_of_isIntegralHom
     rw [ENat.card_eq_coe_fintype_card, Fintype.card_fin,
       enatCard_pullback_eq_numGeometricConnectedComponents g b] at hcard
     have hb : b (IsLocalRing.closedPoint K) = p w := congrArg p hlw
-    show (n : ℕ∞) ≤ numGeometricConnectedComponents g (p w)
+    change (n : ℕ∞) ≤ numGeometricConnectedComponents g (p w)
     rwa [hb] at hcard
   rw [isOpen_iff_mem_nhds]
   intro s hs

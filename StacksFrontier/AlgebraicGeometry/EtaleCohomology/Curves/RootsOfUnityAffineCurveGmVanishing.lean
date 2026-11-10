@@ -133,7 +133,7 @@ theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_clauses_one_three_of_gm
     Function.Bijective (baseRootsToEtaleH0 B k X hX f n) ∧
       ∀ q, 2 ≤ q → Subsingleton (Sheaf.H (kummerSmallEtale B X hX n).X₁ q) := by
   refine ⟨baseRootsToEtaleH0_bijective_of_isIntegral B k X hX f n
-    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X f n hn)), fun q hq => ?_⟩
+    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)), fun q hq => ?_⟩
   rcases Nat.lt_or_ge q 3 with hq3 | hq3
   · obtain rfl : q = 2 := by lia
     exact subsingleton_etaleH2_rootsOfUnity_of_divisible k X f B hX n hn
@@ -185,8 +185,8 @@ statement is
 `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve_of_compactification`. -/
 theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_gm (hn : IsUnit (n : k))
     {Xbar : Scheme.{u}} (fbar : Xbar ⟶ Spec (.of k)) [IsCurve k fbar] [Smooth fbar]
-    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j] (hj : j ≫ fbar = f)
-    (r : ℕ) (hr : Nat.card ↥(Set.range j.base)ᶜ = r) {a b : ℕ}
+    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j]
+    (r : ℕ) {a b : ℕ}
     (hunits : Nonempty (↥(etaleH1RootsOfUnityToPicard X B hX n).ker ≃+ (Fin a → ZMod n)))
     (htors : Nonempty (↥(picardNTorsion X n) ≃+ (Fin b → ZMod n)))
     (hrank : a + b = 2 * genus fbar + r - 1)
@@ -195,7 +195,7 @@ theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_gm (hn : IsUnit (n : k
       Nonempty (Sheaf.H (kummerSmallEtale B X hX n).X₁ 1 ≃+
         (Fin (2 * genus fbar + r - 1) → ZMod n)) ∧
       ∀ q, 2 ≤ q → Subsingleton (Sheaf.H (kummerSmallEtale B X hX n).X₁ q) :=
-  etaleCohomology_rootsOfUnity_affineSmoothCurve k X f B hX n hn fbar j hj r hr hunits htors
+  etaleCohomology_rootsOfUnity_affineSmoothCurve k X f B hX n hn fbar j r hunits htors
     hrank (fun q hq => subsingleton_sheafH_kummerSmallEtale_X₂_smoothCurve f B hX n q hq) hdvd
 
 include f in
@@ -212,8 +212,8 @@ statement is
 `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve_of_compactification`. -/
 theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian_of_gm (hn : IsUnit (n : k))
     {Xbar : Scheme.{u}} (fbar : Xbar ⟶ Spec (.of k)) [IsCurve k fbar] [Smooth fbar]
-    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j] (hj : j ≫ fbar = f)
-    (r : ℕ) (hr : Nat.card ↥(Set.range j.base)ᶜ = r) {a b : ℕ}
+    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j]
+    (r : ℕ) {a b : ℕ}
     (hunits : Nonempty (↥(etaleH1RootsOfUnityToPicard X B hX n).ker ≃+ (Fin a → ZMod n)))
     (htors : Nonempty (↥(picardNTorsion X n) ≃+ (Fin b → ZMod n)))
     (hrank : a + b = 2 * genus fbar + r - 1)
@@ -226,7 +226,7 @@ theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian_of_gm (hn : I
       Nonempty (Sheaf.H (kummerSmallEtale B X hX n).X₁ 1 ≃+
         (Fin (2 * genus fbar + r - 1) → ZMod n)) ∧
       ∀ q, 2 ≤ q → Subsingleton (Sheaf.H (kummerSmallEtale B X hX n).X₁ q) :=
-  etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian k X f B hX n hn fbar j hj r hr
+  etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian k X f B hX n hn fbar j r
     hunits htors hrank
     (fun q hq => subsingleton_sheafH_kummerSmallEtale_X₂_smoothCurve f B hX n q hq)
     H hproper hsmooth hconn φ hmul hsurj

@@ -72,7 +72,8 @@ and not literally `H^{p+q}(U, F)`.  Identifying the two needs the degree-zero Č
 `i ⋙ Ȟ⁰(𝒰, -) ≅ i ⋙ (evaluation at U)` **as a natural isomorphism of functors on abelian
 sheaves**, and that is not available: [Stacks, Tag 03AW] degree zero is available only objectwise
 and only as a `Nonempty`, namely `Stacks.CechSite.cechCohomology_zero_iso` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/DegreeZeroOfASheaf.lean`, whose proof goes through
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/DegreeZeroOfASheaf.lean`, whose proof goes
+through
 `Stacks.CechSite.cechCohomologyZeroEquiv`, for which no naturality in the presheaf is proved.
 The tag is therefore placed with the clause `"the spectral sequence and its second page"` and
 not on the abutment identification.

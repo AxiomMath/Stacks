@@ -86,11 +86,11 @@ theorem exists_hasImageIn_through_point {V : BigFppfOver B S hS}
   let Ide := Scheme.IdealSheafData.vanishingIdeal (⟨Zs, hZs⟩ : TopologicalSpace.Closeds X)
   let i : Ide.subscheme ⟶ X := Ide.subschemeι
   have hirange : Set.range i.base = Zs := by
-    show Set.range Ide.subschemeι.base = Zs
+    change Set.range Ide.subschemeι.base = Zs
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl
   have : AlgebraicGeometry.IsClosedImmersion i := by
-    show AlgebraicGeometry.IsClosedImmersion Ide.subschemeι
+    change AlgebraicGeometry.IsClosedImmersion Ide.subschemeι
     infer_instance
   have hZC : B.Contains Ide.subscheme := B.contains_of_mono i V.left.2
   let Zo : BigFppfOver B S hS := BigFppfOver.mk B S hS hZC (i ≫ B.inclusion.map V.hom)
@@ -147,7 +147,7 @@ private theorem isLocallyNoetherian_of_isRepresentableEtale {A C : FormalSpace.F
 /-- A morphism of the site commutes with the structure morphisms to `S`. -/
 private theorem map_comp_inclusion_map_hom {A A' : BigFppfOver B S hS} (f : A ⟶ A') :
     (BigFppfOver.toScheme B S hS).map f ≫ B.inclusion.map A'.hom = B.inclusion.map A.hom := by
-  show B.inclusion.map f.left ≫ _ = _
+  change B.inclusion.map f.left ≫ _ = _
   rw [← B.inclusion.map_comp]
   exact congrArg B.inclusion.map (Over.w f)
 
@@ -234,7 +234,7 @@ theorem exists_etale_affine_chart_factorization {W : FormalSpace.FppfSheaf B S h
       pullback (f i) xhat := e.hom.hom.left
   have hε : ε ≫ pullback.snd (f i) xhat = Space.completionSheafMap B S hS ν Z := Over.w e.hom.hom
   have : IsIso ε := by
-    show IsIso ((ObjectProperty.ι _ ⋙ Over.forget _).mapIso e).hom
+    change IsIso ((ObjectProperty.ι _ ⋙ Over.forget _).mapIso e).hom
     infer_instance
   have hνet : Space.IsEtale B S hS ν := by
     have hrep : FormalSpace.IsRepresentableEtale B S hS (Space.completionSheafMap B S hS ν Z) := by
@@ -306,7 +306,7 @@ theorem exists_etale_affine_chart_factorization {W : FormalSpace.FppfSheaf B S h
     refine ⟨Tf.map z₂ z', ?_⟩
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, hz₂r, Functor.map_comp, Functor.map_comp,
       Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hz']
-    show Tf.map z (b.left.hom y) = v
+    change Tf.map z (b.left.hom y) = v
     rw [hy, hx]
   · have h₁ : Space.pointsMap B S hS _ (yoneda.map r) ⁻¹' Z ⊆
         Space.pointsMap B S hS _ v' ⁻¹' (Space.pointsMap B S hS _ ν ⁻¹' Z) := by
@@ -377,7 +377,7 @@ theorem exists_etale_affine_chart_factorization_over {W : FormalSpace.FppfSheaf 
     rw [hjO]
     exact HasRingHomProperty.of_isOpenImmersion RingHom.Etale.containsIdentities
   have hVON : IsLocallyNoetherian (Tf.obj VO) := by
-    show IsLocallyNoetherian (VOs : Scheme.{u}); infer_instance
+    change IsLocallyNoetherian (VOs : Scheme.{u}); infer_instance
   let kO : VO ⟶ Oobj := Over.homMk (ObjectProperty.homMk (sV.resLE O VOs le_rfl)) (by
     apply ObjectProperty.hom_ext
     exact Scheme.Hom.resLE_comp_ι _ _)
@@ -386,13 +386,13 @@ theorem exists_etale_affine_chart_factorization_over {W : FormalSpace.FppfSheaf 
   let ZO := Space.pointsMap B S hS _ (yoneda.map jO) ⁻¹' Z
   have hZO : IsClosed ZO := hZ.preimage (Space.continuous_pointsMap B S hS _)
   have hv' : (Space.schemePointsHomeomorph B S hS VO).symm v' ∈ ZO := by
-    show Space.pointsMap B S hS _ (yoneda.map jO) _ ∈ Z
+    change Space.pointsMap B S hS _ (yoneda.map jO) _ ∈ Z
     rwa [Space.schemePointsHomeomorph_symm_naturality, hv'v]
   -- the open formal subspace `W ×_S O` of `W`
   have hOet : Etale (Tf.map (terminal.from Oobj)) := by
     have h := Space.toScheme_map_terminal_from B S hS Oobj
     have : Etale (Tf.map (terminal.from Oobj) ≫ (Space.toSchemeTerminalIso B S hS).hom) := by
-      rw [h]; show Etale O.ι; infer_instance
+      rw [h]; change Etale O.ι; infer_instance
     exact (MorphismProperty.cancel_right_of_respectsIso (P := @Etale) _ _).1 this
   let tW : W ⟶ Y.obj (⊤_ (BigFppfOver B S hS)) :=
     (FormalSpace.fppfYonedaTerminalIsTerminal B S hS).from W
@@ -541,7 +541,7 @@ theorem exists_factorsThroughAffineChart (c : ContractionSituation B S hS) {J : 
     ω, hW₀a, hW₀n, hω, hπ, ?_⟩
   · rwa [← Scheme.Hom.comp_apply, ← Functor.map_comp, hθ]
   · rintro _ ⟨y, rfl⟩
-    show (B.inclusion.map (pullback (κ.π.app i).hom q).hom) y ∈ O
+    change (B.inclusion.map (pullback (κ.π.app i).hom q).hom) y ∈ O
     rw [← map_comp_inclusion_map_hom θ.inv]
     exact hPO ⟨(BigFppfOver.toScheme B S hS).map θ.inv y, rfl⟩
   · have h : Space.pointsMap B S hS _ (yoneda.map (pullback.fst (κ.π.app i).hom q)) ⁻¹' ξ.Z ⊆

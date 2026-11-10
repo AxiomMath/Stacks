@@ -32,12 +32,10 @@ private theorem TensorProduct.map_mul_of_map_tmul {R A B C : Type*} [CommSemirin
     [Semiring A] [Semiring B] [Algebra R A] [Algebra R B] [CommSemiring C] (Ψ : A ⊗[R] B →+ C)
     (f : A →+* C) (g : B →+* C) (h : ∀ a b, Ψ (a ⊗ₜ b) = f a * g b) (p q : A ⊗[R] B) :
     Ψ (p * q) = Ψ p * Ψ q := by
-  induction p using TensorProduct.induction_on with
-  | zero => rw [zero_mul, map_zero, zero_mul]
+  induction p using TensorProduct.inductionOn with
   | add x y hx hy => rw [add_mul, map_add, map_add, hx, hy, add_mul]
   | tmul a b =>
-    induction q using TensorProduct.induction_on with
-    | zero => rw [mul_zero, map_zero, mul_zero]
+    induction q using TensorProduct.inductionOn with
     | add x y hx hy => rw [mul_add, map_add, map_add, hx, hy, mul_add]
     | tmul a' b' =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, h, h, h, map_mul, map_mul]
@@ -93,8 +91,7 @@ theorem bijective_of_bijective_baseChange (u : M →ₛₗ[φ] M')
   obtain ⟨c, hc, hcb⟩ := hu
   have hcl : ∀ (b' : R') (z : R' ⊗[R] M), c (b' • z) = b' • c z := by
     intro b' z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b m => rw [TensorProduct.smul_tmul', hc, hc, smul_eq_mul, mul_smul]
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   let cL : (R' ⊗[R] M) ≃ₗ[R'] M' :=
@@ -109,8 +106,7 @@ theorem bijective_of_bijective_baseChange (u : M →ₛₗ[φ] M')
       rw [AlgEquiv.commutes, Algebra.TensorProduct.algebraMap_apply, hΨ, map_one, mul_one]
       exact (mapₛₗ_algebraMap _ _ r).symm
     | ι t =>
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero, map_zero, map_zero]
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
       | tmul b m =>
         have h1 : (b ⊗ₜ[R] m : R' ⊗[R] M) = b • (1 ⊗ₜ[R] m) := by
@@ -118,7 +114,7 @@ theorem bijective_of_bijective_baseChange (u : M →ₛₗ[φ] M')
         rw [h1, map_smul, map_smul, he, TensorProduct.smul_tmul', smul_eq_mul, mul_one, hΨ,
           mapₛₗ_ι, Algebra.smul_def, map_mul, mapₛₗ_algebraMap, mapₛₗ_ι]
         congr 2
-        show u m = c (1 ⊗ₜ[R] m)
+        change u m = c (1 ⊗ₜ[R] m)
         rw [hc, one_smul]
     | mul x y hx hy => rw [map_mul, hmul, hx, hy, map_mul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
@@ -144,8 +140,7 @@ theorem bijective_of_bijective_of_equiv {R R' : Type*} [CommRing R] [CommRing R'
   let L : (R' ⊗[R] P) ≃ₗ[R] (R' ⊗[R] Q) := LinearEquiv.lTensor R' e
   have key : ∀ z, Ψ (L z) = e' (Ψ₀ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b p => exact h b p
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   have hfun : (Ψ : R' ⊗[R] Q → Q') = e' ∘ Ψ₀ ∘ L.symm := by
@@ -161,18 +156,12 @@ private theorem mul_mem_range_lTensor_subtype {R R' A : Type*} [CommSemiring R]
     (hk : k ∈ LinearMap.range (LinearMap.lTensor R' (J.restrictScalars R).subtype)) :
     s * k ∈ LinearMap.range (LinearMap.lTensor R' (J.restrictScalars R).subtype) := by
   obtain ⟨k, rfl⟩ := hk
-  induction k using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, mul_zero]
-    exact zero_mem _
+  induction k using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, mul_add]
     exact add_mem hx hy
   | tmul b j =>
-    induction s using TensorProduct.induction_on with
-    | zero =>
-      rw [zero_mul]
-      exact zero_mem _
+    induction s using TensorProduct.inductionOn with
     | add x y hx hy =>
       rw [add_mul]
       exact add_mem hx hy
@@ -215,15 +204,14 @@ theorem bijective_quotient_baseChange {R R' A A' Q Q' : Type*} [CommRing R] [Com
   let Jr : Submodule R A := (Ideal.span (Set.range n)).restrictScalars R
   have hex : Function.Exact Jr.subtype p := by
     intro a
-    show q a = 0 ↔ a ∈ Set.range Jr.subtype
+    change q a = 0 ↔ a ∈ Set.range Jr.subtype
     rw [← RingHom.mem_ker, hqker]
     exact ⟨fun ha => ⟨⟨a, ha⟩, rfl⟩, fun ⟨x, hx⟩ => hx ▸ x.2⟩
   have hπs := LinearMap.lTensor_surjective R' (g := p) hq
   have hcmul := map_mul_of_map_tmul c ι' h hc
   have hΨc : ∀ t, Ψ (LinearMap.lTensor R' p t) = q' (c t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b a =>
       rw [LinearMap.lTensor_tmul, hc]
       exact hΨ b a

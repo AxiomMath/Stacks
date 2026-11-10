@@ -104,7 +104,7 @@ theorem exists_basis_isUpperTriangular_toMatrix [IsAlgClosed K] [FiniteDimension
     | zero =>
       have h0 : b 0 = v := by rw [hb]; rfl
       rw [h0, hv.apply_eq_smul, ← h0, map_smul, b.repr_self, Finsupp.smul_apply,
-        Finsupp.single_apply, if_neg (Fin.pos_iff_ne_zero.mp (id hij : (0 : Fin _) < i)).symm,
+        Finsupp.single_apply, ite_eq_right (Fin.pos_iff_ne_zero.mp (id hij : (0 : Fin _) < i)).symm,
         smul_zero]
     | succ j =>
       induction i using Fin.cases with
@@ -130,9 +130,9 @@ theorem exists_basis_isUpperTriangular_toMatrix [IsAlgClosed K] [FiniteDimension
             Submodule.subtype_apply] at this
         rw [hexp, map_add, map_smul, map_sum, Finsupp.add_apply, Finsupp.smul_apply,
           b.repr_self, Finsupp.single_eq_of_ne (Fin.succ_ne_zero i), smul_zero, zero_add,
-          Finsupp.finset_sum_apply]
+          Finsupp.finsetSum_apply]
         simp_rw [map_smul, b.repr_self, Finsupp.smul_apply, Finsupp.single_apply,
-          Fin.succ_inj, smul_ite, smul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+          Fin.succ_inj, smul_ite, smul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
           smul_eq_mul, mul_one, hentry]
 
 section Minors

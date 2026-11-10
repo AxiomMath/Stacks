@@ -249,8 +249,8 @@ noncomputable def isColimitCokernelCoforkOfForallAmbientOver
       (show SheafOfModules.{u + 1} ((crystallineStructureSheaf S).over B) ⥤
           SheafOfModules.{u + 1} ((X.left.ringRestrictionSheaf).over ⊤) from
         SheafOfModules.pushforward.{u + 1} (ambientOverStructureHom B X)) := fun X ↦ by
-    haveI := preservesColimitsOfSize_pushforward_ambientOverStructureHom B X
-    haveI : PreservesColimitsOfSize.{0, 0}
+    have := preservesColimitsOfSize_pushforward_ambientOverStructureHom B X
+    have : PreservesColimitsOfSize.{0, 0}
         (show SheafOfModules.{u + 1} ((crystallineStructureSheaf S).over B) ⥤
             SheafOfModules.{u + 1} ((X.left.ringRestrictionSheaf).over ⊤) from
           SheafOfModules.pushforward.{u + 1} (ambientOverStructureHom B X)) :=

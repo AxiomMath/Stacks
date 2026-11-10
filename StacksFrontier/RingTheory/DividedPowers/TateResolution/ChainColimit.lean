@@ -183,7 +183,7 @@ public theorem chainStageInclusion_chainMap (n : ℕ) (S : Finset ℕ) (h : n �
     intro U hU hm
     rw [← chainMap_hom_trans B step hm (Finset.sup_mono hU)]
     exact (gradedLimitInclusion_map (chainStage B) (chainStageMap B step) hU _).symm
-  show (chainStageInclusion B step S).hom ((chainMap B step h).hom x) =
+  change (chainStageInclusion B step S).hom ((chainMap B step h).hom x) =
     (chainStageInclusion B step {n}).hom ((chainMap B step hsing).hom x)
   rw [key S hS h, key {n} hT hsing]
 
@@ -194,7 +194,7 @@ public theorem chainColimitInclusion_chainMap {n m : ℕ} (h : n ≤ m) (x : (B 
   have hsing : m ≤ ({m} : Finset ℕ).sup id :=
     Finset.le_sup (f := id) (Finset.mem_singleton_self m)
   rw [chainColimitInclusion]
-  show (chainStageInclusion B step {m}).hom
+  change (chainStageInclusion B step {m}).hom
       ((chainMap B step hsing).hom ((chainMap B step h).hom x)) = _
   rw [chainMap_hom_trans B step h hsing]
   exact chainStageInclusion_chainMap B step n {m} (h.trans hsing) x
@@ -204,7 +204,7 @@ public theorem chainColimitInclusion_step (n : ℕ) (x : (B n).carrier) :
     (chainColimitInclusion B step (n + 1)).hom ((step n).hom x) =
       (chainColimitInclusion B step n).hom x := by
   have hstep : ((step n).comp (chainMap B step (Nat.le_refl n))).hom x = (step n).hom x := by
-    show (step n).hom ((chainMap B step (Nat.le_refl n)).hom x) = _
+    change (step n).hom ((chainMap B step (Nat.le_refl n)).hom x) = _
     rw [chainMap_hom_self]
   rw [← hstep, ← chainMap_succ B step (Nat.le_refl n) (Nat.le_succ n)]
   exact chainColimitInclusion_chainMap B step (Nat.le_succ n) x
@@ -291,7 +291,7 @@ public theorem chainColimit_existsUnique_lift (D : GradedDPAlgebra.{u, z} R)
   refine ⟨F, ?_, ?_⟩
   · intro n x
     rw [chainColimitInclusion]
-    show F.hom ((chainStageInclusion B step {n}).hom ((chainMap B step _).hom x)) = _
+    change F.hom ((chainStageInclusion B step {n}).hom ((chainMap B step _).hom x)) = _
     rw [hF {n}, hchain]
   · intro F' hF'
     refine hFuniq F' ?_

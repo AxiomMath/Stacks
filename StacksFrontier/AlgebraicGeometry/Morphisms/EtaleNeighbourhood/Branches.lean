@@ -86,14 +86,14 @@ private theorem comap_mem_minimalPrimes_of_faithfullyFlat
   have hqprime : q.IsPrime := hq.isPrime
   let p : Ideal R := Ideal.comap (algebraMap R S) q
   have hpprime : p.IsPrime := Ideal.IsPrime.comap _
-  show Minimal (fun r : Ideal R => r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
+  change Minimal (fun r : Ideal R => r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
   refine ⟨⟨hpprime, bot_le⟩, ?_⟩
   intro p₀ hp₀ hp₀le
   by_contra hne
   have hlt : p₀ < p := lt_of_le_of_ne hp₀le (fun h => hne h.ge)
   have hp₀prime : p₀.IsPrime := hp₀.1
   have hlt' : p₀ < Ideal.under R q := by
-    show p₀ < q.comap (algebraMap R S)
+    change p₀ < q.comap (algebraMap R S)
     exact hlt
   obtain ⟨P, hPle, hPprime, hPlies⟩ :=
     Algebra.HasGoingDown.exists_ideal_le_liesOver_of_lt q hlt'
@@ -203,7 +203,7 @@ private theorem encard_minimalPrimes_of_directedColimit
   have hfid (i : ι) : f i i le_rfl = RingHom.id (A i) := by
     ext x
     have hi : homOfLE (le_rfl : i ≤ i) = 𝟙 i := Subsingleton.elim _ _
-    show (F.map (homOfLE (le_rfl : i ≤ i))).hom x = x
+    change (F.map (homOfLE (le_rfl : i ≤ i))).hom x = x
     rw [hi, F.map_id]
     rfl
   have hcomp (i j k : ι) (hij : i ≤ j) (hjk : j ≤ k) :
@@ -347,7 +347,7 @@ private theorem faithfullyFlat_localizationMap_augmentedEtale
   let : Algebra T Q := inferInstance
   let : IsScalarTower S T Q := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower S P Q := IsScalarTower.of_algebraMap_eq fun s => by
-    show algebraMap S Q s = algebraMap P Q (algebraMap S P s)
+    change algebraMap S Q s = algebraMap P Q (algebraMap S P s)
     rw [IsScalarTower.algebraMap_apply S T Q,
       RingHom.algebraMap_toAlgebra (CommAlgCat.AugmentedEtale.map f).toRingHom,
       show algebraMap P Q = Localization.localRingHom A.prime B.prime
@@ -586,7 +586,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
   let e : S ≃+* T := eAlg.toRingEquiv
   let : Algebra S T := e.toRingHom.toAlgebra
   let : IsScalarTower A S T := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A T a = e (algebraMap A S a)
+    change algebraMap A T a = e (algebraMap A S a)
     exact (eAlg.commutes a).symm
   let : CommRing D := (strictHenselizationData T).commRing
   let : IsLocalRing D := (strictHenselizationData T).isLocalRing
@@ -596,8 +596,8 @@ theorem numberOfGeometricBranches_eq_iSup_encard
   let : Algebra S D := ((algebraMap T D).comp e.toRingHom).toAlgebra
   let : IsScalarTower S T D := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower A S D := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A D a = algebraMap T D (e (algebraMap A S a))
-    show algebraMap T D (algebraMap A T a) = _
+    change algebraMap A D a = algebraMap T D (e (algebraMap A S a))
+    change algebraMap T D (algebraMap A T a) = _
     congr 1
     exact (eAlg.commutes a).symm
   let : Field K := inferInstance
@@ -610,7 +610,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
   have hRes (s : S) :
       algebraMap (ResidueField S) K (residue S s) =
         algebraMap (ResidueField T) K (residue T (e s)) := by
-    show algebraMap (ResidueField T) K
+    change algebraMap (ResidueField T) K
       (ResidueField.map e.toRingHom (residue S s)) = _
     exact congrArg (algebraMap (ResidueField T) K)
       (ResidueField.map_residue e.toRingHom s)
@@ -633,7 +633,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
   let aug : D →ₐ[A] K :=
     { toRingHom := eD.symm.toRingHom.comp (residue D)
       commutes' := fun a => by
-        show eD.symm (residue D (algebraMap A D a)) = algebraMap A K a
+        change eD.symm (residue D (algebraMap A D a)) = algebraMap A K a
         apply eD.injective
         rw [RingEquiv.apply_symm_apply]
         exact heA a |>.symm }
@@ -668,10 +668,10 @@ theorem numberOfGeometricBranches_eq_iSup_encard
       ι :=
         { app := fun j => pres.ι.app j
           naturality := fun i j f => by
-            show pres.diag.map f ≫ pres.ι.app j = pres.ι.app i
+            change pres.diag.map f ≫ pres.ι.app j = pres.ι.app i
             exact pres.w f } }
   have hc : IsColimit c := by
-    show IsColimit pres.cocone
+    change IsColimit pres.cocone
     exact pres.isColimit
   let Floc := G ⋙ CommAlgCat.AugmentedEtale.localization A K
   let stageUnit (j : J) (s : (G.obj j).prime.primeCompl) :
@@ -680,7 +680,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
     apply isUnit_iff_ne_zero.mpr
     intro hs
     apply s.property
-    show aug ((pres.ι.app j).hom (s : (G.obj j).left.obj)) = 0
+    change aug ((pres.ι.app j).hom (s : (G.obj j).left.obj)) = 0
     apply eD.injective
     rw [haug, hs, map_zero]
   let locLeg (j : J) : Floc.obj j ⟶ CommAlgCat.of A D := by
@@ -718,13 +718,13 @@ theorem numberOfGeometricBranches_eq_iSup_encard
         let : Algebra Bi (Localization.AtPrime qi) := inferInstance
         let : IsLocalization qi.primeCompl (Localization.AtPrime qi) := inferInstance
         let : Algebra Bi (Floc.obj i) := by
-          show Algebra Bi (Localization.AtPrime qi)
+          change Algebra Bi (Localization.AtPrime qi)
           infer_instance
         let : IsLocalization qi.primeCompl (Floc.obj i) := by
-          show IsLocalization qi.primeCompl (Localization.AtPrime qi)
+          change IsLocalization qi.primeCompl (Localization.AtPrime qi)
           infer_instance
         let : IsScalarTower A Bi (Floc.obj i) := by
-          show IsScalarTower A Bi (Localization.AtPrime qi)
+          change IsScalarTower A Bi (Localization.AtPrime qi)
           infer_instance
         have hnat : (CommAlgCat.AugmentedEtale.forget A K).map (G.map f) ≫
             (CommAlgCat.AugmentedEtale.toLocalization A K).app (G.obj j) =
@@ -773,13 +773,13 @@ theorem numberOfGeometricBranches_eq_iSup_encard
     let z : Spec (CommRingCat.of B) := ⟨q, inferInstance⟩
     have hz : Spec.map fAB z = p := by
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap A B) q = p.asIdeal
+      change Ideal.comap (algebraMap A B) q = p.asIdeal
       ext a
-      show (G.obj j).hom.hom (algebraMap A B a) = 0 ↔ a ∈ p.asIdeal
+      change (G.obj j).hom.hom (algebraMap A B a) = 0 ↔ a ∈ p.asIdeal
       exact (congrArg (· = 0) ((G.obj j).hom.hom.commutes a)).to_iff.trans (hAK a)
     have : Etale (Spec.map fAB) := by
       rw [HasRingHomProperty.Spec_iff (P := @Etale)]
-      show RingHom.Etale (algebraMap A B)
+      change RingHom.Etale (algebraMap A B)
       exact RingHom.etale_algebraMap.mpr (hpres j)
     let : IsOpenImmersion hV.fromSpec := hV.isOpenImmersion_fromSpec
     let : Etale hV.fromSpec := by infer_instance
@@ -801,7 +801,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
       branchesAt U ≤ ⨆ j : J, Set.encard (minimalPrimes (Floc.obj j : Type u)) := by
     let O : U.scheme.Opens := U.toBase ⁻¹ᵁ V
     have hpointO : U.point ∈ O := by
-      show U.toBase U.point ∈ V
+      change U.toBase U.point ∈ V
       rw [U.map_point]
       exact hxV
     obtain ⟨_, ⟨W, hW, rfl⟩, hpointW, hWO⟩ :=
@@ -825,7 +825,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
       RingHom.etale_algebraMap.mp (U.toBase.etale_appLE hV hW' iVW)
     have : Etale (Spec.map fAB) := by
       rw [HasRingHomProperty.Spec_iff (P := @Etale)]
-      show RingHom.Etale (algebraMap A B)
+      change RingHom.Etale (algebraMap A B)
       exact RingHom.etale_algebraMap.mpr inferInstance
     let Uaff : EtaleNeighborhood X x :=
       { scheme := Spec (CommRingCat.of B)
@@ -835,13 +835,13 @@ theorem numberOfGeometricBranches_eq_iSup_encard
         map_point := by simpa [hzbase] using hp }
     have hgeomPoint : Spec.map (CommRingCat.ofHom (algebraMap A K)) default = p := by
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap A K) (⊥ : Ideal K) = p.asIdeal
+      change Ideal.comap (algebraMap A K) (⊥ : Ideal K) = p.asIdeal
       ext a
       exact hAK a
     let s : Spec (CommRingCat.of K) ⟶ X :=
       Spec.map (CommRingCat.ofHom (algebraMap A K)) ≫ hV.fromSpec
     have hs : s default = x := by
-      show hV.fromSpec (Spec.map (CommRingCat.ofHom (algebraMap A K)) default) = x
+      change hV.fromSpec (Spec.map (CommRingCat.ofHom (algebraMap A K)) default) = x
       rw [hgeomPoint, hp]
     let : IsSepClosed K := IsSepClosure.sep_closed (ResidueField T)
     have hpoint : U.toBase U.point = s default := by
@@ -882,13 +882,13 @@ theorem numberOfGeometricBranches_eq_iSup_encard
         commutes' := fun a => ConcreteCategory.congr_hom hbaseRing a }
     have hker : RingHom.ker augB.toRingHom = z.asIdeal := by
       have hh := congrArg PrimeSpectrum.asIdeal hgpoint
-      show Ideal.comap gBK.hom (⊥ : Ideal K) = z.asIdeal
+      change Ideal.comap gBK.hom (⊥ : Ideal K) = z.asIdeal
       exact hh
     let E : CommAlgCat.AugmentedEtale A K :=
       CostructuredArrow.mk (Y := ⟨CommAlgCat.of A B, inferInstance⟩)
         (CommAlgCat.ofHom augB)
     have hEprime : E.prime = z.asIdeal := by
-      show RingHom.ker augB.toRingHom = z.asIdeal
+      change RingHom.ker augB.toRingHom = z.asIdeal
       exact hker
     let : E.prime.IsPrime := RingHom.ker_isPrime augB.toRingHom
     have hUaff : branchesAt U = branchesAt Uaff := by
@@ -912,7 +912,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
     let ψ : B →ₐ[A] ResidueField D :=
       { toRingHom := eD.toRingHom.comp augB.toRingHom
         commutes' := fun a => by
-          show eD (augB (algebraMap A B a)) = algebraMap A (ResidueField D) a
+          change eD (augB (algebraMap A B a)) = algebraMap A (ResidueField D) a
           rw [augB.commutes, heA] }
     obtain ⟨fBD, hfBD, _⟩ :=
       HenselianLocalRing.existsUnique_algHom_residue_of_etale
@@ -934,7 +934,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
       intro b
       simp only [AlgHom.comp_apply]
       dsimp [G, obj]
-      show aug ((pres.ι.app j).hom (g.hom b)) = augB b
+      change aug ((pres.ι.app j).hom (g.hom b)) = augB b
       have hgb : (pres.ι.app j).hom (g.hom b) = fBD b := by
         exact ConcreteCategory.congr_hom hg b
       calc
@@ -952,7 +952,7 @@ theorem numberOfGeometricBranches_eq_iSup_encard
     let : Algebra (Localization.AtPrime E.prime) (Floc.obj j : Type u) := locHom.toAlgebra
     have hlocFFalg :
         (algebraMap (Localization.AtPrime E.prime) (Floc.obj j : Type u)).FaithfullyFlat := by
-      show locHom.FaithfullyFlat
+      change locHom.FaithfullyFlat
       exact hlocFF
     let : Module.FaithfullyFlat (Localization.AtPrime E.prime) (Floc.obj j : Type u) :=
       (RingHom.faithfullyFlat_algebraMap_iff).mp hlocFFalg
@@ -1076,7 +1076,7 @@ private theorem finite_minimalPrimes_le_stageOf_cocone
       rw [← RingHom.comp_apply, ← hfac i]
       exact hrepr z hz
     have ha : g i (repr (witness Q' Q)) ∈ comap q' := by
-      show (f i) (g i (repr (witness Q' Q))) ∈ q'
+      change (f i) (g i (repr (witness Q' Q))) ∈ q'
       rw [hstage _ hmem]
       simpa [witness, hQQ] using hw.1
     have ha' : g i (repr (witness Q' Q)) ∈ comap q := by rwa [← heq] at ha
@@ -1132,12 +1132,12 @@ theorem numberOfBranches_eq_iSup_encard_irreducibleComponentsThrough
     let : IsLocalHom (stageMap U) := (stageMap_spec U).1
     let : IsScalarTower R (stageRing U) H := IsScalarTower.of_algebraMap_eq fun r => by
       have heq := congrArg (fun f : R →+* H => f r) (stageMap_spec U).2.1
-      show algebraMap R H r = stageMap U (stalkMap X x U r)
+      change algebraMap R H r = stageMap U (stalkMap X x U r)
       simpa only [RingHom.comp_apply] using heq.symm
     have hRB : StacksDraft.IndEtale R (stageRing U) :=
       indEtale_elementaryStalkMap X x U
     have hRH : StacksDraft.IndEtale R H := by
-      show (CommAlgCat.etale.{u} R).ind
+      change (CommAlgCat.etale.{u} R).ind
         (CommAlgCat.of R (ULift.{u} H))
       exact IsLocalRing.IsHenselization.ind_etale (L := IsLocalRing.ResidueField R)
     have hBH : StacksDraft.IndEtale (stageRing U) H :=

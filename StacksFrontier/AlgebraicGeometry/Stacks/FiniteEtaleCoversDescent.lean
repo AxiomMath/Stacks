@@ -436,7 +436,7 @@ theorem cartesianSieveDiagram_exists_scheme_cocone {U : BigFppfOver B S hS} {R :
         _ = D.q (f₃ i j k) (m₃ i j k) ≫ ss i j k := by
             simp only [u₂₃, rr, pullback.lift_snd]
     have hp₃l : p₃.left = H.map (D.q (f₃ i j k) (m₃ i j k)) ≫ H.map (ss i j k) := by
-      show H.map (d₂₃ i j k) ≫ H.map (ee j k) ≫ H.map (D.q (f k) (hR k)) = _
+      change H.map (d₂₃ i j k) ≫ H.map (ee j k) ≫ H.map (D.q (f k) (hR k)) = _
       rw [← H.map_comp, ← H.map_comp, hz, H.map_comp]
     have hT := hpb (m₂ i j) (f k) (m₃ i j k)
     have hsqT : IsPullback m₁₂.left p₃.left (WO i j).hom (XO k).hom := by
@@ -453,28 +453,28 @@ theorem cartesianSieveDiagram_exists_scheme_cocone {U : BigFppfOver B S hS} {R :
     have hn3 : m₁₃ ≫ cb i k = z₃ := by
       exact Over.OverMorphism.ext (hH (hd₃ i j k).symm)
     have ht1 : tI.hom ≫ prod.fst = m₁₂ ≫ (lI i j).hom := by
-      show (t₀.hom ≫ prod.map (lI i j).hom (𝟙 (XO k))) ≫ prod.fst = _
+      change (t₀.hom ≫ prod.map (lI i j).hom (𝟙 (XO k))) ≫ prod.fst = _
       rw [Category.assoc, prod.map_fst, ← Category.assoc, ht₁]
     have ht2 : tI.hom ≫ prod.snd = p₃ := by
-      show (t₀.hom ≫ prod.map (lI i j).hom (𝟙 (XO k))) ≫ prod.snd = _
+      change (t₀.hom ≫ prod.map (lI i j).hom (𝟙 (XO k))) ≫ prod.snd = _
       rw [Category.assoc, prod.map_snd, Category.comp_id, ht₂]
     have htphi : tI.hom ≫ prod.fst ≫ (φ i j).hom = m₁₂ ≫ (rI i j).hom := by
       rw [← Category.assoc, ht1]
       simp only [φ, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.hom_inv_id_assoc]
     refine Stack.FiniteHilbert.productTransition_cocycle (qY i) (qY j) (φ i j).hom (φ j k).hom
       (φ i k).hom (hφ₁ i j) (hφ₂ i j) (hφ₁ j k) (hφ₁ i k) tI m n ?_ ?_ ?_ ?_ ?_
-    · show (m₂₃ ≫ (lI j k).hom) ≫ prod.fst = _
+    · change (m₂₃ ≫ (lI j k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.snd, ← Category.assoc tI.hom, htphi,
         Category.assoc, hr]
       exact hm23.symm
-    · show (m₂₃ ≫ (lI j k).hom) ≫ prod.snd = _
+    · change (m₂₃ ≫ (lI j k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (rI j k).hom, hr, ← Category.assoc, hm3, ht2]
-    · show (m₁₃ ≫ (lI i k).hom) ≫ prod.fst = _
+    · change (m₁₃ ≫ (lI i k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.fst, ht1, Category.assoc, hl]
       exact hm12.symm
-    · show (m₁₃ ≫ (lI i k).hom) ≫ prod.snd = _
+    · change (m₁₃ ≫ (lI i k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (rI i k).hom, hr, ← Category.assoc, hn3, ht2]
-    · show (m₂₃ ≫ (lI j k).hom) ≫ (φ j k).hom ≫ prod.snd =
+    · change (m₂₃ ≫ (lI j k).hom) ≫ (φ j k).hom ≫ prod.snd =
         (m₁₃ ≫ (lI i k).hom) ≫ (φ i k).hom ≫ prod.snd
       simp only [φ, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.hom_inv_id_assoc]
       rw [hr, hr]
@@ -483,7 +483,7 @@ theorem cartesianSieveDiagram_exists_scheme_cocone {U : BigFppfOver B S hS} {R :
   let E : DescentData (fun i => H.map (f i)) :=
     { obj i := Over.mk (H.map (D.q (f i) (hR i)))
       gluing i j := Over.isoMk (φ i j) (by
-        show (φ i j).hom ≫ prod.map (𝟙 (XO i)) (qY j) = prod.map (qY i) (𝟙 (XO j))
+        change (φ i j).hom ≫ prod.map (𝟙 (XO i)) (qY j) = prod.map (qY i) (𝟙 (XO j))
         refine prod.hom_ext ?_ ?_
         · simpa only [Category.assoc, prod.map_fst, prod.map_fst_assoc, Category.comp_id]
             using hφ₁ i j
@@ -562,7 +562,7 @@ theorem cartesianSieveDiagram_exists_site_cocone {U : BigFppfOver B S hS} {R : S
     rw [Functor.map_comp, Functor.map_comp, hq₀, hg₀map]
     exact (hsq i).w
   let g' (i : ι) : D.obj (f i) (hR i) ⟶ Z' := Over.homMk (g₀ i) (by
-    show g₀ i ≫ (q₀ ≫ U.hom) = (D.obj (f i) (hR i)).hom
+    change g₀ i ≫ (q₀ ≫ U.hom) = (D.obj (f i) (hR i)).hom
     rw [← Category.assoc, hg₀ i, Category.assoc, Over.w, Over.w])
   have hpz'map : H.map pz' = pz := hq₀
   have hg'map (i : ι) : H.map (g' i) = g i := hg₀map i
@@ -716,12 +716,12 @@ theorem finiteEtaleProjection_hasEffectiveDescent :
     refine finiteEtaleProjection_isCartesian_of_isPullback_eqToHom B S hS f _
       (Dd.obj f hf).2 rfl
       ((Category.comp_id (eqToHom (Dd.obj f hf).2 ≫ f)).symm.trans (Category.assoc _ _ _)) ?_
-    show IsPullback (ζ f hf) ((finiteEtaleSourceDiagram B S hS Dd).q f hf)
+    change IsPullback (ζ f hf) ((finiteEtaleSourceDiagram B S hS Dd).q f hf)
       (pz ≫ eqToHom rfl) f
     simpa only [eqToHom_refl, Category.comp_id] using hζsq f hf
   · intro V W f hf g hg α hα
     refine MorphismProperty.Arrow.Hom.ext (hζnat hf hg α hα) ?_
-    show (sieveDatumMap Dd hf hg α hα).right ≫ eqToHom (Dd.obj f hf).2 ≫ f =
+    change (sieveDatumMap Dd hf hg α hα).right ≫ eqToHom (Dd.obj f hf).2 ≫ f =
       eqToHom (Dd.obj g hg).2 ≫ g
     -- The chain is written out rather than rewritten: the base component of a transition morphism
     -- is typed through the projection applied to the component of the datum, the identification of

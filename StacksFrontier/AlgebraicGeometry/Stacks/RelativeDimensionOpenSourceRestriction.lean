@@ -530,7 +530,7 @@ theorem exists_opens_isLocallyQuasiFinite_of_relativeDimensionAt_eq_zero
     (Space.isOpen_pointTopology_yoneda_iff_isOpen_image B S hS Z _).mp
       (isOpen_setOf_relativeDimensionAt_le_of_algebraicStackTarget.{u, w} B S hS 𝒴₀
         (yoneda.obj Z) (isAlgebraicSpace_yoneda B S hS Z) f hf 0)⟩,
-    ⟨z₀, by simp only [Set.mem_setOf_eq, hz₀]; norm_num, rfl⟩,
+    ⟨z₀, by simp only [Set.mem_ofPred_eq, hz₀]; norm_num, rfl⟩,
     isLocallyQuasiFinite_openChart_comp_of_forall_relativeDimensionAt_eq_zero.{u, w}
       B S hS 𝒴₀ Z f hf _ (fun t htmem => ?_)⟩
   obtain ⟨t', ht'O, ht'eq⟩ := htmem

@@ -32,7 +32,8 @@ statement.
 `S ×_{S_i} W` is the limit of the base changes of the model
 (`AlgebraicGeometry.LimitNoetherianSituation.GoodDiagram.stageConeIsLimit`), whose transition
 morphisms are affine. The local computation of the Stacks proof is
-`AlgebraicGeometry.le_iSup_comap_map_of_isLimit`, in `StacksFrontier/AlgebraicGeometry/Limits/ImageSystemLimit.lean`: an ideal sheaf on
+`AlgebraicGeometry.le_iSup_comap_map_of_isLimit`, in
+`StacksFrontier/AlgebraicGeometry/Limits/ImageSystemLimit.lean`: an ideal sheaf on
 such a limit is below the supremum of the pullbacks of its images at the stages. Applied to the
 ideal of `X`, whose image at a stage is the ideal of the stage map, it gives the kernel statement.
 

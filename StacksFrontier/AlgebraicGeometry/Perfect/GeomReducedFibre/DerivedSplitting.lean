@@ -122,11 +122,10 @@ private theorem nonempty_Q_extendScalarsCx_iso_localizationAwayFunctorAux {R : T
 section Splitting
 
 variable {R : Type u} [CommRing R] {Y : Scheme.{u}} (g : Y ⟶ Spec (.of R)) [IsSeparated g]
-  [QuasiCompact g] {I : Type u} [Fintype I] [LinearOrder I] (U : I → Y.Opens)
+  [QuasiCompact g] {I : Type u} [Finite I] [LinearOrder I] (U : I → Y.Opens)
   (hU : (⊤ : Y.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i))
-  (haff : ∀ (r : ℕ) (s : Fin (r + 1) → I), IsAffineOpen (⨅ k, U (s k)))
 
-include hUaff haff in
+include hUaff in
 /-- **The splitting of the Čech model gives a splitting of the derived direct image.** If after
 inverting `a` the Čech model `D` of `𝒪_Y` splits as `H⁰(D)_a[0] ⊕ P` in `D(R_a)`, with `H⁰(D)_a`
 finite free and `P` a bounded complex of finite projective modules in degrees `[1, b]`, then for

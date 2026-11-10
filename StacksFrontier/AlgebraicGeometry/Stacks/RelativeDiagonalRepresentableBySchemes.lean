@@ -98,7 +98,7 @@ theorem exists_iso_yoneda_of_subsingleton {T : C} (hT : IsTerminal T)
     · intro heq
       have hcomm : yoneda.map (hT.from V) ≫ σ₁ = yoneda.map (hT.from V) ≫ σ₂ := by
         ext V' u
-        show s₁ V'.unop = s₂ V'.unop
+        change s₁ V'.unop = s₂ V'.unop
         rw [← hs₁ u, ← hs₂ u, heq]
       exact ⟨yonedaEquiv (hbig.lift (yoneda.map (hT.from V)) (yoneda.map (hT.from V)) hcomm)⟩
   refine ⟨W, ⟨NatIso.ofComponents

@@ -191,7 +191,7 @@ theorem pullbackUnitEndEquiv_factorHom_symm {V'' : BigFppfOver B S hS}
     (representedAffineUnitPullbackIso B S hS k p) (representedAffineUnitPullbackIso B S hS f p)
     (representedAffineUnitSmul B S hS V' p ψ)
   have key' := key.trans (representedAffineUnitPullbackIso_conj B S hS f p ψ)
-  show Functor.conjHom ((DerivedPullbackComposition.canonical B S hS).toPullbackData.triangle h)
+  change Functor.conjHom ((DerivedPullbackComposition.canonical B S hS).toPullbackData.triangle h)
       ((representedAffineUnitPullbackIso B S hS g p).hom ≫ representedAffineUnitSmul B S hS V' p ψ ≫
         (representedAffineUnitPullbackIso B S hS g p).inv) =
     (representedAffineUnitPullbackIso B S hS k p).hom ≫

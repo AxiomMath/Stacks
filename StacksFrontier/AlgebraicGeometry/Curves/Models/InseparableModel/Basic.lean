@@ -93,7 +93,7 @@ theorem bijective_algebraMap_grading_zero :
       rw [← Ideal.Quotient.eq_zero_iff_mem]
       simpa [IsScalarTower.algebraMap_apply R P A] using h'
     have hJ : J.toIdeal ≤ RingHom.ker (MvPolynomial.constantCoeff (R := R) (σ := Fin 4)) := by
-      show Ideal.span gens ≤ _
+      change Ideal.span gens ≤ _
       rw [Ideal.span_le]
       rintro q (rfl | rfl | rfl) <;> simp [q₀, q₁, q₂]
     simpa [sub_eq_zero] using hJ hmem
@@ -166,7 +166,7 @@ instance isOpenImmersion_chartι (c : Fin 3) : IsOpenImmersion (chartι c) := by
 theorem chartι_comp_X_to_R (c : Fin 3) :
     chartι c ≫ X_to_R = Spec.map (CommRingCat.ofHom (awayBase c)) := by
   rw [chartι, X_to_R, Proj.awayι_toSpecZero_assoc, ← Spec.map_comp]
-  show Spec.map (CommRingCat.ofHom (algebraMap R ↥(grading 0)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap R ↥(grading 0)) ≫
       CommRingCat.ofHom (HomogeneousLocalization.fromZeroRingHom grading
         (Submonoid.powers (zA (chartVar c))))) = Spec.map (CommRingCat.ofHom (awayBase c))
   rfl

@@ -193,11 +193,13 @@ theorem restrictionRightAdjointIso_sheafPushforwardContinuousComp' (h : u ⋙ v 
   rw [← ranOpCompIso_def, Adjunction.comp_counit_app] at hp
   exact hp
 
+omit [(u ⋙ v).IsCocontinuous J₂ J₀] in
 /-- **The mate identity read in the other direction.** The comparison of restrictions that
 Mathlib's `CategoryTheory.Adjunction.leftAdjointCompIso` builds from the direct-image compositor
 of `u` and `v`, transported along `h : u ⋙ v = w`, is
 `CategoryTheory.Functor.sheafPushforwardContinuousComp'` at `eqToIso h`. -/
 theorem leftAdjointCompIso_sheafPushforwardCocontinuousCompIso (h : u ⋙ v = w) :
+    haveI : (u ⋙ v).IsCocontinuous J₂ J₀ := isCocontinuous_comp u v J₂ J₁
     Adjunction.leftAdjointCompIso (v.sheafAdjunctionCocontinuous (Type u) J₁ J₀)
         (u.sheafAdjunctionCocontinuous (Type u) J₂ J₁)
         (w.sheafAdjunctionCocontinuous (Type u) J₂ J₀)

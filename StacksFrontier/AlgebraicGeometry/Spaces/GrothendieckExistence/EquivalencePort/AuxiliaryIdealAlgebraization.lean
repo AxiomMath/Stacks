@@ -306,12 +306,12 @@ theorem completionFunctor_map_αLevel
         (baseReductionMap I n a) := by
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun e => ?_))
   obtain ⟨e⟩ := e
-  show ((completionFunctor B (Spec (.of A)) hA X.1 X.2 K hK).map (αLevel α n)).hom.app (op e) =
+  change ((completionFunctor B (Spec (.of A)) hA X.1 X.2 K hK).map (αLevel α n)).hom.app (op e) =
     (d.βLevelHom β n).hom.app (op e) ≫
       ((completionFunctor B (Spec (.of A)) hA X.1 X.2 K hK).map (baseReductionMap I n a)).hom.app
         (op e)
   rw [completionFunctor_map_hom_app, completionFunctor_map_hom_app, βLevelHom_app]
-  show smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 K (e + 1) (α.hom.app (op n)) =
+  change smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 K (e + 1) (α.hom.app (op n)) =
     (d.βLevelApp β n e).hom ≫ smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 K (e + 1)
       (smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 (baseIdealSubmodule X.1 X.2 I)
         (n + 1) a.hom)
@@ -414,7 +414,7 @@ theorem levelIso_compat
     · rw [Functor.map_comp, Functor.map_comp, hi2, hi2]
       refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun e => ?_))
       obtain ⟨e⟩ := e
-      show (d.βLevelHom β (n + 1)).hom.app (op e) ≫
+      change (d.βLevelHom β (n + 1)).hom.app (op e) ≫
           ((completionFunctor B (Spec (.of A)) hA X.1 X.2 K hK).map trF).hom.app (op e) =
         ((completionFunctor B (Spec (.of A)) hA X.1 X.2 K hK).map trE).hom.app (op e) ≫
           (d.βLevelHom β n).hom.app (op e)

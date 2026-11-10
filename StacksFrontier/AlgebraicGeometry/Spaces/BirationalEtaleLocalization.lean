@@ -65,6 +65,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for pullbacks of presheaves on the big fppf site times out at the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_BirationalEtaleLocalization :
@@ -204,12 +205,12 @@ private theorem pointsMap_genericStalkFieldPoint
   let q : G.left ⟶ U.left := B.inclusion.preimage (T.fromSpecStalk z)
   have hqMap : B.inclusion.map q = T.fromSpecStalk z := B.inclusion.map_preimage _
   let s : B.inclusion.obj P.left ⟶ B.inclusion.obj G.left := by
-    show Spec (.of p.carrier) ⟶ Spec R
+    change Spec (.of p.carrier) ⟶ Spec R
     let : Field p.carrier := p.field
     exact Spec.map (Scheme.stalkClosedPointTo a)
   let qOver : G ⟶ U := Over.homMk q rfl
   have hfactor : Spec.map (Scheme.stalkClosedPointTo a) ≫ T.fromSpecStalk z = a := by
-    show Spec.map (Scheme.stalkClosedPointTo a) ≫
+    change Spec.map (Scheme.stalkClosedPointTo a) ≫
       T.fromSpecStalk (a (IsLocalRing.closedPoint p.carrier)) = a
     let : Field p.carrier := p.field
     exact Scheme.Spec_stalkClosedPointTo_fromSpecStalk (R := .of p.carrier) (f := a)
@@ -217,7 +218,7 @@ private theorem pointsMap_genericStalkFieldPoint
       (genericStalkFieldPoint B S hS hY hdenseY hfiniteY y hy).value.left ≫ q =
         p.value.left := by
     apply B.inclusion.map_injective
-    show B.inclusion.map (B.inclusion.preimage s ≫ q) = B.inclusion.map p.value.left
+    change B.inclusion.map (B.inclusion.preimage s ≫ q) = B.inclusion.map p.value.left
     rw [Functor.map_comp, B.inclusion.map_preimage, hqMap]
     exact hfactor
   have hvalue :
@@ -231,13 +232,13 @@ private theorem pointsMap_genericStalkFieldPoint
         (FieldValuedPoint.map B S hS (yoneda.obj G) (yoneda.map qOver)
           (genericStalkFieldPoint B S hS hY hdenseY hfiniteY y hy)) p := by
       refine ⟨𝟙 p.siteObject, ?_⟩
-      show p.value = _
+      change p.value = _
       exact hvalue.symm
     exact (FieldValuedPoint.class_eq_class_iff B S hS (yoneda.obj U)
       (FieldValuedPoint.map B S hS (yoneda.obj G) (yoneda.map qOver)
         (genericStalkFieldPoint B S hS hY hdenseY hfiniteY y hy)) p).2
       ⟨_, FieldValuedPoint.dominates_refl B S hS (yoneda.obj U) _, hdom⟩
-  show pointsMap B S hS (yoneda.obj G)
+  change pointsMap B S hS (yoneda.obj G)
     (yoneda.map qOver ≫ schematicChart B S hS hY) _ = y
   rw [pointsMap_comp_apply, pointsMap_class, hmapped]
   exact (exists_schematicRepresentative B S hS hY hdenseY hfiniteY y hy).choose_spec
@@ -259,7 +260,7 @@ private theorem genericStalkFieldPoint_closedPoint
   let a := (BigFppfOver.toScheme B S hS).map p.value
   let s : B.inclusion.obj (p.siteObject B S hS (yoneda.obj U)).left ⟶
       B.inclusion.obj G.left := Spec.map (Scheme.stalkClosedPointTo a)
-  show B.inclusion.map (B.inclusion.preimage s) _ = _
+  change B.inclusion.map (B.inclusion.preimage s) _ = _
   rw [B.inclusion.map_preimage]
   exact @Spec_closedPoint _ _ _ _ (Scheme.stalkClosedPointTo a)
     (Scheme.isLocalHom_stalkClosedPointTo (R := .of p.carrier) a)
@@ -356,7 +357,7 @@ private theorem lift_open_of_local
   have : IsIso r := isIso_of_reflects_iso r Q
   refine ⟨inv r ≫ hj.1.fst' f, ?_⟩
   rw [Functor.map_comp, Category.assoc, hj.1.map_fst', hj.1.w]
-  show yoneda.map (inv r) ≫ yoneda.map r ≫ f = f
+  change yoneda.map (inv r) ≫ yoneda.map r ≫ f = f
   rw [← Functor.map_comp_assoc, IsIso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- The schematic locus of a representable presheaf is everything, so its schematic chart is
@@ -417,7 +418,7 @@ theorem eq_top_of_mem_of_iso_spec_closedPoint {X : Scheme.{u}} {R : CommRingCat.
     [IsLocalRing R] (e : X ≅ Spec R) {x : X} (hx : e.hom x = IsLocalRing.closedPoint R)
     {O : X.Opens} (hO : x ∈ O) : O = ⊤ := by
   have hpre : IsLocalRing.closedPoint R ∈ O.comap e.inv.base.hom := by
-    show e.inv (IsLocalRing.closedPoint R) ∈ O
+    change e.inv (IsLocalRing.closedPoint R) ∈ O
     rw [← hx]
     simpa using hO
   have heq := (IsLocalRing.closedPoint_mem_iff _).mp hpre
@@ -470,7 +471,7 @@ private theorem exists_factor_genericStalk_of_local
   let t₀ : Q.obj T ⟶ Q.obj G := e.hom ≫ n
   have ht₀ : t₀ ≫ Q.map qG = Q.map l := by
     rw [toScheme_map_genericStalkInclusion]
-    show (e.hom ≫ n) ≫ _ = _
+    change (e.hom ≫ n) ≫ _ = _
     rw [Category.assoc, hnfac]
     simp [m]
   let tL : T.left ⟶ G.left := B.inclusion.preimage t₀
@@ -483,7 +484,7 @@ private theorem exists_factor_genericStalk_of_local
     exact l.w)
   have ht : t ≫ qG = l := Over.OverMorphism.ext hleft
   refine ⟨t, ?_⟩
-  show yoneda.map t ≫ yoneda.map qG ≫ j = f
+  change yoneda.map t ≫ yoneda.map qG ≫ j = f
   rw [← Functor.map_comp_assoc, ht]
   exact hl
 
@@ -719,7 +720,7 @@ private theorem bijOn_genericPoints_pullback_snd
     obtain ⟨w, hwx, hwv⟩ := exists_point_pullback B S hS f g x v hxy
     refine ⟨w, ?_, hwv⟩
     apply genericPoints_preimage_of_isEtale B S hS hW hX hdecentX hp
-    show pointsMap B S hS _ (pullback.fst f g) w ∈ _
+    change pointsMap B S hS _ (pullback.fst f g) w ∈ _
     rw [hwx]
     exact hx
 
@@ -881,7 +882,7 @@ theorem isIso_genericLocalRingMap_of_isPullback
     (schematicGenericChart B S hS hY hdenseY hfiniteY _ hy) r hr.symm hpoint
   unfold genericLocalRingMap
   rw [hformula]
-  show IsIso (_ ≫ _ ≫ (Q.map r).stalkMap zC ≫ _)
+  change IsIso (_ ≫ _ ≫ (Q.map r).stalkMap zC ≫ _)
   exact IsIso.comp_isIso' (Iso.isIso_inv _) (IsIso.comp_isIso'
     (eqToIso (congrArg (fun z => (Q.obj D).presheaf.stalk z) hpoint.symm)).isIso_hom
     (IsIso.comp_isIso' hstalk (Iso.isIso_hom _)))
@@ -1001,7 +1002,7 @@ theorem isBirational_pullback_snd_of_isEtale
     · rw [← pointsMap_comp_apply, hs]
     · rw [← pointsMap_comp_apply, hs, hpGDmap]
   have : IsIso (schematicChart B S hS hV) := isIso_schematicChart_yoneda B S hS V
-  show IsIso (genericLocalRingMap B S hS hW hV hDW hDV hnW hnV q w hw hv)
+  change IsIso (genericLocalRingMap B S hS hW hV hDW hDV hnW hnV q w hw hv)
   exact isIso_genericLocalRingMap_of_isPullback_fromGenericStalk B S hS hW hV hDW hDV hnW hnV q
     w hw hv s sq hsp
 

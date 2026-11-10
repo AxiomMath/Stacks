@@ -467,7 +467,7 @@ theorem formallyUnramified_of_isUniversal {X' : AlgebraicSpaces B S hS}
     (e : X.obj ≅ sub.toFunctor) (he : e.hom ≫ sub.ι ≫ toBase.hom = f.hom) :
     FormallyUnramified f.hom := by
   rw [← he]
-  haveI : Mono e.hom := @IsIso.mono_of_iso _ _ _ _ e.hom (Iso.isIso_hom e)
+  have : Mono e.hom := @IsIso.mono_of_iso _ _ _ _ e.hom (Iso.isIso_hom e)
   exact formallyUnramified_comp _ _ (formallyUnramified_of_mono _)
     (formallyUnramified_comp _ _ (formallyUnramified_of_mono _)
       (AlgebraicGeometry.Space.formallyUnramified_of_isUniversalFirstOrderThickening

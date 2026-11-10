@@ -162,7 +162,7 @@ private lemma subsingleton_moduleSheafification
     (hP : ∀ X, Q X → Subsingleton (P.obj (op X)))
     (X : D) (hX : Q X) :
     Subsingleton (((moduleSheafification O).obj P).val.obj (op X)) := by
-  show Subsingleton ((sheafify JD P.presheaf).obj (op X))
+  change Subsingleton ((sheafify JD P.presheaf).obj (op X))
   exact subsingleton_sheafify JD P.presheaf Q hQ hP X hX
 
 /-- **Vanishing of a higher direct image along a refining family.** Let `Q` be a family of
@@ -227,7 +227,7 @@ private lemma pushforward_preservesFiniteLimits
   let H : SheafOfModules.{w} OD ⥤ Dᵒᵖ ⥤ AddCommGrpCat.{w} :=
     SheafOfModules.forget.{w} OD ⋙ PresheafOfModules.toPresheaf OD.obj
   have : PreservesFiniteLimits (SheafOfModules.pushforward.{w} φ ⋙ H) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((SheafOfModules.forget OC ⋙ PresheafOfModules.toPresheaf OC.obj) ⋙
         (Functor.whiskeringLeft _ _ AddCommGrpCat.{w}).obj g.op)
     exact comp_preservesFiniteLimits _ _
@@ -274,7 +274,7 @@ private lemma flatPart_covering
       apply Sieve.generate_mono
       rintro Z g ⟨W, h, hh⟩
       refine ⟨?_, flat_pullback_snd_map G h f hh.2⟩
-      show V (pullback.snd h f ≫ f)
+      change V (pullback.snd h f ≫ f)
       rw [← pullback.condition]
       exact V.downward_closed hh.1 _
   | transitive X V W hV hW ih ih' =>
@@ -334,7 +334,7 @@ private lemma exists_flat_presieve_over
   · intro Y f hf
     simpa only [W, OrderIso.symm_apply_apply] using (Sieve.overEquiv_symm_iff W f).mpr hf.1
   · rw [GrothendieckTopology.mem_over_iff]
-    show (Sieve.overEquiv X)
+    change (Sieve.overEquiv X)
       (Sieve.generate (Presieve.functorPullback (Over.forget S) A)) ∈ P.toGrothendieck X.left
     rw [← Sieve.overEquiv_symm_generate, OrderIso.apply_symm_apply]
     exact flatPart_covering G P hP W hV
@@ -355,7 +355,7 @@ private lemma zariski_flat_refinement (B : AlgebraicGeometry.BigZariskiSite.{u})
         ∀ ⦃Y⦄ (f : Y ⟶ X), R f → Flat ((Over.post B.inclusion).obj Y).hom := by
   let : PreservesLimitsOfShape WalkingCospan
       (Over.post B.inclusion ⋙ Over.forget (B.inclusion.obj S)) := by
-    show PreservesLimitsOfShape WalkingCospan (Over.forget S ⋙ B.inclusion)
+    change PreservesLimitsOfShape WalkingCospan (Over.forget S ⋙ B.inclusion)
     infer_instance
   apply exists_flat_presieve_of_precoverage (Over.post B.inclusion)
     (AlgebraicGeometry.BigZariskiOver.precoverage B S.1 S.2)
@@ -364,7 +364,7 @@ private lemma zariski_flat_refinement (B : AlgebraicGeometry.BigZariskiSite.{u})
     (show (E.map (Over.forget S ⋙ B.inclusion)).presieve₀ ∈
       Scheme.precoverage (@IsOpenImmersion) _ from hE.1)
   have : IsOpenImmersion ((Over.forget S ⋙ B.inclusion).map (E.f i)) := h.2 i
-  show Flat ((Over.forget S ⋙ B.inclusion).map (E.f i))
+  change Flat ((Over.forget S ⋙ B.inclusion).map (E.f i))
   infer_instance
 
 /-- On the big étale site over `S`, every covering of an object flat over `S` is refined by a
@@ -377,7 +377,7 @@ private lemma etale_flat_refinement (B : AlgebraicGeometry.BigEtaleSite.{u}) (S 
         ∀ ⦃Y⦄ (f : Y ⟶ X), R f → Flat ((Over.post B.inclusion).obj Y).hom := by
   let : PreservesLimitsOfShape WalkingCospan
       (Over.post B.inclusion ⋙ Over.forget (B.inclusion.obj S)) := by
-    show PreservesLimitsOfShape WalkingCospan (Over.forget S ⋙ B.inclusion)
+    change PreservesLimitsOfShape WalkingCospan (Over.forget S ⋙ B.inclusion)
     infer_instance
   apply exists_flat_presieve_of_precoverage (Over.post B.inclusion)
     (AlgebraicGeometry.BigEtaleOver.precoverage B S.1 S.2)
@@ -386,7 +386,7 @@ private lemma etale_flat_refinement (B : AlgebraicGeometry.BigEtaleSite.{u}) (S 
     (show (E.map (Over.forget S ⋙ B.inclusion)).presieve₀ ∈
       Scheme.precoverage (@Etale) _ from hE.1)
   have : Etale ((Over.forget S ⋙ B.inclusion).map (E.f i)) := h.2 i
-  show Flat ((Over.forget S ⋙ B.inclusion).map (E.f i))
+  change Flat ((Over.forget S ⋙ B.inclusion).map (E.f i))
   infer_instance
 
 /-- On the big smooth site over `S`, every covering of an object flat over `S` is refined by a

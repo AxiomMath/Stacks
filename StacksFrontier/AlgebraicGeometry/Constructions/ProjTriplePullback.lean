@@ -121,8 +121,6 @@ theorem pullbackSections_pow (ψ : VeroneseSections 𝒜 d L) (h : Y' ⟶ Y) {f 
     (hf : f ∈ 𝒜 d) (n : ℕ) :
     (pullbackSections 𝒜 ψ h).pow hf n = pullSection h L n (ψ.pow hf n) := rfl
 
-variable [Stacks.Ample.IsInvertibleModule Y L]
-
 /-- The nonvanishing open of a degree-`d` value of the pulled-back map is the preimage of the
 nonvanishing open of the corresponding value of `ψ`. -/
 theorem nonvanishingOpen_psiSection_pullbackSections (ψ : VeroneseSections 𝒜 d L) (h : Y' ⟶ Y)

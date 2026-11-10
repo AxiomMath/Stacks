@@ -66,6 +66,7 @@ variable (S : OlssonLaszloSituation.{v, u, wRing, wModule})
     IsZero ((DerivedCategory.homologyFunctor (SheafOfModules.{wModule'} S'.O) (p : ℤ)).obj
       (R.obj ((DerivedCategory.singleFunctor (SheafOfModules.{wModule} S.O) 0).obj F))))
 
+omit [R.IsRightAdjoint] [R.IsTriangulated] in
 include hRGE hvanishImage in
 /-- An abstract right adjoint which preserves boundedness below and whose higher images of the
 objects of `A` vanish above `N` carries an object of `A` placed in degree `n` into degrees
@@ -84,6 +85,7 @@ theorem isLE_map_singleFunctor_obj_of_rightAdjoint
     exact hvanishImage pn (by exact_mod_cast hp) M hM
   · exact DerivedCategory.isZero_of_isGE _ 0 p (by omega)
 
+omit [R.IsRightAdjoint] in
 include hRGE hvanishImage in
 /-- The transition maps of the image under `R` of the truncation tower of an object of `D_A`
 are cohomology isomorphisms in degrees `j ≥ N - k`. -/
@@ -120,6 +122,7 @@ private def eventuallyConstantValue_homology_map_truncGETower
   exact isIso_homology_map_truncGETower_succ_of_rightAdjoint S S' R hRGE N hvanishImage
     K hK k i (by omega)
 
+omit [R.IsRightAdjoint] in
 include hRGE himage in
 /-- Every stage of the image under `R` of the truncation tower of an object of `D_A` lies in
 `D⁺_{A'}`. -/
@@ -211,7 +214,7 @@ theorem isIso_homology_map_truncGEπ_of_rightAdjoint
     S' towerR hT (R.obj L) p' ⟨δ', htriangle'⟩ ℋ heventual j
   have hidxComp : H.map (R.map c) ≫ d =
       H.map (R.map (κ (N - j).toNat)) ≫ (heventual j).iso.hom := by
-    show H.map (R.map c) ≫
+    change H.map (R.map c) ≫
       (H.map (p' ≫ Pi.π (fun k : ℕ ↦ R.obj (tower.obj ⟨k⟩)) (N - j).toNat) ≫
         (heventual j).iso.hom) = _
     erw [← CategoryTheory.Functor.map_comp_assoc]
@@ -223,7 +226,7 @@ theorem isIso_homology_map_truncGEπ_of_rightAdjoint
   have hπfactor : κ n ≫ tower.map (homOfLE hidxle).op = κ (N - j).toNat := by
     let π : (Functor.const ℕᵒᵖ).obj K ⟶ tower := NatTrans.ofOpSequence κ (by
       intro k
-      show 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
+      change 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
       rw [Category.id_comp]
       dsimp only [κ, tower]
       rw [Stacks.DerivedLimit.truncGETower_map_homOfLE_succ]
@@ -316,7 +319,7 @@ theorem isIso_counit_app_of_derivedCategoryB
   have hLRπ : IsIso (H.map (L.map (R.map π))) := by
     have h : IsIso ((DerivedCategory.homologyFunctor (SheafOfModules.{wModule'} S'.O) j ⋙ F).map
         (R.map π)) := by
-      show IsIso (F.map (H'.map (R.map π)))
+      change IsIso (F.map (H'.map (R.map π)))
       infer_instance
     exact (NatIso.isIso_map_iff (eH j) (R.map π)).2 h
   have hnat : H.map (L.map (R.map π)) ≫

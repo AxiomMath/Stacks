@@ -79,7 +79,8 @@ abelian sheaf of an injective `𝒪_X`-module is flasque, and supported sections
 abelian sheaf over an open are the kernel of a surjection between sections over two opens, so a
 complex of injective `𝒪_X`-modules computes `RH_Z` of the underlying complex of abelian sheaves
 even though it is not a complex of injective abelian sheaves. Both inputs are proved in
-`StacksFrontier/Topology/Sheaves/ClosedImmersion/FlasqueSupportedSections.lean` and `UnderlyingAbelianLocalCohomologyInvertible.lean`, the
+`StacksFrontier/Topology/Sheaves/ClosedImmersion/FlasqueSupportedSections.lean` and
+`UnderlyingAbelianLocalCohomologyInvertible.lean`, the
 latter concluding with `isIso_localCohomologySheafForgetComparison_of_isRightDerivedFunctor`.
 Note that the corresponding step of part (1) was different and easier: there the comparison was
 reduced to Tag 0D5Y for sections over `X` and over `X ∖ Z`, and the supported sections were

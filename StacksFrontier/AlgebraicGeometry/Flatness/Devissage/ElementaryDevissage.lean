@@ -246,7 +246,7 @@ private theorem topologicalKrullDimAt_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S
     pullback.map f' (V.toScheme.fromSpecResidueField (f' x')) f (S.fromSpecResidueField (f x))
       jX (Spec.map jSpecMap) jS hfac hjSpecMap
   have hjFib : jFib ≫ f.fiberι (f x) = f'.fiberι (f' x') ≫ jX := by
-    show pullback.lift
+    change pullback.lift
         (pullback.fst f' (V.toScheme.fromSpecResidueField (f' x')) ≫ jX)
         (pullback.snd f' (V.toScheme.fromSpecResidueField (f' x')) ≫ Spec.map jSpecMap) _ ≫
       pullback.fst f (S.fromSpecResidueField (f x)) = _
@@ -257,7 +257,7 @@ private theorem topologicalKrullDimAt_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S
   let eGlobal : f.fiber (f x) ≃ₜ B := f.fiberHomeo (f x)
   have hAB : jX.base ⁻¹' B = A := by
     ext y
-    show f (jX y) = f x ↔ f' y = f' x'
+    change f (jX y) = f x ↔ f' y = f' x'
     have hfacAt : jS (f' y) = f (jX y) := ι_resLE_apply f V U hUV y
     constructor
     · intro hy
@@ -280,7 +280,7 @@ private theorem topologicalKrullDimAt_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S
     apply eGlobal.injective
     rw [eGlobal.apply_symm_apply]
     apply Subtype.ext
-    show f.fiberι (f x) (jFib y) = jX (f'.fiberι (f' x') y)
+    change f.fiberι (f x) (jFib y) = jX (f'.fiberι (f' x') y)
     have hh := congrArg (fun q : f'.fiber (f' x') ⟶ X => q y) hjFib
     simpa only [Scheme.Hom.comp_apply] using hh
   have hjFibEmbedding : Topology.IsOpenEmbedding (fun y : f'.fiber (f' x') => jFib y) := by
@@ -295,7 +295,7 @@ private theorem topologicalKrullDimAt_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S
     have hh' : f.fiberι (f x) (jFib (f'.asFiber x')) = x := by simpa [x', jX] using hh
     simpa [Scheme.Hom.fiberι_asFiber] using hh'
   have hT : T' = jFib ⁻¹' T := by
-    show SheafOfModules.supp ((Scheme.Modules.pullback (f'.fiberι (f' x'))).obj F') =
+    change SheafOfModules.supp ((Scheme.Modules.pullback (f'.fiberι (f' x'))).obj F') =
       jFib ⁻¹' SheafOfModules.supp
         ((Scheme.Modules.pullback (f.fiberι (f x))).obj F)
     rw [Stacks.Modules.supp_pullback (f'.fiberι (f' x')) F',
@@ -309,10 +309,10 @@ private theorem topologicalKrullDimAt_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S
     rw [hT]
     simpa [hpt] using hx
   refine ⟨hmem, ?_⟩
-  show topologicalKrullDimAt T' ⟨f'.asFiber x', hmem⟩ =
+  change topologicalKrullDimAt T' ⟨f'.asFiber x', hmem⟩ =
     topologicalKrullDimAt T ⟨f.asFiber x, hx⟩
   have hmem' : f'.asFiber x' ∈ jFib ⁻¹' T := by
-    show jFib (f'.asFiber x') ∈ T
+    change jFib (f'.asFiber x') ∈ T
     rw [hpt]
     exact hx
   calc
@@ -352,7 +352,7 @@ theorem topologicalKrullDimAt_fiber_eq_supp {X S Z : Scheme.{u}} (f : X ⟶ S) (
       obtain ⟨t, ht, hty⟩ := (Set.mem_image _ _ _).mp (hRange ▸ hm)
       refine ⟨t, ht, ?_⟩
       apply Subtype.ext
-      show f.fiberι (f x) t = i a.1
+      change f.fiberι (f x) t = i a.1
       exact hty
     · rintro ⟨t, ht, rfl⟩
       have hm : f.fiberι (f x) t ∈
@@ -377,7 +377,7 @@ theorem topologicalKrullDimAt_fiber_eq_supp {X S Z : Scheme.{u}} (f : X ⟶ S) (
     have hzA : g.fiberHomeo (f x) zf = a := (g.fiberHomeo (f x)).apply_symm_apply a
     have hkz : k a = f.fiberHomeo (f x) (f.asFiber x) := by
       apply Subtype.ext
-      show i z = f.fiberι (f x) (f.asFiber x)
+      change i z = f.fiberι (f x) (f.asFiber x)
       rw [Scheme.Hom.fiberι_asFiber]
       exact hiz
     have he : Homeomorph.setCongr hkRange (hk.toHomeomorph a) = eSupport ⟨f.asFiber x, hx⟩ :=
@@ -774,7 +774,7 @@ private theorem overOpen_isElementary {T : Scheme.{u}} (O : T.Opens) (t : T) (ht
     (EtaleNeighborhood.isElementary_iff N).mp hN
   have hOpen : IsIso (O.ι.residueFieldMap (N.toBase N.point)) := inferInstance
   rw [EtaleNeighborhood.isElementary_iff]
-  show IsIso ((N.toBase ≫ O.ι).residueFieldMap N.point)
+  change IsIso ((N.toBase ≫ O.ι).residueFieldMap N.point)
   rw [Scheme.residueFieldMap_comp]
   exact IsIso.comp_isIso' hOpen hBase
 
@@ -844,7 +844,7 @@ theorem exists_elementaryDevissage {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFi
     rw [← hdim]
     exact d.dimension
   have hbase : Uglobal.toBase ≫ f = d.toBase ≫ Vglobal.toBase := by
-    show (d.U.toBase ≫ Uₐ.1.ι) ≫ f = d.toBase ≫ (Vlocal.toBase ≫ Vₐ.1.ι)
+    change (d.U.toBase ≫ Uₐ.1.ι) ≫ f = d.toBase ≫ (Vlocal.toBase ≫ Vₐ.1.ι)
     calc
       (d.U.toBase ≫ Uₐ.1.ι) ≫ f = d.U.toBase ≫ (Uₐ.1.ι ≫ f) := Category.assoc _ _ _
       _ = d.U.toBase ≫ (f' ≫ Vₐ.1.ι) := by rw [← Scheme.Hom.resLE_comp_ι f (e := hUV)]
@@ -853,7 +853,7 @@ theorem exists_elementaryDevissage {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFi
       _ = d.toBase ≫ (Vlocal.toBase ≫ Vₐ.1.ι) := Category.assoc _ _ _
   have hsheaf : (Scheme.Modules.pushforward d.i).obj d.G ≅
       (Scheme.Modules.pullback Uglobal.toBase).obj F := by
-    show _ ≅ (Scheme.Modules.pullback (d.U.toBase ≫ Uₐ.1.ι)).obj F
+    change _ ≅ (Scheme.Modules.pullback (d.U.toBase ≫ Uₐ.1.ι)).obj F
     simpa [F'] using d.sheafIso ≪≫ (Scheme.Modules.pullbackComp d.U.toBase Uₐ.1.ι).app F
   exact ⟨{ n := d.n
            dimension := hdimension

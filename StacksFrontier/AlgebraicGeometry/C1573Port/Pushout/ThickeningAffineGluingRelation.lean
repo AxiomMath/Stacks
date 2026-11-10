@@ -108,7 +108,7 @@ theorem C1573.isPullback_of_isPushout_of_isPullback {X X' Y P E₀ E₁ E₂ W :
     rw [hLeftInv]
     simp [leftRestriction, rightRestriction, Over.isoMk]
   have hsource : hcart₁.isoPullback.hom ≫ gluingSourceMap i f Tglue = fE := by
-    show hcart₁.isoPullback.hom ≫
+    change hcart₁.isoPullback.hom ≫
       (inv Tglue.obj.hom).left ≫ pullback.fst Tglue.obj.left.hom f = fE
     rw [← Category.assoc, hcompat]
     exact hcart₂.isoPullback_hom_fst
@@ -118,7 +118,7 @@ theorem C1573.isPullback_of_isPushout_of_isPullback {X X' Y P E₀ E₁ E₂ W :
     refine (IsPushout.of_hasPushout (pullback.fst Tglue.obj.right.hom i)
       (gluingSourceMap i f Tglue)).of_iso hcart₁.isoPullback.symm
       (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-    · show pullback.fst p₁ i ≫ 𝟙 _ = hcart₁.isoPullback.inv ≫ iE
+    · change pullback.fst p₁ i ≫ 𝟙 _ = hcart₁.isoPullback.inv ≫ iE
       rw [Category.comp_id]
       exact hcart₁.isoPullback_inv_fst.symm
     · simp only [Iso.refl_hom, Category.comp_id, Iso.symm_hom]
@@ -264,7 +264,7 @@ theorem C1573.size_le_of_isPushout {X X' Y P : Scheme.{u}} {i : X ⟶ X'} {f : X
       ext p
       obtain ⟨y, rfl⟩ := hb.2 p
       have hpre : b ⁻¹ᵁ U.1 = b ⁻¹ᵁ V.1 := congrArg Subtype.val h
-      show y ∈ (b ⁻¹ᵁ U.1 : Set Y) ↔ y ∈ (b ⁻¹ᵁ V.1 : Set Y)
+      change y ∈ (b ⁻¹ᵁ U.1 : Set Y) ↔ y ∈ (b ⁻¹ᵁ V.1 : Set Y)
       rw [hpre]
     exact (Cardinal.mk_le_of_injective hφ).trans
       ((Scheme.mk_affineOpens_le_size Y).trans (le_max_right _ _))

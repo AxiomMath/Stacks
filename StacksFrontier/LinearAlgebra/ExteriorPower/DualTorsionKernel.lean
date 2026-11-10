@@ -134,7 +134,7 @@ public theorem bijective_dualMap_map_of_surjective_of_ker_le_torsion (r : ℕ) {
   refine ⟨exteriorPower.alternatingMapLinearEquiv
     (descend (exteriorPower.alternatingMapLinearEquiv.symm phi) hu hker), ?_⟩
   refine exteriorPower.linearMap_ext (AlternatingMap.ext fun v => ?_)
-  show exteriorPower.alternatingMapLinearEquiv
+  change exteriorPower.alternatingMapLinearEquiv
       (descend (exteriorPower.alternatingMapLinearEquiv.symm phi) hu hker)
       (exteriorPower.map r u (exteriorPower.ιMulti A r v))
     = phi (exteriorPower.ιMulti A r v)

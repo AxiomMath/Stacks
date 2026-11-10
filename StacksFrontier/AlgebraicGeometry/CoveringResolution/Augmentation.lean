@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.CoveringResolution.Basic
 open covering `U` of a ringed space `(X, R)` with values in the direct images of the
 restrictions of a sheaf of modules, and
 `StacksDraft.AlgebraicGeometry.F3.CoveringResolution.Basic` supplies its product coordinates
-and reduces `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution` to three hypotheses.
+and reduces `Stacks.CechTotalComplex.CoveringResolution` to three hypotheses.
   This file discharges two of
 them, `augmentation` and `augmentation_f_zero`.
 
@@ -37,12 +37,12 @@ them, `augmentation` and `augmentation_f_zero`.
   `Stacks.Cohomology.CechZero.aug` is natural in the coefficient presheaf.
   This is stated for an arbitrary family in an arbitrary category, as the rest of that file is.
 * `augmentation_f_zero`: the degree-zero formula of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution` for
+  `Stacks.CechTotalComplex.CoveringResolution` for
   `augmentationNatTrans`, namely that in the product coordinates of
   `StacksDraft.AlgebraicGeometry.F3.CoveringResolution.Basic` the augmentation is the family
   of restriction maps.
 * `coveringResolutionOfQuasiIso` assembles eight of the nine fields of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`, leaving only `quasiIso` as a
+  `Stacks.CechTotalComplex.CoveringResolution`, leaving only `quasiIso` as a
     hypothesis.
 
 ## Implementation notes
@@ -74,7 +74,7 @@ no `eqToHom` occurs.
 
 ## What is not proved here
 
-`Stacks.CechTotalComplex.CoveringResolution.CoveringResolution.quasiIso`, the mathematical core,
+`Stacks.CechTotalComplex.CoveringResolution.quasiIso`, the mathematical core,
   and nothing here bears on it.
 `Basic.lean`'s account of it stands: the device is
 `CategoryTheory.Limits.FormalCoproduct.extraDegeneracyCech`, which applies to a *split*
@@ -329,7 +329,7 @@ theorem mkHomFromSingle_f_zero {K : CochainComplex A ℕ} {M : A} (φ : M ⟶ K.
 end Single
 
 /-- **The `augmentation` field of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** The canonical
+  `Stacks.CechTotalComplex.CoveringResolution`.** The canonical
 augmentation, as a natural transformation from the enlargement of a sheaf of modules placed
 in degree zero to the Čech complex of the covering. -/
 noncomputable def augmentationNatTrans :
@@ -394,7 +394,7 @@ theorem augZero_coord (F : SheafOfModules.{w} R) (V : Opens X) (s : Fin 1 → ι
   exact F.val.congr_map_apply (Subsingleton.elim _ _) _
 
 /-- **The `augmentation_f_zero` field of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** In the product
+  `Stacks.CechTotalComplex.CoveringResolution`.** In the product
 coordinates of `Basic.lean`, the augmentation is the family of restriction maps. -/
 theorem augmentation_f_zero (F : SheafOfModules.{w} R) (V : Opens X)
     (x : (((moduleUniverseLift.{u, v, w, t} X R ⋙ HomologicalComplex.single
@@ -413,7 +413,7 @@ theorem augmentation_f_zero (F : SheafOfModules.{w} R) (V : Opens X)
 
 /-! ### Assembling the `CoveringResolution` structure -/
 
-/-- **Eight of the nine fields of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`,
+/-- **Eight of the nine fields of `Stacks.CechTotalComplex.CoveringResolution`,
   discharged.** Only the
 quasi-isomorphism property is left as a hypothesis. -/
 noncomputable def coveringResolutionOfQuasiIso
@@ -421,7 +421,7 @@ noncomputable def coveringResolutionOfQuasiIso
       haveI : ∀ q : ℕ, ((coveringComplex.{u, v, w, t} X R U).obj F).HasHomology q :=
         fun q => hasHomology_of_enlarged.{u, v, max w t} X R _ q
       QuasiIso ((augmentationNatTrans.{u, v, w, t} X R U).app F)) :
-    CoveringResolution.{u, v, w, t} X R U :=
+    Stacks.CechTotalComplex.CoveringResolution.{u, v, w, t} X R U :=
   coveringResolutionOfAugmentation.{u, v, w, t} X R U
     (augmentationNatTrans.{u, v, w, t} X R U)
     (augmentation_f_zero.{u, v, w, t} X R U) hqi

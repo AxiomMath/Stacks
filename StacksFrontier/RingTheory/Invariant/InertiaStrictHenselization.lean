@@ -33,7 +33,8 @@ The four ingredients are:
   `StacksFrontier.RingTheory.Henselian.FixedPoints`;
 * `(B_q) ^ I` is the localization `C_p` of `C = B ^ I` at the prime `p = q ∩ C`, by the
   commutation of invariants with localization proved in
-  `StacksFrontier.RingTheory.Invariant.InertiaLocalization`, so Stacks 0BSU exhibits it as a filtered
+  `StacksFrontier.RingTheory.Invariant.InertiaLocalization`, so Stacks 0BSU exhibits it as a
+  filtered
   colimit of étale `A`-algebras;
 * a filtered colimit of étale algebras is weakly étale (Stacks 097N), whence the residue field
   extension is separable (Stacks 092R).
@@ -243,9 +244,7 @@ theorem isFractionRing_localizedSubring (q : Ideal (integralClosure A L)) [q.IsP
   IsFractionRing.isFractionRing_of_isDomain_of_isLocalization q.primeCompl
     (localizedSubring q) L
 
-include K in
-omit [IsDomain A] [IsIntegrallyClosed A] [Field K] [Algebra A K] [Algebra K L]
-  [IsScalarTower A K L] [IsFractionRing A K] [IsGalois K L] in
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- `B_q` is a normal domain: it is a localization of the integrally closed domain `B`. -/
 theorem isIntegrallyClosed_localizedSubring (q : Ideal (integralClosure A L)) [q.IsPrime] :
     IsIntegrallyClosed (localizedSubring q) :=
@@ -263,12 +262,13 @@ theorem henselianLocalRing_and_isSepClosed_localizedSubring [IsSepClosed L]
     HenselianLocalRing (localizedSubring q) ∧
       IsSepClosed (ResidueField (localizedSubring q)) :=
   let := isFractionRing_localizedSubring A K L q
-  let := isIntegrallyClosed_localizedSubring A K L q
+  let := isIntegrallyClosed_localizedSubring A L q
   _root_.normal_local_domain_sepClosed_fractionField_isStrictlyHenselian
     (localizedSubring q) L
 
 /-! ### The inertia action on `B_q` -/
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- **`B_q` is stable under an automorphism stabilizing `q`**, since `σ (b / s) = σ b / σ s`. -/
 theorem smul_mem_localizedSubring (q : Ideal (integralClosure A L)) [q.IsPrime]
     {σ : Gal(L/K)} (hσ : σ • q = q) {x : L} (hx : x ∈ localizedSubring q) :
@@ -290,6 +290,7 @@ noncomputable instance mulSemiringActionLocalizedSubring
   Subring.mulSemiringActionOfStable (M := (q.inertia Gal(L/K))) (localizedSubring q)
     fun σ _ hx => smul_mem_localizedSubring A K L q (inertia_smul_eq A K L q σ) hx
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The action of the inertia group on `B_q` is the restriction of its action on `L`. -/
 theorem coe_smul_localizedSubring (q : Ideal (integralClosure A L)) [q.IsPrime]
     (σ : q.inertia Gal(L/K)) (x : localizedSubring q) :
@@ -301,6 +302,7 @@ noncomputable abbrev inertiaInvariants (q : Ideal (integralClosure A L)) [q.IsPr
     Subring (localizedSubring q) :=
   FixedPoints.subring (localizedSubring q) (q.inertia Gal(L/K))
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- **The inertia group acts trivially on the residue field of `B_q`.** For `σ` in the inertia
 group, `σ (b / s) - b / s = ((σ b - b) s + b (s - σ s)) / (s · σ s)`, whose numerator lies in `q`
 and whose denominator lies outside `q`. -/
@@ -327,6 +329,7 @@ instance isLocalRing_inertiaInvariants (q : Ideal (integralClosure A L)) [q.IsPr
   Stacks.FixedPoints.isLocalRing _ _
 
 include K in
+omit [IsIntegrallyClosed A] in
 /-- **`R = (B_q)^I` is henselian**, by Stacks 06RR applied inside the strictly henselian ring
 `B_q` on which `I` acts trivially modulo the maximal ideal. -/
 theorem henselianLocalRing_inertiaInvariants [IsSepClosed L]
@@ -337,6 +340,7 @@ theorem henselianLocalRing_inertiaInvariants [IsSepClosed L]
     (smul_sub_mem_maximalIdeal_localizedSubring A K L q)
 
 include K in
+omit [IsIntegrallyClosed A] in
 /-- **The residue field of `R = (B_q)^I` is separably closed.** -/
 theorem isSepClosed_residueField_inertiaInvariants [IsSepClosed L]
     (q : Ideal (integralClosure A L)) [q.IsPrime] :
@@ -408,6 +412,7 @@ theorem localizationToLocalizedSubring_injective (q : Ideal (integralClosure A L
   refine fun x y => ⟨fun h => ?_, fun h => congrArg _ (fixedToLocalized_injective A K L q h)⟩
   simpa using congrArg (IsLocalization.lift (isUnit_fixedToLocalized A K L q)) h
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- Membership in `(B_q)^I` is being fixed by the inertia group inside `L`. -/
 theorem mem_inertiaInvariants_iff (q : Ideal (integralClosure A L)) [q.IsPrime]
     (x : localizedSubring q) :
@@ -415,6 +420,7 @@ theorem mem_inertiaInvariants_iff (q : Ideal (integralClosure A L)) [q.IsPrime]
   ⟨fun hx σ hσ => congrArg (fun z : localizedSubring q => (z : L)) (hx ⟨σ, hσ⟩),
     fun hx σ => Subtype.ext (hx σ σ.2)⟩
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- **The image of `C_p` in `B_q` is exactly `(B_q)^I`.** The inclusion `⊆` is that `C` and its
 denominators are inertia-invariant; the inclusion `⊇` is the commutation of invariants with
 localization, `IsIntegralClosure.exists_inertia_invariant_num_den`. -/
@@ -442,6 +448,7 @@ theorem mem_range_localizationToLocalizedSubring (q : Ideal (integralClosure A L
     push_cast [coe_fixedToLocalized]
     linear_combination -hct
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The inclusion `C → B_q` lands in `(B_q)^I`, because `C` is inertia-invariant. -/
 theorem fixedToLocalized_mem_inertiaInvariants (q : Ideal (integralClosure A L)) [q.IsPrime]
     (c : inertiaFixedSubalgebra A K L q) :
@@ -459,6 +466,7 @@ noncomputable instance algebraInertiaInvariants (q : Ideal (integralClosure A L)
       (fixedToLocalized_mem_inertiaInvariants A K L q)).comp
     (algebraMap A (inertiaFixedSubalgebra A K L q))).toAlgebra
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The structure map `A → (B_q)^I` is the structure map `A → L`, read inside `L`. -/
 theorem coe_algebraMap_inertiaInvariants (q : Ideal (integralClosure A L)) [q.IsPrime] (a : A) :
     (((algebraMap A (inertiaInvariants A K L q) a : inertiaInvariants A K L q) :
@@ -480,6 +488,7 @@ noncomputable def localizationEquivInertiaInvariants (q : Ideal (integralClosure
         obtain ⟨z, hz⟩ := (mem_range_localizationToLocalizedSubring A K L q _).mpr y.2
         exact ⟨z, Subtype.ext hz⟩⟩
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The identification `C_p ≃ (B_q)^I` is an identification of `A`-algebras. -/
 theorem localizationEquivInertiaInvariants_algebraMap (q : Ideal (integralClosure A L))
     [q.IsPrime] (a : A) :
@@ -489,7 +498,7 @@ theorem localizationEquivInertiaInvariants_algebraMap (q : Ideal (integralClosur
           (algebraMap A (inertiaFixedSubalgebra A K L q))) a)
       = algebraMap A (inertiaInvariants A K L q) a := by
   refine Subtype.ext ?_
-  show localizationToLocalizedSubring A K L q
+  change localizationToLocalizedSubring A K L q
       (algebraMap (inertiaFixedSubalgebra A K L q) _
         (algebraMap A (inertiaFixedSubalgebra A K L q) a)) = _
   rw [localizationToLocalizedSubring, IsLocalization.lift_eq]
@@ -562,7 +571,7 @@ theorem isSeparable_residueField_inertiaInvariants (q : Ideal (integralClosure A
             (maximalIdeal (inertiaInvariants A K L q)).ResidueField (eA w) := by
     intro w
     obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective (R := A) w
-    show algebraMap (inertiaInvariants A K L q)
+    change algebraMap (inertiaInvariants A K L q)
         (maximalIdeal (inertiaInvariants A K L q)).ResidueField
         (algebraMap A (inertiaInvariants A K L q) a)
       = Ideal.ResidueField.map (maximalIdeal A)
@@ -572,7 +581,7 @@ theorem isSeparable_residueField_inertiaInvariants (q : Ideal (integralClosure A
     rw [Ideal.ResidueField.map_algebraMap]
   refine Algebra.IsSeparable.of_equiv_equiv eA.symm eR.symm (RingHom.ext fun z => ?_)
   obtain ⟨w, rfl⟩ := eA.surjective z
-  show algebraMap (ResidueField A) (ResidueField (inertiaInvariants A K L q))
+  change algebraMap (ResidueField A) (ResidueField (inertiaInvariants A K L q))
       (eA.symm (eA w))
     = eR.symm (algebraMap (maximalIdeal A).ResidueField
         (maximalIdeal (inertiaInvariants A K L q)).ResidueField (eA w))

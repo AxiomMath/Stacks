@@ -148,7 +148,7 @@ theorem ι_complexLeftUnitor_f
       ((sheafTensor.{u, u, u, u, u} X.sheaf).map
           (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (unitModule X)).hom).app
         (K.X i) := by
-    show HomologicalComplex.singleLeftι _ _ _ i ≫
+    change HomologicalComplex.singleLeftι _ _ _ i ≫
       (HomologicalComplex.singleLeftπ _ _ _ i ≫ _) = _
     rw [← Category.assoc, HomologicalComplex.singleLeftι_π, Category.id_comp]
     rfl

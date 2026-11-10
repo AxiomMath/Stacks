@@ -183,7 +183,7 @@ private theorem exists_locallyConstant_factor_through_finite_limit
     intro j
     have : Finite (F.obj j) := (hfinite j).1
     have : DiscreteTopology (F.obj j) := (hfinite j).2
-    show Finite (ULift.{w} (F.obj j)) ∧ DiscreteTopology (ULift.{w} (F.obj j))
+    change Finite (ULift.{w} (F.obj j)) ∧ DiscreteTopology (ULift.{w} (F.obj j))
     exact ⟨inferInstance, inferInstance⟩
   let FP := liftToProfinite J FU hfiniteU
   let L := Profinite.limitCone.{w, v} FP
@@ -205,7 +205,7 @@ private theorem exists_locallyConstant_factor_through_finite_limit
     ConcreteCategory.congr_hom e.inv_hom_id (ULift.up x)
   have hx := LocallyConstant.congr_fun hg (e.inv (ULift.up x))
   change f ((e.hom (e.inv (ULift.up x))).down) = g ((L.π.app j) (e.inv (ULift.up x))) at hx
-  show f x = g (ULift.up ((c.π.app j) x))
+  change f x = g (ULift.up ((c.π.app j) x))
   rwa [he, hp'] at hx
 
 /-- The rings of functions on the stages of a diagram of spaces, with pullback maps. -/
@@ -392,7 +392,7 @@ private theorem evalSpectrum_surjective (k : Type u) [Field k]
       DiscreteQuotient.ofLE h (q A) = q B := by
     apply eq_of_forall_zero_iff k
     intro f
-    show (f ∘ DiscreteQuotient.ofLE h) (q A) = 0 ↔ f (q B) = 0
+    change (f ∘ DiscreteQuotient.ofLE h) (q A) = 0 ↔ f (q B) = 0
     rw [← hq B f, ← hq A (f ∘ DiscreteQuotient.ofLE h)]
     rfl
   obtain ⟨t, ht⟩ := DiscreteQuotient.exists_of_compat q compat
@@ -427,7 +427,7 @@ private theorem evalSpectrum_isOpenMap (k : Type u) [Field k]
       (PrimeSpectrum.basicOpen (LocallyConstant.charFn k hU) : Set _) := by
     ext p
     obtain ⟨t, rfl⟩ := evalSpectrum_surjective k T p
-    show (∃ x, x ∈ U ∧ evalSpectrum k T x = evalSpectrum k T t) ↔
+    change (∃ x, x ∈ U ∧ evalSpectrum k T x = evalSpectrum k T t) ↔
       LocallyConstant.charFn k hU t ≠ 0
     simp only [(evalSpectrum_injective k T).eq_iff, exists_eq_right]
     exact ((not_congr (LocallyConstant.charFn_eq_zero k t hU)).trans not_not).symm
@@ -497,9 +497,9 @@ private theorem functionRingCocone_injective_eventually
   have key (n : J) (e : l ⟶ n) : F.map e (F.map f z) = c.π.app n t := by
     rw [← show (c.π.app l) t = (F.map f) z from ht]
     exact ConcreteCategory.congr_hom (c.w e) t
-  show x ((F.map (f ≫ a)) z) = y ((F.map (f ≫ b)) z)
+  change x ((F.map (f ≫ a)) z) = y ((F.map (f ≫ b)) z)
   rw [F.map_comp, F.map_comp]
-  show x ((F.map a) ((F.map f) z)) = y ((F.map b) ((F.map f) z))
+  change x ((F.map a) ((F.map f) z)) = y ((F.map b) ((F.map f) z))
   rw [key _ a, key _ b]
   exact LocallyConstant.congr_fun h t
 

@@ -237,7 +237,7 @@ theorem exists_singleton_hypercovering_objects_in
   intro n
   have : Finite (K.obj (op ⦋n⦌)).I := (hfin n).1
   refine ⟨PUnit.unit, fun j ↦ Subsingleton.elim (α := PUnit.{w + 1}) j PUnit.unit, ?_, ?_⟩
-  · show ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
+  · change ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
     exact sum_mem (K.obj (op ⦋n⦌)) (hfin n).2
   · exact singleton_mem_toPretopology_of_isHypercovering T K hK n
 
@@ -319,10 +319,10 @@ theorem takeUnionsFinPreservesCoverings_of_ofArrows_sigmaι
       ObjectProperty.ι_map] using
       congrArg Over.Hom.left (Sigma.ι_comp_map' f.hom.f f.hom.φ i)
   have hVu : Unique ((takeUnionsFin (C := Over X)).obj V).I := by
-    show Unique PUnit.{w + 1}
+    change Unique PUnit.{w + 1}
     infer_instance
   have hWu : Unique ((takeUnionsFin (C := Over X)).obj W).I := by
-    show Unique PUnit.{w + 1}
+    change Unique PUnit.{w + 1}
     infer_instance
   intro j
   have : Unique { i : ((takeUnionsFin (C := Over X)).obj V).I //
@@ -372,7 +372,7 @@ theorem exists_singleton_hypercovering_objects_in_finiteDisjointUnions
   intro n
   have : Finite (K.obj (op ⦋n⦌)).I := (hfin n).1
   refine ⟨PUnit.unit, fun j ↦ Subsingleton.elim (α := PUnit.{w + 1}) j PUnit.unit, ?_, ?_⟩
-  · show ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
+  · change ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
     exact sum_mem (K.obj (op ⦋n⦌)) (hfin n).2
   · exact singleton_mem_toPretopology_of_isHypercovering T K hK n
 
@@ -409,7 +409,8 @@ affineness on the quasi-compact quasi-separated pro-etale site, which is constru
 StacksFrontier/AlgebraicGeometry/ProEtale/Site/Qcqs.lean, and (2) itself is proved at a chosen big \
 pro-etale site as \
 AlgebraicGeometry.ProEtale.exists_singleton_affine_weaklyContractible_hypercovering. That \
-instantiation runs exists_singleton_hypercovering_objects_in_finiteDisjointUnions rather than this lemma, because the \
+instantiation runs exists_singleton_hypercovering_objects_in_finiteDisjointUnions \
+rather than this lemma, because the \
 weak contractibility carried here is that of the site being worked in, while the source's — and \
 the library statement's — is that of the ambient pro-etale site. Instantiating this lemma at the \
 big site with P := affine would be vacuous, since a non-quasi-compact object has no one-element \

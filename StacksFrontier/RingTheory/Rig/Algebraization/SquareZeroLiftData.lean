@@ -289,7 +289,7 @@ theorem redMap_locH_chi {s t : Finset (Fin k)} (h : s ⊆ t) :
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (e.symm.toAlgHom (algebraMap S (Sh f S) a))
     rw [← hb, redMap_mk, redMap_mk, redMap_mk]
     simp
-  exact AlgHom.coe_ringHom_injective <|
+  exact AlgHom.toRingHom_injective <|
     IsLocalization.ringHom_ext (Submonoid.powers (algebraMap R S (rs f s))) (RingHom.ext key)
 
 /-! ### The lifts and the maps between them -/

@@ -66,8 +66,8 @@ theorem nonvanishingLocusOn_lineGen :
       (show Γ(D.L, c.U.1) from c.lineGen) = c.U.1 := by
   have h := Stacks.AmpleThickeningAscent.nonvanishingLocusOn_basis c.lineTriv
   have hb : Stacks.NonvanishingOpen.basis c.lineTriv = c.lineGen := by
-    show (c.lineCoord (𝟙 c.U.1)).symm 1 = c.lineGen
-    show (1 : D.X.ringCatSheaf.obj.obj (op c.U.1)) • c.lineGenAt (𝟙 c.U.1) = c.lineGen
+    change (c.lineCoord (𝟙 c.U.1)).symm 1 = c.lineGen
+    change (1 : D.X.ringCatSheaf.obj.obj (op c.U.1)) • c.lineGenAt (𝟙 c.U.1) = c.lineGen
     rw [one_smul]
     exact c.lineGenAt_id
   rwa [hb] at h
@@ -87,7 +87,7 @@ theorem bijective_smul_pullbackLineGen (W : (D.baseChange g).X.Opens)
       Stacks.NonvanishingLocusRestrict.nonvanishingLocusOn (D.baseChange g).L (g ⁻¹ᵁ c.U.1)
         (c.pullbackLineGen g) := by
     refine ⟨hy, ?_⟩
-    show y ∈ Stacks.NonvanishingLocusRestrict.nonvanishingLocusOn
+    change y ∈ Stacks.NonvanishingLocusRestrict.nonvanishingLocusOn
       (Stacks.AmpleLocallyClosed.pullbackModule g D.L) (g ⁻¹ᵁ c.U.1)
       (Stacks.AmpleThickeningAscent.pullbackSection g D.L (show Γ(D.L, c.U.1) from c.lineGen))
     rw [Stacks.AmpleThickeningAscent.nonvanishingLocusOn_pullbackSection,
@@ -115,7 +115,7 @@ theorem baseChange_U : ((c.baseChange g).U : (D.baseChange g).X.Opens) = g ⁻¹
 theorem lineGen_baseChange : (c.baseChange g).lineGen = c.pullbackLineGen g := by
   have hgen := Stacks.SheafOfModules.generator_overIsoUnitOfBijectiveSmul (D.baseChange g).L
     (g ⁻¹ᵁ c.U.1) (c.pullbackLineGen g) fun V f => c.bijective_smul_pullbackLineGen g V f
-  show (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso (D.baseChange g).X.sheaf.obj
+  change (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso (D.baseChange g).X.sheaf.obj
       (D.baseChange g).X.ringCatSheaf.property (D.baseChange g).L).hom.val.app
       (op (g ⁻¹ᵁ c.U.1))
       ((Stacks.SheafOfModules.TensorPower.tensorPowerOneIso (D.baseChange g).X.sheaf.obj
@@ -424,7 +424,7 @@ theorem Situation.weightZeroDAbHom_comp_weightZeroRestrictHom (p : ℕ) :
       (abelianSheaf D.X).map (D.weightZeroRestrictHom g p) ≫
         D.pushforwardWeightZeroDAbHom g (p + 1) :=
   D.abelianSheaf_hom_ext fun c x => by
-    show (D.weightZeroRestrictHom g (p + 1)).app c.U.1 (D.weightZeroD (p + 1) c.U.1 x) =
+    change (D.weightZeroRestrictHom g (p + 1)).app c.U.1 (D.weightZeroD (p + 1) c.U.1 x) =
       (D.baseChange g).weightZeroD (p + 1) (c.baseChange g).U.1
         ((D.weightZeroRestrictHom g p).app c.U.1 x)
     rw [D.weightZeroRestrictHom_app, D.weightZeroRestrictHom_app]
@@ -498,7 +498,7 @@ theorem Situation.weightZeroDAbHom_comp_weightZeroRestrictF (n : ℕ) :
             ((Scheme.Modules.pushforward g).map ((D.baseChange g).pullbackHom 0)) ≫
           D.pushforwardWeightZeroDAbHom g 0 :=
       D.pushforward_inclusionMap_comm g 0
-    show (D.inclusionMap.f 0 ≫ D.weightZeroDAbHom 0) ≫
+    change (D.inclusionMap.f 0 ≫ D.weightZeroDAbHom 0) ≫
         (abelianSheaf D.X).map (D.weightZeroRestrictF g 1) =
       D.inclusionMap.f 0 ≫ (abelianSheaf D.X).map (D.weightZeroRestrictF g 0) ≫
         D.pushforwardWeightZeroDAbHom g 0

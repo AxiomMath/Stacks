@@ -228,7 +228,7 @@ theorem exists_cover_lift_point {T : BigFppfOver B S hS} (m : (Mq hC).obj (op T)
     have h₁ := congrArg yonedaEquiv key
     rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_yoneda_map] at h₁
     refine h₁.trans ?_
-    show m'.app (op V) (l ≫ w i) = (Mq hC).map (l ≫ w i).op m
+    change m'.app (op V) (l ≫ w i) = (Mq hC).map (l ≫ w i).op m
     exact yonedaEquiv_symm_app_apply m (op V) (l ≫ w i)
 
 /-- The 1-morphism of algebraic stacks `M i ⟶ M`. -/

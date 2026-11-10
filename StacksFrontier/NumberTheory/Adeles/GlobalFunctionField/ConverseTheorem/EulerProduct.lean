@@ -146,11 +146,11 @@ public theorem heckeCoeff_rec {t u : Place K → Λ} (hq : ∀ v : Place K, (v.r
   obtain ⟨m, hm⟩ := Int.eq_ofNat_of_zero_le (hE v)
   rw [hm]
   rcases m with _ | m
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     have h := normHeckeSeq_rec_zero (t := t v) (u := u v) (hq v)
     simp only [Nat.cast_zero, zero_add, Int.toNat_zero, Int.toNat_one] at h ⊢
     linear_combination heckeCoeff t u (E.erase v) * h
-  · rw [if_pos (by omega)]
+  · rw [ite_eq_left (by omega)]
     have h := normHeckeSeq_rec (t := t v) (u := u v) (hq v) m
     have e1 : ((m + 1 : ℕ) : ℤ).toNat = m + 1 := Int.toNat_natCast _
     have e2 : (((m + 1 : ℕ) : ℤ) + 1).toNat = m + 2 := by omega
@@ -184,7 +184,7 @@ public theorem IsEigenform.whittakerDiv_sub_eq [NeZero (ringChar k : Λ)] (hf : 
   have key := eq_zero_of_hecke_recursion k (W₀ := W₀) (t := t) (u := u)
     (c := fun D => whittakerDiv k K ψ f D - if D ≤ W₀ then heckeCoeff t u (W₀ - D) * c₀ else 0)
     (fun D hD => by
-      rw [if_neg hD, sub_zero]
+      rw [ite_eq_right hD, sub_zero]
       exact IsUnramifiedCuspForm.whittakerDiv_eq_zero_of_not_le k hf.isUnramifiedCuspForm hψ
         hW₀ hD)
     (fun D hD v => by
@@ -207,17 +207,17 @@ public theorem IsEigenform.whittakerDiv_sub_eq [NeZero (ringChar k : Λ)] (hf : 
               Finsupp.single_eq_same] at h ⊢
             omega
           · simp [Ne.symm hw, this]
-      rw [if_pos hD, if_pos h1, h2]
+      rw [ite_eq_left hD, ite_eq_left h1, h2]
       by_cases h5 : 1 ≤ (W₀ - D) v
-      · rw [if_pos (h4.2 h5), h3]
-        rw [if_pos h5] at hc
+      · rw [ite_eq_left (h4.2 h5), h3]
+        rw [ite_eq_left h5] at hc
         linear_combination hr - c₀ * hc
-      · rw [if_neg (h4.not.2 h5)]
-        rw [if_neg h5] at hc
+      · rw [ite_eq_right (h4.not.2 h5)]
+        rw [ite_eq_right h5] at hc
         linear_combination hr - c₀ * hc)
-    (by rw [if_pos le_rfl, sub_self, heckeCoeff_zero, one_mul, sub_self])
+    (by rw [ite_eq_left le_rfl, sub_self, heckeCoeff_zero, one_mul, sub_self])
     (W₀ - E)
-  rw [if_pos (sub_le_self _ hE), sub_sub_cancel] at key
+  rw [ite_eq_left (sub_le_self _ hE), sub_sub_cancel] at key
   exact sub_eq_zero.1 key
 
 end ClosedForm
@@ -264,7 +264,7 @@ public theorem localCharSeries_fin_two (A : Matrix (Fin 2) (Fin 2) R) (d : ℕ) 
   simp only [Stacks.EtaleCohomology.localCharSeries, Stacks.EtaleCohomology.localCharMatrix,
     Matrix.det_fin_two, Matrix.trace_fin_two, Matrix.sub_apply, Matrix.smul_apply,
     Matrix.map_apply, smul_eq_mul, Matrix.one_apply_eq]
-  simp only [Matrix.one_apply, Fin.isValue, zero_ne_one, one_ne_zero, if_false, map_sub, map_mul,
+  simp only [Matrix.one_apply, Fin.isValue, zero_ne_one, one_ne_zero, ite_false, map_sub, map_mul,
     map_add]
   ring
 
@@ -300,7 +300,7 @@ public theorem placeDegree_ne_zero (v : Place K) : placeDegree k K v ≠ 0 := by
 public theorem finite_setOf_placeDegree_le (n : ℕ) :
     {v : Place K | placeDegree k K v ≤ n}.Finite :=
   (finite_setOf_resCard_le k (Nat.card k ^ n)).subset fun v hv => by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     rw [resCard_eq_pow_placeDegree k v]
     exact Nat.pow_le_pow_right Nat.card_pos hv
 
@@ -401,7 +401,7 @@ public theorem coeff_eulerProduct_heckeEulerSystem (t e : Place K → Λ) (n : �
     refine Finset.prod_congr rfl fun v _ => ?_
     have hd := Nat.pos_of_ne_zero (placeDegree_ne_zero k v)
     simp only [𝓔, heckeEulerSystem, coeff_heckeFactor, mulDegree_apply, dvd_mul_left,
-      if_true, Nat.mul_div_cancel _ hd]
+      ite_true, Nat.mul_div_cancel _ hd]
   · intro l hl hnot
     by_contra hF
     have hdvd : ∀ v, placeDegree k K v ∣ l v := by
@@ -410,7 +410,7 @@ public theorem coeff_eulerProduct_heckeEulerSystem (t e : Place K → Λ) (n : �
       · by_contra hnd
         apply hF
         refine Finset.prod_eq_zero hv ?_
-        simp only [𝓔, heckeEulerSystem, coeff_heckeFactor, if_neg hnd]
+        simp only [𝓔, heckeEulerSystem, coeff_heckeFactor, ite_eq_right hnd]
       · rw [Finsupp.notMem_support_iff.1 fun h => hv ((Finset.mem_finsuppAntidiag.1 hl).2 h)]
         exact dvd_zero _
     set E : Place K →₀ ℕ := Finsupp.onFinset l.support (fun v => l v / placeDegree k K v)

@@ -117,7 +117,7 @@ theorem nonempty_iso_homComplexR_of_includeLeftExtend
   let φ : (A ⊗[R] A) →+* ((A ⊗[R] A) ⊗[R] R) := Algebra.TensorProduct.includeLeftRingHom
   have hid : ε.toRingHom.comp φ = RingHom.id (A ⊗[R] A) := by
     refine RingHom.ext fun b => ?_
-    show (Algebra.TensorProduct.rid R R (A ⊗[R] A)) (b ⊗ₜ[R] (1 : R)) = b
+    change (Algebra.TensorProduct.rid R R (A ⊗[R] A)) (b ⊗ₜ[R] (1 : R)) = b
     rw [Algebra.TensorProduct.rid_tmul, one_smul]
   have h := StacksDraft.ScalarTransport.nonempty_extendScalars_iso_homComplexR_comp ε φ E P F hE
   rw [hid] at h
@@ -334,7 +334,7 @@ theorem nonempty_linearEquiv_hom_diagonalBaseChangeTarget
       (ModuleCat.of (A ⊗[R] R') (A ⊗[R] R'))).isModule
   have hsurj : Function.Surjective d' := fun a =>
     ⟨a ⊗ₜ[R'] (1 : A ⊗[R] R'), by
-      show (Algebra.TensorProduct.lmul' R' :
+      change (Algebra.TensorProduct.lmul' R' :
         (A ⊗[R] R') ⊗[R'] (A ⊗[R] R') →ₐ[R'] (A ⊗[R] R')) (a ⊗ₜ[R'] (1 : A ⊗[R] R')) = a
       rw [Algebra.TensorProduct.lmul'_apply_tmul, mul_one]⟩
   let eB : (restrictedUnitSingle d' 0 ⟶

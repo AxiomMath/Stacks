@@ -120,10 +120,10 @@ theorem exists_baseChange_eq_zero_of_isAffine_of_isLimit_of_directed
   have : DirectedSystem (fun a : α ↦ (Γ(E.obj (op a), ⊤) : Type u))
       fun a b h ↦ ⇑(sectionsTransitionAlgHom E hmap a b h) := by
     refine ⟨fun a x ↦ ?_, fun a b d hab hbd x ↦ ?_⟩
-    · show (E.map (homOfLE (le_refl a)).op).appTop.hom x = x
+    · change (E.map (homOfLE (le_refl a)).op).appTop.hom x = x
       rw [show (homOfLE (le_refl a)).op = (𝟙 (op a) : op a ⟶ op a) from Subsingleton.elim _ _]
       simp
-    · show (E.map (homOfLE hbd).op).appTop.hom ((E.map (homOfLE hab).op).appTop.hom x) =
+    · change (E.map (homOfLE hbd).op).appTop.hom ((E.map (homOfLE hab).op).appTop.hom x) =
         (E.map (homOfLE (hab.trans hbd)).op).appTop.hom x
       rw [show (homOfLE (hab.trans hbd)).op =
         (homOfLE hbd).op ≫ (homOfLE hab).op from Subsingleton.elim _ _, Functor.map_comp]

@@ -87,7 +87,7 @@ theorem paramEquiv_lciMk_X (i : Fin n) :
   have := isPushout_localizedCompleteIntersection S (MvPolynomial σ S) n h f
   have hX : lciMk (paramH h σ) (paramF f σ) (X i) =
       algebraMap (localizedCompleteIntersection S n h f) _ (lciMk h f (X i)) := by
-    show _ = localizedCompleteIntersectionMap S (MvPolynomial σ S) n h f
+    change _ = localizedCompleteIntersectionMap S (MvPolynomial σ S) n h f
       (algebraMap (MvPolynomial (Fin n) S) _ (X i))
     rw [localizedCompleteIntersectionMap_algebraMap, MvPolynomial.map_X]
     rfl
@@ -139,7 +139,7 @@ theorem paramExt_algebraMap_eq (c : MvPolynomial σ S) :
       @algebraMap _ _ _ _ (paramExtAlgebra h f σ g)
         (algebraMap (MvPolynomial σ S)
           (MvPolynomial σ (localizedCompleteIntersection S n h f)) c) := by
-  show _ = lciAwayHom (paramH h σ) g (paramF f σ)
+  change _ = lciAwayHom (paramH h σ) g (paramF f σ)
     ((paramEquiv h f σ).symm (algebraMap _ _ c))
   rw [AlgEquiv.commutes, AlgHom.commutes]
 
@@ -161,7 +161,7 @@ end ParamExt
 section Nice
 
 variable {S : Type u} [CommRing S] [IsNoetherianRing S] {n : ℕ} (h : MvPolynomial (Fin n) S)
-  (f : Fin n → MvPolynomial (Fin n) S) (σ : Type) [Fintype σ]
+  (f : Fin n → MvPolynomial (Fin n) S) (σ : Type) [Finite σ]
   (g : MvPolynomial (Fin n) (MvPolynomial σ S))
   [IsNoetherianRing (localizedCompleteIntersection S n h f)]
   [Module.Flat S (localizedCompleteIntersection S n h f)]
@@ -255,7 +255,7 @@ theorem exists_presentation_of_chartBaseChange
   let e₀ := IsLocalization.algEquiv (Submonoid.powers (lciMk H F p)) B Z
   have hA : ∀ a : A, algebraMap A B a = algebraMap T B (algebraMap A T a) := by
     intro a
-    show _ = algebraMap (A ⊗[S] localizedCompleteIntersection S n h f) B
+    change _ = algebraMap (A ⊗[S] localizedCompleteIntersection S n h f) B
       (φ.symm (algebraMap A T a))
     rw [AlgEquiv.commutes, Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self,
       RingHom.id_apply, D.base_left]
@@ -263,7 +263,7 @@ theorem exists_presentation_of_chartBaseChange
       algebraMap _ B (lciMk h f q) =
         algebraMap T B (lciMk _ _ (MvPolynomial.map (algebraMap S A) q)) := by
     intro q
-    show _ = algebraMap (A ⊗[S] localizedCompleteIntersection S n h f) B
+    change _ = algebraMap (A ⊗[S] localizedCompleteIntersection S n h f) B
       (φ.symm (lciMk _ _ (MvPolynomial.map (algebraMap S A) q)))
     rw [← D.base_right]
     congr 1

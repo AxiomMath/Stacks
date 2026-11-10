@@ -199,7 +199,7 @@ private lemma exists_iso_over_after_baseChange {I : Type u} [Category.{u} I] [Is
     eA ≪≫ α.symm ≪≫ α₂.symm ≪≫ (Over.pullback (c.π.app k)).mapIso γA,
     eB ≪≫ β.symm ≪≫ β₂.symm ≪≫ (Over.pullback (c.π.app k)).mapIso γB, ?_, ?_, ?_⟩
   · simp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, Functor.mapIso_hom, Functor.map_comp,
-      Category.assoc, Iso.map_hom_inv_id_assoc]
+      Category.assoc, Iso.hom_inv_id_map_assoc]
     rw [reassoc_of% hnat', hbcg]
     simp
   · exact transport_left_comp_fst D c e h fZ XA eA α hα

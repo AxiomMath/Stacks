@@ -155,7 +155,7 @@ that to a basis of the sections needs the evaluation of a slice-level isomorphis
 object of the slice, which the development does not have in a reusable form.
 
 `PUnit` is the index type because `SymmetricAlgebra.equivMvPolynomial` produces
-`MvPolynomial κ R` for the index type `κ` of the basis, and `MvPolynomial.pUnitAlgEquiv` is
+`MvPolynomial κ R` for the index type `κ` of the basis, and `MvPolynomial.uniqueAlgEquiv` is
 Mathlib's identification of the one-variable case with `Polynomial`.
 
 ## References
@@ -223,7 +223,7 @@ def Situation.polynomialAlgEquiv (U : D.X.affineOpens)
     (b : Module.Basis PUnit Γ(D.X, U.1) Γ(D.L, U.1)) :
     SymmetricAlgebra Γ(D.X, U.1) Γ(D.L, U.1) ≃ₐ[Γ(D.X, U.1)]
       Polynomial Γ(D.X, U.1) :=
-  (SymmetricAlgebra.equivMvPolynomial b).trans (MvPolynomial.pUnitAlgEquiv _)
+  (SymmetricAlgebra.equivMvPolynomial b).trans (MvPolynomial.uniqueAlgEquiv _ PUnit)
 
 /-- **The affine local model `π^{-1}U = Spec Γ(X, U)[T]` of the total space over a trivializing
 affine open**: if the sections of the line bundle over an affine open `U` of `X` are free of rank

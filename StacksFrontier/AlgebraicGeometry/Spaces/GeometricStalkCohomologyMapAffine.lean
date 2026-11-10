@@ -87,7 +87,7 @@ theorem preservesColimitsOfSize_sheafModuleFiberOfCommRing (Φ : J.Point.{u})
     (O : Sheaf J CommRingCat.{u}) [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] :
     PreservesColimitsOfSize.{u, u} (sheafModuleFiberOfCommRing Φ O) := by
   have := preservesColimitsOfSize_sheafModuleFiber (commRingSheafToRingSheaf O) Φ
-  show PreservesColimitsOfSize.{u, u}
+  change PreservesColimitsOfSize.{u, u}
     (sheafModuleFiber Φ (commRingSheafToRingSheaf O) ⋙
       ModuleCat.restrictScalars.{u} (commRingSheafFiberIso Φ O).inv.hom)
   infer_instance
@@ -131,9 +131,9 @@ theorem linearMap_naturality {M N : ModuleCat.{u} A} (h : M ⟶ N) (m : M) :
   have hc : ModuleCat.ofHom (LinearMap.toSpanSingleton A N (h.hom m)) =
       ModuleCat.ofHom (LinearMap.toSpanSingleton A M m) ≫ h := by
     refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-    show t • h.hom m = h.hom (t • m)
+    change t • h.hom m = h.hom (t • m)
     rw [map_smul]
-  show (G.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A N (h.hom m)))).hom g =
+  change (G.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A N (h.hom m)))).hom g =
     (G.map h).hom ((G.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A M m))).hom g)
   rw [hc, CategoryTheory.Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply]
 
@@ -167,9 +167,9 @@ theorem linearMap_self (a : A) : linearMap δ G g hg (ModuleCat.of A A) a = δ a
   have h : ModuleCat.ofHom (LinearMap.toSpanSingleton A (ModuleCat.of A A) a) =
       a • 𝟙 (ModuleCat.of A A) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-    show t • a = a • t
+    change t • a = a • t
     rw [smul_eq_mul, smul_eq_mul, mul_comm]
-  show (G.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A (ModuleCat.of A A) a))).hom g = _
+  change (G.map (ModuleCat.ofHom (LinearMap.toSpanSingleton A (ModuleCat.of A A) a))).hom g = _
   rw [h, hg]
 
 include hg in
@@ -185,13 +185,13 @@ theorem isIso_app_self (e : G.obj (ModuleCat.of A A) ≅ ModuleCat.of O O) (he :
       (@LinearMap.toSpanSingleton O E _ E.isAddCommGroup.toAddCommMonoid E.isModule one)
   have hc : ∀ a : A, f.hom ((1 : O) ⊗ₜ[A, δ] a) = δ a := by
     intro a
-    show e.hom.hom ((app δ G g hg (ModuleCat.of A A)).hom ((1 : O) ⊗ₜ[A, δ] a)) = δ a
+    change e.hom.hom ((app δ G g hg (ModuleCat.of A A)).hom ((1 : O) ⊗ₜ[A, δ] a)) = δ a
     rw [app_one_tmul, linearMap_self δ G g hg a, map_smul, he]
-    show δ a * 1 = δ a
+    change δ a * 1 = δ a
     rw [mul_one]
   have h1 : f ≫ k = 𝟙 E := by
     refine ModuleCat.ExtendScalars.hom_ext fun a => ?_
-    show k.hom (f.hom ((1 : O) ⊗ₜ[A, δ] a)) = (1 : O) ⊗ₜ[A, δ] a
+    change k.hom (f.hom ((1 : O) ⊗ₜ[A, δ] a)) = (1 : O) ⊗ₜ[A, δ] a
     rw [hc]
     refine (ModuleCat.ExtendScalars.smul_tmul (f := δ) (M := ModuleCat.of A A) (δ a) 1 1).trans ?_
     let R' := (ModuleCat.restrictScalars δ).obj (ModuleCat.of O O)
@@ -202,7 +202,7 @@ theorem isIso_app_self (e : G.obj (ModuleCat.of A A) ≅ ModuleCat.of O O) (he :
         (congrArg (fun t : A => o ⊗ₜ[A] t) (mul_one a)))
   have h2 : k ≫ f = 𝟙 (ModuleCat.of O O) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-    show f.hom (@HSMul.hSMul O E E (@instHSMul O E (@SMulZeroClass.toSMul O E _
+    change f.hom (@HSMul.hSMul O E E (@instHSMul O E (@SMulZeroClass.toSMul O E _
       (@SMulWithZero.toSMulZeroClass O E _ _ (@MulActionWithZero.toSMulWithZero O E _ _
         (@Module.toMulActionWithZero O E _ _ E.isModule))))) t one) = t
     rw [map_smul, hc, map_one]
@@ -333,7 +333,7 @@ value at `1`. -/
 private theorem endo_eq_smul_id {R : Type u} [CommRing R]
     (f : ModuleCat.of R R ⟶ ModuleCat.of R R) : f = f.hom 1 • 𝟙 _ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-  show f.hom t = f.hom 1 * t
+  change f.hom t = f.hom 1 * t
   have h := f.hom.map_smul t 1
   rw [smul_eq_mul, mul_one] at h
   rw [h, smul_eq_mul, mul_comm]
@@ -465,7 +465,7 @@ theorem flat_representedAffineStalkRingHom :
   have h3 : PreservesFiniteLimits (representedAffineStalk B S hS U x) :=
     @comp_preservesFiniteLimits _ _ _ _ _ _ _ _ h1 h2
   have : (representedAffineStalk B S hS U x).PreservesMonomorphisms := inferInstance
-  exact Functor.preservesMonomorphisms.of_iso (representedAffineStalkIso B S hS U x).symm
+  exact Functor.PreservesMonomorphisms.of_iso (representedAffineStalkIso B S hS U x).symm
 
 /-- A natural isomorphism of functors carries an equation of scalar endomorphisms. -/
 private theorem map_eq_smul_of_iso {C : Type*} [Category* C] {T : Type u} [CommRing T]

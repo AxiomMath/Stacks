@@ -142,7 +142,7 @@ public theorem pushforward_scalarOnOpen
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f)) • s =
     scalarOnOpen A f ((Stacks.Divisors.puncturedSpectrum A).ι ⁻¹ᵁ V) •
       (show Γ(F, (Stacks.Divisors.puncturedSpectrum A).ι ⁻¹ᵁ V) from s) := by
-  show ((Stacks.Divisors.puncturedSpectrum A).ι.app V
+  change ((Stacks.Divisors.puncturedSpectrum A).ι.app V
       ((baseScheme A).presheaf.map (homOfLE (le_top : V ≤ ⊤)).op
         ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f))) •
     (show Γ(F, (Stacks.Divisors.puncturedSpectrum A).ι ⁻¹ᵁ V) from s) = _

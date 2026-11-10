@@ -20,7 +20,7 @@ This file says that a comparison of the two categories of modules which is compa
 inverse image carries the one map to the other **as soon as it does so on the defining ideals**.
 That is the naturality in squares of closed subspaces which the comparison of the conormal
 *objects* does not by itself provide, and it is item 3 of the carry note of the file
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` under
+`ConormalShortExact.lean` under
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`.
 The statement at the two concrete families of functors is in
 `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleSchemeComparisonSquare.lean`.

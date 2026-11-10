@@ -85,7 +85,7 @@ theorem exists_intertwiner_pow_of_conj (hinj : Function.Injective (algebraMap O 
   -- `M σ₁ = σ₂ M` over `K`
   have hint : ∀ g, M * (σ₁ g).map (algebraMap O K) = (σ₂ g).map (algebraMap O K) * M := fun g => by
     rw [h₁, h₂]
-    show (T₂⁻¹ : GL (Fin m) K).val * T₁.val * ((T₁⁻¹ : GL (Fin m) K).val * ρ g * T₁.val) =
+    change (T₂⁻¹ : GL (Fin m) K).val * T₁.val * ((T₁⁻¹ : GL (Fin m) K).val * ρ g * T₁.val) =
       (T₂⁻¹ : GL (Fin m) K).val * ρ g * T₂.val * ((T₂⁻¹ : GL (Fin m) K).val * T₁.val)
     simp only [Matrix.mul_assoc]
     rw [← Matrix.mul_assoc T₁.val, ← Units.val_mul, mul_inv_cancel, Units.val_one,
@@ -141,11 +141,11 @@ theorem intertwiners_quotient (σE : G →* GL (Fin m) R) (σO : G →* GL (Fin 
     rw [Matrix.map_smul' _ _ _ (map_mul _), Matrix.map_one _ (map_zero _) (map_one _),
       map_natCast]
   refine ⟨fun g => ?_, fun g => ?_, ?_, ?_⟩
-  · show A.map (Ideal.Quotient.mk I) * (σO g).val.map (Ideal.Quotient.mk I) =
+  · change A.map (Ideal.Quotient.mk I) * (σO g).val.map (Ideal.Quotient.mk I) =
       ((σE g).val.map (Ideal.Quotient.mk J)).map (Ideal.quotientMap I ι hJI) *
         A.map (Ideal.Quotient.mk I)
     rw [hmk, ← Matrix.map_mul, ← Matrix.map_mul, hA g]
-  · show A'.map (Ideal.Quotient.mk I) *
+  · change A'.map (Ideal.Quotient.mk I) *
         ((σE g).val.map (Ideal.Quotient.mk J)).map (Ideal.quotientMap I ι hJI) =
       (σO g).val.map (Ideal.Quotient.mk I) * A'.map (Ideal.Quotient.mk I)
     rw [hmk, ← Matrix.map_mul, ← Matrix.map_mul, hA' g]
@@ -254,7 +254,7 @@ theorem free_padicIntegerRing_extension :
   have := isPrincipalIdealRing_padicIntegerRing ℓ (E := E)
   have : IsScalarTower ℤ_[ℓ] (integralClosure ℤ_[ℓ] E) (integralClosure ℤ_[ℓ] L) :=
     IsScalarTower.of_algebraMap_eq fun z => Subtype.ext (by
-      show algebraMap ℤ_[ℓ] L z = algebraMap E L (algebraMap ℤ_[ℓ] E z)
+      change algebraMap ℤ_[ℓ] L z = algebraMap E L (algebraMap ℤ_[ℓ] E z)
       exact (isScalarTower_padicInt_padicIntAlgebraOfRat ℓ E L).algebraMap_apply ℤ_[ℓ] E L z)
   have hfin : Module.Finite (integralClosure ℤ_[ℓ] E) (integralClosure ℤ_[ℓ] L) :=
     Module.Finite.of_restrictScalars_finite ℤ_[ℓ] _ _

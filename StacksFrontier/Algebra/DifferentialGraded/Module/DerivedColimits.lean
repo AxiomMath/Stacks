@@ -153,7 +153,7 @@ def telescopeCoord (n : ℕ) : (∐ F.obj) ⟶ F.obj n :=
 theorem ι_telescopeCoord (n i : ℕ) :
     Sigma.ι F.obj i ≫ telescopeCoord F n =
       if h : i = n then eqToHom (congrArg F.obj h) else 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The comparison carries the `n`-th telescope coordinate to the `n`-th coordinate of the
 concrete direct sum. -/

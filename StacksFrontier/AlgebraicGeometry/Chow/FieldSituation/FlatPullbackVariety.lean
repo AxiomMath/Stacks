@@ -158,7 +158,7 @@ private theorem fiber_topologicalKrullDimAt_eq {X S : Scheme.{u}} (p : X ⟶ S) 
     (p.fiberHomeo (p.base x)).trans
       ((Homeomorph.setCongr hpre).trans (Homeomorph.Set.univ X))
   have he : e (p.asFiber x) = x := by
-    show ((p.fiberHomeo (p.base x)) (p.asFiber x)).1 = x
+    change ((p.fiberHomeo (p.base x)) (p.asFiber x)).1 = x
     exact p.fiberι_asFiber x
   exact (topologicalKrullDimAt_eq_of_homeomorph e (p.asFiber x)).trans (congrArg _ he)
 
@@ -210,7 +210,7 @@ theorem relativeDimension_of_flat_of_isVariety (k : Type u) [Field k] {X Y : Sch
     RelativeDimension f r := by
   let _ : LocallyOfFiniteType f := locallyOfFiniteType_of_isVariety_comp k sX sY f hbase
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     exact PrimeSpectrum.subsingleton_iff_isField_of_isReduced.mpr (Field.toIsField k)
   obtain ⟨dX, hdX⟩ := exists_topologicalKrullDim_eq_natCast_of_isVariety k sX
   obtain ⟨dY, hdY⟩ := exists_topologicalKrullDim_eq_natCast_of_isVariety k sY
@@ -231,7 +231,7 @@ theorem relativeDimension_of_flat_of_isVariety (k : Type u) [Field k] {X Y : Sch
   intro s hs
   have := hs
   have : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (CategoryTheory.Limits.pullback.snd f (Y.fromSpecResidueField s))
+    change LocallyOfFiniteType (CategoryTheory.Limits.pullback.snd f (Y.fromSpecResidueField s))
     infer_instance
   have hall : ∀ z : f.fiber s, topologicalKrullDimAt (f.fiber s) z = (r : WithBot ℕ∞) := by
     intro z

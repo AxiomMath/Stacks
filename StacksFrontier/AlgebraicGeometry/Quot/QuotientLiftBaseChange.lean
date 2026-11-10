@@ -41,7 +41,7 @@ variable {C : Type*} [Category C] [Abelian C]
 /-- The kernel of `e ≫ g`, carried along the isomorphism `e`, is the kernel of `g`. -/
 theorem Subobject.map_hom_kernelSubobject_iso_comp {A B Z : C} (e : A ≅ B) (g : B ⟶ Z) :
     (Subobject.map e.hom).obj (kernelSubobject (e.hom ≫ g)) = kernelSubobject g := by
-  show (Subobject.map e.hom).obj (Subobject.mk (kernel.ι (e.hom ≫ g))) =
+  change (Subobject.map e.hom).obj (Subobject.mk (kernel.ι (e.hom ≫ g))) =
     Subobject.mk (kernel.ι g)
   rw [Subobject.map_mk]
   exact Subobject.mk_eq_mk_of_comm _ _ (kernelIsIsoComp e.hom g) (by simp)

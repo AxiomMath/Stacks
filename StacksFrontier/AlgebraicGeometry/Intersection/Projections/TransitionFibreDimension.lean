@@ -52,7 +52,8 @@ of `StacksFrontier.AlgebraicGeometry.Intersection.Projections.SingularGoodEndomo
 closed subset of `𝐏` carrying the invertible bad classes and of pointwise codimension at least
 two. Tag 0B2L part (2c),
 `topologicalKrullDimAt_fiber_add_one_le_of_one_le_ringKrullDim_imageClosure` of
-`StacksFrontier.AlgebraicGeometry.Variety.FibreDimension`, gets that codimension out of a jump of the
+`StacksFrontier.AlgebraicGeometry.Variety.FibreDimension`, gets that codimension out of a jump of
+the
 fibre dimension of `π : T ⟶ 𝐏` above the generic relative dimension `d = dim T - dim Z`, where `Z`
 is the reduced closure of the image of `π`. The bound proved here is what makes `d` at most the
 expected `dim X + dim Y - dim 𝐏(V)`: with `Z = 𝐏` it reads
@@ -338,10 +339,10 @@ public theorem topologicalKrullDim_transitionLocus_inter_le {n m : ℕ}
     (projectiveSpaceOfModuleToSpec k V)).base w with hz
   have hyc : IsClosed ({y} : Set (projectiveSpaceOfModule k V)) :=
     (pullback.fst (projectiveSpaceOfModuleToSpec k V)
-      (projectiveSpaceOfModuleToSpec k V)).closePoints_subset_preimage_closedPoints hw
+      (projectiveSpaceOfModuleToSpec k V)).closedPoints_subset_preimage_closedPoints hw
   have hzc : IsClosed ({z} : Set (projectiveSpaceOfModule k V)) :=
     (pullback.snd (projectiveSpaceOfModuleToSpec k V)
-      (projectiveSpaceOfModuleToSpec k V)).closePoints_subset_preimage_closedPoints hw
+      (projectiveSpaceOfModuleToSpec k V)).closedPoints_subset_preimage_closedPoints hw
   obtain ⟨f, hf, hfy⟩ := exists_eq_linearFunctionalPoint k V y hyc
   obtain ⟨f', hf', hf'z⟩ := exists_eq_linearFunctionalPoint k V z hzc
   set L : Set (projectiveSpaceOfModule k (ParameterModule k V)) :=
@@ -369,7 +370,7 @@ public theorem topologicalKrullDim_transitionLocus_inter_le {n m : ℕ}
     -- the parameter projection of `t` is a closed point, hence cut out by a functional
     have hparc : IsClosed ({(tpPar k V).base t} :
         Set (projectiveSpaceOfModule k (ParameterModule k V))) :=
-      (tpPar k V).closePoints_subset_preimage_closedPoints htc
+      (tpPar k V).closedPoints_subset_preimage_closedPoints htc
     obtain ⟨f₃, hf₃, hpar⟩ :=
       exists_eq_linearFunctionalPoint k (ParameterModule k V) ((tpPar k V).base t) hparc
     -- the endomorphism that functional names
@@ -454,7 +455,7 @@ public theorem relativeDimensionLE_transitionVarietyToBase {n m : ℕ}
   have hwclosed : IsClosed ({f.base ((transitionVarietyToBase k V f).base t)} :
       Set (prodTwo k V)) := by
     have h : (transitionVarietyToBase k V f ≫ f).base t ∈ closedPoints (prodTwo k V) :=
-      (transitionVarietyToBase k V f ≫ f).closePoints_subset_preimage_closedPoints ht
+      (transitionVarietyToBase k V f ≫ f).closedPoints_subset_preimage_closedPoints ht
     rw [Scheme.Hom.comp_apply] at h
     exact h
   rw [topologicalKrullDimAt_fiber_eq_of_isPullback hsq t]

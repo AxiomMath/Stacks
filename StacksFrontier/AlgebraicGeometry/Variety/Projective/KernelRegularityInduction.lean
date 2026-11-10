@@ -209,7 +209,7 @@ for an `m'` depending only on `n`, `r` and `P - P(t-1)`. Raising `m'` to `b = ma
 [Stacks, Tag 08A6] gives the chain data at `b`, and
 `AlgebraicGeometry.exists_isMRegular_kernel_free_of_kernelChainData` turns it into `m`-regularity
 of the kernel upstairs at the degree `AlgebraicGeometry.kernelRegularityBound (n+1) P b`. -/
-theorem exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite (n r : ℕ) (hr : 1 ≤ r)
+theorem exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite (n r : ℕ)
     (P : Polynomial ℚ) :
     ∃ m : ℤ, ∀ (k : Type u) [Field k] [Infinite k]
       (Q : (projectiveSpaceOverRing n (.of k)).Modules) [Q.IsCoherent]
@@ -223,7 +223,7 @@ theorem exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite (n r : �
     exact absurd hle (by omega)
   | succ n ih =>
     obtain ⟨m', hm'⟩ := ih (P - P.comp (Polynomial.X - 1))
-    refine ⟨(exists_isMRegular_kernel_free_of_kernelChainData (n + 1) r hr P (max m' 0)
+    refine ⟨(exists_isMRegular_kernel_free_of_kernelChainData (n + 1) r P (max m' 0)
       (le_max_right _ _)).choose, ?_⟩
     intro k _ _ Q hQ q hq hP
     have := hQ
@@ -248,7 +248,7 @@ theorem exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite (n r : �
       isMRegular_of_le k n G (isMRegular_of_iso k n (CoherentAbelian.isCoherent_kernel q')
         hGc eG.symm hreg') (le_max_left _ _)
     obtain ⟨D⟩ := hchain (max m' 0) hregG
-    exact (exists_isMRegular_kernel_free_of_kernelChainData (n + 1) r hr P (max m' 0)
+    exact (exists_isMRegular_kernel_free_of_kernelChainData (n + 1) r P (max m' 0)
       (le_max_right _ _)).choose_spec k Q q D hP
 
 /-- **[Stacks, Tag 08AG].** Let `n ≥ 0`, `r ≥ 1` and `P ∈ ℚ[t]`. There is a single integer `m`
@@ -270,14 +270,14 @@ surjection of `𝒪^{⊕r}` onto the base change of `𝒬`; the Hilbert polynomi
 @[stacks 08AG "with the free sheaf of the source, the short exact sequence read as an \
 epimorphism from it, and the Hilbert polynomial of Tag 08AD compared with a rational polynomial \
 at every integer"]
-theorem exists_isMRegular_kernel_free_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r)
+theorem exists_isMRegular_kernel_free_of_hilbertPolynomial (n r : ℕ)
     (P : Polynomial ℚ) :
     ∃ m : ℤ, ∀ (k : Type u) [Field k]
       (Q : (projectiveSpaceOverRing n (.of k)).Modules) [Q.IsCoherent]
       (q : freeModules k n r ⟶ Q) [Epi q],
       (∀ d : ℤ, (hilbertPolynomial k n Q d : ℚ) = P.eval (d : ℚ)) →
       @IsMRegular k _ n (kernel q) (CoherentAbelian.isCoherent_kernel q) m := by
-  obtain ⟨m, hm⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite n r hr P
+  obtain ⟨m, hm⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial_of_infinite n r P
   refine ⟨m, ?_⟩
   intro k _ Q hQ q hq hP
   have := hQ

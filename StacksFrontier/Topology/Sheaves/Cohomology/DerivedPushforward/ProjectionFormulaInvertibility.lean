@@ -70,7 +70,8 @@ mathematical, keep it a hypothesis here: that statement is *curried*,
 `(T.tensor.map u).app (unitObject X)`, where `hρX` is uncurried, so crossing to it is
 `Functor.uncurry_obj_map` followed by `map_id` and `comp_id`; and it is indexed by a
 `RingedSite`, which is the mismatch already described for `ρY` and `ρX`.  The same directory's
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/RightUnitorNaturality.lean` proves `rightUnitorNatIso_naturality_uncurry` in precisely `hρX`'s
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/RightUnitorNaturality.lean` proves
+`rightUnitorNatIso_naturality_uncurry` in precisely `hρX`'s
 shape, but about a parallel right unitor whose identification with `rightUnitIso` that file
 records as not established.  The ordinary unit isomorphism
 `Stacks.SheafOfModules.tensorComplexUnitIso` is natural too, by

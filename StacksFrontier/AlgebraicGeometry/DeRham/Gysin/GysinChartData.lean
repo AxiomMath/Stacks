@@ -344,7 +344,7 @@ theorem chartCls_det (i : Z ⟶ X) [IsClosedImmersion i] (π : X ⟶ S) {d : ℕ
     (y : Γ(relativeDifferentialForms π ((p : ℤ) + ((d + 1 : ℕ) : ℤ)), V)) :
     chartCls i π p W f hT hfT.le V hV y =
       chartCls i π p W g hT hgT.le V hV (chartScalar W hV A.det • y) := by
-  show (gysinTarget i π (d + 1) p).presheaf.map _ _ = (gysinTarget i π (d + 1) p).presheaf.map _ _
+  change (gysinTarget i π (d + 1) p).presheaf.map _ _ = (gysinTarget i π (d + 1) p).presheaf.map _ _
   refine congrArg ((gysinTarget i π (d + 1) p).presheaf.map
     (homOfLE (ι_image_chartOpen W hV).ge).op) ?_
   refine Eq.trans (chartClsHom_app_det i π p W f g A hg hT hfT hgT (chartOpen W hV) _) ?_
@@ -370,7 +370,7 @@ theorem chartCls_chartScalar_smul (i : Z ⟶ X) [IsClosedImmersion i] (π : X �
                 (relativeDifferentialForms π ((p : ℤ) + ((d + 1 : ℕ) : ℤ))), chartOpen W hV) from
               (relativeDifferentialForms π ((p : ℤ) + ((d + 1 : ℕ) : ℤ))).presheaf.map
                 (homOfLE (ι_image_chartOpen W hV).le).op y))) := by
-  show (gysinTarget i π (d + 1) p).presheaf.map _ _ = _
+  change (gysinTarget i π (d + 1) p).presheaf.map _ _ = _
   refine congrArg ((gysinTarget i π (d + 1) p).presheaf.map
     (homOfLE (ι_image_chartOpen W hV).ge).op) ?_
   exact congrArg ((chartClsHom i π p W f hT hTf).app (chartOpen W hV))

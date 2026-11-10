@@ -206,7 +206,7 @@ theorem isCountablyIndexedAndClassical_of_relative_isAffineHom
   refine ⟨isCountablyIndexed_of_relative_isAffineHom B S hS f hf hYc,
     hasSomeSurjectivePresentation_of_relative_isAffineHom B S hS f hf hSomeY.1 hYc,
     C, hCR, hCT, hCTR, hCLT, hCpres, ?_⟩
-  exact ⟨RingHom.isPreAdmissible_of_isTaut g.toRingHom g.continuous htaut hAadm.1,
+  exact ⟨RingHom.isPreAdmissible_of_isTaut g.toRingHom htaut hAadm.1,
     hCpres.1.2.2, hCpres.1.2.1⟩
 
 /-- **Stacks 0AKP, part (4).** The source of a representable affine morphism of fppf sheaves
@@ -269,7 +269,7 @@ theorem isAdicStar_of_relative_isAffineHom
   let _ : T2Space C := hCpres.1.2.2
   let _ : @CompleteSpace C (IsTopologicalAddGroup.rightUniformSpace C) := hCpres.1.2.1
   obtain ⟨J, hJfg, hJadic⟩ :=
-    RingHom.exists_fg_ideal_isAdic_of_isTaut g.toRingHom g.continuous htaut
+    RingHom.exists_fg_ideal_isAdic_of_isTaut g.toRingHom htaut
       ⟨I, hIfg, TopologicalRing.isAdic_of_isIdealOfDefinition_of_isPreAdic hAadic.1 hIdef⟩
   exact ⟨⟨⟨J, TopologicalRing.isIdealOfDefinition_of_isAdic hJadic, hJadic⟩,
     hCpres.1.2.2, hCpres.1.2.1⟩, J, TopologicalRing.isIdealOfDefinition_of_isAdic hJadic, hJfg⟩
@@ -310,14 +310,14 @@ theorem isNoetherian_of_relative_isAffineHom
   have _ : IsNoetherianRing A := hANoeth
   obtain ⟨I₀, hI₀def, hI₀adic⟩ := hAadic.1
   obtain ⟨J, hJfg, hJadic⟩ :=
-    RingHom.exists_fg_ideal_isAdic_of_isTaut g.toRingHom g.continuous htaut
+    RingHom.exists_fg_ideal_isAdic_of_isTaut g.toRingHom htaut
       ⟨I₀, IsNoetherian.noetherian I₀, hI₀adic⟩
   have hJopen : IsOpen ((J : Ideal C) : Set C) := by
     simpa only [pow_one] using (isAdic_iff.mp hJadic).1 1
   -- a weak ideal of definition of `A` whose closed extension lies inside `J`
   obtain ⟨K, hKwid, hKJ⟩ :=
-    (((RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition g.toRingHom g.continuous hApres.1
-      hCpres.1).mp htaut).2.mem_iff.mp (hJopen.mem_nhds J.zero_mem))
+    (((RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition g.toRingHom g.continuous hApres.1).mp
+      htaut).2.mem_iff.mp (hJopen.mem_nhds J.zero_mem))
   have hKle : Ideal.closure (K.map g.toRingHom) ≤ J := hKJ
   -- `C ⧸ J(K)` is of finite type over the Noetherian ring `A ⧸ K`, hence Noetherian
   have hlft : IsLocallyOfFiniteType B S hS (formalSpectrumMap hApres.1 g) := by

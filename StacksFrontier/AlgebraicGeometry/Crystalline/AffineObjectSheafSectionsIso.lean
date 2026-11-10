@@ -135,7 +135,7 @@ differential of the section ring. -/
 theorem affineCrysDiffSectionsObjEquiv_crysDerivation (b : Γ(A.thickening.target.scheme, ⊤)) :
     affineCrysDiffSectionsObjEquiv A hVA hV (crysDerivation A b) =
       (crysDifferentialsD S A).d b := by
-  show (affineCrysDifferentialsIso S A hVA hV).toLinearEquiv.symm
+  change (affineCrysDifferentialsIso S A hVA hV).toLinearEquiv.symm
       (affineCrysDiffSectionsEquiv A hVA hV (crysDerivation A b)) = _
   rw [affineCrysDiffSectionsEquiv_crysDerivation]
   exact affineCrysDifferentialsIso_inv_dpd S A hVA hV b

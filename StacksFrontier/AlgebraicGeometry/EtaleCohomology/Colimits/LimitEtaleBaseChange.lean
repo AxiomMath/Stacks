@@ -43,6 +43,7 @@ def baseChangeLeg (i : Iᵒᵖ) : pullback φ π ⟶ pullback (W.obj i).hom φ :
     ((Category.assoc _ _ _).trans ((congrArg (pullback.snd φ π ≫ ·) (hπ i)).trans
       pullback.condition.symm))
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [OrderBot I] in
 include hπ in
 /-- The leg `A ×_S T ⟶ A ×_S W_i` followed by the projection to `W_i` is the projection
 `A ×_S T ⟶ T` followed by the leg `T ⟶ W_i`. -/
@@ -50,6 +51,7 @@ theorem baseChangeLeg_fst (i : Iᵒᵖ) :
     baseChangeLeg W c hπ φ i ≫ pullback.fst (W.obj i).hom φ = pullback.snd φ π ≫ c.π.app i :=
   pullback.lift_fst _ _ _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [OrderBot I] in
 include hπ in
 /-- The leg `A ×_S T ⟶ A ×_S W_i` followed by the projection to `A` is the projection
 `A ×_S T ⟶ A`. -/
@@ -82,6 +84,7 @@ def baseChangeCone : Cone (baseChangeSystem W φ ⋙ Scheme.Etale.forget A ⋙ O
           exact ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) h2).trans
             (baseChangeLeg_snd W c hπ φ i))).symm }
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [OrderBot I] in
 /-- Each leg of `baseChangeCone` is a morphism over `A`: composed with the structure morphism
 `A ×_S W_i ⟶ A` it is the projection `A ×_S T ⟶ A`. -/
 theorem baseChangeCone_π_comp_hom (i : Iᵒᵖ) :

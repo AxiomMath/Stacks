@@ -111,7 +111,7 @@ This is the whole content of the identification of the two shapes: `Scheme.isoSp
 theorem ΓSpecIso_inv_comp_isoSpec_appTop {X S : Scheme.{u}} (g : X ⟶ S) [IsAffine S] :
     (Scheme.ΓSpecIso (.of (Γ(S, ⊤) : Type u))).inv ≫ (g ≫ S.isoSpec.hom).appTop = g.appTop := by
   rw [Scheme.Hom.comp_appTop, Scheme.isoSpec_hom, Scheme.toSpecΓ_appTop]
-  show (Scheme.ΓSpecIso Γ(S, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(S, ⊤)).hom ≫ g.appTop = g.appTop
+  change (Scheme.ΓSpecIso Γ(S, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(S, ⊤)).hom ≫ g.appTop = g.appTop
   exact Iso.inv_hom_id_assoc _ _
 
 /-! ### The two shapes of Tag 02O6 -/

@@ -65,7 +65,7 @@ public theorem transportHom_map_one
     (hg : ∀ X : Dᵒᵖ, (g.app 0).val.app X (A.one.eval X) = B.one.eval X) (X : Cᵒᵖ) :
     ((transportHom J Φ g).app 0).val.app X ((transportGradedAlgebra J Φ A).one.eval X) =
       (transportGradedAlgebra J Φ B).one.eval X := by
-  show (Φ ⋙ sectionsFunctor J X).map ((moduleSheafFunctor O).map (g.app 0))
+  change (Φ ⋙ sectionsFunctor J X).map ((moduleSheafFunctor O).map (g.app 0))
       ((Φ ⋙ sectionsFunctor J X).map (oneSheafHom A) default) =
     (Φ ⋙ sectionsFunctor J X).map (oneSheafHom B) default
   rw [← oneSheafHom_comp_map g hg, Functor.map_comp]
@@ -111,6 +111,8 @@ variable {X Y : AlgebraicGeometry.RingedTopos.{v, u, w}}
   [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [EssentiallySmall.{w} Y.C]
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [EssentiallySmall.{w} Y.C] in
 /-- **The pullback of a unital homomorphism of sheaves of graded algebras is unital.** -/
 public theorem gradedPull_map_one (f : AlgebraicGeometry.RingedToposHom X Y)
     {A B : SheafOfModules.GradedAlgebra.{w, w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)}
@@ -130,6 +132,8 @@ public noncomputable def unitalGradedPull (f : AlgebraicGeometry.RingedToposHom 
   map_mul := ((gradedPull f).map g.toHom).map_mul
   map_one := gradedPull_map_one f g.toHom g.map_one
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [EssentiallySmall.{w} Y.C] in
 /-- The components of `unitalGradedPull f g` are those of the pullback of the underlying
 homomorphism of `g`. -/
 @[simp] theorem unitalGradedPull_app (f : AlgebraicGeometry.RingedToposHom X Y)

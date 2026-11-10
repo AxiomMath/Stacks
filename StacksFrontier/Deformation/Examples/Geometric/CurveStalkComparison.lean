@@ -90,7 +90,7 @@ theorem localRingAtEquivStalk_algebraMap (X : Over (Spec (.of k))) {U : X.left.O
   let := stalkAlgebraOver X (x : X.left)
   rw [IsScalarTower.algebraMap_apply k Γ(X.left, U) (localRingAt (hU.primeIdealOf x)),
     localRingAtEquivStalk_algebraMap_section]
-  show X.left.presheaf.germ U x x.2 ((X.hom.appLE ⊤ U _) ((Scheme.ΓSpecIso (.of k)).inv a)) =
+  change X.left.presheaf.germ U x x.2 ((X.hom.appLE ⊤ U _) ((Scheme.ΓSpecIso (.of k)).inv a)) =
     (X.hom.stalkMap x) (StructureSheaf.toStalk k (X.hom.base x) a)
   exact germ_appLE_apply X.hom ⊤ U _ _ x.2 _
 
@@ -127,7 +127,7 @@ theorem chartDeformation_special_apply (Y : SchemeDeformationCategory (Λ := Λ)
     (chartDeformation X hU Y).hom.map.hom t =
       Y.specialMap.appLE (restrictedOpen Y U) U (le_specialMap_preimage_restrictedOpen Y U)
         ((restrictedOpen Y U).topIso.hom t) := by
-  show (Scheme.ΓSpecIso Γ(X.left, U)).hom ((hU.isoSpec.inv ≫
+  change (Scheme.ΓSpecIso Γ(X.left, U)).hom ((hU.isoSpec.inv ≫
     Y.specialMap.resLE (restrictedOpen Y U) U (le_specialMap_preimage_restrictedOpen Y U)).appTop
       t) = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hU.isoSpec_inv_appTop, Scheme.Hom.appTop,
@@ -141,7 +141,7 @@ theorem chartStalkMap_apply (Y : SchemeDeformationCategory (Λ := Λ) (k := k) X
     chartStalkMap X hU x Y t =
       Y.scheme.presheaf.germ (restrictedOpen Y U) (Y.specialMap (x : X.left))
         (specialMap_mem_restrictedOpen X x Y) ((restrictedOpen Y U).topIso.hom t) := by
-  show ((restrictedOpen Y U).stalkIso ⟨_, specialMap_mem_restrictedOpen X x Y⟩).hom
+  change ((restrictedOpen Y U).stalkIso ⟨_, specialMap_mem_restrictedOpen X x Y⟩).hom
     ((restrictedOpen Y U).toScheme.presheaf.germ ⊤ ⟨_, specialMap_mem_restrictedOpen X x Y⟩
       trivial t) = _
   refine (congrArg (fun φ => φ.hom t) (Scheme.Opens.germ_stalkIso_hom (restrictedOpen Y U)
@@ -208,7 +208,7 @@ theorem isLocalization_chartStalkMap (Y : SchemeDeformationCategory (Λ := Λ) (
       (Y.scheme.presheaf.stalk (Y.specialMap (x : X.left))) (h𝒰.primeIdealOf y).asIdeal
       ((restrictedOpen Y U).topIso.hom t)
     refine h1.symm.trans (Iff.trans ?_ h2)
-    show IsUnit (X.left.presheaf.germ U x x.2 ((chartDeformation X hU Y).hom.map.hom t)) ↔
+    change IsUnit (X.left.presheaf.germ U x x.2 ((chartDeformation X hU Y).hom.map.hom t)) ↔
       IsUnit (Y.scheme.presheaf.germ (restrictedOpen Y U) _ (specialMap_mem_restrictedOpen X x Y)
         ((restrictedOpen Y U).topIso.hom t))
     rw [← chartStalkMap_apply X hU x Y t]
@@ -224,7 +224,7 @@ theorem chartStalkMap_algebraMap (Y : SchemeDeformationCategory (Λ := Λ) (k :=
         (algebraMap (chartDeformation X hU Y).left.base (chartDeformation X hU Y).left.fiber a) =
       Y.toBase.stalkMap (Y.specialMap (x : X.left))
         (StructureSheaf.toStalk Y.base (Y.toBase (Y.specialMap (x : X.left))) a) := by
-  show chartStalkMap X hU x Y ((((restrictedOpen Y U).ι ≫ Y.toBase).appTop)
+  change chartStalkMap X hU x Y ((((restrictedOpen Y U).ι ≫ Y.toBase).appTop)
     ((Scheme.ΓSpecIso (.of Y.base)).inv a)) = _
   rw [chartStalkMap_apply, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
     Scheme.Opens.ι_appTop, Scheme.Opens.topIso_hom]
@@ -258,7 +258,7 @@ theorem chartStalkMap_naturality {Y₁ Y₂ : SchemeDeformationCategory (Λ := �
       stalkMorphismRingHom X x f (chartStalkMap X hU x Y₁ t) := by
   have hpt : f.map (Y₂.specialMap (x : X.left)) = Y₁.specialMap (x : X.left) :=
     congrArg (fun t : X.left ⟶ Y₁.scheme => t (x : X.left)) f.special_compat
-  show chartStalkMap X hU x Y₂ ((f.map.resLE (restrictedOpen Y₁ U) (restrictedOpen Y₂ U)
+  change chartStalkMap X hU x Y₂ ((f.map.resLE (restrictedOpen Y₁ U) (restrictedOpen Y₂ U)
     (le_map_preimage_restrictedOpen f)).appTop t) = _
   rw [chartStalkMap_apply, chartStalkMap_apply, Scheme.Hom.appTop, Scheme.Hom.resLE_app_top]
   simp only [CommRingCat.comp_apply, Iso.inv_hom_id_apply]
@@ -364,7 +364,7 @@ theorem nonempty_iso_localRingDeformationFunctor (X : Over (Spec (.of k))) {U : 
       ((chartLocalization (Λ := Λ) X hU x).functor.obj (chartDeformation X hU Y)).hom.map.hom
     have hφψ : φ = ψ := by
       refine chartLocalization_ringHom_ext X hU x Y φ ψ fun t => ?_
-      show Y.specialMap.stalkMap (x : X.left) (chartFiberEquiv X hU x Y
+      change Y.specialMap.stalkMap (x : X.left) (chartFiberEquiv X hU x Y
           ((chartLocalization (Λ := Λ) X hU x).localizationMap (chartDeformation X hU Y) t)) =
         localRingAtEquivStalk X hU x
           (((chartLocalization (Λ := Λ) X hU x).functor.obj (chartDeformation X hU Y)).hom.map.hom
@@ -381,7 +381,7 @@ theorem nonempty_iso_localRingDeformationFunctor (X : Over (Spec (.of k))) {U : 
     let ψ := (stalkMorphismRingHom X x f).comp (chartFiberEquiv X hU x Y₁).toRingHom
     have hφψ : φ = ψ := by
       refine chartLocalization_ringHom_ext X hU x Y₁ φ ψ fun t => ?_
-      show chartFiberEquiv X hU x Y₂
+      change chartFiberEquiv X hU x Y₂
           (((chartLocalization (Λ := Λ) X hU x).functor.map
               (chartDeformationMap X hU f)).left.map.hom
             ((chartLocalization (Λ := Λ) X hU x).localizationMap (chartDeformation X hU Y₁) t)) =

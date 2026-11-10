@@ -95,7 +95,7 @@ theorem HoldsAtEtalePoints.iff_exists_surjective
             g ∧
         p (s.relativeProjPoints.algebra T g) := by
   refine ⟨fun h => ?_, fun ⟨T₀, g₀, hg₀Et, hg₀Surj, hp⟩ T g hgEt => ?_⟩
-  · obtain ⟨T, g, hgEt, hgSurj⟩ := s.relativeProjPoints.exists_etalePoint s.space.2
+  · obtain ⟨T, g, hgEt, hgSurj⟩ := RelativeProjPoints.exists_etalePoint s.space.2
     exact ⟨T, g, hgEt, hgSurj, h T g hgEt⟩
   let hrep := hg₀Et.rep
   let W := hrep.pullback g

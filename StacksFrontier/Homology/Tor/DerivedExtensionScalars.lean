@@ -462,7 +462,7 @@ theorem single_tlmHC_zsumm {R : Type u} [CommRing R] (N : ModuleCat.{max u v} R)
   have hz : Limits.IsZero
       (((CochainComplex.singleFunctor (ModuleCat.{max u v} R) 0).obj N).X i₁) :=
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N i₁ h
-  show Limits.IsZero (((curriedTensor (ModuleCat.{max u v} R)).obj
+  change Limits.IsZero (((curriedTensor (ModuleCat.{max u v} R)).obj
       (((CochainComplex.singleFunctor (ModuleCat.{max u v} R) 0).obj N).X i₁)).obj (C.X i₂))
   rw [ModuleCat.isZero_iff_subsingleton] at hz ⊢
   have : Subsingleton (TensorProduct R
@@ -583,10 +583,10 @@ theorem single_tlmHC_comm {R : Type u} [CommRing R] (N : ModuleCat.{max u v} R)
     have hrel2 : (ComplexShape.up ℤ).Rel i (i+1) := by change i+1 = i+1; ring
     have hπ1 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ)+1, i) = i+1 := by
-      show (1:ℤ) + i = i+1; ring
+      change (1:ℤ) + i = i+1; ring
     have hπ2 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ), i+1) = i+1 := by
-      show (0:ℤ) + (i+1) = i+1; ring
+      change (0:ℤ) + (i+1) = i+1; ring
     rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
         HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,
         HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ hrel1 i (i+1) hπ1,
@@ -867,7 +867,7 @@ private lemma maps_t_le_of_comparison_projective (f : R →+* A)
   have hLE : CochainComplex.IsStrictlyLE ((E.mapHomologicalComplex (.up ℤ)).obj L) n :=
     inferInstance
   have hQ : ((extensionOfScalarsComplexGeneral.{uR, v, uA, wA} f).obj L).IsLE n := by
-    show (DerivedCategory.Q.obj ((E.mapHomologicalComplex (.up ℤ)).obj L)).IsLE n
+    change (DerivedCategory.Q.obj ((E.mapHomologicalComplex (.up ℤ)).obj L)).IsLE n
     infer_instance
   exact DerivedCategory.TStructure.t.isLE_of_iso
     ((F.mapIso (e ≪≫ (asIso (DerivedCategory.Q.map π)).symm)) ≪≫ asIso (α.app L)).symm n
@@ -1058,17 +1058,17 @@ private lemma isIso_opAlphaTransport_injective (G : C ⥤ D) [G.Additive]
   obtain ⟨n, hn⟩ := (HomotopyCategory.plus_quotient_obj_iff K.obj.as).1 K.property
   have := hn
   have hM : CochainComplex.IsStrictlyGE M n := by
-    show CochainComplex.IsStrictlyGE
+    change CochainComplex.IsStrictlyGE
       (((InjectiveObject.ι Cᵒᵖ).mapHomologicalComplex (.up ℤ)).obj K.obj.as) n
     infer_instance
   have hL : L.IsStrictlyLE (-n) := by
     rw [CochainComplex.isStrictlyLE_iff]
     intro i hi
-    show IsZero (M.X (-i)).unop
+    change IsZero (M.X (-i)).unop
     exact (CochainComplex.isZero_of_isStrictlyGE M n (-i) (by omega)).unop
   have hproj : ∀ i, Projective (L.X i) := by
     intro i
-    show Projective (M.X (-i)).unop
+    change Projective (M.X (-i)).unop
     have : Injective (M.X (-i)) := inferInstanceAs
       (Injective ((((InjectiveObject.ι Cᵒᵖ).mapHomotopyCategoryPlus.obj K).obj).as.X (-i)))
     infer_instance

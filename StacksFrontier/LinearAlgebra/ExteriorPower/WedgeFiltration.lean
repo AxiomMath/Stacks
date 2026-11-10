@@ -188,7 +188,7 @@ theorem blockComponent_prodBlock_of_ne {k m n : ℕ} (h : k + m = n)
     blockComponent pq (prodBlock h t) = 0 := by
   simp only [blockComponent, prodBlock, LinearMap.comp_apply, LinearEquiv.coe_coe,
     LinearEquiv.apply_symm_apply]
-  rw [DirectSum.component.of, dif_neg hpq]
+  rw [DirectSum.component.of, dite_eq_right hpq]
 
 /-- The block map on a pure tensor is the wedge of the image of the first factor with the image
 of the second. -/
@@ -202,8 +202,7 @@ theorem prodBlock_tmul {k m n : ℕ} (h : k + m = n) (a : ⋀[B]^k E) (b : ⋀[B
 theorem prodBlock_mem_wedgeStep {k m n : ℕ} (h : k + m = n)
     (t : TensorProduct B (⋀[B]^k E) (⋀[B]^m G)) :
     prodBlock h t ∈ wedgeStep (LinearMap.inl B E G) k n := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [prodBlock_tmul]
     exact wedgeLeftMul_mem_wedgeStep _ h le_rfl a _
@@ -233,7 +232,7 @@ theorem blockComponent_eq_zero_of_mem_wedgeStep {k n : ℕ} {z : ⋀[B]^n (E × 
       (prodEquivDirectSum (M := E) (N := G) m).symm.toLinearMap = 0 := by
     refine DirectSum.linearMap_ext B fun pq' => TensorProduct.ext' fun a b => ?_
     obtain ⟨⟨p, q⟩, h'⟩ := pq'
-    show blockComponent pq (wedgeLeftMul (LinearMap.inl B E G) h x
+    change blockComponent pq (wedgeLeftMul (LinearMap.inl B E G) h x
       (prodBlock (k := p) (m := q) h' (a ⊗ₜ b))) = 0
     rw [wedgeLeftMul_prodBlock]
     refine blockComponent_prodBlock_of_ne _ (fun he => ?_) _
@@ -295,7 +294,7 @@ theorem prodGradedMap_bijective {k m n : ℕ} (h : k + m = n) :
     obtain ⟨⟨z, hz⟩, rfl⟩ := Submodule.mkQ_surjective _ y
     refine ⟨blockComponent (blockIndex k m n h) z, (Submodule.Quotient.eq _).2 ?_⟩
     rw [Submodule.mem_comap, map_sub]
-    show prodBlock h (blockComponent (blockIndex k m n h) z) - z ∈ _
+    change prodBlock h (blockComponent (blockIndex k m n h) z) - z ∈ _
     rw [← neg_sub]
     refine neg_mem (mem_wedgeStep_succ_of_blockComponent_eq_zero h _ (fun pq hpq => ?_) ?_)
     · rw [map_sub, blockComponent_eq_zero_of_mem_wedgeStep hz pq hpq,

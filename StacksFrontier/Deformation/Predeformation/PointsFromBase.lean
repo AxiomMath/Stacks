@@ -142,7 +142,7 @@ private theorem algHom_apply_eq_of_sub_mem {N : ℕ}
       RingHom.ker (f : R →+* (A : Type v)) := by
     rw [Ideal.map_le_iff_le_comap]
     intro b hb
-    show f (algebraMap Λ R b) = 0
+    change f (algebraMap Λ R b) = 0
     rw [f.commutes b]
     exact Ideal.mem_bot.mp (hN ▸ Ideal.mem_map_of_mem (algebraMap Λ (A : Type v)) hb)
   have h : f (x - algebraMap Λ R a) = 0 := hle hx

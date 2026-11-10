@@ -107,7 +107,7 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
 
 local notation "model" F => LAdicSheaf.torsionFreeModel F (LAdicSheaf.torsionBound F)
 
-omit [CharP kbar p] in
+omit [IsSeparated f] [CharP kbar p] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes above `2 dim X`**, the degree bound of [Stacks, Tag 03V2],
 given the perfectness of the complexes `RΓ_c(X_k̄, F'ₙ)` of the torsion-free model and the
@@ -142,7 +142,7 @@ theorem LAdicSheaf.isZero_rationalGeometricCompactlySupportedCohomology_of_topol
     (fun v _ hv ↦ isZero_etaleRestriction_coextendScalars_fieldBaseChange_extensionByZero f j kbar
       _ _ v hv) q' (by omega)
 
-omit [CharP kbar p] [IsAlgClosed kbar] in
+omit [LocallyOfFiniteType f] [IsSeparated f] [CharP kbar p] [IsAlgClosed kbar] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes in every degree when `X` is empty**, given the perfectness of
 the complexes `RΓ_c(X_k̄, F'ₙ)` of the torsion-free model: the extension by zero from the empty
@@ -175,7 +175,7 @@ theorem LAdicSheaf.isZero_rationalGeometricCompactlySupportedCohomology_of_isEmp
     (fun v _ hv ↦ isZero_etaleRestriction_coextendScalars_fieldBaseChange_extensionByZero f j kbar
       _ _ v hv) q'
 
-omit [CharP kbar p] in
+omit [IsSeparated f] [CharP kbar p] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is nonzero for `0 ≤ i ≤ 2 dim X` only**, the degree bound of
 [Stacks, Tag 03V2], given the perfectness of the complexes `RΓ_c(X_k̄, F'ₙ)` of the torsion-free

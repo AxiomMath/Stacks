@@ -83,7 +83,7 @@ theorem isThickening_of_isFirstOrderThickening {𝒳 𝒳' : AlgebraicStacks.{u,
   have hthick := Space.IsNthOrderThickening.isThickening B S hS (hι₁.2 U y hy F hF hrep)
   set f := algebraicSpaceMap B S hS U
     ((spacesOverSmallerBaseFunctor B U.left.1 S U.left.2 hS U.hom).obj ⟨F, hF⟩)
-  show Function.Surjective (Space.pointsMap B S hS _ f.hom)
+  change Function.Surjective (Space.pointsMap B S hS _ f.hom)
   rw [← Subfunctor.toRange_ι f.hom, Space.pointsMap_comp]
   refine hthick.2.comp (Space.surjective_pointsMap_of_surjective_app B S hS _ fun T => ?_)
   rw [← CategoryTheory.epi_iff_surjective]
@@ -121,7 +121,7 @@ theorem exists_lift_of_fiber_final (hW : Space.IsAffineSpace B S hS W.obj)
   subst hζ
   have hid : (algebraicSpaceStackFunctor B S hS).map (Space.SpacesEtale.final B S hS W).obj.hom ≫
       x = x := by
-    show (algebraicSpaceStackFunctor B S hS).map (𝟙 W) ≫ x = x
+    change (algebraicSpaceStackFunctor B S hS).map (𝟙 W) ≫ x = x
     exact (congrArg (· ≫ x) ((algebraicSpaceStackFunctor B S hS).map_id W)).trans
       (Category.id_comp x)
   refine ⟨ambient, inclusion, ambientMap, eqToIso (congrArg (· ≫ ι) hid.symm) ≪≫ comm, hsm,

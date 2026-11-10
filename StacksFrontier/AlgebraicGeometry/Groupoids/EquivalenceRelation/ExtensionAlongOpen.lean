@@ -78,11 +78,11 @@ theorem exists_lift_of_locally {Y Z V : Scheme.{u}} (t s : Z ⟶ V) [JointlyMono
     intro x y
     apply JointlyMono₂.right_cancellation (p₁ := t) (p₂ := s)
     · simp only [Category.assoc, hτt]
-      show pullback.fst (U x).ι (U y).ι ≫ (U x).ι ≫ a =
+      change pullback.fst (U x).ι (U y).ι ≫ (U x).ι ≫ a =
         pullback.snd (U x).ι (U y).ι ≫ (U y).ι ≫ a
       rw [pullback.condition_assoc]
     · simp only [Category.assoc, hτs]
-      show pullback.fst (U x).ι (U y).ι ≫ (U x).ι ≫ b =
+      change pullback.fst (U x).ι (U y).ι ≫ (U x).ι ≫ b =
         pullback.snd (U x).ι (U y).ι ≫ (U y).ι ≫ b
       rw [pullback.condition_assoc]
   refine ⟨𝒰.glueMorphisms τ hcompat, ?_, ?_⟩

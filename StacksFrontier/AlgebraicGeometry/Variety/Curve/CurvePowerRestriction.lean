@@ -81,10 +81,10 @@ theorem insertPoint_coord_succAbove (m : ℕ) (i : Fin (m + 1)) (j : Fin m) :
 theorem pointGraph_eq_lift (m : ℕ) (y : power C m ⟶ C) :
     Stacks.Hilbert.pointGraph C (power C m) y = (lift (m + 1) (Fin.cons y (coord C m))).left := by
   refine pullback.hom_ext ?_ ?_
-  · show _ = (lift (m + 1) (Fin.cons y (coord C m)) ≫ fst C (power C m)).left
+  · change _ = (lift (m + 1) (Fin.cons y (coord C m)) ≫ fst C (power C m)).left
     rw [lift_succ_fst]
     simp [Stacks.Hilbert.pointGraph]
-  · show _ = (lift (m + 1) (Fin.cons y (coord C m)) ≫ snd C (power C m)).left
+  · change _ = (lift (m + 1) (Fin.cons y (coord C m)) ≫ snd C (power C m)).left
     rw [lift_succ_snd]
     simp only [Fin.cons_succ]
     rw [lift_coord_self]
@@ -104,18 +104,18 @@ abbrev firstProj (m : ℕ) : power C (m + 1) ⟶ power C 1 :=
 theorem firstProj_left (m : ℕ) :
     (firstProj C m).left = Stacks.Hilbert.familyBaseChangeMap C (toPowerZero C m) := by
   refine pullback.hom_ext ?_ ?_
-  · show (firstProj C m ≫ fst C (power C 0)).left = _
+  · change (firstProj C m ≫ fst C (power C 0)).left = _
     rw [← coord_zero, reindex_coord, coord_zero]
     simp [Stacks.Hilbert.familyBaseChangeMap]
   · have h1 : (firstProj C m).left ≫ (power C 1).hom = (power C (m + 1)).hom :=
       Over.w (firstProj C m)
     have h2 : pullback.snd C.hom (power C 0).hom = (power C 1).hom := by
-      show _ = pullback.fst C.hom (power C 0).hom ≫ C.hom
+      change _ = pullback.fst C.hom (power C 0).hom ≫ C.hom
       rw [pullback.condition]
       exact (Category.comp_id _).symm
     rw [h2]
     refine h1.trans ?_
-    show _ = pullback.map C.hom (power C m).hom C.hom (power C 0).hom (𝟙 _)
+    change _ = pullback.map C.hom (power C m).hom C.hom (power C 0).hom (𝟙 _)
       (toPowerZero C m).left (𝟙 _) (by simp) (by simp) ≫ pullback.fst C.hom (power C 0).hom ≫ C.hom
     rw [pullback.lift_fst_assoc, Category.comp_id]
     rfl
@@ -125,9 +125,9 @@ theorem familyBaseChangeMap_eq {T T' : Over S} (g : T' ⟶ T) :
     Stacks.Hilbert.familyBaseChangeMap C g =
       (CartesianMonoidalCategory.lift (fst C T') (snd C T' ≫ g)).left := by
   refine pullback.hom_ext ?_ ?_
-  · show _ = (CartesianMonoidalCategory.lift (fst C T') (snd C T' ≫ g) ≫ fst C T).left
+  · change _ = (CartesianMonoidalCategory.lift (fst C T') (snd C T' ≫ g) ≫ fst C T).left
     simp [Stacks.Hilbert.familyBaseChangeMap]
-  · show _ = (CartesianMonoidalCategory.lift (fst C T') (snd C T' ≫ g) ≫ snd C T).left
+  · change _ = (CartesianMonoidalCategory.lift (fst C T') (snd C T' ≫ g) ≫ snd C T).left
     simp [Stacks.Hilbert.familyBaseChangeMap]
 
 /-- The map `C^(n+1) ⟶ C^(n+2)` doubling the first coordinate,
@@ -215,7 +215,7 @@ theorem powerForm_zero (x : Fin 0 → PowerPic C 0) : powerForm C hC 0 x = 1 := 
   let : Algebra k Γ((power C 0).left, ⊤) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ (𝟙 (power C 0).left ≫ (power C 0).hom).appTop).hom.toAlgebra
   have hbij : Function.Bijective (algebraMap k Γ((power C 0).left, ⊤)) := by
-    show Function.Bijective ((Scheme.ΓSpecIso (.of k)).inv ≫
+    change Function.Bijective ((Scheme.ΓSpecIso (.of k)).inv ≫
       (𝟙 (Spec (.of k)) ≫ 𝟙 (Spec (.of k))).appTop).hom
     rw [Category.comp_id, Scheme.Hom.id_appTop, Category.comp_id]
     exact ConcreteCategory.bijective_of_isIso _
@@ -374,7 +374,7 @@ theorem powerForm_cons_firstProj (m : ℕ) (A : PowerPic C 1) (x : Fin m → Pow
         rw [h]
         ring }
   have hφ : φ (pointClass C c₀) = 0 := by
-    show _ - _ = (0 : ℤ)
+    change _ - _ = (0 : ℤ)
     rw [schemePullbackClass_firstProj_pointClass, powerForm_cons_fibreClass, curveDeg_pointClass,
       one_mul, sub_self]
   have := DFunLike.congr_fun (addMonoidHom_eq_zero_of_pointClass C hC c₀ φ hφ) A

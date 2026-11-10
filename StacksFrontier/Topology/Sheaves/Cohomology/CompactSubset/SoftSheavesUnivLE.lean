@@ -167,8 +167,8 @@ theorem sectionsFunctorUnivLE_eq_sectionsFunctor :
 variable [CompactSpace Z] [T2Space Z]
 
 /-- **Nothing is weakened: at `t := s` the patching theorem of `SoftSheaves.lean` is the
-statement `surjective_sections_of_isSoft_univLE` it is proved from** — the same statement about the same map, in
-the `TopCat.Sheaf` spelling, with exactly the original's hypotheses. -/
+statement `surjective_sections_of_isSoft_univLE` it is proved from** — the same statement about
+the same map, in the `TopCat.Sheaf` spelling, with exactly the original's hypotheses. -/
 theorem surjective_sections_of_isSoft_of_univLE
     {S : ShortComplex (Sheaf AddCommGrpCat.{s} Z)} (hS : S.ShortExact) (hsoft : IsSoft S.X₁) :
     Function.Surjective (ConcreteCategory.hom (S.g.hom.app (op (⊤ : Opens Z)))) :=

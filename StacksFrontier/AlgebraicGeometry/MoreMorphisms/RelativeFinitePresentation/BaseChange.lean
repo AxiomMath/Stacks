@@ -78,15 +78,14 @@ private theorem finitePresentationRel_tensor_of_isPushout {R B R' A : Type u} [C
     { toRingEquiv := ePush.toRingEquiv
       commutes' := by
         intro r
-        show ePush (1 ⊗ₜ[R] r) = algebraMap R' A r
+        change ePush (1 ⊗ₜ[R] r) = algebraMap R' A r
         rw [Algebra.IsPushout.equiv_tmul]
         simp }
   let eModule := TensorProduct.congr ePush.toLinearEquiv (LinearEquiv.refl B N)
   have heModule : ∀ (a : T) (x : TensorProduct B T N),
       eModule (a • x) = ePushR' a • eModule x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [smul_add, hx, hy]
     | tmul b n => simp [eModule, ePushR', TensorProduct.smul_tmul']
   exact Module.FinitePresentationRel.of_semilinearEquiv ePushR' eModule.toAddEquiv heModule
@@ -179,7 +178,7 @@ private theorem finitePresentationRel_pullback_affine
   have : GS.IsQuasicoherent := Scheme.Modules.isQuasicoherent_restrictFunctor hU.fromSpec M
   let N : ModuleCat B := ModuleCat.of B Γ(M, U)
   let eGS : (moduleSpecΓFunctor (R := .of B)).obj GS ≃ₗ[B] N := by
-    show Γ(M.restrict hU.fromSpec, ⊤) ≃ₗ[B] Γ(M, U)
+    change Γ(M.restrict hU.fromSpec, ⊤) ≃ₗ[B] Γ(M, U)
     exact affineSectionsLinearEquiv M hU
   let eSheaf : (tilde.functor (R := .of B)).obj N ≅ GS :=
     (tilde.functor (R := .of B)).mapIso eGS.symm.toModuleIso ≪≫
@@ -246,7 +245,7 @@ theorem isFinitelyPresentedRelative_baseChange
             (pullback.condition (f := f) (g := g))
           change f.base ((pullback.fst f g).base z) =
             g.base ((pullback.snd f g).base z) at hcond
-          show f.base ((pullback.fst f g).base z) ∈ V j0
+          change f.base ((pullback.fst f g).base z) ∈ V j0
           rw [hcond]
           exact hV'V hz
         obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.mp ((hUcover j0).ge hxV)

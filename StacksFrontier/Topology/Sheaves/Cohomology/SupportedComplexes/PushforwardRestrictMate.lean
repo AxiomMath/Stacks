@@ -166,9 +166,9 @@ theorem conjugateEquiv_pullbackCompSquare (w : i ≫ f = g ≫ j) :
           (modulePullbackPushforwardAdjunction i))
         ((modulePullbackPushforwardAdjunction j).comp
           (modulePullbackPushforwardAdjunction g))
-        (pullbackCompSquare f i j g w).natTrans =
-      (pushforwardCompSquare f i j g w).natTrans := by
-  dsimp only [pullbackCompSquare, pushforwardCompSquare, TwoSquare.mk, TwoSquare.natTrans]
+        (pullbackCompSquare f i j g w) =
+      (pushforwardCompSquare f i j g w) := by
+  dsimp only [pullbackCompSquare, pushforwardCompSquare, TwoSquare.mk]
   rw [← conjugateEquiv_modulePullbackComp_hom i f, ← conjugateEquiv_eqToHom_modulePullback w,
     ← conjugateEquiv_modulePullbackComp_inv j g, ← Category.assoc, conjugateEquiv_comp,
     conjugateEquiv_comp]
@@ -184,12 +184,12 @@ theorem pushforwardRestrictMap_app (w : i ≫ f = g ≫ j)
       (modulePullback j).map ((modulePushforward f).map
           ((modulePullbackPushforwardAdjunction i).unit.app M)) ≫
         (modulePullback j).map
-            ((pushforwardCompSquare f i j g w).natTrans.app ((modulePullback i).obj M)) ≫
+            ((pushforwardCompSquare f i j g w).app ((modulePullback i).obj M)) ≫
           (modulePullbackPushforwardAdjunction j).counit.app
             ((modulePushforward g).obj ((modulePullback i).obj M)) := by
-  dsimp only [pushforwardRestrictMap, pushforwardCompSquare, TwoSquare.mk, TwoSquare.natTrans]
+  dsimp only [pushforwardRestrictMap, pushforwardCompSquare, TwoSquare.mk]
   rw [Adjunction.homEquiv_symm_apply]
-  show (modulePullback j).map
+  change (modulePullback j).map
     (𝟙 _ ≫ (modulePushforward f).map ((modulePullbackPushforwardAdjunction i).unit.app M) ≫ 𝟙 _ ≫
       _ ≫ 𝟙 _) ≫
     (𝟙 _ ≫ (modulePullbackPushforwardAdjunction j).counit.app
@@ -204,7 +204,7 @@ theorem pushforwardRestrictMap_eq_mateEquiv_symm (w : i ≫ f = g ≫ j) :
     pushforwardRestrictMap f i j g w =
       (mateEquiv (modulePullbackPushforwardAdjunction i)
         (modulePullbackPushforwardAdjunction j)).symm (pushforwardCompSquare f i j g w) := by
-  refine TwoSquare.ext _ _ (fun M => ?_)
+  refine NatTrans.ext (funext fun M => ?_)
   rw [pushforwardRestrictMap_app]
   simp [mateEquiv]
 
@@ -228,14 +228,13 @@ theorem pushforwardRestrictMap_eq_mateEquiv (w : i ≫ f = g ≫ j) :
     (pushforwardCompSquare f i j g w)
   rw [← pushforwardRestrictMap_eq_mateEquiv_symm] at key
   refine (Equiv.symm_apply_eq _).mp (key.trans ?_)
-  show (TwoSquare.equivNatTrans _ _ _ _).symm
+  change TwoSquare.mk _ _ _ _
       ((conjugateEquiv ((modulePullbackPushforwardAdjunction f).comp
           (modulePullbackPushforwardAdjunction i))
         ((modulePullbackPushforwardAdjunction j).comp
           (modulePullbackPushforwardAdjunction g))).symm
-        ((pushforwardCompSquare f i j g w).natTrans)) = pullbackCompSquare f i j g w
+        (pushforwardCompSquare f i j g w)) = pullbackCompSquare f i j g w
   rw [← conjugateEquiv_pullbackCompSquare f i j g w, Equiv.symm_apply_apply]
-  rfl
 
 namespace SupportedComplexes
 

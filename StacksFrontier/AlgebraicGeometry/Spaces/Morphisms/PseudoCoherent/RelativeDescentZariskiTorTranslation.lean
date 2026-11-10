@@ -2,15 +2,13 @@ module
 
 public import
   StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeDescentZariskiSchemeCase
-public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeDescentHomDescentZariskiLeaf
+public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeDescentHomDescentZariskiLeaf
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.RelativelyPerfectSmallerBase
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.RelativeTorAmplitudeGeometricStalks
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativeDescentAffineEssentialSurjectivity
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineSchemeTorDimension
 public import StacksFrontier.Cotangent.Spaces.RepresentableStalkH1
-public import
- StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeDescentZariskiSchemeChartFlat
+public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeDescentZariskiSchemeChartFlat
 
 /-!
 # Zariski Tor dimension on an affine model from the relative Tor clause on spaces

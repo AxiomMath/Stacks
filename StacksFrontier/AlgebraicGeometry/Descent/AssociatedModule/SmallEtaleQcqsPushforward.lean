@@ -84,8 +84,7 @@ theorem bijective_restrictionBaseChange_of_isBaseChange
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have key : ∀ x, restrictionBaseChange (R := R) M f x = h.equiv x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | tmul s mm =>
       refine (restrictionBaseChange_tmul (R := R) M f s mm).trans ?_
       refine Eq.trans ?_ (h.equiv_tmul (show R.obj Y from s) mm).symm
@@ -152,7 +151,7 @@ theorem exists_isBaseChange_pullbackSectionsMap {S : Scheme.{u}} (F : S.Modules)
       (le_preimage_top p ⊤) x)
     exact congrArg e (pullbackSection_eq_pullbackUnitSections p G ⊤ x).symm
   · exact IsBaseChange.of_equiv (hρ.equiv ≪≫ₗ e) fun x => by
-      show e (hρ.equiv (1 ⊗ₜ x)) = e (ρ x)
+      change e (hρ.equiv (1 ⊗ₜ x)) = e (ρ x)
       rw [hρ.equiv_tmul, one_smul]
 
 end AlgebraicGeometry

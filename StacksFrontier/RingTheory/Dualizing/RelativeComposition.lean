@@ -690,13 +690,13 @@ theorem algebraMap_tmul_eq (d : A ⊗[R] A) (x : B ⊗[R] B) :
 /-- The multiplication map `A ⊗[R] A → A` on a tensor with `1` on the right. -/
 theorem algebraMap_diagonal_tmul_one (a : A) :
     (algebraMap (A ⊗[R] A) A) (a ⊗ₜ[R] (1 : A)) = a := by
-  show Algebra.TensorProduct.lmul' R (a ⊗ₜ[R] (1 : A)) = a
+  change Algebra.TensorProduct.lmul' R (a ⊗ₜ[R] (1 : A)) = a
   rw [Algebra.TensorProduct.lmul'_apply_tmul, mul_one]
 
 /-- The multiplication map `A ⊗[R] A → A` on a tensor with `1` on the left. -/
 theorem algebraMap_diagonal_one_tmul (a : A) :
     (algebraMap (A ⊗[R] A) A) ((1 : A) ⊗ₜ[R] a) = a := by
-  show Algebra.TensorProduct.lmul' R ((1 : A) ⊗ₜ[R] a) = a
+  change Algebra.TensorProduct.lmul' R ((1 : A) ⊗ₜ[R] a) = a
   rw [Algebra.TensorProduct.lmul'_apply_tmul, one_mul]
 
 /-- `Dualizing.algebraMap_tmul_eq` at the unit, for a diagonal element with image `a`. -/
@@ -772,7 +772,7 @@ noncomputable def diagonalPushoutInv :
 theorem diagonalPushoutInv_tmul (b₁ b₂ : B) :
     diagonalPushoutInv R A B (b₁ ⊗ₜ[A] b₂) =
       (1 : A) ⊗ₜ[A ⊗[R] A] (b₁ ⊗ₜ[R] b₂) := by
-  show ((1 : A) ⊗ₜ[A ⊗[R] A] (b₁ ⊗ₜ[R] (1 : B))) *
+  change ((1 : A) ⊗ₜ[A ⊗[R] A] (b₁ ⊗ₜ[R] (1 : B))) *
       ((1 : A) ⊗ₜ[A ⊗[R] A] ((1 : B) ⊗ₜ[R] b₂)) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
     one_mul, mul_one]

@@ -172,10 +172,10 @@ theorem eulerField_D_monomial (j : Fin n) (α : Fin n → ℕ) :
   classical
   have h := derivation_prod_pow ((eulerField A t b j).compDer (D A B)) t
     (fun l ↦ if l = j then 1 else 0) (fun l ↦ by
-      show eulerField A t b j (D A B (t l)) = _
+      change eulerField A t b j (D A B (t l)) = _
       rw [eulerField_D hb]
       split_ifs <;> simp) α Finset.univ
-  show (eulerField A t b j).compDer (D A B) (∏ l, t l ^ α l) = _
+  change (eulerField A t b j).compDer (D A B) (∏ l, t l ^ α l) = _
   rw [h, monomial]
   simp
 
@@ -520,7 +520,7 @@ theorem inverseCartier_eq_cohomologyMk_cartierRep (i : ℕ) (ω : ⋀[B]^i (Ω[B
   have hcl : cartierRepClass p t b i ω =
       ∑ s, (b.exteriorPower i).repr ω s • wedgeClosed p A B i (cartierForm p ∘ (t ∘ enum s)) := by
     apply Subtype.ext
-    show twist p (∑ s, ((b.exteriorPower i).repr ω s) ^ p • cartierBasisForm p A t s) = _
+    change twist p (∑ s, ((b.exteriorPower i).repr ω s) ^ p • cartierBasisForm p A t s) = _
     rw [Submodule.coe_sum, map_sum]
     refine Finset.sum_congr rfl fun s _ ↦ ?_
     rw [Submodule.coe_smul, coe_wedgeClosed_cartierForm, smul_twist]
@@ -559,7 +559,7 @@ theorem exists_projList_eq_cartierRep (hF : IsFrobeniusCoordinates p B t) (i : �
       cartierBasisForm_eq_spanForm, spanForm, spanForm, smul_smul, one_pow, one_mul]
   refine ⟨∑ s, c s (cartierExponent p s) • b.exteriorPower i s, ?_⟩
   rw [hproj]
-  show _ = cartierRepHom p t b i _
+  change _ = cartierRepHom p t b i _
   rw [map_sum]
   refine Finset.sum_congr rfl fun s _ ↦ ?_
   exact (cartierRep_smul_basis p _ s).symm

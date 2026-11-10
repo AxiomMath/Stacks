@@ -119,7 +119,7 @@ theorem span_germFamily_eq_ker_stalkMap {U : W.Opens} {r : ℕ} {g : Fin r → �
   · rw [Ideal.span_le]
     rintro a ⟨i, rfl⟩
     simp only [SetLike.mem_coe, RingHom.mem_ker]
-    show j.stalkMap z (W.presheaf.germ U (j z) hz (g i)) = 0
+    change j.stalkMap z (W.presheaf.germ U (j z) hz (g i)) = 0
     rw [Scheme.Hom.germ_stalkMap_apply,
       mem_definingIdealOfHom_of_isGeneratedByOn j hgen i, map_zero]
   · intro a ha

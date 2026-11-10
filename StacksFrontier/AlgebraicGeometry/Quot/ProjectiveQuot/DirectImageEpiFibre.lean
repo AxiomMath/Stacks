@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Modules.ExactOnAffineOpens
 /-!
 # `π_*(𝒪^{⊕ r}(m)) ⟶ π_*(𝒬(m))` is surjective
 
-For `K ∈ Quot^P(T)` with quotient map `q : 𝒪^{⊕ r} ⟶ 𝒬` and `m = regularityIndex n r hr P`, the
+For `K ∈ Quot^P(T)` with quotient map `q : 𝒪^{⊕ r} ⟶ 𝒬` and `m = regularityIndex n r P`, the
 map `π_*(q(m)) : π_*(𝒪^{⊕ r}(m)) ⟶ π_*(𝒬(m))` of modules on `T` is an epimorphism. This removes
 the two fibrewise inputs of
 `AlgebraicGeometry.ProjectiveQuot.epi_pushforward_twistMap_quotientπ_of_fibres`:
@@ -106,9 +106,9 @@ theorem twistMap_eq_twistFunctor_map {T : Scheme.{u}} (d : ℤ)
         (projectiveSpaceOver n T).toSheafedSpace.IsSheaf⟩).obj G) (twistingSheaf n T d))).trans
     (Category.comp_id _)
 
-variable (hr : 1 ≤ r) {P : Polynomial ℚ}
+variable {P : Polynomial ℚ}
 
-/-- **The fibre map on sections is onto.** For `K ∈ Quot^P(T)`, `m = regularityIndex n r hr P`
+/-- **The fibre map on sections is onto.** For `K ∈ Quot^P(T)`, `m = regularityIndex n r P`
 and `t ∈ T`, the map `Γ(ℙⁿ_{κ(t)}, 𝒪^{⊕ r}(m)) ⟶ Γ(ℙⁿ_{κ(t)}, 𝒬_t(m))`, read on the pullbacks
 of the twists along `ℙⁿ_{κ(t)} ⟶ ℙⁿ_T`, is onto; so is its direct image to `Spec κ(t)`. -/
 theorem epi_pushforward_pullback_fibreMap_twistMap_quotientπ {T : Scheme.{u}}
@@ -116,50 +116,50 @@ theorem epi_pushforward_pullback_fibreMap_twistMap_quotientπ {T : Scheme.{u}}
     Epi ((Scheme.Modules.pushforward
       (projectiveSpaceOver n (Spec (T.residueField t)) ↘ Spec (T.residueField t))).map
         ((Scheme.Modules.pullback (fibreMap n t)).map
-          (twistMap (regularityIndex.{u} n r hr P : ℤ) (quotientπ K)))) := by
+          (twistMap (regularityIndex.{u} n r P : ℤ) (quotientπ K)))) := by
   obtain ⟨hcoh, hval⟩ := hK.2 t
   let q : freeModules (T.residueField t) n r ⟶ fibre t (quotient K) :=
     baseChangeQuotientMap (T.fromSpecResidueField t) K
   have : Epi q := inferInstanceAs (Epi (baseChangeQuotientMap (T.fromSpecResidueField t) K))
-  obtain ⟨-, -, -, hsurj, -⟩ := regularityIndex_spec n r hr P (T.residueField t)
+  obtain ⟨-, -, -, hsurj, -⟩ := regularityIndex_spec n r P (T.residueField t)
     (fibre t (quotient K)) q hval
   let f := projectiveSpaceOverRing n (.of (T.residueField t)) ↘ Spec (.of (T.residueField t))
   -- the pulled-back quotient map is the free-module identification followed by `q`
   have hpb : (Scheme.Modules.pullback (fibreMap n t)).map (quotientπ K) =
       (freeModulePullbackIso n r (T.fromSpecResidueField t)).hom ≫ q := by
-    show _ = _ ≫ (freeModulePullbackIso n r (T.fromSpecResidueField t)).inv ≫ _
+    change _ = _ ≫ (freeModulePullbackIso n r (T.fromSpecResidueField t)).inv ≫ _
     rw [Iso.hom_inv_id_assoc]
   have h₁ : Function.Surjective
-      ((twistMap (regularityIndex.{u} n r hr P : ℤ)
+      ((twistMap (regularityIndex.{u} n r P : ℤ)
         ((Scheme.Modules.pullback (fibreMap n t)).map (quotientπ K))).app ⊤) := by
     rw [hpb, twistMap_eq_twistFunctor_map, Functor.map_comp]
     -- surjectivity of `Γ(q(m))`
     refine surjective_app_comp _ _ _ (surjective_app_of_isIso _ _) fun z => ?_
     let eQ := cohomologyOverFieldZeroLinearIso (T.residueField t) f
-      ((twistFunctorModules (T.residueField t) n (regularityIndex.{u} n r hr P)).obj
+      ((twistFunctorModules (T.residueField t) n (regularityIndex.{u} n r P)).obj
         (fibre t (quotient K)))
     obtain ⟨a, ha⟩ := hsurj (eQ.inv z)
     refine ⟨(cohomologyOverFieldZeroLinearIso (T.residueField t) f _).hom a, ?_⟩
     have h := cohomologyOverFieldZeroLinearIso_cohomologyOverFieldMap (T.residueField t) f
-      ((twistFunctorModules (T.residueField t) n (regularityIndex.{u} n r hr P)).map q) a
+      ((twistFunctorModules (T.residueField t) n (regularityIndex.{u} n r P)).map q) a
     rw [ha] at h
     exact h.symm.trans (eQ.inv_hom_id_apply z)
   refine epi_pushforward_of_surjective_app_top (T.residueField t) _ _ ?_
   refine surjective_app_of_comp (twistPullbackIso (T.fromSpecResidueField t)
-    (regularityIndex.{u} n r hr P : ℤ) (freeModule n r T)).hom _ _ ?_
+    (regularityIndex.{u} n r P : ℤ) (freeModule n r T)).hom _ _ ?_
   rw [← twistPullbackIso_hom_naturality (T.fromSpecResidueField t)
-    (regularityIndex.{u} n r hr P : ℤ) (quotientπ K)]
+    (regularityIndex.{u} n r P : ℤ) (quotientπ K)]
   exact surjective_app_comp _ _ _ h₁ (surjective_app_of_isIso _ _)
 
 /-- **`π_*(q(m)) : π_*(𝒪^{⊕ r}(m)) ⟶ π_*(𝒬(m))` is surjective** for `K ∈ Quot^P(T)` and
-`m = regularityIndex n r hr P`. -/
+`m = regularityIndex n r P`. -/
 theorem epi_pushforward_twistMap_quotientπ {T : Scheme.{u}}
     {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
     Epi ((Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)).map
-      (twistMap (regularityIndex.{u} n r hr P : ℤ) (quotientπ K))) :=
-  epi_pushforward_twistMap_quotientπ_of_fibres hr hK
+      (twistMap (regularityIndex.{u} n r P : ℤ) (quotientπ K))) :=
+  epi_pushforward_twistMap_quotientπ_of_fibres hK
     (fun t => isIso_baseChangeNatTrans_twist_freeModule n r (T.fromSpecResidueField t) _)
-    (fun t => epi_pushforward_pullback_fibreMap_twistMap_quotientπ hr hK t)
+    (fun t => epi_pushforward_pullback_fibreMap_twistMap_quotientπ hK t)
 
 end AlgebraicGeometry.ProjectiveQuot
 

@@ -70,11 +70,11 @@ private theorem normal_range_iff_open_overgroups
     let L : ClosedSubgroup K :=
       { toSubgroup := MonoidHom.range f.toMonoidHom
         isClosed' := by
-          show IsClosed (Set.range f.toContinuousMap)
+          change IsClosed (Set.range f.toContinuousMap)
           simpa only [Set.image_univ] using (isCompact_univ.image f.continuous).isClosed }
     refine ⟨fun a ha g ↦ ?_⟩
     obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp ha
-    show g * f x * g⁻¹ ∈ (L : Subgroup K)
+    change g * f x * g⁻¹ ∈ (L : Subgroup K)
     rw [ProfiniteGrp.closedSubgroup_eq_sInf_open L]
     exact Subgroup.mem_sInf.mpr fun N hN ↦ hU ⟨N, hN.1⟩ (fun y ↦ hN.2 ⟨y, rfl⟩) g x
 
@@ -114,7 +114,7 @@ private theorem fixed_point_gives_morphism
       comm := by
         intro g
         ext z
-        show y = g • y
+        change y = g • y
         exact (hy g).symm }
   obtain ⟨f, -⟩ := (PreGaloisCategory.functorToAction F).map_surjective p
   exact ⟨f⟩
@@ -142,9 +142,9 @@ private theorem inducedHom_app_apply
       (t.hom.app X) ((σ.asIso.hom.app (H.obj X)) y) := by
   let β := ((Functor.whiskeringLeft C D FintypeCat).obj H).mapAut F' σ
   have hβ : β.asIso.hom.app X = σ.asIso.hom.app (H.obj X) := rfl
-  show ((t.conjAut β).asIso.hom.app X) ((t.hom.app X) y) = _
+  change ((t.conjAut β).asIso.hom.app X) ((t.hom.app X) y) = _
   rw [Iso.conjAut_apply]
-  show ((t.symm.hom.app X ≫ β.asIso.hom.app X ≫ t.hom.app X).hom) ((t.hom.app X) y) = _
+  change ((t.symm.hom.app X ≫ β.asIso.hom.app X ≫ t.hom.app X).hom) ((t.hom.app X) y) = _
   simp [hβ]
 
 private theorem finite_coproduct_terminal_of_action_trivial
@@ -218,13 +218,13 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
     let x : (F'.obj X').obj := (t'.hom.app X').hom y
     have hmapAuto (σ : Aut F'') :
         d'.hom σ = inducedHom F' F'' H' t' σ := by
-      show d'.hom.toMonoidHom σ = _
+      change d'.hom.toMonoidHom σ = _
       exact congrArg (fun m : Aut F'' →* Aut F' => m σ) d'.hom_toMonoidHom
     have hx : ∀ σ : Aut F'', d'.hom σ • x = x := by
       intro σ
       have hfix := inducedHom_app_apply F' F'' H' t' σ X' y
       rw [← hmapAuto σ] at hfix
-      show d'.hom σ • x = x
+      change d'.hom σ • x = x
       have hy' : (σ.asIso.hom.app (H'.obj X')) y = y := by
         simpa only [PreGaloisCategory.mulAction_def] using hy σ
       simpa [x, PreGaloisCategory.mulAction_def, hy'] using hfix
@@ -254,7 +254,7 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
     have hess : (PreGaloisCategory.functorToContAction F').EssSurj := inferInstance
     obtain ⟨X', ⟨e⟩⟩ := hess.mem_essImage Q
     have : MulAction.IsPretransitive (Aut F') (quotientContAction U).obj.V := by
-      show MulAction.IsPretransitive (Aut F') (Aut F' ⧸ U.toSubgroup)
+      change MulAction.IsPretransitive (Aut F') (Aut F' ⧸ U.toSubgroup)
       infer_instance
     have : MulAction.IsPretransitive (Aut F') Q.obj.V :=
       pretransitive_uSwitch (A := (quotientContAction U).obj)
@@ -264,7 +264,7 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
         (⟦1⟧ : Aut F' ⧸ U.toSubgroup)
     have : Nonempty ((F'.obj X').obj) := ⟨eA.inv.hom.hom qid⟩
     have : MulAction.IsPretransitive (Aut F') ((F'.obj X').obj) := by
-      show MulAction.IsPretransitive (Aut F')
+      change MulAction.IsPretransitive (Aut F')
         (((PreGaloisCategory.functorToContAction F').obj X').obj.V)
       exact pretransitive_of_actionIso eA.symm
     let eH := (ContAction.res FintypeCat d'.hom).mapIso e.symm ≪≫ d'.actionIso.app X'

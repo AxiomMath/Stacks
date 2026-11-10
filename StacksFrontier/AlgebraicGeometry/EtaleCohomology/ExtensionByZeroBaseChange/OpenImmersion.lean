@@ -90,7 +90,7 @@ public theorem smallEtalePostcompose_hasPointwiseLeftKanExtension_of_isOpenImmer
     let e : (smallEtalePostcompose B X hX U).obj T ≅ V.unop :=
       (BigEtaleOver.IsEtaleOver B X hX).fullyFaithfulι.preimageIso
         (Over.isoMk (Iso.refl _) (by
-          show 𝟙 _ ≫ V.unop.obj.hom = f.hom.left ≫ U.obj.hom
+          change 𝟙 _ ≫ V.unop.obj.hom = f.hom.left ≫ U.obj.hom
           simpa only [Category.id_comp] using (Over.w f.hom).symm))
     let A : CostructuredArrow (smallEtalePostcompose B X hX U).op V :=
       CostructuredArrow.mk e.inv.op
@@ -98,7 +98,7 @@ public theorem smallEtalePostcompose_hasPointwiseLeftKanExtension_of_isOpenImmer
       CostructuredArrow.homMk
         ((smallEtalePostcompose B X hX U).preimage (e.hom ≫ Z.hom.unop)).op (by
           apply Quiver.Hom.unop_inj
-          show e.inv ≫ (smallEtalePostcompose B X hX U).map
+          change e.inv ≫ (smallEtalePostcompose B X hX U).map
             ((smallEtalePostcompose B X hX U).preimage (e.hom ≫ Z.hom.unop)) = Z.hom.unop
           rw [Functor.map_preimage, Iso.inv_hom_id_assoc])
     have hA : IsTerminal A := by

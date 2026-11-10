@@ -439,16 +439,16 @@ private lemma genericPointStalkModuleOf_restriction_isIso (η : genericPoints X)
     IsIso ((genericPointStalkModuleOf X F η).presheaf.map i.op) := by
   have hη : η.1 = genericPoint X := by
     simpa only [genericPoints_eq_singleton, Set.mem_singleton_iff] using η.2
-  show IsIso (((Scheme.Modules.pushforward (X.fromSpecStalk η.1)).obj
+  change IsIso (((Scheme.Modules.pushforward (X.fromSpecStalk η.1)).obj
     ((Scheme.Modules.pullback (X.fromSpecStalk η.1)).obj F)).presheaf.map i.op)
   rw [hη]
   set f := X.fromSpecStalk (genericPoint X) with hf
   have hpre (W : X.Opens) (hW : genericPoint X ∈ W) : (Opens.map f.base).obj W = ⊤ := by
     apply top_unique
     intro z _
-    show f.base z ∈ W
+    change f.base z ∈ W
     have : Subsingleton (Spec (X.presheaf.stalk (genericPoint X))) := by
-      show Subsingleton (PrimeSpectrum X.functionField)
+      change Subsingleton (PrimeSpectrum X.functionField)
       infer_instance
     have hz : z = IsLocalRing.closedPoint (X.presheaf.stalk (genericPoint X)) :=
       Subsingleton.elim _ _
@@ -460,7 +460,7 @@ private lemma genericPointStalkModuleOf_restriction_isIso (η : genericPoints X)
     have hid : (Opens.map f.base).map i = eqToHom he := Subsingleton.elim _ _
     rw [hid]
     infer_instance
-  show IsIso (((Scheme.Modules.pullback f).obj F).presheaf.map
+  change IsIso (((Scheme.Modules.pullback f).obj F).presheaf.map
     ((Opens.map f.base).map i).op)
   infer_instance
 
@@ -549,7 +549,7 @@ private lemma genericLift_germ [F.IsQuasicoherent] (U : X.Opens)
       (adj.unit.app F).val.app (op U) m := by
   have hg := TopCat.Presheaf.stalkFunctor_map_germ_apply U (genericPoint X) hU
     ((Scheme.Modules.toPresheaf X).map (adj.unit.app F)) m
-  show (meromorphicGermEquiv X F U hU).symm
+  change (meromorphicGermEquiv X F U hU).symm
     (((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (genericPoint X)).map
       ((Scheme.Modules.toPresheaf X).map (adj.unit.app F)))
         (F.presheaf.germ U (genericPoint X) hU m)) = _
@@ -674,7 +674,7 @@ private lemma toConstantGenericStalk_app (U : X.Opens) (h : genericPoint X ∈ U
       constantGenericStalkModuleSection X F U
         (F.presheaf.germ U (genericPoint X) h m) := by
   classical
-  show (if hx : genericPoint X ∈ U then
+  change (if hx : genericPoint X ∈ U then
       constantGenericStalkModuleSection X F U
         (F.presheaf.germ U (genericPoint X) hx m) else 0) = _
   exact dite_eq_left h
@@ -722,7 +722,7 @@ private lemma inverseConstantApp_eq_of_mem [F.IsQuasicoherent] (U : (Opens X)ᵒ
       ((genericLift X F adj U.unop hU).comp
         (constantSectionAddEquiv X F U.unop hU).symm.toAddMonoidHom) := by
   classical
-  show (if hx : genericPoint X ∈ U.unop then
+  change (if hx : genericPoint X ∈ U.unop then
       AddCommGrpCat.ofHom ((genericLift X F adj U.unop hx).comp
         (constantSectionAddEquiv X F U.unop hx).symm.toAddMonoidHom) else 0) = _
   exact dite_eq_left hU
@@ -733,7 +733,7 @@ private lemma inverseConstantApp_section [F.IsQuasicoherent] (U : (Opens X)ᵒ�
         (constantGenericStalkModuleSection X F U.unop s) =
       genericLift X F adj U.unop hU s := by
   rw [inverseConstantApp_eq_of_mem X F adj U hU]
-  show (genericLift X F adj U.unop hU)
+  change (genericLift X F adj U.unop hU)
     ((constantSectionAddEquiv X F U.unop hU).symm
       (constantGenericStalkModuleSection X F U.unop s)) = _
   rw [show constantGenericStalkModuleSection X F U.unop s =

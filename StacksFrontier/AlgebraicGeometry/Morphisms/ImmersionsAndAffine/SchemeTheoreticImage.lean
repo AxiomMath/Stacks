@@ -91,7 +91,7 @@ lemma isIso_pullback_snd_imageι_comp_of_section {X Y : Scheme.{u}} (f : X ⟶ Y
     calc
       t ≫ (g ≫ V.ι) = t ≫ (U.ι ≫ f) := by rw [hgι]
       _ = (s ⁻¹ᵁ U).ι ≫ (s ≫ f) := by
-        show (t ≫ U.ι) ≫ f = ((s ⁻¹ᵁ U).ι ≫ s) ≫ f
+        change (t ≫ U.ι) ≫ f = ((s ⁻¹ᵁ U).ι ≫ s) ≫ f
         rw [htι]
       _ = (s ⁻¹ᵁ U).ι ≫ V.ι := by rw [hs]
   have hclosedComp : IsClosedImmersion (t ≫ g) := by
@@ -129,7 +129,7 @@ lemma isIso_pullback_snd_imageι_comp_of_section {X Y : Scheme.{u}} (f : X ⟶ Y
     rw [← pullback.condition]
     have hpath : ePullback.hom ≫ pullback.snd s.imageι U.ι ≫ g ≫ V.ι =
         pullback.fst (s.imageι ≫ f) V.ι ≫ (s.imageι ≫ f) := by
-      show ((pullbackRightPullbackFstIso f V.ι s.imageι).inv ≫ mMap) ≫
+      change ((pullbackRightPullbackFstIso f V.ι s.imageι).inv ≫ mMap) ≫
           pullback.snd s.imageι U.ι ≫ (f ∣_ V) ≫ V.ι =
         pullback.fst (s.imageι ≫ f) V.ι ≫ (s.imageι ≫ f)
       calc

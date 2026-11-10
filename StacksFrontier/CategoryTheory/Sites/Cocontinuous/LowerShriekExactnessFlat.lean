@@ -209,7 +209,7 @@ theorem gShriek_preservesFiniteLimits_of_cofilteredOrEmpty :
       (Functor.sheafPullbackConstruction.sheafPullback u Ab.{w} J K) := by
   let : PreservesFiniteLimits (u.op.lan : (Cᵒᵖ ⥤ Ab.{w}) ⥤ (Dᵒᵖ ⥤ Ab.{w})) :=
     preservesFiniteLimits_lan_ab_of_cofilteredOrEmpty u
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (sheafToPresheaf J Ab.{w} ⋙ u.op.lan ⋙ presheafToSheaf K Ab.{w})
   apply comp_preservesFiniteLimits
 

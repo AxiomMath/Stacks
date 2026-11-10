@@ -33,7 +33,8 @@ keep track of an ambient module are
 a quasi-coherent module on `X`, and `AlgebraicGeometry.exists_quasicoherentSubobject_restrict`,
 which extends a quasi-coherent submodule of such a restriction. Those are the other two assertions
 of the same source lemma and are proved in
-`StacksFrontier/AlgebraicGeometry/ResolutionsAndBounds/QuasiCoherentExtension.lean` by a graph kernel
+`StacksFrontier/AlgebraicGeometry/ResolutionsAndBounds/QuasiCoherentExtension.lean` by a graph
+kernel
 construction; neither of them implies the statement here without a quasi-coherent module on `X` to
 map into, and the pushforward supplies the extension directly.
 

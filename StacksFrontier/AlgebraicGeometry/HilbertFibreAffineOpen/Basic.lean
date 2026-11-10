@@ -99,7 +99,7 @@ theorem hasAffineFinitePointsInFibres_of_iSup_eq_top {ι : Type*} (f : X ⟶ S) 
   have hs : s ∈ (⨆ i, V i) := by rw [hV]; trivial
   obtain ⟨i, hsi⟩ := Opens.mem_iSup.mp hs
   have hEV : ∀ x ∈ E, x ∈ f ⁻¹ᵁ V i := fun x hx => by
-    show f.base x ∈ V i
+    change f.base x ∈ V i
     rw [hEs x hx]
     exact hsi
   obtain ⟨U, hU, hEU⟩ := h i ⟨s, hsi⟩ (Subtype.val ⁻¹' E)

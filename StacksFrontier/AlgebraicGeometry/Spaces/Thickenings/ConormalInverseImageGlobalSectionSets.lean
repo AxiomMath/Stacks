@@ -290,6 +290,8 @@ theorem moduleSheafFunctor_map_thickeningTransport_map_comp
         (subspaceInclusion B S hS X Z))).map_comp a b).symm)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site exceeds the
+-- default budget
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_ConormalInverseImageGlobalSectionSets
@@ -298,6 +300,8 @@ local instance (priority := high) hasLimitsOfShape_discrete_ConormalInverseImage
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site exceeds the
+-- default budget
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete₀_ConormalInverseImageGlobalSectionSets
@@ -306,6 +310,8 @@ local instance (priority := high) hasLimitsOfShape_discrete₀_ConormalInverseIm
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of sheaves on the small étale site exceeds the
+-- default budget
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasDiscreteLimits_topos_ConormalInverseImageGlobalSectionSets
@@ -352,15 +358,15 @@ theorem ringOneHom_comp_map_conormalInverseImageι_modulePullbackGlobalSection
       eqToIso (restrictScalars_comp_thickeningTransport B S hS Z) ≪≫
         modulePushforwardIso B S hS (subspaceInclusion B S hS X Z) := rfl
   rw [ht] at key
-  haveI : HasTerminal (smallEtaleRingedTopos B S hS X).Topos :=
+  have : HasTerminal (smallEtaleRingedTopos B S hS X).Topos :=
     hasTerminal_topos_ConormalInverseImageGlobalSectionSets B S hS X.1
-  haveI : HasTerminal
+  have : HasTerminal
       (smallEtaleRingedTopos B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS)).Topos :=
     hasTerminal_topos_ConormalInverseImageGlobalSectionSets B S hS _
-  haveI : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).inverseImage :=
+  have : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).inverseImage :=
     have := (thickeningToposHom B S hS Z).preservesFiniteLimits
     inferInstance
-  haveI : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).pushforward :=
+  have : PreservesLimit (Functor.empty.{0} _) (thickeningToposHom B S hS Z).pushforward :=
     have := (thickeningToposHom B S hS Z).adj.rightAdjoint_preservesLimits
     inferInstance
   refine Adjunction.eq_globalSectionMap_of_comp_map_eq (thickeningToposHom B S hS Z).adj _ _

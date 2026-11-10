@@ -134,7 +134,7 @@ theorem isUniversalFirstOrderThickening_chartDiagramFunctionMap
           (UniversalFirstOrderThickening.ofSite s.formallyUnramified iH pH hHuniv) ≫
           (UniversalFirstOrderThickening.ofSite s.formallyUnramified iH pH hHuniv).sub.ι) =
         yoneda.map iH := by
-      show Subfunctor.toRange (yoneda.map j) ≫ ((inv (Subfunctor.toRange (yoneda.map j)) ≫
+      change Subfunctor.toRange (yoneda.map j) ≫ ((inv (Subfunctor.toRange (yoneda.map j)) ≫
         Subfunctor.toRange (yoneda.map iH)) ≫ (Subfunctor.range (yoneda.map iH)).ι) = _
       rw [Category.assoc, IsIso.hom_inv_id_assoc, Subfunctor.toRange_ι]
     exact l.symm.trans (key.trans r)

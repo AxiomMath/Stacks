@@ -900,6 +900,7 @@ private lemma cechZFunctor_additive : (cechZFunctor.{w, v, a, u} E).Additive :=
   (exactFunctor_le_additiveFunctor _ _) _ (cechZFunctor_exact.{w, v, a, u} E)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the closing `infer_instance` searches for `PreservesHomology` of the Čech complex functor
 /-- The Čech complex functor, read in `ℤ`-graded complexes, preserves homology. -/
 private lemma cechZFunctor_preservesHomology [(cechZFunctor.{w, v, a, u} E).Additive] :
     (cechZFunctor.{w, v, a, u} E).PreservesHomology := by

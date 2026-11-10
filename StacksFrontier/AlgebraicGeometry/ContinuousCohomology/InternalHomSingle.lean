@@ -105,6 +105,7 @@ def internalHomSingleInv (n : ℤ) (f : (forgetAb R Q).obj (E.X (-(n + -q))) ⟶
   of (singleSign q n • Cochain.single
     (K := underlyingAb R E) (L := underlyingAb ℤ (singleComplex W q)) (f ≫ singleIncl W q) n)
 
+omit [Finite R] [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- `internalHomSingleInv` is a right inverse of `internalHomSingleFun`. -/
 lemma internalHomSingleFun_inv (n : ℤ)
     (f : (forgetAb R Q).obj (E.X (-(n + -q))) ⟶ (forgetAb ℤ Q).obj W) :
@@ -114,6 +115,7 @@ lemma internalHomSingleFun_inv (n : ℤ)
     Category.assoc, singleIncl_singleProj, Category.comp_id, smul_smul, Int.units_mul_self,
     one_smul]
 
+omit [Finite R] [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- `internalHomSingleInv` is a left inverse of `internalHomSingleFun`. -/
 lemma internalHomSingleInv_fun (n : ℤ) (z : InternalHomCochain R E (singleComplex W q) n) :
     internalHomSingleInv R E W q n (internalHomSingleFun R E W q n z) = z := by
@@ -129,6 +131,7 @@ lemma internalHomSingleInv_fun (n : ℤ) (z : InternalHomCochain R E (singleComp
     exact Category.comp_id _
   · exact (isZero_underlyingAb_singleComplex_X W q q' hq').eq_of_tgt _ _
 
+omit [Finite R] [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- The degree-`n` component is additive. -/
 lemma internalHomSingleFun_add (n : ℤ) (z z' : InternalHomCochain R E (singleComplex W q) n) :
     internalHomSingleFun R E W q n (z + z') =
@@ -149,9 +152,10 @@ omit [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- The differentials of the underlying complex of abelian groups of `W[-q]` vanish. -/
 lemma underlyingAb_singleComplex_d (i j : ℤ) :
     (underlyingAb ℤ (singleComplex W q)).d i j = 0 := by
-  show (forgetAb ℤ Q).map ((singleComplex W q).d i j) = 0
+  change (forgetAb ℤ Q).map ((singleComplex W q).d i j) = 0
   rw [CochainComplex.singleFunctor_obj_d, Functor.map_zero]
 
+omit [Finite R] [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- **The components commute with the differentials**, up to the sign `(-1)^q` of the shift:
 `φ_{n+1}(δ z) = (-1)^q (d_E ≫ φ_n(z))`. -/
 lemma internalHomSingleFun_δ (n : ℤ) (z : InternalHomCochain R E (singleComplex W q) n) :

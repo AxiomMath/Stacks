@@ -307,7 +307,7 @@ public theorem isZariskiSheaf_of_isSheaf
     ⟨E.map (BigHOver.toScheme B S hS), hE⟩
   refine ⟨fun i ↦ ?_, IsPHCovering.of_openCover O⟩
   have := O.map_prop i
-  show LocallyOfFinitePresentation (O.f i)
+  change LocallyOfFinitePresentation (O.f i)
   infer_instance
 
 /-- **Stacks 0EU5, a sheaf satisfies condition (2).** A sheaf on the big h site over `S`
@@ -685,12 +685,12 @@ private theorem isSheafFor_pushforward_of_properFP {F : (BigHOver B S hS)ᵒᵖ 
     ext Y f
     constructor
     · rintro ⟨Z, q, r, hq, hr, rfl⟩
-      show ∃ a, a ≫ g = q ≫ r ∧ O a
+      change ∃ a, a ≫ g = q ≫ r ∧ O a
       exact ⟨q ≫ lift r hq, by rw [Category.assoc, hlift], hr⟩
     · rintro ⟨a, rfl, ha⟩
       refine ⟨Y, 𝟙 Y, a ≫ g, ?_, ?_, by simp⟩
       · exact ⟨a, rfl⟩
-      · show O (𝟙 Y ≫ lift (a ≫ g) ⟨a, rfl⟩)
+      · change O (𝟙 Y ≫ lift (a ≫ g) ⟨a, rfl⟩)
         exact hliftO (a ≫ g) ⟨a, rfl⟩ ⟨a, rfl, ha⟩
   simpa [hEq] using hbind
 
@@ -1004,8 +1004,8 @@ public theorem isSheaf_of_isZariskiSheaf_of_isProperFinitePresentationSheaf
     (hP : BigHOver.IsProperFinitePresentationSheaf B S hS F) :
     Presieve.IsSheaf (BigHOver.topology B S hS) F := by
   have hle : BigHOver.topology B S hS ≤ Sheaf.finestTopologySingle F := by
-    show B.precoverage.toGrothendieck.over (B.obj S hS) ≤ _
-    show (hCoverage B).toPrecoverage.toGrothendieck.over (B.obj S hS) ≤ _
+    change B.precoverage.toGrothendieck.over (B.obj S hS) ≤ _
+    change (hCoverage B).toPrecoverage.toGrothendieck.over (B.obj S hS) ≤ _
     rw [Coverage.toGrothendieck_toPrecoverage]
     apply over_le_of_coverage
     intro X R hR

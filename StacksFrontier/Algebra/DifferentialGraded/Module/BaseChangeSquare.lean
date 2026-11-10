@@ -268,13 +268,13 @@ theorem tensorSquareMap_pure (p : ℤ) (x : X₁.grading p) (c : C₁.A) :
       (tensorPure (regular ψ₂) X₂).toLinearMap (g.toFun (x : X₁.M)) (χ.toAlgebraHom c) := by
   refine (plainTranspose_pure ψ₁ (tensorSquareInner θ ψ₁ ψ₂ χ h g) p x c).trans ?_
   let Y := (tensorCompFunctor (regular ψ₂)).obj X₂
-  show @HSMul.hSMul C₂.Aᵐᵒᵖ Y.M Y.M _ (MulOpposite.op (χ.toAlgebraHom c))
+  change @HSMul.hSMul C₂.Aᵐᵒᵖ Y.M Y.M _ (MulOpposite.op (χ.toAlgebraHom c))
     ((tensorSquareInner θ ψ₁ ψ₂ χ h g).toFun (x : X₁.M)) = _
   refine (congrArg (fun z => @HSMul.hSMul C₂.Aᵐᵒᵖ Y.M Y.M _ (MulOpposite.op (χ.toAlgebraHom c)) z)
     (tensorSquareInner_apply θ ψ₁ ψ₂ χ h g x)).trans ?_
   refine ((tensorPure (regular ψ₂) X₂).map_right _ _ _).symm.trans ?_
   congr 1
-  show (1 : C₂.A) * χ.toAlgebraHom c = _
+  change (1 : C₂.A) * χ.toAlgebraHom c = _
   exact one_mul _
 
 /-- **The base change along a square depends only on `g` and `χ`, pointwise.** -/
@@ -323,7 +323,7 @@ commutative square: `(χ' ∘ χ) ∘ ψ₁ = ψ₃ ∘ (θ' ∘ θ)`. -/
 theorem comp_square (b : B₁.A) :
     (χ'.comp χ).toAlgebraHom (ψ₁.toAlgebraHom b) =
       ψ₃.toAlgebraHom ((θ'.comp θ).toAlgebraHom b) := by
-  show χ'.toAlgebraHom (χ.toAlgebraHom (ψ₁.toAlgebraHom b)) =
+  change χ'.toAlgebraHom (χ.toAlgebraHom (ψ₁.toAlgebraHom b)) =
     ψ₃.toAlgebraHom (θ'.toAlgebraHom (θ.toAlgebraHom b))
   rw [h b, h']
 
@@ -416,7 +416,7 @@ theorem tensorSquareMap_comp_plainTranspose (θ : B.Hom B') (ψ : B.Hom D) (ψ' 
       plainTranspose ψ' k' = plainTranspose ψ k := by
   refine _root_.DifferentialGradedModule.Hom.ext
     (tensorObj_linearMap_ext_homogeneous (regular ψ) X _ _ fun p x c => ?_)
-  show (plainTranspose ψ' k').toFun ((tensorSquareMap θ ψ ψ' _ h r).toFun
+  change (plainTranspose ψ' k').toFun ((tensorSquareMap θ ψ ψ' _ h r).toFun
       ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c)) =
     (plainTranspose ψ k).toFun ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c)
   refine (congrArg (plainTranspose ψ' k').toFun (tensorSquareMap_pure θ ψ ψ' _ h r p x c)).trans ?_
@@ -438,7 +438,7 @@ theorem plainTranspose_comp_restrict (ψ : B.Hom D) (χ : D.Hom D') (ψ' : B.Hom
         (restrictScalarsFunctor χ).map (plainTranspose ψ' k') := by
   refine _root_.DifferentialGradedModule.Hom.ext
     (tensorObj_linearMap_ext_homogeneous (regular ψ) X _ _ fun p x c => ?_)
-  show ρ.toFun ((plainTranspose ψ k).toFun
+  change ρ.toFun ((plainTranspose ψ k).toFun
       ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c)) =
     (plainTranspose ψ' k').toFun ((tensorSquareMap _ ψ ψ' χ h (restrictScalarsIdInv X)).toFun
       ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c))
@@ -515,7 +515,7 @@ theorem unitHom_tensorInverseHom (z : ((tensorCompFunctor (regular ψ)).obj X).M
   have key : ((unitHom ψ X).toFun.restrictScalars R).comp
       ((tensorInverseHom ψ ψ' h₁ X).toFun.restrictScalars R) = LinearMap.id := by
     refine tensorObj_linearMap_ext_bihomogeneous (regular ψ) X _ _ fun p q x d => ?_
-    show (unitHom ψ X).toFun ((tensorInverseHom ψ ψ' h₁ X).toFun
+    change (unitHom ψ X).toFun ((tensorInverseHom ψ ψ' h₁ X).toFun
       ((tensorPure (regular ψ) X).toLinearMap (x : X.M) (d : (regular ψ).rightModule.M))) =
         (tensorPure (regular ψ) X).toLinearMap (x : X.M) (d : (regular ψ).rightModule.M)
     let d' : D.A := (d : (regular ψ).rightModule.M)
@@ -526,7 +526,7 @@ theorem unitHom_tensorInverseHom (z : ((tensorCompFunctor (regular ψ)).obj X).M
     refine ((tensorPure (regular ψ) X).balance p 0 q x one a).trans ?_
     refine congrArg ((tensorPure (regular ψ) X).toLinearMap (x : X.M))
       ((regularBimoduleStructure_action ψ q 0 a one).trans ?_)
-    show ψ.toAlgebraHom (ψ'.toAlgebraHom d') * 1 = d'
+    change ψ.toAlgebraHom (ψ'.toAlgebraHom d') * 1 = d'
     rw [mul_one, h₂]
   exact LinearMap.congr_fun key z
 

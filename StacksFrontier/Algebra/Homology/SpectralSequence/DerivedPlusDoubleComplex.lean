@@ -257,8 +257,7 @@ def injectivePageOneIso (hR : ∀ X : A, Injective X → P.rightAcyclic (R.obj X
       P.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _) (Iso.refl _)
     have h₂ : P.rightDerivedFunctorPlusUnith.app Y =
         α.app Y ≫ e.hom.app (DerivedCategory.Plus.Qh.obj Y) := by
-      simpa [e] using (Functor.rightDerivedNatTrans_app _ P.rightDerivedFunctorPlus α
-        P.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _) (𝟙 _) Y).symm
+      simp [e]
     change IsIso (P.rightDerivedFunctorPlusUnith.app Y)
     rw [h₂]
     infer_instance

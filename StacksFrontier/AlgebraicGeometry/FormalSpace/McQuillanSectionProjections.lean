@@ -201,7 +201,7 @@ theorem surjective_restrict {s t : FiniteSubset α} (h : s ≤ t) :
     · simp only [dite_eq_right ha, dite_eq_right hb] at hab
       exact congrArg Subtype.val (hc (by omega : c ⟨a, ha⟩ = c ⟨b, hb⟩))
   · refine Function.Embedding.ext fun a ↦ ?_
-    show (if ha : (a.val : α) ∈ s.val then _ else _) = e a
+    change (if ha : (a.val : α) ∈ s.val then _ else _) = e a
     rw [dite_eq_left a.property]
 
 /-- There is no compatible family of injections of all finite subsets of an uncountable set

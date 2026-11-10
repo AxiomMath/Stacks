@@ -45,7 +45,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable {k : Type u} [Field k] [Fintype k] {U : Scheme.{u}} (fU : U ⟶ Spec (.of k))
   [IsCurve k fU] [Smooth fU] [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU]
-  [ConnectedSpace U] (j : CompactificationOf (Over.mk fU)) (kbar : Type u) [Field kbar]
+  (j : CompactificationOf (Over.mk fU)) (kbar : Type u) [Field kbar]
   [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime] [CharP k p]
   (hcard : Fintype.card k = p ^ q)
   (C : CoverCompactification k j.toBase j.immersion (𝟙 U))
@@ -69,7 +69,7 @@ theorem exists_linearEquiv_compactSupportSheafCohomology_two_coverCompactificati
     ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType C.fb).1 C.isFinite).1
   have hφb : C.fb ≫ j.toBase = jO.toBase := C.hq
   have sq : IsPullback (𝟙 U) jO.immersion j.immersion C.fb := by
-    show IsPullback (𝟙 U) (C.j ≫ 𝟙 C.Vb) j.immersion C.fb
+    change IsPullback (𝟙 U) (C.j ≫ 𝟙 C.Vb) j.immersion C.fb
     rw [Category.comp_id]
     exact C.isPullback.flip
   let α := compactSupportSheafCohomologyIntegralIso Λ fU j (C.j ≫ C.q) jO (𝟙 U) C.fb hφb sq kbar 2

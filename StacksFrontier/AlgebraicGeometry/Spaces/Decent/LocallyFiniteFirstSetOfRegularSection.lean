@@ -98,7 +98,6 @@ theorem locallyFinite_primeDivisor_not_memGenericModuleStalk_of_isIntegral
       (structureCommRings B S hS (⟨X, hX⟩ : AlgebraicSpaces B S hS))
       (structureRingSheaf B S hS (⟨X, hX⟩ : AlgebraicSpaces B S hS)).property L)
     (s : MeromorphicSection.{u, u} B S hS X hX L)
-    (hreg : IsRegularMeromorphicSection.{u, u} B S hS X hX L s)
     [DecidablePred fun Z : PrimeDivisor B S hS X ↦
       ¬ Z.MemGenericModuleStalk B S hS hX hdec (RR Z) (hRR Z) L s] :
     LocallyFinite fun Z : PrimeDivisor B S hS X ↦

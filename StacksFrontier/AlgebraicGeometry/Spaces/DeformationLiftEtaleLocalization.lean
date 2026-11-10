@@ -171,9 +171,9 @@ theorem isLiftOver_precomp_of_thickeningHom (hT₁ : IsThickening C S hS T₁' G
         ((spacesBaseChange C S hS (IsThickening.inclusion C S hS hT₁)).functor.obj W₁).1.hom ≫
           a₁ ≫ IsThickening.inclusion C S hS hX₁ := h2
   refine ⟨?_, ?_⟩
-  · show (w ≫ c') ≫ q₁ = W₂.1.hom ≫ h' ≫ rT₁
+  · change (w ≫ c') ≫ q₁ = W₂.1.hom ≫ h' ≫ rT₁
     rw [Category.assoc, h1', ← Category.assoc, cw, Category.assoc]
-  · show (spacesBaseChange C S hS (IsThickening.inclusion C S hS hT₂)).projection.app W₂ ≫
+  · change (spacesBaseChange C S hS (IsThickening.inclusion C S hS hT₂)).projection.app W₂ ≫
         (w ≫ c') =
       ((spacesBaseChange C S hS (IsThickening.inclusion C S hS hT₂)).functor.obj W₂).1.hom ≫
         (a₂ ≫ f) ≫ IsThickening.inclusion C S hS hX₁
@@ -216,7 +216,7 @@ algebraic spaces as a morphism of terminal objects over it. -/
 theorem comm_idObj_hom (h' : T₂' ⟶ T₁') :
     h' ≫ (SpacesEtale.idObj C S hS T₁').1.hom =
       (SpacesEtale.idObj C S hS T₂').1.hom ≫ h' := by
-  show h' ≫ 𝟙 T₁' = 𝟙 T₂' ≫ h'
+  change h' ≫ 𝟙 T₁' = 𝟙 T₂' ≫ h'
   simp
 
 /-! ### The transported derivation datum -/

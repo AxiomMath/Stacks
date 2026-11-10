@@ -194,11 +194,11 @@ lemma map_symm_iso (Y : Dᵒᵖ) (r : R'.obj Y) :
       r := by
   apply (T.iso Y).injective
   rw [T.naturality]
-  show (R.map (e.inverse.op.map (e.counitInv.app Y.unop).op)).hom
+  change (R.map (e.inverse.op.map (e.counitInv.app Y.unop).op)).hom
     (T.iso (e.functor.op.obj (e.inverse.op.obj Y)) (T.symm.iso (e.inverse.op.obj Y) (T.iso Y r))) =
       T.iso Y r
   rw [T.iso_symm_iso]
-  show (R.map (e.unitInv.app (e.inverse.obj Y.unop)).op ≫
+  change (R.map (e.unitInv.app (e.inverse.obj Y.unop)).op ≫
     R.map (e.inverse.map (e.counitInv.app Y.unop)).op).hom (T.iso Y r) = T.iso Y r
   rw [← R.map_comp, ← op_comp]
   simp

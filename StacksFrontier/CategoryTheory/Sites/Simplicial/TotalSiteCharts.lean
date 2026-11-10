@@ -177,7 +177,7 @@ theorem totalForget_map_ι_eq_componentOverForget_map_totalSiteCharts {n : Simpl
     (totalForget K).map ((Grothendieck.ι (slices K) n).map f) =
       (componentOverForget (K.obj n)).map f := by
   rw [totalForget_map]
-  show (componentOverForget (K.obj n)).map (eqToHom _ ≫ f) = _
+  change (componentOverForget (K.obj n)).map (eqToHom _ ≫ f) = _
   refine ((componentOverForget (K.obj n)).map_comp (eqToHom _) f).trans ?_
   refine (congrArg (· ≫ (componentOverForget (K.obj n)).map f)
     (eqToHom_map (componentOverForget (K.obj n)) _)).trans ?_

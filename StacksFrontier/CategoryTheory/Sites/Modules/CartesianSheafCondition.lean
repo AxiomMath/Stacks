@@ -145,12 +145,12 @@ theorem isSheafFor_of_isIso_restrictionBaseChange
   let l (i j : I) : A i →ₐ[R₀] P i j :=
     { (R.map (p i j).op).hom with
       commutes' := fun x => by
-        show (R.map (p i j).op).hom ((a i).hom x) = (b i j).hom x
+        change (R.map (p i j).op).hom ((a i).hom x) = (b i j).hom x
         simp [a, b] }
   let r' (i j : I) : A j →ₐ[R₀] P i j :=
     { (R.map (q i j).op).hom with
       commutes' := fun x => by
-        show (R.map (f j).op ≫ R.map (q i j).op).hom x =
+        change (R.map (f j).op ≫ R.map (q i j).op).hom x =
           (R.map (f i).op ≫ R.map (p i j).op).hom x
         rw [← R.map_comp, ← R.map_comp]
         exact congrArg (fun k => (R.map k.op).hom x) (hpq i j).symm }
@@ -166,14 +166,7 @@ theorem isSheafFor_of_isIso_restrictionBaseChange
   have key (i j k : I) (s : W i j ⟶ V k) (hs : s ≫ f k = p i j ≫ f i)
       (φ : A k →ₐ[R₀] P i j) (hφ : ∀ z, φ z = (R.map s.op).hom z) (x : A k ⊗[R₀] N) :
       M.map s.op (e₁ k x) = e₂ i j (TensorProduct.map φ.toLinearMap LinearMap.id x) := by
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      have h1 : e₁ k 0 = 0 := restrictionTensorEquiv_zero M (f k).op (a k) rfl
-      have h2 : e₂ i j 0 = 0 :=
-        restrictionTensorEquiv_zero M (p i j ≫ f i).op (b i j) (by simp [b])
-      simp only [map_zero]
-      rw [h1, h2]
-      exact map_zero (M.map s.op).hom
+    induction x using TensorProduct.inductionOn with
     | tmul c n =>
       have h1 : e₁ k (c ⊗ₜ[R₀] n) = c • M.map (f k).op n :=
         restrictionTensorEquiv_tmul M (f k).op (a k) rfl c n
@@ -198,7 +191,7 @@ theorem isSheafFor_of_isIso_restrictionBaseChange
   apply Stacks.Sites.isSheafFor_of_finite_tensor_descent _ V f W p q hpq R₀ (fun i => A i)
     (fun i j => P i j) N eP l r' heP (Equiv.refl _) e₁ e₂
   · intro i n
-    show M.map (f i).op n = e₁ i ((1 : A i) ⊗ₜ[R₀] n)
+    change M.map (f i).op n = e₁ i ((1 : A i) ⊗ₜ[R₀] n)
     exact ((restrictionTensorEquiv_tmul M (f i).op (a i) rfl 1 n).trans
       (one_smul _ _)).symm
   · intro i j x

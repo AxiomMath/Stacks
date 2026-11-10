@@ -122,7 +122,7 @@ private theorem isCompactObject_of_injective_postcomp
     have hterm (i : J) : (a i ≫ ι i) ≫ F.map (p j) =
         if h : i = j then a j else 0 := by
       dsimp [ι, p]
-      rw [Category.assoc, ← F.map_comp, Sigma.ι_desc]
+      rw [Category.assoc, ← F.map_comp, Sigma.ι_comp_desc]
       split_ifs with h
       · subst i
         simp
@@ -213,7 +213,7 @@ private theorem tensorRight_additive (d : DerivedHomAdjunction S)
       d.homEquiv X N (d.tensor.obj (Y, N)) (a ≫ e) = d.tensor.map (a ×ₘ 𝟙 N) := by
     rw [d.homEquiv_naturality_left]
     simp [e]
-  show d.tensor.map ((f + g) ×ₘ 𝟙 N) = d.tensor.map (f ×ₘ 𝟙 N) + d.tensor.map (g ×ₘ 𝟙 N)
+  change d.tensor.map ((f + g) ×ₘ 𝟙 N) = d.tensor.map (f ×ₘ 𝟙 N) + d.tensor.map (g ×ₘ 𝟙 N)
   rw [← he, ← he, ← he, Preadditive.add_comp, map_add]
 
 /-- Evaluation after whiskering a map into the internal Hom is its transpose. -/
@@ -468,7 +468,7 @@ private theorem curry_apply {A L I : CochainComplex (ModuleCat.{x} S) ℤ}
     (((Stacks.HomComplex.TensorHomMap.Phi S A L ≫ Stacks.HomComplex.TensorHomMap.postcomp S L (A ⊗
       L) I f).f n a).v p q h).hom l =
       f.f q ((ιTensorObj A L n p q (by omega)).hom (a ⊗ₜ[S] l)) := by
-  show (((Stacks.HomComplex.TensorHomMap.postcomp S L (A ⊗ L) I f).f n
+  change (((Stacks.HomComplex.TensorHomMap.postcomp S L (A ⊗ L) I f).f n
     (Stacks.HomComplex.TensorHomMap.Phiv S A L n a)).v p q h).hom l = _
   rw [postcomp_apply]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, phiv_v_apply]
@@ -640,7 +640,7 @@ private theorem homEquiv_curry_precomp_models
   rw [← d.homEquiv_dinaturality]
   apply (d.homEquiv (Q.obj A) (Q.obj B) (Q.obj I)).symm.injective
   erw [AddEquiv.symm_apply_apply, d.homEquiv_symm_map_eq A B I hB]
-  show (Q.map a ≫ (d.homIso L I).inv) ≫
+  change (Q.map a ≫ (d.homIso L I).inv) ≫
       d.hom.map ((Q.map l).op ×ₘ 𝟙 (Q.obj I)) =
     Q.map (Stacks.HomComplex.TensorHomMap.Phi S A B ≫
       Stacks.HomComplex.TensorHomMap.postcomp S B (A ⊗ B) I ((𝟙 A ⊗ₘ l) ≫ f)) ≫ (d.homIso B I).inv
@@ -927,7 +927,7 @@ private theorem pairing_coevaluation_postcomp
         (derivedTensorRightUnitor Y).hom = f := by
   dsimp only
   let d := derivedHomData (R := R)
-  show _ ≫ d.tensor.map ((p.coevaluation ≫ d.tensor.map (f ×ₘ 𝟙 N)) ×ₘ 𝟙 M) ≫ _ = _
+  change _ ≫ d.tensor.map ((p.coevaluation ≫ d.tensor.map (f ×ₘ 𝟙 N)) ×ₘ 𝟙 M) ≫ _ = _
   rw [show d.tensor.map ((p.coevaluation ≫ d.tensor.map (f ×ₘ 𝟙 N)) ×ₘ 𝟙 M) =
     d.tensor.map (p.coevaluation ×ₘ 𝟙 M) ≫
       d.tensor.map (d.tensor.map (f ×ₘ 𝟙 N) ×ₘ 𝟙 M) by
@@ -1020,7 +1020,7 @@ private theorem exists_coevaluation_of_isPerfect
     rw [d.homEquiv_naturality_left]
     dsimp only [tensorDualHom, derivedTensorRightUnitor, Iso.trans_hom]
     rw [AddEquiv.apply_symm_apply]
-  show (c.tensorUnitLeft M).inv ≫ _ = 𝟙 M
+  change (c.tensorUnitLeft M).inv ≫ _ = 𝟙 M
   rw [← ht, hη, AddEquiv.apply_symm_apply, Iso.inv_hom_id]
 
 private theorem nonempty_iso_of_pairing_compatible
@@ -1085,7 +1085,7 @@ private theorem pairing_coevaluation_tensorHom
   rw [d.homEquiv_naturality_left]
   dsimp only [tensorDualHom]
   rw [AddEquiv.apply_symm_apply]
-  show _ ≫ d.tensor.map ((p.coevaluation ≫ d.tensor.map (𝟙 M ×ₘ f)) ×ₘ 𝟙 M) ≫ _ = _
+  change _ ≫ d.tensor.map ((p.coevaluation ≫ d.tensor.map (𝟙 M ×ₘ f)) ×ₘ 𝟙 M) ≫ _ = _
   rw [show d.tensor.map ((p.coevaluation ≫ d.tensor.map (𝟙 M ×ₘ f)) ×ₘ 𝟙 M) =
       d.tensor.map (p.coevaluation ×ₘ 𝟙 M) ≫
         d.tensor.map (d.tensor.map (𝟙 M ×ₘ f) ×ₘ 𝟙 M) by

@@ -81,7 +81,7 @@ theorem isIso_sectionComparison_iff_of_quasiIso (M : DifferentialGradedModule.{u
     refine Eq.trans ?_ (DifferentialGraded.Bimodule.derivedTranspose_eq ψ
       (q ≫ M.sectionModuleRestriction a))
     congr 1
-    show Q.map ((toHomotopyCategory _).map q) ≫ (Q.map ((toHomotopyCategory _).map
+    change Q.map ((toHomotopyCategory _).map q) ≫ (Q.map ((toHomotopyCategory _).map
         (M.sectionModuleRestriction a)) ≫ _ ≫ _) = _
     refine Eq.trans ?_ (congrArg (· ≫ _) ((congrArg Q.map ((toHomotopyCategory _).map_comp q
       (M.sectionModuleRestriction a))).trans (Q.map_comp _ _))).symm
@@ -99,7 +99,6 @@ end Chaotic
 section Realize
 
 variable {C : Type u} [Category.{u} C]
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   {B : DifferentialGradedAlgebra.{u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
 
@@ -155,6 +154,9 @@ variable {C : Type u} [Category.{u} C] {C' : Type u} [Category.{u} C'] (F : C' �
   (A : DifferentialGradedAlgebra.{u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp))
   [∀ U : C, IsCofiltered (StructuredArrow U F)]
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- **Restriction preserves quasi-coherence of good modules.** The comparison maps of `P|_{C'}`
 are those of `P` along the image of `F`, read through the identification `A'(U') = A(F U')`. -/
@@ -186,7 +188,9 @@ theorem isQCModule_restriction {P : DifferentialGradedModule.{u, u, u} A}
 abbrev alongOf (M : DifferentialGradedModule.{u, u, u} (A.restrict F)) : AlongSystem F A :=
   (toAlong F A).obj ((sectionSystemFunctor (A.restrict F)).obj M)
 
-omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- If every section module of `M` is orthogonal on the left to the acyclic modules, then so is
 every module of `alongOf F A M`. -/
@@ -198,7 +202,9 @@ theorem alongOf_isGood {M : DifferentialGradedModule.{u, u, u} (A.restrict F)}
     (A.restrictSectionHom F U') (A.restrictSectionInv F U') (A.restrictSectionInv_hom F U')
     (A.restrictSectionHom_inv F U') _ (hM U')
 
-omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- If every section module of `M` is orthogonal on the left to the acyclic modules and `M`
 satisfies `Chaotic.IsQCModule`, then `Z = alongOf F A M` is quasi-coherent: its plain comparison
@@ -221,6 +227,9 @@ theorem alongOf_isQC {M : DifferentialGradedModule.{u, u, u} (A.restrict F)}
     Function.bijective_id (fun _ => rfl)).2 ?_
   exact (Chaotic.isIso_sectionComparison_iff_quasiIso M a (hM _)).1 (hqc _)
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The transpose of a restriction leg is the inverse of the identification
 `(X ⊗_{A(F V')} A(V)) ⊗_{A(V)} A(U) ≅ X ⊗_{A(F V')} A(U)`. -/
 theorem plainTranspose_restrLeg (Z : AlongSystem F A) {U V : Cᵒᵖ} (a : V ⟶ U)
@@ -235,6 +244,8 @@ theorem plainTranspose_restrLeg (Z : AlongSystem F A) {U V : Cᵒᵖ} (a : V ⟶
         (A.sectionRestriction a) (arrowHom F A (pre F a b)) (fun y => arrowHom_pre F A a b y)
         (Z.obj (Opposite.op b.right)) p x c).symm)
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The extension preserves quasi-coherence of good modules.** Over `V` the extension is
 computed by any single term `M'(V') ⊗_{A'(V')} A(V)`, a module orthogonal on the left to the
 acyclic modules, and its comparison map along `V → U` is, up to isomorphisms, the coprojection
@@ -254,12 +265,12 @@ theorem isQCModule_extension {M : DifferentialGradedModule.{u, u, u} (A.restrict
           ((extSystem Z).sectionsIso W).inv)) := by
     have hinv : QuasiIso ((forgetToCochainComplex (A.sectionAlgebra W)).map
         ((extSystem Z).sectionsIso W).inv) := quasiIso_of_isIso _
-    show QuasiIso ((forgetToCochainComplex (A.sectionAlgebra W)).map _ ≫
+    change QuasiIso ((forgetToCochainComplex (A.sectionAlgebra W)).map _ ≫
       (forgetToCochainComplex (A.sectionAlgebra W)).map ((extSystem Z).sectionsIso W).inv)
     exact @quasiIso_comp _ _ _ _ _ _ _ _ _ _ _ _ _ (quasiIso_ι hZg hZq c) hinv
   have hq := hι b
   have := hι (pre F a b)
-  show IsIso (Chaotic.sectionComparison (extSystem Z).realize a)
+  change IsIso (Chaotic.sectionComparison (extSystem Z).realize a)
   refine (Chaotic.isIso_sectionComparison_iff_of_quasiIso (extSystem Z).realize a
     (DifferentialGraded.Bimodule.leftOrthogonal_tensorCompFunctor_obj
       (A.sectionRestriction b.hom.op) (hZg (Opposite.op b.right))) _ hq).2 ?_

@@ -146,7 +146,7 @@ lemma isIso_homotopyAdjunction_counit (adj : F ⊣ G) [IsIso adj.counit] :
   have := isIso_mapHomologicalComplex_counit adj (ComplexShape.up ℤ)
   have happ : ∀ Z : HomotopyCategory C₂ (ComplexShape.up ℤ),
       IsIso ((homotopyAdjunction adj).counit.app Z) := fun Z => by
-    show IsIso ((homotopyAdjunction adj).counit.app
+    change IsIso ((homotopyAdjunction adj).counit.app
       ((HomotopyCategory.quotient C₂ (ComplexShape.up ℤ)).obj Z.as))
     simp only [homotopyAdjunction, Adjunction.localization_counit_app]
     infer_instance

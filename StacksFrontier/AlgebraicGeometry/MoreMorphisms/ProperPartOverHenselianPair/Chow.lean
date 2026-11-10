@@ -74,7 +74,7 @@ theorem exists_isClopen_isProper_range_eq_of_henselianPair_of_compactification (
   change e.hom ≫ pullbackMapOfFac w f (w ≫ f) rfl q = i at he
   rw [← range_eq_preimage_range_of_isPullback
     (isPullback_pullbackMapOfFac w f (w ≫ f) rfl q), ← he]
-  show _ = Set.range (pullbackMapOfFac w f (w ≫ f) rfl q ∘ e.hom)
+  change _ = Set.range (pullbackMapOfFac w f (w ≫ f) rfl q ∘ e.hom)
   rw [Set.range_comp, e.hom.surjective.range_eq, Set.image_univ]
 
 /-- Let `(A, I)` be a henselian pair and let `f : X ⟶ Spec A` be separated and of finite type.  An
@@ -152,9 +152,9 @@ theorem exists_isClopen_isProper_range_eq_of_henselianPair (A : Type u) [CommRin
   have hfib : ∀ x : X', f (φ x) ∈ PrimeSpectrum.zeroLocus (I : Set A) →
       ∃ x₀, pullback.fst (φ ≫ f) q x₀ = x := by
     intro x hx
-    show x ∈ Set.range (pullback.fst (φ ≫ f) q)
+    change x ∈ Set.range (pullback.fst (φ ≫ f) q)
     rw [Scheme.Pullback.range_fst, range_spec_map_quotient_mk I]
-    show (φ ≫ f) x ∈ PrimeSpectrum.zeroLocus (I : Set A)
+    change (φ ≫ f) x ∈ PrimeSpectrum.zeroLocus (I : Set A)
     simpa only [Scheme.Hom.comp_apply] using hx
   have hmem : ∀ x₀ : ↥(pullback (φ ≫ f) q),
       pullback.fst (φ ≫ f) q x₀ ∈ Set.range w' ↔ φ₀ x₀ ∈ Set.range i :=
@@ -243,7 +243,7 @@ theorem exists_isClopen_isProper_range_eq_of_henselianPair (A : Type u) [CommRin
   · intro x₀ hx₀
     obtain ⟨z₀, hz₀⟩ := φ₀.surjective x₀
     obtain ⟨a, ha⟩ := (hmem z₀).mpr (hz₀ ▸ hx₀)
-    show pullback.fst f q x₀ ∈ Set.range (w' ≫ φ)
+    change pullback.fst f q x₀ ∈ Set.range (w' ≫ φ)
     refine ⟨a, ?_⟩
     rw [Scheme.Hom.comp_apply, ha, ← Scheme.Hom.comp_apply (pullback.fst (φ ≫ f) q) φ,
       ← hφ₀.w, Scheme.Hom.comp_apply, hz₀]
@@ -275,7 +275,7 @@ theorem exists_isClopen_isProper_of_henselianPair (A : Type u) [CommRing A]
   have : IsClosedImmersion w := hwc
   have : IsProper (w ≫ f) := hwp
   refine ⟨W, w, inferInstance, inferInstance, inferInstance, ?_⟩
-  show ∃ e : Y ≅ pullback (w ≫ f) q, e.hom ≫ pullbackMapOfFac w f (w ≫ f) rfl q = i
+  change ∃ e : Y ≅ pullback (w ≫ f) q, e.hom ≫ pullbackMapOfFac w f (w ≫ f) rfl q = i
   have : IsOpenImmersion (pullbackMapOfFac w f (w ≫ f) rfl q) :=
     MorphismProperty.of_isPullback (isPullback_pullbackMapOfFac w f (w ≫ f) rfl q).flip
       inferInstance

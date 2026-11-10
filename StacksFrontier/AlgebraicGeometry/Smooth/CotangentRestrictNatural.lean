@@ -194,7 +194,7 @@ theorem restrictPullbackCotangentSheafIso_unit (V : X.Opens) (s : Γ(cotangentSh
             (homOfLE (U.ι.image_preimage_le (a ⁻¹ᵁ V))).op).hom
           ((pullbackCotangentUnitApp f a V).hom s))
       = (pullbackCotangentUnitApp f (U.ι ≫ a) V).hom s := by
-  show ((Scheme.Modules.pullbackComp U.ι a).hom.app (cotangentSheaf f)).app
+  change ((Scheme.Modules.pullbackComp U.ι a).hom.app (cotangentSheaf f)).app
       (U.ι ⁻¹ᵁ (a ⁻¹ᵁ V))
       (((Scheme.Modules.restrictFunctorIsoPullback U.ι).hom.app
           (pullbackCotangentSheaf f a)).app (U.ι ⁻¹ᵁ (a ⁻¹ᵁ V)) _) = _
@@ -407,7 +407,7 @@ theorem existsUnique_linearMap_of_leibniz_isAffineOpen {X S T : Scheme.{u}} (f :
     rintro O rfl N _ _ h₀ ε hadd hbase hleib
     have hUW' : (⊤ : (U : Scheme.{u}).Opens) ≤ (U.ι ≫ a) ⁻¹ᵁ W := by
       intro x _
-      show a.base (U.ι.base x) ∈ W
+      change a.base (U.ι.base x) ∈ W
       exact h₀ ⟨x, trivial, rfl⟩
     set ρ := (U.ι.appIso (⊤ : (U : Scheme.{u}).Opens)).commRingCatIsoToRingEquiv
     let : Module Γ((U : Scheme.{u}), (⊤ : (U : Scheme.{u}).Opens)) N :=
@@ -415,7 +415,7 @@ theorem existsUnique_linearMap_of_leibniz_isAffineOpen {X S T : Scheme.{u}} (f :
         Γ(T, U.ι ''ᵁ (⊤ : (U : Scheme.{u}).Opens)))
     have hM : ∀ (r : Γ(T, U.ι ''ᵁ (⊤ : (U : Scheme.{u}).Opens))) (m : N), r • m = ρ r • m :=
       fun r m ↦ by
-        show r • m = ρ.symm (ρ r) • m
+        change r • m = ρ.symm (ρ r) • m
         rw [ρ.symm_apply_apply]
     have hring : ∀ x : Γ(X, W), ρ ((a.appLE W (U.ι ''ᵁ ⊤) h₀).hom x)
         = ((U.ι ≫ a).appLE W (⊤ : (U : Scheme.{u}).Opens) hUW').hom x := fun x ↦ by
@@ -477,7 +477,7 @@ theorem existsUnique_linearMap_of_leibniz_opensTop {X S T : Scheme.{u}} (f : X �
   let := moduleOfTopIso U M
   have hact : ∀ (x : Γ(X, W)) (m : M), (a.appLE W U hUW).hom x • m
       = ((U.ι ≫ a).appLE W (⊤ : (U : Scheme.{u}).Opens) hUW').hom x • m := fun x m ↦ by
-    show (U.topIso.inv.hom ((a.appLE W U hUW).hom x)) • m = _
+    change (U.topIso.inv.hom ((a.appLE W U hUW).hom x)) • m = _
     rw [← CommRingCat.comp_apply, appLE_comp_topIso_inv a U hUW hUW']
   refine existsUnique_linearMap_of_leibniz_isAffineOpen f a hU hV hW hWV hUW M δ hadd hbase
     fun x y ↦ ?_

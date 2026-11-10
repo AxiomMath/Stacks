@@ -156,7 +156,7 @@ theorem globalUnitsPowerLift_specialFiberRedToTruncation {h : ℤ}
   refine hvc.trans ?_
   congr 1
   ext
-  show ((Scheme.ΓSpecIso (.of S.k)).inv ≫ S.specialFiberRedToBase.appTop).hom (c : S.k) =
+  change ((Scheme.ΓSpecIso (.of S.k)).inv ≫ S.specialFiberRedToBase.appTop).hom (c : S.k) =
     ((S.specialFiberRedToTruncation n).appTop).hom
       (((Scheme.ΓSpecIso (.of S.R)).inv ≫ (S.truncationι n ≫ S.X_to_R).appTop).hom r)
   rw [S.appTop_specialFiberRedToTruncation_apply n r, hr]

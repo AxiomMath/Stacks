@@ -656,7 +656,7 @@ theorem blowup_image_a_mem_nonZeroDivisors {R : Type*} [CommRing R] (I : Ideal R
   rw [Blowup.mk_mul, Blowup.zero_def, Blowup.mk_eq_mk] at hx2
   obtain ⟨k, hk⟩ := hx2
   simp only [BlowupRepr.mulRepr, Blowup.ofRepr, BlowupRepr.zeroRepr] at hk
-  show (Blowup.mk p : Blowup I a) = 0
+  change (Blowup.mk p : Blowup I a) = 0
   rw [Blowup.zero_def, Blowup.mk_eq_mk]
   refine ⟨k + 1, ?_⟩
   simp only [BlowupRepr.zeroRepr, pow_zero, one_mul, mul_zero, sub_zero, add_zero] at hk ⊢
@@ -676,7 +676,7 @@ theorem blowup_idealMap_eq_span {R : Type*} [CommRing R] (I : Ideal R) (a : R) (
     rw [Ideal.mem_comap, Ideal.mem_span_singleton]
     refine ⟨Blowup.mk ⟨1, y, by simpa using hy⟩, ?_⟩
     rw [Blowup.algebraMap_apply]
-    show (Blowup.mk (Blowup.ofRepr y) : Blowup I a) = Blowup.mk (Blowup.ofRepr a) * _
+    change (Blowup.mk (Blowup.ofRepr y) : Blowup I a) = Blowup.mk (Blowup.ofRepr a) * _
     rw [Blowup.mk_mul]
     apply Blowup.mk_sound 0
     simp only [BlowupRepr.mulRepr, Blowup.ofRepr]
@@ -1015,9 +1015,9 @@ theorem blowup_localization_f_iso_a (ha : a ∈ I) (f : R)
     obtain ⟨hmem, hmul⟩ := mul_divByA_mem I a (f ^ m) hm
     refine ⟨m, ⟨⟨divByA a (f ^ m), hmem⟩, ?_⟩⟩
     apply Subtype.coe_injective
-    show ((φ ^ m : R') : Ra a) = ((α * ⟨divByA a (f ^ m), hmem⟩ : R') : Ra a)
+    change ((φ ^ m : R') : Ra a) = ((α * ⟨divByA a (f ^ m), hmem⟩ : R') : Ra a)
     rw [Subalgebra.coe_pow, Subalgebra.coe_mul]
-    show (algebraMap R (Ra a) f) ^ m = (algebraMap R (Ra a) a) * divByA a (f ^ m)
+    change (algebraMap R (Ra a) f) ^ m = (algebraMap R (Ra a) a) * divByA a (f ^ m)
     rw [← map_pow, ← hmul]
   have hConj1 : IsLocalization.Away α R'f := isLocalizationAway_of_dvd_pow hA hB
   exact ⟨hConj1, ⟨(IsLocalization.algEquiv (Submonoid.powers α) R'f R'a).restrictScalars R⟩⟩
@@ -1192,7 +1192,7 @@ theorem affineBlowupBaseChange_hom :
     { localAway with
       commutes' := by
         intro r
-        show localAway (algebraMap R (Localization.Away a) r) = algebraMap R (Localization.Away
+        change localAway (algebraMap R (Localization.Away a) r) = algebraMap R (Localization.Away
             b) r
         rw [hlocal, IsLocalization.map_eq]
         rw [IsScalarTower.algebraMap_apply R S (Localization.Away b)] }
@@ -1201,7 +1201,7 @@ theorem affineBlowupBaseChange_hom :
     rw [hB, mem_affineBlowup_iff0BIP]
     refine ⟨n, φ x, ?_, ?_⟩
     · exact map_pow_mem I n x hx
-    · show localAway (frac a x n) = _
+    · change localAway (frac a x n) = _
       rw [hfrac]
   let g : (affineBlowup0BIP I a ha) →ₐ[R] B :=
     (localAwayAlg.comp (affineBlowup0BIP I a ha).val).codRestrict (B.restrictScalars R) (by
@@ -1211,7 +1211,7 @@ theorem affineBlowupBaseChange_hom :
         ⟨frac b (φ x) n, ⟨n, φ x, map_pow_mem I n x hx, rfl⟩⟩ := by
     intro n x hx
     apply Subtype.ext
-    show localAway (frac a x n) = _
+    change localAway (frac a x n) = _
     rw [hfrac]
   refine ⟨Algebra.TensorProduct.lift (Algebra.ofId S B) g (fun _ _ => Commute.all _ _), ?_⟩
   intro s n x hx
@@ -1259,13 +1259,13 @@ theorem affineBlowupBaseChange_surjective
         obtain ⟨t2, ht2⟩ := ih2
         refine ⟨t1 + t2, ?_⟩
         rw [map_add]
-        show (Φ t1 : Localization.Away b) + (Φ t2 : Localization.Away b) = _
+        change (Φ t1 : Localization.Away b) + (Φ t2 : Localization.Away b) = _
         rw [ht1, ht2, frac_add_same]
     | smul s y _ ih =>
         obtain ⟨t, ht⟩ := ih
         refine ⟨s • t, ?_⟩
         rw [map_smul]
-        show s • (Φ t : Localization.Away b) = _
+        change s • (Φ t : Localization.Away b) = _
         rw [ht, Algebra.smul_def, frac_smul, smul_eq_mul]
   intro w
   obtain ⟨v, n, y, hy, hv⟩ := w
@@ -1328,7 +1328,7 @@ theorem affineBlowupBaseChange_ker_le_torsion
     have hy : (a ^ n) • (⟨frac a x n, ⟨n, x, hx, rfl⟩⟩ : affineBlowup0BIP I a ha)
         = ⟨algebraMap R (Localization.Away a) x, (affineBlowup0BIP I a ha).algebraMap_mem' x⟩ := by
       apply Subtype.ext
-      show (a ^ n) • frac a x n = algebraMap R (Localization.Away a) x
+      change (a ^ n) • frac a x n = algebraMap R (Localization.Away a) x
       rw [Algebra.smul_def, ← frac_algebraMap a (a ^ n), frac_mul, ← frac_algebraMap a x,
         frac_eq_iff]
       exact ⟨0, by ring⟩
@@ -1342,7 +1342,7 @@ theorem affineBlowupBaseChange_ker_le_torsion
     have hx1 : (⟨algebraMap R (Localization.Away a) x, (affineBlowup0BIP I a ha).algebraMap_mem' x⟩
         : affineBlowup0BIP I a ha) = x • (1 : affineBlowup0BIP I a ha) := by
       apply Subtype.ext
-      show algebraMap R (Localization.Away a) x = x • (1 : Localization.Away a)
+      change algebraMap R (Localization.Away a) x = x • (1 : Localization.Away a)
       rw [Algebra.smul_def, mul_one]
     rw [hx1, TensorProduct.tmul_smul, TensorProduct.smul_tmul',
       Algebra.TensorProduct.algebraMap_apply]
@@ -1357,8 +1357,7 @@ theorem affineBlowupBaseChange_ker_le_torsion
   have hclear : ∀ z : T, ∃ (n : ℕ) (t : S),
       (algebraMap S T b) ^ n * z = algebraMap S T t := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, 0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul s y =>
         obtain ⟨m, x, hx, hyeq⟩ := y.property
         refine ⟨m, s * algebraMap R S x, ?_⟩

@@ -169,7 +169,7 @@ noncomputable def specRes (R : CommRingCat.{u}) (V : (Spec R).Opens) : R ⟶ Γ(
 lemma basicOpen_specRes (R : CommRingCat.{u}) (V : (Spec R).Opens) (r : R) :
     (Spec R).basicOpen (specRes R V r) = V ⊓ PrimeSpectrum.basicOpen r := by
   rw [specRes]
-  show (Spec R).basicOpen ((ConcreteCategory.hom ((Spec R).presheaf.map _))
+  change (Spec R).basicOpen ((ConcreteCategory.hom ((Spec R).presheaf.map _))
     ((ConcreteCategory.hom (Scheme.ΓSpecIso R).inv) r)) = _
   rw [Scheme.basicOpen_res, basicOpen_eq_of_affine]
 

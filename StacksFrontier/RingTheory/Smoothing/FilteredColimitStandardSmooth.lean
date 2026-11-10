@@ -130,7 +130,7 @@ private theorem span_relations_extend
   · intro p hp
     have hfp : f p ∈ P.ker := by
       rw [P.ker_eq_ker_aeval_val, RingHom.mem_ker]
-      show ((aeval P.val).comp f) p = 0
+      change ((aeval P.val).comp f) p = 0
       rw [hf]
       exact hp
     have := Ideal.Quotient.eq_zero_iff_mem (I := I) |>.mpr (hker hfp)
@@ -346,7 +346,7 @@ theorem exists_smooth_retract_isStandardSmooth_of_smooth :
     Algebra.Smooth.comp A (MvPolynomial (Fin c) C) B,
     hStandard, ρ.comp r, ?_⟩
   ext a
-  show ρ (r (algebraMap A B a)) = a
+  change ρ (r (algebraMap A B a)) = a
   rw [IsScalarTower.algebraMap_apply A (MvPolynomial (Fin c) C) B,
     IsLocalization.Away.lift_eq,
     IsScalarTower.algebraMap_apply A C (MvPolynomial (Fin c) C)]
@@ -395,22 +395,22 @@ theorem ind_isStandardSmooth_of_ind_smooth {R Λ : Type u} [CommRing R] [CommRin
   let P : A ⟶ Under.mk (CommRingCat.ofHom (k.comp B.hom.hom)) :=
     Under.homMk (CommRingCat.ofHom (k.comp p.right.hom)) (by
       ext x
-      show k (p.right.hom (A.hom.hom x)) = k (B.hom.hom x)
+      change k (p.right.hom (A.hom.hom x)) = k (B.hom.hom x)
       rw [← congrArg (fun z ↦ z.hom x) p.w]
       rfl)
   let Q : Under.mk (CommRingCat.ofHom (k.comp B.hom.hom)) ⟶
       Under.mk (CommRingCat.ofHom f) :=
     Under.homMk (CommRingCat.ofHom (q.right.hom.comp r)) (by
       ext x
-      show q.right.hom (r (k (B.hom.hom x))) = f x
+      change q.right.hom (r (k (B.hom.hom x))) = f x
       rw [hr']
       exact congrArg (fun z ↦ z.hom x) q.w)
   refine ⟨Under.mk (CommRingCat.ofHom (k.comp B.hom.hom)), P, Q, ?_, ?_⟩
   · ext x
-    show q.right.hom (r (k (p.right.hom x))) = g.right.hom x
+    change q.right.hom (r (k (p.right.hom x))) = g.right.hom x
     rw [hr']
     simpa using congrArg (fun z ↦ z.right.hom x) hpq
-  · show ((algebraMap B.right C).comp (algebraMap R B.right)).IsStandardSmooth
+  · change ((algebraMap B.right C).comp (algebraMap R B.right)).IsStandardSmooth
     rw [← IsScalarTower.algebraMap_eq R B.right C]
     exact (RingHom.isStandardSmooth_algebraMap (R := R) (S := C)).2 hC
 

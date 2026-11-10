@@ -300,12 +300,12 @@ public theorem isFiltered_cardinalGeneratedQuasicoherentSubobject (F : X.Modules
     have hI : P I := property_imageSubobject f hsumgen
     have hA : A.1 ≤ I := by
       apply Subobject.le_of_comm (biprod.inl ≫ factorThruImageSubobject f)
-      show (biprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
+      change (biprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       simp [f]
     have hB : B.1 ≤ I := by
       apply Subobject.le_of_comm (biprod.inr ≫ factorThruImageSubobject f)
-      show (biprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = B.1.arrow
+      change (biprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = B.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       simp [f]
     exact ⟨⟨I, hI⟩, P.homMk (homOfLE hA), P.homMk (homOfLE hB), trivial⟩

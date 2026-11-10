@@ -110,7 +110,7 @@ public lemma idealPowerMultiple_isQuasicoherent {X : Scheme.{u}}
     have he := congrArg (fun f ↦ (f.val.app U).hom ⟨m, hm⟩) hk
     change ((k.val.app U).hom ⟨m, hm⟩).1 = m at he
     exact he ▸ ((k.val.app U).hom ⟨m, hm⟩).property
-  show P.toSheafOfModules.IsQuasicoherent
+  change P.toSheafOfModules.IsQuasicoherent
   rw [le_antisymm hPK hKP]
   exact (SheafOfModules.isQuasicoherent X.ringCatSheaf).prop_of_iso
     ((Abelian.imageIsoImage a).symm ≪≫

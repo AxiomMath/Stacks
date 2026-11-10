@@ -167,10 +167,15 @@ variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
   [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n)
 
+omit [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [Fintype k] in
 /-- **An intertwiner with a left inverse up to `ℓ ^ M` induces an injection on
 `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)` commuting with `π_X^*`.**  For continuous `ℤ_ℓ`-representations `ρ₁`,
 `ρ₂` and intertwiners `A : ρ₁ → ρ₂`, `A' : ρ₂ → ρ₁` with `A' A = ℓ ^ M`, the map induced by
@@ -243,6 +248,7 @@ public theorem isCharpolyNormMixedOfWeightLE_representationLAdicSheaf_of_intertw
   simp only [Functor.map_comp, ModuleCat.hom_comp] at h
   exact h.symm
 
+omit [Fintype k] in
 /-- **Finite dimensionality along an intertwiner with a left inverse up to `ℓ ^ M`.** -/
 public theorem finiteDimensional_representationLAdicSheaf_of_intertwiner
     {r₁ r₂ : ℕ} {ρ₁ : EtaleFundamentalGroup X.1 x →* GL (Fin r₁) ℤ_[ℓ]} (hρ₁ : Continuous ρ₁)

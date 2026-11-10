@@ -121,7 +121,7 @@ theorem SmoothOfRelativeDimension.relativeDimension (d : ℕ) (f : X ⟶ S) [Loc
   intro s hs
   have hsm : SmoothOfRelativeDimension d (f.fiberToSpecResidueField s) := by
     let := smoothOfRelativeDimension_isStableUnderBaseChange d
-    show SmoothOfRelativeDimension d (pullback.snd f (S.fromSpecResidueField s))
+    change SmoothOfRelativeDimension d (pullback.snd f (S.fromSpecResidueField s))
     exact MorphismProperty.of_isPullback
       (IsPullback.of_hasPullback f (S.fromSpecResidueField s)) inferInstance
   exact ⟨equidimensional_of_topologicalKrullDimAt_eq (S.residueField s) (f.fiber s)

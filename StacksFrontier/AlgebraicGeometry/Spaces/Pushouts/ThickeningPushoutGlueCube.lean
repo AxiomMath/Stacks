@@ -29,8 +29,8 @@ pushouts (`Stacks.Pushout.IsMilnorCube`).  Then on the sections over `W`:
   flat over `B` and `A'` are flat over `B'`.
 
 These are the module statements of Stacks 07RW over the cube
-(`StacksFrontier/AlgebraicGeometry/Spaces/Pushouts/ThickeningPushoutChartAlgebra.lean`), read through
-the description of the sections of the glued module as compatible pairs
+(`StacksFrontier/AlgebraicGeometry/Spaces/Pushouts/ThickeningPushoutChartAlgebra.lean`), read
+through the description of the sections of the glued module as compatible pairs
 (`StacksFrontier/AlgebraicGeometry/Spaces/Pushouts/ThickeningPushoutGlueSections.lean`) and the base
 change description of the sections of an inverse image over affine charts (Stacks 083K).
 

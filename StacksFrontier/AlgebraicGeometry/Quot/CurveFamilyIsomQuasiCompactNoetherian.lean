@@ -116,7 +116,7 @@ theorem isQuasiCompact_isomFunctorProjection_of_projectiveCharts
       (schemeSpaceMap q₂) sq₂'
     have hb' : G'.base = F'.base := rfl
     obtain ⟨g, hg⟩ := exists_isPullback_isomFunctorProjection_eqToHom φ' ψ' hb hb' (by
-      show (φ s ≫ eqToHom hb.symm) ≫ eqToHom hb = 𝟙 _ ≫ φ s
+      change (φ s ≫ eqToHom hb.symm) ≫ eqToHom hb = 𝟙 _ ≫ φ s
       rw [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id, Category.id_comp])
     have hqc' := hproj F' G' hb' (hU s) hUn Z₁ Z₂ q₁ q₂ (Iso.refl _) (Iso.refl _)
       (by simp [F']; rfl) (by simp [G']; rfl) hq₁ hq₂

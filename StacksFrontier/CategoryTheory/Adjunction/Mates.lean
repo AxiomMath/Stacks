@@ -268,13 +268,13 @@ theorem homEquiv_mate {La : A ⥤ B} {Ra : B ⥤ A} {Lb : B ⥤ F} {Rb : F ⥤ B
     d.homEquiv _ _
         (((conjugateEquiv (a.comp b) (c.comp d)).symm t).app X ≫ Lb.map f) =
       Lc.map (a.homEquiv X Y f) ≫
-        ((mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc t)).natTrans.app Y := by
+        ((mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc t)).app Y := by
   apply (c.homEquiv X _).injective
-  show ((d.homEquiv (Lc.obj X) (Lb.obj Y)).trans
+  change ((d.homEquiv (Lc.obj X) (Lb.obj Y)).trans
     (c.homEquiv X (Rd.obj (Lb.obj Y)))) _ = _
   rw [← congrFun (congrFun (Adjunction.comp_homEquiv c d) X) (Lb.obj Y),
     homEquiv_conjugate (a.comp b) (c.comp d) t (Lb.map f), Adjunction.comp_homEquiv]
-  show (a.homEquiv X _) ((b.homEquiv _ _) (Lb.map f)) ≫ t.app (Lb.obj Y) = _
+  change (a.homEquiv X _) ((b.homEquiv _ _) (Lb.map f)) ≫ t.app (Lb.obj Y) = _
   simp only [Adjunction.homEquiv_unit]
   rw [b.unit_naturality]
   set ψ := a.unit.app X ≫ Ra.map f with hψ
@@ -282,7 +282,7 @@ theorem homEquiv_mate {La : A ⥤ B} {Ra : B ⥤ A} {Lb : B ⥤ F} {Rb : F ⥤ B
     _ = ψ ≫ Ra.map (b.unit.app Y) ≫ t.app (Lb.obj Y) := by
       simp only [hψ, Functor.map_comp, Category.assoc]
     _ = ψ ≫ c.unit.app (Ra.obj Y) ≫
-        Rc.map (((mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc t)).natTrans.app Y) :=
+        Rc.map (((mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc t)).app Y) :=
       congrArg (ψ ≫ ·) (unit_mateEquiv_symm b c (TwoSquare.mk Rb Rd Ra Rc t) Y)
     _ = _ := by
       have hc : ψ ≫ c.unit.app (Ra.obj Y) = c.unit.app X ≫ Rc.map (Lc.map ψ) :=
@@ -321,7 +321,7 @@ theorem mateEquiv_eq_of_counit (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (h : ∀ d, L₂.map (β.app d) ≫ adj₂.counit.app (H.obj d) =
       α.app (R₁.obj d) ≫ H.map (adj₁.counit.app d)) :
     mateEquiv adj₁ adj₂ α = β := by
-  refine TwoSquare.ext _ _ fun d ↦ ?_
+  refine NatTrans.ext (funext fun d ↦ ?_)
   apply (adj₂.homEquiv _ _).symm.injective
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit, mateEquiv_counit, h d]
 

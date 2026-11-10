@@ -83,7 +83,7 @@ theorem isProperOver_of_isFpqcCovering {I : Type v} {X Y : AlgebraicSpaces B S h
   let ι : Zs ⟶ X := ObjectProperty.homMk Z.ι
   have hcov : Presieve.ofArrows Y' g ∈ Topology.precoverage.{u, v} .fpqc B S hS Y :=
     ⟨I, Y', g, rfl, Y.property, fun i => (Y' i).property, hg⟩
-  show properProperty B S hS (ι ≫ f)
+  change properProperty B S hS (ι ≫ f)
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (P := properProperty B S hS) (K := Topology.precoverage.{u, v} .fpqc B S hS) hcov ?_
   intro U u _ hu

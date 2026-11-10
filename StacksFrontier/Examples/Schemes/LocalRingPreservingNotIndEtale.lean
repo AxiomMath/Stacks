@@ -245,7 +245,7 @@ private lemma identifiesLocalRings_pullback {R : Type*} [CommRing R] (I : Ideal 
   by_cases h₁ : RingHom.ker g₁ ≤ Q
   · exact localRingHom_bijective_of_pure_retraction f g₁ (by ext; rfl) hp₁ Q h₁
   · have h₂ : RingHom.ker g₂ ≤ Q := by
-      obtain ⟨x, hx, hxQ⟩ := SetLike.not_le_iff_exists.mp h₁
+      obtain ⟨x, hx, hxQ⟩ := IsConcreteLE.not_le_iff_exists.mp h₁
       intro y hy
       have hxy : x * y = 0 := Subtype.ext <| Prod.ext
         (mul_eq_zero_of_left (show x.val.1 = 0 from hx) _)

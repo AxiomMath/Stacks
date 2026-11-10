@@ -53,7 +53,8 @@ result above is its instantiation; the morphism of subspaces occurs in the type 
 `AlgebraicGeometry.Space.conormalModuleEtaleRestrictionCanonicalIso_hom_eq_of_eq`.
 
 **The second of those two, and the composition law it feeds, are not here, and the reason is
-elaboration cost.**  Each of the three instantiations — the congruence, the transported equation, and the
+elaboration cost.**  Each of the three instantiations — the congruence, the transported equation,
+and the
 composition law — elaborates in about 3 s when its type is *inferred*, and the three of them in
 one declaration exhaust the 200 000-heartbeat budget, failing inside the third.  Splitting them
 into declarations of their own does not help as long as the declaration's statement is an

@@ -257,7 +257,7 @@ theorem chartBaseChangeMap_schemeTargetCompIndex_eq (V : SmallEtale B S hS T₁.
     (chartBaseChangeArrow B S hS i₁ hi₁.isClosedImmersion.rep V)
   refine h0.trans ((congrArg (_ ≫ ·) h1).trans (Eq.trans ?_ h2.symm))
   rw [chartBaseChangeMap_schemeTargetChartIndex, chartBaseChangeMap_schemeTargetChartIndex]
-  show (SmallEtale.toOver B S hS Z.1).map e ≫
+  change (SmallEtale.toOver B S hS Z.1).map e ≫
       chartBaseChangeMap B S hS i₂ V'
         (chartBaseChangeArrow B S hS i₂ hi₂.isClosedImmersion.rep V') ≫
         yoneda.preimage (V'.1.hom ≫ p₂) =
@@ -309,7 +309,7 @@ theorem thickeningChartRingHom_base_of_inverseImageStructureSheafMap
   ext x
   apply ((inverseImageRingChartIso B S hS i₁ hi₁.isClosedImmersion hi₁.surjective
     (smallEtaleRingedTopos B S hS T₁).O).app (op V)).commRingCatIsoToRingEquiv.injective
-  show ((inverseImageRingChartIso B S hS i₁ hi₁.isClosedImmersion hi₁.surjective
+  change ((inverseImageRingChartIso B S hS i₁ hi₁.isClosedImmersion hi₁.surjective
       (smallEtaleRingedTopos B S hS T₁).O).app (op V)).hom
       ((thickeningChartRingHom B S hS hi₁ hi₂ φ).app (op V)
         (((BigFppfOver.toScheme B S hS).map (yoneda.preimage

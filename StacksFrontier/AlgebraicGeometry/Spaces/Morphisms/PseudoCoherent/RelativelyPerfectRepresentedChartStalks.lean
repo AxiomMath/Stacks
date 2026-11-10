@@ -258,7 +258,7 @@ theorem exists_representedAffineChartPiece {T T' : BigFppfOver B S hS} (g : T �
       Γ((BigFppfOver.toScheme B S hS).obj T', V) Γ((BigFppfOver.toScheme B S hS).obj T, U)))) :
       B.obj hA ⟶ B.obj hR) ≫ gR = gA := by
     apply ObjectProperty.hom_ext
-    show Spec.map (r.appLE V U e) ≫ hV.fromSpec ≫ B.inclusion.map T'.hom =
+    change Spec.map (r.appLE V U e) ≫ hV.fromSpec ≫ B.inclusion.map T'.hom =
       hU.fromSpec ≫ B.inclusion.map T.hom
     rw [← Category.assoc, hsq, Category.assoc, hg]
   let α : specFppfOver B S hS hA gA ⟶ T :=
@@ -276,9 +276,9 @@ theorem exists_representedAffineChartPiece {T T' : BigFppfOver B S hS} (g : T �
     apply ObjectProperty.hom_ext
     exact hsq.symm
   refine ⟨⟨_, _, hR, gR, hA, gA, w, α, κ, inferInstance, inferInstance, comm⟩, ?_, ?_⟩
-  · show x ∈ Set.range hU.fromSpec
+  · change x ∈ Set.range hU.fromSpec
     rwa [IsAffineOpen.range_fromSpec]
-  · show Set.range hU.fromSpec ⊆ N
+  · change Set.range hU.fromSpec ⊆ N
     rw [IsAffineOpen.range_fromSpec]
     exact fun z hz => (hUN hz).1
 
@@ -312,7 +312,7 @@ theorem geometricStalkTorAmplitude_comp_etale_iff {X Y Y' : AlgebraicSpaces B S 
   refine (hasTorAmplitudeCanonical_restrictScalars_iff_of_ringEquiv (RingEquiv.ofBijective _ hb)
     (stalkStructureMap B S hS f' x).hom (stalkStructureMap B S hS (f' ≫ ψ) x).hom ?_ _ a b).symm
   refine RingHom.ext fun z => ?_
-  show (stalkStructureMap B S hS (f' ≫ ψ) x).hom z = (stalkStructureMap B S hS f' x).hom
+  change (stalkStructureMap B S hS (f' ≫ ψ) x).hom z = (stalkStructureMap B S hS f' x).hom
     ((stalkStructureMap B S hS ψ (geometricPointMap f'.hom x)).hom z)
   rw [stalkStructureMap_hom_eq_smallEtaleStalkPullbackRingMap,
     stalkStructureMap_hom_eq_smallEtaleStalkPullbackRingMap,
@@ -427,7 +427,7 @@ theorem representedAffineChartPiece_sq (b : yoneda.obj T' ⟶ Y.1) :
       representedSpaceMap B S hS (specFppfOverMap B S hS c.hR c.gR c.hA c.gA c.w) ≫
         (representedSpaceMap B S hS c.κ ≫ ObjectProperty.homMk b) := by
   apply ObjectProperty.hom_ext
-  show yoneda.map c.α ≫ yoneda.map g ≫ b =
+  change yoneda.map c.α ≫ yoneda.map g ≫ b =
     yoneda.map (specFppfOverMap B S hS c.hR c.gR c.hA c.gA c.w) ≫ yoneda.map c.κ ≫ b
   rw [← Category.assoc, ← Functor.map_comp, c.comm, Functor.map_comp, Category.assoc]
 

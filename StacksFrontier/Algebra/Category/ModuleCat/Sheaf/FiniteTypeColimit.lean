@@ -82,10 +82,10 @@ private lemma sheaf_unitHomEquiv_symm_app_one
     [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
     (M : SheafOfModules.{u} R) (s : M.sections) (Y : Cᵒᵖ) :
     (M.unitHomEquiv.symm s).val.app Y (1 : R.obj.obj Y) = s.eval Y := by
-  show ((PresheafOfModules.unitHomEquiv M.val).symm s).app Y
+  change ((PresheafOfModules.unitHomEquiv M.val).symm s).app Y
     (1 : R.obj.obj Y) = s.eval Y
   simp only [PresheafOfModules.unitHomEquiv]
-  show (1 : R.obj.obj Y) • s.eval Y = s.eval Y
+  change (1 : R.obj.obj Y) • s.eval Y = s.eval Y
   simp
 
 @[simp]
@@ -93,7 +93,7 @@ private lemma sectionsOfTerminalValue_eval {C : Type*} [Category C]
     {R : Cᵒᵖ ⥤ RingCat.{u}} (M : PresheafOfModules.{u} R) (T : C)
     (hT : IsTerminal T) (t : M.obj (op T)) :
     (sectionsOfTerminalValue M T hT t).eval (op T) = t := by
-  show M.map (hT.from T).op t = t
+  change M.map (hT.from T).op t = t
   rw [hT.from_self, op_id, M.map_id]
   simp only [ModuleCat.restrictScalarsId'_inv_app,
     ModuleCat.restrictScalarsId'App_inv_apply]
@@ -143,7 +143,7 @@ private lemma exists_local_lift_from_stage (F : I ⥤ SheafOfModules.{u} R)
       ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map fi)) ti = germ := by
     change (ConcreteCategory.hom
       ((AlgebraicGeometry.SheafOfModules.stalkMap R x (colimit.ι F i)))) ti = germ at hti
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
       ((AlgebraicGeometry.SheafOfModules.stalkMap R x (colimit.ι F i)))) ti = germ
     simpa [AlgebraicGeometry.SheafOfModules.stalkMap, fi] using hti
   have hfi : (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map fi
@@ -162,7 +162,7 @@ private lemma exists_local_lift_from_stage (F : I ⥤ SheafOfModules.{u} R)
   obtain ⟨W, hxW, hWV₀, hWV, hsections⟩ := heq
   refine ⟨W, leOfHom hWV, hxW,
     i, (ConcreteCategory.hom ((F.obj i).val.presheaf.map hWV₀.op)) t₀, ?_⟩
-  show (ConcreteCategory.hom (fi.app (op W)))
+  change (ConcreteCategory.hom (fi.app (op W)))
       ((ConcreteCategory.hom ((F.obj i).val.presheaf.map hWV₀.op)) t₀) =
     (ConcreteCategory.hom ((colimit F).val.presheaf.map hWV.op)) s
   have hnat := fi.naturality hWV₀.op
@@ -212,7 +212,7 @@ private lemma epi_overMap_of_generators_lift
       (sectionsOfTerminalValue_eval (H.obj ((F.obj i).over U)).val
         (Over.mk (𝟙 W)) hT (lift j))) ?_
     rw [SheafOfModules.freeHomEquiv_apply, sectionsMap_eval]
-    show (ConcreteCategory.hom (m.val.app (op (Over.mk (𝟙 W)))) (lift j)) =
+    change (ConcreteCategory.hom (m.val.app (op (Over.mk (𝟙 W)))) (lift j)) =
       (ConcreteCategory.hom ((H.map ψ).val.app (op (Over.mk (𝟙 W)))))
         ((ConcreteCategory.hom
           ((SheafOfModules.mapFree H gs.I η.hom).val.app (op (Over.mk (𝟙 W)))))
@@ -369,12 +369,12 @@ private lemma epi_overMap_of_generators_lifted_to_common_stage
     have htj' : ((colimit.ι F (ij j)).val.app (op (Wj j))) (tj j) =
         ((colimit F).val.map (homOfLE (hWjU j)).op)
           ((gs.s j).val (op (Over.mk (𝟙 U)))) := by
-      show (ConcreteCategory.hom (((SheafOfModules.toSheaf R).map
+      change (ConcreteCategory.hom (((SheafOfModules.toSheaf R).map
         (colimit.ι F (ij j))).hom.app (op (Wj j)))) (tj j) = _
       exact htj j
     dsimp [lift]
     rw [hcol'', hnat', htj']
-    show ((colimit F).val.map (homOfLE (hWWj j)).op)
+    change ((colimit F).val.map (homOfLE (hWWj j)).op)
         (((colimit F).val.map (homOfLE (hWjU j)).op)
           ((gs.s j).val (op (Over.mk (𝟙 U))))) =
       ((colimit F).val.map (homOfLE hWU).op)
@@ -474,7 +474,7 @@ private lemma epi_of_epi_overFunctor_open_cover
       (homOfLE hWV).op s
     dsimp [sW] at hlocal
     rw [← hgNat, hlocal, hkNat]
-  show (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
+  change (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
       ((ConcreteCategory.hom (g.val.app (op V.unop))) s) =
       (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
       ((ConcreteCategory.hom (k.val.app (op V.unop))) s)

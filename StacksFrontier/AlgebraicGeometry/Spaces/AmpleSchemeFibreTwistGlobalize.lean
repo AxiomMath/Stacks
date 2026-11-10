@@ -59,7 +59,7 @@ theorem isFlat_stalkPointToOpen :
   holdsOnEveryEtaleChart_yoneda_map B S hS
     AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget (stalkPointToOpen Y W hy)
     (by
-      show Flat (W.fromSpecStalkOfMem y hy)
+      change Flat (W.fromSpecStalkOfMem y hy)
       have h1 : Flat (W.fromSpecStalkOfMem y hy ≫ W.ι) := by
         rw [Scheme.Opens.fromSpecStalkOfMem_ι W y hy]
         exact AlgebraicGeometry.flat_fromSpecStalk _ y
@@ -141,7 +141,7 @@ theorem modulePullbackCompIsoHomApp_sectionPullback_sum {Z' V XW : AlgebraicSpac
     (∑ i ∈ s, r i • sectionPullback k N (σ i)) = _ at h₁
   rw [h₁, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
-  show ((globalSectionsFunctor.{u + 1, u, u, u}
+  change ((globalSectionsFunctor.{u + 1, u, u, u}
         (ringSheaf (smallEtaleRingedSite B S hS Z'.1 Z'.2).O)).map
           (modulePullbackCompIsoHomApp a k N)).hom
       (sectionPullback a ((modulePullback B S hS k).obj N) (r i • sectionPullback k N (σ i))) = _

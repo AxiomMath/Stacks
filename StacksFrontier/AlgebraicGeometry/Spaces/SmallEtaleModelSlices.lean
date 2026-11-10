@@ -93,7 +93,7 @@ theorem modelSharp_compat₁ :
       (modelSharpInv B S hS F hF).hom ≫
         (modelEqv B S hS F hF).inverse.op.whiskerLeft (modelSharp B S hS F hF).hom := by
   ext Z : 2
-  show (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
+  change (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
       ((smallEtaleModelEquivalence B S hS F).functor.map
         ((smallEtaleModelEquivalence B S hS F).unitInv.app Z.unop)).op =
     𝟙 _ ≫ (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
@@ -112,7 +112,7 @@ theorem modelSharp_compat₂ :
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj =
       𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj := by
   ext V : 2
-  show (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
+  change (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
       ((smallEtaleModelEquivalence B S hS F).counit.app V.unop).op ≫ 𝟙 _ ≫
     (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).obj.map
       ((smallEtaleModelEquivalence B S hS F).counitInv.app V.unop).op = 𝟙 _

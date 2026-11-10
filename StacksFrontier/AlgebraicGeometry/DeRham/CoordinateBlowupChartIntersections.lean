@@ -323,7 +323,7 @@ theorem puncturedEquiv_resPunctured_chartMap (hn : 0 < n) (j : Fin n)
     puncturedEquiv R m n hn (resPunctured R m n (punctured_le_chart R m n hn j)
       ((chartMap R m n j).hom r)) = toFrac R m n r := by
   rw [puncturedEquiv, RingEquiv.symm_apply_eq]
-  show _ = ((coordinateBlowupToAmbient R m n).app _).hom (toFrac R m n r)
+  change _ = ((coordinateBlowupToAmbient R m n).app _).hom (toFrac R m n r)
   rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, Scheme.Hom.appLE_map,
     Scheme.Hom.app_eq_appLE, Scheme.Hom.map_appLE]
 

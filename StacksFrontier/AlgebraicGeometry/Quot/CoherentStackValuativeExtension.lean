@@ -95,7 +95,7 @@ theorem isFlat_baseChangeMap_of_isHomLift {X Y : AlgebraicSpaces B S hS} (f : X 
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap R A))))
   have hflat : Flat ((BigFppfOver.toScheme B S hS).map h.left) := by
     have hfac := IsHomLift.fac' (CostructuredArrow.proj (schemeSpaceFunctor B S hS) Y) φ h
-    show Flat ((BigFppfOver.toScheme B S hS).map
+    change Flat ((BigFppfOver.toScheme B S hS).map
       ((CostructuredArrow.proj (schemeSpaceFunctor B S hS) Y).map h))
     rw [hfac, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
     have : Flat (Spec.map (CommRingCat.ofHom (algebraMap R A))) := by

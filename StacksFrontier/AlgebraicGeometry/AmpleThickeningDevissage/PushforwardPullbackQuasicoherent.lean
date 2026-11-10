@@ -35,10 +35,11 @@ immersion being affine.
 * `Stacks.AmpleThickeningDevissage.isQuasicoherent_gradedAlgebraSheaf_pushforwardPullback`:
   **the ungraded realization of `v_* v^* A` is a quasi-coherent algebra sheaf**, which is the
   hypothesis the right-hand term of the graded square-zero extension owed.
-* `Stacks.AmpleThickeningDevissage.isQuasicoherent_gradedAlgebraSheaf_pushforwardPullback_symmetricAlgebra`:
-  the same at `A = Sym(L)`, where the degreewise quasi-coherence and the vanishing in negative
-  degrees are theorems (`AlgebraicGeometry.Scheme.Modules.isQuasicoherent_symmetricAlgebra_piece`
-  and `AlgebraicGeometry.Scheme.Modules.isZero_symmetricAlgebra_piece`) rather than hypotheses.
+* `isQuasicoherent_gradedAlgebraSheaf_pushforwardPullback_symmetricAlgebra`
+  (in the namespace `Stacks.AmpleThickeningDevissage`): the same at `A = Sym(L)`, where the
+  degreewise quasi-coherence and the vanishing in negative degrees are theorems
+  (`AlgebraicGeometry.Scheme.Modules.isQuasicoherent_symmetricAlgebra_piece` and
+  `AlgebraicGeometry.Scheme.Modules.isZero_symmetricAlgebra_piece`) rather than hypotheses.
 
 ## Implementation notes
 

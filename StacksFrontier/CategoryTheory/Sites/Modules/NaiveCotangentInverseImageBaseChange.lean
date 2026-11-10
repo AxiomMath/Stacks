@@ -235,7 +235,7 @@ lemma inverseImageIdealIso_hom_comp_inverseImageConormalClassHom :
         (conormalIdealDirectImageRestrictEquiv f φ _ (conormalDirectImageIdealEquiv f φ _
           (conormalInverseImageAdjunctionEquiv f φ _ (inverseImageConormalIso f φ).hom))) := by
   rw [← conormalInverseImageIdealSheafEquiv_inverseImageConormalIso_hom]
-  show (inverseImageIdealIso.{w, w', v, u, v', u'} f φ).hom ≫
+  change (inverseImageIdealIso.{w, w', v, u, v', u'} f φ).hom ≫
     (inverseImageIdealIso.{w, w', v, u, v', u'} f φ).inv ≫ _ = _
   rw [Iso.hom_inv_id_assoc]
   rfl

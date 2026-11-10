@@ -82,6 +82,7 @@ def curvePointDecomposition :
   (MulAction.stabilizer Gal(L / V.residueField (genericPoint V)) P).map
     (galoisToFundamentalGroup V L Ω).toMonoidHom
 
+omit [IsDomain A] in
 /-- An element of `π₁(V, η̄)` lies in the inertia group at a missing point if and only if it is
 the image of an element of the inertia group `I_P ⊆ Gal(L/K)`. -/
 theorem mem_curvePointInertia_iff (g : EtaleFundamentalGroup V ((algebraicClosureGeometricPoint
@@ -93,6 +94,7 @@ theorem mem_curvePointInertia_iff (g : EtaleFundamentalGroup V ((algebraicClosur
         galoisToFundamentalGroup V L Ω σ = g :=
   Subgroup.mem_map
 
+omit [IsDomain A] in
 /-- An element of `π₁(V, η̄)` lies in the decomposition group at a missing point if and only if
 it is the image of an element of the stabilizer `D_P ⊆ Gal(L/K)` of the place `P`. -/
 theorem mem_curvePointDecomposition_iff (g : EtaleFundamentalGroup V
@@ -105,6 +107,7 @@ theorem mem_curvePointDecomposition_iff (g : EtaleFundamentalGroup V
         galoisToFundamentalGroup V L Ω σ = g :=
   Subgroup.mem_map
 
+omit [IsDomain A] in
 /-- The inertia group at a missing point lies in its decomposition group. -/
 theorem curvePointInertia_le_curvePointDecomposition :
     curvePointInertia V L Ω A P ≤ curvePointDecomposition V L Ω A P := by

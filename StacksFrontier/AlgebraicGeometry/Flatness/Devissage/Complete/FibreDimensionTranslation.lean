@@ -210,7 +210,7 @@ public theorem exists_completeDevissageAt_fibresHaveRelativeDimension_of_spec (A
   have hsmul : ∀ (s : ↥Γ(X, ⊤)) (n : ↥Γ(F, (⊤ : X.Opens))), eN (s • n) = eS s • eN n := by
     intro s n
     have hact : (eS s) • n = s • n := by
-      show ((Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom (eS s)) • n = s • n
+      change ((Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom (eS s)) • n = s • n
       rw [hinv]
     rw [← hact]
     exact (tilde.isoTop M).toLinearEquiv.symm.map_smul (eS s) n

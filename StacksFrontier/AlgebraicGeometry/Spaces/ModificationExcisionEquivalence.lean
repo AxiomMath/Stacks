@@ -113,13 +113,13 @@ theorem isModification_depProd (f : V ⟶ W) (hf : IsEtale B S hS f.hom)
     (depProdπ f.hom Y.obj) ?_
   rintro (_ | _)
   · -- The leg `X ×_{g,W,f} V`, which the counit identifies with `Y`.
-    show IsAlgebraicSpace B S hS (pullback (depProdπ f.hom Y.obj) f.hom)
+    change IsAlgebraicSpace B S hS (pullback (depProdπ f.hom Y.obj) f.hom)
     have hiso := isIso_depProdCounitApp_left B S hS V.property W.property f.hom hf hsep T hfT
       Y.obj hY Y.property.1.isSheaf
     exact AlgebraicGeometry.isAlgebraicSpace_of_iso B S hS (@asIso _ _ _ _ _ hiso)
       Y.property.1
   · -- The leg `X ×_{g,W} W⁰`, which rigidity identifies with the open subspace `W⁰`.
-    show IsAlgebraicSpace B S hS
+    change IsAlgebraicSpace B S hS
       ((openComplement B S hS T).preimage (depProdπ f.hom Y.obj)).toFunctor
     have : IsIso ((openComplement B S hS T).fromPreimage (depProdπ f.hom Y.obj)) :=
       isIso_fromPreimage_depProdπ B S hS f.hom (openComplement B S hS T) Y.obj hY

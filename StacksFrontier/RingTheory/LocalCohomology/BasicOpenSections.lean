@@ -125,7 +125,7 @@ theorem exists_pow_smul_eq_moduleSectionsMk (s : moduleSections M (basicOpen f))
     simp only [Submonoid.smul_def, one_smul, ← hc, Finset.sum_smul, Finset.smul_sum]
     exact Finset.sum_congr rfl fun j _ ↦ by
       rw [smul_eq_mul, mul_smul, hab i j, smul_comm]
-  show f ^ (n + 1) • s.1 x = LocalizedModule.mk (∑ i, c i • a i) 1
+  change f ^ (n + 1) • s.1 x = LocalizedModule.mk (∑ i, c i • a i) 1
   rw [hstep, LocalizedModule.smul'_mk]
   exact LocalizedModule.mk_eq.mpr ⟨1, by simp [Submonoid.smul_def]⟩
 

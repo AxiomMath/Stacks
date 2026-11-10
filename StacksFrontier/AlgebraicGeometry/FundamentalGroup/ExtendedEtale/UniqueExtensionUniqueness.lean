@@ -163,9 +163,9 @@ public theorem underInvOfIsIsoRight {T : Type*} [Category T] {Z : T} {a b : Unde
     rw [← Under.w m, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   refine ⟨Under.homMk (inv m.right) hw, Under.UnderMorphism.ext ?_,
     Under.UnderMorphism.ext ?_⟩
-  · show m.right ≫ inv m.right = Under.Hom.right (𝟙 a)
+  · change m.right ≫ inv m.right = Under.Hom.right (𝟙 a)
     rw [IsIso.hom_inv_id, Under.id_right]
-  · show inv m.right ≫ m.right = Under.Hom.right (𝟙 b)
+  · change inv m.right ≫ m.right = Under.Hom.right (𝟙 b)
     rw [IsIso.inv_hom_id, Under.id_right]
 
 /-! ### Two criteria for a morphism of schemes to be an isomorphism -/
@@ -286,11 +286,11 @@ public theorem extendedEtale_unique {U X V Y' : Scheme.{u}}
   let comparison : Under.mk f'.c ⟶ Under.mk (π ≫ j).c := algebraMap ≫ transport.hom
   let cinv : Under.mk (π ≫ j).c ⟶ Under.mk f'.c := transport.inv ≫ algebraInv
   have hcc1 : comparison ≫ cinv = 𝟙 (Under.mk f'.c) := by
-    show (algebraMap ≫ transport.hom) ≫ transport.inv ≫ algebraInv = _
+    change (algebraMap ≫ transport.hom) ≫ transport.inv ≫ algebraInv = _
     rw [Category.assoc, ← Category.assoc transport.hom transport.inv algebraInv,
       transport.hom_inv_id, Category.id_comp, hai1]
   have hcc2 : cinv ≫ comparison = 𝟙 (Under.mk (π ≫ j).c) := by
-    show (transport.inv ≫ algebraInv) ≫ algebraMap ≫ transport.hom = _
+    change (transport.inv ≫ algebraInv) ≫ algebraMap ≫ transport.hom = _
     rw [Category.assoc, ← Category.assoc algebraInv algebraMap transport.hom, hai2,
       Category.id_comp, transport.inv_hom_id]
   -- the classifying morphism of the competing extension
@@ -303,12 +303,12 @@ public theorem extendedEtale_unique {U X V Y' : Scheme.{u}}
   have hcover : g' ≫ ext = extendedEtaleCoverMap j π hdepth := by
     refine (relativeSpecRepresentableBy s).homEquiv.injective ?_
     rw [Functor.RepresentableBy.homEquiv_comp, hpair, extendedEtaleCoverMap_homEquiv]
-    show RelativeSpecPair.pullback g' (⟨f', cinv⟩ : RelativeSpecPair s Y') =
+    change RelativeSpecPair.pullback g' (⟨f', cinv⟩ : RelativeSpecPair s Y') =
       (⟨π ≫ j, 𝟙 _⟩ : RelativeSpecPair s V)
     rw [Stacks.RelativeSpec.RelativeSpecPair.pullback_eq]
     have hmap : cinv ≫ algebraMap = eqToHom (congrArg
         (fun morphism : V ⟶ X => Under.mk morphism.c) hg'.w.symm.symm) := by
-      show (transport.inv ≫ algebraInv) ≫ algebraMap = _
+      change (transport.inv ≫ algebraInv) ≫ algebraMap = _
       rw [Category.assoc, hai2, Category.comp_id]
       rfl
     exact (congrArg

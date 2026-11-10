@@ -305,24 +305,24 @@ private noncomputable def diagonalClass (h : IsPushout f f s₀ s₁) (x : B₁)
 
 private lemma diagonalClass_s₀ (h : IsPushout f f s₀ s₁) (b : B) :
     diagonalClass h (s₀.toRingHom b) = 0 := by
-  show Submodule.Quotient.mk
+  change Submodule.Quotient.mk
       (⟨s₀.toRingHom b - s₀.toRingHom ((diagonalMap h).toRingHom (s₀.toRingHom b)), _⟩ :
         diagonalKernel h) = Submodule.Quotient.mk (0 : diagonalKernel h)
   congr 1
   apply Subtype.ext
-  show s₀.toRingHom b -
+  change s₀.toRingHom b -
       s₀.toRingHom ((diagonalMap h).toRingHom (s₀.toRingHom b)) = 0
   rw [diagonalMap_s₀, sub_self]
 
 private lemma diagonalClass_s₁ (h : IsPushout f f s₀ s₁) (b : B) :
     diagonalClass h (s₁.toRingHom b) = diagonalDifference h b := by
-  show Submodule.Quotient.mk
+  change Submodule.Quotient.mk
       (⟨s₁.toRingHom b - s₀.toRingHom ((diagonalMap h).toRingHom (s₁.toRingHom b)), _⟩ :
         diagonalKernel h) = Submodule.Quotient.mk
       (⟨s₁.toRingHom b - s₀.toRingHom b, _⟩ : diagonalKernel h)
   congr 1
   apply Subtype.ext
-  show s₁.toRingHom b -
+  change s₁.toRingHom b -
       s₀.toRingHom ((diagonalMap h).toRingHom (s₁.toRingHom b)) =
     s₁.toRingHom b - s₀.toRingHom b
   rw [diagonalMap_s₁]
@@ -330,12 +330,12 @@ private lemma diagonalClass_s₁ (h : IsPushout f f s₀ s₁) (b : B) :
 private lemma diagonalClass_eq_quotient_mk
     (h : IsPushout f f s₀ s₁) (k : diagonalKernel h) :
     diagonalClass h (k : B₁) = Submodule.Quotient.mk k := by
-  show Submodule.Quotient.mk
+  change Submodule.Quotient.mk
       (⟨(k : B₁) - s₀.toRingHom ((diagonalMap h).toRingHom (k : B₁)), _⟩ :
         diagonalKernel h) = Submodule.Quotient.mk k
   congr 1
   apply Subtype.ext
-  show (k : B₁) - s₀.toRingHom ((diagonalMap h).toRingHom (k : B₁)) = k
+  change (k : B₁) - s₀.toRingHom ((diagonalMap h).toRingHom (k : B₁)) = k
   rw [(RingHom.mem_ker).mp k.property, s₀.toRingHom.map_zero, sub_zero]
 
 private lemma diagonalClass_leibniz (h : IsPushout f f s₀ s₁) (x y : B₁) :
@@ -345,7 +345,7 @@ private lemma diagonalClass_leibniz (h : IsPushout f f s₀ s₁) (x y : B₁) :
   let : Algebra B B₁ := s₀.toRingHom.toAlgebra
   let q : diagonalKernel h →ₗ[B] diagonalConormal h :=
     ((diagonalRelations h).mkQ).restrictScalars B
-  show q ⟨x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)),
+  change q ⟨x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)),
       diagonalClass_mem h (x * y)⟩ =
     (diagonalMap h).toRingHom x •
         q ⟨y - s₀.toRingHom ((diagonalMap h).toRingHom y),
@@ -355,13 +355,13 @@ private lemma diagonalClass_leibniz (h : IsPushout f f s₀ s₁) (x y : B₁) :
           diagonalClass_mem h x⟩
   rw [← map_smul q ((diagonalMap h).toRingHom x),
     ← map_smul q ((diagonalMap h).toRingHom y), ← map_add q]
-  show q ⟨x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)), _⟩ =
+  change q ⟨x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)), _⟩ =
     q (s₀.toRingHom ((diagonalMap h).toRingHom x) •
         (⟨y - s₀.toRingHom ((diagonalMap h).toRingHom y), _⟩ : diagonalKernel h) +
       s₀.toRingHom ((diagonalMap h).toRingHom y) •
         (⟨x - s₀.toRingHom ((diagonalMap h).toRingHom x), _⟩ : diagonalKernel h))
   apply (Submodule.Quotient.eq (diagonalRelations h)).2
-  show (x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)) -
+  change (x * y - s₀.toRingHom ((diagonalMap h).toRingHom (x * y)) -
       (s₀.toRingHom ((diagonalMap h).toRingHom x) *
           (y - s₀.toRingHom ((diagonalMap h).toRingHom y)) +
         s₀.toRingHom ((diagonalMap h).toRingHom y) *
@@ -481,13 +481,13 @@ private lemma diagonalClass_dpow (h : IsPushout f f s₀ s₁)
   let : Algebra B B₁ := s₀.toRingHom.toAlgebra
   let q : diagonalKernel h →ₗ[B] diagonalConormal h :=
     ((diagonalRelations h).mkQ).restrictScalars B
-  show q ⟨B₁.dividedPowers.dpow n x -
+  change q ⟨B₁.dividedPowers.dpow n x -
       s₀.toRingHom ((diagonalMap h).toRingHom (B₁.dividedPowers.dpow n x)), _⟩ =
     B.dividedPowers.dpow (n - 1) b •
       q ⟨x - s₀.toRingHom b, diagonalClass_mem h x⟩
   rw [← map_smul q (B.dividedPowers.dpow (n - 1) b)]
   apply (Submodule.Quotient.eq (diagonalRelations h)).2
-  show (B₁.dividedPowers.dpow n x -
+  change (B₁.dividedPowers.dpow n x -
       s₀.toRingHom ((diagonalMap h).toRingHom (B₁.dividedPowers.dpow n x)) -
       s₀.toRingHom (B.dividedPowers.dpow (n - 1) b) *
         (x - s₀.toRingHom b)) ∈
@@ -594,18 +594,18 @@ private lemma diagonalDifference_span (h : IsPushout f f s₀ s₁) :
     ext b
     apply TrivSqZeroExt.ext
     · rfl
-    · show g (diagonalClass h (s₀.toRingHom b)) = D₀ b
+    · change g (diagonalClass h (s₀.toRingHom b)) = D₀ b
       rw [diagonalClass_s₀]
       simp [D₀]
   have h₁ : s₁ ≫ φ = s₁ ≫ (diagonalMap h ≫ ι) := by
     ext b
     apply TrivSqZeroExt.ext
     · rfl
-    · show g (diagonalClass h (s₁.toRingHom b)) = D₀ b
+    · change g (diagonalClass h (s₁.toRingHom b)) = D₀ b
       rw [diagonalClass_s₁]
       have hW : diagonalDifference h b ∈ W :=
         Submodule.subset_span ⟨b, rfl⟩
-      show W.mkQ (diagonalDifference h b) = 0
+      change W.mkQ (diagonalDifference h b) = 0
       simpa [g] using (Submodule.Quotient.mk_eq_zero W).2 hW
   have hφ : φ = diagonalMap h ≫ ι := h.hom_ext h₀ h₁
   apply top_unique
@@ -623,7 +623,7 @@ private lemma diagonalDifference_span (h : IsPushout f f s₀ s₁) :
   have hclass := diagonalClass_eq_quotient_mk h k
   have hqk : g (Submodule.Quotient.mk k) = 0 := by
     simpa [hclass] using hsecond
-  show (Submodule.Quotient.mk k : diagonalConormal h) ∈ W
+  change (Submodule.Quotient.mk k : diagonalConormal h) ∈ W
   exact (Submodule.Quotient.mk_eq_zero W).1 hqk
 
 private lemma diagonalDifference_leibniz (h : IsPushout f f s₀ s₁) (x y : B) :
@@ -872,7 +872,7 @@ private lemma nonempty_dividedPowerDifferentialsEquivDiagonalConormal
         dividedPowerDifferential (A := A) B.dividedPowers b := invData.2
   have hgen : Submodule.span B
       (Set.range (dividedPowerDifferential (A := A) B.dividedPowers)) = ⊤ := by
-    show Submodule.span B (Set.range fun b : B ↦
+    change Submodule.span B (Set.range fun b : B ↦
       (dividedPowerDifferentialRelations (A := A) B.dividedPowers).mkQ
         (KaehlerDifferential.D A B b)) = ⊤
     simpa only [LinearMap.map_span, ← Set.range_comp, Function.comp_def,
@@ -889,7 +889,7 @@ private lemma nonempty_dividedPowerDifferentialsEquivDiagonalConormal
     apply LinearMap.ext_on (diagonalDifference_span h)
     rintro _ ⟨b, rfl⟩
     simp only [LinearMap.comp_apply, LinearMap.id_apply, hR b, hL b]
-  exact ⟨⟨LinearEquiv.ofLinear L R hLR hRL, hL⟩⟩
+  exact ⟨⟨LinearEquiv.ofLinearMap L R hLR hRL, hL⟩⟩
 
 add_to_stacks 07HT "stability under divided powers" DividedPowers.isSubDPIdeal_ker
 

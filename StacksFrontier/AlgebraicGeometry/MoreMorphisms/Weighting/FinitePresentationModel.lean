@@ -138,9 +138,9 @@ private lemma range_specMap_appTop {X Z : Scheme.{u}} [IsAffine X] [IsAffine Z] 
     Set.range (Spec.map j.appTop) = Z.isoSpec.inv ⁻¹' Set.range j := by
   have hr : Z.isoSpec.inv '' Set.range (Spec.map j.appTop) = Set.range j := by
     rw [← Set.range_comp]
-    show Set.range (Spec.map j.appTop ≫ Z.isoSpec.inv) = Set.range j
+    change Set.range (Spec.map j.appTop ≫ Z.isoSpec.inv) = Set.range j
     rw [Scheme.isoSpec_inv_naturality]
-    show Set.range (j ∘ X.isoSpec.inv) = Set.range j
+    change Set.range (j ∘ X.isoSpec.inv) = Set.range j
     rw [Set.range_comp, Set.range_eq_univ.mpr X.isoSpec.inv.surjective, Set.image_univ]
   rw [← hr, Set.preimage_image_eq _ Z.isoSpec.inv.isEmbedding.injective]
 
@@ -148,7 +148,7 @@ private lemma range_specMap_appTop {X Z : Scheme.{u}} [IsAffine X] [IsAffine Z] 
 private lemma range_specMap_quotient_mk {R : Type u} [CommRing R] (J : Ideal R) :
     Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J))) =
       PrimeSpectrum.zeroLocus (J : Set R) := by
-  show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk J)) = _
+  change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk J)) = _
   rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
 
 /-- **A closed immersion of affine schemes with quasi-compact complement is a surjective closed
@@ -188,14 +188,14 @@ theorem exists_surjective_isClosedImmersion_finitePresentation_of_range_compl_is
     have : IsClosedImmersion (i ≫ k) := hcomp ▸ inferInstance
     exact IsClosedImmersion.of_comp_isClosedImmersion i k
   have hkRange : Set.range k = Set.range j := by
-    show Set.range (Z.isoSpec.inv ∘ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J))) = _
+    change Set.range (Z.isoSpec.inv ∘ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J))) = _
     rw [Set.range_comp, range_specMap_quotient_mk, hJzero, ← hzero, range_specMap_appTop,
       Set.image_preimage_eq_inter_range, Set.range_eq_univ.mpr Z.isoSpec.inv.surjective,
       Set.inter_univ]
   have his : Surjective i := ⟨fun t ↦ by
     obtain ⟨x, hx⟩ := hkRange.subset ⟨t, rfl⟩
     refine ⟨x, k.isEmbedding.injective ?_⟩
-    show (i ≫ k) x = k t
+    change (i ≫ k) x = k t
     rw [hcomp]
     exact hx⟩
   have : Algebra.FinitePresentation A (A ⧸ J) := Algebra.FinitePresentation.quotient hJ
@@ -217,7 +217,7 @@ theorem isCompact_compl_range_of_isWeighting
     ext z
     by_cases hz : z ∈ Set.range j
     · obtain ⟨x, rfl⟩ := hz
-      simp only [Set.mem_setOf_eq, j.isEmbedding.injective.extend_apply,
+      simp only [Set.mem_ofPred_eq, j.isEmbedding.injective.extend_apply,
         Set.mem_compl_iff, Set.mem_range_self, not_true_eq_false, iff_false]
       exact ne_of_gt (hpos x)
     · simp [Function.extend_apply' w (0 : Z → ℤ) z hz, hz]

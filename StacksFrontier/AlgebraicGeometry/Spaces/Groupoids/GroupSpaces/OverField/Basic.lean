@@ -105,7 +105,7 @@ theorem extMap_comp {K K' K'' : Type u} [Field K] [Algebra k K] [Field K'] [Alge
       extMap C S hS e (ψ.comp φ) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ Spec.map (CommRingCat.ofHom φ.toRingHom) =
+  change Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ Spec.map (CommRingCat.ofHom φ.toRingHom) =
     Spec.map (CommRingCat.ofHom (ψ.comp φ).toRingHom)
   rw [← Spec.map_comp]
   rfl
@@ -149,7 +149,7 @@ theorem exists_comp_eq_of_normal {L N Ω : Type u} [Field L] [Field N] [Field Ω
     exact Normal.splits inferInstance (i x)
   refine ⟨(AlgEquiv.ofInjective β β.injective).symm.toAlgHom.comp (α.codRestrict β.range hα), ?_⟩
   ext x
-  show β ((AlgEquiv.ofInjective β β.injective).symm ⟨α x, hα x⟩) = α x
+  change β ((AlgEquiv.ofInjective β β.injective).symm ⟨α x, hα x⟩) = α x
   have := AlgEquiv.ofInjective_apply β β.injective
     ((AlgEquiv.ofInjective β β.injective).symm ⟨α x, hα x⟩)
   rw [AlgEquiv.apply_symm_apply] at this
@@ -182,7 +182,7 @@ theorem class_ptOf_extMap (F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) {K K' : Ty
       (ptOf C S hS e F K hK a).class C S hS F := by
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension C S hS F
     ⟨_, FieldValuedPoint.dominates_refl C S hS F _, extMap C S hS e φ, ?_⟩
-  show F.map (extMap C S hS e φ).op (yonedaEquiv a) = yonedaEquiv _
+  change F.map (extMap C S hS e φ).op (yonedaEquiv a) = yonedaEquiv _
   rw [yonedaEquiv_naturality]
 
 /-- The `k`-algebra structure on the field of a field-valued point, read off its structure
@@ -198,7 +198,7 @@ theorem toBase_eq_pointAlgebra {F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
     letI := pointAlgebra C S hS e p
     p.toBase = Spec.map (CommRingCat.ofHom (algebraMap k p.carrier)) ≫ e.inv := by
   let := pointAlgebra C S hS e p
-  show p.toBase = Spec.map (CommRingCat.ofHom (Spec.preimage (p.toBase ≫ e.hom)).hom) ≫ e.inv
+  change p.toBase = Spec.map (CommRingCat.ofHom (Spec.preimage (p.toBase ≫ e.hom)).hom) ≫ e.inv
   rw [CommRingCat.ofHom_hom, Spec.map_preimage, Category.assoc, e.hom_inv_id, Category.comp_id]
 
 /-- Every field-valued point has the class of a `ptOf` for the algebra structure of its
@@ -217,7 +217,7 @@ theorem exists_ptOf {F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (p : FieldValued
       (eqToHom h : (ptOf C S hS e F p.carrier p.contained
         (yoneda.map (eqToHom h) ≫ yonedaEquiv.symm p.value)).siteObject C S hS F ⟶
           p.siteObject C S hS F), ?_⟩).symm
-  show F.map (eqToHom h).op p.value = yonedaEquiv (yoneda.map (eqToHom h) ≫ _)
+  change F.map (eqToHom h).op p.value = yonedaEquiv (yoneda.map (eqToHom h) ≫ _)
   rw [← yonedaEquiv_naturality, Equiv.apply_symm_apply]
 
 /-- A morphism from the object of a field-valued point to `Spec K` is `Spec` of a `k`-algebra
@@ -262,7 +262,7 @@ theorem fibre_eq_ptOf (X : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) (L : Type u) [
   have hg' : g = (f ≫ t₁) ≫ extMap C S hS e τ := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show g.left.hom = (f ≫ t₁).left.hom ≫ Spec.map (CommRingCat.ofHom τ.toRingHom)
+    change g.left.hom = (f ≫ t₁).left.hom ≫ Spec.map (CommRingCat.ofHom τ.toRingHom)
     rw [hα, hβ, ← Spec.map_comp, ← hτ]
     rfl
   refine ⟨τ, ?_⟩
@@ -273,24 +273,24 @@ theorem fibre_eq_ptOf (X : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) (L : Type u) [
   have h1 : r'.class C S hS _ = w.class C S hS _ :=
     FieldValuedPoint.class_eq_class_of_hasCommonExtension C S hS _
       ⟨r', FieldValuedPoint.dominates_refl C S hS _ _, f, rfl⟩
-  show w.class C S hS _ = _
+  change w.class C S hS _ = _
   rw [← h1]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension C S hS _
     ⟨r', FieldValuedPoint.dominates_refl C S hS _ _, f ≫ t₁, ?_⟩
-  show _ = (yoneda.obj (extObj C S hS e M hM) ⨯ X).map f.op w.value
+  change _ = (yoneda.obj (extObj C S hS e M hM) ⨯ X).map f.op w.value
   apply yonedaEquiv.symm.injective
   rw [yonedaEquiv_symm_map, yonedaEquiv_symm_map]
   have hv : yonedaEquiv.symm (ptOf C S hS e _ M hM
       (prod.lift (𝟙 _) (yoneda.map (extMap C S hS e τ) ≫ ρ))).value =
         prod.lift (𝟙 _) (yoneda.map (extMap C S hS e τ) ≫ ρ) := Equiv.symm_apply_apply _ _
-  show yoneda.map (f ≫ t₁) ≫ _ = yoneda.map f ≫ t
+  change yoneda.map (f ≫ t₁) ≫ _ = yoneda.map f ≫ t
   rw [hv]
   apply prod.hom_ext
   · simp [t₁]
   · have hsnd : yoneda.map f ≫ t ≫ prod.snd = yonedaEquiv.symm r.value := by
       have h := yonedaEquiv_symm_naturality_right _ (prod.snd : _ ⨯ X ⟶ X) w.value
       rw [← hf, yonedaEquiv_symm_map]
-      show yoneda.map f ≫ yonedaEquiv.symm w.value ≫ prod.snd = _
+      change yoneda.map f ≫ yonedaEquiv.symm w.value ≫ prod.snd = _
       rw [h]
       rfl
     have hρ : yoneda.map g ≫ ρ = yonedaEquiv.symm r.value := by
@@ -342,8 +342,8 @@ theorem toScheme_map_from_extObj (K : Type u) [Field K] [Algebra k K]
       Spec.map (CommRingCat.ofHom (algebraMap k K)) ≫ e.inv := by
   have h := Over.w (Over.mkIdTerminal.from (extObj C S hS e K hK))
   replace h : (Over.mkIdTerminal.from (extObj C S hS e K hK)).left =
-      (extObj C S hS e K hK).hom := by simpa using h
-  show C.inclusion.map (Over.mkIdTerminal.from (extObj C S hS e K hK)).left = _
+      (extObj C S hS e K hK).hom := by simp
+  change C.inclusion.map (Over.mkIdTerminal.from (extObj C S hS e K hK)).left = _
   rw [h]
   rfl
 
@@ -408,7 +408,7 @@ theorem exists_finite_point (Y : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u)
   let p := (schemePointRepresentative C S hS U x).map C S hS _ a
   refine ⟨p, ?_, ?_⟩
   · obtain ⟨w, hw, hwx⟩ := hxZ
-    show pointsMap C S hS _ a ((schemePointRepresentative C S hS U x).class C S hS _) ∈ Z
+    change pointsMap C S hS _ a ((schemePointRepresentative C S hS U x).class C S hS _) ∈ Z
     have : (schemePointRepresentative C S hS U x).class C S hS _ = w := by
       rw [← hwx]
       exact class_schemePointRepresentative_pointsToScheme C S hS U w
@@ -422,7 +422,7 @@ theorem exists_finite_point (Y : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u)
       (isFinite_iff_locallyOfFiniteType_of_jacobsonSpace).mpr inferInstance
     have hp : p.toBase = ((BigFppfOver.toScheme C S hS).obj U).fromSpecResidueField x ≫
         (BigFppfOver.toScheme C S hS).map h := by
-      show C.inclusion.map (C.inclusion.preimage _ ≫ U.hom) = _
+      change C.inclusion.map (C.inclusion.preimage _ ≫ U.hom) = _
       rw [Functor.map_comp, Functor.map_preimage]
       congr 1
       have hw := Over.w h
@@ -468,7 +468,7 @@ theorem _root_.AlgebraicGeometry.Scheme.exists_dense_isOpen_forall_finite_isAffi
         · exact hV
         · exact hF.1 W hW
       · refine hF.2.insert fun W hW _ => ?_
-        show Disjoint V W
+        change Disjoint V W
         rw [← TopologicalSpace.Opens.coe_disjoint]
         refine Set.disjoint_left.mpr fun y hyV hyW => hVsub hyV ?_
         exact subset_closure (Set.mem_biUnion hW hyW)

@@ -152,7 +152,7 @@ theorem openUnitDivisor_units_map_appTop (σ : C ⟶ C) (σS : S ⟶ S) [IsIso �
 closed points of `C ∖ S`. -/
 def boundaryUnitDivisor :
     Additive Γ(S, ⊤)ˣ →+ ({b : closedPoints C // b.1 ∉ Set.range j.base} → ℤ) :=
-  Pi.addMonoidHom fun b => (Finsupp.applyAddHom b.1).comp (openUnitDivisor j)
+  AddMonoidHom.pi fun b => (Finsupp.applyAddHom b.1).comp (openUnitDivisor j)
 
 /-- An invertible function on `S` whose divisor at infinity vanishes has trivial divisor. -/
 theorem openUnitDivisor_eq_zero_of_boundaryUnitDivisor_eq_zero (x : Additive Γ(S, ⊤)ˣ)
@@ -170,7 +170,7 @@ theorem boundaryUnitDivisor_units_map_appTop (σ : C ⟶ C) (σS : S ⟶ S) [IsI
     boundaryUnitDivisor j (Additive.ofMul (Units.map σS.appTop.hom.toMonoidHom u)) =
       boundaryUnitDivisor j (Additive.ofMul u) := by
   funext b
-  show openUnitDivisor j _ b.1 = openUnitDivisor j _ b.1
+  change openUnitDivisor j _ b.1 = openUnitDivisor j _ b.1
   rw [openUnitDivisor_units_map_appTop j σ σS hcomm hfix u]
 
 end Stacks.EtaleCohomology

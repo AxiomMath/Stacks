@@ -69,7 +69,7 @@ theorem existsUnique_baseChange_eq (φ : C ⊗[R] M →ₗ[C] C ⊗[R] N)
       map_smul, map_smul, LinearMap.baseChange_tmul]
     exact congrArg (c • ·) (hg m)
   refine ⟨g', hg', fun g₂ hg₂ ↦ LinearMap.ext fun m ↦ hinj ?_⟩
-  show (1 : C) ⊗ₜ[R] g₂ m = (1 : C) ⊗ₜ[R] g m
+  change (1 : C) ⊗ₜ[R] g₂ m = (1 : C) ⊗ₜ[R] g m
   rw [hg, ← hg₂, LinearMap.baseChange_tmul]
 
 /-- **The degree-zero Amitsur differential vanishes exactly on the elements whose two images in

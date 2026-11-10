@@ -191,12 +191,12 @@ theorem relHom_app_ι (k : ℕ) (p : Fin (k - 1)) (X : Cᵒᵖ) (t : (tensorPow 
         (Hom.app (Sigma.ι (fun _ : Fin (k - 1) => tensorPow k F) p) X t) =
       TensorAlgebra.slotRelMap k p t :=
   congrArg (fun φ : tensorPow k F ⟶ tensorPow k F => Hom.app φ X t)
-    (Sigma.ι_desc (fun p => slotRelHom F k p) p)
+    (Sigma.ι_comp_desc (fun p => slotRelHom F k p) p)
 
 /-- The relator map followed by the quotient `Tᵏ ⟶ Symᵏ` is zero. -/
 theorem relHom_comp_symQuotHom (k : ℕ) : relHom F k ≫ symQuotHom F k = 0 :=
   Sigma.hom_ext _ _ fun p => by
-    rw [relHom, Sigma.ι_desc_assoc, comp_zero]
+    rw [relHom, Sigma.ι_comp_desc_assoc, comp_zero]
     exact hom_ext fun X => ModuleCat.hom_ext (LinearMap.ext fun t =>
       TensorAlgebra.symQuot_relMap _ t)
 
@@ -270,6 +270,7 @@ def symmetricPowerCokernelIso (A : TensorExteriorSymmetricAlgebras J G) (n : ℕ
     PreservesCokernel.iso _ _
 
 set_option maxHeartbeats 1600000 in
+-- elaborating `PreservesCoproduct.iso` for the module sheafification of the relator source is heavy
 set_option synthInstance.maxHeartbeats 400000 in
 /-- The sheafification of the source of the relator sequence is the coproduct of `n - 1` copies
 of the sheafified degree-`n` tensor power. -/

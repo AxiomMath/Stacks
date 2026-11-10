@@ -77,7 +77,7 @@ theorem isIso_pullback_fst_comp_of_isIso_restrict {T X' X : Scheme.{u}} (t : T �
   · rw [Category.assoc, pullback.lift_fst, Category.comp_id, Category.id_comp]
   · rw [Category.assoc, pullback.lift_snd, Category.id_comp]
     refine hmono _ _ (fun p => ht _) (fun p => ?_) (by rw [Category.assoc, pullback.condition])
-    show b (pullback.snd (t ≫ b) b p) ∈ U
+    change b (pullback.snd (t ≫ b) b p) ∈ U
     rw [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply,
       Scheme.Hom.comp_apply]
     exact ht _
@@ -125,7 +125,7 @@ theorem exists_separablePoints_blowup :
       (blowupHom i).hom.left x ∉ Set.range i.hom.left.base := by
     intro x hx hrange
     apply hx
-    show x ∈ (((I.comap (Stacks.Blowup.blowUpToBase I)).support :
+    change x ∈ (((I.comap (Stacks.Blowup.blowUpToBase I)).support :
       TopologicalSpace.Closeds (Stacks.Blowup.blowUp I)) : Set (Stacks.Blowup.blowUp I))
     rw [Scheme.IdealSheafData.support_comap]
     exact (mem_support_ker_iff i _).mpr hrange
@@ -191,7 +191,7 @@ theorem pointHom_comp_toSpecGlobalSections
     pointHom x ≫ toSpecGlobalSections X = specMap (evalAlgHom x) := by
   let := residueAlgebra X x
   refine hom_ext_left ?_
-  show X.obj.left.fromSpecResidueField x ≫ X.obj.left.toSpecΓ = _
+  change X.obj.left.fromSpecResidueField x ≫ X.obj.left.toSpecΓ = _
   rw [fromSpecResidueField_comp_toSpecΓ]
   rfl
 
@@ -231,7 +231,7 @@ theorem pull_points_injective [CharZero F] (hA1 : 𝔇.CoproductAxiom)
     apply 𝔇.injective_pull_specMap_family_of_axioms hA1 hA3 hA4 hA5
       (L := fun j => X.obj.left.residueField (x j)) (fun j => evalAlgHom (x j)) hinj
     funext j
-    show 𝔇.pull (specMap (evalAlgHom (x j))) a0 = 𝔇.pull (specMap (evalAlgHom (x j))) 0
+    change 𝔇.pull (specMap (evalAlgHom (x j))) a0 = 𝔇.pull (specMap (evalAlgHom (x j))) 0
     rw [map_zero, ← pointHom_comp_toSpecGlobalSections, 𝔇.pull_comp, AlgHom.comp_apply, ha0']
     exact h0 j
   rw [← ha0', this, map_zero]

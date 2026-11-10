@@ -63,7 +63,7 @@ theorem eval_perfectDerivedTrace_single {R : Type} [CommRing R] (M : ModuleCat.{
         LinearMap.ext fun _ => Subsingleton.elim _ _, map_zero, mul_zero])]
   have hg : ((CochainComplex.singleFunctor (ModuleCat.{v} R) 0).map g).f 0 = e₀.hom ≫ g ≫ e₀.inv :=
     HomologicalComplex.single_map_f_self _ _ _
-  rw [if_pos Even.zero, one_mul, hg, ← LinearMap.trace_conj' g.hom e₀.symm.toLinearEquiv]
+  rw [ite_eq_left Even.zero, one_mul, hg, ← LinearMap.trace_conj' g.hom e₀.symm.toLinearEquiv]
   rfl
 
 end CategoryTheory.FilteredDerived

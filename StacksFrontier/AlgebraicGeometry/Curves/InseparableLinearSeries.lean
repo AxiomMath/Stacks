@@ -163,7 +163,7 @@ private theorem mem_compositumFrobenius_iff_exists_functionFieldMap_relativeFrob
     (residueFieldMap_comp_genericResidueEquivOfDominant F)
   simp only [RingHom.comp_apply] at hnat
   rw [← mem_compositumFrobenius_algEquiv_iff p (genericResidueAlgEquiv pX) x, ← hr]
-  show _ ↔ e x ∈ (F.residueFieldMap (genericPoint X)).hom.fieldRange
+  change _ ↔ e x ∈ (F.residueFieldMap (genericPoint X)).hom.fieldRange
   rw [RingHom.mem_fieldRange]
   constructor
   · rintro ⟨y, rfl⟩
@@ -252,7 +252,7 @@ private theorem exists_nvCover_eq_top_of_constant {X : Scheme.{u}} {L : X.Module
     rwa [hpre]
   have h2 : x ∈ toProjectiveSpaceAtUniverse t hgen ⁻¹ᵁ
       AlgebraicGeometry.Proj.basicOpen (coordGrading.{u} n) (MvPolynomial.X i) := by
-    show (toProjectiveSpaceAtUniverse t hgen).base x ∈
+    change (toProjectiveSpaceAtUniverse t hgen).base x ∈
       AlgebraicGeometry.Proj.basicOpen (coordGrading.{u} n) (MvPolynomial.X i)
     rw [hz x, ← hz (genericPoint X)]
     exact h1
@@ -327,7 +327,7 @@ private theorem germ_ratio_mem_range_functionFieldMap {X : Scheme.{u}} [IsIntegr
       (functionFieldMap (toProjectiveSpaceOver s hs pX)).range := by
     rintro _ ⟨y, rfl⟩
     refine ⟨ι.inv.hom y, ?_⟩
-    show ((toProjectiveSpaceOver s hs pX).stalkMap (genericPoint X)).hom
+    change ((toProjectiveSpaceOver s hs pX).stalkMap (genericPoint X)).hom
       (ι.hom.hom (ι.inv.hom y)) = _
     rw [hinv]
   exact hle ⟨_, hw⟩

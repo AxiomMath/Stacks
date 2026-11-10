@@ -91,7 +91,7 @@ product is formed over. -/
 theorem tensorSectionLinear_smul_section {Z : Scheme.{u}} (A B : Z.Modules)
     (W : (Opens Z.carrier)ᵒᵖ) (c : Z.presheaf.obj W) (t : B.val.obj W) (x : A.val.obj W) :
     tensorSectionLinear Z A B W (c • t) x = tensorSectionLinear Z A B W t (c • x) := by
-  show (toTensorSheafLinear Z A B W) (x ⊗ₜ[↑(Z.presheaf.obj W)] (c • t)) =
+  change (toTensorSheafLinear Z A B W) (x ⊗ₜ[↑(Z.presheaf.obj W)] (c • t)) =
     (toTensorSheafLinear Z A B W) ((c • x) ⊗ₜ[↑(Z.presheaf.obj W)] t)
   refine congrArg (toTensorSheafLinear Z A B W) ?_
   refine Eq.trans
@@ -303,7 +303,7 @@ function.** -/
 theorem topReading_openScalar {M : Y.Modules} (r : Γ(Y, U)) (a : Γ(M, U)) :
     topReading U (openScalar U (Y.presheaf.map (eqToHom U.ι_image_top).op r)
         ((Scheme.Modules.restrictFunctor U.ι).obj M)) a = r • a := by
-  show M.presheaf.map (eqToHom U.ι_image_top.symm).op
+  change M.presheaf.map (eqToHom U.ι_image_top.symm).op
       (Scheme.Modules.Hom.app
         (openScalar U (Y.presheaf.map (eqToHom U.ι_image_top).op r)
           (Scheme.Modules.restrict M U.ι)) ⊤

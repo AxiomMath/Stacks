@@ -71,7 +71,7 @@ public theorem jacobianDet_notMem_prime (S : FullRankJacobianSystem R n n) :
   have hsurj : Function.Surjective ⇑M.mulVecLin := by
     rw [← LinearMap.range_eq_top]
     refine Submodule.eq_top_of_finrank_eq ?_
-    show M.rank = Module.finrank K (Fin n → K)
+    change M.rank = Module.finrank K (Fin n → K)
     rw [hrank, Module.finrank_fin_fun]
   have hunit : IsUnit M.det := by
     rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.mulVec_injective_iff_isUnit]
@@ -80,7 +80,7 @@ public theorem jacobianDet_notMem_prime (S : FullRankJacobianSystem R n n) :
   have hdet : M.det = algebraMap (MvPolynomial (Fin n) R) K (jacobianDet S) := by
     let M₀ : Matrix (Fin n) (Fin n) (MvPolynomial (Fin n) R) :=
       fun i j => MvPolynomial.pderiv j (S.equations i)
-    show Matrix.det (M₀.map (algebraMap (MvPolynomial (Fin n) R) K)) = _
+    change Matrix.det (M₀.map (algebraMap (MvPolynomial (Fin n) R) K)) = _
     exact (RingHom.map_det (algebraMap (MvPolynomial (Fin n) R) K) M₀).symm
   exact fun hmem => hunit.ne_zero <| hdet.trans <|
     (Ideal.algebraMap_residueField_eq_zero (I := S.prime) (x := jacobianDet S)).2 hmem

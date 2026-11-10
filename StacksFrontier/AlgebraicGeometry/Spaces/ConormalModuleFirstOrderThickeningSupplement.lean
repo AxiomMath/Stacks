@@ -107,7 +107,7 @@ theorem isIso_conormalMap_firstOrderThickening_of_isPullback_of_isFlat
     have : Mono (subspaceInclusion B S hS Y' Y) := by
       apply (ObjectProperty.ι
         (fun F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u => IsAlgebraicSpace B S hS F)).mono_of_mono_map
-      show Mono Y.1.ι
+      change Mono Y.1.ι
       infer_instance
     exact (cancel_mono (subspaceInclusion B S hS Y' Y)).1
       (sq.w.symm.trans (conormalEtaleRestrictionSquare B S hS g Y))

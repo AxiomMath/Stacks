@@ -589,7 +589,7 @@ theorem hasOpenLocus_pushforwardBased :
     rw [support_eq_preimage_of_hom m]
     refine Iff.trans ?_
       (D.target.range_subset_supportLocus_iff (π := D.π) (bX := D.π ≫ D.f) rfl m.base A.F)
-    show _ ↔ Set.range (pointsMap B S hS
+    change _ ↔ Set.range (pointsMap B S hS
       (yoneda.obj (CoherentObject.T (D := D.target) (y.obj T)).left)
       (yoneda.map m.base.left)) ⊆ Ω
     rw [range_pointsMap_yoneda_subset_iff B S hS m.base.left Ω]

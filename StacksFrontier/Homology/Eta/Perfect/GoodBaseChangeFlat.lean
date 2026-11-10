@@ -88,7 +88,7 @@ theorem bijective_psiTermMap_of_flat (f : A) [Module.Flat A B] {M N : Type u}
       (LinearMap.baseChange B (fetaTerm f d i).subtype) := by
     have h := Module.Flat.lTensor_preserves_injective_linearMap (M := B)
       (fetaTerm f d i).subtype (Submodule.injective_subtype _)
-    rwa [← LinearMap.baseChange_eq_ltensor] at h
+    rwa [← LinearMap.baseChange_eq_lTensor] at h
   refine ⟨fun x y hxy => hsub ((psiEquiv (B := B) f M).injective (congrArg Subtype.val hxy)), ?_⟩
   intro y
   have hy : (y : Loc (algebraMap A B f) (B ⊗[A] M)) ∈
@@ -101,7 +101,7 @@ theorem bijective_psiTermMap_of_flat (f : A) [Module.Flat A B] {M N : Type u}
   obtain ⟨x, hx⟩ := Submodule.toBaseChange_surjective' B (fetaTerm f d i) hz
   have hx' : LinearMap.baseChange B (fetaTerm f d i).subtype x = z := hx
   refine ⟨x, Subtype.ext ?_⟩
-  show (psiEquiv (B := B) f M) (LinearMap.baseChange B (fetaTerm f d i).subtype x) = _
+  change (psiEquiv (B := B) f M) (LinearMap.baseChange B (fetaTerm f d i).subtype x) = _
   rw [hx']
   exact hzy
 

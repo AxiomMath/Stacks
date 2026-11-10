@@ -88,7 +88,7 @@ theorem symPowIntVal_homogeneousProd (X : Cᵒᵖ) (n : ℕ) :
   | zero => exact fun _ ↦ symPowIntVal_one F X
   | succ n ih =>
       intro z
-      show symPowIntVal ((symPowIntMul F (n : ℤ) 1).app X
+      change symPowIntVal ((symPowIntMul F (n : ℤ) 1).app X
           ((symPowIntGradedAlgebra F).homogeneousProd X n fun i ↦ z i.castSucc)
           (z (Fin.last n))) = _
       rw [symPowIntVal_mul, ih fun i ↦ z i.castSucc, Fin.prod_univ_castSucc]

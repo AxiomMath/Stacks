@@ -101,7 +101,7 @@ theorem mem_ideal_map_of_forall_le (f : X' ⟶ Y) [QuasiCompact f] (𝒜 : X'.Id
     (hV : ∀ i, (V i).1 ≤ f ⁻¹ᵁ W.1) (hcov : f ⁻¹ᵁ W.1 ≤ ⨆ i, (V i).1)
     (hy : ∀ i, (f.appLE W.1 (V i).1 (hV i)).hom y ∈ 𝒜.ideal (V i)) :
     y ∈ (𝒜.map f).ideal W := by
-  show y ∈ (𝒜.subschemeι ≫ f).ker.ideal W
+  change y ∈ (𝒜.subschemeι ≫ f).ker.ideal W
   rw [Scheme.Hom.ker_apply, RingHom.mem_ker]
   refine 𝒜.subscheme.IsSheaf.section_ext (U := Opposite.op ((𝒜.subschemeι ≫ f) ⁻¹ᵁ W.1)) ?_
   intro x hx
@@ -160,7 +160,7 @@ theorem ideal_exceptionalIdeal_pow_mul_chartOpens (ℐ : S.IdealSheafData) (W : 
     (exceptionalIdeal ℐ ^ D * 𝒦).ideal (chartOpens ℐ W ha)
       = Ideal.map (chartStructureMap ℐ W ha).hom (ℐ.ideal W) ^ D
         * 𝒦.ideal (chartOpens ℐ W ha) := by
-  show ((exceptionalIdeal ℐ).ideal (chartOpens ℐ W ha)) ^ D * _ = _
+  change ((exceptionalIdeal ℐ).ideal (chartOpens ℐ W ha)) ^ D * _ = _
   rw [show exceptionalIdeal ℐ = ℐ.comap (blowUpToBase ℐ) from rfl,
     ideal_comap_blowUpToBase_chartOpens]
 
@@ -292,7 +292,7 @@ theorem exists_factorization_blowUp [CompactSpace S] [QuasiSeparatedSpace S]
     rw [hsc, hb, Set.image_comp, Set.image_preimage_eq _ hsurj]
   have hexceptional : exceptionalIdeal I
       = (AlgebraicGeometry.exceptionalIdeal I).comap (blowUpIso I).hom := by
-    show I.comap (blowUpToBase I) = (I.comap (AlgebraicGeometry.blowUpToBase I)).comap _
+    change I.comap (blowUpToBase I) = (I.comap (AlgebraicGeometry.blowUpToBase I)).comap _
     rw [← Scheme.IdealSheafData.comap_comp, blowUpIso_hom_comp]
   refine ⟨d, J, hd, hJft, hJle, ?_, ?_⟩
   · intro x hx

@@ -122,7 +122,7 @@ public theorem quasiFiniteAt_tfae {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFin
     intro h
     apply isOpen_singleton_of_isClosed_of_no_specialization _ h
     have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-      show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+      change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
       infer_instance
     exact (isLocallyNoetherian_iff_of_affine_openCover (f.fiber (f x)).affineCover).mp
       (LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField (f x)))

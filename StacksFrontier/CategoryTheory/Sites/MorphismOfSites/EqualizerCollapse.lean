@@ -171,7 +171,7 @@ theorem Functor.map_uliftYoneda_sheafify_eq_of_map_eq
             (sheafificationAdjunction J (Type (max u v))).homEquiv
               (uliftYoneda.{u}.obj Y) (push G) (adj.homEquiv (H.obj Y) G k)) :=
       uliftYonedaEquiv_naturality.{u} _ f.op
-    show uliftYonedaEquiv.{u} ((sheafificationAdjunction J (Type (max u v))).homEquiv
+    change uliftYonedaEquiv.{u} ((sheafificationAdjunction J (Type (max u v))).homEquiv
         (uliftYoneda.{u}.obj X) (push G)
         (adj.homEquiv (H.obj X) G (L.map (H.map f) ≫ k))) = _
     rw [h₁, h₂]

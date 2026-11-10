@@ -107,7 +107,7 @@ variable (V₀ : T.Schemes)
   (hV₀ : IsAffine ((BigFppfOver.toScheme T.schemeSite S T.scheme_mem).obj V₀))
   (e : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj V₀ ≅ U.left)
 
-include hV₀ e in
+include e in
 /-- **Flat ring maps are stable under base change along fibre products of affine schemes over
 `U`.** -/
 theorem flat_ringFunctor_of_isPullback {P Y₁ Y₂ Y₀ : AffineSchemesOver T U} {fst : P ⟶ Y₁}
@@ -155,13 +155,13 @@ are fppf coverings. -/
 noncomputable abbrev flatTopology : GrothendieckTopology (FlatOver V₀ hV₀ e) :=
   letI := hasFiniteLimits V₀ e hV₀
   Stacks.FlatObjectsSubsite.topology (ringFunctor T U) (isTerminalOfIso V₀ hV₀ e) topology
-    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ hV₀ e h hg)
+    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ e h hg)
 
 /-- The inclusion of the flat affine schemes over `U` is continuous. -/
 instance flatι_isContinuous : (flatι V₀ hV₀ e).IsContinuous (flatTopology V₀ hV₀ e) topology :=
   letI := hasFiniteLimits V₀ e hV₀
   Stacks.FlatObjectsSubsite.ι_isContinuous (ringFunctor T U) (isTerminalOfIso V₀ hV₀ e) topology
-    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ hV₀ e h hg)
+    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ e h hg)
 
 /-- **Every covering sieve of a flat affine scheme over `U` contains a finite family of flat
 morphisms from flat affine schemes which is an fppf covering.** -/
@@ -188,7 +188,7 @@ instance flatι_isCocontinuous :
     (flatι V₀ hV₀ e).IsCocontinuous (flatTopology V₀ hV₀ e) topology :=
   letI := hasFiniteLimits V₀ e hV₀
   Stacks.FlatObjectsSubsite.ι_isCocontinuous (ringFunctor T U) (isTerminalOfIso V₀ hV₀ e) topology
-    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ hV₀ e h hg) (exists_flat_ofArrows_le V₀ hV₀ e)
+    (fun h hg ↦ flat_ringFunctor_of_isPullback V₀ e h hg) (exists_flat_ofArrows_le V₀ hV₀ e)
 
 /-! ### Modules on the flat affine schemes -/
 
@@ -222,6 +222,7 @@ instance flatRestriction_preservesFiniteLimits :
   infer_instance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the final `infer_instance` composes `PreservesFiniteColimits` through `flatRestriction`
 /-- Restriction to the flat affine schemes over `U` preserves finite colimits. -/
 instance flatRestriction_preservesFiniteColimits :
     PreservesFiniteColimits (flatRestriction V₀ hV₀ e) := by

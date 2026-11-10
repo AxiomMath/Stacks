@@ -101,7 +101,7 @@ theorem assocUnit_comp_map_counit {K : CochainComplex (Modules X) ℤ}
     assocUnit X T ≫ (sectionsComplex X).map
         ((assocSheafComplex X).map t ≫ assocCounit X K) = t :=
   HomologicalComplex.hom_ext _ _ fun i => by
-    show (assocAdjunction X).unit.app (T.X i) ≫ (openSections X ⊤).map
+    change (assocAdjunction X).unit.app (T.X i) ≫ (openSections X ⊤).map
       ((assocSheaf X).map (t.f i) ≫ (assocAdjunction X).counit.app (K.X i)) = t.f i
     simp
 

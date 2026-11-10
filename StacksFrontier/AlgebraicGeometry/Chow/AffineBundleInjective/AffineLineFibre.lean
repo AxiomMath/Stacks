@@ -301,7 +301,7 @@ theorem exists_milnorKTwoTameSymbol_eq {k : Type u} [Field k] {ι : Type*}
   refine ⟨θ, fun i ↦ ?_⟩
   have h1 := congrArg (fun x ↦ x (ψ i)) hθ
   simp only at h1
-  rw [milnorKTotalResidue_one_apply, DFinsupp.finset_sum_apply] at h1
+  rw [milnorKTotalResidue_one_apply, DFinsupp.finsetSum_apply] at h1
   have h2 : ∑ j ∈ s, (DirectSum.of (fun χ : MonicIrreduciblePoint k ↦
       MilnorKTheory (Polynomial k ⧸ Ideal.span {MonicIrreducibleOfDegree.poly χ.2}) 1)
       (ψ j) (γ j)) (ψ i) = γ i := by
@@ -310,7 +310,7 @@ theorem exists_milnorKTwoTameSymbol_eq {k : Type u} [Field k] {ι : Type*}
         (fun h ↦ absurd hi h), DirectSum.of_eq_same]
     · rw [Finset.sum_eq_zero (fun j hj ↦ DirectSum.of_eq_of_ne _ _ _
         (hψ.ne fun h : j = i ↦ hi (h ▸ hj)).symm)]
-      show 0 = milnorKTransport _ 1 (β i)
+      change 0 = milnorKTransport _ 1 (β i)
       rw [hβ i hi, map_zero]
   rw [h2] at h1
   exact (milnorKTransport_bijective _ 1).injective h1
@@ -351,7 +351,7 @@ theorem exists_addEquiv_pointClosureMilnorBoundary
   rw [AddEquiv.apply_symm_apply] at key
   rw [AddEquiv.trans_apply, ← key]
   congr 1
-  show (milnorKTransportEquiv (pointClosureResidueFieldEquiv ζ h) 1).symm
+  change (milnorKTransportEquiv (pointClosureResidueFieldEquiv ζ h) 1).symm
       (milnorKOneTransport (pointClosureResidueFieldEquiv ζ h)
         (stalkMilnorBoundary (pointClosureFunctionFieldEquiv ζ) (pointClosurePoint ζ h) hdim
           ((milnorKTwoRingEquiv (fibreGenericResidueFieldEquiv hζ)).symm θ))) = _
@@ -396,7 +396,7 @@ theorem exists_monicIrreduciblePoint_fibre
       congrArg (fun χ : MonicIrreduciblePoint _ ↦ MonicIrreducibleOfDegree.poly χ.2) hxx
     exact Subtype.ext (eq_of_fibrePrime_eq x.2.1 x'.2.1 (by rw [hqspan, hqspan, hq]))
   · refine exists_addEquiv_pointClosureMilnorBoundary C A p hζ h _ ?_ hdim
-    show (Ideal.span {q x}).comap _ = _
+    change (Ideal.span {q x}).comap _ = _
     rw [← hqspan x]
     exact comap_fibrePrime x.2.1
 
@@ -470,11 +470,11 @@ theorem exists_pointClosureMilnorBoundary_eq_specPolynomial {k : ℤ} (y : Spec 
     by_cases hxd : x.1 ∈ pointsOfDimension C
       (Spec.map (CommRingCat.ofHom (Polynomial.C : A →+* Polynomial A)) ≫ sV) (k + 1)
     · refine ⟨⟨x.1, hxd⟩, ⟨trivial, ?_⟩, rfl⟩
-      rwa [← (dif_pos hxd : aF x = a.1 ⟨x.1, hxd⟩)]
-    · exact absurd (dif_neg hxd) hx
+      rwa [← (dite_eq_left hxd : aF x = a.1 ⟨x.1, hxd⟩)]
+    · exact absurd (dite_eq_right hxd) hx
   obtain ⟨θ, hθ⟩ := exists_milnorKTwoTameSymbol_eq ψ hψ hfin.toFinset
     (fun x ↦ e x (hcl x) (hdimS x) (aF x)) (fun x hx ↦ by
-      rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_not] at hx
+      rw [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, not_not] at hx
       rw [hx]
       exact (e x (hcl x) (hdimS x)).map_zero)
   refine ⟨θ, fun x hxy hne h hdim ↦ ?_⟩
@@ -482,7 +482,7 @@ theorem exists_pointClosureMilnorBoundary_eq_specPolynomial {k : ℤ} (y : Spec 
     hxy.trans hζy.symm
   apply (e ⟨x.1, hxF, hne⟩ h hdim).injective
   rw [he ⟨x.1, hxF, hne⟩ h hdim θ]
-  exact (hθ ⟨x.1, hxF, hne⟩).trans (congrArg (e ⟨x.1, hxF, hne⟩ h hdim) (dif_pos x.2))
+  exact (hθ ⟨x.1, hxF, hne⟩).trans (congrArg (e ⟨x.1, hxF, hne⟩ h hdim) (dite_eq_left x.2))
 
 /-- A single class at one point is a locally finite Milnor K-chain. -/
 theorem exists_milnorChainGroup_single {X : Scheme.{u}} {p : X ⟶ C.S} {m : ℤ} {n : ℕ}

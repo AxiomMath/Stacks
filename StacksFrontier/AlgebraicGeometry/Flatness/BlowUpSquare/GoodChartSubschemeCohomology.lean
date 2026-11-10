@@ -104,7 +104,7 @@ theorem isFiniteLocallyFree_homology_goodChartSubscheme
       (Stacks.Decalage.ObstructionIdeal.etaReductionMap C.complex C.f i) B := fun i => by
     refine (etaDirectSumIdeal_le_ker_iff C.complex C.f C.regular hI i B).mp fun y hy => ?_
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show φ a = 0
+    change φ a = 0
     rw [← RingHom.mem_ker, hker, Ideal.mem_comap]
     exact le_iSup (etaDirectSumIdeal C.complex C.f) i hy
   obtain ⟨hfin, hproj⟩ :=

@@ -36,7 +36,8 @@ ring-theoretic heart and its affine-local form for schemes are
 
 Four features of the proof are worth recording.
 
-*No transparency overrides are used.*  The defeq-sensitive steps are done in term mode or through `change`,
+*No transparency overrides are used.*  The defeq-sensitive steps are done in term mode or through
+`change`,
 which check at `default` transparency, and every morphism that has to be matched against a
 local `IsIso` hypothesis or a universal property is named at the type at which it is used, so
 that the match succeeds at `instances` transparency.
@@ -172,7 +173,7 @@ theorem gluingYComponent_isThickening {X X' Y : Scheme.{u}}
     gluingHasPushout i f hi T
   refine ⟨pushout.inr (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T),
     gluing_inr_isThickening i f hi T, ?_⟩
-  show _ ≫ (gluingPushoutData i f T).hom = _
+  change _ ≫ (gluingPushoutData i f T).hom = _
   exact gluingPushoutData_inr i f T
 
 /-! ### The counit of an adjunction at an object isomorphic to an image -/

@@ -81,7 +81,7 @@ theorem depth_eq_iInf_depth_localized_algebra
   let : Module Rₚ Nₚ := Module.compHom Nₚ (algebraMap Rₚ S)
   let : IsScalarTower Rₚ S Nₚ := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower A Rₚ Nₚ := IsScalarTower.of_algebraMap_smul fun a n => by
-    show algebraMap Rₚ S (algebraMap A Rₚ a) • n = a • n
+    change algebraMap Rₚ S (algebraMap A Rₚ a) • n = a • n
     rw [← IsScalarTower.algebraMap_apply A Rₚ S a, IsScalarTower.algebraMap_apply A B S a,
       IsScalarTower.algebraMap_smul S, IsScalarTower.algebraMap_smul B]
   let f : M →ₗ[B] Nₚ := LocalizedModule.mkLinearMap T M
@@ -119,12 +119,12 @@ theorem localized_maximal_contracts_to_prime
   have hcontract : P.asIdeal.comap (algebraMap Rp S) = IsLocalRing.maximalIdeal Rp :=
     IsLocalRing.eq_maximalIdeal hmax
   ext a
-  show algebraMap B S (algebraMap A B a) ∈ P.asIdeal ↔ a ∈ p
+  change algebraMap B S (algebraMap A B a) ∈ P.asIdeal ↔ a ∈ p
   rw [← IsScalarTower.algebraMap_apply A B S a,
     IsScalarTower.algebraMap_apply A Rp S a]
-  show algebraMap A Rp a ∈ P.asIdeal.comap (algebraMap Rp S) ↔ a ∈ p
+  change algebraMap A Rp a ∈ P.asIdeal.comap (algebraMap Rp S) ↔ a ∈ p
   rw [hcontract]
-  show a ∈ (IsLocalRing.maximalIdeal Rp).comap (algebraMap A Rp) ↔ a ∈ p
+  change a ∈ (IsLocalRing.maximalIdeal Rp).comap (algebraMap A Rp) ↔ a ∈ p
   simpa [Ideal.under] using Iff.of_eq (congrArg (fun J : Ideal A => a ∈ J)
     (IsLocalization.AtPrime.under_maximalIdeal Rp p))
 
@@ -158,7 +158,7 @@ private theorem exists_maximalSpectrum_localization_over_prime
       have hQa : algebraMap A B a ∈ Q := by
         have : a ∈ Q.comap (algebraMap A B) := by simpa [hQ] using ha
         exact Ideal.mem_comap.mp this
-      show algebraMap Rp S (algebraMap A Rp a) ∈ r
+      change algebraMap Rp S (algebraMap A Rp a) ∈ r
       rw [← IsScalarTower.algebraMap_apply A Rp S a,
         IsScalarTower.algebraMap_apply A B S a]
       exact Ideal.mem_map_of_mem (algebraMap B S) hQa
@@ -201,7 +201,7 @@ private theorem localizedModule_comp_of_localization
     exact hvK.mul htK
   refine ⟨?_, ?_, ?_⟩
   · intro x
-    show IsUnit (algebraMap R (Module.End R Y) x)
+    change IsUnit (algebraMap R (Module.End R Y) x)
     have hxK : IsUnit (algebraMap R K x) := (hunit x).mpr x.2
     have heq : algebraMap R (Module.End R Y) x =
         (Module.toModuleEnd R Y) (algebraMap R K x) := by
@@ -216,7 +216,7 @@ private theorem localizedModule_comp_of_localization
     obtain ⟨b, t, hbt, hbU⟩ := hclear v
     obtain ⟨⟨m, s⟩, hs⟩ := IsLocalizedModule.surj T f x
     refine ⟨⟨t • m, ⟨b * s, U.mul_mem hbU (hTU s.2)⟩⟩, ?_⟩
-    show (b * s : R) • y = g (f (t • m))
+    change (b * s : R) • y = g (f (t • m))
     have hsS : algebraMap R S (s : R) • x = f m := by
       calc
         algebraMap R S (s : R) • x = (s : R) • x :=
@@ -270,7 +270,7 @@ private theorem localizedModule_comp_of_localization
         _ = f (b • m₂) := (f.map_smul _ _).symm
     obtain ⟨s, hs⟩ := IsLocalizedModule.exists_of_eq (S := T) (f := f) hbf
     refine ⟨⟨s * b, U.mul_mem (hTU s.2) hbU⟩, ?_⟩
-    show (s * b : R) • m₁ = (s * b : R) • m₂
+    change (s * b : R) • m₁ = (s * b : R) • m₂
     calc
       (s * b : R) • m₁ = s • (b • m₁) := (smul_smul _ _ _).symm
       _ = s • (b • m₂) := hs
@@ -316,14 +316,14 @@ theorem depth_localized_maximal_eq
   let : IsScalarTower K₀ K Y := IsScalarTower.of_algebraMap_smul fun x y => rfl
   let : IsScalarTower B K Y := inferInstance
   let : IsScalarTower B K₀ Y := IsScalarTower.of_algebraMap_smul fun b y => by
-    show eRing (algebraMap B K₀ b) • y = b • y
+    change eRing (algebraMap B K₀ b) • y = b • y
     rw [eRing.commutes b]
     exact (smul_eq_algebraMap (R := B) (S := K) (M := Y) b y).symm
   have hRingDepth :
       Module.depth K₀ (IsLocalRing.maximalIdeal K₀) Y =
         Module.depth K (IsLocalRing.maximalIdeal K) Y := by
     rw [Module.depth_eq_depth_map_algebraMap eRing.surjective]
-    show Module.depth K
+    change Module.depth K
       ((IsLocalRing.maximalIdeal K₀).map eRing.toRingEquiv.toRingHom) Y = _
     have hmax : (IsLocalRing.maximalIdeal K₀).map eRing.toRingEquiv.toRingHom =
         IsLocalRing.maximalIdeal K :=
@@ -353,7 +353,7 @@ theorem depth_localized_maximal_eq
   have hModuleDepth : Module.depth K₀ (IsLocalRing.maximalIdeal K₀)
         (LocalizedModule U M) = Module.depth K₀ (IsLocalRing.maximalIdeal K₀) Y :=
     depth_eq_depth_of_linearEquiv _ eMK₀
-  show Module.depth K (IsLocalRing.maximalIdeal K) Y =
+  change Module.depth K (IsLocalRing.maximalIdeal K) Y =
       Module.depth K₀ (IsLocalRing.maximalIdeal K₀) (LocalizedModule U M)
   exact hRingDepth.symm.trans hModuleDepth.symm
 

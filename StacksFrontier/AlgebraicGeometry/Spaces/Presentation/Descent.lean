@@ -70,7 +70,7 @@ theorem presheaf_of_isLocallySurjective_pullback (B : BigFppfSite.{u}) (S : Sche
       B.isFppfCovering_of_isCovering hE
     rw [Precoverage.mem_comap_iff] at hF
     simpa [PreZeroHypercover.presieve₀_map] using hF
-  show P ((BigFppfOver.toScheme B S hS).map v)
+  change P ((BigFppfOver.toScheme B S hS).map v)
   apply (inferInstance : P.IsLocalAtTarget Scheme.fppfPrecoverage).of_forall_pullbackSnd hfppf
   intro Z k _ hk
   obtain ⟨i⟩ := hk
@@ -80,7 +80,7 @@ theorem presheaf_of_isLocallySurjective_pullback (B : BigFppfSite.{u}) (S : Sche
     (Sieve.overEquiv_iff (Presheaf.imageSieve b ξ) (E.f i)).mp (hsub _ _ ⟨i⟩)
   let ηmap : yoneda.obj Ui ⟶ H := yonedaEquiv.symm η
   have hn : G.map ui.op ξ = g.app (Opposite.op Ui) ui := by
-    show G.map ui.op (g.app (Opposite.op U) (𝟙 U)) = g.app (Opposite.op Ui) ui
+    change G.map ui.op (g.app (Opposite.op U) (𝟙 U)) = g.app (Opposite.op Ui) ui
     exact (NatTrans.naturality_apply g ui.op (𝟙 U)).symm
   have hη : ηmap ≫ b = yoneda.map ui ≫ g := by
     apply (yonedaEquiv (X := Ui) (F := G)).injective
@@ -95,9 +95,9 @@ theorem presheaf_of_isLocallySurjective_pullback (B : BigFppfSite.{u}) (S : Sche
   have hinner : IsPullback k' (yoneda.map wu) (pullback.snd a b) ηmap := by
     have houter : IsPullback (k' ≫ pullback.fst a b) (yoneda.map wu) a (ηmap ≫ b) := by
       convert ((IsPullback.of_hasPullback v ui).map yoneda).paste_horiz (ha.isPullback g) using 1
-      simp [k', wv, pullback.lift_fst]
+      simp [k', wv]
     apply IsPullback.of_right houter ?_ (IsPullback.of_hasPullback a b)
-    simp [k', wu, pullback.lift_snd]
+    simp [k', wu]
   have hloc : P ((BigFppfOver.toScheme B S hS).map wu) := hbase.property ηmap k' wu hinner
   have hui : (BigFppfOver.toScheme B S hS).map ui = (E.map B.inclusion).f i := rfl
   have : HasPullback ((BigFppfOver.toScheme B S hS).map v)

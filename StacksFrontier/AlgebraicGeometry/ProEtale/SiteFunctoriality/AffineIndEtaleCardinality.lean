@@ -292,9 +292,9 @@ private lemma etaleStageCode_lift_surjective (A : Type u) [CommRing A] (I : Idea
   let yS : S := y
   obtain ⟨α, hα⟩ := exists_etaleStageCode_lift_eq A I V rfl ⟨P, hEtaleP⟩ (t ≫ m) (eS yS)
   refine ⟨⟨⟨P, hEtaleP⟩, (α, eS yS)⟩, hα.trans ?_⟩
-  show m.hom.right.hom (t.hom.right.hom (eS yS)) = x
+  change m.hom.right.hom (t.hom.right.hom (eS yS)) = x
   rw [show t.hom.right.hom (eS yS) = y from eS.symm_apply_apply y]
-  show (ConcreteCategory.hom (Under.Hom.right (pres.ι.app j))) y = x
+  change (ConcreteCategory.hom (Under.Hom.right (pres.ι.app j))) y = x
   exact hy
 
 /-- The ind-étale lift of `V` across `A ⧸ I` has cardinality at most

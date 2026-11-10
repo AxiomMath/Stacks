@@ -120,15 +120,15 @@ theorem isContinuous_permRepresentation [Finite Y]
   let S : Subgroup G :=
     { carrier := {g | permRepresentation m Y A g φ = φ}
       mul_mem' := fun {a b} ha hb => by
-        show permRepresentation m Y A (a * b) φ = φ
+        change permRepresentation m Y A (a * b) φ = φ
         rw [map_mul, Module.End.mul_apply, show permRepresentation m Y A b φ = φ from hb]
         exact ha
       one_mem' := by
-        show permRepresentation m Y A 1 φ = φ
+        change permRepresentation m Y A 1 φ = φ
         rw [map_one]
         rfl
       inv_mem' := fun {a} ha => by
-        show permRepresentation m Y A a⁻¹ φ = φ
+        change permRepresentation m Y A a⁻¹ φ = φ
         conv_lhs => rw [← show permRepresentation m Y A a φ = φ from ha]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]
         rfl }
@@ -138,7 +138,7 @@ theorem isContinuous_permRepresentation [Finite Y]
     exact isOpen_iInter_of_finite fun y => hY y
   have hKS : K ≤ S := by
     intro g hg
-    show permRepresentation m Y A g φ = φ
+    change permRepresentation m Y A g φ = φ
     apply ULift.ext
     funext y a
     rw [permRepresentation_apply]
@@ -196,7 +196,8 @@ private theorem inv_mul_mem_stabilizer_of_smul_eq {H X : Type*} [Group H] [MulAc
 private theorem rho_mul_apply {H : Type (u + 1)} [Group H] [TopologicalSpace H] {n : ℕ}
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod n) H) (b c : H)
     (x : M.obj.obj.obj.V) :
-    (M.obj.obj.obj.ρ (b * c)).asHom.hom x = (M.obj.obj.obj.ρ b).asHom.hom ((M.obj.obj.obj.ρ c).asHom.hom x) :=
+    (M.obj.obj.obj.ρ (b * c)).asHom.hom x =
+      (M.obj.obj.obj.ρ b).asHom.hom ((M.obj.obj.obj.ρ c).asHom.hom x) :=
   congrArg (fun f => f.asHom.hom x) (map_mul M.obj.obj.obj.ρ b c)
 
 /-- Right multiplication by an element fixing `x` does not change `ρ a x`. -/
@@ -220,7 +221,7 @@ theorem permEval_equivariant (g : G) (φ : ULift.{u + 1} (Y → A → ZMod m)) :
   simp only [map_sum, map_smul]
   refine Fintype.sum_equiv (MulAction.toPerm g⁻¹) _ _ fun y => ?_
   refine Finset.sum_congr rfl fun a _ => ?_
-  show _ = φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ g).asHom.hom
+  change _ = φ.down (g⁻¹ • y) a • (M.obj.obj.obj.ρ g).asHom.hom
     ((M.obj.obj.obj.ρ (rep (g⁻¹ • y))).asHom.hom (v a))
   congr 1
   have hs := inv_mul_mem_stabilizer_of_smul_eq (a := g * rep (g⁻¹ • y)) (b := rep y) (y₀ := y₀)
@@ -387,7 +388,8 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
   let ψf : M.obj.obj.obj.V → (P ⟶ M) := fun b =>
     permEval m hY M hrep (v := fun _ => b) (fun s hs _ => hM s hs b)
   have hψf : ∀ b φ, (ψf b).hom.hom.hom.hom.hom φ =
-      ∑ y : Y, ∑ a : PUnit.{u + 2}, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom b := fun _ _ => rfl
+      ∑ y : Y, ∑ a : PUnit.{u + 2}, φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom b :=
+    fun _ _ => rfl
   let ψ : M.obj.obj.obj.V →+ (P ⟶ M) :=
     { toFun := ψf
       map_zero' := finiteTypeContinuousModule_hom_ext m fun φ => by
@@ -396,7 +398,7 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
         rfl
       map_add' := fun b b' => finiteTypeContinuousModule_hom_ext m fun φ => by
         rw [hψf]
-        show _ = (ψf b).hom.hom.hom.hom.hom φ + (ψf b').hom.hom.hom.hom.hom φ
+        change _ = (ψf b).hom.hom.hom.hom.hom φ + (ψf b').hom.hom.hom.hom.hom φ
         rw [hψf, hψf, ← Finset.sum_add_distrib]
         refine Finset.sum_congr rfl fun y _ => ?_
         rw [← Finset.sum_add_distrib]
@@ -411,18 +413,18 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     intro g b
     apply finiteTypeContinuousModule_hom_ext m
     intro φ
-    show (ψf b).hom.hom.hom.hom.hom ((R g).hom.hom.hom.hom.hom φ) =
+    change (ψf b).hom.hom.hom.hom.hom ((R g).hom.hom.hom.hom.hom φ) =
       (ψf (σ g⁻¹ b)).hom.hom.hom.hom.hom φ
     rw [hψf, hψf, ← (hτ g).sum_comp (fun y => ∑ a : PUnit.{u + 2},
       φ.down y a • (M.obj.obj.obj.ρ (rep y)).asHom.hom (σ g⁻¹ b))]
     refine Finset.sum_congr rfl fun y _ => Finset.sum_congr rfl fun a _ => ?_
-    show φ.down (τ g y) a • _ = φ.down (τ g y) a • _
+    change φ.down (τ g y) a • _ = φ.down (τ g y) a • _
     congr 1
     set t := (rep y * g)⁻¹ * rep (τ g y) with ht_def
     have ht : t ∈ MulAction.stabilizer G y₀ :=
       inv_mul_mem_stabilizer_of_smul_eq (by rw [mul_smul, hrep])
     have ht' : g * t * g⁻¹ ∈ MulAction.stabilizer G y₀ := hN.conj_mem t ht g
-    show _ = (M.obj.obj.obj.ρ (rep (τ g y))).asHom.hom ((M.obj.obj.obj.ρ g⁻¹).asHom.hom b)
+    change _ = (M.obj.obj.obj.ρ (rep (τ g y))).asHom.hom ((M.obj.obj.obj.ρ g⁻¹).asHom.hom b)
     rw [← rho_mul_apply, show rep (τ g y) * g⁻¹ = rep y * (g * t * g⁻¹) by rw [ht_def]; group,
       rho_mul_apply_of_fixed M (hM _ ht' b)]
   let ε : P ⟶ trivialContinuousModule m :=
@@ -446,8 +448,8 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     refine
       ⟨(⟨fun y _ => if y = y₀ then c.down else 0⟩ : ULift.{u + 1} (Y → PUnit.{u + 2} → ZMod m)), ?_⟩
     apply ULift.ext
-    show (∑ y : Y, if y = y₀ then c.down else 0) = c.down
-    rw [Finset.sum_ite_eq' Finset.univ y₀, if_pos (Finset.mem_univ _)]
+    change (∑ y : Y, if y = y₀ then c.down else 0) = c.down
+    rw [Finset.sum_ite_eq' Finset.univ y₀, ite_eq_left (Finset.mem_univ _)]
   have hTε : Function.Bijective (T.map ε).hom :=
     (hT ε hεsurj).bijective_of_nat_card_le hcard
   have hRT : ∀ g : G, T.map (R g) = 𝟙 _ := fun g =>
@@ -461,32 +463,32 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     intro s
     refine ⟨e ((T.map ε).hom s), hTε.1 ?_⟩
     rw [map_smul]
-    show _ = e ((T.map ε).hom s) • Eε (Eε.symm (e.symm 1))
+    change _ = e ((T.map ε).hom s) • Eε (Eε.symm (e.symm 1))
     rw [Equiv.apply_symm_apply, ← map_smul, smul_eq_mul, mul_one, LinearEquiv.symm_apply_apply]
   let Q := permModule m M.obj.obj.obj.V hY
   let Ψ : Q ⟶ M := permEval m hY M hrep (v := id) (fun s hs a => hM s hs a)
   have hΨ : Function.Surjective Ψ.hom.hom.hom.hom.hom := by
     intro b
     refine ⟨⟨fun y a => if y = y₀ ∧ a = b then 1 else 0⟩, ?_⟩
-    show ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if y = y₀ ∧ a = b then (1 : ZMod m) else 0) •
+    change ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if y = y₀ ∧ a = b then (1 : ZMod m) else 0) •
       (M.obj.obj.obj.ρ (rep y)).asHom.hom a = b
     rw [Finset.sum_eq_single y₀ (fun y _ hy => Finset.sum_eq_zero fun a _ => by
-        rw [if_neg (fun h => hy h.1), zero_smul]) (fun h => absurd (Finset.mem_univ _) h),
-      Finset.sum_eq_single b (fun a _ ha => by rw [if_neg (fun h => ha h.2), zero_smul])
-        (fun h => absurd (Finset.mem_univ _) h), if_pos ⟨rfl, rfl⟩, one_smul, hM _ (hrep y₀) b]
+        rw [ite_eq_right (fun h => hy h.1), zero_smul]) (fun h => absurd (Finset.mem_univ _) h),
+      Finset.sum_eq_single b (fun a _ ha => by rw [ite_eq_right (fun h => ha h.2), zero_smul])
+        (fun h => absurd (Finset.mem_univ _) h), ite_eq_left ⟨rfl, rfl⟩, one_smul, hM _ (hrep y₀) b]
   let ι : M.obj.obj.obj.V → (P ⟶ Q) := fun b =>
     finiteTypeContinuousModuleHomMk m
       { toFun := fun φ => ⟨fun y a => if a = b then φ.down y PUnit.unit else 0⟩
         map_add' := fun (φ φ' : ULift.{u + 1} (Y → PUnit.{u + 2} → ZMod m)) => by
           apply ULift.ext
           funext y a
-          show (if a = b then φ.down y PUnit.unit + φ'.down y PUnit.unit else 0) =
+          change (if a = b then φ.down y PUnit.unit + φ'.down y PUnit.unit else 0) =
             (if a = b then φ.down y PUnit.unit else 0) + (if a = b then φ'.down y PUnit.unit else 0)
           split_ifs <;> simp
         map_smul' := fun c (φ : ULift.{u + 1} (Y → PUnit.{u + 2} → ZMod m)) => by
           apply ULift.ext
           funext y a
-          show (if a = b then c * φ.down y PUnit.unit else 0) =
+          change (if a = b then c * φ.down y PUnit.unit else 0) =
             c * (if a = b then φ.down y PUnit.unit else 0)
           split_ifs <;> simp }
       (fun g φ => rfl)
@@ -504,14 +506,14 @@ theorem finite_and_natCard_obj_le_natCard_coinvariants_of_perm
     funext y a
     refine (ulift_down_sum_apply m Finset.univ (fun b => ((ι b).hom.hom.hom.hom.hom
       ((π b).hom.hom.hom.hom.hom φ) : ULift.{u + 1} (Y → M.obj.obj.obj.V → ZMod m))) y a).trans ?_
-    show (∑ b, if a = b then φ.down y b else 0) = φ.down y a
-    rw [Finset.sum_ite_eq Finset.univ a, if_pos (Finset.mem_univ _)]
+    change (∑ b, if a = b then φ.down y b else 0) = φ.down y a
+    rw [Finset.sum_ite_eq Finset.univ a, ite_eq_left (Finset.mem_univ _)]
   have hιΨ : ∀ b, ι b ≫ Ψ = ψ b := fun b => finiteTypeContinuousModule_hom_ext m fun φ => by
-    show ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if a = b then φ.down y PUnit.unit else 0) •
+    change ∑ y : Y, ∑ a : M.obj.obj.obj.V, (if a = b then φ.down y PUnit.unit else 0) •
       (M.obj.obj.obj.ρ (rep y)).asHom.hom a = (ψf b).hom.hom.hom.hom.hom φ
     rw [hψf]
     refine Finset.sum_congr rfl fun y _ => ?_
-    simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [ite_smul, zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [Fintype.sum_unique]
   have hspan : ∀ t : T.obj M, ∃ (n : ℕ) (a : Fin n → M.obj.obj.obj.V) (s : Fin n → T.obj P),
       t = ∑ i, (T.map (ψ (a i))).hom (s i) := by

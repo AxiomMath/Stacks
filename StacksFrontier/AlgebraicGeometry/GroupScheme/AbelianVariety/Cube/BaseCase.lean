@@ -312,9 +312,10 @@ theorem dg_zero_of_fd (p : ℕ) (x : FC U (G := G) p) (hx : fd U p x = 0) :
     congrArg (fun c : CechCochains.Cochain (coverB U) G.presheaf (p + 1) => c i) h]
   exact divGen_zero hσY _
 
-omit [DecidableEq ι] in
+omit [Fintype ι] [DecidableEq ι] in
 /-- **One-to-one on `H¹`**, by the Künneth formula in degree one. -/
-theorem fib_injOne (hU : ∀ (n : ℕ) (i : Fin (n + 1) → ι), IsAffineOpen (CechCochains.inter U i))
+theorem fib_injOne [Finite ι]
+    (hU : ∀ (n : ℕ) (i : Fin (n + 1) → ι), IsAffineOpen (CechCochains.inter U i))
     (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
     (hchain : ∀ x : FC U (G := G) 0, fibδ U ha₀ (fibφ₀ U ha₀ hσY hσX x) =
       fibφ₁ U ha₀ hσY hσX (fd U 0 x))
@@ -340,7 +341,7 @@ theorem fib_injOne (hU : ∀ (n : ℕ) (i : Fin (n + 1) → ι), IsAffineOpen (C
   rw [cechD_mulσ, hF₀]
   exact mulσ_dg (coverB U) hσY 1 x.1
 
-omit [Fintype ι] [DecidableEq ι] in
+omit hAc [Fintype ι] [DecidableEq ι] in
 /-- **One-to-one on `H⁰`**, when `A × A` has only constant global functions. -/
 theorem fib_injZero (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
     (hBc : Function.Surjective ((Scheme.ΓSpecIso (.of k)).inv ≫ (A ⊗ A).hom.appTop))
@@ -368,7 +369,7 @@ theorem fib_injZero (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
   funext i
   exact zero_smul _ _
 
-omit [GrpObj A] [Fintype ι] [DecidableEq ι] in
+omit hAc [GrpObj A] [Fintype ι] [DecidableEq ι] in
 /-- **Vanishing of `H⁰`** when `G` has no nonzero global sections. -/
 theorem fib_kerZero (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
     (h0 : ∀ s : Γ(G, ⊤), s = 0) (x : FC U (G := G) 0) (hx : fd U 0 x = 0) : x = 0 := by

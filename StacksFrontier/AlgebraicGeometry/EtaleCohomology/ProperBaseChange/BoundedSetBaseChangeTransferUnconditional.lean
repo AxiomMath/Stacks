@@ -64,7 +64,7 @@ public theorem isIso_smallEtaleBaseChangeNatTrans_of_isIso_smallEtaleSetBaseChan
   let adjUg' :=
     Stacks.EtaleCohomology.smallEtaleInverseImageAdjunction.{u, 0} (B.inclusion.map g')
   have hun : IsIso ((mateEquiv adjUg' adjUg).symm
-      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' (g' ≫ f) rfl h.symm)).natTrans := by
+      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' (g' ≫ f) rfl h.symm)) := by
     rwa [Stacks.EtaleCohomology.smallEtaleSetBaseChange_eq_mateEquiv_symm_univ.{u, 0}
       (B.inclusion.map f) (B.inclusion.map g) (B.inclusion.map g') (B.inclusion.map f') _
       (B.inclusion.map (g' ≫ f)) (B.inclusion.map_comp g' f)

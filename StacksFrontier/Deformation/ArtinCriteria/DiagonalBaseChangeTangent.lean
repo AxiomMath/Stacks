@@ -83,7 +83,7 @@ public abbrev HasFiniteDimensionalTangentSpacesOf {X : Type v} [Category.{w} X]
         let hS2 := schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
         letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
         letI : Fact (Deformation.SchlessingerConditionS2
-          (CategoryOfElements.π
+          (Functor.Elements.π
             (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
         let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
         let T := Deformation.artinianTangentSpace Λ k F
@@ -153,7 +153,7 @@ theorem finiteDimensional_tangentModuleAt_overMap (V : BigFppfOver B S hS)
     refine ⟨(Over.iteratedSliceForward V).obj y, (Over.iteratedSliceEquiv V).unitIso.app y, ?_⟩
     have hc : (Over.forget V).obj (Φ.obj ((Over.iteratedSliceForward V).obj y)) =
         (Over.forget V).obj y := by
-      show Over.mk (y.hom.left ≫ V.hom) = y.left
+      change Over.mk (y.hom.left ≫ V.hom) = y.left
       rw [Over.w y.hom]
       rfl
     refine IsHomLift.of_fac' _ _ _ rfl hc ?_

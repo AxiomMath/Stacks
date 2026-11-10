@@ -81,7 +81,7 @@ theorem coordinate_eval {R : Type u} [CommRing R] (I : Ideal R) (A : Type v)
       (DirectSum.component R A (fun _ : A => R) a).reduceModIdeal (I ^ n) (x.val n) := by
   let c := DirectSum.component R A (fun _ : A => R) a
   rw [← AdicCompletion.eval_of I R n (AdicCompletion.directSumToPi R I A x a)]
-  show AdicCompletion.eval I R n
+  change AdicCompletion.eval I R n
       (AdicCompletion.of I R ((AdicCompletion.ofLinearEquiv I R).symm
         (AdicCompletion.map I c x))) =
     c.reduceModIdeal (I ^ n) (x.val n)
@@ -158,7 +158,7 @@ private theorem AdicCompletion.directSumToPi_injective {R : Type u} [CommRing R]
     (x : completedDirectSum R I A)
     (hx : AdicCompletion.directSumToPi R I A x = 0) : x = 0 := by
   refine AdicCompletion.ext fun n => ?_
-  show x.val n = 0
+  change x.val n = 0
   obtain ⟨t, ht⟩ := Submodule.Quotient.mk_surjective
     (I ^ n • (⊤ : Submodule R (⨁ _ : A, R))) (x.val n)
   rw [← ht]
@@ -257,13 +257,13 @@ private theorem decayQuotientMap_compatible {R : Type u} [CommRing R] (I : Ideal
     Submodule.factorPow I (⨁ _ : A, R) hnm ∘ₗ decayQuotientMap I A z hdecay m =
       decayQuotientMap I A z hdecay n := by
   refine LinearMap.ext fun r => ?_
-  show Submodule.factorPow I (⨁ _ : A, R) hnm
+  change Submodule.factorPow I (⨁ _ : A, R) hnm
       (Submodule.Quotient.mk (r • decayTruncation I A z hdecay m)) =
     Submodule.Quotient.mk (r • decayTruncation I A z hdecay n)
   have hsub : (I ^ m • (⊤ : Submodule R (⨁ _ : A, R))) ≤
       I ^ n • (⊤ : Submodule R (⨁ _ : A, R)) :=
     Submodule.smul_mono_left (Ideal.pow_le_pow_right hnm)
-  show Submodule.factor hsub
+  change Submodule.factor hsub
       ((I ^ m • (⊤ : Submodule R (⨁ _ : A, R))).mkQ
         (r • decayTruncation I A z hdecay m)) =
     (I ^ n • (⊤ : Submodule R (⨁ _ : A, R))).mkQ
@@ -284,12 +284,12 @@ private theorem decayAssemble_apply {R : Type u} [CommRing R] (I : Ideal R)
     AdicCompletion.directSumToPi R I A (decayAssemble I A z hdecay) a = z a := by
   classical
   refine (AdicCompletion.ofLinearEquiv I R).injective (AdicCompletion.ext fun n => ?_)
-  show Submodule.mkQ (I ^ n • (⊤ : Submodule R R))
+  change Submodule.mkQ (I ^ n • (⊤ : Submodule R R))
       (AdicCompletion.directSumToPi R I A (decayAssemble I A z hdecay) a) =
     Submodule.mkQ (I ^ n • (⊤ : Submodule R R)) (z a)
   rw [coordinate_eval, decayAssemble, AdicCompletion.eval_lift_apply]
   let c := DirectSum.component R A (fun _ : A => R) a
-  show (LinearMap.reduceModIdeal (I ^ n) c)
+  change (LinearMap.reduceModIdeal (I ^ n) c)
       (Submodule.Quotient.mk (1 • decayTruncation I A z hdecay n)) =
     Submodule.Quotient.mk (z a)
   rw [one_smul, LinearMap.reduceModIdeal_apply, decayTruncation_component]
@@ -371,7 +371,7 @@ private theorem completion_mem_fg_ideal {R : Type u} [CommRing R] (I : Ideal R)
   obtain ⟨k, g, hg⟩ := Submodule.fg_iff_exists_fin_generating_family.mp hJ
   let φ : (Fin k →₀ R) →ₗ[R] R := Finsupp.linearCombination R g
   have hφ : LinearMap.range φ = J := by
-    show LinearMap.range (Finsupp.linearCombination R g) = J
+    change LinearMap.range (Finsupp.linearCombination R g) = J
     rw [Finsupp.range_linearCombination, hg]
   obtain ⟨c, hc⟩ := I.exists_pow_inf_eq_pow_smul (J : Submodule R R)
   let z : A → R := AdicCompletion.directSumToPi R I A x
@@ -388,7 +388,7 @@ private theorem completion_mem_fg_ideal {R : Type u} [CommRing R] (I : Ideal R)
     apply (hdecay (n + c)).subset
     intro a ha
     change w a i ∉ I ^ n at ha
-    show z a ∉ I ^ (n + c)
+    change z a ∉ I ^ (n + c)
     intro hza
     exact ha (apply_mem_of_mem_smul_top (I ^ n) (Finsupp.lapply i) (hwdecay a n hza))
   let u : Fin k → completedDirectSum R I A := fun i =>
@@ -403,7 +403,7 @@ private theorem completion_mem_fg_ideal {R : Type u} [CommRing R] (I : Ideal R)
   have hdiff : AdicCompletion.directSumToPi R I A (x - y) = 0 := by
     simp [map_sub, z, hycoord]
   rw [sub_eq_zero.mp (AdicCompletion.directSumToPi_injective I A (x - y) hdiff)]
-  show (∑ i, g i • u i) ∈ J • (⊤ : Submodule R (completedDirectSum R I A))
+  change (∑ i, g i • u i) ∈ J • (⊤ : Submodule R (completedDirectSum R I A))
   refine Submodule.sum_mem _ fun i _ => Submodule.smul_mem_smul ?_ Submodule.mem_top
   rw [← hg]
   exact Submodule.subset_span ⟨i, rfl⟩

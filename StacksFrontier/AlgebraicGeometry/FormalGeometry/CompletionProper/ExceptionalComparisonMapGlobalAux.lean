@@ -165,7 +165,7 @@ public lemma baseRingHom_preimageToSpec :
       f.app U.1 ≫ (f ⁻¹ᵁ U.1).topIso.inv := by
   rw [preimageToSpec, Scheme.Hom.comp_appTop, Scheme.Opens.toSpecΓ_appTop,
     Scheme.ΓSpecIso_naturality_assoc]
-  show (Scheme.ΓSpecIso Γ(Y, U.1)).inv ≫ (Scheme.ΓSpecIso Γ(Y, U.1)).hom ≫
+  change (Scheme.ΓSpecIso Γ(Y, U.1)).inv ≫ (Scheme.ΓSpecIso Γ(Y, U.1)).hom ≫
       f.app U.1 ≫ (f ⁻¹ᵁ U.1).topIso.inv = _
   rw [Iso.inv_hom_id_assoc]
 
@@ -181,7 +181,7 @@ the open subscheme `f ⁻¹ᵁ U` with the sections of `𝒪_X` over `f ⁻¹ᵁ
 public lemma topIso_hom_baseRingHom_preimageToSpec (a : Γ(Y, U.1)) :
     (f ⁻¹ᵁ U.1).topIso.hom (Stacks.Cohomology.FormalFunctions.baseRingHom
         (Γ(Y, U.1) : Type u) (preimageToSpec f U) a) = f.app U.1 a := by
-  show (f ⁻¹ᵁ U.1).topIso.hom
+  change (f ⁻¹ᵁ U.1).topIso.hom
       (((Scheme.ΓSpecIso Γ(Y, U.1)).inv ≫ (preimageToSpec f U).appTop).hom a) = _
   rw [baseRingHom_preimageToSpec]
   simp only [CommRingCat.comp_apply, Iso.inv_hom_id_apply]
@@ -246,7 +246,7 @@ public lemma preimageSectionsAddEquiv_smul (N : X.Modules) (a : Γ(Y, U.1))
     preimageSectionsAddEquiv f U N (Stacks.Cohomology.FormalFunctions.baseRingHom
         (Γ(Y, U.1) : Type u) (preimageToSpec f U) a • z) =
       f.app U.1 a • preimageSectionsAddEquiv f U N z := by
-  show N.presheaf.map (eqToHom ((f ⁻¹ᵁ U.1).ι_image_top).symm).op
+  change N.presheaf.map (eqToHom ((f ⁻¹ᵁ U.1).ι_image_top).symm).op
       ((N.restrictAppIso (f ⁻¹ᵁ U.1).ι ⊤).hom (_ • z)) = _
   rw [restrictAppIso_hom_smul, Scheme.Modules.map_smul, map_appIso_inv_baseRingHom]
   rfl
@@ -290,7 +290,7 @@ public lemma preimageSectionsAddEquiv_app {N M : X.Modules} (φ : N ⟶ M)
         (((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U.1).ι).map φ).app ⊤ z) =
       ((Scheme.Modules.pushforward f).map φ).app U.1
         (preimageSectionsAddEquiv f U N z) := by
-  show M.presheaf.map (eqToHom ((f ⁻¹ᵁ U.1).ι_image_top).symm).op
+  change M.presheaf.map (eqToHom ((f ⁻¹ᵁ U.1).ι_image_top).symm).op
       ((M.restrictAppIso (f ⁻¹ᵁ U.1).ι ⊤).hom _) = _
   rw [restrictAppIso_hom_app]
   have h := congr($(φ.mapPresheaf.naturality
@@ -426,7 +426,7 @@ public lemma exists_cohomologyTowerEquiv_affineOpen {X Y : Scheme.{u}} [IsNoethe
   rw [show (J.comap f).comap (f ⁻¹ᵁ U.1).ι =
       Stacks.Cohomology.FormalFunctions.baseIdealSheaf (Γ(Y, U.1) : Type u) (J.ideal U)
         (preimageToSpec f U) from (baseIdealSheaf_preimageToSpec f U J).symm]
-  obtain ⟨c, e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
+  obtain ⟨e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
     (Γ(Y, U.1) : Type u) (preimageToSpec f U) (isProper_preimageToSpec f U) (J.ideal U)
     ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U.1).ι).obj F)
     (AlgebraicGeometry.CoherentAbelian.stacksIsCoherent_of_isCoherent ‹_›) 0

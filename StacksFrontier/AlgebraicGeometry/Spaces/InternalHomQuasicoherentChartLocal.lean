@@ -199,12 +199,12 @@ to an étale chart is a localization and formation of internal Hom commutes with
 `AlgebraicGeometry.Space.isQuasicoherentOnSite_smallEtaleInternalHom_of_presentation'` on the
 small étale site of the chart.
 
-The quasi-coherence of `M` is one of the source's hypotheses and is listed; the proof does not
-use it, since finite presentation already implies it. -/
+The source also assumes `M` quasi-coherent; that hypothesis is omitted here, since finite
+presentation already implies it. -/
 @[stacks 03M1 "(6) internal hom out of a module of finite presentation",
   sga "3 III 0.6" "more general"]
 theorem isQuasicoherentOnSite_smallEtaleInternalHom (M N : Modules.{u, u} B S hS F hF)
-    (hM : M.IsQuasicoherentOnSite) (hN : N.IsQuasicoherentOnSite)
+    (hN : N.IsQuasicoherentOnSite)
     (hMfp : M.IsFinitePresentationOnSite) :
     (smallEtaleInternalHom B S hS F hF M N).IsQuasicoherentOnSite := by
   refine Stacks.SheafOfModules.isQuasicoherentOnSite_of_locally_over _ fun U => ?_

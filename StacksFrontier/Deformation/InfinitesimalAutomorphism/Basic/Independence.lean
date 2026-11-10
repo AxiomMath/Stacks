@@ -73,7 +73,7 @@ public theorem existsUnique_pushforwardIso
       hom_inv_id := Functor.Fiber.hom_ext hhom_inv
       inv_hom_id := Functor.Fiber.hom_ext hinv_hom }
   refine ⟨h, hfac, fun h' hh' => Iso.ext <| Functor.Fiber.hom_ext ?_⟩
-  show h'.hom.val = h.hom.val
+  change h'.hom.val = h.hom.val
   let : p.IsHomLift (𝟙 A) h'.hom.val := h'.hom.2
   let : p.IsHomLift (𝟙 A) h.hom.val := h.hom.2
   exact Functor.IsStronglyCocartesian.ext (p := p) (f := g) i (𝟙 A) (hh'.trans hfac.symm)
@@ -225,7 +225,7 @@ public theorem existsUnique_infinitesimalAutomorphismAction
   let pushed (a : Aut x₀) := pushforwardAutomorphism hp g i hi a
   let pushedHom := pushforwardAutomorphismHom hp g i hi
   have hsq (a : Aut x₀) : i ≫ (pushed a).asIso.hom.val = a.asIso.hom.val ≫ i := by
-    show i ≫ pushforwardEndomorphism hp g i hi a = a.asIso.hom.val ≫ i
+    change i ≫ pushforwardEndomorphism hp g i hi a = a.asIso.hom.val ≫ i
     exact (hom_comp_eq_comp_pushforwardEndomorphism hp g i hi a).symm
   have hmap (a : Aut x₀) : S.map ((pushed a).asIso.conjAut : Aut xε →* Aut xε) = S :=
     map_conjAut_infinitesimalAutomorphisms hp g e hpair a.asIso i hi i hi (pushed a).asIso (hsq a)
@@ -241,9 +241,9 @@ public theorem existsUnique_infinitesimalAutomorphismAction
       intro b
       apply Subtype.ext
       rw [actionEquiv_apply]
-      show (pushed 1).asIso.conjAut b.1 = b.1
+      change (pushed 1).asIso.conjAut b.1 = b.1
       rw [show pushed 1 = (1 : Aut xε) from map_one pushedHom]
-      show (Iso.refl xε).conjAut b.1 = b.1
+      change (Iso.refl xε).conjAut b.1 = b.1
       ext1
       rw [Iso.conjAut_apply, Iso.refl_symm, Iso.refl_trans]
       exact Iso.trans_refl b.1.asIso
@@ -252,7 +252,7 @@ public theorem existsUnique_infinitesimalAutomorphismAction
       intro b
       apply Subtype.ext
       rw [MulAut.mul_apply, actionEquiv_apply a₁, actionEquiv_apply a₂]
-      show (pushed (a₁ * a₂)).asIso.conjAut b.1 =
+      change (pushed (a₁ * a₂)).asIso.conjAut b.1 =
         (pushed a₁).asIso.conjAut ((pushed a₂).asIso.conjAut b.1)
       rw [show pushed (a₁ * a₂) = pushed a₁ * pushed a₂ from map_mul pushedHom a₁ a₂,
         Aut.mul_asIso]
@@ -278,7 +278,8 @@ public theorem subsingleton_aut_residueField
     (hp : IsPredeformationCategory p)
     (x₀ : p.Fiber (residueFieldObject Λ k)) :
     Subsingleton (Aut x₀) :=
-  let ⟨E⟩ := hp.specialFiber; ⟨fun _ _ => Aut.ext (Iso.ext (E.functor.map_injective (Subsingleton.elim _ _)))⟩
+  let ⟨E⟩ := hp.specialFiber
+  ⟨fun _ _ => Aut.ext (Iso.ext (E.functor.map_injective (Subsingleton.elim _ _)))⟩
 
 /-- Every automorphism of a pushforward to the dual numbers is infinitesimal. -/
 @[stacks 06JS "automorphisms_at_a_point"]
@@ -295,7 +296,7 @@ public theorem infinitesimalAutomorphisms_eq_top
     (i : x₀.1 ⟶ xε.1) (hi : p.IsHomLift g i) :
     infinitesimalAutomorphisms hp.cofibered g e hpair i hi = ⊤ := by
   refine (Subgroup.eq_top_iff' _).2 fun a => ?_
-  show _ = 1
+  change _ = 1
   exact (subsingleton_aut_residueField hp x₀).elim _ _
 
 end
@@ -363,7 +364,8 @@ public theorem existsUnique_infinitesimalAutomorphismsEquiv_of_isPredeformationC
     apply hφ₀_unique φ
     refine ⟨j₀, hj₀, ?_⟩
     intro a
-    exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext ((hφ f₀ j₀ hj₀ a).trans (conjAut_hom_val _ _).symm)))
+    exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext
+      ((hφ f₀ j₀ hj₀ a).trans (conjAut_hom_val _ _).symm)))
 
 /-- The canonical identification of infinitesimal automorphism groups attached to
 two points, for chosen pushforwards into a common dual-number fibre. -/

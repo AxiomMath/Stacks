@@ -43,8 +43,9 @@ sheaves of modules over a site, and they hold for every morphism:
 
 1. invertibility of `Stacks.SheafOfModules.AlgebraPushout.extendScalarsComparison`, the
    identification of the module underlying a pushout of algebra sheaves with an extension of
-   scalars (stated and reduced, but not proved, in `StacksFrontier/AlgebraicGeometry/FlatBaseChangeCohomology/AffineDegreeZero/AlgebraPushout.lean` of
-   `StacksDraft/AlgebraicGeometry/F3/FlatBaseChangeCohomology/AffineDegreeZero/`);
+   scalars (stated and reduced, but not proved, in
+   `StacksFrontier/AlgebraicGeometry/FlatBaseChangeCohomology/AffineDegreeZero/AlgebraPushout.lean`
+   of `StacksDraft/AlgebraicGeometry/F3/FlatBaseChangeCohomology/AffineDegreeZero/`);
 2. the identification of the module underlying the inverse image `g⁻¹A` of an algebra sheaf with
    the inverse image of the module underlying `A`, together with the factorization of
    `Scheme.Modules.pullback g` as that inverse image followed by extension of scalars along

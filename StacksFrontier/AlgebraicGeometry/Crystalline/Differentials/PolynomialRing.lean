@@ -111,8 +111,7 @@ private noncomputable def polynomialCoefficientQuotient
       map_add' := map_add f
       map_smul' := ?_ }
   intro p x
-  induction x using TensorProduct.induction_on with
-  | zero => simp [f]
+  induction x using TensorProduct.inductionOn with
   | tmul q ω =>
       change (p • q) ⊗ₜ[B]
         ((dividedPowerDifferentialRelations (A := A) B.dividedPowers).mkQ ω) =
@@ -571,10 +570,7 @@ private noncomputable def polynomialDividedPowerDifferentialsEquiv
   have hInl : (F.comp G).comp (LinearMap.inl P T P) = LinearMap.inl P T P := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        change F (G 0) = 0
-        simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul p ω =>
         let L : dividedPowerDifferentials (A := A) B.dividedPowers →ₗ[B]

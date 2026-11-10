@@ -145,7 +145,7 @@ theorem _root_.CategoryTheory.Functor.fiber_isThin_of_faithful {𝒞 𝒮 : Type
   refine ⟨fun m₁ m₂ => Functor.Fiber.hom_ext (p.map_injective ?_)⟩
   have h₁ := m₁.2
   have h₂ := m₂.2
-  show p.map m₁.1 = p.map m₂.1
+  change p.map m₁.1 = p.map m₂.1
   rw [IsHomLift.fac' p (𝟙 U) m₁.1, IsHomLift.fac' p (𝟙 U) m₂.1]
 
 variable {B S hS F a} in

@@ -141,8 +141,8 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_isIso_tensor (sq : IsPullback g
       (qcohDerived_derivedModulePushforward_obj B S hS f' hf'qc hf'qs _ hK') hO'
   have h₁ := isIso_of_isIso_derivedModulePushforward_map g hY' hsrc htgt _ key
   exact Stacks.CategoryTheory.KunnethBaseChange.isIso_of_isIso_uncurry_map_prod_id
-    (smallEtaleDerivedTensor B S hS Y') O' (smallEtaleDerivedTensorProduct B S hS Y').unitComplexNatIso
-    _ h₁
+    (smallEtaleDerivedTensor B S hS Y') O'
+    (smallEtaleDerivedTensorProduct B S hS Y').unitComplexNatIso _ h₁
 
 /-- `isIso_smallEtaleDerivedBaseChangeComp_of_isIso_tensor` for the composite
 `AlgebraicGeometry.Space.smallEtaleDerivedBaseChangeComp` of Stacks 0DKH. -/

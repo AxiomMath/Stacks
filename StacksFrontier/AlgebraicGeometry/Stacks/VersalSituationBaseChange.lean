@@ -175,7 +175,7 @@ private theorem exists_smooth_surjective_chart_of_changeBase (𝒳 : AlgebraicSt
   let a := factorSliceFunctor B S S' hS hS' g (Over.w ψ)
   have hp : f'.toFunctor ⋙ 𝒳.val.val.p = Over.map ψ ⋙ Over.iteratedSliceForward (Over.mk g) := by
     rw [← hψ]
-    show f'.toFunctor ⋙ 𝒳.val.val.p = f'.toFunctor ⋙ 𝒳.val.val.p ⋙
+    change f'.toFunctor ⋙ 𝒳.val.val.p = f'.toFunctor ⋙ 𝒳.val.val.p ⋙
       (Over.iteratedSliceBackward (Over.mk g) ⋙ Over.iteratedSliceForward (Over.mk g))
     rw [iteratedSliceBackward_comp_iteratedSliceForward]
     rfl
@@ -245,7 +245,7 @@ theorem isLocallyOfFiniteType_structureMorphism_of_changeBaseStructureHom
   -- the chart followed by the 1-morphism to `S/S'` is postcomposition with `ψ : U' ⟶ S/S'`
   have hw' : (f'.toFunctor ⋙ (𝒳.val.val.p ⋙ Over.iteratedSliceBackward (Over.mk g))) ⋙
       Over.forget (Over.mk g) = Over.forget U' := by
-    show f'.toFunctor ⋙ (𝒳.val.val.p ⋙ (Over.iteratedSliceBackward (Over.mk g) ⋙
+    change f'.toFunctor ⋙ (𝒳.val.val.p ⋙ (Over.iteratedSliceBackward (Over.mk g) ⋙
       Over.forget (Over.mk g))) = Over.forget U'
     rw [Over.iteratedSliceBackward_forget]
     exact f'.w

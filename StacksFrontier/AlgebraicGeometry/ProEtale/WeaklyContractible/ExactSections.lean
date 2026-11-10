@@ -115,7 +115,7 @@ theorem exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
       let : Sheaf.IsLocallySurjective f :=
         (Sheaf.isLocallySurjective_iff_epi' AddCommGrpCat f).2 hf
       have hloc : Sheaf.IsLocallySurjective (forgetAb.map f) := by
-        show Presheaf.IsLocallySurjective J
+        change Presheaf.IsLocallySurjective J
           (Functor.whiskerRight f.hom (forget AddCommGrpCat.{t}))
         infer_instance
       exact (AddCommGrpCat.epi_iff_surjective _).2
@@ -132,17 +132,17 @@ theorem exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
   · rw [ShortComplex.exact_iff_epi_toCycles]
     let φ := (SheafOfModules.toSheaf h.O).map S.toCycles
     have hsurj : ∀ ⦃U : C⦄, h.B U → Function.Surjective (φ.hom.app (op U)) := by
-      show ∀ ⦃U : C⦄, h.B U → Function.Surjective (S.toCycles.val.app (op U))
+      change ∀ ⦃U : C⦄, h.B U → Function.Surjective (S.toCycles.val.app (op U))
       intro U hU z
       have hz : S.g.val.app (op U) (S.iCycles.val.app (op U) z) = 0 := by
-        show ((S.iCycles ≫ S.g).val.app (op U)) z = 0
+        change ((S.iCycles ≫ S.g).val.app (op U)) z = 0
         rw [S.iCycles_g]
         rfl
       obtain ⟨x, hx⟩ := (hs hU _).mp hz
       refine ⟨x, ?_⟩
       let _ : Mono S.iCycles.val := (SheafOfModules.forget h.O).map_mono S.iCycles
       apply PresheafOfModules.injective_of_mono S.iCycles.val (op U)
-      show ((S.toCycles ≫ S.iCycles).val.app (op U)) x = S.iCycles.val.app (op U) z
+      change ((S.toCycles ≫ S.iCycles).val.app (op U)) x = S.iCycles.val.app (op U) z
       rwa [S.toCycles_i]
     have : Epi φ := (Sheaf.isLocallySurjective_iff_epi' AddCommGrpCat φ).mp
       (Presheaf.isLocallySurjective_of_hasEnoughObjects_surjective

@@ -193,7 +193,7 @@ theorem isAppSmall_of_isOpenImmersion_of_isClosed {S : Scheme.{u}} {W : S.ProEt}
   let _ : Algebra Γ(S, ⊤) Γ(U, ⊤) := (f ≫ W.hom).appTop.hom.toAlgebra
   have _ : IsScalarTower Γ(S, ⊤) Γ(W.left, ⊤) Γ(U, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq fun a ↦ ?_
-    show (f ≫ W.hom).appTop.hom a = f.appTop.hom (W.hom.appTop.hom a)
+    change (f ≫ W.hom).appTop.hom a = f.appTop.hom (W.hom.appTop.hom a)
     rw [Scheme.Hom.comp_appTop]
     rfl
   have hét : Algebra.Etale Γ(W.left, ⊤) Γ(U, ⊤) :=

@@ -269,9 +269,9 @@ theorem nonempty_unitIso_definingIdealSheaf_of_forall_isRegular_span
   let sec : (L.over W).val.sections :=
     PresheafOfModules.sectionsMk (fun V => L.val.map V.unop.hom.op s) (by
       intro V V' t
-      show L.val.map t.unop.left.op (L.val.map V.unop.hom.op s) = _
+      change L.val.map t.unop.left.op (L.val.map V.unop.hom.op s) = _
       rw [← L.val.map_comp_apply]
-      show L.val.map (t.unop.left ≫ V.unop.hom).op s = _
+      change L.val.map (t.unop.left ≫ V.unop.hom).op s = _
       rw [t.unop.w])
   let φ : SheafOfModules.unit
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O).over W) ⟶

@@ -354,7 +354,7 @@ theorem cohomologyMap_single_hodgeComponentAbelianIso_eq_zero (p i : ℕ)
   have hsq : (hodgeSingleUnderlyingIso B D p).hom ≫ T.mapCochainComplexPlus.map a =
       (Stacks.DerivedIndexing.singlePlusFunctor (AbelianSheaf Y.carrier) 0).map (T.map ψ) ≫ m := by
     refine ObjectProperty.hom_ext _ (HomologicalComplex.from_single_hom_ext ?_)
-    show (hodgeSingleUnderlyingIso B D p).hom.hom.f 0 ≫
+    change (hodgeSingleUnderlyingIso B D p).hom.hom.f 0 ≫
         T.map (((HomologicalComplex.extendSingleIso ComplexShape.embeddingUpNat
           ((deRhamComplex B D).X p) 0 0 rfl).hom ≫
             (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map ψ).f 0) =
@@ -410,7 +410,7 @@ theorem cohomologyMap_single_hodgeComponentAbelianIso_eq_zero (p i : ℕ)
       ((deRhamComplex B D).X p) 0 0 rfl).hom
     ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map ψ) i _).trans ?_
   simp only at hN
-  show (cohomologyMap (S := baseRingedSpace A) a.hom i).hom _ = 0
+  change (cohomologyMap (S := baseRingedSpace A) a.hom i).hom _ = 0
   refine hN.symm.trans ?_
   simp only at h2
   refine (congrArg (Stacks.Cech.Hypercohomology.realizationUnbounded (baseRingedSpace A) N₂

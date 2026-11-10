@@ -73,14 +73,14 @@ public abbrev tm {M N : ModX X} (U : X.Opensᵒᵖ) (a : M.val.obj U) (b : N.val
 /-- Local pure tensors are additive in the first factor. -/
 public theorem tm_add_left {M N : ModX X} (U : X.Opensᵒᵖ) (a a' : M.val.obj U)
     (b : N.val.obj U) : tm U (a + a') b = tm U a b + tm U a' b := by
-  show ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
+  change ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
     ((a + a') ⊗ₜ b) = _
   exact (congrArg _ (TensorProduct.add_tmul a a' b)).trans (map_add _ _ _)
 
 /-- Local pure tensors are additive in the second factor. -/
 public theorem tm_add_right {M N : ModX X} (U : X.Opensᵒᵖ) (a : M.val.obj U)
     (b b' : N.val.obj U) : tm U a (b + b') = tm U a b + tm U a b' := by
-  show ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
+  change ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
     (a ⊗ₜ (b + b')) = _
   exact (congrArg _ (TensorProduct.tmul_add a b b')).trans (map_add _ _ _)
 
@@ -88,7 +88,7 @@ public theorem tm_add_right {M N : ModX X} (U : X.Opensᵒᵖ) (a : M.val.obj U)
 public theorem tm_smul_left {M N : ModX X} (U : X.Opensᵒᵖ)
     (r : (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj.obj U) (a : M.val.obj U)
     (b : N.val.obj U) : tm U (r • a) b = r • tm U a b := by
-  show ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
+  change ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
     ((r • a) ⊗ₜ b) = _
   exact (congrArg _ (TensorProduct.smul_tmul' r a b).symm).trans (map_smul _ r _)
 
@@ -96,7 +96,7 @@ public theorem tm_smul_left {M N : ModX X} (U : X.Opensᵒᵖ)
 public theorem tm_smul_right {M N : ModX X} (U : X.Opensᵒᵖ)
     (r : (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj.obj U) (a : M.val.obj U)
     (b : N.val.obj U) : tm U a (r • b) = r • tm U a b := by
-  show ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
+  change ((PresheafOfModules.tensorSheafUnit (Osharp := X.toRingedSpace.sheaf) M N).app U).hom
     (a ⊗ₜ (r • b)) = _
   exact (congrArg _ (TensorProduct.tmul_smul r a b)).trans (map_smul _ r _)
 
@@ -523,7 +523,7 @@ public theorem unitTarget_compat (n : ℕ) :
 public theorem m_comm : swapTensor L.F L.F ≫ L.m = L.m := by
   refine L.huniq _ (coh_tensor L.hF L.hF) _ _ fun n => ?_
   refine Stacks.PullbackTensorCoherence.tensor_hom_ext fun U x y => ?_
-  show (L.p n).val.app U (L.m.val.app U ((swapTensor L.F L.F).val.app U (tm U x y))) =
+  change (L.p n).val.app U (L.m.val.app U ((swapTensor L.F L.F).val.app U (tm U x y))) =
     (L.p n).val.app U (L.m.val.app U (tm U x y))
   rw [swapTensor_tm, L.p_m, L.p_m]
   exact congrArg ofR (mul_comm _ _)
@@ -533,7 +533,7 @@ public theorem m_assoc :
     (L.m ▷ L.F) ≫ L.m = (α_ L.F L.F L.F).hom ≫ (L.F ◁ L.m) ≫ L.m := by
   refine L.huniq _ (coh_tensor (coh_tensor L.hF L.hF) L.hF) _ _ fun n => ?_
   refine Stacks.PullbackTensorCoherence.tensor_hom_ext₂ fun U x y z => ?_
-  show (L.p n).val.app U (L.m.val.app U ((L.m ▷ L.F).val.app U (tm U (tm U x y) z))) =
+  change (L.p n).val.app U (L.m.val.app U ((L.m ▷ L.F).val.app U (tm U (tm U x y) z))) =
     (L.p n).val.app U (L.m.val.app U ((L.F ◁ L.m).val.app U
       ((α_ L.F L.F L.F).hom.val.app U (tm U (tm U x y) z))))
   rw [Stacks.PullbackTensorCoherence.whiskerRight_tmul,
@@ -564,7 +564,7 @@ public theorem u_m : (L.u ▷ L.F) ≫ L.m = (λ_ L.F).hom := by
   let r' : (Stacks.RingedSpace.structureRingSheaf X.toRingedSpace).obj.obj U := r
   have hl : (λ_ L.F).hom.val.app U (tm U r x) = r' • x :=
     Stacks.PullbackTensorCoherence.leftUnitor_hom_tmul U r' x
-  show (L.p n).val.app U (L.m.val.app U ((L.u ▷ L.F).val.app U (tm U r x))) =
+  change (L.p n).val.app U (L.m.val.app U ((L.u ▷ L.F).val.app U (tm U r x))) =
     (L.p n).val.app U ((λ_ L.F).hom.val.app U (tm U r x))
   rw [Stacks.PullbackTensorCoherence.whiskerRight_tmul, L.p_m, hl, map_smul]
   exact (congrArg (fun a => ofR (toR a * toR ((L.p n).val.app U x))) (L.p_u n U r')).trans

@@ -363,7 +363,7 @@ private theorem unit_comp_matchIso (k : ℕ) {D : Type u} [Category.{v} D] (Y : 
   let splitY := piSplitIso eSum (fun _ : U.obj (SimplexCategory.mk 1) => Y)
   let compY := vertexCompIso.{w} k Y
   let matchY := matchIso.{w} k Y
-  show (((SimplicialObject.coskAdj 0).unit.app PY).app d1) ≫ matchY.hom =
+  change (((SimplicialObject.coskAdj 0).unit.app PY).app d1) ≫ matchY.hom =
       eqToHom (SimplicialObject.power_obj
         ((SimplicialObject.const D).obj (Y)) U d1) ≫
         splitY.hom ≫ prod.fst
@@ -418,7 +418,7 @@ private theorem unit_comp_matchIso (k : ℕ) {D : Type u} [Category.{v} D] (Y : 
             Pi.π (fun _ : U.obj (SimplexCategory.mk 1) => Y) (coord j) := by
       let : Unique (U.obj (L0.obj j.right).unop) :=
         uniqueUliftCoyonedaTrunc0 k j.right
-      show (((SimplicialObject.const D).obj (Y)).power U).map j.hom ≫
+      change (((SimplicialObject.const D).obj (Y)).power U).map j.hom ≫
           (CategoryTheory.Limits.productUniqueIso
             (fun _ : U.obj (L0.obj j.right).unop => Y)).hom =
         eqToHom (SimplicialObject.power_obj
@@ -512,7 +512,7 @@ private theorem constPowerMap_matching_prop_zero
   let PZ : SimplicialObject D := ((SimplicialObject.const D).obj Z).power U
   let PY : SimplicialObject D := ((SimplicialObject.const D).obj Y).power U
   let b : PZ ⟶ PY := constPowerMap u U
-  show P
+  change P
       (pullback.lift
         (f := (((SimplicialObject.coskAdj 0).unit.app PY).app
           (Opposite.op (SimplexCategory.mk (1)))))
@@ -543,7 +543,7 @@ private theorem constPowerMap_matching_prop_zero
   let : Fintype β := Fintype.ofEquiv J0 eRange
   let : Fintype γ := Fintype.ofFinite _
   let : Unique (U.obj (SimplexCategory.mk 0)) := by
-    show Unique (ULift (SimplexCategory.mk k ⟶ SimplexCategory.mk 0))
+    change Unique (ULift (SimplexCategory.mk k ⟶ SimplexCategory.mk 0))
     infer_instance
   let eSum := coveredSumEquiv.{w} k
   let compY := vertexCompIso.{w} k Y
@@ -622,7 +622,7 @@ private theorem constPowerMap_matching_prop_zero
     rcases j with ⟨a, x, φ⟩
     let : Unique (U.obj (L0.obj x).unop) := uniqueUliftCoyonedaTrunc0 k x
     cases simplexTrunc0OpObjEq x
-    show CategoryTheory.Limits.Pi.map
+    change CategoryTheory.Limits.Pi.map
         (fun _ : U.obj (SimplexCategory.mk 0) => u) ≫
           (CategoryTheory.Limits.productUniqueIso
             (fun _ : U.obj (SimplexCategory.mk 0) => Y)).hom =
@@ -677,8 +677,7 @@ private theorem constPowerMap_matching_prop_zero
               congr 1
               simp [mβ]
       _ = (matchZ.hom ≫ mβ) ≫ Pi.π (fun _ : β => Y) q :=
-              Category.assoc' (f := Pi.π (fun _ : β => Y) q)
-                (g := mβ) (h := matchZ.hom)
+              (Category.assoc matchZ.hom mβ (Pi.π (fun _ : β => Y) q)).symm
   have hobjY : PY.obj d1 = ∏ᶜ fun _ : ι => Y := by rfl
   have hobjZ : PZ.obj d1 = ∏ᶜ fun _ : ι => Z := by rfl
   let toPY : PY.obj d1 ⟶ ∏ᶜ fun _ : ι => Y := eqToHom hobjY

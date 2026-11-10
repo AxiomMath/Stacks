@@ -125,7 +125,8 @@ than through a bundled Weil cohomology theory, while the cycle side uses the Cho
   require `[IsAlgClosed k]`, which Tag 0FHF does not assume, so routing through either would add
   a hypothesis to all three clauses. Both put cohomology on
   `(SmoothProjective k).FullSubcategory`, whose objects carry `IsProjectiveMorphism`
-  (`StacksFrontier/AlgebraicGeometry/WeilCohomology/ProjectionFormula/Setup.lean:102`). And the cycle side of the latter is
+  (`StacksFrontier/AlgebraicGeometry/WeilCohomology/ProjectionFormula/Setup.lean:102`). And the
+  cycle side of the latter is
   `Stacks.WeilCohomology.ChowCycleData` (`ClassicalTheory.lean:123`), a family of abelian groups
   with no laws of their own, whereas the clauses below are about the Chow groups of chapter 42
   and go through `Stacks.Chow.flatPullbackChow_fundamentalChowClass`,
@@ -144,14 +145,16 @@ than through a bundled Weil cohomology theory, while the cycle side uses the Cho
   `ClosedSubschemeClass.lean:110`; `integration_cycleClassPoint`, which is axiom `(C)(d)`,
   `∫_{Spec(k)} γ([Spec(k)]) = 1`; and `cycleClassPoint_mul`, which is axiom `(C)(c)` for
   `[Spec(k)] · [Spec(k)] = [Spec(k)]`. The last two go unchanged into Stacks 0FHE as its
-  `trace_fundamental` and `cycleClass_fundamental_mul` (`StacksFrontier/AlgebraicGeometry/F6Rank201/WeilCohomologyBasePoint.lean:94`,
+  `trace_fundamental` and `cycleClass_fundamental_mul`
+  (`StacksFrontier/AlgebraicGeometry/F6Rank201/WeilCohomologyBasePoint.lean:94`,
   `:95-97`), while `Z` and `fundamentalClass` of that theorem (`:91-92`) are instantiated here
   at `Stacks.Chow.chowGroup (Stacks.Chow.fieldChowSituation k) (𝟙 _) 0` and its own
   `Stacks.Chow.fundamentalChowClass`, so no free abelian group and no free fundamental class
   remain on the cycle side.
 * Reading the normalisation at the unit instead, as `integrationPoint 1 = 1`, would be the
   fourth clause of Stacks 0FHE itself, `Stacks.Weil.trace_one_eq_one`
-  (`StacksFrontier/AlgebraicGeometry/F6Rank201/WeilCohomologyBasePoint.lean:174`), and the identification that licenses the exchange is
+  (`StacksFrontier/AlgebraicGeometry/F6Rank201/WeilCohomologyBasePoint.lean:174`), and the
+  identification that licenses the exchange is
   `γ([Spec(k)]) = 1`, which is what these clauses derive; so the normalisation stays at the
   fundamental class.
 

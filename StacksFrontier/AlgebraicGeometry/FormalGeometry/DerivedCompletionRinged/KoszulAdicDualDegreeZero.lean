@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicReductionIdentity
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicReductionIdentity
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.PushforwardCommutesCompletionKoszulTower
 public import StacksFrontier.AlgebraicGeometry.RegularSequence.KoszulSelfExtAugmentationFormula
 public import StacksFrontier.Homology.DerivedIndexing.SingleDegreeShift
@@ -105,7 +104,8 @@ it is the adjunction-uniqueness one that
 has to be computed here.
 
 The degree-zero component of the shift isomorphism of the single functors of complexes is read off
-by `Stacks.DerivedIndexing.singleFunctors_shiftIso_hom_app_f` of `StacksFrontier/Homology/DerivedIndexing/SingleDegreeShift.lean`, which
+by `Stacks.DerivedIndexing.singleFunctors_shiftIso_hom_app_f` of
+`StacksFrontier/Homology/DerivedIndexing/SingleDegreeShift.lean`, which
 already states, for an arbitrary degree and an arbitrary proof of the equality of the two objects,
 that that component is the corresponding `eqToHom`.
 
@@ -236,7 +236,7 @@ theorem homDegreeIsoSingle_comp_internalHomPre_unit
     V.unop.left V.unop.hom s z) ?_
   have hz : (z • structureSheafOne X V.unop.left :
       ((structureSheafComplex X).X 0).val.obj (op V.unop.left)) = z := mul_one z
-  show applyHomSectionOver X (sheafHomComplex X (structureSheafComplex X)
+  change applyHomSectionOver X (sheafHomComplex X (structureSheafComplex X)
       (singleSheafComplex X N)) U.unop V.unop.left V.unop.hom 0 0 0 (by omega) s z = _
   refine Eq.trans (congrArg (applyHomSectionOver X (sheafHomComplex X (structureSheafComplex X)
     (singleSheafComplex X N)) U.unop V.unop.left V.unop.hom 0 0 0 (by omega) s) hz.symm) ?_
@@ -286,7 +286,7 @@ theorem awayModuleCoconeι_prodGlobalSection_empty (k : ℕ) :
     IsIso.inv_eq_of_hom_inv_id (by
       rw [awaySmul_pow_app_prodGlobalSection_empty]
       exact Category.id_comp _)
-  show unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) ≫
+  change unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) ≫
     inv ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).asHom.app
       (awayModule X (prodGlobalSection f (∅ : Finset (Fin r))))) = _
   exact (congrArg (fun w => unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) ≫ w)
@@ -393,7 +393,7 @@ theorem comp_singleShiftIso_f_zero
   rw [singleShiftIso_f_zero]
   exact Category.comp_id g
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] in
+omit [HasSheafify X.J AddCommGrpCat.{u}] [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The inclusion of the unique top-degree factor, followed by the degree-zero component of
 the comparison across the shift, is the canonical map onto the top cohomology sheaf.** -/
 theorem koszulTopTermInj_comp_koszulShiftedToTopSingleComplexMap_f_zero (n : ℕ) :
@@ -410,7 +410,7 @@ theorem koszulTopTermInj_comp_koszulShiftedToTopSingleComplexMap_f_zero (n : ℕ
   refine Eq.trans ?_ (koszulToTopHomologyAt_eq X f ℱ (r : ℤ) koszulTopDeg_eq n
     (next_top_eq (r := r))
     (koszulPowerComplexOn_d_at_top_eq_zero X f ℱ n)).symm
-  show koszulTopTermInj X f ℱ n ≫
+  change koszulTopTermInj X f ℱ n ≫
       ((koszulPowerComplexOn X f ℱ n).XIsoOfEq
         (show koszulTopDeg r = (0 : ℤ) + (r : ℤ) by ring)).hom ≫
       (HomologicalComplex.toSingleTopCohomology
@@ -537,7 +537,7 @@ theorem structureSheafHomIso_inv_comp_homMap_comp_koszulDualComplexIsoCoeff_f_ze
     rw [← Category.assoc ((homMap X (koszulCechComplexMap X f n ≫ cechAugmentation X f)
         (𝟙 (singleSheafComplex X ℱ))).f 0),
       homDegreeIsoSingle_homMap, Category.assoc]
-    show (structureSheafHomIso X (singleSheafComplex X ℱ)).inv.f 0 ≫
+    change (structureSheafHomIso X (singleSheafComplex X ℱ)).inv.f 0 ≫
       (homDegreeIsoSingle X (structureSheafComplex X)
           ℱ 0).hom ≫
         internalHomPre X ((koszulCechComplexMap X f n ≫ cechAugmentation X f).f (-0)) ≫
@@ -605,7 +605,7 @@ theorem structureSheafHomIso_inv_comp_homMap_comp_koszulDualComplexIsoCoeff_comp
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map
         ((-1 : ℤ) ^ r • koszulToTopHomologyAt X f ℱ (r : ℤ) koszulTopDeg_eq n) := by
   refine HomologicalComplex.from_single_hom_ext ?_
-  show (structureSheafHomIso X (singleSheafComplex X ℱ)).inv.f 0 ≫
+  change (structureSheafHomIso X (singleSheafComplex X ℱ)).inv.f 0 ≫
       (homMap X (koszulCechComplexMap X f n ≫ cechAugmentation X f)
         (𝟙 (singleSheafComplex X ℱ))).f 0 ≫
       (koszulDualComplexIsoCoeff X f ℱ n).hom.f 0 ≫

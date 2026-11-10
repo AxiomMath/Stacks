@@ -140,7 +140,7 @@ public theorem isFiniteTypeOnAffine_reesGradedModule [F.IsQuasicoherent] [F.IsFi
         (reesGradedModule I F).smul 0 (k : ℤ) (op U.1) (reesSectionZero I F g) a with ht
     have htval : t.1 = b • g := by
       rw [ht, val_eqRec_reesGradedModule]
-      show reesPieceAmbient I (k : ℤ) U.1 a • g = b • g
+      change reesPieceAmbient I (k : ℤ) U.1 a • g = b • g
       rw [hamb]
     refine ⟨htval ▸ t.2, ?_⟩
     rw [show (⟨b • g, htval ▸ t.2⟩ :

@@ -124,10 +124,10 @@ theorem isPullback_pushout_of_isClosedImmersion {Z X Y : Scheme.{u}} (i : Z ⟶ 
   let e := h.isPushout.isColimit.coconePointUniqueUpToIso (pushout.isColimit i j)
   refine (pushoutSquare_isPullback s).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e rfl rfl
     ?_ ?_
-  · show h.a ≫ e.hom = pushout.inl i j
+  · change h.a ≫ e.hom = pushout.inl i j
     exact h.isPushout.isColimit.comp_coconePointUniqueUpToIso_hom
       (pushout.isColimit i j) WalkingSpan.left
-  · show h.b ≫ e.hom = pushout.inr i j
+  · change h.b ≫ e.hom = pushout.inr i j
     exact h.isPushout.isColimit.comp_coconePointUniqueUpToIso_hom
       (pushout.isColimit i j) WalkingSpan.right
 
@@ -221,7 +221,7 @@ private lemma isPullback_pushforwardStructureSheafModule {Z X Y P : Scheme.{u}} 
     let eR := congrArg (fun V : Z.Opens ↦ Γ(Z, V)) e.symm
     let eΓ := congrArg G.obj eR
     have hunitMap : (Z.structureSheafModule).presheaf.map (eqToHom e).op = G.map (eqToHom eR) := by
-      show G.map (Z.presheaf.map (eqToHom e).op) = G.map (eqToHom eR)
+      change G.map (Z.presheaf.map (eqToHom e).op) = G.map (eqToHom eR)
       simp only [eqToHom_op, eqToHom_map]
     have htransport : G.map (eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) e)) =
         eqToHom eΓ.symm := by
@@ -233,7 +233,7 @@ private lemma isPullback_pushforwardStructureSheafModule {Z X Y P : Scheme.{u}} 
         (G.map (j.app (b ⁻¹ᵁ U.unop)) ≫ eqToHom eΓ) :=
       hU.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) (eqToIso eΓ) rfl rfl
         (by
-          show (G.map (i.app (a ⁻¹ᵁ U.unop)) ≫
+          change (G.map (i.app (a ⁻¹ᵁ U.unop)) ≫
             G.map (eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) e))) ≫
               eqToHom eΓ = G.map (i.app _)
           rw [htransport]
@@ -242,7 +242,7 @@ private lemma isPullback_pushforwardStructureSheafModule {Z X Y P : Scheme.{u}} 
     have key : ∀ {W V : Scheme.{u}} (f : W ⟶ V) (g : V ⟶ P),
         (F.map (pushforwardStructureSheafModuleToComp f g)).app (Opposite.op U.unop) =
           G.map (f.app (g ⁻¹ᵁ U.unop)) := fun f g ↦ by
-      show ((Scheme.Modules.pushforward g).map f.structureSheafModuleMap).app U.unop ≫
+      change ((Scheme.Modules.pushforward g).map f.structureSheafModuleMap).app U.unop ≫
         ((Scheme.Modules.pushforwardComp f g).hom.app _).app U.unop = _
       simp only [Scheme.Modules.pushforwardComp_hom_app_app,
         Scheme.Modules.pushforward_map_app, structureSheafModuleMap_app]
@@ -252,13 +252,13 @@ private lemma isPullback_pushforwardStructureSheafModule {Z X Y P : Scheme.{u}} 
         G.map (j.app (b ⁻¹ᵁ U.unop)) ≫ eqToHom eΓ := by
       rw [Functor.map_comp, NatTrans.comp_app, key]
       congr 1
-      show ((Scheme.Modules.pushforwardCongr h.w.symm).hom.app
+      change ((Scheme.Modules.pushforwardCongr h.w.symm).hom.app
         Z.structureSheafModule).app U.unop = _
       simp only [Scheme.Modules.pushforwardCongr_hom_app_app]
       ext x
       exact congrArg
         (fun f : AddCommGrpCat.Hom _ _ ↦ f.hom x) (hunitMap.trans htransport')
-    show IsPullback ((F.map a.structureSheafModuleMap).app (Opposite.op U.unop))
+    change IsPullback ((F.map a.structureSheafModuleMap).app (Opposite.op U.unop))
       ((F.map b.structureSheafModuleMap).app (Opposite.op U.unop))
       ((F.map (pushforwardStructureSheafModuleToComp i a)).app (Opposite.op U.unop))
       ((F.map (pushforwardStructureSheafModuleToComp j b ≫
@@ -278,7 +278,7 @@ private lemma epi_pushforwardStructureSheafModuleToComp {Z X P : Scheme.{u}} (i 
     (a : X ⟶ P) [IsClosedImmersion i] [IsClosedImmersion a] :
     Epi (pushforwardStructureSheafModuleToComp i a) := by
   have : (Scheme.Modules.pushforward a).PreservesEpimorphisms := by
-    show (RingedSpaceModuleAdjunction.modulePushforward
+    change (RingedSpaceModuleAdjunction.modulePushforward
       a.toLRSHom.toShHom).PreservesEpimorphisms
     infer_instance
   have : Epi i.structureSheafModuleMap := epi_structureSheafModuleMap i

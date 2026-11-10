@@ -46,8 +46,7 @@ theorem of_constantZModAb
   of_genericLocalConstancy_of_torsion
     (fun Y _ _ G hG η hη N hN hηN =>
       exists_opens_isFiniteLocallyConstant_etaleRestriction Y G hG η hη N hN hηN)
-    (fun hℓ S _ F hF =>
-      exists_primeToEll_finiteEtale_constantFiltration_unconditional.{u + 1, u} hℓ F hF)
+    (fun hℓ => @exists_primeToEll_finiteEtale_constantFiltration_unconditional.{u + 1, u} _ hℓ)
     h0A5B f hdim F hF
 
 end Stacks.EtaleCohomology.TorsionCurveAssertions

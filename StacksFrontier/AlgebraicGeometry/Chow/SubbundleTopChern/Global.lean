@@ -353,6 +353,7 @@ theorem isFiniteLocallyFreeOfRank_jointRankLocus_snd (ab : ULift.{u} (ℕ × ℕ
       ((Scheme.Modules.pullback (jointRankLocus N' E ab).ι).obj E) ab.down.2 :=
   isFiniteLocallyFreeOfRank_of_le_rankLocus inf_le_right
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} N] in
 include hseq in
 /-- `𝒩` has rank `a + b` on the joint rank locus `X_{a,b}`. -/
 theorem isFiniteLocallyFreeOfRank_jointRankLocus_middle (ab : ULift.{u} (ℕ × ℕ)) :
@@ -437,7 +438,7 @@ theorem subbundleEmbedding_pushforward_dualBundleFlatPullback (k : ℤ) (α : ch
           ((jointRankLocus N' E ⟨(a, b)⟩).ι ≫ sX) (jointRankLocus N' E ⟨(a, b)⟩).ι rfl (by ring)
           ?_)))))
       have hk : k = k + (a : ℤ) - (a : ℤ) := by ring
-      simp only [homogeneousChowFamily, dif_pos hk]
+      simp only [homogeneousChowFamily, dite_eq_left hk]
       exact chowGroupCast_heq _ _ _ _
     · refine HEq.symm ((chowGroupCast_heq _ _ _ _).trans (dualBundlePullback_heq C _ _ _
         (by push_cast; ring) (chowGroupRestrict_heq C sX
@@ -445,7 +446,7 @@ theorem subbundleEmbedding_pushforward_dualBundleFlatPullback (k : ℤ) (α : ch
           (by push_cast; ring)
           ((chowGroupCast_heq _ _ _ _).trans (chowCohomologyCap_heq C sX
             (topChernClassCompletedComponent C sX E) (by push_cast; ring) k α)))))
-  · have h0 : homogeneousChowFamily C sX k α (d - a) = 0 := dif_neg (by omega)
+  · have h0 : homogeneousChowFamily C sX k α (d - a) = 0 := dite_eq_right (by omega)
     have hz : chowGroupRestrict C sX ((jointRankLocus N' E ⟨(a, b)⟩).ι ≫ sX)
         (jointRankLocus N' E ⟨(a, b)⟩).ι rfl
         (d - ((a + b : ℕ) : ℤ))

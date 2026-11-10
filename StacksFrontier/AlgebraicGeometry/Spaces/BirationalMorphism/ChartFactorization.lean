@@ -48,7 +48,7 @@ private theorem etalePresheaf_of_openImmersion_local
       ((BigFppfOver.toScheme B S hS).map g) at hg
     let : AlgebraicGeometry.IsOpenImmersion
         ((BigFppfOver.toScheme B S hS).map g) := hg
-    show Etale ((BigFppfOver.toScheme B S hS).map g)
+    change Etale ((BigFppfOver.toScheme B S hS).map g)
     infer_instance
   change QO.presheaf f at hf
   exact MorphismProperty.relative_monotone hmono _ hf
@@ -165,7 +165,7 @@ private lemma pointsRange_preimage_iff_local
       have hyV : f.app (Opposite.op (yr.siteObject B S hS F)) yr.value ∈
           V.obj (Opposite.op (yr.siteObject B S hS F)) := by
         rw [hfval]
-        show r.value ∈ V.obj (Opposite.op r.siteObject)
+        change r.value ∈ V.obj (Opposite.op r.siteObject)
         rw [← hsq]
         exact V.map s.op qrep.value.property
       let lift : FieldValuedPoint B S hS (V.preimage f).toFunctor := {
@@ -180,7 +180,7 @@ private lemma pointsRange_preimage_iff_local
         apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
         refine ⟨yr, ?_, ?_⟩
         · refine ⟨𝟙 yr.siteObject, ?_⟩
-          show F.map (𝟙 yr.siteObject).op lift.value.1 = yr.value
+          change F.map (𝟙 yr.siteObject).op lift.value.1 = yr.value
           simp [lift, yr]
         · exact ⟨t, rfl⟩
       refine ⟨lift.class B S hS (V.preimage f).toFunctor, ?_⟩
@@ -238,7 +238,7 @@ private theorem isStableUnderBaseChange_openImmersion_local :
       MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS)).IsStableUnderBaseChange := by
   constructor
   intro A C C' D f g f' g' hpb hg
-  show AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map g')
+  change AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map g')
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
     (P := @AlgebraicGeometry.IsOpenImmersion.{u})
     (hpb.map (BigFppfOver.toScheme B S hS)) hg
@@ -259,7 +259,7 @@ private theorem chartFactorHom_isOpenImmersion
     have : Mono f := by
       change IsOpenImmersion B S hS f at hf
       exact AlgebraicGeometry.Space.mono_of_isOpenImmersion B S hS f hf
-    show Q (pullback.diagonal f)
+    change Q (pullback.diagonal f)
     exact Q.of_isIso _
   let : MorphismProperty.HasOfPostcompProperty Q Q :=
     (MorphismProperty.hasOfPostcompProperty_iff_le_diagonal).2 hQdiag
@@ -302,14 +302,14 @@ private theorem schemePoint_eq_of_dominates_local
       IsLocalRing.closedPoint q.carrier := by
     let : Field q.carrier := q.field
     let : Subsingleton (B.inclusion.obj (Over.left q.siteObject)) := by
-      show Subsingleton (Spec (.of q.carrier))
+      change Subsingleton (Spec (.of q.carrier))
       infer_instance
-    show (B.inclusion.map f.left) (IsLocalRing.closedPoint p.carrier) =
+    change (B.inclusion.map f.left) (IsLocalRing.closedPoint p.carrier) =
       IsLocalRing.closedPoint q.carrier
     exact Subsingleton.elim _ _
   simp only [Functor.map_comp, Scheme.Hom.comp_apply] at hAt
   rw [hclosed] at hAt
-  show (BigFppfOver.toScheme B S hS).map pmap
+  change (BigFppfOver.toScheme B S hS).map pmap
       (IsLocalRing.closedPoint p.carrier) =
     (BigFppfOver.toScheme B S hS).map qmap
       (IsLocalRing.closedPoint q.carrier)

@@ -59,7 +59,7 @@ theorem quotientSupport_isClosed
          (X.toRingedSpace.basicOpen (j.val.app (op U) s)).carrierᶜ by
     ext x
     simp only [Set.mem_iInter, Set.mem_compl_iff]
-    show (∀ (U : Opens X) (hx : x ∈ U) (s : J.val.obj (op U)),
+    change (∀ (U : Opens X) (hx : x ∈ U) (s : J.val.obj (op U)),
       ¬ IsUnit (X.presheaf.germ U x hx (j.val.app (op U) s))) ↔
       ∀ (U : Opens X) (s : J.val.obj (op U)),
         ¬ ∃ hx : x ∈ U, IsUnit (X.presheaf.germ U x hx (j.val.app (op U) s))
@@ -261,7 +261,7 @@ theorem quotientRingPresheaf_stalk_nontrivial
       subst i₂
       have hqone : (1 : P.obj (op V)) = 0 := by
         simpa only [map_one, map_zero] using hloc
-      show (1 : P.obj (op V)) = 0
+      change (1 : P.obj (op V)) = 0
       exact hqone
     have hmem : (1 : X.presheaf.obj (op V)) ∈ quotientIdeal X J j (op V) :=
       Ideal.Quotient.eq_zero_iff_mem.mp hloc'
@@ -270,7 +270,7 @@ theorem quotientRingPresheaf_stalk_nontrivial
       rw [Ideal.map_le_iff_le_comap]
       apply Ideal.span_le.mpr
       rintro _ ⟨s, rfl⟩
-      show X.presheaf.germ V x hxV
+      change X.presheaf.germ V x hxV
           (j.val.app (op V) s) ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x)
       rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
       exact hx V hxV s
@@ -331,16 +331,16 @@ theorem quotientRingSheafMap_stalk_surjective
     let r' : ((TopCat.Sheaf.forget CommRingCat.{u} X.toRingedSpace).obj
         X.toRingedSpace.sheaf).obj
         (op U) := by
-      show X.presheaf.obj (op U)
+      change X.presheaf.obj (op U)
       exact r
     refine ⟨((TopCat.Sheaf.forget CommRingCat.{u} X.toRingedSpace).obj
       X.toRingedSpace.sheaf).germ
       U x hxU r', ?_⟩
     rw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
-    show (quotientRingPresheaf X J j).germ U x hxU
+    change (quotientRingPresheaf X J j).germ U x hxU
         ((q₀.app (op U)).hom r) = _
     have hr' : (q₀.app (op U)).hom r' = s := by
-      show (Ideal.Quotient.mk (quotientIdeal X J j (op U))) r = s
+      change (Ideal.Quotient.mk (quotientIdeal X J j (op U))) r = s
       exact hr
     exact congrArg (fun t => (quotientRingPresheaf X J j).germ U x hxU t) hr'
   have hηsurj : Function.Surjective
@@ -348,7 +348,7 @@ theorem quotientRingSheafMap_stalk_surjective
     (toSheafify_stalkFunctor_map_bijective X _ x).2
   have hmap : (TopCat.Sheaf.forget CommRingCat X.toRingedSpace).map
       (quotientRingSheafMap X J j) = q₀ ≫ η := by
-    show (TopCat.Sheaf.forget CommRingCat.{u} X.toRingedSpace).map
+    change (TopCat.Sheaf.forget CommRingCat.{u} X.toRingedSpace).map
       ((TopCat.Sheaf.forget CommRingCat.{u} X.toRingedSpace).preimage (q₀ ≫ η)) = q₀ ≫ η
     exact Functor.map_preimage _ _
   have hcat : (TopCat.Presheaf.stalkFunctor CommRingCat x).map
@@ -398,7 +398,7 @@ theorem quotientRingSheaf_stalk_isLocalRing_of_mem_support
     ((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).map (quotientRingSheafMap X J j))).hom
   let : IsLocalRing ((TopCat.Presheaf.stalkFunctor CommRingCat x).obj
       ((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).obj X.toRingedSpace.sheaf)) := by
-    show IsLocalRing (X.presheaf.stalk x)
+    change IsLocalRing (X.presheaf.stalk x)
     exact X.isLocalRing x
   exact IsLocalRing.of_surjective' qx (quotientRingSheafMap_stalk_surjective X J j x)
 
@@ -413,11 +413,11 @@ theorem quotientRingSheafMap_stalk_isLocalHom
         (quotientRingSheafMap X J j))).hom) := by
   let : IsLocalRing ((TopCat.Presheaf.stalkFunctor CommRingCat x).obj
       ((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).obj X.toRingedSpace.sheaf)) := by
-    show IsLocalRing (X.presheaf.stalk x)
+    change IsLocalRing (X.presheaf.stalk x)
     exact X.isLocalRing x
   let : IsLocalRing ((TopCat.Presheaf.stalkFunctor CommRingCat x).obj
       ((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).obj (quotientRingSheaf X J j))) := by
-    show IsLocalRing (TopCat.Presheaf.stalk (C := CommRingCat)
+    change IsLocalRing (TopCat.Presheaf.stalk (C := CommRingCat)
       (quotientRingSheaf X J j).obj x)
     exact quotientRingSheaf_stalk_isLocalRing_of_mem_support X J j x hx
   exact IsLocalHom.of_surjective _
@@ -935,7 +935,7 @@ theorem mem_quotientIdeal_iff
     (j : J ⟶ SheafOfModules.unit (structureSheafRing X.toRingedSpace))
     (U : (Opens X)ᵒᵖ) (r : X.presheaf.obj U) :
     r ∈ quotientIdeal X J j U ↔ ∃ s, j.val.app U s = r := by
-  show r ∈ Submodule.span ((structureSheafRing X.toRingedSpace).obj.obj U)
+  change r ∈ Submodule.span ((structureSheafRing X.toRingedSpace).obj.obj U)
     (Set.range (j.val.app U)) ↔ _
   rw [show Submodule.span ((structureSheafRing X.toRingedSpace).obj.obj U)
       (Set.range (j.val.app U)) = (j.val.app U).hom.range from
@@ -967,7 +967,7 @@ theorem quotientRingSheafMap_zero
     (U : (Opens X)ᵒᵖ) (s : J.val.obj U) :
     (quotientRingSheafMapPresheaf X J j).app U (j.val.app U s) = 0 := by
   rw [quotientRingSheafMapPresheaf_eq]
-  show (CategoryTheory.toSheafify (Opens.grothendieckTopology X.toRingedSpace)
+  change (CategoryTheory.toSheafify (Opens.grothendieckTopology X.toRingedSpace)
       (quotientRingPresheaf X J j)).app U
       (Ideal.Quotient.mk (quotientIdeal X J j U) (j.val.app U s)) = 0
   have hz : Ideal.Quotient.mk (quotientIdeal X J j U) (j.val.app U s) = 0 :=
@@ -1003,7 +1003,7 @@ theorem quotientRingSheafMap_locally_exact
   obtain ⟨V, hxV, i, i', hv⟩ := P.germ_eq x hx hx _ _ hzero
   refine ⟨V, i, hxV, (mem_quotientIdeal_iff X J j _ _).mp ?_⟩
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  show Ideal.Quotient.mk (quotientIdeal X J j (op V)) (X.presheaf.map i.op r) = 0
+  change Ideal.Quotient.mk (quotientIdeal X J j (op V)) (X.presheaf.map i.op r) = 0
   exact hv.trans (map_zero (P.map i'.op).hom)
 
 /-- The morphism of sheaves of `𝒪_X`-modules from `𝒪_X` to the pushforward of the structure
@@ -1055,7 +1055,7 @@ theorem ideal_comp_supportStructureMap
     (j : J ⟶ SheafOfModules.unit (structureSheafRing X.toRingedSpace))
     (D : QuotientSupportSpaceData X J j) : j ≫ supportStructureMap X J j D = 0 := by
   ext U s
-  show (supportStructureMap X J j D).val.app U (j.val.app U s) = 0
+  change (supportStructureMap X J j D).val.app U (j.val.app U s) = 0
   exact (supportStructureMap_apply X J j D U (j.val.app U s)).trans
     ((congrArg ((quotientSupportSpaceIsoInvPresheaf X J j D).app U)
       (quotientRingSheafMap_zero X J j U s)).trans
@@ -1074,7 +1074,7 @@ theorem supportStructureMap_locally_exact
       ∃ s, j.val.app (op V) s = X.presheaf.map i.op r := by
   apply quotientRingSheafMap_locally_exact X J j U r _ x hx
   have he : IsIso ((quotientSupportSpaceIsoInvPresheaf X J j D).app (op U)) := by
-    show IsIso (((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).mapIso
+    change IsIso (((TopCat.Sheaf.forget CommRingCat X.toRingedSpace).mapIso
       D.quotientSheafIso).inv.app (op U))
     infer_instance
   apply ((ConcreteCategory.isIso_iff_bijective _).mp he).1
@@ -1151,9 +1151,9 @@ public theorem exists_closedSubspaceData
             idealIso_compat := he
             quotientIso := eqt
             quotientIso_compat := ?_ }⟩
-  · show Topology.IsClosedEmbedding (Subtype.val : quotientSupport X J j → X)
+  · change Topology.IsClosedEmbedding (Subtype.val : quotientSupport X J j → X)
     exact (quotientSupport_isClosed X J j).isClosedEmbedding_subtypeVal
-  · show Set.range (Subtype.val : quotientSupport X J j → X) = _
+  · change Set.range (Subtype.val : quotientSupport X J j → X) = _
     exact Subtype.range_coe
   · exact (cokernelIsCokernel j).comp_coconePointUniqueUpToIso_hom hc WalkingParallelPair.one
 

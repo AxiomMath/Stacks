@@ -542,7 +542,7 @@ theorem fieldExt_comp_symPtAway (h : sym k) (hh : diagonalPoint k h ≠ 0) :
   change specOverHom k _ ≫ specOverHom k _ = specOverHom k _ ≫ specOverHom k _
   rw [specOverHom_comp, specOverHom_comp]
   congr 1
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply IsLocalization.ringHom_ext (Submonoid.powers h)
   ext b
   simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.coe_toRingHom, AlgHom.coe_comp]

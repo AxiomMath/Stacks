@@ -60,7 +60,7 @@ theorem Module.IsFiniteLocallyFreeOfRank.of_ringEquiv {R S : Type u} [CommRing R
   let es : S ≃ₗ[R] R :=
     { e.symm.toAddEquiv with
       map_smul' := fun r s => by
-        show e.symm (r • s) = r • e.symm s
+        change e.symm (r • s) = r • e.symm s
         rw [Algebra.smul_def, halg, map_mul, RingEquiv.symm_apply_apply, smul_eq_mul] }
   let chain : TensorProduct R S M ≃ₗ[R] N :=
     (TensorProduct.congr es (LinearEquiv.refl R M)).trans
@@ -73,7 +73,7 @@ theorem Module.IsFiniteLocallyFreeOfRank.of_ringEquiv {R S : Type u} [CommRing R
     { chain.toAddEquiv with
       map_smul' := fun s x => by
         obtain ⟨r, rfl⟩ := e.surjective s
-        show chain ((e r) • x) = (e r) • chain x
+        change chain ((e r) • x) = (e r) • chain x
         rw [← halg]
         simp only [IsScalarTower.algebraMap_smul]
         rw [hsmulN]

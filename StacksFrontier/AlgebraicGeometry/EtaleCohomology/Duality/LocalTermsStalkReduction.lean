@@ -97,7 +97,7 @@ theorem nsmul_id_sheafFiber_cokernel_eq_zero {X : Scheme.{u}} {F G : EtaleModule
       Φ.map (cokernel.π ψ) ≫ (0 : Φ.obj (cokernel ψ) ⟶ Φ.obj (cokernel ψ)) := by
     rw [Preadditive.comp_nsmul, Category.comp_id, comp_zero,
       ← Category.id_comp (Φ.map (cokernel.π ψ)), ← Preadditive.nsmul_comp]
-    show (c • 𝟙 (Φ.obj G)) ≫ _ = 0
+    change (c • 𝟙 (Φ.obj G)) ≫ _ = 0
     rw [h, zero_comp]
   exact (cancel_epi _).1 h1
 

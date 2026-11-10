@@ -180,7 +180,7 @@ theorem dualToSingleHom_bijective (R S : Type u) [CommRing R] [CommRing S] [Alge
         (restrictScalarsSelfLinearEquiv R S).symm.toLinearMap) = g := by
       ext y
       rfl
-    show (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map _ ≫ e.inv = x
+    change (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map _ ≫ e.inv = x
     rw [hg, Functor.map_preimage, Category.assoc, e.hom_inv_id, Category.comp_id]
 
 /-- **The zeroth cohomology of `RHom_R(S, R)` is the `R`-dual of `S`, `S`-linearly.**  For an

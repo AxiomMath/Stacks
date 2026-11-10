@@ -137,7 +137,7 @@ sets underlying the structure map, and local surjectivity of a morphism of sheav
 concrete category is that of the underlying morphism of sheaves of sets. -/
 theorem structureRingMap_isLocallySurjective :
     Sheaf.IsLocallySurjective S.hom.structureRingMap := by
-  show Presheaf.IsLocallySurjective S.target.J S.hom.structureRingMap.hom
+  change Presheaf.IsLocallySurjective S.target.J S.hom.structureRingMap.hom
   rw [Presheaf.isLocallySurjective_iff_whisker_forget]
   exact S.structureMap_surjective
 

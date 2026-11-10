@@ -396,7 +396,7 @@ theorem koszulTopTermProj_comp_koszulTopTermInj (k : ℕ) :
       𝟙 ((koszulPowerComplexOn X f M n).X (koszulTopDeg r)) := by
   refine Pi.hom_ext _ _ fun S => ?_
   obtain rfl : S = AlternatingCech.topIdx r := AlternatingCech.eq_topIdx S
-  show koszulTopTermProj X f M n ≫ koszulTopTermInj X f M k ≫ koszulTopTermProj X f M k =
+  change koszulTopTermProj X f M n ≫ koszulTopTermInj X f M k ≫ koszulTopTermProj X f M k =
     𝟙 ((koszulPowerComplexOn X f M n).X (koszulTopDeg r)) ≫ koszulTopTermProj X f M k
   rw [koszulTopTermInj_comp_koszulTopTermProj, Category.comp_id]
   exact (Category.id_comp _).symm
@@ -451,12 +451,12 @@ theorem koszulGeneratorsMap_comp_koszulToTopHomologyOn :
         (koszulPowerComplexOn X f M n).d ((r : ℤ) - 1) (koszulTopDeg r) := by
     refine Pi.hom_ext _ _ fun S => ?_
     obtain rfl : S = AlternatingCech.topIdx r := AlternatingCech.eq_topIdx S
-    show koszulGeneratorsMap X f n M ≫ koszulTopTermInj X f M n ≫ koszulTopTermProj X f M n =
+    change koszulGeneratorsMap X f n M ≫ koszulTopTermInj X f M n ≫ koszulTopTermProj X f M n =
       toCoIdxProduct X r M ≫ (koszulPowerComplexOn X f M n).d ((r : ℤ) - 1) (koszulTopDeg r) ≫
         koszulTopTermProj X f M n
     rw [koszulTopTermInj_comp_koszulTopTermProj, Category.comp_id]
     exact (toCoIdxProduct_comp_d_comp_koszulTopTermProj X f M n).symm
-  show koszulGeneratorsMap X f n M ≫ koszulTopTermInj X f M n ≫
+  change koszulGeneratorsMap X f n M ≫ koszulTopTermInj X f M n ≫
       HomologicalComplex.topToHomology (koszulPowerComplexOn X f M n)
         (next_koszulTopDeg (r := r)) (koszulPowerComplexOn_d_top_eq_zero' X f n M) = 0
   rw [← Category.assoc, h1]
@@ -474,7 +474,7 @@ theorem map_f_koszulTopDeg_comp_koszulTopTermProj {m k : ℕ} (hkm : k ≤ m) :
         koszulTopTermProj X f M k =
       koszulTopTermProj X f M m := by
   rw [koszulDualSystemOn_map_down]
-  show AlternatingCech.mapX (koszulPowerTransDownOn X f M hkm) (koszulTopDeg r) ≫
+  change AlternatingCech.mapX (koszulPowerTransDownOn X f M hkm) (koszulTopDeg r) ≫
     koszulTopTermProj X f M k = koszulTopTermProj X f M m
   refine (AlternatingCech.mapX_comp_pi (koszulPowerTransDownOn X f M hkm)
     (AlternatingCech.topIdx r)).trans ?_

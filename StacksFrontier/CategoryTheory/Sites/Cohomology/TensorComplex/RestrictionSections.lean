@@ -99,7 +99,8 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
   [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [sliceSheafify : HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
   [sliceLocallyBijective : (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(sheafTensor.{u, u, u, u, u} X.O).Additive] [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [(sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [∀ (K₁ K₂ : CochainComplex
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
     HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
@@ -109,7 +110,8 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
       ((sheafTensor.{u, u, u, u, u} (X.O.over U)).obj M).Additive]
   [sliceTensorHasMap : ∀ (K₁ K₂ : CochainComplex
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))) ℤ),
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} (X.O.over U)) (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} (X.O.over U))
+      (ComplexShape.up ℤ)]
   (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
 
 /-- **The restriction comparison, unfolded.** Its inverse is the map of total complexes induced
@@ -121,7 +123,8 @@ lemma tensorComplexOverIso_inv_f (c : ℤ) :
     (tensorComplexOverIso X U A B).inv.f c =
       (HomologicalComplex₂.total.map (overSheafTensorBicomplexIso X U A B).inv
           (ComplexShape.up ℤ)).f c ≫
-        HomologicalComplex₂.TotalMap.totalMapf (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
+        HomologicalComplex₂.TotalMap.totalMapf
+          (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
           (sheafTensorBicomplex X A B) c :=
   rfl
 
@@ -136,26 +139,31 @@ lemma ι_tensorComplexOverIso_inv (t r c : ℤ)
       (sheafTensorOverIso X U (A.X t) (B.X r)).inv ≫
         (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
           ((sheafTensorBicomplex X A B).ιTotal (ComplexShape.up ℤ) t r c h) := by
-  have hpc : PreservesColimitsOfSize.{u, u} (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) :=
+  have hpc : PreservesColimitsOfSize.{u, u}
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) :=
     Stacks.SheafOfModules.pushforward_preservesColimits (J := X.J.over U) (K := X.J)
       (Over.forget U) (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
-  have hpc0 : PreservesColimitsOfSize.{0, 0} (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) :=
+  have hpc0 : PreservesColimitsOfSize.{0, 0}
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) :=
     preservesColimitsOfSize_shrink _
   have hht : HomologicalComplex₂.HasTotal
       (HomologicalComplex₂.TotalMap.mapBicomplex
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) (sheafTensorBicomplex X A B))
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
+        (sheafTensorBicomplex X A B))
       (ComplexShape.up ℤ) :=
     HomologicalComplex₂.hasTotal_of_iso (overSheafTensorBicomplexIso X U A B).symm _
   have e1 := HomologicalComplex₂.ιTotal_map _ _
     (overSheafTensorBicomplexIso X U A B).inv (ComplexShape.up ℤ) t r c h
   have e2 := HomologicalComplex₂.TotalMap.ι_totalMapf
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) (sheafTensorBicomplex X A B) c t r h
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
+    (sheafTensorBicomplex X A B) c t r h
   refine Eq.trans (congrArg
     (fun z => (overSheafTensorBicomplex X U A B).ιTotal (ComplexShape.up ℤ) t r c h ≫ z)
     (tensorComplexOverIso_inv_f X U A B c)) ?_
   exact ((Category.assoc _ _ _).symm.trans
     (congrArg (fun z => z ≫ HomologicalComplex₂.TotalMap.totalMapf
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) (sheafTensorBicomplex X A B) c) e1)).trans
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
+      (sheafTensorBicomplex X A B) c) e1)).trans
     ((Category.assoc _ _ _).trans (congrArg
       (fun z => (((overSheafTensorBicomplexIso X U A B).inv.f t).f r) ≫ z) e2))
 
@@ -174,17 +182,20 @@ lemma tensorComplexOverIso_inv_tensorComplexSection
       tensorComplexSection X t r c h a b := by
   have := isLocallyInjective_sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
     (overTensorPresheaf X U (A.X t) (B.X r))
-  have := isLocallySurjective_sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
+  have := isLocallySurjective_sheafifyUnit
+    (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
     (overTensorPresheaf X U (A.X t) (B.X r))
   refine Eq.trans (congrArg (fun z => z.val.app (op W)
     ((sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
       (overTensorPresheaf X U (A.X t) (B.X r))).app (op W)
         (a ⊗ₜ[((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj (op W)] b)))
     (ι_tensorComplexOverIso_inv X U A B t r c (by simpa using h))) ?_
-  exact congrArg (fun z => ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
+  exact congrArg (fun z => ((SheafOfModules.overFunctor.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
       ((sheafTensorBicomplex X A B).ιTotal (ComplexShape.up ℤ) t r c
         (by simpa using h))).val.app (op W) z)
-    (congrArg (fun z => z.app (op W) (a ⊗ₜ[((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj (op W)] b))
+    (congrArg (fun z => z.app (op W)
+        (a ⊗ₜ[((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj (op W)] b))
       (comp_liftOfUnit (sheafifyUnit (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)
           (overTensorPresheaf X U (A.X t) (B.X r)))
         ((overPresheafTensorIso X U (A.X t) (B.X r)).inv ≫

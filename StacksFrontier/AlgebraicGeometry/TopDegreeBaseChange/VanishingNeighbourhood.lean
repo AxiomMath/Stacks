@@ -76,7 +76,7 @@ theorem isZero_pullback_firstDirectImage_iff_of_factor_of_isPullback (f : X ⟶ 
   have hrange : Set.range g' ⊆ Set.range (f ⁻¹ᵁ W).ι := by
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show f (g' z) ∈ W
+    change f (g' z) ∈ W
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply]
     exact (g₀ (f' z)).2
   let l := IsOpenImmersion.lift (f ⁻¹ᵁ W).ι g' hrange

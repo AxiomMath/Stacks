@@ -261,7 +261,7 @@ theorem hom_eq_zero_of_homogeneousProd (n : ℕ) (g : A.exteriorPower n ⟶ Q)
     ((_root_.SheafOfModules.toSheaf (Sheaf.toRingCat (Opens.grothendieckTopology ↥X) Osharp)).obj Q)
     U (g.val.app (op U) t) 0 ?_
   intro x hx
-  show TopCat.Presheaf.germ Q.val.presheaf U x hx (g.val.app (op U) t) =
+  change TopCat.Presheaf.germ Q.val.presheaf U x hx (g.val.app (op U) t) =
     TopCat.Presheaf.germ Q.val.presheaf U x hx 0
   rw [← PresheafOfModules.stalkMapL_germ x g.val U hx t, hstalk x, LinearMap.zero_apply,
     map_zero]
@@ -330,7 +330,7 @@ theorem mul_mem_firstStepTotalIdeal (iF : F ⟶ H) (U : (Opens ↥X)ᵒᵖ) :
     (.comap (AddMonoidHom.mulRight u) (firstStepTotalIdeal AF A iF U))).2 ?_ hy
   rintro p ⟨c, u', rfl⟩
   refine AddSubgroup.mem_comap.2 ?_
-  show A.exterior.toPresheafGradedAlgebra.incl 1 _ * u' * u ∈ firstStepTotalIdeal AF A iF U
+  change A.exterior.toPresheafGradedAlgebra.incl 1 _ * u' * u ∈ firstStepTotalIdeal AF A iF U
   rw [mul_assoc]
   exact AddSubgroup.subset_closure ⟨c, u' * u, rfl⟩
 
@@ -364,7 +364,7 @@ theorem proj_mem_range_of_mem_firstStepTotalIdeal (iF : F ⟶ H) (k : ℕ) (U : 
     refine (AddSubgroup.closure_le _).2 ?_
     rintro p ⟨c, u, rfl⟩
     refine AddSubgroup.mem_comap.2 ?_
-    show A.exterior.toPresheafGradedAlgebra.proj U ((1 + k : ℕ) : ℤ)
+    change A.exterior.toPresheafGradedAlgebra.proj U ((1 + k : ℕ) : ℤ)
         (A.exterior.toPresheafGradedAlgebra.incl 1 _ * u) ∈
       LinearMap.range ((prodWedgeHom AF A A iF (𝟙 H) 1 k).val.app U).hom
     induction u using A.exterior.toPresheafGradedAlgebra.incl_induction with

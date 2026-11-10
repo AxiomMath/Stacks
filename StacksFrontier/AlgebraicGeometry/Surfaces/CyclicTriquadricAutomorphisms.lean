@@ -105,7 +105,8 @@ and `(𝓐 · (τ^n)^*𝓐) ≥ (𝓐 · 𝓐) + n`. -/
 private theorem pow_pullback_isAmple_and_intersectionNumber
     (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
     Scheme.Modules.IsAmple S ((Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A) ∧
-      intersectionNumber k p (𝟙 S) 2 hS.le ![(Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A,
+      intersectionNumber k p (𝟙 S) 2 hS.le
+          ![(Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A,
         (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] ∧
       intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] + n ≤
@@ -327,7 +328,8 @@ theorem exists_mem_nonvanishingLocus_cyclicTriquadric :
 
 /-- The automorphisms of the cyclically symmetric triquadric over `ℚ` form an infinite set. -/
 theorem infinite_setOf_comp_cyclicTriquadricToBase :
-    {g : Aut cyclicTriquadric | g.asIso.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase}.Infinite :=
+    {g : Aut cyclicTriquadric |
+      g.asIso.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase}.Infinite :=
   wehlerRelations_cyclicTriquadric.infinite_setOf_comp_eq
 
 /-- **The automorphism `τ = σ ∘ ρ`** of the cyclically symmetric triquadric. -/

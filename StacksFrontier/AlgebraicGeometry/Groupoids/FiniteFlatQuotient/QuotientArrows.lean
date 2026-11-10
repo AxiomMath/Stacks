@@ -215,7 +215,7 @@ lemma twistHom_twistHom {x₂ y₂ a₂ b₂ : T ⟶ G.objects}
   obtain rfl : x₂ = b := hx₂.symm.trans (K.twistHom_source r hx hy ha hb)
   obtain rfl : y₂ = a := hy₂.symm.trans (K.twistHom_target r hx hy ha hb)
   refine congrArg GroupoidScheme.EvaluationHom.arrow ?_
-  show K.rel hb₂ ≫ evaluationMk (K.twistHom r hx hy ha hb) hx₂ hy₂ ≫ K.rel ha₂ =
+  change K.rel hb₂ ≫ evaluationMk (K.twistHom r hx hy ha hb) hx₂ hy₂ ≫ K.rel ha₂ =
     K.twist r hx hy ha₃ hb₃
   rw [K.evaluationMk_twistHom r hx hy ha hb hx₂ hy₂, twist, twist,
     ← K.rel_comp ha₂ ha, ← K.rel_comp hb hb₂]

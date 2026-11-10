@@ -126,7 +126,7 @@ def restrictTargetIso :
     relativeExtTargetFunctor (a ≫ f) (pullbackComplex a G) ≅
       relativeExtTargetFunctor f G ⋙
         (modulePullback a).mapHomologicalComplex (ComplexShape.up ℤ) :=
-  NatIso.ofComponents (restrictTargetIsoApp a f G) (fun {F F'} v =>
+  NatIso.ofComponents (restrictTargetIsoApp a f G) (fun v =>
     HomologicalComplex.hom_ext _ _ (fun q => pullbackTensorTermIso_hom_naturality a f G q v))
 
 end Stacks.Cohomology.RelativeExt

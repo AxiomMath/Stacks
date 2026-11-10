@@ -86,7 +86,7 @@ local notation "𝐏" => 𝟙_ (CategoryTheory.ObjectProperty.FullSubcategory (S
 section Transpose
 
 variable {X Y : Scheme.{u}} (sX : X ⟶ (fieldChowSituation k).S)
-  (sY : Y ⟶ (fieldChowSituation k).S) [Smooth sX] [IsSeparated sX] [Smooth sY] [IsSeparated sY]
+  (sY : Y ⟶ (fieldChowSituation k).S) [Smooth sX] [IsSeparated sX] [Smooth sY]
   [QuasiCompact sY] {d e : ℕ}
 
 attribute [local instance] isClosedImmersion_graphMorphism

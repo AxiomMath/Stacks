@@ -141,7 +141,7 @@ public theorem linearIndependent_dpMonomial (b : Module.Basis ι R M) (K : Type*
         (MvPolynomial.basisMonomials ι K : (ι →₀ ℕ) → MvPolynomial ι K))
       = fun k : ι →₀ ℕ ↦ (MvPolynomial.monomial k (dpMonomialCoeff K k) : MvPolynomial ι K) := by
     funext k
-    show ((isUnit_dpMonomialCoeff K k).unit : K) • (MvPolynomial.basisMonomials ι K k) = _
+    change ((isUnit_dpMonomialCoeff K k).unit : K) • (MvPolynomial.basisMonomials ι K k) = _
     rw [IsUnit.unit_spec,
       show (MvPolynomial.basisMonomials ι K) k = MvPolynomial.monomial k (1 : K) from rfl,
       MvPolynomial.smul_monomial, smul_eq_mul, mul_one]

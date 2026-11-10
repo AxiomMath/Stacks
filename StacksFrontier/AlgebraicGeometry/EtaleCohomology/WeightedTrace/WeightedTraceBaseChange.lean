@@ -277,18 +277,18 @@ public theorem fiberPointPullbackStalkIso_square (t : GeometricPoint Y'.obj)
   have pw₁ : ℓ.1 ≫ B.inclusion.map V.obj.hom =
       (((x.toGeometricPoint B f' t).map (B.inclusion.map p)).map (B.inclusion.map f)).hom :=
     ℓ.2.trans (by
-      show (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g =
+      change (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g =
         (x.1 ≫ B.inclusion.map p) ≫ B.inclusion.map f
       rw [Category.assoc, Category.assoc, hsqm])
   have pw₂ : ℓ.1 ≫ B.inclusion.map V.obj.hom =
       ((x.toGeometricPoint B f' t).map (B.inclusion.map (p ≫ f))).hom :=
     ℓ.2.trans (by
-      show (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g =
+      change (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g =
         x.1 ≫ B.inclusion.map (p ≫ f)
       rw [CategoryTheory.Functor.map_comp, Category.assoc, hsqm])
   have pℓt : ℓ.1 ≫ B.inclusion.map V.obj.hom = (t.map (B.inclusion.map g)).hom :=
     ℓ.2.trans (by
-      show (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
+      change (x.1 ≫ B.inclusion.map f') ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
       rw [x.2])
   have hz : (etaleStalkSmallEtalePullObjIso B f' (x.toGeometricPoint B f' t)
         AddCommGrpCat.{u + 1} ((abPullback.{u, u + 1} B g).obj F)).inv

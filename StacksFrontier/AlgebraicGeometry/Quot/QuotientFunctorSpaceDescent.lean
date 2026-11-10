@@ -351,7 +351,7 @@ theorem morBase_spec {V : BigFppfOver B S hS} (t : T.obj.obj (op V)) :
       ObjectProperty.homMk (yonedaEquiv.symm t) ≫ D.morBase hc hQ v := by
   refine ObjectProperty.hom_ext _ ?_
   apply yonedaEquiv.injective
-  show _ = yonedaEquiv (yonedaEquiv.symm t ≫ (D.morBase hc hQ v).hom)
+  change _ = yonedaEquiv (yonedaEquiv.symm t ≫ (D.morBase hc hQ v).hom)
   rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
   rfl
 
@@ -580,7 +580,7 @@ theorem toMor_fromMor :
     (D.fromMor hc hQ hQq hdesc v).toMor D hres hc hQ = v := by
   ext W t
   obtain ⟨t⟩ := t
-  show D.spaceQuotientTotal hres (D.fromMor hc hQ hQq hdesc v)
+  change D.spaceQuotientTotal hres (D.fromMor hc hQ hQq hdesc v)
       (ObjectProperty.homMk (yonedaEquiv.symm t)) = v.app W (ULift.up t)
   obtain ⟨V', a, b, sqV, hae, has⟩ := (chosenChart T).exists_isPullback
     (ObjectProperty.homMk (yonedaEquiv.symm t) : (schemeSpaceFunctor B S hS).obj W.unop ⟶ T)
@@ -615,7 +615,7 @@ theorem morBase_toMor (q : D.SpaceQuotient Qs T) :
   refine hom_ext_yoneda fun V p ↦ ?_
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp, yonedaEquiv_comp]
-  show yonedaEquiv (yonedaEquiv.symm (yonedaEquiv p) ≫ q.hom.hom) = _
+  change yonedaEquiv (yonedaEquiv.symm (yonedaEquiv p) ≫ q.hom.hom) = _
   rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
 /-- **The pair determined by the transformation of a pair is that pair.** -/

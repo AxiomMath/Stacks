@@ -67,7 +67,7 @@ omit [SetLike σ A] [AddSubgroupClass σ A] [GradedRing 𝒜] in
 @[ega "0 1.2.2" "i_A^S preserves 1"]
 public theorem localizedModule_mk_one_one (P : Submonoid A) :
     (LocalizedModule.mk (1 : A) (1 : P) : LocalizedModule P A) = 1 := by
-  show Localization.mk (1 : A) (1 : P) = 1
+  change Localization.mk (1 : A) (1 : P) = 1
   exact Localization.mk_one
 
 /-- The value of the unit section of the degree-zero twist at every point is `1`. -/

@@ -317,7 +317,7 @@ public theorem exists_flat_fiber_comparison
   · exact (RingHom.Flat.tensorProductMap (RingHom.Flat.of_isField (Field.toIsField _) _)
       (RingHom.Flat.of_bijective (f := (AlgHom.id R C).toRingHom) Function.bijective_id)).comp
       (RingHom.Flat.of_bijective e.bijective)
-  · show e (Algebra.TensorProduct.map (IsScalarTower.toAlgHom R k K) (AlgHom.id R C)
+  · change e (Algebra.TensorProduct.map (IsScalarTower.toAlgHom R k K) (AlgHom.id R C)
         (algebraMap C (k ⊗[R] C) x)) = e (algebraMap C (K ⊗[R] C) x)
     rw [Algebra.TensorProduct.right_algebraMap_apply,
       Algebra.TensorProduct.right_algebraMap_apply, Algebra.TensorProduct.map_tmul, map_one,
@@ -409,7 +409,7 @@ public theorem zeroLocus_fiber_eq_sUnion_irreducibleComponents (g : B) (p : Prim
   have ha₀ne : a₀ ≠ 0 := fun hzero => ha (by rw [← ha₀, hzero]; simp)
   have heq₀ : g₀ * h₀ = algebraMap A₀ restriction.range a₀ :=
     Subtype.ext (by
-      show (g₀ : B) * (h₀ : B) = algebraMap A B (a₀ : A)
+      change (g₀ : B) * (h₀ : B) = algebraMap A B (a₀ : A)
       rw [hg₀, hh₀, ha₀, hah])
   have : Algebra.FiniteType A₀ restriction.range :=
     Algebra.FiniteType.of_surjective restriction.rangeRestrict

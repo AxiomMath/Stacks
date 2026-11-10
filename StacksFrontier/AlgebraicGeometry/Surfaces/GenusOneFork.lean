@@ -128,7 +128,10 @@ components carry a Dynkin configuration `v` of shape `d` and scale `w` with `x =
 multiplicities are annihilated by the weighted Cartan matrix of `d` away from `r₀` and satisfy
 `2 (M m)_{r₀} = k wf(r₀) m_{r₀}` there; and the shape, the attachment vertex and the level are
 one of seven explicit possibilities. -/
-@[stacks 0C8T "the reduction for at least five components one of which meets three or more others — cases (22), (23), (24), (29), (30), (31), (32), (33) and (34): deleting a component that meets exactly one other leaves a Dynkin configuration whose shape, attachment vertex and level are one of seven explicit possibilities"]
+@[stacks 0C8T "the reduction for at least five components one of which meets three or more \
+    others — cases (22), (23), (24), (29), (30), (31), (32), (33) and (34): deleting a \
+    component that meets exactly one other leaves a Dynkin configuration whose shape, \
+    attachment vertex and level are one of seven explicit possibilities"]
 public theorem exists_affine_extension_of_three_le_neighborCount (T : NumericalType)
     (hmin : IsMinimal T) (hgenus : genus T = 1) (hn : 5 ≤ T.componentCount)
     (i₀ : Fin T.componentCount) (hdeg : 3 ≤ neighborCount T i₀) :

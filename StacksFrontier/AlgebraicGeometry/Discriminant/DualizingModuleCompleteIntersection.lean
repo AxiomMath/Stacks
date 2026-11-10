@@ -162,7 +162,7 @@ private theorem isLocalCompleteIntersection_algebraMap
   rw [RingHom.IsLocalCompleteIntersection, toAlgebra_algebraMap]
   refine ⟨RingHom.finiteType_algebraMap.mpr inferInstance,
     n, MvPolynomial.aeval P.val, P.aeval_val_surjective, ?_⟩
-  show Ideal.IsKoszulRegular (RingHom.ker (MvPolynomial.aeval (R := k) P.val))
+  change Ideal.IsKoszulRegular (RingHom.ker (MvPolynomial.aeval (R := k) P.val))
   rw [← P.ker_eq_ker_aeval_val, ← P.span_range_relation_eq_ker]
   exact isKoszulRegularIdeal_span_range P.relation
     (RingHom.isKoszulRegular_relation_of_isRelativeGlobalCompleteIntersection P hP)
@@ -324,10 +324,10 @@ private theorem module_invertible_of_derived_single_invertible
     obtain ⟨q, hq⟩ : ∃ q : PrimeSpectrum (Localization.Away f),
         q.comap (algebraMap R (Localization.Away f)) = p :=
       (PrimeSpectrum.localization_away_comap_range (Localization.Away f) f).symm.le hf
-    show Module.rankAtStalk M p = 1
+    change Module.rankAtStalk M p = 1
     rw [Module.rankAtStalk_eq_of_equiv eH0.symm, ← hq,
       ← Module.rankAtStalk_isBaseChange (LocalizedModule.isBaseChange S H0) q]
-    show Module.rankAtStalk (LocalizedModule.Away f H0) q = 1
+    change Module.rankAtStalk (LocalizedModule.Away f H0) q = 1
     have : Nontrivial (Localization.Away f) := q.nontrivial
     have hj := congrFun (Module.rankAtStalk_eq_of_equiv j) q
     have hself := congrFun (Module.rankAtStalk_eq_of_equiv

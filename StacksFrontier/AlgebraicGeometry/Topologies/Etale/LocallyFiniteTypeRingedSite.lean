@@ -117,7 +117,7 @@ def affineHypercover (V : Lifted S) : PreZeroHypercover.{u + 1} V where
 lemma isQuasiCompactEtaleCovering_affineHypercover (V : Lifted S) :
     IsQuasiCompactEtaleCovering (affineHypercover V) := by
   refine ⟨fun i ↦ ?_, fun x ↦ ?_, fun i ↦ isQuasiCompact_affineObj _ i.down⟩
-  · show Etale (((liftedEquiv S).inverse.obj V).obj.left.affineCover.f i.down)
+  · change Etale (((liftedEquiv S).inverse.obj V).obj.left.affineCover.f i.down)
     infer_instance
   · exact ⟨⟨((liftedEquiv S).inverse.obj V).obj.left.affineCover.idx x⟩,
       ((liftedEquiv S).inverse.obj V).obj.left.affineCover.covers x⟩
@@ -152,14 +152,14 @@ lemma exists_isQuasiCompactEtaleCovering_hom {V : Lifted S} (𝒰 : PreZeroHyper
     ⟨{ s₀ x := i x.down
        h₀ x := g x.down ≫ c x.down
        w₀ x := by
-         show (g x.down ≫ c x.down) ≫ 𝒰.f (i x.down) = g x.down ≫ f x.down
+         change (g x.down ≫ c x.down) ≫ 𝒰.f (i x.down) = g x.down ≫ f x.down
          rw [Category.assoc, hc, hab] }⟩⟩
-  · show Etale ((T x.down).obj.left.affineCover.f (A x.down) ≫ (liftedForget S).map (f x.down))
+  · change Etale ((T x.down).obj.left.affineCover.f (A x.down) ≫ (liftedForget S).map (f x.down))
     have := het x.down
     infer_instance
   · obtain ⟨w, hw⟩ := (T x).obj.left.affineCover.covers (z x)
     refine ⟨w, ?_⟩
-    show ((liftedForget S).map (f x)).base
+    change ((liftedForget S).map (f x)).base
       (((T x).obj.left.affineCover.f (A x)).base w) = x
     rw [hw, hz]
 

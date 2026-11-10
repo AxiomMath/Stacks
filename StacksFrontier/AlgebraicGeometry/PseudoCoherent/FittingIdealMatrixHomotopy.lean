@@ -287,12 +287,12 @@ identity matrix, in coordinates. -/
 private theorem trivialContr_self_apply (i : ℤ) (m : ℕ)
     (x : Fin ((trivialComplex R i m).rank i)) (y : Fin ((trivialComplex R i m).rank (i + 1))) :
     trivialContr (R := R) i m i x y = if (x : ℕ) = (y : ℕ) then (1 : R) else 0 := by
-  rw [trivialContr, if_pos rfl]
+  rw [trivialContr, ite_eq_left rfl]
   rfl
 
 /-- Outside that degree the contraction vanishes. -/
 private theorem trivialContr_eq_zero (i : ℤ) (m : ℕ) {j : ℤ} (hj : j ≠ i) :
-    trivialContr (R := R) i m j = 0 := if_neg hj
+    trivialContr (R := R) i m j = 0 := ite_eq_right hj
 
 /-- The two ranks of the trivial two-term complex that its differential connects are both `m`. -/
 private theorem trivialComplex_rank_eq (i : ℤ) (m : ℕ) :
@@ -310,11 +310,12 @@ private theorem trivialComplex_d_mul_trivialContr (i : ℤ) (m : ℕ) :
       b ≠ (⟨(x : ℕ), hxi⟩ : Fin ((trivialComplex R i m).rank i)) →
       (trivialComplex R i m).d i x b * trivialContr (R := R) i m i b y = 0 := by
     intro b hb
-    rw [trivialComplex_d_self_apply, if_neg fun hc => hb (Fin.ext hc.symm), zero_mul]
+    rw [trivialComplex_d_self_apply, ite_eq_right fun hc => hb (Fin.ext hc.symm), zero_mul]
   rw [Matrix.mul_apply, Finset.sum_eq_single_of_mem
       (⟨(x : ℕ), hxi⟩ : Fin ((trivialComplex R i m).rank i)) (Finset.mem_univ _)
       (fun b _ hb => hzero b hb),
-    trivialComplex_d_self_apply, trivialContr_self_apply, if_pos rfl, one_mul, Matrix.one_apply]
+    trivialComplex_d_self_apply, trivialContr_self_apply, ite_eq_left rfl, one_mul,
+    Matrix.one_apply]
   exact if_congr (show ((x : ℕ)) = ((y : ℕ)) ↔ x = y from Fin.val_eq_val x y) rfl rfl
 
 /-- The contraction of the trivial two-term complex composed with its differential is the
@@ -328,11 +329,12 @@ private theorem trivialContr_mul_trivialComplex_d (i : ℤ) (m : ℕ) :
       b ≠ (⟨(x : ℕ), hxi⟩ : Fin ((trivialComplex R i m).rank (i + 1))) →
       trivialContr (R := R) i m i x b * (trivialComplex R i m).d i b y = 0 := by
     intro b hb
-    rw [trivialContr_self_apply, if_neg fun hc => hb (Fin.ext hc.symm), zero_mul]
+    rw [trivialContr_self_apply, ite_eq_right fun hc => hb (Fin.ext hc.symm), zero_mul]
   rw [Matrix.mul_apply, Finset.sum_eq_single_of_mem
       (⟨(x : ℕ), hxi⟩ : Fin ((trivialComplex R i m).rank (i + 1))) (Finset.mem_univ _)
       (fun b _ hb => hzero b hb),
-    trivialContr_self_apply, trivialComplex_d_self_apply, if_pos rfl, one_mul, Matrix.one_apply]
+    trivialContr_self_apply, trivialComplex_d_self_apply, ite_eq_left rfl, one_mul,
+    Matrix.one_apply]
   exact if_congr (show ((x : ℕ)) = ((y : ℕ)) ↔ x = y from Fin.val_eq_val x y) rfl rfl
 
 /-- **The trivial two-term complex is contractible**: its identity is the boundary of the

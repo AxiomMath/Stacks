@@ -210,7 +210,7 @@ public theorem unit_comp_canPR {Y : Scheme.{u}} (G : Y.Modules) {A B : Y.Opens} 
       (Scheme.Modules.restrictAdjunction A.ι).unit.app G := by
   refine Scheme.Modules.hom_ext _ _ fun V => ?_
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
-  show (canPR G hAB).app V (((Scheme.Modules.restrictAdjunction B.ι).unit.app G).app V x) = _
+  change (canPR G hAB).app V (((Scheme.Modules.restrictAdjunction B.ι).unit.app G).app V x) = _
   rw [canPR_app_apply, Scheme.Modules.restrictAdjunction_unit_app_app,
     Scheme.Modules.restrictAdjunction_unit_app_app]
   exact collapse2 G (homOfLE (B.ι.image_preimage_le V))

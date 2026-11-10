@@ -98,7 +98,7 @@ theorem isDerivedCompleteAt_of_derivedPushforward_overFunctor
   let AV := SheafOfModules.{u} RV
   let : Linear (CatCenter AV) AV := Linear.ofRingMorphism (RingHom.id (CatCenter AV))
   let : ∀ W : (Over V)ᵒᵖ, IsMulCommutative (RV.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (Y.O.obj.obj (op W.unop.left))
+    change IsMulCommutative (Y.O.obj.obj (op W.unop.left))
     infer_instance
   have hProdV : HasProductsOfShape ℕ (DerivedCategory AV) :=
     hasProductsOfShape_nat_derivedCategory_over.{u, u, u} Y V
@@ -108,7 +108,7 @@ theorem isDerivedCompleteAt_of_derivedPushforward_overFunctor
   let AU := SheafOfModules.{u} RU
   let : Linear (CatCenter AU) AU := Linear.ofRingMorphism (RingHom.id (CatCenter AU))
   let : ∀ W : (Over (f.u.obj V))ᵒᵖ, IsMulCommutative (RU.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (X.O.obj.obj (op W.unop.left))
+    change IsMulCommutative (X.O.obj.obj (op W.unop.left))
     infer_instance
   have hProdU : HasProductsOfShape ℕ (DerivedCategory AU) :=
     hasProductsOfShape_nat_derivedCategory_over.{u, u, u} X (f.u.obj V)

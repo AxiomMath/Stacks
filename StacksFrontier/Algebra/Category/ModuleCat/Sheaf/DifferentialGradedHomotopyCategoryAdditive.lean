@@ -51,8 +51,8 @@ functors, the distinguished triangles coming from admissible short exact sequenc
 pre-triangulated structure and the octahedron axiom are not here, so no `@[stacks]` attribute is
 placed in this file.
 
-The missing ingredient is Stacks 09QY, Differential Graded Algebra Proposition 22.27.16, which says that
-the homotopy category of a differential graded category in a cone situation is triangulated;
+The missing ingredient is Stacks 09QY, Differential Graded Algebra Proposition 22.27.16, which says
+that the homotopy category of a differential graded category in a cone situation is triangulated;
 it is not available in the library. The generic development in
 `StacksFrontier/CategoryTheory/DifferentialGraded/` stops at the ingredients — the connecting
 morphism and the associated triangles of Stacks 09P6, `DGCategory.ConeSituation` of Stacks 09QJ,

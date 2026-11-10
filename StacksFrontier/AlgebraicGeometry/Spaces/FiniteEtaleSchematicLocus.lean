@@ -250,7 +250,7 @@ theorem exists_isRepresentable_isOpenSubspace_mem_range
       (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS) := by
     intro A A' f hf
     have _ : _root_.AlgebraicGeometry.IsFinite ((BigFppfOver.toScheme B S hS).map f) := hf
-    show QuasiCompact ((BigFppfOver.toScheme B S hS).map f)
+    change QuasiCompact ((BigFppfOver.toScheme B S hS).map f)
     infer_instance
   have hqcfst : IsQuasiCompact B S hS (pullback.fst q q) :=
     isQuasiCompact_of_presheaf_quasiCompact B S hS
@@ -298,7 +298,7 @@ theorem exists_isRepresentable_isOpenSubspace_mem_range
         (BigFppfOver.toScheme B S hS).map (atlasRelationSource B S hS hqsurj') ⁻¹ᵁ W := by
       ext r
       exact (hWinvset r).symm
-    show (Subobject.pullback ((BigFppfOver.toScheme B S hS).map
+    change (Subobject.pullback ((BigFppfOver.toScheme B S hS).map
         (atlasRelationTarget B S hS hqsurj'))).obj (Subobject.mk W.ι) =
       (Subobject.pullback ((BigFppfOver.toScheme B S hS).map
         (atlasRelationSource B S hS hqsurj'))).obj (Subobject.mk W.ι)
@@ -324,7 +324,7 @@ theorem exists_isRepresentable_isOpenSubspace_mem_range
         ⟨pointsToScheme B S hS U a₀, hWmem⟩)
     refine ⟨a', injective_pointsToScheme B S hS U ?_⟩
     rw [pointsToScheme_pointsMap, ha']
-    show (((Subobject.underlyingIso W.ι).symm.hom ≫ e.inv) ≫
+    change (((Subobject.underlyingIso W.ι).symm.hom ≫ e.inv) ≫
         (BigFppfOver.toScheme B S hS).map i)
       ⟨pointsToScheme B S hS U a₀, hWmem⟩ = pointsToScheme B S hS U a₀
     rw [hfac]

@@ -18,7 +18,8 @@ public import StacksFrontier.Topology.Algebra.AdicTopology.WeaklyAdmissible
 /-!
 # Adic ring maps: the refined forms
 
-The strengthened forms of declarations of `StacksFrontier.Topology.Algebra.AdicTopology.AdicRingMap`.
+The strengthened forms of declarations of
+`StacksFrontier.Topology.Algebra.AdicTopology.AdicRingMap`.
 A declaration of that module whose statement was strengthened keeps its original statement there;
 its strengthened form lives here under a primed name.
 
@@ -125,16 +126,6 @@ end
 section
 
 section
-
-end
-
-end
-
-section
-
-section
-
-add_to_stacks 0GBS "part (2)" RingHom.isAdic_of_isTaut
 
 end
 

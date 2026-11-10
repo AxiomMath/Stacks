@@ -63,7 +63,7 @@ theorem moduleFinite_ext_of_moduleFinite_homology (n : ℕ)
     rw [LinearMap.mem_ker]
     let g₁ : X ⟶ R.cocomplex.X i := g
     have hg₁ : (g₁ ≫ R.cocomplex.d i n) ≫ R.cocomplex.d n (n + 1) = 0 := by simp
-    show R.extMk (g₁ ≫ R.cocomplex.d i n) (n + 1) rfl hg₁ = 0
+    change R.extMk (g₁ ≫ R.cocomplex.d i n) (n + 1) rfl hg₁ = 0
     by_cases hin : (ComplexShape.up ℕ).Rel i n
     · exact (R.extMk_eq_zero_iff _ (n + 1) rfl hg₁ i hin).2 ⟨g₁, rfl⟩
     · simp [R.cocomplex.shape i n hin]

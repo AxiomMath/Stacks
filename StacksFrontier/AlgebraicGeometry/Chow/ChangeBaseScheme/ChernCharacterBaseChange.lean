@@ -111,8 +111,7 @@ theorem rationalBaseChangeChowPullback_rationalChowCap (a : VectorBundleKZero X)
   | zero => simp only [map_zero]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | of k t =>
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul r α =>
     rw [chernCharacterVectorBundle_apply, chernCharacterVectorBundle_apply,
@@ -170,8 +169,7 @@ theorem rationalBaseChangeChowPullback_rationalChernCharacterCap
       rationalChernCharacterCap B.baseChange (pullback.snd sX B.g)
         ((VectorBundleKZero.pullback (pullback.fst sX B.g)).toIntLinearMap.baseChange ℚ x)
         (rationalBaseChangeChowPullback B sX β) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     rw [rationalChernCharacterCap_tmul, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap, rationalChernCharacterCap_tmul, LinearMap.smul_apply,

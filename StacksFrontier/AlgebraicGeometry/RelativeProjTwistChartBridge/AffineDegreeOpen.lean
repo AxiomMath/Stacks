@@ -60,7 +60,8 @@ not done.
 
 The morphism is not shown here to lie over the base either, and that is a limitation of this
 file and **not** of the repository: there is something to feed
-`Stacks.AlgebraicGeometry.RelativeProjTwistChartBridge.pullbackTwistIso_over_base`. `MorphismToProjUniversal.IsCompatible`, the strict equivalence
+`Stacks.AlgebraicGeometry.RelativeProjTwistChartBridge.pullbackTwistIso_over_base`.
+`MorphismToProjUniversal.IsCompatible`, the strict equivalence
 `existsUnique_hom_toDegreeOpen` delivers, is indeed a condition on sections only and says nothing
 about `φ` composed with the structure morphism; but
 `Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.Quadruple.toProj_classifyingHom_comp_toSpecZero`

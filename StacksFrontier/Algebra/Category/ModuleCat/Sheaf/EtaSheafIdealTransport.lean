@@ -159,7 +159,7 @@ theorem idealPowerAnnihilatorSubsheaf_eq
       Stacks.IdealTorsion.idealPowerAnnihilatorSubsheaf Z κ F n := by
   have he2 : e.inv ≫ ι = κ := by rw [← he, Iso.inv_hom_id_assoc]
   let _ : CompleteLattice F.Submodule := SheafOfModules.Submodule.instCompleteLattice
-  show sSup _ = sSup _
+  change sSup _ = sSup _
   rw [Set.Subset.antisymm (annihilatorFamily_subset Z κ ι e.inv he2 F n)
     (annihilatorFamily_subset Z ι κ e.hom he F n)]
 
@@ -305,7 +305,7 @@ theorem powerIso_idealPowerIncl
   let rightUnitor := (tensorProductRightUnitor Z.sheaf.obj
     (Stacks.SheafOfModules.Tensor.ringSheaf
       (CategoryTheory.ObjectProperty.FullSubcategory.mk Z.presheaf Z.IsSheaf)).property P).hom
-  show ((tensor.map (𝟙 P)).app I ≫ (tensor.obj P).map ι) ≫ rightUnitor =
+  change ((tensor.map (𝟙 P)).app I ≫ (tensor.obj P).map ι) ≫ rightUnitor =
     (tensor.obj P).map e.hom ≫
       ((tensor.map (𝟙 P)).app J ≫ (tensor.obj P).map κ) ≫ rightUnitor
   simp only [tensor.map_id, NatTrans.id_app, Category.id_comp]

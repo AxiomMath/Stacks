@@ -109,7 +109,7 @@ theorem traceProj_mul_cycleClassRing_pushforward (hA : W.PerfectPairing)
   | add x y hx hy => rw [add_mul, map_add, hx, map_add, add_mul, map_add, hy]
   | @homogeneous m b =>
     obtain ⟨b, hbm⟩ := b
-    show W.traceProj Y e hY (b * _) = W.traceProj X d hX (W.pull f b * _)
+    change W.traceProj Y e hY (b * _) = W.traceProj X d hX (W.pull f b * _)
     by_cases hm : m = 2 * e - 2 * q
     · subst hm
       have key := pushforward_trace' hA f hX hY (2 * p) p (2 * q) q (by omega) (by omega)
@@ -139,13 +139,13 @@ theorem traceProj_pull_fst_mul_pull_snd (hK : W.KunnethTrace)
   | add x x' hx hx' => rw [map_add, add_mul, map_add, hx, hx', map_add, add_mul]
   | @homogeneous m x =>
     obtain ⟨x, hxm⟩ := x
-    show W.traceProj _ _ hXY (W.pull (fst X Y) x * _) = W.traceProj X d hX x * _
+    change W.traceProj _ _ hXY (W.pull (fst X Y) x * _) = W.traceProj X d hX x * _
     induction y using DirectSum.Decomposition.inductionOn (W.grade Y) with
     | zero => simp
     | add y y' hy hy' => rw [map_add, mul_add, map_add, hy, hy', map_add, mul_add]
     | @homogeneous m' y =>
       obtain ⟨y, hym⟩ := y
-      show W.traceProj _ _ hXY (_ * W.pull (snd X Y) y) = _ * W.traceProj Y e hY y
+      change W.traceProj _ _ hXY (_ * W.pull (snd X Y) y) = _ * W.traceProj Y e hY y
       have hprod : W.pull (fst X Y) x * W.pull (snd X Y) y ∈ W.grade (prod X Y) (m + m') :=
         SetLike.GradedMul.mul_mem (W.pull_grade _ m x hxm) (W.pull_grade _ m' y hym)
       by_cases hm : m = 2 * d

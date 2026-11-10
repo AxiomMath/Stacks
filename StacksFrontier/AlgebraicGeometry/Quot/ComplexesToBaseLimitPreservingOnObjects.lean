@@ -95,10 +95,10 @@ theorem isLimitPreservingOnObjects_complexesToBaseCFG (D : ComplexesSituation B 
     have e₁ : (BigFppfOver.toScheme B S hS).map (y ≫ d.π.app k).left =
         (BigFppfOver.toScheme B S hS).map y.left ≫
           ((BigAffineFppf.toScheme B S hS).mapCone c).π.app k.left := by
-      show (BigFppfOver.toScheme B S hS).map (y.left ≫ eqToHom rfl ≫ _) = _
+      change (BigFppfOver.toScheme B S hS).map (y.left ≫ eqToHom rfl ≫ _) = _
       simp only [eqToHom_refl, Functor.map_comp]
       rfl
-    show ((BigFppfOver.toScheme B S hS).map y.left ≫
+    change ((BigFppfOver.toScheme B S hS).map y.left ≫
       ((BigAffineFppf.toScheme B S hS).mapCone c).π.app k.left) t₀ ∈ W
     rw [← e₁]
     exact hsub ⟨t₀, rfl⟩
@@ -124,7 +124,7 @@ theorem isLimitPreservingOnObjects_complexesToBaseCFG (D : ComplexesSituation B 
     ⟨d.π.app j', (D.coneStageComparison d s' Ek ≪≫ e).hom, Iso.isIso_hom _⟩
   have hδ : p.IsHomLift (incl.map (c.π.app j)) (δ : A ⟶ xj) := by
     refine IsHomLift.of_fac' _ _ _ rfl rfl ?_
-    show eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
+    change eqToHom rfl ≫ _ = eqToHom rfl ≫ _ ≫ eqToHom rfl
     simp only [eqToHom_refl]
     exact (Category.id_comp _).trans (Category.comp_id _).symm
   have hcart : ∀ {R T : BigFppfOver B S hS} (f : R ⟶ T) {a b : ComplexesObject D} (φ : a ⟶ b),
@@ -138,8 +138,8 @@ theorem isLimitPreservingOnObjects_complexesToBaseCFG (D : ComplexesSituation B 
   have hγ' : q.IsStronglyCartesian (incl.map (Dg.map j'.hom)) γ' := hq.isStronglyCartesian γ'
   have hsq : (complexesToBase D).map (δ : A ⟶ xj) ≫ γ' = (complexesToBase D).map (𝟙 A) ≫ γ := by
     refine ULift.ext (CostructuredArrow.hom_ext _ _ ?_)
-    show (d.π.app j' ≫ γ'.down).left = (𝟙 A.T ≫ γ₀).left
-    show (eqToHom rfl ≫ incl.map (c.π.app j)) ≫ incl.map (Dg.map j'.hom) = (𝟙 A.T ≫ γ₀).left
+    change (d.π.app j' ≫ γ'.down).left = (𝟙 A.T ≫ γ₀).left
+    change (eqToHom rfl ≫ incl.map (c.π.app j)) ≫ incl.map (Dg.map j'.hom) = (𝟙 A.T ≫ γ₀).left
     rw [Category.id_comp, hγl, Category.assoc, ← Functor.map_comp, Cone.w]
   exact ⟨j, j'.hom, ⟨xj, rfl⟩, ⟨A, rfl⟩, δ, 𝟙 A, γ', hcart _ _ hδ, IsHomLift.id rfl,
     IsIso.id _, hγ', hsq⟩

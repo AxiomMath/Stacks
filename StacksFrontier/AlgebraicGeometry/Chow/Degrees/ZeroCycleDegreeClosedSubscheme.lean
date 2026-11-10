@@ -213,7 +213,7 @@ theorem cycleDegree_cycleAssociatedToClosedSubscheme_eq_finrank_globalSections (
         (I.subschemeι ≫ p) (𝟙 I.subscheme) 0 ⟨z, hgen⟩ (by simpa using hz0 z)
       rw [componentMultiplicity_eq_length_stalk (𝟙 I.subscheme) ⟨z, hgen⟩] at h
       simpa using h
-    rw [hcoeff, if_pos (by rw [hz0 z, hbase]),
+    rw [hcoeff, ite_eq_left (by rw [hz0 z, hbase]),
       residueDegree_eq_finrank_residueField k (I.subschemeι ≫ p) z,
       finrank_stalk_eq_length_mul_finrank_residueField k (I.subschemeι ≫ p) z]
     push_cast

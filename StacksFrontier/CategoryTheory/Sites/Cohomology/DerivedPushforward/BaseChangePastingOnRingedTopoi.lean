@@ -281,7 +281,7 @@ theorem baseChangeMate_horizontal {A A' A'' B B' B'' : Type*}
     adj''.homEquiv_naturality_right_symm, hc', hc₀]
   simp only [Category.assoc]
   rw [comp₃_app_naturality_assoc x' y' z' c, ← G'.map_comp_assoc]
-  show F''.map (eH.inv.app (R.obj K)) ≫ x'.app (H.obj (R.obj K)) ≫
+  change F''.map (eH.inv.app (R.obj K)) ≫ x'.app (H.obj (R.obj K)) ≫
       y'.app (H.obj (R.obj K)) ≫ z'.app (H.obj (R.obj K)) ≫
       G'.map ((adj'.homEquiv _ _).symm c) ≫ eG.hom.app K = _
   rw [hc, ← hs (R.obj K), Functor.map_comp]
@@ -321,7 +321,7 @@ theorem twoSquare_paste_of_app {A B C D E F : Type*}
     TwoSquare.mk Tl Lo Ro Bu (ego₁ ≫ ego₂ ≫ efo) =
       ((TwoSquare.mk Tl Ll Rl Tu (eg₂₁ ≫ eg₂₂ ≫ ef₂) ≫ᵥ
         TwoSquare.mk Tu Lu Ru Bu (eg₁₁ ≫ eg₁₂ ≫ ef₁)).whiskerLeft cL).whiskerRight cR := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   have hM := h M
   rw [← hd₀ M, ← hd₂ M, ← hd₁ (Ll.obj M)] at hM
   simpa [TwoSquare.vComp, TwoSquare.whiskerLeft, TwoSquare.whiskerRight, Functor.map_comp,
@@ -421,6 +421,9 @@ variable {X Y Z : RingedTopos.{u, u, u}}
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Compatibility of the Stacks 0D6D comparison with an equality of the inner morphism.** -/
 theorem derivedPullbackCompComparison_congr_left (f f' : RingedToposSiteHom X Y) (e : f = f')
     (g : RingedToposSiteHom Y Z)
@@ -448,6 +451,9 @@ theorem derivedPullbackCompComparison_congr_left (f f' : RingedToposSiteHom X Y)
   subst e
   simp
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Compatibility of the Stacks 0D6D comparison with an equality of the outer morphism.** -/
 theorem derivedPullbackCompComparison_congr_right (f : RingedToposSiteHom X Y)
     (g g' : RingedToposSiteHom Y Z) (e : g = g')
@@ -557,7 +563,7 @@ theorem derivedBaseChangeMap_eq_app (hmosf : f.u.IsMorphismOfSites Y.J X.J)
     (hmosg : g.u.IsMorphismOfSites Y.J Y'.J) (hsq : g.comp f' = f.comp g')
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     derivedBaseChangeMap f g' f' g hmosf hmosg' hmosf' hmosg hsq K =
-      (derivedBaseChangeSquare f g' f' g hmosf hmosg' hmosf' hmosg hsq).natTrans.app K :=
+      (derivedBaseChangeSquare f g' f' g hmosf hmosg' hmosf' hmosg hsq).app K :=
   rfl
 
 end Square
@@ -1077,12 +1083,12 @@ theorem derivedBaseChangeMap_comp (htop : l.comp f' = f.comp k) (hbot : m.comp g
         (RingedToposSiteHom.isMorphismOfSites_comp_u f g hmosf hmosg) hmosk
         (RingedToposSiteHom.isMorphismOfSites_comp_u f' g' hmosf' hmosg') hmosm
         (comp_stack f g f' g' k l m htop hbot) K := by
-  have hpaste := congr_app (congrArg TwoSquare.natTrans
+  have hpaste := congr_app
     (derivedBaseChangeSquare_paste f g f' g' k l m hmosf hmosg hmosf' hmosg' hmosk hmosl hmosm
-      htop hbot)) K
+      htop hbot) K
   rw [derivedBaseChangeMap_eq_app, derivedBaseChangeMap_eq_app, derivedBaseChangeMap_eq_app]
-  simp only [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp, TwoSquare.natTrans,
-    TwoSquare.mk, Functor.whiskerLeft_app, Functor.whiskerRight_app, NatTrans.comp_app,
+  simp only [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp,
+    Functor.whiskerLeft_app, Functor.whiskerRight_app, NatTrans.comp_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     Category.assoc] at hpaste
   exact hpaste.symm

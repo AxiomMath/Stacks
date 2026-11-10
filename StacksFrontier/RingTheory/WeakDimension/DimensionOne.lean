@@ -150,7 +150,7 @@ private theorem isDomain_of_flat_fg_ideals {R : Type*} [CommRing R] [IsLocalRing
     intro z
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton.mp z.property
     apply Subtype.ext
-    show x * z.val = 0 * z.val
+    change x * z.val = 0 * z.val
     rw [ha, ← mul_assoc, hxy, zero_mul, zero_mul]⟩
   exact NoZeroDivisors.to_isDomain R
 

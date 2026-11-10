@@ -202,7 +202,7 @@ private theorem isLocalization_quotient_atPrime
     constructor
     · rintro ⟨s, hs, heq⟩ hqr
       refine hs ((hpq s).mp ?_)
-      show (algebraMap R (R ⧸ Ideal.span {f})) s ∈ q
+      change (algebraMap R (R ⧸ Ideal.span {f})) s ∈ q
       rw [heq]
       exact hqr
     · intro hr
@@ -243,7 +243,7 @@ public theorem isRegularRing_quotient_span_singleton_of_forall_notMem_sq
   have hp : p.IsPrime := Ideal.IsPrime.comap _
   let _ : p.IsPrime := hp
   have hf : f ∈ p := by
-    show Ideal.Quotient.mk (Ideal.span {f}) f ∈ q
+    change Ideal.Quotient.mk (Ideal.span {f}) f ∈ q
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self f)]
     exact q.zero_mem
   have hx : algebraMap R (Localization.AtPrime p) f
@@ -424,7 +424,7 @@ public theorem C_notMem_sq_localization_nodalOriginIdeal [IsDomain R] {π : R} (
     refine mul_left_cancel₀ hπ0 ?_
     linear_combination -hc
   refine hs ?_
-  show s ∈ nodalOriginIdeal R π
+  change s ∈ nodalOriginIdeal R π
   rw [nodalOriginIdeal_eq_comap, Ideal.mem_comap, hcancel]
   exact Ideal.mem_span_singleton'.2 ⟨c, mul_comm c π⟩
 
@@ -506,11 +506,11 @@ public theorem isRegularRing_nodalChartRing {π : R} (hπ : Irreducible π) :
       exact nodalEquation_notMem_sq_localization_nodalOriginIdeal (R := R) hπ.ne_zero
     · refine notMem_sq_of_derivation
         ((MvPolynomial.pderiv (R := R) (0 : Fin 2)).restrictScalars ℤ) ?_
-      show (MvPolynomial.pderiv (R := R) (0 : Fin 2)) (nodalEquation R π) ∉ p
+      change (MvPolynomial.pderiv (R := R) (0 : Fin 2)) (nodalEquation R π) ∉ p
       simpa [nodalEquation_def] using hx1
   · refine notMem_sq_of_derivation
       ((MvPolynomial.pderiv (R := R) (1 : Fin 2)).restrictScalars ℤ) ?_
-    show (MvPolynomial.pderiv (R := R) (1 : Fin 2)) (nodalEquation R π) ∉ p
+    change (MvPolynomial.pderiv (R := R) (1 : Fin 2)) (nodalEquation R π) ∉ p
     simpa [nodalEquation_def] using hx0
 
 /-- A scheme whose ring is isomorphic to the exponent one nodal model is regular. -/

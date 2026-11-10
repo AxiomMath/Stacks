@@ -56,8 +56,8 @@ theorem constantExtRestriction_two_eq_smul {N : ℕ} (hN : IsUnit (N : k)) (g : 
       (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod N) X.smallEtaleTopology) 2) :
     constantExtRestriction (ZMod N) g 2 y = c • y := by
   have hN0 : N ≠ 0 := Stacks.Kummer.neZero_of_isUnit hN
-  haveI : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  have : NeZero (N : k) := ⟨hN.ne_zero⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   have hg' : g ≫ f = f ≫ Spec.map (CommRingCat.ofHom (RingHom.id k)) := by
     rw [hg, show CommRingCat.ofHom (RingHom.id k) = 𝟙 _ from rfl, Spec.map_id, Category.comp_id]
   have htw : Stacks.EtaleCohomology.rootsOfUnityPullbackMap.{u, u + 1, u + 1} g N 2
@@ -73,6 +73,7 @@ theorem constantExtRestriction_two_eq_smul {N : ℕ} (hN : IsUnit (N : k)) (g : 
   apply (Stacks.Kummer.smoothProperCurveTrace f hN).injective
   rw [hT, map_zsmul, map_zsmul]
 
+omit [Smooth f] [IsProper f] in
 include f in
 /-- **`g^*` on `H⁰(X, ℤ/N)` of a curve is the identity** for `g` over `k`: through
 `H⁰(X, ℤ/N) ≅ H⁰(X, μ_N) = μ_N(Γ(X, 𝒪_X))`, `g` fixes the roots of unity of `k`. -/
@@ -82,10 +83,10 @@ theorem constantExtRestriction_zero_eq {N : ℕ} (hN : IsUnit (N : k)) (g : X �
       (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod N) X.smallEtaleTopology) 0) :
     constantExtRestriction (ZMod N) g 0 y = y := by
   have hN0 : N ≠ 0 := Stacks.Kummer.neZero_of_isUnit hN
-  haveI : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
-  haveI : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
-  haveI : NeZero N := ⟨hN0⟩
+  have : NeZero (N : k) := ⟨hN.ne_zero⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
+  have : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
+  have : NeZero N := ⟨hN0⟩
   have hg' : g ≫ f = f ≫ Spec.map (CommRingCat.ofHom (RingHom.id k)) := by
     rw [hg, show CommRingCat.ofHom (RingHom.id k) = 𝟙 _ from rfl, Spec.map_id, Category.comp_id]
   have h := rootsOfUnityPullbackMap_extForgetSheafH hζ hN0 f f g (RingHom.id k) 1 hg' (by simp) y
@@ -93,6 +94,7 @@ theorem constantExtRestriction_zero_eq {N : ℕ} (hN : IsUnit (N : k)) (g : X �
     rootsOfUnityPullbackMap_zero_eq_self.{u, 0, u + 1} f hζ g hg] at h
   exact ((extRootsOfUnityAddEquiv f hζ hN0 0).injective h).symm
 
+omit [Smooth f] in
 include f in
 /-- **`H¹(X, ℤ/N) ≅ Pic(X)[N]` compatibly with pullback** along every `g : X ⟶ X` over `k`:
 through `H¹(X, ℤ/N) ≅ H¹(X, μ_N)` (a primitive root of unity) and the Kummer sequence. -/
@@ -103,9 +105,9 @@ theorem exists_ext_one_addEquiv_torsionBy {N : ℕ} (hN : IsUnit (N : k)) :
       ∀ (g : X ⟶ X) (_ : g ≫ f = f) y, e (constantExtRestriction (ZMod N) g 1 y) =
         torsionByRestrict (A := ofScheme X) (schemePullbackClassHom g) (N : ℤ) (e y) := by
   have hN0 : N ≠ 0 := Stacks.Kummer.neZero_of_isUnit hN
-  haveI : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
-  haveI : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
+  have : NeZero (N : k) := ⟨hN.ne_zero⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
+  have : IsIntegral X := IsCurve.toIsVariety.toIsIntegral (k := k) (f := f)
   have hX : IsUnit ((N : ℕ) : Γ(X, ⊤)) := Stacks.Kummer.isUnit_globalSections f hN
   have hsurj := Stacks.Kummer.surjective_sheafH_map_powMap_zero.{u + 1, u, u + 1} X (n := N)
     (Stacks.Kummer.exists_pow_eq_globalUnit.{u} X N f (Nat.pos_of_ne_zero hN0))
@@ -168,6 +170,7 @@ local instance : QuasiSeparatedSpace X.obj :=
   @AlgebraicGeometry.IsLocallyNoetherian.quasiSeparatedSpace X.1
     (inferInstance : AlgebraicGeometry.IsNoetherian X.1).toIsLocallyNoetherian
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hcard in
 /-- **`π_X^*` on the levels of `H²(X_k̄, ℤ_ℓ)` of a curve is multiplication by `q`.** -/
 theorem LAdicSheaf.canonicalFrobenius_constantLevel_two (hℓ : IsUnit (ℓ : kbar)) (n : ℕ)
@@ -189,6 +192,9 @@ theorem LAdicSheaf.canonicalFrobenius_constantLevel_two (hℓ : IsUnit (ℓ : kb
     (picardDegree_schemePullbackClassHom_geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard)
     (Φ x)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
+  [IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))] in
 include hcard in
 /-- **`π_X^*` on the levels of `H⁰(X_k̄, ℤ_ℓ)` of a curve is the identity.** -/
 theorem LAdicSheaf.canonicalFrobenius_constantLevel_zero (hℓ : IsUnit (ℓ : kbar)) (n : ℕ)
@@ -202,15 +208,16 @@ theorem LAdicSheaf.canonicalFrobenius_constantLevel_zero (hℓ : IsUnit (ℓ : k
   have hN : IsUnit (((ℓ ^ (n + 1) : ℕ)) : kbar) := by rw [Nat.cast_pow]; exact hℓ.pow _
   apply Φ.injective
   refine (hΦ x).trans ?_
-
   exact Stacks.Picard.constantExtRestriction_zero_eq
     (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) hN
     (geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard)
     (geometricFrobeniusBaseChange_comp_snd (Over.mk f) kbar p q hcard) (Φ x)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))] in
 include hcard in
-/-- **The levels of `H¹(X_k̄, ℤ_ℓ)` of a curve are `Pic(X_k̄)[ℓⁿ⁺¹]`, with `π_X^*` acting as pullback
-along `π̄ = π_X × id`.** -/
+/-- **The levels of `H¹(X_k̄, ℤ_ℓ)` of a curve are `Pic(X_k̄)[ℓⁿ⁺¹]`, with `π_X^*` acting as
+pullback along `π̄ = π_X × id`.** -/
 theorem LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy (hℓ : IsUnit (ℓ : kbar)) (n : ℕ) :
     ∃ e : (geometricCompactSupportPadicCohomology B X ℓ f (CompactificationOf.ofProper f) kbar
           ((1 : ℕ) : ℤ)).obj (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n) ≃+
@@ -218,10 +225,12 @@ theorem LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy (hℓ : IsUnit (�
           ((ℓ : ℤ) ^ (n + 1)),
       ∀ x, e ((canonicalCompactSupportFrobeniusGroup.{u, 0} ℤ_[ℓ] f (CompactificationOf.ofProper f)
           kbar p q hcard ((padicCoefficientComplex B X ℓ).obj
-            (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) ((1 : ℕ) : ℤ)).hom x) =
+            (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n))
+            ((1 : ℕ) : ℤ)).hom x) =
         Stacks.Picard.torsionByRestrict
           (A := Stacks.Picard.ofScheme (fieldBaseChange (Over.mk f) kbar))
-          (Stacks.Picard.schemePullbackClassHom (geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard))
+          (Stacks.Picard.schemePullbackClassHom
+            (geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard))
           ((ℓ : ℤ) ^ (n + 1)) (e x) := by
   obtain ⟨Φ, hΦ⟩ := LAdicSheaf.exists_addEquiv_constantLevel_frobenius B X ℓ f kbar p q hcard 1 n
   have hN : IsUnit (((ℓ ^ (n + 1) : ℕ)) : kbar) := by rw [Nat.cast_pow]; exact hℓ.pow _
@@ -233,10 +242,12 @@ theorem LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy (hℓ : IsUnit (�
         Submodule.torsionBy ℤ (Stacks.Picard.ofScheme (fieldBaseChange (Over.mk f) kbar)) c,
       ∀ x, e ((canonicalCompactSupportFrobeniusGroup.{u, 0} ℤ_[ℓ] f (CompactificationOf.ofProper f)
           kbar p q hcard ((padicCoefficientComplex B X ℓ).obj
-            (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) ((1 : ℕ) : ℤ)).hom x) =
+            (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n))
+            ((1 : ℕ) : ℤ)).hom x) =
         Stacks.Picard.torsionByRestrict
           (A := Stacks.Picard.ofScheme (fieldBaseChange (Over.mk f) kbar))
-          (Stacks.Picard.schemePullbackClassHom (geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard))
+          (Stacks.Picard.schemePullbackClassHom
+            (geometricFrobeniusBaseChange (Over.mk f) kbar p q hcard))
           c (e x) := by
     rintro c rfl
     refine ⟨Φ.trans κ, fun x => ?_⟩
@@ -245,6 +256,7 @@ theorem LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy (hℓ : IsUnit (�
     exact hκ _ (geometricFrobeniusBaseChange_comp_snd (Over.mk f) kbar p q hcard) _
   exact key _ (by push_cast; rfl)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **`π_X^*` on `H²(X_k̄, ℤ_ℓ)` of a curve is multiplication by `q`.** -/
 theorem LAdicSheaf.geometricCompactlySupportedFrobenius_constant_two (hℓ : IsUnit (ℓ : kbar)) :
     LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f (CompactificationOf.ofProper f) kbar
@@ -258,9 +270,13 @@ theorem LAdicSheaf.geometricCompactlySupportedFrobenius_constant_two (hℓ : IsU
     _ ≫ LAdicSheaf.geometricCompactlySupportedCohomologyπ B X ℓ f _ kbar _ _ n.unop
   rw [h]
   ext x
-  refine (LAdicSheaf.canonicalFrobenius_constantLevel_two B X ℓ f kbar p q hcard hℓ n.unop _).trans ?_
+  refine (LAdicSheaf.canonicalFrobenius_constantLevel_two B X ℓ f kbar p q hcard hℓ n.unop
+    _).trans ?_
   exact (map_zsmul _ _ _).symm
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
+  [IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))] in
 /-- **`π_X^*` on `H⁰(X_k̄, ℤ_ℓ)` of a curve is the identity.** -/
 theorem LAdicSheaf.geometricCompactlySupportedFrobenius_constant_zero (hℓ : IsUnit (ℓ : kbar)) :
     LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f (CompactificationOf.ofProper f) kbar
@@ -275,6 +291,7 @@ theorem LAdicSheaf.geometricCompactlySupportedFrobenius_constant_zero (hℓ : Is
   ext x
   exact LAdicSheaf.canonicalFrobenius_constantLevel_zero B X ℓ f kbar p q hcard hℓ n.unop _
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **`π_X^*` on `H²(X_k̄, ℚ_ℓ)` of a curve is multiplication by `q`.** -/
 theorem LAdicSheaf.rationalGeometricCompactlySupportedFrobenius_constant_two
     (hℓ : IsUnit (ℓ : kbar)) :
@@ -288,6 +305,9 @@ theorem LAdicSheaf.rationalGeometricCompactlySupportedFrobenius_constant_two
     Functor.map_zsmul, CategoryTheory.Functor.map_id]
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
+  [IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))] in
 /-- **`π_X^*` on `H⁰(X_k̄, ℚ_ℓ)` of a curve is the identity.** -/
 theorem LAdicSheaf.rationalGeometricCompactlySupportedFrobenius_constant_zero
     (hℓ : IsUnit (ℓ : kbar)) :

@@ -54,12 +54,12 @@ theorem isIso_transitionB_over (F : SheafOfModules.{u} ((situation C).totalRingS
     (sliceTransitionB C P φ b).isIso_τ_app_of_presentation Pr
   have := isIso_beckChevalleyB C P φ b
   have h := sliceTransitionModules_app_over C P φ b F
-  have : IsIso ((beckChevalleyB C P φ b).natTrans.app
+  have : IsIso ((beckChevalleyB C P φ b).app
       (((situation C).componentModuleRestriction (totalRing C P) n).obj F) ≫
         (Stacks.SheafOfModules.inverseImage.{u} (((situation C).componentTopology m).over W)
           ((situation C).componentTopology m) (Over.forget W) (ringSheafB C P m)).map
           (transitionB C P φ F)) := h ▸ hτ
-  exact IsIso.of_isIso_comp_left ((beckChevalleyB C P φ b).natTrans.app
+  exact IsIso.of_isIso_comp_left ((beckChevalleyB C P φ b).app
       (((situation C).componentModuleRestriction (totalRing C P) n).obj F)) _
 
 /-- **The forward direction of Stacks 0D7M in case (B), cartesian half.** -/

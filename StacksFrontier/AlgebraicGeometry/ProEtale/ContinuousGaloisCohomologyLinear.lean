@@ -153,7 +153,7 @@ lemma underlyingAbHomologyIso_hom_naturality {C D : CochainComplex (TopModuleCat
   have h₃ := ShortComplex.mapHomologyIso_hom_naturality
     (F₂.mapShortComplex.map (F₁.mapShortComplex.map ψ)) F₃
   let S := HomologicalComplex.shortComplexFunctor (TopModuleCat.{max u w} Λ) (ComplexShape.up ℕ) n
-  show ShortComplex.homologyMap
+  change ShortComplex.homologyMap
         (F₃.mapShortComplex.map (F₂.mapShortComplex.map (F₁.mapShortComplex.map ψ))) ≫
       ((F₂.mapShortComplex.obj (F₁.mapShortComplex.obj (S.obj D))).mapHomologyIso F₃).hom ≫
         F₃.map (((F₁.mapShortComplex.obj (S.obj D)).mapHomologyIso F₂).hom ≫
@@ -188,7 +188,7 @@ lemma mapSheafResolutionIso_hom_naturality {X Y : TopRep.{max u w} Λ (galoisGro
     (TopRep.invariantsFunctor Λ (galoisGroup K) ⋙ underlyingAb.{u, r, w} Λ))
     (ComplexShape.up ℕ)).inv.naturality (TopRep.resolution'Map g)
   rw [Functor.comp_map] at h₁ h₂
-  show _ ≫ (Functor.mapHomologicalComplexCompIso (ΓRepAbSheafIso.{u, r, w} K)
+  change _ ≫ (Functor.mapHomologicalComplexCompIso (ΓRepAbSheafIso.{u, r, w} K)
       (ComplexShape.up ℕ)).hom.app _ ≫ (Functor.mapHomologicalComplexCompIso (Iso.refl
         (TopRep.invariantsFunctor Λ (galoisGroup K) ⋙ underlyingAb.{u, r, w} Λ))
         (ComplexShape.up ℕ)).inv.app _ =
@@ -252,7 +252,7 @@ lemma rightDerivedRepAbSheafIso_hom_naturality {X Y : TopRep.{max u w} Λ (galoi
   simp only [HomologicalComplex.homologyMap_comp] at e₂
   have e₃ := underlyingAbHomologyIso_hom_naturality.{u, r, w} (((TopRep.invariantsFunctor Λ
     (galoisGroup K)).mapHomologicalComplex _).map (TopRep.resolution'Map g)) n
-  show _ ≫ (Stacks.RightDerivedComp.isoRightDerivedObjOfAcyclic _ (sheafResolutionι Λ Y)
+  change _ ≫ (Stacks.RightDerivedComp.isoRightDerivedObjOfAcyclic _ (sheafResolutionι Λ Y)
         (hacyc Y hY) n).hom ≫ HomologicalComplex.homologyMap (mapSheafResolutionIso Y).hom n ≫
         (underlyingAbHomologyIso.{u, r, w} Λ (TopRep.homogeneousCochains Y) n).hom =
     ((Stacks.RightDerivedComp.isoRightDerivedObjOfAcyclic _ (sheafResolutionι Λ X)
@@ -284,7 +284,7 @@ lemma homologyMap_resolution'Map_smul_id (X : TopRep.{max u w} Λ (galoisGroup K
       (((TopRep.invariantsFunctor Λ (galoisGroup K)).mapHomologicalComplex _).map
         (TopRep.resolution'Map (c • 𝟙 X))) n = c • 𝟙 (continuousCohomology n X) := by
   rw [TopRep.resolution'Map_smul_id, Functor.map_smul, CategoryTheory.Functor.map_id]
-  show ShortComplex.homologyMap (c • 𝟙 ((TopRep.homogeneousCochains X).sc n)) = _
+  change ShortComplex.homologyMap (c • 𝟙 ((TopRep.homogeneousCochains X).sc n)) = _
   rw [ShortComplex.homologyMap_smul, ShortComplex.homologyMap_id]
   rfl
 

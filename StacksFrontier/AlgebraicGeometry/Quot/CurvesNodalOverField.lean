@@ -158,7 +158,7 @@ private theorem isAtWorstNodalOfRelativeDimensionOne_iff_of_target_eq_spec {X Y 
   subst hY
   let : X.Over (Spec (.of k)) := ⟨q ≫ eqToHom rfl⟩
   have hq : (X ↘ Spec (.of k)) = q := by
-    show q ≫ eqToHom rfl = q
+    change q ≫ eqToHom rfl = q
     simp
   have : LocallyOfFiniteType (X ↘ Spec (.of k)) := hq ▸ ‹LocallyOfFiniteType q›
   have h :=

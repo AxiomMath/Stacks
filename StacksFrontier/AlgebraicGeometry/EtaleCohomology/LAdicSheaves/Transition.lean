@@ -55,7 +55,7 @@ public theorem sheaf_nsmul_app
     {R : Type u₂} [Ring R] {P Q : Sheaf J (ModuleCat.{u₃} R)}
     (f : P ⟶ Q) (r : ℕ) (U : Cᵒᵖ) (x : P.obj.obj U) :
     ((r • f).hom.app U).hom x = r • (f.hom.app U).hom x := by
-  show ((((sheafToPresheaf J (ModuleCat.{u₃} R)).map (r • f)).app U).hom x) = _
+  change ((((sheafToPresheaf J (ModuleCat.{u₃} R)).map (r • f)).app U).hom x) = _
   rw [Functor.map_nsmul]
   rfl
 

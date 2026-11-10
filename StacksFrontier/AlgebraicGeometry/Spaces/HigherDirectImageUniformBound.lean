@@ -200,7 +200,7 @@ theorem isZero_of_isZero_etaleModulePullback_of_isSurjective {Z Y : AlgebraicSpa
       (isEtale_iff_presheaf_of_yoneda B S hS _).1 hW''⟩
   let e : (smallEtalePostcomp B S hS c hc).obj W'' ≅ W' :=
     ObjectProperty.isoMk _ (CostructuredArrow.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ W'.1.hom = (yoneda.map φ.hom.left ≫ t) ≫ c.hom
+      change 𝟙 _ ≫ W'.1.hom = (yoneda.map φ.hom.left ≫ t) ≫ c.hom
       rw [Category.id_comp, Category.assoc, ← CostructuredArrow.w φ.hom]
       rfl))
   have h0 : IsZero (M.val.obj (Opposite.op ((smallEtalePostcomp B S hS c hc).obj W''))) :=

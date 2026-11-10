@@ -212,7 +212,7 @@ noncomputable def reductionHom (φ : A →+* A') : ModuleCat.of A A ⟶ resMod �
 theorem reductionHom_twiceLift (H : FourTwoRings φ) : twiceLift H ≫ reductionHom φ = 0 := by
   ext y
   change A' at y
-  show φ (twiceFun (A := A) (A' := A') y) = 0
+  change φ (twiceFun (A := A) (A' := A') y) = 0
   rcases H.hA' y with rfl | rfl
   · simp [twiceFun]
   · simp only [twiceFun, ite_eq_right H.h1', map_ofNat]
@@ -269,7 +269,7 @@ theorem not_subsingleton_ext_one (H : FourTwoRings φ) :
   have ha1 : φ a = 1 := congrArg (fun t => t.hom (1 : A')) hs
   have ha2 : 2 * a = 0 := by
     have h0 : (2 : A) • (show ↑(resMod φ) from (1 : A')) = 0 := by
-      show φ 2 * 1 = (0 : A')
+      change φ 2 * 1 = (0 : A')
       rw [mul_one, map_ofNat, H.h2']
     have := congrArg s.hom h0
     rwa [map_smul, map_zero] at this
@@ -627,7 +627,7 @@ theorem isLE_obj_of_adjunction {F : DerivedCategory C ⥤ DerivedCategory D}
     {G : DerivedCategory D ⥤ DerivedCategory C} (adj : F ⊣ G) [F.PreservesZeroMorphisms] (n : ℤ)
     (hG : ∀ Y : DerivedCategory D, Y.IsGE (n + 1) → (G.obj Y).IsGE (n + 1))
     (X : DerivedCategory C) (hX : X.IsLE n) : (F.obj X).IsLE n := by
-  show DerivedCategory.TStructure.t.IsLE (F.obj X) n
+  change DerivedCategory.TStructure.t.IsLE (F.obj X) n
   rw [DerivedCategory.TStructure.t.isLE_iff_orthogonal n (n + 1) rfl]
   intro Y f hY
   have := hG Y hY

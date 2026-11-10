@@ -55,7 +55,7 @@ public theorem subalgebra_eq_top_of_forall_stable [Nontrivial V]
       map_add' := f.map_add
       map_smul' := fun g v => by
         obtain ⟨c, rfl⟩ := hschur.2 g
-        show f ((algebraMap F (Module.End S V) c) v) = (algebraMap F (Module.End S V) c) (f v)
+        change f ((algebraMap F (Module.End S V) c) v) = (algebraMap F (Module.End S V) c) (f v)
         rw [Module.algebraMap_end_apply, Module.algebraMap_end_apply, map_smul] }
   set b := Module.finBasis F V
   obtain ⟨a, ha⟩ := jacobson_density f' (Finset.univ.image b)
@@ -108,14 +108,14 @@ public theorem eq_bot_or_eq_top_of_forall_mulVec_map_mem (M : A → Matrix ι ι
           rw [Algebra.algebraMap_eq_smul_one, map_smul, LinearMap.toMatrix'_one]
           ext i j
           by_cases h : i = j <;> simp [h]
-        show (LinearMap.toMatrix' (algebraMap F (Module.End F (ι → F)) c)).map
+        change (LinearMap.toMatrix' (algebraMap F (Module.End F (ι → F)) c)).map
           (algebraMap F K) *ᵥ v ∈ W
         rw [hc, Matrix.smul_mulVec, Matrix.one_mulVec]
         exact W.smul_mem _ hv }
   have hST : S ≤ T := by
     rw [hS_def, Algebra.adjoin_le_iff]
     rintro _ ⟨a, rfl⟩ v hv
-    show ((LinearMap.toMatrix' (Matrix.toLin' (M a))).map (algebraMap F K)) *ᵥ v ∈ W
+    change ((LinearMap.toMatrix' (Matrix.toLin' (M a))).map (algebraMap F K)) *ᵥ v ∈ W
     rw [LinearMap.toMatrix'_toLin']
     exact hW a v hv
   -- the matrix units stabilize `W`

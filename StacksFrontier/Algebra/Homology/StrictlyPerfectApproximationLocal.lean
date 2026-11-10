@@ -336,7 +336,7 @@ theorem exists_le_restrict_lift_of_retract {U : Opens Z}
     ((_root_.SheafOfModules.pushforward.{r} φ).obj G).val
     (G.val.map (homOfLE hle).op (t k)), ?_⟩
   refine Stacks.PresheafOfModules.sections_ext_top ?_
-  show p.val.app (op ((isOpenEmbedding_inclusionOfLE h).functor.obj ⊤))
+  change p.val.app (op ((isOpenEmbedding_inclusionOfLE h).functor.obj ⊤))
       ((Stacks.PresheafOfModules.sectionOfTop
         ((_root_.SheafOfModules.pushforward.{r} φ).obj G).val
         (G.val.map (homOfLE hle).op (t k))).val (op ⊤)) =

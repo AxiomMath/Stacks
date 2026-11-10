@@ -61,7 +61,7 @@ theorem exists_generatingSections_equiv_fin_one_of_isColimit {C : Type u} [Categ
   have hfac (j : ULift.{w} (Fin 1)) :
       (_root_.SheafOfModules.freeCofan (R := R) (ULift.{w} (Fin 1))).inj j ≫ φ = ι j.down := by
     apply M.unitHomEquiv.injective
-    show M.freeHomEquiv φ j = M.unitHomEquiv (ι j.down)
+    change M.freeHomEquiv φ j = M.unitHomEquiv (ι j.down)
     simp [φ]
   have hEpi : Epi φ := by
     constructor

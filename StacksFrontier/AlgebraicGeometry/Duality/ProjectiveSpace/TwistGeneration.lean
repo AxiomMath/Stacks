@@ -98,7 +98,7 @@ theorem exists_finiteType_subobject_arrow_ne_zero {X : Scheme.{u}} [CompactSpace
   push Not at h
   refine hF ((IsZero.iff_id_eq_zero F).2 ?_)
   exact (isColimit_finiteTypeQuasicoherentSubobjectCocone F).hom_ext fun G => by
-    show G.obj.arrow ≫ 𝟙 F = G.obj.arrow ≫ 0
+    change G.obj.arrow ≫ 𝟙 F = G.obj.arrow ≫ 0
     rw [h G, zero_comp, zero_comp]
 
 /-- **[Stacks, Tag 0BQR] at a module, on projective space over an affine base, in the twist
@@ -127,7 +127,7 @@ theorem exists_twistOver_hom_ne_zero [IsAffine S] (F : (projectiveSpaceOver n S)
 
 section Vanishing
 
-variable {C : Type*} [Category C] [Preadditive C] [HasShift C ℤ]
+variable {C : Type*} [Category C] [HasShift C ℤ]
 
 /-- The vanishing of every morphism `E⟦q⟧ ⟶ K`, for all `q`, is the vanishing of every morphism
 `E ⟶ K⟦q⟧`, for all `q`: the shift by `q` is an equivalence with inverse the shift by `-q`. -/

@@ -272,7 +272,7 @@ theorem isPullback_exceptionalDivisorToFibreAtInfinity :
       Scheme.IdealSheafData.comap_comp]
     have hE : exceptionalIdealAtInfinity i.ker =
         i.ker.comap (blowupAtInfinityToBase i.ker) ⊔ fibreIdealAtInfinity i.ker := by
-      show (infinityCentreIdeal i.ker).comap (blowupAtInfinityToLine i.ker) = _
+      change (infinityCentreIdeal i.ker).comap (blowupAtInfinityToLine i.ker) = _
       rw [infinityCentreIdeal_eq_sup, Scheme.IdealSheafData.comap_sup,
         ← Scheme.IdealSheafData.comap_comp]
       rfl

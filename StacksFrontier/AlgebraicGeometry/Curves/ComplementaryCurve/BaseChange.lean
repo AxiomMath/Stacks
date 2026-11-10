@@ -99,7 +99,7 @@ theorem intersectionWithComplementaryCurveIdeal_of_disjoint_union_general
     simp [TopologicalSpace.Closeds.compl, ← SetLike.mem_coe, hC]
   have hle : C.support.compl ≤ D.support.compl := fun x hx => ((hmem x).1 hx).1
   refine le_antisymm (sup_le_sup_left ?_ _) (sup_le le_sup_left ?_)
-  · show (Scheme.Opens.ι D.support.compl).ker ≤ (Scheme.Opens.ι C.support.compl).ker
+  · change (Scheme.Opens.ι D.support.compl).ker ≤ (Scheme.Opens.ι C.support.compl).ker
     rw [← Scheme.homOfLE_ι Y hle]
     exact Scheme.Hom.le_ker_comp _ _
   · let P : Y.affineOpens → Prop := fun W =>
@@ -118,7 +118,7 @@ theorem intersectionWithComplementaryCurveIdeal_of_disjoint_union_general
         exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨⟨W, hW⟩, .inr hWD⟩, hxW⟩
     · rintro ⟨W, hW | hW⟩
       · refine le_trans ?_ le_sup_right
-        show ((Scheme.Opens.ι C.support.compl).ker).ideal W ≤
+        change ((Scheme.Opens.ι C.support.compl).ker).ideal W ≤
           ((Scheme.Opens.ι D.support.compl).ker).ideal W
         refine Scheme.Opens.ker_ι_ideal_le_of_inf_le W ?_
         rintro x ⟨hxD, hxW⟩
@@ -144,11 +144,11 @@ theorem intersectionWithComplementaryCurveIdeal_of_openImmersion_general
         (j.isOpenEmbedding.isOpen_range.isClosed_compl)⟩
   have hD : (D.support : Set Y) = C.subschemeι '' Set.range j := by
     rw [← D.range_subschemeι, ← hj]
-    show Set.range (C.subschemeι ∘ j) = _
+    change Set.range (C.subschemeι ∘ j) = _
     exact Set.range_comp _ _
   have hC : (C.support : Set Y) = (D.support : Set Y) ∪ E := by
     rw [hD, ← C.range_subschemeι]
-    show Set.range C.subschemeι =
+    change Set.range C.subschemeι =
       C.subschemeι '' Set.range j ∪ C.subschemeι '' (Set.range j)ᶜ
     rw [← Set.image_union, Set.union_compl_self, Set.image_univ]
   have hDE : Disjoint (D.support : Set Y) (E : Set Y) := by
@@ -185,7 +185,7 @@ theorem intersectionWithComplementaryCurve_isPullback_general
     rw [← (C.comap p).ker_subschemeι, ← D.ker_subschemeι, ← hj]
     exact Scheme.Hom.le_ker_comp j (C.comap p).subschemeι
   have hI : I = D ⊔ J.comap p := by
-    show intersectionWithComplementaryCurveIdeal D = _
+    change intersectionWithComplementaryCurveIdeal D = _
     rw [intersectionWithComplementaryCurveIdeal_of_openImmersion_general (C.comap p) D j hj,
       ← intersectionWithComplementaryCurveIdeal_comap C p, ← sup_assoc, sup_eq_left.mpr hle]
   have hmap : J ≤ I.map p :=
@@ -202,9 +202,9 @@ theorem intersectionWithComplementaryCurve_isPullback_general
         rw [Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
   · rw [ker_inclusion_eq_comap, ker_inclusion_eq_comap]
     have hzero : D.comap D.subschemeι = ⊥ := by
-      show (pullback.fst D.subschemeι D.subschemeι).ker = ⊥
+      change (pullback.fst D.subschemeι D.subschemeι).ker = ⊥
       exact Scheme.Hom.ker_eq_bot_of_isIso _
-    show (J.comap C.subschemeι).comap c = I.comap D.subschemeι
+    change (J.comap C.subschemeι).comap c = I.comap D.subschemeι
     calc
       (J.comap C.subschemeι).comap c = J.comap (c ≫ C.subschemeι) :=
         (Scheme.IdealSheafData.comap_comp J c C.subschemeι).symm
@@ -239,9 +239,9 @@ private theorem nonempty_compl_support_comap {X Y : Scheme.{u}} (p : Y ⟶ X) [S
   obtain ⟨x, hx⟩ := h
   obtain ⟨y, hy⟩ := ‹Surjective p›.surj x
   refine ⟨y, ?_⟩
-  show y ∉ (C.comap p).support
+  change y ∉ (C.comap p).support
   rw [Scheme.IdealSheafData.support_comap]
-  show p y ∉ (C.support : Set X)
+  change p y ∉ (C.support : Set X)
   rwa [hy]
 
 /-- **Decomposition of the base change of a geometrically integral closed subscheme.** Let `X` be
@@ -328,7 +328,7 @@ theorem exists_iso_sigma_baseChange_of_geometricallyIntegral
   obtain ⟨eT⟩ := nonempty_sigmaSpec_iso_pullback k K A L eA
   let π (i : ι) : Spec (.of (L i)) ⟶ T :=
     Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ eT.hom
-  have hπ : Sigma.desc π = eT.hom := Sigma.hom_ext _ _ fun i => Sigma.ι_desc π i
+  have hπ : Sigma.desc π = eT.hom := Sigma.hom_ext _ _ fun i => Sigma.ι_comp_desc π i
   have : IsIso (Sigma.desc π) := hπ ▸ inferInstance
   let φ (i : ι) : CommRingCat.of A ⟶ CommRingCat.of (L i) :=
     Classical.choose (Spec.map_surjective (π i ≫ q))
@@ -351,7 +351,7 @@ theorem exists_iso_sigma_baseChange_of_geometricallyIntegral
     rw [← hj.isoPullback_hom_fst]
     infer_instance
   have : IsProper (Y ↘ Spec (.of K)) := by
-    show IsProper (pullback.snd (X ↘ Spec (.of k)) g)
+    change IsProper (pullback.snd (X ↘ Spec (.of k)) g)
     infer_instance
   let W (i : ι) := pullback z (π i)
   let w (i : ι) : W i ⟶ Z := pullback.fst z (π i)

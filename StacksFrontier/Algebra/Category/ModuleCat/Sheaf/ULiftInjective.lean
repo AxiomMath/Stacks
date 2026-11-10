@@ -154,7 +154,7 @@ omit [EssentiallySmall.{z, v₁, u₁} C] in
 theorem mem_localClosure_submoduleGeneratedBy (M : _root_.SheafOfModules.{w₁} R) {U : Cᵒᵖ}
     (m : M.val.obj U) : m ∈ (localClosure M (submoduleGeneratedBy M.val m)).obj U :=
   J.superset_covering (fun Y g _ => by
-    show M.val.map g.op m ∈ (submoduleGeneratedBy M.val m).obj (op Y)
+    change M.val.map g.op m ∈ (submoduleGeneratedBy M.val m).obj (op Y)
     exact Submodule.subset_span ⟨g.op, rfl⟩) (J.top_mem U.unop)
 
 /-- The sectionwise range of a morphism out of a sheaf of modules with `z`-small sections has
@@ -220,7 +220,7 @@ theorem isSeparator_moduleULift_obj {G₀ : _root_.SheafOfModules.{z} R} (hG : I
     have hψ0 : ψ = 0 := by
       rw [hψ, ← hff.map_preimage ψ₁, hψ₂, Functor.map_zero, zero_comp]
     have hm : m = i.val.app X x := by
-      show m = P₁.ι.val.app X ((e₁.inv ≫ e₁.hom).val.app X ⟨m, hmem⟩)
+      change m = P₁.ι.val.app X ((e₁.inv ≫ e₁.hom).val.app X ⟨m, hmem⟩)
       rw [Iso.inv_hom_id]
       rfl
     rw [hm]

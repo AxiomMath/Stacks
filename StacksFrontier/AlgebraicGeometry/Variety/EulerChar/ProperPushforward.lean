@@ -515,7 +515,7 @@ private lemma eulerFinsumComplex {C : Type*} [Category C] [Abelian C]
     have h := eulerCl_homology_add P (X.sc' (i - a) i (i + a)) (hP _) (hP _) (hP _)
     rw [← eulerCl_congr P (X.homologyIsoSc' (i - a) i (i + a) (hprev i) (hnext i))] at h
     have hk : eulerCl P (kernel (X.sc' (i - a) i (i + a)).f) = k (i - a) := by
-      show eulerCl P (kernel (X.d (i - a) i)) = eulerCl P (kernel (X.d (i - a) (i - a + a)))
+      change eulerCl P (kernel (X.d (i - a) i)) = eulerCl P (kernel (X.d (i - a) (i - a + a)))
       rw [sub_add_cancel]
     change eulerCl P (X.homology i) + eulerCl P (X.X (i - a)) =
       eulerCl P (kernel (X.sc' (i - a) i (i + a)).f) + k i at h
@@ -543,7 +543,7 @@ private lemma eulerFinsumComplex {C : Type*} [Category C] [Abelian C]
     rw [finsum_sub_distrib hg hg', sub_eq_zero]
     exact (finsum_comp_equiv (Equiv.subRight a) (f := g)).symm
   refine (sub_eq_zero.1 ?_).symm
-  show ∑ᶠ i, ε i • eulerCl P (X.homology i) -
+  change ∑ᶠ i, ε i • eulerCl P (X.homology i) -
       ∑ᶠ i, ε i • eulerCl P (X.X i) = 0
   rw [← finsum_sub_distrib h₁ h₂, ← hsum]
   exact finsum_congr key
@@ -704,7 +704,7 @@ private lemma finsum_int_eq_nat_of_nonneg_support {A : Type*} [AddCommGroup A]
     Finset.mem_image.mpr ⟨(n : ℤ), hS hn, by simp⟩
   rw [finsum_eq_sum_of_support_subset (s := S) f hS,
     finsum_eq_sum_of_support_subset (s := T) (fun n : ℕ => f n) hT]
-  show (∑ z ∈ S, f z) = ∑ n ∈ S.image Int.toNat, f n
+  change (∑ z ∈ S, f z) = ∑ n ∈ S.image Int.toNat, f n
   rw [Finset.sum_image (s := S) (g := Int.toNat)
     (f := fun n : ℕ => f n) (by
     intro x hx y hy hxy
@@ -799,7 +799,7 @@ private lemma finsum_negOnePow_finrank_eq_of_abutsTo
     have hdim : Module.finrank k (↑((ModuleCat.restrictScalars.{u} ρ).obj A)) = 0 :=
       Int.ofNat.inj hdimZ
     have hsub : Subsingleton (↑A) := by
-      show Subsingleton (↑((ModuleCat.restrictScalars.{u} ρ).obj A))
+      change Subsingleton (↑((ModuleCat.restrictScalars.{u} ρ).obj A))
       exact Module.finrank_zero_iff.mp hdim
     exact ModuleCat.isZero_of_subsingleton A
   obtain ⟨hfinH, hH, hKzero⟩ :=
@@ -932,9 +932,7 @@ private noncomputable def lerayAbutmentIso (k : Type u) [Field k] {Y X : Scheme.
   have hHcmp : lerayAbutment f G (n : ℤ) ≅ S.obj ((EY.rightDerivedPlus (n : ℤ)).obj G) := by
     letI : HasDerivedCategory (ModuleCat.{u} (Γ(Y, ⊤) : Type u)) :=
       HasDerivedCategory.standard _
-    first
-      | exact exactDerivedPlusHomologyIso S (EY.rightDerivedFunctorPlus.obj K) (n : ℤ)
-      | apply exactDerivedPlusHomologyIso
+    apply exactDerivedPlusHomologyIso
   have hmap : α.comp ρ = ((Scheme.ΓSpecIso (.of k)).inv ≫ (f ≫ g).appTop).hom := rfl
   have hrestr : (ModuleCat.restrictScalars.{u} ρ).obj
         (S.obj ((EY.rightDerivedPlus (n : ℤ)).obj G)) ≅
@@ -1014,7 +1012,7 @@ public theorem eulerCharacteristic_eq_finsum_higherDirectImage_of_hypotheses
     have hzrestr : IsZero ((ModuleCat.restrictScalars g.appTop.hom).obj
         ((EX.rightDerivedPlus p).obj (FqS q))) := (Iso.isZero_iff hIso).2 hzsections
     have hsub : Subsingleton ((EX.rightDerivedPlus p).obj (FqS q)) := by
-      show Subsingleton ((ModuleCat.restrictScalars g.appTop.hom).obj
+      change Subsingleton ((ModuleCat.restrictScalars g.appTop.hom).obj
         ((EX.rightDerivedPlus p).obj (FqS q)))
       exact ModuleCat.subsingleton_of_isZero hzrestr
     exact ModuleCat.isZero_of_subsingleton _
@@ -1043,7 +1041,7 @@ public theorem eulerCharacteristic_eq_finsum_higherDirectImage_of_hypotheses
     · by_cases hq : 0 ≤ q
       · have hpNat : ((p.toNat : ℕ) : ℤ) = p := Int.toNat_of_nonneg hp
         have htarget : P ((EX.rightDerivedPlus p).obj (FqS q)) := by
-          show Module.Finite k (↑((ModuleCat.restrictScalars.{u} ρ).obj
+          change Module.Finite k (↑((ModuleCat.restrictScalars.{u} ρ).obj
             ((EX.rightDerivedPlus p).obj (FqS q))))
           rw [← hpNat]
           exact module_finite_restrictScalars_rightDerivedPlus h02O6 k g (FqS q)
@@ -1132,19 +1130,19 @@ public theorem eulerCharacteristic_eq_finsum_higherDirectImage_of_hypotheses
         ((ij.1 : ℤ), (ij.2 : ℤ))) ?_).subset fun _ hij => hij
       exact fun _ _ _ _ h =>
         Prod.ext (Int.ofNat.inj (congrArg Prod.fst h)) (Int.ofNat.inj (congrArg Prod.snd h))
-    show (∑ᶠ ij : ℕ × ℕ, rhsNat ij) = _
+    change (∑ᶠ ij : ℕ × ℕ, rhsNat ij) = _
     rw [finsum_curry rhsNat hRnatFinite]
     refine finsum_congr fun q => ?_
     have hq : 0 ≤ (q : ℤ) := by positivity
     let : (FqS (q : ℤ)).IsCoherent := hFcoh (q : ℤ) hq
-    show (∑ᶠ b : ℕ, rhsNat (q, b)) =
+    change (∑ᶠ b : ℕ, rhsNat (q, b)) =
       (-1 : ℤ) ^ q • ∑ᶠ n : ℕ,
         (-1 : ℤ) ^ n * (Module.finrank k (cohomologyOverField k g (FqS (q : ℤ)) n) : ℤ)
     rw [smul_finsum]
     refine finsum_congr fun p => ?_
     have hp : 0 ≤ (p : ℤ) := by positivity
     have hterm := hRrankCoh p q hp hq
-    show rhsRank ((p : ℤ), (q : ℤ)) = _
+    change rhsRank ((p : ℤ), (q : ℤ)) = _
     rw [hterm]
     simp [Int.negOnePow_add, Int.coe_negOnePow_natCast, add_comm, mul_assoc]
   calc

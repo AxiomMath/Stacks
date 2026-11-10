@@ -106,7 +106,7 @@ theorem stalkMap_ker_localized
     constructor
     · rintro ⟨a, ha, rfl⟩
       rw [RingHom.mem_ker] at ha ⊢
-      show loc (e₁ a) = 0
+      change loc (e₁ a) = 0
       rw [hcomm a, ha, map_zero]
     · intro hz
       obtain ⟨a, rfl⟩ := e₁.surjective z
@@ -150,10 +150,10 @@ theorem stalk_ker_eq_of_affine_target
   have hring : e₁.toRingHom.comp (Y.presheaf.germ U (f x) hx).hom =
       algebraMap Γ(Y, U) (Localization.AtPrime p.asIdeal) := by
     ext s
-    show (IsLocalization.algEquiv p.asIdeal.primeCompl
+    change (IsLocalization.algEquiv p.asIdeal.primeCompl
       (Y.presheaf.stalk (f x)) (Localization.AtPrime p.asIdeal)).toRingEquiv
         ((Y.presheaf.germ U (f x) hx).hom s) = _
-    show (IsLocalization.algEquiv p.asIdeal.primeCompl
+    change (IsLocalization.algEquiv p.asIdeal.primeCompl
       (Y.presheaf.stalk (f x)) (Localization.AtPrime p.asIdeal)).toRingEquiv
         (algebraMap Γ(Y, U) (Y.presheaf.stalk (f x)) s) = _
     exact (IsLocalization.algEquiv p.asIdeal.primeCompl
@@ -198,7 +198,7 @@ theorem isFlatAt_of_relativeEffectiveCartierDivisor
     ideal_eq_quotient_of_chart I U hU (Ideal.span {t}) e he
   let i := I.subschemeι
   have hxRange : x ∈ Set.range i := by
-    show x ∈ Set.range I.subschemeι
+    change x ∈ Set.range I.subschemeι
     rw [I.range_subschemeι]
     exact hxSupport
   obtain ⟨y, hy⟩ := hxRange
@@ -242,7 +242,7 @@ theorem isFlatAt_of_relativeEffectiveCartierDivisor
     rfl
   algebraize [φ, ψ, α]
   have _ : IsLocalHom (algebraMap A B) := by
-    show IsLocalHom (f.stalkMap (i y)).hom
+    change IsLocalHom (f.stalkMap (i y)).hom
     infer_instance
   have _ : IsScalarTower A B C := IsScalarTower.of_algebraMap_eq' (by
     ext a
@@ -250,7 +250,7 @@ theorem isFlatAt_of_relativeEffectiveCartierDivisor
   have hflatC : Module.Flat A C := (Flat.iff_flat_stalkMap (i ≫ f)).mp hI.2 y
   let e : B ⧸ RingHom.ker ψ ≃+* C := RingHom.quotientKerEquivOfSurjective hsurj
   have heComm (a : A) : e (algebraMap A (B ⧸ RingHom.ker ψ) a) = algebraMap A C a := by
-    show e (Ideal.Quotient.mk (RingHom.ker ψ) (φ a)) = α a
+    change e (Ideal.Quotient.mk (RingHom.ker ψ) (φ a)) = α a
     rw [RingHom.quotientKerEquivOfSurjective_apply_mk, hα]
     rfl
   let eL : (B ⧸ RingHom.ker ψ) ≃ₗ[A] C :=
@@ -261,7 +261,7 @@ theorem isFlatAt_of_relativeEffectiveCartierDivisor
       map_add' := e.map_add
       map_smul' := by
         intro a b
-        show e (algebraMap A (B ⧸ RingHom.ker ψ) a * b) =
+        change e (algebraMap A (B ⧸ RingHom.ker ψ) a * b) =
           algebraMap A C a * e b
         rw [map_mul, heComm] }
   have hflatQuotient : Module.Flat A (B ⧸ Ideal.span {h}) := by
@@ -274,9 +274,9 @@ theorem isFlatAt_of_relativeEffectiveCartierDivisor
     flat_of_regular_quotient_flat h
       (isRegular_iff_mem_nonZeroDivisors.mp hRegular) hhmax hflatQuotient
   have hflatAt : RingHom.Flat (f.stalkMap (i y)).hom := by
-    show Module.Flat A B
+    change Module.Flat A B
     exact hflatB
-  show RingHom.Flat (f.stalkMap x).hom
+  change RingHom.Flat (f.stalkMap x).hom
   cases hy
   exact hflatAt
 

@@ -420,7 +420,7 @@ theorem algebraMap_smul₂ {k : ℕ} (a : A) (x : E.P₂ k) :
 theorem π_smul {k : ℕ} (b : B') (x : E.P₀ k) : E.π b • x = b • x := by
   induction x using Submodule.Quotient.induction_on with
   | H m =>
-    show (RingHom.quotientKerEquivOfSurjective E.surjective_π).symm (E.π b) •
+    change (RingHom.quotientKerEquivOfSurjective E.surjective_π).symm (E.π b) •
       (Submodule.Quotient.mk m : E.P₀ k) = _
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply]
     rfl
@@ -429,7 +429,7 @@ theorem π_smul {k : ℕ} (b : B') (x : E.P₀ k) : E.π b • x = b • x := by
 theorem ρ_smul {k : ℕ} (c : C') (x : E.P₁ k) : E.ρ c • x = c • x := by
   induction x using Submodule.Quotient.induction_on with
   | H m =>
-    show (RingHom.quotientKerEquivOfSurjective E.surjective_ρ).symm (E.ρ c) •
+    change (RingHom.quotientKerEquivOfSurjective E.surjective_ρ).symm (E.ρ c) •
       (Submodule.Quotient.mk m : E.P₁ k) = _
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply]
     rfl
@@ -438,7 +438,7 @@ theorem ρ_smul {k : ℕ} (c : C') (x : E.P₁ k) : E.ρ c • x = c • x := by
 theorem σ_smul {k : ℕ} (d : D') (x : E.P₂ k) : E.σ d • x = d • x := by
   induction x using Submodule.Quotient.induction_on with
   | H m =>
-    show (RingHom.quotientKerEquivOfSurjective E.surjective_σ).symm (E.σ d) •
+    change (RingHom.quotientKerEquivOfSurjective E.surjective_σ).symm (E.σ d) •
       (Submodule.Quotient.mk m : E.P₂ k) = _
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply]
     rfl
@@ -626,7 +626,7 @@ theorem ι₁_lTensor_d₀ {k : ℕ} (z : B ⊗[A] E.P₀ k) :
   | tmul b x =>
     have hq : E.q₀₂ (E.tb b) = E.e₂ b := congr($(E.q₀₂_comp_tb) b)
     rw [LinearMap.lTensor_tmul, ι₁_tmul, ι₀_tmul, d₁'_apply, g₁₂_smul, g₀₂_smul, hq]
-    show E.e₂ b • _ = E.e₂ b • _ - E.e₂ b • _
+    change E.e₂ b • _ = E.e₂ b • _ - E.e₂ b • _
     rw [← smul_sub]
     congr 1
     induction x using AdicGradedPiece.induction_on with
@@ -645,7 +645,7 @@ theorem ι₁_eq_contr {k : ℕ} (z : B ⊗[A] E.P₁ k) :
     have hq : E.q₀₂ (E.tb b) = E.e₂ b := congr($(E.q₀₂_comp_tb) b)
     rw [LinearMap.lTensor_tmul, ι₁_tmul, contr₂_tmul, contr₁_tmul, map_neg, d₁'_apply,
       g₁₂_smul, g₀₂_smul, hq, d₁_apply]
-    show _ = _ + -(E.e₂ b • _ - E.e₂ b • _)
+    change _ = _ + -(E.e₂ b • _ - E.e₂ b • _)
     simp only [smul_add, smul_sub]
     abel
 
@@ -723,7 +723,7 @@ theorem ε_tmul {k : ℕ} (d : D') (y : ↥(E.I ^ k)) :
 theorem ε_injective (k : ℕ) : Function.Injective (E.ε k) := by
   have := E.flat
   have h₁ : Function.Injective ((E.I ^ k).subtype.baseChange D') := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ (Submodule.injective_subtype _)
   exact (TensorProduct.AlgebraTensorModule.rid C' D' D').injective.comp h₁
 
@@ -768,7 +768,7 @@ def act (k : ℕ) : B ⊗[A] C →ₐ[A] Module.End A (B ⊗[A] E.P₁ k) :=
 /-- The element `b ⊗ c` acts on `b' ⊗ y` as `(b * b') ⊗ (c • y)`. -/
 theorem act_tmul_tmul {k : ℕ} (b : B) (c : C) (b' : B) (y : E.P₁ k) :
     E.act k (b ⊗ₜ c) (b' ⊗ₜ y) = (b * b') ⊗ₜ (c • y) := by
-  show b • (b' ⊗ₜ[A] (c • y)) = _
+  change b • (b' ⊗ₜ[A] (c • y)) = _
   rw [TensorProduct.smul_tmul', smul_eq_mul]
 
 /-- The candidate left inverse of `ι₁`, on the flat presentation of `JD'^k`: the additive map
@@ -837,7 +837,7 @@ theorem r_eq_zero {k : ℕ} (w : D') (hw : w ∈ E.K ^ (k + 1)) :
   have hw' : w ∈ (E.I ^ (k + 1)).map (algebraMap C' D') := by rwa [← E.K_pow_eq]
   change w ∈ Ideal.span (algebraMap C' D' '' ↑(E.I ^ (k + 1))) at hw'
   have hle : Ideal.span (algebraMap C' D' '' ↑(E.I ^ (k + 1))) ≤ E.K ^ k := by
-    show (E.I ^ (k + 1)).map (algebraMap C' D') ≤ _
+    change (E.I ^ (k + 1)).map (algebraMap C' D') ≤ _
     rw [← E.K_pow_eq]
     exact Ideal.pow_le_pow_right (Nat.le_succ k)
   suffices ∀ (w : D') (hw' : w ∈ Ideal.span (algebraMap C' D' '' ↑(E.I ^ (k + 1)))),
@@ -851,7 +851,7 @@ theorem r_eq_zero {k : ℕ} (w : D') (hw : w ∈ E.K ^ (k + 1)) :
       (by rw [ε_tmul, mul_one]; exact hle (Ideal.subset_span ⟨y, hy, rfl⟩))
     simp only [ε_tmul, mul_one] at h
     rw [h, r₀_tmul, map_one, map_one, map_one]
-    show 1 ⊗ₜ AdicGradedPiece.mk E.I y hyk = 0
+    change 1 ⊗ₜ AdicGradedPiece.mk E.I y hyk = 0
     rw [(AdicGradedPiece.mk_eq_zero_iff E.I hyk).2 hy, TensorProduct.tmul_zero]
   | zero => exact map_zero (E.r k)
   | add w w' _ _ h h' =>
@@ -883,7 +883,7 @@ theorem exists_r_eq_ι₁ {k : ℕ} (z : B ⊗[A] E.P₁ k) :
         (E.mem_range_ε_iff _).1 ⟨_, rfl⟩
       refine ⟨⟨_, hmem⟩, ?_, ?_⟩
       · rw [ι₁_tmul, ← he, σ_smul, AdicGradedPiece.map_mk, AdicGradedPiece.smul_mk]
-        show AdicGradedPiece.mk E.K _ hmem = _
+        change AdicGradedPiece.mk E.K _ hmem = _
         congr 1
         rw [ε_tmul, mul_comm]
       · rw [r_ε, r₀_tmul, he]
@@ -957,9 +957,9 @@ theorem exists_eq_of_isNilpotent [Module.FaithfullyFlat A B] (hJ : IsNilpotent E
   obtain ⟨b, hb, hk⟩ := key N
   refine ⟨b, ?_, hb⟩
   have hzero : E.I ^ N = ⊥ := by
-    show RingHom.ker E.ρ ^ N = ⊥
+    change RingHom.ker E.ρ ^ N = ⊥
     rw [E.ker_ρ, ← Ideal.map_pow]
-    show Ideal.map E.s (E.J ^ N) = ⊥
+    change Ideal.map E.s (E.J ^ N) = ⊥
     rw [hN, Ideal.zero_eq_bot, Ideal.map_bot]
   have := Ideal.pow_le_pow_right (Nat.le_succ N) hk
   rw [hzero, Ideal.mem_bot, sub_eq_zero] at this

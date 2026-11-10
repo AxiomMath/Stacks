@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.LocalCohomology.LowDegree.ExactSequence
 public import StacksFrontier.RingTheory.LocalCohomology.VanishingTFAE.FiniteCohomologicalDimension

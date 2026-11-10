@@ -75,7 +75,7 @@ theorem comp_eq_Spec_residue_of_projectiveLine {R : Type u} [CommRing R] [IsLoca
     rw [hψ, Scheme.Hom.comp_apply]
     set y := (projectiveSpaceOverRing 1 (.of κ) ↘ Spec (.of κ)) x
     apply PrimeSpectrum.ext
-    show Ideal.comap ψ.hom y.asIdeal = _
+    change Ideal.comap ψ.hom y.asIdeal = _
     rw [@Ideal.eq_bot_of_prime _ _ _ y.isPrime]
     rfl
   -- the image is closed, hence the prime `ker ψ` is the maximal ideal

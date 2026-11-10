@@ -98,9 +98,7 @@ theorem overPullbackComp_hom_app_left_fst_fst {C : Type*} [Category C] [HasPullb
     {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) (A : Over Z) :
     ((Over.pullbackComp f g).hom.app A).left ≫ pullback.fst (pullback.snd A.hom g) f ≫
       pullback.fst A.hom g = pullback.fst A.hom (f ≫ g) := by
-  simpa [Over.pullbackComp, Adjunction.comp_counit_app] using
-    congrArg CommaMorphism.left (conjugateEquiv_counit (Over.mapPullbackAdj (f ≫ g))
-      ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g)) (Over.mapComp f g).inv A)
+  simp [Over.pullbackComp]
 
 /-- The identification of the pullback functors along two equal morphisms is compatible with
 the first projections. -/

@@ -142,8 +142,7 @@ noncomputable def extendScalarsAlgebraMapObjEquiv {R S : Type u} [CommRing R] [C
       let f₂ : (ModuleCat.extendScalars (algebraMap R S)).obj M →+ S ⊗[R] M :=
         (AddMonoidHom.mk' (s • ·) (smul_add s)).comp eR.toAddMonoidHom
       change f₁ x = f₂ x
-      induction x using TensorProduct.induction_on with
-      | zero => exact (map_zero f₁).trans (map_zero f₂).symm
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         exact ((map_add f₁ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add f₂ x y).symm
       | tmul a m => rfl }
@@ -160,9 +159,8 @@ theorem extendScalarsAlgebraMapObjEquiv_naturality {R S : Type u} [CommRing R] [
   let f₂ : (ModuleCat.extendScalars (algebraMap R S)).obj M →+ S ⊗[R] N :=
     (LinearMap.lTensor S g.hom).toAddMonoidHom.comp
       (extendScalarsAlgebraMapObjEquiv M).toAddMonoidHom
-  show f₁ x = f₂ x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero f₁).trans (map_zero f₂).symm
+  change f₁ x = f₂ x
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((map_add f₁ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add f₂ x y).symm
   | tmul a m => rfl
@@ -187,8 +185,7 @@ variable {p₁ p₂ A'}
 /-- `A' ⊗ p` as a linear map is `A' ⊗ p` as a map of algebras. -/
 theorem lTensor_toLinearMap_apply_eq_map (p : C →ₐ[A] D) (x : A' ⊗[A] C) :
     p.toLinearMap.lTensor A' x = Algebra.TensorProduct.map (AlgHom.id A' A') p x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a c => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -240,14 +237,13 @@ theorem nonempty_ker_extendScalars_linearEquiv_lTensorEqualizer {M₀ M₁ : Mod
   have hE (x : (ModuleCat.extendScalars (algebraMap A A')).obj M₀) :
       E₁ (((ModuleCat.extendScalars (algebraMap A A')).map d).hom x) =
         (p₂.toLinearMap - p₁.toLinearMap).lTensor A' (E₀ x) := by
-    show e₁.baseChange A A' M₁ D (ModuleCat.extendScalarsAlgebraMapObjEquiv M₁
+    change e₁.baseChange A A' M₁ D (ModuleCat.extendScalarsAlgebraMapObjEquiv M₁
       ((ModuleCat.extendScalars (algebraMap A A')).map d x)) =
       (p₂.toLinearMap - p₁.toLinearMap).lTensor A'
         (e₀.baseChange A A' M₀ C (ModuleCat.extendScalarsAlgebraMapObjEquiv M₀ x))
     rw [ModuleCat.extendScalarsAlgebraMapObjEquiv_naturality]
     generalize ModuleCat.extendScalarsAlgebraMapObjEquiv M₀ x = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m =>
       rw [LinearMap.lTensor_tmul, LinearEquiv.baseChange_tmul, LinearEquiv.baseChange_tmul,
         LinearMap.lTensor_tmul, hd]
@@ -545,9 +541,9 @@ theorem exists_away_equalizerTensorExact [IsNoetherianRing A]
   have hd (x : C.X 0) : e₁ ((C.d 0 1).hom x) = (p₂.toLinearMap - p₁.toLinearMap) (e₀ x) := by
     have h := HomologicalComplex.extend_d_eq K ComplexShape.embeddingUpNat
       (i := 0) (j := 1) (i' := 0) (j' := 1) rfl rfl
-    show ι₁.hom.hom ((C.d 0 1).hom x) = _
+    change ι₁.hom.hom ((C.d 0 1).hom x) = _
     rw [h]
-    show ι₁.hom.hom (ι₁.inv.hom ((K.d 0 1).hom (ι₀.hom.hom x))) = _
+    change ι₁.hom.hom (ι₁.inv.hom ((K.d 0 1).hom (ι₀.hom.hom x))) = _
     rw [← LinearMap.comp_apply, ← ModuleCat.hom_comp, Iso.inv_hom_id, ModuleCat.hom_id,
       LinearMap.id_apply]
     exact cechUnitComplex_d_zero_one hX U _

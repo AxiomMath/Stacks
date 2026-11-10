@@ -178,7 +178,7 @@ theorem sub_eq_of_smoothAt {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (f : 
     have : y ∈ ι ⁻¹' t := hy.2
     rwa [hts] at this
   have hxO' : x ∈ ι ⁻¹ᵁ O' := ⟨hxO, by
-    show x ∈ ι ⁻¹' t
+    change x ∈ ι ⁻¹' t
     rw [hts]
     exact hxV⟩
   let i := pieceImmersion ι g d O' hOd'
@@ -289,7 +289,7 @@ theorem two_le_depth_stalk_upperShriekHomology {S : Scheme.{u}} [IsNoetherian S]
       rw [← hd] at hdim
       exact WithBot.coe_le_coe.mp hdim
     rw [min_eq_left h2] at h
-    show (2 : ℕ∞) ≤ Module.depth _ _ ((modulesStalkFunctor x).obj F)
+    change (2 : ℕ∞) ≤ Module.depth _ _ ((modulesStalkFunctor x).obj F)
     exact le_of_le_of_eq h moduleDepth_eq_depth
 
 /-- **Extension of a map from an open.** If `B ⟶ j_*(B|_U)` is an isomorphism, every map
@@ -327,7 +327,7 @@ theorem isIso_stalkAb_restrictFunctor_map_iff {Z : Scheme.{u}} (U : Z.Opens) {A 
   have hB : Function.Bijective (e.hom.app B) :=
     (ConcreteCategory.isIso_iff_bijective _).1 (Iso.isIso_hom (e.app B))
   rw [ConcreteCategory.isIso_iff_bijective, ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective ((Scheme.Modules.restrictFunctor U.ι ⋙
+  change Function.Bijective ((Scheme.Modules.restrictFunctor U.ι ⋙
       Scheme.Modules.toPresheaf _ ⋙ TopCat.Presheaf.stalkFunctor _ x).map φ) ↔
     Function.Bijective ((Scheme.Modules.toPresheaf _ ⋙
       TopCat.Presheaf.stalkFunctor _ (U.ι x)).map φ)
@@ -434,7 +434,7 @@ theorem exists_map_exteriorPower_isIso_of_smoothAt {S : Scheme.{u}} [IsNoetheria
   let ιU : XU.left ⟶ P := U.ι ≫ ι
   have : IsImmersion ιU := inferInstanceAs (IsImmersion (U.ι ≫ ι))
   have hfacU : ιU ≫ g = fU.left := by
-    show (U.ι ≫ ι) ≫ g = U.ι ≫ f.left
+    change (U.ι ≫ ι) ≫ g = U.ι ≫ f.left
     rw [Category.assoc, hfac]
   have hlciU : IsLocalCompleteIntersectionMorphism fU.left := fun z =>
     koszulAt_precomp_openImmersion f.left U.ι z z.2
@@ -446,7 +446,7 @@ theorem exists_map_exteriorPower_isIso_of_smoothAt {S : Scheme.{u}} [IsNoetheria
     have hres := Stacks.Chow.residueTrdeg_of_surjective_residueFieldMap_comp (X' := U.toScheme)
       U.ι f.left ξ' (ConcreteCategory.bijective_of_isIso
         (Scheme.Hom.residueFieldMap (X := U.toScheme) U.ι ξ')).2
-    show Stacks.Chow.residueTrdeg (U.ι ≫ f.left) ξ' = _
+    change Stacks.Chow.residueTrdeg (U.ι ≫ f.left) ξ' = _
     rw [hres]
     exact htr' _ (forall_specializes_eq_of_isOpenImmersion U h)
   -- the pieces of `U` of [Stacks, Tag 0E9Z]
@@ -466,7 +466,7 @@ theorem exists_map_exteriorPower_isIso_of_smoothAt {S : Scheme.{u}} [IsNoetheria
   have hmem : ∀ a x, x ∈ ιU ⁻¹ᵁ O a ↔ mf x = a.2 ∧ df (ιU x) = a.1 := by
     intro a x
     have h2 : ιU x ∈ ιU.coborderRange := subset_coborder ⟨x, rfl⟩
-    show (ιU x ∈ T a.2 ∧ ιU x ∈ dimensionOpen g a.1) ∧ ιU x ∈ ιU.coborderRange ↔ _
+    change (ιU x ∈ T a.2 ∧ ιU x ∈ dimensionOpen g a.1) ∧ ιU x ∈ ιU.coborderRange ↔ _
     have h3 := mem_relativeDimensionOpen g (isCohenMacaulay_fiber_of_smooth g) a.1 (ιU x)
     exact ⟨fun h => ⟨(hT a.2 x).1 h.1.1, h3.1 h.1.2⟩,
       fun h => ⟨⟨(hT a.2 x).2 h.1, h3.2 h.2⟩, h2⟩⟩

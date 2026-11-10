@@ -88,7 +88,7 @@ theorem exists_eq_sharp_add_sum (U : SmallEtale B S hS X₀.1)
   have hmem : ∀ t, t - σ (ρ t) ∈ Ideal.span (Set.range fun v : ↥M =>
       (ι v).1 (op ((smallBaseChange B S hS r hrep).obj U))) := fun t => by
     rw [← hk]
-    show ρ (t - σ (ρ t)) = 0
+    change ρ (t - σ (ρ t)) = 0
     rw [map_sub, hρσ, sub_self]
   obtain ⟨n, t, v, hsum⟩ : ∃ (n : ℕ) (t : Fin n →
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X'.1 X'.2).O).obj.obj
@@ -231,7 +231,7 @@ theorem retractionPushforward_hom_smul
   intro g
   let lhs : ((retractionPushforward B S hS r hrep).obj F₂).val.obj (op U) := g (a • x)
   let rhs : ((retractionPushforward B S hS r hrep).obj F₂).val.obj (op U) := a • g x
-  show lhs = rhs
+  change lhs = rhs
   refine modules_section_ext_of_isAffine B S hS _ lhs rhs fun V j hV => ?_
   let j' := (smallBaseChange B S hS r hrep).map j
   let gV : F₁.val.obj (op ((smallBaseChange B S hS r hrep).obj V)) →+

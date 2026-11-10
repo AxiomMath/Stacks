@@ -159,7 +159,7 @@ theorem affineSectionsIso_naturality {F G : X.Modules} (χ : F ⟶ G) {U : X.Ope
       (affineSectionsIso M hU).hom m
         = M.presheaf.map (homOfLE he.ge).op (show Γ(M, hU.fromSpec ''ᵁ ⊤) from m) := by
     intro M m
-    show M.presheaf.map _ ((M.restrictAppIso hU.fromSpec ⊤).hom m) = _
+    change M.presheaf.map _ ((M.restrictAppIso hU.fromSpec ⊤).hom m) = _
     rw [Scheme.Modules.restrictAppIso]
     congr 1
   rw [e1, e1]

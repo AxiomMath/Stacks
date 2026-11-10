@@ -153,7 +153,7 @@ theorem truncIdeal_map_le_span (n : ℕ) :
       Ideal.span {algebraMap (PowerSeries k) B PowerSeries.X} := by
   have h : truncIdeal k n ≤ Ideal.span {(PowerSeries.X : PowerSeries k)} := by
     refine (Ideal.pow_le_self (Nat.succ_ne_zero n)).trans ?_
-    show maximalIdeal (PowerSeries k) ≤ _
+    change maximalIdeal (PowerSeries k) ≤ _
     rw [PowerSeries.maximalIdeal_eq_span_X]
   refine (Ideal.map_mono h).trans ?_
   rw [Ideal.map_span, Set.image_singleton]
@@ -269,7 +269,7 @@ theorem levelFlatTransition_comp_levelHom (n : ℕ) :
     intro x
     obtain ⟨φ, rfl⟩ : ∃ φ : PowerSeries k, Ideal.Quotient.mk (truncIdeal k (n + 1)) φ = x :=
       Ideal.Quotient.mk_surjective x
-    show truncResidue k n (Ideal.Quotient.factor
+    change truncResidue k n (Ideal.Quotient.factor
         (Ideal.pow_le_pow_right (Nat.le_succ (n + 1)) : truncIdeal k (n + 1) ≤ truncIdeal k n)
         (Ideal.Quotient.mk _ φ)) = truncResidue k (n + 1) (Ideal.Quotient.mk _ φ)
     rw [Ideal.Quotient.factor_mk, truncResidue_mk, truncResidue_mk]
@@ -279,7 +279,7 @@ theorem levelFlatTransition_comp_levelHom (n : ℕ) :
     obtain ⟨b, rfl⟩ : ∃ b : B, Ideal.Quotient.mk
         ((truncIdeal k (n + 1)).map (algebraMap (PowerSeries k) B)) b = x :=
       Ideal.Quotient.mk_surjective x
-    show e (Ideal.Quotient.factor (truncIdeal_map_le_span k B n)
+    change e (Ideal.Quotient.factor (truncIdeal_map_le_span k B n)
         (Ideal.Quotient.factor (truncIdeal_map_le_succ k B n) (Ideal.Quotient.mk _ b))) =
       e (Ideal.Quotient.factor (truncIdeal_map_le_span k B (n + 1)) (Ideal.Quotient.mk _ b))
     rw [Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk]

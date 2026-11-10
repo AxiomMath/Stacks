@@ -110,7 +110,7 @@ lemma moduleCat_d_eq_zero_of_length_homology_eq_of_free (hA : Module.length A A 
   · rw [P.moduleCat_length_X_of_free n hP i]
     obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.1 hA
     rw [← hm, ← Nat.cast_mul]
-    exact ENat.coe_ne_top _
+    exact ENat.natCast_ne_top _
 
 omit hP in
 /-- When all differentials of a cochain complex vanish, its cohomology in degree `i` is its term
@@ -237,7 +237,7 @@ theorem moduleCat_d_eq_zero_of_forall_finrank_homology_residueField
     have hle := CochainComplex.moduleCat_length_homology_le_of_free.{w} Q n hQ k
     rw [hlen1, mul_one] at hle
     have : IsFiniteLength p.ResidueField (Q.homology k) :=
-      Module.length_ne_top_iff.1 (ne_top_of_le_ne_top (ENat.coe_ne_top _) hle)
+      Module.length_ne_top_iff.1 (ne_top_of_le_ne_top (ENat.natCast_ne_top _) hle)
     have : IsNoetherian p.ResidueField (Q.homology k) :=
       ((isFiniteLength_iff_isNoetherian_isArtinian).1 this).1
     infer_instance

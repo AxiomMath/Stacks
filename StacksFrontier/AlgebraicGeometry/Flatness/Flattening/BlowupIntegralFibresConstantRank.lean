@@ -96,7 +96,7 @@ theorem isSolvable_of_constantRank (D : FlatteningSituation.{u}) (r : ℕ)
       V.1.toScheme.basicOpen a := by
     rw [ha, Scheme.basicOpen_appLE, top_inf_eq]
     refine TopologicalSpace.Opens.ext (Set.ext fun v ↦ ?_)
-    show (blowUpToBase C).base (V.1.ι.base v) ∈ D.U ↔ V.1.ι.base v ∈ (blowUp C).basicOpen g
+    change (blowUpToBase C).base (V.1.ι.base v) ∈ D.U ↔ V.1.ι.base v ∈ (blowUp C).basicOpen g
     have hsupp : V.1.ι.base v ∈ ((exceptionalIdeal C).support : Set (blowUp C)) ↔
         ¬ ((blowUpToBase C).base (V.1.ι.base v) ∈ D.U) := by
       rw [hbdry]
@@ -116,7 +116,7 @@ theorem isSolvable_of_constantRank (D : FlatteningSituation.{u}) (r : ℕ)
     fun x hx hgen ↦ ?_
   refine nonempty_basis_stalk_of_freeAtPointOfRank _ x r
     (D₁.freeAtPointOfRank_restrict V.1 V.2.isCompact r hr₁ x ?_ hgen)
-  show (D₁.restrict V.1 V.2.isCompact).f.base x ∈
+  change (D₁.restrict V.1 V.2.isCompact).f.base x ∈
     (V.1.ι ⁻¹ᵁ (blowUpToBase C ⁻¹ᵁ D.U) : V.1.toScheme.Opens)
   rw [hbasic]
   exact hx

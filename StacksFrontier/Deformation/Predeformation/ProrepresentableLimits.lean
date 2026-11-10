@@ -59,7 +59,7 @@ private noncomputable def finiteDiagramExponent {J : Type*} [Category J] [Fintyp
 private lemma finiteDiagramExponent_le {J : Type*} [Category J] [Fintype J]
     (K : J ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (j : J) :
     Nat.find (exists_pow_maximalIdeal_eq_bot (K.obj j)) ≤ finiteDiagramExponent K := by
-  show Nat.find (exists_pow_maximalIdeal_eq_bot (K.obj j)) ≤
+  change Nat.find (exists_pow_maximalIdeal_eq_bot (K.obj j)) ≤
     ∑ i : J, Nat.find (exists_pow_maximalIdeal_eq_bot (K.obj i))
   simpa using (Finset.single_le_sum
     (fun i _ ↦ Nat.zero_le (Nat.find (exists_pow_maximalIdeal_eq_bot (K.obj i))))
@@ -89,7 +89,7 @@ public lemma exists_factorThroughAdicTruncation
   let : IsLocalRing (R ⧸ AdicTruncation.ideal R n) :=
     inferInstanceAs (IsLocalRing (AdicTruncation.obj R n))
   have hker : AdicTruncation.ideal R n ≤ RingHom.ker α.hom.toRingHom := by
-    show AdicTruncation.ideal R n ≤
+    change AdicTruncation.ideal R n ≤
       (⊥ : Ideal (artinianToComplete.obj A)).comap α.hom.toRingHom
     rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
     exact (Ideal.pow_right_mono (map_maximalIdeal_le α.hom.toRingHom) _).trans_eq hn
@@ -102,7 +102,7 @@ public lemma exists_factorThroughAdicTruncation
   refine ⟨{ hom := f, isLocal := hf, residue_comm := ?_ }, ?_⟩
   · intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show A.residueEquiv (residue A (α.hom r)) =
+    change A.residueEquiv (residue A (α.hom r)) =
       AdicTruncation.residueEquiv R n (residue _ (Ideal.Quotient.mk _ r))
     rw [AdicTruncation.residueEquiv_residue_mk]
     exact α.residue_comm r
@@ -187,7 +187,7 @@ theorem restrictedCoyoneda_preservesFiniteLimits
     }
     let x : cF.pt := F.map (hc.lift d) q
     refine ⟨x, Subtype.ext (funext fun j => ?_)⟩
-    show q ≫ artinianToComplete.map (hc.lift d ≫ c.π.app j) = s.1 j
+    change q ≫ artinianToComplete.map (hc.lift d ≫ c.π.app j) = s.1 j
     rw [hc.fac d j]
     exact factorMap (K.obj j) (α j) (a j) (ha j)
   exact (Types.isLimit_iff_bijective_sectionOfCone cF).2 hb

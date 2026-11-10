@@ -81,7 +81,7 @@ theorem isPullback_of_isIso_kernelMap {X₁ X₂ X₃ X₄ : C} {t : X₁ ⟶ X�
     let k : A₁ ⟶ kernel t :=
       kernel.lift b (x ≫ l - π₁ ≫ z ≫ pullback.snd r b) hk ≫ inv (kernel.map t b l r w)
     have hkι : k ≫ kernel.ι t ≫ l = x ≫ l - π₁ ≫ z ≫ pullback.snd r b := by
-      show (kernel.lift b (x ≫ l - π₁ ≫ z ≫ pullback.snd r b) hk ≫
+      change (kernel.lift b (x ≫ l - π₁ ≫ z ≫ pullback.snd r b) hk ≫
         inv (kernel.map t b l r w)) ≫ kernel.ι t ≫ l = _
       rw [← hmap, Category.assoc, IsIso.inv_hom_id_assoc, kernel.lift_ι]
     have hkt : k ≫ kernel.ι t ≫ t = 0 := by rw [kernel.condition, comp_zero]

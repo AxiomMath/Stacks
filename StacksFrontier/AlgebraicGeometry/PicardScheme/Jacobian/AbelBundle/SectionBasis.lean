@@ -43,6 +43,7 @@ variable {X S : Scheme.{u}} (f : X ⟶ S) [Flat f] [LocallyOfFinitePresentation 
   (θ : Stacks.Picard.ofScheme X) {d : ℕ}
   (hθ : ∀ s : S, relativeInvertibleDegreeHomAt f hdim s θ = d)
 
+omit [Flat f] [LocallyOfFinitePresentation f] [SmoothOfRelativeDimension 1 f] in
 include hθ in
 /-- **The translated universal class has degree `d` on every fibre of `X_A ⟶ A`.** -/
 theorem relativeInvertibleDegreeHomAt_abelTranslatedClass (w : A.X.left) :
@@ -156,7 +157,7 @@ theorem fibre_cohomology_abelTranslatedClass (hd : 2 * (genus f : ℤ) - 1 ≤ d
   have := L.property
   have hF := Stacks.Modules.isInvertible_pullback (bcMap f ι) L.obj
   refine fibre_cohomology_of_degree f gp fp s hsq ?_ hdim _ hF hd fun t => ?_
-  · show s ≫ W.ι ≫ A.X.hom = _
+  · change s ≫ W.ι ≫ A.X.hom = _
     exact (Spec.map_preimage _).symm
   · rw [picardClass_pullback (bcMap f ι) L.obj L.property hF,
       Stacks.Picard.classOf_picardRepresentative,
@@ -188,7 +189,7 @@ theorem finrank_cohomologyOverField_zero_eq_of_bijective {K : Type u} [Field K] 
             p.appTop (ψ a) :=
           congrArg (fun φ : Γ(Spec (.of K), ⊤) ⟶ Γ(Y, ⊤) => φ.hom (ψ a))
             (Scheme.Hom.appLE_eq_app p (U := ⊤))
-        show _ = ((Scheme.ΓSpecIso (.of K)).inv ≫ p.appLE ⊤ ⊤ (by simp)).hom a •
+        change _ = ((Scheme.ΓSpecIso (.of K)).inv ≫ p.appLE ⊤ ⊤ (by simp)).hom a •
           (∑ x, (p.appTop (ψ (c x)) : Γ(Y, ⊤)) • s x : Γ(M, ⊤))
         rw [happ] }
   have hΦ : Function.Bijective Φ := hbij.comp hψ.comp_left
@@ -243,7 +244,7 @@ theorem exists_abelSectionBasis [LocallyOfFiniteType A.X.hom] (hd : 2 * (genus f
     let h := W.toScheme.fromSpecResidueField y₀
     have hsq := IsPullback.of_hasPullback (bcProj f (Over.mk (W.ι ≫ A.X.hom))) h
     have hrange : Set.range h ⊆ W.toScheme.basicOpen g := by
-      show Set.range (W.toScheme.fromSpecResidueField y₀) ⊆ _
+      change Set.range (W.toScheme.fromSpecResidueField y₀) ⊆ _
       rw [Scheme.range_fromSpecResidueField]
       exact Set.singleton_subset_iff.mpr hy
     have hc := (fibre_cohomology_abelTranslatedClass f hdim σ hσ A e θ hθ hd W

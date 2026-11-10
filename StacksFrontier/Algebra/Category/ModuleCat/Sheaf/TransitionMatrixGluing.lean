@@ -353,7 +353,7 @@ theorem isSheaf_types :
   apply Subtype.ext
   ext k i
   refine (isSheaf_prod hO (D.W k) S hS).isSeparatedFor.ext (fun T f hf => ?_)
-  show D.resAmb f (show D.sections V from w).1 k i = D.resAmb f z k i
+  change D.resAmb f (show D.sections V from w).1 k i = D.resAmb f z k i
   rw [hz f hf]
   exact congrFun (congrFun (congrArg Subtype.val (hw f hf)) k) i
 
@@ -421,7 +421,7 @@ omit hO [ReflectsLimitsOfSize.{v, max v u} (CategoryTheory.forget AddCommGrpCat.
 theorem sum_val {V : C} {ι : Type*} (s : Finset ι) (x : ι → D.sections V) :
     (show D.sections V from ∑ i ∈ s, (show D.presheaf.obj (op V) from x i)).1 =
       ∑ i ∈ s, (x i).1 := by
-  show ((∑ i ∈ s, x i : D.sections V) : D.Amb V) = _
+  change ((∑ i ∈ s, x i : D.sections V) : D.Amb V) = _
   exact Submodule.coe_sum _ _ _
 
 omit hO [ReflectsLimitsOfSize.{v, max v u} (CategoryTheory.forget AddCommGrpCat.{w})] in
@@ -499,7 +499,7 @@ basis vector. -/
 theorem coordMap_frame (hU : D.Unit) (hC : D.Cocycle) {V : C} {k : K} (h : V ⟶ D.W k)
     (i : Fin (D.n k)) : D.coordMap h (res D.presheaf h (D.frame' hC k i)) = Pi.single i 1 := by
   funext i'
-  show pb O (prod.lift h (𝟙 V)) (D.resAmb h (D.frameAmb k i) k i') = _
+  change pb O (prod.lift h (𝟙 V)) (D.resAmb h (D.frameAmb k i) k i') = _
   rw [pb_lift_resAmb, pb_lift_frameAmb, Category.id_comp, hU k h i' i]
   simp [Pi.single_apply, eq_comm]
 

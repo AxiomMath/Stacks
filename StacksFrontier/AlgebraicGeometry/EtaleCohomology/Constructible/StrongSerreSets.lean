@@ -364,7 +364,7 @@ private theorem isSheaf_representableFiber
   obtain ⟨s, hs, hsu⟩ := hF S hS (x.map (representableFiberInclusion i)) (hx.map _)
   have hm : i.app (Opposite.op W.left) s = ULift.up W.hom := by
     refine (hA S hS).ext (fun {Y} {f} hf => ?_)
-    show (uliftYoneda.obj U).map f.left.op (i.app _ s) =
+    change (uliftYoneda.obj U).map f.left.op (i.app _ s) =
       ULift.up (f.left ≫ W.hom)
     calc
       _ = i.app _ (F.obj.map f.left.op s) :=
@@ -483,11 +483,11 @@ private theorem exists_representable_of_subterminal
   let f : Z ⟶ X := B.inclusion.preimage
     (show B.inclusion.obj Z ⟶ B.inclusion.obj X from W.ι)
   have hf : B.inclusion.map f = W.ι := by
-    show B.inclusion.map (B.inclusion.preimage
+    change B.inclusion.map (B.inclusion.preimage
       (show B.inclusion.obj Z ⟶ B.inclusion.obj X from W.ι)) = W.ι
     rw [Functor.map_preimage]
   let V : SmallEtale B X.obj X.property := ⟨Over.mk f, by
-    show Etale (B.inclusion.map f)
+    change Etale (B.inclusion.map f)
     rw [hf]
     infer_instance⟩
   let H : SmallEtale B X.obj X.property ⥤
@@ -496,16 +496,16 @@ private theorem exists_representable_of_subterminal
       Over.post (X := B.obj X.obj X.property) B.inclusion
   let eV : H.obj V ≅ Over.mk W.ι := by
     refine Over.isoMk (Iso.refl _) ?_
-    show W.ι = B.inclusion.map f
+    change W.ι = B.inclusion.map f
     exact hf.symm
   let isoRep : (H.op ⋙ uliftYoneda.{u + 1}.obj (Over.mk W.ι)) ≅ uliftYoneda.{u + 1}.obj V :=
     Functor.isoWhiskerLeft H.op (uliftYoneda.{u + 1}.mapIso eV.symm) ≪≫ uliftYonedaWhiskerIso H V
   have : CompactSpace ((SmallEtale.toScheme B X.obj X.property).obj V) := by
-    show CompactSpace W.toScheme
+    change CompactSpace W.toScheme
     exact isCompact_iff_compactSpace.mp
       (TopologicalSpace.NoetherianSpace.isCompact (W : Set X.obj))
   have : QuasiSeparatedSpace ((SmallEtale.toScheme B X.obj X.property).obj V) := by
-    show QuasiSeparatedSpace W.toScheme
+    change QuasiSeparatedSpace W.toScheme
     infer_instance
   exact ⟨V, inferInstance, inferInstance, ⟨e ≪≫ (presheafToSheaf _ _).mapIso isoRep ≪≫
     (sheafificationIso ((SmallEtale.topology B X.obj X.property).uliftYoneda.{u + 1}.obj V)).symm⟩⟩

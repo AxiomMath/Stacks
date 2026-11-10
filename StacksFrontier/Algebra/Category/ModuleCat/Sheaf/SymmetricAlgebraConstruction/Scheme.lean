@@ -107,10 +107,10 @@ theorem isSymmetricAlgebra_of_iso_source (e : M ≅ N) {ι : M ⟶ A.piece 1}
   obtain ⟨g, hg, hgu⟩ := h.2 B (e.hom ≫ κ)
     fun U s u => hκ U (e.hom.val.app U s) (e.hom.val.app U u)
   refine ⟨g, ?_, fun h' hh' => hgu h' ?_⟩
-  · show (e.inv ≫ ι) ≫ g.app 1 = κ
+  · change (e.inv ≫ ι) ≫ g.app 1 = κ
     rw [Category.assoc, hg, ← Category.assoc, e.inv_hom_id, Category.id_comp]
   · have hh'' : (e.inv ≫ ι) ≫ h'.app 1 = κ := hh'
-    show ι ≫ h'.app 1 = e.hom ≫ κ
+    change ι ≫ h'.app 1 = e.hom ≫ κ
     rw [← hh'', ← Category.assoc, ← Category.assoc, e.hom_inv_id, Category.id_comp]
 
 end SheafOfModules.GradedAlgebra

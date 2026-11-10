@@ -323,7 +323,7 @@ lemma cmp_square (p n : ℤ) :
       hypercohomologyMap X RΓ (K.filtration.ι.app (op p)) n ≫
         hypercohomologyMap X RΓ R.map.hom n := by
     rw [← hypercohomologyMap_comp, ← hypercohomologyMap_comp, R.map.comm (op p)]
-  show (hypercohomologyMap X RΓ (R.map.natTrans.app (op p)) n ≫
+  change (hypercohomologyMap X RΓ (R.map.natTrans.app (op p)) n ≫
         (hypercohomologyIsoGlobalSectionsHomology X RΓ α
           (R.obj.filtration.obj (op p)) n).hom) ≫
       HomologicalComplex.homologyMap
@@ -380,7 +380,7 @@ lemma nonempty_firstPageIso (p q : ℤ) :
   have hq : IsIso (DerivedCategory.Q.map ((FilteredObject.gr p).map R.map)) := inferInstance
   let egr : (FilteredObject.gr p).obj (globalSectionsFilteredComplex X R.obj) ≅
       (globalSectionsComplexFunctor X).obj ((FilteredObject.gr p).obj R.obj) := by
-    show cokernel ((globalSectionsComplexFunctor X).map
+    change cokernel ((globalSectionsComplexFunctor X).map
         (R.obj.filtration.step (FilteredObject.succHom p))) ≅
       (globalSectionsComplexFunctor X).obj
         (cokernel (R.obj.filtration.step (FilteredObject.succHom p)))
@@ -460,10 +460,10 @@ lemma converges
     obtain ⟨p₁, hp₁⟩ := hzero n
     refine ⟨p₀, max p₀ p₁, le_max_left _ _, ?_, ?_⟩
     · have h := hp₀ p₀ le_rfl
-      show imageSubobject (hypercohomologyMap X RΓ (K.filtration.ι.app (op p₀)) n) = ⊤
+      change imageSubobject (hypercohomologyMap X RΓ (K.filtration.ι.app (op p₀)) n) = ⊤
       exact Subobject.imageSubobject_eq_top_of_epi _
     · have hz := hp₁ (max p₀ p₁) (le_max_right _ _)
-      show imageSubobject (hypercohomologyMap X RΓ
+      change imageSubobject (hypercohomologyMap X RΓ
         (K.filtration.ι.app (op (max p₀ p₁))) n) = ⊥
       rw [show hypercohomologyMap X RΓ (K.filtration.ι.app (op (max p₀ p₁))) n = 0 from
         hz.eq_of_src _ _, imageSubobject_zero]

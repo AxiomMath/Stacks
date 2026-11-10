@@ -548,8 +548,8 @@ theorem exists_pairingHom_eq_one (s : L.sections) :
 nonvanishing open of a global section `s` of an invertible module, there is a section `t` of the
 `(-1)`-st tensor power whose canonical tensor-power pairing with `s` evaluates to `1`.
 
-The pairing is the one the tagged statement names: form the elementary tensor of `s`, read in the first
-tensor power, with `t`; push it into the sheafified tensor product; apply the addition
+The pairing is the one the tagged statement names: form the elementary tensor of `s`, read in the
+first tensor power, with `t`; push it into the sheafified tensor product; apply the addition
 isomorphism of Stacks Tag 01CU in degrees `1` and `-1`; reindex along `1 + (-1) = 0`. The tagged
 statement then compares the result with `1` directly, its zeroth tensor power being the unit of
 `SheafOfModules` on the nose; here the zeroth tensor power is the *sheafified* unit, so

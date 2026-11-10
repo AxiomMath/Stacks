@@ -80,7 +80,7 @@ theorem finite_idealPowerTower_obj {A : Type u} [CommRing A] [IsNoetherianRing A
     (I : Ideal A) (M : ModuleCat.{u} A) [Module.Finite A M] (n : ℕᵒᵖ) :
     Module.Finite A ((idealPowerTower.{u, u} I M).obj n) := by
   have : IsNoetherian A M := isNoetherian_of_isNoetherianRing_of_finite A M
-  show Module.Finite A ↥(I ^ n.unop • (⊤ : Submodule A M))
+  change Module.Finite A ↥(I ^ n.unop • (⊤ : Submodule A M))
   exact Module.Finite.iff_fg.mpr (IsNoetherian.noetherian _)
 
 /-- **The vanishing of a localized map in the `ModuleCat` localization functor**, read

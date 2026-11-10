@@ -673,7 +673,7 @@ theorem isCoherent_dualizingSheafOverField_of_generatingSections
     (fun A B hAB => by
       obtain ⟨C, hC, -, -, hτ⟩ := S.exists_quotient_of_le (L := L) hAB (coh A) (coh B)
       have := S.twistDegree_nonneg hL C hC
-      show S.twistDegree L _ (coh A) ≤ S.twistDegree L _ (coh B)
+      change S.twistDegree L _ (coh A) ≤ S.twistDegree L _ (coh B)
       omega)
     (fun A B hAB hτAB => by
       obtain ⟨C, hC, -, hχ, hτ⟩ := S.exists_quotient_of_le (L := L) hAB (coh A) (coh B)
@@ -682,7 +682,7 @@ theorem isCoherent_dualizingSheafOverField_of_generatingSections
         omega
       have hsupp := S.supp_dim_le_zero_of_twistDegree_eq_zero hL C hC h0
       have hχC := S.eulerCharacteristic_eq_finrank_zero_of_supp_dim_le_zero C hC hsupp
-      show @eulerCharacteristic S.k _ S.X S.f _ _ (coh A) ≤
+      change @eulerCharacteristic S.k _ S.X S.f _ _ (coh A) ≤
         @eulerCharacteristic S.k _ S.X S.f _ _ (coh B)
       have := Nat.cast_nonneg (α := ℤ) (Module.finrank S.k (cohomologyOverField S.k S.f C 0))
       omega)

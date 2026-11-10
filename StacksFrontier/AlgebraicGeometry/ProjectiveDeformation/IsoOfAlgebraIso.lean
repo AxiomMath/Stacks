@@ -218,7 +218,7 @@ theorem totalIsoOfAlgebraIso_hom_comp_canonicalProjHom :
     (totalIsoOfAlgebraIso D₁ D₂ g γ hγ).hom ≫
         D₂.canonicalProjHom P.degreeBound P.degreeBound_pos =
       D₁.canonicalProjHom P.degreeBound P.degreeBound_pos ≫ projHomOfAlgebraIso D₁ D₂ g γ hγ := by
-  show (canonicalProjIso D₁ ≪≫ projIsoOfAlgebraIso D₁ D₂ g γ hγ ≪≫
+  change (canonicalProjIso D₁ ≪≫ projIsoOfAlgebraIso D₁ D₂ g γ hγ ≪≫
       (canonicalProjIso D₂).symm).hom ≫ (canonicalProjIso D₂).hom = _
   simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rfl

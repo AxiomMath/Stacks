@@ -130,7 +130,7 @@ public theorem isSmooth_comp
   obtain ⟨x', h', b, hh', hb, hφeq⟩ := hφ f hf y' x h hh
   refine ⟨x', h', ψ.map b ≫ a, hh', ?_, ?_⟩
   · let _ := hb; let _ := ha; exact IsHomLift.comp_of_lift_id 𝓗.p B (ψ.map b) a
-  · show ψ.map (φ.map h') = (ψ.map b ≫ a) ≫ g; rw [hφeq, ψ.map_comp, hψeq, Category.assoc]; rfl
+  · change ψ.map (φ.map h') = (ψ.map b ≫ a) ≫ g; rw [hφeq, ψ.map_comp, hψeq, Category.assoc]; rfl
 
 end
 
@@ -227,7 +227,7 @@ public theorem isSmooth_twoFibreProductSnd
           _ = aIso.hom ≫ θ.toFunctor.map g := by rfl }
   have hH : pProd.IsHomLift f H := by
     apply IsHomLift.of_fac' pProd f H rfl hbase
-    show H.hbase = eqToHom rfl ≫ f ≫ eqToHom hbase.symm
+    change H.hbase = eqToHom rfl ≫ f ≫ eqToHom hbase.symm
     simp [H, hbaseArrow]
   exact ⟨P', H, 𝟙 y, hH, IsHomLift.id hy, (Category.id_comp g).symm⟩
 
@@ -250,7 +250,6 @@ public theorem isSmooth_of_essSurj_comp
     {𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
     {𝓖 : BasedCategory.{v₂, u₂} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
     {𝓗 : BasedCategory.{v₃, u₃} (ArtinianLocalAlgCat.{u, v, w} Λ k)}
-    (h𝓕 : IsCofiberedInGroupoids 𝓕.p)
     (φ : BasedFunctor 𝓕 𝓖) (ψ : BasedFunctor 𝓖 𝓗) [φ.toFunctor.EssSurj]
     (h : IsSmooth (BasedFunctor.comp φ ψ)) : IsSmooth ψ := by
   intro B A f hf y x g hg
@@ -262,11 +261,11 @@ public theorem isSmooth_of_essSurj_comp
   let e := φ.toFunctor.objObjPreimageIso x
   let q := 𝓖.p.mapIso e
   have hf' : Function.Surjective (f ≫ q.inv).hom := by
-    show Function.Surjective (q.inv.hom.comp f.hom)
+    change Function.Surjective (q.inv.hom.comp f.hom)
     apply Function.Surjective.comp _ hf
     intro z
     refine ⟨q.hom.hom z, ?_⟩
-    show (q.hom ≫ q.inv).hom z = z
+    change (q.hom ≫ q.inv).hom z = z
     simp
   have hg' : 𝓗.p.IsHomLift (f ≫ q.inv) (g ≫ ψ.map e.inv) := by
     let : 𝓖.p.IsHomLift q.inv e.inv := inferInstanceAs (𝓖.p.IsHomLift (𝓖.p.map e.inv) e.inv)

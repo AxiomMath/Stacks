@@ -186,14 +186,24 @@ def inverseImageHom : AlgebraicGeometry.RingedToposHom (inverseImageTopos f) Y w
   toToposHom := f.toToposHom
   fSharp := (commRingImageAdjunction f.toToposHom).unit.app Y.O
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The inverse-image form of the structure map of `inverseImageHom` is the identity. -/
 lemma inverseImageHom_fSharpInverseImage :
     (inverseImageHom f).fSharpInverseImage = 𝟙 _ := by
-  show ((commRingImageAdjunction f.toToposHom).homEquiv Y.O _).symm
+  change ((commRingImageAdjunction f.toToposHom).homEquiv Y.O _).symm
     ((commRingImageAdjunction f.toToposHom).unit.app Y.O) = 𝟙 _
   rw [Adjunction.homEquiv_counit]
   exact (commRingImageAdjunction f.toToposHom).left_triangle_components Y.O
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The inverse-image form of the structure map of `inverseImageHom`, at the level of sheaves of
 rings along which scalars are extended, is the identity. -/
 lemma inverseImageHom_fSharpInverseImageRing :
@@ -268,6 +278,9 @@ def mixedTensorPullbackIso
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj H).mapIso
       ((pullbackIsoExtendInverseImage f).app G).symm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The underived identity is natural in the sheaf of `O`-modules. -/
 lemma mixedTensorPullbackIso_naturality_fst
     {H H' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (φ : H ⟶ H')
@@ -282,6 +295,9 @@ lemma mixedTensorPullbackIso_naturality_fst
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).map φ).naturality
       ((pullbackIsoExtendInverseImage f).inv.app G)).symm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The underived identity is natural in the sheaf of `O'`-modules. -/
 lemma mixedTensorPullbackIso_naturality_snd
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -351,6 +367,13 @@ def mixedTotalPullbackIso
     (fun u e ↦ mixedTensorPullbackIso_naturality_fst f u e)
     (fun a _ _ v ↦ mixedTensorPullbackIso_naturality_snd f a v) F G
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)] in
 /-- The identification of total complexes is natural in both complexes. -/
 lemma mixedTotalPullbackIso_hom_naturality
     {F F' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}

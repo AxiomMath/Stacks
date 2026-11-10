@@ -39,7 +39,7 @@ public theorem residueFieldMap_isIso_of_isClosedImmersion {X Y : Scheme.{u}}
     obtain ⟨b, hb⟩ := IsLocalRing.residue_surjective z
     obtain ⟨a, ha⟩ := f.stalkMap_surjective x b
     refine ⟨IsLocalRing.residue _ a, ?_⟩
-    show IsLocalRing.ResidueField.map (f.stalkMap x).hom
+    change IsLocalRing.ResidueField.map (f.stalkMap x).hom
       (IsLocalRing.residue _ a) = _
     rw [IsLocalRing.ResidueField.map_residue, ha, hb]⟩
 

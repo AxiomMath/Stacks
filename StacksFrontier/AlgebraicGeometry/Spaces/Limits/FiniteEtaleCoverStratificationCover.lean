@@ -116,7 +116,7 @@ private theorem isFinitePresentation_range_preimage_ι (hX : IsAlgebraicSpace B 
   let YP : Subfunctor (yoneda.obj T) := Subfunctor.range i
   have hYP : IsClosedSubspace B S hS YP :=
     isClosedSubspace_range_of_isClosedImmersion B S hS i hY hi
-  show IsFinitePresentation B S hS (YP.preimage D.ι).ι
+  change IsFinitePresentation B S hS (YP.preimage D.ι).ι
   have hYPD : YP ≤ D := Subfunctor.range_le_preimage_of_comp_eq hig
   have hmono_i : Mono i := mono_of_isClosedImmersion B S hS i hi
   let iD : yoneda.obj Y ⟶ D.toFunctor := Subfunctor.lift i hYPD
@@ -270,7 +270,7 @@ theorem exists_isCoverStratified_of_closedImmersion (hZ : B.Contains (⊤_ Schem
     have hP : IsAlgebraicSpace B S hS (pullback C₀.ι g') :=
       isAlgebraicSpace_pullback B S hS _ _ hC₀.1 (isAlgebraicSpace_yoneda B S hS T') hX
     rw [hfst]
-    refine IsEtaleAt.comp B S hS hP hY (isEtaleAt_of_isEtale B S hS hP _
+    refine IsEtaleAt.comp B S hS hY (isEtaleAt_of_isEtale B S hS hP _
       (isEtale_of_iso B S hS sq.isoPullback.symm) t) ?_
     refine isEtaleAt_of_isEtale_pullback_fst B S hS hC₀.1 hY U hU f hUe _ (hmemO _ ?_)
     rwa [← pointsMap_comp_apply, ← pointsMap_comp_apply, ← Category.assoc, ← hfst]

@@ -263,7 +263,7 @@ theorem wordEval_naturality {U V : Cᵒᵖ} (f : U ⟶ V) (w : Word 𝒮 U) :
       (wordDeg_cons (letterMap f x) (wordMap f w)).symm
     rw [wordEval_cons g x w ec.symm, GradedAlgebra.mulAt_naturality, g.naturality, ih,
       GradedAlgebra.mulAt_castHom_right B g1 ec.symm e1]
-    show _ = castHom B.piece (wordDeg_wordMap f (x :: w)) V
+    change _ = castHom B.piece (wordDeg_wordMap f (x :: w)) V
       (B.mulAt e2 V (g.app V (letterMap f x)) (g.wordEval (wordMap f w)))
     rw [GradedAlgebra.castHom_mulAt B e2 (wordDeg_wordMap f (x :: w)) e1]
 
@@ -365,7 +365,7 @@ theorem liftPiece_algGen {U : Cᵒᵖ} (x : Letter 𝒮 U) :
   have ea : wordDeg ([] : Word 𝒮 U) = 0 := rfl
   have h1 : letterDeg x + 0 = wordDeg ([x] : Word 𝒮 U) := by omega
   rw [algGen_def, liftPiece_toSheaf, liftPres_word]
-  show castHom B.piece _ U (B.mulAt h1 U (g.app U x) (B.one.eval U)) = _
+  change castHom B.piece _ U (B.mulAt h1 U (g.app U x) (B.one.eval U)) = _
   rw [GradedAlgebra.castHom_mulAt B h1 _ (add_zero _), GradedAlgebra.mulAt_one B _ rfl]
   rfl
 
@@ -493,7 +493,7 @@ theorem algPiece_hom_ext_of_algGen (φ ψ : ∀ n, algPiece (Osharp := Osharp) �
     ((ψ n).val.app U).hom.toAddMonoidHom.comp (algToSheafAdd 𝒮 n U)
   have hF : F₁ = F₂ := by
     refine algSections_addHom_ext 𝒮 fun w r => ?_
-    show (φ n).val.app U ((algToSheaf 𝒮 n).app U (algOf 𝒮 n w r)) =
+    change (φ n).val.app U ((algToSheaf 𝒮 n).app U (algOf 𝒮 n w r)) =
       (ψ n).val.app U ((algToSheaf 𝒮 n).app U (algOf 𝒮 n w r))
     rw [algToSheaf_algOf, map_smul, map_smul, homFamily_castHom φ, homFamily_castHom ψ,
       hword]
@@ -552,7 +552,7 @@ with the letter map on the generators. -/
 theorem algD_comp_liftPiece_of_derivation (n : ℤ) :
     algD 𝒮 δ n ≫ g.liftPiece (n + 1) = g.liftPiece n ≫ dB n := by
   refine algPiece_hom_ext 𝒮 fun U a => ?_
-  show (g.liftPiece (n + 1)).val.app U ((algD 𝒮 δ n).val.app U ((algToSheaf 𝒮 n).app U a)) =
+  change (g.liftPiece (n + 1)).val.app U ((algD 𝒮 δ n).val.app U ((algToSheaf 𝒮 n).app U a)) =
     (dB n).val.app U ((g.liftPiece n).val.app U ((algToSheaf 𝒮 n).app U a))
   rw [algD_toSheaf, liftPiece_toSheaf]
   let F₁ : algSections Osharp 𝒮 n U →+ (B.piece (n + 1)).val.obj U :=
@@ -561,7 +561,7 @@ theorem algD_comp_liftPiece_of_derivation (n : ℤ) :
     ((dB n).val.app U).hom.toAddMonoidHom.comp (g.liftAdd n U)
   have hF : F₁ = F₂ := by
     refine algSections_addHom_ext 𝒮 fun w r => ?_
-    show (g.liftPiece (n + 1)).val.app U ((algDHom 𝒮 δ n).app U (algOf 𝒮 n w r)) =
+    change (g.liftPiece (n + 1)).val.app U ((algDHom 𝒮 δ n).app U (algOf 𝒮 n w r)) =
       (dB n).val.app U ((g.liftPres n).app U (algOf 𝒮 n w r))
     rw [algDHom_algOf, liftPres_algOf, map_smul, map_smul, liftPiece_castHom,
       g.liftPiece_wordD_of_derivation δ dB hleib hone hg]

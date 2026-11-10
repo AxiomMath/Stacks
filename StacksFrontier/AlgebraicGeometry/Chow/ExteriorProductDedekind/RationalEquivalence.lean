@@ -183,7 +183,7 @@ theorem closedSubschemeCycleCoeff_comap_integralComponentAt_eq_zero (C : ChowSit
   rw [hcond, relativeDimension_comp_closedImmersion _ (pullback.fst v I.subschemeι) sQ] at hδ
   have hpt : (pullback.fst v I.subschemeι).base ξ'.1 = w := by
     rw [← hξw, hξ']
-    show (pullback.fst v I.subschemeι).base (e.hom.base ξ.1) = _
+    change (pullback.fst v I.subschemeι).base (e.hom.base ξ.1) = _
     rw [← Scheme.Hom.comp_apply, Scheme.IdealSheafData.comapIso_hom_fst]
   rwa [hpt] at hδ
 
@@ -277,7 +277,7 @@ theorem finsum_exteriorProductDedekindTerm_of_flat (α : CycleGroup C f n)
   set v := (dedekindPointFibre f g x).subschemeι ≫ pullback.snd f g with hv
   have hbase : v ≫ g = (dedekindPointFibre f g x).subschemeι ≫ (pullback.fst f g ≫ f) := by
     rw [hv, Category.assoc, ← pullback.condition]
-  simp_rw [exteriorProductDedekindTerm_dedekindPointFibre, if_pos (Or.inl hdom)]
+  simp_rw [exteriorProductDedekindTerm_dedekindPointFibre, ite_eq_left (Or.inl hdom)]
   split_ifs with hdeg
   · have key : ∀ y, β.1 y ≠ 0 →
         closedSubschemeCycleCoeff C ((dedekindPointFibre f g x).subschemeι ≫ (pullback.fst f g ≫ f))
@@ -370,7 +370,7 @@ theorem properPushforward_flatPullback_of_dominates (α : CycleGroup C f n)
   · obtain ⟨w, rfl⟩ := hz
     rw [properPushforward_apply_image_of_isClosedImmersion, ha,
       flatPullback_apply, finsum_exteriorProductDedekindTerm_of_flat C f g n m α β x hdom r
-        hr w, if_pos hdeg, hdeg]
+        hr w, ite_eq_left hdeg, hdeg]
     have hsmul : (α.1 x • β : CycleGroup C g m).1 (v.base w) = α.1 x * β.1 (v.base w) := by
       simp
     rw [hsmul]
@@ -408,7 +408,8 @@ theorem exists_dedekindSummand_of_dominates (hC : IsDedekindChowBase C) (α : Cy
     rw [properPushforward_zero]
     by_cases hz : z ∈ Set.range K.subschemeι.base
     · obtain ⟨w, rfl⟩ := hz
-      rw [finsum_exteriorProductDedekindTerm_of_flat C f g n m α β x hdom r hrv w, if_neg hdeg]
+      rw [finsum_exteriorProductDedekindTerm_of_flat C f g n m α β x hdom r hrv w,
+        ite_eq_right hdeg]
       rfl
     · rw [finsum_exteriorProductDedekindTerm_eq_zero_of_notMem_range C f g n m α β x hz]
       rfl
@@ -510,7 +511,7 @@ theorem exists_flat_dedekindPointFibre_fibre (hC : IsDedekindChowBase C)
     rw [Scheme.IdealSheafData.ker_subschemeι, hσ,
       Scheme.Hom.ker_eq_vanishingIdeal_closure_range]
     refine Scheme.IdealSheafData.vanishingIdeal_antimono ?_
-    show closure (Set.range (I.subschemeι ≫ f).base) ⊆ {f.base x}
+    change closure (Set.range (I.subschemeι ≫ f).base) ⊆ {f.base x}
     refine closure_minimal ?_ hscl
     rintro _ ⟨t, rfl⟩
     have ht : I.subschemeι.base t ∈ closure ({x} : Set X) := by
@@ -633,11 +634,11 @@ theorem properPushforward_flatPullback_gysin_of_not_dominates (hC : IsDedekindCh
           x).subschemeι.base v') (x, y))).symm
     refine finsum_congr fun y ↦ ?_
     by_cases hy : β'.1 y = 0
-    · rw [finsum_eq_if, if_neg (not_not.2 hy)]
+    · rw [finsum_eq_if, ite_eq_right (not_not.2 hy)]
       have hy' : β.1 y = 0 := by rwa [hβ'pt] at hy
       unfold exteriorProductDedekindTerm
       split_ifs <;> simp [hy']
-    · rw [finsum_eq_if, if_pos hy]
+    · rw [finsum_eq_if, ite_eq_left hy]
   rw [hsupp]
   refine finsum_congr fun y ↦ ?_
   have hy : β.1 y.1 ≠ 0 := by rw [← hβ'pt]; exact y.2
@@ -651,7 +652,7 @@ theorem properPushforward_flatPullback_gysin_of_not_dominates (hC : IsDedekindCh
           y.1).1 hle)
     have hndy : ¬ DominatesBaseComponent C g y.1 := by
       unfold DominatesBaseComponent; rw [hgy]; exact hs
-    rw [if_neg (by tauto)]
+    rw [ite_eq_right (by tauto)]
     simp
   · rw [gysinCycleMapComponent_of_not_le C g (m - 1) _ _ _ _ _ hle]
     obtain ⟨dY, hdY⟩ := relativeDimension_isDimensionFunction C.isUniversallyCatenary
@@ -688,7 +689,7 @@ theorem properPushforward_flatPullback_gysin_of_not_dominates (hC : IsDedekindCh
           y.1).comap (Stacks.Divisors.zeroScheme Y LY σY).subschemeι)
       (m - 1) hdimJ v'
     rw [← Scheme.IdealSheafData.comap_comp, hw, hdeg] at hcoeff
-    show α.1 x * (β.1 y.1 * closedSubschemeCycleCoeff C ((Stacks.Divisors.zeroScheme Y LY
+    change α.1 x * (β.1 y.1 * closedSubschemeCycleCoeff C ((Stacks.Divisors.zeroScheme Y LY
         σY).subschemeι ≫ g)
       ((integralComponentAt y.1).comap (Stacks.Divisors.zeroScheme Y LY σY).subschemeι).subschemeι
           (m - 1) (w.base v')) *
@@ -786,8 +787,8 @@ theorem exteriorProductDedekindCycles_apply_eq_finsum (α : CycleGroup C f n)
     (f := fun x ↦ ∑ᶠ y : Y, exteriorProductDedekindTerm C f g n m α β z (x, y))).symm
   refine finsum_congr fun x ↦ ?_
   by_cases hx : x ∈ α.1.support
-  · rw [finsum_eq_if, if_pos hx]
-  · rw [finsum_eq_if, if_neg hx]
+  · rw [finsum_eq_if, ite_eq_left hx]
+  · rw [finsum_eq_if, ite_eq_right hx]
     refine finsum_eq_zero_of_forall_eq_zero fun y ↦ ?_
     have hx0 : α.1 x = 0 := by simpa using hx
     unfold exteriorProductDedekindTerm
@@ -840,7 +841,7 @@ theorem exteriorProductDedekindCycles_pullbackSymmetry (α : CycleGroup C f n)
     ← finsum_comp_equiv (Equiv.prodComm Y X)]
   refine finsum_congr fun q ↦ ?_
   obtain ⟨y, x⟩ := q
-  show exteriorProductDedekindTerm C f g n m α β (e.inv.base w) (x, y) =
+  change exteriorProductDedekindTerm C f g n m α β (e.inv.base w) (x, y) =
     exteriorProductDedekindTerm C g f m n β α w (y, x)
   have hideal : exteriorProductIdeal g f y x = (exteriorProductIdeal f g x y).comap e.inv := by
     rw [exteriorProductIdeal, exteriorProductIdeal, Scheme.IdealSheafData.comap_sup,
@@ -855,9 +856,9 @@ theorem exteriorProductDedekindCycles_pullbackSymmetry (α : CycleGroup C f n)
   simp only [hdeg]
   rw [← hcoeff]
   by_cases h : DominatesBaseComponent C f x ∨ DominatesBaseComponent C g y
-  · rw [if_pos h, if_pos h.symm]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
     ring
-  · rw [if_neg h, if_neg (fun h' ↦ h h'.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' ↦ h h'.symm)]
 
 /-- **Stacks 0FC4, the first variable.** Over a base as in Stacks section 42.63, the exterior
 product of an `n`-cycle on `X` rationally equivalent to zero with an `m`-cycle on `Y` is
@@ -934,8 +935,7 @@ theorem existsUnique_exteriorProductDedekindChowTensor (hC : IsDedekindChowBase 
   refine ⟨exteriorProductDedekindChowTensor C f g n m hC,
     exteriorProductDedekindChowTensor_tmul_mk C f g n m hC, fun F hF ↦ ?_⟩
   refine AddMonoidHom.ext fun t ↦ ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     induction a using QuotientAddGroup.induction_on with
     | H α =>

@@ -207,7 +207,7 @@ theorem ungradedSymSectionsMvPolynomialEquiv_incl_gen {r : ℕ}
           ((Scheme.Modules.symmetricAlgebraGen X E).val.app (op V) (b i))) =
       MvPolynomial.X i := by
   rw [← ungradedSymSectionsRingEquiv_ι E hV (b i)]
-  show (SymmetricAlgebra.equivMvPolynomial b)
+  change (SymmetricAlgebra.equivMvPolynomial b)
       ((ungradedSymSectionsRingEquiv E hV).symm
         (ungradedSymSectionsRingEquiv E hV
           (SymmetricAlgebra.ι Γ(X, V) Γ(E, V) (b i)))) = _
@@ -287,7 +287,7 @@ theorem eq_zero_of_X_mul_eq_zero (B : Type u) [CommRing B] (p : MvPolynomial (Fi
     (h : MvPolynomial.X 0 * p = 0) : p = 0 := by
   refine MvPolynomial.ext _ _ fun m => ?_
   have hc := congrArg (fun q : MvPolynomial (Fin 1) B => q.coeff (Finsupp.single 0 1 + m)) h
-  simp only [MvPolynomial.coeff_X_mul, AddMonoidAlgebra.coeff_zero, Pi.zero_apply] at hc
+  simp only [MvPolynomial.coeff_X_mul, AddMonoidAlgebra.coeff_zero] at hc
   exact hc
 
 /-- Two elements of a commutative ring generating the same principal ideal differ by a unit,
@@ -452,7 +452,7 @@ theorem Situation.zeroSectionChartMap_genToPushforward (x : Γ(D.L, (V.1 : D.X.O
       (fun φ : D.L ⟶ (Scheme.Modules.pushforward
           (D.zeroSection ≫ D.totalSpaceToBase)).obj (SheafOfModules.unit D.X.ringCatSheaf) =>
         Hom.app φ.val (op (V.1 : D.X.Opens)) x) h2
-  show (D.X.presheaf.map (eqToHom (D.zeroSection_preimage V).symm).op).hom
+  change (D.X.presheaf.map (eqToHom (D.zeroSection_preimage V).symm).op).hom
     ((D.zeroSection.app (D.totalSpaceToBase ⁻¹ᵁ (V.1 : D.X.Opens))).hom _) = 0
   rw [h3, map_zero]
 
@@ -482,14 +482,14 @@ theorem Situation.zeroSectionChartMap_chartEquiv_symm
     · have h : (D.chartEquiv V b).symm (MvPolynomial.C s) =
           (D.totalSpaceToBase.app (V.1 : D.X.Opens)).hom s :=
         (D.chartEquiv V b).symm_apply_eq.mpr (D.chartEquiv_app V b s).symm
-      show (D.zeroSectionChartMap V).hom ((D.chartEquiv V b).symm (MvPolynomial.C s)) = _
+      change (D.zeroSectionChartMap V).hom ((D.chartEquiv V b).symm (MvPolynomial.C s)) = _
       rw [h, MvPolynomial.constantCoeff_C]
       exact congrArg (fun φ : Γ(D.X, (V.1 : D.X.Opens)) ⟶ Γ(D.X, (V.1 : D.X.Opens)) => φ.hom s)
         (D.app_comp_zeroSectionChartMap V)
     · have h : (D.chartEquiv V b).symm (MvPolynomial.X i) =
           Hom.app D.genToPushforward.val (op (V.1 : D.X.Opens)) (b i) :=
         (D.chartEquiv V b).symm_apply_eq.mpr (D.chartEquiv_genToPushforward V b i).symm
-      show (D.zeroSectionChartMap V).hom ((D.chartEquiv V b).symm (MvPolynomial.X i)) = _
+      change (D.zeroSectionChartMap V).hom ((D.chartEquiv V b).symm (MvPolynomial.X i)) = _
       rw [h, MvPolynomial.constantCoeff_X]
       exact D.zeroSectionChartMap_genToPushforward V (b i)
   exact congrArg (fun φ : MvPolynomial (Fin 1) Γ(D.X, (V.1 : D.X.Opens)) →+*
@@ -632,7 +632,7 @@ theorem exists_fibreCoordinateChart (y : Y) :
   obtain ⟨c, hc⟩ := exists_unit_of_span_eq (e₀ s) (ψ.symm (MvPolynomial.X 0)) hψreg
     (hA.symm.trans hideal)
   refine ⟨e₀.trans (LinearEquiv.smulOfUnit c⁻¹), ?_⟩
-  show ((c⁻¹ : _ˣ) : Γ(lineBundleSpace Y M, lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens))) • e₀ s = _
+  change ((c⁻¹ : _ˣ) : Γ(lineBundleSpace Y M, lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens))) • e₀ s = _
   rw [smul_eq_mul, hc]
   exact Units.inv_mul_cancel_left c _
 

@@ -114,7 +114,7 @@ theorem exists_affine_elementaryEtaleNeighborhood_completeDevissageAt_globalSect
     obtain ⟨W', hW'aff, hW'mem, -⟩ :=
       exists_isAffineOpen_mem_and_subset (X := V.scheme) (x := V.point) (U := ⊤) (by simp)
     have hmem : U.point ∈ h ⁻¹ᵁ W' := by
-      show h U.point ∈ W'
+      change h U.point ∈ W'
       rw [hpt]; exact hW'mem
     obtain ⟨W, hWaff, hWmem, hWsub⟩ :=
       exists_isAffineOpen_mem_and_subset (X := U.scheme) (x := U.point) hmem
@@ -143,10 +143,10 @@ theorem exists_affine_elementaryEtaleNeighborhood_completeDevissageAt_globalSect
       exact isIso_residueFieldMap_opens_comp V hV W' ⟨V.point, hW'mem⟩ rfl
     · rw [EtaleNeighborhood.isElementary_iff]
       exact isIso_residueFieldMap_opens_comp U hU W ⟨U.point, hWmem⟩ rfl
-    · show h.resLE W' W hWle ≫ W'.ι ≫ V.toBase = (W.ι ≫ U.toBase) ≫ f
+    · change h.resLE W' W hWle ≫ W'.ι ≫ V.toBase = (W.ι ≫ U.toBase) ≫ f
       rw [← Category.assoc, hι, Category.assoc, Category.assoc, ← hsq]
     · refine Subtype.ext ?_
-      show (h.resLE W' W hWle (⟨U.point, hWmem⟩ : W.toScheme)).1 = V.point
+      change (h.resLE W' W hWle (⟨U.point, hWmem⟩ : W.toScheme)).1 = V.point
       rw [Scheme.Hom.coe_resLE_apply]
       exact hpt
     · exact Module.nonempty_completeDevissageAt_of_completeDevissageAt _

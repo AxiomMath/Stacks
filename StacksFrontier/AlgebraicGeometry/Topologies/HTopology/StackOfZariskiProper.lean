@@ -278,11 +278,11 @@ public theorem isStack_of_zariski_of_properFP : F.IsStack (BigHOver.topology B S
           (fun i ↦ (IsPullback.of_hasPullback (E'.f i) t).flip)
           (hZ _ (E'.pullback₂ t) (zariski_pullback₂ _ hE' t)))
         (fun (i : E.I₀) ↦ ?_) (fun (i j : E.I₀) ↦ ?_)
-      · show F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
+      · change F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
           (pullback.snd (E.f i).left h)).arrows
         rw [← Sieve.pullback_comp, e i]
         exact hΨ i _
-      · show F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
+      · change F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
           (pullback.fst (pullback.snd (E.f i).left h) (pullback.snd (E.f j).left h) ≫
             pullback.snd (E.f i).left h)).arrows
         rw [← Sieve.pullback_comp, Category.assoc, e i, ← Category.assoc]
@@ -301,7 +301,7 @@ public theorem isStack_of_zariski_of_properFP : F.IsStack (BigHOver.topology B S
           (hP _ _ _ hp'' hs'' hf'')
       · rw [← Sieve.pullback_comp, e]
         exact hΨ _
-      · show F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
+      · change F.IsPrestackFor ((R.pullback (h ≫ Y.hom)).pullback
           (pullback.fst (pullback.snd g.left h) (pullback.snd g.left h) ≫
             pullback.snd g.left h)).arrows
         rw [← Sieve.pullback_comp, Category.assoc, e, ← Category.assoc]
@@ -326,10 +326,10 @@ public theorem isStack_of_zariski_of_properFP : F.IsStack (BigHOver.topology B S
     refine Pseudofunctor.isEquivalence_toDescentData_of_isEquivalence_pullback
       (J := BigHOver.topology B S hS) _ (by rwa [Sieve.ofArrows_category]) E'.f
       (ofArrows_mem_topology_of_zariski E' hE') (fun (i : E.I₀) ↦ ?_)
-    show (F.toDescentData (fun a : (R.pullback (h ≫ Y.hom)).arrows.category ↦
+    change (F.toDescentData (fun a : (R.pullback (h ≫ Y.hom)).arrows.category ↦
       pullback.snd a.obj.hom (pullback.snd (E.f i).left h))).IsEquivalence
     rw [← F.isStackFor_ofArrows_iff, ← F.IsStackFor_generate_iff]
-    show F.IsStackFor (Sieve.ofArrows _ _).arrows
+    change F.IsStackFor (Sieve.ofArrows _ _).arrows
     rw [Sieve.ofArrows_pullback_category, ← Sieve.pullback_comp, e i]
     exact hΨ i _
   · intro Y Y' g hproper hsurj hfp hΨ Z h
@@ -345,7 +345,7 @@ public theorem isStack_of_zariski_of_properFP : F.IsStack (BigHOver.topology B S
       (fun _ : Unit ↦ pullback.snd g.left h)
       (ofArrows_mem_topology_of_properFP _ hp' hs' hf') (fun _ ↦ ?_)
     rw [← F.isStackFor_ofArrows_iff, ← F.IsStackFor_generate_iff]
-    show F.IsStackFor (Sieve.ofArrows _ _).arrows
+    change F.IsStackFor (Sieve.ofArrows _ _).arrows
     rw [Sieve.ofArrows_pullback_category, ← Sieve.pullback_comp, e]
     exact hΨ _
   · intro a Z h

@@ -59,9 +59,10 @@ private lemma dotForm_isSymm {κ : Type*} [Fintype κ] :
     (dotForm (κ := κ)).IsSymm :=
   ⟨fun x y => by simp [dotForm_apply, mul_comm]⟩
 
-private lemma dotForm_bijective {κ : Type*} [Fintype κ] [DecidableEq κ] :
-    Function.Bijective (dotForm (κ := κ)) :=
-  ⟨fun x y h => funext fun i => by
+private lemma dotForm_bijective {κ : Type*} [Fintype κ] :
+    Function.Bijective (dotForm (κ := κ)) := by
+  classical
+  exact ⟨fun x y h => funext fun i => by
       simpa [dotForm_apply, Pi.single_apply] using LinearMap.congr_fun h (Pi.single i 1),
     fun φ => ⟨fun i => φ (Pi.single i 1), (Pi.basisFun ℤ κ).ext fun i => by
       simp [dotForm_apply, Pi.single_apply]⟩⟩
@@ -146,15 +147,15 @@ private lemma incidence_weighted_adjoint
       if src e = i then w e * y e * x i else 0),
     Finset.sum_comm (s := Finset.univ) (t := Finset.univ) (f := fun i e =>
       if tgt e = i then w e * y e * x i else 0)]
-  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
-  show (∑ e, w e * y e * x (src e)) -
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true]
+  change (∑ e, w e * y e * x (src e)) -
       (∑ e, w e * y e * x (tgt e)) =
     ∑ e, w e * y e * (x (src e) - x (tgt e))
   simp_rw [mul_sub]
   rw [← Finset.sum_sub_distrib]
 
 private lemma incidence_range_quotient_torsionFree
-    {V E : Type*} [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
+    {V E : Type*} [DecidableEq E]
     (src tgt : E → V) (hV : Nonempty V)
     (hconn : ∀ I : Set V, I.Nonempty → I ≠ Set.univ →
       ∃ e, (src e ∈ I ∧ tgt e ∉ I) ∨ (tgt e ∈ I ∧ src e ∉ I)) :
@@ -190,7 +191,7 @@ private lemma incidence_range_quotient_torsionFree
   have heq : u = incidenceMap src tgt z := by
     funext e
     apply mul_left_cancel₀ hc
-    show c * u e = c * (z (src e) - z (tgt e))
+    change c * u e = c * (z (src e) - z (tgt e))
     have h : y (src e) - y (tgt e) = c * u e := congrFun hy e
     rw [mul_sub, hz, hz, ← h]
     ring
@@ -198,7 +199,7 @@ private lemma incidence_range_quotient_torsionFree
   exact ⟨z, rfl⟩
 
 private lemma finrank_ker_incidence_eq_one
-    {V E K : Type*} [Fintype V] [Fintype E] [CommRing K] [IsDomain K]
+    {V E K : Type*} [CommRing K] [IsDomain K]
     (src tgt : E → V) (hV : Nonempty V)
     (hconn : ∀ I : Set V, I.Nonempty → I ≠ Set.univ →
       ∃ e, (src e ∈ I ∧ tgt e ∉ I) ∨ (tgt e ∈ I ∧ src e ∉ I)) :
@@ -275,8 +276,9 @@ private def coordinateSumLift {V : Type u} [Fintype V] :
     simp [Finset.mul_sum]
 
 private lemma coordinateSum_surjective
-    {V : Type*} [Fintype V] [DecidableEq V] [Nonempty V] :
+    {V : Type*} [Fintype V] [Nonempty V] :
     Function.Surjective (coordinateSum (V := V)) := by
+  classical
   intro z
   obtain ⟨v⟩ := ‹Nonempty V›
   refine ⟨Pi.single v z, ?_⟩
@@ -296,12 +298,13 @@ private lemma coordinateSum_weightedAdjoint_eq_zero
   simp
 
 private lemma ker_weightedAdjoint_comp_incidenceMap
-    {V E : Type*} [Fintype V] [Fintype E]
+    {V E : Type*} [Finite V] [Fintype E]
     [DecidableEq V] [DecidableEq E]
     (src tgt : E → V) (w : E → ℤ)
     (hw : ∀ e, 0 < w e) :
     LinearMap.ker ((weightedAdjoint src tgt w).comp (incidenceMap src tgt)) =
       LinearMap.ker (incidenceMap src tgt) := by
+  have := Fintype.ofFinite V
   refine le_antisymm (fun x hx => ?_) (LinearMap.ker_le_ker_comp _ _)
   by_contra hnot
   refine (weightedDotForm_pos w hw _ (by simpa only [LinearMap.mem_ker] using hnot)).ne' ?_
@@ -371,11 +374,12 @@ private lemma finrank_ker_weightedAdjoint
   omega
 
 private lemma range_incidenceMap_orthogonal_eq_ker_weightedAdjoint
-    {V E : Type*} [Fintype V] [Fintype E]
+    {V E : Type*} [Finite V] [Fintype E]
     [DecidableEq V] [DecidableEq E]
     (src tgt : E → V) (w : E → ℤ) :
     (LinearMap.range (incidenceMap src tgt)).orthogonalBilin
       (weightedDotForm w) = LinearMap.ker (weightedAdjoint src tgt w) := by
+  have := Fintype.ofFinite V
   apply le_antisymm
   · intro y hy
     apply LinearMap.mem_ker.mpr
@@ -492,7 +496,7 @@ private lemma finrank_torsionBy_eq_of_addGroupTorsionEquiv
   let : Module (ZMod ℓ) TM := AddSubgroup.torsionBy.zmodModule
   let : Module (ZMod ℓ) TN := AddSubgroup.torsionBy.zmodModule
   have hfull (x : TM) : (x : M) ∈ AddCommGroup.torsion M := by
-    show IsOfFinAddOrder (x : M)
+    change IsOfFinAddOrder (x : M)
     rw [isOfFinAddOrder_iff_zsmul_eq_zero]
     exact ⟨(ℓ : ℤ), Int.natCast_ne_zero.mpr (Fact.out : Nat.Prime ℓ).ne_zero, x.property⟩
   let g : TM →+ TN :=
@@ -507,7 +511,7 @@ private lemma finrank_torsionBy_eq_of_addGroupTorsionEquiv
       map_add' := by
         intro x y
         apply Subtype.ext
-        show e ((⟨x.1, hfull x⟩ : AddCommGroup.torsion M) +
+        change e ((⟨x.1, hfull x⟩ : AddCommGroup.torsion M) +
           ⟨y.1, hfull y⟩) = e ⟨x.1, hfull x⟩ + e ⟨y.1, hfull y⟩
         rw [map_add] }
   let gz : TM →ₗ[ZMod ℓ] TN := g.toZModLinearMap ℓ
@@ -528,7 +532,7 @@ private lemma finrank_torsionBy_eq_of_addGroupTorsionEquiv
         (AddSubgroup.torsionBy.nsmul_iff (n := ℓ) (x := (z : M))).mpr hzNat
     refine ⟨⟨z, hzmem⟩, ?_⟩
     apply Subtype.ext
-    show e ⟨z, hfull ⟨z, hzmem⟩⟩ = y.1
+    change e ⟨z, hfull ⟨z, hzmem⟩⟩ = y.1
     simp [z]
   exact (LinearEquiv.ofBijective gz ⟨hinj, hsurj⟩).finrank_eq
 
@@ -584,7 +588,7 @@ private lemma finrank_torsionBy_eq_of_surjective_of_kernel_annihilated
           simp only [zsmul_zero, sub_zero, one_zsmul]
     let x' : M := x - a • u
     have hx' : f x' = y.1 := by
-      show f (x - a • u) = y.1
+      change f (x - a • u) = y.1
       rw [map_sub, map_zsmul, LinearMap.mem_ker.mp hu, zsmul_zero, sub_zero, hx]
     have hkill : (ℓ : ℤ) • x' = 0 := by
       dsimp [x']
@@ -635,10 +639,10 @@ private lemma finrank_torsionBy_le_finrank_of_surjective
   let qlin : H →ₗ[ℤ] U := NG.mkQ.comp q
   have hker : NH ≤ LinearMap.ker qlin := by
     rintro _ ⟨x, rfl⟩
-    show qlin ((LinearMap.lsmul ℤ H ℓ) x) = 0
-    show NG.mkQ (q ((ℓ : ℤ) • x)) = 0
+    change qlin ((LinearMap.lsmul ℤ H ℓ) x) = 0
+    change NG.mkQ (q ((ℓ : ℤ) • x)) = 0
     rw [map_smul]
-    show (Submodule.Quotient.mk (p := NG) ((ℓ : ℤ) • q x) : G ⧸ NG) = 0
+    change (Submodule.Quotient.mk (p := NG) ((ℓ : ℤ) • q x) : G ⧸ NG) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact ⟨q x, by simp [LinearMap.lsmul_apply]⟩
   let qbarInt : UH →ₗ[ℤ] U := NH.liftQ qlin hker
@@ -649,7 +653,7 @@ private lemma finrank_torsionBy_le_finrank_of_surjective
     | _ x =>
       obtain ⟨y, rfl⟩ := hq x
       refine ⟨ModN.mkQ ℓ y, ?_⟩
-      show qbarInt (Submodule.Quotient.mk (p := NH) y) =
+      change qbarInt (Submodule.Quotient.mk (p := NH) y) =
         Submodule.Quotient.mk (p := NG) (q y)
       rw [Submodule.liftQ_apply]
       rfl
@@ -723,7 +727,7 @@ private def integerDiagonalLin {E : Type*} (w : E → ℤ) :
     ring
 
 private lemma diagonalCoker_no_ell_torsion
-    {E : Type*} [Fintype E] (w : E → ℤ) {ℓ : ℕ}
+    {E : Type*} (w : E → ℤ) {ℓ : ℕ}
     (hw : ∀ e, IsCoprime (ℓ : ℤ) (w e)) :
     ∀ x : (E → ℤ) ⧸ LinearMap.range (integerDiagonalLin w),
       (ℓ : ℤ) • x = 0 → x = 0 := by
@@ -743,7 +747,7 @@ private lemma diagonalCoker_no_ell_torsion
   exact ⟨q, funext fun e => (hq e).symm⟩
 
 private lemma diagonalCoker_annihilated_product
-    {E : Type*} [Fintype E] (w : E → ℤ) (hw : ∀ e, w e ≠ 0) :
+    {E : Type*} [Fintype E] (w : E → ℤ) :
     ∀ x : (E → ℤ) ⧸ LinearMap.range (integerDiagonalLin w),
       (∏ e, w e) • x = 0 := by
   classical
@@ -753,9 +757,9 @@ private lemma diagonalCoker_annihilated_product
   let q : E → ℤ := fun e => (∏ j, w j) / w e * y e
   have hy : d q = (∏ e, w e) • y := by
     ext e
-    show w e * ((∏ j, w j) / w e * y e) = (∏ j, w j) * y e
+    change w e * ((∏ j, w j) / w e * y e) = (∏ j, w j) * y e
     rw [← mul_assoc, Int.mul_ediv_cancel' (Finset.dvd_prod_of_mem w (Finset.mem_univ e))]
-  show (Submodule.Quotient.mk (p := LinearMap.range d)
+  change (Submodule.Quotient.mk (p := LinearMap.range d)
       ((∏ e, w e) • y) : (E → ℤ) ⧸ LinearMap.range d) = 0
   exact (Submodule.Quotient.mk_eq_zero _).mpr ⟨q, hy⟩
 
@@ -775,13 +779,13 @@ private noncomputable def weightedDiscriminantEquivDiagonal
     (LinearMap.range (weightedDotForm w)) e hrange
 
 private lemma weightedDiscriminant_annihilated_product
-    {E : Type*} [Fintype E] [DecidableEq E] (w : E → ℤ)
-    (hw : ∀ e, w e ≠ 0) :
+    {E : Type*} [Fintype E] (w : E → ℤ) :
     ∀ x : DiscriminantGroup (weightedDotForm w),
       (∏ e, w e) • x = 0 := by
+  classical
   intro x
   let e := weightedDiscriminantEquivDiagonal w
-  rw [← e.apply_symm_apply x, ← map_zsmul, diagonalCoker_annihilated_product w hw, map_zero]
+  rw [← e.apply_symm_apply x, ← map_zsmul, diagonalCoker_annihilated_product w, map_zero]
 
 private lemma eq_zero_of_zsmul_eq_zero_of_bezout
     {M : Type*} [AddCommGroup M] [Module ℤ M] (x : M)
@@ -837,7 +841,7 @@ private lemma finrank_torsionBy_scale_coker
   let : Module ℤ Cgfg := Submodule.Quotient.module pgfg
   have hker₁ : pfg ≤ LinearMap.ker pf.mkQ := by
     rintro y ⟨x, rfl⟩
-    show (Submodule.Quotient.mk (p := pf) (f (g x)) : M ⧸ pf) = 0
+    change (Submodule.Quotient.mk (p := pf) (f (g x)) : M ⧸ pf) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact ⟨g x, rfl⟩
   let q₁ : Cfg →ₗ[ℤ] Cf := pfg.liftQ pf.mkQ hker₁
@@ -861,7 +865,7 @@ private lemma finrank_torsionBy_scale_coker
     q₁ hsurj₁ c hkerKilled₁ a b hab
   have hker₂ : pfg ≤ LinearMap.ker (pgfg.mkQ.comp g) := by
     rintro y ⟨x, rfl⟩
-    show (Submodule.Quotient.mk (p := pgfg) (g (f (g x))) : M ⧸ pgfg) = 0
+    change (Submodule.Quotient.mk (p := pgfg) (g (f (g x))) : M ⧸ pgfg) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact ⟨x, rfl⟩
   let q₂ : Cfg →ₗ[ℤ] Cgfg := pfg.liftQ (pgfg.mkQ.comp g) hker₂
@@ -892,7 +896,7 @@ private lemma finrank_torsionBy_scale_coker
       rw [← map_zsmul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       refine ⟨pfg.mkQ z, ?_⟩
       rw [Submodule.mkQ_apply, Submodule.liftQ_apply]
-      show pgfg.mkQ (g z) = c • pgfg.mkQ v
+      change pgfg.mkQ (g z) = c • pgfg.mkQ v
       rw [hz, map_zsmul]
     exact eq_zero_of_zsmul_eq_zero_of_bezout
       ((LinearMap.range q₂).mkQ y) hx hcKill hab
@@ -930,7 +934,7 @@ private lemma finrank_torsionBy_eq_of_diagonal_conjugation
     ext i
     have hmul : m i * (c / m i) = c :=
       Int.mul_ediv_cancel' (Finset.dvd_prod_of_mem m (Finset.mem_univ i))
-    show m i * ((c / m i) * x i) = c * x i
+    change m i * ((c / m i) * x i) = c * x i
     rw [← mul_assoc, hmul]
   have hscale := finrank_torsionBy_scale_coker A.mulVecLin g hg c hc a b hab
   let D := Matrix.diagonal m
@@ -1012,17 +1016,17 @@ private lemma finrank_torsionBy_incidenceCokernel_le
     incidence_range_quotient_torsionFree src tgt hV hconn
   obtain ⟨eT⟩ := torsionCokernelEquiv_discriminantGroup_range
     f₀ f₁ dotForm_isSymm (weightedDotForm_isSymm w)
-    dotForm_pos (weightedDotForm_pos w hw) d ds hpair dotForm_bijective
+    (weightedDotForm_pos w hw) d ds hpair dotForm_bijective
   obtain ⟨iL, hiL, qL, hqL⟩ :=
     exists_injective_to_discriminantGroup_left
-      f₁ (weightedDotForm_isSymm w) (weightedDotForm_pos w hw) A hA
+      f₁ (weightedDotForm_isSymm w) A hA
   obtain ⟨iR, hiR, qR, hqR⟩ :=
     exists_injective_to_discriminantGroup_orthogonal
       f₁ (weightedDotForm_isSymm w) (weightedDotForm_pos w hw) A hA
   let c : ℤ := ∏ e, w e
   obtain ⟨a, b, hab⟩ : IsCoprime (ℓ : ℤ) c := IsCoprime.prod_right fun e _ => hcop e
   have hkill : ∀ x : DiscriminantGroup f₁, c • x = 0 :=
-    weightedDiscriminant_annihilated_product w (fun e => ne_of_gt (hw e))
+    weightedDiscriminant_annihilated_product w
   have hQ : ∀ x : SubmoduleDiscriminantGroup f₁ A ⧸
       LinearMap.range iL, (ℓ : ℤ) • x = 0 → x = 0 :=
     no_ell_torsion_of_surjective_of_annihilated qL hqL c hkill a b hab
@@ -1075,7 +1079,7 @@ private lemma finrank_torsionBy_incidenceCokernel_le
     _ = 1 + Fintype.card E := hRank
 
 private lemma matrixSupport_connected
-    {ι : Type*} [Fintype ι] [LinearOrder ι]
+    {ι : Type*} [LinearOrder ι]
     (A : Matrix ι ι ℤ) (hA : A.IsSymm)
     (hoffDiag : ∀ i j, i ≠ j → 0 ≤ A i j)
     (hconnected : ∀ I : Set ι, I.Nonempty → I ≠ Set.univ →

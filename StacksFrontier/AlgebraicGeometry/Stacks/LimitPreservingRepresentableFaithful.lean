@@ -99,7 +99,7 @@ theorem faithful_fiberDiagramMap_app_of_faithful (f : 𝒳 ⟶ 𝒴)
   let : 𝒳.val.p.IsFibered := 𝒳.2.isFibered
   let : 𝒴.val.p.IsFibered := 𝒴.2.isFibered
   let := faithful_splitFiberMap_of_faithful B S hS f hf (E.obj j.unop)
-  show (AsSmall.down ⋙ splitFiberMap B S hS f (E.obj j.unop) ⋙ AsSmall.up).Faithful
+  change (AsSmall.down ⋙ splitFiberMap B S hS f (E.obj j.unop) ⋙ AsSmall.up).Faithful
   infer_instance
 
 /-- **Faithfulness of the comparison out of the canonical square of Stacks 0CMR**, for a

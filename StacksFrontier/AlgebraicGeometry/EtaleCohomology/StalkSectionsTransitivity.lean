@@ -102,9 +102,9 @@ changes built from the morphism of strict henselizations of Stacks 0GJ4, and the
 the two counits of the inverse-image/direct-image adjunction with it.
 
 Stacks 0GIX's last assertion needs the base change map of Stacks 0E47 for the small étale sites
-of schemes; the library has 0E47 only for ringed topoi, in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/BaseChangePastingOnRingedTopoi.lean`.
+of schemes; the library has 0E47 only for ringed topoi, in the file
+`BaseChangePastingOnRingedTopoi.lean` of the directory
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/`.
 
 Stacks 0GJS needs the compatibility of `AlgebraicGeometry.vanishingCyclesFibreMap` with an
 identification of varieties of vanishing cycles over *two* schemes `X` and `X'`, so again not the

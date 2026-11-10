@@ -196,13 +196,13 @@ noncomputable def concentrateComponent (j k : I) : B j ⥤ B k :=
 
 /-- The `j`-th component of the functor concentrating in degree `j` is the identity functor. -/
 lemma concentrateComponent_self (j : I) : concentrateComponent B j j = 𝟭 (B j) :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- For `k ≠ j`, the `k`-th component of the functor concentrating in degree `j` is the constant
 functor with value the zero object. -/
 lemma concentrateComponent_of_ne {j k : I} (h : j ≠ k) :
     concentrateComponent B j k = (Functor.const _).obj 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- For `k ≠ j`, the `k`-th component of the functor concentrating in degree `j` takes only zero
 objects as values. -/
@@ -244,7 +244,7 @@ noncomputable def counitComponent (j k : I) :
 whiskering of `concentrateCompEval B j` by `Pi.eval B j`. -/
 lemma counitComponent_self (j : I) : counitComponent B j j =
     Functor.whiskerLeft (Pi.eval B j) (concentrateCompEval B j).hom :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- The left triangle identity for an isomorphism to the identity functor. -/
 private lemma map_inv_app_comp_hom_app {C : Type*} [Category C] {G : C ⥤ C} (e : G ≅ 𝟭 C)
@@ -262,13 +262,13 @@ noncomputable def concentrateAdjunction (j : I) : concentrate B j ⊣ Pi.eval B 
     ext k
     by_cases h : j = k
     · subst h
-      show (concentrateComponent B j j).map ((concentrateCompEval B j).inv.app X) ≫
+      change (concentrateComponent B j j).map ((concentrateCompEval B j).inv.app X) ≫
           (counitComponent B j j).app ((concentrate B j).obj X) = _
       rw [counitComponent_self, Functor.whiskerLeft_app]
       exact map_inv_app_comp_hom_app (concentrateCompEval B j) X
     · exact (isZero_concentrateComponent_obj B h _).eq_of_src _ _
   right_triangle_components M := by
-    show (concentrateCompEval B j).inv.app (M j) ≫ (counitComponent B j j).app M = _
+    change (concentrateCompEval B j).inv.app (M j) ≫ (counitComponent B j j).app M = _
     rw [counitComponent_self, Functor.whiskerLeft_app]
     exact (concentrateCompEval B j).inv_hom_id_app (M j)
 

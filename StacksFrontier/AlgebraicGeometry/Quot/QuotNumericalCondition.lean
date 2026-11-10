@@ -177,7 +177,7 @@ to impose. -/
 theorem numericalQuotCondition_eq_top_of_isEmpty [IsEmpty N.I] :
     D.numericalQuotCondition N hbc = ⊤ := by
   ext T x
-  simp only [Subfunctor.top_obj, Set.top_eq_univ, Set.mem_univ, iff_true]
+  simp only [Subfunctor.top_obj, Set.mem_univ, iff_true]
   exact fun i => isEmptyElim i
 
 end AlgebraicGeometry.Space.QuotSituation

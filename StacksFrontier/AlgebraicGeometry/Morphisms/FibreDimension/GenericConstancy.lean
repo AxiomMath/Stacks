@@ -141,7 +141,7 @@ private theorem exists_open_nhds_forall_topologicalKrullDimAt_fiber_le {X Y : Sc
   by_contra hnot
   obtain ⟨z, hzx⟩ := (mem_range_vanishingIdeal_subschemeι Cbad x).mpr hnot
   have hzU₀ : z ∈ gbad ⁻¹ᵁ U₀ := by
-    show f (Ibad.subschemeι z) ∈ U₀
+    change f (Ibad.subschemeι z) ∈ U₀
     rwa [hzx]
   simp [hgbadU₀] at hzU₀
 
@@ -174,7 +174,7 @@ private theorem exists_open_nhds_forall_le_fiberDimension {X Y : Scheme.{u}} (f 
     have h : xη ∈ Set.range (f.fiberι η) := ⟨qη, rfl⟩
     rwa [f.range_fiberι η] at h
   have hdη : d xη = (n : WithBot ℕ∞) := by
-    show topologicalKrullDimAt (f.fiber (f xη)) (f.asFiber xη) = _
+    change topologicalKrullDimAt (f.fiber (f xη)) (f.asFiber xη) = _
     rw [Scheme.Hom.topologicalKrullDimAt_fiber_fiberι]
     exact hqη
   -- The closed locus where the fibre has local dimension at least `n`, as a subscheme.
@@ -189,14 +189,14 @@ private theorem exists_open_nhds_forall_le_fiberDimension {X Y : Scheme.{u}} (f 
   let glow : Ilower.subscheme ⟶ Y := Ilower.subschemeι ≫ f
   obtain ⟨zη, hzη⟩ : xη ∈ Set.range Ilower.subschemeι := by
     rw [mem_range_vanishingIdeal_subschemeι]
-    show n = 0 ∨ ¬ d xη ≤ ((n - 1 : ℕ) : WithBot ℕ∞)
+    change n = 0 ∨ ¬ d xη ≤ ((n - 1 : ℕ) : WithBot ℕ∞)
     by_cases h0 : n = 0
     · exact Or.inl h0
     · refine Or.inr ?_
       rw [hdη]
       exact not_le_of_gt (by exact_mod_cast Nat.sub_lt (Nat.pos_of_ne_zero h0) Nat.one_pos)
   have hglowη : glow zη = η := by
-    show f (Ilower.subschemeι zη) = η
+    change f (Ilower.subschemeι zη) = η
     rwa [hzη]
   have hgeneric_fiber_nonempty : Nonempty (glow.fiber η) := by
     obtain ⟨z, -⟩ : zη ∈ Set.range (glow.fiberι η) := by rwa [glow.range_fiberι η]

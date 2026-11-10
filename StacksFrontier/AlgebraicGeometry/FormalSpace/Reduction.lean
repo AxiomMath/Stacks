@@ -132,7 +132,7 @@ theorem existsUnique_comp_eq (h : IsReduction B S hS X Xred i) (T : BigFppfOver 
   have _ : IsIso snd := isIso_of_reflects_iso snd (BigFppfOver.toScheme B S hS)
   have _ : IsIso ((uliftYoneda.{u + 1}).map snd) := inferInstance
   refine ⟨inv ((uliftYoneda.{u + 1}).map snd) ≫ fst, ?_, ?_⟩
-  · show (inv ((uliftYoneda.{u + 1}).map snd) ≫ fst) ≫ i.hom
+  · change (inv ((uliftYoneda.{u + 1}).map snd) ≫ fst) ≫ i.hom
         = uliftYonedaEquiv.{u + 1}.symm v
     rw [Category.assoc, sq.w, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
   · intro l hl

@@ -33,7 +33,7 @@ universe u
 namespace AlgebraicGeometry.Proj
 
 variable {R : Type u} [CommRing R] {A : Type u} [CommRing A] {σ : Type*} [SetLike σ A]
-  [AddSubgroupClass σ A] (𝒜 : ℕ → σ)
+  (𝒜 : ℕ → σ)
 
 /-- **Graded quotients of `R[T₀, T₁]` are generated in degree one by the two variables.** If every
 homogeneous element of degree `n` of `A` is the image of a homogeneous polynomial of degree `n`

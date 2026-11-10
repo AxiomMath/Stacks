@@ -107,7 +107,7 @@ public theorem retractMapBiproduct_i_desc_of_hom {J : Type} [Fintype J] (F : C �
     (c : J → C) [HasBiproduct c] [HasBiproduct (F.obj ∘ c)] {Z : D} (γ : F.obj (⨁ c) ⟶ Z) :
     (F.retractMapBiproduct c).i ≫
       biproduct.desc (fun j => F.map (biproduct.ι c j) ≫ γ) = γ := by
-  show F.biproductComparison c ≫ biproduct.desc (fun j => F.map (biproduct.ι c j) ≫ γ) = γ
+  change F.biproductComparison c ≫ biproduct.desc (fun j => F.map (biproduct.ι c j) ≫ γ) = γ
   rw [CategoryTheory.Functor.biproductComparison, biproduct.lift_desc,
     Finset.sum_congr rfl fun j (_ : j ∈ Finset.univ) =>
       (Category.assoc (F.map (biproduct.π c j)) (F.map (biproduct.ι c j)) γ).symm,

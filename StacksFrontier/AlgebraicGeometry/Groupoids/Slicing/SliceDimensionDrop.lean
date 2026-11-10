@@ -81,7 +81,7 @@ open GroupoidScheme
 /-- The stalk map at the literal image point is Mathlib's stalk map. -/
 private lemma stalkMapAt_self {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X) :
     f.stalkMapAt x (f x) rfl = (f.stalkMap x).hom := by
-  show (eqToHom (congrArg Y.presheaf.stalk (rfl : f x = f x).symm) ≫ f.stalkMap x).hom = _
+  change (eqToHom (congrArg Y.presheaf.stalk (rfl : f x = f x).symm) ≫ f.stalkMap x).hom = _
   simp
 
 /-- The stalk map at a prescribed image point, read on an element, is the stalk map applied
@@ -234,7 +234,7 @@ private lemma flat_comp_of_principal_kernel
       (hmul (Ideal.span {b}))).restrictScalars A).symm
   have hflat' : ((Ideal.Quotient.mk (Ideal.span {b})).comp f).Flat := by
     rw [← halg]
-    show (algebraMap A (B ⧸ Ideal.span {b})).Flat
+    change (algebraMap A (B ⧸ Ideal.span {b})).Flat
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
   let E := quotientEquivOfSurjectiveOfKer q hq (Ideal.span {b}) hker
   have hEq : q.comp f = E.toRingHom.comp ((Ideal.Quotient.mk (Ideal.span {b})).comp f) := by
@@ -268,7 +268,7 @@ private lemma flatAt_comp_of_regular_fiber {X Y Z : Scheme.{u}}
   have hstalk : ((p ≫ f).stalkMap x).hom =
       (p.stalkMap x).hom.comp (f.stalkMap (p x)).hom :=
     congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp p f x)
-  show ((p ≫ f).stalkMap x).hom.Flat
+  change ((p ≫ f).stalkMap x).hom.Flat
   rw [hstalk]
   refine flat_comp_of_principal_kernel (f.stalkMap (p x)).hom
     (p.stalkMap x).hom (p.stalkMap_surjective x) b
@@ -415,7 +415,7 @@ private theorem trdeg_zero_of_isIso_residueFieldMap {X Y : Scheme.{u}}
   let _ := (f.residueFieldMap x).hom.toAlgebra
   have hsurj : Function.Surjective
       (algebraMap (Y.residueField (f x)) (X.residueField x)) := by
-    show Function.Surjective (f.residueFieldMap x).hom
+    change Function.Surjective (f.residueFieldMap x).hom
     exact (ConcreteCategory.bijective_of_isIso (f.residueFieldMap x)).surjective
   rw [trdeg_eq_zero_iff, Algebra.isAlgebraic_def]
   intro z
@@ -512,7 +512,7 @@ private lemma residueFieldMap_isIso_of_surjectiveOnStalks {X Y : Scheme.{u}}
   apply (ConcreteCategory.isIso_iff_bijective _).mpr
   refine ⟨(f.residueFieldMap x).hom.injective, ?_⟩
   apply Function.Surjective.of_comp (g := (Y.residue (f x)).hom)
-  show Function.Surjective (Y.residue (f x) ≫ f.residueFieldMap x).hom
+  change Function.Surjective (Y.residue (f x) ≫ f.residueFieldMap x).hom
   rw [Scheme.residue_residueFieldMap]
   exact (IsLocalRing.residue_surjective).comp (f.stalkMap_surjective x)
 
@@ -596,7 +596,7 @@ public theorem exists_affine_slice_dim_sub_one {S : Scheme.{u}}
   let E : SliceSituation := ⟨S, G, U', g, u, u0, hu'⟩
   have : LocallyOfFinitePresentation E.g.left := hfp0
   have hsourcefp : LocallyOfFinitePresentation E.sourceMap.left := by
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       ((pullback.snd E.g E.groupoid.target).left ≫ E.groupoid.source.left)
     have hfpSnd : LocallyOfFinitePresentation
         ((pullback.snd E.g E.groupoid.target).left) := by
@@ -671,7 +671,7 @@ public theorem exists_affine_slice_dim_sub_one {S : Scheme.{u}}
       _ = u := by rw [hx2, htid]
       _ = g0 u0 := hu'.symm
   have hx : E.sourceMap.left x = u := by
-    show E.groupoid.source.left ((pullback.snd E.g E.groupoid.target).left x) = u
+    change E.groupoid.source.left ((pullback.snd E.g E.groupoid.target).left x) = u
     rwa [hx2]
   have Hq : IsPullback
       (fiberMapOfComp (pullback.snd E.g E.groupoid.target).left G.source.left u)
@@ -770,10 +770,10 @@ public theorem exists_affine_slice_dim_sub_one {S : Scheme.{u}}
   have hdcomp := topologicalKrullDimAt_eq_of_homeomorph d.hom.homeomorph
     E.sliceIdentityPoints.restrictedSourceIdentity
   refine ⟨U', g, u0, hu', hU0, hg0, hfp0, ⟨x, hx1, hx2, hnoeth, hCM⟩, ?_⟩
-  show topologicalKrullDimAt E.restrictedSourceFiber
+  change topologicalKrullDimAt E.restrictedSourceFiber
     E.sliceIdentityPoints.restrictedSourceIdentity + 1 = _
   rw [hdcomp]
-  show topologicalKrullDimAt (E.sourceMap.left.fiber u) y + 1 = _
+  change topologicalKrullDimAt (E.sourceMap.left.fiber u) y + 1 = _
   rw [hdnew]
   exact (congrArg (fun n : WithBot ℕ∞ => n + 1) hdq.symm).trans
     (hdrop.trans (sourceFiberIdentity_dimension_eq G u).symm)

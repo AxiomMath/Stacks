@@ -221,7 +221,7 @@ public theorem etale_isLocalization_adjoinRoot
     (hE : Algebra.Etale R (Localization.Away (algebraMap R (AdjoinRoot f) h))) :
     Algebra.Etale Rₕ Bₕ := by
   have hBaway : IsLocalization.Away (algebraMap R (AdjoinRoot f) h) Bₕ := by
-    show IsLocalization (Submonoid.powers (algebraMap R (AdjoinRoot f) h)) Bₕ
+    change IsLocalization (Submonoid.powers (algebraMap R (AdjoinRoot f) h)) Bₕ
     rw [← Algebra.algebraMapSubmonoid_powers]
     infer_instance
   have e : Bₕ ≃ₐ[AdjoinRoot f] Localization.Away (algebraMap R (AdjoinRoot f) h) :=

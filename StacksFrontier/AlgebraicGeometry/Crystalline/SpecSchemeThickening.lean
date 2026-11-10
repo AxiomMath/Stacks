@@ -96,7 +96,7 @@ theorem specMap_isThickening_of_nilKernel {R T : Type u} [CommRing R] [CommRing 
     IsThickening (Spec.map (CommRingCat.ofHom f)) := by
   refine ⟨AlgebraicGeometry.IsClosedImmersion.spec_of_surjective
     (CommRingCat.ofHom f) hf, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap f)
+  change Function.Surjective (PrimeSpectrum.comap f)
   rw [← Set.range_eq_univ, range_comap_of_surjective _ f hf]
   refine Set.eq_univ_of_forall fun p ↦ (PrimeSpectrum.mem_zeroLocus _ _).2 fun x hx ↦ ?_
   obtain ⟨n, hn⟩ := hnil x hx

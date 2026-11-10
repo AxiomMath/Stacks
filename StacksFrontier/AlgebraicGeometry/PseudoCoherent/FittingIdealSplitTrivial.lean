@@ -261,7 +261,7 @@ This is the numerical half of the main result: it says that the size of the mino
 theorem tailAlternatingRank_trivialComplex (R : Type u) [CommRing R] (i : ℤ) (m : ℕ) (p : ℤ) :
     (trivialComplex R i m).tailAlternatingRank p = if p = i then (m : ℤ) else 0 := by
   rcases lt_trichotomy p i with hp | hp | hp
-  · rw [if_neg (by omega : ¬p = i)]
+  · rw [ite_eq_right (by omega : ¬p = i)]
     have ha : ((i - p - 1).toNat : ℤ) = i - p - 1 := by omega
     have hN : ((trivialComplex R i m).top - p).toNat = (i - p - 1).toNat + 1 + 1 := by
       simp only [trivialComplex_top]
@@ -278,13 +278,13 @@ theorem tailAlternatingRank_trivialComplex (R : Type u) [CommRing R] (i : ℤ) (
       rw [trivialComplex_rank, trivialRank_eq_zero m (by omega) (by omega)]
       simp
   · subst hp
-    rw [if_pos rfl, tailAlternatingRank]
+    rw [ite_eq_left rfl, tailAlternatingRank]
     have hN : ((trivialComplex R p m).top - p).toNat = 1 := by
       simp only [trivialComplex_top]
       omega
     rw [hN, Finset.sum_range_one, trivialComplex_rank]
     norm_num
-  · rw [if_neg (by omega : ¬p = i)]
+  · rw [ite_eq_right (by omega : ¬p = i)]
     exact (trivialComplex R i m).tailAlternatingRank_of_top_le
       (by simp only [trivialComplex_top]; omega)
 
@@ -307,7 +307,7 @@ theorem fittingIdeal_directSum_trivialComplex (C : FreeData R) (i : ℤ) (m : �
     tailAlternatingRank_trivialComplex]
   by_cases hp : p = i
   · subst hp
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rcases le_or_gt (C.minorSize p k) 0 with hs | hs
     · rw [Int.toNat_of_nonpos hs, minorIdeal_zero]
       refine minorIdeal_fromBlocks_identity_eq_top (C.d p) _
@@ -317,7 +317,7 @@ theorem fittingIdeal_directSum_trivialComplex (C : FreeData R) (i : ℤ) (m : �
     · rw [show (C.minorSize p k + (m : ℤ)).toNat = (C.minorSize p k).toNat + m by omega]
       exact minorIdeal_fromBlocks_identity (C.d p) _ (trivialRank_succ p m)
         (trivialRank_self p m) (trivialComplex_d_self_apply p m) _
-  · rw [if_neg hp, add_zero]
+  · rw [ite_eq_right hp, add_zero]
     refine minorIdeal_fromBlocks_of_isEmpty (C.d p) _ _ ?_
     by_cases hp1 : p = i + 1
     · refine Or.inl ?_

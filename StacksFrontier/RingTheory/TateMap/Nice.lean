@@ -108,7 +108,7 @@ theorem IsNiceChart.of_isLocalizationAway [Algebra.FiniteType A B] (h : IsNiceCh
   have hb0 : algebraMap B C b = 0 :=
     ((IsLocalization.Away.algebraMap_isUnit g).pow j).mul_right_eq_zero.mp <| by
       rw [← map_pow, ← map_mul, h F _ hj, map_zero]
-  show IsLocalization.mk' C b s = 0
+  change IsLocalization.mk' C b s = 0
   rw [IsLocalization.mk'_eq_iff_eq_mul, zero_mul, hb0]
 
 /-- **Niceness is invariant under isomorphism of the chart over the base.** -/
@@ -166,7 +166,7 @@ variable {A B : Type u} [CommRing A] [CommRing B] [Algebra A B]
 `Ω_{B/A}`. -/
 theorem isUnramifiedAt_bot_of_smul_eq_zero [IsDomain B] (c : B) (hc : c ≠ 0)
     (h : ∀ x : Ω[B⁄A], c • x = 0) : Algebra.IsUnramifiedAt A (⊥ : Ideal B) := by
-  show (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum B) ∈ Algebra.unramifiedLocus A B
+  change (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum B) ∈ Algebra.unramifiedLocus A B
   rw [Algebra.unramifiedLocus_eq_compl_support, Set.mem_compl_iff, Module.notMem_support_iff,
     LocalizedModule.subsingleton_iff]
   exact fun m ↦ ⟨c, hc, h m⟩
@@ -275,7 +275,7 @@ theorem smul_kaehler_baseChange_away_eq_zero (c : C) (hc : ∀ x : Ω[C⁄R], c 
       (motive := fun y ↦ algebraMap C C'' c • y = 0) y
       (fun m ↦ ?_) (fun s n hn ↦ by rw [smul_comm, hn, smul_zero])
       (fun _ _ h₁ h₂ ↦ by rw [smul_add, h₁, h₂, add_zero])
-    show algebraMap C C'' c • KaehlerDifferential.map R R' C C'' m = 0
+    change algebraMap C C'' c • KaehlerDifferential.map R R' C C'' m = 0
     rw [algebraMap_smul, ← LinearMap.map_smul, hc, map_zero]
   exact smul_kaehler_localization_eq_zero (Submonoid.powers g) _ h₁ x
 
@@ -303,7 +303,7 @@ attribute [local instance] MvPolynomial.algebraMvPolynomial
 variable {R C : Type u} [CommRing R] [CommRing C] [Algebra R C] [IsNoetherianRing R]
   [IsNoetherianRing C] [Module.Flat R C] [Algebra.QuasiFinite R C] [IsDomain C]
   [Algebra.FiniteType R C] [Algebra.IsRelativeGlobalCompleteIntersection R C]
-  (σ : Type) [Fintype σ] (g : MvPolynomial σ C)
+  (σ : Type) [Finite σ] (g : MvPolynomial σ C)
 
 omit [IsNoetherianRing C] in
 /-- **Niceness of a localized polynomial extension.** Let `R → C` be a flat quasi-finite

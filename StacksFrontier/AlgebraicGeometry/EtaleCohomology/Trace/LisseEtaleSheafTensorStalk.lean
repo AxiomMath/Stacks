@@ -125,7 +125,7 @@ theorem lisseEtaleSheafStalkCounit_germ
       abelianEtaleStalkGerm.{u, u + 1} B X.1 X.2 s (lisseSheafAbelian B X x Λ P).obj U a :=
     ConcreteCategory.congr_hom (ι_preservesColimitIso_hom
       (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1})
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ F.obj) (op U)) a
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ F.obj) (op U)) a
   exact (congrArg (fun z => c (lisseSheafForget₂StalkAddEquiv B X x Λ s P (e.hom.app F z)))
     h1).trans
     ((congrArg (fun z => c (lisseSheafForget₂StalkAddEquiv B X x Λ s P z)) h2).trans

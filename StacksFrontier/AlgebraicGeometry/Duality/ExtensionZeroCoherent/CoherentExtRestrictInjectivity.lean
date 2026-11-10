@@ -90,9 +90,8 @@ Every `Ext`-computation is carried out *abstractly*, for an arbitrary abelian ca
 arbitrary exact functor between two, and applied with a single `exact`. This is not cosmetic:
 `AlgebraicGeometry.Scheme.Modules` is a `def` carrying a second copy of the categorical
 structure, so over it a `rw` prints its pattern as not found while printing it identically to the
-goal subterm, as
-`StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/CoherentExtRestrictImageSequence.lean`
-records.
+goal subterm, as the sibling file `CoherentExtRestrictImageSequence.lean` (in
+`StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/`) records.
 
 For the same reason no step relies on the definitional unfolding of
 `Stacks.AlgebraicGeometry.IdealPowerColimit.submoduleHomOfLE` at a *concrete* submodule: the

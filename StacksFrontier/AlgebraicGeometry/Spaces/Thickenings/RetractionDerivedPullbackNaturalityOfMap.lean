@@ -213,7 +213,7 @@ theorem sheafPushforwardContinuous_retraction_comparison {qV : C ⥤ D} {iV : D 
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
   refine (sheaf_comp_hom_app_eq _ _ U rfl (hεV R U)).trans (Eq.trans ?_
     (sheaf_comp_hom_app_eq _ _ U rfl (hεW R U)).symm)
-  show R.obj.map (c.app (qV.obj U.unop)).op ≫ R.obj.map (ηV.app U.unop).op =
+  change R.obj.map (c.app (qV.obj U.unop)).op ≫ R.obj.map (ηV.app U.unop).op =
     R.obj.map (iW.map (c'.app U.unop)).op ≫ R.obj.map (ηW.app U.unop).op
   rw [← Functor.map_comp, ← Functor.map_comp, ← op_comp, ← op_comp, hc]
 

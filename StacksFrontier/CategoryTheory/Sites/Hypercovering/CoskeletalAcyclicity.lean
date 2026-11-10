@@ -160,14 +160,14 @@ theorem W_ι_of_isLocallySurjective (J : GrothendieckTopology C) {F : Cᵒᵖ �
   have htop : S.sheafify J = ⊤ := by
     apply top_unique
     intro X s _
-    show S.sieveOfSection s ∈ J X.unop
+    change S.sieveOfSection s ∈ J X.unop
     have he : S.sieveOfSection s = Presheaf.imageSieve S.ι s := by
       ext Y a
       constructor
       · exact fun h => ⟨⟨_, h⟩, rfl⟩
       · rintro ⟨t, ht⟩
         change t.1 = F.map a.op s at ht
-        show F.map a.op s ∈ S.obj (op Y)
+        change F.map a.op s ∈ S.obj (op Y)
         exact ht ▸ t.2
     rw [he]
     exact Presheaf.imageSieve_mem J _ _
@@ -180,11 +180,11 @@ theorem W_ι_of_isLocallySurjective (J : GrothendieckTopology C) {F : Cᵒᵖ �
   · intro b c h
     apply (cancel_epi (S.sheafify J).ι).1
     apply S.to_sheafify_lift_unique hg
-    show a ≫ ((S.sheafify J).ι ≫ b) = a ≫ ((S.sheafify J).ι ≫ c)
+    change a ≫ ((S.sheafify J).ι ≫ b) = a ≫ ((S.sheafify J).ι ≫ c)
     simpa only [← Category.assoc, ha] using h
   · intro b
     refine ⟨inv (S.sheafify J).ι ≫ S.sheafifyLift b hg, ?_⟩
-    show S.ι ≫ _ = b
+    change S.ι ≫ _ = b
     rw [← ha, Category.assoc, IsIso.hom_inv_id_assoc]
     exact S.to_sheafifyLift b hg
 
@@ -273,7 +273,7 @@ theorem isIso_sheafHomologyFunctor_map_of_surjective_of_coskeletal
         exact (isIso_iff_bijective _).1 (inferInstanceAs (IsIso ((f.app _).app X))))
       (h_surj X) (isIso_coskAdj_unit_app_comp_evaluation L n hL X)
       (isIso_coskAdj_unit_app_comp_evaluation K n hK X)
-    show QuasiIso ((alternatingFaceMapComplex _ ⋙
+    change QuasiIso ((alternatingFaceMapComplex _ ⋙
       ((evaluation Cᵒᵖ AddCommGrpCat.{w}).obj X).mapHomologicalComplex _).map g)
     rwa [map_alternatingFaceMapComplex]
   have hc : QuasiIso ((freeAbelianSheafComplexFunctor J).map f) := by
@@ -347,7 +347,7 @@ theorem surjective_toCoskeletalImage_app
   intro s
   obtain ⟨t, ht⟩ := s.2 ⟨j, by omega⟩ (𝟙 _)
   refine ⟨t, Subtype.ext ?_⟩
-  show ((f.app (op (SimplexCategory.mk j))).app X) t = s.1
+  change ((f.app (op (SimplexCategory.mk j))).app X) t = s.1
   simpa using ht
 
 /-- In a degree `j ≤ n` in which `f` is an isomorphism, so is the factorisation `L ⟶ K'`:
@@ -476,7 +476,7 @@ theorem isLocallySurjective_coskeletalImageι_app
   have hq : U ⟨j, θ⟩ a := (iInf_le U ⟨j, θ⟩) a ha
   change ∃ t, (f.app (op (SimplexCategory.mk j))).app (op Y) t =
     (K.obj (op (SimplexCategory.mk j))).map a.op ((K.map θ).app (op X) s) at hq
-  show ∃ t, (f.app (op (SimplexCategory.mk j))).app (op Y) t = _
+  change ∃ t, (f.app (op (SimplexCategory.mk j))).app (op Y) t = _
   simpa only [NatTrans.naturality_apply] using hq
 
 /-- A morphism of simplicial presheaves of sets which becomes an isomorphism after
@@ -493,7 +493,7 @@ theorem isIso_sheafHomologyFunctor_map_of_degreewise_W
   have : IsIso (whiskerRight f A) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro m
-    show IsIso ((presheafToSheaf J AddCommGrpCat.{w}).map
+    change IsIso ((presheafToSheaf J AddCommGrpCat.{w}).map
       (whiskerRight (f.app m) AddCommGrpCat.free))
     rw [← J.W_iff]
     exact J.W_of_preservesSheafification AddCommGrpCat.free _ (hf m)
@@ -531,7 +531,7 @@ theorem isIso_sheafHomologyFunctor_map_of_coskeletal
       have : Presheaf.IsLocallySurjective J (coskeletalImageDegree f n m).ι :=
         isLocallySurjective_coskeletalImageι_app J f n hsurj m
       exact Presheaf.W_ι_of_isLocallySurjective J (coskeletalImageDegree f n m)) i
-  show IsIso ((sheafHomologyFunctor J i).map
+  change IsIso ((sheafHomologyFunctor J i).map
     (toCoskeletalImage f n ≫ coskeletalImageι f n))
   rw [Functor.map_comp]
   infer_instance

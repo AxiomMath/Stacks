@@ -278,10 +278,10 @@ theorem shortExact_of_isIso_kernelLift {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) (
     (S₁ := ShortComplex.mk (kernel.ι g) g (kernel.condition g)) (S₂ := ShortComplex.mk f g h)
     (ShortComplex.isoMk (asIso (kernel.lift g f h)).symm (Iso.refl _) (Iso.refl _) ?_ ?_)
     (ShortComplex.shortExact_mk_kernel_ι g)
-  · show (asIso (kernel.lift g f h)).symm.hom ≫ f = kernel.ι g ≫ (Iso.refl Y).hom
+  · change (asIso (kernel.lift g f h)).symm.hom ≫ f = kernel.ι g ≫ (Iso.refl Y).hom
     rw [Iso.refl_hom, Category.comp_id, Iso.symm_hom, asIso_inv, IsIso.inv_comp_eq,
       kernel.lift_ι]
-  · show (Iso.refl Y).hom ≫ g = g ≫ (Iso.refl Z).hom
+  · change (Iso.refl Y).hom ≫ g = g ≫ (Iso.refl Z).hom
     rw [Iso.refl_hom, Iso.refl_hom, Category.comp_id, Category.id_comp]
 
 end KernelLift
@@ -426,7 +426,7 @@ theorem blowupΓMap_comp {F G H : (blowupScheme I).Modules} (φ : F ⟶ G) (ψ :
 @[simp]
 theorem blowupΓMap_zero {F F' : (blowupScheme I).Modules} (x : blowupΓ I F) :
     blowupΓMap I (0 : F ⟶ F') x = 0 := by
-  show ((0 : F.val ⟶ F'.val).app (op ⊤)).hom x = 0
+  change ((0 : F.val ⟶ F'.val).app (op ⊤)).hom x = 0
   simp
 
 /-- `Γ(X, -)` on the blowup is left exact: it is `secF` at `U = ⊤`, whose two factors preserve

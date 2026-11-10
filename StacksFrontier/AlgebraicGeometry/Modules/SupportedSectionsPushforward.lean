@@ -104,7 +104,7 @@ private lemma supported_on_preimage_iff_pushforward_supported
       have hmapW0 : (Opens.map f.base).map iWU0 = homOfLE hpreW := Subsingleton.elim _ _
       rw [hmapW, hmapW0] at heq
       exact heq.trans (map_zero (F.presheaf.map (homOfLE hpreW).op).hom)
-    show F.presheaf.germ (f ⁻¹ᵁ U) x hx s = 0
+    change F.presheaf.germ (f ⁻¹ᵁ U) x hx s = 0
     rw [← TopCat.Presheaf.germ_res_apply F.presheaf (homOfLE hpreW) x hxpreW, hres]
     exact map_zero _
 
@@ -165,7 +165,7 @@ theorem range_pushforward_supportedSectionsSubmodule_eq
   rw [range_pushforward_sheafSubmodule_inclusion f N U, hP,
     range_sheafSubmodule_inclusion P U]
   ext s
-  show ((Scheme.Modules.pushforward_obj_obj f F U ▸ s : Γ(F, f ⁻¹ᵁ U)) ∈
+  change ((Scheme.Modules.pushforward_obj_obj f F U ▸ s : Γ(F, f ⁻¹ᵁ U)) ∈
       N.toSubmodule.obj (op (f ⁻¹ᵁ U))) ↔
     s ∈ P.toSubmodule.obj (op U)
   rw [mem_supportedSectionsSubmodule_iff,

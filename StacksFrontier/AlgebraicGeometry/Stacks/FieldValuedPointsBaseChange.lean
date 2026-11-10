@@ -98,7 +98,7 @@ theorem isHomLift_discrepancy_hom (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p𝒮 =
     Functor.isHomLift_map_of_comp p𝒮 F a.inv (by rw [hF]; exact ha)
   have h₄ : p𝒮.IsHomLift (𝟙 U) (G.map b.hom) :=
     Functor.isHomLift_map_of_comp p𝒮 G b.hom (by rw [hG]; exact hb)
-  show p𝒮.IsHomLift (𝟙 U) ((B.1.iso.inv ≫ F.map a.inv) ≫ A.1.iso.hom ≫ G.map b.hom)
+  change p𝒮.IsHomLift (𝟙 U) ((B.1.iso.inv ≫ F.map a.inv) ≫ A.1.iso.hom ≫ G.map b.hom)
   infer_instance
 
 /-- Two objects of a fibre of the 2-fibre product are isomorphic as soon as there are vertical
@@ -118,7 +118,7 @@ theorem nonempty_iso_of_isHomLift_of_comm {U : 𝒞}
   let φ : A.1 ⟶ B.1 := Hom.mk' a.hom b.hom hbase hw
   have hφlift : (structureFunctor p𝒳 p𝒴 p𝒮 F G).IsHomLift (𝟙 U) φ := by
     refine IsHomLift.of_fac' (structureFunctor p𝒳 p𝒴 p𝒮 F G) (𝟙 U) φ A.2 B.2 ?_
-    show eqToHom A.1.hx.symm ≫ p𝒳.map a.hom ≫ eqToHom B.1.hx
+    change eqToHom A.1.hx.symm ≫ p𝒳.map a.hom ≫ eqToHom B.1.hx
       = eqToHom A.2 ≫ 𝟙 U ≫ eqToHom B.2.symm
     refine hx.trans ?_
     simp only [Category.id_comp, eqToHom_trans]

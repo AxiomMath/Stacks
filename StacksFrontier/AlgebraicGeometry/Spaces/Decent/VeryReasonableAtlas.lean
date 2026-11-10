@@ -133,7 +133,8 @@ theorem isVeryReasonableSpace_iff_exists_isZariskiCover_quasiCompact_chart
     have hcomp : (Sigma.desc fun i ↦ ψ i ≫ Sigma.ι (fun i ↦ (Xᵢ i).toFunctor) i) ≫
         (Sigma.desc fun i ↦ (Xᵢ i).ι) = Sigma.desc φ :=
       Sigma.hom_ext _ _ fun i ↦ by
-        rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc, Sigma.ι_desc, hfac i]
+        rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc,
+          Sigma.ι_comp_desc, hfac i]
     have : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) (Sigma.desc φ) := hsurj
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hcomp
   · rintro ⟨I, Xᵢ, hcover, U, φ, hφ⟩
@@ -145,7 +146,7 @@ theorem isVeryReasonableSpace_iff_exists_isZariskiCover_quasiCompact_chart
     refine ⟨PUnit.{u + 1}, fun _ ↦ U i, fun _ ↦ φ i, ?_, fun _ ↦ ⟨hetale, hfst, ?_⟩⟩
     · have : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) (φ i) := hlocsurj
       exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
-        (Sigma.ι_desc (fun _ : PUnit.{u + 1} ↦ φ i) PUnit.unit)
+        (Sigma.ι_comp_desc (fun _ : PUnit.{u + 1} ↦ φ i) PUnit.unit)
     · exact isQuasiCompact_of_domainIso B S hS (pullbackSymmetry (φ i) (φ i))
         (pullbackSymmetry_hom_comp_snd _ _) hfst
 

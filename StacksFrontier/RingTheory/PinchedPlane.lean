@@ -41,11 +41,11 @@ whose first partial derivatives all vanish at the origin. -/
 def noLinearTerms : Subalgebra k (MvPolynomial (Fin 2) k) where
   carrier := {p | ∀ i, eval 0 (pderiv i p) = 0}
   mul_mem' {p q} hp hq i := by
-    simp only [Set.mem_setOf_eq] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq] at hp hq ⊢
     rw [Derivation.leibniz, map_add, smul_eq_mul, smul_eq_mul, map_mul, map_mul, hp i, hq i]
     ring
   add_mem' {p q} hp hq i := by
-    simp only [Set.mem_setOf_eq] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq] at hp hq ⊢
     rw [map_add, map_add, hp i, hq i, add_zero]
   algebraMap_mem' a i := by
     simp [MvPolynomial.algebraMap_eq]

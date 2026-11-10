@@ -317,7 +317,7 @@ theorem descentMorphismOfTransition_spec
   rw [spaceQuasicoherentRestriction_map_hom] at h
   change selfChartRestrictionMap (descentMorphismOfTransition t s M α) = _ at h
   rw [h]
-  show spaceEtaleInverseImageComparison t M.obj ≫ (spacePullbackSelfIso t M.obj).inv ≫
+  change spaceEtaleInverseImageComparison t M.obj ≫ (spacePullbackSelfIso t M.obj).inv ≫
       ((spacePullbackSelfIso t M.obj).hom ≫ inv (spaceEtaleInverseImageComparison t M.obj) ≫ α ≫
         spaceEtaleInverseImageComparison s M.obj ≫ (spacePullbackSelfIso s M.obj).inv) ≫
           (spacePullbackSelfIso s M.obj).hom = α ≫ spaceEtaleInverseImageComparison s M.obj

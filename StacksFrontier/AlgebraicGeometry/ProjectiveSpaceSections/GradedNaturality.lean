@@ -149,7 +149,7 @@ theorem fromOfGlobalSections_comp_map (φ : 𝒜 →+*ᵍ ℬ)
   have h1 : (X.basicOpen ((f.comp φ.toRingHom) t)).ι ≫ fromOfGlobalSections ℬ f hf =
       toBasicOpenOfGlobalSections ℬ f rfl h0d (map_mem φ hd) ≫ (basicOpen ℬ (φ t)).ι :=
     basicOpen_ι_comp_fromOfGlobalSections ℬ f hf h0d (map_mem φ hd)
-  show (X.basicOpen ((f.comp φ.toRingHom) t)).ι ≫ fromOfGlobalSections ℬ f hf ≫ map φ hφ =
+  change (X.basicOpen ((f.comp φ.toRingHom) t)).ι ≫ fromOfGlobalSections ℬ f hf ≫ map φ hφ =
     (X.basicOpen ((f.comp φ.toRingHom) t)).ι ≫
       fromOfGlobalSections 𝒜 (f.comp φ.toRingHom) hfφ
   rw [basicOpen_ι_comp_fromOfGlobalSections 𝒜 (f.comp φ.toRingHom) hfφ h0d hd,

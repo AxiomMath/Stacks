@@ -229,7 +229,7 @@ theorem abs_natCard_fixed_twistedFrobenius_sub_le [IsProper f] [Smooth f]
     intro m hm
     have h := congrArg ι (hN m (Nat.pos_of_ne_zero hm)).1
     rw [map_natCast] at h
-    show (twistedFixedCount Ω p e hq σ hσ m : ℂ) = _
+    change (twistedFixedCount Ω p e hq σ hσ m : ℂ) = _
     rw [twistedFixedCount, h, hq]
     simp only [map_add, map_sub, map_one, map_sum, map_pow, map_natCast]
     push_cast
@@ -246,7 +246,7 @@ theorem abs_natCard_fixed_twistedFrobenius_sub_le [IsProper f] [Smooth f]
     have hsqrt : Real.sqrt (Fintype.card K) = Real.sqrt (Fintype.card k) ^ (n * j) := by
       rw [hcardK, Nat.cast_pow, Real.sqrt_eq_iff_mul_self_eq (by positivity) (by positivity),
         ← mul_pow, Real.mul_self_sqrt (by positivity)]
-    show |(twistedFixedCount Ω p e hq σ hσ (n * j) : ℝ) - _ - 1| ≤ _
+    change |(twistedFixedCount Ω p e hq σ hσ (n * j) : ℝ) - _ - 1| ≤ _
     rw [twistedFixedCount_eq_of_dvd Ω p e hq σ hσ hσn j K hK]
     rwa [hsqrt, hcardK, Nat.cast_pow] at hW
   have hle : ∀ i, ‖ι (α i)‖ ≤ Real.sqrt (Fintype.card k) := fun i ↦
@@ -259,7 +259,7 @@ theorem abs_natCard_fixed_twistedFrobenius_sub_le [IsProper f] [Smooth f]
       _ ≤ ∑ _i : Fin r, Real.sqrt (Fintype.card k) ^ m :=
           Finset.sum_le_sum fun i _ ↦ pow_le_pow_left₀ (norm_nonneg _) (hle i) m
       _ = r * Real.sqrt (Fintype.card k) ^ m := by simp
-  show |(N m : ℝ) - _ - 1| ≤ _
+  change |(N m : ℝ) - _ - 1| ≤ _
   have h : (((N m : ℝ) - Fintype.card k ^ m - 1 : ℝ) : ℂ) = -∑ i, (ι (α i)) ^ m := by
     push_cast
     linear_combination hNα m hm.ne'
@@ -292,7 +292,7 @@ theorem closedPointsEquiv_baseChangeAut (σ : X ≅ X) (hσ : σ.hom ≫ f = f)
   have hs' : (pointOfClosedPoint (pullback.snd f (baseMap k Ω)) x.1 x.2 ≫
       (baseChangeAut Ω f σ hσ).hom) ≫ pullback.snd f (baseMap k Ω) = 𝟙 _ := by
     rw [Category.assoc]
-    show _ ≫ baseChangeEndo Ω f σ.hom hσ ≫ _ = _
+    change _ ≫ baseChangeEndo Ω f σ.hom hσ ≫ _ = _
     rw [baseChangeEndo_snd, hs]
   have heq : pointOfClosedPoint (pullback.snd f (baseMap k Ω)) x.1 x.2 ≫
       (baseChangeAut Ω f σ hσ).hom =
@@ -306,7 +306,7 @@ theorem closedPointsEquiv_baseChangeAut (σ : X ≅ X) (hσ : σ.hom ≫ f = f)
   apply Subtype.ext
   simp only [closedPointsEquiv_apply]
   rw [← heq, Category.assoc]
-  show _ ≫ baseChangeEndo Ω f σ.hom hσ ≫ _ = _
+  change _ ≫ baseChangeEndo Ω f σ.hom hσ ≫ _ = _
   rw [baseChangeEndo_fst, Category.assoc]
 
 end Points

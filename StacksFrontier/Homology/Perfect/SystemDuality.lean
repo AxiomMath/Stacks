@@ -94,7 +94,7 @@ private lemma homComplexFunctor_map_v (R : Type u) [CommRing R]
     (z : Cochain Y I n) (p q : ℤ) (hpq : p + n = q) :
     (((homComplexFunctorFlip R I).map f.op).f n z).v p q hpq =
       f.f p ≫ z.v p q hpq := by
-  show (((Cochain.ofHom f).comp z (zero_add n)).comp
+  change (((Cochain.ofHom f).comp z (zero_add n)).comp
     (Cochain.ofHom (𝟙 I)) (add_zero n)).v p q hpq = _
   simp only [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v,
     Cochain.ofHom_v, HomologicalComplex.id_f, Category.comp_id]
@@ -163,12 +163,12 @@ private lemma homTranspose_naturality {R : Type u} [CommRing R]
     homTranspose d X Y' E (a ≫ d.hom.map (f.op, 𝟙 E)) =
       f ≫ homTranspose d X Y E a := by
   apply (d.homEquiv Y' X E).injective
-  show (d.homEquiv Y' X E)
+  change (d.homEquiv Y' X E)
     ((d.homEquiv Y' X E).symm ((d.tensorSwap Y' X).hom ≫
       d.homEquiv X Y' E (a ≫ d.hom.map (f.op, 𝟙 E)))) = _
   rw [AddEquiv.apply_symm_apply, d.homEquiv_dinaturality,
     d.homEquiv_naturality_left]
-  show _ = d.tensor.map (show (Y', X) ⟶ (Y, X) from (f, 𝟙 X)) ≫
+  change _ = d.tensor.map (show (Y', X) ⟶ (Y, X) from (f, 𝟙 X)) ≫
     d.homEquiv Y X E ((d.homEquiv Y X E).symm
       ((d.tensorSwap Y X).hom ≫ d.homEquiv X Y E a))
   rw [AddEquiv.apply_symm_apply]
@@ -181,7 +181,7 @@ private lemma derivedHom_additive {R : Type u} [CommRing R]
     ((CategoryTheory.Functor.curry.obj d.hom).flip.obj E).Additive where
   map_add {X Y} f g := by
     apply (homTranspose d (d.hom.obj (X, E)) Y.unop E).injective
-    show homTranspose d _ Y.unop E
+    change homTranspose d _ Y.unop E
       (d.hom.map (show (X, E) ⟶ (Y, E) from (f + g, 𝟙 E))) =
       homTranspose d _ Y.unop E
         (d.hom.map (show (X, E) ⟶ (Y, E) from (f, 𝟙 E)) +
@@ -219,7 +219,7 @@ private def derivedHomCoproductIso {R : Type u} [CommRing R]
         (Sigma.desc fun j ↦ homTranspose d _ (K j) E (Pi.π _ j)) ≫
         d.hom.map ((Sigma.ι K j).op, 𝟙 E) = Pi.π _ j by
       apply (homTranspose d _ (K j) E).injective
-      rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_desc], Pi.lift_comp_π]
+      rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_comp_desc], Pi.lift_comp_π]
     simpa only [Category.id_comp] using
       homTranspose_naturality d _ E (Sigma.ι K j) (𝟙 _)
   inv_hom_id := by
@@ -227,7 +227,7 @@ private def derivedHomCoproductIso {R : Type u} [CommRing R]
     intro j
     rw [Category.assoc, Pi.lift_comp_π, Category.id_comp]
     apply (homTranspose d _ (K j) E).injective
-    rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_desc]
+    rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_comp_desc]
 
 private lemma tensorHom_naturality_left {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{max u v} (ULift.{v} R))]
@@ -363,16 +363,16 @@ private lemma isDerivedLimit_hom_of_isHomotopyColimit
       D.map (homOfLE (Nat.le_succ n)).op
   have he (n : ℕ) : e.hom ≫ Pi.π (fun n : ℕ ↦ D.obj (Opposite.op n)) n =
       H.map (Sigma.ι Ksys.obj n).op := by
-    show Pi.lift _ ≫ Pi.π _ n = _
+    change Pi.lift _ ≫ Pi.π _ n = _
     exact Pi.lift_comp_π _ _
   have hb : H.map d.op ≫ e.hom = e.hom ≫ b := by
     apply Pi.hom_ext
     intro n
-    show (H.map d.op ≫ e.hom) ≫ Pi.π (fun n : ℕ ↦ D.obj (Opposite.op n)) n =
+    change (H.map d.op ≫ e.hom) ≫ Pi.π (fun n : ℕ ↦ D.obj (Opposite.op n)) n =
       (e.hom ≫ b) ≫ Pi.π (fun n : ℕ ↦ D.obj (Opposite.op n)) n
     rw [Category.assoc, he, ← H.map_comp, ← op_comp]
     dsimp only [d]
-    rw [Sigma.ι_desc, op_sub, op_comp, H.map_sub, H.map_comp]
+    rw [Sigma.ι_comp_desc, op_sub, op_comp, H.map_sub, H.map_comp]
     simp only [b, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, he]
     rw [← Category.assoc, he]
     rfl

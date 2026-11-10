@@ -295,7 +295,7 @@ theorem ker_ptOfIsRationalPoint (hxc : IsClosed ({x} : Set X)) :
   congr 1
   ext y
   have hr := range_ptOfIsRationalPoint f _ hx
-  show y ∈ closure (Set.range (ptOfIsRationalPoint f x hx).base) ↔ y ∈ ({x} : Set X)
+  change y ∈ closure (Set.range (ptOfIsRationalPoint f x hx).base) ↔ y ∈ ({x} : Set X)
   rw [hr, hxc.closure_eq]
 
 /-- **The ideal sheaf of a rational point of a smooth curve is invertible.** The local ring at
@@ -441,7 +441,7 @@ theorem exists_hasPrescribedLowCohomology_of_succ_succ [IsSepClosed k] [IsCurve 
     have hz : z ∈ Set.range C.subschemeι.base := by
       rw [Scheme.IdealSheafData.range_subschemeι, hC, Scheme.IdealSheafData.support_comap,
         Scheme.Hom.support_ker_eq_closure_range]
-      show p.base z ∈ closure (Set.range σ.base)
+      change p.base z ∈ closure (Set.range σ.base)
       exact subset_closure ⟨IsLocalRing.closedPoint k, ptOfIsRationalPoint_apply f _ hx _⟩
     exact hz
   -- The sequence, with its left-hand term rewritten as a twist of `L` from `X`.

@@ -83,7 +83,7 @@ theorem isAffineHom_diagonal_of_affine_nonvanishingOpen_cover (X : Scheme.{u})
   let 𝒰 : X.AffineOpenCover := Scheme.AffineOpenCover.ofIsOpenCover U hcover hAffine
   have hRange (x : X) :
       @Scheme.Hom.opensRange (Spec (𝒰.X x)) X (𝒰.f x) (𝒰.map_prop x) = U x := by
-    show (hAffine x).fromSpec.opensRange = U x
+    change (hAffine x).fromSpec.opensRange = U x
     exact (hAffine x).opensRange_fromSpec
   have hfinite : ∀ p (i : Fin (p + 1) → 𝒰.I₀),
       IsAffineOpen (⨅ j, @Scheme.Hom.opensRange (Spec (𝒰.X (i j))) X

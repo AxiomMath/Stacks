@@ -142,7 +142,7 @@ private theorem localizationInverseImage_preservesZeroMorphisms_aux :
   have : (componentInverseImage J K AddCommGrpCat.{u'}).PreservesZeroMorphisms := by
     constructor
     intro X Y
-    show (fun i => (J.overPullback AddCommGrpCat.{u'} (K.obj i)).map (0 : X ⟶ Y)) =
+    change (fun i => (J.overPullback AddCommGrpCat.{u'} (K.obj i)).map (0 : X ⟶ Y)) =
       fun i => 0
     funext i
     exact (overPullback_preservesZeroMorphisms_aux J K i).map_zero X Y

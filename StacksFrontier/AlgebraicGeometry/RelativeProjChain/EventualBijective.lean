@@ -191,8 +191,8 @@ public theorem isIso_mapHom_of_eventually_bijective (ψ : 𝒜 →+*ᵍ ℬ)
 
 /-- **Stacks 07ZE (2)** on Tag 01MY's bundle: the underlying morphism of
 `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData` is an isomorphism. This is the form the
-statements of the chain quantify over, and it is the previous result unchanged, since the bundle's morphism
-is `mapHom` by definition. -/
+statements of the chain quantify over, and it is the previous result unchanged, since the bundle's
+morphism is `mapHom` by definition. -/
 @[stacks 07ZE "part (2), the projective-spectrum morphism is an isomorphism"]
 public theorem isIso_projMapData_hom_of_eventually_bijective (ψ : 𝒜 →+*ᵍ ℬ)
     (hψ : ∀ᶠ d : ℕ in atTop, Function.Bijective (GradedRingHom.gradedAddHom ψ d)) :
@@ -357,7 +357,7 @@ public theorem eq_zero_of_twistPushforwardMap_app_eq_zero (ψ : 𝒜 →+*ᵍ �
   refine Subtype.ext (funext fun x => ?_)
   obtain ⟨z₀, hz₀⟩ := hsurj x.1
   have hzU : z₀ ∈ mapHom 𝒜 ℬ ψ ⁻¹ᵁ U := by
-    show (mapHom 𝒜 ℬ ψ).base z₀ ∈ U
+    change (mapHom 𝒜 ℬ ψ).base z₀ ∈ U
     rw [hz₀]
     exact x.2
   set zz : ↑((mapDomain 𝒜 ℬ ψ).ι ''ᵁ (mapHom 𝒜 ℬ ψ ⁻¹ᵁ U)) :=

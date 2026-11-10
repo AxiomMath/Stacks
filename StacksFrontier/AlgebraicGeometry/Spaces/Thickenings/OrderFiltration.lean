@@ -109,7 +109,7 @@ theorem succMultipleClosedSubspaces_le_succ (Z : ClosedSubspaces B S hS X.1) (k 
       (succMultipleClosedSubspaces B S hS X Z (k + 1)).1 :=
   le_of_definingIdealSheaf_le B S hS X _ _
     (structureSubmodule_le_of_forall_isAffine B S hS X _ _ fun A hA => by
-      show definingIdealAt B S hS X (succMultipleClosedSubspaces B S hS X Z (k + 1)) (op A) ≤
+      change definingIdealAt B S hS X (succMultipleClosedSubspaces B S hS X Z (k + 1)) (op A) ≤
         definingIdealAt B S hS X (succMultipleClosedSubspaces B S hS X Z k) (op A)
       rw [definingIdealAt_succMultipleClosedSubspaces_of_isAffine B S hS Z (k + 1) A hA,
         definingIdealAt_succMultipleClosedSubspaces_of_isAffine B S hS Z k A hA]
@@ -132,7 +132,7 @@ theorem succMultipleClosedSubspaces_eq_top {n : ℕ} (Z : ClosedSubspaces B S hS
     (succMultipleClosedSubspaces B S hS X Z n).1 = ⊤ :=
   top_unique (le_of_definingIdealSheaf_le B S hS X (topClosedSubspace B S hS X) _
     (structureSubmodule_le_of_forall_isAffine B S hS X _ _ fun A hA => by
-      show definingIdealAt B S hS X (succMultipleClosedSubspaces B S hS X Z n) (op A) ≤ _
+      change definingIdealAt B S hS X (succMultipleClosedSubspaces B S hS X Z n) (op A) ≤ _
       rw [definingIdealAt_succMultipleClosedSubspaces_of_isAffine B S hS Z n A hA, h A]
       exact bot_le))
 
@@ -173,13 +173,13 @@ theorem isFirstOrderThickening_succMultipleClosedSubspaces {G : Subfunctor X.1}
     refine Subtype.ext ?_
     rw [topClosedSubspace_coe]
     exact (Subfunctor.preimage_eq_top_iff _ _).2 (by
-      show Subfunctor.range (succMultipleClosedSubspaces B S hS X Z (k + 1)).1.ι ≤ _
+      change Subfunctor.range (succMultipleClosedSubspaces B S hS X Z (k + 1)).1.ι ≤ _
       rw [Subfunctor.range_ι])
   rw [hself, definingIdealAt_topClosedSubspace B S hS W (d i).U hUa,
     definingIdealAt_succMultipleClosedSubspaces_of_isAffine B S hS Z (k + 1) (d i).V hVa]
     at htop
   rw [← hdU i]
-  show definingIdealAt B S hS W
+  change definingIdealAt B S hS W
       ⟨(succMultipleClosedSubspaces B S hS X Z k).1.preimage ι.hom,
         isClosedSubspace_preimage B S hS ι.hom _ X.2 W.2
           (succMultipleClosedSubspaces B S hS X Z k).2⟩ (op (d i).U) ^ (1 + 1) = ⊥

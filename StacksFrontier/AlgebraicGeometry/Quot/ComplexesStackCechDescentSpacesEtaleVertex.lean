@@ -79,8 +79,9 @@ theorem isSpacesEtaleQuasicoherentComplex_spacesEtaleDerivedPull_of_isFlat
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : IsFlat B S hS f.hom)
     (K : spacesEtaleDerivedModules B S hS Y) (hK : IsSpacesEtaleQuasicoherentComplex B S hS Y K) :
     IsSpacesEtaleQuasicoherentComplex B S hS X ((spacesEtaleDerivedPull B S hS f).obj K) := by
-  have := preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
-    f hf
+  have := (
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    f hf)
   have := RingedToposHom.pullbackModules_preservesFiniteColimits (spacesEtaleRingedToposHom f)
   have := RingedToposHom.pullbackModules_additive (spacesEtaleRingedToposHom f)
   intro n
@@ -156,7 +157,7 @@ theorem isFlat_left_map_const_last_of_isHypercoveringAugmentation
       (bigFppfSpaceSiteOfSchemeSite B S hS).pretopologyBigFppfPretopology U.left U.hom) (k : ℕ) :
     IsFlat B S hS (U.left.map (SimplexCategory.const (SimplexCategory.mk 0)
       (SimplexCategory.mk k) (Fin.last k)).op).hom := by
-  show isFlatMorphismProperty _
+  change isFlatMorphismProperty _
   induction k with
   | zero =>
     rw [const_last_zero_eq_id, op_id, U.left.map_id]

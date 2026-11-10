@@ -118,10 +118,10 @@ theorem exists_bijective_liftBaseChange_unitSection (sq : IsPullback g' f' f g)
         θ (TensorProduct.tmul _ r p) = r • modulePullbackUnitSection B S hS g' F
           ⟨chartBaseChangeAlong sq d.g d.comm b hb, W, pullback.fst b d.g,
             chartBaseChangeAlong_fst sq d.g d.comm b hb⟩ p := by
-  letI iRS := chartDiagramAlgebra B S hS g d
-  letI mRM : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op W)) :=
+  let iRS := chartDiagramAlgebra B S hS g d
+  let mRM : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op W)) :=
     Module.compHom _ (chartDiagramRestrict B S hS f ⟨W, d.V, b, hb⟩)
-  letI mSM' : Module (chartRing B S hS Y'.1 Y'.2 d.U)
+  let mSM' : Module (chartRing B S hS Y'.1 Y'.2 d.U)
       (((modulePullback B S hS g').obj F).val.obj
         (op (chartBaseChangeAlong sq d.g d.comm b hb))) :=
     Module.compHom _ (chartDiagramRestrict B S hS f'
@@ -132,52 +132,52 @@ theorem exists_bijective_liftBaseChange_unitSection (sq : IsPullback g' f' f g)
   let e : ChartDiagram B S hS X.1 Y.1 f.hom := ⟨W, d.V, b, hb⟩
   let e' := chartBaseChangeAlongDiagram sq d.g d.comm b hb
   have hT : IsAffine (chartScheme κ.U) := isAffine_chartBaseChangeAlong sq d.g d.comm b hb hW hU hV
-  letI iRA : Algebra (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W) :=
+  let iRA : Algebra (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W) :=
     chartDiagramAlgebra B S hS f e
-  letI iAB : Algebra (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U) :=
+  let iAB : Algebra (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U) :=
     chartDiagramAlgebra B S hS g' κ
-  letI iSB : Algebra (chartRing B S hS Y'.1 Y'.2 d.U) (chartRing B S hS X'.1 X'.2 κ.U) :=
+  let iSB : Algebra (chartRing B S hS Y'.1 Y'.2 d.U) (chartRing B S hS X'.1 X'.2 κ.U) :=
     chartDiagramAlgebra B S hS f' e'
-  letI iRB : Algebra (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X'.1 X'.2 κ.U) :=
+  let iRB : Algebra (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X'.1 X'.2 κ.U) :=
     ((algebraMap (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U)).comp
       (algebraMap (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W))).toAlgebra
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
       (chartRing B S hS X'.1 X'.2 κ.U) := IsScalarTower.of_algebraMap_eq (fun _ => rfl)
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
       (chartRing B S hS X'.1 X'.2 κ.U) :=
     IsScalarTower.of_algebraMap_eq (fun x => chartDiagramRestrict_chartBaseChangeAlong sq d b hb x)
-  haveI : Algebra.IsPushout (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
+  have : Algebra.IsPushout (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
       (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U) := by
-    haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj W)) :=
+    have : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj W)) :=
       hW
-    haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj
+    have : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS Y'.1).obj d.U)) := hU
-    haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj
+    have : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS Y.1).obj d.V)) := hV
     have hpo := isPushout_appTop_of_isPullback (isPullback_chartScheme_chartBaseChangeAlong d.g b)
     exact Algebra.IsPushout.symm (CommRingCat.isPushout_iff_isPushout.1 hpo)
-  letI mAM' : Module (chartRing B S hS X.1 X.2 W)
+  let mAM' : Module (chartRing B S hS X.1 X.2 W)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     modulePullbackChartSectionModule B S hS g' F κ
-  haveI : IsScalarTower (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U)
+  have : IsScalarTower (chartRing B S hS X.1 X.2 W) (chartRing B S hS X'.1 X'.2 κ.U)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     modulePullbackChart_isScalarTower B S hS g' F κ
-  haveI : IsScalarTower (chartRing B S hS Y'.1 Y'.2 d.U) (chartRing B S hS X'.1 X'.2 κ.U)
+  have : IsScalarTower (chartRing B S hS Y'.1 Y'.2 d.U) (chartRing B S hS X'.1 X'.2 κ.U)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
-  letI mRM' : Module (chartRing B S hS Y.1 Y.2 d.V)
+  let mRM' : Module (chartRing B S hS Y.1 Y.2 d.V)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     Module.compHom _ (algebraMap (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X'.1 X'.2 κ.U))
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
       (((modulePullback B S hS g').obj F).val.obj (op κ.U)) :=
     IsScalarTower.of_algebraMap_smul (fun x m => by
       change (chartDiagramRestrict B S hS f' e' (chartDiagramRestrict B S hS g d x)) • m =
         (chartDiagramRestrict B S hS g' κ (chartDiagramRestrict B S hS f e x)) • m
       rw [chartDiagramRestrict_chartBaseChangeAlong sq d b hb x])
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS X.1 X.2 W)
       (F.val.obj (op W)) := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
   have hu := bijective_modulePullbackChartBaseChange_of_isQuasicoherentOnSite B S hS g' F hF κ
     hT hW
@@ -259,20 +259,20 @@ theorem bijective_moduleBaseChangeMap_app_val_app (sq : IsPullback g' f' f g)
   have hN : N.IsQuasicoherentOnSite :=
     isQuasicoherentOnSite_modulePushforward_of_qcqs B S hS f hfqc hfqs F hF
   -- the rings and the module structures
-  letI iAA' := chartDiagramAlgebra B S hS g d
-  haveI : Module.Flat (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U) :=
+  let iAA' := chartDiagramAlgebra B S hS g d
+  have : Module.Flat (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U) :=
     moduleFlat_chartDiagram_of_isFlat B S hS hg d hU hV
-  letI mP : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op W)) :=
+  let mP : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op W)) :=
     Module.compHom _ (chartDiagramRestrict B S hS f e)
-  letI mQ : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op R')) :=
+  let mQ : Module (chartRing B S hS Y.1 Y.2 d.V) (F.val.obj (op R')) :=
     Module.compHom _ (chartDiagramRestrict B S hS f eR)
-  letI mP' : Module (chartRing B S hS Y'.1 Y'.2 d.U) (F'.val.obj (op T)) :=
+  let mP' : Module (chartRing B S hS Y'.1 Y'.2 d.U) (F'.val.obj (op T)) :=
     Module.compHom _ (chartDiagramRestrict B S hS f' e')
-  letI mQ' : Module (chartRing B S hS Y'.1 Y'.2 d.U) (F'.val.obj (op TR)) :=
+  let mQ' : Module (chartRing B S hS Y'.1 Y'.2 d.U) (F'.val.obj (op TR)) :=
     Module.compHom _ (chartDiagramRestrict B S hS f' e'R)
-  letI mM : Module (chartRing B S hS Y.1 Y.2 d.V) (M.val.obj (op d.U)) :=
+  let mM : Module (chartRing B S hS Y.1 Y.2 d.V) (M.val.obj (op d.U)) :=
     Module.compHom _ (algebraMap (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U))
-  haveI : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
+  have : IsScalarTower (chartRing B S hS Y.1 Y.2 d.V) (chartRing B S hS Y'.1 Y'.2 d.U)
       (M.val.obj (op d.U)) := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
   obtain ⟨θP, hθP, hθPt⟩ := exists_bijective_liftBaseChange_unitSection sq F hF d hU hV b hb hWa
   obtain ⟨θQ, hθQ, hθQt⟩ :=
@@ -344,10 +344,12 @@ theorem bijective_moduleBaseChangeMap_app_val_app (sq : IsPullback g' f' f g)
   have hμ : ∀ n, iL' (μ n) = θP (1 ⊗ₜ iL n) := fun n =>
     (modulePushforwardCounitApp_moduleBaseChangeMap_chartSection sq F d b hb n).trans
       ((one_smul _ _).symm.trans (hθPt 1 (iL n)).symm)
-  have hbij := LinearMap.bijective_liftBaseChange_of_equalizer (A' := chartRing B S hS Y'.1 Y'.2 d.U)
+  have hbij := LinearMap.bijective_liftBaseChange_of_equalizer
+    (A' := chartRing B S hS Y'.1 Y'.2 d.U)
     iL aL bL hi hab heq iL' (L' _ rfl) (L' _ hts) hi' hab' θP θQ hθP hθQ.1 (hL _ rfl) (hL _ hts) μ
     hμ
-  have hcmp := bijective_modulePullbackChartBaseChange_of_isQuasicoherentOnSite B S hS g N hN d hU hV
+  have hcmp :=
+    bijective_modulePullbackChartBaseChange_of_isQuasicoherentOnSite B S hS g N hN d hU hV
   have h1 : ∀ n, modulePullbackChartBaseChange B S hS g N d (1 ⊗ₜ n) =
       modulePullbackChartSection B S hS g N d n := fun n =>
     (modulePullbackChartBaseChange_tmul B S hS g N d 1 n).trans (one_smul _ _)

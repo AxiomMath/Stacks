@@ -52,7 +52,7 @@ lemma mapCycles_comp (C : HomologicalComplex A c) (i : ι) :
       Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i := by
   rw [← cancel_mono (((Q₂.mapHomologicalComplex c).obj
     ((Q₁.mapHomologicalComplex c).obj C)).iCycles i), assoc, mapCycles_i]
-  show mapCycles (Q₁ ⋙ Q₂) C i ≫ (((Q₁ ⋙ Q₂).mapHomologicalComplex c).obj C).iCycles i = _
+  change mapCycles (Q₁ ⋙ Q₂) C i ≫ (((Q₁ ⋙ Q₂).mapHomologicalComplex c).obj C).iCycles i = _
   rw [mapCycles_i, ← Q₂.map_comp, mapCycles_i]
   rfl
 
@@ -64,7 +64,7 @@ lemma homologyToMapHomology_comp (C : HomologicalComplex A c) (i : ι) :
   rw [← cancel_epi ((((Q₁ ⋙ Q₂).mapHomologicalComplex c).obj C).homologyπ i),
     ← cancel_epi (mapCycles (Q₁ ⋙ Q₂) C i), mapCycles_comp_homologyπ_comp_homologyToMapHomology,
     mapCycles_comp Q₁ Q₂ C i, assoc]
-  show Q₂.map (Q₁.map (C.homologyπ i)) = Q₂.map (mapCycles Q₁ C i) ≫
+  change Q₂.map (Q₁.map (C.homologyπ i)) = Q₂.map (mapCycles Q₁ C i) ≫
     mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i ≫
     (((Q₂.mapHomologicalComplex c).obj ((Q₁.mapHomologicalComplex c).obj C)).homologyπ i) ≫
       homologyToMapHomology Q₂ ((Q₁.mapHomologicalComplex c).obj C) i ≫

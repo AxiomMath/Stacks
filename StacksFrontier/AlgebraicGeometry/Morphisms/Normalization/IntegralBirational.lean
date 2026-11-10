@@ -80,7 +80,7 @@ private theorem bijOn_genericPoints_of_locally_birational
     let ξ := Et.symm ⟨restricted U ηU.1, hηU⟩
     have hξ : ξ.1.1 = α x := by
       rw [Scheme.genericPointsInOpenEquiv_symm_val X U ⟨restricted U ηU.1, hηU⟩]
-      show (restricted U ηU.1).1 = α ηU.1.1
+      change (restricted U ηU.1).1 = α ηU.1.1
       simp [restricted, Scheme.Hom.coe_resLE_apply]
     simpa [hξ] using ξ.1.2
   · intro x hx y hy hxy
@@ -109,7 +109,7 @@ private theorem bijOn_genericPoints_of_locally_birational
     let ξ := Es.symm ⟨ξU, hξUmem⟩
     refine ⟨ξ.1.1, ξ.1.2, ?_⟩
     rw [show ξ.1.1 = ξU.1 from Scheme.genericPointsInOpenEquiv_symm_val X' (α ⁻¹ᵁ U) _]
-    show α ξU.1 = ηU.1.1
+    change α ξU.1 = ηU.1.1
     rw [← hξU]
     exact (Scheme.Hom.coe_resLE_apply (f := α) (U := U) (V := α ⁻¹ᵁ U) (e := le_rfl) ξU).symm
 
@@ -161,7 +161,7 @@ private theorem finite_irreducibleComponents_of_locally_finite_preimages
   let A : X'.Opens := α ⁻¹ᵁ U
   have hVA : V ≤ A := by
     intro x hx
-    show α.base x ∈ (U : Set X)
+    change α.base x ∈ (U : Set X)
     rw [Opens.coe_iSup]
     obtain ⟨i, hi, hxi⟩ := Set.mem_iUnion₂.mp (hs ⟨x, hx, rfl⟩)
     exact Set.mem_iUnion.mpr ⟨⟨i, hi⟩, hxi⟩
@@ -216,7 +216,7 @@ private theorem genericPointResidueSpectrum_iso
   let eReindex := Functor.Final.colimitIso reindex targetDiagram
   let e : Scheme.genericPointResidueSpectrum X' ≅
       Scheme.genericPointResidueSpectrum X := by
-    show (∐ sourceFamily) ≅ (∐ targetFamily)
+    change (∐ sourceFamily) ≅ (∐ targetFamily)
     exact eComponents ≪≫ eReindexCoproduct ≪≫ eReindex
   have residueIso_fromSpec (ξ : genericPoints X') :
       AlgebraicGeometry.Spec.map (residueIso ξ).hom ≫
@@ -237,7 +237,7 @@ private theorem genericPointResidueSpectrum_iso
     intro ξ
     dsimp only [cover] at ξ
     change genericPoints X' at ξ
-    show Limits.Sigma.ι sourceFamily ξ ≫ e.hom ≫
+    change Limits.Sigma.ι sourceFamily ξ ≫ e.hom ≫
         Scheme.fromGenericPointResidueFields X =
       Limits.Sigma.ι sourceFamily ξ ≫
         Scheme.fromGenericPointResidueFields X' ≫ α
@@ -245,12 +245,12 @@ private theorem genericPointResidueSpectrum_iso
       Scheme.fromGenericPointResidueFields]
     have hreindex : reindexNatIso.hom.app (Discrete.mk ξ) = 𝟙 _ := rfl
     simp only [Category.assoc]
-    rw [Limits.Sigma.ι_mapIso_hom_assoc, Limits.HasColimit.isoOfNatIso_ι_hom_assoc,
+    rw [Limits.Sigma.ι_mapIso_hom_assoc, Limits.HasColimit.ι_isoOfNatIso_hom_assoc,
       Functor.Final.ι_colimitIso_hom_assoc, hreindex, Category.id_comp]
-    simp only [Limits.Sigma.ι_desc_assoc, componentIso, Functor.mapIso_hom,
+    simp only [Limits.Sigma.ι_comp_desc_assoc, componentIso, Functor.mapIso_hom,
       AlgebraicGeometry.Scheme.Spec_map, Iso.op_hom, Opposite.unop_op]
     dsimp [targetDiagram]
-    rw [Limits.Sigma.ι_desc, residueIso_fromSpec]
+    rw [Limits.Sigma.ι_comp_desc, residueIso_fromSpec]
     exact Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField α ξ.1
   exact ⟨e, hcomm⟩
 

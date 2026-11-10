@@ -106,7 +106,7 @@ lemma mem_supportedSectionsSubmodule_closure_singleton (F : X.Modules) (U : X.Op
   have halg : (X.presheaf.germ U z hz).hom r =
       (algebraMap (Γ(X, U)) (X.presheaf.stalk z)) r := rfl
   rw [halg] at hsmul
-  show F.presheaf.germ U z hz s = 0
+  change F.presheaf.germ U z hz s = 0
   exact hu.smul_eq_zero.mp hsmul.symm
 
 /-- Outside the subset on which its sections are supported, the supported-sections submodule has

@@ -113,7 +113,7 @@ theorem hasOpenVersality_of_formallySmooth_near_closedPoint
         (inferInstanceAs (LocallyOfFiniteType O.ι)) hU
     have hZ₁ : (Space.pointsEquivScheme B S hS x₁.unop.1.unop.obj).symm u₁ ∈
         (x₁.unop.2 : Triple c x₁.unop.1.unop.obj).Z := by
-      show Space.pointsMap B S hS _ (yoneda.map ι₁)
+      change Space.pointsMap B S hS _ (yoneda.map ι₁)
         ((Space.pointsEquivScheme B S hS _).symm u₁) ∈ (x.unop.2 : Triple c _).Z
       have h : Space.pointsMap B S hS _ (yoneda.map ι₁)
           ((Space.pointsEquivScheme B S hS _).symm u₁) =
@@ -121,7 +121,7 @@ theorem hasOpenVersality_of_formallySmooth_near_closedPoint
         apply (Space.pointsEquivScheme B S hS x.unop.1.unop.obj).injective
         refine Eq.trans ?_ ((Space.pointsEquivScheme B S hS _).apply_symm_apply u₀).symm
         rw [← hju]
-        show Space.pointsToScheme B S hS _ _ = _
+        change Space.pointsToScheme B S hS _ _ = _
         rw [Space.pointsToScheme_pointsMap_yoneda]
         exact congrArg _ ((Space.pointsEquivScheme B S hS _).apply_symm_apply u₁)
       rwa [h]

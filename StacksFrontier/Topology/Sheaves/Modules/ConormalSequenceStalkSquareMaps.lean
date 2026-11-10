@@ -350,7 +350,7 @@ theorem tensorSheafMapOfSquareStalk_eq_cotangentSpaceMap
       (cotangentSpaceStalkLinearEquiv R₁ A₁ B₁ a₁ φ₁ x).toLinearMap.toAddMonoidHom) ?_) ξ
   intro U hx b f
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-  show cotangentSpaceStalkLinearEquiv R₂ A₂ B₂ a₂ φ₂ x
+  change cotangentSpaceStalkLinearEquiv R₂ A₂ B₂ a₂ φ₂ x
       (tensorSheafMapOfSquareStalk R₁ R₂ A₁ A₂ B₁ B₂ a₁ a₂ φ₁ φ₂ ρ ψ β x hsq ha _) = _
   refine Eq.trans (congrArg (cotangentSpaceStalkLinearEquiv R₂ A₂ B₂ a₂ φ₂ x)
     ((tensorSheafMapOfSquareStalk_germ R₁ R₂ A₁ A₂ B₁ B₂ a₁ a₂ φ₁ φ₂ ρ ψ β x hsq ha

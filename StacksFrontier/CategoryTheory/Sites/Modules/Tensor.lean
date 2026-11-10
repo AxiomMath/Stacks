@@ -122,7 +122,7 @@ lemma descent_fiber {U : Cᵒᵖ} (x y : P.obj U)
     (h : f.app U x = f.app U y) : b U x = b U y := by
   apply hH.isSeparated _ _ (Presheaf.equalizerSieve_mem J f x y h)
   intro V g hg
-  show H.map g.op (b U x) = H.map g.op (b U y)
+  change H.map g.op (b U x) = H.map g.op (b U y)
   rw [← hb, ← hb]
   exact congrArg (b _) hg
 
@@ -159,7 +159,7 @@ lemma descentFun_naturality {U V : Cᵒᵖ} (g : U ⟶ V) (y : Q.obj U) :
     descentFun J f hH b hb V (Q.map g y) = H.map g (descentFun J f hH b hb U y) := by
   apply hH.isSeparated _ _ (Presheaf.imageSieve_mem J f (Q.map g y))
   rintro W p ⟨x, hx⟩
-  show H.map p.op ((descent_exists J f hH b hb V (Q.map g y)).choose) =
+  change H.map p.op ((descent_exists J f hH b hb V (Q.map g y)).choose) =
     H.map p.op (H.map g ((descent_exists J f hH b hb U y).choose))
   rw [(descent_exists J f hH b hb V (Q.map g y)).choose_spec p.op x hx,
     ← Functor.map_comp_apply]
@@ -300,6 +300,3 @@ lemma sheafification_map_unit
     ((PresheafOfModules.sheafificationAdjunction α).unit.naturality f)).symm
 
 end AlgebraicGeometry.SheafOfModules
-
-add_to_stacks 0GMW PresheafOfModules.sheafificationTensorIso
-add_to_stacks 0GMW PresheafOfModules.sheafificationTensorIso_hom_unit_tmul

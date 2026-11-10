@@ -40,7 +40,8 @@ X.ringCatSheaf.property)`, which is definitionally but not syntactically `X.Modu
 instance search is syntactic. So the `Γ(X, 𝒪_X)`-module structure on its global sections is not
 found, and a statement about it has to carry the structure explicitly as
 `letI : Module Γ(X, ⊤) _ := (…).isModule`, which is how the Chapter 33 decomposition of
-Tag 0CDX and `StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean` state the invertibility clauses. That
+Tag 0CDX and `StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean` state the
+invertibility clauses. That
 ascription is enough for an invertibility *statement*, but not for a tensor product: `→ₗ` over
 the tensor product needs an `AddCommMonoid` on a space of linear maps, hence the `Module`
 instance on the *domain*, and the `letI` is not seen there. `tensorPowerModule` is the `abbrev`
@@ -66,8 +67,10 @@ synthesize `RingHomCompTriple` for the three definitionally-equal spellings of t
 
 **What this is for, and what is still owed.** With this map as its `μ`, the multiplication
 clause of Tag 0CDX reduces — under `Module.Invertible.exists_mulEquiv_of_lTensor_surjective`
-of `StacksFrontier/AlgebraicGeometry/PicardBaseChange/Basic.lean`, whose two `Module.Invertible` hypotheses are the clauses
-proved in `StacksFrontier/AlgebraicGeometry/PicardBaseChange/Sections.lean` and `StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`
+of `StacksFrontier/AlgebraicGeometry/PicardBaseChange/Basic.lean`, whose two `Module.Invertible`
+hypotheses are the clauses
+proved in `StacksFrontier/AlgebraicGeometry/PicardBaseChange/Sections.lean` and
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`
 — to the single goal
 
 `Function.Surjective (LinearMap.lTensor Γ(X_B, 𝒪_{X_B}) globalSectionsMulNegOneLinear)`,

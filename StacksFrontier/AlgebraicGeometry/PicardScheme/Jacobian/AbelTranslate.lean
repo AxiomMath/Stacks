@@ -59,7 +59,7 @@ theorem normalize_sub (T : Over (Spec (.of k))) (c c' : Stacks.Picard.ofScheme (
   rw [normalize, normalize, normalize, schemePullbackClass_sub, schemePullbackClass_sub]
   abel
 
-omit [Smooth f] [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
+omit [IsProper f] [Smooth f] [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- Normalising `normalize c - c'` along `σ` gives the normalisation of `c - c'`. -/
 theorem normalize_normalize_sub (T : Over (Spec (.of k))) (c c' : Stacks.Picard.ofScheme (bc f T)) :
     normalize f σ hσ T (normalize f σ hσ T c - c') = normalize f σ hσ T (c - c') := by
@@ -75,6 +75,7 @@ def translateClass {T : Over (Spec (.of k))} (a : T ⟶ degreeLocusOver f hdim �
   normalize f σ hσ T (classOfElt f σ hσ (homElt f σ hσ P e (a ≫ degreeLocusι f hdim σ hσ P e d)) -
     Stacks.Picard.schemePullbackClass (pullback.fst f T.hom) θ)
 
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 include hθ in
 /-- The class `translateClass θ a` has degree `0` on every fibre of `X_T ⟶ T`. -/
 theorem degree_translateClass {T : Over (Spec (.of k))}
@@ -93,6 +94,7 @@ def translateElt {T : Over (Spec (.of k))} (a : T ⟶ degreeLocusOver f hdim σ 
     (schemePullbackClass_bcSection_normalize f σ hσ T _)
     (degree_translateClass f hdim σ hσ P e θ hθ a)
 
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- The class underlying `translateElt θ a` is `translateClass θ a`. -/
 theorem smallEquiv_translateElt {T : Over (Spec (.of k))}
     (a : T ⟶ degreeLocusOver f hdim σ hσ P e d) :
@@ -109,6 +111,7 @@ theorem rigid_classOfElt {T : Over (Spec (.of k))}
     Stacks.Picard.schemePullbackClass (bcSection f σ hσ T) (classOfElt f σ hσ x) = 0 :=
   (mem_group_iff f σ hσ T _).1 (Multiplicative.toAdd x : group f σ hσ T).2
 
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- Translation by `θ^{-1}` is a bijection from the `T`-points of `P^d` to
 `Pic⁰_{X/k,σ}(T)`. -/
 theorem translateElt_bijective {T : Over (Spec (.of k))} :
@@ -147,6 +150,7 @@ theorem translateElt_bijective {T : Over (Spec (.of k))} :
     rw [smallEquiv_translateElt, translateClass, ha, homElt_eltHom, classOfElt_mkElt, hcdef,
       normalize_normalize_sub, add_sub_cancel_right, normalize_eq_self f σ hσ T b hb]
 
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- Translation by `θ^{-1}` is natural in `T`: it commutes with base change along `g : T' ⟶ T`. -/
 theorem translateElt_comp {T T' : Over (Spec (.of k))} (g : T' ⟶ T)
     (a : T ⟶ degreeLocusOver f hdim σ hσ P e d) :
@@ -178,6 +182,7 @@ def degreeLocusTranslateIso : degreeLocusOver f hdim σ hσ P e d ≅ A.X :=
     (Functor.representableByEquiv (degreeLocusTranslateRepresentableBy f hdim σ hσ P e θ hθ) ≪≫
       (representingIsoOfGrp A eA).symm)
 
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- Under `eA`, the composite of a `T`-point `a` of `P^d` with `P^d ≅ A` is `translateElt θ a`. -/
 theorem hom_app_comp_degreeLocusTranslateIso {T : Over (Spec (.of k))}
     (a : T ⟶ degreeLocusOver f hdim σ hσ P e d) :
@@ -191,7 +196,7 @@ theorem hom_app_comp_degreeLocusTranslateIso {T : Over (Spec (.of k))}
       (representingIsoOfGrp A eA).inv.app (op T)
         ((degreeLocusTranslateRepresentableBy f hdim σ hσ P e θ hθ).homEquiv a) :=
     congrArg (fun φ => φ.app (op T) a) h1
-  show (representingIsoOfGrp A eA).hom.app (op T) _ = _
+  change (representingIsoOfGrp A eA).hom.app (op T) _ = _
   rw [h2]
   exact congrArg (fun φ => φ.app (op T)
     ((degreeLocusTranslateRepresentableBy f hdim σ hσ P e θ hθ).homEquiv a))
@@ -200,6 +205,7 @@ theorem hom_app_comp_degreeLocusTranslateIso {T : Over (Spec (.of k))}
 variable {H : Over (Spec (.of k))}
   (hH : Stacks.Hilbert.RepresentsHilbertFunctorOfRank (Over.mk f) H d)
 
+omit [GeometricallyIrreducible f] in
 /-- **`γ_d` followed by `P^d ≅ A` is the Abel morphism into `Pic⁰`.** -/
 theorem abelMorphismDegree_comp_degreeLocusTranslateIso :
     abelMorphismDegree f hdim σ hσ P e hH ≫
@@ -211,7 +217,7 @@ theorem abelMorphismDegree_comp_degreeLocusTranslateIso :
     Over.OverMorphism.ext (abelMorphismDegree_ι f hdim σ hσ P e hH)
   have hinj : Function.Injective (eA.hom.app (op H)).hom :=
     Function.LeftInverse.injective (g := (eA.inv.app (op H)).hom) fun x => by
-      show ((eA.hom ≫ eA.inv).app (op H)).hom x = x
+      change ((eA.hom ≫ eA.inv).app (op H)).hom x = x
       rw [eA.hom_inv_id]
       rfl
   have key : γo ≫ (degreeLocusTranslateIso f hdim σ hσ P e θ hθ A eA).hom =
@@ -225,7 +231,7 @@ theorem abelMorphismDegree_comp_degreeLocusTranslateIso :
     rw [smallEquiv_translateElt, smallEquiv_abelElement, translateClass, hγo]
     have h2 := abelMorphismFull_spec f σ hσ hH P e (𝟙 H)
     rw [Category.id_comp] at h2
-    show normalize f σ hσ H (classOfElt f σ hσ ((e.hom.app (op H)).hom _) - _) = _
+    change normalize f σ hσ H (classOfElt f σ hσ ((e.hom.app (op H)).hom _) - _) = _
     rw [h2, classOfElt, smallEquiv_abelElementFull, abelNormalized, normalize_normalize_sub,
       abelNormalized]
     congr 2
@@ -234,6 +240,7 @@ theorem abelMorphismDegree_comp_degreeLocusTranslateIso :
       sub_zero]
   exact congrArg CommaMorphism.left key
 
+omit [GeometricallyIrreducible f] in
 /-- **Smoothness of `γ_d : Hilb^d ⟶ P^d` from smoothness of the Abel morphism into `Pic⁰`.** -/
 theorem smooth_abelMorphismDegree_of_smooth_abelMorphism
     [Smooth (abelMorphism f hdim σ hσ θ hθ hH A eA).left] :

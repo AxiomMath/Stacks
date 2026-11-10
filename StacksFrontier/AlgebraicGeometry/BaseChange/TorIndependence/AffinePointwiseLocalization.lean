@@ -95,7 +95,7 @@ theorem iff_restrictScalars_unitsComap {M N : Type u} [AddCommGroup M] [Module B
       obtain ⟨⟨b, t⟩, hb⟩ := IsLocalization.surj T u
       simp only [Submonoid.smul_def] at hx
       refine ⟨⟨(algebraMap B B' t) • x, ⟨b, ?_⟩⟩, ?_⟩
-      · show IsUnit (ρ (algebraMap B B' b))
+      · change IsUnit (ρ (algebraMap B B' b))
         rw [← hb, map_mul]
         exact hu.mul ((IsLocalization.map_units B' t).map ρ)
       · simp only [Submonoid.smul_def, LinearMap.restrictScalars_apply]
@@ -105,7 +105,7 @@ theorem iff_restrictScalars_unitsComap {M N : Type u} [AddCommGroup M] [Module B
       obtain ⟨⟨b, t⟩, hb⟩ := IsLocalization.surj T u
       simp only [Submonoid.smul_def] at hux
       refine ⟨⟨b, ?_⟩, ?_⟩
-      · show IsUnit (ρ (algebraMap B B' b))
+      · change IsUnit (ρ (algebraMap B B' b))
         rw [← hb, map_mul]
         exact hu.mul ((IsLocalization.map_units B' t).map ρ)
       · simp only [Submonoid.smul_def]
@@ -194,7 +194,7 @@ def tensorLocalizationMap : A ⊗[R] C →+* A₁ ⊗[R₁] C₁ :=
 algebra map. -/
 theorem tensorLocalizationMap_tmul (a : A) (c : C) :
     tensorLocalizationMap R R₁ A A₁ C C₁ (a ⊗ₜ c) = algebraMap A A₁ a ⊗ₜ algebraMap C C₁ c := by
-  show (algebraMap A A₁ a ⊗ₜ[R₁] (1 : C₁)) * ((1 : A₁) ⊗ₜ[R₁] algebraMap C C₁ c) = _
+  change (algebraMap A A₁ a ⊗ₜ[R₁] (1 : C₁)) * ((1 : A₁) ⊗ₜ[R₁] algebraMap C C₁ c) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
 variable (A C) in
@@ -265,7 +265,7 @@ theorem isLocalization_tensorLocalizationMap (U : Submonoid R) [IsLocalization U
       rw [RingHom.comp_apply, RingHom.comp_apply, RingHom.comp_apply, hR₁,
         ← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_apply R C C₁,
         IsLocalization.lift_eq]
-      show algebraMap (A ⊗[R] C) L ((1 : A) ⊗ₜ[R] algebraMap R C r) =
+      change algebraMap (A ⊗[R] C) L ((1 : A) ⊗ₜ[R] algebraMap R C r) =
         algebraMap (A ⊗[R] C) L ((algebraMap R A r) ⊗ₜ[R] (1 : C))
       rw [Algebra.TensorProduct.tmul_one_eq_one_tmul]
     exact RingHom.congr_fun this
@@ -273,14 +273,13 @@ theorem isLocalization_tensorLocalizationMap (U : Submonoid R) [IsLocalization U
     (⟨g₁, hg₁⟩ : C₁ →ₐ[R₁] L) (fun _ _ => Commute.all _ _)).toRingHom
   have hφ : ∀ x, φ (tensorLocalizationMap R R₁ A A₁ C C₁ x) = algebraMap (A ⊗[R] C) L x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul a c =>
       rw [tensorLocalizationMap_tmul]
-      show f₁ (algebraMap A A₁ a) * g₁ (algebraMap C C₁ c) = _
+      change f₁ (algebraMap A A₁ a) * g₁ (algebraMap C C₁ c) = _
       rw [IsLocalization.lift_eq, IsLocalization.lift_eq]
-      show algebraMap (A ⊗[R] C) L (a ⊗ₜ[R] 1) * algebraMap (A ⊗[R] C) L (1 ⊗ₜ[R] c) = _
+      change algebraMap (A ⊗[R] C) L (a ⊗ₜ[R] 1) * algebraMap (A ⊗[R] C) L (1 ⊗ₜ[R] c) = _
       rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   refine (isLocalization_iff _ _).2 ⟨?_, ?_, ?_⟩
   · rintro ⟨_, w, hw, z, hz, rfl⟩
@@ -291,8 +290,7 @@ theorem isLocalization_tensorLocalizationMap (U : Submonoid R) [IsLocalization U
       ((IsLocalization.map_units C₁ ⟨z, hz⟩).map
         (Algebra.TensorProduct.includeRight (R := R₁) (A := A₁) (B := C₁)))
   · intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨⟨0, 1⟩, by simp⟩
+    induction y using TensorProduct.inductionOn with
     | add x y hx hy =>
       obtain ⟨⟨x₁, t₁⟩, h₁⟩ := hx
       obtain ⟨⟨x₂, t₂⟩, h₂⟩ := hy
@@ -304,7 +302,7 @@ theorem isLocalization_tensorLocalizationMap (U : Submonoid R) [IsLocalization U
       obtain ⟨⟨a, w⟩, ha⟩ := IsLocalization.surj W a₁
       obtain ⟨⟨c, z⟩, hc⟩ := IsLocalization.surj Z c₁
       refine ⟨⟨a ⊗ₜ c, ⟨w ⊗ₜ z, w, w.2, z, z.2, rfl⟩⟩, ?_⟩
-      show a₁ ⊗ₜ[R₁] c₁ * tensorLocalizationMap R R₁ A A₁ C C₁ ((w : A) ⊗ₜ (z : C)) =
+      change a₁ ⊗ₜ[R₁] c₁ * tensorLocalizationMap R R₁ A A₁ C C₁ ((w : A) ⊗ₜ (z : C)) =
         tensorLocalizationMap R R₁ A A₁ C C₁ (a ⊗ₜ c)
       rw [tensorLocalizationMap_tmul, tensorLocalizationMap_tmul,
         Algebra.TensorProduct.tmul_mul_tmul, ha, hc]

@@ -41,7 +41,8 @@ characterisation of quasi-affineness by a cover of affine basic opens of global 
 `isQuasiAffine_iff_isAmpleForPowers` carries the hypothesis `∀ n : ℤ, NonvanishingBasis (pow n)`,
 which is **not** part of Stacks Tag 01QE. In the source the sheaf is `𝒪_X` itself, its tensor
 powers are canonically `𝒪_X` again, and the global section in question is `1`, so the hypothesis
-is automatic there. It is not provable from the material available here, for one reason: nothing in this
+is automatic there. It is not provable from the material available here, for one reason: nothing in
+this
 repository identifies the stalk of the structure sheaf *as an abelian group* — which is the object
 `Stacks.ModuleStalk.maximalSmul` is a submodule of — with the stalk `𝒪_{X,x}` *as a ring*. Without
 that identification one cannot show that the germ of `1` avoids `𝔪_x · (𝒪_X)_x`, i.e. that

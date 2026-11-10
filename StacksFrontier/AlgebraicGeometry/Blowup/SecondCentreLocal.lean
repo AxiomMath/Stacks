@@ -132,7 +132,7 @@ theorem ideal_exceptionalPow_mul (Z' : (blowUp I).IdealSheafData) (U : X.affineO
     ((exceptionalIdeal I) ^ d * Z').ideal (blowUpChartOpen I U b)
       = Ideal.span {(blowUpChartMap I U b).hom (b : Γ(X, U.1)) ^ d}
         * Z'.ideal (blowUpChartOpen I U b) := by
-  show ((exceptionalIdeal I).ideal (blowUpChartOpen I U b)) ^ d
+  change ((exceptionalIdeal I).ideal (blowUpChartOpen I U b)) ^ d
       * Z'.ideal (blowUpChartOpen I U b) = _
   rw [ideal_exceptionalIdeal_blowUpChartOpen, Ideal.span_singleton_pow]
 

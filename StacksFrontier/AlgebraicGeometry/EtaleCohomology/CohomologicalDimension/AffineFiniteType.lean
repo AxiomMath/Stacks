@@ -190,8 +190,8 @@ The inequality is read in `WithBot ℕ∞`, where `dim(X)` lives. Nonemptiness i
 `X = ∅` the dimension is `−∞` and `cd(∅) = 0`, so the inequality fails; the empty case is covered
 by `etaleCohomologicalDimension_le_add_of_topologicalKrullDim_le`. -/
 @[stacks 0F0V "verbatim, cd(X) ≤ dim(X) + cd(K) in WithBot ℕ∞, for nonempty X: for X = ∅ the \
-source's inequality reads 0 ≤ −∞ and fails; etaleCohomologicalDimension_le_add_of_topologicalKrullDim_le \
-covers every X",
+source's inequality reads 0 ≤ −∞ and fails; \
+etaleCohomologicalDimension_le_add_of_topologicalKrullDim_le covers every X",
   sga "4 X 5.2" "special case",
   sga "5 VII 7.1.1" "a), special case"]
 theorem etaleCohomologicalDimension_le_topologicalKrullDim_add
@@ -233,7 +233,7 @@ theorem etaleCohomologicalDimension_lt_top_of_isAffine
   refine lt_of_le_of_lt
     (etaleCohomologicalDimension_le_add_of_topologicalKrullDim_le
       K X f n hn) ?_
-  exact ENat.add_lt_top.mpr ⟨ENat.coe_lt_top n, hK⟩
+  exact ENat.add_lt_top.mpr ⟨ENat.natCast_lt_top n, hK⟩
 
 end Scheme
 

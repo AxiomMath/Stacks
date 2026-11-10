@@ -344,7 +344,7 @@ def moduleHomOver (hc : ModulePushforwardCoherence B S hS)
     (F G : Modules.{u, u} B S hS X.1 X.2) : (Over X)ᵒᵖ ⥤ Type (u + 1) where
   obj Z := moduleHomOverObj F G Z.unop
   map m := ↾Functor.conjHom (modulePullbackTriangle B S hS (Over.w m.unop))
-  map_id Z := congrArg TypeCat.ofHom (funext fun α ↦
+  map_id _ := congrArg TypeCat.ofHom (funext fun α ↦
     Functor.conjHom_id _ _ (hc.modulePullbackTriangle_id _) α)
   map_comp m n := congrArg TypeCat.ofHom (funext fun α ↦
     Functor.conjHom_comp _ _ _
@@ -431,7 +431,7 @@ def moduleHomOverPullback (hc : ModulePushforwardCoherence B S hS)
       (Over.map q).op ⋙ moduleHomOver hc F G :=
   NatIso.ofComponents
     (fun Z ↦ moduleHomOverTransport q F G Z.unop)
-    (fun {Z Z'} m ↦ ofHom_comp_eq_comp _ _ _ _ fun α ↦
+    (fun m ↦ ofHom_comp_eq_comp _ _ _ _ fun α ↦
       transportHom_modulePullbackTriangle hc q F G m.unop α)
 
 /-- The base-change space of the standing data of Stacks 083F is the base change of its

@@ -107,10 +107,10 @@ theorem exists_surjective_mvPowerSeries_ker_eq_span (n : ℕ) (hn : ringKrullDim
   let xs : List (MvPowerSeries (Fin n) Λ) := g :: List.ofFn X
   have hofFn : Ideal.ofList (List.ofFn (X : Fin n → MvPowerSeries (Fin n) Λ)) =
       Ideal.span (Set.range X) := by
-    show Ideal.span _ = _
+    change Ideal.span _ = _
     congr 1
     ext z
-    simp only [Set.mem_setOf_eq, List.mem_ofFn, Set.mem_range]
+    simp only [Set.mem_ofPred_eq, List.mem_ofFn, Set.mem_range]
   have hsumX : ∑ i, t i * X i ∈ Ideal.span (Set.range (X : Fin n → MvPowerSeries (Fin n) Λ)) :=
     Ideal.sum_mem _ fun i _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
   have hxs : Ideal.ofList xs = maximalIdeal (MvPowerSeries (Fin n) Λ) := by
@@ -258,7 +258,7 @@ theorem supportDim_add_supportDim_le_of_isCohenRing (M N : Type u) [AddCommGroup
     have hkq : RingHom.ker F ≤ q.asIdeal := by
       refine le_trans ?_ hqP
       intro x hx
-      show F x ∈ P.asIdeal
+      change F x ∈ P.asIdeal
       rw [RingHom.mem_ker.mp hx]
       exact Ideal.zero_mem _
     have := Ideal.map_isPrime_of_surjective hFs hkq
@@ -278,7 +278,7 @@ theorem supportDim_add_supportDim_le_of_isCohenRing (M N : Type u) [AddCommGroup
     have hmem' : Ideal.map F q.asIdeal = maximalIdeal A :=
       congrArg PrimeSpectrum.asIdeal (Set.mem_singleton_iff.mp hmem)
     rw [Set.mem_singleton_iff, PrimeSpectrum.ext_iff, closedPoint]
-    show q.asIdeal = maximalIdeal _
+    change q.asIdeal = maximalIdeal _
     rw [← hcomap, hmem']
     have := Ideal.comap_isMaximal_of_surjective F hFs (K := maximalIdeal A)
     exact IsLocalRing.eq_maximalIdeal this

@@ -52,7 +52,6 @@ universe d d₀ u
 namespace Deformation.ComplexLift
 
 variable {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable {k : Type u} [Field k] {O₀ : Sheaf J CommRingCat.{u}}
   (θ : Stacks.TensorByBaseModule.constantRingPresheaf (C := C) k ⟶ O₀.obj)
@@ -127,6 +126,7 @@ theorem coefficientRingMap_comp {V W X : FGModuleCat.{u} k} (f : V ⟶ W) (g : W
 
 section Reduction
 
+variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [∀ V : FGModuleCat.{u} k, HasDerivedCategory.{d} (SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf (coefficientRing θ V)))]
   [HasDerivedCategory.{d₀} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))]

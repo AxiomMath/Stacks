@@ -186,7 +186,7 @@ theorem eulerCharacteristic_tensorLeft_coimage_idealToClosedSubscheme {k : Type 
       (finsum_alternating_finrank_unit_eq_finrank_of_isAffine _)
   change @eulerCharacteristic k _ X f _ _ h2 =
     @eulerCharacteristic k _ X f _ _ h1 + @eulerCharacteristic k _ X f _ _ h3 at hadd
-  show @eulerCharacteristic k _ X f _ _ h1 = _
+  change @eulerCharacteristic k _ X f _ _ h1 = _
   rw [← hmid, hadd, hlast]
   ring
 

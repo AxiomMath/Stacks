@@ -140,7 +140,8 @@ adjoint transpose `η ≫ R(α ≫ B(ε, ε))`, it is an isomorphism as soon as 
 invertible at `A(R G, R G')`, the comparison `α` is invertible at `(R G, R G')`, and the counit
 is invertible at `G` and at `G'`.  The same statement is
 `Stacks.Cohomology.DerivedRelativeCupProduct.isIso_adjunctionBitensorMap` in
-`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.OnePointCupProductNondegeneracy`, which
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.OnePointCupProductNondegeneracy`,
+which
 imports `GlobalCupProduct` and so cannot be imported by it; this copy sits below both. -/
 lemma isIso_adjunctionBitensorMap_of_isIso (G G' : D)
     (hunit : IsIso (adj.unit.app (A.obj (R.obj G, R.obj G'))))

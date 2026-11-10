@@ -222,7 +222,7 @@ private lemma exactAdjunction_zero_iso
     asIso_inv, IsIso.hom_inv_id_assoc, heB]
   have hn := s.hom.naturality f
   dsimp at hn
-  show s.hom.app (F.obj B) ≫ f = _
+  change s.hom.app (F.obj B) ≫ f = _
   rw [← hn]
   dsimp [SD, HD] at hf ⊢
   rw [hf, Functor.map_comp, Category.assoc]
@@ -265,7 +265,7 @@ private lemma isIso_homologyMap_mkQ
   have he : Epi ((DerivedCategory.homologyFunctor _ p).map (F.mapTriangle.obj T).mor₂) :=
     (DerivedCategory.HomologySequence.epi_homologyMap_mor₂_iff _ hT p (p + 1)).2
       (h₁.eq_of_tgt _ _)
-  show IsIso ((DerivedCategory.homologyFunctor _ p).map (F.mapTriangle.obj T).mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor _ p).map (F.mapTriangle.obj T).mor₂)
   exact isIso_of_mono_of_epi _
 
 /-! ### The torsion submodule and the quotient -/
@@ -312,7 +312,7 @@ theorem idealLocalCohomology_zero_iso_torsion
     (Dualizing.powerTorsionAdjunction.{u, v} A I)
     (Dualizing.derivedPowerTorsionAdjunction.{u, v} A I hI) M
   refine ⟨e, ?_⟩
-  show e.hom ≫ _ =
+  change e.hom ≫ _ =
     (DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) 0).map
       (𝟙 _ ≫ (Dualizing.derivedPowerTorsionCounit.{u, v} A I hI).app
         ((DerivedCategory.singleFunctor _ 0).obj M)) ≫ _
@@ -355,7 +355,7 @@ theorem idealLocalCohomology_torsion_higher
   have hε : IsIso ((Dualizing.derivedPowerTorsionCounit.{u, v} A I hI).app X) :=
     Dualizing.TorsionCounit.isIso_derivedPowerTorsionCounit_app.{u, v} A I hI K
   have hz := DerivedCategory.isZero_of_isLE X 0 p hp
-  show IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
+  change IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
     ((Dualizing.powerTorsionComparison A I hI ⋙
       (Dualizing.derivedPowerTorsionProperty A I hI).ι).obj
         ((Dualizing.derivedPowerTorsion.{u, v} A I hI).obj X)))

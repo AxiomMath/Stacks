@@ -109,7 +109,7 @@ theorem appTop_yonedaPreimage_globalFunctionsAffineEquiv (X : AlgebraicSpaces B 
     intro τ
     have hmw : yoneda.map (yoneda.preimage (V.1.hom ≫ e.hom)) ≫
         (idChart B S hS T).1.hom = V.1.hom ≫ i.inv.hom := by
-      show yoneda.map (yoneda.preimage (V.1.hom ≫ e.hom)) ≫ 𝟙 _ = V.1.hom ≫ e.hom
+      change yoneda.map (yoneda.preimage (V.1.hom ≫ e.hom)) ≫ 𝟙 _ = V.1.hom ≫ e.hom
       rw [Functor.map_preimage, Category.comp_id]
     exact (globalFunctionsMap_val_of_yoneda_map_comp B S hS i.inv τ V (idChart B S hS T) _ hmw).symm
   -- Pullback along the two directions of the identification are mutually inverse.
@@ -144,7 +144,7 @@ that morphism of schemes. -/
 theorem yonedaEquiv_schemePointsUnit_comp_schemePointsMap (W : BigFppfOver B S hS)
     {Z : Scheme.{u}} (f : (BigFppfOver.toScheme B S hS).obj W ⟶ Z) :
     yonedaEquiv (schemePointsUnit B S hS W ≫ schemePointsMap B S hS f) = f := by
-  show (BigFppfOver.toScheme B S hS).map (𝟙 W) ≫ f = f
+  change (BigFppfOver.toScheme B S hS).map (𝟙 W) ≫ f = f
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- **The composite `X ≅ T ⟶ Spec Γ(T, 𝒪_T)` satisfies the chart formula of the canonical

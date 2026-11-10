@@ -82,8 +82,7 @@ theorem tensorContract_mul_one_tmul
     {A : Type u} {C : Type v} [CommRing A] [CommRing C] [Algebra A C]
     (f : Module.Dual A C) (c : C) (z : C ⊗[A] C) :
     tensorContract A C f (((1 : C) ⊗ₜ[A] c) * z) = c * tensorContract A C f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp [tensorContract, TensorProduct.lift.tmul]
   | add x y hx hy => rw [mul_add, map_add, hx, hy, map_add, mul_add]
 
@@ -92,8 +91,7 @@ theorem tensorContract_mul_tmul_one
     {A : Type u} {C : Type v} [CommRing A] [CommRing C] [Algebra A C]
     (f : Module.Dual A C) (c : C) (z : C ⊗[A] C) :
     tensorContract A C f ((c ⊗ₜ[A] (1 : C)) * z) = tensorContract A C (c • f) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
       simp [tensorContract, TensorProduct.lift.tmul, algebraDualModule_smul_apply]
   | add x y hx hy => rw [mul_add, map_add, hx, hy, map_add]
@@ -107,8 +105,7 @@ theorem tensorContract_map
     (r : C →ₐ[A] D) (φ : Module.Dual A D) (z : C ⊗[A] C) :
     tensorContract A D φ (Algebra.TensorProduct.map r r z) =
       r (tensorContract A C (φ.comp r.toLinearMap) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
       simp [tensorContract, TensorProduct.lift.tmul, Algebra.smul_def, r.commutes]
   | add x y hx hy =>
@@ -269,7 +266,7 @@ private theorem exists_pow_conductor
       intro d
       obtain ⟨n, c, hc⟩ := exists_pow_mul_eq_map F r hr hH g haway d
       refine ⟨n, c, ?_⟩
-      show algebraMap F.middle H.middle c = g ^ n • d
+      change algebraMap F.middle H.middle c = g ^ n • d
       rw [Algebra.smul_def, hmapeq]
       exact hc.symm)
   refine ⟨n, fun d => ?_⟩
@@ -313,7 +310,7 @@ private theorem algebraMap_tensorContract_mul_map
         algebraMap C B (tensorContract A C (φ.comp r.toLinearMap) z) := by
   have hfun : (r g • φ).comp r.toLinearMap = g • (φ.comp r.toLinearMap) := by
     ext y
-    show φ (r g * r y) = φ (r (g * y))
+    change φ (r g * r y) = φ (r (g * y))
     rw [map_mul r g y]
   have hstep : tensorContract A D φ
       ((r g ⊗ₜ[A] (1 : D)) * Algebra.TensorProduct.map r r z) =
@@ -361,7 +358,7 @@ private theorem noetherPairing_conductor_smul
       (↑(diagonalAnnihilator A B)) :=
     ψ.codRestrict ((diagonalAnnihilator A B).restrictScalars B) (by
       intro z
-      show ψ z ∈ (diagonalAnnihilator A B).restrictScalars B
+      change ψ z ∈ (diagonalAnnihilator A B).restrictScalars B
       rw [← hRange]
       exact ⟨z, rfl⟩)
   have hsurj : Function.Surjective ψJ := by
@@ -371,8 +368,7 @@ private theorem noetherPairing_conductor_smul
       exact j₀.2
     exact ⟨z, Subtype.ext hz⟩
   obtain ⟨w, rfl⟩ := hsurj j
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | add w₁ w₂ h₁ h₂ => rw [map_add, smul_add, map_add, map_add, h₁, h₂]
   | tmul y j' =>
       have hζ : (r g ⊗ₜ[A] (1 : H.middle)) * Algebra.TensorProduct.map r r j'.1 ∈
@@ -382,7 +378,7 @@ private theorem noetherPairing_conductor_smul
           (algebraMap F.middle B g ⊗ₜ[A] (1 : B)) * ((y ⊗ₜ[A] (1 : B)) *
             Algebra.TensorProduct.map (IsScalarTower.toAlgHom A F.middle B)
               (IsScalarTower.toAlgHom A F.middle B) j'.1) := by
-        show algebraMap F.middle B g • (ψ (y ⊗ₜ[F.middle] j')) = _
+        change algebraMap F.middle B g • (ψ (y ⊗ₜ[F.middle] j')) = _
         rw [show ψ (y ⊗ₜ[F.middle] j') = diagonalAnnihilatorBaseChange A F.middle B
           (y ⊗ₜ[F.middle] j') from rfl, diagonalAnnihilatorBaseChange_tmul_eq,
           smul_eq_tmul_one_mul]
@@ -398,7 +394,7 @@ private theorem noetherPairing_conductor_smul
           diagonalAnnihilatorBaseChange A H.middle B
             (y ⊗ₜ[H.middle] (⟨_, hζ⟩ : ↑(diagonalAnnihilator A H.middle))) := by
         rw [hbase, diagonalAnnihilatorBaseChange_tmul_eq]
-        show _ = (y ⊗ₜ[A] (1 : B)) *
+        change _ = (y ⊗ₜ[A] (1 : B)) *
           Algebra.TensorProduct.map (IsScalarTower.toAlgHom A H.middle B)
             (IsScalarTower.toAlgHom A H.middle B)
             ((r g ⊗ₜ[A] (1 : H.middle)) * Algebra.TensorProduct.map r r j'.1)
@@ -471,7 +467,6 @@ private theorem noetherPairing_refinement
     (ω : dualizingModule H) (j : ↑(diagonalAnnihilator A B)) :
     noetherPairing F (dualizingModuleEquiv H F ω) j = noetherPairing H ω j := by
   induction ω using dualizingModule.induction_on with
-  | zero => rw [map_zero (dualizingModuleEquiv H F), map_zero, map_zero]
   | tmul φ b =>
       rw [dualizingModuleEquiv_from_injective H F hH r hr φ b]
       exact (noetherPairing_refinement_tmul F H r hr hH φ b j).symm

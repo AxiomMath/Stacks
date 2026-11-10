@@ -149,7 +149,7 @@ private theorem appLE_pushoutMap_of_ringHomProperty
     have hw : d.g (d.j' z) = s.j (d.h z) := by
       simpa only [Scheme.Hom.comp_apply] using
         congrArg (fun k : d.Z' ⟶ s.Y ↦ k z) d.right_isPullback.w
-    show s.j (d.h z) ∈ UY
+    change s.j (d.h z) ∈ UY
     rw [← hw]
     exact hy
   have hVXi : VX ≤ d.f ⁻¹ᵁ UX := hle _ _ _ (pushoutMap_left_isPullback s d).w
@@ -178,9 +178,9 @@ private theorem appLE_pushoutMap_of_ringHomProperty
       (CommRingCat.ofHom toBase) (CommRingCat.ofHom surjection) := by
     convert pushoutStructureSheaf_isPullback s U using 1
     · exact Scheme.Hom.appLE_eq_app s.j
-    · show s.i.appLE UX UZ eU.symm.le =
+    · change s.i.appLE UX UZ eU.symm.le =
         s.i.app UX ≫ eqToHom (congrArg (fun W ↦ Γ(s.Z, W)) eU)
-      show s.i.app UX ≫ s.Z.presheaf.map (homOfLE eU.symm.le).op =
+      change s.i.app UX ≫ s.Z.presheaf.map (homOfLE eU.symm.le).op =
         s.i.app UX ≫ eqToHom (congrArg (fun W ↦ Γ(s.Z, W)) eU)
       rw [← eqToHom_map s.Z.presheaf (congrArg (fun W : s.Z.Opens ↦ Opposite.op W) eU)]
       congr 1
@@ -188,9 +188,9 @@ private theorem appLE_pushoutMap_of_ringHomProperty
       (CommRingCat.ofHom DtoC) (CommRingCat.ofHom C'toC) := by
     convert pushoutStructureSheaf_isPullback s' V using 1
     · exact Scheme.Hom.appLE_eq_app d.j'
-    · show d.i'.appLE VX VZ hVZi =
+    · change d.i'.appLE VX VZ hVZi =
         d.i'.app VX ≫ eqToHom (congrArg (fun W ↦ Γ(d.Z', W)) eV)
-      show d.i'.app VX ≫ d.Z'.presheaf.map (homOfLE hVZi).op =
+      change d.i'.app VX ≫ d.Z'.presheaf.map (homOfLE hVZi).op =
         d.i'.app VX ≫ eqToHom (congrArg (fun W ↦ Γ(d.Z', W)) eV)
       rw [← eqToHom_map d.Z'.presheaf (congrArg (fun W : d.Z'.Opens ↦ Opposite.op W) eV)]
       congr 1
@@ -623,7 +623,7 @@ theorem pushoutInl_inr_jointly_surjective
     have hpre : pushoutInr s ⁻¹ᵁ U = ⊥ := by
       apply TopologicalSpace.Opens.ext
       ext y
-      show pushoutInr s y ∉ Set.range (pushoutInr s) ↔ False
+      change pushoutInr s y ∉ Set.range (pushoutInr s) ↔ False
       exact ⟨fun hy ↦ hy ⟨y, rfl⟩, False.elim⟩
     have hIso : IsIso (pushoutInl s ∣_ U) := pushoutInl_isIso_morphismRestrict s U hpre
     have hsurj : Function.Surjective (pushoutInl s ∣_ U) :=
@@ -644,12 +644,12 @@ theorem pushoutBaseChangeMap_surjective
       pushoutInl_inr_jointly_surjective s (w.hom z)
   rcases hcover with ⟨x, hx⟩ | ⟨y, hy⟩
   · refine ⟨pushoutInl (inducedSituation s (pushoutBaseChangeDiagram s w hw)) x, ?_⟩
-    show (pushoutInl (inducedSituation s (pushoutBaseChangeDiagram s w hw)) ≫
+    change (pushoutInl (inducedSituation s (pushoutBaseChangeDiagram s w hw)) ≫
       pushoutBaseChangeMap s w hw) x = z
     rw [pushoutInl_comp_pushoutBaseChangeMap]
     exact hx
   · refine ⟨pushoutInr (inducedSituation s (pushoutBaseChangeDiagram s w hw)) y, ?_⟩
-    show (pushoutInr (inducedSituation s (pushoutBaseChangeDiagram s w hw)) ≫
+    change (pushoutInr (inducedSituation s (pushoutBaseChangeDiagram s w hw)) ≫
       pushoutBaseChangeMap s w hw) y = z
     rw [pushoutInr_comp_pushoutBaseChangeMap]
     exact hy
@@ -763,9 +763,9 @@ theorem isIso_pushoutBaseChangeMap
         · exact Scheme.Hom.appLE_eq_app (pushoutInr s)
         · exact Scheme.Hom.appLE_eq_app (pushoutInl s)
         · exact Scheme.Hom.appLE_eq_app s.j
-        · show s.i.appLE UX UZ eU.symm.le =
+        · change s.i.appLE UX UZ eU.symm.le =
             s.i.app UX ≫ eqToHom (congrArg (fun W ↦ Γ(s.Z, W)) eU)
-          show s.i.app UX ≫ s.Z.presheaf.map (homOfLE eU.symm.le).op =
+          change s.i.app UX ≫ s.Z.presheaf.map (homOfLE eU.symm.le).op =
             s.i.app UX ≫ eqToHom (congrArg (fun W ↦ Γ(s.Z, W)) eU)
           rw [← eqToHom_map s.Z.presheaf (congrArg (fun W : s.Z.Opens ↦ Opposite.op W) eU)]
           congr 1
@@ -782,7 +782,7 @@ theorem isIso_pushoutBaseChangeMap
           exact g.flat_appLE hV hS hSV)
       let fObj : Cobj ⟶ Dobj :=
         MorphismProperty.Under.homMk (c.appLE U (c ⁻¹ᵁ U) le_rfl) (by
-          show w.hom.appLE V U hUV ≫ c.appLE U (c ⁻¹ᵁ U) le_rfl = g.appLE V (c ⁻¹ᵁ U) _
+          change w.hom.appLE V U hUV ≫ c.appLE U (c ⁻¹ᵁ U) le_rfl = g.appLE V (c ⁻¹ᵁ U) _
           rw [Scheme.Hom.appLE_comp_appLE c w.hom V U (c ⁻¹ᵁ U) hUV le_rfl]
           exact Scheme.Hom.appLE_congr_hom hcomp V (c ⁻¹ᵁ U) hSV' hSV)
       have hPushB : IsIso ((MorphismProperty.Under.pushout CommRingCat.flat ⊤

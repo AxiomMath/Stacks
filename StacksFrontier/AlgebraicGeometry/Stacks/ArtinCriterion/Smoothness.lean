@@ -143,7 +143,7 @@ public abbrev HasFiniteDimensionalTangentSpaces
             𝓕 hD
         letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
         letI : Fact (Deformation.SchlessingerConditionS2
-          (CategoryOfElements.π
+          (Functor.Elements.π
             (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
         let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
         let T := Deformation.artinianTangentSpace Λ k F
@@ -195,7 +195,7 @@ private theorem representedMap_app_isoClass
         ((Functor.fiberFunctorOfCompEq hH U).obj x)) := by
   let : p.IsFibered := hp.isFibered
   let : q.IsFibered := hq.isFibered
-  show (isoClassEquiv G eG U)
+  change (isoClassEquiv G eG U)
     (Functor.isoClassFun (isFibredOneMorphism_of_comp_eq hq hH) U
       ((isoClassEquiv F eF U).symm ((isoClassEquiv F eF U) (Functor.isoClassMk p x)))) = _
   rw [Equiv.symm_apply_apply]
@@ -252,7 +252,7 @@ private theorem isPullback_of_pointwise_fiber_equiv
   refine ⟨?_, ?_, ?_⟩
   · ext t
     obtain ⟨c, rfl⟩ := (eK U).surjective t
-    show f.app (op U) (a.app (op U) (eK U c)) =
+    change f.app (op U) (a.app (op U) (eK U c)) =
       g.app (op U) (b.app (op U) (eK U c))
     rw [ha, hb, hf, hg]
     exact congrArg (eH U) (Functor.twoFibreProductIsoClassEquivUniv hA hB U c).2
@@ -338,7 +338,7 @@ private theorem representedMap_comp
   ext U c
   obtain ⟨c, rfl⟩ := (isoClassEquiv F eF U.unop).surjective c
   obtain ⟨x, rfl⟩ := Functor.isoClassMk_surjective c
-  show (representedMap q r hq hr G H eG eH B hB).app U
+  change (representedMap q r hq hr G H eG eH B hB).app U
     ((representedMap p q hp hq F G eF eG A hA).app U
       (isoClassEquiv F eF U.unop (Functor.isoClassMk p x))) =
     (representedMap p r hp hr F H eF eH (A ⋙ B) _).app U
@@ -476,7 +476,7 @@ private theorem exists_pullback_relocalized_composite
   let hpF := TwoFibreProductOver.isFiberedInGroupoids pV pW p y g hpV hpW hp hy hg
   have hqF : qF.IsFiberedInGroupoids := by
     apply (Functor.isFiberedInGroupoids_comp_overMap_iff a qF).mp
-    show (qF ⋙ pV).IsFiberedInGroupoids
+    change (qF ⋙ pV).IsFiberedInGroupoids
     rw [TwoFibreProductOver.fst_comp_eq]
     exact hpF
   let pK := TwoFibreProductOver.structureFunctor pF pU pW sF (Over.map j)
@@ -490,7 +490,7 @@ private theorem exists_pullback_relocalized_composite
     hpF hpU hpW TwoFibreProductOver.snd_comp_eq rfl
   have hqK : qK.IsFiberedInGroupoids := by
     apply (Functor.isFiberedInGroupoids_comp_overMap_iff a qK).mp
-    show (qK ⋙ pV).IsFiberedInGroupoids
+    change (qK ⋙ pV).IsFiberedInGroupoids
     rw [hKq]
     exact hpK
   have hqG : (TwoFibreProductOver.fst pV pU p y (Over.map j ⋙ g)).IsFiberedInGroupoids := by
@@ -517,7 +517,7 @@ private theorem exists_pullback_relocalized_composite
   · have hbF := representedMap_relocalized_fst_ofEq a qF pF
       TwoFibreProductOver.fst_comp_eq hqF hpF F eF
     rw [← hbF]
-    show l ≫ representedMap pF pV hpF hpV _ _ eF' (overMapElementsEquivalenceOver a)
+    change l ≫ representedMap pF pV hpF hpV _ _ eF' (overMapElementsEquivalenceOver a)
       qF TwoFibreProductOver.fst_comp_eq = _
     rw [representedMap_comp]
     exact representedMap_relocalized_fst_ofEq a qK pK hKq hqK hpK G eKF
@@ -614,7 +614,7 @@ private theorem points_cover_of_pullback_of_scheme_cover
   have hl : l ≫ T.map (j i) = T.map f := IsOpenImmersion.lift_fac _ _ hr
   let k : x.siteObject ⟶ U i := Over.homMk (ObjectProperty.homMk l) (by
     apply B.inclusion.map_injective
-    show l ≫ B.inclusion.map (U i).hom = B.inclusion.map x.siteObject.hom
+    change l ≫ B.inclusion.map (U i).hom = B.inclusion.map x.siteObject.hom
     have hjw := congrArg B.inclusion.map (j i).w
     have hfw := congrArg B.inclusion.map f.w
     change T.map (j i) ≫ B.inclusion.map W.hom = B.inclusion.map (U i).hom at hjw
@@ -626,7 +626,7 @@ private theorem points_cover_of_pullback_of_scheme_cover
   let y : Space.FieldValuedPoint B S hS (G i) :=
     { carrier := x.carrier, contained := x.contained, toBase := x.toBase, value := z }
   refine ⟨i, y.class, ?_⟩
-  show Quot.mk _ (Space.FieldValuedPoint.map B S hS _ (a i) y) = Quot.mk _ x
+  change Quot.mk _ (Space.FieldValuedPoint.map B S hS _ (a i) y) = Quot.mk _ x
   congr 1
   cases x
   dsimp [y, Space.FieldValuedPoint.map] at hz ⊢
@@ -718,7 +718,7 @@ private theorem isSmooth_algebraicSpaceMap_iff_relocalized
     ext T s
     exact spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app
       B V.left.1 S V.left.2 hS V.hom ⟨F, hF⟩ T s
-  show AlgebraicGeometry.Space.IsSmooth B S hS G.1.hom ↔ _
+  change AlgebraicGeometry.Space.IsSmooth B S hS G.1.hom ↔ _
   refine ⟨fun h => ?_, fun h => ?_⟩
   · rw [← he]
     exact Space.isSmooth_precomp_iso B S hS e.symm G.1.hom h

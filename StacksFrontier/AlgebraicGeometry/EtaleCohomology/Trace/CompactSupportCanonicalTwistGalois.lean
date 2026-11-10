@@ -79,7 +79,7 @@ def geometricNormalCoinvariantsEquiv (ρ : letI := connectedSpace_of_isCurve B X
             (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range.subtype) :=
   LinearEquiv.refl Λ _
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- Under `ρ_N = M_N`, the action of `γ` on `ρ_N` is the residual Galois action of its image. -/
 theorem geometricNormalCoinvariantsEquiv_galois (ρ : letI := connectedSpace_of_isCurve B X f
       FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1
@@ -127,7 +127,7 @@ def geometricNormalCoinvariantsGaloisRepresentation (ρ : letI := connectedSpace
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range).comp
     (geometricQuotientGaloisEquiv B X f kbar y).symm.toMonoidHom
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- The residual action of the image of `γ` is the action of `γ`. -/
 theorem geometricNormalCoinvariantsGaloisRepresentation_mk
     (ρ : letI := connectedSpace_of_isCurve B X f
@@ -149,6 +149,7 @@ theorem geometricNormalCoinvariantsGaloisRepresentation_mk
   rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.symm_apply_apply]
   rfl
 
+omit [Smooth f] in
 /-- Every `σ ∈ Aut_k(k̄)` is the image of some `γ ∈ π₁(X, η̄)`. -/
 theorem exists_geometricQuotientGaloisEquiv_mk_eq (σ : kbar ≃ₐ[k] kbar) :
     letI := connectedSpace_of_isCurve B X f
@@ -160,7 +161,7 @@ theorem exists_geometricQuotientGaloisEquiv_mk_eq (σ : kbar ≃ₐ[k] kbar) :
     QuotientGroup.mk_surjective ((geometricQuotientGaloisEquiv B X f kbar y).symm σ)
   exact ⟨γ, by rw [hγ, MulEquiv.apply_symm_apply]⟩
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- Under `ρ_N = M_N`, the residual action on `ρ_N` is the residual action on the coinvariants,
 for an element of `π₁(X, η̄)/N`. -/
 theorem geometricNormalCoinvariantsEquiv_galoisRepresentation_quot
@@ -187,7 +188,7 @@ theorem geometricNormalCoinvariantsEquiv_galoisRepresentation_quot
   QuotientGroup.induction_on q fun γ => by
     rw [geometricNormalCoinvariantsGaloisRepresentation_mk, geometricNormalCoinvariantsEquiv_galois]
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- **Under `ρ_N = M_N`, the residual Galois action on `ρ_N` is the Galois action
 `AlgebraicGeometry.geometricCoinvariantsGaloisRepresentation` on `M_{π₁(X_k̄, η̄)}`.** -/
 theorem geometricNormalCoinvariantsEquiv_galoisRepresentation (σ : kbar ≃ₐ[k] kbar)

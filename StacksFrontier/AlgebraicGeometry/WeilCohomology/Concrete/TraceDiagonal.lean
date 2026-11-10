@@ -209,7 +209,7 @@ theorem coe_diagonalContract_eq
     have := DiagonalExpansion.map_tensorSum
       ((TensorProduct.rid F (𝔇.H X)).toLinearMap ∘ₗ LinearMap.lTensor (𝔇.H X) φ) l
     simpa using this
-  show ((𝔇.grade X i).subtype (𝔇.projGrade X i (TensorProduct.rid F (𝔇.H X)
+  change ((𝔇.grade X i).subtype (𝔇.projGrade X i (TensorProduct.rid F (𝔇.H X)
     (LinearMap.lTensor (𝔇.H X) φ ((𝔇.kunnethEquiv hA5 X X).symm (𝔇.untwistClass X d g)))))) = _
   rw [h, hsum, map_list_sum, map_list_sum, DiagonalExpansion.coe_diagonalContract, List.map_map,
     List.map_map]

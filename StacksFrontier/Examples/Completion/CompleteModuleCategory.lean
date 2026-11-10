@@ -130,7 +130,7 @@ private theorem isAdicComplete_ker
       have hrec : AdicCompletion.of I M (eM.symm (cMap x)) = cMap x := by
         rw [← heM]; exact eM.apply_symm_apply _
       rw [hrec]
-      show ((AdicCompletion.map I f).comp (AdicCompletion.map I inc)) x = 0
+      change ((AdicCompletion.map I f).comp (AdicCompletion.map I inc)) x = 0
       rw [AdicCompletion.map_comp]
       have hcomp : f.comp inc = 0 := by ext z; exact z.property
       simp [hcomp, AdicCompletion.map_zero]
@@ -139,12 +139,12 @@ private theorem isAdicComplete_ker
   let r : AdicCompletion I K →ₗ[R] K := g.codRestrict K hzero
   have hsplit : r.comp (AdicCompletion.of I K) = LinearMap.id := by
     ext x
-    show eM.symm (AdicCompletion.map I inc (AdicCompletion.of I K x)) = x.val
+    change eM.symm (AdicCompletion.map I inc (AdicCompletion.of I K x)) = x.val
     rw [AdicCompletion.map_of]
     have hinc : AdicCompletion.of I M (inc x) = eM (inc x) :=
       (DFunLike.congr_fun heM (inc x)).symm
     rw [hinc]
-    show eM.symm (eM (inc x)) = inc x
+    change eM.symm (eM (inc x)) = inc x
     exact eM.symm_apply_apply _
   exact isAdicComplete_of_retraction (I := I) (AdicCompletion.of I K) r hsplit
     (AdicCompletion.isAdicComplete hI)
@@ -225,11 +225,11 @@ private theorem adicCompleteLift_unique
   have hx : x - AdicCompletion.of I M y ∈
       I ^ n • (⊤ : Submodule R (AdicCompletion I M)) := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval hI]
-    show AdicCompletion.eval I M n (x - AdicCompletion.of I M y) = 0
+    change AdicCompletion.eval I M n (x - AdicCompletion.of I M y) = 0
     simp [hy]
   have hmem : m (x - AdicCompletion.of I M y) ∈ I ^ n • (⊤ : Submodule R N) :=
     map_pow_smul_top_le (I := I) m n ⟨x - AdicCompletion.of I M y, hx, rfl⟩
-  show Submodule.mkQ _ (m x) =
+  change Submodule.mkQ _ (m x) =
     g.reduceModIdeal (I ^ n) (AdicCompletion.eval I M n x)
   rw [← hy, LinearMap.reduceModIdeal_apply]
   apply (Submodule.Quotient.eq _).2
@@ -269,7 +269,7 @@ theorem hasCokernels_iAdicallyCompleteModuleCat
       apply ObjectProperty.hom_ext
       apply ModuleCat.hom_ext
       refine LinearMap.ext fun y => ?_
-      show adicCompleteLift R I Q Z.obj (cokernel.desc f.hom k.hom (hk' hk)).hom
+      change adicCompleteLift R I Q Z.obj (cokernel.desc f.hom k.hom (hk' hk)).hom
           (AdicCompletion.of I Q ((cokernel.π f.hom).hom y)) = k.hom y
       rw [adicCompleteLift_of_apply]
       exact congrArg (fun e : Y.obj ⟶ Z.obj => e.hom y) (cokernel.π_desc f.hom k.hom (hk' hk))

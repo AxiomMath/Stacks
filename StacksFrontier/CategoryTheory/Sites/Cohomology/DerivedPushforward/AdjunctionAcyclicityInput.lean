@@ -122,7 +122,8 @@ variable {X Y : RingedTopos.{w, w, w}}
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (f : RingedToposSiteHom X Y)
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The exactness half of Tag 07A6's resolving datum, from one acyclicity statement.**  If
 degreewise pullback carries every *acyclic* K-flat complex of `O'`-modules with flat terms to an
 acyclic complex, then it carries every quasi-isomorphism *between* K-flat complexes with flat
@@ -208,6 +209,7 @@ noncomputable def derivedPullbackPushforwardAdjunctionOfAcyclic
   derivedPullbackPushforwardAdjunction f _ hasResolutions_isKFlat
     (pullbackInvertsQuasiIso_isKFlat_of_acyclic_pullbackComplex f hac)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The unit of `derivedPullbackPushforwardAdjunctionOfAcyclic` agrees with the ordinary
 pullback--pushforward unit after applying the canonical comparison maps. -/
 theorem derivedPullbackPushforwardAdjunctionOfAcyclic_unit_fac
@@ -228,6 +230,7 @@ theorem derivedPullbackPushforwardAdjunctionOfAcyclic_unit_fac
   derivedPullbackPushforwardAdjunction_unit_fac f _ hasResolutions_isKFlat
     (pullbackInvertsQuasiIso_isKFlat_of_acyclic_pullbackComplex f hac) M
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The counit of `derivedPullbackPushforwardAdjunctionOfAcyclic` agrees with the ordinary
 pullback--pushforward counit after applying the canonical comparison maps. -/
 theorem derivedPullbackPushforwardAdjunctionOfAcyclic_counit_fac

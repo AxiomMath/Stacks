@@ -74,6 +74,7 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on `BigFppfOver B S hS`
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_LocalRing :
@@ -86,6 +87,7 @@ local instance (priority := high) hasPullback_presheaf_LocalRing
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the `pullback` instances on presheaves on `BigFppfOver B S hS`
 /-- Two morphisms into a space over `W` which is an isomorphism over `U` agree once they agree
 over `W` through `U`. -/
 theorem eq_of_comp_eq_of_isIso_pullback_snd {X W T : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -194,7 +196,7 @@ theorem exists_isAdmissibleBlowup_dominating_of_isAffine (W : BigFppfOver B S hS
   refine ⟨schemeSpace (blowUpObj W K), schemeSpaceMap (blowUpObjHom W K),
     ⟨closedSubspaceOfIdeal W K, isFinitePresentation_closedSubspaceOfIdeal W K hKfp,
       by
-        show Disjoint (subspacePointSet B S hS (yoneda.obj W) U)
+        change Disjoint (subspacePointSet B S hS (yoneda.obj W) U)
           (subspacePointSet B S hS (yoneda.obj W) (closedSubspaceOfIdeal W K).1)
         rw [hZpts]
         exact disjoint_compl_right, hbl⟩, ?_⟩
@@ -277,7 +279,7 @@ theorem exists_isAdmissibleBlowup_dominating_of_isLocalRing {A : Type u} [CommRi
     exists_isAdmissibleBlowup_dominating_of_isAffine (FormalSpace.affineOver B S hS hA s) U₀ X
       hX.source_isAlgebraicSpace hf
   refine ⟨S', b, ⟨Z, hZfp, ?_, hZbl⟩, g, hg⟩
-  show Disjoint (subspacePointSet B S hS (yoneda.obj (FormalSpace.affineOver B S hS hA s))
+  change Disjoint (subspacePointSet B S hS (yoneda.obj (FormalSpace.affineOver B S hS hA s))
       (openSubspaceOfPoints B S hS (yoneda.obj (FormalSpace.affineOver B S hS hA s))
       (FormalSpace.zeroLocusPoints B S hS hA s (IsLocalRing.maximalIdeal A))ᶜ))
     (subspacePointSet B S hS (yoneda.obj (FormalSpace.affineOver B S hS hA s)) Z.1)

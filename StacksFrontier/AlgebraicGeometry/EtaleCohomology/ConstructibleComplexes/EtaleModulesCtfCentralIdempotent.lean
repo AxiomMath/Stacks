@@ -102,7 +102,7 @@ identity. -/
 theorem idempotentPartι_π (hp : p ≫ p = p) (A : C) :
     (idempotentPartι p).app A ≫ (idempotentPartπ hp).app A = 𝟙 _ := by
   refine (cancel_mono (kernel.ι (𝟙 A - p.app' A))).1 ?_
-  show (kernel.ι _ ≫ kernel.lift (𝟙 A - p.app' A) (p.app' A) _) ≫ kernel.ι _ = 𝟙 _ ≫ kernel.ι _
+  change (kernel.ι _ ≫ kernel.lift (𝟙 A - p.app' A) (p.app' A) _) ≫ kernel.ι _ = 𝟙 _ ≫ kernel.ι _
   rw [Category.assoc, kernel.lift_ι, Category.id_comp]
   exact kernel_ι_comp_app_eq A
 
@@ -162,6 +162,7 @@ theorem idempotentPart_preservesFiniteColimits (hp : p ≫ p = p) :
 
 section Transport
 
+omit [Abelian C] in
 /-- **A left adjoint commutes with natural endomorphisms of the identity which its right adjoint
 commutes with.** If `R` carries `β` to `α`, then `L` carries `α` to `β`. -/
 theorem map_app_of_adjunction {D : Type*} [Category* D] {L : C ⥤ D} {R : D ⥤ C} (adj : L ⊣ R)
@@ -231,6 +232,7 @@ def idempotentDecompositionIso (hq : ∀ i, q i ≫ q i = q i) (ho : ∀ i j, i 
       rw [← Category.assoc, h0, zero_comp]
     · simp
 
+omit [DecidableEq ι] in
 /-- The decomposition `CategoryTheory.idempotentDecompositionIso` is natural in the object. -/
 theorem idempotentDecompositionIso_hom_naturality (hq : ∀ i, q i ≫ q i = q i)
     (ho : ∀ i j, i ≠ j → q i ≫ q j = 0) (hs : ∑ i, q i = 𝟙 (𝟭 C)) {A B : C} (f : A ⟶ B) :
@@ -284,7 +286,7 @@ theorem sheafCentralEndo_idem {D : Type*} [Category* D] (J : GrothendieckTopolog
     (he : IsIdempotentElem e) (hc : ∀ a : Λ, a * e = e * a) :
     sheafCentralEndo e hc J ≫ sheafCentralEndo e hc J = sheafCentralEndo e hc J := by
   ext F U m
-  show e • e • m = e • m
+  change e • e • m = e • m
   rw [smul_smul, he.eq]
 
 /-- **The primary decomposition of a finite ring.** A finite ring `Λ` carries a complete family
@@ -322,13 +324,13 @@ theorem exists_primary_completeOrthogonalIdempotents (Λ : Type r) [Ring Λ] [Fi
   · have : ψ (e₀ i) = (((e₀ i).val : ℕ) : Λ) := by
       have : NeZero (∏ i, q i) := ⟨by rw [hprod]; exact hn0⟩
       exact ZMod.cast_eq_val (e₀ i)
-    show x * ψ (e₀ i) = ψ (e₀ i) * x
+    change x * ψ (e₀ i) = ψ (e₀ i) * x
     rw [this]
     exact (Nat.cast_commute _ x).symm.eq
   · have h0 : ((q i : ℕ) : ZMod (∏ j, q j)) * e₀ i = 0 := by
       apply (ZMod.prodEquivPi q hcop).injective
       rw [map_mul, map_zero, map_natCast]
-      show (q i : ∀ j, ZMod (q j)) * (ZMod.prodEquivPi q hcop) (φ (Pi.single i 1)) = 0
+      change (q i : ∀ j, ZMod (q j)) * (ZMod.prodEquivPi q hcop) (φ (Pi.single i 1)) = 0
       rw [show (ZMod.prodEquivPi q hcop) (φ (Pi.single i 1)) = Pi.single i 1 from
         (ZMod.prodEquivPi q hcop).apply_symm_apply _]
       ext j

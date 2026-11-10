@@ -347,7 +347,7 @@ theorem exists_lift_hom_of_isSmooth
     (isSmooth_elementsBasedFunctor_iff H.source).1 hH.1 f hf
       (H.evaluationArrowEquiv A ((evaluationMap H f).obj xB) zA σ).1 xB hα.1
   have hz : (evaluationMap H f).obj (H.target.app B β) = zA := by
-    show H.objects.map f (H.target.app B β) = zA
+    change H.objects.map f (H.target.app B β) = zA
     rw [← NatTrans.naturality_apply H.target f β, hβmap]
     exact hα.2
   refine ⟨H.target.app B β, hz, H.arrowOfElem B xB (H.target.app B β) β hβsrc rfl, ?_⟩

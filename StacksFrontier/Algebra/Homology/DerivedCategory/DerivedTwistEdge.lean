@@ -84,7 +84,7 @@ theorem rightDerivedFunctorPlus_natTrans_ext (F : C ⥤ D) [F.Additive]
     intro γ
     simp only [mapCochainComplexPlusDerivedUnit_app, Category.assoc, Iso.hom_inv_id_app_assoc]
     exact (nat_conj _ γ _).trans (Category.assoc _ _ _)
-  show F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
+  change F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
       α.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient C).obj K)) =
     F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
       β.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient C).obj K))
@@ -173,7 +173,7 @@ theorem mapCochainComplexPlusDerivedUnit_app_comp_compIsoOfIso_hom (F : C ⥤ D)
     F G H e K
   have h2 := mapCochainComplexPlusDerivedUnit_comp F G (rightDerivedFunctorPlusComp F G)
     (rightDerivedFunctorPlusComp_fac F G) K
-  show (mapCochainComplexPlusDerivedUnit H).app K ≫
+  change (mapCochainComplexPlusDerivedUnit H).app K ≫
       (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso F G H e).inv.app
           (DerivedCategory.Plus.Q.obj K) ≫
         (rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Q.obj K) = _
@@ -369,7 +369,7 @@ theorem homologyMap_derivedTwistEndo_single (M : C) (τ : M ⟶ P.obj M) (i : �
     dsimp only [derivedTwistEndo, Functor.comp_map] at hnat ⊢
     rw [Functor.map_comp]
     exact paste_aux hnat
-  show (DerivedCategory.Plus.homologyFunctor E i).map
+  change (DerivedCategory.Plus.homologyFunctor E i).map
       (c₁.hom.app (DerivedCategory.Plus.Q.obj K) ≫
         derivedTwistEndo P F₁ F₂ θ K (singleTwist P τ) ≫
         c₁.inv.app (DerivedCategory.Plus.Q.obj K)) = _

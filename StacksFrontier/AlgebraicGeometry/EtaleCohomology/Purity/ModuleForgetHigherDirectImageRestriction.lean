@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Purity.ModuleForgetRightDerivedDirectImageNaturality
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Purity.ModuleForgetRightDerivedDirectImageNaturality
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.EtaleBaseChange
 
 /-!

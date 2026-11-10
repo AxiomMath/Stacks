@@ -87,7 +87,7 @@ theorem mate_exactPairingUnit (f : 𝟙_ C ⟶ 𝟙_ C) :
     mate exactPairingUnit exactPairingUnit f = f :=
   (eq_mate exactPairingUnit exactPairingUnit f f
     (by
-      show f ▷ 𝟙_ C ≫ (ρ_ (𝟙_ C)).hom = 𝟙_ C ◁ f ≫ (ρ_ (𝟙_ C)).hom
+      change f ▷ 𝟙_ C ≫ (ρ_ (𝟙_ C)).hom = 𝟙_ C ◁ f ≫ (ρ_ (𝟙_ C)).hom
       rw [MonoidalCategory.rightUnitor_naturality, ← MonoidalCategory.unitors_equal,
         MonoidalCategory.leftUnitor_naturality, MonoidalCategory.unitors_equal])).symm
 

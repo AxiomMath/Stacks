@@ -87,7 +87,7 @@ theorem hasInjectiveResolutions_modules (W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
     (hW : IsAlgebraicSpace B S hS W) :
     HasInjectiveResolutions (Modules.{u, u} B S hS W hW) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS W hW).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS W)
+    change EssentiallySmall.{u} (SmallEtale B S hS W)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS W hW) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

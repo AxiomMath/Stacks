@@ -177,7 +177,7 @@ public theorem ofHom_of_comp_fShriekStalkIso_openCovariance
           ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s) F.obj))
             (openFiberPoint B j f s y)) := by
   refine ConcreteCategory.hom_ext _ _ fun w => ?_
-  show (finiteSupportStalkIso.{u, max (u + 1) v} B f s F (fun _ => inferInstance)).hom
+  change (finiteSupportStalkIso.{u, max (u + 1) v} B f s F (fun _ => inferInstance)).hom
       ((etaleStalkFShriekFunctorIso.{u, v} B f s F).hom
         (((geometricPointSitePoint B Y.obj Y.property s).sheafFiber
               (A := AddCommGrpCat.{max (u + 1) v})).map

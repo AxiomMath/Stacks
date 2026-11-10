@@ -382,7 +382,7 @@ theorem isQuasiCompactMorphism_objectsToStage
       (StacksRepresentableCFG.EquivalenceOver.refl _)
       (StacksRepresentableCFG.EquivalenceOver.refl _)).2
       (by
-        show Space.IsQuasiCompact B S hS (representingMap B S hS _ _ _ _ _ _ _)
+        change Space.IsQuasiCompact B S hS (representingMap B S hS _ _ _ _ _ _ _)
         rw [representingMap_associatedMap]
         exact hUqc))
 

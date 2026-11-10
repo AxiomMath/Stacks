@@ -124,6 +124,7 @@ theorem isIntegralHom_yoneda_map_chartRelativeSpecSiteToChart
 end Chart
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 instance hasPullbacks_presheaf_NormalizationInChartRelativeSpecIntegral

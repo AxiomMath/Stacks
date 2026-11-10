@@ -177,7 +177,7 @@ theorem exists_geometricPointLift_preimage {X Y : AlgebraicSpaces B S hS} (g : Y
   have hmem : t.1 ∈ (Uo.preimage g.hom).obj (op (x.val.siteObject B S hS X.1)) := by
     have h := t.2
     change g.hom.app _ t.1 = x.val.value at h
-    show g.hom.app _ t.1 ∈ Uo.obj _
+    change g.hom.app _ t.1 ∈ Uo.obj _
     rw [h]
     exact value_mem_of_geometricPointLift B S hS Uo hUo u
   exact ⟨⟨⟨t.1, hmem⟩, rfl⟩, ⟨⟨t.1, hmem⟩, Subtype.ext (t.2.trans u.2.symm)⟩, rfl⟩

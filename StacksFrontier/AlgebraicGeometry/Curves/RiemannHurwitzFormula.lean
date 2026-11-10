@@ -351,7 +351,7 @@ theorem finrank_sections_kaehlerDifferent_subscheme_eq_finsum_isClosed
       (IsCurve.topologicalKrullDim_eq_one (f := pX))
       (fun h ↦ hη (h ▸ (mem_supp_relativeDifferentials_iff f x).mpr hx))
   rw [finrank_sections_subscheme_eq_finsum pX R]
-  show ∑ᶠ z : R.subscheme, F (R.subschemeι z) = ∑ᶠ x : {x : X // IsClosed ({x} : Set X)}, F x.1
+  change ∑ᶠ z : R.subscheme, F (R.subschemeι z) = ∑ᶠ x : {x : X // IsClosed ({x} : Set X)}, F x.1
   calc ∑ᶠ z : R.subscheme, F (R.subschemeι z)
       = ∑ᶠ x ∈ Set.range R.subschemeι, F x :=
         (finsum_mem_range R.subschemeι.isClosedEmbedding.injective).symm

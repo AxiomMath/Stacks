@@ -52,7 +52,7 @@ omit [IsDomain R] [FaithfulSMul R B] in
 theorem exists_dvd_algebraMap [Algebra.IsAlgebraic R B] {f : B} (hf : f ≠ 0) :
     ∃ r : R, r ≠ 0 ∧ f ∣ algebraMap R B r := by
   obtain ⟨r, hr, hr0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot <|
-    Ideal.comap_ne_bot_of_algebraic_mem (I := Ideal.span {f}) hf
+    Ideal.under_ne_bot_of_algebraic_mem (I := Ideal.span {f}) hf
       (Ideal.mem_span_singleton_self f) (Algebra.IsAlgebraic.isAlgebraic (R := R) f)
   exact ⟨r, hr0, Ideal.mem_span_singleton.mp hr⟩
 
@@ -76,7 +76,7 @@ private theorem isIntegral_loc_of_forall_isIntegral {h : R}
   have hinv : IsLocalization.mk' (Loc B h) (1 : B) ⟨m, hm⟩ =
       algebraMap (Localization.Away h) (Loc B h) ↑v⁻¹ := by
     rw [IsLocalization.mk'_eq_iff_eq_mul, map_one]
-    show (1 : Loc B h) = _ * algebraMap B (Loc B h) m
+    change (1 : Loc B h) = _ * algebraMap B (Loc B h) m
     rw [← hmn, ← IsScalarTower.algebraMap_apply,
       IsScalarTower.algebraMap_apply R (Localization.Away h) (Loc B h), map_pow, ← hv,
       ← map_mul, Units.inv_mul, map_one]

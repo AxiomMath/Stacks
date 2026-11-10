@@ -281,7 +281,7 @@ private theorem fiberBaseChangeSupportArrow_restriction :
       fiberBaseChangeOpenRestrictionMap.{u, v} B p f' f g sq i F E ≫
         fiberBaseChangeSupportArrow B p f' f g sq V E := by
   refine baseChangeObj_hom_ext B p ?_
-  show ((fiberBaseChangeSupportArrow B p f' f g sq V₁
+  change ((fiberBaseChangeSupportArrow B p f' f g sq V₁
         (finiteSupportBaseChange B f F i E).support).hom.left ≫
       ((smallEtaleBaseChange B p).map
         (finiteSupportBaseChange B f F i E).openMap).hom.left) ≫ _ =

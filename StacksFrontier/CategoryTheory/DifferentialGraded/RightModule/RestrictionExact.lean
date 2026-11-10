@@ -100,7 +100,7 @@ theorem isStrictKShift_rightModuleShiftAxiomB (C : DGCategory.{v, u} R) :
 `F^*(M⟦n⟧) = (F^* M)⟦n⟧` on modules, its counterpart on homogeneous morphisms, and the
 compatibility with the identifications `Hom(M, N)^{k + n} ≃ Hom(M, N⟦n⟧)^k` of axiom (B). All
 three hold by reflexivity. -/
-def commShiftB_restrictDGFunctor (F : DGFunctor E C) :
+theorem commShiftB_restrictDGFunctor (F : DGFunctor E C) :
     (restrictDGFunctor.{w} F).CommShiftB (rightModuleShiftAxiomB.{w} C)
       (rightModuleShiftAxiomB.{w} E) where
   obj _ _ := rfl
@@ -110,7 +110,7 @@ def commShiftB_restrictDGFunctor (F : DGFunctor E C) :
 /-- The commutation of restriction with the shift, together with the two coherences of the
 comparison isomorphisms with the `ℤ`-action data of the translations; the latter are supplied
 by the strictness of those translations. -/
-def commShiftK_restrictDGFunctor (F : DGFunctor E C) :
+theorem commShiftK_restrictDGFunctor (F : DGFunctor E C) :
     (restrictDGFunctor.{w} F).CommShiftK (rightModuleShiftAxiomB.{w} C)
       (rightModuleShiftAxiomB.{w} E) :=
   DGFunctor.CommShiftK.ofCommShiftB (commShiftB_restrictDGFunctor.{w} F)

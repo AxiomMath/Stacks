@@ -241,7 +241,7 @@ theorem hasSchemeChartAt_of_isClosed (hP2 : DivisorLiftAtClosedFibre B hZ)
   have hrel₁' : Space.IsRelativeEffectiveCartierDivisor B integerBase hZ Y₂.toBase D₁' :=
     isRelativeEffectiveCartierDivisor_preimage_totalMap φ₂ het₂ D₁ hrel₁
   have hpre₁' : D₁'.1.preimage q₂ = (Space.closedSubspaceOfIdeal V E₁).1 := by
-    show (D₁.1.preimage φ₂.totalMap.hom).preimage q₂ = _
+    change (D₁.1.preimage φ₂.totalMap.hom).preimage q₂ = _
     rw [← Subfunctor.preimage_comp, hq₂, hpre₁]
   -- the base of `Y₂` is locally Noetherian
   have hn₂ : IsLocallyNoetherian (T.obj Y₂.base) :=

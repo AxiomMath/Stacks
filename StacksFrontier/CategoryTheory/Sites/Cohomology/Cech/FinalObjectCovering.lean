@@ -219,10 +219,10 @@ theorem freeCechComplex_exactAt (n : ℕ) (hn : 0 < n) : (freeCechComplex U R).E
       have : IsEmpty (V.unop ⟶ (cechNerve U).obj (op ⦋n⦌)) :=
         ⟨fun x => hV.false (x ≫ cechπ U n 0)⟩
       refine @ModuleCat.isZero_of_subsingleton _ _ _ ?_
-      show Subsingleton ((V.unop ⟶ (cechNerve U).obj (op ⦋n⦌)) →₀ R.obj V)
+      change Subsingleton ((V.unop ⟶ (cechNerve U).obj (op ⦋n⦌)) →₀ R.obj V)
       infer_instance
     · let ed := (homCechNerveExtraDegeneracy U g₀).map (ModuleCat.free (R.obj V))
-      show (AlternatingFaceMapComplex.obj (SimplicialObject.Augmented.drop.obj
+      change (AlternatingFaceMapComplex.obj (SimplicialObject.Augmented.drop.obj
         (((SimplicialObject.Augmented.whiskering (Type u) (ModuleCat (R.obj V))).obj
           (ModuleCat.free (R.obj V))).obj (homCechNerve U V.unop)))).ExactAt n
       rw [exactAt_iff_of_quasiIsoAt ed.homotopyEquiv.hom n]
@@ -343,7 +343,7 @@ theorem cechComplex_exactAt_of_injective [Injective M] (n : ℕ) (hn : 0 < n) :
   let ψ : (freeCechComplex U R).X m ⟶ M := hS.descToInjective φ hφ
   have hψ : (freeCechComplex U R).d (m + 1) m ≫ ψ = φ := hS.comp_descToInjective φ hφ
   refine ⟨freeYonedaAddEquiv R M _ ψ, ?_⟩
-  show (cechComplex U M.presheaf).d m (m + 1) (freeYonedaAddEquiv R M _ ψ) = x
+  change (cechComplex U M.presheaf).d m (m + 1) (freeYonedaAddEquiv R M _ ψ) = x
   rw [← freeYonedaAddEquiv_d_comp, hψ]
   exact (freeYonedaAddEquiv R M _).apply_symm_apply x
 

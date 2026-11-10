@@ -148,7 +148,7 @@ theorem isLocallySurjective_source_pullback_snd
   refine ⟨pbSection f.toGroupoidHom.mapObjects K.target (Opposite.op V) a e (by
     rw [ha]
     exact (K.evaluationArrowEquiv (Opposite.op V) yV yV (𝟙 yV)).2.2.symm), ?_⟩
-  show K.source.app (Opposite.op V)
+  change K.source.app (Opposite.op V)
     ((pullback.snd f.toGroupoidHom.mapObjects K.target).app (Opposite.op V)
       (pbSection f.toGroupoidHom.mapObjects K.target (Opposite.op V) a e _)) =
     K.objects.map i.op y
@@ -214,7 +214,7 @@ private lemma quotientMapUnderlying_point
       (pointwiseToQuotientStackFiber H U).obj
         (f.toGroupoidHom.mapObjects.app (Opposite.op U) a) := by
   apply Subtype.ext
-  show (pointwiseToQuotientStack H).obj
+  change (pointwiseToQuotientStack H).obj
     ⟨U, ((quotientPointwiseMapData f).val.app ⟨Opposite.op U⟩).toFunctor.obj a⟩ = _
   rw [(quotientPointwiseMapData f).property.1 U]
   rfl
@@ -242,7 +242,7 @@ private lemma exists_arrow_of_presented_iso
     (Functor.pullbackFiberIdIso x).inv ≫ n ≫ (Functor.pullbackFiberIdIso y).hom
   let g := k.1.down
   have hg : g.base = 𝟙 U := by
-    show (quotientPrestack G).p.map k.1 = 𝟙 U
+    change (quotientPrestack G).p.map k.1 = 𝟙 U
     exact (@IsHomLift.eq_of_isHomLift _ _ _ _ (quotientPrestack G).p x.1 y.1 (𝟙 U) k.1 k.2).symm
   have ga : (show G.toGroupoidInFunctors.Evaluation (Opposite.op U) from a) ⟶ b := by
     have h := g.fiber
@@ -268,7 +268,7 @@ private lemma exists_pullback_section
   refine ⟨yonedaEquiv (pullback.lift (yonedaEquiv.symm a) (yonedaEquiv.symm r) (by
     apply yonedaEquiv.injective
     simpa only [yonedaEquiv_comp, Equiv.apply_symm_apply] using h)), ?_⟩
-  show H.source.hom.app (Opposite.op U)
+  change H.source.hom.app (Opposite.op U)
     ((pullback.snd g.hom H.target.hom).app (Opposite.op U) (yonedaEquiv _)) = _
   rw [← yonedaEquiv_comp, pullback.lift_snd, Equiv.apply_symm_apply]
 
@@ -352,7 +352,7 @@ private lemma locallyEssSurjOnFibers_toQuotientStack_comp_iff
       have : P.p.IsHomLift (𝟙 (P.p.obj x)) (eCounit.hom.app x) := hc
       have hm := Functor.isHomLift_map_of_comp_eq (bToQG.comp bF).w
         (𝟙 (P.p.obj x)) (eCounit.hom.app x)
-      show (quotientStack H).p.IsHomLift (𝟙 (P.p.obj x))
+      change (quotientStack H).p.IsHomLift (𝟙 (P.p.obj x))
         (bF.map (bToQG.map (eCounit.hom.app x)))
       exact hm)
   let e₅Ord := Functor.leftUnitor (bToQG.toFunctor ⋙ bF.toFunctor)

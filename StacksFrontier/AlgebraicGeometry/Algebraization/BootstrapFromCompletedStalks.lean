@@ -162,7 +162,7 @@ variable [IsLocallyNoetherian X] (q : PrimeSpectrum (AdicCompletion (I.ideal ⟨
   (hqI : (I.ideal ⟨U, hU⟩).map
     (algebraMap Γ(X, U) (AdicCompletion (I.ideal ⟨U, hU⟩) Γ(X, U))) ≤ q.asIdeal)
 
-omit [IsLocallyNoetherian X] in
+omit [IsNoetherianRing Γ(X, U)] [IsLocallyNoetherian X] in
 /-- The extension of `I₀` to `A_𝔮`, mapped along the identity of `A_𝔮`, is the extension of `IA`
 along `A → A_𝔮`. -/
 theorem map_refl_map_map_completedAffine :
@@ -215,7 +215,7 @@ theorem completedAffineRingEquiv_algebraMap (a : Γ(X, U)) :
     (RingEquiv.refl (Localization.AtPrime q.asIdeal)) (map_refl_map_map_completedAffine hU q))
       (h1.trans h2)).trans h3
 
-omit [IsLocallyNoetherian X] in
+omit [IsNoetherianRing Γ(X, U)] [IsLocallyNoetherian X] in
 include hqI in
 /-- The stalk of `ℐ` at the point under `𝔮` lies in the maximal ideal. -/
 theorem stalk_le_maximalIdeal_completedAffinePoint :
@@ -473,7 +473,7 @@ theorem enatToEInt_gt_of_natCast_lt {s : ℕ} {d : ℕ∞} (h : (s : ℕ∞) < d
   cases d using ENat.recTopCoe with
   | top => exact Stacks.LocalCohomology.eint_natCast_lt_top s
   | coe n =>
-    show ((s : ℤ) : EInt) < ((n : ℤ) : EInt)
+    change ((s : ℤ) : EInt) < ((n : ℤ) : EInt)
     exact WithBotTop.coe_lt_coe.mpr (by exact_mod_cast h)
 
 include hε hπ he in

@@ -91,7 +91,7 @@ theorem algebraMap_chartAlgebra {T Y : Scheme.{u}} (p : Y ⟶ T) {T₀ : T.Opens
     letI := chartAlgebra p hUT eC
     algebraMap C Γ(Y, U) (eC x) = (p.appLE T₀ U hUT).hom x := by
   let := chartAlgebra p hUT eC
-  show ((p.appLE T₀ U hUT).hom.comp (eC.symm : C →+* Γ(T, T₀))) (eC x) = _
+  change ((p.appLE T₀ U hUT).hom.comp (eC.symm : C →+* Γ(T, T₀))) (eC x) = _
   simp
 
 /-- **The chart algebra is of finite type over `C`** when `p` is locally of finite type: the map
@@ -293,7 +293,7 @@ theorem exists_affineOpen_le_preimage_fiberι {T₀ : T.Opens} (ht : t ∈ T₀)
     (x : p.fiber t) (hx : x ∈ p.fiberι t ⁻¹ᵁ O) :
     ∃ U : Y.Opens, IsAffineOpen U ∧ U ≤ p ⁻¹ᵁ T₀ ∧ U ≤ O ∧ x ∈ p.fiberι t ⁻¹ᵁ U := by
   have hxT : p.fiberι t x ∈ (p ⁻¹ᵁ T₀ : Set Y) := by
-    show p (p.fiberι t x) ∈ T₀
+    change p (p.fiberι t x) ∈ T₀
     rw [base_fiberι p t x]
     exact ht
   obtain ⟨V, ⟨A, hA, rfl⟩, hxA, hAO⟩ :=
@@ -609,7 +609,7 @@ theorem toSourceHom_cast_eq (a : PresentedChart p T₀ C eC) (z : MvPolynomial (
       (chartPresentationOfHom p t b hr hfst hsnd hT₀ hW₀ hW₀T hrW eC sigma eD hD I hI hsurj
         a).toSourceHom := by
     refine MvPolynomial.ringHom_ext (fun d => ?_) (fun i => ?_)
-    · show ((p.fiber t).presheaf.map (homOfLE hpre.ge).op).hom
+    · change ((p.fiber t).presheaf.map (homOfLE hpre.ge).op).hom
           ((chartPresentationOfHom p t b' hr' hfst' hsnd' hT₀ hW₀' hW₀'T hrW' eC sigma' eD' hD'
             I hI' hsurj' a).toSourceHom (MvPolynomial.C d)) = _
       have hmorR :
@@ -644,7 +644,7 @@ theorem toSourceHom_cast_eq (a : PresentedChart p T₀ C eC) (z : MvPolynomial (
           appLE_chart_right p t b hsnd hT₀ hW₀ a.isAffineOpen hW₀T a.le_preimage hrW,
           CommRingCat.comp_apply]
       rw [hR, hL, hsource d]
-    · show ((p.fiber t).presheaf.map (homOfLE hpre.ge).op).hom
+    · change ((p.fiber t).presheaf.map (homOfLE hpre.ge).op).hom
           ((chartPresentationOfHom p t b' hr' hfst' hsnd' hT₀ hW₀' hW₀'T hrW' eC sigma' eD' hD'
             I hI' hsurj' a).toSourceHom (MvPolynomial.X i)) = _
       have hmorR :
@@ -728,8 +728,6 @@ def chartQuotientPresentationHomOfPresentedCharts (a k : PresentedChart p T₀ C
     (fun z => by
       let := sigma.toAlgebra
       exact equiv_restrict_chartQuotientPresentationOfPullbackChart p t b r j hr hfst hsnd
-        hT₀ hW₀ a.isAffineOpen hW₀T a.le_preimage hrW
-        (pullbackChart p b hT₀ hW₀ a.isAffineOpen hW₀T a.le_preimage) rfl
         hT₀ hW₀ a.isAffineOpen k.isAffineOpen hW₀T a.le_preimage k.le_preimage hrW
         (pullbackChart p b hT₀ hW₀ a.isAffineOpen hW₀T a.le_preimage)
         (pullbackChart p b hT₀ hW₀ k.isAffineOpen hW₀T k.le_preimage) rfl rfl hUU
@@ -743,8 +741,6 @@ def chartQuotientPresentationHomOfPresentedCharts (a k : PresentedChart p T₀ C
     (fun z => by
       let := sigma'.toAlgebra
       exact equiv_restrict_chartQuotientPresentationOfPullbackChart p t b' r' j' hr' hfst' hsnd'
-        hT₀ hW₀' a.isAffineOpen hW₀'T a.le_preimage hrW'
-        (pullbackChart p b' hT₀ hW₀' a.isAffineOpen hW₀'T a.le_preimage) rfl
         hT₀ hW₀' a.isAffineOpen k.isAffineOpen hW₀'T a.le_preimage k.le_preimage hrW'
         (pullbackChart p b' hT₀ hW₀' a.isAffineOpen hW₀'T a.le_preimage)
         (pullbackChart p b' hT₀ hW₀' k.isAffineOpen hW₀'T k.le_preimage) rfl rfl hUU

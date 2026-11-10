@@ -98,7 +98,7 @@ lemma gen_map_genMk (U : C') (X : C'ᵒᵖ) (f : X.unop ⟶ U) :
         (FreeAbelianGroup.of (ULift.up f) : (freeRepresentable.{u', v', max r w} U).obj X) := by
   have hfree : (freeRepresentable.{u', v', max r w} U).map f.op
       (FreeAbelianGroup.of (ULift.up (𝟙 U))) = FreeAbelianGroup.of (ULift.up f) := by
-    show FreeAbelianGroup.map
+    change FreeAbelianGroup.map
       (fun a : ULift.{max u' v' r w} (U ⟶ U) => ULift.up (f ≫ a.down))
       (FreeAbelianGroup.of (ULift.up (𝟙 U))) = _
     rw [FreeAbelianGroup.map_of_apply]
@@ -203,7 +203,7 @@ lemma fromGenCoproduct_app_ι (m : M.Elements) :
         (genMk.{r, w, v', u'} R m.1.unop)) = m.2 :=
   (ConcreteCategory.congr_hom
     ((PresheafOfModules.evaluation R m.1 ⋙ forget _).congr_map
-      (Sigma.ι_desc (fun m : M.Elements => fromGen.{r, w, v', u'} R m.1.unop m.2) m))
+      (Sigma.ι_comp_desc (fun m : M.Elements => fromGen.{r, w, v', u'} R m.1.unop m.2) m))
     (genMk.{r, w, v', u'} R m.1.unop)).trans
     (fromGen_app_genMk.{r, w, v', u'} R m.1.unop m.2)
 

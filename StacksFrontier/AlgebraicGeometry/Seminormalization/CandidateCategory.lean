@@ -157,7 +157,7 @@ theorem comp {Z : Scheme.{u}} (hY : IsSeminormalizationCandidate X Y) (g : Z ⟶
   refine (isSeminormalizationCandidate_iff (Over.mk (g ≫ Y.hom))).mpr ⟨?_, fun z => ?_⟩
   · exact hasTwoOutOfThreeProperty_universalHomeomorphism.comp_mem g Y.hom hg
       hY.universalHomeomorphism
-  · show IsIso ((g ≫ Y.hom).residueFieldMap z)
+  · change IsIso ((g ≫ Y.hom).residueFieldMap z)
     rw [Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' (hY.isIso_residueFieldMap (g.base z)) (hgres z)
 
@@ -181,7 +181,7 @@ theorem isSeminormalizationCandidate_pullback {U : Scheme.{u}} (f : U ⟶ X)
       (IsPullback.of_hasPullback f Y.obj.hom).flip
       (IsSeminormalizationCandidate.universalHomeomorphism
         Y.property).universally_isHomeomorph
-  · show IsIso ((pullback.fst f Y.obj.hom).residueFieldMap z)
+  · change IsIso ((pullback.fst f Y.obj.hom).residueFieldMap z)
     refine isIso_residueFieldMap_of_comp _ f z inferInstance ?_
     rw [pullback.condition, Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso'

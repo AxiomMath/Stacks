@@ -88,7 +88,7 @@ surjective. -/
 public theorem normVal_spec {v : Place K} (hv : v.IsDiscrete) :
     v.normVal.valuationSubring = v.1 ∧ Function.Surjective v.normVal := by
   classical
-  simp only [normVal, dif_pos hv]
+  simp only [normVal, dite_eq_left hv]
   exact hv.choose_spec
 
 /-- Any surjective `ℤᵐ⁰`-valued valuation with valuation subring `v` is the normalized valuation

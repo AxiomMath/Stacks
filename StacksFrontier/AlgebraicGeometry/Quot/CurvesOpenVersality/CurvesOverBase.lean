@@ -258,7 +258,7 @@ private theorem curveOverS_relativeDimensionLE
     relativeDimensionLE_of_arrowIso B integerBase hZ
       (curveOverS_spaceFamily_arrowIso B hZ S hS X)
       X.left.relativeDimensionLE
-  show Space.HasRelativeDimensionLE 1 B S hS C.hom
+  change Space.HasRelativeDimensionLE 1 B S hS C.hom
   exact relativeDimensionLE_of_relocalize B S integerBase hS hZ g f hR
 
 private noncomputable def curveOverS_asProperFlatCurve
@@ -365,7 +365,7 @@ private theorem curveOverS_totalToBase_naturality
   have hc := curveOverS_totalMap_comp_curveToBase B hZ S hS f
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
-  show f.left.totalMap.hom ≫
+  change f.left.totalMap.hom ≫
       (curveToBase Y.left ≫ yoneda.map iY.inv) =
     (curveToBase X.left ≫ yoneda.map iX.inv) ≫
       (schemeSpaceOverLargerBaseMap B S integerBase hS hZ g b).hom.left
@@ -482,9 +482,9 @@ private theorem isPullback_spaces_iff
       (AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct B S hS h i)
     let e' := (ObjectProperty.ι _).mapIso e
     apply IsPullback.of_iso_pullback ⟨congrArg (fun k => k.hom) hp.w⟩ e'
-    · show (e.hom ≫ ObjectProperty.homMk (pullback.fst h.hom i.hom)).hom = f.hom
+    · change (e.hom ≫ ObjectProperty.homMk (pullback.fst h.hom i.hom)).hom = f.hom
       simp [e]
-    · show (e.hom ≫ ObjectProperty.homMk (pullback.snd h.hom i.hom)).hom = g.hom
+    · change (e.hom ≫ ObjectProperty.homMk (pullback.snd h.hom i.hom)).hom = g.hom
       simp [e]
   · exact IsPullback.of_map_of_faithful (ObjectProperty.ι _)
 
@@ -499,7 +499,7 @@ private theorem spaceFamily_stronglyCartesian_of_isPullback
       (ObjectProperty.homMk (pullback.lift A.hom m.left.hom m.w.symm) :
         A.left ⟶ AlgebraicSpaces.fiberProduct B S hS
           (schemeSpaceMap m.right) (ObjectProperty.homMk C.hom)) = e.hom := by
-    show pullback.lift A.hom m.left.hom m.w.symm = e.hom
+    change pullback.lift A.hom m.left.hom m.w.symm = e.hom
     apply pullback.hom_ext
     · simp only [e, pullback.lift_fst, IsPullback.isoPullback_hom_fst]
     · simp only [e, pullback.lift_snd, IsPullback.isoPullback_hom_snd]
@@ -531,7 +531,7 @@ private theorem spaceFamilyOfLargerBaseMap_isPullback
     AlgebraicGeometry.IsAlgebraicSpace B S' hS' Y.left) ⋙ Over.forget _
   have hp₀ : IsPullback m a a' (schemeSpaceOverLargerBaseMap B S S' hS hS' g b) := by
     apply IsPullback.of_map H hm
-    show IsPullback m.hom.left a.hom.left a'.hom.left
+    change IsPullback m.hom.left a.hom.left a'.hom.left
       (schemeSpaceOverLargerBaseMap B S S' hS hS' g b).hom.left
     rw [schemeSpaceOverLargerBaseMap_left]
     exact hp
@@ -659,7 +659,7 @@ private theorem relocalizedChartHom_comm
   have hb : (Over.map g).map h' ≫ (relocalizedChartIso g b).hom =
       (relocalizedChartIso g a).hom ≫ h := by
     apply Over.OverMorphism.ext
-    show h.left ≫ 𝟙 _ = 𝟙 _ ≫ h.left
+    change h.left ≫ 𝟙 _ = 𝟙 _ ≫ h.left
     simp
   apply R.map_injective
   apply (cancel_epi (relocalizedYonedaIso g (relocalizedChartBase g a)).hom).mp
@@ -785,7 +785,7 @@ private theorem separated_relocalize
   have hq : Q (R.map (pullback.diagonal f.hom)) :=
     presheaf_property_relocalize B S S' hS hS' g
       (@AlgebraicGeometry.IsClosedImmersion.{u}) (pullback.diagonal f.hom) hf
-  show Q (pullback.diagonal (R.map f.hom))
+  change Q (pullback.diagonal (R.map f.hom))
   rw [← he]
   exact MorphismProperty.RespectsIso.postcomp _ e.hom _ hq
 

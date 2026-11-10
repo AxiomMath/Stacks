@@ -129,7 +129,7 @@ private lemma squareZeroMap_inr
     [Module Lᵐᵒᵖ Q] [IsCentralScalar L Q]
     (ρ : K →+* L) (η : P →ₛₗ[ρ] Q) (p : P) :
     squareZeroMap ρ η (TrivSqZeroExt.inr p) = TrivSqZeroExt.inr (η p) := by
-  show (ρ (0 : K), η p) = ((0 : L), η p)
+  change (ρ (0 : K), η p) = ((0 : L), η p)
   simp
 
 private noncomputable def tensorPairLeftRingHom : S →+* (S ⊗[R] T) :=
@@ -140,8 +140,7 @@ private noncomputable def tensorPairLeftSemilinear :
   toFun := tensorPairLeft R S T M
   map_add' x y := map_add (tensorPairLeft R S T M) x y
   map_smul' s z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [smul_add, map_add, hx, hy]
     | tmul t m =>
       simp [tensorPairLeft_tmul, tensorPairLeftRingHom,
@@ -156,8 +155,7 @@ private noncomputable def tensorPairRightSemilinear :
   toFun := tensorPairRight R S T M
   map_add' x y := map_add (tensorPairRight R S T M) x y
   map_smul' t z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [smul_add, map_add, hx, hy]
     | tmul s m =>
       simp [tensorPairRight_tmul, tensorPairRightRingHom,
@@ -194,7 +192,7 @@ private lemma squareZeroPairLeft_inl (s : S) :
       TrivSqZeroExt.inl (s ⊗ₜ[R] (1 : T)) := by
   apply TrivSqZeroExt.ext
   · rfl
-  · show (tensorPairLeft R S T M) (0 : S ⊗[R] M) = 0
+  · change (tensorPairLeft R S T M) (0 : S ⊗[R] M) = 0
     simp
 
 omit [Module Rᵐᵒᵖ M] [IsCentralScalar R M] in
@@ -203,7 +201,7 @@ private lemma squareZeroPairRight_inl (t : T) :
       TrivSqZeroExt.inl ((1 : S) ⊗ₜ[R] t) := by
   apply TrivSqZeroExt.ext
   · rfl
-  · show (tensorPairRight R S T M) (0 : T ⊗[R] M) = 0
+  · change (tensorPairRight R S T M) (0 : T ⊗[R] M) = 0
     simp
 
 omit [Module Rᵐᵒᵖ M] [IsCentralScalar R M] in
@@ -225,14 +223,14 @@ private lemma squareZeroPair_comp_baseChange :
       (Algebra.TensorProduct.algebraMap_apply a.fst).symm.trans
         (Algebra.TensorProduct.algebraMap_apply' a.fst)
     simp only [RingHom.comp_apply, trivSqZeroExtBaseChange_apply]
-    show (tensorPairLeftRingHom R S T) (algebraMap R S a.fst) =
+    change (tensorPairLeftRingHom R S T) (algebraMap R S a.fst) =
       (tensorPairRightRingHom R S T) (algebraMap R T a.fst)
     simp [tensorPairLeftRingHom, tensorPairRightRingHom]
   · have hsnd : (tensorPairLeft R S T M) ((1 : S) ⊗ₜ[R] a.snd) =
         (tensorPairRight R S T M) ((1 : T) ⊗ₜ[R] a.snd) := by
       rw [tensorPairLeft_tmul, tensorPairRight_tmul]
     simp only [RingHom.comp_apply, trivSqZeroExtBaseChange_apply]
-    show (tensorPairLeft R S T M) ((1 : S) ⊗ₜ[R] a.snd) =
+    change (tensorPairLeft R S T M) ((1 : S) ⊗ₜ[R] a.snd) =
       (tensorPairRight R S T M) ((1 : T) ⊗ₜ[R] a.snd)
     exact hsnd
 
@@ -243,11 +241,11 @@ private lemma squareZeroPairLeft_comp_baseChange :
   intro a
   apply TrivSqZeroExt.ext
   · simp only [RingHom.comp_apply, trivSqZeroExtBaseChange_apply]
-    show (algebraMap R S a.fst) ⊗ₜ[R] (1 : T) =
+    change (algebraMap R S a.fst) ⊗ₜ[R] (1 : T) =
         algebraMap R (S ⊗[R] T) a.fst
     exact (Algebra.TensorProduct.algebraMap_apply a.fst).symm
   · simp only [RingHom.comp_apply, trivSqZeroExtBaseChange_apply]
-    show (tensorPairLeft R S T M) ((1 : S) ⊗ₜ[R] a.snd) =
+    change (tensorPairLeft R S T M) ((1 : S) ⊗ₜ[R] a.snd) =
         (1 : S ⊗[R] T) ⊗ₜ[R] a.snd
     rw [tensorPairLeft_tmul]
     rfl
@@ -436,7 +434,7 @@ private lemma squareZeroPairPushoutHom_injective :
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro a
-    show squareZeroPairPushoutHom R S T M (a ⊗ₜ[D] (1 : F)) =
+    change squareZeroPairPushoutHom R S T M (a ⊗ₜ[D] (1 : F)) =
       squareZeroPairLeft R S T M a
     rw [squareZeroPairPushoutHom_tmul]
     simp
@@ -446,7 +444,7 @@ private lemma squareZeroPairPushoutHom_injective :
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro b
-    show squareZeroPairPushoutHom R S T M ((1 : E) ⊗ₜ[D] b) =
+    change squareZeroPairPushoutHom R S T M ((1 : E) ⊗ₜ[D] b) =
       squareZeroPairRight R S T M b
     rw [squareZeroPairPushoutHom_tmul]
     simp
@@ -519,7 +517,7 @@ private theorem ringElements_descend_of_isEffectiveEpiFamily_spec
     let e := pullbackSpecIso R (S i) (S j)
     have he : Function.Injective e.inv.appTop := schemeIso_inv_appTop_injective e
     apply he
-    show e.inv.appTop ((pullback.fst (Spec.map
+    change e.inv.appTop ((pullback.fst (Spec.map
         (CommRingCat.ofHom (algebraMap R (S i))))
         (Spec.map (CommRingCat.ofHom (algebraMap R (S j))))).appTop
           ((Scheme.ΓSpecIso (CommRingCat.of (S i))).inv (s i))) =
@@ -527,7 +525,7 @@ private theorem ringElements_descend_of_isEffectiveEpiFamily_spec
         (CommRingCat.ofHom (algebraMap R (S i))))
         (Spec.map (CommRingCat.ofHom (algebraMap R (S j))))).appTop
           ((Scheme.ΓSpecIso (CommRingCat.of (S j))).inv (s j)))
-    show ((pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap R (S i))))
+    change ((pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap R (S i))))
         (Spec.map (CommRingCat.ofHom (algebraMap R (S j))))).appTop ≫ e.inv.appTop)
         ((Scheme.ΓSpecIso (CommRingCat.of (S i))).inv (s i)) =
       ((pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap R (S i))))
@@ -561,7 +559,7 @@ private theorem ringElements_descend_of_isEffectiveEpiFamily_spec
     have huniq : (Scheme.ΓSpecIso (CommRingCat.of R)).inv r = a := by
       apply hu
       intro i
-      show (Spec.map (CommRingCat.ofHom (algebraMap R (S i)))).appTop
+      change (Spec.map (CommRingCat.ofHom (algebraMap R (S i)))).appTop
         ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r) =
           (Scheme.ΓSpecIso (CommRingCat.of (S i))).inv (s i)
       rw [specMap_appTop_ΓSpecIso_inv]
@@ -611,7 +609,7 @@ private lemma eq_zero_of_isEffectiveEpiFamily_spec
   have hz : (Scheme.ΓSpecIso R).inv r = (0 : Γ(Spec R, ⊤)) := by
     apply (hu _ ?_).trans (hu 0 (fun i => appTop_zero _)).symm
     intro i
-    show (Spec.map (f i)).appTop ((Scheme.ΓSpecIso R).inv r) = 0
+    change (Spec.map (f i)).appTop ((Scheme.ΓSpecIso R).inv r) = 0
     rw [specMap_appTop_ΓSpecIso_inv, hr, map_zero]
   have hh := congrArg (fun z => (Scheme.ΓSpecIso R).hom z) hz
   simpa using hh
@@ -637,7 +635,7 @@ private theorem tensor_eq_zero_of_isUniversalEffectiveEpiFamily
       (fun i => CommRingCat.of (E i)) (fun i => CommRingCat.ofHom (θ i)) hD
       (TrivSqZeroExt.inr m) (by
         intro i
-        show trivSqZeroExtBaseChange R (S i) M (TrivSqZeroExt.inr m) = 0
+        change trivSqZeroExtBaseChange R (S i) M (TrivSqZeroExt.inr m) = 0
         rw [trivSqZeroExtBaseChange_apply]
         apply TrivSqZeroExt.ext
         · simp
@@ -732,7 +730,7 @@ private theorem tensorElements_descend_of_isUniversalEffectiveEpiFamily
     have hm' : (TrivSqZeroExt.inr m : D) = d := by
       apply hu
       intro i
-      show θ i (TrivSqZeroExt.inr m) = TrivSqZeroExt.inr (s i)
+      change θ i (TrivSqZeroExt.inr m) = TrivSqZeroExt.inr (s i)
       rw [trivSqZeroExtBaseChange_apply]
       apply TrivSqZeroExt.ext
       · simp

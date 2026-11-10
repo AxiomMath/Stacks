@@ -182,7 +182,8 @@ family. -/
 @[stacks 0B9C "the section's assertion that `Hilb^d_{X/S}` parametrizes relative effective \
 Cartier divisors, read as a natural isomorphism of functors on schemes over `S` between \
 `Hilb^d_{X/S}` and the functor sending `T` to the relative effective Cartier divisors \
-`D ⊂ X_T` over `T` which are finite locally free of degree `d` over `T`.  This is the form in which the rest of the section uses \
+`D ⊂ X_T` over `T` which are finite locally free of degree `d` over `T`.  This is the form \
+in which the rest of the section uses \
 it: 0B9E, 0B9F and the addition morphism on `Hilb^d` treat points of `Hilb^d` as divisors"]
 def hilbertFunctorOfRankIsoRelativeEffectiveCartierDivisorFunctorOfRank {S : Scheme.{u}}
     (X : Over S) [SmoothOfRelativeDimension 1 X.hom] (d : ℕ) :

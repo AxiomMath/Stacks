@@ -82,7 +82,7 @@ private noncomputable def conormalCokernelEquivDifferentials
   let g := KaehlerDifferential.mapBaseChange R B A
   have hs := ConormalSeq.conormal_exact_sequence R B A hsurj
   have hbc : Function.Exact (LinearMap.baseChange Λ f) (LinearMap.baseChange Λ g) := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact Λ (LinearMap.exact_iff.mpr hs.1.symm) hs.2
   exact (Submodule.quotEquivOfEq _ _ hbc.linearMap_ker_eq.symm).trans
     ((LinearMap.baseChange Λ g).quotKerEquivOfSurjective (LinearMap.baseChange_surjective Λ hs.2))

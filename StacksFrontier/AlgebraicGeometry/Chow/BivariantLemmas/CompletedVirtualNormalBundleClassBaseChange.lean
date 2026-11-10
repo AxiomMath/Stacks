@@ -258,7 +258,8 @@ open immersion `v : S ⟶ T₁` with `v ≫ t₁ = s ≫ ρ`, the map `W ×_V S 
 abbrev testRestrictionMap : pullback iV s ⟶ pullback i₁ t₁ :=
   pullback.map iV s i₁ t₁ h v ρ sq.w hs.symm
 
-omit [LocallyOfFiniteType ρ] [LocallyOfFiniteType t₁] [IsOpenImmersion v] [LocallyOfFiniteType s] in
+omit [LocallyOfFiniteType ρ] [LocallyOfFiniteType t₁] [IsOpenImmersion v] [LocallyOfFiniteType s]
+  [IsClosedImmersion i₁] [IsClosedImmersion iV] in
 /-- The map `W ×_V S ⟶ Z₁ ×_{X₁} T₁` is the identification `W ×_V S ≅ Z₁ ×_{X₁} S` followed by
 the base change of `v`. -/
 theorem testRestrictionMap_eq :
@@ -276,7 +277,8 @@ private instance isOpenImmersion_baseChangeMapOfEq_test :
   MorphismProperty.of_isPullback (isPullback_baseChangeMapOfEq i₁ t₁ v (s ≫ ρ) hs)
     (P := @IsOpenImmersion) inferInstance
 
-omit [LocallyOfFiniteType ρ] [LocallyOfFiniteType t₁] [LocallyOfFiniteType s] in
+omit [LocallyOfFiniteType ρ] [LocallyOfFiniteType t₁] [LocallyOfFiniteType s]
+  [IsClosedImmersion i₁] [IsClosedImmersion iV] in
 /-- The map `W ×_V S ⟶ Z₁ ×_{X₁} T₁` is an open immersion, as a base change of `v` up to
 isomorphism. -/
 theorem isOpenImmersion_testRestrictionMap :
@@ -707,7 +709,8 @@ instance isIso_basePieceIso : IsIso (basePieceIso i i' g f sq t) := by
   infer_instance
 
 omit [LocallyOfFiniteType f] [IsLocallyNoetherian Z] [IsLocallyNoetherian X]
-  [IsLocallyNoetherian X'] [IsLocallyNoetherian Z'] [LocallyOfFiniteType t] in
+  [IsLocallyNoetherian X'] [IsLocallyNoetherian Z'] [LocallyOfFiniteType t]
+  [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z' ×_{X'} T ≅ Z ×_X T` over `Z`. -/
 @[reassoc]
 theorem basePieceIso_fst :
@@ -763,7 +766,8 @@ theorem basePieceMap_comp :
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 omit [LocallyOfFiniteType f] [IsLocallyNoetherian Z] [IsLocallyNoetherian X]
-  [IsLocallyNoetherian X'] [IsLocallyNoetherian Z'] [LocallyOfFiniteType t] in
+  [IsLocallyNoetherian X'] [IsLocallyNoetherian Z'] [LocallyOfFiniteType t]
+  [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z' ×_{X'} T ≅ Z ×_X T` over `T`. -/
 @[reassoc]
 theorem basePieceIso_snd :
@@ -909,7 +913,7 @@ theorem pieceTestMap_comp_base :
 
 omit [LocallyOfFiniteType sZ] [LocallyOfFiniteType sX] [LocallyOfFiniteType f]
   [LocallyOfFiniteType sZ'] [IsLocallyNoetherian Z] [IsLocallyNoetherian X] [IsLocallyNoetherian X']
-  [IsLocallyNoetherian Z'] [LocallyOfFiniteType t] in
+  [IsLocallyNoetherian Z'] [LocallyOfFiniteType t] [IsClosedImmersion i] [IsClosedImmersion i'] in
 include hi hi' in
 /-- The identification `Z ×_X T ≅ Z' ×_{X'} T` is one over the base, for the structure morphism
 `s_{Z'}` of `Z'`. -/
@@ -919,6 +923,7 @@ theorem subschemeTestBaseChangeIso_hom_comp_structureMorphism :
   rw [← hi', ← hi]
   exact subschemeTestBaseChangeIso_hom_comp_structure i i' g f sq t sX
 
+omit [LocallyOfFiniteType sX] in
 /-- Restricting a pushed-forward class to the piece of `Z' ×_{X'} T` over `Z'_w` is restricting
 its source to the piece of `Z ×_X T` over `Z_a` below it, then to the former piece. -/
 private theorem chowGroupRestrict_piece_chowPushforwardOfIso_subschemeTestBaseChangeIso {m : ℤ}

@@ -115,7 +115,7 @@ theorem range_subset_range_preimage_ι {X X' W : Scheme.{u}} (b : X' ⟶ X) (U :
   rintro _ ⟨x, rfl⟩
   have hb : b.base (p.base x) = q.base x :=
     (Scheme.Hom.comp_apply p b x).symm.trans (by rw [hq])
-  show b.base (p.base x) ∈ (U : Set X)
+  change b.base (p.base x) ∈ (U : Set X)
   rw [hb]
   exact hqU ⟨x, rfl⟩
 

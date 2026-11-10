@@ -121,7 +121,7 @@ public theorem sectionRingBaseMap_eq_of_smul_one (U : s.base.Opens)
 public theorem coe_sectionRingZeroMap_eq_baseMap (U : s.base.Opens) (r : Γ(s.base, U)) :
     (((sectionRingZeroMap s U).hom r : ↥(s.sectionRingGrading U 0)) : s.sectionRing U) =
       s.sectionRingBaseMap U r := by
-  show ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)
+  change ((GradedRing.projZeroRingHom' (s.sectionRingGrading U)
     (s.sectionRingBaseMap U r) : s.sectionRing U)) = _
   rw [GradedRing.projZeroRingHom'_apply_coe _
     (⟨s.sectionRingBaseMap U r, sectionRingBaseMap_mem_zero s U r⟩ : s.sectionRingGrading U 0)]
@@ -194,7 +194,7 @@ public theorem coe_reesPieceEquiv_compare (U : s.base.affineOpens) (n : ℕ)
     (a : s.sectionPieces U.1 n) :
     ((AlgebraicGeometry.reesPieceEquiv J U n (m.compare U n a)) : Γ(s.base, U.1)) =
       (m.pieceEquiv U n a : Γ(s.base, U.1)) := by
-  show ((AlgebraicGeometry.reesPieceEquiv J U n
+  change ((AlgebraicGeometry.reesPieceEquiv J U n
     ((AlgebraicGeometry.reesPieceEquiv J U n).symm (m.pieceEquiv U n a))) :
       Γ(s.base, U.1)) = _
   rw [AddEquiv.apply_symm_apply]
@@ -397,7 +397,7 @@ public theorem sectionRingZeroMap_comp_sectionGradedHom (U : s.base.affineOpens)
         CommRingCat.ofHom (m.sectionGradedHom U).gradedZeroRingHom =
       Situation.sectionRingZeroMap (AlgebraicGeometry.reesSituation J) U.1 := by
   refine CommRingCat.hom_ext (RingHom.ext fun r ↦ Subtype.ext ?_)
-  show m.sectionHom U (((Situation.sectionRingZeroMap s U.1).hom r :
+  change m.sectionHom U (((Situation.sectionRingZeroMap s U.1).hom r :
         ↥(s.sectionRingGrading U.1 0)) : s.sectionRing U.1) =
     (((Situation.sectionRingZeroMap (AlgebraicGeometry.reesSituation J) U.1).hom r :
       ↥((AlgebraicGeometry.reesSituation J).sectionRingGrading U.1 0)) :
@@ -502,7 +502,7 @@ the other model. -/
 public theorem isCartierOver_relativeProjToBase_reesSituation :
     Stacks.Blowup.IsCartierOver I
       (Over.mk (Situation.relativeProjToBase (Stacks.Blowup.reesSituation I))) := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor
+  change Stacks.Divisors.IsEffectiveCartierDivisor
     (I.comap (Situation.relativeProjToBase (Stacks.Blowup.reesSituation I)))
   rw [← reesSituationBlowUpIso_hom_blowUpToBase I, Scheme.IdealSheafData.comap_comp]
   exact Stacks.Divisors.isPullbackDefined_of_flat (reesSituationBlowUpIso I).hom

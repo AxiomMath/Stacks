@@ -105,7 +105,7 @@ theorem hasRelativeDiagonal_comp (P : MorphismProperty Scheme.{u})
   let Q := MorphismProperty.inverseImage P (BigFppfOver.toScheme B S hS)
   let R := Q.relative (fppfYoneda B S hS)
   let _ : R.IsStableUnderComposition := MorphismProperty.relative_isStableUnderComposition Q
-  show R (pullback.diagonal (f ≫ g))
+  change R (pullback.diagonal (f ≫ g))
   rw [diagonal_comp_eq_mapDesc f g]
   exact R.comp_mem _ _ hf <| (MorphismProperty.relative_isStableUnderBaseChange Q).of_isPullback
     (isPullback_mapDesc B S hS f f g) hg
@@ -122,7 +122,7 @@ and closed immersions compose by Stacks 0GHW"]
 theorem isSeparatedMorphism_comp {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y) (g : Y ⟶ Z)
     (hf : IsSeparatedMorphism B S hS f) (hg : IsSeparatedMorphism B S hS g) :
     IsSeparatedMorphism B S hS (f ≫ g) := by
-  show IsClosedImmersion B S hS (pullback.diagonal (f ≫ g))
+  change IsClosedImmersion B S hS (pullback.diagonal (f ≫ g))
   rw [diagonal_comp_eq_mapDesc f g]
   exact isClosedImmersion_comp B S hS _ _ hf (isClosedImmersion_mapDesc B S hS f f g hg)
 

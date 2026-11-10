@@ -56,7 +56,8 @@ whose data is exactly what the proof consumes — a covering family and, on each
 many sections of `ℐ` together with the statement that every section of `ℐ` on an object above it
 is locally an `𝒪`-linear combination of their restrictions. The statement at Mathlib's
 hypothesis, which is the tag's, is obtained from it by
-`Stacks.SheafOfModules.presheaf_isFiniteType_of_isFiniteType` of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/SiteFiniteTypeBridge.lean`.
+`Stacks.SheafOfModules.presheaf_isFiniteType_of_isFiniteType` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/SiteFiniteTypeBridge.lean`.
 
 **What this does not do, and why.** It does not prove [Stacks, Tag 099F]. A reflector on each
 slice of a cover is not a reflector on `𝒞`: `AlgebraicGeometry.RingedSite.derivedCompletion` of
@@ -144,7 +145,7 @@ def globalSectionOfSection (a : X.O.obj.obj (op U)) :
 theorem globalSectionVal_globalSectionOfSection (a : X.O.obj.obj (op U)) (V : (Over U)ᵒᵖ) :
     globalSectionVal (globalSectionOfSection X U a) V =
       (X.O.obj.map V.unop.hom.op).hom a := by
-  show (Presheaf.globalSectionsEquivSections _
+  change (Presheaf.globalSectionsEquivSections _
     ((Presheaf.globalSectionsEquivSections _).symm _)).1 V = _
   rw [Equiv.apply_symm_apply]
 

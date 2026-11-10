@@ -161,14 +161,14 @@ private lemma puncturedZeroPullbackIsEmpty :
   let g := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
   let D : (base k).Opens := PrimeSpectrum.basicOpen (Polynomial.X : Polynomial k)
   have hpre : (coverMap k K) ⁻¹ᵁ D = puncturedCover K := by
-    show (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k K)))) ⁻¹ᵁ
+    change (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k K)))) ⁻¹ᵁ
         PrimeSpectrum.basicOpen (Polynomial.X : Polynomial k) =
       PrimeSpectrum.basicOpen (Polynomial.X : Polynomial K)
     rw [AlgebraicGeometry.SpecMap_preimage_basicOpen]
     simp [Polynomial.map_X]
     rfl
   have hpre' : f ⁻¹ᵁ D = ⊤ := by
-    show ((puncturedCover K).ι ≫ coverMap k K) ⁻¹ᵁ D = ⊤
+    change ((puncturedCover K).ι ≫ coverMap k K) ⁻¹ᵁ D = ⊤
     rw [Scheme.Hom.comp_preimage, hpre, (puncturedCover K).ι_preimage_self]
   have hf : Set.range f ⊆ D := by
     rintro x ⟨y, rfl⟩
@@ -176,7 +176,7 @@ private lemma puncturedZeroPullbackIsEmpty :
     rw [Scheme.Hom.mem_preimage] at hy
     exact hy
   have hg : g ⁻¹ᵁ D = ⊥ := by
-    show (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))) ⁻¹ᵁ
+    change (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))) ⁻¹ᵁ
       PrimeSpectrum.basicOpen (Polynomial.X : Polynomial k) = ⊥
     rw [AlgebraicGeometry.SpecMap_preimage_basicOpen]
     simp
@@ -322,7 +322,7 @@ private lemma zeroFiberRelationProjectionsEq (σ : K ≃ₐ[k] K) :
           pullback.fst f g = pullback.fst (coprod.inl ≫ f) g ≫ coprod.inl := by
       dsimp [pullback.map]
       exact pullback.lift_fst _ _ _
-    show
+    change
       (pullback.map (coprod.inl ≫ f) g f g coprod.inl (𝟙 _) (𝟙 _) (by simp) (by simp)) ≫
           pullback.fst f g ≫ (relationFirst k K).left =
         (pullback.map (coprod.inl ≫ f) g f g coprod.inl (𝟙 _) (𝟙 _) (by simp) (by simp)) ≫
@@ -333,7 +333,7 @@ private lemma zeroFiberRelationProjectionsEq (σ : K ≃ₐ[k] K) :
     cases p
     have : IsEmpty ↑(V.X (Sum.inr PUnit.unit)) := by
       dsimp [V]
-      show IsEmpty ↑(pullback
+      change IsEmpty ↑(pullback
         ((coprod.inr : (puncturedCover K).toScheme ⟶ relationScheme K) ≫
             coprod.desc (coverMap k K) ((puncturedCover K).ι ≫ coverMap k K))
         (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))))
@@ -353,7 +353,7 @@ private lemma zeroFiberRelationPointsMapsEq (σ : K ≃ₐ[k] K) (B : BigFppfSit
   let Z := points F (zeroBaseOverBase k)
   let R := points F (relationOverBase k K)
   let j := twistedRelation k K σ
-  show prod.map (𝟙 Z) (sourceMap F j) = prod.map (𝟙 Z) (targetMap F j)
+  change prod.map (𝟙 Z) (sourceMap F j) = prod.map (𝟙 Z) (targetMap F j)
   apply prod.hom_ext
   · rw [prod.map_fst, prod.map_fst]
   · ext X x
@@ -366,11 +366,11 @@ private lemma zeroFiberRelationPointsMapsEq (σ : K ≃ₐ[k] K) (B : BigFppfSit
       have hcompat : r.left ≫ f = z.left ≫ g := by rw [Over.w r, Over.w z]
       let q : (F.obj X.unop).left ⟶ pullback f g := pullback.lift r.left z.left hcompat
       have hpb := congrArg (fun t => q ≫ t) (zeroFiberRelationProjectionsEq (k := k) (K := K) σ)
-      show (r ≫ j.source).left = (r ≫ j.target).left
+      change (r ≫ j.source).left = (r ≫ j.target).left
       have hs : j.source = relationSecond k K σ := by simp [j]
       have ht : j.target = relationFirst k K := by simp [j]
       rw [hs, ht, Over.comp_left, Over.comp_left]
-      show r.left ≫ (relationSecond k K σ).left = r.left ≫ (relationFirst k K).left
+      change r.left ≫ (relationSecond k K σ).left = r.left ≫ (relationFirst k K).left
       calc
         r.left ≫ (relationSecond k K σ).left =
             (pullback.lift r.left z.left hcompat ≫ pullback.fst f g) ≫

@@ -142,7 +142,7 @@ theorem exists_atlas_size_le_of_injective_points {Z : (BigFppfOver B S hS)ᵒᵖ
     rw [← Category.assoc, IsColimit.comp_coconePointUniqueUpToIso_hom]
     simp only [Cofan.mk_ι_app, colimit.cocone_ι, Discrete.functor_obj_eq_as]
     rw [hdA k.as]
-    exact (Sigma.ι_desc (fun k : K' => (O k).ι) k.as).symm
+    exact (Sigma.ι_comp_desc (fun k : K' => (O k).ι) k.as).symm
   have hdet : Etale (A.map d) := by
     let : IsZariskiLocalAtSource (@Etale.{u}) :=
       HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u})
@@ -159,7 +159,7 @@ theorem exists_atlas_size_le_of_injective_points {Z : (BigFppfOver B S hS)ᵒᵖ
     intro v
     apply (pointsEquivScheme B S hS U).injective
     rw [Equiv.apply_symm_apply]
-    show pointsToScheme B S hS U _ = _
+    change pointsToScheme B S hS U _ = _
     rw [pointsToScheme_pointsMap_yoneda]
     exact congrArg (A.map d) ((pointsEquivScheme B S hS V).apply_symm_apply v)
   refine ⟨V, yoneda.map d ≫ q, ?_, etale_comp_of_scheme B S hS d q hdet hqe, hsizeV⟩

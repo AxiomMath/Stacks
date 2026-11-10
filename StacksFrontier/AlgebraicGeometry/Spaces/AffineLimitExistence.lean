@@ -272,7 +272,7 @@ private theorem hasLimit_underlyingDiagram_and_limitInSite
     fun k => (BigFppfOver.toScheme B S hS).map (ρ' k)
   have hρnat : ∀ {k l : Over i₀} (f : k ⟶ l), Rd.map f ≫ ρ l = ρ k := by
     intro k l f
-    show Rd.map f ≫ (BigFppfOver.toScheme B S hS).map (ρ' l)
+    change Rd.map f ≫ (BigFppfOver.toScheme B S hS).map (ρ' l)
       = (BigFppfOver.toScheme B S hS).map (ρ' k)
     rw [hRdmap f, ← Functor.map_comp, hρ'nat f]
   have hρaff : ∀ k : Over i₀, _root_.AlgebraicGeometry.IsAffineHom (ρ k) := fun k =>
@@ -280,7 +280,7 @@ private theorem hasLimit_underlyingDiagram_and_limitInSite
   have hlimRd : HasLimit Rd := CofilteredLimit.hasLimit_of_isAffineHom_of_isCofiltered ρ hρnat
   set k₀ : Over i₀ := Over.mk (𝟙 i₀)
   have hlim : (limit Rd).size < B.cutoff → BigFppfOver.LimitInSite W := fun h c hc => by
-    show c.pt.size < B.cutoff
+    change c.pt.size < B.cutoff
     rwa [show c.pt.size = (limit Rd).size from
       Scheme.size_congr (hc.conePointUniqueUpToIso (limit.isLimit Rd))]
   refine ⟨hlimRd, fun hk₀ hν => hlim ?_, fun hmono => hlim ?_⟩
@@ -299,7 +299,7 @@ private theorem hasLimit_underlyingDiagram_and_limitInSite
         rw [← Scheme.Hom.comp_preimage, hρnat j.hom]
       have haff : ∀ j : Over k₀, IsAffine ((opensDiagram Rd k₀ (ρ k₀ ⁻¹ᵁ U.1)).obj j) := by
         intro j
-        show IsAffineOpen (Rd.map j.hom ⁻¹ᵁ (ρ k₀ ⁻¹ᵁ U.1))
+        change IsAffineOpen (Rd.map j.hom ⁻¹ᵁ (ρ k₀ ⁻¹ᵁ U.1))
         rw [hstage j]
         exact U.2.preimage (ρ j.left)
       have hsize : ∀ j : Over k₀,

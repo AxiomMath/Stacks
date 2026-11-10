@@ -153,7 +153,7 @@ theorem exists_refines_extends_of_rank (T : GrassmannianTowerEmbedding f) (E : X
   have hlfst : hl ≫ pullback.fst T.W.obj.hom G.obj.hom = T.j.hom.left := pullback.lift_fst _ _ _
   have hlsnd : hl ≫ pullback.snd T.W.obj.hom G.obj.hom = g' := pullback.lift_snd _ _ _
   let h : X ⟶ prod T.W G := ObjectProperty.homMk (Over.homMk hl (by
-    show hl ≫ pullback.fst T.W.obj.hom G.obj.hom ≫ T.W.obj.hom = X.obj.hom
+    change hl ≫ pullback.fst T.W.obj.hom G.obj.hom ≫ T.W.obj.hom = X.obj.hom
     rw [← Category.assoc, hlfst, Over.w T.j.hom]))
   have : IsClosedImmersion (hl ≫ pullback.fst T.W.obj.hom G.obj.hom) := by rwa [hlfst]
   have : IsClosedImmersion hl := .of_comp hl (pullback.fst _ _)
@@ -165,7 +165,7 @@ theorem exists_refines_extends_of_rank (T : GrassmannianTowerEmbedding f) (E : X
   refine ⟨pullbackRingHom (pullback.snd T.W.obj.hom G.obj.hom ≫ τ)
       (Grassmannian.universalClass.{u} (m - r) m) *
     pullbackRingHom (pullback.fst T.W.obj.hom G.obj.hom) β, ?_⟩
-  show pullbackRingHom hl _ = _
+  change pullbackRingHom hl _ = _
   rw [map_mul, ← pullbackRingHom_comp_apply, ← pullbackRingHom_comp_apply, ← Category.assoc,
     hlsnd, hg'q, hlfst, hg, hβ]
 

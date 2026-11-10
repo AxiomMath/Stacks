@@ -9,7 +9,7 @@ Let `f : (Sh(C), 𝒪_C) ⟶ (Sh(D), 𝒪_D)` be a morphism of ringed topoi pres
 the underlying sites which is a morphism of sites.  `Stacks 07A4` is proved by comparing total
 tensor complexes of K-flat representatives, and
 `Stacks.Sheaves.DerivedPullback.pullbackToposTensorTotalIso` is the comparison that carries it.
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorRightUnitor.lean`
+The file `DerivedPullbackTensorRightUnitor.lean` (in this directory)
 proves the **right-unitor coherence** of that comparison, at `L = 𝒪_D[0]`, where the unit law is
 `Tot(K ⊗ 𝒪_D[0]) ≅ K`.  This file is the same statement at `L = 𝒪_D[q]` for an arbitrary degree
 `q`, where the unit law is `Tot(K ⊗ 𝒪_D[q]) ≅ K⟦-q⟧` instead.
@@ -515,6 +515,7 @@ lemma pullbackUnitComplexMapDeg_f_self (q : ℤ) :
     HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
 
 set_option maxHeartbeats 1000000 in
+-- the long `rw` chain through the sheaf tensor product and the single complex is slow
 omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]

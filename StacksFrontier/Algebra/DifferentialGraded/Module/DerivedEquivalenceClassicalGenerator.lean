@@ -187,7 +187,7 @@ lemma isCompactObject_obj_of_adjunction {D : Type u₁} [Category.{v₁} D] [Pre
   classical
   constructor
   intro I _ A _
-  show Function.Bijective (cofanMap (L.obj K) (Limits.Sigma.ι A))
+  change Function.Bijective (cofanMap (L.obj K) (Limits.Sigma.ι A))
   have := hG I
   have hc : Limits.IsColimit
       (Limits.Cofan.mk (G.obj (∐ A)) fun i => G.map (Limits.Sigma.ι A i)) :=

@@ -146,7 +146,7 @@ private def toLocalImage {P Q : Cᵒᵖ ⥤ Ab.{w}} (φ : P ⟶ Q) : P ⟶ local
 private lemma localImage_isSheaf {P Q : Cᵒᵖ ⥤ Ab.{w}} (φ : P ⟶ Q)
     (hQ : Presheaf.IsSheaf J Q) : Presheaf.IsSheaf J (localImage J φ) := by
   apply Presheaf.isSheaf_of_isSheaf_comp J _ (forget Ab)
-  show Presheaf.IsSheaf J
+  change Presheaf.IsSheaf J
     (((Subfunctor.range (Functor.whiskerRight φ (forget Ab))).sheafify J).toFunctor)
   rw [isSheaf_iff_isSheaf_of_type]
   apply Subfunctor.sheafify_isSheaf

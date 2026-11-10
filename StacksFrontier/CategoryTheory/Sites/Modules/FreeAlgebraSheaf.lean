@@ -322,7 +322,7 @@ theorem freeAlgebraSheafVariable_comp_desc (A B : Sheaf J CommRingCat.{w})
       Functor.whiskerRight (polynomialEvaluation J A B E a e) (forget CommRingCat.{w}) := by
     rw [← freeAlgebraSheafDesc_spec J A B E a e, Functor.whiskerRight_comp]
     rfl
-  show polynomialVariable J A E ≫ (Functor.whiskerRight ((toSheafification J CommRingCat.{w}).app
+  change polynomialVariable J A E ≫ (Functor.whiskerRight ((toSheafification J CommRingCat.{w}).app
       (polynomialPresheaf J A E)) (forget CommRingCat.{w}) ≫ Functor.whiskerRight
       ((sheafToPresheaf J CommRingCat.{w}).map (freeAlgebraSheafDesc J A B E a e))
       (forget CommRingCat.{w})) = e

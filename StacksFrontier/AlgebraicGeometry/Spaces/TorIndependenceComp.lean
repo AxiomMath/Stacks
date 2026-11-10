@@ -42,6 +42,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site is a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_TorIndependenceComp :
@@ -77,22 +78,24 @@ theorem TorIndependent.symm {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   have he : ∀ r, e₂.hom (e₁.hom r) = r := fun r => by
     change (e₁ ≫ e₂).hom r = r
     simp [e₁, e₂]
-  letI : Algebra (etaleLocalRing B S hS H (geometricPointMap f x))
+  let : Algebra (etaleLocalRing B S hS H (geometricPointMap f x))
       (etaleLocalRing B S hS F x) := φ.toAlgebra
-  letI : Algebra (etaleLocalRing B S hS H (geometricPointMap f x))
+  let : Algebra (etaleLocalRing B S hS H (geometricPointMap f x))
       (etaleLocalRing B S hS G y) := ((e₁ ≫ CommRingCat.ofHom ψ).hom).toAlgebra
-  letI : Algebra (etaleLocalRing B S hS H (geometricPointMap g y))
+  let : Algebra (etaleLocalRing B S hS H (geometricPointMap g y))
       (etaleLocalRing B S hS G y) := ψ.toAlgebra
-  letI : Algebra (etaleLocalRing B S hS H (geometricPointMap g y))
+  let : Algebra (etaleLocalRing B S hS H (geometricPointMap g y))
       (etaleLocalRing B S hS F x) := ((e₂ ≫ CommRingCat.ofHom φ).hom).toAlgebra
-  exact (torIndependent_congr _ _ _ _ _ _ (eqToIso (congrArg (etaleLocalRing B S hS H) hyx.symm)).commRingCatIsoToRingEquiv (RingEquiv.refl _)
-    (RingEquiv.refl _) (fun _ => rfl) (fun r => congrArg φ (he r).symm)).mp
+  exact (torIndependent_congr _ _ _ _ _ _
+    (eqToIso (congrArg (etaleLocalRing B S hS H) hyx.symm)).commRingCatIsoToRingEquiv
+    (RingEquiv.refl _) (RingEquiv.refl _) (fun _ => rfl) (fun r => congrArg φ (he r).symm)).mp
     (RingTheory.TorIndependence.TorIndependent.symm htor)
 
 /-- Every algebraic space has an étale surjective chart by a scheme. -/
 theorem exists_isEtale_isSurjective_chart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hF : IsAlgebraicSpace B S hS F) :
-    ∃ (U : BigFppfOver B S hS) (f : yoneda.obj U ⟶ F), IsEtale B S hS f ∧ IsSurjective B S hS f := by
+    ∃ (U : BigFppfOver B S hS) (f : yoneda.obj U ⟶ F),
+      IsEtale B S hS f ∧ IsSurjective B S hS f := by
   obtain ⟨U, f, hfS, hfE⟩ := hF.exists_atlas
   exact ⟨U, f, (isEtale_iff_presheaf_of_yoneda B S hS f).2 hfE,
     isSurjective_of_presheafSurjective B S hS f hfS⟩

@@ -63,7 +63,7 @@ theorem galoisFixed_of_frobenius_fixed (X : Over (Spec (.of k))) [CompactSpace X
     x ∈ galoisFixedClasses k K X := by
   let := galoisPicardAction k K X
   intro τ
-  show τ • x = x
+  change τ • x = x
   obtain ⟨E, hE, p, y, hp₁, hp₂, hpy⟩ := exists_finiteSubextension_schemePullbackClass_eq X x
   have hle := fixingSubgroup_le_stabilizer_galoisPicardAction X E p hp₁ hp₂ y
   rw [hpy] at hle
@@ -75,7 +75,7 @@ theorem galoisFixed_of_frobenius_fixed (X : Over (Spec (.of k))) [CompactSpace X
   have hρ : F ^ (-(n.1 : ℤ)) * τ ∈ E.fixingSubgroup := by
     have hres : AlgEquiv.restrictNormalHom E (F ^ (-(n.1 : ℤ)) * τ) = 1 := by
       rw [map_mul, map_zpow]
-      show (F.restrictNormal E) ^ (-(n.1 : ℤ)) * τ.restrictNormal E = 1
+      change (F.restrictNormal E) ^ (-(n.1 : ℤ)) * τ.restrictNormal E = 1
       rw [restrictNormal_frobeniusAlgEquivOfAlgebraic, ← hn, zpow_neg, zpow_natCast,
         inv_mul_cancel]
     rw [IntermediateField.mem_fixingSubgroup_iff]

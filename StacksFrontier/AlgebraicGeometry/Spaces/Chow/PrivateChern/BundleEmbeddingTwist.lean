@@ -229,7 +229,7 @@ theorem embeddingOfPieces_chart (hG : Stacks.SymGraded.IsQuasicoherentPieces G)
         ((Scheme.Modules.symmetricAlgebraGen X Q).val.app (op U) z)) ?_
     refine Eq.trans ?_ (congrArg (Q.val.map (homOfLE (le_rfl : U ≤ (𝟙 X) ⁻¹ᵁ U)).op)
       (homEquiv_comp_apply_aux g U x)).symm
-    show _ = Q.presheaf.map (𝟙 (op U)) _
+    change _ = Q.presheaf.map (𝟙 (op U)) _
     rw [CategoryTheory.Functor.map_id]
     rfl
 

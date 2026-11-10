@@ -93,7 +93,7 @@ Cohen--Macaulay conditions of Definitions 00N3 and 00NF agree. -/
 theorem isCohenMacaulayAtMaximalIdeal_self_iff_isMaximalCohenMacaulay
     (R : Type*) [CommRing R] [IsLocalRing R] :
     Module.IsCohenMacaulayAtMaximalIdeal R R ↔ Module.IsMaximalCohenMacaulay R R := by
-  show (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = Module.supportDim R R ↔
+  change (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = Module.supportDim R R ↔
     (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = ringKrullDim R
   rw [Module.supportDim_self_eq_ringKrullDim]
 
@@ -140,7 +140,7 @@ theorem exists_homology_concentrated_of_isMaximalCohenMacaulay_self
       IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) i).obj K) := by
   obtain ⟨m, hm⟩ := exists_isNormalizedDualizingComplex_shift.{u, v} K hK
   have hlift : Module.IsCohenMacaulayAtMaximalIdeal A (ULift.{v} A) := by
-    show (Module.depth A (IsLocalRing.maximalIdeal A) (ULift.{v} A) : WithBot ℕ∞) =
+    change (Module.depth A (IsLocalRing.maximalIdeal A) (ULift.{v} A) : WithBot ℕ∞) =
       Module.supportDim A (ULift.{v} A)
     rw [Module.depth_eq_depth_of_linearEquiv (IsLocalRing.maximalIdeal A)
         (ULift.moduleEquiv (R := A) (M := A)),

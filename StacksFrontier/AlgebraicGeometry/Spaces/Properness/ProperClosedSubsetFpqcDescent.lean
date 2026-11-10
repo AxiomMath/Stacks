@@ -58,7 +58,7 @@ theorem isProperOver_of_isFpqcCovering_of_isPullback {I : Type v} {X Y : Algebra
       (isEffectiveDescentAlongSurjectiveEtale_isClosedImmersion B S hS)
   let Zs : AlgebraicSpaces B S hS := ⟨Z.toFunctor, hZc.1⟩
   let zf : Zs ⟶ Y := ObjectProperty.homMk (Z.ι ≫ f.hom)
-  show properProperty B S hS zf
+  change properProperty B S hS zf
   have hloc := proper_isLocalAtTarget_fpqc.{u, v} B S hS
   refine hloc.of_forall_pullbackSnd (R := Presieve.ofArrows Yi g)
     ⟨I, Yi, g, rfl, Y.2, fun i => (Yi i).2, hg⟩ ?_

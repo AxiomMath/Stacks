@@ -82,7 +82,7 @@ theorem exists_covering_boundary_of_homologyπ_eq_zero
   refine ⟨y, ?_⟩
   have h₁ : (K.d i j).val.app (op W) y =
       (K.iCycles j).val.app (op W) ((K.toCycles i j).val.app (op W) y) := by
-    show (K.d i j).val.app (op W) y = (K.toCycles i j ≫ K.iCycles j).val.app (op W) y
+    change (K.d i j).val.app (op W) y = (K.toCycles i j ≫ K.iCycles j).val.app (op W) y
     rw [K.toCycles_i]
   rw [h₁]
   exact (congrArg ((K.iCycles j).val.app (op W)) hy).trans
@@ -184,7 +184,7 @@ theorem exists_mem_closure_of_cycleLifts_subset (G : Gens c K) (hG : cycleLifts 
   have hd : (K.d n k).val.app (op W) ((K.X n).val.restrictₛₗ b.op ((K.iCycles n).val.app _ c'))
       = 0 := by
     refine (PresheafOfModules.naturality_apply (K.d n k).val b.op _).trans ?_
-    show (K.X k).val.restrictₛₗ b.op ((K.iCycles n ≫ K.d n k).val.app _ c') = 0
+    change (K.X k).val.restrictₛₗ b.op ((K.iCycles n ≫ K.d n k).val.app _ c') = 0
     rw [K.iCycles_d]
     exact map_zero _
   refine ⟨(K.X n).val.restrictₛₗ b.op ((K.iCycles n).val.app _ c'),
@@ -193,7 +193,7 @@ theorem exists_mem_closure_of_cycleLifts_subset (G : Gens c K) (hG : cycleLifts 
       (K.X n).val.restrictₛₗ b.op ((K.iCycles n).val.app _ c') +
         (K.d j n).val.app (op W) y := by
     rw [hy]
-    show _ = _ + (K.X n).val.restrictₛₗ b.op
+    change _ = _ + (K.X n).val.restrictₛₗ b.op
       ((K.iCycles n).val.app _ ((K.cycles n).val.restrictₛₗ a.op ξ - c'))
     rw [map_sub, show (K.iCycles n).val.app _ ((K.cycles n).val.restrictₛₗ a.op ξ)
       = (K.X n).val.restrictₛₗ a.op ((K.iCycles n).val.app _ ξ) from
@@ -232,7 +232,7 @@ theorem exists_quasiIso_subcomplex_of_dense {ν : Cardinal.{t}} (hν : ℵ₀ �
     quasiIso_incl hGd
       (HomologyLifts.exists_mem_closure_of_cycleLifts_subset c K _ (subset_enlargement _))
       (exists_mem_closure_d_eq_of_enlargement _), fun n i => ?_⟩
-  · show Mono (closure (enlargement (HomologyLifts.cycleLifts c K)) n).ι
+  · change Mono (closure (enlargement (HomologyLifts.cycleLifts c K)) n).ι
     infer_instance
   · refine (Cardinal.mk_le_of_injective (injective_restrictSpan (c := c) n i)).trans ?_
     refine DenseCode.mk_pi_le_two_power hν (mk_sigma_le_of_le hν hι (fun j => hHom j i))

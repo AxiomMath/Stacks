@@ -52,7 +52,7 @@ lemma isPushout_of_flat_of_isEpi_of_injective
   let j : S →ₐ[R] T := IsScalarTower.toAlgHom R S T
   let μ : T ⊗[R] T →ₐ[R] T := Algebra.TensorProduct.lmul' R
   have hμ : Function.Injective μ := by
-    show Function.Injective (TensorProduct.lift (LinearMap.mul R T))
+    change Function.Injective (TensorProduct.lift (LinearMap.mul R T))
     exact Algebra.IsEpi.injective_lift_mul
   let F : S ⊗[R] T →ₐ[S] T :=
     Algebra.TensorProduct.lift (Algebra.ofId S T) (AlgHom.id R T) (fun _ _ => Commute.all _ _)
@@ -69,7 +69,7 @@ lemma isPushout_of_flat_of_isEpi_of_injective
     intro x y hxy
     apply hmap
     apply hμ
-    show (μ.toLinearMap.comp
+    change (μ.toLinearMap.comp
       (TensorProduct.map j.toLinearMap (LinearMap.id : T →ₗ[R] T))) x =
       (μ.toLinearMap.comp
       (TensorProduct.map j.toLinearMap (LinearMap.id : T →ₗ[R] T))) y
@@ -81,7 +81,7 @@ lemma isPushout_of_flat_of_isEpi_of_injective
   let : Algebra S (S ⊗[R] T) := Algebra.TensorProduct.leftAlgebra
   exact Algebra.IsPushout.of_equiv e (by
     ext b
-    show F (1 ⊗ₜ[R] b) = b
+    change F (1 ⊗ₜ[R] b) = b
     simp [F])
 
 private lemma dominating_open_immersion
@@ -99,7 +99,7 @@ private lemma dominating_open_immersion
     ext x
     exact congrArg (fun f : B₁ →ₐ[A] B => f x) hg₁.symm
   have : Module.Flat B₁ B := by
-    show RingHom.Flat f₁.toRingHom
+    change RingHom.Flat f₁.toRingHom
     exact (AlgebraicGeometry.Flat.SpecMap_iff (f := CommRingCat.ofHom f₁.toRingHom)).mp
       inferInstance
   have hepi : CategoryTheory.Epi (CommRingCat.ofHom f₁.toRingHom) := by

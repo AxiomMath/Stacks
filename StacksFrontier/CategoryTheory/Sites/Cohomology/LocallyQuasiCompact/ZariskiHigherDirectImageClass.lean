@@ -75,7 +75,7 @@ theorem isProperMap_of_properMorphisms (hf : S.properMorphisms f) :
     StacksDraft.Topology.IsProperMap.{u, u, u}
       (((S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop).map f) : X.obj → Y.obj) :=
   have _ht2 : T2Space ((S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop).obj X) := by
-    show T2Space X.obj
+    change T2Space X.obj
     infer_instance
   ⟨T2Space.isSeparatedMap _, hf.isUniversallyClosedMap⟩
 

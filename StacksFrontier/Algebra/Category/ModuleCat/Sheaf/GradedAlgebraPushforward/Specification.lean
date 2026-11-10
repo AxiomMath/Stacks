@@ -171,7 +171,8 @@ noncomputable def moduleSectionSheafMap
     {X : RingedTopos.{v, u, w}}
     [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
     [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
-    (M : SheafOfModules ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) (s : M.sections) :
+    (M : SheafOfModules ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O))
+    (s : M.sections) :
     (⊤_ (Sheaf X.J (Type w))) ⟶ Stacks.underlyingModuleSheaf X.J M := by
   refine ObjectProperty.homMk { app := fun U => ?_, naturality := ?_ }
   · exact ↾fun _ => s.eval U
@@ -273,7 +274,8 @@ noncomputable def pushforwardTerminalIso
   have : f.toToposHom.pushforward.IsRightAdjoint := f.toToposHom.adj.isRightAdjoint
   exact asIso (Limits.terminalComparison f.toToposHom.pushforward)
 
-/-- The first projection after `pushforwardProductIso` is the direct image of the first projection. -/
+/-- The first projection after `pushforwardProductIso` is the direct image of the first
+projection. -/
 @[reassoc]
 lemma pushforwardProductIso_hom_fst
     {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}

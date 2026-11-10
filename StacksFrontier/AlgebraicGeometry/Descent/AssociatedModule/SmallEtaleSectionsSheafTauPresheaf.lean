@@ -284,7 +284,7 @@ public theorem finalPullbackUnit_smul {X Y : B.Scheme} (a : X ⟶ Y)
               (final B X.obj X.property)).op).hom
           (structureMapAppSections a (final B Y.obj Y.property) r) •
         (finalPullbackUnit B a M).hom x := by
-  show ((SheafOfModules.pullback.{u} (smallEtaleStructureMapRing B a)).obj
+  change ((SheafOfModules.pullback.{u} (smallEtaleStructureMapRing B a)).obj
       M).val.presheaf.map _ ((unitSectionsApp B a M _).hom (r • x)) = _
   rw [unitSectionsApp_smul]
   exact PresheafOfModules.map_smul _ _ _ _
@@ -366,7 +366,7 @@ public theorem sectionsSheafTauMap_smul {T T' : BigEtaleOver B S hS} (g : T' ⟶
       sectionsSheafTauRingMap B S hS g r • (sectionsSheafTauMap B S hS 𝓖 g).hom m := by
   refine Eq.trans ?_ (congrArg (fun s => s • (sectionsSheafTauMap B S hS 𝓖 g).hom m)
     (structureSheaf_map_structureMapAppSections g.left r))
-  show (smallEtaleSectionsApp B
+  change (smallEtaleSectionsApp B
       ((smallEtalePullbackFactoredCompIso B g.left T.hom T'.hom (Over.w g)).hom.app 𝓖)
       (final B T'.left.obj T'.left.property)).hom
       ((finalPullbackUnit B g.left (sectionsSheafTauPullback B S hS 𝓖 T)).hom (r • m)) = _
@@ -703,7 +703,7 @@ public theorem sectionsSheafTauLocApp_smul (V : SmallEtale B S hS)
       locScalar B S hS V r • (sectionsSheafTauLocApp B S hS 𝓖 V).hom x := by
   refine Eq.trans ?_ (congrArg (fun s => s • (sectionsSheafTauLocApp B S hS 𝓖 V).hom x)
     (structureSheaf_map_diag_structureMapAppSections B S hS V r))
-  show ((SheafOfModules.pullback.{u} (smallEtaleStructureMapRing B V.obj.hom)).obj
+  change ((SheafOfModules.pullback.{u} (smallEtaleStructureMapRing B V.obj.hom)).obj
       𝓖).val.presheaf.map _ ((unitSectionsApp B V.obj.hom 𝓖 V).hom (r • x)) = _
   rw [unitSectionsApp_smul]
   exact PresheafOfModules.map_smul _ _ _ _

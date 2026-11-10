@@ -293,7 +293,7 @@ lemma not_X_zero_dvd_X_one : ¬ (X 0 : MvPolynomial (Fin 3) k) ∣ X 1 := by
 lemma algebraMap_affineOpen_bijective :
     Function.Bijective (algebraMap (MvPolynomial (Fin 3) k)
       ((Spec.structureSheaf (MvPolynomial (Fin 3) k)).obj.obj (op (affineOpen k)))) := by
-  let := UniqueFactorizationMonoid.normalizationMonoid (α := MvPolynomial (Fin 3) k)
+  let := UniqueFactorizationMonoid.strongNormalizationMonoid (α := MvPolynomial (Fin 3) k)
   refine Stacks.PicardUFD.algebraMap_bijective_two_basicOpens _ (X 0) (X 1)
     (X_ne_zero (R := k) (σ := Fin 3) 0) (X_ne_zero (R := k) (σ := Fin 3) 1) ?_
   intro p hp hp'
@@ -382,7 +382,7 @@ def evalOnLine (c : k) :
 
 /-- `evalOnLine c` takes the value `c` on the section `t`. -/
 lemma evalOnLine_ratioSection (c : k) : evalOnLine k c (ratioSection k) = c := by
-  show eval ![0, 0, c] ((affineOpenEquiv k).symm
+  change eval ![0, 0, c] ((affineOpenEquiv k).symm
     (sectionsMap (toAffineSpace k) (coneOpen k) (affineOpen k) (affineOpen_le k)
       (ratioSection k))) = c
   rw [sectionsMap_ratioSection,

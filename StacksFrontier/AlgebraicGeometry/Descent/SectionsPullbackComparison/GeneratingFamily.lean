@@ -56,8 +56,7 @@ public theorem eq_top_of_tmul_mem {R S : Type u} [CommRing R] [CommRing S] (φ :
     (h : ∀ (s : S) (m : M), (s ⊗ₜ[R,φ] m : (ModuleCat.extendScalars φ).obj M) ∈ Q) :
     Q = ⊤ := by
   refine Submodule.eq_top_iff'.2 fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul s m => exact h s m
   | add y z hy hz => exact Submodule.add_mem _ hy hz
 

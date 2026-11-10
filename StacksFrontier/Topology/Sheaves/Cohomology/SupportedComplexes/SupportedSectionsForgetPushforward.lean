@@ -111,7 +111,7 @@ theorem forgetPushforwardSquare_app (F : _root_.SheafOfModules.{u} (structureShe
         (abelianSupportedSectionsForgetIso X Z).hom.app F ≫
         (abelianSupportedSectionsRealizedCompPushforwardIso Z hZ).inv.app
           ((_root_.SheafOfModules.toSheaf (structureSheafRing X)).obj F) := by
-    show (abelianClosedPushforward Z).map
+    change (abelianClosedPushforward Z).map
         ((supportedSectionsOnClosedForgetIso X Z hZ).hom.app F) = _
     unfold supportedSectionsOnClosedForgetIso
     refine Eq.trans (Functor.map_preimage _ _) ?_

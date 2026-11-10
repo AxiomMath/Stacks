@@ -131,7 +131,7 @@ def quasicoherentCounit :
       (BigFppfOver.associatedTopology_le_fppf B S hS 𝒳.val.val.p .etale)
       (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p
         𝒳.val.isFiberedInGroupoids .fppf)).obj G.obj)).val⟩
-  naturality {G G'} f := (ObjectProperty.fullyFaithfulι _).map_injective
+  naturality _ _ f := (ObjectProperty.fullyFaithfulι _).map_injective
     ((Stacks.SheafOfModules.comparisonPushforwardFullyFaithful
       (BigFppfOver.associatedTopology_le_fppf B S hS 𝒳.val.val.p .etale)
       (FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p
@@ -169,7 +169,7 @@ instance isIso_quasicoherentCounit : IsIso (quasicoherentCounit B S hS 𝒳) := 
 def quasicoherentUnit :
     𝟭 _ ⟶ quasicoherentModuleLowerShriek B S hS 𝒳 ⋙ quasicoherentModulePullback B S hS 𝒳 where
   app H := ObjectProperty.homMk ((moduleLowerShriekAdjunction.{u, w} B S hS 𝒳).unit.app H.obj)
-  naturality {H H'} f := (ObjectProperty.fullyFaithfulι _).map_injective
+  naturality _ _ f := (ObjectProperty.fullyFaithfulι _).map_injective
     ((moduleLowerShriekAdjunction.{u, w} B S hS 𝒳).unit.naturality f.hom)
 
 /-- The unit `ℋ ⟶ g^{-1}g_!ℋ` of `g_! ⊣ g^{-1}` on quasi-coherent modules is an isomorphism. -/

@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DifferentialsVanishing
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.DifferentialsVanishing
 public import StacksFrontier.AlgebraicGeometry.Thickenings.UnramifiedPairSplitConormalSequence
 
 /-!

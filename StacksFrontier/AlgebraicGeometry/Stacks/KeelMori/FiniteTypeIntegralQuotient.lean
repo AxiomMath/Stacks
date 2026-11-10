@@ -144,7 +144,7 @@ theorem isLocallyOfFiniteType_of_affine_etale_charts
   let iV : V' ⟶ V := Over.homMk (ObjectProperty.homMk V₀.ι) rfl
   let g' : U' ⟶ V' := Over.homMk (ObjectProperty.homMk (g.left.hom.resLE V₀ U₀ hUV)) (by
     apply ObjectProperty.hom_ext
-    show (g.left.hom.resLE V₀ U₀ hUV) ≫ V₀.ι ≫ V.hom.hom = U₀.ι ≫ U.hom.hom
+    change (g.left.hom.resLE V₀ U₀ hUV) ≫ V₀.ι ≫ V.hom.hom = U₀.ι ≫ U.hom.hom
     rw [reassoc_of% (Scheme.Hom.resLE_comp_ι g.left.hom hUV)]
     exact congrArg (fun k => U₀.ι ≫ k.hom) g.w)
   apply hf U' V' hU₀ hV₀ (yoneda.map iU ≫ a) (yoneda.map iV ≫ b) g'

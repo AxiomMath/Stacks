@@ -394,7 +394,7 @@ are `𝓘(U)^n • P(U)`, and `𝓘(U)^m • 𝓖(U)` is contained in `P(U)` by 
 It is what turns the third term `𝓘^n (Im ψ)` of the ideal-power sequence of the surjectivity
 chase back into a member `𝓘^{n+m} 𝓖` of the ideal-power filtration of `𝓖`. -/
 theorem idealPowerMultiple_le_idealPowerSub (I : X.IdealSheafData) (n m : ℕ) {G : X.Modules}
-    (hG : G.IsQuasicoherent) (P : G.Submodule) (hP : (subMod P).IsQuasicoherent)
+    (P : G.Submodule) (hP : (subMod P).IsQuasicoherent)
     (h : Stacks.Algebraization.idealPowerMultiple I m G ≤ P) :
     Stacks.Algebraization.idealPowerMultiple I (n + m) G ≤
       _root_.AlgebraicGeometry.idealPowerSub I n P := by
@@ -580,7 +580,7 @@ theorem exists_extIdealPowRestrict_eq_of_succ [IsNoetherian X] [HasExt.{w} X.Mod
       (kerMod (toImageMod ψ))) (extRestrict.{w, w'} U ξ₁) η' hξ₁
   have hle : Stacks.Algebraization.idealPowerMultiple I (N + m) G ≤
       _root_.AlgebraicGeometry.idealPowerSub I N (_root_.AlgebraicGeometry.imageSubmodule ψ) :=
-    idealPowerMultiple_le_idealPowerSub I N m hGq _ hAq hm
+    idealPowerMultiple_le_idealPowerSub I N m _ hAq hm
   have hv : (kerIdealPowerEpiLift I N hEq hAq (toImageMod ψ) hα ≫ w) ≫
       submoduleι (Stacks.Algebraization.idealPowerMultiple I n (kerMod (toImageMod ψ))) =
       kerIdealPowerEpiToKer I N hEq hAq (toImageMod ψ) hα :=

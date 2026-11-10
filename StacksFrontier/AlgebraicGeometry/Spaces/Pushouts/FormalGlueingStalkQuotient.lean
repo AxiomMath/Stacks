@@ -147,8 +147,7 @@ theorem bijective_quotientMap_ker_of_tensor_flat {R S' T P : Type*} [CommRing R]
     rw [← hγ, ← hδ', Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one (A := T),
       TensorProduct.smul_tmul]
   have hsurjπ (u : TensorProduct R S' T) : ∃ s : S', s ⊗ₜ[R] (1 : T) = u := by
-    induction u using TensorProduct.induction_on with
-    | zero => exact ⟨0, TensorProduct.zero_tmul _ _⟩
+    induction u using TensorProduct.inductionOn with
     | tmul s t =>
       obtain ⟨a, rfl⟩ := hβ t
       refine ⟨a • s, ?_⟩

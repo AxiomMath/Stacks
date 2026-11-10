@@ -99,6 +99,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       (ringStructureSheafCore B S hS p hp .fppf)).ι]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for cokernels preserved by the inclusion of quasi-coherent modules
 /-- **Stacks 0GQL, part (1).**  Let `φ : 𝓕 → 𝓖` be a map of quasi-coherent `𝒪_𝒳`-modules.  The
 cokernel of `φ` in `QCoh(𝒪_𝒳)`, included into `Mod(𝒪_𝒳)` together with its projection, is a
 cokernel of `φ` in `Mod(𝒪_𝒳)`.
@@ -122,6 +123,7 @@ def isColimitCokernelCoforkMapQuasicoherentInclusion
   isColimitOfHasCokernelOfPreservesColimit _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesCokernel` along the inclusion of quasi-coherent modules
 /-- **Stacks 0GQL, part (1), the quasi-coherence half.**  The cokernel of a map of quasi-coherent
 `𝒪_𝒳`-modules computed in `Mod(𝒪_𝒳)` is quasi-coherent, because it is isomorphic to the
 inclusion of the cokernel computed in `QCoh(𝒪_𝒳)`. -/

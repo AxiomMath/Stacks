@@ -110,8 +110,7 @@ theorem isIso_projectionFormulaMap_of_locallyStrictlyPerfect
     (isIso_derivedBaseChangeMap_of_isOpenImmersions _ _ _ _ hsq E)
     (isIso_derivedBaseChangeMap_of_isOpenImmersions _ _ _ _ hsq _)
     (isIso_projectionFormulaMap_of_iso_right _ _ e.symm
-      (isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit _ _
-        (fun j => isIso_projectionFormulaMap_singleUnit_degree _ _ j) P hP))
+      (isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit _ _ P hP))
 
 /-! ### Tag 0B54 -/
 

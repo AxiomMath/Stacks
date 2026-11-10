@@ -106,7 +106,7 @@ theorem isColimit_cofork_of_fpqc {X Y Z : Scheme.{u}} (a b : X ⟶ Y) (c : Y ⟶
       have hbridge : li ≫ pullback.fst c (f i) ≫ q =
           lj ≫ pullback.fst c (f j) ≫ q := by
         simp only [li, lj, pullback.lift_fst_assoc]
-      show pullback.snd c r ≫ pullback.fst (f i) (f j) ≫ φ i =
+      change pullback.snd c r ≫ pullback.fst (f i) (f j) ≫ φ i =
         pullback.snd c r ≫ pullback.snd (f i) (f j) ≫ φ j
       simpa only [li, lj, ← Category.assoc, pullback.lift_snd] using
         hi.symm.trans (hbridge.trans hj)
@@ -125,7 +125,7 @@ theorem isColimit_cofork_of_fpqc {X Y Z : Scheme.{u}} (a b : X ⟶ Y) (c : Y ⟶
     have hEq : c ≫ z = q := by
       apply hsY.isSeparatedFor.ext
       intro W g hg
-      show g ≫ c ≫ z = g ≫ q
+      change g ≫ c ≫ z = g ≫ q
       rw [Sieve.pullback_apply, Sieve.mem_ofArrows_iff] at hg
       obtain ⟨i, k, hk⟩ := hg
       have hφi : f i ≫ z = φ i := by
@@ -150,7 +150,7 @@ theorem isColimit_cofork_of_fpqc {X Y Z : Scheme.{u}} (a b : X ⟶ Y) (c : Y ⟶
       have hm' : c ≫ m = q := by simpa [Cofork.π_ofπ] using hm
       simp only [baseChangeCofork, Cofork.π_ofπ, yoneda_obj_map, TypeCat.ofHom_apply,
         Quiver.Hom.unop_op]
-      show pullback.snd c (f i) ≫ f i ≫ m = pullback.snd c (f i) ≫ φ i
+      change pullback.snd c (f i) ≫ f i ≫ m = pullback.snd c (f i) ≫ φ i
       rw [← Category.assoc, ← pullback.condition, Category.assoc, hm', (hfac i).symm]
 
 end AlgebraicGeometry

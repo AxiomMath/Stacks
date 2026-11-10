@@ -433,14 +433,14 @@ theorem _root_.Stacks.WeilCohomology.SourceChernSetup.mem_grade_of_bundleFormula
   have hbval : ∀ (d : ℕ) (i : Fin (r + 1)), (i : ℕ) ≤ d →
       b d i = ((D i (d - (i : ℕ)) : 𝔄.grade X (d - (i : ℕ))) : 𝔄.A X) := by
     intro d i hid
-    simp only [hb, if_pos hid]
+    simp only [hb, ite_eq_left hid]
   have hbmem : ∀ (d : ℕ) (i : Fin (r + 1)), (i : ℕ) ≤ d → b d i ∈ 𝔄.grade X (d - (i : ℕ)) := by
     intro d i hid
     rw [hbval d i hid]
     exact (D i (d - (i : ℕ))).2
   have hb0 : ∀ (d : ℕ) (i : Fin (r + 1)), ¬ (i : ℕ) ≤ d → b d i = 0 := by
     intro d i hid
-    simp only [hb, if_neg hid]
+    simp only [hb, ite_eq_right hid]
   have hNn : n < N := lt_of_lt_of_le (Nat.lt_succ_self n) (le_max_right _ _)
   have hFb : ∀ d : ℕ, 𝔄.bundleFormula X E r hE (b d) ∈
       𝔄.grade (𝔄.bundleDatum X E r hE).bundle d := by
@@ -515,15 +515,15 @@ theorem _root_.Stacks.WeilCohomology.SourceChernSetup.mem_grade_of_bundleFormula
     have hLHS : (DirectSum.of
         (fun d => (𝔄.grade (𝔄.bundleDatum X E r hE).bundle d : Type v)) n
           ⟨𝔄.bundleFormula X E r hE a, hn⟩) m = 0 := by
-      rw [DirectSum.of_apply, dif_neg (Ne.symm hmn)]
+      rw [DirectSum.of_apply, dite_eq_right (Ne.symm hmn)]
     have hRHS : (∑ d ∈ Finset.range N,
         DirectSum.of (fun d => (𝔄.grade (𝔄.bundleDatum X E r hE).bundle d : Type v)) d
           ⟨𝔄.bundleFormula X E r hE (b d), hFb d⟩) m =
         ⟨𝔄.bundleFormula X E r hE (b m), hFb m⟩ := by
-      rw [DFinsupp.finset_sum_apply]
+      rw [DFinsupp.finsetSum_apply]
       refine (Finset.sum_eq_single m (fun d _ hdm => ?_) (fun hmm => absurd hm hmm)).trans ?_
-      · rw [DirectSum.of_apply, dif_neg hdm]
-      · rw [DirectSum.of_apply, dif_pos rfl]
+      · rw [DirectSum.of_apply, dite_eq_right hdm]
+      · rw [DirectSum.of_apply, dite_eq_left rfl]
     rw [hLHS, hRHS] at heval
     simpa using (Subtype.ext_iff.mp heval).symm
   have hFan : 𝔄.bundleFormula X E r hE a = 𝔄.bundleFormula X E r hE (b n) := by
@@ -740,7 +740,7 @@ theorem chernClass_mem_grade (X : C) (E : (S.obj X).Modules) (r : ℕ)
   have htuple : ∀ (i : Fin (r + 1)) (k : ℕ), (i : ℕ) + k = r + 1 →
       𝔖.chernTuple X E r hE i ∈ 𝔖.grade X k := by
     refine 𝔖.mem_grade_of_bundleFormula X E r hE (𝔖.chernTuple X E r hE) (r + 1) ?_
-    show 𝔖.bundleFormula X E r hE (𝔖.chernTuple X E r hE) ∈ _
+    change 𝔖.bundleFormula X E r hE (𝔖.chernTuple X E r hE) ∈ _
     rw [𝔖.bundleFormula_chernTuple X E r hE]
     exact htop
   rcases Nat.eq_zero_or_pos j with rfl | hj
@@ -844,13 +844,14 @@ theorem chernSeries_coeff_invertible (X : C) (L : (S.obj X).Modules)
     rfl
   rw [𝔖.chernSeries_coeff_succ X L 0 h1 n]
   rcases Nat.eq_zero_or_pos n with rfl | hn
-  · rw [𝔖.chernClass_zero X L 0 h1, if_pos rfl]
+  · rw [𝔖.chernClass_zero X L 0 h1, ite_eq_left rfl]
   rcases le_or_gt n 1 with hle | hgt
   · have hn1 : n = 1 := by omega
     subst hn1
-    rw [𝔖.chernClass_of_le X L 0 h1 (by omega) (by omega), if_neg one_ne_zero, if_pos rfl]
+    rw [𝔖.chernClass_of_le X L 0 h1 (by omega) (by omega), ite_eq_right one_ne_zero,
+      ite_eq_left rfl]
     simpa using hkey
-  · rw [𝔖.chernClass_of_gt X L 0 h1 (by omega), if_neg (by omega), if_neg (by omega)]
+  · rw [𝔖.chernClass_of_gt X L 0 h1 (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 end ChernSituation
 

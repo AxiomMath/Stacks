@@ -105,11 +105,11 @@ theorem d_cochainPow {n : ℕ} (z : (baseCech f U).X n) :
   have hR : (p : Γ(pullback (pullback.snd (𝟙 S) f) (inter U y).ι, ⊤)) = 0 :=
     natCast_eq_zero_of_hom (pullback.fst _ (inter U y).ι ≫ pullback.fst (𝟙 S) f) hS
   let F := frobeniusRingHom Γ(pullback (pullback.snd (𝟙 S) f) (inter U y).ι, ⊤) hp hR
-  show _ = F _
+  change _ = F _
   rw [map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [map_zsmul, π_cochainPow]
-  show _ = _ • ((pullbackOpenMap (pullback.snd (𝟙 S) f) (interMap U y i.succAbove).le).appTop.hom
+  change _ = _ • ((pullbackOpenMap (pullback.snd (𝟙 S) f) (interMap U y i.succAbove).le).appTop.hom
     _) ^ p
   rw [map_pow]
 

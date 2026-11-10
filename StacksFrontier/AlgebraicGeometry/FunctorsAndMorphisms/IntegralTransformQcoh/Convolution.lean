@@ -203,7 +203,7 @@ theorem isQuasicoherent_convolutionIntegrand (K : (pullback X.hom Y.hom).Modules
     (convolutionIntegrand R X Y Z K L).IsQuasicoherent := by
   have hK' := isQuasicoherent_pullback_fourierMukaiPr12 R X Y Z K hK
   have hL' := isQuasicoherent_pullback_fourierMukaiPr23 R X Y Z L hL
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨(((fourierMukaiTripleProduct X.hom Y.hom Z.hom).toRingedSpace)).presheaf,
         (((fourierMukaiTripleProduct X.hom Y.hom Z.hom).toRingedSpace)).IsSheaf⟩).obj
       (((Scheme.Modules.pullback (fourierMukaiPr12 X.hom Y.hom Z.hom)).obj K))).obj

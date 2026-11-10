@@ -36,8 +36,9 @@ of Stacks 081V nor the structures `P`, `D`, `hloc` of Stacks 0823.
   `f'` is proper, by Stacks 04NX part (2), `π` being affine and hence separated (Stacks 03KM).
 * Clause (4) of Stacks 0A1B is
   `Space.isIso_pushforwardAlgebraMap_toNormalizationInQcqsOver_of_universallyClosed`
-  of `StacksFrontier.AlgebraicGeometry.Spaces.NormalizationInUniversallyClosed`: `π` is affine (it is
-  an object of `AlgebraicGeometry.Space.AffineOver Y`) and the map `π_* 𝒪_{Y'} ⟶ f_* 𝒪_X` induced
+  of `StacksFrontier.AlgebraicGeometry.Spaces.NormalizationInUniversallyClosed`: `π` is affine
+  (it is an object of `AlgebraicGeometry.Space.AffineOver Y`) and the map `π_* 𝒪_{Y'} ⟶ f_* 𝒪_X`
+  induced
   by `f'` is an isomorphism of `𝒪_Y`-algebras, which is what `Y' = \underline{Spec}_Y(f_* 𝒪_X)`
   means; it is proved for every quasi-compact, quasi-separated, universally closed `f`, and a
   proper `f` is all three.  The tag is attached to it below.
@@ -53,7 +54,8 @@ of Stacks 081V nor the structures `P`, `D`, `hloc` of Stacks 0823.
   quasi-compact, quasi-separated `f`, which a proper `f` is.  The tag is attached to it below.
 * Clause (2) of Stacks 0A1B is
   `AlgebraicGeometry.Space.isFinite_normalizationInQcqsHom_of_isProper` of
-  `StacksFrontier.AlgebraicGeometry.Spaces.NormalizationInFiniteOfProper`, where the tag is attached.
+  `StacksFrontier.AlgebraicGeometry.Spaces.NormalizationInFiniteOfProper`, where the tag is
+  attached.
 * Clause (1) of Stacks 0A1B, properness together with connectedness of the geometric fibres, is
   `AlgebraicGeometry.Space.isProper_and_connectedPullback_toNormalizationInQcqs` of
   `StacksFrontier.AlgebraicGeometry.Spaces.SteinFactorizationNoetherianConnectedFibres`, where the

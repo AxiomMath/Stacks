@@ -184,7 +184,7 @@ public theorem flat_selfAlgebraOfBaseEquiv {R : Type w} [CommRing R]
     (e : R ≃+* TrivSqZeroExt k V) :
     letI := selfAlgebraOfBaseEquiv e
     Module.Flat (TrivSqZeroExt k V) R := by
-  letI := selfAlgebraOfBaseEquiv e
+  let := selfAlgebraOfBaseEquiv e
   refine Module.Flat.of_linearEquiv (M := TrivSqZeroExt k V) (N := R)
     { toFun := e
       map_add' := map_add e
@@ -195,6 +195,7 @@ public theorem flat_selfAlgebraOfBaseEquiv {R : Type w} [CommRing R]
   change e (e.symm a * r) = a * e r
   rw [map_mul, e.apply_symm_apply]
 
+omit [Algebra R k] [Algebra k Q] [IsScalarTower k (TrivSqZeroExt k V) Q] in
 include hQ in
 /-- A presentation of the base as `k ⊕ V` compatible with the structural map of `Q` writes the
 structural map of `Q` over `k ⊕ V` as that over `R`, read through the presentation. -/
@@ -205,26 +206,29 @@ public theorem algebraMap_eq_comp_symm :
     change algebraMap (TrivSqZeroExt k V) Q a = algebraMap R Q (e.symm a)
     rw [← hQ (e.symm a), e.apply_symm_apply]
 
+omit [Algebra R k] [Algebra k Q] [IsScalarTower k (TrivSqZeroExt k V) Q] in
 include hQ in
 /-- A presentation of the base as `k ⊕ V` compatible with the structural maps makes `R` an
 intermediate algebra of the tower `k ⊕ V → R → Q`. -/
 public theorem isScalarTower_selfAlgebraOfBaseEquiv :
     letI := selfAlgebraOfBaseEquiv e
     IsScalarTower (TrivSqZeroExt k V) R Q := by
-  letI := selfAlgebraOfBaseEquiv e
+  let := selfAlgebraOfBaseEquiv e
   exact IsScalarTower.of_algebraMap_eq fun a ↦
     RingHom.congr_fun (algebraMap_eq_comp_symm Q e hQ) a
 
+omit [Algebra R k] [Algebra k Q] [IsScalarTower k (TrivSqZeroExt k V) Q] in
 include hQ in
 /-- **A flat algebra over a base presented as `k ⊕ V` is flat over `k ⊕ V`.** This is the
 flatness hypothesis of `Deformation.Examples.firstOrderExtension`. -/
 public theorem flat_algebraOfBaseEquiv [Module.Flat R Q] :
     Module.Flat (TrivSqZeroExt k V) Q := by
-  letI := selfAlgebraOfBaseEquiv e
-  letI := isScalarTower_selfAlgebraOfBaseEquiv Q e hQ
-  letI := flat_selfAlgebraOfBaseEquiv (R := R) e
+  let := selfAlgebraOfBaseEquiv e
+  let := isScalarTower_selfAlgebraOfBaseEquiv Q e hQ
+  let := flat_selfAlgebraOfBaseEquiv (R := R) e
   exact Module.Flat.trans (TrivSqZeroExt k V) R Q
 
+omit [Algebra R k] in
 include hQ in
 /-- The structural map of `Q` as a `k`-algebra factors through the base. -/
 public theorem algebraMap_base_eq (c : k) :
@@ -273,6 +277,7 @@ public theorem isFirstOrderReduction_reductionOfBaseEquiv :
   rw [← IsScalarTower.algebraMap_apply R Q P, IsScalarTower.algebraMap_apply R k P, hρ,
     e.apply_symm_apply]
 
+omit [Algebra k Q] in
 /-- **The reduction of a deformation is surjective**, since `P` is the base change of `Q` along
 the surjection `R → k`. -/
 public theorem surjective_algebraMap_of_isPushout [Algebra.IsPushout R Q k P]
@@ -366,8 +371,8 @@ public theorem extClassOfBaseEquiv_map [Module.Flat R Q] [Algebra.IsPushout R Q 
     extClassOfBaseEquiv Q'' e'' hQ'' hρ'' hsurj''
       = naiveCotangentExtOneMap k P (tensorRightMap P f)
         (extClassOfBaseEquiv Q e hQ hρ hsurj) := by
-  letI := flat_algebraOfBaseEquiv (R := R) Q e hQ
-  letI := flat_algebraOfBaseEquiv (R := R'') Q'' e'' hQ''
+  let := flat_algebraOfBaseEquiv (R := R) Q e hQ
+  let := flat_algebraOfBaseEquiv (R := R'') Q'' e'' hQ''
   have hgalg : ∀ a : TrivSqZeroExt k V,
       g (algebraMap (TrivSqZeroExt k V) Q a)
         = algebraMap (TrivSqZeroExt k V') Q'' (TrivSqZeroExt.map f a) := by
@@ -537,11 +542,11 @@ public theorem fiber_isPushout (x : (ringDeformationProjection Λ k P).Fiber A) 
     letI := fiber_isScalarTower_aug x
     letI := fiber_isScalarTower_red x
     Algebra.IsPushout (x.1.left.base : Type w) x.1.left.fiber k P := by
-  letI := fiberAugAlgebra x
-  letI := fiberRedAlgebra x
-  letI := fiberBaseAlgebra x
-  letI := fiber_isScalarTower_aug x
-  letI := fiber_isScalarTower_red x
+  let := fiberAugAlgebra x
+  let := fiberRedAlgebra x
+  let := fiberBaseAlgebra x
+  let := fiber_isScalarTower_aug x
+  let := fiber_isScalarTower_red x
   apply CommRingCat.isPushout_iff_isPushout.mp
   exact x.1.hom.cartesian
 
@@ -606,24 +611,24 @@ public theorem fiberExtClass_map {x : (ringDeformationProjection Λ k P).Fiber A
     (hb : ∀ r, ey (φ.left.base.hom r) = TrivSqZeroExt.map f (ex r)) :
     fiberExtClass y ey hρy
       = naiveCotangentExtOneMap k P (tensorRightMap P f) (fiberExtClass x ex hρx) := by
-  letI := fiberAugAlgebra x
-  letI := fiberRedAlgebra x
-  letI := fiberBaseAlgebra x
-  letI := fiber_isScalarTower_aug x
-  letI := fiber_isScalarTower_red x
-  letI := fiber_isPushout x
-  letI := algebraOfBaseEquiv x.1.left.fiber ex
-  letI := baseAlgebraOfBaseEquiv x.1.left.fiber ex
-  letI := isScalarTower_baseAlgebraOfBaseEquiv x.1.left.fiber ex
-  letI := fiberAugAlgebra y
-  letI := fiberRedAlgebra y
-  letI := fiberBaseAlgebra y
-  letI := fiber_isScalarTower_aug y
-  letI := fiber_isScalarTower_red y
-  letI := fiber_isPushout y
-  letI := algebraOfBaseEquiv y.1.left.fiber ey
-  letI := baseAlgebraOfBaseEquiv y.1.left.fiber ey
-  letI := isScalarTower_baseAlgebraOfBaseEquiv y.1.left.fiber ey
+  let := fiberAugAlgebra x
+  let := fiberRedAlgebra x
+  let := fiberBaseAlgebra x
+  let := fiber_isScalarTower_aug x
+  let := fiber_isScalarTower_red x
+  let := fiber_isPushout x
+  let := algebraOfBaseEquiv x.1.left.fiber ex
+  let := baseAlgebraOfBaseEquiv x.1.left.fiber ex
+  let := isScalarTower_baseAlgebraOfBaseEquiv x.1.left.fiber ex
+  let := fiberAugAlgebra y
+  let := fiberRedAlgebra y
+  let := fiberBaseAlgebra y
+  let := fiber_isScalarTower_aug y
+  let := fiber_isScalarTower_red y
+  let := fiber_isPushout y
+  let := algebraOfBaseEquiv y.1.left.fiber ey
+  let := baseAlgebraOfBaseEquiv y.1.left.fiber ey
+  let := isScalarTower_baseAlgebraOfBaseEquiv y.1.left.fiber ey
   exact extClassOfBaseEquiv_map (P := P) ex ey
     (algebraMap_algebraOfBaseEquiv x.1.left.fiber ex)
     (algebraMap_algebraOfBaseEquiv y.1.left.fiber ey) hρx hρy
@@ -680,7 +685,7 @@ public theorem fiberSquareZeroEquiv_base_hom {W W' : FGModuleCat.{w} k} (f : W �
   rw [hom_eqToHom_apply, hom_eqToHom_apply] at happ
   change φ.left.base.hom r
     = ringEquivOfEq hy.symm (TrivSqZeroExt.map f.hom.hom (ringEquivOfEq hx r)) at happ
-  rw [ringEquivOfEq_symm] at happ
+  rw [ringEquivOfEq_symm hy] at happ
   change fiberSquareZeroEquiv W' y (φ.left.base.hom r) = _
   rw [happ]
   exact (ringEquivOfEq hy).apply_symm_apply _
@@ -726,8 +731,8 @@ public theorem exists_ringEquiv_of_extClassOfBaseEquiv_eq [Module.Flat R Q]
       = extClassOfBaseEquiv (P := P) Q₂ e₂ hQ₂ hρ₂ hsurj₂) :
     ∃ g : Q ≃+* Q₂, (∀ z : Q, algebraMap Q₂ P (g z) = algebraMap Q P z) ∧
       ∀ (a : TrivSqZeroExt k V) (z : Q), g (a • z) = a • g z := by
-  letI := flat_algebraOfBaseEquiv (R := R) Q e hQ
-  letI := flat_algebraOfBaseEquiv (R := R₂) Q₂ e₂ hQ₂
+  let := flat_algebraOfBaseEquiv (R := R) Q e hQ
+  let := flat_algebraOfBaseEquiv (R := R₂) Q₂ e₂ hQ₂
   set π := reductionOfBaseEquiv (P := P) Q e hQ hρ with hπdef
   set π₂ := reductionOfBaseEquiv (P := P) Q₂ e₂ hQ₂ hρ₂ with hπ₂def
   have hπ : Function.Surjective π := surjective_algebraMap_of_isPushout Q hsurj
@@ -788,7 +793,7 @@ public theorem squareZeroFiberExtClass_congr (W : FGModuleCat.{w} k)
   have h0 : (squareZeroExtensionArtinian Λ k).map (𝟙 W)
       = 𝟙 ((squareZeroExtensionArtinian Λ k).obj W) :=
     CategoryTheory.Functor.map_id _ W
-  letI : (ringDeformationProjection Λ k P).IsHomLift
+  let : (ringDeformationProjection Λ k P).IsHomLift
       ((squareZeroExtensionArtinian Λ k).map (𝟙 W)) i.hom.val := by
     rw [h0]
     exact i.hom.2
@@ -821,7 +826,7 @@ public theorem tangentExtClass_classOf (W : FGModuleCat.{w} k)
       ((squareZeroExtensionArtinian Λ k).obj W)) :
     tangentExtClass W (classOf (ringDeformationBasedCategory Λ k P)
       isCofiberedInGroupoids_ringDeformationProjection x) = squareZeroFiberExtClass W x := by
-  show Quotient.liftOn (cast _ (classOf (ringDeformationBasedCategory Λ k P)
+  change Quotient.liftOn (cast _ (classOf (ringDeformationBasedCategory Λ k P)
       isCofiberedInGroupoids_ringDeformationProjection x))
       (squareZeroFiberExtClass W) (squareZeroFiberExtClass_congr W) = _
   rw [classOf_eq (ringDeformationBasedCategory Λ k P)
@@ -843,9 +848,9 @@ public theorem tangentExtClass_naturality {W W' : FGModuleCat.{w} k} (f : W ⟶ 
     ((squareZeroExtensionArtinian Λ k).obj W) z
   obtain ⟨y₀, φ, hφ⟩ := exists_pushforward isCofiberedInGroupoids_ringDeformationProjection
     ((squareZeroExtensionArtinian Λ k).map f) x.1 x.2
-  letI : (ringDeformationBasedCategory Λ k P).p.IsHomLift
+  let : (ringDeformationBasedCategory Λ k P).p.IsHomLift
       ((squareZeroExtensionArtinian Λ k).map f) φ := hφ
-  letI : (ringDeformationProjection Λ k P).IsHomLift
+  let : (ringDeformationProjection Λ k P).IsHomLift
       ((squareZeroExtensionArtinian Λ k).map f) φ := hφ
   let y : (ringDeformationProjection Λ k P).Fiber
       ((squareZeroExtensionArtinian Λ k).obj W') :=
@@ -897,24 +902,24 @@ public theorem classOf_eq_of_squareZeroFiberExtClass_eq (W : FGModuleCat.{w} k)
         isCofiberedInGroupoids_ringDeformationProjection x₁
       = classOf (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection x₂ := by
-  letI := fiberAugAlgebra x₁
-  letI := fiberRedAlgebra x₁
-  letI := fiberBaseAlgebra x₁
-  letI := fiber_isScalarTower_aug x₁
-  letI := fiber_isScalarTower_red x₁
-  letI := fiber_isPushout x₁
-  letI := algebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
-  letI := baseAlgebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
-  letI := isScalarTower_baseAlgebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
-  letI := fiberAugAlgebra x₂
-  letI := fiberRedAlgebra x₂
-  letI := fiberBaseAlgebra x₂
-  letI := fiber_isScalarTower_aug x₂
-  letI := fiber_isScalarTower_red x₂
-  letI := fiber_isPushout x₂
-  letI := algebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
-  letI := baseAlgebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
-  letI := isScalarTower_baseAlgebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
+  let := fiberAugAlgebra x₁
+  let := fiberRedAlgebra x₁
+  let := fiberBaseAlgebra x₁
+  let := fiber_isScalarTower_aug x₁
+  let := fiber_isScalarTower_red x₁
+  let := fiber_isPushout x₁
+  let := algebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
+  let := baseAlgebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
+  let := isScalarTower_baseAlgebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁)
+  let := fiberAugAlgebra x₂
+  let := fiberRedAlgebra x₂
+  let := fiberBaseAlgebra x₂
+  let := fiber_isScalarTower_aug x₂
+  let := fiber_isScalarTower_red x₂
+  let := fiber_isPushout x₂
+  let := algebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
+  let := baseAlgebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
+  let := isScalarTower_baseAlgebraOfBaseEquiv x₂.1.left.fiber (fiberSquareZeroEquiv W x₂)
   obtain ⟨g, hgred, hglin⟩ := exists_ringEquiv_of_extClassOfBaseEquiv_eq (P := P)
     (fiberSquareZeroEquiv W x₁) (fiberSquareZeroEquiv W x₂)
     (algebraMap_algebraOfBaseEquiv x₁.1.left.fiber (fiberSquareZeroEquiv W x₁))
@@ -959,7 +964,7 @@ public theorem classOf_eq_of_squareZeroFiberExtClass_eq (W : FGModuleCat.{w} k)
     change (eqToHom (x₁.2.trans x₂.2.symm) :
       x₁.1.left.base ⟶ x₂.1.left.base) = eqToHom x₁.2 ≫ 𝟙 _ ≫ eqToHom x₂.2.symm
     simp
-  letI : (ringDeformationBasedCategory Λ k P).p.IsHomLift
+  let : (ringDeformationBasedCategory Λ k P).p.IsHomLift
       (𝟙 ((squareZeroExtensionArtinian Λ k).obj W)) φ := hlift
   have h := map_classOf (ringDeformationBasedCategory Λ k P)
     isCofiberedInGroupoids_ringDeformationProjection

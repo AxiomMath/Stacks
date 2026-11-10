@@ -45,7 +45,8 @@ Stacks 09YL, it sets up the objects that Stacks 09YP compares:
   `a : j ⟶ i` into a fixed index, the total site of the system with its finite coverings, and the
   presentation of the colimit sheaf as a left Kan extension.
 
-The colimit statement itself, Stacks 09YP, is in `CohomologyOfColimitOfFiniteSites.CohomologyColimit`.
+The colimit statement itself, Stacks 09YP, is in
+`CohomologyOfColimitOfFiniteSites.CohomologyColimit`.
 -/
 
 @[expose] public noncomputable section
@@ -132,7 +133,7 @@ private theorem liftCochainZero_comm {C : Type*} [Category C] [Abelian C]
     (hT : ∀ n, Injective (T.X n)) (f : P ⟶ T.X 0) :
     I.ι.f 0 ≫ liftCochainZero I hT f = f := by
   let f' : ((CochainComplex.single₀ C).obj P).X 0 ⟶ T.X 0 := f
-  show I.ι.f 0 ≫ Injective.factorThru f' (I.ι.f 0) = f'
+  change I.ι.f 0 ≫ Injective.factorThru f' (I.ι.f 0) = f'
   exact Injective.comp_factorThru f' (I.ι.f 0)
 
 private noncomputable def liftCochainOne {C : Type*} [Category C] [Abelian C]
@@ -309,7 +310,7 @@ private theorem liftCochainMap_homologyMap_eq {C : Type*} [Category C] [Abelian 
   intro n
   cases n with
   | zero =>
-    show I.ι.f 0 ≫ (liftCochainMap I hT f hf).f 0 =
+    change I.ι.f 0 ≫ (liftCochainMap I hT f hf).f 0 =
       I.ι.f 0 ≫ (liftCochainMap I hT g hg).f 0
     rw [liftCochainMap_comm, liftCochainMap_comm, hfg]
   | succ n =>
@@ -361,7 +362,7 @@ private theorem sectionsComplexMap_homologyMap_eq_of_lifts
           (by
             intro n n' hn
             have h := congrArg (fun r => r.hom) (q.comm n n')
-            show (I.cocomplex.d n n').hom ≫ (q.f n').hom =
+            change (I.cocomplex.d n n').hom ≫ (q.f n').hom =
               (q.f n).hom ≫ G.op.whiskerLeft (J.d n n').hom
             dsimp [Functor.sheafPushforwardContinuous] at h ⊢
             exact h.symm) V =
@@ -445,7 +446,7 @@ private theorem isCohomologyMap_cohomologyMapOfLift
   refine ⟨I, J, (fun n => (lift.f n).hom), ?_, h0, rfl⟩
   intro n n' hn
   have h := congrArg (fun f => f.hom) (lift.comm n n')
-  show (I.cocomplex.d n n').hom ≫ (lift.f n').hom =
+  change (I.cocomplex.d n n').hom ≫ (lift.f n').hom =
     (lift.f n).hom ≫ Functor.whiskerLeft G.op (J.cocomplex.d n n').hom
   exact h.symm
 
@@ -483,7 +484,7 @@ private theorem cohomologyMapOfLift_eq
     intro n
     cases n with
     | zero =>
-      show I.ι.f 0 ≫ (f.f 0 ≫ R.map (r.f 0)) =
+      change I.ι.f 0 ≫ (f.f 0 ≫ R.map (r.f 0)) =
         I.ι.f 0 ≫ (q.f 0 ≫ g.f 0)
       rw [← Category.assoc, hf, Category.assoc, ← R.map_comp, hr,
         ← Category.assoc, hq, hg]
@@ -514,7 +515,7 @@ private theorem cohomologyMapOfLift_eq
       (by simpa using hr) T p
     rw [(T.rightDerived p).map_id Q, Category.comp_id] at h
     exact h
-  show (I.isoRightDerivedObj S p).hom ≫ HS.map f ≫ (J.isoRightDerivedObj T p).inv =
+  change (I.isoRightDerivedObj S p).hom ≫ HS.map f ≫ (J.isoRightDerivedObj T p).inv =
     (I'.isoRightDerivedObj S p).hom ≫ HS.map g ≫ (J'.isoRightDerivedObj T p).inv
   rw [hr', ← Category.assoc (HS.map f), hh', hq']
   simp only [Category.assoc]
@@ -561,7 +562,7 @@ private theorem isCohomologyMap_zero_comm
     exact congrArg (fun a => a.app (op V)) h0
   rw [I.toRightDerivedZero_eq L, J.toRightDerivedZero_eq R]
   simp only [L, R, Category.assoc, Iso.inv_hom_id_assoc]
-  show I.toRightDerivedZero' L ≫ HomologicalComplex.homologyπ _ 0 ≫
+  change I.toRightDerivedZero' L ≫ HomologicalComplex.homologyπ _ 0 ≫
       HomologicalComplex.homologyMap f 0 ≫ (J.isoRightDerivedObj R 0).inv = _
   rw [HomologicalComplex.homologyπ_naturality_assoc, ← Category.assoc, hcycles]
   simp only [Category.assoc]
@@ -695,7 +696,7 @@ private theorem canonicalCohomologyMap_comp
   have hzero : (I.ι.f 0).hom ≫ ψ 0 =
       (φ ≫ Functor.whiskerLeft G.op χ) ≫
         Functor.whiskerLeft (G ⋙ H).op (K.ι.f 0).hom := by
-    show (I.ι.f 0).hom ≫ (f.f 0).hom ≫ Functor.whiskerLeft G.op (g.f 0).hom = _
+    change (I.ι.f 0).hom ≫ (f.f 0).hom ≫ Functor.whiskerLeft G.op (g.f 0).hom = _
     rw [← Category.assoc, hf, Category.assoc, ← Functor.whiskerLeft_comp, hg,
       Functor.whiskerLeft_comp, Category.assoc]
     rfl
@@ -708,7 +709,7 @@ private theorem canonicalCohomologyMap_comp
         (T.mapHomologicalComplex (ComplexShape.up ℕ)).map g := by
     ext n
     rfl
-  show ((I.isoRightDerivedObj S p).hom ≫
+  change ((I.isoRightDerivedObj S p).hom ≫
       HomologicalComplex.homologyMap ((S.mapHomologicalComplex (ComplexShape.up ℕ)).map f) p ≫
         (J.isoRightDerivedObj T p).inv) ≫
     ((J.isoRightDerivedObj T p).hom ≫
@@ -739,7 +740,7 @@ private theorem isCohomologyMap_id
       rfl
     rw [h, HomologicalComplex.homologyMap_id]
     let e := I.isoRightDerivedObj ((sheafSections JA (Ab.{max w s})).obj (op V)) p
-    show 𝟙 _ = e.hom ≫ 𝟙 _ ≫ e.inv
+    change 𝟙 _ = e.hom ≫ 𝟙 _ ≫ e.inv
     rw [Category.id_comp, Iso.hom_inv_id]
 
 private def cohomologyMapTo
@@ -868,7 +869,7 @@ private theorem exists_isCohomologyMap_of_sheafHom
   have hηd : (eqToHom hsingle ≫ J.ι.f 0) ≫ J.cocomplex.d 0 1 = 0 := by
     rw [Category.assoc, hι, comp_zero]
   have hf : f ≫ T.d 0 1 = 0 := by
-    show φ ≫ (G.sheafPushforwardContinuous (Ab.{max w s}) JA JB).map
+    change φ ≫ (G.sheafPushforwardContinuous (Ab.{max w s}) JA JB).map
       (eqToHom hsingle ≫ J.ι.f 0) ≫
         (G.sheafPushforwardContinuous (Ab.{max w s}) JA JB).map (J.cocomplex.d 0 1) = 0
     rw [← Functor.map_comp, hηd]
@@ -881,7 +882,7 @@ private theorem exists_isCohomologyMap_of_sheafHom
         ψ n ≫ Functor.whiskerLeft G.op (J.cocomplex.d n n').hom := by
     intro n n' hn
     have h := congrArg (fun f : I.cocomplex.X n ⟶ T.X n' => f.hom) (lift.comm n n')
-    show (I.cocomplex.d n n').hom ≫ ψ n' =
+    change (I.cocomplex.d n n').hom ≫ ψ n' =
       ψ n ≫ Functor.whiskerLeft G.op (J.cocomplex.d n n').hom
     exact h.symm
   have h0 : (I.ι.f 0).hom ≫ ψ 0 = φ.hom ≫ Functor.whiskerLeft G.op (J.ι.f 0).hom := by
@@ -952,13 +953,13 @@ private theorem transition_comp
       transition D F b ≫ Functor.whiskerLeft (D.u b).op (transition D F a) ≫
         ((InverseSystemOfFiniteSites.abelianSheafPushforwardCompIso.{v, u, w, t} D a b).hom.app
           (F.obj k)).hom := by
-  show (((InverseSystemOfFiniteSites.abelianSheafAdjunction.{v, u, w, t} D (a ≫ b)).homEquiv _ _)
+  change (((InverseSystemOfFiniteSites.abelianSheafAdjunction.{v, u, w, t} D (a ≫ b)).homEquiv _ _)
     (F.map (a ≫ b))).hom = _
   rw [← F.map_comp a b]
   dsimp only [InverseSystemOfFiniteSites.abelianSheafPullbackCompIso]
   rw [homEquiv_leftAdjointUniq_inv_comp, Adjunction.homEquiv_ofNatIsoRight_apply,
     Adjunction.comp_homEquiv]
-  show ((((InverseSystemOfFiniteSites.abelianSheafAdjunction.{v, u, w, t} D b).homEquiv _ _)
+  change ((((InverseSystemOfFiniteSites.abelianSheafAdjunction.{v, u, w, t} D b).homEquiv _ _)
     (((InverseSystemOfFiniteSites.abelianSheafAdjunction.{v, u, w, t} D a).homEquiv _ _)
       ((InverseSystemOfFiniteSites.abelianSheafPullback.{v, u, w, t} D a).map (F.map b) ≫
         F.map a))) ≫
@@ -995,7 +996,7 @@ theorem transition_id_eqToHom
         (D.id_map i).symm) := by
   let := D.continuous (𝟙 i)
   rw [transition_id]
-  show ((Functor.sheafPushforwardContinuousIso (eqToIso (D.id_map i))
+  change ((Functor.sheafPushforwardContinuousIso (eqToIso (D.id_map i))
     (Ab.{max u v w t}) (D.J i) (D.J i)).inv.app (F.obj i)).hom = _
   have h := pushforward_eqToIso_hom (JA := D.J i) (JB := D.J i)
     (G := 𝟭 (D.C i)) (G' := D.u (𝟙 i)) (D.id_map i).symm (F.obj i)
@@ -1241,7 +1242,7 @@ private theorem exact_comp_epi_mono
     (e : V ⟶ W) (f : W ⟶ X) (g : X ⟶ Y) (m : Y ⟶ Z)
     [Epi e] [Mono m] (hfg : f ≫ g = 0) (h : (ShortComplex.mk f g hfg).Exact) :
     (ShortComplex.mk (e ≫ f) (g ≫ m) (by
-      simp only [Category.assoc, hfg, reassoc_of% hfg, zero_comp, comp_zero])).Exact := by
+      simp only [Category.assoc, reassoc_of% hfg, zero_comp, comp_zero])).Exact := by
   let S := ShortComplex.mk (e ≫ f) g (by
     simp only [Category.assoc, hfg, comp_zero])
   have hS : S.Exact := (ShortComplex.exact_iff_of_epi_of_isIso_of_mono
@@ -1414,14 +1415,14 @@ private theorem transitionCochainLift_comm
   have hηd : (eqToHom hsingle ≫ J.ι.f 0) ≫ J.cocomplex.d 0 1 = 0 := by
     rw [Category.assoc, hι, comp_zero]
   have hf : f₀ ≫ T.d 0 1 = 0 := by
-    show φ ≫ ((D.u f.left).sheafPushforwardContinuous (Ab.{max u v w t})
+    change φ ≫ ((D.u f.left).sheafPushforwardContinuous (Ab.{max u v w t})
       (D.J B.left) (D.J A.left)).map (eqToHom hsingle ≫ J.ι.f 0) ≫
         ((D.u f.left).sheafPushforwardContinuous (Ab.{max u v w t})
           (D.J B.left) (D.J A.left)).map (J.cocomplex.d 0 1) = 0
     rw [← Functor.map_comp, hηd, Functor.map_zero, comp_zero]
   have hLift : (I.ι.f 0).hom ≫
       ((transitionCochainLift D F f hG hL I J).f 0).hom = f₀.hom := by
-    show (I.ι.f 0 ≫ (liftCochainMap I hT f₀ hf).f 0).hom = f₀.hom
+    change (I.ι.f 0 ≫ (liftCochainMap I hT f₀ hf).f 0).hom = f₀.hom
     exact congrArg (fun g => g.hom) (liftCochainMap_comm I hT f₀ hf)
   have hF : f₀.hom = transition.{v, u, w, t} D F f.left ≫
       Functor.whiskerLeft (D.u f.left).op (J.ι.f 0).hom := by
@@ -1468,7 +1469,7 @@ private theorem isCohomologyMap_transitionCohomologyMap
   have h0 := transitionCochainLift_comm D F f hG hL I J
   have h0' : (I.ι.f 0).hom ≫ (lift.f 0).hom =
       φ.hom ≫ Functor.whiskerLeft (D.u f.left).op (J.ι.f 0).hom := by
-    show (I.ι.f 0).hom ≫
+    change (I.ι.f 0).hom ≫
       ((transitionCochainLift D F f hG hL I J).f 0).hom =
         (transition.{v, u, w, t} D F f.left) ≫
           Functor.whiskerLeft (D.u f.left).op (J.ι.f 0).hom
@@ -1971,7 +1972,7 @@ private theorem total_hom_factor {A : Type*} [Category* A] {T : A ⥤ Cat.{w, w}
     X.toTransport f.base ≫ (Grothendieck.ι T Y.base).map f.fiber = f := by
   refine grothendieck_hom_hext (Category.comp_id _)
     ((grothendieck_comp_fiber_heq _ _).trans ?_)
-  show (T.map (𝟙 Y.base)).toFunctor.map (𝟙 ((T.map f.base).toFunctor.obj X.fiber)) ≫
+  change (T.map (𝟙 Y.base)).toFunctor.map (𝟙 ((T.map f.base).toFunctor.obj X.fiber)) ≫
     eqToHom _ ≫ f.fiber ≍ f.fiber
   simp
 
@@ -2024,7 +2025,7 @@ private theorem sectionsToCostructured_final (D : InverseSystemOfFiniteSites.{v,
     let s₁ := s ≫ T.map t
     let s₂ := s' ≫ T.map t
     have hb : s₁.left.base = s₂.left.base := by
-      show s.left.base ≫ a.op = s'.left.base ≫ a.op
+      change s.left.base ≫ a.op = s'.left.base ≫ a.op
       exact congrArg Quiver.Hom.op (IsCofiltered.eq_condition _ _)
     have hi : IsIso (T.obj A').hom :=
       inferInstanceAs
@@ -2038,11 +2039,11 @@ private theorem sectionsToCostructured_final (D : InverseSystemOfFiniteSites.{v,
     let A'' : (Over i)ᵒᵖ := op (Over.mk (b ≫ A'.unop.hom))
     let t' : A' ⟶ A'' := (Over.homMk b).op
     refine ⟨A'', t ≫ t', ?_⟩
-    show s ≫ T.map (t ≫ t') = s' ≫ T.map (t ≫ t')
+    change s ≫ T.map (t ≫ t') = s' ≫ T.map (t ≫ t')
     rw [T.map_comp, ← Category.assoc, ← Category.assoc]
-    show s₁ ≫ T.map t' = s₂ ≫ T.map t'
+    change s₁ ≫ T.map t' = s₂ ≫ T.map t'
     apply CostructuredArrow.hom_ext
-    show s₁.left ≫ (T.map t').left = s₂.left ≫ (T.map t').left
+    change s₁.left ≫ (T.map t').left = s₂.left ≫ (T.map t').left
     rw [← total_hom_factor (T.map t').left]
     exact ((Category.assoc _ _ _).symm.trans
       (congrArg (fun q => q ≫ (Grothendieck.ι (oppositeSiteDiagram D) _).map
@@ -2236,7 +2237,7 @@ private def systemKan_isPointwise (D : InverseSystemOfFiniteSites.{v, u, w})
 private theorem stageFunctor_comp (D : InverseSystemOfFiniteSites.{v, u, w})
     {i : D.I} {A B : Over i} (f : A ⟶ B) :
     (D.u B.hom).op ⋙ (D.u f.left).op = (D.u A.hom).op := by
-  show (D.u B.hom ⋙ D.u f.left).op = _
+  change (D.u B.hom ⋙ D.u f.left).op = _
   rw [← D.comp, Over.w]
 
 private def stageSectionsMap (D : InverseSystemOfFiniteSites.{v, u, w})
@@ -2665,7 +2666,7 @@ public theorem colimitPresentation_uniqueIso
     obtain ⟨l, _, hl⟩ := hG.2 G ιG hG.1
     apply (hl _ ?_).trans (hl _ ?_).symm
     · intro j
-      show ιG j ≫ Functor.whiskerLeft (uC j).op (f.hom ≫ g.hom) = _
+      change ιG j ≫ Functor.whiskerLeft (uC j).op (f.hom ≫ g.hom) = _
       rw [Functor.whiskerLeft_comp, ← Category.assoc, hf, hg]
     · intro j
       simp
@@ -2673,7 +2674,7 @@ public theorem colimitPresentation_uniqueIso
     obtain ⟨l, _, hl⟩ := hH.2 H ιH hH.1
     apply (hl _ ?_).trans (hl _ ?_).symm
     · intro j
-      show ιH j ≫ Functor.whiskerLeft (uC j).op (g.hom ≫ f.hom) = _
+      change ιH j ≫ Functor.whiskerLeft (uC j).op (g.hom ≫ f.hom) = _
       rw [Functor.whiskerLeft_comp, ← Category.assoc, hg, hf]
     · intro j
       simp

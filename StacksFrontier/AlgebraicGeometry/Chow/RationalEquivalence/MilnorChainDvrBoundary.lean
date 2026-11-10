@@ -300,7 +300,7 @@ theorem finite_milnorChainDvrBoundaryTerm_ne_zero (i : ℕ) (j : ℤ)
   · have hmem : (x'.1 : X) ∈ closure ({(x.1 : X)} : Set X) := specializes_iff_mem_closure.mp hspec
     refine ⟨⟨pointClosurePoint x.1 hmem, hdvr x x' hspec⟩, ⟨?_, ?_⟩,
       subschemeι_pointClosurePoint x.1 hmem⟩
-    · show (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
+    · change (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
       rw [subschemeι_pointClosurePoint x.1 hmem]
       exact hx'U
     · intro hzero

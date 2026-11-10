@@ -236,7 +236,7 @@ theorem inverseImagePullback_ideal_fibreFst (U : (Opens Y.carrier)ᵒᵖ)
   obtain ⟨n, rfl⟩ := (pullbackIdealEquivOf (T := inverseImageRingedSpace g)
     (G := restrictedModule g G) Q.reduction (inverseImageComorphism (Y := Y) (g := g))
     (idealInclusion Q) U).surjective z
-  show _ = (pullbackIdealEquivOf (T := inverseImageRingedSpace g) (G := restrictedModule g G)
+  change _ = (pullbackIdealEquivOf (T := inverseImageRingedSpace g) (G := restrictedModule g G)
     Q.reduction (inverseImageComorphism (Y := Y) (g := g)) (idealInclusion Q) U).symm _
   rw [AddEquiv.symm_apply_apply]
   exact Q.ideal_incl U n
@@ -359,7 +359,7 @@ theorem pullbackConormalMap_comp :
     pullbackConormalMap Q ≫ (inverseImageRestriction g).map (extensionPresentationConormal Q) =
       pullbackPresentationConormal Q := by
   refine Stacks.Sites.Conormal.conormal_hom_ext.{u, u, u, u} _ _ (fun U x => ?_)
-  show ((inverseImageRestriction g).map (extensionPresentationConormal Q)).val.app U
+  change ((inverseImageRestriction g).map (extensionPresentationConormal Q)).val.app U
     ((pullbackConormalMap Q).val.app U _) = _
   let ψ := Stacks.SheafOfModules.freeAlgebraPushMap (inverseImageLift g).hom.base
     (inverseImageBaseRing (inverseImageSpaceHom f g)) (inverseImagePullback Q).generators

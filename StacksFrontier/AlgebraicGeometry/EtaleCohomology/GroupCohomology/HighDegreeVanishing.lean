@@ -63,7 +63,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 namespace Stacks.GroupCohomology
 
-variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-! ### The two short exact sequences of an endomorphism -/
 
@@ -160,6 +160,8 @@ theorem nsmul_eq_zero_imageCokernel {M : ContinuousGModule.{u, v} G} (n : ℕ)
 
 /-! ### The vanishing in degrees `q ≥ 3` -/
 
+variable [IsTopologicalGroup G]
+
 /-- **If the continuous cohomology of a profinite group `G` with torsion discrete coefficients
 vanishes in every degree `q ≥ 2`, then its continuous cohomology with arbitrary discrete
 coefficients vanishes in every degree `q ≥ 3`.** -/
@@ -216,7 +218,7 @@ theorem isZero_continuousGroupCohomology_of_forall_isAddTorsion
   have : Mono ((m : ℤ) • 𝟙 ((Δ.functor (p + 1)).obj M)) := heq ▸ hmono
   apply (AddCommGrpCat.mono_iff_injective
     ((m : ℤ) • 𝟙 ((Δ.functor (p + 1)).obj M))).mp inferInstance
-  show (m : ℤ) • x = (m : ℤ) • 0
+  change (m : ℤ) • x = (m : ℤ) • 0
   rw [hmx, smul_zero]
 
 end Stacks.GroupCohomology

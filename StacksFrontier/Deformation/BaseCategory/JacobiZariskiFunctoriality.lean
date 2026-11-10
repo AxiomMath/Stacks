@@ -104,7 +104,7 @@ public theorem residueExtension_ker_eq_maximalIdeal (Λ : Type u) {A : Type v} {
     [CommRing Λ] [CommRing A] [IsLocalRing A] [Field k] [Algebra Λ A] [Algebra A k]
     [Algebra Λ k] [IsScalarTower Λ A k] (h : Function.Surjective (algebraMap A k)) :
     (residueExtension Λ h).ker = IsLocalRing.maximalIdeal A := by
-  show RingHom.ker (algebraMap A k) = IsLocalRing.maximalIdeal A
+  change RingHom.ker (algebraMap A k) = IsLocalRing.maximalIdeal A
   exact IsLocalRing.eq_maximalIdeal (RingHom.ker_isMaximal_of_surjective (algebraMap A k) h)
 
 /-- The arrow `H₁(L_{S/R}) → I/I²` that opens the Jacobi–Zariski sequence of a presentation

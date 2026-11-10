@@ -133,11 +133,11 @@ public theorem fractionHom_mulPowModPiece (k l : ℕ) (h : k ≤ l) (x : ↥(�
     Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha l (mulPowModPiece ha k l h x) =
       Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha k x := by
   refine Subtype.ext ?_
-  show LocalizedModule.mk (S := Submonoid.powers a) (a ^ (l - k) • (x : M)) ⟨a ^ l, ⟨l, rfl⟩⟩ =
+  change LocalizedModule.mk (S := Submonoid.powers a) (a ^ (l - k) • (x : M)) ⟨a ^ l, ⟨l, rfl⟩⟩ =
     LocalizedModule.mk (S := Submonoid.powers a) (x : M) ⟨a ^ k, ⟨k, rfl⟩⟩
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
   simp only [Submonoid.smul_def, one_smul]
-  show a ^ k • a ^ (l - k) • (x : M) = a ^ l • (x : M)
+  change a ^ k • a ^ (l - k) • (x : M) = a ^ l • (x : M)
   rw [← mul_smul, ← pow_add, Nat.add_sub_cancel' h]
 
 end OneModule
@@ -284,7 +284,7 @@ public theorem fractionHom_zero_smul {R P : Type u} [CommRing R] [AddCommGroup P
     Stacks.SheafOfModules.fractionHom ℛ 𝒬 hc k (r • x) =
       fromZeroRingHom ℛ (Submonoid.powers c) r • Stacks.SheafOfModules.fractionHom ℛ 𝒬 hc k x := by
   refine Subtype.ext ?_
-  show LocalizedModule.mk (S := Submonoid.powers c) ((r : R) • (x : P)) ⟨c ^ k, ⟨k, rfl⟩⟩ =
+  change LocalizedModule.mk (S := Submonoid.powers c) ((r : R) • (x : P)) ⟨c ^ k, ⟨k, rfl⟩⟩ =
     (Localization.mk (r : R) 1 : Localization.Away c) •
       LocalizedModule.mk (S := Submonoid.powers c) (x : P) ⟨c ^ k, ⟨k, rfl⟩⟩
   rw [LocalizedModule.mk_smul_mk, one_mul]
@@ -296,7 +296,7 @@ public theorem awayMk_smul_fractionHom (j k : ℕ) (y : A) (hy : y ∈ 𝒜 (j �
     Away.mk 𝒜 ha j y hy • Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha k x =
       Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha (j + k) ⟨y • (x : M), hyx⟩ := by
   refine Subtype.ext ?_
-  show (Localization.mk y ⟨a ^ j, ⟨j, rfl⟩⟩ : Localization.Away a) •
+  change (Localization.mk y ⟨a ^ j, ⟨j, rfl⟩⟩ : Localization.Away a) •
       LocalizedModule.mk (S := Submonoid.powers a) (x : M) ⟨a ^ k, ⟨k, rfl⟩⟩ =
     LocalizedModule.mk (S := Submonoid.powers a) (y • (x : M)) ⟨a ^ (j + k), ⟨j + k, rfl⟩⟩
   rw [LocalizedModule.mk_smul_mk]
@@ -316,7 +316,7 @@ public theorem fromZero_algebraMap (r : ↥(𝒜 0)) :
       Away.map ψ a (fromZeroRingHom 𝒜 (Submonoid.powers a) r) := by
   refine HomogeneousLocalization.val_injective _ ?_
   rw [Stacks.AlgebraicGeometry.TwistChartLocality.val_awayLocMap 𝒜 ℬ ψ a]
-  show Localization.mk ((algebraMap ↥(𝒜 0) ↥(ℬ 0) r : ↥(ℬ 0)) : B) 1 =
+  change Localization.mk ((algebraMap ↥(𝒜 0) ↥(ℬ 0) r : ↥(ℬ 0)) : B) 1 =
     Stacks.AlgebraicGeometry.TwistChartLocality.awayLocMap 𝒜 ℬ ψ a (Localization.mk (r : A) 1)
   rw [Stacks.AlgebraicGeometry.TwistChartLocality.awayLocMap_mk 𝒜 ℬ ψ a (r : A) 1
     (by rw [Submonoid.coe_one, map_one]; exact Submonoid.one_mem _)]
@@ -360,8 +360,7 @@ public theorem stageMap_tmul (k : ℕ) (b : ↥(ℬ 0)) (x : ↥(𝒨 ((k * d : 
 public theorem stageMap_smul (k : ℕ) (b : ↥(ℬ 0)) (u : ↥(ℬ 0) ⊗[↥(𝒜 0)] ↥(𝒨 ((k * d : ℕ) : ℤ))) :
     stageMap ψ halg ha k (b • u) =
       fromZeroRingHom ℬ (Submonoid.powers (ψ a)) b • stageMap ψ halg ha k u := by
-  induction u using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction u using TensorProduct.inductionOn with
   | tmul b' x =>
       rw [TensorProduct.smul_tmul', stageMap_tmul, stageMap_tmul, smul_eq_mul, map_mul,
         smul_extTmul]
@@ -372,8 +371,7 @@ public theorem stageMap_mulPow (k l : ℕ) (h : k ≤ l)
     (u : ↥(ℬ 0) ⊗[↥(𝒜 0)] ↥(𝒨 ((k * d : ℕ) : ℤ))) :
     stageMap ψ halg ha l (LinearMap.lTensor ↥(ℬ 0) (mulPowModPiece ha k l h) u) =
       stageMap ψ halg ha k u := by
-  induction u using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction u using TensorProduct.inductionOn with
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, stageMap_tmul, stageMap_tmul, fractionHom_mulPowModPiece]
   | add u v hu hv => rw [map_add, map_add, map_add, hu, hv]
@@ -414,7 +412,7 @@ public theorem awayMk_zero_mul' {j : ℕ} {e : ℕ} {c : B} (hc : c ∈ ℬ e) (
       fromZeroRingHom ℬ (Submonoid.powers c) b * Away.mk ℬ hc j x hx := by
   refine HomogeneousLocalization.val_injective _ ?_
   rw [HomogeneousLocalization.val_mul, Away.val_mk, Away.val_mk]
-  show _ = Localization.mk (b : B) 1 * _
+  change _ = Localization.mk (b : B) 1 * _
   rw [Localization.mk_mul, one_mul]
 
 omit [Algebra ↥(𝒜 0) ↥(ℬ 0)] in
@@ -423,7 +421,7 @@ public theorem moduleDegreeZeroMap_fractionHom (k : ℕ) (x : ↥(𝒨 ((k * d :
     moduleDegreeZeroMap ψ f hf a (Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha k x) =
       Stacks.SheafOfModules.fractionHom ℬ 𝒩 (ψ.map_mem ha) k ⟨f x, hf _ x.2⟩ := by
   refine Subtype.ext ?_
-  show moduleAwayMap ψ f a (LocalizedModule.mk (S := Submonoid.powers a) (x : M)
+  change moduleAwayMap ψ f a (LocalizedModule.mk (S := Submonoid.powers a) (x : M)
       ⟨a ^ k, ⟨k, rfl⟩⟩) = LocalizedModule.mk (S := Submonoid.powers (ψ a)) (f x)
       ⟨ψ a ^ k, ⟨k, rfl⟩⟩
   rw [moduleAwayMap_mk]
@@ -438,13 +436,7 @@ public theorem moduleDegreeZeroExtension_stageMap (k : ℕ)
     moduleDegreeZeroExtension ψ f hf a (stageMap ψ halg ha k u) =
       Stacks.SheafOfModules.fractionHom ℬ 𝒩 (ψ.map_mem ha) k
         ((hfM ((k * d : ℕ) : ℤ)).equiv u).toPiece := by
-  induction u using TensorProduct.induction_on with
-  | zero =>
-      show moduleDegreeZeroExtension ψ f hf a (stageMap ψ halg ha k 0) =
-        Stacks.SheafOfModules.fractionHom ℬ 𝒩 (ψ.map_mem ha) k
-          (TargetPiece.toPiece ((hfM ((k * d : ℕ) : ℤ)).equiv 0))
-      rw [map_zero, map_zero, LinearEquiv.map_zero]
-      exact (map_zero _).symm
+  induction u using TensorProduct.inductionOn with
   | tmul b x =>
       rw [stageMap_tmul]
       have h1 : extTmul ψ a (fromZeroRingHom ℬ (Submonoid.powers (ψ a)) b)
@@ -472,18 +464,11 @@ public theorem equiv_lTensor_mulPowModPiece (k l : ℕ) (h : k ≤ l)
     ((hfM ((l * d : ℕ) : ℤ)).equiv
         (LinearMap.lTensor ↥(ℬ 0) (mulPowModPiece ha k l h) u)).toPiece =
       mulPowModPiece (ψ.map_mem ha) k l h ((hfM ((k * d : ℕ) : ℤ)).equiv u).toPiece := by
-  induction u using TensorProduct.induction_on with
-  | zero =>
-      show TargetPiece.toPiece ((hfM ((l * d : ℕ) : ℤ)).equiv
-          (LinearMap.lTensor ↥(ℬ 0) (mulPowModPiece ha k l h) 0)) =
-        mulPowModPiece (ψ.map_mem ha) k l h
-          (TargetPiece.toPiece ((hfM ((k * d : ℕ) : ℤ)).equiv 0))
-      rw [map_zero, LinearEquiv.map_zero, LinearEquiv.map_zero]
-      exact (map_zero _).symm
+  induction u using TensorProduct.inductionOn with
   | tmul b x =>
       rw [LinearMap.lTensor_tmul, IsBaseChange.equiv_tmul, IsBaseChange.equiv_tmul]
       refine Subtype.ext ?_
-      show (b : B) • f (a ^ (l - k) • (x : M)) = ψ a ^ (l - k) • ((b : B) • f (x : M))
+      change (b : B) • f (a ^ (l - k) • (x : M)) = ψ a ^ (l - k) • ((b : B) • f (x : M))
       rw [map_smulₛₗ, GradedRingHom.coe_toRingHom, map_pow]
       exact smul_comm _ _ _
   | add u v hu hv =>
@@ -570,7 +555,7 @@ public theorem isIso_moduleDegreeZeroExtension
         (Nat.le_add_right k j) u
       refine (congrArg TargetPiece.ofPiece h2).trans ?_
       refine congrArg TargetPiece.ofPiece (Subtype.ext ?_)
-      show ψ a ^ (k + j - k) • _ = 0
+      change ψ a ^ (k + j - k) • _ = 0
       rw [Nat.add_sub_cancel_left]
       exact hc'
     have hu0 := (LinearEquiv.map_eq_zero_iff _).mp h0

@@ -328,9 +328,9 @@ theorem cotMapInf_comp_cotMap {i j : Λ} (h : i ≤ j) (x : (sys.NL i).Cotangent
     simp only [homIJ, homJinf, homIinf, Generators.defaultHom_val, Function.comp_apply,
       Generators.self_val, id_eq, Generators.self_σ, MvPolynomial.aeval_X]
     congr 1
-    show sys.toSinf j (sys.fS h s) = sys.toSinf i s
+    change sys.toSinf j (sys.fS h s) = sys.toSinf i s
     exact Ring.DirectLimit.of_f h s
-  show (Extension.Cotangent.map homJinf.toExtensionHom)
+  change (Extension.Cotangent.map homJinf.toExtensionHom)
         ((Extension.Cotangent.map homIJ.toExtensionHom) x)
       = (Extension.Cotangent.map homIinf.toExtensionHom) x
   rw [← hom_eq, Generators.Hom.toExtensionHom_comp, Extension.Cotangent.map_comp]
@@ -364,9 +364,9 @@ theorem cotSpaceMapInf_comp_cotSpaceMap {i j : Λ} (h : i ≤ j)
     simp only [homIJ, homJinf, homIinf, Generators.defaultHom_val, Function.comp_apply,
       Generators.self_val, id_eq, Generators.self_σ, MvPolynomial.aeval_X]
     congr 1
-    show sys.toSinf j (sys.fS h s) = sys.toSinf i s
+    change sys.toSinf j (sys.fS h s) = sys.toSinf i s
     exact Ring.DirectLimit.of_f h s
-  show (Extension.CotangentSpace.map homJinf.toExtensionHom)
+  change (Extension.CotangentSpace.map homJinf.toExtensionHom)
         ((Extension.CotangentSpace.map homIJ.toExtensionHom) x)
       = (Extension.CotangentSpace.map homIinf.toExtensionHom) x
   rw [← hom_eq, Generators.Hom.toExtensionHom_comp, Extension.CotangentSpace.map_comp]
@@ -508,12 +508,12 @@ theorem homIinf_apply (i : Λ) (p : (sys.NL i).Ring) :
     (sys.homIinf i).toExtensionHom.toAlgHom p
       = MvPolynomial.rename (sys.toSinf i)
           (MvPolynomial.map (sys.toRinf i) p) := by
-  show ((Generators.self (sys.R i) (sys.S i)).defaultHom
+  change ((Generators.self (sys.R i) (sys.S i)).defaultHom
       (Generators.self sys.Rinf sys.Sinf)).toAlgHom p = _
   induction p using MvPolynomial.induction_on with
   | C a =>
     rw [MvPolynomial.algHom_C, MvPolynomial.map_C, MvPolynomial.rename_C]
-    show (algebraMap (sys.R i) (MvPolynomial sys.Sinf sys.Rinf)) a
+    change (algebraMap (sys.R i) (MvPolynomial sys.Sinf sys.Rinf)) a
         = MvPolynomial.C ((sys.toRinf i) a)
     rw [IsScalarTower.algebraMap_apply (sys.R i) sys.Rinf (MvPolynomial sys.Sinf sys.Rinf) a,
       MvPolynomial.algebraMap_eq]
@@ -537,7 +537,7 @@ theorem aeval_homIinf (i : Λ) (p : (sys.NL i).Ring) :
   induction p using MvPolynomial.induction_on with
   | C a =>
     simp only [MvPolynomial.map_C, MvPolynomial.rename_C, MvPolynomial.aeval_C]
-    show (algebraMap sys.Rinf sys.Sinf) ((algebraMap (sys.R i) sys.Rinf) a)
+    change (algebraMap sys.Rinf sys.Sinf) ((algebraMap (sys.R i) sys.Rinf) a)
       = (algebraMap (sys.S i) sys.Sinf) ((algebraMap (sys.R i) (sys.S i)) a)
     rw [← IsScalarTower.algebraMap_apply (sys.R i) sys.Rinf sys.Sinf a,
       ← IsScalarTower.algebraMap_apply (sys.R i) (sys.S i) sys.Sinf a]
@@ -580,7 +580,7 @@ theorem polyColim_surj [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i : Λ)
     refine ⟨j, hij, MvPolynomial.C (sys.fR hkj x), ?_⟩
     rw [MvPolynomial.map_C, MvPolynomial.rename_C]
     congr 1
-    show Ring.DirectLimit.of sys.R (fun _ _ h => sys.fR h) j (sys.fR hkj x) = a
+    change Ring.DirectLimit.of sys.R (fun _ _ h => sys.fR h) j (sys.fR hkj x) = a
     rw [Ring.DirectLimit.of_f hkj x]; exact hx
   | add p₁ p₂ hp₁ hp₂ =>
     obtain ⟨j₁, hij₁, qt₁, hqt₁⟩ := hp₁
@@ -601,7 +601,7 @@ theorem polyColim_surj [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i : Λ)
     rw [map_mul, map_mul, sys.polyColim_transport hj₁ qt₁, hqt₁,
       MvPolynomial.map_X, MvPolynomial.rename_X]
     have hys : sys.toSinf j (sys.fS hk y) = s := by
-      show Ring.DirectLimit.of sys.S (fun _ _ h => sys.fS h) j (sys.fS hk y) = s
+      change Ring.DirectLimit.of sys.S (fun _ _ h => sys.fS h) j (sys.fS hk y) = s
       rw [Ring.DirectLimit.of_f hk y]; exact hy
     rw [hys]
 
@@ -767,12 +767,12 @@ theorem transHom_apply_aux {i j : Λ} (h : i ≤ j) (p : (sys.NL i).Ring) :
   let aSS : Algebra (sys.S i) (sys.S j) := (sys.fS h).toAlgebra
   let aRS : Algebra (sys.R i) (sys.S j) := ((sys.fS h).comp (sys.g i)).toAlgebra
   obtain ⟨tRRS, tRSS⟩ := sys.isScalarTower_transition h
-  show ((Generators.self (sys.R i) (sys.S i)).defaultHom
+  change ((Generators.self (sys.R i) (sys.S i)).defaultHom
       (Generators.self (sys.R j) (sys.S j))).toAlgHom p = _
   induction p using MvPolynomial.induction_on with
   | C a =>
     rw [MvPolynomial.algHom_C, MvPolynomial.map_C, MvPolynomial.rename_C]
-    show (algebraMap (sys.R i) (MvPolynomial (sys.S j) (sys.R j))) a
+    change (algebraMap (sys.R i) (MvPolynomial (sys.S j) (sys.R j))) a
         = MvPolynomial.C ((sys.fR h) a)
     rw [IsScalarTower.algebraMap_apply (sys.R i) (sys.R j) (MvPolynomial (sys.S j) (sys.R j)) a,
       MvPolynomial.algebraMap_eq]
@@ -922,9 +922,9 @@ theorem aeval_transHom {i j : Λ} (h : i ≤ j) (p : (sys.NL i).Ring) :
   induction p using MvPolynomial.induction_on with
   | C a =>
     simp only [MvPolynomial.map_C, MvPolynomial.rename_C, MvPolynomial.aeval_C]
-    show (algebraMap (sys.R j) (sys.S j)) ((sys.fR h) a)
+    change (algebraMap (sys.R j) (sys.S j)) ((sys.fR h) a)
       = (sys.fS h) ((algebraMap (sys.R i) (sys.S i)) a)
-    show (sys.g j) ((sys.fR h) a) = (sys.fS h) ((sys.g i) a)
+    change (sys.g j) ((sys.fR h) a) = (sys.fS h) ((sys.g i) a)
     rw [sys.square h a]
   | add p q hp hq => simp [hp, hq]
   | mul_X p b hp => simp [hp]
@@ -957,14 +957,14 @@ theorem homIinf_transHom_comp [IsDirected Λ (· ≤ ·)] [Nonempty Λ] {i j : �
   | C a =>
     simp only [MvPolynomial.map_C, MvPolynomial.rename_C]
     congr 1
-    show sys.toRinf j (sys.fR h a) = sys.toRinf i a
+    change sys.toRinf j (sys.fR h a) = sys.toRinf i a
     exact Ring.DirectLimit.of_f h a
   | add p q hp hq => simp [hp, hq]
   | mul_X p b hp =>
     simp only [map_mul, MvPolynomial.map_X, MvPolynomial.rename_X]
     rw [hp]
     congr 1
-    show MvPolynomial.X (sys.toSinf j (sys.fS h b)) = MvPolynomial.X (sys.toSinf i b)
+    change MvPolynomial.X (sys.toSinf j (sys.fS h b)) = MvPolynomial.X (sys.toSinf i b)
     congr 1
     exact Ring.DirectLimit.of_f h b
 
@@ -1127,18 +1127,18 @@ theorem descend_list [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i : Λ)
       rw [List.mem_cons] at hpr'
       rcases hpr' with rfl | hpr'
       · refine ⟨?_, ?_⟩
-        · show (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m)) ãm = 0
+        · change (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m)) ãm = 0
           rw [hãm, sys.aeval_transHom (hm1a.trans hm1) ã, hãk, map_zero]
-        · show (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m)) bbm = 0
+        · change (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m)) bbm = 0
           rw [hbbm, sys.aeval_transHom (hm1b.trans hm1) bb, hbbk, map_zero]
       · rw [ht'm, List.mem_map] at hpr'
         obtain ⟨q, hq, rfl⟩ := hpr'
         refine ⟨?_, ?_⟩
-        · show (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m))
+        · change (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m))
             (((Generators.self (sys.R mt) (sys.S mt)).defaultHom
               (Generators.self (sys.R m) (sys.S m))).toExtensionHom.toAlgHom q.fst) = 0
           rw [sys.aeval_transHom hmt q.fst, (ht' q hq).left, map_zero]
-        · show (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m))
+        · change (MvPolynomial.aeval (R := sys.R m) (id : sys.S m → sys.S m))
             (((Generators.self (sys.R mt) (sys.S mt)).defaultHom
               (Generators.self (sys.R m) (sys.S m))).toExtensionHom.toAlgHom q.snd) = 0
           rw [sys.aeval_transHom hmt q.snd, (ht' q hq).right, map_zero]
@@ -1263,7 +1263,7 @@ theorem kerSq_descends [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i : Λ)
     | nil => simp only [List.map_nil, List.sum_nil]; exact map_zero _
     | cons q s ihs =>
       simp only [List.map_cons, List.sum_cons, map_add, map_mul, ihs]
-  show Ψ sumL' ∈ (sys.NL j).ker ^ 2
+  change Ψ sumL' ∈ (sys.NL j).ker ^ 2
   rw [hsumL', hΨsum, sq]
   apply list_sum_mem
   intro x hx
@@ -1271,13 +1271,13 @@ theorem kerSq_descends [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i : Λ)
   obtain ⟨q, hq, rfl⟩ := hx
   -- `Ψ q.1 ∈ I_j`, `Ψ q.2 ∈ I_j`
   apply Ideal.mul_mem_mul
-  · show (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)).toRingHom (Ψ q.fst) = 0
+  · change (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)).toRingHom (Ψ q.fst) = 0
     rw [hΨ]
-    show (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)) _ = 0
+    change (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)) _ = 0
     rw [sys.aeval_transHom hj₁j q.fst, (hL'mem q hq).left, map_zero]
-  · show (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)).toRingHom (Ψ q.snd) = 0
+  · change (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)).toRingHom (Ψ q.snd) = 0
     rw [hΨ]
-    show (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)) _ = 0
+    change (MvPolynomial.aeval (R := sys.R j) (id : sys.S j → sys.S j)) _ = 0
     rw [sys.aeval_transHom hj₁j q.snd, (hL'mem q hq).right, map_zero]
 
 /-- **Kernel-colimit exactness in degree 1.** If a stage-`i` class `y : I_i/I_i²` maps to
@@ -1303,7 +1303,7 @@ theorem cotMapInf_eq_zero_of_stage [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (i 
   let aSS : Algebra (sys.S i) (sys.S j) := (sys.fS h).toAlgebra
   let aRS : Algebra (sys.R i) (sys.S j) := ((sys.fS h).comp (sys.g i)).toAlgebra
   obtain ⟨tRRS, tRSS⟩ := sys.isScalarTower_transition h
-  show (Extension.Cotangent.map ((Generators.self (sys.R i) (sys.S i)).defaultHom
+  change (Extension.Cotangent.map ((Generators.self (sys.R i) (sys.S i)).defaultHom
       (Generators.self (sys.R j) (sys.S j))).toExtensionHom) (Extension.Cotangent.mk x) = 0
   rw [Extension.Cotangent.map_mk, Extension.Cotangent.mk_eq_zero_iff]
   exact hj
@@ -1399,10 +1399,10 @@ private theorem cotangentSpace_map_defaultHom_basis {R S R' S' : Type*} [CommRin
   congr 1
   · exact map_one _
   · congr 1
-    show ((Generators.self R S).defaultHom (Generators.self R' S')).toAlgHom (MvPolynomial.X b)
+    change ((Generators.self R S).defaultHom (Generators.self R' S')).toAlgHom (MvPolynomial.X b)
       = MvPolynomial.X (algebraMap S S' b)
     rw [Generators.Hom.toAlgHom_X, Generators.defaultHom_val]
-    show (Generators.self R' S').σ _ = MvPolynomial.X (algebraMap S S' b)
+    change (Generators.self R' S').σ _ = MvPolynomial.X (algebraMap S S' b)
     rw [Generators.self_σ]
     rfl
 
@@ -1467,10 +1467,10 @@ theorem smul_basis_mem_range [IsDirected Λ (· ≤ ·)] [Nonempty Λ] (t c : sy
       k)).cotangentSpaceBasis (sys.fS hik bc)), ?_⟩
   rw [comparisonCotangentSpace_toColim, cotSpaceMapInf_smul, cotSpaceMapInf_basis]
   congr 1
-  · show sys.toSinf k (sys.fS hjk bt) = sys.toSinf it bt
+  · change sys.toSinf k (sys.fS hjk bt) = sys.toSinf it bt
     exact Ring.DirectLimit.of_f hjk bt
   · congr 1
-    show sys.toSinf k (sys.fS hik bc) = sys.toSinf ic bc
+    change sys.toSinf k (sys.fS hik bc) = sys.toSinf ic bc
     exact Ring.DirectLimit.of_f hik bc
 
 /-- A finite set of stage-`i` elements all dying in `Sinf` already dies at a common finite

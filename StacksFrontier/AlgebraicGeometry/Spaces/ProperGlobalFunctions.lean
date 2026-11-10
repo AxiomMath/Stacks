@@ -392,9 +392,9 @@ theorem isReduced_componentFunctions
     funext d
     by_cases h : d = c
     · subst h
-      show (Pi.single d x d) ^ (n + 1) = 0
+      change (Pi.single d x d) ^ (n + 1) = 0
       rw [Pi.single_eq_same, pow_succ, hn, zero_mul]
-    · show (Pi.single c x d) ^ (n + 1) = 0
+    · change (Pi.single c x d) ^ (n + 1) = 0
       rw [Pi.single_eq_of_ne h]
       exact zero_pow (Nat.succ_ne_zero n)
   simpa using congrFun (IsReduced.eq_zero _ hy) c

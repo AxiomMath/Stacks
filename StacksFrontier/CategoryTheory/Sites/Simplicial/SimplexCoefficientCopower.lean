@@ -105,7 +105,7 @@ theorem copowerStdSimplexIsoApp_hom_single (U : S.totalCategoryᵒᵖ)
       AddCommGrpCat.Hom.hom
         (Sigma.ι (fun _ : n ⟶ (totalSimplexDegree S).leftOp.obj U => G.obj U)
           (stdSimplexPresheafObjEquiv S n U x)) m := by
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       (Sigma.whiskerEquiv (f := fun _ : (stdSimplexPresheaf' S n).obj U => G.obj U)
         (g := fun _ : n ⟶ (totalSimplexDegree S).leftOp.obj U => G.obj U)
         (stdSimplexPresheafObjEquiv S n U) (fun _ => Iso.refl _)).hom

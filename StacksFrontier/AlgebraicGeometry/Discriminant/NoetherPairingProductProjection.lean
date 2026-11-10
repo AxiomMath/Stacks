@@ -152,9 +152,6 @@ private theorem noetherPairing_product_fst
   classical
   obtain ⟨ψJ, hψJ, hsurj⟩ := exists_surjective_diagonalAnnihilatorBaseChange F
   induction ω using dualizingModule.induction_on with
-  | zero =>
-      rw [map_zero (dualizingModuleProdEquiv F FB FC), map_zero (noetherPairing F)]
-      simp
   | add ω₁ ω₂ h₁ h₂ =>
       rw [map_add (dualizingModuleProdEquiv F FB FC)]
       simp only [Prod.fst_add, map_add, LinearMap.add_apply, h₁, h₂]
@@ -163,14 +160,7 @@ private theorem noetherPairing_product_fst
       have hprod := dualizingModuleProdEquiv_tmul F FB FC e hcompat f b c
       rw [hprod]
       obtain ⟨t, rfl⟩ := hsurj j
-      induction t using TensorProduct.induction_on with
-      | zero =>
-          have h0 : diagonalAnnihilatorProdFst A B C (ψJ 0) = 0 := by
-            apply Subtype.ext
-            rw [map_zero ψJ]
-            simp [diagonalAnnihilatorProdFst]
-          rw [h0]
-          simp
+      induction t using TensorProduct.inductionOn with
       | add t₁ t₂ h₁ h₂ =>
           rw [map_add ψJ, diagonalAnnihilatorProdFst_add, map_add, map_add, Prod.fst_add,
             h₁, h₂]
@@ -196,11 +186,10 @@ private theorem noetherPairing_product_fst
                       (AlgHom.fst A FB.middle FC.middle)
                       (Algebra.TensorProduct.map e.symm.toAlgHom e.symm.toAlgHom t)) := by
               intro t
-              induction t using TensorProduct.induction_on with
-              | zero => simp
+              induction t using TensorProduct.inductionOn with
               | tmul a d =>
                   simp only [Algebra.TensorProduct.map_tmul]
-                  show (algebraMap F.middle (B × C) a).1 ⊗ₜ[A]
+                  change (algebraMap F.middle (B × C) a).1 ⊗ₜ[A]
                       (algebraMap F.middle (B × C) d).1 =
                     algebraMap FB.middle B (e.symm a).1 ⊗ₜ[A] algebraMap FB.middle B (e.symm d).1
                   rw [hkey a, hkey d]
@@ -210,7 +199,7 @@ private theorem noetherPairing_product_fst
             rw [hjP, diagonalAnnihilatorBaseChange_tmul_eq,
               diagonalAnnihilatorBaseChange_tmul_eq, map_mul,
               Algebra.TensorProduct.map_tmul, map_one]
-            show (y.1 ⊗ₜ[A] (1 : B)) * _ = (y.1 ⊗ₜ[A] (1 : B)) * _
+            change (y.1 ⊗ₜ[A] (1 : B)) * _ = (y.1 ⊗ₜ[A] (1 : B)) * _
             congr 1
             exact hz j'.1
           rw [noetherPairing_apply_of_eq_baseChange FB
@@ -251,9 +240,6 @@ private theorem noetherPairing_product_snd
   classical
   obtain ⟨ψJ, hψJ, hsurj⟩ := exists_surjective_diagonalAnnihilatorBaseChange F
   induction ω using dualizingModule.induction_on with
-  | zero =>
-      rw [map_zero (dualizingModuleProdEquiv F FB FC), map_zero (noetherPairing F)]
-      simp
   | add ω₁ ω₂ h₁ h₂ =>
       rw [map_add (dualizingModuleProdEquiv F FB FC)]
       simp only [Prod.snd_add, map_add, LinearMap.add_apply, h₁, h₂]
@@ -262,14 +248,7 @@ private theorem noetherPairing_product_snd
       have hprod := dualizingModuleProdEquiv_tmul F FB FC e hcompat f b c
       rw [hprod]
       obtain ⟨t, rfl⟩ := hsurj j
-      induction t using TensorProduct.induction_on with
-      | zero =>
-          have h0 : diagonalAnnihilatorProdSnd A B C (ψJ 0) = 0 := by
-            apply Subtype.ext
-            rw [map_zero ψJ]
-            simp [diagonalAnnihilatorProdSnd]
-          rw [h0]
-          simp
+      induction t using TensorProduct.inductionOn with
       | add t₁ t₂ h₁ h₂ =>
           rw [map_add ψJ, diagonalAnnihilatorProdSnd_add, map_add, map_add, Prod.snd_add,
             h₁, h₂]
@@ -295,11 +274,10 @@ private theorem noetherPairing_product_snd
                       (AlgHom.snd A FB.middle FC.middle)
                       (Algebra.TensorProduct.map e.symm.toAlgHom e.symm.toAlgHom t)) := by
               intro t
-              induction t using TensorProduct.induction_on with
-              | zero => simp
+              induction t using TensorProduct.inductionOn with
               | tmul a d =>
                   simp only [Algebra.TensorProduct.map_tmul]
-                  show (algebraMap F.middle (B × C) a).2 ⊗ₜ[A]
+                  change (algebraMap F.middle (B × C) a).2 ⊗ₜ[A]
                       (algebraMap F.middle (B × C) d).2 =
                     algebraMap FC.middle C (e.symm a).2 ⊗ₜ[A] algebraMap FC.middle C (e.symm d).2
                   rw [hkey a, hkey d]
@@ -309,7 +287,7 @@ private theorem noetherPairing_product_snd
             rw [hjP, diagonalAnnihilatorBaseChange_tmul_eq,
               diagonalAnnihilatorBaseChange_tmul_eq, map_mul,
               Algebra.TensorProduct.map_tmul, map_one]
-            show (y.2 ⊗ₜ[A] (1 : C)) * _ = (y.2 ⊗ₜ[A] (1 : C)) * _
+            change (y.2 ⊗ₜ[A] (1 : C)) * _ = (y.2 ⊗ₜ[A] (1 : C)) * _
             congr 1
             exact hz j'.1
           rw [noetherPairing_apply_of_eq_baseChange FC

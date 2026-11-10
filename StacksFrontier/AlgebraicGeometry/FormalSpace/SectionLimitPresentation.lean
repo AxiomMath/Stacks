@@ -108,7 +108,7 @@ abbrev ideal (n : ℕ) : Ideal A := RingHom.ker (P.proj n)
 /-- The transition morphisms of stages commute with the structure morphisms to `S`. -/
 theorem stageMap_comp_stageOver {m n : ℕ} (h : m ≤ n) :
     P.stageMap h ≫ P.stageOver n = P.stageOver m := by
-  show B.inclusion.map (Over.Hom.left ((P.diagram.map (homOfLE h)).1)) ≫
+  change B.inclusion.map (Over.Hom.left ((P.diagram.map (homOfLE h)).1)) ≫
       B.inclusion.map (Over.hom (P.diagram.obj n).1) = _
   rw [← Functor.map_comp]
   exact congrArg B.inclusion.map (Over.w ((P.diagram.map (homOfLE h)).1))
@@ -124,7 +124,7 @@ theorem stageMap_refl (n : ℕ) : P.stageMap (le_refl n) = 𝟙 _ := by
   have h : P.diagram.map (homOfLE (le_refl n)) = 𝟙 _ := by
     rw [show homOfLE (le_refl n) = 𝟙 n from Subsingleton.elim _ _,
       CategoryTheory.Functor.map_id]
-  show (BigAffineFppf.toScheme B S hS).map (P.diagram.map (homOfLE (le_refl n))) = _
+  change (BigAffineFppf.toScheme B S hS).map (P.diagram.map (homOfLE (le_refl n))) = _
   rw [h, CategoryTheory.Functor.map_id]
 
 /-- The surjections onto the stages are compatible with every transition morphism. -/
@@ -135,7 +135,7 @@ theorem proj_comp_le {m n : ℕ} (h : m ≤ n) :
   | succ n h ih =>
     rw [← P.stageMap_trans h (Nat.le_succ n), Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
       RingHom.comp_assoc]
-    show ((P.stageMap h).appTop).hom.comp
+    change ((P.stageMap h).appTop).hom.comp
       ((((BigAffineFppf.toScheme B S hS).map
         (P.diagram.map (homOfLE (Nat.le_succ n)))).appTop).hom.comp (P.proj (n + 1))) = _
     rwa [P.proj_comp n]
@@ -318,7 +318,7 @@ theorem chainStageBaseIso_w (n : ℕ) :
       Over.hom ((P.diagram.obj n).1) := by
   apply B.inclusion.map_injective
   rw [Functor.map_comp, P.chainStageBaseIso_map]
-  show (P.stageIso n).hom ≫
+  change (P.stageIso n).hom ≫
     P.weakOver ⟨P.ideal n, P.isWeakIdealOfDefinition_ker n⟩ = P.stageOver n
   rw [P.weakOver_stage n, stageSpecOver, Iso.hom_inv_id_assoc]
 

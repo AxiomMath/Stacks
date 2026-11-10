@@ -81,11 +81,11 @@ theorem exists_isClosedImmersion_into_isSeparated_finitePresentation
     simpa using congrArg (fun α ↦ α.app j) hbaseY
   have hbase : p ≫ t = (Functor.const Iᵒᵖ).map f := by
     ext j
-    show p.app j ≫ tY.app j ≫ q = f
+    change p.app j ≫ tY.app j ≫ q = f
     rw [← Category.assoc, hproj, hcomp]
   obtain ⟨i₀, hi₀⟩ := eventually_isSeparated_of_isLimit D t (Cone.mk X p) hc f hbase
   have hfp : FinitePresentation (t.app (Opposite.op i₀)) := by
-    show FinitePresentation (tY.app (Opposite.op i₀) ≫ q)
+    change FinitePresentation (tY.app (Opposite.op i₀) ≫ q)
     exact FinitePresentation.mk
       (locallyOfFinitePresentation_comp (tY.app (Opposite.op i₀)) q) inferInstance inferInstance
   have : IsClosedImmersion (p.app (Opposite.op i₀) ≫ tY.app (Opposite.op i₀)) := by

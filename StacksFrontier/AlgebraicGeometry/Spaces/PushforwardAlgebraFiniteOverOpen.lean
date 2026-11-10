@@ -110,7 +110,7 @@ theorem finite_and_finitePresentation_pushforwardAlgebra_algebraMap_of_range_le
     HasRingHomProperty.appTop @AlgebraicGeometry.LocallyOfFinitePresentation _ inferInstance
   have hbij := ConcreteCategory.bijective_of_isIso
     (pushforwardAlgebraSectionsIso B S hS (Over.mk f) hf U).inv
-  show ((smallEtaleRingedToposHom B S hS (Over.mk f).hom).fSharp.hom.app (op U)).hom.Finite ∧
+  change ((smallEtaleRingedToposHom B S hS (Over.mk f).hom).fSharp.hom.app (op U)).hom.Finite ∧
     ((smallEtaleRingedToposHom B S hS (Over.mk f).hom).fSharp.hom.app (op U)).hom.FinitePresentation
   rw [pushforwardAlgebra_algebraMap_eq_comp B S hS f hf U]
   exact ⟨RingHom.Finite.comp (RingHom.Finite.of_surjective _ hbij.2)

@@ -110,7 +110,7 @@ private theorem canonicalBaseChangeMap_naturality
   let d := whiskerRight P.hom F
   have hn := (pushout.inl g d).naturality h
   ext q
-  show ((pushout g d).map h).hom (((pushout.inl g d).app i).hom q) =
+  change ((pushout g d).map h).hom (((pushout.inl g d).app i).hom q) =
     ((pushout.inl g d).app j).hom ((((standardResolution A C).left.map h).hom) q)
   exact congrArg (fun φ : CommRingCat.Hom _ _ => φ.hom q) hn.symm
 
@@ -134,7 +134,7 @@ private theorem canonicalBaseChangeMap_augmentation
   let X := pushout g h
   let a : X ⟶ (SimplicialObject.const _).obj C ⋙ F := pushout.desc k l w
   ext q
-  show (a.app n).hom (((pushout.inl g h).app n).hom q) =
+  change (a.app n).hom (((pushout.inl g h).app n).hom q) =
     (F.map ((standardResolution A C).hom.app n)).hom q
   have hdesc := congrArg (fun η => η.app n) (pushout.inl_desc k l w)
   change ((pushout.inl g h).app n ≫ a.app n) = k.app n at hdesc
@@ -432,7 +432,7 @@ private theorem relativeCotangentMap_differential
   refine (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars_tmul εi
     (relativeCotangentMapAdjoint A f h) (1 : C) (KaehlerDifferential.D B Ti t)).trans ?_
   rw [one_smul]
-  show (1 : C) ⊗ₜ[Tj]
+  change (1 : C) ⊗ₜ[Tj]
       (KaehlerDifferential.map B B Ti Tj (KaehlerDifferential.D B Ti t)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -666,7 +666,7 @@ private theorem differentialSequenceSecondComponent_differential
   refine (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars_tmul εQ d (1 : C)
     (KaehlerDifferential.D A Q q)).trans ?_
   rw [one_smul]
-  show (1 : C) ⊗ₜ[T]
+  change (1 : C) ⊗ₜ[T]
       (KaehlerDifferential.map A B Q T (KaehlerDifferential.D A Q q)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -722,10 +722,10 @@ private theorem differentialSequenceFirstComponent_differential
       map_add' := by simp
       map_smul' := by
         intro p x
-        show mk (KaehlerDifferential.map A A P Q (p • x)) =
+        change mk (KaehlerDifferential.map A A P Q (p • x)) =
           (εC.comp η.toRingHom) p • mk (KaehlerDifferential.map A A P Q x)
         rw [(KaehlerDifferential.map A A P Q).map_smul]
-        show mk ((algebraMap P Q p) • _) = _
+        change mk ((algebraMap P Q p) • _) = _
         rw [mk.map_smul]
         rfl }
   let d : ModuleCat.of P (KaehlerDifferential A P) ⟶
@@ -733,16 +733,16 @@ private theorem differentialSequenceFirstComponent_differential
         (cotangentTerm A C n) := ModuleCat.ofHom k
   let m := ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars
     (εC.comp η.toRingHom) d
-  show m (e ((1 : C) ⊗ₜ[B]
+  change m (e ((1 : C) ⊗ₜ[B]
       ((1 : B) ⊗ₜ[P] KaehlerDifferential.D A P p))) = _
   rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul]
   refine (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars_tmul
     (εC.comp η.toRingHom) d (1 : C) (KaehlerDifferential.D A P p)).trans ?_
   rw [one_smul]
-  show mk (KaehlerDifferential.map A A P Q
+  change mk (KaehlerDifferential.map A A P Q
       (KaehlerDifferential.D A P p)) = _
   rw [KaehlerDifferential.map_D]
-  show (1 : C) ⊗ₜ[Q] KaehlerDifferential.D A Q (algebraMap P Q p) = _
+  change (1 : C) ⊗ₜ[Q] KaehlerDifferential.D A Q (algebraMap P Q p) = _
   congr 2
 
 /-- The first map of the differential sequence, as a morphism of simplicial `C`-modules. -/
@@ -853,9 +853,9 @@ private theorem relativeCotangentBaseChangeEquiv_differential
       C ⊗[Q] KaehlerDifferential P Q :=
     TensorProduct.AlgebraTensorModule.cancelBaseChange Q T C C
       (KaehlerDifferential P Q)
-  show e₁.symm (e₂.symm ((1 : C) ⊗ₜ[Q] KaehlerDifferential.D P Q q)) = _
+  change e₁.symm (e₂.symm ((1 : C) ⊗ₜ[Q] KaehlerDifferential.D P Q q)) = _
   rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul]
-  show (1 : C) ⊗ₜ[T] (E ((1 : T) ⊗ₜ[Q] KaehlerDifferential.D P Q q)) = _
+  change (1 : C) ⊗ₜ[T] (E ((1 : T) ⊗ₜ[Q] KaehlerDifferential.D P Q q)) = _
   rw [KaehlerDifferential.tensorKaehlerEquiv_tmul_D, one_smul]
   rfl
 
@@ -971,16 +971,16 @@ theorem standardResolution_differentials_shortExact
     refine ShortComplex.isoMk e₁.toModuleIso (Iso.refl _) e₃.symm ?_ ?_
     · apply differentialSequenceFirstHom_ext A f n
       intro p
-      show SI.f (e₁ ((1 : C) ⊗ₜ[B]
+      change SI.f (e₁ ((1 : C) ⊗ₜ[B]
         cotangentTermDifferential A B n p)) =
           differentialSequenceFirstComponent A f n
             ((1 : C) ⊗ₜ[B] cotangentTermDifferential A B n p)
       rw [differentialSequenceFirstComponent_differential]
-      show SI.f (ePQ.symm (ePB ((1 : C) ⊗ₜ[B]
+      change SI.f (ePQ.symm (ePB ((1 : C) ⊗ₜ[B]
         ((1 : B) ⊗ₜ[P] KaehlerDifferential.D A P p)))) = _
       rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul,
         TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul]
-      show (1 : C) ⊗ₜ[Q] (KaehlerDifferential.mapBaseChange A P Q
+      change (1 : C) ⊗ₜ[Q] (KaehlerDifferential.mapBaseChange A P Q
         ((1 : Q) ⊗ₜ[P] KaehlerDifferential.D A P p)) = _
       rw [KaehlerDifferential.mapBaseChange_tmul, one_smul,
         KaehlerDifferential.map_D]
@@ -988,7 +988,7 @@ theorem standardResolution_differentials_shortExact
     · apply ModuleCat.baseChange_kaehlerDifferential_hom_ext (A := (A : Type u))
         (R := (Q : Type (max u v)))
       intro q
-      show (1 : C) ⊗ₜ[Q]
+      change (1 : C) ⊗ₜ[Q]
         (KaehlerDifferential.map A P Q Q (KaehlerDifferential.D A Q q)) =
           e₃.inv (differentialSequenceSecondComponent A f n
             (cotangentTermDifferential A C n q))
@@ -1084,7 +1084,8 @@ theorem standardResolution_differentials_toBaseChange_augmentation
 /-- The second component of the differential sequence sends the differential `d q` of an element
 of the standard resolution of `C` to the relative differential of its image under the canonical
 base-change map. -/
-alias differentialSequenceSecondComponent_differential' := differentialSequenceSecondComponent_differential
+alias differentialSequenceSecondComponent_differential' :=
+    differentialSequenceSecondComponent_differential
 
 /-- Two maps out of the base change of a term of the cotangent complex of `B` agree once they
 agree on the elements `1 ⊗ d p`. -/
@@ -1092,7 +1093,8 @@ alias differentialSequenceFirstHom_ext' := differentialSequenceFirstHom_ext
 
 /-- The first component of the differential sequence sends `1 ⊗ d p` to the differential of the
 image of `p` under the map of standard resolutions induced by `f`. -/
-alias differentialSequenceFirstComponent_differential' := differentialSequenceFirstComponent_differential
+alias differentialSequenceFirstComponent_differential' :=
+    differentialSequenceFirstComponent_differential
 
 end CommAlgCat
 

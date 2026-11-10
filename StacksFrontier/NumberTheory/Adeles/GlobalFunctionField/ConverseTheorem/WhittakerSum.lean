@@ -432,9 +432,9 @@ public theorem singleAdele_add (v : Place K) (a b : v.completion) :
     singleAdele v (a + b) = singleAdele v a + singleAdele v b := by
   ext w
   rcases eq_or_ne w v with rfl | hw
-  · show singleAdele w (a + b) w = singleAdele w a w + singleAdele w b w
+  · change singleAdele w (a + b) w = singleAdele w a w + singleAdele w b w
     rw [singleAdele_apply_self, singleAdele_apply_self, singleAdele_apply_self]
-  · show singleAdele v (a + b) w = singleAdele v a w + singleAdele v b w
+  · change singleAdele v (a + b) w = singleAdele v a w + singleAdele v b w
     rw [singleAdele_apply_ne hw, singleAdele_apply_ne hw, singleAdele_apply_ne hw, add_zero]
 
 /-- `-(λ y_v)⁻¹` at `v`, for a unit `λ`, lies in `A(div y)`. -/
@@ -447,7 +447,7 @@ public theorem singleAdele_mem_adeleLattice {v : Place K} {l : v.integers} (hl :
   intro w
   rcases eq_or_ne w v with rfl | hw
   · rw [singleAdele_apply_self, Place.mem_ball, Valuation.map_neg, map_inv₀, map_mul,
-      valued_eq_one_of_isUnit k hl, one_mul,
+      valued_eq_one_of_isUnit hl, one_mul,
       Place.valued_eq_unifVal_zpow_ordC hv (idele_apply_ne_zero y w), ← idelDiv_apply k y w,
       zpow_neg]
   · rw [singleAdele_apply_ne hw]
@@ -472,7 +472,7 @@ public theorem sum_erase_singleAdele_eq_neg_one {v : Place K} {q : ℕ} {π : v.
     rfl
   have hl0 : ∀ i, i ≠ i₀ → (lam i : v.completion) ≠ 0 := by
     intro i hi h
-    have hval := valued_eq_one_of_isUnit k (hunit i hi)
+    have hval := valued_eq_one_of_isUnit (hunit i hi)
     rw [h, map_zero] at hval
     exact zero_ne_one hval
   set θ : v.integers → Λ := fun x =>
@@ -506,15 +506,15 @@ public theorem sum_erase_singleAdele_eq_neg_one {v : Place K} {q : ℕ} {π : v.
   have hsplit : b - singleAdele v (b v) ∈ adeleLattice K (D - Finsupp.single v 1) := by
     intro w
     rcases eq_or_ne w v with rfl | hw
-    · show b w - singleAdele w (b w) w ∈ _
+    · change b w - singleAdele w (b w) w ∈ _
       rw [singleAdele_apply_self, sub_self]
       exact (w.ball _).zero_mem
-    · show b w - singleAdele v (b v) w ∈ _
+    · change b w - singleAdele v (b v) w ∈ _
       rw [singleAdele_apply_ne hw, sub_zero, Finsupp.coe_sub, Pi.sub_apply,
         Finsupp.single_eq_of_ne hw, sub_zero]
       exact hb w
   have hbv : b v * (y : AdeleRing K) v ∈ v.integers := by
-    show Valued.v (b v * (y : AdeleRing K) v) ≤ 1
+    change Valued.v (b v * (y : AdeleRing K) v) ≤ 1
     rw [map_mul, hyv]
     have := Place.mem_ball.1 (hb v)
     have e1 : v.unifVal ^ (-D v) * v.unifVal ^ D v = 1 := by
@@ -533,7 +533,7 @@ public theorem sum_erase_singleAdele_eq_neg_one {v : Place K} {q : ℕ} {π : v.
     if h : IsUnit (lam i) then -((h.unit⁻¹ : v.integersˣ) : v.integers) else 0
   have hμ : ∀ i, i ≠ i₀ → μ i * lam i = -1 := by
     intro i hi
-    simp only [μ, dif_pos (hunit i hi), neg_mul, IsUnit.val_inv_mul]
+    simp only [μ, dite_eq_left (hunit i hi), neg_mul, IsUnit.val_inv_mul]
   have hμc : ∀ i, i ≠ i₀ → ((μ i : v.integers) : v.completion) = -(lam i : v.completion)⁻¹ := by
     intro i hi
     have h := congrArg (fun z : v.integers => (z : v.completion)) (hμ i hi)
@@ -603,7 +603,7 @@ public theorem heckeOperator_whittakerModel_diagGL
   -- the cosets with `λ` a unit
   have hl0 : ∀ i, i ≠ i₀ → (lam i : v.completion) ≠ 0 := by
     intro i hi h
-    have hval := valued_eq_one_of_isUnit k (hunit i hi)
+    have hval := valued_eq_one_of_isUnit (hunit i hi)
     rw [h, map_zero] at hval
     exact zero_ne_one hval
   have hiW : ∀ i ∈ Finset.univ.erase i₀, whittakerModel k K ψ ω c (g i * diagGL y) =
@@ -612,9 +612,9 @@ public theorem heckeOperator_whittakerModel_diagGL
     intro i hi
     have hi' := Finset.ne_of_mem_erase hi
     have hu := hunit i hi'
-    have hval := valued_eq_one_of_isUnit k hu
+    have hval := valued_eq_one_of_isUnit hu
     have hlinv : (lam i : v.completion)⁻¹ ∈ v.integers := by
-      show Valued.v ((lam i : v.completion)⁻¹) ≤ 1
+      change Valued.v ((lam i : v.completion)⁻¹) ≤ 1
       rw [map_inv₀, hval, inv_one]
     obtain ⟨κ, hκ⟩ := exists_mapO_eq_localGL (swapGL (π : v.completion) (hl0 i hi'))
       (isIntMat_swapGL (hl0 i hi') π.2 hlinv) (isIntMat_swapGL_inv (hl0 i hi') π.2 (lam i).2)
@@ -670,7 +670,7 @@ public theorem heckeOperator_whittakerModel
     heckeOperator g₀ g (whittakerModel k K ψ ω c) x = t v * whittakerModel k K ψ ω c x := by
   have hπ0 := coe_ne_zero_of_isUniformizer k hd.isUniformizer
   obtain ⟨κ, α, δ, β, rfl⟩ := exists_iwasawa x
-  show heckeOperator g₀ g _ (mapO κ * upperGL α δ β) =
+  change heckeOperator g₀ g _ (mapO κ * upperGL α δ β) =
     t v * whittakerModel k K ψ ω c (mapO κ * upperGL α δ β)
   rw [heckeOperator_left_invariant hd hπ0 (whittakerModel_mapO_mul k hω hc),
     whittakerModel_mapO_mul k hω hc, upperGL_eq_scalarGL_mul]

@@ -83,7 +83,7 @@ theorem quasiIso_abelianPushforward_map_of_isKInjective_univ
   apply SupportedComplexes.sheafQuasiIso_of_presheafQuasiIso_general K
   rw [HomologicalComplex.quasiIso_iff_evaluation]
   intro s
-  show QuasiIso ((((sheafSections J AddCommGrpCat.{max u₃ v₃ t₀}).obj
+  change QuasiIso ((((sheafSections J AddCommGrpCat.{max u₃ v₃ t₀}).obj
     (op (w.obj s.unop))).mapHomologicalComplex (ComplexShape.up ℤ)).map q)
   refine DerivedLowerShriek.quasiIso_mapHomologicalComplex_of_corepresentable
     _ _ (FreeYonedaUnivLE.evaluationRepresentation.{t₀} J (w.obj s.unop)).symm q (fun n => ?_)
@@ -93,14 +93,14 @@ theorem quasiIso_abelianPushforward_map_of_isKInjective_univ
     apply Localization.inverts DerivedCategory.Qh
       (HomotopyCategory.quasiIso (Sheaf J AddCommGrpCat.{max u₃ v₃ t₀}) (ComplexShape.up ℤ))
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
-    show QuasiIso ((CategoryTheory.shiftFunctor
+    change QuasiIso ((CategoryTheory.shiftFunctor
       (CochainComplex (Sheaf J AddCommGrpCat.{max u₃ v₃ t₀}) ℤ) n).map q)
     infer_instance
   refine DerivedLowerShriek.bijective_postcomp_of_qh_bijective _
     (qh_map_bijective_single_of_isKInjective_general J O _
       (ModuleSheafCohomology.isTorsionFree_sheafify J
         (uliftYoneda.{max u₃ t₀}.obj (w.obj s.unop) ⋙ AddCommGrpCat.free) (fun W => by
-          show Module.IsTorsionFree ℤ
+          change Module.IsTorsionFree ℤ
             (FreeAbelianGroup (ULift.{max u₃ t₀} (W.unop ⟶ w.obj s.unop)))
           exact Module.Flat.isTorsionFree)) I n)
     (CochainComplex.IsKInjective.Qh_map_bijective _ (Jc⟦n⟧))

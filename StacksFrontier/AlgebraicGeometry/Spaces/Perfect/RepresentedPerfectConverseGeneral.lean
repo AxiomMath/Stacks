@@ -109,7 +109,7 @@ theorem isPerfect_of_isPerfect_representedDerivedAssociatedModule_of_scheme
   obtain ⟨A, _, hA, p, ⟨eU⟩⟩ := exists_iso_mk_spec B S hS (openSub T U.1) U.2
   let g' : BigFppfOver.mk B S hS hA p ⟶ T := eU.inv ≫ openSubHom T U.1
   have : _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map g') := by
-    show _root_.AlgebraicGeometry.IsOpenImmersion
+    change _root_.AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (eU.inv ≫ openSubHom T U.1))
     rw [Functor.map_comp]
     infer_instance
@@ -151,7 +151,7 @@ theorem isPerfect_of_isPerfect_representedDerivedAssociatedModule_of_scheme
           ((Scheme.Modules.pullback f).mapDerivedCategoryFactors.app E₀)) hperf))
   have hc₂ := Stacks.Duality.SupportedGeneration.isPerfectComplex_restrictFunctor_of_isIso ψ _ hc₁
   have hψ : ψ ≫ f = (BigFppfOver.toScheme B S hS).map (openSubHom T U.1) := by
-    show (BigFppfOver.toScheme B S hS).map eU.hom ≫
+    change (BigFppfOver.toScheme B S hS).map eU.hom ≫
       (BigFppfOver.toScheme B S hS).map (eU.inv ≫ openSubHom T U.1) = _
     rw [← Functor.map_comp, Iso.hom_inv_id_assoc]
   let Φ : Scheme.Modules.pullback f ⋙ Scheme.Modules.restrictFunctor ψ ≅

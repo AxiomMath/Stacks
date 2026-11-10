@@ -90,10 +90,10 @@ theorem rel_toIdCospan {g : y ⟶ z} {Z : TwoCommSq (𝟙 z) g}
     rw [← hc]
     simp [← comp_whiskerRight]
   refine ⟨(ρ_ F.hom).symm ≪≫ F.isoSnd.symm, ?_, ?_⟩
-  · show F.isoFst.hom ≫ (((ρ_ F.hom).inv ≫ F.isoSnd.inv) ▷ g) = (ρ_ Z.fst).inv ≫ Z.iso.hom
+  · change F.isoFst.hom ≫ (((ρ_ F.hom).inv ≫ F.isoSnd.inv) ▷ g) = (ρ_ Z.fst).inv ≫ Z.iso.hom
     rw [hZ]
     bicategory
-  · show F.isoSnd.hom ≫ (((ρ_ F.hom).inv ≫ F.isoSnd.inv) ▷ (𝟙 y)) = (ρ_ Z.snd).inv
+  · change F.isoSnd.hom ≫ (((ρ_ F.hom).inv ≫ F.isoSnd.inv) ▷ (𝟙 y)) = (ρ_ Z.snd).inv
     simp [whiskerRight_id]
 
 /-- The square `CategoryTheory.Bicategory.TwoCommSq.idCospan g` is a 2-fibre product of the

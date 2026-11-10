@@ -102,8 +102,9 @@ theorem nonempty_restrict_iso_of_derivedPullback_fromSpec
       (@Functor.mapDerivedCategory _ _ _ (HasDerivedCategory.standard _) _ _ _ _
         (tilde.functor Γ(Z, U) ⋙ Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ _).obj ω) := by
   let A := Γ(Z, U)
-  let i₃ := (@Functor.mapDerivedCategoryCompIsoOfCompIso _ _ _ (HasDerivedCategory.standard _) _ _ _ _
-    _ _ _ _ (tilde.functor A) _ _ _ (Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ _ _ _ _ _
+  let i₃ := (@Functor.mapDerivedCategoryCompIsoOfCompIso _ _ _ (HasDerivedCategory.standard _)
+    _ _ _ _ _ _ _ _ (tilde.functor A) _ _ _
+    (Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ _ _ _ _ _
     (Iso.refl _)).app ω
   obtain ⟨i⟩ := nonempty_restrict_iso_of_iso_derivedPullback_fromSpec hU K
     (e ≪≫ (Stacks.Injectives.mapDerivedCategoryObjIso (ModuleCat.{u} A) (tilde.functor A) ω).symm)
@@ -237,7 +238,7 @@ theorem exists_tensorProduct_ringHom_isOpenImmersion {X X' S S' : Scheme.{u}}
   have h2 := key hV' f' hU'V' iR wV
   refine ⟨(cC ≫ e₀).hom, ?_, ?_, ?_⟩
   · have : IsIso cC := c.toRingEquiv.toCommRingCatIso.isIso_hom
-    show IsOpenImmersion (Spec.map (cC ≫ e₀))
+    change IsOpenImmersion (Spec.map (cC ≫ e₀))
     rw [Spec.map_comp, he₀]
     infer_instance
   · rw [← h1]

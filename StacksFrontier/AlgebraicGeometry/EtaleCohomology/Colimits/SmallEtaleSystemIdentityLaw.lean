@@ -157,12 +157,14 @@ def zeroTransitionSystem
   map _ := 0
   map_comp _ _ := by simp
 
+omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
 /-- The sheaf of `zeroTransitionSystem A` at the level `i` is `A i`. -/
 @[simp]
 theorem zeroTransitionSystem_obj
     (A : ∀ i : Iᵒᵖ, Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}) (i : Iᵒᵖ) :
     (zeroTransitionSystem A).obj i = A i := rfl
 
+omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
 /-- Every transition of `zeroTransitionSystem A` is zero. -/
 @[simp]
 theorem zeroTransitionSystem_map
@@ -171,6 +173,7 @@ theorem zeroTransitionSystem_map
 
 variable [∀ i : Iᵒᵖ, HasExt.{u + 1} (Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1})]
 
+omit [∀ i : Iᵒᵖ, HasExt.{u + 1} (Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1})] in
 /-- The transitions of `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.zeroTransitionSystem`,
 read as maps out of `Stacks.EtaleCohomology.etaleAbelianInverseImage` rather than out of
 `Stacks.EtaleCohomology.systemPullback`, are zero. -/
@@ -180,6 +183,7 @@ theorem systemTransitionMap_zeroTransitionSystem
     (a : i ⟶ j) : systemTransitionMap (zeroTransitionSystem A) a = 0 := by
   rw [systemTransitionMap, zeroTransitionSystem_map, comp_zero]
 
+omit [∀ i : Iᵒᵖ, HasExt.{u + 1} (Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1})] in
 /-- **The zero sheaf on the limit, with the zero legs, presents the colimit of the
 zero-transition system** — whatever the sheaves at the levels are.
 
@@ -215,6 +219,7 @@ def zeroTransitionPresentedSystem
   presentedSystemOfIsColimitPresentation (zeroTransitionSystem A) 0 (fun _ => 0)
     (isColimitPresentation_zeroTransitionSystem A c)
 
+omit [∀ i : Iᵒᵖ, HasExt.{u + 1} (Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1})] in
 /-- **The identity transition of the zero-transition system is invertible only on a zero sheaf.**
 If the transition of `zeroTransitionSystem A` at an identity arrow of the index is an
 isomorphism, then the identity of `A i` is zero, i.e. `A i` is a zero object.

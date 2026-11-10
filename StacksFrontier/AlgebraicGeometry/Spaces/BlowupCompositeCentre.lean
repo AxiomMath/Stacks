@@ -205,7 +205,7 @@ theorem isBlowupAlong_sumClosedSubspacesList_const {𝔅 B'' : AlgebraicSpaces B
   | _ :: l => by
     have ih : IsBlowupAlong B S hS (sumClosedSubspacesList 𝔅 (fun _ : Unit => D) Z₀ l) c :=
       isBlowupAlong_sumClosedSubspacesList_const D Z₀ hD hc hcD l
-    show IsBlowupAlong B S hS
+    change IsBlowupAlong B S hS
       (sumClosedSubspaces B S hS 𝔅 D (sumClosedSubspacesList 𝔅 (fun _ : Unit => D) Z₀ l)) c
     rw [sumClosedSubspaces_comm]
     exact isBlowupAlong_sumClosedSubspaces B S hS _ D hD ih hcD
@@ -219,7 +219,7 @@ theorem subspacePointSet_subset_sumClosedSubspacesList {X : AlgebraicSpaces B S 
       subspacePointSet B S hS X.1 (sumClosedSubspacesList X (fun _ : Unit => D) Z₀ l).1
   | [] => subset_rfl
   | _ :: l => by
-    show subspacePointSet B S hS X.1 Z₀.1 ⊆ subspacePointSet B S hS X.1
+    change subspacePointSet B S hS X.1 Z₀.1 ⊆ subspacePointSet B S hS X.1
       (sumClosedSubspaces B S hS X D (sumClosedSubspacesList X (fun _ : Unit => D) Z₀ l)).1
     rw [subspacePointSet_sumClosedSubspaces]
     exact (subspacePointSet_subset_sumClosedSubspacesList D Z₀ l).trans Set.subset_union_right
@@ -307,7 +307,7 @@ theorem exists_isCompositeCentre_isBlowupAlong_of_preimage_eq
           subspacePointSet_subset_sumClosedSubspacesList _ Z' _
       _ = subspacePointSet B S hS X'.1 (W.1.preimage b.hom) :=
           congrArg (subspacePointSet B S hS X'.1) (congrArg Subtype.val hWpre).symm
-  show subspacePointSet B S hS X.1 (sumClosedSubspaces B S hS X Z W).1 = _
+  change subspacePointSet B S hS X.1 (sumClosedSubspaces B S hS X Z W).1 = _
   rw [subspacePointSet_sumClosedSubspaces]
   exact subset_antisymm
     (Set.union_subset Set.subset_union_left hWsupp)

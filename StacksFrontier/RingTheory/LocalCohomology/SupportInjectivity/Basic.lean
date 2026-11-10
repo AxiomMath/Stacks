@@ -121,7 +121,7 @@ private lemma principalLocalization_comparison_exists {A : Type u} [CommRing A]
     derivedUnit_obj_isIso_of_comp F G _ hu X
   refine ⟨F.mapDerivedCategory.map (θ.app X) ≫ inv (η.app _), ?_⟩
   rw [← Category.assoc, ← η.naturality]
-  show (θ.app X ≫ η.app (G.mapDerivedCategory.obj X)) ≫
+  change (θ.app X ≫ η.app (G.mapDerivedCategory.obj X)) ≫
     inv (η.app (G.mapDerivedCategory.obj X)) = θ.app X
   rw [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
@@ -191,7 +191,7 @@ private theorem localCohomology_fiber_iso
         ((adj.homEquiv W K).symm_apply_apply _)
   have hacomp : a ≫ mapOfLE A I L hI hL hIL M = T.mor₁ := by
     apply (localCohomology_counit_bijective A I hI K T.obj₁ hTI).injective
-    show (a ≫ mapOfLE A I L hI hL hIL M) ≫ localCohomologyAugmentation A I hI M =
+    change (a ≫ mapOfLE A I L hI hL hIL M) ≫ localCohomologyAugmentation A I hI M =
       T.mor₁ ≫ localCohomologyAugmentation A I hI M
     rw [Category.assoc, localCohomologyMapOfLE_comp_augmentation I L hI hL hIL M, ha]
   let Y := localCohomologyObject A L hL M
@@ -208,12 +208,12 @@ private theorem localCohomology_fiber_iso
   change b ≫ T.mor₁ = mapOfLE A I L hI hL hIL M at hb
   have hab : a ≫ b = 𝟙 T.obj₁ := by
     apply (localizationFiber_precomp_bijective D η hη X Z g h hT T.obj₁ hF).injective
-    show (a ≫ b) ≫ T.mor₁ = (𝟙 T.obj₁) ≫ T.mor₁
+    change (a ≫ b) ≫ T.mor₁ = (𝟙 T.obj₁) ≫ T.mor₁
     simp only [Category.assoc, Category.id_comp, hb]
     exact hacomp
   have hba : b ≫ a = 𝟙 Y := by
     apply (localCohomology_counit_bijective A L hL K Y hYL).injective
-    show (b ≫ a) ≫ localCohomologyAugmentation A L hL M =
+    change (b ≫ a) ≫ localCohomologyAugmentation A L hL M =
       (𝟙 Y) ≫ localCohomologyAugmentation A L hL M
     have e1 : (b ≫ a) ≫ localCohomologyAugmentation A L hL M =
         b ≫ (T.mor₁ ≫ localCohomologyAugmentation A I hI M) :=
@@ -290,13 +290,13 @@ private theorem localCohomology_kernel_eventually_zero
     have : Subsingleton (LocalizedModule S (Hprev.obj X)) := hvan
     obtain ⟨s, hs⟩ := exists_complement_smul_eq_zero S (Hprev.obj X) m
     refine ⟨s, ?_⟩
-    show (s : A) • IsLocalizedModule.mk'
+    change (s : A) • IsLocalizedModule.mk'
       (smallLocalizationUnit (Submonoid.powers f) (Hprev.obj X)) m t = 0
     rw [← IsLocalizedModule.mk'_smul, hs, IsLocalizedModule.mk'_zero]
   obtain ⟨s, hs⟩ := hkill (ef.hom.hom z)
   have hsz : (s : A) • z = 0 := by
     apply (ModuleCat.mono_iff_injective ef.hom).mp inferInstance
-    show ef.hom.hom ((s : A) • z) = ef.hom.hom 0
+    change ef.hom.hom ((s : A) • z) = ef.hom.hom 0
     rw [map_zero]
     exact (ef.hom.hom.map_smul (s : A) z).trans hs
   let G := smallLocalizationFunctor (Submonoid.powers (f * (s : A)))
@@ -307,7 +307,7 @@ private theorem localCohomology_kernel_eventually_zero
   obtain ⟨e', he'⟩ := localCohomology_fiber_iso A I hI M (f * (s : A)) Z' g' h' hU
   obtain ⟨c, hc⟩ := principalLocalization_comparison_exists f (s : A) X
   have hc' : T.mor₂ ≫ c = (𝟙 X) ≫ U.mor₂ := by
-    show η.app X ≫ c = (𝟙 X) ≫ θ.app X
+    change η.app X ≫ c = (𝟙 X) ≫ θ.app X
     rw [Category.id_comp]
     exact hc
   obtain ⟨a, ha₁, ha₃⟩ := complete_distinguished_triangle_morphism₁ T U hT' hU' (𝟙 X) c hc'
@@ -328,7 +328,7 @@ private theorem localCohomology_kernel_eventually_zero
         rw [hsz]
         exact (congrArg eg.hom.hom (Hprev.map c).hom.map_zero).trans eg.hom.hom.map_zero
       exact u1.symm.trans u2
-    show (f * (s : A)) • eg.hom.hom ((Hprev.map c).hom z) =
+    change (f * (s : A)) • eg.hom.hom ((Hprev.map c).hom z) =
       (f * (s : A)) • eg.hom.hom 0
     rw [mul_smul, w1]
     simp
@@ -363,7 +363,7 @@ private theorem localCohomology_kernel_eventually_zero
       ((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).obj M)
       (localCohomologyObject A L hL M)
       (restrictLocalCohomologySupport A L' L hL' hL hLL M).property).injective
-    show (e.inv ≫ a ≫ e'.hom) ≫ localCohomologyAugmentation A L' hL' M =
+    change (e.inv ≫ a ≫ e'.hom) ≫ localCohomologyAugmentation A L' hL' M =
       mapOfLE A L' L hL' hL hLL M ≫ localCohomologyAugmentation A L' hL' M
     have r1 : (e.inv ≫ a ≫ e'.hom) ≫ localCohomologyAugmentation A L' hL' M =
         e.inv ≫ ((a ≫ e'.hom) ≫ localCohomologyAugmentation A L' hL' M) :=
@@ -389,9 +389,9 @@ private theorem localCohomology_kernel_eventually_zero
         ((((r2.trans r3).trans r4).trans r5).trans heaug.symm)).trans r6)
     exact rl.trans (localCohomologyMapOfLE_comp_augmentation L' L hL' hL hLL M).symm
   refine ⟨s, ?_⟩
-  show (H.map (mapOfLE A L' L hL' hL hLL M)).hom x = 0
+  change (H.map (mapOfLE A L' L hL' hL hLL M)).hom x = 0
   rw [← hmap, Functor.map_comp, Functor.map_comp, ModuleCat.comp_apply, ModuleCat.comp_apply]
-  show (H.map e'.hom).hom ((H.map a).hom ξ) = 0
+  change (H.map e'.hom).hom ((H.map a).hom ξ) = 0
   rw [haz, map_zero]
 
 /-- Among the finitely generated intermediate supports `I ≤ K ≤ J` that already annihilate a
@@ -441,7 +441,7 @@ public theorem localCohomologyModuleMapOfLE_injective
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
         (Stacks.Algebraization.localCohomologyComparison A J I hJ hI hIJ
           ((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).obj M))).hom := by
-  show Function.Injective (localCohomologyModuleMapOfLE A I J hI hJ hIJ M i).hom
+  change Function.Injective (localCohomologyModuleMapOfLE A I J hI hJ hIJ M i).hom
   intro x y hxy
   classical
   let z : localCohomologyModule A J hJ M i := x - y
@@ -488,7 +488,7 @@ public theorem localCohomologyModuleMapOfLE_injective
         (ModuleCat.mono_iff_injective e.inv).mp inferInstance
       exact hinv (@Subsingleton.elim _ hpvan (e.inv.hom a) (e.inv.hom b))
     have hlocvan := localized_localCohomology_subsingleton A K hKfg M p (i - 1) hKmapvan
-    obtain ⟨a, haJ, hap⟩ := SetLike.not_le_iff_exists.mp hJp
+    obtain ⟨a, haJ, hap⟩ := IsConcreteLE.not_le_iff_exists.mp hJp
     let L := K ⊔ Ideal.span {a}
     let hL : L.FG := Submodule.FG.sup hKfg (Submodule.fg_span_singleton a)
     have hKL : K ≤ L := le_sup_left

@@ -353,13 +353,15 @@ public def compChartImageSupport (W : SmallEtale B Z.obj Z.property)
       Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl⟩
 
-omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
+    [IsOpenImmersion (B.inclusion.map jX)] in
 /-- The underlying set of `compChartImageSupport` is the image `compChartImage`. -/
 public theorem compChartImageSupport_coe (W : SmallEtale B Z.obj Z.property)
     (T : FiniteSupport B (jX ≫ f ≫ g) W) :
     (compChartImageSupport B g sq W T).1 = compChartImage B g sq W T := rfl
 
-omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
+    [IsOpenImmersion (B.inclusion.map jX)] in
 /-- The image support is closed. -/
 public theorem isClosed_compChartImageSupport (W : SmallEtale B Z.obj Z.property)
     (T : FiniteSupport B (jX ≫ f ≫ g) W) :
@@ -534,10 +536,10 @@ variable (B : BigEtaleSite.{u}) {X Y Z X' Y' : B.Scheme}
 public theorem colim_map_etaleGerm {S : Scheme.{u}} {hS : B.Contains S} (t : GeometricPoint S)
     {P Q : (SmallEtale B S hS)ᵒᵖ ⥤ AddCommGrpCat.{max (u + 1) v}} (φ : P ⟶ Q)
     (W : SmallEtale B S hS) (q : (geometricPointFiber B S hS t).obj W) (a : P.obj (op W)) :
-    (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    (colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B S hS t)).op φ)) (etaleGerm B S hS t P W q a) =
       etaleGerm B S hS t Q W q (φ.app (op W) a) :=
-  ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π
+  ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft (Functor.Elements.π
     (geometricPointFiber B S hS t)).op φ) (op (Functor.elementsMk _ W q))) a
 
 /-- The sheafified piece, before the covariance of Stacks 0F6S, on the germ of a generator: the

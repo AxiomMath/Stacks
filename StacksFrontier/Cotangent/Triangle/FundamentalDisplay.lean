@@ -32,8 +32,8 @@ implementation notes for where each of them lives.
 
 Only the vertices of the display are named here. The first two displayed morphisms, which exist
 canonically for arbitrary `A → B → C`, are `CommAlgCat.fundamentalMor₁` and
-`CommAlgCat.fundamentalMor₂` of `StacksFrontier/Cotangent/Triangle/DisplayMorphisms.lean`; the third,
-`L_{C/B} ⟶ (L_{B/A} ⊗^𝐋_B C)⟦1⟧`, is `CommAlgCat.productFundamentalMor₃` of
+`CommAlgCat.fundamentalMor₂` of `StacksFrontier/Cotangent/Triangle/DisplayMorphisms.lean`; the
+third, `L_{C/B} ⟶ (L_{B/A} ⊗^𝐋_B C)⟦1⟧`, is `CommAlgCat.productFundamentalMor₃` of
 `StacksFrontier/Cotangent/Triangle/ProductDescent.lean`. That the three vertices and those three
 morphisms form a *distinguished* triangle for arbitrary `A → B → C` is Proposition 08QX, which is
 `CommAlgCat.productFundamentalTriangle_distinguished` of the same file.
@@ -44,7 +44,8 @@ that site, its functors, its structure sheaves and those morphisms, none of whic
 about the display itself.
 
 The third vertex reads `C` as a `B`-algebra, so the three rings are bound as plain types with a
-scalar tower, as in `StacksFrontier.Cotangent.TensorProduct`, rather than as objects of `CommAlgCat`.
+scalar tower, as in `StacksFrontier.Cotangent.TensorProduct`, rather than as objects of
+`CommAlgCat`.
 
 ## References
 
@@ -86,6 +87,7 @@ The second vertex `L_{C/A}` of the displayed triangle, as an object of `D(C)`. -
 noncomputable abbrev fundamentalVertex₂ : DerivedCategory (ModuleCat.{max u v} C) :=
   cotangentComplexDerived.{u, v, wC} A (CommAlgCat.of A C)
 
+set_option linter.checkUnivs false in
 /-- **Stacks Project, Tag 08QS.**
 
 The third vertex `L_{C/B}` of the displayed triangle, as an object of `D(C)`. -/

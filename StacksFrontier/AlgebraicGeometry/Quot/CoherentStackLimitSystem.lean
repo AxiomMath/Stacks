@@ -174,7 +174,7 @@ theorem siteContainsBaseChangeLimits_affineYoneda (c : Cone D)
       (hc.overPost i₀))
   refine exists_isLimit_contains_of_iso CategoryTheory.Equivalence.refl
     (C.schemeDiagramIso ≪≫ (Functor.leftUnitor _).symm) ⟨_, ⟨hP⟩, ?_⟩
-  show (pullback (H.map (incl.map (c.π.app i₀))) (H.map u₀)).size < B.cutoff
+  change (pullback (H.map (incl.map (c.π.app i₀))) (H.map u₀)).size < B.cutoff
   rw [← Scheme.size_congr (PreservesPullback.iso H (incl.map (c.π.app i₀)) u₀)]
   exact (pullback (incl.map (c.π.app i₀)) u₀).left.property
 

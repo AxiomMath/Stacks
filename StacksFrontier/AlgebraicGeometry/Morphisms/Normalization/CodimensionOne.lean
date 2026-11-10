@@ -95,7 +95,7 @@ private theorem isIntegrallyClosedIn_localizationAway {R S : Type u} [CommRing R
     IsLocalization.Away.liftAlgHom (R := R) (S := Localization.Away h) (P := S) (A := R)
       (f := Algebra.ofId R S) h hh
   have hg : Function.Injective (g : Localization.Away h → S) := by
-    show Function.Injective
+    change Function.Injective
       (IsLocalization.Away.map (Localization.Away h) S (algebraMap R S) h)
     rw [IsLocalization.Away.map_injective_iff]
     intro a ha
@@ -280,13 +280,13 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
   have hxnotcl : x' ∉ closure (Set.range q) := by
     intro hxcl
     have hxrange : x' ∈ Set.range q.imageι := by
-      show x' ∈ Set.range q.ker.subschemeι
+      change x' ∈ Set.range q.ker.subschemeι
       rw [Scheme.IdealSheafData.range_subschemeι]
       simpa [q.support_ker] using hxcl
     obtain ⟨z, hz⟩ := hxrange
     obtain ⟨w, hw⟩ := exists_specializes_of_image_point q z
     have htarget : g (pullback.fst g j w) = q w := by
-      show (pullback.fst g j ≫ g) w = (pullback.snd g j ≫ j) w
+      change (pullback.fst g j ≫ g) w = (pullback.snd g j ≫ j) w
       rw [pullback.condition]
     let y : f.normalization := g (pullback.fst g j w)
     have hyx : y ⤳ x' := by
@@ -301,13 +301,13 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
       let ySpec : PrimeSpectrum A := U.2.primeIdealOf yU
       let zSpec : PrimeSpectrum A := jA (pullback.snd g j w)
       have hfromq : U.2.fromSpec zSpec = y := by
-        show (jA ≫ U.2.fromSpec) (pullback.snd g j w) = y
+        change (jA ≫ U.2.fromSpec) (pullback.snd g j w) = y
         exact htarget.symm
       have hzspec : zSpec = ySpec :=
         U.2.fromSpec.isOpenEmbedding.injective
           (hfromq.trans (U.2.fromSpec_primeIdealOf yU).symm)
       have hza : a ∈ zSpec.asIdeal := by
-        show a ∈ Ideal.comap (Ideal.Quotient.mk I) (pullback.snd g j w).asIdeal
+        change a ∈ Ideal.comap (Ideal.Quotient.mk I) (pullback.snd g j w).asIdeal
         rw [Ideal.mem_comap]
         have haI : Ideal.Quotient.mk I a = 0 :=
           Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (by simp))
@@ -329,7 +329,7 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
   -- On `V'` the function `a` does not vanish, hence is invertible there.
   let b : Γ(Y, V') := (g.appLE U.1 V' hV'U) a
   have hrangeJA : Set.range jA = PrimeSpectrum.zeroLocus {a} := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective]
     simp [Ideal.mk_ker, I, PrimeSpectrum.zeroLocus_span]
   have hbasic : V' ≤ g ⁻¹ᵁ f.normalization.basicOpen a := by
@@ -339,14 +339,14 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
     let zU : U.1 := ⟨g z, hU'U hgzU'⟩
     have hzSpec0 : U.2.primeIdealOf zU ∈ PrimeSpectrum.zeroLocus {a} := by
       rw [← U.2.fromSpec_preimage_zeroLocus {a}]
-      show U.2.fromSpec (U.2.primeIdealOf zU) ∈ f.normalization.zeroLocus {a}
+      change U.2.fromSpec (U.2.primeIdealOf zU) ∈ f.normalization.zeroLocus {a}
       rw [U.2.fromSpec_primeIdealOf, Scheme.zeroLocus_singleton]
       exact hnot
     obtain ⟨wSpec, hwSpec⟩ := Set.mem_range.mp (hrangeJA.symm ▸ hzSpec0)
     have hzRange : z ∈ Set.range (pullback.fst g j) := by
       rw [Scheme.Pullback.range_fst]
       refine Set.mem_preimage.mpr ⟨wSpec, ?_⟩
-      show U.2.fromSpec (jA wSpec) = g z
+      change U.2.fromSpec (jA wSpec) = g z
       rw [hwSpec]
       exact U.2.fromSpec_primeIdealOf zU
     obtain ⟨w, hw⟩ := hzRange
@@ -406,7 +406,7 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
     have hidpoint : idN x' = x' := rfl
     simpa [p', p, ρ, xU, xU', A, hidpoint] using hp
   have ha'mem : a' ∈ p' := by
-    show ρ a ∈ p'
+    change ρ a ∈ p'
     rw [← Ideal.mem_comap, hpcomap]
     exact ha
   have hba' : (g.app U'.1).hom a' = b := by
@@ -421,23 +421,23 @@ theorem isDiscreteValuationRing_stalk_normalization_of_isEmpty_fiber {X Y : Sche
   let S := Localization (Algebra.algebraMapSubmonoid B M)
   have : IsLocalization (Algebra.algebraMapSubmonoid B M) S := Localization.isLocalization
   have : IsLocalization (Submonoid.map (algebraMap A' B) M) S := by
-    show IsLocalization (Algebra.algebraMapSubmonoid B M) S
+    change IsLocalization (Algebra.algebraMapSubmonoid B M) S
     exact Localization.isLocalization
   have hM : M ≤ Submonoid.comap (algebraMap A' B) (Algebra.algebraMapSubmonoid B M) :=
     fun m hm => Algebra.mem_algebraMapSubmonoid_of_mem (⟨m, hm⟩ : M)
   let ϕ : R →+* S := IsLocalization.map S (algebraMap A' B) hM
   let _ : Algebra R S := Algebra.compHom S ϕ
   have hscalar : algebraMap A' S = (algebraMap R S).comp (algebraMap A' R) := by
-    show (algebraMap B S).comp (algebraMap A' B) = ϕ.comp (algebraMap A' R)
+    change (algebraMap B S).comp (algebraMap A' B) = ϕ.comp (algebraMap A' R)
     exact (IsLocalization.map_comp (M := M) (S := R) (g := algebraMap A' B)
       (T := Algebra.algebraMapSubmonoid B M) (Q := S) hM).symm
   have : IsScalarTower A' R S := IsScalarTower.of_algebraMap_eq' hscalar
   have ha'unitS : IsUnit (algebraMap R S (algebraMap A' R a')) := by
     rw [← IsScalarTower.algebraMap_apply A' R S]
-    show IsUnit (algebraMap B S ((g.app U'.1).hom a'))
+    change IsUnit (algebraMap B S ((g.app U'.1).hom a'))
     exact ha'unitB.map (algebraMap B S)
   have hinjRS : Function.Injective (algebraMap R S) := by
-    show Function.Injective ϕ
+    change Function.Injective ϕ
     exact IsLocalization.map_injective_of_injective
       (M := M) (S := R) (g := algebraMap A' B) (Q := S) hinjAB
   have hclRS : ∀ {x : S}, _root_.IsIntegral R x → ∃ y, algebraMap R S y = x := by

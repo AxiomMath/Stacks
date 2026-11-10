@@ -1,13 +1,13 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
+StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.LowDepthLocusClosure
 public import StacksFrontier.AlgebraicGeometry.CoherentFinite.Basic
 public import StacksFrontier.AlgebraicGeometry.CoherentTFAE.Basic
 public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.DepthDimensionCriterionGlobal
+StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.DepthDimensionCriterionGlobal
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.FormalFibresAffineOpen
 public import StacksFrontier.AlgebraicGeometry.RecoveryCatenary.Local
@@ -27,7 +27,7 @@ public import StacksCore.Tactic.StacksAttribute
 
 import all StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtension
 import all
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
+StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
 
 /-!
 # Construction of the depth-two extension

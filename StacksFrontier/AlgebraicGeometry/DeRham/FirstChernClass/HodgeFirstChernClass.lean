@@ -196,7 +196,7 @@ theorem logarithmicDifferentialSheafHom_naturality :
   ext U s
   obtain ⟨V⟩ := U
   obtain ⟨u, rfl⟩ : ∃ u : (X.sheaf.obj.obj (op V))ˣ, Additive.ofMul u = s := ⟨s, rfl⟩
-  show (logarithmicDifferentialSheafHom p').hom.app (op (f ⁻¹ᵁ V))
+  change (logarithmicDifferentialSheafHom p').hom.app (op (f ⁻¹ᵁ V))
       ((unitsPushforwardMap f).hom.app (op V) (Additive.ofMul u)) =
     ((relativeDifferentialsPushforwardMap f p p' g hcomm).val.app (op V)).hom
       ((logarithmicDifferentialSheafHom p).hom.app (op V) (Additive.ofMul u))

@@ -129,17 +129,17 @@ theorem natCard_stableDivisors_mul (c : Stacks.Picard.ofScheme C)
         rw [← ha]; rfl
       have ha0 : algebraMap Ω C.functionField a ≠ 0 :=
         (map_ne_zero_iff _ (algebraMap Ω C.functionField).injective).2 a.ne_zero
-      show D + divOf g _ = _
+      change D + divOf g _ = _
       rw [divOf_congr g h' _ (mul_ne_zero ha0 (hne v hv)), divOf_mul g ha0 (hne v hv),
         divOf_algebraMap g a.ne_zero, zero_add]
   have hψnonneg : ∀ x y, 0 ≤ ψ x y := fun x y => by
     rcases (mem_rrSpace g).1 x.rep.2 with h | h
     · exact absurd h (hne _ x.rep_nonzero)
     · have := h y
-      show 0 ≤ D y + C.ord _ y.1
+      change 0 ≤ D y + C.ord _ y.1
       omega
   have hψclass : ∀ x, divisorClass g (ψ x) = divisorClass g D := fun x => by
-    show divisorClass g (D + divOf g _) = _
+    change divisorClass g (D + divOf g _) = _
     rw [map_add, divisorClass_divOf, add_zero]
   have hψinj : Function.Injective ψ := fun x x' h => by
     have h' : divOf g (hne _ x.rep_nonzero) = divOf g (hne _ x'.rep_nonzero) :=
@@ -160,7 +160,7 @@ theorem natCard_stableDivisors_mul (c : Stacks.Picard.ofScheme C)
     have hv : (⟨f, hfV⟩ : V) ≠ 0 := fun h => hf (congrArg Subtype.val h)
     refine ⟨Projectivization.mk Ω ⟨f, hfV⟩ hv, ?_⟩
     rw [hψmk]
-    show D + divOf g hf = E
+    change D + divOf g hf = E
     rw [hfE]; abel
   have hψT : ∀ x, ψ (Projectivization.map T hT x) = (ψ x).mapDomain σ.symm := fun x => by
     conv_lhs => rw [← Projectivization.mk_rep x, Projectivization.map_mk, hψmk]
@@ -194,7 +194,7 @@ theorem natCard_stableDivisors_mul (c : Stacks.Picard.ofScheme C)
     have hxs : Stacks.Lang.IsStablePoint p n T hT x := (hstable x).2 fun y => by
       rw [hx, natDivisor_apply, natDivisor_apply, hEσ]
     refine ⟨⟨x, hxs⟩, Subtype.ext ?_⟩
-    show Finsupp.mapRange Int.toNat Int.toNat_zero (ψ x) = E
+    change Finsupp.mapRange Int.toNat Int.toNat_zero (ψ x) = E
     ext y
     rw [Finsupp.mapRange_apply, hx, natDivisor_apply, Int.toNat_natCast]
 

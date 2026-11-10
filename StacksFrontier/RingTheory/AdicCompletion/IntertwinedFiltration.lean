@@ -242,7 +242,7 @@ public theorem quotKerEmbed_compat (hπ : ∀ (m n : ℕ) (h : m ≤ n), (T m n 
   obtain ⟨a, ha⟩ := Submodule.Quotient.mk_surjective (LinearMap.ker (π n))
     ((y : ∀ k, M ⧸ LinearMap.ker (π k)) n)
   rw [← towerLimit_compat y m n h, ← ha]
-  show T m n h (quotKerEmbed P π n (Submodule.Quotient.mk a)) =
+  change T m n h (quotKerEmbed P π n (Submodule.Quotient.mk a)) =
     quotKerEmbed P π m (Submodule.factor (antitone_ker P T π hπ h) (Submodule.Quotient.mk a))
   rw [factor_quotient_mk, quotKerEmbed_mk, quotKerEmbed_mk]
   exact LinearMap.congr_fun (hπ m n h) a
@@ -282,7 +282,7 @@ public theorem towerComparison_bijective (c : ℕ)
     choose a ha using hmem
     refine ⟨⟨fun n ↦ Submodule.Quotient.mk (a n), ?_⟩, towerLimit_ext fun n ↦ ?_⟩
     · intro m n h
-      show Submodule.factor (antitone_ker P T π hπ h) (Submodule.Quotient.mk (a n)) =
+      change Submodule.factor (antitone_ker P T π hπ h) (Submodule.Quotient.mk (a n)) =
         (Submodule.Quotient.mk (a m) : M ⧸ LinearMap.ker (π m))
       rw [factor_quotient_mk, Submodule.Quotient.eq, LinearMap.mem_ker, map_sub, sub_eq_zero]
       rw [← LinearMap.congr_fun (hπ m n h) (a n), LinearMap.comp_apply, ha n,

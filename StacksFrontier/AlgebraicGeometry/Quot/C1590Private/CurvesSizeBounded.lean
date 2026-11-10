@@ -74,7 +74,7 @@ theorem countable_of_isFiniteTypeOver (U : BigFppfOver B integerBase hZ) {k : Ty
   have : LocallyOfFiniteType (B.inclusion.map U.hom) := hft.1
   have : IsAffine (B.inclusion.obj (B.obj hZ)) := inferInstanceAs (IsAffine integerBase.{u})
   have : IsAffine (B.inclusion.obj U.left) := by
-    show IsAffine U.left.1
+    change IsAffine U.left.1
     rw [hU]
     infer_instance
   have hZc : Countable Γ(B.inclusion.obj (B.obj hZ), ⊤) := countable_sections_integerBase
@@ -173,7 +173,7 @@ theorem nonempty_fiber_iso_of_finiteTypeScheme_iso (U : BigFppfOver B integerBas
         (congrArg (· ≫ yoneda.map (eqToHom hbase)) (Iso.inv_hom_id_assoc _ _)))
   have : IsIso (schemeSpaceMap (eqToHom hbase)) := by
     have : IsIso ((ObjectProperty.ι _).map (schemeSpaceMap (eqToHom hbase))) := by
-      show IsIso (yoneda.map _)
+      change IsIso (yoneda.map _)
       infer_instance
     exact isIso_of_fully_faithful (ObjectProperty.ι _) _
   let c : y ⟶ y' :=

@@ -61,7 +61,8 @@ functors, and sections of abelian sheaves over an object preserve finite limits.
 
 ## Implementation notes
 
-This file mirrors `StacksFrontier/Topology/Sheaves/Cohomology/CechToCohomology/AcyclicCovering.lean`,
+This file mirrors
+`StacksFrontier/Topology/Sheaves/Cohomology/CechToCohomology/AcyclicCovering.lean`,
 which carries out the same argument for an open covering of a ringed space ([Stacks, Tag 01ET]),
 throughout; the machinery of [Stacks, Tag 0133] it uses is the universe-polymorphic
 `StacksFrontier/Algebra/Homology/TotalComplexQuasiIso.lean`, and the two augmentations are the ones
@@ -362,7 +363,7 @@ lemma inducesIsoKernel_cechBetaRow (p : ℤ) :
   have hz := InjectiveResolution.inclusionZero_comp_d J
   have hβ : ((cechComplexIntFunctor.{max u v} K E).map J.inclusionZero).f p ≫
       (((cechBicomplex.{max u v} K E J.cochainComplex).flip).X p).d 0 1 = 0 := by
-    show ((cechComplexIntFunctor.{max u v} K E).map J.inclusionZero).f p ≫
+    change ((cechComplexIntFunctor.{max u v} K E).map J.inclusionZero).f p ≫
       ((cechComplexIntFunctor.{max u v} K E).map (J.cochainComplex.d 0 1)).f p = 0
     rw [← HomologicalComplex.comp_f, ← Functor.map_comp, hz, Functor.map_zero,
       HomologicalComplex.zero_f]

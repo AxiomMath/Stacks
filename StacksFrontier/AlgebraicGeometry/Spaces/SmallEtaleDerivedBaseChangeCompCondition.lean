@@ -63,19 +63,31 @@ theorem smallEtaleDerivedModulePullback_chart_coherence (fs : P ⟶ U) (u : U �
         fun F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u => IsAlgebraicSpace B S hS F) _ _ _ _
         (@CategoryStruct.comp (AlgebraicSpaces B S hS) _ _ _ _ qi ιW) g')
     (K : DerivedCategory (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X))) :
-    (smallEtaleDerivedModulePullback B S hS fs).map ((smallEtaleDerivedModulePullbackCompIso B S hS u ι).inv.app K) ≫
-        ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom ≫ (smallEtaleDerivedModulePullbackSquareIso B S hS c u fs qi e2).inv).app
+    (smallEtaleDerivedModulePullback B S hS fs).map
+        ((smallEtaleDerivedModulePullbackCompIso B S hS u ι).inv.app K) ≫
+        ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom ≫
+            (smallEtaleDerivedModulePullbackSquareIso B S hS c u fs qi e2).inv).app
           ((smallEtaleDerivedModulePullback B S hS ι).obj K) ≫
-        (smallEtaleDerivedModulePullback B S hS qi).map ((smallEtaleDerivedModulePullbackCompIso B S hS c ι).hom.app K ≫ (smallEtaleDerivedModulePullbackCongr B S hS e1).hom.app K ≫
-          (smallEtaleDerivedModulePullbackCompIso B S hS ιW g').inv.app K) =
-      (smallEtaleDerivedModulePullbackCompIso B S hS fs (u ≫ ι)).hom.app K ≫ (smallEtaleDerivedModulePullbackCongr B S hS ha').hom.app K ≫
-        (smallEtaleDerivedModulePullbackCompIso B S hS (qi ≫ ιW) g').inv.app K ≫ (smallEtaleDerivedModulePullbackCompIso B S hS qi ιW).inv.app ((smallEtaleDerivedModulePullback B S hS g').obj K) := by
-  suffices key : ((smallEtaleDerivedModulePullback B S hS fs).map ((smallEtaleDerivedModulePullbackCompIso B S hS u ι).inv.app K) ≫
-        ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom ≫ (smallEtaleDerivedModulePullbackSquareIso B S hS c u fs qi e2).inv).app
+        (smallEtaleDerivedModulePullback B S hS qi).map
+          ((smallEtaleDerivedModulePullbackCompIso B S hS c ι).hom.app K ≫
+            (smallEtaleDerivedModulePullbackCongr B S hS e1).hom.app K ≫
+            (smallEtaleDerivedModulePullbackCompIso B S hS ιW g').inv.app K) =
+      (smallEtaleDerivedModulePullbackCompIso B S hS fs (u ≫ ι)).hom.app K ≫
+        (smallEtaleDerivedModulePullbackCongr B S hS ha').hom.app K ≫
+        (smallEtaleDerivedModulePullbackCompIso B S hS (qi ≫ ιW) g').inv.app K ≫
+        (smallEtaleDerivedModulePullbackCompIso B S hS qi ιW).inv.app
+          ((smallEtaleDerivedModulePullback B S hS g').obj K) := by
+  suffices key : ((smallEtaleDerivedModulePullback B S hS fs).map
+          ((smallEtaleDerivedModulePullbackCompIso B S hS u ι).inv.app K) ≫
+        ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom ≫
+            (smallEtaleDerivedModulePullbackSquareIso B S hS c u fs qi e2).inv).app
           ((smallEtaleDerivedModulePullback B S hS ι).obj K) ≫
-        (smallEtaleDerivedModulePullback B S hS qi).map ((smallEtaleDerivedModulePullbackCompIso B S hS c ι).hom.app K ≫ (smallEtaleDerivedModulePullbackCongr B S hS e1).hom.app K ≫
-          (smallEtaleDerivedModulePullbackCompIso B S hS ιW g').inv.app K)) ≫ (smallEtaleDerivedModulePullbackCompIso B S hS qi ιW).hom.app
-        ((smallEtaleDerivedModulePullback B S hS g').obj K) ≫
+        (smallEtaleDerivedModulePullback B S hS qi).map
+          ((smallEtaleDerivedModulePullbackCompIso B S hS c ι).hom.app K ≫
+            (smallEtaleDerivedModulePullbackCongr B S hS e1).hom.app K ≫
+            (smallEtaleDerivedModulePullbackCompIso B S hS ιW g').inv.app K)) ≫
+        (smallEtaleDerivedModulePullbackCompIso B S hS qi ιW).hom.app
+          ((smallEtaleDerivedModulePullback B S hS g').obj K) ≫
         (smallEtaleDerivedModulePullbackCompIso B S hS (qi ≫ ιW) g').hom.app K =
       (smallEtaleDerivedModulePullbackCompIso B S hS fs (u ≫ ι)).hom.app K ≫
         (smallEtaleDerivedModulePullbackCongr B S hS ha').hom.app K by
@@ -86,14 +98,17 @@ theorem smallEtaleDerivedModulePullback_chart_coherence (fs : P ⟶ U) (u : U �
   have hC := smallEtaleDerivedModulePullbackCompIso_assoc_app B S hS fs u ι K
   have hR := smallEtaleDerivedModulePullbackCompIso_congr_right B S hS qi e1 K
   have hL := smallEtaleDerivedModulePullbackCompIso_congr_left B S hS e2.symm ι K
-  have hS' := smallEtaleDerivedPullbackSquareIso_inv_app B S hS c u fs qi e2 ((smallEtaleDerivedModulePullback B S hS ι).obj K)
+  have hS' := smallEtaleDerivedPullbackSquareIso_inv_app B S hS c u fs qi e2
+    ((smallEtaleDerivedModulePullback B S hS ι).obj K)
   simp only [Category.assoc]
   rw [hA, ← Functor.map_comp_assoc]
   simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   rw [Functor.map_comp_assoc, smallEtaleDerivedModulePullbackCongr_hom_app, hR,
-    ← Category.assoc ((smallEtaleDerivedModulePullback B S hS qi).map _), ← hB, NatTrans.comp_app, hS']
+    ← Category.assoc ((smallEtaleDerivedModulePullback B S hS qi).map _), ← hB,
+    NatTrans.comp_app, hS']
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
-  rw [reassoc_of% hL, ← Category.assoc ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom.app _), hC]
+  rw [reassoc_of% hL,
+    ← Category.assoc ((smallEtaleDerivedModulePullbackCompIso B S hS fs u).hom.app _), hC]
   simp only [Category.assoc]
   rw [← Functor.map_comp_assoc, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id, Category.id_comp,
     smallEtaleDerivedModulePullbackCongr_hom_app]
@@ -292,7 +307,8 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange_chart
     (wT : representedSpaceMap B S hS fs ≫ u ≫ f₁ = (qi ≫ f₁') ≫ representedSpaceMap B S hS q₀) :
     IsIso (smallEtaleDerivedBaseChangeComp B S hS (u ≫ f₁) (representedSpaceMap B S hS q₀)
       (qi ≫ f₁') (representedSpaceMap B S hS fs) wT
-      ((smallEtaleDerivedModulePullback B S hS u).obj ((smallEtaleDerivedModulePullback B S hS ι).obj K))
+      ((smallEtaleDerivedModulePullback B S hS u).obj
+        ((smallEtaleDerivedModulePullback B S hS ι).obj K))
       ((smallEtaleDerivedModulePullback B S hS qi).obj
         ((smallEtaleDerivedModulePullback B S hS ιW).obj K'))
       (((smallEtaleDerivedModulePullbackCompIso B S hS (representedSpaceMap B S hS fs) u).hom ≫
@@ -425,7 +441,8 @@ variable {X Y X' Y' : AlgebraicSpaces B S hS} (f : X ⟶ Y) (g : Y' ⟶ Y) (f' :
 
 /-- The pullback in the big fppf site of two morphisms of affine objects is affine. -/
 theorem isAffine_toScheme_pullback {U V W : BigFppfOver B S hS}
-    [IsAffine ((BigFppfOver.toScheme B S hS).obj U)] [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
+    [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
+    [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
     [IsAffine ((BigFppfOver.toScheme B S hS).obj W)] (a : U ⟶ V) (c : W ⟶ V) :
     IsAffine ((BigFppfOver.toScheme B S hS).obj (pullback a c)) :=
   IsAffine.of_isPullback ((IsPullback.of_hasPullback a c).map (BigFppfOver.toScheme B S hS))
@@ -485,7 +502,7 @@ theorem affineChartPullback_condition :
 /-- The morphism `affineChartPullbackSpace ⟶ X₁'` into a cartesian square `sq₁`. -/
 noncomputable def affineChartPullbackLift {c₁ : X₁' ⟶ X₁}
     {f₁' : X₁' ⟶ ⟨yoneda.obj W₀, isAlgebraicSpace_yoneda B S hS W₀⟩}
-    (sq₁ : IsPullback c₁ f₁' f₁ (representedSpaceMap B S hS q₀)) 
+    (sq₁ : IsPullback c₁ f₁' f₁ (representedSpaceMap B S hS q₀))
     (j : {U : SmallEtale B S hS X₁.1 // IsAffine ((BigFppfOver.toScheme B S hS).obj
     ((SmallEtale.toOver B S hS X₁.1).obj U))}) :
     affineChartPullbackSpace B S hS f₁ q₀ j ⟶ X₁' :=
@@ -579,9 +596,9 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange_chart
     hAi (affineChartPullbackSpace B S hS f₁ q₀) (affineChartPullbackFst B S hS f₁ q₀)
     (affineChartPullbackLift B S hS f₁ q₀ sq₁) hsq
     (fun i => (hqcs _ (hAi i) hV₀).1) (fun i => (hqcs _ (hAi i) hV₀).2) fun i => ?_
-  haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj
+  have : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS X₁.1).obj i.1)) := i.2
-  haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj (affineChartPullback B S hS f₁ q₀ i)) :=
+  have : IsAffine ((BigFppfOver.toScheme B S hS).obj (affineChartPullback B S hS f₁ q₀ i)) :=
     isAffine_toScheme_pullback B S hS _ _
   exact isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange_chartQuadruple_of_eq
     B S hS f g f' g' w K hK K' hK' φ h2 f₁ f₁' c₁ q₀ ι ιW b cW hι hb hcW e1 hιf hιWf hq₀
@@ -653,8 +670,8 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange
     IsIso (smallEtaleDerivedBaseChangeComp B S hS f g f' g' sq.w K K' φ) :=
   isIso_smallEtaleDerivedBaseChangeComp_of_affineCharts B S hS f g f' g' sq K K' φ
     fun W V q hq hW hV => by
-      haveI := hW
-      haveI := hV
+      have := hW
+      have := hV
       exact isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange_chart_of_eq B S hS
         f g f' g' sq.w K hK K' hK' φ h2 (V₀ := V.1.left) (W₀ := W.1.left)
         (Y₁ := (SpacesEtale.toSpaces B S hS Y).obj ((comparisonFunctor B S hS Y).obj V))
@@ -669,7 +686,8 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_affineChartwiseBaseChange
         (chartBaseChangeInclusion B S hS f V) (chartBaseChangeInclusion B S hS f' W)
         (chartToSpace B S hS Y V) (chartToSpace B S hS Y' W)
         (isEtale_chartBaseChangeInclusion B S hS f V) (isEtale_chartToSpace B S hS Y V)
-        (isEtale_chartToSpace B S hS Y' W) (chartBaseChangeSquareMap_inclusion B S hS f g f' g' sq.w W V q hq)
+        (isEtale_chartToSpace B S hS Y' W)
+        (chartBaseChangeSquareMap_inclusion B S hS f g f' g' sq.w W V q hq)
         (isPullback_chartBaseChangeInclusion B S hS f V).w
         (isPullback_chartBaseChangeInclusion B S hS f' W).w
         (chartSpaceMapOver_comp_chartToSpace B S hS g q hq)

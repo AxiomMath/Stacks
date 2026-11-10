@@ -68,7 +68,7 @@ theorem isIso_pullback_map_baseChangeNatTrans (w : g' ≫ f = f' ≫ g) (V : S'.
     (hw : IsIso ((AffinePushforward.baseChangeNatTrans (pasteBase_restrictSquare w V)).app M)) :
     IsIso ((Scheme.Modules.pullback V.ι).map
       ((AffinePushforward.baseChangeNatTrans w).app M)) := by
-  have key := congrArg (fun t => TwoSquare.natTrans t |>.app M)
+  have key := congrArg (fun t => NatTrans.app t M)
     (baseChangeSquare_pasteBase w (AffineBaseChange.restrictSquare f' V))
   simp only [TwoSquare.whiskerRight_app, TwoSquare.whiskerLeft_app,
     natTrans_baseChangeSquare] at key

@@ -87,7 +87,7 @@ theorem epi_homologyMap_ιStupidTruncGE (K : CochainComplex A ℤ) (a : ℤ) :
     refine ShortComplex.isIso_cyclesMap_of_isIso_of_mono'
       ((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) a).map
         (ιStupidTrunc K (embeddingUpIntGE a))) h₂ ?_
-    show Mono ((ιStupidTrunc K (embeddingUpIntGE a)).f ((ComplexShape.up ℤ).next a))
+    change Mono ((ιStupidTrunc K (embeddingUpIntGE a)).f ((ComplexShape.up ℤ).next a))
     rw [CochainComplex.next]
     infer_instance
   have : Epi (HomologicalComplex.homologyπ (K.stupidTrunc (embeddingUpIntGE a)) a ≫
@@ -175,7 +175,7 @@ theorem exists_coneRepresentative (M : Stacks.SheafOfModules.DerivedMonoidal.Der
     rw [isoTriangleOfIso₁₃_hom_hom₁, Iso.refl_hom] at this
     simpa [T₂] using this
   rw [← hιe]
-  show DerivedCategory.Q.map (ι ≫ e.hom) ≫ (DerivedCategory.Q.map e.inv ≫ iso.hom.hom₂) = α
+  change DerivedCategory.Q.map (ι ≫ e.hom) ≫ (DerivedCategory.Q.map e.inv ≫ iso.hom.hom₂) = α
   rw [DerivedCategory.Q.map_comp, Category.assoc, ← Category.assoc (DerivedCategory.Q.map e.hom),
     ← DerivedCategory.Q.map_comp, Iso.hom_inv_id, DerivedCategory.Q.map_id, Category.id_comp]
   exact h₁
@@ -242,7 +242,7 @@ theorem isPseudoCoherentFrom_Q_of_stupidTruncGE
         (StacksDraft.StupidTruncation.isIso_homologyMap_ιStupidTruncGE K k i hi)
     exact (quasiIsoAt_iff_isIso_homologyMap _ _).1 inferInstance
   · have hι := StacksDraft.StupidTruncation.epi_homologyMap_ιStupidTruncGE K k
-    show Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
+    change Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
       ((HomologicalComplex.shortComplexFunctor _ _ k).map ι))
     rw [epi_map_iff_of_natIso (ShortComplex.homologyFunctorIso F)]
     exact inferInstanceAs (Epi (F.map (HomologicalComplex.homologyMap ι k)))
@@ -290,7 +290,8 @@ theorem isPseudoCoherentFrom_Q_of_tail
     exact isPseudoCoherentFrom_of_isStrictlyPerfect_approximation X E hE
       (DerivedCategory.Q.obj (K.stupidTrunc (embeddingUpIntGE (k + 1)))) k
       (DerivedCategory.Q.map lift) (fun _ _ => Functor.map_isIso _ _)
-      (IsIso.epi_of_iso (f := (DerivedCategory.homologyFunctor _ k).map (DerivedCategory.Q.map lift)))
+      (IsIso.epi_of_iso (f := (DerivedCategory.homologyFunctor _ k).map (DerivedCategory.Q.map
+          lift)))
   · -- the term in degree `k`
     let P := (HomologicalComplex.single _ (ComplexShape.up ℤ) k).obj F
     refine isPseudoCoherentFrom_of_isStrictlyPerfect_approximation X P
@@ -301,7 +302,7 @@ theorem isPseudoCoherentFrom_Q_of_tail
           ((DerivedCategory.homologyFunctorFactors _ i).app P)
       · exact (HomologicalComplex.isZero_single_obj_homology _ k (K.X k) i (by omega)).of_iso
           ((DerivedCategory.homologyFunctorFactors _ i).app _)
-    · show Epi ((DerivedCategory.singleFunctor _ k ⋙ DerivedCategory.homologyFunctor _ k).map q)
+    · change Epi ((DerivedCategory.singleFunctor _ k ⋙ DerivedCategory.homologyFunctor _ k).map q)
       rw [epi_map_iff_of_natIso (DerivedCategory.singleFunctorCompHomologyFunctorIso _ k)]
       exact inferInstanceAs (Epi q)
 
@@ -324,15 +325,17 @@ local instance pcStepIterWEq (U : X.C) :
     ∀ V : (X.over U).C, ((X.over U).J.over V).WEqualsLocallyBijective AddCommGrpCat.{u} :=
   fun V => Stacks.SheafOfModules.iteratedSliceWEqualsLocallyBijective AddCommGrpCat.{u} V
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- A finite biproduct of copies of the unit module on a slice is a direct summand of a finite
 free module. -/
-theorem isDirectSummandOfFiniteFree_biproduct_unit (W : X.C) (κ : Type) [Fintype κ]
+theorem isDirectSummandOfFiniteFree_biproduct_unit (W : X.C) (κ : Type) [Finite κ]
     [HasFiniteBiproducts
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W))] :
     IsDirectSummandOfFiniteFree ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)
       (⨁ fun _ : κ =>
         SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)) := by
   classical
+  have := Fintype.ofFinite κ
   let eF : (⨁ fun _ : κ => SheafOfModules.unit
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)) ≅
       SheafOfModules.free (R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)
@@ -365,7 +368,7 @@ theorem isPseudoCoherentFrom_restriction_of_sliceRetract (W : X.C)
     (k : ℤ) (E : Stacks.SheafOfModules.DerivedMonoidal.Complexes X.O)
     (hE : IsStrictlyPerfect (Stacks.SheafOfModules.Tensor.ringSheaf X.O) E)
     (hEk : ∀ i, i ≤ k → IsZero (E.X i)) (ε : E ⟶ Mc) (hε : ∀ n, k < n → IsIso (ε.f n))
-    (κ : Type) [Fintype κ] (deg : κ → ℤ) (a : ∀ i, (Mc.X (deg i)).val.obj (op W))
+    (κ : Type) [Finite κ] (deg : κ → ℤ) (a : ∀ i, (Mc.X (deg i)).val.obj (op W))
     (hR : ∀ (K : Stacks.SheafOfModules.DerivedMonoidal.Complexes (X.O.over W))
       (j : K ⟶ ((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj Mc),
       Mono ((j ▷ ((restriction X W).mapHomologicalComplex (ComplexShape.up ℤ)).obj Nc).f 1) →
@@ -419,15 +422,16 @@ theorem isPseudoCoherentFrom_restriction_of_sliceRetract (W : X.C)
     isPseudoCoherentFrom_Q_of_tail (X.over W) K k (Fc.obj E)
       (isStrictlyPerfect_over_general X W hE)
       (fun i hi => (restriction X W).map_isZero (hEk i hi)) ρ hρ _ ?_ q
-  obtain ⟨Z, iso, -⟩ := CategoryTheory.Pretriangulated.exists_iso_biprod_of_retraction sec _ hsec
-  exact isPseudoCoherentFrom_left_of_biprod_general (X.over W) _ Z k
-    (isPseudoCoherentFrom_of_iso (X.over W) k hK iso.symm)
-  have : HasFiniteBiproducts
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)) :=
-    Abelian.hasFiniteBiproducts
-  have hP := isDirectSummandOfFiniteFree_biproduct_unit X W κ
-  exact IsDirectSummandOfFiniteFree.biprod _ (IsDirectSummandOfFiniteFree.biprod _ hP hP)
-    ((isStrictlyPerfect_over_general X W hE).termDirectSummand k)
+  · obtain ⟨Z, iso, -⟩ :=
+      CategoryTheory.Pretriangulated.exists_iso_biprod_of_retraction sec _ hsec
+    exact isPseudoCoherentFrom_left_of_biprod_general (X.over W) _ Z k
+      (isPseudoCoherentFrom_of_iso (X.over W) k hK iso.symm)
+  · have : HasFiniteBiproducts
+        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W)) :=
+      Abelian.hasFiniteBiproducts
+    have hP := isDirectSummandOfFiniteFree_biproduct_unit X W κ
+    exact IsDirectSummandOfFiniteFree.biprod _ (IsDirectSummandOfFiniteFree.biprod _ hP hP)
+      ((isStrictlyPerfect_over_general X W hE).termDirectSummand k)
 
 /-- **The descending step of the pseudo-coherence induction of Stacks 0FPV.** Let `M` have a
 left dual `N` in `D(O)`, and let `α : E ⟶ M` be an approximation of `M` in degree `m` by a
@@ -536,7 +540,7 @@ theorem isPseudoCoherentFrom_sub_one_of_isPseudoCoherentFrom
       (NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors _ i) β).2 (hβ.1 i hi)
     exact isIso_map_comp _ _ _ this ⟨⟨iso.inv, iso.hom_inv_id, iso.inv_hom_id⟩⟩
   · have : Epi ((DerivedCategory.homologyFunctor _ m).map (DerivedCategory.Q.map β)) := by
-      show Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ m).map β)
+      change Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor _ m).map β)
       rw [epi_map_iff_of_natIso (DerivedCategory.homologyFunctorFactors _ m)]
       exact hβ.2
     exact epi_map_comp _ _ _ this ⟨⟨iso.inv, iso.hom_inv_id, iso.inv_hom_id⟩⟩

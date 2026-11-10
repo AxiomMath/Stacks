@@ -311,7 +311,7 @@ private theorem isClosedImmersion_and_surjective_reductionComparison {S T T' Z :
   have : IsClosedImmersion q := IsClosedImmersion.of_comp_isClosedImmersion q t
   refine ⟨inferInstance, ⟨?_⟩⟩
   have hsurj : Function.Surjective (t.base ∘ q.base) := by
-    show Function.Surjective (q ≫ t).base
+    change Function.Surjective (q ≫ t).base
     rw [hqt]
     exact Scheme.surjective_reductionι _
   exact hsurj.of_comp_left t.isEmbedding.injective

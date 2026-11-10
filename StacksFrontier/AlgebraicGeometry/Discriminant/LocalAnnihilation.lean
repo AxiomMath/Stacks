@@ -54,7 +54,7 @@ theorem exists_factor_functional
   let g := (q.ker.liftQ f hf).comp e.symm.toLinearMap
   refine ⟨g, ?_⟩
   ext m
-  show (q.ker.liftQ f hf) (e.symm (q m)) = f m
+  change (q.ker.liftQ f hf) (e.symm (q m)) = f m
   rw [show e.symm (q m) = Submodule.Quotient.mk m from e.symm_apply_eq.mpr rfl]
   rfl
 
@@ -253,7 +253,7 @@ theorem locFact_refinement_local_annihilation
     obtain ⟨q', hq'⟩ := haway hq
     refine ⟨PrimeSpectrum.comap (algebraMap B Bg) q', ?_⟩
     apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap F.middle B)
+    change Ideal.comap (algebraMap F.middle B)
       (Ideal.comap (algebraMap B Bg) q'.asIdeal) = q.asIdeal
     rw [Ideal.comap_comap]
     rw [← IsScalarTower.algebraMap_eq F.middle B Bg]
@@ -292,13 +292,13 @@ theorem locFact_refinement_local_annihilation
         eHB.toRingHom (algebraMap B (Localization.Away (algebraMap H.middle B (r c))) x) =
           algebraMap B Bc x := by
       intro x
-      show eHB (algebraMap B (Localization.Away (algebraMap H.middle B (r c))) x) = _
+      change eHB (algebraMap B (Localization.Away (algebraMap H.middle B (r c))) x) = _
       exact eHB.commutes x
     have hT : ∀ x : Bg,
         eT.toRingHom (algebraMap Bg (Localization.Away (algebraMap B Bg cB)) x) =
           algebraMap Bg (Localization.Away (algebraMap H.middle Bg (r c))) x := by
       intro x
-      show eT (algebraMap Bg (Localization.Away (algebraMap B Bg cB)) x) = _
+      change eT (algebraMap Bg (Localization.Away (algebraMap B Bg cB)) x) = _
       exact eT.commutes x
     calc
       _ = eT.toRingHom (algebraMap Bg (Localization.Away (algebraMap B Bg cB))

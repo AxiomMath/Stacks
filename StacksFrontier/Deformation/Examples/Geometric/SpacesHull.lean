@@ -105,7 +105,7 @@ public theorem exists_hull_spaceIsomorphismClasses (hcl : IsClassical Λ k)
       (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
       (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
         toK).predeformation.cofibered
-    ∃ ξ : FormalObject (CategoryOfElements.π G),
+    ∃ ξ : FormalObject (Functor.Elements.π G),
       IsHull (categoryOfElements_projection_isCofibered G) ξ :=
   exists_hull_isomorphismClasses_of_isDeformationCategory hcl
     (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))

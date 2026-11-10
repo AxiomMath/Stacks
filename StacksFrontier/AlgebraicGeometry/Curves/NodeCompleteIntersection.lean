@@ -235,7 +235,7 @@ theorem isCompleteIntersection_stalk_of_isNode (k : Type u) [Field k] (X : Schem
   let _ : Algebra k Γ(X, U.1) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom.toAlgebra
   have _ : Algebra.FiniteType k Γ(X, U.1) := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom).FiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom).FiniteType
     exact (f.finiteType_appLE (isAffineOpen_top _) U.2 _).comp
       (RingHom.FiniteType.of_surjective _
         (Scheme.ΓSpecIso (.of k)).symm.commRingCatIsoToRingEquiv.surjective)
@@ -245,7 +245,7 @@ theorem isCompleteIntersection_stalk_of_isNode (k : Type u) [Field k] (X : Schem
     apply IsScalarTower.of_algebraMap_eq
     intro a
     simp only [RingHom.algebraMap_toAlgebra]
-    show (X.presheaf.germ ⊤ x (by simp))
+    change (X.presheaf.germ ⊤ x (by simp))
         (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop).hom a) =
       (X.presheaf.germ U.1 x hxU)
         ((f.appTop ≫ X.presheaf.map (homOfLE le_top).op)

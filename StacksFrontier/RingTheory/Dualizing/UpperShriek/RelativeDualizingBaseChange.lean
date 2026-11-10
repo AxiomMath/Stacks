@@ -181,7 +181,7 @@ private theorem relativeDualizingBaseChange_core
   have heA : e.toRingHom.comp fA0 = fT := by
     let : Algebra P' A0 := Algebra.TensorProduct.rightAlgebra
     ext a
-    show Algebra.IsPushout.cancelBaseChangeAlg R R' P P' A
+    change Algebra.IsPushout.cancelBaseChangeAlg R R' P P' A
       ((Algebra.TensorProduct.commRight P P' A).symm (a ⊗ₜ[P] 1)) = 1 ⊗ₜ[R] a
     rw [Algebra.TensorProduct.commRight_symm_tmul,
       Algebra.IsPushout.cancelBaseChangeAlg_tmul]
@@ -202,7 +202,7 @@ private theorem relativeDualizingBaseChange_core
   let HT := derivedHom.{u, 0} p'.toRingHom
   have hiso : IsIso (δ.app (E.obj R0)) := hδ hTorP
   refine ⟨?_⟩
-  show bcT.obj ((H.obj (E.obj R0))⟦n⟧) ≅ (HT.obj (E'.obj R0'))⟦n⟧
+  change bcT.obj ((H.obj (E.obj R0))⟦n⟧) ≅ (HT.obj (E'.obj R0'))⟦n⟧
   calc bcT.obj ((H.obj (E.obj R0))⟦n⟧)
       ≅ EC.obj (DA.functor.obj ((H.obj (E.obj R0))⟦n⟧)) := eA.app _
     _ ≅ EC.obj ((DA.functor.obj (H.obj (E.obj R0)))⟦n⟧) :=

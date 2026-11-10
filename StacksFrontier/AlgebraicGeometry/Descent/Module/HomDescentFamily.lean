@@ -132,15 +132,15 @@ theorem rTensor_include_eq_of_pushout {i j : ι} {C : Type*} [CommRing C] [Algeb
       (Algebra.TensorProduct.includeLeft : B i →ₐ[R] B i ⊗[R] B j).toLinearMap =
       inl.toLinearMap := by
     ext x
-    show Algebra.TensorProduct.productMap inl inr (x ⊗ₜ 1) = _
+    change Algebra.TensorProduct.productMap inl inr (x ⊗ₜ 1) = _
     simp
   have hr : e.toLinearMap ∘ₗ
       (Algebra.TensorProduct.includeRight : B j →ₐ[R] B i ⊗[R] B j).toLinearMap =
       inr.toLinearMap := by
     ext x
-    show Algebra.TensorProduct.productMap inl inr (1 ⊗ₜ x) = _
+    change Algebra.TensorProduct.productMap inl inr (1 ⊗ₜ x) = _
     simp
-  show LinearMap.rTensor N e.toLinearMap _ = LinearMap.rTensor N e.toLinearMap _
+  change LinearMap.rTensor N e.toLinearMap _ = LinearMap.rTensor N e.toLinearMap _
   rw [← LinearMap.rTensor_comp_apply, ← LinearMap.rTensor_comp_apply, hl, hr]
   exact h
 
@@ -193,7 +193,7 @@ theorem bijective_productMap_of_isPushout {R' A B C : Type u} [CommRing R'] [Com
     have e2 := congr($(h.inl_isoPushout_inv).hom a)
     simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
       CommRingCat.hom_ofHom] at e1 e2
-    show h.isoPushout.inv (t.isoPushout.hom (Algebra.TensorProduct.includeLeftRingHom a)) = _
+    change h.isoPushout.inv (t.isoPushout.hom (Algebra.TensorProduct.includeLeftRingHom a)) = _
     rw [e1, e2]
     rfl
   have hr : ∀ b : B, φ.hom (1 ⊗ₜ b) = inr b := fun b => by
@@ -201,13 +201,12 @@ theorem bijective_productMap_of_isPushout {R' A B C : Type u} [CommRing R'] [Com
     have e2 := congr($(h.inr_isoPushout_inv).hom b)
     simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
       CommRingCat.hom_ofHom] at e1 e2
-    show h.isoPushout.inv (t.isoPushout.hom (Algebra.TensorProduct.includeRight.toRingHom b)) = _
+    change h.isoPushout.inv (t.isoPushout.hom (Algebra.TensorProduct.includeRight.toRingHom b)) = _
     rw [e1, e2]
     rfl
   have heq : ∀ x, Algebra.TensorProduct.productMap inl inr x = φ.hom x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       have : (a ⊗ₜ[R'] b : A ⊗[R'] B) = (a ⊗ₜ 1) * (1 ⊗ₜ b) := by simp
       rw [this, map_mul, map_mul, hl, hr]

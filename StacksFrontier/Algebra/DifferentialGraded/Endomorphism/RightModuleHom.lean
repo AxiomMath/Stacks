@@ -162,7 +162,7 @@ theorem oppEndActionTotal_apply_of_mem (A : DifferentialGradedAlgebra R)
       DirectSum.lof R ℤ (fun i => A.grading i) n ⟨a, ha⟩ :=
     DirectSum.decomposeLinearEquiv_apply_coe A.grading n ⟨a, ha⟩
   rw [oppEndActionTotal, LinearMap.comp_apply]
-  show DirectSum.toModule R ℤ (Module.End R (totalModule M)) (oppEndActionLinear A M τ)
+  change DirectSum.toModule R ℤ (Module.End R (totalModule M)) (oppEndActionLinear A M τ)
       ((DirectSum.decomposeLinearEquiv A.grading) a) = _
   rw [hdecomp, DirectSum.toModule_lof, oppEndActionLinear, LinearMap.comp_apply]
   rfl
@@ -191,14 +191,14 @@ theorem oppEndCochain_mul (A : DifferentialGradedAlgebra R)
           (by simpa only [add_comm] using SetLike.mul_mem_graded a.property b.property))⟩ :
         E.algebra.grading (m + n)) = ((n * m).negOnePow : R) • z := by
     apply Subtype.ext
-    show O.equiv (τ.toAlgebraHom ((a : A.A) * (b : A.A))) = _
+    change O.equiv (τ.toAlgebraHom ((a : A.A) * (b : A.A))) = _
     rw [map_mul]
     simpa [Algebra.smul_def, z, oa, ob, Units.smul_def, Int.coe_negOnePow] using
       O.map_mul_of_mem n m (τ.toAlgebraHom a) (τ.toAlgebraHom b) oa.property ob.property
   have hm : E.cochainEquiv (m + n) z =
       (E.cochainEquiv n ea).comp (E.cochainEquiv m eb) (by omega) :=
     E.map_mul m n eb ea
-  show E.cochainEquiv (m + n)
+  change E.cochainEquiv (m + n)
       ⟨O.equiv (τ.toAlgebraHom ((a : A.A) * (b : A.A))),
         (O.mem_grading_iff (m + n) (τ.toAlgebraHom ((a : A.A) * (b : A.A)))).mp
           (τ.map_grading (m + n) ((a : A.A) * (b : A.A))
@@ -215,7 +215,7 @@ theorem oppEndAction_mul (A : DifferentialGradedAlgebra R)
         ⟨(a : A.A) * (b : A.A), by
           simpa only [add_comm] using SetLike.mul_mem_graded a.property b.property⟩ =
       oppEndAction A M τ m b ∘ₗ oppEndAction A M τ n a := by
-  show signedTotalCochain M (m + n)
+  change signedTotalCochain M (m + n)
       (oppEndCochain A M τ (m + n)
         ⟨(a : A.A) * (b : A.A), by
           simpa only [add_comm] using SetLike.mul_mem_graded a.property b.property⟩) = _
@@ -257,7 +257,7 @@ theorem oppEndActionTotal_one (A : DifferentialGradedAlgebra R)
   have h1 : (1 : A.A) ∈ A.grading 0 := SetLike.one_mem_graded A.grading
   have hc : oppEndCochain A M τ 0 ⟨1, h1⟩ = Cochain.ofHom (𝟙 M) := by
     rw [← E.map_one]
-    show E.cochainEquiv 0
+    change E.cochainEquiv 0
         ⟨O.equiv (τ.toAlgebraHom 1),
           (O.mem_grading_iff 0 (τ.toAlgebraHom 1)).mp (τ.map_grading 0 1 h1)⟩ =
       E.cochainEquiv 0 ⟨1, SetLike.one_mem_graded E.algebra.grading⟩
@@ -265,7 +265,7 @@ theorem oppEndActionTotal_one (A : DifferentialGradedAlgebra R)
     apply Subtype.ext
     simp [O.map_one]
   rw [oppEndActionTotal_apply_of_mem A M τ 0 1 h1]
-  show signedTotalCochain M 0 (oppEndCochain A M τ 0 ⟨1, h1⟩) = 1
+  change signedTotalCochain M 0 (oppEndCochain A M τ 0 ⟨1, h1⟩) = 1
   rw [hc]
   exact signedTotalCochain_id M
 
@@ -296,7 +296,7 @@ theorem oppEndActionTotal_mem_grading (A : DifferentialGradedAlgebra R)
     oppEndActionTotal A M τ a (x : totalModule M) ∈ totalGrading M (p + n) := by
   rcases x.property with ⟨y, hy⟩
   rw [← hy]
-  show oppEndActionTotal A M τ a (DirectSum.lof R ℤ (fun q ↦ M.X q) p y) ∈
+  change oppEndActionTotal A M τ a (DirectSum.lof R ℤ (fun q ↦ M.X q) p y) ∈
     LinearMap.range (DirectSum.lof R ℤ (fun q ↦ M.X q) (p + n))
   rw [oppEndActionTotal_apply_of_mem A M τ n a ha]
   exact ⟨_, (oppEndAction_lof A M τ n p ⟨a, ha⟩ y).symm⟩
@@ -318,9 +318,9 @@ theorem oppEndCochain_map_d (A : DifferentialGradedAlgebra R)
         E.algebra.grading (n + 1)) =
       ⟨E.algebra.d (ea : E.algebra.A), E.algebra.d_mem n _ ea.property⟩ := by
     apply Subtype.ext
-    show O.equiv (τ.toAlgebraHom (A.d (a : A.A))) = _
+    change O.equiv (τ.toAlgebraHom (A.d (a : A.A))) = _
     rw [τ.map_d, O.map_d]
-  show E.cochainEquiv (n + 1) ⟨O.equiv (τ.toAlgebraHom (A.d (a : A.A))), _⟩ = _
+  change E.cochainEquiv (n + 1) ⟨O.equiv (τ.toAlgebraHom (A.d (a : A.A))), _⟩ = _
   rw [congrArg (E.cochainEquiv (n + 1)) hs, E.map_d n ea]
   simp [oppEndCochain, E, O, oa, ea]
 
@@ -375,7 +375,7 @@ theorem hom_eq_of_isSignedAction (A : DifferentialGradedAlgebra R)
       have h₁ := hτ n p a y
       have h₂ := hσ n p a y
       have hy : i.hom.f p y = x := by
-        show i.hom.f p (i.inv.f p x) = x
+        change i.hom.f p (i.inv.f p x) = x
         exact congrArg (fun f ↦ f.hom x) (congrArg (fun f ↦ f.f p) i.inv_hom_id)
       rw [hy] at h₁ h₂
       exact h₁.trans h₂.symm
@@ -431,19 +431,19 @@ theorem existsUnique_isSignedAction (A : DifferentialGradedAlgebra R)
     have hcx : c.hom.gradedMap p y = x :=
       Subtype.ext (congrArg (fun h : N ⟶ N ↦ h.toFun (x : L.M)) c.inv_hom_id)
     have hj : j.hom.f p z = i.hom.f p x := by
-      show i.hom.f p (c.hom.gradedMap p (e p ((e p).symm y))) = _
+      change i.hom.f p (c.hom.gradedMap p (e p ((e p).symm y))) = _
       rw [LinearEquiv.apply_symm_apply, hcx]
     have hf := (DifferentialGradedAlgebra.leftActionEquivHom
       O.toDifferentialGradedAlgebra M).property act n b
     have heval := DifferentialGraded.LeftModule.leftAction_apply
       O.toDifferentialGradedAlgebra K M j n p b z
-    show ((endomorphismDGA M).cochainEquiv n ⟨_, _⟩).v p (p + n) (by omega) (i.hom.f p x) = _
+    change ((endomorphismDGA M).cochainEquiv n ⟨_, _⟩).v p (p + n) (by omega) (i.hom.f p x) = _
     have hval : (oppEndOpposite M).equiv (τ.toAlgebraHom a) = f.toAlgebraHom b := by
       simp [τ, DifferentialGradedAlgebra.oppositeHom,
         DifferentialGradedAlgebra.Opposite.involution, b]
     simp only [hval]
     rw [hf, ← hj, heval]
-    show i.hom.f (p + n) (c.hom.gradedMap (p + n)
+    change i.hom.f (p + n) (c.hom.gradedMap (p + n)
       (e (p + n) ⟨(b : O.toDifferentialGradedAlgebra.A) • (z : K.M), by
         simpa only [add_comm] using K.smul_mem n p b z b.property z.property⟩)) = _
     have hz : (z : K.M) = U (y : P.M) := rfl
@@ -469,10 +469,10 @@ theorem existsUnique_isSignedAction (A : DifferentialGradedAlgebra R)
           (⟨MulOpposite.op (a : A.A) • (x : L.M),
             L.smul_mem p n x a x.property a.property⟩ : L.grading (p + n)) := by
       apply Subtype.ext
-      show c.hom.toFun (U.symm ((b : O.toDifferentialGradedAlgebra.A) • (z : K.M))) = _
+      change c.hom.toFun (U.symm ((b : O.toDifferentialGradedAlgebra.A) • (z : K.M))) = _
       rw [haction]
       simp only [Units.smul_def, map_zsmul, c.hom.map_smul]
-      show (n * p).negOnePow.val •
+      change (n * p).negOnePow.val •
         (@SMul.smul (MulOpposite A.A) L.M inferInstance
           (MulOpposite.op (φ.toAlgebraHom aa)) (c.hom.toFun (c.inv.toFun (x : L.M)))) = _
       rw [hscalar]
@@ -495,7 +495,7 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
     Module.compHom (totalModule M) (oppEndActionRingHom A M τ)
   have hbase : ∀ (r : R) (x : totalModule M), (algebraMap R (MulOpposite A.A) r) • x = r • x := by
     intro r x
-    show oppEndActionRingHom A M τ (algebraMap R (MulOpposite A.A) r) x = r • x
+    change oppEndActionRingHom A M τ (algebraMap R (MulOpposite A.A) r) x = r • x
     simp [oppEndActionRingHom, oppEndActionTotal_algebraMap]
   let _ : IsScalarTower R (MulOpposite A.A) (totalModule M) :=
     IsScalarTower.of_algebraMap_smul hbase
@@ -505,7 +505,7 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
     decomposition := DirectSum.rangeGradingDecomposition R (fun q ↦ M.X q)
     smul_mem := by
       intro p n x a hx ha
-      show oppEndActionTotal A M τ a x ∈ totalGrading M (p + n)
+      change oppEndActionTotal A M τ a x ∈ totalGrading M (p + n)
       exact oppEndActionTotal_mem_grading A M τ n p a ha ⟨x, hx⟩
     d := totalDifferential M
     d_comp_d := totalDifferential_square M
@@ -517,7 +517,7 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
     leibniz := by
       intro p n x a hx ha
       rcases hx with ⟨y, rfl⟩
-      show totalDifferential M
+      change totalDifferential M
           (oppEndActionTotal A M τ a (DirectSum.lof R ℤ (fun q ↦ M.X q) p y)) =
         oppEndActionTotal A M τ a
             (totalDifferential M (DirectSum.lof R ℤ (fun q ↦ M.X q) p y)) +
@@ -547,12 +547,12 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
               totalGrading M (p + 1)) =
             totalComponentEquiv M (p + 1) ((M.d p (p + 1)).hom y) := by
           apply Subtype.ext
-          show totalDifferential M (totalComponentEquiv M p y : totalModule M) =
+          change totalDifferential M (totalComponentEquiv M p y : totalModule M) =
             (totalComponentEquiv M (p + 1) ((M.d p (p + 1)).hom y) : totalModule M)
           rw [totalComponentEquiv_coe, totalComponentEquiv_coe, totalDifferential_lof]
         simp only [LinearEquiv.toModuleIso_hom, DifferentialGradedModule.toCochainComplex_d,
           DifferentialGradedModule.gradedDifferential]
-        show (M.d p (p + 1)).hom
+        change (M.d p (p + 1)).hom
             ((totalComponentEquiv M p).symm (totalComponentEquiv M p y)) =
           (totalComponentEquiv M (p + 1)).symm
             ⟨totalDifferential M (totalComponentEquiv M p y : totalModule M), hmem⟩
@@ -560,7 +560,7 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
   refine ⟨L, i, fun n p a x ↦ ?_⟩
   obtain ⟨y, hy⟩ := (totalComponentEquiv M p).surjective x
   subst x
-  show (oppEndCochain A M τ n a).v p (p + n) (by omega)
+  change (oppEndCochain A M τ n a).v p (p + n) (by omega)
       ((totalComponentEquiv M p).symm (totalComponentEquiv M p y)) =
     (n * p).negOnePow • (totalComponentEquiv M (p + n)).symm
       ⟨oppEndActionTotal A M τ a (totalComponentEquiv M p y : totalModule M), _⟩
@@ -571,7 +571,7 @@ theorem exists_rightModule_isSignedAction (A : DifferentialGradedAlgebra R)
       totalComponentEquiv M (p + n)
         ((n * p).negOnePow • (oppEndCochain A M τ n a).v p (p + n) (by omega) y) := by
     apply Subtype.ext
-    show oppEndActionTotal A M τ a (totalComponentEquiv M p y : totalModule M) =
+    change oppEndActionTotal A M τ a (totalComponentEquiv M p y : totalModule M) =
       ((totalComponentEquiv M (p + n)
         ((n * p).negOnePow •
           (oppEndCochain A M τ n a).v p (p + n) (by omega) y)) : totalModule M)

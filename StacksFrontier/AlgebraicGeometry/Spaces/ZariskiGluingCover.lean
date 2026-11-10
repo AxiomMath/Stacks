@@ -134,7 +134,7 @@ theorem ofArrows_mem_topology_openChartGlueData_of_contains
       (((openChartGlueData hf).gluedIso (BigFppfOver.toScheme B S hS)).hom x)
     refine ⟨i, y, ((openChartGlueData hf).gluedIso
       (BigFppfOver.toScheme B S hS)).hom.isOpenEmbedding.injective ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map ((openChartGlueData hf).ι i) ≫
+    change ((BigFppfOver.toScheme B S hS).map ((openChartGlueData hf).ι i) ≫
       ((openChartGlueData hf).gluedIso (BigFppfOver.toScheme B S hS)).hom) y = _
     rw [hcomp i]
     exact hy
@@ -187,7 +187,7 @@ theorem exists_representing_cover_of_openCharts
       yonedaEquiv_naturality (f j) (D.t i j ≫ D.f j i)
     rw [h₁, h₂]
     refine congrArg yonedaEquiv ?_
-    show yoneda.map ((hf i).rep.fst' (f j)) ≫ f i =
+    change yoneda.map ((hf i).rep.fst' (f j)) ≫ f i =
       yoneda.map ((hf i).rep.symmetry (hf j).rep ≫ (hf j).rep.fst' (f i)) ≫ f j
     rw [Functor.relativelyRepresentable.symmetry_fst]
     exact ((hf i).rep.isPullback' (f j)).w
@@ -198,14 +198,14 @@ theorem exists_representing_cover_of_openCharts
   have hηfac : ∀ i, yoneda.map (D.ι i) ≫ η = f i := fun i => by
     refine yonedaEquiv.injective ?_
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show H.obj.map (D.ι i).op
+    change H.obj.map (D.ι i).op
       (Multifork.IsLimit.sectionsEquiv (E.isLimitMultifork H) sec) = yonedaEquiv (f i)
     exact Multifork.IsLimit.sectionsEquiv_apply_val (E.isLimitMultifork H) sec i
   have hls : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) η := by
     let hmap : ∀ i, yoneda.obj (X i) ⟶ yoneda.obj D.glued := fun i => yoneda.map (D.ι i)
     have hfac : Sigma.desc hmap ≫ η = Sigma.desc f := by
       refine Sigma.hom_ext _ _ fun i => ?_
-      rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
       exact hηfac i
     have _ := hsurj
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac
@@ -247,7 +247,7 @@ theorem exists_representing_cover_of_openCharts
         ((BigFppfOver.topology B S hS).pullback_stable α hcov)
         ((BigFppfOver.topology B S hS).pullback_stable β hcov))
     rintro W γ ⟨⟨W₁, a, -, ⟨i⟩, fac₁⟩, ⟨W₂, b, -, ⟨j⟩, fac₂⟩⟩
-    show γ ≫ α = γ ≫ β
+    change γ ≫ α = γ ≫ β
     have h' : yoneda.map a ≫ f i = yoneda.map b ≫ f j := by
       have hh : yoneda.map (γ ≫ α) ≫ η = yoneda.map (γ ≫ β) ≫ η := by
         simpa only [Functor.map_comp, Category.assoc] using
@@ -288,7 +288,7 @@ theorem exists_representing_cover_of_openCharts
   · obtain ⟨i, z, hz⟩ := (openChartSchemeGlueData hf).ι_jointly_surjective
       ((D.gluedIso (BigFppfOver.toScheme B S hS)).hom y)
     refine ⟨i, z, (D.gluedIso (BigFppfOver.toScheme B S hS)).hom.isOpenEmbedding.injective ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map (D.ι i) ≫
+    change ((BigFppfOver.toScheme B S hS).map (D.ι i) ≫
       (D.gluedIso (BigFppfOver.toScheme B S hS)).hom) z = _
     rw [D.ι_gluedIso_hom (BigFppfOver.toScheme B S hS) i]
     exact hz
@@ -335,7 +335,7 @@ theorem mapGlueData_toScheme_desc_condition
       (D.mapGlueData (BigFppfOver.toScheme B S hS)).diagram.snd a ≫
         B.inclusion.map (D.U a.2).hom := by
   obtain ⟨i, j⟩ := a
-  show (BigFppfOver.toScheme B S hS).map (D.f i j) ≫ B.inclusion.map (D.U i).hom =
+  change (BigFppfOver.toScheme B S hS).map (D.f i j) ≫ B.inclusion.map (D.U i).hom =
     (BigFppfOver.toScheme B S hS).map (D.t i j) ≫
       (BigFppfOver.toScheme B S hS).map (D.f j i) ≫ B.inclusion.map (D.U j).hom
   rw [toScheme_map_comp_inclusion_hom, toScheme_map_comp_inclusion_hom,

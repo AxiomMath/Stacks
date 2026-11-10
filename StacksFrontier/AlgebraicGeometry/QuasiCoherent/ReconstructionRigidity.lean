@@ -106,7 +106,7 @@ open CategoryTheory CategoryTheory.MonoidalCategory
 of `ModuleCat R` as `a • 𝟙 X`. -/
 theorem centerRingEquiv_app (R : Type u) [CommRing R] (a : R) (X : ModuleCat.{u} R) :
     (centerRingEquiv R a).app X = a • 𝟙 X := by
-  show (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) a).app X = _
+  change (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) a).app X = _
   rfl
 
 /-! ### Uniqueness of the canonical ring isomorphism -/
@@ -196,7 +196,7 @@ theorem extendScalars_map_central_smul (A B : Type u) [CommRing A] [CommRing B] 
   let := φ.toAlgebra
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show (1 : B) ⊗ₜ[A] (a • m) = φ a • ((1 : B) ⊗ₜ[A] m)
+  change (1 : B) ⊗ₜ[A] (a • m) = φ a • ((1 : B) ⊗ₜ[A] m)
   rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
   rfl
 
@@ -206,7 +206,7 @@ theorem tensorRight_map_smul_id (B : Type u) [CommRing B] (L Y : ModuleCat.{u} B
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro y l
-  show ((c • 𝟙 Y) ▷ L).hom (y ⊗ₜ l) = _
+  change ((c • 𝟙 Y) ▷ L).hom (y ⊗ₜ l) = _
   simp
 
 /-- Extension of scalars along `φ` followed by tensoring with `L` carries the central scalar
@@ -216,7 +216,7 @@ theorem extendScalars_comp_tensorRight_map_smul_id
     (a : A) (X : ModuleCat.{u} A) :
     (ModuleCat.extendScalars φ ⋙ tensorRight L).map (a • 𝟙 X) =
       φ a • 𝟙 ((ModuleCat.extendScalars φ ⋙ tensorRight L).obj X) := by
-  show (tensorRight L).map ((ModuleCat.extendScalars φ).map (a • 𝟙 X)) = _
+  change (tensorRight L).map ((ModuleCat.extendScalars φ).map (a • 𝟙 X)) = _
   rw [extendScalars_map_central_smul, tensorRight_map_smul_id]
   rfl
 

@@ -32,7 +32,8 @@ The elided prefix is `AlgebraicGeometry`.
 quasi-compact scheme with Noetherian affine charts, an exponent with `ℐ^n ≤ 𝒥` from
 `ℐ ≤ 𝒥.radical`; the nilradical is by definition the radical of `⊥`, so the hypothesis holds at
 `𝒥 = ⊥` by `AlgebraicGeometry.Scheme.IdealSheafData.radical_bot` and nothing has to be done
-affine-locally here. What this file adds is the statement at the nilradical, together with its module-level form.
+affine-locally here. What this file adds is the statement at the nilradical, together with its
+module-level form.
 
 **Why the hypotheses are `[IsLocallyNoetherian X] [CompactSpace X]` rather than
 `[IsNoetherian X]`.** They are the hypotheses of the lemma used, and `IsNoetherian` is their

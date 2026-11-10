@@ -227,7 +227,7 @@ private theorem exists_coveringSieve_lift_of_locallySurjective
     PresheafOfModules.sectionsMk
       (fun Y => G.val.map Y.unop.hom.op (a k)) (by
         intro Y Z g
-        show G.val.map (g.unop.left.op) (G.val.map (Y.unop.hom.op) (a k)) =
+        change G.val.map (g.unop.left.op) (G.val.map (Y.unop.hom.op) (a k)) =
           G.val.map (Z.unop.hom.op) (a k)
         rw [← G.val.map_comp_apply]
         have hcomp' : Y.unop.hom.op ≫ g.unop.left.op = Z.unop.hom.op := by
@@ -246,16 +246,16 @@ private theorem exists_coveringSieve_lift_of_locallySurjective
   have hk : k ≫ p.over V = q.over V := by
     apply hc.hom_ext
     intro i
-    show c.ι.app i ≫ k ≫ pF = c.ι.app i ≫ q.over V
+    change c.ι.app i ≫ k ≫ pF = c.ι.app i ≫ q.over V
     apply (cancel_epi η.hom).1
     have hsections : SheafOfModules.sectionsMap pF (t i.as) =
         (F.over V).unitHomEquiv (η.hom ≫ c.ι.app i ≫ q.over V) := by
       apply PresheafOfModules.sections_ext
       intro Y
-      show p.val.app (Opposite.op Y.unop.left)
+      change p.val.app (Opposite.op Y.unop.left)
         (G.val.map Y.unop.hom.op (a i.as)) = _
       rw [PresheafOfModules.naturality_apply, ha i.as]
-      show F.val.map Y.unop.hom.op
+      change F.val.map Y.unop.hom.op
         (F.val.map f.op ((s i.as).val (Opposite.op U))) = _
       have hsection := (s i.as).property Y.unop.hom.op
       rw [← (s i.as).property f.op] at hsection
@@ -291,7 +291,7 @@ private theorem exists_coveringSieve_lift_of_locallySurjective
       _ = η.hom ≫ c.ι.app i ≫ q.over V := (F.over V).unitHomEquiv.symm_apply_apply _
   refine ⟨j.over V ≫ k, ?_⟩
   rw [Category.assoc, hk]
-  show (SheafOfModules.overFunctor R V).map (j ≫ r ≫ e) =
+  change (SheafOfModules.overFunctor R V).map (j ≫ r ≫ e) =
     (SheafOfModules.overFunctor R V).map e
   rw [← Category.assoc, hjr, Category.id_comp]
 
@@ -438,7 +438,7 @@ private theorem exists_coveringSieve_kill_top_component
   let δ := Homotopy.nullHomotopicMap h
   let β : E' ⟶ F' := α' - δ
   have hcomm : α'.f n = l ≫ G.map (F.d (n - 1) n) := by
-    show G.map (α.f n) = _
+    change G.map (α.f n) = _
     calc
       G.map (α.f n) = G.map (e ≫ c.ι) := by rw [he]
       _ = G.map e ≫ G.map (c.ι) := by rw [Functor.map_comp]
@@ -446,7 +446,7 @@ private theorem exists_coveringSieve_kill_top_component
       _ = l ≫ G.map (F.d (n - 1) n) := by
         simp only [Category.assoc, ← G.map_comp, hp]
   have hβn : β.f n = 0 := by
-    show α'.f n - δ.f n = 0
+    change α'.f n - δ.f n = 0
     rw [Homotopy.nullHomotopicMap_f (ComplexShape.up_mk (n - 1) n (by omega))
       (ComplexShape.up_mk n (n + 1) (by omega)) h]
     simp only [add_eq_left, one_ne_zero, ↓reduceDIte, comp_zero, dite_eq_ite, ↓reduceIte,
@@ -460,7 +460,7 @@ private theorem exists_coveringSieve_kill_top_component
   have hβtop : ∀ i : ℤ, n < i → β.f i = 0 := by
     intro i hi
     have hαi : α'.f i = 0 := by
-      show G.map (α.f i) = 0
+      change G.map (α.f i) = 0
       rw [hα i hi, Functor.map_zero]
     have hδi : δ.f i = 0 := by
       rw [Homotopy.nullHomotopicMap_f
@@ -468,7 +468,7 @@ private theorem exists_coveringSieve_kill_top_component
         (ComplexShape.up_mk i (i + 1) (by omega)) h]
       simp only [show i + 1 ≠ n from by omega, ↓reduceDIte, comp_zero,
         show i ≠ n from by omega, zero_comp, add_zero, h]
-    show α'.f i - δ.f i = 0
+    change α'.f i - δ.f i = 0
     rw [hαi, hδi, sub_self]
   exact ⟨β, hαβ, hβn, hβtop⟩
 
@@ -531,7 +531,7 @@ private theorem exists_coveringSieve_homotopy_zero_bounded (k : ℕ) :
     let p' : ∀ i, F'.X (i - 1) ⟶ (c' i).pt := fun i => G.map (p i)
     have hp' : ∀ i, p' i ≫ (c' i).ι = F'.d (i - 1) i := by
       intro i
-      show G.map (p i) ≫ G.map (c i).ι = G.map (F.d (i - 1) i)
+      change G.map (p i) ≫ G.map (c i).ι = G.map (F.d (i - 1) i)
       rw [← G.map_comp, hp]
     obtain ⟨T, hT, hnull⟩ := ih (R.over V) β a
       (fun i => (hE i).over V)

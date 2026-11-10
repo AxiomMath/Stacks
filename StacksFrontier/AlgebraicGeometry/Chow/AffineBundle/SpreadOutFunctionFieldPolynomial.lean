@@ -98,7 +98,7 @@ theorem exists_forall_germFunctionField_eq (Y : Scheme.{u}) [IrreducibleSpace Y]
   | succ m ih =>
     obtain ⟨U, hU, s, hs⟩ := ih (fun i => c i.castSucc)
     obtain ⟨V, hV, t, ht⟩ :=
-      Y.presheaf.germ_exist (x := genericPoint ↥Y) (c (Fin.last m))
+      Y.presheaf.exists_germ_eq (x := genericPoint ↥Y) (c (Fin.last m))
     refine ⟨U ⊓ V, ⟨hU, hV⟩,
       Fin.snoc (fun i => (Y.presheaf.map (homOfLE inf_le_left).op).hom (s i))
         ((Y.presheaf.map (homOfLE inf_le_right).op).hom t), ?_⟩

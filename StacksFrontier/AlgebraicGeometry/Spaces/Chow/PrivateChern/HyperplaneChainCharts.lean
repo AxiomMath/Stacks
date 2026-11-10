@@ -110,7 +110,7 @@ theorem isEffectiveCartierDivisor_preimage_of_schemeSpaceIdeal
   refine ⟨_, R'', j'', Stacks.Divisors.closedImmersionKerIso _, hcart,
     Stacks.Divisors.closedImmersion_eq_kerIso_comp _, ?_⟩
   rw [hr'']
-  show (Z.1.preimage (Subfunctor.range (yoneda.map j')).ι).preimage g =
+  change (Z.1.preimage (Subfunctor.range (yoneda.map j')).ι).preimage g =
     Z.1.preimage (yoneda.map j')
   rw [← Subfunctor.preimage_comp, hg]
 
@@ -135,7 +135,7 @@ theorem hyperplaneChainSubspaces_self :
     ∀ (n : ℕ) (C : ClosedSubspaces B S hS (yoneda.obj V)),
       hyperplaneChainSubspaces B S hS V Zs n C n = C
   | 0, _ => rfl
-  | _ + 1, _ => if_pos le_rfl
+  | _ + 1, _ => ite_eq_left le_rfl
 
 /-- Below the top, the chain of length `n + 1` from `C` is the chain of length `n` from
 `C ∩ Z_{n+1}`. -/
@@ -143,7 +143,7 @@ theorem hyperplaneChainSubspaces_succ_of_le (n : ℕ) (C : ClosedSubspaces B S h
     {j : ℕ} (hj : j ≤ n) :
     hyperplaneChainSubspaces B S hS V Zs (n + 1) C j =
       hyperplaneChainSubspaces B S hS V Zs n (representedInf B S hS V C (Zs (n + 1))) j :=
-  if_neg (by omega)
+  ite_eq_right (by omega)
 
 /-- Each member of the chain below the top is the intersection of the next one with a cut. -/
 theorem hyperplaneChainSubspaces_eq_inf :
@@ -183,7 +183,7 @@ theorem hyperplaneChainSubspaces_spec {W : Scheme.{u}}
     have := hπ
     refine ⟨fun j hj => absurd hj (Nat.not_lt_zero _), inv πR ≫ ι, inferInstance, ?_, ?_⟩
     · rw [Category.assoc, hq, IsIso.inv_hom_id_assoc]
-    · show schemeSpaceIdeal B S hS V C = _
+    · change schemeSpaceIdeal B S hS V C = _
       rw [hC, Scheme.Hom.ker_comp_of_isIso]
   | succ n πR JR hD _ ih =>
     intro ι hι i hq C hC hJ
@@ -197,7 +197,7 @@ theorem hyperplaneChainSubspaces_spec {W : Scheme.{u}}
     obtain ⟨hcart, s, hs₁, hs₂, hs₃⟩ := ih (D.subschemeι ≫ ι) inferInstance i
       (by rw [Category.assoc, hq, Category.assoc]) _ hC'
       (fun j hj => by
-        show (JR j).comap D.subschemeι = _
+        change (JR j).comap D.subschemeι = _
         rw [hJ j (by omega), Scheme.IdealSheafData.comap_comp])
     refine ⟨fun j hj => ?_, s, hs₁, hs₂, ?_⟩
     · rcases Nat.lt_succ_iff_lt_or_eq.1 hj with hj | rfl

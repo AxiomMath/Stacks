@@ -209,7 +209,7 @@ private theorem quotientDerivation_ext_of_image
   apply N.isSheaf.isSeparated X.unop S hS
   intro Y k hk
   obtain ⟨b, hb⟩ := hk
-  show (N.val.map k.op).hom (D.d x) = (N.val.map k.op).hom (E.d x)
+  change (N.val.map k.op).hom (D.d x) = (N.val.map k.op).hom (E.d x)
   have key : D.d (B.obj.map k.op x) = E.d (B.obj.map k.op x) := by
     rw [← hb]
     exact h _ _
@@ -549,8 +549,7 @@ private lemma map_smul_of_mul {R₀ R₀' : Type*} [CommRing R₀] [CommRing R�
     (q : E →ₛₗ[σ] E') (hq : ∀ x y : E, q (x * y) = q x * q y) (p : M →ₛₗ[σ] M')
     (r : E) (x : E ⊗[R₀] M) :
     TensorProduct.map q p (r • x) = q r • TensorProduct.map q p x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m => simp only [TensorProduct.smul_tmul', smul_eq_mul, TensorProduct.map_tmul, hq]
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
 
@@ -561,8 +560,7 @@ private lemma scalarExtension_hom_ext {R₀ T₀ : Type*} [CommRing R₀] [CommR
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul t m => exact h t m
@@ -809,7 +807,7 @@ private lemma pullbackDifferentialsCorepresentation_d
         (underlyingRingHomForPullback J A B φ)).unit.app
           (moduleOfDifferentialsOfSite.{v, u, w, z} R A a)).val.app X
         ((universalDerivationOfSite.{v, u, w, z} R A a).d x)) := by
-  show ((derivationsFunctor.{z} R A a).corepresentableBy.homEquiv _).d x = _
+  change ((derivationsFunctor.{z} R A a).corepresentableBy.homEquiv _).d x = _
   rw [Functor.CorepresentableBy.homEquiv_eq]
   rfl
 
@@ -950,7 +948,7 @@ theorem differentialSequence_f_class (X : Cᵒᵖ) (x : kernelIdeal φ.hom X) :
         (underlyingRingHomForPullback J A B φ)).unit.app
           (moduleOfDifferentialsOfSite.{v, u, w, z} R A a)).val.app X
         ((universalDerivationOfSite.{v, u, w, z} R A a).d x.1) := by
-  show ((tensorDifferentialsIso.{v, u, w, z} J R A B a φ).hom.val.app X)
+  change ((tensorDifferentialsIso.{v, u, w, z} J R A B a φ).hom.val.app X)
       (((conormalSequence.{v, u, w, z} J R A B a φ).f.val.app X)
         (conormalClass.{v, u, w, z} J R A B a φ X x)) = _
   rw [conormalSequence_f_class]
@@ -966,7 +964,7 @@ theorem differentialSequence_g_differential (X : Cᵒᵖ) (x : A.obj.obj X) :
           (moduleOfDifferentialsOfSite.{v, u, w, z} R A a)).val.app X
         ((universalDerivationOfSite.{v, u, w, z} R A a).d x)) =
       (universalDerivationOfSite.{v, u, w, z} R B (a ≫ φ)).d (φ.hom.app X x) := by
-  show ((imageDifferentialsIso.{v, u, w, z} J R A B a φ).hom.val.app X)
+  change ((imageDifferentialsIso.{v, u, w, z} J R A B a φ).hom.val.app X)
       (((conormalSequence.{v, u, w, z} J R A B a φ).g.val.app X)
         (((tensorDifferentialsIso.{v, u, w, z} J R A B a φ).inv.val.app X)
           (((_root_.SheafOfModules.pullbackPushforwardAdjunction
@@ -989,7 +987,7 @@ theorem differentialSequence_g_eq_mapDifferentials :
   let D := functorialDifferentials.{v, u, w, z} a (a ≫ φ) (𝟙 R) φ (by simp)
   apply D.unique
   ext X x
-  show (((_root_.SheafOfModules.pullbackPushforwardAdjunction
+  change (((_root_.SheafOfModules.pullbackPushforwardAdjunction
       (underlyingRingHomForPullback J A B φ)).homEquiv
         (moduleOfDifferentialsOfSite.{v, u, w, z} R A a)
         (moduleOfDifferentialsOfSite.{v, u, w, z} R B (a ≫ φ))
@@ -997,7 +995,7 @@ theorem differentialSequence_g_eq_mapDifferentials :
       ((universalDerivationOfSite.{v, u, w, z} R A a).d x) = _
   rw [DifferentialsMapData.inducedDerivation_apply]
   rw [Adjunction.homEquiv_unit]
-  show ((differentialSequence.{v, u, w, z} J R A B a φ).g.val.app X)
+  change ((differentialSequence.{v, u, w, z} J R A B a φ).g.val.app X)
       (((_root_.SheafOfModules.pullbackPushforwardAdjunction
         (underlyingRingHomForPullback J A B φ)).unit.app
           (moduleOfDifferentialsOfSite.{v, u, w, z} R A a)).val.app X
@@ -1021,7 +1019,7 @@ theorem differentialSequence_f_unique
       (conormalSequence.{v, u, w, z} J R A B a φ).f := by
     apply conormalSequence_f_unique J R A B a φ
     intro X x
-    show ((tensorDifferentialsIso.{v, u, w, z} J R A B a φ).inv.val.app X)
+    change ((tensorDifferentialsIso.{v, u, w, z} J R A B a φ).inv.val.app X)
       (g.val.app X (conormalClass.{v, u, w, z} J R A B a φ X x)) = _
     rw [hg]
     exact tensorDifferentialsIso_inv_d J R A B a φ X x.1
@@ -1145,6 +1143,7 @@ lemma tensorSections_apply (H : (conormalSequence.{v, u, w, z} J R A B a φ).X�
       H.val.app X (toAssociatedModule.{v, u, w, z} J A B φ (tensorPresheaf φ.hom a.hom) X t) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Two morphisms out of the middle term `B ⊗[A] Ω[A/R]` of the conormal sequence which agree
 on the local sections `1 ⊗ d f` are equal. -/
 theorem tensorSheaf_hom_ext

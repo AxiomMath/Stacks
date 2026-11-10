@@ -37,27 +37,29 @@ inaccurate and both dimensions are `0`.
 
 ## Main results
 
-* `Stacks.Examples.DimensionVersusPointSet.dimensionAtPoint_translationQuotient_eq_one`: the
+All of them are in the namespace `Stacks.Examples.DimensionVersusPointSet`.
+
+* `dimensionAtPoint_translationQuotient_eq_one`: the
   dimension of `𝔸¹_k/ℤ` at each of its points is `1`.
-* `Stacks.Examples.DimensionVersusPointSet.topologicalKrullDim_points_translationQuotient_eq_zero`:
+* `topologicalKrullDim_points_translationQuotient_eq_zero`:
   the point space of `𝔸¹_k/ℤ` is of Krull dimension `0`, being indiscrete.
-* `Stacks.Examples.DimensionVersusPointSet.dimensionAtPoint_ne_topologicalKrullDimAt_points`:
+* `dimensionAtPoint_ne_topologicalKrullDimAt_points`:
   at every point of `𝔸¹_k/ℤ` the dimension of the space differs from the local Krull
   dimension of its point space.
-* `Stacks.Examples.DimensionVersusPointSet.dimensionAtPoint_infiniteProductQuotient_eq_zero`:
+* `dimensionAtPoint_infiniteProductQuotient_eq_zero`:
   the space `X = U/R` of Stacks 02Z8 has dimension `0` at each of its points.
-* `Stacks.Examples.DimensionVersusPointSet.irreducibleSpace_points_infiniteProductQuotient`,
-  `Stacks.Examples.DimensionVersusPointSet.isGenericPoint_quotientCoordinatePoint` and
-  `Stacks.Examples.DimensionVersusPointSet.topologicalKrullDim_points_infiniteProductQuotient_eq_one`:
+* `irreducibleSpace_points_infiniteProductQuotient`,
+  `isGenericPoint_quotientCoordinatePoint` and
+  `topologicalKrullDim_points_infiniteProductQuotient_eq_one`:
   `|X|` is irreducible, admits `x₀` as a generic point, and is of Krull dimension `1`.
-* `Stacks.Examples.DimensionVersusPointSet.topologicalKrullDimAt_points_infiniteProductQuotient_eq_one`
+* `topologicalKrullDimAt_points_infiniteProductQuotient_eq_one`
   and
-  `Stacks.Examples.DimensionVersusPointSet.dimensionAtPoint_ne_topologicalKrullDimAt_points_infiniteProductQuotient`:
+  `dimensionAtPoint_ne_topologicalKrullDimAt_points_infiniteProductQuotient`:
   the local Krull dimension of `|X|` is `1` at every point other than `x₀`, so there the two
   dimensions differ in the direction opposite to the first example, while
-  `Stacks.Examples.DimensionVersusPointSet.topologicalKrullDimAt_quotientCoordinatePoint_eq_zero`
+  `topologicalKrullDimAt_quotientCoordinatePoint_eq_zero`
   records that at `x₀` it is `0`.
-* `Stacks.Examples.DimensionVersusPointSet.exists_dimensionAtPoint_eq_zero_topologicalKrullDim_points_eq_one`:
+* `exists_dimensionAtPoint_eq_zero_topologicalKrullDim_points_eq_one`:
   the second example with no parameters left, over the field with two elements.
 
 ## Implementation notes
@@ -571,12 +573,14 @@ noncomputable def coordinateChartPoint (n : ℕ) :
   (Space.schemePointsHomeomorph B (base K) hS (spaceChart K B hS hU)).symm
     ((coordinate K n).base (default : base K))
 
+omit [Finite K] in
 /-- The underlying morphism of schemes of the charted target projection is the target
 projection of `R`. -/
 theorem toScheme_map_chartTarget :
     (BigFppfOver.toScheme B (base K) hS).map (chartTarget K B hS hU hR) = relationTarget K :=
   congrArg Over.Hom.left (post_chartTarget K B hS hU hR)
 
+omit [Finite K] in
 /-- The underlying morphism of schemes of the charted source projection is the source
 projection of `R`. -/
 theorem toScheme_map_chartSource :
@@ -590,7 +594,8 @@ variable [HasSheafify (BigFppfOver.topology B (base K) hS) (Type u)]
 /-- **Stacks 0DRF.** The algebraic space `X = U/R` of Stacks 02Z8 has dimension `0` at each of
 its points: `U = Spec (∏ n : ℕ, K)` is an étale chart surjective on points, and its point space
 is `T₁` and sober, hence of local Krull dimension `0` at every one of its points. -/
-@[stacks 0DRF "the second counterexample: the space X = U/R of Stacks 02Z8 has dimension 0 at every point"]
+@[stacks 0DRF "the second counterexample: the space X = U/R of Stacks 02Z8 has dimension 0 at \
+  every point"]
 theorem dimensionAtPoint_infiniteProductQuotient_eq_zero
     (x : Space.points B (base K) hS (quotient K B hS hU hR)) :
     Space.dimensionAtPoint B (base K) hS (quotient K B hS hU hR)
@@ -611,6 +616,7 @@ noncomputable def quotientCoordinatePoint :
   Space.pointsMap B (base K) hS (yoneda.obj (baseChart K B hS))
     (coordinatePoint K B hS hU hR) (basePoint K B hS)
 
+omit [Finite K] in
 /-- Every coordinate point of the point space of the chart `U` maps to `x₀`. -/
 theorem pointsMap_quotientMap_coordinateChartPoint (n : ℕ) :
     Space.pointsMap B (base K) hS (yoneda.obj (spaceChart K B hS hU))
@@ -619,15 +625,16 @@ theorem pointsMap_quotientMap_coordinateChartPoint (n : ℕ) :
       quotientCoordinatePoint K B hS hU hR :=
   pointsMap_quotientMap_coordinatePoint K B hS hU hR n
 
+omit [Finite K] [HasSheafify (BigFppfOver.topology B (base K) hS) (Type u)] in
 /-- The point space of the base `S` of the example has one point, `S` being the spectrum of a
 field. -/
 theorem subsingleton_points_baseChart :
     Subsingleton (Space.points B (base K) hS (yoneda.obj (baseChart K B hS))) :=
   have : Subsingleton ((BigFppfOver.toScheme B (base K) hS).obj (baseChart K B hS)) :=
     inferInstanceAs (Subsingleton (base K : Type u))
-  ⟨fun p q ↦ (Space.schemePointsHomeomorph B (base K) hS (baseChart K B hS)).injective
-    (Subsingleton.elim _ _)⟩
+  (Space.schemePointsHomeomorph B (base K) hS (baseChart K B hS)).injective.subsingleton
 
+omit [Finite K] in
 /-- **Stacks 0DRF.** The point `x₀` is a generic point of the point space of `X = U/R`: the
 coordinate points are dense in `|U|` and all of them map to `x₀`, which is Stacks 02Z8. -/
 @[stacks 0DRF "the second counterexample: |X| admits x₀ as a generic point"]
@@ -645,6 +652,7 @@ theorem isGenericPoint_quotientCoordinatePoint :
     (dense_range_pointsMap_coordinatePoint K B hS hU hR).mono hrange
   exact dense_iff_closure_eq.mp hdense
 
+omit [Finite K] in
 /-- **Stacks 0DRF.** The point space of `X = U/R` is irreducible: the closure of `x₀` is all of
 it. -/
 @[stacks 0DRF "the second counterexample: |X| is irreducible"]
@@ -656,6 +664,7 @@ theorem irreducibleSpace_points_infiniteProductQuotient :
     exact isIrreducible_singleton.closure
   { isPreirreducible_univ := h.2, toNonempty := ⟨h.1.choose⟩ }
 
+omit [Finite K] in
 /-- **Stacks 02Z8.** Two points of `|U|` with the same image in `|X|` are equal unless both are
 coordinate points: a point of `|R|` above the pair lies either on the summand `U`, where the two
 projections agree, or on the summand indexed by `(n, m)`, where the two projections are the
@@ -712,6 +721,7 @@ theorem eq_or_coordinate_of_pointsMap_quotientMap_eq
         rw [hcomp (relationSource K), ι_inr_relationSource, hydef]
       rw [hv, hsrc, coordinateChartPoint]
 
+omit [Finite K] in
 /-- A point of `|X|` other than `x₀` has at most one preimage in `|U|`: two points of `|U|` with
 that image are equal, since otherwise both would be coordinate points and the common image would
 be `x₀`. -/
@@ -765,6 +775,7 @@ theorem t0Space_points_infiniteProductQuotient :
     · exact (key b a hb hab.symm).symm
   · exact key a b ha hab
 
+omit [Finite K] in
 /-- There is a point of `|X|` other than `x₀`: the spectrum of `∏ n : ℕ, K` has a point coming
 from no coordinate projection, and the image of such a point is not `x₀`. -/
 theorem exists_ne_quotientCoordinatePoint :
@@ -798,7 +809,7 @@ theorem isMin_or_isMax_irreducibleCloseds_points :
       refine Set.eq_univ_of_univ_subset ?_
       rw [← isGenericPoint_quotientCoordinatePoint K B hS hU hR]
       exact Z.isClosed'.closure_subset_iff.mpr (Set.singleton_subset_iff.mpr hx₀)
-    show W.carrier ⊆ Z.carrier
+    change W.carrier ⊆ Z.carrier
     rw [huniv]
     exact Set.subset_univ _
   · refine Or.inl fun W hWZ ↦ ?_
@@ -830,7 +841,7 @@ theorem isMin_or_isMax_irreducibleCloseds_points :
       hmax (b := (⟨_, hpre Z (subset_refl _), Z.isClosed'.preimage hcont⟩ :
         TopologicalSpace.IrreducibleCloseds _))
         (Set.preimage_mono hWZ' : f ⁻¹' W.carrier ⊆ f ⁻¹' Z.carrier)
-    show Z.carrier ⊆ W.carrier
+    change Z.carrier ⊆ W.carrier
     intro z hz
     obtain ⟨c, rfl⟩ := hsurj z
     exact hle hz
@@ -855,7 +866,8 @@ theorem topologicalKrullDim_points_infiniteProductQuotient_eq_one :
 /-- **Stacks 0DRF.** The local Krull dimension of the point space of `X = U/R` is `1` at every
 point other than `x₀`: every open neighbourhood of such a point contains `x₀` as well, whose
 closure is everything, so the point and the neighbourhood form a chain of length one. -/
-@[stacks 0DRF "the second counterexample: the local dimension of |X| is 1 at each of its points other than x₀"]
+@[stacks 0DRF "the second counterexample: the local dimension of |X| is 1 at each of its points \
+  other than x₀"]
 theorem topologicalKrullDimAt_points_infiniteProductQuotient_eq_one
     (z : Space.points B (base K) hS (quotient K B hS hU hR))
     (hz : z ≠ quotientCoordinatePoint K B hS hU hR) :
@@ -883,7 +895,8 @@ theorem topologicalKrullDimAt_points_infiniteProductQuotient_eq_one
 the dimension of its point space at that point: the space `X = U/R` of Stacks 02Z8 is of
 dimension `0` at each of its points, while the local Krull dimension of `|X|` is `1` at every
 point other than `x₀`. -/
-@[stacks 0DRF "the second counterexample: the dimension at a point is smaller than the local dimension of the point space"]
+@[stacks 0DRF "the second counterexample: the dimension at a point is smaller than the local \
+  dimension of the point space"]
 theorem dimensionAtPoint_ne_topologicalKrullDimAt_points_infiniteProductQuotient
     (z : Space.points B (base K) hS (quotient K B hS hU hR))
     (hz : z ≠ quotientCoordinatePoint K B hS hU hR) :
@@ -894,6 +907,7 @@ theorem dimensionAtPoint_ne_topologicalKrullDimAt_points_infiniteProductQuotient
     topologicalKrullDimAt_points_infiniteProductQuotient_eq_one K B hS hU hR z hz]
   simp
 
+omit [Finite K] in
 /-- **Stacks 0DRF is inaccurate at the generic point.** The remark says of the example of
 Stacks 02Z8 that `|X|` admitting a generic point makes "the dimension of `|X|` at any of its
 points" equal to `1`. That fails at the generic point `x₀` itself: the coordinate points form an
@@ -946,7 +960,8 @@ open AlgebraicGeometry.Space.InfiniteProduct
 of its points while its point space is irreducible of Krull dimension `1` and admits a generic
 point: the example of Stacks 02Z8 over the field with two elements, on a big fppf site
 containing the three schemes it is built from. -/
-@[stacks 0DRF "the second counterexample exists: an algebraic space of dimension 0 at each of its points whose point space is irreducible of Krull dimension 1 with a generic point"]
+@[stacks 0DRF "the second counterexample exists: an algebraic space of dimension 0 at each of \
+  its points whose point space is irreducible of Krull dimension 1 with a generic point"]
 theorem exists_dimensionAtPoint_eq_zero_topologicalKrullDim_points_eq_one :
     ∃ (B : BigFppfSite.{u}) (hS : B.Contains (base (ULift.{u} (ZMod 2))))
       (F : (BigFppfOver B (base (ULift.{u} (ZMod 2))) hS)ᵒᵖ ⥤ Type u)
@@ -962,7 +977,7 @@ theorem exists_dimensionAtPoint_eq_zero_topologicalKrullDim_points_eq_one :
   have hS : B.Contains (base (ULift.{u} (ZMod 2))) := hB _ (by simp)
   have hU : B.Contains (space (ULift.{u} (ZMod 2))) := hB _ (by simp)
   have hR : B.Contains (relation (ULift.{u} (ZMod 2))) := hB _ (by simp)
-  letI := BigFppfOver.hasSheafify_type B (base (ULift.{u} (ZMod 2))) hS
+  let := BigFppfOver.hasSheafify_type B (base (ULift.{u} (ZMod 2))) hS
   exact ⟨B, hS, quotient (ULift.{u} (ZMod 2)) B hS hU hR,
     isAlgebraicSpace_quotient (ULift.{u} (ZMod 2)) B hS hU hR,
     dimensionAtPoint_infiniteProductQuotient_eq_zero (ULift.{u} (ZMod 2)) B hS hU hR,

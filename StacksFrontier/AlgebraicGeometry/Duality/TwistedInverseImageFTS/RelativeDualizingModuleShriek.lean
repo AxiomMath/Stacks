@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.Duality.TwistedInverseImageFTS.NewShriekRelativeDualizingModuleData
+public import StacksFrontier.AlgebraicGeometry.Duality.TwistedInverseImageFTS.NewShriekRelativeDualizingModuleData
 public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekRelativeDualizingModule
 public import StacksFrontier.AlgebraicGeometry.Duality.NormalizedOnOpens
 

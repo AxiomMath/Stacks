@@ -84,10 +84,10 @@ private theorem isIso_mate_twistFunctor_of_restrictScalars {C D : Type (u + 1)} 
     (adjC : LC ⊣ uf.sheafPushforwardContinuous (ModuleCat.{u + 1} k₀) J K)
     [PreservesFiniteLimits LC]
     (hres₁ : IsIso (sheafComposeCoefficientMate uf J K adjA adjC
-      (ModuleCat.restrictScalars.{u + 1} (algebraMap k₀ (MonoidAlgebra k₀ G)))).natTrans)
+      (ModuleCat.restrictScalars.{u + 1} (algebraMap k₀ (MonoidAlgebra k₀ G)))))
     (hres₂ : IsIso (sheafComposeCoefficientMate uf J K adjB adjC
-      (ModuleCat.restrictScalars.{u + 1} (algebraMap k₀ Λ))).natTrans) :
-    IsIso (sheafComposeCoefficientMate uf J K adjA adjB (twistFunctor k₀ G Λ E ρ)).natTrans :=
+      (ModuleCat.restrictScalars.{u + 1} (algebraMap k₀ Λ)))) :
+    IsIso (sheafComposeCoefficientMate uf J K adjA adjB (twistFunctor k₀ G Λ E ρ)) :=
   isIso_coefficientMate_of_comp uf J K adjA adjB adjC (twistFunctor k₀ G Λ E ρ)
     (ModuleCat.restrictScalars.{u + 1} (algebraMap k₀ Λ))
     (isIso_sheafComposeCoefficientMate_of_iso uf J K adjA adjC
@@ -101,7 +101,7 @@ private theorem isIso_mate_twistFunctor_of_restrictScalars {C D : Type (u + 1)} 
 theorem isIso_inverseImageMate_twistFunctor {X Y : Scheme.{u}} (g : X ⟶ Y) :
     IsIso (sheafComposeCoefficientMate (smallEtaleBaseChange g) Y.smallEtaleTopology
       X.smallEtaleTopology (etaleModuleInverseImageAdj.{u, 0} (MonoidAlgebra k₀ G) g)
-      (etaleModuleInverseImageAdj.{u, 0} Λ g) (twistFunctor k₀ G Λ E ρ)).natTrans := by
+      (etaleModuleInverseImageAdj.{u, 0} Λ g) (twistFunctor k₀ G Λ E ρ)) := by
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} k₀ g
   exact isIso_mate_twistFunctor_of_restrictScalars k₀ G Λ E ρ _ _ _
     (etaleModuleInverseImageAdj.{u, 0} (MonoidAlgebra k₀ G) g)
@@ -114,7 +114,7 @@ theorem isIso_inverseImageMate_twistFunctor {X Y : Scheme.{u}} (g : X ⟶ Y) :
 theorem isIso_extensionByZeroMate_twistFunctor {U X : Scheme.{u}} (j : U ⟶ X) [Etale j] :
     IsIso (sheafComposeCoefficientMate (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
       X.smallEtaleTopology (etaleModuleExtensionByZeroAdj.{u, 0} (MonoidAlgebra k₀ G) j)
-      (etaleModuleExtensionByZeroAdj.{u, 0} Λ j) (twistFunctor k₀ G Λ E ρ)).natTrans := by
+      (etaleModuleExtensionByZeroAdj.{u, 0} Λ j) (twistFunctor k₀ G Λ E ρ)) := by
   exact isIso_mate_twistFunctor_of_restrictScalars k₀ G Λ E ρ _ _ _
     (etaleModuleExtensionByZeroAdj.{u, 0} (MonoidAlgebra k₀ G) j)
     (etaleModuleExtensionByZeroAdj.{u, 0} Λ j) (etaleModuleExtensionByZeroAdj.{u, 0} k₀ j)

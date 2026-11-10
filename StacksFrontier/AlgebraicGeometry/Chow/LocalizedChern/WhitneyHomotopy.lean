@@ -263,7 +263,7 @@ theorem exists_isFiniteLocallyFreeOfRankLT_iso_obj₂ (T : Triangle (DerivedCate
       have h₃ := hM₃.fiberRank_lt x
       rw [← Scheme.Modules.fiberRank_eq_of_iso i₁ x] at h₁
       rw [← Scheme.Modules.fiberRank_eq_of_iso i₃ x] at h₃
-      show Scheme.Modules.fiberRank S.X₂ x < a + c - 1
+      change Scheme.Modules.fiberRank S.X₂ x < a + c - 1
       omega
   obtain ⟨U, hU, M, hM, ⟨e⟩⟩ :=
     exists_opens_iso_singleFunctor_isFiniteLocallyFreeOfRankLT T.obj₂ hP₂ (a + c - 1)

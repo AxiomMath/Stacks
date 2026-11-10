@@ -94,8 +94,7 @@ theorem liftBaseChange_restrictionLinear_eq {W X : C} (a : X ⟶ W) :
   let := moduleOfRingHom M (R.map a.op)
   have := isScalarTower_moduleOfRingHom M a
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
       rw [LinearMap.liftBaseChange_tmul, restrictionLinear_apply,
         restrictionBaseChangeLinear_tmul]
@@ -149,7 +148,7 @@ theorem mem_span_of_forall_restrict_mem_span
     fun i => Fintype.linearCombination _ fun l => rN i (τ l)
   have hsq : ∀ (i) (q : κ → R.obj (op W)), rN i (bT q) = bW i (rP i q) := by
     intro i q
-    show rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
+    change rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
     rw [Fintype.linearCombination_apply, map_sum, Fintype.linearCombination_apply]
     exact Finset.sum_congr rfl fun l _ => map_smul (rN i) (q l) (τ l)
   have hP : ∀ i, Function.Surjective ((rP i).liftBaseChange (R.obj (op (z i)))) := by
@@ -157,7 +156,7 @@ theorem mem_span_of_forall_restrict_mem_span
     refine (Module.BaseChange.bijective_liftBaseChange_of_basis
       (Pi.basisFun (R.obj (op W)) κ) (Pi.basisFun (R.obj (op (z i))) κ) (rP i)
       fun l => funext fun j => ?_).2
-    show algebraMap (R.obj (op W)) (R.obj (op (z i)))
+    change algebraMap (R.obj (op W)) (R.obj (op (z i)))
         (Pi.basisFun (R.obj (op W)) κ l j) = Pi.basisFun (R.obj (op (z i))) κ l j
     rw [Pi.basisFun_apply, Pi.basisFun_apply]
     by_cases h : j = l
@@ -168,7 +167,7 @@ theorem mem_span_of_forall_restrict_mem_span
     fun i => injective_liftBaseChange_restrictionLinear M (φ i) (hcart i)
   have hn : ∀ i, rN i x ∈ LinearMap.range (bW i) := by
     intro i
-    show rN i x ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
+    change rN i x ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
     rw [Fintype.range_linearCombination]
     exact hx i
   have hmem := Module.BaseChange.mem_range_of_forall_mem_range_of_liftBaseChange

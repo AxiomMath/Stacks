@@ -83,7 +83,7 @@ and the stalk functor are both additive. -/
 theorem isZero_stalk_of_isZero {Y : Scheme.{u}} (N : Y.Modules) (hN : IsZero N) (p : Y) :
     IsZero (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) N.val.presheaf p) := by
   have hpres : (Scheme.Modules.toPresheaf Y).PreservesZeroMorphisms := by
-    show (SheafOfModules.forget _ ⋙
+    change (SheafOfModules.forget _ ⋙
       PresheafOfModules.toPresheaf Y.ringCatSheaf.obj).PreservesZeroMorphisms
     infer_instance
   have := Functor.preservesZeroMorphisms_of_additive

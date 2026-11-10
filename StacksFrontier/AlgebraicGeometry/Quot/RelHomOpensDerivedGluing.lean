@@ -108,7 +108,7 @@ theorem triangle_inv_comp_homOf_cochainRes {V W : Opens X₀} (h : V ≤ W)
   ext p
   simp only [HomologicalComplex.comp_f, NatTrans.mapHomologicalComplex_app_f,
     Functor.mapHomologicalComplex_map_f, Cocycle.homOf_f]
-  show _ ≫ P.relHomMap κ (K.X p) (L.X p) (homOfLE h)
+  change _ ≫ P.relHomMap κ (K.X p) (L.X p) (homOfLE h)
     ((z : Cochain (P.legComplex κ K W) (P.legComplex κ L W) 0).v p p (add_zero p)) = _
   simp only [relHomMap, Functor.conjHom, Iso.inv_hom_id_app_assoc]
 

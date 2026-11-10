@@ -127,7 +127,7 @@ private theorem mem_range_of_imageSieve_mem
   let φ := Functor.whiskerRight f.hom (forget AddCommGrpCat)
   have : Mono φ := by
     refine (NatTrans.mono_iff_mono_app φ).mpr fun W => ?_
-    show Mono ((forget AddCommGrpCat).map (f.hom.app W))
+    change Mono ((forget AddCommGrpCat).map (f.hom.app W))
     rw [mono_iff_injective]
     exact (AddCommGrpCat.mono_iff_injective (f.hom.app W)).mp inferInstance
   have hF : Presieve.IsSheaf J (F.obj ⋙ forget AddCommGrpCat) :=
@@ -135,7 +135,7 @@ private theorem mem_range_of_imageSieve_mem
   have hG : Presieve.IsSheaf J (G.obj ⋙ forget AddCommGrpCat) :=
     (isSheaf_iff_isSheaf_of_type _ _).mp ((sheafCompose J (forget AddCommGrpCat)).obj G).property
   have hR := Presieve.isSheaf_iso J (asIso (Subfunctor.toRange φ)) hF
-  show s ∈ (Subfunctor.range φ).obj (op V)
+  change s ∈ (Subfunctor.range φ).obj (op V)
   rwa [(Subfunctor.range φ).eq_sheafify hG hR]
 
 /-- A morphism of abelian sheaves whose image is sectionwise contained in the image of a
@@ -157,10 +157,10 @@ private theorem exists_sheaf_lift_of_range_subset
       ext x
       apply hg W
       symm
-      show (g.hom.app W) (G.obj.map k (a V x)) =
+      change (g.hom.app W) (G.obj.map k (a V x)) =
         (g.hom.app W) (a W (F.obj.map k x))
       rw [← ConcreteCategory.comp_apply, g.hom.naturality]
-      show H.obj.map k (g.hom.app V (a V x)) = _
+      change H.obj.map k (g.hom.app V (a V x)) = _
       rw [ha, ha]
       exact (ConcreteCategory.congr_hom (f.hom.naturality k) x).symm }⟩
   refine ⟨l, ?_⟩
@@ -267,7 +267,7 @@ public theorem isProperOver_range_of_comp_eq_id {Y Z : Scheme.{u}} (g : Z ⟶ Y)
     IsProperOver p ⟨Set.range g.base, g.isClosedEmbedding.isClosed_range⟩ := by
   refine (isProperOver_iff_exists_isProper p _).2 ⟨g.ker, ?_, ?_⟩
   · apply SetLike.coe_injective
-    show (g.ker.support : Set _) = Set.range g.base
+    change (g.ker.support : Set _) = Set.range g.base
     rw [Scheme.Hom.support_ker, IsClosed.closure_eq g.isClosedEmbedding.isClosed_range]
   · have hcomp : g.ker.subschemeι ≫ p = inv g.toImage := by
       rw [← cancel_epi g.toImage, ← Category.assoc, Scheme.Hom.toImage_imageι, hgp,
@@ -307,7 +307,7 @@ private theorem graphSection_hasProperSupport
       ((IsPullback.of_hasPullback (Over.hom Wₓ.obj) U.obj.hom).flip.map B.inclusion)
       inferInstance
   have hgp : g ≫ p = 𝟙 ((SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).obj W) := by
-    show B.inclusion.map
+    change B.inclusion.map
       (pullback.lift (𝟙 (Over.left W.obj)) (Over.hom W.obj) _ ≫
         pullback.fst ((Over.hom W.obj) ≫ U.obj.hom) U.obj.hom) = _
     rw [pullback.lift_fst]
@@ -467,7 +467,7 @@ private theorem sections_openCopies_disjoint_and_cover {S T Y V' P' : Scheme.{u}
   change δ (σ i (q' z)) = _ at hpoint
   rw [hpoint]
   have hbase : ι (q' z) = pullback.snd q b (δ z) := (congrArg (fun f => f z) hδsnd).symm
-  show (D i).ι (inv ((D i).ι ≫ pullback.snd q b) (ι (q' z))) = δ z
+  change (D i).ι (inv ((D i).ι ≫ pullback.snd q b) (ι (q' z))) = δ z
   rw [hbase, hid]
   rfl
 
@@ -506,7 +506,7 @@ private theorem exists_smallEtale_openImmersion_point (V : SmallEtale B X hX) {Y
     (Scheme.size_le_of_locallyOfFiniteType (A.ι ≫ f)).trans_lt V.obj.left.property
   let k : B.obj A.toScheme hsize ⟶ V.obj.left := B.inclusion.preimage (A.ι ≫ f)
   let V' : SmallEtale B X hX := ⟨Over.mk (k ≫ V.obj.hom), by
-    show Etale (B.inclusion.map (k ≫ V.obj.hom))
+    change Etale (B.inclusion.map (k ≫ V.obj.hom))
     rw [Functor.map_comp, B.inclusion.map_preimage]
     infer_instance⟩
   exact ⟨V', ObjectProperty.homMk (Over.homMk k), A.ι, ⟨y, hyA⟩,
@@ -598,7 +598,7 @@ private theorem sectionObj_graph (V V' : SmallEtale B X hX) (g : V' ⟶ V)
   let b := smallEtaleGraph B X hX U W ≫ (smallEtaleBaseChange B U.obj.hom).map e.hom
   let bₛ := (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map b
   have hb : b.hom.left ≫ pullback.fst V'.obj.hom U.obj.hom = 𝟙 V'.obj.left := by
-    show (pullback.lift (𝟙 V'.obj.left) a _ ≫
+    change (pullback.lift (𝟙 V'.obj.left) a _ ≫
       pullback.lift (pullback.fst _ _ ≫ 𝟙 V'.obj.left) (pullback.snd _ _) _) ≫
         pullback.fst _ _ = _
     simp only [Category.assoc, pullback.lift_fst, Category.comp_id]
@@ -609,12 +609,12 @@ private theorem sectionObj_graph (V V' : SmallEtale B X hX) (g : V' ⟶ V)
   have hbsnd : bₛ ≫ r' = γ ≫ r :=
     (B.inclusion.map_comp _ _).symm.trans ((congrArg B.inclusion.map (Over.w b.hom)).trans hai)
   refine ⟨hbq, ?_⟩
-  show bₛ ≫ cₛ = γ
+  change bₛ ≫ cₛ = γ
   apply ((IsPullback.of_hasPullback V.obj.hom U.obj.hom).map B.inclusion).hom_ext
-  · show (bₛ ≫ cₛ) ≫ q = γ ≫ q
+  · change (bₛ ≫ cₛ) ≫ q = γ ≫ q
     rw [Category.assoc, hcq, ← Category.assoc, hbq]
     exact (Category.id_comp _).trans hγq'.symm
-  · show (bₛ ≫ cₛ) ≫ r = γ ≫ r
+  · change (bₛ ≫ cₛ) ≫ r = γ ≫ r
     rw [Category.assoc, hcsnd, hbsnd]
 
 variable [IsSeparated (B.inclusion.map U.obj.hom)]
@@ -634,7 +634,7 @@ private theorem graphLift_support_subset
   let g := smallEtaleGraph B X hX U W ≫ (smallEtaleBaseChange B U.obj.hom).map e.hom
   let gs := (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map g
   have : IsClosedImmersion gs := by
-    show IsClosedImmersion ((SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map
+    change IsClosedImmersion ((SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map
       (smallEtaleGraph B X hX U W) ≫
       (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map
         ((smallEtaleBaseChange B U.obj.hom).map e.hom))
@@ -700,7 +700,7 @@ private theorem exists_graph_sum_zeroOn (V : SmallEtale B X hX) (n : ℕ)
     · have ht (i) : z ∈ zeroOpen B U.obj.left.1 U.obj.left.property F P (α (t i)) := by
         by_contra hzt
         exact hzg ⟨i, graphLift_support_subset B X hX U F (W i) V (e i) (σ i) hzt⟩
-      show z ∈ zeroOpen B U.obj.left.1 U.obj.left.property F P (α (∑ i, t i))
+      change z ∈ zeroOpen B U.obj.left.1 U.obj.left.property F P (α (∑ i, t i))
       rw [map_sum]
       exact mem_zeroOpen_sum B U.obj.left.1 U.obj.left.property F P Finset.univ
         (fun i => α (t i)) (fun i _ => ht i)
@@ -909,7 +909,7 @@ private theorem imageSieve_mem_of_pointwise_local_range (B : BigEtaleSite.{u}) (
   have hRet (i) : Etale (B.inclusion.map (R.f i)) :=
     ((Scheme.presieve₀_mem_precoverage_iff (R.map B.inclusion)).mp hR.1).2 i
   let A (i) : SmallEtale B X hX := ⟨Over.mk (R.f i ≫ V.obj.hom), by
-    show Etale (B.inclusion.map (R.f i ≫ V.obj.hom))
+    change Etale (B.inclusion.map (R.f i ≫ V.obj.hom))
     rw [Functor.map_comp]
     have := hRet i
     infer_instance⟩
@@ -929,13 +929,13 @@ private theorem imageSieve_mem_of_pointwise_local_range (B : BigEtaleSite.{u}) (
     rw [Functor.map_comp, hbbase]
     exact θ.w₀ i'
   let b : A i ⟶ W k := ObjectProperty.homMk (Over.homMk bbase (by
-    show bbase ≫ (W k).obj.hom = R.f i ≫ V.obj.hom
+    change bbase ≫ (W k).obj.hom = R.f i ≫ V.obj.hom
     rw [← Over.w (g k).hom, ← Category.assoc, hfac]))
   have hba : b ≫ g k = a i := by
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     exact hfac
-  show (Presheaf.imageSieve f.hom s) (a i)
+  change (Presheaf.imageSieve f.hom s) (a i)
   rw [← hba]
   exact (Presheaf.imageSieve f.hom s).downward_closed (hsg k) b
 

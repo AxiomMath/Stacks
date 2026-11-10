@@ -106,6 +106,7 @@ private theorem nat_coh_paste {C : Type*} [Category C] {A A' B B' D E : C} {l : 
     (hn : l ≫ θ' = θ ≫ x) (hc : θ' ≫ y ≫ z = θ'') : θ ≫ x ≫ y ≫ z = l ≫ θ'' := by
   rw [← hc, ← reassoc_of% hn]
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- **A morphism of coefficient modules followed by the shift, read on the first page**: for
 `β : N ⟶ M'` and an isomorphism `s : K ≅ f^{-1}M'[-(k + p)] ⊗ Ω^•_{X/Y}`, the comparison at the cut
 `k` followed by the shift map of the derived direct image of

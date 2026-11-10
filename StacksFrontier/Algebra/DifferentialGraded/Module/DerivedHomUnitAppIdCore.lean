@@ -135,6 +135,7 @@ namespace CochainComplex
 variable (A : Type) [Category.{0} A] [Preadditive A] (K : CochainComplex A ℤ)
   [HasDerivedCategory.{w} (ModuleCat.{0} ℤ)]
 
+omit [HasDerivedCategory (ModuleCat ℤ)] in
 /-- **The comparison intertwines the two identifications of the cycles.** The degreewise
 comparison of the two readings of `Hom^•(K, Y)` carries the identification of the cycles of
 `Hom^•(K, Y)` with its explicit cocycles to the identification of the cycles of `ev_K(h_Y)` with
@@ -165,6 +166,7 @@ private theorem cyclesMap_homEvaluationComparisonIso_gradedCyclesIso (n : ℤ)
       (DGCategory.representableModule (dgCategory A) K Y) n) z
   exact h1.trans (h2.trans (congrArg (fun x => homGradingEquiv A K Y n x) h3).symm)
 
+omit [HasDerivedCategory (ModuleCat ℤ)] in
 /-- **The owed `gradedCohomologyIso` intertwining.** The degreewise comparison of the two
 constructions of `Hom^•(K, Y)` carries the explicit degree-`n` cohomology of the representable
 differential graded `End(K)`-module to the explicit degree-`n` cohomology of the differential
@@ -298,6 +300,7 @@ theorem coreLHS_eq (n : ℤ) (Y : CochainComplex A ℤ) :
     (homYonedaCohomologyEquiv A K Y n).toIntLinearEquiv.toLinearMap) hRHS).symm
   exact coreLHSEq_assemble _ _ _ _ _ _ _ _ _ _ hnat hbr
 
+omit [HasDerivedCategory (ModuleCat ℤ)] in
 /-- The hypothesis `hc` of `CochainComplex.coreRHS_mk`, for a cocycle of the Yoneda right module
 presented in degree `j` rather than in degree `0 + n`. The degree equation is an argument, so
 that the reindexing of `DGCategory.RightModule.gradedCocyclesShiftEquiv'` can be substituted
@@ -315,6 +318,7 @@ private theorem hc_rightShift (n : ℤ) (Y : CochainComplex A ℤ) {j : ℤ} (h 
   subst hγ
   rfl
 
+omit [HasDerivedCategory (ModuleCat ℤ)] in
 /-- The right-hand side of step 3's equation at a cocycle representative. -/
 theorem coreRHS_mk_homCocycles (n : ℤ) (Y : CochainComplex A ℤ)
     (e : (DGCategory.endDGCategory (dgCategory A) K).Obj)
@@ -351,6 +355,7 @@ namespace DGCategory
 
 variable (A : Type) [Category.{0} A] [Abelian A] [HasDerivedCategory.{v} A]
 
+omit [HasDerivedCategory A] in
 theorem unitIso_hom_app_shift (n : ℤ) (Y : HomotopyCategory A (ComplexShape.up ℤ)) :
     (shiftFunctor (HomotopyCategory A (ComplexShape.up ℤ)) n).map
         ((CochainComplex.homotopyCategoryEquivalence A).unitIso.hom.app Y) =
@@ -361,6 +366,7 @@ theorem unitIso_hom_app_shift (n : ℤ) (Y : HomotopyCategory A (ComplexShape.up
   simpa using NatTrans.shift_app_comm
     (CochainComplex.homotopyCategoryEquivalence A).unitIso.hom n Y
 
+omit [HasDerivedCategory A] in
 theorem functor_comp_inverse_map_comp_commShiftIso (n : ℤ)
     (X Y : HomotopyCategory A (ComplexShape.up ℤ)) (h : X ⟶ Y⟦n⟧) :
     ((CochainComplex.homotopyCategoryEquivalence A).functor ⋙
@@ -446,6 +452,7 @@ variable
 
 
 
+omit [L.IsTriangulated] in
 /-- **The equation, at the homotopy class of a complex.** -/
 theorem chainEquivReflectorEvaluation_gradedCohomologyMapK_eq (Y : CochainComplex A ℤ) (n : ℤ)
     (x : ↥((CochainComplex.homToDerivedCategoryForget A K ⋙

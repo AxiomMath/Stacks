@@ -57,10 +57,10 @@ private lemma exists_pow_mul_eq_zero_of_isAffineOpen
     (fun x => nonZeroDivisors ↑(X.presheaf.stalk x))).obj (op U)
   let Q := X.presheaf.totalQuotientPresheaf
   let : Algebra (↑(X.presheaf.obj (op U))) (↑(Q.obj (op U))) := by
-    show Algebra (↑(X.presheaf.obj (op U))) (Localization S)
+    change Algebra (↑(X.presheaf.obj (op U))) (Localization S)
     infer_instance
   let : IsLocalization S (↑(Q.obj (op U))) := by
-    show IsLocalization S (Localization S)
+    change IsLocalization S (Localization S)
     infer_instance
   obtain ⟨a, s, hrep⟩ := IsLocalization.exists_mk'_eq S g
   let alg := (X.presheaf.toTotalQuotientPresheaf.app (op U)).hom
@@ -109,7 +109,7 @@ private lemma exists_affine_local_annihilator
   let S := X.totalQuotientSheaf
   let η := CategoryTheory.toSheafify (Opens.grothendieckTopology X) Q
   have hloc : TopCat.Presheaf.IsLocallySurjective η := by
-    show CategoryTheory.Presheaf.IsLocallySurjective (Opens.grothendieckTopology X) η
+    change CategoryTheory.Presheaf.IsLocallySurjective (Opens.grothendieckTopology X) η
     infer_instance
   obtain ⟨V, hVW, ⟨g, hg⟩, hxV⟩ :=
     (TopCat.Presheaf.isLocallySurjective_iff η).mp hloc W f x x.2

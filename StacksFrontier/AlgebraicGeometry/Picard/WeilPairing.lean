@@ -187,7 +187,7 @@ theorem eq_zero_of_compatible_of_smul_eigen (hℓ : ℓ.Prime) (σ : A →+ A) (
     have hy : y ∈ ψ.ker := by
       rw [AddMonoidHom.mem_ker]
       refine Subtype.ext ?_
-      show σ (x m) - c m • x m = 0
+      change σ (x m) - c m • x m = 0
       rw [hσx m, sub_self]
     have hcard := natCard_ker_sub_smul_le (e m) (he₀ m) (torsionByRestrict σ _) (c m) (hc m)
       (he m)

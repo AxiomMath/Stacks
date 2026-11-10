@@ -135,7 +135,7 @@ theorem isEtaleChart_changeBigSiteChart {U : CostructuredArrow yoneda X.obj}
     (isEtaleChart_comp_iso_iff B' S (largerContains h hS)
       (changeBigSiteYonedaIso B B' h S hS U.left) (𝟙 _)).2
       (presheaf_etale_id B' S (largerContains h hS) _)
-  show MorphismProperty.presheaf _ (changeBigSiteChart B B' h S hS X U).hom
+  change MorphismProperty.presheaf _ (changeBigSiteChart B B' h S hS X U).hom
   rw [changeBigSiteChart_hom]
   have hc' : MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
@@ -154,13 +154,13 @@ theorem changeBigSiteChart_w {U V : CostructuredArrow yoneda X.obj} (g : U ⟶ V
       (changeBigSiteChart B B' h S hS X U).hom := by
   apply yonedaEquiv.injective
   refine (yonedaEquiv_naturality _ _).symm.trans ?_
-  show ((changeBigSite B B' h S hS).obj X).obj.map _
+  change ((changeBigSite B B' h S hS).obj X).obj.map _
       (chartElement B' S (largerContains h hS) (changeBigSiteChart B B' h S hS X V)) =
     chartElement B' S (largerContains h hS) (changeBigSiteChart B B' h S hS X U)
   rw [chartElement_changeBigSiteChart, chartElement_changeBigSiteChart]
   refine (changeBigSiteSectionEquiv_restrict B B' h S hS X g.left _).symm.trans ?_
   refine congrArg (changeBigSiteSectionEquiv B B' h S hS X U.left) ?_
-  show X.obj.map g.left.op (yonedaEquiv V.hom) = yonedaEquiv U.hom
+  change X.obj.map g.left.op (yonedaEquiv V.hom) = yonedaEquiv U.hom
   rw [yonedaEquiv_naturality, CostructuredArrow.w g]
 
 /-- A morphism of schemes of `B` between charts whose image in `B'` is a morphism of the
@@ -283,7 +283,7 @@ theorem isCovering_liftFamily (U : SmallEtale B S hS F)
     (V : PreZeroHypercover.{u + 1} ((toSchemes B S hS F).obj U))
     (hV' : ∀ j, Etale (B.inclusion.map (V.f j))) (hV : B.etaleCovering ⟨_, V⟩) :
     IsCovering B S hS F ⟨U, liftFamily U V hV'⟩ := by
-  show B.etaleCovering ⟨_, (liftFamily U V hV').map (toSchemes B S hS F)⟩
+  change B.etaleCovering ⟨_, (liftFamily U V hV').map (toSchemes B S hS F)⟩
   rw [liftFamily_map]
   exact hV
 
@@ -364,7 +364,7 @@ theorem exists_isCovering_changeBigSiteSmallEtale_refinement (U : SmallEtale B S
     f j := (j.2 : (B'.inclusion.obj (P j.1)).Opens).ι ≫ B'.inclusion.map (π₂ j.1) }
   have hWet (j : W.I₀) : Etale (W.f j) := by
     have := hπ₂ j.1
-    show Etale ((j.2 : (B'.inclusion.obj (P j.1)).Opens).ι ≫ B'.inclusion.map (π₂ j.1))
+    change Etale ((j.2 : (B'.inclusion.obj (P j.1)).Opens).ι ≫ B'.inclusion.map (π₂ j.1))
     infer_instance
   have hW : W.presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T) := by
     refine (Scheme.presieve₀_mem_precoverage_iff W).mpr ⟨fun x => ?_, hWet⟩
@@ -389,7 +389,7 @@ theorem exists_isCovering_changeBigSiteSmallEtale_refinement (U : SmallEtale B S
     have hw := (hpb' i).w
     have he' : e.hom ≫ ((β j).2 : (B'.inclusion.obj (P i)).Opens).ι ≫
         B'.inclusion.map (π₂ i) = B.inclusion.map (Vf.f j) := he
-    show (e.hom ≫ ((β j).2 : (B'.inclusion.obj (P i)).Opens).ι ≫ B'.inclusion.map (π₁ i)) ≫
+    change (e.hom ≫ ((β j).2 : (B'.inclusion.obj (P i)).Opens).ι ≫ B'.inclusion.map (π₁ i)) ≫
       B'.inclusion.map (E₀.f i) = _
     rw [← he']
     simp only [Category.assoc, hw]
@@ -552,7 +552,7 @@ theorem exists_ofArrows_mem_changeBigSiteSmallEtale
       ((k : Ps.Opens).ι ≫ K'.map p₁) (Category.assoc _ _ _) ≫ (by exact 𝟙 U₀)
   have hwe (k : ι) : Etale ((BigFppfOver.toScheme B S hS).map (w k)) := by
     have := hp₁e
-    show Etale (((k : Ps.Opens).ι ≫ K'.map p₁) ≫ 𝟙 _)
+    change Etale (((k : Ps.Opens).ι ≫ K'.map p₁) ≫ 𝟙 _)
     rw [Category.comp_id]
     infer_instance
   let Yc (k : ι) : SmallEtale B S hS X.obj :=
@@ -564,12 +564,12 @@ theorem exists_ofArrows_mem_changeBigSiteSmallEtale
   let ιk (k : ι) : (G.obj (Yc k)).obj.left ⟶ P :=
     Over.homMk (ObjectProperty.homMk (k : Ps.Opens).ι) (by
       apply ObjectProperty.hom_ext
-      show (k : Ps.Opens).ι ≫ B'.inclusion.map P.hom =
+      change (k : Ps.Opens).ι ≫ B'.inclusion.map P.hom =
         (k : Ps.Opens).ι ≫ K'.map p₁ ≫ B.inclusion.map U₀.hom
       exact (congrArg ((k : Ps.Opens).ι ≫ ·) (hPw p₁)).symm)
   have hιk (k : ι) : ιk k ≫ p₁ = (G.map (g k)).hom.left := by
     apply (BigFppfOver.toScheme B' S hS').map_injective
-    show (k : Ps.Opens).ι ≫ K'.map p₁ = ((k : Ps.Opens).ι ≫ K'.map p₁) ≫ 𝟙 _
+    change (k : Ps.Opens).ι ≫ K'.map p₁ = ((k : Ps.Opens).ι ≫ K'.map p₁) ≫ 𝟙 _
     exact (Category.comp_id _).symm
   let f (k : ι) : G.obj (Yc k) ⟶ V :=
     ObjectProperty.homMk (CostructuredArrow.homMk (ιk k ≫ p₂) (by
@@ -589,7 +589,7 @@ theorem exists_ofArrows_mem_changeBigSiteSmallEtale
     f k := (k.down : Ps.Opens).ι ≫ K'.map p₂ }
   have hWet (k : Wf.I₀) : Etale (Wf.f k) := by
     have := hp₂e
-    show Etale ((k.down : Ps.Opens).ι ≫ K'.map p₂)
+    change Etale ((k.down : Ps.Opens).ι ≫ K'.map p₂)
     infer_instance
   have hW : Wf.presieve₀ ∈ Scheme.etalePrecoverage (B'.inclusion.obj Vs) := by
     refine (Scheme.presieve₀_mem_precoverage_iff Wf).mpr ⟨fun x => ?_, hWet⟩
@@ -614,7 +614,7 @@ theorem exists_ofArrows_mem_changeBigSiteSmallEtale
   let lleft : (F'.X j).obj.left ⟶ (G.obj (Yc k)).obj.left :=
     Over.homMk (ObjectProperty.homMk e.hom) (by
       apply ObjectProperty.hom_ext
-      show e.hom ≫ (k : Ps.Opens).ι ≫ K'.map p₁ ≫ B.inclusion.map U₀.hom =
+      change e.hom ≫ (k : Ps.Opens).ι ≫ K'.map p₁ ≫ B.inclusion.map U₀.hom =
         B'.inclusion.map (Vc.f j) ≫ B'.inclusion.map V.obj.left.hom
       refine (congrArg (fun m => e.hom ≫ (k : Ps.Opens).ι ≫ m) (hPw p₁)).trans ?_
       refine (congrArg (fun m => e.hom ≫ (k : Ps.Opens).ι ≫ m) (hPw p₂).symm).trans ?_
@@ -721,7 +721,7 @@ private theorem changeBigSiteSmallEtale_topology_eq_restricted :
     apply Q.le_toPrecoverage_toGrothendieck
     exact Precoverage.mem_comap_iff.mp hR
   have hle : P.toGrothendieck ≤ G.restrictedTopology K := by
-    show P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
+    change P.toGrothendieck ≤ (K.toPrecoverage.comap G).toGrothendieck
     exact (Precoverage.toGrothendieck_monotone hpre).trans
       (Precoverage.toGrothendieck_monotone hcomp)
   have hge : G.restrictedTopology K ≤ P.toGrothendieck := by

@@ -87,8 +87,6 @@ end AlgebraicGeometry.RingedSite
 
 namespace Stacks.SheafOfModules.OnSpace
 
-open AlgebraicGeometry
-
 attribute [local instance 10000] HasDerivedCategory.standard
 
 /-- **A named base at which the system is non-degenerate.** On `Spec ℤ` every term of the

@@ -33,7 +33,8 @@ The elided prefix is `Stacks.Models`.
 
 * `componentDegreeAdditive` — `deg((ℒ ⊗ ℳ)|_{Cᵢ}) = deg(ℒ|_{Cᵢ}) + deg(ℳ|_{Cᵢ})`, the
   invertible case of [Stacks, Tag 0AYX] on a component. This discharges the hypothesis
-  `Stacks.Models.ComponentDegreeAdditive` that `StacksFrontier/AlgebraicGeometry/Curves/Models/GenusFormula.lean` carries.
+  `Stacks.Models.ComponentDegreeAdditive` that
+  `StacksFrontier/AlgebraicGeometry/Curves/Models/GenusFormula.lean` carries.
 * `componentDegree_invertibleSheaf_eq_finrank` — `deg(𝒪_X(D')|_D) = dim_k Γ(D ∩ D', 𝒪)` for an
   integral `D` not contained in `D'`, the second assertion of [Stacks, Tag 0AYY] read on `D`.
 * `RegularProperModelSituation.specialFiberIntersectionMatrix_comm` — **the symmetry of the
@@ -446,7 +447,7 @@ theorem specialFiberComponentToSpec_comapCommIso
     exact h
   have h4 : p ≫ S.specialFiberComponentι Z = q ≫ S.specialFiberComponentι Z' :=
     (cancel_mono S.specialFiberι).mp h3
-  show q ≫ (S.specialFiberComponentι Z' ≫ S.specialFiberToSpec) =
+  change q ≫ (S.specialFiberComponentι Z' ≫ S.specialFiberToSpec) =
     p ≫ (S.specialFiberComponentι Z ≫ S.specialFiberToSpec)
   rw [← Category.assoc, ← Category.assoc, h4]
 
@@ -652,10 +653,12 @@ INTEGER coefficient families a, b, which is the fourth clause. Here O_X(∑ b_Y 
 Stacks.Models.RegularProperModelSituation.specialFiberVerticalDivisorSheaf, the difference twist \
 of Stacks 01WX part (4) at the positive and negative parts of b; its degree on C_Z is \
 ∑_Y b_Y (C_Z · C_Y) by \
-Stacks.Models.RegularProperModelSituation.specialFiberComponentDegree_specialFiberVerticalDivisorSheaf_eq_sum, \
+Stacks.Models.RegularProperModelSituation.\
+specialFiberComponentDegree_specialFiberVerticalDivisorSheaf_eq_sum, \
 and on a nonnegative family the pairing against it is the intersection product \
 Stacks.Models.intersectionProduct of the first displayed equality, by \
-Stacks.Models.RegularProperModelSituation.specialFiberDegreePairing_specialFiberVerticalDivisorSheaf_natCast"]
+Stacks.Models.RegularProperModelSituation.\
+specialFiberDegreePairing_specialFiberVerticalDivisorSheaf_natCast"]
 theorem specialFiberDegreePairing_bilinear_and_comm
     (s : Finset (irreducibleComponents S.specialFiber)) :
     (∀ (a : irreducibleComponents S.specialFiber → ℤ) (L : S.X.Modules)

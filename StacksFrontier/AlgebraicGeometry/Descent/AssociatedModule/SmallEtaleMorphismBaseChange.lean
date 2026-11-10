@@ -375,7 +375,8 @@ Remark 070R, and this is the small étale one.  The big fppf one is
 `AlgebraicGeometry.BigFppfOver.associatedModuleBasePullbackIso`
 (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModulePullbackBigSites.lean`), and the small
 Zariski one is `AlgebraicGeometry.SmallZariski.lcAssociatedModulePullbackIso`
-(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiPushforwardSquare.lean:458`).
+(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiPushforwardSquare.lean`,
+line 458).
 (It was formerly cited as `AlgebraicGeometry.SmallZariski.associatedModulePullbackIso`, which
 states the commutation over the *identity reading* of `𝓕 ↦ 𝓕^a` and is a tautology about `𝟭`;
 that declaration is untagged, and naming it here made this enumeration a false completeness

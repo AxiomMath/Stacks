@@ -102,6 +102,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in the presheaf category over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_BootstrapEtaleSurjective :
@@ -115,6 +116,7 @@ local instance (priority := high) hasPullback_presheaf_BootstrapEtaleSurjective
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in the presheaf category over the big fppf site is slow
 /-- Small discrete limits of presheaves on the big fppf site over `S` (instance search times
 out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_BootstrapEtaleSurjective

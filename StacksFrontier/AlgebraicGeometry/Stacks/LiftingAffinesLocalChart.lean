@@ -36,7 +36,7 @@ theorem isSmooth_map_yoneda_of_etale {U V : BigFppfOver B S hS} (φ : U ⟶ V)
     (schemeSpace U).property (schemeSpace V).property
     (StacksRepresentableCFG.EquivalenceOver.refl _)
     (StacksRepresentableCFG.EquivalenceOver.refl _) _ ?_
-  show Space.IsSmooth B S hS (representingMap B S hS
+  change Space.IsSmooth B S hS (representingMap B S hS
     (fibredCategory B S hS (schemeSpace U).obj) (fibredCategory B S hS (schemeSpace V).obj)
     (schemeSpace U).obj (schemeSpace V).obj
     (StacksRepresentableCFG.EquivalenceOver.refl _)

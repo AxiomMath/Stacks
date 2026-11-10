@@ -611,7 +611,7 @@ theorem act_apply_ofΩ (i : I) (s : S i) (x : Ω[S i⁄R i]) :
     act fR fS hsq hdirS (Ring.DirectLimit.of S (fun _ _ h => (fS h : S _ → S _)) i s)
         (ofΩ fR fS hsq i x)
       = ofΩ fR fS hsq i (s • x) := by
-  show actFun fR fS hsq hdirS _ _ = _
+  change actFun fR fS hsq hdirS _ _ = _
   rw [actFun_of, actLevel_ofΩ_same]
 
 end Action
@@ -731,7 +731,7 @@ theorem δ_algebraMap_eq_zero (hdirS : DirectedSystem S (fun _ _ h => (fS h : S 
     (r : Rinf fR) :
     δFun fR fS hsq
         (letI := alginf fR fS hsq; algebraMap (Rinf fR) (Sinf fS) r) = 0 := by
-  show δFun fR fS hsq (uinf fR fS hsq r) = 0
+  change δFun fR fS hsq (uinf fR fS hsq r) = 0
   refine r.induction_on fun i rᵢ => ?_
   rw [uinf_of, δFun_of fR fS hsq hdirS, Derivation.map_algebraMap, map_zero]
 
@@ -781,7 +781,7 @@ theorem Theta_surjective (hsq : IsCompatible fR fS)
     intro i c ξ
     refine ξ.induction_on fun j x => ?_
     rw [hsmul]
-    show Theta fR fS hsq (actFun fR fS hsq hdirS _ (ofΩ fR fS hsq j x)) = _
+    change Theta fR fS hsq (actFun fR fS hsq hdirS _ (ofΩ fR fS hsq j x)) = _
     rw [actFun_of]
     -- bring i, j to a common upper bound m
     obtain ⟨m, him, hjm⟩ := IsDirected.directed (r := (· ≤ ·)) i j
@@ -865,7 +865,7 @@ theorem Theta_injective (hsq : IsCompatible fR fS)
     refine ⟨fun r s m => ?_⟩
     -- both sides are `act (uinf r * s) m`; `Module.compHom` smul is `act _ m`,
     -- and `algebraMap (Rinf) (Sinf) r = uinf r`. (`algebraMap` for `alginf` is `uinf`.)
-    show act fR fS hsq hdirS (uinf fR fS hsq r * s) m
+    change act fR fS hsq hdirS (uinf fR fS hsq r * s) m
         = act fR fS hsq hdirS (uinf fR fS hsq r) (act fR fS hsq hdirS s m)
     rw [map_mul]; rfl
   -- The action `s • m` on `OmegaColim` unfolds to `act s m`.
@@ -914,14 +914,14 @@ theorem Theta_injective (hsq : IsCompatible fR fS)
           obtain ⟨a, rfl⟩ := hy
           rw [Theta_ofΩ]
           -- omegaToColim i (D a) = D (Rinf)(Sinf) (of S i a)
-          show invTheta (sqMap (R i) (S i) (Rinf fR) (Sinf fS) _ _ _
+          change invTheta (sqMap (R i) (S i) (Rinf fR) (Sinf fS) _ _ _
               (KaehlerDifferential.D (R i) (S i) a)) = _
           rw [sqMap_D]
           -- invTheta (D _ _ (of S i a)) = δDer (of S i a) = δFun (of S i a) = ofΩ i (D a)
-          show invTheta (KaehlerDifferential.D (Rinf fR) (Sinf fS)
+          change invTheta (KaehlerDifferential.D (Rinf fR) (Sinf fS)
               (Ring.DirectLimit.of S (fun _ _ h => (fS h : S _ → S _)) i a)) = _
           rw [Derivation.liftKaehlerDifferential_comp_D]
-          show δFun fR fS hsq
+          change δFun fR fS hsq
               (Ring.DirectLimit.of S (fun _ _ h => (fS h : S _ → S _)) i a) = _
           rw [δFun_of fR fS hsq hdirS]
       | zero => rw [map_zero, map_zero, map_zero]

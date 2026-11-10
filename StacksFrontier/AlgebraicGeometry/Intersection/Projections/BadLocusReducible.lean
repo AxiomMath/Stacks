@@ -107,7 +107,7 @@ private theorem not_add_two_le_add_one {A : WithBot ℕ∞} {n : ℕ}
   have hxne : x ≠ ⊤ := by
     rintro rfl
     rw [← hx] at hn
-    exact (ENat.coe_ne_top n) (top_le_iff.mp (WithBot.coe_le_coe.mp hn))
+    exact (ENat.natCast_ne_top n) (top_le_iff.mp (WithBot.coe_le_coe.mp hn))
   rw [← hx, show ((2 : ℕ) : WithBot ℕ∞) = (((2 : ℕ) : ℕ∞) : WithBot ℕ∞) from rfl,
     show (1 : WithBot ℕ∞) = ((1 : ℕ∞) : WithBot ℕ∞) from rfl,
     ← WithBot.coe_add, ← WithBot.coe_add, WithBot.coe_le_coe] at hle

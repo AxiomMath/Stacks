@@ -21,7 +21,8 @@ The two definitions have the same underlying abelian group and differ only in th
 scalars are restricted along: `(Scheme.ΓSpecIso _).inv ≫ f.appTop` for the first and
 `(Scheme.ΓSpecIso _).inv ≫ f.appLE ⊤ ⊤ _` for the second. Those two morphisms are equal —
 `Stacks.AffineAlgebraEquivalence.appLE_top_top` — though not definitionally, which is why the
-`Module k` instances are distinct and why that instance does not apply directly. Rewriting along that equality
+`Module k` instances are distinct and why that instance does not apply directly. Rewriting along
+that equality
 identifies the two `ModuleCat k` objects outright, and the existing instance transports.
 
 ## Main results

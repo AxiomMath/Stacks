@@ -159,7 +159,7 @@ private theorem exists_comp_extensionByZeroCoverTraceClass_eq [Surjective π]
     rw [← NatTrans.comp_app, IsIso.hom_inv_id, NatTrans.id_app]
   refine ⟨x₂.comp (Ext.mk₀ (ε.app E)) (add_zero _), ?_⟩
   rw [← hx₂]
-  show (x₂.comp (Ext.mk₀ (ε.app E)) (add_zero _)).comp (Ext.mk₀ ((inv ε).app _ ≫ g))
+  change (x₂.comp (Ext.mk₀ (ε.app E)) (add_zero _)).comp (Ext.mk₀ ((inv ε).app _ ≫ g))
     (add_zero _) = x₂.comp (Ext.mk₀ g) (add_zero _)
   rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, reassoc_of% hε]
 

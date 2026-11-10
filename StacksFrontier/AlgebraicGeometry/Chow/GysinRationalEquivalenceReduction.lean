@@ -15,8 +15,8 @@ scheme `i : D = Z(s) ⟶ X`. Stacks 02TO asserts that the Gysin map
 
 kills every `(k+1)`-cycle rationally equivalent to zero. That assertion is carried as the
 hypothesis `Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence` in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`, because the source's proof
-consumes five lemmas that this repository does not have.
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`, because the source's
+proof consumes five lemmas that this repository does not have.
 
 This file removes the part of that proof which is bookkeeping rather than geometry. A cycle
 rationally equivalent to zero is, by Stacks 02RW, a *locally finite* sum

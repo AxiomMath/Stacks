@@ -80,11 +80,11 @@ theorem affineFiberPoint_comap
     simp only [Category.assoc, pullbackSpecIso_hom_snd,
       Limits.pullback.congrHom_hom, Limits.pullback.map, Limits.pullback.lift_snd]
     simp only [Limits.pullback.lift_snd, Category.comp_id]
-    show (Limits.pullbackSymmetry f ((Spec (.of R)).fromSpecResidueField p)).hom ≫
+    change (Limits.pullbackSymmetry f ((Spec (.of R)).fromSpecResidueField p)).hom ≫
       Limits.pullback.snd ((Spec (.of R)).fromSpecResidueField p) f =
         Limits.pullback.fst f ((Spec (.of R)).fromSpecResidueField p)
     exact Limits.pullbackSymmetry_hom_comp_snd f _
-  show (PrimeSpectrum.comap (Algebra.TensorProduct.includeRight :
+  change (PrimeSpectrum.comap (Algebra.TensorProduct.includeRight :
     T →ₐ[R] p.asIdeal.Fiber T).toRingHom (e.hom.base (f.asFiber q))).asIdeal = q.asIdeal
   have hq : (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight : T →ₐ[R] p.asIdeal.Fiber T).toRingHom)).base
@@ -201,7 +201,7 @@ theorem affineFiber_cm_iff
   let e : A ≃+* B := affineFiberStalkRingEquiv (R := R) (T := T) q
   let _ : IsNoetherianRing B := isNoetherianRing_of_ringEquiv A e
   let _ : IsLocalRing B := e.isLocalRing
-  show IsCohenMacaulayLocalRing A ↔ Module.IsMaximalCohenMacaulay B B
+  change IsCohenMacaulayLocalRing A ↔ Module.IsMaximalCohenMacaulay B B
   exact (isCohenMacaulayLocalRing_iff_of_ringEquiv e).trans
     (isCohenMacaulayLocalRing_iff_isMaximalCohenMacaulay B)
 
@@ -270,7 +270,7 @@ theorem localFiberCM_iff_sourceOpenImmersion {X X' S : Scheme.{u}}
   have hkpt : k (h.asFiber x) = f.asFiber (i x) := by
     apply (f.fiberι (f (i x))).isEmbedding.injective
     have hcomp : k ≫ f.fiberι (f (i x)) = h.fiberι (f (i x)) ≫ i := by
-      show ((Limits.pullbackRightPullbackFstIso f
+      change ((Limits.pullbackRightPullbackFstIso f
         (S.fromSpecResidueField (f (i x))) i).inv ≫
         Limits.pullback.snd i (Limits.pullback.fst f
           (S.fromSpecResidueField (f (i x)))) ≫
@@ -320,9 +320,9 @@ theorem localFiberCM_iff_openTarget {X S T : Scheme.{u}} (i : T ⟶ S)
   have heInner : eInner.hom ≫ T.fromSpecResidueField (f x) =
       Limits.pullback.fst i (S.fromSpecResidueField (i (f x))) := by
     apply (cancel_mono i).1
-    show (ePoint.hom ≫ eField.hom) ≫ T.fromSpecResidueField (f x) ≫ i =
+    change (ePoint.hom ≫ eField.hom) ≫ T.fromSpecResidueField (f x) ≫ i =
       Limits.pullback.fst i (S.fromSpecResidueField (i (f x))) ≫ i
-    show (p ≫ Spec.map eRing.inv) ≫ T.fromSpecResidueField (f x) ≫ i =
+    change (p ≫ Spec.map eRing.inv) ≫ T.fromSpecResidueField (f x) ≫ i =
       Limits.pullback.fst i (S.fromSpecResidueField (i (f x))) ≫ i
     calc
       _ = p ≫ Spec.map eRing.inv ≫ Spec.map rmap ≫
@@ -351,19 +351,19 @@ theorem localFiberCM_iff_openTarget {X S T : Scheme.{u}} (i : T ⟶ S)
   let eChange := asIso m
   let e : h.fiber (i (f x)) ≅ f.fiber (f x) := eAssoc.trans eChange
   have heComp : e.hom ≫ f.fiberι (f x) = h.fiberι (i (f x)) := by
-    show e.hom ≫ Limits.pullback.fst f (T.fromSpecResidueField (f x)) =
+    change e.hom ≫ Limits.pullback.fst f (T.fromSpecResidueField (f x)) =
       Limits.pullback.fst (f ≫ i) (S.fromSpecResidueField (i (f x)))
-    show eAssoc.hom ≫ eChange.hom ≫
+    change eAssoc.hom ≫ eChange.hom ≫
       Limits.pullback.fst f (T.fromSpecResidueField (f x)) =
         Limits.pullback.fst (f ≫ i) (S.fromSpecResidueField (i (f x)))
     calc
       _ = eAssoc.hom ≫ (m ≫ Limits.pullback.fst f (T.fromSpecResidueField (f x))) := by
-        show (eAssoc.hom ≫ m) ≫
+        change (eAssoc.hom ≫ m) ≫
           Limits.pullback.fst f (T.fromSpecResidueField (f x)) = _
         rfl
       _ = eAssoc.hom ≫ Limits.pullback.fst f
           (Limits.pullback.fst i (S.fromSpecResidueField (i (f x)))) := by
-        simp [m, Limits.pullback.map, Limits.pullback.lift_fst]
+        simp [m, Limits.pullback.map]
       _ = Limits.pullback.fst (f ≫ i) (S.fromSpecResidueField (i (f x))) :=
         Limits.pullbackRightPullbackFstIso_inv_fst i
           (S.fromSpecResidueField (i (f x))) f

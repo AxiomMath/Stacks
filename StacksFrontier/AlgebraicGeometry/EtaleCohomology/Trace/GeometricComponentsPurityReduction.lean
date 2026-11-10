@@ -157,8 +157,8 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.1 T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   (hP : LAdicSheaf.GeometricPurity B ℓ)
-  {k : Type u} [Field k] [Fintype k] (kbar : Type u) [Field kbar] [Algebra k kbar]
-  (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q) (hℓ : ℓ ≠ p)
+  {k : Type u} [Field k] [Finite k] (kbar : Type u) [Field kbar] [Algebra k kbar]
+  (p q : ℕ) [Fact p.Prime] [CharP k p] (hℓ : ℓ ≠ p)
   (X : B.Scheme) [IsNoetherian X.1] [ConnectedSpace X.1] (f : X.1 ⟶ Spec (.of k))
   [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [IsProper f] (d : ℕ)
   [SmoothOfRelativeDimension d f]
@@ -212,7 +212,7 @@ theorem LAdicSheaf.isCharpolyPureOfWeight_fieldExtensionComponent (τ : k' →�
   have : IsIso t := (isIso_iff_isOpenImmersion_and_surjective t).2 ⟨inferInstance, ⟨htsurj⟩⟩
   let h : U ⟶ X := cU ≫ fieldExtensionProj B X f k'
   have hth : h.hom = t := by
-    show c ≫ pullback.fst f (specAlgebraMap k k') = t
+    change c ≫ pullback.fst f (specAlgebraMap k k') = t
     rw [← ht, Category.assoc, hs, fieldExtensionSection_fst, Category.comp_id]
   have : IsIso h.hom := by rw [hth]; infer_instance
   have : ConnectedSpace U.1 :=
@@ -348,7 +348,7 @@ theorem LAdicSheaf.isCharpolyPureOfWeight_fieldExtensionClopen (S : Finset (k' �
     obtain ⟨hiZc, hZn⟩ : IsClosedImmersion (B.inclusion.map iZ) ∧ IsNoetherian Z.1 :=
       hcl VZ hVo.isClosed_compl
     have hij : Set.range (B.inclusion.map jU).base = (Set.range (B.inclusion.map iZ).base)ᶜ := by
-      show Set.range VU.ι = (Set.range VZ.ι)ᶜ
+      change Set.range VU.ι = (Set.range VZ.ι)ᶜ
       rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
       exact (compl_compl V).symm
     -- the sheaves on the two pieces and their towers
@@ -406,7 +406,7 @@ theorem LAdicSheaf.isCharpolyPureOfWeight_fieldExtensionClopen (S : Finset (k' �
           · intro z hz
             obtain ⟨w, hw⟩ := hsub hz
             have hwV : w ∈ VU := by
-              show c w ∈ Set.range s
+              change c w ∈ Set.range s
               rw [hw]
               exact hz
             refine ⟨⟨w, hwV⟩, ?_⟩
@@ -535,7 +535,7 @@ theorem LAdicSheaf.geometricComponentsPurityReductionInput :
   obtain ⟨m, hm⟩ := Nat.exists_eq_succ_of_ne_zero
     (Module.finrank_pos (R := k) (M := Γ(X.1, ⊤))).ne'
   have hg : X.1.toSpecΓ ≫ specAlgebraMap k Γ(X.1, ⊤) = f := by
-    show X.1.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
+    change X.1.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
       ← SpecMap_ΓSpecIso_hom, ← Spec.map_comp, Iso.inv_hom_id, Spec.map_id, Category.comp_id]
   have hgc : ∀ φ : Γ(X.1, ⊤) →+* kbar,

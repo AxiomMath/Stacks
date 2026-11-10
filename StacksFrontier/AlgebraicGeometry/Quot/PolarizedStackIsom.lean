@@ -537,7 +537,7 @@ theorem existsUnique_glue {x y : PolarizedFamily B} (hy : y.base = x.base) {I : 
   let g : x ⟶ y := ⟨eqToHom hy.symm, t, hcart, ⟨τ, τ', h₁, h₂⟩⟩
   refine ⟨g, ⟨rfl, fun i ↦ ?_⟩, ?_⟩
   · refine (comp_eq_iff (cx i) g (φ i ≫ cy i) ?_ (ht i)).2 (hτ i)
-    show (cx i).baseMap ≫ eqToHom hy.symm = (φ i).baseMap ≫ (cy i).baseMap
+    change (cx i).baseMap ≫ eqToHom hy.symm = (φ i).baseMap ≫ (cy i).baseMap
     exact (hb i).symm
   · rintro g' ⟨hg'b, hg'⟩
     have ht' : g'.totalMap = t := eq_of_comp_eq_of_mem_fpqcTopology _ hcx _ _ fun i ↦ by
@@ -723,7 +723,7 @@ theorem polarizedProjection_isomIsSheafFor {U : B.Schemes} (x y : PolarizedFamil
   have hfib : ∀ g' : x ⟶ y, g'.baseMap = eqToHom hy'.symm →
       Functor.FibreHom (polarizedProjection B) x y hx hy g' := fun g' h' ↦
     (Functor.fibreHom_iff hx hy g').2 (CategoryTheory.IsHomLift.of_fac' _ _ g' hx hy (by
-      show g'.baseMap = _
+      change g'.baseMap = _
       rw [h']
       simp only [Category.id_comp, eqToHom_trans]
       rfl))

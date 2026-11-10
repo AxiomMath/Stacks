@@ -54,7 +54,7 @@ theorem homEquiv'_mul_ofRepresentableBy {A : C} (F : Cᵒᵖ ⥤ GrpCat.{w})
     letI := GrpObj.ofRepresentableBy A F α
     α.homEquiv' (a * b) = α.homEquiv' a * α.homEquiv' b := by
   let := GrpObj.ofRepresentableBy A F α
-  show α.homEquiv' (lift a b ≫
+  change α.homEquiv' (lift a b ≫
     α.homEquiv'.symm (α.homEquiv' (fst A A) * α.homEquiv' (snd A A))) = _
   rw [α.homEquiv'_comp, Equiv.apply_symm_apply, map_mul, ← α.homEquiv'_comp,
     ← α.homEquiv'_comp, lift_fst, lift_snd]
@@ -66,7 +66,7 @@ theorem homEquiv'_one_ofRepresentableBy {A : C} (F : Cᵒᵖ ⥤ GrpCat.{w})
     letI := GrpObj.ofRepresentableBy A F α
     α.homEquiv' (1 : Y ⟶ A) = 1 := by
   let := GrpObj.ofRepresentableBy A F α
-  show α.homEquiv' (toUnit Y ≫ α.homEquiv'.symm 1) = 1
+  change α.homEquiv' (toUnit Y ≫ α.homEquiv'.symm 1) = 1
   rw [α.homEquiv'_comp, Equiv.apply_symm_apply, map_one]
 
 /-- **A morphism between representing objects which induces a homomorphism of the represented

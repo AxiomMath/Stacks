@@ -64,7 +64,7 @@ theorem differential_uniformizer_linearEquiv
   let c : (RingHom.ker (algebraMap R κ)).Cotangent :=
     Ideal.toCotangent _ ⟨s, hsI⟩
   have hc : c ≠ 0 := by
-    show Ideal.toCotangent _ _ ≠ 0
+    change Ideal.toCotangent _ _ ≠ 0
     intro hz
     apply uniformizer_cotangent_class_ne_zero_of_dimension_one s hs hdim
     simpa only [Ideal.toCotangent_eq_zero, hker] using hz

@@ -148,7 +148,7 @@ theorem pullbackComparison_coherence_of_square
   have sD := QuasiCoherentDescent.pullbackComparison_trans_inv B S hS r₂ φ' π' (φ' ≫ π') rfl
     a hb (a ≫ π') wk₂ rfl ((modulePullback B S hS g).obj E)
   simp only [Category.assoc]
-  rw [reassoc_of% sA, Iso.hom_inv_id_assoc, ← reassoc_of% sB, Iso.map_hom_inv_id_assoc,
+  rw [reassoc_of% sA, Iso.hom_inv_id_assoc, ← reassoc_of% sB, Iso.hom_inv_id_map_assoc,
     reassoc_of% sC, Iso.inv_hom_id, Category.comp_id, sD, Iso.hom_inv_id_assoc]
 
 
@@ -295,6 +295,7 @@ end Comparison
 section Geometry
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_PullbackMap {B : BigFppfSite.{u}} {S : Scheme.{u}}

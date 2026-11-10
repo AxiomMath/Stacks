@@ -122,7 +122,7 @@ variable {M : Type*} [AddCommGroup M] [Module R M]
 private theorem range_lsmul (a : R) :
     LinearMap.range (LinearMap.lsmul R M a) = a • (⊤ : Submodule R M) := by
   rw [LinearMap.range_eq_map, Submodule.pointwise_smul_def,
-    LinearMap.lsmul_eq_distribSMultoLinearMap]
+    LinearMap.lsmul_eq_distribSMulToLinearMap]
 
 private theorem map_lsmul_pow_smul_top (r : R) (k : ℕ) :
     (r • ⊤ : Submodule R M).map (LinearMap.lsmul R M (r ^ k)) = r ^ (k + 1) • ⊤ := by

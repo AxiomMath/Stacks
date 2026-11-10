@@ -90,10 +90,10 @@ lemma isContinuous_of_stabilizer {A : Type w} [AddCommGroup A] (ρ : Representat
     { carrier := {g | ρ g a = a}
       one_mem' := by simp
       mul_mem' := fun {x y} hx hy ↦ by
-        show ρ (x * y) a = a
+        change ρ (x * y) a = a
         rw [map_mul, Module.End.mul_apply, show ρ y a = a from hy, show ρ x a = a from hx]
       inv_mem' := fun {x} hx ↦ by
-        show ρ x⁻¹ a = a
+        change ρ x⁻¹ a = a
         conv_lhs => rw [← show ρ x a = a from hx]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] })
     (fun g hg ↦ hUa g hg) hU
@@ -188,7 +188,7 @@ lemma quotObj_exists_pow_smul_eq_zero {ℓ : ℕ} (hM : ∀ x : M.obj.obj.V, ∃
   | H m =>
     obtain ⟨k, hk⟩ := hM m
     refine ⟨k, ?_⟩
-    show ℓ ^ k • (QuotientAddGroup.mk m : M.obj.obj.V ⧸ A) = 0
+    change ℓ ^ k • (QuotientAddGroup.mk m : M.obj.obj.V ⧸ A) = 0
     rw [← QuotientAddGroup.mk_nsmul, hk, QuotientAddGroup.mk_zero]
 
 /-- The cardinality of a quotient. -/
@@ -206,7 +206,7 @@ def subQuotShortComplex : ShortComplex (ContinuousGModule.{v, w} G) :=
 theorem subQuotShortComplex_shortExact : (subQuotShortComplex M A hA).ShortExact :=
   shortExact_of_function_exact _ (subObjι_injective M A hA) (quotObjπ_surjective M A hA)
     fun m ↦ by
-      show (QuotientAddGroup.mk m : M.obj.obj.V ⧸ A) = 0 ↔
+      change (QuotientAddGroup.mk m : M.obj.obj.V ⧸ A) = 0 ↔
         m ∈ Set.range (Subtype.val : A → M.obj.obj.V)
       exact (QuotientAddGroup.eq_zero_iff (N := A) m).trans
         ⟨fun h ↦ ⟨⟨m, h⟩, rfl⟩, fun ⟨a, ha⟩ ↦ ha ▸ a.2⟩
@@ -331,7 +331,7 @@ theorem finite_generatedSubmodule [CompactSpace G] {T : Set M.obj.obj.V} (hT : T
     | neg y _ hy =>
       obtain ⟨n, hn, hny⟩ := hy
       exact ⟨n, hn, by rw [smul_neg, hny, neg_zero]⟩
-  refine AddCommGroup.finite_of_fg_torsion _ fun x ↦ ?_
+  refine AddCommGroup.finite_of_fg_isAddTorsion _ fun x ↦ ?_
   obtain ⟨n, hn, hnx⟩ := key x x.2
   exact isOfFinAddOrder_iff_nsmul_eq_zero.mpr ⟨n, hn, Subtype.ext hnx⟩
 

@@ -84,6 +84,7 @@ theorem finrank_homology_homModule_of_Q_iso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   rw [eH.toLinearEquiv.finrank_eq]
 
 set_option maxHeartbeats 1000000 in
+-- the proof elaborates many derived-category isomorphisms of sheaves of modules on étale charts
 /-- **A perfect complex whose geometric fibre has global sections in one degree only is free in
 that degree on an étale chart through the image of the point.** Let `E` be perfect on `X`, let
 `p` be a geometric point of an algebraic space, and let `c` be a morphism to `X` from the
@@ -115,7 +116,7 @@ theorem exists_pointsMap_mem_singleDegreeFreePoints_of_subsingleton
     representedSpaceMap B S hS N.point
   have hbm : bm ≫ chartToSpace B S hS X V = c := by
     refine InducedCategory.hom_ext (yonedaEquiv.injective ?_)
-    show yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
+    change yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
     exact N.point_comp
   have := hAb

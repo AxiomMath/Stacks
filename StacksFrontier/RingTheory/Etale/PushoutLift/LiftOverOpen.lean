@@ -113,8 +113,7 @@ theorem ext_of_map_eq_top (N : Ideal T) (hN : IsNilpotent N) {g₁ g₂ : G →�
     Algebra.TensorProduct.lift (Algebra.ofId T T) g fun _ _ => Commute.all _ _
   have hĝ : ĝ g₁ = ĝ g₂ := by
     refine Algebra.FormallyUnramified.ext (R := T) N hN fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul t y =>
       simp only [ĝ, Algebra.TensorProduct.lift_tmul, map_mul]
       rw [h y]

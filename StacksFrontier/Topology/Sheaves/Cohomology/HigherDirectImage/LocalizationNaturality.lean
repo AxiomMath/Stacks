@@ -123,7 +123,8 @@ Degree zero, proved below, needs none of them: the degree-zero normalizations
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 open RingedSpaceModuleAdjunction
-open Stacks.SheafOfModules (functorCompIsoOfLE isOpenEmbedding_inclusionOfLE restrictSheafOfModulesOfLE restrictSheafOfModulesOfLEIso restrictSheafOfRingsHomOfLE)
+open Stacks.SheafOfModules (functorCompIsoOfLE isOpenEmbedding_inclusionOfLE
+  restrictSheafOfModulesOfLE restrictSheafOfModulesOfLEIso restrictSheafOfRingsHomOfLE)
 
 universe u
 

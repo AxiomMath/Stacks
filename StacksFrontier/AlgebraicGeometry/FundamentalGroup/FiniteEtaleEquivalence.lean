@@ -124,7 +124,7 @@ theorem continuous_autMulEquivEtaleFundamentalGroup :
   let _tF (Y : FiniteEtaleOver X) : TopologicalSpace (F.obj Y) := ⊥
   let _dF (Y : FiniteEtaleOver X) : DiscreteTopology (F.obj Y) := ⟨rfl⟩
   let _tP (Y : FiniteEtaleOver X) : TopologicalSpace (Equiv.Perm (F.obj Y)) := autTopology
-  show @Continuous _ (EtaleFundamentalGroup X x) _
+  change @Continuous _ (EtaleFundamentalGroup X x) _
     (TopologicalSpace.induced (componentEmbedding F) inferInstance) _
   refine continuous_induced_rng.mpr (continuous_pi fun Y ↦ ?_)
   have key : (fun σ : Aut finF ↦ componentEmbedding F (autMulEquivEtaleFundamentalGroup X x σ) Y)

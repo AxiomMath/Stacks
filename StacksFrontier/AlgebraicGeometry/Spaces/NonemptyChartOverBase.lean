@@ -98,7 +98,7 @@ theorem yoneda_map_toTerminalHom_eq {X : (BigFppfOver B V hV)ᵒᵖ ⥤ Type u}
     yoneda.map (toTerminalHom B V hV T) = φ ≫ toYonedaId B V hV X := by
   ext Z s
   refine Over.OverMorphism.ext ?_
-  show Over.Hom.left (s ≫ toTerminalHom B V hV T) = (unop Z).hom
+  change Over.Hom.left (s ≫ toTerminalHom B V hV T) = (unop Z).hom
   rw [Over.comp_left]
   exact Over.w s
 

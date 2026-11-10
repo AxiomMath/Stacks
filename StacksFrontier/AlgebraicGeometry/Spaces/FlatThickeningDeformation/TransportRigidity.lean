@@ -50,7 +50,7 @@ theorem natTrans_eq_id_of_fullyFaithful (hF : F.FullyFaithful) (P : 𝒞)
     (hrigid : ∀ τ : 𝟭 𝒞 ⟶ 𝟭 𝒞, τ.app P = 𝟙 _ → τ = 𝟙 _) (α : F ⟶ F) (hα : α.app P = 𝟙 _) :
     α = 𝟙 _ := by
   have hτ := hrigid (natTransIdOfFullyFaithful hF α) (by
-    show hF.preimage (α.app P) = 𝟙 P
+    change hF.preimage (α.app P) = 𝟙 P
     rw [hα, hF.preimage_id])
   ext c
   have h := congrArg (fun τ : 𝟭 𝒞 ⟶ 𝟭 𝒞 => F.map (τ.app c)) hτ
@@ -79,6 +79,7 @@ theorem natTrans_app_eq_id_of_homEquiv (a a' : L.obj Y ⟶ M) (r : M ⟶ N) (hr 
     infer_instance
   exact (cancel_epi _).1 (hu.trans (Category.comp_id _).symm)
 
+omit [R.IsEquivalence] in
 /-- Adjuncts related by the identity natural transformation are equal. -/
 theorem eq_of_homEquiv_comp_id (a a' : L.obj Y ⟶ M) (α : R ⟶ R) (hα : α = 𝟙 _)
     (hc : adj.homEquiv _ _ a ≫ α.app M = adj.homEquiv _ _ a') : a = a' := by

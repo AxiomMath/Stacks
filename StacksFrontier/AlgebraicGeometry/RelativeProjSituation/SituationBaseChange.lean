@@ -150,7 +150,7 @@ public theorem gradedZeroRingHom_gradeZeroLinearEquiv {U V : s.base.Opens} (h : 
     (s.gradedRestrict h).gradedZeroRingHom (s.gradeZeroLinearEquiv V b)
       = s.gradeZeroLinearEquiv U ((s.pieceNat 0).presheaf.map (homOfLE h).op b) := by
   refine Subtype.ext ?_
-  show s.gradedRestrict h ((s.gradeZeroLinearEquiv V b : ↥(s.sectionRingGrading V 0)) :
+  change s.gradedRestrict h ((s.gradeZeroLinearEquiv V b : ↥(s.sectionRingGrading V 0)) :
       s.sectionRing V) = _
   rw [coe_gradeZeroLinearEquiv, gradedRestrict_of, coe_gradeZeroLinearEquiv]
 
@@ -234,7 +234,7 @@ public theorem irrelevant_le_map {U V : s.base.affineOpens} (h : U ≤ V) :
   refine hbc.inductionOn (motive := fun b => DirectSum.of (s.sectionPieces U.1) i b ∈
       (((s.chartGrading V)₊).map (s.gradedRestrict h)).toAddSubmonoid) a ?_ ?_ ?_
   · intro m
-    show DirectSum.of (s.sectionPieces U.1) i
+    change DirectSum.of (s.sectionPieces U.1) i
         ((s.pieceNat i).presheaf.map (homOfLE (show U.1 ≤ V.1 from h)).op m) ∈ _
     rw [← s.gradedRestrict_of h i m]
     exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem _ hi ⟨m, rfl⟩)

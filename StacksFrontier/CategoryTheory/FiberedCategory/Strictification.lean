@@ -120,8 +120,8 @@ of the category being tested: the objects of `SplitFiber p V` live in `max u₁ 
 
 **Base change of the chosen pullbacks.** The restriction maps of `SplitFiber` are built from
 `CategoryTheory.Functor.pullbackFiberMap` of
-`StacksFrontier/CategoryTheory/Sites/Descent/IsStack.lean` — the canonical morphism between the chosen
-pullbacks of one object along two morphisms of a slice — rather than from
+`StacksFrontier/CategoryTheory/Sites/Descent/IsStack.lean` — the canonical morphism between the
+chosen pullbacks of one object along two morphisms of a slice — rather than from
 `CategoryTheory.Functor.pullbackFiberCompIso`; every identity between canonical comparisons
 below is then proved from a single factorization through the chosen cartesian lifts, exactly as
 `CategoryTheory.Functor.morRestrict` (Stacks 026A) is. `SplitFiber.restrictHom` is the

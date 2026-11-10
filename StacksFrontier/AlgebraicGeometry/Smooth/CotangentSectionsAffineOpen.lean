@@ -108,7 +108,7 @@ isomorphism `AlgebraicGeometry.Scheme.Opens.topIso` between `Γ(X, U)` and `Γ(U
 theorem toPullbackSectionsHom_smul (b : Γ(X, U)) (s : Γ(cotangentSheaf f, U)) :
     toPullbackSectionsHom f (b • s)
       = (U.ι.appLE U ⊤ (le_of_eq U.ι_preimage_self.symm)).hom b • toPullbackSectionsHom f s := by
-  show ((pullbackCotangentSheaf f U.ι).presheaf.map
+  change ((pullbackCotangentSheaf f U.ι).presheaf.map
       (homOfLE (le_of_eq U.ι_preimage_self.symm)).op).hom
     ((pullbackCotangentUnitApp f U.ι U).hom (b • s)) = _
   rw [pullbackCotangentUnitApp_smul, Scheme.Modules.map_smul]
@@ -221,7 +221,7 @@ theorem existsUnique_linearMap_comp_universalD (hU : IsAffineOpen U) (hV : IsAff
     Module.compHom M (U.topIso.hom.hom : Γ((U : Scheme.{u}),
       (⊤ : (U : Scheme.{u}).Opens)) →+* Γ(X, U))
   have hM : ∀ (r : Γ(X, U)) (m : M), r • m = ρ r • m := fun r m ↦ by
-    show r • m = U.topIso.hom.hom (U.topIso.inv.hom r) • m
+    change r • m = U.topIso.hom.hom (U.topIso.inv.hom r) • m
     rw [← CommRingCat.comp_apply, U.topIso.inv_hom_id]
     rfl
   have hρ : ∀ r : Γ(X, U),
@@ -260,7 +260,7 @@ theorem bijective_cotangentSectionsMap (hU : IsAffineOpen U) (hV : IsAffineOpen 
     (KaehlerDifferential.D Γ(S, V) Γ(X, U)).leibniz
   have hleft : θ ∘ₗ cotangentSectionsMap f hUV = LinearMap.id := by
     refine kaehlerDifferential_linearMap_ext _ _ fun b ↦ ?_
-    show θ (cotangentSectionsMap f hUV (KaehlerDifferential.D Γ(S, V) Γ(X, U) b)) = _
+    change θ (cotangentSectionsMap f hUV (KaehlerDifferential.D Γ(S, V) Γ(X, U) b)) = _
     rw [cotangentSectionsMap_D f hUV b, hθ b]
     rfl
   have hright : cotangentSectionsMap f hUV ∘ₗ θ = LinearMap.id := by
@@ -268,7 +268,7 @@ theorem bijective_cotangentSectionsMap (hU : IsAffineOpen U) (hV : IsAffineOpen 
       Γ(cotangentSheaf f, U) (universalD f U) (fun x y ↦ map_add _ x y)
       (universalD_appLE f U hUV) (universalD_mul f U)
     refine (huniq _ fun b ↦ ?_).trans (huniq _ fun _ ↦ rfl).symm
-    show cotangentSectionsMap f hUV (θ (universalD f U b)) = universalD f U b
+    change cotangentSectionsMap f hUV (θ (universalD f U b)) = universalD f U b
     rw [hθ b, cotangentSectionsMap_D f hUV b]
   exact ⟨Function.LeftInverse.injective (g := θ) fun x ↦ LinearMap.congr_fun hleft x,
     fun y ↦ ⟨θ y, LinearMap.congr_fun hright y⟩⟩

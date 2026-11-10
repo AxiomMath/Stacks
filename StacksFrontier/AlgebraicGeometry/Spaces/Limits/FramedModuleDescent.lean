@@ -80,7 +80,7 @@ variable {I : Type u} [Category.{u} I] [IsCofiltered I]
 
 include hSize hHomSize hQc hQs in
 /-- A finite family of regular functions on base changes to the limit comes from one stage. -/
-theorem exists_common_stage {ι : Type} [Fintype ι] (T : ι → SmallEtale B S hS (D.obj j))
+theorem exists_common_stage {ι : Type} [Finite ι] (T : ι → SmallEtale B S hS (D.obj j))
     (hTqc : ∀ i, IsQuasiCompactSpace B S hS (yoneda.obj (T i).obj.left))
     (hTqs : ∀ i, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T i).obj.left))
     (y : ∀ i, Γ((BigFppfOver.toScheme B S hS).obj
@@ -88,6 +88,7 @@ theorem exists_common_stage {ι : Type} [Fintype ι] (T : ι → SmallEtale B S 
     ∃ (s : Over j) (x : ∀ i, Γ((BigFppfOver.toScheme B S hS).obj
         (laterStageChart B S hS D hD hAffine (T i) s).obj.left, ⊤)),
       ∀ i, gpb (limToStage B S hS D hSize hHomSize hD hAffine (T i) s) (x i) = y i := by
+  have := Fintype.ofFinite ι
   choose s₀ x₀ hx₀ using fun i => exists_gpb_limToStage_eq B S hS D hSize hHomSize hD hAffine
     (T i) hZ hQc hQs (hTqc i) (hTqs i) (y i)
   obtain ⟨c⟩ := IsCofiltered.cone_nonempty (Discrete.functor s₀)
@@ -99,7 +100,7 @@ theorem exists_common_stage {ι : Type} [Fintype ι] (T : ι → SmallEtale B S 
 include hSize hHomSize hQc hQs in
 /-- A finite family of equations between regular functions on base changes to a stage, holding
 on the base changes to the limit, holds at a later stage. -/
-theorem exists_common_stage_eq {ι : Type} [Fintype ι] [DecidableEq ι]
+theorem exists_common_stage_eq {ι : Type} [Finite ι]
     (T : ι → SmallEtale B S hS (D.obj j))
     (hTqc : ∀ i, IsQuasiCompactSpace B S hS (yoneda.obj (T i).obj.left))
     (hTqs : ∀ i, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T i).obj.left)) {s : Over j}
@@ -110,6 +111,8 @@ theorem exists_common_stage_eq {ι : Type} [Fintype ι] [DecidableEq ι]
     ∃ (s' : Over j) (d : s' ⟶ s), ∀ i,
       gpb (stageToStage B S hS D hD hAffine (T i) d) (x₁ i) =
         gpb (stageToStage B S hS D hD hAffine (T i) d) (x₂ i) := by
+  classical
+  have := Fintype.ofFinite ι
   choose s₀ d₀ hd₀ using fun i => exists_gpb_stageToStage_eq B S hS D hSize hHomSize hD hAffine
     (T i) hZ hQc hQs (hTqc i) (hTqs i) (x₁ i) (x₂ i) (h i)
   obtain ⟨c⟩ := IsCofiltered.cone_nonempty (WidePullbackShape.wideCospan s s₀ d₀)
@@ -120,7 +123,7 @@ theorem exists_common_stage_eq {ι : Type} [Fintype ι] [DecidableEq ι]
 include hSize hHomSize hQc hQs in
 /-- A finite family of matrices of regular functions on base changes to the limit comes from one
 stage. -/
-theorem exists_common_stage_matrix {K : Type} [Fintype K] (n : K → ℕ)
+theorem exists_common_stage_matrix {K : Type} [Finite K] (n : K → ℕ)
     (T : K → K → SmallEtale B S hS (D.obj j))
     (hTqc : ∀ k l, IsQuasiCompactSpace B S hS (yoneda.obj (T k l).obj.left))
     (hTqs : ∀ k l, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T k l).obj.left))
@@ -139,8 +142,8 @@ include hSize hHomSize hQc hQs in
 /-- A finite family of equations between regular functions on base changes to a stage, indexed
 over a finite family of charts, holding on the base changes to the limit, holds at a later
 stage. -/
-theorem exists_common_stage_eq_family {ι : Type} [Fintype ι] [DecidableEq ι] (κ : ι → Type)
-    [∀ i, Fintype (κ i)] [∀ i, DecidableEq (κ i)] (T : ι → SmallEtale B S hS (D.obj j))
+theorem exists_common_stage_eq_family {ι : Type} [Finite ι] (κ : ι → Type)
+    [∀ i, Finite (κ i)] (T : ι → SmallEtale B S hS (D.obj j))
     (hTqc : ∀ i, IsQuasiCompactSpace B S hS (yoneda.obj (T i).obj.left))
     (hTqs : ∀ i, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T i).obj.left)) {s : Over j}
     (x₁ x₂ : ∀ i, κ i → Γ((BigFppfOver.toScheme B S hS).obj
@@ -158,8 +161,8 @@ theorem exists_common_stage_eq_family {ι : Type} [Fintype ι] [DecidableEq ι] 
 include hSize hHomSize hQc hQs in
 /-- `AlgebraicGeometry.Space.exists_common_stage_eq_family` for a family of charts indexed by
 triples. -/
-theorem exists_common_stage_eq_triple {K : Type} [Fintype K] [DecidableEq K]
-    (κ : K → K → K → Type) [∀ k l m, Fintype (κ k l m)] [∀ k l m, DecidableEq (κ k l m)]
+theorem exists_common_stage_eq_triple {K : Type} [Finite K]
+    (κ : K → K → K → Type) [∀ k l m, Finite (κ k l m)]
     (T : K → K → K → SmallEtale B S hS (D.obj j))
     (hTqc : ∀ k l m, IsQuasiCompactSpace B S hS (yoneda.obj (T k l m).obj.left))
     (hTqs : ∀ k l m, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (T k l m).obj.left))
@@ -723,7 +726,7 @@ theorem trans_stageToLim_eq_coord_restrict {s₂ : Over j} (k l : K) (a : Fin (n
     stageToLim_naturality_sbs B S hS D hSize hHomSize hD hAffine (T := (SmallEtale.prodObj B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l))) (SmallEtale.prodFst B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l)) s₂
-  show (he k).coord _ _ a = (he k).coord _ _ a
+  change (he k).coord _ _ a = (he k).coord _ _ a
   rw [res_stageToLim_prodSnd B S hS D hSize hHomSize hD hAffine W E k l b, e3]
 
 /-- The coordinates of the frames of `E`, restricted to the base changes of a later stage, are the
@@ -1068,10 +1071,10 @@ theorem nonempty_iso_stageGlueModule (hW : PointsCover W)
   have H := stageGlueModule_hcoord B S hS D hSize hHomSize hD hAffine W d x E he hx hU hC k l a b
   convert H using 3
 
-omit [DecidableEq K] in
+omit [Fintype K] [DecidableEq K] in
 include hZ hQc hQs in
 /-- **A module with frames on the base changes of finitely many charts descends to a stage.** -/
-theorem exists_stage_model_of_frames
+theorem exists_stage_model_of_frames [Finite K]
     (hWqc : ∀ k, IsQuasiCompactSpace B S hS (yoneda.obj (W k).obj.left))
     (hWqs : ∀ k, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (W k).obj.left))
     (hW : PointsCover W)
@@ -1087,6 +1090,7 @@ theorem exists_stage_model_of_frames
       Nonempty (E ≅ (modulePullback B S hS
         (limitProjection B S hS D hSize hHomSize hD hAffine s.left)).obj M) := by
   classical
+  have := Fintype.ofFinite K
   have hPqc : ∀ k l, IsQuasiCompactSpace B S hS
       (yoneda.obj (SmallEtale.prodObj B S hS (stageAlgebraicSpace B S hS D hD j).1 (W k) (W
           l)).obj.left) := fun k l =>

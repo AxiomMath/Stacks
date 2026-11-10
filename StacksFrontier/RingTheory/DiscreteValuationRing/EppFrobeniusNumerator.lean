@@ -888,7 +888,8 @@ residue. What the Frobenius-numerator lemmas of this file produce is a `p ^ N`-t
 more, and this records the one-line descent between them: `y ^ (p ^ (N - 1))` is the `p`-th root,
 provided `1 ≤ N`.
 
-**This does not remove the need for an iteration.** The two hypotheses `hmin` and `hy` are about the *same* representative `ξ`, and for
+**This does not remove the need for an iteration.** The two hypotheses `hmin` and `hy` are about
+the *same* representative `ξ`, and for
 an `F_p`-combination of the members' parameters no theorem produces both at once. Minimality is not
 inherited by combinations: in characteristic `2`, both `π⁻³` and `π⁻³ + π⁻²` have pole order `3`,
 prime to `p`, hence minimal, while their sum `π⁻²` has pole order `2` and is *not* minimal — the

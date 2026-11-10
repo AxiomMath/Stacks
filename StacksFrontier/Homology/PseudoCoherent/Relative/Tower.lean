@@ -393,7 +393,7 @@ private theorem isZero_tensorSingle_summand {R : Type u} [CommRing R] (N : Modul
   have hz : Limits.IsZero
       (((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N).X i₁) :=
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N i₁ h
-  show Limits.IsZero (((curriedTensor (ModuleCat.{u} R)).obj
+  change Limits.IsZero (((curriedTensor (ModuleCat.{u} R)).obj
       (((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N).X i₁)).obj (C.X i₂))
   rw [ModuleCat.isZero_iff_subsingleton] at hz ⊢
   exact (Unique.instSubsingleton : Subsingleton (TensorProduct R
@@ -510,10 +510,10 @@ private theorem tensorSingleXIso_hom_comm {R : Type u} [CommRing R] (N : ModuleC
     have hrel2 : (ComplexShape.up ℤ).Rel i₂ (i₂+1) := by change i₂+1 = i₂+1; ring
     have hπ1 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ)+1, i₂) = i₂+1 := by
-      show (1:ℤ) + i₂ = i₂+1; ring
+      change (1:ℤ) + i₂ = i₂+1; ring
     have hπ2 :
         (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) ((0:ℤ), i₂+1) = i₂+1 := by
-      show (0:ℤ) + (i₂+1) = i₂+1; ring
+      change (0:ℤ) + (i₂+1) = i₂+1; ring
     rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
         HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,
         HomologicalComplex.mapBifunctor.d₁_eq _ _ _ _ hrel1 i₂ (i₂+1) hπ1,
@@ -692,7 +692,7 @@ private lemma derivedExtensionScalars_comp_obj
   let : Algebra R A := f.toAlgebra
   have : ∀ i, Projective (PA.X i) := fun i ↦ by
     have := hP i
-    show Projective (ModuleCat.of A (TensorProduct R A (P.X i)))
+    change Projective (ModuleCat.of A (TensorProduct R A (P.X i)))
     infer_instance
   let Df := derivedExtensionScalarsGeneral.{u, u, u} f
   let Dg := derivedExtensionScalarsGeneral.{u, u, u} g
@@ -836,7 +836,7 @@ private lemma polynomialTensorPresentation_comp_includeRight
           (A := MvPolynomial (Fin k) R) (B := A)).toRingHom = algebraMap A B := by
   apply RingHom.ext
   intro a
-  show β ((MvPolynomial.algebraTensorAlgEquiv (σ := Fin k) R A)
+  change β ((MvPolynomial.algebraTensorAlgEquiv (σ := Fin k) R A)
     (algebraMap A (A ⊗[R] MvPolynomial (Fin k) R) a)) = _
   rw [AlgEquiv.commutes]
   exact β.commutes a
@@ -897,7 +897,7 @@ private lemma isRelativelyPseudoCoherentFrom_derivedExtensionScalars_polynomialT
   have : IsScalarTower R R' B := IsScalarTower.of_algebraMap_eq' (by
     apply RingHom.ext
     intro r
-    show algebraMap R B r = g (algebraMap R' C (algebraMap R R' r))
+    change algebraMap R B r = g (algebraMap R' C (algebraMap R R' r))
     rw [← IsScalarTower.algebraMap_apply R R' C, g.commutes])
   have : Algebra.FiniteType R' B := Algebra.FiniteType.of_surjective g' hg
   exact isRelativelyPseudoCoherentFrom_of_polynomial_base (R := R) (B := B) k _ m

@@ -88,15 +88,15 @@ variable {J}
 /-- The colimit injection of the element into the fibre of a presheaf is an isomorphism. -/
 theorem isIso_ι_fiber {A : Type*} [Category A] [HasColimitsOfSize.{u, u} A]
     (F : Pt.{u}ᵒᵖ ⥤ A) :
-    IsIso (colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ F) (op ptElement)) :=
+    IsIso (colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ F) (op ptElement)) :=
   isIso_ι_of_isTerminal elementsOpTerminal _
 
 /-- The colimit injection of the element into the fibre is natural in the presheaf. -/
 theorem ι_presheafFiber_map {A : Type*} [Category A] [HasColimitsOfSize.{u, u} A]
     {F G : Pt.{u}ᵒᵖ ⥤ A} (f : F ⟶ G) :
-    colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ F) (op ptElement) ≫
+    colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ F) (op ptElement) ≫
         (point J hJ).presheafFiber.map f =
-      f.app (op pt) ≫ colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ G) (op ptElement) :=
+      f.app (op pt) ≫ colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ G) (op ptElement) :=
   colimit.ι_map _ _
 
 /-- The point of the site of the point is conservative. -/
@@ -128,15 +128,15 @@ theorem isFlatMap_of_flat_app {O O' : Sheaf J CommRingCat.{u}} (g : O ⟶ O')
   have h2 := isIso_ι_fiber O'.obj
   have hsq := ι_presheafFiber_map hJ g.hom
   have e : (point J hJ).presheafFiber.map g.hom =
-      @inv _ _ _ _ (colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ O.obj) (op ptElement)) h1 ≫
+      @inv _ _ _ _ (colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ O.obj) (op ptElement)) h1 ≫
         g.hom.app (op pt) ≫
-          colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ O'.obj) (op ptElement) :=
+          colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ O'.obj) (op ptElement) :=
     (@IsIso.eq_inv_comp _ _ _ _ _ _ h1 _ _).2 hsq
   rw [e]
   refine RingHom.Flat.comp (RingHom.Flat.of_bijective ?_) (RingHom.Flat.comp hg
     (RingHom.Flat.of_bijective ?_))
   · exact (ConcreteCategory.bijective_of_isIso
-      (@inv _ _ _ _ (colimit.ι ((CategoryOfElements.π ptFiber.{u}).op ⋙ O.obj) (op ptElement)) h1))
+      (@inv _ _ _ _ (colimit.ι ((Functor.Elements.π ptFiber.{u}).op ⋙ O.obj) (op ptElement)) h1))
   · exact @ConcreteCategory.bijective_of_isIso _ _ _ _ _ _ _ _ _ h2
 
 omit hJ in

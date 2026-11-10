@@ -258,7 +258,7 @@ theorem rationallyEquivalent_finsum_of_closedSupports (p : X ⟶ C.S)
     (hβ : ∀ x : X, β.1 x = ∑ᶠ i : I,
       (properPushforward C ((T i).subschemeι ≫ p) p (T i).subschemeι rfl k (b i)).1 x) :
     RationallyEquivalent C p k α β := by
-  show IsRationallyEquivalentToZero C p k (α - β)
+  change IsRationallyEquivalentToZero C p k (α - β)
   refine rationallyEquivalentToZero_finsum_of_closedSupports C p k T hT (fun i ↦ a i - b i)
     (fun i ↦ hab i) fun x ↦ ?_
   have hfin (c : ∀ i, CycleGroup C ((T i).subschemeι ≫ p) k) : (Function.support fun i : I ↦

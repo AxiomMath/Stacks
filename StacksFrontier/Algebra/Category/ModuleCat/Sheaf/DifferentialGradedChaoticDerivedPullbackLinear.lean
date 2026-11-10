@@ -114,7 +114,7 @@ theorem pullbackSectionsMap_scalarEnd (r : R) (M : DifferentialGradedModule.{u, 
   have key : (pullbackSectionsMap φ (toRingCatScalarEnd A r M) U').toFun.toAddMonoidHom =
       DistribSMul.toAddMonoidHom _ (A'.sectionScalarOp U' (constSection U' r)) := by
     refine tensorObj_addHom_ext_homogeneous _ _ _ _ fun p q x y => ?_
-    show (pullbackSectionsMap φ (toRingCatScalarEnd A r M) U').toFun (pullbackPure φ M U' x y) =
+    change (pullbackSectionsMap φ (toRingCatScalarEnd A r M) U').toFun (pullbackPure φ M U' x y) =
       A'.sectionScalarOp U' (constSection U' r) • pullbackPure φ M U' x y
     refine (pullbackSectionsMap_pure φ _ U' x.1 y.1).trans ?_
     refine (congrArg (fun w => pullbackPure φ M U' w y.1) (sectionMap_scalarEnd r M _ x.1)).trans ?_

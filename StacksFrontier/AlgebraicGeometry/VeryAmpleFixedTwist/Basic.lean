@@ -14,8 +14,8 @@ and `L` with `S` quasi-compact, `f` of finite type and `L` relatively ample for 
 `N ⊗ L^{⊗ d}` is relatively very ample for `f` for every sufficiently large `d`.
 
 **This is not a corollary of Stacks Tag 01VU**, which is proved in
-`StacksFrontier/AlgebraicGeometry/VeryAmplePowersQuasiCompactBase/Basic.lean`: that tag produces very
-ampleness of the *powers of one module*, and no amount of it reaches a fixed twist by `N`. The
+`StacksFrontier/AlgebraicGeometry/VeryAmplePowersQuasiCompactBase/Basic.lean`: that tag produces
+very ampleness of the *powers of one module*, and no amount of it reaches a fixed twist by `N`. The
 source's proof needs two further inputs, and this file supplies both rather than assuming them.
 
 * **A very ample module tensored with a globally generated one is very ample.** This is the
@@ -128,8 +128,8 @@ Written against the source's own proof:
 
 **The Segre embedding is not used, and the twist never travels along one.** The source's sentence
 "`i` is the composition … and the second morphism is the Segre embedding" is replaced by the chart
-computation of `StacksFrontier/AlgebraicGeometry/ProductFamilyRatio/Basic.lean`: being an immersion is
-Zariski local on the target, the charts of the product family cover `X`, and on the chart at
+computation of `StacksFrontier/AlgebraicGeometry/ProductFamilyRatio/Basic.lean`: being an immersion
+is Zariski local on the target, the charts of the product family cover `X`, and on the chart at
 `T_{αβ}` the restriction of the product-family morphism composed with the *linear projection*
 `Stacks.ProductFamilyRatio.chartProj`, `T_{α'} ↦ T_{α'β}`, is the restriction of the first
 family's morphism, which is an immersion; `AlgebraicGeometry.IsImmersion.of_comp` finishes. The

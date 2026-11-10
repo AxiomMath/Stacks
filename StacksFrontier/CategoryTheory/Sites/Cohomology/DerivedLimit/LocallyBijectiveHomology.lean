@@ -88,7 +88,7 @@ lemma CofinalCoveringSystem.exists_cov_arrows_mem
     (Cov : Stacks.Cohomology.CofinalCoveringSystem J V) (R : Sieve V) (hR : R ∈ J V) :
     ∃ 𝒰, Cov.cov 𝒰 ∧ ∀ i, R (𝒰.f i) := by
   have h : R.arrows.preZeroHypercover.sieve₀ = R := by
-    show Sieve.generate R.arrows.preZeroHypercover.presieve₀ = R
+    change Sieve.generate R.arrows.preZeroHypercover.presieve₀ = R
     simp
   obtain ⟨𝒰, h𝒰, ⟨f⟩⟩ := Cov.cofinal R.arrows.preZeroHypercover (by rw [h]; exact hR)
   exact ⟨𝒰, h𝒰, fun i => h ▸ f.sieve₀_le_sieve₀ _ (𝒰.sieve₀_f i)⟩
@@ -231,7 +231,7 @@ theorem w_of_cofinal_local_isomorphisms
     have := (J.W_iff_isLocallyBijective τ).1 hτ |>.1
     have heq : τ.app (.op V) (ψ.app (.op V) x') =
         τ.app (.op V) (ψ.app (.op V) y') := by
-      show (ψ ≫ τ).app _ x' = (ψ ≫ τ).app _ y'
+      change (ψ ≫ τ).app _ x' = (ψ ≫ τ).app _ y'
       simpa only [hfac] using hxy'
     refine mem_of_forall_cov_arrows_mem (Cov V (h𝒱B k))
       (Presheaf.equalizerSieve_mem J τ (ψ.app (.op V) x') (ψ.app (.op V) y') heq) _ ?_
@@ -260,7 +260,7 @@ theorem w_of_cofinal_local_isomorphisms
     obtain ⟨x, hx⟩ := (ConcreteCategory.bijective_of_isIso (ψ.app (.op (𝒰.X i)))).2 z
     refine ⟨x, ?_⟩
     rw [← hfac]
-    show τ.app _ (ψ.app _ x) = _
+    change τ.app _ (ψ.app _ x) = _
     rw [hx]
     exact hz
 

@@ -391,7 +391,7 @@ ring and every fibre ring `κ(𝔭) ⊗_R S` is a normal ring, then `S` is a nor
   `IsIntegrallyClosed` condition on `Localization.AtPrime 𝔮` that tags 030C(1), 031S and 033G \
   write out, and the fibre hypothesis is normality, not geometric normality. Mathlib has neither \
   a normal-ring predicate nor this ascent. See the module docstring.", ega "IV 6.5.4"
-    "(ii), affine case", ega "IV 6.5.4" "(ii), affine case"]
+    "(ii), affine case"]
 public theorem isNormalRing_of_flat_of_isNormalRing_fiber {R : Type u} {S : Type v} [CommRing R]
     [CommRing S] [Algebra R S] [IsNoetherianRing R] [IsNoetherianRing S] [Module.Flat R S]
     (hR : IsNormalRing R) (hfibre : ∀ (p : Ideal R) [p.IsPrime], IsNormalRing (p.Fiber S)) :

@@ -84,15 +84,15 @@ public theorem proj_algebraMap (hf : f ∈ 𝒜 d) (r : A) (i : ℕ) :
     rw [GradedRing.proj_apply]
     by_cases hji : j = i
     · subst hji
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact DirectSum.decompose_of_mem_same _ hmem
-    · rw [if_neg hji]
+    · rw [ite_eq_right hji]
       exact DirectSum.decompose_of_mem_ne _ hmem (by exact_mod_cast hji)
   rw [map_eq_sum_map_decompose 𝒜 (algebraMap A (Localization.Away f)) r, map_sum,
     Finset.sum_eq_single i]
-  · rw [← GradedRing.proj_apply, hcomp i, if_pos rfl]
+  · rw [← GradedRing.proj_apply, hcomp i, ite_eq_left rfl]
   · intro j _ hji
-    rw [← GradedRing.proj_apply, hcomp j, if_neg hji]
+    rw [← GradedRing.proj_apply, hcomp j, ite_eq_right hji]
   · intro hi
     simp only [DFinsupp.mem_support_toFun, ne_eq, not_not] at hi
     rw [hi]
@@ -199,12 +199,12 @@ public def gradedPrimesEquivBasicOpen (hf : f ∈ 𝒜 d) (hd : 0 < d) :
     projToGradedPrime 𝒜 hf p.1 ((ProjectiveSpectrum.mem_basicOpen 𝒜 f p.1).mp p.2)
   left_inv q := by
     refine Subtype.ext (PrimeSpectrum.ext ?_)
-    have h := IsLocalization.map_comap (Submonoid.powers f) (Localization.Away f) q.val.asIdeal
+    have h := IsLocalization.map_under (Submonoid.powers f) (Localization.Away f) q.val.asIdeal
     rwa [Ideal.under_def] at h
   right_inv p := by
     refine Subtype.ext (ProjectiveSpectrum.ext (HomogeneousIdeal.toIdeal_injective ?_))
     have hp : f ∉ p.1.asHomogeneousIdeal := (ProjectiveSpectrum.mem_basicOpen 𝒜 f p.1).mp p.2
-    have h := IsLocalization.comap_map_of_isPrime_disjoint (Submonoid.powers f)
+    have h := IsLocalization.under_map_of_isPrime_disjoint (Submonoid.powers f)
       (Localization.Away f) p.1.isPrime (disjoint_powers 𝒜 p.1 hp)
     rwa [Ideal.under_def] at h
 
@@ -225,7 +225,7 @@ public def gradedPrimesHomeoBasicOpen (hf : f ∈ 𝒜 d) (hd : 0 < d) :
   toEquiv := gradedPrimesEquivBasicOpen 𝒜 hf hd
   continuous_toFun := by
     rw [((Proj.isInducing_toSpec 𝒜).comp Topology.IsInducing.subtypeVal).continuous_iff]
-    show Continuous ((Proj.toSpec 𝒜 ∘ Subtype.val) ∘ ⇑(gradedPrimesEquivBasicOpen 𝒜 hf hd))
+    change Continuous ((Proj.toSpec 𝒜 ∘ Subtype.val) ∘ ⇑(gradedPrimesEquivBasicOpen 𝒜 hf hd))
     rw [toSpec_comp_equiv 𝒜 hf hd]
     exact (PrimeSpectrum.continuous_comap _).comp continuous_subtype_val
   continuous_invFun := by
@@ -235,7 +235,7 @@ public def gradedPrimesHomeoBasicOpen (hf : f ∈ 𝒜 d) (hd : 0 < d) :
       ((PrimeSpectrum.localization_away_isOpenEmbedding
         (Localization.Away f) f).isEmbedding.isInducing).comp Topology.IsInducing.subtypeVal
     rw [hind.continuous_iff]
-    show Continuous ((PrimeSpectrum.comap (algebraMap A (Localization.Away f)) ∘
+    change Continuous ((PrimeSpectrum.comap (algebraMap A (Localization.Away f)) ∘
       (Subtype.val : gradedPrimes (twistAway 𝒜 f d) → _)) ∘
       ⇑(gradedPrimesEquivBasicOpen 𝒜 hf hd).symm)
     have hcomp : (PrimeSpectrum.comap (algebraMap A (Localization.Away f)) ∘

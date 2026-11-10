@@ -366,7 +366,7 @@ theorem towerEquiv_comp (m : ℕ) {X : Scheme.{u}} (E : X.Modules)
     · have := mono_kernelMapAlong E g₁ hg₁f
       have := mono_pullback_map_arrow k (Subobject.mk (kernelMapAlong E g₁ hg₁f)) 1
         ((rank_cokernel_mk_iff _ 1).mpr (rank_cokernel_kernelMapAlong E g₁ hg₁f))
-      show Subobject.mk (kernelMapAlong E ((k ≫ g.1) ≫ (kernelTower m E).2) hb') =
+      change Subobject.mk (kernelMapAlong E ((k ≫ g.1) ≫ (kernelTower m E).2) hb') =
         Subobject.mk ((Scheme.Modules.pullback k).map
             (Subobject.mk (kernelMapAlong E g₁ hg₁f)).arrow ≫
           ((Scheme.Modules.pullbackComp k f).app E ≪≫
@@ -386,7 +386,7 @@ theorem towerEquiv_comp (m : ℕ) {X : Scheme.{u}} (E : X.Modules)
       have := mono_pullback_map_arrow k (F.sub i) _ (F.rank i)
       have := mono_pullback_map_arrow k ((Subobject.map (kernelMapAlong E g₁ hg₁f)).obj (F.sub i))
         _ (Flag.rank_map _ (rank_cokernel_kernelMapAlong E g₁ hg₁f) F i)
-      show (Subobject.map (kernelMapAlong E _ hb')).obj
+      change (Subobject.map (kernelMapAlong E _ hb')).obj
           ((@towerEquiv m _ (kernel (bundleTautological E))
             (isFiniteLocallyFree_kernel_bundleTautological E) _ ((k ≫ g.1) ≫ (kernelTower m E).2)
             ⟨k ≫ g.1, rfl⟩).sub i) =
@@ -395,7 +395,7 @@ theorem towerEquiv_comp (m : ℕ) {X : Scheme.{u}} (E : X.Modules)
           ((Scheme.Modules.pullbackComp k f).app E ≪≫
             (Scheme.Modules.pullbackCongr hf').app E).symm.inv)
       rw [hih]
-      show (Subobject.map (kernelMapAlong E _ hb')).obj (Subobject.mk
+      change (Subobject.map (kernelMapAlong E _ hb')).obj (Subobject.mk
           ((Scheme.Modules.pullback k).map (F.sub i).arrow ≫
             ((Scheme.Modules.pullbackComp k g₁).app _ ≪≫
               (Scheme.Modules.pullbackCongr hc).app _).symm.inv)) = _

@@ -68,7 +68,8 @@ differential. `Tot(K ⊗_O L)` is `Stacks.SheafOfModules.Tensor.tensorComplex`, 
   the
 sheafified tensor product used by the K-flatness predicate of Tag 06Y9 and by Tag 06YM; it is
 the monoidal product of `Comp(Mod(O))` on the nose, which is `tensorComplex_eq`. The tensor
-product of a pair of morphisms is written as the tagged statement writes it, as the composite of the two
+product of a pair of morphisms is written as the tagged statement writes it, as the composite of the
+two
 one-variable maps of `Stacks.SheafOfModules.Tensor.tensorComplex`.
 
 The statement is proved for a ringed site and then specialized to a ringed space, which is

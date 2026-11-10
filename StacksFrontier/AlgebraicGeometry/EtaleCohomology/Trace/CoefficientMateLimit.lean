@@ -61,7 +61,7 @@ theorem coefficientMate_unit (Gf : A ⥤ B) [J.HasSheafCompose Gf] [K.HasSheafCo
     (sheafCompose J Gf).map (adjA.unit.app c) =
       adjB.unit.app ((sheafCompose J Gf).obj c) ≫
         (uf.sheafPushforwardContinuous B J K).map
-          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c) :=
+          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).app c) :=
   (Category.comp_id _).symm.trans (unit_mateEquiv_symm adjA adjB
     (TwoSquare.mk (uf.sheafPushforwardContinuous A J K) (sheafCompose K Gf) (sheafCompose J Gf)
       (uf.sheafPushforwardContinuous B J K) (𝟙 _)) c)
@@ -71,8 +71,8 @@ theorem sheafComposeCoefficientMate_naturality {Gf Gf' : A ⥤ B} [J.HasSheafCom
     [K.HasSheafCompose Gf] [J.HasSheafCompose Gf'] [K.HasSheafCompose Gf'] (τ : Gf ⟶ Gf')
     (c : Sheaf J A) :
     LB.map ((sheafCompose_map J τ).app c) ≫
-        (sheafComposeCoefficientMate uf J K adjA adjB Gf').natTrans.app c =
-      (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c ≫
+        (sheafComposeCoefficientMate uf J K adjA adjB Gf').app c =
+      (sheafComposeCoefficientMate uf J K adjA adjB Gf).app c ≫
         (sheafCompose_map K τ).app (LA.obj c) := by
   apply (adjB.homEquiv _ _).injective
   simp only [Adjunction.homEquiv_unit, Functor.map_comp]
@@ -128,11 +128,11 @@ theorem isIso_coefficientMate_of_isLimit {I : Type*} [SmallCategory I] [FinCateg
     [J.HasSheafCompose Gf] [K.HasSheafCompose Gf]
     [∀ i, J.HasSheafCompose (F.obj i)] [∀ i, K.HasSheafCompose (F.obj i)]
     [PreservesFiniteLimits LB]
-    (hF : ∀ i, IsIso (sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).natTrans) :
-    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans := by
+    (hF : ∀ i, IsIso (sheafComposeCoefficientMate uf J K adjA adjB (F.obj i))) :
+    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
-  have hF' : ∀ i, IsIso ((sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).natTrans.app c) :=
+  have hF' : ∀ i, IsIso ((sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).app c) :=
     fun i => by have := hF i; infer_instance
   have h₁ := isLimitSheafComposeCone (L := K) F Gf κ hκ (LA.obj c)
   have h₂ : IsLimit (LB.mapCone (sheafComposeCone (L := J) F Gf κ c)) :=
@@ -140,12 +140,12 @@ theorem isIso_coefficientMate_of_isLimit {I : Type*} [SmallCategory I] [FinCateg
   let e : sheafComposeDiagram (L := J) F c ⋙ LB ≅ sheafComposeDiagram (L := K) F (LA.obj c) :=
     NatIso.ofComponents
       (fun i => @asIso _ _ _ _
-        ((sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).natTrans.app c) (hF' i))
+        ((sheafComposeCoefficientMate uf J K adjA adjB (F.obj i)).app c) (hF' i))
       (fun f => sheafComposeCoefficientMate_naturality uf J K adjA adjB (F.map f) c)
   have h₃ := (IsLimit.postcomposeHomEquiv e _).symm h₂
   let φ : (Cone.postcompose e.hom).obj (LB.mapCone (sheafComposeCone F Gf κ c)) ⟶
       sheafComposeCone F Gf κ (LA.obj c) :=
-    { hom := (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c
+    { hom := (sheafComposeCoefficientMate uf J K adjA adjB Gf).app c
       w i := by
         dsimp [sheafComposeCone, e]
         exact (sheafComposeCoefficientMate_naturality uf J K adjA adjB

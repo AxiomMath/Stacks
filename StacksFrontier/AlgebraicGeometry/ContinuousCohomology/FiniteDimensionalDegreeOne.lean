@@ -319,7 +319,7 @@ theorem cocyclesToExt_surjective :
     congrArg (fun z : ModuleCat.Hom _ _ => z.hom x) (p.hom.hom.comm g)
   let δ : G → E.obj.obj.V := fun g => rep k G E g e - e
   have hqδ (g : G) : q (δ g) = 0 := by
-    show q (rep k G E g e - e) = 0
+    change q (rep k G E g e - e) = 0
     rw [map_sub, hqAction g e, sub_self]
   let f : G → V.obj.obj.V := fun g => Classical.choose ((hexact (δ g)).mp (hqδ g))
   have hjf (g : G) : j (f g) = δ g := Classical.choose_spec ((hexact (δ g)).mp (hqδ g))
@@ -328,7 +328,7 @@ theorem cocyclesToExt_surjective :
     apply hj
     calc j (f (g * h)) = δ (g * h) := hjf _
       _ = rep k G E g (δ h) + δ g := by
-        show rep k G E (g * h) e - e
+        change rep k G E (g * h) e - e
           = rep k G E g (rep k G E h e - e) + (rep k G E g e - e)
         simp only [map_mul, Module.End.mul_eq_comp, LinearMap.comp_apply, map_sub]
         module
@@ -351,7 +351,7 @@ theorem cocyclesToExt_surjective :
       map_add' x y := add_smul _ _ _
       map_smul' c x := mul_smul _ _ _ }
   have hs (x : K.obj.obj.V) : q (s x) = x := by
-    show q (x.down • e) = x
+    change q (x.down • e) = x
     rw [map_smul, he0]
     exact ULift.ext (mul_one x.down)
   have hqPart (x : E.obj.obj.V) : q (x - s (q x)) = 0 := by
@@ -376,7 +376,7 @@ theorem cocyclesToExt_surjective :
     calc j (vpart (rep k G E g x)) = rep k G E g x - s (q (rep k G E g x)) := hvpart _
       _ = rep k G E g x - s (q x) := by rw [hqAction]
       _ = rep k G E g (x - s (q x)) + (q x).down • δ g := by
-        show rep k G E g x - (q x).down • e
+        change rep k G E g x - (q x).down • e
           = rep k G E g (x - (q x).down • e) + (q x).down • (rep k G E g e - e)
         simp only [map_sub, map_smul]
         module
@@ -388,18 +388,18 @@ theorem cocyclesToExt_surjective :
           { toFun x := (vpart x, (q x).down • cf)
             map_add' x y := by
               refine Prod.ext (hvadd x y) ?_
-              show (q (x + y)).down • cf = (q x).down • cf + (q y).down • cf
+              change (q (x + y)).down • cf = (q x).down • cf + (q y).down • cf
               rw [map_add]
               exact add_smul _ _ _
             map_smul' c x := by
               refine Prod.ext (hvsmul c x) ?_
-              show (q (c • x)).down • cf = c • ((q x).down • cf)
+              change (q (c • x)).down • cf = c • ((q x).down • cf)
               rw [map_smul]
               exact mul_smul _ _ _ }
         comm := fun g => ModuleCat.hom_ext (LinearMap.ext fun x => Prod.ext (by
-          show vpart (rep k G E g x) = rep k G V g (vpart x) + (q x).down • f g
+          change vpart (rep k G E g x) = rep k G V g (vpart x) + (q x).down • f g
           rw [hvAction]) (by
-          show (q (rep k G E g x)).down • cf = (q x).down • cf
+          change (q (rep k G E g x)).down • cf = (q x).down • cf
           rw [hqAction])) })
   have hqj (x : V.obj.obj.V) : q (j x) = 0 := (hexact (j x)).mpr ⟨x, rfl⟩
   have hvj (x : V.obj.obj.V) : vpart (j x) = x := by
@@ -410,7 +410,7 @@ theorem cocyclesToExt_surjective :
     apply ObjectProperty.hom_ext
     apply Action.hom_ext
     refine ModuleCat.hom_ext (LinearMap.ext fun x => Prod.ext (hvj x) ?_)
-    show (q (j x)).down • cf = 0
+    change (q (j x)).down • cf = 0
     rw [show (q (j x)).down = 0 from congrArg ULift.down (hqj x), zero_smul]
   have hProj : u ≫ cocyclesExtensionπ.{u, v, w} V = p ≫ cocyclesToHom.{u, v, w} V cf := by
     apply ObjectProperty.hom_ext

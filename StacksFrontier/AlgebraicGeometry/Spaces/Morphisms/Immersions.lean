@@ -299,7 +299,7 @@ theorem isSeparated_of_comp (g : Z ⟶ Y) (f : Y ⟶ X)
   have _ : P.presheaf.IsStableUnderBaseChange :=
     MorphismProperty.relative_isStableUnderBaseChange P
   change IsClosedImmersion B S hS (pullback.diagonal (g ≫ f)) at hgf
-  show IsClosedImmersion B S hS (pullback.diagonal g)
+  change IsClosedImmersion B S hS (pullback.diagonal g)
   exact MorphismProperty.of_isPullback (pullback.diagonal_comp_isPullback g f) hgf
 
 /-! ### Monomorphisms -/

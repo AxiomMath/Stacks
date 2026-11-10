@@ -111,7 +111,7 @@ public theorem underlying_isFlasque
       (F := ⟨((SheafOfModules.toSheaf R).obj I).obj,
         ((SheafOfModules.toSheaf R).obj I).property⟩) := by
   refine ⟨fun {U V} i ↦ (AddCommGrpCat.epi_iff_surjective _).2 ?_⟩
-  show Function.Surjective (I.val.presheaf.map i)
+  change Function.Surjective (I.val.presheaf.map i)
   have h : unop V ≤ unop U := leOfHom i.unop
   rw [Subsingleton.elim i (homOfLE h).op]
   exact Stacks.Cohomology.InjectiveRestriction.injective_restriction_surjective R I h

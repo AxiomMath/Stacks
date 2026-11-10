@@ -68,11 +68,11 @@ theorem smooth_toScheme_obj_hom_of_isSmooth {V U : BigFppfOver B S hS}
     have := IsHomLift.fac' (Over.forget U) (𝟙 V) c
     simp only [Category.id_comp, eqToHom_trans] at this
     exact this
-  show Smooth ((BigFppfOver.toScheme B S hS).map (h.hom.hom.obj (Over.mk (𝟙 V))).hom)
+  change Smooth ((BigFppfOver.toScheme B S hS).map (h.hom.hom.obj (Over.mk (𝟙 V))).hom)
   rw [← Over.w c, hfac]
   have : Smooth ((BigFppfOver.toScheme B S hS).map
       ((schemeFibredCategoryMap B S hS q).hom.obj (Over.mk (𝟙 V))).hom) := by
-    show Smooth ((BigFppfOver.toScheme B S hS).map (𝟙 V ≫ q))
+    change Smooth ((BigFppfOver.toScheme B S hS).map (𝟙 V ≫ q))
     rwa [Category.id_comp]
   simp only [Functor.map_comp, eqToHom_map]
   infer_instance

@@ -320,7 +320,7 @@ public theorem not_preservesMonomorphisms_toBigFppfOver
   let : Algebra baseField perfectField := inclusion.toAlgebra
   have hcontains : ∀ (R : Type u) [CommRing R] [Countable R], B.Contains (Spec (.of R)) :=
     fun R _ _ => by
-      show (Spec (.of R)).size < B.cutoff
+      change (Spec (.of R)).size < B.cutoff
       rw [Scheme.size_Spec]
       exact max_lt B.aleph0_lt_cutoff
         (Cardinal.mk_le_aleph0.trans_lt B.aleph0_lt_cutoff)
@@ -329,12 +329,12 @@ public theorem not_preservesMonomorphisms_toBigFppfOver
   let baseObject : LocallyNoetherianOver B (Spec (.of (ULift.{u} (ZMod p)))) hS :=
     ⟨Over.mk (Y := B.obj (hcontains baseField)) (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom baseMap))), by
-        show IsLocallyNoetherian (Spec (.of baseField))
+        change IsLocallyNoetherian (Spec (.of baseField))
         infer_instance⟩
   let perfectObject : LocallyNoetherianOver B (Spec (.of (ULift.{u} (ZMod p)))) hS :=
     ⟨Over.mk (Y := B.obj (hcontains perfectField)) (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom perfectMap))), by
-        show IsLocallyNoetherian (Spec (.of perfectField))
+        change IsLocallyNoetherian (Spec (.of perfectField))
         infer_instance⟩
   let morphism : perfectObject ⟶ baseObject := ObjectProperty.homMk
     (Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom inclusion))) (by
@@ -355,7 +355,7 @@ public theorem not_preservesMonomorphisms_toBigFppfOver
   let := hbigmono
   let tensorRing := perfectField ⊗[baseField] perfectField
   let : Countable tensorRing := by
-    show Countable (Quotient (addConGen
+    change Countable (Quotient (addConGen
       (TensorProduct.Eqv baseField perfectField perfectField)).toSetoid)
     infer_instance
   let firstRing : perfectField →+* tensorRing :=
@@ -380,7 +380,7 @@ public theorem not_preservesMonomorphisms_toBigFppfOver
   let second : tensorObject ⟶ perfectObject.obj :=
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom secondRing))) (by
       apply ObjectProperty.hom_ext
-      show Spec.map (CommRingCat.ofHom secondRing) ≫
+      change Spec.map (CommRingCat.ofHom secondRing) ≫
         Spec.map (CommRingCat.ofHom perfectMap) =
         Spec.map (CommRingCat.ofHom tensorMap)
       rw [← Spec.map_comp]
@@ -389,7 +389,7 @@ public theorem not_preservesMonomorphisms_toBigFppfOver
   have hcomp : first ≫ morphism.hom = second ≫ morphism.hom := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom firstRing) ≫ Spec.map (CommRingCat.ofHom inclusion) =
+    change Spec.map (CommRingCat.ofHom firstRing) ≫ Spec.map (CommRingCat.ofHom inclusion) =
       Spec.map (CommRingCat.ofHom secondRing) ≫ Spec.map (CommRingCat.ofHom inclusion)
     rw [← Spec.map_comp, ← Spec.map_comp]
     exact congrArg Spec.map (CommRingCat.hom_ext hcoprojections)

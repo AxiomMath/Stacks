@@ -162,7 +162,7 @@ theorem isOpen_rankFibreLocus (hf : UniversallyClosed B S hS f.hom)
     isClosedMap_pointsMap_of_pullback_fst_id B S hS f.hom (hf Y.1 Y.2 (𝟙 Y.1))
   have e : rankFibreLocus f E r = (pointsMap B S hS X.1 f.hom '' (rankLocus E r)ᶜ)ᶜ := by
     ext y
-    simp only [rankFibreLocus, Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_image, not_exists,
+    simp only [rankFibreLocus, Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_image, not_exists,
       not_and]
     exact ⟨fun h x hx hxy => hx (h x hxy), fun h x hxy => by_contra fun hx => h x hx hxy⟩
   rw [e]

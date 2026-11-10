@@ -54,7 +54,8 @@ step from "`st ≠ 0`" to "`st` is a unit" is `isUnit_of_ne_zero` below, which i
 *Duality.* `DualityVanishing` is duality for `X` ([Stacks, Tag 0BS4], with the dualizing sheaf of
 [Stacks, Tag 0BS2] and the identification `ω_X^∙ = ω_X[1]` of [Stacks, Tag 0BS3]) in exactly the
 form the proof consumes: for an invertible `ℒ`, `H⁰(X, ℒ^{⊗ -1}) = 0` implies
-`H¹(X, ω_X ⊗ ℒ) = 0`. None of those three tags is formalized in this library, and there is no dualizing sheaf for a proper curve over a field anywhere in the library.
+`H¹(X, ω_X ⊗ ℒ) = 0`. None of those three tags is formalized in this library, and there is no
+dualizing sheaf for a proper curve over a field anywhere in the library.
 The dualizing sheaf therefore appears as an unconstrained module `ω`, with duality for it as the
 hypothesis; the statement says nothing about `ω` beyond what duality gives.
 
@@ -117,7 +118,7 @@ public theorem isUnit_of_ne_zero (a : Γ(S.X, ⊤)) (ha : a ≠ 0) : IsUnit a :=
   let φ : S.k →+* Γ(S.X, ⊤) := g.hom
   let ψ : Γ(S.X, ⊤) →+* S.k := (inv g).hom
   have hφψ : φ (ψ a) = a := by
-    show ((inv g) ≫ g).hom a = a
+    change ((inv g) ≫ g).hom a = a
     rw [IsIso.inv_hom_id]
     rfl
   have hne : ψ a ≠ 0 := fun h => ha (by rw [← hφψ, h, map_zero])

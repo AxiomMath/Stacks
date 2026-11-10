@@ -95,7 +95,7 @@ theorem openSubspacesOrderIso_symm_preimage_of_hom {X Y : (BigFppfOver B S hS)�
     apply (openSubspacesOrderIso B S hS Y hY).injective
     rw [OrderIso.apply_symm_apply]
     apply TopologicalSpace.Opens.ext
-    show pointsMap B S hS Y f ⁻¹' W =
+    change pointsMap B S hS Y f ⁻¹' W =
       Set.range (pointsMap B S hS (G.1.preimage f).toFunctor (G.1.preimage f).ι)
     rw [range_pointsMap_preimage_ι, hGr]
   rw [this]
@@ -153,7 +153,7 @@ theorem exists_eds_represented (hVaff : IsAffineSpace B S hS Ve)
     ObjectProperty.isoMk _ isoS
   let isoBig : V' ≅ openObj B S hS V₀ O := Over.isoMk isoB (by
     apply ObjectProperty.hom_ext
-    show isoS.hom ≫ O.ι ≫ V₀.hom.hom = V'.hom.hom
+    change isoS.hom ≫ O.ι ≫ V₀.hom.hom = V'.hom.hom
     rw [← Category.assoc, hS₁]
     exact congrArg (fun φ => φ.hom) (Over.w j))
   have hisoBig : isoBig.hom ≫ openIncl B S hS V₀ O = j := by
@@ -172,10 +172,10 @@ theorem exists_eds_represented (hVaff : IsAffineSpace B S hS Ve)
   have := compactSpace_of_isQuasiCompactSpace_yoneda_obj B S hS
     (isQuasiCompactSpace_of_iso B S hS (isoP ≪≫ e.symm) hUVqc)
   refine ⟨V₀, hV₀, O, ?_, eV, eI, ?_⟩
-  · show IsCompact (Set.range ((BigFppfOver.toScheme B S hS).map j).base)
+  · change IsCompact (Set.range ((BigFppfOver.toScheme B S hS).map j).base)
     exact isCompact_range ((BigFppfOver.toScheme B S hS).map j).base.hom.continuous
   · apply ObjectProperty.hom_ext
-    show (isoP.hom ≫ e.inv ≫ yoneda.map isoBig.hom) ≫ yoneda.map (openIncl B S hS V₀ O) =
+    change (isoP.hom ≫ e.inv ≫ yoneda.map isoBig.hom) ≫ yoneda.map (openIncl B S hS V₀ O) =
       pullback.snd Uo.ι fV ≫ e₀.hom
     rw [Category.assoc, Category.assoc, ← Functor.map_comp, hisoBig, ← he, Iso.inv_hom_id_assoc,
       hP]

@@ -251,7 +251,7 @@ public theorem rid_mem_shiftedGrading {S : Type u} {σ : Type w} [CommRing S] [S
   · simp
   have h := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := 𝒨) hn' hm
   rw [show (q + a).toNat +ᵥ p = i + a from by
-    show ((q + a).toNat : ℤ) + p = i + a
+    change ((q + a).toNat : ℤ) + p = i + a
     omega] at h
   exact h
 

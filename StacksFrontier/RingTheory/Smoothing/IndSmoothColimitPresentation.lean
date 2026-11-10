@@ -178,7 +178,7 @@ theorem exists_colimitPresentation_smooth_of_indSmooth (R C Λ : Type u) [CommRi
   let t : (Functor.const (Under j₀)).obj (CommRingCat.of C) ⟶ Under.forget j₀ ⋙ D :=
     { app := fun k ↦ q ≫ D.map k.hom
       naturality := fun k l a ↦ by
-        show 𝟙 _ ≫ q ≫ D.map l.hom = (q ≫ D.map k.hom) ≫ D.map a.right
+        change 𝟙 _ ≫ q ≫ D.map l.hom = (q ≫ D.map k.hom) ≫ D.map a.right
         rw [Category.id_comp, Category.assoc, ← Functor.map_comp, Under.w a] }
   have hp : ∀ k : Under j₀,
       t.app k ≫ c'.ι.app k = CommRingCat.ofHom (algebraMap C Λ) :=

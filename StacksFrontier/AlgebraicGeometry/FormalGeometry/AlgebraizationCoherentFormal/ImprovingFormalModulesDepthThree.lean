@@ -55,7 +55,7 @@ live; the infinite values are retained, and the source's inequality holds rather
 truncated when either is infinite.
 
 The statements below are for an inverse system of coherent `𝒪_U`-modules, which is the shape in
-which `StacksFrontier/AlgebraicGeometry/FormalGeometry/AlgebraizationCoherentFormal/ImprovingFormalModulesDepthTwo.lean` carries Tag 0EJF; an object of
+which `ImprovingFormalModulesDepthTwo.lean` (in this directory) carries Tag 0EJF; an object of
 `Coh(U, I𝒪_U)` has such an underlying system, so this covers the source's hypothesis on
 `(ℱₙ)`.
 

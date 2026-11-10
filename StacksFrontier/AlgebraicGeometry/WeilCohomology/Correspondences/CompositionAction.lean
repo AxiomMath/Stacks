@@ -66,8 +66,7 @@ variable (C : ChowSituation.{u}) {X : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFin
 theorem baseChange_chowGroupDegreeEquiv_self {n : ℤ} (h : n = n)
     (x : TensorProduct ℤ ℚ (chowGroup C sX n)) :
     (chowGroupDegreeEquiv C sX h).toIntLinearEquiv.baseChange ℤ ℚ _ _ x = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q y => rfl
   | add x y hx hy => rw [map_add, hx, hy]
 

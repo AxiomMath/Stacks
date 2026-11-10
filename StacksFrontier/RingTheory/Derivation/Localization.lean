@@ -136,7 +136,7 @@ theorem algHom_locDeriv {T : Submonoid A} (D : Derivation ℤ A A) (L N : Type*)
   have h : (IsScalarTower.toAlgHom L L N).toLinearMap.compDer (locDeriv D S L) =
       Derivation.compAlgebraMap (R := ℤ) L (locDeriv D T N) := by
     refine derivation_ext_of_algebraMap_of_tower (S := S) _ _ fun a => ?_
-    show algebraMap L N (locDeriv D S L (algebraMap A L a)) =
+    change algebraMap L N (locDeriv D S L (algebraMap A L a)) =
       locDeriv D T N (algebraMap L N (algebraMap A L a))
     rw [locDeriv_algebraMap]
     simp only [← IsScalarTower.algebraMap_apply]

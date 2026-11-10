@@ -56,7 +56,7 @@ theorem comap_algebraMap_residueField (p : PrimeSpectrum R)
     q.comap (algebraMap R p.asIdeal.ResidueField) = p := by
   ext x
   have hq : q.asIdeal = ⊥ := Ideal.eq_bot_of_prime q.asIdeal
-  show algebraMap R p.asIdeal.ResidueField x ∈ q.asIdeal ↔ x ∈ p.asIdeal
+  change algebraMap R p.asIdeal.ResidueField x ∈ q.asIdeal ↔ x ∈ p.asIdeal
   rw [hq, Ideal.mem_bot, ← RingHom.mem_ker, Ideal.ker_algebraMap_residueField]
 
 /-- A complex concentrated in degrees `[a, b]` is zero outside `[a, b]`. -/

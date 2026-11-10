@@ -115,7 +115,7 @@ theorem properPushforward_meromorphicDivisorCycle (C : ChowSituation.{u}) {X Y :
     RingHom.algebraMap_toAlgebra _
   set hL' : ∀ x : X, IsTrivializedNear ((Scheme.Modules.pullback p).obj L) x :=
     fun x => (hL (p.base x)).pullback
-  show properPushforward C sX sY p hp (n - 1)
+  change properPushforward C sX sY p hp (n - 1)
       (meromorphicDivisorCycle C sX hnX hL' (genericStalkPullback p L s)).val =
     (Module.finrank Y.functionField X.functionField : ℤ) •
       (meromorphicDivisorCycle C sY hnY hL s).val

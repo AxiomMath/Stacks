@@ -107,7 +107,7 @@ public theorem shiftedInverseSequenceTransition_refl (X : Functor ℕᵒᵖ C) {
 public theorem shiftedInverseSequence_map (X : Functor ℕᵒᵖ C) (c : ℕ) {m n : ℕ} (h : n ≤ m)
     (h' : n + c ≤ m + c) :
     (shiftedInverseSequence X c).map (opHomOfLE h) = X.map (opHomOfLE h') := by
-  show X.map ((inverseSequenceShift c).map (opHomOfLE h)) = _
+  change X.map ((inverseSequenceShift c).map (opHomOfLE h)) = _
   exact inverseSequence_map_eq X _ _
 
 namespace StrictProHomRep
@@ -250,7 +250,7 @@ public theorem comp_equivalent_comp_left {f f' : StrictProHomRep X Y} (g : Stric
     (show (f.comp g).shift ≤ g.shift + d from Nat.add_le_add_left hf g.shift)
     (show (f'.comp g).shift ≤ g.shift + d from Nat.add_le_add_left hf' g.shift)
     (N := N) (fun n hn => ?_)
-  show X.map (opHomOfLE (show n + (g.shift + f.shift) ≤ n + (g.shift + d) by omega)) ≫
+  change X.map (opHomOfLE (show n + (g.shift + f.shift) ≤ n + (g.shift + d) by omega)) ≫
       (f.comp g).hom.app (op n) =
     X.map (opHomOfLE (show n + (g.shift + f'.shift) ≤ n + (g.shift + d) by omega)) ≫
       (f'.comp g).hom.app (op n)
@@ -270,7 +270,7 @@ public theorem comp_equivalent_comp_right (f : StrictProHomRep X Y)
     (show (f.comp g).shift ≤ d + f.shift from Nat.add_le_add_right hg f.shift)
     (show (f.comp g').shift ≤ d + f.shift from Nat.add_le_add_right hg' f.shift)
     (N := N) (fun n hn => ?_)
-  show X.map (opHomOfLE (show n + (g.shift + f.shift) ≤ n + (d + f.shift) by omega)) ≫
+  change X.map (opHomOfLE (show n + (g.shift + f.shift) ≤ n + (d + f.shift) by omega)) ≫
       (f.comp g).hom.app (op n) =
     X.map (opHomOfLE (show n + (g'.shift + f.shift) ≤ n + (d + f.shift) by omega)) ≫
       (f.comp g').hom.app (op n)
@@ -331,7 +331,7 @@ public theorem map_comp3 (f : StrictProHomRep X Y) (g : StrictProHomRep Y Z)
   have hrfl : n + h.shift + (g.shift + f.shift) ≤ n + h.shift + (g.shift + f.shift) :=
     Nat.le_refl _
   refine (map_comp_hom_app (f.comp g) h n e (g.shift + f.shift) he hb hbe).trans ?_
-  show X.map (opHomOfLE hbe) ≫ (X.map (opHomOfLE hrfl) ≫
+  change X.map (opHomOfLE hbe) ≫ (X.map (opHomOfLE hrfl) ≫
       (f.comp g).hom.app (op (n + h.shift))) ≫ h.hom.app (op n) = _
   rw [comp_hom_app f g (n + h.shift)]
   simp only [Category.assoc]
@@ -352,7 +352,7 @@ public theorem map_comp3' (f : StrictProHomRep X Y) (g : StrictProHomRep Y Z)
   have hYrfl : n + (h.shift + g.shift) ≤ n + (h.shift + g.shift) := Nat.le_refl _
   have hnat := map_hom_app_comm f hmg hmgf
   refine (map_comp_hom_app' f (g.comp h) n e (h.shift + g.shift) he le_rfl hbe).trans ?_
-  show X.map (opHomOfLE hbe) ≫ f.hom.app (op (n + (h.shift + g.shift))) ≫
+  change X.map (opHomOfLE hbe) ≫ f.hom.app (op (n + (h.shift + g.shift))) ≫
       Y.map (opHomOfLE hYrfl) ≫ (g.comp h).hom.app (op n) = _
   rw [comp_hom_app g h n,
     map_opHomOfLE_comp Y hYrfl (le_of_eq (Nat.add_assoc n h.shift g.shift)) hmg,

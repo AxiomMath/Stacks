@@ -52,7 +52,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w})
   (h𝒪 : Presheaf.IsSheaf J (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪))
 
-omit [UnivLE.{max v u, w}] in
+omit [UnivLE.{max v u, w}] [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The tensor product of two finite presentations is finite. -/
 theorem tensorPresentation_isFinite
     {F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)}
@@ -64,9 +64,9 @@ theorem tensorPresentation_isFinite
   let _ : Finite Q.generators.I := hQ.isFiniteType_generators.finite
   let _ : Finite Q.relations.I := hQ.isFiniteType_relations.finite
   refine ⟨⟨?_⟩, ⟨?_⟩⟩
-  · show Finite (P.generators.I × Q.generators.I)
+  · change Finite (P.generators.I × Q.generators.I)
     infer_instance
-  · show Finite ((P.relations.I × Q.generators.I) ⊕ (P.generators.I × Q.relations.I))
+  · change Finite ((P.relations.I × Q.generators.I) ⊕ (P.generators.I × Q.relations.I))
     infer_instance
 
 end Stacks.SheafOfModules.TensorProduct

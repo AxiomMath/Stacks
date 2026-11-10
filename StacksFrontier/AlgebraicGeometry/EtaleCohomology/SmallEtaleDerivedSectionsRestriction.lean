@@ -243,7 +243,7 @@ theorem mapHomotopyCategoryOfComp_smallEtaleGlobalSectionsRestrictionAb_app
           (smallEtalePushforwardAbGlobalSectionsIso c) (.up ℤ)).hom.app
             (((smallEtalePullbackAb c).mapHomotopyCategory (.up ℤ)).obj J) := by
   rw [Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_app]
-  show _ = ((Sheaf.Γ (smallEtaleTopology Z) Ab.{u + 1}).mapHomotopyCategory (.up ℤ)).map
+  change _ = ((Sheaf.Γ (smallEtaleTopology Z) Ab.{u + 1}).mapHomotopyCategory (.up ℤ)).map
       ((HomotopyCategory.quotient _ _).map
         (((smallEtaleAdjunctionAb c).mapHomologicalComplexAdjunction
           (ComplexShape.up ℤ)).unit.app J.as)) ≫

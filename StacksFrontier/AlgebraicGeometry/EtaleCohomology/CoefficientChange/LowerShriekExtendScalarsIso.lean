@@ -143,7 +143,7 @@ theorem coefficientSheafComplexMap_comp_coefficientSheafComplexIso (Z : Scheme.{
         Z).hom =
       etaleModuleConstantSheafQInv Λ₁ Z N ≫
         (etaleModuleDerivedConstantSheaf.{u, r} Λ₁ Z).map (DerivedCategory.Q.map q) := by
-  show DerivedCategory.Q.map
+  change DerivedCategory.Q.map
       (((etaleModuleConstantSheafFunctor.{u, r} Λ₁ Z).mapHomologicalComplex
       (ComplexShape.up ℤ)).map q ≫
         (HomologicalComplex.singleMapHomologicalComplex

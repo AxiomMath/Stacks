@@ -213,7 +213,8 @@ variable (K : Subobject ((structureSheafQuotSituation f hf).baseChangeModule
   (κ : (K : Modules.{u, u} B S hS
       ((structureSheafQuotSituation f hf).space (structureSheafTestScheme T)).1
       ((structureSheafQuotSituation f hf).space (structureSheafTestScheme T)).2) ≅
-    (definingIdealSheaf B S hS (baseChangeSpace f (structureSheafTestScheme T)) Zd).toSheafOfModules)
+    (definingIdealSheaf B S hS (baseChangeSpace f (structureSheafTestScheme T))
+      Zd).toSheafOfModules)
 
 /-- The image under `g^*` of the arrow of a subobject identified with the defining ideal sheaf,
 split along that identification. -/

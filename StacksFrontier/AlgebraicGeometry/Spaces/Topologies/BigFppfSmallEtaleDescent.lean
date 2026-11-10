@@ -51,6 +51,7 @@ variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) (E : BigEtaleSpaceSite S)
   (h : T.schemeSite = E.fppfSite)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs more heartbeats
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfSmallEtaleDescent
@@ -59,6 +60,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfSmal
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site needs more heartbeats
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_bigFppfSmallEtaleDescent :

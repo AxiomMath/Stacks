@@ -86,6 +86,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hV : IsAlgebraicSpace B S hS V) (hW : IsAlgebraicSpace B S hS W)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ExcisionDiagonalCovering :
@@ -156,7 +157,7 @@ theorem isOpenSubspace_diagPair (b : Bool) : IsOpenSubspace B S hS (diagPair B S
 
 /-! ### The two pieces identified -/
 
-include hV hW hf hsep in
+include hV hW hf in
 /-- **The diagonal part of the fibre square is the range of the relative diagonal.** Both are
 open subspaces with the same point set. -/
 theorem diagOpen_eq_range :
@@ -170,7 +171,6 @@ theorem diagOpen_eq_range :
     (isAlgebraicSpace_pullback_self B S hS f hV hW) hopen, diagOpen, diagPoints,
     range_pointsMap_ι_range B S hS (pullback.diagonal f)]
 
-include hV hW hf hsep in
 /-- **The complementary part of the fibre square is the open complement of the range of the
 relative diagonal.** -/
 theorem offDiagOpen_eq_openComplement :
@@ -225,7 +225,7 @@ theorem isFppfCovering_diagPair_preimage :
 
 /-! ### The two one-sided conclusions -/
 
-include hV hW hf hsep in
+include hV hW hf in
 /-- **On the diagonal piece the two projections of the fibre square agree.** -/
 theorem diagPreimage_comp_fst_eq_snd :
     ((diagOpen B S hS f).preimage κ).ι ≫ κ ≫ pullback.fst f f =
@@ -236,7 +236,7 @@ theorem diagPreimage_comp_fst_eq_snd :
     ((diagOpen B S hS f).fromPreimage_ι κ).symm
   have hrange : (diagOpen B S hS f).ι ≫ pullback.fst f f =
       (diagOpen B S hS f).ι ≫ pullback.snd f f := by
-    rw [diagOpen_eq_range B S hS f hV hW hf hsep]
+    rw [diagOpen_eq_range B S hS f hV hW hf]
     have h : (asIso (Subfunctor.toRange (pullback.diagonal f))).inv ≫ pullback.diagonal f =
         (Subfunctor.range (pullback.diagonal f)).ι :=
       (asIso (Subfunctor.toRange (pullback.diagonal f))).inv_comp_eq.2
@@ -247,7 +247,7 @@ theorem diagPreimage_comp_fst_eq_snd :
 
 variable (T : Subfunctor W) (hT : IsIso (T.fromPreimage f))
 
-include hV hW hf hsep hT in
+include hT in
 /-- **The step `U ×_W T = ∅` of the proof of Stacks 0BGY.** On the complementary piece the
 composite to `W` lands in the open complement of `T`: a restriction of a section of that piece
 whose image in `W` lies in `T` lands in the range of the diagonal, hence lies over an empty
@@ -263,7 +263,7 @@ theorem range_offDiagPreimage_le_openComplement :
   intro A' a ha
   have hz : κ.app A (((offDiagOpen B S hS f).preimage κ).ι.app A z) ∈
       (openComplement B S hS (Subfunctor.range (pullback.diagonal f))).obj A := by
-    rw [← offDiagOpen_eq_openComplement B S hS f hV hW hf hsep]
+    rw [← offDiagOpen_eq_openComplement B S hS f]
     exact z.2
   refine hz A' a ?_
   refine hdiag A' ?_

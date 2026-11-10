@@ -270,7 +270,7 @@ theorem exists_isAffineOpen_chartLinearForm_eq_one
       (Stacks.SheafOfModules.bijective_smul_of_tensorPairing_eq_unitSection ψ U
         (Q.q.app U s) w hw W hWU).surjective
   refine ⟨W, hWU, hxW, hW, e₀.trans (LinearEquiv.smulOfUnit u⁻¹), ?_⟩
-  show (u⁻¹ : Γ(X, W)ˣ) • e₀ (Q.q.app W (E.val.map (homOfLE hWU).op s)) = 1
+  change (u⁻¹ : Γ(X, W)ˣ) • e₀ (Q.q.app W (E.val.map (homOfLE hWU).op s)) = 1
   rw [← hu]
   exact u.inv_mul
 

@@ -92,7 +92,7 @@ theorem Comparison.comm_degreeOne : Φ.map ≫ 𝒩'.surjectionDegreeOne =
       Stacks.Conormal.canonicalPullbackHomOne i' i g h sq.w.symm := by
   have hD := Stacks.Immersion.immersionConormalSheafMap_eq_degreeOne i' i g h sq.w
   have := Stacks.Conormal.conormalDegreeOneHom_isIso i'
-  show Φ.map ≫ 𝒩'.surjection ≫ Stacks.Conormal.conormalDegreeOneHom i' =
+  change Φ.map ≫ 𝒩'.surjection ≫ Stacks.Conormal.conormalDegreeOneHom i' =
     (modulePullback g.toLRSHom.toShHom).map
         (𝒩.surjection ≫ Stacks.Conormal.conormalDegreeOneHom i) ≫
       (AlgebraicGeometry.canonicalPullbackHom i' i g h sq.w.symm).hom 1

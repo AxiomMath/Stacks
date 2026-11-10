@@ -21,7 +21,9 @@ In `AlgebraicGeometry.Space.ComplexesSituation`, the declarations named
 
 * `of_terminalVersality`: `Complexes_{X/Y}` is an algebraic stack;
 * `finiteExt_of_terminalVersality`: the same, with the hypothesis `h0D0T` discharged;
-* `finiteExt_properInSite_of_terminalVersality`: the same, with `h0D0T` and `h08K1` discharged.
+
+and `isAlgebraicStack_complexes_of_fibreLiftPullback_finiteExt_properInSite_of_terminalVersality`:
+the same, with `h0D0T` and `h08K1` discharged.
 
 ## References
 
@@ -208,7 +210,7 @@ theorem isAlgebraicStack_complexes_of_held_of_fibreLiftClassPullback_of_terminal
                   𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F
@@ -417,7 +419,7 @@ theorem isAlgebraicStack_complexes_of_held_of_fibreLiftClassPullback_finiteExt_o
                   𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F
@@ -494,7 +496,7 @@ before `hpull`, so that the statement text differs from that of
 
 The hypothesis `h0CXU` is asked only at terminal `Y` (Stacks 0CXU at terminal Y, the case
 the source uses); narrowing it strengthens the statement. -/
-theorem isAlgebraicStack_complexes_of_held_of_fibreLiftClassPullback_finiteExt_properInSite_of_terminalVersality
+theorem isAlgebraicStack_complexes_of_fibreLiftPullback_finiteExt_properInSite_of_terminalVersality
     {S : Scheme.{u}} (hS : B.Contains S) (D : ComplexesSituation B S hS)
     (hnat : ∀ {S : Scheme.{u}} {hS : B.Contains S} (D : ComplexesSituation B S hS)
       {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k] (iΛ : Spec (.of Λ) ⟶ S)
@@ -591,7 +593,7 @@ theorem isAlgebraicStack_complexes_of_held_of_fibreLiftClassPullback_finiteExt_p
                   𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F

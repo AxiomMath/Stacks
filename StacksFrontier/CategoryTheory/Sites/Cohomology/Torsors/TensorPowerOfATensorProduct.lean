@@ -247,6 +247,7 @@ theorem rightUnitor_tensorSection
   Stacks.SheafOfModules.tensorSections_rightUnitorAt X.O.obj
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O).2 (op U) A a
 
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify X.J AddCommGrpCat] in
 /-- The inverse of an isomorphism of sheaves of modules, read on a section whose image under
 the isomorphism is known. -/
 theorem inv_app_apply_of_hom_app_apply
@@ -284,7 +285,7 @@ theorem tensorInterchangeIso_tensorSection
           (tensorSection X A B U a b) (tensorSection X D E U d c)) =
       tensorSection X (tensorSheafOfModules X A D) (tensorSheafOfModules X B E) U
         (tensorSection X A D U a d) (tensorSection X B E U b c) := by
-  show ((tensorInterchangeIso X A B D E).hom.val.app (op U)).hom
+  change ((tensorInterchangeIso X A B D E).hom.val.app (op U)).hom
       (tensorSection X (A ⊗ B) (D ⊗ E) U
         (tensorSection X A B U a b) (tensorSection X D E U d c)) =
     tensorSection X (A ⊗ D) (B ⊗ E) U
@@ -443,7 +444,7 @@ theorem tpowTensorIso_naturality
       exact congrArg (fun z => (tpowTensorIso X L M 0).hom ≫ z)
         (MonoidalCategory.id_tensorHom_id (tpow X L 0) (tpow X M 0)).symm
   | succ k ih =>
-      show (powerMap X (tensorIsoOfModules X e f) (k + 1)).hom ≫
+      change (powerMap X (tensorIsoOfModules X e f) (k + 1)).hom ≫
           (tpowTensorIso X L' M' (k + 1)).hom =
         (tpowTensorIso X L M (k + 1)).hom ≫
           (tensorIsoOfModules X (powerMap X e (k + 1)) (powerMap X f (k + 1))).hom

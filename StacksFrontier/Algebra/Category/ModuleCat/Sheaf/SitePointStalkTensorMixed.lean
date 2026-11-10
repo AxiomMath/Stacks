@@ -130,7 +130,7 @@ lemma tensorSheafModuleFiberIso_hom_germ
               (PresheafOfModules.tensorObj M.val N.val)).app (op U)
             (m ⊗ₜ[(O.obj ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj (op U)] n)) :=
     toPresheafModuleFiber_naturality Φ _ U x _
-  show (moduleFiberTensorIso Φ O.obj M.val N.val).hom
+  change (moduleFiberTensorIso Φ O.obj M.val N.val).hom
     (e.inv _) = _
   rw [← h]
   exact (congrArg (moduleFiberTensorIso Φ O.obj M.val N.val).hom

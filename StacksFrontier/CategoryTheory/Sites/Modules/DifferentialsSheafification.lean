@@ -209,7 +209,7 @@ theorem existsUnique_derivation_extension
             d_app := ?_ }, key, fun D hD ↦
     derivation_ext_of_isLocallySurjective J α hM D _ fun X b ↦ (hD X b).trans (key X b).symm⟩
   · intro X b b'
-    show dd X (b * b') = b • dd X b' + b' • dd X b
+    change dd X (b * b') = b • dd X b' + b' • dd X b
     refine eq_of_restrict_eq J hM _
       (J.intersection_covering (Presheaf.imageSieve_mem J α b)
         (Presheaf.imageSieve_mem J α b')) _ _ ?_
@@ -222,7 +222,7 @@ theorem existsUnique_derivation_extension
       ← map_mul, key, key, key, d₀_mul, hs, hs']
     rfl
   · intro X s
-    show dd X ((φ₂.app X) s) = 0
+    change dd X ((φ₂.app X) s) = 0
     refine eq_of_restrict_eq J hM _ (Presheaf.imageSieve_mem J α₁ s) _ _ ?_
     rintro Y g ⟨c, hc⟩
     have h0 : dd (op Y) ((B.map g.op) ((φ₂.app X) s)) = 0 := by
@@ -365,7 +365,7 @@ theorem existsUnique_desc_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ O₂)
   refine ⟨g, ?_, ?_⟩
   · refine derivation_ext_of_isLocallySurjective J (toSheafify J O₂) F.isSheaf _ _ ?_
     intro X b
-    show g.val.app X ((sheafifiedUniversalDerivation.{v, v₁} J f).d
+    change g.val.app X ((sheafifiedUniversalDerivation.{v, v₁} J f).d
       ((toSheafify J O₂).app X b)) = _
     rw [sheafifiedUniversalDerivation_d, hg]
   · intro h hh
@@ -373,7 +373,7 @@ theorem existsUnique_desc_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ O₂)
     rw [hgg]
     refine eQ.postcomp_injective _ _ ?_
     ext X b
-    show (PresheafOfModules.sheafificationHomEquiv (toAssociatedRingSheaf J O₂) h).app X
+    change (PresheafOfModules.sheafificationHomEquiv (toAssociatedRingSheaf J O₂) h).app X
       (dQ.d b) = g₀.app X (dQ.d b)
     rw [hunit h X b, hfac X b, ← sheafifiedUniversalDerivation_d.{v, v₁} J f X b]
     exact congrArg (fun E : PresheafOfModulesOfCommRing.Derivation' F.val _ ↦

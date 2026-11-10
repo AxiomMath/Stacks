@@ -273,8 +273,8 @@ invertible.
 This is the statement for `Stacks.SheafOfModules.Invertible.IsFiniteLocallyFreeOfRank`, and it
 lives in that predicate's namespace;
 `Stacks.SheafOfModules.isInvertible_of_isFiniteLocallyFreeOfRank_one` of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocallyTrivialInvertible.Basic` is the statement for
-`AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank`, the other rank predicate of
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocallyTrivialInvertible.Basic` is the statement
+for `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank`, the other rank predicate of
 [Stacks, Tag 01CS].
 
 The local generators of rank one give a covering family of the final object on which `L` becomes

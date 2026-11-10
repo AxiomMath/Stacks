@@ -144,11 +144,11 @@ dimension of the support, so it is carried as a hypothesis rather than proved he
 in a weaker form than the source's: the degree bound `≤ dim Supp(ℱ)` is omitted, since the
 deduction does not use it. -/
 public def IsCoherentTripleHilbertPolynomial : Prop :=
-  ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (f : A)
-    (hf : f ∈ maximalIdeal A) (hreg : IsRegular f) (T L : CoherentTriple A f)
+  ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (f : A),
+    f ∈ maximalIdeal A → IsRegular f → ∀ (T L : CoherentTriple A f)
     (hL : IsInvertibleTriple L),
     ∃ P : Polynomial ℚ, ∀ n : ℤ,
-      (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ)
+      (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ)
 
 /-! ### The two elementary inputs -/
 
@@ -368,7 +368,7 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero_of_isOfFinAddOrder (A : Ty
   -- the Euler characteristics of the twists of the unit triple
   obtain ⟨P, hP⟩ := hpoly A f hf hreg (CoherentTriple.unit A f htf) T hT
   have hkey : ∀ n : ℕ,
-      ((CoherentTriple.unit A f htf).twistZ T hT (n : ℤ)).eulerCharacteristic hf hreg = 0 ↔
+      ((CoherentTriple.unit A f htf).twistZ T hT (n : ℤ)).eulerCharacteristic = 0 ↔
         (n : ℤ) • x = 0 := by
     intro n
     have hinv := isInvertibleTriple_twistZ (isInvertibleTriple_unit A f htf) hT (n : ℤ)

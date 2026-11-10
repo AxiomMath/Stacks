@@ -196,7 +196,7 @@ public theorem isCompleteIntersectionCompleteLocalRing_adicCompletion_quotientAt
   let rs' : List Rp := rs.map (algebraMap R Rp)
   let I : Ideal Rp := Ideal.ofList rs'
   let A := Rp ⧸ I
-  show IsCompleteIntersectionCompleteLocalRing
+  change IsCompleteIntersectionCompleteLocalRing
     (AdicCompletion ((maximalIdeal Rp).map (Ideal.Quotient.mk I)) A)
   let m : Ideal Rp := maximalIdeal Rp
   let B := AdicCompletion m Rp
@@ -220,7 +220,7 @@ public theorem isCompleteIntersectionCompleteLocalRing_adicCompletion_quotientAt
   · exact IsLocalHom.of_surjective f hf
   · let xs : List B := rs'.map (algebraMap Rp B)
     refine ⟨xs, hs, ?_⟩
-    show Ideal.ofList (rs'.map (algebraMap Rp B)) =
+    change Ideal.ofList (rs'.map (algebraMap Rp B)) =
       RingHom.ker (adicCompletionMapQuotient I)
     rw [← Ideal.map_ofList, ker_adicCompletionMapQuotient I]
 
@@ -261,7 +261,7 @@ private theorem exists_adicCompletion_ringEquiv_of_ringEquiv
       (fun {m n} hmn => by
         ext x
         apply (eₙ m).injective
-        show eₙ m (Ideal.Quotient.factorPow I hmn
+        change eₙ m (Ideal.Quotient.factorPow I hmn
             ((eₙ n).symm (AdicCompletion.evalₐ J n x))) =
           eₙ m ((eₙ m).symm (AdicCompletion.evalₐ J m x))
         rw [hnaturality, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply,
@@ -282,7 +282,7 @@ private theorem exists_adicCompletion_ringEquiv_of_ringEquiv
   refine ⟨RingEquiv.ofBijective F ⟨hleft.injective, hright.surjective⟩, fun x => ?_⟩
   apply AdicCompletion.ext_evalₐ
   intro n
-  show AdicCompletion.evalₐ J n (F (algebraMap R (AdicCompletion I R) x)) = _
+  change AdicCompletion.evalₐ J n (F (algebraMap R (AdicCompletion I R) x)) = _
   rw [hmap]
   simpa only [AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply,
     AdicCompletion.evalₐ_of] using heₙ n x
@@ -353,15 +353,15 @@ private theorem exists_completionPresentation
       (eC.surjective.comp (adicCompletionMapQuotient_surjective J))
   · apply RingHom.ext
     intro r
-    show (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
+    change (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
       (eC (adicCompletionMapQuotient J
         (algebraMap R (AdicCompletion (maximalIdeal R) R) r))) = f r
     rw [completionQuotientMap_algebraMap, heC]
-    show (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
+    change (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
       (AdicCompletion.of (maximalIdeal A) A (e (Ideal.Quotient.mk J r))) = f r
     rw [AdicCompletion.ofAlgEquiv_symm_of]
     exact RingHom.quotientKerEquivOfSurjective_apply_mk hf r
-  · show RingHom.ker
+  · change RingHom.ker
         ((AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm.toRingEquiv.toRingHom.comp
           (eC.toRingHom.comp (adicCompletionMapQuotient J))) = _
     rw [RingHom.ker_comp_of_injective _
@@ -574,7 +574,7 @@ private theorem isCompleteIntersectionCompleteLocalRing_of_isRegular_ofList_eq
   have hciQ :=
     isCompleteIntersectionCompleteLocalRing_adicCompletion_quotientAtPrime Rp m rs hrs hmem
   have hIq : Iq = K.map (algebraMap Rp Q) := by
-    show Ideal.ofList (rs.map (algebraMap Rp Q)) = K.map (algebraMap Rp Q)
+    change Ideal.ofList (rs.map (algebraMap Rp Q)) = K.map (algebraMap Rp Q)
     rw [← Ideal.map_ofList, hrsK]
   have hψK : Ideal.map (↑ψ) Iq = K := by
     have hcomp : (ψ : Q →+* Rp).comp (algebraMap Rp Q) = RingHom.id Rp :=
@@ -678,7 +678,7 @@ private theorem isCompleteIntersectionRing_quotient_of_regularSequence
   have hf : Function.Surjective f := adicCompletionMapQuotient_surjective I
   refine ⟨B, inferInstance, hBreg, f, ⟨hf, IsLocalHom.of_surjective f hf, ?_⟩⟩
   refine ⟨rs.map (algebraMap R B), hs, ?_⟩
-  show Ideal.ofList (rs.map (algebraMap R B)) = RingHom.ker f
+  change Ideal.ofList (rs.map (algebraMap R B)) = RingHom.ker f
   rw [ker_adicCompletionMapQuotient I, ← Ideal.map_ofList, hI]
 
 /-- Being a complete intersection ring transports along a ring isomorphism: the isomorphism
@@ -696,7 +696,7 @@ public theorem isCompleteIntersectionRing_of_ringEquiv
   refine ⟨R, hR, hreg, eC.toRingHom.comp f, eC.surjective.comp hf,
     IsLocalHom.of_surjective (eC.toRingHom.comp f) (eC.surjective.comp hf), rs, hrs, ?_⟩
   ext x
-  show x ∈ Ideal.ofList rs ↔ eC (f x) = 0
+  change x ∈ Ideal.ofList rs ↔ eC (f x) = 0
   rw [map_eq_zero_iff _ eC.injective, ← RingHom.mem_ker, hker]
 
 section PrivateUniverse
@@ -738,14 +738,14 @@ private theorem isCompleteIntersectionRing_of_isCompleteIntersection
     exact (Ideal.map_ofList eR.symm.toRingHom rs).symm
   have hmem (x : R') : eR x ∈ I₀ ↔ x ∈ I' := by
     rw [hI']
-    show eR x ∈ I₀ ↔ x ∈ I₀.map eR.symm.toRingHom
+    change eR x ∈ I₀ ↔ x ∈ I₀.map eR.symm.toRingHom
     rw [Ideal.mem_map_iff_of_surjective eR.symm.toRingHom eR.symm.surjective]
     refine ⟨fun hx => ⟨eR x, hx, eR.symm_apply_apply x⟩, ?_⟩
     rintro ⟨y, hy, rfl⟩
     simpa using hy
   have hker : RingHom.ker f = I' := by
     ext x
-    show eA.symm (Ideal.Quotient.mk I₀ (eR x)) = 0 ↔ x ∈ I'
+    change eA.symm (Ideal.Quotient.mk I₀ (eR x)) = 0 ↔ x ∈ I'
     rw [map_eq_zero_iff _ eA.symm.injective, Ideal.Quotient.eq_zero_iff_mem]
     exact hmem x
   let eQ : (R' ⧸ I') ≃+* A :=

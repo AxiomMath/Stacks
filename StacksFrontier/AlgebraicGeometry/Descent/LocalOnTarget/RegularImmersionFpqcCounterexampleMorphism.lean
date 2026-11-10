@@ -73,9 +73,9 @@ theorem range_sigmaDesc_base {ι : Type u} {X : ι → Scheme.{u}} {Y : Scheme.{
   · rintro ⟨p, rfl⟩
     obtain ⟨⟨i, x⟩, rfl⟩ := (AlgebraicGeometry.sigmaMk X).surjective p
     refine ⟨i, x, ?_⟩
-    rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   · rintro ⟨i, x, rfl⟩
-    exact ⟨Sigma.ι X i x, by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+    exact ⟨Sigma.ι X i x, by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 /-! ### The members of the counterexample family -/
 
@@ -104,8 +104,7 @@ theorem range_primeResidueHom (p : Nat.Primes) :
     exact _root_.range_comap_of_surjective _ _ ZMod.intCast_surjective
   rw [hrange]
   ext x
-  simp only [PrimeSpectrum.mem_zeroLocus, Set.mem_singleton_iff, Set.le_eq_subset,
-    ← PrimeSpectrum.asIdeal_le_asIdeal]
+  simp only [PrimeSpectrum.mem_zeroLocus]
   exact ⟨fun hle => PrimeSpectrum.ext
     ((isMaximal_span_singleton_prime (p : ℕ) p.2).eq_of_le x.2.ne_top hle).symm,
     fun h => h ▸ le_rfl⟩
@@ -130,7 +129,7 @@ theorem closedPointsSpecInt_eq_iUnion :
     have hg' : x.asIdeal = Ideal.span {g} := hg
     have hg0 : g ≠ 0 := by
       intro h
-      exact hx (by simpa [hg', h] using (rfl : Ideal.span {(0 : ℤ)} = ⊥))
+      exact hx (by simp [hg', h])
     have hgp : Prime g := by
       rw [← Ideal.span_singleton_prime hg0, ← hg']
       exact x.2

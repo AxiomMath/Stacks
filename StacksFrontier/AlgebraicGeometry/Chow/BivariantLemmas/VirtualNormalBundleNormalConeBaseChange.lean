@@ -145,7 +145,7 @@ theorem conormalDegreeOneIncl_app (i : Z ⟶ X) [IsImmersion i] (W : Z.Opensᵒ�
     (x : (Stacks.Conormal.conormalSheafDegreeOne i).val.obj W) :
     (conormalDegreeOneIncl i).val.app W x =
       (Stacks.Conormal.conormalAlgebra i).algebra.ungradedIncl (1 : ℤ) x := by
-  show ((SheafOfModules.GradedAlgebra.ungradedSheafMap
+  change ((SheafOfModules.GradedAlgebra.ungradedSheafMap
       (Stacks.Conormal.conormalSymmetricHom i)).hom.app W).hom
       ((Scheme.Modules.symmetricAlgebra Z _).ungradedIncl 1
         ((Scheme.Modules.symmetricAlgebraGen Z _).val.app W x)) = _
@@ -210,7 +210,7 @@ theorem top_le_normalConeChart_preimage (U' : X'.affineOpens) :
     (⊤ : (normalConeChartSource i' U').Opens) ≤
       normalConeChart i' U' ⁻¹ᵁ (normalConeToX i' ⁻¹ᵁ U'.1) := by
   intro x _
-  show (normalConeChart i' U' ≫ normalConeToX i') x ∈ U'.1
+  change (normalConeChart i' U' ≫ normalConeToX i') x ∈ U'.1
   rw [← (isPullback_normalConeChart i' U').w]
   exact (normalConeChartProj i' U' x).2
 
@@ -338,7 +338,7 @@ theorem conormalSectionsBaseChange_exceptionalChartSectionsIso
         ((conormalEquivInfinityChartFibre (i'.ker.ideal U')).toRingHom
           ((AssociatedGraded.gradedRingMapOfRingHom (affineBaseChangeMap f hUU')
             (map_ideal_ker_le f hUU' i i' g hcomm)) z)) := by
-  show (exceptionalChartSectionsIso i' U').hom.hom (infinityChartFibreMap
+  change (exceptionalChartSectionsIso i' U').hom.hom (infinityChartFibreMap
     (affineBaseChangeMap f hUU') (map_ideal_ker_le f hUU' i i' g hcomm)
     ((exceptionalChartSectionsIso i U).inv.hom ((exceptionalChartSectionsIso i U).hom.hom
       ((conormalEquivInfinityChartFibre (i.ker.ideal U)).toRingHom z)))) = _
@@ -451,7 +451,7 @@ variable {S : Scheme.{u}} (sX : X ⟶ S) (hker : i'.ker = i.ker.comap f)
 theorem Spec_map_appLE_top_ΓSpecIso_inv_apply {R R' : CommRingCat.{u}} (φ : R ⟶ R') (x : R) :
     ((Spec.map φ).appLE ⊤ ⊤ le_top).hom ((Scheme.ΓSpecIso R).inv.hom x) =
       (Scheme.ΓSpecIso R').inv.hom (φ.hom x) := by
-  show ((Spec.map φ).appLE ⊤ (Spec.map φ ⁻¹ᵁ ⊤) le_rfl).hom _ = _
+  change ((Spec.map φ).appLE ⊤ (Spec.map φ ⁻¹ᵁ ⊤) le_rfl).hom _ = _
   rw [Scheme.Hom.appLE_eq_app]
   exact (congrArg (fun ψ => CommRingCat.Hom.hom ψ x) (Scheme.ΓSpecIso_inv_naturality φ)).symm
 
@@ -649,12 +649,12 @@ theorem conormalDegreeOneIncl_comp_pushforwardAlgebraMap_normalConeBaseChangeOve
   have hOle : ∀ U' : X'.affineOpens, U'.1 ≤ f ⁻¹ᵁ U.1 →
       normalConeToX i' ⁻¹ᵁ U'.1 ≤ (Stacks.Conormal.normalConeToBase i' ≫ g) ⁻¹ᵁ (i ⁻¹ᵁ U.1) := by
     intro U' hU' x hx
-    show (Stacks.Conormal.normalConeToBase i' ≫ g ≫ i) x ∈ U.1
+    change (Stacks.Conormal.normalConeToBase i' ≫ g ≫ i) x ∈ U.1
     rw [← sq.w]
     exact hU' hx
   refine normalCone_sections_ext i' (f ⁻¹ᵁ U.1) hOle ?_ ?_
   · intro x hx
-    show (Stacks.Conormal.normalConeToBase i' ≫ i' ≫ f) x ∈ U.1
+    change (Stacks.Conormal.normalConeToBase i' ≫ i' ≫ f) x ∈ U.1
     rw [sq.w]
     exact hx
   · intro U' hU'

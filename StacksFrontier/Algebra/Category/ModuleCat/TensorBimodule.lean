@@ -151,8 +151,7 @@ theorem hom_ext {M : ModuleCat.{u} A} {Y : ModuleCat.{u} B}
   let ψ' : (N ⊗[A] (M : Type u)) →ₗ[B] (Y : Type u) := ψ.hom
   have key : ∀ z : N ⊗[A] (M : Type u), φ' z = ψ' z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul n m => exact h n m
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   exact ModuleCat.hom_ext (LinearMap.ext key)

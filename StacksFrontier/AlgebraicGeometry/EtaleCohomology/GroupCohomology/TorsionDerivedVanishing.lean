@@ -64,21 +64,24 @@ multiplication. -/
 def carrierAction (M : ContinuousGModule.{u, v} G) : DistribMulAction G M.obj.obj.V where
   smul g m := (M.obj.obj.ρ g).asHom.hom m
   one_smul m := by
-    show (M.obj.obj.ρ 1).asHom.hom m = m
+    change (M.obj.obj.ρ 1).asHom.hom m = m
     rw [map_one]
     rfl
   mul_smul g h m := by
-    show (M.obj.obj.ρ (g * h)).asHom.hom m = (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom m)
+    change (M.obj.obj.ρ (g * h)).asHom.hom m =
+      (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom m)
     rw [map_mul]
     rfl
   smul_zero g := map_zero _
   smul_add g m n := map_add _ _ _
 
+omit [IsTopologicalGroup G] in
 /-- Under `carrierAction M`, `g • m` is the action of `ρ g` on `m`. -/
 lemma carrierAction_smul (M : ContinuousGModule.{u, v} G) (g : G) (m : M.obj.obj.V) :
     letI := carrierAction M
     g • m = (M.obj.obj.ρ g).asHom.hom m := rfl
 
+omit [IsTopologicalGroup G] in
 /-- The carrier of a discrete `G`-module has open stabilizers. -/
 theorem hasOpenStabilizers_carrier (M : ContinuousGModule.{u, v} G) :
     letI := carrierAction M

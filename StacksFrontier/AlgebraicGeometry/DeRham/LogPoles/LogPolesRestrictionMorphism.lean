@@ -103,7 +103,7 @@ theorem formRes_eq_zero_of_logPolesChartForm_eq_zero
       -exactWedge f p W' (e.equationAt (hW'.trans hW)) a := eq_neg_of_add_eq_zero_left h0
   refine ((PresheafOfModules.naturality_apply (formRestriction I.subschemeι f
     ((p + 1 : ℕ) : ℤ)).val (homOfLE hW').op α).symm.trans ?_).trans (map_zero _).symm
-  show formRes I.subschemeι ((p + 1 : ℕ) : ℤ) W'
+  change formRes I.subschemeι ((p + 1 : ℕ) : ℤ) W'
     ((relativeDifferentialForms f ((p + 1 : ℕ) : ℤ)).presheaf.map (homOfLE hW').op α) = 0
   rw [hα, formRes_neg, neg_eq_zero]
   refine (formRestriction_exactWedge (f := f) I.subschemeι p W' _ a).trans ?_

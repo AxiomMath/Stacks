@@ -94,11 +94,11 @@ theorem sectionSpaceMap_comp_sectionSpaceIsoSubfunctor_hom :
       (sectionSpaceIsoSubfunctor Z W' w').hom ≫ sectionSubfunctorMap p hp := by
   ext T s
   apply Subtype.ext
-  show (sectionsOverEquiv T.unop (sectionSpaceEquiv B U hU Z T.unop W w
+  change (sectionsOverEquiv T.unop (sectionSpaceEquiv B U hU Z T.unop W w
       ((sectionSpaceMap hp).app T s))).1 =
     p.app _ (sectionsOverEquiv T.unop (sectionSpaceEquiv B U hU Z T.unop W' w' s)).1
   rw [sectionSpaceEquiv_sectionSpaceMap]
-  show yonedaEquiv ((prodYonedaIso T.unop).hom ≫ (sectionSpaceEquiv B U hU Z T.unop W' w' s).1 ≫
+  change yonedaEquiv ((prodYonedaIso T.unop).hom ≫ (sectionSpaceEquiv B U hU Z T.unop W' w' s).1 ≫
       p) = p.app _ (yonedaEquiv ((prodYonedaIso T.unop).hom ≫
         (sectionSpaceEquiv B U hU Z T.unop W' w' s).1))
   rw [← Category.assoc, yonedaEquiv_comp]
@@ -338,9 +338,9 @@ theorem map_inv_prodComparison_over (hs₀ : w.app _ s₀ = prod.fst)
     (hx : p.app _ x = W.map (coverPair Z a prod.fst).op s₀) :
     w'.app _ (W'.map (inv (prodComparison Z a Y)).op x) = prod.fst := by
   rw [← hp]
-  show w.app _ (p.app _ _) = _
+  change w.app _ (p.app _ _) = _
   rw [map_inv_prodComparison_mem p a s₀ x hx, NatTrans.naturality_apply, hs₀]
-  show prod.map (𝟙 Z) _ ≫ prod.fst = prod.fst
+  change prod.map (𝟙 Z) _ ≫ prod.fst = prod.fst
   simp
 
 /-- Restricting a section of `W'` along `prodComparison` and then along its inverse gives back the
@@ -441,6 +441,7 @@ end Relocalize
 section Fibres
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `U` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SectionSpaceEtaleChange :

@@ -76,7 +76,7 @@ theorem exists_dual_apply_ne_zero {V : Type*} [AddCommGroup V] [Module (ZMod (�
       apply hm
       have hc' : (w : ZMod (ℓ ^ M)) • m = 0 := by simpa [f] using hc
       simpa using congrArg (fun x => ((w⁻¹ : (ZMod (ℓ ^ M))ˣ) : ZMod (ℓ ^ M)) • x) hc'
-    · show (ℓ : ZMod (ℓ ^ M)) ^ a * w * (ℓ : ZMod (ℓ ^ M)) ^ (M - 1) = 0
+    · change (ℓ : ZMod (ℓ ^ M)) ^ a * w * (ℓ : ZMod (ℓ ^ M)) ^ (M - 1) = 0
       rw [mul_right_comm, ← pow_add, show a + (M - 1) = M + (a - 1) by omega, pow_add, hpow,
         zero_mul, zero_mul]
   let ι := (LinearMap.range f).subtype ∘ₗ (f.quotKerEquivRange).toLinearMap
@@ -88,7 +88,7 @@ theorem exists_dual_apply_ne_zero {V : Type*} [AddCommGroup V] [Module (ZMod (�
   have := congrArg (fun φ => φ (Submodule.Quotient.mk 1)) hh
   simp only [LinearMap.coe_comp, Function.comp_apply, Submodule.liftQ_apply] at this
   have hm1 : ι (Submodule.Quotient.mk 1) = m := by
-    show (f.quotKerEquivRange (Submodule.Quotient.mk 1) : V) = m
+    change (f.quotKerEquivRange (Submodule.Quotient.mk 1) : V) = m
     rw [LinearMap.quotKerEquivRange_apply_mk]
     exact one_smul _ m
   rw [← hm1, this]
@@ -175,7 +175,7 @@ lemma twistFunctorGroupRingCoinductionEquiv_apply
     (d : TwistDual (ZMod (ℓ ^ M)) G Λ E ρ) :
     ((twistFunctorGroupRingCoinductionEquiv ℓ M G Λ E ρ φ).toLinearMap d).down =
       (φ.toLinearMap d).down.coeff 1 := by
-  show (1 * (φ.toLinearMap d).down).coeff 1 * 1 = _
+  change (1 * (φ.toLinearMap d).down).coeff 1 * 1 = _
   rw [one_mul, mul_one]
 
 /-- `Hom_{k₀}(E^∨, k₀) ≅ E`, by duality for finite `k₀`-modules. -/
@@ -246,7 +246,7 @@ theorem twistFunctorGroupRingEquiv_map_rightMulHom (g : G)
       ρ g (twistFunctorGroupRingEquiv ℓ M G Λ E ρ φ) := by
   refine (LinearEquiv.ofBijective _ (bijective_dual_eval (ℓ := ℓ) (M := M) E)).injective
     (LinearMap.ext fun ξ => ?_)
-  show ξ _ = ξ (ρ g _)
+  change ξ _ = ξ (ρ g _)
   rw [dual_eval_twistFunctorGroupRingEquiv,
     show ξ (ρ g (twistFunctorGroupRingEquiv ℓ M G Λ E ρ φ)) =
       (ξ ∘ₗ (ρ g).restrictScalars (ZMod (ℓ ^ M)))
@@ -257,7 +257,7 @@ theorem twistFunctorGroupRingEquiv_map_rightMulHom (g : G)
     rw [TwistDual.single_smul, one_smul]
     exact TwistDual.ext fun e => by simp
   rw [hξ, map_smul]
-  show ((φ.toLinearMap ⟨ξ⟩).down * MonoidAlgebra.single g⁻¹ 1).coeff 1 =
+  change ((φ.toLinearMap ⟨ξ⟩).down * MonoidAlgebra.single g⁻¹ 1).coeff 1 =
     (MonoidAlgebra.single g⁻¹ 1 * (φ.toLinearMap ⟨ξ⟩).down).coeff 1
   rw [MonoidAlgebra.coeff_mul_single_apply, MonoidAlgebra.coeff_single_mul_apply]
   simp

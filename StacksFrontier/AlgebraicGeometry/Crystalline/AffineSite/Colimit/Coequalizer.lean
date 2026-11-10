@@ -91,10 +91,10 @@ public lemma exists_coequalizer_with_quotient
     have hx := congrArg (fun k : CommRingCat.of X.ring ⟶ CommRingCat.of R => k x)
       (coequalizer.condition fR gR)
     change π (f.hom.toRingHom x) = π (g.hom.toRingHom x) at hx
-    show E.structureMap.toRingHom (f.hom.toRingHom x) =
+    change E.structureMap.toRingHom (f.hom.toRingHom x) =
       E.structureMap.toRingHom (g.hom.toRingHom x)
     rw [← E.algebraMap_comp]
-    show E.algebraMap.toRingHom (π (f.hom.toRingHom x)) =
+    change E.algebraMap.toRingHom (π (f.hom.toRingHom x)) =
       E.algebraMap.toRingHom (π (g.hom.toRingHom x))
     exact congrArg E.algebraMap.toRingHom hx
   have hcoeq : ∀ {T : Type w} [CommRing T] (g₁ g₂ : R →+* T),
@@ -115,7 +115,7 @@ public lemma exists_coequalizer_with_quotient
     let pair : IdealPair.Hom J C.ideal := {
       toRingHom := dR
       ideal_comp := by
-        show Ideal.map dR (Ideal.map π Y.ring.ideal) ≤ C.ideal
+        change Ideal.map dR (Ideal.map π Y.ring.ideal) ≤ C.ideal
         rw [Ideal.map_map, hdR]
         exact a.ideal_comp
     }
@@ -168,13 +168,13 @@ public lemma exists_coequalizer_with_quotient
             s.π.hom.toRingHom (Y.fromBase.toRingHom a) :=
               congrArg (fun m : Y.ring →+* s.pt.ring => m (Y.fromBase.toRingHom a)) hv
         _ = s.pt.fromBase.toRingHom a := DFunLike.congr_fun hbase a
-    · show qEnv.comp
+    · change qEnv.comp
         (qe.comp Y.toQuotient) = s.pt.toQuotient
       rw [← RingHom.comp_assoc, hquot]
       exact s.π.toQuotient_comp
   have lift_fac (s : Cofork f g) : q ≫ lift s = s.π := by
     apply DividedPowerThickening.Hom.ext
-    show (lift s).hom.comp q.hom = s.π.hom
+    change (lift s).hom.comp q.hom = s.π.hom
     dsimp [q, lift]
     exact (envLift s).2
   let F := quotientFunctor S
@@ -191,7 +191,7 @@ public lemma exists_coequalizer_with_quotient
     let k : Y.ring →+* t.pt := t.π.hom.toRingHom.comp (Ideal.Quotient.mk Y.ring.ideal)
     have hkilled : Y.ring.ideal ≤ RingHom.ker k := by
       intro y hy
-      show t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y) = 0
+      change t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hy]
       exact map_zero _
     let a : DividedPowers.DPMorphism Y.ring.dividedPowers (dividedPowersBot t.pt) :=
@@ -208,10 +208,10 @@ public lemma exists_coequalizer_with_quotient
     have hmk (y : Y.ring) :
         qF.hom (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y) =
           (Ideal.Quotient.mk Q.ring.ideal (E.structureMap.toRingHom y) : F.obj Q) := by
-      show DividedPowerRing.quotientRingHom q.hom
+      change DividedPowerRing.quotientRingHom q.hom
         (Ideal.Quotient.mk Y.ring.ideal y) = _
       rw [DividedPowerRing.quotientRingHom_mk]
-      show Ideal.Quotient.mk Q.ring.ideal (E.structureMap.toRingHom y) = _
+      change Ideal.Quotient.mk Q.ring.ideal (E.structureMap.toRingHom y) = _
       rfl
     have hmkSurj : Function.Surjective (fun y : Y.ring =>
         (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y)) := fun z =>
@@ -221,11 +221,11 @@ public lemma exists_coequalizer_with_quotient
       intro z
       obtain ⟨y, hy⟩ := hmkSurj z
       rw [← hy]
-      show dE (qF.hom (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y)) =
+      change dE (qF.hom (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y)) =
         t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y)
       rw [hmk y]
       simp only [dE]
-      show envHom.1.toRingHom (E.structureMap.toRingHom y) =
+      change envHom.1.toRingHom (E.structureMap.toRingHom y) =
         t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y)
       have hv := congrArg DividedPowers.DPMorphism.toRingHom envHom.2
       change envHom.1.toRingHom.comp E.structureMap.toRingHom = k at hv
@@ -247,14 +247,14 @@ public lemma exists_coequalizer_with_quotient
       apply CommAlgCat.hom_ext
       apply AlgHom.ext
       intro z
-      show dE (qF.hom z) = t.π.hom.toRingHom z
+      change dE (qF.hom z) = t.π.hom.toRingHom z
       exact DFunLike.congr_fun hfacRing z
     refine ⟨dAlg, hfac, fun m hm => ?_⟩
     let mkE : E.object →+* Q.ring ⧸ Q.ring.ideal := Ideal.Quotient.mk Q.ring.ideal
     let mRing : E.object →+* t.pt := m.hom.toRingHom.comp mkE
     have hmkE : E.object.ideal ≤ RingHom.ker mRing := by
       intro x hx
-      show m.hom.toRingHom (Ideal.Quotient.mk E.object.ideal x) = 0
+      change m.hom.toRingHom (Ideal.Quotient.mk E.object.ideal x) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
       exact map_zero _
     let mDP : DividedPowers.DPMorphism E.object.dividedPowers (dividedPowersBot t.pt) :=
@@ -267,7 +267,7 @@ public lemma exists_coequalizer_with_quotient
       change m.hom.toRingHom (qF.hom (Ideal.Quotient.mk Y.ring.ideal y : F.obj Y)) =
         t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y) at hmEval
       rw [hmk y] at hmEval
-      show m.hom.toRingHom (Ideal.Quotient.mk Q.ring.ideal
+      change m.hom.toRingHom (Ideal.Quotient.mk Q.ring.ideal
           (E.structureMap.toRingHom y)) =
         t.π.hom.toRingHom (Ideal.Quotient.mk Y.ring.ideal y)
       exact hmEval
@@ -276,7 +276,7 @@ public lemma exists_coequalizer_with_quotient
       apply RingHom.ext
       intro z
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-      show m.hom.toRingHom (Ideal.Quotient.mk Q.ring.ideal x) =
+      change m.hom.toRingHom (Ideal.Quotient.mk Q.ring.ideal x) =
         dE (Ideal.Quotient.mk Q.ring.ideal x)
       have hval : mDP.toRingHom x = envHom.1.toRingHom x := congrArg (·.toRingHom x) hDP
       calc

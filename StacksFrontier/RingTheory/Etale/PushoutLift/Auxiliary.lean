@@ -111,18 +111,18 @@ theorem isLocalizationAway_prod (x : S) (y : T) [IsLocalization.Away x S']
     refine ⟨m + n, (c * x ^ n, d * y ^ m), ?_⟩
     rw [hmap, hmap]
     ext
-    · show z.1 * (algebraMap S S' x) ^ (m + n) = algebraMap S S' (c * x ^ n)
+    · change z.1 * (algebraMap S S' x) ^ (m + n) = algebraMap S S' (c * x ^ n)
       rw [pow_add, ← mul_assoc, hc, map_mul, map_pow]
-    · show z.2 * (algebraMap T T' y) ^ (m + n) = algebraMap T T' (d * y ^ m)
+    · change z.2 * (algebraMap T T' y) ^ (m + n) = algebraMap T T' (d * y ^ m)
       rw [pow_add, mul_comm ((algebraMap T T' y) ^ m), ← mul_assoc, hd, map_mul, map_pow]
   · rw [hmap, hmap] at h
     obtain ⟨m, hm⟩ := IsLocalization.Away.exists_of_eq x (congrArg Prod.fst h)
     obtain ⟨n, hn⟩ := IsLocalization.Away.exists_of_eq y (congrArg Prod.snd h)
     refine ⟨m + n, ?_⟩
     ext
-    · show x ^ (m + n) * a.1 = x ^ (m + n) * b.1
+    · change x ^ (m + n) * a.1 = x ^ (m + n) * b.1
       rw [pow_add, mul_comm (x ^ m), mul_assoc, mul_assoc, hm]
-    · show y ^ (m + n) * a.2 = y ^ (m + n) * b.2
+    · change y ^ (m + n) * a.2 = y ^ (m + n) * b.2
       rw [pow_add, mul_assoc, mul_assoc, hn]
 
 end LocalizationProd
@@ -251,7 +251,7 @@ theorem etale_away_of_faithfullyFlat [Algebra.Etale B Γ] [Module.FaithfullyFlat
   let Γy := Localization.Away (algebraMap B Γ y)
   let : Algebra Bx Γy := (Localization.awayMap (algebraMap B Γ) y).toAlgebra
   have : IsScalarTower B Bx Γy := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap B Γy b = Localization.awayMap (algebraMap B Γ) y (algebraMap B Bx b)
+    change algebraMap B Γy b = Localization.awayMap (algebraMap B Γ) y (algebraMap B Bx b)
     rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq]
     rfl
   have : IsLocalization (Algebra.algebraMapSubmonoid Γ (Submonoid.powers y)) Γy := by

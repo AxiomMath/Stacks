@@ -117,7 +117,7 @@ theorem finitePresentation_compHom_of_localizationSpan (π : P →+* A) {ι : Ty
   have hβ (p : P) :
       β (algebraMap P (Localization.Away (s i)) p) =
         algebraMap A (Localization.Away (π (s i))) (π p) := by
-    show IsLocalization.map _ π _ (algebraMap P _ p) = _
+    change IsLocalization.map _ π _ (algebraMap P _ p) = _
     exact IsLocalization.map_eq _ p
   have hsmul (p : P) (z : LocalizedModule.Away (π (s i)) M) :
       β (algebraMap P _ p) • z = π p • z := by
@@ -127,7 +127,7 @@ theorem finitePresentation_compHom_of_localizationSpan (π : P →+* A) {ι : Ty
   let locP : M →ₗ[P] LocalizedModule.Away (π (s i)) M :=
     { locA with
       map_smul' := fun p m => by
-        show locA (π p • m) = β (algebraMap P _ p) • locA m
+        change locA (π p • m) = β (algebraMap P _ p) • locA m
         rw [locA.map_smul, hsmul] }
   have hloc : IsLocalizedModule (Submonoid.powers (s i)) locP := by
     apply IsLocalizedModule.Away.mk_of_addCommGroup
@@ -140,19 +140,19 @@ theorem finitePresentation_compHom_of_localizationSpan (π : P →+* A) {ι : Ty
     · intro z
       obtain ⟨n, m, hm⟩ := IsLocalizedModule.Away.surj locA (π (s i)) z
       exact ⟨n, m, by
-        show β (algebraMap P _ ((s i) ^ n)) • z = locA m
+        change β (algebraMap P _ ((s i) ^ n)) • z = locA m
         rw [hsmul, map_pow]
         exact hm⟩
     · intro m hm
       have hm' : locA m = locA 0 := by simpa [locP] using hm
       obtain ⟨n, hn⟩ := IsLocalizedModule.Away.exists_of_eq (f := locA) (π (s i)) hm'
       exact ⟨n, by
-        show π ((s i) ^ n) • m = 0
+        change π ((s i) ^ n) • m = 0
         rw [map_pow]
         simpa using hn⟩
   let _ : IsScalarTower P (Localization.Away (s i)) (LocalizedModule.Away (π (s i)) M) :=
     ⟨fun p a m => by
-      show β (p • a) • m = β (algebraMap P _ p) • (β a • m)
+      change β (p • a) • m = β (algebraMap P _ p) • (β a • m)
       rw [Algebra.smul_def, map_mul, mul_smul]⟩
   let eP : LocalizedModule.Away (s i) M ≃ₗ[P] LocalizedModule.Away (π (s i)) M :=
     IsLocalizedModule.linearEquiv (Submonoid.powers (s i))

@@ -265,7 +265,7 @@ theorem nonempty_cocone_of_hasLiftsAlong
       isHomLift_my := hmy
       comm_α := emu.symm
       comm_β := by
-        show s.β ≫ my = mu ≫ F.map ψ
+        change s.β ≫ my = mu ≫ F.map ψ
         rw [← cancel_mono θ, Category.assoc, Category.assoc, hψθ, IsIso.inv_hom_id,
           Category.comp_id, IsIso.hom_inv_id_assoc] }
   obtain ⟨c', -⟩ := SquareSpan.exists_pull h𝒳 m (c.map hF)

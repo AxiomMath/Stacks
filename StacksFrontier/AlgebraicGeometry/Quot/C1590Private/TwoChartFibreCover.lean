@@ -15,7 +15,8 @@ and `u ∈ T` a point whose fibre has dimension at most one. Then there are two 
 (`AlgebraicGeometry.C1590Private.exists_sections_cover_near_fibre`).
 
 The argument is the one of Stacks 0E6F's proof (and of
-`StacksFrontier/AlgebraicGeometry/TwoAffineCech/CurveCover.lean` on a single curve), with sections of
+`StacksFrontier/AlgebraicGeometry/TwoAffineCech/CurveCover.lean` on a single curve),
+with sections of
 an ample module in place of affine opens: the fibre `Z_u` is Noetherian, so its associated points
 are finitely many, and Stacks 09NV gives `σ` with `X_σ` affine containing them. What `X_σ` misses
 of the fibre is closed and contains no associated point, hence is finite because the fibre has

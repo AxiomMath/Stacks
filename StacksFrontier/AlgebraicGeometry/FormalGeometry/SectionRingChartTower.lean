@@ -86,7 +86,7 @@ theorem exists_smul_mk_iff {f β : S} {e : ℕ} (_hf : f ∈ 𝒜 1) (hβ : β �
       Stacks.GradedLocalization.mk_mem_gradedPiece 𝒜 𝒨 hβ ?_, ?_⟩
     · have h := SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) (SetLike.pow_mem_graded m hβ) hx
       convert h using 2
-      show (0 : ℤ) + k • (e : ℤ) = ((m • e : ℕ) : ℤ) + (-((e * m : ℕ) : ℤ) + k • (e : ℤ))
+      change (0 : ℤ) + k • (e : ℤ) = ((m • e : ℕ) : ℤ) + (-((e * m : ℕ) : ℤ) + k • (e : ℤ))
       simp only [smul_eq_mul, Nat.cast_mul]
       ring
     · rw [LocalizedModule.mk_smul_mk, LocalizedModule.smul'_mk]
@@ -153,7 +153,7 @@ theorem zeroScheme_pow_ideal_chart (hL : Stacks.Ample.IsAmple X L) (s : Γ(L, �
   set c := Stacks.SectionRingChartMap.chartRingMap L β (le_refl _) (chartFraction L s β)
   have hZ := Stacks.Algebraization.zeroScheme_powSec_degreeOneSection L hL s he
   rw [pow_mul, ← hZ, ← Ideal.span_singleton_pow]
-  show (zeroScheme X (natTensorPow L (1 * e)) (globalSection X _ (powSec L sp e))).ideal
+  change (zeroScheme X (natTensorPow L (1 * e)) (globalSection X _ (powSec L sp e))).ideal
     ⟨nvOpen L β, hW⟩ ^ k = _
   congr 1
   have h1 : e = 1 * e := (one_mul e).symm
@@ -272,7 +272,7 @@ theorem chartLift_smul {e : ℕ} (he : 0 < e) (β : powSections L e)
       (Stacks.SectionRingChartMap.chartRingMap L β (le_refl _) a • y) =
       a • (Stacks.SectionRingChartCech.divisionEquiv L hL F he β).symm y :=
     (AddEquiv.symm_apply_eq _).2 h.symm
-  show ((Stacks.SectionRingChartCech.divisionEquiv L hL F he β).symm _).1 =
+  change ((Stacks.SectionRingChartCech.divisionEquiv L hL F he β).symm _).1 =
     a.val • ((Stacks.SectionRingChartCech.divisionEquiv L hL F he β).symm y).1
   rw [h']
   rfl

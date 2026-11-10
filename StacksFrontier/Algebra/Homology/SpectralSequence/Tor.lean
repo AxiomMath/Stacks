@@ -183,7 +183,7 @@ private theorem freeChain_exactAt_succ {R : Type u} [CommRing R]
     (hD : D.IsExact) (n : ℕ) : (freeChain D hD).ExactAt (n + 1) := by
   rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)]
   apply (ShortComplex.moduleCat_exact_iff_range_eq_ker _).2
-  show LinearMap.range (((freeChain D hD).d (n + 2) (n + 1)).hom) =
+  change LinearMap.range (((freeChain D hD).d (n + 2) (n + 1)).hom) =
     LinearMap.ker (((freeChain D hD).d (n + 1) n).hom)
   simp only [freeChain, ChainComplex.of.d, dite_true,
     show n + 2 = (n + 1) + 1 by omega]
@@ -201,7 +201,7 @@ private theorem freeChainAug_quasiIso {R : Type u} [CommRing R]
         ShortComplex.quasiIso_iff_of_zeros' _ (by rfl) (by rfl) (by rfl)]
       constructor
       · apply (ShortComplex.moduleCat_exact_iff_range_eq_ker _).2
-        show LinearMap.range (((freeChain D hD).d 1 0).hom) =
+        change LinearMap.range (((freeChain D hD).d 1 0).hom) =
           LinearMap.ker ((freeChainAug D hD).f 0).hom
         simp only [freeChain, freeChainAug]
         exact hD.2.1
@@ -263,7 +263,7 @@ private theorem torInDegreeMap_id
     torInDegreeMap R n (𝟙 X) M = 𝟙 (TorInDegree R n X M) := by
   cases n with
   | ofNat k =>
-      simp [torInDegreeMap, decLe_zero_natCast]
+      simp [torInDegreeMap]
   | negSucc k =>
       exact (torInDegree_isZero_of_neg R X M (Int.negSucc k) (by omega)).eq_of_src _ _
 
@@ -275,7 +275,7 @@ private theorem torInDegreeMap_comp
       torInDegreeMap R n f M ≫ torInDegreeMap R n g M := by
   cases n with
   | ofNat k =>
-      simp [torInDegreeMap, NatTrans.leftDerived_comp, decLe_zero_natCast]
+      simp [torInDegreeMap, NatTrans.leftDerived_comp]
   | negSucc k =>
       exact (torInDegree_isZero_of_neg R X M (Int.negSucc k) (by omega)).eq_of_src _ _
 
@@ -356,7 +356,7 @@ private theorem coordinateSubmodule_eq_iSup
     apply hZ
     intro i j hij hp
     apply (e.le_symm_apply).mpr
-    show ModuleCat.subobjectModule _ (imageSubobject _) ≤ _
+    change ModuleCat.subobjectModule _ (imageSubobject _) ≤ _
     rw [subobjectModule_imageSubobject]
     exact le_iSup_of_le i (le_iSup_of_le j (le_iSup_of_le hp (by
       rw [B.ιTotalOrZero_eq (ComplexShape.up ℤ) i j n hij])))
@@ -712,7 +712,7 @@ private theorem reindexed_first_page_d
   -- not reducible, so the unifier compares the two page objects instead -- descending through
   -- `Subobject.underlying` into `ThinSkeleton` representatives and `Classical.choose`, with
   -- 38452 unfoldings of `Subobject.representative`. It is paid once, here.
-  show (torIndexedSpectralSequence_pageIso
+  change (torIndexedSpectralSequence_pageIso
           (spectralSequence (B.total (ComplexShape.up ℤ)) G hanti) true 1 zero_le_one 1 le_rfl
           (i, j) ≪≫ β (-i) (-j)).inv ≫
         ((torIndexedSpectralSequence (spectralSequence (B.total (ComplexShape.up ℤ)) G hanti)

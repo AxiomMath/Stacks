@@ -113,7 +113,7 @@ theorem exists_small_isColimit_finite_finitePresentation (X : Scheme.{u}) [Compa
     ⟨Over.homMk (P.limitCone.app i) (P.compatible i).symm⟩
   have hp {i j : P.indexTypeᵒᵖ} (g : i ⟶ j) : p i ≫ D.map g = p j := by
     ext
-    show P.limitCone.app i ≫ P.diagram.map g = P.limitCone.app j
+    change P.limitCone.app i ≫ P.diagram.map g = P.limitCone.app j
     simpa using (P.limitCone.naturality g).symm
   let c : Cone D := Cone.mk Y
     { app := p

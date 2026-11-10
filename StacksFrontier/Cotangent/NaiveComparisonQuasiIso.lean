@@ -190,13 +190,13 @@ def kernelConeToNaiveComponent (i : ℤ) :
 /-- In degree `-1`, the component of the comparison is `kernelConeToNaiveNegOne`. -/
 theorem kernelConeToNaiveComponent_negOne :
     kernelConeToNaiveComponent A B (-1) = kernelConeToNaiveNegOne A B := by
-  rw [kernelConeToNaiveComponent, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
+  rw [kernelConeToNaiveComponent, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
     Category.comp_id]
 
 /-- Outside degree `-1`, the component of the comparison is zero. -/
 theorem kernelConeToNaiveComponent_eq_zero (i : ℤ) (h : i ≠ -1) :
     kernelConeToNaiveComponent A B i = 0 := by
-  rw [kernelConeToNaiveComponent, dif_neg h]
+  rw [kernelConeToNaiveComponent, dite_eq_right h]
 
 /-- **The comparison from the cone of `Ker(d) ⟶ 0` into the two-term complex at `P₀ → B`.** -/
 def kernelConeToNaive :

@@ -192,7 +192,7 @@ theorem baseChangeCyclePullbackOfIsPullback_cycleAssociatedToClosedSubscheme
   apply Function.locallyFinsuppWithin.ext
   intro y
   rw [baseChangeCyclePullbackOfIsPullback_apply B hc f sq k _ y, h0, hc, add_zero]
-  show closedSubschemeCycleCoeff B.baseChange (pullback.snd f B.g)
+  change closedSubschemeCycleCoeff B.baseChange (pullback.snd f B.g)
       (pullback.snd ι (pullback.fst f B.g)) k (sq.isoPullback.hom.base y) =
     closedSubschemeCycleCoeff B.baseChange q (pullback.snd ι p) k y
   rw [closedSubschemeCycleCoeff_of_isIso_ambient B.baseChange q (pullback.snd f B.g)

@@ -235,9 +235,7 @@ theorem exists_mem_nonvanishingLocus_of_lTensor {R A : Type*} [CommRing R] [Comm
     (z : A ⊗[R] K) (y : Y)
     (hy : y ∈ nonvanishingLocus _ (e (K.subtype.lTensor A z))) :
     ∃ m₀ ∈ K, ρ.base y ∈ nonvanishingLocus F m₀ := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero, Stacks.Ample.nonvanishingLocus_zero, Set.mem_empty_iff_false] at hy
+  induction z using TensorProduct.inductionOn with
   | tmul a m₀ =>
     rw [LinearMap.lTensor_tmul, he] at hy
     have hm' := Stacks.Ample.nonvanishingLocus_smul_subset _ (c a)
@@ -365,8 +363,7 @@ theorem exists_isInvariant_mem_nonvanishingLocus
         pullbackSectionsHom ρ₂ F ⊤ ⊤ (le_preimage_top ρ₂ ⊤) m' := fun _ ↦ rfl
   have hkey : ∀ z, e₃ (δ.lTensor Γ(V, ⊤) z) = Ψ (e₂ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m' =>
       rw [LinearMap.lTensor_tmul, he₃, he₂, hsmul₃, hsmul₂, hδ, hΨ,
         pullbackSectionsHom_top_smul, pullbackSectionsHom_top_smul]

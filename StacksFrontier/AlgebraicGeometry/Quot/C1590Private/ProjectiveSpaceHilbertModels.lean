@@ -223,7 +223,7 @@ theorem ι_hilbertModelCoproductDesc (P : ULift.{u} (Polynomial ℚ)) :
     (Sigma.ι (hilbertModelSheaves n U) P).hom ≫ (hilbertModelCoproductDesc n U).hom =
       (hilbertModelSubfunctor n U P.down).ι :=
   congrArg (fun f : hilbertModelSheaves n U P ⟶ projectiveSpaceQuotModelSheaf n U => f.hom)
-    (Sigma.ι_desc (fun P => (ObjectProperty.homMk (hilbertModelSubfunctor n U P.down).ι :
+    (Sigma.ι_comp_desc (fun P => (ObjectProperty.homMk (hilbertModelSubfunctor n U P.down).ι :
       hilbertModelSheaves n U P ⟶ projectiveSpaceQuotModelSheaf n U)) P)
 
 /-- **`Quot` is covered by the `Quot^P`**: the morphism from their coproduct is locally

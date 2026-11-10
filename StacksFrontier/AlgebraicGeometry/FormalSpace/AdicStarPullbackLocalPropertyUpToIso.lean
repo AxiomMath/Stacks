@@ -35,9 +35,9 @@ is the same reading as for Stacks 0GBD,
 
 The proof is the chart argument of the source,
 `FormalSpace.pullback_snd_hasProperty_of_isLocallyAdicStar` in
-`StacksFrontier/AlgebraicGeometry/FormalSpace/AdicStarBaseChangeVariant.lean`. Its one further input,
-the invariance of `P` under isomorphism of source and target in `WAdm^{adic*}`, is derived here
-from axiom (1) of Situation 0CBA, an isomorphism being étale and a complete ring being its own
+`StacksFrontier/AlgebraicGeometry/FormalSpace/AdicStarBaseChangeVariant.lean`. Its one further
+input, the invariance of `P` under isomorphism of source and target in `WAdm^{adic*}`, is derived
+here from axiom (1) of Situation 0CBA, an isomorphism being étale and a complete ring being its own
 completion, by `FormalSpace.propertyIsInvariantUnderSourceIso_of_propertyIsLocalAdicStarUpToIso`
 and `FormalSpace.propertyIsInvariantUnderTargetIsoOn_of_propertyIsLocalAdicStarUpToIso`.
 
@@ -74,7 +74,8 @@ conclusion is that `X ×_Y Z` is again locally adic\*, so that those conditions 
 @[stacks 0GBE "the second half, the variant of Lemma 0GBD for morphisms between locally adic* \
 formal algebraic spaces: for a local property P of morphisms of WAdm^{adic*} in the sense of \
 Remark 0ANH (hloc, TopologicalRing.PropertyIsLocalAdicStarUpToIso) which is stable under base \
-change in the sense of the first half (hP, TopologicalRing.PropertyIsStableUnderBaseChangeAdicStar), \
+change in the sense of the first half \
+(hP, TopologicalRing.PropertyIsStableUnderBaseChangeAdicStar), \
 and morphisms f : X -> Y, g : Z -> Y of locally adic* formal algebraic spaces, if f satisfies the \
 equivalent conditions of the variant of Stacks 0ANG then X x_Y Z is locally adic* and \
 pr2 : X x_Y Z -> Z satisfies all three"]

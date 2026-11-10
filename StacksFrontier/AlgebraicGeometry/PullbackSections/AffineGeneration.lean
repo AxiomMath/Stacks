@@ -83,7 +83,7 @@ public theorem hom_ext_of_pullbackSection {X Y : Scheme.{u}} (f : Y ⟶ X)
   have key : (affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom ≫ ModuleCat.ofHom α =
       (affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom ≫ ModuleCat.ofHom β := by
     refine ModuleCat.ExtendScalars.hom_ext_one_tmul _ fun a => ?_
-    show α ((affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom
+    change α ((affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom
         ((1 : Γ(Y, V)) ⊗ₜ[Γ(X, U), (f.appLE U V hVU).hom] a)) =
       β ((affinePullbackSectionsBaseChangeIso f F hU hV hVU).hom
         ((1 : Γ(Y, V)) ⊗ₜ[Γ(X, U), (f.appLE U V hVU).hom] a))

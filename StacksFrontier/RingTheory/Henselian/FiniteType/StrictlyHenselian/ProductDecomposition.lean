@@ -363,7 +363,7 @@ theorem decompFactor_isLocal_finite_localHom (R : Type) [CommRing R] [IsLocalRin
         by_contra hna
         have hca : (Ideal.Quotient.mk mAi).comp (algebraMap R (A ⧸ Si)) a = 0 := by
           rw [RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem]
-          show Ideal.Quotient.mk Si (algebraMap R A a) ∈ mAi
+          change Ideal.Quotient.mk Si (algebraMap R A a) ∈ mAi
           rw [hmAi, hmAdef]
           exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hna)
         exact not_isUnit_zero (hca ▸ ha)
@@ -524,7 +524,7 @@ theorem orthogonalIdempotents_below_of_decomp (R : Type) [CommRing R] [IsLocalRi
       exact Finset.sum_congr rfl (fun i _ => hs i)
     have hkk := hkey _ _ h5
     rw [Finset.mul_sum] at hkk
-    show ∑ i, c * s i = c
+    change ∑ i, c * s i = c
     rw [hkk, hcc]
   · -- IsLocalRing
     intro i
@@ -546,7 +546,7 @@ theorem orthogonalIdempotents_below_of_decomp (R : Type) [CommRing R] [IsLocalRi
           (f.symm.toRingEquiv :
             ((S ⧸ Ideal.span {1 - c}) ⧸ Ideal.span {1 - ε i}) →+*
               (S ⧸ Ideal.span {1 - (c * s i)})))
-    show IsLocalHom (algebraMap R (S ⧸ Ideal.span {1 - (c * s i)}))
+    change IsLocalHom (algebraMap R (S ⧸ Ideal.span {1 - (c * s i)}))
     rw [← hcomp]
     exact RingHom.isLocalHom_comp _ _
   · -- Module.Finite

@@ -372,7 +372,7 @@ private lemma tor_additive (R : Type u) [CommRing R] (i : ℕ) :
   map_add {X Y} f g := by
     apply NatTrans.ext
     funext B
-    show (NatTrans.leftDerived ((MonoidalCategory.tensoringLeft _).map (f + g)) i).app B = _
+    change (NatTrans.leftDerived ((MonoidalCategory.tensoringLeft _).map (f + g)) i).app B = _
     rw [Functor.map_add, leftDerived_app_add]
     rfl
 
@@ -382,7 +382,7 @@ lemma tor_linear (R : Type u) [CommRing R] (i : ℕ) :
   map_smul f r := by
     apply NatTrans.ext
     funext B
-    show (NatTrans.leftDerived ((MonoidalCategory.tensoringLeft _).map (r • f)) i).app B = _
+    change (NatTrans.leftDerived ((MonoidalCategory.tensoringLeft _).map (r • f)) i).app B = _
     have h : (MonoidalCategory.tensoringLeft (ModuleCat.{u} R)).map (r • f) =
         r • (MonoidalCategory.tensoringLeft (ModuleCat.{u} R)).map f := by
       apply NatTrans.ext
@@ -468,7 +468,7 @@ private lemma torModule_isScalarTower (R A B : Type u) [CommRing R] [CommRing A]
     IsScalarTower R (A ⊗[R] B) (TorChangeOfRings.torObj R i A B) := by
   let := torModule R A B i
   refine ⟨fun r t x => ?_⟩
-  show (torTensorAction R A B i (r • t)) x = r • (torTensorAction R A B i t) x
+  change (torTensorAction R A B i (r • t)) x = r • (torTensorAction R A B i t) x
   rw [map_smul]
   rfl
 
@@ -481,7 +481,7 @@ private lemma torModule_tmul (R A B : Type u) [CommRing R] [CommRing A] [CommRin
           (ModuleCat.of R B) ≫
         ((Tor (ModuleCat.{u} R) i).obj (ModuleCat.of R A)).map
           (ModuleCat.ofHom (TorChangeOfRings.mulLinear R B b))) x := by
-  show (torTensorAction R A B i (a ⊗ₜ[R] b)) x = _
+  change (torTensorAction R A B i (a ⊗ₜ[R] b)) x = _
   rw [torTensorAction, Algebra.TensorProduct.lift_tmul]
   exact congrArg (fun f : Module.End R (TorChangeOfRings.torObj R i A B) => f x)
     (torActions_commute R A B i a b).eq
@@ -596,7 +596,7 @@ private lemma resolution_lift_exists {R S : Type u} [CommRing R] [CommRing S]
   obtain ⟨ψ, hψ⟩ := exists_chainMap_lift P.complex
     ((F.mapHomologicalComplex _).obj Q.complex) (F.map (Q.π.f 0))
     (by
-      show F.map (Q.complex.d 1 0) ≫ F.map (Q.π.f 0) = 0
+      change F.map (Q.complex.d 1 0) ≫ F.map (Q.π.f 0) = 0
       rw [← F.map_comp, Q.complex_d_comp_π_f_zero, F.map_zero])
     (Q.exact₀.map F) (fun n => (Q.exact_succ n).map F)
     (P.π.f 0 ≫ f') (by simp)
@@ -611,7 +611,7 @@ private lemma resolution_lift_homotopy {R S : Type u} [CommRing R] [CommRing S]
   let F := ModuleCat.restrictScalars ρ
   exact nonempty_homotopy_of_augmentation (F.map (Q.π.f 0))
     (by
-      show F.map (Q.complex.d 1 0) ≫ F.map (Q.π.f 0) = 0
+      change F.map (Q.complex.d 1 0) ≫ F.map (Q.π.f 0) = 0
       rw [← F.map_comp, Q.complex_d_comp_π_f_zero, F.map_zero])
     (Q.exact₀.map F) (fun n => (Q.exact_succ n).map F) ψ ψ'
     (ModuleCat.hom_ext (LinearMap.ext hψ))
@@ -868,7 +868,7 @@ private lemma torMapOfLift_naturality_left {R S : Type u} [CommRing R] [CommRing
   have hη := homologyRestrictIso_naturality (R := R) κ' i
   have ha := leftDerived_app_comp_iso_hom τ P i
   have ha' := iso_inv_comp_leftDerived_app τ' Q i
-  show (NatTrans.leftDerived τ i).app N ≫ _ = _ ≫
+  change (NatTrans.leftDerived τ i).app N ≫ _ = _ ≫
     (ModuleCat.restrictScalars (algebraMap R S)).map ((NatTrans.leftDerived τ' i).app N')
   simp only [torMapOfLift, AddEquiv.apply_symm_apply, Category.assoc]
   rw [reassoc_of% ha, reassoc_of% hκH, reassoc_of% hη]
@@ -910,7 +910,7 @@ private lemma torMapOfLift_naturality_right {R S : Type u} [CommRing R] [CommRin
   have ha := ProjectiveResolution.isoLeftDerivedObj_hom_naturality a P P α hα F i
   have ha' := ProjectiveResolution.isoLeftDerivedObj_inv_naturality a' Q Q β hβ F' i
   dsimp only [Functor.comp_map] at ha ha'
-  show (F.leftDerived i).map a ≫ _ = _ ≫
+  change (F.leftDerived i).map a ≫ _ = _ ≫
     (ModuleCat.restrictScalars (algebraMap R S)).map ((F'.leftDerived i).map a')
   simp only [torMapOfLift, AddEquiv.apply_symm_apply, Category.assoc]
   rw [reassoc_of% ha, reassoc_of% hκH, reassoc_of% hη]
@@ -965,15 +965,14 @@ private lemma algebraTorMap_smul (i : ℕ) (t : A ⊗[R] B) (x : TorChangeOfRing
         algebraTorMap R S A B A' B' fA fB i x := by
   let := torModule R A B i
   let := torModule S A' B' i
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [zero_smul, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [add_smul, map_add, ht, ht']
   | tmul a b =>
     have ht : TorChangeOfRings.tensorProductMap R S A B A' B' fA fB (a ⊗ₜ[R] b) =
         fA a ⊗ₜ[S] fB b := by
       simp [TorChangeOfRings.tensorProductMap]
     rw [ht]
-    show algebraTorMap R S A B A' B' fA fB i
+    change algebraTorMap R S A B A' B' fA fB i
         ((torLeftAction R A B i a) ((torRightAction R A B i b) x)) =
       torLeftAction S A' B' i (fA a)
         (torRightAction S A' B' i (fB b) (algebraTorMap R S A B A' B' fA fB i x))
@@ -1012,13 +1011,13 @@ private lemma extensionMap_one_tmul (S : TorChangeOfRings.System) : ∀ (R R' A 
   intro R R' A B A' B' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ i fA fB x
   let := S.action R A B i
   let := S.action R' A' B' i
-  show (1 : A' ⊗[R'] B') • S.map R R' A B A' B' i fA fB x = _
+  change (1 : A' ⊗[R'] B') • S.map R R' A B A' B' i fA fB x = _
   exact one_smul _ _
 
 private lemma homologyRestrictIso_self (R : Type u) [CommRing R]
     (K : ChainComplex (ModuleCat.{u} R) ℕ) (i : ℕ) :
     (TorChangeOfRings.homologyRestrictIso R R K i).hom = 𝟙 (K.homology i) := by
-  show ((K.sc i).homologyData.left.map (𝟭 (ModuleCat.{u} R))).homologyIso.hom = _
+  change ((K.sc i).homologyData.left.map (𝟭 (ModuleCat.{u} R))).homologyIso.hom = _
   let h := (K.sc i).homologyData.left
   have hc : (h.map (𝟭 (ModuleCat.{u} R))).cyclesIso.hom = h.cyclesIso.hom := by
     rw [← cancel_mono h.i]
@@ -1026,7 +1025,7 @@ private lemma homologyRestrictIso_self (R : Type u) [CommRing R]
       h.cyclesIso_hom_comp_i.symm
   rw [← cancel_epi (K.sc i).homologyπ,
     ShortComplex.LeftHomologyData.homologyπ_comp_homologyIso_hom]
-  show (h.map (𝟭 (ModuleCat.{u} R))).cyclesIso.hom ≫ h.π = _
+  change (h.map (𝟭 (ModuleCat.{u} R))).cyclesIso.hom ≫ h.π = _
   rw [hc, ← h.homologyπ_comp_homologyIso_hom]
   simp only [ShortComplex.map_id, ShortComplex.LeftHomologyData.homologyIso,
     ShortComplex.leftHomologyIso, ShortComplex.LeftHomologyData.leftHomologyIso,
@@ -1096,7 +1095,7 @@ private lemma homologyClass_restrict {R S : Type u} [CommRing R] [CommRing S]
   let F := ModuleCat.restrictScalars ρ
   let h := K.moduleCatLeftHomologyData
   rw [h.mapHomologyIso_eq]
-  show h.homologyIso.inv ((h.map F).homologyIso.hom ((K.map F).homologyπ _)) = _
+  change h.homologyIso.inv ((h.map F).homologyIso.hom ((K.map F).homologyπ _)) = _
   have hh := congrArg (fun k : (K.map F).cycles ⟶ F.obj h.H =>
     k ((K.map F).moduleCatCyclesIso.inv ⟨x, hx⟩))
     ((h.map F).homologyπ_comp_homologyIso_hom)
@@ -1161,7 +1160,7 @@ private lemma torMap_cycleClass {R S : Type u} [CommRing R] [CommRing S] [Algebr
     rwa [hx, map_zero] at h
   refine ⟨hx', ?_⟩
   rw [torMap_eq_of_lift f g P Q ψ hψ]
-  show (Q.isoLeftDerivedObj ((MonoidalCategory.tensoringLeft _).obj M') i).inv
+  change (Q.isoLeftDerivedObj ((MonoidalCategory.tensoringLeft _).obj M') i).inv
       ((TorChangeOfRings.homologyRestrictIso R S (tensorComplex M' Q.complex) i).hom
         (ShortComplex.homologyMap ((HomologicalComplex.shortComplexFunctor _ _ i).map φ)
           ((P.isoLeftDerivedObj ((MonoidalCategory.tensoringLeft _).obj M) i).hom
@@ -1203,7 +1202,7 @@ private lemma torMap_comp {R S T : Type u} [CommRing R] [CommRing S] [CommRing T
   let θ := chainMapComp (algebraMap R S) (algebraMap S T) (algebraMap R T)
     (IsScalarTower.algebraMap_eq R S T) ψ χ
   have hθ (p : P.complex.X 0) : L.π.f 0 (θ.f 0 p) = (g'.comp g) (P.π.f 0 p) := by
-    show L.π.f 0 (χ.f 0 (ψ.f 0 p)) = g' (g (P.π.f 0 p))
+    change L.π.f 0 (χ.f 0 (ψ.f 0 p)) = g' (g (P.π.f 0 p))
     rw [hχ, hψ]
   obtain ⟨x, hx, rfl⟩ := torCycleClass_surjective M P i z
   obtain ⟨hx', he⟩ := torMap_cycleClass f g P Q ψ hψ i x hx
@@ -1218,8 +1217,7 @@ private lemma torMap_comp {R S T : Type u} [CommRing R] [CommRing S] [CommRing T
           (tensorComplexMap (algebraMap S T) f' χ).f i
             ((tensorComplexMap (algebraMap R S) f ψ).f i x) := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' => simp only [map_add, hy, hy']
       | tmul m p => rfl
     exact hh x
@@ -1296,7 +1294,7 @@ private lemma homologyClass_extend {R S : Type u} [CommRing R] [CommRing S]
   let : PreservesFiniteLimits F := ModuleCat.preservesFiniteLimits_extendScalars_of_flat
     (RingHom.flat_algebraMap_iff.mpr inferInstance)
   have hx' : (K.map F).g ((1 : S) ⊗ₜ[R, algebraMap R S] x) = 0 := by
-    show (1 : S) ⊗ₜ[R, algebraMap R S] K.g x = 0
+    change (1 : S) ⊗ₜ[R, algebraMap R S] K.g x = 0
     rw [hx, TensorProduct.tmul_zero]
   refine ⟨hx', ?_⟩
   let h := K.moduleCatLeftHomologyData
@@ -1311,7 +1309,7 @@ private lemma homologyClass_extend {R S : Type u} [CommRing R] [CommRing S]
     exact h₁.trans h₂.symm
   apply (ModuleCat.mono_iff_injective (K.mapHomologyIso F).hom).mp inferInstance
   rw [Iso.inv_hom_id_apply]
-  show (1 : S) ⊗ₜ[R, algebraMap R S] homologyClass K x hx =
+  change (1 : S) ⊗ₜ[R, algebraMap R S] homologyClass K x hx =
     (K.mapHomologyIso F).hom ((K.map F).homologyπ _)
   rw [hc, h.mapHomologyIso_eq]
   have hh := congrArg (fun k : (K.map F).cycles ⟶ F.obj h.H => k ((h.map F).cyclesIso.inv y))
@@ -1319,9 +1317,9 @@ private lemma homologyClass_extend {R S : Type u} [CommRing R] [CommRing S]
   change (h.map F).homologyIso.hom ((K.map F).homologyπ _) =
     (h.map F).π ((h.map F).cyclesIso.hom ((h.map F).cyclesIso.inv y)) at hh
   rw [Iso.inv_hom_id_apply] at hh
-  show _ = (F.map h.homologyIso.inv) ((h.map F).homologyIso.hom ((K.map F).homologyπ _))
+  change _ = (F.map h.homologyIso.inv) ((h.map F).homologyIso.hom ((K.map F).homologyπ _))
   rw [hh]
-  show (1 : S) ⊗ₜ[R, algebraMap R S] homologyClass K x hx =
+  change (1 : S) ⊗ₜ[R, algebraMap R S] homologyClass K x hx =
     (1 : S) ⊗ₜ[R, algebraMap R S] (h.homologyIso.inv (h.π ⟨x, hx⟩))
   exact congrArg (fun z : K.homology => (1 : S) ⊗ₜ[R, algebraMap R S] z)
     (congrArg (fun k : h.K ⟶ K.homology => k ⟨x, hx⟩) K.moduleCatCyclesIso_inv_π)
@@ -1354,7 +1352,7 @@ private lemma flatTorBaseChangeIso_one_tmul {R S : Type u} [CommRing R] [CommRin
     (baseChangeUnit (algebraMap R S) N) P Q ψ hψ i x hx
   rw [hm]
   obtain ⟨hx'', he⟩ := homologyClass_extend (S := S) ((tensorComplex M P.complex).sc i) x hx
-  show (Q.isoLeftDerivedObj ((MonoidalCategory.tensoringLeft _).obj (F.obj M)) i).inv
+  change (Q.isoLeftDerivedObj ((MonoidalCategory.tensoringLeft _).obj (F.obj M)) i).inv
       (ShortComplex.homologyMap ((HomologicalComplex.shortComplexFunctor _ _ i).map
         (tensorComplexBaseChangeIso M P.complex).hom)
         ((((tensorComplex M P.complex).sc i).mapHomologyIso F).inv
@@ -1371,13 +1369,12 @@ private lemma flatTorBaseChangeIso_one_tmul {R S : Type u} [CommRing R] [CommRin
             ((1 : S) ⊗ₜ[R, algebraMap R S] y) =
           (tensorComplexMap (algebraMap R S) (baseChangeUnit (algebraMap R S) M) ψ).f i y := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' => simp only [TensorProduct.tmul_add, map_add, hy, hy']
       | tmul m p => rfl
     exact hh x
   congr 1
-  show homologyClass ((tensorComplex (F.obj M) Q.complex).sc i) _ _ = _
+  change homologyClass ((tensorComplex (F.obj M) Q.complex).sc i) _ _ = _
   congr 1
 
 private lemma torSystem_isCanonical
@@ -1422,7 +1419,7 @@ private lemma isIso_torBaseChange {R S : Type u} [CommRing R] [CommRing S]
       (flatTorBaseChangeIso M N i).hom := by
     apply ModuleCat.ExtendScalars.hom_ext
     intro x
-    show (1 : S) • torMap (baseChangeUnit (algebraMap R S) M)
+    change (1 : S) • torMap (baseChangeUnit (algebraMap R S) M)
       (baseChangeUnit (algebraMap R S) N) i x = _
     rw [one_smul]
     exact (flatTorBaseChangeIso_one_tmul M N i x).symm
@@ -1445,8 +1442,7 @@ private lemma tensorProductBaseChangeEquiv_map (R S A B : Type u)
       (TorChangeOfRings.tensorProductMap R S A B (S ⊗[R] A) (S ⊗[R] B)
         Algebra.TensorProduct.includeRight Algebra.TensorProduct.includeRight x) =
       (1 : S) ⊗ₜ[R] x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.tmul_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, TensorProduct.tmul_add, hx, hy]
   | tmul a b =>
     simp [TorChangeOfRings.tensorProductMap, tensorProductBaseChangeEquiv,
@@ -1462,7 +1458,7 @@ private lemma tensorProductMap_isBaseChange (R S A B : Type u)
   apply IsBaseChange.of_equiv (tensorProductBaseChangeEquiv R S A B).symm.toLinearEquiv
   intro x
   apply (tensorProductBaseChangeEquiv R S A B).injective
-  show (tensorProductBaseChangeEquiv R S A B)
+  change (tensorProductBaseChangeEquiv R S A B)
     ((tensorProductBaseChangeEquiv R S A B).symm _) = _
   rw [AlgEquiv.apply_symm_apply, hf, tensorProductBaseChangeEquiv_map]
 
@@ -1485,8 +1481,7 @@ private noncomputable def baseChangeTensorIso {R S : Type u} [CommRing R] [CommR
       map_smul' := by
         intro s x
         change eR (s • x) = s • eR x
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => simp only [smul_add, map_add, hx, hy]
         | tmul a m => rfl }
   exact eS.toModuleIso
@@ -1536,7 +1531,7 @@ private lemma flatTorTensorIso_one_tmul {R S : Type u} [CommRing R] [CommRing S]
     (flatTorTensorIso (S := S) M N i).hom ((1 : S) ⊗ₜ[R] x) =
       torMap (tensorUnit M) (tensorUnit N) i x := by
   let : RingHomCompTriple (algebraMap R S) (algebraMap S S) (algebraMap R S) := ⟨rfl⟩
-  show torMap (baseChangeTensorIso M).hom.hom (baseChangeTensorIso N).hom.hom i
+  change torMap (baseChangeTensorIso M).hom.hom (baseChangeTensorIso N).hom.hom i
     ((flatTorBaseChangeIso M N i).hom ((1 : S) ⊗ₜ[R, algebraMap R S] x)) = _
   rw [flatTorBaseChangeIso_one_tmul, ← torMap_comp]
   rfl
@@ -1551,8 +1546,7 @@ private lemma bijective_of_pushout
     (he : ∀ x, f (1 ⊗ₜ[C] x) = e (1 ⊗ₜ[R] x)) : Function.Bijective f := by
   let c := Algebra.IsPushout.cancelBaseChange R S C D M
   have hf (x : S ⊗[R] M) : f (c.symm x) = e x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s m =>
       rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
@@ -1592,7 +1586,7 @@ private lemma torSystem_flat_baseChange (R S A B : Type u)
         Algebra.TensorProduct.includeRight Algebra.TensorProduct.includeRight
       commutes' := by
         intro r
-        show (Algebra.TensorProduct.lift _ _ _) ((algebraMap R C) r) = _
+        change (Algebra.TensorProduct.lift _ _ _) ((algebraMap R C) r) = _
         exact (Algebra.TensorProduct.lift _ _ _).commutes r }
   let : Algebra C D := θ.toAlgebra
   let : IsScalarTower R C D := IsScalarTower.of_algebraMap_eq fun r => (θ.commutes r).symm
@@ -1609,7 +1603,7 @@ private lemma torSystem_flat_baseChange (R S A B : Type u)
     apply bijective_of_pushout (R := R) (S := S) _
       (flatTorTensorIso (S := S) (ModuleCat.of R A) (ModuleCat.of R B) i).toLinearEquiv
     intro x
-    show f ((1 : D) ⊗ₜ[C, θ.toRingHom] x) = _
+    change f ((1 : D) ⊗ₜ[C, θ.toRingHom] x) = _
     rw [extensionMap_one_tmul]
     exact (flatTorTensorIso_one_tmul (S := S) (ModuleCat.of R A)
       (ModuleCat.of R B) i x).symm
@@ -1628,8 +1622,8 @@ private lemma diagram_enoughProjectives (J : Type u) [SmallCategory J]
   have he (j : J) : Epi (e.app j) := by
     have h : Sigma.ι (fun _ : j ⟶ j => Projective.over (F.obj j)) (𝟙 j) ≫
         (Sigma.ι P j).app j ≫ e.app j = Projective.π (F.obj j) := by
-      rw [← NatTrans.comp_app, Sigma.ι_desc]
-      show ((evaluationAdjunctionRight (ModuleCat.{u} R) j).homEquiv _ _)
+      rw [← NatTrans.comp_app, Sigma.ι_comp_desc]
+      change ((evaluationAdjunctionRight (ModuleCat.{u} R) j).homEquiv _ _)
         (((evaluationAdjunctionRight (ModuleCat.{u} R) j).homEquiv _ _).symm _) = _
       exact Equiv.apply_symm_apply _ _
     have : Epi (Sigma.ι (fun _ : j ⟶ j => Projective.over (F.obj j)) (𝟙 j) ≫
@@ -1646,7 +1640,7 @@ private lemma evaluation_preservesProjectives (J : Type u) [SmallCategory J]
     refine ⟨fun {X Y} f _ => ?_⟩
     let : ∀ k : J, Epi (((evaluationRightAdjoint (ModuleCat.{u} R) j).map f).app k) :=
       fun k => by
-        show Epi (Limits.Pi.map (fun _ : k ⟶ j => f))
+        change Epi (Limits.Pi.map (fun _ : k ⟶ j => f))
         apply (ModuleCat.epi_iff_surjective _).mpr
         intro y
         let hf := (ModuleCat.epi_iff_surjective f).mp inferInstance
@@ -1654,7 +1648,7 @@ private lemma evaluation_preservesProjectives (J : Type u) [SmallCategory J]
         refine ⟨(ModuleCat.piIsoPi (fun _ : k ⟶ j => X)).inv x, ?_⟩
         apply (ModuleCat.piIsoPi (fun _ : k ⟶ j => Y)).toLinearEquiv.injective
         funext a
-        show ((ModuleCat.piIsoPi (fun _ : k ⟶ j => Y)).hom
+        change ((ModuleCat.piIsoPi (fun _ : k ⟶ j => Y)).hom
           ((Limits.Pi.map (fun _ : k ⟶ j => f))
             ((ModuleCat.piIsoPi (fun _ : k ⟶ j => X)).inv x))) a =
           ((ModuleCat.piIsoPi (fun _ : k ⟶ j => Y)).hom y) a
@@ -1764,18 +1758,18 @@ private lemma leftDerivedColimitIso_ι {J : Type u} [SmallCategory J] [IsFiltere
   have ht := NatTrans.app_homology (evaluationToColimit S j) (K.sc i)
   have ht' : ((K.sc i).mapHomologyIso ((evaluation J (ModuleCat.{u} S)).obj j)).hom ≫
       colimit.ι (K.homology i) j = H.map κ ≫ ((K.sc i).mapHomologyIso C').hom := by
-    show ((K.sc i).mapHomologyIso ((evaluation J (ModuleCat.{u} S)).obj j)).hom ≫
+    change ((K.sc i).mapHomologyIso ((evaluation J (ModuleCat.{u} S)).obj j)).hom ≫
       (evaluationToColimit S j).app (K.sc i).homology = _
     rw [ht, Iso.hom_inv_id_assoc]
     rfl
-  show (F.leftDerived i).map (colimit.ι D j) ≫
+  change (F.leftDerived i).map (colimit.ι D j) ≫
     (Q.isoLeftDerivedObj F i).hom ≫ H.map e.hom ≫ ((K.sc i).mapHomologyIso C').hom =
     ((Qj.isoLeftDerivedObj F i).hom ≫
       ((K.sc i).mapHomologyIso ((evaluation J (ModuleCat.{u} S)).obj j)).hom) ≫
         colimit.ι (K.homology i) j
   rw [← Category.assoc, ← Category.assoc, hh]
   simp only [Category.assoc]
-  show (Qj.isoLeftDerivedObj F i).hom ≫ H.map ((F.mapHomologicalComplex _).map ψ) ≫
+  change (Qj.isoLeftDerivedObj F i).hom ≫ H.map ((F.mapHomologicalComplex _).map ψ) ≫
     H.map e.hom ≫ ((K.sc i).mapHomologyIso C').hom = _
   rw [← Functor.map_comp_assoc, he, ht']
 
@@ -1852,7 +1846,7 @@ private lemma homology_preservesFilteredColimitsOfShape
     let ec : H.mapCocone c ≅ s := Cocone.ext e' (by
       intro j
       have ht := NatTrans.app_homology (evaluationToColimit R j) (K.sc i)
-      show (H.map ((NatTrans.mapHomologicalComplex (evaluationToColimit R j) _).app K)) ≫
+      change (H.map ((NatTrans.mapHomologicalComplex (evaluationToColimit R j) _).app K)) ≫
         ((K.sc i).mapHomologyIso C).hom =
         ((K.sc i).mapHomologyIso ((evaluation J (ModuleCat.{u} R)).obj j)).hom ≫
           (evaluationToColimit R j).app (K.sc i).homology
@@ -1893,7 +1887,7 @@ private lemma tor_preservesFilteredColimits_left (R : Type u) [CommRing R]
   let : PreservesColimitsOfShape J (tensorComplexFunctor P.complex) := by
     apply HomologicalComplex.preservesColimitsOfShape_of_eval
     intro n
-    show PreservesColimitsOfShape J (MonoidalCategory.tensorRight (P.complex.X n))
+    change PreservesColimitsOfShape J (MonoidalCategory.tensorRight (P.complex.X n))
     infer_instance
   let := homology_preservesFilteredColimitsOfShape J R i
   exact preservesColimitsOfShape_of_natIso (torLeftIso N P i).symm
@@ -1957,8 +1951,7 @@ private def functorTensorNatTrans {B : Type u} [CommRing B]
     apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul m t =>
       change functorTensorMap F hF N (f m ⊗ₜ[B] t) =
@@ -2008,12 +2001,11 @@ private lemma functorTensorMap_bijective_of_finite_free {B : Type u} [CommRing B
         rw [F.map_sum, addCommGrp_sum_apply]
       _ = x := by rw [hsum, F.map_id]; rfl
   have hl (z : M ⊗[B] F.obj (ModuleCat.of B B)) : g (functorTensorMap F hF M z) = z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [g]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, hgadd, hx, hy]
     | tmul m t =>
       rw [functorTensorMap_tmul]
-      show (∑ j, b j ⊗ₜ[B]
+      change (∑ j, b j ⊗ₜ[B]
         (F.map (ModuleCat.ofHom (b.coord j))) (F.map (spanHom M m) t)) = m ⊗ₜ[B] t
       have he (j : Module.Free.ChooseBasisIndex B M) :
           spanHom M m ≫ ModuleCat.ofHom (b.coord j) =
@@ -2062,7 +2054,7 @@ private lemma functorTensorMap_bijective_of_flat {B : Type u} [CommRing B]
   have he : α.app M = T.map E.inv ≫ α.app (ModuleCat.of B (Module.DirectLimit G f)) ≫
       F.map E.hom := by
     rw [← α.naturality]
-    show α.app M = T.map E.inv ≫ T.map E.hom ≫ α.app M
+    change α.app M = T.map E.inv ≫ T.map E.hom ≫ α.app M
     rw [← T.map_comp_assoc, E.inv_hom_id, T.map_id, Category.id_comp]
   apply (ConcreteCategory.isIso_iff_bijective (α.app M)).mp
   rw [he]
@@ -2088,12 +2080,12 @@ private lemma torMap_sameRing {R : Type u} [CommRing R]
         (F'.mapHomologicalComplex _).map ψ :=
     tensorComplex_hom_ext fun _ _ _ => rfl
   rw [torMap_eq_of_lift f.hom g.hom P Q ψ hψ i]
-  show ModuleCat.ofHom (torMapOfLift f.hom P Q ψ i) =
+  change ModuleCat.ofHom (torMapOfLift f.hom P Q ψ i) =
     (NatTrans.leftDerived α i).app N ≫ (F'.leftDerived i).map g
   rw [P.leftDerived_app_eq α, F'.leftDerived_map_eq i g ψ
     (ProjectiveResolution.lift_commutes g P Q)]
   simp only [Category.assoc]
-  show (P.isoLeftDerivedObj F i).hom ≫
+  change (P.isoLeftDerivedObj F i).hom ≫
       (HomologicalComplex.homologyFunctor _ _ i).map
         (tensorComplexMap (algebraMap R R) f.hom ψ) ≫
       (TorChangeOfRings.homologyRestrictIso R R (tensorComplex M' Q.complex) i).hom ≫
@@ -2114,8 +2106,7 @@ private lemma bijective_of_pushout_of_tmul
     Function.Bijective f := by
   let c := Algebra.IsPushout.cancelBaseChange R S C D M
   have hf (x : S ⊗[R] M) : f (c.symm x) = e x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s m =>
       rw [Algebra.IsPushout.cancelBaseChange_symm_tmul]
@@ -2191,7 +2182,7 @@ private lemma bijective_of_flat_functor {A A' C D T T' : Type u}
     Function.Bijective f := by
   let : Module A T := Module.compHom T (algebraMap A C)
   have : IsScalarTower A C T := ⟨fun a c x => by
-    show (a • c) • x = algebraMap A C a • (c • x)
+    change (a • c) • x = algebraMap A C a • (c • x)
     rw [Algebra.smul_def, mul_smul]⟩
   let := functorModule G
   let αl : T ≃ₗ[A] G.obj (ModuleCat.of A A) :=
@@ -2205,7 +2196,7 @@ private lemma bijective_of_flat_functor {A A' C D T T' : Type u}
     β.symm.bijective.comp (hg.comp (LinearEquiv.lTensor A' αl).bijective)
   refine bijective_of_pushout_of_tmul (R := A) (S := A') f e he fun s x => ?_
   apply β.injective
-  show β (f _) = β (β.symm (g (s ⊗ₜ[A] α x)))
+  change β (f _) = β (β.symm (g (s ⊗ₜ[A] α x)))
   rw [hf, AddEquiv.apply_symm_apply]
   rfl
 
@@ -2230,7 +2221,7 @@ private lemma tor_flip_additive (R : Type u) [CommRing R] (N : ModuleCat.{u} R) 
     ((Tor (ModuleCat.{u} R) i).flip.obj N).Additive where
   map_add {X Y} f g := by
     let := tor_additive R i
-    show ((Tor (ModuleCat.{u} R) i).map (f + g)).app N = _
+    change ((Tor (ModuleCat.{u} R) i).map (f + g)).app N = _
     rw [Functor.map_add]
     rfl
 
@@ -2298,7 +2289,7 @@ private lemma torSystem_isIso_extensionMap_left (R A A' B : Type u)
     · intro a x
       have ha : algebraMap A C a = a ⊗ₜ[R] (1 : B) := rfl
       rw [ha, torModule_tmul_one]
-      show (F.map (ModuleCat.ofHom (TorChangeOfRings.mulLinear R A a)) ≫
+      change (F.map (ModuleCat.ofHom (TorChangeOfRings.mulLinear R A a)) ≫
         F.map (restrictIso R A A).hom) x =
         (F.map (restrictIso R A A).hom ≫ F.map ((ModuleCat.restrictScalars (algebraMap R A)).map
           (spanHom (ModuleCat.of A A) a))) x
@@ -2306,7 +2297,7 @@ private lemma torSystem_isIso_extensionMap_left (R A A' B : Type u)
     · intro s x
       have h1 : (f.hom.comp e.inv.hom) (algebraMap A' D s ⊗ₜ[C] x) =
           (s ⊗ₜ[R] (1 : B)) • torSystem.map R R A B A' B i fA (AlgHom.id R B) x := by
-        show f ((algebraMap A' D s) ⊗ₜ[C, θ] x) = _
+        change f ((algebraMap A' D s) ⊗ₜ[C, θ] x) = _
         rw [show (algebraMap A' D s) ⊗ₜ[C, θ] x =
             (algebraMap A' D s) • ((1 : D) ⊗ₜ[C, θ] x) by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one], map_smul]
@@ -2323,7 +2314,7 @@ private lemma torSystem_isIso_extensionMap_left (R A A' B : Type u)
             (ModuleCat.restrictScalars (algebraMap R A)).map (spanHom (ModuleCat.of A A') s) := by
         apply ModuleCat.hom_ext
         exact LinearMap.ext fun y => mul_comm s (fA y)
-      show β ((f.hom.comp e.inv.hom) (algebraMap A' D s ⊗ₜ[C] x)) =
+      change β ((f.hom.comp e.inv.hom) (algebraMap A' D s ⊗ₜ[C] x)) =
         (F.map (restrictIso R A A).hom ≫
         F.map ((ModuleCat.restrictScalars (algebraMap R A)).map (spanHom (ModuleCat.of A A') s))) x
       rw [h1, h2, torModule_tmul_one, ← F.map_comp, ← hm, F.map_comp, F.map_comp]
@@ -2391,7 +2382,7 @@ private lemma torSystem_isIso_extensionMap_right (R A B B' : Type u)
     · intro b x
       have hb : algebraMap B C b = (1 : A) ⊗ₜ[R] b := rfl
       rw [hb, torModule_one_tmul]
-      show (F.map (ModuleCat.ofHom (TorChangeOfRings.mulLinear R B b)) ≫
+      change (F.map (ModuleCat.ofHom (TorChangeOfRings.mulLinear R B b)) ≫
         F.map (restrictIso R B B).hom) x =
         (F.map (restrictIso R B B).hom ≫ F.map ((ModuleCat.restrictScalars (algebraMap R B)).map
           (spanHom (ModuleCat.of B B) b))) x
@@ -2399,7 +2390,7 @@ private lemma torSystem_isIso_extensionMap_right (R A B B' : Type u)
     · intro s x
       have h1 : (f.hom.comp e.inv.hom) (algebraMap B' D s ⊗ₜ[C] x) =
           ((1 : A) ⊗ₜ[R] s) • torSystem.map R R A B A B' i (AlgHom.id R A) fB x := by
-        show f ((algebraMap B' D s) ⊗ₜ[C, θ] x) = _
+        change f ((algebraMap B' D s) ⊗ₜ[C, θ] x) = _
         rw [show (algebraMap B' D s) ⊗ₜ[C, θ] x =
             (algebraMap B' D s) • ((1 : D) ⊗ₜ[C, θ] x) by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one], map_smul]
@@ -2416,7 +2407,7 @@ private lemma torSystem_isIso_extensionMap_right (R A B B' : Type u)
             (ModuleCat.restrictScalars (algebraMap R B)).map (spanHom (ModuleCat.of B B') s) := by
         apply ModuleCat.hom_ext
         exact LinearMap.ext fun y => mul_comm s (fB y)
-      show β ((f.hom.comp e.inv.hom) (algebraMap B' D s ⊗ₜ[C] x)) =
+      change β ((f.hom.comp e.inv.hom) (algebraMap B' D s ⊗ₜ[C] x)) =
         (F.map (restrictIso R B B).hom ≫
         F.map ((ModuleCat.restrictScalars (algebraMap R B)).map
           (spanHom (ModuleCat.of B B') s))) x
@@ -2437,7 +2428,7 @@ private lemma semilinearExtension_one_tmul {C D T T' : Type u} [CommRing C] [Com
     [AddCommGroup T] [Module C T] [AddCommGroup T'] [Module D T'] (θ : C →+* D)
     (g : T →ₛₗ[θ] T') (x : T) :
     semilinearExtension θ g ((1 : D) ⊗ₜ[C, θ] x) = g x := by
-  show (1 : D) • g x = _
+  change (1 : D) • g x = _
   exact one_smul _ _
 
 private lemma isIso_semilinearExtension_comp {C C' C'' T T' T'' : Type u}
@@ -2457,7 +2448,7 @@ private lemma isIso_semilinearExtension_comp {C C' C'' T T' T'' : Type u}
     apply ModuleCat.ExtendScalars.hom_ext
     intro x
     rw [semilinearExtension_one_tmul, hg]
-    show _ = semilinearExtension θ₂ g₂ ((ModuleCat.extendScalars θ₂).map
+    change _ = semilinearExtension θ₂ g₂ ((ModuleCat.extendScalars θ₂).map
       (semilinearExtension θ₁ g₁)
       ((ModuleCat.extendScalarsComp θ₁ θ₂).hom.app (ModuleCat.of C T) ((1 : C'') ⊗ₜ x)))
     rw [ModuleCat.extendScalarsComp_hom_app_one_tmul, ModuleCat.ExtendScalars.map_tmul,
@@ -2490,8 +2481,7 @@ private lemma torSystem_flat_algebra_extension (R A B A' B' : Type u)
     (torSystem.map R R A' B A' B' i (AlgHom.id R A') fB) _ (fun x => ?_) h₁ h₂
   · apply RingHom.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul a b => simp [TorChangeOfRings.tensorProductMap]
   · have h := torSystem_map_comp R R R A B A' B A' B' i fA (AlgHom.id R B) (AlgHom.id R A') fB x

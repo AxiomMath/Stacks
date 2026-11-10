@@ -414,7 +414,7 @@ theorem perfectChernClass_biprod (hE : HasDefinedChernClasses E) (hF : HasDefine
   set H := hE.some
   set H' := hF.some
   refine (eq_perfectChernClass C sX hEF (H.biprod H') ?_).symm
-  show TotalChowClass.res (pullback.fst H.f H'.f ≫ H.f) rfl
+  change TotalChowClass.res (pullback.fst H.f H'.f ≫ H.f) rfl
       (perfectChernClass C sX hE * perfectChernClass C sX hF) =
     complexChern C ((pullback.fst H.f H'.f ≫ H.f) ≫ sX)
       (isLocallyBoundedFiniteLocallyFree_biprod
@@ -443,7 +443,7 @@ theorem perfectPowerSum_biprod (hE : HasDefinedChernClasses E) (hF : HasDefinedC
   set H := hE.some
   set H' := hF.some
   refine (eq_perfectPowerSum C sX hEF (H.biprod H') p ?_).symm
-  show TotalChowClass.res (pullback.fst H.f H'.f ≫ H.f) rfl
+  change TotalChowClass.res (pullback.fst H.f H'.f ≫ H.f) rfl
       (perfectPowerSum C sX hE p + perfectPowerSum C sX hF p) =
     powerSumComplex C ((pullback.fst H.f H'.f ≫ H.f) ≫ sX)
       (isLocallyBoundedFiniteLocallyFree_biprod

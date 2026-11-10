@@ -158,7 +158,7 @@ private lemma subsingleton_h1Cotangent_of_forall_adjoin_finset
     (subsingleton_h1Cotangent_iff_forall_mem_ker_sq k K').mp (H F.vars) G hGker fun j =>
       (aeval_id_rename_algebraMap_eq_zero_iff hinj _).mp
         (by rw [← pderiv_rename hinj, hGF]; exact hpd _)
-  show F ∈ (RingHom.ker ((aeval (_root_.id : K → K)).toRingHom) : Ideal (MvPolynomial K k)) ^ 2
+  change F ∈ (RingHom.ker ((aeval (_root_.id : K → K)).toRingHom) : Ideal (MvPolynomial K k)) ^ 2
   rw [← hGF]
   exact map_rename_ker_pow_le 2 (Ideal.mem_map_of_mem _ hG2)
 
@@ -215,8 +215,6 @@ the Mathlib sibling `Algebra.FormallySmooth.of_algebraicIndependent`; separable 
 `Algebra.IsSeparable`; separable is `Algebra.IsSeparableExtension`, Definition 030O(2), which does
 not presuppose algebraicity. See the module docstring.",
   ega "0 19.6.1" "sufficiency",
-  ega
-  "0 21.5.1" "more general",
   ega "0 21.5.1" "more general",
   ega "0 19.0.2" "sufficiency",
   ega "0 22.2.1" "special case"]
@@ -290,7 +288,7 @@ presuppose algebraicity and so is not `Algebra.IsSeparable`; formal smoothness i
 hold in every characteristic (the source's proof is `combine Lemmas 031Y and 0320`, neither of
 which mentions the characteristic), so part (2) is this equivalence and part (1) is it together
 with the characteristic-zero case of Lemma 030Z. See the module docstring.", ega "0 19.6.1", ega
-  "0 21.5.1" "more general", ega "0 21.5.1" "more general", ega "0 19.0.2"]
+  "0 21.5.1" "more general", ega "0 19.0.2"]
 public theorem Algebra.FormallySmooth.iff_isSeparableExtension (k K : Type*) [Field k] [Field K]
     [Algebra k K] : Algebra.FormallySmooth k K ↔ Algebra.IsSeparableExtension k K :=
   Stacks.FormallySmooth.SeparableIff.solution k K

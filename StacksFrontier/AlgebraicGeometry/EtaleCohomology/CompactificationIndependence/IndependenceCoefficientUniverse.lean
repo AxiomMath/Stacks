@@ -50,7 +50,8 @@ second and says the first "is proved in exactly the same way".
 
 The coefficient ring is an arbitrary ring `Λ : Type r`, not necessarily commutative, and the
 sheaves are those of `Stacks.EtaleCohomology.EtaleModules.{u, r}`, the setting of the functors
-`Rf_!` of `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactlySupportedCohomology`. The proper
+`Rf_!` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactlySupportedCohomology`. The proper
 base change theorem, proved for abelian sheaves with coefficients in `AddCommGrpCat.{u + 1}`,
 enters at the coefficients `AddCommGrpCat.{max (u + 1) r}` through
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.CoefficientUniverse`.

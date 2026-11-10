@@ -76,7 +76,7 @@ theorem d_zero_one_eq_zero_of_ker_linearEquiv {A : Type u} [CommRing A]
     rw [map_zero, Pi.zero_apply]
     exact ha _ (by rwa [mul_comm])
   ext x
-  show d x = 0
+  change d x = 0
   rw [hxw x, map_smul, hdw, smul_zero]
 
 end CochainComplex
@@ -278,7 +278,7 @@ theorem finrank_homology_fibreComplex_comp_ringEquiv {A A' K : Type u} [CommRing
     ((FibreCycleLift.fibreComplex φ F).sc j).mapHomologyIso G ≪≫ G.mapIso h.some
   let := (e : A' →+* K).toAlgebra
   refine i.toLinearEquiv.finrank_eq.trans ?_
-  show Module.finrank K (TensorProduct A' K A') = 1
+  change Module.finrank K (TensorProduct A' K A') = 1
   rw [Module.finrank_baseChange, Module.finrank_self]
 
 end StacksDraft.Perfect

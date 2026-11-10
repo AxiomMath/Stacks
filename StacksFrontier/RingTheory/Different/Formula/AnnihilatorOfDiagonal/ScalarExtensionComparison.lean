@@ -70,7 +70,7 @@ private theorem exteriorBaseChangeUnit_top
     exteriorBaseChangeUnit (P := P) (R := R) n
         (exteriorPower.ιMulti P n (Pi.basisFun P (Fin n))) =
       exteriorPower.ιMulti R n (Pi.basisFun R (Fin n)) := by
-  show (KoszulC.extPow_baseChange_natEquiv
+  change (KoszulC.extPow_baseChange_natEquiv
     (R := P) (S := R) (r := n) n).choose
       (1 ⊗ₜ[P] exteriorPower.ιMulti P n (Pi.basisFun P (Fin n))) = _
   rw [(KoszulC.extPow_baseChange_natEquiv
@@ -117,7 +117,7 @@ theorem coefficientBaseChangeLinearMap_d
       (Koszul.d (Koszul.seqDual f) k x) =
       Koszul.d (Koszul.seqDual g) k
         (coefficientBaseChangeLinearMap M (k + 1) x) := by
-  show exteriorPower.map k (coefficientLinearMap M)
+  change exteriorPower.map k (coefficientLinearMap M)
     (exteriorBaseChangeUnit k (Koszul.d (Koszul.seqDual f) k x)) =
       Koszul.d (Koszul.seqDual g) k
         (exteriorPower.map (k + 1) (coefficientLinearMap M)
@@ -136,7 +136,7 @@ theorem coefficientBaseChangeLinearMap_zero
   let bP : ⋀[P]^0 (Fin n → P) := exteriorPower.ιMulti P 0 (Fin.elim0)
   let bR : ⋀[R]^0 (Fin n → R) := exteriorPower.ιMulti R 0 (Fin.elim0)
   have hb : coefficientBaseChangeLinearMap M 0 bP = bR := by
-    show exteriorPower.map 0 (coefficientLinearMap M)
+    change exteriorPower.map 0 (coefficientLinearMap M)
       ((KoszulC.extPow_baseChange_natEquiv
         (R := P) (S := R) (r := n) 0).choose (1 ⊗ₜ[P] bP)) = bR
     rw [(KoszulC.extPow_baseChange_natEquiv
@@ -148,7 +148,7 @@ theorem coefficientBaseChangeLinearMap_zero
     apply (exteriorPower.zeroEquiv P (Fin n → P)).injective
     simp [bP]
   rw [hx, map_smul, hb]
-  show exteriorPower.zeroEquiv R (Fin n → R)
+  change exteriorPower.zeroEquiv R (Fin n → R)
       ((exteriorPower.zeroEquiv P (Fin n → P) x) • bR) =
     algebraMap P R (exteriorPower.zeroEquiv P (Fin n → P)
       ((exteriorPower.zeroEquiv P (Fin n → P) x) • bP))
@@ -164,7 +164,7 @@ theorem coefficientBaseChangeLinearMap_top
     coefficientBaseChangeLinearMap (P := P) M n
         (exteriorPower.ιMulti P n (Pi.basisFun P (Fin n))) =
       M.det • exteriorPower.ιMulti R n (Pi.basisFun R (Fin n)) := by
-  show exteriorPower.map n (coefficientLinearMap M)
+  change exteriorPower.map n (coefficientLinearMap M)
     (exteriorBaseChangeUnit (P := P) (R := R) n
       (exteriorPower.ιMulti P n (Pi.basisFun P (Fin n)))) = _
   rw [exteriorBaseChangeUnit_top, coefficientExteriorMap_top]
@@ -238,7 +238,7 @@ private theorem coefficientBaseChangeKoszulChainMapULift_top
     ((coefficientBaseChangeKoszulChainMapULift f g M h).f n).hom
         (ULift.up (exteriorPower.ιMulti P n (Pi.basisFun P (Fin n)))) =
       ULift.up (M.det • exteriorPower.ιMulti R n (Pi.basisFun R (Fin n))) := by
-  show ULift.up (coefficientBaseChangeLinearMap M n
+  change ULift.up (coefficientBaseChangeLinearMap M n
     (exteriorPower.ιMulti P n (Pi.basisFun P (Fin n)))) = _
   rw [coefficientBaseChangeLinearMap_top]
 
@@ -256,7 +256,7 @@ private theorem flat_ulift_koszulTerm_restrict
     Module.Flat P (D.X k) := by
   dsimp only
   let : Module.Flat P (⋀[R]^k (Fin n → R)) := flat_exteriorPower_restrict k
-  show Module.Flat P (ULift.{u} (⋀[R]^k (Fin n → R)))
+  change Module.Flat P (ULift.{u} (⋀[R]^k (Fin n → R)))
   exact Module.Flat.of_linearEquiv
     (ULift.moduleEquiv : ULift.{u} (⋀[R]^k (Fin n → R)) ≃ₗ[P]
       (⋀[R]^k (Fin n → R)))
@@ -293,7 +293,7 @@ theorem koszulSeq_ulift_kFlat
       (ComplexShape.down ℕ)).obj (Koszul.seqComplex f)
     CochainComplex.KFlat (D.extend ComplexShape.embeddingDownNat) := by
   refine kFlat_extend_of_flat_terms _ fun j => ?_
-  show Module.Flat P (ULift.{v} (⋀[P]^j (Fin n → P)))
+  change Module.Flat P (ULift.{v} (⋀[P]^j (Fin n → P)))
   let : Module.Free P (⋀[P]^j (Fin n → P)) :=
     Module.Free.of_basis ((Pi.basisFun P (Fin n)).exteriorPower j)
   exact Module.Flat.of_linearEquiv
@@ -356,7 +356,7 @@ private theorem chain_zero_homology_fac
       (ChainComplex.cycles₀Iso K).inv ≫ K.homologyπ 0 := by
   rw [← cancel_epi (ChainComplex.cycles₀Iso K).hom]
   simp only [Iso.hom_inv_id_assoc]
-  show K.iCycles 0 ≫ K.pOpcycles 0 ≫
+  change K.iCycles 0 ≫ K.pOpcycles 0 ≫
     (ChainComplex.isoHomologyι₀ K).inv = K.homologyπ 0
   rw [← K.homology_π_ι_assoc]
   simp only [HomologicalComplex.isoHomologyι_hom_inv_id, Category.comp_id]

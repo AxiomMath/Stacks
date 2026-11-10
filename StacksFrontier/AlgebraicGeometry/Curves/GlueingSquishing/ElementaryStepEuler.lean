@@ -24,8 +24,8 @@ the Picard group:
 
 `χ(X', 𝒪_{X'}) = χ(X, 𝒪_X) + dim_k H⁰(X, f_*𝒪_{X'}/𝒪_X)`.
 
-The three inputs are all results of the library. The cokernel `Q = f_*𝒪_{X'}/𝒪_X` sits in a short exact
-sequence of `X.Modules` whose other two terms are `𝒪_X` and `f_*𝒪_{X'}`, so [Stacks, Tag 08AA]
+The three inputs are all results of the library. The cokernel `Q = f_*𝒪_{X'}/𝒪_X` sits in a short
+exact sequence of `X.Modules` whose other two terms are `𝒪_X` and `f_*𝒪_{X'}`, so [Stacks, Tag 08AA]
 gives `χ(f_*𝒪_{X'}) = χ(𝒪_X) + χ(Q)`; [Stacks, Tag 089W] identifies `χ(f_*𝒪_{X'})` with
 `χ(𝒪_{X'})`, a finite morphism being affine; and `Q` is supported inside `{x}`, so clauses (3)
 and (4) of [Stacks, Tag 0AYT] collapse `χ(Q)` to `dim_k H⁰(Q)`.

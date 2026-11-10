@@ -108,7 +108,7 @@ theorem prod_dvd_of_forall_dvd_of_prime {R : Type*} [CommRing R] [IsDomain R] {�
       have hpi : Prime (f i) := hp i hi
       have hnot : ¬ f i ∣ ∏ j ∈ t, f j := by
         intro h
-        obtain ⟨j, hj, hji⟩ := (hpi.dvd_finset_prod_iff f).mp h
+        obtain ⟨j, hj, hji⟩ := (hpi.dvd_finsetProd_iff f).mp h
         refine hassoc i hi j (hmem j hj) (fun hij => hit (hij ▸ hj)) ?_
         exact (hpi.dvd_prime_iff_associated (hp j (hmem j hj))).mp hji
       have hdy : f i ∣ y := by

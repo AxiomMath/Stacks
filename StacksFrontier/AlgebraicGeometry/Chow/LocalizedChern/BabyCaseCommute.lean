@@ -484,8 +484,8 @@ theorem BivariantCommute.bivariantTransport_bivariantCompositeOfInvertible_heq
   rw [bivariantTransport_cap, bivariantTransportCap_apply]
   refine HEq.trans ?_ ((heq_of_eq (h t k α)).trans (chowGroupDegreeEquiv_heq C _ _ _))
   rw [chowPushforwardOfIso_congr_apply C _ _ _ (compositeComparisonHom f₁ f₂ t)
-    (pullback.hom_ext (by simp [transportPullbackIso, compositeComparisonHom, pullback.lift_fst])
-      (by simp [transportPullbackIso, compositeComparisonHom, pullback.lift_snd]))
+    (pullback.hom_ext (by simp [transportPullbackIso, compositeComparisonHom])
+      (by simp [transportPullbackIso, compositeComparisonHom]))
     _ (compositeComparisonHom_comp_structureMorphism C sX f₁ f₂ t)]
   exact chowPushforwardOfIso_heq _ _ _ rfl rfl (by ring) (chowGroupDegreeEquiv_heq C _ _ _).symm
 

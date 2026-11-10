@@ -28,17 +28,18 @@ universe u
 
 namespace AlgebraicGeometry
 
-variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} [ConnectedSpace X]
+variable {k : Type u} [Field k] [Finite k] {X : Scheme.{u}} [ConnectedSpace X]
   (f : X ⟶ Spec (.of k)) {x : GeometricPoint X}
 
-omit [Fintype k] in
+omit [Finite k] in
 /-- The geometric fundamental group acts trivially on the fibres of covers pulled back from the
 base. -/
 theorem smul_eq_of_etaleFundamentalGroupMap_eq_one (W : FiniteEtaleOver (Spec (.of k)))
     (σ : EtaleFundamentalGroup X x) (hσ : etaleFundamentalGroupMap f x σ = 1)
     (p : (finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj W)) : σ • p = p := by
   apply (finiteEtaleFiberProjectionEquiv f x W).injective
-  show finiteEtaleFiberProjection f x W ((σ.asIso.app _).hom p) = finiteEtaleFiberProjection f x W p
+  change finiteEtaleFiberProjection f x W ((σ.asIso.app _).hom p) =
+    finiteEtaleFiberProjection f x W p
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection, hσ]
   rfl
 
@@ -57,6 +58,7 @@ theorem exists_stagePoint (E : IntermediateField K₀ K) [FiniteDimensional K₀
       (he : e ≫ pullback.snd (spectrumMap K₀ E) r = (eY.symm (QuotientGroup.mk 1)).1),
       ∀ v : V, etaleFundamentalGroupMap f x (v : EtaleFundamentalGroup X x) = 1 →
         (v : EtaleFundamentalGroup X x) • exPoint _ hg e he = exPoint _ hg e he := by
+  have : Fintype k := Fintype.ofFinite k
   have : Finite K₀ := Module.finite_of_finite k
   have : Fintype K₀ := Fintype.ofFinite K₀
   set y₀ := eY.symm (QuotientGroup.mk 1)
@@ -71,7 +73,7 @@ theorem exists_stagePoint (E : IntermediateField K₀ K) [FiniteDimensional K₀
   let φ₁ : E →ₐ[K₀] x.residueField := IsAlgClosed.lift
   let a : x.source ⟶ Spec (.of E) := Spec.map (CommRingCat.ofHom φ₁.toRingHom)
   have ha : a ≫ spectrumMap K₀ E = y₀.1 ≫ r := by
-    show Spec.map _ ≫ Spec.map _ = _
+    change Spec.map _ ≫ Spec.map _ = _
     rw [← Spec.map_comp]
     have : CommRingCat.ofHom (algebraMap K₀ E) ≫ CommRingCat.ofHom φ₁.toRingHom =
         Spec.preimage (y₀.1 ≫ r) := by
@@ -87,7 +89,7 @@ theorem exists_stagePoint (E : IntermediateField K₀ K) [FiniteDimensional K₀
     (MorphismProperty.comp_mem _ _ _ hE hK₀)
   have hcomm : pullback.fst (spectrumMap K₀ E) r ≫ W.hom =
       (pullback.snd (spectrumMap K₀ E) r ≫ Y.hom) ≫ f := by
-    show pullback.fst _ _ ≫ spectrumMap K₀ E ≫ _ = _
+    change pullback.fst _ _ ≫ spectrumMap K₀ E ≫ _ = _
     rw [pullback.condition_assoc, hr, Category.assoc]
   let cE : FiniteEtaleOver.overComp (pullback.snd (spectrumMap K₀ E) r) hg ⟶
       (finiteEtaleBaseChange f).obj W :=

@@ -373,10 +373,12 @@ variable {I : Type u} [SmallCategory I] [IsCofiltered I]
 def stageMap (i : I) : (G.obj i).scheme ⟶ D.neighborhood.scheme :=
   yoneda.preimage (G.obj i).toSpace
 
+omit [IsCofiltered I] in
 /-- The Yoneda image of the morphism of a stage to `W` is the structure morphism of the stage. -/
 theorem yoneda_map_stageMap (i : I) : yoneda.map (D.stageMap G i) = (G.obj i).toSpace :=
   Functor.map_preimage _ _
 
+omit [IsCofiltered I] in
 /-- The morphism of a stage to `W` carries the distinguished point to `w`. -/
 theorem stageMap_point (i : I) :
     (D.stageMap G i).left.1 (G.obj i).point = D.neighborhood.point := by
@@ -399,6 +401,8 @@ variable (he : ∀ a : D.neighborhoodStalk, e (algebraMap _ R a) =
     (isAlgebraicSpace_yoneda B S hS D.neighborhood.scheme) D.nbhdPoint
     (isDecentSpace_yoneda B S hS D.neighborhood.scheme) D.nbhdSelf a)
 
+omit [IsCofiltered I] [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 include he in
 /-- **The projections are compatible with the canonical morphism `Spec R ⟶ W`.** On global
 sections of the affine scheme `W` both are the restriction to the stalk at `w` followed by the
@@ -464,6 +468,8 @@ def stageLegSite (i : I) : D.henselianObj R hR ⟶ (G.obj i).scheme :=
     exact (Category.assoc _ _ _).symm.trans
       (congrArg (· ≫ D.neighborhood.scheme.hom.hom) (D.stageLeg_comp_stageMap R G hGaff e he i)))
 
+omit [IsCofiltered I] [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- The projections of `Spec R` to the stages are compatible with the transitions. -/
 theorem stageLegSite_comp {i j : I} (f : j ⟶ i) :
     D.stageLegSite R hR G hGaff e he j ≫ (G ⋙ ElementaryEtaleNeighborhood.siteScheme).map f =
@@ -543,6 +549,8 @@ theorem mk_stage_hom_le [G.Faithful] {μ : Cardinal.{u}}
     _ ≤ (2 ^ μ) ^ μ := Cardinal.power_le_power_left (Cardinal.power_ne_zero _ two_ne_zero) (hΓ j)
     _ = 2 ^ (μ * μ) := by rw [← Cardinal.power_mul]
 
+omit [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- **Stacks 07SK at the stages.** The algebraic spaces of finite presentation over `Spec R` are
 the filtered `2`-colimit of those over the stages. -/
 theorem isFinitePresentationColimit_stage [G.Initial] [G.Faithful]
@@ -562,6 +570,8 @@ theorem isFinitePresentationColimit_stage [G.Initial] [G.Faithful]
       (isAffineSpace_yoneda B S hS _ (hGaff i))
   · exact D.baseChangeSizeBounded_stage hμ hGμ
 
+omit [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- **Isomorphisms descend to the stages.** A morphism of algebraic spaces of finite presentation
 over a stage whose base change to `Spec R` is an isomorphism becomes an isomorphism after base
 change to a later stage. -/
@@ -584,12 +594,16 @@ theorem exists_isIso_stage [G.Initial] [G.Faithful]
       (isAffineSpace_yoneda B S hS _ (hGaff i))
   · exact D.baseChangeSizeBounded_stage hμ hGμ
 
+omit [IsCofiltered I] [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- The projection of `Spec R` to a stage followed by the stage's morphism to `W` is the
 canonical morphism `Spec R ⟶ W`. -/
 theorem stageLegSite_comp_stageMap (i : I) :
     D.stageLegSite R hR G hGaff e he i ≫ D.stageMap G i = D.toNeighborhoodHom R hR :=
   Over.OverMorphism.ext (ObjectProperty.hom_ext _ (D.stageLeg_comp_stageMap R G hGaff e he i))
 
+omit [IsCofiltered I] [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- The canonical morphism `Spec R ⟶ X` factors through every stage. -/
 theorem yoneda_stageLegSite_comp_toSpace (i : I) :
     yoneda.map (D.stageLegSite R hR G hGaff e he i) ≫
@@ -598,6 +612,8 @@ theorem yoneda_stageLegSite_comp_toSpace (i : I) :
     D.stageLegSite_comp_stageMap R hR G hGaff e he i]
   rfl
 
+omit [IsCofiltered I] [IsLocalRing R] [IsLocalRing.IsHenselization (D.neighborhoodStalk)
+  (IsLocalRing.ResidueField D.neighborhoodStalk) R] in
 /-- The Yoneda images of the projections of `Spec R` to the stages are compatible with the
 transitions. -/
 private theorem yoneda_stageLegSite_comp_map {i j : I} (f : j ⟶ i) :

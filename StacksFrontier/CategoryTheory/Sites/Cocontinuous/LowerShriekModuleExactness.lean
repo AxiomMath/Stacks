@@ -134,7 +134,7 @@ public theorem gShriek_preservesFiniteLimits_module
   let : PreservesFiniteLimits
       (u.op.lan : (Cᵒᵖ ⥤ ModuleCat.{w} R) ⥤ (Dᵒᵖ ⥤ ModuleCat.{w} R)) :=
     preservesFiniteLimits_lan_module u R
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (sheafToPresheaf J (ModuleCat.{w} R) ⋙ u.op.lan ⋙ presheafToSheaf K (ModuleCat.{w} R))
   apply comp_preservesFiniteLimits
 

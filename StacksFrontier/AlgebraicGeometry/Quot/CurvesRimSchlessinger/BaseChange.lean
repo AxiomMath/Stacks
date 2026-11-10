@@ -41,14 +41,14 @@ namespace AlgebraicGeometry
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
-private theorem pointsMap_id_local {S : Scheme.{u}} (hS : B.Contains S)
+theorem pointsMap_id_local {S : Scheme.{u}} (hS : B.Contains S)
     {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} :
     Space.pointsMap B S hS F (𝟙 F) = id := by
   funext x
   induction x using Quot.inductionOn with
   | _ p => rfl
 
-private theorem pointsMap_comp_local {S : Scheme.{u}} (hS : B.Contains S)
+theorem pointsMap_comp_local {S : Scheme.{u}} (hS : B.Contains S)
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : F ⟶ G) (g : G ⟶ H) :
     Space.pointsMap B S hS F (f ≫ g) =
@@ -58,6 +58,7 @@ private theorem pointsMap_comp_local {S : Scheme.{u}} (hS : B.Contains S)
   | _ p => rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis on objects of `Space.FpFlatProperOver` exceeds the default budget here
 private theorem relativeDimensionLE_of_overIso {U : B.Schemes}
     {X Y : Space.FpFlatProperOver B integerBase hZ
       (siteLift B hZ U)} (e : X.obj ≅ Y.obj)

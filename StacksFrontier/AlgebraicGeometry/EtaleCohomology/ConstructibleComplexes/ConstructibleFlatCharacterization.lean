@@ -22,7 +22,8 @@ representative may be taken concentrated in `[a, b]`.
 "Constructible flat sheaf of `Λ`-modules" is read as the source reads it: a constructible sheaf
 of `Λ`-modules which is flat, flatness of a sheaf of `Λ`-modules on the small étale site being
 flatness of the sheaf of modules it defines over the constant coefficient ring sheaf of Tag
-03TR. That is the reading of Lemma 03TT of the source, in the chapter Étale Cohomology, whose membership condition (1) is Definition 03TQ
+03TR. That is the reading of Lemma 03TT of the source, in the chapter Étale Cohomology, whose
+membership condition (1) is Definition 03TQ
 there — locally finite Tor dimension in the sense of Cohomology on Sites, Definition 08FZ.
 `AlgebraicGeometry.IsConstructibleFlatModuleSheaf`, the chapter's stratumwise formulation —
 locally constant with finite projective values on the strata of a constructible stratification —
@@ -401,6 +402,23 @@ public theorem isFlat_overConstantCoefficientsComplex_X
 
 variable [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
 
+omit hSliceDerived
+  [∀ U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C,
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+      max (u + 1) r}
+      ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U).O).Additive]
+  [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C) M,
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+      max (u + 1) r}
+      ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U).O).obj M).Additive]
+  [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).C)
+    (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r}
+      ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r, max (u + 1) r,
+        max (u + 1) r}
+        ((constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ).over U).O)
+      (ComplexShape.up ℤ)] in
 /-- **Tag 03TT, the Tor-amplitude refinement.** If `K` has constructible cohomology sheaves and
 its image over the constant coefficient ringed site has Tor amplitude in `[a, b]`, then `K` is
 represented by a complex of constructible sheaves of `Λ`-modules, flat over the constant

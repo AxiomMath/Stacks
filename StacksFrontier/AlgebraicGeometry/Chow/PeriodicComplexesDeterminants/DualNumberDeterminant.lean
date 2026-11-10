@@ -57,7 +57,7 @@ private lemma dualRange_isSimple (k : Type u) [Field k] (a : kˣ) :
     rw [ker_unitMulT, DualNumber.maximalIdeal_eq_span_singleton_eps]
   have hsimpleQuot : IsSimpleModule R (R ⧸ LinearMap.ker f) := by
     rw [hker]
-    show IsSimpleModule R (R ⧸ IsLocalRing.maximalIdeal R)
+    change IsSimpleModule R (R ⧸ IsLocalRing.maximalIdeal R)
     rw [isSimpleModule_iff_quot_maximal]
     exact ⟨IsLocalRing.maximalIdeal R,
       IsLocalRing.maximalIdeal.isMaximal R,
@@ -68,7 +68,7 @@ private lemma dualRange_isSimple (k : Type u) [Field k] (a : kˣ) :
 /-- That image has length one. -/
 private lemma dualRange_moduleLength (k : Type u) [Field k] (a : kˣ) :
     moduleLength (DualNumber k) (LinearMap.range (unitMulT k a)) = 1 := by
-  show (Module.length (DualNumber k) (LinearMap.range (unitMulT k a))).toNat = 1
+  change (Module.length (DualNumber k) (LinearMap.range (unitMulT k a))).toNat = 1
   rw [Module.length_eq_one_iff.mpr (dualRange_isSimple k a)]
   rfl
 
@@ -111,7 +111,7 @@ private lemma dualNumber_moduleLength (k : Type u) [Field k] :
       Module.length R (LinearMap.range f) + Module.length R (LinearMap.range f) :=
     Module.length_eq_add_of_exact _ _ (Submodule.injective_subtype _) f.surjective_rangeRestrict
       hex
-  show (Module.length R R).toNat = 2
+  change (Module.length R R).toNat = 2
   rw [hlen, Module.length_eq_one_iff.mpr (dualRange_isSimple k 1)]
   norm_num
 
@@ -149,7 +149,7 @@ private lemma dualRangeSequence_span_top (k : Type u) [Field k] (a : kˣ) :
     simp [dualRange_moduleLength]⟩
   have hxeq : x = c • e := by
     apply Subtype.ext
-    show (x : DualNumber k) = c * DualNumber.eps
+    change (x : DualNumber k) = c * DualNumber.eps
     simpa [e, smul_eq_mul, mul_comm] using hc
   rw [hxeq]
   exact Submodule.smul_mem _ c (Submodule.subset_span ⟨_, rfl⟩)
@@ -266,22 +266,22 @@ private lemma periodicGamma_dual_value (k : Type u) [Field k] (a b : kˣ)
       dualRange_moduleLength k b
     exact Fin.ext (by simp [j1, qA0, hcastb])
   have hentry : out j1 = algebraMap k R ((a⁻¹ : kˣ) : k) := by
-    show Fin.append (fun q ↦ (i (eB.1 q) : R)) f (Fin.cast hlen j1) = _
+    change Fin.append (fun q ↦ (i (eB.1 q) : R)) f (Fin.cast hlen j1) = _
     rw [hcast1, Fin.append_right]
   have hupdate : Function.update out j1 1 = (dualNumberSequence k).1 := by
     funext j
     rcases j with ⟨j, hj⟩
     rw [dualNumber_moduleLength] at hj
     interval_cases j
-    · show Function.update out j1 1 j0 = (dualNumberSequence k).1 j0
+    · change Function.update out j1 1 j0 = (dualNumberSequence k).1 j0
       rw [Function.update_of_ne (fun h ↦ by simpa [j0, j1] using congrArg Fin.val h)]
-      show Fin.append (fun q ↦ (i (eB.1 q) : R)) f (Fin.cast hlen j0) = _
+      change Fin.append (fun q ↦ (i (eB.1 q) : R)) f (Fin.cast hlen j0) = _
       rw [hcast0, Fin.append_left]
-      show DualNumber.eps = (dualNumberSequence k).1 j0
+      change DualNumber.eps = (dualNumberSequence k).1 j0
       simp [dualNumberSequence, j0]
-    · show Function.update out j1 1 j1 = (dualNumberSequence k).1 j1
+    · change Function.update out j1 1 j1 = (dualNumberSequence k).1 j1
       rw [Function.update_self]
-      show (1 : DualNumber k) = (dualNumberSequence k).1 j1
+      change (1 : DualNumber k) = (dualNumberSequence k).1 j1
       simp [dualNumberSequence, j1]
   have hupdAdm : IsAdmissibleSequence (R := R) (Function.update out j1 1) :=
     hupdate ▸ (dualNumberSequence k).property
@@ -289,10 +289,10 @@ private lemma periodicGamma_dual_value (k : Type u) [Field k] (a b : kˣ)
     (Units.map (algebraMap k R).toMonoidHom a⁻¹) (1 : R) (0 : R)
     (by simpa [smul_eq_mul, Units.coe_map] using hentry) (by simp)
     hupdAdm
-  show periodicGamma (unitMulT k a) (unitMulT k b) hba hM
+  change periodicGamma (unitMulT k a) (unitMulT k b) hba hM
       (symbol eB ⊗ₜ[IsLocalRing.ResidueField R] symbol eA) = _
   rw [periodicGamma, hval]
-  show symbol eOut = _
+  change symbol eOut = _
   rw [hchange, show (⟨Function.update eOut.1 j1 1, hupdAdm⟩ : AdmissibleSequence R R) =
     dualNumberSequence k from Subtype.ext hupdate]
 
@@ -317,7 +317,7 @@ theorem periodicDeterminant_unitMulT (k : Type u) [Field k] (u v : kˣ) :
   let d : κˣ := Units.map (algebraMap k κ).toMonoidHom (-u / v)
   have hd : IsPeriodicDeterminant (unitMulT k u) (unitMulT k v)
       (dual_unitMulT_exact k u v) (dual_unitMulT_exact k v u) hM d := by
-    show periodicGamma (unitMulT k v) (unitMulT k u)
+    change periodicGamma (unitMulT k v) (unitMulT k u)
         (dual_unitMulT_exact k u v) hM ∘ₗ
         (TensorProduct.comm κ (determinant R (LinearMap.range (unitMulT k v)))
           (determinant R (LinearMap.range (unitMulT k u)))).toLinearMap =
@@ -330,7 +330,7 @@ theorem periodicDeterminant_unitMulT (k : Type u) [Field k] (u v : kˣ) :
     have hspanU := span_symbol_eq_top hu eu (dualRangeSequence_span_top k u)
     have hzspan := tensor_symbols_span (symbol ev) (symbol eu) hspanV hspanU
     apply linearMap_eq_of_span_singleton z hzspan
-    show periodicGamma (unitMulT k v) (unitMulT k u)
+    change periodicGamma (unitMulT k v) (unitMulT k u)
         (dual_unitMulT_exact k u v) hM
         (TensorProduct.comm κ (determinant R (LinearMap.range (unitMulT k v)))
           (determinant R (LinearMap.range (unitMulT k u))) z) =
@@ -353,7 +353,7 @@ theorem periodicDeterminant_unitMulT (k : Type u) [Field k] (u v : kˣ) :
           (Units.map (algebraMap k R).toMonoidHom v⁻¹ : R) := by
       rw [dualRange_moduleLength, dualRange_moduleLength]
       simp only [Units.coe_map]
-      show (((-1 : κ) ^ (1 * 1) * (d : κ)) *
+      change (((-1 : κ) ^ (1 * 1) * (d : κ)) *
           IsLocalRing.residue R (algebraMap k R ((u⁻¹ : kˣ) : k))) =
         IsLocalRing.residue R (algebraMap k R ((v⁻¹ : kˣ) : k))
       rw [hres ((u⁻¹ : kˣ) : k), hres ((v⁻¹ : kˣ) : k)]

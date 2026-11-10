@@ -103,7 +103,7 @@ theorem isSeparable_of_adjoin_range_of_isSeparable
   have hsepL : ∀ x ∈ Set.range (algebraMap E F), IsSeparable L x := by
     rintro _ ⟨e, rfl⟩
     have hK : IsSeparable K (algebraMap E F e) := by
-      show (minpoly K (algebraMap E F e)).Separable
+      change (minpoly K (algebraMap E F e)).Separable
       rw [show algebraMap E F e = (IsScalarTower.toAlgHom K E F) e from rfl,
         minpoly.algHom_eq _ (algebraMap E F).injective e]
       exact Algebra.IsSeparable.isSeparable K e

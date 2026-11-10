@@ -522,7 +522,7 @@ theorem isLocallyInjective_gluedToSheaf (hg : B.Contains (schemeGlueData f hf).g
       ((BigFppfOver.topology B S hS).pullback_stable α mem)
       ((BigFppfOver.topology B S hS).pullback_stable β mem))
   rintro V γ ⟨⟨W₁, a, _, ⟨i⟩, fac₁⟩, ⟨W₂, b, _, ⟨j⟩, fac₂⟩⟩
-  show γ ≫ α = γ ≫ β
+  change γ ≫ α = γ ≫ β
   replace h : G.obj.map α.op (gluedSection f hf hg) =
       G.obj.map β.op (gluedSection f hf hg) := h
   have hγ := congrArg (G.obj.map γ.op) h
@@ -540,8 +540,8 @@ theorem sigmaDesc_yoneda_map_toGlued_comp (hg : B.Contains (schemeGlueData f hf)
       Sigma.desc f :=
   Sigma.hom_ext _ _ fun i =>
     (Category.assoc _ _ _).symm.trans
-      ((congrArg (· ≫ (gluedToSheaf f hf hg).hom) (Sigma.ι_desc _ _)).trans
-        ((yoneda_map_toGlued_comp f hf hg i).trans (Sigma.ι_desc _ _).symm))
+      ((congrArg (· ≫ (gluedToSheaf f hf hg).hom) (Sigma.ι_comp_desc _ _)).trans
+        ((yoneda_map_toGlued_comp f hf hg i).trans (Sigma.ι_comp_desc _ _).symm))
 
 /-- **The comparison morphism is locally surjective**, because the family of charts is. -/
 theorem isLocallySurjective_gluedToSheaf (hg : B.Contains (schemeGlueData f hf).glued)

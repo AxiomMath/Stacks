@@ -153,6 +153,7 @@ end Squares
 /-! ### Separatedness over a representable base, tested on a kernel pair -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_AffineBaseSeparatedDescent
@@ -649,7 +650,7 @@ theorem exists_isSeparated_baseChange_of_isSeparated_limit
     Over.mk ((BigFppfOver.toScheme B S hS).map (ha.rep.fst' a ≫ qa)) with hX₀
   set f₀ : X₀ ⟶ Y₀ := Over.homMk ((BigFppfOver.toScheme B S hS).map jR)
     (by
-      show (BigFppfOver.toScheme B S hS).map jR ≫
+      change (BigFppfOver.toScheme B S hS).map jR ≫
           (BigFppfOver.toScheme B S hS).map (pullback.fst qa qa ≫ qa) =
         (BigFppfOver.toScheme B S hS).map (ha.rep.fst' a ≫ qa)
       rw [← Functor.map_comp, hjR, ← Category.assoc, pullback.lift_fst]) with hf₀

@@ -312,14 +312,14 @@ abbrev i1 : idx.{u} := ⟨1⟩
 abbrev Source : Type u := idx.{u} → Target.{u}
 
 /-- The product topology of the source is linear. -/
-@[instance_reducible] def sourceIsLinearTopology : IsLinearTopology Source Source :=
+theorem sourceIsLinearTopology : IsLinearTopology Source Source :=
   TopologicalRing.pi_isLinearTopology
 
 attribute [local instance] sourceIsLinearTopology
 
 /-- The map `ℚ⟦X⟧ → ℚ⟦X⟧⟨t⟩ × ℚ⟦X⟧⟨t⟩`, the inclusion on the first factor and `χ` on the
 second. It is not adic. -/
-def φ : Base →+* Source := Pi.ringHom fun i ↦ ![algebraMap Base Target, χ] i.down
+def φ : Base →+* Source := RingHom.pi fun i ↦ ![algebraMap Base Target, χ] i.down
 
 /-- The map `φ : ℚ⟦X⟧ → ℚ⟦X⟧⟨t⟩ × ℚ⟦X⟧⟨t⟩` is continuous. -/
 theorem continuous_φ : Continuous φ :=
@@ -359,12 +359,12 @@ theorem exists_ringEquiv_target : ∃ ε : Target ≃+* CompletionOver evalFirst
     (∀ a, ε a = CompletionOver.ofTarget evalFirst a) ∧ Continuous ε ∧ Continuous ε.symm := by
   obtain ⟨I, hdef, hadic⟩ := isAdic_source.1
   have hfadic : _root_.IsAdic (I.map evalFirst) :=
-    isAdic_map_of_isOpenMap evalFirst (@Function.surjective_eval _ _ (fun _ ↦ ⟨0⟩) i0) (isOpenMap_eval i0)
-      (continuous_apply i0) hadic
+    isAdic_map_of_isOpenMap evalFirst (@Function.surjective_eval _ _ (fun _ ↦ ⟨0⟩) i0)
+      (isOpenMap_eval i0) (continuous_apply i0) hadic
   have hc : IsAdicComplete (I.map evalFirst) Target :=
     hfadic.isAdicComplete_iff.mpr ⟨isAdic_target.2.2, isAdic_target.2.1⟩
   have hdiag : CompletionOver.ofTarget evalFirst = (CompletionOver.canonicalMap evalFirst).comp
-      (Pi.ringHom fun _ : idx ↦ RingHom.id Target) := by
+      (RingHom.pi fun _ : idx ↦ RingHom.id Target) := by
     rw [← CompletionOver.ofTarget_comp, RingHom.comp_assoc]
     rfl
   refine exists_ringEquiv_ofTarget evalFirst hdef hadic hfadic hc ?_
@@ -475,7 +475,7 @@ public theorem not_propertyIsLocalNoetherian_rigEtaleCondition :
     isAdic_and_isTopologicallyOfFiniteType_of_ringEquiv (algebraMap Base Target) εB hεBc hεBc'
       εT hεTc hεTc' cm (by ext b; simp [cm]) isAdic_and_isTopologicallyOfFiniteType_algebraMap
   have hft' : FiniteTypeAdicAlgebraForEveryIdeal cm :=
-    ((adicFiniteType_tfae cm hcm_cont hB'C.1 hA'C.1 (exists_idealOfDefinition_fg hB'C.1 hB'C.2)
+    ((adicFiniteType_tfae cm hB'C.1 hA'C.1 (exists_idealOfDefinition_fg hB'C.1 hB'C.2)
       (exists_idealOfDefinition_fg hA'C.1 hA'C.2)).out 1 6).mp hone
   have harrow : RingHom.IsRigEtaleArrow cm := by
     intro _ _ _ _

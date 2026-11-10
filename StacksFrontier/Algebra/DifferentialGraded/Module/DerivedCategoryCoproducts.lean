@@ -352,7 +352,7 @@ def directSumDesc (g : ∀ i, N i ⟶ T) : directSumObj N ⟶ T where
 @[simp] theorem directSumInj_comp_directSumDesc (g : ∀ i, N i ⟶ T) (j : ι) :
     directSumInj N j ≫ directSumDesc N g = g j := by
   refine Hom.ext (LinearMap.ext fun y => ?_)
-  show directSumDescLinear N g (DirectSum.of (fun i => (N i).M) j y) = (g j).toFun y
+  change directSumDescLinear N g (DirectSum.of (fun i => (N i).M) j y) = (g j).toFun y
   exact directSumDescLinear_of N g j y
 
 /-- Two homomorphisms out of the direct sum agreeing on every summand are equal. -/

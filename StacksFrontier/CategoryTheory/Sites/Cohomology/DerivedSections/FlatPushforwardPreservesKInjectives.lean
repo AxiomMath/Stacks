@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.HomotopyCategory
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 
 @[expose] public section
 

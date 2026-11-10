@@ -151,6 +151,7 @@ variable [Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).o
   (hA : ∀ (n : ℤ) (V : (Over U)ᵒᵖ) (b : ((structureSheafRing X).over U).obj.obj V),
     b ∈ RingHom.ker (α.hom.app V).hom → ∀ m : (A.piece n).val.obj V, b • m = 0)
 
+omit [Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U) α.hom] in
 include hA in
 /-- **The open-subspace reading of an annihilated sheaf of graded algebras is annihilated.** A
 section of the structure sheaf of `X.restrict U` killing the quotient acts on a section of the

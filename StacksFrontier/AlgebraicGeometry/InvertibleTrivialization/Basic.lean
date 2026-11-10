@@ -227,7 +227,7 @@ theorem bijective_smul_of_tensorPairing_eq_unitSection (W : Opens X.carrier)
     obtain ⟨h1, hbij⟩ := bijective_smul_germ_of_tensorPairing_eq_unitSection ψ a' b' hab' y hy
     obtain ⟨c₀, hc₀⟩ := hbij.2 (grpGerm X L.val y V hy m)
     have hc₀' : c₀ • grpGerm X L.val y V hy a' = grpGerm X L.val y V hy m := hc₀
-    show grpGerm X L.val y V hy (c • a') = _
+    change grpGerm X L.val y V hy (c • a') = _
     rw [stalkModule_germ_smul X L.val y V hy c a', hcdef,
       ← stalkPairing_germ ψ y V hy m b', ← hc₀',
       Invertible.pairing_smul_tmul (stalkPairing ψ y) c₀ _ _, h1, mul_one]

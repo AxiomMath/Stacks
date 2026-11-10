@@ -97,7 +97,7 @@ public theorem flat_toBase
   have := isZariskiLocalAtSource_flat
   refine IsZariskiLocalAtSource.of_openCover (P := @Flat) (chartCover A (relativeProj A))
     fun U ↦ ?_
-  show Flat ((relativeProj A).chart U.1 U.2 ≫ (relativeProj A).toBase)
+  change Flat ((relativeProj A).chart U.1 U.2 ≫ (relativeProj A).toBase)
   rw [((relativeProj A).chart_isPullback U.1 U.2).w]
   have := flat_projInclusionToOpen A N hN U.1 U.2
   infer_instance

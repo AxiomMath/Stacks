@@ -388,7 +388,7 @@ lemma diagonalPeriodicityEquiv_d₁
         (diagonalPeriodicityEquiv K (p + 1) q (K.d₁ p q f)) =
       K.d₁ (p + 3) (q - 3) (diagonalPeriodicityEquiv K p q f) := by
   simp only [diagonalPeriodicityEquiv_apply]
-  show cast (congrArg (fun i => K.term i (q - 3))
+  change cast (congrArg (fun i => K.term i (q - 3))
     (show p + 1 + 3 = p + 3 + 1 by omega))
     ((p + 1 + q).negOnePow • ((xObjectPeriodicityIso K (p + 1)).hom ≫
       ((HomDoubleComplexSetup.triangleMap K.X (-(p + 1)) ≫
@@ -420,7 +420,7 @@ lemma diagonalPeriodicityEquiv_d₂
         (diagonalPeriodicityEquiv K p (q + 1) (K.d₂ p q f)) =
       K.d₂ (p + 3) (q - 3) (diagonalPeriodicityEquiv K p q f) := by
   simp only [diagonalPeriodicityEquiv_apply]
-  show cast (congrArg (K.term (p + 3)) (show q + 1 - 3 = q - 3 + 1 by omega))
+  change cast (congrArg (K.term (p + 3)) (show q + 1 - 3 = q - 3 + 1 by omega))
     ((p + (q + 1)).negOnePow •
       ((xObjectPeriodicityIso K p).hom ≫
         (f ≫ HomDoubleComplexSetup.triangleMap K.Y q)⟦(-1 : ℤ)⟧' ≫

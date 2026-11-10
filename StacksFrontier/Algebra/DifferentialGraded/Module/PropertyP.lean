@@ -212,7 +212,7 @@ theorem free_isLawful {B : Stacks.DifferentialGraded.DGAlgebra R} (hB : B.IsLawf
   unfold Stacks.DifferentialGraded.DGModule.free
   refine ⟨DirectSum.Decomposition.isInternal B.grading, ?_, hB.d_mem, hB.d_comp_d, hB.leibniz⟩
   intro n m x a hx ha
-  show x * a ∈ B.grading (n + m)
+  change x * a ∈ B.grading (n + m)
   exact SetLike.mul_mem_graded hx ha
 
 /-- A shift of a lawful differential graded module is lawful. -/
@@ -232,7 +232,7 @@ theorem directSum_isLawful {B : Stacks.DifferentialGraded.DGAlgebra R} {ι : Typ
   unfold Stacks.DifferentialGraded.DGModule.directSum
   refine ⟨hint, ?_, ?_, ?_, ?_⟩
   · intro n m x a hx ha i
-    show ((MulOpposite.op a) • x) i ∈ (N i).grading (n + m)
+    change ((MulOpposite.op a) • x) i ∈ (N i).grading (n + m)
     rw [DirectSum.smul_apply]
     exact (hN i).grading_smul n m (x i) a (hx i) ha
   · intro n x hx i
@@ -527,7 +527,7 @@ private theorem shortComplex_quasiIso_of_criterion
       commf' := by ext v; exact Subtype.ext (hcommf v).symm
       commπ := by ext x; rfl }
   rw [γ.quasiIso_iff, ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (Submodule.mapQ _ _ φKmap hφKrange)
+  change Function.Bijective (Submodule.mapQ _ _ φKmap hφKrange)
   refine mapQ_bijective _ _ (fun y => ?_) (fun x hx => ?_)
   · obtain ⟨x, hx, w, hw⟩ := hsurj (y : T.X₂) y.2
     exact ⟨⟨x, hx⟩, ⟨w, Subtype.ext hw⟩⟩

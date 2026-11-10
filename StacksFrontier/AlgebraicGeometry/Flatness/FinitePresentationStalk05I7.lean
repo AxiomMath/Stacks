@@ -166,7 +166,8 @@ complete dévissage over the maximal ideal of `R` and a compatible system of sta
 
 This is `Module.CompleteDevissageAt.finitePresentation_of_flat` with its argument replaced by a
 plain `Module.CompleteDevissage` and the nine stage-prime conditions it uses, in place of a
-`Module.CompleteDevissageAt`. The proof is the composition of three steps from the library: the lower
+`Module.CompleteDevissageAt`. The proof is the composition of three steps from the library: the
+lower
 algebras are projective over `R` by Stacks 05FT — unconditionally, since the constructibility of
 the geometrically integral fibre locus is a theorem, with Stacks 056T
 supplied by `AlgebraicGeometry.geometricallyReduced_of_smooth`; the downward recursion of

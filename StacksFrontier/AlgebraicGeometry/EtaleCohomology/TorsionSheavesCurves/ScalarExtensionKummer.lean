@@ -186,6 +186,7 @@ theorem rootsOfUnityRestriction_apply (n q : ℕ) (x : Sheaf.H.{w} (rootsOfUnity
   rfl
 
 set_option maxHeartbeats 1000000 in
+-- long `rw` chain through `Sheaf.H.map` and `Ext` composition over the étale site
 /-- **Restriction commutes with `μ_n ⟶ 𝐆_m`**, read in the cohomology of `μ_{n,Y}` and
 `𝐆_{m,Y}`. -/
 theorem multiplicativeRestriction_rootsOfUnityInclusion (q : ℕ)

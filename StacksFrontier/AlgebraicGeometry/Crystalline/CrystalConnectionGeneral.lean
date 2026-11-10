@@ -173,8 +173,8 @@ target rather than `F_T ⊗_{𝒪_T} Ω_{T/S,δ}`.
    `StacksFrontier/AlgebraicGeometry/Crystalline/UniversalThickeningFunctorial.lean` as
    `Crystalline.GlobalCrystallineSituation.firstOrderThickeningSiteMap` with its two commutation
    relations.  `Crystalline.GlobalCrystallineSituation.crystalConnection_naturality'` of
-   `StacksFrontier/AlgebraicGeometry/Crystalline/CrystalConnectionNaturality.lean` is the clause with
-   nothing assumed.  The functoriality of `(U, T, δ) ↦ (U, T', δ')` needs the functoriality of
+   `StacksFrontier/AlgebraicGeometry/Crystalline/CrystalConnectionNaturality.lean` is the clause
+   with nothing assumed.  The functoriality of `(U, T, δ) ↦ (U, T', δ')` needs the functoriality of
    `Ω_{T/S,δ}` at the level of sheaves, not only at the level of rings
    (`Crystalline.dpConstMap`), and it is available: the sheaf of divided power
    differentials has the universal property of a divided power derivation into an arbitrary sheaf
@@ -555,7 +555,7 @@ theorem crystalComp_comp_moduleComparisonSheaf (hM : IsSheafCrystal M) {A B : Th
     crystalComp M hM g h ≫ Thickening.moduleComparisonSheaf M h =
       Thickening.moduleComparisonSheaf M g := by
   have := hM A B h
-  show (Thickening.moduleComparisonSheaf M g ≫ inv (Thickening.moduleComparisonSheaf M h)) ≫
+  change (Thickening.moduleComparisonSheaf M g ≫ inv (Thickening.moduleComparisonSheaf M h)) ≫
     Thickening.moduleComparisonSheaf M h = _
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 

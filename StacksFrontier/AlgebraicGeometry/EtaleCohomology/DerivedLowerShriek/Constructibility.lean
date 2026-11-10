@@ -170,7 +170,7 @@ theorem isTorsionEtaleModule_homology_derivedLowerShriekUnbounded_single
       IsTorsionEtaleModule Λ j.space ((etaleModuleExtensionByZero.{u, r} Λ j.immersion).obj F) :=
     (isTorsionEtaleModule_iff_torsionSheafProperty_unconditional Λ _).2
       (Stacks.Torsion.torsionSheafProperty_of_iso _
-        (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j.immersion).natTrans.app F))
+        (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j.immersion).app F))
         (torsionSheafProperty_extensionByZero.{u, r} j.immersion
           ((etaleModuleForgetAb.{u, r} Λ X).obj F) hF))
   have h := isTorsionEtaleModule_homology_etaleModuleDerivedDirectImageUnbounded_single Λ
@@ -190,7 +190,7 @@ theorem isTorsionEtaleModule_etaleModuleInverseImage {X' X : Scheme.{u}} (g : X'
     IsTorsionEtaleModule Λ X' ((etaleModuleInverseImage.{u, r} Λ g).obj F) :=
   (isTorsionEtaleModule_iff_torsionSheafProperty_unconditional Λ _).2
     (Stacks.Torsion.torsionSheafProperty_of_iso _
-      (asIso ((etaleModuleInverseImageForget.{u, r} Λ g).natTrans.app F))
+      (asIso ((etaleModuleInverseImageForget.{u, r} Λ g).app F))
       (torsionSheafProperty_etaleAbelianInverseImage.{u, r} g _
         ((isTorsionEtaleModule_iff_torsionSheafProperty_unconditional Λ F).1 hF)))
 
@@ -436,7 +436,7 @@ theorem lowerShriekConstructibleOnSheaves_sup
   let U' : W.toScheme.Opens := W.ι ⁻¹ᵁ U
   let V' : W.toScheme.Opens := W.ι ⁻¹ᵁ V
   have hcov : U' ⊔ V' = ⊤ := by
-    show W.ι ⁻¹ᵁ U ⊔ W.ι ⁻¹ᵁ V = ⊤
+    change W.ι ⁻¹ᵁ U ⊔ W.ι ⁻¹ᵁ V = ⊤
     rw [← Scheme.Hom.preimage_sup]
     exact Scheme.Opens.ι_preimage_self W
   have hB := isWeakSerre_isConstructibleEtaleModule Λ Y

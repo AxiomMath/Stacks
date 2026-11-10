@@ -168,7 +168,7 @@ theorem tor1_isZero_of_subsingleton (N : Type u) [AddCommGroup N] [Module R N]
   refine Limits.IsZero.of_iso ?_ (torIsoHomology Pr N)
   have hsub : Subsingleton (((MonoidalCategory.tensoringLeft (ModuleCat.{u} R)).obj
       (ModuleCat.of R N)).obj (Pr.complex.X 1)) := by
-    show Subsingleton (TensorProduct R N (Pr.complex.X 1)); infer_instance
+    change Subsingleton (TensorProduct R N (Pr.complex.X 1)); infer_instance
   have hX1 : Limits.IsZero (((torPhi Pr.complex).obj (ModuleCat.of R N)).X 1) :=
     @ModuleCat.isZero_of_subsingleton R _
       (((MonoidalCategory.tensoringLeft (ModuleCat.{u} R)).obj (ModuleCat.of R N)).obj
@@ -437,7 +437,7 @@ theorem rTensor_restrictScalars_injective
     | tmul x m' =>
         induction m' with
         | tmul a m =>
-            show (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸I] (a ⊗ₜ[R] m)))
+            change (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸I] (a ⊗ₜ[R] m)))
               = eY ((LinearMap.rTensor ((R⧸I) ⊗[R] M) f) (x ⊗ₜ[R⧸I] (a ⊗ₜ[R] m)))
             rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
             rw [LinearMap.rTensor_tmul, LinearMap.rTensor_tmul]
@@ -659,7 +659,7 @@ theorem exists_free_presentation_of_smul_eq_bot
   · exact Subtype.coe_injective
   · intro n
     refine ⟨Finsupp.single n 1, ?_⟩
-    show π (Finsupp.single n 1) = n
+    change π (Finsupp.single n 1) = n
     rw [Finsupp.linearCombination_single]; simp
   · rw [LinearMap.exact_iff]
     show LinearMap.ker (π.restrictScalars R) = LinearMap.range (Ksub.subtype.restrictScalars R)

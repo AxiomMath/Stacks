@@ -26,6 +26,7 @@ open AlgebraicGeometry.Space
 variable {S : Scheme.{u}}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasPullbacks` for presheaves on the fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_RestrictionIdentityInverse (C : BigFppfSite.{u})

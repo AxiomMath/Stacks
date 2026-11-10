@@ -135,7 +135,7 @@ theorem rootEvalHom_powMap {W : U.Etale} (a : W ⟶ V) :
   have h3 := rootsOfUnityPowMap_sliceRootSection.{u, 0} ℓ n N hn W (a.left.appTop.hom.comp κ)
     hζ hζ' (Over.mk (𝟙 W)) 1
   rw [Nat.cast_one, Nat.cast_one] at h3
-  show (rootsOfUnityPowMap.{u, 0} U ℓ n N hn).hom.app (op W)
+  change (rootsOfUnityPowMap.{u, 0} U ℓ n N hn).hom.app (op W)
       ((rootsOfUnitySheaf.{u, 0} U N).obj.map a.op (rootSectionOver N κ hζ)) =
     (rootsOfUnitySheaf.{u, 0} U n).obj.map a.op (sliceRootSection.{u, 0} V κ hζ' (Over.mk (𝟙 V)) 1)
   rw [h1, h2]

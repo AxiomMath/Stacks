@@ -302,7 +302,7 @@ private lemma stalkToSkyscraperPsh_germ (X : Scheme.{u}) (x : X)
     (eqToHom (OXModule.skyscraperPOM_presheaf_obj_eq x N (op V) hx))
         ((stalkToSkyscraperPsh X x F N f).app (op V) m) =
       f.hom (stalkGerm X x F V hx m) := by
-  show ((stalkToSkyscraperPsh X x F N f).app (op V) ≫
+  change ((stalkToSkyscraperPsh X x F N f).app (op V) ≫
     eqToHom (OXModule.skyscraperPOM_presheaf_obj_eq x N (op V) hx)) m = _
   rw [stalkToSkyscraperPsh_app_of_mem X x F N f (op V) hx]
   simp only [unop_op, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
@@ -406,7 +406,7 @@ private lemma moduleHomToStalk_germ (X : Scheme.{u}) (x : X)
     (m : F.val.obj (op V)) :
     (moduleHomToStalk X x F N g).hom (stalkGerm X x F V hx m) =
       (eqToHom (OXModule.skyscraperPOM_presheaf_obj_eq x N (op V) hx)) (g.val.app (op V) m) := by
-  show (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv x N)
+  change (OXModule.sheafify_skyscraperPOM_stalkIso_skyscraper_addEquiv x N)
     (OXModule.stalkMapAdd F ((skyscraperModuleSheafFunctor X x).obj N) g x
       (TopCat.Presheaf.germ F.val.presheaf V x hx m)) = _
   -- Term mode: the goal mixes `F.val.obj U` with `((toPresheaf _).obj F.val).obj U`, so it is
@@ -455,7 +455,7 @@ private lemma skyscraperStalkIso_naturality (X : Scheme.{u}) (x : X)
   ext z
   obtain ⟨V, hx, m, rfl⟩ :=
     exists_stalkGerm X x ((skyscraperModuleSheafFunctor X x).obj N) z
-  show (moduleHomToStalk X x ((skyscraperModuleSheafFunctor X x).obj N) N'
+  change (moduleHomToStalk X x ((skyscraperModuleSheafFunctor X x).obj N) N'
       ((skyscraperModuleSheafFunctor X x).map f)).hom
       (stalkGerm X x ((skyscraperModuleSheafFunctor X x).obj N) V hx m) =
     f.hom (skyscraperStalkAddEquiv X x N
@@ -631,7 +631,7 @@ private lemma skyscraperPOMFunctor_preservesFiniteColimits (X : Scheme.{u}) (x :
           · let G := skyscraperPOMFunctor X x ⋙
               PresheafOfModules.evaluation (OXModule.ringSheaf X.toRingedSpace).obj U
             have hG : IsZero G := G.isZero (fun N => by
-              show IsZero (OXModule.skyscraperObj x N U)
+              change IsZero (OXModule.skyscraperObj x N U)
               exact ModuleCat.isZero_iff_subsingleton.mpr
                 (subsingleton_skyscraperObj_of_notMem x N U hx))
             have := G.preservesColimitsOfSize_of_isZero hG
@@ -980,8 +980,7 @@ private lemma exists_nonzero_hom_to_residueField_of_finite
   have hμ' : μ = 0 := ModuleCat.hom_ext_iff.mp hμ
   have hzero : ∀ y : TensorProduct R (IsLocalRing.ResidueField R) (↑M), φ y = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a m =>
         have hm := congrArg (fun f : (↑M) →ₗ[R] IsLocalRing.ResidueField R => f m) hμ'
         simp only [μ, LinearMap.coe_comp, Function.comp_apply, TensorProduct.mk_apply,

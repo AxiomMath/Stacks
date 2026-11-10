@@ -180,7 +180,7 @@ noncomputable def sumChartOverToSource (f : Y ⟶ X) :
 theorem sumChartOverToSource_w (f : Y ⟶ X) :
     yoneda.map (sumChartOverToSource B S hS f) ≫ atlasHom B S hS X =
       (sumChartOver B S hS f).1.hom ≫ f.hom := by
-  show yoneda.map ((sumAtlasChart B S hS X).2.rep.fst'
+  change yoneda.map ((sumAtlasChart B S hS X).2.rep.fst'
       ((sumAtlasChart B S hS Y).1.hom ≫ f.hom)) ≫ (sumAtlasChart B S hS X).1.hom =
     (sumChartOver B S hS f).1.hom ≫ f.hom
   rw [(sumAtlasChart B S hS X).2.rep.map_fst' ((sumAtlasChart B S hS Y).1.hom ≫ f.hom),

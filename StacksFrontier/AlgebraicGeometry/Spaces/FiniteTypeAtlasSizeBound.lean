@@ -184,7 +184,7 @@ theorem exists_atlas_size_le_of_isLocallyOfFiniteType
     exact fun x => by_contra fun hx => Set.notMem_empty x (hcl.symm.subset hx)
   refine ⟨Z, a, (presheafSurjective_iff_isSurjective_yoneda B S hS F hF Z a).2 hsurj,
     (isEtale_iff_presheaf_of_yoneda B S hS a).1 hetale, ?_⟩
-  show ((BigFppfOver.toScheme B S hS).obj Z).size ≤ κ
+  change ((BigFppfOver.toScheme B S hS).obj Z).size ≤ κ
   rcases isEmpty_or_nonempty I with hIe | hIne
   · refine (size_le_aleph0_of_isEmpty _ ⟨fun z => ?_⟩).trans hκ0
     obtain ⟨i, -⟩ := hcov z

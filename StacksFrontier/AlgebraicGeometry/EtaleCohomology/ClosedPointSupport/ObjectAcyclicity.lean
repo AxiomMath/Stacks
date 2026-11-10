@@ -143,7 +143,7 @@ public theorem supportSheaf_abelianRestriction_subset_closedPoints
     h1 (hz.of_iso (etaleStalkAbelianRestrictionIso B X hX V p F))
   have h3 : (B.inclusion.map V.obj.hom).base v ∈ supportSheaf B X hX F := by
     refine ⟨p.map (B.inclusion.map V.obj.hom), ?_, fun hz => h2 ?_⟩
-    · show (p.map (B.inclusion.map V.obj.hom)).hom default = _
+    · change (p.map (B.inclusion.map V.obj.hom)).hom default = _
       rw [← hp]; rfl
     · exact (isZero_etaleStalk_ulift_iff B X hX F (p.map (B.inclusion.map V.obj.hom))).1 hz
   exact (Stacks.Curves.isClosed_singleton_iff_of_etale f (B.inclusion.map V.obj.hom) v).1 (hF h3)

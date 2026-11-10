@@ -160,8 +160,8 @@ difference is in an implicit one, and the two cures that worked for the bridge o
 represented algebraic space is spelled by its constructor on both sides.  The next spelling to
 align is in those four factors -- the transports and the comparisons of Stacks 03LU of
 `AlgebraicGeometry.Space.modulePullback_sourceChain_eq` against those of
-`AlgebraicGeometry.Space.modulePullback_map_reading_comp`.  One lead, read off the instance priorities: of the
-files those factors come from, only this one and
+`AlgebraicGeometry.Space.modulePullback_map_reading_comp`.  One lead, read off the instance
+priorities: of the files those factors come from, only this one and
 `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.PointTwistNatural` raise
 `AlgebraicGeometry.Space.SmallEtale.instHasSheafify` and `…instWEqualsLocallyBijective` to
 priority 5000, so a `Category` instance synthesised in

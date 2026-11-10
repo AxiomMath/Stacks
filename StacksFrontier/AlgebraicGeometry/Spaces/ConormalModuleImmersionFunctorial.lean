@@ -330,8 +330,9 @@ is proved too**, at the same generality:
     notes of `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleEtaleRestriction.lean`
     (`AlgebraicGeometry.Space.modulePullbackIsoEtaleModulePullback_unit_app` after the unit of the
     extension of scalars, and `AlgebraicGeometry.Space.structureModulePullbackMap_transpose` after
-    both transposes) nor the `AlgebraicGeometry.Space.etaleModulePullbackAdjunction` route: it is the **corepresentability comparison**
-    `AlgebraicGeometry.Space.modulePullbackUnitIso` as a common form, which the chartwise
+    both transposes) nor the `AlgebraicGeometry.Space.etaleModulePullbackAdjunction` route: it is
+    the **corepresentability comparison** `AlgebraicGeometry.Space.modulePullbackUnitIso` as a
+    common form, which the chartwise
     description reaches by semilinearity out of the unit module and Equation 03LW by comparing
     the transposes along Stacks 03CZ on underlying sheaves of sets.  Neither half needs the unit
     of the étale restriction adjunction on sections.
@@ -353,8 +354,8 @@ is proved too**, at the same generality:
   **What remains after that is the whole residue of part (2).**  The two square-comparison halves
   `Stacks.ClosedImmersion.pullbackCompIso_hom_comp_modulePullbackUnitToUnit` and
   `AlgebraicGeometry.Space.squarePullbackCompIso_hom_comp_structureModulePullbackMap` are proved,
-  but they do not leave only the ideal-level compatibility to be shown.  Those two halves describe the square
-  comparisons at the **structure sheaf**, and that does not determine them at the **ideal
+  but they do not leave only the ideal-level compatibility to be shown.  Those two halves describe
+  the square comparisons at the **structure sheaf**, and that does not determine them at the **ideal
   sheaf**, which is where the two canonical maps of conormal modules read them: the inverse image
   along the upper morphism of the inclusion of a sheaf of ideals is not a monomorphism, exactly as
   the paragraph above on `Θ_j` records, so nothing transports the description from the one module
@@ -374,9 +375,9 @@ is proved too**, at the same generality:
   carries cancel against the ones that tag's own composition law produces, and **that
   composition law is proved**, as
   `AlgebraicGeometry.SmallEtale.associatedModuleBaseChangeIso_comp` and
-  `AlgebraicGeometry.SmallEtale.associatedModuleObjBaseChangeIso_comp` of
-  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`
-  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SmallEtaleAssociatedModuleBaseChangeComposition.lean`.
+  `AlgebraicGeometry.SmallEtale.associatedModuleObjBaseChangeIso_comp` of the file
+  `SmallEtaleAssociatedModuleBaseChangeComposition.lean` in the directory
+  `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/`.
 
   What is **still owed** is therefore the composition law for
   `AlgebraicGeometry.Space.representedModuleObjPullbackIso`, and the route to it is
@@ -426,8 +427,8 @@ is proved too**, at the same generality:
   compatibility with `AlgebraicGeometry.Space.smallBaseChangeSharp` — is absent too and is what
   both bullets are stated over.
 
-Two things the schemes side already has, so that nothing is needed there: the identification of the schemes-side change of
-ambient with the canonical map of its restriction square is
+Two things the schemes side already has, so that nothing is needed there: the identification of the
+schemes-side change of ambient with the canonical map of its restriction square is
 `Stacks.Immersion.modulePullbackRestrictIso_comp_conormalSheafSelfRestrictIso` of
 `StacksFrontier/AlgebraicGeometry/Conormal/RestrictSquareMap.lean`, and its invertibility for nested
 opens is `Stacks.Immersion.isIso_immersionConormalSheafMap_homOfLE` of

@@ -269,8 +269,7 @@ theorem conjugateProjection_apply_congr (ρ : L ≃ₐ[K] L) (τ : F →ₐ[K] L
     conjugateProjection ((ρ : L →ₐ[K] L).comp τ)
         (Algebra.TensorProduct.congr ρ (AlgEquiv.refl : F ≃ₐ[K] F) z) =
       ρ (conjugateProjection τ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp
   | add z w hz hw => simp only [map_add, hz, hw]
 

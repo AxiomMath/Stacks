@@ -81,8 +81,8 @@ not definitional: it is the equality `CategoryTheory.BasedFunctor.w_obj` of obje
 every clause about the structural map from the base has to be read through it. That is what the
 `eqToHom` in the statements below is doing, and the one-line helpers at the top of the file,
 together with those of
-`StacksFrontier.Deformation.Examples.Geometric.IsolatedSingularitiesHenselizationComparison`, are the
-arithmetic of those identifications.
+`StacksFrontier.Deformation.Examples.Geometric.IsolatedSingularitiesHenselizationComparison`,
+are the arithmetic of those identifications.
 
 The fibre of a *localized* deformation is likewise only *a* localization of the fibre at the
 inverse image of the prime, not the chosen `Localization`; the two are identified by
@@ -375,7 +375,7 @@ public theorem exists_ringEquiv_adicCompletion_henselizedFiber (J : Ideal P)
       (congrArg (algebraMap (H.functor.obj X).left.fiber
         (AdicCompletion (n.map a) (H.functor.obj X).left.fiber))
         (H.henselizationEquiv_algebraMap X x))
-  show (C.fiberEquiv (H.functor.obj X)).symm (e₃.val (e₂ (e₁ _))) = _
+  change (C.fiberEquiv (H.functor.obj X)).symm (e₃.val (e₂ (e₁ _))) = _
   rw [h₁, h₂, e₃.property]
   rfl
 
@@ -423,7 +423,7 @@ public theorem apply_algebraMap_adicCompletionPiHenselizedEquiv
         (AdicCompletion (henselizedMaximalIdealAt (m i)) (henselizedLocalRingAt (m i)))
         (algebraMap (localRingAt (m i)) (henselizedLocalRingAt (m i))
           (algebraMap P (localRingAt (m i)) x)) := by
-  show adicCompletionMap (algebraMap (localRingAt (m i)) (henselizedLocalRingAt (m i)))
+  change adicCompletionMap (algebraMap (localRingAt (m i)) (henselizedLocalRingAt (m i)))
       (IsLocalRing.maximalIdeal (localRingAt (m i))) (henselizedMaximalIdealAt (m i)) le_rfl
       (adicCompletionIInfPiEquiv m hmax hinj
         (algebraMap P (AdicCompletion (⨅ j, (m j).asIdeal) P) x) i) = _

@@ -64,7 +64,7 @@ theorem tmulAddHomOfAddEquiv_balanced (ρ : R₁ ≃+* R₂) (eN : N₁ ≃+ N�
     (hM : ∀ (r : R₁) (m : M₁), eM (r • m) = ρ r • eM m) (r : R₁) (n : N₁) (m : M₁) :
     tmulAddHomOfAddEquiv (R₂ := R₂) eN eM (r • n) m =
       tmulAddHomOfAddEquiv (R₂ := R₂) eN eM n (r • m) := by
-  show eN (r • n) ⊗ₜ[R₂] eM m = eN n ⊗ₜ[R₂] eM (r • m)
+  change eN (r • n) ⊗ₜ[R₂] eM m = eN n ⊗ₜ[R₂] eM (r • m)
   rw [hN, hM, smul_tmul]
 
 /-- The additive map `N₁ ⊗_{R₁} M₁ →+ N₂ ⊗_{R₂} M₂` carrying `n ⊗ m` to `eN n ⊗ eM m`. -/
@@ -100,15 +100,13 @@ def addEquivOfRingEquiv (ρ : R₁ ≃+* R₂) (eN : N₁ ≃+ N₂) (eM : M₁ 
     (symm_semilinear ρ eN hN) (symm_semilinear ρ eM hM))
   map_add' := (addMonoidHomOfRingEquiv ρ eN eM hN hM).map_add
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul n m =>
       change eN.symm (eN n) ⊗ₜ[R₁] eM.symm (eM m) = n ⊗ₜ[R₁] m
       rw [eN.symm_apply_apply, eM.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul n m =>
       change eN (eN.symm n) ⊗ₜ[R₂] eM (eM.symm m) = n ⊗ₜ[R₂] m
       rw [eN.apply_symm_apply, eM.apply_symm_apply]

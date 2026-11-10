@@ -10,8 +10,8 @@ The statement of Tag 07RM concludes that a morphism is projective in the sense o
 of Tag 01W8: a closed immersion over the base into the projective bundle `𝐏(E)` of a finite-type
 quasi-coherent module `E` on the base. That predicate, as spelled in the statement of Tag 01W8,
 is `sorry`-contaminated *in its statement*, through the `Proj` axioms of the symmetric algebra
-in the statement of Tag 01OB, so no proof of anything stated with it can be axiom-clean. Its library form is not contaminated and is already built:
-`Stacks.Tag087SBundle.IsProjective`.
+in the statement of Tag 01OB, so no proof of anything stated with it can be axiom-clean. Its library
+form is not contaminated and is already built: `Stacks.Tag087SBundle.IsProjective`.
 
 Two restatement routes avoiding that `sorry` exist, and
 `Stacks.ProjectivityLabelChoice.cardStatementAtHProjective_iff` examines the first — restating
@@ -44,8 +44,9 @@ properties. Two obstacles stand in the way of taking `P` to be
 `Stacks.Tag087SBundle.IsProjective`, and both are removed here:
 
 1. The second side condition — a closed immersion into a projective `S`-scheme is projective over
-   `S` — is not provided there. It is `Stacks.Tag07RMBundleRoute.projective_comp_of_isClosedImmersion`
-   below, and it is three lines: closed immersions compose.
+   `S` — is not provided there. It is
+   `Stacks.Tag07RMBundleRoute.projective_comp_of_isClosedImmersion` below, and it is three
+   lines: closed immersions compose.
 2. `Stacks.Tag087SBundle.IsProjective` **is not a `CategoryTheory.MorphismProperty Scheme`**, so
    it cannot be passed as `P` at all. Its base `S` is a section `variable`, so its elaborated
    type is `{S X : Scheme} → (X ⟶ S) → Prop` — the *target* is the first implicit argument,
@@ -145,9 +146,9 @@ twist comparison — a reason of economy, not of impossibility.
   conclusion is *equivalent* to having an immersion into a bundle.
 * `Stacks.Tag07RMBundleRoute.immersionIntoProjective_iff`: the residue is exactly the source's
   half 1.
-* `Stacks.Tag07RMBundleRoute.exists_isOpenImmersion_isProjective`: **the statement of Tag `07RM` over
-  library names**, from `Stacks.Tag07RMBundleRoute.ImmersionIntoBundle` alone. The tag itself, at
-  `AlgebraicGeometry.IsProjective` and with no such argument, is
+* `Stacks.Tag07RMBundleRoute.exists_isOpenImmersion_isProjective`: **the statement of Tag `07RM`
+  over library names**, from `Stacks.Tag07RMBundleRoute.ImmersionIntoBundle` alone. The tag itself,
+  at `AlgebraicGeometry.IsProjective` and with no such argument, is
   `Stacks.QuasiProjectiveCompactification.exists_isOpenImmersion_isProjective_of_qcqs`.
 
 ## References
@@ -303,8 +304,8 @@ base, every quasi-projective morphism admits an immersion over the base into the
 of a finite-type quasi-coherent module on the base.
 
 These are exactly the hypotheses on the base in Tag 07RM — nothing is added and nothing is
-strengthened — and it is the single input of Tag `07RM` at the bundle predicate. At Definition 01W8's
-`AlgebraicGeometry.IsProjective` the same half 1 is the theorem
+strengthened — and it is the single input of Tag `07RM` at the bundle predicate. At Definition
+01W8's `AlgebraicGeometry.IsProjective` the same half 1 is the theorem
 `Stacks.QuasiProjectiveCompactification.immersionIntoProjective_isProjective`; the three results
 it rests on are named in the module documentation. -/
 def ImmersionIntoBundle : Prop :=
@@ -321,9 +322,9 @@ The two differ by nothing because a projective `S`-scheme is by definition close
 own structure morphism is projective
 (`Stacks.Tag087SBundle.isProjective_projectiveBundleToBase`).
 
-So the reduction of Tag `07RM` performed here is not a weakening of the statement, and the generality
-of `Stacks.QuasiProjectiveCompactification.ImmersionIntoProjective`'s intermediate scheme buys
-nothing at this predicate. -/
+So the reduction of Tag `07RM` performed here is not a weakening of the statement, and the
+generality of `Stacks.QuasiProjectiveCompactification.ImmersionIntoProjective`'s intermediate
+scheme buys nothing at this predicate. -/
 theorem immersionIntoProjective_iff :
     Stacks.QuasiProjectiveCompactification.ImmersionIntoProjective projective.{u} ↔
       ImmersionIntoBundle.{u} := by
@@ -343,8 +344,8 @@ theorem immersionIntoProjective_iff :
 quasi-compact quasi-separated base factors as an open immersion followed by a projective
 morphism.
 
-This is the statement of Tag `07RM` verbatim — the same quantifier prefix, the same `CompactSpace S` and
-`QuasiSeparatedSpace S`, the same quasi-projectivity hypothesis — with
+This is the statement of Tag `07RM` verbatim — the same quantifier prefix, the same `CompactSpace S`
+and `QuasiSeparatedSpace S`, the same quasi-projectivity hypothesis — with
 the quasi-projectivity predicate of the statement of Tag 01VW replaced by
 `Stacks.HProjective.IsQuasiProjective` and the projectivity predicate of the statement of Tag 01W8
 by `Stacks.Tag087SBundle.IsProjective`, which are those two tagged

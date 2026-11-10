@@ -72,7 +72,7 @@ theorem isSheaf_of_isIso_restrictionBaseChange_of_etale_refinements
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage etalePropertyOfSchemes.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Etale) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Etale) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _

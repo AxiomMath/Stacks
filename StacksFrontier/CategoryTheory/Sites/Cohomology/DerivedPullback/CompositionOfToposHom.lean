@@ -275,7 +275,7 @@ attribute [local instance]
   Stacks.Cohomology.DerivedPullbackOfToposHom.hasLeftDerivedFunctor_pullbackOnHomotopy
 
 omit [Y.J.HasSheafCompose (forget RingCat.{w'})] [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
-  [HasSheafify Y.J (Type w')] in
+  [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify Y.J (Type w')] in
 /-- The class of K-flat complexes with flat terms resolves every complex of sheaves of modules
 on a ringed topos.
 

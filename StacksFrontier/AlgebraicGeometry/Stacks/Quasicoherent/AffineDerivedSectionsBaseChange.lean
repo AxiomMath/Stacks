@@ -172,14 +172,14 @@ theorem hasEnoughObjects_isAffine :
       X := fun i => ⟨O.X i, Scheme.size_lt_of_isOpenImmersion (O.f i) (p.obj W).left.2⟩
       f := fun i => ObjectProperty.homMk (O.f i) }
   have hVaff : ∀ j, IsAffine (B.inclusion.obj (V.X j)) := fun j => by
-    show IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X j.down))
+    change IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X j.down))
     exact isAffine_Spec _
   let Vobj (j : V.I₀) : BigFppfOver B S hS := Over.mk (V.f j ≫ (p.obj W).hom)
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .zariski (p.obj W) := by
     have hZ : IsZariskiCovering (⟨(p.obj W).left, V⟩ : Covering B.Schemes) := by
-      show (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
+      change (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
       simpa [V, PreZeroHypercover.map] using O.mem₀
     obtain ⟨⟨T', E'⟩, hE', hbase, hfamily⟩ :=
       B.zariskiCovering_has_representative ⟨(p.obj W).left, V⟩ hZ
@@ -190,7 +190,7 @@ theorem hasEnoughObjects_isAffine :
         (show PreZeroHypercover.CombinatoriallyEquivalent V E' by simpa using hfamily)]
       exact Precoverage.generate_mem_toGrothendieck ⟨E', rfl, hE'⟩
     let Vover : PreZeroHypercover.{u + 1} (p.obj W) := ⟨V.I₀, Vobj, vmap⟩
-    show Sieve.generate Vover.presieve₀ ∈ B.zariskiTopology.over (B.obj hS) (p.obj W)
+    change Sieve.generate Vover.presieve₀ ∈ B.zariskiTopology.over (B.obj hS) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward]
     simpa [Vover, Vobj, vmap, PreZeroHypercover.presieve₀, PreZeroHypercover.map] using hgen
@@ -200,7 +200,7 @@ theorem hasEnoughObjects_isAffine :
       (fun Z g hg => ?_) hcov
     obtain ⟨j, a, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg
     exact (Sieve.mem_ofArrows_iff _ _ _).2 ⟨j.down, a, rfl⟩
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y ⟨i⟩)))
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y ⟨i⟩)))
     rw [hdom ⟨i⟩]
     exact hVaff ⟨i⟩
 
@@ -256,7 +256,7 @@ private theorem isIso_homEquiv_symm_homology_derivedSectionsRestrict
       (hypercohomologyEdge O x' q).app K ≫ (sectionsRestrict O a).app F ≫
         (ModuleCat.restrictScalars.{u + 1} (O.obj.map a.op).hom).map
           (inv ((hypercohomologyEdge O x q).app K)) := by
-    show (derivedSectionsRestrictHomology O a q).app K = _
+    change (derivedSectionsRestrictHomology O a q).app K = _
     rw [← reassoc_of% (derivedSectionsRestrictHomology_app_comp_hypercohomologyEdge.{_, _, _,
       u + 1, u + 1} O a q K), ← Functor.map_comp, IsIso.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.comp_id]

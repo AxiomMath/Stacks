@@ -320,7 +320,7 @@ public theorem MvPolynomial.tensorQuotientComapAlgEquiv_tmul_mk
     AlgEquiv.apply_symm_apply, Algebra.IsPushout.equiv_tmul]
   rw [map_mul, AlgEquiv.commutes]
   congr 1
-  show (Ideal.quotientEquivAlgOfEq L _)
+  change (Ideal.quotientEquivAlgOfEq L _)
       (Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap A₀ L) f)) =
     Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap A L)
       (MvPolynomial.map (algebraMap A₀ A) f))

@@ -366,7 +366,8 @@ theorem exists_kernel_section {Y : RingedSpace.{u, u}}
     (U : (Opens Y)ᵒᵖ) (x : M.val.obj U) (hx : (f.val.app U).hom x = 0) :
     ∃ a : (kernel f).val.obj U, ((kernel.ι f).val.app U).hom a = x := by
   have h := KernelFork.mapIsLimit _ (kernelIsKernel f)
-    (SheafOfModules.forget (structureSheafRing Y) ⋙ PresheafOfModules.evaluation (structureSheafRing Y).obj U)
+    (SheafOfModules.forget (structureSheafRing Y) ⋙
+      PresheafOfModules.evaluation (structureSheafRing Y).obj U)
   have he := (ShortComplex.mk
     ((SheafOfModules.forget (structureSheafRing Y) ⋙
       PresheafOfModules.evaluation (structureSheafRing Y).obj U).map (kernel.ι f))

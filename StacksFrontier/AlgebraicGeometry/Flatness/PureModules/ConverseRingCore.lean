@@ -89,7 +89,7 @@ theorem exists_isPrime_under_eq_of_fibrewiseContainment {T Y Z : Scheme.{u}} (fU
     exact hcontain (show fU y ∈ (W : Set T) from hy) hξ
   obtain ⟨z, hz⟩ := hVr hyV
   have hzmem : z ∈ (h ⁻¹ᵁ (fU ⁻¹ᵁ W) : Z.Opens) := by
-    show h z ∈ (fU ⁻¹ᵁ W : Y.Opens)
+    change h z ∈ (fU ⁻¹ᵁ W : Y.Opens)
     rw [hz]; exact hy
   refine ⟨(hWZ.primeIdealOf ⟨z, hzmem⟩).asIdeal, (hWZ.primeIdealOf ⟨z, hzmem⟩).isPrime, ?_⟩
   have hle : h ⁻¹ᵁ (fU ⁻¹ᵁ W) ≤ h ⁻¹ᵁ (fU ⁻¹ᵁ W) := le_rfl
@@ -122,7 +122,7 @@ theorem projective_sections_of_fibrewiseContainment {T Y Z : Scheme.{u}} [IsAffi
     ((h ≫ fU).appLE W (h ⁻¹ᵁ (fU ⁻¹ᵁ W)) le_rfl).hom.toAlgebra
   let : IsScalarTower Γ(T, W) Γ(Y, fU ⁻¹ᵁ W) Γ(Z, h ⁻¹ᵁ (fU ⁻¹ᵁ W)) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show ((h ≫ fU).appLE W (h ⁻¹ᵁ (fU ⁻¹ᵁ W)) le_rfl).hom = _
+      change ((h ≫ fU).appLE W (h ⁻¹ᵁ (fU ⁻¹ᵁ W)) le_rfl).hom = _
       rw [← Scheme.Hom.appLE_comp_appLE]
       rfl)
   let : Module Γ(T, W) Γ(FU, fU ⁻¹ᵁ W) :=

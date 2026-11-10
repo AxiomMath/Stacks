@@ -77,7 +77,7 @@ theorem exists_ne_zero_maximalIdeal_smul_eq_zero_of_isInjectiveHull
   have hsm : ∀ a ∈ IsLocalRing.maximalIdeal A, a • x₀ = 0 := by
     intro a ha
     refine ULift.ext ?_
-    show a • (1 : IsLocalRing.ResidueField A) = 0
+    change a • (1 : IsLocalRing.ResidueField A) = 0
     rw [Algebra.smul_def, mul_one]
     exact Ideal.Quotient.eq_zero_iff_mem.2 ha
   refine ⟨ι.hom x₀, fun h => hx₀ne (hinj (h.trans (map_zero ι.hom).symm)), fun a ha => ?_⟩

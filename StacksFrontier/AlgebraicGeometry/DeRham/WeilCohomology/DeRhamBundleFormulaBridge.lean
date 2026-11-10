@@ -144,7 +144,7 @@ theorem bundleFormula_of_degreewise (X : (QCQSScheme B).FullSubcategory)
   refine bijective_bundleFormula_of_degreewise (QCQSScheme B).ι
     (QCQSScheme.bundleObject X E r hE).toBundleDatum.proj
     (QCQSScheme.bundleObject X E r hE).toBundleDatum.twistClass r fun n => ?_
-  show Function.Bijective (AlgebraicGeometry.SheafOfModules.degreewiseBundleFormula _ _ _ _
+  change Function.Bijective (AlgebraicGeometry.SheafOfModules.degreewiseBundleFormula _ _ _ _
     (deRhamPullbackSquare (Stacks.Chow.bundleProj E) (Stacks.Chow.bundleProj E ≫ X.obj.hom)
       X.obj.hom (𝟙 B) (Category.comp_id _).symm)
     (deRhamFirstChernClassPicard (Stacks.Chow.bundleProj E ≫ X.obj.hom)

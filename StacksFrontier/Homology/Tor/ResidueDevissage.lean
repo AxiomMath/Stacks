@@ -202,7 +202,7 @@ private theorem of_residueField_aux
           have hNL : Module.IsTorsionBySet A (ModuleCat.of A (N ⧸ L)) (m : Set A) := by
             intro z a
             obtain ⟨y, rfl⟩ := L.mkQ_surjective z
-            show (a : A) • L.mkQ y = 0
+            change (a : A) • L.mkQ y = 0
             rw [← L.mkQ.map_smul, @hN y a, map_zero]
           refine ih (ModuleCat.of A (N ⧸ L)) hNL ((s.erase x).image L.mkQ) ?_ ?_
           · have h := Finset.card_image_le (f := L.mkQ) (s := s.erase x)
@@ -223,7 +223,7 @@ private theorem of_residueField_aux
               exact zero_mem _
             · refine Submodule.subset_span ?_
               rw [Finset.coe_image]
-              exact ⟨y, by simpa only [Finset.coe_erase, Set.mem_diff, Set.mem_singleton_iff]
+              exact ⟨y, by simpa only [Finset.coe_erase, Set.mem_sdiff, Set.mem_singleton_iff]
                 using ⟨hy, hyx⟩, rfl⟩
         exact htri (F.mapTriangle.obj hS.singleTriangle)
           (F.map_distinguished _ hS.singleTriangle_distinguished) h₁ h₃

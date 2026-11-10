@@ -117,11 +117,10 @@ theorem Algebra.UniversallyInjective.pi_localizationAway
     exact localizedTensorMkPi_injective f i Q
   have hrtensor : (Algebra.linearMap R S).rTensor Q = m ∘ₗ _root_.TensorProduct.lid R Q := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul a q =>
-      show algebraMap R S a ⊗ₜ[R] q = (1 : S) ⊗ₜ[R] (a • q)
+      change algebraMap R S a ⊗ₜ[R] q = (1 : S) ⊗ₜ[R] (a • q)
       rw [Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
   have hm' : Function.Injective ((Algebra.linearMap R S).rTensor Q) := by
     rw [hrtensor]

@@ -184,7 +184,7 @@ section ProperSupport
 reduced induced closed subscheme on it maps to `X` by a closed immersion, which is proper, and a
 composition of proper morphisms is proper. -/
 theorem isProperOver_of_isProper [IsProper f] (T : Closeds X) : IsProperOver f T := by
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
   infer_instance
 
 end ProperSupport

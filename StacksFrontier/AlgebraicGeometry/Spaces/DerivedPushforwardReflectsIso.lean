@@ -40,8 +40,8 @@ theorem isIso_of_isIso_derivedModulePushforward_map (g : Y' ⟶ Y)
     (hM : QcohDerived B S hS Y' M) (hN : QcohDerived B S hS Y' N) (φ : M ⟶ N)
     (h : IsIso ((derivedModulePushforward B S hS g).map φ)) : IsIso φ := by
   let R := derivedModulePushforward B S hS g
-  letI : R.CommShift ℤ := derivedModulePushforward_commShift B S hS g
-  letI : R.IsTriangulated := derivedModulePushforward_isTriangulated B S hS g
+  let : R.CommShift ℤ := derivedModulePushforward_commShift B S hS g
+  let : R.IsTriangulated := derivedModulePushforward_isTriangulated B S hS g
   obtain ⟨Z, a, b, hT⟩ := distinguished_cocone_triangle φ
   have hZ : QcohDerived B S hS Y' Z :=
     (QcohDerived B S hS Y').ext_of_isTriangulatedClosed₃ _ hT hM hN

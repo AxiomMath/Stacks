@@ -86,7 +86,7 @@ theorem completionEquiv_completionMap (r : affineBlowupBaseCompletion I f Q) :
   have e1 := eq_adicCompletionMap_of_apply_algebraMap _ _ _ (map_localRingHom_le_ideal I f Q)
     (Ideal.fg_of_isNoetherianRing _)
     ((completionEquiv I f Q).toRingHom.comp (affineBlowupCompletionMap I f Q)) fun x => by
-      show completionEquiv I f Q (affineBlowupCompletionMap I f Q (algebraMap _ _ x)) = _
+      change completionEquiv I f Q (affineBlowupCompletionMap I f Q (algebraMap _ _ x)) = _
       rw [affineBlowupCompletionMap_algebraMap, completionEquiv_algebraMap]
       rfl
   have e2 := eq_adicCompletionMap_of_apply_algebraMap _ _ _ (map_localRingHom_le_ideal I f Q)
@@ -103,7 +103,7 @@ theorem completionEquiv_ψ_algebraMap (x : Tensor I f Q) :
       algebraMap (Loc I f Q) _ (algebraMap _ (Loc I f Q) x) := by
   refine tensor_induction I f Q (P := fun x => completionEquiv I f Q (ψ I f Q
     (algebraMap _ (Loc I f Q) x)) = algebraMap (Loc I f Q) _ (algebraMap _ (Loc I f Q) x))
-    (by simp) (fun r b => ?_) (fun x y hx hy => ?_) x
+    (fun r b => ?_) (fun x y hx hy => ?_) x
   · rw [ψ_algebraMap, map_mul (toChart I f Q), toChart_algebraMap,
       toChart_inr, map_mul (completionEquiv I f Q), completionEquiv_completionMap,
       completionEquiv_algebraMap, ιB_algebraMap, map_mul (algebraMap (Tensor I f Q) (Loc I f Q)),
@@ -234,7 +234,7 @@ theorem comap_under_prime :
     Q.under A = (Ideal.under (affineBlowupBaseCompletion I f Q) (prime I f Q)).comap
       (algebraMap A (affineBlowupBaseCompletion I f Q)) := by
   ext a
-  show algebraMap A (affineBlowup I f) a ∈ Q ↔
+  change algebraMap A (affineBlowup I f) a ∈ Q ↔
     algebraMap _ (Tensor I f Q) (algebraMap A (affineBlowupBaseCompletion I f Q) a) ∈ prime I f Q
   rw [← RingHom.comp_apply, ← inr_comp_algebraMap, RingHom.comp_apply]
   exact (SetLike.ext_iff.mp (comap_prime_inr I f Q) _).symm
@@ -254,7 +254,7 @@ theorem bijective_residueFieldMap_chart :
       (comap_prime_inr I f Q).symm) := by
   refine bijective_residueFieldMap_of_forall_exists _ _ _ _ fun x => ?_
   refine tensor_induction I f Q (P := fun x => ∃ b u : affineBlowup I f, u ∉ Q ∧
-    inr I f Q u * x - inr I f Q b ∈ prime I f Q) ⟨0, 1, Q.primeCompl.one_mem, by simp⟩
+    inr I f Q u * x - inr I f Q b ∈ prime I f Q)
     (fun r b => ?_) (fun x y hx hy => ?_) x
   · obtain ⟨a, t, ht, h⟩ := exists_mul_sub_mem_maximalIdeal I f Q r
     refine ⟨algebraMap A (affineBlowup I f) a * b, algebraMap A (affineBlowup I f) t, ht, ?_⟩
@@ -324,7 +324,7 @@ theorem ringKrullDim_quotient_add_trdeg
     rw [hP₀def, ← comap_maximalIdeal_loc]
     exact Ideal.comap_mono (IsLocalRing.le_maximalIdeal (Ideal.IsPrime.ne_top ‹_›))
   have hPeq : P₀.map (algebraMap (Tensor I f Q) (Loc I f Q)) = P :=
-    IsLocalization.map_comap (prime I f Q).primeCompl _ P
+    IsLocalization.map_under (prime I f Q).primeCompl _ P
   have hcomapR : P.comap (algebraMap (affineBlowupBaseCompletion I f Q) (Loc I f Q)) =
       P₀.comap (algebraMap (affineBlowupBaseCompletion I f Q) (Tensor I f Q)) := by
     rw [hP₀def, Ideal.comap_comap, ← IsScalarTower.algebraMap_eq]
@@ -351,14 +351,14 @@ theorem ringKrullDim_quotient_add_trdeg
   let qb := (prime I f Q).map (Ideal.Quotient.mk P₀)
   have hf0 : Ideal.Quotient.mk p₀ (algebraMap A (affineBlowupBaseCompletion I f Q) f) ≠ 0 := by
     rw [Ne, Ideal.Quotient.eq_zero_iff_mem]
-    show algebraMap (Tensor I f Q) (Loc I f Q) (algebraMap _ (Tensor I f Q) _) ∉ P
+    change algebraMap (Tensor I f Q) (Loc I f Q) (algebraMap _ (Tensor I f Q) _) ∉ P
     rwa [← IsScalarTower.algebraMap_apply]
   have : Algebra.IsAlgebraic D S := by
     refine isAlgebraic_of_pow_mul hf0 fun s => ?_
     obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective s
     obtain ⟨n, r, hr⟩ := exists_pow_mul_eq_algebraMap I f Q t
     refine ⟨n, Ideal.Quotient.mk p₀ r, ?_⟩
-    show Ideal.Quotient.mk P₀ (algebraMap _ (Tensor I f Q)
+    change Ideal.Quotient.mk P₀ (algebraMap _ (Tensor I f Q)
       (algebraMap A (affineBlowupBaseCompletion I f Q) f ^ n)) * Ideal.Quotient.mk P₀ t =
         Ideal.Quotient.mk P₀ (algebraMap _ (Tensor I f Q) r)
     rw [← map_mul, hr]
@@ -371,7 +371,7 @@ theorem ringKrullDim_quotient_add_trdeg
     rw [← IsLocalRing.map_maximalIdeal_of_surjective (Ideal.Quotient.mk p₀)
       Ideal.Quotient.mk_surjective, Ideal.map_le_iff_le_comap]
     intro x hx
-    show Ideal.Quotient.mk P₀ (algebraMap _ (Tensor I f Q) x) ∈ qb
+    change Ideal.Quotient.mk P₀ (algebraMap _ (Tensor I f Q) x) ∈ qb
     refine Ideal.mem_map_of_mem _ ?_
     rw [← Ideal.mem_comap, comap_prime_algebraMap]
     exact hx

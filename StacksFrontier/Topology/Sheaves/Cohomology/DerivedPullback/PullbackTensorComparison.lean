@@ -154,7 +154,8 @@ instance hasTotal_mapBicomplex_modulePullback
     (K L : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     HomologicalComplex₂.HasTotal
       (HomologicalComplex₂.mapBicomplex (StacksDraft.KFlat.modulePullback f)
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).mapBifunctorHomologicalComplex
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            Y.sheaf).mapBifunctorHomologicalComplex
           (ComplexShape.up ℤ) (ComplexShape.up ℤ)).obj K).obj L)) (ComplexShape.up ℤ) :=
   inferInstance
 
@@ -171,7 +172,8 @@ def pullbackTensorComplexNatIso :
       (pullbackComplex f).prod (pullbackComplex f) ⋙
         totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) :=
   totalComplexPairTransport (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf) (StacksDraft.KFlat.modulePullback f)
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)
+    (StacksDraft.KFlat.modulePullback f)
     (comparisonAppIso f) (fun {_ _} w B => comparisonAppIso_naturality_left f w B)
     (fun A {_ _} w => comparisonAppIso_naturality_right f A w)
 
@@ -245,7 +247,8 @@ def derivedToTensorNatTrans (Z : RingedSpace.{u, u})
     exact h.trans (congrArg
       ((Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct Z.sheaf).toTensor KL.1 KL.2 ≫
         DerivedCategory.Q.map ·)
-      (totalComplexPair_map (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) g.1 g.2).symm)
+      (totalComplexPair_map (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)
+        g.1 g.2).symm)
 
 /-- The functor `(K, L) ↦ Lf^*(K ⊗^L_{𝒪_Y} L)` on `D(𝒪_Y) × D(𝒪_Y)`. -/
 abbrev pullbackOfTensor :
@@ -273,7 +276,8 @@ def leftComparison :
         pullbackComplex f ⋙ DerivedCategory.Q :=
   Functor.whiskerRight (derivedToTensorNatTrans Y)
       (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f) ≫
-    Functor.whiskerLeft (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf))
+    Functor.whiskerLeft
+      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf))
       (derivedPullbackNatTrans f)
 
 /-- The comparison of `Lf^*K ⊗^L_{𝒪_X} Lf^*L` with `Q(f^*Tot(K ⊗_{𝒪_Y} L))`: the derived
@@ -302,7 +306,8 @@ theorem isIso_leftComparison_app
     (hL : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Y L) :
     IsIso ((leftComparison f).app (K, L)) := by
   have h : IsIso ((derivedPullbackNatTrans f).app
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L))) :=
+      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        Y.sheaf)).obj (K, L))) :=
     isIso_derivedPullbackNatTrans_app f _ (kFlat_tensorComplex Y K L hK hL)
   dsimp only [leftComparison, NatTrans.comp_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app, derivedToTensorNatTrans]
@@ -412,7 +417,8 @@ theorem modelComparison_naturality
 Stacks 06YS this is a localization of the K-flat objects at the quasi-isomorphisms between
 them, which is what a transformation of functors on `D(𝒪_Y)` descends along. -/
 abbrev kFlatQY :=
-  CochainComplex.KFlatBifunctor.kFlatQ (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)
+  CochainComplex.KFlatBifunctor.kFlatQ
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)
 
 /-- Pairs of K-flat objects of the homotopy category, viewed in `D(𝒪_Y) × D(𝒪_Y)`. -/
 abbrev kFlatQPair := (kFlatQY (Y := Y)).prod (kFlatQY (Y := Y))
@@ -463,7 +469,8 @@ map, and the bridge is natural in cochain maps. -/
 theorem kFlatQPairIso_naturality {M N : (CochainComplex.KFlatBifunctor.kFlatObjects
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).FullSubcategory ×
     (CochainComplex.KFlatBifunctor.kFlatObjects
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).FullSubcategory} (g : M ⟶ N) :
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).FullSubcategory}
+    (g : M ⟶ N) :
     (kFlatQPair (Y := Y)).map g ≫ (kFlatQPairIso N).hom =
       (kFlatQPairIso M).hom ≫
         (DerivedCategory.Q.map g.1.hom.out ×ₘ DerivedCategory.Q.map g.2.hom.out) := by

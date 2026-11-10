@@ -120,7 +120,7 @@ def truncGEπTruncGE (n n' : ℤ) :
 /-- `τ_{≥ n'} K ⟶ τ_{≥ n'} τ_{≥ n} K` is a quasi-isomorphism for `n ≤ n'`. -/
 theorem quasiIso_truncGEπTruncGE (n n' : ℤ) (h : n ≤ n') (K : CochainComplex.Plus C) :
     QuasiIso ((truncGEπTruncGE n n').app K).hom := by
-  show QuasiIso (truncGEMap (K.obj.πTruncGE n) n')
+  change QuasiIso (truncGEMap (K.obj.πTruncGE n) n')
   rw [quasiIso_truncGEMap_iff]
   intro i hi
   exact K.obj.quasiIsoAt_πTruncGE n i (by lia)

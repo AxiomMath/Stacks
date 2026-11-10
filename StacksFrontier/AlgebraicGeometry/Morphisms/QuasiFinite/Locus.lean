@@ -83,7 +83,7 @@ public theorem mem_quasiFiniteLocus_iff {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
       exact ⟨⟨U, V, z.property, hVU, hft⟩,
         (resLE_quasiFiniteAt_iff f U.1 V.1 hVU z).mp hz⟩
     · exact ⟨⟨x, hxV⟩, (resLE_quasiFiniteAt_iff f U.1 V.1 hVU _).mpr hx.2, rfl⟩
-  show x ∈ interior {x | quasiFiniteAt f x} ↔
+  change x ∈ interior {x | quasiFiniteAt f x} ↔
     x ∈ {x | quasiFiniteAt f x}
   rw [hopen.interior_eq]
 

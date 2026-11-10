@@ -61,7 +61,7 @@ theorem exists_injective_zmod_addMonoidHom {a m : ℕ} (hm : m ≠ 0) (ham : a �
   have hd : d ≠ 0 := right_ne_zero_of_mul hm
   let g : ℤ →+ ZMod (a * d) := (d : ℤ) • Int.castAddHom (ZMod (a * d))
   have hg : g a = 0 := by
-    show (d : ℤ) • ((a : ℤ) : ZMod (a * d)) = 0
+    change (d : ℤ) • ((a : ℤ) : ZMod (a * d)) = 0
     rw [zsmul_eq_mul, ← Int.cast_mul, ZMod.intCast_zmod_eq_zero_iff_dvd]
     push_cast
     rw [mul_comm]
@@ -87,7 +87,7 @@ theorem exists_zmodLinearMap_apply_ne_zero {m : ℕ} [NeZero m] {M : Type*} [Add
   have hdvd : p i ^ e i ∣ m := by
     let w := E.symm (DirectSum.of (fun i => ZMod (p i ^ e i)) i 1)
     have hw : ev w = 1 := by
-      show (E (E.symm (DirectSum.of (fun i => ZMod (p i ^ e i)) i 1))) i = 1
+      change (E (E.symm (DirectSum.of (fun i => ZMod (p i ^ e i)) i 1))) i = 1
       rw [AddEquiv.apply_symm_apply, DirectSum.of_eq_same]
     have h1 : m • ev w = 0 := by rw [← map_nsmul, hkill, map_zero]
     rw [hw, nsmul_eq_mul, mul_one] at h1
@@ -146,7 +146,7 @@ lemma coefficientPoint_comp {M N : ModuleCat.{u + 1} (ZMod m)} (v : M) (g : M �
 lemma coefficientPoint_unit (y : ULift.{u + 1} (ZMod m)) :
     coefficientPoint m (M := unitCoefficients m) y = y.down.val • 𝟙 (unitCoefficients m) := by
   ext a
-  show a.down * y.down = y.down.val • a.down
+  change a.down * y.down = y.down.val • a.down
   rw [nsmul_eq_mul, ZMod.natCast_zmod_val, mul_comm]
 
 omit [NeZero m] in
@@ -179,13 +179,13 @@ theorem exists_free_cover_coefficientPoint (M : ModuleCat.{u + 1} (ZMod m)) [Fin
     intro a
     funext w
     rw [ModuleCat.hom_sum, LinearMap.sum_apply, Finset.sum_apply]
-    show ∑ v : M, (Pi.single (M := fun _ : M => ULift.{u + 1} (ZMod m)) v (a v)) w = a w
+    change ∑ v : M, (Pi.single (M := fun _ : M => ULift.{u + 1} (ZMod m)) v (a v)) w = a w
     rw [Fintype.sum_eq_single w (fun v hv => Pi.single_eq_of_ne (Ne.symm hv) _),
       Pi.single_eq_same]
   · ext a
     exact hsum v a
 
-omit [Fintype k] in
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [NeZero m] in
 /-- `M ↦ H²(X_k̄, M_X)` is additive. -/
 theorem additive_constantTopCohomology [Finite k] : (constantTopCohomology f kbar m).Additive := by
   have := additive_liftSingle (ZMod m) X (fun _ => ⟨0, inferInstance⟩)
@@ -201,6 +201,7 @@ def constantTopCohomologyMap (c : (constantTopCohomology f kbar m).obj (unitCoef
       rw [coefficientPoint_add, Functor.map_add]
       rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [NeZero m] in
 /-- `constantTopCohomologyMap` sends `v` to `v_*(c)`. -/
 lemma constantTopCohomologyMap_apply (c : (constantTopCohomology f kbar m).obj (unitCoefficients m))
     (M : ModuleCat.{u + 1} (ZMod m)) (v : M) :
@@ -208,6 +209,7 @@ lemma constantTopCohomologyMap_apply (c : (constantTopCohomology f kbar m).obj (
       ((constantTopCohomology f kbar m).map (coefficientPoint m v)).hom c :=
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [NeZero m] in
 /-- **`v ↦ v_*(c)` is natural in the module.** -/
 theorem constantTopCohomologyMap_naturality
     (c : (constantTopCohomology f kbar m).obj (unitCoefficients m))
@@ -219,6 +221,7 @@ theorem constantTopCohomologyMap_naturality
     Functor.map_comp]
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- On `M = ℤ/m`, the map `v ↦ v_*(c)` sends `y` to `y • c`. -/
 lemma constantTopCohomologyMap_unit
     (c : (constantTopCohomology f kbar m).obj (unitCoefficients m)) (y : ULift.{u + 1} (ZMod m)) :
@@ -228,6 +231,7 @@ lemma constantTopCohomologyMap_unit
     CategoryTheory.Functor.map_id]
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- If `v ↦ v_*(c)` is injective on `ℤ/m`, it is injective on every finite `ℤ/m`-module. -/
 theorem constantTopCohomologyMap_injective
     (c : (constantTopCohomology f kbar m).obj (unitCoefficients m))
@@ -246,6 +250,7 @@ theorem constantTopCohomologyMap_injective
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [NeZero m] in
 /-- The canonical geometric Frobenius commutes with `v ↦ v_*(c)`. -/
 theorem compactSupportSheafFrobenius_constantTopCohomologyMap
     (c : (constantTopCohomology f kbar m).obj (unitCoefficients m)) (M : ModuleCat.{u + 1} (ZMod m))
@@ -290,14 +295,15 @@ theorem exists_eq_sum_constantTopCohomology_map (M : ModuleCat.{u + 1} (ZMod m))
       ModuleCat.hom_comp, LinearMap.comp_apply] at h
     exact h.symm
   refine ⟨fun v => (T.map (ev v)).hom s, ?_⟩
-  show (T.map P).hom s = _
+  change (T.map P).hom s = _
   conv_lhs => rw [hs]
   rw [map_sum]
   refine Finset.sum_congr rfl fun v _ => ?_
-  show (T.map (ins v) ≫ T.map P).hom _ = _
+  change (T.map (ins v) ≫ T.map P).hom _ = _
   rw [← T.map_comp, hins]
 
-omit [IsCurve kbar (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [IsCurve kbar (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
   [Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))]
   [IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))] in
 /-- If `v ↦ v_*(c)` is surjective on `ℤ/m`, it is surjective on every finite `ℤ/m`-module. -/
@@ -319,6 +325,7 @@ theorem constantTopCohomologyMap_surjective
   rw [map_nsmul]
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hcard in
 /-- **`H²(X_k̄, M_X) ≅ M`, with `π_X^*` acting as `q`.** There is a class `c ∈ H²(X_k̄, ℤ/m)`
 with `π_X^* c = q c` such that `v ↦ v_*(c)` is a bijection `M ≅ H²(X_k̄, M_X)` for every finite

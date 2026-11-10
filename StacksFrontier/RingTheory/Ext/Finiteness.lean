@@ -179,7 +179,7 @@ theorem pmap_dlin (m : ℕ) (x : Fin (cov R M (m + 1)).n → R) :
 /-- Consecutive differentials compose to zero. -/
 theorem dlin_dlin (m : ℕ) (y : Fin (cov R M (m + 2)).n → R) :
     dlin R M m (dlin R M (m+1) y) = 0 := by
-  show (LinearMap.ker (pmap R M m)).subtype ((pmap R M (m+1)) (dlin R M (m+1) y)) = 0
+  change (LinearMap.ker (pmap R M m)).subtype ((pmap R M (m+1)) (dlin R M (m+1) y)) = 0
   rw [pmap_dlin R M (m+1) y, map_zero]
 
 /-- The chain complex of finite free modules built from the tower of syzygies. -/
@@ -510,7 +510,7 @@ theorem ext_map_op_smul_app (M N : ModuleCat.{u} R) (x : R) (i : ℕ) :
       ((x • 𝟙 (P.complex.linearYonedaObj R N)).op) = Θ := by
     ext n : 2
     simp only [HomologicalComplex.opFunctor_map_f, Quiver.Hom.unop_op]
-    show (x • 𝟙 ((P.complex.linearYonedaObj R N).X n)) = ((linearYoneda R (ModuleCat R)).obj
+    change (x • 𝟙 ((P.complex.linearYonedaObj R N).X n)) = ((linearYoneda R (ModuleCat R)).obj
         N).map ((x • 𝟙 (P.complex.X n)).op)
     simp only [linearYoneda]
     ext f
@@ -528,7 +528,7 @@ theorem ext_annihilated (M N : ModuleCat.{u} R) (x : R)
     (h : x ∈ Module.annihilator R N ∨ x ∈ Module.annihilator R M) (i : ℕ) :
     ∀ ξ : extModule M N i, x • ξ = 0 := by
   intro ξ
-  show (x • 𝟙 (extModule M N i)).hom ξ = 0
+  change (x • 𝟙 (extModule M N i)).hom ξ = 0
   suffices hP : x • 𝟙 (extModule M N i) = 0 by rw [hP]; rfl
   have hmap : x • 𝟙 (extModule M N i)
       = ((Ext R (ModuleCat R) i).obj (Opposite.op M)).map (x • 𝟙 N) := by

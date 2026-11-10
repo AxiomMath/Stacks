@@ -93,7 +93,7 @@ theorem completionResidue_comp_algebraMap :
     (completionResidue A).comp (algebraMap A (AdicCompletion (maximalIdeal A) A)) =
       Ideal.Quotient.mk (maximalIdeal A) := by
   ext a
-  show completionResidueEquiv A (Ideal.Quotient.mk _ _) = _
+  change completionResidueEquiv A (Ideal.Quotient.mk _ _) = _
   rw [← completionResidueEquiv_symm_mk, RingEquiv.apply_symm_apply]
 
 /-- `AlgebraicGeometry.completionResidueEquiv_symm_mk`, as an equality of ring maps. -/
@@ -141,7 +141,7 @@ theorem exists_algHom_mk_comp_eq_of_isGRing {A : Type u} [CommRing A] [Henselian
     refine AlgHom.ext_of_adjoin_eq_top ht fun y hy => ?_
     obtain ⟨i, hi⟩ : ∃ i, x i = y := ⟨t.equivFin ⟨y, hy⟩, by simp [x]⟩
     rw [← hi]
-    show Ideal.Quotient.mk _ (algebraMap A Â (σ (x i))) = Ideal.Quotient.mk _ (φ (x i))
+    change Ideal.Quotient.mk _ (algebraMap A Â (σ (x i))) = Ideal.Quotient.mk _ (φ (x i))
     rw [Ideal.Quotient.eq]
     exact hle (hσ i)
   exact congrArg AlgHom.toRingHom key

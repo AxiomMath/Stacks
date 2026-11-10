@@ -162,9 +162,11 @@ instance quasiIso_poincareAugmentationK : QuasiIso (poincareAugmentationK B X f 
   exact quasiIso_comp _ _ (hφ := quasiIso_compactSupportResolutionIntAugmentation_hom kbar _ K₀)
     (hφ' := @quasiIso_of_isIso _ _ _ _ _ _ _ _ (Iso.isIso_inv _) _ _)
 
+omit [Fintype Λ] [Algebra (ZMod (Fintype.card Λ)) Λ] in
 /-- The restriction to `X̄_k̄` of the resolution `I` of a member of the Poincaré family, read over
 `ℤ`, is concentrated in degrees `≥ 0`. -/
-instance isStrictlyGE_galoisBaseChangeComplex_poincare (i : letI := connectedSpace_of_isCurve B X f
+instance isStrictlyGE_galoisBaseChangeComplex_poincare [Finite Λ]
+    (i : letI := connectedSpace_of_isCurve B X f
       PoincareIndex B X (y.map (fieldBaseChangeObjProj B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ f j) :
     letI := connectedSpace_of_isCurve B X f
@@ -262,7 +264,7 @@ lemma poincareDegreeZeroClass_eq (i : letI := connectedSpace_of_isCurve B X f
             (poincareCocycleH0 B X f kbar Λ y j K₀ i β hβ))) :=
   rfl
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ]
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod (Fintype.card Λ)) Λ]
   [K₀.cocomplex.IsStrictlyGE 0] in
 /-- The underlying element of a degree-zero cycle of the underlying complex of `Γ^Gal(ℋom^•(I, K))`
 is a cocycle. -/

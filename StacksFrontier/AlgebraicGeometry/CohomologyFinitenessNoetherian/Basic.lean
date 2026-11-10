@@ -131,8 +131,8 @@ type mismatch naming two terms that print almost identically.
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`. The enclosing
 namespace is `AlgebraicGeometry` and not one beginning with `Stacks`, so the relative name resolves
 to it and not to the distinct `Stacks.SheafOfModules.IsCoherent`, which has the same two fields; the
-statements of `StacksFrontier/AlgebraicGeometry/ProperCohomologyFinite/RingBase.lean` use the same one,
-so the two compose with no bridge.
+statements of `StacksFrontier/AlgebraicGeometry/ProperCohomologyFinite/RingBase.lean` use the same
+one, so the two compose with no bridge.
 
 ## References
 
@@ -257,7 +257,7 @@ theorem exists_isZero_rightDerived_moduleGlobalSections_of_isProper [IsProper f]
   have : IsAffineHom (pullback.diagonal (terminal.from X)) := inferInstance
   obtain ⟨t, U, hU, hcover⟩ :=
     Stacks.Cohomology.FiniteCover.exists_fin_affine_cover_of_isCompact X ⊤ (by
-      show IsCompact (Set.univ : Set X); exact isCompact_univ)
+      change IsCompact (Set.univ : Set X); exact isCompact_univ)
   refine ⟨t, fun F hF n hn => ?_⟩
   have := hF
   exact (Stacks.DerivedIndexing.isZero_rightDerived_obj_iff (moduleGlobalSections X) n F).2

@@ -55,13 +55,13 @@ def composedPushforwardSquare : TwoSquare Rg' Rf' Rf Rg :=
   conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') (squareCompositeIso eg ef).hom
 
 /-- The comparison `σ` of the composite pushforwards is an isomorphism. -/
-instance : IsIso (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).natTrans := by
+instance : IsIso (composedPushforwardSquare adjf adjf' adjg adjg' eg ef) := by
   unfold composedPushforwardSquare; infer_instance
 
 /-- `σ` is the inverse of the comparison `ψ = pushforwardSquare`. -/
 theorem pushforwardSquare_comp_composedPushforwardSquare :
     pushforwardSquare adjf adjf' adjg adjg' eg ef ≫
-      (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).natTrans = 𝟙 _ :=
+      (composedPushforwardSquare adjf adjf' adjg adjg' eg ef) = 𝟙 _ :=
   conjugateEquiv_comm _ _ (Iso.hom_inv_id _)
 
 /-- The base change map of pushforward along pullback is the inverse mate of `σ`. -/
@@ -87,46 +87,46 @@ theorem composedPushforwardSquare_eq_mateEquiv :
 /-- **`ξ` is the conjugate of the base change map** of pushforward along pullback, under the
 composite adjunctions `Lg' ⋙ Rf' ⊣ a' ⋙ Rg'` and `Rf ⋙ Lg ⊣ Rg ⋙ a`. -/
 theorem rightAdjointSquare_natTrans_eq :
-    (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans =
-      conjugateEquiv (adjg'.comp adja') (adja.comp adjg) (twoSquare adjf adjf' eg ef).natTrans := by
+    (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja') =
+      conjugateEquiv (adjg'.comp adja') (adja.comp adjg) (twoSquare adjf adjf' eg ef) := by
   rw [rightAdjointSquare, composedPushforwardSquare_eq_mateEquiv,
     ← iterated_mateEquiv_conjugateEquiv]
 
 /-- `ξ` is invertible as soon as the base change map of pushforward along pullback is. -/
-theorem isIso_rightAdjointSquare [IsIso (twoSquare adjf adjf' eg ef).natTrans] :
-    IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans := by
+theorem isIso_rightAdjointSquare [IsIso (twoSquare adjf adjf' eg ef)] :
+    IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja') := by
   rw [rightAdjointSquare_natTrans_eq]; infer_instance
 
-variable [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans]
+variable [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')]
 
 /-- **The base change map `β : a ⋙ Lg' ⟶ Lg ⋙ a'`** of the right adjoints, the inverse mate of
 `ξ⁻¹` under `Lg ⊣ Rg` and `Lg' ⊣ Rg'`. -/
 def rightAdjointBaseChange : TwoSquare a Lg Lg' a' :=
   (mateEquiv adjg adjg').symm
     (TwoSquare.mk _ _ _ _
-      (inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans))
+      (inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')))
 
 /-- **`β` is the mate of the inverse base change map of pushforward along pullback**, under
 `Rf ⊣ a` and `Rf' ⊣ a'`. -/
-theorem rightAdjointBaseChange_eq [IsIso (twoSquare adjf adjf' eg ef).natTrans] :
+theorem rightAdjointBaseChange_eq [IsIso (twoSquare adjf adjf' eg ef)] :
     rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja' =
-      mateEquiv adja adja' (TwoSquare.mk _ _ _ _ (inv (twoSquare adjf adjf' eg ef).natTrans)) := by
+      mateEquiv adja adja' (TwoSquare.mk _ _ _ _ (inv (twoSquare adjf adjf' eg ef))) := by
   apply (mateEquiv adjg adjg').injective
   rw [rightAdjointBaseChange, Equiv.apply_symm_apply]
   refine Eq.trans ?_ (iterated_mateEquiv_conjugateEquiv adja adja' adjg' adjg _).symm
-  show inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans =
-    conjugateEquiv (adja.comp adjg) (adjg'.comp adja') (inv (twoSquare adjf adjf' eg ef).natTrans)
-  rw [← cancel_epi (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans,
+  change inv (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja') =
+    conjugateEquiv (adja.comp adjg) (adjg'.comp adja') (inv (twoSquare adjf adjf' eg ef))
+  rw [← cancel_epi (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'),
     IsIso.hom_inv_id, rightAdjointSquare_natTrans_eq]
   exact (conjugateEquiv_comm _ _ (IsIso.inv_hom_id _)).symm
 
 /-- **The adjunct of `β` under `Rf' ⊣ a'`** is the inverse base change map of pushforward along
 pullback at `a K`, followed by `Lg` of the counit of `Rf ⊣ a`. -/
-theorem map_rightAdjointBaseChange_comp_counit [IsIso (twoSquare adjf adjf' eg ef).natTrans]
+theorem map_rightAdjointBaseChange_comp_counit [IsIso (twoSquare adjf adjf' eg ef)]
     (K : S) :
     Rf'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
         adja'.counit.app (Lg.obj K) =
-      (inv (twoSquare adjf adjf' eg ef).natTrans).app (a.obj K) ≫ Lg.map (adja.counit.app K) := by
+      (inv (twoSquare adjf adjf' eg ef)).app (a.obj K) ≫ Lg.map (adja.counit.app K) := by
   rw [rightAdjointBaseChange_eq, mateEquiv_counit]
 
 section Tensor
@@ -147,13 +147,13 @@ def rightAdjointTensorComparison (K H : S)
   adja.homEquiv _ _ (inv (adjunctionTensorMap adjf A B αf (a.obj K) H) ≫
     A.map (adja.counit.app K ×ₘ 𝟙 H))
 
-omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans] in
+omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')] in
 /-- **The pushed-forward base change map of right adjoints, through the two-variable
 comparison.** `Φ'`, then `Rg'` of `β_K`, then `ξ`, is the inverse of `τ` in the second factor,
 then the two-variable comparison of `a` at `(K, J)`, then `a` of `Φ`. -/
 theorem unitProjection_comp_map_rightAdjointBaseChange_comp (K : S)
-    [IsIso (twoSquare adjf adjf' eg ef).natTrans]
-    [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans]
+    [IsIso (twoSquare adjf adjf' eg ef)]
+    [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')]
     [IsIso (adjunctionTensorMap adjf A B αf (a.obj K) (Rg.obj o'))]
     [IsIso (transposedUnitBaseChange adjg adjg' eg ef o' o'' u)]
     (hsq : TensorComparisonCompatible eg ef A A' B B' αf αf' αg αg' (Rf.obj (a.obj K))
@@ -162,7 +162,7 @@ theorem unitProjection_comp_map_rightAdjointBaseChange_comp (K : S)
       Lf'.map (ρ'.app X)) :
     unitProjection adjg' B' B αg' o'' ρ'' (a.obj K) ≫
         Rg'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
-          (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (Lg.obj K) =
+          (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').app (Lg.obj K) =
       B.map (𝟙 (a.obj K) ×ₘ inv (transposedUnitBaseChange adjg adjg' eg ef o' o'' u)) ≫
         rightAdjointTensorComparison adjf adja A B αf K (Rg.obj o') ≫
           a.map (unitProjection adjg A' A αg o' ρ' K) := by
@@ -170,7 +170,7 @@ theorem unitProjection_comp_map_rightAdjointBaseChange_comp (K : S)
   have hξ := mateEquiv_counit adja' adja (composedPushforwardSquare adjf adjf' adjg adjg' eg ef)
     (Lg.obj K)
   have hβ := map_rightAdjointBaseChange_comp_counit adjf adjf' adjg adjg' eg ef adja adja' K
-  have hσ := (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).natTrans.naturality
+  have hσ := (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).naturality
     ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K)
   have hIB := unitProjection_comp_map_comp_pushforwardSquare adjf adjf' adjg adjg' eg ef A A' B B'
     αf αf' αg αg' o' ρ' o'' ρ'' u (a.obj K) hsq hunit
@@ -200,21 +200,21 @@ theorem unitProjection_comp_map_rightAdjointBaseChange_comp (K : S)
       ← CategoryTheory.Functor.map_comp_assoc, hτ, CategoryTheory.Functor.map_id,
       Category.id_comp]
   have hbc : map adjf adjf' eg ef (a.obj K) ≫
-      (inv (twoSquare adjf adjf' eg ef).natTrans).app (a.obj K) = 𝟙 _ := by
+      (inv (twoSquare adjf adjf' eg ef)).app (a.obj K) = 𝟙 _ := by
     rw [NatIso.isIso_inv_app]
-    exact IsIso.hom_inv_id ((twoSquare adjf adjf' eg ef).natTrans.app _)
+    exact IsIso.hom_inv_id ((twoSquare adjf adjf' eg ef).app _)
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
   calc _ = Rf.map (unitProjection adjg' B' B αg' o'' ρ'' (a.obj K)) ≫
         (Rg' ⋙ Rf).map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
-        (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).natTrans.app ((Lg ⋙ a').obj K) ≫
+        (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).app ((Lg ⋙ a').obj K) ≫
         Rg.map (adja'.counit.app (Lg.obj K)) := by
         simp only [Functor.map_comp, Category.assoc, Functor.comp_map]
         rw [rightAdjointSquare] at *
         rw [hξ]
         rfl
     _ = Rf.map (unitProjection adjg' B' B αg' o'' ρ'' (a.obj K)) ≫
-        (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).natTrans.app ((a ⋙ Lg').obj K) ≫
-        Rg.map ((inv (twoSquare adjf adjf' eg ef).natTrans).app (a.obj K) ≫
+        (composedPushforwardSquare adjf adjf' adjg adjg' eg ef).app ((a ⋙ Lg').obj K) ≫
+        Rg.map ((inv (twoSquare adjf adjf' eg ef)).app (a.obj K) ≫
           Lg.map (adja.counit.app K)) := by
         rw [← Category.assoc ((Rg' ⋙ Rf).map _), hσ, Category.assoc, Functor.comp_map Rf' Rg,
           ← Rg.map_comp, hβ]
@@ -226,12 +226,12 @@ theorem unitProjection_comp_map_rightAdjointBaseChange_comp (K : S)
           Category.assoc, ← Functor.comp_map a Rf, adja.counit.naturality, Functor.id_map,
           reassoc_of% hC]
 
-omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans] in
+omit [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')] in
 /-- **The pushed-forward base change map of right adjoints is invertible** as soon as `Φ'` at
 `a K`, `Φ` at `K`, the two-variable comparison of `a` at `(K, J)` and `τ` are. -/
 theorem isIso_map_rightAdjointBaseChange (K : S)
-    [IsIso (twoSquare adjf adjf' eg ef).natTrans]
-    [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans]
+    [IsIso (twoSquare adjf adjf' eg ef)]
+    [IsIso (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja')]
     [IsIso (adjunctionTensorMap adjf A B αf (a.obj K) (Rg.obj o'))]
     [IsIso (transposedUnitBaseChange adjg adjg' eg ef o' o'' u)]
     [IsIso (unitProjection adjg' B' B αg' o'' ρ'' (a.obj K))]
@@ -250,13 +250,13 @@ theorem isIso_map_rightAdjointBaseChange (K : S)
     inferInstance
   have h1 : IsIso (unitProjection adjg' B' B αg' o'' ρ'' (a.obj K) ≫
       Rg'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
-        (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (Lg.obj K)) := by
+        (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').app (Lg.obj K)) := by
     rw [h]; infer_instance
   have h2 : IsIso (Rg'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
-      (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (Lg.obj K)) :=
+      (rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').app (Lg.obj K)) :=
     IsIso.of_isIso_comp_left (unitProjection adjg' B' B αg' o'' ρ'' (a.obj K)) _
   exact IsIso.of_isIso_comp_right _
-    ((rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').natTrans.app (Lg.obj K))
+    ((rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja').app (Lg.obj K))
 
 end Tensor
 

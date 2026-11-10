@@ -300,7 +300,7 @@ public lemma eq_zero_of_dense_basicOpen_pow {A : Scheme.{u}} [IsAffine A]
   have hz := congrArg (fun z => A.presheaf.germ ⊤ x trivial z) hn
   simp only [map_mul, map_pow, map_zero] at hz
   have hr0 : A.presheaf.germ ⊤ x trivial r = 0 := (hu.pow n).mul_right_eq_zero.mp hz
-  show A.presheaf.germ U x hx
+  change A.presheaf.germ U x hx
     (A.presheaf.map (homOfLE (show U ≤ ⊤ from le_top)).op r) = A.presheaf.germ U x hx 0
   rw [TopCat.Presheaf.germ_res_apply, map_zero]
   exact hr0
@@ -331,7 +331,7 @@ public lemma eq_zero_of_restrict_preimage_eq_zero
   obtain ⟨n, hn⟩ := exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isAffineOpen A
     (isAffineOpen_top A) m (f.appTop s.val) hz
   refine ⟨n, ?_⟩
-  show f.appTop.hom (s.val ^ n) * m = 0
+  change f.appTop.hom (s.val ^ n) * m = 0
   simpa only [map_pow] using hn
 
 /-- The pullback of a regular function vanishing on an open subscheme vanishes on the inverse
@@ -392,12 +392,12 @@ public lemma eq_zero_of_restrict_flat_lfp_preimage
     subst hyeq
     apply flat_stalkMap_injective W.toBase W.point
     rw [map_zero, Scheme.Hom.germ_stalkMap_apply]
-    show W.scheme.presheaf.germ ⊤ W.point (TopologicalSpace.Opens.mem_top W.point)
+    change W.scheme.presheaf.germ ⊤ W.point (TopologicalSpace.Opens.mem_top W.point)
       (W.toBase.appTop m) = 0
     rw [hz, map_zero]
   have hx' := W.map_point
   change W.toBase W.point = x at hx'
-  show A.presheaf.germ ⊤ x hx m = A.presheaf.germ ⊤ x hx 0
+  change A.presheaf.germ ⊤ x hx m = A.presheaf.germ ⊤ x hx 0
   rw [map_zero]
   exact hzero x hx hx'.symm
 
@@ -422,7 +422,7 @@ public lemma scheme_dense_preimage_flat_lfp
   rw [NatTrans.mono_iff_mono_app]
   intro W
   apply (ConcreteCategory.mono_iff_injective_of_preservesPullback _).mpr
-  show Function.Injective (P.ι.app W.unop)
+  change Function.Injective (P.ι.app W.unop)
   rw [injective_iff_map_eq_zero]
   intro s hs
   let O : A.Opens := W.unop
@@ -439,7 +439,7 @@ public lemma scheme_dense_preimage_flat_lfp
       rw [hs', map_zero]
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp] at hcast
     rw [Scheme.Hom.comp_preimage]
-    show (ConcreteCategory.hom (A.presheaf.map
+    change (ConcreteCategory.hom (A.presheaf.map
         ((Scheme.Hom.opensFunctor O.ι).map (homOfLE (show D ≤ ⊤ from le_top))).op))
       ((ConcreteCategory.hom (A.presheaf.map (eqToHom O.ι_image_top).op)) s) = 0
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp]

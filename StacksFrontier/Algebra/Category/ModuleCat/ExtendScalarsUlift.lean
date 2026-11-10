@@ -68,12 +68,7 @@ def extendScalarsAlgebraEquiv (M : ModuleCat.{w} R) :
   change ∀ (s : S) (z : (ModuleCat.extendScalars (algebraMap R S)).obj M),
     e' (s • z) = s • e' z
   intro s z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      calc
-        e' (s • 0) = e' 0 := congrArg e' (smul_zero s)
-        _ = 0 := e'.map_zero
-        _ = s • e' 0 := by rw [e'.map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t m => rfl
   | add z z' hz hz' =>
       calc
@@ -114,7 +109,7 @@ lemma extendScalarsUliftIso_naturality {M N : ModuleCat.{w} R} (g : M ⟶ N) :
         (ModuleCat.uliftFunctor.{v} S).map
           (ModuleCat.ofHom (LinearMap.baseChange S g.hom)) := by
   ext z
-  show ULift.up ((1 : S) ⊗ₜ[R] g.hom z.down) =
+  change ULift.up ((1 : S) ⊗ₜ[R] g.hom z.down) =
     ULift.up ((LinearMap.baseChange S g.hom) ((1 : S) ⊗ₜ[R] z.down))
   rw [LinearMap.baseChange_tmul]
 

@@ -74,7 +74,8 @@ def lowerShriekHomologyIsoRightDerived (q : ℕ) :
   lowerShriekHomologyIsoSingle Λ f j q ≪≫
     Functor.isoWhiskerRight
       (Functor.isoWhiskerLeft (DerivedCategory.Plus.singleFunctor _ 0)
-          (etaleModuleExtensionByZero.{u, 0} Λ j.immersion).rightDerivedFunctorPlusIsoMapDerivedCategoryPlus ≪≫
+          (etaleModuleExtensionByZero.{u, 0} Λ
+            j.immersion).rightDerivedFunctorPlusIsoMapDerivedCategoryPlus ≪≫
         Stacks.DerivedFunctor.exactMapDerivedCategoryPlusSingle
           (etaleModuleExtensionByZero.{u, 0} Λ j.immersion) 0)
       (etaleModuleDerivedDirectImage.{u, 0} Λ j.toBase ⋙
@@ -149,7 +150,8 @@ theorem lowerShriekHomology_map_etaleModuleSMul {X Y : Scheme.{u}} (f : X ⟶ Y)
     (congrArg ((etaleModuleDirectImage.{u, 0} A j.toBase).rightDerived q).map
       (etaleModuleExtensionByZero_map_etaleModuleSMul j.immersion a G)).trans
       (rightDerived_etaleModuleDirectImage_map_etaleModuleSMul j.toBase a q _)
-  have h₂ : e.hom.app G ≫ (etaleModuleSMul Y a).app ((etaleModuleExtensionByZero.{u, 0} A j.immersion ⋙
+  have h₂ : e.hom.app G ≫
+      (etaleModuleSMul Y a).app ((etaleModuleExtensionByZero.{u, 0} A j.immersion ⋙
           (etaleModuleDirectImage.{u, 0} A j.toBase).rightDerived q).obj G) =
       (etaleModuleSMul Y a).app ((lowerShriekHomology A f j q).obj G) ≫ e.hom.app G :=
     (etaleModuleSMul Y a).naturality (e.hom.app G)

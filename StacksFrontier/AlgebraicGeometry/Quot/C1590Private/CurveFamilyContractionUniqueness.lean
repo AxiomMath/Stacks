@@ -277,7 +277,7 @@ theorem exists_open_isCurveIsoOver_of_schemeCharts {X Y₁ Y₂ : CurveFamily B 
   have hθBs : θB.hom ≫ pullback.snd qY₂ eB = pullback.snd qY₁ eB :=
     hom_ext_of_toScheme (by rw [Functor.map_comp]; exact hθs)
   refine ⟨κ₁ ≪≫ (schemeSpaceFunctor B integerBase hZ).mapIso θB ≪≫ κ₂.symm, ?_, ?_⟩
-  · show κ₁.hom ≫ schemeSpaceMap θB.hom ≫ κ₂.inv ≫ p₂ = p₁
+  · change κ₁.hom ≫ schemeSpaceMap θB.hom ≫ κ₂.inv ≫ p₂ = p₁
     rw [← hκ₂s, Iso.inv_hom_id_assoc, ← schemeSpaceMap_comp, hθBs, hκ₁s]
   · intro a₁ a₂ ha₁ hp₁ ha₂ hp₂
     -- the morphisms of charts induced by `a₁` and `a₂`
@@ -316,7 +316,7 @@ theorem exists_open_isCurveIsoOver_of_schemeCharts {X Y₁ Y₂ : CurveFamily B 
     have hαθ : α₁ ≫ θB.hom = α₂ := hom_ext_of_toScheme (by rw [Functor.map_comp]; exact hc)
     have := congrArg schemeSpaceMap hαθ
     rw [schemeSpaceMap_comp, hα₁, hα₂] at this
-    show a₁ ≫ κ₁.hom ≫ schemeSpaceMap θB.hom ≫ κ₂.inv = a₂
+    change a₁ ≫ κ₁.hom ≫ schemeSpaceMap θB.hom ≫ κ₂.inv = a₂
     rw [← cancel_epi κX.inv, ← cancel_mono κ₂.hom]
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     exact this
@@ -372,7 +372,7 @@ theorem exists_etale_iso_of_fibre_contraction (h0E6F : HasEtaleLocalSchemeCharts
   have hUT := (IsPullback.of_hasPullback β φ₃).map T
   have : Etale (T.map π₁) := MorphismProperty.of_isPullback hUT.flip inferInstance
   have hu : T.map φ u₁ = s := by
-    show T.map (inv b₁) (T.map φ₁ u₁) = s
+    change T.map (inv b₁) (T.map φ₁ u₁) = s
     rw [hu₁, ← Scheme.Hom.comp_apply, ← Functor.map_comp, IsIso.hom_inv_id,
       CategoryTheory.Functor.map_id]
     rfl

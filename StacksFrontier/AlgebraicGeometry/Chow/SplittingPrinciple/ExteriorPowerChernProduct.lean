@@ -460,7 +460,7 @@ theorem altExteriorChernProduct_apply (D : TotalChernClassSeries C G sX R) (E : 
     have hQ : Qe.1 = chowSeriesMul R.gradedMul (altExteriorChernProduct D E r).1 Qo.1 := by
       rw [← UnitalSeries.val_mul, hregroup, inv_mul_cancel_right]
     rw [hΔdef, hW]
-    show Qe.1 - Qo.1 = Qo.1 * ((altExteriorChernProduct D E r).1 - 1)
+    change Qe.1 - Qo.1 = Qo.1 * ((altExteriorChernProduct D E r).1 - 1)
     rw [show chowSeriesMul R.gradedMul (altExteriorChernProduct D E r).1 Qo.1
         = (altExteriorChernProduct D E r).1 * Qo.1 from rfl] at hQ
     rw [hQ]
@@ -491,7 +491,7 @@ theorem altExteriorChernProduct_apply (D : TotalChernClassSeries C G sX R) (E : 
   have hval : ∀ k, k + 1 ≤ r → (altExteriorChernProduct D E r).1 (k + 1) = Δ (k + 1) := by
     intro k hk
     rw [← hWeq _ hk, hW, Pi.sub_apply]
-    show (altExteriorChernProduct D E r).1 (k + 1)
+    change (altExteriorChernProduct D E r).1 (k + 1)
       = (altExteriorChernProduct D E r).1 (k + 1) - R.one (k + 1)
     rw [R.one_apply_succ, sub_zero]
   refine ⟨fun n hn0 hnr => ?_, ?_⟩

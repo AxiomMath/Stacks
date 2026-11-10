@@ -336,7 +336,7 @@ theorem exists_factorization_through_point_sheafifiedYoneda
     exact hz.trans (uliftYonedaEquiv_naturality.{u + 1} k b.op)
   refine ⟨i, T, b, ⟨(e.app T).hom ≫ uliftYonedaEquiv.symm z⟩, y, ?_, hy⟩
   apply Sheaf.hom_ext
-  show ((e.app T).hom ≫ uliftYonedaEquiv.symm z) ≫ (f i).hom =
+  change ((e.app T).hom ≫ uliftYonedaEquiv.symm z) ≫ (f i).hom =
     ((Sheaf.sheafifiedYoneda J).map b).hom ≫ g.hom
   rw [Category.assoc, hm', ← Category.assoc]
   have hnat : (e.app T).hom ≫ (uliftYoneda.{u + 1}).map b =
@@ -366,7 +366,7 @@ theorem exists_affineOpen_site_object (W : BigFppfOver B S hS)
       (O.ι ≫ B.inclusion.map W.hom),
     Over.homMk (ObjectProperty.homMk O.ι) (by apply ObjectProperty.hom_ext; rfl),
     hOaff, ?_, ⟨⟨t, htO⟩, rfl⟩, hsize⟩
-  show AlgebraicGeometry.IsOpenImmersion O.ι
+  change AlgebraicGeometry.IsOpenImmersion O.ι
   infer_instance
 
 /-- Given a member `W` of the covering of `h_U^# ×_X h_V^#`, as produced by
@@ -422,7 +422,7 @@ theorem exists_affine_chart_of_covering_member
   · obtain ⟨s, hs⟩ := htj
     refine ⟨s, ?_⟩
     rw [Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map q
+    change (BigFppfOver.toScheme B S hS).map q
       ((BigFppfOver.toScheme B S hS).map j s) = _
     rw [hs]
   · exact Scheme.size_le_of_locallyOfFiniteType ((BigFppfOver.toScheme B S hS).map (j ≫ q))
@@ -792,7 +792,7 @@ theorem exists_glued_atlas_of_fibreProductCharts
   have hQ : ∀ k, F.map (kk k) ≫ Q = (ch k).point := by
     intro k
     apply Sheaf.hom_ext
-    show (F.map (kk k)).hom ≫ (e.app W').hom ≫ qP = ((ch k).point).hom
+    change (F.map (kk k)).hom ≫ (e.app W').hom ≫ qP = ((ch k).point).hom
     have hnat0 : (F.map (kk k)).hom ≫ (e.app W').hom =
         (e.app (ch k).obj).hom ≫ (uliftYoneda.{u + 1}).map (kk k) := e.hom.naturality (kk k)
     rw [← Category.assoc, hnat0, Category.assoc, hqP k, ← Category.assoc, Iso.hom_inv_id,
@@ -1115,7 +1115,7 @@ theorem exists_representing_object_of_glued
   have : (MorphismProperty.inverseImage (@AlgebraicGeometry.Etale.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities :=
     ⟨fun Z => by
-      show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
+      change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
       rw [CategoryTheory.Functor.map_id]
       infer_instance⟩
   let F := Sheaf.sheafifiedYoneda J

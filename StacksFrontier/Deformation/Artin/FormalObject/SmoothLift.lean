@@ -71,7 +71,7 @@ public theorem isFirstOrderThickening_truncationSucc {S : Scheme.{u}} (A : Forma
       exact Ideal.pow_le_pow_right (by omega)
     rw [← Ideal.map_pow, Ideal.map_eq_bot_iff_le_ker]
     simpa using hpow
-  show IsFirstOrderThickening (Spec.map (CommRingCat.ofHom ψ))
+  change IsFirstOrderThickening (Spec.map (CommRingCat.ofHom ψ))
   exact Stacks.Smooth.isFirstOrderThickening_specMap (CommRingCat.ofHom ψ) hsurj hker
 
 /-! ### The image of a formal object under a 1-morphism -/
@@ -153,13 +153,13 @@ private theorem nonempty_liftStep (hp : Stack.IsFormallySmoothOnObjects B S hS �
   let γ : (pU U).obj s.source ≅ Functor.pullbackFiber Yp y i :=
     s.imageIso ≪≫ targetCompare.symm
   have hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U) := by
-    show IsAffine (η.base.truncation n)
+    change IsAffine (η.base.truncation n)
     infer_instance
   have hU' : IsAffine ((BigFppfOver.toScheme B S hS).obj U') := by
-    show IsAffine (η.base.truncation (n + 1))
+    change IsAffine (η.base.truncation (n + 1))
     infer_instance
   have hi : IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map i) := by
-    show IsFirstOrderThickening (η.base.truncationSucc n)
+    change IsFirstOrderThickening (η.base.truncationSucc n)
     exact isFirstOrderThickening_truncationSucc η.base n
   obtain ⟨x', β, γ', hsq⟩ := hp U U' i hU hU' hi s.source y γ
   let pbXMap := Functor.IsPreFibered.pullbackMap x'.2 i
@@ -307,12 +307,12 @@ public theorem exists_formalObject_lift
                 rw [Category.assoc, hnext, Category.comp_id] }
   refine ⟨ξ, rfl, rfl, ⟨⟨toη, fromη, ?_, ?_⟩⟩⟩
   · refine FormalObject.Hom.ext fun n => ?_
-    show Functor.Fiber.fiberInclusion.map (states n).imageIso.hom ≫
+    change Functor.Fiber.fiberInclusion.map (states n).imageIso.hom ≫
       Functor.Fiber.fiberInclusion.map (states n).imageIso.inv = 𝟙 _
     rw [← Functor.Fiber.fiberInclusion.map_comp, Iso.hom_inv_id,
       Functor.Fiber.fiberInclusion.map_id]
   · refine FormalObject.Hom.ext fun n => ?_
-    show Functor.Fiber.fiberInclusion.map (states n).imageIso.inv ≫
+    change Functor.Fiber.fiberInclusion.map (states n).imageIso.inv ≫
       Functor.Fiber.fiberInclusion.map (states n).imageIso.hom = 𝟙 _
     rw [← Functor.Fiber.fiberInclusion.map_comp, Iso.inv_hom_id,
       Functor.Fiber.fiberInclusion.map_id]

@@ -52,13 +52,12 @@ theorem baseChangeTensorRingMap_eq_of_comp {R A R' A' : Type u}
     (hr : φ.comp Algebra.TensorProduct.includeRight.toRingHom = algebraMap R' A') :
     φ = baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A') := by
   refine RingHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add s t hs ht => rw [map_add, map_add, hs, ht]
   | tmul a r =>
     have ht : a ⊗ₜ[R] r = Algebra.TensorProduct.includeLeftRingHom a *
         Algebra.TensorProduct.includeRight.toRingHom r := by
-      show a ⊗ₜ[R] r = (a ⊗ₜ[R] 1) * (1 ⊗ₜ[R] r)
+      change a ⊗ₜ[R] r = (a ⊗ₜ[R] 1) * (1 ⊗ₜ[R] r)
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     rw [ht, map_mul, ← RingHom.comp_apply, ← RingHom.comp_apply φ, hl, hr, ← ht,
       baseChangeTensorRingMap_tmul]

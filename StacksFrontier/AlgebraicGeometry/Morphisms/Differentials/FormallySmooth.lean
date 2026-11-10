@@ -245,7 +245,7 @@ theorem exists_relativeDifferentialsPullbackStalkEquiv (f : X ⟶ Y) (g : Y ⟶ 
     rw [hstalk]
     have hb : b ⊗ₜ[A] mY = b • ((1 : B) ⊗ₜ[A] mY) := by
       rw [TensorProduct.smul_tmul']
-      show b ⊗ₜ[A] mY = (b * 1) ⊗ₜ[A] mY
+      change b ⊗ₜ[A] mY = (b * 1) ⊗ₜ[A] mY
       rw [mul_one]
     rw [hb, map_smul, map_smul, map_smul, hc, heB]
   have hspan : ∀ (ω : Ω[A⁄R]) (b : B),
@@ -270,8 +270,7 @@ theorem exists_relativeDifferentialsPullbackStalkEquiv (f : X ⟶ Y) (g : Y ⟶ 
   have hBridge : ∀ w : B ⊗[A] M,
       KaehlerDifferential.mapBaseChange R A B (eT w) = eB (stalkC₁ (ePull'.symm w)) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul b m =>
       have h := hspan (eA m) b
       rwa [LinearEquiv.symm_apply_apply] at h
@@ -281,7 +280,7 @@ theorem exists_relativeDifferentialsPullbackStalkEquiv (f : X ⟶ Y) (g : Y ⟶ 
     refine (congrArg eT (hPullGerm U hx _)).trans ?_
     exact (TensorProduct.congr_tmul ..).trans (congrArg _ (hD U hx s))
   · intro m
-    show KaehlerDifferential.mapBaseChange R A B (eT (ePull' m)) = _
+    change KaehlerDifferential.mapBaseChange R A B (eT (ePull' m)) = _
     rw [hBridge (ePull' m), LinearEquiv.symm_apply_apply]
     rfl
 
@@ -303,7 +302,7 @@ theorem relativeDifferentialsMap_mono_of_formallySmooth (f : X ⟶ Y) (g : Y ⟶
   let : Algebra.FormallySmooth A B := formallySmooth_stalkMap_of_formallySmooth hf x
   obtain ⟨e, -, hbridge⟩ := exists_relativeDifferentialsPullbackStalkEquiv f g x
   rw [AddCommGrpCat.mono_iff_injective]
-  show Function.Injective (Stacks.Sheafify.ModuleStalkTensor.stalkLinearMapOfHom
+  change Function.Injective (Stacks.Sheafify.ModuleStalkTensor.stalkLinearMapOfHom
     X.sheaf.presheaf x
     (relativeDifferentialsMap f g (f ≫ g) (𝟙 S) (Category.comp_id (f ≫ g)).symm).val)
   intro z₁ z₂ hz

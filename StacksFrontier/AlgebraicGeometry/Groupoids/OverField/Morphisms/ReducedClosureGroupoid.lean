@@ -199,7 +199,7 @@ theorem exists_lift_to_reducedClosureArrows (F : GroupoidScheme.Hom G₁ G₂) {
     (reducedClosureArrowImage F) f.left).mpr
       (by rw [support_reducedClosureArrowImage]; exact hf)
   refine ⟨Over.homMk e ?_, Over.OverMorphism.ext he⟩
-  show e ≫ (reducedClosureArrowImage F).subschemeι ≫ G₂.arrows.hom = T.hom
+  change e ≫ (reducedClosureArrowImage F).subschemeι ≫ G₂.arrows.hom = T.hom
   rw [← Category.assoc, he, Over.w]
 
 /-- The identity section of the target groupoid lands in the image on arrows, because the
@@ -394,13 +394,13 @@ theorem nonempty_reducedClosureImage {k : Type u} [Field k] [PerfectField k]
           target_inverse := by
             rw [hT, hS, ← Category.assoc, hInvI, Category.assoc, G₂.target_inverse]
           source_comp := by
-            show compH ≫ reducedClosureArrowsι F ≫ G₂.source =
+            change compH ≫ reducedClosureArrowsι F ≫ G₂.source =
               pullback.snd (reducedClosureSource F) (reducedClosureTarget F) ≫
                 reducedClosureArrowsι F ≫ G₂.source
             rw [← Category.assoc, hCompI, Category.assoc, G₂.source_comp, ← Category.assoc,
               reducedClosureComposable_snd F, Category.assoc]
           target_comp := by
-            show compH ≫ reducedClosureArrowsι F ≫ G₂.target =
+            change compH ≫ reducedClosureArrowsι F ≫ G₂.target =
               pullback.fst (reducedClosureSource F) (reducedClosureTarget F) ≫
                 reducedClosureArrowsι F ≫ G₂.target
             rw [← Category.assoc, hCompI, Category.assoc, G₂.target_comp, ← Category.assoc,

@@ -61,7 +61,7 @@ variable {I : Type v} [Small.{u} I] {S : Scheme.{u}} {X : I → Scheme.{u}}
 private def sigmaSummandLift (f : ∀ i, X i ⟶ S) (U : Over S) (i : I) :
     pullback U.hom (f i) ⟶ pullback U.hom (Sigma.desc f) :=
   pullback.lift (pullback.fst U.hom (f i)) (pullback.snd U.hom (f i) ≫ Sigma.ι X i)
-    (by rw [Category.assoc, Sigma.ι_desc]; exact pullback.condition)
+    (by rw [Category.assoc, Sigma.ι_comp_desc]; exact pullback.condition)
 
 /-- The summand inclusion map commutes with the projection to `U`. -/
 private lemma sigmaSummandLift_fst (f : ∀ i, X i ⟶ S) (U : Over S) (i : I) :
@@ -83,7 +83,7 @@ private lemma isPullback_sigmaSummandLift (f : ∀ i, X i ⟶ S) (U : Over S) (i
     IsPullback.of_hasPullback _ _
   have hs : IsPullback (sigmaSummandLift f U i ≫ pullback.fst U.hom (Sigma.desc f))
       (pullback.snd U.hom (f i)) U.hom (Sigma.ι X i ≫ Sigma.desc f) := by
-    rw [sigmaSummandLift_fst, Sigma.ι_desc]
+    rw [sigmaSummandLift_fst, Sigma.ι_comp_desc]
     exact IsPullback.of_hasPullback _ _
   exact hs.of_right (sigmaSummandLift_snd f U i) ht
 
@@ -97,14 +97,14 @@ private def sigmaSummandDesc (f : ∀ i, X i ⟶ S) (U : Over S) :
 private lemma sigmaSummandDesc_fst (f : ∀ i, X i ⟶ S) (U : Over S) (i : I) :
     Sigma.ι (fun i ↦ pullback U.hom (f i)) i ≫ sigmaSummandDesc f U ≫
         pullback.fst U.hom (Sigma.desc f) = pullback.fst U.hom (f i) := by
-  rw [← Category.assoc, sigmaSummandDesc, Sigma.ι_desc, sigmaSummandLift_fst]
+  rw [← Category.assoc, sigmaSummandDesc, Sigma.ι_comp_desc, sigmaSummandLift_fst]
 
 /-- The comparison map lies over `∐ i, X i`. -/
 private lemma sigmaSummandDesc_snd (f : ∀ i, X i ⟶ S) (U : Over S) :
     sigmaSummandDesc f U ≫ pullback.snd U.hom (Sigma.desc f) =
       Limits.Sigma.map (fun i ↦ pullback.snd U.hom (f i)) := by
   refine Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [← Category.assoc, sigmaSummandDesc, Sigma.ι_desc, Limits.Sigma.ι_map,
+  rw [← Category.assoc, sigmaSummandDesc, Sigma.ι_comp_desc, Limits.Sigma.ι_map,
     sigmaSummandLift_snd]
 
 /-- The comparison map is an isomorphism, since coproducts of schemes are universal. -/
@@ -237,7 +237,7 @@ theorem isFamilyEffective_of_isAffineHom_of_finiteAffineFlat {I : Type u} [Finit
     refine ⟨fun y ↦ ?_⟩
     obtain ⟨i, z, hzy⟩ := hjs y
     refine ⟨Sigma.ι X i z, ?_⟩
-    rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   let T := familyCoproductEquivalence f
   let F := T.equivalence.functor.obj D
   have hobj : (F.obj ()).left ≅ (∐ fun i ↦ (D.obj i).left) :=

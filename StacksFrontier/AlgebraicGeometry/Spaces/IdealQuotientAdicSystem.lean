@@ -60,12 +60,12 @@ theorem cokernel_π_app_eq_zero_iff_mem_imageSubmodule {M N : Modules.{u, u} B S
         comp_zero]
     refine (cokernel_π_app_eq_zero_iff B S hS F hF P U x).1 ?_
     rw [← cokernel.π_desc f (cokernel.π P.ι) hf]
-    show (cokernel.desc f (cokernel.π P.ι) hf).val.app U ((cokernel.π f).val.app U x) = 0
+    change (cokernel.desc f (cokernel.π P.ι) hf).val.app U ((cokernel.π f).val.app U x) = 0
     rw [hx, map_zero]
   · have hle : P ≤ SheafOfModules.Submodule.ker (cokernel.π f) :=
       Stacks.SheafOfModules.ImageSubsheaf.imageSubmodule_le _ fun V m =>
         (SheafOfModules.Submodule.mem_ker _ V _).2 (by
-          show (f ≫ cokernel.π f).val.app V m = 0
+          change (f ≫ cokernel.π f).val.app V m = 0
           rw [cokernel.condition]
           rfl)
     exact hle U hx
@@ -91,14 +91,14 @@ theorem idealPowerMultiple_baseIdealSubmodule (I : Ideal A) (k : ℕ) :
   refine le_antisymm (fun U x hx => ?_) (fun U x hx => ?_)
   · have h2 : (idealQuotientπ (baseRingHom A B hA X hX) O (I ^ k)).val.app U x = 0 := by
       rw [← h]
-      show e.hom.val.app U ((cokernel.π Q.ι).val.app U x) = 0
+      change e.hom.val.app U ((cokernel.π Q.ι).val.app U x) = 0
       rw [(cokernel_π_app_eq_zero_iff B _ hA X hX Q U x).2 hx, map_zero]
     exact (cokernel_π_app_eq_zero_iff_mem_imageSubmodule _ U x).1 h2
   · have h3 : cokernel.π Q.ι = idealQuotientπ (baseRingHom A B hA X hX) O (I ^ k) ≫ e.inv := by
       rw [← h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
     have h2 : (cokernel.π Q.ι).val.app U x = 0 := by
       rw [h3]
-      show e.inv.val.app U ((idealQuotientπ (baseRingHom A B hA X hX) O (I ^ k)).val.app U x) = 0
+      change e.inv.val.app U ((idealQuotientπ (baseRingHom A B hA X hX) O (I ^ k)).val.app U x) = 0
       rw [(cokernel_π_app_eq_zero_iff_mem_imageSubmodule _ U x).2 hx, map_zero]
     exact (cokernel_π_app_eq_zero_iff B _ hA X hX Q U x).1 h2
 
@@ -181,7 +181,7 @@ theorem exists_iso_idealPowerQuotient_idealQuotient
   have hK : 𝒥 n ≤ SheafOfModules.Submodule.ker (cokernel.π (𝒥 (n + 1)).ι ≫ ρ) := by
     rw [h n]
     refine sup_le (fun U x hx => ?_) ?_
-    · show ρ.val.app U ((cokernel.π (𝒥 (n + 1)).ι).val.app U x) = 0
+    · change ρ.val.app U ((cokernel.π (𝒥 (n + 1)).ι).val.app U x) = 0
       rw [(cokernel_π_app_eq_zero_iff B _ hA X hX (𝒥 (n + 1)) U x).2 hx, map_zero]
     · rw [← idealPowerMultiple_baseIdealSubmodule]
       intro U x hx

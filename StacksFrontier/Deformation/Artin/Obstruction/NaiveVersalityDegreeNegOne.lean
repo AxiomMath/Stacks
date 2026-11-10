@@ -163,7 +163,7 @@ public theorem surjective_derivedTensorFibre_neg_one_of_isVersalAt
   have hlift : schemeMap (p ⋙ Over.post B.inclusion) hxS hx'S wlift.1.hom =
       Spec.map (CommRingCat.ofHom (algebraMap A' A)) := by
     rw [schemeMap_lift_hom B S hS p hx D.arrow wlift hxS hx'S rfl rfl]
-    show 𝟙 ((BigFppfOver.toScheme B S hS).obj (algebraOver A B S hS toS hA)) ≫
+    change 𝟙 ((BigFppfOver.toScheme B S hS).obj (algebraOver A B S hS toS hA)) ≫
         (BigFppfOver.toScheme B S hS).map D.arrow ≫
         𝟙 ((BigFppfOver.toScheme B S hS).obj (Over.mk D.toS' : BigFppfOver B S hS)) =
       Spec.map (CommRingCat.ofHom (algebraMap A' A))

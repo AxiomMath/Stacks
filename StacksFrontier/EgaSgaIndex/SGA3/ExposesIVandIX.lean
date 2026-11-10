@@ -390,7 +390,6 @@ add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.sieves
 add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.superset_covering
 add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.top_mem
 add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.top_mem'
-add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.top_mem._simp_1
 add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.transitive
 add_to_sga "3 IV 4.2.1" CategoryTheory.GrothendieckTopology.transitive'
 add_to_sga "3 IV 4.2.2" "partial" CategoryTheory.GrothendieckTopology.instCompleteLattice
@@ -564,14 +563,18 @@ add_to_sga "3 IV 4.4.7" CategoryTheory.Subfunctor.toRangeSheafify
 add_to_sga "3 IV 4.4.7" CategoryTheory.imageFactorization
 add_to_sga "3 IV 4.4.7" CategoryTheory.imageMonoFactorization
 add_to_sga "3 IV 4.4.7" "partial" CategoryTheory.instMonoSheafTypeImageι
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "3 IV 4.4.8" "special case"
-  CategoryTheory.GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_cofanIsColimitDesc_shrinkYoneda_map
+  ofArrows_mem_iff_isLocallySurjective_cofanIsColimitDesc_shrinkYoneda_map
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "3 IV 4.4.8" "special case"
-  CategoryTheory.GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_cofanIsColimitDesc_uliftYoneda_map
+  ofArrows_mem_iff_isLocallySurjective_cofanIsColimitDesc_uliftYoneda_map
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "3 IV 4.4.8" "special case"
-  CategoryTheory.GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_shrinkYoneda_map
+  ofArrows_mem_iff_isLocallySurjective_sigmaDesc_shrinkYoneda_map
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "3 IV 4.4.8" "special case"
-  CategoryTheory.GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_uliftYoneda_map
+  ofArrows_mem_iff_isLocallySurjective_sigmaDesc_uliftYoneda_map
 add_to_sga "3 IV 4.4.8" CategoryTheory.Presheaf.IsLocallySurjective
 add_to_sga "3 IV 4.4.8" "more general" CategoryTheory.Presieve.IsSeparatedFor.of_mono
 add_to_sga "3 IV 4.4.8" "(v)" CategoryTheory.Sheaf.epi_of_isLocallySurjective
@@ -739,10 +742,12 @@ add_to_sga "3 IX 2.1" "partial"
   AlgebraicGeometry.Flat.surjective_descendsAlong_surjective_inf_flat_inf_quasicompact
 add_to_sga "3 IX 2.1" "partial"
   AlgebraicGeometry.descendsAlong_isomorphisms_surjective_inf_flat_inf_quasicompact
+open AlgebraicGeometry in
 add_to_sga "3 IX 2.1" "partial"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
+open AlgebraicGeometry in
 add_to_sga "3 IX 2.1" "partial"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "3 IX 2.1" "partial"
   AlgebraicGeometry.instDescendsAlongSchemeSmoothMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "3 IX 2.1" "special case" RingHom.FiniteType.codescendsAlong_faithfullyFlat

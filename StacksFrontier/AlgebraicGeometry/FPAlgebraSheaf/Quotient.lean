@@ -152,7 +152,7 @@ theorem isOfFinitePresentation_pushforwardAlgebra_subschemeι_comp {Y : Scheme.{
     Scheme.QuasicoherentAlgebra.IsOfFinitePresentation
       (pushforwardAlgebra (I.subschemeι ≫ f)) := by
   intro U hU
-  show RingHom.FinitePresentation ((I.subschemeι ≫ f).app U).hom
+  change RingHom.FinitePresentation ((I.subschemeι ≫ f).app U).hom
   have hbase : RingHom.FinitePresentation (f.app U).hom := by
     have h := LocallyOfFinitePresentation.finitePresentation_appLE f hU (hU.preimage f) le_rfl
     rwa [Scheme.Hom.appLE_eq_app] at h

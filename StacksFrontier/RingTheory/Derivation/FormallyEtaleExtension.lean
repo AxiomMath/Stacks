@@ -43,18 +43,18 @@ theorem eq_of_formallyUnramified [AddCommGroup M] [Module R M] [Module T M] [IsS
     (h : ∀ s : S, d₁ (algebraMap S T s) = d₂ (algebraMap S T s)) : d₁ = d₂ := by
   let : Module S M := Module.compHom M (algebraMap S T)
   have : IsScalarTower S T M := ⟨fun s t m ↦ by
-    show (s • t) • m = algebraMap S T s • (t • m)
+    change (s • t) • m = algebraMap S T s • (t • m)
     rw [Algebra.smul_def, mul_smul]⟩
   let e : Derivation S T M :=
     { toFun := fun t ↦ d₁ t - d₂ t
       map_add' := fun x y ↦ by simp only [map_add]; abel
       map_smul' := fun s t ↦ by
-        show d₁ (s • t) - d₂ (s • t) = algebraMap S T s • (d₁ t - d₂ t)
+        change d₁ (s • t) - d₂ (s • t) = algebraMap S T s • (d₁ t - d₂ t)
         rw [Algebra.smul_def, Derivation.leibniz, Derivation.leibniz, h s, smul_sub]
         abel
       map_one_eq_zero' := by simp
       leibniz' := fun a b ↦ by
-        show d₁ (a * b) - d₂ (a * b) = a • (d₁ b - d₂ b) + b • (d₁ a - d₂ a)
+        change d₁ (a * b) - d₂ (a * b) = a • (d₁ b - d₂ b) + b • (d₁ a - d₂ a)
         rw [Derivation.leibniz, Derivation.leibniz, smul_sub, smul_sub]
         abel }
   have he : e = 0 := by
@@ -84,7 +84,7 @@ variable {R S T}
 @[simp]
 theorem extendOfFormallyEtale_algebraMap [Algebra.FormallyEtale S T] (d : Derivation R S T)
     (s : S) : extendOfFormallyEtale R S T d (algebraMap S T s) = d s := by
-  show ((LinearMap.liftBaseChange T ((linearMapEquivDerivation R S).symm d)).comp
+  change ((LinearMap.liftBaseChange T ((linearMapEquivDerivation R S).symm d)).comp
       (tensorKaehlerEquivOfFormallyEtale R S T).symm.toLinearMap) (D R T (algebraMap S T s)) = d s
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe,
     tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap, LinearMap.liftBaseChange_tmul, one_smul]

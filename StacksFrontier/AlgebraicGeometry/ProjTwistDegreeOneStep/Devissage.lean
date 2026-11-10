@@ -104,7 +104,7 @@ theorem exists_sum_homogeneousScalar_twistingSheaf_of_le (b₀ : ℤ)
   obtain ⟨r, a, b, hsum⟩ := exists_sum_degreeOne_mul 𝒮 hgen ((e + d).toNat) hcmem
   have hbmem : ∀ j, (b j : S) ∈ twistGrading (S := S) 𝒮 (e + d) 0 := by
     intro j
-    show (b j : S) ∈ integerGrading (S := S) 𝒮 (0 + (e + d))
+    change (b j : S) ∈ integerGrading (S := S) 𝒮 (0 + (e + d))
     rw [show (0 : ℤ) + (e + d) = (((e + d).toNat : ℕ) : ℤ) by omega, integerGrading_natCast]
     exact (b j).2
   choose t ht using fun j : Fin r => hbij.surjective

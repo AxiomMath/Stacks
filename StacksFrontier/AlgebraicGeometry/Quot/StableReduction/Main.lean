@@ -85,7 +85,8 @@ theorem finite_setOf_isMaximal_integralClosure (R K L : Type u) [CommRing R] [Is
   have : Module.Finite R (integralClosure R L) := IsIntegralClosure.finite R K L _
   refine (Algebra.QuasiFinite.finite_primesOver (IsLocalRing.maximalIdeal R)).subset
     fun m (hm : m.IsMaximal) => ⟨hm.isPrime, ⟨?_⟩⟩
-  exact (IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m)).symm
+  exact (IsLocalRing.eq_maximalIdeal
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m)).symm
 
 /-- The localization of the integral closure `A` of a discrete valuation ring `R` in a finite
 separable extension `L` of its fraction field at a maximal ideal `𝔪` is a discrete valuation ring

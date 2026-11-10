@@ -341,15 +341,15 @@ theorem satisfiesRS_twoFibreProductOver
             (g := Iso.refl V) (show α = (Iso.refl V).hom ≫ α by simp) (f.map a.unop).op
             (P.iso.hom ≫ g.map b.unop).op
         have hcVertOp : pF.op.IsHomLift (𝟙 V) cOp.hom := by
-          show pF.op.IsHomLift (Iso.refl V).hom cOp.hom
+          change pF.op.IsHomLift (Iso.refl V).hom cOp.hom
           exact inferInstance
         have hcVert : pF.IsHomLift (𝟙 V.unop) cOp.unop.hom := by
-          show pF.IsHomLift (𝟙 V.unop) cOp.hom.unop
+          change pF.IsHomLift (𝟙 V.unop) cOp.hom.unop
           simpa only [unop_id] using isHomLift_unop pF (𝟙 V) cOp.hom (inst := hcVertOp)
         have hcSquare : f.map a.unop ≫ cOp.unop.hom =
             P.iso.hom ≫ g.map b.unop := by
           apply Quiver.Hom.op_inj
-          show cOp.hom ≫ (f.map a.unop).op = (P.iso.hom ≫ g.map b.unop).op
+          change cOp.hom ≫ (f.map a.unop).op = (P.iso.hom ≫ g.map b.unop).op
           exact Functor.IsStronglyCartesian.fac pF.op α (f.map a.unop).op
             (show α = (Iso.refl V).hom ≫ α by simp)
             (P.iso.hom ≫ g.map b.unop).op
@@ -434,10 +434,10 @@ theorem satisfiesRS_twoFibreProductOver
           { hbase := β.unop, a := a', b := b',
             ha := haLift, hb := hbLift, w := hcomparison }
         refine ⟨m.op, ⟨?_, ?_⟩, ?_⟩
-        · show β.unop.op = β
+        · change β.unop.op = β
           exact Quiver.Hom.op_unop β
         · apply Quiver.Hom.unop_inj
-          show φ.unop ≫ m = ψ.unop
+          change φ.unop ≫ m = ψ.unop
           apply TwoFibreProductOver.Hom.ext'
           · exact haFac'
           · exact hbFac'
@@ -450,7 +450,7 @@ theorem satisfiesRS_twoFibreProductOver
           have hχb : χ.unop.b = b' :=
             hbUniq _ (hbaseχ ▸ χ.unop.hb) (congrArg TwoFibreProductOver.Hom.b hfacχ)
           apply Quiver.Hom.unop_inj
-          show χ.unop = m
+          change χ.unop = m
           exact TwoFibreProductOver.Hom.ext' hχa hχb
     · intro P₁ P₂ P m₁ m₂ hsurj
       have hsurjH : Function.Surjective (pH.map m₂.a).hom :=
@@ -497,9 +497,9 @@ theorem satisfiesRS_twoFibreProductOver
           pF.map compIso.hom ≫ pG.map q.hom := pF.map_comp _ _
       have hvert : pF.IsHomLift (𝟙 (pH.obj cH.pt)) compIso'.hom := by
         apply IsHomLift.of_fac' pF (𝟙 _) compIso'.hom rfl hy
-        show pF.map (compIso.hom ≫ g.map q.hom) = _
+        change pF.map (compIso.hom ≫ g.map q.hom) = _
         rw [hmapcomp, hqmap]
-        show pF.map compIso.hom ≫ pF.map compIso.inv ≫ eqToHom hy.symm = _
+        change pF.map compIso.hom ≫ pF.map compIso.inv ≫ eqToHom hy.symm = _
         simp
       have hw : ∀ {X₁ : H} {Y₁ : G} (s : cH.pt ⟶ X₁) (t : dG.pt ⟶ Y₁) (ι : f.obj X₁ ≅ g.obj Y₁),
           compIso.hom ≫ g.map t = f.map s ≫ ι.hom →
@@ -530,9 +530,9 @@ theorem satisfiesRS_twoFibreProductOver
         TwoFibreProductOver.Hom.mk' (P := T) (Q := P₂) cH.snd dG'.snd hbase₂ hw₂
       have hcondition : l₁ ≫ m₁ = l₂ ≫ m₂ := by
         apply TwoFibreProductOver.Hom.ext'
-        · show cH.fst ≫ m₁.a = cH.snd ≫ m₂.a
+        · change cH.fst ≫ m₁.a = cH.snd ≫ m₂.a
           exact cH.condition
-        · show dG'.fst ≫ m₁.b = dG'.snd ≫ m₂.b
+        · change dG'.fst ≫ m₁.b = dG'.snd ≫ m₂.b
           exact dG'.condition
       let c : PullbackCone m₁ m₂ := PullbackCone.mk l₁ l₂ hcondition
       have hcFG' : IsLimit (dG'.map g) := isLimit_map_mk_inv_comp g hcFG q
@@ -599,7 +599,7 @@ theorem satisfiesRS_twoFibreProductOver
       let pT := TwoFibreProductOver.structureFunctor pH pG pF f g
       have hcbase : IsLimit (c.map pT) := by
         let baseCone : PullbackCone m₁.hbase m₂.hbase := c.map pT
-        show IsLimit baseCone
+        change IsLimit baseCone
         let sHbase (s : PullbackCone m₁.hbase m₂.hbase) :
             PullbackCone (pH.map m₁.a) (pH.map m₂.a) :=
           PullbackCone.mk (s.fst ≫ eqToHom P₁.hx.symm)

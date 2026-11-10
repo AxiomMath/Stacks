@@ -65,7 +65,7 @@ theorem nonempty_etaleModuleDerivedGlobalSectionsIso_of_injective (X : Scheme.{u
   let Γ := etaleModuleGlobalSections.{u, 0} Λ X
   have : IsIso (DerivedCategory.Plus.Q.map φ) := by
     have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map φ)) := by
-      show IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ))
+      change IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ))
       exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 hφ
     exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
   have : IsIso (Γ.rightDerivedFunctorPlusUnith.app
@@ -209,7 +209,7 @@ theorem IsCtf.extensionByZero_of_isOpenImmersion (B : BigEtaleSite.{u}) {U X : B
   have hrange : Set.range i.base = (Set.range j.hom.base)ᶜ :=
     Scheme.IdealSheafData.range_subschemeι_vanishingIdeal _
   refine IsCtf.extensionByZero B Λ j ii ?_ hC
-  show Set.range j.hom.base = (Set.range i.base)ᶜ
+  change Set.range j.hom.base = (Set.range i.base)ᶜ
   rw [hrange, compl_compl]
 
 /-- The geometric fibre of a morphism locally of finite type over the geometric point of `y` with

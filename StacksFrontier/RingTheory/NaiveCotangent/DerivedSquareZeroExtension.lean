@@ -198,7 +198,7 @@ private lemma residueField_isEpi {A : Type u} [CommRing A] (p : Ideal A) [p.IsPr
   have hb' : algebraMap A p.ResidueField b ≠ 0 :=
     (map_ne_zero_iff _ (IsFractionRing.injective (A ⧸ p) p.ResidueField)).mpr
       (mem_nonZeroDivisors_iff_ne_zero.mp hb)
-  show 1 ⊗ₜ[A] (algebraMap A p.ResidueField a / algebraMap A p.ResidueField b) =
+  change 1 ⊗ₜ[A] (algebraMap A p.ResidueField a / algebraMap A p.ResidueField b) =
     (algebraMap A p.ResidueField a / algebraMap A p.ResidueField b) ⊗ₜ[A] 1
   calc
     _ = (algebraMap A p.ResidueField a) ⊗ₜ[A] (1 / algebraMap A p.ResidueField b) := by
@@ -223,7 +223,7 @@ private lemma linearEquiv_transportModule_compat
   let := e.toAddEquiv.module A
   intro b x
   apply e.injective
-  show e (e.symm ((algebraMap B A b) • e x)) = e (b • x)
+  change e (e.symm ((algebraMap B A b) • e x)) = e (b • x)
   simp only [e.apply_symm_apply, e.map_smul, IsScalarTower.algebraMap_smul]
 
 section SquareZeroPushout
@@ -318,7 +318,7 @@ private lemma conormalPushoutInclusion_surjective
   have hz : (algebraMap B A) z.fst = 0 := hx
   let j : RingHom.ker (algebraMap B A) := ⟨z.fst, hz⟩
   refine ⟨φ j + z.snd, Subtype.ext ?_⟩
-  show Ideal.Quotient.mk _ (inr (φ j + z.snd)) = Ideal.Quotient.mk _ z
+  change Ideal.Quotient.mk _ (inr (φ j + z.snd)) = Ideal.Quotient.mk _ z
   apply Ideal.Quotient.eq.mpr
   refine ⟨-j, ?_⟩
   ext <;> simp [j]
@@ -347,7 +347,7 @@ private lemma conormalPushoutMap_square_zero
   intro x hx y hy
   obtain ⟨m, hm⟩ := conormalPushoutInclusion_surjective φ ⟨x, hx⟩
   obtain ⟨n, hn⟩ := conormalPushoutInclusion_surjective φ ⟨y, hy⟩
-  show x * y = 0
+  change x * y = 0
   calc
     x * y = Ideal.Quotient.mk _ (inr m) * Ideal.Quotient.mk _ (inr n) :=
       congrArg₂ (· * ·) (congrArg Subtype.val hm).symm (congrArg Subtype.val hn).symm
@@ -384,12 +384,12 @@ private lemma conormalPushoutKernel_compat
   let := e.toAddEquiv.module A
   intro c x
   obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective c
-  show (algebraMap B A z.fst) • x = _
+  change (algebraMap B A z.fst) • x = _
   rw [linearEquiv_transportModule_compat e z.fst x]
   obtain ⟨m, rfl⟩ := conormalPushoutInclusion_surjective φ x
   apply Subtype.ext
   let J := conormalGraphIdeal (RingHom.ker (algebraMap B A)) φ (ker_smul_eq_zero (A := A))
-  show z.fst • Ideal.Quotient.mk J (inr m) =
+  change z.fst • Ideal.Quotient.mk J (inr m) =
     Ideal.Quotient.mk J z * Ideal.Quotient.mk J (inr m)
   calc
     z.fst • Ideal.Quotient.mk J (inr m) = Ideal.Quotient.mk J (z.fst • inr m) :=
@@ -408,7 +408,7 @@ private lemma conormalPushoutInclusion_relation
     (conormalPushoutInclusion φ (φ j) :
       TrivSqZeroExt B M ⧸ conormalGraphIdeal _ φ (ker_smul_eq_zero (A := A))) =
       algebraMap B _ j := by
-  show Ideal.Quotient.mk _ (TrivSqZeroExt.inr (φ j)) =
+  change Ideal.Quotient.mk _ (TrivSqZeroExt.inr (φ j)) =
     Ideal.Quotient.mk _ (TrivSqZeroExt.inl (j : B))
   apply Ideal.Quotient.eq.mpr
   refine ⟨-j, ?_⟩
@@ -647,7 +647,7 @@ private lemma exists_nonzero_ext_annihilating
   · apply (DerivedCategory.extIntoFieldEquivDualBaseChangeHomology.{u, u, u}
       (algebraMap A k) E 1).injective
     rw [DerivedCategory.extIntoFieldEquivDualBaseChangeHomology_naturality, map_zero]
-    show g ≫ (e (e.symm φ)) = 0
+    change g ≫ (e (e.symm φ)) = 0
     rw [e.apply_symm_apply]
     exact ModuleCat.hom_ext (LinearMap.ext fun x => congrArg ULift.up (LinearMap.congr_fun hψg x))
 
@@ -1024,8 +1024,7 @@ public theorem differentialsBaseChangeMap_injective_of_ker_le_ker_sq
   have hzero : ∀ u : k ⊗[A] (LinearMap.ker g),
       LinearMap.lTensor (R := A) k (LinearMap.ker g).subtype u = 0 := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction u using TensorProduct.inductionOn with
     | add v w hv hw => rw [map_add, hv, hw, add_zero]
     | tmul c z =>
       rw [LinearMap.lTensor_tmul, Submodule.subtype_apply]
@@ -1051,7 +1050,7 @@ public theorem differentialsBaseChangeMap_injective_of_ker_le_ker_sq
         (hg ▸ KaehlerDifferential.mapBaseChange_surjective Λ B A h)).linearMap_ker_eq,
         hzero', LinearMap.range_zero])
   have hbc : Function.Injective (g.baseChange k) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact hinj
   exact hbc.comp (TensorProduct.AlgebraTensorModule.cancelBaseChange B A k k
     (KaehlerDifferential Λ B)).symm.injective
@@ -1136,7 +1135,7 @@ public theorem exists_squareZeroExtension_killing_cotangent_morphism
   let : Algebra A' A := (conormalPushoutMap ψ).toAlgebra
   let : Algebra Λ A' := ((algebraMap P.Ring A').comp (algebraMap Λ P.Ring)).toAlgebra
   let : IsScalarTower Λ A' A := IsScalarTower.of_algebraMap_eq (fun l => by
-    show (algebraMap Λ A) l = (algebraMap P.Ring A) ((algebraMap Λ P.Ring) l)
+    change (algebraMap Λ A) l = (algebraMap P.Ring A) ((algebraMap Λ P.Ring) l)
     exact IsScalarTower.algebraMap_apply Λ P.Ring A l)
   refine ⟨A', inferInstance, inferInstance, inferInstance, inferInstance,
     conormalPushoutMap_surjective ψ hP, conormalPushoutMap_square_zero ψ, ?_⟩
@@ -1145,7 +1144,7 @@ public theorem exists_squareZeroExtension_killing_cotangent_morphism
   let eA : RingHom.ker (conormalPushoutMap ψ) ≃ₗ[A] N := {
     __ := eI.toAddEquiv
     map_smul' := fun a x => by
-      show eI (eI.symm (a • eI x)) = a • eI x
+      change eI (eI.symm (a • eI x)) = a • eI x
       exact eI.apply_symm_apply _ }
   let eN : N ≃ₗ[A] p.ResidueField := {
     toFun := ULift.down
@@ -1154,7 +1153,7 @@ public theorem exists_squareZeroExtension_killing_cotangent_morphism
     right_inv := fun _ => rfl
     map_add' := fun _ _ => rfl
     map_smul' := fun a x => by
-      show (algebraMap A p.ResidueField a) * x.down = a • x.down
+      change (algebraMap A p.ResidueField a) * x.down = a • x.down
       exact (Algebra.smul_def a x.down).symm }
   refine ⟨inferInstance, conormalPushoutKernel_compat ψ, ⟨eA.trans eN⟩, ?_⟩
   have hq : Function.Surjective (algebraMap A' A) := conormalPushoutMap_surjective ψ hP

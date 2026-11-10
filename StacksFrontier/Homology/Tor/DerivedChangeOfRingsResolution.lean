@@ -75,6 +75,7 @@ namespace CochainComplex.DerivedExtensionScalars
 
 universe uR uA uM wR wA
 
+set_option linter.checkUnivs false in
 /-- **Stacks 06Y4 at the universes of the extension-of-scalars adjunction.** Every object of
 `D(R)` is isomorphic to `DerivedCategory.Q` of a K-flat complex, with the K-flatness spelled as
 `CochainComplex.KFlat.{uR, max uM uA}`. -/

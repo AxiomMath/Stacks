@@ -123,7 +123,7 @@ theorem restrictToAmbient_comp_restrictTopToAmbientInv (i : D.LaterIndex) :
       D.restrictToAmbient_comp_toFixedStage ⊤ hT i, Category.assoc, Scheme.ι_toIso_inv,
       Category.id_comp]
     exact Category.comp_id _
-  · show _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom) (D.baseMap i) =
+  · change _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom) (D.baseMap i) =
       _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom) (D.baseMap i)
     rw [Category.assoc, D.restrictTopToAmbientInv_comp_snd hT i,
       D.restrictToAmbient_comp_snd ⊤ hT i, Category.id_comp]
@@ -174,7 +174,7 @@ theorem restrictToAmbientLimit_comp_restrictTopToAmbientLimitInv :
       ← Category.assoc, D.restrictToAmbientLimit_comp_limitToFixedStage ⊤ hT, Category.assoc,
       Scheme.ι_toIso_inv, Category.id_comp]
     exact Category.comp_id _
-  · show _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom)
+  · change _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom)
           (D.descent.limitCone.π.app (op D.descent.base)) =
       _ ≫ pullback.snd ((⊤ : D.X₀.left.Opens).ι ≫ D.X₀.hom)
           (D.descent.limitCone.π.app (op D.descent.base))

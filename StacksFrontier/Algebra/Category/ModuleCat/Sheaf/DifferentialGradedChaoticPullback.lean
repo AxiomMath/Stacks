@@ -721,7 +721,8 @@ def pullbackSystemHomotopy {M N : DifferentialGradedModule.{t, m, m} A} {f g : M
         (h.sectionRestrictAdd_sectionsAdd (F.op.map a) x)
     exact DFunLike.congr_fun key z
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **The pullback carries homotopic morphisms to homotopic morphisms.** -/
 theorem preservesHomotopic_pullbackFunctor : PreservesHomotopic (pullbackFunctor φ) :=
   fun _ _ ⟨h⟩ ↦ SectionSystem.realizeMap_homotopic (pullbackSystemHomotopy φ h)

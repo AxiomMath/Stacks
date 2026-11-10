@@ -418,7 +418,7 @@ theorem adjoinRootHom_injective {f : k⟦X⟧} (hf : f ∉ finiteCoeffSubring k 
   rw [injective_iff_map_eq_zero]
   intro y hy
   have hker : RingHom.ker (adjoinRootHom (p := p) f).toRingHom = ⊥ := by
-    refine Ideal.eq_bot_of_comap_eq_bot (R := finiteCoeffSubring k p) ?_
+    refine Ideal.eq_bot_of_under_eq_bot (R := finiteCoeffSubring k p) ?_
     rw [eq_bot_iff]
     intro a ha
     rw [Ideal.mem_comap, RingHom.mem_ker, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,

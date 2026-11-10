@@ -105,7 +105,7 @@ public theorem exists_isCovering_sieve₀_le
       obtain ⟨P, π₁, π₂, hpull, hP⟩ := hsite.2.2 ⟨X, E⟩ hE Y f
       refine ⟨⟨E.I₀, P, π₂⟩, hP, sieve₀_le_of_forall_mem fun i => ?_⟩
       have hmem : S (π₁ i ≫ E.f i) := S.downward_closed (hES _ (E.sieve₀_f i)) (π₁ i)
-      show S (π₂ i ≫ f)
+      change S (π₂ i ≫ f)
       rwa [(hpull i).w] at hmem
   | transitive X S R hS hlocal ihS ihlocal =>
       obtain ⟨E, hE, hES⟩ := ihS

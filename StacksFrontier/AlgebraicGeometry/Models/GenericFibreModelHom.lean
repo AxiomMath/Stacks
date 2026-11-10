@@ -140,7 +140,7 @@ theorem closedPoint_notMem_range_genericPointInclusion :
     rw [← ht]
     let t' : PrimeSpectrum K := t
     have ht0 : t'.asIdeal = ⊥ := (Ideal.eq_bot_or_top _).resolve_right t'.isPrime.ne_top
-    show Ideal.comap (algebraMap R K) t'.asIdeal = ⊥
+    change Ideal.comap (algebraMap R K) t'.asIdeal = ⊥
     rw [ht0]
     exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)
   exact IsDiscreteValuationRing.not_a_field R h
@@ -154,7 +154,7 @@ theorem mem_range_genericPointInclusion_of_ne_closedPoint {s : Spec (.of R)}
     exact hs (PrimeSpectrum.ext (IsLocalRing.eq_maximalIdeal
       (Ring.DimensionLEOne.maximalOfPrime h0 s.isPrime)))
   refine ⟨IsLocalRing.closedPoint K, PrimeSpectrum.ext ?_⟩
-  show Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = s.asIdeal
+  change Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = s.asIdeal
   rw [h0, IsLocalRing.maximalIdeal_eq_bot]
   exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)
 

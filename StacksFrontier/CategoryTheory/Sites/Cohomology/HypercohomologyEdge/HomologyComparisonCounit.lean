@@ -55,6 +55,7 @@ variable {A B : Type*} [Category* A] [Abelian A] [Category* B] [Abelian B]
   {G₀ : B ⥤ A} {H₀ : A ⥤ B} [G₀.Additive] [PreservesFiniteLimits G₀]
   [PreservesFiniteColimits G₀] [H₀.Additive] [PreservesFiniteLimits H₀] (adj : G₀ ⊣ H₀)
 
+omit [PreservesFiniteColimits G₀] in
 /-- On cycles, a morphism of complexes `G₀(H₀ K) ⟶ K` which is the counit in every degree is the
 composite of the two cycles comparisons with the counit at the cycles. -/
 lemma cyclesMap_eq_of_f_eq_counit (K : CochainComplex A ℤ)
@@ -69,6 +70,7 @@ lemma cyclesMap_eq_of_f_eq_counit (K : CochainComplex A ℤ)
     ← adj.counit_naturality, ← G₀.map_comp_assoc,
     cyclesComparison_comp_map_iCycles, cyclesComparison_comp_map_iCycles_assoc]
 
+omit [PreservesFiniteColimits G₀] in
 /-- In degree-`q` cohomology, a morphism of complexes `G₀(H₀ K) ⟶ K` which is the counit in every
 degree is the composite of the homology comparison of `G₀` at `H₀ K`, `G₀` applied to the
 homology comparison of `H₀` at `K`, and the counit at `H^q K`. -/
@@ -87,6 +89,7 @@ theorem homologyMap_eq_of_f_eq_counit (K : CochainComplex A ℤ)
   congr 2
   exact (adj.counit.naturality (K.homologyπ q)).symm
 
+omit [PreservesFiniteColimits G₀] in
 /-- **The counit of the adjunction on complexes, in degree-`q` cohomology**, is the composite of
 the homology comparison of `G₀` at `H₀ K`, `G₀` applied to the homology comparison of `H₀` at `K`,
 and the counit at `H^q K`. -/

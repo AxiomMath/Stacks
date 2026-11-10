@@ -116,7 +116,7 @@ theorem moduleStalkRestrictScalarsAddEquiv_smul
     (colimit.isColimit ((PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber)
       (𝟙 _)).obj ((SheafOfModules.forget (commRingSheafToRingSheaf O')).obj M)).presheaf)
   rw [← hx]
-  show ((ρ r • (PresheafOfModules.ModuleColimit.ιM x : Mc)) : Mc) =
+  change ((ρ r • (PresheafOfModules.ModuleColimit.ιM x : Mc)) : Mc) =
     ((ρ' (φ r) • (PresheafOfModules.ModuleColimit.ιM x : Mc')) : Mc')
   rw [hρ, ← ha, hψapp]
   erw [PresheafOfModules.ModuleColimit.smul_eq]
@@ -193,7 +193,7 @@ theorem pointStalkRingEquiv_presheafFiber_map_fSharpInverseImage
     exact (((smallEtaleInverseImageFiberRingIso B S hS p x).app
       (smallEtaleRingedTopos B S hS Y).O).inv_hom_id_assoc _).symm
   rw [hsplit]
-  show pointStalkRingEquiv B S hS X x ((pointStalkRingEquiv B S hS X x).symm
+  change pointStalkRingEquiv B S hS X x ((pointStalkRingEquiv B S hS X x).symm
     (etaleLocalRingMap X.2 p.hom x (inverseImageStalkRingEquiv B S hS p x a))) = _
   exact RingEquiv.apply_symm_apply _ _
 
@@ -207,7 +207,7 @@ theorem fiberStalkAddEquiv_smul (G : Modules.{u, u} B S hS X.1 X.2)
       (smallEtaleRingedTopos B S hS X).O G) :
     fiberStalkAddEquiv B S hS X x G (b • m) =
       pointStalkRingEquiv B S hS X x b • fiberStalkAddEquiv B S hS X x G m := by
-  show geometricModuleStalkAddEquiv B S hS X x G
+  change geometricModuleStalkAddEquiv B S hS X x G
       ((Stacks.moduleStalkLargeLinearEquiv (etaleSitePoint B S hS X.1 x X.2)
         (smallEtaleRingedTopos B S hS X).O G).symm (b • m)) = _
   rw [LinearEquiv.map_smul, geometricModuleStalkAddEquiv_smul]

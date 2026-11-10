@@ -102,7 +102,7 @@ theorem mapAlternatingFaceMapComplexOp_d (G : Aᵒᵖ ⥤ B) [G.Additive] (X : S
       ∑ j : Fin (n + 2), ((-1 : ℤ) ^ (j : ℕ) • G.map ((X.δ j).op) :
         (mapAlternatingFaceMapComplexOp G X).X n ⟶
           (mapAlternatingFaceMapComplexOp G X).X (n + 1)) := by
-  show (((G.rightOp.mapHomologicalComplex (ComplexShape.down ℕ)).obj
+  change (((G.rightOp.mapHomologicalComplex (ComplexShape.down ℕ)).obj
       ((alternatingFaceMapComplex A).obj X)).unop).d n (n + 1) = _
   rw [HomologicalComplex.unop_d, Functor.mapHomologicalComplex_obj_d,
     alternatingFaceMapComplex_obj_d]
@@ -116,7 +116,7 @@ alternating sum of its coface maps. -/
 private theorem alternatingCofaceMapComplex_obj_d (Y : CosimplicialObject B) (n : ℕ) :
     ((alternatingCofaceMapComplex B).obj Y).d n (n + 1) =
       AlternatingCofaceMapComplex.objD Y n := by
-  show CochainComplex.of.d (fun m => Y.obj (SimplexCategory.mk m))
+  change CochainComplex.of.d (fun m => Y.obj (SimplexCategory.mk m))
     (AlternatingCofaceMapComplex.objD Y) n (n + 1) = _
   exact CochainComplex.of_d _ _ _
 

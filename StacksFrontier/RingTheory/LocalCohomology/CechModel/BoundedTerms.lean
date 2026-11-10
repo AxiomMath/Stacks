@@ -236,7 +236,7 @@ theorem bijective_comp_toSingle (K : CochainComplex C ℤ) (N : C) (n a : ℤ) (
     fun b => h₂.elim b 0
   refine ⟨fun f g hfg => ?_, fun f => ?_⟩
   · have hfg' : (f - g) ≫ (DerivedCategory.triangleOfSES hS).mor₂ = 0 := by
-      show (f - g) ≫ DerivedCategory.Q.map π = 0
+      change (f - g) ≫ DerivedCategory.Q.map π = 0
       rw [Preadditive.sub_comp]
       exact sub_eq_zero.mpr hfg
     obtain ⟨b, hb⟩ := Triangle.coyoneda_exact₂ _ hT (f - g) hfg'

@@ -167,7 +167,7 @@ theorem inverseImageFiberComparison_eq :
     (Equiv.apply_symm_apply _ _).symm
   rw [hk] at h
   refine Eq.trans ?_ h
-  show _ = _ ≫ (etaleSitePoint B S hS X.1 x X.2).sheafFiber.map (𝟙 _) ≫ 𝟙 _
+  change _ = _ ≫ (etaleSitePoint B S hS X.1 x X.2).sheafFiber.map (𝟙 _) ≫ 𝟙 _
   rw [CategoryTheory.Functor.map_id]
   exact (Category.comp_id _).symm.trans (Category.comp_id _).symm
 

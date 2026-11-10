@@ -75,7 +75,7 @@ theorem PreservesInfinityGysinImage.bivariantTransport {m : ℤ}
     (testBaseChangeMapOfEq_modificationBaseChangeOver _ _ _ hT) _ β', ?_⟩
   rw [modificationInfinityGysin_chowPush_testBaseChangeMapOfEq, ← hβ', bivariantTransport_cap,
     bivariantTransportCap_apply]
-  show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) =
+  change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) =
     chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _)
   rw [chowPush_comp C _ _ _ _ _ _ rfl, chowPush_comp C _ _ _ _ _ _ rfl]
   · refine chowPush_congr C _ _ ?_ _ _ _ _

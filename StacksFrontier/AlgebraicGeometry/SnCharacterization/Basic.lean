@@ -115,7 +115,7 @@ public theorem isIso_lift_to_seminormalization_iff_isSeminormalRing
   let S := seminormalizationAlgebraObject A
   let terminal := seminormalizationAlgebraObject_isTerminal A
   let f : T ⟶ S := terminal.from T
-  show IsIso f ↔ IsSeminormalRing B
+  change IsIso f ↔ IsSeminormalRing B
   have hS : IsSeminormalRing S.obj := isSeminormalRing_of_isTerminal A S terminal
   refine ⟨fun hf => ?_, fun hB => ?_⟩
   · let e : B ≃ₐ[A] S.obj := CommAlgCat.algEquivOfIso ((ObjectProperty.ι C).mapIso (asIso f))

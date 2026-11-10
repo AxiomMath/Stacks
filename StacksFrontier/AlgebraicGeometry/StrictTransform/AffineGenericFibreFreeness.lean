@@ -84,7 +84,7 @@ Bl_ℐ(S)`, so a point `z` generic in its fibre is `j w` for one of those charts
 corresponding to `w` is then identified with the extension of the prime below it, which is the
 prime at which the hypothesis speaks. -/
 private theorem freeNearFibreGeneric_of_forall_chartFreeOfRank {X S : Scheme.{u}} [IsAffine X]
-    [IsAffine S] (f : X ⟶ S) (F : X.Modules) [F.IsQuasicoherent] (M : ModuleCat.{u} Γ(X, ⊤))
+    [IsAffine S] (f : X ⟶ S) (F : X.Modules) [F.IsQuasicoherent]
     (r : ℕ) [Algebra Γ(S, ⊤) Γ(X, ⊤)]
     (halg : (algebraMap Γ(S, ⊤) Γ(X, ⊤) : Γ(S, ⊤) →+* Γ(X, ⊤)) = f.appTop.hom)
     [Module.Flat Γ(S, ⊤) Γ(X, ⊤)]
@@ -96,7 +96,7 @@ private theorem freeNearFibreGeneric_of_forall_chartFreeOfRank {X S : Scheme.{u}
     (hchart : ∀ (a : Γ(S, ⊤)) (ha : a ∈ I),
       letI : Fact (a ∈ I) := ⟨ha⟩
       ∀ q' : Ideal (Blowup I a), q'.IsPrime →
-        ChartFreeOfRank f F M (CommRingCat.of (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a))
+        ChartFreeOfRank f F (CommRingCat.of (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a))
           (CommRingCat.ofHom (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a)))
           (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a) (f.appTop.hom a)) r
           (Ideal.map Algebra.TensorProduct.includeRight q')) :
@@ -163,7 +163,7 @@ private theorem freeNearFibreGeneric_of_forall_chartFreeOfRank {X S : Scheme.{u}
   have hclos' : v₂ ∈ closure ({w} : Set (Spec (CommRingCat.of B))) := by
     rw [← hpre, ← j.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage
       j.base.hom.continuous]
-    show j v₂ ∈ closure ({j.base w} : Set (baseChange f (blowUpToBase ℐ)))
+    change j v₂ ∈ closure ({j.base w} : Set (baseChange f (blowUpToBase ℐ)))
     rwa [hw]
   have hge : w.asIdeal ≤ Ideal.map ι t'.asIdeal :=
     (PrimeSpectrum.le_iff_mem_closure (R := B) w v₂).mpr hclos'
@@ -226,7 +226,7 @@ public theorem freeNearFibreGeneric_blowUp_of_affine
   have hid : (Scheme.IdealSheafData.ofIdealTop I).ideal ⟨⊤, isAffineOpen_top S⟩ = I := by
     simp
   refine ⟨Scheme.IdealSheafData.ofIdealTop I, fun U ↦ ?_, fun q hq ↦ ?_,
-    freeNearFibreGeneric_of_forall_chartFreeOfRank f F M r halg hfibre _ I hid hchart⟩
+    freeNearFibreGeneric_of_forall_chartFreeOfRank f F r halg hfibre _ I hid hchart⟩
   · rw [Scheme.IdealSheafData.ofIdealTop_ideal]
     exact hIfg.map _
   · rw [hid]

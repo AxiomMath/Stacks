@@ -82,6 +82,7 @@ section Quadruple
 variable {B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks (BigFppfOver B S hS)` times out at the default limit
 /-- Pullbacks in the big fppf site over `S` (instance search times out without this shortcut). -/
 local instance hasPullbacks_bigFppfOver_AffineQuadrupleGeometricPoint :
     HasPullbacks (BigFppfOver B S hS) := inferInstance
@@ -99,7 +100,7 @@ private theorem representedSpaceMap_comp_eq_homMk_comp {V U : BigFppfOver B S hS
     (hf₀ : yoneda.map f₀ = m ≫ (pullback.fst b f).hom) :
     representedSpaceMap B S hS f₀ ≫ b = ObjectProperty.homMk (m ≫ (pullback.snd b f).hom) ≫ f := by
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map f₀ ≫ b.hom = (m ≫ (pullback.snd b f).hom) ≫ f.hom
+  change yoneda.map f₀ ≫ b.hom = (m ≫ (pullback.snd b f).hom) ≫ f.hom
   rw [hf₀, Category.assoc, Category.assoc]
   exact congrArg (fun k => m ≫ k.hom) (pullback.condition (f := b) (g := f))
 
@@ -150,11 +151,11 @@ private theorem exists_geometricPoint_map_lift_eq {X Y X' Y' : AlgebraicSpaces B
       ((congrArg (geometricPointMap (pullback.fst b g).hom) hv'₀).trans hr₁).symm
   refine ⟨x'', geometricPoint_eq_of_isPullback B S hS
     (AlgebraicSpaces.isPullback_hom B S hS sq) _ _ ?_ ?_⟩
-  · show geometricPointMap (sq.lift _ _ hlift ≫ g').hom x'' = _
+  · change geometricPointMap (sq.lift _ _ hlift ≫ g').hom x'' = _
     rw [sq.lift_fst]
     exact (congrArg (fun z => geometricPointMap (pullback.snd b f).hom (geometricPointMap m z))
       hx₁).trans ((congrArg (geometricPointMap (pullback.snd b f).hom) hu₀).trans hp₂)
-  · show geometricPointMap (sq.lift _ _ hlift ≫ f').hom x'' = _
+  · change geometricPointMap (sq.lift _ _ hlift ≫ f').hom x'' = _
     rw [sq.lift_snd]
     exact (congrArg (fun z => geometricPointMap (pullback.snd b g).hom (geometricPointMap n z))
       hx₂).trans ((congrArg (geometricPointMap (pullback.snd b g).hom) hv'₀).trans hr₂)

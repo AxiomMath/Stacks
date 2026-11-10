@@ -51,7 +51,8 @@ to `AlgebraicGeometry.Scheme.etalePrecoverage_le_fppfPrecoverage` and
 
 The chosen covering families of a big fppf site are stable under base change in Mathlib's
 strict sense (`CategoryTheory.Precoverage.IsStableUnderBaseChange`), even though a different
-choice of fibre products gives a different presieve, and the étale case is proved: `IsStableUnderBaseChange` asks only that the base-changed presieve
+choice of fibre products gives a different presieve, and the étale case is proved:
+`IsStableUnderBaseChange` asks only that the base-changed presieve
 be presented by *some* chosen family, and a combinatorially equivalent chosen family has the
 *same* presieve, so
 `AlgebraicGeometry.Space.exists_chosen_etaleCovering` supplies it. See

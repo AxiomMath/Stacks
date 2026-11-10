@@ -92,8 +92,7 @@ private theorem support_tensorProduct_subset_left {A : Type u} [CommRing A]
   have hnotM : ∀ m : M, ∃ r ∉ p.asIdeal, r • m = 0 := Module.notMem_support_iff'.mp hM
   refine (Module.notMem_support_iff'.mpr ?_) hp
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, p.asIdeal.primeCompl.one_mem, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
       obtain ⟨r, hr, hrm⟩ := hnotM m
       exact ⟨r, hr, by simp [TensorProduct.smul_tmul', hrm]⟩
@@ -130,7 +129,7 @@ private theorem supportModuleProperty_tensorComplex_X {A : Type u} [CommRing A]
     {T : Set (PrimeSpectrum A)} (P J : CochainComplex (ModuleCat.{max u v} A) ℤ)
     (hP : ∀ n, supportModuleProperty A T (P.X n)) (n : ℤ) :
     supportModuleProperty A T ((tensorComplex.{u, v} P J).X n) := by
-  show supportModuleProperty A T (∐ _)
+  change supportModuleProperty A T (∐ _)
   refine (supportModuleProperty A T).prop_colimit _ (fun i ↦ ?_)
   exact supportModuleProperty_tensorObj (hP _)
 
@@ -502,10 +501,10 @@ private theorem bijective_comp_augmentation_of_supported (hT : StableUnderSpecia
       hff.homEquiv.apply_symm_apply (𝟙 (G.obj X) ≫ f ≫ (c.app K).symm.hom)
     dsimp only [Equiv.trans_apply, Iso.homCongr_apply, Iso.refl_inv]
     rw [Adjunction.homEquiv_counit]
-    show f ≫ (derivedSectionsWithSupportInAugmentation.{u, v} A T).app K =
+    change f ≫ (derivedSectionsWithSupportInAugmentation.{u, v} A T).app K =
       G.map (hff.homEquiv.symm (𝟙 (G.obj X) ≫ f ≫ (c.app K).symm.hom)) ≫ adj.counit.app K
     rw [hmap, Category.id_comp, Category.assoc]
-    show _ = f ≫ c.inv.app K ≫ adj.counit.app K
+    change _ = f ≫ c.inv.app K ≫ adj.counit.app K
     rw [hcc]
   rw [hkey]
   exact Equiv.bijective _
@@ -554,7 +553,7 @@ private theorem isIso_derivedSectionsWithSupportIn_map_of_closed
         (Dualizing.derivedPowerTorsionProperty A I
           (Ideal.fg_of_isNoetherianRing I)).ι).map f) := by
       have := hf I hI
-      show IsIso ((Dualizing.derivedPowerTorsionProperty A I
+      change IsIso ((Dualizing.derivedPowerTorsionProperty A I
         (Ideal.fg_of_isNoetherianRing I)).ι.map
         ((Dualizing.localCohomologyFunctor.{u, max u v} A I
           (Ideal.fg_of_isNoetherianRing I)).map f))
@@ -571,14 +570,14 @@ private theorem isIso_derivedSectionsWithSupportIn_map_of_closed
       IsIso (((closedSupportDiagram.{u, v} A T n).map f).app J) := by
     intro J
     have := hclosed (OrderDual.ofDual J).1 (OrderDual.ofDual J).2
-    show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) n).map
+    change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) n).map
       ((derivedSectionsWithSupportIn.{u, v} A (ClosedSupportIdeal.support A J)).map f))
     infer_instance
   have hdiag : IsIso ((closedSupportDiagram.{u, v} A T n).map f) :=
     NatIso.isIso_of_isIso_app _
   have hcol : IsIso ((closedSupportDiagram.{u, v} A T n ⋙ colim).map f) := by
     have := hdiag
-    show IsIso (colim.map ((closedSupportDiagram.{u, v} A T n).map f))
+    change IsIso (colim.map ((closedSupportDiagram.{u, v} A T n).map f))
     infer_instance
   have hκ := colimitClosedSupportComparison_isIso.{u, v} A T hT n
   have hκX : IsIso ((colimitClosedSupportComparison.{u, v} A T n).app X) :=
@@ -603,7 +602,7 @@ private theorem bifunctorMap_fst (A : Type u) [CommRing A]
     (CechFormula.derivedTensorProductBifunctor A).map
         ((f, 𝟙 L) : (X, L) ⟶ (Y, L)) =
       ((canonicalDerivedTensorProductFunctor A).map f).app L := by
-  show ((canonicalDerivedTensorProductFunctor A).map f).app L ≫
+  change ((canonicalDerivedTensorProductFunctor A).map f).app L ≫
     ((canonicalDerivedTensorProductFunctor A).obj Y).map (𝟙 L) = _
   rw [CategoryTheory.Functor.map_id]
   exact Category.comp_id _
@@ -658,7 +657,7 @@ private theorem exists_supported_comparison {C : Type*} [Category C]
   dsimp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, asIso_inv, NatTrans.comp_app,
     Functor.whiskerRight_app, Functor.whiskerLeft_app]
   rw [NatIso.isIso_inv_app]
-  show (CategoryTheory.inv (R.map (τ.app X)) ≫ ε.app (F.obj X)) ≫ τ.app X = ε.app (G.obj X)
+  change (CategoryTheory.inv (R.map (τ.app X)) ≫ ε.app (F.obj X)) ≫ τ.app X = ε.app (G.obj X)
   have hn : R.map (τ.app X) ≫ ε.app (G.obj X) = ε.app (F.obj X) ≫ τ.app X :=
     ε.naturality (τ.app X)
   rw [Category.assoc, ← hn, IsIso.inv_hom_id_assoc]
@@ -946,7 +945,7 @@ theorem exists_derivedSectionsWithSupportIn_isoTensorUnit
         bifunctorMap_fst A (ε.app U) K] at h
     have := hlam
     have := hleft
-    show IsIso (R.map ((F.map (ε.app U)).app K ≫
+    change IsIso (R.map ((F.map (ε.app U)).app K ≫
       (CechFormula.derivedTensorLeftUnitor A).hom.app K))
     rw [R.map_comp]
     infer_instance

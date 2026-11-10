@@ -154,9 +154,9 @@ theorem infinitesimalAutomorphisms_spaceDeformation_eq_top
   set r := (canonicalRetraction hp g e hpair.split i hi).1
   apply Over.OverMorphism.ext
   apply FlatAlgebraicSpaceFamily.Hom.ext
-  · show a.asIso.hom.val.left.base ≫ r.left.base = r.left.base
+  · change a.asIso.hom.val.left.base ≫ r.left.base = r.left.base
     rw [spaceFiberEnd_base_eq_id, Category.id_comp]
-  · show r.left.map ≫ a.asIso.hom.val.left.map = r.left.map
+  · change r.left.map ≫ a.asIso.hom.val.left.map = r.left.map
     refine (cancel_epi (spaceSpecialMap B hΛ hSpec X hX toK x₀.1)).mp ?_
     rw [← Category.assoc, spaceSpecialMap_comp B hΛ hSpec X hX toK r,
       spaceSpecialMap_comp B hΛ hSpec X hX toK a.asIso.hom.val]

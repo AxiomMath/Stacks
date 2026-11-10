@@ -47,7 +47,7 @@ def coprimeFactorIndex (p : N.primeFactors) : CoprimePrimes q :=
 
 /-- **The reduction `Ẑ^(q) → ℤ/N`**, through the Chinese remainder theorem. -/
 def restrictedMod : RestrictedProfiniteIntegers q →+* ZMod N :=
-  (ZMod.equivPi N hN).symm.toRingHom.comp (Pi.ringHom fun p : N.primeFactors ↦
+  (ZMod.equivPi N hN).symm.toRingHom.comp (RingHom.pi fun p : N.primeFactors ↦
     (PadicInt.toZModPow (p := (coprimeFactorIndex q N hcop p).1) (N.factorization p)).comp
       (Pi.evalRingHom _ (coprimeFactorIndex q N hcop p)))
 
@@ -90,13 +90,13 @@ theorem continuous_restrictedMod : Continuous (restrictedMod q N hN hcop) := by
         PadicInt.toZModPow (N.factorization p) (z (coprimeFactorIndex q N hcop p))}, ?_, ?_,
     fun p ↦ rfl⟩
   · intro w hw
-    show restrictedMod q N hN hcop w = a
+    change restrictedMod q N hN hcop w = a
     rw [← show restrictedMod q N hN hcop z = a from hz]
     exact eq_of_castHom_eq N hN fun p ↦ by
       rw [castHom_restrictedMod, castHom_restrictedMod, hw p]
-  · rw [Set.setOf_forall]
+  · rw [Set.ofPred_forall]
     refine isOpen_iInter_of_finite fun p ↦ ?_
-    show IsOpen ((fun w : RestrictedProfiniteIntegers q ↦ w (coprimeFactorIndex q N hcop p)) ⁻¹'
+    change IsOpen ((fun w : RestrictedProfiniteIntegers q ↦ w (coprimeFactorIndex q N hcop p)) ⁻¹'
       {y | PadicInt.toZModPow (N.factorization p) y =
         PadicInt.toZModPow (N.factorization p) (z (coprimeFactorIndex q N hcop p))})
     exact (isOpen_fiber_toZModPow (coprimeFactorIndex q N hcop p).1 (N.factorization p) _).preimage

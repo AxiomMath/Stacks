@@ -79,7 +79,7 @@ theorem isLocalization_atPrime_quotient {J Q : Ideal C} [Q.IsPrime] (hJQ : J ≤
       (Localization.AtPrime Q ⧸ J.map (algebraMap C (Localization.AtPrime Q)))
       (Q.map (Ideal.Quotient.mk J)) := by
   have := isPrime_map_quotient hJQ
-  show IsLocalization (Q.map (Ideal.Quotient.mk J)).primeCompl _
+  change IsLocalization (Q.map (Ideal.Quotient.mk J)).primeCompl _
   rw [← algebraMapSubmonoid_primeCompl_quotient hJQ]
   infer_instance
 
@@ -201,7 +201,7 @@ theorem exists_notMem_smul_ker_lTensor_eq_zero (b : Ideal B) (q : Ideal C) [q.Is
     exact ⟨r.1, r.2, Subtype.ext hr⟩
   have hsupp : (⟨q, inferInstance⟩ : PrimeSpectrum C) ∉ Module.support C K :=
     Module.notMem_support_iff'.mpr hloc
-  rw [Module.mem_support_iff_of_finite, SetLike.not_le_iff_exists] at hsupp
+  rw [Module.mem_support_iff_of_finite, IsConcreteLE.not_le_iff_exists] at hsupp
   obtain ⟨s, hs, hsq⟩ := hsupp
   exact ⟨s, hsq, fun x hx => congrArg Subtype.val (Module.mem_annihilator.mp hs ⟨x, hx⟩)⟩
 
@@ -236,7 +236,7 @@ theorem flat_localization_atPrime_of_smul_ker_eq_zero (b : Ideal B) {s : C}
     have h2 : s • u'.1 • x = 0 := hs _ (by rw [LinearMap.mem_ker, map_smul]; exact hu')
     apply IsLocalizedModule.smul_injective (AlgebraTensorModule.rTensor B b gQ)
       (⟨s, hsQ⟩ * u' * u)
-    show (s * u'.1 * u.1) • y = (s * u'.1 * u.1) • 0
+    change (s * u'.1 * u.1) • y = (s * u'.1 * u.1) • 0
     rw [smul_zero, mul_smul, mul_smul, hxu, ← map_smul, ← map_smul, h2, map_zero]
   have hinjr : Function.Injective (b.subtype.rTensor CQ) := by
     rw [← LinearMap.lTensor_inj_iff_rTensor_inj, ← AlgebraTensorModule.coe_lTensor (A := C)]

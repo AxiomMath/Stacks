@@ -137,7 +137,7 @@ public theorem trivialComparison_comp (M : SiteModule A B) :
       (trivialDeformation A B S hS toS hA p x hx hp M).1.hom
       (underFiber_isHomLift p hx (squareZeroArrow A B S hS toS hA M)
         (trivialDeformation A B S hS toS hA p x hx hp M))
-  show (trivialDeformation A B S hS toS hA q (F.obj x)
+  change (trivialDeformation A B S hS toS hA q (F.obj x)
         (oneMorphism_obj_eq A B S hS toS hA p q F hF x hx) hq M).1.hom ≫
       trivialComparison A B S hS toS hA p q F hF x hx hp hq M =
     F.map (trivialDeformation A B S hS toS hA p x hx hp M).1.hom

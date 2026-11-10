@@ -22,7 +22,7 @@ satisfying `AlgebraicGeometry.Space.IsCutoffBoundedSystem` in place of the bound
 category by the cofinality of the cutoff which the registered forms in
 `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationDescent` ask for. It uses the
 affine charts of
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.CutoffBoundedFinitePresentationDescent.AffineCharts`,
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.CutoffBoundedFinitePresentationDescent.AffineCharts`
 and proves the descent of monomorphisms and of lifts through a pair of morphisms which the
 essential surjectivity uses.
 
@@ -217,7 +217,7 @@ public theorem exists_morphism_after_baseChange
       · simp [Yj, Yk, q, A, m, η, l, pK, iteratedBaseChangeIso_hom_left,
           iteratedBaseChangeIso_inv_left, Over.mk_hom, Category.assoc]
     have hEq : q ≫ A.hom.left ≫ (m ≫ raw) = q ≫ A.hom.left ≫ f₀ := by
-      show q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
+      change q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
       have hh := congrArg (fun t => t ≫ gK) hl
       simp only [Category.assoc, hgK] at hh
       rw [hh]

@@ -225,21 +225,21 @@ private theorem pullback_comp_ker_sq {P A B R : Type u} [CommRing P] [CommRing A
         (fun φ : CommRingCat.of P ⟶ CommRingCat.of R => φ.hom x) hsq.w
       simpa using heq
     have hxA : f x ∈ RingHom.ker h := by
-      show h (f x) = 0
+      change h (f x) = 0
       change (h.comp f) x = 0 at hx
       exact hx
     have hyA : f y ∈ RingHom.ker h := by
-      show h (f y) = 0
+      change h (f y) = 0
       change (h.comp f) y = 0 at hy
       exact hy
     have hxB : g x ∈ RingHom.ker k := by
-      show k (g x) = 0
-      show (k.comp g) x = 0
+      change k (g x) = 0
+      change (k.comp g) x = 0
       rw [← hcomp]
       exact hx
     have hyB : g y ∈ RingHom.ker k := by
-      show k (g y) = 0
-      show (k.comp g) y = 0
+      change k (g y) = 0
+      change (k.comp g) y = 0
       rw [← hcomp]
       exact hy
     have hxyA := ker_sq_mul_eq_zero h hA hxA hyA
@@ -370,7 +370,7 @@ public theorem overSiteObj_post (B : AlgebraicGeometry.BigFppfSite.{u})
     (Over.post B.inclusion).obj (overSiteObj B S hS A hA) = A := by
   dsimp [overSiteObj, Over.post]
   congr 1
-  show B.inclusion.map (B.inclusion.preimage
+  change B.inclusion.map (B.inclusion.preimage
     (show B.inclusion.obj (B.obj hA) ⟶ B.inclusion.obj (B.obj hS) from A.hom)) =
       (show B.inclusion.obj (B.obj hA) ⟶ B.inclusion.obj (B.obj hS) from A.hom)
   exact B.inclusion.map_preimage _
@@ -420,13 +420,13 @@ public theorem overSiteHom_post (B : AlgebraicGeometry.BigFppfSite.{u})
         eqToHom (overSiteObj_post B S hS T hT).symm := by
   apply Over.OverMorphism.ext
   simp only [Over.comp_left, Over.eqToHom_left]
-  show B.inclusion.map (B.inclusion.preimage
+  change B.inclusion.map (B.inclusion.preimage
     (X := B.obj hA) (Y := B.obj hT) (show _ ⟶ _ from f.left)) =
       (eqToHom (congrArg Over.left (overSiteObj_post B S hS A hA))) ≫
       f.left ≫
       (eqToHom (congrArg Over.left (overSiteObj_post B S hS T hT).symm))
   simp only [B.inclusion.map_preimage]
-  show f.left = (eqToHom (show A.left = A.left from rfl)) ≫
+  change f.left = (eqToHom (show A.left = A.left from rfl)) ≫
     f.left ≫ (eqToHom (show T.left = T.left from rfl))
   simp
 
@@ -463,11 +463,11 @@ public theorem affineSiteHom_toScheme (B : AlgebraicGeometry.BigFppfSite.{u})
     [IsAffine A.left] [IsAffine T.left] (f : A ⟶ T) :
     (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map
       (affineSiteHom B S hS (hA := hA) (hT := hT) f) = f.left := by
-  show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
+  change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
     ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map
       (affineSiteHom B S hS (hA := hA) (hT := hT) f)) = f.left
   rw [affineSiteHom_inclusion]
-  show B.inclusion.map (B.inclusion.preimage
+  change B.inclusion.map (B.inclusion.preimage
     (X := B.obj hA) (Y := B.obj hT) (show _ ⟶ _ from f.left)) = f.left
   exact B.inclusion.map_preimage _
 
@@ -485,7 +485,7 @@ public theorem affineSiteHom_comp (B : AlgebraicGeometry.BigFppfSite.{u})
   apply (Over.post B.inclusion).map_injective
   apply Over.OverMorphism.ext
   simp only [Functor.map_comp, Over.comp_left]
-  show (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map
+  change (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map
       (affineSiteHom B S hS (hA := hA) (hT := hT) f) ≫
       (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map
         (affineSiteHom B S hS (hA := hT) (hT := hR) g) =
@@ -653,7 +653,7 @@ private theorem pushoutOver_base_firstOrder
     isClosedImmersion_pushout_inl_of_isAffine f.left g.left hg.isThickening
   have hclosed : IsClosedImmersion (f.left ≫ inl.left) := by
     let := hinl
-    show IsClosedImmersion (f.left ≫ pushout.inl f.left g.left)
+    change IsClosedImmersion (f.left ≫ pushout.inl f.left g.left)
     infer_instance
   have hsq := pushoutOver_appTop_isPullback U A T f g
   have hsqRing : IsPullback (CommRingCat.ofHom inr.left.appTop.hom)
@@ -881,7 +881,7 @@ private theorem fiberSquareComparison_iso_fac
     Functor.Fiber.fiberInclusion.map
         ((fiberSquareComparison p c f g i j h).obj z).iso.hom ≫
       c.map g (c.obj j z) ≫ c.map j z = c.map f (c.obj i z) ≫ c.map i z := by
-  show Functor.Fiber.fiberInclusion.map
+  change Functor.Fiber.fiberInclusion.map
     ((c.objCompIso f i z).inv ≫
       (eqToIso (congrArg c.pullbackFunctor h)).hom.app z ≫
       (c.objCompIso g j z).hom) ≫ _ = _
@@ -1083,10 +1083,10 @@ public theorem affineSiteHom_actual_lift
     (overSiteObj_post_inverse B S hS (p.obj x)).symm
     (overSiteObj_post_inverse B S hS (p.obj y)).symm
   apply (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
-  show (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map _ = _
+  change (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map _ = _
   rw [affineSiteHom_toScheme]
   simp only [Functor.map_comp, eqToHom_map]
-  show ((p ⋙ Over.post B.inclusion).map f).left =
+  change ((p ⋙ Over.post B.inclusion).map f).left =
     eqToHom (show ((p ⋙ Over.post B.inclusion).obj x).left = _ from rfl) ≫
       ((p ⋙ Over.post B.inclusion).map f).left ≫ eqToHom (show _ = _ from rfl)
   rfl
@@ -1325,7 +1325,7 @@ private theorem exists_extension_by_pushout
     exists_compatible_maps_over_square B S hS p hp hRS α β P hP i j hc
       (pushoutOver_appTop_isPullback U A T fα gβ).flip hβ
   have hcomp : (q.map (α ≫ ai)).left ≫ eqToHom e = fα.left ≫ i.left := by
-    show (q.map (α ≫ ai)).left ≫ eqToHom e = (q.map α).left ≫ i.left
+    change (q.map (α ≫ ai)).left ≫ eqToHom e = (q.map α).left ≫ i.left
     rw [q.map_comp, Over.comp_left, Category.assoc]
     exact congrArg ((q.map α).left ≫ ·) hai
   have hpoint : eqToHom e ((q.map (α ≫ ai)).left u₀) = j.left (gβ.left u₀) := by
@@ -1398,10 +1398,10 @@ public theorem exists_sequence_firstOrderThickenings_without_localRetraction
   let q : F ⥤ Over S := p ⋙ Over.post B.inclusion
   cases hx
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (p.obj x)) := by
-    show IsAffine (q.obj x).left
+    change IsAffine (q.obj x).left
     infer_instance
   let : LocallyOfFiniteType ((Over.post B.inclusion).obj (p.obj x)).hom := by
-    show LocallyOfFiniteType (q.obj x).hom
+    change LocallyOfFiniteType (q.obj x).hom
     infer_instance
   let V := AlgebraicGeometry.BigFppfOver.toScheme B S hS
   let Pr : ∀ {a : F}, (x ⟶ a) → Prop := fun {_} α =>
@@ -1447,7 +1447,7 @@ public theorem exists_sequence_firstOrderThickenings_without_localRetraction
       hexact.2 hbad
   choose nextObj nextMap nextFirst nextGood using hnext
   have hId : Pr (𝟙 x) := by
-    show Stacks.Thickenings.IsFirstOrderThickening (q.map (𝟙 x)).left
+    change Stacks.Thickenings.IsFirstOrderThickening (q.map (𝟙 x)).left
     have hid : (q.map (𝟙 x)).left = 𝟙 (q.obj x).left :=
       congrArg (fun f : q.obj x ⟶ q.obj x => f.left) (q.map_id x)
     rw [hid]

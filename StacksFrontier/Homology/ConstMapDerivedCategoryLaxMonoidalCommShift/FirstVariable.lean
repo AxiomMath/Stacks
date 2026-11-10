@@ -320,7 +320,7 @@ private lemma idFst2 (hle : kFlatComplexes (curriedTensor D) ≤ kFlatComplexesL
       K = 𝟙 _ := rfl
   exact idComp5 (by rfl)
       (by rfl)
-      (by first | rfl | (simp [h]; try rfl))
+      (by first | (simp [h]))
       (by rfl)
       (by rfl)
 
@@ -377,7 +377,7 @@ private lemma idFst3 (hle : kFlatComplexes (curriedTensor D) ≤ kFlatComplexesL
         (fun K => kFlatLeft_of_kFlat _ (kFlat_constMapHomologicalComplex K.obj K.property))).hom.app
       K = 𝟙 _ := rfl
   exact idComp4 (by rfl)
-      (by first | rfl | (simp [h]; try rfl))
+      (by first | (simp [h]; try rfl))
       (by rfl)
       (by rfl)
 
@@ -459,8 +459,8 @@ private lemma idFst5 (hle : kFlatComplexes (curriedTensor D) ≤ kFlatComplexesL
   have h : (ObjectProperty.ιOfLECompιIso hle).inv.app K = 𝟙 _ := rfl
   exact idComp4 (by rfl)
       (by rfl)
-      (by first | rfl | (simp [h]; try rfl))
-      (by first | rfl | (simp; try rfl))
+      (by first | (simp [h]))
+      (by first | (simp))
 
 omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
@@ -506,11 +506,12 @@ private lemma idFst6 (hle : kFlatComplexes (curriedTensor D) ≤ kFlatComplexesL
   let := fun M : DerivedCategory (J ⥤ D) =>
     derivedMonoidal_tensorRight_commShift (J ⥤ D) hresJD M
   have h : (ObjectProperty.ιOfLECompιIso hle).hom.app K = 𝟙 _ := rfl
-  exact idComp4 (by first | rfl | (simp; try rfl))
-      (by first | rfl | (simp; try rfl))
-      (by first | rfl | (simp [h]; try rfl))
+  exact idComp4 (by first | (simp))
+      (by first | (simp))
+      (by first | (simp [h]))
       (by rfl)
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **The tensorator, whiskered to the K-flat complexes and read in the first variable, IS the
 reassociated chain**: componentwise this is
@@ -693,6 +694,7 @@ private theorem keyFst
     (congrArg ((Functor.const J : D ⥤ (J ⥤ D)).mapDerivedCategory).map (congrArg Iso.inv hiso))
     (Functor.mu_constMapDerivedCategory_eq hresD hresJD K.property L.property)
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **The tensorator of the derived constant diagram, read in the first variable at the image of a
 K-flat complex, commutes with the shift.** -/

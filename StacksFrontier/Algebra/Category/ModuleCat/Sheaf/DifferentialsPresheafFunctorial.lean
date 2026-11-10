@@ -226,7 +226,7 @@ theorem inducedMap_comp {O₁ O₂ O₁' O₂' O₁'' O₂'' : PreRing X}
   intro U f
   have h1 := inducedMap_comp_d hΩ d' φ ψ hcomm (U := U) f
   have h2 := inducedMap_comp_d hΩ' d'' φ' ψ' hcomm' (U := U) ((φ.app U).hom f)
-  show (ConcreteCategory.hom ((inducedMap hΩ' d'' φ' ψ' hcomm').app U))
+  change (ConcreteCategory.hom ((inducedMap hΩ' d'' φ' ψ' hcomm').app U))
       ((ConcreteCategory.hom ((inducedMap hΩ d' φ ψ hcomm).app U)) (d.d f)) = _
   rw [h1, h2]
   rfl

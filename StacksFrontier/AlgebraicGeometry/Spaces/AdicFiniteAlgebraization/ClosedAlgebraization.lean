@@ -180,7 +180,7 @@ theorem exists_closedSubspace_algebraization_of_existence [IsNoetherianRing A]
     have hh : h.hom ≫ adicFibreMap A I B hA (contains_adicThickening A I B hA) j.hom rfl n =
         pullback.snd j.hom ιn.hom :=
       (IsPullback.of_hasPullback j.hom ιn.hom).isoIsPullback_hom_snd _ _ hsq
-    show e'.hom.hom ≫ h.hom ≫
+    change e'.hom.hom ≫ h.hom ≫
         adicFibreMap A I B hA (contains_adicThickening A I B hA) j.hom rfl n = (z n).hom
     exact (congrArg (e'.hom.hom ≫ ·) hh).trans (congrArg (·.hom) he')
   choose e he using hn

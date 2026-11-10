@@ -153,6 +153,7 @@ def biconeMapIsoIsBilimit {C : Type*} [Category C] [Preadditive C] {J : Type} [F
     change ∑ j : J, (c.π j ≫ (w j).hom) ≫ (w j).inv ≫ c.ι j = 𝟙 c.pt
     simpa using CategoryTheory.Limits.IsBilimit.total hc)
 
+omit [IsNoetherianRing A] in
 include hamp htw in
 /-- If `𝒪(d)` is ample, then for a coherent `𝒪_{Proj 𝒜}`-module `ℱ` there are an `r`, exponents
 `dⱼ` for `j < r`, a bilimit bicone over the twisting sheaves `𝒪(dⱼ)` and an epimorphism from its
@@ -171,6 +172,7 @@ theorem exists_epi_biproduct_twistingSheaf_of_isCoherent
     biconeMapIsoIsBilimit ((Bicone.whiskerIsBilimitIff b e).symm hb)
       (fun j => htw (dj (e j))), φ, hφ⟩
 
+omit [IsNoetherianRing A] in
 include hamp htw in
 /-- If `𝒪(d)` is ample, then every coherent `𝒪_{Proj 𝒜}`-module is the target of an epimorphism
 from a finite direct sum of twisting sheaves. -/

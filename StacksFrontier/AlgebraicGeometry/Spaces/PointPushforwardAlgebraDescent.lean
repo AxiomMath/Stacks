@@ -135,7 +135,7 @@ theorem arrowsCompatible_of_sectionsCompatible (V : SmallEtale B S hS X.1)
   let q : Over.mk z ⟶ Q j := mk j mj hzj
   have hpq : p ≫ ι i = q ≫ ι j := by
     refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-    show (yoneda.map mi ≫ (hQ i).fst V.obj.hom) ≫ (ι i).left.hom =
+    change (yoneda.map mi ≫ (hQ i).fst V.obj.hom) ≫ (ι i).left.hom =
       (yoneda.map mj ≫ (hQ j).fst V.obj.hom) ≫ (ι j).left.hom
     rw [Category.assoc, Category.assoc,
       ← yoneda_map_smallBaseChangeOverMap_fst B S hS (ι i) (hQ i) hP V,
@@ -145,7 +145,7 @@ theorem arrowsCompatible_of_sectionsCompatible (V : SmallEtale B S hS X.1)
     relativelyRepresentable_of_isAlgebraicSpace B S hS X.2 zh
   have hcond : 𝟙 (yoneda.obj W) ≫ (Over.mk z).hom.hom =
       yoneda.map (mi ≫ (hQ i).snd V.obj.hom) ≫ V.obj.hom := by
-    show 𝟙 (yoneda.obj W) ≫ zh = _
+    change 𝟙 (yoneda.obj W) ≫ zh = _
     rw [Category.id_comp, Functor.map_comp, Category.assoc, ← (hQ i).w]
   let sec : W ⟶ hZ.pullback V.obj.hom := hZ.lift (𝟙 _) (mi ≫ (hQ i).snd V.obj.hom) hcond
   have hs : ∀ (k : I) (m : W ⟶ (hQ k).pullback V.obj.hom) (h : _),
@@ -162,7 +162,7 @@ theorem arrowsCompatible_of_sectionsCompatible (V : SmallEtale B S hS X.1)
     (hb i j W z p q hpq)
   rw [pushforwardAlgebraSectionsIso_hom_pushforwardRingMap_app B S hS p hZ (hQ i),
     pushforwardAlgebraSectionsIso_hom_pushforwardRingMap_app B S hS q hZ (hQ j)] at key
-  show ((BigFppfOver.toScheme B S hS).map mi).appTop _ =
+  change ((BigFppfOver.toScheme B S hS).map mi).appTop _ =
     ((BigFppfOver.toScheme B S hS).map mj).appTop _
   rw [← hsi, ← hsj, Functor.map_comp, Functor.map_comp, Scheme.Hom.comp_appTop,
     Scheme.Hom.comp_appTop]

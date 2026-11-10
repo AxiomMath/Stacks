@@ -97,11 +97,11 @@ private lemma sectionsWithSupportInFunctor_map_injective
     have hkill (a : I) : a.val • gM = 0 := by
       refine LinearMap.ext_on Submodule.span_span_coe_preimage ?_
       rintro ⟨x, hx'⟩ hx
-      show a.val • (g ⟨x, hx'⟩).val = 0
+      change a.val • (g ⟨x, hx'⟩).val = 0
       exact (Ideal.mem_torsionOf_iff _ _).mp
         (Finset.inf_le (f := τ) (Finset.mem_univ ⟨x, hx⟩) a.property)
     have hmem (y : Submodule.span A s) : gM y ∈ P := by
-      show gM y ∈ Ideal.primaryComponent (M : Type (max u v)) I
+      change gM y ∈ Ideal.primaryComponent (M : Type (max u v)) I
       apply (Ideal.primaryComponent_mem (M := (M : Type (max u v))) I (gM y)).2
       refine ⟨1, ?_⟩
       simp only [Submodule.mem_torsionBySet_iff]
@@ -113,7 +113,7 @@ private lemma sectionsWithSupportInFunctor_map_injective
     obtain ⟨e, he⟩ := Module.Baer.of_injective hP _ (gM.codRestrict P hmem)
     let j : P →ₗ[A] Q := P.subtype.codRestrict Q (fun x => hPQ x.property)
     refine ⟨j.comp e, fun x hx => Subtype.ext ?_⟩
-    show (j (e x)).val = (g ⟨x, hx⟩).val
+    change (j (e x)).val = (g ⟨x, hx⟩).val
     rw [he x hx]
     rfl
   exact hBaer.injective
@@ -237,7 +237,7 @@ theorem exists_localCohomologySpectralSequence
   refine ⟨K, fun n => ?_, hRest⟩
   obtain ⟨hn⟩ := hK n
   refine ⟨hn ≪≫ ?_⟩
-  show _ ≅
+  change _ ≅
     (DerivedCategory.Plus.homologyFunctor (ModuleCat.{max u v} A) n).obj
       ((sectionsWithSupportInFunctor.{u, v} A (T ∩ T')).rightDerivedFunctorPlus.obj X)
   exact (DerivedCategory.Plus.homologyFunctor (ModuleCat.{max u v} A) n).mapIso (e.app X)

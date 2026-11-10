@@ -665,7 +665,7 @@ public theorem existsUnique_restrictedStageGradedDividedPowerPolynomial_map
       rw [hz]
       exact (hg'.2.2.2 n (y : A) hy).symm
     exact isStageLift_agree γ ι δ f h.generator t Finset.Subset.rfl hstage (hF S) x x rfl
-  exact AlgHom.coe_ringHom_injective (hg₀u (g' : A →+* D) hres)
+  exact AlgHom.toRingHom_injective (hg₀u (g' : A →+* D) hres)
 
 end UniversalProperty
 

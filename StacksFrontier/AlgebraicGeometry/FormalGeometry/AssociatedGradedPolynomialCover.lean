@@ -119,7 +119,7 @@ of `V`; this is the functoriality of the structure presheaf. -/
 public lemma baseSectionHom_restrict (A : Type u) [CommRing A] {X : Scheme.{u}}
     (f : X ⟶ Spec (.of A)) {U V : X.Opens} (h : V ≤ U) (g : A) :
     X.presheaf.map (homOfLE h).op (baseSectionHom A f U g) = baseSectionHom A f V g := by
-  show (X.presheaf.map (homOfLE (le_top (a := U))).op ≫ X.presheaf.map (homOfLE h).op)
+  change (X.presheaf.map (homOfLE (le_top (a := U))).op ≫ X.presheaf.map (homOfLE h).op)
     (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom g) = _
   rw [← Functor.map_comp]
   rfl
@@ -330,7 +330,7 @@ public lemma genSectionHom_compatible (i : ι) :
           (Stacks.Blowup.ringSectionToGamma r * baseSectionHom A f U.1 (a i)),
         D.algebraRestrictionPower 1 U V h ⟨_, hUmem⟩⟩ := by
     refine Subtype.ext ?_
-    show X.presheaf.map (homOfLE h).op (Stacks.Blowup.ringSectionToGamma r) *
+    change X.presheaf.map (homOfLE h).op (Stacks.Blowup.ringSectionToGamma r) *
         baseSectionHom A f V.1 (a i) =
       X.presheaf.map (homOfLE h).op
         (Stacks.Blowup.ringSectionToGamma r * baseSectionHom A f U.1 (a i))
@@ -619,7 +619,7 @@ public lemma isPolyImage_pieceClass (U : X.affineOpens) (n : ℕ) (x : A) (hx : 
           rw [algebraPiece_pieceClass, algebraPiece_pieceClass, algebraPiece_pieceClass]
           refine congrArg (AssociatedGraded.mk ((baseIdealSheaf A I f).ideal U) (n + 1))
             (Subtype.ext ?_)
-          show (baseSectionHom A f U.1 y : Γ(X, U.1)) • (baseSectionHom A f U.1 w) = _
+          change (baseSectionHom A f U.1 y : Γ(X, U.1)) • (baseSectionHom A f U.1 w) = _
           rw [smul_eq_mul, ← map_mul]
         rw [hkey] at hmulcov
         exact hmulcov

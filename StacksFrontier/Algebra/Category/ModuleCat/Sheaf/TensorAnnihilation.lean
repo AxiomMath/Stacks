@@ -48,8 +48,7 @@ namespace Stacks.SheafOfModules
 theorem smul_tensorProduct_eq_zero {A : Type*} [CommRing A] {M N : Type*}
     [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N] (b : A)
     (hN : ∀ y : N, b • y = 0) (z : TensorProduct A M N) : b • z = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact smul_zero b
+  induction z using TensorProduct.inductionOn with
   | tmul m n => rw [← TensorProduct.tmul_smul, hN n, TensorProduct.tmul_zero]
   | add z₁ z₂ h₁ h₂ => rw [smul_add, h₁, h₂, add_zero]
 

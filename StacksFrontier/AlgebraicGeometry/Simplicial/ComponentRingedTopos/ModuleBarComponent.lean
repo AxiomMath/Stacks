@@ -221,7 +221,7 @@ theorem sum_moduleBarProjection_comp_moduleBarSummand :
   change ∑ φ : n ⟶ m, Finsupp.single (barLabel φ U.unop) (y (barLabel φ U.unop)) = y
   ext a
   obtain ⟨ψ, rfl⟩ := barLabel_surjective U.unop a
-  rw [Finsupp.finset_sum_apply, Fintype.sum_eq_single ψ]
+  rw [Finsupp.finsetSum_apply, Fintype.sum_eq_single ψ]
   · exact Finsupp.single_eq_same
   · exact fun φ hφ => single_barLabel_apply_barLabel_of_ne hφ U.unop _
 

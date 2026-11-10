@@ -231,8 +231,7 @@ private noncomputable def tensorAssocMap
   apply ModuleCat.hom_ext
   apply TensorProduct.ext
   ext x r
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul p q =>
       change (TensorProduct.assoc ((ringPresheaf 𝒪).obj V)
           (P.obj V) (Q.obj V) (R.obj V))
@@ -265,8 +264,7 @@ private noncomputable def tensorAssocMapInv
   apply ModuleCat.hom_ext
   apply TensorProduct.ext
   ext p x
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul q r =>
       change (TensorProduct.assoc ((ringPresheaf 𝒪).obj V)
           (P.obj V) (Q.obj V) (R.obj V)).symm
@@ -293,10 +291,9 @@ private theorem tensorAssocMap_comp_inv
   apply ModuleCat.hom_ext
   apply TensorProduct.ext
   ext x r
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul p q =>
-      show (TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
+      change (TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
           (P.obj U) (Q.obj U) (R.obj U)).symm
           ((TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
               (P.obj U) (Q.obj U) (R.obj U)) (p ⊗ₜ q ⊗ₜ r)) = p ⊗ₜ q ⊗ₜ r
@@ -316,10 +313,9 @@ private theorem tensorAssocMapInv_comp
   apply ModuleCat.hom_ext
   apply TensorProduct.ext
   ext p x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q r =>
-      show (TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
+      change (TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
           (P.obj U) (Q.obj U) (R.obj U))
           ((TensorProduct.assoc ((ringPresheaf 𝒪).obj U)
               (P.obj U) (Q.obj U) (R.obj U)).symm (p ⊗ₜ (q ⊗ₜ r))) = p ⊗ₜ (q ⊗ₜ r)
@@ -354,10 +350,9 @@ private theorem tensorAssocMap_naturality
   apply ModuleCat.hom_ext
   apply TensorProduct.ext
   ext x r
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p q =>
-      show TensorProduct.assoc _ _ _ _
+      change TensorProduct.assoc _ _ _ _
           (((TensorProduct.map (f.app U).hom (g.app U).hom) (p ⊗ₜ q)) ⊗ₜ
             (h.app U).hom r) =
         TensorProduct.map (f.app U).hom
@@ -462,7 +457,6 @@ end AssociatorConstruction
 
 variable {C : Type u} [Category.{v} C]
   {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{z}]
   [HasWeakSheafify J AddCommGrpCat.{z}]
 
@@ -488,7 +482,7 @@ public lemma isFlat_tensor {O : Sheaf J CommRingCat.{w}}
     rw [exactFunctor_iff]
     exact ⟨comp_preservesFiniteLimits SG SF,
       comp_preservesFiniteColimits SG SF⟩
-  show exactFunctor _ _
+  change exactFunctor _ _
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} O).flip.obj (SF.obj G))
   exact (exactFunctor _ _).prop_of_iso
     (sheafTensorAssocNatIsoZ O G F) hComp

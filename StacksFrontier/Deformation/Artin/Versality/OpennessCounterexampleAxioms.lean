@@ -745,7 +745,7 @@ public theorem finiteDimensional_tangentSpace_infinitesimalAutomorphisms_artinAx
         (isFiberedInGroupoids_artinAxiomsCategory B hS) (satisfiesRS_artinAxiomsCategory B hS)
         iΛ x₀ hx₀ hfin hqc
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
     FiniteDimensional K

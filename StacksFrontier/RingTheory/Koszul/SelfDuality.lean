@@ -41,7 +41,7 @@ theorem koszulHomComplex_seqComplex_d_apply (M : ModuleCat.{u} R) (n : ℕ)
     (ψ : (seqComplex f).X n →ₗ[R] M) :
     ((koszulHomComplex (seqComplex f) M).d n (n + 1)).hom ψ = ψ ∘ₗ d (seqDual f) n := by
   rw [koszulHomComplex_d]
-  show ψ.comp ((seqComplex f).d (n + 1) n).hom = _
+  change ψ.comp ((seqComplex f).d (n + 1) n).hom = _
   rw [seqComplex_d]
   rfl
 /-- **The dual Koszul complex is exact in degree zero**: for a Koszul-regular sequence of positive
@@ -151,7 +151,7 @@ theorem quasiIsoAt_koszulHomComplexMap_top (g : Fin (b + 1) → R) {M : ModuleCa
     let ψ'' : ⋀[R]^(b + 1) (Fin (b + 1) → R) →ₗ[R] M := ψ'
     refine ⟨(stdBasis (b + 1) (b + 1)).constr R
       (fun s => (hsurj (ψ'' (stdBasis (b + 1) (b + 1) s))).choose), ?_⟩
-    show π.hom ∘ₗ _ = ψ''
+    change π.hom ∘ₗ _ = ψ''
     refine (stdBasis (b + 1) (b + 1)).ext fun s => ?_
     rw [LinearMap.comp_apply, Basis.constr_basis]
     exact (hsurj _).choose_spec

@@ -145,7 +145,7 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
                 (IdealPair.Hom.ofRingHom (RingHom.id B) hJ)).toRingHom =
               (IdealPair.Hom.ofDPMorphism (D'.structureMap.comp φ)).toRingHom := by
             ext x
-            show D'.algebraMap.toRingHom (φ.toRingHom x) =
+            change D'.algebraMap.toRingHom (φ.toRingHom x) =
               D'.structureMap.toRingHom (φ.toRingHom x)
             rw [halgMap D']
         have hext : ∀ (q r : IdealPair.Hom B.ideal D'.object.ideal),
@@ -168,7 +168,7 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
   have hCoeffChange : αDP.comp coeff = coeff'.comp φ := by
     apply DividedPowers.DPMorphism.ext
     funext b
-    show (DividedPowerAlgebra.map B'
+    change (DividedPowerAlgebra.map B'
       (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B')))
         (algebraMap B P b) = algebraMap B' P' (φ.toRingHom b)
     rw [AlgHom.commutes, IsScalarTower.algebraMap_eq B B' P']
@@ -176,7 +176,7 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
   have hVarChange (t : T) :
       αDP.toRingHom (dividedPowerPolynomialVariable B t) =
         dividedPowerPolynomialVariable B' t := by
-    show DividedPowerAlgebra.map B'
+    change DividedPowerAlgebra.map B'
       (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B'))
         (DividedPowerAlgebra.dp B 1 (Finsupp.single t 1)) = _
     rw [DividedPowerAlgebra.map_apply_dp]
@@ -195,10 +195,10 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
         (∀ t : T, (baseMap.comp ψ).toRingHom
           (dividedPowerPolynomialVariable B t) = (k t : D'.object)) := by
     constructor
-    · show baseMap.comp (ψ.comp coeff) = _
+    · change baseMap.comp (ψ.comp coeff) = _
       rw [ψData.2.1, hbaseMap]
     · intro t
-      show baseMap.toRingHom (ψ.toRingHom
+      change baseMap.toRingHom (ψ.toRingHom
         (dividedPowerPolynomialVariable B t)) = _
       rw [show ψ.toRingHom (dividedPowerPolynomialVariable B t) = _ from ψData.2.2.1 t]
       have hb := congrArg (fun g => g.toRingHom (f t)) hbaseMap
@@ -208,12 +208,12 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
         (∀ t : T, (ψ'.comp αDP).toRingHom
           (dividedPowerPolynomialVariable B t) = (k t : D'.object)) := by
     constructor
-    · show ψ'.comp (αDP.comp coeff) = _
+    · change ψ'.comp (αDP.comp coeff) = _
       rw [hCoeffChange]
-      show (ψ'.comp coeff').comp φ = _
+      change (ψ'.comp coeff').comp φ = _
       rw [ψ'Data.2.1]
     · intro t
-      show ψ'.toRingHom (αDP.toRingHom
+      change ψ'.toRingHom (αDP.toRingHom
         (dividedPowerPolynomialVariable B t)) = _
       rw [hVarChange]
       rw [show ψ'.toRingHom (dividedPowerPolynomialVariable B' t) = _ from ψ'Data.2.2.1 t]
@@ -231,7 +231,7 @@ public theorem dividedPowerEnvelope_baseChange_of_flat_quotient
     exact congrArg (fun g => g.toRingHom b) ψ'Data.2.1
   refine ⟨eSource.trans eTarget, fun x y => ?_⟩
   obtain ⟨p, rfl⟩ := ψData.2.2.2 x
-  show eTarget (eSource (TensorProduct.tmul B (ψ.toRingHom p) y)) = _
+  change eTarget (eSource (TensorProduct.tmul B (ψ.toRingHom p) y)) = _
   rw [hSourcePure, hTargetPure, map_mul, ← hcompApply, hψ'coeff]
   rfl
 end Crystalline

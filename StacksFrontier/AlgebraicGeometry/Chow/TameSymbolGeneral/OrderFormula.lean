@@ -49,6 +49,7 @@ def ordIntHom [Ring.KrullDimLE 1 A] : Fˣ →* Multiplicative ℤ where
     rw [← ofAdd_add, ← ordInt_mul A (x : F) y x.ne_zero y.ne_zero]
     rfl
 
+omit [IsDomain A] in
 /-- The additive value of `ordIntHom A F x` is `ord_A(x)`. -/
 theorem ordIntHom_apply [Ring.KrullDimLE 1 A] (x : Fˣ) :
     Multiplicative.toAdd (ordIntHom A F x) = ordInt A (x : F) x.ne_zero := rfl
@@ -122,7 +123,7 @@ theorem ordInt_eq_sum_normalizationOrd (x : Fˣ) :
       normalizationOrdHom_apply]
     simp_rw [map_zpow, toAdd_zpow, normalizationOrdHom_apply, t,
       normalizationOrd_normalizationUniformizerUnit, smul_eq_mul, mul_ite, mul_one, mul_zero]
-    rw [Finset.sum_ite_eq Finset.univ m', if_pos (Finset.mem_univ m')]
+    rw [Finset.sum_ite_eq Finset.univ m', ite_eq_left (Finset.mem_univ m')]
     ring
   have hyinv : ∀ m', normalizationOrd A F hA m' y⁻¹ = 0 := by
     intro m'

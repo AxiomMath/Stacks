@@ -92,7 +92,7 @@ theorem F.classifyingMorphism_comp_toBase (ξ : F (situationAlgebra A) W) :
     obtain ⟨⟨d, hd⟩, P⟩ := x
     obtain ⟨k, rfl⟩ : ∃ k : ℕ, d = (k : ℤ) := ⟨d.toNat, (Int.toNat_of_nonneg hd.le).symm⟩
     have hk : 0 < k := by exact_mod_cast hd
-    show F.classifyingMorphism A (F.mk f hd P) ≫ _ = _
+    change F.classifyingMorphism A (F.mk f hd P) ≫ _ = _
     rw [F.classifyingMorphism,
       ← RelativeProjTwistChartBridge.thetaMorphism_eq_homEquiv_symm hk P]
     exact RelativeProjTwistChartBridge.thetaMorphism_comp_toBase hk P

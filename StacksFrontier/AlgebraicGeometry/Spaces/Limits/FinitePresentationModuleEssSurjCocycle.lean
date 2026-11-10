@@ -198,6 +198,7 @@ theorem triple_π₃_stage : (tripleSnd B S hS D hD C m ≫ stageChartPairSnd B 
     ← triple_condition B S hS D hD C m, Category.assoc, ← chartPair_condition B S hS D hD C m]
   rfl
 
+omit [IsCofiltered I] in
 /-- A point of a stage of the system of base changes of the triple product. -/
 theorem exists_lift_stageTriple (k : Over m.left) {T : AlgebraicSpaces B S hS}
     (τ : T ⟶ stageAlgebraicSpace B S hS D hD k.left) (w : T ⟶ chartTriple B S hS D hD C m)
@@ -211,6 +212,7 @@ theorem exists_lift_stageTriple (k : Over m.left) {T : AlgebraicSpaces B S hS}
   ⟨ObjectProperty.homMk (pullback.lift τ.hom w.hom (congrArg (fun z => z.hom) h)),
     ObjectProperty.hom_ext _ (pullback.lift_snd _ _ _)⟩
 
+omit [IsCofiltered I] in
 /-- A point of a stage of the system of base changes of the chart. -/
 theorem exists_lift_stageChart (k : Over m.left) {T : AlgebraicSpaces B S hS}
     (τ : T ⟶ stageAlgebraicSpace B S hS D hD k.left) (x : T ⟶ schemeSpace (C.siteDiagram.obj m))
@@ -300,6 +302,7 @@ theorem moduleHomRestrict₂_pairMorphism_comp₂ {T T' : AlgebraicSpaces B S hS
       (moduleHomRestrict₂_pairMorphism_comp B S hS D hD C m u ψ s y z hyz))
 
 include hψ in
+omit [IsCofiltered I] in
 /-- **The cocycle condition at the limit of a system of base changes.**  For three morphisms
 `x, y, z : R ⟶ U_m` over the stage, the cocycle condition of the pair morphisms holds after
 inverse image to the base change `X ×_{X_m} R` of the limit. -/
@@ -328,6 +331,7 @@ theorem pairMorphism_cocycle_limitBaseChange {R : AlgebraicSpaces B S hS}
         (moduleHomRestrict₂_pairMorphism_comp B S hS D hD C m u ψ _ x z _).symm))
 
 include hψ in
+omit [IsCofiltered I] in
 /-- **The diagonal condition at the limit of a system of base changes.** -/
 theorem pairMorphism_diag_limitBaseChange {R : AlgebraicSpaces B S hS}
     (r : R ⟶ stageAlgebraicSpace B S hS D hD m.left) (x : R ⟶ schemeSpace (C.siteDiagram.obj m))
@@ -346,6 +350,7 @@ theorem pairMorphism_diag_limitBaseChange {R : AlgebraicSpaces B S hS}
         n₁ _ hn₁ hn₁ _ _ hn₁' hn₁' _ _ _ _ _).trans
         ((twistedComparison_self _ _ _ _ _ _ _ _).trans (moduleHomRestrict₂_id _ _ _ _).symm)))
 
+omit [IsCofiltered I] in
 /-- An equation of morphisms on `R` which holds after inverse image to a stage of the system of
 base changes holds after restriction to every space mapping to that stage. -/
 theorem moduleHomRestrict₂_eq_of_stage {R T : AlgebraicSpaces B S hS}

@@ -139,7 +139,7 @@ public lemma fiberIsoOfIsElementary_hom_fiberι (f : X ⟶ S) (s : S)
       pullback.fst f (U.scheme.fromSpecResidueField U.point ≫ U.toBase) := by
     rw [← h₂fst]
     simpa using hCongrfst
-  show (e₁ ≪≫ eCongr ≪≫ (asIso h₂).symm).hom ≫
+  change (e₁ ≪≫ eCongr ≪≫ (asIso h₂).symm).hom ≫
       pullback.fst f (S.fromSpecResidueField s) = _
   simp only [Iso.trans_hom, Category.assoc]
   rw [htail]
@@ -194,7 +194,7 @@ public lemma finite_unique_isIso_residueFieldMap_of_iso {A B T Y : Scheme.{u}} (
     IsFinite pB ∧ {b : B | pB b = t} = {e.hom a} ∧ IsIso (gB.residueFieldMap (e.hom a)) := by
   subst hp hg
   have hinv : ∀ b, e.hom (e.inv b) = b := fun b => by
-    show (e.inv ≫ e.hom) b = b
+    change (e.inv ≫ e.hom) b = b
     rw [e.inv_hom_id]
     rfl
   refine ⟨?_, ?_, ?_⟩
@@ -266,7 +266,7 @@ public lemma exists_finite_open_of_isFiniteNeighborhoodAt_pullback_snd (f : X �
   obtain ⟨hfin, hsingle, hres⟩ := finite_unique_isIso_residueFieldMap_of_iso ezero hzeroProj
     hzeroFst hBfinite hBpoint hBunique hold
   refine ⟨j.opensRange, ezero.hom vB, hfin, hsingle, ?_, hres⟩
-  show (ezero.hom ≫ j.opensRange.ι ≫ pullback.fst f (T.toBase ≫ U.toBase)) vB = x
+  change (ezero.hom ≫ j.opensRange.ι ≫ pullback.fst f (T.toBase ≫ U.toBase)) vB = x
   rw [hzeroFst]
   exact (congrArg (pullback.fst f U.toBase) hy).trans hyx
 

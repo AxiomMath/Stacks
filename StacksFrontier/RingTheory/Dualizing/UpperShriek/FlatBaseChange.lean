@@ -81,8 +81,7 @@ noncomputable def PolynomialPresentation.baseChange
   · ext r
     simp [q]
   · intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp [q]⟩
+    induction z using TensorProduct.inductionOn with
     | tmul r a =>
         obtain ⟨x, rfl⟩ := p.surjective a
         have hpoly : q.comp (MvPolynomial.map (algebraMap R R')) =
@@ -186,14 +185,14 @@ lemma baseChange_toRingHom_eq
   apply MvPolynomial.ringHom_ext
   · intro r
     let c := Algebra.IsPushout.cancelBaseChangeAlg R R' P P' A
-    show MvPolynomial.eval₂Hom (algebraMap R' (TensorProduct R R' A))
+    change MvPolynomial.eval₂Hom (algebraMap R' (TensorProduct R R' A))
         (fun i => (1 : R') ⊗ₜ[R] p.toRingHom (MvPolynomial.X i)) (MvPolynomial.C r) =
       (pushoutEquiv p)
         ((Algebra.TensorProduct.includeRight :
           P' →ₐ[P] TensorProduct P A P') (MvPolynomial.C r))
     rw [MvPolynomial.eval₂Hom_C]
     symm
-    show c ((Algebra.TensorProduct.commRight P P' A).symm
+    change c ((Algebra.TensorProduct.commRight P P' A).symm
         (1 ⊗ₜ[P] MvPolynomial.C r)) = algebraMap R' (TensorProduct R R' A) r
     apply c.symm.injective
     rw [AlgEquiv.symm_apply_apply, AlgEquiv.commutes,
@@ -203,14 +202,14 @@ lemma baseChange_toRingHom_eq
   · intro i
     change Fin p.variableCount at i
     let c := Algebra.IsPushout.cancelBaseChangeAlg R R' P P' A
-    show MvPolynomial.eval₂Hom (algebraMap R' (TensorProduct R R' A))
+    change MvPolynomial.eval₂Hom (algebraMap R' (TensorProduct R R' A))
         (fun i => (1 : R') ⊗ₜ[R] p.toRingHom (MvPolynomial.X i)) (MvPolynomial.X i) =
       (pushoutEquiv p)
         ((Algebra.TensorProduct.includeRight :
           P' →ₐ[P] TensorProduct P A P') (MvPolynomial.X i))
     rw [MvPolynomial.eval₂Hom_X']
     symm
-    show c ((Algebra.TensorProduct.commRight P P' A).symm
+    change c ((Algebra.TensorProduct.commRight P P' A).symm
         (1 ⊗ₜ[P] MvPolynomial.X i)) =
       (1 : R') ⊗ₜ[R] p.toRingHom (MvPolynomial.X i)
     apply c.symm.injective

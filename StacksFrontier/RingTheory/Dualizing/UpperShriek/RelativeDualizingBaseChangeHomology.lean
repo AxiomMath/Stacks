@@ -177,7 +177,7 @@ theorem baseChange_toRingHom_comp_map (p : PolynomialPresentation (algebraMap R 
     have hp' : (p.baseChange (R' := R')).toRingHom (MvPolynomial.C (algebraMap R R' s)) =
         algebraMap R R' s ⊗ₜ[R] (1 : A) :=
       RingHom.congr_fun (p.baseChange (R' := R')).commutes (algebraMap R R' s)
-    show (p.baseChange (R' := R')).toRingHom
+    change (p.baseChange (R' := R')).toRingHom
         (MvPolynomial.map (algebraMap R R') (MvPolynomial.C s)) =
       (1 : R') ⊗ₜ[R] p.toRingHom (MvPolynomial.C s)
     rw [MvPolynomial.map_C, hp', hp, ← mul_one (algebraMap R R' s), ← Algebra.smul_def,
@@ -270,7 +270,7 @@ theorem nonempty_restrictScalars_derivedBaseChange_relativeDualizing_iso [IsNoet
   have hmap : f = MvPolynomial.map (algebraMap R R') := MvPolynomial.algebraMap_def
   have : IsScalarTower P P' T := IsScalarTower.of_algebraMap_eq (fun _ ↦ rfl)
   have : IsScalarTower P A T := IsScalarTower.of_algebraMap_eq (fun x ↦ by
-    show p'.toRingHom (f x) = (Algebra.TensorProduct.includeRight :
+    change p'.toRingHom (f x) = (Algebra.TensorProduct.includeRight :
       A →ₐ[R] TensorProduct R R' A) (p.toRingHom x)
     rw [hmap]
     exact RingHom.congr_fun (baseChange_toRingHom_comp_map (R' := R') p) x)

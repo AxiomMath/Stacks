@@ -32,8 +32,8 @@ cover of `X`. This is the first paragraph of the proof of [Stacks, Tag 0EYJ].
 ## Main results
 
 * `Abhyankar.exists_finiteEtaleGaloisCover_extending_genericFiber_of_isDiscreteValuationRing`:
-  the statement above, granted purity (`h0BMA`) and the tame half of [Stacks, Tag 0EYD]
-  (`h0EYD`), through [Stacks, Tag 0EYG]. Tameness of the generic cover is
+  the statement above, granted the tame half of [Stacks, Tag 0EYD] (`h0EYD`), through
+  [Stacks, Tag 0EYG]. Tameness of the generic cover is
   `AlgebraicGeometry.isTamelyRamifiedInCodimensionOne_of_finiteEtaleGaloisCover` and the Galois
   structure is extended by `AlgebraicGeometry.exists_finiteEtaleGaloisCover_of_fullyFaithful`.
 * `AlgebraicGeometry.Abhyankar.exists_isPullback_finiteEtale_of_genericFiber`: the underlying
@@ -136,7 +136,7 @@ theorem range_fiberι_genericPoint :
         (algebraMap R (ResidueField R))))).ker.support.compl : X.Opens)) := by
   rw [Scheme.Hom.range_fiberι, Scheme.Opens.range_ι]
   ext x
-  show f x = _ ↔ x ∉ ((pullback.fst f (Spec.map (CommRingCat.ofHom
+  change f x = _ ↔ x ∉ ((pullback.fst f (Spec.map (CommRingCat.ofHom
     (algebraMap R (ResidueField R))))).ker.support : Set X)
   rw [coe_support_closedFibre]
   exact eq_genericPoint_iff_ne_closedPoint (f x)
@@ -226,9 +226,9 @@ theorem irreducibleSpace_of_smooth_of_connectedSpace {k : Type u} [Field k] {Y :
   let j : W i ⟶ Y := Sigma.ι W i ≫ e.inv ≫ V.1.ι
   have := hint i
   refine ⟨Set.range j, j.isOpenEmbedding.isOpen_range, ⟨w, ?_⟩, ?_⟩
-  · show V.1.ι (e.inv (Sigma.ι W i w)) = z
+  · change V.1.ι (e.inv (Sigma.ι W i w)) = z
     rw [hw]
-    show (e.hom ≫ e.inv ≫ V.1.ι) ⟨z, hzV⟩ = z
+    change (e.hom ≫ e.inv ≫ V.1.ι) ⟨z, hzV⟩ = z
     rw [e.hom_inv_id_assoc]
     rfl
   · rw [← Set.image_univ]
@@ -337,7 +337,7 @@ theorem isTamelyRamifiedInCodimensionOne_of_galoisCover
   refine IsTamelyRamifiedInCodimensionOne.of_iso (Iso.refl _) (asIso (pullback.fst Z.obj.hom e.inv))
     (Category.id_comp _) ?_
     (isTamelyRamifiedInCodimensionOne_of_finiteEtaleGaloisCover U G hG (Z.baseChange e.inv hconn))
-  show pullback.fst Z.obj.hom e.inv ≫ Z.obj.hom ≫ e.hom = pullback.snd Z.obj.hom e.inv ≫ 𝟙 _
+  change pullback.fst Z.obj.hom e.inv ≫ Z.obj.hom ≫ e.hom = pullback.snd Z.obj.hom e.inv ≫ 𝟙 _
   rw [reassoc_of% pullback.condition, Iso.inv_hom_id, Category.comp_id]
 
 /-- `Spec K ⟶ Spec R` for the fraction field `K` factors through `Spec κ(η)`. -/
@@ -350,7 +350,7 @@ lemma exists_SpecMap_fractionRing_eq :
   have h : genericPoint (Spec (.of R)) = g (closedPoint (FractionRing R)) := by
     rw [genericPoint_eq_bot_of_affine (.of R)]
     apply PrimeSpectrum.ext
-    show ⊥ = Ideal.comap (algebraMap R (FractionRing R)) (closedPoint (FractionRing R)).asIdeal
+    change ⊥ = Ideal.comap (algebraMap R (FractionRing R)) (closedPoint (FractionRing R)).asIdeal
     rw [show (closedPoint (FractionRing R)).asIdeal = ⊥ from
       (IsLocalRing.maximalIdeal_eq_bot : maximalIdeal (FractionRing R) = ⊥)]
     exact (Ideal.comap_bot_of_injective _ (IsFractionRing.injective R (FractionRing R))).symm
@@ -393,11 +393,10 @@ theorem exists_iso_sigma_genericFiber (σ : Spec (.of R) ⟶ X) (hσ : σ ≫ f 
 open Stacks.FundamentalGroup in
 /-- **The generic Galois cover extends to a finite étale cover** (first paragraph of the proof of
 [Stacks, Tag 0EYJ], up to the Galois structure). Over a discrete valuation ring, the cover
-`Z ⟶ X_η = X ∖ X_s` is the restriction of a finite étale `p : Y' ⟶ X`. The arguments are purity
-`h0BMA` ([Stacks, Tag 0BMA] (1)) and `h0EYD` (the tame half of [Stacks, Tag 0EYD]), through
-Tag 0EYG (via `AlgebraicGeometry.TameCovers.exists_opens_etale_fromNormalization`, i.e.
-[Stacks, Tag 0EYI]). -/
-theorem exists_isPullback_finiteEtale_of_genericFiber (h0BMA : PurityAtRegularLocalRings.{u})
+`Z ⟶ X_η = X ∖ X_s` is the restriction of a finite étale `p : Y' ⟶ X`. The argument is
+`h0EYD` (the tame half of [Stacks, Tag 0EYD]), through Tag 0EYG (via
+`AlgebraicGeometry.TameCovers.exists_opens_etale_fromNormalization`, i.e. [Stacks, Tag 0EYI]). -/
+theorem exists_isPullback_finiteEtale_of_genericFiber
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -424,7 +423,7 @@ theorem exists_isPullback_finiteEtale_of_genericFiber (h0BMA : PurityAtRegularLo
       (isUnit_natCast_residueField_of_hom f _ hG) Z
   obtain ⟨J, eJ, heJ⟩ := exists_iso_sigma_genericFiber f σ hσ Z z hz
   obtain ⟨V, hσV, hVfin, hVet⟩ :=
-    TameCovers.exists_opens_etale_fromNormalization h0BMA h0EYD D hD hDreg fc htame R
+    TameCovers.exists_opens_etale_fromNormalization h0EYD D hD hDreg fc htame R
       (FractionRing R) σ (comap_closedFibre_section f σ hσ) J eJ heJ
   let ν := (fc ≫ U.ι).fromNormalization
   have hpbU := TameCovers.isPullback_toNormalization_ι D fc
@@ -462,7 +461,7 @@ theorem exists_isPullback_finiteEtale_of_genericFiber (h0BMA : PurityAtRegularLo
         have : Zd.genericPoint ∈ (D.support : Set X) := not_not.mp hU
         rwa [hsupp] at this
       refine genericPoint_mem_of_mem_closedFibre f V ⟨σ (closedPoint R), hσV _, ?_⟩ Zd hfx
-      show (σ ≫ f) (closedPoint R) = _
+      change (σ ≫ f) (closedPoint R) = _
       rw [hσ]
       rfl
   obtain ⟨Y', p, hpfin, hpet, e, he⟩ :=
@@ -539,13 +538,12 @@ theorem connectedSpace_of_isPullback_fiberι {Y W : Scheme.{u}} (p : Y ⟶ X) [F
 
 open Stacks.FundamentalGroup in
 /-- **Stacks Project, Tag 0EYJ, over a discrete valuation ring** (the first paragraph of the
-proof), granted purity `h0BMA` ([Stacks, Tag 0BMA] (1)) and `h0EYD` (the tame half of
-[Stacks, Tag 0EYD]), through Tag 0EYG. Let `R` be a discrete valuation ring, `f : X ⟶ Spec R`
+proof), granted `h0EYD` (the tame half of [Stacks, Tag 0EYD]), through Tag 0EYG.
+Let `R` be a discrete valuation ring, `f : X ⟶ Spec R`
 smooth with geometrically connected fibres and a section `σ`, and `Z ⟶ X_η` a finite étale Galois
 cover with group `G` of order invertible on `Spec R` having a `κ(η)`-point over `σ(η)`. Then `Z`
 extends to a finite étale Galois cover of `X` with group `G`. -/
 theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isDiscreteValuationRing
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -561,7 +559,7 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isDiscreteValuat
       ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint (Spec (.of R))))).map
         (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   obtain ⟨Y', p, hpf, hpe, a, H⟩ :=
-    exists_isPullback_finiteEtale_of_genericFiber f h0BMA h0EYD σ hσ hG Z z hz
+    exists_isPullback_finiteEtale_of_genericFiber f h0EYD σ hσ hG Z z hz
   have H' : IsPullback Z.obj.hom a (f.fiberι (genericPoint (Spec (.of R)))) p := by
     refine H.of_iso (Iso.refl _) (genericFiberIsoCompl f).symm (Iso.refl _) (Iso.refl _)
       ?_ ?_ ?_ ?_

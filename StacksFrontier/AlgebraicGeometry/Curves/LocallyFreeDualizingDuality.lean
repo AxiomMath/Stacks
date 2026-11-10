@@ -430,7 +430,7 @@ theorem extDuality_symm_naturality (i : ℤ)
   rw [LinearEquiv.apply_symm_apply]
   refine Eq.trans ?_ (extDualityAddEquiv_naturality f (singleQC E₁) (singleQC E₂) i
     ((DerivedCategory.singleFunctor X.Modules 0).map g) _).symm
-  show _ = _ ≫ (extDualityLinearEquiv f (singleQC E₂) i)
+  change _ = _ ≫ (extDualityLinearEquiv f (singleQC E₂) i)
     ((extDualityLinearEquiv f (singleQC E₂) i).symm ((ModuleCat.homLinearEquiv (S := k)).symm φ))
   rw [LinearEquiv.apply_symm_apply]
   rfl
@@ -449,7 +449,7 @@ theorem dualityTwistLinearEquiv_apply (E : Mod X)
           ((ModuleCat.homLinearEquiv (S := k)).symm φ)) ≫ (GTCommShiftIso E i _).hom)) := by
   let : Linear k X.Modules := Scheme.Modules.linearOverBase f
   let : Functor.Linear k (globalSectionsOver f) := globalSectionsOver_linear_linearOverBase f
-  show (derivedCohomologyShiftIso f _ i).hom.hom (UnitCorepresentation.unitHomLinearEquiv f _
+  change (derivedCohomologyShiftIso f _ i).hom.hom (UnitCorepresentation.unitHomLinearEquiv f _
     (((Iso.refl _).inv ≫ (adjT E).homEquiv _ _ (((twistUnitIso E).symm.inv ≫
       (extDualityLinearEquiv f (singleQC E) i).symm ((ModuleCat.homLinearEquiv (S := k)).symm φ)) ≫
         (Iso.refl _).hom)) ≫ (GTCommShiftIso E i _).hom)) = _
@@ -573,7 +573,7 @@ theorem dualityTensorDualizingSheafLinearEquiv_naturality [IsProper f]
     (derivedCohomologyShiftOneIso f _ i).hom _
     (map_comp_congr F hD)
     (derivedCohomologyShiftOneIso_naturality f _ i)
-  show (derivedCohomologyShiftOneIso f _ i).hom.hom ((F.map
+  change (derivedCohomologyShiftOneIso f _ i).hom.hom ((F.map
       (GTDualizingIsoOfIsCohenMacaulay E₁ f hcm hequi hdim).hom).hom
       (dualityTwistLinearEquiv E₁ f i _)) = _
   rw [hc]

@@ -88,9 +88,9 @@ theorem quasiIso_of_isColimit {G G' : Jdx ⥤ HomologicalComplex B cs} (τ : G �
   have he : H.map φ = e.hom := by
     refine (isColimitOfPreserves H hc).hom_ext fun j => ?_
     rw [IsColimit.coconePointsIsoOfNatIso_hom, IsColimit.ι_map]
-    show H.map (c.ι.app j) ≫ H.map φ = H.map (τ.app j) ≫ H.map (c'.ι.app j)
+    change H.map (c.ι.app j) ≫ H.map φ = H.map (τ.app j) ≫ H.map (c'.ι.app j)
     rw [← H.map_comp, ← H.map_comp, hφ]
-  show IsIso (H.map φ)
+  change IsIso (H.map φ)
   rw [he]
   infer_instance
 
@@ -207,7 +207,7 @@ theorem smul_eq_scalarHom (M : DifferentialGradedModule.{u, u, u} B) (r : R) (x 
     _ = scalarHom (B := B) r • x := by
       congr 1
       apply MulOpposite.unop_injective
-      show r • (1 : B.A) = algebraMap R B.A r
+      change r • (1 : B.A) = algebraMap R B.A r
       rw [Algebra.smul_def, mul_one]
 
 omit [IsFiltered J] in
@@ -310,7 +310,7 @@ omit [IsFiltered J] in
 /-- On a homogeneous element of degree `n`, `decompAt` is its germ placed in degree `n`. -/
 theorem decompAt_of_mem (j : J) {n : ℤ} {x : (T.obj j).M} (hx : x ∈ (T.obj j).grading n) :
     decompAt T j x = DirectSum.of (fun n => grading T n) n ⟨germ T j x, germ_mem_grading T hx⟩ := by
-  show DirectSum.map (germGrading T j) (DirectSum.decompose (T.obj j).grading x) = _
+  change DirectSum.map (germGrading T j) (DirectSum.decompose (T.obj j).grading x) = _
   rw [DirectSum.decompose_of_mem _ hx, DirectSum.map_of]
   rfl
 
@@ -556,7 +556,7 @@ theorem map_id : map (𝟙 T) = 𝟙 (colimitModule T) :=
 theorem map_comp (τ : T ⟶ T') (τ' : T' ⟶ T'') : map (τ ≫ τ') = map τ ≫ map τ' :=
   hom_ext T fun j x => by
     refine (map_germ (τ ≫ τ') j x).trans ?_
-    show _ = (map τ').toFun ((map τ).toFun (germ T j x))
+    change _ = (map τ').toFun ((map τ).toFun (germ T j x))
     rw [map_germ, map_germ]
     rfl
 
@@ -567,7 +567,7 @@ theorem quasiIso_map (τ : T ⟶ T')
     QuasiIso ((forgetToCochainComplex B).map (map τ)) :=
   Stacks.FilteredColimit.quasiIso_of_isColimit (Functor.whiskerRight τ (forgetToCochainComplex B))
     hτ (isColimitToCochainComplex T) (isColimitToCochainComplex T') _ fun j => by
-      show (forgetToCochainComplex B).map (ι T j) ≫ (forgetToCochainComplex B).map (map τ) =
+      change (forgetToCochainComplex B).map (ι T j) ≫ (forgetToCochainComplex B).map (map τ) =
         (forgetToCochainComplex B).map (τ.app j) ≫ (forgetToCochainComplex B).map (ι T' j)
       rw [← Functor.map_comp, ← Functor.map_comp, ι_map]
 

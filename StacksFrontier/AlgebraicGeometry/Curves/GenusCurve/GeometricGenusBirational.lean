@@ -160,7 +160,7 @@ public theorem geometricGenus_eq_of_isProper_of_isBirational {k : Type u} [Field
           f (pullback.fst (f ≫ g)
             (Spec.map (CommRingCat.ofHom (algebraMap k (AlgebraicClosure k)))) x) := by
         rw [← Scheme.Hom.comp_apply, hbpb.w, Scheme.Hom.comp_apply]
-      show pullback.fst g _ (NormalizedBaseChange.baseChangeMap hVpb hWpb x) ∈ V
+      change pullback.fst g _ (NormalizedBaseChange.baseChangeMap hVpb hWpb x) ∈ V
       rw [hxy]
       exact mem_of_mem_genericPoints_of_dense V hVdense
         (hf.bijOn.mapsTo (Scheme.Hom.mem_genericPoints_of_flat _ hx))

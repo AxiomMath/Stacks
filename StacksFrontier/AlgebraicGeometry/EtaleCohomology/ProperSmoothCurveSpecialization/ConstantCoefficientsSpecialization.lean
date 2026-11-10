@@ -63,7 +63,7 @@ theorem topologicalKrullDim_pullback_le_of_forall_fiber_le {X S : Scheme.{u}} (f
     rw [hpre]
     exact (IsHomeomorph.topologicalKrullDim_eq _ (Homeomorph.Set.univ _).isHomeomorph).symm
   rw [h₁, ← IsHomeomorph.topologicalKrullDim_eq _ (fη.fiberHomeo o).isHomeomorph]
-  show fη.fiberDimension o ≤ d
+  change fη.fiberDimension o ≤ d
   rw [congrFun (Scheme.Hom.fiberDimension_eq_of_isPullback (IsPullback.of_hasPullback f y)) o]
   exact hdim _
 
@@ -73,7 +73,7 @@ theorem topologicalKrullDim_fiber_pullbackSnd_le {X S T : Scheme.{u}} (f : X ⟶
     [LocallyOfFiniteType f] (d : WithBot ℕ∞)
     (hdim : ∀ s : S, topologicalKrullDim (f.fiber s) ≤ d) (r : T) :
     topologicalKrullDim ((pullback.snd f g).fiber r) ≤ d := by
-  show topologicalKrullDim
+  change topologicalKrullDim
     (Limits.pullback (pullback.snd f g) (T.fromSpecResidueField r) : Scheme.{u}) ≤ d
   rw [← IsHomeomorph.topologicalKrullDim_eq _
     (pullbackLeftPullbackSndIso f g (T.fromSpecResidueField r)).inv.homeomorph.isHomeomorph]
@@ -110,7 +110,7 @@ theorem torsionSheafProperty_constantZModAb (X : Scheme.{u}) (ℓ : ℕ) [NeZero
     Stacks.Torsion.torsionSheafProperty (smallEtaleTopology X) (constantZModAb X ℓ) := by
   refine (Stacks.Torsion.torsionSheafProperty _).prop_of_iso (constantZModAbIso X ℓ) fun U x => ?_
   refine ⟨⊤, (smallEtaleTopology X).top_mem U, fun V g _ => ⟨ℓ, Nat.pos_of_neZero ℓ, ?_⟩⟩
-  show ℓ • ((Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod ℓ)
+  change ℓ • ((Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod ℓ)
     X.smallEtaleTopology).obj.map g.op x) = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul]
 

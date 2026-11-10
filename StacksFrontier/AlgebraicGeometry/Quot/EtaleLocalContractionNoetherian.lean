@@ -182,7 +182,7 @@ variable (B) in
 theorem contains_spec_localization {R : Type u} [CommRing R] (hR : B.Contains (Spec (.of R)))
     (M : Submonoid R) (L : Type u) [CommRing L] [Algebra R L] [IsLocalization M L] :
     B.Contains (Spec (.of L)) := by
-  show (Spec (.of L)).size < B.cutoff
+  change (Spec (.of L)).size < B.cutoff
   have h : (Spec (.of R)).size < B.cutoff := hR
   rw [Scheme.size_Spec] at h ⊢
   exact lt_of_le_of_lt (max_le_max le_rfl (IsLocalization.cardinalMk_le (L := L) M)) h
@@ -317,7 +317,7 @@ theorem hasEtaleLocalExtension_of_isNoetherianRing (R : Type u) [CommRing R] [Is
     intro j
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (𝟙 _ ≫ Spec.map (cc.ι.app j.unop)) ≫
+    change (𝟙 _ ≫ Spec.map (cc.ι.app j.unop)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R j.unop.1)) =
         Spec.map (CommRingCat.ofHom (toCompletion 𝔭))
     rw [Category.id_comp, ← Spec.map_comp]
@@ -362,7 +362,7 @@ theorem hasEtaleLocalExtension_of_isNoetherianRing (R : Type u) [CommRing R] [Is
     rw [integerSiteMap_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
     congr 3
     ext r
-    show ψ (β.symm (algebraMap E.carrier E.prime.ResidueField (algebraMap R E.carrier r))) =
+    change ψ (β.symm (algebraMap E.carrier E.prime.ResidueField (algebraMap R E.carrier r))) =
       ψ (algebraMap R 𝔭.ResidueField r)
     congr 1
     rw [RingEquiv.symm_apply_eq]
@@ -383,7 +383,7 @@ theorem hasEtaleLocalExtension_of_isNoetherianRing (R : Type u) [CommRing R] [Is
     ext x
     have h := residue_toCarrier_eq E x
     rw [hφa] at h
-    show ψ (β.symm _) = ψ (e₁.symm (residue (Completion 𝔭) (ρ' x)))
+    change ψ (β.symm _) = ψ (e₁.symm (residue (Completion 𝔭) (ρ' x)))
     rw [h]
     rfl
   have hkeyS : Spec.map (CommRingCat.ofHom κU) ≫ Spec.map (CommRingCat.ofHom E.toCarrier) =
@@ -393,7 +393,7 @@ theorem hasEtaleLocalExtension_of_isNoetherianRing (R : Type u) [CommRing R] [Is
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
     refine hkeyS.trans ?_
-    show _ = Spec.map (CommRingCat.ofHom κW) ≫ 𝟙 _ ≫ Spec.map (cc.ι.app M.unop)
+    change _ = Spec.map (CommRingCat.ofHom κW) ≫ 𝟙 _ ≫ Spec.map (cc.ι.app M.unop)
     rw [Category.id_comp]
     rfl
   -- the base change along `σ : U ⟶ D M`

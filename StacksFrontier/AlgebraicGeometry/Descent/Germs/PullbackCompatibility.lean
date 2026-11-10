@@ -116,7 +116,7 @@ private lemma localToGlobalPullback_fst (F : MorphismOfSchemeFamilies.{u})
         pullback.fst (Limits.Sigma.map (fun k ↦ (D.obj k).hom)) F.coproductHom =
       pullback.fst (D.obj (F.familyHom.s₀ i)).hom (F.familyHom.h₀ i) ≫
         Sigma.ι (fun k ↦ (D.obj k).left) (F.familyHom.s₀ i) := by
-  show pullback.lift _ _ _ ≫ _ = _
+  change pullback.lift _ _ _ ≫ _ = _
   exact pullback.lift_fst _ _ _
 
 private lemma localGlobalPullback_isPullback (F : MorphismOfSchemeFamilies.{u})
@@ -140,7 +140,7 @@ private lemma localGlobalPullback_isPullback (F : MorphismOfSchemeFamilies.{u})
       (Sigma.ι (fun k ↦ F.sourceFamily.X k) i ≫ F.coproductHom) := by
     simpa [j, localToGlobalPullback_fst, hbot] using hp
   exact hp'.of_right (by
-    show pullback.lift _ _ _ ≫ pullback.snd _ _ = _
+    change pullback.lift _ _ _ ≫ pullback.snd _ _ = _
     exact pullback.lift_snd _ _ _)
       (IsPullback.of_hasPullback (Limits.Sigma.map (fun k ↦ (D.obj k).hom))
         F.coproductHom)
@@ -178,12 +178,12 @@ private lemma localToGlobalPullback_sigmaDesc_isIso
           Sigma.desc (fun k ↦ pullback.fst (globalPullback F D).hom
             (Sigma.ι (fun l ↦ F.sourceFamily.X l) k))) := by rw [Category.assoc]
       _ = (e i).hom ≫ pullback.fst (globalPullback F D).hom
-          (Sigma.ι (fun k ↦ F.sourceFamily.X k) i) := by rw [Sigma.ι_desc]
+          (Sigma.ι (fun k ↦ F.sourceFamily.X k) i) := by rw [Sigma.ι_comp_desc]
       _ = localToGlobalPullback F D i :=
         (localGlobalPullback_isPullback F D i).isoPullback_hom_fst
       _ = Sigma.ι (fun k ↦ (localObj F D k).left) i ≫
           Sigma.desc (fun k ↦ localToGlobalPullback F D k) := by
-            rw [Sigma.ι_desc]
+            rw [Sigma.ι_comp_desc]
   have h₁ : IsIso (Limits.Sigma.map (fun i ↦ (e i).hom)) := by
     dsimp [e]
     infer_instance
@@ -200,7 +200,7 @@ private def localTotalToGlobalPullback (F : MorphismOfSchemeFamilies.{u})
   Over.homMk (Sigma.desc (fun i ↦ localToGlobalPullback F D i)) (by
     apply Sigma.hom_ext
     intro i
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     change localToGlobalPullback F D i ≫ (globalPullback F D).hom =
       Sigma.ι (fun k ↦ (localObj F D k).left) i ≫
         Limits.Sigma.map (fun k ↦ (localObj F D k).hom)
@@ -628,7 +628,7 @@ private lemma comparison_naturality (F : MorphismOfSchemeFamilies.{u})
   apply DescentData.hom_ext
   rintro ⟨⟩
   apply Over.OverMorphism.ext
-  show (((sourceEquiv F).equivalence.functor.map ((familyPB F).functor.map φ)).hom ()).left ≫
+  change (((sourceEquiv F).equivalence.functor.map ((familyPB F).functor.map φ)).hom ()).left ≫
       (objectComparison F E).hom.left =
     (objectComparison F D).hom.left ≫
       (((singletonPB F).functor.map ((targetEquiv F).equivalence.functor.map φ)).hom ()).left
@@ -646,7 +646,7 @@ private lemma comparison_naturality (F : MorphismOfSchemeFamilies.{u})
     intro i
     simp only [reassoc_of% (family_map_ι (sourceEquiv F) ((familyPB F).functor.map φ) i),
       objectComparison_fst F E i, reassoc_of% (objectComparison_fst F D i)]
-    show (((familyPB F).functor.map φ).hom i).left ≫ componentMap F E i ≫
+    change (((familyPB F).functor.map φ).hom i).left ≫ componentMap F E i ≫
         Sigma.ι (fun j ↦ (E.obj j).left) (F.familyHom.s₀ i) ≫ ((targetEquiv F).objIso E).inv.left =
       componentMap F D i ≫ Sigma.ι (fun j ↦ (D.obj j).left) (F.familyHom.s₀ i) ≫
         ((targetEquiv F).objIso D).inv.left ≫

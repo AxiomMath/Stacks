@@ -15,8 +15,8 @@ bifunctorial isomorphism
 for `K, L ∈ D(O')`. This file proves it with that geometric datum, and therefore with **no
 morphism-of-sites hypothesis anywhere in its statement**.
 
-The proof is the source's, and is the one
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorComparison.lean`
+The proof is the source's, and is the one the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorComparison`
 runs for a site-presented morphism. Reading the composite at a pair of K-flat complexes with flat
 terms left to right:
 

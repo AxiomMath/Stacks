@@ -46,7 +46,7 @@ theorem isClosedMap_objectsToInvariantSpectrum (G : GroupoidScheme S) [IsAffine 
       (Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G)))) :=
     IsIntegralHom.SpecMap_iff.mpr (isIntegral_invariantRing G)
   have hclosed : UniversallyClosed (objectsToInvariantSpectrum G) := by
-    show UniversallyClosed (G.objects.left.isoSpec.hom ≫
+    change UniversallyClosed (G.objects.left.isoSpec.hom ≫
       Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G))))
     infer_instance
   exact (objectsToInvariantSpectrum G).isClosedMap

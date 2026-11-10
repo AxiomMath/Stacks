@@ -145,7 +145,7 @@ theorem additiveFunctorDG_onComp :
           ((complexesCategoryEquivalence B).1.functor.obj A)).X i := fun A =>
     congrArg (fun K : CochainComplex B' ℤ => K.X i) (additiveFunctorDG_onComp_obj_eq F A)
   simp only [HomologicalComplex.comp_f, HomologicalComplex.eqToHom_f]
-  show eqToHom hLA ≫ F.map (f.1.v i i (add_zero i)) ≫ eqToHom hLC.symm =
+  change eqToHom hLA ≫ F.map (f.1.v i i (add_zero i)) ≫ eqToHom hLC.symm =
     eqToHom (hO A) ≫ F.map (((complexesCategoryEquivalence B).1.functor.map f).f i) ≫
       eqToHom (hO C).symm
   rw [hR']
@@ -170,13 +170,13 @@ theorem additiveFunctorDG_onK :
   let g := Quot.out f
   let cF : (dgCategory B').Cocycle _ _ :=
     ⟨Cochain.ofHom ((F.mapHomologicalComplex (.up ℤ)).map g), by
-      show δ 0 1 (Cochain.ofHom ((F.mapHomologicalComplex (.up ℤ)).map g)) = 0
+      change δ 0 1 (Cochain.ofHom ((F.mapHomologicalComplex (.up ℤ)).map g)) = 0
       exact δ_ofHom ((F.mapHomologicalComplex (.up ℤ)).map g)⟩
   let cG : (dgCategory B).Cocycle _ _ :=
     ⟨Cochain.ofHom g, by
-      show δ 0 1 (Cochain.ofHom g) = 0
+      change δ 0 1 (Cochain.ofHom g) = 0
       exact δ_ofHom g⟩
-  show HEq (Quotient.mk _ cF)
+  change HEq (Quotient.mk _ cF)
     (Quotient.mk _ ((additiveFunctorDG F).mapCocycle cG))
   apply heq_of_eq
   congr 1

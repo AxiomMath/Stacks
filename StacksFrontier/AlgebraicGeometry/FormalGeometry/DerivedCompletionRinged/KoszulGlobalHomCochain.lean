@@ -16,8 +16,8 @@ cochain complex `J` of `𝒪`-modules this file identifies, degreewise and `A`-l
 `Γ_A(𝒞, SheafHom•_𝒪(K^n, J))^t  ≅  ∏_{S ⊆ \{1, …, r\}} Γ_A(𝒞, J^{t + #S})`,
 
 the right-hand side being `KoszulCoefficientTower.coefficientKoszulTerm` of
-`StacksFrontier/Homology/DerivedComplete/AdicKoszulCoefficientTower.lean` applied to `Γ_A(𝒞, J)`, and then **assembles that into an
-isomorphism of towers**
+`StacksFrontier/Homology/DerivedComplete/AdicKoszulCoefficientTower.lean` applied to `Γ_A(𝒞, J)`,
+and then **assembles that into an isomorphism of towers**
 
 `(n ↦ Γ_A(𝒞, SheafHom•_𝒪(K^n, J))) ≅ (KoszulCoefficientTower.coefficientKoszulTower a).obj
   (Γ_A(𝒞, J))`
@@ -284,6 +284,7 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] (A : T
   (a : Fin r → A)
   (J : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) (n : ℕ)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Precomposition with multiplication by a monomial in `ρ a_1, …, ρ a_r` is multiplication by
 the monomial in `a_1, …, a_r`.** The entries of the Koszul differential are the multiplications
 on the left, and the `A`-action on `Γ(𝒞, M) = Hom_𝒪(𝒪, M)` is precomposition with multiplication
@@ -315,22 +316,24 @@ def koszulFactorι {p : ℤ} (T : AlternatingCech.Idx r p) :
 the factors.** This is `CategoryTheory.AlternatingCech.termDesc`, written with the factors
 spelled as `𝒪`. -/
 def koszulFactorDesc {p : ℤ} {Z : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
-    (g : ∀ T : AlternatingCech.Idx r p,
-      SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ Z) :
+    (g : AlternatingCech.Idx r p →
+      (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ Z)) :
     (koszulPowerComplex X (fun i ↦ globalSectionOfSections (ρ (a i))) n).X p ⟶ Z :=
   AlternatingCech.termDesc (koszulPowerFunctor X (fun i ↦ globalSectionOfSections (ρ (a i))) n) g
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The morphism assembled by `koszulFactorDesc` restricts on the factor indexed by `T` to
 `g T`.** -/
 @[simp]
 theorem koszulFactorι_comp_koszulFactorDesc {p : ℤ}
     {Z : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
-    (g : ∀ T : AlternatingCech.Idx r p,
-      SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ Z)
+    (g : AlternatingCech.Idx r p →
+      (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ Z))
     (T : AlternatingCech.Idx r p) :
     koszulFactorι X A ρ a n T ≫ koszulFactorDesc X A ρ a n g = g T :=
   AlternatingCech.termι_comp_termDesc _ _ _
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Two morphisms out of the degree-`p` term of the Koszul complex agreeing on every factor
 are equal.** -/
 theorem koszulFactor_hom_ext {p : ℤ}
@@ -340,6 +343,7 @@ theorem koszulFactor_hom_ext {p : ℤ}
       koszulFactorι X A ρ a n T ≫ h = koszulFactorι X A ρ a n T ≫ h') : h = h' :=
   AlternatingCech.term_hom_ext _ hyp
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The inclusion of a factor transported along an equality of degrees.** The factor indexed
 by a subset `S` sits in degree `#S`, and the Čech differential presents it in degree `#S' + 1`
 for `S = S' ∪ \{i\}`; the two spellings of the degree are equal but not identical. -/
@@ -353,6 +357,7 @@ theorem koszulFactorι_congr {p p' : ℤ} (T : AlternatingCech.Idx r p)
   obtain rfl : T = T' := Subtype.ext hT
   exact Category.comp_id _
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The Koszul differential read out of the factor indexed by `T`**: the signed sum, over the
 indices `i` outside `T`, of multiplication by `f_i^{n+1}` followed by the inclusion of the factor
 indexed by `T ∪ \{i\}`. This is `CategoryTheory.AlternatingCech.termι_comp_d` of
@@ -382,8 +387,9 @@ theorem moduleKoszulValue_koszulExp_insert {S : Finset (Fin r)} {i : Fin r} (hi 
       simp [koszulExp, Finset.mem_sdiff, Finset.mem_insert, hj], pow_zero]
   rw [moduleKoszulValue, Finset.prod_eq_single_of_mem i (Finset.mem_univ i) h0,
     show koszulExp n S (insert i S) i = n + 1 from by
-      simp [koszulExp, Finset.mem_sdiff, hi]]
+      simp [koszulExp, hi]]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- `A`-linear global sections act on a global section by postcomposition. -/
 theorem moduleGlobalSectionsOver_map_apply
     {M N : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))} (g : M ⟶ N)
@@ -403,6 +409,7 @@ def koszulHomComponent (t : ℤ)
   koszulTwist S • (koszulFactorι X A ρ a n (⟨S, rfl⟩ : AlternatingCech.Idx r (S.card : ℤ)) ≫
     z.v (S.card : ℤ) (t + (S.card : ℤ)) (add_comm _ _))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The factor at `S` of the degreewise comparison is the twist by `ε_S` of the restriction of
 the cochain to the factor indexed by `S`.** -/
 theorem koszulHomComponent_def (t : ℤ)
@@ -422,6 +429,7 @@ def koszulHomOfComponents (t : ℤ)
   Cochain.mk fun p q h ↦ koszulFactorDesc X A ρ a n (p := p) fun T ↦ koszulTwist T.1 •
     (g T.1 ≫ eqToHom (congrArg J.X (show t + (T.1.card : ℤ) = q by have := T.2; omega)))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The component of `koszulHomOfComponents` from degree `p` to degree `q` is assembled from
 the twisted global sections on the factors.** -/
 theorem koszulHomOfComponents_v (t : ℤ)
@@ -434,6 +442,7 @@ theorem koszulHomOfComponents_v (t : ℤ)
           have := T.2; omega)))) :=
   rfl
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The twisted restriction is additive.** -/
 theorem koszulHomComponent_add (t : ℤ)
     (z z' : Cochain (koszulPowerComplex X (fun i ↦ globalSectionOfSections (ρ (a i))) n) J t)
@@ -443,6 +452,7 @@ theorem koszulHomComponent_add (t : ℤ)
   rw [koszulHomComponent_def, koszulHomComponent_def, koszulHomComponent_def, Cochain.add_v,
     Preadditive.comp_add, smul_add]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The twisted restriction is linear over the global sections of `𝒪`**, hence over `A`
 through `ρ`: the scalar acts on a cochain degreewise and on a global section by precomposition
 with multiplication, and the inclusion of a Koszul factor is a morphism of `𝒪`-modules. -/
@@ -454,6 +464,7 @@ theorem koszulHomComponent_smul (t : ℤ)
       c • koszulHomComponent X A ρ a J n t z S := by
   rw [koszulHomComponent_def, koszulHomComponent_def, Cochain.smul_v, Linear.comp_smul, smul_comm]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- Assembling the twisted factors of a cochain returns that cochain. -/
 theorem koszulHomOfComponents_koszulHomComponent (t : ℤ)
     (z : Cochain (koszulPowerComplex X (fun i ↦ globalSectionOfSections (ρ (a i))) n) J t) :
@@ -469,6 +480,7 @@ theorem koszulHomOfComponents_koszulHomComponent (t : ℤ)
       (add_comm _ _) (add_comm _ _) _,
     smul_smul, koszulTwist_mul_self, one_smul]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The twisted factors of the cochain assembled from a family are that family. -/
 theorem koszulHomComponent_koszulHomOfComponents (t : ℤ)
     (g : ∀ S : Finset (Fin r),
@@ -523,6 +535,7 @@ theorem koszulInsertDegree (t : ℤ) (S : Finset (Fin r)) {i : Fin r} (hi : i �
   push_cast
   ring
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The factor of the Koszul complex indexed by `S ∪ \{i\}`, read in degree `#S + 1`. -/
 theorem koszulFactorι_insertIdx_comp_v (t : ℤ)
     (z : Cochain (koszulPowerComplex X (fun i ↦ globalSectionOfSections (ρ (a i))) n) J t)
@@ -555,6 +568,7 @@ theorem koszulTwist_cechSign (t : ℤ) (S : Finset (Fin r)) (i : {i : Fin r // i
     ← koszulTwist_mul_negOnePow S i.1 i.2 t]
   ring
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The differentials agree.** Out of the factor indexed by `S`, the differential of the
 `A`-linear Hom complex `Γ_A(𝒞, SheafHom•_𝒪(K^n, J))` — which is
 `CochainComplex.HomComplex.δ` by [Stacks, Tag 0A8Z] — is, after the twist by `koszulTwist`,
@@ -596,6 +610,7 @@ theorem koszulHomComponent_delta (t : ℤ)
 
 /-! ### The isomorphism of complexes -/
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The degreewise comparison, evaluated at a subset, is the twisted restriction to the factor
 indexed by it. -/
 theorem koszulHomTermEquiv_apply (t : ℤ)
@@ -606,6 +621,7 @@ theorem koszulHomTermEquiv_apply (t : ℤ)
     koszulHomTermEquiv X A ρ a J n t z S = koszulHomComponent X A ρ a J n t z S :=
   rfl
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The differential of the complex of `A`-linear global sections of `J` is postcomposition
 with the differential of `J`.** -/
 theorem moduleGlobalSectionsOverComplex_d_apply (p q : ℤ)
@@ -614,6 +630,7 @@ theorem moduleGlobalSectionsOverComplex_d_apply (p q : ℤ)
         p q).hom h = h ≫ J.d p q :=
   rfl
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The transport of degrees on the complex of `A`-linear global sections is postcomposition
 with the transport of degrees of `J`.** This is `CategoryTheory.eqToHom_map` for
 `AlgebraicGeometry.RingedSite.moduleGlobalSectionsOver`, read on an element. -/
@@ -627,6 +644,7 @@ theorem moduleGlobalSectionsOverComplex_eqToHom_apply {p q : ℤ} (hpq : p = q)
   rw [eqToHom_refl, eqToHom_refl]
   exact (Category.comp_id _).symm
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **An integer acts on `Γ_A(𝒞, M)` through its image in `A`.** This is
 `Int.cast_smul_eq_zsmul` at the `A`-module of global sections; it is what matches the integer
 signs of `AlgebraicGeometry.RingedSite.koszulHomComponent_delta` with the signs in `A` that
@@ -637,6 +655,7 @@ theorem intCast_smul_moduleGlobalSectionsOver (c : ℤ)
     ((c : A) • v : (moduleGlobalSectionsOver X A ρ).obj M) = c • v :=
   Int.cast_smul_eq_zsmul A c v
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison turns Mathlib's `δ` into the coefficient Koszul differential.** This is
 `AlgebraicGeometry.RingedSite.koszulHomComponent_delta` with the three remaining pieces of
 bookkeeping discharged: the multiplication by `f_i^{n+1}` is moved across to the scalar
@@ -684,6 +703,7 @@ theorem koszulHomComponent_coefficientKoszulDifferential (t : ℤ)
       ((-1 : ℤ) ^ (t + (S.card : ℤ) + 1).natAbs * (-1 : ℤ) ^ (S.filter (· < i.1)).card)
       (J.X (t + 1 + (S.card : ℤ))) _).symm
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The differential of the `A`-linear DG Hom complex, on an element, is Mathlib's `δ`. This is
 `CochainComplex.dgCategoryLinear_homComplexModules_d_apply` read after the restriction of
 scalars along `ρ`, which changes neither the underlying map nor the element. -/
@@ -697,6 +717,7 @@ theorem restrictScalars_homComplexModules_d_apply (t : ℤ)
   CochainComplex.dgCategoryLinear_homComplexModules_d_apply
     (koszulPowerComplex X (fun i ↦ globalSectionOfSections (ρ (a i))) n) J t (t + 1) rfl z
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The degreewise comparison commutes with the differentials.** -/
 theorem koszulHomTermEquiv_comm (t : ℤ) :
     (koszulHomTermEquiv X A ρ a J n t).toModuleIso.hom ≫
@@ -752,6 +773,7 @@ theorem moduleKoszulValue_indicator (S : Finset (Fin r)) :
         split <;> simp),
     Finset.prod_ite_mem, Finset.univ_inter]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The Koszul power transition out of the factor indexed by `T`** is multiplication by
 `∏_{i ∈ T} f_i` followed by the inclusion of the factor indexed by `T` at the next power. This
 is `CategoryTheory.AlternatingCech.termι_comp_mapX` at
@@ -802,6 +824,7 @@ def koszulHomComplexSystem : ℕᵒᵖ ⥤ CochainComplex (ModuleCat.{u} A) ℤ 
       (homComplexPrecomp X J
         (koszulPowerComplexMap X (fun i ↦ globalSectionOfSections (ρ (a i))) m))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The transition of the tower, on the factor indexed by `S`**, is precomposition with
 multiplication by `∏_{i ∈ S} f_i`. No sign enters: the twist `ε_S` is a scalar and commutes with
 the Koszul entry. -/
@@ -822,6 +845,7 @@ theorem koszulHomComponent_precomp (t : ℤ)
       (⟨S, rfl⟩ : AlternatingCech.Idx r (S.card : ℤ)),
     Category.assoc, ← Preadditive.comp_zsmul, koszulHomComponent_def]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison commutes with the transitions.** The transition of
 `AlgebraicGeometry.RingedSite.koszulHomComplexSystem` multiplies the factor indexed by `S` by
 `∏_{i ∈ S} f_i`, and that of `KoszulCoefficientTower.coefficientKoszulTower` multiplies it by
@@ -843,6 +867,7 @@ theorem koszulHomComponent_coefficientKoszulTransitionTerm (t : ℤ)
     (smul_eq_koszulScalar_comp X A ρ a (fun i ↦ if i ∈ S then 1 else 0)
       (J.X (t + (S.card : ℤ))) (koszulHomComponent X A ρ a J (n + 1) t z S)).symm
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The degreewise comparison commutes with the transitions.** -/
 theorem koszulHomTermEquiv_trans (t : ℤ) :
     (((ModuleCat.restrictScalars ρ).mapHomologicalComplex (ComplexShape.up ℤ)).map
@@ -857,6 +882,7 @@ theorem koszulHomTermEquiv_trans (t : ℤ) :
   exact funext fun S ↦
     koszulHomComponent_coefficientKoszulTransitionTerm X A ρ a J n t z S
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **One step of the comparison of towers.** Precomposition with
 `AlgebraicGeometry.RingedSite.koszulPowerComplexMap` corresponds, under the degreewise
 comparison, to the transition of `KoszulCoefficientTower.coefficientKoszulTower`. -/
@@ -911,6 +937,7 @@ section Naturality
 variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] (A : Type u) [CommRing A]
   (ρ : A →+* RingCat.sectionsSubring ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The reading of [Stacks, Tag 0A8Z] over `A` is natural in its source variable.** For
 `φ : F ⟶ F'` the identification
 `AlgebraicGeometry.RingedSite.moduleGlobalSectionsOverHomComplexIso` carries the `A`-linear
@@ -968,6 +995,7 @@ def koszulSheafHomComplexSystem :
   (koszulPowerSystem X (fun i ↦ globalSectionOfSections (ρ (a i)))).op ⋙
     (sheafHomComplexBifunctor X).flip.obj J
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition of that tower is precomposition with
 `AlgebraicGeometry.RingedSite.koszulPowerComplexMap`. -/
 theorem koszulSheafHomComplexSystem_map_succ :
@@ -981,6 +1009,7 @@ theorem koszulSheafHomComplexSystem_map_succ :
     koszulPowerSystem_map_succ]
   exact sheafHomComplexBifunctor_map_app X _ J
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **One step of the comparison.** [Stacks, Tag 0A8Z] over `A` followed by the Koszul
 comparison carries precomposition with `AlgebraicGeometry.RingedSite.koszulPowerComplexMap` to
 the transition of `KoszulCoefficientTower.coefficientKoszulTower`. -/
@@ -1169,10 +1198,21 @@ def koszulDerivedSheafHomComplexSystemComparison :
         (koszulPowerComplexMap X (fun i ↦ globalSectionOfSections (ρ (a i))) n) (𝟙 J)
       simp only [CategoryTheory.Functor.map_id, Category.comp_id] at hcmp
       simp only [derivedSheafHomSystem, Functor.comp_map, koszulSheafHomComplexSystem_map_succ,
-        koszulPowerSystem_map_succ, Functor.flip_obj_map, Functor.op_map, Quiver.Hom.unop_op,
-        derivedInternalHomOfBifunctor_hom] at hcmp ⊢
+        koszulPowerSystem_map_succ, Functor.flip_obj_map, Functor.op_map,
+        Quiver.Hom.unop_op] at hcmp ⊢
       exact hcmp)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O :
+    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O) ⥤
+      SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O) ⥤
+        SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)).Additive]
+  [∀ B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj B).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+  HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+    (ComplexShape.up ℤ)] in
 /-- The comparison of towers of `AlgebraicGeometry.RingedSite.koszulPowerComplex` is, at each
 `n`, the comparison of [Stacks, Tag 08JH]. -/
 theorem koszulDerivedSheafHomComplexSystemComparison_app (m : ℕᵒᵖ) :
@@ -1205,6 +1245,17 @@ def derivedGlobalSectionsKoszulHomTowerComparison :
     Functor.whiskerRight (koszulDerivedSheafHomComplexSystemComparison X A ρ a J)
       (derivedGlobalSectionsOverUnbounded X A ρ)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O :
+    SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O) ⥤
+      SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O) ⥤
+        SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)).Additive]
+  [∀ B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj B).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+  HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+    (ComplexShape.up ℤ)] in
 /-- The comparison of towers in `D(A)` is, at each `n`, the complex-level comparison
 `Q(Γ_A(𝒞, -)) ⟶ RΓ_A(𝒞, Q -)` followed by `RΓ_A(𝒞, -)` applied to the comparison of
 [Stacks, Tag 08JH]. -/

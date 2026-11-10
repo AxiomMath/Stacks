@@ -69,6 +69,6 @@ public theorem frobeniusSemilinear_sub_id_surjective
   have hcorr : F (n : V) - (n : V) = -(F x - x - y) :=
     (he n).symm.trans (congrArg (fun z : N ↦ (z : V)) hn)
   refine ⟨x + n, ?_⟩
-  show F (x + (n : V)) - (x + (n : V)) = y
+  change F (x + (n : V)) - (x + (n : V)) = y
   rw [F.map_add, add_sub_add_comm, hcorr]
   abel

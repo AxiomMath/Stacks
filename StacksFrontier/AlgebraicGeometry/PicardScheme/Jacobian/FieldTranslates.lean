@@ -134,7 +134,7 @@ theorem exists_translate_mem_cohomologySubfunctorZero (θ : Stacks.Picard.ofSche
       (topologicalKrullDim_bc_fieldExtensionPoint_le f hdimX K)
         (classOfZero f hdim σ hσ x) = 0 := by
     have hpt : Nonempty (fieldExtensionPoint k K).left := by
-      show Nonempty (PrimeSpectrum K); infer_instance
+      change Nonempty (PrimeSpectrum K); infer_instance
     obtain ⟨pt⟩ := hpt
     rw [← relativeInvertibleDegreeHomAt_spec (bcProj f (fieldExtensionPoint k K))
       (topologicalKrullDim_bc_fieldExtensionPoint_le f hdimX K)

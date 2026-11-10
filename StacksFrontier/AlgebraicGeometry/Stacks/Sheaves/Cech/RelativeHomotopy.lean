@@ -179,11 +179,11 @@ private lemma faceZero_comp_prepend
     rfl
   let β := whiskerRanCounit H.op Q.op P.op hh F
   have hfac := whiskerLeft_homEquiv_comp_ranCounit P.op β
-  show _ ≫ (Functor.whiskerLeft P.op ((P.op.ranAdjunction _).homEquiv _ _ β) ≫
+  change _ ≫ (Functor.whiskerLeft P.op ((P.op.ranAdjunction _).homEquiv _ _ β) ≫
     P.op.ranCounit.app (P.op ⋙ F)) = _
   rw [hfac]
   let R := Tuple.reindex q f (SimplexCategory.δ (0 : Fin (n + 2))).toOrderHom
-  show Functor.whiskerLeft H.op
+  change Functor.whiskerLeft H.op
       (Functor.whiskerLeft Q.op
         (reindexMap.{wᵤ, wₓ, _, vᵤ, vₓ, _, t}
           q f F (SimplexCategory.δ (0 : Fin (n + 2)))) ≫
@@ -214,7 +214,7 @@ private lemma sectionMap_eq_whiskeredCounit
   have hfac := whiskerLeft_homEquiv_comp_ranCounit P.op β
   dsimp [sectionMap]
   ext x z
-  show ((((P.op.ranAdjunction _).homEquiv _ _ β).app x ≫
+  change ((((P.op.ranAdjunction _).homEquiv _ _ β).app x ≫
     (P.op.ranCounit.app (P.op ⋙ F)).app x).hom z) = (β.app x).hom z
   exact congrArg (fun m : (Q.op.ran.obj (Q.op ⋙ F)).obj x ⟶ F.obj x => m.hom z)
     (by simpa [P] using congr_app hfac x)
@@ -376,7 +376,7 @@ private lemma reindexMap_faceSucc_comp_prepend
           q f F (SimplexCategory.δ i)).app (P.op.obj x) ≫
       (P.op.ranCounit.app (P.op ⋙ F)).app x := by
     refine hd'.trans (hmiddle.trans (hj'.symm.trans ?_))
-    show (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα).app
+    change (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα).app
       (P.op.obj x) ≫ (R.op.ranCounit.app (R.op ⋙ F)).app (E.op.obj x) = _
     rw [← hi']
   exact congrArg (fun φ : (P.op ⋙ term q f F (n + 1)).obj x ⟶
@@ -501,7 +501,7 @@ private lemma differential_comp_prepend_succ
         term.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (n + 1) ⟶
           term.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (n + 1)) = 𝟙 _ := by
   rw [complex_d.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (n + 1)]
-  show (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα ≫
+  change (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα ≫
       (complex.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F).d n (n + 1) :
         term.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (n + 1) ⟶
           term.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (n + 1)) +
@@ -513,7 +513,7 @@ private lemma differential_comp_prepend_succ
     faceZero_comp_prepend, Fin.val_succ, pow_succ, mul_neg_one, neg_smul,
     Preadditive.neg_comp, reindexMap_faceSucc_comp_prepend, Finset.sum_neg_distrib]
   rw [complex_d.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F n]
-  show (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα ≫
+  change (prependSectionMap.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f F n s α hα ≫
       (∑ j : Fin (n + 2), (-1 : ℤ) ^ (j : ℕ) •
           reindexMap.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F (SimplexCategory.δ j) :
         term.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f F n ⟶
@@ -597,7 +597,7 @@ public theorem sheafAugmentation_comp_d :
     AddCommGrpCat.{max vᵤ vₓ wₓ t}
   let P := complex.{wᵤ, wₓ, _, vᵤ, vₓ, _, t} q f 𝓕.obj
   let a := augmentation.{u, vᵤ, vₓ, wᵤ, wₓ, t} q f 𝓕.obj 0
-  show (sheafificationIso 𝓕).hom ≫ L.map a ≫ L.map (P.d 0 1) = 0
+  change (sheafificationIso 𝓕).hom ≫ L.map a ≫ L.map (P.d 0 1) = 0
   rw [show L.map a ≫ L.map (P.d 0 1) = L.map (a ≫ P.d 0 1) from (L.map_comp _ _).symm,
     augmentation_comp_d, L.map_zero, comp_zero]
 

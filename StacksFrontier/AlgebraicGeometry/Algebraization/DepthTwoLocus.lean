@@ -97,7 +97,7 @@ public theorem notMem_depthTwoLocus_of_mem_range_Yι (S : AlgebraizationSituatio
     hx ⟨hxz ▸ subset_closure rfl, ⟨z, rfl⟩⟩
   have hwV : S.Zι.base w ∈ PrimeSpectrum.zeroLocus (S.a : Set S.A) := by
     intro r hr
-    show Ideal.Quotient.mk S.a r ∈ w.asIdeal
+    change Ideal.Quotient.mk S.a r ∈ w.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hr]
     exact Ideal.zero_mem _
   have hxU : S.U.ι.base x ∈ (PrimeSpectrum.zeroLocus (S.a : Set S.A))ᶜ := x.2

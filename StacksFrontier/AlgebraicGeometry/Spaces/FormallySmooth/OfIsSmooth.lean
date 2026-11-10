@@ -145,7 +145,7 @@ theorem toScheme_map_isoSpecOverOf_inv {V : BigFppfOver B S hS}
         s₀ = B.inclusion.map V.hom) :
     (BigFppfOver.toScheme B S hS).map (isoSpecOverOf s₀ h).inv =
       ((BigFppfOver.toScheme B S hS).obj V).isoSpec.inv := by
-  show B.inclusion.map (B.inclusion.preimageIso _).inv = _
+  change B.inclusion.map (B.inclusion.preimageIso _).inv = _
   rw [Functor.preimageIso_inv, Functor.map_preimage]
 
 /-- The compatibility of `AlgebraicGeometry.Space.isoSpecOverOf` for the algebra structure of a
@@ -331,12 +331,12 @@ theorem exists_lift_specOver_of_isSmooth (hX : IsAlgebraicSpace B S hS X)
   have hinclL : (e.symm.toAlgHom.comp τA : A →ₐ[A'] A ⊗[A'] B') =
       Algebra.TensorProduct.includeLeft := by
     ext a
-    show e.symm (algebraMap A Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) a) = a ⊗ₜ 1
+    change e.symm (algebraMap A Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) a) = a ⊗ₜ 1
     rw [← he a, AlgEquiv.symm_apply_apply]
   have hζchart : IsChartOf φ ξ ζ := by
     refine RelSec.ext ?_
     rw [chartSection_map]
-    show c.app _ (specOverHom B S hS s₀ hCsite.out _ ζ ≫ eZ.inv) =
+    change c.app _ (specOverHom B S hS s₀ hCsite.out _ ζ ≫ eZ.inv) =
       X'.map (specOverHom B S hS s₀ hAsite.out _ Algebra.TensorProduct.includeLeft).op
         (yonedaEquiv g)
     have h1 : specOverHom B S hS s₀ hCsite.out (inSite_tensorProduct (B := B)).out ζ ≫ eZ.inv =
@@ -346,11 +346,11 @@ theorem exists_lift_specOver_of_isSmooth (hX : IsAlgebraicSpace B S hS X)
     have h2 : t ≫ eW.inv ≫ π = specOverHom B S hS s₀ hAsite.out
         (inSite_tensorProduct (B := B)).out Algebra.TensorProduct.includeLeft := by
       rw [← hτA]
-      show specOverHom B S hS s₀ hWsite.out (inSite_tensorProduct (B := B)).out
+      change specOverHom B S hS s₀ hWsite.out (inSite_tensorProduct (B := B)).out
         (e.symm.toAlgHom : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) →ₐ[A'] A ⊗[A'] B') ≫ _ = _
       rw [specOverHom_comp, hinclL]
     rw [h1, yonedaEquiv_naturality]
-    show c.app _ ((t ≫ eW.inv) ≫ m) = (yoneda.map _ ≫ g).app _ (𝟙 _)
+    change c.app _ ((t ≫ eW.inv) ≫ m) = (yoneda.map _ ≫ g).app _ (𝟙 _)
     rw [← h2]
     have hmc' := congrArg (fun h => h.app (op (specOver B S hS s₀ (A ⊗[A'] B')
       (inSite_tensorProduct (B := B)).out)) (t ≫ eW.inv)) hmc
@@ -362,13 +362,13 @@ theorem exists_lift_specOver_of_isSmooth (hX : IsAlgebraicSpace B S hS X)
   · have h := congrArg (fun z : RelSec p A => (pullback.fst f yT).app _ z.1) hw
     simp only [RelSec.map_val] at h
     rw [← NatTrans.naturality_apply, h]
-    show (pullback.fst f yT).app _ (yonedaEquiv g) = x
+    change (pullback.fst f yT).app _ (yonedaEquiv g) = x
     rw [← yonedaEquiv_comp, hgf, Equiv.apply_symm_apply]
   · rw [← NatTrans.comp_app_apply, pullback.condition, NatTrans.comp_app_apply]
     have hpw : p.app _ w.1 = 𝟙 T₀ := by
       rw [w.2, specOverHom_congr (algHom_self_ext (Algebra.ofId A' A') (AlgHom.id A' A')),
         specOverHom_id]
-    show yT.app _ (p.app _ w.1) = y
+    change yT.app _ (p.app _ w.1) = y
     rw [hpw]
     exact Y.map_id_apply _ y
 

@@ -151,7 +151,7 @@ theorem exists_chosenCovering_presieve₀_eq (τ : CoveringTopology) {X : B.Sche
       B.chosenCovering τ ⟨X, F⟩ ∧ F.presieve₀ = E.presieve₀ := by
   have hEs := (Scheme.presieve₀_mem_precoverage_iff _).1 hE
   have hfppf : IsFppfCovering (κ := B.cutoff) ⟨X, E⟩ := by
-    show Presieve.map B.inclusion E.presieve₀ ∈ Scheme.fppfPrecoverage.coverings _
+    change Presieve.map B.inclusion E.presieve₀ ∈ Scheme.fppfPrecoverage.coverings _
     rw [← PreZeroHypercover.presieve₀_map]
     exact (Scheme.presieve₀_mem_precoverage_iff _).2 ⟨hEs.1, fun i =>
       coveringMorphismProperty_le_flat_inf_locallyOfFinitePresentation τ _ (hEs.2 i)⟩
@@ -274,10 +274,10 @@ theorem IsClosedUnderCoverings.of_coveringMorphismProperty {τ : CoveringTopolog
       Scheme.precoverage (coveringMorphismProperty τ) (B.inclusion.obj U.left) := by
     rw [Scheme.presieve₀_mem_precoverage_iff]
     refine ⟨fun x ↦ ⟨.inl PUnit.unit, x, ?_⟩, fun i ↦ ?_⟩
-    · show (B.inclusion.map (𝟙 U.left)) x = x
+    · change (B.inclusion.map (𝟙 U.left)) x = x
       simp
     · rcases i with _ | _
-      · show coveringMorphismProperty τ (B.inclusion.map (𝟙 U.left))
+      · change coveringMorphismProperty τ (B.inclusion.map (𝟙 U.left))
         rw [B.inclusion.map_id]
         exact ExtendingFunctors.coveringMorphismProperty_of_isOpenImmersion τ _
       · exact hf

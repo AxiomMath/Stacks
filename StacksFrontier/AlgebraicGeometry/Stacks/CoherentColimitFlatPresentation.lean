@@ -64,7 +64,7 @@ theorem coherentQuasicoherent_inverse_obj
       ((quasicoherentFlatPresentationEquivalence B S hS 𝒳 F hF f hlfp hflat hsurj).inverse.obj
         N) := by
   let E := quasicoherentFlatPresentationEquivalence B S hS 𝒳 F hF f hlfp hflat hsurj
-  show quasicoherentCoherentModules B S hS 𝒳 (E.inverse.obj N)
+  change quasicoherentCoherentModules B S hS 𝒳 (E.inverse.obj N)
   rw [← inverseImage_coherentModules_eq_quasicoherentCoherentModules B S hS 𝒳
     (flatPresentationGroupoid B S hS 𝒳 F hF f) h𝒳 f hlfp hflat hsurj E
     (fun ℱ => Classical.choice
@@ -107,7 +107,7 @@ theorem exists_colimitPresentation_mono_coherent_of_flatPresentation
   refine ⟨I, inferInstance, inferInstance, (pres.map E.inverse).ofIso (E.unitIso.app M).symm,
     fun i => ?_, fun i => ?_⟩
   · have := hmono i
-    show Mono ((E.inverse.map (pres.ι.app i) ≫
+    change Mono ((E.inverse.map (pres.ι.app i) ≫
       (E.inverse.constComp I (E.functor.obj M)).hom.app i) ≫ (E.unitIso.app M).symm.hom)
     infer_instance
   · exact coherentQuasicoherent_inverse_obj B S hS 𝒳 F hF f h𝒳 hlfp hflat hsurj _ (hcoh i)

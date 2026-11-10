@@ -73,8 +73,8 @@ theorem functor_map_inverseIsoOfFunctorIso_hom_app_comp_counit (e e' : C ≌ D)
       i.inv.app _ ≫ e'.counit.app T := by
   have h1 := e.counit_naturality (i.inv.app (e'.inverse.obj T) ≫ e'.counit.app T)
   have h2 := e.functor_unit_comp (e'.inverse.obj T)
-  simp only [Functor.comp_obj, Functor.id_obj] at h1 h2
-  show e.functor.map (𝟙 _ ≫ e.unit.app _ ≫ 𝟙 _ ≫
+  simp only [Functor.id_obj] at h1 h2
+  change e.functor.map (𝟙 _ ≫ e.unit.app _ ≫ 𝟙 _ ≫
       e.inverse.map (i.inv.app _ ≫ e'.counit.app T) ≫ 𝟙 _) ≫ e.counit.app T = _
   rw [Category.id_comp, Category.id_comp, Category.comp_id, Functor.map_comp, Category.assoc, h1,
     ← Category.assoc, h2]
@@ -96,8 +96,8 @@ theorem functor_map_isoCompInverseOfIso_hom_app_comp_counit (e : C ≌ D) {G : C
       α.hom.app c := by
   have h1 := e.counit_naturality (α.hom.app c)
   have h2 := e.functor_unit_comp (G.obj c)
-  simp only [Functor.comp_obj, Functor.id_obj] at h1 h2
-  show e.functor.map (𝟙 _ ≫ e.unit.app _ ≫ 𝟙 _ ≫ e.inverse.map (α.hom.app c)) ≫
+  simp only [Functor.comp_obj] at h1 h2
+  change e.functor.map (𝟙 _ ≫ e.unit.app _ ≫ 𝟙 _ ≫ e.inverse.map (α.hom.app c)) ≫
     e.counit.app (H.obj c) = _
   rw [Category.id_comp, Category.id_comp, Functor.map_comp, Category.assoc, h1,
     ← Category.assoc, h2]
@@ -141,7 +141,7 @@ theorem unit_conj_eq_comp_conj {C D D' : Type*} [Category C] [Category D] [Categ
       eU.inv ≫ comp.app G ≫ R.map eW.hom := by
   have hnat := comp.naturality g.inv
   simp only [Functor.comp_map] at hnat
-  simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.mapIso_inv,
+  simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom,
     Functor.map_comp, Category.assoc]
   have h' : i1.hom ≫ unit ≫ R.map bc.inv ≫ R.map i1'.inv = comp.app A := by
     rw [← reassoc_of% h3C, ← R.map_comp, Iso.hom_inv_id, R.map_id, Category.comp_id]
@@ -287,7 +287,7 @@ theorem objectInverseImageRestrictSharp_compat (x : 𝒳)
       ((localStructurePresheafIso B (associatedBigEtaleSite B) rfl S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B)).hom.app V).hom r := by
   let := isEquivalence_overPost B S hS p hp x
-  show (Scheme.Γ.map (B.inclusion.map ((Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).map
+  change (Scheme.Γ.map (B.inclusion.map ((Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).map
         ((overPostInvIsoLocalizationInverse B S hS p hp x).hom.app
           ((smallEtaleInclusion B (associatedBigEtaleSite B) rfl (p.obj x).left.1
             (contains_base B (associatedBigEtaleSite B) rfl S hS p x)).obj V.unop))).left).op).hom
@@ -351,7 +351,7 @@ theorem overPostInvMapCompIso_hom_app_left {x z : 𝒳} (φ : z ⟶ x) (T : Over
       ((Over.post (X := z) (p ⋙ Over.forget (B.obj hS))).asEquivalence.counit.app T).left := by
   let := isEquivalence_overPost B S hS p hp z
   simp only [overPostInvMapCompIso, Iso.trans_hom, NatTrans.comp_app]
-  show 𝟙 _ ≫ (𝟙 _ ≫ ((Over.post (X := z) (p ⋙ Over.forget (B.obj hS))).asEquivalence.counit.app
+  change 𝟙 _ ≫ (𝟙 _ ≫ ((Over.post (X := z) (p ⋙ Over.forget (B.obj hS))).asEquivalence.counit.app
     T).left ≫ 𝟙 _) ≫ 𝟙 _ = _
   simp only [Category.id_comp, Category.comp_id]
 /-- **The two lifts below an arrow.**  For `φ : z ⟶ x` lying over `a : W ⟶ U`, a scheme `T`
@@ -606,7 +606,7 @@ theorem comparisonLift_comp_overPostInvIso {x z : 𝒳} (φ : z ⟶ x)
       Stacks.CategoryTheory.Equivalence.functor_map_isoCompInverseOfIso_hom_app_comp_counit
         (FibredSite.localizationEquivalence B S hS p hp x) (overPostInvMapCompIso B S hS p hp φ) _
     have k' := (FibredSite.localizationEquivalence B S hS p hp x).counit_naturality π
-    simp only [Functor.comp_obj, Functor.id_obj] at k'
+    simp only [Functor.comp_obj] at k'
     simp only [rhs, Functor.map_comp, Category.assoc]
     rw [k', ← Category.assoc, k]
   rw [h1, h2]
@@ -697,7 +697,7 @@ theorem restrictionPushforwardComparison_objectInverseImageRestrictIso
       (F.val.map ((FibredSite.localizationEquivalence B S hS p hp x).inverse.map π).left.op m) :=
     rfl
   rw [hR]
-  show (F.val.presheaf.map _ ≫ F.val.presheaf.map φ'.op) m =
+  change (F.val.presheaf.map _ ≫ F.val.presheaf.map φ'.op) m =
     (F.val.presheaf.map _ ≫ F.val.presheaf.map _) m
   rw [← Functor.map_comp, ← Functor.map_comp, ← op_comp, ← op_comp, key]
 

@@ -339,7 +339,7 @@ theorem isQuasicoherent_geometricFactorFormula (M : ModuleCat.{u} R) :
   have h2 : ((pullbackFactor R W).obj ((tildeFactor R).obj M)).IsQuasicoherent :=
     @AlgebraicGeometry.SheafOfModules.modulePullback_isQuasicoherent _ _
       (toSpecBase R W).left.toLRSHom.toShHom _ h1
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor
     ⟨((W.left.toRingedSpace)).presheaf, ((W.left.toRingedSpace)).IsSheaf⟩).obj (F.obj)).obj
     (((pullbackFactor R W).obj ((tildeFactor R).obj M))))).IsQuasicoherent
   exact @AlgebraicGeometry.tensorSheaf_isQuasicoherent _ _ _ F.property h2

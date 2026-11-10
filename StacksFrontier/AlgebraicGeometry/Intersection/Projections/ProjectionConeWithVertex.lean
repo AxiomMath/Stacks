@@ -330,7 +330,7 @@ public theorem exists_isOpen_inter_projectionConeWithVertex_eq [IsAlgClosed k] [
       have hrw : (Y \ Z) ∩ projectionConeWithVertex k V p Z =
           (Y ∩ projectionConeWithVertex k V p Z) ∩ Zᶜ := by
         ext x
-        simp only [Set.mem_inter_iff, Set.mem_diff, Set.mem_compl_iff]
+        simp only [Set.mem_inter_iff, Set.mem_sdiff, Set.mem_compl_iff]
         tauto
       rw [hrw]
       exact hYconeClosed.isLocallyClosed.inter hZ.isOpen_compl.isLocallyClosed

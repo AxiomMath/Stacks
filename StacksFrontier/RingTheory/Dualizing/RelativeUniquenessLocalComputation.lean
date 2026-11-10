@@ -289,8 +289,9 @@ theorem isTorsionBySet_homology_derivedFibre (m : Ideal A) [m.IsMaximal]
     Module.IsTorsionBySet A
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj (derivedFibre A X m))
       (m : Set A) := by
+  open StacksDraft.Perfect in
   obtain ⟨e⟩ :=
-    StacksDraft.Perfect.nonempty_restrictScalars_homology_totalDerivedExtensionScalars_iso_homology_derivedTensor_single_residueField
+    nonempty_restrictScalars_homology_fibre_iso_homology_derivedTensor_residueField
       m X hX i
   refine StacksDraft.ResidueLength.isTorsionBySet_of_iso (m : Set A)
     (e ≪≫ (StacksDraft.Perfect.homologyDerivedTensorQuotientIsoResidueField m X i).symm ≪≫

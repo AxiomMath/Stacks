@@ -50,12 +50,14 @@ local instance (priority := high) hasPullback_presheaf_ContractionSolutionModifi
     HasLimit (cospan f g) :=
   hasPullbacks_presheaf_ContractionSolutionModificationIso.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Synthesizing `HasPullbacks` for this sheaf category exceeds the default instance budget.
 /-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
 times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModificationIso
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModificationIso
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -85,7 +87,7 @@ theorem preimage_T'_modificationHom :
     (Space.FieldValuedPoint.tautological B S hS q).class B S hS (yoneda.obj q.siteObject)
   have hq : q.class B S hS A.Y = Space.pointsMap B S hS _ ξ w :=
     (Space.FieldValuedPoint.pointsMap_class_tautological B S hS q).symm
-  show Space.pointsMap B S hS A.Y (modificationHom c α A) (q.class B S hS A.Y) ∈ c.T' ↔
+  change Space.pointsMap B S hS A.Y (modificationHom c α A) (q.class B S hS A.Y) ∈ c.T' ↔
     Space.pointsMap B S hS A.Y A.h (q.class B S hS A.Y) ∈ contractedLocus c α
   have e1 : Space.pointsMap B S hS A.Y (modificationHom c α A)
       (Space.pointsMap B S hS _ ξ w) =
@@ -353,7 +355,7 @@ theorem completionSheafRestrict_modificationHom :
   have hw : FormalSpace.presheafSection B S hS (e.hom.app (op N.unop.obj) z).1.down
       (e.hom.app (op N.unop.obj) z).2 = z :=
     congrArg (fun φ => φ.app (op N.unop.obj) z) e.hom_inv_id
-  show (A.eLeft ≫ pullback.fst c.g (completionSheafIsoWExt c α hX hft).hom).hom.app
+  change (A.eLeft ≫ pullback.fst c.g (completionSheafIsoWExt c α hX hft).hom).hom.app
       (op N.unop.obj) z =
     (Space.completionSheafRestrict B S hS (modificationHom c α A) _ c.T' _).hom.app
       (op N.unop.obj) z
@@ -401,7 +403,7 @@ theorem completionSheafRestrict_modificationHom :
       have hx2 : Space.HasImageIn B S hS A.Y
           (Space.pointsMap B S hS A.Y A.h ⁻¹' contractedLocus c α) V.obj
           (ξ.app (op V.obj) (𝟙 V.obj)) := by rwa [hξx]
-      show (A.eLeft ≫ pullback.fst c.g _).hom.app _
+      change (A.eLeft ≫ pullback.fst c.g _).hom.app _
         ((Space.completionSheafRestrict B S hS ξ _ _ (tripleOfMor_Z_subset c α A V ξ)).hom.app _
           (FormalSpace.presheafSection B S hS (𝟙 V.obj) hid)) = _
       rw [FormalSpace.completionSheafRestrict_presheafSection B S hS _ _ _ _ _ hid hx2,

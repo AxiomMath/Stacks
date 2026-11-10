@@ -67,7 +67,7 @@ private theorem range_comp_of_isIso {C : Type*} [Category C] {F G H : C ⥤ Type
     exact ⟨e.app T x, rfl⟩
   · rintro ⟨x, rfl⟩
     refine ⟨(inv e).app T x, ?_⟩
-    show (inv e ≫ e ≫ g).app T x = _
+    change (inv e ≫ e ≫ g).app T x = _
     rw [IsIso.inv_hom_id_assoc]
 
 /-- Relative representability by `uliftYoneda` of the pullback of a property along `toScheme`
@@ -113,7 +113,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
     mono_of_isRepresentableThickeningULift B S hS (hjj j)
   have hrange (j : I) : Subfunctor.range (jj j ≫ f j).hom =
       Subfunctor.range (stageIncl (c j).system ((c j).powStage k) ≫ (c j).chart).hom := by
-    show Subfunctor.range ((sheafificationIso (Rsp j)).hom.hom ≫
+    change Subfunctor.range ((sheafificationIso (Rsp j)).hom.hom ≫
       (stageIncl (c j).system ((c j).powStage k) ≫ (c j).chart).hom) = _
     exact range_comp_of_isIso _ _
   have heq : reductionNeighbourhood i k =
@@ -139,7 +139,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
       ((c j).mem_range_powStage_iff_mem hred k y).2 (hxy ▸ x.property)
     let z' : (Rsp j).obj.obj (op T) := (sheafificationIso (Rsp j)).inv.hom.app _ z
     have hz' : (jj j).hom.app (op T) z' = y := by
-      show ((sheafificationIso (Rsp j)).inv ≫ (sheafificationIso (Rsp j)).hom ≫
+      change ((sheafificationIso (Rsp j)).inv ≫ (sheafificationIso (Rsp j)).hom ≫
         stageIncl (c j).system ((c j).powStage k)).hom.app (op T) z = y
       rw [show (sheafificationIso (Rsp j)).inv ≫ (sheafificationIso (Rsp j)).hom ≫
         stageIncl (c j).system ((c j).powStage k) = stageIncl (c j).system ((c j).powStage k)
@@ -151,7 +151,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
       apply Subtype.ext
       refine (ConcreteCategory.congr_hom (congr_app
         (congrArg (fun t : Rsp j ⟶ W => t.hom) (hk j)) (op T)) z').trans ?_
-      show (f j).hom.app (op T) ((jj j).hom.app (op T) z') = x.val
+      change (f j).hom.app (op T) ((jj j).hom.app (op T) z') = x.val
       rw [hz']
       exact hxy.symm
     · rw [NatTrans.naturality_apply, hz']
@@ -201,7 +201,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
       exact ((hgi j).rep.isPullback p).flip
     have hVj (j : I) : _root_.AlgebraicGeometry.IsLocallyNoetherian (q.obj (Vj j)) := by
       have : _root_.AlgebraicGeometry.IsLocallyNoetherian (q.obj (Ti j)) := by
-        show _root_.AlgebraicGeometry.IsLocallyNoetherian
+        change _root_.AlgebraicGeometry.IsLocallyNoetherian
           (Spec (.of ((c j).ring ⧸ topologicalNilradical (c j).ring ^ (k + 1))))
         infer_instance
       have := hrj j
@@ -234,7 +234,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
         rw [Y.map_comp, Y.map_preimage]
         exact ((hgi j).rep.isPullback p).lift_snd _ _ _
       refine ⟨j, a.left.hom y, ?_⟩
-      show ((q.map a) ≫ q.map (pj j)) y = x
+      change ((q.map a) ≫ q.map (pj j)) y = x
       rw [← Functor.map_comp, hab]
       exact hy
     choose idx hidx using hpoint
@@ -246,7 +246,7 @@ private theorem reductionNeighbourhood_main (hW : IsLocallyNoetherian B S hS W)
   subst hk0
   obtain ⟨T, atlas, hs, he⟩ := halg.exists_atlas
   have hTired (j : I) : IsReduced ((BigFppfOver.toScheme B S hS).obj (Ti j)) := by
-    show IsReduced (Spec (.of ((c j).ring ⧸ topologicalNilradical (c j).ring ^ (0 + 1))))
+    change IsReduced (Spec (.of ((c j).ring ⧸ topologicalNilradical (c j).ring ^ (0 + 1))))
     have : _root_.IsReduced ((c j).ring ⧸ topologicalNilradical (c j).ring ^ (0 + 1)) :=
       (Ideal.isRadical_iff_quotient_reduced _).mp
         (by simpa using TopologicalRing.topologicalNilradical_isRadical (B := (c j).ring))

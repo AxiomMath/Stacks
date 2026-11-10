@@ -137,7 +137,7 @@ theorem tensorComparisonCompatibility_of_iso
     TensorComparisonCompatibility hTor baseChangeR comparisonR baseChangeA comparisonA
       Ff alphaf Fi alphai Y := by
   replace h : _ = _ := h
-  show _ = _
+  change _ = _
   have hmu := derivedTensorBaseChange_naturality.{uR, uRp, max v uA}
     (algebraMap R R') baseChangeR comparisonR e.hom
     (𝟙 (derivedAlgebraSingle.{uR, uA, max v uRp} (algebraMap R A)))

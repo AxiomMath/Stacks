@@ -135,7 +135,7 @@ lemma eq_of_isSchemeTheoreticallyDominant {p : X ⟶ Z} {u v : Z ⟶ W} {g : W �
   have := hp
   have := hsep
   have hfac : p ≫ pullback.lift u v hg = (p ≫ u) ≫ pullback.diagonal g :=
-    pullback.hom_ext (by simp [pullback.lift_fst]) (by simp [pullback.lift_snd, h])
+    pullback.hom_ext (by simp) (by simp [h])
   have hiso : IsIso (pullback.fst (pullback.lift u v hg) (pullback.diagonal g)) := by
     have hle := (pullback.lift p (p ≫ u) hfac).le_ker_comp
       (pullback.fst (pullback.lift u v hg) (pullback.diagonal g))

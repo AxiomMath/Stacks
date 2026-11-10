@@ -394,7 +394,7 @@ theorem tau_elemPS {i j : n} (hij : i ≠ j) {f : PowerSeries R} (hf : constantC
 /-- In degree `m ≠ 0`, the coefficient of `1 + f E_ij` is `coeff m f` at `(i, j)`. -/
 theorem coeff_elemPS_of_ne_zero (i j : n) (f : PowerSeries R) {m : ℕ} (hm : m ≠ 0) :
     coeff m (elemPS i j f) = Matrix.single i j (coeff m f) := by
-  rw [elemPS, map_add, coeff_one, if_neg hm, zero_add, coeff_entryPS]
+  rw [elemPS, map_add, coeff_one, ite_eq_right hm, zero_add, coeff_entryPS]
 
 
 /-! ### Power series congruent to `1` modulo `T ^ k` -/
@@ -447,7 +447,7 @@ theorem IsOneTo.isOneTo_inv1 {v : PowerSeries S} {k : ℕ} (hv : IsOneTo v k) :
       coeff j (inv1 v) = -coeff j v := by
     intro j hj hjk ih
     have h := congrArg (coeff j) hvw
-    rw [coeff_one, if_neg hj.ne', coeff_mul_eq_add_of_mul_eq_zero hj fun a b hab _ hb => by
+    rw [coeff_one, ite_eq_right hj.ne', coeff_mul_eq_add_of_mul_eq_zero hj fun a b hab _ hb => by
       rw [ih b hb (by omega), mul_zero]] at h
     rw [hv.coeff_zero, one_mul, show coeff 0 (inv1 v) = 1 by
       rw [coeff_zero_eq_constantCoeff_apply, constantCoeff_inv1], mul_one] at h
@@ -490,21 +490,21 @@ theorem coeff_one_add_X_pow_mul_C (k m : ℕ) (x : S) :
   by_cases h : m = k
   · subst h; simp
   · by_cases h' : k ≤ m
-    · rw [if_pos h', if_neg (by omega), if_neg h]
-    · rw [if_neg h', if_neg h]
+    · rw [ite_eq_left h', ite_eq_right (by omega), ite_eq_right h]
+    · rw [ite_eq_right h', ite_eq_right h]
 
 /-- For `0 < k`, `1 + x T ^ k ≡ 1 (mod T ^ k)`. -/
 theorem isOneTo_one_add_X_pow_mul_C {k : ℕ} (hk : 0 < k) (x : S) :
     IsOneTo (1 + X ^ k * C x) k := by
   refine ⟨?_, fun j hj hjk => ?_⟩
-  · rw [← coeff_zero_eq_constantCoeff_apply, coeff_one_add_X_pow_mul_C, if_pos rfl,
-      if_neg (Ne.symm hk.ne'), add_zero]
-  · rw [coeff_one_add_X_pow_mul_C, if_neg hj.ne', if_neg hjk.ne, add_zero]
+  · rw [← coeff_zero_eq_constantCoeff_apply, coeff_one_add_X_pow_mul_C, ite_eq_left rfl,
+      ite_eq_right (Ne.symm hk.ne'), add_zero]
+  · rw [coeff_one_add_X_pow_mul_C, ite_eq_right hj.ne', ite_eq_right hjk.ne, add_zero]
 
 /-- For `0 < k`, the degree-`k` coefficient of `1 + x T ^ k` is `x`. -/
 theorem coeff_k_one_add_X_pow_mul_C {k : ℕ} (hk : 0 < k) (x : S) :
     coeff k (1 + X ^ k * C x) = x := by
-  rw [coeff_one_add_X_pow_mul_C, if_neg hk.ne', if_pos rfl, zero_add]
+  rw [coeff_one_add_X_pow_mul_C, ite_eq_right hk.ne', ite_eq_left rfl, zero_add]
 
 /-- For `0 < k`, the constant coefficient of `1 + x T ^ k` is `1`. -/
 theorem constantCoeff_one_add_X_pow_mul_C {k : ℕ} (hk : 0 < k) (x : S) :
@@ -516,7 +516,7 @@ theorem coeff_X_mul_cases (m : ℕ) (f : PowerSeries S) :
     coeff m (X * f) = if m = 0 then 0 else coeff (m - 1) f := by
   rcases m with _ | m
   · simp
-  · rw [coeff_succ_X_mul, if_neg (Nat.succ_ne_zero m), Nat.add_sub_cancel]
+  · rw [coeff_succ_X_mul, ite_eq_right (Nat.succ_ne_zero m), Nat.add_sub_cancel]
 
 /-- The geometric series inverts `1 - A T`. -/
 theorem inv1_one_sub_X_mul_C (A : S) :
@@ -526,7 +526,7 @@ theorem inv1_one_sub_X_mul_C (A : S) :
   rw [sub_mul, one_mul, map_sub, coeff_mk, mul_assoc, coeff_X_mul_cases, coeff_one]
   rcases m with _ | m
   · simp
-  · rw [if_neg (Nat.succ_ne_zero m), if_neg (Nat.succ_ne_zero m), Nat.add_sub_cancel,
+  · rw [ite_eq_right (Nat.succ_ne_zero m), ite_eq_right (Nat.succ_ne_zero m), Nat.add_sub_cancel,
       coeff_C_mul, coeff_mk, ← pow_succ', sub_self]
 
 /-- `T d/dT (1 - A T) = -A T`. -/
@@ -535,7 +535,8 @@ theorem degDeriv_one_sub_X_mul_C (A : S) : degDeriv (1 - X * C A) = -(X * C A) :
   rw [coeff_degDeriv, map_sub, coeff_one, map_neg, coeff_X_mul_cases, coeff_C]
   rcases m with _ | m
   · simp
-  · rw [if_neg (Nat.succ_ne_zero m), if_neg (Nat.succ_ne_zero m), zero_sub, Nat.add_sub_cancel]
+  · rw [ite_eq_right (Nat.succ_ne_zero m), ite_eq_right (Nat.succ_ne_zero m), zero_sub,
+      Nat.add_sub_cancel]
     rcases m with _ | m
     · simp
     · simp
@@ -546,7 +547,7 @@ end Basic
 theorem coeff_geom_mul_X_mul_C {S : Type*} [Ring S] (A : S) {m : ℕ} (hm : 0 < m) :
     coeff m ((PowerSeries.mk fun j => A ^ j) * (X * C A)) = A ^ m := by
   rw [← mul_assoc, show (PowerSeries.mk fun j => A ^ j) * X = X * PowerSeries.mk fun j => A ^ j
-    from (commute_X _).eq, mul_assoc, coeff_X_mul_cases, if_neg hm.ne', coeff_mul_C,
+    from (commute_X _).eq, mul_assoc, coeff_X_mul_cases, ite_eq_right hm.ne', coeff_mul_C,
     coeff_mk, ← pow_succ, Nat.sub_add_cancel hm]
 
 /-- **`τ(1 - A T) = -∑ [tr(A ^ m)] T ^ m`.** -/
@@ -576,16 +577,16 @@ theorem inv1_one_add_X_pow_mul_C {k : ℕ} (hk : 0 < k) (t : R) :
     coeff_one]
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · simp [Nat.not_le.2 hk]
-  · rw [if_neg hm.ne']
+  · rw [ite_eq_right hm.ne']
     by_cases hkm : k ∣ m
     · obtain ⟨j, rfl⟩ := hkm
       have hj : 0 < j := Nat.pos_of_ne_zero fun h => by simp [h] at hm
-      rw [if_pos ⟨j, rfl⟩, if_pos (Nat.le_mul_of_pos_right k hj),
-        if_pos ⟨j - 1, by rw [Nat.mul_sub_one]⟩, Nat.mul_div_cancel_left _ hk,
+      rw [ite_eq_left ⟨j, rfl⟩, ite_eq_left (Nat.le_mul_of_pos_right k hj),
+        ite_eq_left ⟨j - 1, by rw [Nat.mul_sub_one]⟩, Nat.mul_div_cancel_left _ hk,
         show (k * j - k) / k = j - 1 by rw [← Nat.mul_sub_one, Nat.mul_div_cancel_left _ hk]]
       obtain ⟨i, rfl⟩ : ∃ i, j = i + 1 := ⟨j - 1, by omega⟩
       rw [Nat.add_sub_cancel, pow_succ', neg_mul, neg_add_cancel]
-    · rw [if_neg hkm]
+    · rw [ite_eq_right hkm]
       split_ifs with h1 h2
       · exact absurd (by have := Nat.dvd_add h2 (dvd_refl k); rwa [Nat.sub_add_cancel h1] at this)
           hkm
@@ -599,12 +600,13 @@ theorem tau₁_one_add_X_pow_mul_C_eq_zero {k : ℕ} (hk : 0 < k) {t : R}
     ext j
     rw [coeff_degDeriv, coeff_one_add_X_pow_mul_C, coeff_X_pow_mul', coeff_C]
     rcases Nat.lt_trichotomy j k with hjk | rfl | hjk
-    · rw [if_neg (Nat.not_le.2 hjk), if_neg hjk.ne, add_zero]
+    · rw [ite_eq_right (Nat.not_le.2 hjk), ite_eq_right hjk.ne, add_zero]
       rcases Nat.eq_zero_or_pos j with rfl | h0
       · simp
       · simp [h0.ne']
     · simp [hk.ne']
-    · rw [if_pos hjk.le, if_neg (by omega), if_neg hjk.ne', if_neg (by omega), add_zero, smul_zero]
+    · rw [ite_eq_left hjk.le, ite_eq_right (by omega), ite_eq_right hjk.ne',
+        ite_eq_right (by omega), add_zero, smul_zero]
   rw [tau₁, hD, inv1_one_add_X_pow_mul_C hk, ← mul_assoc, (commute_X_pow _ k).eq, mul_assoc,
     qCoeff_apply, coeff_X_pow_mul']
   split_ifs with h
@@ -645,7 +647,7 @@ theorem cyclicMatrix_apply_last (d : ℕ) (g : R) (k : Fin (d + 1)) :
     have := k.isLt
     simp
     omega
-  simp only [cyclicMatrix, Matrix.of_apply, if_neg h1, and_true]
+  simp only [cyclicMatrix, Matrix.of_apply, ite_eq_right h1, and_true]
 
 /-- The entries of the `m`-th power of the cyclic matrix: the `(i, j)` entry is
 `g ^ ((j + m) / (d + 1))` if `(j + m) % (d + 1) = i`, and zero otherwise. -/
@@ -658,21 +660,21 @@ theorem cyclicMatrix_pow_apply (d : ℕ) (g : R) (m : ℕ) (i j : Fin (d + 1)) :
       Nat.div_eq_of_lt j.isLt, pow_zero]
     by_cases h : i = j
     · subst h; simp
-    · rw [if_neg h, if_neg fun h' => h (Fin.ext h'.symm)]
+    · rw [ite_eq_right h, ite_eq_right fun h' => h (Fin.ext h'.symm)]
   | succ m ih =>
     rw [pow_succ, Matrix.mul_apply]
     by_cases hj : (j : ℕ) < d
     · rw [Finset.sum_eq_single ⟨j + 1, by omega⟩]
-      · rw [ih, cyclicMatrix_apply_of_lt d g _ j hj, if_pos rfl, mul_one,
+      · rw [ih, cyclicMatrix_apply_of_lt d g _ j hj, ite_eq_left rfl, mul_one,
           show ((j : ℕ) + 1 + m) = (j : ℕ) + (m + 1) by ring]
       · intro k _ hk
-        rw [cyclicMatrix_apply_of_lt d g _ j hj, if_neg (fun h => hk (Fin.ext (by simp; omega))),
-          mul_zero]
+        rw [cyclicMatrix_apply_of_lt d g _ j hj,
+          ite_eq_right (fun h => hk (Fin.ext (by simp; omega))), mul_zero]
       · simp
     · have hjd : j = Fin.last d := Fin.ext (by have := j.isLt; simp; omega)
       subst hjd
       rw [Finset.sum_eq_single 0]
-      · rw [ih, cyclicMatrix_apply_last, if_pos rfl]
+      · rw [ih, cyclicMatrix_apply_last, ite_eq_left rfl]
         simp only [Fin.val_zero, zero_add, Fin.val_last]
         rw [show d + (m + 1) = m + 1 * (d + 1) by ring, Nat.add_mul_mod_self_right,
           Nat.add_mul_div_right _ _ (Nat.succ_pos d)]
@@ -680,7 +682,7 @@ theorem cyclicMatrix_pow_apply (d : ℕ) (g : R) (m : ℕ) (i j : Fin (d + 1)) :
         · rw [pow_succ]
         · rw [zero_mul]
       · intro k _ hk
-        rw [cyclicMatrix_apply_last, if_neg hk, mul_zero]
+        rw [cyclicMatrix_apply_last, ite_eq_right hk, mul_zero]
       · simp
 
 /-- The trace of the `m`-th power of the cyclic matrix of size `d + 1` is
@@ -690,16 +692,16 @@ theorem trace_cyclicMatrix_pow (d : ℕ) (g : R) (m : ℕ) :
       if (d + 1) ∣ m then (d + 1 : ℕ) • g ^ (m / (d + 1)) else 0 := by
   simp only [Matrix.trace, Matrix.diag, cyclicMatrix_pow_apply]
   by_cases hm : (d + 1) ∣ m
-  · rw [if_pos hm]
+  · rw [ite_eq_left hm]
     obtain ⟨c, rfl⟩ := hm
     have : ∀ i : Fin (d + 1), ((i : ℕ) + (d + 1) * c) % (d + 1) = i ∧
         ((i : ℕ) + (d + 1) * c) / (d + 1) = c := fun i =>
       ⟨by rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt i.isLt],
         by rw [Nat.add_mul_div_left _ _ (Nat.succ_pos d), Nat.div_eq_of_lt i.isLt, zero_add]⟩
-    simp only [this, if_true, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
+    simp only [this, ite_true, Finset.sum_const, Finset.card_univ, Fintype.card_fin]
     rw [Nat.mul_div_cancel_left _ (Nat.succ_pos d)]
-  · rw [if_neg hm]
-    refine Finset.sum_eq_zero fun i _ => if_neg fun h => hm ?_
+  · rw [ite_eq_right hm]
+    refine Finset.sum_eq_zero fun i _ => ite_eq_right fun h => hm ?_
     have h2 := Nat.div_add_mod ((i : ℕ) + m) (d + 1)
     rw [h] at h2
     exact ⟨(i + m) / (d + 1), by omega⟩
@@ -721,11 +723,12 @@ def blockMap (n : Type*) [Fintype n] [DecidableEq n] :
     ext x y
     simp only [Matrix.of_apply, Matrix.one_apply]
     by_cases h : x.2 = y.2
-    · rw [if_pos h, map_one, Matrix.one_apply]
+    · rw [ite_eq_left h, map_one, Matrix.one_apply]
       by_cases h' : x.1 = y.1
-      · rw [if_pos h', if_pos (Prod.ext h' h)]
-      · rw [if_neg h', if_neg fun e => h' (congrArg Prod.fst e)]
-    · rw [if_neg h, map_zero, Matrix.zero_apply, if_neg fun e => h (congrArg Prod.snd e)]
+      · rw [ite_eq_left h', ite_eq_left (Prod.ext h' h)]
+      · rw [ite_eq_right h', ite_eq_right fun e => h' (congrArg Prod.fst e)]
+    · rw [ite_eq_right h, map_zero, Matrix.zero_apply,
+        ite_eq_right fun e => h (congrArg Prod.snd e)]
   map_mul' A B := by
     ext x y
     simp only [Matrix.of_apply, Matrix.mul_apply, map_sum, Matrix.sum_apply, map_mul]
@@ -827,13 +830,13 @@ theorem delta_elemPS {i j : n} (hij : i ≠ j) (f : PowerSeries R) :
     refine Matrix.ext fun p q => ?_
     simp only [U, W, Matrix.mul_apply, Matrix.of_apply]
     by_cases hp : p.2 = i
-    · simp only [hp, if_true]
+    · simp only [hp, ite_true]
       by_cases hq : q.2 = j
-      · simp only [hq, true_and, if_true]
+      · simp only [hq, true_and, ite_true]
         rw [Finset.sum_eq_single q.1]
         · simp
         · intro y _ hy
-          simp only [if_neg hy, mul_zero]
+          simp only [ite_eq_right hy, mul_zero]
         · simp
       · simp [hq]
     · simp [hp]
@@ -855,8 +858,8 @@ theorem delta_elemPS {i j : n} (hij : i ≠ j) (f : PowerSeries R) :
     simp only [W, U, Matrix.mul_apply, Matrix.of_apply, Matrix.zero_apply]
     refine Finset.sum_eq_zero fun x _ => ?_
     by_cases hx : x.2 = j
-    · rw [if_neg (show ¬ x.2 = i by rw [hx]; exact Ne.symm hij), mul_zero]
-    · rw [if_neg (fun h => hx h.1), zero_mul]
+    · rw [ite_eq_right (show ¬ x.2 = i by rw [hx]; exact Ne.symm hij), mul_zero]
+    · rw [ite_eq_right (fun h => hx h.1), zero_mul]
   rw [delta, hUW, Matrix.det_one_add_mul_comm, hWU, add_zero, Matrix.det_one]
 
 
@@ -1041,9 +1044,9 @@ theorem exists_step (i₀ : n) {N : ℕ} (H : TraceDetectionHypothesis φ N) {k 
       coeff k (elemPS i j (X ^ k * C c)) = Matrix.single i j c := by
     intro i j c
     refine ⟨⟨constantCoeff_elemPS i j (hk0 c), fun j' hj' hj'k => ?_⟩, ?_⟩
-    · rw [coeff_elemPS_of_ne_zero _ _ _ hj'.ne', coeff_X_pow_mul', if_neg (by omega),
+    · rw [coeff_elemPS_of_ne_zero _ _ _ hj'.ne', coeff_X_pow_mul', ite_eq_right (by omega),
         Matrix.single_zero]
-    · rw [coeff_elemPS_of_ne_zero _ _ _ hk.ne', coeff_X_pow_mul', if_pos le_rfl, Nat.sub_self,
+    · rw [coeff_elemPS_of_ne_zero _ _ _ hk.ne', coeff_X_pow_mul', ite_eq_left le_rfl, Nat.sub_self,
         coeff_zero_C]
   have hmemoff : ∀ u ∈ offL, ∃ p : n × n, p.1 ≠ p.2 ∧
       u = elemPS p.1 p.2 (X ^ k * C (Cm p.1 p.2)) := by
@@ -1089,14 +1092,14 @@ theorem exists_step (i₀ : n) {N : ℕ} (H : TraceDetectionHypothesis φ N) {k 
   have hcW : ∀ i, IsOneTo (if i = i₀ then W else 1) k := fun i => by
     split_ifs
     · exact hW1
-    · exact ⟨map_one _, fun j hj _ => by rw [coeff_one, if_neg hj.ne']⟩
+    · exact ⟨map_one _, fun j hj _ => by rw [coeff_one, ite_eq_right hj.ne']⟩
   have hD2 : IsOneTo D2 k ∧ coeff k D2 = 0 := by
     refine ⟨(isOneTo_diagPS hcW).1, ?_⟩
     rw [(isOneTo_diagPS hcW).2]
     have : ∀ i, coeff k (if i = i₀ then W else 1) = 0 := fun i => by
       split_ifs
       · exact hcoeffW
-      · rw [coeff_one, if_neg hk.ne']
+      · rw [coeff_one, ite_eq_right hk.ne']
     simp only [this]
     exact Matrix.diagonal_zero
   have hv1 : IsOneTo (offL.prod * D1 * D2) k := (hoff1.mul hD1.1).mul hD2.1
@@ -1112,16 +1115,16 @@ theorem exists_step (i₀ : n) {N : ℕ} (H : TraceDetectionHypothesis φ N) {k 
     rw [Matrix.add_apply, Matrix.sum_apply, Matrix.diagonal_apply]
     by_cases hij : i = j
     · subst hij
-      rw [Finset.sum_eq_zero, zero_add, if_pos rfl]
+      rw [Finset.sum_eq_zero, zero_add, ite_eq_left rfl]
       intro p hp
       rw [Matrix.single_apply]
       split_ifs with h
       · exact absurd (h.1.trans h.2.symm) (Finset.mem_filter.1 hp).2
       · rfl
-    · rw [if_neg hij, add_zero, Finset.sum_eq_single (i, j)]
-      · rw [Matrix.single_apply, if_pos ⟨rfl, rfl⟩]
+    · rw [ite_eq_right hij, add_zero, Finset.sum_eq_single (i, j)]
+      · rw [Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩]
       · intro p _ hp
-        rw [Matrix.single_apply, if_neg]
+        rw [Matrix.single_apply, ite_eq_right]
         rintro ⟨h1, h2⟩
         exact hp (Prod.ext h1 h2)
       · intro h
@@ -1212,7 +1215,7 @@ theorem coeff_delta_of_isOneTo {N : ℕ} {z : PowerSeries (Matrix n n R)} (hz : 
       rcases Nat.eq_zero_or_pos m with rfl | hm0
       · rw [coeff_zero_eq_constantCoeff_apply, hz.1, map_one, Matrix.one_apply]
         split_ifs <;> simp_all
-      · rw [hz.2 m hm0 hm, map_zero, Matrix.zero_apply, if_neg hm0.ne']
+      · rw [hz.2 m hm0 hm, map_zero, Matrix.zero_apply, ite_eq_right hm0.ne']
         split_ifs <;> simp_all
     rw [Ideal.Quotient.eq.2 hmem, Matrix.one_apply, Matrix.one_apply]
     split_ifs <;> simp
@@ -1222,7 +1225,7 @@ theorem coeff_delta_of_isOneTo {N : ℕ} {z : PowerSeries (Matrix n n R)} (hz : 
     rw [← Ideal.mem_span_singleton, ← Ideal.Quotient.eq_zero_iff_mem, map_sub, hdet, map_one,
       sub_self]
   have := PowerSeries.X_pow_dvd_iff.1 hdvd j (by omega)
-  rwa [map_sub, coeff_one, if_neg hj.ne', sub_zero] at this
+  rwa [map_sub, coeff_one, ite_eq_right hj.ne', sub_zero] at this
 
 /-- **The Key Lemma.** Under the torsion hypothesis `(H_N)`, if `z ≡ 1 (mod T)` and its
 logarithmic derivative `τ(z)` vanishes in degrees `1, …, N`, then `δ(z) ≡ 1 (mod T ^ (N + 1))`. -/

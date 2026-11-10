@@ -75,8 +75,9 @@ def contractionCohomologyObjIso {X Y : Scheme.{u}} (c : X ⟶ Y) [IsProper c]
           exact hR
         · have := Stacks.AlgebraicGeometry.AffineQcohPushforward.isQuasicoherent_unit X
           exact (Stacks.DerivedIndexing.isZero_rightDerived_obj_iff _ m _).2
-            (Stacks.AlgebraicGeometry.TopDegreeBaseChange.isZero_rightDerivedPlus_pushforward_of_forall_fiber_dim_le
-              c hdim _ (m : ℤ) (by exact_mod_cast h))) n ≪≫
+            (open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
+              isZero_rightDerivedPlus_pushforward_of_forall_fiber_dim_le c hdim _ (m : ℤ)
+                (by exact_mod_cast h))) n ≪≫
     (((moduleGlobalSections Y).rightDerived n).mapIso
       (asIso (structureSheafToPushforward c))).symm
 

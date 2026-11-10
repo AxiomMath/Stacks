@@ -86,7 +86,7 @@ private lemma standardZariski_comp_data {T : Scheme.{u}} [IsAffine T]
         q.opensRange = (T.basicOpen r).ι ''ᵁ q₂.opensRange :=
           Scheme.Hom.opensRange_comp q₂ (T.basicOpen r).ι
         _ = (T.basicOpen r).ι ''ᵁ (e.hom ''ᵁ V.basicOpen s) := by
-          show (T.basicOpen r).ι ''ᵁ (q₁ ≫ e.hom).opensRange = _
+          change (T.basicOpen r).ι ''ᵁ (q₁ ≫ e.hom).opensRange = _
           rw [Scheme.Hom.opensRange_comp]
           have hq₁ : q₁.opensRange = V.basicOpen s := by
             simp [q₁, Scheme.Hom.opensRange_comp_of_isIso]
@@ -98,7 +98,7 @@ private lemma standardZariski_comp_data {T : Scheme.{u}} [IsAffine T]
               (eqToHom hE_image.symm).op).symm
         _ = T.basicOpen s₂ := by
           rw [Scheme.image_basicOpen]
-          show T.basicOpen
+          change T.basicOpen
             ((ConcreteCategory.hom ((T.basicOpen r).ι.appIso ⊤).inv) s₁) =
               T.basicOpen s₂
           rw [show s₂ = T.presheaf.map (eqToHom hRangeImage.symm).op
@@ -244,7 +244,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
         AlgebraicGeometry.BigZariskiOver.inclusion B S hS
     refine ⟨?_, ?_, ?_⟩
     · intro U V f hf
-      show B.IsCovering ⟨K.obj U, (PreZeroHypercover.singleton f).map K⟩
+      change B.IsCovering ⟨K.obj U, (PreZeroHypercover.singleton f).map K⟩
       have hmap : (PreZeroHypercover.singleton f).map K =
           PreZeroHypercover.singleton (K.map f) := by
         exact PreZeroHypercover.ext rfl HEq.rfl HEq.rfl
@@ -253,7 +253,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
     · intro E hE F hF htargets
       change B.IsCovering ⟨K.obj E.1, E.2.map K⟩ at hE
       change ∀ i, B.IsCovering ⟨K.obj (F i).1, (F i).2.map K⟩ at hF
-      show B.IsCovering ⟨K.obj E.1,
+      change B.IsCovering ⟨K.obj E.1,
         (E.2.bind fun i => (F i).2.pushforward (eqToHom (htargets i))).map K⟩
       have hcomp := B.coverings_isSite.2.1 ⟨K.obj E.1, E.2.map K⟩ hE
         (fun i => ⟨K.obj (F i).1, (F i).2.map K⟩) hF
@@ -268,7 +268,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
       dsimp [E₀, PreZeroHypercover.map] at P p₁ p₂ hp hcov
       let Q (i : E.2.I₀) : AlgebraicGeometry.SmallZariski B S hS :=
         ⟨Over.mk (p₂ i ≫ V.obj.hom), by
-          show IsOpenImmersion (B.inclusion.map (p₂ i ≫ V.obj.hom))
+          change IsOpenImmersion (B.inclusion.map (p₂ i ≫ V.obj.hom))
           have hUi : IsOpenImmersion (B.inclusion.map (E.2.f i).hom.left) := by
             let : IsOpenImmersion (B.inclusion.map E.1.obj.hom) := E.1.property
             let : IsOpenImmersion (B.inclusion.map (E.2.f i).hom.left ≫
@@ -301,7 +301,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
         apply IsPullback.of_map (AlgebraicGeometry.BigZariskiOver.inclusion B S hS)
         · exact Over.OverMorphism.ext (hp i).w
         · exact hp i
-      · show B.IsCovering
+      · change B.IsCovering
           ⟨K.obj V, (PreZeroHypercover.mk _ Q q₂).map K⟩
         simpa [Q, q₂, K, PreZeroHypercover.map] using hcov
 
@@ -324,7 +324,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
         ∃ e : (G.obj (E.2.X i)) ≅ ((G.obj E.1).basicOpen r).toScheme,
           G.map (E.2.f i) = e.hom ≫ ((G.obj E.1).basicOpen r).ι) :
       AlgebraicGeometry.BigAffineZariski.IsCovering B S hS E := by
-    show B.IsCovering ⟨K.obj E.1, E.2.map K⟩ ∧ _
+    change B.IsCovering ⟨K.obj E.1, E.2.map K⟩ ∧ _
     let : IsAffine ((K ⋙ B.inclusion).obj E.1) := E.1.property
     exact finishStandardCover B K E hB hdata
   refine ⟨?_, ?_, ?_⟩
@@ -430,7 +430,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
           ∃ e : G.obj (E.2.X i) ≅ ((G.obj E.1).basicOpen r).toScheme,
             G.map (E.2.f i) = e.hom ≫ ((G.obj E.1).basicOpen r).ι) :
         AlgebraicGeometry.SmallAffineZariski.IsCovering B S hS E := by
-      show B.IsCovering ⟨K.obj E.1, E.2.map K⟩ ∧ _
+      change B.IsCovering ⟨K.obj E.1, E.2.map K⟩ ∧ _
       let : IsAffine ((K ⋙ B.inclusion).obj E.1) := E.1.property
       exact finishStandardCover B K E hB hdata
     refine ⟨?_, ?_, ?_⟩
@@ -483,7 +483,7 @@ public theorem isSite (B : AlgebraicGeometry.BigZariskiSite.{u}) (S : Scheme.{u}
       let E₀ : Covering (AlgebraicGeometry.SmallZariski B S hS) :=
         ⟨H.obj E.1, E.2.map H⟩
       have hBEsmall : AlgebraicGeometry.SmallZariski.IsCovering B S hS E₀ := by
-        show B.IsCovering ⟨K.obj E.1, E.2.map K⟩
+        change B.IsCovering ⟨K.obj E.1, E.2.map K⟩
         exact hBE
       obtain ⟨P, p₁, p₂, hp, hsmallCov⟩ :=
         (SmallZariski.isSite B S hS).2.2 E₀ hBEsmall (H.obj V) (H.map g)

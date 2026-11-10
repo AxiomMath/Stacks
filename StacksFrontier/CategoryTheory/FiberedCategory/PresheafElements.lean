@@ -137,7 +137,7 @@ theorem isDiscrete_fiber_discreteProjection (P : Cᵒᵖ ⥤ Type vC) (U : C) :
     let eβ := homEquiv (P ⋙ typeToCat) ⟨U, a⟩ ⟨U, b⟩ β.1
     have hαbase : eα.1 = 𝟙 U := base_homEquiv_fiber P a b α
     have hβbase : eβ.1 = 𝟙 U := base_homEquiv_fiber P a b β
-    show eα = eβ
+    change eα = eβ
     rcases eα with ⟨f, m⟩
     rcases eβ with ⟨g, n⟩
     obtain rfl : f = g := hαbase.trans hβbase.symm
@@ -275,7 +275,7 @@ theorem isoClassEquiv_naturality {p : 𝒮 ⥤ C} [p.IsFibered]
   let _ : p.IsPreFibered := hp.isFibered.toIsPreFibered
   induction c using Quotient.ind with
   | _ x =>
-    show isoClassEquiv P e V
+    change isoClassEquiv P e V
       (p.isoClassPresheaf.map f.op (Functor.isoClassMk p x)) = _
     rw [Functor.isoClassPresheaf_map_isoClassMk]
     exact discreteFiberEquiv_pullbackFiber P e f x
@@ -368,7 +368,7 @@ theorem isoClassEquiv_naturality_univ {p : 𝒮 ⥤ C} [p.IsFibered]
   let _ : p.IsPreFibered := hp.isFibered.toIsPreFibered
   induction c using Quotient.ind with
   | _ x =>
-    show isoClassEquivUniv P e V
+    change isoClassEquivUniv P e V
       (p.isoClassPresheaf.map f.op (Functor.isoClassMk p x)) = _
     rw [Functor.isoClassPresheaf_map_isoClassMk]
     exact discreteFiberEquiv_pullbackFiber P e f x

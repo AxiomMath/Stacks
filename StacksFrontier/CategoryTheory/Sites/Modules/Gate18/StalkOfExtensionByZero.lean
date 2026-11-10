@@ -221,7 +221,7 @@ lemma extensionByZeroSumForgetIso_hom_ι (X : RingedSite.{u, u, u})
     preservesColimitIso F (Discrete.functor S) ≪≫
     HasColimit.isoOfNatIso (Discrete.compNatIsoDiscrete S F) ≪≫
     (Sigma.isoColimit (Discrete.functor (fun ψ : V ⟶ U => F.obj (S ψ)))).symm
-  show F.map (Sigma.ι S φ) ≫ e.hom = _
+  change F.map (Sigma.ι S φ) ≫ e.hom = _
   dsimp [e]
   calc
     _ = F.map (Sigma.ι S φ ≫ (Sigma.isoColimit (Discrete.functor S)).hom) ≫
@@ -250,7 +250,7 @@ lemma extensionByZeroSumForgetIso_hom_ι (X : RingedSite.{u, u, u})
         (Sigma.isoColimit (Discrete.functor (fun ψ : V ⟶ U => F.obj (S ψ)))).inv :=
           congrArg (fun g => g ≫
             (Sigma.isoColimit (Discrete.functor (fun ψ : V ⟶ U => F.obj (S ψ)))).inv)
-              (HasColimit.isoOfNatIso_ι_hom (Discrete.compNatIsoDiscrete S F) (Discrete.mk φ))
+              (HasColimit.ι_isoOfNatIso_hom (Discrete.compNatIsoDiscrete S F) (Discrete.mk φ))
     _ = Sigma.ι (fun ψ : V ⟶ U => F.obj (S ψ)) φ := by
           simp [Discrete.compNatIsoDiscrete]
 
@@ -371,11 +371,11 @@ lemma extensionByZeroStageToStalks_comp_embedding (X : RingedSite.{u, u, u})
       F.obj (S ψ) ⟶ stalkExtensionByZeroTarget X p U G := fun ψ =>
     let xψ := p.fiber.map ψ y
     let hyψ : (p.over xψ).fiber.obj (Over.mk ψ) := by
-      show (FunctorToTypes.fromOverSubfunctor p.fiber xψ).toFunctor.obj (Over.mk ψ)
+      change (FunctorToTypes.fromOverSubfunctor p.fiber xψ).toFunctor.obj (Over.mk ψ)
       exact ⟨y, (FunctorToTypes.mem_fromOverSubfunctor_iff _ _ _).2 rfl⟩
     (p.over xψ).toPresheafFiber (Over.mk ψ) hyψ G.val.presheaf ≫
       Sigma.ι (fun z : p.fiber.obj U => (p.over z).presheafFiber.obj G.val.presheaf) xψ
-  show F.map (Sigma.ι S φ ≫ st.inv) ≫ F.map st.hom ≫ e.hom ≫
+  change F.map (Sigma.ι S φ ≫ st.inv) ≫ F.map st.hom ≫ e.hom ≫
       Sigma.desc component = component φ
   calc
     _ = (F.map (Sigma.ι S φ ≫ st.inv) ≫ F.map st.hom) ≫ e.hom ≫
@@ -538,7 +538,7 @@ lemma stalkExtensionByZeroStageToStalks_comp_backward
   refine Eq.trans (congrArg (fun k => k ≫ stalkExtensionByZeroBackward X p U G)
     (extensionByZeroStageToStalks_comp_embedding X p U G V y φ)) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
-  rw [stalkExtensionByZeroBackward, Sigma.ι_desc]
+  rw [stalkExtensionByZeroBackward, Sigma.ι_comp_desc]
   exact stalkExtensionByZeroBackwardComponent_toPresheafFiber X p U G _ (Over.mk φ) _
 
 /-- The germ map at `y` of `extensionByZeroPresheaf X U G` followed by
@@ -574,7 +574,7 @@ lemma stalkExtensionByZeroBackward_hom (X : RingedSite.{u, u, u})
     _ = (p.over x).toPresheafFiber (Over.mk φ) wq G.val.presheaf ≫
         (stalkExtensionByZeroBackwardComponent X p U G x ≫
           stalkExtensionByZeroForward X p U G) := by
-            rw [stalkExtensionByZeroBackward, Sigma.ι_desc]
+            rw [stalkExtensionByZeroBackward, Sigma.ι_comp_desc]
     _ = (extensionByZeroSectionEmbedding X U G V φ ≫
         p.toPresheafFiber V w.1 (extensionByZeroPresheaf X U G).presheaf) ≫
           stalkExtensionByZeroForward X p U G := by

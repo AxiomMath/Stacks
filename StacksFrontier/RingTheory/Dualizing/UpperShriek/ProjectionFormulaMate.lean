@@ -6,7 +6,8 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaE
 # The owed coherence of [stacks 0E2H] is one evaluation compatibility
 
 `Dualizing.ProjectionFormula.ProjCounitCompat` of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaCounit` -- the compatibility of the
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaCounit` -- the compatibility of
+the
 projection formula `Dualizing.ProjectionFormula.derivedProjNatIso` with the counit of
 [stacks 0GMT] and with the lax monoidal structure map `μ` of derived base change -- is the first
 of the three things the module documentation of
@@ -523,7 +524,7 @@ theorem projCounitCompat_of_mate (φ : A →+* B)
         homRestrictComponent.{u, v} φ E N W) :
     ProjCounitCompat.{u, v} φ E adj N := by
   refine projCounitCompat_of_eval.{u, v} φ E adj N fun W => ?_
-  show (projEvalLeft.{u, v} φ E adj N).app W = (projEvalRight.{u, v} φ E N).app W
+  change (projEvalLeft.{u, v} φ E adj N).app W = (projEvalRight.{u, v} φ E N).app W
   rw [projEvalRight_app_eq_homEquiv.{u, v} φ E N W, ← h W]
   exact (AddEquiv.apply_symm_apply _ _).symm
 

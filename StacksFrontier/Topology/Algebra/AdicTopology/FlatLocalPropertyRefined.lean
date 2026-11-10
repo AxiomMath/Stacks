@@ -58,8 +58,7 @@ public theorem flat_isomorphismInvariant
     IsomorphismInvariant.{u}
       (fun {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (φ : B →+* A) ↦ φ.Flat) C := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA _ _ _ _ f _ _ _ _ _
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA _ _ _ _ f _ _ _ _ _
   exact ((RingHom.Flat.comp_iff_of_bijective_right eB.symm.bijective).trans
     (RingHom.Flat.comp_iff_of_bijective_left eA.bijective)).symm
 

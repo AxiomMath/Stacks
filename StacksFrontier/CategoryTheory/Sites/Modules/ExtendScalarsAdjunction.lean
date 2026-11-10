@@ -114,7 +114,7 @@ lemma tensorPresheafUnit_comp_lift {F : Dᵒᵖ ⥤ Ab.{max r t}}
     tensorPresheafUnit R F ≫ (PresheafOfModules.toPresheaf R).map
       (tensorPresheafLift R f) = f := by
   ext X x
-  show (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
+  change (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
   rw [tensorPresheafLift_app_tmul, one_smul]
 
 /-- The unit is natural in the abelian presheaf. -/
@@ -131,7 +131,7 @@ lemma tensorPresheafHom_app_tmul {F : Dᵒᵖ ⥤ Ab.{max r t}}
     (a : R.obj X) (x : F.obj X) :
     f.app X (a ⊗ₜ[ℤ] x) = a • (show M.obj X from f.app X (1 ⊗ₜ[ℤ] x)) := by
   have h : a • (1 : R.obj X) ⊗ₜ[ℤ] x = a ⊗ₜ[ℤ] x := by
-    show (a * 1) ⊗ₜ[ℤ] x = a ⊗ₜ[ℤ] x
+    change (a * 1) ⊗ₜ[ℤ] x = a ⊗ₜ[ℤ] x
     rw [mul_one]
   exact ((congrArg (f.app X) h).symm.trans ((f.app X).hom.map_smul a _))
 

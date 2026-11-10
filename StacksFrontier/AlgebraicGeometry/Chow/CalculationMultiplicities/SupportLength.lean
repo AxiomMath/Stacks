@@ -70,7 +70,7 @@ public lemma minimal_support_iff {R M : Type*} [CommRing R] [AddCommGroup M]
     [Module R M] [Module.Finite R M] (q : PrimeSpectrum R) :
     Minimal (· ∈ Module.support R M) q ↔ q.asIdeal ∈ (Module.annihilator R M).minimalPrimes := by
   rw [Module.support_eq_zeroLocus]
-  show Minimal (fun p : PrimeSpectrum R ↦ Module.annihilator R M ≤ p.asIdeal) q ↔
+  change Minimal (fun p : PrimeSpectrum R ↦ Module.annihilator R M ≤ p.asIdeal) q ↔
     Minimal (fun J : Ideal R ↦ J.IsPrime ∧ Module.annihilator R M ≤ J) q.asIdeal
   exact ⟨fun hq ↦ ⟨⟨q.isPrime, hq.1⟩, fun p hp hpq ↦ hq.2 (y := ⟨p, hp.1⟩) hp.2 hpq⟩,
     fun hq ↦ ⟨hq.1.2, fun r hr hrq ↦ hq.2 ⟨r.isPrime, hr⟩ hrq⟩⟩
@@ -218,7 +218,7 @@ public lemma minimal_support_eq_nonclosed {R M : Type*} [CommRing R] [IsLocalRin
   refine ⟨fun ⟨hq, hmin⟩ => ⟨hq, fun heq => ?_⟩,
     fun h => minimal_of_mem_support_ne_closed hM.le q h.1 h.2⟩
   have hpos : 0 < Order.krullDim (Module.support R M) := by
-    show 0 < Module.supportDim R M
+    change 0 < Module.supportDim R M
     rw [hM]
     norm_num
   obtain ⟨a, b, hab⟩ := Order.krullDim_pos_iff.mp hpos

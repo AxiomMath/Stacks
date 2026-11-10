@@ -97,7 +97,7 @@ theorem isIso_cyclesMap_one_of_epi_of_isIso [Epi (cyclesMap φ 0)] [IsIso (φ.f 
     let ψ : R₁ ⟶ R₂ := ComposableArrows.homMk₃ (φ.f 0) (cyclesMap φ 1) (homologyMap φ 1)
       (𝟙 0) (comp_toCycles_zero_one φ).symm (homologyπ_naturality φ 1)
       (by
-        show (0 : K.homology 1 ⟶ 0) ≫ 𝟙 0 = homologyMap φ 1 ≫ (0 : L.homology 1 ⟶ 0)
+        change (0 : K.homology 1 ⟶ 0) ≫ 𝟙 0 = homologyMap φ 1 ≫ (0 : L.homology 1 ⟶ 0)
         simp)
     refine Abelian.epi_of_epi_of_epi_of_mono' ψ ?_ ?_ ?_ ?_ ?_ ?_
     · refine ComposableArrows.exact₂_mk _ (by exact comp_zero) ?_

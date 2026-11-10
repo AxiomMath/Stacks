@@ -81,7 +81,7 @@ theorem isKProjective_of_d_eq_zero (E : CochainComplex (ModuleCat.{u} R) ℤ)
       have hex : (L.sc' (i - 1) i (i + 1)).Exact :=
         (L.exactAt_iff' (i - 1) i (i + 1) (by simp) (by simp)).1 (hL i)
       have hw : f.f i ≫ (L.sc' (i - 1) i (i + 1)).g = 0 := by
-        show f.f i ≫ L.d i (i + 1) = 0
+        change f.f i ≫ L.d i (i + 1) = 0
         rw [f.comm, hd, zero_comp]
       have := hE i
       exact ⟨hex.liftFromProjective (f.f i) hw, hex.liftFromProjective_comp (f.f i) hw⟩
@@ -89,18 +89,18 @@ theorem isKProjective_of_d_eq_zero (E : CochainComplex (ModuleCat.{u} R) ℤ)
     refine ⟨{
       hom := fun i j => if hij : i = j + 1 then
         h i ≫ (L.XIsoOfEq (show i - 1 = j by omega)).hom else 0
-      zero := fun i j hij => dif_neg (fun h' => hij (by simp [ComplexShape.up_Rel]; omega))
+      zero := fun i j hij => dite_eq_right (fun h' => hij (by simp [ComplexShape.up_Rel]; omega))
       comm := fun i => ?_ }⟩
     rw [dNext_eq _ (show (ComplexShape.up ℤ).Rel i (i + 1) by simp),
       prevD_eq _ (show (ComplexShape.up ℤ).Rel (i - 1) i by simp), hd, zero_comp, zero_add,
-      HomologicalComplex.zero_f, add_zero, dif_pos (show i = i - 1 + 1 by omega),
+      HomologicalComplex.zero_f, add_zero, dite_eq_left (show i = i - 1 + 1 by omega),
       HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Category.comp_id, hh]
 
 /-- The tensor product of two complexes with zero differentials has zero differentials. -/
 theorem tensorObj_d_eq_zero (C D : CochainComplex (ModuleCat.{u} R) ℤ)
     (hC : ∀ i j, C.d i j = 0) (hD : ∀ i j, D.d i j = 0) (i j : ℤ) :
     (HomologicalComplex.tensorObj C D).d i j = 0 := by
-  show (HomologicalComplex.mapBifunctor C D
+  change (HomologicalComplex.mapBifunctor C D
       (MonoidalCategory.curriedTensor (ModuleCat.{u} R)) (ComplexShape.up ℤ)).d i j = 0
   rw [HomologicalComplex.mapBifunctor.d_eq]
   have h₁ : HomologicalComplex.mapBifunctor.D₁ C D
@@ -179,7 +179,7 @@ theorem bijective_tensorObjSum (E G : CochainComplex (ModuleCat.{u} R) ℤ) (n :
       rw [Category.comp_id, ← Category.assoc]
       refine (congrArg (· ≫ ModuleCat.ofHom (tensorObjSum E G n)) e).trans ?_
       ext z
-      show tensorObjSum E G n (DirectSum.lof R _ _ ⟨(i, j), h⟩ z) = _
+      change tensorObjSum E G n (DirectSum.lof R _ _ ⟨(i, j), h⟩ z) = _
       rw [tensorObjSum, DirectSum.toModule_lof]
     exact ConcreteCategory.congr_hom this y
   exact ⟨Function.LeftInverse.injective h₁, Function.RightInverse.surjective h₂⟩
@@ -259,12 +259,12 @@ theorem toModule_comp_mapRange {ι : Type*} [DecidableEq ι] {M N : ι → Type*
   refine DirectSum.linearMap_ext R fun i => LinearMap.ext fun x => ?_
   simp only [LinearMap.comp_apply]
   rw [DirectSum.toModule_lof]
-  show DirectSum.toModule R ι P f (DFinsupp.mapRange.linearMap e (DFinsupp.single i x)) = _
+  change DirectSum.toModule R ι P f (DFinsupp.mapRange.linearMap e (DFinsupp.single i x)) = _
   rw [DFinsupp.mapRange.linearMap_apply, DFinsupp.mapRange_single]
   exact DirectSum.toModule_lof R i (e i x)
 
 /-- The direct sum of a family of bijective linear maps is bijective. -/
-theorem bijective_mapRange {ι : Type*} [DecidableEq ι] {M N : ι → Type*}
+theorem bijective_mapRange {ι : Type*} {M N : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)] [∀ i, AddCommGroup (N i)]
     [∀ i, Module R (N i)] (e : ∀ i, M i →ₗ[R] N i) (he : ∀ i, Function.Bijective (e i)) :
     Function.Bijective (DFinsupp.mapRange.linearMap e) :=

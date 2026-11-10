@@ -155,7 +155,6 @@ def SuppEq (f : MonoidAlgebra ℤ G) : Prop := ∀ g ∈ f.coeff.support, ν g =
 variable {ν}
 variable (hν : ∀ g, 0 < ν g)
 
-include hν in
 omit [DecidableEq G] in
 /-- A product of elements supported in weights `≥ 1` is supported in weights `≥ 1`. -/
 theorem SuppGe.mul {f f' : MonoidAlgebra ℤ G} (hf : SuppGe ν f) (hf' : SuppGe ν f') :
@@ -302,7 +301,6 @@ theorem SuppGe.one_sub_single {x : G} (hx : 1 ≤ ν x) :
     · rw [← h2]; exact hx
     · simp [h1, h2] at hg
 
-include hν in
 omit [DecidableEq G] in
 /-- If all elements of `s` have weight `≥ 1`, then `P(s)` is supported in weights `≥ 1`. -/
 theorem SuppGe.prodOneSub {s : Multiset G} (hs : ∀ x ∈ s, 1 ≤ ν x) :
@@ -315,7 +313,7 @@ theorem SuppGe.prodOneSub {s : Multiset G} (hs : ∀ x ∈ s, 1 ≤ ν x) :
     rw [suppEq_one g hg]
   | cons x s ih =>
     rw [prodOneSub_cons]
-    exact (SuppGe.one_sub_single (hs x (Multiset.mem_cons_self x s))).mul hν
+    exact (SuppGe.one_sub_single (hs x (Multiset.mem_cons_self x s))).mul
       (ih fun y hy => hs y (Multiset.mem_cons_of_mem hy))
 
 omit [DecidableEq G] in
@@ -353,7 +351,7 @@ theorem deg1_prodOneSub {s : Multiset G} (hs : ∀ x ∈ s, 1 ≤ ν x) :
   | cons x s ih =>
     have hs' : ∀ y ∈ s, 1 ≤ ν y := fun y hy => hs y (Multiset.mem_cons_of_mem hy)
     rw [prodOneSub_cons, deg1_mul hν (SuppGe.one_sub_single (hs x (Multiset.mem_cons_self x s)))
-      (SuppGe.prodOneSub hν hs'), ih hs', deg1_one_sub_single, Multiset.filter_cons]
+      (SuppGe.prodOneSub hs'), ih hs', deg1_one_sub_single, Multiset.filter_cons]
     split_ifs with hx
     · rw [Multiset.singleton_add, prodOneSub_cons]
     · rw [zero_add, one_mul]
@@ -369,7 +367,7 @@ theorem coeff_prodOneSub_of_le_one {s : Multiset G} (hs : ∀ y ∈ s, 1 < ν y)
   · have h1 : h ≠ 1 := fun e => by rw [e, map_one] at hlt; exact lt_irrefl _ hlt
     rw [coeff_one_apply, ite_eq_right h1]
     by_contra h0
-    exact (not_le.mpr hlt) (SuppGe.prodOneSub hν (fun y hy => (hs y hy).le) h
+    exact (not_le.mpr hlt) (SuppGe.prodOneSub (fun y hy => (hs y hy).le) h
       (Finsupp.mem_support_iff.mpr h0))
   · have hd := deg1_prodOneSub hν (s := s) (fun y hy => (hs y hy).le)
     rw [Multiset.filter_eq_nil.mpr (fun y hy => (hs y hy).ne'), prodOneSub_zero] at hd
@@ -481,7 +479,7 @@ theorem filter_eq_of_prodOneSub_eq : ∀ (X Y : Multiset G), (∀ x ∈ X, 1 ≤
     · refine Finset.sum_eq_zero fun a ha => ?_
       have hνa : ν a = 1 := hA1 a ha
       have hνh : ν (a⁻¹ * h) ≠ ν g := by rw [map_mul, map_inv, hνa, inv_one, one_mul]; exact hh
-      show A.coeff a * (sumSingle _).coeff (a⁻¹ * h) = 0
+      change A.coeff a * (sumSingle _).coeff (a⁻¹ * h) = 0
       rw [coeff_sumSingle, Multiset.count_filter_of_neg (p := fun x => ν x = ν g) hνh,
         Nat.cast_zero, mul_zero]
   have hXmin : ∀ y ∈ X2, ν g ≤ ν y := fun y hy => hgmin y (Multiset.mem_add.mpr (Or.inl hy))
@@ -530,7 +528,7 @@ theorem filter_eq_of_prodOneSub_eq : ∀ (X Y : Multiset G), (∀ x ∈ X, 1 ≤
       rcases Multiset.mem_add.mp hx with h' | h'
       · exact Multiset.mem_add.mpr (Or.inl (Multiset.mem_of_mem_erase h'))
       · exact Multiset.mem_add.mpr (Or.inr (Multiset.mem_of_mem_erase h')))) hP'
-  show Multiset.filter (fun x => 1 < ν x) X = Multiset.filter (fun x => 1 < ν x) Y
+  change Multiset.filter (fun x => 1 < ν x) X = Multiset.filter (fun x => 1 < ν x) Y
   rw [← Multiset.cons_erase hgXX, ← Multiset.cons_erase hgYY,
     Multiset.filter_cons_of_pos (p := fun x => 1 < ν x) _ hg2,
     Multiset.filter_cons_of_pos (p := fun x => 1 < ν x) _ hg2, IH]
@@ -609,7 +607,7 @@ theorem one_le_of_prodOneSub_eq (X Y : Multiset G) (hY : ∀ y ∈ Y, 1 ≤ ν y
   apply hne
   rw [← deg1_prodOneSub hν hs'ge, hs']
   apply deg1_of_suppGt
-  refine SuppGt.mul_suppGe hν ?_ (SuppGe.prodOneSub hν hY)
+  refine SuppGt.mul_suppGe hν ?_ (SuppGe.prodOneSub hY)
   intro g hg
   rw [coeff_single, Finsupp.support_single _ (by
     intro h0; rw [h0, zero_mul] at hc; exact zero_ne_one hc), Finset.mem_singleton] at hg

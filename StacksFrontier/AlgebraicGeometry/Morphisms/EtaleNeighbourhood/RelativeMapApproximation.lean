@@ -315,8 +315,8 @@ private lemma exists_fiberIso_point_of_residueFieldIso
       B.fromSpecResidueField b ≫ f)
     (y : Y) (yB : (pullback q f : Scheme.{u}))
     (hyB : pullback.fst q f yB = y) (hb : pullback.snd q f yB = b) :
-    ∃ (yC : (pullback q g : Scheme.{u})) (hyC : pullback.fst q g yC = y)
-      (hc : pullback.snd q g yC = c)
+    ∃ (yC : (pullback q g : Scheme.{u})), pullback.fst q g yC = y ∧
+      ∃ (hc : pullback.snd q g yC = c)
       (E : (pullback.snd q f).fiber b ≅ (pullback.snd q g).fiber c),
       E.hom ≫ (pullback.snd q g).fiberι c ≫ pullback.fst q g =
         (pullback.snd q f).fiberι b ≫ pullback.fst q f ∧
@@ -551,9 +551,9 @@ theorem exists_point_and_closedFiberIso_over_stage
     (y : Y) (yσ : (pullback q (m ≫ τW) : Scheme.{u}))
     (hyσY : pullback.fst q (m ≫ τW) yσ = y)
     (hyσZ : pullback.snd q (m ≫ τW) yσ = specCompletedStalkPoint S s) :
-    ∃ (yτ : (pullback q (ι ≫ τW) : Scheme.{u}))
-      (hyτY : pullback.fst q (ι ≫ τW) yτ = y)
-      (hyτV : pullback.snd q (ι ≫ τW) yτ = V.point)
+    ∃ (yτ : (pullback q (ι ≫ τW) : Scheme.{u})),
+      pullback.fst q (ι ≫ τW) yτ = y ∧
+      ∃ (hyτV : pullback.snd q (ι ≫ τW) yτ = V.point)
       (eBase : (specCompletedStalk S s).residueField (specCompletedStalkPoint S s) ≅
         V.scheme.residueField V.point)
       (eFiber : (pullback.snd q (m ≫ τW)).fiber (specCompletedStalkPoint S s) ≅
@@ -641,8 +641,7 @@ private lemma maximalIdeal_map_of_tensor_localization
     change π (φ (1 ⊗ₜ[R] (b - algebraMap R B r))) = 0 at hm
     simpa [map_sub, sub_eq_zero, TensorProduct.tmul_sub, hR] using hm
   have htensor (t : A ⊗[R] B) : ∃ a : A, π (φ t) = π (f a) := by
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
       obtain ⟨a', ha'⟩ := hright b
       refine ⟨a * a', ?_⟩
@@ -718,8 +717,7 @@ private lemma exists_sub_includeLeft_mem_map_maximalIdeal
   have hright : ((maximalIdeal R).map (algebraMap R B)).map
       (Algebra.TensorProduct.includeRight.toRingHom : B →+* A ⊗[R] B) ≤ J :=
     map_maximalIdeal_includeRight_le_map_includeLeft
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨r, hr⟩ := hB b
     refine ⟨a * algebraMap R A r, ?_⟩
@@ -774,8 +772,7 @@ private lemma ringHom_ext_of_tensor_localization
   have halg : (algebraMap (A ⊗[R] B) C') = φ := rfl
   rw [halg]
   refine RingHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     have ht : a ⊗ₜ[R] b =
         (Algebra.TensorProduct.includeLeftRingHom a : A ⊗[R] B) *
@@ -2810,7 +2807,7 @@ private theorem exists_stage_etale_pair_of_pointed_span
     {X S Y T B : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [IsLocallyNoetherian T]
     (bS : S ⟶ B) (hTB : T ⟶ B) [LocallyOfFinitePresentation hTB]
-    {x : X} {s : S} (hx : p x = s) (hG : IsGRing (S.presheaf.stalk s))
+    {x : X} {s : S} (hG : IsGRing (S.presheaf.stalk s))
     (β : specCompletedStalk S s ⟶ T)
     (hβB : β ≫ hTB = specCompletedStalkTo S s ≫ bS)
     (xσ : (pullback p (specCompletedStalkTo S s) : Scheme.{u}))
@@ -3222,7 +3219,7 @@ private theorem exists_stage_etale_pair_of_common_neighborhood
     {X S Y T B : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [IsLocallyNoetherian T]
     (bS : S ⟶ B) (hTB : T ⟶ B) [LocallyOfFinitePresentation hTB]
-    {x : X} {s : S} (hx : p x = s) (hG : IsGRing (S.presheaf.stalk s))
+    {x : X} {s : S} (hG : IsGRing (S.presheaf.stalk s))
     (β : specCompletedStalk S s ⟶ T)
     (hβB : β ≫ hTB = specCompletedStalkTo S s ≫ bS)
     (xσ : (pullback p (specCompletedStalkTo S s) : Scheme.{u}))
@@ -3268,7 +3265,7 @@ private theorem exists_stage_etale_pair_of_common_neighborhood
   obtain ⟨D, ρ, hρSm, τ, m, hmρ, hmτ, A, fD, gD, hfD, hgD, a, hτρ, hAa, hfa, hfres, hgres,
     hga, aσ, haσA, haσZ, Uaff, jUaff, hjUaff, eAff, heAffIso, a₀, hja₀, heAffa₀,
     hAffX, hAffY, -⟩ :=
-    exists_stage_etale_pair_of_pointed_span p q bS hTB hx hG β hβB xσ hxσX hxσZ yσ hyσZ
+    exists_stage_etale_pair_of_pointed_span p q bS hTB hG β hβB xσ hxσX hxσZ yσ hyσZ
       U.scheme U.point U.toBase U.map_point qU hqUEt hqU hqUres hqUBase
   exact ⟨D, ρ, hρSm, τ, m, hmρ, hmτ, A, fD, gD, hfD U.etale_toBase, hgD, a, hτρ, hAa, hfa,
     hfres hfUres, hgres, hga, aσ, haσA, haσZ, Uaff, jUaff, hjUaff, eAff, heAffIso, a₀, hja₀,
@@ -3365,7 +3362,7 @@ that the caller fixes what it means for the two routes to agree: Tag 0CAV's isom
 private theorem exists_approximationDiagram_of_stage
     {X S Y T B Dst : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q]
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s)
+    {x : X} {s : S} {y : Y} {t : T}
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -3969,7 +3966,7 @@ private theorem exists_approximationDiagram_over_base_of_span
     {X S Y T B : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [IsLocallyNoetherian T]
     (bS : S ⟶ B) (hTB : T ⟶ B) [LocallyOfFinitePresentation hTB]
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s)
+    {x : X} {s : S} {y : Y} {t : T}
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -4056,7 +4053,7 @@ private theorem exists_approximationDiagram_over_base_of_span
   obtain ⟨Dst, ρ, hρSm, τ, m, hmρ, hmτ, A, fD, gD, hfD₀, hgD, a, hτρ, hAa, hfa, hfres₀, hgres,
     hga, aσ, haσA, haσZ, Uaff, jUaff, hjUaff, eAff, heAffIso, a₀, hja₀, heAffa₀,
     hAffX, hAffY, hAffZ⟩ :=
-    exists_stage_etale_pair_of_pointed_span p q bS hTB hx hG
+    exists_stage_etale_pair_of_pointed_span p q bS hTB hG
       (relativeBaseChangeMorphism s σ) hβB xσ hxσX hxσZ yσ hyσZ Usch u fU
       hfU gU hgUEt hgU hgUres hUBase
   have := hρSm
@@ -4138,7 +4135,7 @@ private theorem exists_approximationDiagram_over_base_of_span
     exact hfbij.injective hfη ▸ hη
   obtain ⟨V, τV, hτV, yτ, hyτY, hyτV, Wsch, w, pW, hpW, g, hgPoint, hgEt, hVel, hτVB, hresg,
     hover, hXcond, hc3, hc5, hgZθ, hfib⟩ :=
-    exists_approximationDiagram_of_stage p q hx hG N hN σ ρ τ bS hTB hτρ m
+    exists_approximationDiagram_of_stage p q hG N hN σ ρ τ bS hTB hτρ m
       hmρ (relativeBaseChangeMorphism s σ) hmτ hτm hσstage A fD gD hgD a hAa hfa
       hgres hgYa yσ hyσY hyσZ hga aσ haσA haσZ hAσX hAσY P hAcong
   exact ⟨V, τV, hτV, yτ, hyτY, hyτV, Wsch, w, pW, hpW, g, hgPoint, hgEt, hVel, hτVB, hresg,
@@ -4159,7 +4156,7 @@ private theorem exists_common_elementaryEtaleNeighborhood_over_base
     {X S Y T B : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [IsLocallyNoetherian T]
     (bS : S ⟶ B) (hTB : T ⟶ B) [LocallyOfFinitePresentation hTB]
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s) (hy : q y = t)
+    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s)
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -4399,7 +4396,7 @@ private theorem exists_common_elementaryEtaleNeighborhood_over_base
     exact hdiffU
   obtain ⟨V, τV, hτV, yτ, hyτY, hyτV, Wsch, w, pW, hpW, g, hgPoint, hgEt, hVel, hτVB, hresg,
     hover, hXcond, hc3, hc5, hfib⟩ :=
-    exists_approximationDiagram_over_base_of_span p q bS hTB hx hG N hN σ hσ hβB xσ hxσX
+    exists_approximationDiagram_over_base_of_span p q bS hTB hG N hN σ hσ hβB xσ hxσX
       hxσZ yσ hyσY hyσZ U.scheme U.point U.toBase U.map_point qU hqUEt hqU hqUres hqUBase
       (fun α b => AdicCompletion.evalₐ (maximalIdeal
         ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ)) N
@@ -4441,7 +4438,7 @@ theorem exists_common_elementaryEtaleNeighborhood_absoluteApproximation
     {X S Y T : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q]
     (hT : LocallyOfFiniteType (specULiftZIsTerminal.{u}.from T))
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s) (hy : q y = t)
+    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s)
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -4517,7 +4514,7 @@ theorem exists_common_elementaryEtaleNeighborhood_absoluteApproximation
   obtain ⟨V, τ, hτ, yτ, hyτY, hyτV, W, g, hgPoint, hgEt, hVel, hWel, -, hres, hover, hcong, -,
     hfib⟩ :=
     exists_common_elementaryEtaleNeighborhood_over_base p q (terminal.from S)
-      (terminal.from T) hx hy hG N hN σ hσ (terminalIsTerminal.hom_ext _ _) yσ hyσY hyσZ φ hφ
+      (terminal.from T) hx hG N hN σ hσ (terminalIsTerminal.hom_ext _ _) yσ hyσY hyσZ φ hφ
   exact ⟨V, τ, hτ, yτ, hyτY, hyτV, W, g, hgPoint, hgEt, hVel, hWel, hres, hover, hcong, hfib⟩
 
 /-! ### Tag 0CB1: the approximating diagram with an étale leg -/
@@ -4580,7 +4577,7 @@ two base changes of the stage object along `Spec 𝒪^∧_{S, s} ⟶ D` and alon
 theorem exists_etale_relativeIsomorphismApproximation
     {X S Y T : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T) (h : T ⟶ S)
     [LocallyOfFiniteType p] [LocallyOfFiniteType q] [LocallyOfFiniteType h]
-    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s) (hy : q y = t) (hts : h t = s)
+    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s) (hts : h t = s)
     (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
     (σ : T.presheaf.stalk t →+*
       AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
@@ -4683,7 +4680,7 @@ theorem exists_etale_relativeIsomorphismApproximation
   have : LocallyOfFinitePresentation h := inferInstance
   obtain ⟨V, τ, hτ, yτ, hyτY, hyτV, W₀, g, hgPoint, hgEt, hVel, hW₀el, hτh, hres, hover,
     hcong, hcl5, hfib⟩ :=
-    exists_common_elementaryEtaleNeighborhood_over_base p q (𝟙 S) h hx hy hG N hN σ hσ
+    exists_common_elementaryEtaleNeighborhood_over_base p q (𝟙 S) h hx hG N hN σ hσ
       (by rw [Category.comp_id]; exact relativeBaseChangeMorphism_comp h hts σ hσbase)
       yσ hyσY hyσZ φ hφ
   have := hgEt

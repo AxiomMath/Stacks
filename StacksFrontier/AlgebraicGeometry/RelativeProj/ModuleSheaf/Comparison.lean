@@ -185,7 +185,8 @@ def sectionFun (U : Opens (ProjectiveSpectrum.top 𝒜)) (V : Opens (ProjectiveS
     (a : ∀ x : U, ModuleFiber (M := M) 𝒜 x.1) (y : V) : ModuleFiber (M := N) ℬ y.1 :=
   fibreMap φ hφ f y.1 (a ⟨ProjectiveSpectrum.comapFun φ hφ y.1, hUV y.2⟩)
 
-omit [SetLike.GradedSMul 𝒜 𝒨] [SetLike.GradedSMul ℬ 𝒩] in
+omit [SetLike.GradedSMul 𝒜 𝒨] [SetLike.GradedSMul ℬ 𝒩] [AddSubgroupClass μ M] [AddSubgroupClass ν N]
+  [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 include hf in
 /-- The comparison carries a family of local homogeneous fractions of `𝒨` to one of `𝒩`: a
 representative `m / s` with `m ∈ 𝒨 k` and `s ∈ 𝒜 k` goes to `f m / φ s` with `f m ∈ 𝒩 k` and
@@ -214,6 +215,7 @@ def sectionsMap (U : Opens (ProjectiveSpectrum.top 𝒜)) :
   fun a ↦ ⟨sectionFun φ hφ f U _ Set.Subset.rfl a.1,
     locallyModuleFraction_sectionFun φ hφ f hf U _ Set.Subset.rfl a.1 a.2⟩
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 /-- The value of the comparison of sections at a point. -/
 @[simp] theorem sectionsMap_apply (U : Opens (ProjectiveSpectrum.top 𝒜))
     (a : moduleSections 𝒜 𝒨 U) (y : U.comap (ProjectiveSpectrum.comap φ hφ)) :
@@ -259,6 +261,7 @@ def moduleMap :
   ((AlgebraicGeometry.Scheme.Modules.pullbackPushforwardAdjunction
     (AlgebraicGeometry.Proj.map φ hφ)).homEquiv _ _).symm (pushforwardModuleMap φ hφ f hf)
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 /-- The adjoint transpose of the comparison `r^* M̃ ⟶ Ñ` is
 `Stacks.ProjModuleComparison.pushforwardModuleMap`. -/
 theorem homEquiv_moduleMap :

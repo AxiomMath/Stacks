@@ -111,7 +111,7 @@ theorem _root_.AlgebraicGeometry.Scheme.Hom.stalkHomAt_comp {Z U Y : Scheme.{u}}
   refine congrArg CommRingCat.Hom.hom ?_
   simp only [Scheme.Hom.stalkMap_comp, TopCat.Presheaf.stalkCongr_hom,
     TopCat.Presheaf.stalkSpecializes_refl, Category.id_comp]
-  show Y.presheaf.stalkSpecializes (specializes_refl (b (a z))) ≫
+  change Y.presheaf.stalkSpecializes (specializes_refl (b (a z))) ≫
       Scheme.Hom.stalkMap b (a z) ≫ Scheme.Hom.stalkMap a z = _
   rw [TopCat.Presheaf.stalkSpecializes_refl, Category.id_comp]
 
@@ -474,14 +474,14 @@ theorem exists_common_elementaryEtaleNeighborhood_of_adicCompletion_ringEquiv
     rw [EtaleNeighborhood.isElementary_iff]
     exact inferInstanceAs (IsIso (W.ι.residueFieldMap w))
   have hq : (W.ι ≫ F) (U₀.comp V).point = y := by
-    show F (W.ι w) = y
+    change F (W.ι w) = y
     rwa [hw]
   refine ⟨U₀.comp V, W.ι ≫ F, hWet, hq, EtaleNeighborhood.IsElementary.comp hU₀ hVel, ?_, ?_, ?_⟩
   · rw [EtaleNeighborhood.isElementary_iff]
-    show IsIso ((W.ι ≫ F).residueFieldMap w)
+    change IsIso ((W.ι ≫ F).residueFieldMap w)
     rw [Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' ((F.isIso_residueFieldMap_congr hw).mpr hFres) inferInstance
-  · show (W.ι ≫ F) ≫ g = (W.ι ≫ U₀.toBase) ≫ f
+  · change (W.ι ≫ F) ≫ g = (W.ι ≫ U₀.toBase) ≫ f
     rw [Category.assoc, Category.assoc, hover]
   · intro z
     have hb : ((U₀.comp V).along (W.ι ≫ F) hWet hq).completionMap =

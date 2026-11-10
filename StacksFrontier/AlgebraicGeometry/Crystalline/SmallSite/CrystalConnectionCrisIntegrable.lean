@@ -370,8 +370,7 @@ theorem eq_crystalExtensionCris
   have key : ∀ q : F.val.obj (op A) ⊗[crysFormRing S A] (crysDifferentialForms S 1).obj (op A),
       L (ULift.up q) = R (ULift.up q) := by
     intro q
-    induction q using TensorProduct.induction_on with
-    | zero => exact L.map_zero.trans R.map_zero.symm
+    induction q using TensorProduct.inductionOn with
     | tmul s ω =>
       exact (hE A s ω).trans (crystalExtensionCrisApp_toSheafify hF A s ω).symm
     | add q q' hq hq' =>

@@ -326,9 +326,9 @@ variable (X : RingedSpace.{u, u}) {A : Type u} [CommRing A]
 lemma sectionsOver_map_baseSmul (M : SheafOfModules.{u} (structureSheafRing X)) :
     (sectionsOver X ρ).map ((baseSmul X ρ f).asHom.app M) = f • 𝟙 ((sectionsOver X ρ).obj M) := by
   ext (x : M.val.obj (op ⊤))
-  show ((baseSmul X ρ f).asHom.app M).val.app (op ⊤) x = _
+  change ((baseSmul X ρ f).asHom.app M).val.app (op ⊤) x = _
   rw [Stacks.SheafOfModules.terminalSectionToEnd_apply]
-  show (structureSheafRing X).obj.map (isTerminalTop.from ⊤).op (ρ f) • x = ρ f • x
+  change (structureSheafRing X).obj.map (isTerminalTop.from ⊤).op (ρ f) • x = ρ f • x
   have h : (isTerminalTop.from (⊤ : Opens X.carrier)).op = 𝟙 (op (⊤ : Opens X.carrier)) :=
     Quiver.Hom.unop_inj (Subsingleton.elim _ _)
   rw [h, (structureSheafRing X).obj.map_id]

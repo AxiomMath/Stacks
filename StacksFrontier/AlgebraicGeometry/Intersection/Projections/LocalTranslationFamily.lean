@@ -78,7 +78,7 @@ public theorem Scheme.IdealSheafData.comap_vanishingIdeal_of_isOpenImmersion {X 
   refine Scheme.IdealSheafData.eq_vanishingIdeal_of_isReduced_subscheme _ _ ?_
   refine Closeds.ext ?_
   rw [Scheme.IdealSheafData.support_comap]
-  show f.base ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal Z).support : Set Y) = _
+  change f.base ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal Z).support : Set Y) = _
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   rfl
 
@@ -454,6 +454,7 @@ public theorem transEmb_comp_lineProductToSpec' :
         Spec.map (CommRingCat.ofHom (algebraMap k (transRing Λ w₀))) := by
   rw [lineProductToSpec, transEmb_comp_lineProductLine_assoc, transChart_comp_toSpec]
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- **The section of `𝐏_R(R ⊗_k V)` at a point of `Spec R` is the section of `𝐏(W) ×_k 𝐏(V)` at
 its image point.** -/
 public theorem pointSection_comp_transEmb [IsAlgClosed k] (χ : transRing Λ w₀ →ₐ[k] k)
@@ -550,6 +551,7 @@ public theorem exists_eq_pointSection
           rfl
       _ = _ := rfl
 
+omit [Nontrivial V] in
 /-- **Membership in the two sets, at a point of a section.** -/
 public theorem pointSection_mem_iff
     (C : Set (projectiveSpaceOfModule k V)) (M : Set (lineProduct k V W))
@@ -579,7 +581,7 @@ public theorem pointSection_mem_iff
   rw [← Scheme.Hom.comp_apply (pointSection χ) (transEmb Λ w₀), hσJ,
     ← Scheme.Hom.comp_apply (pointSection χ), pointSection_comp_map, Scheme.Hom.comp_apply,
     ← Scheme.Hom.comp_apply (pointSection χ), pointSection_comp_baseChangeMap]
-  show y ∈ lineProductFibre k V W _ (linearFunctionalPoint_isClosed k W μ hμ) M ↔ _
+  change y ∈ lineProductFibre k V W _ (linearFunctionalPoint_isClosed k W μ hμ) M ↔ _
   rw [hfibμ, mem_image_map_iff, map_inv]
   rfl
 

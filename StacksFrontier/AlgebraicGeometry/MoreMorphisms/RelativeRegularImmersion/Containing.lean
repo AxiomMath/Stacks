@@ -379,8 +379,8 @@ private theorem flat_quotient_appLE_basicOpen_of_flat_away (f : X ⟶ S) {W : S.
     ((Ideal.Quotient.mk (Ideal.span (Set.range fun k =>
         X.presheaf.map (homOfLE (X.basicOpen_le g)).op (c k)))).comp
       (f.appLE W (X.basicOpen g) ((X.basicOpen_le g).trans hUW)).hom).Flat := by
-  letI := (f.appLE W U hUW).hom.toAlgebra
-  letI : Algebra Γ(S, W) Γ(X, X.basicOpen g) :=
+  let := (f.appLE W U hUW).hom.toAlgebra
+  let : Algebra Γ(S, W) Γ(X, X.basicOpen g) :=
     (f.appLE W (X.basicOpen g) ((X.basicOpen_le g).trans hUW)).hom.toAlgebra
   have _ : IsLocalization.Away g Γ(X, X.basicOpen g) := hU.isLocalization_basicOpen _
   have halgV : algebraMap Γ(X, U) Γ(X, X.basicOpen g)
@@ -421,7 +421,7 @@ theorem exists_affineOpen_isWeaklyRegular_flat_quotient_ideal_fibre (f : X ⟶ S
     (hfib : ∃ V : (f.fiber (f x)).Opens, f.asFiber x ∈ V ∧ IsQuasiRegularImmersion
       (((T.comap (f.fiberι (f x))).comap V.ι).subschemeι))
     (V₀ : X.Opens) (hxV₀ : x ∈ V₀) :
-    ∃ (W : S.Opens) (hW : IsAffineOpen W) (V : X.Opens) (hV : IsAffineOpen V)
+    ∃ W : S.Opens, IsAffineOpen W ∧ ∃ (V : X.Opens) (hV : IsAffineOpen V)
         (hVW : V ≤ f ⁻¹ᵁ W) (hxV : x ∈ V), V ≤ V₀ ∧ ∃ (r : ℕ) (c : Fin r → Γ(X, V)),
       (∀ i, c i ∈ T.ideal ⟨V, hV⟩) ∧
         IsWeaklyRegular Γ(X, V) (List.ofFn c) ∧

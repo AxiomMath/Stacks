@@ -109,7 +109,7 @@ theorem basisTensorInvFun_add_left (n' n'' : N') (m : M) :
     basisTensorInvFun b c (n' + n'') m =
       basisTensorInvFun b c n' m + basisTensorInvFun b c n'' m := by
   have h : c.repr (n' + n'') = c.repr n' + c.repr n'' := map_add _ n' n''
-  show (c.repr (n' + n'')).sum (fun i r ↦ b i ⊗ₜ[R] (r • m)) = _
+  change (c.repr (n' + n'')).sum (fun i r ↦ b i ⊗ₜ[R] (r • m)) = _
   rw [h]
   exact Finsupp.sum_add_index' (fun i ↦ tmul_zero_smul _ _)
     fun i r r' ↦ by rw [add_smul, TensorProduct.tmul_add]
@@ -118,7 +118,7 @@ theorem basisTensorInvFun_add_left (n' n'' : N') (m : M) :
 theorem basisTensorInvFun_add_right (n' : N') (m m' : M) :
     basisTensorInvFun b c n' (m + m') =
       basisTensorInvFun b c n' m + basisTensorInvFun b c n' m' := by
-  show (∑ i ∈ (c.repr n').support, b i ⊗ₜ[R] ((c.repr n') i • (m + m'))) =
+  change (∑ i ∈ (c.repr n').support, b i ⊗ₜ[R] ((c.repr n') i • (m + m'))) =
     (∑ i ∈ (c.repr n').support, b i ⊗ₜ[R] ((c.repr n') i • m)) +
       ∑ i ∈ (c.repr n').support, b i ⊗ₜ[R] ((c.repr n') i • m')
   rw [← Finset.sum_add_distrib]
@@ -133,7 +133,7 @@ def basisTensorInv : N' ⊗[R'] M →+ N ⊗[R] M :=
       fun n' n'' ↦ AddMonoidHom.ext fun m ↦ basisTensorInvFun_add_left b c n' n'' m)
     fun r n' m ↦ by
       change basisTensorInvFun b c (r • n') m = basisTensorInvFun b c n' (r • m)
-      show ((c.repr (r • n')).sum fun i s ↦ b i ⊗ₜ[R] (s • m)) =
+      change ((c.repr (r • n')).sum fun i s ↦ b i ⊗ₜ[R] (s • m)) =
         (c.repr n').sum fun i s ↦ b i ⊗ₜ[R] (s • (r • m))
       rw [map_smul, Finsupp.sum_smul_index' fun i ↦ by rw [zero_smul, TensorProduct.tmul_zero]]
       refine Finsupp.sum_congr fun i _ ↦ ?_
@@ -147,7 +147,7 @@ def basisTensorInv : N' ⊗[R'] M →+ N ⊗[R] M :=
 /-- **The inverse at a basis vector of `N'`**: `basisTensorInvFun b c (c i) m = b i ⊗ m`. -/
 theorem basisTensorInvFun_basis (i : K) (m : M) :
     basisTensorInvFun b c (c i) m = b i ⊗ₜ[R] m := by
-  show ((c.repr (c i)).sum fun j r ↦ b j ⊗ₜ[R] (r • m)) = _
+  change ((c.repr (c i)).sum fun j r ↦ b j ⊗ₜ[R] (r • m)) = _
   rw [c.repr_self, Finsupp.sum_single_index (tmul_zero_smul _ _),
     one_smul]
 
@@ -166,25 +166,25 @@ theorem semilinearTensorMap_basis_tmul (i : K) (m : M) :
 /-- **The inverse undoes the forward map.** -/
 theorem basisTensorInv_semilinearTensorMap (z : N ⊗[R] M) :
     basisTensorInv b c (semilinearTensorMap (M := M) u hu hM z) = z := by
-  induction z using TensorProduct.induction_on with
+  induction z using TensorProduct.inductionOn with
   | tmul n m =>
       rw [tmul_eq_sum_repr b n m, Finsupp.sum, map_sum, map_sum]
       refine Finset.sum_congr rfl fun i _ ↦ ?_
       rw [semilinearTensorMap_basis_tmul b c hu hM hc, basisTensorInv_tmul,
         basisTensorInvFun_basis]
-  | zero | add x y hx hy => simp_all
+  | add x y hx hy => simp_all
 
 /-- **The forward map undoes the inverse.** -/
 theorem semilinearTensorMap_basisTensorInv (w : N' ⊗[R'] M) :
     semilinearTensorMap (M := M) u hu hM (basisTensorInv b c w) = w := by
-  induction w using TensorProduct.induction_on with
+  induction w using TensorProduct.inductionOn with
   | tmul n' m =>
       rw [basisTensorInv_tmul]
-      show semilinearTensorMap (M := M) u hu hM
+      change semilinearTensorMap (M := M) u hu hM
           ((c.repr n').sum fun i r ↦ b i ⊗ₜ[R] (r • m)) = _
       rw [Finsupp.sum, map_sum, tmul_eq_sum_repr c n' m, Finsupp.sum]
       exact Finset.sum_congr rfl fun i _ ↦ semilinearTensorMap_basis_tmul b c hu hM hc i _
-  | zero | add x y hx hy => simp_all
+  | add x y hx hy => simp_all
 
 /-- **The map across the base change is bijective** as soon as the images of a basis of `N` form a
 basis of `N'`. -/

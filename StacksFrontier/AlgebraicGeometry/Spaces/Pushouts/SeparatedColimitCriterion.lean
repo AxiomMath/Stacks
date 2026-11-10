@@ -231,7 +231,7 @@ private theorem hom_ext_of_separated_colimit {B : AlgebraicSpaces site S hS}
         { app := fun i => separatedPullbackLift (c.ι.app i) (c.ι.app i) (h i)
           naturality := by
             intro i j k
-            show D.map k ≫ separatedPullbackLift (c.ι.app j) (c.ι.app j) (h j) =
+            change D.map k ≫ separatedPullbackLift (c.ι.app j) (c.ι.app j) (h j) =
               separatedPullbackLift (c.ι.app i) (c.ι.app i) (h i) ≫ 𝟙 _
             apply Eq.trans _ (Category.comp_id _).symm
             apply separatedPullback_hom_ext
@@ -340,7 +340,7 @@ private theorem isSeparated_map_from_separated_scheme
     (fun V => Over.homMk V.hom rfl) (by
       intro V a
       apply Over.OverMorphism.ext
-      show a.left = V.hom
+      change a.left = V.hom
       simpa [Tsch] using Over.w a)
   let Tsp : AlgebraicSpaces site S hS :=
     ⟨yoneda.obj Tsch, isAlgebraicSpace_yoneda site S hS Tsch⟩
@@ -534,7 +534,7 @@ theorem isColimit_of_separated_etale_descent
   let h := hd.desc t
   let g : d.pt.obj ⟶ s.pt := h.hom ≫ f
   have hg (i : I) : (d.ι.app i).hom ≫ g = (p.app i).hom ≫ s.ι.app i := by
-    show (d.ι.app i).hom ≫ h.hom ≫ f = _
+    change (d.ι.app i).hom ≫ h.hom ≫ f = _
     rw [← Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom, hd.fac]
     apply Over.OverMorphism.ext
     exact (pullbackDiagram_isPullback D s f i).w.symm
@@ -561,7 +561,7 @@ theorem isColimit_of_separated_etale_descent
     have hwi : (p₂.app i).hom.left ≫ (c.ι.app i).hom.left =
         (d₂.ι.app i).hom.left ≫ q₂.hom.left :=
       (pullbackDiagram_isPullback D c' q₂.hom i).w
-    show ((d₂.ι.app i).hom.left ≫ r₁.hom.left) ≫ g.left =
+    change ((d₂.ι.app i).hom.left ≫ r₁.hom.left) ≫ g.left =
       ((d₂.ι.app i).hom.left ≫ r₂.hom.left) ≫ g.left
     apply pullback_hom_agree (hpb i) (congrArg Over.Hom.left (hg i)) (p₂.app i).hom.left
     · exact hwi.trans (Category.assoc _ _ _).symm
@@ -582,7 +582,7 @@ theorem isColimit_of_separated_etale_descent
   have hfac (i : I) : (c.ι.app i).hom ≫ l' = s.ι.app i := by
     apply Over.OverMorphism.ext
     apply etale_surjective_hom_ext (p.app i).hom.left (hp i).1 (hps i)
-    show (p.app i).hom.left ≫ (c.ι.app i).hom.left ≫ l =
+    change (p.app i).hom.left ≫ (c.ι.app i).hom.left ≫ l =
       (p.app i).hom.left ≫ (s.ι.app i).left
     rw [← Category.assoc, (hpb i).w, Category.assoc, hl]
     exact congrArg Over.Hom.left (hg i)

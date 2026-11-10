@@ -219,7 +219,7 @@ theorem toENat_trdeg_residueField_eq_of_etale {A B T : Scheme.{u}} (q : A ⟶ B)
   let : Algebra E L := (q.residueFieldMap a).hom.toAlgebra
   let : Algebra K L := ((q ≫ p).residueFieldMap a).hom.toAlgebra
   let : IsScalarTower K E L := IsScalarTower.of_algebraMap_eq' (by
-    show ((q ≫ p).residueFieldMap a).hom = (q.residueFieldMap a).hom.comp
+    change ((q ≫ p).residueFieldMap a).hom = (q.residueFieldMap a).hom.comp
       (p.residueFieldMap (q a)).hom
     rw [Scheme.residueFieldMap_comp]
     rfl)
@@ -227,7 +227,7 @@ theorem toENat_trdeg_residueField_eq_of_etale {A B T : Scheme.{u}} (q : A ⟶ B)
   have : Algebra.IsAlgebraic E L := Algebra.IsAlgebraic.of_finite E L
   have h := trdeg_add_eq (R := K) (S := E) (A := L)
   rw [trdeg_eq_zero (R := E) (A := L), add_zero] at h
-  show (Cardinal.toENat (Algebra.trdeg K L) : WithBot ℕ∞) = Cardinal.toENat (Algebra.trdeg K E)
+  change (Cardinal.toENat (Algebra.trdeg K L) : WithBot ℕ∞) = Cardinal.toENat (Algebra.trdeg K E)
   rw [h]
 
 /-- Flatness over the base at a point is unchanged along an étale morphism over the base, for
@@ -266,7 +266,7 @@ theorem chartBaseChange_snd {X' : Scheme.{u}} (h : X' ⟶ D.X) (T : Over D.S) :
 /-- The base change of an étale chart lies over `h` on the first projections. -/
 theorem chartBaseChange_fst {X' : Scheme.{u}} (h : X' ⟶ D.X) (T : Over D.S) :
     pullback.fst (h ≫ D.f) T.hom ≫ h = D.chartBaseChange h T ≫ pullback.fst D.f T.hom := by
-  simp [chartBaseChange, pullback.condition]
+  simp [chartBaseChange]
 
 /-- The base change of an étale chart is étale. -/
 instance {X' : Scheme.{u}} (h : X' ⟶ D.X) [Etale h] (T : Over D.S) :
@@ -288,7 +288,7 @@ theorem etaleChart_isFlat_iff {X' : Scheme.{u}} (h : X' ⟶ D.X) [Etale h] (T : 
     (D.etaleChart h).IsFlatInDimensionsGEAfterBaseChange T ↔
       IsFlatOverInDimensionsGE (D.chartBaseChange h T ≫ D.baseChangeMap T)
         ((Scheme.Modules.pullback (D.chartBaseChange h T)).obj (D.baseChangeModule T)) D.n := by
-  show IsFlatOverInDimensionsGE (pullback.snd (h ≫ D.f) T.hom) _ D.n ↔ _
+  change IsFlatOverInDimensionsGE (pullback.snd (h ≫ D.f) T.hom) _ D.n ↔ _
   refine (isFlatOverInDimensionsGE_congr (D.chartBaseChange_snd h T).symm _ D.n).trans ?_
   exact isFlatOverInDimensionsGE_iff_of_moduleIso _ (D.chartBaseChangeModuleIso h T) D.n
 
@@ -319,7 +319,7 @@ theorem isFlat_of_forall_etaleChart {ι : Type*} {Y : ι → Scheme.{u}} (h : �
   classical
   let q := D.baseChangeMap T
   let G := D.baseChangeModule T
-  show IsFlatOverInDimensionsGE q G D.n
+  change IsFlatOverInDimensionsGE q G D.n
   rw [isFlatOverInDimensionsGE_iff_forall_toENat_trdeg_lt]
   intro x hnflat
   -- an associated point of the fibre, generalizing `x`, at which `G` is not flat
@@ -379,7 +379,7 @@ theorem isFlat_etaleChart_and_iff_of_relativeAssassin_subset {X' : Scheme.{u}} (
         (D.etaleChart h).IsFlatInDimensionsGEAfterBaseChange T) :=
   ⟨D.isFlat_etaleChart_of_isFlat h, fun hAss T ↦ ⟨D.isFlat_etaleChart_of_isFlat h T,
     fun hT ↦ D.isFlat_of_forall_etaleChart (Y := fun _ : Unit ↦ X') (fun _ ↦ h) T
-      (fun x hx _ ↦ ⟨(), hAss hx⟩) fun _ ↦ hT⟩⟩
+      (fun _ hx _ ↦ ⟨(), hAss hx⟩) fun _ ↦ hT⟩⟩
 
 end FlatDimensionSituation
 

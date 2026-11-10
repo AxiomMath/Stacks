@@ -67,7 +67,7 @@ theorem isZero_rightDerived_obj_of_isZero_comp_of_isZero (X : A) (n : ℕ)
   have hGE : ∀ (L : DerivedCategory.Plus B) (a : ℤ), L.IsGE a → (Gd.obj L).IsGE a := by
     intro L a hL
     have := Functor.isGE_rightDerivedFunctorPlus_obj G L a
-    show (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
+    change (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
     infer_instance
   let T := (t.triangleLEGE 0 1 rfl).obj K
   have hT : T ∈ distTriang (DerivedCategory.Plus B) := t.triangleLEGE_distinguished 0 1 rfl K
@@ -80,7 +80,7 @@ theorem isZero_rightDerived_obj_of_isZero_comp_of_isZero (X : A) (n : ℕ)
   -- the higher rows: `Hⁿ⁻¹(RG(τ^{≥1} RF X)) = 0`
   have h₃ : IsZero ((DerivedCategory.homologyFunctor E ((n : ℤ) - 1)).obj (Gd.obj T.obj₃)) := by
     have hT3 : T.obj₃.IsGE 1 := by
-      show ((t.truncGE 1).obj K).IsGE 1
+      change ((t.truncGE 1).obj K).IsGE 1
       infer_instance
     refine isZero_homology_map_obj_of_isZero_single Gd hGE T.obj₃ 1 ((n : ℤ) - 1)
       fun q hq => ?_
@@ -108,10 +108,10 @@ theorem isZero_rightDerived_obj_of_isZero_comp_of_isZero (X : A) (n : ℕ)
       (h₃.eq_of_src _ _) (h₂.eq_of_tgt _ _)
   -- and `τ^{≤0} RF X = (F X)[0]`
   have hT1GE : T.obj₁.IsGE 0 := by
-    show ((t.truncLE 0).obj K).IsGE 0
+    change ((t.truncLE 0).obj K).IsGE 0
     infer_instance
   have hT1LE : T.obj₁.IsLE 0 := by
-    show ((t.truncLE 0).obj K).IsLE 0
+    change ((t.truncLE 0).obj K).IsLE 0
     infer_instance
   obtain ⟨M, ⟨e⟩⟩ := Stacks.BoundedCohomologicalDimension.exists_iso_plus_singleFunctor_obj
     T.obj₁ 0

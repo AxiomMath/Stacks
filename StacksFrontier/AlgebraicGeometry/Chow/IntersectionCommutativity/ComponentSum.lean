@@ -60,7 +60,7 @@ private theorem closedSubschemeCyclePushforward_apply_sub_smul_aux (W : X.IdealS
   · obtain ⟨z, rfl⟩ := hx
     rw [closedSubschemeCyclePushforward_apply, closedSubschemeCyclePushforward_apply,
       closedSubschemeCyclePushforward_apply]
-    show a • c z - b • c' z = _
+    change a • c z - b • c' z = _
     simp
   · rw [closedSubschemeCyclePushforward_apply_of_notMem_range C p W _ hx,
       closedSubschemeCyclePushforward_apply_of_notMem_range C p W c hx,
@@ -144,7 +144,7 @@ theorem mk_eq_mk_of_keyFormula [LocallyOfFiniteType p] {k : ℤ} (D : KeyFormula
     (QuotientAddGroup.mk u : chowGroup C p k) = QuotientAddGroup.mk v := by
   have hre : IsRationallyEquivalentToZero C p k (u - v) :=
     isRationallyEquivalentToZero_of_keyFormula C p D hKey k hdim (u - v) fun x ↦ by
-      show u.1 x - v.1 x = _
+      change u.1 x - v.1 x = _
       rw [hu x, hv x, D.leftCoeff_eq_sub C p x]
   have h0 : (QuotientAddGroup.mk' (rationalEquivalences C p k) (u - v)) = 0 :=
     (QuotientAddGroup.eq_zero_iff _).2 hre

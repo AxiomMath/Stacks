@@ -64,7 +64,7 @@ private theorem artinian_quotient_maximalIdeal_pow
     (n : ℕ) : IsArtinianRing (R ⧸ maximalIdeal R ^ (n + 1)) := by
   let I : Ideal R := maximalIdeal R ^ (n + 1)
   have hI : I ≠ ⊤ := by
-    show maximalIdeal R ^ (n + 1) ≠ ⊤
+    change maximalIdeal R ^ (n + 1) ≠ ⊤
     simp only [ne_eq, Ideal.pow_eq_top_iff, not_or]
     exact ⟨(IsLocalRing.maximalIdeal.isMaximal R).ne_top, Nat.succ_ne_zero n⟩
   let : Nontrivial (R ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr hI

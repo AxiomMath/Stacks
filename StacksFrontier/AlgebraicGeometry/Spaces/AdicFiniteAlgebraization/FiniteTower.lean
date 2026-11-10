@@ -186,7 +186,7 @@ theorem isFinite_succ_of_isPullback (n : ℕ) {Yn Yn' : AlgebraicSpaces B (Spec 
           exact (IsThickeningHom.isoRange_hom_ι hj).symm
         · simp }
   have hf : IsFinite B (Spec (.of A)) hA M.f := by
-    show IsFinite B (Spec (.of A)) hA (hi.isoRange.inv ≫ y.hom ≫ hj.isoRange.hom)
+    change IsFinite B (Spec (.of A)) hA (hi.isoRange.inv ≫ y.hom ≫ hj.isoRange.hom)
     exact isFinite_comp B _ hA (isFinite_of_isIso B _ hA _)
       (isFinite_comp B _ hA hy (isFinite_of_isIso B _ hA _))
   exact M.isFinite_iff.mp hf

@@ -68,20 +68,19 @@ theorem fittingIdeal_kaehlerDifferential_le_noetherDifferent :
     Module.Finite.iff_fg.mpr (KaehlerDifferential.ideal_fg A B)
   let g := kaehlerIdealToBaseChange A B
   have hg : ∀ x y : I, g (x * y) = 0 := fun x y ↦ by
-    show (1 : B) ⊗ₜ[B ⊗[A] B] ((x : B ⊗[A] B) • y) = 0
+    change (1 : B) ⊗ₜ[B ⊗[A] B] ((x : B ⊗[A] B) • y) = 0
     rw [← TensorProduct.smul_tmul]
-    show (Algebra.TensorProduct.lmul' A (x : B ⊗[A] B) * 1) ⊗ₜ[B ⊗[A] B] y = 0
+    change (Algebra.TensorProduct.lmul' A (x : B ⊗[A] B) * 1) ⊗ₜ[B ⊗[A] B] y = 0
     rw [show Algebra.TensorProduct.lmul' A (x : B ⊗[A] B) = 0 from x.2, zero_mul,
       TensorProduct.zero_tmul]
   have hsurj : Function.Surjective g := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero g⟩
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       refine ⟨(b ⊗ₜ[A] (1 : B)) • x, ?_⟩
-      show (1 : B) ⊗ₜ[B ⊗[A] B] ((b ⊗ₜ[A] (1 : B)) • x) = _
+      change (1 : B) ⊗ₜ[B ⊗[A] B] ((b ⊗ₜ[A] (1 : B)) • x) = _
       rw [← TensorProduct.smul_tmul]
-      show (Algebra.TensorProduct.lmul' A (b ⊗ₜ[A] (1 : B)) * 1) ⊗ₜ x = _
+      change (Algebra.TensorProduct.lmul' A (b ⊗ₜ[A] (1 : B)) * 1) ⊗ₜ x = _
       rw [Algebra.TensorProduct.lmul'_apply_tmul, mul_one, mul_one]
     | add z₁ z₂ h₁ h₂ =>
       obtain ⟨x₁, rfl⟩ := h₁

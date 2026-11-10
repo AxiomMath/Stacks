@@ -164,6 +164,7 @@ public theorem isogenyCoefficientMatrix_mul_mul (hφψ : φ ≫ ψ = (ℓ ^ N) �
     isogenyCoefficientEnd_mul B X x F ρ hρ φ ψ N hφψ, map_nsmul]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the rewrites with `map_nsmul` and `map_one` on the coefficient matrix
 /-- The matrix of `ψ ∘ 1 ∘ φ` is `ℓᴺ` when `ψ φ = ℓᴺ`. -/
 public theorem isogenyCoefficientMatrix_one (hψφ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _) :
     isogenyCoefficientMatrix B X x F ρ hρ φ ψ 1 = (ℓ ^ N) • 1 := by
@@ -171,6 +172,7 @@ public theorem isogenyCoefficientMatrix_one (hψφ : ψ ≫ φ = (ℓ ^ N) • �
     map_one]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the rewrites with `map_add` and the preadditive structure on endomorphisms
 /-- The matrix of `ψ ∘ o ∘ φ` is additive in `o`. -/
 public theorem isogenyCoefficientMatrix_add (o o' : O) :
     isogenyCoefficientMatrix B X x F ρ hρ φ ψ (o + o') =

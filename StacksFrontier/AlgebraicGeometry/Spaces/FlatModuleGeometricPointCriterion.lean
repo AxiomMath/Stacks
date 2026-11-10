@@ -88,9 +88,9 @@ Stacks 047C applies.  That identification **is available**, for a quasi-coherent
 Stacks 03M0 with Stacks 03LW, which assumes no square cartesian — and 05VW itself is proved,
 downstream of this file, in
 `StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleBaseChange.lean`.  The canonical comparison
-`AlgebraicGeometry.Space.restrictToChartSchemePullbackComparison` is a different statement, between a chart restriction and the inverse image
-of another chart restriction; it is only a morphism, and is not an isomorphism for a general
-module.
+`AlgebraicGeometry.Space.restrictToChartSchemePullbackComparison` is a different statement, between
+a chart restriction and the inverse image of another chart restriction; it is only a morphism, and
+is not an isomorphism for a general module.
 
 ## References
 

@@ -322,7 +322,7 @@ public theorem pullback_snd_isIntegral_of_surjective (toBase : B →+* A) (surje
   let snd : cone.pt →+* A' := cone.snd.hom
   have hfst : Function.Surjective fst :=
     RingHom.surjective_pullbackFst_of_surjective toBase surjection hSurjective
-  show snd.IsIntegral
+  change snd.IsIntegral
   rcases subsingleton_or_nontrivial B with hB | hB
   · have hzero : (0 : A) = 1 := by
       rw [← map_zero toBase, ← map_one toBase, Subsingleton.elim (0 : B) 1]
@@ -331,7 +331,7 @@ public theorem pullback_snd_isIntegral_of_surjective (toBase : B →+* A) (surje
     let y : cone.pt := ⟨(0, a'), Subsingleton.elim _ _⟩
     refine ⟨X - C y, monic_X_sub_C y, ?_⟩
     rw [eval₂_sub, eval₂_X, eval₂_C]
-    show a' - a' = 0
+    change a' - a' = 0
     exact sub_self a'
   have : Nontrivial cone.pt := hfst.nontrivial
   intro x
@@ -353,7 +353,7 @@ public theorem pullback_snd_isIntegral_of_surjective (toBase : B →+* A) (surje
     rw [degree_eq_natDegree hq.ne_zero, hqdeg, natDegree_mul_X hp.ne_zero]
     exact_mod_cast Nat.succ_le_succ (Nat.zero_le p.natDegree)
   · rw [eval₂_sub, eval₂_C]
-    show e - e = 0
+    change e - e = 0
     exact sub_self e
 
 end RingFibreProduct

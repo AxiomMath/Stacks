@@ -170,7 +170,7 @@ theorem exists_surjective_finQuot (M : Type s) [AddCommGroup M] [Module Λ M]
   rw [Finset.sum_eq_single i (fun j _ hj => by rw [Pi.single_eq_of_ne hj]; simp)
     (fun hi => absurd (Finset.mem_univ i) hi)]
   rw [Pi.single_eq_same]
-  show Submodule.liftQ I _ (hker i) (Submodule.Quotient.mk (1 : Λ)) = sgen i
+  change Submodule.liftQ I _ (hker i) (Submodule.Quotient.mk (1 : Λ)) = sgen i
   rw [Submodule.liftQ_apply]
   simp [LinearMap.toSpanSingleton]
 
@@ -196,11 +196,11 @@ theorem shortExact_kerShortComplex {a : ℕ} {M : ModuleCat.{s} Λ}
 theorem smul_eq_zero_idealPowSuccQuot (n : ℕ) (r : Λ) (hr : r ∈ I)
     (x : idealPowSuccQuot Λ I n) : r • x = 0 := by
   revert x
-  show ∀ x : ↥(I ^ n) ⧸ Submodule.comap (I ^ n).subtype (I ^ (n + 1)), r • x = 0
+  change ∀ x : ↥(I ^ n) ⧸ Submodule.comap (I ^ n).subtype (I ^ (n + 1)), r • x = 0
   intro x
   obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ x
   rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
-  show ((r • y : ↥(I ^ n)) : Λ) ∈ I ^ (n + 1)
+  change ((r • y : ↥(I ^ n)) : Λ) ∈ I ^ (n + 1)
   have hval : ((r • y : ↥(I ^ n)) : Λ) = (y : Λ) * r := by
     simp [mul_comm]
   rw [pow_succ, hval]
@@ -255,7 +255,7 @@ theorem isLE_derivedTensorConstant
     (M : ModuleCat.{max u v w} Λ) :
     (derivedTensorConstant J Λ T K M).IsLE b := by
   have h0 : ((derivedConstantSheaf J Λ).obj M).IsLE 0 := by
-    show ((DerivedCategory.singleFunctor (Sheaf J (ModuleCat.{max u v w} Λ)) 0).obj
+    change ((DerivedCategory.singleFunctor (Sheaf J (ModuleCat.{max u v w} Λ)) 0).obj
       ((constantSheaf J (ModuleCat.{max u v w} Λ)).obj M)).IsLE 0
     infer_instance
   have h := hbound K ((derivedConstantSheaf J Λ).obj M) b 0 inferInstance h0
@@ -290,7 +290,7 @@ theorem derivedCategoryB_derivedTensorConstant_finQuot
       ModuleCat.isZero_of_subsingleton _
     have hzero : IsZero (derivedTensorConstant J Λ T K (ModuleCat.of Λ (Fin 0 → (Λ ⧸ I)))) := by
       refine Functor.map_isZero (T.obj K) ?_
-      show IsZero ((DerivedCategory.singleFunctor (Sheaf J (ModuleCat.{max u v w} Λ)) 0).obj
+      change IsZero ((DerivedCategory.singleFunctor (Sheaf J (ModuleCat.{max u v w} Λ)) 0).obj
         ((constantSheaf J (ModuleCat.{max u v w} Λ)).obj (ModuleCat.of Λ (Fin 0 → (Λ ⧸ I)))))
       exact Functor.map_isZero _ (Functor.map_isZero _ hz)
     exact fun n => DerivedCategoryB.zero_mem_of_isWeakSerre _ hserre _
@@ -356,11 +356,11 @@ theorem exists_approx_derivedTensorConstant
       intro r hr y
       refine funext fun j => ?_
       obtain ⟨c, hc⟩ := Submodule.Quotient.mk_surjective I (y j)
-      show r • y j = 0
+      change r • y j = 0
       rw [← hc, ← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, smul_eq_mul]
       exact Ideal.mul_mem_right c I hr
     have hZkill : ∀ r ∈ I, ∀ x : (kerShortComplex Λ I π).X₁, r • x = 0 := by
-      show ∀ r ∈ I, ∀ x : ModuleCat.of Λ (LinearMap.ker π), r • x = 0
+      change ∀ r ∈ I, ∀ x : ModuleCat.of Λ (LinearMap.ker π), r • x = 0
       exact fun r hr x => Subtype.ext (hambient r hr x.1)
     obtain ⟨XZ, CZ, fZ, gZ, hZ, hdistZ, hXZ, hCZ⟩ := ih _ hZfg hZkill
     obtain ⟨v, wmap, δ, hdistSES⟩ := exists_distTriang_derivedTensorConstant_of_shortExact

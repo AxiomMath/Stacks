@@ -466,7 +466,7 @@ theorem awaySectionsBaseChangeMap_naturality (a : ↥((awayModulePresheaf X h).o
         (awaySectionsBaseChangeMap X O' φ h U) := by
     refine IsLocalization.ringHom_ext (Submonoid.powers (globalSectionVal h U)) (RingHom.ext ?_)
     intro x
-    show awaySectionsBaseChangeMap X O' φ h V
+    change awaySectionsBaseChangeMap X O' φ h V
         (((awayPresheaf h).map g).hom (((toAwayPresheaf h).app U).hom x)) =
       ((awayPresheaf (baseChangeGlobalSection X O' φ h)).map g).hom
         (awaySectionsBaseChangeMap X O' φ h U (((toAwayPresheaf h).app U).hom x))
@@ -491,7 +491,7 @@ theorem sectionwiseBaseChangeApp_naturality :
           (sectionwiseBaseChangeApp X O' φ h V) =
       sectionwiseBaseChangeApp X O' φ h U ≫ (baseChangeAwayPresheaf X O' φ h).map g := by
   refine ModuleCat.MonoidalCategory.tensor_ext fun a t => ?_
-  show awaySectionsBaseChangeMap X O' φ h V (((awayPresheaf h).map g).hom a) *
+  change awaySectionsBaseChangeMap X O' φ h V (((awayPresheaf h).map g).hom a) *
         ((toAwayPresheaf (baseChangeGlobalSection X O' φ h)).app V).hom
           ((baseChangeUnitPresheaf X O' φ).map g t) =
       ((awayPresheaf (baseChangeGlobalSection X O' φ h)).map g).hom

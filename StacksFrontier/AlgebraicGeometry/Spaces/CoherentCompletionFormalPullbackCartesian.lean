@@ -145,12 +145,11 @@ theorem bijective_sectionsBaseChange_formalPullback
     obtain ⟨w, rfl⟩ := ((_root_.lTensor_exact (chartRing B S hS F hF W) hex
       (hlevU n).1) z).mp hz
     clear hz
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul b k =>
       rw [LinearMap.lTensor_tmul]
       obtain ⟨k, hk⟩ := k
-      show b ⊗ₜ k ∈ _
+      change b ⊗ₜ k ∈ _
       refine Submodule.smul_induction_on hk (fun a ha y _ => ?_) (fun y y' hy hy' => ?_)
       · rw [TensorProduct.tmul_smul, ← algebraMap_smul (chartRing B S hS F hF W) a]
         exact Submodule.smul_mem_smul
@@ -171,8 +170,7 @@ theorem bijective_sectionsBaseChange_formalPullback
     have hsw : s • w = 0 := by
       refine hext ⊥ (fun a ha x => ?_) s hs w
       rw [Submodule.mem_bot]
-      induction x using TensorProduct.induction_on with
-      | zero => rw [smul_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul b k =>
         rw [hres]
         have hk : a • k = 0 := by
@@ -230,8 +228,7 @@ theorem bijective_sectionsBaseChange_formalPullback
       chartRestrict (hF := hF) f a • w ∈ LinearMap.range (LinearMap.baseChange
         (chartRing B S hS F hF W) ((formalPullbackMap B S hS F hF 𝓘 G α).val.app (op U)).hom) := by
     intro a ha w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero]; exact zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul b g =>
       obtain ⟨p, hp⟩ := exists_formalPullbackMap_eq_smul B S hS F hF 𝓘 hIcart hE G hG α hU
         htcok a ha g

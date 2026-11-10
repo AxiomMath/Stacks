@@ -78,10 +78,7 @@ private theorem dual_lTensor_homEquiv
     CharacterModule.dual (LinearMap.lTensor G a) (CharacterModule.homEquiv η) =
       CharacterModule.homEquiv (CharacterModule.dual a ∘ₗ η) := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      show CharacterModule.homEquiv η ((LinearMap.lTensor G a) 0) = 0
-      simp
+  induction x using TensorProduct.inductionOn with
   | tmul g m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -143,14 +140,12 @@ theorem exists_functorialCharacterModuleSplitting
             functorialCharacterModuleSection g Q := by
   obtain ⟨g, hg⟩ := (universallyInjective_iff_dual_splitSurjective f).mp hf
   refine ⟨g, hg, ?_, ?_⟩
-  · intro P _ _; ext x y; induction y using TensorProduct.induction_on with
-    | zero => simp only [LinearMap.comp_apply, LinearMap.id_apply, map_zero]
+  · intro P _ _; ext x y; induction y using TensorProduct.inductionOn with
     | tmul p m =>
       exact congrArg (fun k : CharacterModule M →ₗ[R] CharacterModule M =>
         k (CharacterModule.curry x p) m) hg
     | add y y' hy hy' => rw [map_add, map_add, hy, hy']
-  · intro P Q _ _ _ _ h; ext x y; induction y using TensorProduct.induction_on with
-    | zero => simp only [LinearMap.comp_apply, map_zero]
+  · intro P Q _ _ _ _ h; ext x y; induction y using TensorProduct.inductionOn with
     | tmul p n => rfl
     | add y y' hy hy' => rw [map_add, map_add, hy, hy']
 

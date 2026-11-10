@@ -224,7 +224,7 @@ public theorem KillsRelationsHom.sum_mem_smul {f : A →+* R} {I : Ideal A} {r d
         ↥(Ideal.map f ((I ^ d : Ideal A) ^ n) • (⊤ : Submodule R M))) =
         ∑ k, (⟨f (g k) • x k, hterm k⟩ :
           ↥(Ideal.map f ((I ^ d : Ideal A) ^ n) • (⊤ : Submodule R M))) :=
-      Subtype.ext (by rw [AddSubmonoidClass.coe_finset_sum])
+      Subtype.ext (by rw [AddSubmonoidClass.coe_finsetSum])
     rw [hsplit, map_sum]
     exact Finset.sum_congr rfl fun k _ => hμ (g k) (hg k) (x k) (hterm k)
   rw [← hval]

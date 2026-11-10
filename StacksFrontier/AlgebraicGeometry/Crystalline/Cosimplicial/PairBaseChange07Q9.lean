@@ -33,7 +33,8 @@ cosimplicial modules of a crystal over two cosimplicial envelopes used in the pr
   commute with the transitions.
 * `Crystalline.CosimplicialCompletedModule.comparisonValues_tensorMap07Q9` — so do the maps they
   induce on `M(b) ⊗̂ Ω^a_{D(b)} → M'(b) ⊗̂ Ω^a_{D'(b)}`
-  (in `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/PairBaseChangeConnection07Q9.lean`).
+  (in
+  `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/PairBaseChangeConnection07Q9.lean`).
 * `Crystalline.CosimplicialCompletedModule.pullback07Q9_isAdicComplete` — the modules `M'(b)` are
   `p`-adically complete.
 
@@ -111,8 +112,7 @@ def pullbackTensorMap07Q9 {m n : SimplexCategory} (φ : m ⟶ n) :
   { toFun := TensorProduct.map (pullbackScalarMap07Q9 g φ) (V.map φ)
     map_add' := map_add _
     map_smul' := fun c y => by
-      induction y using TensorProduct.induction_on with
-      | zero => rw [smul_zero, map_zero, smul_zero]
+      induction y using TensorProduct.inductionOn with
       | tmul x v =>
         rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
           TensorProduct.smul_tmul']
@@ -148,8 +148,7 @@ def pullback07Q9 : CosimplicialCompletedModule.{u, u, u} E' p where
   map_id_apply n x := by
     let := g.completedAlgebra07Q9 p n.len
     refine adicCompletionMapₛₗ_id_apply _ _ (fun y => ?_) x
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul c v =>
       rw [pullbackTensorMap07Q9_tmul, V.map_id_apply]
       exact congrArg (fun z => z ⊗ₜ[E.completedRing p n.len] v)
@@ -160,8 +159,7 @@ def pullback07Q9 : CosimplicialCompletedModule.{u, u, u} E' p where
     let := g.completedAlgebra07Q9 p n.len
     let := g.completedAlgebra07Q9 p k.len
     refine adicCompletionMapₛₗ_comp_apply _ _ _ _ _ _ (fun y => ?_) x
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul c v =>
       rw [pullbackTensorMap07Q9_tmul, pullbackTensorMap07Q9_tmul, pullbackTensorMap07Q9_tmul,
         V.map_comp_apply]

@@ -70,7 +70,7 @@ private lemma lan_preservesFiniteProducts
   apply P.prop_of_isColimit
     (isColimitOfPreserves G.op.lan (Presheaf.colimitOfRepresentable.{max u v} F))
   intro j
-  show PreservesLimitsOfShape (Discrete (Fin n))
+  change PreservesLimitsOfShape (Discrete (Fin n))
     (G.op.lan.obj (uliftYoneda.{max u v}.obj j.unop.1.unop))
   have : PreservesLimitsOfShape (Discrete (Fin n))
       (uliftYoneda.{max u v}.obj (G.obj j.unop.1.unop)) := by
@@ -84,7 +84,7 @@ private lemma lan_preservesFiniteProducts
 private lemma finite_coproduct_size (B : BigProetaleSite.{u})
     {ι : Type} [Finite ι] (X : ι → Scheme.{u}) (hX : ∀ i, B.Contains (X i)) :
     B.Contains (∐ X) := by
-  show (∐ X).size < B.cutoff
+  change (∐ X).size < B.cutoff
   rw [← Scheme.size_congr (Sigma.reindex (Equiv.ulift : ULift.{u} ι ≃ ι) X)]
   exact Scheme.size_sigmaObj_lt B.aleph0_lt_cutoff B.aleph0_lt_cutoff_cof
     Cardinal.mk_le_aleph0 _ (fun i ↦ hX i.down)
@@ -114,7 +114,7 @@ private def smallCoproductCofanIsColimit (B : BigProetaleSite.{u}) (T : B.Scheme
     change Limits.Sigma.desc _ ≫ B.inclusion.map s.pt.obj.hom = Limits.Sigma.desc _
     apply Sigma.hom_ext
     intro i
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     change B.inclusion.map (s.inj i).hom.left ≫ B.inclusion.map s.pt.obj.hom = _
     rw [← Functor.map_comp, Over.w]
   · intro s i
@@ -129,7 +129,7 @@ private def smallCoproductCofanIsColimit (B : BigProetaleSite.{u}) (T : B.Scheme
     change Sigma.ι _ i ≫ H.map m = H.map (s.inj i) at hi
     change Sigma.ι (fun i ↦ H.obj (X i)) i ≫ H.map m =
       Sigma.ι (fun i ↦ H.obj (X i)) i ≫ Limits.Sigma.desc (fun i ↦ H.map (s.inj i))
-    simpa only [Sigma.ι_desc] using hi
+    simpa only [Sigma.ι_comp_desc] using hi
 
 private lemma small_open_cover (B : BigProetaleSite.{u}) (T : B.Scheme)
     {ι : Type} {W : SmallProetale B T.obj T.property}
@@ -245,7 +245,7 @@ private lemma small_sheaf_preservesFiniteProducts (B : BigProetaleSite.{u})
         (fun t : F.obj.obj (op c.pt) ↦ fun i ↦ F.obj.map (c.inj i).op t) := by
       apply small_sheaf_bijective_restriction B T F X c.inj
       · intro i
-        show IsOpenImmersion (Sigma.ι (fun i ↦ H.obj (X i)) i)
+        change IsOpenImmersion (Sigma.ι (fun i ↦ H.obj (X i)) i)
         infer_instance
       · intro x
         let U := sigmaOpenCover (fun i ↦ H.obj (X i))
@@ -341,7 +341,7 @@ private lemma weaklyContractible_of_smallProetale
     let : Presheaf.IsLocallySurjective B.topology φ.hom := hφ
     let : Presheaf.IsLocallySurjective J (H.op.whiskerLeft φ.hom) :=
       Presheaf.isLocallySurjective_whisker J B.topology H φ.hom
-    show Presheaf.IsLocallySurjective J (H.op.whiskerLeft φ.hom)
+    change Presheaf.IsLocallySurjective J (H.op.whiskerLeft φ.hom)
     infer_instance
   obtain ⟨x, hx⟩ := hW F' G' φ' hφ' s
   refine ⟨x, ?_⟩
@@ -364,7 +364,7 @@ private lemma clopenRefinements_of_smallProetale
   let V := (BigProetaleOver.forget B T.obj T.property).obj
     ((SmallProetale.inclusion B T.obj T.property).obj W)
   let : IsAffine V.obj := by
-    show IsAffine ((SmallProetale.toScheme B T.obj T.property).obj W)
+    change IsAffine ((SmallProetale.toScheme B T.obj T.property).obj W)
     infer_instance
   intro R hR
   exact exists_clopenRefinement_of_isWContractible B V
@@ -406,7 +406,7 @@ private lemma smallSite_cover_has_clopen_refinement
       let : IsOpenImmersion (B.inclusion.map (g i)) := hopen
       infer_instance
     have hWEt : WeaklyEtale (B.inclusion.map (I.obj W).hom) := W.property
-    show WeaklyEtale (B.inclusion.map (g i ≫ (I.obj W).hom))
+    change WeaklyEtale (B.inclusion.map (g i ≫ (I.obj W).hom))
     simpa using (show WeaklyEtale (B.inclusion.map (g i) ≫
       B.inclusion.map (I.obj W).hom) from inferInstance)
   let U' : Fin n → C := fun i => ⟨O i, hO i⟩
@@ -423,7 +423,7 @@ private lemma smallSite_cover_has_clopen_refinement
     have hOver : c ≫ (I.obj Y).hom = (O i).hom := by
       calc
         c ≫ (I.obj Y).hom = c ≫ (b.hom.left ≫ (I.obj W).hom) := by
-          show c ≫ Y.obj.hom = c ≫ b.hom.left ≫ W.obj.hom
+          change c ≫ Y.obj.hom = c ≫ b.hom.left ≫ W.obj.hom
           rw [b.hom.w]
         _ = (c ≫ H.map b) ≫ (I.obj W).hom := by
           simp [H, I, Q, Category.assoc]
@@ -477,7 +477,7 @@ private lemma bijective_toSheafify_small_of_affine_weaklyContractible
       (Cofan.mk W a) hc).2 t
     refine ⟨x, (bijective_restriction_of_preservesProduct Q.obj (Cofan.mk W a) hc).1 ?_⟩
     funext i
-    show Q.obj.map (a i).op (η.app (op W) x) = Q.obj.map (a i).op s
+    change Q.obj.map (a i).op (η.app (op W) x) = Q.obj.map (a i).op s
     rw [← ht i, ← congrFun hx i]
     exact (η.naturality_apply (a i).op x).symm
 
@@ -536,7 +536,7 @@ public theorem bijective_smallInverseImageColimitMap
       (G.sheafAdjunctionContinuous (Type (u + 1))
         (SmallProetale.topology B S.obj S.property)
         (SmallProetale.topology B T.obj T.property))).symm
-  show IsIso ((((sheafToPresheaf (SmallProetale.topology B T.obj T.property)
+  change IsIso ((((sheafToPresheaf (SmallProetale.topology B T.obj T.property)
     (Type (u + 1))).mapIso (e.app F)).app (op W)).hom)
   infer_instance
 

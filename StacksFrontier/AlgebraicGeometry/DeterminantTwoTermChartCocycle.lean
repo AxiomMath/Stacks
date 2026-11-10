@@ -107,8 +107,7 @@ theorem degreeEquivOfIso_presentationBaseChangeCompIso (P : TwoTermPresentation 
   let : Algebra R B := (ψ.comp φ).toAlgebra
   have : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   refine LinearEquiv.symm_bijective.injective (LinearEquiv.ext fun t ↦ ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ ht₁ ht₂ =>
       have hsum : (degreeEquivOfIso (presentationBaseChangeCompIso φ ψ P) i).symm t₁ +
             (degreeEquivOfIso (presentationBaseChangeCompIso φ ψ P) i).symm t₂ =
@@ -447,8 +446,7 @@ theorem detBaseChangeIso_trans (φ : R →+* A) (ψ : A →+* B) (χ : R →+* B
       PerfectTwoTermComplex.baseChangeCompIso φ ψ K ≪≫ e''.symm :=
     Iso.ext ((Iso.eq_comp_inv e'').mpr hkey)
   refine LinearMap.ext fun t ↦ ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   | tmul b x =>
       rw [TensorProduct.tmul_eq_smul_one_tmul b x, map_smul, map_smul]

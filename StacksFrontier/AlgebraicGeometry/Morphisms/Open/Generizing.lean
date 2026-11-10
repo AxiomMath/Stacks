@@ -49,7 +49,7 @@ public lemma liftsGeneralizations_of_isOpenMap {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : IsOpenMap f) : LiftsGeneralizations f := by
   rw [liftsGeneralizations_iff_generalizingMap]
   wlog hY : ∃ R, Y = Spec R
-  · show (topologically GeneralizingMap) f
+  · change (topologically GeneralizingMap) f
     rw [IsZariskiLocalAtTarget.iff_of_openCover (P := topologically GeneralizingMap)
       Y.affineCover]
     intro i
@@ -58,7 +58,7 @@ public lemma liftsGeneralizations_of_isOpenMap {X Y : Scheme.{u}} (f : X ⟶ Y)
       (iY := Y.affineCover.f i) (IsPullback.of_hasPullback ..) hf) ⟨_, rfl⟩
   obtain ⟨R, rfl⟩ := hY
   wlog hX : ∃ S, X = Spec S
-  · show (topologically GeneralizingMap) f
+  · change (topologically GeneralizingMap) f
     rw [IsZariskiLocalAtSource.iff_of_openCover (P := topologically GeneralizingMap)
       X.affineCover]
     intro i

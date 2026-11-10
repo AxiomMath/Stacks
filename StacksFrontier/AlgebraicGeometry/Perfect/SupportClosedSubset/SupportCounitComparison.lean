@@ -203,7 +203,7 @@ private lemma counit_eq_inclusion_complex
           (modulePushforward_supportedSectionsOnClosed_adjunction X T hT)
           (ComplexShape.up ℤ)).counit.app K := by
   refine HomologicalComplex.hom_ext _ _ fun i => ?_
-  show (supportedSectionsSubsheafInclusion X T).app (K.X i) ≫ 𝟙 _ =
+  change (supportedSectionsSubsheafInclusion X T).app (K.X i) ≫ 𝟙 _ =
     (supportedSectionsOnClosedFunctor_comp_modulePushforward_iso X T hT).inv.app (K.X i) ≫
       (modulePushforward_supportedSectionsOnClosed_adjunction X T hT).counit.app (K.X i)
   rw [Stacks.Cohomology.LocalToGlobalSupport.counit_app_eq X T hT (K.X i),
@@ -249,7 +249,7 @@ private lemma split_comp_factorsh
           (ComplexShape.up ℤ)).inv.app M) := by
   let _ := pushforward_preservesFiniteLimits X T
   let _ := pushforward_preservesFiniteColimits X T hT
-  show (DerivedCategory.Qh.map
+  change (DerivedCategory.Qh.map
         ((Functor.mapHomotopyCategoryCompIso
           (supportedSectionsOnClosedFunctor_comp_modulePushforward_iso X T hT)
           (ComplexShape.up ℤ)).inv.app M) ≫
@@ -301,7 +301,7 @@ theorem derivedSupportedSectionsToId_eq_derivedPushforwardAdjunction_counit :
       (derivedPushforwardAdjunction X T hT).counit := by
   let _ := pushforward_preservesFiniteLimits X T
   let _ := pushforward_preservesFiniteColimits X T hT
-  show derivedSupportedSectionsToId X T (derivedSupportedPushforward X T hT)
+  change derivedSupportedSectionsToId X T (derivedSupportedPushforward X T hT)
       (derivedSupportedPushforwardUnit X T hT) =
     (derivedPushforwardAdjunction X T hT).counit
   refine Functor.rightDerived_ext (derivedSupportedPushforward X T hT)

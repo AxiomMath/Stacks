@@ -86,10 +86,10 @@ public theorem geometricPointFiber_exists_lift_of_mem_precoverage
       (E.X i).obj.hom at hOver
     have hw : (SmallEtale.toScheme B S hS).map (E.f i) ≫
         B.inclusion.map X.obj.hom = B.inclusion.map (E.X i).obj.hom := by
-      show B.inclusion.map _ ≫ B.inclusion.map _ = _
+      change B.inclusion.map _ ≫ B.inclusion.map _ = _
       rw [← Functor.map_comp]
       exact congrArg B.inclusion.map hOver
-    show l ≫ B.inclusion.map (E.X i).obj.hom = s.hom
+    change l ≫ B.inclusion.map (E.X i).obj.hom = s.hom
     rw [← hw, ← Category.assoc, hl]
     exact x.2
   · exact Subtype.ext hl
@@ -127,7 +127,7 @@ public theorem geometricPointFiber_jointly_surjective
         simpa [eBase, pBase, qBase, a, b, Functor.Elements.comp_hom,
           Category.assoc] using congrArg Functor.Elements.Hom.hom he
       refine ⟨W'.obj, eBase ≫ qBase, ?_, W'.val, ?_⟩
-      · show R ((eBase ≫ qBase) ≫ f)
+      · change R ((eBase ≫ qBase) ≫ f)
         rw [Category.assoc, ← heBase, ← Category.assoc]
         exact R.downward_closed hg _
       · have hePoint : (geometricPointFiber B S hS s).map eBase W'.val = W.val := e.map_val

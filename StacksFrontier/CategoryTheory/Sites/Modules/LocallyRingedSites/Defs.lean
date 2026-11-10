@@ -484,7 +484,7 @@ theorem locallyEitherUnit_of_local_stalks (X : RingedSite.{v, u, u})
         rcases ha with ha | ha
         · exact Or.inl (ha.map (X.O.obj.map f).hom)
         · right
-          show IsUnit (1 - (X.O.obj.map f).hom a)
+          change IsUnit (1 - (X.O.obj.map f).hom a)
           simpa only [map_sub, map_one] using ha.map (X.O.obj.map f).hom }
   let H : Sheaf X.J (Type u) := ⟨(G.sheafify X.J).toFunctor,
     (isSheaf_iff_isSheaf_of_type _ _).2
@@ -492,7 +492,7 @@ theorem locallyEitherUnit_of_local_stalks (X : RingedSite.{v, u, u})
         (underlyingStructureSheaf X).property))⟩
   let i : H ⟶ underlyingStructureSheaf X := ⟨(G.sheafify X.J).ι⟩
   have hi : Mono i := (sheafToPresheaf X.J (Type u)).mono_of_mono_map (by
-    show Mono (G.sheafify X.J).ι
+    change Mono (G.sheafify X.J).ι
     infer_instance)
   have hiso : IsIso i := by
     rw [hP.jointlyReflectIsomorphisms_type.isIso_iff]
@@ -512,9 +512,9 @@ theorem locallyEitherUnit_of_local_stalks (X : RingedSite.{v, u, u})
     obtain ⟨V, f, y, hy, hu⟩ := href
     let b' : H.obj.obj (op V) := ⟨X.O.obj.map f.op b, G.le_sheafify X.J _ hu⟩
     refine ⟨p.toPresheafFiber V y H.obj b', ?_⟩
-    show p.presheafFiber.map i.hom (p.toPresheafFiber V y H.obj b') = _
+    change p.presheafFiber.map i.hom (p.toPresheafFiber V y H.obj b') = _
     rw [p.toPresheafFiber_naturality_apply]
-    show p.toPresheafFiber V y (underlyingStructureSheaf X).obj
+    change p.toPresheafFiber V y (underlyingStructureSheaf X).obj
       ((underlyingStructureSheaf X).obj.map f.op b) = _
     rw [← hy]
     exact p.toPresheafFiber_w_apply f y (underlyingStructureSheaf X).obj b

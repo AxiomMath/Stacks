@@ -211,7 +211,7 @@ theorem exists_pullbackIso_of_pushforwardIso {X Y : Scheme.{u}} (f : X ⟶ Y)
     (SheafOfModules.pullback.{max u v} f.toRingCatSheafHom).mapIso e ≪≫
       asIso (adj.counit.app F)
   refine ⟨k.symm, ?_⟩
-  show adj.homEquiv G F (adj.homEquiv G F |>.symm e.hom) = e.hom
+  change adj.homEquiv G F (adj.homEquiv G F |>.symm e.hom) = e.hom
   exact (adj.homEquiv G F).apply_symm_apply e.hom
 
 /-- `pushforwardSectionsIso` commutes with restriction when the underlying equivalences do. -/

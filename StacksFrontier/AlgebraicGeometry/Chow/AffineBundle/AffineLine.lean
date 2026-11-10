@@ -86,7 +86,7 @@ theorem specPolynomialToAffineLine_over :
       Spec.map (CommRingCat.ofHom (C : R →+* Polynomial R)) := by
   rw [specPolynomialToAffineLine, Category.assoc, AffineSpace.SpecIso_inv_over, ← Spec.map_comp]
   refine congrArg Spec.map (CommRingCat.hom_ext (RingHom.ext fun a ↦ ?_))
-  show (mvPolynomialULiftFinOneEquiv R) (MvPolynomial.C a) = C a
+  change (mvPolynomialULiftFinOneEquiv R) (MvPolynomial.C a) = C a
   rw [← MvPolynomial.algebraMap_eq, AlgEquiv.commutes, Polynomial.algebraMap_eq]
 
 /-- The structure morphism `Spec R[X] ⟶ Spec R` is locally of finite type. -/
@@ -226,7 +226,7 @@ theorem hasGenericDecomposition_specMap_C (C : ChowSituation.{u}) (R : CommRingC
         by_contra hne
         have h0 := Scheme.ord_eq_zero_of_coheight_neq_one hne g
         have h1 := hgpt wD
-        rw [h0, if_pos rfl] at h1
+        rw [h0, ite_eq_left rfl] at h1
         exact zero_ne_one h1
       have hn := schemeDeltaDimension_eq_genericPoint C (D.ι ≫ q ≫ sR)
       have hsub := (relativeDimension_eq_sub_one_iff_coheight_eq_one C (D.ι ≫ q ≫ sR) hn

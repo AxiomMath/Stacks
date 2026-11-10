@@ -192,7 +192,7 @@ end Stacks.Chow
 
 namespace Stacks.Weil
 
-open Module Stacks.Chow
+open Stacks.Chow
 
 variable (F : Type v) [Field F]
   (H : ℤ → Type w)

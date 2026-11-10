@@ -54,7 +54,7 @@ lemma isZero_of_bijective_precomp_unit (N : ObjectProperty C) {L : C ⥤ C} {η 
     (hbij : Function.Injective fun φ : L.obj X ⟶ L.obj X ↦ η.app X ≫ φ)
     (hX : N X) : IsZero (L.obj X) := by
   refine (IsZero.iff_id_eq_zero _).2 (hbij ?_)
-  show η.app X ≫ 𝟙 _ = η.app X ≫ 0
+  change η.app X ≫ 𝟙 _ = η.app X ≫ 0
   rw [comp_id, comp_zero]
   exact hLX (η.app X) hX
 

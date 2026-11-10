@@ -482,7 +482,7 @@ theorem coprojectionSection_base_eq (pr₀ pr₁ : D ⟶ B)
   have hap := congrArg
     (fun φ : Γ(S.S.scheme, V') ⟶
         Γ(D.obj.thickening.target.scheme, smallSelfProductOpen pr₀ pr₁ V) ↦ φ a) key
-  show pr₁.hom.targetHom.hom.appLE V (smallSelfProductOpen pr₀ pr₁ V)
+  change pr₁.hom.targetHom.hom.appLE V (smallSelfProductOpen pr₀ pr₁ V)
       (smallSelfProductOpen_le_snd pr₀ pr₁ V) (B.obj.toBase.hom.appLE V' V hle a) =
     pr₀.hom.targetHom.hom.appLE V (smallSelfProductOpen pr₀ pr₁ V)
       (smallSelfProductOpen_le_fst pr₀ pr₁ V) (B.obj.toBase.hom.appLE V' V hle a)
@@ -497,9 +497,9 @@ private theorem appLE_eq_self {X : Scheme.{u}} (f : X ⟶ X) (hf : f = 𝟙 X) (
     (e : U ≤ f ⁻¹ᵁ U) (x : Γ(X, U)) : f.appLE U U e x = x := by
   subst hf
   have hid : (𝟙 X : X ⟶ X).appLE U U e = 𝟙 Γ(X, U) := by
-    show Scheme.Hom.app (𝟙 X) U ≫ X.presheaf.map (homOfLE e).op = _
+    change Scheme.Hom.app (𝟙 X) U ≫ X.presheaf.map (homOfLE e).op = _
     rw [Scheme.Hom.id_app]
-    show 𝟙 Γ(X, U) ≫ X.presheaf.map (𝟙 U).op = _
+    change 𝟙 Γ(X, U) ≫ X.presheaf.map (𝟙 U).op = _
     rw [Category.id_comp]
     exact X.presheaf.map_id _
   rw [hid]
@@ -693,7 +693,7 @@ theorem smallSelfProductDifference_mul (h : IsLimit (BinaryFan.mk pr₀ pr₁))
         (secondCoprojectionSection pr₀ pr₁ V f - firstCoprojectionSection pr₀ pr₁ V f) *
           (secondCoprojectionSection pr₀ pr₁ V g -
             firstCoprojectionSection pr₀ pr₁ V g) := by
-      show (secondCoprojectionSection pr₀ pr₁ V (f * g) -
+      change (secondCoprojectionSection pr₀ pr₁ V (f * g) -
             firstCoprojectionSection pr₀ pr₁ V (f * g)) -
           (firstCoprojectionSection pr₀ pr₁ V f *
               (secondCoprojectionSection pr₀ pr₁ V g -
@@ -720,7 +720,7 @@ theorem smallSelfProductDifference_base (h : IsLimit (BinaryFan.mk pr₀ pr₁))
   obtain ⟨V', hle, a, rfl⟩ := hf
   have hzero : smallSelfProductDifferenceHom h V (B.obj.toBase.hom.appLE V' V hle a) = 0 := by
     apply Subtype.ext
-    show secondCoprojectionSection pr₀ pr₁ V (B.obj.toBase.hom.appLE V' V hle a) -
+    change secondCoprojectionSection pr₀ pr₁ V (B.obj.toBase.hom.appLE V' V hle a) -
         firstCoprojectionSection pr₀ pr₁ V (B.obj.toBase.hom.appLE V' V hle a) = 0
     rw [coprojectionSection_base_eq pr₀ pr₁ V hle a, sub_self]
   rw [smallSelfProductDifference, hzero, smallSelfProductClass, map_zero]
@@ -951,7 +951,7 @@ theorem smallSelfProductDifferenceHom_restrict (h : IsLimit (BinaryFan.mk pr₀ 
     (secondCoprojectionSection_restrict pr₀ pr₁ hle)
   simp only [CommRingCat.comp_apply] at h1 h2
   apply Subtype.ext
-  show smallSelfProductRestrict pr₀ pr₁ hle
+  change smallSelfProductRestrict pr₀ pr₁ hle
       (secondCoprojectionSection pr₀ pr₁ V f - firstCoprojectionSection pr₀ pr₁ V f) =
     secondCoprojectionSection pr₀ pr₁ V'
         (B.obj.thickening.target.scheme.presheaf.map (homOfLE hle).op f) -
@@ -1027,7 +1027,7 @@ theorem isHomeomorph_smallSelfProductAmbientDiagonal (h : IsLimit (BinaryFan.mk 
   rw [Functor.map_comp, Functor.map_comp] at hsquare
   have hpoint (x : B.obj.thickening.source) :
       (Scheme.forgetToTop.map (smallSelfProductAmbientDiagonal h).hom) (e₀ x) = e₁ (ed x) := by
-    show (Scheme.forgetToTop.map (smallSelfProductAmbientDiagonal h).hom)
+    change (Scheme.forgetToTop.map (smallSelfProductAmbientDiagonal h).hom)
         ((Scheme.forgetToTop.map B.obj.thickening.immersion) x) =
       (Scheme.forgetToTop.map D.obj.thickening.immersion)
         ((Scheme.forgetToTop.map (smallSelfProductDiagonal h).hom.sourceHom) x)

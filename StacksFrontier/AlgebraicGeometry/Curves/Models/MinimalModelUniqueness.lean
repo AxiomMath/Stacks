@@ -540,7 +540,7 @@ theorem modelPartialIsoToDomain_hom {C X Y : Scheme.{u}} [Nonempty C] [IsIntegra
     modelPartialIsoToDomain p q eX eY ≫ (modelPartialIso p q eX eY).toPartialMap.hom =
       eX.inv ≫ eY.hom ≫ pullback.fst q ιRK := by
   have : IsOpenImmersion ιRK := genericFiberSpec_isOpenImmersion
-  show (pullback.fst p ιRK).isoOpensRange.hom ≫ ((pullback.fst p ιRK).isoOpensRange.symm ≪≫
+  change (pullback.fst p ιRK).isoOpensRange.hom ≫ ((pullback.fst p ιRK).isoOpensRange.symm ≪≫
     eX.symm ≪≫ eY ≪≫ (pullback.fst q ιRK).isoOpensRange).hom ≫
       (pullback.fst q ιRK).opensRange.ι = _
   simp [Scheme.Hom.isoOpensRange_hom_ι]

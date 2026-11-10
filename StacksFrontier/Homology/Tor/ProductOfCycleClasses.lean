@@ -372,3 +372,7 @@ theorem tensor_cycleClass_naturality {X Y : CochainComplex (ModuleCat.{u} R) ℤ
   rw [tensor_cycleClass_comp z w f g, hT, CategoryTheory.Functor.map_comp, ← Category.assoc,
     ← h1]
   simp only [Category.assoc]
+
+end TorProducts
+
+end RingTheory

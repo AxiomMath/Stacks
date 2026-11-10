@@ -125,12 +125,12 @@ theorem iCycles_unitCycle (n : ℤ) :
     (ModuleCat.ofHom (LinearMap.toSpanSingleton (baseRing X) _ (unitSection X n))) (n + 1)
     (by simp) (by
       ext
-      show ((sectionsComplex X (unitComplex X n)).d n (n + 1)).hom
+      change ((sectionsComplex X (unitComplex X n)).d n (n + 1)).hom
         ((LinearMap.toSpanSingleton (baseRing X) _ (unitSection X n)) 1) = 0
       rw [LinearMap.toSpanSingleton_apply, one_smul]
       exact d_unitSection X n)) (1 : baseRing X)
   exact this.trans (by
-    show (LinearMap.toSpanSingleton (baseRing X) _ (unitSection X n)) 1 = _
+    change (LinearMap.toSpanSingleton (baseRing X) _ (unitSection X n)) 1 = _
     rw [LinearMap.toSpanSingleton_apply, one_smul])
 
 variable {X}
@@ -209,9 +209,9 @@ theorem homOfCycle_unitSection (I : CochainComplex (SheafOfModules.{u} (structur
     (n : ℤ) (x : (I.X n).val.obj (op ⊤)) (hx : ((I.d n (n + 1)).val.app (op ⊤)).hom x = 0) :
     ((((globalSections X).mapHomologicalComplex (ComplexShape.up ℤ)).map
       (homOfCycle I n x hx)).f n).hom (unitSection X n) = x := by
-  show (((homOfCycle I n x hx).f n).val.app (op ⊤)).hom (unitSection X n) = x
+  change (((homOfCycle I n x hx).f n).val.app (op ⊤)).hom (unitSection X n) = x
   rw [homOfCycle, HomologicalComplex.mkHomFromSingle_f]
-  show ((homOfGlobalSection (I.X n) x).val.app (op ⊤)).hom
+  change ((homOfGlobalSection (I.X n) x).val.app (op ⊤)).hom
     (((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) n
       (_root_.SheafOfModules.unit (structureSheafRing X))).hom.val.app (op ⊤)).hom
         (unitSection X n)) = x
@@ -326,7 +326,7 @@ theorem unitComplex_hom_ext {N : CochainComplex (SheafOfModules.{u} (structureSh
             (((φ.f k).val.app (op ⊤)).hom (unitSection X k)) := by
       intro φ
       rw [_root_.SheafOfModules.unitHomEquiv_apply_coe]
-      show ((φ.f k).val.app V).hom ((ι.inv.val.app V).hom
+      change ((φ.f k).val.app V).hom ((ι.inv.val.app V).hom
         (1 : (structureSheafRing X).obj.obj V)) = _
       have h1 : (ι.inv.val.app V).hom (1 : (structureSheafRing X).obj.obj V) =
           (((unitComplex X k).X k).val.map (homOfLE (le_top : V.unop ≤ ⊤)).op).hom
@@ -429,14 +429,15 @@ private theorem Q_map_eq_of_d_eq_sub
     have hhm : hh m (m - 1) (by simp) =
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) m
           (_root_.SheafOfModules.unit (structureSheafRing X))).hom ≫ β := by
-      simp only [hh, dif_pos rfl, HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Category.comp_id]
+      simp only [hh, dite_eq_left rfl, HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom,
+        Category.comp_id]
       rfl
     rw [hhm]
-    show ((ψ₁.f m - ψ₂.f m).val.app (op ⊤)).hom (unitSection X m) =
+    change ((ψ₁.f m - ψ₂.f m).val.app (op ⊤)).hom (unitSection X m) =
       (((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) m
           (_root_.SheafOfModules.unit (structureSheafRing X))).hom ≫ β ≫
             I.d (m - 1) m).val.app (op ⊤)).hom (unitSection X m)
-    show _ = ((I.d (m - 1) m).val.app (op ⊤)).hom ((β.val.app (op ⊤)).hom
+    change _ = ((I.d (m - 1) m).val.app (op ⊤)).hom ((β.val.app (op ⊤)).hom
       (((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) m
         (_root_.SheafOfModules.unit (structureSheafRing X))).hom.val.app (op ⊤)).hom
           (unitSection X m)))

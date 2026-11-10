@@ -285,7 +285,7 @@ public theorem fg_coefficientGrade (G : GradedDividedPowerPolynomial Aᵢ γ ι)
     obtain ⟨c, hc, hcx⟩ := G.exists_monomialSumMap_eq n hx
     rw [← hcx, monomialSumMap_apply]
     refine Submodule.sum_mem _ fun ν hν => ?_
-    show G.monomial ν * ι (c ν) ∈ Submodule.span P (G.monomial '' G.monomialSet n)
+    change G.monomial ν * ι (c ν) ∈ Submodule.span P (G.monomial '' G.monomialSet n)
     rw [G.monomial_mul_eq_smul Aᵢ h0 hι (hmono ν (hc ν hν))]
     exact Submodule.smul_mem _ _
       (Submodule.subset_span (Set.mem_image_of_mem _ (hc ν hν)))

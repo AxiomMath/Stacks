@@ -1,7 +1,6 @@
 module
 
-public import
- StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomStalkPresentationFromTheStalk
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomStalkPresentationFromTheStalk
 
 /-!
 # The stalk of a derived internal hom, through the one-point space

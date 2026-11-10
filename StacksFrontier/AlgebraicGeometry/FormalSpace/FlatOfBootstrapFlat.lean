@@ -231,7 +231,7 @@ theorem isFlat_of_hasPropertyULift_flatPropertyULift {X Y : FppfSheaf B S hS} (f
     isTautOnEveryChartMap_of_isRepresentableByAlgebraicSpacesULift B S hS f hrep U V hU hV a b
       t ha hb hae hbe hsq A' C' hAadic hCadic hA D E eU eV g hg
   exact RingHom.flat_of_isTaut_of_flat_quotientMap_closure g.toRingHom hAadic hCadic
-    g.continuous hgt fun I hI ↦
+    hgt fun I hI ↦
       flat_quotientMap_closure_of_hasPropertyULift_flatPropertyULift f hrep hflat a b t
         ⟨ha, hae⟩ ⟨hb, hbe⟩ hsq hA (Rig.weaklyAdmissible_of_isAdicRing hCadic) D E eU eV g hg
         hgt I hI

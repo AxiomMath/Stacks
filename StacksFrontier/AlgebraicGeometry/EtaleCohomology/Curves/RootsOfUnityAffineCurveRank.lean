@@ -215,7 +215,7 @@ theorem nonempty_etaleH1RootsOfUnity_affineCurve_of_jacobian (hn : IsUnit (n : k
       (Fin (2 * genus fbar) → ZMod n))) :
     Nonempty (Sheaf.H (kummerSmallEtale B X hX n).X₁ 1 ≃+
       (Fin (2 * genus fbar + r - 1) → ZMod n)) := by
-  have hn0 : n ≠ 0 := ne_zero_of_isUnit_natCast k X f n hn
+  have hn0 : n ≠ 0 := ne_zero_of_isUnit_natCast k n hn
   have : NeZero n := ⟨hn0⟩
   have : IsNoetherian X := AffineCurveRankData.isNoetherian k f
   have : IsNoetherian Xbar := AffineCurveRankData.isNoetherian k fbar

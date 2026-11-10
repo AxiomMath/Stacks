@@ -260,7 +260,7 @@ theorem nonempty_torsionCompleteEquivalence (A : Type u) [CommRing A] (I : Ideal
   have hcounit (Y : Q.FullSubcategory) : IsIso (adj.counit.app Y) := by
     rw [Adjunction.comp_counit_app]
     have : IsIso (Q.ι.map (C.map (adjG.counit.app (Q.ι.obj Y)))) := by
-      show IsIso ((C ⋙ Q.ι).map (adjG.counit.app (Q.ι.obj Y)))
+      change IsIso ((C ⋙ Q.ι).map (adjG.counit.app (Q.ι.obj Y)))
       exact isIso_derivedCompletion_map_localCohomologyCounit A I hI C adjC (Q.ι.obj Y)
     have h₁ : IsIso (C.map (adjG.counit.app (Q.ι.obj Y))) := isIso_of_reflects_iso _ Q.ι
     let := Q.fullyFaithfulι
@@ -271,7 +271,7 @@ theorem nonempty_torsionCompleteEquivalence (A : Type u) [CommRing A] (I : Ideal
         adj.counit.app ((P.ι ⋙ C).obj X) = 𝟙 _ from adj.left_triangle_components X]
       infer_instance
     have hm : IsIso (C.map (P.ι.map (adj.unit.app X))) := by
-      show IsIso ((P.ι ⋙ C).map (adj.unit.app X))
+      change IsIso ((P.ι ⋙ C).map (adj.unit.app X))
       exact @IsIso.of_isIso_comp_right _ _ _ _ _ _ _ (hcounit _) h
     have : IsIso (P.ι.map (adj.unit.app X)) :=
       isIso_of_derivedCompletion_map_isIso hI C adjC _ X.property

@@ -151,7 +151,7 @@ theorem presentationOfTuple_tupleOfPresentation_map (q : QuotientPresentation X 
 theorem tupleOfPresentation_presentationOfTuple_coord (t : GeneratingTuple X n)
     (i : Fin (n + 1)) :
     (tupleOfPresentation (presentationOfTuple t)).coord i = t.coord i := by
-  show Stacks.NonvanishingSpelling.sectionsEquiv X t.bundle
+  change Stacks.NonvanishingSpelling.sectionsEquiv X t.bundle
       (t.bundle.freeHomEquiv (t.bundle.freeHomEquiv.symm
         (fun j : ULift.{u} (Fin (n + 1)) =>
           (Stacks.NonvanishingSpelling.sectionsEquiv X t.bundle).symm (t.coord j.down)))
@@ -196,7 +196,7 @@ theorem isomorphic_tupleOfPresentation {q q' : QuotientPresentation X n (n + 1)}
     (h : q.Isomorphic q') : Isomorphic (tupleOfPresentation q) (tupleOfPresentation q') := by
   obtain ⟨e, he⟩ := h
   refine ⟨e, fun i => ?_⟩
-  show Scheme.Modules.Hom.app e.hom ⊤
+  change Scheme.Modules.Hom.app e.hom ⊤
       (Stacks.NonvanishingSpelling.sectionsEquiv X q.target
         (q.target.freeHomEquiv q.map (ULift.up i))) =
     Stacks.NonvanishingSpelling.sectionsEquiv X q'.target
@@ -220,7 +220,7 @@ def ofGrassPoints (X : Scheme.{u}) (n : ℕ) : Grassmannian.Points X n (n + 1) �
 theorem ofGrassPoints_toGrassPoints (X : Scheme.{u}) (n : ℕ) (x : Points X n) :
     ofGrassPoints X n (toGrassPoints X n x) = x := by
   induction x using Quotient.ind with | _ t => ?_
-  show (⟦tupleOfPresentation (presentationOfTuple t)⟧ : Points X n) = ⟦t⟧
+  change (⟦tupleOfPresentation (presentationOfTuple t)⟧ : Points X n) = ⟦t⟧
   exact Quotient.sound ⟨Iso.refl t.bundle, fun i =>
     (homApp_refl t.bundle ⊤ _).trans (tupleOfPresentation_presentationOfTuple_coord t i)⟩
 
@@ -229,7 +229,7 @@ theorem toGrassPoints_ofGrassPoints (X : Scheme.{u}) (n : ℕ)
     (y : Grassmannian.Points X n (n + 1)) :
     toGrassPoints X n (ofGrassPoints X n y) = y := by
   induction y using Quotient.ind with | _ q => ?_
-  show (⟦presentationOfTuple (tupleOfPresentation q)⟧ : Grassmannian.Points X n (n + 1)) = ⟦q⟧
+  change (⟦presentationOfTuple (tupleOfPresentation q)⟧ : Grassmannian.Points X n (n + 1)) = ⟦q⟧
   exact Quotient.sound (Relation.EqvGen.rel _ _ ⟨Iso.refl q.target,
     (Category.comp_id _).trans (presentationOfTuple_tupleOfPresentation_map q)⟩)
 
@@ -246,7 +246,7 @@ def pointsBridge (X : Scheme.{u}) (n : ℕ) : Points X n ≃ Grassmannian.Points
 theorem presentationOfTuple_pullbackTuple_map (h : Y ⟶ X) (t : GeneratingTuple X n) :
     (presentationOfTuple (pullbackTuple h t)).map =
       (Grassmannian.pullbackPresentation h (presentationOfTuple t)).map := by
-  show ((Scheme.Modules.pullback h).obj t.bundle).freeHomEquiv.symm
+  change ((Scheme.Modules.pullback h).obj t.bundle).freeHomEquiv.symm
       (fun i : ULift.{u} (Fin (n + 1)) =>
         (Stacks.NonvanishingSpelling.sectionsEquiv Y
           ((Scheme.Modules.pullback h).obj t.bundle)).symm
@@ -268,7 +268,7 @@ theorem toGrassPoints_pullbackPoints (h : Y ⟶ X) (x : Points X n) :
     toGrassPoints Y n (pullbackPoints h x) =
       Grassmannian.pullbackPointsMap h n (n + 1) (toGrassPoints X n x) := by
   induction x using Quotient.ind with | _ t => ?_
-  show (⟦presentationOfTuple (pullbackTuple h t)⟧ : Grassmannian.Points Y n (n + 1)) =
+  change (⟦presentationOfTuple (pullbackTuple h t)⟧ : Grassmannian.Points Y n (n + 1)) =
     ⟦Grassmannian.pullbackPresentation h (presentationOfTuple t)⟧
   exact Quotient.sound (Relation.EqvGen.rel _ _
     ⟨Iso.refl ((Scheme.Modules.pullback h).obj t.bundle),
@@ -391,7 +391,7 @@ theorem toGrassPoints_pointsOfHom_comp_grassmannianSuccIso_hom (n : ℕ) {Z : Sc
       grassPointsEquiv Z n (n + 1)
         ((Grassmannian.schemeRepresentableBy.{u} n (n + 1)).homEquiv f) := by
   rw [← homEquiv_comp_grassmannianSuccIso_hom n f]
-  show _ = grassPointsEquiv Z n (n + 1) ((grassPointsEquiv Z n (n + 1)).symm
+  change _ = grassPointsEquiv Z n (n + 1) ((grassPointsEquiv Z n (n + 1)).symm
     (toGrassPoints Z n (pointsOfHom (f ≫ (grassmannianSuccIso.{u} n).hom))))
   rw [Equiv.apply_symm_apply]
 

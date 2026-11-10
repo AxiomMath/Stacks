@@ -89,7 +89,7 @@ private theorem isIPowerTorsion_ulift
   intro x
   obtain ⟨n, hn, hkill⟩ := hX x.down
   refine ⟨n, hn, fun a ha => ?_⟩
-  show ULift.up (a • x.down) = 0
+  change ULift.up (a • x.down) = 0
   rw [hkill a ha]
   rfl
 
@@ -146,7 +146,7 @@ private theorem localCohomology_uliftComparison_counit
   let a : U.obj T ⟶ U.obj K := U.map
     ((Dualizing.localCohomologyAdjunction
       A I hI).counit.app K)
-  show ((Dualizing.localCohomologyAdjunction
+  change ((Dualizing.localCohomologyAdjunction
     A I hI).homEquiv W (U.obj K) a).hom ≫ _ = a
   exact map_homEquiv_comp_counit (Dualizing.localCohomologyAdjunction A I hI) W (U.obj K) a
 
@@ -496,9 +496,9 @@ private lemma isIso_of_coreflection_comparison
   obtain ⟨g, hg⟩ := haZ b
   change g ≫ a = b at hg
   refine ⟨⟨g, haY ?_, hbZ ?_⟩⟩
-  · show (f ≫ g) ≫ a = (𝟙 Y) ≫ a
+  · change (f ≫ g) ≫ a = (𝟙 Y) ≫ a
     rw [Category.assoc, hg, hf, Category.id_comp]
-  · show (g ≫ f) ≫ b = (𝟙 Z) ≫ b
+  · change (g ≫ f) ≫ b = (𝟙 Z) ≫ b
     rw [Category.assoc, hf, hg, Category.id_comp]
 
 private lemma localCohomology_counit_bijective
@@ -517,7 +517,7 @@ private lemma localCohomology_counit_bijective
   have he : (fun g => g ≫ adj.counit.app K) = e := by
     funext g
     exact (adj.homEquiv_counit (g := P.fullyFaithfulι.homEquiv.symm g)).symm
-  show Function.Bijective (fun g : P.ι.obj V ⟶
+  change Function.Bijective (fun g : P.ι.obj V ⟶
     P.ι.obj ((Dualizing.localCohomologyRightAdjoint
       A I hI).1.obj K) => g ≫ adj.counit.app K)
   exact he.symm ▸ e.bijective
@@ -831,18 +831,18 @@ private theorem localCohomologyModuleMapOfLE_comp
     (mapOfLE A I K hI hK hIK M)
   let c : WJ ⟶ LI := adj.homEquiv WJ X epsJ
   have hleft : (Dualizing.derivedPowerTorsionProperty A I hI).ι.map (a ≫ b) ≫ epsI = epsJ := by
-    show (mapOfLE A K J hK hJ hKJ M ≫
+    change (mapOfLE A K J hK hJ hKJ M ≫
       mapOfLE A I K hI hK hIK M) ≫ epsI = epsJ
     rw [Category.assoc, localCohomologyMapOfLE_comp_augmentation I K hI hK hIK M]
     exact localCohomologyMapOfLE_comp_augmentation K J hK hJ hKJ M
   have hright : (Dualizing.derivedPowerTorsionProperty A I hI).ι.map c ≫ epsI = epsJ := by
-    show mapOfLE A I J hI hJ (hIK.trans hKJ) M ≫ epsI = epsJ
+    change mapOfLE A I J hI hJ (hIK.trans hKJ) M ≫ epsI = epsJ
     exact localCohomologyMapOfLE_comp_augmentation I J hI hJ (hIK.trans hKJ) M
   have hcomp : a ≫ b = c := by
     apply (adj.homEquiv WJ X).symm.injective
     rw [adj.homEquiv_counit, adj.homEquiv_counit]
     exact hleft.trans hright.symm
-  show (DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
+  change (DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
       (mapOfLE A K J hK hJ hKJ M) ≫
       (DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
         (mapOfLE A I K hI hK hIK M) =
@@ -850,7 +850,7 @@ private theorem localCohomologyModuleMapOfLE_comp
       (mapOfLE A I J hI hJ (hIK.trans hKJ) M)
   rw [← Functor.map_comp]
   congr 1
-  show (Dualizing.derivedPowerTorsionProperty A I hI).ι.map (a ≫ b) =
+  change (Dualizing.derivedPowerTorsionProperty A I hI).ι.map (a ≫ b) =
     (Dualizing.derivedPowerTorsionProperty A I hI).ι.map c
   rw [hcomp]
 
@@ -883,7 +883,7 @@ private theorem isIso_localCohomologyModuleMapOfLE_of_radical_eq
     IsIso (localCohomologyModuleMapOfLE A I J hI hJ hIJ M i) := by
   have : IsIso (mapOfLE A I J hI hJ hIJ M) :=
     isIso_localCohomologyMapOfLE_of_radical_eq I J hI hJ hIJ hrad M
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
     (mapOfLE A I J hI hJ hIJ M))
   exact Functor.map_isIso _ _
 
@@ -1018,7 +1018,7 @@ private theorem exists_lift_of_smul_eq_zero
   have hacomp : a ≫ mapOfLE A I L hI hL le_sup_left M =
       T.mor₁ := by
     apply (localCohomology_counit_bijective A I hI K T.obj₁ hTI).injective
-    show (a ≫ mapOfLE A I L hI hL le_sup_left M) ≫
+    change (a ≫ mapOfLE A I L hI hL le_sup_left M) ≫
       localCohomologyAugmentation A I hI M = _
     calc (a ≫ mapOfLE A I L hI hL le_sup_left M) ≫ localCohomologyAugmentation A I hI M
         = a ≫ (mapOfLE A I L hI hL le_sup_left M ≫
@@ -1034,7 +1034,7 @@ private theorem exists_lift_of_smul_eq_zero
     apply hi
     apply IsLocalizedModule.smul_injective (smallLocalizationUnit S (H.obj X))
       (⟨f, Submonoid.mem_powers f⟩ : S)
-    show f • e.hom.hom ((H.map T.mor₂).hom y) = f • e.hom.hom 0
+    change f • e.hom.hom ((H.map T.mor₂).hom y) = f • e.hom.hom 0
     calc
       _ = e.hom.hom ((H.map T.mor₂).hom (f • y)) :=
         (e.hom.hom.map_smul f _).symm.trans
@@ -1066,7 +1066,7 @@ private theorem localCohomologyModuleMapOfLE_surjective_of_local_vanishing
     Function.Surjective
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).map
         (mapOfLE A I J hI hJ hIJ M)).hom := by
-  show Function.Surjective
+  change Function.Surjective
     (localCohomologyModuleMapOfLE A I J hI hJ hIJ M i).hom
   intro x
   classical
@@ -1123,7 +1123,7 @@ private theorem localCohomologyModuleMapOfLE_surjective_of_local_vanishing
       (IsLocalizedModule.subsingleton_iff p.primeCompl
         (LocalizedModule.mkLinearMap p.primeCompl
           (localCohomologyModule A K hKfg M i))).mp hlocvan y
-    obtain ⟨a, haJ, hap⟩ := SetLike.not_le_iff_exists.mp hJp
+    obtain ⟨a, haJ, hap⟩ := IsConcreteLE.not_le_iff_exists.mp hJp
     let b := a * s
     have hbJ : b ∈ J := J.mul_mem_right s haJ
     have hbp : b ∉ p := p.primeCompl.mul_mem hap hs

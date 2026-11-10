@@ -352,7 +352,7 @@ private theorem nonempty_integerCohomologyToRestrictedModulesIso
     Hfunctor (integerRingSheaf X) U p ≅
         SheafOfModules.toSheaf (integerRingSheaf X) ⋙
           Stacks.Cohomology.AbelianSheaf.cohomologyOver.{u, u} U p := by
-    show Hfunctor (integerRingSheaf X) U p ≅
+    change Hfunctor (integerRingSheaf X) U p ≅
       SheafOfModules.toSheaf (integerRingSheaf X) ⋙
         ((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat).obj (op U)).rightDerived p
     exact eSite p

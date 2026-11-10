@@ -134,7 +134,7 @@ theorem isIso_derivedUnit_app_singleFunctor_obj_of_isZero_rightDerived
         (RingedToposHom.pullbackAdjPushforwardModules f) (ComplexShape.up ℤ)).unit.app
           ((CochainComplex.singleFunctor
             (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) 0).obj N)).f n) := by
-      show IsIso ((RingedToposHom.pullbackAdjPushforwardModules f).unit.app
+      change IsIso ((RingedToposHom.pullbackAdjPushforwardModules f).unit.app
         (((CochainComplex.singleFunctor
           (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) 0).obj N).X n))
       by_cases hn : n = 0
@@ -179,7 +179,7 @@ theorem isIso_derivedUnit_app_singleFunctor_obj_of_isZero_rightDerived
     have hprod : IsIso ((derivedPullbackPushforwardAdjunctionOfToposHom f).unit.app
         (DerivedCategory.Qh.obj M) ≫ (derivedPushforward (X := X) (Y := Y) f).map
           ((leftDerivedPullbackOfKFlat f).comparison.app M)) := by
-      show IsIso ((derivedPullbackPushforwardAdjunction f (leftDerivedPullbackOfKFlat f)).unit.app
+      change IsIso ((derivedPullbackPushforwardAdjunction f (leftDerivedPullbackOfKFlat f)).unit.app
         (DerivedCategory.Qh.obj M) ≫ (derivedPushforward (X := X) (Y := Y) f).map
           ((leftDerivedPullbackOfKFlat f).comparison.app M))
       rw [derivedPullbackPushforwardAdjunction_unit_fac f (leftDerivedPullbackOfKFlat f) M]

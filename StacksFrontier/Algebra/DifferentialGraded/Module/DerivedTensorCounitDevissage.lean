@@ -191,7 +191,7 @@ theorem isIso_map_directSumMap {ι : Type u} [DecidableEq ι]
       (IsColimit.coconePointsIsoOfNatIso hc hc' β).hom := by
     refine hc.hom_ext fun j => ?_
     rw [IsColimit.comp_coconePointsIsoOfNatIso_hom]
-    show Φ.map (directSumInj N j.as) ≫ Φ.map (directSumMap N f) =
+    change Φ.map (directSumInj N j.as) ≫ Φ.map (directSumMap N f) =
       Φ.map (f j.as) ≫ Φ.map (directSumInj N' j.as)
     rw [← Φ.map_comp, ← Φ.map_comp]
     exact congrArg Φ.map (directSumInj_comp_directSumDesc N _ j.as)
@@ -243,7 +243,7 @@ theorem isIso_derivedTensorFunctorCounit_app_iff_quasiIso (N : Bimodule A B)
     (isIso_q_map_toHomotopyCategory_map_iff A f).2 hf
   have hTf : IsIso (((quasiIsomorphisms' A).Q ⋙ derivedTensorFunctor N).map
       ((toHomotopyCategory A).map f)) := by
-    show IsIso ((derivedTensorFunctor N).map
+    change IsIso ((derivedTensorFunctor N).map
       ((quasiIsomorphisms' A).Q.map ((toHomotopyCategory A).map f)))
     infer_instance
   have hplain :

@@ -111,11 +111,13 @@ fit the heartbeat budget of a declaration that also elaborates the first factor,
 `actionSectionEquiv` is *defined* as the underlying bijection of the additive equivalence rather
 than built a second time.
 
-The outer `LinearEquiv.arrowCongr` *can* be peeled: the statement that the linear map attached to a section is the chart-level
+The outer `LinearEquiv.arrowCongr` *can* be peeled: the statement that the linear map attached to a
+section is the chart-level
 reading of that section followed by
 `Stacks.Thickenings.conormalTopSectionsLinearEquivKer` is
 `AlgebraicGeometry.Space.ChartLiftPresentation.actionSectionEquiv_apply`, in
-`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.LiftActionSheafActionSectionValue`.  What looks like
+`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.LiftActionSheafActionSectionValue`.  What looks
+like
 a `whnf` wall comes down to three things, none of them mathematics: the `rfl` has to be
 done between the *isomorphisms of abelian groups* and never at an applied value; the passage from
 the isomorphism to the value has to be a generic lemma at plain variables; and the `Module`
@@ -187,7 +189,7 @@ theorem subChart_comp :
       schemeSpaceMap (P.incl ≫ P.liftHom) ≫
         (ObjectProperty.homMk P.tgtChart : schemeSpace P.tgt ⟶ Y) := by
   apply ObjectProperty.hom_ext
-  show P.subChart ≫ a.hom = yoneda.map (P.incl ≫ P.liftHom) ≫ P.tgtChart
+  change P.subChart ≫ a.hom = yoneda.map (P.incl ≫ P.liftHom) ≫ P.tgtChart
   rw [Functor.map_comp, Category.assoc]
   exact (P.isLift.2 P.sub P.incl P.subChart P.isPullback.w).symm
 

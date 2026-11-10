@@ -226,7 +226,7 @@ variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
 `P : Algebra.Generators R S (Fin n)`, viewed as an `S`-module. Here
 `I = Ker(MvPolynomial (Fin n) R → S)` is the kernel of the (surjective)
 evaluation map associated to `P`. -/
-abbrev Conormal {n : ℕ} (P : Algebra.Generators R S (Fin n)) : Type _ :=
+abbrev _root_.NaiveCotangent.Conormal {n : ℕ} (P : Algebra.Generators R S (Fin n)) : Type _ :=
   P.toExtension.Cotangent
 
 /-- The free `S`-module `S^{⊕k}` of rank `k`. -/
@@ -588,11 +588,11 @@ theorem exists_derivation_mk_toCotangent (hAC : Function.Surjective (algebraMap 
   · rw [hθ _ (r * cb b) (by simp [hcb, Algebra.smul_def, ← IsScalarTower.algebraMap_apply]),
       toCotangent_sub_algebraMap_smul r (hcb b)]
     rfl
-  · show Submodule.Quotient.mk _ = _
+  · change Submodule.Quotient.mk _ = _
     rw [hθ _ (cb b * cb b') (by simp [hcb]), toCotangent_sub_algebraMap_mul (hcb b) (hcb b'),
       Submodule.Quotient.mk_add]
     rfl
-  · show Submodule.Quotient.mk _ = _
+  · change Submodule.Quotient.mk _ = _
     rw [hθ _ 0 (by simpa using x.2.symm)]
     congr 2
     ext
@@ -635,7 +635,7 @@ theorem retraction_exists
   have htor : Module.IsTorsionBySet B N ↑J := by
     intro n j
     refine Quotient.inductionOn' n fun m => ?_
-    show Submodule.Quotient.mk (j.val • m) = 0
+    change Submodule.Quotient.mk (j.val • m) = 0
     rw [show j.val • m = (0 : J.Cotangent) from
       Ideal.isTorsionBySet_cotangent J (x := m) (a := j), Submodule.Quotient.mk_zero]
   let : Module (B ⧸ J) N := htor.module
@@ -645,7 +645,7 @@ theorem retraction_exists
   have hstBC : IsScalarTower B C N := by
     apply IsScalarTower.of_algebraMap_smul
     intro b n
-    show e.symm (algebraMap B C b) • n = b • n
+    change e.symm (algebraMap B C b) • n = b • n
     rw [← hkey b, RingEquiv.symm_apply_apply]
     have : (Ideal.Quotient.mk J b) • n = (algebraMap B (B⧸J) b) • n := by
       rw [Ideal.Quotient.algebraMap_eq]

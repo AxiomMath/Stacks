@@ -124,7 +124,7 @@ theorem cechCyclesOneIsoKerShrink_hom_coe
       Submodule R (Cech.cechTermShrink.{v} f (M : Type v) 1)) =
       LinearMap.ker (Cech.cechDShrink.{v} f (M : Type v) 1) :=
     congrArg (fun φ => LinearMap.ker (ModuleCat.Hom.hom φ)) (cechComplexShrink_d_one_two.{v} f M)
-  show ((eqToHom (congrArg (fun S : Submodule R (Cech.cechTermShrink.{v} f (M : Type v) 1) =>
+  change ((eqToHom (congrArg (fun S : Submodule R (Cech.cechTermShrink.{v} f (M : Type v) 1) =>
         ModuleCat.of R ↥S) hker)
       ((HomologicalComplex.sc'
             (Cech.cechComplexShrink.{v} f (M : Type v)) 0 1 2).moduleCatCyclesIso.hom

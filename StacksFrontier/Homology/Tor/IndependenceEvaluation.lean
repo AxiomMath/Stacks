@@ -78,10 +78,9 @@ theorem tensorProduct_lift_congr_base {R₀ C₀ T T' C' : Type u}
           (IsScalarTower.toAlgHom R₀ T' C') fun _ _ => Commute.all _ _).toRingHom.comp
         c.toRingHom := by
     refine RingHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a t =>
-      show algebraMap C₀ C' a * algebraMap T C' t =
+      change algebraMap C₀ C' a * algebraMap T C' t =
         algebraMap C₀ C' a * algebraMap T' C' (e t)
       rw [he']
     | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -135,14 +134,13 @@ theorem subsingleton_localizedModule_torObj_of_eval
   have hεT : ε'.comp (TorChangeOfRings.tensorProductMap R₀ R' A₀ C₀ A' C'
       (IsScalarTower.toAlgHom R₀ A₀ A') (IsScalarTower.toAlgHom R₀ C₀ C')) = ε := by
     refine RingHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a c =>
       have hT : TorChangeOfRings.tensorProductMap R₀ R' A₀ C₀ A' C'
             (IsScalarTower.toAlgHom R₀ A₀ A') (IsScalarTower.toAlgHom R₀ C₀ C')
             (a ⊗ₜ[R₀] c) =
           (algebraMap A₀ A' a) ⊗ₜ[R'] (algebraMap C₀ C' c) := by
-        show (_ ⊗ₜ[R'] (1 : C')) * ((1 : A') ⊗ₜ[R'] _) = _
+        change (_ ⊗ₜ[R'] (1 : C')) * ((1 : A') ⊗ₜ[R'] _) = _
         rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
         rfl
       rw [RingHom.comp_apply, hT, hlift, hA' a, hC' c, ← map_mul]

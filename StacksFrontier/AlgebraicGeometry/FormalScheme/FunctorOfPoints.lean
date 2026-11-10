@@ -411,7 +411,7 @@ theorem exists_formalChartPointOn_base_eq {X : LTRS.{u}} (U : Opens X) (A : Type
   refine ⟨y, ?_⟩
   have key : e.inv.base (e.hom.base ⟨x, hx⟩) = ⟨x, hx⟩ :=
     ((PresheafedSpace.forget TopCommRingCat.{u}).mapIso e).hom_inv_id_apply ⟨x, hx⟩
-  show (e.inv.base (spfOfQuotientOn A I y)).1 = x
+  change (e.inv.base (spfOfQuotientOn A I y)).1 = x
   rw [hy, key]
 
 /-- Every point of the open subspace `𝔘` of an affine formal chart `𝔛|_𝔘 ≅ Spf A` is in the

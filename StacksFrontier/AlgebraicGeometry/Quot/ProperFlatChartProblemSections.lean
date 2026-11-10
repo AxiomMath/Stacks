@@ -35,14 +35,14 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
-attribute [local instance high]
-  AlgebraicGeometry.Space.preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
-  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
-  AlgebraicGeometry.Space.hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
-
 universe u
 
 namespace AlgebraicGeometry.Space
+
+attribute [local instance high]
+  preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
+  hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
+  hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y Z : AlgebraicSpaces B S hS} (g : X ⟶ Y) (ρ : Y ≅ Z)
@@ -140,7 +140,7 @@ theorem counitIso_hom_val_app_baseRingTensorSection (M : ModuleCat.{u} R) (m : M
         ((baseRingTensorFunctor.{u, u, u, u} φ).obj M) = 𝟙 _ :=
     (smallEtaleModelModulesEquiv B S hS X).counitIso.inv_hom_id_app _
   refine (congrArg _ h₀).trans ?_
-  show ((smallEtaleModelModulesEquiv B S hS X).counitIso.hom.app _).val.app U
+  change ((smallEtaleModelModulesEquiv B S hS X).counitIso.hom.app _).val.app U
     (((((baseRingTensorAdjunction.{u, u, u, u} φ).comp
       (smallEtaleModelModulesEquiv B S hS X).symm.toAdjunction).unit.app M).hom m).1 U) = _
   rw [h₂]

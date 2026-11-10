@@ -88,7 +88,7 @@ theorem toQuotientSheaf_quotientSheafDesc (j : PreRelation R U)
     (A : Sheaf (BigFppfOver.topology site S hS) (Type u)) (k : U.left ⟶ A.obj)
     (h : j.target.left ≫ k = j.source.left ≫ k) :
     toQuotientSheaf j ≫ (quotientSheafDesc j A k h).hom = k := by
-  show (coequalizer.π j.target.left j.source.left ≫
+  change (coequalizer.π j.target.left j.source.left ≫
       toSheafify (BigFppfOver.topology site S hS) (quotientPresheaf j)) ≫
       sheafifyLift (BigFppfOver.topology site S hS) (coequalizer.desc k h) A.property = k
   unfold quotientPresheaf

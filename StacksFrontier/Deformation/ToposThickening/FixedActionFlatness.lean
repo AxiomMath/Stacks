@@ -81,8 +81,6 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
   [X.J.HasSheafCompose (forget RingCat.{w})] [X'.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [X'.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
-  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify X'.J AddCommGrpCat.{w}] [HasSheafify X'.J AddCommGrpCat.{w}]
   {j : RingedToposHom X X'} (hj : FirstOrderThickening j)
@@ -204,7 +202,6 @@ variable {S : RingedTopos.{vS, uS, wS}} {S' : RingedTopos.{vS', uS', wS'}}
   [S.J.HasSheafCompose (forget RingCat.{wS})] [S'.J.HasSheafCompose (forget RingCat.{wS'})]
   [S.J.HasSheafCompose (forget₂ CommRingCat.{wS} RingCat.{wS})]
   [S'.J.HasSheafCompose (forget₂ CommRingCat.{wS'} RingCat.{wS'})]
-  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
   [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})]
   (t : RingedToposHom S S') (fb : RingedToposHom X S) (f' : RingedToposHom X' S')
   (ht : FirstOrderThickening t) (comm : f'.comp j = t.comp fb)

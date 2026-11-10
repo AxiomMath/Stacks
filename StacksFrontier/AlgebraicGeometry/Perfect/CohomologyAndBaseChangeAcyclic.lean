@@ -62,8 +62,8 @@ theorem baseChange_exact_of_exactAt (L : CochainComplex (ModuleCat.{u} A) ℕ)
   obtain ⟨hPex, -, -⟩ :=
     (StacksDraft.FlatComplex.universallyExact.{u, u, u} d N hN 0 (fun m _ ↦ hexA m)).2 B
   refine ⟨fun n ↦ (exactAt_extendScalars_iff φ L n).2 ?_, fun ι hι hrange ↦ ?_⟩
-  · simpa only [LinearMap.baseChange_eq_ltensor] using hPex n (Nat.zero_le _)
-  · simpa only [LinearMap.baseChange_eq_ltensor] using
+  · simpa only [LinearMap.baseChange_eq_lTensor] using hPex n (Nat.zero_le _)
+  · simpa only [LinearMap.baseChange_eq_lTensor] using
       StacksDraft.FlatComplex.lTensor_injective_and_exact_of_range_eq_ker d N hN hexA ι.hom hι
         hrange B
 

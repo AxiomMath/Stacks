@@ -536,7 +536,7 @@ private theorem isKoszulRegular_singleton_C_mul_X_sub_one
     simp [e, t, MvPolynomial.uniqueAlgEquiv_apply]
   have hreg : IsRegular (e t) := by
     apply isRegular_iff_mem_nonZeroDivisors.mpr
-    apply Polynomial.mem_nonzeroDivisors_of_coeff_mem 0
+    apply Polynomial.mem_nonZeroDivisors_of_coeff_mem 0
     simpa [ht] using (isUnit_neg_one : IsUnit (-1 : R)).mem_nonZeroDivisors
   have hsmul : IsSMulRegular (MvPolynomial Unit R) t := by
     intro x y hxy
@@ -848,7 +848,7 @@ private lemma isLocalHom_and_flat_localization_atPrime
       Module.Flat (Localization.AtPrime (Ideal.under R q)) (Localization.AtPrime q) := by
   let := Localization.AtPrime.algebraOfLiesOver (Ideal.under R q) q
   refine ⟨?_, ?_⟩
-  · rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+  · rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom _ _ _ _
   · exact (Module.flat_iff_of_isLocalization (Localization.AtPrime (Ideal.under R q))
       (Ideal.under R q).primeCompl (Localization.AtPrime q)).2
@@ -1387,8 +1387,7 @@ theorem seqComplexTensor_homology_congr
         ((LinearMap.rTensor M (Koszul.d (Koszul.seqDual f) m)) x) =
       (LinearMap.rTensor N (Koszul.d (Koszul.seqDual f) m))
         ((TensorProduct.map LinearMap.id e.toLinearMap) x)
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   · rw [HomologicalComplex.shape _ n m h, HomologicalComplex.shape _ n m h]

@@ -146,7 +146,7 @@ theorem isIso_lerayComparisonAb : IsIso (lerayComparisonAb G) := by
       _ (exists_quasiIso_isKInjective X') DerivedCategory.Qh _ _ fun I hI => ?_
     have h₂ := isIso_derivedGlobalSectionsUnit_app_pushforward G I hI
     have h₃ := isIso_derivedPushforwardUnit_app_of_isKInjective G I hI
-    show IsIso (DerivedCategory.Qh.map _ ≫ 𝟙 _ ≫ (derivedGlobalSectionsUnit X).app _ ≫ 𝟙 _ ≫
+    change IsIso (DerivedCategory.Qh.map _ ≫ 𝟙 _ ≫ (derivedGlobalSectionsUnit X).app _ ≫ 𝟙 _ ≫
       (derivedGlobalSections X).map ((derivedPushforwardUnit G).app _) ≫ 𝟙 _)
     infer_instance
   exact (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _

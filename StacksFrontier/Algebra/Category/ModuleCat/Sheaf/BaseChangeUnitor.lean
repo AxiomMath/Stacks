@@ -25,7 +25,8 @@ hypothesis on the site, no commutativity and no smallness.
 * `Stacks.SheafOfModules.ChangeOfRings.extendScalarsBaseChangeUnitor` and
   `Stacks.NoncommChangeOfRings.Presheaf.extendScalarsBaseChangeUnitor`: the unitor at the
   extension of scalars of `ExtendScalarsAdjunction.lean`, respectively at the objectwise
-  noncommutative extension of scalars of `StacksFrontier/Algebra/Category/ModuleCat/Presheaf/NoncommBaseChange.lean`.
+  noncommutative extension of scalars of
+ `StacksFrontier/Algebra/Category/ModuleCat/Presheaf/NoncommBaseChange.lean`.
 
 ## Main results
 
@@ -115,7 +116,7 @@ lemma unitComparison_comp (M : PresheafOfModules.{u} R') (g : unit R' ⟶ M) :
   apply sections_ext
   intro X
   rw [restrictScalarsSectionsEquiv_val]
-  show Hom.app ((restrictScalars.{u} α).map g) X
+  change Hom.app ((restrictScalars.{u} α).map g) X
       (Hom.app (unitToRestrictScalarsUnit α) X (1 : R.obj X)) = Hom.app g X (1 : R'.obj X)
   rw [unitToRestrictScalarsUnit_app_one]
   rfl
@@ -223,7 +224,7 @@ lemma unitComparison_comp (M : SheafOfModules.{u} R') (g : unit R' ⟶ M) :
   apply PresheafOfModules.sections_ext
   intro X
   rw [restrictScalarsSectionsEquiv_val]
-  show PresheafOfModules.Hom.app ((restrictScalars.{u} α).map g).val X
+  change PresheafOfModules.Hom.app ((restrictScalars.{u} α).map g).val X
       (PresheafOfModules.Hom.app (unitToRestrictScalarsUnit α).val X (1 : R.obj.obj X)) =
     PresheafOfModules.Hom.app g.val X (1 : R'.obj.obj X)
   rw [unitToRestrictScalarsUnit_val_app_one]

@@ -166,7 +166,7 @@ theorem isRegularSection_iff_forall_isSMulRegular_obj
         (((SheafOfModules.toSheaf _).map p).hom.app U) ∘ (unitGroupSectionEquiv O hO U) =
           fun z : O.obj U ↦ structureSectionValue O hO f U • z := by
       funext z
-      show (unitGroupSectionEquiv O hO U).symm
+      change (unitGroupSectionEquiv O hO U).symm
         (((SheafOfModules.toSheaf _).map p).hom.app U (unitGroupSectionEquiv O hO U z)) = _
       rw [unitGroupSectionEquiv_toSheaf_map_apply, Equiv.symm_apply_apply, smul_eq_mul]
       exact mul_comm z (structureSectionValue O hO f U)
@@ -177,7 +177,7 @@ theorem isRegularSection_iff_forall_isSMulRegular_obj
         (((SheafOfModules.toSheaf _).map p).hom.app U))
     rw [hcomp] at hiff
     exact hiff.symm
-  show Mono p ↔ _
+  change Mono p ↔ _
   rw [← (SheafOfModules.toSheaf _).mono_map_iff_mono,
     ← (sheafToPresheaf J AddCommGrpCat.{w}).mono_map_iff_mono,
     CategoryTheory.NatTrans.mono_iff_mono_app]
@@ -200,9 +200,9 @@ theorem isRegularSection_iff_forall_isSMulRegular
   have hp (U) (z : X.presheaf.obj U) :
       ((SheafOfModules.toSheaf _).map p).hom.app U z =
         (show X.presheaf.obj U from f.val U) • z := by
-    show z * (show X.presheaf.obj U from f.val U) = _ * z
+    change z * (show X.presheaf.obj U from f.val U) = _ * z
     exact mul_comm _ _
-  show Mono p ↔ _
+  change Mono p ↔ _
   rw [← (SheafOfModules.toSheaf _).mono_map_iff_mono,
     Sheaf.Hom.mono_iff_presheaf_mono, CategoryTheory.NatTrans.mono_iff_mono_app]
   refine ⟨fun h U a b hab ↦
@@ -357,7 +357,7 @@ given function. -/
 @[simp]
 theorem globalFunctionSections_val_top (T : Scheme.{u}) (a : Γ(T, ⊤)) :
     (globalFunctionSections T a).val (.op ⊤) = a := by
-  show T.presheaf.map (𝟙 (Opposite.op (⊤ : T.Opens))) a = a
+  change T.presheaf.map (𝟙 (Opposite.op (⊤ : T.Opens))) a = a
   rw [T.presheaf.map_id]
   exact CommRingCat.id_apply (T.presheaf.obj (.op ⊤)) a
 

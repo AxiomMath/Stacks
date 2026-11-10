@@ -326,7 +326,7 @@ theorem preimage_target_eq_preimage_source_of_mem_iff
   ext a
   obtain ⟨e⟩ := exists_iso_quotientStackProjection_source_target G
     (⟨W.unop, Discrete.mk a⟩ : (fibredCategory C S hS G.arrows.obj).val.obj)
-  show G.target.hom.app W a ∈ Z.obj W ↔ G.source.hom.app W a ∈ Z.obj W
+  change G.target.hom.app W a ∈ Z.obj W ↔ G.source.hom.app W a ∈ Z.obj W
   rw [hZ W (G.target.hom.app W a), hZ W (G.source.hom.app W a)]
   exact ⟨fun h => P.prop_of_iso e.symm h, fun h => P.prop_of_iso e h⟩
 

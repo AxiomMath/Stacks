@@ -131,7 +131,7 @@ theorem exceptionalChartProjInv_projInclusionToOpen (U : X.affineOpens) :
         (completionAlgebra (dualSheaf (VirtualNormalBundle.ofIsRegularImmersion i hi).bundle))
         (i ⁻¹ᵁ U.1) (isAffineOpen_centrePreimage i U) =
       centreChartToSpec i U ≫ (isAffineOpen_centrePreimage i U).isoSpec.inv := by
-  show exceptionalChartProjInv i U hi ≫ (Proj.toSpecZero ((completionAlgebra (dualSheaf
+  change exceptionalChartProjInv i U hi ≫ (Proj.toSpecZero ((completionAlgebra (dualSheaf
         (VirtualNormalBundle.ofIsRegularImmersion i hi).bundle)).grading (i ⁻¹ᵁ U.1)) ≫
       Spec.map (CommRingCat.ofHom ((GradedRing.projZeroRingHom' ((completionAlgebra (dualSheaf
         (VirtualNormalBundle.ofIsRegularImmersion i hi).bundle)).grading (i ⁻¹ᵁ U.1))).comp

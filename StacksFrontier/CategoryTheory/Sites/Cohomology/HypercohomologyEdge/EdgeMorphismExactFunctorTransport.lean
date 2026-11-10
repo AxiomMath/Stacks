@@ -78,7 +78,7 @@ theorem mapHomotopyCategoryCompIso_refl_inv_app (F : A ⥤ B) [F.Additive] (G : 
     [G.Additive] (K : HomotopyCategory A (ComplexShape.up ℤ)) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) (ComplexShape.up ℤ)).inv.app K =
       𝟙 _ := by
-  show (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 /-- Cancelling a morphism known to be an identity, at variables: at the application the two

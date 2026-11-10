@@ -102,7 +102,7 @@ theorem exists_app_eq_of_mem_imageSubmodule (f : M ⟶ N) [Mono f] {X : Cᵒᵖ}
     exact Functor.map_comp_apply Q g.op h.op x
   obtain ⟨m, hm, -⟩ := (isSheaf_forget M S hS) fam hcomp
   refine ⟨m, (isSheaf_forget N S hS).isSeparatedFor.ext fun {Y} g hg => ?_⟩
-  show Q.map g.op (f.val.app X m) = Q.map g.op x
+  change Q.map g.op (f.val.app X m) = Q.map g.op x
   rw [← hnat g.op m, show P.map g.op m = fam g hg from hm g hg, hfam g hg]
 
 /-- **For a monomorphism of sheaves of modules the image subsheaf is the sectionwise range.**

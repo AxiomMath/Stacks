@@ -42,9 +42,10 @@ of an intersection of the `d ^ 2` opens on which the images of the matrix units 
 compared.
 
 The two results quoted from
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BrauerGroupScheme/EndomorphismAlgebra.lean` require
-the base ring, the module and the index type to lie in a single universe, whereas here the base ring
-`Γ(X, U)` lies in `Type u` and `Fin d` in `Type 0`. The module is not lifted: `Fin d → R` is given
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BrauerGroupScheme/EndomorphismAlgebra.lean`
+require the base ring, the module and the index type to lie in a single universe, whereas here the
+base ring `Γ(X, U)` lies in `Type u` and `Fin d` in `Type 0`. The module is not lifted:
+`Fin d → R` is given
 the basis `uliftBasisFun` indexed by `ULift.{u} (Fin d)`, so only the index type moves, which is all
 those results need. `algEquivMatrix'` translates between that basis and matrices, and
 `uliftBasisFun_coord_apply` together with `algEquivMatrix'_uliftBasisFun_rankOne` record the only

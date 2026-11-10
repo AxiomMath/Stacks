@@ -59,7 +59,7 @@ theorem rightDerivedCompIso_evaluation_naturality {U V : Opens X} (h : U ≤ V) 
   let α : EV ⟶ EU := (evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).map (homOfLE h).op
   have : EV.PreservesHomology := EV.preservesHomologyOfExact
   have : EU.PreservesHomology := EU.preservesHomologyOfExact
-  show α.app (((sheafToPresheaf _ AddCommGrpCat.{u}).rightDerived p).obj F) ≫
+  change α.app (((sheafToPresheaf _ AddCommGrpCat.{u}).rightDerived p).obj F) ≫
       (Stacks.Cohomology.DerivedForget.rightDerivedCompIso
         (sheafToPresheaf _ AddCommGrpCat.{u}) EU p).hom.app F =
     (Stacks.Cohomology.DerivedForget.rightDerivedCompIso
@@ -73,7 +73,7 @@ theorem rightDerivedCompIso_evaluation_naturality {U V : Opens X} (h : U ≤ V) 
   unfold Functor.rightDerived Functor.rightDerivedToHomotopyCategory
   simp only [Functor.comp_obj]
   unfold HomotopyCategory.homologyFunctor
-  show α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso EU).inv =
+  change α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso EU).inv =
     ((K.sc p).mapHomologyIso EV).inv ≫
       ShortComplex.homologyMap ((K.sc p).mapNatTrans α)
   simp only [NatTrans.app_homology, Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -102,7 +102,7 @@ theorem surjective_rightDerived_sectionsRestriction [SpectralSpace X]
       (e.inv.app (op ⊤) x)
     have hx' : e.hom.app (op ⊤) (e.inv.app (op ⊤) x) = x := (e.app (op ⊤)).inv_hom_id_apply x
     refine hn.trans ?_
-    show ((Sheaf.cohomologyPresheafFunctor _ d).obj F).map _ (e.hom.app _ (e.inv.app _ x)) = _
+    change ((Sheaf.cohomologyPresheafFunctor _ d).obj F).map _ (e.hom.app _ (e.inv.app _ x)) = _
     rwa [hx']
   have hnat := rightDerivedCompIso_evaluation_naturality (X := X) (show U ≤ ⊤ from le_top) d F
   let eU := (Stacks.Cohomology.DerivedForget.rightDerivedCompIso
@@ -115,7 +115,7 @@ theorem surjective_rightDerived_sectionsRestriction [SpectralSpace X]
   obtain ⟨x, hx⟩ := hP (eU.inv y)
   refine ⟨eT.hom x, ?_⟩
   refine (ConcreteCategory.congr_hom hnat x).symm.trans ?_
-  show eU.hom (P.map _ x) = y
+  change eU.hom (P.map _ x) = y
   rw [hx]
   exact eU.inv_hom_id_apply y
 
@@ -144,7 +144,7 @@ theorem surjective_hrestrict_of_topologicalKrullDim_le [SpectralSpace X]
   refine ⟨eT.inv x, ?_⟩
   apply (ConcreteCategory.bijective_of_isIso eU.hom).1
   refine (ConcreteCategory.congr_hom (NatTrans.congr_app key G) (eT.inv x)).trans ?_
-  show (NatTrans.rightDerived (sectionsRestriction (Opens.grothendieckTopology X)
+  change (NatTrans.rightDerived (sectionsRestriction (Opens.grothendieckTopology X)
     (homOfLE (show U ≤ ⊤ from le_top))) d).app _ (eT.hom (eT.inv x)) = _
   rwa [eT.inv_hom_id_apply]
 

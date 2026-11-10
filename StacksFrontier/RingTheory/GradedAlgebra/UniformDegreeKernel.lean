@@ -100,7 +100,7 @@ theorem mem_span_range_homogeneous_iff
     rw [hap, Finsupp.sum, map_sum] at hproj
     rw [← hproj]
     refine Finset.sum_congr rfl fun x _ => ?_
-    show (DirectSum.decompose 𝒜 (c x * f x) (d + k) : A) = _
+    change (DirectSum.decompose 𝒜 (c x * f x) (d + k) : A) = _
     rw [mul_comm (c x), DirectSum.coe_decompose_mul_add_of_left_mem 𝒜 (hf x)]
   · rintro ⟨t, c, rfl⟩
     exact Ideal.sum_mem _ fun x hx =>
@@ -121,7 +121,7 @@ theorem eq_zero_of_mem_span_range_of_lt_degree
   rw [hap, Finsupp.sum, map_sum] at hproj
   rw [← hproj]
   refine Finset.sum_eq_zero fun x _ => ?_
-  show (DirectSum.decompose 𝒜 (c x * f x) n : A) = 0
+  change (DirectSum.decompose 𝒜 (c x * f x) n : A) = 0
   rw [DirectSum.coe_decompose_mul_of_right_mem 𝒜 n (hf x),
     ite_eq_right (Nat.not_le.mpr hnd)]
 
@@ -242,7 +242,7 @@ theorem exists_homogeneous_numerator_in_kernel
   have ha' := mul_pow_mem_graded_add 𝒜 hf (m + 1) ha
   refine ⟨n + (m + 1), a * f ^ (m + 1), ha', by omega, ?_, ?_⟩
   · rw [map_mul, map_pow, pow_succ]
-    show φ a * (φ f ^ m * φ f) = 0
+    change φ a * (φ f ^ m * φ f) = 0
     rw [← mul_assoc, mul_comm (φ a) (φ f ^ m), hm, zero_mul]
   · exact awayMk_mul_pow 𝒜 hf n (m + 1) a ha ha'
 

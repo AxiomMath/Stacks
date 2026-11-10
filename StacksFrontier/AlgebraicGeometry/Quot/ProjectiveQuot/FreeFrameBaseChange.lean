@@ -99,7 +99,7 @@ theorem ιFree_pushforwardTwistFreeModuleIso_inv (T : Scheme.{u}) (m : ℕ)
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ _) ((Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ _) (ιFree_freeFunctor_map _ i)).trans
-      (Sigma.ι_desc _ _)))).trans ?_
+      (Sigma.ι_comp_desc _ _)))).trans ?_
   refine (Category.assoc _ _ _).trans (congrArg (_ ≫ ·) ?_)
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ _) (Sigma.ι_mapIso_inv _ _)).trans ?_

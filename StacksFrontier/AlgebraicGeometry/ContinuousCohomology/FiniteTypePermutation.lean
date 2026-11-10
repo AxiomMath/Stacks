@@ -59,7 +59,8 @@ variable {R : Type u} [Ring R] {G : Type v} [Group G] [TopologicalSpace G]
 continuous `G`-action. -/
 def finiteTypeContinuousModuleIsoMk {M N : FiniteTypeContinuousModule.{u, v, w} R G}
     (e : M.obj.obj.obj.V ≃ₗ[R] N.obj.obj.obj.V)
-    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).asHom.hom x) = (N.obj.obj.obj.ρ g).asHom.hom (e x)) : M ≅ N where
+    (he : ∀ g x, e ((M.obj.obj.obj.ρ g).asHom.hom x) = (N.obj.obj.obj.ρ g).asHom.hom (e x)) :
+    M ≅ N where
   hom := ObjectProperty.homMk ((Stacks.GroupCohomology.homEquiv R G _ _).symm ⟨e.toLinearMap, he⟩)
   inv := ObjectProperty.homMk ((Stacks.GroupCohomology.homEquiv R G _ _).symm
     ⟨e.symm.toLinearMap, fun g y ↦ e.injective (by

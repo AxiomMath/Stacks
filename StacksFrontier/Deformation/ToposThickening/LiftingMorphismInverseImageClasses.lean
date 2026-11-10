@@ -74,12 +74,14 @@ section Pullback
 abbrev pullbackFst : (pullbackSolution g QC QD c).extension ⟶ QD.extension :=
   fibreFst QD.reduction g.fSharpInverseImage
 
+omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The square `𝒪'₂ ⟶ 𝒪_{𝒟'}` over `g^♯ : g⁻¹𝒪_𝒞 ⟶ 𝒪_𝒟`. -/
 theorem pullbackFst_comp_reduction :
     (pullbackSolution g QC QD c).reduction ≫ g.fSharpInverseImage =
       pullbackFst g QC QD c ≫ QD.reduction :=
   (Stacks.Sites.SqZeroPullback.fibreFst_comp_eq QD.reduction g.fSharpInverseImage).symm
 
+omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The structure map of `𝒪'₂` followed by the first projection is that of `𝒪_{𝒟'}`. -/
 theorem baseMap_comp_pullbackFst :
     (pullbackSolution g QC QD c).baseMap ≫ pullbackFst g QC QD c = QD.baseMap :=
@@ -98,6 +100,7 @@ instance isLocallySurjective_QD_reduction :
     Presheaf.IsLocallySurjective Y.J QD.reduction.hom :=
   QD.locallySurjective
 
+omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The first projection of `𝒪'₂` carries its square-zero ideal `𝒢` identically onto the
 square-zero ideal `𝒢` of `𝒪_{𝒟'}`. -/
 theorem pullbackFst_incl {U : Y.Cᵒᵖ} (n : G.val.obj U) :
@@ -125,6 +128,7 @@ private theorem incl_kernelConormalToModule_conormalMap {S : RingedTopos.{u, u, 
   exact (congrArg Q.incl ((congrArg (fun t ↦ Q.kernelConormalToModule.val.app U t) e₁).trans
     e₂)).trans (Q.incl_kernelPreimage _)
 
+omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- **The identification of the conormal sheaf of `𝒪'₂ ⟶ g⁻¹𝒪_𝒞` with `𝒢` factors through that
 of `𝒪_{𝒟'} ⟶ 𝒪_𝒟`**: the map of conormal sheaves induced by the first projection, followed by
 the identification for `𝒪_{𝒟'}`. -/
@@ -144,7 +148,9 @@ theorem conormalMap_comp_kernelConormalToModule :
   exact congrArg ((pullbackFst g QC QD c).hom.app U)
     (((pullbackSolution g QC QD c).incl_kernelPreimage x).symm.trans (congrArg _ e₃.symm))
 
-omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
+omit [Y.J.HasSheafCompose (forget AddCommGrpCat)] [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasWeakSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The structure maps of `(Sh(𝒟), g⁻¹𝒪_𝒞)` and `(Sh(𝒟), 𝒪_𝒟)` over `(Sh(ℬ), 𝒪_ℬ)` form a
 square over `g^♯`. -/
 theorem fSharp_comp_fSharp_eq :
@@ -169,6 +175,7 @@ abbrev structureSquareMap :
     (f.comp (toInverseImage g)).fSharpInverseImage _ Y.O (f.comp g).fSharpInverseImage (𝟙 _)
     g.fSharpInverseImage (fSharp_comp_fSharp_eq g)
 
+omit [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The base change of `𝒪'₂` followed by the map along `𝒪'₂ ⟶ 𝒪_{𝒟'}` over `g^♯` is the map along
 `g^♯` followed by the base change of `𝒪_{𝒟'}` (the rectangle of Stacks 08TX maps). -/
 theorem pullbackSolution_baseChange_rectangle :
@@ -205,6 +212,7 @@ abbrev pullbackConormalMap :
     QD.reduction (pullbackFst g QC QD c) g.fSharpInverseImage
     (pullbackFst_comp_reduction g QC QD c).symm
 
+omit [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- `η` along `𝒪'₂ ⟶ 𝒪_{𝒟'}`, in the derived category. -/
 theorem inv_Q_map_eta_comp_pullbackConormalMap :
     haveI := Functor.isIso_Q_map_mapHomologicalComplex_map
@@ -276,6 +284,7 @@ theorem mapExtOne_canonical :
     ((Functor.mapExtOne_inv_Q_map_comp _ _ _).trans (congrArg (_ ≫ ·)
       (Functor.mapExtOne_Q_map_shiftIso _ _))))
 
+omit [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The composite of the base change of `𝒪'₂`, the inverse of its conormal comparison and the map
 of conormal sheaves to `𝒢` equals the structure square map followed by the restriction of
 scalars along `g^♯` of the corresponding composite for `𝒪_{𝒟'}`, in the derived category. -/
@@ -336,6 +345,7 @@ private theorem comp_eq_of_assoc {𝒞 : Type*} [Category 𝒞] {V W X Y Z X' Y'
   rw [← Category.assoc, ← Category.assoc, h]
   simp only [Category.assoc]
 
+omit [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- **The class of `𝒪'₂` is the image of the class of `𝒪_{𝒟'}`** under restriction of scalars
 along `g^♯`, precomposed with the map `NL_{g⁻¹𝒪_𝒞/(f ∘ g)⁻¹𝒪_ℬ} ⟶ NL_{𝒪_𝒟/(f ∘ g)⁻¹𝒪_ℬ}` of
 Stacks 08TX attached to `g^♯`. -/
@@ -419,7 +429,9 @@ abbrev invBaseMap :
       (invImage g).obj QC.extension :=
   (invImage g).map QC.baseMap
 
-omit [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
+omit [Y.J.HasSheafCompose (forget AddCommGrpCat)] [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasWeakSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The structure map `(f ∘ g)⁻¹𝒪_ℬ ⟶ g⁻¹f⁻¹𝒪_ℬ ⟶ g⁻¹𝒪_𝒞` of `(Sh(𝒟), g⁻¹𝒪_𝒞)`. -/
 theorem fSharpInverseImage_toInverseImage_eq :
     (f.comp (toInverseImage g)).fSharpInverseImage =
@@ -481,6 +493,9 @@ abbrev pushoutBaseChange :
     ((invImage g).map QC.reduction) _ (pushoutSolution g QC QD c).reduction
     (pushoutIncl g QC QD c) (invImage_reduction_eq g QC QD c)
 
+omit [Y.J.HasSheafCompose (forget AddCommGrpCat)] [X.J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasWeakSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasWeakSheafify Y.J CommRingCat] [Y.J.WEqualsLocallyBijective CommRingCat] in
 /-- The map `(f ∘ g)^♯` factors as `(f ∘ g)⁻¹𝒪_ℬ ≅ g⁻¹f⁻¹𝒪_ℬ ⟶ g⁻¹𝒪_{𝒞'} ⟶ g⁻¹𝒪_𝒞`. -/
 theorem fSharp_eq_comp_invBaseMap :
     (f.comp (toInverseImage g)).fSharpInverseImage =

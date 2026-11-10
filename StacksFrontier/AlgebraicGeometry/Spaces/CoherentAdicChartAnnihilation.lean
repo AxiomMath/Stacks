@@ -237,7 +237,7 @@ theorem smul_eq_zero_of_chartTildeMap_kernel
         ((chartSectionsSystem B S hS Y.1 Y.2 G.obj V).obj (op k))) x) = 0 :=
     (chartTildeMap_app_unit B S hS f hf J hJ V G F hF hJq hFF α k x).trans
       ((congrArg _ hx).trans (map_zero _))
-  refine (bijective_chartTildeAdjunction_unit_app B S hS J hJ V G k).1 ?_
+  refine (bijective_chartTildeAdjunction_unit_app B S hS J V G k).1 ?_
   refine ((((affineTildeChartGlobalSectionsAdjunction B S hS V).unit.app
     ((chartSectionsSystem B S hS Y.1 Y.2 G.obj V).obj (op k))).hom.map_smul r x).trans ?_)
   exact (Stacks.Coherent.smul_eq_zero_of_app_eq_zero_affine
@@ -267,7 +267,7 @@ theorem exists_eq_smul_of_chartTildeMap_cokernel
     ((chartTildeMap B S hS J hJ V G f hf F hF hJq hFF α).hom.app (op k)) hcok
     ⟨⊤, isAffineOpen_top (chartScheme V)⟩ hr
     (completionDirectImageTowerEquiv B S hS f hf J hJ V F hF hJq hFF k y)
-  obtain ⟨x, rfl⟩ := (bijective_chartTildeAdjunction_unit_app B S hS J hJ V G k).2 x'
+  obtain ⟨x, rfl⟩ := (bijective_chartTildeAdjunction_unit_app B S hS J V G k).2 x'
   refine ⟨x, (completionDirectImageTowerEquiv B S hS f hf J hJ V F hF hJq hFF k).injective ?_⟩
   refine (chartTildeMap_app_unit B S hS f hf J hJ V G F hF hJq hFF α k x).symm.trans ?_
   exact hx'.trans ((completionDirectImageTowerEquiv B S hS f hf J hJ V F hF hJq hFF k).map_smul

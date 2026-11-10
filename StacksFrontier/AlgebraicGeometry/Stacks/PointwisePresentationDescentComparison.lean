@@ -164,7 +164,7 @@ theorem pointwiseQuasicoherentDescentFunctor_obj_alpha
         inv (presentationSourceComparison F hF M.obj) :=
   pointwiseDescentObj_alpha F hF _ (isPointwiseDescentAdmissible_of_quasicoherent F hF M)
 
-variable [F.Full] [F.Faithful] (hloc : ∀ y : 𝒳, ∃ (I : Type u)
+variable [F.Full] (hloc : ∀ y : 𝒳, ∃ (I : Type u)
   (x : I → PointwiseFibration G) (g : ∀ i, F.obj (x i) ⟶ y),
     Sieve.ofArrows _ g ∈ BigFppfOver.associatedTopology C S hS p .fppf y)
 

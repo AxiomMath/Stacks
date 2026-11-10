@@ -274,7 +274,7 @@ public theorem exists_iso_colimit_of_isHomotopyColimit
     have : Mono (H.map ((Stacks.CountableCoproducts.oneSubShift F)⟦(1 : ℤ)⟧')) :=
       mono_map_oneSubShift hexact F (shiftFunctor D (1 : ℤ) ⋙ H)
     refine hex₃.mono_g_iff.1 ?_
-    show Mono (H.map (-((Stacks.CountableCoproducts.oneSubShift F)⟦(1 : ℤ)⟧')))
+    change Mono (H.map (-((Stacks.CountableCoproducts.oneSubShift F)⟦(1 : ℤ)⟧')))
     rw [H.map_neg]
     infer_instance
   have : Epi (H.map p) := hex₂.epi_f hq
@@ -287,7 +287,7 @@ public theorem exists_iso_colimit_of_isHomotopyColimit
       H.map_zero, comp_zero])
   obtain ⟨β, hβ⟩ := hex.desc' (inv (sigmaComparison H F.obj) ≫ Stacks.CountableCoproducts.piMap (F ⋙
     H)) (by
-    show H.map (Stacks.CountableCoproducts.oneSubShift F) ≫ inv (sigmaComparison H F.obj) ≫ _ = 0
+    change H.map (Stacks.CountableCoproducts.oneSubShift F) ≫ inv (sigmaComparison H F.obj) ≫ _ = 0
     rw [map_oneSubShift_eq]
     simp [w])
   refine ⟨⟨α, β, ?_, ?_⟩, fun n ↦ ?_⟩
@@ -859,20 +859,20 @@ public theorem exists_iso_of_isHomotopyColimit_of_strictMono
     comp_distTriang_mor_zero₃₁ _ hT
   have hEE : IsIso (E ≫ E') := by
     refine isIso_of_mor₂_comp_eq hT' ?_ ?_
-    · show p' ≫ E ≫ E' = p'
+    · change p' ≫ E ≫ E' = p'
       rw [← Category.assoc, hp, Category.assoc, hp', ← Category.assoc,
         sigmaIncl_comp_sigmaTrunc, Category.id_comp]
-    · show (E ≫ E') ≫ q' = q'
+    · change (E ≫ E') ≫ q' = q'
       rw [Category.assoc, ← hq', ← Category.assoc, ← hq, Category.assoc,
         ← CategoryTheory.Functor.map_comp, sigmaTele_comp_sigmaProj,
         CategoryTheory.Functor.map_id, Category.comp_id]
   have hE'E : IsIso (E' ≫ E) := by
     refine isIso_of_mor₂_comp_eq hT ?_ ?_
-    · show p ≫ E' ≫ E = p
+    · change p ≫ E' ≫ E = p
       rw [← Category.assoc, hp', Category.assoc, hp, ← Category.assoc,
         sigmaTrunc_comp_sigmaIncl, Preadditive.add_comp, Category.id_comp, Category.assoc,
         hdp, comp_zero, add_zero]
-    · show (E' ≫ E) ≫ q = q
+    · change (E' ≫ E) ≫ q = q
       rw [Category.assoc, ← hq, ← Category.assoc, ← hq', Category.assoc,
         ← CategoryTheory.Functor.map_comp, sigmaProj_comp_sigmaTele,
         CategoryTheory.Functor.map_add, Preadditive.comp_add, CategoryTheory.Functor.map_id,
@@ -889,7 +889,7 @@ public theorem exists_iso_of_isHomotopyColimit_of_strictMono
       _ = E' ≫ inv (E ≫ E') := by rw [hl, Category.id_comp]
   refine ⟨⟨E, E' ≫ inv (E ≫ E'), hu, ?_⟩, fun i ↦ ?_⟩
   · rw [← hlu]; exact hl
-  · show Sigma.ι (hn.monotone.functor ⋙ F).obj i ≫ p' ≫ E = Sigma.ι F.obj (n i) ≫ p
+  · change Sigma.ι (hn.monotone.functor ⋙ F).obj i ≫ p' ≫ E = Sigma.ι F.obj (n i) ≫ p
     rw [hp, ← Category.assoc, ι_comp_sigmaIncl]
 
 end CategoryTheory.Pretriangulated

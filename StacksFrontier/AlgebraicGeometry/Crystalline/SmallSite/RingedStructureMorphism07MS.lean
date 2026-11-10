@@ -88,7 +88,7 @@ theorem top_le_toBase_preimage {V : S.S.scheme.Opens} {A : CrystallineThickening
   have hx : A.obj.toX x ∈ sourceToBase S ⁻¹ᵁ V := h ⟨x, rfl⟩
   have hb := congrArg (fun f ↦ f x) A.obj.over_base
   change A.obj.toBase.hom (A.obj.thickening.immersion x) = sourceToBase S (A.obj.toX x) at hb
-  show A.obj.toBase.hom (A.obj.thickening.immersion x) ∈ V
+  change A.obj.toBase.hom (A.obj.thickening.immersion x) ∈ V
   rw [hb]
   exact hx
 
@@ -191,7 +191,7 @@ theorem structureProjection_map {V₁ V₂ : S.S.scheme.Opens} (i : op V₁ ⟶ 
       (structureProjection S V₁
         (StructuredArrow.mk (((Opens.map (sourceToBase S).base).map i.unop).op ≫ j.hom))).app
         F a := by
-  show ((forgetToOpens S).op.ranCounit.app F.obj).app j.right
+  change ((forgetToOpens S).op.ranCounit.app F.obj).app j.right
       (((forgetToOpens S).op.ran.obj F.obj).map j.hom
         (((forgetToOpens S).op.ran.obj F.obj).map
           (((Opens.map (sourceToBase S).base).map i.unop).op) a)) =

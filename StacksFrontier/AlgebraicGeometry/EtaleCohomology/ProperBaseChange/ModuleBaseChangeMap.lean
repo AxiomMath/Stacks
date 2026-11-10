@@ -138,9 +138,9 @@ variable {C : Type*} {D : Type*} {E : Type*} {F : Type*} [Category* C] [Category
 comparisons of left adjoints. -/
 theorem mateEquiv_symm_app_eq_leftAdjointUniq (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁)
     (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂) (c : C) :
-    ((mateEquiv adj₁ adj₂).symm β).natTrans.app c =
+    ((mateEquiv adj₁ adj₂).symm β).app c =
       (adj₂.leftAdjointUniq adj₂').hom.app (G.obj c) ≫
-        ((mateEquiv adj₁' adj₂').symm β).natTrans.app c ≫
+        ((mateEquiv adj₁' adj₂').symm β).app c ≫
           H.map ((adj₁'.leftAdjointUniq adj₁).hom.app c) := by
   refine (adj₂.homEquiv _ _).injective ?_
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
@@ -149,7 +149,7 @@ theorem mateEquiv_symm_app_eq_leftAdjointUniq (adj₁ : L₁ ⊣ R₁) (adj₁' 
     ← Category.assoc]
   refine Eq.trans ?_ (congrArg (· ≫ R₂.map (H.map ((adj₁'.leftAdjointUniq adj₁).hom.app c)))
     (unit_mateEquiv_symm adj₁' adj₂' β c))
-  have hn := β.natTrans.naturality ((adj₁'.leftAdjointUniq adj₁).hom.app c)
+  have hn := β.naturality ((adj₁'.leftAdjointUniq adj₁).hom.app c)
   dsimp at hn ⊢
   rw [Category.assoc, ← hn, ← Category.assoc, ← G.map_comp,
     Adjunction.unit_leftAdjointUniq_hom_app]
@@ -158,8 +158,8 @@ theorem mateEquiv_symm_app_eq_leftAdjointUniq (adj₁ : L₁ ⊣ R₁) (adj₁' 
 another. -/
 theorem isIso_mateEquiv_symm_of_leftAdjointUniq_general (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁)
     (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂)
-    [IsIso ((mateEquiv adj₁' adj₂').symm β).natTrans] :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    [IsIso ((mateEquiv adj₁' adj₂').symm β)] :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   rw [mateEquiv_symm_app_eq_leftAdjointUniq adj₁ adj₁' adj₂ adj₂' β c]
@@ -293,7 +293,7 @@ def etaleModuleDirectImageForget :
 `Λ`-modules is the identity. -/
 @[simp]
 theorem etaleModuleDirectImageForget_app (c : EtaleModules.{u, r} Λ X) :
-    (etaleModuleDirectImageForget.{u, r} Λ f).natTrans.app c = 𝟙 _ :=
+    (etaleModuleDirectImageForget.{u, r} Λ f).app c = 𝟙 _ :=
   rfl
 
 /-- The image under any functor `G` of a component of
@@ -304,8 +304,8 @@ theorem map_etaleModuleDirectImageForget_app_comp {D : Type*} [Category* D]
     (y : G.obj ((etaleAbelianDirectImage.{u, r} f).obj
       ((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ X).obj c)) ⟶
       T) :
-    G.map ((etaleModuleDirectImageForget.{u, r} Λ f).natTrans.app c) ≫ y = y := by
-  show G.map (𝟙 _) ≫ y = y
+    G.map ((etaleModuleDirectImageForget.{u, r} Λ f).app c) ≫ y = y := by
+  change G.map (𝟙 _) ≫ y = y
   rw [G.map_id, Category.id_comp]
 
 /-- The identity square of `Stacks.EtaleCohomology.etaleModuleDirectImageForget`, read in the
@@ -344,12 +344,12 @@ def etaleModuleInverseImageForget :
 
 /-- **Forgetting the module structure commutes with inverse image.** -/
 instance isIso_etaleModuleInverseImageForget :
-    IsIso (etaleModuleInverseImageForget.{u, r} Λ f).natTrans := by
-  haveI : IsIso ((mateEquiv
+    IsIso (etaleModuleInverseImageForget.{u, r} Λ f) := by
+  have : IsIso ((mateEquiv
       (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (smallEtaleBaseChange f)
         (ModuleCat.{max (u + 1) r} Λ) Y.smallEtaleTopology X.smallEtaleTopology)
       (etaleAbelianInverseImageDirectImageAdj.{u, r} f)).symm
-        (etaleModuleDirectImageForget Λ f)).natTrans :=
+        (etaleModuleDirectImageForget Λ f)) :=
     isIso_coefficientPullbackTwoSquare (smallEtaleBaseChange f) Y.smallEtaleTopology
       X.smallEtaleTopology (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})
   exact Stacks.CategoryTheory.isIso_mateEquiv_symm_of_leftAdjointUniq_general
@@ -387,7 +387,7 @@ def etaleModuleDerivedInverseImageForgetIso :
       etaleModuleForgetDerived.{u, r} Λ Y ⋙ etaleAbelianDerivedInverseImage.{u, r} f :=
   Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     (Functor.mapDerivedCategoryCompIsoOfCompIso (asIso
-      (etaleModuleInverseImageForget.{u, r} Λ f).natTrans)).symm
+      (etaleModuleInverseImageForget.{u, r} Λ f))).symm
 
 variable {U : Scheme.{u}} (j : U ⟶ X) [Etale j]
 
@@ -398,7 +398,7 @@ def etaleModuleExtensionByZeroMapDerivedCategoryForgetIso :
       etaleModuleForgetDerived.{u, r} Λ U ⋙ (extensionByZero.{u, r} j).mapDerivedCategory :=
   Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     (Functor.mapDerivedCategoryCompIsoOfCompIso
-      (asIso (etaleModuleExtensionByZeroForget.{u, r} Λ j).natTrans)).symm
+      (asIso (etaleModuleExtensionByZeroForget.{u, r} Λ j))).symm
 
 end Derived
 
@@ -449,20 +449,20 @@ def etaleModuleBaseChangeGeneral :
     etaleModuleDirectImage.{u, r} Λ f ⋙ etaleModuleInverseImage.{u, r} Λ g ⟶
       etaleModuleInverseImage.{u, r} Λ g' ⋙ etaleModuleDirectImage.{u, r} Λ f' :=
   ((mateEquiv (etaleModuleInverseImageAdj.{u, r} Λ g') (etaleModuleInverseImageAdj.{u, r} Λ g)).symm
-    (smallEtaleDirectImageSquare f g g' f' h (ModuleCat.{max (u + 1) r} Λ))).natTrans
+    (smallEtaleDirectImageSquare f g g' f' h (ModuleCat.{max (u + 1) r} Λ)))
 
 /-- **The base change map commutes with forgetting the module structure**: after forgetting, it
 is the base change map `Stacks.EtaleCohomology.etaleAbelianBaseChange` of the underlying abelian
 sheaves, up to the comparisons of the inverse images. -/
 theorem etaleModuleBaseChange_forget (c : EtaleModules.{u, r} Λ X) :
-    (etaleModuleInverseImageForget.{u, r} Λ g).natTrans.app
+    (etaleModuleInverseImageForget.{u, r} Λ g).app
       ((etaleModuleDirectImage.{u, r} Λ f).obj c) ≫
         (_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ Y').map
           ((etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' h).app c) =
       (etaleAbelianBaseChange.{u, r} f g g' f' h).app
         ((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ X).obj c) ≫
         (etaleAbelianDirectImage.{u, r} f').map
-          ((etaleModuleInverseImageForget.{u, r} Λ g').natTrans.app c) := by
+          ((etaleModuleInverseImageForget.{u, r} Λ g').app c) := by
   rw [etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, r} f g g' f' h (g' ≫ f)
     rfl h]
   have key := Stacks.CategoryTheory.mateEquiv_symm_hComp_eq_app
@@ -470,17 +470,16 @@ theorem etaleModuleBaseChange_forget (c : EtaleModules.{u, r} Λ X) :
     (etaleAbelianInverseImageDirectImageAdj.{u, r} g')
     (etaleAbelianInverseImageDirectImageAdj.{u, r} g)
     (etaleModuleInverseImageForget.{u, r} Λ g') (etaleModuleInverseImageForget.{u, r} Λ g)
-    (etaleModuleDirectImageForget.{u, r} Λ f).natTrans
+    (etaleModuleDirectImageForget.{u, r} Λ f)
     (etaleModuleDirectImageForgetInv.{u, r} Λ f')
     (smallEtaleDirectImageSquare f g g' f' h (ModuleCat.{max (u + 1) r} Λ))
     (smallEtaleDirectImageSquare f g g' f' h AddCommGrpCat.{max (u + 1) r}) (by
       rw [etaleModuleInverseImageForget, etaleModuleInverseImageForget, Equiv.apply_symm_apply,
         Equiv.apply_symm_apply]
-      refine TwoSquare.ext _ _ fun d => ?_
+      refine NatTrans.ext (funext fun d => ?_)
       rw [ts_whiskerLeft_app, ts_whiskerRight_app, ts_vComp_app, ts_vComp_app]
-      simp only [etaleModuleDirectImageForget_app, etaleModuleDirectImageForgetInv_app,
-        NatTrans.id_app, CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
-      show _ = (_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ Y).map
+      simp only [etaleModuleDirectImageForget_app, etaleModuleDirectImageForgetInv_app]
+      change _ = (_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ Y).map
         ((smallEtalePushforwardComp' g' f (g' ≫ f) rfl _).hom.app d ≫
           (smallEtalePushforwardComp' f' g (g' ≫ f) h _).inv.app _)
       rw [Functor.map_comp, sheafCompose_map_smallEtalePushforwardComp'_hom,
@@ -571,7 +570,7 @@ theorem etaleModuleDerivedDirectImageForget_unit_square {X₁ Y₁ : Scheme.{u}}
   have := NatTrans.congr_app (etaleModuleDerivedDirectImageForgetIso_hom_fac.{u, r} Λ f₁) M
   simp only [etaleModuleDerivedDirectImageForgetUnit, forgetEtaleAbelianDerivedDirectImageUnit,
     NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
-    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,
+    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     Category.assoc] at this
   simp only [Category.assoc]
   exact this
@@ -641,9 +640,8 @@ theorem homotopyComparison_app_quotient
   have e₂ : (Functor.mapHomologicalComplexCompIso
       (Iso.refl (etaleAbelianInverseImage.{u, r} g' ⋙ etaleAbelianDirectImage.{u, r} f'))
       (ComplexShape.up ℤ)).inv.app K = 𝟙 _ := by ext; simp
-  simp only [Functor.mapHomotopyCategoryCompIso, NatTrans.comp_app, Quotient.natIsoLift_hom,
-    Quotient.natIsoLift_inv, NatTrans.mapHomotopyCategory_app]
-  show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+  simp only [Functor.mapHomotopyCategoryCompIso, NatTrans.comp_app]
+  change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       ((Functor.mapHomologicalComplexCompIso
         (Iso.refl (etaleAbelianDirectImage.{u, r} f ⋙ etaleAbelianInverseImage.{u, r} g))
         (ComplexShape.up ℤ)).hom.app K) ≫ _ ≫ (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
@@ -873,7 +871,7 @@ theorem etaleModuleForgetDerived_map_unit {X₁ Y₁ : Scheme.{u}} (f₁ : X₁ 
       Λ Y₁).mapDerivedCategoryFactors.inv.app
       (((etaleModuleDirectImage.{u, r} Λ f₁).mapHomologicalComplex (ComplexShape.up ℤ)).obj M))]
   refine h2.trans ?_
-  simp only [Category.assoc, Iso.inv_hom_id_app, Iso.inv_hom_id_app_assoc, Category.comp_id]
+  simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
   have e : ((etaleAbelianDerivedDirectImageUnit.{u, r} f₁).app
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
           (((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ X₁).mapHomologicalComplex
@@ -954,8 +952,8 @@ theorem isIso_etaleModuleDerivedBaseChange_app_Q_of_isIso
   refine (isIso_comp_left_iff _ _).mpr ?_
   exact isIso_forget_comparison_of_fac.{u, r} Λ f g g' f'
     (etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' h) (etaleAbelianBaseChange.{u, r} f g g' f' h)
-    (etaleModuleInverseImageForget.{u, r} Λ g).natTrans
-    (etaleModuleInverseImageForget.{u, r} Λ g').natTrans
+    (etaleModuleInverseImageForget.{u, r} Λ g)
+    (etaleModuleInverseImageForget.{u, r} Λ g')
     (etaleModuleBaseChange_forget.{u, r} Λ f g g' f' h) I _ _
     (by rw [etaleAbelianHomotopyBaseChange])
     (etaleAbelianDerivedBaseChange_fac.{u, r} f g g' f' h _) hI

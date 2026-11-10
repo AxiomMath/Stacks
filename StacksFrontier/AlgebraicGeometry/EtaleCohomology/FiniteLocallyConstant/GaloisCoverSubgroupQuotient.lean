@@ -97,7 +97,7 @@ private theorem exists_equiv_orbitRel :
       (G.map (subgroupQuotientι X H) a) = colimit.ι (J ⋙ G) (SingleObj.star H) a :=
     ConcreteCategory.congr_hom
       (IsColimit.comp_coconePointUniqueUpToIso_hom hc _ (SingleObj.star H)) a
-  show Limits.SingleObj.Types.colimitEquivQuotient (J ⋙ G)
+  change Limits.SingleObj.Types.colimitEquivQuotient (J ⋙ G)
     ((hc.coconePointUniqueUpToIso (colimit.isColimit (J ⋙ G))).hom
       (G.map (subgroupQuotientι X H) a)) = _
   rw [h1]
@@ -134,7 +134,7 @@ theorem natCard_fiber_subgroupQuotient [IsGalois X] :
   let sec := Function.surjInv (surjective_map_subgroupQuotientι X H F)
   have hsec : ∀ t, q (sec t) = t := Function.surjInv_eq (surjective_map_subgroupQuotientι X H F)
   have hq : ∀ (h : H) (y : F.obj X), q (F.map (h : Aut X).asIso.hom y) = q y := fun h y ↦ by
-    show (F.map (h : Aut X).asIso.hom ≫ F.map (subgroupQuotientι X H)) y = _
+    change (F.map (h : Aut X).asIso.hom ≫ F.map (subgroupQuotientι X H)) y = _
     rw [← F.map_comp, hom_comp_subgroupQuotientι]
   let φ : F.obj (subgroupQuotient X H) × H → F.obj X :=
     fun p ↦ F.map (p.2 : Aut X).asIso.hom (sec p.1)
@@ -208,7 +208,7 @@ theorem exists_mem_agreeLocus_subgroupQuotientι {W : Scheme.{u}} (a b : W ⟶ A
       rw [Category.assoc, ← hab']; rfl⟩ : finiteEtaleFiber x' A.obj)
   have hq : F.map (subgroupQuotientι A.obj H) ea = F.map (subgroupQuotientι A.obj H) eb := by
     apply Subtype.ext
-    show ((W.algClosedPoint w).hom ≫ a) ≫ (subgroupQuotientι A.obj H).left =
+    change ((W.algClosedPoint w).hom ≫ a) ≫ (subgroupQuotientι A.obj H).left =
       ((W.algClosedPoint w).hom ≫ b) ≫ (subgroupQuotientι A.obj H).left
     rw [Category.assoc, Category.assoc]
     exact congrArg ((W.algClosedPoint w).hom ≫ ·) hab

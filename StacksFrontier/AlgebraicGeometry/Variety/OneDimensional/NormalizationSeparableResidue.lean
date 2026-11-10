@@ -122,7 +122,7 @@ private theorem ringKrullDim_stalk_le_of_isIntegralHom
   let q := hV.primeIdealOf ⟨y, hyV⟩
   let φ := (g.appLE U V (by rfl)).hom
   have hqp : q.asIdeal.comap φ = p.asIdeal := by
-    show (PrimeSpectrum.comap φ q).asIdeal = p.asIdeal
+    change (PrimeSpectrum.comap φ q).asIdeal = p.asIdeal
     simpa [p, q, φ, V] using
       congrArg PrimeSpectrum.asIdeal
         (IsAffineOpen.comap_primeIdealOf_appLE U hU V hV (by rfl) hyV)
@@ -134,8 +134,8 @@ private theorem ringKrullDim_stalk_le_of_isIntegralHom
   have hstrict : StrictMono (PrimeSpectrum.comap (algebraMap Γ(X, U) Γ(Y, V))) := by
     intro a b hab
     have : a.asIdeal.IsPrime := a.2
-    show a.asIdeal.comap φ < b.asIdeal.comap φ
-    exact Ideal.IsIntegral.comap_lt_comap (R := Γ(X, U)) (A := Γ(Y, V)) hab
+    change a.asIdeal.comap φ < b.asIdeal.comap φ
+    exact Ideal.IsIntegral.under_lt_under (R := Γ(X, U)) (A := Γ(Y, V)) hab
   have hheight := Order.height_le_height_apply_of_strictMono
     (PrimeSpectrum.comap (algebraMap Γ(X, U) Γ(Y, V))) hstrict q
   have hheight' : q.asIdeal.height ≤ p.asIdeal.height := by
@@ -213,7 +213,7 @@ private theorem normalizationStalk_isGeometricallyRegular
   have hAlgebra : hExplicit = hCanonical := by
     apply Algebra.algebra_ext
     intro a
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ (ν ≫ f).appTop ≫
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ (ν ≫ f).appTop ≫
       Xnorm.Γevaluation x').hom) a =
       IsLocalRing.residue B (algebraMap k B a)
     let T := Spec (.of k)
@@ -227,11 +227,11 @@ private theorem normalizationStalk_isGeometricallyRegular
       ext b
       rfl
     rw [← Scheme.Γevaluation_naturality (ν ≫ f) x']
-    show (Scheme.Hom.residueFieldMap (ν ≫ f) x').hom
+    change (Scheme.Hom.residueFieldMap (ν ≫ f) x').hom
       ((((Scheme.ΓSpecIso (.of k)).inv ≫
         T.Γevaluation ((ν ≫ f).base x')).hom) a) = _
     rw [hbase]
-    show (Scheme.Hom.residueFieldMap (ν ≫ f) x').hom
+    change (Scheme.Hom.residueFieldMap (ν ≫ f) x').hom
         (IsLocalRing.residue (T.presheaf.stalk ((ν ≫ f).base x'))
           (algebraMap k (T.presheaf.stalk ((ν ≫ f).base x')) a)) =
       IsLocalRing.residue B
@@ -355,7 +355,7 @@ private theorem normalizationGeneralizationStalk_isGeometricallyReduced
       (algebraMap k ((Spec (.of k)).presheaf.stalk (g.base z)))).toAlgebra)
   have hpr : r.asIdeal ≤ p.asIdeal := by
     apply (PrimeSpectrum.le_iff_specializes _ _).mpr
-    show e zU ⤳ e xU
+    change e zU ⤳ e xU
     exact ((subtype_specializes_iff zU xU).mpr hz).map e.continuous
   let : IsLocalization.AtPrime S p.asIdeal := hU.isLocalization_stalk xU
   let : IsLocalization.AtPrime T r.asIdeal := hU.isLocalization_stalk zU
@@ -421,7 +421,7 @@ private theorem isGeometricallyReducedAt_of_normalization_residueField_isSeparab
   let e : U ≃ₜ PrimeSpectrum R := Scheme.homeoOfIso hU.isoSpec
   let xU : U := e.symm yr
   have hprime_xU : (hU.primeIdealOf xU).asIdeal = r := by
-    show (e xU).asIdeal = r
+    change (e xU).asIdeal = r
     simp [xU, yr]
   have hrle : r ≤ p := by
     have hd := (IsLocalization.isPrime_iff_isPrime_disjoint p.primeCompl S q).mp hq
@@ -430,7 +430,7 @@ private theorem isGeometricallyReducedAt_of_normalization_residueField_isSeparab
     exact (Set.disjoint_left.mp hd.2) hap ha
   have hxU_spec : (xU : X) ⤳ x := by
     have hrle : yr ≤ hU.primeIdealOf ⟨x, hxU⟩ := by
-      show r ≤ p
+      change r ≤ p
       exact hrle
     have hs : yr ⤳ hU.primeIdealOf ⟨x, hxU⟩ :=
       (PrimeSpectrum.le_iff_specializes _ _).mp hrle
@@ -511,7 +511,7 @@ private theorem isGeometricallyReducedAt_of_normalization_residueField_isSeparab
   have hscalar : algebraMap k (Xnorm.presheaf.stalk y) =
       ((ν.stalkMap y).hom.comp (algebraMap k T)) := by
     ext a
-    show ((ν ≫ f).stalkMap y).hom
+    change ((ν ≫ f).stalkMap y).hom
         (algebraMap k ((Spec (.of k)).presheaf.stalk ((ν ≫ f).base y)) a) =
       (ν.stalkMap y).hom ((f.stalkMap η).hom
         (algebraMap k ((Spec (.of k)).presheaf.stalk (f.base η)) a))
@@ -555,7 +555,7 @@ private theorem isGeometricallyRegularAt_normalization_of_residueField_isSeparab
     ∀ x' : Xnorm, ν x' = x → IsGeometricallyRegularAt (ν ≫ f) x' := by
   let Xnorm := normalizationSchemeOverField k f
   let ν := normalizationOverField k f
-  show ∀ x' : Xnorm, ν x' = x → IsGeometricallyRegularAt (ν ≫ f) x'
+  change ∀ x' : Xnorm, ν x' = x → IsGeometricallyRegularAt (ν ≫ f) x'
   intro x' hx
   let : IsFinite ν := isFinite_normalizationOverField k f
   have : LocallyOfFiniteType (ν ≫ f) := inferInstance

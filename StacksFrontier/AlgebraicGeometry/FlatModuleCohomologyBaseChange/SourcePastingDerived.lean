@@ -180,7 +180,7 @@ section Target
 
 variable {C₀ : Type u₃} {C : Type u₄} {D : Type u₅}
   [Category.{v₃} C₀] [Category.{v₄} C] [Category.{v₅} D]
-  [Abelian C₀] [Abelian C] [Abelian D] [EnoughInjectives C₀] [EnoughInjectives C]
+  [Abelian C₀] [Abelian C] [Abelian D]
 
 /-- An isomorphism of additive functors is, degreewise, `mapPlus` of its `hom`. -/
 theorem mapHomotopyCategoryPlusNatIso_hom_app {A : Type u₀} [Category.{v₀} A] [Abelian A]

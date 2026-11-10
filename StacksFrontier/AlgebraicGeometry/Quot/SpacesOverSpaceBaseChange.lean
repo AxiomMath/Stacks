@@ -128,7 +128,7 @@ theorem comp_base {T : AlgebraicSpaces B S hS} {a'' a' a : (pointsCategory B S h
 theorem yoneda_map_comp_pointMap_hom {T : AlgebraicSpaces B S hS}
     {a' a : (pointsCategory B S hS T).obj} (u : a' ⟶ a) :
     yoneda.map u.base ≫ (pointMap a).hom = (pointMap a').hom := by
-  show yoneda.map u.base ≫ yonedaEquiv.symm a.fiber.as = yonedaEquiv.symm a'.fiber.as
+  change yoneda.map u.base ≫ yonedaEquiv.symm a.fiber.as = yonedaEquiv.symm a'.fiber.as
   rw [fiber_as_eq u]
   exact (yonedaEquiv_symm_map u.base.op a.fiber.as).symm
 

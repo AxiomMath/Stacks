@@ -74,8 +74,8 @@ This is the base-change formula for the geometric stalk of a pullback (Stacks 05
 `AlgebraicGeometry.Space.geometricModuleStalkPullbackIso`) read through the definition of
 condition (2) of Stacks 05VU, so it needs nothing of the square beyond that formula. -/
 theorem isFlatOverAtGeometricPoint_modulePullback_iff_flat_tensor
-    {X Y X' Y' : AlgebraicSpaces B S hS} {g' : X' ⟶ X} {f' : X' ⟶ Y'} {f : X ⟶ Y} {g : Y' ⟶ Y}
-    (hpb : IsPullback g' f' f g) (F : Modules.{u, u} B S hS X.1 X.2)
+    {X Y X' Y' : AlgebraicSpaces B S hS} {g' : X' ⟶ X} {f' : X' ⟶ Y'} {f : X ⟶ Y}
+    (F : Modules.{u, u} B S hS X.1 X.2)
     (x' : GeometricPoint B S hS X'.1) :
     letI : Algebra
         ↥(etaleLocalRing B S hS Y.1 (geometricPointMap f.hom (geometricPointMap g'.hom x')))

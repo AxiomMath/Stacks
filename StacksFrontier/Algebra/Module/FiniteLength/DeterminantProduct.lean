@@ -98,10 +98,10 @@ theorem det_piMap {ι : Type v} [Fintype ι] (M : ι → Type w) [∀ i, AddComm
     have hcomm : E.toLinearMap.comp (LinearMap.piMap fun a ↦ φ (e a)) =
         (LinearMap.piMap φ).comp E.toLinearMap := by
       refine LinearMap.ext fun x ↦ E.symm.injective ?_
-      show E.symm (E _) = E.symm _
+      change E.symm (E _) = E.symm _
       rw [LinearEquiv.symm_apply_apply]
       funext a
-      show φ (e a) (x a) = φ (e a) ((Equiv.piCongrLeft M e) x (e a))
+      change φ (e a) (x a) = φ (e a) ((Equiv.piCongrLeft M e) x (e a))
       rw [Equiv.piCongrLeft_apply_apply]
     have h' : IsFiniteLength R (∀ a, M (e a)) := isFiniteLength_pi _ fun a ↦ hM (e a)
     rw [← det_eq_of_linearEquiv h' h _ _ E hcomm, IH (fun a ↦ M (e a)) (fun a ↦ hM (e a)) h']
@@ -158,7 +158,7 @@ theorem det_lsmul_eq_prod_localization {T : Type v} [CommRing T] [Algebra R T]
       (LinearMap.piMap fun q ↦ (LinearMap.lsmul (L q) (L q)
         (algebraMap T (L q) x)).restrictScalars R).comp E.toLinearMap := by
     refine LinearMap.ext fun z ↦ funext fun q ↦ ?_
-    show E (x * z) q = algebraMap T (L q) x * E z q
+    change E (x * z) q = algebraMap T (L q) x * E z q
     simp only [E, AlgEquiv.restrictScalars_apply, map_mul, Pi.mul_apply,
       MaximalSpectrum.toPiLocalizationEquiv_apply_apply]
     rfl

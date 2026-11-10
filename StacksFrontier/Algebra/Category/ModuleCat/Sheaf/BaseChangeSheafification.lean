@@ -133,7 +133,7 @@ theorem toSheaf_map_inv_comp_eq_baseChangeTranspose :
     ((PresheafOfModules.toPresheaf R₀).obj
       ((Stacks.NoncommChangeOfRings.Presheaf.extendScalars.{u} ν).obj M))
     ((_root_.SheafOfModules.toSheaf R').obj Z')).injective ?_
-  show CategoryTheory.toSheafify J ((PresheafOfModules.toPresheaf R₀).obj
+  change CategoryTheory.toSheafify J ((PresheafOfModules.toPresheaf R₀).obj
         ((Stacks.NoncommChangeOfRings.Presheaf.extendScalars.{u} ν).obj M)) ≫
       (((_root_.SheafOfModules.toSheaf R).map κ.inv).hom ≫ m.hom) =
     CategoryTheory.toSheafify J ((PresheafOfModules.toPresheaf R₀).obj

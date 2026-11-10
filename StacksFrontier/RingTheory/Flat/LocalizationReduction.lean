@@ -157,7 +157,7 @@ private theorem termwise_isZero_homology_of_flat_rep {R : Type u} [CommRing R]
     exact ⟨n, fun j hj => (scalarLift.{u, v} (R := R)).map_isZero (hn j hj)⟩
   have hf (C : CochainComplex (ModuleCat.{max u v} R) ℤ) (hC : ∀ j : ℤ, Module.Flat R (C.X j))
       (j : ℤ) : Module.Flat (ULift.{v} R) (((liftCx.{u, v} (R := R)).obj C).X j) := by
-    show Module.Flat (ULift.{v} R) (C.X j)
+    change Module.Flat (ULift.{v} R) (C.X j)
     rw [Module.Flat.ulift_left_iff]
     exact hC j
   have e' : DerivedCategory.Q.obj ((liftCx.{u, v} (R := R)).obj K) ≅
@@ -227,12 +227,10 @@ private lemma baseChangeTensorEquiv_d (φ : R →+* A)
       (tensorCx ((extC φ).obj P) ((ModuleCat.extendScalars φ).obj N)).d n m
         (baseChangeTensorEquiv φ P N n x) := by
   let := φ.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add] at *; rw [hx, hy]
   | tmul a y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add x y hx hy => simp only [TensorProduct.tmul_add, map_add] at *; rw [hx, hy]
     | tmul p q => rfl
 
@@ -258,8 +256,7 @@ private lemma restrictTensorEquiv_d (φ : R →+* A)
       (tensorCx ((extC φ).obj P) (ModuleCat.of A N)).d n m
         (restrictTensorEquiv φ P N hN n x) := by
   let := φ.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add] at *; rw [hx, hy]
   | tmul p q => rfl
 
@@ -305,8 +302,7 @@ private noncomputable def tensorMap (P : CochainComplex (ModuleCat.{max v u} R) 
   f n := ModuleCat.ofHom (g.hom.lTensor (P.X n))
   comm' i j _ := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add] at *; rw [hx, hy]
     | tmul p q => rfl
 
@@ -345,14 +341,14 @@ private lemma tensorMap_shortExact (P : CochainComplex (ModuleCat.{max v u} R) �
 
 private lemma homologyMap_smul_id (K : CochainComplex (ModuleCat.{max v u} R) ℤ) (r : R) (i : ℤ) :
     HomologicalComplex.homologyMap (r • 𝟙 K) i = r • 𝟙 _ := by
-  show ShortComplex.homologyMap
+  change ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor (ModuleCat.{max v u} R) (ComplexShape.up ℤ) i).map
       (r • 𝟙 K)) = _
   rw [show (HomologicalComplex.shortComplexFunctor (ModuleCat.{max v u} R)
     (ComplexShape.up ℤ) i).map (r • 𝟙 K) = r •
       (HomologicalComplex.shortComplexFunctor (ModuleCat.{max v u} R)
         (ComplexShape.up ℤ) i).map (𝟙 K) by rfl, ShortComplex.homologyMap_smul]
-  show r • HomologicalComplex.homologyMap (𝟙 K) i = _
+  change r • HomologicalComplex.homologyMap (𝟙 K) i = _
   rw [HomologicalComplex.homologyMap_id]
 
 /-- **Cone step.** If the negative homology of `P ⊗ N'` vanishes for every module `N'`
@@ -472,7 +468,7 @@ private lemma hasTorAmplitudeIn_zero (f : R)
         intro z hz
         apply ih
         apply hinj
-        show f • f ^ n • z = f • 0
+        change f • f ^ n • z = f • 0
         rw [smul_zero, ← mul_smul, ← pow_succ']
         exact hz
     obtain ⟨n, hn⟩ := exists_pow_smul_eq_zero_homology f P hloc N i hi (x - y)

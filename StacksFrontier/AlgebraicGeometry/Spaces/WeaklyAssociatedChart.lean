@@ -67,7 +67,7 @@ theorem ModuleCat.extendScalarsRingEquivAddEquiv_apply {R T : Type*} [CommRing R
     (e : R ≃+* T) (M : ModuleCat R) (x : M) :
     ModuleCat.extendScalarsRingEquivAddEquiv e M x = (1 : T) ⊗ₜ[R, e.toRingHom] x := by
   let : Algebra R T := e.toRingHom.toAlgebra
-  show (TensorProduct.congr (Module.compHom.toLinearEquiv e)
+  change (TensorProduct.congr (Module.compHom.toLinearEquiv e)
     (LinearEquiv.refl R M)) ((TensorProduct.lid R M).symm x) = _
   simp
   rfl
@@ -80,7 +80,7 @@ theorem ModuleCat.extendScalarsRingEquivAddEquiv_smul {R T : Type*} [CommRing R]
   let : Algebra R T := e.toRingHom.toAlgebra
   rw [ModuleCat.extendScalarsRingEquivAddEquiv_apply,
     ModuleCat.extendScalarsRingEquivAddEquiv_apply]
-  show (1 : T) ⊗ₜ[R] (r • x) = e r • ((1 : T) ⊗ₜ[R] x)
+  change (1 : T) ⊗ₜ[R] (r • x) = e r • ((1 : T) ⊗ₜ[R] x)
   rw [TensorProduct.smul_tmul', TensorProduct.tmul_smul (R := R) r (1 : T) x]
   congr 1
 

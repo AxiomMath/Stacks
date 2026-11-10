@@ -242,7 +242,7 @@ submodule of the localization `M^i_{fg}` in every degree `i`. -/
 theorem etaFetaG_eq_etaFG (hdd : ∀ i, (d (i + 1)).comp (d i) = 0) :
     etaFetaG f g M d = etaFG f g M d := by
   funext i
-  show zsmulSub (powersFG f g) (fUnit f g) i
+  change zsmulSub (powersFG f g) (fUnit f g) i
         (zsmulSub (powersFG f g) (gUnit f g) i (baseFamily f g M i) ⊓
           (zsmulSub (powersFG f g) (gUnit f g) (i + 1) (baseFamily f g M (i + 1))).comap
             (dLoc f g M d i)) ⊓

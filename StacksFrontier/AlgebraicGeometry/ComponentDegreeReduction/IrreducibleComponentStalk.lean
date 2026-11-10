@@ -108,7 +108,7 @@ theorem exists_bijective_stalkMap_irreducibleComponentι (X : Scheme.{u}) [IsNoe
   let g : (X.irreducibleComponentOpen Z).toScheme ⟶ X.irreducibleComponent Z hZ :=
     (X.irreducibleComponentOpen Z).ι.toImage ≫ Scheme.IdealSheafData.inclusion hle
   have hg : g ≫ X.irreducibleComponentι Z hZ = (X.irreducibleComponentOpen Z).ι := by
-    show ((X.irreducibleComponentOpen Z).ι.toImage ≫ Scheme.IdealSheafData.inclusion hle) ≫
+    change ((X.irreducibleComponentOpen Z).ι.toImage ≫ Scheme.IdealSheafData.inclusion hle) ≫
       (X.irreducibleComponentIdeal Z hZ).subschemeι = _
     rw [Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
     exact Scheme.Hom.toImage_imageι _
@@ -179,7 +179,7 @@ theorem additive_stalkAddCommGroupFunctor {T : TopCat.{u}}
     (O : Sheaf (Opens.grothendieckTopology T) RingCat.{u}) (t : T) :
     (SheafOfModules.stalkAddCommGroupFunctor O t).Additive := by
   refine ⟨fun {M N} f g => ?_⟩
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} t).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} t).map
       ((PresheafOfModules.toPresheaf O.obj).map
         ((_root_.SheafOfModules.forget O).map (f + g))) =
     (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} t).map

@@ -60,7 +60,7 @@ theorem extDeltaFunctorMapComp_comp_adjunctionExtDeltaHom :
   refine NatTrans.ext (funext fun N => ?_)
   ext c
   obtain ⟨f, rfl⟩ := (Ext.mk₀_bijective (X := Φ.obj (𝟙_ C)) (Y := N)).2 c
-  show adjunctionExtMap Φ Ψ adj N
+  change adjunctionExtMap Φ Ψ adj N
       ((Ext.mk₀ (adj.unit.app (𝟙_ C))).comp ((Ext.mk₀ f).mapExactFunctor Ψ) (zero_add 0)) =
     (Ext.mk₀ (Functor.LaxMonoidal.ε Φ)).comp (Ext.mk₀ f) (zero_add 0)
   simp only [adjunctionExtMap, mapUnit, Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀]

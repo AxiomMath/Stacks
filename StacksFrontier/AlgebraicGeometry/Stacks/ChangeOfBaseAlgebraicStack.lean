@@ -217,7 +217,7 @@ theorem isAlgebraicStack_of_changeBase
     { toFunctor := Over.iteratedSliceForward (Over.mk h₀) ⋙
         (Over.iteratedSliceBackward U' ⋙ f'.toFunctor)
       w := by
-        show Over.iteratedSliceForward (Over.mk h₀) ⋙
+        change Over.iteratedSliceForward (Over.mk h₀) ⋙
             (Over.iteratedSliceBackward U' ⋙ f'.toFunctor ⋙ 𝒳.val.p) =
           Over.forget (Over.mk h₀)
         rw [hF]

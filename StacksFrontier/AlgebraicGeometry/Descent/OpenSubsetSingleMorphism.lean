@@ -45,7 +45,7 @@ theorem preimage_image_eq_of_preimage_fst_eq_preimage_snd {W' : Set T'}
   obtain ⟨z, hz₁, hz₂⟩ :=
     Scheme.Pullback.exists_preimage_pullback (f := f) (g := f) y x hfy
   have hzmem : z ∈ (pullback.fst f f).base ⁻¹' W' := by
-    show (pullback.fst f f).base z ∈ W'
+    change (pullback.fst f f).base z ∈ W'
     rw [hz₁]
     exact hy
   rw [hcompat] at hzmem

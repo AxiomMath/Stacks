@@ -224,7 +224,7 @@ theorem twistMul_heq_assoc (i j k : ℤ) (U : (Opens (ProjectiveSpectrum.top �
     HEq ((twistMul 𝒜 (i + j) k).app U ((twistMul 𝒜 i j).app U x y) z)
       ((twistMul 𝒜 i (j + k)).app U x ((twistMul 𝒜 j k).app U y z)) := by
   refine twist_heq 𝒜 (add_assoc i j k) fun p => ?_
-  show x.1 p * y.1 p * z.1 p = x.1 p * (y.1 p * z.1 p)
+  change x.1 p * y.1 p * z.1 p = x.1 p * (y.1 p * z.1 p)
   exact mul_assoc _ _ _
 
 /-- The unit section is a left identity for the product of twists. -/
@@ -232,7 +232,7 @@ theorem twistMul_heq_one_mul (i : ℤ) (U : (Opens (ProjectiveSpectrum.top 𝒜)
     (x : (twistingSheaf 𝒜 i).val.obj U) :
     HEq ((twistMul 𝒜 0 i).app U ((twistOne 𝒜).eval U) x) x := by
   refine twist_heq 𝒜 (zero_add i) fun p => ?_
-  show (1 : ModuleFiber (M := A) 𝒜 _) * x.1 p = x.1 p
+  change (1 : ModuleFiber (M := A) 𝒜 _) * x.1 p = x.1 p
   exact one_mul _
 
 /-- The unit section is a right identity for the product of twists. -/
@@ -240,7 +240,7 @@ theorem twistMul_heq_mul_one (i : ℤ) (U : (Opens (ProjectiveSpectrum.top 𝒜)
     (x : (twistingSheaf 𝒜 i).val.obj U) :
     HEq ((twistMul 𝒜 i 0).app U x ((twistOne 𝒜).eval U)) x := by
   refine twist_heq 𝒜 (add_zero i) fun p => ?_
-  show x.1 p * (1 : ModuleFiber (M := A) 𝒜 _) = x.1 p
+  change x.1 p * (1 : ModuleFiber (M := A) 𝒜 _) = x.1 p
   exact mul_one _
 
 /-- The graded algebra `⨁_{m ∈ ℤ} 𝒪_P(m)` of all integral twists on `P = Proj A`. -/

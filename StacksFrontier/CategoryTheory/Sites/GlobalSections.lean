@@ -81,7 +81,7 @@ lemma Γ_hom_ext {T : C} (hT : IsTerminal T) {K : Sheaf J (Type w) ⥤ Type w}
     NatTrans.mk (fun V => TypeCat.ofHom (fun _ => F.obj.map (hT.from V.unop).op τ))
       (fun V V' g => by
         ext x
-        show F.obj.map (hT.from V'.unop).op τ = F.obj.map g (F.obj.map (hT.from V.unop).op τ)
+        change F.obj.map (hT.from V'.unop).op τ = F.obj.map g (F.obj.map (hT.from V.unop).op τ)
         rw [show (hT.from V'.unop).op = (hT.from V.unop).op ≫ g from
           Quiver.Hom.unop_inj (hT.hom_ext _ _)]
         exact Functor.map_comp_apply F.obj _ _ τ)
@@ -94,7 +94,7 @@ lemma Γ_hom_ext {T : C} (hT : IsTerminal T) {K : Sheaf J (Type w) ⥤ Type w}
     have hpt : e.hom.app _ pt = PUnit.unit := Subsingleton.elim (α := PUnit.{w + 1}) _ _
     simp only [CategoryTheory.comp_apply, hpt] at hn
     refine hn.trans ?_
-    show F.obj.map (hT.from T).op τ = τ
+    change F.obj.map (hT.from T).op τ = τ
     rw [hT.hom_ext (hT.from T) (𝟙 T), op_id, Functor.map_id, CategoryTheory.id_apply]
   have hα := ConcreteCategory.congr_hom (α.naturality φ) pt
   have hβ := ConcreteCategory.congr_hom (β.naturality φ) pt

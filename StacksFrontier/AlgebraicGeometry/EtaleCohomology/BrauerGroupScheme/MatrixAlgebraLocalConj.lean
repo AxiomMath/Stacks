@@ -75,9 +75,9 @@ theorem matrixAlgebraSectionAlgEquiv_single {T : Scheme.{u}} {d : ℕ}
           (Equiv.ulift.{u, 0} (α := Fin d)).symm (Matrix.single a b (1 : Γ(T, V))))
       = sectionPointMatrix Ψ.hom V (ULift.up a, ULift.up b) := by
     rw [reindex_ulift_single]
-    show sectionMap Ψ.hom.hom V (Matrix.single (ULift.up a) (ULift.up b) (1 : Γ(T, V))) = _
+    change sectionMap Ψ.hom.hom V (Matrix.single (ULift.up a) (ULift.up b) (1 : Γ(T, V))) = _
     rw [sectionMap_eq_unitCombination, Stacks.Matrix.unitCombination_single]
-  show Matrix.reindex (Equiv.ulift.{u, 0} (α := Fin d))
+  change Matrix.reindex (Equiv.ulift.{u, 0} (α := Fin d))
       (Equiv.ulift.{u, 0} (α := Fin d))
       (sectionAlgEquiv Ψ V
         (Matrix.reindex (Equiv.ulift.{u, 0} (α := Fin d)).symm

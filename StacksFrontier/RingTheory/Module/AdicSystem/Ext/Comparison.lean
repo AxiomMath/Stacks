@@ -92,11 +92,11 @@ private theorem powerPart_self_eq_bot (E : AdicModuleSystem.{u, v} A I) (n : ℕ
     powerPart E n n = ⊥ := by
   apply le_antisymm _ bot_le
   intro x hx
-  show x = 0
+  change x = 0
   refine Submodule.smul_induction_on hx ?_ ?_
   · intro a ha z _
     change (E.module n).obj at z
-    show (Ideal.Quotient.mk (I ^ (n : ℕ))) a • z = 0
+    change (Ideal.Quotient.mk (I ^ (n : ℕ))) a • z = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, zero_smul]
   · intro x y hx hy
     rw [hx, hy, add_zero]
@@ -105,10 +105,10 @@ private theorem powerPart_le_torsionPart (E : AdicModuleSystem.{u, v} A I) (n : 
     (a b : ℕ) (h : (n : ℕ) ≤ a + b) :
     powerPart E n a ≤ torsionPart E n b := by
   intro x hx
-  show x ∈ Submodule.torsionBySet A (underlying E n) (↑(I ^ b) : Set A)
+  change x ∈ Submodule.torsionBySet A (underlying E n) (↑(I ^ b) : Set A)
   rw [Submodule.mem_torsionBySet_iff]
   intro ⟨t, ht⟩
-  show t • x = 0
+  change t • x = 0
   have hm : t • x ∈ powerPart E n (a + b) := by
     rw [powerPart_add_eq_smul]
     exact Submodule.smul_mem_smul ht hx
@@ -137,7 +137,7 @@ private theorem map_mem_torsion {X Y : Type*} [AddCommGroup X] [Module A X]
     f x ∈ Submodule.torsionBySet A Y (↑J : Set A) := by
   rw [Submodule.mem_torsionBySet_iff] at hx ⊢
   intro ⟨a, ha⟩
-  show a • f x = 0
+  change a • f x = 0
   rw [← map_smul, hx ⟨a, ha⟩, map_zero]
 
 private theorem exists_cross_map
@@ -173,7 +173,7 @@ private theorem exists_cross_map
         (r.map n ((Nat.le_add_left _ _).trans hn) (powerMap f r.delay y)) := by
     have hz : compositeRangeMap s r m (hn.trans hnm) z =
         ⟨k y, LinearMap.mem_range_self k y⟩ := Subtype.ext hy
-    show l (compositeRangeMap s r m (hn.trans hnm) z) = t y
+    change l (compositeRangeMap s r m (hn.trans hnm) z) = t y
     rw [hz, hl]
   refine ⟨g, hg, ?_⟩
   intro z hz
@@ -326,7 +326,7 @@ private theorem smul_mem_range_cross
       ⟨d • x.1, by rw [powerPart_add_eq_smul]; exact Submodule.smul_mem_smul hd x.2⟩
     have hxy : S ⟨x', powerPart_add_le_left F m s.delay r.delay x'.2⟩ =
         (torsionPart E m s.delay).mkQ (d • e • y').1 := by
-      show S (d • x) = _
+      change S (d • x) = _
       rw [map_smul, hx]
       simp only [Submodule.coe_smul_of_tower, map_smul]
     have heq := hg x' (d • e • y') hxy
@@ -387,7 +387,7 @@ private theorem cross_quotient_torsion
       (↑(I ^ ((k + k) + (k + (s.delay + r.delay)))) : Set A) := by
     intro x ⟨a, ha⟩
     apply Subtype.ext
-    show a • x.1 = 0
+    change a • x.1 = 0
     obtain ⟨z, hz⟩ := T.mkQ_surjective x.1
     have hx := LinearMap.mem_ker.mp x.2
     rw [← hz] at hx ⊢
@@ -517,11 +517,11 @@ public theorem exists_eventually_extOfAdicQuotients_comparison (I : Ideal A) (M 
   change homOfRepresentative s = e.inv at hs
   have hrs : homOfRepresentative (representativeComp r s) =
       homOfRepresentative (identityRepresentative E) := by
-    show (homOfRepresentative r : E ⟶ F) ≫ homOfRepresentative s = 𝟙 E
+    change (homOfRepresentative r : E ⟶ F) ≫ homOfRepresentative s = 𝟙 E
     rw [hr, hs, e.hom_inv_id]
   have hsr : homOfRepresentative (representativeComp s r) =
       homOfRepresentative (identityRepresentative F) := by
-    show (homOfRepresentative s : F ⟶ E) ≫ homOfRepresentative r = 𝟙 F
+    change (homOfRepresentative s : F ⟶ E) ≫ homOfRepresentative r = 𝟙 F
     rw [hs, hr, e.inv_hom_id]
   obtain ⟨k, hk⟩ := exists_eventual_component_bounds r s hrs hsr
   obtain ⟨l, hl⟩ := exists_eventual_component_bounds s r hsr hrs

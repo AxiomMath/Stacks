@@ -40,7 +40,7 @@ theorem mono_of_iso_sigma
   have h := (isOpenImmersion_cover_disjoint_of_iso_sigma e he).1 a
   apply (Over.forget (B.obj hS)).mono_of_mono_map
   apply B.inclusion.mono_of_mono_map
-  show Mono ((BigFppfOver.toScheme B S hS).map (c a))
+  change Mono ((BigFppfOver.toScheme B S hS).map (c a))
   infer_instance
 
 /-- **The summands of a disjoint union cover it.** -/
@@ -58,7 +58,7 @@ theorem sieve_ofArrows_mem_topology_of_iso_sigma
       ⟨T.left, E.map (Over.forget (B.obj hS))⟩ := by
     let E0 := (E.map (Over.forget (B.obj hS))).map B.inclusion
     have hZ : E0.presieve₀ ∈ Scheme.zariskiPrecoverage ((BigFppfOver.toScheme B S hS).obj T) := by
-      show Presieve.ofArrows E0.X E0.f ∈ Scheme.zariskiPrecoverage _
+      change Presieve.ofArrows E0.X E0.f ∈ Scheme.zariskiPrecoverage _
       exact (Scheme.ofArrows_mem_precoverage_iff
         (@_root_.AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})).2
         ⟨fun x => (hcov x).elim fun a ha => ⟨⟨a⟩, ha⟩, fun a => hopen a.down⟩

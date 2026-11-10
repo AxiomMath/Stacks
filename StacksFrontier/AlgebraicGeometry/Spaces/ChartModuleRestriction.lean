@@ -126,7 +126,7 @@ theorem openSubSchemeHomOfLE_comp_left (A : BigFppfOver B S hS)
     openSubSchemeHomOfLE A h ≫ (openSubHom A O').left = (openSubHom A O).left := by
   apply B.inclusion.map_injective
   rw [B.inclusion.map_comp]
-  show B.inclusion.map (openSubSchemeHomOfLE A h) ≫
+  change B.inclusion.map (openSubSchemeHomOfLE A h) ≫
       (BigFppfOver.toScheme B S hS).map (openSubHom A O') =
       (BigFppfOver.toScheme B S hS).map (openSubHom A O)
   rw [toScheme_map_openSubHom, toScheme_map_openSubHom,

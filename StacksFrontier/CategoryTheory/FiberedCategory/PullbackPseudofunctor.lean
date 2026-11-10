@@ -490,7 +490,7 @@ theorem pbMapComp_left_unitor (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
         IsPreFibered.pullbackMap X.2 (𝟙 b₀.as.unop)
       = (cartComp (𝟙 b₀ : b₀ ⟶ b₀).as.unop f.as.unop).proj X from rfl,
     cmpUnderlying_fac]
-  show IsPreFibered.pullbackMap X.2 (𝟙 b₀ ≫ f).as.unop = _
+  change IsPreFibered.pullbackMap X.2 (𝟙 b₀ ≫ f).as.unop = _
   rw [pullbackMap_congr X (show ((𝟙 b₀ ≫ f).as.unop) = f.as.unop by simp)]
 
 /-- The right unitor coherence of the pullback pseudofunctor (the `map₂_right_unitor` field of
@@ -515,7 +515,7 @@ theorem pbMapComp_right_unitor (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
         IsPreFibered.pullbackMap X.2 f.as.unop
       = (cartComp f.as.unop (𝟙 b₁ : b₁ ⟶ b₁).as.unop).proj X from rfl,
     cmpUnderlying_fac]
-  show IsPreFibered.pullbackMap X.2 (f ≫ 𝟙 b₁).as.unop = _
+  change IsPreFibered.pullbackMap X.2 (f ≫ 𝟙 b₁).as.unop = _
   rw [pullbackMap_congr X (show ((f ≫ 𝟙 b₁).as.unop) = f.as.unop by simp)]
 
 /-- Statement 1 (Stacks 02XO).  The pullback pseudofunctor associated to a fibred category

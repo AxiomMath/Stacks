@@ -64,8 +64,7 @@ variable (p : ℕ) (S : Type*) [CommRing S] [Algebra R S] (M : Type*) [AddCommGr
 /-- `pⁿ` kills `S ⊗_R (M / pⁿ M)`. -/
 theorem pow_nsmul_baseChangeLevel_eq_zero
     (z : S ⊗[R] (M ⧸ (pAdicIdeal (A := R) p ^ n • ⊤ : Submodule R M))) : (p ^ n : ℕ) • z = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul s x =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ x
     rw [← TensorProduct.tmul_smul, ← Submodule.Quotient.mk_smul, (Submodule.Quotient.mk_eq_zero
@@ -97,7 +96,7 @@ def baseChangeLevelBwdAux :
 def baseChangeLevelEquiv :
     ((S ⊗[R] M) ⧸ (pAdicIdeal (A := S) p ^ n • ⊤ : Submodule S (S ⊗[R] M))) ≃ₗ[S]
       S ⊗[R] (M ⧸ (pAdicIdeal (A := R) p ^ n • ⊤ : Submodule R M)) :=
-  LinearEquiv.ofLinear (baseChangeLevelFwd n p S M)
+  LinearEquiv.ofLinearMap (baseChangeLevelFwd n p S M)
     ((baseChangeLevelBwdAux n p S M).liftBaseChange S)
     (by
       refine TensorProduct.AlgebraTensorModule.ext fun s x ↦ ?_
@@ -177,13 +176,12 @@ theorem levelTensorEquiv_adicQuotientMap_baseChangeTensor
   generalize levelTensorEquiv (pAdicIdeal (A := R) p) n M X (CompletedConnection.pAdicIdeal_fg p R)
       y = t
   rw [LinearEquiv.apply_symm_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul a x =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ a
     rw [levelTensorEquiv_symm_mk_tmul]
-    show TensorProduct.map (baseChangeCarrierLevelEquiv p n M).toLinearMap LinearMap.id
+    change TensorProduct.map (baseChangeCarrierLevelEquiv p n M).toLinearMap LinearMap.id
       (levelTensorEquiv (pAdicIdeal (A := S) p) n (CompletedConnection.baseChangeCarrier p R S M) Y
         (CompletedConnection.pAdicIdeal_fg p S) (Submodule.Quotient.mk
           (AdicCompletion.of _ _ ((1 : S) ⊗ₜ m) ⊗ₜ
@@ -258,7 +256,7 @@ def primeFormsMapₛₗ (q : ℕ) :
 theorem primeFormsMapₛₗ_ιMulti (q : ℕ) (v : Fin q → baseForms A B) :
     primeFormsMapₛₗ A B p lam hp q (exteriorPower.ιMulti (B : Type u) q v) =
       exteriorPower.ιMulti (primeRing B p lam) q (primeFormsComparison A B p lam hp ∘ v) := by
-  show mapDifferentialFormsOfDPMorphism (A := A) (J := B.ideal) (delta := B.dividedPowers)
+  change mapDifferentialFormsOfDPMorphism (A := A) (J := B.ideal) (delta := B.dividedPowers)
     (primeDividedPowers B p lam hp) (primeAlgHom A B p lam)
     (isDPMorphism_primeAlgHom A B p lam hp) q (exteriorPower.ιMulti (B : Type u) q v) = _
   rw [mapDifferentialFormsOfDPMorphism_ιMulti]
@@ -351,7 +349,7 @@ theorem primeLevel_baseChangeValues (n : ℕ)
     (dividedPowerDifferentialForms (A := A) B.dividedPowers 1)
     (dividedPowerDifferentialForms (A := A) (primeDividedPowers B p lam hp) 1)
     (primeFormsMapₛₗ A B p lam hp 1) (z.val n)
-  show TensorProduct.map (baseChangeCarrierLevelEquiv p n M).toLinearMap LinearMap.id
+  change TensorProduct.map (baseChangeCarrierLevelEquiv p n M).toLinearMap LinearMap.id
       (LinearMap.lTensor _ (exteriorPower.oneEquiv (primeRing B p lam)
         (primeForms A B p lam hp)).toLinearMap
         (levelTensorEquiv (pAdicIdeal (A := primeRing B p lam) p) n
@@ -379,8 +377,7 @@ theorem primeLevel_baseChangeValues (n : ℕ)
     Connection.baseChangeValues (primeFormsComparison A B p lam hp)
       (LinearMap.lTensor _ (exteriorPower.oneEquiv (B : Type u) (baseForms A B)).toLinearMap t)) _
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul a eta =>
     rw [Connection.baseChangeValues_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -402,8 +399,7 @@ theorem tensor_addMonoidHom_ext {R S M Z : Type*} [CommRing R] [CommRing S] [Alg
     [AddCommGroup M] [Module R M] [AddCommGroup Z] {F G : S ⊗[R] M →+ Z}
     (h : ∀ (s : S) (m : M), F (s ⊗ₜ m) = G (s ⊗ₜ m)) : F = G :=
   AddMonoidHom.ext fun t ↦ by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul s m => exact h s m
     | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -466,7 +462,7 @@ theorem primeLevelConnection_horizontal_tmul (n : ℕ) (b' : primeRing B p lam) 
   have s3 : levelConnection p A (B : Type u) B.dividedPowers M nabla n
       (Submodule.Quotient.mk m) = levelOneForms p A (B : Type u) B.dividedPowers M n (nabla m) :=
     rfl
-  show TensorProduct.map (primeLevelModuleEquiv B p lam M n).toLinearMap LinearMap.id
+  change TensorProduct.map (primeLevelModuleEquiv B p lam M n).toLinearMap LinearMap.id
       (levelOneForms p A (primeRing B p lam) (primeDividedPowers B p lam hp)
         (primeCarrier B p lam M) n
         (primeCompletedConnection A B p lam hp M nabla (AdicCompletion.of _ _ (b' ⊗ₜ m)))) = _

@@ -120,7 +120,7 @@ theorem exists_quotientEquiv_restrict {α β : Type*} {s : Setoid α} {t : Setoi
       refine (quotient_mk_comap_val_eq_iff t Q _ _).2 ?_
       simp only [Quotient.out_eq, Equiv.apply_symm_apply]
   refine ⟨Equiv.mk (Quotient.lift φ hφ) (Quotient.lift ψ hψ) hl hr, fun a b ↦ ?_⟩
-  show φ a = _ ↔ _
+  change φ a = _ ↔ _
   rw [quotient_mk_comap_val_eq_iff, Quotient.out_eq]
 
 /-- Two morphisms of a twisted Karoubi envelope between equal objects are equal (heterogeneously)
@@ -274,7 +274,7 @@ theorem exists_globalSections_isoClassEquiv_of
       exact (hcG G).symm.trans (Quotient.exact h).globalSectionsCondition_iff
   refine ⟨e₁.trans (WeilCohomologyTheory.isoClassEquivWeilDataAxiomsSubtype k F), fun G T ↦ ?_⟩
   rw [Equiv.trans_apply, ← Equiv.eq_symm_apply]
-  show e₁ _ = Quotient.mk _ (WeilCohomologyTheory.equivWeilDataAxiomsSubtype k F T) ↔ _
+  change e₁ _ = Quotient.mk _ (WeilCohomologyTheory.equivWeilDataAxiomsSubtype k F T) ↔ _
   rw [he₁, hc]
   rfl
 

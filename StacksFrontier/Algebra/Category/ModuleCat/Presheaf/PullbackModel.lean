@@ -149,8 +149,7 @@ noncomputable def baseChange : (B ⊗[A] M) →ₛₗ[σ] (B' ⊗[A'] M') where
   toFun := baseChangeAddHom hB hB' hα φ
   map_add' := map_add _
   map_smul' s x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, baseChangeAddHom_tmul, baseChangeAddHom_tmul,
           map_mul, TensorProduct.smul_tmul', smul_eq_mul]

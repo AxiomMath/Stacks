@@ -192,7 +192,10 @@ theorem tensorObjIso_hom_val_app_sectionTensor
       = tensorSectionsAt O hO U M N (p.val.app U (1 : (structureSheaf O hO).obj.obj U))
           (q.val.app U (1 : (structureSheaf O hO).obj.obj U)) :=
   ((congrArg
-        (fun φ : 𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO)) ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)) =>
+        (fun φ : 𝟙_ (_root_.SheafOfModules.{w} (structureSheaf O hO)) ⟶
+            (((Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+                (M)).obj (N)) =>
           φ.val.app U (1 : (structureSheaf O hO).obj.obj U))
         (sectionTensor_comp_tensorObjIso_hom O hO M N p q)).trans
       (congrArg (fun z => (sheafifyTensorHom O hO p q).val.app U z)

@@ -159,7 +159,7 @@ public def coefficientKoszulGradedTowerMap {r : ℕ} (f : Fin r → A) (p : ℤ)
       coefficientKoszulGradedTowerπ f p K S ≫ coefficientKoszulScalarTowerMap f p g S := by
   apply NatTrans.ext
   funext n
-  show Limits.Pi.map (fun _ : KoszulBasis r p.natAbs ↦ g⟦-p⟧') ≫ _ = _
+  change Limits.Pi.map (fun _ : KoszulBasis r p.natAbs ↦ g⟦-p⟧') ≫ _ = _
   exact Pi.map_π _ _
 
 /-- The projection of the Koszul filtration step in degree `p` onto its graded tower. -/
@@ -214,7 +214,7 @@ public theorem coefficientKoszulFiltrationSequence_shortExact {r : ℕ} (f : Fin
         (by simp [S, coefficientKoszulFiltrationSequence, j]) (by
           dsimp [S, coefficientKoszulFiltrationSequence, coefficientKoszulGradedProjection,
             coefficientKoszulGradedPieceIso, FormulaLaws.gradedMap, j]
-          show _ = cokernel.π j ≫ cokernel.desc j _ _
+          change _ = cokernel.π j ≫ cokernel.desc j _ _
           rw [cokernel.π_desc]
           exact Category.id_comp _)
     exact ShortComplex.shortExact_of_iso e hj
@@ -280,7 +280,7 @@ towers. -/
     (K : CochainComplex (ModuleCat.{v} A) ℤ) (S : KoszulBasis r p.natAbs) :
     (coefficientKoszulGradedTowerIso f p K).hom ≫
       Pi.π (coefficientKoszulScalarTower f p K) S = coefficientKoszulGradedTowerπ f p K S := by
-  show Pi.lift _ ≫ _ = _
+  change Pi.lift _ ≫ _ = _
   exact Pi.lift_comp_π _ _
 /-- `coefficientKoszulGradedMilnorIso` is compatible with the projections to the scalar
 factors. -/
@@ -427,7 +427,7 @@ public theorem mappingCoconeLift_quasiIso_of_split
   have decomposed : retraction ≫ inclusion = 𝟙 middle - difference ≫ sectionMap :=
     eq_sub_iff_add_eq.mpr decomposition
   rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
-  show IsIso (DerivedCategory.Q.map lift)
+  change IsIso (DerivedCategory.Q.map lift)
   refine ⟨⟨DerivedCategory.Q.map (projection ≫ retraction), ?_, ?_⟩⟩
   · rw [← Functor.map_comp, ← Category.assoc, liftProjection, retractIdentity,
       CategoryTheory.Functor.map_id]

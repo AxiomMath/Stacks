@@ -102,7 +102,7 @@ theorem ringRestrictionSheafStructureIso_fmap (g : A ⟶ B) :
       (ringRestrictionSheafStructureIso B).hom ≫ g.targetHom.hom.toRingCatSheafHom := by
   apply Sheaf.hom_ext
   ext W : 2
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map
       ((restrictOpenMap g W.unop).targetHom.hom.appTop ≫
         (Scheme.Opens.topIso (g.targetHom.hom ⁻¹ᵁ W.unop)).hom) =
     (forget₂ CommRingCat.{u} RingCat.{u}).map

@@ -142,21 +142,21 @@ theorem exists_geometricPoint_lift_of_isQuasiFiniteAt {X Y : (BigFppfOver B S hS
       toBase := ybar.val.toBase
       value := σ' }
   refine ⟨⟨FieldValuedPoint.map B S hS _ (c ≫ pullback.fst p a) q, ybar.property⟩, ?_, ?_⟩
-  · show (FieldValuedPoint.map B S hS _ (c ≫ pullback.fst p a) q).class B S hS X = x
+  · change (FieldValuedPoint.map B S hS _ (c ≫ pullback.fst p a) q).class B S hS X = x
     rw [← pointsMap_class, pointsMap_comp_apply]
     have hq : q.class B S hS (yoneda.obj W) = w := by
       refine injective_pointsToScheme B S hS W ?_
       rw [pointsToScheme_class]
-      show T.map σ' (IsLocalRing.closedPoint ybar.val.carrier) = w₀
+      change T.map σ' (IsLocalRing.closedPoint ybar.val.carrier) = w₀
       rw [hTσ', hσw]
     rw [hq, hw, hx'1]
   · apply Subtype.ext
     have hv : p.app _ ((c ≫ pullback.fst p a).app _ σ') = ybar.val.value := by
       have h1 : c ≫ pullback.fst p a ≫ p = c ≫ pullback.snd p a ≫ a := by
         rw [pullback.condition]
-      show (c ≫ pullback.fst p a ≫ p).app _ σ' = _
+      change (c ≫ pullback.fst p a ≫ p).app _ σ' = _
       rw [h1, ← Category.assoc, ← hτ]
-      show a.app _ (σ' ≫ τ) = _
+      change a.app _ (σ' ≫ τ) = _
       rw [hστ]
       exact haone
     exact congrArg (fun v : Y.obj (Opposite.op O) => { ybar.val with value := v }) hv

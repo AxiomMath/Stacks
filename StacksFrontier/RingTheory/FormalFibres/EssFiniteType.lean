@@ -65,7 +65,7 @@ private theorem holds_iff
     (P : RingMapProperty.{u, u})
     {A B : Type u} [CommRing A] [CommRing B] (f : A →+* B) :
     P.Holds f ↔ P f := by
-  show P (RingHom.ulift.{u, u} f) ↔ P f
+  change P (RingHom.ulift.{u, u} f) ↔ P f
   exact ⟨fun h ↦ P.respectsIso.2 _ (ULift.ringEquiv.symm : A ≃+* ULift.{u} A)
       (P.respectsIso.1 _ (ULift.ringEquiv : ULift.{u} B ≃+* B) h),
     fun h ↦ P.respectsIso.2 _ (ULift.ringEquiv : ULift.{u} A ≃+* A)
@@ -137,7 +137,7 @@ private theorem fibersHave_baseChange
     (Ideal.ResidueField.map p.asIdeal q.asIdeal (algebraMap R S) rfl).toAlgebra
   let : Module k K := Algebra.toModule
   let : IsScalarTower R k K := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R K r = Ideal.ResidueField.map p.asIdeal q.asIdeal
+    change algebraMap R K r = Ideal.ResidueField.map p.asIdeal q.asIdeal
       (algebraMap R S) rfl (algebraMap R k r)
     rw [Ideal.ResidueField.map_algebraMap, ← IsScalarTower.algebraMap_apply]
   have : Algebra.EssFiniteType R K := .comp R S K
@@ -157,11 +157,11 @@ private theorem fibersHave_baseChange
       (Algebra.TensorProduct.includeRight (R := k) (A := F) (B := K)).toRingHom =
       algebraMap K (q.asIdeal.Fiber (S ⊗[R] T)) := by
     refine RingHom.ext fun a => ?_
-    show (Algebra.TensorProduct.cancelBaseChange R S K K T).symm
+    change (Algebra.TensorProduct.cancelBaseChange R S K K T).symm
       ((Algebra.TensorProduct.cancelBaseChange R k K K T)
         ((Algebra.TensorProduct.comm k F K) (1 ⊗ₜ[k] a))) = _
     rw [Algebra.TensorProduct.comm_tmul]
-    show (Algebra.TensorProduct.cancelBaseChange R S K K T).symm
+    change (Algebra.TensorProduct.cancelBaseChange R S K K T).symm
       ((Algebra.TensorProduct.cancelBaseChange R k K K T)
         (a ⊗ₜ[k] ((1 : k) ⊗ₜ[R] (1 : T)))) = _
     rw [Algebra.TensorProduct.cancelBaseChange_tmul, one_smul,
@@ -287,7 +287,7 @@ public theorem isPRing_of_essFiniteType
   let eS : S' ≃+* S := ULift.ringEquiv
   let : Algebra R' S' := (RingHom.ulift.{v, u} (algebraMap R S)).toAlgebra
   have : Algebra.EssFiniteType R' S' := by
-    show (RingHom.ulift.{v, u} (algebraMap R S)).EssFiniteType
+    change (RingHom.ulift.{v, u} (algebraMap R S)).EssFiniteType
     have hf : (algebraMap R S).EssFiniteType :=
       RingHom.essFiniteType_algebraMap.mpr inferInstance
     have hpre := (RingHom.FiniteType.of_surjective eR.toRingHom eR.surjective).essFiniteType

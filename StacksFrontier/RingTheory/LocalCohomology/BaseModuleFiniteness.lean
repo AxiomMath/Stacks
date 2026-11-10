@@ -152,7 +152,7 @@ private lemma localCohomology_base_annihilator_colon (J : Ideal A) (n : ℕ)
       ((y • (LinearMap.id : (Fin d → (N : Type u)) →ₗ[A] (Fin d → (N : Type u)))).comp b) =
       (g ^ k * y) • LinearMap.id := by
     ext x
-    show a (y • b x) = (g ^ k * y) • x
+    change a (y • b x) = (g ^ k * y) • x
     rw [map_smul, ← LinearMap.comp_apply, hfactor]
     simp [smul_smul, mul_comm]
   have hcat : ModuleCat.ofHom b ≫

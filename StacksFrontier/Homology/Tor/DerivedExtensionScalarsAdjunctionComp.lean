@@ -128,7 +128,7 @@ theorem compIso_homEquiv_symm (D₁ : TotalDerivedExtensionScalars.{u, v, u, w�
         (A.homEquiv K N).symm x := by
     intro x
     rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
-    show (Adjunction.leftAdjointUniq A D₂₁.adjunction).hom.app K ≫ _ ≫ _ = _
+    change (Adjunction.leftAdjointUniq A D₂₁.adjunction).hom.app K ≫ _ ≫ _ = _
     rw [← Category.assoc, ← (Adjunction.leftAdjointUniq A D₂₁.adjunction).hom.naturality x,
       Category.assoc, Adjunction.leftAdjointUniq_hom_app_counit]
   rw [← cancel_epi ((compIso D₁ D₂ D₂₁).hom.app K), key, Iso.hom_inv_id_app_assoc,

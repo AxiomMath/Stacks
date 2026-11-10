@@ -201,7 +201,7 @@ variable {C : Type u} [SmallCategory C] [HasPullbacks C] {U : SimplicialObject C
 of modules is acyclic for the direct image along `w` (Stacks 0D6J): its single complex is
 K-injective, and there the comparison of the degreewise and the derived direct image of abelian
 sheaves is invertible. -/
-theorem isZero_rightDerived_sheafPushforwardCocontinuous_toSheaf_of_injective_overSimplicialObjectHigherDirectImage
+theorem isZero_rightDerived_sheafPushforwardCocontinuous_toSheaf_of_injective
     {C₁ : Type u} [SmallCategory C₁] {D : Type u} [SmallCategory D]
     (J₁ : GrothendieckTopology C₁) (K : GrothendieckTopology D) (w : C₁ ⥤ D)
     [w.IsCocontinuous J₁ K] (O : Sheaf J₁ RingCat.{u}) (Z : SheafOfModules.{u} O)
@@ -320,7 +320,7 @@ theorem isZero_rightDerived_pushforwardModules_pullbackModules_overSimplicialObj
       Stacks.RightDerivedComp.objIsoOfAcyclicImage W T
         (fun m hm => Functor.isZero_rightDerived_of_exact W _ m hm)
         (fun Z hZ m hm =>
-          isZero_rightDerived_sheafPushforwardCocontinuous_toSheaf_of_injective_overSimplicialObjectHigherDirectImage
+          isZero_rightDerived_sheafPushforwardCocontinuous_toSheaf_of_injective
             (totalTopology J U) (J.over X) F₂ R₁ Z hZ m hm)
         n)
   obtain ⟨i⟩ := Stacks.Cohomology.rightDerived_comp_iso_of_preservesHomology fP W' n

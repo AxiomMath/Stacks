@@ -145,7 +145,7 @@ private theorem norm_resultant_eq_norm_natCard_ker {F : ℤ_[ℓ][X]}
       Stacks.Polynomial.det_aeval_eq_resultant_charpoly_int,
       show (PadicInt.toZModPow N).comp (Int.castRingHom ℤ_[ℓ]) = Int.castRingHom (ZMod (ℓ ^ N))
         from RingHom.ext_int _ _]
-    show A.charpoly.resultant _ r R.natDegree = _
+    change A.charpoly.resultant _ r R.natDegree = _
     rw [← hB, Matrix.charpoly_map, resultant_map_map, eq_intCast]
   rw [norm_eq_of_toZModPow_eq hdet0 hv hmod,
     padicInt_norm_intCast_eq hdet0 (Int.natCast_ne_zero.2 hR) hv]
@@ -205,10 +205,10 @@ theorem exists_charpoly_levelMatrix_eq_of_normForm_of_dense (good : ℤ[X] → P
     have hK : Nat.card (aeval (asEnd u) R).ker ≠ 0 := fun h0 =>
       hres' (by rw [← hker R hR0 hres', h0, Nat.cast_zero])
     rw [hχres, hFres, ← hker R hR0 hres']
-    show ‖((F.resultant (R.map (Int.castRingHom ℤ_[ℓ])) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
+    change ‖((F.resultant (R.map (Int.castRingHom ℤ_[ℓ])) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
       ‖ιQ ((Nat.card (aeval (asEnd u) R).ker : ℕ) : ℚ)‖
-    rw [PadicInt.padic_norm_e_of_padicInt, norm_resultant_eq_norm_natCard_ker u E' hF R hK,
-      ← PadicInt.padic_norm_e_of_padicInt, PadicInt.coe_intCast, map_natCast]
+    rw [PadicInt.norm_coe, norm_resultant_eq_norm_natCard_ker u E' hF R hK,
+      ← PadicInt.norm_coe, PadicInt.coe_intCast, map_natCast]
     norm_cast
   · rw [← charpoly_levelMatrix_map u n (E' n) le_rfl E, ZMod.castHom_self, Polynomial.map_id]
     exact (hF n).symm

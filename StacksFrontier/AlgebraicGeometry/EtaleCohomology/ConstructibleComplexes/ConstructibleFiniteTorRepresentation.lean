@@ -3,8 +3,7 @@ module
 public import StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryHomology
 public import StacksFrontier.Algebra.Homology.RestrictScalarsHomology
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ConstructibleFlatSliceFiniteTor
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ConstructibleFlatOfFlatStalks
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ConstructibleFlatOfFlatStalks
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.EtaleModulesCtfOpenClosed
 public import
@@ -678,7 +677,8 @@ represented by a complex `F^a → ⋯ → F^b` of constructible flat sheaves of 
 Tor amplitude is that of the associated object of `D(𝒪)`, `𝒪` the constant coefficient ring
 sheaf, against a derived tensor product `T₀` on `𝒪` (Stacks 08FZ (1)); the hypothesis `hK` is
 the constructibility of the cohomology sheaves of `K`. -/
-@[stacks 03TT "the last sentence: Tor amplitude in [a, b] gives a representative F^a → ⋯ → F^b by constructible flat sheaves"]
+@[stacks 03TT "the last sentence: Tor amplitude in [a, b] gives a representative \
+  F^a → ⋯ → F^b by constructible flat sheaves"]
 public theorem exists_constructibleFlat_representative_of_hasTorAmplitude
     (T₀ : Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) r, d}
       (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ))

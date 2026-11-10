@@ -490,7 +490,7 @@ lemma isIso_PlusQ_map {K L : CochainComplex.Plus B} (f : K ⟶ L)
     (_ : QuasiIso ((CochainComplex.Plus.ι B).map f)) :
     IsIso (DerivedCategory.Plus.Q.map f) := by
   have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map f)) := by
-    show IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι B).map f))
+    change IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι B).map f))
     infer_instance
   exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
 

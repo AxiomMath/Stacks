@@ -90,7 +90,7 @@ theorem nonempty_derivedEta_tilde_iso (D : (Spec R).IdealSheafData)
   have hreg := mem_nonZeroDivisors_of_ideal_top_eq_span R D hD
   obtain ⟨g, hg, hgf⟩ := exists_generatesIdealOn_of_ideal_eq_span D ⟨⊤, isAffineOpen_top _⟩ hD hreg
   have hgen : algebraMap (GammaTop R) R (globalGenerator R D g) = f := by
-    show (Scheme.ΓSpecIso R).hom.hom (globalGenerator R D g) = f
+    change (Scheme.ΓSpecIso R).hom.hom (globalGenerator R D g) = f
     rw [show globalGenerator R D g = (Scheme.ΓSpecIso R).inv f from hgf, ← CommRingCat.comp_apply,
       Iso.inv_hom_id]
     rfl

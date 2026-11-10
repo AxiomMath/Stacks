@@ -84,7 +84,7 @@ theorem preimage_gluedCurveAffinePart (b : Bool) :
       Set.range (projectiveLineXChart k).base := by
   ext y
   rw [mem_range_projectiveLineXChart_iff]
-  show (gluedCurveComponent k pts hpts b).base y ∉ gluedCurveInfinities k pts hpts ↔ _
+  change (gluedCurveComponent k pts hpts b).base y ∉ gluedCurveInfinities k pts hpts ↔ _
   have hinj := (gluedCurveComponent k pts hpts b).isClosedEmbedding.injective
   have hother : (gluedCurveComponent k pts hpts b).base y ≠
       (gluedCurveComponent k pts hpts (!b)).base (projectiveLineInfinity k) := fun h ↦
@@ -96,7 +96,7 @@ private theorem projectiveLineXChart_comp_mem_gluedCurveAffinePart (b : Bool)
     (w : Spec (.of k[X])) :
     (projectiveLineXChart k ≫ gluedCurveComponent k pts hpts b).base w ∈
       (gluedCurveAffinePart k pts hpts : Set (gluedCurve k pts hpts)) := by
-  show (gluedCurveComponent k pts hpts b).base ((projectiveLineXChart k).base w) ∈ _
+  change (gluedCurveComponent k pts hpts b).base ((projectiveLineXChart k).base w) ∈ _
   rw [← Set.mem_preimage, preimage_gluedCurveAffinePart]
   exact ⟨w, rfl⟩
 
@@ -211,7 +211,7 @@ theorem isPushout_gluedCurveAffinePart :
           (congrArg (_ ≫ ·) hY.isoPullback_hom_fst.symm).trans (Category.assoc _ _ _).symm
     · let sndY : pullback w.hom (pushoutInr s) ⟶ projectiveLine k :=
         pullback.snd w.hom (pushoutInr s)
-      show (eZ.hom ≫ jj) ≫ sndY = (doublePointsToAffineLine k pts ≫ hY.isoPullback.hom) ≫ sndY
+      change (eZ.hom ≫ jj) ≫ sndY = (doublePointsToAffineLine k pts ≫ hY.isoPullback.hom) ≫ sndY
       let hh : d.Z' ⟶ doublePointsScheme k pts := d.h
       have hjg : jj ≫ sndY = hh ≫ doublePointsToProjectiveLine k pts := d.right_isPullback.w
       have hZh : eZ.hom ≫ hh = 𝟙 _ := hZ.isoIsPullback_hom_snd _ _ d.left_isPullback

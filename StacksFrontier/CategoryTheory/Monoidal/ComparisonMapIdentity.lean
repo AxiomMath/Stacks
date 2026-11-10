@@ -194,7 +194,7 @@ variable {A B₂ B₁ C : Type*} [Category A] [Category B₂] [Category B₁] [C
       ((squareCompositeIso eg ef).hom.app K ⊗ₘ (squareCompositeIso eg ef).hom.app N) =
     (squareCompositeIso eg ef).hom.app (K ⊗ N) ≫ J₁.map (δ Fg K N) ≫
       δ J₁ (Fg.obj K) (Fg.obj N))
-  [IsIso (twoSquare adjg adjI eg ef).natTrans]
+  [IsIso (twoSquare adjg adjI eg ef)]
   (e : FI ≅ 𝟭 C)
   (he : ∀ K N : C, δ FI K N ≫ (e.hom.app K ⊗ₘ e.hom.app N) = e.hom.app (K ⊗ N))
   [∀ K N : B₂, IsIso (δ J₂ K N)]
@@ -209,13 +209,13 @@ of `F₂` at `(K, L)`. This is the commutative diagram of the proof of [Stacks, 
 comparing the maps `μ` of two compactifications. -/
 theorem map_comparisonMap_comp_comp_rightAdjointBaseChange (K L : A) :
     J₁.map ((adj₂.comp adjg).comparisonMap (bg.comp b₂) K L) ≫
-        (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj (K ⊗ L)) ≫
+        (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj (K ⊗ L)) ≫
           (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
             (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
               Adjunction.id).hom.app (J₂.obj (a₂.obj (K ⊗ L))) =
       δ J₁ (Fg.obj (F₂.obj K)) (ag.obj (a₂.obj L)) ≫
         (((squareCompositeIso eg ef).inv.app (F₂.obj K) ≫ e.hom.app _) ⊗ₘ
-          ((rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj L) ≫
+          ((rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj L) ≫
             (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
               (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
                 Adjunction.id).hom.app (J₂.obj (a₂.obj L)))) ≫
@@ -224,14 +224,14 @@ theorem map_comparisonMap_comp_comp_rightAdjointBaseChange (K L : A) :
   set j := Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
     (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id)) Adjunction.id
   have hc := Adjunction.comparisonMap_comp adj₂ adjg b₂ bg K L
-  have hn : J₁.map (ag.map (adj₂.comparisonMap b₂ K L)) ≫ α.natTrans.app (a₂.obj (K ⊗ L)) =
-      α.natTrans.app (F₂.obj K ⊗ a₂.obj L) ≫ aI.map (J₂.map (adj₂.comparisonMap b₂ K L)) :=
-    α.natTrans.naturality _
+  have hn : J₁.map (ag.map (adj₂.comparisonMap b₂ K L)) ≫ α.app (a₂.obj (K ⊗ L)) =
+      α.app (F₂.obj K ⊗ a₂.obj L) ≫ aI.map (J₂.map (adj₂.comparisonMap b₂ K L)) :=
+    α.naturality _
   have hb := comparisonMap_baseChange adjg adjI adjJ₂ adjJ₁ eg ef hsq bg bI (F₂.obj K) (a₂.obj L)
   have hb' : J₁.map (adjg.comparisonMap bg (F₂.obj K) (a₂.obj L)) ≫
-      α.natTrans.app (F₂.obj K ⊗ a₂.obj L) =
+      α.app (F₂.obj K ⊗ a₂.obj L) =
       δ J₁ (Fg.obj (F₂.obj K)) (ag.obj (a₂.obj L)) ≫
-        ((squareCompositeIso eg ef).inv.app (F₂.obj K) ⊗ₘ α.natTrans.app (a₂.obj L)) ≫
+        ((squareCompositeIso eg ef).inv.app (F₂.obj K) ⊗ₘ α.app (a₂.obj L)) ≫
           adjI.comparisonMap bI (J₂.obj (F₂.obj K)) (J₂.obj (a₂.obj L)) ≫
             aI.map (inv (δ J₂ (F₂.obj K) (a₂.obj L))) := by
     rw [← cancel_mono (aI.map (δ J₂ (F₂.obj K) (a₂.obj L)))]
@@ -272,12 +272,12 @@ theorem comparisonMap_comp_rightAdjointBaseChange_of_iso (K L : A) :
     κ₁.inv.app K ▷ J₁.obj (a₁.obj L) ≫ inv (δ J₁ (F₁.obj K) (a₁.obj L)) ≫
         J₁.map (adj₁.comparisonMap b₁ K L) ≫
         (J₁.map (θ.hom.app (K ⊗ L)) ≫
-          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj (K ⊗ L)) ≫
+          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj (K ⊗ L)) ≫
           (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
             (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
               Adjunction.id).hom.app (J₂.obj (a₂.obj (K ⊗ L)))) =
       P.obj K ◁ (J₁.map (θ.hom.app L) ≫
-          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj L) ≫
+          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj L) ≫
           (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
             (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
               Adjunction.id).hom.app (J₂.obj (a₂.obj L))) ≫
@@ -300,18 +300,18 @@ theorem comparisonMap_comp_rightAdjointBaseChange_of_iso (K L : A) :
   have s₇ : κ₁.inv.app K ▷ J₁.obj (a₁.obj L) ≫
       (J₁.map (e₁.inv.app K) ⊗ₘ J₁.map (θ.hom.app L)) ≫
       (((squareCompositeIso eg ef).inv.app (F₂.obj K) ≫ e.hom.app _) ⊗ₘ
-        (α.natTrans.app (a₂.obj L) ≫ j.hom.app (J₂.obj (a₂.obj L)))) =
-      P.obj K ◁ (J₁.map (θ.hom.app L) ≫ α.natTrans.app (a₂.obj L) ≫
+        (α.app (a₂.obj L) ≫ j.hom.app (J₂.obj (a₂.obj L)))) =
+      P.obj K ◁ (J₁.map (θ.hom.app L) ≫ α.app (a₂.obj L) ≫
         j.hom.app (J₂.obj (a₂.obj L))) ≫ κ₂.inv.app K ▷ J₂.obj (a₂.obj L) := by
     rw [← hκ K]
     simp only [← MonoidalCategory.id_tensorHom, ← MonoidalCategory.tensorHom_id,
       MonoidalCategory.tensorHom_comp_tensorHom, Category.id_comp, Category.assoc]
     exact congrArg _ (by simp)
   have L' : J₁.map (adj₁.comparisonMap b₁ K L) ≫ J₁.map (θ.hom.app (K ⊗ L)) ≫
-      α.natTrans.app (a₂.obj (K ⊗ L)) ≫ j.hom.app (J₂.obj (a₂.obj (K ⊗ L))) =
+      α.app (a₂.obj (K ⊗ L)) ≫ j.hom.app (J₂.obj (a₂.obj (K ⊗ L))) =
       J₁.map (e₁.inv.app K ⊗ₘ θ.hom.app L) ≫ δ J₁ (Fg.obj (F₂.obj K)) (ag.obj (a₂.obj L)) ≫
         (((squareCompositeIso eg ef).inv.app (F₂.obj K) ≫ e.hom.app _) ⊗ₘ
-          (α.natTrans.app (a₂.obj L) ≫ j.hom.app (J₂.obj (a₂.obj L)))) ≫
+          (α.app (a₂.obj L) ≫ j.hom.app (J₂.obj (a₂.obj L)))) ≫
         inv (δ J₂ (F₂.obj K) (a₂.obj L)) ≫ J₂.map (adj₂.comparisonMap b₂ K L) := by
     rw [← J₁.map_comp_assoc, s₄, J₁.map_comp, Category.assoc, core]
   rw [L', reassoc_of% s₆, reassoc_of% s₇]
@@ -326,12 +326,12 @@ compactification in the proof of [Stacks, Tag 0B6T]. -/
 theorem comparisonMapAlong_comp_rightAdjointBaseChange {U : A} (hU : 𝟙_ A = U) (K : A) :
     comparisonMapAlong adj₁ b₁ J₁ κ₁ hU K ≫
         (J₁.map (θ.hom.app K) ≫
-          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj K) ≫
+          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj K) ≫
           (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
             (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
               Adjunction.id).hom.app (J₂.obj (a₂.obj K))) =
       P.obj K ◁ (J₁.map (θ.hom.app U) ≫
-          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).natTrans.app (a₂.obj U) ≫
+          (rightAdjointBaseChange adjg adjI adjJ₂ adjJ₁ eg ef bg bI).app (a₂.obj U) ≫
           (Adjunction.rightAdjointUniq (bI.ofNatIsoLeft
             (Adjunction.rightAdjointUniq (adjI.ofNatIsoLeft e) Adjunction.id))
               Adjunction.id).hom.app (J₂.obj (a₂.obj U))) ≫
@@ -344,15 +344,15 @@ theorem comparisonMapAlong_comp_rightAdjointBaseChange {U : A} (hU : 𝟙_ A = U
     adjI bI eg ef hsq e he adj₁ b₁ e₁ i₁ θ he₁ hi₁ hθ κ₁ κ₂ hκ K U
   have s₁ : a₁.map ρ' ≫ θ.hom.app K = θ.hom.app (K ⊗ U) ≫ ag.map (a₂.map ρ') :=
     θ.hom.naturality ρ'
-  have s₂ : J₁.map (ag.map (a₂.map ρ')) ≫ α.natTrans.app (a₂.obj K) =
-      α.natTrans.app (a₂.obj (K ⊗ U)) ≫ aI.map (J₂.map (a₂.map ρ')) :=
-    α.natTrans.naturality _
+  have s₂ : J₁.map (ag.map (a₂.map ρ')) ≫ α.app (a₂.obj K) =
+      α.app (a₂.obj (K ⊗ U)) ≫ aI.map (J₂.map (a₂.map ρ')) :=
+    α.naturality _
   have s₃ : aI.map (J₂.map (a₂.map ρ')) ≫ j.hom.app (J₂.obj (a₂.obj K)) =
       j.hom.app (J₂.obj (a₂.obj (K ⊗ U))) ≫ J₂.map (a₂.map ρ') :=
     j.hom.naturality _
-  have n : J₁.map (a₁.map ρ') ≫ J₁.map (θ.hom.app K) ≫ α.natTrans.app (a₂.obj K) ≫
+  have n : J₁.map (a₁.map ρ') ≫ J₁.map (θ.hom.app K) ≫ α.app (a₂.obj K) ≫
       j.hom.app (J₂.obj (a₂.obj K)) =
-      (J₁.map (θ.hom.app (K ⊗ U)) ≫ α.natTrans.app (a₂.obj (K ⊗ U)) ≫
+      (J₁.map (θ.hom.app (K ⊗ U)) ≫ α.app (a₂.obj (K ⊗ U)) ≫
         j.hom.app (J₂.obj (a₂.obj (K ⊗ U)))) ≫ J₂.map (a₂.map ρ') := by
     rw [← J₁.map_comp_assoc, s₁, J₁.map_comp, Category.assoc, reassoc_of% s₂, s₃]
     simp only [Category.assoc]

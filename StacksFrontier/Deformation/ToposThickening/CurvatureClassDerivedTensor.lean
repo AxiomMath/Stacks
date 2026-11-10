@@ -117,6 +117,7 @@ section Counit
 
 variable (R : Sheaf J CommRingCat.{w}) [HasDerivedCategory.{d} (SheafMod R)] (M : SheafMod R)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The derived tensor product is computed by the degreewise one on a bounded above complex of
 flat modules**: such a complex is cellular for the flat modules, and the comparison of a left
 derived functor constructed by Stacks 0794 is invertible on cellular complexes. -/

@@ -267,10 +267,10 @@ theorem tensorConstComparison_naturality_left {F F' : Sh X} (f : F ⟶ F')
     Functor.whiskerLeft (const X) (Functor.whiskerRight ((curriedTensor (Sh X)).map f) (Γm X))
   dsimp only [tensorConstComparison]
   rw [Category.assoc]
-  show _ = _ ≫ wattsMap (tensorConstΓ X F) M ≫ θ.app M
+  change _ = _ ≫ wattsMap (tensorConstΓ X F) M ≫ θ.app M
   rw [wattsMap_natTrans θ M, ← comp_whiskerRight_assoc, ← comp_whiskerRight_assoc]
   congr 2
-  show (Γm X).map f ≫ (Γm X).map (tensorConstUnitIso X F').inv =
+  change (Γm X).map f ≫ (Γm X).map (tensorConstUnitIso X F').inv =
     (Γm X).map (tensorConstUnitIso X F).inv ≫ (Γm X).map (f ▷ _)
   rw [← Functor.map_comp, ← Functor.map_comp]
   exact congrArg (Γm X).map (rightUnitor_inv_naturality f)
@@ -350,7 +350,7 @@ theorem rightAcyclic_tensor_const (F : Sh X) (hF : (Γm X).rightAcyclic F)
     (hF p hp).of_iso (((Γm X).rightDerived p).mapIso (tensorConstUnitIso X F))
   refine IsZero.of_iso ?_ (asIso (wattsMap (tensorConstH X F p) M)).symm
   refine (IsZero.iff_id_eq_zero _).2 ?_
-  show 𝟙 (((tensorConstH X F p).obj (ModuleCat.of (ULift.{u + 1} ℤ) (ULift.{u + 1} ℤ))) ⊗ M) = 0
+  change 𝟙 (((tensorConstH X F p).obj (ModuleCat.of (ULift.{u + 1} ℤ) (ULift.{u + 1} ℤ))) ⊗ M) = 0
   rw [← id_whiskerRight, h0.eq_of_src (𝟙 _) 0, MonoidalPreadditive.zero_whiskerRight]
 
 end Flat

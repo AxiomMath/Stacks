@@ -87,7 +87,7 @@ theorem exists_finset_subcover_of_forall_subset (R P : Set K) {I : Type*} (S : I
   have hev : ∀ V : ValuationSubring K, (∀ r ∈ R, r ∈ V) → (∀ x ∈ P, x⁻¹ ∉ V) → ev V ∈ C := by
     intro V hR hP
     refine ⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩ <;>
-      simp only [Set.mem_iInter, Set.mem_setOf_eq, ev, decide_eq_true_eq, decide_eq_false_iff_not]
+      simp only [Set.mem_iInter, Set.mem_ofPred_eq, ev, decide_eq_true_eq, decide_eq_false_iff_not]
     exacts [fun a b ha hb ↦ V.mul_mem _ _ ha hb, fun a b ha hb ↦ V.add_mem _ _ ha hb,
       V.neg_mem _ V.one_mem, V.mem_or_inv_mem, hR, hP]
   let O : I → Set (K → Bool) := fun i ↦ ⋂ x ∈ S i, {c | c x = true}
@@ -96,7 +96,7 @@ theorem exists_finset_subcover_of_forall_subset (R P : Set K) {I : Type*} (S : I
       (isOpen_discrete ({true} : Set Bool)).preimage (continuous_apply x)
   have hcover : C ⊆ ⋃ i, O i := by
     rintro c ⟨⟨⟨⟨⟨hmul, hadd⟩, hneg⟩, hinv⟩, hR⟩, hP⟩
-    simp only [Set.mem_iInter, Set.mem_setOf_eq] at hmul hadd hneg hinv hR hP
+    simp only [Set.mem_iInter, Set.mem_ofPred_eq] at hmul hadd hneg hinv hR hP
     let V := ofBoolPred c hmul hadd hneg hinv
     obtain ⟨i, hi⟩ := hcov V hR fun x hx h ↦ Bool.false_ne_true ((hP x hx).symm.trans h)
     exact Set.mem_iUnion.2 ⟨i, Set.mem_iInter₂.2 fun x hx ↦ hi x hx⟩

@@ -113,7 +113,7 @@ theorem ker_fiberι {R : CommRingCat.{u}} {X : Scheme.{u}} (f : X ⟶ Spec R) (x
         (Ideal.map ((Scheme.ΓSpecIso R).inv ≫ f.appTop).hom x.asIdeal) := by
   have : IsClosedImmersion ((Spec R).fromSpecResidueField x) :=
     isClosed_singleton_iff_isClosedImmersion.1 hx
-  show (pullback.fst f ((Spec R).fromSpecResidueField x)).ker = _
+  change (pullback.fst f ((Spec R).fromSpecResidueField x)).ker = _
   rw [Scheme.IdealSheafData.ker_fst_of_isClosedImmersion, ker_fromSpecResidueField_spec,
     comap_ofIdealTop, Ideal.map_map, CommRingCat.hom_comp]
 

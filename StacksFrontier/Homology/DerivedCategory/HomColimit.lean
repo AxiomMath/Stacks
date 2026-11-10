@@ -17,7 +17,7 @@ public import Mathlib.CategoryTheory.Functor.OfSequence
 public import Mathlib.CategoryTheory.Localization.Adjunction
 public import Mathlib.CategoryTheory.Triangulated.Yoneda
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.CompletePartialOrder
 public import StacksFrontier.CategoryTheory.Abelian.Telescope
 public import StacksFrontier.Homology.DerivedCategory.CountableCoproducts
@@ -214,13 +214,13 @@ theorem exists_telescope_triangle (L : System R) :
           ?_, ?_, ?_⟩
   · refine isomorphic_distinguished _ hdist0 _ ?_
     refine Triangle.isoMk _ _ e e (Iso.refl _) ?_ ?_ ?_
-    · show (e.hom ≫ DerivedCategory.Q.map Sc.f ≫ e.inv) ≫ e.hom
+    · change (e.hom ≫ DerivedCategory.Q.map Sc.f ≫ e.inv) ≫ e.hom
         = e.hom ≫ DerivedCategory.Q.map Sc.f
       simp
-    · show (e.hom ≫ DerivedCategory.Q.map Sc.g) ≫ (Iso.refl _).hom
+    · change (e.hom ≫ DerivedCategory.Q.map Sc.g) ≫ (Iso.refl _).hom
         = e.hom ≫ DerivedCategory.Q.map Sc.g
       simp
-    · show ((DerivedCategory.triangleOfSES htel).mor₃ ≫ (shiftFunctor (DMod R) (1 : ℤ)).map e.inv)
+    · change ((DerivedCategory.triangleOfSES htel).mor₃ ≫ (shiftFunctor (DMod R) (1 : ℤ)).map e.inv)
             ≫ (shiftFunctor (DMod R) (1 : ℤ)).map e.hom
         = (Iso.refl _).hom ≫ (DerivedCategory.triangleOfSES htel).mor₃
       have hcancel : (shiftFunctor (DMod R) (1 : ℤ)).map e.inv
@@ -234,7 +234,7 @@ theorem exists_telescope_triangle (L : System R) :
     have : Sc.g = Sigma.desc (fun n => colimit.ι L n) := rfl
     rw [this, ← Functor.map_comp]
     congr 1
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   · have he_inv : ∀ m : ℕ, DerivedCategory.Q.map (Sigma.ι (fun n => L.obj n) m) ≫ e.inv
         = Sigma.ι (derivedSystem L) m := by
       intro m
@@ -242,7 +242,7 @@ theorem exists_telescope_triangle (L : System R) :
     intro n
     have hScf : Sc.f = tel := rfl
     rw [← Category.assoc, ← Category.assoc, he n, Category.assoc, hScf, htel_eq,
-      ← Functor.map_comp_assoc, Sigma.ι_desc]
+      ← Functor.map_comp_assoc, Sigma.ι_comp_desc]
     rw [Functor.map_sub, Functor.map_comp, Preadditive.sub_comp, Category.assoc,
       he_inv n, he_inv (n + 1)]
 
@@ -256,7 +256,7 @@ private theorem sigmaComparison_comp_map_telescope {C : Type*} [Category.{w} C] 
           - (homFunctor K).map (t n) ≫ Sigma.ι (fun n => (homFunctor K).obj (E n)) (n + 1)))
         ≫ sigmaComparison (homFunctor K) E := by
   refine Sigma.hom_ext _ _ (fun n => ?_)
-  rw [← Category.assoc, ι_comp_sigmaComparison, ← Category.assoc, Sigma.ι_desc,
+  rw [← Category.assoc, ι_comp_sigmaComparison, ← Category.assoc, Sigma.ι_comp_desc,
     Preadditive.sub_comp, Category.assoc, ι_comp_sigmaComparison, ι_comp_sigmaComparison,
     ← Functor.map_comp, ← Functor.map_comp, ← Functor.map_sub, hg n]
 
@@ -326,7 +326,7 @@ theorem shortExact_homSigmaDesc_of_telescope (K : DMod R)
         ≫ Sigma.ι (fun n => (homDiagram L K).obj n) (n + 1)) with htelF
   have hStepA : sigmaComparison H E ≫ H.map p = Φ := by
     refine Sigma.hom_ext _ _ (fun n => ?_)
-    rw [← Category.assoc, hισ n, ← H.map_comp, hp n, hΦ, Sigma.ι_desc]
+    rw [← Category.assoc, hισ n, ← H.map_comp, hp n, hΦ, Sigma.ι_comp_desc]
   have hStepA' : sigmaComparison H E ≫ H.map f = telF ≫ sigmaComparison H E :=
     sigmaComparison_comp_map_telescope K E
       (fun n => DerivedCategory.Q.map (L.map (homOfLE n.le_succ))) f hf
@@ -336,10 +336,10 @@ theorem shortExact_homSigmaDesc_of_telescope (K : DMod R)
     refine ShortComplex.exact_of_iso ?_ hHex
     refine ShortComplex.isoMk
       (asIso (sigmaComparison H E)).symm (asIso (sigmaComparison H E)).symm (Iso.refl _) ?_ ?_
-    · show inv (sigmaComparison H E) ≫ telF = H.map f ≫ inv (sigmaComparison H E)
+    · change inv (sigmaComparison H E) ≫ telF = H.map f ≫ inv (sigmaComparison H E)
       rw [IsIso.inv_comp_eq, ← Category.assoc, hStepA', Category.assoc, IsIso.hom_inv_id,
         Category.comp_id]
-    · show inv (sigmaComparison H E) ≫ Φ = H.map p ≫ 𝟙 _
+    · change inv (sigmaComparison H E) ≫ Φ = H.map p ≫ 𝟙 _
       rw [Category.comp_id, IsIso.inv_comp_eq, hStepA]
   set E' := fun n => (shiftFunctor (DMod R) (1 : ℤ)).obj (E n)
   have hcop' : HasCoproduct E' := by
@@ -379,7 +379,7 @@ theorem shortExact_homSigmaDesc_of_telescope (K : DMod R)
     have hd1 := rot_of_distTriang _ hdist
     have hd2 := rot_of_distTriang _ hd1
     have hmono2 : Mono ((shortComplexOfDistTriangle _ hd2).map H).g := by
-      show Mono (H.map (-((shiftFunctor (DMod R) (1 : ℤ)).map f)))
+      change Mono (H.map (-((shiftFunctor (DMod R) (1 : ℤ)).map f)))
       rw [Functor.map_neg]
       infer_instance
     exact (ShortComplex.exact_iff_epi _ ((ShortComplex.Exact.mono_g_iff
@@ -421,7 +421,7 @@ theorem isIso_colimHomComparison_of_telescope (K : DMod R)
       = Sigma.desc (fun n =>
           (homFunctor K).map (DerivedCategory.Q.map (colimit.ι L n))) := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact colimHomComparison_ι L K n
   have hzΦ : (Sigma.desc (fun n => Sigma.ι (fun n => F.obj n) n
               - F.map (homOfLE n.le_succ) ≫ Sigma.ι (fun n => F.obj n) (n + 1)))

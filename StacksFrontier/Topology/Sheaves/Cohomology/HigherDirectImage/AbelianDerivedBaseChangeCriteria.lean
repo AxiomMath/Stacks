@@ -146,6 +146,8 @@ variable {A₀ C₀ A B C D : Type*} [Category* A₀] [Category* C₀] [Category
   (e' : G'.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
     DerivedCategory.Plus.Qh ⋙ G'.rightDerivedFunctorPlus)
 
+omit [EnoughInjectives A₀] [EnoughInjectives C₀] [EnoughInjectives A] [EnoughInjectives B]
+  [EnoughInjectives C] in
 include hρ in
 /-- The degreewise comparison of the outer rectangle is the degreewise comparison of the lower
 square at `P(K)` followed by `F'` applied to the degreewise comparison of the upper square. -/
@@ -166,6 +168,7 @@ theorem mapPlus_comp_app (K : HomotopyCategory.Plus A₀) :
   · rw [Functor.map_comp]
     rfl
 
+omit [EnoughInjectives A₀] [EnoughInjectives A] [EnoughInjectives B] in
 include hρ in
 /-- The key identity of the vertical pasting: the comparison of the outer rectangle at `K`,
 followed by the comparison `R(P' ⋙ F') ⟶ RP' ⋙ RF'`, is the comparison of the lower square at
@@ -262,6 +265,7 @@ variable {A B C D C₂ D₂ : Type*}
   {K : B ⥤ D₂} {K' : A ⥤ C₂} [K.Additive] [K'.Additive]
   [PreservesFiniteLimits K] [PreservesFiniteColimits K]
 
+omit [EnoughInjectives C] [EnoughInjectives D] [F'.Additive] in
 /-- **Horizontal pasting, pointwise.** Let `ρ : F ⋙ K ⟶ K' ⋙ F''` be the comparison of a
 rectangle whose horizontal functors `K`, `K'` are identified with the composites `G ⋙ H`,
 `G' ⋙ H'`, and which is, through these identifications, the paste of the comparisons `τ₁` and
@@ -349,6 +353,7 @@ theorem isIso_app_obj₁_of_triangle (T : Triangle 𝒞) (hT : T ∈ distTriang 
   isIso₁_of_isIso₂₃ (triangleHom τ T) (Φ.map_distinguished T hT) (Ψ.map_distinguished T hT)
     h₂ h₃
 
+omit [NatTrans.CommShift τ ℤ] in
 /-- A natural transformation of additive functors is invertible at a binary biproduct as soon
 as it is invertible at the two summands. -/
 theorem isIso_app_biprod [HasBinaryBiproducts 𝒞] [HasBinaryBiproducts 𝒟]

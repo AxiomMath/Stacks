@@ -101,7 +101,7 @@ theorem coeffs_subset_fixedPoints {R : Type*} [CommRing R] {G : Type*} [Group G]
   refine fun x hx => ?_
   rw [Finset.mem_coe, Polynomial.mem_coeffs_iff] at hx
   obtain ⟨n, -, rfl⟩ := hx
-  show p.coeff n ∈ FixedPoints.subring R G
+  change p.coeff n ∈ FixedPoints.subring R G
   intro g
   rw [← Polynomial.coeff_smul, hp g]
 
@@ -382,7 +382,7 @@ theorem quotientComparison_injective :
   have hval : ((toFixedQuot R G I hcompat a : FixedPoints.subring (R ⧸ I) G) : R ⧸ I) = 0 := by
     have := congrArg (Subtype.val) ha
     simpa [quotientComparison, Ideal.Quotient.lift_mk] using this
-  show (a : R) ∈ I
+  change (a : R) ∈ I
   rw [show ((toFixedQuot R G I hcompat a : FixedPoints.subring (R ⧸ I) G) : R ⧸ I)
       = Ideal.Quotient.mk I (a : R) from rfl] at hval
   rwa [Ideal.Quotient.eq_zero_iff_mem] at hval
@@ -881,7 +881,7 @@ theorem charpolyFixed_map_mk_of_mem [Fintype G] (J : Ideal (FixedPoints.subring 
           _ = Φ y := ihb c y
     | smul d a ha iha =>
         intro c y
-        show Φ (y + c * (d • a)) = Φ y
+        change Φ (y + c * (d • a)) = Φ y
         rw [smul_eq_mul, show c * (d * a) = c * d * a by ring]
         exact iha (c * d) y
   have h0 := key x hx 1 0
@@ -1086,7 +1086,7 @@ theorem exists_monic_map_eq_X_sub_C_pow_card
     simp only [Q, smul_sub, Polynomial.smul_X, Polynomial.smul_C, Polynomial.map_prod,
       Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C, Polynomial.map_pow]
     have hf (g : G) : (φ : A →+* B) (g • a) = b := by
-      show φ (g • a) = b
+      change φ (g • a) = b
       rw [φ.map_smul, ha, b.property g]
     rw [Finset.prod_congr rfl (fun g _ ↦ by rw [hf g]), Finset.prod_const, Finset.card_univ,
       Nat.card_eq_fintype_card]
@@ -1163,7 +1163,7 @@ theorem invariantComparison_bijective_of_isUnit_card
         · simp⟩
     refine ⟨Ideal.Quotient.mk J x, Subtype.ext ?_⟩
     rw [invariantComparison, Ideal.Quotient.lift_mk, toFixedQuotJR_apply]
-    show Ideal.Quotient.mk (JRideal J) (c * ∑ g : G, g • r) = b
+    change Ideal.Quotient.mk (JRideal J) (c * ∑ g : G, g • r) = b
     rw [map_mul, map_sum]
     have hfix (g : G) : g • (b : R ⧸ JRideal J) = b := b.2 g
     simp_rw [← quotSmul_mk, hr, hfix]

@@ -1110,13 +1110,11 @@ private theorem globalSymbolOrder_eq_zero_on_ring_elements
       apply localTameSymbol_eq_one_of_fraction_rep q a 1 b 1
         haq (fun h => q.2.1.ne_top (Ideal.eq_top_of_isUnit_mem q.1 h isUnit_one))
         hbq (fun h => q.2.1.ne_top (Ideal.eq_top_of_isUnit_mem q.1 h isUnit_one)) ua ub
-      · change (ua : K) = algebraMap A K a / algebraMap A K 1
-        calc
+      · calc
           (ua : K) = algebraMap A K a :=
             (IsLocalization.map_units K ⟨a, mem_nonZeroDivisors_iff_ne_zero.mpr ha⟩).unit_spec
           _ = algebraMap A K a / algebraMap A K 1 := by simp
-      · change (ub : K) = algebraMap A K b / algebraMap A K 1
-        calc
+      · calc
           (ub : K) = algebraMap A K b :=
             (IsLocalization.map_units K ⟨b, mem_nonZeroDivisors_iff_ne_zero.mpr hb⟩).unit_spec
           _ = algebraMap A K b / algebraMap A K 1 := by simp

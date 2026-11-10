@@ -205,7 +205,7 @@ theorem sectionPicardPullback_basePicardPullback (hc : ModulePushforwardCoherenc
     (σ : s.base ⟶ s.X) (hσ : σ ≫ s.f = 𝟙 s.base) (T : s.SchemesOver)
     (x : s.basePicardAt T) :
     sectionPicardPullback σ hσ T (s.basePicardPullback T x) = x := by
-  show picardPullback (baseChangeSection σ hσ T)
+  change picardPullback (baseChangeSection σ hσ T)
     (picardPullback (baseChangeInclusion s.f T) x) = x
   rw [← picardPullback_comp, baseChangeSection_comp_inclusion, picardPullback_id hc]
 

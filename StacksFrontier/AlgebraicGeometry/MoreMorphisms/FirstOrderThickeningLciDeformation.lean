@@ -192,12 +192,12 @@ theorem exists_isFirstOrderThickening_isFiniteLocallyFreeOfRank_of_splitting
     (Arrow.homMk (f := Arrow.mk (toMonoSubscheme κ hκ i hvan)) (g := Arrow.mk iX)
       (𝟙 Z ≫ fZ) (monoSubschemeι κ hκ ≫ g)
       (by
-        show (𝟙 Z ≫ fZ) ≫ iX = toMonoSubscheme κ hκ i hvan ≫ (monoSubschemeι κ hκ ≫ g)
+        change (𝟙 Z ≫ fZ) ≫ iX = toMonoSubscheme κ hκ i hvan ≫ (monoSubschemeι κ hκ ≫ g)
         rw [Category.id_comp, ← comm, ← Category.assoc, toMonoSubscheme_comp κ hκ i hvan]))
     (Arrow.homMk (f := Arrow.mk iX) (g := Arrow.mk iU) pX pX' hsqXU.w.symm)
     (inferInstanceAs (Flat pX')) hsqXU d
     (by
-      show Stacks.Morphisms.IsFiniteLocallyFreeOfRank ((𝟙 Z ≫ fZ) ≫ pX) d
+      change Stacks.Morphisms.IsFiniteLocallyFreeOfRank ((𝟙 Z ≫ fZ) ≫ pX) d
       rw [Category.id_comp]
       exact hZU) hiso
   have hpb' : IsPullback (toMonoSubscheme κ hκ i hvan) ((𝟙 Z ≫ fZ) ≫ pX)
@@ -239,7 +239,8 @@ unramifiedness would be harmless — it makes this statement imply the tag's —
 `X'` from an algebraic space to a scheme does not: the tag's conclusion is a diagram of
 algebraic spaces over `U'`, and this theorem is its special case where the space is a scheme.
 The space-level statement is `AlgebraicGeometry.Stack.FiniteHilbert.exists_coverDeformation` of
-`StacksFrontier/AlgebraicGeometry/Stacks/FiniteHilbert/CoverDeformationExists.lean`, which carries the
+`StacksFrontier/AlgebraicGeometry/Stacks/FiniteHilbert/CoverDeformationExists.lean`, which
+carries the
 attribute. It does not go through a space-level conormal sequence. It realizes the universal
 first-order thickening of `Z` over `X'` as an affine scheme, and runs the argument of this
 theorem through one étale chart of `X'`, as

@@ -192,7 +192,7 @@ theorem IsAlgebraicSpace.exists_affine_coproduct_atlas
   have hj : ∀ i : I, ∃ ψ : W i ⟶ U, (BigFppfOver.toScheme B S hS).map ψ = Sigma.ι Y i := by
     intro i
     refine BigFppfOver.exists_hom_of_comp_eq B S hS (X := W i) (Y := U) (Sigma.ι Y i) ?_
-    rw [hmk, hmk, ← Category.assoc, Sigma.ι_desc]
+    rw [hmk, hmk, ← Category.assoc, Sigma.ι_comp_desc]
   choose j hjmap using hj
   have hjimm : ∀ i : I, IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (j i)) := fun i ↦
     (hjmap i) ▸ inferInstance
@@ -207,7 +207,7 @@ theorem IsAlgebraicSpace.exists_affine_coproduct_atlas
       (MorphismProperty.comp_mem _ _ _ hge hpE)
   · obtain ⟨A, hAW⟩ := i.2
     refine ⟨A.1, A.2, fun y ↦ ?_⟩
-    rw [hjmap, hmk, ← Category.assoc, Sigma.ι_desc]
+    rw [hjmap, hmk, ← Category.assoc, Sigma.ι_comp_desc]
     exact hAW y.property
 
 /-- An algebraic space over `S` has a surjective étale chart whose source is a disjoint union

@@ -170,10 +170,10 @@ public theorem flat_localizedModule_coker_of_flat_localizedModule_of_projective_
   set e : (Fin r →₀ S) ≃ₗ[S] (Fin r → S) := Finsupp.linearEquivFunOnFinite S S (Fin r)
   have hbase : Function.Bijective
       ((alpha ∘ₗ e.symm.toLinearMap).rTensor (Algebra.closedFiberIdeal R S).ResidueField) := by
-    rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_ltensor,
+    rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_lTensor,
       LinearMap.baseChange_comp]
     refine halpha.comp ?_
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.lTensor_bij_iff_rTensor_bij,
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.lTensor_bij_iff_rTensor_bij,
       ← LinearEquiv.coe_rTensor _ e.symm]
     exact (e.symm.rTensor _).bijective
   have hrange : LinearMap.range (alpha ∘ₗ e.symm.toLinearMap) = LinearMap.range alpha :=

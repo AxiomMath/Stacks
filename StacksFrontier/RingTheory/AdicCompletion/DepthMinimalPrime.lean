@@ -69,7 +69,7 @@ public theorem isArtinianRing_localizationAtPrime_quotient_of_mem_minimalPrimes
       J.map (algebraMap R (Localization.AtPrime P))) := by
   apply IsLocalRing.quotient_artinian_of_mem_minimalPrimes_of_isLocalRing
   rw [IsLocalization.minimalPrimes_map P.primeCompl]
-  show (IsLocalRing.maximalIdeal (Localization.AtPrime P)).under R ∈ J.minimalPrimes
+  change (IsLocalRing.maximalIdeal (Localization.AtPrime P)).under R ∈ J.minimalPrimes
   rwa [IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime P) P]
 
 end Ideal

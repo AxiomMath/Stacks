@@ -175,7 +175,7 @@ theorem isRegularAt_of_isFlatAt {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       IsRegularLocalRing (etaleLocalRing B S hS Y ybar) := by
     refine ⟨geometricPointMap f xbar, ?_,
       IsRegularLocalRing.of_flat_of_isLocalHom (etaleLocalRing B S hS X xbar)⟩
-    show pointsMap B S hS X f xbar.image = pointsMap B S hS X f x
+    change pointsMap B S hS X f xbar.image = pointsMap B S hS X f x
     rw [hxbar]
   exact ((isRegularAt_tfae B S hS Y hY (pointsMap B S hS X f x)).out 3 1).mp key
 

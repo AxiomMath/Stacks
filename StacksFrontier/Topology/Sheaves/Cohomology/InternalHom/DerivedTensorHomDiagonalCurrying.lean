@@ -179,7 +179,8 @@ morphism of `derivedTensorSheafHomAdjunction_counit_app` — it gives the interc
 `K ⊗^𝐋_O -` of that evaluation.
 
 **The equation is not discharged.** What this says is that the identification is a single
-equation between constructed morphisms of one type, and not a comparison of a morphism with a gap. -/
+equation between constructed morphisms of one type, and not a comparison of a morphism with
+a gap. -/
 theorem interfaceDerivedTensorHomDiagonal_eq_curryTensorHomDiagonal_iff
     (M K L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     interfaceDerivedTensorHomDiagonal X M K L = curryTensorHomDiagonal X M K L ↔

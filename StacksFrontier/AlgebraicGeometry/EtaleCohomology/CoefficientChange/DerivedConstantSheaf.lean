@@ -208,7 +208,7 @@ theorem exists_quasiIso_kFlat_etaleModuleConstantSheafFunctor
     (fun M M' hM hM' ↦ by
       change Projective M at hM
       change Projective M' at hM'
-      show Projective (M ⊞ M')
+      change Projective (M ⊞ M')
       infer_instance)
     (fun M ↦ ⟨Projective.over M, (inferInstance : Projective _), Projective.π M, inferInstance⟩)
     N

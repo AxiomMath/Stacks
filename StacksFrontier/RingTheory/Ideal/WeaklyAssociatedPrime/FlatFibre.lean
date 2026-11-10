@@ -466,7 +466,7 @@ private theorem isNoetherianRing_quotient_map_maximalIdeal
   set I : Ideal B := Ideal.map (algebraMap A B) (maximalIdeal A)
   have hker : ∀ a ∈ maximalIdeal A, algebraMap A (B ⧸ I) a = 0 := by
     intro a ha
-    show Ideal.Quotient.mk I (algebraMap A B a) = 0
+    change Ideal.Quotient.mk I (algebraMap A B a) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ ha)
   have : Algebra.FiniteType A (B ⧸ I) :=
     Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ A I) Ideal.Quotient.mk_surjective
@@ -567,7 +567,7 @@ private theorem finiteType_and_essentiallyOfFinitePresentation_localization
     (IsScalarTower.toAlgHom R S B) fun _ _ => Commute.all _ _
   let : Algebra C B := φ.toRingHom.toAlgebra
   have : IsScalarTower S C B := IsScalarTower.of_algebraMap_eq fun s => by
-    show _ = φ (1 ⊗ₜ s)
+    change _ = φ (1 ⊗ₜ s)
     rw [Algebra.TensorProduct.lift_tmul]
     simp
   have : IsScalarTower A C B := IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
@@ -623,7 +623,7 @@ private theorem finite_isWeaklyAssociatedPrime_comap_eq
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R (Localization.AtPrime p) (LocalizedModule Sig N) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show (algebraMap (Localization.AtPrime p) (Localization Sig)
+      change (algebraMap (Localization.AtPrime p) (Localization Sig)
         (algebraMap R (Localization.AtPrime p) r)) • x = r • x
       rw [← IsScalarTower.algebraMap_apply R (Localization.AtPrime p) (Localization Sig),
         IsScalarTower.algebraMap_apply R S (Localization Sig),

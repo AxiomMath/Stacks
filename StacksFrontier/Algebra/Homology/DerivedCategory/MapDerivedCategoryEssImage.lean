@@ -246,13 +246,13 @@ theorem mem_essImage_mapDerivedCategory_of_isGE_of_isLE
     have h₁ : T.obj₁.IsLE (a + n) :=
       DerivedCategory.TStructure.t.isLE_truncLT_obj _ _ _ (by omega)
     have h₁' : T.obj₁.IsGE a := by
-      show ((DerivedCategory.TStructure.t.truncLT (a + n + 1)).obj K).IsGE a
+      change ((DerivedCategory.TStructure.t.truncLT (a + n + 1)).obj K).IsGE a
       infer_instance
     have h₃ : T.obj₃.IsGE (a + n + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (a + n + 1)).obj K).IsGE (a + n + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (a + n + 1)).obj K).IsGE (a + n + 1)
       infer_instance
     have h₃' : T.obj₃.IsLE (a + n + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (a + n + 1)).obj K).IsLE (a + n + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (a + n + 1)).obj K).IsLE (a + n + 1)
       infer_instance
     obtain ⟨B₁, ⟨e₁⟩⟩ := ih a T.obj₁ h₁' h₁ (derivedCategoryB_map_truncLT F P hK _)
     obtain ⟨B₃, ⟨e₃⟩⟩ := mem_essImage_mapDerivedCategory_of_isGE_of_isLE_self F P (a + n + 1)
@@ -280,7 +280,7 @@ theorem mem_essImage_mapDerivedCategory_of_isGE
   have hX (m : ℕ) : F.mapDerivedCategory.essImage (X m) := by
     have : (X m).IsLE (a + m) := DerivedCategory.TStructure.t.isLE_truncLT_obj _ _ _ (by omega)
     have : (X m).IsGE a := by
-      show ((DerivedCategory.TStructure.t.truncLT (a + m + 1)).obj K).IsGE a
+      change ((DerivedCategory.TStructure.t.truncLT (a + m + 1)).obj K).IsGE a
       infer_instance
     exact mem_essImage_mapDerivedCategory_of_isGE_of_isLE F P hbij m a (X m) ‹_› ‹_›
       (derivedCategoryB_map_truncLT F P hK _)
@@ -319,12 +319,12 @@ theorem mem_essImage_mapDerivedCategory_of_isGE
   let g : ∐ (G ⋙ F.mapDerivedCategory).obj ⟶ K := Limits.Sigma.desc ℓ
   have hι (n : ℕ) : Limits.Sigma.ι (G ⋙ F.mapDerivedCategory).obj n ≫ Limits.Sigma.desc ℓ =
       ℓ n :=
-    Limits.Sigma.ι_desc ℓ n
+    Limits.Sigma.ι_comp_desc ℓ n
   have hg : (Limits.Sigma.desc fun n ↦ Limits.Sigma.ι (G ⋙ F.mapDerivedCategory).obj n -
       (G ⋙ F.mapDerivedCategory).map (homOfLE (Nat.le_succ n)) ≫
         Limits.Sigma.ι (G ⋙ F.mapDerivedCategory).obj (n + 1)) ≫ g = 0 := by
     refine Limits.Sigma.hom_ext _ _ fun n ↦ ?_
-    simp only [g, Limits.Sigma.ι_desc_assoc, Preadditive.sub_comp, Category.assoc,
+    simp only [g, Limits.Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, Category.assoc,
       Functor.comp_map, comp_zero]
     rw [hι, hι, hℓ]
     exact sub_self _
@@ -372,7 +372,7 @@ theorem mem_essImage_mapDerivedCategory_of_isGE
         ((H.map_comp _ _).symm.trans ((congrArg H.map ((Category.assoc _ _ _).trans
           (hσ n))).trans (he₀ n).symm)))
     have : H.map h = eH.inv ≫ e₀.hom := by rw [← heq, Iso.inv_hom_id_assoc]
-    show IsIso (H.map h)
+    change IsIso (H.map h)
     rw [this]
     infer_instance
   exact ⟨L, ⟨asIso h⟩⟩
@@ -452,7 +452,7 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
     (DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K
   have hX (n : ℕ) : F.mapDerivedCategory.essImage (X n) := by
     have : (X n).IsGE (-(n : ℤ)) := by
-      show ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE (-(n : ℤ))
+      change ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE (-(n : ℤ))
       infer_instance
     exact mem_essImage_mapDerivedCategory_of_isGE F P hbij hC hD (-(n : ℤ)) (X n)
       (derivedCategoryB_map_truncGE F P hK _)
@@ -481,7 +481,7 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
     · have := hiso hq
       infer_instance
     · have : (X n).IsGE (-(n : ℤ)) := by
-        show ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE (-(n : ℤ))
+        change ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE (-(n : ℤ))
         infer_instance
       exact (DerivedCategory.isZero_of_isGE (X n) (-(n : ℤ)) q (by omega)).epi _
   have hβ (n : ℕ) := (hbij (B (n + 1)) (B n) (hBP n)).2 ((e (n + 1)).hom ≫ τ n ≫ (e n).inv)
@@ -511,11 +511,11 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
         (G.map (homOfLE (Nat.le_succ n)).op)
       have : Epi ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor D q).map
           (G.map (homOfLE (Nat.le_succ n)).op)) := by
-        show Epi ((DerivedCategory.homologyFunctor D q).map
+        change Epi ((DerivedCategory.homologyFunctor D q).map
           (F.mapDerivedCategory.map (G.map (homOfLE (Nat.le_succ n)).op)))
         rw [hβG]
         exact (hcomp n q).1
-      show Epi ((DerivedCategory.homologyFunctor C q ⋙ F).map
+      change Epi ((DerivedCategory.homologyFunctor C q ⋙ F).map
         (G.map (homOfLE (Nat.le_succ n)).op))
       rw [← hn]
       infer_instance
@@ -547,7 +547,8 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
         Pi.π (fun n : ℕ ↦ F.mapDerivedCategory.obj (G.obj ⟨n⟩)) (n + 1) ≫
           F.mapDerivedCategory.map (G.map (homOfLE (Nat.le_succ n)).op)) = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc, zero_comp]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc,
+      zero_comp]
     rw [hℓ, sub_self]
   obtain ⟨c, hc⟩ := Triangle.coyoneda_exact₂ _ hT' (Pi.lift ℓ) hf
   have hkey (N : ℕ) : c ≫ F.mapDerivedCategory.map (p ≫ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) N) =
@@ -563,7 +564,7 @@ theorem mem_essImage_mapDerivedCategory_of_exists_isKInjective
         (c ≫ F.mapDerivedCategory.map (p ≫ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) N))) := by
       rw [hkey]
       have := DerivedCategory.isIso_homologyMap_truncGEπ_app (-(N : ℤ)) r (by omega) K
-      show IsIso ((DerivedCategory.homologyFunctor D r).map
+      change IsIso ((DerivedCategory.homologyFunctor D r).map
         ((DerivedCategory.TStructure.t.truncGEπ _).app K ≫ (e N).inv))
       rw [Functor.map_comp]
       infer_instance

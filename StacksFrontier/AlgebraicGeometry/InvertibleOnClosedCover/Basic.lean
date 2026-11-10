@@ -184,7 +184,7 @@ private lemma exists_open_shrinking_component_preimages {ι : Type v} [Finite ι
     else ⟨(Set.range (f i))ᶜ, (f i).isClosedEmbedding.isClosed_range.isOpen_compl⟩
   let U : X.Opens := ⨅ i, W i
   refine ⟨U, ?_, ?_⟩
-  · show x ∈ (U : Set X)
+  · change x ∈ (U : Set X)
     simp only [U, Opens.coe_iInf, Set.mem_iInter]
     intro i
     by_cases hxi : ∃ z, f i z = x
@@ -250,7 +250,7 @@ private lemma exists_open_neighborhood_isIso_component_of_not_overlap
       refine ⟨fun y => ?_⟩
       obtain ⟨j, z, hz⟩ := hcover y.1
       have hzU : z ∈ f j ⁻¹ᵁ U := by
-        show f j z ∈ U
+        change f j z ∈ U
         rw [hz]
         exact y.2
       by_cases hji : j = i
@@ -324,7 +324,7 @@ private lemma isIso_sigmaDesc_restrict_complement_overlap {ι : Type v} [Finite 
   have hdisjoint : Pairwise
       (Function.onFun Disjoint (fun i => Set.range ⇑(f i ∣_ U))) := by
     intro i j hij
-    show Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
+    change Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
     rw [Set.disjoint_left]
     intro x hxi hxj
     obtain ⟨yi, hyi⟩ := hxi
@@ -365,8 +365,8 @@ private lemma isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v} 
       Set.range ⇑((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ⊆ Set.range ⇑W.ι := by
     rintro _ ⟨z, rfl⟩
     refine ⟨⟨Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z), ?_⟩, rfl⟩
-    show (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) ((f i ⁻¹ᵁ U).ι z) ∈ U
-    rw [Limits.Sigma.ι_desc]
+    change (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) ((f i ⁻¹ᵁ U).ι z) ∈ U
+    rw [Limits.Sigma.ι_comp_desc]
     exact z.2
   let kf : ∀ i, (f i ⁻¹ᵁ U).toScheme ⟶ W.toScheme := fun i =>
     IsOpenImmersion.lift W.ι ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) (hsub i)
@@ -391,11 +391,11 @@ private lemma isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v} 
     intro x
     obtain ⟨i, z, hpoint⟩ := exists_component_point_of_sigma Z (W.ι x)
     have hzU : z ∈ f i ⁻¹ᵁ U := by
-      show f i z ∈ U
+      change f i z ∈ U
       have hval : f i z = g (W.ι x) := by
         rw [← hpoint]
-        show f i z = (Limits.Sigma.ι Z i ≫ g) z
-        rw [Limits.Sigma.ι_desc]
+        change f i z = (Limits.Sigma.ι Z i ≫ g) z
+        rw [Limits.Sigma.ι_comp_desc]
       exact hval ▸ x.2
     refine ⟨i, ⟨z, hzU⟩, ?_⟩
     apply W.ι.isOpenEmbedding.injective
@@ -404,7 +404,7 @@ private lemma isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v} 
       _ = ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ⟨z, hzU⟩ :=
         congrArg (fun q => q ⟨z, hzU⟩) (hfac i)
       _ = Limits.Sigma.ι Z i z := by
-        show Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
+        change Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
         simp
       _ = W.ι x := hpoint
   have hopenComp (i : ι) : IsOpenImmersion
@@ -424,13 +424,13 @@ private lemma isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v} 
       _ = ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ≫ g := by rw [hfac]
       _ = (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ g) := by rw [Category.assoc]
       _ = (f i ⁻¹ᵁ U).ι ≫ f i := by
-        show (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) = _
-        rw [Limits.Sigma.ι_desc]
+        change (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) = _
+        rw [Limits.Sigma.ι_comp_desc]
       _ = (f i ∣_ U) ≫ U.ι := (morphismRestrict_ι (f i) U).symm
   have hcomp : Limits.Sigma.desc kf ≫ g ∣_ U =
       Limits.Sigma.desc (fun i => f i ∣_ U) := by
     refine Limits.Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc]
     exact hcomponent i
   have hresult : g ∣_ U = inv (Limits.Sigma.desc kf) ≫
       Limits.Sigma.desc (fun i => f i ∣_ U) := by
@@ -531,7 +531,7 @@ private lemma moduleOnSchemeSigma_exists_restrict_iso_unit
       ((Scheme.Modules.restrictFunctorCongr eImg.inv_hom_id).app N).symm ≪≫
       (Scheme.Modules.restrictFunctorComp eImg.inv eImg.hom).app N
   exact ⟨U, by
-    show x ∈ f '' V
+    change x ∈ f '' V
     exact ⟨y, hyV, hy⟩,
     ⟨eRound ≪≫ GG.mapIso (eToComp ≪≫ eV) ≪≫
       Scheme.Modules.restrictUnitIso eImg.inv⟩⟩
@@ -565,7 +565,7 @@ public theorem exists_invertible_of_closed_cover_discrete_intersections
   obtain ⟨M, hM, ⟨eM⟩⟩ :=
     Stacks.PicFinite.exists_isInvertible_modulePullback_iso g U Lcop hLcop
   refine ⟨M, hM, fun i => ?_⟩
-  have hdesc : Limits.Sigma.ι Z i ≫ g = f i := Limits.Sigma.ι_desc f i
+  have hdesc : Limits.Sigma.ι Z i ≫ g = f i := Limits.Sigma.ι_comp_desc f i
   let eEq : (Scheme.Modules.pullback (Limits.Sigma.ι Z i ≫ g)).obj M ≅
       (Scheme.Modules.pullback (f i)).obj M :=
     eqToIso (congrArg (fun q => (Scheme.Modules.pullback q).obj M) hdesc)
@@ -654,7 +654,7 @@ private lemma exists_open_all_sections_trivial
       ∀ i, IsIso (((L i).unitHomEquiv.symm (s i)).over (f i ⁻¹ᵁ W)) := by
   have (i : ι) : IsInvertible (Z i).sheaf.obj
       (Z i).ringCatSheaf.property (L i) := by
-    show IsInvertible (Z i).presheaf (Z i).ringCatSheaf.2 (L i)
+    change IsInvertible (Z i).presheaf (Z i).ringCatSheaf.2 (L i)
     infer_instance
   let V (i : ι) : (Z i).Opens :=
     Stacks.NonvanishingTrivialize.nonvanishingOpen (Z i).toRingedSpace (L i) (s i)

@@ -153,7 +153,7 @@ theorem tensorStandardMap_augmentation (n : SimplexCategoryᵒᵖ) :
         (tensorStandardMap R A B n) =
       ((tensorStandardResolutionAugmentation R A B).app n).hom := by
   refine Algebra.TensorProduct.ext' fun p q => ?_
-  show ((standardResolution.{u, u} R (CommAlgCat.of R (A ⊗[R] B))).hom.app n).hom
+  change ((standardResolution.{u, u} R (CommAlgCat.of R (A ⊗[R] B))).hom.app n).hom
       (tensorStandardMap R A B n (p ⊗ₜ[R] q)) = _
   rw [tensorStandardMap_tmul, map_mul, tensorStandardLeftMap_augmentation,
     tensorStandardRightMap_augmentation, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -165,7 +165,7 @@ theorem tensorStandardMap_naturality {i j : SimplexCategoryᵒᵖ} (g : i ⟶ j)
       ((standardResolution.{u, u} R (CommAlgCat.of R (A ⊗[R] B))).left.map g).hom.comp
         (tensorStandardMap R A B i) := by
   refine Algebra.TensorProduct.ext' fun p q => ?_
-  show tensorStandardMap R A B j
+  change tensorStandardMap R A B j
       (((standardResolution.{u, u} R (CommAlgCat.of R A)).left.map g).hom p ⊗ₜ[R]
         ((standardResolution.{u, u} R (CommAlgCat.of R B)).left.map g).hom q) =
     ((standardResolution.{u, u} R (CommAlgCat.of R (A ⊗[R] B))).left.map g).hom
@@ -279,7 +279,7 @@ theorem tensorLeftInclusion_comp_tensorStandardResolutionMap :
   ext n : 2
   refine CommAlgCat.hom_ext (Algebra.TensorProduct.ext' fun r
     (p : (standardResolution.{u, u} R (CommAlgCat.of R A)).left.obj n) => ?_)
-  show tensorStandardMap R A B n (tensorLeftInclusionMap R A B n (r ⊗ₜ[R] p)) =
+  change tensorStandardMap R A B n (tensorLeftInclusionMap R A B n (r ⊗ₜ[R] p)) =
     standardResolutionBaseChangeMap (tensorIncludeLeft R A B) n (r ⊗ₜ[R] p)
   rw [tensorLeftInclusionMap_tmul, tensorStandardMap_tmul, map_one, mul_one,
     tensorStandardLeftMap_apply, TensorProduct.tmul_smul, TensorProduct.smul_tmul', smul_eq_mul,
@@ -294,7 +294,7 @@ theorem tensorRightInclusion_comp_tensorStandardResolutionMap :
   ext n : 2
   refine CommAlgCat.hom_ext (Algebra.TensorProduct.ext' fun r
     (q : (standardResolution.{u, u} R (CommAlgCat.of R B)).left.obj n) => ?_)
-  show tensorStandardMap R A B n (tensorRightInclusionMap R A B n (r ⊗ₜ[R] q)) =
+  change tensorStandardMap R A B n (tensorRightInclusionMap R A B n (r ⊗ₜ[R] q)) =
     standardResolutionBaseChangeMap (tensorIncludeRight R A B) n (r ⊗ₜ[R] q)
   rw [tensorRightInclusionMap_tmul, tensorStandardMap_tmul, map_one, one_mul,
     tensorStandardRightMap_apply, TensorProduct.tmul_smul, TensorProduct.smul_tmul', smul_eq_mul,
@@ -358,14 +358,14 @@ tensor product of the two unitors, hence bijective. -/
 theorem bijective_overTensorLift_tensorInclusion (n : SimplexCategoryᵒᵖ) :
     Function.Bijective (overTensorLift ((tensorLeftInclusion R A B).app n)
       ((tensorRightInclusion R A B).app n)) := by
-  show Function.Bijective (Algebra.TensorProduct.lift (tensorLeftInclusionMap R A B n)
+  change Function.Bijective (Algebra.TensorProduct.lift (tensorLeftInclusionMap R A B n)
     (tensorRightInclusionMap R A B n) fun _ _ => Commute.all _ _)
   have h : Algebra.TensorProduct.lift (tensorLeftInclusionMap R A B n)
       (tensorRightInclusionMap R A B n) (fun _ _ => Commute.all _ _) =
       Algebra.TensorProduct.map (Algebra.TensorProduct.lid R _).toAlgHom
         (Algebra.TensorProduct.lid R _).toAlgHom := by
     refine Algebra.TensorProduct.ext' fun a b => ?_
-    show ((Algebra.TensorProduct.lid R _) a ⊗ₜ[R] 1) *
+    change ((Algebra.TensorProduct.lid R _) a ⊗ₜ[R] 1) *
         (1 ⊗ₜ[R] (Algebra.TensorProduct.lid R _) b) =
       (Algebra.TensorProduct.lid R _) a ⊗ₜ[R] (Algebra.TensorProduct.lid R _) b
     rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]

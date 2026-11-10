@@ -88,6 +88,7 @@ theorem isAtWorstNodalOfRelativeDimensionOne_isStableUnderBaseChange (B : BigFpp
     AlgebraicGeometry.isAtWorstNodalOfRelativeDimensionOne_isEtaleLocalOnSourceAndTarget
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site
 /-- **Stacks 0DSG.** Eight criteria for a morphism of algebraic spaces over `S` to be
 at-worst-nodal of relative dimension one: the condition may be tested after base change to
 every scheme or to every affine scheme, on one surjective étale chart of the target, on the

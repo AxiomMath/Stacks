@@ -53,7 +53,7 @@ private lemma isFinite_eval {K : FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒ
   refine .of_exists ?_ ?_
   · obtain ⟨p, hp⟩ := hK.exists_isIso_ι
     refine ⟨p, ?_⟩
-    show IsIso ((K.filtration.ι.app (op p)).f n)
+    change IsIso ((K.filtration.ι.app (op p)).f n)
     exact inferInstanceAs
       (IsIso ((HomologicalComplex.eval 𝒜 (ComplexShape.up ℤ) n).map (K.filtration.ι.app (op p))))
   · obtain ⟨q, hq⟩ := hK.exists_isZero_obj
@@ -231,7 +231,7 @@ private lemma natTrans_app_comp_cokernelπ_natTrans_app {A I : FilteredObject �
 /-- `u ≫ cokernelπ u = 0`: the projection kills the subobject it divides by. -/
 private lemma comp_cokernelπ_hom {A I : FilteredObject 𝒜 ℤᵒᵖ} (u : A ⟶ I) [IsStrictHom u] :
     (u ≫ cokernelπ u).hom = 0 := by
-  show u.hom ≫ cokernel.π u.hom = 0
+  change u.hom ≫ cokernel.π u.hom = 0
   exact cokernel.condition _
 
 /-- The quotient filtration of the cokernel of a strict morphism between finitely filtered objects
@@ -246,7 +246,7 @@ lemma cokernelObj_filtration_isFinite {A I : FilteredObject 𝒜 ℤᵒᵖ} (u :
     exact isIso_of_mono_of_epi (cokernelStep u (op p))
   · obtain ⟨q, hq⟩ := hI.exists_isZero_obj
     refine ⟨q, ?_⟩
-    show IsZero (cokernel (u.natTrans.app (op q)))
+    change IsZero (cokernel (u.natTrans.app (op q)))
     rw [IsZero.iff_id_eq_zero, ← cancel_epi (cokernel.π (u.natTrans.app (op q))), comp_zero,
       Category.comp_id]
     exact hq.eq_of_src _ _

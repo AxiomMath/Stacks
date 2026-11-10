@@ -95,7 +95,7 @@ private lemma one_tmul_injective_of_quotient_faithfullyFlat
   let : Algebra (R ⧸ I) Q := q.toAlgebra
   have : Module.FaithfullyFlat (R ⧸ I) Q :=
     (RingHom.faithfullyFlat_algebraMap_iff (R := R ⧸ I) (S := Q)).mp (by
-      show q.FaithfullyFlat
+      change q.FaithfullyFlat
       exact hff)
   let p : S →ₛₗ[Ideal.Quotient.mk I] Q :=
     { toFun := Ideal.Quotient.mk _
@@ -103,12 +103,12 @@ private lemma one_tmul_injective_of_quotient_faithfullyFlat
       map_smul' := by
         intro r s
         simp only [Algebra.smul_def]
-        show Ideal.Quotient.mk _ (algebraMap R S r * s) = _
+        change Ideal.Quotient.mk _ (algebraMap R S r * s) = _
         rfl }
   let e := TensorProduct.map p hMI.semilinearMap
   intro x y hxy
   apply Module.FaithfullyFlat.tensorProduct_mk_injective (A := R ⧸ I) (B := Q) M
-  show (1 : Q) ⊗ₜ[R ⧸ I] x = (1 : Q) ⊗ₜ[R ⧸ I] y
+  change (1 : Q) ⊗ₜ[R ⧸ I] x = (1 : Q) ⊗ₜ[R ⧸ I] y
   have he := congrArg e hxy
   change p 1 ⊗ₜ[R ⧸ I] x = p 1 ⊗ₜ[R ⧸ I] y at he
   simpa [p] using he
@@ -122,9 +122,9 @@ private lemma eq_zero_of_annihilated_of_quotient_faithfullyFlat
   let P := Submodule.span R {x}
   have hP : I ≤ Module.annihilator R P := by
     intro r hr
-    show Module.toAddMonoidEnd R P r = 0
+    change Module.toAddMonoidEnd R P r = 0
     ext y
-    show r • (y : N) = 0
+    change r • (y : N) = 0
     refine Submodule.span_induction (p := fun y _ ↦ r • y = 0) ?_ ?_ ?_ ?_ y.property
     · rintro y (rfl : y = x)
       exact hxI r hr
@@ -231,7 +231,7 @@ private lemma quotient_faithfullyFlat_of_rTensor_injective
   have hqflat : Module.Flat (R ⧸ I) Q :=
     Module.Flat.of_linearEquiv
       (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).toLinearEquiv
-  show (algebraMap (R ⧸ I) Q).FaithfullyFlat
+  change (algebraMap (R ⧸ I) Q).FaithfullyFlat
   rw [RingHom.faithfullyFlat_algebraMap_iff,
     Module.FaithfullyFlat.iff_zero_iff_rTensor_zero]
   refine ⟨hqflat, ?_⟩
@@ -285,7 +285,7 @@ public theorem flat_and_faithful_on_ideal_torsion_tfae
               Function.Injective fun f : M →ₗ[R] N ↦ LinearMap.rTensor S f ] := by
   let q : R ⧸ I →+* S ⧸ I.map (algebraMap R S) :=
     Ideal.quotientMap (I.map (algebraMap R S)) (algebraMap R S) Ideal.le_comap_map
-  show List.TFAE
+  change List.TFAE
     [ Module.Flat R S ∧ RingHom.FaithfullyFlat q,
       Module.Flat R S ∧ Function.Surjective (PrimeSpectrum.comap q),
       Module.Flat R S ∧
@@ -308,7 +308,7 @@ public theorem flat_and_faithful_on_ideal_torsion_tfae
       Module.Flat.of_linearEquiv
         (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).toLinearEquiv
     have hf : RingHom.Flat q := by
-      show RingHom.Flat (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S)))
+      change RingHom.Flat (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S)))
       exact (RingHom.flat_algebraMap_iff).mpr hqflat
     exact ⟨hflat, RingHom.FaithfullyFlat.iff_flat_and_comap_surjective.mpr ⟨hf, hsurj⟩⟩
   tfae_have h13 : 1 → 3 := by
@@ -348,7 +348,8 @@ universe u v w
 
 open _root_.IPowerTorsion (unitMap)
 
-add_to_stacks 05E9 "the base-change criterion on ideal-power torsion modules" IPowerTorsion.baseChange_bijective_iff_quotientMap_bijective
+add_to_stacks 05E9 "the base-change criterion on ideal-power torsion modules"
+  IPowerTorsion.baseChange_bijective_iff_quotientMap_bijective
 
 end FormalGlueing
 
@@ -374,7 +375,8 @@ universe u v w
 and restriction of scalars is bijective. -/
 public alias counit_bijective := IPowerTorsion.extendRestrictScalarsAdj_counit_app_bijective
 
-add_to_stacks 05EC "the torsion-submodule isomorphism and the equivalence of subcategories" IPowerTorsion.baseChange_equiv_of_quotientMap_bijective
+add_to_stacks 05EC "the torsion-submodule isomorphism and the equivalence of subcategories"
+  IPowerTorsion.baseChange_equiv_of_quotientMap_bijective
 
 end FormalGlueing
 
@@ -459,7 +461,7 @@ private theorem exact_firstRelationCycles_subtype :
     Function.Exact (FormalGlueing.firstRelationCycles f N).subtype
       (relationDifferential f N) := by
   intro a
-  show (fun ij : Fin n × Fin n ↦ f ij.1 • a ij.2 - f ij.2 • a ij.1) = 0 ↔ _
+  change (fun ij : Fin n × Fin n ↦ f ij.1 • a ij.2 - f ij.2 • a ij.1) = 0 ↔ _
   constructor
   · intro h
     refine ⟨⟨a, ?_⟩, rfl⟩
@@ -496,7 +498,7 @@ private theorem isBaseChange_firstRelationCyclesMap [Module.Flat R S]
     intro a
     apply funext
     intro ij
-    show g (f ij.1 • a ij.2 - f ij.2 • a ij.1) =
+    change g (f ij.1 • a ij.2 - f ij.2 • a ij.1) =
       algebraMap R S (f ij.1) • g (a ij.2) - algebraMap R S (f ij.2) • g (a ij.1)
     simp only [map_sub, map_smul, algebraMap_smul]
   · exact hg.finitePow _
@@ -670,14 +672,14 @@ private theorem exists_idealHom_lift
     apply firstRelationPresentedModuleHom_ext f
     intro j
     simp only [LinearMap.add_apply, LinearMap.comp_apply, hpj]
-    show (1 : S) ⊗ₜ[R] l (Submodule.Quotient.mk (Stacks.RelationsOfSequence.e j)) +
+    change (1 : S) ⊗ₜ[R] l (Submodule.Quotient.mk (Stacks.RelationsOfSequence.e j)) +
       Stacks.RelationsOfSequence.phi f (Submodule.Quotient.mk (Stacks.RelationsOfSequence.e j)) • b
         = _
     have hlj : l (Submodule.Quotient.mk (Stacks.RelationsOfSequence.e j)) = a.1 j := by
       simp [l, FormalGlueing.cycleToPresentedModuleHom, Stacks.RelationsOfSequence.e,
         Fintype.linearCombination_apply_single]
     rw [hlj]
-    show (1 : S) ⊗ₜ[R] a.1 j + Stacks.RelationsOfSequence.baseMap f (Stacks.RelationsOfSequence.e
+    change (1 : S) ⊗ₜ[R] a.1 j + Stacks.RelationsOfSequence.baseMap f (Stacks.RelationsOfSequence.e
       j) • b = _
     rw [Stacks.RelationsOfSequence.baseMap_e]
     simpa [algebraMap_smul, z, FormalGlueing.idealHomToFirstRelationCycles] using (hab j).symm
@@ -696,7 +698,7 @@ private theorem exists_idealHom_lift
   obtain ⟨y, rfl⟩ := hp x
   have heq := DFunLike.congr_fun hl y
   change (1 : S) ⊗ₜ[R] l y + Stacks.RelationsOfSequence.phi f y • b = g (p y) at heq
-  show (1 : S) ⊗ₜ[R] h (p y) + Stacks.RelationsOfSequence.phi f y • b = g (p y)
+  change (1 : S) ⊗ₜ[R] h (p y) + Stacks.RelationsOfSequence.phi f y • b = g (p y)
   rw [← LinearMap.comp_apply, hh]
   exact heq
 
@@ -726,7 +728,7 @@ private theorem exists_extension_of_presentation
   have hc₀ : L ≤ LinearMap.ker c₀ := by
     rintro _ ⟨x, rfl⟩
     have h := DFunLike.congr_fun hdt x
-    show j (-d x) + t x.1 = 0
+    change j (-d x) + t x.1 = 0
     change j (d x) = t x.1 at h
     rw [map_neg, h, neg_add_cancel]
   let c := L.liftQ c₀ hc₀
@@ -751,7 +753,7 @@ private theorem exists_extension_of_presentation
       refine ⟨-⟨f, hf⟩, ?_⟩
       ext <;> simp [r]
     · rintro ⟨n', hn'⟩
-      show b (L.mkQ (n, f)) = 0
+      change b (L.mkQ (n, f)) = 0
       rw [← hn']
       simp [a, b, b₀]
   · intro m
@@ -820,9 +822,9 @@ private theorem exists_extension_lift_quotient
   obtain ⟨e, he⟩ := hp (ηQ (q 1))
   let t₀ := LinearMap.toSpanSingleton R P e
   have hrel (r : J) : p (t₀ r.1) = 0 := by
-    show p (r.1 • e) = 0
+    change p (r.1 • e) = 0
     rw [map_smul, he, ← map_smul, ← map_smul]
-    show ηQ (q (r.1 * 1)) = 0
+    change ηQ (q (r.1 * 1)) = 0
     rw [mul_one]
     have hr : q r.1 = 0 := (Submodule.Quotient.mk_eq_zero J).2 r.2
     rw [hr, map_zero]
@@ -838,7 +840,7 @@ private theorem exists_extension_lift_quotient
     change i (η (d r) + r.1 • z) = i (g r) at h
     change i (g r) = r.1 • e at h'
     rw [map_add, map_smul, h'] at h
-    show i (η (d r)) = r.1 • (e - i z)
+    change i (η (d r)) = r.1 • (e - i z)
     rw [smul_sub]
     exact eq_sub_of_add_eq h
   let d' : LinearMap.ker q →ₗ[R] N := d.comp
@@ -930,7 +932,7 @@ private theorem exists_kernel_lift_of_exact
     (b.comp (LinearMap.ker c).subtype).codRestrict _ (by
       intro x
       have h := DFunLike.congr_fun hpc x.1
-      show q (b x.1) = 0
+      change q (b x.1) = 0
       change p (c x.1) = q (b x.1) at h
       rw [← h, x.2, map_zero])
   have hf : Function.Bijective f := by
@@ -942,28 +944,28 @@ private theorem exists_kernel_lift_of_exact
       obtain ⟨n, hn⟩ := (hab x.1).1 hx'
       have hin : i n = 0 := by
         rw [← DFunLike.congr_fun hca n]
-        show c (a n) = 0
+        change c (a n) = 0
         rw [hn]
         exact x.2
       have hn₀ : n = 0 := hi (hin.trans i.map_zero.symm)
       apply Subtype.ext
-      show x.1 = 0
+      change x.1 = 0
       simpa only [hn₀, map_zero] using hn.symm
     · intro x
       obtain ⟨e, he⟩ := hb x.1
       have hce : p (c e) = 0 := by
-        show (p.comp c) e = 0
+        change (p.comp c) e = 0
         rw [hpc]
-        show q (b e) = 0
+        change q (b e) = 0
         rw [he]
         exact x.2
       obtain ⟨n, hn⟩ := (hip (c e)).1 hce
       have hy : c (e - a n) = 0 := by
         rw [map_sub]
-        show c e - (c.comp a) n = 0
+        change c e - (c.comp a) n = 0
         rw [hca, hn, sub_self]
       refine ⟨⟨e - a n, hy⟩, Subtype.ext ?_⟩
-      show b (e - a n) = x.1
+      change b (e - a n) = x.1
       rw [map_sub, hab.apply_apply_eq_zero, sub_zero, he]
   let e := LinearEquiv.ofBijective f hf
   refine ⟨(LinearMap.ker c).subtype.comp e.symm.toLinearMap, ?_, ?_⟩
@@ -996,7 +998,7 @@ private theorem exists_extension_descend
   have hr : LinearMap.range r ≤ LinearMap.range a := by
     rintro _ ⟨x, rfl⟩
     apply (hab (r x)).1
-    show b (x.1 - d (k x)) = 0
+    change b (x.1 - d (k x)) = 0
     rw [map_sub]
     have h := DFunLike.congr_fun hbd (k x)
     change b (d (k x)) = b x.1 at h
@@ -1005,7 +1007,7 @@ private theorem exists_extension_descend
   apply exists_extension_of_presentation q₀ (hq.comp hb) s (c.comp a) c
   rw [LinearMap.comp_assoc, hs]
   ext x
-  show c (x.1 - d (k x)) = c x.1
+  change c (x.1 - d (k x)) = c x.1
   rw [map_sub]
   have h := DFunLike.congr_fun hcd (k x)
   change c (d (k x)) = 0 at h
@@ -1025,7 +1027,7 @@ private theorem small_of_exact_of_surjective
   have h : b (e - s (b e)) = 0 := by rw [map_sub, hs, sub_self]
   obtain ⟨n, hn⟩ := (hab (e - s (b e))).1 h
   refine ⟨(n, b e), ?_⟩
-  show a n + s (b e) = e
+  change a n + s (b e) = e
   rw [hn, sub_add_cancel]
 
 /-- Pulling back an extension preserves its kernel and surjectivity. -/
@@ -1043,7 +1045,7 @@ private theorem exists_extension_pullback
     q.comp (LinearMap.snd R E P))
   let a : N →ₗ[R] L := (i.prod 0).codRestrict L (by
     intro n
-    show p (i n) - q 0 = 0
+    change p (i n) - q 0 = 0
     rw [hex.apply_apply_eq_zero, map_zero, sub_zero])
   let b := (LinearMap.snd R E P).comp L.subtype
   let c := (LinearMap.fst R E P).comp L.subtype
@@ -1094,7 +1096,7 @@ private theorem exists_tensorUnit_factor_of_idealPowerTorsion
         LinearMap.ker (LinearMap.toSpanSingleton S (TensorProduct R S N') (g' m)) := by
       rw [Ideal.map_le_iff_le_comap]
       intro r hr
-      show algebraMap R S r • g' m = 0
+      change algebraMap R S r • g' m = 0
       rw [algebraMap_smul, ← map_smul, hn r hr, map_zero]
     rintro ⟨s, hs⟩
     exact hle (by rwa [Ideal.map_pow])
@@ -1106,7 +1108,7 @@ private theorem exists_tensorUnit_factor_of_idealPowerTorsion
   ext m
   have h := hd (d.symm ⟨g' m, hg' m⟩)
   have hh : (1 : S) ⊗ₜ[R] f' m = g' m := by
-    show (1 : S) ⊗ₜ[R] (d.symm ⟨g' m, hg' m⟩).1 = g' m
+    change (1 : S) ⊗ₜ[R] (d.symm ⟨g' m, hg' m⟩).1 = g' m
     simpa only [LinearEquiv.apply_symm_apply] using h.symm
   have ht := congrArg (e.toLinearMap.baseChange S) hh
   have he : (e.toLinearMap.baseChange S).comp (e.symm.toLinearMap.baseChange S) =
@@ -1132,12 +1134,12 @@ private theorem isIdealPowerTorsion_directSum_quotient
       (Nat.le_add_left _ 1)
     have hrj : r ∈ I ^ n j := Ideal.pow_le_pow_right hjle hr
     obtain ⟨s, hs⟩ := Ideal.Quotient.mk_surjective (x j)
-    show r • x j = 0
+    change r • x j = 0
     rw [← hs]
-    show Ideal.Quotient.mk (I ^ n j) (r * s) = 0
+    change Ideal.Quotient.mk (I ^ n j) (r * s) = 0
     exact (Ideal.Quotient.eq_zero_iff_mem).2 ((I ^ n j).mul_mem_right s hrj)
   · have hxj : x j = 0 := by simpa only [DFinsupp.mem_support_iff, not_not] using hj
-    show r • x j = 0
+    change r • x j = 0
     rw [hxj, smul_zero]
 
 private theorem exists_extension_lift_idealPow_quotient
@@ -1274,7 +1276,7 @@ private theorem exists_extension_descend_of_flat_baseChange
     (((TensorProduct.mk R S P) 1).comp (LinearMap.ker q).subtype).codRestrict
       ((LinearMap.ker (q.baseChange S)).restrictScalars R) (by
         intro x
-        show q.baseChange S ((1 : S) ⊗ₜ[R] x.1) = 0
+        change q.baseChange S ((1 : S) ⊗ₜ[R] x.1) = 0
         rw [LinearMap.baseChange_tmul, x.2, TensorProduct.tmul_zero])
   have hK := isIdealPowerTorsion_of_injective I (LinearMap.ker q).subtype
     (LinearMap.ker q).subtype_injective hP
@@ -1346,15 +1348,15 @@ public theorem exists_shortExactSequence_lift_of_flat_baseChange
     · intro hz
       obtain ⟨n, hn⟩ := (hab' (e z)).1 hz
       refine ⟨n, ?_⟩
-      show e.symm (a' n) = z
+      change e.symm (a' n) = z
       rw [hn, e.symm_apply_apply]
     · rintro ⟨n, hn⟩
-      show b' (e z) = 0
+      change b' (e z) = 0
       change e.symm (a' n) = z at hn
       rw [← hn, e.apply_symm_apply]
       exact hab'.apply_apply_eq_zero n
   · ext n
-    show c' (e (e.symm (a' n))) = i ((1 : S) ⊗ₜ[R] n)
+    change c' (e (e.symm (a' n))) = i ((1 : S) ⊗ₜ[R] n)
     rw [e.apply_symm_apply]
     exact DFunLike.congr_fun hca' n
   · ext z

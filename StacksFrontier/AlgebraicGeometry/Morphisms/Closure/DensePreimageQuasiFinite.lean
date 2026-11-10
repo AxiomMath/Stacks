@@ -149,7 +149,7 @@ private lemma coproduct_section_eq_zero_of_projection_eq_zero {Y : Scheme.{u}}
       _ = ∑ j : Fin r, (Scheme.Modules.Hom.app (q j) D) x := heval Finset.univ
       _ = 0 := by simp [hzero]
   have ht : e.hom.app D x = t := by
-    show (Scheme.Modules.Hom.app (e.inv ≫ e.hom) D) t = t
+    change (Scheme.Modules.Hom.app (e.inv ≫ e.hom) D) t = t
     rw [e.inv_hom_id]
     simp
   rw [← ht, hx]
@@ -264,7 +264,7 @@ private lemma preimage_appTop_injective {Z S : Scheme.{u}}
       ((((Scheme.Modules.toPresheaf U.toScheme).obj
         ((Scheme.Modules.pushforward π).obj (SheafOfModules.unit _))).map iD).hom
         ((V.ι.appTop).hom (a - b))) = 0 := by
-    show ((((Scheme.Modules.pushforward π).obj (SheafOfModules.unit _)).presheaf.map
+    change ((((Scheme.Modules.pushforward π).obj (SheafOfModules.unit _)).presheaf.map
       (homOfLE (le_top : D ≤ ⊤)).op).hom
       ((V.ι.appTop).hom (a - b))) = 0
     rw [Scheme.Modules.pushforward_obj_presheaf_map (f := π)
@@ -275,7 +275,7 @@ private lemma preimage_appTop_injective {Z S : Scheme.{u}}
           homOfLE (le_top : K ≤ ⊤) := by
       apply Subsingleton.elim
     rw [hmap]
-    show (V.toScheme.presheaf.map (homOfLE (le_top : K ≤ ⊤)).op).hom
+    change (V.toScheme.presheaf.map (homOfLE (le_top : K ≤ ⊤)).op).hom
       ((V.ι.appTop).hom (a - b)) = 0
     have hleTop : ⊤ ≤ K.ι ⁻¹ᵁ K := K.ι_preimage_self.ge
     have hLEiso : IsIso (K.ι.appLE K ⊤ hleTop) := by
@@ -284,7 +284,7 @@ private lemma preimage_appTop_injective {Z S : Scheme.{u}}
         rw [Scheme.Opens.opensRange_ι]
       have : IsIso (homOfLE hleTop) :=
         ⟨homOfLE le_top, Subsingleton.elim _ _, Subsingleton.elim _ _⟩
-      show IsIso (K.ι.app K ≫ K.toScheme.presheaf.map (homOfLE hleTop).op)
+      change IsIso (K.ι.app K ≫ K.toScheme.presheaf.map (homOfLE hleTop).op)
       infer_instance
     have hLEzero : (K.ι.appLE K ⊤ hleTop).hom
         ((V.toScheme.presheaf.map (homOfLE (le_top : K ≤ ⊤)).op).hom
@@ -299,7 +299,7 @@ private lemma preimage_appTop_injective {Z S : Scheme.{u}}
   have ht' : ((((Scheme.Modules.toPresheaf U.toScheme).map φ).app
       (Opposite.op ⊤)).hom t) = (V.ι.appTop).hom (a - b) := ht
   have hφD : (Scheme.Modules.Hom.app φ D) tD = 0 := by
-    show ((((Scheme.Modules.toPresheaf U.toScheme).map φ).app (Opposite.op D)).hom
+    change ((((Scheme.Modules.toPresheaf U.toScheme).map φ).app (Opposite.op D)).hom
       ((((Scheme.Modules.toPresheaf U.toScheme).obj M).map iD).hom t)) = 0
     rw [modules_hom_restriction_natural φ D t, ht']
     exact htarget

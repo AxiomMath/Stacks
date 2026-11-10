@@ -380,7 +380,7 @@ theorem exists_infinitesimalAutomorphismModuleFunctor_equiv
       rw [ker_transportAutHom_squareZeroUnderRed_eq_top hcof P hthin V]
       exact Subgroup.mem_top a
     refine ⟨⟨a, hmem⟩, Functor.Fiber.hom_ext ?_⟩
-    show inv κ ≫ (κ ≫ θ.1 ≫ inv κ) ≫ κ = θ.1
+    change inv κ ≫ (κ ≫ θ.1 ≫ inv κ) ≫ κ = θ.1
     simp
   · intro V W f a
     have := isIso_squareZeroPushforwardComparison hcof P Z ι hι V
@@ -394,7 +394,7 @@ theorem exists_infinitesimalAutomorphismModuleFunctor_equiv
         (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 =
           a.1.asIso.hom.1 ≫ P.map ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) :=
       P.map_transportHom _ _
-    show τ f ≫ inv (squareZeroPushforwardComparison P Z ι hι W) ≫
+    change τ f ≫ inv (squareZeroPushforwardComparison P Z ι hι W) ≫
         (P.transportAut ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map f) a.1).asIso.hom.1 ≫
           squareZeroPushforwardComparison P Z ι hι W =
       (inv (squareZeroPushforwardComparison P Z ι hι V) ≫ a.1.asIso.hom.1 ≫
@@ -466,7 +466,7 @@ theorem exists_compatible_arrows_squareZero (hq : IsPredeformationCategory.{u, u
       rw [Category.assoc, ← squareZeroUnderRightHom_naturality, ← Category.assoc,
         Under.w ((squareZeroAlgFunctor.{u, u, u} (q.obj y)).map (0 : V₀ ⟶ V))]
     rwa [hb] at h
-  · show (ι₀ ≫ τ (0 : V₀ ⟶ V)) ≫ τ f = ι₀ ≫ τ (0 : V₀ ⟶ W)
+  · change (ι₀ ≫ τ (0 : V₀ ⟶ V)) ≫ τ f = ι₀ ≫ τ (0 : V₀ ⟶ W)
     rw [Category.assoc, ← hτcomp, zero_comp]
 
 end CompatibleArrows
@@ -504,7 +504,7 @@ public theorem tangentSpace_deformationCategory_linearEquiv_of_tangentFunctorDat
     let D := predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀
     let 𝓕 := BasedCategory.ofFunctor D.projection
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hD⟩
     let M : SiteModule k B := (fgSiteModule B hk).obj (FGModuleCat.of k k)
     ∃ e : artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered) ≃ₗ[k]
@@ -520,7 +520,7 @@ public theorem tangentSpace_deformationCategory_linearEquiv_of_tangentFunctorDat
                 y.1.hom ≫ η.hom = (D.objects z.1).arrow := by
   intro D 𝓕 M
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
     ⟨tangentConditionS2.{u, u, u} (𝓕 := 𝓕) hD⟩
   obtain ⟨c, hc₁, hc₂⟩ := exists_deformationClassEquiv_squareZeroLiftClasses B S hS iΛ toS hk p
@@ -561,7 +561,7 @@ public theorem finiteDimensional_tangentFunctorData_of_artinianTangentSpace
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
       (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection).p) :=
       ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor
         (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection)
           hD.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hD⟩
@@ -573,7 +573,7 @@ public theorem finiteDimensional_tangentFunctorData_of_artinianTangentSpace
   let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
       (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection).p) :=
     ⟨hD.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor
         (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection)
           hD.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hD⟩

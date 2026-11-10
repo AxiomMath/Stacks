@@ -613,7 +613,7 @@ public theorem ulift_preserves_pseudoCoherent {R : Type uR} [Ring R]
   intro M hfinite hfree
   have := hfinite
   have := hfree
-  show Module.Finite R (ULift M) ∧ Module.Free R (ULift M)
+  change Module.Finite R (ULift M) ∧ Module.Free R (ULift M)
   exact ⟨inferInstance, inferInstance⟩
 
 open CochainComplex.DerivedExtensionScalars in

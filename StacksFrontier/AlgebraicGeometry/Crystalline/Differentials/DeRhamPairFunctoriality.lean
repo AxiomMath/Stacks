@@ -115,8 +115,7 @@ theorem tensorMap_tmul {P : Type*} [AddCommGroup P] [Module (B : Type u) P] {Q :
 theorem tensorMap_smul {P : Type*} [AddCommGroup P] [Module (B : Type u) P] {Q : Type*}
     [AddCommGroup Q] [Module (C : Type u) Q] (ν : P →ₛₗ[f.toRingHom] Q) (b : (B : Type u))
     (z : M ⊗[(B : Type u)] P) : tensorMap f μ ν (b • z) = f b • tensorMap f μ ν z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m x =>
     rw [TensorProduct.smul_tmul', tensorMap_tmul, tensorMap_tmul, map_smulₛₗ,
       TensorProduct.smul_tmul']
@@ -168,8 +167,7 @@ theorem tensorMap_map_leftWedge (p : ℕ)
         (TensorProduct.map LinearMap.id ((leftWedge p).flip ω) z) =
       TensorProduct.map LinearMap.id ((leftWedge p).flip (formsMap f hf p ω))
         (tensorMap f μ (oneFormsMap f hf) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m η =>
     rw [TensorProduct.map_tmul, tensorMap_tmul, tensorMap_tmul, TensorProduct.map_tmul]
     simp only [LinearMap.id_apply, LinearMap.flip_apply]
@@ -185,8 +183,7 @@ private theorem restrictScalars_tensor_induction {R S : Type*} [CommRing R] [Com
     (add : ∀ x y, motive x → motive y → motive (x + y))
     (tmul : ∀ m ω, motive ((RestrictScalars.addEquiv R S _).symm (m ⊗ₜ ω))) (x) : motive x := by
   obtain ⟨y, rfl⟩ := (RestrictScalars.addEquiv R S _).symm.surjective x
-  induction y using TensorProduct.induction_on with
-  | zero => simpa using tmul 0 0
+  induction y using TensorProduct.inductionOn with
   | tmul m ω => exact tmul m ω
   | add y z hy hz => rw [map_add]; exact add _ _ hy hz
 

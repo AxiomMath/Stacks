@@ -372,7 +372,7 @@ theorem isQuasiSeparatedOver_iff_diagonalProp_quasiCompact_of_isTerminal
   have h'' : DiagonalProp B S hS (@AlgebraicGeometry.QuasiCompact.{u}) (terminal.from F) :=
     (MorphismProperty.cancel_right_of_respectsIso (quasiCompactProp B S hS).diagonal
       (terminal.from F) (terminalIsTerminal.uniqueUpToIso hH).hom).1 h'
-  show quasiCompactProp B S hS (diag F)
+  change quasiCompactProp B S hS (diag F)
   rw [hd]
   exact MorphismProperty.RespectsIso.postcomp (quasiCompactProp B S hS) _ _ h''
 
@@ -456,7 +456,7 @@ theorem diagonalProp_quasiCompact_relocalize {F G : (BigFppfOver B S hS)ᵒᵖ �
     DiagonalProp B S' hS' (@AlgebraicGeometry.QuasiCompact.{u})
       ((OverShriek.relocalizePresheafFunctor k).map p) := by
   have h1 := presheafQuasiCompact_relocalize B S hS hS' k (p := pullback.diagonal p) h
-  show quasiCompactProp B S' hS'
+  change quasiCompactProp B S' hS'
     (pullback.diagonal ((OverShriek.relocalizePresheafFunctor k).map p))
   rw [← OverShriek.relocalize_map_diagonal]
   exact MorphismProperty.RespectsIso.postcomp (quasiCompactProp B S' hS') _ _ h1

@@ -299,6 +299,7 @@ theorem isRelativelyEtale_comp_relativeDiagonal_iff (hk : IsRelativelyEtale B S 
       (isRelativelyEtale_comp B S hS _ _ h (isRelativelyEtale_diagPrecomp B S hS k f hk))⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for pullbacks in the presheaf category on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 instance hasPullbacks_presheaf_RelativeDiagonalEtalePrecomposition :

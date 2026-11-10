@@ -75,14 +75,14 @@ theorem post_overMap_isContinuous {U V : C} (f : U ⟶ V) (W : Over U) :
       simp only [GrothendieckTopology.mem_over_iff, Sieve.overEquiv,
         RelIso.coe_fn_mk, Equiv.coe_fn_mk]
       rw [← Sieve.functorPushforward_comp, ← Sieve.functorPushforward_comp]
-      show Sieve.functorPushforward
+      change Sieve.functorPushforward
           (W'.iteratedSliceBackward ⋙ Over.forget W' ⋙ Over.forget V) T ∈ J _ ↔
         Sieve.functorPushforward (Over.forget W.left) T ∈ J _
       rw [Over.iteratedSliceBackward_forget_forget]
       rfl
     exact Functor.IsDenseSubsite.instIsContinuous _ _ _
   have : e.IsContinuous ((J.over U).over W) ((J.over V).over (G.obj W)) := by
-    show (W.iteratedSliceEquiv.functor ⋙ W'.iteratedSliceEquiv.inverse).IsContinuous
+    change (W.iteratedSliceEquiv.functor ⋙ W'.iteratedSliceEquiv.inverse).IsContinuous
       ((J.over U).over W) ((J.over V).over W')
     exact Functor.isContinuous_comp _ _ _ (J.over W.left) _
   exact Functor.isContinuous_of_iso he.symm _ _

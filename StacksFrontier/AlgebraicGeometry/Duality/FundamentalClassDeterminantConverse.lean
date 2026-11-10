@@ -88,8 +88,7 @@ variable {R : Type u} [CommRing R] {M₁ : Type v} {M₀ : Type w} {F : Type x}
 theorem exists_tmul_of_span_singleton_eq_top {A : Type v} {B : Type w} [AddCommGroup A]
     [Module R A] [AddCommGroup B] [Module R B] (a : A) (ha : Submodule.span R {a} = ⊤)
     (z : A ⊗[R] B) : ∃ y : B, z = a ⊗ₜ[R] y := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, (TensorProduct.tmul_zero B a).symm⟩
+  induction z using TensorProduct.inductionOn with
   | tmul p q =>
     obtain ⟨t, rfl⟩ :=
       Submodule.mem_span_singleton.1 (ha.ge (Submodule.mem_top : p ∈ (⊤ : Submodule R A)))

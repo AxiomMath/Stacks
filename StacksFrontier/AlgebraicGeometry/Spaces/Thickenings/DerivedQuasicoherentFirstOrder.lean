@@ -148,7 +148,7 @@ theorem qcohDerived_of_qcohDerived_smallEtaleDerivedModulePullback_of_isFirstOrd
           (smallEtaleRingedSite B S hS Y.1 Y.2).O)
         (Stacks.SheafOfModules.Tensor.sheafTensor_additive _) P _ _ Sm.g) (by
       refine HomologicalComplex.hom_ext _ _ fun n => ?_
-      show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+      change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
           (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj (P.X n)).map Sm.f ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
           (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj (P.X n)).map Sm.g = 0

@@ -192,7 +192,7 @@ theorem flat_structureMap_of_coordinates : D'.structureMap.toRingHom.Flat := by
       ((algebraMap E.object (E.object ⊗[MvPolynomial W A] B')).comp
         E.structureMap.toRingHom) := by
     ext a
-    show D'.structureMap.toRingHom a = e (E.structureMap.toRingHom a ⊗ₜ 1)
+    change D'.structureMap.toRingHom a = e (E.structureMap.toRingHom a ⊗ₜ 1)
     rw [he, map_one, mul_one, envelopeAlgebraMapHom_structureMap]
   rw [hstruct]
   exact RingHom.Flat.comp (RingHom.Flat.comp (flat_structureMap_polynomialModelEnvelope A _ _)
@@ -234,7 +234,7 @@ theorem map_polynomialModelIdeal_tensor_aeval {J₁' : Ideal (A₁ ⊗[A] B')}
     rw [← Set.range_comp, ← Set.range_comp]
     congr 2
     funext w
-    show (1 : A₁) ⊗ₜ[A] (MvPolynomial.aeval t (MvPolynomial.X w)) = (1 : A₁) ⊗ₜ[A] t w
+    change (1 : A₁) ⊗ₜ[A] (MvPolynomial.aeval t (MvPolynomial.X w)) = (1 : A₁) ⊗ₜ[A] t w
     rw [MvPolynomial.aeval_X]
   rw [hJ₁'eq, hJ'eq, polynomialModelIdeal, Ideal.map_sup, Ideal.map_sup,
     Ideal.map_span, Ideal.map_span, hspan,
@@ -364,7 +364,6 @@ variable {A₁ : DividedPowerRing.{u}} [Algebra A A₁]
   (φ : DividedPowers.DPMorphism A.dividedPowers A₁.dividedPowers)
   (hφ : φ.toRingHom = algebraMap A A₁)
 
-include hφ in
 /-- The ideal `J₁` commutes with localization away from `g`. -/
 theorem map_tensorAlgebraMap_localization {J : Ideal B} {J₁ : Ideal (A₁ ⊗[A] B)}
     (hJ₁eq : J₁ = J.map (Algebra.TensorProduct.includeRight : B →ₐ[A] A₁ ⊗[A] B).toRingHom ⊔
@@ -409,7 +408,7 @@ theorem bijective_envelopeBaseChangeHom_of_hasLocalFlatCoordinates {p : ℕ} (hp
       A₁.ideal.map (algebraMap A₁ (A₁ ⊗[A] Localization.Away g))
     let D₁' := dividedPowerEnvelope A₁ (algebraMap A₁ (A₁ ⊗[A] Localization.Away g)) J₁'
       le_sup_right
-    have hJ₁'eq := map_tensorAlgebraMap_localization φ hφ hJ₁eq g
+    have hJ₁'eq := map_tensorAlgebraMap_localization hJ₁eq g
     let : Algebra A D'.object := D'.structureMap.toRingHom.toAlgebra
     let : Algebra (A₁ ⊗[A] D.object) (A₁ ⊗[A] D'.object) :=
       (tensorEnvelopeMap le_rfl D D').toRingHom.toAlgebra
@@ -584,7 +583,7 @@ theorem tensorQuotientMap_tmul (a : A₁) (b : B) :
     tensorQuotientMap π hle (a ⊗ₜ[A] b) =
       Ideal.Quotient.mk A₁.ideal a ⊗ₜ[A ⧸ A.ideal] π b := by
   let := quotientAlgebraOfLE hle
-  show Ideal.Quotient.mk A₁.ideal a ⊗ₜ[A ⧸ A.ideal] (1 : C) *
+  change Ideal.Quotient.mk A₁.ideal a ⊗ₜ[A ⧸ A.ideal] (1 : C) *
     (1 : A₁ ⧸ A₁.ideal) ⊗ₜ[A ⧸ A.ideal] π b = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
@@ -613,13 +612,13 @@ private theorem ker_tensorQuotientMap_le (hπ : Function.Surjective π) :
           (Ideal.mem_sup_right (Ideal.mem_map_of_mem _ ha))) with
       commutes' := fun r => by
         obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective r
-        show Ideal.Quotient.mk J₁ (algebraMap A₁ (A₁ ⊗[A] B) (algebraMap A A₁ a)) =
+        change Ideal.Quotient.mk J₁ (algebraMap A₁ (A₁ ⊗[A] B) (algebraMap A A₁ a)) =
           Ideal.Quotient.mk J₁ (algebraMap A (A₁ ⊗[A] B) a)
         rw [← IsScalarTower.algebraMap_apply] }
   let g₀ : B →ₐ[A] (A₁ ⊗[A] B) ⧸ J₁ :=
     (Ideal.Quotient.mkₐ A J₁).comp Algebra.TensorProduct.includeRight
   let g₁ : C →ₐ[A] (A₁ ⊗[A] B) ⧸ J₁ := AlgHom.liftOfSurjective π hπ g₀ (fun b hb => by
-    show Ideal.Quotient.mk J₁ ((1 : A₁) ⊗ₜ[A] b) = 0
+    change Ideal.Quotient.mk J₁ ((1 : A₁) ⊗ₜ[A] b) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_sup_left (Ideal.mem_map_of_mem _ hb)))
   let g' : C →ₐ[A ⧸ A.ideal] (A₁ ⊗[A] B) ⧸ J₁ :=
     AlgHom.extendScalarsOfSurjective Ideal.Quotient.mk_surjective g₁
@@ -627,14 +626,13 @@ private theorem ker_tensorQuotientMap_le (hπ : Function.Surjective π) :
     (Algebra.TensorProduct.lift f' g' (fun _ _ => Commute.all _ _)).toRingHom
   have key : ∀ x, inv (tensorQuotientMap π hle x) = Ideal.Quotient.mk J₁ x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul a b =>
       rw [tensorQuotientMap_tmul]
-      show f' (Ideal.Quotient.mk A₁.ideal a) * g₁ (π b) = _
+      change f' (Ideal.Quotient.mk A₁.ideal a) * g₁ (π b) = _
       rw [AlgHom.liftOfSurjective_apply]
-      show Ideal.Quotient.mk J₁ (algebraMap A₁ (A₁ ⊗[A] B) a) *
+      change Ideal.Quotient.mk J₁ (algebraMap A₁ (A₁ ⊗[A] B) a) *
         Ideal.Quotient.mk J₁ ((1 : A₁) ⊗ₜ[A] b) = _
       rw [← map_mul, Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul,
         mul_one, one_mul]
@@ -656,9 +654,9 @@ private theorem map_sup_le_ker_tensorQuotientMap :
   · rw [Ideal.map_le_iff_le_comap]
     intro j hj
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show tensorQuotientMap π hle ((1 : A₁) ⊗ₜ[A] j) = 0
+    change tensorQuotientMap π hle ((1 : A₁) ⊗ₜ[A] j) = 0
     rw [tensorQuotientMap_tmul]
-    show _ ⊗ₜ[A ⧸ A.ideal] π j = 0
+    change _ ⊗ₜ[A ⧸ A.ideal] π j = 0
     rw [show π j = 0 from hj, TensorProduct.tmul_zero]
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha

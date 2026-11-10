@@ -106,23 +106,24 @@ theorem cycleAssociatedToClosedSubscheme_vanishingIdeal_closure_apply
 the one-cycles of the reduced closed subschemes on the closures of the points of
 `genericPointsOne X`. -/
 theorem cycleAssociatedToClosedSubscheme_id_eq_finsum
-    [Fintype (genericPointsOne X)] (x : X) :
+    [Finite (genericPointsOne X)] (x : X) :
     (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p (𝟙 X) 1).1 x =
       ∑ᶠ ξ : genericPointsOne X, (componentMultiplicity X ξ : ℤ) *
         (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p
           (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({ξ.1} : Set X))).subschemeι
           1).1 x := by
   classical
+  have := Fintype.ofFinite (genericPointsOne X)
   have key (ξ : genericPointsOne X) := cycleAssociatedToClosedSubscheme_vanishingIdeal_closure_apply
     k p ξ.2 x
   rw [cycleAssociatedToClosedSubscheme_id_apply k p x, finsum_eq_sum_of_fintype]
   simp only [key, mul_ite, mul_one, mul_zero]
   by_cases hx : x ∈ genericPointsOne X
-  · rw [dif_pos hx, Finset.sum_eq_single ⟨x, hx⟩ (fun ξ _ hne => ?_) (by simp)]
+  · rw [dite_eq_left hx, Finset.sum_eq_single ⟨x, hx⟩ (fun ξ _ hne => ?_) (by simp)]
     · simp
-    · exact if_neg fun h => hne (Subtype.ext h.symm)
-  · rw [dif_neg hx]
-    exact (Finset.sum_eq_zero fun ξ _ => if_neg fun h : x = ξ.1 => hx (h ▸ ξ.2)).symm
+    · exact ite_eq_right fun h => hne (Subtype.ext h.symm)
+  · rw [dite_eq_right hx]
+    exact (Finset.sum_eq_zero fun ξ _ => ite_eq_right fun h : x = ξ.1 => hx (h ▸ ξ.2)).symm
 
 /-- Let `ℰ` be finite locally free of rank `r` on a proper scheme `X` of dimension at most one over
 `k`, and `chern` a first Chern class component rule. If the degree of `ℰ` is

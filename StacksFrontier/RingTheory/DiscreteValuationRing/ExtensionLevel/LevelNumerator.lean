@@ -46,7 +46,7 @@ theorem perfectRing_of_range_eq_iInter_pow
       intro n hn
       obtain ⟨z, hz⟩ := (h (f x)).mp ⟨x, rfl⟩ (n + 1) (by omega)
       refine ⟨z, hinj ?_⟩
-      show (z ^ (p ^ n)) ^ p = y ^ p
+      change (z ^ (p ^ n)) ^ p = y ^ p
       rw [← pow_mul, ← pow_succ, hz, hy]
     obtain ⟨a, ha⟩ := hyrange
     refine ⟨a, hf ?_⟩
@@ -299,7 +299,7 @@ theorem isNilpotent_maximalIdeal_quotient_pow
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     simp [Q, sup_eq_left.mpr (IsLocalRing.le_maximalIdeal hI)]
   refine ⟨n, ?_⟩
-  show (IsLocalRing.maximalIdeal Q) ^ n = 0
+  change (IsLocalRing.maximalIdeal Q) ^ n = 0
   rw [← hmap, ← Ideal.map_pow]
   exact Ideal.map_quotient_self I
 
@@ -784,7 +784,7 @@ theorem exists_totallyRamified_root_uniformizer
   refine ⟨E, hE, hKE, hAE, htower, hfin, hsep, htot,
     hdeg.trans (Polynomial.natDegree_X_pow d), y⁻¹, ht, ?_⟩
   refine ⟨Polynomial.X ^ d - Polynomial.C π, Polynomial.monic_X_pow_sub_C π hd.ne', ?_⟩
-  show Polynomial.aeval y⁻¹ (Polynomial.X ^ d - Polynomial.C π) = 0
+  change Polynomial.aeval y⁻¹ (Polynomial.X ^ d - Polynomial.C π) = 0
   rw [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C, ht, sub_self]
 
 theorem exists_totallyRamified_root_pow_sub

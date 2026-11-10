@@ -138,6 +138,7 @@ private theorem paste_naturality_zero {C D : Type*} [Category C] [Category D] (P
   rw [← P.map_comp_assoc, ← reassoc_of% h₁, h₂, ← Category.assoc, P.map_comp_assoc, h₄,
     Category.assoc]
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- **`coefficientFirstPageMapZero` is natural in the module.** -/
 theorem coefficientFirstPageMapZero_naturality (q : ℤ) {M M' : Modules Y.toRingedSpace}
     (φ : M ⟶ M') :
@@ -182,6 +183,7 @@ theorem coefficientFirstPageShiftIso_hom (k : ℕ) (q : ℤ) (M : Modules Y.toRi
       coefficientFirstPageShiftMap f g hflat k q M :=
   rfl
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- **`coefficientFirstPageShiftMap` is natural in the module.** -/
 theorem coefficientFirstPageShiftMap_naturality (k : ℕ) (q : ℤ) {M M' : Modules Y.toRingedSpace}
     (φ : M ⟶ M') :
@@ -245,7 +247,7 @@ private theorem eqToIso_trans_family_eq {ι C : Type*} [Category C] (A B : ι �
 theorem higherDirectImageGradedPieceFlatIso_natCast (k : ℕ) (q : ℤ) :
     higherDirectImageGradedPieceFlatIso f g hflat (k : ℤ) q =
       higherDirectImageGradedPieceFlatIsoNat f g hflat k q := by
-  rw [higherDirectImageGradedPieceFlatIso, dif_neg (by omega),
+  rw [higherDirectImageGradedPieceFlatIso, dite_eq_right (by omega),
     eqToIso_trans_family_eq (fun i : ℕ => higherDirectImage (derivedRelativePushforward f g)
         (gradedPiece (inverseImageBase (f ≫ g)) (i : ℤ) (deRhamSmoothFiltration f g)) ((i : ℤ) + q))
       (fun i : ℕ => deRhamFirstPageFlat f g (i : ℤ) q)

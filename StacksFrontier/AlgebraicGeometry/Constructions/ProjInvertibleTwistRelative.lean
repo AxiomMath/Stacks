@@ -211,7 +211,7 @@ theorem mulRightHom_app (s : SheafOfModules.unit (structureSheaf S.sheaf.obj
       tensorSectionsAt S.sheaf.obj S.ringCatSheaf.property U M A x
         (s.val.app U (Stacks.AlgebraicGeometry.GradedAlgebraTwist.unitSection
           S.sheaf.obj S.ringCatSheaf.property U)) := by
-  show ((Invertible.tensorProductBifunctor S.sheaf.obj S.ringCatSheaf.property).map
+  change ((Invertible.tensorProductBifunctor S.sheaf.obj S.ringCatSheaf.property).map
       (X := (M, SheafOfModules.unit (structureSheaf S.sheaf.obj S.ringCatSheaf.property)))
       (Y := (M, A)) (𝟙 M, s)).val.app U
       ((Invertible.tensorProductRightUnitor S.sheaf.obj
@@ -259,9 +259,9 @@ theorem powHom_succ (ℓ : (tp L 1).sections) (d : ℕ) :
   refine unitHom_ext _ _ fun U => ?_
   refine Eq.trans (powHom_app L ℓ (d + 1) U) ?_
   refine Eq.trans (powSec_succ_eval L ℓ d U) ?_
-  show _ = (powStep L ℓ d).val.app U ((powHom L ℓ d).val.app U _)
+  change _ = (powStep L ℓ d).val.app U ((powHom L ℓ d).val.app U _)
   refine Eq.trans ?_ (congrArg ((powStep L ℓ d).val.app U) (powHom_app L ℓ d U)).symm
-  show _ = (reix L (succ_cast d)).hom.val.app U
+  change _ = (reix L (succ_cast d)).hom.val.app U
     ((TensorPower.coherentMulIso S.sheaf.obj S.ringCatSheaf.property L (d : ℤ) 1).hom.val.app U
       ((mulRightHom (tp L (d : ℤ)) (tp L 1) (powHom L ℓ 1)).val.app U
         ((powSec L ℓ d).eval U)))
@@ -320,7 +320,7 @@ theorem eq_zero_of_isZero {M : SheafOfModules.{u} (structureSheaf S.sheaf.obj
   have h1 : (𝟙 M) = (0 : M ⟶ M) := h.eq_of_src _ _
   have h2 := congrArg (fun f : M ⟶ M => (SheafOfModules.Hom.val f).app U a) h1
   refine h2.trans ?_
-  show (ConcreteCategory.hom (((0 : M.val ⟶ M.val)).app U)) a = 0
+  change (ConcreteCategory.hom (((0 : M.val ⟶ M.val)).app U)) a = 0
   rw [PresheafOfModules.zero_app]
   simp
 

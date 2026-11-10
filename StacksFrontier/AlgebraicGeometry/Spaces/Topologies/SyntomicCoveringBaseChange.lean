@@ -77,6 +77,7 @@ private instance (priority := high) hasPullback_presheaf_syntomicCoveringBaseCha
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is expensive here
 /-- **Stacks 041B**, the base-change clause. The first projections of the presheaf fibre
 products of a syntomic covering of an algebraic space over `S` with a morphism `g` into its
 target form a syntomic covering of the source of `g`. -/

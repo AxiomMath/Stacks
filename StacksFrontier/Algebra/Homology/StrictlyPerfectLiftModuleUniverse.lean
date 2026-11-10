@@ -129,7 +129,7 @@ theorem exists_mem_forall_exists_preimage_top {F G : _root_.SheafOfModules.{w} R
       (F.val.congr_map_apply (Quiver.Hom.unop_inj (Subsingleton.elim _ _)) (m j))⟩
   choose V hxV τ hτ using key
   refine ⟨⨅ j, V j, ?_, fun j => ⟨G.val.map (homOfLE (iInf_le V j)).op (τ j), ?_⟩⟩
-  · show (x : Z) ∈ (↑(⨅ j, V j) : Set Z)
+  · change (x : Z) ∈ (↑(⨅ j, V j) : Set Z)
     rw [Opens.coe_iInf]
     exact Set.mem_iInter.2 hxV
   · refine (PresheafOfModules.naturality_apply p.val (homOfLE (iInf_le V j)).op (τ j)).trans ?_
@@ -180,7 +180,7 @@ theorem exists_over_lift_of_retract_moduleULift
   let θ : ∀ j : Fin n, (((moduleULift.{u, w} R).obj G).over V).sections := fun j =>
     PresheafOfModules.sectionsMk (fun W => ULift.up (G.val.map W.unop.hom.op (τ j)))
       (fun {W W'} g => by
-        show ULift.up (G.val.map g.unop.left.op (G.val.map W.unop.hom.op (τ j))) =
+        change ULift.up (G.val.map g.unop.left.op (G.val.map W.unop.hom.op (τ j))) =
           ULift.up (G.val.map W'.unop.hom.op (τ j))
         exact congrArg ULift.up (map_map_apply_eq _ _ _ _ _))
   have hkey : ∀ j : Fin n, uliftUnitHom (θ j) ≫
@@ -195,7 +195,7 @@ theorem exists_over_lift_of_retract_moduleULift
     have hL : (uliftUnitHom (θ j) ≫ (_root_.SheafOfModules.overFunctor R V).map
           ((moduleULift.{u, w} R).map p)).val.app W (ULift.up (1 : (R.over V).obj.obj W)) =
         ULift.up (p.val.app (op W.unop.left) (G.val.map W.unop.hom.op (τ j))) := by
-      show ((moduleULift.{u, w} R).map p).val.app (op W.unop.left)
+      change ((moduleULift.{u, w} R).map p).val.app (op W.unop.left)
         ((uliftUnitHom (θ j)).val.app W (ULift.up (1 : (R.over V).obj.obj W))) = _
       rw [h1]
       rfl
@@ -206,7 +206,7 @@ theorem exists_over_lift_of_retract_moduleULift
       (PresheafOfModules.sections_property (uliftUnitSection
         (a j ≫ (moduleULift.{u, w} R).map f)) (homOfLE le_top : W.unop.left ⟶ ⊤).op).symm
     rw [hL]
-    show ULift.up (p.val.app (op W.unop.left) (G.val.map W.unop.hom.op (τ j))) =
+    change ULift.up (p.val.app (op W.unop.left) (G.val.map W.unop.hom.op (τ j))) =
       (uliftUnitSection (a j ≫ (moduleULift.{u, w} R).map f)).val (op W.unop.left)
     rw [hσ]
     refine congrArg ULift.up ?_

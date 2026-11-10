@@ -153,7 +153,7 @@ public theorem exists_stage_model_of_flat_over_open {I : Type u} [Category.{u} I
   have hV₃c : IsCompact (V₃ : Set (D.obj i₃)) :=
     (D.map a).isCompact_preimage hV₁c
   have hV₃ : c.π.app i₃ ⁻¹ᵁ V₃ = V := by
-    show c.π.app i₃ ⁻¹ᵁ (D.map a ⁻¹ᵁ V₁) = V
+    change c.π.app i₃ ⁻¹ᵁ (D.map a ⁻¹ᵁ V₁) = V
     rw [← Scheme.Hom.comp_preimage, c.w a, hV₁]
   obtain ⟨w₃, hX₃sq⟩ := exists_isPullback_pullback_snd_of_stage D c f b X₂ hX₂sq
   let X₃ : Over (D.obj i₃) := Over.mk (pullback.snd X₂.hom (D.map b))

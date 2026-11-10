@@ -96,7 +96,7 @@ public theorem topologicalKrullDim_le_zero_of_quasiSober_of_t1Space {S : Type u}
   obtain ⟨c, hc⟩ := C.2.1
   have hcD : c ∈ D.carrier := hCD hc
   rw [hDw, Set.mem_singleton_iff] at hcD
-  show D.carrier ⊆ C.carrier
+  change D.carrier ⊆ C.carrier
   rw [hDw, ← hcD]
   exact Set.singleton_subset_iff.2 hc
 

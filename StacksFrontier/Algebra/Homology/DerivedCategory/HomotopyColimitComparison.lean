@@ -53,7 +53,7 @@ theorem isIso_of_isHomotopyColimitCocone_of_iso {F F' : ℕ ⥤ DerivedCategory 
   have key : e.hom ≫ H.map h = colimMap (Functor.whiskerRight α.hom H) ≫ e'.hom := by
     refine colimit.hom_ext fun m => ?_
     rw [reassoc_of% (he m), ι_colimMap_assoc, he' m]
-    simp only [Sigma.ι_desc, ← H.map_comp, hcomm, Functor.whiskerRight_app]
+    simp only [Sigma.ι_comp_desc, ← H.map_comp, hcomm, Functor.whiskerRight_app]
   have : IsIso (e.hom ≫ H.map h) := by
     rw [key]
     infer_instance

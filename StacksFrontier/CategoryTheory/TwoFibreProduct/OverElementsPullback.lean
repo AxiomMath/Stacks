@@ -186,7 +186,8 @@ instance : (elementsPullback h).EssSurj where
     have hval : i.hom.unop.1 = 𝟙 (op U') := congrArg Quiver.Hom.op
       (@IsHomLift.eq_of_isHomLift _ _ _ _ (Functor.Elements.π H).leftOp
         ((NatTrans.mapElements α).op.obj (op (Functor.elementsMk _ (op U') s)))
-        ((NatTrans.mapElements β).op.obj (op (Functor.elementsMk _ (op U') t))) (𝟙 U') i.hom hi).symm
+        ((NatTrans.mapElements β).op.obj (op (Functor.elementsMk _ (op U') t))) (𝟙 U') i.hom
+        hi).symm
     have hst : α.app (op U') s = β.app (op U') t := by
       have h₂ : H.map i.hom.unop.1 (β.app (op U') t) = α.app (op U') s := i.hom.unop.2
       rw [hval] at h₂
@@ -322,7 +323,7 @@ theorem essSurj_elementsProd : (elementsProd pF pG).EssSurj where
       Types.exists_of_isPullback (isPullback_app_of_isLimit_binaryFan h (op U')) s t rfl
     refine ⟨op (Functor.elementsMk _ (op U') z), ⟨isoMkVertical (U := U') (Iso.refl _) (Iso.refl _)
       (IsHomLift.id rfl) (IsHomLift.id rfl) ?_⟩⟩
-    show 𝟙 U' ≫ i.hom = 𝟙 U' ≫ 𝟙 U'
+    change 𝟙 U' ≫ i.hom = 𝟙 U' ≫ 𝟙 U'
     rw [← hval]
 
 /-- **The category of elements of a product of presheaves of sets is the product over `C` of the

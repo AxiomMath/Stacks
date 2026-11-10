@@ -248,7 +248,7 @@ private lemma extendRightExactFunctorMap_restrict
       (finitelyPresentedModule.{u, u} Aᵐᵒᵖ).ι ⋙ E₂.functor :=
     E₁.iso.hom ≫ α.hom ≫ E₂.iso.inv
   let h := existsUnique_natTrans_whiskerLeft A β
-  show Functor.whiskerLeft (finitelyPresentedModule.{u, u} Aᵐᵒᵖ).ι
+  change Functor.whiskerLeft (finitelyPresentedModule.{u, u} Aᵐᵒᵖ).ι
       (Classical.choose h.exists) = β
   exact Classical.choose_spec h.exists
 
@@ -483,7 +483,7 @@ public lemma functorToRingActions_isEquivalence :
     evaluationFunctor_isEquivalence A B
   let : (moduleActionToAdditiveFunctor (A := A) (B := B)).IsEquivalence :=
     moduleActionToAdditiveFunctor_isEquivalence (A := A) (B := B)
-  show (restrictToFinitelyPresented A B ⋙ evaluationFunctor A B ⋙
+  change (restrictToFinitelyPresented A B ⋙ evaluationFunctor A B ⋙
     moduleActionToAdditiveFunctor (A := A) (B := B)).IsEquivalence
   infer_instance
 

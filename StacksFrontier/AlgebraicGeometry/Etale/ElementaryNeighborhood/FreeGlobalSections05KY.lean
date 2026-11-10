@@ -152,9 +152,9 @@ lemma etale_lift_fromSpecStalk
         (pullbackLeftPullbackSndIso f W.toBase (W.scheme.fromSpecStalk W.point)).hom := by
     apply pullback.hom_ext
     · rw [pullback.lift_fst]
-      simp [pullback.map, pullback.lift_fst_assoc]
+      simp [pullback.map]
     · rw [pullback.lift_snd]
-      simp [pullback.map, pullback.lift_snd]
+      simp [pullback.map]
   rw [key]
   infer_instance
 

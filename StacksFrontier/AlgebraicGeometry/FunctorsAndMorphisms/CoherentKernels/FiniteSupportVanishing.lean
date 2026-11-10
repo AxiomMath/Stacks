@@ -128,7 +128,7 @@ theorem isQuasicoherent_integralTransformIntegrand
   have hpb : ((Scheme.Modules.pullback (pullback.fst X.hom Y.hom)).obj M.obj).IsQuasicoherent :=
     @AlgebraicGeometry.SheafOfModules.modulePullback_isQuasicoherent _ _
       (pullback.fst X.hom Y.hom).toLRSHom.toShHom M.obj M.property
-  show (((Stacks.SheafOfModules.Tensor.sheafTensor
+  change (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨(pullback X.hom Y.hom).toRingedSpace.presheaf,
         (pullback X.hom Y.hom).toRingedSpace.IsSheaf⟩).obj K.obj).obj
       ((Scheme.Modules.pullback (pullback.fst X.hom Y.hom)).obj M.obj)).IsQuasicoherent

@@ -158,7 +158,7 @@ private theorem lift_of_smallExtensions_squareZero_annihilated.{u, v, w}
     intro y
     obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective (y : A ⧸ J)
     refine ⟨⟨x, ?_⟩, ?_⟩
-    · show (Ideal.Quotient.mk J) x ∈ T
+    · change (Ideal.Quotient.mk J) x ∈ T
       rw [hx]; exact y.property
     · apply Subtype.ext; exact hx
   let : IsLocalHom qP := IsLocalHom.of_surjective qP hqP
@@ -194,7 +194,7 @@ private theorem lift_of_smallExtensions_squareZero_annihilated.{u, v, w}
     exact Subtype.ext hxy
   let fP : R →+* P := f.codRestrict P (by
     intro r
-    show (Ideal.Quotient.mk J) (f r) ∈ T
+    change (Ideal.Quotient.mk J) (f r) ∈ T
     rw [← RingHom.comp_apply, ← hcomm]
     exact ⟨φ r, rfl⟩)
   have : IsLocalHom fP := by
@@ -228,7 +228,7 @@ private theorem lift_of_smallExtensions_squareZero_annihilated.{u, v, w}
       have hmk : e ((Ideal.Quotient.mk K) (g s)) = qP (g s) :=
         qP.quotientKerEquivOfSurjective_apply_mk hqP (g s)
       have hsec : e (gP s) = gT s := by
-        show e (e.symm (gT s)) = gT s
+        change e (e.symm (gT s)) = gT s
         exact e.apply_symm_apply _
       rwa [hmk, hsec] at he
     exact congrArg Subtype.val hq
@@ -277,7 +277,7 @@ private theorem lift_mod_maximalIdeal_mul.{u, v, w}
   let : IsLocalHom e.symm.toRingHom :=
     IsLocalHom.of_surjective e.symm.toRingHom e.symm.surjective
   have hL : L ^ 2 = ⊥ := by
-    show (Ideal.map (Ideal.Quotient.mk I) J) ^ 2 = ⊥
+    change (Ideal.map (Ideal.Quotient.mk I) J) ^ 2 = ⊥
     rw [← Ideal.map_pow, hJ]
     simp
   have hannL : IsLocalRing.maximalIdeal (A ⧸ I) * L = ⊥ := by
@@ -309,7 +309,7 @@ private theorem lift_mod_maximalIdeal_mul.{u, v, w}
       e ((gbarI.comp φ) r) = gbar (φ r) := by simp [gbarI]
       _ = (Ideal.Quotient.mk J) (f r) := hh
       _ = e (((Ideal.Quotient.mk L).comp fI) r) := by
-        show (Ideal.Quotient.mk J) (f r) =
+        change (Ideal.Quotient.mk J) (f r) =
           e ((Ideal.Quotient.mk L) ((Ideal.Quotient.mk I) (f r)))
         exact (DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk (f r) hIJ).symm
   have hbijI : Function.Bijective (IsLocalRing.ResidueField.map gbarI) := by

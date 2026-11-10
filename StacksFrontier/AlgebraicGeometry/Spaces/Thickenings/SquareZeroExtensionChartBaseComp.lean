@@ -82,7 +82,7 @@ theorem restrictChartOpens_chartDiagram_comp_comm (O : (chartScheme e.V).Opens) 
       ((ChartDiagram.comp B S hS f g a e.g ha e.comm).restrictChartOpens O).g := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (chartScheme U).homOfLE (preimage_chartDiagram_comp_le g e a ha O) ≫
+  change (chartScheme U).homOfLE (preimage_chartDiagram_comp_le g e a ha O) ≫
       (((BigFppfOver.toScheme B S hS).map a ∣_ (e.schemeMap ⁻¹ᵁ O)) ≫ (e.schemeMap ∣_ O)) =
     ((BigFppfOver.toScheme B S hS).map (a ≫ e.g) ∣_ O)
   refine (cancel_mono (Scheme.Opens.ι O)).1 ?_

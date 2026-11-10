@@ -118,13 +118,13 @@ def naiveComplexHomotopyCochain : Cochain (naiveComplex P) (naiveComplex P') (-1
 `naiveComplexHomotopyZero s t`. -/
 theorem naiveComplexHomotopyCochain_v_zero :
     (naiveComplexHomotopyCochain s t).v 0 (-1) (by norm_num) = naiveComplexHomotopyZero s t := by
-  rw [naiveComplexHomotopyCochain, Cochain.mk_v, dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [naiveComplexHomotopyCochain, Cochain.mk_v, dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- The components of `naiveComplexHomotopyCochain s t` out of every degree `p ≠ 0` vanish. -/
 theorem naiveComplexHomotopyCochain_v_of_ne (p q : ℤ) (hpq : p + (-1) = q) (hp : p ≠ 0) :
     (naiveComplexHomotopyCochain s t).v p q hpq = 0 := by
-  rw [naiveComplexHomotopyCochain, Cochain.mk_v, dif_neg hp]
+  rw [naiveComplexHomotopyCochain, Cochain.mk_v, dite_eq_right hp]
 
 /-- The homotopy identity: `naiveComplexMap s = δ h + naiveComplexMap t`. -/
 theorem ofHom_naiveComplexMap_eq :

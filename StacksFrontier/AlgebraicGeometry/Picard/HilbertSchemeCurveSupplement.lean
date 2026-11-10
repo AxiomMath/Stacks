@@ -50,7 +50,7 @@ theorem surjective_of_isFiniteLocallyFreeOfRank_succ {X Y : Scheme.{u}} (f : X �
   have hfr : Scheme.Hom.finrank f y = d + 1 :=
     (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq f (d + 1)).mp
       inferInstance y
-  show 1 ≤ Scheme.Hom.finrank f y
+  change 1 ≤ Scheme.Hom.finrank f y
   omega
 
 variable {S : Scheme.{u}}
@@ -58,6 +58,7 @@ variable {S : Scheme.{u}}
 variable (X : Over S) [SmoothOfRelativeDimension 1 X.hom] [IsSeparated X.hom]
   (hX : HasAffineFinitePointsInFibres X.hom)
 
+omit [SmoothOfRelativeDimension 1 X.hom] in
 include hX in
 /-- The Hilbert functors of points of a separated relative curve with the fibrewise affineness
 property are representable (Tag 0B9A). -/
@@ -78,6 +79,7 @@ theorem smoothOfRelativeDimension_scheme (d : ℕ) :
     SmoothOfRelativeDimension d (scheme X hX d).hom :=
   smoothOfRelativeDimension_of_represents (scheme X hX) (represents X hX) d
 
+omit [SmoothOfRelativeDimension 1 X.hom] in
 /-- The degree-`d` Hilbert scheme `scheme X hX d` is separated over `S`. -/
 theorem isSeparated_scheme (d : ℕ) : IsSeparated (scheme X hX d).hom :=
   isSeparated_of_representsHilbertFunctorOfRank X (scheme X hX d) d (represents X hX d)
@@ -96,6 +98,7 @@ instance isFiniteLocallyFreeOfRank_add_left (d : ℕ) :
 instance surjective_add_left (d : ℕ) : Surjective (add X hX d).left :=
   surjective_of_isFiniteLocallyFreeOfRank_succ (d := d) _
 
+omit [SmoothOfRelativeDimension 1 X.hom] in
 /-- The structure morphism of `scheme X hX d ⨯ X` over `S` is the composite of the isomorphism
 onto the fibre product over `S`, the first projection, and the structure morphism of
 `scheme X hX d`. -/

@@ -163,7 +163,7 @@ public theorem schemeMap_restrictAlongArrow {Z W : Over S}
 public theorem restrictAlong_objS :
     (p ⋙ Over.post B.inclusion).obj
         (restrictAlong φ B S hS toS toSC hA hC hφ p x hx) = Over.mk toSC := by
-  show (Over.post B.inclusion).obj
+  change (Over.post B.inclusion).obj
     (p.obj (restrictAlong φ B S hS toS toSC hA hC hφ p x hx)) = _
   rw [restrictAlong_obj φ B S hS toS toSC hA hC hφ p x hx]
   rfl
@@ -218,7 +218,7 @@ example {Λ : Type u} [CommRing Λ] {A C : Type u} [CommRing A] [CommRing C]
     rw [← Category.assoc, ← Spec.map_comp, hψ]
   have hxS : (p ⋙ Over.post B.inclusion).obj x =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) := by
-    show (Over.post B.inclusion).obj (p.obj x) = _
+    change (Over.post B.inclusion).obj (p.obj x) = _
     rw [hx]
     rfl
   exact ⟨_, _, hxS, _, schemeMap_restrictAlongArrow_mk ψ.toRingHom B S hS _ _ hA hC hφ p x hx hxS⟩

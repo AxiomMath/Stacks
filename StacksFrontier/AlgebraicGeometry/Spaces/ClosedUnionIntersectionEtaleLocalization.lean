@@ -77,7 +77,7 @@ theorem preimage_schemeTheoreticIntersection (φ : U ⟶ X) (Y Z : ClosedSubspac
           ⟨Y.1.preimage φ.hom, isClosedSubspace_preimage B S hS φ.hom Y.1 X.2 U.2 Y.2⟩
           ⟨Z.1.preimage φ.hom,
             isClosedSubspace_preimage B S hS φ.hom Z.1 X.2 U.2 Z.2⟩).1 := by
-  show (Y.1 ⊓ Z.1).preimage φ.hom = Y.1.preimage φ.hom ⊓ Z.1.preimage φ.hom
+  change (Y.1 ⊓ Z.1).preimage φ.hom = Y.1.preimage φ.hom ⊓ Z.1.preimage φ.hom
   rfl
 
 /-- **The defining ideal of the inverse image of a closed subspace at an étale chart is the

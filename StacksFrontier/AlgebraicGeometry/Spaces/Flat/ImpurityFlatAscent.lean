@@ -183,21 +183,18 @@ theorem exists_isImpurity_baseChange_etale_of_isFlatAt (P : PrePureSituation.{u,
   obtain ⟨d, hxi, hass⟩ := exists_flatImpurityAscentData_of_isFlatAt P c hflat D hD
   exact ⟨d.diagram, d.e, d.etale, rfl, d.isImpurity_diagram hxi hass hD⟩
 
-/-- **Stacks 0CVA**, with the field-valued representative of Stacks 05DC as a hypothesis. That
-hypothesis always holds, by
-`AlgebraicGeometry.Space.ImpurityDiagram.hasFibreWitnessAboveGeneralization`, and is not used:
-the statement is `AlgebraicGeometry.Space.exists_isImpurity_baseChange_etale_of_isFlatAt`. -/
-@[stacks 0CVA "granting hwitness, the choice of field-valued representative that Stacks 05DC \
-supplies; the binder is unused, that representative always existing by \
+/-- **Stacks 0CVA**, the pointed base change form. The field-valued representative of
+Stacks 05DC needs no hypothesis, as it always exists, by
+`AlgebraicGeometry.Space.ImpurityDiagram.hasFibreWitnessAboveGeneralization`: the statement is
+`AlgebraicGeometry.Space.exists_isImpurity_baseChange_etale_of_isFlatAt`. -/
+@[stacks 0CVA "the field-valued representative that Stacks 05DC supplies always exists, by \
 ImpurityDiagram.hasFibreWitnessAboveGeneralization"]
 theorem exists_isImpurity_pointedBaseChange_of_isFlatAt (P : PrePureSituation.{u, u} B S hS)
     (c : PointedOver P) (hflat : IsFlatAt B S hS c.g c.y')
-    (D : ImpurityDiagram P) (hD : D.IsImpurity)
-    (hwitness : D.HasFibreWitnessAboveGeneralization) :
+    (D : ImpurityDiagram P) (hD : D.IsImpurity) :
     ∃ (E : ImpurityDiagram c.baseChange) (e : yoneda.obj E.T ⟶ pullback c.g D.g),
-      IsEtale B S hS e ∧ e ≫ pullback.fst c.g D.g = E.g ∧ E.IsImpurity := by
-  clear hwitness
-  exact exists_isImpurity_baseChange_etale_of_isFlatAt P c hflat D hD
+      IsEtale B S hS e ∧ e ≫ pullback.fst c.g D.g = E.g ∧ E.IsImpurity :=
+  exists_isImpurity_baseChange_etale_of_isFlatAt P c hflat D hD
 
 /-! ### Descent of purity along a flat pointed base change -/
 

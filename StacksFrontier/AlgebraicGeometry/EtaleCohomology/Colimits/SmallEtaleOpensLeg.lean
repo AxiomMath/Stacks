@@ -151,9 +151,10 @@ an open is the finite one-hypercover step that
 sheaves of sets.
 
 **That step is also available at abelian coefficients.**
-`Stacks.WeakSites.ColimitGlobalSections.sectionOver_colimit_of_oneHypercoverOf_ab` of
-`StacksFrontier.CategoryTheory.Sites.InverseSystem.AbelianSectionsOverAnObjectOfColimitOfFiniteSites`
-is the same statement with `Type w` replaced by `Ab.{w}`. Nothing in the one-hypercover step is a
+`Stacks.WeakSites.ColimitGlobalSections.sectionOver_colimit_of_oneHypercoverOf_ab` of the file
+`AbelianSectionsOverAnObjectOfColimitOfFiniteSites` in the folder
+`StacksFrontier.CategoryTheory.Sites.InverseSystem` is the same statement with `Type w` replaced
+by `Ab.{w}`. Nothing in the one-hypercover step is a
 colimit — its two object-level inputs, joint surjectivity and separatedness of the legs on
 sections over the objects of a level, are hypotheses — so it is its own set-valued instance along
 `CategoryTheory.forget Ab`, and no transport of a universal property across the coefficients is
@@ -167,8 +168,8 @@ levels of
 a colimit cocone of the groups of sections over every object of every level and so, over a
 filtered index, exactly joint surjectivity together with separatedness. The passage of the
 presentation from Mathlib's small étale sites to those levels is what
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleSystemIdentityLaw.lean` measures
-as blocked by the identity law of
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleSystemIdentityLaw.lean`
+measures as blocked by the identity law of
 `CategoryTheory.Sites.InverseSystem.InverseSystemOfFiniteSites.AbelianSheafSystem`.
 
 **Why `hsub` cannot instead be deduced from a vanishing.**
@@ -256,6 +257,7 @@ public def etaleTransposeSection (ι : (etaleAbelianInverseImage.{u, v} k).obj G
     G.obj.obj (op Z) ⟶ 𝒢.obj.obj (op ((smallEtaleBaseChange k).obj Z)) :=
   (((etaleAbelianInverseImageDirectImageAdj.{u, v} k).homEquiv G 𝒢) ι).hom.app (op Z)
 
+omit [HasSheafify S.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}] in
 /-- `etaleTransposeSection` is natural in the object. -/
 public theorem etaleTransposeSection_naturality (ι : (etaleAbelianInverseImage.{u, v} k).obj G ⟶ 𝒢)
     {Z Z' : S.Etale} (g : Z ⟶ Z') :
@@ -270,6 +272,7 @@ public def etaleOpensLeg (ι : (etaleAbelianInverseImage.{u, v} k).obj G ⟶ �
   etaleTransposeSection k ι ((opensToEtale S).obj W) ≫
     𝒢.obj.map (opensToEtaleBaseChangeIso k W).hom.op
 
+omit [HasSheafify S.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}] in
 /-- **The leg on sections commutes with restriction along an inclusion of opens.** -/
 public theorem etaleOpensLeg_restrict (ι : (etaleAbelianInverseImage.{u, v} k).obj G ⟶ 𝒢)
     {W W' : S.Opens} (h : W ≤ W') :
@@ -304,6 +307,7 @@ public def opensSectionsLeg (ι : (etaleAbelianInverseImage.{u, u + 1} k).obj G 
       OpensAcyclicity.opensSections ((MayerVietoris.mayerVietorisRestrict T).obj 𝒢) (k ⁻¹ᵁ W) :=
   etaleOpensLeg k ι W
 
+omit [HasSheafify S.smallEtaleTopology AddCommGrpCat.{u + 1}] in
 /-- `Stacks.EtaleCohomology.etaleOpensLeg_restrict` in the vocabulary of the one-universe
 model. -/
 public theorem opensSectionsLeg_comp_restrict
@@ -315,6 +319,7 @@ public theorem opensSectionsLeg_comp_restrict
           ((MayerVietoris.mayerVietorisRestrict T).obj 𝒢) (k.preimage_mono h) :=
   etaleOpensLeg_restrict k ι h
 
+omit [HasSheafify S.smallEtaleTopology AddCommGrpCat.{u + 1}] in
 /-- **The leg on sections commutes with restriction**, read on elements: the hypothesis `hleg` of
 `Stacks.EtaleCohomology.OpensAcyclicity.sectionsDifference_preimage_of_surjective_of_injective`. -/
 public theorem opensSectionsLeg_restrict (ι : (etaleAbelianInverseImage.{u, u + 1} k).obj G ⟶ 𝒢)
@@ -369,6 +374,7 @@ variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
   [∀ i : Iᵒᵖ, HasSheafify (D.obj i).smallEtaleTopology AddCommGrpCat.{max u v + 1}]
   [HasSheafify (c.pt).smallEtaleTopology AddCommGrpCat.{max u v + 1}]
 
+omit [∀ i : Iᵒᵖ, HasSheafify (D.obj i).smallEtaleTopology AddCommGrpCat.{max u v + 1}] in
 /-- **The second geometric hypothesis of [Stacks, Tag 09YQ]: `hsub` for the colimit sheaf.** Let
 `(X_i)` be an inverse system of schemes over a nonempty directed index with affine transition
 morphisms, let `X` be the vertex of a limit cone with projections `f_i`, quasi-separated, let `𝒢`

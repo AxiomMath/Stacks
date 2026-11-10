@@ -142,7 +142,7 @@ theorem exists_isZero_obj_twistStep_mul (X : AlgebraicSpaces B S hS)
   let i : Fin d := ⟨(d - n % d) % d, Nat.mod_lt _ hd⟩
   have hdvd : d ∣ (i : ℕ) + n := by
     rw [Nat.dvd_iff_mod_eq_zero]
-    show ((d - n % d) % d + n) % d = 0
+    change ((d - n % d) % d + n) % d = 0
     rw [Nat.add_mod, Nat.mod_mod, ← Nat.add_mod, ← Nat.sub_add_comm (Nat.mod_lt n hd).le,
       Nat.add_sub_assoc (Nat.mod_le n d), Nat.add_mod_left]
     exact Nat.mod_eq_zero_of_dvd (Nat.dvd_sub_mod n)

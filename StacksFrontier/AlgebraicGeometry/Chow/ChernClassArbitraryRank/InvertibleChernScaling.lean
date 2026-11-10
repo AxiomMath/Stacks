@@ -147,7 +147,7 @@ theorem IsHomogeneous.powScale_eq {i : ℕ} {c : TotalChowClass C sY} (hc : c.Is
     (n : ℤ) : powScale n c = (n ^ i) • c := by
   refine ext fun p ↦ ?_
   rw [powScale_apply]
-  show (n ^ p) • c p = (n ^ i) • c p
+  change (n ^ p) • c p = (n ^ i) • c p
   rcases eq_or_ne p i with rfl | hp
   · rfl
   · rw [hc p hp, smul_zero, smul_zero]

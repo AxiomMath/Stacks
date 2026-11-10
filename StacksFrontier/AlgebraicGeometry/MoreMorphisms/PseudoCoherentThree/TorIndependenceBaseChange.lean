@@ -99,13 +99,13 @@ private lemma torIndependent_localize_left
   have hcompAC : (algebraMap A C).comp (algebraMap R A) = algebraMap R C :=
     (IsScalarTower.algebraMap_eq R A C).symm
   have hp : r.asIdeal = p.asIdeal.comap (algebraMap R A) := by
-    show IsLocalRing.maximalIdeal R =
+    change IsLocalRing.maximalIdeal R =
       (IsLocalRing.maximalIdeal C).comap ((algebraMap A C).comp (algebraMap R A))
     rw [hcompAC]
     exact (IsLocalRing.maximalIdeal_comap (algebraMap R C)).symm
   let : IsLocalHom (algebraMap R B) := hRB
   have hq : r.asIdeal = q.asIdeal.comap (algebraMap R B) := by
-    show IsLocalRing.maximalIdeal R = (IsLocalRing.maximalIdeal B).comap (algebraMap R B)
+    change IsLocalRing.maximalIdeal R = (IsLocalRing.maximalIdeal B).comap (algebraMap R B)
     exact (IsLocalRing.maximalIdeal_comap (algebraMap R B)).symm
   have hRing : RingTheory.TorIndependence.TorIndependent R A B :=
     (RingTheory.TorIndependence.torIndependent_iff_isZero_tor R A B).2 h
@@ -122,7 +122,7 @@ private lemma torIndependent_localize_left
       (Localization.AtPrime q.asIdeal) := hlocAll r p q hp hq
   have hsat : M.saturation = p.asIdeal.primeCompl.saturation := by
     ext a
-    show a ∈ M.saturation ↔ a ∈ p.asIdeal.primeCompl.saturation
+    change a ∈ M.saturation ↔ a ∈ p.asIdeal.primeCompl.saturation
     rw [IsLocalization.mem_saturation_iff_isUnit_algebraMap M C, Submonoid.mem_saturation_iff]
     constructor
     · intro ha
@@ -300,7 +300,7 @@ theorem torIndependent_pullback_product_of_flat
     let zToP' : Z' ⟶ P' := pullback.lift zx zy hz
     TorIndependent pToP' zToP' := by
   intro X _Y P P' pToP' zToP'
-  show ∀ (p : P) (z : Z') (h : pToP'.base p = zToP'.base z), _
+  change ∀ (p : P) (z : Z') (h : pToP'.base p = zToP'.base z), _
   intro p z hpz
   let Q := pullback (pullback.fst x y) (pullback.fst x s)
   let e := pullbackProductIsoPullbackFst x y s
@@ -316,15 +316,15 @@ theorem torIndependent_pullback_product_of_flat
         pullbackSymmetry_hom_comp_fst_assoc,
         pullback.lift_snd_assoc, pullbackLeftPullbackSndIso_hom_snd_assoc,
         pullbackSymmetry_hom_comp_snd_assoc]
-      simp [pullback.lift_fst]
+      simp
     · dsimp [qP, e, pullbackProductIsoPullbackFst, pullback.map]
       simp only [pToP', Category.assoc,
         pullback.congrHom_hom, pullback.map,
         pullbackSymmetry_hom_comp_fst_assoc,
         pullbackRightPullbackFstIso_inv_snd_snd]
-      simp [pullback.lift_fst, pullback.lift_snd]
+      simp
   have hqP : qP.base q = pToP'.base p := by
-    show (e.hom ≫ qP).base p = pToP'.base p
+    change (e.hom ≫ qP).base p = pToP'.base p
     rw [heP']
   have hqZ : qP.base q = zToP'.base z := hqP.trans hpz
   let pX := pullback.fst (pullback.fst x y) (pullback.fst x s)
@@ -335,7 +335,7 @@ theorem torIndependent_pullback_product_of_flat
   let xpt' : X' := (pX ≫ fQ).base q
   have hzmap : zToP' ≫ pullback.fst x y = zx := pullback.lift_fst zx zy hz
   have hxpt' : xpt' = zx.base z := by
-    show (pullback.fst x y).base (qP.base q) = zx.base z
+    change (pullback.fst x y).base (qP.base q) = zx.base z
     rw [hqZ]
     exact congrArg (fun f : Z' ⟶ X' => f.base z) hzmap
   let R0 := X'.presheaf.stalk ((pX ≫ fQ).base q)
@@ -360,14 +360,14 @@ theorem torIndependent_pullback_product_of_flat
     rw [stalkCongr_of_eq X'.presheaf
       (congrArg (fun k : Z' ⟶ X' => k.base z) hzmap)] at hpointcomp
     rw [Scheme.Hom.stalkMap_comp] at hpointcomp
-    show (zToP'.stalkMap z).hom.comp
+    change (zToP'.stalkMap z).hom.comp
         ((eqToHom (congrArg P'.presheaf.stalk hqZ)).hom.comp
           ((pullback.fst x y).stalkMap (qP.base q)).hom) =
       (zx.stalkMap z).hom.comp (eqToHom (congrArg X'.presheaf.stalk hxpt')).hom
     ext a
     have hpointfRing := CommRingCat.hom_ext_iff.mp hpointf
     have hpointcompRing := CommRingCat.hom_ext_iff.mp hpointcomp
-    show (zToP'.stalkMap z).hom
+    change (zToP'.stalkMap z).hom
         ((eqToHom (congrArg P'.presheaf.stalk hqZ)).hom
           (((pullback.fst x y).stalkMap (qP.base q)).hom a)) =
       (zx.stalkMap z).hom ((eqToHom (congrArg X'.presheaf.stalk hxpt')).hom a)
@@ -410,7 +410,7 @@ theorem torIndependent_pullback_product_of_flat
   let : Flat (pullback.fst x y) := by infer_instance
   have hBflat : RingHom.Flat (algebraMap R0 B0) := Flat.stalkMap (pullback.fst x y) (qP.base q)
   have hDflat : RingHom.Flat (algebraMap R0 D0) := by
-    show RingHom.Flat ((zx.stalkMap z).hom.comp
+    change RingHom.Flat ((zx.stalkMap z).hom.comp
       (eqToHom (congrArg X'.presheaf.stalk hxpt')).hom)
     exact RingHom.Flat.comp
       (.of_bijective (ConcreteCategory.bijective_of_isIso _)) (Flat.stalkMap zx z)
@@ -440,7 +440,7 @@ theorem torIndependent_pullback_product_of_flat
     rw [hmapBC]
     infer_instance
   have hRB : IsLocalHom (algebraMap B0 D0) := by
-    show IsLocalHom ((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫
+    change IsLocalHom ((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫
       zToP'.stalkMap z).hom)
     infer_instance
   have hlocalTor := torIndependent_localize_left B0 T D0 C0 M hT hRC hRB
@@ -460,7 +460,7 @@ theorem torIndependent_pullback_product_of_flat
       eCA (algebraMap B0 C0 a) = algebraMap R' (P.presheaf.stalk p) (eR a) := by
     intro a
     rw [hmapBC]
-    show eStalkIso.hom.hom ((qP.stalkMap q).hom a) =
+    change eStalkIso.hom.hom ((qP.stalkMap q).hom a) =
       ((pToP'.stalkMap p).hom (eRHom.hom a))
     have hmap := Scheme.Hom.stalkMap_comp e.hom qP p
     have hcmp := Scheme.Hom.stalkMap_congr_hom (e.hom ≫ qP) pToP' heP' p
@@ -478,9 +478,9 @@ theorem torIndependent_pullback_product_of_flat
   have hBcompat : ∀ a : B0,
       (RingEquiv.refl D0) (algebraMap B0 D0 a) = algebraMap R' D0 (eR a) := by
     intro a
-    show (((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫ zToP'.stalkMap z).hom) a) =
+    change (((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫ zToP'.stalkMap z).hom) a) =
       (((eqToHom (congrArg P'.presheaf.stalk hpz) ≫ zToP'.stalkMap z).hom) (eRHom.hom a))
-    show ((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫ zToP'.stalkMap z).hom a) =
+    change ((eqToHom (congrArg P'.presheaf.stalk hqZ) ≫ zToP'.stalkMap z).hom a) =
       ((eqToHom (congrArg P'.presheaf.stalk hqP) ≫
         (eqToHom (congrArg P'.presheaf.stalk hpz) ≫ zToP'.stalkMap z)).hom a)
     simp only [← Category.assoc, eqToHom_trans]

@@ -262,7 +262,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       (FibredSite.ringedToposMorphism B S hS p q hp hq fChart hfChart .etale) ⟶
     DerivedCategory.Qh ⋙ Rf)
   (αfSpace : RingedToposHom.pushforwardToDerivedCategory
-      (smallEtaleRingedToposHom B S hS (inducedAlgebraicSpacesHom B S hS F G p q hF hG eF eG fChart hfChart)) ⟶ DerivedCategory.Qh ⋙ RfSpace)
+      (smallEtaleRingedToposHom B S hS
+        (inducedAlgebraicSpacesHom B S hS F G p q hF hG eF eG fChart hfChart)) ⟶
+    DerivedCategory.Qh ⋙ RfSpace)
   (αfStack : RingedToposHom.pushforwardToDerivedCategory
       (FibredSite.ringedToposMorphism B S hS p𝒳 p𝒴 h𝒳 h𝒴 fStack hfStack .etale) ⟶
     DerivedCategory.Qh ⋙ RfStack)

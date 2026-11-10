@@ -113,8 +113,7 @@ lemma Module.FlatAlongZeroLocus.baseChange
         ((TensorProduct.congr (LinearEquiv.refl Sq D) eMq.symm).toEquiv.trans eRestrict.toEquiv)
     have he : (f : D ⊗[S] M → D ⊗[S] Mq) = e := by
       funext z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [f, e]
+      induction z using TensorProduct.inductionOn with
       | tmul d m =>
           simp only [TensorProduct.AlgebraTensorModule.lTensor_tmul, LinearEquiv.toEquiv_symm,
             IsLocalization.moduleTensorEquiv, TensorProduct.equivOfCompatibleSMul,
@@ -242,7 +241,7 @@ private theorem flat_localization_atPrime_tensorProduct
     (Algebra.TensorProduct.map (AlgHom.id R S) (IsScalarTower.toAlgHom R A Ap)).toAlgebra
   let : IsScalarTower S T U := IsScalarTower.of_algebraMap_eq' (by
     ext s
-    show (s ⊗ₜ[R] (1 : Ap)) =
+    change (s ⊗ₜ[R] (1 : Ap)) =
       (Algebra.TensorProduct.map (AlgHom.id R S) (IsScalarTower.toAlgHom R A Ap))
         (s ⊗ₜ[R] (1 : A))
     simp)
@@ -255,7 +254,7 @@ private theorem flat_localization_atPrime_tensorProduct
   have hle : (p.primeCompl.map
       (Algebra.TensorProduct.includeRight (R := R) (A := S) (B := A))) ≤ Q.primeCompl := by
     rintro x ⟨a, ha, rfl⟩
-    show (Algebra.TensorProduct.includeRight (R := R) (A := S) (B := A)) a ∉ Q
+    change (Algebra.TensorProduct.includeRight (R := R) (A := S) (B := A)) a ∉ Q
     intro hx
     exact ha (hQ ▸ hx)
   let : Algebra U B :=
@@ -294,7 +293,7 @@ private theorem faithfullyFlat_localization_atPrime_tensorProduct
   have : IsScalarTower S (Localization.AtPrime q) (Localization.AtPrime Q) :=
     IsScalarTower.of_algebraMap_eq' (by
       ext s
-      show (algebraMap S (Localization.AtPrime Q)) s =
+      change (algebraMap S (Localization.AtPrime Q)) s =
         Localization.localRingHom q Q
           (Algebra.TensorProduct.includeLeftRingHom (R := R) (A := S) (B := A)) hq.symm
           ((algebraMap S (Localization.AtPrime q)) s)
@@ -384,7 +383,7 @@ theorem Module.FlatAlongZeroLocus.of_baseChange
   have : IsScalarTower R' T B := IsScalarTower.of_algebraMap_eq' (by ext a; rfl)
   have : IsScalarTower R' Ap B := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (algebraMap R' B) a =
+    change (algebraMap R' B) a =
       Localization.localRingHom p' Q
         (Algebra.TensorProduct.includeRight (R := R) (A := S) (B := R')).toRingHom
         hQp'.symm ((algebraMap R' Ap) a)
@@ -395,7 +394,7 @@ theorem Module.FlatAlongZeroLocus.of_baseChange
   have : IsScalarTower R' B NQ := IsScalarTower.to₁₃₄ R' T B NQ
   let : Module Ap NQ := Module.compHom NQ (algebraMap Ap B)
   have : IsScalarTower R' Ap NQ := IsScalarTower.of_algebraMap_smul fun a z => by
-    show (algebraMap Ap B (algebraMap R' Ap a)) • z = a • z
+    change (algebraMap Ap B (algebraMap R' Ap a)) • z = a • z
     rw [← IsScalarTower.algebraMap_apply]
     exact IsScalarTower.algebraMap_smul (A := B) a z
   have : IsScalarTower R Ap NQ := IsScalarTower.to₁₃₄ R R' Ap NQ
@@ -409,7 +408,7 @@ theorem Module.FlatAlongZeroLocus.of_baseChange
       hQq.symm).toAlgebra
   have : IsScalarTower S Sq B := IsScalarTower.of_algebraMap_eq' (by
     ext s
-    show (algebraMap S B) s =
+    change (algebraMap S B) s =
       Localization.localRingHom q Q
         (Algebra.TensorProduct.includeLeftRingHom (R := R) (A := S) (B := R'))
         hQq.symm ((algebraMap S Sq) s)

@@ -129,7 +129,7 @@ theorem preservesLimit_forgetToTop_of_isCofiltered_of_isAffineHom
     rintro _ ⟨i, V, hV, rfl⟩
     have hcoords : c.π.app i (m p) = s.π.app i p := congrArg (fun f => f p) (hm i)
     have hlift : c.π.app i (liftPoint s p) = s.π.app i p := liftPoint_spec s p i
-    show c.π.app i (m p) ∈ V ↔ c.π.app i (liftPoint s p) ∈ V
+    change c.π.app i (m p) ∈ V ↔ c.π.app i (liftPoint s p) ∈ V
     rw [hcoords, hlift]
   rw [← Scheme.forgetToTop_comp_forget] at hSet
   exact preservesLimit_of_preserves_limit_cone (limit.isLimit D)
@@ -144,7 +144,7 @@ theorem preservesLimit_forget_of_isCofiltered_of_isAffineHom
     [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] :
     PreservesLimit D Scheme.forget := by
   have := preservesLimit_forgetToTop_of_isCofiltered_of_isAffineHom D
-  show PreservesLimit D (Scheme.forgetToTop ⋙ forget TopCat)
+  change PreservesLimit D (Scheme.forgetToTop ⋙ forget TopCat)
   infer_instance
 
 end AlgebraicGeometry

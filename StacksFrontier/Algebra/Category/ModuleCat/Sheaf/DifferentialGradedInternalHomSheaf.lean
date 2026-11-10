@@ -256,7 +256,7 @@ theorem restrict_smul (g : U' ⟶ U) (r : R.obj.obj (op U)) (f : LocalHom K L n 
     (r • f).restrict g = R.obj.map g.op r • f.restrict g :=
   LocalHom.ext fun i j hij V x => by
     rw [restrict_app, smul_app, smul_app, restrict_app]
-    show (R.obj.map (g.op ≫ V.hom.op)) r • _ = _
+    change (R.obj.map (g.op ≫ V.hom.op)) r • _ = _
     rw [Functor.map_comp]
     rfl
 
@@ -502,7 +502,7 @@ theorem glueFamily_compatible (i j : ℤ) (hij : i + n = j) (V : Over X)
     (glueFamily S φ i j hij V x).Compatible := by
   rw [Presieve.compatible_iff_sieveCompatible]
   intro W W' g h hg
-  show (φ ((h ≫ g) ≫ V.hom) ((S.pullback V.hom).downward_closed hg h)).app i j hij
+  change (φ ((h ≫ g) ≫ V.hom) ((S.pullback V.hom).downward_closed hg h)).app i j hij
       (Over.mk (𝟙 W')) ((K.complex.X i).val.map (h ≫ g).op x) =
     (L.complex.X j).val.map h.op ((φ (g ≫ V.hom) hg).app i j hij (Over.mk (𝟙 W))
       ((K.complex.X i).val.map g.op x))
@@ -512,7 +512,7 @@ theorem glueFamily_compatible (i j : ℤ) (hij : i + n = j) (V : Over X)
   have e2 : (K.complex.X i).val.map (h ≫ g).op x =
       (K.complex.X i).val.map h.op ((K.complex.X i).val.map g.op x) := by
     rw [op_comp, PresheafOfModules.map_comp_apply]
-  show (φ (g ≫ V.hom) hg).app i j hij (Over.mk (𝟙 W' ≫ h))
+  change (φ (g ≫ V.hom) hg).app i j hij (Over.mk (𝟙 W' ≫ h))
       ((K.complex.X i).val.map (h ≫ g).op x) = _
   rw [e2]
   exact LocalGradedHom.app_mk_congr _ i j hij

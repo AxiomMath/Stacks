@@ -157,7 +157,7 @@ theorem isFiniteLocallyFree_of_isFinitePresentation_of_flat_stalk (M : X.Modules
   have e : ∀ y : X, M.over (U y) ≅ SheafOfModules.free (R := X.ringCatSheaf.over (U y)) (ρ y) :=
     fun y => (hiso y).some
   have hcov : (Opens.grothendieckTopology ((X : TopCat.{u}) : Type u)).CoversTop U := by
-    refine (Opens.coversTop_iff _ _).2 (IsOpenCover.mk (eq_top_iff.2 (SetLike.le_def.2 ?_)))
+    refine (Opens.coversTop_iff _ _).2 (IsOpenCover.mk (eq_top_iff.2 (IsConcreteLE.le_iff.2 ?_)))
     intro y _
     exact Opens.mem_iSup.2 ⟨y, hxU y⟩
   constructor

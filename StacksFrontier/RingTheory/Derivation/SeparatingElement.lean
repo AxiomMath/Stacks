@@ -120,8 +120,7 @@ theorem _root_.KaehlerDifferential.exists_forall_minimalPrimes_ne_zero (K R : Ty
         exact hle (by rw [KaehlerDifferential.span_range_derivation]; trivial)
       have hall0 : ∀ v : P.asIdeal.ResidueField ⊗[R] Ω[R⁄K], v = 0 := by
         intro v
-        induction v using TensorProduct.induction_on with
-        | zero => rfl
+        induction v using TensorProduct.inductionOn with
         | tmul c ω => exact hω ω c
         | add a b ha hb => rw [ha, hb, add_zero]
       obtain ⟨v, hv⟩ := exists_ne (0 : P.asIdeal.ResidueField ⊗[R] Ω[R⁄K])
@@ -137,7 +136,7 @@ theorem _root_.KaehlerDifferential.exists_forall_minimalPrimes_ne_zero (K R : Ty
       exact PrimeSpectrum.ext (le_antisymm hQP (hP.2 ⟨Q.isPrime, bot_le⟩ hQP)))
     ℓ (fun P hP => ⟨x P, hfx P (hfin.mem_toFinset.1 hP)⟩)
   refine ⟨u, fun P hP hzero => hu P (hfin.mem_toFinset.2 hP) ?_⟩
-  show f P ((1 : P.asIdeal.ResidueField) ⊗ₜ[R] KaehlerDifferential.D K R u) = 0
+  change f P ((1 : P.asIdeal.ResidueField) ⊗ₜ[R] KaehlerDifferential.D K R u) = 0
   rw [hzero, map_zero]
 
 end Derivation

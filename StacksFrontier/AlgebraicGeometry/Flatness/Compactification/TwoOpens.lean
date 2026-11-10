@@ -234,7 +234,7 @@ theorem hasCompactification_of_two_opens
     isIso_restrict_proper_extension_image U₂ V₂' e₂' p₂' he₂' inferInstance
   have hE₂range : Set.range a₂.toImage.base ⊆ (O₂ : Set a₂.image) := by
     rintro _ ⟨x, rfl⟩
-    show a₂.imageι.base (a₂.toImage.base x) ∈ (V₂' : Set Y₂')
+    change a₂.imageι.base (a₂.toImage.base x) ∈ (V₂' : Set Y₂')
     have hx := congrArg (fun m : U₂.toScheme ⟶ Y₂' => m.base x) (Scheme.Hom.toImage_imageι a₂)
     change a₂.imageι.base (a₂.toImage.base x) = V₂'.ι.base (e₂'.base x) at hx
     rw [hx]
@@ -253,7 +253,7 @@ theorem hasCompactification_of_two_opens
       rintro _ ⟨x, rfl⟩
       have hx := congrArg (fun m : U₂.toScheme ⟶ U => m.base x) he₂E
       change p₂E.base (e₂E.base x) = U₂.ι.base x at hx
-      show p₂E.base (e₂E.base x) ∈ (U₂ : Set U)
+      change p₂E.base (e₂E.base x) ∈ (U₂ : Set U)
       rw [hx]
       exact x.2
     set t : U₂.toScheme ⟶ (p₂E ⁻¹ᵁ U₂).toScheme := IsOpenImmersion.lift (p₂E ⁻¹ᵁ U₂).ι e₂E
@@ -416,7 +416,7 @@ theorem hasCompactification_of_two_opens
       refine ⟨w, ?_⟩
       have hLW : lW.base w = x := by
         rw [hlWdef]
-        show (d₁b ⁻¹ᵁ W).ι.base ((inv (d₁b ∣_ W)).base w) = x
+        change (d₁b ⁻¹ᵁ W).ι.base ((inv (d₁b ∣_ W)).base w) = x
         rw [hw]
         rfl
       have hp := congrArg (fun m : W.toScheme ⟶ blowUp I₁ => m.base w) hproj₁
@@ -446,12 +446,12 @@ theorem hasCompactification_of_two_opens
       change p₂'.base (e₂'.base (rW.base w)) = U₂.ι.base (rW.base w) at hp₂w
       have hC : (rW ≫ e₂' ≫ V₂'.ι).base w ∈ C₂ := by
         refine ⟨e₂'.base (rW.base w), ?_, rfl⟩
-        show p₂'.base (e₂'.base (rW.base w)) ∉ U₁
+        change p₂'.base (e₂'.base (rW.base w)) ∉ U₁
         rw [hp₂w]
         exact hrbad
       have hqw := congrArg (fun m : W.toScheme ⟶ Y₂' => m.base w) hproj₂
       change qImg.base (sWb.toImage.base w) = (rW ≫ e₂' ≫ V₂'.ι).base w at hqw
-      show qImg.base (sWb.toImage.base w) ∈ closure C₂
+      change qImg.base (sWb.toImage.base w) ∈ closure C₂
       rw [hqw]
       exact subset_closure hC
   -- Trim the two ambient schemes away from the opposite boundaries and glue.
@@ -503,7 +503,7 @@ theorem hasCompactification_of_two_opens
   let : IsSeparated F := hFsep
   set A : U.Opens := U₁ ⊓ U₂ with hAdef
   have hAdense : DenseRange A.ι := by
-    show Dense (Set.range A.ι.base)
+    change Dense (Set.range A.ι.base)
     simpa only [Scheme.Opens.range_ι, hAdef] using hdense
   set r₁ : A.toScheme ⟶ U₁.toScheme := U.homOfLE (by rw [hAdef]; exact inf_le_left) with hr₁def
   set r₂ : A.toScheme ⟶ U₂.toScheme := U.homOfLE (by rw [hAdef]; exact inf_le_right) with hr₂def
@@ -541,7 +541,7 @@ theorem hasCompactification_of_two_opens
       rintro _ ⟨x, rfl⟩
       have hh := congrArg (fun m : Spec (.of D.K) ⟶ U => m.base x) haKbase
       change p₁'.base (aK.base x) = U₂.ι.base ((g ≫ r₂).base x) at hh
-      show p₁'.base (aK.base x) ∈ (U₂ : Set U)
+      change p₁'.base (aK.base x) ∈ (U₂ : Set U)
       rw [hh]
       exact ((g ≫ r₂).base x).2
     set gN₂ : Spec (.of D.K) ⟶ N₂.toScheme := IsOpenImmersion.lift N₂.ι aK

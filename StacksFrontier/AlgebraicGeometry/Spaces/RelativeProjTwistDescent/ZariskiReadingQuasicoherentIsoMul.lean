@@ -146,10 +146,8 @@ variable {C : Type uu} [Category.{v} C] {C' : Type uu} [Category.{v} C']
   [hmos : _root_.IsMorphismOfSites.{w} e.inverse J J']
   [J.HasSheafCompose (forget RingCat.{w})] [J'.HasSheafCompose (forget RingCat.{w})]
   [J.HasSheafCompose (forget AddCommGrpCat.{w})] [J'.HasSheafCompose (forget AddCommGrpCat.{w})]
-  [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J' AddCommGrpCat.{w}] [J'.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [EssentiallySmall.{w} C] [LocallySmall.{w} C']
-  [J.HasSheafCompose (forget CommRingCat.{w})] [J'.HasSheafCompose (forget CommRingCat.{w})]
 
 /-- `AlgebraicGeometry.RingedSite.HomGeneral.unit_comp_map_pullbackUnitIsoTransport_val_app_one`
 at a reindexing: the unit of the reindexing equivalence followed by the inverse of Stacks 03LU at

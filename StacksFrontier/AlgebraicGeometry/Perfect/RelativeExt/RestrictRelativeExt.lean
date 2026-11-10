@@ -69,7 +69,8 @@ instance pullbackComplexFunctor_additive' :
     ((modulePullback j.toLRSHom.toShHom).mapHomologicalComplex (ComplexShape.up ℤ) :
       CochainComplex (TModules X.toRingedSpace) ℤ ⥤
         CochainComplex (TModules U.toRingedSpace) ℤ).Additive :=
-  @Functor.map_homogical_complex_additive _ _ _ _ _ _ _ (modulePullback j.toLRSHom.toShHom)
+  @instAdditiveHomologicalComplexMapHomologicalComplex _ _ _ _ _ _ _
+    (modulePullback j.toLRSHom.toShHom)
     (modulePullback_additive _) _
 
 /-- `j^*` on complexes, in the spelling of the complexes of [Stacks, Tag 08IF], preserves zero
@@ -167,6 +168,7 @@ theorem isBoundedFlatOver_restrictComplex (hG : IsBoundedFlatOver f.toLRSHom.toS
     (isFlatOverAt_iff_modulePullback_isFlatOverAt j f (G.X q) x
       (Flat.stalkMap j x)).mp (hG.isFlatOver q (j.base x))
 
+omit [IsOpenImmersion j] in
 variable {j} in
 /-- `𝒢|_U` vanishes in degrees `< b` when `𝒢` does. -/
 theorem isStrictlyGE_restrictComplex (b : ℤ) (hb : G.IsStrictlyGE b) :

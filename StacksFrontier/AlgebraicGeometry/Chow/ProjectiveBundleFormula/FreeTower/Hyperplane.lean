@@ -173,7 +173,7 @@ theorem pullbackTuple_consZero (f : Y ⟶ X) (t : GeneratingTuple X n) :
   refine ⟨Iso.refl _, fun i => ?_⟩
   cases i using Fin.cases with
   | zero =>
-    show pullbackGlobalSections f t.bundle 0 = 0
+    change pullbackGlobalSections f t.bundle 0 = 0
     exact map_zero _
   | succ k => rfl
 
@@ -233,7 +233,7 @@ theorem pullbackGlobalSections_id {X : Scheme.{u}} (F : X.Modules) (s : Γ(F, �
       rw [show (eqToHom (by simp : (⊤ : X.Opens) = 𝟙 X ⁻¹ᵁ ⊤)).op =
         CategoryTheory.CategoryStruct.id (Opposite.op (⊤ : X.Opens)) from rfl]
       exact CategoryTheory.Functor.map_id _ _
-    show ((Scheme.Modules.pullback (𝟙 X)).obj F).presheaf.map
+    change ((Scheme.Modules.pullback (𝟙 X)).obj F).presheaf.map
         (eqToHom (by simp : (⊤ : X.Opens) = 𝟙 X ⁻¹ᵁ ⊤)).op
         (Scheme.Modules.Hom.app
           ((Scheme.Modules.pullbackPushforwardAdjunction (𝟙 X)).unit.app F) ⊤ s) = _
@@ -306,7 +306,7 @@ theorem toHyperplaneIdeal_fromHyperplaneIdeal :
   have h₂ := isomorphic_trans h₁ (isomorphic_tautological_hyperplane m)
   have h₀ : (pullbackTuple (toHyperplaneIdeal m)
       (tautological (hyperplaneIdeal m).subschemeι)).coord 0 = 0 := by
-    show pullbackGlobalSections _ _ (pullbackCoordSection (hyperplaneIdeal m).subschemeι 0) = 0
+    change pullbackGlobalSections _ _ (pullbackCoordSection (hyperplaneIdeal m).subschemeι 0) = 0
     rw [pullbackCoordSection_subschemeι_zero]
     exact map_zero _
   exact isomorphic_trans (tail_isomorphic h₂ h₀ rfl) (tail_consZero (baseTuple m))

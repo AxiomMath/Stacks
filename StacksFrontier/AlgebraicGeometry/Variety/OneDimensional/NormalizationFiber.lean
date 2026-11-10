@@ -77,7 +77,7 @@ private lemma normalizationFiberResidueMap_comp_algebraMap
         (algebraMap (X.presheaf.stalk x)
           (normalizationPushforwardStalk X hX x)) := by
   rcases y with ⟨y, rfl⟩
-  show ((Scheme.normalization X hX).residueFieldMap y).hom.comp
+  change ((Scheme.normalization X hX).residueFieldMap y).hom.comp
       (X.residue _).hom = _
   rw [← CommRingCat.hom_comp, Scheme.residue_residueFieldMap]
   rfl
@@ -181,7 +181,7 @@ private theorem localizedPrime_isMaximal_and_liesOver
   let L := Localization (Submonoid.map φ M)
   let A := Localization M
   let : IsLocalization N L := by
-    show IsLocalization (Submonoid.map φ M) L
+    change IsLocalization (Submonoid.map φ M) L
     infer_instance
   let : Algebra R L := Algebra.compHom L φ
   let : Algebra A L := localizationAlgebra M T
@@ -224,7 +224,7 @@ private theorem localizedPrime_isMaximal_and_liesOver
     have hComp : (Q.comap (algebraMap T L)).comap φ =
         (Q.comap (algebraMap A L)).comap (algebraMap R A) := by
       ext r
-      show algebraMap T L (algebraMap R T r) ∈ Q ↔
+      change algebraMap T L (algebraMap R T r) ∈ Q ↔
         algebraMap A L (algebraMap R A r) ∈ Q
       rw [← IsScalarTower.algebraMap_apply R T L,
         ← IsScalarTower.algebraMap_apply R A L]
@@ -418,7 +418,7 @@ private lemma IsAffineOpen.residueFieldEquivPrimeIdealOf_comp_residue_germ {Z : 
   let q := hV.primeIdealOf ⟨z, hz⟩
   have hzq : hV.fromSpec q = z := hV.fromSpec_primeIdealOf ⟨z, hz⟩
   have hqV : hV.fromSpec q ∈ V := hzq.symm ▸ hz
-  show (Scheme.Spec.residueFieldIso (CommRingCat.of Γ(Z, V)) q).hom.hom.comp
+  change (Scheme.Spec.residueFieldIso (CommRingCat.of Γ(Z, V)) q).hom.hom.comp
       ((hV.fromSpec.residueFieldMap q).hom.comp
         ((Z.residueFieldCongr hzq.symm).hom.hom.comp
           ((Z.residue z).hom.comp (Z.presheaf.germ V z hz).hom))) = _
@@ -447,10 +447,10 @@ private lemma exists_residueField_equiv_quotient_of_localization {T S : Type*} [
       qL.bijective_algebraMap_quotient_residueField
   let eQuot : (S ⧸ M) ≃+* (L ⧸ qL) := Ideal.quotientEquiv M qL eSL.toRingEquiv hM.symm
   refine ⟨eLocal.toRingEquiv.trans eQuotL.symm |>.trans eQuot.symm, fun t => ?_⟩
-  show eQuot.symm (eQuotL.symm (eLocal (algebraMap T q.ResidueField t))) =
+  change eQuot.symm (eQuotL.symm (eLocal (algebraMap T q.ResidueField t))) =
     Ideal.Quotient.mk M (algebraMap T S t)
   rw [eLocal.commutes, eQuot.symm_apply_eq, eQuotL.symm_apply_eq]
-  show (algebraMap T qL.ResidueField) t =
+  change (algebraMap T qL.ResidueField) t =
     algebraMap (L ⧸ qL) qL.ResidueField (Ideal.Quotient.mk qL (eSL (algebraMap T S t)))
   rw [eSL.commutes]
   exact (IsScalarTower.algebraMap_apply T L qL.ResidueField t).trans
@@ -525,7 +525,7 @@ private lemma exists_residueFieldEquiv_normalizationFiberEquivOfAffine
   have hval : eY (normalizationFiberResidueMap X hX x y (algebraMap T S t)) =
       algebraMap T q.asIdeal.ResidueField t := by
     simpa using RingHom.congr_fun hEvalY t
-  show e (eY (normalizationFiberResidueMap X hX x y (algebraMap T S t))) =
+  change e (eY (normalizationFiberResidueMap X hX x y (algebraMap T S t))) =
     Ideal.Quotient.mk M (algebraMap T S t)
   rw [hval]
   exact he t

@@ -77,17 +77,17 @@ theorem isPullback_toQuotientPresheaf_self (F : C ⥤ Over S) {R U : Over S}
         obtain ⟨r, hrt, hrs⟩ :=
           (toQuotientPresheaf_apply_eq_iff_related F j hj T a b).mp hab
         refine ⟨r, Subtype.ext (Prod.ext ?_ ?_)⟩
-        · show tt.app T' r = a
+        · change tt.app T' r = a
           simpa [tt, targetMap, points] using hrt
-        · show ss.app T' r = b
+        · change ss.app T' r = b
           simpa [ss, sourceMap, points] using hrs
     have hct : IsLimit ct := (PullbackCone.isLimitEquivBijective ct).2 hbije
     exact (IsLimit.equivOfNatIsoOfIso (cospanCompIso ((evaluation Cᵒᵖ (Type u)).obj T') q q)
       (((evaluation Cᵒᵖ (Type u)).obj T').mapCone c) ct
       (WalkingCospan.ext (Iso.refl _) (by
-        show tt.app T' = 𝟙 _ ≫ tt.app T'
+        change tt.app T' = 𝟙 _ ≫ tt.app T'
         simp) (by
-        show ss.app T' = 𝟙 _ ≫ ss.app T'
+        change ss.app T' = 𝟙 _ ≫ ss.app T'
         simp))).symm hct
   exact IsPullback.of_isLimit hc
 
@@ -140,10 +140,10 @@ theorem isPullback_toQuotientSheaf_self (J : GrothendieckTopology C) [HasSheafif
   apply IsPullback.of_iso hpresheaf' eR.symm eU.symm eU.symm (Iso.refl _)
   · exact hstep tt
   · exact hstep ss
-  · show sheafifyMap J q ≫ 𝟙 _ = eU.symm.hom ≫ q ≫ toSheafify J (quotientPresheaf F j)
+  · change sheafifyMap J q ≫ 𝟙 _ = eU.symm.hom ≫ q ≫ toSheafify J (quotientPresheaf F j)
     rw [toSheafify_naturality J q, ← Category.assoc, hInvUnitU, Category.id_comp,
       Category.comp_id]
-  · show sheafifyMap J q ≫ 𝟙 _ = eU.symm.hom ≫ q ≫ toSheafify J (quotientPresheaf F j)
+  · change sheafifyMap J q ≫ 𝟙 _ = eU.symm.hom ≫ q ≫ toSheafify J (quotientPresheaf F j)
     rw [toSheafify_naturality J q, ← Category.assoc, hInvUnitU, Category.id_comp,
       Category.comp_id]
 

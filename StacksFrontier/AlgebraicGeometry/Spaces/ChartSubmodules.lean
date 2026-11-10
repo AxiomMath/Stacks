@@ -845,8 +845,7 @@ theorem mem_chartSpan_of_forall_pullback (hF : IsCartesianOnAffineCharts F)
           (AlgebraTensorModule.lTensor (chartRing B S hS X hX R) (chartRing B S hS X hX R)
             (ρ m) v)) = chartRes F pr₂ (sectionsBaseChange F r v) := by
       intro v
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | tmul c x =>
         rw [AlgebraTensorModule.lTensor_tmul, Algebra.IsPushout.cancelBaseChange_symm_tmul,
           LinearMap.liftBaseChange_tmul, chartBaseChange_tmul, map_smulₛₗ]
@@ -867,8 +866,7 @@ theorem mem_chartSpan_of_forall_pullback (hF : IsCartesianOnAffineCharts F)
   obtain ⟨v, hv⟩ := Module.Flat.mem_range_lTensor_ker (LinearMap.pi ψ) hz0
   rw [← hv]
   clear hv hz0 hψ
-  induction v using TensorProduct.induction_on with
-  | zero => exact mem_of_eq_of_mem ((congrArg _ (map_zero _)).trans (map_zero _)) (zero_mem _)
+  induction v using TensorProduct.inductionOn with
   | tmul c k =>
     refine mem_of_eq_of_mem (chartBaseChange_tmul F r c _) ?_
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, hker k.2, rfl⟩)
@@ -1020,10 +1018,7 @@ theorem isCartesianOnAffineCharts_toSheafOfModules_of_le_span
       sectionsBaseChange F f (AlgebraTensorModule.lTensor (chartRing B S hS X hX W')
         (chartRing B S hS X hX W') ιW u) := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero =>
-      exact ((congrArg ιW' (map_zero _)).trans (map_zero _)).trans
-        (((congrArg (sectionsBaseChange F f) (map_zero _)).trans (map_zero _)).symm)
+    induction u using TensorProduct.inductionOn with
     | tmul r k => rfl
     | add u v hu hv =>
       exact ((congrArg ιW' (map_add _ u v)).trans (map_add _ _ _)).trans

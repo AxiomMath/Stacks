@@ -493,7 +493,7 @@ theorem isProper_relationMapBase_iff :
       (Space.isProper_of_isIso B S hS _)
   · have hφ' : φ = relationMap G ≫ hpb.isoPullback.inv := by
       rw [← hφe, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-    show Space.IsProper B S hS φ
+    change Space.IsProper B S hS φ
     rw [hφ']
     exact Space.isProper_comp B S hS G.arrows.property hPB hV _ _ h
       (Space.isProper_of_isIso B S hS _)

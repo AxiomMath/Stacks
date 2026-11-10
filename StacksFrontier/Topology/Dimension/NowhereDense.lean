@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.ENat.SuccOrder
+public import Mathlib.Order.SuccPred.ENat
 public import Mathlib.Topology.GDelta.Basic
 public import Mathlib.Topology.NoetherianSpace
 public import StacksCore.Topology.NowhereDense.Defs

@@ -184,7 +184,7 @@ theorem hasImageIn_affineOverHom_of_lift {R : Type u} [CommRing R] [IsLocalRing 
         (maximalIdeal D ^ (n + 1))) e').asIdeal := by
       refine (PrimeSpectrum.comap (Ideal.Quotient.mk _) e').isPrime.le_of_pow_le (n := n + 1) ?_
       intro z hz
-      show Ideal.Quotient.mk _ z ∈ e'.asIdeal
+      change Ideal.Quotient.mk _ z ∈ e'.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.2 hz]
       exact e'.asIdeal.zero_mem
     have hcl : PrimeSpectrum.comap (Ideal.Quotient.mk (maximalIdeal D ^ (n + 1))) e' =
@@ -200,12 +200,12 @@ theorem hasImageIn_affineOverHom_of_lift {R : Type u} [CommRing R] [IsLocalRing 
       c.W.obj.map (ιn n).op ω := fun n => by
     let tn : Y.obj (op (Wn n)) := yonedaEquiv (yoneda.map (ιn n) ≫ t)
     have hqtn : q.app _ tn = ιn n ≫ sp := by
-      show yonedaEquiv ((yoneda.map (ιn n) ≫ t) ≫ q) = _
+      change yonedaEquiv ((yoneda.map (ιn n) ≫ t) ≫ q) = _
       rw [Category.assoc, ht, ← Functor.map_comp, yonedaEquiv_yoneda_map]
     have htn : Space.HasImageIn B S hS Y (Space.pointsMap B S hS Y q ⁻¹' Z) (Wn n) tn :=
       (FormalSpace.hasImageIn_preimage_iff B S hS q Z (Wn n) tn).2 (hqtn ▸ hφ n)
     have hytn : y.app _ tn = c.X'.map (ιn n).op (yonedaEquiv (t ≫ y)) := by
-      show yonedaEquiv ((yoneda.map (ιn n) ≫ t) ≫ y) = _
+      change yonedaEquiv ((yoneda.map (ιn n) ≫ t) ≫ y) = _
       rw [Category.assoc, yonedaEquiv_naturality]
     have hytn' : Space.HasImageIn B S hS c.X' c.T' (Wn n) (y.app _ tn) :=
       (FormalSpace.hasImageIn_preimage_iff B S hS y c.T' (Wn n) tn).1 fun p => hT (htn p)
@@ -286,7 +286,7 @@ theorem pointsMap_notMem_T'_of_isProper {R : Type u} [CommRing R] [IsNoetherianR
     Scheme.size_Spec_lt_of_mk_le B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit (.of K) hR
       (by
         rw [Scheme.size_Spec]
-        show Cardinal.mk (FractionRing D) ≤ _
+        change Cardinal.mk (FractionRing D) ≤ _
         rw [Cardinal.mk_fractionRing]
         exact hcard)
   let baseD := Spec.map (CommRingCat.ofHom ρ) ≫ str
@@ -299,9 +299,9 @@ theorem pointsMap_notMem_T'_of_isProper {R : Type u} [CommRing R] [IsNoetherianR
   let gV := ιK ≫ sp
   have hgV : ∀ b, (BigFppfOver.toScheme B S hS).map gV b = (a : Spec (.of R)) := fun b => by
     let b' : PrimeSpectrum K := b
-    show PrimeSpectrum.comap ρ (PrimeSpectrum.comap (algebraMap D K) b') = a
+    change PrimeSpectrum.comap ρ (PrimeSpectrum.comap (algebraMap D K) b') = a
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap ρ (Ideal.comap (algebraMap D K) b'.asIdeal) = a.asIdeal
+    change Ideal.comap ρ (Ideal.comap (algebraMap D K) b'.asIdeal) = a.asIdeal
     have hb0 : b'.asIdeal = ⊥ := (Ideal.eq_bot_or_top _).resolve_right b'.isPrime.ne_top
     rw [hb0, Ideal.comap_bot_of_injective _ (IsFractionRing.injective D K), ← hker]
     rfl
@@ -347,7 +347,7 @@ theorem pointsMap_notMem_T'_of_isProper {R : Type u} [CommRing R] [IsNoetherianR
     by_cases hd : d'.asIdeal = ⊥
     · have hdK : d = (BigFppfOver.toScheme B S hS).map ιK ptK := by
         refine PrimeSpectrum.ext ?_
-        show d'.asIdeal = Ideal.comap (algebraMap D K) (maximalIdeal K)
+        change d'.asIdeal = Ideal.comap (algebraMap D K) (maximalIdeal K)
         rw [hd, IsLocalRing.maximalIdeal_eq_bot,
           Ideal.comap_bot_of_injective _ (IsFractionRing.injective D K)]
       have e : (Space.pointsEquivScheme B S hS _).symm d =
@@ -373,7 +373,7 @@ theorem pointsMap_notMem_T'_of_isProper {R : Type u} [CommRing R] [IsNoetherianR
           ((Space.pointsEquivScheme B S hS _).symm d)) ∈ Z := by
         rw [← Space.pointsMap_comp_apply, ht2,
           Space.pointsMap_yoneda_map_pointsEquivScheme_symm sp d]
-        show (Space.pointsEquivScheme B S hS Vo).symm (PrimeSpectrum.comap ρ d') ∈ Z
+        change (Space.pointsEquivScheme B S hS Vo).symm (PrimeSpectrum.comap ρ d') ∈ Z
         rw [hdm, IsLocalRing.comap_closedPoint]
         exact hm
       rw [Space.pointsMap_comp_apply]
@@ -384,9 +384,9 @@ theorem pointsMap_notMem_T'_of_isProper {R : Type u} [CommRing R] [IsNoetherianR
     (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum D)
   have h0a : (BigFppfOver.toScheme B S hS).map sp (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum D) =
       (a : Spec (.of R)) := by
-    show PrimeSpectrum.comap ρ ⟨⊥, Ideal.isPrime_bot⟩ = a
+    change PrimeSpectrum.comap ρ ⟨⊥, Ideal.isPrime_bot⟩ = a
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap ρ ⊥ = a.asIdeal
+    change Ideal.comap ρ ⊥ = a.asIdeal
     rw [← hker]
     rfl
   rw [h0a, hva] at h0
@@ -418,7 +418,7 @@ theorem exists_comp_U'_ι_of_isProper {R : Type u} [CommRing R] [IsNoetherianRin
       jY ≫ y = u ≫ c.U'.ι := by
   have h : ∀ U x, (jY ≫ y).app U x ∈ c.U'.obj U := by
     intro U x
-    show Set.range (Space.pointsMap B S hS _ (yonedaEquiv.symm ((jY ≫ y).app U x))) ⊆ c.T'ᶜ
+    change Set.range (Space.pointsMap B S hS _ (yonedaEquiv.symm ((jY ≫ y).app U x))) ⊆ c.T'ᶜ
     rw [← yonedaEquiv_symm_naturality_right]
     rintro _ ⟨z, rfl⟩
     rw [Space.pointsMap_comp_apply]

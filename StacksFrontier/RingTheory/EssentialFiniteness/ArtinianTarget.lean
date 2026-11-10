@@ -96,7 +96,7 @@ private lemma finite_of_pow_smul_eq_bot
         have : x • a ∈ N := by
           rw [hN]
           exact Submodule.smul_mem_smul hx Submodule.mem_top
-        show x • Submodule.Quotient.mk a = 0
+        change x • Submodule.Quotient.mk a = 0
         rw [← Submodule.Quotient.mk_smul]
         exact (Submodule.Quotient.mk_eq_zero N).mpr this
     have : Module.Finite R N := by

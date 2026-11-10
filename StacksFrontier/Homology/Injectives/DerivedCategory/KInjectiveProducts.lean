@@ -179,7 +179,7 @@ theorem isLimit_productFanInDerivedCategory {I : Type w}
     (K : I → CochainComplex A ℤ) (hK : ∀ i, (K i).IsKInjective) :
     Nonempty (IsLimit (productFanInDerivedCategory K)) := by
   classical
-  show Nonempty (IsLimit (Fan.mk (DerivedCategory.Q.obj (∏ᶜ K))
+  change Nonempty (IsLimit (Fan.mk (DerivedCategory.Q.obj (∏ᶜ K))
     (fun i => DerivedCategory.Q.map (Pi.π K i))))
   have (i : I) : (K i).IsKInjective := hK i
   let q := HomotopyCategory.quotient A (ComplexShape.up ℤ)

@@ -58,8 +58,8 @@ source phrases the second step: the uniform exponent that [Stacks, Tag 01Y9] alr
 closure — which it is here, through `CoherentSubquotients.Basic`. The predicate used is the one
 [Stacks, Tag 01Y9] and the dévissage engine are stated with.
 
-**Three consequences of `AlgebraicGeometry.Scheme.Modules` being a plain `def`**: instance search does not see
-through it to `SheafOfModules X.ringCatSheaf`, where the relevant instances live.
+**Three consequences of `AlgebraicGeometry.Scheme.Modules` being a plain `def`**: instance search
+does not see through it to `SheafOfModules X.ringCatSheaf`, where the relevant instances live.
 
 * `Mono N.ι` is **not** synthesized for a submodule `N` of an `X.Modules`. It is obtained by
   reflecting the monomorphism along the forgetful functor, which is also why it appears in the

@@ -468,7 +468,7 @@ theorem restrictionOfScalarsFibreMap_comp (g : X' ⟶ X) (hg : g ≫ x = x')
       restrictionOfScalarsFibreMap g hg p ≫ (restrictionOfScalarsMap g hg z).1 := by
   ext T v
   refine ((restrictionOfScalars B S hS x z).pairEquiv T.unop).injective ?_
-  show (restrictionOfScalars B S hS x z).pairEquiv T.unop
+  change (restrictionOfScalars B S hS x z).pairEquiv T.unop
       (p.point.app T ((p.fibreSections g).projection.app T v)) =
     (restrictionOfScalars B S hS x z).pairEquiv T.unop
       ((restrictionOfScalarsMap g hg z).1.app T ((restrictionOfScalarsFibreMap g hg p).app T v))
@@ -557,7 +557,7 @@ theorem RestrictionPair.ofFibrePair_toFibrePair (g : X' ⟶ X) (hg : g ≫ x = x
     (h : RestrictionPair.postcomp g hg r = RestrictionPair.restrict c p) :
     r = p.ofFibrePair g hg (p.toFibrePair g hg c r h) := by
   refine RestrictionPair.ext_of_base_eq (p.base_eq_of_postcomp_eq g hg c r h) ?_
-  show r.lift = (pullback.congrHom (p.base_eq_of_postcomp_eq g hg c r h) rfl).hom ≫
+  change r.lift = (pullback.congrHom (p.base_eq_of_postcomp_eq g hg c r h) rfl).hom ≫
       (pullbackBaseChangeIso p.base z.hom c).inv ≫
         pullback.lift (pullback.snd c (pullback.fst p.base z.hom))
             ((pullbackBaseChangeIso p.base z.hom c).hom ≫
@@ -848,7 +848,7 @@ theorem hasProperty_isEtale_restrictionOfScalarsMap
     ((restrictionOfScalars B S hS x z).pairEquiv U (yonedaEquiv ξ))).2
   have hp : ((restrictionOfScalars B S hS x z).pairEquiv U (yonedaEquiv ξ)).point = ξ :=
     point_pairEquiv z ξ
-  show IsEtale B S hS (pullback.fst ξ (restrictionOfScalarsMap g hg z).1)
+  change IsEtale B S hS (pullback.fst ξ (restrictionOfScalarsMap g hg z).1)
   rw [← hp]
   refine IsEtale.of_iso_comp
     (fibreIso g hg ((restrictionOfScalars B S hS x z).pairEquiv U (yonedaEquiv ξ))) ?_
@@ -898,7 +898,7 @@ theorem isSurjective_restrictionOfScalarsMap
       refine Quot.sound ⟨p₀, ⟨𝟙 U, ?_⟩,
         FieldValuedPoint.dominates_refl B S hS
           (restrictionOfScalars B S hS x z).presheaf p₀⟩
-      show (restrictionOfScalars B S hS x z).presheaf.map (𝟙 (op U))
+      change (restrictionOfScalars B S hS x z).presheaf.map (𝟙 (op U))
         ((FieldValuedPoint.map B S hS (yoneda.obj U) ξ e).value) = p₀.value
       rw [CategoryTheory.Functor.map_id]
       exact hval

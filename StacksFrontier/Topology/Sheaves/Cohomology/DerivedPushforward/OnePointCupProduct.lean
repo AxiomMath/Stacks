@@ -320,7 +320,7 @@ theorem onePointDerived_map_sectionsUnitQ_comp_counit
         DerivedCategory.Q.map ((onePointComplexEquivalence R).counit.app N) := by
   dsimp only [onePointDerivedAdjunction]
   rw [ofNatIsoRight_counit_app]
-  show (onePointDerived R).map (sectionsUnitQ (onePointRingedSpace R) ⊤ N) ≫
+  change (onePointDerived R).map (sectionsUnitQ (onePointRingedSpace R) ⊤ N) ≫
       (onePointDerived R).map ((onePointDerivedSectionsComparison R).app
         (DerivedCategory.Q.obj N)) ≫
       (onePointDerivedSectionsAdjunction R).counit.app (DerivedCategory.Q.obj N) = _
@@ -377,7 +377,7 @@ theorem tensorComparisonOfEquivalence_hom_comp_counit (a b : D) :
         (e.unit.app (e.inverse.obj a) ×ₘ e.unit.app (e.inverse.obj b)) ≫
       (e.inverse.prod e.inverse ⋙ Functor.uncurry.obj G).map (e.counit.app a ×ₘ e.counit.app b) =
         𝟙 _ := by
-    show (Functor.uncurry.obj G).map _ ≫ (Functor.uncurry.obj G).map
+    change (Functor.uncurry.obj G).map _ ≫ (Functor.uncurry.obj G).map
       (e.inverse.map (e.counit.app a) ×ₘ e.inverse.map (e.counit.app b)) = _
     rw [← Functor.map_comp, prod_comp, Equivalence.unit_inverse_comp,
       Equivalence.unit_inverse_comp]

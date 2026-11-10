@@ -83,7 +83,8 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 -- `HasDerivedCategory` at the spelling of [Stacks, Tag 06YU]: the type is `OXMod X` by `rfl`,
 -- but `structureSheafOfRings` is not reducible, so an instance proved at one spelling does not
--- fire at the other. Seated here, as in `StacksFrontier/Topology/Sheaves/Cohomology/TorAmplitude/LocalTorAmplitude.lean`, not restated.
+-- fire at the other. Seated here, as in
+-- `StacksFrontier/Topology/Sheaves/Cohomology/TorAmplitude/LocalTorAmplitude.lean`, not restated.
 attribute [local instance] _root_.Stacks.Cohomology.TorAmplitude.hasDerivedCategoryModules
 
 -- The two declarations after this section are the tag's registration and the `Prop` it used to
@@ -313,7 +314,7 @@ public theorem nonempty_iso_schemeDerivedPushforward_single {X S : Scheme.{u}} (
     (derivedPushforwardModulesUnit f)
     (fun I hI => RingedSpace.isIso_derivedPushforwardUnit_app_of_isKInjective _ I hI)
     ((DerivedCategory.Plus.singleFunctor X.Modules 0).obj F) 0 (by
-      show ((DerivedCategory.singleFunctor X.Modules 0).obj F).IsGE 0
+      change ((DerivedCategory.singleFunctor X.Modules 0).obj F).IsGE 0
       infer_instance)
   exact ⟨(schemeDerivedPushforward f).mapIso
       ((DerivedCategory.singleFunctorIsoCompQ X.Modules 0).app F).symm ≪≫ eb ≪≫

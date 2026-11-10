@@ -284,14 +284,14 @@ def cotangentDatumOfDerivationDatum {a : X ⟶ Y} {p : Y ⟶ S} {N : X.Modules}
 theorem derivationDatumOfCotangent_cotangentDatum {a : X ⟶ Y} {p : Y ⟶ S} {N : X.Modules}
     (φ : (Scheme.Modules.pullback a).obj (Scheme.Hom.relativeDifferentials p) ⟶ N) :
     derivationDatumOfCotangent (cotangentDatumOfDerivationDatum φ) = φ :=
-  Iso.map_hom_inv_id_assoc (Scheme.Hom.cotangentSheafIso p) (Scheme.Modules.pullback a) φ
+  Iso.hom_inv_id_map_assoc (Scheme.Hom.cotangentSheafIso p) (Scheme.Modules.pullback a) φ
 
 /-- `Stacks.Thickenings.cotangentDatumOfDerivationDatum` is a left inverse of
 `Stacks.Thickenings.derivationDatumOfCotangent`. -/
 theorem cotangentDatum_derivationDatumOfCotangent {a : X ⟶ Y} {p : Y ⟶ S} {N : X.Modules}
     (θ : Stacks.Smooth.pullbackCotangentSheaf p a ⟶ N) :
     cotangentDatumOfDerivationDatum (derivationDatumOfCotangent θ) = θ :=
-  Iso.map_inv_hom_id_assoc (Scheme.Hom.cotangentSheafIso p) (Scheme.Modules.pullback a) θ
+  Iso.inv_hom_id_map_assoc (Scheme.Hom.cotangentSheafIso p) (Scheme.Modules.pullback a) θ
 
 /-- **The derivation data of the two tracks are the same data.** The two sheaves of relative
 differentials of `p : Y ⟶ S` are canonically isomorphic by
@@ -359,6 +359,7 @@ section Bridge
 variable {S T T' Y Y' : Scheme.{u}} {i : T ⟶ T'} {j : Y ⟶ Y'} {a : T ⟶ Y} {a' b' : T' ⟶ Y'}
   [IsClosedImmersion i] [IsImmersion j]
 
+omit [IsImmersion j] in
 /-- **The derivation of Equation [Stacks Project, Tag 04BV] attached to a translated datum, on
 sections.** For `θ : a^*Ω_{Y/S} ⟶ 𝒞_{T/T'}` on the `Stacks.Smooth.pullbackCotangentSheaf` track,
 the value of `D = θ ∘ d_{Y/S}` on a section `y` of `𝒪_Y` over `j⁻¹V` is `θ` applied to

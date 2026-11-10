@@ -193,8 +193,7 @@ private theorem tensor_map_smul_of_tmul {M : ModuleCat.{w} (GlobalFunctionRing O
     (h : ∀ (a : O.obj.obj X) (m : M),
       g (b • (a ⊗ₜ[GlobalFunctionRing O] m)) = b' • g (a ⊗ₜ[GlobalFunctionRing O] m))
     (t : TensorProduct (GlobalFunctionRing O) (O.obj.obj X) M) : g (b • t) = b' • g t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a m => exact h a m
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
 
@@ -214,7 +213,7 @@ theorem tensorRestriction_id (M : ModuleCat.{w} (GlobalFunctionRing O)) (X : C�
     tensorRestriction M (𝟙 X) = LinearMap.id := by
   apply TensorProduct.ext'
   intro a m
-  show ((O.obj.map (𝟙 X)).hom a) ⊗ₜ[GlobalFunctionRing O] m = a ⊗ₜ[GlobalFunctionRing O] m
+  change ((O.obj.map (𝟙 X)).hom a) ⊗ₜ[GlobalFunctionRing O] m = a ⊗ₜ[GlobalFunctionRing O] m
   rw [O.obj.map_id]; rfl
 
 /-- Restriction along a composite is the composite of the restrictions. -/
@@ -223,7 +222,7 @@ theorem tensorRestriction_comp (M : ModuleCat.{w} (GlobalFunctionRing O))
     tensorRestriction M (f ≫ g) = (tensorRestriction M g).comp (tensorRestriction M f) := by
   apply TensorProduct.ext'
   intro a m
-  show ((O.obj.map (f ≫ g)).hom a) ⊗ₜ[GlobalFunctionRing O] m =
+  change ((O.obj.map (f ≫ g)).hom a) ⊗ₜ[GlobalFunctionRing O] m =
     ((O.obj.map g).hom ((O.obj.map f).hom a)) ⊗ₜ[GlobalFunctionRing O] m
   rw [O.obj.map_comp]; rfl
 
@@ -451,8 +450,7 @@ theorem sectionTensorAddHom_ext {M : ModuleCat.{w} (GlobalFunctionRing O)} {X : 
     (hgh : ∀ (a : O.obj.obj X) (m : M),
       g (a ⊗ₜ[GlobalFunctionRing O] m) = h (a ⊗ₜ[GlobalFunctionRing O] m))
     (t : TensorProduct (GlobalFunctionRing O) (O.obj.obj X) M) : g t = h t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul a m => exact hgh a m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -510,10 +508,7 @@ theorem sectionTensorLift_restriction {M : ModuleCat.{max u r w} (GlobalFunction
     (t : TensorProduct (GlobalFunctionRing O) (O.obj.obj X) M) :
     sectionTensorLift θ Y (tensorRestriction M f t) =
       F.val.map f (sectionTensorLift θ X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, map_zero]
-      exact (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | tmul a m =>
       rw [tensorRestriction_tmul, sectionTensorLift_tmul, sectionTensorLift_tmul,
         PresheafOfModules.map_smul F.val f (ringSheafSection a) ((θ.hom m).eval X),
@@ -656,7 +651,7 @@ instance sectionTensorSheafFunctor_isLeftAdjoint :
 theorem sectionTensorSheafAdjunction_unit_app
     (M : ModuleCat.{max u r w} (GlobalFunctionRing O)) :
     (sectionTensorSheafAdjunction O).unit.app M = sectionTensorSheafUnit M := by
-  show sectionsOfTensorPresheafHom ((PresheafOfModules.sheafificationAdjunction
+  change sectionsOfTensorPresheafHom ((PresheafOfModules.sheafificationAdjunction
     (𝟙 (ringSheafOfSite O).obj)).homEquiv (sectionTensorPresheaf M) _ (𝟙 _)) = _
   refine congrArg _ ?_
   rw [Adjunction.homEquiv_unit, CategoryTheory.Functor.map_id]

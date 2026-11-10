@@ -281,7 +281,7 @@ theorem epi_whiskerLeft_of_epi
   exact Eq.mpr (congrArg (fun φ => Epi φ)
       (Stacks.SheafOfModules.Strict.whiskerLeft_eq_tensorSheafBifunctor_map Osharp P b))
     (@Stacks.SheafOfModules.TensorEncodings.epi_tensorSheafBifunctor_map _ _
-      (Opens.grothendieckTopology ↥X) _ _ _ Osharp _ _ _ _ _ (𝟙 P) b hid hb)
+      (Opens.grothendieckTopology ↥X) _ _ _ Osharp _ _ _ _ (𝟙 P) b hid hb)
 
 /-- **Wedging a degree-one factor of `F` into `⋀^{1+m}H` lands in the `(k+1)`-st step of the
 wedge filtration of `⋀^{k+1+m}H`**, hence dies against the cokernel of

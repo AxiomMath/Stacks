@@ -54,7 +54,7 @@ claim.
 ## Implementation notes
 
 Everything is equi-universe, as in
-`StacksFrontier/CategoryTheory/Sites/Modules/InternalHomAndFlatness/InternalHomFilteredColimits.lean`:
+`StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimits`:
 the site has objects and morphisms in `Type u` and the structure sheaf is
 `CommRingCat.{u}`-valued. This is the setting of Stacks 0GMZ, the key input, and of the
 ringed-site development generally; it is also what makes the sheafification hypotheses free,

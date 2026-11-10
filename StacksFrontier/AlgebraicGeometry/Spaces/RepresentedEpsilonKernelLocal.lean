@@ -54,6 +54,7 @@ variable {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J CommRingCat.{w₁}]
   [J.HasSheafCompose (forget₂ CommRingCat.{w₁} RingCat.{w₁})]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The differential `NL^{-1} ⟶ NL^0` read on the conormal sheaf of the canonical presentation is
 the left-hand map of the conormal sequence. -/
 theorem eqToHom_comp_naiveCotangentComplex_d_negOne_zero (A B : Sheaf J CommRingCat.{w₁})
@@ -82,6 +83,7 @@ def canonicalConormalKernelIso (A B : Sheaf J CommRingCat.{w₁}) (a : A ⟶ B) 
   hom_inv_id := (cancel_mono (kernel.ι _)).1 (by simp)
   inv_hom_id := (cancel_mono (kernel.ι _)).1 (by simp)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- `canonicalConormalKernelIso` followed by the inclusion of the kernel of the differential of
 `NL_{B/A}` is the inclusion of the kernel of the conormal map, followed by the identification of
 the degree `-1` term. -/
@@ -621,7 +623,8 @@ theorem representedEpsilonKernelHom_app_chartKernelSection
         (op ((representedToZariskiRingedToposSiteHom B S hS U).u.obj Z))
         (chartKernelSection B S hS (representedSpaceMap B S hS φ)
           (representedEpsilonChartDiagram B S hS φ hZW) h) := by
-  refine Stacks.SheafOfModules.app_eq_of_comp_eq_naiveCotangentComplexPushforwardSquareMap_f_negOne
+  refine @Stacks.SheafOfModules.app_eq_of_comp_eq_naiveCotangentComplexPushforwardSquareMap_f_negOne
+    _ _ _ _ _ _ _ _ _ _ _ inferInstance _ _ _ _ _ _ _ _ _ _ _ _
     (representedEpsilonKernelHom_comp_ι B S hS φ) (op Z) _ m hm _
     (representedChartH1Map B S hS φ hZW h) ?_ (representedChartH1Map_comp B S hS φ hZW h _)
   refine eq_of_heq ((representedChartKernelSection_heq B S hS φ hZW h).trans ?_)

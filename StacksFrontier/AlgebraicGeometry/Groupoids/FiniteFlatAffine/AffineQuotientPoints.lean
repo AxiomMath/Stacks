@@ -100,13 +100,13 @@ private theorem exists_ringHom_comp_eq_of_polynomial_descent {A B k : Type u} [C
     have htensor : (algebraMap A k) x ⊗ₜ[A] (1 : B) = (1 : k) ⊗ₜ[A] s x := by
       rw [← hs]
       exact Algebra.TensorProduct.tmul_one_eq_one_tmul (R := A) x
-    show (β m) (1 ⊗ₜ[A] s x) = a₁ x
+    change (β m) (1 ⊗ₜ[A] s x) = a₁ x
     rw [← htensor]
     exact congrFun (congrArg DFunLike.coe (hβ m)) (a₁ x)
   let a : MaximalSpectrum (k ⊗[A] B) → A →+* k := fun m ↦ (b m).comp t
   have ha_section (m : MaximalSpectrum (k ⊗[A] B)) : (a m).comp i = RingHom.id k := by
     refine RingHom.ext fun x ↦ ?_
-    show (b m) (t (i x)) = x
+    change (b m) (t (i x)) = x
     rw [hscalar]
     simpa [RingHom.comp_apply] using
       (congrFun (congrArg DFunLike.coe (hbsource m)) (i x)).trans
@@ -135,7 +135,7 @@ private theorem exists_ringHom_comp_eq_of_polynomial_descent {A B k : Type u} [C
       hnu (Ideal.span_singleton_eq_top.mp htop)
     exact hx_not_mem ⟨m, hm⟩ (hle (Ideal.subset_span (by simp)))
   have ha₁g : a₁ (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) ≠ 0 := by
-    show (algebraMap A k) (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) ≠ 0
+    change (algebraMap A k) (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) ≠ 0
     rw [algebraMap_det_lmul (k := k) (t f)]
     exact (det_lmul_ne_zero_iff_isUnit (k := k) (F := k ⊗[A] B) _).2 hxunit
   have ha₀g : a₀ (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) = 0 := by
@@ -145,16 +145,16 @@ private theorem exists_ringHom_comp_eq_of_polynomial_descent {A B k : Type u} [C
     let b₀Alg : B →ₐ[A] k :=
       { toRingHom := a₀.comp e
         commutes' := fun x ↦ by
-          show (a₀.comp e) (algebraMap A B x) = algebraMap A k x
+          change (a₀.comp e) (algebraMap A B x) = algebraMap A k x
           rw [hs, ← RingHom.comp_apply, hb₀source]
           rfl }
     let β₀ : k ⊗[A] B →ₐ[k] k :=
       Algebra.TensorProduct.lift (AlgHom.id k k) b₀Alg fun _ _ ↦ Commute.all _ _
     have hβ₀ : β₀ (Algebra.TensorProduct.includeRight (t f) : k ⊗[A] B) = 0 := by
-      show Algebra.TensorProduct.lift (AlgHom.id k k) b₀Alg _ (1 ⊗ₜ[A] t f) = 0
+      change Algebra.TensorProduct.lift (AlgHom.id k k) b₀Alg _ (1 ⊗ₜ[A] t f) = 0
       rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
       exact (congrArg a₀ (RingHom.congr_fun hidentity₁ f)).trans (RingHom.mem_ker.mp hfmem)
-    show (algebraMap A k) (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) = 0
+    change (algebraMap A k) (ProjectiveDeterminant.det (Algebra.lmul A B (t f))) = 0
     rw [algebraMap_det_lmul (k := k) (t f)]
     by_contra hcon
     exact not_isUnit_zero
@@ -183,7 +183,7 @@ theorem surjective_objectsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidSche
   obtain ⟨x, hx⟩ := hsurj y
   obtain ⟨u, hu⟩ := hΓ x
   exact ⟨u, by
-    show (Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G)))).base
+    change (Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G)))).base
       ((G.objects.left.toSpecΓ).base u) = y
     rwa [hu]⟩
 
@@ -202,7 +202,7 @@ theorem surjective_comp_objectsToInvariantSpectrum {S : Scheme.{u}} (G : Groupoi
     ((Scheme.ΓSpecIso (.of (invariantRing G))).inv ≫ x.appTop ≫
       (Scheme.ΓSpecIso (.of k)).hom).hom
   refine ⟨Spec.map (CommRingCat.ofHom h) ≫ G.objects.left.isoSpec.inv, ?_⟩
-  show (Spec.map (CommRingCat.ofHom h) ≫ G.objects.left.isoSpec.inv) ≫
+  change (Spec.map (CommRingCat.ofHom h) ≫ G.objects.left.isoSpec.inv) ≫
     G.objects.left.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G))) = x
   calc
     _ = Spec.map (CommRingCat.ofHom (h.comp (Subring.subtype (invariantRing G)))) := by
@@ -256,7 +256,7 @@ theorem comp_objectsToInvariantSpectrum_eq_iff {S : Scheme.{u}} (G : GroupoidSch
       have hcomp : G'.groupoid.objects.hom.appTop ≫ v.appTop =
           Scheme.Hom.appTop (𝟙 (Spec (.of k))) := by
         simpa only [Scheme.Hom.comp_appTop] using congrArg Scheme.Hom.appTop hv
-      show ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ G'.groupoid.objects.hom.appTop ≫
+      change ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ G'.groupoid.objects.hom.appTop ≫
         v.appTop ≫ (Scheme.ΓSpecIso (CommRingCat.of k)).hom).hom = RingHom.id k
       simpa [Category.assoc] using congrArg CommRingCat.Hom.hom
         (congrArg (fun f ↦ (Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫
@@ -297,7 +297,7 @@ theorem comp_objectsToInvariantSpectrum_eq_iff {S : Scheme.{u}} (G : GroupoidSch
       Spec.map (CommRingCat.ofHom r') ≫ G'.groupoid.arrows.left.isoSpec.inv
     have hrcoord : (r.appTop ≫ (Scheme.ΓSpecIso (.of k)).hom).hom = r' := by
       have hspec : r ≫ G'.groupoid.arrows.left.toSpecΓ = Spec.map (CommRingCat.ofHom r') := by
-        show (Spec.map (CommRingCat.ofHom r') ≫ G'.groupoid.arrows.left.isoSpec.inv) ≫
+        change (Spec.map (CommRingCat.ofHom r') ≫ G'.groupoid.arrows.left.isoSpec.inv) ≫
           G'.groupoid.arrows.left.toSpecΓ = _
         rw [Category.assoc, Scheme.isoSpec_inv_toSpecΓ]
         rfl
@@ -396,13 +396,13 @@ theorem base_objectsToInvariantSpectrum_eq_iff {S : Scheme.{u}} (G : GroupoidSch
       let α : p.asIdeal.ResidueField →ₐ[q.asIdeal.ResidueField] K := IsAlgClosed.lift
       refine ⟨α.toRingHom.comp (algebraMap Γ(G.objects.left, ⊤) p.asIdeal.ResidueField), ?_, ?_⟩
       · refine RingHom.ext fun x ↦ ?_
-        show α (algebraMap Γ(G.objects.left, ⊤) p.asIdeal.ResidueField (f x)) =
+        change α (algebraMap Γ(G.objects.left, ⊤) p.asIdeal.ResidueField (f x)) =
           algebraMap q.asIdeal.ResidueField K
             (algebraMap (invariantRing G) q.asIdeal.ResidueField x)
         rw [← Ideal.ResidueField.map_algebraMap q.asIdeal p.asIdeal f hp x]
         exact α.commutes _
       · ext x
-        show α (algebraMap Γ(G.objects.left, ⊤) p.asIdeal.ResidueField x) = 0 ↔ x ∈ p.asIdeal
+        change α (algebraMap Γ(G.objects.left, ⊤) p.asIdeal.ResidueField x) = 0 ↔ x ∈ p.asIdeal
         refine ⟨fun hx ↦ Ideal.algebraMap_residueField_eq_zero.mp (α.injective (by simpa using hx)),
           fun hx ↦ by simp [Ideal.algebraMap_residueField_eq_zero.mpr hx]⟩
     obtain ⟨a₀, hcompat₀, hker₀⟩ := hlift p₀ hcomap₀
@@ -414,7 +414,7 @@ theorem base_objectsToInvariantSpectrum_eq_iff {S : Scheme.{u}} (G : GroupoidSch
             objectsToInvariantSpectrum G =
           Spec.map (CommRingCat.ofHom ((algebraMap q.asIdeal.ResidueField K).comp
             (algebraMap (invariantRing G) q.asIdeal.ResidueField))) := by
-      show (Spec.map (CommRingCat.ofHom α) ≫ G.objects.left.isoSpec.inv) ≫
+      change (Spec.map (CommRingCat.ofHom α) ≫ G.objects.left.isoSpec.inv) ≫
         G.objects.left.toSpecΓ ≫ Spec.map (CommRingCat.ofHom f) = _
       rw [Category.assoc, Scheme.isoSpec_inv_toSpecΓ_assoc, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp, hcompat]
@@ -429,9 +429,9 @@ theorem base_objectsToInvariantSpectrum_eq_iff {S : Scheme.{u}} (G : GroupoidSch
           (IsLocalRing.closedPoint K) = u := by
       have hp : (Spec.map (CommRingCat.ofHom α)).base (IsLocalRing.closedPoint K) = p := by
         refine PrimeSpectrum.ext ?_
-        show Ideal.comap α (IsLocalRing.maximalIdeal K) = p.asIdeal
+        change Ideal.comap α (IsLocalRing.maximalIdeal K) = p.asIdeal
         rwa [IsLocalRing.maximalIdeal_eq_bot]
-      show G.objects.left.isoSpec.inv.base
+      change G.objects.left.isoSpec.inv.base
         ((Spec.map (CommRingCat.ofHom α)).base (IsLocalRing.closedPoint K)) = u
       rw [hp, ← hu]
       simp

@@ -507,7 +507,7 @@ theorem nonempty_henselizationFunctorData :
     let H := (henselization Q (J.comap X.hom.map.hom) : Type w)
     let : Algebra A H := ((algebraMap Q H).comp (algebraMap A Q)).toAlgebra
     let : IsScalarTower A Q H := IsScalarTower.of_algebraMap_eq fun _ => rfl
-    show algebraMap X.left.fiber
+    change algebraMap X.left.fiber
         (henselization X.left.fiber (J.comap X.hom.map.hom) : Type w)
         (algebraMap X.left.base X.left.fiber a) =
       algebraMap X.left.base

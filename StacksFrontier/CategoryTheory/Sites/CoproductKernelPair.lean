@@ -110,7 +110,7 @@ theorem Sheaf.isPullback_of_isColimit_cofan {ι : Type v'} [Small.{w} ι]
   have hP := Limits.isColimitCofanProd (F := Cij) hPi hPcolim
   -- the comparison map `R ⟶ V ×_Z V`
   have hw : t ≫ φ = s ≫ φ := Cofan.IsColimit.hom_ext hR _ _ fun p ↦ by
-    show κ p ≫ t ≫ φ = κ p ≫ s ≫ φ
+    change κ p ≫ t ≫ φ = κ p ≫ s ≫ φ
     rw [reassoc_of% ht, reassoc_of% hs]
     exact (hsq p).w
   let k : R ⟶ pullback φ φ := pullback.lift t s hw

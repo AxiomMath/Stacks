@@ -123,7 +123,7 @@ theorem kappaSec_restrict
         (HomogeneousLocalization.Away.mk (s.sectionRingGrading U'.1)
           (Graded.map_mem φ (cHom_mem U.1 c)) i (φ (DirectSum.of (s.sectionPieces U.1) (i * d) a))
           (Graded.map_mem φ ⟨a, rfl⟩))) := by
-    show ((g' ≫ r).appLE _ ⊤ hg).hom (Proj.awayToSection _ _ (algFrac U c i a)) = _
+    change ((g' ≫ r).appLE _ ⊤ hg).hom (Proj.awayToSection _ _ (algFrac U c i a)) = _
     rw [e1, CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply]
     refine congrArg (g'.appLE _ ⊤ hle).hom (e2.trans ?_)
     exact congrArg _ (HomogeneousLocalization.Away.map_mk φ _ (cHom_mem U.1 c) i _ ⟨a, rfl⟩)
@@ -188,7 +188,7 @@ theorem hCP_restrict
       ((laurent L).piece i).val.restrictₛₗ (LaurentSections.topRes T (op ⊤)) x = x := by
     intro x
     have h1 : LaurentSections.topRes T (op ⊤) = 𝟙 _ := Subsingleton.elim _ _
-    show ((laurent L).piece i).val.map (LaurentSections.topRes T (op ⊤)) x = x
+    change ((laurent L).piece i).val.map (LaurentSections.topRes T (op ⊤)) x = x
     rw [h1, PresheafOfModules.map_id]
     rfl
   have e2 : (kappa U' (resC hUU' c) f hf' g' hg' hgf' i ≫
@@ -196,7 +196,7 @@ theorem hCP_restrict
         (Scheme.Modules.pullbackSection f _ U'.1 ⊤ hf' a') =
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from
         kappaSec U' (resC hUU' c) g' hg' i a') • LaurentSections.pw w i := by
-    show (LaurentSections.secHom ((laurent L).piece i) (LaurentSections.pw w i)).val.app (op ⊤)
+    change (LaurentSections.secHom ((laurent L).piece i) (LaurentSections.pw w i)).val.app (op ⊤)
       ((kappa U' (resC hUU' c) f hf' g' hg' hgf' i).val.app (op ⊤)
         (Scheme.Modules.pullbackSection f _ U'.1 ⊤ hf' a')) = _
     rw [kappa_pullbackSection]

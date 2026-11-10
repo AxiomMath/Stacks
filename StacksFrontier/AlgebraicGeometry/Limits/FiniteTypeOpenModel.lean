@@ -127,7 +127,7 @@ public lemma awayMap_surjective_of_generators {R : Type u} [CommRing R] (r : R)
     rw [eq_top_iff, ← hs]
     refine Algebra.adjoin_le fun x hx => ?_
     obtain ⟨a, n, hax⟩ := hnum x hx
-    show x ∈ g.range
+    change x ∈ g.range
     refine ⟨algebraMap A (Localization.Away rA) a *
       IsLocalization.Away.invSelf rA ^ n, ?_⟩
     have hmap : g.toRingHom (algebraMap A (Localization.Away rA) a *
@@ -243,7 +243,7 @@ public lemma basicOpen_comp_specMap_isOpenImmersion {R : Type u} [CommRing R]
         Spec.map (CommRingCat.ofHom (A.val : A →+* R)) =
         eR.hom ≫ Spec.map qIso.hom ≫ Spec.map (CommRingCat.ofHom kA) := by
     rw [← basicOpenIsoSpecAway_hom_SpecMap (R := CommRingCat.of R)]
-    show eR.hom ≫ (Spec.map (CommRingCat.ofHom kR) ≫
+    change eR.hom ≫ (Spec.map (CommRingCat.ofHom kR) ≫
         Spec.map (CommRingCat.ofHom (A.val : A →+* R))) =
       eR.hom ≫ (Spec.map qIso.hom ≫ Spec.map (CommRingCat.ofHom kA))
     refine (cancel_epi eR.hom).mpr ?_
@@ -382,7 +382,7 @@ public lemma openModel_of_chart_data {R : Type u} [CommRing R] {W : Scheme.{u}}
         (f y : PrimeSpectrum R).asIdeal.comap A.val :=
       congrArg PrimeSpectrum.asIdeal hxy'
     have hfy : f y ∈ PrimeSpectrum.basicOpen (r i) := by
-      show (r i) ∉ (f y : PrimeSpectrum R).asIdeal
+      change (r i) ∉ (f y : PrimeSpectrum R).asIdeal
       intro hy
       have hnot : (r i) ∉ (f x : PrimeSpectrum R).asIdeal :=
         (PrimeSpectrum.mem_basicOpen (r i) (f x)).mp hxi
@@ -397,7 +397,7 @@ public lemma openModel_of_chart_data {R : Type u} [CommRing R] {W : Scheme.{u}}
     have hlx : l ⟨f x, hxi⟩ = x := f.isOpenEmbedding.injective (hlp _)
     have hly : l ⟨f y, hfy⟩ = y := f.isOpenEmbedding.injective (hlp _)
     have hp : (l ≫ g) ⟨f x, hxi⟩ = (l ≫ g) ⟨f y, hfy⟩ := by
-      show g (l _) = g (l _)
+      change g (l _) = g (l _)
       rw [hlx, hly]
       exact hxy
     calc

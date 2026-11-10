@@ -61,7 +61,7 @@ def component (A : GradedAlgebra P) {X : Cᵒᵖ} (a : A.Total X) (i : ι) : (P 
 degree `j` and zero elsewhere. -/
 lemma component_incl (A : GradedAlgebra P) {X : Cᵒᵖ} (j i : ι) (y : (P j).obj X) :
     component A (A.incl j y) i = if h : j = i then h ▸ y else 0 := by
-  show (DirectSum.of (fun i => ((P i).obj X : Type w)) j y) i = _
+  change (DirectSum.of (fun i => ((P i).obj X : Type w)) j y) i = _
   split_ifs with h
   · subst h; exact DirectSum.of_eq_same _ _
   · exact DirectSum.of_eq_of_ne _ _ _ (Ne.symm h)
@@ -146,13 +146,13 @@ theorem isLocallyInjective_totalPresheafMap (J : GrothendieckTopology C) (f : Un
   have hT : ∀ i, T i ∈ J X.unop := by
     intro i
     refine (hf i).equalizerSieve_mem (component A z i) 0 ?_
-    show PresheafOfModules.Hom.app (f.app i) X (component A z i) =
+    change PresheafOfModules.Hom.app (f.app i) X (component A z i) =
       PresheafOfModules.Hom.app (f.app i) X 0
     rw [hcomp i, map_zero]
   let supp : Finset ι := DFinsupp.support (β := fun i => ((P i).obj X : Type w)) z
   refine J.superset_covering ?_ (finset_inf_mem J supp T fun i _ => hT i)
   intro Y g hg
-  show A.totalRestrict g.op x = A.totalRestrict g.op y
+  change A.totalRestrict g.op x = A.totalRestrict g.op y
   refine sub_eq_zero.mp ((map_sub (A.totalRestrict g.op) x y).symm.trans ?_)
   refine eq_zero_of_component A _ fun i => ?_
   refine (component_totalRestrict A g.op z i).trans ?_
@@ -160,7 +160,7 @@ theorem isLocallyInjective_totalPresheafMap (J : GrothendieckTopology C) (f : Un
   · have hgi : T i g := (Finset.inf_le hi : supp.inf T ≤ T i) g hg
     exact hgi.trans (map_zero (((PresheafOfModules.toPresheaf R).obj (P i)).map g.op).hom)
   · have h0 : component A z i = 0 := DFinsupp.notMem_support_iff.mp hi
-    show sectionRestrict (P i) g.op (component A z i) = 0
+    change sectionRestrict (P i) g.op (component A z i) = 0
     rw [h0, map_zero]
 
 /-- The sheafification unit of a presheaf of modules is locally injective. -/
@@ -202,7 +202,7 @@ theorem isInternal_symmetricPowerInt :
     have hfun : (fun i : {i : ℤ // symmetricPowerInt i R M ≠ ⊥} => symmetricPowerInt i.1 R M) =
         (fun n : ℕ => symmetricPower n R M) ∘ g := by
       funext i
-      show symmetricPowerInt i.1 R M = symmetricPowerInt (i.1.toNat : ℤ) R M
+      change symmetricPowerInt i.1 R M = symmetricPowerInt (i.1.toNat : ℤ) R M
       rw [Int.toNat_of_nonneg (hnn i)]
     rw [hfun]
     exact hN.submodule_iSupIndep.comp hg
@@ -243,21 +243,21 @@ theorem symBaseChangeOfBijective_tmul (u : M →ₗ[R] N)
           map_smul' := fun r m => by rw [u.map_smul, algebraMap_smul] } := by
     refine SymmetricAlgebra.ringHom_ext (fun r => ?_) (fun m => ?_)
     · rw [SymmetricAlgebra.mapₛₗ_algebraMap]
-      show (Stacks.SymAlg.congrEquiv _) ((SymmetricAlgebra.lift (toSymBaseChange S M))
+      change (Stacks.SymAlg.congrEquiv _) ((SymmetricAlgebra.lift (toSymBaseChange S M))
         (algebraMap R (SymmetricAlgebra R M) r)) = _
       rw [AlgHom.commutes]
-      show (Stacks.SymAlg.congrEquiv _) (algebraMap S _ (algebraMap R S r)) = _
+      change (Stacks.SymAlg.congrEquiv _) (algebraMap S _ (algebraMap R S r)) = _
       rw [AlgEquiv.commutes]
     · rw [SymmetricAlgebra.mapₛₗ_ι]
-      show (Stacks.SymAlg.congrEquiv _) ((SymmetricAlgebra.lift (toSymBaseChange S M))
+      change (Stacks.SymAlg.congrEquiv _) ((SymmetricAlgebra.lift (toSymBaseChange S M))
         (SymmetricAlgebra.ι R M m)) = _
       rw [SymmetricAlgebra.lift_ι_apply, toSymBaseChange_apply]
-      show SymmetricAlgebra.lift _ (SymmetricAlgebra.ι S (S ⊗[R] M) (1 ⊗ₜ[R] m)) = _
+      change SymmetricAlgebra.lift _ (SymmetricAlgebra.ι S (S ⊗[R] M) (1 ⊗ₜ[R] m)) = _
       rw [SymmetricAlgebra.lift_ι_apply]
-      show SymmetricAlgebra.ι S N (LinearMap.liftBaseChange S u (1 ⊗ₜ[R] m)) = _
+      change SymmetricAlgebra.ι S N (LinearMap.liftBaseChange S u (1 ⊗ₜ[R] m)) = _
       rw [LinearMap.liftBaseChange_tmul, one_smul]
       rfl
-  show (Stacks.SymAlg.congrEquiv _) (symAlgBaseChangeHom S M (s ⊗ₜ[R] x)) = _
+  change (Stacks.SymAlg.congrEquiv _) (symAlgBaseChangeHom S M (s ⊗ₜ[R] x)) = _
   rw [symAlgBaseChangeHom_tmul, map_mul, AlgEquiv.commutes, ← Algebra.smul_def]
   exact congrArg (s • ·) (DFunLike.congr_fun key x)
 
@@ -412,7 +412,7 @@ theorem sigmaAdd_mul (X : (SmallEtale B S hS W.1)ᵒᵖ)
     AddMonoidHom.compl₂ (AddMonoidHom.mul.comp (sigmaAdd B S hS W F X)) (sigmaAdd B S hS W F X)
   have hM : M₁ = M₂ := by
     refine total_addHom_ext B S hS W F _ _ fun i x => total_addHom_ext B S hS W F _ _ fun j y => ?_
-    show sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl i x *
+    change sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl i x *
         (sectionwiseGraded B S hS W F).incl j y) =
       sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl i x) *
         sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl j y)
@@ -462,7 +462,7 @@ theorem sigma_naturality {X Y : (SmallEtale B S hS W.1)ᵒᵖ} (f : X ⟶ Y)
     ((sigmaAdd B S hS W F Y).comp ((sectionwiseGraded B S hS W F).totalRestrict f))
     (((sectionwiseSym B S hS W F).map f).hom.toAddMonoidHom.comp (sigmaAdd B S hS W F X))
     fun i x => ?_) a
-  show sigmaAdd B S hS W F Y ((sectionwiseGraded B S hS W F).totalRestrict f
+  change sigmaAdd B S hS W F Y ((sectionwiseGraded B S hS W F).totalRestrict f
       ((sectionwiseGraded B S hS W F).incl i x)) =
     ((sectionwiseSym B S hS W F).map f).hom
       (sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl i x))
@@ -476,7 +476,7 @@ theorem sigma_smul (X : (SmallEtale B S hS W.1)ᵒᵖ) (r : chartO B S hS W X)
   refine DFunLike.congr_fun (total_addHom_ext B S hS W F
     ((sigmaAdd B S hS W F X).comp (DistribSMul.toAddMonoidHom _ r))
     ((DistribSMul.toAddMonoidHom _ r).comp (sigmaAdd B S hS W F X)) fun i x => ?_) a
-  show sigmaAdd B S hS W F X (r • (sectionwiseGraded B S hS W F).incl i x) =
+  change sigmaAdd B S hS W F X (r • (sectionwiseGraded B S hS W F).incl i x) =
     r • sigmaAdd B S hS W F X ((sectionwiseGraded B S hS W F).incl i x)
   rw [← Stacks.GradedAlgebra.incl_smul, sigmaAdd_incl, sigmaAdd_incl]
   rfl
@@ -518,8 +518,7 @@ theorem isIso_restrictionBaseChange_affineSymModule (hF : F.IsQuasicoherentOnSit
   let E := SymPow.symBaseChangeOfBijective (chartRestrictLinear F g) hu
   have key : ∀ z, restrictionBaseChange (affineSymModule B S hS W F) f z = E z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero E).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add E x y).symm
     | tmul b x =>
@@ -640,7 +639,7 @@ def symSections (X : (SmallEtale B S hS W.1)ᵒᵖ) :
 theorem symSections_apply_sigma (X : (SmallEtale B S hS W.1)ᵒᵖ)
     (a : (sectionwiseGraded B S hS W F).Total X) :
     symSections B S hS W F X (sigma B S hS W F X a) = (psiCmp B S hS W F).app X a := by
-  show ((psiCmp B S hS W F).app X).hom ((sigma B S hS W F X).symm (sigma B S hS W F X a)) = _
+  change ((psiCmp B S hS W F).app X).hom ((sigma B S hS W F X).symm (sigma B S hS W F X a)) = _
   rw [RingEquiv.symm_apply_apply]
 
 /-- **Over an affine chart, the sections of the symmetric algebra of a quasi-coherent module are
@@ -671,7 +670,7 @@ theorem sigma_structureMap (X : (SmallEtale B S hS W.1)ᵒᵖ) (r : chartO B S h
     sigma B S hS W F X ((sectionwiseGraded B S hS W F).structureMap X r) =
       algebraMap (chartO B S hS W X)
         (SymmetricAlgebra (chartO B S hS W X) ((Fv B S hS W F).obj X)) r := by
-  show sigma B S hS W F X (r • (1 : (sectionwiseGraded B S hS W F).Total X)) = _
+  change sigma B S hS W F X (r • (1 : (sectionwiseGraded B S hS W F).Total X)) = _
   rw [sigma_smul, map_one, Algebra.algebraMap_eq_smul_one]
 
 /-- `psiCmp` sends the structure map of the sectionwise graded algebra to the algebra map of
@@ -681,7 +680,7 @@ theorem psiCmp_structureMap (X : (SmallEtale B S hS W.1)ᵒᵖ) (r : chartO B S 
       (symmetricAlgebraSheaf B S hS W F).algebraMap X r := by
   have h := congrArg (fun φ => (φ.app X).hom r)
     (Stacks.GradedAlgebra.structureHom_totalPresheafMap (sheafifyUnitHom B S hS W F))
-  show ((symmetricAlgebra B S hS W F).toPresheafGradedAlgebra.totalUnit
+  change ((symmetricAlgebra B S hS W F).toPresheafGradedAlgebra.totalUnit
       (SmallEtale.topology B S hS W.1) X)
       ((Stacks.GradedAlgebra.totalPresheafMap (sheafifyUnitHom B S hS W F)).app X
         ((sectionwiseGraded B S hS W F).structureMap X r)) = _
@@ -754,8 +753,7 @@ theorem isCartesianOnAffineCharts_symmetricAlgebraSheaf (hF : F.IsQuasicoherentO
   let G := AlgebraSheaf.underlyingModule (symmetricAlgebraSheaf B S hS W F)
   have key : ∀ z, sectionsBaseChange G g (T z) = symSectionsLinear B S hS W F V (E z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul b x =>
       rw [LinearMap.lTensor_tmul, chartBaseChange_tmul]

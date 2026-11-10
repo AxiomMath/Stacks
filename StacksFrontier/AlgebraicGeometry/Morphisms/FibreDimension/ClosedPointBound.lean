@@ -42,7 +42,7 @@ a finite-type structure morphism to a field, so that they can be discharged eith
 No `@[stacks]` attribute is attached: these are the general reduction step, not the statement of
 a tag. The tags they rest on are registered where they are proved, Tag 02FZ on
 `AlgebraicGeometry.isOpen_setOf_fiberDimensionAt_le` and Tag 01TB on
-`AlgebraicGeometry.Scheme.Hom.closePoints_subset_preimage_closedPoints`.
+`AlgebraicGeometry.Scheme.Hom.closedPoints_subset_preimage_closedPoints`.
 
 ## References
 
@@ -119,7 +119,7 @@ theorem fiberDimensionAt_le_of_isClosed_singleton_target {S X : Scheme.{u}} (p :
     (z : S) : topologicalKrullDimAt (p.fiber (p z)) (p.asFiber z) ≤ (m : WithBot ℕ∞) := by
   refine fiberDimensionAt_le_of_isClosed_singleton p (fun w hw ↦ ?_) z
   have hpw : IsClosed {p w} := by
-    have : p w ∈ closedPoints X := p.closePoints_subset_preimage_closedPoints hw
+    have : p w ∈ closedPoints X := p.closedPoints_subset_preimage_closedPoints hw
     exact this
   exact le_trans (topologicalKrullDimAt_le_topologicalKrullDim _) (h (p w) hpw)
 

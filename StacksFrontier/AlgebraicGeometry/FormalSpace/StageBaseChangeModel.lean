@@ -63,7 +63,7 @@ spectrum is affine: it is `Spec (R ⧸ J)`. -/
 theorem isAffine_toScheme_stage (J : WeakIdeals R) :
     IsAffine ((BigFppfOver.toScheme 𝔅 S hS).obj
       ((BigAffineFppf.inclusion 𝔅 S hS).obj (D.diagram.obj J))) := by
-  show IsAffine (Spec (.of (R ⧸ (OrderDual.ofDual J).1)))
+  change IsAffine (Spec (.of (R ⧸ (OrderDual.ofDual J).1)))
   infer_instance
 
 variable (hY : IsAffineFormalAlgebraicSpace 𝔅 S hS (formalSpectrum D))

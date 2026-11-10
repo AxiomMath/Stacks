@@ -122,15 +122,14 @@ lemma tensorGen_smul_smul {F G : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}} {V : Cᵒᵖ
   rw [tensorGen_smul_right, tensorGen_smul_left, smul_smul]
 
 /-- **Induction on the sections of an objectwise tensor product of presheaves of abelian
-groups.** A predicate holding for `0` and for every pure tensor and stable under addition holds
-for every section of the tensor product presheaf. -/
+groups.** A predicate holding for every pure tensor and stable under addition holds for every
+section of the tensor product presheaf. -/
 lemma presheafTensor_induction_on {F G : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}} {V : Cᵒᵖ}
     {motive : (presheafTensor F G).obj V → Prop} (z : (presheafTensor F G).obj V)
-    (zero : motive 0) (gen : ∀ (a : F.obj V) (x : G.obj V), motive (tensorGen a x))
+    (gen : ∀ (a : F.obj V) (x : G.obj V), motive (tensorGen a x))
     (add : ∀ z z' : (presheafTensor F G).obj V, motive z → motive z' → motive (z + z')) :
     motive z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact zero
+  induction z using TensorProduct.inductionOn with
   | tmul a x => exact gen a x
   | add z z' hz hz' => exact add z z' hz hz'
 
@@ -142,7 +141,6 @@ lemma presheafTensor_hom_ext {F G H : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}}
       a.app V (tensorGen x y) = b.app V (tensorGen x y)) : a = b := by
   refine NatTrans.ext (funext fun V => AddCommGrpCat.hom_ext (AddMonoidHom.ext fun z => ?_))
   induction z using presheafTensor_induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
   | gen x y => exact hab V x y
   | add z z' hz hz' =>
       exact (map_add _ z z').trans ((congrArg₂ (· + ·) hz hz').trans (map_add _ z z').symm)
@@ -153,7 +151,7 @@ lemma presheafTensorMap_add_left {F₁ F₂ G₁ G₂ : Cᵒᵖ ⥤ AddCommGrpCa
     presheafTensorMap (f + f') g = presheafTensorMap f g + presheafTensorMap f' g := by
   refine presheafTensor_hom_ext fun V x y => ?_
   rw [presheafTensorMap_tensorGen]
-  show tensorGen (f.app V x + f'.app V x) (g.app V y) =
+  change tensorGen (f.app V x + f'.app V x) (g.app V y) =
     (presheafTensorMap f g).app V (tensorGen x y) + (presheafTensorMap f' g).app V (tensorGen x y)
   rw [presheafTensorMap_tensorGen, presheafTensorMap_tensorGen]
   exact tensorGen_add_left _ _ _
@@ -209,8 +207,7 @@ def presheafTensorConstRightApp (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) (V : C�
       map_add' := fun x y => TensorProduct.add_tmul _ _ _ }
   hom_inv_id := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
         have hy : y.down • (ULift.up (1 : ℤ) : ULift.{u + 1} ℤ) = y := by
           apply ULift.ext; simp
@@ -230,8 +227,7 @@ def presheafTensorConstRightIso (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
   NatIso.ofComponents (presheafTensorConstRightApp F) (by
     intro V V' f
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
         change y.down • F.map f x = F.map f (y.down • x)
         exact (map_zsmul (F.map f).hom _ _).symm
@@ -249,8 +245,7 @@ def presheafTensorConstLeftApp (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) (V : Cᵒ
       map_add' := fun x y => TensorProduct.tmul_add _ _ _ }
   hom_inv_id := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul y x =>
         have hy : y.down • (ULift.up (1 : ℤ) : ULift.{u + 1} ℤ) = y := by
           apply ULift.ext; simp
@@ -270,8 +265,7 @@ def presheafTensorConstLeftIso (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
   NatIso.ofComponents (presheafTensorConstLeftApp F) (by
     intro V V' f
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul y x =>
         change y.down • F.map f x = F.map f (y.down • x)
         exact (map_zsmul (F.map f).hom _ _).symm

@@ -250,7 +250,7 @@ maps on points. -/
 theorem IsSubmersive.comp {f : F ⟶ G} {g : G ⟶ H} (hg : IsSubmersive B S hS g)
     (hf : IsSubmersive B S hS f) :
     IsSubmersive B S hS (f ≫ g) := by
-  show Topology.IsQuotientMap (pointsMap B S hS F (f ≫ g))
+  change Topology.IsQuotientMap (pointsMap B S hS F (f ≫ g))
   rw [pointsMap_comp]
   exact Topology.IsQuotientMap.comp hg hf
 
@@ -429,7 +429,7 @@ theorem isSubmersive_of_isFlat_of_isQuasiCompact_of_isSurjective
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y)
     (hflat : IsFlat B S hS f) (hqc : IsQuasiCompact B S hS f) (hsurj : IsSurjective B S hS f) :
     IsSubmersive B S hS f := by
-  show Topology.IsQuotientMap (pointsMap B S hS X f)
+  change Topology.IsQuotientMap (pointsMap B S hS X f)
   exact ⟨Topology.IsCoinducing.of_isOpen_preimage_iff_isOpen fun T ↦
     (isOpen_iff_isOpen_preimage_pointsMap B S hS hX hY f hflat hqc hsurj T).symm, hsurj⟩
 
@@ -665,7 +665,7 @@ private lemma surjective_reindex {I J : Type u} (i : J → I) (hi : Function.Inj
     apply AffineSpace.hom_ext
     · simp [s]
     · intro j
-      show (s ≫ AffineSpace.reindex i X).appTop (AffineSpace.coord X j) =
+      change (s ≫ AffineSpace.reindex i X).appTop (AffineSpace.coord X j) =
         AffineSpace.coord X j
       rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
         AffineSpace.reindex_appTop_coord]
@@ -740,7 +740,7 @@ private lemma exists_small_open_relation_step {κ : Cardinal.{u}} (hκ : Cardina
     intro z
     apply hW
     apply (AffineSpace.map I p).preimage_mono hUW
-    show z.1 ∈ AffineSpace.map I p ⁻¹ᵁ
+    change z.1 ∈ AffineSpace.map I p ⁻¹ᵁ
       (AffineSpace.reindex (Subtype.val : J → I) X ⁻¹ᵁ V)
     rw [← hZ]
     exact z.2
@@ -801,7 +801,7 @@ private lemma map_fst_preimage_le_map_snd_preimage {I : Type u} {X Y : Scheme.{u
     AffineSpace.map I (pullback.fst f f) ⁻¹ᵁ ⟨AffineSpace.map I f ⁻¹' A, hA⟩ ≤
       AffineSpace.map I (pullback.snd f f) ⁻¹ᵁ ⟨AffineSpace.map I f ⁻¹' A, hA⟩ := by
   intro z hz
-  show AffineSpace.map I f (AffineSpace.map I (pullback.snd f f) z) ∈ A
+  change AffineSpace.map I f (AffineSpace.map I (pullback.snd f f) z) ∈ A
   change AffineSpace.map I f (AffineSpace.map I (pullback.fst f f) z) ∈ A at hz
   have h := congrArg (fun t : 𝔸(I; pullback f f) ⟶ 𝔸(I; Y) => t z)
     (show AffineSpace.map I (pullback.fst f f) ≫ AffineSpace.map I f =
@@ -833,7 +833,7 @@ private lemma preimage_image_affineSpace_map_eq {I : Type u} {X Y : Scheme.{u}} 
     rwa [hz'] at h
   have hp : AffineSpace.map I (pullback.fst f f) z' ∈ V := by
     rw [← hVJ]
-    show jX (AffineSpace.map I (pullback.fst f f) z') ∈ VJ
+    change jX (AffineSpace.map I (pullback.fst f f) z') ∈ VJ
     rwa [hc (pullback.fst f f), hzp]
   have hq := hVsat hp
   rw [← hVJ] at hq
@@ -869,7 +869,7 @@ private lemma quotientMap_affineSpace_map_of_small {κ : Cardinal.{u}}
   obtain ⟨x, hxy⟩ := hsurj.surj y
   let W : (𝔸(I; X)).Opens := ⟨F ⁻¹' A, hA⟩
   have hx : x ∈ W := by
-    show F x ∈ A
+    change F x ∈ A
     rwa [hxy]
   obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUW⟩ :=
     (𝔸(I; X)).isBasis_affineOpens.exists_subset_of_mem_open hx W.isOpen
@@ -893,7 +893,7 @@ private lemma quotientMap_affineSpace_map_of_small {κ : Cardinal.{u}}
       (isPullback_affineSpace_reindex (Subtype.val : J → I) f) z a haz.symm
     have hb : b ∈ V := by
       rw [← hVJ]
-      show jX b ∈ VJ
+      change jX b ∈ VJ
       rwa [hb₂]
     have h := hVW hb
     change F b ∈ A at h
@@ -967,7 +967,7 @@ private lemma quotientMap_of_affineSpace_tests_of_isAffine {W X Y Z : Scheme.{u}
     quotientMap_of_isPullback_closedImmersion (IsPullback.of_hasPullback c _) (hg I)
   apply Topology.IsQuotientMap.of_comp m.continuous p.continuous
   convert hr using 1
-  show (fun x => (m ≫ p) x) = _
+  change (fun x => (m ≫ p) x) = _
   rw [sq.lift_fst]
 
 /-- **The affine-space test.** A base change of a quotient map of schemes `g : Y ⟶ Z` along an
@@ -1015,13 +1015,13 @@ private lemma quotientMap_of_affineSpace_tests {W X Y Z : Scheme.{u}} {p : W ⟶
   have hrt : (r ≫ V.ι) ≫ f = t ≫ g := by
     dsimp [r, t]
     rw [Category.assoc, ← f.resLE_comp_ι hVU, ← Category.assoc]
-    show (pullback.fst fV gU ≫ fV) ≫ U.ι = _
+    change (pullback.fst fV gU ≫ fV) ≫ U.ι = _
     rw [pullback.condition, Category.assoc, Category.assoc, ← pullback.condition]
   let m := sq.lift (r ≫ V.ι) t hrt
   have hlocal : IsOpen (V.ι ⁻¹' A) := by
     apply hr.isCoinducing.isOpen_preimage.mp
     have heq : r ⁻¹' (V.ι ⁻¹' A) = m ⁻¹' (p ⁻¹' A) := by
-      show (r ≫ V.ι) ⁻¹' A = (m ≫ p) ⁻¹' A
+      change (r ≫ V.ι) ⁻¹' A = (m ≫ p) ⁻¹' A
       rw [sq.lift_fst]
     rw [heq]
     exact hpre.preimage m.continuous
@@ -1079,7 +1079,7 @@ private theorem quotientMap_of_small_baseChange {U V : BigFppfOver B S hS} (s : 
     (hs' : IsPullback s' i₁ i₂ ((BigFppfOver.toScheme B S hS).map s))
     (hU' : B.Contains U') : Topology.IsQuotientMap s' := by
   have hV' : B.Contains V' := by
-    show V'.size < B.cutoff
+    change V'.size < B.cutoff
     rw [Scheme.size_congr hs'.isoPullback]
     exact Scheme.size_pullback_lt _ _ hU' V.left.property
   let UB : B.Schemes := B.obj hU'
@@ -1141,7 +1141,7 @@ theorem presheaf_universallySubmersive_iff_universallySubmersive (f : X ⟶ Y)
         ((surjective_iff_surjective_pointsMap B S hS Z hZ U a).mp haSurj)
     let β : yoneda.obj V ⟶ pullback g f :=
       pullback.lift (yoneda.map s ≫ a) t (by rw [Category.assoc, sq.w])
-    show Topology.IsQuotientMap (pointsMap B S hS (pullback g f) (pullback.fst g f))
+    change Topology.IsQuotientMap (pointsMap B S hS (pullback g f) (pullback.fst g f))
     refine Topology.IsQuotientMap.of_comp (continuous_pointsMap B S hS β)
       (continuous_pointsMap B S hS (pullback.fst g f)) ?_
     rw [← pointsMap_comp, pullback.lift_fst, pointsMap_comp]

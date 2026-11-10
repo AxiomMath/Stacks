@@ -71,7 +71,7 @@ theorem exists_comp_eq_of_range_subset_of_isOpenImmersion {X Y Z : BigFppfOver B
       ((BigFppfOver.toScheme B S hS).map g) hg
     change _ ≫ B.inclusion.map f.left = B.inclusion.map g.left at hfac
     rw [← hwf, ← Category.assoc]
-    show (IsOpenImmersion.lift _ _ hg ≫ B.inclusion.map f.left) ≫ _ = _
+    change (IsOpenImmersion.lift _ _ hg ≫ B.inclusion.map f.left) ≫ _ = _
     rw [hfac]
     exact hwg
   · refine (BigFppfOver.toScheme B S hS).map_injective ?_
@@ -85,6 +85,7 @@ namespace AlgebraicGeometry.Stack
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_UnramifiedLiftingLocus :
@@ -111,8 +112,8 @@ theorem exists_isOpen_map_eq_iff_range_subset (T : BigFppfOver B S hS)
       ∀ (a : BigFppfOver B T.left.1 T.left.2) (t : a ⟶ Over.mk (𝟙 T.left)),
         F.map t.op e₁ = F.map t.op e₂ ↔
           Set.range ((BigFppfOver.toScheme B T.left.1 T.left.2).map t) ⊆ V := by
-  letI := hasPullbacks_presheaf_UnramifiedLiftingLocus B T.left.1 T.left.2
-  letI : ∀ {X Y Z : (BigFppfOver B T.left.1 T.left.2)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z),
+  let := hasPullbacks_presheaf_UnramifiedLiftingLocus B T.left.1 T.left.2
+  let : ∀ {X Y Z : (BigFppfOver B T.left.1 T.left.2)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z),
       HasLimit (cospan f g) := fun f g =>
     hasPullback_presheaf_UnramifiedLiftingLocus B T.left.1 T.left.2 f g
   have hu' : Space.IsUnramified B T.left.1 T.left.2 (Space.toYonedaId B T.left.1 T.left.2 F) :=
@@ -129,7 +130,8 @@ theorem exists_isOpen_map_eq_iff_range_subset (T : BigFppfOver B S hS)
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_comp]
     exact Over.OverMorphism.ext rfl
-  let τ : yoneda.obj (Over.mk (𝟙 T.left)) ⟶ CategoryTheory.Limits.pullback h h := pullback.lift σ₁ σ₂ hσ
+  let τ : yoneda.obj (Over.mk (𝟙 T.left)) ⟶ CategoryTheory.Limits.pullback h h :=
+    pullback.lift σ₁ σ₂ hσ
   have hsq : IsPullback (pullback.fst τ (pullback.diagonal h))
       (pullback.snd τ (pullback.diagonal h)) τ (pullback.diagonal h) :=
     IsPullback.of_hasPullback _ _
@@ -155,7 +157,8 @@ theorem exists_isOpen_map_eq_iff_range_subset (T : BigFppfOver B S hS)
     exact yonedaEquiv.symm.injective.eq_iff.symm
   -- which is a factorisation through the pullback of the diagonal
   have key₂ : yoneda.map t ≫ σ₁ = yoneda.map t ≫ σ₂ ↔
-      ∃ k : yoneda.obj a ⟶ CategoryTheory.Limits.pullback τ (pullback.diagonal h), k ≫ j = yoneda.map t := by
+      ∃ k : yoneda.obj a ⟶ CategoryTheory.Limits.pullback τ (pullback.diagonal h),
+        k ≫ j = yoneda.map t := by
     constructor
     · intro heq
       refine ⟨pullback.lift (yoneda.map t) (yoneda.map t ≫ σ₁) ?_, pullback.lift_fst _ _ _⟩
@@ -171,10 +174,11 @@ theorem exists_isOpen_map_eq_iff_range_subset (T : BigFppfOver B S hS)
       simp only [Category.assoc, pullback.diagonal_fst, pullback.diagonal_snd,
         Category.comp_id, pullback.lift_fst, pullback.lift_snd, τ] at e₁' e₂'
       rw [← hk]
-      show k ≫ j ≫ σ₁ = k ≫ j ≫ σ₂
+      change k ≫ j ≫ σ₁ = k ≫ j ≫ σ₂
       exact e₁'.trans e₂'.symm
   -- which is a factorisation through the open subscheme `i`
-  have key₃ : (∃ k : yoneda.obj a ⟶ CategoryTheory.Limits.pullback τ (pullback.diagonal h), k ≫ j = yoneda.map t) ↔
+  have key₃ : (∃ k : yoneda.obj a ⟶ CategoryTheory.Limits.pullback τ (pullback.diagonal h),
+        k ≫ j = yoneda.map t) ↔
       ∃ l : a ⟶ hopen.rep.pullback (𝟙 _), l ≫ i = t := by
     constructor
     · rintro ⟨k, hk⟩

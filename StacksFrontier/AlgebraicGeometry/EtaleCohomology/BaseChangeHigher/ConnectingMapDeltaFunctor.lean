@@ -171,7 +171,7 @@ theorem rightDerivedDelta_map_of_exact (e : C ⥤ D) [e.Additive] [PreservesFini
   exact target_chain (homologySequenceδ_mapTriangle_comp _ _ _ _ _ _)
     ((DerivedCategory.Plus.homologyFunctor D' 0).homologySequenceδ_naturality
       (G.rightDerivedFunctorPlus.mapTriangle.map (exactSingleTriangleHom e hS)) _ _ _)
-    (Iso.map_hom_inv_id (G.rightDerivedFunctorPlus.mapIso
+    (Iso.hom_inv_id_map (G.rightDerivedFunctorPlus.mapIso
       ((Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso e 0).app S.X₁)) _)
 
 section Etale

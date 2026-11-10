@@ -65,13 +65,13 @@ theorem isClosed_and_dvd_of_fixed [LocallyOfFiniteType f] (t : fieldValuedPoints
   set τ := frobeniusAlgEquiv Ω p e hq ^ D
   have hτ' : (τ.toAlgHom : Ω →+* Ω) = iterateFrobenius Ω p (e * D) := by
     ext a
-    show τ a = _
+    change τ a = _
     rw [frobeniusAlgEquiv_pow_apply, hq, iterateFrobenius_def, ← pow_mul]
   have hcardK : Fintype.card K = Fintype.card k ^ D := by
     rw [← hK]
     exact Module.card_eq_pow_finrank
   have hj : ∀ c : K, τ.toAlgHom (j c) = j c := fun c => by
-    show τ (j c) = j c
+    change τ (j c) = j c
     rw [frobeniusAlgEquiv_pow_apply, ← map_pow, ← hcardK, FiniteField.pow_card]
   have hτ : ∀ a : Ω, τ.toAlgHom a = a → a ∈ Set.range j := fun a ha => by
     change τ a = a at ha
@@ -79,7 +79,7 @@ theorem isClosed_and_dvd_of_fixed [LocallyOfFiniteType f] (t : fieldValuedPoints
     exact mem_range_of_pow_card_eq j.toRingHom ha
   obtain ⟨s, hs⟩ := (fixedFieldValuedPointsEquiv f j τ.toAlgHom hj hτ).surjective
     ⟨t, Subtype.ext (by
-      show Spec.map (CommRingCat.ofHom (τ.toAlgHom : Ω →+* Ω)) ≫ t.1 = t.1
+      change Spec.map (CommRingCat.ofHom (τ.toAlgHom : Ω →+* Ω)) ≫ t.1 = t.1
       rwa [hτ'])⟩
   have hst : Spec.map (CommRingCat.ofHom j.toRingHom) ≫ s.1 = t.1 :=
     congrArg (fun u => u.1.1) hs
@@ -117,7 +117,7 @@ theorem specMap_iterateFrobenius_residueDegree_comp [LocallyOfFiniteType f]
   conv_rhs => rw [← specMap_comp_fromSpecResidueField_eq Ω t.1]
   congr 2
   ext a
-  show (ι.hom a) ^ p ^ (e * residueDegree f y) = ι.hom a
+  change (ι.hom a) ^ p ^ (e * residueDegree f y) = ι.hom a
   rw [← map_pow, ← hcard, FiniteField.pow_card]
 
 include hq in
@@ -136,7 +136,7 @@ theorem exists_frobeniusData_element_smul_eq [ConnectedSpace X] [LocallyOfFinite
       c.element • w = (finiteEtaleFiberFunctor base).map σ w := by
   set t : fieldValuedPoints f Ω := ⟨z ≫ Z.hom, by rwa [Category.assoc]⟩
   have hfix : Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (e * D))) ≫ t.1 = t.1 := by
-    show _ ≫ z ≫ Z.hom = z ≫ Z.hom
+    change _ ≫ z ≫ Z.hom = z ≫ Z.hom
     rw [← Category.assoc, ← htw, Category.assoc, MorphismProperty.Over.w σ]
   obtain ⟨hcl, -⟩ := isClosed_and_dvd_of_fixed f Ω p e hq t hD hfix
   set y := (Scheme.SpecToEquivOfField Ω X (z ≫ Z.hom)).1
@@ -167,19 +167,20 @@ theorem exists_frobeniusData_element_smul_eq [ConnectedSpace X] [LocallyOfFinite
   set qz : finiteEtaleFiber c.geometricPoint Z := ⟨z, hzq⟩
   have hcard : Fintype.card (X.residueField y) = p ^ (e * D) := by
     rw [Module.card_eq_pow_finrank (K := k), hq, ← pow_mul]
-    show p ^ (e * residueDegree f y) = _
+    change p ^ (e * residueDegree f y) = _
     rw [hdeg]
   have hfrob : (c.frobenius : Ω →+* Ω) = iterateFrobenius Ω p (e * D) := by
     ext a
-    show a ^ Fintype.card (X.residueField y) = a ^ p ^ (e * D)
+    change a ^ Fintype.card (X.residueField y) = a ^ p ^ (e * D)
     convert congrArg (a ^ ·) hcard using 2
   have hloc :
-      (c.localElement.asIso.app Z).hom qz = (finiteEtaleFiberFunctor c.geometricPoint).map σ qz := by
+      (c.localElement.asIso.app Z).hom qz =
+        (finiteEtaleFiberFunctor c.geometricPoint).map σ qz := by
     apply Subtype.ext
     rw [FrobeniusData.localElement_app_apply c Z qz, hfrob]
     exact htw.symm
   refine ⟨hcl, c, path.hom.app Z qz, ?_⟩
-  show ((path.conjAut c.localElement).asIso.app Z).hom (path.hom.app Z qz) = _
+  change ((path.conjAut c.localElement).asIso.app Z).hom (path.hom.app Z qz) = _
   refine (Stacks.FundamentalGroup.conjAut_app_apply path c.localElement Z qz).trans ?_
   rw [hloc]
   exact congrArg (fun φ => φ qz) (path.hom.naturality σ)

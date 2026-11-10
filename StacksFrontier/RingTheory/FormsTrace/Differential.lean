@@ -129,7 +129,7 @@ theorem IsFormsTrace.commutesWithD_of_isNiceElement {h : A} (hh : IsNiceElement 
     hW.apply_wedgeLeft_map, algebraMap_smul, map_smul, ← hsmul, map_smul,
     deRhamDifferential_smul (A := ℤ)] at key
   refine (hh.regular (p + 1)).pow (N * p) ?_
-  show h ^ (N * p) • _ = h ^ (N * p) • _
+  change h ^ (N * p) • _ = h ^ (N * p) • _
   rw [pow_mul]
   exact add_left_cancel key
 

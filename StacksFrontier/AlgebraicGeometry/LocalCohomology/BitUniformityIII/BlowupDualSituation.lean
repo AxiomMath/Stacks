@@ -111,7 +111,7 @@ theorem thickeningTwistProj_comp_thickeningTwistDown (n : ℕ) {r' r : ℕ}
         thickeningTwistProj I n r' := by
   let f : blowupTwist I r ⟶ blowupTwist I r' := Stacks.Blowup.twistDownMap I (r : ℤ) (r' : ℤ) hz
   let p := thickeningProj I n
-  show ((λ_ (blowupTwist I r)).inv ≫ (p ▷ blowupTwist I r)) ≫ (thickeningSheaf I n ◁ f) =
+  change ((λ_ (blowupTwist I r)).inv ≫ (p ▷ blowupTwist I r)) ≫ (thickeningSheaf I n ◁ f) =
     f ≫ ((λ_ (blowupTwist I r')).inv ≫ (p ▷ blowupTwist I r'))
   exact (Category.assoc _ _ _).trans <|
     (whisker_eq _ (whisker_exchange p f).symm).trans <|
@@ -133,7 +133,7 @@ theorem twistDownFactorMap_app_comp_quotientIso (n : ℕ) {r' r : ℕ}
       (Stacks.Blowup.blowUpOver I) f P).trans ?_
     refine (Stacks.SheafOfModules.OnSpace.monoidal_tensorHom
       (blowupScheme I).toRingedSpace f (𝟙 P)).symm.trans ?_
-    show 𝟙 _ ≫ (f ⊗ₘ 𝟙 P) ≫ 𝟙 _ = _
+    change 𝟙 _ ≫ (f ⊗ₘ 𝟙 P) ≫ 𝟙 _ = _
     rw [Category.id_comp, Category.comp_id]
     exact tensorHom_id f P
   let X := (blowupScheme I).toRingedSpace

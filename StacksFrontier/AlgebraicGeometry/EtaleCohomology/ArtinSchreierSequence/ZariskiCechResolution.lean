@@ -193,14 +193,14 @@ theorem isIso_pullbackSectionsPresheaf_map_snd (V : X.Opens) :
   have : IsIso ((Opens.map g.base).map (prod.snd : U₀ ⨯ V ⟶ V)) :=
     ⟨homOfLE hle, Subsingleton.elim _ _, Subsingleton.elim _ _⟩
   have : IsIso ((structurePushforward g).map (prod.snd : U₀ ⨯ V ⟶ V).op) := by
-    show IsIso ((Y.presheaf ⋙ additiveCoefficients.{u, 0}).map
+    change IsIso ((Y.presheaf ⋙ additiveCoefficients.{u, 0}).map
       ((Opens.map g.base).map (prod.snd : U₀ ⨯ V ⟶ V)).op)
     infer_instance
   exact (NatIso.isIso_map_iff (pullbackSectionsPresheafIso g) _).2 this
 
 /-- The second projections `U₀ ⨯ V ⟶ V`, natural in `V`. -/
 def prodSndNatTrans (U₀ : X.Opens) : Over.star U₀ ⋙ Over.forget U₀ ⟶ 𝟭 X.Opens where
-  app V := prod.snd
+  app _ := prod.snd
   naturality _ _ _ := Subsingleton.elim _ _
 
 include hU₀ in
@@ -232,14 +232,14 @@ theorem coversByProperty_mapsIntoMember (hU : ⨆ i, U i = ⊤) :
     have hx : W.hom.base x ∈ ⨆ i, U i := hU ▸ trivial
     obtain ⟨i, hi⟩ := Opens.mem_iSup.1 hx
     refine Set.mem_iUnion.2 ⟨i, ?_⟩
-    show x ∈ Set.range (pullback.fst W.hom (U i).ι)
+    change x ∈ Set.range (pullback.fst W.hom (U i).ι)
     rw [IsOpenImmersion.range_pullbackFst, Scheme.Opens.opensRange_ι]
     exact hi
   refine X.smallEtaleTopology.superset_covering ?_ hcov
   rintro V b ⟨_, g, _, ⟨i⟩, rfl⟩
   refine ⟨Z i, g, a i, ?_, rfl⟩
   refine ⟨i, top_unique fun y _ ↦ ?_⟩
-  show (pullback.fst W.hom (U i).ι ≫ W.hom).base y ∈ U i
+  change (pullback.fst W.hom (U i).ι ≫ W.hom).base y ∈ U i
   rw [pullback.condition]
   exact (U i).range_ι.le (Set.mem_range_self _)
 
@@ -320,7 +320,7 @@ theorem quasiIsoAt_zero_sections_zariskiCechAugmentation (hU : ⨆ i, U i = ⊤)
     ((Category.id_comp _).trans (hcomp.symm.trans (congrArg (· ≫ e.hom.f 0) hf.symm)))
     (e.hom.comm 0 1)
   refine ⟨(ShortComplex.exact_iff_of_iso iso').2 hS, ?_⟩
-  show Mono (((F.mapHomologicalComplex _).map (zariskiCechAugmentation X U)).f 0)
+  change Mono (((F.mapHomologicalComplex _).map (zariskiCechAugmentation X U)).f 0)
   rw [hf]
   have hm : Mono ((Scheme.Γ ⋙ additiveCoefficients.{u, 0}).map
       (pullback.fst W.hom (⊤_ X.Opens).ι).op ≫

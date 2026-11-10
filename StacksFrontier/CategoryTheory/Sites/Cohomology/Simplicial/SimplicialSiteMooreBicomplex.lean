@@ -7,8 +7,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.Simplicial.Simplici
 /-!
 # The double complex of the simplicial site instance of Stacks 08RX
 
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/SimplicialSiteMooreSheaf.lean` attaches to
-a presheaf of modules `F` on the simplicial site `Δ × C` over a presheaf of commutative rings `O`
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/SimplicialSiteMooreSheaf.lean` attaches
+to a presheaf of modules `F` on the simplicial site `Δ × C` over a presheaf of commutative rings `O`
 the complex of abelian sheaves `s(F_•)` (`Stacks.SimplicialModules.mooreSheafCochain`) and the
 base-change unit
 

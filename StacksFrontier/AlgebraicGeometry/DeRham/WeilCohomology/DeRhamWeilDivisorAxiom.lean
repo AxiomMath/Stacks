@@ -149,10 +149,10 @@ theorem divisorAxiom : (deRhamFirstChernClassData k).DivisorAxiom := by
       Iso.hom_inv_id_apply, map_zero] at h'
     exact h'
   -- Conclude in coordinates.
-  show tateCupLeft (L := k) (LinearMap.mul k (cohomology X)) 1 a (firstChernClass X _) = 0
+  change tateCupLeft (L := k) (LinearMap.mul k (cohomology X)) 1 a (firstChernClass X _) = 0
   apply (untwist (cohomology X) 1).injective
   rw [LinearEquiv.map_zero, untwist, tateTwistCoordinates_tateCupLeft, ← untwist]
-  show a * untwist (cohomology X) 1 ((untwist (cohomology X) 1).symm
+  change a * untwist (cohomology X) 1 ((untwist (cohomology X) 1).symm
     (DirectSum.of (piece X) 2 _)) = 0
   rw [LinearEquiv.apply_symm_apply]
   refine mul_of_eq_zero a _ fun n => ?_

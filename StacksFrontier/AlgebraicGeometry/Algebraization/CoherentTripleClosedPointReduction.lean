@@ -322,10 +322,10 @@ punctured-spectrum member vanishes has Euler characteristic `0`: the reduction h
 associated point at the closed point, which is what
 `Stacks.Algebraization.CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F` needs. -/
 public theorem CoherentTriple.eulerCharacteristic_quotientTriple_eq_zero_of_isZero_F
-    (hf : f ∈ maximalIdeal A) (hreg : IsRegular f) (T : CoherentTriple A f)
+    (hf : f ∈ maximalIdeal A) (T : CoherentTriple A f)
     (hT : IsZero (T.quotientTriple hf).F) :
-    (T.quotientTriple hf).eulerCharacteristic hf hreg = 0 :=
-  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F hf hreg (T.quotientTriple hf) hT
+    (T.quotientTriple hf).eulerCharacteristic = 0 :=
+  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F hf (T.quotientTriple hf) hT
     (T.not_isAssociatedPoint_closedPoint_quotientTriple hf)
 
 end

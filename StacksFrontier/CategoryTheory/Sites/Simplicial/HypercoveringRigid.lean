@@ -218,7 +218,7 @@ theorem exists_vertHom {c : SimplexCategoryᵒᵖ} {τ : (K.obj c).I} {A' : C}
       ψ.base = 𝟙 c ∧ (totalForget K).map ψ = g := by
   obtain ⟨hid, hidφ⟩ := map_id_index K c τ
   refine exists_totalHom K (𝟙 c) (Over.mk (g ≫ u.hom)) u g hid ?_
-  show ((g ≫ u.hom) ≫ (K.map (𝟙 c)).φ τ) ≫ _ = _
+  change ((g ≫ u.hom) ≫ (K.map (𝟙 c)).φ τ) ≫ _ = _
   rw [Category.assoc, Category.assoc, hidφ, Category.comp_id]
 
 /-- Chart data splits along a composite simplex map: the data for `b₁ ≫ b₂` at a chart is the
@@ -299,13 +299,13 @@ private theorem map_eq_of_loop_local
     (SimplexCategory.δ (1 : Fin 2)).op (Over.mk (g ≫ m)) (Over.mk (g ≫ d)) (𝟙 A') hjp
     (by
       refine Eq.trans ?_ (Category.id_comp (g ≫ d)).symm
-      show ((g ≫ m) ≫ _) ≫ _ = g ≫ d
+      change ((g ≫ m) ≫ _) ≫ _ = g ≫ d
       rw [Category.assoc, Category.assoc, ← Category.assoc m, hep₁])
   obtain ⟨q', hq'b, hq'g⟩ := exists_totalHom H.toSimplicialObject
     (SimplexCategory.δ (0 : Fin 2)).op (Over.mk (g ≫ m)) (Over.mk (g ≫ d)) (𝟙 A') hjq
     (by
       refine Eq.trans ?_ (Category.id_comp (g ≫ d)).symm
-      show ((g ≫ m) ≫ _) ≫ _ = g ≫ d
+      change ((g ≫ m) ≫ _) ≫ _ = g ≫ d
       rw [Category.assoc, Category.assoc, ← Category.assoc m, heq₁])
   obtain ⟨c0, hc0b, hc0g⟩ := exists_totalHom H.toSimplicialObject
     (SimplexCategory.δ (0 : Fin 3)).op (Over.mk n) (Over.mk (g ≫ m)) (𝟙 A') hi0

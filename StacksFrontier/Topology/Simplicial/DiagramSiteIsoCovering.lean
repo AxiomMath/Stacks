@@ -93,7 +93,7 @@ theorem isLevelwise_iff_isIso_base [IsoRigid A] {U V : DiagramOpen X} (f : U ⟶
 theorem isoPrecoverage_eq_precoverage [IsoRigid A] (X : A ⥤ TopCat.{u}) :
     isoPrecoverage X = precoverage X := by
   ext U R
-  show IsIsoCovering U R ↔ IsCovering U R
+  change IsIsoCovering U R ↔ IsCovering U R
   simp only [IsIsoCovering, IsCovering, isLevelwise_iff_isIso_base]
 
 /-- **The identity-covering axiom.** A singleton isomorphism is an iso-covering. -/
@@ -120,12 +120,12 @@ private lemma hasPullback_of_isIso_base {P B C : DiagramOpen X}
   let Q := pullbackObj f g
   let p₁ : Q ⟶ B := ⟨f.base ≫ inv g.base, fun _ hx ↦ hx.2⟩
   let p₂ : Q ⟶ P := ⟨𝟙 _, fun x hx ↦ by
-    show x ∈ (Opens.map (X.map (𝟙 P.index))).obj P.toOpens
+    change x ∈ (Opens.map (X.map (𝟙 P.index))).obj P.toOpens
     rw [X.map_id]
     exact hx.1⟩
   have hc : p₁ ≫ g = p₂ ≫ f := by
     apply Hom.ext
-    show (f.base ≫ inv g.base) ≫ g.base = 𝟙 _ ≫ f.base
+    change (f.base ≫ inv g.base) ≫ g.base = 𝟙 _ ≫ f.base
     simp
   refine ⟨⟨PullbackCone.mk p₁ p₂ hc, ?_⟩⟩
   have key : ∀ s : PullbackCone g f, s.snd.base ≫ f.base ≫ inv g.base = s.fst.base := by
@@ -136,7 +136,7 @@ private lemma hasPullback_of_isIso_base {P B C : DiagramOpen X}
   refine PullbackCone.IsLimit.mk hc (fun s ↦ ⟨s.snd.base, fun x hx ↦ ⟨Hom.le s.snd hx, ?_⟩⟩)
     (fun s ↦ Hom.ext _ _ (key s)) (fun s ↦ Hom.ext _ _ (Category.comp_id _))
     (fun s m _ hm₂ ↦ Hom.ext _ _ ((Category.comp_id _).symm.trans (congrArg Hom.base hm₂)))
-  show X.map (f.base ≫ inv g.base) (X.map s.snd.base x) ∈ B.toOpens
+  change X.map (f.base ≫ inv g.base) (X.map s.snd.base x) ∈ B.toOpens
   rw [← Functor.map_comp_apply, key s]
   exact Hom.le s.fst hx
 

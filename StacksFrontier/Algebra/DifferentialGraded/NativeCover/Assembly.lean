@@ -119,7 +119,7 @@ theorem cover_combine
     toFun := (φ₁.toFun ∘ₗ LinearMap.fst R _ _) + (φ₂.toFun ∘ₗ LinearMap.snd R _ _)
     map_smul' := by
       intro pq a
-      show φ₁.toFun ((ProdDG.smulProd PP₁ PP₂ pq a).1)
+      change φ₁.toFun ((ProdDG.smulProd PP₁ PP₂ pq a).1)
             + φ₂.toFun ((ProdDG.smulProd PP₁ PP₂ pq a).2)
           = PM.smul (φ₁.toFun pq.1 + φ₂.toFun pq.2) a
       rw [ProdDG.smulProd_apply]
@@ -128,11 +128,11 @@ theorem cover_combine
     map_grade := by
       intro n pq hpq
       obtain ⟨h1, h2⟩ := hpq
-      show φ₁.toFun pq.1 + φ₂.toFun pq.2 ∈ PM.grading n
+      change φ₁.toFun pq.1 + φ₂.toFun pq.2 ∈ PM.grading n
       exact (PM.grading n).add_mem (φ₁.map_grade n pq.1 h1) (φ₂.map_grade n pq.2 h2)
     map_d := by
       intro pq
-      show φ₁.toFun ((ProdDG.dProd PP₁ PP₂ pq).1)
+      change φ₁.toFun ((ProdDG.dProd PP₁ PP₂ pq).1)
             + φ₂.toFun ((ProdDG.dProd PP₁ PP₂ pq).2)
           = PM.d (φ₁.toFun pq.1 + φ₂.toFun pq.2)
       rw [ProdDG.dProd_apply]
@@ -142,7 +142,7 @@ theorem cover_combine
     intro m
     obtain ⟨p, hp⟩ := hφ₁surj m
     refine ⟨(p, 0), ?_⟩
-    show φ₁.toFun p + φ₂.toFun 0 = m
+    change φ₁.toFun p + φ₂.toFun 0 = m
     rw [map_zero, add_zero, hp]
   · -- (2) Graded surjectivity on cocycles, from `φ₂`.
     intro n m hm
@@ -151,7 +151,7 @@ theorem cover_combine
     refine ⟨(0, x), ⟨?_, ?_⟩, ?_⟩
     · exact Prod.ext (map_zero PP₁.d) hxk
     · exact ⟨Submodule.zero_mem _, hxg⟩
-    · show φ₁.toFun 0 + φ₂.toFun x = m
+    · change φ₁.toFun 0 + φ₂.toFun x = m
       rw [map_zero, zero_add, hxφ]
   · -- (3) The admissible SES `0 → P' → P → P'' × P₂ → 0`.
     refine ⟨P', inferInstance, inferInstance, PP',
@@ -162,7 +162,7 @@ theorem cover_combine
         toFun := (LinearMap.inl R P₁ P₂).comp ses₁.i.toFun
         map_smul' := by
           intro p' a
-          show (ses₁.i.toFun (PP'.smul p' a), (0 : P₂))
+          change (ses₁.i.toFun (PP'.smul p' a), (0 : P₂))
               = ProdDG.smulProd PP₁ PP₂ (ses₁.i.toFun p', 0) a
           rw [ProdDG.smulProd_apply]
           exact Prod.ext (ses₁.i.map_smul' p' a) (by simp)
@@ -171,7 +171,7 @@ theorem cover_combine
           exact ⟨ses₁.i.map_grade n p' hp', Submodule.zero_mem _⟩
         map_d := by
           intro p'
-          show (ses₁.i.toFun (PP'.d p'), (0 : P₂))
+          change (ses₁.i.toFun (PP'.d p'), (0 : P₂))
               = ProdDG.dProd PP₁ PP₂ (ses₁.i.toFun p', 0)
           rw [ProdDG.dProd_apply]
           exact Prod.ext (ses₁.i.map_d p') (map_zero PP₂.d).symm }
@@ -179,7 +179,7 @@ theorem cover_combine
         toFun := (ses₁.p.toFun ∘ₗ LinearMap.fst R _ _).prod (LinearMap.snd R P₁ P₂)
         map_smul' := by
           intro pq a
-          show (ses₁.p.toFun (ProdDG.smulProd PP₁ PP₂ pq a).1, (ProdDG.smulProd PP₁ PP₂ pq a).2)
+          change (ses₁.p.toFun (ProdDG.smulProd PP₁ PP₂ pq a).1, (ProdDG.smulProd PP₁ PP₂ pq a).2)
               = ProdDG.smulProd PP'' PP₂ (ses₁.p.toFun pq.1, pq.2) a
           rw [ProdDG.smulProd_apply, ProdDG.smulProd_apply]
           exact Prod.ext (ses₁.p.map_smul' pq.1 a) rfl
@@ -189,7 +189,7 @@ theorem cover_combine
           exact ⟨ses₁.p.map_grade n pq.1 h1, h2⟩
         map_d := by
           intro pq
-          show (ses₁.p.toFun (ProdDG.dProd PP₁ PP₂ pq).1, (ProdDG.dProd PP₁ PP₂ pq).2)
+          change (ses₁.p.toFun (ProdDG.dProd PP₁ PP₂ pq).1, (ProdDG.dProd PP₁ PP₂ pq).2)
               = ProdDG.dProd PP'' PP₂ (ses₁.p.toFun pq.1, pq.2)
           rw [ProdDG.dProd_apply, ProdDG.dProd_apply]
           exact Prod.ext (ses₁.p.map_d pq.1) rfl }
@@ -200,19 +200,19 @@ theorem cover_combine
         rintro ⟨c, b⟩
         obtain ⟨a, ha⟩ := ses₁.p_surj c
         refine ⟨(a, b), ?_⟩
-        show (ses₁.p.toFun a, b) = (c, b)
+        change (ses₁.p.toFun a, b) = (c, b)
         rw [ha]
       exact := by
         apply Submodule.ext
         rintro ⟨a, b⟩
         constructor
         · rintro ⟨p', hp'⟩
-          show (a, b) ∈ LinearMap.ker
+          change (a, b) ∈ LinearMap.ker
             ((ses₁.p.toFun ∘ₗ LinearMap.fst R P₁ P₂).prod (LinearMap.snd R P₁ P₂))
           have ha : (ses₁.i.toFun p', (0 : P₂)) = (a, b) := hp'
           have ha1 : ses₁.i.toFun p' = a := congrArg Prod.fst ha
           have hb1 : (0 : P₂) = b := congrArg Prod.snd ha
-          show ((ses₁.p.toFun a, b) : P'' × P₂) = 0
+          change ((ses₁.p.toFun a, b) : P'' × P₂) = 0
           have hpi : ses₁.p.toFun (ses₁.i.toFun p') = 0 := by
             have hmem : ses₁.i.toFun p' ∈ LinearMap.range ses₁.i.toFun :=
               ⟨p', rfl⟩
@@ -227,14 +227,14 @@ theorem cover_combine
           rw [← ses₁.exact] at hmem
           obtain ⟨p', hp'⟩ := hmem
           refine ⟨p', ?_⟩
-          show ((ses₁.i.toFun p', (0 : P₂)) : P₁ × P₂) = (a, b)
+          change ((ses₁.i.toFun p', (0 : P₂)) : P₁ × P₂) = (a, b)
           rw [hp', hb0]
       splitEquiv :=
         (ses₁.splitEquiv.prodCongr (LinearEquiv.refl R P₂)).trans
           (LinearEquiv.prodAssoc R P' P'' P₂)
       splitEquiv_smul := by
         intro pq a
-        show ((ses₁.splitEquiv ((ProdDG.smulProd PP₁ PP₂ pq a).1)).1,
+        change ((ses₁.splitEquiv ((ProdDG.smulProd PP₁ PP₂ pq a).1)).1,
               ((ses₁.splitEquiv ((ProdDG.smulProd PP₁ PP₂ pq a).1)).2,
                 (ProdDG.smulProd PP₁ PP₂ pq a).2))
             = (PP'.smul ((ses₁.splitEquiv pq.1).1) a,
@@ -252,17 +252,17 @@ theorem cover_combine
         intro n k x hk hx
         obtain ⟨x1, x2⟩ := x
         obtain ⟨hx1, hx2⟩ := hx
-        show ((ses₁.splitEquiv.symm (k, x1)), x2) ∈ (ProdDG.prodDG PP₁ PP₂).grading n
+        change ((ses₁.splitEquiv.symm (k, x1)), x2) ∈ (ProdDG.prodDG PP₁ PP₂).grading n
         exact ⟨ses₁.splitEquiv_symm_grade n k x1 hk hx1, hx2⟩
       splitEquiv_i := by
         intro p'
-        show ((ses₁.splitEquiv (ses₁.i.toFun p')).1,
+        change ((ses₁.splitEquiv (ses₁.i.toFun p')).1,
               ((ses₁.splitEquiv (ses₁.i.toFun p')).2, (0 : P₂)))
             = (p', (0, 0))
         rw [ses₁.splitEquiv_i]
       splitEquiv_p := by
         intro pq
-        show ((ses₁.splitEquiv pq.1).2, pq.2) = (ses₁.p.toFun pq.1, pq.2)
+        change ((ses₁.splitEquiv pq.1).2, pq.2) = (ses₁.p.toFun pq.1, pq.2)
         rw [ses₁.splitEquiv_p] }⟩
 
 /-! ## Transfer to the bundled differential graded modules
@@ -397,7 +397,7 @@ theorem ofModule_isLawful (P : DGModule R A.carrier A.grading (algebra A hA) X) 
   d_mem := P.d_grade
   d_comp_d := P.d_comp_d
   leibniz n m x a hx ha := by
-    show P.d (P.smul x a) = P.smul (P.d x) a +
+    change P.d (P.smul x a) = P.smul (P.d x) a +
       ((-1 : ℤ) ^ n.natAbs) • P.smul x (A.d a)
     rw [← sign_smul (R := R)]
     exact P.leibniz n x hx a
@@ -472,14 +472,14 @@ theorem ofAdmissibleSES {Z : Type t} [AddCommGroup Z] [Module R Z]
     refine ⟨s.p_surj, ofGradedMap (s.splitEquiv.symm.toLinearMap.comp (LinearMap.inr R X Z))
       ?_ ?_, ?_⟩
     · intro z a
-      show s.splitEquiv.symm (0, T.smul z a) = Q.smul (s.splitEquiv.symm (0, z)) a
+      change s.splitEquiv.symm (0, T.smul z a) = Q.smul (s.splitEquiv.symm (0, z)) a
       apply s.splitEquiv.injective
       rw [s.splitEquiv_smul, s.splitEquiv.apply_symm_apply]
       simp
     · intro n z hz
       exact s.splitEquiv_symm_grade n 0 z (Submodule.zero_mem _) hz
     · intro z
-      show s.p.toFun (s.splitEquiv.symm (0, z)) = z
+      change s.p.toFun (s.splitEquiv.symm (0, z)) = z
       rw [← s.splitEquiv_p, s.splitEquiv.apply_symm_apply]
 
 /-- A graded surjection is surjective separately in every degree. -/
@@ -515,9 +515,9 @@ theorem directSum_d_apply {ι : Type t} [DecidableEq ι]
   induction x using DirectSum.induction_on with
   | zero => simp
   | of i a =>
-      show (Stacks.DifferentialGraded.DGModule.directSumD N (DirectSum.lof R ι _ i a)) j = _
+      change (Stacks.DifferentialGraded.DGModule.directSumD N (DirectSum.lof R ι _ i a)) j = _
       rw [Stacks.DifferentialGraded.DGModule.directSumD, DirectSum.toModule_lof]
-      show (DirectSum.of (fun i => (N i).carrier) i ((N i).d a)) j =
+      change (DirectSum.of (fun i => (N i).carrier) i ((N i).d a)) j =
         (N j).d ((DirectSum.of (fun i => (N i).carrier) i a) j)
       by_cases h : i = j
       · subst j; simp
@@ -549,7 +549,7 @@ theorem ofIsDirectSumOfShifts (h : IsDirectSumOfShifts.{u, v, w, t} P) :
   have E_smul (a : A.carrierᵐᵒᵖ) (x : (ofModule P).carrier) :
       E (a • x) = a • (E x : N.carrier) := by
     ext i
-    show e (f.toFun (P.smul x a.unop)) i.down = _
+    change e (f.toFun (P.smul x a.unop)) i.down = _
     rw [f.map_smul', heact]
     rfl
   let Eop : (ofModule P).carrier ≃ₗ[A.carrierᵐᵒᵖ] N.carrier := {
@@ -566,11 +566,11 @@ theorem ofIsDirectSumOfShifts (h : IsDirectSumOfShifts.{u, v, w, t} P) :
   · intro x
     apply DirectSum.ext
     intro i
-    show E (P.d x) i =
+    change E (P.d x) i =
       (Stacks.DifferentialGraded.DGModule.directSumD
         (fun i : ULift.{v} ι => Stacks.DifferentialGraded.DGModule.shiftFree A (k i.down)) (E x)) i
     rw [directSum_d_apply]
-    show e (f.toFun (P.d x)) i.down =
+    change e (f.toFun (P.d x)) i.down =
       ((-1 : ℤ) ^ (k i.down).natAbs) • A.d (E x i)
     rw [f.map_d, hed, sign_smul]
     rfl

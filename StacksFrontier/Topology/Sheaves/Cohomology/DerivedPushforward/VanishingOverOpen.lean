@@ -74,7 +74,7 @@ theorem isPullback_restrictPreimage :
         Set.range (Y.ofRestrict (preimageOpen π V).isOpenEmbedding).hom.base := by
     rintro s _ ⟨t, rfl⟩
     rw [Stacks.DerivedGlueing.range_ofRestrict]
-    show π.hom.base (s.fst.hom.base t) ∈ V
+    change π.hom.base (s.fst.hom.base t) ∈ V
     have h := congrArg (fun m => m.hom.base t) s.condition
     change π.hom.base (s.fst.hom.base t) =
       (S.ofRestrict V.isOpenEmbedding).hom.base (s.snd.hom.base t) at h

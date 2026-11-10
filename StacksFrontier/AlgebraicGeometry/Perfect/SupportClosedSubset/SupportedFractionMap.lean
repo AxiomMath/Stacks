@@ -422,7 +422,7 @@ public theorem fractionHom_naturality (f : Fin c → Γ(X, ⊤)) {F G : X.Module
     (p : ℕ) :
     fractionHom f F p ≫ prodMap f φ p = φ ≫ fractionHom f G p := by
   refine hom_ext_app fun V s => ?_
-  show (prodMap f φ p).app V ((fractionHom f F p).app V s) =
+  change (prodMap f φ p).app V ((fractionHom f F p).app V s) =
     (fractionHom f G p).app V (φ.app V s)
   refine (secIso f G p V).injective ?_
   funext q
@@ -537,7 +537,7 @@ public theorem prodEquations_top_eq (i : Fin (e + 2)) :
             le_top)).op (∏ k, f ((faceIndex e i).1 k)) := by
   rw [← map_mul]
   congr 1
-  show (∏ k, f k) = f i * ∏ k, f (i.succAbove k)
+  change (∏ k, f k) = f i * ∏ k, f (i.succAbove k)
   exact Fin.prod_univ_succAbove f i
 
 end Denominators
@@ -624,7 +624,7 @@ public theorem globalSmul_comp_fractionHom_one (f : Fin 1 → Γ(X, ⊤)) (F : X
     (i : Fin 1) :
     globalSmul (f i) F ≫ fractionHom f F 0 = lastDif f F := by
   refine hom_ext_app fun V s => ?_
-  show (fractionHom f F 0).app V ((globalSmul (f i) F).app V s) = (difZero f F).app V s
+  change (fractionHom f F 0).app V ((globalSmul (f i) F).app V s) = (difZero f F).app V s
   refine (secIso f F 0 V).injective ?_
   funext q
   obtain rfl := topIndex_unique q
@@ -639,7 +639,7 @@ public theorem globalSmul_comp_fractionHom_succ {e : ℕ} (f : Fin (e + 2) → �
     globalSmul (f i) F ≫ fractionHom f F (e + 1) =
       (fractionHom f F e ≫ signedFaceProjector f F i) ≫ lastDif f F := by
   refine hom_ext_app fun V s => ?_
-  show (fractionHom f F (e + 1)).app V ((globalSmul (f i) F).app V s) =
+  change (fractionHom f F (e + 1)).app V ((globalSmul (f i) F).app V s) =
     (difSucc f F e).app V
       ((signedFaceProjector f F i).app V ((fractionHom f F e).app V s))
   refine (secIso f F (e + 1) V).injective ?_
@@ -721,7 +721,7 @@ public theorem equationsMultiplication_comp (f : Fin c → Γ(X, ⊤)) (F : X.Mo
     {M : X.Modules} (ψ : F ⟶ M) (h : ∀ i, globalSmul (f i) F ≫ ψ = 0) :
     equationsMultiplication f F ≫ ψ = 0 := by
   refine Sigma.hom_ext _ _ fun i => ?_
-  rw [← Category.assoc, equationsMultiplication, Sigma.ι_desc, h i, comp_zero]
+  rw [← Category.assoc, equationsMultiplication, Sigma.ι_comp_desc, h i, comp_zero]
 
 /-- **Stacks Project, Tag 0G7Q**, the class of the fraction `s / (f₁ ⋯ f_c)`.  With `X`,
 `f₁, …, f_c ∈ Γ(X, 𝒪_X)` and `ℱ` as in Tag 0G7I, this is the map

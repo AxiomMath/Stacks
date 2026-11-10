@@ -141,7 +141,7 @@ theorem smallEtaleSectionsEquivEqualizer_apply_val
   let e : (comparisonFunctor B S hS X).op ⋙ P.obj ≅ G.obj :=
     (sheafToPresheaf (SmallEtale.topology B S hS X.1) (Type u)).mapIso
       ((smallEtaleComparisonRestriction B S hS X).asEquivalence.counitIso.app G)
-  show (e.app (op U)).toEquiv
+  change (e.app (op U)).toEquiv
       (sectionsComparisonEquivEqualizer B S hS P.obj P.property hU hR
         ((Functor.sectionsEquivOfIso e).symm σ)).1 = σ.val (op U)
   rw [sectionsComparisonEquivEqualizer_apply_val,

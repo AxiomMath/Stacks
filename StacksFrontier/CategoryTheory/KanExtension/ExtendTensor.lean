@@ -329,14 +329,14 @@ theorem tensorExtensionLeft_naturality_right (X : C) {Y Y' : P.FullSubcategory} 
   · have : F.map f ▷ F.obj Y'.obj ≫ (tensorExtensionLeft P hP hgen F e hF' Y').hom.app X₂ =
         (tensorExtensionLeft P hP hgen F e hF' Y').hom.app X₁ ≫ F.map (f ▷ Y'.obj) :=
       (tensorExtensionLeft P hP hgen F e hF' Y').hom.naturality f
-    show F.map f ▷ _ ≫ _ ◁ F.map g.hom ≫ _ = (_ ◁ F.map g.hom ≫ _) ≫ F.map (f ▷ Y'.obj)
+    change F.map f ▷ _ ≫ _ ◁ F.map g.hom ≫ _ = (_ ◁ F.map g.hom ≫ _) ≫ F.map (f ▷ Y'.obj)
     rw [← whisker_exchange_assoc, this, assoc]
   · have : F.map f ▷ F.obj Y.obj ≫ (tensorExtensionLeft P hP hgen F e hF' Y).hom.app X₂ =
         (tensorExtensionLeft P hP hgen F e hF' Y).hom.app X₁ ≫ F.map (f ▷ Y.obj) :=
       (tensorExtensionLeft P hP hgen F e hF' Y).hom.naturality f
-    show F.map f ▷ _ ≫ _ ≫ F.map (X₂ ◁ g.hom) = (_ ≫ F.map (X₁ ◁ g.hom)) ≫ F.map (f ▷ Y'.obj)
+    change F.map f ▷ _ ≫ _ ≫ F.map (X₂ ◁ g.hom) = (_ ≫ F.map (X₁ ◁ g.hom)) ≫ F.map (f ▷ Y'.obj)
     rw [reassoc_of% this, assoc, ← F.map_comp, ← F.map_comp, whisker_exchange]
-  · show _ ◁ F.map g.hom ≫ (tensorExtensionLeft P hP hgen F e hF' Y').hom.app X.obj =
+  · change _ ◁ F.map g.hom ≫ (tensorExtensionLeft P hP hgen F e hF' Y').hom.app X.obj =
       (tensorExtensionLeft P hP hgen F e hF' Y).hom.app X.obj ≫ F.map (X.obj ◁ g.hom)
     simp only [tensorExtensionLeft_hom_app]
     exact (hF'.ofIso e).μIso_natural_right X g
@@ -390,12 +390,12 @@ theorem tensorExtensionμIso_natural_left {X X' : C} (f : X ⟶ X') (Y : C) :
       (tensorExtensionμIso P hP hgen F e hF' X' Y).hom)
     (fun Y ↦ (tensorExtensionμIso P hP hgen F e hF' X Y).hom ≫ F.map (f ▷ Y))
     (fun {Y₁ Y₂} g ↦ ?_) (fun {Y₁ Y₂} g ↦ ?_) (fun Y ↦ ?_) Y
-  · show _ ◁ F.map g ≫ F.map f ▷ _ ≫ _ = (F.map f ▷ _ ≫ _) ≫ F.map (X' ◁ g)
+  · change _ ◁ F.map g ≫ F.map f ▷ _ ≫ _ = (F.map f ▷ _ ≫ _) ≫ F.map (X' ◁ g)
     rw [whisker_exchange_assoc, tensorExtensionμIso_natural_right, assoc]
-  · show _ ◁ F.map g ≫ _ ≫ F.map (f ▷ Y₂) = (_ ≫ F.map (f ▷ Y₁)) ≫ F.map (X' ◁ g)
+  · change _ ◁ F.map g ≫ _ ≫ F.map (f ▷ Y₂) = (_ ≫ F.map (f ▷ Y₁)) ≫ F.map (X' ◁ g)
     rw [tensorExtensionμIso_natural_right_assoc, assoc, ← F.map_comp, ← F.map_comp,
       whisker_exchange]
-  · show F.map f ▷ _ ≫ (tensorExtensionμIso P hP hgen F e hF' X' Y.obj).hom =
+  · change F.map f ▷ _ ≫ (tensorExtensionμIso P hP hgen F e hF' X' Y.obj).hom =
       (tensorExtensionμIso P hP hgen F e hF' X Y.obj).hom ≫ F.map (f ▷ Y.obj)
     simp only [tensorExtensionμIso_hom_of_right]
     exact (tensorExtensionLeft P hP hgen F e hF' Y).hom.naturality f
@@ -432,11 +432,11 @@ theorem tensorExtension_associativity_mem₂ (X : C) (Y Z : P.FullSubcategory) :
           (tensorExtensionμIso P hP hgen F e hF' (X ⊗ Y.obj) Z.obj).hom)
     (fun {X₁ X₂} f ↦ ?_) (fun {X₁ X₂} f ↦ ?_)
     (fun X ↦ tensorExtension_associativity_mem P hP hgen F e hF' X Y Z) X
-  · show F.map f ▷ _ ≫ F.obj X₂ ◁ _ ≫ _ ≫ F.map (α_ X₂ Y.obj Z.obj).inv =
+  · change F.map f ▷ _ ≫ F.obj X₂ ◁ _ ≫ _ ≫ F.map (α_ X₂ Y.obj Z.obj).inv =
       (F.obj X₁ ◁ _ ≫ _ ≫ F.map (α_ X₁ Y.obj Z.obj).inv) ≫ F.map ((f ▷ Y.obj) ▷ Z.obj)
     rw [← whisker_exchange_assoc, tensorExtensionμIso_natural_left_assoc, assoc, assoc,
       ← F.map_comp, ← F.map_comp, associator_inv_naturality_left]
-  · show F.map f ▷ _ ≫ (α_ _ _ _).inv ≫
+  · change F.map f ▷ _ ≫ (α_ _ _ _).inv ≫
         (tensorExtensionμIso P hP hgen F e hF' X₂ Y.obj).hom ▷ _ ≫ _ =
       ((α_ _ _ _).inv ≫ (tensorExtensionμIso P hP hgen F e hF' X₁ Y.obj).hom ▷ _ ≫ _) ≫
         F.map ((f ▷ Y.obj) ▷ Z.obj)
@@ -462,12 +462,12 @@ theorem tensorExtension_associativity_mem₁ (X Y : C) (Z : P.FullSubcategory) :
           (tensorExtensionμIso P hP hgen F e hF' (X ⊗ Y) Z.obj).hom)
     (fun {Y₁ Y₂} g ↦ ?_) (fun {Y₁ Y₂} g ↦ ?_)
     (fun Y ↦ tensorExtension_associativity_mem₂ P hP hgen F e hF' X Y Z) Y
-  · show F.obj X ◁ (F.map g ▷ _) ≫ F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y₂ Z.obj).inv =
+  · change F.obj X ◁ (F.map g ▷ _) ≫ F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y₂ Z.obj).inv =
       (F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y₁ Z.obj).inv) ≫ F.map ((X ◁ g) ▷ Z.obj)
     rw [← whiskerLeft_comp_assoc, tensorExtensionμIso_natural_left, whiskerLeft_comp_assoc,
       tensorExtensionμIso_natural_right_assoc, assoc, assoc, ← F.map_comp, ← F.map_comp,
       associator_inv_naturality_middle]
-  · show F.obj X ◁ (F.map g ▷ _) ≫ (α_ _ _ _).inv ≫
+  · change F.obj X ◁ (F.map g ▷ _) ≫ (α_ _ _ _).inv ≫
         (tensorExtensionμIso P hP hgen F e hF' X Y₂).hom ▷ _ ≫ _ =
       ((α_ _ _ _).inv ≫ (tensorExtensionμIso P hP hgen F e hF' X Y₁).hom ▷ _ ≫ _) ≫
         F.map ((X ◁ g) ▷ Z.obj)
@@ -492,12 +492,12 @@ theorem tensorExtension_associativity (X Y Z : C) :
           (tensorExtensionμIso P hP hgen F e hF' (X ⊗ Y) Z).hom)
     (fun {Z₁ Z₂} h ↦ ?_) (fun {Z₁ Z₂} h ↦ ?_)
     (fun Z ↦ tensorExtension_associativity_mem₁ P hP hgen F e hF' X Y Z) Z
-  · show F.obj X ◁ (F.obj Y ◁ F.map h) ≫ F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y Z₂).inv =
+  · change F.obj X ◁ (F.obj Y ◁ F.map h) ≫ F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y Z₂).inv =
       (F.obj X ◁ _ ≫ _ ≫ F.map (α_ X Y Z₁).inv) ≫ F.map ((X ⊗ Y) ◁ h)
     rw [← whiskerLeft_comp_assoc, tensorExtensionμIso_natural_right, whiskerLeft_comp_assoc,
       tensorExtensionμIso_natural_right_assoc, assoc, assoc, ← F.map_comp, ← F.map_comp,
       associator_inv_naturality_right]
-  · show F.obj X ◁ (F.obj Y ◁ F.map h) ≫ (α_ _ _ _).inv ≫
+  · change F.obj X ◁ (F.obj Y ◁ F.map h) ≫ (α_ _ _ _).inv ≫
         (tensorExtensionμIso P hP hgen F e hF' X Y).hom ▷ _ ≫ _ =
       ((α_ _ _ _).inv ≫ (tensorExtensionμIso P hP hgen F e hF' X Y).hom ▷ _ ≫ _) ≫
         F.map ((X ⊗ Y) ◁ h)
@@ -519,7 +519,7 @@ tensor structures. -/
 theorem isCompatible_tensorStructureExtension :
     ((tensorStructureExtension P hP hgen F e hF').restrict P).IsCompatible hF' e := by
   intro X Y
-  show (tensorExtensionμIso P hP hgen F e hF' X.obj Y.obj).hom ≫ _ = _
+  change (tensorExtensionμIso P hP hgen F e hF' X.obj Y.obj).hom ≫ _ = _
   rw [tensorExtensionμIso_hom]
   simp
 
@@ -566,10 +566,10 @@ theorem isCompatible_of_preservesFilteredColimits {F G : C ⥤ D}
       (fun X ↦ (hF.μIso X Y.obj).hom ≫ φ.hom.app (X ⊗ Y.obj))
       (fun X ↦ (φ.hom.app X ⊗ₘ φ.hom.app Y.obj) ≫ (hG.μIso X Y.obj).hom)
       (fun {X₁ X₂} f ↦ ?_) (fun {X₁ X₂} f ↦ ?_) (fun X ↦ h X Y) X
-    · show F.map f ▷ _ ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (f ▷ Y.obj)
+    · change F.map f ▷ _ ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (f ▷ Y.obj)
       rw [hF.μIso_natural_left_assoc, assoc]
       exact congr_arg _ (φ.hom.naturality (f ▷ Y.obj))
-    · show F.map f ▷ _ ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (f ▷ Y.obj)
+    · change F.map f ▷ _ ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (f ▷ Y.obj)
       rw [reassoc_of% (hb f Y.obj), hG.μIso_natural_left, assoc]
   intro X Y
   refine app_eq_of_preservesFilteredColimits P hP hgen (F ⋙ tensorLeft (F.obj X))
@@ -577,10 +577,10 @@ theorem isCompatible_of_preservesFilteredColimits {F G : C ⥤ D}
     (fun Y ↦ (hF.μIso X Y).hom ≫ φ.hom.app (X ⊗ Y))
     (fun Y ↦ (φ.hom.app X ⊗ₘ φ.hom.app Y) ≫ (hG.μIso X Y).hom)
     (fun {Y₁ Y₂} g ↦ ?_) (fun {Y₁ Y₂} g ↦ ?_) (fun Y ↦ step₁ X Y) Y
-  · show _ ◁ F.map g ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (X ◁ g)
+  · change _ ◁ F.map g ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (X ◁ g)
     rw [hF.μIso_natural_right_assoc, assoc]
     exact congr_arg _ (φ.hom.naturality (X ◁ g))
-  · show _ ◁ F.map g ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (X ◁ g)
+  · change _ ◁ F.map g ≫ _ ≫ _ = (_ ≫ _) ≫ G.map (X ◁ g)
     rw [reassoc_of% (hb' X g), hG.μIso_natural_right, assoc]
 
 end TensorUniqueness

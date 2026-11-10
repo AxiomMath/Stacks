@@ -170,7 +170,7 @@ theorem essentiallySmall_bigFppfOver
   let : ObjectProperty.EssentiallySmall.{u} (_root_.AlgebraicGeometry.schemeSizeBelow B.cutoff) :=
     essentiallySmall_schemeSizeBelow B.cutoff B.aleph0_lt_cutoff.le
   let : EssentiallySmall.{u} B.Schemes := inferInstance
-  show EssentiallySmall.{u} (CostructuredArrow (𝟭 B.Schemes) (B.obj hS))
+  change EssentiallySmall.{u} (CostructuredArrow (𝟭 B.Schemes) (B.obj hS))
   infer_instance
 
 
@@ -243,7 +243,7 @@ theorem openCover_mem_topology
     (hcov : ∀ t : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj T,
       ∃ i, t ∈ Set.range ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f i))) :
     Sieve.ofArrows V f ∈ AlgebraicGeometry.BigFppfOver.topology B S hS T := by
-  show Sieve.ofArrows V f ∈ B.topology.over (B.obj hS) T
+  change Sieve.ofArrows V f ∈ B.topology.over (B.obj hS) T
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   apply Precoverage.generate_mem_toGrothendieck
   rw [bigFppfPrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
@@ -419,15 +419,15 @@ private theorem relative_of_affineBaseChanges_aux
   have hEr : E.hom ≫ pullback.fst ξ f = G.map r := by
     apply K.map_injective
     rw [K.map_comp]
-    show K.map ((Functor.FullyFaithful.ofFullyFaithful K).preimage eR'.hom) ≫ _ = _
+    change K.map ((Functor.FullyFaithful.ofFullyFaithful K).preimage eR'.hom) ≫ _ = _
     rw [(Functor.FullyFaithful.ofFullyFaithful K).map_preimage]
-    show eR'.hom ≫ (pullback.fst ξ f).hom = (G.map r).hom
+    change eR'.hom ≫ (pullback.fst ξ f).hom = (G.map r).hom
     apply (cancel_mono (e.app U).hom).mp
     have hh : L.map eR.inv ≫ L.map π = (uliftYoneda.{u + 1}).map r := by
       rw [← L.map_comp, hr]
       rfl
     rw [hπ] at hh
-    show ((e.app R).hom ≫ L.map eR.inv ≫ eZ.hom) ≫
+    change ((e.app R).hom ≫ L.map eR.inv ≫ eZ.hom) ≫
       (pullback.fst ξ f).hom ≫ (e.app U).hom = _
     ext T x
     have hx := congrArg (fun η => η.app T ((e.app R).hom.app T x)) hh
@@ -532,7 +532,7 @@ theorem isPushout_of_surjective_of_ker_eq
     have hk : RingHom.ker b.hom ≤ RingHom.ker q.hom := by
       rw [hker, Ideal.map_le_iff_le_comap]
       intro x hx
-      show q.hom (g.hom x) = 0
+      change q.hom (g.hom x) = 0
       have he := congrArg (fun k : R ⟶ V => k.hom x) h
       change p.hom (f.hom x) = q.hom (g.hom x) at he
       rw [RingHom.mem_ker.mp hx, map_zero] at he
@@ -555,7 +555,7 @@ theorem specMap_isThickening_of_nilKernel
     Stacks.Thickenings.IsThickening (Scheme.Spec.map (CommRingCat.ofHom f).op) := by
   refine ⟨AlgebraicGeometry.IsClosedImmersion.spec_of_surjective
     (CommRingCat.ofHom f) hf, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap f)
+  change Function.Surjective (PrimeSpectrum.comap f)
   rw [← Set.range_eq_univ, range_comap_of_surjective _ f hf]
   apply Set.eq_univ_iff_forall.2
   intro p

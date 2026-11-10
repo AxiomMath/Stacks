@@ -103,6 +103,7 @@ private theorem isFinitePresentation_of_isPullback_yoneda
     (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS X) hY hZ h hf
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_essentialSurjectivity
@@ -128,6 +129,7 @@ variable (hD : ∀ i, AlgebraicGeometry.IsAlgebraicSpace B S hS (D.obj i))
 include hD hAffine hQc hQs
 
 set_option maxHeartbeats 1600000 in
+-- the proof is about 460 lines long, building the stage relation and its quotient
 /-- The étale relation presenting an algebraic space of finite presentation over the
 limit, once it is defined at a stage, becomes an étale equivalence relation at a later
 stage, where it presents a finite-presentation model of the space. -/
@@ -286,7 +288,7 @@ private theorem exists_model_of_stage_relation
   obtain ⟨ψ₀, hψs, hψt⟩ := exists_comp_eq_atlasKernelPair B S hS KWn sn tn htn.symm
   let Zₙ : Over (D.obj nn) := Over.mk (yoneda.map KWn.s ≫ wn)
   let ψ : Rₙ ⟶ Zₙ := Over.homMk (yoneda.map ψ₀) (by
-    show yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
+    change yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
     rw [← Category.assoc, ← yoneda.map_comp, hψs])
   have hZnAlg := AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS KWn.R
   have hKWnt : AlgebraicGeometry.Space.IsFinitePresentation B S hS (yoneda.map KWn.s) :=
@@ -501,7 +503,7 @@ private theorem exists_model_of_stage_relation
   let Pₒ : Over (D.obj oo.left) := Over.mk (yoneda.map (pullback.fst tO sO) ≫ rO)
   let cfstₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.fst tO sO)) rfl
   let csndₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.snd tO sO)) (by
-    show yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
+    change yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
     calc yoneda.map (pullback.snd tO sO) ≫ rO
         = yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO ≫ wO := by rw [hsOW]
       _ = yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO ≫ wO := by
@@ -511,7 +513,7 @@ private theorem exists_model_of_stage_relation
     apply Over.OverMorphism.ext
     simpa only [Over.comp_left, cfstₒ, csndₒ, Over.homMk_left, hsOl, htOl] using hpoCond
   have hPₒ : IsPullback cfstₒ csndₒ tOO sOO := by
-    haveI : CreatesLimitsOfShape WalkingCospan (Over.forget (D.obj oo.left)) :=
+    have : CreatesLimitsOfShape WalkingCospan (Over.forget (D.obj oo.left)) :=
       Over.createsLimitsOfShapeForgetOfIsConnected
     apply IsPullback.of_map (Over.forget (D.obj oo.left)) hcommₒ
     rw [show ((Over.forget (D.obj oo.left)).map tOO) = yoneda.map tO from htOl.symm,
@@ -737,7 +739,7 @@ public theorem exists_model_of_finitePresentation
       (Over.pullback (limit.π D l)).obj target :=
     Over.homMk (pullback.lift (er.inv.left ≫ b)
       (pullback.snd rl (limit.π D l)) (by
-        show (er.inv.left ≫ b) ≫ vKW = _
+        change (er.inv.left ≫ b) ≫ vKW = _
         rw [Category.assoc, hb, ← Category.assoc]
         exact congrArg (fun t => t ≫ limit.π D l) er.inv.w)) (by simp [source, target])
   obtain ⟨m, em, gm, αm, βm, hαm, hβm, hgm⟩ := exists_morphism_after_baseChange
@@ -825,13 +827,13 @@ public theorem exists_model_of_finitePresentation
       rw [← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc, sm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map st).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.s ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, st, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.s = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -843,13 +845,13 @@ public theorem exists_model_of_finitePresentation
       rw [← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc, tm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map tt).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.t ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, tt, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.t = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -932,7 +934,7 @@ public theorem exists_model_of_finitePresentation
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
+      change yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
       rw [hRnlim.w, hWnlim.w, ← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc]
       have hsn : sn ≫ Cn.toChart = br ≫ sm := pullback.condition.symm
@@ -943,7 +945,7 @@ public theorem exists_model_of_finitePresentation
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ yoneda.map tn ≫ wn =
+      change yoneda.map arn ≫ yoneda.map tn ≫ wn =
         yoneda.map K.t ≫ yoneda.map awn ≫ wn
       rw [htn, hRnlim.w, hWnlim.w, ← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc]

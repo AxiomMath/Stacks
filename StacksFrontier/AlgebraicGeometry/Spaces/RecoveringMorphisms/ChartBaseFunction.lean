@@ -165,7 +165,7 @@ theorem chartRingHom_baseGlobalFunction (V : SmallEtale B S hS Y.1)
     rw [invCoord, ← GrothendieckTopology.yonedaEquiv_symm_naturality_right,
       Functor.map_comp, Category.assoc]
   rw [h]
-  show (g.toToposHom.inverseImage.map (baseGlobalFunction Y r) ≫ g.fSharpSet).hom.app (op U)
+  change (g.toToposHom.inverseImage.map (baseGlobalFunction Y r) ≫ g.fSharpSet).hom.app (op U)
       ((g.toToposHom.inverseImage.map
         ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm x)).hom.app (op U) s) =
     baseFunctionTransport g r U

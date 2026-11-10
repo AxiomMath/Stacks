@@ -115,7 +115,7 @@ private theorem unitImageRetraction_comp :
   have h : adj.homEquiv F (L.obj F)
       (unitImageRetraction G J K adj F ≫ unitImageSheafι G J K adj F) = adj.unit.app F := by
     rw [adj.homEquiv_unit, Functor.map_comp, ← Category.assoc, ← adj.homEquiv_unit]
-    show adj.homEquiv F (unitImageSheaf G J K adj F)
+    change adj.homEquiv F (unitImageSheaf G J K adj F)
         ((adj.homEquiv F (unitImageSheaf G J K adj F)).symm
           (unitImageLift G J K adj F)) ≫ _ = _
     rw [Equiv.apply_symm_apply, unitImageLift_comp]

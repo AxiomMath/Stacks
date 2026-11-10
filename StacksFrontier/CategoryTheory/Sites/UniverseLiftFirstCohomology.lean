@@ -51,8 +51,8 @@ section Shrink
 /-- An abelian group which is an extension of a `t`-small group by a `t`-small group is
 `t`-small. -/
 theorem small_of_injective_of_ker_le {K M N : Type*} [AddCommGroup K] [AddCommGroup M]
-    [AddCommGroup N] [Small.{t} K] [Small.{t} N] (i : K →+ M) (hi : Function.Injective i)
-    (g : M →+ N) (hker : ∀ m, g m = 0 → ∃ k, i k = m) : Small.{t} M := by
+    [AddCommGroup N] [Small.{t} K] [Small.{t} N] (i : K →+ M) (g : M →+ N)
+    (hker : ∀ m, g m = 0 → ∃ k, i k = m) : Small.{t} M := by
   have hk : ∀ m, ∃ k, i k = m - Function.invFun g (g m) := fun m =>
     hker _ (by rw [map_sub, Function.invFun_eq (f := g) ⟨m, rfl⟩, sub_self])
   refine small_of_injective (f := fun m => ((hk m).choose, g m)) ?_
@@ -105,23 +105,29 @@ end Shrink
 
 section Extensions
 
-variable [HasSheafify J AddCommGrpCat.{t}] [HasSheafify J AddCommGrpCat.{max t s}]
+section
+
+variable [HasSheafify J AddCommGrpCat.{w}]
 
 /-- In a short exact sequence of abelian sheaves, the sections of the middle term over an object
 form an extension of a subgroup of the sections of the third term by those of the first. -/
-theorem sections_exact {S : ShortComplex (Sheaf J AddCommGrpCat.{max t s})} (hS : S.ShortExact)
+theorem sections_exact {S : ShortComplex (Sheaf J AddCommGrpCat.{w})} (hS : S.ShortExact)
     (U : Cᵒᵖ) :
     Function.Injective (S.f.hom.app U) ∧
       ∀ x, S.g.hom.app U x = 0 → ∃ y, S.f.hom.app U y = x := by
   have := hS.mono_f
   have hmono : Mono S.f.hom :=
-    inferInstanceAs (Mono ((sheafToPresheaf J AddCommGrpCat.{max t s}).map S.f))
+    inferInstanceAs (Mono ((sheafToPresheaf J AddCommGrpCat.{w}).map S.f))
   refine ⟨(AddCommGrpCat.mono_iff_injective _).1
     ((NatTrans.mono_iff_mono_app _).1 hmono U), ?_⟩
-  let G := sheafToPresheaf J AddCommGrpCat.{max t s} ⋙
-    (evaluation Cᵒᵖ AddCommGrpCat.{max t s}).obj U
+  let G := sheafToPresheaf J AddCommGrpCat.{w} ⋙
+    (evaluation Cᵒᵖ AddCommGrpCat.{w}).obj U
   exact (ShortComplex.ab_exact_iff _).1
     (hS.exact.map_of_mono_of_preservesKernel G hS.mono_f inferInstance)
+
+end
+
+variable [HasSheafify J AddCommGrpCat.{t}] [HasSheafify J AddCommGrpCat.{max t s}]
 
 omit [HasSheafify J AddCommGrpCat.{t}] in
 /-- **The middle term of an extension of two universe lifts has `t`-small sections.** -/
@@ -129,11 +135,11 @@ theorem small_sections_of_shortExact {A B : Sheaf J AddCommGrpCat.{t}}
     {E : Sheaf J AddCommGrpCat.{max t s}} (i : (uliftSheafFunctor.{s, t} J).obj A ⟶ E)
     (p : E ⟶ (uliftSheafFunctor.{s, t} J).obj B) (w : i ≫ p = 0)
     (h : (ShortComplex.mk i p w).ShortExact) (U : Cᵒᵖ) : Small.{t} (E.obj.obj U) := by
-  obtain ⟨hinj, hex⟩ := sections_exact J h U
+  obtain ⟨-, hex⟩ := sections_exact J h U
   have (X : Sheaf J AddCommGrpCat.{t}) :
       Small.{t} (((uliftSheafFunctor.{s, t} J).obj X).obj.obj U) :=
     inferInstanceAs (Small.{t} (ULift (X.obj.obj U)))
-  exact small_of_injective_of_ker_le (i.hom.app U).hom hinj (p.hom.app U).hom hex
+  exact small_of_injective_of_ker_le (i.hom.app U).hom (p.hom.app U).hom hex
 
 section Ext
 
@@ -181,8 +187,6 @@ theorem mapExtAddHom_one_bijective (A B : Sheaf J AddCommGrpCat.{t}) :
     fun E i p w h => ?_
   have := small_sections_of_shortExact.{s, t, v, u} J i p w h
   exact ⟨shrinkSheaf E, ⟨uliftShrinkSheafIso E⟩⟩
-
-variable [HasSheafify J AddCommGrpCat.{t}] [HasSheafify J AddCommGrpCat.{max t s}]
 
 /-- The universe lift of the constant sheaf `ℤ` is the constant sheaf `ℤ`. -/
 noncomputable def uliftConstantSheafIso :

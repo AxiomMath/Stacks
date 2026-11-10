@@ -52,7 +52,7 @@ theorem map_segreInverseSeq_of_intertwines (h : ∀ i x, φ (t i x) = t' i (φ x
     | zero => simp [segreInverseSeq_zero]
     | succ n =>
       rw [segreInverseSeq_succ, segreInverseSeq_succ]
-      show φ (-((∑ j : Fin (n + 1), t (n + 1 - j) * segreInverseSeq t j : AddMonoid.End M) x)) =
+      change φ (-((∑ j : Fin (n + 1), t (n + 1 - j) * segreInverseSeq t j : AddMonoid.End M) x)) =
         -((∑ j : Fin (n + 1), t' (n + 1 - j) * segreInverseSeq t' j : AddMonoid.End M') (φ x))
       rw [map_neg, end_finset_sum_apply, end_finset_sum_apply, map_sum]
       congr 1

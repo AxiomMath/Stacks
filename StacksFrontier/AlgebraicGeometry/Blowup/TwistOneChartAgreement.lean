@@ -159,7 +159,7 @@ theorem twistOneCoeff_mul_comm {f g : S} (hf : f ∈ 𝒮 1) (hg : g ∈ 𝒮 1)
   refine Subtype.ext (funext fun x => HomogeneousLocalization.val_injective _ ?_)
   have hA := twistOneCoeff_val_mul 𝒮 hf hWf t x
   have hB := twistOneCoeff_val_mul 𝒮 hg hWg t x
-  show HomogeneousLocalization.val ((twistOneCoeff 𝒮 hf hWf t).1 x * u.1 x)
+  change HomogeneousLocalization.val ((twistOneCoeff 𝒮 hf hWf t).1 x * u.1 x)
       = HomogeneousLocalization.val ((twistOneCoeff 𝒮 hg hWg t).1 x * v.1 x)
   rw [HomogeneousLocalization.val_mul, HomogeneousLocalization.val_mul]
   refine ((isUnit_trivializingFun 𝒮 1 hWf x).mul

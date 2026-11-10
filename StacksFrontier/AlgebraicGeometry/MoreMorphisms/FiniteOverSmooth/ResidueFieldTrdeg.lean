@@ -31,7 +31,8 @@ whenever `T` is; essential finiteness passes to quotients by
 instance `FinTrdeg` attached to `Algebra.EssFiniteType` and `Cardinal.lt_aleph0`.
 
 The `κ(𝔭)`-algebra structure on `κ(𝔮)` and its compatibility with `R` are hypotheses, exactly
-as in the statement of Stacks 0520 in `StacksFrontier/RingTheory/RelativeDimension/QuasiFiniteAffineSpace.lean`.
+as in the statement of Stacks 0520 in
+`StacksFrontier/RingTheory/RelativeDimension/QuasiFiniteAffineSpace.lean`.
 
 ## References
 

@@ -149,9 +149,9 @@ theorem IsSoft.directImage_of_iso {Z₁ Z₂ : TopCat.{s}} (φ : Z₁ ≅ Z₂)
   · have h2 : (φ.inv.hom : Z₂ → Z₁) ((φ.hom.hom : Z₁ → Z₂) x) ∈ U := hV'U' hx
     rw [hhi x] at h2
     exact h2
-  · show (φ.hom.hom : Z₁ → Z₂) x ∈ V'
+  · change (φ.hom.hom : Z₁ → Z₂) x ∈ V'
     refine hK'V' ?_
-    show (φ.inv.hom : Z₂ → Z₁) ((φ.hom.hom : Z₁ → Z₂) x) ∈ K
+    change (φ.inv.hom : Z₂ → Z₁) ((φ.hom.hom : Z₁ → Z₂) x) ∈ K
     rw [hhi x]
     exact hx
   · have hV'' : (Opens.map φ.inv).obj ((Opens.map φ.hom).obj V') ≤ V' := by
@@ -159,7 +159,7 @@ theorem IsSoft.directImage_of_iso {Z₁ Z₂ : TopCat.{s}} (φ : Z₁ ≅ Z₂)
       have h1 : (φ.hom.hom : Z₁ → Z₂) ((φ.inv.hom : Z₂ → Z₁) y) ∈ V' := hy
       rw [hih y] at h1
       exact h1
-    show TopCat.Presheaf.restrict (F := H.obj) u _ = _
+    change TopCat.Presheaf.restrict (F := H.obj) u _ = _
     refine Eq.trans (TopCat.Presheaf.restrict_restrict (F := H.obj) hV''
       (le_top : V' ≤ ⊤) u).symm ?_
     refine Eq.trans (congrArg
@@ -279,7 +279,7 @@ theorem map_mem_fiber_of_pullbackPresentation (w : W)
     (q : ((f'.hom : X' → W) ⁻¹' ({w} : Set W))) :
     (g.hom : X' → X) q.1 ∈ ((f.hom : X → Y) ⁻¹' ({(k.hom : W → Y) w} : Set Y)) := by
   have hq : (f'.hom : X' → W) q.1 = w := q.2
-  show (f.hom : X → Y) ((g.hom : X' → X) q.1) = (k.hom : W → Y) w
+  change (f.hom : X → Y) ((g.hom : X' → X) q.1) = (k.hom : W → Y) w
   rw [apply_comp_eq_of_pullbackPresentation f k f' g e he q.1, hq]
 
 /-- A point of the fibre of `f` over `k w`, paired with `w`, satisfies the condition cutting the

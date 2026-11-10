@@ -172,7 +172,7 @@ private theorem isRegular_and_flat_quotient_of_primitive
 private theorem ideal_smul_top_self {A : Type*} [CommRing A] (I : Ideal A) :
     I • (⊤ : Submodule A A) = I := by
   rw [Ideal.smul_top_eq_map]
-  show Submodule.restrictScalars A (Ideal.map (algebraMap A A) I) = I
+  change Submodule.restrictScalars A (Ideal.map (algebraMap A A) I) = I
   simp
 
 /-- If `A ⧸ I` is flat over the valuation ring `R`, then the contraction from `A ⊗_R K` of the
@@ -203,7 +203,7 @@ private theorem ideal_comap_map_self_of_flat_quotient
     have hq : Ideal.Quotient.mk I ((algebraMap R A r) * x) = 0 :=
       (Ideal.Quotient.eq_zero_iff_mem).2 hsx'
     have hz : r • (Ideal.Quotient.mk I x) = 0 := by
-      show Ideal.Quotient.mk I (r • x) = 0
+      change Ideal.Quotient.mk I (r • x) = 0
       simpa [Algebra.smul_def] using hq
     exact Ideal.Quotient.eq_zero_iff_mem.mp (hsreg.right_eq_zero_of_smul hz)
   · intro hx
@@ -373,7 +373,7 @@ private theorem flat_quotient_comap_generic
     obtain ⟨u, hu⟩ := IsLocalization.map_units T
       (⟨algebraMap R A r, Algebra.mem_algebraMapSubmonoid_of_mem ⟨r, hr'⟩⟩ :
         Algebra.algebraMapSubmonoid A (nonZeroDivisors R))
-    show algebraMap A T x ∈ I
+    change algebraMap A T x ∈ I
     have hxI := I.mul_mem_left (↑u⁻¹ : T) hxJ
     rw [← hu] at hxI
     simpa only [← mul_assoc, Units.inv_mul, one_mul] using hxI
@@ -392,7 +392,7 @@ private theorem fg_comap_generic
     (finitePresentation_of_flat_of_finiteType_of_valuationRing
       (A := R) (B := A) (M := A ⧸ J)).2
       (flat_quotient_comap_generic (R := R) I) inferInstance
-  show Submodule.FG J
+  change Submodule.FG J
   simpa only [Submodule.ker_mkQ] using Module.FinitePresentation.fg_ker J.mkQ J.mkQ_surjective
 
 private theorem isRegularRing_of_isLocalization
@@ -540,7 +540,7 @@ private theorem ideal_map_comap_localization
       (I.map (algebraMap A B)).comap (algebraMap S B) := by
   apply (IsLocalization.orderEmbedding M S).injective
   ext x
-  show algebraMap R S x ∈ (I.comap (algebraMap R A)).map (algebraMap R S) ↔
+  change algebraMap R S x ∈ (I.comap (algebraMap R A)).map (algebraMap R S) ↔
     algebraMap S B (algebraMap R S x) ∈ I.map (algebraMap A B)
   rw [← IsScalarTower.algebraMap_apply R S B, IsScalarTower.algebraMap_apply R A B]
   rw [IsLocalization.algebraMap_mem_map_algebraMap_iff (M := M) S,
@@ -617,7 +617,7 @@ private theorem invertible_localization_comap_generic
   have he : (J.comap e).comap (algebraMap T (T ⊗[V] K)) =
       J.comap (algebraMap T (T ⊗[R] K)) := by
     ext t
-    show e (t ⊗ₜ[V] 1) ∈ J ↔ t ⊗ₜ[R] 1 ∈ J
+    change e (t ⊗ₜ[V] 1) ∈ J ↔ t ⊗ₜ[R] 1 ∈ J
     rfl
   rw [he] at h
   exact Module.Invertible.congr (LinearEquiv.ofEq _ _
@@ -637,7 +637,7 @@ private theorem invertible_comap_generic_atPrime
   let : Algebra V T := Localization.AtPrime.algebraOfLiesOver p q
   have : IsScalarTower R V T := inferInstance
   have : IsLocalHom (algebraMap V T) := by
-    show IsLocalHom (Localization.localRingHom p q (algebraMap R A) _)
+    change IsLocalHom (Localization.localRingHom p q (algebraMap R A) _)
     infer_instance
   have : ValuationRing V := valuationRing_localization_atPrime p
   let kmap : V →ₐ[R] K := IsLocalization.liftAlgHom

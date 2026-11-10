@@ -151,12 +151,12 @@ theorem exists_pullHom_section_eq {T T' : Over (Spec (.of k))}
   have hMM := hbij M M hM hM (Iso.refl _)
   have hNN := hbij N N hN hN (Iso.refl _)
   refine ⟨⟨a, b, hMM.injective ?_, hNN.injective ?_⟩, ha⟩
-  · show pullHom (a ≫ b) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
+  · change pullHom (a ≫ b) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
     rw [Stacks.Picard.pullHom_comp' a b (sectionAt f σ hσ T') _ _ _ rfl rfl rfl]
     rw [ha, hb, Stacks.Picard.pullHom_hom_comp_pullHom_inv β g.left _ _ _ _]
     exact (Stacks.Picard.pullHom_id' (F := modulePullbackPseudofunctor) M
       (baseChangeMap f g) (sectionAt f σ hσ T') _ rfl).symm
-  · show pullHom (b ≫ a) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
+  · change pullHom (b ≫ a) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
     rw [Stacks.Picard.pullHom_comp' b a (sectionAt f σ hσ T') _ _ _ rfl rfl rfl]
     rw [ha, hb, Stacks.Picard.pullHom_inv_comp_pullHom_hom β g.left _ _ _ _]
     exact (Stacks.Picard.pullHom_id' (F := modulePullbackPseudofunctor) N
@@ -289,7 +289,7 @@ theorem eq_zero_of_forall_kernelMap_coverHom_eq_zero (T : Over (Spec (.of k)))
     (hc : ∀ i, kernelMap f σ hσ (coverHom T 𝒰 i) c = 0) : c = 0 := by
   classical
   apply Subtype.ext
-  show c.1 = 0
+  change c.1 = 0
   set N := Stacks.Picard.picardRepresentative (pullback f T.hom).toRingedSpace c.1
   have hLinv : Stacks.SheafOfModules.IsInvertible (pullback f T.hom).presheaf
       (pullback f T.hom).ringCatSheaf.2 N.obj := N.property

@@ -432,10 +432,10 @@ theorem normGenerator_smul (f : X ⟶ Y) (N : MorphismNormMap f) (L : X.Modules)
         (L.val.obj (op (f ⁻¹ᵁ (W ⊓ i.val)))) _
         (X.presheaf.map ((Opens.map f.base).map (homOfLE h)).op a)
         (generatorRestrict (X := X.toRingedSpace) L hs s).val := by
-    show L.val.map (homOfLE hs).op t.val = _
+    change L.val.map (homOfLE hs).op t.val = _
     rw [ha]
     exact L.val.map_smul _ _ _
-  show N.app (W ⊓ i.val) (generatorRatio (X := X.toRingedSpace) L (f ⁻¹ᵁ (W ⊓ i.val)) b
+  change N.app (W ⊓ i.val) (generatorRatio (X := X.toRingedSpace) L (f ⁻¹ᵁ (W ⊓ i.val)) b
       (generatorRestrict (X := X.toRingedSpace) L hs t)) =
     Y.presheaf.map (homOfLE h).op (N.app W a) *
       N.app (W ⊓ i.val) (generatorRatio (X := X.toRingedSpace) L (f ⁻¹ᵁ (W ⊓ i.val)) b

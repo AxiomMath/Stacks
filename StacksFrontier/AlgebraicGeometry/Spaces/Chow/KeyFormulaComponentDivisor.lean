@@ -396,7 +396,8 @@ version is kept because it needs no hypothesis on `𝒩` at all.
 
 The key formula itself, Stacks 0EQV, **is** proved, unconditionally and axiom-clean:
 `AlgebraicGeometry.Space.keyFormula_of_ne_zero` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline`, at the canonical choices and
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline`, at the canonical choices
+and
 for the constructed tame-symbol sum, from which Stacks 0EQX follows there as
 `AlgebraicGeometry.Space.canonicalFirstChernCap_divisor_comm`.  What is still open is only the
 *predicate* `AlgebraicGeometry.Space.KeyFormula` of
@@ -413,7 +414,8 @@ invertible, which is the section's own hypothesis, t W and the dimension functio
 and not carried, see \
 firstChernCapCycleMap_divisorCycleAt_eq_componentDivisorSum_of_isInvertible. hdim is Stacks \
 0EPZ. The key formula 0EQV IS proved, unconditionally and axiom-clean, as keyFormula_of_ne_zero \
-of StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline, and 0EQX follows there as \
+of StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline, and 0EQX follows there \
+as \
 canonicalFirstChernCap_divisor_comm; what is still open is only the quantified predicate \
 KeyFormula of KeyFormulaCycleIdentities, which ranges over the component rules of 0EQJ and the \
 tame-symbol divisors"]
@@ -576,7 +578,8 @@ mention the ratio, is proved and applies to `t_W` because `t_W` is regular, by
 
 The key formula itself, Stacks 0EQV, **is** proved, unconditionally and axiom-clean:
 `AlgebraicGeometry.Space.keyFormula_of_ne_zero` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline`, at the canonical choices and
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline`, at the canonical choices
+and
 for the constructed tame-symbol sum, from which Stacks 0EQX follows there as
 `AlgebraicGeometry.Space.canonicalFirstChernCap_divisor_comm`.  What is still open is only the
 *predicate* `AlgebraicGeometry.Space.KeyFormula` of
@@ -590,7 +593,8 @@ Stacks 0EDN dimension function on W is the one on X pulled back along the closed
 What is carried on W is the Stacks 0EPR ratio family and the Stacks 0EPS local finiteness of \
 the prime divisors of nonzero order, both blocked by LocalRatio being an unconstrained function \
 type. hdim is Stacks 0EPZ. The key formula 0EQV IS proved, unconditionally and axiom-clean, as \
-keyFormula_of_ne_zero of StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline, and \
+keyFormula_of_ne_zero of StacksFrontier.AlgebraicGeometry.Spaces.Chow.KeyFormulaProof.Headline, \
+and \
 0EQX follows there as canonicalFirstChernCap_divisor_comm; what is still open is only the \
 quantified predicate KeyFormula of KeyFormulaCycleIdentities, which ranges over the component \
 rules of 0EQJ and the tame-symbol divisors"]

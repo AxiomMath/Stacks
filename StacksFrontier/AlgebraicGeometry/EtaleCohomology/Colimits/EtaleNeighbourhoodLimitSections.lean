@@ -54,6 +54,7 @@ variable {I : Type u} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)] [Orde
 /-- The structure morphism `T ⟶ X` of the limit. -/
 def limitBase : c.pt ⟶ X := c.π.app (op ⊥) ≫ (W.obj (op ⊥)).hom
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- Every leg `T ⟶ W_i` of the cone, composed with the structure morphism `W_i ⟶ X`, is the
 structure morphism `limitBase W c : T ⟶ X`. -/
 theorem π_comp_hom (i : Iᵒᵖ) : c.π.app i ≫ (W.obj i).hom = limitBase W c := by
@@ -74,6 +75,7 @@ def limitSections {q : c.pt ⟶ X} (hq : ∀ i, c.π.app i ≫ (W.obj i).hom = q
     ((smallEtaleInverseImage.{u, 0} q).obj F).obj.map
       (smallEtaleBaseChangeLift q (W.obj i) (c.π.app i) (hq i)).op
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [OrderBot I] in
 /-- The restriction maps `limitSections` are compatible with the transition maps: for `i ≤ j`,
 restricting a section over `W_i` to `W_j` and then to `T` is restricting it to `T`. -/
 theorem limitSections_transition {q : c.pt ⟶ X} (hq : ∀ i, c.π.app i ≫ (W.obj i).hom = q)

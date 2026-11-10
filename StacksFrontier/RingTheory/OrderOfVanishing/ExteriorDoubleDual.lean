@@ -49,10 +49,10 @@ computing the kernel of `⋀^r u`, which is not in the library.
 
 namespace Stacks.OrderOfVanishing
 
-variable {A : Type*} [CommRing A] [IsLocalRing A] [IsDomain A] [IsDiscreteValuationRing A]
+variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   {M M' : Type*} [AddCommGroup M] [Module A M] [AddCommGroup M'] [Module A M']
 
-omit [IsLocalRing A] [IsDomain A] [IsDiscreteValuationRing A] in
+omit [IsDomain A] [IsDiscreteValuationRing A] in
 /-- A map whose kernel is torsion is injective on torsion-free quotients. -/
 public theorem injective_torsionQuotientMap_of_ker_le_torsion {u : M →ₗ[A] M'}
     (hker : LinearMap.ker u ≤ Submodule.torsion A M) :
@@ -69,17 +69,17 @@ public theorem injective_torsionQuotientMap_of_ker_le_torsion {u : M →ₗ[A] M
     obtain ⟨b, hb⟩ := hker hak
     exact (Submodule.Quotient.mk_eq_zero _).mpr ⟨b * a, by rw [mul_smul]; exact hb⟩
 
-omit [IsLocalRing A] [IsDomain A] [IsDiscreteValuationRing A] in
+omit [IsDomain A] [IsDiscreteValuationRing A] in
 /-- A map that is injective on torsion-free quotients has torsion kernel. -/
 public theorem ker_le_torsion_of_injective_torsionQuotientMap {u : M →ₗ[A] M'}
     (h : Function.Injective (torsionQuotientMap u)) :
     LinearMap.ker u ≤ Submodule.torsion A M := fun m hm =>
   (Submodule.Quotient.mk_eq_zero _).mp (h (by
-    show (Submodule.Quotient.mk (u m) : M' ⧸ Submodule.torsion A M')
+    change (Submodule.Quotient.mk (u m) : M' ⧸ Submodule.torsion A M')
       = torsionQuotientMap u 0
     rw [LinearMap.mem_ker.mp hm, map_zero, Submodule.Quotient.mk_zero]))
 
-omit [IsLocalRing A] [IsDomain A] [IsDiscreteValuationRing A] in
+omit [IsDomain A] [IsDiscreteValuationRing A] in
 /-- **A surjection whose kernel is torsion is a bijection on torsion-free quotients.** -/
 public theorem bijective_torsionQuotientMap_of_surjective_of_ker_le_torsion {u : M →ₗ[A] M'}
     (hu : Function.Surjective u) (hker : LinearMap.ker u ≤ Submodule.torsion A M) :

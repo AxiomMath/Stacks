@@ -33,7 +33,7 @@ private theorem freeDifferentialLift_square_smul_zero
     (hzero : (RingHom.ker f) ^ 2 = ⊥) (L : FreeDifferentialLift f P)
     (n : ℤ) (x : L.X n) (a : RingHom.ker f) :
     L.d (n + 1) (n + 2) (L.d n (n + 1) (a • x)) = 0 := by
-  show (L.d (n + 1) (n + 2)).hom
+  change (L.d (n + 1) (n + 2)).hom
       ((L.d n (n + 1)).hom ((a : R') • x)) = 0
   rw [map_smul, map_smul]
   apply squareZeroIdeal_smul_mem (RingHom.ker f) hzero a.2
@@ -54,7 +54,7 @@ private theorem freeDifferentialLift_square_eq_of_reduction_eq
     · intro a ha z hz
       exact freeDifferentialLift_square_smul_zero hzero L n z ⟨a, ha⟩
     · intro z w hz hw
-      show (L.d (n + 1) (n + 2)).hom
+      change (L.d (n + 1) (n + 2)).hom
         ((L.d n (n + 1)).hom (z + w)) = 0
       rw [map_add, map_add, hz, hw, add_zero]
   change (L.d (n + 1) (n + 2)).hom
@@ -157,7 +157,7 @@ private theorem freeDifferentialLift_curvatureKernel_d
   rw [hidx] at hsq
   dsimp [freeDifferentialLift_curvatureKernel]
   rw [hidx]
-  show (L.d (n + 2) ((n + 1) + 2)).hom
+  change (L.d (n + 2) ((n + 1) + 2)).hom
       ((L.d (n + 1) (n + 2)).hom ((L.d n (n + 1)).hom x)) =
     (L.d (n + 2) ((n + 1) + 2)).hom
       ((L.d (n + 1) (n + 2)).hom x')
@@ -251,13 +251,12 @@ private lemma kernelTensorEmbedding_injective
 private lemma tensor_induction_reduction {f : R' →+* R} {hf : Function.Surjective f}
     {P : CochainComplex (ModuleCat.{u} R) ℤ} (L : FreeDifferentialLift f P) (n : ℤ)
     (motive : TensorProduct R (P.X n) (squareZeroKernelModule.{u, u} f hf) → Prop)
-    (hzero : motive 0) (hadd : ∀ z w, motive z → motive w → motive (z + w))
+    (hadd : ∀ z w, motive z → motive w → motive (z + w))
     (htmul : ∀ (x : L.X n) (a : RingHom.ker f),
       motive (L.reduction n x ⊗ₜ[R]
         (show squareZeroKernelModule f hf from (RingHom.ker f).toCotangent a)))
     (z : TensorProduct R (P.X n) (squareZeroKernelModule.{u, u} f hf)) : motive z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact hzero
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => exact hadd _ _ hz hw
   | tmul x a =>
     obtain ⟨x, rfl⟩ := L.reduction_surjective n x
@@ -274,13 +273,12 @@ private lemma kernelTensorEmbedding_natural
     kernelTensorEmbedding hf hzero M j ((b ⊗ₘ 𝟙 _) z) =
       a (kernelTensorEmbedding hf hzero L i z) := by
   induction z using tensor_induction_reduction L i with
-  | hzero => simp
   | hadd x y hx hy => simp only [map_add, hx, hy]
   | htmul x y =>
-    show kernelTensorEmbedding hf hzero M j
+    change kernelTensorEmbedding hf hzero M j
       (b (L.reduction i x) ⊗ₜ[R] (RingHom.ker f).toCotangent y) = _
     rw [← hab]
-    show (freeDifferentialLift_kernelTensorEquiv hf hzero M j _).val =
+    change (freeDifferentialLift_kernelTensorEquiv hf hzero M j _).val =
       a ((freeDifferentialLift_kernelTensorEquiv hf hzero L i _).val)
     rw [kernelTensorEquiv_tmul, kernelTensorEquiv_tmul]
     exact (a.hom.map_smul y.val x).symm
@@ -336,7 +334,7 @@ private lemma exists_kernel_factor
   have hs (r : R') (z : TensorProduct R (Q.X j) (squareZeroKernelModule.{u, u} f hf)) :
       kernelTensorEmbedding hf hzero M j (f r • z) =
         r • kernelTensorEmbedding hf hzero M j z := by
-    show ((freeDifferentialLift_kernelTensorEquiv hf hzero M j) (f r • z)).val = _
+    change ((freeDifferentialLift_kernelTensorEquiv hf hzero M j) (f r • z)).val = _
     rw [map_smul, kernelModule_smul]
     rfl
   refine ⟨ModuleCat.ofHom { toFun := g, map_add' := ?_, map_smul' := ?_ }, ?_⟩
@@ -353,7 +351,7 @@ private lemma exists_kernel_factor
     apply hsame
     simp [chosenFreeDifferentialLiftPreimage_spec]
   · intro x
-    show kernelTensorEmbedding hf hzero M j (g (L.reduction i x)) = _
+    change kernelTensorEmbedding hf hzero M j (g (L.reduction i x)) = _
     rw [hg]
     exact hsame _ x (chosenFreeDifferentialLiftPreimage_spec L i _)
 
@@ -432,7 +430,7 @@ private theorem curvatureHom_natural_homotopy
   choose a ha using fun i => exists_lift_component hf L M i i (α.f i)
   let φ (i j : ℤ) := a i ≫ M.d i j - L.d i j ≫ a j
   have hφ (i j : ℤ) (x : L.X i) : M.reduction j (φ i j x) = 0 := by
-    show M.reduction j (M.d i j (a i x) - a j (L.d i j x)) = 0
+    change M.reduction j (M.d i j (a i x) - a j (L.d i j x)) = 0
     rw [map_sub, M.reduction_d, ha, ha, L.reduction_d]
     have h := ConcreteCategory.congr_hom (α.comm i j) (L.reduction i x)
     exact sub_eq_zero.mpr h
@@ -444,7 +442,7 @@ private theorem curvatureHom_natural_homotopy
   ext y
   obtain ⟨x, rfl⟩ := L.reduction_surjective n y
   apply kernelTensorEmbedding_injective hf hzero M (n + 2)
-  show kernelTensorEmbedding hf hzero M (n + 2)
+  change kernelTensorEmbedding hf hzero M (n + 2)
       (curvatureComponent hf hzero M n (α.f n (L.reduction n x))) =
     kernelTensorEmbedding hf hzero M (n + 2)
       (h (n + 1) (n + 2) (P.d n (n + 1) (L.reduction n x)) +
@@ -501,7 +499,6 @@ lemma kernelTensor_induction {f : R' →+* R} {hf : Function.Surjective f}
     {P : CochainComplex (ModuleCat.{u} R) ℤ}
     (L : FreeDifferentialLift f P) (n : ℤ)
     (motive : (P ⊗ kernelComplex f hf).X n → Prop)
-    (hzero : motive 0)
     (hadd : ∀ z w, motive z → motive w → motive (z + w))
     (htmul : ∀ (x : L.X n) (a : RingHom.ker f),
       motive (kernelTensorInclusion f hf P n
@@ -510,7 +507,6 @@ lemma kernelTensor_induction {f : R' →+* R} {hf : Function.Surjective f}
     (z : (P ⊗ kernelComplex f hf).X n) : motive z := by
   obtain ⟨w, rfl⟩ := kernelTensorInclusion_surjective P n z
   induction w using tensor_induction_reduction L n with
-  | hzero => simpa only [map_zero] using hzero
   | hadd w w' hw hw' => simpa only [map_add] using hadd _ _ hw hw'
   | htmul x a => exact htmul x a
 
@@ -527,7 +523,7 @@ lemma kernelTensorInclusion_d {f : R' →+* R} {hf : Function.Surjective f}
     (ComplexShape.up ℤ) i 0 i (by simp)
   have hsum : ι n ≫ (P ⊗ K).d n (n + 1) =
       (P.d n (n + 1) ⊗ₘ 𝟙 (K.X 0)) ≫ ι (n + 1) := by
-    show HomologicalComplex.ιMapBifunctor P K (curriedTensor (ModuleCat.{u} R))
+    change HomologicalComplex.ιMapBifunctor P K (curriedTensor (ModuleCat.{u} R))
         (ComplexShape.up ℤ) n 0 n (by simp) ≫
         (HomologicalComplex.mapBifunctor P K (curriedTensor (ModuleCat.{u} R))
           (ComplexShape.up ℤ)).d n (n + 1) = _
@@ -542,10 +538,10 @@ lemma kernelTensorInclusion_d {f : R' →+* R} {hf : Function.Surjective f}
   have h : kernelTensorInclusion f hf P n ≫ (P ⊗ K).d n (n + 1) =
       (P.d n (n + 1) ⊗ₘ 𝟙 (squareZeroKernelModule f hf)) ≫
         kernelTensorInclusion f hf P (n + 1) := by
-    show (_ ≫ ι n) ≫ _ = _ ≫ _ ≫ ι (n + 1)
+    change (_ ≫ ι n) ≫ _ = _ ≫ _ ≫ ι (n + 1)
     rw [Category.assoc, hsum, ← Category.assoc, ← Category.assoc,
       tensorHom_comp_tensorHom, tensorHom_comp_tensorHom]
-    simp [K, kernelComplex, CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+    simp [K, kernelComplex, CochainComplex.singleFunctor]
   exact ConcreteCategory.congr_hom h (x ⊗ₜ[R] a)
 
 /-- The square of a lifted differential, factored through the kernel tensor complex.
@@ -588,8 +584,7 @@ lemma kernelEmbedding_smul {f : R' →+* R} {hf : Function.Surjective f}
     (z : (P ⊗ kernelComplex f hf).X n) :
     c.kernelEmbedding n (f r • z) = r • c.kernelEmbedding n z := by
   refine kernelTensor_induction L n
-    (fun z => c.kernelEmbedding n (f r • z) = r • c.kernelEmbedding n z) ?_ ?_ ?_ z
-  · simp
+    (fun z => c.kernelEmbedding n (f r • z) = r • c.kernelEmbedding n z) ?_ ?_ z
   · intro z w hz hw
     simp only [smul_add, map_add, hz, hw]
   · intro x a
@@ -608,8 +603,7 @@ lemma kernelEmbedding_d {f : R' →+* R} {hf : Function.Surjective f}
       L.d n (n + 1) (c.kernelEmbedding n z) := by
   refine kernelTensor_induction L n
     (fun z => c.kernelEmbedding (n + 1) ((P ⊗ kernelComplex f hf).d n (n + 1) z) =
-      L.d n (n + 1) (c.kernelEmbedding n z)) ?_ ?_ ?_ z
-  · simp
+      L.d n (n + 1) (c.kernelEmbedding n z)) ?_ ?_ z
   · intro z w hz hw
     simp only [map_add, hz, hw]
   · intro x a
@@ -628,7 +622,7 @@ private theorem exists_liftedDifferentialCurvature
     (kernelTensorEmbedding hf hzero L n).comp (inv (i.f n)).hom.toAddMonoidHom
   have hi (n : ℤ) (x : TensorProduct R (P.X n) (squareZeroKernelModule.{u, u} f hf)) :
       inv (i.f n) (i.f n x) = x := by
-    show (i.f n ≫ inv (i.f n)) x = x
+    change (i.f n ≫ inv (i.f n)) x = x
     rw [IsIso.hom_inv_id]
     rfl
   have hP := free_bounded_complex_isKFlat P b hbound hfree
@@ -650,11 +644,11 @@ private theorem exists_liftedDifferentialCurvature
     tensorResolution_isIso := ht }⟩
   · intro n x a
     rw [kernelTensorInclusion_eq]
-    show kernelTensorEmbedding hf hzero L n (inv (i.f n) (i.f n _)) = _
+    change kernelTensorEmbedding hf hzero L n (inv (i.f n) (i.f n _)) = _
     rw [hi]
     exact kernelTensorEquiv_tmul hf hzero L n x a
   · intro n x
-    show kernelTensorEmbedding hf hzero L (n + 2)
+    change kernelTensorEmbedding hf hzero L (n + 2)
       (inv (i.f (n + 2)) (i.f (n + 2)
         (curvatureComponent hf hzero L n (L.reduction n x)))) = _
     rw [hi]
@@ -668,7 +662,6 @@ private lemma LiftedDifferentialCurvature.kernelEmbedding_inclusion
     c.kernelEmbedding n (kernelTensorInclusion f hf P n z) =
       kernelTensorEmbedding hf hzero L n z := by
   induction z using tensor_induction_reduction L n with
-  | hzero => simp
   | hadd x y hx hy => simp only [map_add, hx, hy]
   | htmul x y =>
     rw [c.kernelEmbedding_tmul]
@@ -684,7 +677,7 @@ private lemma LiftedDifferentialCurvature.hom_eq_curvatureHom
   obtain ⟨x, rfl⟩ := L.reduction_surjective n y
   apply c.kernelEmbedding_injective (n + 2)
   rw [c.hom_eq_square]
-  show _ = c.kernelEmbedding (n + 2)
+  change _ = c.kernelEmbedding (n + 2)
     ((tensorSingleInclusion (squareZeroKernelModule.{u, u} f hf) P).f (n + 2)
       (curvatureComponent hf hzero L n (L.reduction n x)))
   rw [← kernelTensorInclusion_eq, c.kernelEmbedding_inclusion hzero,
@@ -697,7 +690,7 @@ private lemma tensorSingleInclusion_natural
       tensorSingleInclusion (squareZeroKernelModule.{u, u} f hf) P ≫
         (a ⊗ₘ 𝟙 (kernelComplex f hf)) := by
   ext n : 1
-  show (a.f n ▷ squareZeroKernelModule f hf) ≫
+  change (a.f n ▷ squareZeroKernelModule f hf) ≫
       ιMapBifunctor Q (kernelComplex f hf) (curriedTensor _) (ComplexShape.up ℤ) n 0 n _ =
     ιMapBifunctor P (kernelComplex f hf) (curriedTensor _) (ComplexShape.up ℤ) n 0 n _ ≫
       (mapBifunctorMap a (𝟙 (kernelComplex f hf)) (curriedTensor _) (ComplexShape.up ℤ)).f n

@@ -116,7 +116,8 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 
 /-- A K-injective complex computes the derived direct image of a morphism of algebraic spaces:
 `Rf_*(Q I) ≅ Q(f_* I)`, with `f_*` the direct image of the morphism of small étale ringed topoi. -/
-alias nonempty_derivedPushforward_obj_iso_of_isKInjective := nonempty_derivedPushforward_obj_iso_of_isKInjective_aux
+alias nonempty_derivedPushforward_obj_iso_of_isKInjective :=
+  nonempty_derivedPushforward_obj_iso_of_isKInjective_aux
 
 end
 

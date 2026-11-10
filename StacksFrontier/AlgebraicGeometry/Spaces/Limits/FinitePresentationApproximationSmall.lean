@@ -162,7 +162,7 @@ theorem exists_isLimit_finitePresentation_of_small {X Y : (BigFppfOver B S hS)�
       (presheaf_of_isPullback B (⊤_ Scheme.{u}) hZ hsq.flip hbYe))
     ((Scheme.size_le_of_isOpenImmersion
       ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map (hO.rep.snd bY))).trans_lt (hWY ▸ hW))
-  exact exists_isLimit_finitePresentation_of_hasRelativeApproximation B S hS f hX hY hYqs V hV
+  exact exists_isLimit_finitePresentation_of_hasRelativeApproximation B S hS f hY hYqs V hV
     hVqc fV hfV (hasRelativeApproximation_of_hasSmallNoetherianApproximation B hZ fV hXZ hAX hAV)
 
 end AlgebraicGeometry.Space

@@ -114,9 +114,9 @@ omit [IsTopologicalRing C] [IsLinearTopology C C] in
 private theorem isDirected_weakIdeals : IsDirected (WeakIdeals C) (· ≤ ·) := by
   refine ⟨fun J K ↦ ⟨OrderDual.toDual ⟨J.1 ⊓ K.1,
     TopologicalRing.isWeakIdealOfDefinition_inf_of_isOpen_right J.2 K.2.1⟩, ?_, ?_⟩⟩
-  · show J.1 ⊓ K.1 ≤ J.1
+  · change J.1 ⊓ K.1 ≤ J.1
     exact inf_le_left
-  · show J.1 ⊓ K.1 ≤ K.1
+  · change J.1 ⊓ K.1 ≤ K.1
     exact inf_le_right
 
 /-- The weak ideals of definition of a weakly admissible ring, indexed by reverse inclusion,
@@ -224,7 +224,7 @@ private theorem continuous_of_isOpen_le_comap [TopologicalSpace A] [IsTopologica
     Continuous φ := by
   have hbasis := hasBasis_nhds_zero_weakIdeals hC
   refine continuous_of_continuousAt_zero φ ?_
-  show Filter.Tendsto (fun a : A ↦ φ a) (nhds 0) (nhds (φ 0))
+  change Filter.Tendsto (fun a : A ↦ φ a) (nhds 0) (nhds (φ 0))
   rw [map_zero]
   refine hbasis.tendsto_right_iff.mpr fun K _ ↦ ?_
   obtain ⟨J, hJ, hJK⟩ := h K
@@ -250,7 +250,7 @@ private theorem mono_formalSpectrumDiagram_map (D : QuotientSystem B S hS A)
     {J K : WeakIdeals A} (f : J ⟶ K) : Mono ((formalSpectrumDiagram D).map f) := by
   have hclosed : IsClosedImmersion ((BigFppfOver.toScheme B S hS).map
       ((BigAffineFppf.inclusion B S hS).map (D.diagram.map f))) := by
-    show IsClosedImmersion (Spec.map (CommRingCat.ofHom
+    change IsClosedImmersion (Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.factor (show K.1 ≤ J.1 from leOfHom f))))
     exact IsClosedImmersion.spec_of_surjective _
       (Ideal.Quotient.factor_surjective (show K.1 ≤ J.1 from leOfHom f))
@@ -272,7 +272,7 @@ private theorem mono_formalSpectrumDiagram_map (D : QuotientSystem B S hS A)
         ((BigAffineFppf.inclusion B S hS).map (D.diagram.map f))) :=
     Presheaf.isLocallyInjective_of_injective _ _ hinj
   have hloc' : Sheaf.IsLocallyInjective ((formalSpectrumDiagram D).map f) := by
-    show Sheaf.IsLocallyInjective
+    change Sheaf.IsLocallyInjective
       ((presheafToSheaf (BigFppfOver.topology B S hS) (Type (u + 1))).map
         (uliftYoneda.{u + 1, u}.map
           ((BigAffineFppf.inclusion B S hS).map (D.diagram.map f))))
@@ -382,14 +382,14 @@ private theorem exists_stage_factorization [IsTopologicalRing A] [IsLinearTopolo
   have hYqc : Space.IsQuasiCompactSpace B S hS
       (yoneda.obj ((BigAffineFppf.inclusion B S hS).obj (E.stage K))) := by
     refine ⟨(BigAffineFppf.inclusion B S hS).obj (E.stage K), 𝟙 _, ?_, ?_, ?_⟩
-    · show CompactSpace (Spec (.of (C ⧸ K.1)))
+    · change CompactSpace (Spec (.of (C ⧸ K.1)))
       infer_instance
     · refine ⟨Functor.relativelyRepresentable.of_isIso yoneda _, ?_⟩
       intro X Y q p₁ p₂ hp
       have : IsIso (yoneda.map p₂) := hp.isIso_snd_of_isIso
       have : IsIso p₂ := Yoneda.fullyFaithful.isIso_of_isIso_map p₂
       have : IsIso ((BigFppfOver.toScheme B S hS).map p₂) := Functor.map_isIso _ p₂
-      show Surjective ((BigFppfOver.toScheme B S hS).map p₂)
+      change Surjective ((BigFppfOver.toScheme B S hS).map p₂)
       exact ⟨(((BigFppfOver.toScheme B S hS).map p₂).homeomorph).surjective⟩
     · intro V ψ hψ
       simpa using hψ
@@ -607,7 +607,7 @@ theorem existsUnique_continuousHom_formalSpectrumMap_eq
     have hsite : (BigAffineFppf.inclusion B S hS).map (g.stageMap (qi K) K (hK K)) =
         (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).preimage (qm K) := by
       apply (BigFppfOver.toScheme B S hS).map_injective
-      show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ (hK K))) = _
+      change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ (hK K))) = _
       rw [hq]
       exact specMap_stageRingHom K (qi K) (qm K)
     have hstage : (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map

@@ -157,7 +157,7 @@ theorem isCohenMacaulayLocalRing_iff_of_isEtaleLocalHom
     (f : A →+* B) [IsLocalHom f]
     (hf : IsEtaleLocalHom f) :
     IsCohenMacaulayLocalRing A ↔ IsCohenMacaulayLocalRing B := by
-  show (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
+  change (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
       Module.supportDim A A ↔
     (Module.depthSup B (IsLocalRing.maximalIdeal B) B : WithBot ℕ∞) =
       Module.supportDim B B

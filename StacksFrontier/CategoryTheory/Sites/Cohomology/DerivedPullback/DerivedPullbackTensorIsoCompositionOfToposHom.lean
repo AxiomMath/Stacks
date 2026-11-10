@@ -135,6 +135,23 @@ def pullbackComplexCompIso :
   Functor.mapHomologicalComplexCompIso
     (AlgebraicGeometry.RingedToposHom.pullbackModulesCompIso f g).symm (ComplexShape.up ℤ)
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] [HasSheafify Z.J (Type u)]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O) (ComplexShape.up ℤ)] in
 /-- The composition isomorphism on complexes, in a single degree. -/
 lemma pullbackComplexCompIso_hom_app_f
     (M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ)
@@ -143,6 +160,21 @@ lemma pullbackComplexCompIso_hom_app_f
       (AlgebraicGeometry.RingedToposHom.pullbackModulesCompIso f g).symm.hom.app (M.X n) :=
   rfl
 
+omit [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O) (ComplexShape.up ℤ)] in
 /-- **The composition law for the comparison `Lf^*(QM) ⟶ Q(f^*M)` of Stacks 06YY.**  For an
 arbitrary cochain complex `M` of `𝒪''`-modules, the composition isomorphism of Stacks 0D6D
 followed by the comparison for `g ∘ f` is the comparison for `g` pushed forward by `Lf^*`, then
@@ -251,6 +283,11 @@ lemma toTensor_square_of_kFlat
     Iso.inv_hom_id_assoc]
   rfl
 
+omit [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)] in
 /-- The comparison `Lf^*(QK) ⟶ Q(f^*K)` is invertible at a K-flat complex with flat terms. -/
 lemma isIso_pullbackComparisonQ_of_kFlat (f : AlgebraicGeometry.RingedToposHom X Y)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
@@ -367,6 +404,23 @@ def pullbackComplexCompIsoApp' (M : CochainComplex
           |>.mapHomologicalComplex (ComplexShape.up ℤ)).obj M :=
   (pullbackComplexCompIso f g).hom.app M
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] [HasSheafify Z.J (Type u)]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O) (ComplexShape.up ℤ)] in
 /-- `pullbackComplexCompIsoApp'` in a single degree. -/
 lemma pullbackComplexCompIsoApp'_f (M : CochainComplex
     (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ) (n : ℤ) :
@@ -374,6 +428,7 @@ lemma pullbackComplexCompIsoApp'_f (M : CochainComplex
       (AlgebraicGeometry.RingedToposHom.pullbackModulesCompIso f g).symm.hom.app (M.X n) :=
   rfl
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] [HasSheafify Z.J (Type u)] in
 /-- **The comparison of total tensor complexes of Stacks 03EL is compatible with composition of
 morphisms of ringed topoi**, for arbitrary cochain complexes `P`, `N` of `𝒪''`-modules: the
 comparison for `g`, then the comparison for `f`, then the degreewise composition isomorphism in
@@ -417,6 +472,7 @@ theorem pullbackTensorTotalIso_comp
     (ι_pullbackTensorTotalIso_hom' (AlgebraicGeometry.RingedToposHom.comp (X := X) g f))
     (pullbackComplexCompIsoApp' f g) (pullbackComplexCompIsoApp'_f f g)
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] [HasSheafify Z.J (Type u)] in
 /-- **The composition law of Stacks 03EL for the comparison of total tensor complexes, carried
 along `CategoryTheory.DerivedCategory.Q`**, with the comparison written through
 `pullbackTensorComplexIso`.  This is the shape the model-level composition law below consumes. -/

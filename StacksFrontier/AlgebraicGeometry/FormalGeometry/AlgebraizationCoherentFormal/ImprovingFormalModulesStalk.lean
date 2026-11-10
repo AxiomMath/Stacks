@@ -109,7 +109,7 @@ of the system. -/
 theorem completedStalkProj_transition (y : X) {m n : ℕ} (h : m ≤ n) (z : completedStalk I F y) :
     ((modulesStalkFunctor X y).map (F.obj.map (homOfLE h).op)).hom (completedStalkProj F y n z) =
       completedStalkProj F y m z := by
-  show ((limit.π (F.obj ⋙ modulesStalkFunctor X y) (op n)) ≫
+  change ((limit.π (F.obj ⋙ modulesStalkFunctor X y) (op n)) ≫
     (F.obj ⋙ modulesStalkFunctor X y).map (homOfLE h).op).hom _ = _
   rw [limit.w]
   rfl
@@ -147,7 +147,7 @@ private theorem notMem_associatedPrimes_completedStalk {y : X} (hyY : y ∈ I.su
       (AdicCompletion.isMaximal_map_of_le _ _ hJ (Ideal.fg_of_isNoetherianRing _))
   have hfibre : adicClosedFibreThrough I y ⟨𝔓, h𝔓⟩ = {completedMaximalIdeal I y} := by
     ext Q
-    simp only [adicClosedFibreThrough, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [adicClosedFibreThrough, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     refine ⟨fun ⟨hQ, h𝔓Q, hJQ⟩ => hfib Q hQ h𝔓Q hJQ, ?_⟩
     rintro rfl
     refine ⟨?_, ?_, Ideal.map_mono hJ⟩ <;> rw [hmax]
@@ -213,12 +213,12 @@ theorem eq_maximalIdeal_of_comap {P : Ideal (X.presheaf.stalk y)} [P.IsPrime]
     P = maximalIdeal (X.presheaf.stalk y) := by
   let := (X.presheaf.germ U y hy).hom.toAlgebra
   have := hU.isLocalization_stalk ⟨y, hy⟩
-  rw [← IsLocalization.map_comap (hU.primeIdealOf ⟨y, hy⟩).asIdeal.primeCompl
-    (X.presheaf.stalk y) P, ← IsLocalization.map_comap
+  rw [← IsLocalization.map_under (hU.primeIdealOf ⟨y, hy⟩).asIdeal.primeCompl
+    (X.presheaf.stalk y) P, ← IsLocalization.map_under
     (hU.primeIdealOf ⟨y, hy⟩).asIdeal.primeCompl (X.presheaf.stalk y)
     (maximalIdeal (X.presheaf.stalk y))]
   congr 1
-  show P.comap (algebraMap _ _) = (maximalIdeal (X.presheaf.stalk y)).comap (algebraMap _ _)
+  change P.comap (algebraMap _ _) = (maximalIdeal (X.presheaf.stalk y)).comap (algebraMap _ _)
   rw [show P.comap (algebraMap _ _) = _ from hP]
   exact (IsLocalization.AtPrime.under_maximalIdeal (X.presheaf.stalk y)
     (hU.primeIdealOf ⟨y, hy⟩).asIdeal).symm
@@ -300,7 +300,7 @@ theorem mem_germSpan_iff (n : ℕ) (W : Submodule Γ(X, U) ((sectionsTower F U).
         (hU.primeIdealOf ⟨y, hy⟩).isPrime.mul_notMem s.2 hc, ?_⟩
       rw [sectionGerm_smul, ← hcw, smul_smul, smul_smul]
       congr 1
-      show algebraMap _ _ ((s : Γ(X, U)) * c) * b = algebraMap _ _ r * algebraMap _ _ c
+      change algebraMap _ _ ((s : Γ(X, U)) * c) * b = algebraMap _ _ r * algebraMap _ _ c
       rw [map_mul, mul_assoc, mul_comm (algebraMap _ _ c), ← mul_assoc, mul_comm _ b, hrs]
   · rintro ⟨w, hw, c, hc, hcw⟩
     refine mem_germSpan_of_germ_smul_mem F hU hy hc ?_
@@ -321,7 +321,7 @@ theorem exists_smul_mem_of_sectionGerm_mem_germSpan (n : ℕ)
   rw [mul_smul, hcc']
   exact W.smul_mem _ hw
 
-omit [IsLocallyNoetherian X] in
+omit hU [IsLocallyNoetherian X] in
 /-- If a transition map of the system takes `W` into `W'`, then the induced map of stalks takes
 the germ span of `W` into the germ span of `W'`. -/
 theorem stalkMap_germSpan_le {m n : ℕ} (h : m ≤ n)
@@ -381,7 +381,7 @@ private theorem formalFiltration_germSpanFiltration
   · refine sup_le (fun p hp => ?_) (h0 k)
     rw [mem_germSpanFiltration] at hp
     rw [mem_germSpanFiltration, ← completedStalkProj_transition F y (Nat.le_succ k) p]
-    exact stalkMap_germSpan_le F hU hy (Nat.le_succ k) (Λ (k + 1)) (Λ k) (hΛmap k).le
+    exact stalkMap_germSpan_le F hy (Nat.le_succ k) (Λ (k + 1)) (Λ k) (hΛmap k).le
       (Submodule.mem_map_of_mem hp)
 
 /-- If a fixed power of `ℐ(U)` kills a system of submodules of sections, a fixed power of `ℐ_y`

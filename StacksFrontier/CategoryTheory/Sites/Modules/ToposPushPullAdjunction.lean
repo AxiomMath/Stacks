@@ -16,8 +16,3 @@ so nothing is reproved here.
 
 * [Stacks Project, Tag 03D3](https://stacks.math.columbia.edu/tag/03D3)
 -/
-
-@[expose] public section
-
-add_to_stacks 03D3 "inverse image left adjoint to direct image"
-  Stacks.Sheaves.RingedToposModules.inverseImageAdjDirectImageModules

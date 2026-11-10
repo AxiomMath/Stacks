@@ -78,7 +78,7 @@ theorem ker_normalConeToDeformationAlgebraHom_app (W : i.coborderRange.toScheme.
     erw [← hc, map_mul]
     rfl
   · rw [Ideal.span_le, Set.singleton_subset_iff]
-    show ((normalConeToDeformationAlgebraHom i).right.hom.app (op W.1)).hom
+    change ((normalConeToDeformationAlgebraHom i).right.hom.app (op W.1)).hom
       (paramSection i W.1) = 0
     rw [hdecomp]
     have : (e₁.inv.right.hom.app (op W.1)).hom (paramSection i W.1) =

@@ -195,7 +195,7 @@ lemma compositionPairing_tmul
   let : Module.Flat F.middle B := finiteOpenFactorization_flat F
   intro K
   let K₀ := compositeFiniteOpenFactorization F G
-  show algebraMap B C b • dualizingModuleEquiv
+  change algebraMap B C b • dualizingModuleEquiv
     (restrictBaseFactorization (A := A) K₀) H
     (traceAfterOpenBaseChange (isEpi_of_finiteOpenFactorization F) K₀ G f m) = _
   rw [traceAfterOpenBaseChange_naturality (isEpi_of_finiteOpenFactorization F) K₀ K G f m,
@@ -221,7 +221,6 @@ lemma compositionPairing_naturality_right
   let : Module.Flat F.middle B := finiteOpenFactorization_flat F
   let K := compositeFiniteOpenFactorization F G
   induction m using dualizingModule.induction_on F with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
   | add m n hm hn => simp only [map_add, LinearMap.add_apply, hm, hn]
   | tmul f b =>
     rw [compositionPairing_tmul F G' H f b _ K, compositionPairing_tmul F G H f b n K]
@@ -263,7 +262,7 @@ lemma compositionPairing_naturality_left_of_injective
   let : IsScalarTower A S C := isScalarTower_of_algebraMap_comp rfl
   let : IsScalarTower R S C := IsScalarTower.of_algebraMap_eq' (by
     ext t
-    show algebraMap B C (algebraMap R B t) = algebraMap B C (algebraMap S B (r t))
+    change algebraMap B C (algebraMap R B t) = algebraMap B C (algebraMap S B (r t))
     rw [hr])
   let : Module.Finite R S := Module.Finite.of_restrictScalars_finite A R S
   let : IsNoetherianRing R := IsNoetherianRing.of_finite A R
@@ -277,12 +276,10 @@ lemma compositionPairing_naturality_left_of_injective
   let : IsScalarTower R S K.middle := IsScalarTower.of_algebraMap_eq' rfl
   have hK : Function.Injective (algebraMap K.middle C) := Subtype.val_injective
   induction m using dualizingModule.induction_on F' with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
   | add m m' hm hm' => simp only [map_add, LinearMap.add_apply, hm, hm']
   | tmul f b =>
     rw [comparison_tmul_of_injective F F' hi r hr]
     induction n using openBaseChange_induction hepi KR G with
-    | hzero => simp only [map_zero]
     | hadd m n hm hn => simp only [map_add, hm, hn]
     | hsmul c n hn => simp only [map_smul, hn]
     | htmul g c =>
@@ -292,22 +289,22 @@ lemma compositionPairing_naturality_left_of_injective
         (Algebra.TensorProduct.includeRight : K.middle →ₐ[R] B ⊗[R] K.middle).toRingHom
       have hjR (a : R) : j (algebraMap R K.middle a) =
           algebraMap B G₀.middle (algebraMap R B a) := by
-        show (1 : B) ⊗ₜ[R] algebraMap R K.middle a = algebraMap R B a ⊗ₜ[R] (1 : K.middle)
+        change (1 : B) ⊗ₜ[R] algebraMap R K.middle a = algebraMap R B a ⊗ₜ[R] (1 : K.middle)
         simpa only [Algebra.smul_def, mul_one] using
           (TensorProduct.smul_tmul a (1 : B) (1 : K.middle)).symm
       have hjS (s : S) : j (algebraMap S K.middle s) =
           algebraMap B G₀.middle (algebraMap S B s) :=
         includeRight_algebraMap_of_flat_epi hepi hi s
       have hjC (t : K.middle) : algebraMap G₀.middle C (j t) = algebraMap K.middle C t := by
-        show tensorEpiLmulEquiv hepi (1 ⊗ₜ[R] algebraMap K.middle C t) = _
+        change tensorEpiLmulEquiv hepi (1 ⊗ₜ[R] algebraMap K.middle C t) = _
         rw [tensorEpiLmulEquiv_tmul, map_one, one_mul]
       have hjspan : Submodule.span B (Set.range j) = ⊤ := span_range_includeRight
       have hgR (t : K.middle) : g.baseChange B (j t) = algebraMap R B (g t) := by
-        show g.baseChange B (1 ⊗ₜ[R] t) = _
+        change g.baseChange B (1 ⊗ₜ[R] t) = _
         rw [Module.Dual.baseChange_apply_tmul, Algebra.smul_def, mul_one]
       let gS : Module.Dual S K.middle := dualMapOfFlatEpi hepi hi g
       have hgS (t : K.middle) : g.baseChange B (j t) = algebraMap S B (gS t) := by
-        show g.baseChange B (j t) = algebraMap S B (algebraMap R S (g t))
+        change g.baseChange B (j t) = algebraMap S B (algebraMap R S (g t))
         rw [← IsScalarTower.algebraMap_apply R S B]
         exact hgR t
       rw [compositionPairing_naturality_right F G₀ G H,
@@ -366,7 +363,6 @@ lemma compositionPairing_naturality_target
   let : Module.Flat F.middle B := finiteOpenFactorization_flat F
   let K := compositeFiniteOpenFactorization F G
   induction m using dualizingModule.induction_on F with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
   | add m m' hm hm' => simp only [map_add, LinearMap.add_apply, hm, hm']
   | tmul f b =>
     rw [compositionPairing_tmul F G H' f b n K,
@@ -515,7 +511,7 @@ theorem comp_of_compatible
   let : Module.Flat F.middle B := finiteOpenFactorization_flat F
   have ht : IsScalarTower F.middle H.middle C := IsScalarTower.of_algebraMap_eq' (by
     ext s
-    show algebraMap B C (algebraMap F.middle B s) =
+    change algebraMap B C (algebraMap F.middle B s) =
       algebraMap H.middle C (algebraMap F.middle H.middle s)
     rw [IsScalarTower.algebraMap_apply B G.middle C, ← hjF, hjC])
   let K : FiniteOpenFactorization.{x, w, z} F.middle C := {
@@ -531,13 +527,13 @@ theorem comp_of_compatible
   let rJH : J.middle →ₐ[A] H.middle := {
     (RingHom.id H.middle) with
     commutes' := fun a => by
-      show algebraMap F.middle H.middle (algebraMap A F.middle a) = algebraMap A H.middle a
+      change algebraMap F.middle H.middle (algebraMap A F.middle a) = algebraMap A H.middle a
       rw [← IsScalarTower.algebraMap_apply A F.middle H.middle] }
   let h : Module.Dual A H.middle := (d • f).comp (g'.restrictScalars A)
   refine ⟨h, ?_, fun t => rfl⟩
   have hin : dualizingModule.tmul F f (algebraMap F.middle B d) =
       dualizingModule.tmul F (d • f) 1 := by
-    show f ⊗ₜ[F.middle] algebraMap F.middle B d = (d • f) ⊗ₜ[F.middle] (1 : B)
+    change f ⊗ₜ[F.middle] algebraMap F.middle B d = (d • f) ⊗ₜ[F.middle] (1 : B)
     rw [TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
   rw [hin, comp_tmul_eq_compositionPairing,
     compositionPairing_tmul F G H (d • f) 1 _ K,

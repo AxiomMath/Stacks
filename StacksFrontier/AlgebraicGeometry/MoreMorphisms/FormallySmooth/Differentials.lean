@@ -86,7 +86,7 @@ theorem isLocallyProjective_relativeDifferentials {X S : Scheme.{u}} {f : X ⟶ 
       Stacks.Smooth.iSup_affineOpens_le_eq X (f ⁻¹ᵁ (V : S.Opens))).trans
         (f.iSup_preimage_eq_top (iSup_affineOpens_eq_top S))
   · rintro ⟨V, U, hUV⟩
-    show Module.Projective Γ(X, (U : X.Opens))
+    change Module.Projective Γ(X, (U : X.Opens))
       Γ(Scheme.Hom.relativeDifferentials f, (U : X.Opens))
     let _ : IsAffine (U : X.Opens) := U.2
     let _ : IsAffine (V : S.Opens) := V.2

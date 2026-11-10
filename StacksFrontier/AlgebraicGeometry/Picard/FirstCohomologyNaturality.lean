@@ -88,7 +88,7 @@ private theorem top_eq_iSup_preimage (hUi : (⊤ : Opens X) = ⨆ i, Ui i) :
     (⊤ : Opens X') = ⨆ i, (Opens.map f).obj (Ui i) := by
   refine Opens.ext ?_
   rw [Opens.coe_iSup]
-  show Set.univ = ⋃ i, f ⁻¹' (Ui i : Set X)
+  change Set.univ = ⋃ i, f ⁻¹' (Ui i : Set X)
   rw [← Set.preimage_iUnion, ← Opens.coe_iSup, ← hUi]
   rfl
 
@@ -128,7 +128,7 @@ theorem cochainPullback_cechD (hle : ∀ i, Vi i ≤ (Opens.map f).obj (Ui i))
       cochainPullback f Ui Vi hle A (p + 1)
         (CechCochains.cechD Ui ((abelianPushforward.{u, u} f).obj A).obj p c) := by
   funext i
-  show (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
         CechCochains.restr A.presheaf (CechCochains.inter_le_omit Vi i j)
           (CechCochains.restr A.presheaf (inter_le_preimage_inter f Ui Vi hle (i ∘ j.succAbove))
             (c (i ∘ j.succAbove)))) =
@@ -326,7 +326,7 @@ private theorem generatorRestrict_generatorRestrict (R : RingedSpace.{u, u})
     {U V W : Opens R} (h : V ≤ U) (k : W ≤ V) (x : GeneratorSections R L U) :
     generatorRestrict L k (generatorRestrict L h x) = generatorRestrict L (k.trans h) x :=
   Subtype.ext (by
-    show L.val.map (homOfLE k).op (L.val.map (homOfLE h).op x.val) =
+    change L.val.map (homOfLE k).op (L.val.map (homOfLE h).op x.val) =
       L.val.map (homOfLE (k.trans h)).op x.val
     rw [← PresheafOfModules.map_comp_apply]
     congr 2)
@@ -622,7 +622,7 @@ theorem h1UnitsAddEquivOfScheme_naturality {X' X : Scheme.{u}} (f : X' ⟶ X)
   refine Eq.trans ?_ (h1UnitsAddEquivPicard_naturality f
     (((Stacks.GluePicard.h1Iso (X : Type u)).app (unitsSheaf X.toRingedSpace)).hom c))
   refine congrArg (fun y => h1UnitsAddEquivPicard X' y) ?_
-  show ConcreteCategory.hom
+  change ConcreteCategory.hom
       (((Stacks.GluePicard.h1Iso (X' : Type u)).app (unitsSheaf X'.toRingedSpace)).inv ≫
         ((Stacks.GluePicard.h1Iso (X' : Type u)).app (unitsSheaf X'.toRingedSpace)).hom) _ = _
   rw [CategoryTheory.Iso.inv_hom_id]

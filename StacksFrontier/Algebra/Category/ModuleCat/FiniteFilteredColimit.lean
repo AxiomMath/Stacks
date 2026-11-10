@@ -103,9 +103,9 @@ theorem exists_stage {ι : Type*} [Finite ι] (z : ι → c.pt) :
       else F.map (IsFiltered.leftToMax k₁ k₀) (y₁ s), fun s hs => ?_⟩
     by_cases hsa : s = a
     · subst hsa
-      simp only [if_true]
+      simp only [ite_true]
       rwa [cocone_map_apply F c]
-    · simp only [hsa, if_false]
+    · simp only [hsa, ite_false]
       rw [cocone_map_apply F c, hy₁ s ((Finset.mem_insert.mp hs).resolve_left hsa)]
 
 include hc in

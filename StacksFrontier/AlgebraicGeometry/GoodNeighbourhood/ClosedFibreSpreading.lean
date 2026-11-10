@@ -127,7 +127,7 @@ theorem irreducibleSpace_fiber_genericPoint_of_isOpenImmersion {T Xt U Z : Schem
         rw [← Set.mem_compl_iff, ← hZ] at hpj
         obtain ⟨z, hz⟩ := hpj
         refine ⟨z, ?_, hz⟩
-        show π (i z) = η
+        change π (i z) = η
         rw [hz]
         exact p.2
       have hWd : DiscreteTopology W := by
@@ -148,7 +148,7 @@ theorem irreducibleSpace_fiber_genericPoint_of_isOpenImmersion {T Xt U Z : Schem
           rintro S rfl hyS
           rfl
         have hS : π.base ⁻¹' {π y} = P := by
-          show π.base ⁻¹' {π y} = π.base ⁻¹' {η}
+          change π.base ⁻¹' {π y} = π.base ⁻¹' {η}
           rw [show π y = η from hy]
         rw [← key _ hS (by simp)]
         rw [← h]
@@ -365,7 +365,7 @@ theorem exists_elementaryFibrationNeighbourhood_of_closedFibre (k : Type u) [Fie
     inferInstance, inferInstance, ?_⟩
   · have hv : (⟨x, hx⟩ : V.toScheme) ∈ Set.range e.base := by
       rw [hrange]
-      show π (j ⟨x, hx⟩) ∈ (S₀ : Set T)
+      change π (j ⟨x, hx⟩) ∈ (S₀ : Set T)
       exact hsS₀
     obtain ⟨u₀, hu₀⟩ := hv
     exact ⟨u₀, by rw [Scheme.Hom.comp_apply, hu₀]; rfl⟩

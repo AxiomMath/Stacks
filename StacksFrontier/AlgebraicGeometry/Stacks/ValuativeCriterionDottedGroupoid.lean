@@ -51,7 +51,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- Products of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
 times out under Lean v4.35.0. -/
-local instance (priority := high) hasLimitsOfShape_discrete_presheaf_ValuativeCriterionDottedGroupoid
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_ValuativeCriterionDottedGroupoid
     (J : Type) : Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
   Limits.functorCategoryHasLimitsOfShape
 
@@ -97,7 +98,7 @@ theorem exists_section_of_isClosedImmersion_of_isDominant
     hp.property_snd (𝟙 (yoneda.obj U))
   have hs' : yonedaEquiv.symm s ≫ p = yoneda.map j ≫ 𝟙 _ := by
     apply yonedaEquiv.injective
-    show p.app (.op V) (F.map (𝟙 V).op s) = (𝟙 V) ≫ j
+    change p.app (.op V) (F.map (𝟙 V).op s) = (𝟙 V) ≫ j
     simpa using hs
   let l := hp.rep.lift (yonedaEquiv.symm s) j hs'
   have hl : l ≫ i = j := hp.rep.lift_snd _ _ _
@@ -270,7 +271,7 @@ theorem eq_id_of_isClosedImmersion_relativeInertiaNeutralSection (f : 𝒳 ⟶ �
     f.hom.toFunctor y hy F e
   have hs : Nonempty (F.obj (.op (Over.mk j.left))) := by
     apply (key _).2
-    show θ.hom.app (J.obj (Over.mk j.left)) = 𝟙 _
+    change θ.hom.app (J.obj (Over.mk j.left)) = 𝟙 _
     exact natTrans_app_eq_id_of_iso θ.hom.toNatTrans
       ((Over.iteratedSliceEquiv U).unitIso.app (Over.mk j)) hj
   obtain ⟨s⟩ := hs
@@ -326,7 +327,7 @@ theorem isSetoidCategory_dottedArrow_of_isSeparated_relativeDiagonal (f : 𝒳 �
   have hgen : IsDominant
       (Spec.map (CommRingCat.ofHom (algebraMap D.R (FractionRing D.R)))) := by
     rw [isDominant_iff]
-    show DenseRange (PrimeSpectrum.comap (algebraMap D.R (FractionRing D.R)))
+    change DenseRange (PrimeSpectrum.comap (algebraMap D.R (FractionRing D.R)))
     exact (PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical _).2
       (((RingHom.injective_iff_ker_eq_bot _).mp
         (IsFractionRing.injective D.R (FractionRing D.R))).le.trans bot_le)
@@ -340,7 +341,7 @@ theorem isSetoidCategory_dottedArrow_of_isSeparated_relativeDiagonal (f : 𝒳 �
         (relativeDiagonalAlgebraicStacks B S hS f))
   refine ⟨fun _ => inferInstance, fun a θ => ?_⟩
   apply CategoryTheory.DottedArrow.Hom.ext
-  show θ.θ = 𝟙 a.a
+  change θ.θ = 𝟙 a.a
   have hβiso : IsIso a.β := (CatFiberedInGroupoids.homGroupoid _ _).all_isIso a.β
   have hαiso : IsIso a.α := (CatFiberedInGroupoids.homGroupoid _ _).all_isIso a.α
   have hβ : θ.θ ▷ f.hom = 𝟙 (a.a ≫ f.hom) := by

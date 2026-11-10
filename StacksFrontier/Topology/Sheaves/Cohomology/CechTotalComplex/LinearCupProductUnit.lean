@@ -73,7 +73,7 @@ theorem rightUnitInv_rightUnitMap (M : ModuleCat.{u} R) :
 theorem rightUnitInv_tensorModulesMap {M N : ModuleCat.{u} R} (f : M ⟶ N) :
     rightUnitInv M ≫ tensorModulesMap R f (𝟙 (ModuleCat.of R R)) = f ≫ rightUnitInv N := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show TensorProduct.map f.hom LinearMap.id ((TensorProduct.rid R M).symm x) =
+  change TensorProduct.map f.hom LinearMap.id ((TensorProduct.rid R M).symm x) =
     (TensorProduct.rid R N).symm (f x)
   rw [TensorProduct.rid_symm_apply, TensorProduct.rid_symm_apply, TensorProduct.map_tmul]
   rfl
@@ -82,7 +82,7 @@ theorem rightUnitInv_tensorModulesMap {M N : ModuleCat.{u} R} (f : M ⟶ N) :
 theorem tensorModulesMap_rightUnitMap {M N : ModuleCat.{u} R} (f : M ⟶ N) :
     tensorModulesMap R f (𝟙 (ModuleCat.of R R)) ≫ rightUnitMap N = rightUnitMap M ≫ f := by
   refine ModuleCat.hom_ext (TensorProduct.ext' fun x r => ?_)
-  show (rightUnitMap N).hom (f x ⊗ₜ r) = f ((rightUnitMap M).hom (x ⊗ₜ r))
+  change (rightUnitMap N).hom (f x ⊗ₜ r) = f ((rightUnitMap M).hom (x ⊗ₜ r))
   rw [rightUnitMap_tmul, rightUnitMap_tmul, map_smul]
 
 end Unit
@@ -101,13 +101,13 @@ theorem isIso_ιTotal_of_isZero (B : HomologicalComplex₂ A (up ℤ) (up ℤ))
       obtain rfl := hq
       obtain rfl : p = n := by simpa using h
       rfl) else 0), ?_, ?_⟩
-  · rw [HomologicalComplex₂.ι_totalDesc, dif_pos rfl, eqToHom_refl]
+  · rw [HomologicalComplex₂.ι_totalDesc, dite_eq_left rfl, eqToHom_refl]
   · refine HomologicalComplex₂.total.hom_ext (up ℤ) (fun p q h => ?_)
     rw [HomologicalComplex₂.ι_totalDesc_assoc, Category.comp_id]
     by_cases hq : q = 0
     · subst hq
       obtain rfl : p = n := by simpa using h
-      rw [dif_pos rfl, eqToHom_refl, Category.id_comp]
+      rw [dite_eq_left rfl, eqToHom_refl, Category.id_comp]
     · exact (hB p q hq).eq_of_src _ _
 
 end Total

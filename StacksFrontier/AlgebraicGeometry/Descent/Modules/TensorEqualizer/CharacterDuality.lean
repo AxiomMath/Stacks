@@ -55,12 +55,12 @@ public theorem exact_of_characterModule_dual_exact
       have hqf : q.comp f = 0 := by
         ext y
         exact (Submodule.Quotient.mk_eq_zero _).mpr ⟨y, rfl⟩
-      show (CharacterModule.dual f ∘ₗ CharacterModule.dual q) χ = 0
+      change (CharacterModule.dual f ∘ₗ CharacterModule.dual q) χ = 0
       rw [← CharacterModule.dual_comp f q, hqf, CharacterModule.dual_zero, LinearMap.zero_apply]
     obtain ⟨φ, hφ⟩ : ψ ∈ LinearMap.range (CharacterModule.dual g) := by
       rwa [← h.linearMap_ker_eq, LinearMap.mem_ker]
     have hev := congrArg (fun c : CharacterModule N => c x) hφ
-    show χ (q x) = 0
+    change χ (q x) = 0
     change φ (g x) = χ (q x) at hev
     rw [hx, map_zero] at hev
     exact hev.symm
@@ -89,7 +89,7 @@ public theorem function_exact_of_splitCoequalizer
       h.leftSection_top
     have hx0 : π x = 0 := (LinearMap.mem_ker.mp hx)
     refine ⟨h.leftSection.hom x, ?_⟩
-    show g (h.leftSection.hom x) - f (h.leftSection.hom x) = x
+    change g (h.leftSection.hom x) - f (h.leftSection.hom x) = x
     change g (h.leftSection.hom x) = x at hleft
     change f (h.leftSection.hom x) = h.rightSection.hom (π x) at htop
     rw [hleft, htop, hx0, map_zero, sub_zero]
@@ -365,13 +365,9 @@ theorem functorialCharacterModuleSection_dual_lTensor_any
   refine LinearMap.ext fun χ => ?_
   apply CharacterModule.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      show ((_root_.functorialCharacterModuleSection
-        (CharacterModule.dual f) A) χ) 0 = χ ((LinearMap.lTensor A f) 0)
-      simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
-      show ((_root_.functorialCharacterModuleSection
+      change ((_root_.functorialCharacterModuleSection
         (CharacterModule.dual f) A) χ) (z + z') =
         χ ((LinearMap.lTensor A f) (z + z'))
       rw [map_add, hz, hz', map_add, map_add]

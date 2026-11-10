@@ -177,7 +177,7 @@ private noncomputable instance exModule : Module (MvPolynomial (Fin 3) ℚ) Ex :
   Module.compHom Ex ((Subring.subtype ExAlg).comp exAlgAction)
 
 private theorem exX_smul (e : Ex) : (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • e = opX e := by
-  show ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 0))) e = _
+  change ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 0))) e = _
   simp [exAlgAction]
 
 private theorem opXBasis_injective : Function.Injective opXBasis := by
@@ -198,11 +198,11 @@ private theorem opXBasis_injective : Function.Injective opXBasis := by
       subst n; subst j; rfl
 
 private theorem opX_injective : Function.Injective opX := by
-  show Function.Injective (Finsupp.mapDomain opXBasis)
+  change Function.Injective (Finsupp.mapDomain opXBasis)
   exact Finsupp.mapDomain_injective opXBasis_injective
 
 private theorem exX_regular : IsSMulRegular Ex (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) := by
-  show Function.Injective (fun v : Ex => (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • v)
+  change Function.Injective (fun v : Ex => (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • v)
   intro a b hab
   change (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • a =
     (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • b at hab
@@ -210,11 +210,11 @@ private theorem exX_regular : IsSMulRegular Ex (MvPolynomial.X 0 : MvPolynomial 
   exact opX_injective hab
 
 private theorem exY_smul (e : Ex) : (MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • e = opY e := by
-  show ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 1))) e = _
+  change ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 1))) e = _
   simp [exAlgAction]
 
 private theorem exZ_smul (e : Ex) : (MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • e = opZ e := by
-  show ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 2))) e = _
+  change ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.X 2))) e = _
   simp [exAlgAction]
 
 private def qzero (j : ℤ) : ExIx := .q 0 j
@@ -250,7 +250,7 @@ private theorem proj0_eq_zero_iff_range_opX (e : Ex) :
       e ∈ LinearMap.range (LinearMap.lsmul (MvPolynomial (Fin 3) ℚ) Ex (MvPolynomial.X 0)) := by
   constructor
   · intro he
-    show ∃ v : Ex, (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • v = e
+    change ∃ v : Ex, (MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ) • v = e
     have hmap : e ∈ Set.range (Finsupp.mapDomain opXBasis) := by
       rw [Finsupp.mem_range_mapDomain_iff (f := opXBasis) opXBasis_injective]
       intro i hi
@@ -290,7 +290,7 @@ private theorem proj0_opY (e : Ex) (j : ℤ) : proj0 (opY e) (j + 1) = proj0 e j
   rw [proj0_apply, proj0_apply]
   rw [opY, Finsupp.linearCombination_apply, Finsupp.sum_apply]
   classical
-  show (∑ i ∈ e.support, e i * mapOpt opYBasis i (.q 0 (j + 1))) = e (.q 0 j)
+  change (∑ i ∈ e.support, e i * mapOpt opYBasis i (.q 0 (j + 1))) = e (.q 0 j)
   rw [Finset.sum_eq_single (.q 0 j)]
   · simp [mapOpt_opY_coeff]
   · intro i hi hne
@@ -338,7 +338,7 @@ private noncomputable def qEmbed : (ℤ →₀ ℚ) →ₗ[ℚ] Ex :=
 private theorem proj0_qEmbed (v : ℤ →₀ ℚ) : proj0 (qEmbed v) = v := by
   ext j
   rw [proj0_apply]
-  show (Finsupp.mapDomain qzero v) (.q 0 j) = v j
+  change (Finsupp.mapDomain qzero v) (.q 0 j) = v j
   simpa [qzero] using Finsupp.mapDomain_apply_of_injective qzero_injective v j
 
 private noncomputable def shiftDown : (ℤ →₀ ℚ) →ₗ[ℚ] (ℤ →₀ ℚ) :=
@@ -349,7 +349,7 @@ private theorem shiftDown_apply (v : ℤ →₀ ℚ) (j : ℤ) : shiftDown v j =
     intro a b h
     have h' := congrArg (fun t : ℤ => t + 1) h
     simpa using h'
-  show (Finsupp.mapDomain (fun k : ℤ => k - 1) v) j = v (j + 1)
+  change (Finsupp.mapDomain (fun k : ℤ => k - 1) v) j = v (j + 1)
   calc
     (Finsupp.mapDomain (fun k : ℤ => k - 1) v) j =
         (Finsupp.mapDomain (fun k : ℤ => k - 1) v) ((j + 1) - 1) := by congr 1; omega
@@ -432,14 +432,14 @@ private def p00Coeff (e : Ex) : ℚ := e p00
 
 private theorem exC_smul (r : ℚ) (e : Ex) :
     (MvPolynomial.C r : MvPolynomial (Fin 3) ℚ) • e = r • e := by
-  show ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.C r))) e = r • e
+  change ((Subring.subtype ExAlg) (exAlgAction (MvPolynomial.C r))) e = r • e
   let : Algebra ℚ ExAlg := exScalar.toAlgebra
   have hC : exAlgAction (MvPolynomial.C r) = exScalar r := by
     calc
       exAlgAction (MvPolynomial.C r) = algebraMap ℚ ExAlg r := by simp [exAlgAction]
       _ = exScalar r := by rw [RingHom.algebraMap_toAlgebra exScalar]
   rw [hC]
-  show (algebraMap ℚ (Module.End ℚ Ex) r) e = r • e
+  change (algebraMap ℚ (Module.End ℚ Ex) r) e = r • e
   exact Module.algebraMap_end_apply ℚ ℚ Ex r e
 
 private theorem opX_pBasis (i : ℤ) : opX (pBasis i) = pBasis (i + 1) := by
@@ -464,13 +464,13 @@ private theorem pBasis_pos_action_coeff (f : MvPolynomial (Fin 3) ℚ) :
   | C r =>
       intro i hi
       rw [exC_smul]
-      show r * p00Coeff (pBasis i) = 0
+      change r * p00Coeff (pBasis i) = 0
       rw [pBasis_p00Coeff i (ne_of_gt hi)]
       simp
   | add f g hf hg =>
       intro i hi
       rw [add_smul]
-      show p00Coeff (f • pBasis i) + p00Coeff (g • pBasis i) = 0
+      change p00Coeff (f • pBasis i) + p00Coeff (g • pBasis i) = 0
       rw [hf i hi, hg i hi]
       simp
   | mul_X f n hf =>
@@ -483,12 +483,12 @@ private theorem pBasis_pos_action_coeff (f : MvPolynomial (Fin 3) ℚ) :
       | succ j =>
           by_cases hj : j = 0
           · subst j
-            show p00Coeff (f • ((MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • pBasis i)) = 0
+            change p00Coeff (f • ((MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • pBasis i)) = 0
             rw [exY_smul, opY_pBasis]
             simp [p00Coeff, p00]
           · have hj2 : j = 1 := by omega
             subst j
-            show p00Coeff (f • ((MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • pBasis i)) = 0
+            change p00Coeff (f • ((MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • pBasis i)) = 0
             rw [exZ_smul, opZ_pBasis]
             simp [p00Coeff]
 
@@ -498,7 +498,7 @@ private theorem p00Coeff_smul_basis0 (f : MvPolynomial (Fin 3) ℚ) :
   | C r => rw [exC_smul]; simp [p00Coeff, p00, pBasis]
   | add f g hf hg =>
       rw [add_smul]
-      show p00Coeff (f • pBasis 0) + p00Coeff (g • pBasis 0) =
+      change p00Coeff (f • pBasis 0) + p00Coeff (g • pBasis 0) =
         f.coeff 0 + g.coeff 0
       rw [hf, hg]
   | mul_X f n hf =>
@@ -508,19 +508,19 @@ private theorem p00Coeff_smul_basis0 (f : MvPolynomial (Fin 3) ℚ) :
           rw [exX_smul, opX_pBasis]
           have hcoeff : p00Coeff (f • pBasis 1) = 0 :=
             pBasis_pos_action_coeff f 1 (by omega)
-          show p00Coeff (f • pBasis 1) = (f * MvPolynomial.X 0).coeff 0
+          change p00Coeff (f • pBasis 1) = (f * MvPolynomial.X 0).coeff 0
           rw [hcoeff]
           simp [MvPolynomial.coeff_mul]
       | succ j =>
           by_cases hj : j = 0
           · subst j
-            show p00Coeff (f • ((MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
+            change p00Coeff (f • ((MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
               (f * MvPolynomial.X 1).coeff 0
             rw [exY_smul, opY_pBasis]
             simp [p00Coeff, MvPolynomial.coeff_mul]
           · have hj2 : j = 1 := by omega
             subst j
-            show p00Coeff (f • ((MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
+            change p00Coeff (f • ((MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
               (f * MvPolynomial.X 2).coeff 0
             rw [exZ_smul, opZ_pBasis]
             simp [p00Coeff, MvPolynomial.coeff_mul]
@@ -567,7 +567,7 @@ private theorem poly_constant_action_rel (A : Type*) [CommRing A] (rs : List A) 
   | cons a rs ih =>
     apply List.Forall₂.cons
     · intro x
-      show a * x = (Polynomial.evalRingHom (0 : A) (Polynomial.C a)) • x
+      change a * x = (Polynomial.evalRingHom (0 : A) (Polynomial.C a)) • x
       simp
     · exact ih
 
@@ -679,14 +679,14 @@ private theorem ext_exact : Function.Exact extInr extFst := by
     · simp [extInr, ha0]
     · simp [extInr]
   · rintro ⟨m, rfl⟩
-    show TrivSqZeroExt.fst (TrivSqZeroExt.inr m) = 0
+    change TrivSqZeroExt.fst (TrivSqZeroExt.inr m) = 0
     exact TrivSqZeroExt.fst_inr (R := StrangeBase) (M := Ex) m
 
 private theorem extWeakRegular : IsWeaklyRegular StrangeExt
     [(MvPolynomial.X 0 : StrangeBase), MvPolynomial.X 1, MvPolynomial.X 2] := by
   have hA : IsWeaklyRegular StrangeBase
       [(MvPolynomial.X 0 : StrangeBase), MvPolynomial.X 1, MvPolynomial.X 2] := by
-    show IsWeaklyRegular StrangeBase (mvVars 3)
+    change IsWeaklyRegular StrangeBase (mvVars 3)
     exact mvPoly_vars_weakreg 3
   exact weakreg_middle_of_exact extInr extFst extInr_injective
     ext_exact extFst_surjective exWeakRegular hA
@@ -712,7 +712,7 @@ private noncomputable def augPrime : Ideal StrangeExt := RingHom.ker aug
 
 private theorem opZ_p00Coeff (e : Ex) : p00Coeff (opZ e) = 0 := by
   classical
-  show (opZ e) (.p 0 ⟨0, by omega⟩) = 0
+  change (opZ e) (.p 0 ⟨0, by omega⟩) = 0
   rw [opZ, Finsupp.linearCombination_apply]
   rw [Finsupp.sum_apply]
   apply Finset.sum_eq_zero
@@ -765,7 +765,7 @@ private theorem ext_main :
     intro a ha
     simp only [List.mem_cons, List.not_mem_nil] at ha
     rcases ha with rfl | rfl | rfl | h
-    iterate 3 (show aug _ = 0; simp [aug])
+    iterate 3 (change aug _ = 0; simp [aug])
     · contradiction
   have hreg := extSelfWeakRegular.isRegular_of_isLocalization_of_mem
     S augPrime hmem
@@ -817,7 +817,8 @@ private theorem ext_main :
         aug ((c : StrangeExt)) * aug (u.2 : StrangeExt) :=
       map_mul aug (c : StrangeExt) (u.2 : StrangeExt)
     have : aug c * aug u.2 = 0 := by
-      have hcoeffZero' : (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))).coeff 0 = 0 := by
+      have hcoeffZero' :
+          (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))).coeff 0 = 0 := by
         rw [← hconstant]
         exact hcoeffZero
       have hprod' : aug ((c : StrangeExt) * (u.2 : StrangeExt)) =

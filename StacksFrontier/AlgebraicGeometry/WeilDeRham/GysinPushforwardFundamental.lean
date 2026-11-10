@@ -73,10 +73,10 @@ theorem lciGysinMapComponent_eq_zero_of_ne {q : ℤ} (hq : q ≠ m - n) :
     have hξn : relativeDimension C.dimensionFunction sX ξ = n := by
       rw [← hXn ⟨_, hξ⟩, deltaDimension_eq_of_isGenericPoint C _ _ ξ isGenericPoint_closure]
     rw [← hξa, hdξ, hξn]
-  show (bivariantConnectedComponentEquiv C _ sX sY f hf q _ _ _).symm
+  change (bivariantConnectedComponentEquiv C _ sX sY f hf q _ _ _).symm
     (fun i => lciGysinMap C sX sY hf hlci h i q) = 0
   rw [show (fun i => lciGysinMap C sX sY hf hlci h i q) = 0 from funext fun w ↦ ?_, map_zero]
-  show (Classical.choice ((gysinMapExists_iff_nonempty f).1 h) :
+  change (Classical.choice ((gysinMapExists_iff_nonempty f).1 h) :
     SmoothFactorization f).gysinMap C sX sY hf hlci w q = 0
   rw [(hd w).1, hda w]
   exact DirectSum.of_eq_of_ne _ _ _ hq
@@ -121,7 +121,7 @@ theorem lciGysinChow_properChowPushforward_fundamentalChowClass :
         (fundamentalChowClass C (t ≫ sY) m') :=
     properChowPushforward_chowGroupCongr C rfl _ t rfl _ m' _ _ _
   rw [lciGysinChow, BivariantClass.capTargetHom_apply, BivariantClass.capTarget, e1]
-  show chowPushforwardOfIso C _ sX (pullbackIdIso f).inv _ _ (c.cap (𝟙 Y) m' _) = _
+  change chowPushforwardOfIso C _ sX (pullbackIdIso f).inv _ _ (c.cap (𝟙 Y) m' _) = _
   rw [hcap, chowPushforwardOfIso, ← properChowPushforward_comp_apply C _ _ sX h'
     (pullbackIdIso f).inv (pullback.fst f t) (by simp [h'])]
 

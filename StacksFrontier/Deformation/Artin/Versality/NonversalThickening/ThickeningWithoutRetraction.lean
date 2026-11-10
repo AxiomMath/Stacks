@@ -74,7 +74,7 @@ private theorem preimage_open_of_subsingleton
   · rw [ite_eq_left hx]
     apply top_unique
     intro y _
-    show f y ∈ W
+    change f y ∈ W
     simpa only [Subsingleton.elim y x] using hx
   · rw [ite_eq_right hx]
     apply bot_unique
@@ -126,7 +126,7 @@ private theorem no_localRetraction_of_failed_lift
   let gSite : Z ⟶ W :=
     Over.homMk (ObjectProperty.homMk gS) (by
       apply ObjectProperty.hom_ext
-      show gS ≫ W.hom.hom = Z.hom.hom
+      change gS ≫ W.hom.hom = Z.hom.hom
       have hw : V.map jW ≫ T.hom.hom = W.hom.hom :=
         congrArg (fun f => f.hom) (Over.w jW)
       have hj : V.map jT ≫ T.hom.hom = Z.hom.hom :=
@@ -478,7 +478,7 @@ private theorem nonversalThickeningKernel
       obtain ⟨b, hb⟩ := IsLocalRing.residue_surjective z
       obtain ⟨a, ha⟩ := iS.stalkMap_surjective u₀ b
       refine ⟨IsLocalRing.residue _ a, ?_⟩
-      show IsLocalRing.ResidueField.map (iS.stalkMap u₀).hom
+      change IsLocalRing.ResidueField.map (iS.stalkMap u₀).hom
         (IsLocalRing.residue _ a) = _
       rw [IsLocalRing.ResidueField.map_residue, ha, hb]
   let residueP : P.pt ⟶ CommRingCat.of k :=
@@ -510,7 +510,7 @@ private theorem nonversalThickeningKernel
   have hηker (a : P.pt) :
       (G.map η).hom (eP.hom.hom a) = 0 ↔ P.fst.hom a = 0 := by
     rw [hη]
-    show ((Spec.map P.fst).appTop ≫ W.isoSpec.hom.appTop).hom
+    change ((Spec.map P.fst).appTop ≫ W.isoSpec.hom.appTop).hom
       ((Scheme.ΓSpecIso P.pt).inv.hom a) = 0 ↔ _
     rw [CommRingCat.comp_apply]
     have : IsIso W.isoSpec.hom.appTop :=
@@ -521,7 +521,7 @@ private theorem nonversalThickeningKernel
         P.fst.hom a = 0 := by
       rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality]
       rw [CommRingCat.comp_apply]
-      show (ConcreteCategory.hom (Scheme.ΓSpecIso Γ(W, ⊤)).inv
+      change (ConcreteCategory.hom (Scheme.ΓSpecIso Γ(W, ⊤)).inv
         (P.fst.hom a) = 0) ↔ P.fst.hom a = 0
       constructor
       · intro h
@@ -700,9 +700,9 @@ public theorem exists_firstOrderThickening_without_localRetraction
   have hpush : IsPushout (Spec.map fRing) φ jS iS :=
     affineSpec_pullbackCone_isPushout φRing fRing hsmallF.2.2.2.2.1 φ hφ
   have hcommBase : φ ≫ U.hom.hom = Spec.map fRing ≫ smallBSite.hom.hom := by
-    show (aSite.left.hom ≫ U.hom.hom) =
+    change (aSite.left.hom ≫ U.hom.hom) =
       fArrow.left.hom ≫ smallBSite.hom.hom
-    show (aSite.left ≫ U.hom).hom = (fArrow.left ≫ smallBSite.hom).hom
+    change (aSite.left ≫ U.hom).hom = (fArrow.left ≫ smallBSite.hom).hom
     rw [Over.w aSite, Over.w fArrow]
   let tS : TS ⟶ S := hpush.desc smallBSite.hom.hom U.hom.hom hcommBase.symm
   have hjS : jS ≫ tS = smallBSite.hom.hom :=

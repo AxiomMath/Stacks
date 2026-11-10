@@ -78,8 +78,8 @@ theorem topologicalKrullDim_compl_le {Z : Scheme.{u}} [IrreducibleSpace Z] (d : 
     topologicalKrullDim ((V : Set Z)ᶜ : Set Z) ≤ (d : WithBot ℕ∞) := by
   have hne : ((V : Set Z)ᶜ) ≠ Set.univ := Set.compl_ne_univ.mpr hV
   have hfin : topologicalKrullDim Z < ⊤ := lt_of_le_of_lt hdim (by
-    show (((d + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) < ((⊤ : ℕ∞) : WithBot ℕ∞)
-    exact WithBot.coe_lt_coe.mpr (ENat.coe_lt_top _))
+    change (((d + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) < ((⊤ : ℕ∞) : WithBot ℕ∞)
+    exact WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top _))
   have hlt' :=
     (topologicalKrullDim_lt_of_isClosed_ne_univ V.isOpen.isClosed_compl hne hfin).trans_le hdim
   generalize topologicalKrullDim ((V : Set Z)ᶜ : Set Z) = t at hlt' ⊢

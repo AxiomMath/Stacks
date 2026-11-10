@@ -131,7 +131,7 @@ private theorem support_cartierQuotient_subset {X : Scheme.{u}} [IsLocallyNoethe
   have heq := ideal_eq_of_comap_eq Z E h ⟨V, hV⟩ hVU
   have htop : (cartierQuotient Z E).ideal ⟨V, hV⟩ = ⊤ := by
     refine (Ideal.eq_top_iff_one _).mpr ?_
-    show (1 : Γ(X, V)) ∈
+    change (1 : Γ(X, V)) ∈
       (Z.ideal ⟨V, hV⟩).colon ((E.ideal ⟨V, hV⟩ : Ideal Γ(X, V)) : Set Γ(X, V))
     rw [heq, Submodule.mem_colon]
     intro a ha

@@ -195,7 +195,7 @@ theorem etaleModuleExtensionByZeroDirectImageUnboundedIso_hom_comp_toDirectImage
       Functor.mapHomologicalComplexCompIso_inv_app_f,
       Functor.mapHomologicalComplexCompIso_hom_app_f,
       Functor.mapHomologicalComplex_map_f, NatTrans.mapHomologicalComplex_app_f, Iso.refl_inv,
-      NatTrans.id_app, Category.id_comp, εbK, Ff]
+      NatTrans.id_app, εbK, Ff]
     exact etaleModuleDirectImageExtensionByZeroIso_hom_comp_toDirectImage Λ fb i b f' sq hΛ (K.X n)
   exact unbounded_chain DerivedCategory.Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     hβ hu ((etaleModuleExtensionByZeroToDirectImageUnbounded Λ i).naturality uf)

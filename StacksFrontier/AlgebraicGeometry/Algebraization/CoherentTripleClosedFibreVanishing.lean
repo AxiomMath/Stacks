@@ -166,16 +166,16 @@ public theorem CoherentTriple.not_isAssociatedPoint_closedPoint_iff_isZero_F₀_
         (IsLocalRing.closedPoint (A ⧸ Ideal.span {f})) ↔ IsZero T.F₀ :=
   T.not_isAssociatedPoint_iff_isZero_F₀ hf hT
 
-/-- For a Noetherian local ring `A` and a regular `f` in the maximal ideal, a coherent triple
+/-- For a Noetherian local ring `A` and `f` in the maximal ideal, a coherent triple
 whose punctured-spectrum member vanishes and whose closed-fibre member has no associated point at
 the closed point of the closed fibre has Euler characteristic `0`. -/
 public theorem CoherentTriple.eulerCharacteristic_eq_zero_of_isZero_F {A : Type u} [CommRing A]
     [IsLocalRing A] [IsNoetherianRing A] {f : A} [IsLocalRing (A ⧸ Ideal.span {f})]
-    (hf : f ∈ maximalIdeal A) (hreg : IsRegular f) (T : CoherentTriple A f) (hT : IsZero T.F)
+    (hf : f ∈ maximalIdeal A) (T : CoherentTriple A f) (hT : IsZero T.F)
     (hass : ¬ Stacks.Divisors.IsAssociatedPoint T.F₀
       (IsLocalRing.closedPoint (A ⧸ Ideal.span {f}))) :
-    T.eulerCharacteristic hf hreg = 0 :=
-  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero hf hreg hT
+    T.eulerCharacteristic = 0 :=
+  CoherentTriple.eulerCharacteristic_eq_zero_of_isZero hf hT
     (T.isZero_F₀_of_isZero_F hf hT hass)
 
 end Stacks.Algebraization

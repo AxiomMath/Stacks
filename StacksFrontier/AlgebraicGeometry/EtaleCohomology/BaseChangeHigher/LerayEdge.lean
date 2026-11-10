@@ -91,10 +91,10 @@ abbrev zeroUnit {X Y : Scheme.{u}} (g : X ⟶ Y) (F : Sheaf (smallEtaleTopology 
 /-- The identification `g_* ⟶ R⁰g_*` is an isomorphism. -/
 instance isIso_zeroUnit {X Y : Scheme.{u}} (g : X ⟶ Y)
     (F : Sheaf (smallEtaleTopology X) Ab.{u + 1}) : IsIso (zeroUnit g F) := by
-  haveI : PreservesFiniteLimits (smallEtalePushforwardAb g) :=
+  have : PreservesFiniteLimits (smallEtalePushforwardAb g) :=
     have := (smallEtaleAdjunctionAb g).rightAdjoint_preservesLimits
     inferInstance
-  haveI := Stacks.RightDerivedPlus.isIso_rightDerivedZeroUnit (smallEtalePushforwardAb g) F
+  have := Stacks.RightDerivedPlus.isIso_rightDerivedZeroUnit (smallEtalePushforwardAb g) F
   infer_instance
 
 /-- The identification `g_* ⟶ R⁰g_*` is natural in the sheaf. -/

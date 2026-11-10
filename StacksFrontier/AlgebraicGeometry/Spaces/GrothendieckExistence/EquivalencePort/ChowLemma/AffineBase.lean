@@ -159,7 +159,7 @@ theorem C1573.exists_chowDatum_of_isAffine
   have : AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map j₀) :=
     inferInstanceAs (AlgebraicGeometry.IsOpenImmersion ι₀.toImage)
   have : QuasiCompact ((BigFppfOver.toScheme B S hS).map j₀) := by
-    show QuasiCompact ι₀.toImage
+    change QuasiCompact ι₀.toImage
     have : QuasiCompact (ι₀.toImage ≫ ι₀.imageι) := by
       rw [Scheme.Hom.toImage_imageι]; infer_instance
     exact QuasiCompact.of_comp _ ι₀.imageι
@@ -170,13 +170,13 @@ theorem C1573.exists_chowDatum_of_isAffine
       (projectiveSpaceOver n (B.inclusion.obj (B.obj hS)) ↘ B.inclusion.obj (B.obj hS))).1
         inferInstance
   have : CompactSpace ((BigFppfOver.toScheme B S hS).obj Z) := by
-    show CompactSpace ι₀.image
+    change CompactSpace ι₀.image
     exact (quasiCompact_iff_compactSpace pZ).1 inferInstance
   have : QuasiSeparatedSpace ((BigFppfOver.toScheme B S hS).obj Z) := by
-    show QuasiSeparatedSpace ι₀.image
+    change QuasiSeparatedSpace ι₀.image
     exact (quasiSeparated_iff_quasiSeparatedSpace pZ).1 inferInstance
   have : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj Z) := by
-    show IsLocallyNoetherian ι₀.image
+    change IsLocallyNoetherian ι₀.image
     exact LocallyOfFiniteType.isLocallyNoetherian pZ
   have : _root_.AlgebraicGeometry.IsSeparated (B.inclusion.map Z.hom) :=
     inferInstanceAs (_root_.AlgebraicGeometry.IsSeparated pZ)
@@ -211,7 +211,7 @@ theorem C1573.exists_chowDatum_of_isAffine
   have hZ₂w : B.inclusion.map Z₂.hom =
       (eZ₂.hom ≫ AlgebraicGeometry.blowUpToBase K) ≫ pZ := by
     rw [heZ₂]
-    show _ = B.inclusion.map b.left ≫ B.inclusion.map Z.hom
+    change _ = B.inclusion.map b.left ≫ B.inclusion.map Z.hom
     rw [← B.inclusion.map_comp, Over.w b]
   have hZ₂proj : IsProjectiveMorphism (B.inclusion.map Z₂.hom) := by
     rw [hZ₂w]
@@ -223,7 +223,7 @@ theorem C1573.exists_chowDatum_of_isAffine
     have hw : (BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hφs) ≫
         B.inclusion.map V.hom = (BigFppfOver.toScheme B S hS).map
           (atlasRelationSource B S hS hφs) ≫ B.inclusion.map V.hom := by
-      show B.inclusion.map (atlasRelationTarget B S hS hφs).left ≫ _ =
+      change B.inclusion.map (atlasRelationTarget B S hS hφs).left ≫ _ =
         B.inclusion.map (atlasRelationSource B S hS hφs).left ≫ _
       rw [← B.inclusion.map_comp, ← B.inclusion.map_comp, Over.w, Over.w]
     have := isClosedImmersion_toScheme_lift_of_isSeparated X f hsep φ φ _ _
@@ -262,7 +262,7 @@ theorem C1573.exists_chowDatum_of_isAffine
       (NoetherianSpace.isCompact _)⟩
   have hT₀w : B.inclusion.map T₀.hom =
       (BigFppfOver.toScheme B S hS).map o ≫ B.inclusion.map Z₂.hom := by
-    show _ = B.inclusion.map o.left ≫ _
+    change _ = B.inclusion.map o.left ≫ _
     rw [← B.inclusion.map_comp, Over.w o]
   have hZ₂H : Stacks.HProjective.IsHProjective (B.inclusion.map Z₂.hom) := ⟨m, i, hi, hiS⟩
   have hT₀qp : Stacks.HProjective.IsQuasiProjective (B.inclusion.map T₀.hom) := by
@@ -275,7 +275,7 @@ theorem C1573.exists_chowDatum_of_isAffine
   set e : T₀ ⟶ projectiveSpaceSiteObject B S hS m := BigFppfOver.homMk B S hS
     (contains_projectiveSpaceOver B S hS m) _ ((BigFppfOver.toScheme B S hS).map o ≫ i) (by
       rw [Category.assoc]
-      show _ ≫ i ≫ (projectiveSpaceOver m (B.inclusion.obj (B.obj hS)) ↘
+      change _ ≫ i ≫ (projectiveSpaceOver m (B.inclusion.obj (B.obj hS)) ↘
         B.inclusion.obj (B.obj hS)) = _
       rw [hiS, ← hT₀w])
   have hiS' : _root_.AlgebraicGeometry.IsImmersion ((BigFppfOver.toScheme B S hS).map e) :=
@@ -330,7 +330,7 @@ theorem C1573.exists_isAdmissibleBlowup_isImmersion_of_isAffine
   have := hWc
   refine ⟨U, hU, N, W, π, (BigFppfOver.toScheme B S hS).map g, hadm, hFg,
     quasiCompact_of_compactSpace _, ?_⟩
-  show B.inclusion.map g.left ≫ B.inclusion.map (projectiveSpaceSiteObject B S hS N).hom = _
+  change B.inclusion.map g.left ≫ B.inclusion.map (projectiveSpaceSiteObject B S hS N).hom = _
   rw [← B.inclusion.map_comp, Over.w g]
 
 end AlgebraicGeometry.Space

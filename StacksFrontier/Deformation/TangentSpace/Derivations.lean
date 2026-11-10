@@ -140,7 +140,7 @@ theorem tangentSpaceDerivationsLinearEquiv_apply
     congrArg₂ (@Derivation Λ S (ULift.{v} k) _ _ _ _) hSmod hΛmod
   let E := squareZeroPointsDerivationsEquivHom S A (ULift.{v} k) (RingEquiv.refl _)
     (fun _ ↦ rfl) (fun _ ↦ rfl)
-  show ((cast htype (E f)) s).down = _
+  change ((cast htype (E f)) s).down = _
   rw [cast_derivation_module_apply mS nS mΛ nΛ hSmod hΛmod (E f) s]
   exact congrArg ULift.down
     (squareZeroPointsDerivationsEquivHom_apply S A (ULift.{v} k) (RingEquiv.refl _)

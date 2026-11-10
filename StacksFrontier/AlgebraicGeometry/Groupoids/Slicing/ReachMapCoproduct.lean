@@ -117,7 +117,7 @@ theorem reachMap_mem_of_jointly_covering {P : MorphismProperty Scheme.{u}}
     exact hP i
   intro i
   have _ := hk i
-  show P (pullback.fst (pullback.fst g G.target.left) (k i) ≫
+  change P (pullback.fst (pullback.fst g G.target.left) (k i) ≫
     pullback.snd g G.target.left ≫ G.source.left)
   have hsnd : (pullbackSymmetry (pullback.fst g G.target.left) (k i) ≪≫
         pullbackRightPullbackFstIso g G.target.left (k i)).hom ≫
@@ -220,7 +220,7 @@ theorem reachMap_sigmaDesc_mem {P : MorphismProperty Scheme.{u}}
     (hP : ∀ i, P (pullback.snd (q i) G.target.left ≫ G.source.left)) :
     P (pullback.snd (Sigma.desc q) G.target.left ≫ G.source.left) :=
   reachMap_mem_of_jointly_covering G (Sigma.desc q) (fun i => Sigma.ι V i) q
-    (fun _ => inferInstance) (fun i => Sigma.ι_desc _ _) (fun x => by
+    (fun _ => inferInstance) (fun i => Sigma.ι_comp_desc _ _) (fun x => by
       obtain ⟨⟨i, y⟩, hy⟩ := (sigmaMk V).surjective x
       exact ⟨i, y, (sigmaMk_mk V i y).symm.trans hy⟩) hP
 

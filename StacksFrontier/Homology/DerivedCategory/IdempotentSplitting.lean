@@ -193,7 +193,7 @@ public theorem quasiIso_sumPieces [HasColimitsOfShape (Discrete ℤ) C]
           (piece (K := K) hα n)) k) ≫
           (HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) k).map
             (splitι (chainEnd (α k) K)) := by
-      rw [IsIso.eq_inv_comp, Sigma.ι_desc]
+      rw [IsIso.eq_inv_comp, Sigma.ι_comp_desc]
     rw [h1]
     exact IsIso.comp_isIso' inferInstance hk
   have h2 : (HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) k).map
@@ -204,7 +204,7 @@ public theorem quasiIso_sumPieces [HasColimitsOfShape (Discrete ℤ) C]
             (splitι (chainEnd (α n) K)) := by
     rw [IsIso.eq_inv_comp]
     refine Sigma.hom_ext _ _ fun n => ?_
-    rw [ι_comp_sigmaComparison_assoc, Sigma.ι_desc, ← Functor.map_comp, Sigma.ι_desc]
+    rw [ι_comp_sigmaComparison_assoc, Sigma.ι_comp_desc, ← Functor.map_comp, Sigma.ι_comp_desc]
   have h3 : IsIso ((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) k).map
       (sumPieces (K := K) hα)) := by
     rw [h2]

@@ -46,7 +46,7 @@ variable (K : Type u) [Field K]
 /-- The identity of the Galois group acts on `Spec Kˢᵉᵖ` as the identity. -/
 lemma pointAction_one : pointAction K 1 = 𝟙 (point K) := by
   apply Over.OverMorphism.ext
-  show Spec.map (CommRingCat.ofHom (RingHom.id _)) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (RingHom.id _)) = 𝟙 _
   exact Spec.map_id _
 
 /-- The action of a product `g * h` on `Spec Kˢᵉᵖ` is the composite of the action of `g` followed
@@ -54,7 +54,7 @@ by the action of `h`. -/
 lemma pointAction_mul (g h : galoisGroup K) :
     pointAction K (g * h) = pointAction K g ≫ pointAction K h := by
   apply Over.OverMorphism.ext
-  show Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp]
   rfl
 
@@ -130,7 +130,7 @@ its value at `φ`. -/
 lemma eval_smul {V : (base K).ProEt} (s : Γ(V.left, ⊤)) (g : galoisGroup K)
     (φ : GeomPt K V) : eval s (g • φ) = g (eval s φ) := by
   simp only [eval, ptLeft_smul, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
-  show ((Spec.map (CommRingCat.ofHom g.toRingHom)).appTop ≫
+  change ((Spec.map (CommRingCat.ofHom g.toRingHom)).appTop ≫
     (Scheme.ΓSpecIso (CommRingCat.of (SeparableClosure K))).hom) ((ptLeft φ).appTop s) = _
   rw [Scheme.ΓSpecIso_naturality]
   rfl
@@ -174,7 +174,7 @@ lemma isOpen_setOf_apply_eq (c : SeparableClosure K) (g₀ : galoisGroup K) :
       ((MulAction.stabilizer (galoisGroup K) c : Subgroup (galoisGroup K)) : Set _) := by
     ext g
     simp only [Set.mem_ofPred_eq, Set.mem_preimage, SetLike.mem_coe, MulAction.mem_stabilizer_iff]
-    show g c = g₀ c ↔ (g₀⁻¹ * g) c = c
+    change g c = g₀ c ↔ (g₀⁻¹ * g) c = c
     rw [AlgEquiv.mul_apply]
     exact (AlgEquiv.symm_apply_eq g₀).symm
   rw [this]
@@ -257,7 +257,7 @@ variable {V : (base K).ProEt} [IsAffine V.left]
 lemma evalRingHom_injective : Function.Injective (evalRingHom (K := K) (V := V)) := by
   intro φ ψ h
   apply Over.OverMorphism.ext
-  show ptLeft φ = ptLeft ψ
+  change ptLeft φ = ptLeft ψ
   apply ext_of_isAffine
   have h' : (ptLeft φ).appTop ≫ (Scheme.ΓSpecIso (CommRingCat.of (SeparableClosure K))).hom =
       (ptLeft ψ).appTop ≫ (Scheme.ΓSpecIso (CommRingCat.of (SeparableClosure K))).hom :=
@@ -356,7 +356,7 @@ lemma evalAll_mem_rootSet (φ : GeomPt K V) (s : Γ(V.left, ⊤)) :
         RingHom.congr_fun (evalRingHom_comp_structureMap φ) k }
   rw [Polynomial.mem_rootSet]
   refine ⟨minpoly.ne_zero hint, ?_⟩
-  show Polynomial.aeval (F s) (minpoly K s) = 0
+  change Polynomial.aeval (F s) (minpoly K s) = 0
   rw [Polynomial.aeval_algHom_apply, minpoly.aeval, map_zero]
 
 /-- The geometric points of an affine object of the site form a Hausdorff space. -/
@@ -500,8 +500,8 @@ theorem weaklyEtale_separableClosure : Algebra.WeaklyEtale K (SeparableClosure K
 /-- The structure morphism `Spec Kˢᵉᵖ ⟶ Spec K` is weakly étale. -/
 instance weaklyEtale_point_hom : WeaklyEtale (point K).hom :=
   (weaklyEtale_specMap_iff (CommRingCat.ofHom (algebraMap K (SeparableClosure K)))).2 (by
-    convert weaklyEtale_separableClosure K <;>
-      first | rfl | exact Algebra.algebra_ext _ _ fun _ ↦ rfl)
+    convert weaklyEtale_separableClosure K
+    exact Algebra.algebra_ext _ _ fun _ ↦ rfl)
 
 /-- The geometric point `Spec Kˢᵉᵖ` as an object of the small pro-étale site of `Spec K`. -/
 def pointObj : (base K).ProEt := Scheme.ProEt.mk (point K).hom

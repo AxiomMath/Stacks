@@ -59,12 +59,12 @@ public lemma closedSet_isClosed : IsClosed closedSet.{u} :=
 
 /-- Reduction modulo `2` sends `2` to `0`. -/
 public lemma reductionMod2_two : reductionMod2.{u} (ULift.up (2 : ℤ)) = 0 := by
-  show ((2 : ℤ) : ZMod 2) = 0
+  change ((2 : ℤ) : ZMod 2) = 0
   decide
 
 /-- The map to the rationals does not send `2` to `0`. -/
 public lemma toRationals_two : toRationals.{u} (ULift.up (2 : ℤ)) ≠ 0 := by
-  show ((2 : ℤ) : ℚ) ≠ 0
+  change ((2 : ℤ) : ℚ) ≠ 0
   norm_num
 
 /-- The prime `(2)`, a point of the witness closed subset. -/

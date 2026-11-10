@@ -64,7 +64,7 @@ theorem heq_of_coe_eq {i j : ℤ} (h : i = j) {a : 𝒜 i} {b : 𝒜 j} (hab : (
 /-- The externally graded algebra `n ↦ 𝒜 n` of the pieces of a graded algebra `𝒜`. -/
 abbrev ofGradedAlgebra : ExternallyGradedAlgebra.{v, w} F where
   piece n := 𝒜 n
-  mul i j := LinearMap.mk₂ F (fun a b ↦ ⟨a * b, SetLike.GradedMul.mul_mem a.2 b.2⟩)
+  mul _ _ := LinearMap.mk₂ F (fun a b ↦ ⟨a * b, SetLike.GradedMul.mul_mem a.2 b.2⟩)
     (fun _ _ _ ↦ Subtype.ext (add_mul _ _ _)) (fun _ _ _ ↦ Subtype.ext (smul_mul_assoc _ _ _))
     (fun _ _ _ ↦ Subtype.ext (mul_add _ _ _)) (fun _ _ _ ↦ Subtype.ext (mul_smul_comm _ _ _))
   one := ⟨1, SetLike.GradedOne.one_mem⟩

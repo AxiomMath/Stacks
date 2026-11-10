@@ -98,8 +98,7 @@ theorem sum_pairing_smul (f : M') : ∑ l, p f (e l) • β l = f := by
 include hp he hβ in
 /-- **The reconstruction formula**: every `d ∈ M ⊗ M'` is `∑ l, (contract p d (e l)) ⊗ β l`. -/
 theorem eq_sum_contract (d : M ⊗[R] M') : d = ∑ l, contract p d (e l) ⊗ₜ β l := by
-  induction d using TensorProduct.induction_on with
-  | zero => simp
+  induction d using TensorProduct.inductionOn with
   | tmul a b =>
     simp only [contract_tmul, smul_tmul, ← tmul_sum]
     rw [sum_pairing_smul hp he hβ]

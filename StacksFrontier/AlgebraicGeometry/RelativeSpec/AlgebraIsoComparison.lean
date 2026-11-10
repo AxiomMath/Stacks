@@ -145,7 +145,7 @@ public theorem isIso_homEquiv_symm_of_representableBy {C : Type*} [Category C]
     {F F' : Cᵒᵖ ⥤ Type _} {Y Y' : C} (R : F.RepresentableBy Y) (R' : F'.RepresentableBy Y')
     (α : F' ≅ F) :
     IsIso (R.homEquiv.symm (α.hom.app (op Y') (R'.homEquiv (𝟙 Y')))) := by
-  show IsIso ((R'.ofIso α).uniqueUpToIso R).hom
+  change IsIso ((R'.ofIso α).uniqueUpToIso R).hom
   infer_instance
 
 /-- The morphism of relative spectra induced by an isomorphism of algebras on one base: the

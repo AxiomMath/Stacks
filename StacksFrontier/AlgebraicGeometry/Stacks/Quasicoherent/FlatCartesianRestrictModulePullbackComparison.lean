@@ -103,7 +103,7 @@ theorem exists_restrictionPushforwardComparison_app_eq_of_flat
       (A : Over ((p ⋙ Over.forget (B.obj hS)).obj z)),
       IsIso (B.inclusion.map ((Over.post (X := z) (p ⋙ Over.forget (B.obj hS))
         ).asEquivalence.counit.app A).left) := fun z _ A => by
-    show IsIso ((Over.forget _ ⋙ B.inclusion).map _)
+    change IsIso ((Over.forget _ ⋙ B.inclusion).map _)
     infer_instance
   exact @key _ _ _ _ _ _ _ _ (hiso y _) (hiso x _) hproj hfst
 
@@ -261,7 +261,7 @@ theorem isLocallyInjective_restrictModulePullbackComparisonUnivLE_of_flatCartesi
       hφ T hT (SmallEtale.isAffine_affineImageCover_X E _ _ W'' i) _ hm hc
     rw [(P.map ((SmallEtale.affineImageCover E _ _ W'').f i ≫ g).op).hom.map_sub] at h0
     exact sub_eq_zero.1 h0
-  show P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₁ =
+  change P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₁ =
     P.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op y₂
   rw [Category.assoc, op_comp, PresheafOfModules.map_comp_apply,
     PresheafOfModules.map_comp_apply, key]
@@ -299,7 +299,7 @@ theorem isLocallySurjective_restrictModulePullbackComparisonUnivLE_of_flatCartes
     ((SmallEtale.affineImageCover E _ _ W'').f i ≫ a)
     (Q.map ((SmallEtale.affineImageCover E _ _ W'').f i ≫ g).op s')
   refine ⟨P.map j.op t, ?_⟩
-  show (restrictModulePullbackComparisonUnivLE B E h S hS p hp φ τ hτ F).app (op Z)
+  change (restrictModulePullbackComparisonUnivLE B E h S hS p hp φ τ hτ F).app (op Z)
     (P.map j.op t) = Q.map ((j ≫ (SmallEtale.affineImageCover E _ _ W'').f i) ≫ g).op s'
   rw [PresheafOfModules.naturality_apply, ht, Category.assoc]
   exact (PresheafOfModules.map_comp_apply Q

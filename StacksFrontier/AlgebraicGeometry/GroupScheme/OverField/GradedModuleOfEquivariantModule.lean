@@ -311,7 +311,7 @@ private theorem laurentCoordinate_eq (n : ℤ) :
           (Algebra.TensorProduct.includeLeftRingHom (R := ULift.{u} ℤ)
             (A := LaurentPolynomial (ULift.{u} ℤ)) (B := A))) :=
     (pullbackSpecIso_hom_fst (ULift.{u} ℤ) (LaurentPolynomial (ULift.{u} ℤ)) A).symm
-  show (fst gm.{u} (specAOver A)).left.appTop _ = _
+  change (fst gm.{u} (specAOver A)).left.appTop _ = _
   rw [hf]
   exact comp_specMap_appTop_inv _ _ _
 
@@ -342,7 +342,7 @@ private theorem action_appTop_homogeneous (i : ℤ) (a : A) (ha : a ∈ 𝒜 i) 
   rw [(gradedGmAction 𝒜).action_eq_spec_map]
   refine (comp_specMap_appTop_inv _ _ _).trans ?_
   congr 2
-  show (Algebra.TensorProduct.comm (ULift.{u} ℤ) A (LaurentPolynomial (ULift.{u} ℤ)))
+  change (Algebra.TensorProduct.comm (ULift.{u} ℤ) A (LaurentPolynomial (ULift.{u} ℤ)))
     ((gradedActionTensorMap A) ((gradedGmAction 𝒜).μ a)) = _
   rw [(gradedGmAction 𝒜).μ_homogeneous i a ha, gradedActionTensorMap_tmul_T]
   rfl

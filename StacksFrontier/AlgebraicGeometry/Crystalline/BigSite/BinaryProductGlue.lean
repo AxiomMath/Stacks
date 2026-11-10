@@ -67,7 +67,8 @@ scheme, and both sides of the identity may be checked on a basis.
 No tag attribute is placed in this file.  **This is not [Stacks, Tag 07I9]**: nothing here asserts
 that any limit exists in `CRIS(X/S)`.  What is proved is the descent statement that
 `StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/FibreProduct.lean` and
-`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/AffineSections.lean` both record as missing: the
+`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/AffineSections.lean` both record as missing:
+the
 counterpart, for `Crystalline.SchemeThickening` and
 `Crystalline.GlobalCrystallineSituation.Thickening`, of the divided power *scheme* level gluing
 `Crystalline.DividedPowerScheme.DividedPowerOpenPresentation`.  It is infrastructure for

@@ -174,8 +174,8 @@ theorem envelopeSubschemeLiftMap_genericPoint :
     (envelopeSubschemeLiftMap_fac f hcd W hW)
   change W.subschemeι.base _ = _ at h
   refine h.trans ?_
-  show f.base ((envelopeSubschemeLift f hcd W hW).subschemeι.base _) = _
-  show f.base (genericPointOf (envelopeSubschemeLift f hcd W hW)
+  change f.base ((envelopeSubschemeLift f hcd W hW).subschemeι.base _) = _
+  change f.base (genericPointOf (envelopeSubschemeLift f hcd W hW)
     (isIntegral_envelopeSubschemeLift f hcd W hW)) = _
   rw [genericPointOf_envelopeSubschemeLift, envelopePointLift_map]
   rfl

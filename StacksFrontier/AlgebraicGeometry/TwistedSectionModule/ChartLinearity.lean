@@ -213,6 +213,7 @@ section Scalar
 
 variable (L : X.Modules) [Stacks.Ample.IsInvertibleModule X L]
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- **`s · sᵐ` and `s^{m+1}` have the same image in the section ring.** The left side is a
 product of two sections, of degrees `d` and `d m`; the right side is
 `Stacks.SectionExtension.powSec` at the exponent `m + 1`, of degree `d (m + 1)`. The two degrees

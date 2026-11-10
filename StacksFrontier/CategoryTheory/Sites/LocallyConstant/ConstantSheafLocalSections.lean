@@ -67,6 +67,7 @@ attribute [local implicit_reducible] constantSheaf Functor.sheafPushforwardConti
   HomologicalComplex.homologyFunctor HomologicalComplex.homology
   ShortComplex.LeftHomologyData.map
 
+set_option linter.checkUnivs false in
 /-- The free `Λ`-module of rank `n`, as an object of the module universe `max u v w`. -/
 abbrev freeMod (Λ : Type w) [CommRing Λ] (n : ℕ) : ModuleCat.{max u v w} Λ :=
   ModuleCat.of Λ (ULift.{max u v} (Fin n →₀ Λ))
@@ -98,7 +99,7 @@ lemma covering_ofArrows_comp
   apply J.superset_covering _ (J.pullback_stable l (hg i))
   intro W t ht
   rcases ht with ⟨Z', s, _, ⟨j⟩, hs⟩
-  show Sieve.ofArrows _ _ (t ≫ l ≫ f i)
+  change Sieve.ofArrows _ _ (t ≫ l ≫ f i)
   rw [← Category.assoc, ← hs, Category.assoc]
   exact (Sieve.ofArrows _ _).downward_closed (Sieve.ofArrows_mk
     (fun p : Σ i, A i => V p.1 p.2) (fun p => g p.1 p.2 ≫ f p.1) ⟨i, j⟩) s
@@ -156,7 +157,7 @@ lemma overPullback_preservesFiniteLimits
   have : PreservesFiniteLimits
       (J.overPullback (ModuleCat.{max u v w} Λ) U ⋙
         sheafToPresheaf (J.over U) (ModuleCat.{max u v w} Λ)) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J (ModuleCat.{max u v w} Λ) ⋙
         (Functor.whiskeringLeft _ _ _).obj (Over.forget U).op)
     infer_instance
@@ -307,7 +308,7 @@ private lemma constantSheafOverIso_homEquiv
   rw [Adjunction.homEquiv_unit]
   simp only [constantSheafAdj, Adjunction.comp_unit_app,
     constantPresheafAdj_unit_app]
-  show (𝟙 M ≫ (toSheafify (J.over U)
+  change (𝟙 M ≫ (toSheafify (J.over U)
     ((Functor.const (Over U)ᵒᵖ).obj M)).app (Opposite.op (Over.mk (𝟙 U)))) ≫
     ((constantSheafOverIso J U M).hom.hom.app (Opposite.op (Over.mk (𝟙 U))) ≫
       g.hom.app (Opposite.op U)) = _
@@ -397,7 +398,7 @@ private lemma fixedConstantMap_sections_comp
   have hB : ηB.app (op V) = ηB.app (op U) ≫
       (((constantSheaf J (ModuleCat.{max u v w} Λ)).obj B).obj.map k.op) := by
     simpa [ηB, constantSheaf, presheafToSheaf, sheafify] using (ηB.naturality k.op)
-  show t ≫ ηB.app (op V) = ηA.app (op V) ≫ φ.hom.app (op V)
+  change t ≫ ηB.app (op V) = ηA.app (op V) ≫ φ.hom.app (op V)
   calc
     t ≫ ηB.app (op V) =
         (t ≫ ηB.app (op U)) ≫
@@ -594,10 +595,10 @@ private lemma exists_cover_fixed_constant_map_free
   refine ⟨I, U, f, hf, fun i => ?_⟩
   obtain ⟨t, ht⟩ := ht i
   refine ⟨t, fixedConstantMap_of_sections J (U i) φ t ?_⟩
-  show t ≫ ηB.app (op (U i)) = _
+  change t ≫ ηB.app (op (U i)) = _
   rw [ht]
   dsimp [s]
-  show ηA.app (op X) ≫ φ.hom.app (op X) ≫
+  change ηA.app (op X) ≫ φ.hom.app (op X) ≫
       (((constantSheaf J (ModuleCat.{max u v w} Λ)).obj B).obj.map (f i).op) =
     ηA.app (op (U i)) ≫ φ.hom.app (op (U i))
   rw [← φ.hom.naturality]
@@ -809,7 +810,7 @@ private lemma exists_cover_constantComplex_representation_single
   · intro n
     by_cases hn : n = b
     · subst n
-      show ModuleCat.isFG Λ (((HomologicalComplex.single _ (.up ℤ) b).obj M).X b)
+      change ModuleCat.isFG Λ (((HomologicalComplex.single _ (.up ℤ) b).obj M).X b)
       simpa only [HomologicalComplex.single_obj_X_self] using hM
     · have hzero := HomologicalComplex.isZero_single_obj_X (.up ℤ) b M n hn
       rw [ModuleCat.isFG_iff]

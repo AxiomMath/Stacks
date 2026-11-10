@@ -123,7 +123,7 @@ theorem exists_pow_smul_sub_prV_mem [IsNoetherianRing S]
   have h2 := ((D.mem_glued t.1).mp t.2).2.1 (singletonIndex i)
   rw [NilLift.mem_iff, map_sub, map_smul, show D.prV _ t = t.1.2.2 _ from rfl,
     h2, sub_eq_zero]
-  show _ = algebraMap S _ (D.prS t)
+  change _ = algebraMap S _ (D.prS t)
   rw [← hc, Algebra.smul_def, mul_comm, ← rs_singleton f i, map_pow,
     IsScalarTower.algebraMap_apply R S (Sl f S _)]
 

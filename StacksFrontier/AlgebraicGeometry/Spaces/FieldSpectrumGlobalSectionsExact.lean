@@ -188,7 +188,7 @@ theorem separableSpecAut_comp_separableSpecMap (σ : L ≃ₐ[K] L) :
     separableSpecAut B S hS K V e L σ ≫ separableSpecMap B S hS K V e L =
       separableSpecMap B S hS K V e L := by
   ext
-  show Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ separableSpecHom B S hS K V e L =
+  change Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ separableSpecHom B S hS K V e L =
     separableSpecHom B S hS K V e L
   rw [← Category.assoc, ← Spec.map_comp]
   congr 3
@@ -220,7 +220,7 @@ theorem separableChartAut_mul (σ τ : L ≃ₐ[K] L) :
   apply ObjectProperty.hom_ext
   apply CostructuredArrow.hom_ext
   ext
-  show Spec.map (CommRingCat.ofHom (σ * τ).toRingHom) =
+  change Spec.map (CommRingCat.ofHom (σ * τ).toRingHom) =
     Spec.map (CommRingCat.ofHom σ.toRingHom) ≫ Spec.map (CommRingCat.ofHom τ.toRingHom)
   rw [← Spec.map_comp]
   rfl
@@ -419,11 +419,11 @@ theorem exists_separableChart_hom_mem_range (W : SmallEtale B S hS (yoneda.obj V
   have hh : (Sigma.ι (fun i ↦ Spec (.of (Kf i))) i ≫ e'.inv) ≫ representableChartHom B S hS V W =
       separableSpecHom B S hS K V (L := Kf i) e := by
     rw [separableSpecHom, ← cancel_mono e.hom, Category.assoc, Category.assoc, Category.assoc,
-      e.inv_hom_id, Category.comp_id, ← he', Iso.inv_hom_id_assoc, Sigma.ι_desc]
+      e.inv_hom_id, Category.comp_id, ← he', Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
   refine ⟨Kf i, hK i, hAlg i, hFin i, hSep i,
     separableChartHomOfScheme (Kf i) W _ hh, y, ?_⟩
   rw [toScheme_map_separableChartHomOfScheme]
-  show e'.inv (Sigma.ι (fun i ↦ Spec (.of (Kf i))) i y) = x
+  change e'.inv (Sigma.ι (fun i ↦ Spec (.of (Kf i))) i y) = x
   rw [hy, ← Scheme.Hom.comp_apply, e'.hom_inv_id]
   rfl
 
@@ -484,7 +484,7 @@ theorem exists_map_separableChartToId_eq {P : (SmallEtale B S hS (yoneda.obj V))
     refine (hP T (mem_topology_of_forall_separableChart (e := e) T fun L' _ _ _ _ m => ?_)
       ).isSeparatedFor.ext fun Y g hg => hg
     obtain ⟨σ, hσ⟩ := exists_separableChartAut_of_isGalois (m ≫ p₁) (m ≫ p₂)
-    show P.map m.op (P.map p₁.op t) = P.map m.op (P.map p₂.op t)
+    change P.map m.op (P.map p₁.op t) = P.map m.op (P.map p₂.op t)
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
       ← op_comp, hσ, show ((m ≫ p₁) ≫ separableChartAut B S hS K V e L σ).op =
         (separableChartAut B S hS K V e L σ).op ≫ (m ≫ p₁).op from rfl,

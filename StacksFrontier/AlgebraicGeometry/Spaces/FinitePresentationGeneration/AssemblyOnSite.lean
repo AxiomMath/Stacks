@@ -139,7 +139,7 @@ theorem eq_zero_of_forall_mem_sieve (Q : SheafOfModules.{u} R) {V : C}
     (y : Q.val.obj (Opposite.op V)) {T : Sieve V} (hT : T ∈ J V)
     (h : ∀ ⦃W : C⦄ (f : W ⟶ V), T f → Q.val.map f.op y = 0) : y = 0 :=
   Q.isSheaf.isSeparated _ _ hT y 0 (fun W f hf => by
-    show Q.val.map f.op y = Q.val.map f.op 0
+    change Q.val.map f.op y = Q.val.map f.op 0
     rw [h f hf, map_zero])
 
 /-- A morphism of sheaves of modules vanishes as soon as, for every section `x` of its source,

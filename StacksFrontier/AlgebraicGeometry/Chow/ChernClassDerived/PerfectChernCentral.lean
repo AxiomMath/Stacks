@@ -545,8 +545,7 @@ theorem perfectChernCharacterComponent_mem_center
   simp only [perfectChernCharacterComponent, LinearMap.lTensor_tmul]
   rw [Subring.mem_center_iff]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [zero_mul, mul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul r a =>
     rw [Algebra.TensorProduct.tmul_mul_tmul, Algebra.TensorProduct.tmul_mul_tmul, mul_comm r,
       DirectSum.lof_eq_of, Subring.mem_center_iff.1 hP a]

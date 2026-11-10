@@ -101,7 +101,7 @@ include hψ in
 theorem localFamily_compatible {T : C} (y : Y.obj (op T)) :
     (localFamily (b := b) ψ y).Compatible := by
   intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ hcomm
-  show E.map g₁.op ((ψ _).app _ _) = E.map g₂.op ((ψ _).app _ _)
+  change E.map g₁.op ((ψ _).app _ _) = E.map g₂.op ((ψ _).app _ _)
   rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply]
   apply hψ
   rw [NatTrans.naturality_apply, NatTrans.naturality_apply, h₁.choose_spec.choose_spec,
@@ -140,7 +140,7 @@ noncomputable def glueSections : Y ⟶ E where
 /-- The glued morphism restricts to `ψ i` along `b i`. -/
 theorem comp_glueSections (i : ι) : b i ≫ glueSections ψ hψ hb hE = ψ i := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun z => ?_)
-  show glueSectionsAt ψ hψ hb hE ((b i).app T z) = (ψ i).app T z
+  change glueSectionsAt ψ hψ hb hE ((b i).app T z) = (ψ i).app T z
   refine (hE _ (hb T.unop ((b i).app T z))).isSeparatedFor.ext fun V k hk => ?_
   refine (map_glueSectionsAt ψ hψ hb hE _ hk).trans ?_
   refine (localFamily_eq ψ hψ hk i ((Yi i).map k.op z) (NatTrans.naturality_apply _ _ _)).trans ?_
@@ -307,7 +307,7 @@ theorem isUniformCategoricalModuliSpace_of_pieces (hm : ∀ i, Space.IsFlat B S 
         (Space.isFlat_comp B S hS Yij.property (Yi i).property (Mi i).property _ _ hp₁
           (hcflat i))
         (by
-          show _ = (associatedMap B S hS (p₁.hom ≫ (c i).hom)).1 ≫ _
+          change _ = (associatedMap B S hS (p₁.hom ≫ (c i).hom)).1 ≫ _
           rw [← associatedMap_comp, ← associatedMap_comp, ← associatedMap_comp, Category.assoc,
             hbc, Category.assoc]) _
         (Bicategory.isTwoFibreProduct_pasteFst P hP _
@@ -327,10 +327,10 @@ theorem isUniformCategoricalModuliSpace_of_pieces (hm : ∀ i, Space.IsFlat B S 
       discrete_whisker w.isoSnd.hom θ
     have key := eq_of_isCategoricalModuliSpace B S hS hcat ((Dij.snd ≫ (D i).snd) ≫ θ)
       (p₁ ≫ ψ i) (p₂ ≫ ψ j) ⟨eqToIso (by
-        show Dij.fst ≫ (associatedMap B S hS (p₁.hom ≫ (ψ i).hom)).1 = _
+        change Dij.fst ≫ (associatedMap B S hS (p₁.hom ≫ (ψ i).hom)).1 = _
         rw [associatedMap_comp, ← discrete_assoc, e₁, discrete_assoc, hψ i, discrete_assoc])⟩
       ⟨eqToIso (by
-        show Dij.fst ≫ (associatedMap B S hS (p₂.hom ≫ (ψ j).hom)).1 = _
+        change Dij.fst ≫ (associatedMap B S hS (p₂.hom ≫ (ψ j).hom)).1 = _
         rw [associatedMap_comp, ← discrete_assoc, w₁, discrete_assoc, hψ j]
         exact (discrete_assoc _ _ _).symm.trans w₂.symm)⟩
     exact congrArg (·.hom) key
@@ -345,16 +345,16 @@ theorem isUniformCategoricalModuliSpace_of_pieces (hm : ∀ i, Space.IsFlat B S 
   refine ⟨ObjectProperty.homMk ψg, ⟨eqToIso ?_⟩, ?_⟩
   · refine hom_ext_of_liftsLocally hE (liftsLocally_twoFibreProductSquare_snd P.fst hbl)
       fun i => ?_
-    show (D i).snd ≫ (P.fst ≫ (associatedMap B S hS ψg).1) = (D i).snd ≫ θ
+    change (D i).snd ≫ (P.fst ≫ (associatedMap B S hS ψg).1) = (D i).snd ≫ θ
     rw [← discrete_assoc, ← eD i, discrete_assoc, ← associatedMap_comp, hglue i, hψ i]
   · rintro ψ' ⟨η⟩
     have h' : P.fst ≫ (associatedMap B S hS ψ'.hom).1 = θ := hom_eq_of_hom₂ B S hS η.hom
     refine ObjectProperty.hom_ext _ (hom_ext_of_liftsSectionsLocally hbl hE fun i => ?_)
-    show (b i).hom ≫ ψ'.hom = (b i).hom ≫ ψg
+    change (b i).hom ≫ ψ'.hom = (b i).hom ≫ ψg
     rw [hglue i]
     have key := eq_of_isCategoricalModuliSpace B S hS (hDc i) ((D i).snd ≫ θ) (b i ≫ ψ') (ψ i)
       ⟨eqToIso (by
-        show (D i).fst ≫ (associatedMap B S hS ((b i).hom ≫ ψ'.hom)).1 = _
+        change (D i).fst ≫ (associatedMap B S hS ((b i).hom ≫ ψ'.hom)).1 = _
         rw [associatedMap_comp, ← discrete_assoc, eD i, discrete_assoc, h'])⟩ ⟨eqToIso (hψ i)⟩
     exact congrArg (·.hom) key
 

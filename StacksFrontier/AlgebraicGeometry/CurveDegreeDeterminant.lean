@@ -112,13 +112,15 @@ those now proves it rather than assuming it, by
    * The identification
      `⋀^{m+1}(ℱ) ⊗ ℒ ≅ ⋀^{m+2}(ℰ)` is the isomorphism clause of [Stacks, Tag 0B38]. That clause
      **is** in this library: `Stacks.SheafOfModules.TopWedge.isIso_detComparison` of
-     `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExteriorPowerShortExactIso` shows the canonical
-     comparison `Stacks.SheafOfModules.TopWedge.detComparison` is an isomorphism in the
+     `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExteriorPowerShortExactIso` shows the
+     canonical comparison `Stacks.SheafOfModules.TopWedge.detComparison` is an isomorphism in the
      constant-rank form, taking the short exact sequence and the two ranks as its only inputs; the
      general form is in
-     `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExteriorAnnihilatorShortExactIso`. So this half
+     `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExteriorAnnihilatorShortExactIso`. So this
+     half
      of `ExteriorDevissage` is now derivable, and only the short exact sequence of the first half
-     is not. (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExteriorPowerShortExact.lean`'s own note that "the assertion that the comparison is
+     is not. (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExteriorPowerShortExact.lean`'s
+     own note that "the assertion that the comparison is
      an **isomorphism** is not proved" describes that file, not the library.)
 
    So `ExteriorDevissage` is exactly the input the source's proof reads off Tags 0AYP and 0B38,

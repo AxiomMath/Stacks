@@ -159,7 +159,7 @@ theorem weaklyQuasiFiniteAt_subalgebra {R S : Type u} [CommRing R] [CommRing S]
     have hker : IsLocalRing.maximalIdeal S ≤ RingHom.ker φ := by
       intro x hx
       rw [RingHom.mem_ker]
-      show (Ideal.Quotient.mk (Ring.jacobson (S ⧸ K))) (Ideal.Quotient.mk K x) = 0
+      change (Ideal.Quotient.mk (Ring.jacobson (S ⧸ K))) (Ideal.Quotient.mk K x) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem, IsLocalRing.ringJacobson_eq_maximalIdeal]
       exact hmemMax x hx
     let ψ : IsLocalRing.ResidueField S →ₐ[R] ((S ⧸ K) ⧸ Ring.jacobson (S ⧸ K)) :=
@@ -233,7 +233,7 @@ theorem localization_finite_prime_core {R S : Type u} [CommRing R] [CommRing S]
     have h1 : C.val.toRingHom.comp (algebraMap R ↥C) = algebraMap R ↥B := by
       ext x; rfl
     rw [h1]
-    show B.val.toRingHom.comp (algebraMap R ↥B) = f
+    change B.val.toRingHom.comp (algebraMap R ↥B) = f
     have h2 : B.val.toRingHom.comp (algebraMap R ↥B) = algebraMap R S := by
       ext x; rfl
     rw [h2]; rfl

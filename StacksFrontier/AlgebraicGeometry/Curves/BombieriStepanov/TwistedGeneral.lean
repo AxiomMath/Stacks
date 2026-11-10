@@ -40,7 +40,7 @@ namespace Stacks.BombieriStepanov
 /-- A Dedekind domain of finite type over a finite field is not a field when its fraction field
 has transcendence degree one: a field would be finite over `E`, hence so would its fraction
 field, forcing transcendence degree zero. -/
-private theorem not_isField_of_trdeg_eq_one {E : Type u} [Field E] [Fintype E] {L : Type u}
+private theorem not_isField_of_trdeg_eq_one {E : Type u} [Field E] {L : Type u}
     [Field L] [Algebra E L] [Algebra.EssFiniteType E L] (htr : Algebra.trdeg E L = 1)
     {B : Type u} [CommRing B] [IsDedekindDomain B] [Algebra E B] [Algebra.FiniteType E B]
     [Algebra B L] [IsScalarTower E B L] [IsFractionRing B L] : ¬ IsField B := by
@@ -122,7 +122,7 @@ private theorem ker_ne_bot_of_range_subset_finite {B B₁ Ω : Type*} [CommRing 
 extends to a point of `B₁` over the chosen embedding `ι₁A` of the constants: lift it along the
 integral extension, then correct its restriction to the constants by an element of the group
 `Γ` of `B₁` over `B`. -/
-private theorem exists_pointsOver_comp_eq {E E₁ Ω : Type*} [Field E] [Field E₁] [Fintype E₁]
+private theorem exists_pointsOver_comp_eq {E E₁ Ω : Type*} [Field E] [Field E₁] [Finite E₁]
     [Algebra E E₁] [Field Ω] [IsAlgClosed Ω] [Algebra E Ω] {B B₁ : Type*} [CommRing B]
     [CommRing B₁] [Algebra E B] [Algebra B B₁] [Algebra.IsIntegral B B₁] [Algebra E₁ B₁]
     (Γ : Type*) [Group Γ] [MulSemiringAction Γ B₁] (G : (E₁ →ₐ[E] E₁) → Γ)
@@ -139,7 +139,7 @@ private theorem exists_pointsOver_comp_eq {E E₁ Ω : Type*} [Field E] [Field E
     { (φ'.comp (algebraMap E₁ B₁)) with
       commutes' := fun c => by
         rw [← hι]
-        show φ' (algebraMap E₁ B₁ (algebraMap E E₁ c)) = ι c
+        change φ' (algebraMap E₁ B₁ (algebraMap E E₁ c)) = ι c
         rw [hEB₁, ← RingHom.comp_apply, hφ', hφE] }
   obtain ⟨τ, hτ⟩ := exists_algEquiv_comp_eq u ι₁A
   refine ⟨⟨φ'.comp (MulSemiringAction.toRingHom Γ B₁ (G τ.toAlgHom)),
@@ -176,7 +176,7 @@ private theorem pow_eq_self_of_comp_eq {E₁ Ω : Type*} [Field E₁] [Fintype E
       refine hrangeι₁.subset ?_
       rintro _ ⟨b, rfl⟩
       refine ⟨g b, ?_⟩
-      show (ι₁.comp g) b = (ψ'.1.comp (algebraMap B B₁)) b
+      change (ι₁.comp g) b = (ψ'.1.comp (algebraMap B B₁)) b
       rw [RingHom.comp_assoc, hφ₁]
       simp only [RingHom.comp_apply, iterateFrobenius_def]
       exact (hfix _).symm)
@@ -206,7 +206,7 @@ a `σ₁`-twisted point of `B₁`: lift it as a point, then note that the lift p
 and the lift followed by the `Q`-power Frobenius are two points of `B₁` with the same restriction
 to `B`, hence equal. -/
 private theorem exists_pointsOver_comp_eq_twisted {E E₁ Ω : Type*} [Field E] [Field E₁]
-    [Fintype E₁] [Algebra E E₁] [Field Ω] {B B₁ : Type*} [CommRing B] [IsDedekindDomain B]
+    [Algebra E E₁] [Field Ω] {B B₁ : Type*} [CommRing B] [IsDedekindDomain B]
     [CommRing B₁] [Algebra E B] [Algebra B B₁] [Algebra E₁ B₁] {pr : ℕ} [Fact pr.Prime]
     [CharP Ω pr] (ι : E →+* Ω) (ι₁ : E₁ →+* Ω) (σ : B ≃+* B) {N : ℕ}
     (hN : ∀ b, (⇑σ)^[N] b = b) (σ₁B : B₁ ≃+* B₁)
@@ -257,7 +257,7 @@ of finite order of a Dedekind domain `B` of finite type over a finite field `E`,
 with `B` of transcendence degree one, the `σ`-twisted points `φ : B → Ω` number at most
 `Q + (2γ + 1) √Q` for `Q = p ^ (2e)` beyond a bound and along a progression. No maximal ideal of
 `B` with residue field `E` is assumed. -/
-theorem exists_ncard_twisted_le_of_isIntegral {E : Type u} [Field E] [Fintype E] (pr : ℕ)
+theorem exists_ncard_twisted_le_of_isIntegral {E : Type u} [Field E] [Finite E] (pr : ℕ)
     [Fact pr.Prime] [CharP E pr] {L : Type u} [Field L] [Algebra E L] [Algebra.EssFiniteType E L]
     (htr : Algebra.trdeg E L = 1)
     (hEint : ∀ c : L, IsIntegral E c → c ∈ (algebraMap E L).range)
@@ -345,7 +345,7 @@ theorem exists_ncard_twisted_le_of_isIntegral {E : Type u} [Field E] [Fintype E]
   have : Algebra.IsInvariant B B₁ Γ := IsGaloisGroup.isInvariant
   have hΓB : ∀ (g : Γ) (b : B), g • algebraMap B B₁ b = algebraMap B B₁ b := fun g b =>
     Subtype.ext (by
-      show g (algebraMap B L₁ b) = algebraMap B L₁ b
+      change g (algebraMap B L₁ b) = algebraMap B L₁ b
       rw [IsScalarTower.algebraMap_apply B L L₁, AlgEquiv.commutes])
   have hΓE : ∀ (τ : (B ⧸ P₀) →ₐ[E] (B ⧸ P₀)) (c : B ⧸ P₀),
       galoisOfAut (L := L) pb τ • algebraMap (B ⧸ P₀) B₁ c = algebraMap (B ⧸ P₀) B₁ (τ c) :=
@@ -355,7 +355,7 @@ theorem exists_ncard_twisted_le_of_isIntegral {E : Type u} [Field E] [Fintype E]
     eq_one_of_forall_constJ pb g (fun c => congrArg Subtype.val (hg c))
   have hEB₁ : ∀ c : E, algebraMap (B ⧸ P₀) B₁ (algebraMap E (B ⧸ P₀) c) =
       algebraMap B B₁ (algebraMap E B c) := fun c => Subtype.ext (by
-    show constJ pb (algebraMap E (B ⧸ P₀) c) = algebraMap B L₁ (algebraMap E B c)
+    change constJ pb (algebraMap E (B ⧸ P₀) c) = algebraMap B L₁ (algebraMap E B c)
     rw [AlgHom.commutes, IsScalarTower.algebraMap_apply B L L₁,
       ← IsScalarTower.algebraMap_apply E B L, ← IsScalarTower.algebraMap_apply E L L₁])
   have hinjB : Function.Injective (algebraMap B B₁) := by

@@ -121,7 +121,7 @@ theorem isHomLift_restrictObject {U Z : BigFppfOver B S hS} (x y : (complexesFun
           restrictObject x y j hj ⟶ y.1) := by
   obtain ⟨y, rfl⟩ := y
   refine IsHomLift.of_fac _ _ _ rfl rfl ?_
-  show j = 𝟙 _ ≫ (j ≫ eqToHom rfl)
+  change j = 𝟙 _ ≫ (j ≫ eqToHom rfl)
   simp
 
 /-- The isomorphism in the fibre over `Z` between the chosen pullback of `y` along `j` and the

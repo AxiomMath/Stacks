@@ -117,7 +117,7 @@ theorem exists_isLimit_finitePresentation (B : BigFppfSite.{u}) (S : Scheme.{u})
     exists_quasiCompact_openSubspace_factor B (⊤_ Scheme.{u}) hZ hXZ hYZ hXZqc (L.map f)
   have hVqs : IsAbsolutelyQuasiSeparated B (⊤_ Scheme.{u}) hZ hZ V.toFunctor :=
     isAbsolutelyQuasiSeparated_of_mono _ _ _ _ hV.1 V.ι inferInstance hYZqs
-  exact exists_isLimit_finitePresentation_of_hasRelativeApproximation B S hS f hX hY hYqs V hV
+  exact exists_isLimit_finitePresentation_of_hasRelativeApproximation B S hS f hY hYqs V hV
     hVqc fV hfV (hasRelativeApproximation_of_isQuasiCompactSpace B hZ fV hXZ hV.1 hXZqc hVqc
       hXZqs hVqs)
 

@@ -89,7 +89,7 @@ public theorem CategoryTheory.surjective_comp_of_iso {C : Type*} [Category C] {E
   obtain ⟨f, hf⟩ := h (g ≫ e.hom)
   have hf' : ξ ≫ f = g ≫ e.hom := hf
   refine ⟨f ≫ e.inv, ?_⟩
-  show ξ ≫ f ≫ e.inv = g
+  change ξ ≫ f ≫ e.inv = g
   rw [← Category.assoc, hf', Category.assoc, e.hom_inv_id, Category.comp_id]
 
 namespace Deformation.Artin
@@ -363,7 +363,7 @@ public theorem injective_derivedTensorFibre_zero_of_isVersalAt [Mono baseMap]
           ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj
             (ModuleCat.of A u₀.asIdeal.ResidueField))).map ξ)) := by
   have hxS : (p ⋙ Over.post B.inclusion).obj x = Over.mk toS := by
-    show (Over.post B.inclusion).obj (p.obj x) = _
+    change (Over.post B.inclusion).obj (p.obj x) = _
     rw [hx]
     rfl
   exact injective_derivedTensorFibre_zero_of_liftsAtResiduePoint

@@ -72,9 +72,7 @@ variable {A C D : AlgebraicSpaces B S hS}
 étale representable morphisms, the strict composition of étale restrictions. -/
 theorem pullbackModulesCompIso_inv_comp_isoEtaleModulePullback
     (h : D ⟶ A) (g : A ⟶ C) (hh : IsEtale B S hS h.hom) (hg : IsEtale B S hS g.hom)
-    (hhg : IsEtale B S hS (h ≫ g).hom)
-    (hreph : yoneda.relativelyRepresentable h.hom) (hrepg : yoneda.relativelyRepresentable g.hom)
-    (hrephg : yoneda.relativelyRepresentable (h ≫ g).hom) :
+    (hhg : IsEtale B S hS (h ≫ g).hom) :
     ((RingedToposHom.pullbackModulesCompIso (X := smallEtaleRingedTopos B S hS D)
         (Y := smallEtaleRingedTopos B S hS A) (Z := smallEtaleRingedTopos B S hS C)
         (smallEtaleRingedToposHom B S hS h) (smallEtaleRingedToposHom B S hS g)).symm ≪≫
@@ -92,8 +90,7 @@ theorem pullbackModulesCompIso_inv_comp_isoEtaleModulePullback
           (etaleModulePullbackComp B S hS h g hh hg hhg).hom :=
   Stacks.CategoryTheory.comp_trans_hom_eq_of_comp_hom_eq _ _ _ _ _ _ _ _ _
     (pullbackModulesCompIso_inv_comp_pullbackModulesIsoModulePullback h g)
-    (modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h g hh hg hhg
-      hreph hrepg hrephg)
+    (modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h g hh hg hhg)
 
 /-- Étale restriction of modules is additive and preserves finite limits and colimits. -/
 private theorem etaleModulePullback_additive_and_preserves_finite (f : X ⟶ Y)
@@ -111,9 +108,7 @@ isomorphism `D(g^*) ⋙ D(h^*) ≅ D((h ≫ g)^*)` induced by the strict composi
 restrictions. -/
 theorem smallEtaleDerivedModulePullbackCompIso_hom_comp_isoEtale
     (h : D ⟶ A) (g : A ⟶ C) (hh : IsEtale B S hS h.hom) (hg : IsEtale B S hS g.hom)
-    (hhg : IsEtale B S hS (h ≫ g).hom)
-    (hreph : yoneda.relativelyRepresentable h.hom) (hrepg : yoneda.relativelyRepresentable g.hom)
-    (hrephg : yoneda.relativelyRepresentable (h ≫ g).hom) :
+    (hhg : IsEtale B S hS (h ≫ g).hom) :
     (smallEtaleDerivedModulePullbackCompIso B S hS h g).hom ≫
         (smallEtaleDerivedModulePullbackIsoEtale B S hS (h ≫ g) hhg).hom =
       Functor.whiskerRight (smallEtaleDerivedModulePullbackIsoEtale B S hS g hg).hom
@@ -151,7 +146,7 @@ theorem smallEtaleDerivedModulePullbackCompIso_hom_comp_isoEtale
     (pullbackModulesIsoModulePullback B S hS (h ≫ g) ≪≫
       modulePullbackIsoEtaleModulePullback B S hS (h ≫ g) hhg)
     (etaleModulePullbackComp B S hS h g hh hg hhg)
-    (pullbackModulesCompIso_inv_comp_isoEtaleModulePullback h g hh hg hhg hreph hrepg hrephg)
+    (pullbackModulesCompIso_inv_comp_isoEtaleModulePullback h g hh hg hhg)
 
 end AlgebraicGeometry.Space
 

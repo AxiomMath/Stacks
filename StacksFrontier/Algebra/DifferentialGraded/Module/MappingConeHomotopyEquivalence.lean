@@ -114,10 +114,10 @@ private theorem isIso_of_homotopic_identity_on_cone (f : K₁ ⟶ L₁)
     change (toHomotopyCategory A).map (Hom.comp δ δ) = _ at hq
     refine ((toHomotopyCategory A).map_comp δ δ).symm.trans ?_
     convert hq using 1
-    all_goals first | rfl | simp
+    all_goals first | rfl
   apply isIso_of_square_zero_perturbation _ e ?_ he
   have he' : e = (toHomotopyCategory A).map d - 𝟙 _ := by
-    show (toHomotopyCategory A).map (d - 𝟙 _) = _
+    change (toHomotopyCategory A).map (d - 𝟙 _) = _
     rw [Functor.map_sub, CategoryTheory.Functor.map_id]
   rw [he']
   abel
@@ -170,9 +170,9 @@ theorem isIso_mappingConeMap_of_isIso
     simp only [Functor.map_comp] at hi hπ hi' hπ'
     rw [← Functor.map_comp]
     refine isIso_of_homotopic_identity_on_cone g₁ (e ≫ e') (hom ?_) (hom ?_)
-    · show Q.map (coneInclusion g₁) ≫ Q.map e ≫ Q.map e' = _
+    · change Q.map (coneInclusion g₁) ≫ Q.map e ≫ Q.map e' = _
       rw [← Category.assoc, ← hi, Category.assoc, hi', ← Category.assoc, hq, Category.id_comp]
-    · show Q.map e ≫ Q.map e' ≫ Q.map (coneProjection g₁) = _
+    · change Q.map e ≫ Q.map e' ≫ Q.map (coneProjection g₁) = _
       rw [hπ', ← Category.assoc, hπ, Category.assoc, hp, Category.comp_id]
   obtain ⟨aInv, haInv⟩ := Q.map_surjective (inv (Q.map a))
   obtain ⟨bInv, hbInv⟩ := Q.map_surjective (inv (Q.map b))

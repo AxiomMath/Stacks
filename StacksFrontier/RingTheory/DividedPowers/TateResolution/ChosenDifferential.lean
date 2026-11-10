@@ -179,18 +179,18 @@ public theorem oddAvatar_fst (x : T.A) :
   have h1 : (oddExtFst T.grade).comp (T.oddAvatar t ht) = AlgHom.id R T.A := by
     refine (hu _ ?_).trans (hu _ ?_).symm
     · refine ⟨fun p => ?_, fun j => ?_, fun m a ha => ?_, fun n a ha => ?_⟩
-      · show (OddVariableExtension.coefficients T.grade 1
+      · change (OddVariableExtension.coefficients T.grade 1
             (T.oddAvatar t ht (T.coefficient p))).1 = T.coefficient p
         rw [T.oddAvatar_coefficient t ht p]
         rfl
-      · show (OddVariableExtension.coefficients T.grade 1
+      · change (OddVariableExtension.coefficients T.grade 1
             (T.oddAvatar t ht (T.gen j))).1 = T.gen j
         rw [T.oddAvatar_gen t ht j, coefficients_inclusion_add_mul_generator]
-      · show (OddVariableExtension.coefficients T.grade 1
+      · change (OddVariableExtension.coefficients T.grade 1
             (T.oddAvatar t ht a)).1 ∈ T.grade m
         exact ((OddVariableExtension.mem_grade_coefficients_iff T.grade 1 m _).mp
           (T.oddAvatar_mem_grade t ht m a ha)).1
-      · show T.gamma.dpow n (OddVariableExtension.coefficients T.grade 1
+      · change T.gamma.dpow n (OddVariableExtension.coefficients T.grade 1
             (T.oddAvatar t ht a)).1 =
           (OddVariableExtension.coefficients T.grade 1
             (T.oddAvatar t ht (T.gamma.dpow n a))).1

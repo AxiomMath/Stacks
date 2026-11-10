@@ -197,7 +197,7 @@ theorem of_lTensor_properChowPushforward_mem_span [CompactSpace W] (j : ℤ) (T 
             (QuotientAddGroup.mk' (rationalEquivalences C sW j)))))
     have : IsLocallyNoetherian W := LocallyOfFiniteType.isLocallyNoetherian sW
     have hφ : φ = 0 := cycleGroup_hom_ext C sW j fun w hw => by
-      show S.mkQ (DirectSum.of (fun j => ℚ ⊗[ℤ] chowGroup C sX j) j ((1 : ℚ) ⊗ₜ[ℤ]
+      change S.mkQ (DirectSum.of (fun j => ℚ ⊗[ℤ] chowGroup C sX j) j ((1 : ℚ) ⊗ₜ[ℤ]
         properChowPushforward C sW sX h hh j (properPushforwardDescends C _ _ _ _ _)
           (QuotientAddGroup.mk' (rationalEquivalences C sW j)
             (cycleAssociatedToClosedSubscheme C sW (integralComponentAt w).subschemeι j)))) = 0
@@ -207,8 +207,7 @@ theorem of_lTensor_properChowPushforward_mem_span [CompactSpace W] (j : ℤ) (T 
         rw [← hw, ← hh, relativeDimension_comp_closedImmersion]
       exact Submodule.subset_span ⟨h w, hT w hw, integralComponentRationalClass_eq C sX hwj⟩
     exact (Submodule.Quotient.mk_eq_zero S).1 (DFunLike.congr_fun hφ c)
-  induction d using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]; exact S.zero_mem
+  induction d using TensorProduct.inductionOn with
   | tmul q α =>
     have h2 := S.smul_mem q (h1 α)
     rw [← DirectSum.of_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one] at h2

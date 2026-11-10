@@ -124,11 +124,11 @@ public theorem isPHCovering_tfae {T : Scheme.{u}} {I : Type v} [Small.{u} I]
         eqToHom (hCX l) ≫ f (hcidx ▸ l) = C₀.f l ≫ Sigma.desc f := by
       cases hCX l
       rw [hCf]
-      exact (Sigma.ι_desc f l).symm
+      exact (Sigma.ι_comp_desc f l).symm
     have hVobj (j : E.I₀) (l : (V j).I₀) :
         (V j).X l = pullback (q j) (C₀.f (hvIdx j ▸ l)) := by
       cases hvIdx j
-      show (D j).X l = _
+      change (D j).X l = _
       simpa [D] using
         (PreZeroHypercover.pullback₁_X (q j) C₀.toPreZeroHypercover l)
     have hVfst (j : E.I₀) (l : (V j).I₀) :

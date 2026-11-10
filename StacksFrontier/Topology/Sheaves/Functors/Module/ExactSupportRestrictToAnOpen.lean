@@ -43,7 +43,7 @@ a closed quotient morphism restricts, which is what is built here. The compariso
 it is not proved to be an isomorphism, and the identification of the restriction of
 `tensorDerivedSheafHomMap` with the map of the restricted situation is not anywhere. What is
 proved towards invertibility is the reduction to a statement after `(i|_{i⁻¹U})_*`, in
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportRestrictComparisonIso.lean`,
+`ExactSupportRestrictComparisonIso.lean` (beside the comparison file just named),
 and the descent half of it, now as an isomorphism of functors — `moduleDescend` commutes with
 restriction to `U` — in
 `StacksFrontier/Topology/Sheaves/Functors/Module/ExactSupportRestrictDescend.lean`, over its

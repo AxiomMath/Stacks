@@ -140,7 +140,8 @@ theorem globalSectionMap_spaceSurjEpsSet :
   exact Category.comp_id _
 
 /-- **The global function `ε` of `X'`.** -/
-abbrev spaceSurjEps : globalFunctions B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P).1 :=
+abbrev spaceSurjEps :
+    globalFunctions B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P).1 :=
   globalFunctionsOfSection (spaceSurjEpsSet B hΛ hSpec X hX toK P)
 
 /-- **`ε² = 0`.** -/
@@ -174,31 +175,54 @@ abbrev spaceSurjConstants : k →+* globalFunctions B (Spec (.of Λ)) hΛ
 /-- **`k[ε] ⟶ Γ(X', 𝒪_{X'})`, `a + bε ↦ a + bε`.** -/
 def spaceSurjDualHom : spaceDualNumbers (Λ := Λ) (k := k) →+*
     globalFunctions B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P).1 where
-  toFun r := spaceSurjConstants B hΛ hSpec X hX toK P (TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) +
-    spaceSurjConstants B hΛ hSpec X hX toK P (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) *
+  toFun r := spaceSurjConstants B hΛ hSpec X hX toK P
+      (TrivSqZeroExt.fst (R := k)
+        (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) +
+    spaceSurjConstants B hΛ hSpec X hX toK P (show k from TrivSqZeroExt.snd (R := k)
+        (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) *
       spaceSurjEps B hΛ hSpec X hX toK P
   map_one' := by
     change spaceSurjConstants B hΛ hSpec X hX toK P 1 +
       spaceSurjConstants B hΛ hSpec X hX toK P 0 * spaceSurjEps B hΛ hSpec X hX toK P = 1
     rw [map_one, map_zero, zero_mul, add_zero]
   map_mul' r r' := by
-    change spaceSurjConstants B hΛ hSpec X hX toK P (TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r * TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r') +
+    change spaceSurjConstants B hΛ hSpec X hX toK P
+        (TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r *
+          TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r') +
       spaceSurjConstants B hΛ hSpec X hX toK P
-        ((show k from TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r * (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) +
-          (show k from TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r' * (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r))) *
+        ((show k from TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r *
+          (show k from TrivSqZeroExt.snd (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) +
+          (show k from TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r' *
+          (show k from TrivSqZeroExt.snd (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r))) *
         spaceSurjEps B hΛ hSpec X hX toK P = _
     have he := spaceSurjEps_mul_self B hΛ hSpec X hX toK P
     simp only [map_add, map_mul]
-    linear_combination -(spaceSurjConstants B hΛ hSpec X hX toK P (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) *
-      spaceSurjConstants B hΛ hSpec X hX toK P (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) * he
+    linear_combination -(spaceSurjConstants B hΛ hSpec X hX toK P
+        (show k from TrivSqZeroExt.snd (R := k)
+          (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) *
+      spaceSurjConstants B hΛ hSpec X hX toK P (show k from TrivSqZeroExt.snd (R := k)
+        (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) * he
   map_zero' := by
     change spaceSurjConstants B hΛ hSpec X hX toK P 0 +
       spaceSurjConstants B hΛ hSpec X hX toK P 0 * spaceSurjEps B hΛ hSpec X hX toK P = 0
     rw [map_zero, zero_mul, add_zero]
   map_add' r r' := by
-    change spaceSurjConstants B hΛ hSpec X hX toK P (TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r + TrivSqZeroExt.fst (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r') +
+    change spaceSurjConstants B hΛ hSpec X hX toK P
+        (TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r +
+          TrivSqZeroExt.fst (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r') +
       spaceSurjConstants B hΛ hSpec X hX toK P
-        ((show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) + (show k from TrivSqZeroExt.snd (R := k) (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) *
+        ((show k from TrivSqZeroExt.snd (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r) +
+          (show k from TrivSqZeroExt.snd (R := k)
+            (M := (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj (FGModuleCat.of k k)) r')) *
         spaceSurjEps B hΛ hSpec X hX toK P = _
     simp only [map_add]
     ring
@@ -217,7 +241,8 @@ constants**, through `k ≃ Γ(Spec k)` and `k[V] ≃ Γ(Spec k[V])`. -/
 theorem spaceConstants_Γ_comp (V : FGModuleCat.{u} k) :
     (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceBaseOverMap B hΛ hSpec (spaceConstants Λ V))).op).hom.comp
-        (spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec) (residueFieldBase Λ k)).toRingHom =
+        (spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec)
+          (residueFieldBase Λ k)).toRingHom =
       (spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec)
         ((squareZeroExtensionArtinian Λ k).obj V)).toRingHom.comp
         (spaceConstants Λ V).hom.toRingHom := by
@@ -250,7 +275,8 @@ theorem spaceSurjFunctions_comp :
         (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
           (spaceDualRetraction B hΛ hSpec)).op).hom =
       pullbackToGlobalFunctions B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P)
-        (spaceBaseOver B hΛ hSpec (residueFieldBase Λ k)) (spaceSurjToBase B hΛ hSpec X hX toK P) := by
+        (spaceBaseOver B hΛ hSpec (residueFieldBase Λ k))
+        (spaceSurjToBase B hΛ hSpec X hX toK P) := by
   ext1 x
   obtain ⟨a, rfl⟩ := (spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec)
     (residueFieldBase Λ k)).surjective x
@@ -259,7 +285,8 @@ theorem spaceSurjFunctions_comp :
     ((spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec) _).symm
       ((Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceDualRetraction B hΛ hSpec)).op).hom
-          ((spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec) (residueFieldBase Λ k)) a))) = _
+          ((spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec)
+            (residueFieldBase Λ k)) a))) = _
   rw [show (Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).map
         (spaceDualRetraction B hΛ hSpec)).op).hom
           ((spaceDefoAlgebraEquiv (B := B) (hΛ := hΛ) (hSpec := hSpec) (residueFieldBase Λ k)) a) =
@@ -296,8 +323,8 @@ theorem pullbackToGlobalFunctions_spaceSurjToDual :
     pullbackToGlobalFunctions B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P) _
         (spaceSurjToDual B hΛ hSpec X hX toK P) =
       spaceSurjFunctions B hΛ hSpec X hX toK P := by
-  haveI := isAffine_toScheme_spaceBaseOver B hΛ hSpec (residueFieldBase Λ k)
-  haveI := isAffine_toScheme_spaceBaseOver B hΛ hSpec (spaceDualNumbers (Λ := Λ) (k := k))
+  have := isAffine_toScheme_spaceBaseOver B hΛ hSpec (residueFieldBase Λ k)
+  have := isAffine_toScheme_spaceBaseOver B hΛ hSpec (spaceDualNumbers (Λ := Λ) (k := k))
   let e := morphismToAffineOverEquiv B (Spec (.of Λ)) hΛ (spaceSurjAmbient B hΛ hSpec X hX toK P)
     (spaceDualRetraction B hΛ hSpec) (spaceSurjToBase B hΛ hSpec X hX toK P)
   exact (e.2 (e.1.symm ⟨_, spaceSurjFunctions_comp B hΛ hSpec X hX toK P⟩)).symm.trans

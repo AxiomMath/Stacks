@@ -20,7 +20,8 @@ of Tag 02RQ in that situation:
 
 The geometry behind these statements is proved in
 `StacksFrontier.AlgebraicGeometry.Chow.UniversalPrincipalDivisor` and the files under
-`StacksFrontier.AlgebraicGeometry.Chow.UniversalPrincipalDivisorCycles` for an open whose inclusion is
+`StacksFrontier.AlgebraicGeometry.Chow.UniversalPrincipalDivisorCycles` for an open whose inclusion
+is
 quasi-compact. Here that is automatic: `X` is locally of finite type over the locally Noetherian
 base, hence locally Noetherian, so every open immersion into `X` is quasi-compact (Tag 01OX). From
 it and the nonemptiness of `U` follow the remaining facts the statements use: `Y` is integral and

@@ -139,7 +139,7 @@ theorem exists_isZero_Hgroup_twist_of_isCoherent (p : ℕ) (hp : 0 < p)
     (F : (AlgebraicGeometry.Proj 𝒜).Modules) (hF : _root_.SheafOfModules.IsCoherent F) :
     ∃ d₀ : ℤ, ∀ d : ℤ, d₀ ≤ d →
       IsZero (Hgroup (projRingSheaf 𝒜) ⊤ p (twistSheafOfModules 𝒜 F d)) :=
-  have := isNoetherianRing 𝒜 x hx hgen
+  have := isNoetherianRing 𝒜 x hgen
   exists_isZero_hgroup_twist_of_presentation_of_adjoin_degree_one 𝒜
     (by
       rw [Stacks.AlgebraicGeometry.ProjTwistMono.range_coe_degree_one 𝒜]

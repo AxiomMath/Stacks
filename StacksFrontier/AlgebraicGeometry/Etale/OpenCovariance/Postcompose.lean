@@ -263,7 +263,7 @@ public theorem openBaseChangeHom_comp (V : SmallEtale B Y.obj Y.property) :
   have hW : (baseChange B f V).obj = (Over.pullback f).obj V.obj :=
     smallEtaleBaseChange_obj_obj B f V
   cases hW
-  show B.inclusion.map
+  change B.inclusion.map
       (((SmallEtale.inclusion B X'.obj X'.property).map (e.inv.app V)).left ≫
         pullback.fst ((Over.pullback f).obj V.obj).hom j ≫
           pullback.fst V.obj.hom f) = _
@@ -325,7 +325,7 @@ public theorem openBaseChangeHom_range (V : SmallEtale B Y.obj Y.property) :
   have h := IsPullback.map B.inclusion
     (IsPullback.of_hasPullback (baseChange B f V).obj.hom j)
   rw [openBaseChangeHom, scheme_range_comp_iso]
-  show Set.range (B.inclusion.map (pullback.fst (baseChange B f V).obj.hom j)).base = _
+  change Set.range (B.inclusion.map (pullback.fst (baseChange B f V).obj.hom j)).base = _
   calc
     _ = Set.range (h.isoPullback.hom ≫ pullback.fst _ _).base :=
       congrArg (fun k => Set.range k.base) h.isoPullback_hom_fst.symm
@@ -370,7 +370,7 @@ public theorem openBaseChangeHom_image_preimage {V V' : SmallEtale B Y.obj Y.pro
     congrArg (fun k => k.base x) (openBaseChangeHom_naturality B j f g)
   have hi : Function.Injective φ := (openBaseChangeHom B j f V).isOpenEmbedding.injective
   have hr : b ⁻¹' Set.range φ = Set.range φ' := openBaseChangeHom_range_preimage B j f g
-  show φ' '' (a ⁻¹' E) = b ⁻¹' (φ '' E)
+  change φ' '' (a ⁻¹' E) = b ⁻¹' (φ '' E)
   ext x
   constructor
   · rintro ⟨y, hy, rfl⟩
@@ -380,7 +380,7 @@ public theorem openBaseChangeHom_image_preimage {V V' : SmallEtale B Y.obj Y.pro
     rw [hr] at hx
     obtain ⟨z, rfl⟩ := hx
     refine ⟨z, ?_, rfl⟩
-    show a z ∈ E
+    change a z ∈ E
     rwa [hi ((hc z).symm.trans he.symm)]
 
 end BaseChangeHom
@@ -424,7 +424,7 @@ public theorem imageFiniteSupport_coe (V : SmallEtale B Y.obj Y.property)
 public theorem imageFiniteSupport_mono (V : SmallEtale B Y.obj Y.property)
     {E E' : FiniteSupport B (j ≫ f) V} (h : E ≤ E') :
     imageFiniteSupport B j f V E ≤ imageFiniteSupport B j f V E' := by
-  show (imageFiniteSupport B j f V E).1 ⊆ (imageFiniteSupport B j f V E').1
+  change (imageFiniteSupport B j f V E).1 ⊆ (imageFiniteSupport B j f V E').1
   rw [imageFiniteSupport_coe, imageFiniteSupport_coe]
   exact Set.image_mono h
 
@@ -439,7 +439,7 @@ public theorem openBaseChangeHom_supportOpen_preimage (V : SmallEtale B Y.obj Y.
       supportOpen B X'.obj X'.property (baseChange B (j ≫ f) V) E.1
         (finiteSupport_isLocallyClosed B (j ≫ f) V E) := by
   let φ := openBaseChangeHom B j f V
-  show φ.base ⁻¹' coborder D.1 = coborder E.1
+  change φ.base ⁻¹' coborder D.1 = coborder E.1
   rw [hD, ← φ.isOpenEmbedding.coborder_preimage,
     Set.preimage_image_eq _ φ.isOpenEmbedding.injective]
 

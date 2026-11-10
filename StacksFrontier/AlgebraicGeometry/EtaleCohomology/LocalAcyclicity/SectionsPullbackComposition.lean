@@ -133,7 +133,7 @@ public theorem smallEtaleBaseChangeLift_comp_smallEtaleBaseChangeComp_hom
       smallEtaleBaseChangeLift (a ≫ b) W (ρ ≫ pullback.fst W.hom b) hr ≫
         (smallEtaleBaseChangeComp a b).hom.app W := by
   apply MorphismProperty.Over.Hom.ext
-  show (smallEtaleBaseChangeLift a ((smallEtaleBaseChange b).obj W) ρ hρ).left =
+  change (smallEtaleBaseChangeLift a ((smallEtaleBaseChange b).obj W) ρ hρ).left =
     (smallEtaleBaseChangeLift (a ≫ b) W (ρ ≫ pullback.fst W.hom b) hr).left ≫
       ((smallEtaleBaseChangeComp a b).hom.app W).left
   rw [smallEtaleBaseChangeLift_left, smallEtaleBaseChangeLift_left]

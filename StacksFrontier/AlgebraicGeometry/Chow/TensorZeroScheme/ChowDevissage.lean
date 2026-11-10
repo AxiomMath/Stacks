@@ -217,7 +217,7 @@ theorem leftRule_extendCycleGroup (α : Stacks.Chow.CycleGroup C sY (k + 1)) :
         ((Stacks.Chow.integralComponentAt i.1).support : Set Y) :=
     Stacks.Chow.GysinChernCap.locallyFinite_preimage
       (Stacks.Chow.locallyFinite_support_integralComponentAt α) R.normalize.p.continuous
-  show ((leftRule C Y L₁ L₂ s R sY k).extendCycleGroup α).1 y = _
+  change ((leftRule C Y L₁ L₂ s R sY k).extendCycleGroup α).1 y = _
   rw [Stacks.Chow.GradedIntegralComponentRule.extendCycleGroup_eq_finsum_cycle C sY
       (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
       (R.normalize.D₁.subschemeι ≫ R.normalize.p) (k + 1) (k + 1)
@@ -261,7 +261,7 @@ theorem rightRule_extendCycleGroup (α : Stacks.Chow.CycleGroup C sY (k + 1)) :
     Stacks.Chow.GysinChernCap.locallyFinite_preimage
       (Stacks.Chow.locallyFinite_support_integralComponentAt α)
       (zeroIdeal Y L₁ L₂ s).subschemeι.continuous
-  show ((rightRule C Y L₁ L₂ s R sY k).extendCycleGroup α).1 y = _
+  change ((rightRule C Y L₁ L₂ s R sY k).extendCycleGroup α).1 y = _
   rw [Stacks.Chow.GradedIntegralComponentRule.extendCycleGroup_eq_finsum_cycle C sY
       (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
       (R.normalize.D₁.subschemeι ≫ R.normalize.p) (k + 1) (k + 1)
@@ -316,13 +316,13 @@ theorem gysinChowBranch₁_flatPullbackChowProj_of_primeCycle
     have hL : (leftRule C Y L₁ L₂ s R sY k).extendChow a =
         gysinChowBranch₁ C Y L₁ L₂ s R sY (k + 1)
           (flatPullbackChowProj C Y L₁ L₂ s R sY (k + 1) (QuotientAddGroup.mk a)) := by
-      show QuotientAddGroup.mk' _ ((leftRule C Y L₁ L₂ s R sY k).extendCycleGroup a) = _
+      change QuotientAddGroup.mk' _ ((leftRule C Y L₁ L₂ s R sY k).extendCycleGroup a) = _
       rw [leftRule_extendCycleGroup]
       rfl
     have hR : (rightRule C Y L₁ L₂ s R sY k).extendChow a =
         flatPullbackChowProj₁ C Y L₁ L₂ s R sY k
           (gysinChowZeroIdeal C Y L₁ L₂ s sY k (QuotientAddGroup.mk a)) := by
-      show QuotientAddGroup.mk' _ ((rightRule C Y L₁ L₂ s R sY k).extendCycleGroup a) = _
+      change QuotientAddGroup.mk' _ ((rightRule C Y L₁ L₂ s R sY k).extendCycleGroup a) = _
       rw [rightRule_extendCycleGroup]
       rfl
     rw [← hL, ← hR]

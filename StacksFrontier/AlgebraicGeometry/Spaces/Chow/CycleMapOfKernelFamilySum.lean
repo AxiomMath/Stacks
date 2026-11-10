@@ -74,10 +74,10 @@ theorem sub (h : IsCycleMapOfKernel D sX sT π Φ φ) {Ψ : CycleGroup D sX a �
     (h' : IsCycleMapOfKernel D sX sT π Ψ ψ) :
     IsCycleMapOfKernel D sX sT π (Φ - Ψ) fun W => φ W - ψ W where
   apply α Z := by
-    show (Φ α).1 Z - (Ψ α).1 Z = _
+    change (Φ α).1 Z - (Ψ α).1 Z = _
     rw [h.apply, h'.apply, ← finsum_sub_distrib (h.finite_support α Z) (h'.finite_support α Z)]
     refine finsum_congr fun W => ?_
-    show _ = α.1 W * ((φ W).1 Z - (ψ W).1 Z)
+    change _ = α.1 W * ((φ W).1 Z - (ψ W).1 Z)
     rw [mul_sub]
   support W Z hZ := by
     change (φ W).1 Z - (ψ W).1 Z ≠ 0 at hZ
@@ -126,7 +126,7 @@ theorem eq_cycleFamilySum (h : IsCycleMapOfKernel D sX sT π Φ φ) (hπ : Conti
   rw [hφ W, cycleFamilySum_apply, mul_finsum]
   refine finsum_congr fun j => ?_
   rw [map_zsmul]
-  show _ = α.1 W.1 • ((integralClosedSubspacePushforward D sT hT (V W j) b) (c W j)).1 Z
+  change _ = α.1 W.1 • ((integralClosedSubspacePushforward D sT hT (V W j) b) (c W j)).1 Z
   rw [smul_eq_mul]
 
 end IsCycleMapOfKernel

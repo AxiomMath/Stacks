@@ -82,7 +82,7 @@ theorem not_fg_ker (χ : R →+* K) (φ : ℕ → R →+* DualNumber K)
     rw [Finset.sum_eq_single i₀]
     · simp
     · intro j _ hj
-      rw [if_neg (fun h => hj (Fin.ext h.symm)), mul_zero]
+      rw [ite_eq_right (fun h => hj (Fin.ext h.symm)), mul_zero]
     · simp
   exact hi₀ (hDt ▸ hDker _ (ht0 i₀))
 

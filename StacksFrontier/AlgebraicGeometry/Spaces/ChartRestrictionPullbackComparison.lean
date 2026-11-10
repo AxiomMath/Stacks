@@ -168,7 +168,7 @@ theorem chartRestrictionPullbackComparison_pullbackSection
         x.down := by
   rw [chartRestrictionPullbackComparison, Scheme.Modules.pullbackSection_homEquiv,
     Equiv.apply_symm_apply]
-  show ((modulePullback B S hS a).obj G).val.map
+  change ((modulePullback B S hS a).obj G).val.map
       ((chartOpens B S hS W).map (homOfLE hle)).op
       ((chartRestrictionPushforwardHom B S hS a V W g hg G).val.app (op O) x).down = _
   rw [chartRestrictionPushforwardHom_val_app]
@@ -177,7 +177,7 @@ theorem chartRestrictionPullbackComparison_pullbackSection
     ((chartOpens B S hS W).map (homOfLE hle)) (𝟙 _) (by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show (etaleChartScheme B S hS W).homOfLE hle ≫
+      change (etaleChartScheme B S hS W).homOfLE hle ≫
           ((BigFppfOver.toScheme B S hS).map g).resLE O _ le_rfl =
         ((BigFppfOver.toScheme B S hS).map g).resLE O O' hle ≫ 𝟙 _
       rw [Scheme.Hom.map_resLE, Category.comp_id]) x.down

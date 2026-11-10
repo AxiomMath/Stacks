@@ -94,7 +94,7 @@ theorem exists_unit_residue_eq_quotUnit {d : ℕ} (φ : MonicIrreducibleOfDegree
       algebraMap (Polynomial k) (Localization.AtPrime (Ideal.span {poly φ})) g := by
     refine IsFractionRing.injective (Localization.AtPrime (Ideal.span {poly φ})) (RatFunc k) ?_
     have h := congrArg (fun v : (RatFunc k)ˣ ↦ (v : RatFunc k)) hw
-    simp only [Units.coe_map, MonoidHom.coe_coe, coe_polyUnit] at h
+    simp only [Units.coe_map, MonoidHom.coe_ofClass, coe_polyUnit] at h
     rw [h, ← IsScalarTower.algebraMap_apply]
   refine ⟨w, hw, Units.ext ?_⟩
   change (quotientRingEquivResidueField (Ideal.span {poly φ})).symm
@@ -229,8 +229,8 @@ theorem simpleMilnorNorm_milnorKSymbol : ∀ (d : ℕ) (φ : MonicIrreducibleOfD
     rw [simpleMilnorNorm_milnorKSymbol_algebraMap]
     congr 1
     refine Units.ext ?_
-    simp only [Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_coe, Algebra.norm_algebraMap,
-      finrank_quotient_span_eq_natDegree, natDegree_eq]
+    simp only [Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_ofClass,
+      Algebra.norm_algebraMap, finrank_quotient_span_eq_natDegree, natDegree_eq]
   have hirr : ∀ χ : Polynomial k, ∀ hm : χ.Monic, ∀ hi : Irreducible χ, χ.natDegree < d →
       ∀ v : (Polynomial k ⧸ Ideal.span {poly φ})ˣ,
         (v : Polynomial k ⧸ Ideal.span {poly φ}) = Ideal.Quotient.mk _ χ → P v := by

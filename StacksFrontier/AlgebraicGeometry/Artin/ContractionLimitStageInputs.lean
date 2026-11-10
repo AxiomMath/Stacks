@@ -149,7 +149,7 @@ theorem exists_stage_appTop_eq (a : Γ((BigFppfOver.toScheme B S hS).obj κ.pt.o
     ((BigFppfOver.toScheme B S hS).map (D.map (IsCofiltered.minToLeft i k₀)).hom).appTop.hom t, ?_⟩
   rw [← ht, ← RingHom.comp_apply, ← CommRingCat.hom_comp, ← Scheme.Hom.comp_appTop,
     ← Functor.map_comp]
-  show ((BigFppfOver.toScheme B S hS).map ((κ.π.app j).hom ≫
+  change ((BigFppfOver.toScheme B S hS).map ((κ.π.app j).hom ≫
     (D.map (IsCofiltered.minToLeft i k₀)).hom)).appTop.hom t = _
   rw [cone_π_hom_comp]
   rfl
@@ -220,7 +220,7 @@ omit [IsCofiltered I] hD in
 theorem resL_comp_res {k k' : Over k₀} (f : k' ⟶ k) :
     (resL κ k').comp (res D f) = resL κ k := by
   rw [res, resL, ← CommRingCat.hom_comp, ← Scheme.Hom.comp_appTop, ← Functor.map_comp]
-  show ((BigFppfOver.toScheme B S hS).map
+  change ((BigFppfOver.toScheme B S hS).map
     ((κ.π.app k'.left).hom ≫ (D.map f.left).hom)).appTop.hom = _
   rw [cone_π_hom_comp]
 
@@ -229,13 +229,13 @@ omit [IsCofiltered I] hD in
 theorem resL_res {k k' : Over k₀} (f : k' ⟶ k) (a) : resL κ k' (res D f a) = resL κ k a :=
   congrArg (fun φ => φ a) (resL_comp_res (κ := κ) f)
 
-omit [IsCofiltered I] in
+omit [IsCofiltered I] hD in
 /-- The restrictions `A_k ⟶ A_{k'} ⟶ A_{k''}` compose to the restriction along `h ≫ f`. -/
 theorem res_comp_res {k k' k'' : Over k₀} (f : k' ⟶ k) (h : k'' ⟶ k') :
     (res D h).comp (res D f) = res D (h ≫ f) :=
   (appTop_map_comp_eq f h).symm
 
-omit [IsCofiltered I] in
+omit [IsCofiltered I] hD in
 /-- The restrictions `A_k ⟶ A_{k'} ⟶ A_{k''}` compose to the restriction along `h ≫ f`,
 elementwise. -/
 theorem res_res {k k' k'' : Over k₀} (f : k' ⟶ k) (h : k'' ⟶ k') (a) :
@@ -267,13 +267,13 @@ theorem cresL_comp_cres {k k' : Over k₀} (f : k' ⟶ k) :
     (cresL I₀ κ k').comp (cres I₀ f) = cresL I₀ κ k :=
   completionRingHom_comp_eq (resL_comp_res (κ := κ) f) _ _ _
 
-omit [IsCofiltered I] in
+omit [IsCofiltered I] hD in
 /-- The maps `A_k^∧ ⟶ A_{k'}^∧ ⟶ A_{k''}^∧` compose to the map along `h ≫ f`. -/
 theorem cres_comp_cres {k k' k'' : Over k₀} (f : k' ⟶ k) (h : k'' ⟶ k') :
     (cres I₀ h).comp (cres I₀ f) = cres I₀ (h ≫ f) :=
   completionRingHom_comp_eq (res_comp_res f h) _ _ _
 
-omit [IsCofiltered I] in
+omit [IsCofiltered I] hD in
 /-- The maps `A_k^∧ ⟶ A_{k'}^∧ ⟶ A_{k''}^∧` compose to the map along `h ≫ f`, elementwise. -/
 theorem cres_cres {k k' k'' : Over k₀} (f : k' ⟶ k) (h : k'' ⟶ k') (x) :
     cres I₀ h (cres I₀ f x) = cres I₀ (h ≫ f) x :=
@@ -385,7 +385,7 @@ theorem exists_stage_of_limitAlpha_eq_zero
   · have e₁ := completionRingHom_algebraMap (resL κ k') (stageIdeal_map_limit I₀ k').le (res D f t)
     exact e₁.trans ((congrArg (algebraMap _ _) ((resL_res f t).trans ht)).trans hya)
 
-omit [IsCofiltered I] in
+omit [IsCofiltered I] hD in
 /-- The restriction `A_k ⟶ A_{k''}` along `h ≫ f` is the composite of the restrictions along `f`
 and `h`, elementwise. -/
 theorem appTop_map_comp_apply {k k' k'' : Over k₀} (f : k' ⟶ k) (h : k'' ⟶ k')

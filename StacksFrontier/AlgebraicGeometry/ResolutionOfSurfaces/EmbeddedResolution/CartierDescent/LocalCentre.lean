@@ -16,9 +16,9 @@ the globalisation step of [Stacks, Tag 0AHH] consumes is instead about the blowu
 
 This file is the one line of dictionary between the two: the inverse image of the reduced closed
 point along `Y.fromSpecStalk y : Spec 𝒪_{Y, y} ⟶ Y` is exactly that centre, for
-`A := 𝒪_{Y, y}`. Composed with the cartesian square of
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/EmbeddedResolution/CartierDescent/StalkBaseChange.lean`, this is what lets the local theorem be applied to the
-stalk and its conclusions carried back to `Y`.
+`A := 𝒪_{Y, y}`. Composed with the cartesian square of the sibling file
+`EmbeddedResolution/CartierDescent/StalkBaseChange.lean`, this is what lets the local theorem be
+applied to the stalk and its conclusions carried back to `Y`.
 
 ## Main results
 

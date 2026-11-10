@@ -149,7 +149,7 @@ shifted map. -/
 theorem cochainToComplexFunctor_map_shift (n : ℤ) {X Y : CochainComplex B ℤ} (f : X ⟶ Y) :
     (dgShiftFunctor B n).map (Cochain.ofHom f) =
       Cochain.ofHom ((CategoryTheory.shiftFunctor (CochainComplex B ℤ) n).map f) := by
-  show (n * 0).negOnePow • (Cochain.ofHom f).shift n = _
+  change (n * 0).negOnePow • (Cochain.ofHom f).shift n = _
   rw [mul_zero, Int.negOnePow_zero, one_smul]
   ext p
   rw [(Cochain.ofHom f).shift_v' n p p (add_zero p)]

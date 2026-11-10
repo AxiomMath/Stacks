@@ -55,8 +55,7 @@ public theorem universallyInjective_evalₗ (R : Type u) [CommRing R]
   refine ⟨CharacterModule.homEquiv (s.comp ξ), ?_⟩
   apply CharacterModule.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul q m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

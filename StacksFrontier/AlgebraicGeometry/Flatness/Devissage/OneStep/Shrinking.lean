@@ -177,7 +177,7 @@ lemma topologicalKrullDim_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Mod
       U.ι p ∈ SheafOfModules.supp F} ≃ₜ (U.ι ⁻¹' P) :=
     Homeomorph.setCongr <| by
       ext p
-      show (f (U.ι p) = V.ι (f.resLE V U hUV ⟨x, hx⟩) ∧ U.ι p ∈ SheafOfModules.supp F) ↔
+      change (f (U.ι p) = V.ι (f.resLE V U hUV ⟨x, hx⟩) ∧ U.ι p ∈ SheafOfModules.supp F) ↔
         (f (U.ι p) = f x ∧ U.ι p ∈ SheafOfModules.supp F)
       rw [hs]
   let j := e.symm ∘ P.restrictPreimage U.ι ∘ e'' ∘ e'
@@ -188,9 +188,9 @@ lemma topologicalKrullDim_supp_resLE {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Mod
     apply Subtype.ext
     apply (f.fiberι (f x)).isEmbedding.injective
     have hfi := Scheme.Hom.fiberι_asFiber (f.resLE V U hUV) ⟨x, hx⟩
-    show f.fiberι (f x) ((f.fiberHomeo (f x)).symm _) = f.fiberι (f x) (f.asFiber x)
+    change f.fiberι (f x) ((f.fiberHomeo (f x)).symm _) = f.fiberι (f x) (f.asFiber x)
     rw [Scheme.Hom.fiberι_fiberHomeo_symm, Scheme.Hom.fiberι_asFiber]
-    show U.ι ((f.resLE V U hUV).fiberι (f.resLE V U hUV ⟨x, hx⟩)
+    change U.ι ((f.resLE V U hUV).fiberι (f.resLE V U hUV ⟨x, hx⟩)
       ((f.resLE V U hUV).asFiber ⟨x, hx⟩)) = x
     rw [hfi]
     rfl
@@ -244,7 +244,7 @@ lemma purelyTranscendental_resLE {X S : Scheme.{u}} (f : X ⟶ S) (V : S.Opens)
   let _ := (f.residueFieldMap (U.ι x)).hom.toAlgebra
   let _ := (f'.residueFieldMap x).hom.toAlgebra
   have hH : PurelyTranscendental (S.residueField (f (U.ι x))) (X.residueField (U.ι x)) := H
-  show PurelyTranscendental (V.toScheme.residueField (f' x)) (U.toScheme.residueField x)
+  change PurelyTranscendental (V.toScheme.residueField (f' x)) (U.toScheme.residueField x)
   have hfx : V.ι (f' x) = f (U.ι x) := Scheme.Hom.coe_resLE_apply f hUV x
   let e : S.residueField (f (U.ι x)) ≅ V.toScheme.residueField (f' x) :=
     (S.residueFieldCongr hfx).symm ≪≫ asIso (V.ι.residueFieldMap (f' x))
@@ -449,13 +449,13 @@ private lemma exists_standardShrinking_smooth_inside {X S : Scheme.{u}} (f : X �
     intro t
     obtain ⟨y, hyW, hyt⟩ := hcO t.property
     refine ⟨⟨y, hyW, ?_⟩, ?_⟩
-    · show A.g y ∈ V
+    · change A.g y ∈ V
       rw [hyt]
       exact t.property
     · exact (resLE_apply_eq_iff A.g hWV _ t).2 hyt⟩
   let d := a * A.g.appTop c
   have hd : W' = A.Y.basicOpen d := by
-    show W ⊓ A.g ⁻¹ᵁ V = A.Y.basicOpen (a * A.g.appTop c)
+    change W ⊓ A.g ⁻¹ᵁ V = A.Y.basicOpen (a * A.g.appTop c)
     rw [hW, Scheme.basicOpen_mul, ← Scheme.preimage_basicOpen_top]
   let E := standardShrinkingOfOpens f F x D V U T W' c (h * b * f.appTop c) (A.π.appTop d) d rfl
     (by simp only [U, hU₀, Scheme.basicOpen_mul, ← Scheme.preimage_basicOpen_top]; rfl)

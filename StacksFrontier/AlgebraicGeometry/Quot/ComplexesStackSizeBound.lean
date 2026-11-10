@@ -174,7 +174,7 @@ theorem nonempty_iso_fiber_of_iso (D : ComplexesSituation B S hS) {U : BigFppfOv
       (m : (⟨T, E₁, h₁₁, h₁₂⟩ : ComplexesObject D) ⟶ ⟨T, E₂, h₂₁, h₂₂⟩) := by
     refine IsHomLift.of_fac (p := complexesFunctor D) _ _ rfl ha₂ ?_
     rw [complexesFunctor_map]
-    show 𝟙 T.left = eqToHom (rfl : T.left = T.left) ≫ 𝟙 T.left ≫ eqToHom (rfl : T.left = T.left)
+    change 𝟙 T.left = eqToHom (rfl : T.left = T.left) ≫ 𝟙 T.left ≫ eqToHom (rfl : T.left = T.left)
     simp
   have hG := isGroupoid_fiber_complexesFunctor D T.left
   let φ := Functor.Fiber.homMk (complexesFunctor D) T.left
@@ -304,7 +304,7 @@ theorem exists_isSizeBounded (Λ : Type u) [CommRing Λ]
     exact max_le (max_le ((hΛσ.trans (le_max_right _ _)).trans (le_max_right _ _))
       ((le_max_left _ _).trans (le_max_right _ _))) (le_max_left _ _)
   have hRcont : B.Contains (Spec (CommRingCat.of R)) := by
-    show (Spec (CommRingCat.of R)).size < B.cutoff
+    change (Spec (CommRingCat.of R)).size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff (hRle.trans_lt (max_lt B.aleph0_lt_cutoff (max_lt hβlt hΛ)))
   refine ⟨siteObject B _ hΛ hRcont (Spec.map (CommRingCat.ofHom (algebraMap Λ R))),

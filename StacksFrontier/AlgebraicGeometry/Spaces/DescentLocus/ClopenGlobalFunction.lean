@@ -66,7 +66,7 @@ theorem mem_chartClopenPart_iff (T : Set (points B S hS F)) (U : SmallEtale B S 
     (p : points B S hS (yoneda.obj U.obj.left)) :
     pointsToScheme B S hS U.obj.left p ∈ chartClopenPart T U ↔
       pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom p ∈ T := by
-  show pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
+  change pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
     ((schemePointsHomeomorph B S hS U.obj.left).symm
       (schemePointsHomeomorph B S hS U.obj.left p)) ∈ T ↔ _
   rw [Homeomorph.symm_apply_apply]
@@ -124,7 +124,7 @@ theorem sectionSupport_clopenGlobalFunction (hF : IsAlgebraicSpace B S hS F)
   ext x
   obtain ⟨U, p, rfl⟩ := exists_chart_point B S hS F hF x
   rw [mem_sectionSupport_iff]
-  show pointsToScheme B S hS U.obj.left p ∈
+  change pointsToScheme B S hS U.obj.left p ∈
       (((BigFppfOver.toScheme B S hS).obj U.obj.left).basicOpen
         (Scheme.clopenIdempotent (chartClopenPart T U) (isClopen_chartClopenPart hT U)) :
           Set ((BigFppfOver.toScheme B S hS).obj U.obj.left)) ↔ _

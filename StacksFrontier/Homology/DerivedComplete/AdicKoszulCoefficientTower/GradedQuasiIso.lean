@@ -183,10 +183,10 @@ private theorem comparisonTerm_naturality {r : ℕ} (f : Fin r → A) (p : Optio
   simp only [comparisonTerm, Preadditive.comp_sum, Preadditive.sum_comp, Category.assoc]
   apply Finset.sum_congr rfl
   intro S _
-  show _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
+  change _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
     (HomologicalComplex.mapBifunctorMap ((complexUniverseLift (A := A)).map g) (𝟙 _) _ _).f t
   rw [HomologicalComplex.ι_mapBifunctorMap]
-  show _ = _ ≫ _ ≫
+  change _ = _ ≫ _ ≫
     ((AdicKoszul.moduleUniverseLift A).map (g.f (t + S.card)) ▷
       (standardKoszulStage (fun a ↦ (ULift.up (f a) : ULift.{v} A)) p n).X (-(S.card : ℤ))) ≫ _
   have hp : filteredMapTerm (r := r) p g t ≫
@@ -262,7 +262,7 @@ private theorem gradedTermSection_component {r : ℕ} (p : ℤ) (hp : p ≤ 0)
   intro x
   dsimp only [gradedTermSection, gradedComponentTerm, ModuleCat.hom_comp, LinearMap.comp_apply,
     ModuleCat.hom_smul, LinearMap.smul_apply]
-  show ((-1 : A) ^ (t * (-p)).natAbs) •
+  change ((-1 : A) ^ (t * (-p)).natAbs) •
     (CochainComplex.shiftFunctorObjXIso K (-p) t (t + S.val.card)
       (by simp [S.property, abs_of_nonpos hp])).inv.hom
         (((termSection (some p) K t ≫ termProjection (some p) K t).hom _) S.val) = x S
@@ -287,7 +287,7 @@ private theorem gradedProjection_epi {r : ℕ} {f : Fin r → A} (h : FormulaLaw
     apply LinearMap.ext
     intro x
     funext S
-    show ((h.gradedProjection p hp n K).f t ≫ (gradedTermIso r p K t).hom).hom
+    change ((h.gradedProjection p hp n K).f t ≫ (gradedTermIso r p K t).hom).hom
       ((gradedTermSection p hp K t).hom x) S = x S
     have hproj := gradedProjection_f_proj h p hp n K t S
     have heq := congrArg (fun a ↦ gradedTermSection p hp K t ≫ a) hproj
@@ -337,11 +337,11 @@ private theorem gradedProjection_kernel {r : ℕ} {f : Fin r → A} (h : Formula
   apply hinj
   have hinc := filtrationInclusionTerm_projection (r := r) (some p) (some (p + 1))
     (by dsimp [CutoffLE]; omega) K t
-  show (filtrationInclusionTerm (some p) (some (p + 1)) K t ≫
+  change (filtrationInclusionTerm (some p) (some (p + 1)) K t ≫
     termProjection (some p) K t).hom _ = _
   rw [hinc]
   funext S
-  show ((termSection (some (p + 1)) K t ≫ termProjection (some (p + 1)) K t).hom
+  change ((termSection (some (p + 1)) K t ≫ termProjection (some (p + 1)) K t).hom
     ((termProjection (some p) K t).hom x)) S = _
   rw [termSection_projection_apply]
   split_ifs with hS
@@ -442,7 +442,7 @@ private theorem quasiIso_piMap {ι : Type} [Finite ι]
   have hK : IsIso (piComparison F K) := (PreservesProduct.iso F K).isIso_hom
   have hL : IsIso (piComparison F L) := (PreservesProduct.iso F L).isIso_hom
   have hg (i : ι) : IsIso (F.map (g i)) := by
-    show IsIso (HomologicalComplex.homologyMap (g i) t)
+    change IsIso (HomologicalComplex.homologyMap (g i) t)
     infer_instance
   have : IsIso (F.map (Limits.Pi.map g) ≫ piComparison F L) := by
     rw [hnat]
@@ -573,11 +573,11 @@ private theorem exteriorPower_basis_coe {r : ℕ} (S : Finset (Fin r)) :
       ExteriorAlgebra A (Fin r → A))) =
       orderedWedge (R := A) (fun i ↦ Pi.single i 1) S := by
   rw [exteriorPower.basis_apply]
-  show ExteriorAlgebra.ιMulti A S.card _ = _
+  change ExteriorAlgebra.ιMulti A S.card _ = _
   rw [ExteriorAlgebra.ιMulti_apply]
   simp only [Function.comp_apply, Pi.basisFun_apply,
     Set.powersetCard.ofFinEmbEquiv_symm_apply]
-  show (List.ofFn (fun i ↦ ExteriorAlgebra.ι A
+  change (List.ofFn (fun i ↦ ExteriorAlgebra.ι A
     (Pi.single ((S.orderEmbOfFin rfl) i) (1 : A) : Fin r → A))).prod = _
   rw [List.ofFn_comp' (S.orderEmbOfFin (k := S.card) rfl)
     (fun j : Fin r ↦ ExteriorAlgebra.ι A (Pi.single j (1 : A) : Fin r → A)),
@@ -647,14 +647,14 @@ private theorem koszulPowerTransition_basis {r : ℕ} (f : Fin r → A)
       (fun k ↦ (Pi.single (e k) (1 : A) : Fin r → A)) := by
     funext k
     exact Pi.basisFun_apply A (Fin r) (e k)
-  show (AdicKoszul.koszulPowerTransition f m n hmn).f S.card
+  change (AdicKoszul.koszulPowerTransition f m n hmn).f S.card
     (exteriorPower.ιMulti A S.card ((Pi.basisFun A (Fin r)) ∘ e)) =
     (∏ i ∈ S, f i ^ (m - n)) • exteriorPower.ιMulti A S.card
       ((Pi.basisFun A (Fin r)) ∘ e)
   rw [hb]
   erw [hτ]
   apply Subtype.ext
-  show ExteriorAlgebra.ιMulti A S.card _ =
+  change ExteriorAlgebra.ιMulti A S.card _ =
     (∏ i ∈ S, f i ^ (m - n)) • ExteriorAlgebra.ιMulti A S.card _
   rw [hs, AlternatingMap.map_smul_univ, hp]
 
@@ -664,7 +664,7 @@ private theorem stupidTruncSection_map {K L : CochainComplex (ModuleCat.{v} A) �
       (ComplexShape.embeddingUpIntGE p)).f j = g.f j ≫ stupidTruncSection L p j := by
   by_cases hp : p ≤ j
   · have hj : (ComplexShape.embeddingUpIntGE p).f (j - p).toNat = j := by
-      show p + ((j - p).toNat : ℤ) = j
+      change p + ((j - p).toNat : ℤ) = j
       rw [Int.toNat_of_nonneg (by omega)]
       omega
     simp only [stupidTruncSection, dite_eq_left hp]
@@ -729,7 +729,7 @@ private theorem koszulBasisVector_inclusion {r : ℕ} (f : Fin r → A)
       standardKoszulSectionTerm f q n (-(S.card : ℤ)) (koszulBasisVector f none n S) := by
     cases q <;> rfl
   rw [he]
-  show ((standardKoszulSectionTerm f q n (-(S.card : ℤ)) ≫
+  change ((standardKoszulSectionTerm f q n (-(S.card : ℤ)) ≫
     standardKoszulProjectionTerm f q n (-(S.card : ℤ))) ≫
     standardKoszulSectionTerm f p n (-(S.card : ℤ))) _ = _
   rw [standardKoszul_section_projection, ite_eq_left hS, Category.id_comp]
@@ -755,18 +755,18 @@ private theorem comparison_inclusion {r : ℕ} {f : Fin r → A}
   classical
   apply HomologicalComplex.hom_ext
   intro t
-  show (AdicKoszul.moduleUniverseLift A).map (filtrationInclusionTerm p q K t) ≫
+  change (AdicKoszul.moduleUniverseLift A).map (filtrationInclusionTerm p q K t) ≫
     comparisonTerm f p n K t = comparisonTerm f q n K t ≫ _
   simp only [comparisonTerm, Preadditive.comp_sum, Preadditive.sum_comp, Category.assoc]
   apply Finset.sum_congr rfl
   intro S _
-  show _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
+  change _ = _ ≫ _ ≫ (HomologicalComplex.ιMapBifunctor _ _ _ _ _ _ _ _) ≫
     (HomologicalComplex.mapBifunctorMap (𝟙 _) (h.standardInclusion p q hpq n) _ _).f t
   rw [HomologicalComplex.ι_mapBifunctorMap]
   simp only [HomologicalComplex.id_f]
   rw [CategoryTheory.Functor.map_id]
   simp only [NatTrans.id_app, Category.id_comp]
-  show _ = _ ≫ _ ≫
+  change _ = _ ≫ _ ≫
     (((complexUniverseLift (A := A)).obj K).X (t + S.card) ◁
       standardKoszulInclusionTerm (fun a ↦ (ULift.up (f a) : ULift.{v} A)) p q n
         (-(S.card : ℤ))) ≫ _
@@ -776,7 +776,6 @@ private theorem comparison_inclusion {r : ℕ} {f : Fin r → A}
       termProjection q K t ≫ ModuleCat.ofHom (LinearMap.proj S) := by
     rw [← Category.assoc, filtrationInclusionTerm_projection p q hpq]
   rw [hpr]
-  try simp only [Category.assoc]
   by_cases hS : CutoffLE q (some (-(S.card : ℤ)))
   · erw [← Category.assoc (ModuleCat.ofHom
         ((TensorProduct.mk (ULift.{v} A)
@@ -796,7 +795,7 @@ private theorem tensor_mk_smul {R : Type u} [CommRing R]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show TensorProduct.tmul R (a • x) e = TensorProduct.tmul R x (a • e)
+  change TensorProduct.tmul R (a • x) e = TensorProduct.tmul R x (a • e)
   exact TensorProduct.smul_tmul a x e
 
 end KoszulCoefficientTower

@@ -95,7 +95,7 @@ theorem isFlat_naiveCotangentComplex_X_zero :
       (y : (Algebra.Generators.self (ToType (TopCat.Presheaf.stalk A.obj x))
         (ToType (TopCat.Presheaf.stalk B.obj x))).toExtension.CotangentSpace),
       e.symm c • y = c • y := fun c y => by
-    show e (e.symm c) • y = c • y
+    change e (e.symm c) • y = c • y
     rw [e.apply_symm_apply]
   exact @Module.Flat.of_free _ _ _ _ _
     (Module.Free.of_basis

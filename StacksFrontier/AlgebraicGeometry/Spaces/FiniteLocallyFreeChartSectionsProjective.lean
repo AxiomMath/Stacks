@@ -162,12 +162,11 @@ theorem module_finite_projective_sections_of_isFiniteLocallyFreeOnSite
       map_add' := fun z z' => by funext i; simp
       map_smul' := fun b z => by
         funext i
-        show e i (TensorProduct.piLeft (R := chartRing B S hS F hF U) (M := Bi)
+        change e i (TensorProduct.piLeft (R := chartRing B S hS F hF U) (M := Bi)
             (N := G.val.obj (op U)) (b • z) i) =
           b i • e i (TensorProduct.piLeft (R := chartRing B S hS F hF U) (M := Bi)
             (N := G.val.obj (op U)) z i)
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul b' x =>
           rw [TensorProduct.smul_tmul', hE, hE, show (b • b') i = b i • b' i from rfl,
             ← TensorProduct.smul_tmul', LinearEquiv.map_smul]
@@ -246,7 +245,7 @@ theorem isFiniteLocallyFreeOnSite_of_finite_projective_sections
           (openChartInclusion B S hS F T₀ ((chartScheme T₀).basicOpen g))) b'⟩⟩,
         Category.id_comp _⟩, ⟨w₀, hwg⟩, ?_⟩
     rw [Functor.map_comp, Functor.map_comp]
-    show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map j))
+    change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map j))
       (((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map
         (openChartInclusion B S hS F T₀ ((chartScheme T₀).basicOpen g)))) ⟨w₀, hwg⟩) = z
     rw [toScheme_map_toOver_map_openChartInclusion]

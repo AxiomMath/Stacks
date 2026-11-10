@@ -17,9 +17,11 @@ Let `X` be a smooth curve over an algebraically closed field `k`, with generic p
 
 ## Main results
 
-* `Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_smoothCurve`:
+All in the namespace `Stacks.EtaleCohomology`:
+
+* `subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_smoothCurve`:
   **Stacks 03RK**.
-* `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve`:
+* `subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve`:
   **Stacks 03RM**.
 
 ## Implementation notes
@@ -29,7 +31,8 @@ Both are the general statements of
 their inputs supplied:
 
 * Stacks 03RJ, `R^q j_* 𝐆_{m,η} = 0` for `q ≥ 1`, is
-  `Stacks.EtaleCohomology.isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
+  `Stacks.EtaleCohomology.`
+  `isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
   whose transcendence-degree premise at the function field of a curve is
   `AlgebraicGeometry.trdeg_functionField_eq_one`;
 * Stacks 03RG, `H^q_étale(η, 𝐆_m) = 0` for `q ≥ 1`, is
@@ -96,7 +99,7 @@ theorem subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve {k : Type u} [Fie
     (q : ℕ) (hq : 2 ≤ q) :
     Subsingleton
       (Sheaf.H.{u + 1, u + 1} (Stacks.Kummer.multiplicativeSheaf.{u, u + 1} X) q) := by
-  letI := functionFieldAlgebra k g
+  let := functionFieldAlgebra k g
   exact subsingleton_sheafH_multiplicativeSheaf_smoothCurve g
     (divisorSequenceSecondMapOfCurve.{u, u + 1} g)
     (multiplicativeDirectImageComparison_comp_divisorSequenceSecondMapOfCurve.{u, u + 1} g)

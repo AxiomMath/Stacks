@@ -157,7 +157,7 @@ def unitSmallEtaleStructureComparison :
             (contains_base B E h S hS p x)).obj.obj
               (op ((smallEtaleBaseChange E (smallEtaleBaseMorphism B E h S hS p φ)).obj
                 X.unop)))))
-      (fun X Y f => PresheafOfModules.unit_map_one _ _))
+      (fun _ _ _ => PresheafOfModules.unit_map_one _ _))
 
 /-- On sections, `unitSmallEtaleStructureComparison` is the map of structure sheaves
 `smallEtaleStructureComparison`. -/
@@ -165,7 +165,7 @@ theorem unitSmallEtaleStructureComparison_app (X)
     (m : (SmallEtale.structureSheaf E (p.obj y).left.1 (contains_base B E h S hS p y)).obj.obj X) :
     (unitSmallEtaleStructureComparison B E h S hS p hp τ hτ φ).app X m =
       (smallEtaleStructureComparison B E h S hS p hp φ τ hτ).app X m := by
-  show (smallEtaleStructureComparison B E h S hS p hp φ τ hτ).app X m * 1 = _
+  change (smallEtaleStructureComparison B E h S hS p hp φ τ hτ).app X m * 1 = _
   exact mul_one _
 
 /-- **The comparison map `c_φ` of Stacks 06WC of the structure sheaf of `𝒳` is an isomorphism,
@@ -202,7 +202,7 @@ theorem isIso_restrictModulePullbackComparison_unit :
   let e := localStructurePresheafIso B E h S hS p hp y τ hτ
   let n' : (restrictToSmallEtale B E h S hS p hp y
     (ringStructureSheafCore B S hS p hp τ hτ).obj).obj W := n
-  show (unitSmallEtaleStructureComparison B E h S hS p hp τ hτ φ).app W (e.inv.app W n') =
+  change (unitSmallEtaleStructureComparison B E h S hS p hp τ hτ φ).app W (e.inv.app W n') =
     (localStructurePresheafIso B E h S hS p hp x τ hτ).inv.app _
       ((restrictionPushforwardComparison B E h S hS p hp φ
         (PresheafOfModules.unit (ringStructureSheafCore B S hS p hp τ hτ).obj).presheaf).app W n)
@@ -301,7 +301,7 @@ theorem isClosedUnderColimitsOfShape_locallyQuasicoherentSheafFlatBaseChange
       hT.hom_ext fun k => by
         rw [IsColimit.comp_coconePointsIsoOfNatIso_hom]
         exact (α.naturality (c.cocone.ι.app k)).symm
-    show IsIso (α.app c.cocone.pt)
+    change IsIso (α.app c.cocone.pt)
     rw [← he]
     infer_instance
 
@@ -312,6 +312,8 @@ section Fppf
 variable [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
   [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
+  [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Stacks 0771 (5) for `Mod(𝒪_𝒳)`: `LQCoh^fbc(𝒪_𝒳)` is closed under colimits computed in the
 fppf modules.** The colimit computed in the étale modules lies in `LQCoh^fbc(𝒪_𝒳)`, hence is an
 fppf sheaf (Stacks 0771 (1)), hence is the colimit computed in the fppf modules. -/
@@ -357,7 +359,7 @@ theorem isClosedUnderColimitsOfShape_locallyQuasicoherentSheafFlatBaseChangeFppf
         ι :=
           { app := fun k => ff.preimage (X := c.diag.obj k) (Y := c') (cE.ι.app k)
             naturality := fun k k' f => ε.map_injective (by
-              show ε.map (c.diag.map f ≫ ff.preimage (X := c.diag.obj k') (Y := c')
+              change ε.map (c.diag.map f ≫ ff.preimage (X := c.diag.obj k') (Y := c')
                   (cE.ι.app k')) = ε.map (ff.preimage (X := c.diag.obj k) (Y := c')
                     (cE.ι.app k) ≫ 𝟙 c')
               rw [ε.map_comp, ε.map_comp, hpre, hpre, ε.map_id]
@@ -365,11 +367,13 @@ theorem isClosedUnderColimitsOfShape_locallyQuasicoherentSheafFlatBaseChangeFppf
     have hco : IsColimit co := by
       refine isColimitOfReflects ε (IsColimit.ofIsoColimit hcE ?_)
       exact Cocone.ext (Iso.refl _) fun k => by
-        show cE.ι.app k ≫ 𝟙 _ = ε.map (ff.preimage (X := c.diag.obj k) (Y := c')
+        change cE.ι.app k ≫ 𝟙 _ = ε.map (ff.preimage (X := c.diag.obj k) (Y := c')
           (cE.ι.app k))
         rw [Category.comp_id, hpre]
     exact Pe.prop_of_iso (ε.mapIso (IsColimit.coconePointUniqueUpToIso hco c.isColimit)) hPE
 
+omit [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
+  [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The structure sheaf lies in `LQCoh^fbc(𝒪_𝒳) ⊆ Mod(𝒪_𝒳)`.** -/
 theorem locallyQuasicoherentSheafFlatBaseChangeFppfSiteModules_unit :
     locallyQuasicoherentSheafFlatBaseChangeFppfSiteModules B E h S hS p hp

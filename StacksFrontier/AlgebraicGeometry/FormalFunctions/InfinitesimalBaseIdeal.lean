@@ -31,7 +31,8 @@ them. The tower `n ↦ Γ(X_n, 𝒪_{X_n})` is the right-hand side of [Stacks, T
 for the structure sheaf (`Stacks.FormalFunctions.infinitesimalFunctions`), while the
 [Stacks, Tag 02OB] and [Stacks, Tag 02OC] machinery of
 `StacksFrontier/AlgebraicGeometry/FormalFunctions/IdealPowerQuotientCohomologyBound.lean` and
-`StacksFrontier/AlgebraicGeometry/FormalFunctions/AdicCompletionLimitComparison.lean` is stated over an affine base `Spec A` for the tower
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/AdicCompletionLimitComparison.lean`
+is stated over an affine base `Spec A` for the tower
 `n ↦ H⁰(X', 𝒪_{X'}/𝓘 ^ n)` with `𝓘 = I · 𝒪_{X'}`. Here `A = 𝒪_{Y,y}` and `I = 𝔪_y`, and the
 identification below is what lets the second tower be read as the first.
 

@@ -361,7 +361,7 @@ theorem bijective_sectionsBaseChangeMap (H : IsPullback p k iX q) [IsAffine S] [
     (fun a : ι => p ⁻¹ᵁ V a) (p ⁻¹ᵁ U)
     (fun a => homOfLE (Scheme.Hom.preimage_mono p (hVle a))) hcover'
     (sectionsBaseChangeMap H F U w) t fun a => ?_⟩
-  show pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
+  change pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
   rw [← sectionsBaseChangeMap_comm_res H F (hVle a) w, hwa a, hz a]
   rfl
 

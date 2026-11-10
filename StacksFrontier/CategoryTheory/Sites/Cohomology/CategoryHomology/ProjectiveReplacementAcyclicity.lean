@@ -89,7 +89,7 @@ theorem replacementComplex_homology_isZero_of_retract {F G : Cᵒᵖ ⥤ AddComm
   let T : (Cᵒᵖ ⥤ AddCommGrpCat.{u}) ⥤ AddCommGrpCat.{u} :=
     replacementComplexFunctor (C := C) ⋙ HomologicalComplex.homologyFunctor _ _ n
   rw [IsZero.iff_id_eq_zero]
-  show 𝟙 (T.obj F) = 0
+  change 𝟙 (T.obj F) = 0
   rw [← T.map_id, ← hir, T.map_comp, (show IsZero (T.obj G) from h).eq_of_tgt (T.map i) 0,
     zero_comp]
 
@@ -124,7 +124,7 @@ lemma directSumSwapHom_apply_of {I J : Type*} [DecidableEq I] (A : I → J → T
     [∀ i j, AddCommMonoid (A i j)] (i : I) (y : ⨁ j, A i j) :
     directSumSwapHom A (DirectSum.of (fun i' ↦ ⨁ j', A i' j') i y) =
       DirectSum.map (fun j ↦ DirectSum.of (fun i' ↦ A i' j) i) y := by
-  show (DirectSum.toAddMonoid fun i ↦ DirectSum.map fun j ↦
+  change (DirectSum.toAddMonoid fun i ↦ DirectSum.map fun j ↦
       DirectSum.of (fun i' ↦ A i' j) i) (DirectSum.of (fun i' ↦ ⨁ j', A i' j') i y) = _
   rw [DirectSum.toAddMonoid_of]
 
@@ -229,7 +229,7 @@ lemma directSumPresheafDesc_app_of {G : Cᵒᵖ ⥤ AddCommGrpCat.{w}} (η : ∀
     (Y : Cᵒᵖ) (x : (F i).obj Y) :
     (directSumPresheafDesc F η).app Y (DirectSum.of (fun j ↦ ((F j).obj Y : Type w)) i x) =
       (η i).app Y x := by
-  show (DirectSum.toAddMonoid fun j ↦ ((η j).app Y).hom)
+  change (DirectSum.toAddMonoid fun j ↦ ((η j).app Y).hom)
       (DirectSum.of (fun j ↦ ((F j).obj Y : Type w)) i x) = _
   rw [DirectSum.toAddMonoid_of]
 
@@ -359,7 +359,7 @@ def freeRepresentableHom {F : Cᵒᵖ ⥤ AddCommGrpCat.{u}} (U : C) (s : F.obj 
 the given section. -/
 lemma freeRepresentableHom_id {F : Cᵒᵖ ⥤ AddCommGrpCat.{u}} (U : C) (s : F.obj (op U)) :
     (freeRepresentableHom U s).app (op U) (FreeAbelianGroup.of (𝟙 U)) = s := by
-  show (FreeAbelianGroup.lift fun h : U ⟶ U ↦ (F.map h.op) s) (FreeAbelianGroup.of (𝟙 U)) = s
+  change (FreeAbelianGroup.lift fun h : U ⟶ U ↦ (F.map h.op) s) (FreeAbelianGroup.of (𝟙 U)) = s
   rw [FreeAbelianGroup.lift_apply_of, op_id, F.map_id]
   rfl
 

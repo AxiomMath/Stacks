@@ -123,7 +123,7 @@ public lemma lTensor_injective_of_exact_of_isTorsionFree
   apply LinearMap.lTensor_injective_of_exact_of_flat g.rangeRestrict
     g.surjective_rangeRestrict f hf
   intro x
-  show (g.rangeRestrict x = 0) ↔ x ∈ Set.range f
+  change (g.rangeRestrict x = 0) ↔ x ∈ Set.range f
   rw [Subtype.ext_iff]
   exact h x
 
@@ -183,7 +183,7 @@ public lemma exists_isTorsionFree_epi (F : Sheaf K Ab.{u}) :
         apply AddCommGrpCat.hom_ext
         apply FreeAbelianGroup.lift_ext
         intro x
-        show FreeAbelianGroup.lift (fun x => x)
+        change FreeAbelianGroup.lift (fun x => x)
             (FreeAbelianGroup.map (F.obj.map f) (FreeAbelianGroup.of x)) =
           F.obj.map f (FreeAbelianGroup.lift (fun x => x) (FreeAbelianGroup.of x))
         simp }
@@ -219,8 +219,7 @@ public def tensorPresheafRestrict (F : Dᵒᵖ ⥤ Ab.{u}) {X Y : Dᵒᵖ} (f : 
     (F.map f).hom.toIntLinearMap
   map_add' := map_add _
   map_smul' r x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul a x => simp [TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -307,7 +306,7 @@ public lemma tensorPresheafUnit_comp_lift {F : Dᵒᵖ ⥤ Ab.{u}}
     tensorPresheafUnit R F ≫ (PresheafOfModules.toPresheaf R).map
       (tensorPresheafLift R f) = f := by
   ext X x
-  show (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
+  change (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
   rw [tensorPresheafLift_app_tmul, one_smul]
 
 public lemma tensorPresheafUnit_naturality {F G : Dᵒᵖ ⥤ Ab.{u}} (f : F ⟶ G) :
@@ -806,7 +805,7 @@ public lemma exists_extension_of_isTorsionFree
   refine ⟨⟨tensorPresheafUnit R.obj S.X₂.obj ≫
     (PresheafOfModules.toPresheaf R.obj).map g⟩, ?_⟩
   apply Sheaf.hom_ext
-  show S.f.hom ≫ tensorPresheafUnit R.obj S.X₂.obj ≫
+  change S.f.hom ≫ tensorPresheafUnit R.obj S.X₂.obj ≫
     (PresheafOfModules.toPresheaf R.obj).map g = f.hom
   rw [← Category.assoc, tensorPresheafUnit_naturality, Category.assoc,
     ← CategoryTheory.Functor.map_comp]
@@ -934,7 +933,7 @@ public lemma tensorSheafHomIso_naturality (R : Sheaf J RingCat.{u})
   ext element
   change ((PresheafOfModules.sheafification (𝟙 R.obj)).obj (tensorPresheaf R.obj P') ⟶ M)
     at element
-  show ((sheafificationAdjunction J Ab.{u}).homEquiv P
+  change ((sheafificationAdjunction J Ab.{u}).homEquiv P
         ((SheafOfModules.toSheaf R).obj M)).symm
         ((tensorPresheafHomAddEquiv R.obj P
           ((SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)).obj M))
@@ -958,7 +957,7 @@ public lemma tensorSheafHomIso_naturality (R : Sheaf J RingCat.{u})
         ((PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).homEquiv
           (tensorPresheaf R.obj P') M element) := by
     rw [Adjunction.homEquiv_naturality_left]
-    show tensorPresheafUnit R.obj P ≫ (PresheafOfModules.toPresheaf R.obj).map
+    change tensorPresheafUnit R.obj P ≫ (PresheafOfModules.toPresheaf R.obj).map
         (tensorPresheafMap R.obj p ≫ _) =
       p ≫ tensorPresheafUnit R.obj P' ≫ (PresheafOfModules.toPresheaf R.obj).map _
     rw [Functor.map_comp]
@@ -1111,7 +1110,7 @@ public theorem moduleSheafCohomologyIsoUnderlying (R : Sheaf J RingCat.{u}) :
     (represented_succ_comparison J R
       ((Functor.const Cᵒᵖ).obj (AddCommGrpCat.of (ULift.{u} ℤ)))
       (fun _ => by
-        show Module.IsTorsionFree ℤ (ULift.{u} ℤ)
+        change Module.IsTorsionFree ℤ (ULift.{u} ℤ)
         exact Module.Flat.isTorsionFree) (Sheaf.Γ J Ab.{u}) (globalSectionsRepresentation J))
   refine ⟨eSite, heSite, ?_⟩
   intro U

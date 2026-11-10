@@ -97,8 +97,7 @@ private theorem tensor_map_surjective {A : Type*} [CommRing A] {K : Type*} [Comm
     (f : M →ₗ[A] N) (hf : Function.Surjective f) :
     Function.Surjective (AlgebraTensorModule.map (LinearMap.id (R := K) (M := K)) f) := by
   intro u
-  induction u using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction u using TensorProduct.inductionOn with
   | tmul a n => obtain ⟨m, rfl⟩ := hf n; exact ⟨a ⊗ₜ m, rfl⟩
   | add x y hx hy =>
       obtain ⟨x', rfl⟩ := hx
@@ -121,7 +120,7 @@ private theorem idealBaseChangeMap_surjective {R : Type*} [CommRing R] (I : Idea
   refine Submodule.map_injective_of_injective
     (f := (I.map (algebraMap R A)).subtype) Subtype.val_injective ?_
   rw [Submodule.map_span, Submodule.map_top, Submodule.range_subtype]
-  show Submodule.span A _ = Ideal.span (algebraMap R A '' I)
+  change Submodule.span A _ = Ideal.span (algebraMap R A '' I)
   congr 1
   ext z
   simp only [Set.mem_image, SetLike.mem_coe, LinearMap.mem_range, Submodule.coe_subtype]
@@ -303,11 +302,11 @@ private theorem spanFinrank_ker_map_le_of_gci_away_fin
       ext i
       simp [Algebra.Generators.ofAlgHom]⟩
   have hQker : Q.ker = Ideal.span (Set.range f) := by
-    show RingHom.ker (algebraMap Q.Ring (Localization.Away g)) = _
+    change RingHom.ker (algebraMap Q.Ring (Localization.Away g)) = _
     rw [hQmap]
     ext y
     rw [RingHom.mem_ker]
-    show E.symm (Ideal.Quotient.mk (Ideal.span (Set.range f)) y) = 0 ↔ _
+    change E.symm (Ideal.Quotient.mk (Ideal.span (Set.range f)) y) = 0 ↔ _
     rw [map_eq_zero_iff _ E.symm.injective, Ideal.Quotient.eq_zero_iff_mem]
   let : Algebra Q.Ring (IsLocalRing.ResidueField A) :=
     ((algebraMap (Localization.Away g) (IsLocalRing.ResidueField A)).comp
@@ -425,7 +424,7 @@ theorem Algebra.Generators.spanFinrank_ker_map_le_of_exists_isGlobalCompleteInte
       Ideal.comap ρ I = Ideal.comap (ρ : P'.Ring →+* P.Ring) I := fun _ => rfl
   have hker' : P'.ker = P.ker.comap ρ := by
     ext x
-    show algebraMap P'.Ring S x = 0 ↔ _
+    change algebraMap P'.Ring S x = 0 ↔ _
     rw [Ideal.mem_comap, hmap]
     rfl
   have hq'' : q.comap (algebraMap P'.Ring S)
@@ -437,7 +436,7 @@ theorem Algebra.Generators.spanFinrank_ker_map_le_of_exists_isGlobalCompleteInte
   have hmem : ∀ x : P'.Ring, x ∈ (q.comap (algebraMap P'.Ring S)).primeCompl ↔
       ρ x ∉ q.comap (algebraMap P.Ring S) := by
     intro x
-    show x ∉ q.comap (algebraMap P'.Ring S) ↔ _
+    change x ∉ q.comap (algebraMap P'.Ring S) ↔ _
     rw [hq'', Ideal.mem_comap]
   have hmono : Submonoid.map ρ (q.comap (algebraMap P'.Ring S)).primeCompl
       = (q.comap (algebraMap P.Ring S)).primeCompl := by

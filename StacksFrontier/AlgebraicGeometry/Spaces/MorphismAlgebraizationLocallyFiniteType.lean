@@ -148,12 +148,12 @@ theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [Is
     ∃ φ : X ⟶ Y, ∃ hφ : φ ≫ fY = fX, ∀ n, adicFibreMap A I B hS hSn φ hφ n = g n := by
   have hbase := isAlgebraicSpace_yoneda B _ hS (baseObject A B hS)
   have hSaff : IsAffine ((BigFppfOver.toScheme B _ hS).obj (baseObject A B hS)) := by
-    show IsAffine (Spec (.of A))
+    change IsAffine (Spec (.of A))
     infer_instance
   -- The closed fibre `X_0` is quasi-compact.
   have hT0 : CompactSpace
       ((BigFppfOver.toScheme B _ hS).obj (adicThickeningObject A I B hS hSn 0)) := by
-    show CompactSpace (adicThickening A I 0)
+    change CompactSpace (adicThickening A I 0)
     infer_instance
   have hX0 : IsQuasiCompactSpace B _ hS (adicFibre A I B hS hSn fX 0) :=
     isQuasiCompactSpace_of_iso B _ hS (pullbackSymmetry _ _)

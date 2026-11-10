@@ -131,6 +131,7 @@ variable (S S' : GlobalCrystallineSituation.{u}) (fS : S.S ⟶ S'.S) (fX : S.X �
   [HasDerivedCategory.{w'} (Sheaf (opensTopology S) AddCommGrpCat.{u + 1})]
   [HasDerivedCategory.{w'} (Sheaf (opensTopology S') AddCommGrpCat.{u + 1})]
 
+omit [HasDerivedCategory (Sheaf S'.smallTopology AddCommGrpCat)] in
 /-- **`Rf_{Zar, *}Ru_{X'/S, *}ℱ'` is concentrated in degrees `≥ 0`**, the second term of the
 triangle of [Stacks, Tag 07Q9]: two right derived functors on `D⁺` applied to a sheaf placed in
 degree zero. -/

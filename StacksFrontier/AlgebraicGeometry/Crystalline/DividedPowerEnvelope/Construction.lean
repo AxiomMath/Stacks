@@ -322,7 +322,7 @@ private theorem candidateIdeal_le_ambient (A : DividedPowerRing)
   rw [candidateIdeal, Ideal.span_le]
   intro x hx
   rcases hx with ⟨i, hi, hx⟩ | hx
-  · show (x : C) ∈ C.ideal
+  · change (x : C) ∈ C.ideal
     rw [hx]
     exact a.ideal_comp (Ideal.mem_map_of_mem _ hi)
   · exact powerGenerators_subset_ideal J C b hx
@@ -375,7 +375,7 @@ private theorem candidateGenerator_dpow (A : DividedPowerRing)
   · refine ⟨candidateBaseHom A J C a b (A.dividedPowers.dpow n i), ?_, ?_⟩
     · exact baseIdeal_le_candidate A J C a b
         (Ideal.mem_map_of_mem _ (A.dividedPowers.dpow_mem hn hi))
-    · show a.toRingHom (A.dividedPowers.dpow n i) =
+    · change a.toRingHom (A.dividedPowers.dpow n i) =
         C.dividedPowers.dpow n (x : C)
       rw [hxi]
       exact (a.dpow_comp i hi).symm
@@ -388,7 +388,7 @@ private theorem candidateGenerator_dpow (A : DividedPowerRing)
       exact ⟨n * m, mul_ne_zero hn hm, j, hj, rfl⟩
     refine ⟨(Nat.uniformBell n m : candidateSubring A J C a b) * z,
       (candidateIdeal A J C a b).mul_mem_left _ hz, ?_⟩
-    show (Nat.uniformBell n m : C) *
+    change (Nat.uniformBell n m : C) *
       C.dividedPowers.dpow (n * m) (b.toRingHom j) =
         C.dividedPowers.dpow n (x : C)
     rw [hxj]
@@ -447,20 +447,20 @@ private theorem candidateIdeal_dpow (A : DividedPowerRing)
               (liftPower y hy hpy k.2)).2 h2)
           · exact K.mul_mem_right _ ((Classical.choose_spec
               (liftPower x hx hpx k.1)).2 h0)
-        · show ((w : S) : C) = C.dividedPowers.dpow m ((x : C) + (y : C))
+        · change ((w : S) : C) = C.dividedPowers.dpow m ((x : C) + (y : C))
           rw [C.dividedPowers.dpow_add (hK x hx) (hK y hy)]
-          show (SubringClass.subtype S) w = _
+          change (SubringClass.subtype S) w = _
           simp only [w, map_sum, map_mul]
           apply Finset.sum_congr rfl
           intro k hk
-          show ((px k.1 : S) : C) * ((py k.2 : S) : C) = _
+          change ((px k.1 : S) : C) * ((py k.2 : S) : C) = _
           rw [(Classical.choose_spec (liftPower x hx hpx k.1)).1,
             (Classical.choose_spec (liftPower y hy hpy k.2)).1]
     | smul r x hx hpx =>
         intro m hm
         obtain ⟨w, hw, heq⟩ := hpx m hm
         refine ⟨r ^ m * w, K.mul_mem_left _ hw, ?_⟩
-        show (r : C) ^ m * (w : C) =
+        change (r : C) ^ m * (w : C) =
           C.dividedPowers.dpow m ((r : C) * (x : C))
         rw [heq]
         exact (C.dividedPowers.dpow_mul (hK x hx)).symm
@@ -687,7 +687,7 @@ private theorem ringClosureRange_eq_top {R : Type u} [CommRing R] (s : Set R) :
   apply top_le_iff.mp
   intro x hx
   rw [← SetLike.mem_coe, ← Subtype.val_injective.mem_set_image]
-  show (x : R) ∈ Subring.map (Subring.closure s).subtype (ringClosureRange s)
+  change (x : R) ∈ Subring.map (Subring.closure s).subtype (ringClosureRange s)
   refine Subring.closure_le.mpr (fun a ha => ?_) x.prop
   exact ⟨⟨a, Subring.subset_closure ha⟩,
     ⟨WType.mk (.inr ⟨a, ha⟩) Empty.rec, rfl⟩, rfl⟩
@@ -767,7 +767,7 @@ private theorem candidateCardinal_le (A : DividedPowerRing)
           Cardinal.mk (powerGenerators J C b) :=
             add_le_add (Cardinal.mk_union_le _ _) le_rfl
       _ ≤ κ := Cardinal.add_le_of_le hκ (Cardinal.add_le_of_le hκ ha hb) hp
-  show Cardinal.mk (candidateSubring A J C a b) ≤ κ
+  change Cardinal.mk (candidateSubring A J C a b) ≤ κ
   exact (cardinalMk_ringClosure_le_max _).trans (max_le hgen hκ)
 
 private theorem envelopeSolutionSet (A : DividedPowerRing)

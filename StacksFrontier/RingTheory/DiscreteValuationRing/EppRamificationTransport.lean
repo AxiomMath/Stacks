@@ -136,7 +136,7 @@ theorem quotient_length_eq (T U : Type*) [CommRing T] [CommRing U]
       map_add' := qc.map_add
       map_smul' := by
         intro sc el
-        show qc (Ideal.Quotient.mk I sc * el) = Ideal.Quotient.mk J (c sc) * qc el
+        change qc (Ideal.Quotient.mk I sc * el) = Ideal.Quotient.mk J (c sc) * qc el
         rw [map_mul]
         rfl }
   rw [Module.length, Module.length, WithBot.unbot_inj,
@@ -158,7 +158,7 @@ theorem ramificationIdx_map [Algebra R S] [Algebra R' S'] (e : R ≃+* R') (e' :
   have hfcomp : ∀ r : R, f (algebraMap R Sq r) = algebraMap R' Sq' (e r) := by
     intro r
     rw [IsScalarTower.algebraMap_apply R S Sq]
-    show IsLocalization.ringEquivOfRingEquiv Sq Sq' e' hH
+    change IsLocalization.ringEquivOfRingEquiv Sq Sq' e' hH
         (algebraMap S Sq (algebraMap R S r)) = _
     rw [IsLocalization.ringEquivOfRingEquiv_eq, ← hsq,
       ← IsScalarTower.algebraMap_apply R' S' Sq']

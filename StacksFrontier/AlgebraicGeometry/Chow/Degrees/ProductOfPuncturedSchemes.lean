@@ -204,7 +204,7 @@ private theorem isOpenImmersion_and_range_overProdOpensι {S : Scheme.{u}} {n : 
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨x, rfl⟩
     refine (hWmem _).mpr fun i ↦ ?_
-    show (overProdπ g i).base (j.base x) ∈ (U i : Set (Y i))
+    change (overProdπ g i).base (j.base x) ∈ (U i : Set (Y i))
     rw [← Scheme.Opens.range_ι]
     exact ⟨(overProdπ (fun i ↦ (U i).ι ≫ g i) i).base x,
       congrArg (fun φ : (overProd fun i ↦ (U i).ι ≫ g i).left ⟶ Y i ↦ φ.base x) (hj i).symm⟩
@@ -398,12 +398,12 @@ theorem single_notMem_rationalEquivalences_of_dvd_boundary_residueDegree
     rw [cycleGroupOpensRestrict_apply, hpush]
     by_cases hz : z = e.hom.base v
     · rw [hz, classicalSingle_self]
-      show (@Function.locallyFinsuppWithin.single X _ ℤ (Classical.decEq X) _
+      change (@Function.locallyFinsuppWithin.single X _ ℤ (Classical.decEq X) _
         (j.base v) (1 : ℤ)) (W.ι.base (e.hom.base v)) = 1
       rw [hebase]
       exact classicalSingle_self _ _
     · rw [classicalSingle_of_ne hz]
-      show (@Function.locallyFinsuppWithin.single X _ ℤ (Classical.decEq X) _
+      change (@Function.locallyFinsuppWithin.single X _ ℤ (Classical.decEq X) _
         (j.base v) (1 : ℤ)) (W.ι.base z) = 0
       refine classicalSingle_of_ne ?_ _
       intro hcon
@@ -411,7 +411,7 @@ theorem single_notMem_rationalEquivalences_of_dvd_boundary_residueDegree
   -- the rational equivalence on the open subscheme
   have hres : RationallyEquivalent C (W.ι ≫ p) 0 (cycleGroupOpensRestrict C p W 0 a)
       (cycleGroupOpensRestrict C p W 0 0) := by
-    show cycleGroupOpensRestrict C p W 0 a - cycleGroupOpensRestrict C p W 0 0 ∈
+    change cycleGroupOpensRestrict C p W 0 a - cycleGroupOpensRestrict C p W 0 0 ∈
       rationalEquivalences C (W.ι ≫ p) 0
     rw [map_zero, sub_zero, hβ]
     exact properPushforwardFactorsThroughRationalEquivalence_of_isProper C (j ≫ p) (W.ι ≫ p)

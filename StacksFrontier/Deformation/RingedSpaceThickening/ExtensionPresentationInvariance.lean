@@ -100,7 +100,6 @@ universe v u w z
 namespace Stacks.Sites.Conormal
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   {A₁ A₂ B : Sheaf J CommRingCat.{w}} (φ₁ : A₁ ⟶ B) (φ₂ : A₂ ⟶ B) (ψ : A₁ ⟶ A₂)
   (hψ : ψ ≫ φ₂ = φ₁)
   (G : SheafOfModules.{max w u v z} (ringSheaf B))

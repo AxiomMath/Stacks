@@ -102,14 +102,14 @@ over `g(y') ↓ f` gives the compatible family over `y' ↓ b` whose value at `(
 is the value of `s` at `(a z, w_z ≫ g ψ)`. -/
 def sectionsBaseChange (F : 𝒳ᵒᵖ ⥤ AddCommGrpCat.{m}) (y' : 𝒴'ᵒᵖ) :
     compatibleSections f.op F (g.op.obj y') →+ compatibleSections b.op (a.op ⋙ F) y' where
-  toFun s := ⟨fun z ψ => s.val (a.op.obj z) (g.op.map ψ ≫ w.op.natTrans.app z), by
+  toFun s := ⟨fun z ψ => s.val (a.op.obj z) (g.op.map ψ ≫ w.op.app z), by
     intro z z' c ψ
-    change F.map (a.op.map c) (s.val (a.op.obj z) (g.op.map ψ ≫ w.op.natTrans.app z)) =
-      s.val (a.op.obj z') (g.op.map (ψ ≫ b.op.map c) ≫ w.op.natTrans.app z')
+    change F.map (a.op.map c) (s.val (a.op.obj z) (g.op.map ψ ≫ w.op.app z)) =
+      s.val (a.op.obj z') (g.op.map (ψ ≫ b.op.map c) ≫ w.op.app z')
     rw [s.property (a.op.obj z) (a.op.obj z') (a.op.map c)]
     refine congrArg (s.val (a.op.obj z')) ?_
     rw [Functor.map_comp, Category.assoc, Category.assoc]
-    exact congrArg (g.op.map ψ ≫ ·) (w.op.natTrans.naturality c).symm⟩
+    exact congrArg (g.op.map ψ ≫ ·) (w.op.naturality c).symm⟩
   map_zero' := rfl
   map_add' _ _ := rfl
 
@@ -119,7 +119,7 @@ def sectionsBaseChange (F : 𝒳ᵒᵖ ⥤ AddCommGrpCat.{m}) (y' : 𝒴'ᵒᵖ)
 lemma sectionsBaseChange_apply (F : 𝒳ᵒᵖ ⥤ AddCommGrpCat.{m}) (y' : 𝒴'ᵒᵖ)
     (s : compatibleSections f.op F (g.op.obj y')) (z : 𝒵ᵒᵖ) (ψ : y' ⟶ b.op.obj z) :
     (sectionsBaseChange a b f g w F y' s).val z ψ =
-      s.val (a.op.obj z) (g.op.map ψ ≫ w.op.natTrans.app z) := rfl
+      s.val (a.op.obj z) (g.op.map ψ ≫ w.op.app z) := rfl
 
 /-- **Base change of compatible sections along a Guitart exact square is bijective.** The map is
 restriction of sections along the comparison functor of comma categories
@@ -154,7 +154,7 @@ variable {𝒵 : Type vP} [Category.{wP} 𝒵] {𝒳 : Type vX} [Category.{wX} �
   {𝒴' : Type vY'} [Category.{wY'} 𝒴'] {𝒴 : Type vY} [Category.{wY} 𝒴]
   (a : 𝒵 ⥤ 𝒳) (b : 𝒵 ⥤ 𝒴') (f : 𝒳 ⥤ 𝒴) (g : 𝒴' ⥤ 𝒴) (w : TwoSquare a b f g)
   (R : 𝒴ᵒᵖ ⥤ RingCat.{u}) (ha : b.op ⋙ g.op ⋙ R = a.op ⋙ f.op ⋙ R)
-  (hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.natTrans.app z) = eqToHom (Functor.congr_obj ha z))
+  (hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.app z) = eqToHom (Functor.congr_obj ha z))
 
 attribute [local instance] restrictedSectionModule sectionsModule
 
@@ -175,13 +175,13 @@ noncomputable def moduleSectionsBaseChangeApp
       map_smul' := fun r s => by
         apply Subtype.ext
         funext z ψ
-        have key : R.map (g.op.map ψ ≫ w.op.natTrans.app z) r =
+        have key : R.map (g.op.map ψ ≫ w.op.app z) r =
             (eqToHom ha).app z (R.map (g.op.map ψ) r) := by
           rw [R.map_comp, hRw z, eqToHom_app]
           rfl
         let : Module (R.obj ((a.op ⋙ f.op).obj z)) (M.presheaf.obj (a.op.obj z)) :=
           restrictedSectionModule f R M (a.op.obj z)
-        exact congrArg (· • s.val (a.op.obj z) (g.op.map ψ ≫ w.op.natTrans.app z)) key }
+        exact congrArg (· • s.val (a.op.obj z) (g.op.map ψ ≫ w.op.app z)) key }
 
 variable [w.GuitartExact]
 
@@ -204,8 +204,8 @@ noncomputable def moduleSectionsBaseChangeIso :
         ext s
         apply Subtype.ext
         funext z ψ
-        change s.val (a.op.obj z) (g.op.map c ≫ g.op.map ψ ≫ w.op.natTrans.app z) =
-          s.val (a.op.obj z) (g.op.map (c ≫ ψ) ≫ w.op.natTrans.app z)
+        change s.val (a.op.obj z) (g.op.map c ≫ g.op.map ψ ≫ w.op.app z) =
+          s.val (a.op.obj z) (g.op.map (c ≫ ψ) ≫ w.op.app z)
         rw [Functor.map_comp, Category.assoc]))
     (fun {M N} φ => by
       ext y' s

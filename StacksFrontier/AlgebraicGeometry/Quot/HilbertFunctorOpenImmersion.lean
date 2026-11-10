@@ -587,11 +587,11 @@ theorem isOpenImmersion_hilbertModelMap (MX : HilbertPresheafModel bX)
         Z.family.Z.fromPreimage
           (schemeBaseChangeMap bY (HilbertFamilyOver.restrict g Z.toBase)) :=
       hsq.isoIsPullback_hom_fst _ _ _
-    show q.app U g ∈ Set.range ((hilbertModelMap hπ hopen hsep MX MY).app U) ↔
+    change q.app U g ∈ Set.range ((hilbertModelMap hπ hopen hsep MX MY).app U) ↔
       g ∈ (factorizationLocus B S hS (schemeBaseChangeOfMap hπ Ta) Z.family.Z.ι
         (Z.family.Z.ι ≫ pullback.snd bY.hom Ta.hom)).obj U
     rw [hqg, mem_range_hilbertModelMap_iff, HilbertPresheafModel.familyEquiv_map]
-    show Z.family.Z.preimage
+    change Z.family.Z.preimage
           (schemeBaseChangeMap bY (HilbertFamilyOver.restrict g Z.toBase)) ≤
         Subfunctor.range (schemeBaseChangeOfMap hπ
           (CostructuredArrow.mk (yoneda.map g ≫ Z.toBase))) ↔

@@ -184,7 +184,7 @@ theorem restrictedCotangentComparisonSimplicial_naturality (f : C →ₐ[B] C') 
           (restrictedCotangentComparisonSimplicial A B C') := by
   refine NatTrans.ext (funext fun n => ?_)
   refine cotangentTerm_hom_ext.{u, u} A (restrictedBase A B C) n _ _ fun q => ?_
-  show restrictedCotangentTopMap f n
+  change restrictedCotangentTopMap f n
       ((restrictedCotangentComparisonSimplicial A B C).app n
         (cotangentTermDifferential.{u, u} A (restrictedBase A B C) n q)) =
     (restrictedCotangentComparisonSimplicial A B C').app n

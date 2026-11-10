@@ -189,7 +189,7 @@ theorem exists_point_stalkHom_pullback {S A B : Scheme.{u}} (a : A ⟶ S) (b : B
       IsLocalHom ρ.hom → (Spec.map ρ ≫ A'.fromSpecStalk p') (closedPoint R) = p' := by
     intro A' p' ρ hρ
     let := hρ
-    show A'.fromSpecStalk p' ((Spec.map ρ) (closedPoint R)) = p'
+    change A'.fromSpecStalk p' ((Spec.map ρ) (closedPoint R)) = p'
     rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
   -- Equal morphisms have the same attached local homomorphism.
   have hcongr : ∀ (W : Scheme.{u}) (w : W) (m₁ m₂ : Spec (CommRingCat.of R) ⟶ W), m₁ = m₂ →
@@ -227,7 +227,7 @@ theorem exists_point_stalkHom_pullback {S A B : Scheme.{u}} (a : A ⟶ S) (b : B
     let := hρ
     have hpt : (Spec.map ρ ≫ W.fromSpecStalk w) (closedPoint R) = w := hcp W w ρ hρ
     apply CommRingCat.hom_ext_iff.mp
-    show (W.presheaf.stalkCongr (.of_eq hk.symm)).hom ≫
+    change (W.presheaf.stalkCongr (.of_eq hk.symm)).hom ≫
       k.stalkMap (m (closedPoint R)) ≫ Scheme.stalkClosedPointTo m = ρ
     exact (congrArg (fun zz => (W.presheaf.stalkCongr (.of_eq hk.symm)).hom ≫ zz)
         (Scheme.stalkClosedPointTo_comp m k).symm).trans
@@ -418,7 +418,7 @@ theorem exists_elementaryEtaleNeighborhood_algebraization
       S.fromSpecStalk s)
       (closedPoint (AdicCompletion (maximalIdeal (S.presheaf.stalk s))
         (S.presheaf.stalk s))) = s := by
-    show S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
+    change S.fromSpecStalk s ((Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s)
       (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))))
         (closedPoint _)) = s
     rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]

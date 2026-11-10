@@ -166,7 +166,7 @@ theorem bundleChartEquiv_symm_ι (t : Γ(F, V)) :
     (bundleChartEquiv F hV).symm (SymmetricAlgebra.ι _ _ t) =
       ((bundleAlgebraIso F).inv.right.hom.app (op V)).hom
         (Scheme.Modules.Hom.app (symGen F) V t) := by
-  show (algebraSheafIsoRingEquiv (bundleAlgebraIso F) V).symm
+  change (algebraSheafIsoRingEquiv (bundleAlgebraIso F) V).symm
     (Stacks.SymAlgSections.symSectionsRingEquiv F hV (SymmetricAlgebra.ι _ _ t)) = _
   rw [symSectionsRingEquiv_ι]
   rfl
@@ -231,7 +231,7 @@ theorem mem_ker_subbundleEmbedding_iff (inc : N' ⟶ N) [Epi (dualMap inc)]
   · intro h0
     rw [← bundleMapOver_left N' N inc]
     refine app_apply_eq_zero_of_appLE _ hW y (h1.trans ?_)
-    show (algebraSheafIsoRingEquiv (bundleAlgebraIso (dualSheaf N')) V).symm
+    change (algebraSheafIsoRingEquiv (bundleAlgebraIso (dualSheaf N')) V).symm
       (Stacks.SymAlgSections.symSectionsRingEquiv (dualSheaf N') hV _) = 0
     have h0' : (SymmetricAlgebra.lift (SymmetricAlgebra.ι Γ(X, V) Γ(dualSheaf N', V) ∘ₗ
         Scheme.Modules.sectionsLinearMap (dualMap inc) V)) (bundleChartEquiv (dualSheaf N) hV y)
@@ -313,7 +313,7 @@ theorem span_image_range_eq_span_range_basis {A M T : Type*} [CommRing A] [AddCo
       Ideal.span (Set.range fun j => ι (f (bK j))) := by
   refine le_antisymm (Ideal.span_le.mpr ?_) (Ideal.span_mono ?_)
   · rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩
-    show ι (f x) ∈ Ideal.span _
+    change ι (f x) ∈ Ideal.span _
     have hx : x ∈ Submodule.span A (Set.range bK) := bK.mem_span x
     induction hx using Submodule.span_induction with
     | mem y hy =>
@@ -377,7 +377,7 @@ theorem dualBundleChartEquiv_app (a : Γ(X, V)) :
     dualBundleChartEquiv hV N ((dualVectorBundleToBase N).app V a) =
       algebraMap Γ(X, V) (SymmetricAlgebra Γ(X, V) Γ(dualSheaf N, V)) a := by
   rw [← RingEquiv.eq_symm_apply]
-  show _ = ((bundleAlgebraIso (dualSheaf N)).inv.right.hom.app (op V)).hom
+  change _ = ((bundleAlgebraIso (dualSheaf N)).inv.right.hom.app (op V)).hom
     (Stacks.SymAlgSections.symSectionsRingEquiv (dualSheaf N) hV _)
   rw [Stacks.SymAlgSections.symSectionsRingEquiv_algebraMap]
   have h := congrArg (fun φ => (φ.hom.app (op V)).hom a)
@@ -426,7 +426,7 @@ theorem exists_polyEquiv {e r' : ℕ} (bK : Module.Basis (Fin e) Γ(X, V) Γ(dua
       ← basisOfExact_inl _ _ hf hg (exact_sections_dual N' N E inc pr w hS) bK bP j]
     exact SymmetricAlgebra.equivMvPolynomial_ι_apply b _
   · rw [RingEquiv.trans_apply, dualBundleChartEquiv_app]
-    show (SymmetricAlgebra.equivMvPolynomial b) (algebraMap _ _ a) = _
+    change (SymmetricAlgebra.equivMvPolynomial b) (algebraMap _ _ a) = _
     rw [AlgEquiv.commutes, MvPolynomial.algebraMap_eq]
 
 omit [F.IsQuasicoherent] in
@@ -495,7 +495,7 @@ theorem exists_isRegular_stalk_comap_subbundle (e r' : ℕ)
       (IdealSheafData.stalk (subbundleEmbedding N' N inc).ker x).map
         (T.subschemeι.stalkMap t).hom := by
     rw [hstalk, Ideal.map_span, ← Set.range_comp]
-    show Ideal.span {r | r ∈ List.ofFn gs} = _
+    change Ideal.span {r | r ∈ List.ofFn gs} = _
     congr 1
     ext r
     simp [List.mem_ofFn, hgs]

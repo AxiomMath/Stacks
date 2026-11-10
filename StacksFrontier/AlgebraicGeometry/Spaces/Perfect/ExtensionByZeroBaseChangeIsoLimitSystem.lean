@@ -114,7 +114,7 @@ theorem factorHom_canonicalPullbackData {X Y Z : AlgebraicSpaces B S hS} {f : X 
     PullbackData.factorHom (canonicalPullbackData B S hS) h (X := K) (Y := L) φ =
       (DerivedPullbackComposition.canonical B S hS).factorHom f g k h K L φ := by
   subst h
-  show Functor.conjHom ((canonicalPullbackData B S hS).triangle (f := f) (g := g) rfl) φ = _
+  change Functor.conjHom ((canonicalPullbackData B S hS).triangle (f := f) (g := g) rfl) φ = _
   rw [PullbackData.triangle_rfl]
   rfl
 
@@ -157,6 +157,7 @@ private theorem bijective_localizationHom_of_isPullback {T T' U Z : AlgebraicSpa
     A K
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ExtensionByZeroBaseChangeIsoLimitSystem :

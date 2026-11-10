@@ -19,7 +19,8 @@ Both monoidal structures are re-seatings of the one monoidal structure
 `Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal`, with the same unit, so the exact pairing
 transports from the first to the second: that is
 `Stacks.SheafOfModules.exactPairingDerivedDualCanonical`
-(`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedPullbackOfADual`). With it, Mathlib's
+(`StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedPullbackOfADual`).
+With it, Mathlib's
 `CategoryTheory.tensorRightHomEquiv`, `CategoryTheory.tensorLeftHomEquiv` and their naturality
 apply verbatim to `derivedTensorProductFunctor`, together with the associator and the Koszul
 braiding of `canonicalDerivedMonoidal` and `canonicalDerivedSymmetric` (and

@@ -142,7 +142,7 @@ private theorem finiteDimensional_of_adjoin_singleton {R S : Type u} [CommRing R
     refine eq_top_iff.2 fun z _ => ?_
     obtain ⟨⟨r, s⟩, hrs⟩ := IsLocalization.mk'_surjective (nonZeroDivisors S) z
     rw [← hrs]
-    show IsLocalization.mk' F r s ∈ _
+    change IsLocalization.mk' F r s ∈ _
     rw [IsFractionRing.mk'_eq_div]
     exact div_mem (hmemS r) (hmemS ↑s)
   have hfd : FiniteDimensional K (⊤ : IntermediateField K F) := by

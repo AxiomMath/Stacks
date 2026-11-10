@@ -92,7 +92,7 @@ lemma supportedSections_restriction_shortExact (Z : Set X) (hZ : IsClosed Z)
     { exact := (ShortComplex.ab_exact_iff_function_exact _).2 fun s => ?_
       mono_f := (AddCommGrpCat.mono_iff_injective _).2 Subtype.val_injective
       epi_g := inferInstance }
-  show _ = 0 ↔ ∃ t : supportedSections Z F (op W), t.val = s
+  change _ = 0 ↔ ∃ t : supportedSections Z F (op W), t.val = s
   refine ⟨fun hs => ⟨⟨s, (mem_supportedSections_iff_restrict_eq_zero Z hZ F W s).2 hs⟩, rfl⟩, ?_⟩
   rintro ⟨t, rfl⟩
   exact (mem_supportedSections_iff_restrict_eq_zero Z hZ F W t.val).1 t.2

@@ -87,7 +87,8 @@ scheme level, where `Stacks.SymAlgSheaf.algebraLift` is likewise not unique.
 **Quasi-coherence of `Sym(ℱ)`.**  Still absent at the algebraic-space level, and not needed by
 anything here: `algebraLift` is a morphism of `AlgebraicGeometry.Space.AlgebraSheaf`, which
 asserts no quasi-coherence of either side.  See
-`StacksFrontier.AlgebraicGeometry.Spaces.SymmetricAlgebraSheafMap` for what the remaining obstruction
+`StacksFrontier.AlgebraicGeometry.Spaces.SymmetricAlgebraSheafMap` for what the remaining
+obstruction
 to it is.
 
 ## References

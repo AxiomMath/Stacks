@@ -363,7 +363,7 @@ private theorem cmp_comm (n : ℕ) :
     apply LinearMap.ext
     intro x
     have hx := congrArg (fun k => (k : (C A B g).X (-1) ⟶ B.X 0) x) hs
-    show (B.d 1 0) (S A B g 1 x) + (g.f 0) (P A B g 0 x) = _
+    change (B.d 1 0) (S A B g 1 x) + (g.f 0) (P A B g 0 x) = _
     change S A B g 0 ((C A B g).d (E.f 1) (E.f 0) x) =
       g.f 0 (P A B g 0 x) + B.d 1 0 (S A B g 1 x) at hx
     exact (add_comm _ _).trans hx.symm
@@ -375,13 +375,13 @@ private theorem cmp_comm (n : ℕ) :
     simp only [Stacks.MappingCone.NatIndexed.coneComplex, ChainComplex.of_d]
     apply Prod.ext
     · have hx := congrArg (fun k => (k : (C A B g).X (E.f (n+2)) ⟶ B.X (n+1)) x) hs
-      show (B.d (n+2) (n+1)) (S A B g (n+2) x) +
+      change (B.d (n+2) (n+1)) (S A B g (n+2) x) +
         (g.f (n+1)) (P A B g (n+1) x) = _
       change S A B g (n+1) ((C A B g).d (E.f (n+2)) (E.f (n+1)) x) =
         g.f (n+1) (P A B g (n+1) x) + B.d (n+2) (n+1) (S A B g (n+2) x) at hx
       exact (add_comm _ _).trans hx.symm
     · have hx := congrArg (fun k => (k : (C A B g).X (E.f (n+2)) ⟶ A.X n) x) hp
-      show -((A.d (n+1) n) (P A B g (n+1) x)) = _
+      change -((A.d (n+1) n) (P A B g (n+1) x)) = _
       exact hx.symm
 
 /-- The comparison of the restricted cochain mapping cone with the explicit cone complex. -/
@@ -405,7 +405,7 @@ private theorem cmp_isIso (n : ℕ) : IsIso (cmp A B g n) := by
       (B.extendXIso E rfl).inv ≫ (mappingCone.inr q).f (E.f 0)
     have hzero : IsZero ((A.extend E).X (1 : ℤ)) :=
       A.isZero_extend_X E 1 (by intro n; simp only [E, ComplexShape.embeddingDownNat_f]; omega)
-    show IsIso (S A B g 0)
+    change IsIso (S A B g 0)
     refine ⟨⟨j, ?_, ?_⟩⟩
     · dsimp [cmp, S, j, q]
       simp only [Category.assoc, Iso.hom_inv_id_assoc]
@@ -421,7 +421,7 @@ private theorem cmp_isIso (n : ℕ) : IsIso (cmp A B g n) := by
       biprod.braiding (A.X n) (B.X (n+1)) ≪≫ ModuleCat.biprodIsoProd _ _
     -- Both projections are stated through the homotopy cofiber, the spelling in which `e` is
     -- built, so that the comparison below never has to identify the two.
-    show IsIso (ModuleCat.ofHom
+    change IsIso (ModuleCat.ofHom
       ((homotopyCofiber.sndX q (E.f (n+1)) ≫ (B.extendXIso E (i := n+1) rfl).hom).hom.prod
         (homotopyCofiber.fstX q (E.f (n+1)) (E.f n) (by simp [E]) ≫
           (A.extendXIso E (i := n) rfl).hom).hom))
@@ -432,11 +432,11 @@ private theorem cmp_isIso (n : ℕ) : IsIso (cmp A B g n) := by
       refine (cancel_mono (ModuleCat.biprodIsoProd (B.X (n+1)) (A.X n)).inv).mp ?_
       apply biprod.hom_ext
       · simp only [Category.assoc, ModuleCat.biprodIsoProd_inv_comp_fst]
-        show homotopyCofiber.sndX q (E.f (n+1)) ≫ (B.extendXIso E (i := n+1) rfl).hom = _
+        change homotopyCofiber.sndX q (E.f (n+1)) ≫ (B.extendXIso E (i := n+1) rfl).hom = _
         simp [e, ← ModuleCat.biprodIsoProd_inv_comp_fst]
         simp [← Category.assoc, cofiber_XIsoBiprod_hom_snd]
       · simp only [Category.assoc, ModuleCat.biprodIsoProd_inv_comp_snd]
-        show homotopyCofiber.fstX q (E.f (n+1)) (E.f n) (by simp [E]) ≫
+        change homotopyCofiber.fstX q (E.f (n+1)) (E.f n) (by simp [E]) ≫
           (A.extendXIso E (i := n) rfl).hom = _
         simp [e, homotopyCofiber.fstX, ← ModuleCat.biprodIsoProd_inv_comp_snd]
     rw [he]
@@ -539,7 +539,7 @@ private theorem tensor_koszul_snoc_triangle {A : Type u} [CommRing A]
   have hT : T ∈ distTriang _ := F.map_distinguished _
     (DerivedCategory.mappingCone_triangle_distinguished q)
   have h₁ : T.mor₁ = a • 𝟙 (F.obj (DerivedCategory.Q.obj (C.extend E))) := by
-    show F.map (DerivedCategory.Q.map (HomologicalComplex.extendMap (a • 𝟙 C) E)) = _
+    change F.map (DerivedCategory.Q.map (HomologicalComplex.extendMap (a • 𝟙 C) E)) = _
     rw [extendMap_smul_id, Functor.map_smul, DerivedCategory.Q.map_id,
       Stacks.DerivedTensor.map_smul_id_right]
   refine ⟨T.mor₂ ≫ e.hom, e.inv ≫ T.mor₃, ?_⟩
@@ -547,18 +547,18 @@ private theorem tensor_koszul_snoc_triangle {A : Type u} [CommRing A]
     (T.mor₂ ≫ e.hom) (e.inv ≫ T.mor₃)
   have eT : T ≅ T' := Triangle.isoMk T T' (Iso.refl _) (Iso.refl _) e
     (by
-      show T.mor₁ ≫ 𝟙 _ = 𝟙 _ ≫ (a • 𝟙 _)
+      change T.mor₁ ≫ 𝟙 _ = 𝟙 _ ≫ (a • 𝟙 _)
       rw [Category.comp_id, Category.id_comp]
       exact h₁)
     (by
-      show T.mor₂ ≫ e.hom = 𝟙 _ ≫ (T.mor₂ ≫ e.hom)
+      change T.mor₂ ≫ e.hom = 𝟙 _ ≫ (T.mor₂ ≫ e.hom)
       rw [Category.id_comp])
     (by
-      show T.mor₃ ≫ (CategoryTheory.shiftFunctor _ (1 : ℤ)).map (𝟙 _) =
+      change T.mor₃ ≫ (CategoryTheory.shiftFunctor _ (1 : ℤ)).map (𝟙 _) =
         e.hom ≫ (e.inv ≫ T.mor₃)
       rw [CategoryTheory.Functor.map_id, Category.comp_id]
       exact (Iso.hom_inv_id_assoc e T.mor₃).symm)
-  show T' ∈ distTriang _
+  change T' ∈ distTriang _
   exact Pretriangulated.isomorphic_distinguished T hT T' eT.symm
 
 /-- Koszul tensoring preserves completeness and detects a nonpositive bound. -/
@@ -688,7 +688,7 @@ theorem isZero_of_isDerivedComplete_of_derivedTensorProduct_mod_ideal_isZero
       A (Ideal.span (Set.range f))).2 Ks |>.mp
     intro i
     set F := DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0
-    show IsDerivedCompleteModule (Ideal.span (Set.range f)) ((F.shift i).obj Ks)
+    change IsDerivedCompleteModule (Ideal.span (Set.range f)) ((F.shift i).obj Ks)
     exact C.prop_of_iso ((F.shiftIso a i (a + i) rfl).app K).symm (hmods (a + i))
   have hreds : IsZero
       (((canonicalDerivedTensorProductFunctor A).obj Ks).obj
@@ -704,7 +704,7 @@ theorem isZero_of_isDerivedComplete_of_derivedTensorProduct_mod_ideal_isZero
       f Ks hcomps).1
   have hz := hp.2 (fun i _ => Functor.map_isZero _ hreds) 1 (by omega)
   set F := DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0
-  show IsZero ((F.shift n).obj K)
+  change IsZero ((F.shift n).obj K)
   exact hz.of_iso ((F.shiftIso a 1 n (by simp [a])).app K).symm
 
 end KoszulTensorVanishing

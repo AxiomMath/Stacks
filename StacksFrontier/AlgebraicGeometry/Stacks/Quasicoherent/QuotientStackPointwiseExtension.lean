@@ -80,7 +80,7 @@ theorem isEquivalence_moduleRestriction (R : Sheaf K RingCat.{u}) :
     hasLimitsOfShape_of_essentiallySmall.{u} _ _
   inferInstance
 
-include hp hq in
+include hq in
 /-- The shapes of the limits computing the extension of a sheaf from a slice of `𝒳` to the
 corresponding slice of `𝒴` are essentially small at the universe of the schemes. -/
 theorem essentiallySmall_structuredArrow_overPost (x : 𝒳) (V : (Over (i.obj x))ᵒᵖ) :
@@ -90,7 +90,7 @@ theorem essentiallySmall_structuredArrow_overPost (x : 𝒳) (V : (Over (i.obj x
     (essentiallySmall_congr (Over.iteratedSliceEquiv V.unop)).mpr inferInstance
   exact essentiallySmall_structuredArrow_of_over (Over.post (X := x) i) V
 
-include hp hq in
+include hq in
 /-- **Restriction of sheaves of modules from a slice of `𝒴` to the corresponding slice of `𝒳`
 is an equivalence**, at the universe of the schemes. -/
 theorem isEquivalence_moduleRestriction_over (R : Sheaf K RingCat.{u}) (x : 𝒳) :
@@ -101,7 +101,7 @@ theorem isEquivalence_moduleRestriction_over (R : Sheaf K RingCat.{u}) (x : 𝒳
   have : ∀ V : (Over (i.obj x))ᵒᵖ,
       HasLimitsOfShape (StructuredArrow V (Over.post (X := x) i).op) AddCommGrpCat.{u} :=
     fun V =>
-    have := essentiallySmall_structuredArrow_overPost p q hp hq i x V
+    have := essentiallySmall_structuredArrow_overPost q hq i x V
     hasLimitsOfShape_of_essentiallySmall.{u} _ _
   infer_instance
 
@@ -122,7 +122,7 @@ theorem hasGlobalPresentation_over_of_moduleRestriction (R : Sheaf K RingCat.{u}
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall _
   have : (K.over (i.obj x)).WEqualsLocallyBijective AddCommGrpCat.{u} :=
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall _
-  have := isEquivalence_moduleRestriction_over p q hp hq i J K R x
+  have := isEquivalence_moduleRestriction_over q hq i J K R x
   let E := Stacks.DenseSubsiteModules.moduleRestriction (J.over x) (K.over (i.obj x))
     (Over.post (X := x) i) (R.over (i.obj x))
   let e := E.asEquivalence
@@ -136,6 +136,7 @@ theorem hasGlobalPresentation_over_of_moduleRestriction (R : Sheaf K RingCat.{u}
   let P'' := SheafOfModules.Presentation.ofIsIso (e.unitIso.inv.app (M.over (i.obj x))) P'
   exact Stacks.SheafOfModules.hasGlobalPresentation_of_presentation P''
 
+omit [i.Full] [i.Faithful] in
 /-- The images of a family of objects of `𝒳` covering the final object of `𝒳` cover the final
 object of `𝒴`. -/
 theorem coversTop_obj {I : Type*} {X : I → 𝒳} (hX : J.CoversTop X) :

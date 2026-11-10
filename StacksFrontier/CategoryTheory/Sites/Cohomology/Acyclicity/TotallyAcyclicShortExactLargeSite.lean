@@ -61,10 +61,10 @@ lemma splitEpi_moduleSheafFunctor_general {C : Type*} [Category.{u} C]
     ((Presheaf.freeAbelianSheaf J).obj K.obj) (hS.map_of_exact toAb) (h₁ K 1 le_rfl) a
   refine ⟨⟨⟨adj.homEquiv K.obj (toAb.obj S.X₂) b⟩, ?_⟩⟩
   apply Sheaf.hom_ext
-  show adj.homEquiv K.obj (toAb.obj S.X₂) b ≫
+  change adj.homEquiv K.obj (toAb.obj S.X₂) b ≫
       (sheafToPresheaf J AddCommGrpCat.{u} ⋙ Presheaf.forgetAbelian).map (toAb.map S.g) = 𝟙 K.obj
   rw [← adj.homEquiv_naturality_right]
-  show adj.homEquiv K.obj (toAb.obj S.X₃) (b ≫ (S.map toAb).g) = 𝟙 K.obj
+  change adj.homEquiv K.obj (toAb.obj S.X₃) (b ≫ (S.map toAb).g) = 𝟙 K.obj
   rw [hb]
   exact Equiv.apply_symm_apply _ _
 

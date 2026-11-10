@@ -359,7 +359,7 @@ private lemma key [IsFinite f] [Etale f]
         = algebraMap (X.residueField ((f ≫ U.ι) yy)) L' := by
       refine IsFractionRing.ringHom_ext (A := (X.presheaf.stalk (g xi'))) ?_
       intro t
-      show kL.hom (algebraMap (X.residueField ((f ≫ U.ι) yy)) (Y.residueField yy)
+      change kL.hom (algebraMap (X.residueField ((f ≫ U.ι) yy)) (Y.residueField yy)
           (algebraMap (X.presheaf.stalk (g xi')) (X.residueField ((f ≫ U.ι) yy)) t))
         = algebraMap (X.residueField ((f ≫ U.ι) yy)) L'
           (algebraMap (X.presheaf.stalk (g xi')) (X.residueField ((f ≫ U.ι) yy)) t)
@@ -379,7 +379,7 @@ private lemma key [IsFinite f] [Etale f]
   have hq1 : ∀ x : (Y.residueField yy), q (1 ⊗ₜ[(X.residueField ((f ≫ U.ι) yy))] x) = kL.hom x := by
     intro x
     rw [Algebra.TensorProduct.lift_tmul]
-    show algebraMap K' L' 1 * kL.hom x = kL.hom x
+    change algebraMap K' L' 1 * kL.hom x = kL.hom x
     rw [map_one, one_mul]
   have : Module.Finite K' ↥q.range :=
     Module.Finite.of_surjective (AlgHom.toLinearMap q.rangeRestrict) q.rangeRestrict_surjective
@@ -421,7 +421,7 @@ private lemma key [IsFinite f] [Etale f]
   have hSval : Spec.map (CommRingCat.ofHom (Subalgebra.val q.range).toRingHom) ≫ a = v := by
     apply pullback.hom_ext
     · rw [Category.assoc, pullback.lift_fst, ← Category.assoc, ← Spec.map_comp]
-      show Spec.map kL ≫ Y.fromSpecResidueField yy = _
+      change Spec.map kL ≫ Y.fromSpecResidueField yy = _
       rw [hkL]
     · rw [Category.assoc, pullback.lift_snd, ← Category.assoc, ← Spec.map_comp, hv2]
       rfl

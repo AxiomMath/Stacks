@@ -511,7 +511,7 @@ theorem pieceSplit (hf : ∀ n, Function.Surjective (f n)) (hsq : ∀ n, RingHom
   have hmemg : ∀ n (q : (C.D (n + 1)).sections (TwoChartDatum.baseOfSpec (π (n + 1))) k),
       (C.ρU n q.1.1, C.ρV n q.1.2) ∈ (C.D n).sections (TwoChartDatum.baseOfSpec (π n)) k := by
     intro n q
-    show (C.D n).cechDiff k _ = 0
+    change (C.D n).cechDiff k _ = 0
     rw [← C.ρUV_cechDiff]
     exact (congrArg (C.ρUV n) q.2).trans (map_zero _)
   let g : ∀ n, (C.D (n + 1)).sections (TwoChartDatum.baseOfSpec (π (n + 1))) k →ₛₗ[f n]
@@ -520,11 +520,11 @@ theorem pieceSplit (hf : ∀ n, Function.Surjective (f n)) (hsq : ∀ n, RingHom
       map_add' := fun q q' => Subtype.ext (Prod.ext (map_add _ _ _) (map_add _ _ _))
       map_smul' := fun r q => Subtype.ext (Prod.ext
         (by
-          show C.ρU n (TwoChartDatum.baseOfSpecOn (π (n + 1)) _ r * q.1.1) =
+          change C.ρU n (TwoChartDatum.baseOfSpecOn (π (n + 1)) _ r * q.1.1) =
             TwoChartDatum.baseOfSpecOn (π n) _ (f n r) * C.ρU n q.1.1
           rw [map_mul, C.ρU_baseOfSpecOn hpb])
         (by
-          show C.ρV n (TwoChartDatum.baseOfSpecOn (π (n + 1)) _ r * q.1.2) =
+          change C.ρV n (TwoChartDatum.baseOfSpecOn (π (n + 1)) _ r * q.1.2) =
             TwoChartDatum.baseOfSpecOn (π n) _ (f n r) * C.ρV n q.1.2
           rw [map_mul, C.ρV_baseOfSpecOn hpb])) }
   have : ∀ n, Module.Finite (R n) ((C.D n).sections (TwoChartDatum.baseOfSpec (π n)) k) :=

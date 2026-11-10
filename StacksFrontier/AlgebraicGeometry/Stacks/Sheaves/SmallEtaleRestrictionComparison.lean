@@ -311,7 +311,7 @@ theorem existsUnique_inverseImageComparisonLift {𝒳 : Type v} [Category.{w} �
       hom_inv_id := by apply P.map_injective; simp [e]
       inv_hom_id := by apply P.map_injective; simp [e] }
   have hcancel : e.hom ≫ (Q.objObjPreimageIso V).hom = (P.objObjPreimageIso V).hom := by
-    show ((P.objObjPreimageIso V).hom ≫ (Q.objObjPreimageIso V).inv) ≫ _ = _
+    change ((P.objObjPreimageIso V).hom ≫ (Q.objObjPreimageIso V).inv) ≫ _ = _
     simp [Category.assoc]
   have hcancelLeft : e.hom.left ≫ (Q.objObjPreimageIso V).hom.left =
       (P.objObjPreimageIso V).hom.left :=
@@ -399,7 +399,7 @@ theorem restrictToSmallEtaleInverseImageIso_app {𝒳 : Type v} [Category.{w} �
     restrictToSmallEtale, presheafPullback,
     Functor.IsFibredOneMorphism.inverseImageCompSheafToPresheafIso,
     Functor.sheafPushforwardContinuousCompSheafToPresheafIso]
-  show F.obj.map ((Over.forget (G.obj y)).mapIso e).hom.op =
+  change F.obj.map ((Over.forget (G.obj y)).mapIso e).hom.op =
     F.obj.map (Over.Hom.left e.hom).op
   rfl
 
@@ -511,7 +511,7 @@ theorem restrictionPushforwardComparison_comp_inverseImageIso {𝒳 : Type v} [C
   let iy := restrictToSmallEtaleInverseImageIso B E h S hS p hp G hGp hG y F
   let iy' := restrictToSmallEtaleInverseImageIso B E h S hS p hp G hGp hG y' F
   ext W x
-  show ((iy.hom.app W) ≫
+  change ((iy.hom.app W) ≫
       (restrictionPushforwardComparison B E h S hS p hp (G.map ψ) F.obj).app W) x =
     ((restrictionPushforwardComparison B E h S hS (G ⋙ p) hGp ψ F'.obj).app W ≫
       iy'.hom.app (Opposite.op (b.obj W.unop))) x
@@ -566,16 +566,16 @@ theorem restrictionPushforwardComparison_comp_inverseImageIso {𝒳 : Type v} [C
     ObjectProperty.homMk (E.inclusion.map (smallEtaleBaseMorphism B E h S hS p (G.map ψ)))
   have hfscheme : fScheme ≫ V.hom = U.hom ≫ gBase := by
     apply B.inclusion.map_injective
-    show E.inclusion.map fSite ≫ E.inclusion.map W₀.obj.hom =
+    change E.inclusion.map fSite ≫ E.inclusion.map W₀.obj.hom =
       E.inclusion.map (pullback.snd W₀.obj.hom
         (smallEtaleBaseMorphism B E h S hS (G ⋙ p) ψ)) ≫
       E.inclusion.map (smallEtaleBaseMorphism B E h S hS (G ⋙ p) ψ)
     rw [← Functor.map_comp, ← Functor.map_comp, pullback.condition]
   have hQinvObj : eQ.inv.left ≫ (p.map (G.map C.hom)).left = V.hom := by
-    show eQ.inv.left ≫ (Q.obj C).hom = V.hom
+    change eQ.inv.left ≫ (Q.obj C).hom = V.hom
     exact eQ.inv.w
   have hQ'homObj : eQ'.hom.left ≫ U.hom = (p.map (G.map C'.hom)).left := by
-    show eQ'.hom.left ≫ U.hom = (Q'.obj C').hom
+    change eQ'.hom.left ≫ U.hom = (Q'.obj C').hom
     exact eQ'.hom.w
   have hQC : (p.map (G.map C.hom)).left ≫ (p.obj (G.obj y)).hom =
       (p.obj (G.obj C.left)).hom := (p.map (G.map C.hom)).w
@@ -591,13 +591,13 @@ theorem restrictionPushforwardComparison_comp_inverseImageIso {𝒳 : Type v} [C
   have hQbasehom : eqToHom hQobjC ≫ (p.obj (G.obj C.left)).hom =
       (Q.obj C).hom ≫ (p.obj (G.obj y)).hom := by
     cases hQobjC
-    show (p.obj (G.obj C.left)).hom =
+    change (p.obj (G.obj C.left)).hom =
       (p.map (G.map C.hom)).left ≫ (p.obj (G.obj y)).hom
     exact hQC.symm
   have hQ'basehom : eqToHom hQ'objC'.symm ≫
       ((Q'.obj C').hom ≫ (p.obj (G.obj y')).hom) = (p.obj (G.obj C'.left)).hom := by
     cases hQ'objC'
-    show (p.map (G.map C'.hom)).left ≫ (p.obj (G.obj y')).hom =
+    change (p.map (G.map C'.hom)).left ≫ (p.obj (G.obj y')).hom =
       (p.obj (G.obj C'.left)).hom
     exact hQC'
   have hQ'homObjQ : eQ'.hom.left ≫ U.hom = (Q'.obj C').hom := eQ'.hom.w
@@ -684,7 +684,7 @@ theorem restrictionPushforwardComparison_comp_inverseImageIso {𝒳 : Type v} [C
     dsimp [χ]
     simp [Category.assoc]
   have hβbaseRaw : fBig.left ≫ eQ.hom.left = eQ'.hom.left ≫ fScheme := by
-    show fBase ≫ eQ.hom.left = eQ'.hom.left ≫ fScheme
+    change fBase ≫ eQ.hom.left = eQ'.hom.left ≫ fScheme
     have hQinvhom : eQ.inv.left ≫ eQ.hom.left = 𝟙 _ := congrArg Over.Hom.left eQ.inv_hom_id
     dsimp [fBase]
     calc
@@ -812,7 +812,7 @@ theorem restrictionInverseImageComparison_comp_inverseImageIso {𝒳 : Type v} [
   have hpull :
       (adj.homEquiv Fy Fy') (restrictionInverseImageComparison B E h S hS p hp (G.map ψ) F) =
         cX := by
-    show (adj.homEquiv Fy Fy') ((adj.homEquiv Fy Fy').symm cX) = _
+    change (adj.homEquiv Fy Fy') ((adj.homEquiv Fy Fy').symm cX) = _
     exact (adj.homEquiv Fy Fy').apply_symm_apply _
   have hcomp : restrictionInverseImageComparison B E h S hS (G ⋙ p) hGp ψ F' =
       (adj.homEquiv Iy Iy').symm cI := by
@@ -833,13 +833,13 @@ theorem restrictionInverseImageComparison_comp_inverseImageIso {𝒳 : Type v} [
     have hiy'hom : iy'.hom.hom =
         (restrictToSmallEtaleInverseImageIso B E h S hS p hp G hGp hG y' F).hom :=
       preimageIso_sheafToPresheaf_hom_hom _ _
-    show iy.hom.hom ≫ restrictionPushforwardComparison B E h S hS p hp (G.map ψ) F.obj =
+    change iy.hom.hom ≫ restrictionPushforwardComparison B E h S hS p hp (G.map ψ) F.obj =
       restrictionPushforwardComparison B E h S hS (G ⋙ p) hGp ψ F'.obj ≫
         Functor.whiskerLeft b.op iy'.hom.hom
     rw [hiyhom, hiy'hom]
     exact restrictionPushforwardComparison_comp_inverseImageIso
       B E h S hS p hp G hGp hG ψ F
-  show (b.sheafPullback (Type (max (u + 1) t)) Jy Jy').map iy.hom ≫
+  change (b.sheafPullback (Type (max (u + 1) t)) Jy Jy').map iy.hom ≫
       restrictionInverseImageComparison B E h S hS p hp (G.map ψ) F =
     restrictionInverseImageComparison B E h S hS (G ⋙ p) hGp ψ F' ≫ iy'.hom
   apply (adj.homEquiv Iy Fy').injective

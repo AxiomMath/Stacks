@@ -61,7 +61,7 @@ theorem rootEval_powMap (ℓ N N' : ℕ) (hN : ℓ * N = N') [NeZero N] [NeZero 
     ofUnit_injective.{u, 0}
       ((rootsOfUnityι_rootsOfUnityPowMap_apply.{u, 0} X ℓ N N' hN (op U) z).trans
         (powMap_app_ofUnit _ _ _ _))
-  show (Scheme.ΓSpecIso (.of Ω)).hom.hom ((fiberLift s u).appTop.hom
+  change (Scheme.ΓSpecIso (.of Ω)).hom.hom ((fiberLift s u).appTop.hom
     ((rootsOfUnitySection.{u, 0} X N (op U)
       ((rootsOfUnityPowMap.{u, 0} X ℓ N N' hN).hom.app (op U) z)).1 : Γ(U.left, ⊤))) = _
   rw [h, Units.val_pow_eq_pow_val, map_pow, map_pow]
@@ -166,7 +166,7 @@ theorem exists_compatible_rootGerms {U₀ : X.Etale} (u₀ : (Scheme.pointSmallE
   refine eq_of_rootEval_eq s _ (v n) (κ n) (hjp n) (v (n + 1)) _ ?_
   rw [rootEval_powMap, rootEval_sliceRootSection, rootEval_sliceRootSection, ZMod.val_one,
     ZMod.val_one, pow_one, pow_one, map_pow, map_pow]
-  show (ε' (n + 1) ^ j (n + 1)) ^ ℓ = ε' n ^ j n
+  change (ε' (n + 1) ^ j (n + 1)) ^ ℓ = ε' n ^ j n
   rw [hjε, hjε, hεs]
 
 end Compatible

@@ -131,7 +131,7 @@ private theorem isIso_of_isIso_familyPullback_snd_of_isLocallySurjective
     have hfst : α = β := by
       simpa only [pullback.lift_fst] using
         congrArg (fun m => m ≫ pullback.fst f (g k)) ((cancel_mono (pullback.snd f (g k))).1 hz)
-    show F.map i.op x = F.map i.op y
+    change F.map i.op x = F.map i.op y
     simpa [α, β] using congrArg yonedaEquiv hfst
   have hLS : Presheaf.IsLocallySurjective J f := by
     refine ⟨?_⟩
@@ -157,7 +157,7 @@ private theorem isIso_of_isIso_familyPullback_snd_of_isLocallySurjective
   have : IsIso fsheaf := (Sheaf.isLocallyBijective_iff_isIso fsheaf).mp
     ⟨(Sheaf.isLocallyInjective_sheafToPresheaf_map_iff fsheaf).2 hLI,
     (Sheaf.isLocallySurjective_sheafToPresheaf_map_iff fsheaf).2 hLS⟩
-  show IsIso ((sheafToPresheaf J (Type u)).map fsheaf)
+  change IsIso ((sheafToPresheaf J (Type u)).map fsheaf)
   exact Functor.map_isIso (sheafToPresheaf J (Type u)) fsheaf
 
 /-! ### The scheme-level statement with a merely normal target -/
@@ -190,7 +190,7 @@ private theorem isIso_of_isReduced_of_isBirational_of_isNormal
       obtain ⟨x, hx, hxy⟩ := hf.bijOn.surjOn
         ((Homeomorph.mem_genericPoints_iff e.hom.homeomorph.symm y).2 hy)
       refine ⟨x, hx, ?_⟩
-      show e.hom.homeomorph (f x) = y
+      change e.hom.homeomorph (f x) = y
       rw [hxy]
       exact e.hom.homeomorph.apply_symm_apply y
     · intro x hx
@@ -221,6 +221,7 @@ private theorem isIso_of_isReduced_of_isBirational_of_isNormal
 /-! ### Transporting birationality to the underlying morphism of schemes -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_IntegralBirationalOverNormal
@@ -234,6 +235,9 @@ instance (priority := high) hasPullback_presheaf_IntegralBirationalOverNormal
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search while `simpa` unfolds `genericLocalRingMap` to match the stalk map
+-- (`HasLimitsOfShape` of presheaves on the big fppf site) times out at the default
 /-- Birationality of a morphism of algebraic spaces with representable target and with source
 identified with a representable presheaf descends to the underlying morphism of schemes.
 
@@ -313,21 +317,21 @@ private theorem isBirational_toScheme_map_of_yonedaIso
     have hclassX : pX.class B S hS (yoneda.obj U) = eU.symm x := by
       apply eU.injective
       rw [eU.apply_symm_apply]
-      show Space.pointsToScheme B S hS U (pX.class B S hS (yoneda.obj U)) = x
+      change Space.pointsToScheme B S hS U (pX.class B S hS (yoneda.obj U)) = x
       rw [Space.pointsToScheme_class]
       exact hpX
     have hclassY : pY.class B S hS (yoneda.obj V) =
         Space.pointsMap B S hS F f (eSource x) := by
       apply eV.injective
       rw [hqeq x]
-      show Space.pointsToScheme B S hS V (pY.class B S hS (yoneda.obj V)) = q x
+      change Space.pointsToScheme B S hS V (pY.class B S hS (yoneda.obj V)) = q x
       rw [Space.pointsToScheme_class]
       exact hpY
     let c : Space.GenericChart B S hS (eSource x) :=
       { U := U
         immersion := e.hom
         isOpen := by
-          show (MorphismProperty.presheaf (MorphismProperty.inverseImage
+          change (MorphismProperty.presheaf (MorphismProperty.inverseImage
             (@IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
             (BigFppfOver.toScheme B S hS))) e.hom
           exact MorphismProperty.of_isIso _ e.hom
@@ -339,7 +343,7 @@ private theorem isBirational_toScheme_map_of_yonedaIso
       { U := V
         immersion := 𝟙 _
         isOpen := by
-          show (MorphismProperty.presheaf (MorphismProperty.inverseImage
+          change (MorphismProperty.presheaf (MorphismProperty.inverseImage
             (@IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
             (BigFppfOver.toScheme B S hS))) (𝟙 (yoneda.obj V))
           exact MorphismProperty.of_isIso _ (𝟙 (yoneda.obj V))
@@ -352,13 +356,12 @@ private theorem isBirational_toScheme_map_of_yonedaIso
       exact hcomm
     have hpoint : q (Space.schemePoint B S hS c.U c.point) =
         Space.schemePoint B S hS d.U d.point := by
-      show q (Space.schemePoint B S hS U pX) = Space.schemePoint B S hS V pY
+      change q (Space.schemePoint B S hS U pX) = Space.schemePoint B S hS V pY
       rw [hpX, hpY]
     let hgeneric := Space.exists_genericLocalRingMap B S hS hF hV hdenseF hdenseV
       hfiniteF hfiniteV f (eSource x) hxF hyF
     have hformula := hgeneric.choose_spec c d g hcommCharts hpoint
     have hIsoφ : IsIso hgeneric.choose := by
-      set_option synthInstance.maxHeartbeats 400000 in
       simpa [Space.genericLocalRingMap] using hstalkAlg (eSource x) hxF
     rw [hformula] at hIsoφ
     let _ := hIsoφ
@@ -376,7 +379,7 @@ private theorem isBirational_toScheme_map_of_yonedaIso
     have hIso3 : IsIso (q.stalkMap (Space.schemePoint B S hS c.U c.point)) :=
       IsIso.of_isIso_comp_right _
         (Space.chartStalkIso B S hS hF hdenseF hfiniteF (eSource x) hxF c).hom
-    show IsIso (q.stalkMap x)
+    change IsIso (q.stalkMap x)
     rw [← hpX]
     exact hIso3
 
@@ -446,7 +449,7 @@ private theorem exists_affine_etale_family_isLocallySurjective
         rw [← yonedaEquiv_naturality]
         congr 1
         exact (Equiv.apply_symm_apply yonedaEquiv s).symm
-      show (yoneda.map (π i) ≫ a).app (Opposite.op T₃) t = Y.map (m ≫ k).op s
+      change (yoneda.map (π i) ≫ a).app (Opposite.op T₃) t = Y.map (m ≫ k).op s
       rw [hleft, hright, hmor]
 
 namespace Space

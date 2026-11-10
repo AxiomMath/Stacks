@@ -528,11 +528,11 @@ theorem finiteEtaleDescendsToHenselianPoint_of_isAlgClosed [IsProper f] :
   intro Q
   let σ := pullbackSymmetry f (Spec.map (CommRingCat.ofHom (algebraMap k k')))
   let Q' : FiniteEtaleOver (bcCone k k' f).pt := (finiteEtaleBaseChange σ.inv).obj Q
-  letI : ∀ i, CompactSpace ((bcDiagram k k' f).obj i) := fun i =>
+  let : ∀ i, CompactSpace ((bcDiagram k k' f).obj i) := fun i =>
     (bcDiagram_compactSpace_and_quasiSeparatedSpace k k' f i).1
-  letI : ∀ i, QuasiSeparatedSpace ((bcDiagram k k' f).obj i) := fun i =>
+  let : ∀ i, QuasiSeparatedSpace ((bcDiagram k k' f).obj i) := fun i =>
     (bcDiagram_compactSpace_and_quasiSeparatedSpace k k' f i).2
-  letI : ∀ {i j : (Finset k')ᵒᵖ} (e : i ⟶ j), IsAffineHom ((bcDiagram k k' f).map e) := fun e =>
+  let : ∀ {i j : (Finset k')ᵒᵖ} (e : i ⟶ j), IsAffineHom ((bcDiagram k k' f).map e) := fun e =>
     bcDiagram_isAffineHom k k' f e
   obtain ⟨i, V, ⟨e⟩⟩ := AlgebraicGeometry.exists_finiteEtale_model (bcDiagram k k' f)
     (bcCone k k' f) (isLimitBcCone k k' f) Q'

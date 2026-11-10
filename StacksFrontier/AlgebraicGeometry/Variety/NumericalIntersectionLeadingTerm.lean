@@ -141,7 +141,7 @@ theorem topologicalKrullDim_lt_of_isClosed_ne_univ {T : Type*} [TopologicalSpace
   let : FiniteDimensionalOrder (IrreducibleCloseds T) :=
     Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top.mpr
       ⟨Order.krullDim_ne_bot_iff.mpr inferInstance, ne_of_lt hfin⟩
-  show Order.krullDim (IrreducibleCloseds A) < Order.krullDim (IrreducibleCloseds T)
+  change Order.krullDim (IrreducibleCloseds A) < Order.krullDim (IrreducibleCloseds T)
   rw [Order.krullDim_eq_length_of_finiteDimensionalOrder (α := IrreducibleCloseds T)]
   refine Order.krullDim_lt_coe_iff.mpr fun l ↦ ?_
   let e : IrreducibleCloseds A ↪o IrreducibleCloseds T :=
@@ -602,7 +602,8 @@ private theorem shortExact_map_pushforward_cokernelSequence {X Y : Scheme.{u}} (
 Noetherian induction of [Stacks, Tag 01YF] in
 `StacksFrontier.AlgebraicGeometry.CoherentDevissage.StructureSheafCriterion` descends its property
 along exactly this sequence, from outside this file. -/
-public alias shortExact_map_pushforward_cokernelSequence_of_mono := shortExact_map_pushforward_cokernelSequence
+public alias shortExact_map_pushforward_cokernelSequence_of_mono :=
+  shortExact_map_pushforward_cokernelSequence
 
 /-- On an integral scheme the quotient of the structure sheaf by a submodule whose stalk at the
 generic point is nonzero vanishes at the generic point: that stalk is a nonzero submodule of a
@@ -684,7 +685,7 @@ private theorem isIso_unitToPushforwardObjUnit {Y Z : Scheme.{u}} (e : Y ⟶ Z) 
     IsIso (_root_.SheafOfModules.unitToPushforwardObjUnit e.toRingCatSheafHom) := by
   refine (Scheme.Modules.Hom.isIso_iff_isIso_app).2 fun V ↦ ?_
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (e.app V).hom
+  change Function.Bijective (e.app V).hom
   exact (ConcreteCategory.isIso_iff_bijective (e.app V)).mp inferInstance
 
 /-- The direct image of the structure sheaf along a closed immersion is the direct image of the
@@ -907,7 +908,7 @@ private theorem correctionPolynomial_pushforward_totalDegree_lt (k : Type u) [Fi
           Z₀.1.subscheme.ringCatSheaf.2
           ((Scheme.Modules.pullback Z₀.1.subschemeι).obj (L t)) :=
         fun t ↦ SheafOfModules.isInvertible_pullback Z₀.1.subschemeι (L t)
-      show eulerCharacteristic k (Z₀.1.subschemeι ≫ f)
+      change eulerCharacteristic k (Z₀.1.subschemeι ≫ f)
           (twistedSheaf (Stacks.Ample.unitModule Z₀.1.subscheme)
             (fun t ↦ (Scheme.Modules.pullback Z₀.1.subschemeι).obj (L t)) n) = _
       rw [← eulerCharacteristic_twistedSheaf_pushforward_of_isClosedImmersion k

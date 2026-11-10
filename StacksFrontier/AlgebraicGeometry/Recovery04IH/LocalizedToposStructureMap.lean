@@ -183,7 +183,7 @@ of the image of its forward direction. -/
 theorem map_inv_eq_of_comp_eq_id {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
     (F : C ⥤ D) {A B : C} (i : A ≅ B) {n : F.obj B ⟶ F.obj A}
     (h : F.map i.hom ≫ n = 𝟙 (F.obj A)) : F.map i.inv = n := by
-  exact (cancel_epi (F.map i.hom)).1 ((i.map_hom_inv_id F).trans h.symm)
+  exact (cancel_epi (F.map i.hom)).1 ((i.hom_inv_id_map F).trans h.symm)
 
 /-- **The element-level form of a Beck–Chevalley unit identity.**
 
@@ -250,12 +250,12 @@ theorem homEquiv_beckChevalley_transport {AT : Type u₁} [Category.{v₁} AT] {
   have hEX : ∀ (A : OF) (B : CX) (m : A ⟶ EX.functor.obj B),
       (EX.symm.toAdjunction.homEquiv A B) (EX.inverse.map m ≫ EX.unitIso.inv.app B) = m := by
     intro A B m
-    refine (Equiv.apply_eq_iff_eq_symm_apply _).mpr ?_
+    refine (Equiv.eq_symm_apply _).mp ?_
     rw [Adjunction.homEquiv_counit]
     rfl
   have hQ : Q.map (lF.inv.app (phiI.obj Z)) ≫ Q.map (lF.hom.app (phiI.obj Z)) =
       𝟙 (Q.obj (toF.obj (phiI.obj Z))) :=
-    (lF.app (phiI.obj Z)).map_inv_hom_id Q
+    (lF.app (phiI.obj Z)).inv_hom_id_map Q
   have hnat : EY.functor.map (jG.map (a.unit.app Z)) ≫
         lG.hom.app (phiS.obj (phiI.obj Z)) =
       lG.hom.app Z ≫ toG.map (a.unit.app Z) :=
@@ -319,8 +319,8 @@ Stated with the morphism of topoi as the explicit argument.  That matters: at
 `g = f.localizedToposMorphism G` the form of
 `Stacks.Sheaves.ToposPullback.underlyingRingSheaf_map_pullbackCommRingSheafMap` with the
 transporting functor of sheaves of sets supplied instead — named implicitly, explicitly, or
-inferred — exhausts the 200,000-heartbeat `whnf` budget, because the functor has then to be recognised inside
-`pushforwardCommRingFunctor`, instance arguments and all. -/
+inferred — exhausts the 200,000-heartbeat `whnf` budget, because the functor has then to be
+recognised inside `pushforwardCommRingFunctor`, instance arguments and all. -/
 theorem forget_map_pushforwardCommRingFunctor_map {O O' : Sheaf J CommRingCat.{ww}}
     (a : O ⟶ O') :
     (sheafCompose K (forget CommRingCat.{ww})).map ((pushforwardCommRingFunctor g).map a) =
@@ -353,7 +353,8 @@ variable {C₁ : Type uu} [Category.{vv} C₁] {C₁' : Type uuu} [Category.{vvv
   (Ψ₁ : Sheaf K (Type ww) ⥤ Sheaf J₁' (Type ww)) [PreservesFiniteProducts Ψ₁]
   (Ψ₂ : Sheaf J₁' (Type ww) ⥤ Sheaf J₂ (Type ww)) [PreservesFiniteProducts Ψ₂]
 
-omit [J₂.HasSheafCompose (forget RingCat)] in
+omit [J₂.HasSheafCompose (forget RingCat)] [J₁.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The comparison of the iterated with the one-step transport of the ring operations is the
 identity on underlying sheaves of sets, in the backward direction. -/
 theorem forget_map_pullbackCommRingSheafComp_inv' (O : Sheaf K CommRingCat.{ww}) :

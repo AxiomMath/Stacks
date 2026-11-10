@@ -120,7 +120,7 @@ theorem openSubspaceOfPointsRestrict_comp_app_of_comp_eq {G : (BigFppfOver B S h
         (Space.pointsMap B S hS _ (yoneda.map φ) ⁻¹' Z)ᶜ Zᶜ (fun _ hz => hz) ≫ γ).app (op W)
         ⟨t, ht⟩ = G.map r.op (γ.app (op O) ⟨ι, hι⟩) := by
   refine Eq.trans ?_ (NatTrans.naturality_apply γ r.op ⟨ι, hι⟩)
-  show γ.app (op W) _ = γ.app (op W) _
+  change γ.app (op W) _ = γ.app (op W) _
   congr 1
   exact Subtype.ext htr
 
@@ -140,11 +140,13 @@ theorem sieve_ofArrows_pullback_opensObjectι_mem_topology (V : BigFppfOver B S 
       (Space.pointsMap B S hS _ (yoneda.map φ) ⁻¹' Z)ᶜ).obj (op U)) :
     Sieve.ofArrows (fun f : gens => pullback (t ≫ φ) (Space.opensObjectι B S hS V
         (((BigFppfOver.toScheme B S hS).obj V).basicOpen f.1)))
-      (fun f => pullback.fst _ _) ∈ BigFppfOver.topology B S hS U := by
+      (fun f => pullback.fst (t ≫ φ) (Space.opensObjectι B S hS V
+        (((BigFppfOver.toScheme B S hS).obj V).basicOpen f.1))) ∈
+        BigFppfOver.topology B S hS U := by
   let X := (BigFppfOver.toScheme B S hS).obj V
   refine BigFppfOver.sieve_ofArrows_mem_topology_of_jointlySurjective B S hS _ U _
     (fun f => ?_) (fun y => ?_)
-  · show IsOpenImmersion ((BigFppfOver.toScheme B S hS).map
+  · change IsOpenImmersion ((BigFppfOver.toScheme B S hS).map
       (pullback.fst (t ≫ φ) (Space.opensObjectι B S hS V (X.basicOpen f.1))))
     rw [← PreservesPullback.iso_hom_fst (BigFppfOver.toScheme B S hS) (t ≫ φ)]
     have : IsOpenImmersion ((BigFppfOver.toScheme B S hS).map
@@ -158,7 +160,7 @@ theorem sieve_ofArrows_pullback_opensObjectι_mem_topology (V : BigFppfOver B S 
       let w := (Space.schemePointsHomeomorph B S hS U).symm y
       have htw := (mem_openSubspaceOfPoints_yoneda_iff t).1 ht ⟨w, rfl⟩
       apply htw
-      show Space.pointsMap B S hS _ (yoneda.map φ)
+      change Space.pointsMap B S hS _ (yoneda.map φ)
         (Space.pointsMap B S hS _ (yoneda.map t) w) ∈ Z
       rwa [hI, Space.pointsToScheme_pointsMap_yoneda, Space.pointsToScheme_pointsMap_yoneda,
         ← Space.schemePointsHomeomorph_apply, Homeomorph.apply_symm_apply,
@@ -235,9 +237,10 @@ theorem openSubspaceOfPointsRestrict_comp_eq_of_forall_pullback_snd
 /-- In a cofiltered category, finitely many morphisms `gf f : jf f ⟶ i` with common target are
 dominated by a single morphism `F : j ⟶ i` factoring through each of them. -/
 theorem exists_comp_eq_of_finite {J : Type*} [Category J] [IsCofiltered J] {ι : Type*}
-    [Fintype ι] (i : J) (jf : ι → J) (gf : ∀ f, jf f ⟶ i) :
+    [Finite ι] (i : J) (jf : ι → J) (gf : ∀ f, jf f ⟶ i) :
     ∃ (j : J) (F : j ⟶ i) (T : ∀ f, j ⟶ jf f), ∀ f, T f ≫ gf f = F := by
   classical
+  have := Fintype.ofFinite ι
   let Os : Finset J := insert i (Finset.univ.image jf)
   have hiO : i ∈ Os := Finset.mem_insert_self i _
   have hjO : ∀ f, jf f ∈ Os := fun f =>

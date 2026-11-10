@@ -94,7 +94,7 @@ theorem exists_closeds_isProperOver_supp_of_isClosedImmersion {X S : Scheme.{u}}
   obtain ⟨Z, i, hi, hrange, hprop⟩ := hsupp
   refine ⟨⟨Set.range i, i.isClosedEmbedding.isClosed_range⟩,
     (GrothendieckExistence.isProper_comp_iff_isProperOver_range i f).1 hprop, ?_⟩
-  show SheafOfModules.supp F ⊆ Set.range i
+  change SheafOfModules.supp F ⊆ Set.range i
   rw [hrange]
   exact (SheafOfModules.supp_eq_moduleSheaf_supp F).ge
 

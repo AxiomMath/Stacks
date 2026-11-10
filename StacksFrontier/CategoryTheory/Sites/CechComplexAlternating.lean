@@ -94,7 +94,7 @@ omit [LinearOrder ι] in
 /-- Restriction along the identity reindexing is the identity. -/
 theorem tres_id (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → C) {n : ℕ} (t : Fin n → ι) :
     tres P U (id : Fin n → Fin n) t = AddMonoidHom.id (P.obj (op (inter U t))) := by
-  show (P.map (interMap U t (id : Fin n → Fin n)).op).hom = AddMonoidHom.id _
+  change (P.map (interMap U t (id : Fin n → Fin n)).op).hom = AddMonoidHom.id _
   rw [interMap_id]
   exact congrArg AddCommGrpCat.Hom.hom (P.map_id _)
 
@@ -322,8 +322,8 @@ omit [LinearOrder ι] in
 theorem cechDiff_comp_cechDiff (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → C) (p : ℕ) :
     (Alternating.cechDiff P U (p+1)).comp (Alternating.cechDiff P U p) = 0 := by
   ext s t
-  show (Alternating.cechDiff P U (p+1)) ((Alternating.cechDiff P U p) s) t = 0
-  show (∑ k : Fin (p+3), (-1 : ℤ) ^ (k : ℕ) •
+  change (Alternating.cechDiff P U (p+1)) ((Alternating.cechDiff P U p) s) t = 0
+  change (∑ k : Fin (p+3), (-1 : ℤ) ^ (k : ℕ) •
       tres P U (Fin.succAbove k) t (((Alternating.cechDiff P U p) s) (t ∘ Fin.succAbove k))) = 0
   have hinner : ∀ k : Fin (p+3),
       (-1 : ℤ) ^ (k : ℕ) •
@@ -333,7 +333,7 @@ theorem cechDiff_comp_cechDiff (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → 
           tres P U (Fin.succAbove k ∘ Fin.succAbove j) t
             (s ((t ∘ Fin.succAbove k) ∘ Fin.succAbove j)) := by
     intro k
-    show (-1 : ℤ) ^ (k : ℕ) •
+    change (-1 : ℤ) ^ (k : ℕ) •
         tres P U (Fin.succAbove k) t
           (∑ j : Fin (p+2), (-1 : ℤ) ^ (j : ℕ) •
             tres P U (Fin.succAbove j) (t ∘ Fin.succAbove k)
@@ -353,15 +353,15 @@ theorem cechDiff_comp_cechDiff (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → 
 theorem cechDiffOrd_comp_cechDiffOrd (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → C) (p : ℕ) :
     (Alternating.cechDiffOrd P U (p+1)).comp (Alternating.cechDiffOrd P U p) = 0 := by
   ext s t
-  show (Alternating.cechDiffOrd P U (p+1)) ((Alternating.cechDiffOrd P U p) s) t = 0
-  show (∑ k : Fin (p+3), (-1:ℤ)^(k:ℕ) •
+  change (Alternating.cechDiffOrd P U (p+1)) ((Alternating.cechDiffOrd P U p) s) t = 0
+  change (∑ k : Fin (p+3), (-1:ℤ)^(k:ℕ) •
       tres P U (Fin.succAbove k) t.1 (((Alternating.cechDiffOrd P U p) s) (t.face k))) = 0
   have hinner : ∀ k : Fin (p+3),
       (-1:ℤ)^(k:ℕ) • tres P U (Fin.succAbove k) t.1 (((Alternating.cechDiffOrd P U p) s) (t.face k))
       = ∑ j : Fin (p+2), ((-1:ℤ)^(k:ℕ) * (-1:ℤ)^(j:ℕ)) •
           tres P U (Fin.succAbove k ∘ Fin.succAbove j) t.1 (s ((t.face k).face j)) := by
     intro k
-    show (-1:ℤ)^(k:ℕ) • tres P U (Fin.succAbove k) t.1
+    change (-1:ℤ)^(k:ℕ) • tres P U (Fin.succAbove k) t.1
         (∑ j : Fin (p+2), (-1:ℤ)^(j:ℕ) •
           tres P U (Fin.succAbove j) (t.face k).1 (s ((t.face k).face j))) = _
     rw [map_sum, Finset.smul_sum]
@@ -385,7 +385,7 @@ theorem cechDiff_apply_eq_zero_of_not_injective (P : Cᵒᵖ ⥤ AddCommGrpCat.{
       tres P U σ t (s (t ∘ σ)) = (Equiv.Perm.sign σ : ℤ) • s t)
     (t : Fin (p+2) → ι) (ht : ¬ Function.Injective t) :
     Alternating.cechDiff P U p s t = 0 := by
-  show (∑ j : Fin (p+2),
+  change (∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • tres P U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j))) = 0
   set f : Fin (p+2) → (P.obj (op (inter U t)) : Type w') :=
     fun j => (-1 : ℤ) ^ (j : ℕ) • tres P U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j))
@@ -464,7 +464,7 @@ theorem cechDiff_apply_eq_zero_of_not_injective (P : Cᵒᵖ ⥤ AddCommGrpCat.{
       rw [hsa, hρsucc x, hΦ]
       simp only [Equiv.Perm.coe_mul, Function.comp_apply]
       rw [Equiv.symm_apply_apply, hsb]
-      show t (Equiv.swap a b ((b.cycleRange)⁻¹ x.succ)) = t ((b.cycleRange).symm x.succ)
+      change t (Equiv.swap a b ((b.cycleRange)⁻¹ x.succ)) = t ((b.cycleRange).symm x.succ)
       rw [htswap]
       rfl
     rw [hf]
@@ -481,7 +481,7 @@ theorem cechDiff_apply_eq_zero_of_not_injective (P : Cᵒᵖ ⥤ AddCommGrpCat.{
       rw [← hH2]
       refine (tres_congr_of_isSubterminal P U hU (Fin.succAbove a ∘ ⇑ρ)
         (Fin.succAbove b) t ?_ _ _ ?_).symm
-      · show t ∘ (Fin.succAbove a ∘ ⇑ρ) = t ∘ Fin.succAbove b
+      · change t ∘ (Fin.succAbove a ∘ ⇑ρ) = t ∘ Fin.succAbove b
         rw [← Function.comp_assoc]; exact hfun
       · exact congr_arg_heq s hfun
     rw [hYb, smul_smul, hsignρ]
@@ -507,7 +507,7 @@ theorem cechDiff_apply_perm (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → C) 
     (t : Fin (p + 2) → ι) (σ : Equiv.Perm (Fin (p + 2))) :
     tres P U σ t ((Alternating.cechDiff P U p s) (t ∘ σ))
       = (Equiv.Perm.sign σ : ℤ) • (Alternating.cechDiff P U p s) t := by
-  show tres P U σ t (∑ j : Fin (p+2),
+  change tres P U σ t (∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • tres P U (Fin.succAbove j) (t ∘ σ) (s ((t ∘ σ) ∘ Fin.succAbove j)))
     = (Equiv.Perm.sign σ : ℤ) • ∑ j : Fin (p+2),
       (-1 : ℤ) ^ (j : ℕ) • tres P U (Fin.succAbove j) t (s (t ∘ Fin.succAbove j))
@@ -588,7 +588,7 @@ theorem cechProj_comp_cechComp (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι → 
     (Alternating.cechProj P U p).comp (Alternating.cechComp P U p) =
       AddMonoidHom.id (Alternating.CechCochainOrd P U p) := by
   ext s t
-  show Alternating.cechComp P U p s t.1 = s t
+  change Alternating.cechComp P U p s t.1 = s t
   have hinj : Function.Injective t.1 := t.2.injective
   have hsort : Tuple.sort t.1 = Equiv.refl _ := Tuple.sort_eq_refl_iff_monotone.2 t.2.monotone
   rw [cechComp_apply_of_injective P U s _ hinj]
@@ -614,7 +614,7 @@ theorem cechComp_cechProj_of_isAlt (P : Cᵒᵖ ⥤ AddCommGrpCat.{w'}) (U : ι 
   show Alternating.cechComp P U p (Alternating.cechProj P U p s) t = s t
   by_cases hinj : Function.Injective t
   · rw [cechComp_apply_of_injective P U _ _ hinj]
-    show (Equiv.Perm.sign (Tuple.sort t) : ℤ) •
+    change (Equiv.Perm.sign (Tuple.sort t) : ℤ) •
         tres P U (Tuple.sort t) t (s (t ∘ Tuple.sort t)) = s t
     rw [halt t (Tuple.sort t), smul_smul, ← Units.val_mul, Int.units_mul_self, Units.val_one,
       one_smul]

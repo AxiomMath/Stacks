@@ -77,8 +77,8 @@ public theorem etaleGraphIntoPullback_isOpenImmersion
     (pullback_map_diagonal_isPullback f (𝟙 Y) g)
     (inferInstance : IsOpenImmersion (pullback.diagonal g)))
   ext : 1
-  · simp [pullback.congrHom_inv, pullback.map, Category.assoc, pullback.lift_fst]
-  · simp [pullback.congrHom_inv, pullback.map, Category.assoc, pullback.lift_snd,
+  · simp [pullback.congrHom_inv, pullback.map, Category.assoc]
+  · simp [pullback.congrHom_inv, pullback.map, Category.assoc,
       pullback.condition]
 
 /-- If `g` is moreover separated, the graph of `f` over `g` is both an open and a closed
@@ -121,7 +121,7 @@ public theorem bigEtale_inclusion_map_graph_comp_iso_hom
       (B.inclusion.map f ≫ B.inclusion.map g) (B.inclusion.map g) =
       pullback.snd (B.inclusion.map (f ≫ g)) (B.inclusion.map g) := by
     simp [e₁, pullback.congrHom, pullback.map]
-  show B.inclusion.map (pullback.lift (𝟙 W) f (Category.id_comp (f ≫ g))) ≫
+  change B.inclusion.map (pullback.lift (𝟙 W) f (Category.id_comp (f ≫ g))) ≫
     (e₀ ≪≫ e₁).hom = _
   apply pullback.hom_ext
   · calc
@@ -217,7 +217,7 @@ public theorem complementι_mem_compl_opensRange
     {A Z : Scheme.{u}} (i : A ⟶ Z) [IsOpenImmersion i] [IsClosedImmersion i]
     (x : complementScheme i) :
     complementι i x ∈ (i.opensRange : Set Z)ᶜ := by
-  show x.1 ∈ (i.opensRange : Set Z)ᶜ
+  change x.1 ∈ (i.opensRange : Set Z)ᶜ
   exact x.2
 
 end Scheme.Hom
@@ -242,7 +242,7 @@ public theorem isOpenImmersion_map_smallEtaleGraph
     IsOpenImmersion ((SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map
       (smallEtaleGraph B X hX U W)) := by
   let : Etale (B.inclusion.map U.obj.hom) := U.property
-  show IsOpenImmersion (B.inclusion.map
+  change IsOpenImmersion (B.inclusion.map
     (pullback.lift (𝟙 (Over.left W.obj)) (Over.hom W.obj)
       (Category.id_comp (Over.hom W.obj ≫ U.obj.hom))))
   exact (bigEtaleGraphIntoPullback_isOpenAndClosed B W.obj.hom U.obj.hom).1
@@ -256,7 +256,7 @@ public theorem isClosedImmersion_map_smallEtaleGraph
     IsClosedImmersion ((SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map
       (smallEtaleGraph B X hX U W)) := by
   let : Etale (B.inclusion.map U.obj.hom) := U.property
-  show IsClosedImmersion (B.inclusion.map
+  change IsClosedImmersion (B.inclusion.map
     (pullback.lift (𝟙 (Over.left W.obj)) (Over.hom W.obj)
       (Category.id_comp (Over.hom W.obj ≫ U.obj.hom))))
   exact (bigEtaleGraphIntoPullback_isOpenAndClosed B W.obj.hom U.obj.hom).2
@@ -308,7 +308,7 @@ public theorem false_of_comp_eq_of_mem_compl_opensRange
     rw [Scheme.Hom.coe_opensRange]
     exact ⟨f x, rfl⟩
   have heq : i (f x) = j (g x) := by
-    show (i.base.hom) (f.base.hom x) = (j.base.hom) (g.base.hom x)
+    change (i.base.hom) (f.base.hom x) = (j.base.hom) (g.base.hom x)
     exact congrArg (fun k : S ⟶ Z => k x) hfg
   exact (hj (g x)) (heq ▸ hx)
 
@@ -395,7 +395,7 @@ public theorem smallEtaleGraphComplementInto_mono
   have : IsClosedImmersion i := isClosedImmersion_map_smallEtaleGraph B X hX U W
   have : IsOpenImmersion (T.map (smallEtaleGraphComplementInto B X hX U W)) := by
     dsimp [smallEtaleGraphComplementInto]
-    show IsOpenImmersion (Scheme.Hom.complementι i)
+    change IsOpenImmersion (Scheme.Hom.complementι i)
     dsimp [Scheme.Hom.complementι, Scheme.Hom.complementScheme]
     infer_instance
   exact (Functor.reflectsMonomorphisms_of_faithful T).reflects _ inferInstance
@@ -439,7 +439,7 @@ public theorem smallEtale_sieve_mem_of_cover
   let Rₛ : PreZeroHypercover Z := {
     I₀ := R.I₀
     X := fun a => ⟨Over.mk (R.f a ≫ Z.obj.hom), by
-      show Etale (B.inclusion.map (R.f a ≫ Z.obj.hom))
+      change Etale (B.inclusion.map (R.f a ≫ Z.obj.hom))
       rw [Functor.map_comp]
       have := hEt a
       infer_instance⟩
@@ -455,7 +455,7 @@ public theorem smallEtale_sieve_mem_of_cover
   obtain ⟨β, hX, hf⟩ := he.2
   let δ : Rₛ.X a ⟶ E.X (β a) := ObjectProperty.homMk
     (Over.homMk (eqToHom (hX a)) (by
-      show eqToHom (hX a) ≫ (E.X (β a)).obj.hom = R.f a ≫ Z.obj.hom
+      change eqToHom (hX a) ≫ (E.X (β a)).obj.hom = R.f a ≫ Z.obj.hom
       rw [hf a, Category.assoc]
       congr 1
       exact (E.f (β a)).hom.w.symm))
@@ -478,11 +478,11 @@ public theorem emptyCover_mem_smallEtaleTopology
   have : IsEmpty (B.inclusion.obj S.obj.left) := by simpa using hS
   let E : PreZeroHypercover S := PreZeroHypercover.empty S
   have hE : SmallEtale.IsCovering B U.obj.left.1 U.obj.left.property ⟨S, E⟩ := by
-    show CovBounded IsEtaleCovering B.coveringBound
+    change CovBounded IsEtaleCovering B.coveringBound
       ⟨_, (E.map (SmallEtale.inclusion B U.obj.left.1 U.obj.left.property)).map
         (BigEtaleOver.forget B U.obj.left.1 U.obj.left.property)⟩
     constructor
-    · show (((E.map (SmallEtale.inclusion B U.obj.left.1 U.obj.left.property)).map
+    · change (((E.map (SmallEtale.inclusion B U.obj.left.1 U.obj.left.property)).map
         (BigEtaleOver.forget B U.obj.left.1 U.obj.left.property)).map B.inclusion).presieve₀ ∈
         Scheme.precoverage (@Etale) (B.inclusion.obj S.obj.left)
       rw [Scheme.ofArrows_mem_precoverage_iff (@Etale)]
@@ -533,19 +533,19 @@ public theorem graphComplementCover_mem_smallEtaleTopology
       · obtain ⟨y, hy⟩ := Scheme.Hom.mem_opensRange.mp hz
         exact ⟨ULift.up false, y, hy⟩
       · refine ⟨ULift.up true, ⟨z, ?_⟩, ?_⟩
-        · show z ∈ (i.opensRange : Set _)ᶜ
+        · change z ∈ (i.opensRange : Set _)ᶜ
           exact hz
-        · show Scheme.Hom.complementι i ⟨z, hz⟩ = z
+        · change Scheme.Hom.complementι i ⟨z, hz⟩ = z
           rfl)
     (by
       rintro ⟨_ | _⟩
-      · show Etale i
+      · change Etale i
         infer_instance
-      · show Etale (Scheme.Hom.complementι i)
+      · change Etale (Scheme.Hom.complementι i)
         dsimp [Scheme.Hom.complementι, Scheme.Hom.complementScheme]
         infer_instance)
   have hEtale : IsEtaleCovering ⟨Z.obj.left, E₀⟩ := by
-    show (E₀.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage
+    change (E₀.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage
       (B.inclusion.obj Z.obj.left)
     rw [show E₀.map B.inclusion = C.toPreZeroHypercover by ext <;> rfl]
     exact C.mem₀

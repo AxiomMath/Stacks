@@ -160,7 +160,7 @@ public theorem higherDirectImageZeroIso_naturality (hn : 1 ≤ n) (d : ℕ) :
       inv (D.ψ d) ≫ (symHom hfree hfree' e.hom).app (d : ℤ) := by
     rw [IsIso.eq_inv_comp, ← Category.assoc, ← Category.assoc, Category.assoc (D.ψ d), h,
       Category.assoc, IsIso.hom_inv_id, Category.comp_id]
-  show (Stacks.RightDerivedPlus.rightDerivedPlusZeroIso
+  change (Stacks.RightDerivedPlus.rightDerivedPlusZeroIso
         (Scheme.Modules.pushforward (relativeProj (bundleAlgebra E hfree)).toBase)).hom.app
           (D.algebra.piece (d : ℤ)) ≫
       bundleRestrictPushforward hfree hfree' e (D.algebra.piece (d : ℤ)) ≫

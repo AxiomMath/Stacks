@@ -117,7 +117,7 @@ theorem not_isSeparable : ¬ Algebra.IsSeparable k κ := by
 /-- **`[κ : k] = 2`.** -/
 theorem finrank_κ : Module.finrank k κ = 2 := by
   rw [(AdjoinRoot.powerBasis irreducible_κpoly.ne_zero).finrank]
-  show κpoly.natDegree = 2
+  change κpoly.natDegree = 2
   unfold κpoly
   rw [Polynomial.natDegree_X_pow_sub_C]
 

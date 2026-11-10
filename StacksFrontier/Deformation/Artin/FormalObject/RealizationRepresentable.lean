@@ -100,7 +100,7 @@ theorem FormalObject.exists_realization_overForget (Xo : BigFppfOver B S hS)
       restrictionToBase B S hS ζ.base hA ζ.contains n) (by
         rw [Category.assoc, hrtb]; simp [a])) (fun n => ?_) (fun n => ?_)⟩⟩
   · refine IsHomLift.of_fac' _ _ _ (ζ.level_eq n) rfl ?_
-    show eqToHom (ζ.level_eq n) ≫ restrictionToBase B S hS ζ.base hA ζ.contains n = _
+    change eqToHom (ζ.level_eq n) ≫ restrictionToBase B S hS ζ.base hA ζ.contains n = _
     simp
   · apply Over.OverMorphism.ext
     simp only [Over.comp_left, Over.homMk_left, htl, Category.assoc, eqToHom_trans_assoc,

@@ -303,7 +303,7 @@ theorem descend_mul {X : Cᵒᵖ} (x y : O.obj.obj X) :
     rw [map_add, M.val.map_smul, M.val.map_smul, ← Δ.descend_map f.op y,
       ← Δ.descend_map f.op x, ← ha, ← hb, Δ.descend_app, Δ.descend_app]
     rfl
-  show M.val.map f.op (Δ.descend (x * y)) =
+  change M.val.map f.op (Δ.descend (x * y)) =
     M.val.map f.op (x • Δ.descend y + y • Δ.descend x)
   rw [key, key2, Δ.d_mul a b]
 

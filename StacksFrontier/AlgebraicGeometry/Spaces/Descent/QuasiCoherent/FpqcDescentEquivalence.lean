@@ -37,7 +37,8 @@ equivalence from the two clauses.
 `…canonicalDescentFunctor` are the same functor — they differ only in the proofs filling the
 `Prop`-valued fields of their values — but **the equation of the two functors is not what the
 dictionary below is proved from**: the kernel does not come back from it, composition in the
-category of descent data of Stacks 04W3 being a projection of a structure instance.  The passage is made at one object instead, by `…canonicalDescentFunctor'_obj_eq`,
+category of descent data of Stacks 04W3 being a projection of a structure instance.  The passage is
+made at one object instead, by `…canonicalDescentFunctor'_obj_eq`,
 where the step is a projection of a structure literal and is free.  The primed form is the one
 the full-faithfulness clause is stated at, because it is formed with no hypothesis.
 

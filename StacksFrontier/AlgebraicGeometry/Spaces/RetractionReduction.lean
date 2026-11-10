@@ -157,7 +157,7 @@ theorem reductionMap_app (U : SmallEtale B S hS X₀.1)
     (s : F.val.obj (op ((smallBaseChange B S hS r hrep).obj U))) :
     (reductionMap B S hS r hrep i hi F).val.app (op U) s =
       modulePullbackChartSection B S hS i F (retractionChartDiagram B S hS r hrep i hi U) s := by
-  show (modulePullbackChartFMap B S hS i F).app
+  change (modulePullbackChartFMap B S hS i F).app
     (retractionChartDiagram B S hS r hrep i hi U) s = _
   exact modulePullbackChartFMap_app B S hS i F (retractionChartDiagram B S hS r hrep i hi U) s
 
@@ -190,8 +190,7 @@ theorem surjective_reductionMap_app (hF : F.IsQuasicoherentOnSite) (U : SmallEta
     hU hU'
   intro x
   obtain ⟨t, rfl⟩ := hbij.2 x
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a s =>
     obtain ⟨a', rfl⟩ := hsurj a
     refine ⟨a' • s, (reductionMap_app B S hS r hrep i hi F U _).trans ?_⟩

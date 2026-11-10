@@ -365,14 +365,14 @@ theorem isResolvableAfterLocalizing_of_hasSmoothFactorization
         (IsScalarTower.toAlgHom kx A₀ L₀) := by
     refine Algebra.IsPushout.algHom_ext (R := kx) (S := R₀) (R' := C) A₀
       (AlgHom.ext fun x => ?_) (AlgHom.ext fun x => ?_)
-    · show algebraMap A₀ (locTarget Sit) (algebraMap C A₀ x) =
+    · change algebraMap A₀ (locTarget Sit) (algebraMap C A₀ x) =
         algebraMap L₀ (locTarget Sit) (algebraMap A₀ L₀ (algebraMap C A₀ x))
       rw [← IsScalarTower.algebraMap_apply C A₀ L₀, hC,
         IsScalarTower.algebraMap_apply A₀ (locMid Sit) (locTarget Sit),
         ← IsScalarTower.algebraMap_apply C A₀ (locMid Sit),
         IsScalarTower.algebraMap_apply C Sit.A (locMid Sit),
         ← IsScalarTower.algebraMap_apply Sit.A (locMid Sit) (locTarget Sit)]
-    · show algebraMap A₀ (locTarget Sit) (algebraMap R₀ A₀ x) =
+    · change algebraMap A₀ (locTarget Sit) (algebraMap R₀ A₀ x) =
         algebraMap L₀ (locTarget Sit) (algebraMap A₀ L₀ (algebraMap R₀ A₀ x))
       rw [← IsScalarTower.algebraMap_apply R₀ A₀ (locTarget Sit),
         ← IsScalarTower.algebraMap_apply R₀ A₀ L₀,
@@ -474,16 +474,16 @@ theorem hasSmoothFactorization_tensor_of_exists (kx C R₀ L₀ : Type u)
     lift_algebraMap_right (IsScalarTower.toAlgHom kx R₀ T) gCalg _
   have hkkkx : ∀ x : kx, kk (algebraMap kx T x) = algebraMap kx L₀ x := by
     intro x
-    show kk (algebraMap R₀ T (algebraMap kx R₀ x)) = _
+    change kk (algebraMap R₀ T (algebraMap kx R₀ x)) = _
     rw [hkkR₀, ← IsScalarTower.algebraMap_apply kx R₀ L₀]
   have key : ({ toRingHom := kk, commutes' := hkkkx } : T →ₐ[kx] L₀).comp gg =
       IsScalarTower.toAlgHom kx (R₀ ⊗[kx] C) L₀ := by
     refine Algebra.IsPushout.algHom_ext (R := kx) (S := R₀) (R' := C) (R₀ ⊗[kx] C)
       (AlgHom.ext fun c => ?_) (AlgHom.ext fun x => ?_)
-    · show kk (gg (algebraMap C (R₀ ⊗[kx] C) c)) = _
+    · change kk (gg (algebraMap C (R₀ ⊗[kx] C) c)) = _
       rw [hggright, hkkC, IsScalarTower.algebraMap_apply C (R₀ ⊗[kx] C) L₀]
       rfl
-    · show kk (gg (algebraMap R₀ (R₀ ⊗[kx] C) x)) = _
+    · change kk (gg (algebraMap R₀ (R₀ ⊗[kx] C) x)) = _
       rw [hggleft, hkkR₀, IsScalarTower.algebraMap_apply R₀ (R₀ ⊗[kx] C) L₀]
       rfl
   exact ⟨T, instT, instR₀T, hsm, { toRingHom := (gg : _ →+* T), commutes' := hggleft },
@@ -523,10 +523,10 @@ theorem exists_of_hasSmoothFactorization_tensor (kx C R₀ L₀ : Type u)
   refine ⟨T, instT, instR₀T, hT,
     (g : (R₀ ⊗[kx] C) →+* T).comp (algebraMap C (R₀ ⊗[kx] C)),
     (kk : T →+* L₀), fun x => ?_, fun x => kk.commutes x, fun c => ?_⟩
-  · show g (algebraMap C (R₀ ⊗[kx] C) (algebraMap kx C x)) = _
+  · change g (algebraMap C (R₀ ⊗[kx] C) (algebraMap kx C x)) = _
     rw [← IsScalarTower.algebraMap_apply kx C (R₀ ⊗[kx] C),
       IsScalarTower.algebraMap_apply kx R₀ (R₀ ⊗[kx] C), g.commutes]
-  · show kk (g (algebraMap C (R₀ ⊗[kx] C) c)) = _
+  · change kk (g (algebraMap C (R₀ ⊗[kx] C) c)) = _
     rw [show kk (g (algebraMap C (R₀ ⊗[kx] C) c)) =
         algebraMap (R₀ ⊗[kx] C) L₀ (algebraMap C (R₀ ⊗[kx] C) c) from
       AlgHom.congr_fun hgk (algebraMap C (R₀ ⊗[kx] C) c),
@@ -624,7 +624,7 @@ theorem exists_primePowerQuotient_lift {R Y : Type u} [CommRing R] [CommRing Y] 
     exact RingHom.mem_ker.mpr (by rw [map_pow, hg₀, hνpow])
   refine ⟨Ideal.Quotient.lift _ g₀ fun x hx => RingHom.mem_ker.mp (hker hx), fun x => ?_⟩
   rw [← Ideal.Quotient.mk_algebraMap (R₁ := R) (A := Localization.AtPrime p) _ x]
-  show g₀ _ = _
+  change g₀ _ = _
   rw [hg₀]
 
 /-- **The structure map `Λ₀ → Λ̄` of items (22)–(26) on the image of `k[y_1, …, y_m]`.** If
@@ -671,10 +671,10 @@ theorem eval₂Hom_comp_twistedStructure {k Λ₀ Y : Type u} [CommRing k] [Comm
           MvPolynomial.X i)) := by
   refine MvPolynomial.ringHom_ext (fun r => ?_) fun i => ?_
   · rw [hC]
-    show _ = MvPolynomial.eval₂Hom f₀ τ (MvPolynomial.eval₂Hom _ _ (MvPolynomial.C r))
+    change _ = MvPolynomial.eval₂Hom f₀ τ (MvPolynomial.eval₂Hom _ _ (MvPolynomial.C r))
     rw [MvPolynomial.eval₂Hom_C, RingHom.comp_apply, MvPolynomial.eval₂Hom_C]
   · rw [hX]
-    show _ = MvPolynomial.eval₂Hom f₀ τ (MvPolynomial.eval₂Hom _ _ (MvPolynomial.X i))
+    change _ = MvPolynomial.eval₂Hom f₀ τ (MvPolynomial.eval₂Hom _ _ (MvPolynomial.X i))
     rw [MvPolynomial.eval₂Hom_X', map_mul, MvPolynomial.eval₂Hom_C, MvPolynomial.eval₂Hom_X']
 
 /-- **The structure map of item (23).** For a chain whose base `R/I` receives
@@ -1029,7 +1029,7 @@ theorem isResolvableAfterLocalizing_twistedQuotient
     have h1 := hνw (twistedParameter π i ^ e)
     rw [hνI i, map_zero, map_pow, twistedBaseToTarget_twistedParameter] at h1
     have h0 : wb ((δ i * φ (π i)) ^ e) = 0 := by
-      show algebraMap Sit.Λ (locTarget Sit) (w ((δ i * φ (π i)) ^ e)) = 0
+      change algebraMap Sit.Λ (locTarget Sit) (w ((δ i * φ (π i)) ^ e)) = 0
       rw [← h1, map_zero]
     rw [map_pow, map_mul, mul_pow] at h0
     refine ((hwbunit (δ i) (hδq i)).pow e).mul_left_cancel ?_
@@ -1117,7 +1117,7 @@ theorem isResolvableAfterLocalizing_twistedQuotient
   let smulkxLbar : SMul (MvPolynomial (Fin d) k) (primePowerQuotient q n) := Algebra.toSMul
   have instTkxCLbar : IsScalarTower (MvPolynomial (Fin d) k) C (primePowerQuotient q n) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap (MvPolynomial (Fin d) k) (primePowerQuotient q n) x =
+      change algebraMap (MvPolynomial (Fin d) k) (primePowerQuotient q n) x =
         algebraMap Λ (primePowerQuotient q n)
           (improvedAlgebraToTarget N a (fun i => δ i * φ (π i)) lam hrel grt
             (algebraMap (MvPolynomial (Fin d) k) C x))
@@ -1156,7 +1156,7 @@ theorem isResolvableAfterLocalizing_twistedQuotient
     RingHom.congr_fun (primePowerQuotient_ringHom_ext (Ideal.comap φ.toRingHom q)
       (f := (algebraMap (locBase Sit) (locTarget Sit)).comp l0map)
       (g := (algebraMap (primePowerQuotient q n) (locTarget Sit)).comp u) fun f => by
-        show algebraMap (locBase Sit) (locTarget Sit)
+        change algebraMap (locBase Sit) (locTarget Sit)
             (l0map (algebraMap (MvPolynomial (Fin m) k)
               (primePowerQuotient (Ideal.comap φ.toRingHom q) n) f)) =
           algebraMap (primePowerQuotient q n) (locTarget Sit)
@@ -1169,17 +1169,17 @@ theorem isResolvableAfterLocalizing_twistedQuotient
       (primePowerQuotient (Ideal.comap φ.toRingHom q) n)) (primePowerQuotient q n)
       (locTarget Sit) := by
     refine IsScalarTower.of_algebraMap_eq' (MvPolynomial.ringHom_ext (fun z => ?_) fun i => ?_)
-    · show algebraMap (locBase Sit) (locTarget Sit)
+    · change algebraMap (locBase Sit) (locTarget Sit)
           (MvPolynomial.eval₂Hom l0map _ (MvPolynomial.C z)) = _
       rw [MvPolynomial.eval₂Hom_C]
-      show _ = algebraMap (primePowerQuotient q n) (locTarget Sit)
+      change _ = algebraMap (primePowerQuotient q n) (locTarget Sit)
         (MvPolynomial.eval₂Hom u _ (MvPolynomial.C z))
       rw [MvPolynomial.eval₂Hom_C]
       exact hkeyΛ₀ z
-    · show algebraMap (locBase Sit) (locTarget Sit)
+    · change algebraMap (locBase Sit) (locTarget Sit)
           (MvPolynomial.eval₂Hom l0map _ (MvPolynomial.X i)) = _
       rw [MvPolynomial.eval₂Hom_X']
-      show _ = algebraMap (primePowerQuotient q n) (locTarget Sit)
+      change _ = algebraMap (primePowerQuotient q n) (locTarget Sit)
         (MvPolynomial.eval₂Hom u _ (MvPolynomial.X i))
       rw [MvPolynomial.eval₂Hom_X', hlbar, hLBLT, hRLT, hνw]
       congr 2
@@ -1247,7 +1247,7 @@ theorem twistedQuotientLocallyResolvable_of_smoothFactorization
       finitePresentation := hfp, isPrimeQ := hqb }
   have instSitQ : Sit.q.IsPrime := hqb
   have instSitBP0 : Sit.basePrime.IsPrime := Ideal.comap_isPrime _ _
-  show Sit.IsResolvableAfterLocalizing
+  change Sit.IsResolvableAfterLocalizing
   -- the chain of the situation is the base change of `C` along `k[x] → R/I`
   have instPushSit : Algebra.IsPushout (MvPolynomial (Fin d) k) Sit.R C Sit.A :=
     isPushout_quotient_of_isPushout (MvPolynomial (Fin d) k) (MvPolynomial (Fin m ⊕ Fin d) k) C
@@ -1276,17 +1276,17 @@ theorem twistedQuotientLocallyResolvable_of_smoothFactorization
   have hkxΛ : ∀ i, algebraMap (MvPolynomial (Fin d) k) Λ (MvPolynomial.X i) =
       δ i * φ (π i) := by
     intro i
-    show twistedBaseToTarget φ δ (twistedBaseHom π (MvPolynomial.X i)) = _
+    change twistedBaseToTarget φ δ (twistedBaseHom π (MvPolynomial.X i)) = _
     rw [twistedBaseHom_X, twistedBaseToTarget_twistedParameter]
   have instTkkxΛ : IsScalarTower k (MvPolynomial (Fin d) k) Λ :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show algebraMap k Λ r = twistedBaseToTarget φ δ
+      change algebraMap k Λ r = twistedBaseToTarget φ δ
         (twistedBaseHom π (algebraMap k (MvPolynomial (Fin d) k) r))
       rw [(twistedBaseHom π).commutes r, (twistedBaseToTarget φ δ).commutes r]
   have hνw : ∀ x, algebraMap Sit.R Sit.Λ (Ideal.Quotient.mk I x) =
       Ideal.Quotient.mk IL (twistedBaseToTarget φ δ x) := by
     intro x
-    show algebraMap ((MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) ⧸ ID) (Λ ⧸ IL)
+    change algebraMap ((MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) ⧸ ID) (Λ ⧸ IL)
         (algebraMap (MvPolynomial (Fin m ⊕ Fin d) k ⧸ I)
           ((MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) ⧸ ID)
           (Ideal.Quotient.mk I x)) = _

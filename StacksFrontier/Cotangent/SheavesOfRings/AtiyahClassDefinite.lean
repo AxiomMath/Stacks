@@ -108,6 +108,8 @@ instance augmentationFlatResolution_isStrictlyLE
     (augmentationFlatResolution J ε hθ X).IsStrictlyLE 0 :=
   (exists_augExtendScalars_quasiIso_total J ε hθ X).choose_spec.choose
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The terms of the flat resolution are flat. -/
 theorem augmentationFlatResolution_isFlat
     (hθ : QuasiIso ((mooreAbSheafCochain J).map (unitMap' (augmentationCommRingMap J ε).hom)))
@@ -132,6 +134,8 @@ instance quasiIso_augmentationFlatResolutionπ
   (exists_augExtendScalars_quasiIso_total J ε hθ X).choose_spec.choose_spec.choose_spec.choose_spec
     |>.1
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The column/row conclusion at the flat resolution: the adjoint `ε^* M ⟶ X` of the resolution map
 induces a quasi-isomorphism of the total complexes of the Moore double complexes. -/
 theorem quasiIso_total_map_augmentationFlatResolution

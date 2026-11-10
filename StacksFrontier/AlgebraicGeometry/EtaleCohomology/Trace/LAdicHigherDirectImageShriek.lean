@@ -62,7 +62,7 @@ theorem towerObj_comp_annihilated {C D : Type*} [Category* C] [Category* D] [Pre
     [Preadditive D] (P : ℕᵒᵖ ⥤ C) (Φ : C ⥤ D) [Φ.Additive] {ℓ : ℕ}
     (hP : ∀ n, ℓ ^ (n + 1) • 𝟙 (towerObj P n) = 0) (n : ℕ) :
     ℓ ^ (n + 1) • 𝟙 (towerObj (P ⋙ Φ) n) = 0 := by
-  show ℓ ^ (n + 1) • 𝟙 (Φ.obj (towerObj P n)) = 0
+  change ℓ ^ (n + 1) • 𝟙 (Φ.obj (towerObj P n)) = 0
   rw [← Φ.map_id, ← Φ.map_nsmul, hP n, Φ.map_zero]
 
 /-- **The stable image tower and `T` have isomorphic limits after any functor**: they are
@@ -76,15 +76,15 @@ theorem _root_.CategoryTheory.LAdicTower.LESData.isIso_limMap_whiskerRight_stabl
     (fun n => by omega) (fun n n' h => by dsimp; omega)
     (fun n => Φ.map (L.stableImageRetraction n))
     (fun n n' h => by
-      show Φ.map (towerMap T _) ≫ Φ.map (L.stableImageRetraction n) =
+      change Φ.map (towerMap T _) ≫ Φ.map (L.stableImageRetraction n) =
         Φ.map (L.stableImageRetraction n') ≫ Φ.map (towerMap L.stableImageTower h)
       rw [← Φ.map_comp, ← Φ.map_comp, L.towerMap_stableImageRetraction h])
     (fun n => by
-      show Φ.map (L.stableImageRetraction n) ≫ Φ.map (L.stableImageι.app (op n)) =
+      change Φ.map (L.stableImageRetraction n) ≫ Φ.map (L.stableImageι.app (op n)) =
         Φ.map (towerMap T _)
       rw [← Φ.map_comp, L.stableImageRetraction_ι])
     (fun n => by
-      show Φ.map (L.stableImageι.app (op (n + L.shift + 1))) ≫
+      change Φ.map (L.stableImageι.app (op (n + L.shift + 1))) ≫
           Φ.map (L.stableImageRetraction n) = Φ.map (towerMap L.stableImageTower _)
       rw [← Φ.map_comp, L.stableImageι_stableImageRetraction])
 
@@ -180,7 +180,7 @@ def LAdicSheaf.padicTowerHigherDirectImageShriekIso (G : LAdicSheaf B U ℓ) (r 
     LAdicSheaf.padicTower B W ℓ (LAdicSheaf.higherDirectImageShriek B ℓ g jg G r) ≅
       (LAdicSheaf.lowerShriekTowerLES B ℓ g jg G r).stableImageTower :=
   haveI := h.fst
-  eqToIso (congrArg (LAdicSheaf.padicTower B W ℓ) (dif_pos h)) ≪≫
+  eqToIso (congrArg (LAdicSheaf.padicTower B W ℓ) (dite_eq_left h)) ≪≫
     LAdicSheaf.padicTowerOfStrictTowerIso _ _ h.snd
 
 /-! ### Compactly supported cohomology of `R^r g_! G` -/
@@ -226,7 +226,7 @@ theorem LAdicSheaf.higherDirectImageShriekCohomologyIso_hom_frobenius (G : LAdic
         (LAdicSheaf.lowerShriekTower B ℓ g jg G r)
         (compactSupportSheafFrobenius ℤ_[ℓ] fW jW kbar p q hcard i)) := by
   have := h.fst
-  show _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _ =
+  change _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _ =
     ((rationalLim.{u + 1} (ℓ := ℓ)).map _ ≫ (rationalLim.{u + 1} (ℓ := ℓ)).map _) ≫ _
   simp only [← Functor.map_comp, Category.assoc]
   congr 1
@@ -239,6 +239,7 @@ theorem LAdicSheaf.higherDirectImageShriekCohomologyIso_hom_frobenius (G : LAdic
       ((compactSupportSheafFrobenius ℤ_[ℓ] fW jW kbar p q hcard i).naturality (α.app n)).symm)
   rw [Functor.isoWhiskerRight_hom, ← Category.assoc, key, Category.assoc, key]
 
+omit [Fintype k] [LocallyOfFiniteType fW] [QuasiCompact fW] [IsSeparated fW] in
 /-- `H^p_c(W_k̄, R^r g_! G ⊗ ℚ_ℓ)` finite dimensional makes the rational limit of
 `n ↦ H^p_c(W_k̄, R^r g_! G'ₙ)` finite dimensional. -/
 theorem LAdicSheaf.finiteDimensional_rationalLim_lowerShriekTower (G : LAdicSheaf B U ℓ) (r : ℕ)
@@ -255,6 +256,7 @@ theorem LAdicSheaf.finiteDimensional_rationalLim_lowerShriekTower (G : LAdicShea
     (LAdicSheaf.padicTowerCohomologyIso B W ℓ fW jW kbar _ i)).symm ≪≫
       LAdicSheaf.higherDirectImageShriekCohomologyIso B ℓ g jg fW jW kbar G r h i).toLinearEquiv
 
+omit [LocallyOfFiniteType fW] [QuasiCompact fW] [IsSeparated fW] in
 /-- **The weight bound on `H^p_c(W_k̄, R^r g_! G ⊗ ℚ_ℓ)` is the weight bound on the rational limit
 of `n ↦ H^p_c(W_k̄, R^r g_! G'ₙ)`**, for the canonical geometric Frobenius on both. -/
 theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_higherDirectImageShriek_iff

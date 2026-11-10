@@ -160,7 +160,7 @@ public theorem closure_projectionPreimage_eq_coneCl (W : Submodule k V)
     rwa [hgen]
   · refine ⟨⟨coneGenericPoint k V W hZ.genericPoint,
       coneGenericPoint_mem_projectionDomain k V W hZ.genericPoint⟩, ?_, rfl⟩
-    show (projection k V W).base _ ∈ Z
+    change (projection k V W).base _ ∈ Z
     rw [projection_base_coneGenericPoint k V W hZ.genericPoint]
     exact hgen.subset (subset_closure rfl)
 

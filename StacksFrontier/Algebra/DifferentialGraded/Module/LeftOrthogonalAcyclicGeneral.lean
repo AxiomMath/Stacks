@@ -106,7 +106,7 @@ theorem leftOrthogonal_acyclic_iff (M : DifferentialGradedModule.{u, v, w} A) :
     obtain ⟨N⟩ := Y
     induction f using Quot.inductionOn with
     | _ g =>
-      show (toHomotopyCategory A).map g = 0
+      change (toHomotopyCategory A).map g = 0
       rw [← (toHomotopyCategory A).map_zero M N]
       exact (CategoryTheory.Quotient.functor_map_eq_iff (homotopyRel A) g 0).2 (h N hY g)
 
@@ -218,7 +218,7 @@ theorem isNullHomotopic_of_directSum {ι : Type*} [DecidableEq ι]
       rw [hz, hw]
   refine ⟨Hsum ∘ₗ (ev.symm : T.M →ₗ[MulOpposite A.A] (⨁ j, (X j).M)), ?_, ?_⟩
   · intro n t ht
-    show Hsum (ev.symm t) ∈ N.grading (n - 1)
+    change Hsum (ev.symm t) ∈ N.grading (n - 1)
     rw [← DirectSum.sum_support_of (ev.symm t), map_sum]
     refine Submodule.sum_mem _ (fun j _ => ?_)
     rw [hHsum_of]
@@ -235,7 +235,7 @@ theorem isNullHomotopic_of_directSum {ι : Type*} [DecidableEq ι]
         rw [hz, hw]
         abel
     intro t
-    show f.toFun t = N.d (Hsum (ev.symm t)) + Hsum (ev.symm (T.d t))
+    change f.toFun t = N.d (Hsum (ev.symm t)) + Hsum (ev.symm (T.d t))
     rw [show t = ev (ev.symm t) from (ev.apply_symm_apply t).symm, hd,
       ev.symm_apply_apply, ev.symm_apply_apply, key]
 
@@ -316,7 +316,7 @@ theorem leftOrthogonal_acyclic_of_admissibleFiltration
   intro N hN g
   have hggcomp : ∀ i x, (emb i ≫ g).toFun x = (emb (i + 1) ≫ g).toFun ((incl i).toFun x) := by
     intro i x
-    show g.toFun ((emb i).toFun x) = g.toFun ((emb (i + 1)).toFun ((incl i).toFun x))
+    change g.toFun ((emb i).toFun x) = g.toFun ((emb (i + 1)).toFun ((incl i).toFun x))
     rw [hincl]
   have step : ∀ i (h : Homotopy (emb i ≫ g) 0),
       ∃ h' : Homotopy (emb (i + 1) ≫ g) 0,
@@ -375,19 +375,19 @@ theorem leftOrthogonal_acyclic_of_admissibleFiltration
     rw [← hcp₁ y, ← hcq₁ z, ← map_add, hH, hH, hH, map_add, hcp₂, hcq₂]
   · intro s x
     obtain ⟨p, y, rfl⟩ := hexh x
-    show H (s • (emb p).toFun y) = s • H ((emb p).toFun y)
+    change H (s • (emb p).toFun y) = s • H ((emb p).toFun y)
     rw [← MulOpposite.op_unop s, ← (emb p).map_smul, hH, hH]
     exact map_smul (T p).toLinearMap _ y
   · intro n x hx
     obtain ⟨p, y, rfl⟩ := hexh x
-    show H ((emb p).toFun y) ∈ N.grading (n - 1)
+    change H ((emb p).toFun y) ∈ N.grading (n - 1)
     rw [hH]
     exact (T p).map_grading n y (Hom.mem_grading_of_injective (hemb p) hx)
   · intro x
     obtain ⟨p, y, rfl⟩ := hexh x
     have hd : P.d ((emb p).toFun y) = (emb p).toFun ((F p).d y) :=
       (LinearMap.congr_fun (emb p).map_d y).symm
-    show g.toFun ((emb p).toFun y) - (0 : P ⟶ N).toFun ((emb p).toFun y) =
+    change g.toFun ((emb p).toFun y) - (0 : P ⟶ N).toFun ((emb p).toFun y) =
       N.d (H ((emb p).toFun y)) + H (P.d ((emb p).toFun y))
     rw [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero, hd, hH, hH]
     exact homotopy_zero_eq (T p) y

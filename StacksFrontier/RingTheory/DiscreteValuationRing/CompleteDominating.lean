@@ -62,7 +62,7 @@ theorem exists_isAdicComplete_isDiscreteValuationRing_ker_eq {R : Type u} [CommR
   have hker : RingHom.ker ρ = 𝔭 := by
     ext r
     rw [RingHom.mem_ker]
-    show algebraMap A₀ D (algebraMap R₀ A₀ (Ideal.Quotient.mk 𝔭 r)) = 0 ↔ r ∈ 𝔭
+    change algebraMap A₀ D (algebraMap R₀ A₀ (Ideal.Quotient.mk 𝔭 r)) = 0 ↔ r ∈ 𝔭
     rw [map_eq_zero_iff _ hinj₂, map_eq_zero_iff _ hinj₁, Ideal.Quotient.eq_zero_iff_mem]
   have hlocρ : IsLocalHom ρ := by
     have : IsLocalHom (Ideal.Quotient.mk 𝔭) := .of_surjective _ Ideal.Quotient.mk_surjective

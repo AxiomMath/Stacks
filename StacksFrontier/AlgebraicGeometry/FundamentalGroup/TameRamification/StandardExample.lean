@@ -233,6 +233,7 @@ public def kummerPolyTensor : Polynomial (K ⊗[A] A) :=
   (Polynomial.X ^ e - Polynomial.C f).map
     (Algebra.TensorProduct.includeRight (R := A) (A := K) (B := A)).toRingHom
 
+omit [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A K] in
 /-- Pushing `kummerPolyTensor` forward along `K ⊗[A] A ≃ₐ[K] K` gives the Kummer polynomial
 `X ^ e - f` over `K`. -/
 public theorem map_kummerPolyTensor_rid :
@@ -298,8 +299,7 @@ public theorem exists_two_le_isUnit_natCast (R : Type*) [CommRing R] [IsLocalRin
   have hp := prime_ringChar_residue h0
   refine ⟨ringChar (R ⧸ IsLocalRing.maximalIdeal R) + 1, by have := hp.two_le; omega,
     isUnit_natCast_of_coprime_ringChar _ (by omega) (Or.inr ?_)⟩
-  simpa [Nat.Coprime] using Nat.coprime_succ_self_right
-    (n := ringChar (R ⧸ IsLocalRing.maximalIdeal R))
+  simp [Nat.Coprime]
 
 /-- **The trivial extension is tamely ramified.** `K / K` is tamely ramified with respect to
 the discrete valuation ring `A`. -/

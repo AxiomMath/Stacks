@@ -269,7 +269,7 @@ public theorem etaleCohomologicalDimension_spec_polynomial_le
           have hy : projectiveLineYChart A y' = s'.hom (IsLocalRing.closedPoint s'.residueField) :=
             rfl
           have hty : (Polynomial.X : A[X]) ∈ y'.asIdeal := by
-            show Polynomial.X ∈ Ideal.comap e0 z.asIdeal
+            change Polynomial.X ∈ Ideal.comap e0 z.asIdeal
             simp [e0]
           have htn : t ≤ n := by
             have h1 := hquot z.asIdeal
@@ -285,7 +285,7 @@ public theorem etaleCohomologicalDimension_spec_polynomial_le
               (Ideal.quotEquivOfEq hker.symm).trans (RingHom.quotientKerEquivOfSurjective hsurj)
             rw [ringKrullDim_eq_of_ringEquiv eq, ht]
           have hR : Algebra.trdeg K (CommRingCat.of A[X]) ≤ ((n + 1 : ℕ) : Cardinal) := by
-            show Algebra.trdeg K A[X] ≤ _
+            change Algebra.trdeg K A[X] ≤ _
             have : FaithfulSMul K A := (faithfulSMul_iff_algebraMap_injective K A).2
               (algebraMap K A).injective
             have : FaithfulSMul A A[X] := (faithfulSMul_iff_algebraMap_injective A A[X]).2

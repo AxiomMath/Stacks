@@ -240,7 +240,7 @@ private theorem weaklyEtale_of_eq_germ_comp_symm (U : BigFppfOver B (Spec (.of A
         (Opposite.op (yonedaIdentityNeighborhood U y)) := by
     subst hφ
     ext a
-    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_ringHom_refl,
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.toRingHom_refl,
       RingHom.id_apply, RingEquiv.coe_toRingHom]
     exact (RingHom.comp_apply _ _ _).trans (RingHom.congr_arg _ (e.symm_apply_apply a))
   rw [hc]
@@ -320,7 +320,7 @@ theorem exists_factor_quotient_of_field_extension
   have hker : J ≤ RingHom.ker φ := by
     intro a ha
     apply (Spec.preimage g).hom.injective
-    show ((Spec.preimage g₀) ≫ (Spec.preimage g)) a = (Spec.preimage g).hom 0
+    change ((Spec.preimage g₀) ≫ (Spec.preimage g)) a = (Spec.preimage g).hom 0
     rw [← Spec.preimage_comp, comm, Spec.preimage_comp]
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
   refine ⟨Spec.map (CommRingCat.ofHom (Ideal.Quotient.lift J φ hker)), ?_⟩
@@ -642,7 +642,7 @@ theorem isOpen_flatLocus_and_preimage_subset_flatLocus [IsNoetherianRing A]
     refine Ideal.map_le_iff_le_comap.mpr fun a ha => ?_
     have hb := not_isUnit_baseGerm A I B hA X f z₀ a ha
     rw [hz₀] at hb
-    show etaleLocalRingMap X.2 f.hom xbar (baseGerm A B hA y a) ∈ maximalIdeal T
+    change etaleLocalRingMap X.2 f.hom xbar (baseGerm A B hA y a) ∈ maximalIdeal T
     rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
     exact fun hu => hb (hloc.map_nonunit _ hu)
   -- flatness of the base changes to the thickenings

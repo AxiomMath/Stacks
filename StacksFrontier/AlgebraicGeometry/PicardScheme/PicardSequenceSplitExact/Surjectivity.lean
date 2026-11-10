@@ -62,7 +62,7 @@ theorem schemePullbackClass_baseChangeSection_normalizedClass (T : BigFppfOver B
       (normalizedClass B hX hS f σ hσ T x) = 0 := by
   have hsplit := schemePullbackClass_baseChangeSection_baseChangeProj B hX hS f σ hσ T
     (Stacks.Picard.schemePullbackClassHom (baseChangeSection B hX hS f σ hσ T) x)
-  show Stacks.Picard.schemePullbackClassHom (baseChangeSection B hX hS f σ hσ T)
+  change Stacks.Picard.schemePullbackClassHom (baseChangeSection B hX hS f σ hσ T)
     (normalizedClass B hX hS f σ hσ T x) = 0
   exact (map_sub _ _ _).trans (sub_eq_zero.2 hsplit.symm)
 

@@ -343,7 +343,7 @@ theorem
 
 /-- The direct image along `F'` of the counit of restriction to the slice is, on underlying
 sheaves of sets, the direct image of the counit of sheaves of sets. -/
-theorem moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
+theorem moduleSheaf_restrictScalars_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
     (N : SheafOfModules.{u}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (X.J.over V)) (X.O.over V)))) :
     (Sheaf.moduleSheafFunctor.{u, u, u} (inverseImageRingSheaf.{u, u, u, u, u, u}
@@ -463,7 +463,7 @@ theorem moduleSheafFunctor_map_baseChangeModulesMate_app_cocontinuousLocalizedMa
   refine heq_comp ?e1 ?e2 ?e3
     ((moduleSheafFunctor_map_restrictScalars_map_baseChangeModules_app_heq_cocontinuousLocalizedMate
       V W F F' e hfs _).trans (by heq_congr))
-    (moduleSheafFunctor_map_restrictScalars_map_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
+    (moduleSheaf_restrictScalars_pushforwardModules_map_counit_heq_cocontinuousLocalizedMate
       V W F' N)
   all_goals exact eq_of_heq (by heq_congr)
 
@@ -472,7 +472,7 @@ include hfs in
 invertible when the mate of `e` under the localization adjunctions of sheaves of sets is. -/
 theorem isIso_moduleSheafFunctor_map_baseChangeModulesMate_app_cocontinuousLocalizedMate
     (hs : IsIso (mateEquiv ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (X.J.over V) X.J)
-      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e).natTrans)
+      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e))
     (N : SheafOfModules.{u}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (X.J.over V)) (X.O.over V)))) :
     IsIso ((Sheaf.moduleSheafFunctor.{u, u, u}
@@ -498,10 +498,10 @@ include hfs in
 `e` under the localization adjunctions of sheaves of sets is. -/
 theorem isIso_baseChangeModulesMate_cocontinuousLocalizedMate
     (hs : IsIso (mateEquiv ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (X.J.over V) X.J)
-      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e).natTrans) :
-    IsIso (baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs).natTrans := by
+      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e)) :
+    IsIso (baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs) := by
   have hN : ∀ N,
-      IsIso ((baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs).natTrans.app N) :=
+      IsIso ((baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs).app N) :=
     fun N ↦
       Stacks.Sheaves.PushforwardEssentialImage.isIso_of_isIso_moduleSheafFunctor_map
         (R := (Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O))
@@ -537,8 +537,8 @@ include hfs in
 localization adjunctions of sheaves of sets is. -/
 theorem isIso_baseChangePullbackMate_cocontinuousLocalizedMate
     (hs : IsIso (mateEquiv ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (X.J.over V) X.J)
-      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e).natTrans) :
-    IsIso (baseChangePullbackMateCocontinuousLocalizedMate V W F F' e hfs).natTrans := by
+      ((Over.forget W).sheafAdjunctionCocontinuous (Type u) (Y.J.over W) Y.J) e)) :
+    IsIso (baseChangePullbackMateCocontinuousLocalizedMate V W F F' e hfs) := by
   have h := iterated_mateEquiv_conjugateEquiv
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} F)
     (RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} F')
@@ -550,7 +550,7 @@ theorem isIso_baseChangePullbackMate_cocontinuousLocalizedMate
       (baseChangePullbackMateCocontinuousLocalizedMate V W F F' e hfs) =
         baseChangeModulesCocontinuousLocalizedMate V W F F' e hfs :=
     Equiv.apply_symm_apply _ _
-  have h' : (baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs).natTrans =
+  have h' : (baseChangeModulesMateCocontinuousLocalizedMate V W F F' e hfs) =
       conjugateEquiv
         ((RingedToposHom.pullbackAdjPushforwardModules.{u, u, u, u, u, u} F).comp
           (X.overRestrictionModulesAdjunction V))

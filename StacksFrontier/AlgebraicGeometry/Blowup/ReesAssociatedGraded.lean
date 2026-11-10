@@ -168,7 +168,7 @@ theorem pieceToTensor_mk (n : ℕ) (x : power (M := A) I n) :
 def grToTensor : gradedRing I →+* (A ⧸ I) ⊗[A] reesAlgebra I :=
   DirectSum.toSemiring (fun n => (pieceToTensor I n).toAddMonoidHom)
     (by
-      show pieceToTensor I 0 (mk I 0 ⟨1, by simp [power]⟩) = 1
+      change pieceToTensor I 0 (mk I 0 ⟨1, by simp [power]⟩) = 1
       rw [pieceToTensor_mk, reesMonomialPow_zero_one, Algebra.TensorProduct.one_def])
     (by
       intro i j a b
@@ -176,7 +176,7 @@ def grToTensor : gradedRing I →+* (A ⧸ I) ⊗[A] reesAlgebra I :=
       | _ a =>
         induction b using Quotient.inductionOn with
         | _ b =>
-          show (1 : A ⧸ I) ⊗ₜ[A] _ = ((1 : A ⧸ I) ⊗ₜ[A] _) * ((1 : A ⧸ I) ⊗ₜ[A] _)
+          change (1 : A ⧸ I) ⊗ₜ[A] _ = ((1 : A ⧸ I) ⊗ₜ[A] _) * ((1 : A ⧸ I) ⊗ₜ[A] _)
           rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
           congr 1
           exact Subtype.ext (by simp [monomial_mul_monomial]))
@@ -270,8 +270,7 @@ theorem grToTensor_reesToGr (f : reesAlgebra I) :
 /-- The comparison homomorphism `grToTensor : Gr_I(A) ⟶ (A ⧸ I) ⊗[A] A[It]` is bijective. -/
 theorem grToTensor_bijective : Function.Bijective (grToTensor I) := by
   refine ⟨Function.LeftInverse.injective (tensorToGr_grToTensor I), fun w => ?_⟩
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction w using TensorProduct.inductionOn with
   | tmul c f =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective c
     exact ⟨reesToGr I (a • f), by rw [grToTensor_reesToGr, ← quotientMk_tmul]⟩
@@ -307,8 +306,7 @@ theorem exists_one_tmul_of_mem_baseChange {n : ℕ} {w : (A ⧸ I) ⊗[A] reesAl
     ∃ f : reesAlgebra I, f ∈ reesGrading I n ∧ w = 1 ⊗ₜ[A] f := by
   obtain ⟨x, rfl⟩ := Submodule.toBaseChange_surjective' _ _ hw
   clear hw
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, zero_mem _, by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul c g =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective c
     exact ⟨a • (g : reesAlgebra I), Submodule.smul_mem _ _ g.2, by

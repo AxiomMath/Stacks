@@ -325,9 +325,9 @@ private theorem extPowers_succ_injective_of_depth
       rw [← quotientPowerSucc_hom_mk R I n r]
       simpa [S, g] using hx
     apply Subtype.ext
-    show a • (x.1 : R ⧸ I ^ (n + 1)) = 0
+    change a • (x.1 : R ⧸ I ^ (n + 1)) = 0
     rw [← hrrep]
-    show (Ideal.Quotient.mk (I ^ (n + 1)) a) *
+    change (Ideal.Quotient.mk (I ^ (n + 1)) a) *
       (Ideal.Quotient.mk (I ^ (n + 1)) r) = 0
     rw [← map_mul, Ideal.Quotient.eq_zero_iff_mem, pow_succ]
     simpa [mul_comm] using Ideal.mul_mem_mul (Ideal.Quotient.eq_zero_iff_mem.mp hrq) ha
@@ -429,7 +429,7 @@ theorem depth_eq_sInf_nontrivial_localCohomologyWithSupportIn
     localCohomologyWithSupportIn R (PrimeSpectrum.zeroLocus (I : Set R))
       ((DerivedCategory.singleFunctor (ModuleCat.{max u v} R) 0).obj M) (i : ℤ)
   let S : Set ℕ∞ := {n | ∃ i : ℕ, n = (i : ℕ∞) ∧ Nontrivial (LCH i)}
-  show Module.depth R I M = sInf S
+  change Module.depth R I M = sInf S
   have hlow : Module.depth R I M ≤ sInf S :=
     depth_le_sInf_nontrivial_localCohomologyWithSupportIn.{u, v} I M hIM
   cases hdepth : Module.depth R I M with
@@ -489,11 +489,11 @@ theorem depth_eq_sInf_nontrivial_localCohomologyWithSupportIn
     let F : ℕ ⥤ ModuleCat.{u + 1} R := extPowers R I K₀ (d : ℤ)
     let Qpow1 : ModuleCat.{u} R := ModuleCat.of R (R ⧸ I ^ (1 : ℕ))
     let ePow : Qpow1 ≅ Qone := eqToIso (by
-      show ModuleCat.of R (R ⧸ I ^ (1 : ℕ)) = ModuleCat.of R (R ⧸ I)
+      change ModuleCat.of R (R ⧸ I ^ (1 : ℕ)) = ModuleCat.of R (R ⧸ I)
       rw [pow_one])
     let ePowSingle := (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).mapIso ePow
     let z₁ : F.obj 1 := by
-      show DerivedCategory.Ext
+      change DerivedCategory.Ext
         ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj Qpow1) K₀ (d : ℤ)
       exact ePowSingle.hom ≫ zStage1
     have hz₁ : z₁ ≠ 0 := fun h =>

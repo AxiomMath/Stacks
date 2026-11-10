@@ -121,7 +121,7 @@ public theorem tmul_mem_veroneseSubmodule (d : ℕ) {m : M}
       rw [TensorProduct.tmul_add]
       exact VT.add_mem ihn ihp
     | smul r n _ ih =>
-      show m ⊗ₜ[A] ((r : A) • n) ∈ VT
+      change m ⊗ₜ[A] ((r : A) • n) ∈ VT
       rw [TensorProduct.tmul_smul]
       exact VT.smul_mem r ih
   | zero => simp
@@ -129,7 +129,7 @@ public theorem tmul_mem_veroneseSubmodule (d : ℕ) {m : M}
     rw [TensorProduct.add_tmul]
     exact VT.add_mem (ihm hn) (ihp hn)
   | smul r m _ ih =>
-    show ((r : A) • m) ⊗ₜ[A] n ∈ VT
+    change ((r : A) • m) ⊗ₜ[A] n ∈ VT
     rw [← TensorProduct.smul_tmul']
     exact VT.smul_mem r (ih hn)
 
@@ -142,8 +142,7 @@ public def veroneseTensorMap (d : ℕ) :
       veroneseSubmodule 𝒜 (Stacks.GradedModule.tensorGrading (S := A) ℳ 𝒩) d :=
   (TensorProduct.lift (veroneseTensorBilin 𝒜 ℳ 𝒩 d)).codRestrict _ (by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m n => exact tmul_mem_veroneseSubmodule 𝒜 ℳ 𝒩 d m.2 n.2
     | add z t hz ht => simpa only [map_add] using add_mem hz ht)
 

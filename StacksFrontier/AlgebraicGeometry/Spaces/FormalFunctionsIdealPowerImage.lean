@@ -262,7 +262,7 @@ theorem terminalHomEquivSections_pullbackTerminalSection_eq_baseRingHom (a : S.r
   have e : (baseChartDiagram S W.unop).g.left =
       ((SmallEtale.toOver S.site (Spec (.of S.ring)) S.containsBase S.space.1).obj W.unop).hom :=
     Over.mkIdTerminal_from_left _
-  show Scheme.Γ.map (S.site.inclusion.map (baseChartDiagram S W.unop).g.left).op
+  change Scheme.Γ.map (S.site.inclusion.map (baseChartDiagram S W.unop).g.left).op
     ((Scheme.ΓSpecIso (CommRingCat.of S.ring)).inv a) = _
   rw [e]
   rfl
@@ -293,7 +293,8 @@ theorem modulePullbackUnitIso_conj_map (t : SheafOfModules.unit
           ((Sheaf.terminalHomEquivSections (Sheaf.ringSheaf
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site
             (Spec (.of S.ring)) S.containsBase (baseSpace S).1 (baseSpace S).2).O))).symm
-            ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩)))).asHom.app (SheafOfModules.unit _) := by
+            ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩)))).asHom.app
+              (SheafOfModules.unit _) := by
   have h2 : t = (Stacks.SheafOfModules.globalSectionToEnd
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site (Spec (.of S.ring))
           S.containsBase (baseSpace S).1 (baseSpace S).2).O)
@@ -386,7 +387,7 @@ theorem epi_sigmaDesc_idealPowerElement (n : ℕ) :
     Epi (Sigma.desc (idealPowerElement S n)) := by
   refine (ModuleCat.epi_iff_surjective _).2 fun b => ⟨(Sigma.ι (fun _ : ↥(S.ideal ^ n) =>
     ModuleCat.of S.ring S.ring) b).hom 1, ?_⟩
-  refine (ConcreteCategory.congr_hom (Sigma.ι_desc (idealPowerElement S n) b) 1).trans ?_
+  refine (ConcreteCategory.congr_hom (Sigma.ι_comp_desc (idealPowerElement S n) b) 1).trans ?_
   exact one_smul S.ring b
 
 /-- A functor preserving the coproduct of `f` and the pushout of an epimorphism `g` out of it
@@ -426,7 +427,7 @@ theorem epi_idealPowerSectionSum (n : ℕ) : Epi (idealPowerSectionSum S n) := b
           ModuleCat.of S.ring S.ring) ≫
           (pullbackTildeFunctor S).map (Sigma.desc (idealPowerElement S n)) := by
     refine Sigma.hom_ext _ _ fun a => ?_
-    rw [Sigma.ι_desc, sigmaComparison_map_desc, Limits.Sigma.ι_map_assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc, sigmaComparison_map_desc, Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc]
     rfl
   have := epi_sigmaDesc_idealPowerElement S n
   have : PreservesColimitsOfSize.{0, 0} (pullbackTildeFunctor S) :=
@@ -499,7 +500,7 @@ theorem idealPowerTensorSum_comp_idealPowerTensorMap (n : ℕ) :
         (smallEtaleRingedSite S.site (Spec (.of S.ring)) S.containsBase S.space.1 S.space.2).O
         S.coefficients).hom) ≫ idealPowerSmulHom S n := by
   refine Sigma.hom_ext _ _ fun a => ?_
-  rw [idealPowerTensorSum, Sigma.ι_desc_assoc, Limits.Sigma.ι_map_assoc, Sigma.ι_desc,
+  rw [idealPowerTensorSum, Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc,
     idealPowerTensorMap,
     ← Functor.map_comp_assoc, idealPowerSection_comp_idealPowerPullbackι]
   refine (congrArg (fun m => m ≫ (AlgebraicGeometry.SheafOfModules.sheafTensorRightUnitIso

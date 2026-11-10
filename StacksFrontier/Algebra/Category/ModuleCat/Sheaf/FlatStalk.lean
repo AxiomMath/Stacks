@@ -249,11 +249,11 @@ lemma exists_germ_representatives {n : ℕ}
   refine ⟨V, η,
     fun i ↦ ((commRingSheafToRingSheaf O).obj.map (g₁ i).op).hom (a₀ i),
     fun i ↦ (F.val.map (g₂ i).op).hom (s₀ i), fun i ↦ ?_, fun i ↦ ?_⟩
-  · show ringStalkGerm Φ O V η
+  · change ringStalkGerm Φ O V η
         (((commRingSheafToRingSheaf O).obj.map (g₁ i).op).hom (a₀ i)) = f i
     rw [ringStalkGerm_restrict, hg₁ i]
     exact ha₀ i
-  · show moduleStalkGerm Φ O F V η ((F.val.map (g₂ i).op).hom (s₀ i)) = x i
+  · change moduleStalkGerm Φ O F V η ((F.val.map (g₂ i).op).hom (s₀ i)) = x i
     rw [moduleStalkGerm_restrict, hg₂ i]
     exact hs₀ i
 
@@ -326,7 +326,7 @@ theorem isFlatModuleStalk_of_isFlat (Φ : J.Point.{max v w})
   obtain ⟨l, t, B, hst, hBa⟩ := hfac k hkS
   refine ⟨l, fun i j ↦ ringStalkGerm Φ O W ζ (B j i),
     fun j ↦ moduleStalkGerm Φ O F W ζ (t j), fun i ↦ ?_, fun j ↦ ?_⟩
-  · show x i = ∑ j, ringStalkGerm Φ O W ζ (B j i) • moduleStalkGerm Φ O F W ζ (t j)
+  · change x i = ∑ j, ringStalkGerm Φ O W ζ (B j i) • moduleStalkGerm Φ O F W ζ (t j)
     have left : moduleStalkGerm Φ O F W ζ ((F.val.map k.op).hom (s' i)) = x i := by
       have t₁ := moduleStalkGerm_restrict Φ O F k ζ (s' i)
       have t₂ := moduleStalkGerm_restrict Φ O F g η (s i)
@@ -339,7 +339,7 @@ theorem isFlatModuleStalk_of_isFlat (Φ : J.Point.{max v w})
       exact Finset.sum_congr rfl fun j _ ↦ moduleStalkGerm_smul Φ O F W ζ (B j i) (t j)
     exact left.symm.trans
       ((congrArg (fun z ↦ moduleStalkGerm Φ O F W ζ z) (hst i)).trans right)
-  · show ∑ i, f i * ringStalkGerm Φ O W ζ (B j i) = 0
+  · change ∑ i, f i * ringStalkGerm Φ O W ζ (B j i) = 0
     have hf : ∀ i, ringStalkGerm Φ O W ζ
         (((commRingSheafToRingSheaf O).obj.map k.op).hom (a' i)) = f i := by
       intro i

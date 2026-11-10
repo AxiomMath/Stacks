@@ -105,7 +105,7 @@ theorem isAffineFormalAlgebraicSpace_sheafifiedYoneda (U : BigFppfOver B S hS)
     (Functor.const PUnit.{u + 2}).obj
       (⟨U, hU⟩ : BigAffineFppf B S hS), ?_, ⟨?_⟩⟩
   · intro i j f
-    show IsThickening ((BigAffineFppf.toScheme B S hS).map (𝟙 _))
+    change IsThickening ((BigAffineFppf.toScheme B S hS).map (𝟙 _))
     rw [CategoryTheory.Functor.map_id]
     exact ⟨inferInstance, fun x ↦ ⟨x, rfl⟩⟩
   · refine ?_ ≪≫ (HasColimit.isoOfNatIso
@@ -187,7 +187,7 @@ theorem isFormalAlgebraicSpace_of_colimit_siteThickenings
     have : Mono ((BigFppfOver.toScheme B S hS).map (D'.map f)) := inferInstance
     have : Mono (D'.map f) :=
       (BigFppfOver.toScheme B S hS).mono_of_mono_map inferInstance
-    show Mono ((Sheaf.sheafifiedYoneda J).map (D'.map f))
+    change Mono ((Sheaf.sheafifiedYoneda J).map (D'.map f))
     exact CategoryTheory.preserves_mono_of_preservesLimit _ (D'.map f)
   · -- the stages of each chart diagram are affine formal algebraic spaces
     intro k i

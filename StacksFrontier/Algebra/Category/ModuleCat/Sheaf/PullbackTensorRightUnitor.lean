@@ -254,7 +254,7 @@ private lemma step6_symm_eq
     (pullbackTensorStep6 f F G N).symm k =
       (pullbackTensorStep6 f F G (pullbackTensorTarget f F G)).symm
         (𝟙 (pullbackTensorTarget f F G)) ≫ k := by
-  show _ ≫ k = (_ ≫ 𝟙 _) ≫ k
+  change _ ≫ k = (_ ≫ 𝟙 _) ≫ k
   exact comp_id_comp _ k
 
 /-- Steps 5 and 6 of the chain of Tag 03EL at an arbitrary value are
@@ -930,7 +930,7 @@ theorem pullbackTensorIso_hom_app_comp_rightUnitor
       (f.pullbackModules).map
         (tensorSheafUnitRightIso Y.O.obj
           (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).property A).hom := by
-  show (pullbackTensorIso f).hom.app
+  change (pullbackTensorIso f).hom.app
       (A, SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ≫
       rightUnitorFactor f A ν = _
   refine Eq.trans (congrArg (fun m ↦ m ≫ rightUnitorFactor f A ν)

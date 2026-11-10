@@ -248,7 +248,7 @@ theorem levelψOf_postcomp {i j : (sys D c B hD hX hc).I} (a : j ⟶ i) :
       (levelψOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F a))
     (g := ObjectProperty.homMk (levelψPost F a)) ?_
   · exact congrArg (fun φ => φ.hom) key
-  · show levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F i ≫
+  · change levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F i ≫
         Functor.whiskerLeft _
           (levelψOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F a) =
       levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F i ≫
@@ -259,7 +259,7 @@ theorem levelψOf_postcomp {i j : (sys D c B hD hX hc).I} (a : j ⟶ i) :
     obtain ⟨W⟩ := W
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app, eqToHom_app]
     rw [levelεOf_postcomp_app', levelεOf_postcomp_app']
-    show F.obj.map (levelProjBot j W).op ≫ eqToHom _ =
+    change F.obj.map (levelProjBot j W).op ≫ eqToHom _ =
       F.obj.map (levelProjBot i W).op ≫ F.obj.map (levelProj a _).op
     rw [← Functor.map_comp, ← op_comp, levelProj_comp_levelProjBot, op_comp, Functor.map_comp,
       eqToHom_op, eqToHom_map]
@@ -426,7 +426,7 @@ theorem limitιOf_postcomp (j : (sys D c B hD hX hc).I) :
       (limitL D c B hD hX hc) (limitAdj D c B hD hX hc) F j))
     (g := ObjectProperty.homMk (limitιPost F j)) ?_
   · exact congrArg (fun φ => φ.hom) key
-  · show levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F j ≫
+  · change levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F j ≫
         Functor.whiskerLeft _ (limitιOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc)
           (limitL D c B hD hX hc) (limitAdj D c B hD hX hc) F j) =
       levelεOf (postcompL D c B hD hX hc) (postcompAdj D c B hD hX hc) F j ≫

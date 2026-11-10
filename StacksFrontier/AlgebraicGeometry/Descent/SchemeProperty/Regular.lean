@@ -46,9 +46,10 @@ public theorem isRegular_iff_regular_stalks (X : Scheme.{u}) :
 public theorem isRegularLocalRing_stalk_iff_of_isOpenImmersion {X Y : Scheme.{u}} (j : X ⟶ Y)
     [IsOpenImmersion j] (x : X) :
     IsRegularLocalRing (X.presheaf.stalk x) ↔ IsRegularLocalRing (Y.presheaf.stalk (j x)) :=
-  ⟨fun h => IsRegularLocalRing.of_ringEquiv
+  ⟨fun h => @IsRegularLocalRing.of_ringEquiv _ _ h _ _
       (asIso (j.stalkMap x)).commRingCatIsoToRingEquiv.symm,
-    fun h => IsRegularLocalRing.of_ringEquiv (asIso (j.stalkMap x)).commRingCatIsoToRingEquiv⟩
+    fun h => @IsRegularLocalRing.of_ringEquiv _ _ h _ _
+      (asIso (j.stalkMap x)).commRingCatIsoToRingEquiv⟩
 
 /-- An affine scheme is regular exactly when its ring of global sections is a regular ring. -/
 public theorem isRegular_iff_isRegularRing_appTop (X : Scheme.{u}) [IsAffine X] :

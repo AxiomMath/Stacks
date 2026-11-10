@@ -196,7 +196,7 @@ theorem prop_toScheme_map_cechProduct_hom (P : MorphismProperty Scheme.{u})
       HasProduct (fun a ↦ Over.mk ((𝒰.map (toScheme B S hS p)).f (i a))) := fun m i ↦
     Stacks.Sites.hasProduct_over_fin m _ (fun _ _ _ ↦ inferInstance)
   have := isIso_cechProductMapOfFunctor_toScheme B S hS p hp 𝒰 m i
-  show P ((Over.post (toScheme B S hS p)).obj (∏ᶜ (fun a ↦ Over.mk (𝒰.f (i a))))).hom
+  change P ((Over.post (toScheme B S hS p)).obj (∏ᶜ (fun a ↦ Over.mk (𝒰.f (i a))))).hom
   refine MorphismProperty.prop_hom_of_iso P
     (asIso (Stacks.CechSite.cechProductMapOfFunctor (toScheme B S hS p) 𝒰 m i)) ?_
   exact MorphismProperty.prop_hom_piObj_fin P m _ fun a ↦ hP (i a)
@@ -277,7 +277,7 @@ theorem isZero_cechCohomology_of_flatSectionsIso (F : 𝒳ᵒᵖ ⥤ AddCommGrpC
         Q.obj (op ((Over.post (Over.forget (u.obj x))).obj Y))) := fun Y _ ↦
     Q.mapIso (Iso.op (Over.isoMk (Iso.refl Y.left.left)
       (by
-        show 𝟙 _ ≫ Y.left.hom = Y.hom.left
+        change 𝟙 _ ≫ Y.left.hom = Y.hom.left
         simpa [T] using (CategoryTheory.Over.w Y.hom).symm) :
         (Over.post (Over.forget (u.obj x))).obj Y ≅ (Over.forget T).obj Y))
   have he' : ∀ {Y Y' : Over T} (hY : (⊤ : ObjectProperty (Over T)) Y)
@@ -294,7 +294,7 @@ theorem isZero_cechCohomology_of_flatSectionsIso (F : 𝒳ᵒᵖ ⥤ AddCommGrpC
   have hstd' : IsStandardCovering .fppf (fun i ↦ (𝒱.X i).left) (fun i ↦ (𝒱.f i).left) := hstd
   have hA := isZero_cechCohomology_succ_quasiCoherentPresheaf T .fppf 𝓕 𝒱 hstd' n hn
   -- Assemble.
-  show IsZero ((Stacks.CechSite.sliceCechComplex 𝒰 ((Over.forget x).op ⋙ F)).homology n)
+  change IsZero ((Stacks.CechSite.sliceCechComplex 𝒰 ((Over.forget x).op ⋙ F)).homology n)
   refine IsZero.of_iso ?_ ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℕ) n).mapIso
     e₁.symm)
   exact IsZero.of_iso hA ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℕ) n).mapIso e₂)

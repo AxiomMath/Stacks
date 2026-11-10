@@ -87,8 +87,7 @@ theorem range_lTensor_span {R : Type u} [CommRing R] {B : Type v} [AddCommGroup 
       Submodule.span R'' (Set.range fun i => (1 : R'') ⊗ₜ[R] v i) := by
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r y =>
       obtain ⟨y, hy⟩ := y
       simp only [AlgebraTensorModule.lTensor_tmul, LinearMap.coe_restrictScalars,
@@ -146,8 +145,7 @@ def quotientBaseChange (φ : R' →ₐ[R] R'') (K : Ideal (R' ⊗[R] A)) :
             (Algebra.TensorProduct.includeRight :
               R' ⊗[R] A →ₐ[R'] R'' ⊗[R'] (R' ⊗[R] A)).toRingHom := by
         refine RingHom.ext fun x => ?_
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul r a =>
           simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe,
             Function.comp_apply, Algebra.TensorProduct.includeRight_apply,
@@ -173,13 +171,12 @@ theorem quotientBaseChange_one_tmul (φ : R' →ₐ[R] R'') (K : Ideal (R' ⊗[R
       Ideal.Quotient.mk _ (Algebra.TensorProduct.map φ (AlgHom.id R A) x) := by
   let := φ.toRingHom.toAlgebra
   have : IsScalarTower R R' R'' := IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     simp only [quotientBaseChange, AlgEquiv.trans_apply,
       Algebra.TensorProduct.tensorQuotientEquiv_apply_tmul, Ideal.quotientEquivAlg,
       Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq]
-    show Ideal.Quotient.mk _ (Algebra.TensorProduct.cancelBaseChange R R' R'' R'' A
+    change Ideal.Quotient.mk _ (Algebra.TensorProduct.cancelBaseChange R R' R'' R'' A
       (1 ⊗ₜ (r ⊗ₜ a))) = _
     rw [Algebra.TensorProduct.cancelBaseChange_tmul, Algebra.smul_def, mul_one]
     rfl

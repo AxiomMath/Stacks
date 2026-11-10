@@ -166,7 +166,7 @@ noncomputable def powMap (X : Scheme.{u}) (n : ℕ) :
 @[simp]
 theorem powMap_app_ofUnit (X : Scheme.{u}) (n : ℕ) (U : X.Etale) (x : (Γ(U.left, ⊤))ˣ) :
     (powMap.{u, v} X n).hom.app (op U) (ofUnit x) = ofUnit (x ^ n) := by
-  show ULift.up (n • Additive.ofMul x) = ULift.up (Additive.ofMul (x ^ n))
+  change ULift.up (n • Additive.ofMul x) = ULift.up (Additive.ofMul (x ^ n))
   rw [ofMul_pow]
 
 /-- **`μ_n` on the small étale site of a scheme**: the sheaf of `n`-th roots of unity, defined

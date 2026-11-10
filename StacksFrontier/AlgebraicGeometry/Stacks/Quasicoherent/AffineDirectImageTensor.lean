@@ -214,6 +214,7 @@ theorem directImageTensorPresheaf_comp_rightUnitor (N : Stack.fppfModules B S hS
     h1).trans (h2.trans h3.symm)
 
 set_option maxHeartbeats 2000000 in
+-- the final `exact h` is a heavy definitional check against the unfolded definitions
 /-- **`λ_{N,𝒪} ≫ g_*(ρ_N)` is the action of `g_*𝒪` on `g_*N`.** -/
 theorem directImageTensor_comp_rightUnitor (N : Stack.fppfModules B S hS 𝒰) :
     directImageTensor g hg N (SheafOfModules.unit _) ≫
@@ -305,7 +306,8 @@ theorem pullbackTensor_val_app_toSheafify (M N : Stack.fppfModules B S hS 𝒳)
     (n : N.val.obj (op (g.hom.hom.toFunctor.obj X.unop))) :
     (pullbackTensor g M N).val.app X ((Stacks.SheafOfModules.TensorSheafification.toSheafify
         (fppfStructurePresheaf B S hS 𝒰) (fppfStructurePresheaf_isSheaf B S hS 𝒰)
-        (PresheafOfModulesOfCommRing.Monoidal.tensorObj ((stackModulePullback.{u, w, u} g).obj M).val
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
+          ((stackModulePullback.{u, w, u} g).obj M).val
           ((stackModulePullback.{u, w, u} g).obj N).val)).app X (m ⊗ₜ n)) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
         (fppfStructurePresheaf_isSheaf B S hS 𝒳)
@@ -321,7 +323,8 @@ theorem directImageTensor_val_app_toSheafify (N N' : Stack.fppfModules B S hS �
     (n' : N'.val.obj (op ((affineRightAdjoint g hg).obj X.unop))) :
     (directImageTensor g hg N N').val.app X ((Stacks.SheafOfModules.TensorSheafification.toSheafify
         (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)
-        (PresheafOfModulesOfCommRing.Monoidal.tensorObj ((affinePushforward.{u, w, u} g hg).obj N).val
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
+          ((affinePushforward.{u, w, u} g hg).obj N).val
           ((affinePushforward.{u, w, u} g hg).obj N').val)).app X (n ⊗ₜ n')) =
       (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒰)
         (fppfStructurePresheaf_isSheaf B S hS 𝒰)
@@ -346,7 +349,8 @@ theorem unit_app_tensor (M N : Stack.fppfModules B S hS 𝒳) :
     (fppfStructurePresheaf_isSheaf B S hS 𝒳) fun V m n => ?_
   have e1 := PresheafOfModules.naturality_apply
     (Stacks.SheafOfModules.TensorSheafification.toSheafify (fppfStructurePresheaf B S hS 𝒳)
-      (fppfStructurePresheaf_isSheaf B S hS 𝒳) (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val))
+      (fppfStructurePresheaf_isSheaf B S hS 𝒳)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj M.val N.val))
     ((affineAdjunction g hg).counit.app V.unop).op (m ⊗ₜ n)
   have e2 := Stacks.SheafOfModules.tensorHom_val_app_toSheafify_tmul
     (fppfStructurePresheaf B S hS 𝒳) (fppfStructurePresheaf_isSheaf B S hS 𝒳)

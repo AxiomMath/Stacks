@@ -99,7 +99,7 @@ theorem universallyClosed_subschemeι_comp_of_iso_projectiveLineProj {X : Scheme
       rw [← Scheme.Hom.comp_apply, ← hfac]
       exact hφ d₀
     rw [← hpt, Spec.map_base]
-    show RingHom.ker ψ.hom = Ideal.comap ψ.hom (E.toSpecΓ d₀).asIdeal
+    change RingHom.ker ψ.hom = Ideal.comap ψ.hom (E.toSpecΓ d₀).asIdeal
     rw [Ideal.eq_bot_of_prime (E.toSpecΓ d₀).asIdeal, RingHom.ker_eq_comap_bot]
   -- an affine open of the curve
   obtain ⟨A, hA, hd₀A, -⟩ := exists_isAffineOpen_mem_and_subset (X := E) (U := ⊤) (x := d₀) trivial

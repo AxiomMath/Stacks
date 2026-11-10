@@ -329,7 +329,7 @@ theorem faithful_toStackUliftOfPointwise (hsetU : 𝒰.val.p.IsFiberedInSetoids)
     (toStackUliftOfPointwise eU eR hsetU).Faithful := by
   have := faithful_toStackOfPointwiseGroupoid eU eR hsetU
   have := faithful_uliftUp (𝒳 := 𝒳)
-  show ((Stack.quotientPrestackEquivalence (selfIntersectionGroupoid eU eR hsetU)).inverse ⋙
+  change ((Stack.quotientPrestackEquivalence (selfIntersectionGroupoid eU eR hsetU)).inverse ⋙
     (toStackOfPointwiseGroupoid eU eR hsetU).toFunctor ⋙
     BasedCategory.uliftUp 𝒳.val).Faithful
   infer_instance
@@ -340,7 +340,7 @@ theorem full_toStackUliftOfPointwise (hsetU : 𝒰.val.p.IsFiberedInSetoids) :
     (toStackUliftOfPointwise eU eR hsetU).Full := by
   have := full_toStackOfPointwiseGroupoid eU eR hsetU
   have := full_uliftUp (𝒳 := 𝒳)
-  show ((Stack.quotientPrestackEquivalence (selfIntersectionGroupoid eU eR hsetU)).inverse ⋙
+  change ((Stack.quotientPrestackEquivalence (selfIntersectionGroupoid eU eR hsetU)).inverse ⋙
     (toStackOfPointwiseGroupoid eU eR hsetU).toFunctor ⋙
     BasedCategory.uliftUp 𝒳.val).Full
   infer_instance

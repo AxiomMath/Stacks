@@ -64,7 +64,7 @@ theorem toPi_comp_ofPi : toPi G ≫ ofPi G = 𝟙 _ :=
 /-- Reading a function into the product and back off it is the identity. -/
 theorem ofPi_comp_toPi : ofPi G ≫ toPi G = 𝟙 _ := by
   ext s b
-  show (ofPi G ≫ Pi.π G b).hom s = s b
+  change (ofPi G ≫ Pi.π G b).hom s = s b
   rw [ofPi_comp_π]
   rfl
 

@@ -229,6 +229,7 @@ theorem Decomposition.schemeDeltaDimension_D₂_of_zeroIdeal_le (hW : zeroIdeal 
     ((Scheme.Modules.pullback W.subschemeι).obj L₁) R.D₂ R.p₂ R.comm₂ R.branch₂
     R.branch₂_toBase
 
+omit [LocallyOfFiniteType sY] in
 include h₁ h₂ in
 /-- The structure morphism of `p^{-1}(W)` over the base factors through `W`, along the projection
 of the base-changed diagram `Stacks.Chow.TensorZeroScheme.decompositionComap`. -/

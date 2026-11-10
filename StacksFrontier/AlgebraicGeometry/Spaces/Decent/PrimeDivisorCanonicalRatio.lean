@@ -114,7 +114,7 @@ theorem PrimeDivisor.coe_canonicalLocalRatio (t : MeromorphicSection.{u, u} B S 
         Z.genericTotalFractionRing B S hS hX hdec) =
       Z.canonicalGenericRatio B S hS hX hdec L hL hInt hN t := by
   have h := Z.isUnit_canonicalGenericRatio B S hS hX hdec L hL hInt hN t ht
-  have hval : Z.canonicalLocalRatio B S hS hX hdec L hL hInt hN t = h.unit := dif_pos h
+  have hval : Z.canonicalLocalRatio B S hS hX hdec L hL hInt hN t = h.unit := dite_eq_left h
   rw [hval, IsUnit.unit_spec]
 
 /-- The ratio is the image of the coefficient of the section against the generator: the

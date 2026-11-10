@@ -116,14 +116,14 @@ private theorem projective_tensorProduct_of_equiv {R : Type*} [CommRing R] {A : 
   have key : ∀ (a : A) (x : A ⊗[R] M), TensorProduct.congr e.toLinearEquiv f (a • x) =
       e a • TensorProduct.congr e.toLinearEquiv f x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a' m => simp [TensorProduct.smul_tmul']
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   exact Module.Projective.of_equiv (σ := (e.toRingEquiv : A →+* B))
     { TensorProduct.congr e.toLinearEquiv f with map_smul' := key }
 
-/-- **Stacks 05A6**, second conjunct, in the universes the imported statements 059Z and 05A5 are stated
+/-- **Stacks 05A6**, second conjunct, in the universes the imported statements 059Z and 05A5 are
+stated
 in: the ring `R` is small in the universe of the algebra `S` and of the module `M`, which is where
 the Mittag-Leffler condition's test modules live. -/
 @[sga "3 VIB 11.8.1" "(ii), special case",
@@ -201,9 +201,11 @@ present lemma.
 ## Implementation notes
 
 Countable generation is `Module.CountablyGenerated`, the predicate introduced with Lemma 0GVD in
-`StacksFrontier/RingTheory/Flat/FaithfullyFlat/Descent.lean`: a set of elements of the module which is
+`StacksFrontier/RingTheory/Flat/FaithfullyFlat/Descent.lean`: a set of elements of the module
+which is
 at most countable and spans it. It is used by its name there rather than restated, so that this
-lemma and 0GVD speak of the same notion; the companion statements 05A3 and 058W spell the same condition
+lemma and 0GVD speak of the same notion; the companion statements 05A3 and 058W spell the same
+condition
 inline as `∃ t : Set M, t.Countable ∧ Submodule.span R t = ⊤`, which is that definition unfolded.
 The `Prop`-valued `Module.CountablyGenerated` is an explicit hypothesis and the class-valued
 `Module.Projective` an instance hypothesis, each in the form its own API is phrased in, matching
@@ -263,10 +265,9 @@ namespace Module
 /-- **Stacks 05A6.** Let `R → S` be a faithfully flat ring map and let `M` be an `R`-module. If the
 `S`-module `S ⊗_R M` is countably generated and projective, then `M` is countably generated and
 projective. -/
-@[stacks 05A6 "Countable generation is `Module.CountablyGenerated`, the predicate introduced with 0GVD.
+@[stacks 05A6 "Countable generation is `Module.CountablyGenerated`, the predicate introduced with \
+  0GVD.
   The base change is written `S ⊗[R] M`, Mathlib's order, the source writing `M ⊗_R S`.",
-  sga
-    "3 VIB 11.8.2" "countably generated case",
   sga "3 VIB 11.8.2" "countably generated case",
   sga "3 VIB 11.8.1" "(ii), special case"]
 public theorem countablyGenerated_and_projective_of_faithfullyFlat_baseChange {R : Type*}

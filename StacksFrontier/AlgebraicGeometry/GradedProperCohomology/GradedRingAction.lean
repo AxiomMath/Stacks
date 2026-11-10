@@ -113,7 +113,7 @@ degree. -/
 theorem actHom_comp_pieceCast {k : ℕ} (b : ↥(𝒜 k)) (n : ℤ) {m m' : ℤ}
     (hm : n + (k : ℤ) = m) (e : m = m') :
     S.actHom M b n hm ≫ pieceCast M e = S.actHom M b n (hm.trans e) := by
-  show (smulSectionsHom M n (k : ℤ) (S.sec b) ≫ pieceCast M hm) ≫ pieceCast M e =
+  change (smulSectionsHom M n (k : ℤ) (S.sec b) ≫ pieceCast M hm) ≫ pieceCast M e =
     smulSectionsHom M n (k : ℤ) (S.sec b) ≫ pieceCast M (hm.trans e)
   rw [Category.assoc, pieceCast_pieceCast]
 
@@ -128,7 +128,7 @@ theorem pieceCast_comp_actHom {k : ℕ} (b : ↥(𝒜 k)) {n n' : ℤ} (e : n = 
 /-- The action is additive in the acting element. -/
 theorem actHom_add {k : ℕ} (b b' : ↥(𝒜 k)) (n : ℤ) {m : ℤ} (hm : n + (k : ℤ) = m) :
     S.actHom M (b + b') n hm = S.actHom M b n hm + S.actHom M b' n hm := by
-  show smulSectionsHom M n (k : ℤ) (S.sec (b + b')) ≫ pieceCast M hm =
+  change smulSectionsHom M n (k : ℤ) (S.sec (b + b')) ≫ pieceCast M hm =
     (smulSectionsHom M n (k : ℤ) (S.sec b) ≫ pieceCast M hm) +
       (smulSectionsHom M n (k : ℤ) (S.sec b') ≫ pieceCast M hm)
   rw [smulSectionsHom_eval_add M n (k : ℤ) (S.eval_add b b'), Preadditive.add_comp]
@@ -186,21 +186,21 @@ abbrev cohAddHom {N P : X.Modules} (φ : N ⟶ P) :
 theorem cohAddHom_comp {N P Q : X.Modules} (φ : N ⟶ P) (ψ : P ⟶ Q)
     (y : (cohomologyOf X p N : Type u)) :
     cohAddHom p (φ ≫ ψ) y = cohAddHom p ψ (cohAddHom p φ y) := by
-  show (((moduleGlobalSections X).rightDerived p).map (φ ≫ ψ)).hom y = _
+  change (((moduleGlobalSections X).rightDerived p).map (φ ≫ ψ)).hom y = _
   rw [CategoryTheory.Functor.map_comp]
   rfl
 
 /-- `Hᵖ(X, −)` is additive, read on elements. -/
 theorem cohAddHom_add {N P : X.Modules} (φ ψ : N ⟶ P) (y : (cohomologyOf X p N : Type u)) :
     cohAddHom p (φ + ψ) y = cohAddHom p φ y + cohAddHom p ψ y := by
-  show (((moduleGlobalSections X).rightDerived p).map (φ + ψ)).hom y = _
+  change (((moduleGlobalSections X).rightDerived p).map (φ + ψ)).hom y = _
   rw [CategoryTheory.Functor.map_add]
   rfl
 
 /-- `Hᵖ(X, −)` sends the identity to the identity, read on elements. -/
 theorem cohAddHom_id {N : X.Modules} (y : (cohomologyOf X p N : Type u)) :
     cohAddHom p (𝟙 N) y = y := by
-  show (((moduleGlobalSections X).rightDerived p).map (𝟙 N)).hom y = _
+  change (((moduleGlobalSections X).rightDerived p).map (𝟙 N)).hom y = _
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -230,7 +230,7 @@ theorem actSum_of {k : ℕ} (b : ↥(𝒜 k)) (n : ℤ) (x : cohPiece M p n) :
 theorem actSum_add {k : ℕ} (b b' : ↥(𝒜 k)) :
     S.actSum M p (b + b') = S.actSum M p b + S.actSum M p b' := by
   refine DirectSum.addHom_ext fun n x => ?_
-  show S.actSum M p (b + b') (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) =
+  change S.actSum M p (b + b') (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) =
     S.actSum M p b (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) +
       S.actSum M p b' (DirectSum.of (fun j : ℤ => cohPiece M p j) n x)
   rw [S.actSum_of, S.actSum_of, S.actSum_of, S.actHom_add]
@@ -240,7 +240,7 @@ theorem actSum_add {k : ℕ} (b b' : ↥(𝒜 k)) :
 theorem actSum_one :
     S.actSum M p (GradedMonoid.GOne.one (A := fun j : ℕ => ↥(𝒜 j))) = 1 := by
   refine DirectSum.addHom_ext fun n x => ?_
-  show S.actSum M p (GradedMonoid.GOne.one (A := fun j : ℕ => ↥(𝒜 j)))
+  change S.actSum M p (GradedMonoid.GOne.one (A := fun j : ℕ => ↥(𝒜 j)))
       (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) =
     DirectSum.of (fun j : ℤ => cohPiece M p j) n x
   refine (S.actSum_of M p _ n x).trans ?_
@@ -259,7 +259,7 @@ theorem actSum_mul {k l : ℕ} (b : ↥(𝒜 k)) (b' : ↥(𝒜 l)) :
         pieceCast M hdeg := by
     rw [S.actHom_comp_pieceCast M _ n rfl hdeg]
     exact S.actHom_comp M b b' n rfl rfl hdeg
-  show S.actSum M p (GradedMonoid.GMul.mul (A := fun j : ℕ => ↥(𝒜 j)) b b')
+  change S.actSum M p (GradedMonoid.GMul.mul (A := fun j : ℕ => ↥(𝒜 j)) b b')
       (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) =
     S.actSum M p b (S.actSum M p b' (DirectSum.of (fun j : ℤ => cohPiece M p j) n x))
   rw [S.actSum_of, S.actSum_of, S.actSum_of,
@@ -319,7 +319,7 @@ theorem smul_of {k : ℕ} (b : ↥(𝒜 k)) (n : ℤ) (x : cohPiece M p n) :
     (b : B) • DirectSum.of (fun j : ℤ => cohPiece M p j) n x =
       DirectSum.of (fun j : ℤ => cohPiece M p j) (n + (k : ℤ))
         (cohAddHom p (S.actHom M b n rfl) x) := by
-  show S.actRingHom M p (b : B) (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) = _
+  change S.actRingHom M p (b : B) (DirectSum.of (fun j : ℤ => cohPiece M p j) n x) = _
   rw [show S.actRingHom M p (b : B) =
       S.actAddHom M p (DirectSum.decompose 𝒜 (b : B)) from rfl,
     DirectSum.decompose_coe, S.actAddHom_of M p]

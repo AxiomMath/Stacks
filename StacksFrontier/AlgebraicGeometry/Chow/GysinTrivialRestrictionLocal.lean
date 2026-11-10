@@ -142,7 +142,7 @@ theorem cycleGroupRestrict_gysinCycleMap {U : Scheme.{u}} (j : U ⟶ X) [IsOpenI
   refine ((finsum_mem_univ _).symm.trans (finsum_mem_inter_support_eq' _ _ (Set.range φ)
     (fun x hx ↦ ⟨fun _ ↦ hsupp hx, fun _ ↦ trivial⟩))).trans ?_
   refine (finsum_mem_range hφ).trans (finsum_congr fun x ↦ ?_)
-  show β.1 (j.base x.1) * _ = β.1 (j.base x.1) * _
+  change β.1 (j.base x.1) * _ = β.1 (j.base x.1) * _
   congr 1
   have hiff : D ≤ integralComponentAt (j.base x.1) ↔ DU ≤ integralComponentAt x.1 := by
     rw [le_integralComponentAt_iff_mem_support, le_integralComponentAt_iff_mem_support, hDUeq,
@@ -179,7 +179,7 @@ theorem gysinCycleMap_cycleAssociatedToClosedSubscheme_of_isEffectiveCartierDivi
       Stacks.PresheafOfModules.sectionOfTop_val_top L.val s⟩
   rw [← gysinRule_extendCycleGroup_cycleAssociatedToClosedSubscheme C p k L s' Z hZ hDZ]
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-  show (gysinCycleMapRule C p k L _).toComponentRule.extend _ _ y =
+  change (gysinCycleMapRule C p k L _).toComponentRule.extend _ _ y =
     (gysinRule C p k L _ _).toComponentRule.extend _ _ y
   rw [ComponentRule.extend_apply, ComponentRule.extend_apply]
   refine finsum_congr fun x ↦ ?_

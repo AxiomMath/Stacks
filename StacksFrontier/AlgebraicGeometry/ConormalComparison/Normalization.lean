@@ -70,8 +70,8 @@ property of `k` at all.
 ## Transparency gotchas
 
 Two spellings of the same category are in play, as in
-`StacksFrontier.AlgebraicGeometry.IdealSheafRestrict.Basic`: `AlgebraicGeometry.Scheme.Modules U` and
-`SheafOfModules (structureSheafRing U.toSheafedSpace)`. They agree definitionally but not at the
+`StacksFrontier.AlgebraicGeometry.IdealSheafRestrict.Basic`: `AlgebraicGeometry.Scheme.Modules U`
+and `SheafOfModules (structureSheafRing U.toSheafedSpace)`. They agree definitionally but not at the
 elaborator's implicit transparency, so a `rw` whose motive straddles them fails. Every statement
 below that a later `rw` has to match is therefore written in the second spelling, including the
 type of `Stacks.Conormal.idUnit`, whose body is the first; and the final assembly is a chain of

@@ -136,7 +136,7 @@ theorem formallySmooth_specMap {R A : CommRingCat.{u}} {ψ : R ⟶ A} (hψ : ψ.
   let aA : A →ₐ[R] A' :=
     { a.hom with
       commutes' := fun r => by
-        show a.hom (ψ.hom r) = (b ≫ φ).hom r
+        change a.hom (ψ.hom r) = (b ≫ φ).hom r
         rw [← hcomm]
         rfl }
   let φA : R' →ₐ[R] A' := { φ.hom with commutes' := fun _ => rfl }
@@ -158,7 +158,7 @@ scheme-level lifting property: the square-zero extensions of `R`-algebras tested
 theorem formallySmooth_ringHom_of_formallySmooth {R A : CommRingCat.{u}} {ψ : R ⟶ A}
     (hψ : FormallySmooth (Spec.map ψ)) : ψ.hom.FormallySmooth := by
   let : Algebra R A := ψ.hom.toAlgebra
-  show Algebra.FormallySmooth R A
+  change Algebra.FormallySmooth R A
   refine Algebra.FormallySmooth.of_comp_surjective fun B _ _ I hI G => ?_
   obtain ⟨g', hg1, hg2⟩ := hψ (.of B) (.of (B ⧸ I))
     (CommRingCat.ofHom (Ideal.Quotient.mk I)) Ideal.Quotient.mk_surjective (by simpa using hI)

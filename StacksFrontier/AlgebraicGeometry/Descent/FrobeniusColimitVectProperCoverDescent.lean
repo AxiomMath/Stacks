@@ -84,7 +84,7 @@ theorem map_map_eq_mapOfComm_map {A B : EndoColim F} (u : A ⟶ B) :
   induction u using Quot.ind with
   | _ x =>
     obtain ⟨k, f⟩ := x
-    show (map F F' Φ α).map (Hom.of k f) = (mapOfComm Φ α).map (Hom.of k f)
+    change (map F F' Φ α).map (Hom.of k f) = (mapOfComm Φ α).map (Hom.of k f)
     rw [map_map_of', mapOfComm_map_of]
     congr 1
     rw [transportHom', squareIter_eq_endoIterCommIso_symm, squareIter_eq_endoIterCommIso_symm]

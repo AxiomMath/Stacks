@@ -207,7 +207,8 @@ theorem cotangentToChart_squareCotangentTermMap
         (op (resolutionChart Λ B hS X hX V n))) ⊗ₜ[resolutionChartRing Λ B hS X hX V n]
           (ULift.up m : ULift.{u + 1} (resolutionChartDifferentials Λ B hS X hX V n))) ?_
       refine Eq.trans ?_
-        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d _ _ _).symm
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
+          _ _ _).symm
       refine congrArg CommRingCat.KaehlerDifferential.d ?_
       change (chartResolutionIso Λ B hS X hX V n).inv
           (CommAlgCat.standardResolutionSquareMap.{u + 1, u + 1, u + 1}
@@ -312,7 +313,8 @@ theorem cotangentToChart_cotangentMap (U : SmallEtale B (Spec (CommRingCat.of Λ
         (op (resolutionChart Λ B hS X hX U m))) ⊗ₜ[resolutionChartRing Λ B hS X hX U m]
           (ULift.up m' : ULift.{u + 1} (resolutionChartDifferentials Λ B hS X hX U m))) ?_
       refine Eq.trans ?_
-        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d _ _ _).symm
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
+          _ _ _).symm
       refine congrArg CommRingCat.KaehlerDifferential.d ?_
       change (chartResolutionIso Λ B hS X hX U m).inv
           ((CommAlgCat.standardResolution.{u + 1, u + 1} (ULift.{u + 1} Λ)

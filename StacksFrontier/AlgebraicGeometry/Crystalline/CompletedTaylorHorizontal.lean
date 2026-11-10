@@ -215,7 +215,7 @@ theorem completedFormsDifferential_of_dpow (x : J) (n : ℕ) :
         completedFormsDifferential p A hJ (AdicCompletion.of (pAdicIdeal (A := B) p) B x) := by
   rw [completedFormsDifferential_of, completedFormsDifferential_of, ← map_smul]
   congr 1
-  show (exteriorPower.oneEquiv B (dividedPowerDifferentials (A := A) hJ)).symm
+  change (exteriorPower.oneEquiv B (dividedPowerDifferentials (A := A) hJ)).symm
       (dividedPowerDifferential (A := A) hJ (hJ.dpow (n + 1) x)) =
     hJ.dpow n x • (exteriorPower.oneEquiv B (dividedPowerDifferentials (A := A) hJ)).symm
       (dividedPowerDifferential (A := A) hJ x)

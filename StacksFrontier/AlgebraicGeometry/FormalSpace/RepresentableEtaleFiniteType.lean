@@ -101,7 +101,7 @@ theorem IsLocallyOfFiniteType.of_isRepresentableEtale {X Y : FppfSheaf B S hS} (
     IsLocallyOfFiniteType B S hS f := by
   obtain ⟨hrep, hetale⟩ := hf
   refine ⟨hrep, fun U ξ => ?_⟩
-  show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+  change Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
   exact Space.isLocallyOfFiniteTypeULift_of_isEtaleULift_of_uliftYoneda B S hS
     (pullback.fst ξ f.hom) (hetale U ξ)
 

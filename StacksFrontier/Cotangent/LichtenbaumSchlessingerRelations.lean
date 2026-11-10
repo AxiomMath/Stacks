@@ -252,7 +252,7 @@ def kerTensorRelation : P.ker ⊗[P.Ring] P.ker →ₗ[P.Ring] freeQuotient P :=
 /-- `μ(a ⊗ b) = b u` for every `u ∈ F` with `ρ(u) = a`. -/
 theorem kerTensorRelation_tmul (a b : P.ker) (u : T →₀ P.Ring) (hu : relationMap P u = a) :
     kerTensorRelation P (a ⊗ₜ b) = (b : P.Ring) • Submodule.Quotient.mk u := by
-  show (b : P.Ring) • (Submodule.Quotient.mk (kerLift P a) : freeQuotient P) = _
+  change (b : P.Ring) • (Submodule.Quotient.mk (kerLift P a) : freeQuotient P) = _
   exact ker_smul_mk_eq P b.2 (by rw [relationMap_kerLift, hu])
 
 /-- `μ` is symmetric: `μ(a ⊗ b) = μ(b ⊗ a)`. -/
@@ -276,8 +276,7 @@ theorem kerTensorRelation_antisymm {ξ : P.ker ⊗[P.Ring] P.ker}
 multiplication map `a ⊗ b ↦ a b`. -/
 theorem freeQuotientRelationMap_kerTensorRelation (ξ : P.ker ⊗[P.Ring] P.ker) :
     freeQuotientRelationMap P (kerTensorRelation P ξ) = idealTensorMul P.ker ξ := by
-  induction ξ using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using _root_.TensorProduct.inductionOn with
   | tmul a b =>
     rw [kerTensorRelation_tmul P a b _ (relationMap_kerLift P a), map_smul,
       freeQuotientRelationMap_mk, relationMap_kerLift, idealTensorMul_tmul, smul_eq_mul, mul_comm]
@@ -316,8 +315,7 @@ theorem relationMapToKer_surjective : Function.Surjective (relationMapToKer P) :
 theorem kerTensorRelation_rTensor (η : (T →₀ P.Ring) ⊗[P.Ring] P.ker) :
     kerTensorRelation P ((relationMapToKer P).rTensor P.ker η) =
       Submodule.Quotient.mk (freeTensorKer P η) := by
-  induction η using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction η using _root_.TensorProduct.inductionOn with
   | tmul u b =>
     rw [LinearMap.rTensor_tmul, kerTensorRelation_tmul P _ b u rfl, freeTensorKer_tmul,
       Submodule.Quotient.mk_smul]
@@ -430,7 +428,7 @@ theorem relationBoundary_tmul_one (q : relationQuotient P) :
     letI := relationModule P
     relationBoundary P ((1 : B) ⊗ₜ q) = freeQuotientToTensor P (relationQuotientToFree P q) := by
   let := relationModule P
-  show relationBoundaryB P (relationBaseChangeEquiv P ((1 : B) ⊗ₜ q)) = _
+  change relationBoundaryB P (relationBaseChangeEquiv P ((1 : B) ⊗ₜ q)) = _
   rw [relationBaseChangeEquiv_tmul]
   exact relationBoundaryR_eq P q
 
@@ -443,8 +441,7 @@ theorem lsComplex_d_negTwo_inv_apply (w : B ⊗[P.Ring] relationQuotient P) :
         ((lichtenbaumSchlessingerComplex P).complex.d (-2) (-1)
           ((lichtenbaumSchlessingerComplex P).relationIso.inv w)) = relationBoundary P w := by
   let := relationModule P
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   | tmul b q =>
     obtain ⟨r, rfl⟩ := Submodule.mkQ_surjective _ q
@@ -461,8 +458,7 @@ theorem lsComplex_d_negOne_inv_apply (w : B ⊗[P.Ring] (T →₀ P.Ring)) :
     (lichtenbaumSchlessingerComplex P).differentialIso.hom
         ((lichtenbaumSchlessingerComplex P).complex.d (-1) 0
           ((lichtenbaumSchlessingerComplex P).freeIso.inv w)) = relationDifferentialB P w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   | tmul b x => rw [(lichtenbaumSchlessingerComplex P).d_free, relationDifferentialB_tmul]
 
@@ -572,7 +568,7 @@ theorem exists_biderivation_freeQuotient
         rw [RingHom.id_apply, ← TwistedFreeQuotient.equiv_smul_A]
         exact congrArg _ (E.toLinearMap.map_smul a x) }
   have hmul : ∀ x y, D (x * y) = α x • D y + β y • D x := fun x y => by
-    show TwistedFreeQuotient.equiv P α β (E.toLinearMap (x * y)) = _
+    change TwistedFreeQuotient.equiv P α β (E.toLinearMap (x * y)) = _
     rw [E.leibniz, map_add, TwistedFreeQuotient.equiv_smul, TwistedFreeQuotient.equiv_op_smul]
     rfl
   refine ⟨D, hmul, fun x => ?_⟩
@@ -589,7 +585,7 @@ theorem exists_biderivation_freeQuotient
     abel
   | mul_X p s hp =>
     have hs : D (MvPolynomial.X s) = Submodule.Quotient.mk (kerLift P ⟨_, h s⟩) := by
-      show TwistedFreeQuotient.equiv P α β (E (MvPolynomial.X s)) = _
+      change TwistedFreeQuotient.equiv P α β (E (MvPolynomial.X s)) = _
       rw [hE]
       rfl
     rw [hmul, map_add, map_smul, map_smul, hp, hs, freeQuotientRelationMap_mk,

@@ -229,7 +229,7 @@ theorem rightUnitor_inv_unitComplexSectionMap_multiplicationInt
     h3 hū ?_ rfl (Iso.inv_hom_id _) ?_ (rightUnitor_inv_whiskerLeft_unitHom F G u) hR
   · rw [HomologicalComplex.id_f, CategoryTheory.Functor.map_id, NatTrans.id_app]
     rfl
-  · simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.hom_inv_id_assoc]
+  · simp only [Category.assoc, Iso.inv_hom_id_assoc]
     exact Iso.inv_hom_id _
 
 end SheafLevel

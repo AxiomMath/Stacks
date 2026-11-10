@@ -127,7 +127,7 @@ theorem isZero_rightDerived_of_isZero_rightDerived_component_aux (d : ℕ)
         n (fun p hp hpd => by have := hb p (by omega) hpd; omega)
     have hiq : ε ≫ toCyclesComponent Φ k = 0 := by
       ext N
-      show ε.app N ≫ (Φ.obj N).toCycles k (k + 1) = 0
+      change ε.app N ≫ (Φ.obj N).toCycles k (k + 1) = 0
       rw [← cancel_mono ((Φ.obj N).iCycles (k + 1)), assoc, HomologicalComplex.toCycles_i,
         zero_comp]
       exact hw N
@@ -144,10 +144,10 @@ theorem isZero_rightDerived_of_isZero_rightDerived_component_aux (d : ℕ)
           τ₂ := 𝟙 _
           τ₃ := (Φ.obj X).iCycles (k + 1)
           comm₁₂ := by
-            show 𝟙 _ ≫ ε.app X = ε.app X ≫ 𝟙 _
+            change 𝟙 _ ≫ ε.app X = ε.app X ≫ 𝟙 _
             rw [id_comp, comp_id]
           comm₂₃ := by
-            show 𝟙 _ ≫ (Φ.obj X).d k (k + 1) =
+            change 𝟙 _ ≫ (Φ.obj X).d k (k + 1) =
               (Φ.obj X).toCycles k (k + 1) ≫ (Φ.obj X).iCycles (k + 1)
             rw [HomologicalComplex.toCycles_i, id_comp] }
       have : Epi φ.τ₁ := inferInstanceAs (Epi (𝟙 _))

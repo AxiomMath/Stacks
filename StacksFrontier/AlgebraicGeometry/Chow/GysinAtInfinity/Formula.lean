@@ -213,7 +213,7 @@ theorem gysinAtInfinityClass_cap_eq_of_isLift {k : ℤ} {α : chowGroup C (g ≫
             (gysinTripleSection (infinityModule f b) (infinitySectionOnW f b)
               (pullback.fst (modificationProjection f b) g)) k β)) := by
   have := hA
-  show chowPushforwardOfIso C _ _ _ _ (k - 0)
+  change chowPushforwardOfIso C _ _ _ _ (k - 0)
     (infinityCap C f (modificationProjection f b) (chartInclusion f b)
       (relativeDimension_chartInclusion_comp f b) (infinityModule f b) (infinitySectionOnW f b)
       (range_zeroScheme_infinitySectionOnW f b) (isTrivial_infinityModule f b) g k α) = _

@@ -55,7 +55,7 @@ private lemma positive_weight_of_not_mem (Y : Scheme.{u}) [IsNoetherian Y]
         intro heq
         apply hy
         apply s.V_zero_subset
-        show y ∈ (s.V i : Set Y)
+        change y ∈ (s.V i : Set Y)
         rwa [heq]
       have hcod : 0 < s.upCodimension i :=
         s.upCodimension_pos_of_lt i (lt_of_le_of_ne (s.V_le_W i) hne)

@@ -116,7 +116,7 @@ theorem quotientStackToGroupoid_squares
   change quotientStackTransition G F.obj F.property ≫ _ = _ ≫ quotientStackTransition G H.obj
     H.property at hc
   refine (Category.assoc _ _ _).symm.trans ?_
-  show quotientStackTransition G F.obj F.property ≫
+  change quotientStackTransition G F.obj F.property ≫
       ((Space.modulePullback C S hS G.source).map f.hom ≫ quotientStackSourceComparison G H.obj) = _
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ quotientStackSourceComparison G H.obj) hc).trans

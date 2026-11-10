@@ -57,7 +57,8 @@ transparency at which `rw` re-elaborates its motive. Stating the step for abstra
 
 `CategoryTheory.PresheafOfCategories.overMapForgetEquivalenceOver` is the content of Stacks 03EH
 that `map_eq_forget_iteratedSlice` in
-`StacksFrontier/CategoryTheory/Sites/Localization/RelocalizationTriangle.lean` records as an equality
+`StacksFrontier/CategoryTheory/Sites/Localization/RelocalizationTriangle.lean` records as an
+equality
 of functors; it is derived here, rather than imported from there, because that module's import
 closure is unrelated to this one.
 
@@ -194,7 +195,7 @@ lemma elementsToOverMap_map_eq :
   · intro Z W u
     refine over_hom_eq_conj (over_mk_eq Z.base (Over.w Z.fiber.as))
       (over_mk_eq W.base (Over.w W.fiber.as)) rfl rfl _ _ ?_
-    show u.base.left = eqToHom rfl ≫ u.base.left ≫ eqToHom rfl
+    change u.base.left = eqToHom rfl ≫ u.base.left ≫ eqToHom rfl
     simp
 
 /-- The identity of the underlying object of `𝒞`, read as an isomorphism between the base of an

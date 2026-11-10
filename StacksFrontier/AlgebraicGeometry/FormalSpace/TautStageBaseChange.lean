@@ -177,7 +177,7 @@ private theorem formalSpectrumInclusion_mono
   intro J K g
   apply Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying
     (BigFppfOver.topology B S hS) (BigFppfOver.toScheme B S hS)
-  show Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
+  change Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
   let : IsClosedImmersion
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g)))) :=
     IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective (leOfHom g))
@@ -256,7 +256,7 @@ theorem ideal_le_of_stage_factorization_weakIdeal
     apply F.map_injective
     apply (cancel_mono (formalSpectrumInclusion D L)).1
     rw [F.map_comp, Category.assoc]
-    show F.map g ≫ (F.map b ≫ _) = F.map a ≫ _
+    change F.map g ≫ (F.map b ≫ _) = F.map a ≫ _
     rw [formalSpectrumInclusion_comp_transition B S hS D L J,
       formalSpectrumInclusion_comp_transition B S hS D L I]
     exact hg
@@ -310,7 +310,7 @@ theorem map_ideal_le_of_formalSpectrum_square_weakIdeal
     apply F.map_injective
     apply (cancel_mono (formalSpectrumInclusion D L)).1
     rw [F.map_comp, Category.assoc]
-    show F.map g ≫ (F.map b ≫ _) = F.map a ≫ _
+    change F.map g ≫ (F.map b ≫ _) = F.map a ≫ _
     rw [formalSpectrumInclusion_comp_transition B S hS D L I]
     exact hg.symm.trans (formalSpectrumMap_spec hA f L J inf_le_right)
   let coord : Spec (.of (C ⧸ J.1)) ⟶ Spec (.of (A ⧸ I.1)) := Q.map g
@@ -324,14 +324,15 @@ theorem map_ideal_le_of_formalSpectrum_square_weakIdeal
   have he := congrArg (fun f : A ⧸ L.1 →+* C ⧸ J.1 => f (Ideal.Quotient.mk L.1 x)) heq
   change ψ (Ideal.Quotient.mk I.1 x) = Ideal.Quotient.mk J.1 (f.toRingHom x) at he
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero] at he
-  show f.toRingHom x ∈ J.1
+  change f.toRingHom x ∈ J.1
   exact Ideal.Quotient.eq_zero_iff_mem.mp he.symm
 
 /-- A commuting square from a stage of the source spectrum to a stage of the target spectrum
 forces the extended ideal to be contained in the source stage's ideal.
 
 The file-private form of `map_ideal_le_of_formalSpectrum_square_weakIdeal`. -/
-private alias map_ideal_le_of_formalSpectrum_square := map_ideal_le_of_formalSpectrum_square_weakIdeal
+private alias map_ideal_le_of_formalSpectrum_square :=
+  map_ideal_le_of_formalSpectrum_square_weakIdeal
 
 variable [IsTopologicalRing C] [IsLinearTopology C C]
 

@@ -121,8 +121,7 @@ noncomputable def specTildeSymmetricPowerPresheafIso :
   refine PresheafOfModules.isoMk
     (fun U ↦ specTildeSymmetricPowerPointIso R X α M n U) (fun {U V} f ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun t ↦ ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       exact (map_add _ x y).trans ((congrArg (fun z ↦ z + _) hx).trans
         ((congrArg (fun z ↦ _ + z) hy).trans (map_add _ x y).symm))

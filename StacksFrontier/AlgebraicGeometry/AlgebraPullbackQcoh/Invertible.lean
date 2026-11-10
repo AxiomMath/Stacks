@@ -236,7 +236,8 @@ The underlying `𝒪_T`-module of the pullback is the inverse image of the under
 quasi-coherent by [Stacks, Tag 01BG].
 
 **No project tag attribute is attached**: the statement of Tag 01SA is a single nine-field
-structure carrying one unqualified tag, and two of its fields are still open; see the module docstring. -/
+structure carrying one unqualified tag, and two of its fields are still open; see the module
+docstring. -/
 theorem algebraPullback_isQuasicoherent (hA : AlgebraSheaf.IsQuasicoherent A) :
     AlgebraSheaf.IsQuasicoherent ((algebraPullback g).obj A) :=
   have := hA

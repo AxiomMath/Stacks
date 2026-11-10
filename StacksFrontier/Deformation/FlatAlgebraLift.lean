@@ -83,8 +83,7 @@ theorem surjective_one_tmul (hsurjA : Function.Surjective (algebraMap A' A))
     (N : Type u) [AddCommGroup N] [Module A' N] :
     Function.Surjective (fun n : N => (1 : A) ⊗ₜ[A'] n) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a n =>
       obtain ⟨a', rfl⟩ := hsurjA a
       exact ⟨a' • n, by rw [Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]⟩
@@ -99,8 +98,7 @@ theorem surjective_tmul_one (hsurjA : Function.Surjective (algebraMap A' A))
     (N : Type u) [AddCommGroup N] [Module A' N] :
     Function.Surjective (fun n : N => n ⊗ₜ[A'] (1 : A)) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.zero_tmul _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul n a =>
       obtain ⟨a', rfl⟩ := hsurjA a
       exact ⟨a' • n, by rw [Algebra.algebraMap_eq_smul_one, TensorProduct.tmul_smul,
@@ -134,7 +132,7 @@ theorem ker_includeRight (hsurjA : Function.Surjective (algebraMap A' A)) :
     rw [hΦdef]
     simp only [LinearEquiv.trans_apply, AlgEquiv.toLinearEquiv_apply,
       AlgEquiv.restrictScalars_apply, Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk]
-    show (e 1) ⊗ₜ[A'] c = (1 : A) ⊗ₜ[A'] c
+    change (e 1) ⊗ₜ[A'] c = (1 : A) ⊗ₜ[A'] c
     rw [map_one]
   ext c
   rw [RingHom.mem_ker, ← hΦmk, ← Ideal.Quotient.eq_zero_iff_mem]
@@ -228,7 +226,7 @@ theorem exists_flatModuleLift_of_algebraLift
     ((eB.restrictScalars A').toAlgHom).comp Algebra.TensorProduct.includeRight with hβ₀def
   have hβ₀ : ∀ b : B', β₀ b = eB (1 ⊗ₜ[A'] b) := fun _ => rfl
   set βₐ : B' →ₐ[P'] B := ⟨β₀.toRingHom, fun x => by
-    show β₀ (g x) = algebraMap P' B x
+    change β₀ (g x) = algebraMap P' B x
     rw [hβ₀]
     exact hg x⟩ with hβdef
   have hβ : ∀ b : B', βₐ b = eB (1 ⊗ₜ[A'] b) := fun _ => rfl
@@ -415,7 +413,7 @@ theorem exists_algHom_of_formallySmooth [Algebra.FormallySmooth A' P']
     e₃.symm.toAlgHom.comp (IsScalarTower.toAlgHom A' P' B) with hg₀def
   refine ⟨Algebra.FormallySmooth.lift (RingHom.ker β₀) hnilβ g₀, fun x => ?_⟩
   rw [← hβ₀, ← he₃, Algebra.FormallySmooth.mk_lift (RingHom.ker β₀) hnilβ g₀ x, hg₀def]
-  show e₃ (e₃.symm (algebraMap P' B x)) = algebraMap P' B x
+  change e₃ (e₃.symm (algebraMap P' B x)) = algebraMap P' B x
   rw [e₃.apply_symm_apply]
 
 omit [Algebra A P] [IsScalarTower A P B] in

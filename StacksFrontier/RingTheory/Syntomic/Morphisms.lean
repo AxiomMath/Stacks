@@ -111,7 +111,7 @@ theorem Ideal.height_map_quotient_le_ringKrullDim_fiber {A B : Type*} [CommRing 
     PrimeSpectrum.primesOverOrderIsoFiber A B 𝔮
       ⟨P.1.asIdeal.comap (Ideal.Quotient.mk J), Ideal.comap_isPrime _ _, ⟨le_antisymm
         (fun a ha => by
-          show algebraMap A B a ∈ P.1.asIdeal.comap (Ideal.Quotient.mk J)
+          change algebraMap A B a ∈ P.1.asIdeal.comap (Ideal.Quotient.mk J)
           rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ ha)]
           exact P.1.asIdeal.zero_mem)
         (fun a ha => by
@@ -121,7 +121,7 @@ theorem Ideal.height_map_quotient_le_ringKrullDim_fiber {A B : Type*} [CommRing 
   have hf : StrictMono f := by
     intro P P' hlt
     refine (PrimeSpectrum.primesOverOrderIsoFiber A B 𝔮).strictMono ?_
-    show P.1.asIdeal.comap (Ideal.Quotient.mk J) < P'.1.asIdeal.comap (Ideal.Quotient.mk J)
+    change P.1.asIdeal.comap (Ideal.Quotient.mk J) < P'.1.asIdeal.comap (Ideal.Quotient.mk J)
     refine lt_of_le_of_ne (Ideal.comap_mono (show P.1.asIdeal ≤ P'.1.asIdeal from hlt.le))
       fun h => hlt.ne (Subtype.ext (PrimeSpectrum.ext ?_))
     have := congrArg (Ideal.map (Ideal.Quotient.mk J)) h
@@ -289,7 +289,7 @@ public theorem Algebra.Presentation.isPushout_quotient_of_map_eq {R₀ R S ι σ
   have hb : Function.Bijective Φ := by
     refine Algebra.Presentation.bijective_of_relation_eq P Q (funext fun k => ?_) Φ fun i => ?_
     · simp [Q, hf]
-    · show Φ (1 ⊗ₜ[R₀] (Ideal.Quotient.mk _ (MvPolynomial.X i))) = _
+    · change Φ (1 ⊗ₜ[R₀] (Ideal.Quotient.mk _ (MvPolynomial.X i))) = _
       simp only [Φ, Algebra.TensorProduct.lift_tmul, map_one, one_mul]
       exact hT i
   refine ⟨IsBaseChange.of_equiv (AlgEquiv.ofBijective Φ hb).toLinearEquiv fun t => ?_⟩
@@ -570,14 +570,14 @@ private theorem isRelativeGlobalCompleteIntersection_naive_map_of_forall {R₁ R
       Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap R₁ R₀) F) := Ideal.quotientMap_mk
   let : Algebra T₁ T₀ := φ.toAlgebra
   have : IsScalarTower R₁ T₁ T₀ := .of_algebraMap_eq fun r => by
-    show _ = φ (Ideal.Quotient.mk _ (MvPolynomial.C r))
+    change _ = φ (Ideal.Quotient.mk _ (MvPolynomial.C r))
     rw [hφ, MvPolynomial.map_C]
     rfl
   have : Algebra.IsPushout R₁ R₀ T₁ T₀ :=
     Algebra.Presentation.isPushout_quotient_of_map_eq (Algebra.Presentation.naive (v := f₀)) f₁
       (fun _ => rfl)
       fun i => by
-        show φ _ = _
+        change φ _ = _
         rw [hφ, MvPolynomial.map_X]
         rfl
   have : Algebra.IsPushout R₁ T₁ R₀ T₀ := Algebra.IsPushout.symm inferInstance
@@ -637,7 +637,7 @@ private theorem exists_forall_of_isRelativeGlobalCompleteIntersection {R₁ R S 
       exact P.aeval_val_relation j)
   have hφ₁ (F) : φ₁ (Ideal.Quotient.mk _ F) =
       MvPolynomial.aeval P.val (MvPolynomial.map (algebraMap R₁ R) F) := by
-    show MvPolynomial.eval₂ _ _ F = _
+    change MvPolynomial.eval₂ _ _ F = _
     rw [MvPolynomial.aeval_def, MvPolynomial.eval₂_map, ← IsScalarTower.algebraMap_eq]
   let : Algebra T₁ S := φ₁.toAlgebra
   have : @IsScalarTower R₁ T₁ S Algebra.toSMul Algebra.toSMul Algebra.toSMul :=
@@ -662,7 +662,7 @@ private theorem exists_forall_of_isRelativeGlobalCompleteIntersection {R₁ R S 
         PrimeSpectrum.zeroLocus J := Ideal.map_le_iff_le_comap.mp hle
     rw [hZ] at h1
     apply h1
-    show Algebra.relativeDimensionAt (S := T₁) R₁
+    change Algebra.relativeDimensionAt (S := T₁) R₁
       (PrimeSpectrum.comap (algebraMap T₁ S) ⟨m, hm.isPrime⟩).asIdeal +
         (Nat.card σ : WithBot ℕ∞) ≤ Nat.card ι
     rw [Algebra.IsPushout.relativeDimensionAt_comap_eq R₁ T₁ R S ⟨m, hm.isPrime⟩]
@@ -880,12 +880,12 @@ theorem Algebra.Syntomic.exists_span_eq_top_algEquiv_quotient {R : Type u} [Comm
     exact ⟨Ideal.Quotient.mk _ F, by rw [hφ, Algebra.Generators.algebraMap_apply]⟩
   let : Algebra A Sg := φ.toAlgebra
   have : IsScalarTower R A Sg := .of_algebraMap_eq fun r => by
-    show _ = φ (Ideal.Quotient.mk _ (MvPolynomial.C r))
+    change _ = φ (Ideal.Quotient.mk _ (MvPolynomial.C r))
     rw [hφ, MvPolynomial.map_C, MvPolynomial.aeval_C, IsScalarTower.algebraMap_apply R (R ⧸ I) Sg]
     rfl
   have : Algebra.IsPushout R A (R ⧸ I) Sg :=
     (Algebra.Presentation.isPushout_quotient_of_map_eq P f hf fun i => by
-      show φ _ = _
+      change φ _ = _
       rw [hφ]
       simp).symm
   have hker := ker_eq_map_of_presentation_quotient I P f hf φ hφ

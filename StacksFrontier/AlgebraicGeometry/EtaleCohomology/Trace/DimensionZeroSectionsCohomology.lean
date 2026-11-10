@@ -106,7 +106,7 @@ lemma isZero_frobeniusRestrictionSectionsComplex_X (M : EtaleModules.{u, 0} Λ Y
     (hn : n ≠ 0) :
     IsZero
       ((frobeniusRestrictionSectionsComplex Λ Y kbar ((sheafSingleComplex Λ).obj M)).obj.X n) := by
-  show IsZero ((etaleModuleGlobalSections.{u, 0} Λ (Spec (.of kbar))).obj
+  change IsZero ((etaleModuleGlobalSections.{u, 0} Λ (Spec (.of kbar))).obj
     ((etaleModuleDirectImage.{u, 0} Λ (pullback.snd Y.hom (specAlgebraMap k kbar))).obj
       ((etaleModuleInverseImage.{u, 0} Λ (fieldBaseChangeProj Y kbar)).obj
         (((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj M).X n))))

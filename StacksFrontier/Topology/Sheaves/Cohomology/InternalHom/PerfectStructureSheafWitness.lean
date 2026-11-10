@@ -93,6 +93,9 @@ theorem isPerfect_derivedStructureSheaf :
     (ringedSite Rc).IsPerfect (RingedSite.derivedStructureSheaf (ringedSite Rc)) :=
   RingedSite.isPerfect_derivedStructureSheaf (ringedSite Rc)
 
+omit [∀ V : Opens X, HasSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens X, ((Opens.grothendieckTopology X).over V).WEqualsLocallyBijective
+    AddCommGrpCat.{u}] in
 /-- **That perfect object is not a zero object**, as soon as `1 ≠ 0` in one section ring of
 `O_X`. Its degree-zero cohomology is `O_X`, which is not a zero module.
 

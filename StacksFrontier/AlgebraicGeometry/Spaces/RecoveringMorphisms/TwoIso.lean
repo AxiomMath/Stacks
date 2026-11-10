@@ -86,7 +86,7 @@ theorem chartFiberMap_comp_chartFiberCoordinate {V V' : SmallEtale B S hS Y.1} (
     chartFiberMap f j ≫ chartFiberCoordinate B S hS f V b =
       chartFiberCoordinate B S hS f V' ((structureSetSheaf B S hS Y).obj.map j.op b) := by
   ext U c
-  show (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (c.val ≫ j.hom.left)).op) b = (forget CommRingCat.{u}).map (Scheme.Γ.map
       ((BigFppfOver.toScheme B S hS).map c.val).op)
       ((forget CommRingCat.{u}).map (Scheme.Γ.map
@@ -108,8 +108,8 @@ private theorem sectionEquiv_forgetFSharp (V : SmallEtale B S hS Y.1)
       chartFiberCoordinate B S hS f V b :=
   sectionEquivChartFiberHom_fSharp B S hS f V b
 
--- The product instances on sheaves of sets need more than the default budget under Lean v4.35.0.
 set_option maxHeartbeats 800000 in
+-- The product instances on sheaves of sets need more than the default budget under Lean v4.35.0.
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **The description of the sections of `f_*F` by maps out of `chartFiber f V` is natural in
 `V`**, for `V` affine: restricting a section along `j : V' ⟶ V` precomposes the corresponding
@@ -142,7 +142,7 @@ theorem sectionEquivChartFiberHom_restrict {V V' : SmallEtale B S hS Y.1}
     (ConcreteCategory.congr_hom (((fPush f).map q).hom.naturality j.op) z).symm
   have hK : E V' Q (((fPush f).obj Q).obj.map j.op x₀) = chartFiberMap f j ≫ u := by
     have hmono : Mono (sheafOfMonoι m).hom := by
-      show Mono (((Subfunctor.range m).sheafify _).ι)
+      change Mono (((Subfunctor.range m).sheafify _).ι)
       infer_instance
     refine (cancel_mono (sheafOfMonoι m).hom).1 ?_
     refine (cancel_mono (piComparison (sheafToPresheaf (SmallEtale.topology B S hS X.1)
@@ -245,7 +245,7 @@ theorem invRepComparison_comp_chartFiberCoordinate' (V : SmallEtale B S hS Y.1)
     [IsAffine (chartSch V)] (b : (structureSetSheaf B S hS Y).obj.obj (op V)) :
     OverBase.invRepComparison hf V ≫ chartFiberCoordinate B S hS f V b = (invCoord g V b).hom := by
   ext U s
-  show (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (OverBase.chartOverHom hover V U.unop s)).op) b = _
   rw [OverBase.toScheme_map_chartOverHom, Scheme.Γ_map_op, chartSchemeHom_appTop]
   exact chartRingHom_apply g V U.unop s b
@@ -286,7 +286,7 @@ theorem chartSectionEquiv_eq_iff' (V : SmallEtale B S hS Y.1) [IsAffine (chartSc
   · intro h
     apply (sectionEquivChartFiberHom B S hS f V F).injective
     apply ((hW V).homEquiv F.obj F.property).injective
-    show OverBase.invRepComparison hf V ≫ _ = OverBase.invRepComparison hf V ≫ _
+    change OverBase.invRepComparison hf V ≫ _ = OverBase.invRepComparison hf V ≫ _
     rw [invRepComparison_comp_chartSectionEquiv', h]
 
 /-- `AlgebraicGeometry.Space.chartSectionEquiv'` is natural in the sheaf. -/
@@ -381,7 +381,7 @@ theorem affineRestriction_map_pushforwardIsoOfChartComparison_hom_app'
       (AffineEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Y.1)).map
         ((pushforwardIsoOfChartComparison' hf hW).hom.app F) =
       (affinePushforwardIso' hf hW F).hom := by
-  show ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)
+  change ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)
       (AffineEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Y.1)).map
     ((Functor.FullyFaithful.ofFullyFaithful
       ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)

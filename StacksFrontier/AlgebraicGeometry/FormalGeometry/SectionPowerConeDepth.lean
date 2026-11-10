@@ -151,7 +151,7 @@ theorem sectionRingZeroHom_mem (t : Γ(X, ⊤)) : sectionRingZeroHom X L t ∈ g
 /-- **The degree-zero comparison undoes the degree-zero inclusion.** -/
 theorem degZeroRingHom_sectionRingZeroHom (t : Γ(X, ⊤)) :
     degZeroRingHom L ⟨sectionRingZeroHom X L t, sectionRingZeroHom_mem L t⟩ = t := by
-  show Stacks.SectionRingChartMap.ratioR L (unitSec L) _
+  change Stacks.SectionRingChartMap.ratioR L (unitSec L) _
     (DirectSum.of (powSections L) 0 ((Stacks.SectionRingGeometric.unitScalarAddEquiv X).symm t))
       = t
   refine (Stacks.SectionRingChartMap.ratioR_of L _ _ _).trans ?_
@@ -196,7 +196,7 @@ def conePoint : X := hU.fromSpec (conePrime L hL s p hp)
 
 /-- The point under a point `𝔭` of the punctured cone lies in `X_s`. -/
 theorem conePoint_mem : conePoint L hL s hU p hp ∈ nvOpen L (degreeOneSection L s) := by
-  show _ ∈ ((nvOpen L (degreeOneSection L s) : X.Opens) : Set X)
+  change _ ∈ ((nvOpen L (degreeOneSection L s) : X.Opens) : Set X)
   rw [← IsAffineOpen.range_fromSpec hU]
   exact ⟨_, rfl⟩
 
@@ -265,7 +265,7 @@ theorem chartRingEquiv_algebraMap (a : k) :
     chartRingEquiv L hL s (algebraMap k _ a) =
       X.presheaf.map (homOfLE (le_top : nvOpen L (degreeOneSection L s) ≤ ⊤)).op
         (specAlgebraRingHom k π a) := by
-  show Stacks.SectionRingChartMap.chartRingMap L _ (le_refl _)
+  change Stacks.SectionRingChartMap.chartRingMap L _ (le_refl _)
     (HomogeneousLocalization.fromZeroRingHom (grading L) _ (zeroGradeHom L k π a)) = _
   rw [Stacks.SectionRingProjMorphism.ToSpecZero.chartRingMap_fromZero]
   exact congrArg _ (degZeroRingHom_sectionRingZeroHom L _)
@@ -301,7 +301,7 @@ theorem chartImmersion_comp :
     Scheme.ΓSpecIso_naturality]
   have happ : hU.fromSpec.appTop = X.presheaf.map (homOfLE le_top).op ≫
       (Scheme.ΓSpecIso Γ(X, nvOpen L (degreeOneSection L s))).inv := by
-    show hU.fromSpec.app ⊤ = _
+    change hU.fromSpec.app ⊤ = _
     rw [IsAffineOpen.fromSpec_app_of_le hU ⊤ le_top]
     rfl
   rw [happ]
@@ -311,7 +311,7 @@ theorem chartImmersion_comp :
     Iso.inv_hom_id_apply (Scheme.ΓSpecIso Γ(X, nvOpen L (degreeOneSection L s)))
   refine CommRingCat.hom_ext (RingHom.ext fun a => ?_)
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, hid]
-  show (chartRingEquiv L hL s).symm (X.presheaf.map (homOfLE le_top).op
+  change (chartRingEquiv L hL s).symm (X.presheaf.map (homOfLE le_top).op
     (specAlgebraRingHom k π a)) = algebraMap k _ a
   rw [RingEquiv.symm_apply_eq, chartRingEquiv_algebraMap]
 
@@ -424,11 +424,11 @@ theorem natCast_lt_enatToEInt_iff (n : ℕ) (a : ℕ∞) :
     (((n : ℤ) : EInt) < Stacks.Algebraization.enatToEInt a) ↔ (n : ℕ∞) < a := by
   cases a using ENat.recTopCoe with
   | top =>
-    refine iff_of_true ?_ (ENat.coe_lt_top n)
-    show ((n : ℤ) : EInt) < (⊤ : EInt)
+    refine iff_of_true ?_ (ENat.natCast_lt_top n)
+    change ((n : ℤ) : EInt) < (⊤ : EInt)
     exact WithBot.coe_lt_coe.2 (WithTop.coe_lt_top _)
   | coe m =>
-    show (((n : ℤ) : EInt) < ((m : ℤ) : EInt)) ↔ _
+    change (((n : ℤ) : EInt) < ((m : ℤ) : EInt)) ↔ _
     rw [WithBotTop.coe_lt_coe, Nat.cast_lt, Nat.cast_lt]
 
 section Assembly
@@ -483,7 +483,7 @@ theorem depthAddRelativeDim_gt [IsProper π] (F : X.Modules) [F.IsCoherent] (σ 
     exact add_le_add_right hkey _
   have h3 : ((σ + 1 : ℕ) : ℕ∞) < ((σ : ℕ∞) + 1) + 1 := by
     push_cast
-    exact (ENat.lt_add_one_iff (ENat.coe_ne_top _)).2 le_rfl
+    exact (ENat.lt_add_one_iff (ENat.natCast_ne_top _)).2 le_rfl
   exact lt_of_lt_of_le h3 (h1.trans h2)
 
 end Assembly
@@ -513,7 +513,7 @@ theorem exists_charts [IsNoetherianRing (sectionRing L)] :
   let α : ∀ i, powSections L (d i) := fun i => (g i : sectionRing L) (d i)
   have hgen : ∀ i, Stacks.SectionRingChartCech.gen L α i = g i := by
     intro i
-    show DirectSum.of (powSections L) (d i) ((g i) (d i)) = g i
+    change DirectSum.of (powSections L) (d i) ((g i) (d i)) = g i
     by_cases hc : c i = 0
     · have hgi : g i ∈ (HomogeneousIdeal.irrelevant (grading L)).toIdeal := by
         rw [← hspan]
@@ -528,7 +528,7 @@ theorem exists_charts [IsNoetherianRing (sectionRing L)] :
         rw [hgi, map_zero]
       rw [hz]
       simp
-    · have hd : d i = c i := if_neg hc
+    · have hd : d i = c i := ite_eq_right hc
       obtain ⟨a, ha⟩ := (Stacks.ExternalGrading.mem_summand_iff).1 (hg i)
       have key : ∀ (n m : ℕ) (a : powSections L m), n = m →
           DirectSum.of (powSections L) n ((DirectSum.of (powSections L) m a) n) =
@@ -540,7 +540,7 @@ theorem exists_charts [IsNoetherianRing (sectionRing L)] :
   have hpos : ∀ i, 0 < d i := fun i => by
     by_cases hc : c i = 0
     · simp [d, hc]
-    · simp only [d, if_neg hc]
+    · simp only [d, ite_eq_right hc]
       exact Nat.pos_of_ne_zero hc
   have hspan' : Ideal.span (Set.range (Stacks.SectionRingChartCech.gen L α)) =
       (HomogeneousIdeal.irrelevant (grading L)).toIdeal := by

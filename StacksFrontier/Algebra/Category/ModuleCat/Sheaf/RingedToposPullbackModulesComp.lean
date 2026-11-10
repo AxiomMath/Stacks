@@ -62,7 +62,8 @@ route would still need are: a composition for
 `Stacks.Sheaves.RingedToposModules.RingedToposHom` (whose `fSharp_adjunct` field is the one
 real obligation), and the morphism of ringed points over `q = f ∘ p`.
 
-That this route is unavailable does *not* leave Stacks 05V5 unproved. The tag is discharged by a different argument, which needs no
+That this route is unavailable does *not* leave Stacks 05V5 unproved. The tag is discharged by a
+different argument, which needs no
 ringed-point square: `Stacks.Sheaves.StalkPullback.pointStalkFunctorIso`
 (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/StalkPullbackAtAPoint.lean`) proves
 `(f^*𝓕)_p ≅ 𝓕_q ⊗_{𝒪'_q} 𝒪_p` for an arbitrary morphism of ringed topoi and an arbitrary point

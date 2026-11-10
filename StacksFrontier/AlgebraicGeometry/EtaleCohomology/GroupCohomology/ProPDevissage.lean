@@ -77,7 +77,7 @@ def actionKernel [Finite N.obj.obj.V] : OpenNormalSubgroup P where
     have : ((representation N).ker : Set P) =
         ⋂ y : N.obj.obj.V, {g | (N.obj.obj.ρ g).asHom.hom y = y} := by
       ext g
-      simp only [SetLike.mem_coe, MonoidHom.mem_ker, Set.mem_iInter, Set.mem_setOf_eq]
+      simp only [SetLike.mem_coe, MonoidHom.mem_ker, Set.mem_iInter, Set.mem_ofPred_eq]
       exact ⟨fun h y ↦ congrArg (fun f : Module.End ℤ N.obj.obj.V ↦ f y) h,
         fun h ↦ LinearMap.ext h⟩
     change IsOpen ((representation N).ker : Set P)
@@ -202,7 +202,7 @@ theorem subsingleton_ext_of_finite (hP : IsProPGroup ℓ P) (n : ℕ)
     ShortComplex.mk f (quotObjπ N A hA) (hom_ext fun a ↦ by
       obtain ⟨a⟩ := a
       obtain ⟨c, rfl⟩ := ZMod.intCast_surjective a
-      show (QuotientAddGroup.mk (f.hom.hom.hom.hom (ULift.up (c : ZMod ℓ))) :
+      change (QuotientAddGroup.mk (f.hom.hom.hom.hom (ULift.up (c : ZMod ℓ))) :
         N.obj.obj.V ⧸ A) = 0
       rw [zmodIncl_apply]
       exact (QuotientAddGroup.eq_zero_iff (N := A) _).mpr ((hmemA _).mpr ⟨c, rfl⟩))
@@ -225,7 +225,7 @@ theorem subsingleton_ext_of_finite (hP : IsProPGroup ℓ P) (n : ℕ)
       congr 1
       rwa [Int.cast_sub, sub_eq_zero] at this
     · intro m
-      show (QuotientAddGroup.mk m : N.obj.obj.V ⧸ A) = 0 ↔ m ∈ Set.range f.hom.hom.hom.hom
+      change (QuotientAddGroup.mk m : N.obj.obj.V ⧸ A) = 0 ↔ m ∈ Set.range f.hom.hom.hom.hom
       refine (QuotientAddGroup.eq_zero_iff (N := A) m).trans ⟨fun hm ↦ ?_, ?_⟩
       · obtain ⟨c, rfl⟩ := (hmemA m).mp hm
         exact ⟨ULift.up (c : ZMod ℓ), zmodIncl_apply N x hx hfix c⟩
@@ -328,7 +328,7 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
           AddEquiv.ulift.toAddMonoidHom, fun g a ↦ by
             obtain ⟨a⟩ := a
             refine Subtype.ext ?_
-            show a • x = (N.obj.obj.ρ g).asHom.hom (a • x)
+            change a • x = (N.obj.obj.ρ g).asHom.hom (a • x)
             rw [map_zsmul, hfix]⟩
     refine ⟨subObj N A hA, ?_, exists_pow_smul_subObj_eq_zero A hA hN,
       subObjι N A hA, Abelian.Ext.mk₀ φ', ?_⟩
@@ -356,7 +356,7 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
         (hom_ext fun m ↦ (QuotientAddGroup.eq_zero_iff (N := B) _).mpr ⟨m, rfl⟩)
     have hS : S.ShortExact :=
       shortExact_of_function_exact S hηinj (quotObjπ_surjective C B hB) fun y ↦ by
-        show (QuotientAddGroup.mk y : C.obj.obj.V ⧸ B) = 0 ↔ y ∈ Set.range _
+        change (QuotientAddGroup.mk y : C.obj.obj.V ⧸ B) = 0 ↔ y ∈ Set.range _
         exact (QuotientAddGroup.eq_zero_iff (N := B) y)
     have hCtors : ∀ y : C.obj.obj.V, ∃ k : ℕ, ℓ ^ k • y = 0 :=
       exists_pow_smul_coinduction_eq_zero (N := RN) hN
@@ -375,17 +375,17 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
     let BB : AddSubgroup PP.obj.obj.V :=
       { carrier := {p | ι₃.hom.hom.hom.hom p.1 = (quotObjπ C B hB).hom.hom.hom.hom p.2}
         zero_mem' := by
-          show ι₃.hom.hom.hom.hom 0 = (quotObjπ C B hB).hom.hom.hom.hom 0
+          change ι₃.hom.hom.hom.hom 0 = (quotObjπ C B hB).hom.hom.hom.hom 0
           rw [map_zero, map_zero]
         add_mem' := fun {a b} ha hb ↦ by
-          show ι₃.hom.hom.hom.hom (a.1 + b.1) = (quotObjπ C B hB).hom.hom.hom.hom (a.2 + b.2)
+          change ι₃.hom.hom.hom.hom (a.1 + b.1) = (quotObjπ C B hB).hom.hom.hom.hom (a.2 + b.2)
           rw [map_add, map_add, ha, hb]
         neg_mem' := fun {a} ha ↦ by
-          show ι₃.hom.hom.hom.hom (-a.1) = (quotObjπ C B hB).hom.hom.hom.hom (-a.2)
+          change ι₃.hom.hom.hom.hom (-a.1) = (quotObjπ C B hB).hom.hom.hom.hom (-a.2)
           rw [map_neg, map_neg, ha] }
     have hBB : ∀ g, ∀ a ∈ BB, (PP.obj.obj.ρ g).asHom.hom a ∈ BB := by
       intro g a ha
-      show ι₃.hom.hom.hom.hom ((Q'.obj.obj.ρ g).asHom.hom a.1) =
+      change ι₃.hom.hom.hom.hom ((Q'.obj.obj.ρ g).asHom.hom a.1) =
         (quotObjπ C B hB).hom.hom.hom.hom ((C.obj.obj.ρ g).asHom.hom a.2)
       rw [hom_comm, hom_comm]
       exact congrArg _ ha
@@ -402,9 +402,9 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
       obtain ⟨k₁, hk₁⟩ := hQ'tors q
       obtain ⟨k₂, hk₂⟩ := hCtors (L q)
       refine ⟨ℓ ^ (k₁ + k₂), pow_pos (Nat.pos_of_ne_zero hℓ0) _, Prod.ext ?_ ?_⟩
-      · show ℓ ^ (k₁ + k₂) • q = 0
+      · change ℓ ^ (k₁ + k₂) • q = 0
         rw [pow_add, mul_comm, mul_smul, hk₁, smul_zero]
-      · show ℓ ^ (k₁ + k₂) • L q = 0
+      · change ℓ ^ (k₁ + k₂) • L q = 0
         rw [pow_add, mul_smul, hk₂, smul_zero]
     -- the finite short exact sequence `N' → P' → Q'`
     let incl : N.obj.obj.V →+ PP.obj.obj.V :=
@@ -415,7 +415,7 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
       have := hF g _ ha
       change ((Q'.obj.obj.ρ g).asHom.hom 0,
         (C.obj.obj.ρ g).asHom.hom (η.hom.hom.hom.hom a)) ∈ F at this
-      show ((0 : Q'.obj.obj.V), η.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom a)) ∈ F
+      change ((0 : Q'.obj.obj.V), η.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom a)) ∈ F
       rwa [map_zero, ← hom_comm] at this
     let N' := subObj N Nsub hNsub
     let P' := subObj PP F hF
@@ -425,7 +425,7 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
         map_add' a b := Subtype.ext (map_add incl (a : N.obj.obj.V) b) }
     let f' : N' ⟶ P' := (gModuleHomEquiv P _ _).symm
       ⟨f'₀, fun g a ↦ Subtype.ext (by
-        show ((0 : Q'.obj.obj.V), η.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom a.1)) =
+        change ((0 : Q'.obj.obj.V), η.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom a.1)) =
           ((Q'.obj.obj.ρ g).asHom.hom 0, (C.obj.obj.ρ g).asHom.hom (η.hom.hom.hom.hom a.1))
         rw [map_zero, hom_comm])⟩
     let g' : P' ⟶ Q' := subObjι PP F hF ≫ prodObjFst Q' C
@@ -439,7 +439,7 @@ theorem exists_finite_ext_comp (n : ℕ) : ∀ (N : ContinuousGModule.{v, max v 
       · exact ⟨subObjMk PP F hF (q, L q) (hTF q), rfl⟩
       · set pp := (subObjι PP F hF).hom.hom.hom.hom p
         have hpF : pp ∈ F := subObjι_mem PP F hF p
-        show pp.1 = 0 ↔ p ∈ Set.range f'.hom.hom.hom.hom
+        change pp.1 = 0 ↔ p ∈ Set.range f'.hom.hom.hom.hom
         refine ⟨fun hp ↦ ?_, ?_⟩
         · have hpB : ι₃.hom.hom.hom.hom pp.1 = (quotObjπ C B hB).hom.hom.hom.hom pp.2 := hFB hpF
           rw [hp, map_zero] at hpB

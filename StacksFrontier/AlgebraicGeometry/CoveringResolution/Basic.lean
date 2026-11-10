@@ -10,7 +10,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.Coveri
 `Stacks.CechTotalComplex.CoveringResolution.coveringComplex` of an open covering `U` of a ringed
   space `(X, R)` with values in
 the direct images of the restrictions of a sheaf of modules, and discharges the `complex` and
-`hasHomology` fields of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`. This file
+`hasHomology` fields of `Stacks.CechTotalComplex.CoveringResolution`. This file
   supplies the four
 *coordinate* fields, which identify the sections of the degree-`p` term with the product
 `Stacks.CechTotalComplex.CoveringResolution.cechSections` of the sections of `F` over the multiple
@@ -31,13 +31,13 @@ differential and the restrictions in those coordinates.
 * `termIso X R U F p V` is the resulting linear identification of the sections of the
   degree-`p` term with `Stacks.CechTotalComplex.CoveringResolution.cechSections X R U F p V`.
 * `coveringResolutionOfAugmentation` assembles a term of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution` from
+  `Stacks.CechTotalComplex.CoveringResolution` from
   an augmentation with its degree-zero formula and the quasi-isomorphism property; every
   other field is supplied here.
 
 ## Main results
 
-The four coordinate fields of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`, in
+The four coordinate fields of `Stacks.CechTotalComplex.CoveringResolution`, in
   the statements of that structure:
 
 * `termIso_restriction`: the coordinates commute with restriction to a smaller open set;
@@ -74,14 +74,14 @@ elaborate.
 
 ## What is not proved here
 
-Three fields of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution` remain, and they
+Three fields of `Stacks.CechTotalComplex.CoveringResolution` remain, and they
   are exactly the hypotheses of
 `coveringResolutionOfAugmentation`:
 
 * `augmentation` and `augmentation_f_zero`.
   `Stacks.CechTotalComplex.CoveringResolution.coveringAugmentation` is a map out of
-  `Stacks.CechTotalComplex.CoveringResolution.infPushforward X R F (⊤_ (Opens X))`; what the structure
-    asks for is a natural
+  `Stacks.CechTotalComplex.CoveringResolution.infPushforward X R F (⊤_ (Opens X))`; what the
+    structure asks for is a natural
   transformation out of `Stacks.CechTotalComplex.CoveringResolution.moduleUniverseLift X R ⋙
     HomologicalComplex.single _ _ 0`,
   so what is owed is an isomorphism between those two sheaves of modules, natural in `F`,
@@ -306,7 +306,7 @@ noncomputable def coordFanIsLimit (F : SheafOfModules.{w} R) (p : ℕ) (V : Open
     (isLimitFanMkObjOfIsLimit (SheafOfModules.evaluation.{max u v w t} R (op V)) _
       (π U (infPushforwardOpens.{u, v, w, t} X R F) p) (isLimitFan U _ p))
 
-/-- **The `termIso` field of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** The
+/-- **The `termIso` field of `Stacks.CechTotalComplex.CoveringResolution`.** The
   sections over `V` of the
 degree-`p` term of the covering complex, identified with the product
 `Stacks.CechTotalComplex.CoveringResolution.cechSections X R U F p V` of the sections of `F` over
@@ -352,7 +352,7 @@ theorem termIso_down (F : SheafOfModules.{w} R) (p : ℕ) (V : Opens X)
 /-! ### The coordinate fields of the covering-resolution structure -/
 
 /-- **The `termIso_restriction` field of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** The product
+  `Stacks.CechTotalComplex.CoveringResolution`.** The product
 coordinates commute with restriction to a smaller open set. -/
 theorem termIso_restriction (F : SheafOfModules.{w} R) (p : ℕ) {V W : Opens X} (h : W ≤ V)
     (x : (((coveringComplex.{u, v, w, t} X R U).obj F).X p).val.obj (op V))
@@ -387,7 +387,7 @@ theorem map_f_comp_π {P Q : (Opens X)ᵒᵖ ⥤ SheafOfModules.{max u v w t} R}
   Pi.map_π (fun x : Fin (n + 1) → ι => ψ.app (op (inter U x))) y
 
 /-- **The `termIso_naturality` field of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** A morphism of
+  `Stacks.CechTotalComplex.CoveringResolution`.** A morphism of
 sheaves of modules acts on the product by its maps on sections. -/
 theorem termIso_naturality {F G : SheafOfModules.{w} R} (φ : F ⟶ G) (p : ℕ) (V : Opens X)
     (x : (((coveringComplex.{u, v, w, t} X R U).obj F).X p).val.obj (op V))
@@ -450,7 +450,7 @@ theorem coordπ_d_apply (F : SheafOfModules.{w} R) (p : ℕ) (V : Opens X)
   simpa only [moduleCat_comp_apply, moduleCat_sum_apply, moduleCat_zsmul_apply] using h
 
 /-- **The `differential` field of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`.** Equation 01EE: in the
+  `Stacks.CechTotalComplex.CoveringResolution`.** Equation 01EE: in the
 product coordinates the differential is the alternating sum of the restrictions along the
 face inclusions. -/
 theorem differential_field (F : SheafOfModules.{w} R) (p : ℕ) (V : Opens X)
@@ -467,7 +467,7 @@ theorem differential_field (F : SheafOfModules.{w} R) (p : ℕ) (V : Opens X)
 
 /-! ### Assembling the covering-resolution structure -/
 
-/-- **Six of the nine fields of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`,
+/-- **Six of the nine fields of `Stacks.CechTotalComplex.CoveringResolution`,
   discharged.** The `complex`
 field is `Stacks.CechTotalComplex.CoveringResolution.coveringComplex`, the four coordinate fields
   are the theorems above, and
@@ -492,7 +492,7 @@ noncomputable def coveringResolutionOfAugmentation
       haveI : ∀ q : ℕ, ((coveringComplex.{u, v, w, t} X R U).obj F).HasHomology q :=
         fun q => hasHomology_of_enlarged.{u, v, max w t} X R _ q
       QuasiIso (aug.app F)) :
-    CoveringResolution.{u, v, w, t} X R U where
+    Stacks.CechTotalComplex.CoveringResolution.{u, v, w, t} X R U where
   complex := coveringComplex.{u, v, w, t} X R U
   augmentation := aug
   termIso := termIso.{u, v, w, t} X R U

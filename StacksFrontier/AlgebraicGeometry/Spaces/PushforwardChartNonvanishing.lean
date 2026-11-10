@@ -87,14 +87,7 @@ theorem nonvanishingLocus_subset_iUnion_modulePushforwardCounitApp {X U : Algebr
       (by rw [CategoryTheory.Functor.map_id, Category.id_comp]) n).trans
       (ConcreteCategory.congr_hom (P.val.presheaf.map_id _) _)
   let := chartAlgebra (hF := U.2) j
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have h0 : modulePushforwardCounitApp B S hS f P e 0 = 0 := by
-      have h := modulePushforwardCounitApp_add B S hS f P e 0 0
-      rw [add_zero] at h
-      exact add_eq_left.mp h.symm
-    rw [map_zero, h0, nonvanishingLocus_chartRestrictionTopSection_zero]
-    exact Set.empty_subset _
+  induction t using TensorProduct.inductionOn with
   | tmul c n =>
     rw [chartBaseChange_tmul, modulePushforwardCounitApp_smul, hres]
     exact (nonvanishingLocus_chartRestrictionTopSection_smul_subset B S hS X P W _ _).trans

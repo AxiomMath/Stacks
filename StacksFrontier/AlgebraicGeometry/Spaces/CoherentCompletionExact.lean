@@ -399,7 +399,7 @@ theorem exists_comp_completionTermProjection_eq_zero_of_mono (hZ : B.Contains (�
     exact Stacks.Sites.idealPowSmul_mono_right 𝓘 (n + 1) inf_le_right
   have hzq : (g ≫ f.hom) ≫ cokernel.π (P.ι ≫ f.hom) = 0 := by
     ext X x
-    show (cokernel.π (P.ι ≫ f.hom)).val.app X ((g ≫ f.hom).val.app X x) = 0
+    change (cokernel.π (P.ι ≫ f.hom)).val.app X ((g ≫ f.hom).val.app X x) = 0
     have hx₁ : (g ≫ f.hom).val.app X x ∈ (idealPowSubmodule 𝓘 (n + 1 + c) N.obj).obj X := by
       rw [← idealPowerMultiple_eq_idealPowSubmodule, show n + 1 + c = n + c + 1 by omega]
       refine (cokernel_π_app_eq_zero_iff B S hS F hF _ X _).mp ?_
@@ -440,7 +440,7 @@ theorem preservesMonomorphisms_completionFunctor (hZ : B.Contains (⊤_ Scheme.{
   apply ObjectProperty.hom_ext
   apply NatTrans.ext
   funext n
-  show a.hom.app n = 0
+  change a.hom.app n = 0
   have hle := Nat.le_add_right n.unop c
   have hT := epi_map_of_le B S hS F hF 𝓘 T.property hle
   refine (cancel_epi (T.obj.map (homOfLE hle).op)).1 ?_

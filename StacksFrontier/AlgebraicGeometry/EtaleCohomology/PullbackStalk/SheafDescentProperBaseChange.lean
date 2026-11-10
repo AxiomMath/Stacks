@@ -168,10 +168,10 @@ public theorem mateEquiv_commSqTwoSquare_smallEtaleSheafInverseImagePseudofuncto
     (i : X' ⟶ X) (f' : X' ⟶ Y') (f : X ⟶ Y) (g : Y' ⟶ Y) (w : i ≫ f = f' ≫ g) :
     (mateEquiv (smallEtaleSheafPseudofunctorAdjunction B f)
         (smallEtaleSheafPseudofunctorAdjunction B f')
-        (Pseudofunctor.commSqTwoSquare (smallEtaleSheafInverseImagePseudofunctor B) w)).natTrans =
+        (Pseudofunctor.commSqTwoSquare (smallEtaleSheafInverseImagePseudofunctor B) w)) =
       smallEtaleBaseChangeNatTrans.{u} B i f' f g w := by
   rw [smallEtaleBaseChangeNatTrans]
-  refine congrArg TwoSquare.natTrans ((Equiv.eq_symm_apply _).2 ?_)
+  refine (Equiv.eq_symm_apply _).2 ?_
   refine (iterated_mateEquiv_conjugateEquiv
     (smallEtaleSheafPseudofunctorAdjunction B f) (smallEtaleSheafPseudofunctorAdjunction B f')
     (smallEtaleSheafPseudofunctorAdjunction B g) (smallEtaleSheafPseudofunctorAdjunction B i)

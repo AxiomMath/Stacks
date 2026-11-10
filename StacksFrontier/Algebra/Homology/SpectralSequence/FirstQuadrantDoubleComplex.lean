@@ -12,9 +12,9 @@ import StacksCore.Tactic.EgaSgaAttribute
 *natural* identification of its second page. The ingredients are all present in the library but
 they do not meet: the Tag 01ES development has the functor
 `Stacks.Cohomology.CechSpectral.totalSpectralSequence₂Functor` on `ℤ × ℤ`,
-`StacksFrontier/Algebra/Homology/SpectralSequence/DoubleComplexNaturality.lean` has the naturality of
-`''E_2^{p,q} = H^p_{II}(H^q_I(K^{•,•}))` -- but for `spectralSequence₂` and `spectralSequenceMap₂`,
-which are not assembled into a functor -- and
+`StacksFrontier/Algebra/Homology/SpectralSequence/DoubleComplexNaturality.lean` has the naturality
+of `''E_2^{p,q} = H^p_{II}(H^q_I(K^{•,•}))` -- but for `spectralSequence₂` and
+`spectralSequenceMap₂`, which are not assembled into a functor -- and
 `StacksFrontier/Algebra/Homology/SpectralSequence/NatRestrict.lean` has the index conversion
 `ℤ × ℤ → ℕ × ℕ`. This file joins them.
 

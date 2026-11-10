@@ -122,9 +122,9 @@ Tor-independent square of rings. The clause-(2) input
 `StacksFrontier.RingTheory.Dualizing.RelativeExistence`. -/
 theorem exists_isRelativeDualizingComplex_of_kFlatAlgebraActionEq
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
-    [Module.Flat R A] [Algebra.FinitePresentation R A] (hAct : KFlatAlgebraActionEq.{u}) :
+    [Module.Flat R A] [Algebra.FinitePresentation R A] :
     ∃ K : DerivedCategory (ModuleCat.{u} A), IsRelativeDualizingComplex R A K :=
-  exists_isRelativeDualizingComplex R A (upperShriekInputs_of_kFlatAlgebraActionEq hAct)
+  exists_isRelativeDualizingComplex R A
 
 /-- Stacks 0E2F (2) over `Dualizing.KFlatAlgebraActionEq`; the unconditional form is
 `Dualizing.IsRelativeDualizingComplex.baseChange`.
@@ -140,7 +140,6 @@ by transitivity of derived base change
 dualizing complex (`Dualizing.isUniversallyRelativeDualizing_of_unique`).
 -/
 theorem isRelativeDualizingComplex_baseChange_of_kFlatAlgebraActionEq
-    (hAct : KFlatAlgebraActionEq.{u})
     {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
     [Module.Flat R A] [Algebra.FinitePresentation R A]
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K)
@@ -152,7 +151,6 @@ theorem isRelativeDualizingComplex_baseChange_of_kFlatAlgebraActionEq
       ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
         (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] R')).functor.obj K) :=
   isUniversallyRelativeDualizing_of_unique
-    (upperShriekInputs_of_kFlatAlgebraActionEq hAct).2
     (fun _ _ hK hL => hK.nonempty_iso hL) hK R'
 
 /-- The "moreover" clause of Stacks 0E2F over `Dualizing.KFlatAlgebraActionEq`; the unconditional
@@ -171,7 +169,6 @@ by `Dualizing.IsUniversallyGeneratorPreserving.baseChange` and
 (`Dualizing.IsRelativeDualizingComplex.nonempty_iso`), carries it to any relative dualizing
 complex (`Dualizing.isUniversallyGeneratorPreserving_of_unique`). -/
 theorem span_derivedBaseChange_diagonalGenerator_of_kFlatAlgebraActionEq
-    (hAct : KFlatAlgebraActionEq.{u})
     {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
     [Module.Flat R A] [Algebra.FinitePresentation R A]
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K)
@@ -193,7 +190,6 @@ theorem span_derivedBaseChange_diagonalGenerator_of_kFlatAlgebraActionEq
           (envelopingBaseChangeRingHom R A R')).functor.map ξ ≫ eM.hom} : Set _) = ⊤ :=
   span_derivedBaseChange_diagonalGenerator_of_isGeneratorPreservingAt
     (isUniversallyGeneratorPreserving_of_unique
-      (upperShriekInputs_of_kFlatAlgebraActionEq hAct).2
       (fun _ _ hK hL => hK.nonempty_iso hL) hK R') ξ hξ
 
 /-- **Stacks Project, Tag 0E2F (1).** A flat ring map of finite presentation `R → A` admits a
@@ -206,7 +202,7 @@ transitivity of derived base change. -/
 theorem exists_isRelativeDualizingComplex_of_flat (R A : Type u) [CommRing R] [CommRing A]
     [Algebra R A] [Module.Flat R A] [Algebra.FinitePresentation R A] :
     ∃ K : DerivedCategory (ModuleCat.{u} A), IsRelativeDualizingComplex R A K :=
-  exists_isRelativeDualizingComplex_of_kFlatAlgebraActionEq R A kFlatAlgebraActionEq
+  exists_isRelativeDualizingComplex_of_kFlatAlgebraActionEq R A
 
 /-- **Stacks Project, Tag 0E2F (2).** Let `R → A` be a flat ring map of finite presentation, `K`
 a relative dualizing complex for `R → A` and `R → R'` any ring map. Then
@@ -222,7 +218,7 @@ theorem IsRelativeDualizingComplex.baseChange {R A : Type u} [CommRing R] [CommR
     IsRelativeDualizingComplex R' (A ⊗[R] R')
       ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
         (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] R')).functor.obj K) :=
-  isRelativeDualizingComplex_baseChange_of_kFlatAlgebraActionEq kFlatAlgebraActionEq K hK R'
+  isRelativeDualizingComplex_baseChange_of_kFlatAlgebraActionEq K hK R'
 
 /-- **Stacks Project, Tag 0E2F, the "moreover" clause.** Let `R → A` be flat of finite
 presentation, `K` a relative dualizing complex for `R → A`, and `ξ : A ⟶ K ⊗ᴸ_A (A ⊗_R A)` a
@@ -251,8 +247,7 @@ theorem IsRelativeDualizingComplex.span_derivedBaseChange_diagonalGenerator {R A
       Submodule.span ((A ⊗[R] R') ⊗[R'] (A ⊗[R] R'))
         ({eΔ.inv ≫ (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
           (envelopingBaseChangeRingHom R A R')).functor.map ξ ≫ eM.hom} : Set _) = ⊤ :=
-  span_derivedBaseChange_diagonalGenerator_of_kFlatAlgebraActionEq kFlatAlgebraActionEq K hK R'
-    ξ hξ
+  span_derivedBaseChange_diagonalGenerator_of_kFlatAlgebraActionEq K hK R' ξ hξ
 
 end Dualizing
 

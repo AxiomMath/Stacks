@@ -298,7 +298,7 @@ private theorem mem_range_of_exact_commutative_diagram
     exact ht
   have hsz : s - b z ∈ LinearMap.range f := by
     rw [hex]
-    show g (s - b z) = 0
+    change g (s - b z) = 0
     rw [map_sub, ← LinearMap.comp_apply, hg, LinearMap.comp_apply, hz, hs, sub_self]
   obtain ⟨y, hy⟩ := hsz
   exact ⟨f' y + z, by rw [map_add, ← LinearMap.comp_apply, hf, hy, sub_add_cancel]⟩
@@ -335,7 +335,7 @@ theorem exists_stable_lift (hF : IsAdicQuotientSystem O I F) (p n : ℕ)
       τ₃ := 𝟙 _
       comm₁₂ := idealSmulMap_comp_ι O (I ^ (n + 1)) (F.obj (op j)) (towerMap F hj)
       comm₂₃ := by
-        show towerMap F hj ≫ towerMap F (Nat.le_succ n) =
+        change towerMap F hj ≫ towerMap F (Nat.le_succ n) =
           towerMap F (Nat.le_of_succ_le hj) ≫ 𝟙 _
         rw [Category.comp_id, towerMap_comp] }
   have hcomm : (((globalModuleCohomology.{u, v, r, w} O p).map
@@ -343,7 +343,7 @@ theorem exists_stable_lift (hF : IsAdicQuotientSystem O I F) (p n : ℕ)
         (((globalModuleCohomology.{u, v, r, w} O p).map φ.τ₁).hom) =
       (((globalModuleCohomology.{u, v, r, w} O p).map φ.τ₂).hom).comp
         (((globalModuleCohomology.{u, v, r, w} O p).map (S j hj).f).hom) := by
-    show ((globalModuleCohomology.{u, v, r, w} O p).map φ.τ₁ ≫
+    change ((globalModuleCohomology.{u, v, r, w} O p).map φ.τ₁ ≫
       (globalModuleCohomology.{u, v, r, w} O p).map (S (n + 1) le_rfl).f).hom = _
     rw [← Functor.map_comp, φ.comm₁₂, Functor.map_comp]
     rfl
@@ -361,7 +361,7 @@ theorem exists_stable_lift (hF : IsAdicQuotientSystem O I F) (p n : ℕ)
     refine (ModuleCat.mono_iff_injective ((globalModuleCohomology.{u, v, r, w} O 0).map
       (S (n + 1) le_rfl).f)).mp
       ((cohomologyDeltaFunctor.{u, v, r, w} O).mono_map_f (hS (n + 1) le_rfl)) ?_
-    show (((globalModuleCohomology.{u, v, r, w} O 0).map (S (n + 1) le_rfl).f).hom)
+    change (((globalModuleCohomology.{u, v, r, w} O 0).map (S (n + 1) le_rfl).f).hom)
       ((((globalModuleCohomology.{u, v, r, w} O 0).map φ.τ₁).hom) z) =
         (((globalModuleCohomology.{u, v, r, w} O 0).map (S (n + 1) le_rfl).f).hom) s
     rw [← LinearMap.comp_apply, hcomm, LinearMap.comp_apply, hz, hxmap]
@@ -413,7 +413,7 @@ theorem mem_liftingSubgroup_succ_iff (p n : ℕ) (s : gradedCohomology O I F p (
       s ∈ stableImage O I F p (n + 1) ∧
         ∃ x : cohomologyLimit O F p, x.1 n = 0 ∧
           gradedIncl O I F p (n + 1) s = x.1 (n + 1) := by
-  show s ∈ stableImage O I F p (n + 1) ∧
+  change s ∈ stableImage O I F p (n + 1) ∧
     (∃ x : cohomologyLimit O F p, x ∈ (limitProj O F p n).ker ∧
       limitProj O F p (n + 1) x = gradedIncl O I F p (n + 1) s) ↔ _
   exact and_congr_right fun _ => exists_congr fun x => and_congr_right fun _ => eq_comm
@@ -452,7 +452,7 @@ theorem liftingSubgroup_classOfPow_smul (hF : IsAdicQuotientSystem O I F) (p : �
     · exact map_actTo_mem_stableImage O I F hF p k (n + 1) (k + (n + 1)) (by omega) a s hsStable
     · have hzero : a.1 • xl.1 (n + k) = 0 := by
         rw [← map_mulLift_coord O I F hF p k n a xl, hxl, map_zero]
-      show a.1 • xl.1 (k + n) = 0
+      change a.1 • xl.1 (k + n) = 0
       rw [Nat.add_comm k n]
       exact hzero
     · exact ι_map_actTo_eq_smul_coord O I F hF p k (n + 1) (k + (n + 1)) (by omega) a s
@@ -517,7 +517,7 @@ theorem exists_approx (hF : IsAdicQuotientSystem O I F) (p : ℕ)
         (DirectSum.component ↥(GlobalSectionRing O) ℕ (gradedCohomology O I F p) (n + 2))
     have hevt : ev (DirectSum.of (gradedCohomology O I F p) (n + 2) tt) =
         gradedIncl O I F p (n + 2) tt := by
-      show gradedIncl O I F p (n + 2)
+      change gradedIncl O I F p (n + 2)
         (DirectSum.of (gradedCohomology O I F p) (n + 2) tt (n + 2)) = _
       rw [DirectSum.of_eq_same]
     have hsum := congrArg ev htz
@@ -526,7 +526,7 @@ theorem exists_approx (hF : IsAdicQuotientSystem O I F) (p : ℕ)
       Finset.sum_apply, Pi.smul_apply]
     refine sub_eq_zero.mpr ?_
     rw [← ht]
-    show gradedIncl O I F p (n + 2) tt = _
+    change gradedIncl O I F p (n + 2) tt = _
     rw [hsum]
     calc ∑ i : sg, ev (AssociatedGraded.classOfPow I 1 (ag i) •
             DirectSum.of (gradedCohomology O I F p) (n + 1) (z i))

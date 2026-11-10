@@ -53,7 +53,7 @@ public theorem isZero_of_affine_sections (M : X.Modules)
     have hgerm : M.presheaf.germ U x hx s =
         M.presheaf.germ V x hxV (M.presheaf.map (homOfLE hVU).op s) :=
       (M.presheaf.germ_res_apply (homOfLE hVU) x hxV s).symm
-    show M.presheaf.germ U x hx s = M.presheaf.germ U x hx 0
+    change M.presheaf.germ U x hx s = M.presheaf.germ U x hx 0
     rw [hgerm, haff ⟨V, hV⟩ (M.presheaf.map (homOfLE hVU).op s)]
     simp
   exact Stacks.AlgebraicGeometry.GenericPointCoproduct.isZero_of_subsingleton_sections M

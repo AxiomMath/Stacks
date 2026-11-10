@@ -66,8 +66,8 @@ The remaining two inputs of the Tag 0CD1 statements,
 * `∀ W ∈ irreducibleComponents Z, topologicalKrullDim W = 1`,
 
 are proved for this curve in
-`StacksFrontier/AlgebraicGeometry/Curves/InseparableGenusChangeCurveDimension.lean`, by computing the
-dimension on the two charts `Z ∩ D₊(T₀)` and `Z ∩ D₊(T₁)` and deducing the absence of embedded
+`StacksFrontier/AlgebraicGeometry/Curves/InseparableGenusChangeCurveDimension.lean`, by computing
+the dimension on the two charts `Z ∩ D₊(T₀)` and `Z ∩ D₊(T₁)` and deducing the absence of embedded
 points from the Cohen–Macaulayness of a regular scheme.
 
 ## References

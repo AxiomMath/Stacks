@@ -121,13 +121,13 @@ private theorem exists_ringHom_isLocalHom_of_isStrictHenselization
     apply hR.residueFieldEquiv.injective
     calc hR.residueFieldEquiv (eR (residue Rsh (algebraMap R Rsh r)))
         = upRsh (residue Rsh (algebraMap R Rsh r)) := by
-          show hR.residueFieldEquiv (hR.residueFieldEquiv.symm
+          change hR.residueFieldEquiv (hR.residueFieldEquiv.symm
             (upRsh (residue Rsh (algebraMap R Rsh r)))) = _
           exact RingEquiv.apply_symm_apply _ _
       _ = Ideal.ResidueField.map (maximalIdeal R) (maximalIdeal Rsh) (algebraMap R Rsh)
             (IsLocalRing.maximalIdeal_comap (algebraMap R Rsh)).symm
               (algebraMap R κR r) := by
-          show algebraMap (ResidueField Rsh) (maximalIdeal Rsh).ResidueField
+          change algebraMap (ResidueField Rsh) (maximalIdeal Rsh).ResidueField
             (residue Rsh (algebraMap R Rsh r)) = _
           rw [← IsLocalRing.ResidueField.algebraMap_eq (R := Rsh),
             ← IsScalarTower.algebraMap_apply Rsh (ResidueField Rsh)
@@ -139,11 +139,11 @@ private theorem exists_ringHom_isLocalHom_of_isStrictHenselization
   have hδ : δ.comp ((residue Rsh).comp (algebraMap R Rsh))
       = (residue B).comp (algebraMap R B) := by
     ext r
-    show χ (eR (residue Rsh (algebraMap R Rsh r))) = residue B (algebraMap R B r)
+    change χ (eR (residue Rsh (algebraMap R Rsh r))) = residue B (algebraMap R B r)
     rw [hRbase, χ.commutes]
     have hup : algebraMap (ResidueField R) κR (residue R r) = up (residue R r) := rfl
     rw [RingHom.algebraMap_toAlgebra, hup]
-    show IsLocalRing.ResidueField.map (algebraMap R B) (up.symm (up (residue R r)))
+    change IsLocalRing.ResidueField.map (algebraMap R B) (up.symm (up (residue R r)))
       = residue B (algebraMap R B r)
     rw [up.symm_apply_apply, IsLocalRing.ResidueField.map_residue]
   let ν := HenselianLocalRing.indEtaleAlgHomOfResidue hR.isFilteredColimitEtale δ hδ
@@ -223,7 +223,7 @@ private theorem exists_factorization_of_specializes (s' : GeometricPoint S) (z :
   rw [spec_map_comp_fromSpecStalk_eq ψ _ ?_]
   · exact hψ
   · ext x
-    show algebraMap V s'.residueField (u (algebraMap (S.presheaf.stalk z) A x)) = ψ.hom x
+    change algebraMap V s'.residueField (u (algebraMap (S.presheaf.stalk z) A x)) = ψ.hom x
     have hx : u (algebraMap (S.presheaf.stalk z) A x)
         = ψ.hom.codRestrict V.toSubring hmem x := RingHom.congr_fun hucomp x
     rw [hx]
@@ -305,7 +305,7 @@ theorem exists_isSpecializationMap (f : X ⟶ S) [IsProper f] [GeometricallyConn
         (etaleFundamentalGroupMap i' x')), ?_⟩
   simp only [IsSpecializationMap]
   refine ⟨A, hAring, hAloc, hAalg, ⟨hAsh⟩, p', hp', p, hp, hpclosed, hXAconn, hi, t, fun γ ↦ ?_⟩
-  show etaleFundamentalGroupMap i x
+  change etaleFundamentalGroupMap i x
       ((etaleFundamentalGroupMulEquivOfIsEquivalence i x).symm
         (etaleFundamentalGroupMulEquiv t (etaleFundamentalGroupMap i' x' γ))) = _
   rw [← etaleFundamentalGroupMulEquivOfIsEquivalence_apply]

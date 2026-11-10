@@ -254,7 +254,7 @@ theorem exists_isAffine_etale_chart_square_at_point
     openChart B S hS Y ⟨CostructuredArrow.mk c.b, c.b_etale⟩ OV, n,
     (pointsEquivScheme B S hS (openSub c.U OU)).symm ⟨pointsToScheme B S hS c.U w, huOU⟩,
     hOUaff, hOVaff, hcomm, hbase, ?_⟩
-  show pointsMap B S hS _ (yoneda.map (openSubHom c.V OV) ≫ c.b)
+  change pointsMap B S hS _ (yoneda.map (openSubHom c.V OV) ≫ c.b)
     (pointsMap B S hS _ (yoneda.map n) _) = _
   rw [← Function.comp_apply
       (f := pointsMap B S hS _ (yoneda.map (openSubHom c.V OV) ≫ c.b)),
@@ -315,7 +315,7 @@ theorem exists_isAffine_etale_hom_projective_sections
       B.obj hVsize ⟶ B.obj hS))
   have hk : (ObjectProperty.homMk g : B.obj hUsize ⟶ B.obj hVsize) ≫ E'.hom = D'.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show g ≫ V.toBase ≫ B.inclusion.map E.hom = U.toBase ≫ B.inclusion.map D.hom
+    change g ≫ V.toBase ≫ B.inclusion.map E.hom = U.toBase ≫ B.inclusion.map D.hom
     rw [← Category.assoc, hover, Category.assoc, hbaseD]
   refine ⟨D', E',
       Over.homMk (ObjectProperty.homMk U.toBase : B.obj hUsize ⟶ D.left) rfl,
@@ -324,7 +324,7 @@ theorem exists_isAffine_etale_hom_projective_sections
       U.etale_toBase, V.etale_toBase, ?_, U.map_point, hUaff, hVaff, hproj⟩
   refine (BigFppfOver.toScheme B S hS).map_injective ?_
   rw [Functor.map_comp, Functor.map_comp]
-  show g ≫ V.toBase = U.toBase ≫ (BigFppfOver.toScheme B S hS).map h
+  change g ≫ V.toBase = U.toBase ≫ (BigFppfOver.toScheme B S hS).map h
   exact hover
 
 /-- **Stacks Project, Tag 0CVY.** Let `f : X ⟶ Y` be a morphism of

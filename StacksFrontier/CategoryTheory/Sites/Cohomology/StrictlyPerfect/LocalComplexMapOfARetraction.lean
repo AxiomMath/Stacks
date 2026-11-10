@@ -58,8 +58,8 @@ restricting `σ` and the homotopy once more is again such a datum, which is
 restriction along the composite. That lemma, in
 `StacksFrontier.CategoryTheory.Sites.Cohomology.PseudoCoherent.LiftHomotopyTransport`, is the form
 of the file-private `exists_lift_homotopy_of_natIso` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.PseudoCoherent.DistinguishedTriangles` taking the lift
-already over the composite; the lift of a restriction is pushed to the composite here by
+`StacksFrontier.CategoryTheory.Sites.Cohomology.PseudoCoherent.DistinguishedTriangles` taking the
+lift already over the composite; the lift of a restriction is pushed to the composite here by
 `CategoryTheory.Functor.mapHomotopy`, rather than restating anything.
 
 ## References

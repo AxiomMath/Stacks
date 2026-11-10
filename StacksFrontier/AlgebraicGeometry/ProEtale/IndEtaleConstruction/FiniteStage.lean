@@ -436,10 +436,10 @@ lemma finiteStageFromCoproduct_ι {A : Type u} [CommRing A]
     (x : finiteStageObject s p) :
     finiteStageFromCoproduct s ((Sigma.ι (finiteStageObject s) p).hom x) =
       (finiteStageInclusion s p).hom x := by
-  show (CommAlgCat.Hom.hom (Sigma.desc (finiteStageInclusion s)))
+  change (CommAlgCat.Hom.hom (Sigma.desc (finiteStageInclusion s)))
       ((Sigma.ι (finiteStageObject s) p).hom x) = _
   have h := congrArg CommAlgCat.Hom.hom
-    (Sigma.ι_desc (finiteStageInclusion s) p)
+    (Sigma.ι_comp_desc (finiteStageInclusion s) p)
   exact congrArg (fun f ↦ f x) h
 
 /-- `finiteStageToCoproduct` undoes `finiteStageInclusion`: the composite is the coprojection of
@@ -450,7 +450,7 @@ lemma finiteStageToCoproduct_inclusion {A : Type u} [CommRing A]
       (Sigma.ι (finiteStageObject s) p).hom := by
   apply Ideal.Quotient.algHom_ext
   ext j
-  show finiteStageToCoproduct s
+  change finiteStageToCoproduct s
       ((finiteStageInclusion s p).hom (Ideal.Quotient.mk _ (MvPolynomial.X j))) =
     (Sigma.ι (finiteStageObject s) p).hom (Ideal.Quotient.mk _ (MvPolynomial.X j))
   rw [finiteStageInclusion_generator, finiteStageToCoproduct_generator]
@@ -462,7 +462,7 @@ lemma finiteStageCoproduct_left_id {A : Type u} [CommRing A]
   apply CommAlgCat.hom_ext
   apply Ideal.Quotient.algHom_ext
   ext ⟨p, j⟩
-  show finiteStageFromCoproduct s
+  change finiteStageFromCoproduct s
       (finiteStageToCoproduct s
         (Ideal.Quotient.mk _ (MvPolynomial.X (⟨p, j⟩ : finiteStageVariables s)))) =
     Ideal.Quotient.mk _ (MvPolynomial.X (⟨p, j⟩ : finiteStageVariables s))
@@ -474,10 +474,10 @@ lemma finiteStageCoproduct_right_id {A : Type u} [CommRing A]
     (s : finitePresentationSet A) :
     finiteStageFromCoproduct s ≫ CommAlgCat.ofHom (finiteStageToCoproduct s) = 𝟙 _ := by
   refine Sigma.hom_ext _ _ fun p ↦ ?_
-  show ((Sigma.ι (finiteStageObject s) p ≫
+  change ((Sigma.ι (finiteStageObject s) p ≫
       Sigma.desc (finiteStageInclusion s)) ≫
       CommAlgCat.ofHom (finiteStageToCoproduct s)) = _
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   exact CommAlgCat.hom_ext (finiteStageToCoproduct_inclusion s p)
 
 /-- The finite stage indexed by `s` is the coproduct in `CommAlgCat A` of the algebras presented

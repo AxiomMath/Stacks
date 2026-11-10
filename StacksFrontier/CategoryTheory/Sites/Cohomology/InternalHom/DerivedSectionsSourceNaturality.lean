@@ -125,13 +125,6 @@ attribute [local instance] HasDerivedCategory.standard
 variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
-  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
-  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u,
-    u} X.O))
-      (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
-      (ComplexShape.up ℤ)]
 
 /-! ### Naturality at the classes of complexes -/
 

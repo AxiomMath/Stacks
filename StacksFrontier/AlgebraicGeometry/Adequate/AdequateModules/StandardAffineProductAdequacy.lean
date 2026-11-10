@@ -179,10 +179,12 @@ public theorem exists_ringEquiv_cechBaseChange {A A' : Type u} [CommRing A] [Com
 /-- **An algebra over a ring presented as a finite product is the product of its base changes
 to the factors**, in the form the tensor product gives it. The presentation is taken as an
 algebra isomorphism `ε` rather than read off the two algebra structures on a product type. -/
-public theorem bijective_tmul_one_pi {R : Type u} [CommRing R] {ι : Type*} [Fintype ι]
-    [DecidableEq ι] (R' : ι → Type u) [∀ j, CommRing (R' j)] [∀ j, Algebra R (R' j)]
+public theorem bijective_tmul_one_pi {R : Type u} [CommRing R] {ι : Type*} [Finite ι]
+    (R' : ι → Type u) [∀ j, CommRing (R' j)] [∀ j, Algebra R (R' j)]
     (C : Type u) [CommRing C] [Algebra R C] (ε : R ≃ₐ[R] (∀ j, R' j)) :
     Function.Bijective (fun c : C ↦ fun j ↦ (c ⊗ₜ[R] (1 : R' j))) := by
+  classical
+  have := Fintype.ofFinite ι
   have key : (fun c : C ↦ fun j ↦ (c ⊗ₜ[R] (1 : R' j))) =
       ⇑(((Algebra.TensorProduct.rid R R C).symm.trans
         (Algebra.TensorProduct.congr (AlgEquiv.refl (R := R) (A₁ := C)) ε)).trans
@@ -198,7 +200,7 @@ public theorem bijective_tmul_one_pi {R : Type u} [CommRing R] {ι : Type*} [Fin
 
 /-- **An algebra over a finite product ring is the product of its base changes along the
 projections**, through the canonical maps of `AdequateFunctor.cechUnit`. -/
-public theorem bijective_pi_cechUnit {ι : Type} [Fintype ι] [DecidableEq ι]
+public theorem bijective_pi_cechUnit {ι : Type} [Finite ι]
     (D : ι → Type u) [∀ j, CommRing (D j)] (C : CommAlgCat.{u} (∀ j, D j)) :
     Function.Bijective (fun (c : ↥C) (j : ι) ↦
       ((cechUnit (Pi.evalRingHom D j)).app C).hom c) := by
@@ -228,7 +230,7 @@ public noncomputable def cechUnitPiEquiv {ι : Type} [Fintype ι] [DecidableEq �
 spectra of its base changes along the projections.** The isomorphism is produced existentially
 so that it is an opaque constant where it is used: typeclass synthesis does not see through a
 local definition whose body is `AdequateFunctor.cechUnitPiEquiv`. -/
-public theorem exists_isIso_specMap_cechUnitPi {ι : Type} [Fintype ι] [DecidableEq ι]
+public theorem exists_isIso_specMap_cechUnitPi {ι : Type} [Finite ι]
     (D : ι → Type u) [∀ j, CommRing (D j)] (C : CommAlgCat.{u} (∀ j, D j)) :
     ∃ k : Spec (CommRingCat.of (∀ j, ↥((cechBaseChange (Pi.evalRingHom D j)).obj C))) ⟶
         Spec (CommRingCat.of ↥C),
@@ -236,6 +238,8 @@ public theorem exists_isIso_specMap_cechUnitPi {ι : Type} [Fintype ι] [Decidab
           ((cechUnit (Pi.evalRingHom D j)).app C).hom.toRingHom) =
         Spec.map (CommRingCat.ofHom (Pi.evalRingHom
           (fun j ↦ ↥((cechBaseChange (Pi.evalRingHom D j)).obj C)) j)) ≫ k := by
+  classical
+  have := Fintype.ofFinite ι
   let kiso : CommRingCat.of ↥C ≅
       CommRingCat.of (∀ j, ↥((cechBaseChange (Pi.evalRingHom D j)).obj C)) :=
     (cechUnitPiEquiv D C).toCommRingCatIso
@@ -247,7 +251,7 @@ public theorem exists_isIso_specMap_cechUnitPi {ι : Type} [Fintype ι] [Decidab
 
 section PiCover
 
-variable {ι : Type} [Fintype ι] [DecidableEq ι] (D : ι → Type u) [∀ j, CommRing (D j)]
+variable {ι : Type} [Finite ι] (D : ι → Type u) [∀ j, CommRing (D j)]
   (C : CommAlgCat.{u} (∀ j, D j))
 
 /-- **The spectrum of a base change of an algebra over a product ring along a projection is an
@@ -331,7 +335,7 @@ public theorem bot_mem_topology_of_isEmpty (B : BigSite τ S) (Z : B.category)
 section Product
 
 variable (B : BigSite τ S) (F : SheafOfModules.{max u m} B.structureSheaf)
-  {ι : Type} [Fintype ι] [DecidableEq ι] (D : ι → Type u) [∀ j, CommRing (D j)]
+  {ι : Type} [Finite ι] (D : ι → Type u) [∀ j, CommRing (D j)]
   (hD : ∀ j, schemeSizeBelow B.cutoff (Spec (CommRingCat.of (D j))))
   (hmap : Spec (CommRingCat.of (∀ j, D j)) ⟶ S)
 

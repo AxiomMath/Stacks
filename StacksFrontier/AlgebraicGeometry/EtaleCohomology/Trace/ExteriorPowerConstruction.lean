@@ -337,7 +337,7 @@ public theorem exteriorConstruction_R (g : (Matrix (Fin r) (Fin r) K)ˣ) :
         (compoundMonoidHom k (g : Matrix (Fin r) (Fin r) K)) := by
   rw [exteriorConstruction, TensorConstruction.reindex_R_apply, TensorConstruction.compress_R_apply,
     kronPow_R_eq]
-  show Matrix.reindex _ _
+  change Matrix.reindex _ _
     (exteriorProjection K r k * kronPowMatrix (g : Matrix (Fin r) (Fin r) K) k *
       exteriorSection K r k) = _
   rw [exteriorProjection_mul_kronPowMatrix, Matrix.mul_assoc,

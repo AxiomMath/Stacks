@@ -221,9 +221,9 @@ theorem ringKrullDim_quotient_map_maximalIdeal_eq_zero_of_quasiFinite {R S : Typ
         (IsLocalRing.le_maximalIdeal hP'.ne_top)
         ((hunder _ hP' hIP).trans hcomap.symm)
     have hmax : (P.comap (algebraMap S (S ⧸ I))).IsMaximal := by
-      show (P.comap (Ideal.Quotient.mk I)).IsMaximal
+      change (P.comap (Ideal.Quotient.mk I)).IsMaximal
       rw [heq]; exact IsLocalRing.maximalIdeal.isMaximal S
-    exact Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := S) P hmax
+    exact Ideal.IsIntegral.isMaximal_of_isMaximal_under (R := S) P hmax
   exact le_antisymm (by exact_mod_cast (Ring.krullDimLE_iff (n := 0)).mp ‹_›)
     ringKrullDim_nonneg_of_nontrivial
 
@@ -339,8 +339,8 @@ private theorem isInvertible_slotFamily (M M' : X.Modules)
     (j : Fin d) :
     SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.2 (slotFamily d M M' s j) := by
   by_cases h : j ∈ s
-  · simp only [slotFamily, if_pos h]; infer_instance
-  · simp only [slotFamily, if_neg h]; infer_instance
+  · simp only [slotFamily, ite_eq_left h]; infer_instance
+  · simp only [slotFamily, ite_eq_right h]; infer_instance
 
 /-- **The self-intersection number depends only on the isomorphism class of the module.** Each
 of the `d` slots is replaced in turn, by `AlgebraicGeometry.intersectionNumber_eq_of_iso_at`. -/
@@ -402,12 +402,12 @@ theorem selfIntersectionNumber_tensorPower (M : X.Modules)
         (eqToIso (Function.update_self _ _ _) ≪≫
           eqToIso (tensorPower_eq_of_eq (N := slotFamily d M T s a) (M := M)
             (by simp [slotFamily, has]) _) ≪≫
-          eqToIso (if_pos (Finset.mem_insert_self a s)).symm)
+          eqToIso (ite_eq_left (Finset.mem_insert_self a s)).symm)
       rw [← hiso, h, ih, Finset.card_insert_of_notMem has, pow_succ]
       ring
   have h0 : slotFamily d M T ∅ = fun _ => M := funext fun j => by simp [slotFamily]
   have h1 : slotFamily d M T Finset.univ = fun _ => T :=
-    funext fun j => if_pos (Finset.mem_univ j)
+    funext fun j => ite_eq_left (Finset.mem_univ j)
   have h := key Finset.univ
   rwa [intersectionNumber_congr_family k f i d hd h0,
     intersectionNumber_congr_family k f i d hd h1, Finset.card_univ, Fintype.card_fin] at h

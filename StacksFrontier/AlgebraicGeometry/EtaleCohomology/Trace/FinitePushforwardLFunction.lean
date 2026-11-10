@@ -73,7 +73,7 @@ public theorem residueDegree_comp (y : Y.1) (x : {x : X.1 // (fS B f) x = y}) :
   let := fiberResidueAlgebra (fS B f) ((fS B f) x) ⟨x, rfl⟩
   have : IsScalarTower k (Y.1.residueField ((fS B f) x)) (X.1.residueField x) := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show (fieldToResidue (fS B f ≫ fY) x).hom r = _
+    change (fieldToResidue (fS B f ≫ fY) x).hom r = _
     rw [fieldToResidue_comp]
     rfl
   exact (Module.finrank_mul_finrank k (Y.1.residueField ((fS B f) x)) (X.1.residueField x)).symm
@@ -86,7 +86,7 @@ points. -/
 public theorem isClosed_singleton_fS {x : X.1} (hx : IsClosed ({x} : Set X.1)) :
     IsClosed ({(fS B f) x} : Set Y.1) := by
   have : JacobsonSpace Y.1 := LocallyOfFiniteType.jacobsonSpace fY
-  exact (fS B f).closePoints_subset_preimage_closedPoints hx
+  exact (fS B f).closedPoints_subset_preimage_closedPoints hx
 
 include fY in
 /-- The points of a finite cover over a closed point of a scheme locally of finite type over a
@@ -166,7 +166,7 @@ public theorem charSeries_closedPointFrobenius_moduleDirectImage (y : closedPoin
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app] at h
     exact h
   have hfr : frobeniusPointHom Y.1 y.1 = galoisPow B y.1 (residueGeometricFrobenius Y.1 y.1) 1 := by
-    show _ = galoisPointHom _ (residueGeometricFrobenius Y.1 y.1 ^ 1) _
+    change _ = galoisPointHom _ (residueGeometricFrobenius Y.1 y.1 ^ 1) _
     rw [pow_one]
     rfl
   rw [hfr] at hnat
@@ -276,7 +276,7 @@ public theorem lFunctionOfFiniteProjectiveStalks_moduleDirectImage :
     (finiteProjectiveLocalFactor_moduleDirectImage B f Λ G hfin hproj fY)
   have := finite_residueField fY _ (isClosed_singleton_fS B f fY x.2)
   have hres := finite_residueField_of_isFinite B f ((fS B f) x.1)
-  show residueDegree fY ((fS B f) x.1) ≤ residueDegree (fS B f ≫ fY) x.1
+  change residueDegree fY ((fS B f) x.1) ≤ residueDegree (fS B f ≫ fY) x.1
   rw [residueDegree_comp B f fY ((fS B f) x.1) ⟨x.1, rfl⟩]
   exact Nat.le_mul_of_pos_right _ (fiberDegree_pos B f _ hres _)
 

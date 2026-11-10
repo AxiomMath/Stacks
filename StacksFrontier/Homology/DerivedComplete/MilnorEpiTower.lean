@@ -178,7 +178,7 @@ theorem shortExact_coconeShortComplex (hS : S.ShortExact) :
       (toMappingCoconeId_snd_apply S.g p x).symm.trans (by rw [hx, map_zero])
     obtain ⟨a, ha⟩ := hex _ h₁
     refine ⟨a, ?_⟩
-    show (liftShortComplex S).f p a = x
+    change (liftShortComplex S).f p a = x
     apply ext_apply
     · exact (liftShortComplex_fst_apply S p a).trans ha
     · rw [liftShortComplex_snd_apply, h₂]
@@ -193,7 +193,7 @@ theorem shortExact_coconeShortComplex (hS : S.ShortExact) :
     change S.g.f p b = _ at hb
     refine ⟨(inl S.g).v p p (add_zero p) b +
       (inr S.g).1.v (p + -1) p (by omega) ((snd (𝟙 S.X₃)).v p (p + -1) rfl y), ?_⟩
-    show (toMappingCoconeId S.g).f p _ = y
+    change (toMappingCoconeId S.g).f p _ = y
     set z := (snd (𝟙 S.X₃)).v p (p + -1) rfl y
     have e₁ : (fst S.g).f p ((inl S.g).v p p (add_zero p) b) = b :=
       (elementwise_of% (inl_v_fst_f S.g p)) b
@@ -214,7 +214,7 @@ theorem quasiIso_lift_of_shortExact (hS : S.ShortExact) : QuasiIso (liftShortCom
   have hZ : IsZero (DerivedCategory.Q.obj (mappingCocone (𝟙 S.X₃))) := by
     have h := DerivedCategory.mappingCocone_triangle_distinguished (𝟙 S.X₃)
     refine (Triangle.isZero₁_iff_isIso₂ _ h).2 ?_
-    show IsIso (DerivedCategory.Q.map (𝟙 S.X₃))
+    change IsIso (DerivedCategory.Q.map (𝟙 S.X₃))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
@@ -257,10 +257,10 @@ theorem epi_pi_sub_shift_of_epi (X : ℕ → ModuleCat.{v} A) (t : ∀ n, X (n +
   refine ⟨(ModuleCat.piIsoPi X).inv x, ?_⟩
   apply (ModuleCat.piIsoPi X).toLinearEquiv.injective
   funext n
-  show ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
+  change ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
     ((ModuleCat.piIsoPi X).inv x)) = _
   rw [Pi.lift_comp_π]
-  show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
+  change (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
   rw [ModuleCat.piIsoPi_inv_kernel_ι_apply, ModuleCat.piIsoPi_inv_kernel_ι_apply]
@@ -282,7 +282,7 @@ theorem epi_oneMinusShift (F : Tower.{u, v} (A := A))
   have hd : G.map (oneMinusShift F) ≫ e.hom = e.hom ≫ d' := by
     apply Pi.hom_ext
     intro n
-    show (G.map (oneMinusShift F) ≫ piComparison G X) ≫ Pi.π _ n =
+    change (G.map (oneMinusShift F) ≫ piComparison G X) ≫ Pi.π _ n =
       (piComparison G X ≫ d') ≫ Pi.π _ n
     rw [Category.assoc, piComparison_comp_π, ← G.map_comp, oneMinusShift_π]
     simp only [d', Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
@@ -291,7 +291,7 @@ theorem epi_oneMinusShift (F : Tower.{u, v} (A := A))
     rw [hd]
     infer_instance
   have hepi : Epi ((G.map (oneMinusShift F) ≫ e.hom) ≫ e.inv) := inferInstance
-  show Epi (G.map (oneMinusShift F))
+  change Epi (G.map (oneMinusShift F))
   simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using hepi
 
 /-- The legs of a limit cone of a tower exhibit its point as the kernel of `1 - shift`. -/

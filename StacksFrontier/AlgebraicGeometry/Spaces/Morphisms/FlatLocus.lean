@@ -86,7 +86,7 @@ private theorem isFlat_ofSchemeHom_of_isFlatAt {U V : Scheme.{u}} (g : U ⟶ V) 
     (hg : _root_.AlgebraicGeometry.IsFlatAt g.toLRSHom.toShHom x) :
     MorphismOfGerms.IsFlat (MorphismOfGerms.ofSchemeHom g x) := by
   refine ⟨⟨⊤, by simp, U.topIso.hom ≫ g, rfl⟩, rfl, ?_⟩
-  show ((U.topIso.hom ≫ g).stalkMap ⟨x, by simp⟩).hom.Flat
+  change ((U.topIso.hom ≫ g).stalkMap ⟨x, by simp⟩).hom.Flat
   exact (congrArg (fun k => k.hom.Flat)
     (Scheme.Hom.stalkMap_comp U.topIso.hom g ⟨x, by simp⟩)).mpr
       (hg.comp (Flat.stalkMap U.topIso.hom ⟨x, by simp⟩))

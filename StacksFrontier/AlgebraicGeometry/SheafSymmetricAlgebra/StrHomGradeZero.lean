@@ -35,8 +35,8 @@ identification `Stacks.SymGraded.pieceZeroIso` of
 ## Implementation notes
 
 The two spellings of a degree-zero local section are the reason the bijectivity statement is
-restated here rather than used directly from
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/SymmetricAlgebraConstruction/DegreeZero/Basic.lean`.
+restated here rather than used directly from the module
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SymmetricAlgebraConstruction.DegreeZero.Basic`.
 `Mathlib/AlgebraicGeometry/Modules/Sheaf.lean` writes `Γ(M, U)` for
 `(Scheme.Modules.presheaf M).obj (op U)`, an object of `Ab`, and keys the instance
 `Module Γ(S, U) Γ(M, U)` on that spelling together with `M : S.Modules`, while the graded-algebra

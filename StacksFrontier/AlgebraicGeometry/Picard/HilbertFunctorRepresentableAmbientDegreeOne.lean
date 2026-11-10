@@ -218,7 +218,7 @@ theorem isClosed_preimage_puncturedAffineSpace_of_hilbertFamily (k : Type u) [Fi
       have hmem : familyProjection (Over.mk (coordinateMorphism k 1)) T
           (Z.ideal.subschemeι z) ∈
           coordinateMorphism k 1 ⁻¹ᵁ puncturedAffineSpace k 1 := by
-        show coordinateMorphism k 1 (familyProjection (Over.mk (coordinateMorphism k 1)) T
+        change coordinateMorphism k 1 (familyProjection (Over.mk (coordinateMorphism k 1)) T
           (Z.ideal.subschemeι z)) ∈ puncturedAffineSpace k 1
         rw [hcoord (Z.ideal.subschemeι z), hstr z]
         exact hbase
@@ -231,7 +231,7 @@ theorem isClosed_preimage_puncturedAffineSpace_of_hilbertFamily (k : Type u) [Fi
           (Z.ideal.subschemeι z₀) ∈
           (chartInclusion k 1 0).opensRange ⊓ (chartInclusion k 1 1).opensRange := ⟨hz₀, hz₁⟩
       rw [← preimage_puncturedAffineSpace_coordinateMorphism] at hmem
-      show T.hom t ∈ puncturedAffineSpace k 1
+      change T.hom t ∈ puncturedAffineSpace k 1
       rw [← hz₀', ← hstr z₀, ← hcoord (Z.ideal.subschemeι z₀)]
       exact hmem
   rw [hkey]

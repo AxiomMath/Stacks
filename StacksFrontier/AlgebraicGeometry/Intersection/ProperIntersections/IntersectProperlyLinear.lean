@@ -122,7 +122,7 @@ theorem intersectProperly_of_forall_single [DecidableEq X] {α β : AlgebraicCyc
     (h : ∀ v, β v ≠ 0 → IntersectProperly α (Function.locallyFinsuppWithin.single v (1 : ℤ))) :
     IntersectProperly α β := by
   intro W V hW hV
-  exact h _ hV W V hW (by rw [Function.locallyFinsuppWithin.single_apply, if_pos rfl]; simp)
+  exact h _ hV W V hW (by rw [Function.locallyFinsuppWithin.single_apply, ite_eq_left rfl]; simp)
 
 /-- **A cycle with finitely many components is the sum of the multiples of the prime cycles of
 its components**: `α = ∑ᵥ α(v) [closure {v}]`. On a quasi-compact scheme the finiteness
@@ -136,8 +136,8 @@ theorem eq_sum_zsmul_single [DecidableEq X] {α : AlgebraicCycle X ℤ}
     Function.locallyFinsuppWithin.single_apply, smul_eq_mul, mul_ite, mul_one, mul_zero]
   rw [Finset.sum_ite_eq]
   by_cases hz : z ∈ hα.toFinset
-  · rw [if_pos hz]
-  · rw [if_neg hz]
+  · rw [ite_eq_left hz]
+  · rw [ite_eq_right hz]
     exact Function.notMem_support.1 fun h => hz (hα.mem_toFinset.2 h)
 
 end AlgebraicCycle

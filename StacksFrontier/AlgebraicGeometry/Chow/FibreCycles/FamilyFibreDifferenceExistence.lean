@@ -583,10 +583,10 @@ unchanged. -/
 @[stacks 02S4 "part (4)"]
 theorem exists_familyFibreDifferences (k : ℤ) (α : CycleGroup C f k)
     (hα : IsRationallyEquivalentToZero C f k α) :
-    ∃ (J : Type u) (W : J → (projectiveLineProduct f).IdealSheafData)
-      (hInt : ∀ j, IsIntegral (W j).subscheme)
-      (hDim : ∀ j, ∀ ξ : genericPoints (W j).subscheme,
-        relativeDimension C.dimensionFunction (familyBase f (W j)) ξ.1 = k + 1),
+    ∃ (J : Type u) (W : J → (projectiveLineProduct f).IdealSheafData),
+      (∀ j, IsIntegral (W j).subscheme) ∧
+      (∀ j, ∀ ξ : genericPoints (W j).subscheme,
+        relativeDimension C.dimensionFunction (familyBase f (W j)) ξ.1 = k + 1) ∧
       (∀ j, ¬ Set.range (W j).subschemeι ⊆ Set.range (zeroSection f)) ∧
       (∀ j, ¬ Set.range (W j).subschemeι ⊆ Set.range (infinitySection f)) ∧
       LocallyFinite (fun j ↦ ((W j).support : Set (projectiveLineProduct f))) ∧

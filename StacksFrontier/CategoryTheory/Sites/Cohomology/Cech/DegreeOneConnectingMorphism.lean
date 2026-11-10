@@ -63,7 +63,7 @@ theorem ι_map_singlePlusToCochainQuotientIso_hom_app (M : A) :
     (HomotopyCategory.Plus.ι A).map (singlePlusToCochainQuotientIso.hom.app M) = 𝟙 _ := by
   rw [singlePlusToCochainQuotientIso, Functor.fullyFaithfulCancelRight_hom_app,
     Functor.map_preimage]
-  show (𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _ = 𝟙 _
+  change (𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _ = 𝟙 _
   simp
 
 omit [EnoughInjectives A] in
@@ -77,7 +77,7 @@ theorem resolutionDerivedIso_hom_eq {M : A} (I : InjectiveResolution M) :
   rw [Stacks.DerivedIndexing.singleFunctorIsoCompQh_hom_app] at h1
   have h2 := (DerivedCategory.quotientCompQhIso A).inv.naturality I.ι'
   have h3 : (DerivedCategory.Plus.Qh.map (singlePlusToCochainQuotientIso.hom.app M)).hom = 𝟙 _ := by
-    show DerivedCategory.Qh.map ((HomotopyCategory.Plus.ι A).map _) = _
+    change DerivedCategory.Qh.map ((HomotopyCategory.Plus.ι A).map _) = _
     rw [ι_map_singlePlusToCochainQuotientIso_hom_app]
     exact DerivedCategory.Qh.map_id _
   have h1' : ((Functor.singleFunctorPlusIsoCompQh 0).hom.app M).hom =
@@ -111,7 +111,7 @@ theorem toRightDerived_comp_resolutionDerivedComparison_hom {M : A} (I : Injecti
         ((DerivedCategory.quotientCompQhIso A).hom.app I.cochainComplex))).hom ≫
       (F.rightDerivedFunctorPlus.mapIso I.plusQIso).inv.hom ≫
       DerivedCategory.Plus.ι.map (derivedPlusResolutionIso F I).hom = 𝟙 _ := by
-    show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ ≫
+    change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ ≫
       DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ = _
     rw [← DerivedCategory.Plus.ι.map_comp, ← DerivedCategory.Plus.ι.map_comp,
       ← DerivedCategory.Plus.ι.map_comp]
@@ -342,7 +342,7 @@ private lemma uliftZMultiplesHom_comp_eq {M N : AddCommGrpCat.{a}} (x : M) (y : 
     AddCommGrpCat.ofHom (uliftZMultiplesHom M x) ≫ f =
       AddCommGrpCat.ofHom (uliftZMultiplesHom N y) := by
   ext n
-  show f (n.down • x) = n.down • y
+  change f (n.down • x) = n.down • y
   rw [map_zsmul, h]
 
 /-- An element of an abelian group whose image under a morphism vanishes gives a morphism out of
@@ -350,7 +350,7 @@ private lemma uliftZMultiplesHom_comp_eq {M N : AddCommGrpCat.{a}} (x : M) (y : 
 lemma uliftZMultiplesHom_comp_eq_zero {M N : AddCommGrpCat.{a}} (x : M) (f : M ⟶ N)
     (h : f x = 0) : AddCommGrpCat.ofHom (uliftZMultiplesHom M x) ≫ f = 0 := by
   ext n
-  show f (n.down • x) = 0
+  change f (n.down • x) = 0
   rw [map_zsmul, h, smul_zero]
 
 variable {C : Type u} [Category.{v} C] (K : GrothendieckTopology C) {U : C}
@@ -390,7 +390,7 @@ lemma cochainHom_comp_map {F F' : Cᵒᵖ ⥤ Ab.{max a u v w}} (φ : F ⟶ F') 
 lemma cochainHom_add (F : Cᵒᵖ ⥤ Ab.{max a u v w}) (n : ℕ) (c c' : cechCochain E F n) :
     cochainHom.{a} E F n (c + c') = cochainHom.{a} E F n c + cochainHom.{a} E F n c' := by
   ext m
-  show m.down • (productAddEquiv _).symm (c + c') =
+  change m.down • (productAddEquiv _).symm (c + c') =
     m.down • (productAddEquiv _).symm c + m.down • (productAddEquiv _).symm c'
   rw [map_add, smul_add]
 
@@ -398,7 +398,7 @@ lemma cochainHom_add (F : Cᵒᵖ ⥤ Ab.{max a u v w}) (n : ℕ) (c c' : cechCo
 lemma cochainHom_neg (F : Cᵒᵖ ⥤ Ab.{max a u v w}) (n : ℕ) (c : cechCochain E F n) :
     cochainHom.{a} E F n (-c) = -cochainHom.{a} E F n c := by
   ext m
-  show m.down • (productAddEquiv _).symm (-c) = -(m.down • (productAddEquiv _).symm c)
+  change m.down • (productAddEquiv _).symm (-c) = -(m.down • (productAddEquiv _).symm c)
   rw [map_neg, smul_neg]
 
 /-- The degree-zero Čech cochain of restrictions of a section over the covered object. -/
@@ -419,7 +419,7 @@ restrictions of `φ t`. -/
 lemma pushCochain_augCochain {F F' : Cᵒᵖ ⥤ Ab.{max a u v w}} (φ : F ⟶ F') (t : F.obj (op U)) :
     pushCochain E φ 0 (augCochain.{a} E F t) = augCochain.{a} E F' (φ.app (op U) t) := by
   funext k
-  show φ.app _ (Pi.π (cochainFactor E F 0) k (cechAugmentationPre.{a} E F t)) =
+  change φ.app _ (Pi.π (cochainFactor E F 0) k (cechAugmentationPre.{a} E F t)) =
     Pi.π (cochainFactor E F' 0) k (cechAugmentationPre.{a} E F' (φ.app (op U) t))
   rw [cechAugmentationPre_π_apply, cechAugmentationPre_π_apply]
   exact (NatTrans.naturality_apply φ ((Over.forget U).map (Over.mkIdTerminal.from
@@ -734,11 +734,11 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
     have hr := app fr₂ _ ((H.J₁.cocomplex.d 1 2).hom.app (op U) x₁)
     have e : (H.f.f 2).hom.app (op U) ((H.J₁.cocomplex.d 1 2).hom.app (op U) x₁) = 0 := by
       refine hc.symm.trans ?_
-      show (H.J₂.cocomplex.d 1 2).hom.app (op U) ((H.f.f 1).hom.app (op U) x₁) = 0
+      change (H.J₂.cocomplex.d 1 2).hom.app (op U) ((H.f.f 1).hom.app (op U) x₁) = 0
       rw [F2]
       exact hdd
     refine hr.symm.trans ?_
-    show r₂.hom.app (op U) ((H.f.f 2).hom.app (op U) _) = 0
+    change r₂.hom.app (op U) ((H.f.f 2).hom.app (op U) _) = 0
     rw [e, map_zero]
   -- the degree-zero cochain `w` of the first resolution
   let v : cechCochain E (H.J₂.cocomplex.X 0).obj 0 :=
@@ -836,7 +836,7 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
           ((((sheafSections K Ab.{max a u v w}).obj (op U)).mapHomologicalComplex
             (ComplexShape.up ℕ)).obj H.J₃.cocomplex).homologyπ 0 ≫ hFR.δ 0 1 rfl) ⟨1⟩ := by
       rw [← R3]
-      show _ = (H.J₃.toRightDerivedZero' ((sheafSections K Ab.{max a u v w}).obj (op U)) ≫
+      change _ = (H.J₃.toRightDerivedZero' ((sheafSections K Ab.{max a u v w}).obj (op U)) ≫
         ((((sheafSections K Ab.{max a u v w}).obj (op U)).mapHomologicalComplex
           (ComplexShape.up ℕ)).obj H.J₃.cocomplex).homologyπ 0 ≫ hFR.δ 0 1 rfl)
             ((1 : ℤ) • q)
@@ -876,7 +876,7 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
   let xz : (H.J₁.cochainComplex.X 1).obj.obj (op U) :=
     -((H.J₁.cochainComplexXIso 1 1 (by simp)).inv.hom.app (op U) x₁)
   have hxz : (H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app (op U) xz = -x₁ := by
-    show (H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app (op U)
+    change (H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app (op U)
       (-((H.J₁.cochainComplexXIso 1 1 (by simp)).inv.hom.app (op U) x₁)) = -x₁
     rw [map_neg]
     exact congrArg Neg.neg (ConcreteCategory.congr_hom (congrArg (fun φ ↦ φ.hom.app (op U))
@@ -888,9 +888,9 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
   have hx : x ≫ ((((sheafSections K Ab.{max a u v w}).obj (op U)).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj H.J₁.cochainComplex).d 1 2 = 0 := by
     refine uliftZMultiplesHom_comp_eq_zero _ _ ?_
-    show (H.J₁.cochainComplex.d 1 2).hom.app (op U) xz = 0
+    change (H.J₁.cochainComplex.d 1 2).hom.app (op U) xz = 0
     rw [hd12]
-    show (H.J₁.cochainComplexXIso 2 2 (by simp)).inv.hom.app (op U)
+    change (H.J₁.cochainComplexXIso 2 2 (by simp)).inv.hom.app (op U)
       ((H.J₁.cocomplex.d 1 2).hom.app (op U) ((H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app
         (op U) xz)) = 0
     rw [hxz, map_neg, F3, neg_zero, map_zero]
@@ -931,7 +931,7 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
       (H.J₁.cocomplex.extendXIso ComplexShape.embeddingUpNat (i := 1) (by simp)).hom =
       -AddCommGrpCat.ofHom (uliftZMultiplesHom _ x₁) := by
     ext m
-    show (H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app (op U) (m.down • xz) =
+    change (H.J₁.cochainComplexXIso 1 1 (by simp)).hom.hom.app (op U) (m.down • xz) =
       -(m.down • x₁)
     rw [map_zsmul, ← smul_neg]
     exact congrArg (m.down • ·) hxz
@@ -949,7 +949,7 @@ theorem cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ
       hxx]
   apply (resolutionHomologyIso ((sheafSections K Ab.{max a u v w}).obj (op U))
     H.J₁ 1).addCommGroupIsoToAddEquiv.injective
-  show (resolutionHomologyIso ((sheafSections K Ab.{max a u v w}).obj (op U)) H.J₁ 1).hom _ =
+  change (resolutionHomologyIso ((sheafSections K Ab.{max a u v w}).obj (op U)) H.J₁ 1).hom _ =
     (resolutionHomologyIso ((sheafSections K Ab.{max a u v w}).obj (op U)) H.J₁ 1).hom _
   refine CM.trans (Eq.trans ?_ RHS.symm)
   have e := congrArg (fun f : AddCommGrpCat.of (ULift.{max a u v w} ℤ) ⟶

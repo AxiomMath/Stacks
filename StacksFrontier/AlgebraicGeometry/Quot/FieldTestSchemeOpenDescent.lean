@@ -166,10 +166,10 @@ theorem nonempty_toSchemesOver_hom_of_dominates (T₀ : SchemesOver Y)
   obtain ⟨f, hf⟩ := h
   refine ⟨CostructuredArrow.homMk (f ≫ w.value) ?_⟩
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (f ≫ w.value) ≫ schemesOverHom T₀ = yonedaEquiv.symm r.value
+  change yoneda.map (f ≫ w.value) ≫ schemesOverHom T₀ = yonedaEquiv.symm r.value
   apply yonedaEquiv.injective
   rw [Equiv.apply_symm_apply, yonedaEquiv_apply]
-  show (schemesOverHom T₀).app _ (𝟙 _ ≫ f ≫ w.value) = r.value
+  change (schemesOverHom T₀).app _ (𝟙 _ ≫ f ≫ w.value) = r.value
   rw [Category.id_comp, ← hf]
   exact NatTrans.naturality_apply (schemesOverHom T₀) f.op w.value
 
@@ -195,7 +195,7 @@ those it passes through in `|U|`. -/
 theorem schemesOverPoints_map {U : AlgebraicSpaces B S hS} (c : U ⟶ Y) (T : SchemesOver U) :
     schemesOverPoints ((CostructuredArrow.map (S := schemeSpaceFunctor B S hS) c).obj T) =
       pointsMap B S hS U.1 c.hom '' schemesOverPoints T := by
-  show Set.range (pointsMap B S hS (yoneda.obj T.left) (schemesOverHom T ≫ c.hom)) = _
+  change Set.range (pointsMap B S hS (yoneda.obj T.left) (schemesOverHom T ≫ c.hom)) = _
   rw [pointsMap_comp, Set.range_comp]
 
 end Points
@@ -279,7 +279,7 @@ theorem exists_isOpen_forall_isFieldObject_iff (P : SchemesOver Y → Prop)
   obtain ⟨Wc, hWc, hWcP⟩ := hloc hA gA φ hφ
   have himage : x ∈ Set.range (pointsMap B S hS _ φ.hom) := by
     refine ⟨pointsMap B S hS _ (yoneda.map eV.inv) z, ?_⟩
-    show (pointsMap B S hS _ (yoneda.map eV.hom ≫ b) ∘
+    change (pointsMap B S hS _ (yoneda.map eV.hom ≫ b) ∘
       pointsMap B S hS _ (yoneda.map eV.inv)) z = x
     rw [← pointsMap_comp, ← Category.assoc, ← yoneda.map_comp, eV.inv_hom_id,
       CategoryTheory.Functor.map_id, Category.id_comp, hzx]

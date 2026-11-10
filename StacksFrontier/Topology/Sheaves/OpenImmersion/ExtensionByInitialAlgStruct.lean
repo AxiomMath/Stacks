@@ -410,7 +410,7 @@ private lemma sheafIsIso_of_stalkwise_iso' {C : Type u} [Category.{u} C] [HasCol
   let fF : PF ⟶ QF := ObjectProperty.homMk (((Functor.whiskeringRight _ _ _).obj F).map f.hom)
   have hfF_stalk : ∀ x : ↑X, IsIso ((TopCat.Presheaf.stalkFunctor (Type u) x).map fF.hom) := by
     intro x
-    show IsIso (colimMap (Functor.whiskerRight ((OpenNhds.inclusion x).op.whiskerLeft f.hom) F))
+    change IsIso (colimMap (Functor.whiskerRight ((OpenNhds.inclusion x).op.whiskerLeft f.hom) F))
     rw [colimMap_whiskerRight_eq']
     have : IsIso (colimMap ((OpenNhds.inclusion x).op.whiskerLeft f.hom)) := hiso x
     exact IsIso.comp_isIso

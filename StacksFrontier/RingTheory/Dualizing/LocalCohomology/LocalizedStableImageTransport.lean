@@ -133,7 +133,7 @@ theorem localized_ker_le_ker_localCohomology_iff_exists_localized_ext
   set j := -d - i with hj
   have hfinloc : ∀ Z : ModuleCat.{u} A, Module.Finite A Z → Module.Finite Bq (Lq.obj Z) := by
     intro Z hZ
-    show Module.Finite Bq (Z.localizedModule q.asIdeal.primeCompl)
+    change Module.Finite Bq (Z.localizedModule q.asIdeal.primeCompl)
     exact Module.Finite.of_isLocalizedModule q.asIdeal.primeCompl
       (Z.localizedModuleMkLinearMap q.asIdeal.primeCompl)
   have := hfinloc X inferInstance
@@ -142,7 +142,7 @@ theorem localized_ker_le_ker_localCohomology_iff_exists_localized_ext
   set S := localizedShortComplex.{u} q.asIdeal.primeCompl γ with hS
   have hSe := localizedShortComplex_shortExact.{u} q.asIdeal.primeCompl γ hγ
   have : Module.Finite Bq S.X₃ := by
-    show Module.Finite Bq (Lq.obj Y ⧸ LinearMap.range (Lq.map γ).hom)
+    change Module.Finite Bq (Lq.obj Y ⧸ LinearMap.range (Lq.map γ).hom)
     exact Module.Finite.quotient Bq _
   have hωnorm :=
     Dualizing.isNormalizedDualizingComplex_localizedModuleFunctor_shift_dualizingDimension A ω hω q

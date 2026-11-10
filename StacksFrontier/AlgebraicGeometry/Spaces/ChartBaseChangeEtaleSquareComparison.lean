@@ -85,9 +85,9 @@ by `AlgebraicGeometry.Space.etaleModulePullbackCompAdjunction_unit` — the two 
 étale restriction along a composite have the same unit — fed to
 `AlgebraicGeometry.Space.modulePullbackCompIsoEtaleRestriction_of_unit`.  Its consumers are
 discharged where they can reach the proof: the one consumer of
-`AlgebraicGeometry.Space.QuasiCoherentDescent.fullyFaithfulEtaleCanonicalDescentFunctorOfIsZariskiCovering`
-passes it in
-`AlgebraicGeometry.Space.QuasiCoherentDescent.isEquivalence_etaleCanonicalDescentFunctorOfIsZariskiCovering_of_essSurj`,
+`fullyFaithfulEtaleCanonicalDescentFunctorOfIsZariskiCovering` (in the namespace
+`AlgebraicGeometry.Space.QuasiCoherentDescent`) passes it in
+`isEquivalence_etaleCanonicalDescentFunctorOfIsZariskiCovering_of_essSurj` (same namespace),
 and `AlgebraicGeometry.Space.QuasiCoherentDescent.etaleRestrictionComp_of_representable` takes
 it from the same unit, its three representability hypotheses being unused in the proof.  So
 this instance is **not** a blocker of anything, and a note that records it as one is stale.
@@ -406,10 +406,7 @@ theorem modulePullbackEtaleSquareComparison_baseChange
           (ChartDiagram.postcomp B S hS f a pU pV hU hV hsq e) z := by
   let _ := chartDiagramAlgebra B S hS a e
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    exact (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul b s =>
     refine Eq.trans ?_ (modulePullbackChartBaseChange_tmul B S hS f M
       (ChartDiagram.postcomp B S hS f a pU pV hU hV hsq e) b s).symm

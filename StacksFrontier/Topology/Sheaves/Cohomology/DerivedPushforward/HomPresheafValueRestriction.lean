@@ -151,7 +151,7 @@ end AlgebraicGeometry.RingedSite
 
 namespace Stacks.SheafOfModules
 
-open TopologicalSpace AlgebraicGeometry
+open TopologicalSpace _root_.Stacks.AlgebraicGeometry
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
@@ -179,10 +179,10 @@ theorem sheafHomComplexSectionHomologyEquivShiftedHom_zero
         (sheafHomComplexSectionHomologyEquivShiftedHom Rc L I U 0 η) =
       @AlgebraicGeometry.RingedSite.sheafHomSectionHomologyEquivDerivedCategoryHom
         (ringedSite Rc) L I ‹I.IsKInjective› U η := by
-  letI : (restrictComplex Rc I U).IsKInjective :=
+  let : (restrictComplex Rc I U).IsKInjective :=
     Stacks.Cohomology.Localization.isKInjective_over (Opens.grothendieckTopology X)
       (structureSheaf Rc) U I
-  letI : ((restrictComplex Rc I U)⟦(0 : ℤ)⟧).IsKInjective :=
+  let : ((restrictComplex Rc I U)⟦(0 : ℤ)⟧).IsKInjective :=
     (CochainComplex.isKInjective_shift_iff _ _).2 inferInstance
   exact (AlgebraicGeometry.RingedSite.homotopyHomDerivedCategoryEquiv_shiftFunctorZero
     (restrictComplex Rc L U) (restrictComplex Rc I U)
@@ -214,6 +214,11 @@ theorem homSheafComplexSectionHomologyEquiv_apply
         (sheafHomComplexSectionHomologyEquivShiftedHom Rc (kFlatRepresentative Rc K)
           (kInjectiveRepresentative Rc L) U n η) := rfl
 
+omit [(Tensor.sheafTensor.{u, u, u, u, u} Rc).Additive]
+  [∀ A, ((Tensor.sheafTensor.{u, u, u, u, u} Rc).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} Rc))
+      (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Tensor.sheafTensor Rc) (ComplexShape.up ℤ)] in
 /-- **The chain-level restriction square at degree zero**: the restriction square for the
 degree-`0` identification of Stacks 08DK at a K-injective target, with the shift normalised. -/
 theorem sheafHomComplexSectionHomologyEquivShiftedHom_zero_restrict

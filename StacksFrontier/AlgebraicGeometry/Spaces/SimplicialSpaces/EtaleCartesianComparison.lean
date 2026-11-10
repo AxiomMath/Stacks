@@ -332,6 +332,7 @@ theorem transitionF_inverseImage {m n : SimplexCategory} (φ : m ⟶ n)
     (congrArg (_ ≫ ·) (Category.assoc _ _ _).symm)
 
 set_option maxHeartbeats 1000000 in
+-- rewriting with large `mapComp'` terms of the étale pseudofunctor
 /-- **The comparison isomorphism of `a⁻¹F` is the canonical comparison of the descent datum of
 `F` along `a_0`**, under the identification of the degree-zero component with `a_0^* F`. -/
 theorem cartesianComparison_inverseImage

@@ -145,7 +145,7 @@ theorem towerNaiveCotangentComplex_isZero_X (i : ℤ) (hneg : i ≠ -1) (hzero :
   have : HasZeroObject (_root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf (J := Opens.grothendieckTopology T) B)) :=
     hasZeroObject_of_hasTerminal_object
-  show IsZero ((HomologicalComplex.double
+  change IsZero ((HomologicalComplex.double
     (Stacks.Sites.Conormal.conormalSequence.{u, u, u, u}
       (Opens.grothendieckTopology T) R A B a φ).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).X i)
@@ -157,7 +157,7 @@ theorem towerNaiveCotangentComplex_d_zero (k : ℤ) :
   have : HasZeroObject (_root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf (J := Opens.grothendieckTopology T) B)) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (Stacks.Sites.Conormal.conormalSequence.{u, u, u, u}
       (Opens.grothendieckTopology T) R A B a φ).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d 0 k = 0
@@ -173,7 +173,7 @@ theorem towerNaiveCotangentComplex_d_negOne_zero :
   have : HasZeroObject (_root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf (J := Opens.grothendieckTopology T) B)) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (Stacks.Sites.Conormal.conormalSequence.{u, u, u, u}
       (Opens.grothendieckTopology T) R A B a φ).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d (-1) 0 = _
@@ -424,6 +424,7 @@ abbrev towerGenerators : underlyingPresheaf (Opens.grothendieckTopology T) A ⟶
     underlyingPresheaf (Opens.grothendieckTopology T) B :=
   Functor.whiskerRight φ.hom (forget CommRingCat.{u})
 
+omit [Presheaf.IsLocallySurjective (Opens.grothendieckTopology T) φ.hom] in
 /-- **The polynomial presentation of `B` on the sections of `A` factors through `A`.**
 Evaluating a polynomial with coefficients in `R` at sections of `A` and then applying `φ` is the
 same as evaluating it at the images of those sections: both morphisms out of the free algebra

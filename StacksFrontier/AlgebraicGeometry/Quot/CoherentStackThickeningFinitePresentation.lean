@@ -88,7 +88,7 @@ theorem exists_iso_comp_eq_subspaceInclusion_of_isPullback {T T' X X' : Algebrai
   have hW' := (Subfunctor.isPullback_fromPreimage (Subfunctor.range t.hom) f'.hom).flip
   let eP := hP.isoIsPullback _ _ hW'
   refine ⟨ObjectProperty.isoMk _ eP, ObjectProperty.hom_ext _ ?_⟩
-  show eP.inv ≫ i.hom = ((Subfunctor.range t.hom).preimage f'.hom).ι
+  change eP.inv ≫ i.hom = ((Subfunctor.range t.hom).preimage f'.hom).ι
   rw [Iso.inv_comp_eq]
   exact (hP.isoIsPullback_hom_fst _ _ hW').symm
 

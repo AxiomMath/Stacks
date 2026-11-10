@@ -97,6 +97,7 @@ abbrev phToSmallEtaleAbelianInverseImage (X : P.Spaces) :
 /-! ### Over a scheme -/
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the sheaf pushforwards and right derived functors over the ph and étale slices
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **The change of topology over a scheme, through the scheme slices.** For a scheme `U` of the
 big ph site of schemes of `P`, the higher direct images of `ε_U` on the slices of algebraic
@@ -131,6 +132,7 @@ theorem isZero_rightDerived_phToBigEtaleAbelianPushforward_of_schemeSlice (U : P
   exact Stacks.Cohomology.isZero_rightDerived_obj_of_commSquare _ _ R T e M i hz
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over sheaf categories of the big ph, big étale and small étale slice sites
 /-- **`a⁻¹` over a scheme, through the scheme slices.** Let `σ` be a functor from the small étale
 site of a scheme `U` of the big ph site of schemes of `P` to the spaces-étale site of the algebraic
 space represented by `U`, restriction along which is an equivalence, and which is compatible with

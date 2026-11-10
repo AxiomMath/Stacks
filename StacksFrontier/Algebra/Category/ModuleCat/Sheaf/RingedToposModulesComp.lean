@@ -65,7 +65,7 @@ lemma moduleSMulObj_pullbackModuleObj (P : Sheaf J (Type ww) ⥤ Type t)
     Sheaf.moduleSMulObj (pullbackRingSheaf J Φ O) (pullbackModuleObj J Φ O G) P r m =
       Sheaf.moduleSMulObj O G (Φ ⋙ P) r m := by
   have : PreservesFiniteProducts (Φ ⋙ P) := inferInstance
-  show P.map _ (Functor.prodObjMk r m) =
+  change P.map _ (Functor.prodObjMk r m) =
     (Φ ⋙ P).map (Sheaf.moduleSMulHom O G) (Functor.prodObjMk (P := Φ ⋙ P) r m)
   refine Eq.symm (Eq.trans (congrArg
     (fun n ↦ P.map n (Functor.prodObjMk (P := Φ ⋙ P) r m)) (moduleSMul_map_aux' J Φ O G)) ?_)

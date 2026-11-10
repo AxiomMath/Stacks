@@ -99,7 +99,7 @@ abbrev chartDiagonal : U.toScheme ⟶ chartSquare hUV := pullback.diagonal (char
 /-- The diagonal of `f|_U` is the diagonal of `f` restricted to `U`. -/
 theorem chartDiagonal_comp_chartSquareι :
     chartDiagonal hUV ≫ chartSquareι hUV = U.ι ≫ pullback.diagonal f := by
-  apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp
 
 include hU hV in
 /-- `U ×_V U` is affine. -/
@@ -159,7 +159,7 @@ theorem chartDiagonal_preimage_chartOpen' :
     chartDiagonal hUV ⁻¹ᵁ D.chartOpen' hUV = ⊤ := by
   ext x
   simp only [TopologicalSpace.Opens.coe_top, Set.mem_univ, iff_true]
-  show (chartSquareι hUV) (chartDiagonal hUV x) ∈ Set.range D.ι
+  change (chartSquareι hUV) (chartDiagonal hUV x) ∈ Set.range D.ι
   have h := congrArg (fun k : U.toScheme ⟶ pullback f f => k x)
     (chartDiagonal_comp_chartSquareι hUV)
   simp only [Scheme.Hom.comp_apply] at h
@@ -170,7 +170,7 @@ theorem chartDiagonal_preimage_chartOpen' :
 theorem diag_preimage_chartOpen :
     D.diag ⁻¹ᵁ D.chartOpen hUV = U := by
   ext x
-  show D.ι (D.diag x) ∈ Set.range (chartSquareι hUV) ↔ x ∈ U
+  change D.ι (D.diag x) ∈ Set.range (chartSquareι hUV) ↔ x ∈ U
   rw [← Scheme.Hom.comp_apply, D.fac]
   constructor
   · rintro ⟨p, hp⟩

@@ -199,7 +199,7 @@ private theorem mateEquiv_whiskerBottom {C D E F : Type*} [Category C] [Category
     Functor.whiskerLeft_app, Functor.whiskerRight_app, mateEquiv_app, Category.assoc,
     ← Functor.map_comp]
   exact congrArg
-    (fun t => adj₂.unit.app (G.obj (R₁.obj d)) ≫ R₂.map (w.natTrans.app (R₁.obj d) ≫ t))
+    (fun t => adj₂.unit.app (G.obj (R₁.obj d)) ≫ R₂.map (w.app (R₁.obj d) ≫ t))
     (α.naturality (adj₁.counit.app d)).symm
 
 /-- The abstract comparison morphism of an adjunction and a pair of binary functors is the mate
@@ -295,7 +295,7 @@ theorem projectionFormulaSourceNatTrans_eq_mateEquiv (H : S.Modules) :
         (modulePullbackPushforwardAdjunction h.toLRSHom.toShHom)
         (pullbackTensorRightNatTrans h H) := by
   refine NatTrans.ext (funext fun G => ?_)
-  show projectionFormulaMap h G H = _
+  change projectionFormulaMap h G H = _
   refine Eq.trans ?_ (mateEquiv_app
     (modulePullbackPushforwardAdjunction h.toLRSHom.toShHom)
     (modulePullbackPushforwardAdjunction h.toLRSHom.toShHom)
@@ -428,7 +428,7 @@ theorem pullbackTensorRightNatTrans_comp
   refine (pullbackTensorRightNatTrans_app (g ≫ k) H A).trans
     ((comparison_comp g k A H).trans ?_)
   dsimp only [TwoSquare.whiskerBottom, TwoSquare.whiskerLeft, TwoSquare.whiskerRight,
-    TwoSquare.vComp, TwoSquare.natTrans, Functor.associator,
+    TwoSquare.vComp, Functor.associator,
     Functor.whiskerLeft, Functor.whiskerRight]
   simp only [Category.assoc]
   rfl

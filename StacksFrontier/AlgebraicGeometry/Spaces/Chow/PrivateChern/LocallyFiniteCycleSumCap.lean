@@ -82,7 +82,7 @@ theorem firstChernCapCycleMap_locallyFiniteCycleSum
           (α i) (hαT i)) := by
   classical
   refine Subtype.ext (funext fun Z => ?_)
-  show firstChernCapCoeff D sX hX k chern (locallyFiniteCycleSum D sX (k + 1) T hT α hαT) Z =
+  change firstChernCapCoeff D sX hX k chern (locallyFiniteCycleSum D sX (k + 1) T hT α hαT) Z =
     ∑ᶠ i : I, firstChernCapCoeff D sX hX k chern (α i) Z
   set ξ := pointsMap D.site D.base D.base_mem Z.subspace.toFunctor Z.subspace.ι
     (Z.genericPoint D.site D.base D.base_mem)

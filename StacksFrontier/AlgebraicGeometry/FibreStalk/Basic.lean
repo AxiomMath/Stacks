@@ -156,7 +156,7 @@ theorem isCompleteIntersectionFibreStalkAt_iff_fiberι (x : X) :
   have hρ : Function.Surjective (algebraMap R B) := fun b => by
     obtain ⟨c, hc⟩ := g.stalkMap_surjective (pY.base x') b
     refine ⟨eEq.symm c, ?_⟩
-    show (g.stalkMap (pY.base x')).hom (eEq (eEq.symm c)) = b
+    change (g.stalkMap (pY.base x')).hom (eEq (eEq.symm c)) = b
     rw [eEq.apply_symm_apply, hc]
   let eRB := residueFieldAlgEquivOfSurjective hρ
   let eT : TensorProduct R (IsLocalRing.ResidueField R) A ≃ₐ[R] TensorProduct R A B :=
@@ -189,7 +189,7 @@ theorem isCompleteIntersectionFibreStalkAt_iff_fiberι (x : X) :
     have h1 : Φ (algebraMap (IsLocalRing.ResidueField R)
         (TensorProduct R (IsLocalRing.ResidueField R) A) a)
         = φ (Algebra.TensorProduct.includeRight (eRB a)) := by
-      show eφ (eT (algebraMap _ _ a)) = _
+      change eφ (eT (algebraMap _ _ a)) = _
       rw [heφ]
       congr 1
     have h2 : φ (Algebra.TensorProduct.includeRight (eRB a)) = (pY.stalkMap x').hom (eRB a) :=

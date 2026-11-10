@@ -5,4 +5,5 @@ public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCatego
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCategory.Exactness
 public import StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCategory.Abelian
 
-/-! Re-exports the parts of `StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCategory`. -/
+/-! Re-exports the parts of
+`StacksFrontier.RingTheory.Localization.Glueing.FormalGlueingCategory`. -/

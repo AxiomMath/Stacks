@@ -162,7 +162,7 @@ theorem algebraMap_notMem_maximalIdeal_pow {A : Type u} [CommRing A] [IsDedekind
       intro htop
       rw [htop] at hepos
       simp at hepos
-    rw [← ENat.coe_toNat hne] at hlen
+    rw [← ENat.natCast_toNat hne] at hlen
     exact_mod_cast hlen
   -- the fundamental identity bounds it by `d`
   have hsum := Ideal.sum_ramification_inertia_eq_finrank (q.under A) (integralClosure A L)

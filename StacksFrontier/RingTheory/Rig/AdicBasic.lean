@@ -36,7 +36,7 @@ lemma isIdealOfDefinition_of_isAdic {R : Type*} [CommRing R] [TopologicalSpace R
 lemma isTopologicallyNilpotent_of_mem_isIdealOfDefinition {R : Type*} [CommRing R]
     [TopologicalSpace R] {I : Ideal R} (hI : TopologicalRing.IsIdealOfDefinition I) {x : R}
     (hx : x ∈ I) : IsTopologicallyNilpotent x := by
-  show Filter.Tendsto (x ^ ·) Filter.atTop (nhds 0)
+  change Filter.Tendsto (x ^ ·) Filter.atTop (nhds 0)
   refine Filter.tendsto_def.2 fun U hU => ?_
   obtain ⟨n, hn⟩ := hI.2 U hU
   exact Filter.eventually_atTop.2

@@ -82,7 +82,7 @@ theorem directImageChartProjection_app_eq_counit (f : X ⟶ Y) (V : SmallEtale B
   have h' := congrArg (fun m => m.hom.app j.right
     (((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj F).obj.map j.hom a)) h
   refine Eq.trans ?_ h'
-  show (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
+  change (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
       (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app F).hom.app
         j.right (((smallEtaleComparisonRan B S hS X).obj F).obj.map j.hom
           (((smallEtaleComparisonRanIso B S hS X).hom.app F).hom.app _ a)) =
@@ -209,7 +209,7 @@ theorem directImageChartProjection_smallerBaseSmallEtaleDirectImageIso
             ((spacesBaseChange B S hS g).functor.map
               ((smallerBaseComparisonIso B h ε₂).hom.app V)).op y))))
     (smallerBaseComparisonRestrictionInverseIso_hom_app_counit B h ε₁ F)).trans ?_
-  show ((smallEtaleComparisonRestriction B S hS Y₁).asEquivalence.counit.app F).hom.app _
+  change ((smallEtaleComparisonRestriction B S hS Y₁).asEquivalence.counit.app F).hom.app _
       (((smallEtaleComparisonRestriction B S hS Y₁).asEquivalence.inverse.obj F).obj.map
         ((smallerBaseComparisonIso B h ε₁).inv.app j.right.unop).op
         (((smallEtaleComparisonRestriction B S hS Y₁).asEquivalence.inverse.obj F).obj.map
@@ -282,7 +282,7 @@ theorem chartBaseChangeMap_smallerBaseChartIndex (V : SmallEtale B W hW Z₂.1)
         relocalizeSpaceMap h ((SpacesEtale.toSpaces B W hW Z₁).map j.hom.unop ≫
           (spacesBaseChange B W hW f).projection.app ((comparisonFunctor B W hW Z₂).obj V)) ≫
         (SpacesEtale.toSpaces B S hS Y₂).map ((smallerBaseComparisonIso B h ε₂).hom.app V) := by
-    show (SpacesEtale.toSpaces B S hS Y₁).map
+    change (SpacesEtale.toSpaces B S hS Y₁).map
         ((smallerBaseComparisonIso B h ε₁).inv.app j.right.unop ≫
           (smallerBaseSpacesEtaleFunctor B h ε₁).map j.hom.unop ≫
           ((smallerBaseSpacesBaseChangeIso B h ε₁ ε₂ hfg).hom.app
@@ -321,10 +321,10 @@ theorem smallerBaseStructureSharpLeft_eq_right :
     (restrictionRingIso (SmallEtale.topology B W hW Z₁.1) (SmallEtale.topology B S hS Y₁.1)
       (smallerBaseSmallEtaleEquivalenceOfIso B h ε₁).functor (structureRingSheaf B S hS Y₁)).inv
     ((structureSharpSet B W hW f).hom.app (op V) x)).symm
-  show _ = (directImageChartProjection B W hW f V j).app (structureSetSheaf B W hW Z₁)
+  change _ = (directImageChartProjection B W hW f V j).app (structureSetSheaf B W hW Z₁)
     ((structureSharpSet B W hW f).hom.app (op V) x)
   refine Eq.trans ?_ (directImageChartProjection_structureSharpSet B W hW f V j x).symm
-  show (CategoryTheory.forget CommRingCat.{u}).map
+  change (CategoryTheory.forget CommRingCat.{u}).map
       (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (chartBaseChangeMap B S hS g ((smallerBaseSmallEtaleEquivalenceOfIso B h ε₂).functor.obj V)
           (smallerBaseChartIndex B h ε₁ ε₂ hfg V j))).op) x =

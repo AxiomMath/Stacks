@@ -63,7 +63,7 @@ theorem derivedForget_map_toDerivedCategory_map_eq {Z Z' : HomotopyCategory.{u, 
       (homotopyForget.{w, u, u, u} A).map f := by
   have h := Functor.congr_hom (toDerivedCategory_comp_derivedForget.{w, u, u, u} A) f
   refine h.trans ?_
-  show 𝟙 _ ≫ (homotopyForget.{w, u, u, u} A).map f ≫ 𝟙 _ = (homotopyForget.{w, u, u, u} A).map f
+  change 𝟙 _ ≫ (homotopyForget.{w, u, u, u} A).map f ≫ 𝟙 _ = (homotopyForget.{w, u, u, u} A).map f
   rw [Category.id_comp, Category.comp_id]
 
 /-- **The commutation of forgetting the action with the translations, at the image of an object

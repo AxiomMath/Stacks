@@ -153,7 +153,7 @@ theorem isBirational_morphismRestrict {A B : Scheme.{u}} (f : A ⟶ B)
     simpa only [← hmap z, ← hmap z'] using congrArg U.ι h
   · obtain ⟨z, hz, hzy⟩ := hf.bijOn.surjOn (mem_genericPoints_of_isOpenImmersion U.ι hy)
     have hzU : z ∈ f ⁻¹ᵁ U := by
-      show f z ∈ U
+      change f z ∈ U
       rw [show f z = U.ι y from hzy]
       exact y.2
     refine ⟨⟨z, hzU⟩, mem_genericPoints_of_isOpenImmersion_apply (f ⁻¹ᵁ U).ι hz,
@@ -421,7 +421,7 @@ private theorem exists_dense_open_isIso_reductionMap {A B : Scheme.{u}}
       using range_reductionMap_of_isOpenImmersion (f ⁻¹ᵁ U).ι
   have hpreW : (reductionMap f) ⁻¹ᵁ W = W' := by
     refine Opens.ext (Set.ext fun a ↦ ?_)
-    show reductionMap f a ∈ W ↔ a ∈ W'
+    change reductionMap f a ∈ W ↔ a ∈ W'
     rw [show (reductionMap f a ∈ W) ↔ B.nilradical.subschemeι (reductionMap f a) ∈ U from
         Set.ext_iff.mp hW _,
       show (a ∈ W') ↔ A.nilradical.subschemeι a ∈ (f ⁻¹ᵁ U : A.Opens) from Set.ext_iff.mp hW' _,
@@ -465,7 +465,7 @@ private theorem exists_dense_open_isIso_of_isPullback {A B A' B' : Scheme.{u}}
         (by simpa only [Scheme.Hom.resLE_eq_morphismRestrict] using
           (inferInstance : IsIso (f ∣_ U))))
   refine ⟨p ⁻¹ᵁ U, hU.preimage hp, ?_, hi⟩
-  show Dense ((f' ⁻¹ᵁ (p ⁻¹ᵁ U) : A'.Opens) : Set A')
+  change Dense ((f' ⁻¹ᵁ (p ⁻¹ᵁ U) : A'.Opens) : Set A')
   rw [he]
   exact hpre.preimage hq
 
@@ -504,7 +504,7 @@ private theorem subschemeAffineIso_comp {X : Scheme.{u}} (idealData : X.IdealShe
       (affinePreimage.isoSpec).symm).inv ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (idealData.ideal affineOpen))) =
       (idealData.subschemeι ∣_ affineOpen.1) ≫ affineOpen.2.isoSpec.hom := by
-  show affinePreimage.isoSpec.hom ≫ Spec.map (idealData.subschemeObjIso affineOpen).inv ≫
+  change affinePreimage.isoSpec.hom ≫ Spec.map (idealData.subschemeObjIso affineOpen).inv ≫
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (idealData.ideal affineOpen))) = _
   rw [← Spec.map_comp, ← idealData.subschemeι_app affineOpen, IsAffineOpen.isoSpec_hom]
   exact Scheme.Opens.toSpecΓ_naturality idealData.subschemeι affineOpen.1
@@ -533,7 +533,7 @@ private theorem exists_affine_normalization_chart_reduction {X : Scheme.{u}} {A 
   let C := integralClosure Q (FractionRing Q)
   let eA : A ≃+* B := affineOpenCoordinateRingEquiv U e
   have hrad : Ideal.map (eA : A →+* B) (nilradical A) = nilradical B := by
-    show Ideal.map (eA : A →+* B) (Ideal.radical ⊥) = Ideal.radical ⊥
+    change Ideal.map (eA : A →+* B) (Ideal.radical ⊥) = Ideal.radical ⊥
     rw [Ideal.map_radical_of_surjective (f := (eA : A →+* B)) (I := ⊥) eA.surjective (by simp),
       Ideal.map_bot]
   have hideal : I.ideal Uaff = nilradical B := rfl
@@ -549,9 +549,9 @@ private theorem exists_affine_normalization_chart_reduction {X : Scheme.{u}} {A 
         CommRingCat.ofHom eA.toRingHom ≫
           CommRingCat.ofHom (Ideal.Quotient.mk (I.ideal Uaff)) := by
       ext a
-      show eQ (Ideal.Quotient.mk (nilradical A) a) = Ideal.Quotient.mk (I.ideal Uaff) (eA a)
+      change eQ (Ideal.Quotient.mk (nilradical A) a) = Ideal.Quotient.mk (I.ideal Uaff) (eA a)
       exact Ideal.quotientEquiv_mk (nilradical A) (I.ideal Uaff) eA _ a
-    show Vaff.2.isoSpec.hom ≫ Spec.map eSub.inv ≫ Spec.map eQ.toCommRingCatIso.hom ≫
+    change Vaff.2.isoSpec.hom ≫ Spec.map eSub.inv ≫ Spec.map eQ.toCommRingCatIso.hom ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (nilradical A))) = _
     rw [← Spec.map_comp, hQmap, Spec.map_comp]
     have hSub := subschemeAffineIso_comp I Uaff Vaff.2
@@ -572,7 +572,7 @@ private theorem exists_affine_normalization_chart_reduction {X : Scheme.{u}} {A 
   obtain ⟨eNorm, heNorm⟩ := exists_iso_normalizationScheme_normalizationToReduction X hX
   let W := Xr.normalization hred ⁻¹ᵁ V
   have hpre : eNorm.hom ⁻¹ᵁ W = X.normalization hX ⁻¹ᵁ U := by
-    show eNorm.hom ⁻¹ᵁ (Xr.normalization hred ⁻¹ᵁ (I.subschemeι ⁻¹ᵁ U)) = _
+    change eNorm.hom ⁻¹ᵁ (Xr.normalization hred ⁻¹ᵁ (I.subschemeι ⁻¹ᵁ U)) = _
     rw [← Scheme.Hom.comp_preimage, heNorm, ← Scheme.Hom.comp_preimage,
       X.normalizationToReduction_subschemeι hX]
   let eSource : (X.normalization hX ⁻¹ᵁ U).toScheme ≅ W.toScheme :=
@@ -584,16 +584,16 @@ private theorem exists_affine_normalization_chart_reduction {X : Scheme.{u}} {A 
       (X.normalization hX ∣_ U) := by
     apply (cancel_mono U.ι).mp
     simp only [Category.assoc, morphismRestrict_ι]
-    show eSource.hom ≫ (Xr.normalization hred ∣_ V) ≫ V.ι ≫ I.subschemeι = _
+    change eSource.hom ≫ (Xr.normalization hred ∣_ V) ≫ V.ι ≫ I.subschemeι = _
     rw [morphismRestrict_ι_assoc]
-    show eSource.hom ≫ W.ι ≫ Xr.normalization hred ≫ I.subschemeι = _
+    change eSource.hom ≫ W.ι ≫ Xr.normalization hred ≫ I.subschemeι = _
     rw [← Category.assoc eSource.hom, heSourceι]
     simp only [Category.assoc]
     rw [← Category.assoc eNorm.hom, heNorm]
     exact congrArg (fun m ↦ (X.normalization hX ⁻¹ᵁ U).ι ≫ m)
       (X.normalizationToReduction_subschemeι hX)
   refine ⟨eSource ≪≫ eRed, ?_⟩
-  show eSource.hom ≫ eRed.hom ≫
+  change eSource.hom ≫ eRed.hom ≫
       Spec.map (CommRingCat.ofHom ((algebraMap Q C).comp (Ideal.Quotient.mk (nilradical A)))) = _
   rw [CommRingCat.ofHom_comp, Spec.map_comp, ← Category.assoc eRed.hom,
     preimageNormalizationIsoSpecIntegralClosure_hom_comp, Category.assoc, heV, ← Category.assoc]
@@ -618,7 +618,7 @@ private theorem universalHomeomorphism_morphismRestrict_normalization_of_tensor_
   obtain ⟨E, hE⟩ := exists_affine_normalization_chart_reduction hZ U e
   refine universalHomeomorphism_of_arrowIso _ _ (Arrow.isoMk E e.symm ?_)
     (universalHomeomorphism_normalization_tensorProduct_of_normal (K := K) hR)
-  show E.hom ≫ Spec.map (CommRingCat.ofHom _) = (Z.normalization hZ ∣_ U) ≫ e.inv
+  change E.hom ≫ Spec.map (CommRingCat.ofHom _) = (Z.normalization hZ ∣_ U) ≫ e.inv
   simpa only [CommRingCat.ofHom_comp, Spec.map_comp] using hE
 
 /-- If `Z` is covered by affine opens of the form `Spec (R ⊗[k] K)` with each `R` normal, then
@@ -712,7 +712,7 @@ private theorem universalHomeomorphism_of_isIntegralHom_of_locally_isBirational
     rw [← he]
     infer_instance
   refine universalHomeomorphism_of_arrowIso f _ (Arrow.isoMk (asIso g).symm (Iso.refl W) ?_) hν
-  show inv g ≫ W.normalization hW = f ≫ 𝟙 W
+  change inv g ≫ W.normalization hW = f ≫ 𝟙 W
   rw [← hg]
   simp only [Category.comp_id, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
 
@@ -731,7 +731,7 @@ private theorem universalHomeomorphism_normalization_nilradical_subscheme (Z : S
     exact hν
   obtain ⟨e, he⟩ := exists_iso_normalizationScheme_normalizationToReduction Z hZ
   refine universalHomeomorphism_of_arrowIso _ _ (Arrow.isoMk e.symm (Iso.refl _) ?_) hnr
-  show e.inv ≫ Z.normalizationToReduction hZ =
+  change e.inv ≫ Z.normalizationToReduction hZ =
     Z.nilradical.subscheme.normalization (Z.finite_irreducibleComponents_reduction hZ) ≫ 𝟙 _
   rw [← he]
   simp only [Category.comp_id, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
@@ -818,10 +818,10 @@ private theorem isIso_reductionMap_baseChange_subschemeι (X : Over (Spec (.of k
   let f : Over.mk (r ≫ X.hom) ⟶ X := Over.homMk r
   have : Surjective r := ⟨(isHomeomorph_subschemeι_nilradical X.left).surjective⟩
   have : IsClosedImmersion f.left := by
-    show IsClosedImmersion r
+    change IsClosedImmersion r
     infer_instance
   have : Surjective f.left := by
-    show Surjective r
+    change Surjective r
     infer_instance
   have : IsClosedImmersion ((Over.pullback σ).map f).left :=
     MorphismProperty.of_isPullback (overPullback_isPullback σ _ _ f) inferInstance
@@ -848,7 +848,7 @@ private theorem isBirational_reductionMap_baseChangeNormalization (X : Over (Spe
   let XR : Over (Spec (.of k)) := Over.mk (r ≫ X.hom)
   let N : Over (Spec (.of k)) := Over.mk (ν ≫ X.hom)
   let f : N ⟶ XR := Over.homMk nr (by
-    show nr ≫ (r ≫ X.hom) = ν ≫ X.hom
+    change nr ≫ (r ≫ X.hom) = ν ≫ X.hom
     rw [← Category.assoc, X.left.normalizationToReduction_subschemeι hX])
   let g : XR ⟶ X := Over.homMk r
   let qf := ((Over.pullback σ).map f).left
@@ -856,12 +856,12 @@ private theorem isBirational_reductionMap_baseChangeNormalization (X : Over (Spe
   have hν : f ≫ g = Over.homMk ν :=
     Over.OverMorphism.ext (X.left.normalizationToReduction_subschemeι hX)
   have hq : baseChangeNormalization (K := K) X = qf ≫ qg := by
-    show ((Over.pullback σ).map (Over.homMk ν)).left = qf ≫ qg
+    change ((Over.pullback σ).map (Over.homMk ν)).left = qf ≫ qg
     rw [← hν]
     exact congrArg Over.Hom.left ((Over.pullback σ).map_comp f g)
   have : IsReduced X.left.nilradical.subscheme := isReduced_nilradical_subscheme X.left
   have : LocallyOfFiniteType XR.hom := by
-    show LocallyOfFiniteType (r ≫ X.hom)
+    change LocallyOfFiniteType (r ≫ X.hom)
     infer_instance
   have : LocallyOfFiniteType N.hom := locallyOfFiniteType_normalization_over_field X
   have : IsLocallyNoetherian X.left.nilradical.subscheme :=
@@ -887,10 +887,10 @@ private theorem isBirational_reductionMap_baseChangeNormalization (X : Over (Spe
   obtain ⟨W'', hW'', hpreW'', hIsoredqf⟩ :=
     exists_dense_open_isIso_reductionMap qf W' hW' hpreW'
   have : LocallyOfFiniteType ((Over.pullback σ).obj XR).hom := by
-    show LocallyOfFiniteType (pullback.snd XR.hom σ)
+    change LocallyOfFiniteType (pullback.snd XR.hom σ)
     infer_instance
   have : LocallyOfFiniteType ((Over.pullback σ).obj N).hom := by
-    show LocallyOfFiniteType (pullback.snd N.hom σ)
+    change LocallyOfFiniteType (pullback.snd N.hom σ)
     infer_instance
   have : IsLocallyNoetherian ((Over.pullback σ).obj XR).left :=
     LocallyOfFiniteType.isLocallyNoetherian ((Over.pullback σ).obj XR).hom
@@ -911,7 +911,7 @@ private theorem isBirational_reductionMap_baseChangeNormalization (X : Over (Spe
   have hqgr : IsBirational (reductionMap qg) := isBirational_of_iso (asIso (reductionMap qg))
   have hpreqg : (reductionMap qg) ⁻¹' genericPoints _ = genericPoints _ :=
     preimage_genericPoints_of_isIso (reductionMap qg)
-  show IsBirational (reductionMap (baseChangeNormalization (K := K) X)) ∧
+  change IsBirational (reductionMap (baseChangeNormalization (K := K) X)) ∧
     (reductionMap (baseChangeNormalization (K := K) X)) ⁻¹' genericPoints _ = genericPoints _
   rw [hq, reductionMap_comp]
   refine ⟨isBirational_comp _ _ hqfr hqgr, Set.ext fun x ↦ ?_⟩
@@ -933,7 +933,7 @@ theorem normalizationBaseChangeComparison_isUniversalHomeomorphism
   let σ := Spec.map (CommRingCat.ofHom (algebraMap k K))
   let Y := (Over.pullback σ).obj X
   have : LocallyOfFiniteType Y.hom := by
-    show LocallyOfFiniteType (pullback.snd X.hom σ)
+    change LocallyOfFiniteType (pullback.snd X.hom σ)
     infer_instance
   let hY := finite_irreducibleComponents_of_locallyOfFiniteType K Y.hom
   let hX := finite_irreducibleComponents_of_locallyOfFiniteType k X.hom
@@ -1035,7 +1035,7 @@ theorem normalizationBaseChangeComparison_isIso_of_isSeparableExtension
         simp only [Over.homMk_left, pullback.lift_fst]
       obtain ⟨t, ht, hu⟩ := Scheme.existsUnique_lift_normalization hX (q ≫ π)
         fun η ↦ (pullback.fst X.hom σ).mem_genericPoints_of_flat (hq η.2)
-      show (s ≫ c) ≫ p = (𝟙 Z) ≫ p
+      change (s ≫ c) ≫ p = (𝟙 Z) ≫ p
       rw [Category.id_comp]
       refine (hu _ ?_).trans (hu _ hqp.symm).symm
       calc
@@ -1043,7 +1043,7 @@ theorem normalizationBaseChangeComparison_isIso_of_isSeparableExtension
           simp only [Category.assoc, hqp]
         _ = q ≫ π := by rw [hcq, ← Category.assoc, hs]
     · rw [Category.id_comp, Category.assoc]
-      show s ≫ (normalizationBaseChangeComparison X ≫
+      change s ≫ (normalizationBaseChangeComparison X ≫
         pullback.snd (X.left.normalization hX ≫ X.hom) σ) = _
       rw [normalizationBaseChangeComparison_comp_snd, ← Category.assoc, hs]
       dsimp [q, baseChangeNormalization, Over.pullback, σ, hX]

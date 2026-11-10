@@ -163,7 +163,7 @@ theorem exists_isAffine_lfp_covering_of_object (x : 𝒳.val.obj) :
     intro j
     obtain ⟨e, _⟩ := hβ j
     have : IsAffine (U.X (β j)) := by
-      show IsAffine (Spec ((B.inclusion.obj T).affineOpenCover.X (β j)))
+      change IsAffine (Spec ((B.inclusion.obj T).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     exact @IsAffine.of_isIso _ _ e.hom e.isIso_hom inferInstance
   have hWfl : ∀ j, Flat (B.inclusion.map (W.f j)) ∧
@@ -188,7 +188,7 @@ theorem exists_isAffine_lfp_covering_of_object (x : 𝒳.val.obj) :
     rw [GrothendieckTopology.mem_toPrecoverage_iff, Presieve.map_ofArrows]
     have hBcover : Sieve.ofArrows Vobj vmap ∈ BigFppfOver.topology B S hS X := by
       rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-      show Sieve.ofArrows W.X W.f ∈ B.topology T
+      change Sieve.ofArrows W.X W.f ∈ B.topology T
       simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
     refine (BigFppfOver.topology B S hS).superset_covering ?_ hBcover
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
@@ -250,7 +250,7 @@ theorem isFinitelyPresentedByGlobalSections_restrictedModuleRestrictionAlong_ker
   have haffV : ∀ V : FlatFppf B S hS 𝒵,
       IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒵.val.val.p.obj V.obj)) →
       IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj V)) := fun V hV ↦ by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
     rwa [hpobj V]
   have hy₀aff : IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj t)) := haffV t hyaff
   have hflat : ∀ V : FlatFppf B S hS 𝒵,
@@ -267,7 +267,7 @@ theorem isFinitelyPresentedByGlobalSections_restrictedModuleRestrictionAlong_ker
     exact Scheme.Hom.flat_appTop _
   let A := fibredSectionRing B S hS p (Fn.obj t)
   have : IsNoetherianRing A := by
-    show IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)), ⊤)
+    change IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)), ⊤)
     rwa [hpobj t]
   let := fibredSectionsModule hp F (Fn.obj t)
   let := fibredSectionsModule hp K (Fn.obj t)
@@ -384,7 +384,7 @@ theorem noetherianFlatSieve_mem
       ((associatedTopology B S hS 𝒳.val.val.p B.topology).pullback_stable m hcov)
     rintro w g ⟨w', e, _, ⟨i⟩, -⟩
     have : IsLocallyNoetherian (B.inclusion.obj (𝒳.val.val.p.obj yU).left) := by
-      show IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj yU))
+      change IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj yU))
       rwa [hpU]
     have := hlfp i
     have : IsLocallyNoetherian (B.inclusion.obj (𝒳.val.val.p.obj (yi i)).left) :=

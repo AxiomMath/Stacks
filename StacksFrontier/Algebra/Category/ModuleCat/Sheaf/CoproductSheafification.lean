@@ -181,7 +181,7 @@ of presheaves underlying the `i`-th inclusion into `∐ M`. -/
 @[reassoc (attr := simp)]
 lemma ι_toCoprod (i : I) :
     Sigma.ι (fun i => (M i).val) i ≫ toCoprod R M = (Sigma.ι M i).val :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The sheafification of the presheaf underlying a sheaf of modules is that sheaf. -/
 noncomputable abbrev valIso (N : SheafOfModules.{u} R) : (shf R).obj N.val ≅ N :=
@@ -211,7 +211,7 @@ followed by the sheafified `i`-th inclusion. -/
 lemma ι_coprodCompareInv (i : I) :
     Sigma.ι M i ≫ coprodCompareInv R M =
       (valIso R (M i)).inv ≫ (shf R).map (Sigma.ι (fun i => (M i).val) i) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `coprodCompare` is an isomorphism: both source and target are colimiting cocone points for
 the family `M`, the source because sheafification is a left adjoint. -/

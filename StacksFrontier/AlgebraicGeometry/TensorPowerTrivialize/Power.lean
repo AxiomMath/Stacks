@@ -318,7 +318,7 @@ theorem resTop_sectionPow {n : ℕ} (u s : powSections L n) {V : X.Opens} (f : �
           resTop_globalSection_comp, resTop_globalSection_comp,
           resTop_globalSection_mul, resTop_globalSection_mul, ih,
           Scheme.Modules.Hom.app_smul, Scheme.Modules.Hom.app_smul]
-      show resTop (natTensorPow L (powDeg n k + n))
+      change resTop (natTensorPow L (powDeg n k + n))
             (globalSection X _ (mul (sectionPow L s k) s)) V
           = f ^ (k + 1 + 1) • resTop (natTensorPow L (powDeg n k + n))
               (globalSection X _ (mul (sectionPow L u k) u)) V

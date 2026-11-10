@@ -141,7 +141,7 @@ theorem iSup_finiteTypeQuasicoherentSubobject_eq_top_of_forall_isAffineOpen
     refine ⟨W, hWle, ⟨(Subobject.ofLE G.1 S hle).app W z, ?_⟩, hxW⟩
     have key := congrArg (fun φ => Scheme.Modules.Hom.app φ W) (Subobject.ofLE_arrow hle)
     rw [Scheme.Modules.Hom.comp_app] at key
-    show (Scheme.Modules.Hom.app S.arrow W)
+    change (Scheme.Modules.Hom.app S.arrow W)
         ((Scheme.Modules.Hom.app (Subobject.ofLE G.1 S hle) W) z) =
       F.presheaf.map (homOfLE hWle).op t
     rw [← hz, ← ConcreteCategory.comp_apply, key]
@@ -173,7 +173,7 @@ private def restrictTopSectionsIso (M : X.Modules) (W : X.Opens) :
 private lemma restrictTopSectionsIso_naturality {M N : X.Modules} (φ : M ⟶ N) (W : X.Opens) :
     ((Scheme.Modules.restrictFunctor W.ι).map φ).app ⊤ ≫ (restrictTopSectionsIso N W).hom =
       (restrictTopSectionsIso M W).hom ≫ φ.app W := by
-  show φ.app (W.ι ''ᵁ ⊤) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ φ.app W
+  change φ.app (W.ι ''ᵁ ⊤) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ φ.app W
   exact (φ.mapPresheaf.naturality _).symm
 
 /-- The compatible family of sections of `M` determined by a section over the whole space, which
@@ -189,7 +189,7 @@ private def sectionsOfTop (M : X.Modules) (sTop : Γ(M, ⊤)) : M.sections :=
 
 private lemma sectionsOfTop_top (M : X.Modules) (sTop : Γ(M, ⊤)) :
     (sectionsOfTop M sTop).val (op ⊤) = sTop := by
-  show M.val.presheaf.map (homOfLE (le_top (a := (⊤ : X.Opens)))).op sTop = sTop
+  change M.val.presheaf.map (homOfLE (le_top (a := (⊤ : X.Opens)))).op sTop = sTop
   rw [show (homOfLE (le_top (a := (⊤ : X.Opens)))) = 𝟙 _ from Subsingleton.elim _ _]
   simp only [PresheafOfModules.presheaf_obj_coe, op_id, CategoryTheory.Functor.map_id,
     AddCommGrpCat.hom_id]
@@ -216,7 +216,7 @@ private lemma exists_finiteTypeQuasicoherentSubobject_of_section
   refine ⟨I, imageSubobject_isQuasicoherent f, imageSubobject_isFiniteType f,
     t.val (op ⊤), ?_⟩
   have h : I.arrow.app ⊤ (t.val (op ⊤)) = sTop := by
-    show (SheafOfModules.sectionsMap I.arrow t).val (op ⊤) = sTop
+    change (SheafOfModules.sectionsMap I.arrow t).val (op ⊤) = sTop
     rw [← SheafOfModules.unitHomEquiv_comp_apply g I.arrow]
     refine (congrArg (fun φ : O ⟶ Fw => (Fw.unitHomEquiv φ).val (op ⊤))
       (imageSubobject_arrow_comp f)).trans ?_

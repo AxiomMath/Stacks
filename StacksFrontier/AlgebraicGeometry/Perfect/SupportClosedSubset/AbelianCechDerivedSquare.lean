@@ -237,7 +237,7 @@ private lemma augmentationSquareComplex
     rw [extendIso_hom_f_zero, extendIso_hom_f_zero, extendMap_cplxAb_f_zero, augExt_f_zero,
       augExt_f_zero, singleCplxAb_f_zero]
     simp only [CategoryTheory.Functor.map_comp, Category.assoc,
-      CategoryTheory.Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc]
+      CategoryTheory.Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc]
     rw [key_zero_assoc]
   · exact (CategoryTheory.Functor.map_isZero (abelianSheaf X)
       (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 G n hn)).eq_of_tgt _ _

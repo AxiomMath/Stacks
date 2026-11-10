@@ -91,20 +91,20 @@ theorem existsUnique_point_over_elementaryEtaleNeighborhood
   have hq0class : q0.class B S hS (yoneda.obj V.scheme) =
     presheafPoint B S hS V.scheme V.point V.residueField_contained := rfl
   have hpYqY : qY.class B S hS Y.1 = pY.class B S hS Y.1 := by
-    show pointsMap B S hS (yoneda.obj V.scheme) V.toSpace
+    change pointsMap B S hS (yoneda.obj V.scheme) V.toSpace
         (q0.class B S hS (yoneda.obj V.scheme)) =
       pointsMap B S hS X.1 f.hom (p.class B S hS X.1)
     rw [hq0class, V.map_point, ← hpclass]
   obtain ⟨e, he⟩ := FieldValuedPoint.existsUnique_factor_of_class_eq_of_mono
     B S hS Y.1 Y.property qY pY hpYqY
   let e0 : p.siteObject B S hS X.1 ⟶ q0.siteObject B S hS (yoneda.obj V.scheme) := by
-    show pY.siteObject B S hS Y.1 ⟶ qY.siteObject B S hS Y.1; exact e
+    change pY.siteObject B S hS Y.1 ⟶ qY.siteObject B S hS Y.1; exact e
   let eV := e0 ≫ q0V
   let gV : yoneda.obj (p.siteObject B S hS X.1) ⟶ yoneda.obj V.scheme := yoneda.map eV
   let gX : yoneda.obj (p.siteObject B S hS X.1) ⟶ X.1 := yonedaEquiv.symm p.value
   have hcompat : gV ≫ V.toSpace = gX ≫ f.hom := by
     calc gV ≫ V.toSpace = yoneda.map e0 ≫ yoneda.map q0V ≫ V.toSpace := by
-          show yoneda.map (e0 ≫ q0V) ≫ V.toSpace = _
+          change yoneda.map (e0 ≫ q0V) ≫ V.toSpace = _
           rw [yoneda.map_comp, Category.assoc]
       _ = yoneda.map e ≫ yonedaEquiv.symm qY.value := by rw [← hqYarrow]; rfl
       _ = yonedaEquiv.symm pY.value := by
@@ -126,7 +126,7 @@ theorem existsUnique_point_over_elementaryEtaleNeighborhood
   refine ⟨t.class B S hS _, ⟨?_, ?_⟩, ?_⟩
   · let tV : FieldValuedPoint B S hS (yoneda.obj V.scheme) :=
       FieldValuedPoint.map B S hS (pullback V.toSpace f.hom) (pullback.fst V.toSpace f.hom) t
-    show tV.class B S hS (yoneda.obj V.scheme) = q0.class B S hS _
+    change tV.class B S hS (yoneda.obj V.scheme) = q0.class B S hS _
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
       ⟨tV, FieldValuedPoint.dominates_refl B S hS _ tV, e0, ?_⟩
     have htVval : (yoneda.obj V.scheme).map e0.op q0.value = tV.value := by
@@ -147,7 +147,7 @@ theorem existsUnique_point_over_elementaryEtaleNeighborhood
     have hmap : FieldValuedPoint.map B S hS (pullback V.toSpace f.hom)
         (pullback.snd V.toSpace f.hom) t = tX := rfl
     have htXval : tX.value = p.value := by
-      show (pullback.snd V.toSpace f.hom).app (Opposite.op p.siteObject) (yonedaEquiv l) =
+      change (pullback.snd V.toSpace f.hom).app (Opposite.op p.siteObject) (yonedaEquiv l) =
         p.value
       rw [← yonedaEquiv_comp l (pullback.snd V.toSpace f.hom), pullback.lift_snd]
       simp [gX]
@@ -157,7 +157,7 @@ theorem existsUnique_point_over_elementaryEtaleNeighborhood
           FieldValuedPoint.dominates_refl B S hS X.1 p⟩
       rw [htXval]
       exact Functor.map_id_apply X.1 (Opposite.op (p.siteObject B S hS X.1)) p.value
-    show pointsMap B S hS (pullback V.toSpace f.hom) (pullback.snd V.toSpace f.hom)
+    change pointsMap B S hS (pullback V.toSpace f.hom) (pullback.snd V.toSpace f.hom)
       (t.class B S hS _) = x
     rw [pointsMap_class, hmap]
     exact htXclass.trans hpclass
@@ -249,7 +249,7 @@ theorem existsUnique_point_over_elementaryEtaleNeighborhood
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
       ⟨q, FieldValuedPoint.dominates_refl B S hS _ q, a, ?_⟩
     calc (pullback V.toSpace f.hom).map a.op t.value = yonedaEquiv (yoneda.map a ≫ l) := by
-          show (pullback V.toSpace f.hom).map a.op (yonedaEquiv l) = _
+          change (pullback V.toSpace f.hom).map a.op (yonedaEquiv l) = _
           exact yonedaEquiv_naturality l a
       _ = yonedaEquiv (yonedaEquiv.symm q.value) := congrArg yonedaEquiv hqArrow.symm
       _ = q.value := Equiv.apply_symm_apply yonedaEquiv q.value

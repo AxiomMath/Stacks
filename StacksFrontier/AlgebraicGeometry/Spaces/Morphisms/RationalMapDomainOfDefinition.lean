@@ -290,12 +290,12 @@ private theorem sheafify_iSup_eq_top_of_iUnion_range_eq_univ {U : Subfunctor X}
   have hdescfac : (Sigma.desc fun o ↦ (E o).ι) =
       (Sigma.desc fun o ↦ Subfunctor.homOfLe (le_iSup E o)) ≫ (⨆ o, E o).ι := by
     refine Sigma.hom_ext _ _ fun o ↦ ?_
-    rw [Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc, Subfunctor.homOfLe_ι]
+    rw [Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc, Subfunctor.homOfLe_ι]
   refine le_antisymm le_top fun T x _ ↦ ?_
-  show (⨆ o, E o).sieveOfSection x ∈ J (Opposite.unop T)
+  change (⨆ o, E o).sieveOfSection x ∈ J (Opposite.unop T)
   refine J.superset_covering ?_ (Presheaf.imageSieve_mem J (Sigma.desc fun o ↦ (E o).ι) x)
   rintro T' b ⟨w, hw⟩
-  show U.toFunctor.map b.op x ∈ (⨆ o, E o).obj (Opposite.op T')
+  change U.toFunctor.map b.op x ∈ (⨆ o, E o).obj (Opposite.op T')
   rw [← hw, hdescfac]
   exact ((Sigma.desc fun o ↦ Subfunctor.homOfLe (le_iSup E o)).app (Opposite.op T') w).2
 
@@ -338,7 +338,7 @@ private theorem exists_hom_of_forall_exists_rep
             naturality := ?_ }, hglue⟩
   intro T T' b
   ext x
-  show (rep (idx T' (V.toFunctor.map b x))).hom.app T' (wit T' (V.toFunctor.map b x)) =
+  change (rep (idx T' (V.toFunctor.map b x))).hom.app T' (wit T' (V.toFunctor.map b x)) =
     Y.map b ((rep (idx T x)).hom.app T (wit T x))
   exact (hglue T' (V.toFunctor.map b x) (idx T x)
     ((rep (idx T x)).domain.toFunctor.map b (wit T x)) (congrArg (X.map b) (hwit T x))).trans

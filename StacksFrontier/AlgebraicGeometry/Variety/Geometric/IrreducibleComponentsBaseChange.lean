@@ -140,7 +140,7 @@ private theorem mapsTo_irreducibleComponents_baseChange_of_isAlgebraic
   let p := pullback.fst f (Spec.map (CommRingCat.ofHom (algebraMap k K)))
   have : IsIntegralHom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
     rw [IsIntegralHom.SpecMap_iff]
-    show (algebraMap k K).IsIntegral
+    change (algebraMap k K).IsIntegral
     exact algebraMap_isIntegral_iff.mpr Algebra.IsAlgebraic.isIntegral
   exact fun Z hZ ↦ image_irreducibleComponent_of_closed_generalizing p.base p.continuous
     p.isClosedMap (Flat.generalizingMap p) Z hZ
@@ -262,7 +262,7 @@ public theorem mapsTo_irreducibleComponents_baseChange
     rw [← Spec.map_comp]
     congr 1
     ext x
-    show ι (algebraMap k M x) = algebraMap k L x
+    change ι (algebraMap k M x) = algebraMap k L x
     exact ι.commutes x
   let XK := pullback f gK
   let XM := pullback f gM
@@ -277,7 +277,7 @@ public theorem mapsTo_irreducibleComponents_baseChange
       (pullback.fst fK gKL).base '' W = T :=
     surjOn_irreducibleComponents_baseChange_of_mapsTo K L XK fK
       (mapsTo_irreducibleComponents_baseChange_of_isAlgebraic K L XK fK) hT
-  show (pullback.fst f gK).base '' T ∈ irreducibleComponents X
+  change (pullback.fst f gK).base '' T ∈ irreducibleComponents X
   rw [← hReq]
   exact image_image_mem_irreducibleComponents_of_comp_eq _ _ e (pullback.fst fM gML)
     (pullback.fst f gM) hcomm (bijOn_irreducibleComponents_baseChange_of_isSepClosed M L XM fM).1

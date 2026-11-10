@@ -21,7 +21,8 @@ which is the chart-level input of relative-`Proj` base change: the chart of `ùê
 
 ## Relation to the free case
 
-`StacksFrontier/AlgebraicGeometry/SheafSymmetricAlgebra/Free.lean` proves the same identification for
+`StacksFrontier/AlgebraicGeometry/SheafSymmetricAlgebra/Free.lean` proves the same identification
+for
 a **finite free** `E`, and over *every* open rather than only the affine ones, by a different and
 much cheaper route: for a free sheaf the sectionwise symmetric power is already a sheaf
 (`Stacks.SymGraded.isSheaf_symPow_free`), so the sheafification unit is invertible outright and

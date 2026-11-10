@@ -119,7 +119,7 @@ variable {C : Type u₁} [Category.{v₁} C] {C' : Type u₂} [Category.{v₂} C
   [(E ⋙ scg).IsContinuous JC JD'] [(bcg ⋙ E').IsContinuous JC JD']
   [(E' ⋙ sch).IsContinuous JC' JD''] [(bch ⋙ E'').IsContinuous JC' JD'']
   [(E ⋙ sck).IsContinuous JC JD''] [(bck ⋙ E'').IsContinuous JC JD'']
-  [(scg ⋙ sch).IsContinuous JD JD''] [(bcg ⋙ bch).IsContinuous JC JC'']
+  [(scg ⋙ sch).IsContinuous JD JD'']
   {RC : Sheaf JC RingCat.{w}} {RC' : Sheaf JC' RingCat.{w}} {RC'' : Sheaf JC'' RingCat.{w}}
   {RD : Sheaf JD RingCat.{w}} {RD' : Sheaf JD' RingCat.{w}} {RD'' : Sheaf JD'' RingCat.{w}}
 
@@ -190,8 +190,9 @@ variable (ε : RC ⟶ (E.sheafPushforwardContinuous RingCat.{w} JC JD).obj RD)
   (hek : SheafOfModules.comparisonComp ε ρk ≫
     (Functor.sheafPushforwardContinuousNatTrans ek.hom RingCat.{w} JC JD'').app RD'' =
       SheafOfModules.comparisonComp σk ε'')
-  (hcc : SheafOfModules.comparisonComp σg σh ≫
-    (Functor.sheafPushforwardContinuousNatTrans cc.hom RingCat.{w} JC JC'').app RC'' = σk)
+  (hcc : letI := Functor.isContinuous_comp bcg bch JC JC' JC''
+    SheafOfModules.comparisonComp σg σh ≫
+      (Functor.sheafPushforwardContinuousNatTrans cc.hom RingCat.{w} JC JC'').app RC'' = σk)
   (hscc : ρk ≫
     (Functor.sheafPushforwardContinuousNatTrans scc.hom RingCat.{w} JD JD'').app RD'' =
       SheafOfModules.comparisonComp ρg ρh)
@@ -206,6 +207,7 @@ is a restriction map and the identity that remains is `hchart`. -/
 theorem pastedSquare_eq
     (hchart : ∀ W : C, E''.map (cc.hom.app W) ≫ eh.hom.app (bcg.obj W) ≫
         sch.map (eg.hom.app W) = ek.hom.app W ≫ scc.inv.app (E.obj W)) :
+    letI := Functor.isContinuous_comp bcg bch JC JC' JC''
     Functor.isoWhiskerLeft (SheafOfModules.pushforward.{w} ρh)
           (squareIso ε ρg σg ε' eg heg) ≪≫
         Functor.isoWhiskerRight (squareIso ε' ρh σh ε'' eh heh)
@@ -220,7 +222,7 @@ theorem pastedSquare_eq
         squareIso ε ρk σk ε'' ek hek := by
   refine Iso.ext (NatTrans.ext (funext fun M =>
     Stacks.ChartUnitTransport.hom_ext_val_app_apply_unop fun W x => ?_))
-  show M.val.map (E''.map (cc.hom.app W)).op (M.val.map (eh.hom.app (bcg.obj W)).op
+  change M.val.map (E''.map (cc.hom.app W)).op (M.val.map (eh.hom.app (bcg.obj W)).op
       (M.val.map (sch.map (eg.hom.app W)).op x)) =
     M.val.map (ek.hom.app W).op (M.val.map (scc.inv.app (E.obj W)).op x)
   refine Eq.trans (congrArg (fun z => M.val.map (E''.map (cc.hom.app W)).op z)

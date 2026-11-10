@@ -164,9 +164,15 @@ twisted: the twist is the value of `Stacks.SheafOfModules.Tensor.sheafTensor`, f
 private theorem isZero_Hgroup_tensorPowModule_of_iso {X : Scheme.{u}} {L : X.Modules}
     [Stacks.Ample.IsInvertibleModule X L] {F G : X.Modules} (e : F ≅ G) (d : ℤ) (p : ℕ)
     (h : IsZero (Hgroup X.ringCatSheaf ⊤ p
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) ((isSheaf_structureRingPresheaf X))⟩).obj (F)).obj ((Stacks.Ample.tensorPowModule X L d)))))) :
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
+          Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)
+            ((isSheaf_structureRingPresheaf X))⟩).obj (F)).obj
+          ((Stacks.Ample.tensorPowModule X L d)))))) :
     IsZero (Hgroup X.ringCatSheaf ⊤ p
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) ((isSheaf_structureRingPresheaf X))⟩).obj (G)).obj ((Stacks.Ample.tensorPowModule X L d))))) :=
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
+          Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)
+            ((isSheaf_structureRingPresheaf X))⟩).obj (G)).obj
+          ((Stacks.Ample.tensorPowModule X L d))))) :=
   (Iso.isZero_iff ((Hfunctor X.ringCatSheaf ⊤ p).mapIso
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
         Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)
@@ -197,7 +203,10 @@ public theorem exists_isZero_Hgroup_transitionKernel_tensorPowModule
     (h0897 : HasAssociatedGradedTwistVanishing A I f L) :
     ∃ d₀ : ℤ, ∀ (n : ℕ) (d : ℤ), d₀ ≤ d →
       IsZero (Hgroup X.ringCatSheaf ⊤ 1
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) ((isSheaf_structureRingPresheaf X))⟩).obj ((transitionKernel 𝓕 n))).obj ((Stacks.Ample.tensorPowModule X L d))))) := by
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
+            Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)
+              ((isSheaf_structureRingPresheaf X))⟩).obj ((transitionKernel 𝓕 n))).obj
+            ((Stacks.Ample.tensorPowModule X L d))))) := by
   let _ : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
   let _ : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
   let _ : IsNoetherian X := { }

@@ -73,6 +73,7 @@ variable (hD : ∀ i, AlgebraicGeometry.IsAlgebraicSpace B S hS (D.obj i))
 include hD hAffine hQc hQs
 
 set_option maxHeartbeats 400000 in
+-- long proof with many `simpa`/`rw` steps over pullbacks of representable presheaves
 include hZ hD hAffine hQc hQs in
 /-- The étale relation presenting an algebraic space of finite presentation over the
 limit, once it is defined at a stage, becomes an étale equivalence relation at a later
@@ -233,7 +234,7 @@ private theorem exists_model_of_stage_relation_of_limitFacts
     yoneda.map_injective (by rw [yoneda.map_comp, hψ₀]; exact KWn.kernelPair.lift_snd _ _ _)
   let Zₙ : Over (D.obj nn) := Over.mk (yoneda.map KWn.s ≫ wn)
   let ψ : Rₙ ⟶ Zₙ := Over.homMk (yoneda.map ψ₀) (by
-    show yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
+    change yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
     rw [← Category.assoc, ← yoneda.map_comp, hψs])
   have hZnAlg := AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS KWn.R
   have hKWnt : AlgebraicGeometry.Space.IsFinitePresentation B S hS (yoneda.map KWn.s) :=
@@ -436,17 +437,19 @@ private theorem exists_model_of_stage_relation_of_limitFacts
   let symSite : RO ⟶ RO := yoneda.preimage symO.left
   have hsymSite₁ : symSite ≫ sO = tO :=
     yoneda.map_injective (by
-      rw [Functor.map_comp, Functor.map_preimage, hsOl, htOl]; exact congrArg (fun z => z.left) hsymS)
+      rw [Functor.map_comp, Functor.map_preimage, hsOl, htOl]
+      exact congrArg (fun z => z.left) hsymS)
   have hsymSite₂ : symSite ≫ tO = sO :=
     yoneda.map_injective (by
-      rw [Functor.map_comp, Functor.map_preimage, htOl, hsOl]; exact congrArg (fun z => z.left) hsymT)
+      rw [Functor.map_comp, Functor.map_preimage, htOl, hsOl]
+      exact congrArg (fun z => z.left) hsymT)
   have hpoCond : yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO =
       yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO := by
     rw [← yoneda.map_comp, ← yoneda.map_comp, pullback.condition]
   let Pₒ : Over (D.obj oo.left) := Over.mk (yoneda.map (pullback.fst tO sO) ≫ rO)
   let cfstₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.fst tO sO)) rfl
   let csndₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.snd tO sO)) (by
-    show yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
+    change yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
     calc yoneda.map (pullback.snd tO sO) ≫ rO
         = yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO ≫ wO := by rw [hsOW]
       _ = yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO ≫ wO := by

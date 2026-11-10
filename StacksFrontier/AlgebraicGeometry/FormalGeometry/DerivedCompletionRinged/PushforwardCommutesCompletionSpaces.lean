@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.ClosedImmersion.TopoiBridge.Basic
 public import StacksFrontier.AlgebraicGeometry.DerivedQCoh.StructureSheafAsADerivedUnit
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.NilpotentIdeal
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.PushforwardCommutesCompletion
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.PushforwardCommutesCompletion
 public import StacksCore.Tactic.StacksAttribute
 
 /-!

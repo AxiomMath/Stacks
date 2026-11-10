@@ -266,7 +266,7 @@ theorem isLocallyInjective_tensorRestrictionPushforward
             ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
             (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
         (tensorRestrictionPushforward X F G U)) := by
-  show Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
+  change Presheaf.IsLocallyInjective ((Opens.grothendieckTopology X.carrier).over U)
     (Functor.whiskerLeft (CategoryTheory.Over.forget U).op
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
         (TensorStalkRingedSpace.sheafifyUnit X
@@ -275,7 +275,7 @@ theorem isLocallyInjective_tensorRestrictionPushforward
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
         (TensorStalkRingedSpace.sheafifyUnit X
           ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))) := by
-    show Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
+    change Presheaf.IsLocallyInjective (Opens.grothendieckTopology X.carrier)
       (CategoryTheory.toSheafify (Opens.grothendieckTopology X.carrier)
         ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))).presheaf)
     infer_instance
@@ -294,7 +294,7 @@ theorem isLocallySurjective_tensorRestrictionPushforward
             ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
             (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)).obj).map
         (tensorRestrictionPushforward X F G U)) := by
-  show Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
+  change Presheaf.IsLocallySurjective ((Opens.grothendieckTopology X.carrier).over U)
     (Functor.whiskerLeft (CategoryTheory.Over.forget U).op
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
         (TensorStalkRingedSpace.sheafifyUnit X
@@ -303,7 +303,7 @@ theorem isLocallySurjective_tensorRestrictionPushforward
       ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).map
         (TensorStalkRingedSpace.sheafifyUnit X
           ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))) := by
-    show Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
+    change Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
       (CategoryTheory.toSheafify (Opens.grothendieckTopology X.carrier)
         ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))).presheaf)
     infer_instance

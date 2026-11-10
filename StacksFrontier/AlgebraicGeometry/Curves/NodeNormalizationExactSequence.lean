@@ -126,7 +126,7 @@ theorem surjective_sub_of_ne {ε₁ ε₂ : S →ₐ[k] k} (hne : ε₁ ≠ ε�
   have hd : ε₁ t₀ - ε₂ t₀ ≠ 0 := sub_ne_zero_of_ne ht₀
   intro c
   refine ⟨algebraMap k S (c / (ε₁ t₀ - ε₂ t₀)) * t₀, ?_⟩
-  show ε₁ (algebraMap k S (c / (ε₁ t₀ - ε₂ t₀)) * t₀) -
+  change ε₁ (algebraMap k S (c / (ε₁ t₀ - ε₂ t₀)) * t₀) -
     ε₂ (algebraMap k S (c / (ε₁ t₀ - ε₂ t₀)) * t₀) = c
   rw [map_mul, map_mul, AlgHom.commutes, AlgHom.commutes, ← mul_sub]
   simpa using div_mul_cancel₀ c hd
@@ -138,11 +138,11 @@ private def equalizerSubmodule (ε₁ ε₂ : S →ₐ[k] k)
     Submodule A S where
   carrier := {t | ε₁ t = ε₂ t}
   add_mem' {s t} hs ht := by
-    simp only [Set.mem_setOf_eq, map_add] at hs ht ⊢
+    simp only [Set.mem_ofPred_eq, map_add] at hs ht ⊢
     rw [hs, ht]
   zero_mem' := by simp
   smul_mem' a t ht := by
-    simp only [Set.mem_setOf_eq] at ht ⊢
+    simp only [Set.mem_ofPred_eq] at ht ⊢
     rw [Algebra.smul_def, map_mul, map_mul, hres a, ht]
 
 omit [Algebra k A] in
@@ -318,12 +318,12 @@ theorem nodeAlg_eq_range_algebraMap_integralClosure (hA : IsNodalAlgebra k A)
   have hkey := range_algebraMap_integralClosure_eq_equalizer k A hA
     (ε₁.comp ((AlgHom.fst k B₁ B₂).comp e.toAlgHom))
     (ε₂.comp ((AlgHom.snd k B₁ B₂).comp e.toAlgHom)) hres hne (e.symm b)
-  simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.apply_symm_apply] at hkey
+  simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.apply_symm_apply] at hkey
   rw [mem_nodeAlg]
   refine hkey.trans ⟨fun h => ?_, fun h => ?_⟩
   · obtain ⟨a, ha⟩ := h
     refine ⟨a, ?_⟩
-    show e (algebraMap A ↥(integralClosure A (FractionRing A)) a) = b
+    change e (algebraMap A ↥(integralClosure A (FractionRing A)) a) = b
     rw [ha, e.apply_symm_apply]
   · obtain ⟨a, ha⟩ := h
     have ha' : e (algebraMap A ↥(integralClosure A (FractionRing A)) a) = b := ha

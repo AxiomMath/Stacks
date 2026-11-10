@@ -147,8 +147,8 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
-  [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f))
+  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
+  (j : CompactificationOf (Over.mk f))
   (k' : Type u) [Field k'] [Fintype k'] [Algebra k k'] [Module.Finite k k']
   (kbar : Type u) [Field kbar] [Algebra k kbar] [Algebra k' kbar] [IsScalarTower k k' kbar]
   [IsNoetherian X.1] [IsNoetherian (fieldExtensionScheme B X f k').1]

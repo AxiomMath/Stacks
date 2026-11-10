@@ -15,8 +15,8 @@ public import StacksFrontier.AlgebraicGeometry.WeilCohomology.SmoothProjectiveSc
 Helpers for stating the axioms of Section 45.9 (Tag 0FHA) and Section 45.14 (Tag 0FID) of the
 Stacks Project on data `Stacks.WeilCohomology.FirstChernClassData` (D0), (D1), (D2'). Definition
 0FI2 itself is `Stacks.WeilCohomology.WeilCohomologyTheory`
-(`StacksFrontier/AlgebraicGeometry/WeilCohomology/Concrete/WeilCohomologyTheory.lean`), and the point
-`Spec k` is `Stacks.WeilCohomology.SmoothProjectiveScheme.point`
+(`StacksFrontier/AlgebraicGeometry/WeilCohomology/Concrete/WeilCohomologyTheory.lean`), and the
+point `Spec k` is `Stacks.WeilCohomology.SmoothProjectiveScheme.point`
 (`StacksFrontier/AlgebraicGeometry/WeilCohomology/Concrete/WeilData.lean`).
 
 ## Main definitions

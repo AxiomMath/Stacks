@@ -72,7 +72,7 @@ theorem moduleFinite_sections_of_le {X : Scheme.{u}} [IsIntegral X] {V₀ U U' :
     { toFun := fun s => X.presheaf.map (homOfLE hU'U).op s
       map_add' := fun a b => map_add _ a b
       map_smul' := fun c s => by
-        show X.presheaf.map (homOfLE hU'U).op
+        change X.presheaf.map (homOfLE hU'U).op
             (X.presheaf.map (homOfLE hUV).op c * s)
           = X.presheaf.map (homOfLE (hU'U.trans hUV)).op c
               * X.presheaf.map (homOfLE hU'U).op s

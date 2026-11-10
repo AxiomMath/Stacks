@@ -71,7 +71,7 @@ def polynomialConstantCoeff (k : Type*) [CommRing k] : rationalPolynomial k →+
 /-- The constant-coefficient homomorphism reads off the coefficient of exponent zero. -/
 theorem polynomialConstantCoeff_apply {k : Type*} [CommRing k]
     (p : rationalPolynomial k) : polynomialConstantCoeff k p = p.coeff 0 := by
-  show AddMonoidAlgebra.lift k k ℚ≥0 (polynomialConstantChar k) p = _
+  change AddMonoidAlgebra.lift k k ℚ≥0 (polynomialConstantChar k) p = _
   rw [AddMonoidAlgebra.lift_apply,
     Finsupp.sum_eq_single 0 (fun b _ hb => by simp [polynomialConstantChar, hb])
       (fun _ => by simp)]

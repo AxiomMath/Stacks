@@ -86,11 +86,15 @@ theorem exists_sheafCompose_iso_of_small (F : Sheaf J AddCommGrpCat.{max w t})
   obtain ⟨G, ⟨e⟩⟩ := exists_sheafCompose_iso_presheafToSheaf.{w, t} J F.obj
   exact ⟨G, ⟨e ≪≫ (sheafificationIso F).symm⟩⟩
 
+omit [HasSheafify J AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{max w t}]
+  [J.PreservesSheafification AddCommGrpCat.uliftFunctor.{t, w}] in
 /-- The sections of a universe lift are small. -/
 theorem small_sheafCompose_obj (G : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ) :
     Small.{w} (((sheafCompose J AddCommGrpCat.uliftFunctor.{t, w}).obj G).obj.obj U) :=
   ⟨⟨G.obj.obj U, ⟨Equiv.ulift⟩⟩⟩
 
+omit [HasSheafify J AddCommGrpCat.{w}]
+  [J.PreservesSheafification AddCommGrpCat.uliftFunctor.{t, w}] in
 /-- A subsheaf of a sheaf with small sections has small sections. -/
 theorem small_of_mono {F F' : Sheaf J AddCommGrpCat.{max w t}} (i : F ⟶ F') [Mono i]
     (hF' : ∀ U, Small.{w} (F'.obj.obj U)) (U : Cᵒᵖ) : Small.{w} (F.obj.obj U) := by

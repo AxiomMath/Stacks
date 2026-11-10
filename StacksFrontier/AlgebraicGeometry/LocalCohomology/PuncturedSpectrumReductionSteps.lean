@@ -193,7 +193,7 @@ theorem puncturedSpectrum_eq_preimage_of_ringEquiv {A B : Type u} [CommRing A] [
     Stacks.Divisors.puncturedSpectrum B =
       Spec.map (CommRingCat.ofHom (e : A →+* B)) ⁻¹ᵁ Stacks.Divisors.puncturedSpectrum A := by
   ext x
-  show (x ∉ ({closedPoint B} : Set (PrimeSpectrum B))) ↔
+  change (x ∉ ({closedPoint B} : Set (PrimeSpectrum B))) ↔
     (Spec.map (CommRingCat.ofHom (e : A →+* B)) x ∉
       ({closedPoint A} : Set (PrimeSpectrum A)))
   refine not_congr ⟨?_, fun hx => PrimeSpectrum.ext <|

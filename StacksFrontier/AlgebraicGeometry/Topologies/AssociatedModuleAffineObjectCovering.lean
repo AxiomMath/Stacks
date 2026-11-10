@@ -112,8 +112,8 @@ state, and which its own examples in Tag 03DU all satisfy.
 No `@[stacks]` attribute is claimed.  The negative result is a statement about the formalization
 and not an assertion of the source; the fifth condition is a hypothesis that the source leaves
 implicit; and the three clauses of Tag 0GN7 restated at the end are the registrations already
-carried by `StacksFrontier.AlgebraicGeometry.Topologies.AssociatedModuleArbitraryBaseFpqc`, read at a
-different hypothesis.
+carried by `StacksFrontier.AlgebraicGeometry.Topologies.AssociatedModuleArbitraryBaseFpqc`, read at
+a different hypothesis.
 
 `Stacks.Sites.not_coverByImage_isAffine_mem_toGrothendieck` is proved through the *topology* and
 not through the precoverage.  `CategoryTheory.Precoverage.toGrothendieck` is an inductive
@@ -163,7 +163,7 @@ monotone. -/
 public theorem fpqcTopology_le_jointlySurjectiveTopology :
     Scheme.fpqcTopology.{u} ≤ Scheme.jointlySurjectiveTopology.{u} := by
   rw [Scheme.jointlySurjectiveTopology_eq_toGrothendieck_jointlySurjectivePretopology]
-  show Scheme.fpqcTopology ≤
+  change Scheme.fpqcTopology ≤
     Scheme.jointlySurjectivePrecoverage.toPretopology.toGrothendieck
   rw [Precoverage.toGrothendieck_toPretopology_eq_toGrothendieck]
   exact Precoverage.toGrothendieck_mono
@@ -319,7 +319,7 @@ public theorem coverByImage_isAffine_mem_of_hasAffineObjectCover [toOver.Full] [
   have hnh : n ≫ h = q := by
     refine toOver.map_injective (Over.OverMorphism.ext ?_)
     rw [toOver.map_comp, hn]
-    show (k ≫ m) ≫ (toOver ⋙ Over.forget S).map h = (toOver ⋙ Over.forget S).map q
+    change (k ≫ m) ≫ (toOver ⋙ Over.forget S).map h = (toOver ⋙ Over.forget S).map q
     rw [Category.assoc, hfac]
   exact ⟨⟨⟨Y, hY⟩, l ≫ n, h, by rw [Category.assoc, hnh]⟩⟩
 

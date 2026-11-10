@@ -110,7 +110,7 @@ private theorem range_yoneda_pullback_snd {C : Type*} [Category C] [HasPullbacks
     Subfunctor.range (yoneda.map (pullback.snd j p)) =
       (Subfunctor.range (yoneda.map j)).preimage (yoneda.map p) := by
   refine Subfunctor.ext (funext fun V => Set.ext fun x => ?_)
-  show (∃ z : V.unop ⟶ pullback j p, z ≫ pullback.snd j p = x) ↔
+  change (∃ z : V.unop ⟶ pullback j p, z ≫ pullback.snd j p = x) ↔
     (∃ y : V.unop ⟶ R, y ≫ j = x ≫ p)
   constructor
   · rintro ⟨z, rfl⟩

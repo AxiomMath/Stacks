@@ -51,6 +51,7 @@ variable {C₁ C₂ D : Type*} [Category* C₁] [Category* C₂] [Category* D]
   {K : CochainComplex C₁ ℤ} {L : CochainComplex C₂ ℤ} {M : CochainComplex D ℤ}
   (g : mapBifunctor K L F (up ℤ) ⟶ M) {n : ℤ} (hM : ∀ k, n < k → IsZero (M.X k))
 
+omit [HasZeroObject C₁] in
 include hM in
 /-- For `p + q = n`, the restriction of `g` to `Tot(F(K, σ^{≥q}L))` vanishes on the summands
 `F(K^i, (σ^{≥q}L)^j)` with `i > p`: either `j < q` and the summand vanishes, or `i + j > n` and
@@ -83,6 +84,7 @@ theorem mapBifunctorMap_πStupidTrunc_truncMul (p q : ℤ) (hpq : p + q = n) :
       mapBifunctorMap (𝟙 K) (ιStupidTrunc L (embeddingUpIntGE q)) F (up ℤ) ≫ g :=
   mapBifunctorMap_πStupidTrunc_truncLEDesc _ _ _
 
+omit [HasZeroObject C₂] in
 /-- Maps out of `Tot(F(σ^{≤p}K, L'))` agree as soon as they agree after `Tot(F(π, 1))`. -/
 theorem mapBifunctor_stupidTruncLE_hom_ext (p : ℤ) {L' : CochainComplex C₂ ℤ}
     {N : CochainComplex D ℤ}
@@ -177,7 +179,7 @@ precomposition with the projection to `Tot(F(K^p[-p], L^q[-q]))` followed by the
 induced by `stupidTruncGEπSection L q`. -/
 theorem mapBifunctorMap_stupidTruncGEπ_f_comp_section (p q : ℤ) (hpq : p + q = n) (k : ℤ) :
     (mapBifunctorMap (𝟙 ((single C₁ (up ℤ) p).obj (K.X p))) (stupidTruncGEπ L q) F (up ℤ)).f k ≫
-        mapBifunctorMapSection F (up ℤ) (fun i => 𝟙 _) (stupidTruncGEπSection L q) k ≫
+        mapBifunctorMapSection F (up ℤ) (fun _ => 𝟙 _) (stupidTruncGEπSection L q) k ≫
           (mapBifunctorMap (stupidTruncLEι K p) (𝟙 _) F (up ℤ) ≫ truncMul F g hM p q hpq).f k =
       (mapBifunctorMap (stupidTruncLEι K p) (𝟙 _) F (up ℤ) ≫ truncMul F g hM p q hpq).f k := by
   ext i j h
@@ -196,7 +198,7 @@ def gradedMul (p q : ℤ) (hpq : p + q = n) :
     mapBifunctor ((single C₁ (up ℤ) p).obj (K.X p)) ((single C₂ (up ℤ) q).obj (L.X q)) F
       (up ℤ) ⟶ M :=
   descOfSection (mapBifunctorMap (𝟙 _) (stupidTruncGEπ L q) F (up ℤ))
-    (mapBifunctorMapSection F (up ℤ) (fun i => 𝟙 _) (stupidTruncGEπSection L q))
+    (mapBifunctorMapSection F (up ℤ) (fun _ => 𝟙 _) (stupidTruncGEπSection L q))
     (mapBifunctorMapSection_comp _ _ F (up ℤ) _ _ (fun _ => Category.id_comp _)
       (stupidTruncGEπSection_comp L q))
     (mapBifunctorMap (stupidTruncLEι K p) (𝟙 _) F (up ℤ) ≫ truncMul F g hM p q hpq)

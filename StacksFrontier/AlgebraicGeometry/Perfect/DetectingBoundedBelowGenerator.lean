@@ -155,7 +155,7 @@ private theorem subsingleton_ext_iff_isZero_homology_aux
         (@asIso _ _ _ _ (derivedTensorDualToSheafHom X.sheaf G (E⟦i⟧)) h))
     have hz : Function.Bijective (fun w => z.hom w) := ConcreteCategory.bijective_of_isIso z.hom
     exact (derivedSheafHomGlobalSectionsEquiv X.sheaf G (E⟦i⟧)).bijective.comp hz
-  letI : ((derivedTensor X.sheaf).flip.obj (derivedDual X.sheaf G)).CommShift ℤ :=
+  let : ((derivedTensor X.sheaf).flip.obj (derivedDual X.sheaf G)).CommShift ℤ :=
     (canonicalDerivedTensorProduct (ringedSite X.sheaf)).commShift_left (derivedDual X.sheaf G)
   let shiftIso := (DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).mapIso
       ((derivedModuleGlobalSections (ringedSite X.sheaf)).mapIso

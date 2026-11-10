@@ -126,16 +126,12 @@ theorem sheafPushforward_localizedRingedTopos_O_mapIso :
   rfl
 
 /-- The comparison of the two localized structure sheaves in inverse-image form, which is the
-equality above read through `Stacks.Sheaves.ToposPullback.restrictionCommRingIso`.
-
-The continuity instance is passed explicitly: `restrictionCommRingIso` asks for it while its
-functor argument is still a metavariable. -/
+equality above read through `Stacks.Sheaves.ToposPullback.restrictionCommRingIso`. -/
 noncomputable def localizedStructureSheafIsoOfIso :
     (inverseImageCommRingFunctor (localizedToposMorphismOfIso X e)).obj
         (localizedRingedTopos X F').O ≅ (localizedRingedTopos X F).O :=
-  @restrictionCommRingIso _ _ _ _ (elementTopology X F) (localizedRingedTopos X F').J
-    _ _ (elementSiteMapIso X e) (isContinuous_elementSiteMapIso_localized X e)
-    (localizedRingedTopos X F').O
+  restrictionCommRingIso (elementTopology X F) (localizedRingedTopos X F').J
+    (elementSiteMapIso X e) (localizedRingedTopos X F').O
 
 /-- **The localization of a ringed topos at a sheaf depends on the sheaf only up to isomorphism,
 as a morphism of ringed topoi** — structure sheaves included. Its morphism of topoi is

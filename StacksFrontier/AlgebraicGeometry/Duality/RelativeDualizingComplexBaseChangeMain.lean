@@ -39,7 +39,7 @@ theorem exists_mem_chartBaseChange (x : X') :
   obtain ⟨_, ⟨V, hV, rfl⟩, hxV, -⟩ := S.isBasis_affineOpens.exists_subset_of_mem_open
     (Set.mem_univ (f.base (g'.base x))) isOpen_univ
   have h₁ : f'.base x ∈ g ⁻¹ᵁ V := by
-    show (f' ≫ g).base x ∈ V
+    change (f' ≫ g).base x ∈ V
     rwa [← hpb.w]
   obtain ⟨_, ⟨V', hV', rfl⟩, hxV', hV'V⟩ := S'.isBasis_affineOpens.exists_subset_of_mem_open
     h₁ (g ⁻¹ᵁ V).isOpen

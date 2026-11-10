@@ -46,7 +46,8 @@ own, and the intermediate statements that still take the top-degree base change 
 carry no attribute. The quasi-coherence clause alone also carries
 `@[stacks 0EX4 "quasi-coherence"]` in `StacksFrontier/AlgebraicGeometry/ProperQcoh/Basic.lean`.
 
-**The derived-category model is pinned.** `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`
+**The derived-category model is pinned.**
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`
 installs a global `CategoryTheory.HasDerivedCategory.{u}` instance for `X.Modules`, while the
 statements imported from `NoetherianApproximation.lean` and from
 `StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/` are elaborated at

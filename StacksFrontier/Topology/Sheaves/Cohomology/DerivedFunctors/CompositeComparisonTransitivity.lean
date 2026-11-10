@@ -228,7 +228,7 @@ theorem rightDerivedCompIso_hom_app_comp (F : A ⥤ B) (G : B ⥤ D) (H : A ⥤ 
       (rightDerivedCompIso F (G ⋙ G') H' e'' p).hom.app M := by
   rw [rightDerivedCompIso_hom_app, rightDerivedCompIso_hom_app, rightDerivedCompIso_hom_app,
     Functor.map_comp, Functor.map_comp, Functor.comp_map, Category.assoc, Category.assoc,
-    Iso.map_inv_hom_id_assoc, ← Category.assoc
+    Iso.inv_hom_id_map_assoc, ← Category.assoc
       (G'.map ((mapComplexHomologyIso F G H e p).hom.app (injectiveResolution M).cocomplex)),
     mapComplexHomologyIso_hom_app_comp F G H G' H' e e' e'' he p
       (injectiveResolution M).cocomplex]

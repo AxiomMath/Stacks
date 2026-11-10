@@ -109,7 +109,8 @@ attribute [local instance_reducible] Stacks.SheafOfModules.Tensor.ringSheaf
 /-- The sheafified tensor product of two `𝒪_X`-modules on a scheme, read as an `𝒪_X`-module.
 This is a transport of spelling: the two types are definitionally equal. -/
 noncomputable abbrev tensorModules {X : Scheme.{u}} (F G : X.Modules) : X.Modules :=
-  (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))
+  (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
+    ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))
 
 /-- The fibre rank of a tensor product is the product of the fibre ranks, at a point where both
 stalks are free.  The three module structures on the stalks are parameters, so that the scalar
@@ -123,7 +124,8 @@ theorem finrank_stalk_tensorSheaf {X : Scheme.{u}} (F G : X.Modules) (x : X)
     (hF : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkModule X.toRingedSpace F.val x = iF)
     (hG : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkModule X.toRingedSpace G.val x = iG)
     (hT : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkModule X.toRingedSpace
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))).val x = iT)
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
+        ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))).val x = iT)
     (fF : @Module.Free (X.presheaf.stalk x) (F.presheaf.stalk x) _ _ iF)
     (fG : @Module.Free (X.presheaf.stalk x) (G.presheaf.stalk x) _ _ iG) :
     @Module.finrank _ _ _ _ iT =

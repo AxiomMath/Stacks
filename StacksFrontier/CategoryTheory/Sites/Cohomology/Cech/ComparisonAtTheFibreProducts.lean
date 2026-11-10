@@ -72,7 +72,7 @@ theorem isIso_sliceCechComplexFunctor_map {G G' : (Over X)ᵒᵖ ⥤ A} (α : G 
     intro n
     have : ∀ i : Fin (n + 1) → E.I₀,
         IsIso (α.app (op (∏ᶜ (fun a ↦ Over.mk (E.f (i a)))))) := hα n
-    show IsIso (CategoryTheory.Limits.Pi.map
+    change IsIso (CategoryTheory.Limits.Pi.map
       (f := fun i : Fin (n + 1) → E.I₀ ↦ G.obj (op (∏ᶜ (fun a ↦ Over.mk (E.f (i a))))))
       (g := fun i : Fin (n + 1) → E.I₀ ↦ G'.obj (op (∏ᶜ (fun a ↦ Over.mk (E.f (i a))))))
       (fun i ↦ α.app (op (∏ᶜ (fun a ↦ Over.mk (E.f (i a)))))))

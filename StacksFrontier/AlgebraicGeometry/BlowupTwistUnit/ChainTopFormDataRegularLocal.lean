@@ -313,7 +313,9 @@ typeclass synthesis at
 `StacksFrontier/Homology/Tor/Presentation.lean:372` and four other sites, the second with the
 instance pinned by hand to avoid it.
 
-The explanation is *not* the `import all` at `StacksFrontier/AlgebraicGeometry/Duality/DerivedTilde/AffinePullbackComparison.lean:9`: the `private`
+The explanation is *not* the `import all` at
+`StacksFrontier/AlgebraicGeometry/Duality/DerivedTilde/AffinePullbackComparison.lean:9`: the
+`private`
 lemma it reaches, `CochainComplex.DerivedExtensionScalars.isLeftDerivedFunctor_of_isIso_on_kFlat`
 (`StacksFrontier/Homology/Tor/DerivedExtensionScalars.lean:893`), is clean, as are the other
 eighteen `private` declarations of that module; and

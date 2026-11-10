@@ -69,8 +69,8 @@ The morphism-of-sites hypothesis `hmos`, the left-derived-functor instance and t
 universes are those of Stacks 07A4 in this development. What `hmos` is — this development's
 encoding of "`f` is a morphism of ringed topoi", not a hypothesis beyond the source's — is
 spelled out in the docstring of `derivedPullback_toTensor_square`; for the collapsed universes
-see the implementation notes of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorComparison.lean`.
+see the implementation notes of the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorComparison`.
 The left-derived-functor instance and the six tensor-side instance arguments are discharged in
 `DerivedPullbackTensorTotalSquareUnconditional.lean`, which carries the tag.
 

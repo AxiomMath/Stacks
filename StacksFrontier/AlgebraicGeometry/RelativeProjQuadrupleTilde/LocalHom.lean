@@ -202,6 +202,7 @@ theorem pullbackComp_assoc_app {V W : Scheme.{u}} {X : Scheme.{u}} (k : W ⟶ V)
     Functor.whiskerLeft_app, Category.id_comp, eqToHom_app] at hassoc
   exact hassoc.trans rfl
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- The comparison `ℳ̃` of a composite pullback, `(k ≫ a)^*ℳ̃_T ≅ ℳ̃_W`, through `a`. -/
 theorem associatedSheafPullbackIso_comp_pullbackComp {V : Scheme.{u}} (a : V ⟶ T)
     {W : Scheme.{u}} (k : W ⟶ V) :

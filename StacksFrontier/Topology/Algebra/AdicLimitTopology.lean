@@ -82,7 +82,7 @@ theorem towerLimit_proj_ker_antitone (i j : ℕ) (hij : i ≤ j) :
     LinearMap.ker (towerLimit.proj D f j) ≤ LinearMap.ker (towerLimit.proj D f i) := by
   intro x hx
   refine LinearMap.mem_ker.mpr ?_
-  show x.1 i = 0
+  change x.1 i = 0
   change x.1 j = 0 at hx
   induction j, hij using Nat.le_induction with
   | base => exact hx
@@ -98,7 +98,7 @@ theorem pow_smul_le_proj_ker (I : Ideal R)
     I ^ (n + 1) • (⊤ : Submodule R (towerLimit D f)) ≤
       LinearMap.ker (towerLimit.proj D f n) := by
   refine Submodule.smul_le.mpr fun a ha x _ ↦ LinearMap.mem_ker.mpr ?_
-  show a • x.1 n = 0
+  change a • x.1 n = 0
   rw [← x.2 n, ← map_smul]
   exact LinearMap.mem_ker.mp (Submodule.smul_le.mp (hkill n) a ha (x.1 (n + 1)) (by simp))
 
@@ -108,7 +108,7 @@ theorem exists_mem_towerLimit_sum (a : ℕ → towerLimit D f)
     (ha : ∀ i, a i ∈ LinearMap.ker (towerLimit.proj D f i)) :
     ∃ s : towerLimit D f, ∀ j, s.1 j = ∑ i ∈ Finset.range (j + 1), (a i).1 j := by
   refine ⟨⟨fun j ↦ ∑ i ∈ Finset.range (j + 1), (a i).1 j, fun j ↦ ?_⟩, fun _ ↦ rfl⟩
-  show f j (∑ i ∈ Finset.range (j + 1 + 1), (a i).1 (j + 1)) =
+  change f j (∑ i ∈ Finset.range (j + 1 + 1), (a i).1 (j + 1)) =
     ∑ i ∈ Finset.range (j + 1), (a i).1 j
   rw [map_sum]
   simp only [(a _).2 j]
@@ -146,13 +146,13 @@ theorem exists_smul_sum {ι : Type w} [Fintype ι] (a : ι → R) (c : ℕ)
     induction j with
     | zero => simp [residual]
     | succ j ih =>
-      show (residual j).1 - ∑ i, a i • b j i = _
+      change (residual j).1 - ∑ i, a i • b j i = _
       rw [ih, Finset.sum_range_succ, sub_sub]
   have hs (i : ι) := exists_mem_towerLimit_sum f (fun j ↦ b j i)
     (fun j ↦ towerLimit_proj_ker_antitone f j (n + j) (Nat.le_add_left j n) (hb j i))
   choose s hs using hs
   refine ⟨s, fun i ↦ ?_, ?_⟩
-  · show (s i).1 n = 0
+  · change (s i).1 n = 0
     rw [hs]
     refine Finset.sum_eq_zero fun j _ ↦ ?_
     exact towerLimit_proj_ker_antitone f n (n + j) (Nat.le_add_right n j) (hb j i)
@@ -163,7 +163,7 @@ theorem exists_smul_sum {ι : Type w} [Fintype ι] (a : ι → R) (c : ℕ)
     have hz' : x.1 j = ∑ k ∈ Finset.range (j + 1), ∑ i, a i • (b k i).1 j := by
       simpa only [Submodule.coe_sub, Submodule.coe_sum, Submodule.coe_smul, Pi.sub_apply,
         Finset.sum_apply, Pi.smul_apply, sub_eq_zero] using hz
-    show x.1 j = (∑ i, a i • s i).1 j
+    change x.1 j = (∑ i, a i • s i).1 j
     simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply]
     simp_rw [hs, Finset.smul_sum]
     rw [Finset.sum_comm]
@@ -228,7 +228,7 @@ theorem iInf_induced_eq_adicModuleTopology {M : Type v} [AddCommGroup M] [Module
         simp [LinearMap.mem_ker.mp hz]
     have hfilter : @nhds M T₁ x = ⨅ n, Filter.principal
         ((fun y : M ↦ x + y) '' ((g n).ker : Set M)) := by
-      show @nhds M (⨅ n, TopologicalSpace.induced (fun y : M ↦ g n y) ⊥) x = _
+      change @nhds M (⨅ n, TopologicalSpace.induced (fun y : M ↦ g n y) ⊥) x = _
       rw [nhds_iInf]
       refine congrArg _ (funext fun n ↦ ?_)
       let : TopologicalSpace (N n) := ⊥
@@ -243,7 +243,7 @@ theorem iInf_induced_eq_adicModuleTopology {M : Type v} [AddCommGroup M] [Module
       (fun n ↦ (fun y : M ↦ x + y) ''
         ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M)) := by
     have hb := b.toAddGroupFilterBasis.nhds_hasBasis x
-    show (@nhds M (I.adicModuleTopology M) x).HasBasis _ _
+    change (@nhds M (I.adicModuleTopology M) x).HasBasis _ _
     refine hb.to_hasBasis ?_ ?_
     · intro U hU
       change (∃ n, U = ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M)) at hU

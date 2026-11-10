@@ -186,7 +186,7 @@ theorem upSheafUnit_comp_structureDescent {O : Sheaf K A} {R : Sheaf J A}
     upSheafUnit u J O ≫ (u.sheafPushforwardContinuous A K J).map (structureDescent u J α)
       = α := by
   apply InducedCategory.Hom.ext
-  show upSheafUnitHom u J O ≫ whiskerLeft u.op (structureDescent u J α).hom = α.hom
+  change upSheafUnitHom u J O ≫ whiskerLeft u.op (structureDescent u J α).hom = α.hom
   rw [upSheafUnitHom, Category.assoc, ← whiskerLeft_comp, upSheafify_comp_structureDescent,
     ← Functor.lanAdjunction_unit u.op A]
   exact unit_comp_map_homEquiv_symm (u.op.lanAdjunction A) α.hom

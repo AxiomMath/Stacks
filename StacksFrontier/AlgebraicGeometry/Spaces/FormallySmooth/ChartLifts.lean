@@ -267,7 +267,7 @@ theorem transition_sub_eq {q₁ q₂ q₃ q₄ : C →ₐ[A'] E} (h₁ : π.comp
     refine thick_algHom_ext fun i => AlgHom.ext fun c => ?_
     fin_cases i
     · rfl
-    · show q₃ c + q₂ c - q₁ c = q₄ c
+    · change q₃ c + q₂ c - q₁ c = q₄ c
       rw [add_sub_assoc, h c]
       ring
   -- so the translate of the transition of the triple is the transition of the pair
@@ -379,7 +379,7 @@ theorem transitionDiff_sub {q₁ q₂ : C →ₐ[A'] E} (h₁ : π.comp q₁ = �
     (transitionDiff hφ hπ hsq hζ ⟨_, sub_mem_diff hsq h₁ h₂⟩).1 =
       (transition hφ hπ hsq hζ h₂).toLinearMap - (transition hφ hπ hsq hζ h₁).toLinearMap := by
   refine LinearMap.ext fun c => ?_
-  show transition hφ hπ hsq hζ _ c - transition hφ hπ hsq hζ _ c = _
+  change transition hφ hπ hsq hζ _ c - transition hφ hπ hsq hζ _ c = _
   exact transition_sub_eq hφ hπ hsq hζ (comp_someLift hπ hsq ζ)
     (comp_addDiff hsq (comp_someLift hπ hsq ζ) (sub_mem_diff hsq h₁ h₂)) h₁ h₂
     (fun c => by simp) c
@@ -421,7 +421,7 @@ theorem transitionDiff_of_eq (h : ζ = ζ') (D : diff π ζ) :
   have e : ∀ {q : C →ₐ[A'] E} (hq : π.comp q = ζ), transition hφ hπ hsq hζ hq = q := fun hq =>
     (eq_transition hφ hπ hsq hζ hq hq rfl).symm
   refine LinearMap.ext fun c => ?_
-  show transition hφ hπ hsq hζ _ c - transition hφ hπ hsq hζ _ c = D.1 c
+  change transition hφ hπ hsq hζ _ c - transition hφ hπ hsq hζ _ c = D.1 c
   rw [e, e, addDiff_apply]
   ring
 
@@ -494,7 +494,7 @@ theorem transitionDiff_naturality (hφ : ChartUniqueLifts φ) [Algebra.FormallyS
   have ha₂ := comp_comp_eq_of_comp_eq hτ ha
   have hD : diffMap hπ hsq hsq₂ τ τ' hτ ζ D = ⟨_, sub_mem_diff hsq₂ h₀₂ ha₂⟩ := by
     refine Subtype.ext (LinearMap.ext fun c => ?_)
-    show τ (D.1 c) = τ (q₀ c + D.1 c) - τ (q₀ c)
+    change τ (D.1 c) = τ (q₀ c + D.1 c) - τ (q₀ c)
     rw [map_add]
     abel
   rw [hD]
@@ -504,7 +504,7 @@ theorem transitionDiff_naturality (hφ : ChartUniqueLifts φ) [Algebra.FormallyS
     transition_naturality hφ hπ hsq hζ hπ₂ hsq₂ τ τ' hτ hζ₂ ha ha₂]
   refine LinearMap.ext fun c => ?_
   simp only [LinearMap.sub_apply, AlgHom.toLinearMap_apply, AlgHom.comp_apply, diffMap_apply]
-  show _ = τ (transition hφ hπ hsq hζ ha c - transition hφ hπ hsq hζ h₀ c)
+  change _ = τ (transition hφ hπ hsq hζ ha c - transition hφ hπ hsq hζ h₀ c)
   rw [map_sub]
 
 end AlgebraicGeometry.Space

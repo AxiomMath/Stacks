@@ -166,7 +166,7 @@ theorem isLocallySurjective_homologyMap (i : ι)
   obtain ⟨z', hz', y, hy⟩ := hloc b hb
   obtain ⟨w', rfl⟩ := HomologicalComplex.exists_iCycles_apply_eq (sectionsAb (op W)) K rfl z' hz'
   refine ⟨(sectionsAb (op W)).map (K.homologyπ i) w', ?_⟩
-  show (sectionsAb (op W)).map (HomologicalComplex.homologyMap φ i)
+  change (sectionsAb (op W)).map (HomologicalComplex.homologyMap φ i)
       ((sectionsAb (op W)).map (K.homologyπ i) w') =
     ((toPresheaf.{v} R₀).obj (L.homology i)).map b.op
       (((toPresheaf.{v} R₀).map (L.homologyπ i)).app (op V) w)
@@ -174,10 +174,10 @@ theorem isLocallySurjective_homologyMap (i : ι)
   refine HomologicalComplex.homologyπ_apply_eq_of_iCycles_apply_eq_add (sectionsAb (op W)) L
     rfl _ _ (-y) ?_
   rw [HomologicalComplex.map_iCycles_map_cyclesMap, map_neg]
-  show _ = ((toPresheaf.{v} R₀).map (L.iCycles i)).app (op W)
+  change _ = ((toPresheaf.{v} R₀).map (L.iCycles i)).app (op W)
       (((toPresheaf.{v} R₀).obj (L.cycles i)).map b.op w) + _
   rw [← toPresheaf_map_app_restrict]
-  show _ = ((toPresheaf.{v} R₀).obj (L.X i)).map b.op
+  change _ = ((toPresheaf.{v} R₀).obj (L.X i)).map b.op
       ((sectionsAb (op V)).map (L.iCycles i) w) + _
   rw [hy]
   dsimp only [sectionsAb, Functor.comp_map, evaluation_obj_map]
@@ -217,12 +217,12 @@ theorem isLocallyInjective_homologyMap (i : ι)
   refine ⟨S, hS, fun W b hb => ?_⟩
   obtain ⟨y', hy'⟩ := hloc b hb
   rw [← sub_eq_zero, ← map_sub, ← hw]
-  show ((toPresheaf.{v} R₀).obj (K.homology i)).map b.op
+  change ((toPresheaf.{v} R₀).obj (K.homology i)).map b.op
       (((toPresheaf.{v} R₀).map (K.homologyπ i)).app (op V) w) = 0
   rw [toPresheaf_map_app_restrict]
   refine ((HomologicalComplex.homologyπ_apply_eq_of_iCycles_apply_eq_add (sectionsAb (op W)) K
     rfl _ 0 y' ?_).trans (map_zero _))
-  show ((toPresheaf.{v} R₀).map (K.iCycles i)).app (op W)
+  change ((toPresheaf.{v} R₀).map (K.iCycles i)).app (op W)
       (((toPresheaf.{v} R₀).obj (K.cycles i)).map b.op w) = _
   rw [← toPresheaf_map_app_restrict, map_zero, zero_add]
   exact hy'
@@ -251,7 +251,7 @@ theorem exists_cycle_eq_add_d_of_quasiIsoAt (i : ι) [QuasiIsoAt φ i] (z : L.X 
   obtain ⟨y, hy⟩ := exists_toCycles_apply_eq_of_homologyπ_apply_eq_zero G L rfl _ he
   refine ⟨G.map (K.iCycles i) w', ?_, -y, ?_⟩
   · exact map_d_map_iCycles G K _ _ w'
-  · show (z : G.obj (L.X i)) = G.map (φ.f i) (G.map (K.iCycles i) w') +
+  · change (z : G.obj (L.X i)) = G.map (φ.f i) (G.map (K.iCycles i) w') +
       G.map (L.d (c.prev i) i) (-y)
     have h2 : G.map (L.d (c.prev i) i) y =
         G.map (L.iCycles i) (G.map (cyclesMap φ i) w') - z := by
@@ -277,7 +277,7 @@ theorem exists_d_eq_of_quasiIsoAt (i : ι) [QuasiIsoAt φ i] (z' : K.X i)
     (AddCommGrpCat.mono_iff_injective _).1 inferInstance (h0.trans (map_zero _).symm)
   obtain ⟨y', hy'⟩ := exists_toCycles_apply_eq_of_homologyπ_apply_eq_zero G K rfl _ hπ
   refine ⟨y', ?_⟩
-  show (z' : G.obj (K.X i)) = G.map (K.d (c.prev i) i) y'
+  change (z' : G.obj (K.X i)) = G.map (K.d (c.prev i) i) y'
   rw [← hw, ← hy', map_iCycles_map_toCycles]
 
 end HomologicalComplex

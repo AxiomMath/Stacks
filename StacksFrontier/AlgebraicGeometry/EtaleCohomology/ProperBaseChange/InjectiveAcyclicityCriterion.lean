@@ -180,7 +180,7 @@ public theorem CohomologyCommutesWithBaseChange.injectiveBaseChangeAcyclic {X Y 
     {f : X ⟶ Y} (hf : CohomologyCommutesWithBaseChange.{u, v} f) :
     InjectiveBaseChangeAcyclic.{u, v} f :=
   InjectiveBaseChangeIso.injectiveBaseChangeAcyclic fun ℓ hℓ I _ _ _ g g' f' sq ↦
-    hf g g' f' sq _ (torsionSheafProperty_toSheaf_zmod hℓ.pos I)
+    hf g g' f' sq _ (torsionSheafProperty_toSheaf_zmod (ℓ := ℓ) hℓ.pos I)
 
 end Stacks.EtaleCohomology
 

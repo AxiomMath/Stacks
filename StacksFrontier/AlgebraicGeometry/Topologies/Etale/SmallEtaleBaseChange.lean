@@ -103,7 +103,7 @@ private lemma isCovering_of_isPullback {X Y : B.Scheme}
     (h : ∀ i, IsPullback (p₁ i) (p₂ i) g (E.f i)) :
     B.IsCovering ⟨Y, ⟨E.I₀, P, p₁⟩⟩ := by
   refine ⟨?_, hE.2⟩
-  show (PreZeroHypercover.mk E.I₀ P p₁ |>.map B.inclusion).presieve₀ ∈
+  change (PreZeroHypercover.mk E.I₀ P p₁ |>.map B.inclusion).presieve₀ ∈
     Scheme.etalePrecoverage (B.inclusion.obj Y)
   apply Precoverage.mem_coverings_of_isPullback
     (f := fun i => B.inclusion.map (E.f i))
@@ -125,7 +125,7 @@ private lemma isCovering_overPullback {S T : B.Scheme} (f : T ⟶ S)
     (fun i => ((Over.pullback f).map (E.f i)).left)
     (fun i => pullback.fst (E.X i).hom f)
   intro i
-  show IsPullback
+  change IsPullback
     (pullback.lift (pullback.fst (E.X i).hom f ≫ (E.f i).left)
       (pullback.snd (E.X i).hom f) _)
     (pullback.fst (E.X i).hom f) (pullback.fst X.hom f) (E.f i).left
@@ -207,7 +207,7 @@ public theorem smallEtaleBaseChange_isCovering {S T : B.Scheme} (f : T ⟶ S)
     (hE : SmallEtale.IsCovering B S.obj S.property E) :
     SmallEtale.IsCovering B T.obj T.property
       ⟨(smallEtaleBaseChange B f).obj E.1, E.2.map (smallEtaleBaseChange B f)⟩ := by
-  show B.IsCovering _
+  change B.IsCovering _
   exact isCovering_overPullback B (T := B.obj T.obj T.property) f
     (E.2.map (SmallEtale.inclusion B S.obj S.property)) hE
 

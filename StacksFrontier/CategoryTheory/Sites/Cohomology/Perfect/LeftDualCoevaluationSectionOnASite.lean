@@ -106,10 +106,67 @@ attribute [local instance] SheafOfModules.monoidalCategorySheafTensor
   CochainComplex.symmetricCategory
 
 variable (X : RingedSite.{u, u, u})
-variable [HasSheafify X.J AddCommGrpCat.{u}]
-variable [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable [∀ W : X.C, HasSheafify (X.J.over W) AddCommGrpCat.{u}]
 variable [∀ W : X.C, (X.J.over W).WEqualsLocallyBijective AddCommGrpCat.{u}]
+
+/-- **The degree-zero cocycle section of a chain-level representative restricts along an arrow
+of the site.** Let `β : O|_V[0] ⟶ F|_V` be a morphism of complexes out of the restriction of the
+structure sheaf in degree zero and let `g : W ⟶ V` be any arrow of `C`. The degree-zero cocycle
+section that
+`AlgebraicGeometry.RingedSite.restrictComplexMapAlong`, the restriction of `β` along `g`,
+corresponds to is the restriction along `g` of the one `β` corresponds to.
+
+This is what composes the two coverings of the proof of [Stacks, Tag 0FPV]: the derived half of
+the restriction is
+`AlgebraicGeometry.RingedSite.mapDerivedCategory_map_eq_restrictComplexMapAlong`, and this is
+its section half, so that the cocycle statement obtained over `W` can be refined to a further
+covering *with its section restricted* — which is the form in which the section is known to be a
+finite sum of pure tensors.
+
+The proof is naturality of `β` in degree zero along `Over.homMk g : Over.mk (𝟙 W ≫ g) ⟶
+Over.mk (𝟙 V)` in `C/V` together with `PresheafOfModules.unit_map_one`. Everything else is
+definitional: the components of `SheafOfModules.overFunctorMap` and of
+`SheafOfModules.overFunctorUnitIso` are the identity on sections, the comparisons
+`HomologicalComplex.singleObjXSelf` and `HomologicalComplex.singleMapHomologicalComplex` are
+`eqToHom`s between definitionally equal objects, and restriction to a slice reindexes sections
+along `Over.forget`. -/
+theorem cocycleOfOver_restrictComplexMapAlong {V W : X.C} (g : W ⟶ V)
+    {F : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
+    (β : X.restrictComplex (structureSheafComplex X) V ⟶ X.restrictComplex F V) :
+    SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        ((SheafOfModules.overFunctorUnitComplexIso
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) W).inv ≫
+          restrictComplexMapAlong X g β) =
+      (F.X 0).val.map g.op
+        (SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          ((SheafOfModules.overFunctorUnitComplexIso
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V).inv ≫ β)) := by
+  obtain ⟨h, hh⟩ : ∃ h : (Over.map g).obj (Over.mk (𝟙 W)) ⟶ Over.mk (𝟙 V),
+      h = Over.homMk g (by simp) := ⟨_, rfl⟩
+  have hone : ((X.restrictComplex (structureSheafComplex X) V).X 0).val.map h.op
+      (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V)) =
+      (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)) := by
+    subst hh
+    exact PresheafOfModules.unit_map_one (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj g.op
+  have hnat := PresheafOfModules.naturality_apply (β.f 0).val h.op
+    (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V))
+  have hL : SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        ((SheafOfModules.overFunctorUnitComplexIso
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) W).inv ≫
+          restrictComplexMapAlong X g β) =
+      (β.f 0).val.app (op ((Over.map g).obj (Over.mk (𝟙 W))))
+        (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)) := rfl
+  have hR : SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        ((SheafOfModules.overFunctorUnitComplexIso
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V).inv ≫ β) =
+      (β.f 0).val.app (op (Over.mk (𝟙 V)))
+        (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V)) := rfl
+  rw [hL, hR, ← hone, hnat]
+  subst hh
+  rfl
+
+variable [HasSheafify X.J AddCommGrpCat.{u}]
+variable [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable [HasDerivedCategory.{d} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
 variable [hCoevDer : ∀ W : X.C,
   HasDerivedCategory.{d} (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over W))]
@@ -180,72 +237,6 @@ theorem exists_coveringSieve_cocycleHomOver (V : X.C)
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) W).inv ≫ β), ← Category.assoc,
     Iso.hom_inv_id, Category.id_comp]
 
-/-- **The degree-zero cocycle section of a chain-level representative restricts along an arrow
-of the site.** Let `β : O|_V[0] ⟶ F|_V` be a morphism of complexes out of the restriction of the
-structure sheaf in degree zero and let `g : W ⟶ V` be any arrow of `C`. The degree-zero cocycle
-section that
-`AlgebraicGeometry.RingedSite.restrictComplexMapAlong`, the restriction of `β` along `g`,
-corresponds to is the restriction along `g` of the one `β` corresponds to.
-
-This is what composes the two coverings of the proof of [Stacks, Tag 0FPV]: the derived half of
-the restriction is
-`AlgebraicGeometry.RingedSite.mapDerivedCategory_map_eq_restrictComplexMapAlong`, and this is
-its section half, so that the cocycle statement obtained over `W` can be refined to a further
-covering *with its section restricted* — which is the form in which the section is known to be a
-finite sum of pure tensors.
-
-The proof is naturality of `β` in degree zero along `Over.homMk g : Over.mk (𝟙 W ≫ g) ⟶
-Over.mk (𝟙 V)` in `C/V` together with `PresheafOfModules.unit_map_one`. Everything else is
-definitional: the components of `SheafOfModules.overFunctorMap` and of
-`SheafOfModules.overFunctorUnitIso` are the identity on sections, the comparisons
-`HomologicalComplex.singleObjXSelf` and `HomologicalComplex.singleMapHomologicalComplex` are
-`eqToHom`s between definitionally equal objects, and restriction to a slice reindexes sections
-along `Over.forget`. -/
-theorem cocycleOfOver_restrictComplexMapAlong {V W : X.C} (g : W ⟶ V)
-    {F : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
-    (β : X.restrictComplex (structureSheafComplex X) V ⟶ X.restrictComplex F V) :
-    SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        ((SheafOfModules.overFunctorUnitComplexIso
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) W).inv ≫
-          restrictComplexMapAlong X g β) =
-      (F.X 0).val.map g.op
-        (SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-          ((SheafOfModules.overFunctorUnitComplexIso
-              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V).inv ≫ β)) := by
-  obtain ⟨h, hh⟩ : ∃ h : (Over.map g).obj (Over.mk (𝟙 W)) ⟶ Over.mk (𝟙 V),
-      h = Over.homMk g (by simp) := ⟨_, rfl⟩
-  have hone : ((X.restrictComplex (structureSheafComplex X) V).X 0).val.map h.op
-      (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V)) =
-      (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)) := by
-    subst hh
-    exact PresheafOfModules.unit_map_one (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj g.op
-  have hnat := PresheafOfModules.naturality_apply (β.f 0).val h.op
-    (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V))
-  have hL : SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        ((SheafOfModules.overFunctorUnitComplexIso
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) W).inv ≫
-          restrictComplexMapAlong X g β) =
-      (β.f 0).val.app (op ((Over.map g).obj (Over.mk (𝟙 W))))
-        (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)) := rfl
-  have hR : SheafOfModules.cocycleOfOver (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-        ((SheafOfModules.overFunctorUnitComplexIso
-            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V).inv ≫ β) =
-      (β.f 0).val.app (op (Over.mk (𝟙 V)))
-        (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op V)) := rfl
-  rw [hL, hR, ← hone, hnat]
-  subst hh
-  rfl
-
-variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
-variable [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
-variable [∀ (K L : CochainComplex
-    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-  HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
-    (ComplexShape.up ℤ)]
-
-variable [∀ W : X.C,
-  HasDerivedCategory.{d} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u}
-    (X.O.over W)))]
 
 /-- **The section `η(1)` of [Stacks, Tag 0FPV], on a ringed site.** Let `M^•` and `N^•` be K-flat
 complexes of `O`-modules and let `η : 𝟙 ⟶ Q(M^•) ⊗^L Q(N^•)` be a morphism of `D(O)` out of the

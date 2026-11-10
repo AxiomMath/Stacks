@@ -125,7 +125,7 @@ lemma evalRingHom_comp_tensorProductEquivPi (k K : Type u) [Field k] [Field K] [
       (tensorEvalAlgHom σ).toRingHom := by
   ext x
   · simp [RingHom.comp_apply]
-  · show (tensorProductEquivPi k K) (Algebra.TensorProduct.includeRight.toRingHom x) σ =
+  · change (tensorProductEquivPi k K) (Algebra.TensorProduct.includeRight.toRingHom x) σ =
       tensorEvalAlgHom σ (Algebra.TensorProduct.includeRight.toRingHom x)
     exact tensorProductEquivPi_apply k K _ _
 

@@ -69,7 +69,7 @@ theorem sectionsWithSupportIn_supported (A : Type u) [CommRing A]
   intro x _
   rw [mem_sectionsWithSupportIn_iff]
   have hx' := (mem_sectionsWithSupportIn_iff A T M x.val).mp x.property
-  show PrimeSpectrum.zeroLocus
+  change PrimeSpectrum.zeroLocus
     (Ideal.torsionOf A (sectionsWithSupportIn A T (↑M)) x : Set A) ⊆ T
   rw [torsionOf_submodule_eq]
   exact hx'
@@ -240,7 +240,7 @@ theorem derivedInclusion_adj_derivedSupportedSections (A : Type u) [CommRing A]
       rw [← cancel_epi (RF.map (Q.map s.hom)), ← Category.assoc, ← Functor.map_comp,
         ← Functor.map_comp, hcomp]
       exact (eRF.hom_inv_id_assoc _).trans (Category.comp_id _).symm
-    show (F ⋙ Q').map ((ht.from s).right) ≫ (β.app t₀.right ≫ eRF.inv) ≫
+    change (F ⋙ Q').map ((ht.from s).right) ≫ (β.app t₀.right ≫ eRF.inv) ≫
       RF.map (Q.map s.hom) = β.app s.right
     rw [← Category.assoc, ← Category.assoc, hnat, Category.assoc, Category.assoc, hcancel]
     exact Category.comp_id _
@@ -263,9 +263,9 @@ theorem derivedInclusion_adj_derivedSupportedSections (A : Type u) [CommRing A]
         α.app t.left ≫ (G ⋙ Q).map t.hom := by
       simpa [LG, Q', α, G, Q, Functor.comp_map] using
         G₀.mapDerivedCategoryFactorsh.hom.naturality t.hom
-    show LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
+    change LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
     rw [← Category.assoc, hn, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
-  show Nonempty (LG ⊣ RF)
+  change Nonempty (LG ⊣ RF)
   obtain ⟨adjDerived, _, _⟩ :=
     CategoryTheory.Adjunction.exists_derived_of_isRightDerivedValueAt_of_isLeftDerivedValueAt
       (CategoryTheory.Adjunction.mapHomotopyCategoryAdjunction

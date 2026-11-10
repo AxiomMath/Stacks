@@ -116,12 +116,12 @@ public theorem condition6_imp_condition1 : Condition6 f x → Condition1 f x := 
   set r := P.jacobian
   set W : X.Opens := X.basicOpen r
   have hxW : x ∈ W := by
-    show x ∈ X.basicOpen r
+    change x ∈ X.basicOpen r
     have hp : U.2.isoSpec.hom ⟨x, hxU⟩ ∈ PrimeSpectrum.basicOpen r := hr
     rw [← U.2.fromSpec_preimage_basicOpen] at hp
     change U.2.fromSpec (U.2.isoSpec.hom ⟨x, hxU⟩) ∈ X.basicOpen r at hp
     have heq : U.2.fromSpec (U.2.isoSpec.hom ⟨x, hxU⟩) = x := by
-      show (U.2.isoSpec.hom ≫ U.2.fromSpec) ⟨x, hxU⟩ = x
+      change (U.2.isoSpec.hom ≫ U.2.fromSpec) ⟨x, hxU⟩ = x
       rw [U.2.isoSpec_hom_fromSpec]
       rfl
     rwa [heq] at hp

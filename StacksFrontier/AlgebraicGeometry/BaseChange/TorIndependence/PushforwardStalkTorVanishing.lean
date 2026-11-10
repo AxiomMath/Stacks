@@ -120,7 +120,7 @@ private theorem torIndependent_of_isLocalization
     let : Algebra (A ⊗[R] Rp) Aq := ψ.toRingHom.toAlgebra
     have : IsScalarTower A (A ⊗[R] Rp) Aq := IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show (algebraMap A Aq) a = ψ (algebraMap A (A ⊗[R] Rp) a)
+      change (algebraMap A Aq) a = ψ (algebraMap A (A ⊗[R] Rp) a)
       simp [ψ, Algebra.TensorProduct.algebraMap_apply, fA])
     have : IsLocalization (Algebra.algebraMapSubmonoid (A ⊗[R] Rp) q.primeCompl) Aq :=
       IsLocalization.isLocalization_of_submonoid_le _ _
@@ -136,7 +136,7 @@ private theorem torIndependent_of_isLocalization
       IsLocalization.tensorRight (S := B) (A := Rp) p.primeCompl
     have : IsScalarTower B (Rp ⊗[R] B) Bp := IsScalarTower.of_algebraMap_eq' (by
       ext b
-      show (algebraMap B Bp) b = ψ (algebraMap B (Rp ⊗[R] B) b)
+      change (algebraMap B Bp) b = ψ (algebraMap B (Rp ⊗[R] B) b)
       rw [Algebra.TensorProduct.right_algebraMap_apply]
       simp [ψ, fB])
     have : IsLocalization (Algebra.algebraMapSubmonoid (Rp ⊗[R] B)
@@ -321,7 +321,7 @@ theorem stalkTorVanishing_pushforwardStructureSheaf
     congrArg CommRingCat.Hom.hom (Scheme.Hom.appLE_eq_app g)
   have : IsLocalization (Algebra.algebraMapSubmonoid Γ(S', g ⁻¹ᵁ V) p.primeCompl)
       (TopCat.Presheaf.stalk (C := CommRingCat.{u}) (g.base _* S'.presheaf) (f.base x)) := by
-    show IsLocalization (p.primeCompl.map (algebraMap Γ(S, V) Γ(S', g ⁻¹ᵁ V))) _
+    change IsLocalization (p.primeCompl.map (algebraMap Γ(S, V) Γ(S', g ⁻¹ᵁ V))) _
     rw [show (algebraMap Γ(S, V) Γ(S', g ⁻¹ᵁ V)) = (g.app V).hom from
       (RingHom.algebraMap_toAlgebra _).trans happ]
     exact hV.isLocalization_pushforwardStalk g hsV
@@ -347,7 +347,7 @@ theorem stalkTorVanishing_pushforwardStructureSheaf
   have : IsScalarTower Γ(S, V) (S.presheaf.stalk (f.base x))
       (TopCat.Presheaf.stalk (C := CommRingCat.{u}) (g.base _* S'.presheaf) (f.base x)) :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show ((g.base _* S'.presheaf).germ V (f.base x) hsV).hom
+      change ((g.base _* S'.presheaf).germ V (f.base x) hsV).hom
           ((g.appLE V (g ⁻¹ᵁ V) le_rfl).hom a) = _
       rw [happ]
       exact (TopCat.Presheaf.stalkFunctor_map_germ_apply V (f.base x) hsV g.c a).symm

@@ -130,7 +130,7 @@ public theorem bijective_adicCompletion_iInf_to_pi
     | _ x => rfl
   have hlevel (n : ℕ) (x : AdicCompletion J R) (i : ι) :
       AdicCompletion.evalₐ (I i) n (F x i) = e n (AdicCompletion.evalₐ J n x) i := by
-    show AdicCompletion.evalₐ (I i) n
+    change AdicCompletion.evalₐ (I i) n
       (adicCompletionMap (RingHom.id R) J (I i) (by simpa [J] using iInf_le I i) x) = _
     unfold adicCompletionMap
     rw [AdicCompletion.evalₐ_liftRingHom, he]
@@ -144,7 +144,7 @@ public theorem bijective_adicCompletion_iInf_to_pi
     ext x
     apply (e m).injective
     funext i
-    show e m (Ideal.Quotient.factorPow J hmn ((e n).symm _)) i = e m ((e m).symm _) i
+    change e m (Ideal.Quotient.factorPow J hmn ((e n).symm _)) i = e m ((e m).symm _) i
     rw [henat]
     simp only [RingEquiv.apply_symm_apply]
     exact evalₐ_factorPow (I i) hmn (x i)
@@ -153,9 +153,9 @@ public theorem bijective_adicCompletion_iInf_to_pi
     funext i
     refine AdicCompletion.ext_evalₐ fun n => ?_
     rw [hlevel]
-    show e n (AdicCompletion.evalₐ J n (AdicCompletion.liftRingHom J g hg x)) i = _
+    change e n (AdicCompletion.evalₐ J n (AdicCompletion.liftRingHom J g hg x)) i = _
     rw [AdicCompletion.evalₐ_liftRingHom]
-    show e n ((e n).symm _) i = _
+    change e n ((e n).symm _) i = _
     rw [RingEquiv.apply_symm_apply]
     rfl
   refine ⟨fun x y hxy => AdicCompletion.ext_evalₐ fun n => (e n).injective (funext fun i => ?_),

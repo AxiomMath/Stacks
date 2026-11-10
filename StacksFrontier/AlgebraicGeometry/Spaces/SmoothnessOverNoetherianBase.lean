@@ -165,7 +165,7 @@ private theorem isLift_yonedaEquiv_iff
 
 /-- A formally smooth morphism of algebraic spaces solves every lifting problem presented by a
 small extension of Artinian local rings. -/
-private theorem exists_lift_of_formallySmooth_isSmallExtension
+theorem exists_lift_of_formallySmooth_isSmallExtension
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : X ⟶ Y) (hformal : FormallySmooth f)
     {R' R : CommRingCat.{u}} (φ : R' ⟶ R)
@@ -192,7 +192,7 @@ the corresponding lifting problem for a commuting square of étale charts: the s
 formally étale, so the lift through it exists and is unique, and the target chart is formally
 étale too, which identifies the image of that lift with the given section of the target
 chart. -/
-private theorem exists_lift_chart_of_exists_lift_space
+theorem exists_lift_chart_of_exists_lift_space
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
     {U V : BigFppfOver B S hS}
     (a : yoneda.obj U ⟶ X) (b : yoneda.obj V ⟶ Y) (h : U ⟶ V)
@@ -239,7 +239,7 @@ morphism of algebraic spaces.
 
 The identity is a surjective étale chart of the source, so the single commuting square it forms
 with the given chart of the target computes the property by Stacks 03MJ. -/
-private theorem isLocallyOfFiniteType_comp_etaleChart
+theorem isLocallyOfFiniteType_comp_etaleChart
     {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsAlgebraicSpace B S hS Y)
     {T' V : BigFppfOver B S hS} (b : yoneda.obj V ⟶ Y) (k : T' ⟶ V)
     (hb : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})

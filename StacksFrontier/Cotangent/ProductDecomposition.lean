@@ -280,9 +280,9 @@ of the first followed by the counit of the adjunction, as an equality of maps of
 complexes. It is transported from the Moore complexes, where it is
 `CommAlgCat.cotangentExtendScalarsMooreMap_f_eq_counit` of
 `StacksFrontier/Cotangent/BaseChangeQuasiIso.lean`, through the reindexing which places
-simplicial degree `n` in cohomological degree `-n`. So the base change along `RingHom.fst B C` of the canonical map
-below *is*, up to the two identifications above, the map `L_{B×C/A} ⊗_{B×C} B ⟶ L_{B/A}` which
-Tag 08QQ pins.
+simplicial degree `n` in cohomological degree `-n`. So the base change along `RingHom.fst B C`
+of the canonical map below *is*, up to the two identifications above, the map
+`L_{B×C/A} ⊗_{B×C} B ⟶ L_{B/A}` which Tag 08QQ pins.
 
 **Tag 08QQ does not invert that map, and this is the sharp obstruction.** The square in question
 is `(A →𝟙 A, B × C → B)`, and the hypothesis `hpush` of

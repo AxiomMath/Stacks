@@ -190,7 +190,8 @@ variable [HasWeakSheafify X'.J AddCommGrpCat.{w}]
 the direct image `i_*O`, is flat for its `i_*f⁻¹O_ℬ`-module structure. -/
 def IsFlatOverBase (i : RingedToposHom X X') (f : RingedToposHom X S)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
   AlgebraicGeometry.SheafOfModules.IsFlat
     ((SheafOfModules.restrictScalars
       ((sheafCompose X'.J (forget₂ CommRingCat.{w} RingCat.{w})).map
@@ -202,7 +203,8 @@ over `O_{ℬ'}`, sitting in a short exact sequence `0 ⟶ I·ℱ' ⟶ ℱ' ⟶ i
 def HasFlatLift (i : RingedToposHom X X') (f' : RingedToposHom X' S')
     (hi : FirstOrderThickening i)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
   ∃ (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
     (q : F' ⟶ (SheafOfModules.restrictScalars
       (show Stacks.SheafOfModules.Tensor.ringSheaf X'.O ⟶
@@ -228,7 +230,8 @@ noncomputable def idealTensorComparison (i : RingedToposHom X X') (t : RingedTop
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
     ((sheafTensor.{u', v', w, w, w} X'.O).flip.obj ((SheafOfModules.restrictScalars
           (show Stacks.SheafOfModules.Tensor.ringSheaf X'.O ⟶
               Stacks.SheafOfModules.Tensor.ringSheaf
@@ -267,7 +270,8 @@ def IsFlatLiftCorrespondence (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
   (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).IsStrict →
     IsFlatOverBase i f F →
       (HasFlatLift i f' hi F → IsIso (idealTensorComparison i t f f' hi ht comm F)) ∧
@@ -298,7 +302,8 @@ def IsIdealComparisonIsoOfFlat (i : RingedToposHom X X') (t : RingedToposHom S S
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) : Prop :=
   f'.IsFlat → (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).IsStrict →
     IsIso (idealTensorComparison i t f f' hi ht comm F)
 

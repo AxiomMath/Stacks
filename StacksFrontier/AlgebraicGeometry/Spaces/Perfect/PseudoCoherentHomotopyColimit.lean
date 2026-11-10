@@ -170,7 +170,7 @@ theorem isHomotopyColimitWith_of_eventually_isIso_homology_modules
   have hone : Stacks.CountableCoproducts.oneSubShift F ≫ Sigma.desc c = 0 := by
     refine Sigma.hom_ext _ _ fun n => ?_
     rw [← Category.assoc, Stacks.CountableCoproducts.ι_oneSubShift, Preadditive.sub_comp,
-      Category.assoc, Sigma.ι_desc, Sigma.ι_desc, hc, sub_self, comp_zero]
+      Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, hc, sub_self, comp_zero]
   obtain ⟨b, hb⟩ := Triangle.yoneda_exact₂ _ hT (Sigma.desc c) hone
   have hpb : ∀ n, Sigma.ι F.obj n ≫ p ≫ b = c n := fun n => by
     have := congrArg (fun φ => Sigma.ι F.obj n ≫ φ) hb

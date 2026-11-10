@@ -158,13 +158,13 @@ private def leftRegularHomEquiv (X : Action (Type u) G) : (Action.leftRegular G 
       comm := fun g =>
         ConcreteCategory.hom_ext _ _ fun (h : G) => by
           change X.ρ (g * h) x = X.ρ g (X.ρ h x)
-          rw [map_mul, End.mul_def, types_comp_apply] }
+          rw [map_mul, End.mul_asHom, types_comp_apply] }
   left_inv φ :=
     Action.hom_ext _ _
       (ConcreteCategory.hom_ext _ _ fun (g : G) => by
         exact (leftRegular_hom_apply φ g).symm)
   right_inv x := by
-    simp [map_one, End.one_def]
+    simp [map_one]
 
 end LeftRegular
 
@@ -248,11 +248,11 @@ private lemma ptEquiv_symm_ρ {V : T} (g : G) (y : (ι.obj V).V) :
 
 private lemma rAct_one : rAct ι α (1 : G) = 𝟙 u₀ := by
   apply (ptEquiv ι α u₀).injective
-  rw [ptEquiv_rAct, ptEquiv_apply, ι.map_id, Action.id_hom, map_one, End.one_def]
+  rw [ptEquiv_rAct, ptEquiv_apply, ι.map_id, Action.id_hom, map_one, End.one_asHom]
 
 private lemma rAct_mul (g h : G) : rAct ι α (g * h) = rAct ι α g ≫ rAct ι α h := by
   apply (ptEquiv ι α u₀).injective
-  rw [ptEquiv_rAct, ptEquiv_rAct_comp, ptEquiv_rAct, map_mul, End.mul_def, types_comp_apply]
+  rw [ptEquiv_rAct, ptEquiv_rAct_comp, ptEquiv_rAct, map_mul, End.mul_asHom, types_comp_apply]
 
 omit [ι.Full] [ι.Faithful] in
 private lemma ρ_hom_basePt (y : (ι.obj u₀).V) : (ι.obj u₀).ρ (α.hom.hom y) (basePt ι α) = y :=

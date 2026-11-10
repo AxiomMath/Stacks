@@ -491,17 +491,17 @@ private theorem inverseLimitProj_zero_isLocal
     | zero => exact hu
     | succ n ih =>
       apply isUnit_of_map_unit (f n).hom.toRingHom
-      show IsUnit ((f n).hom (inverseLimitProj A f (n + 1) x))
+      change IsUnit ((f n).hom (inverseLimitProj A f (n + 1) x))
       rw [inverseLimitProj_compatible A f n x]
       exact ih
   let y : ∀ n, A n := fun n => ↑((hall n).unit⁻¹)
   have hy : ∀ n, (f n).hom (y (n + 1)) = y n := by
     intro n
-    show (f n).hom (↑((hall (n + 1)).unit⁻¹)) = ↑((hall n).unit⁻¹)
+    change (f n).hom (↑((hall (n + 1)).unit⁻¹)) = ↑((hall n).unit⁻¹)
     apply Units.eq_inv_of_mul_eq_one_left
-    show inverseLimitProj A f n x * (f n).hom (↑((hall (n + 1)).unit⁻¹)) = 1
+    change inverseLimitProj A f n x * (f n).hom (↑((hall (n + 1)).unit⁻¹)) = 1
     rw [← inverseLimitProj_compatible A f n x, ← map_mul]
-    show (f n).hom (↑((hall (n + 1)).unit) *
+    change (f n).hom (↑((hall (n + 1)).unit) *
       ↑((hall (n + 1)).unit⁻¹)) = 1
     rw [(hall (n + 1)).unit.mul_inv, map_one]
   exact isUnit_iff_exists_inv.mpr
@@ -545,7 +545,7 @@ private theorem maximalIdeal_pow_le_projectionKernel
   obtain ⟨m, hm⟩ := (isArtinianRing_iff_isNilpotent_maximalIdeal (A n)).mp inferInstance
   refine ⟨m, (Ideal.map_eq_bot_iff_le_ker _).mp ?_⟩
   rw [Ideal.map_pow]
-  show ((maximalIdeal (inverseLimit A f)).map
+  change ((maximalIdeal (inverseLimit A f)).map
     (inverseLimitProj A f n).toRingHom) ^ m = ⊥
   rw [
     IsLocalRing.map_maximalIdeal_of_surjective
@@ -762,7 +762,7 @@ private theorem affine_cosets_antitone_stabilize
     exact hC hNm (show a m - a m ∈ V m by simp)
   ext x
   refine ⟨fun hx => ?_, fun hx => hC hNm hx⟩
-  show x - a m ∈ V m
+  change x - a m ∈ V m
   have hx' : x - a N ∈ V m := hVm ▸ hx
   rw [show x - a m = (x - a N) - (a m - a N) by abel]
   exact sub_mem hx' ham
@@ -889,7 +889,7 @@ private theorem coefficientFiberSystem_isMittagLeffler
       coefficientTowerMap_comp A f t (Nat.le_add_right i m) (Nat.add_le_add_left hmn i) c⟩
   have hcos : Antitone (fun m => {x : t → A i | x - a m ∈ D m}) := by
     intro m n hmn
-    show {x : t → A i | x - a n ∈ D n} ⊆
+    change {x : t → A i | x - a n ∈ D n} ⊆
       {x : t → A i | x - a m ∈ D m}
     rw [← hCeq m, ← hCeq n]
     exact hC hmn
@@ -933,7 +933,7 @@ private theorem mem_span_of_projected_span
   have hsum : (∑ a : t, x a * (a : inverseLimit A f)) = y := by
     apply Subtype.ext
     funext n
-    show inverseLimitProj A f n (∑ a : t, x a * (a : inverseLimit A f)) =
+    change inverseLimitProj A f n (∑ a : t, x a * (a : inverseLimit A f)) =
       inverseLimitProj A f n y
     have hn := (c n).property
     change (∑ a : t, (c n).1 a * inverseLimitProj A f n a) =
@@ -980,7 +980,7 @@ private theorem inverseLimit_maximalIdeal_isHausdorff
   let : IsLocalRing (inverseLimit A f) := inverseLimit_isLocalRing A f
   refine isHausdorff_iff.2 fun x hx => ?_
   apply (Submodule.mem_bot (inverseLimit A f)).mp
-  show x ∈ (⊥ : Ideal (inverseLimit A f))
+  change x ∈ (⊥ : Ideal (inverseLimit A f))
   rw [← projectionKernels_iInf_eq_bot A f]
   refine Ideal.mem_iInf.mpr fun n => ?_
   obtain ⟨m, hm⟩ := maximalIdeal_pow_le_projectionKernel A f hsurj n

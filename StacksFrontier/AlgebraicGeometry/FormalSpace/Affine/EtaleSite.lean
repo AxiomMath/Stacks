@@ -281,7 +281,7 @@ theorem nonempty_affineEtaleBaseChange {X : FppfSheaf B S hS}
   have hψ : P.relative (uliftYoneda.{u + 1}) ψ.hom := by
     refine relative_of_isIso B S hS P (fun _ _ f hf ↦ ?_) ψ.hom
     have _ : IsIso f := hf
-    show Etale ((BigFppfOver.toScheme B S hS).map f)
+    change Etale ((BigFppfOver.toScheme B S hS).map f)
     infer_instance
   have hcomp : P.relative (uliftYoneda.{u + 1})
       (ψ.hom ≫ pullback.fst ((e.app V).inv ≫ i.hom) Y.obj.hom.hom) :=

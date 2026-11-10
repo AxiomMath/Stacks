@@ -210,7 +210,7 @@ theorem nonempty_iso_derivedGlobalSectionsOverUnbounded_of_plus
       (HomotopyCategory.Plus.quasiIso
         (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) _
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 (by
-        show QuasiIso R.ι
+        change QuasiIso R.ι
         infer_instance))
   exact ⟨(derivedGlobalSectionsOver X A ρ ⋙ DerivedCategory.Plus.ι).mapIso
       (((DerivedCategory.Plus.quotientCompQhIso

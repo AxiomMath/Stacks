@@ -64,7 +64,7 @@ public theorem isOpen_setOf_toZModPow_eq (k : ℕ) (a : ZMod (ℓ ^ k)) :
   intro x hx
   refine ⟨(ℓ : ℝ) ^ (-(k : ℤ)), zpow_pos (by exact_mod_cast (Fact.out : ℓ.Prime).pos) _,
     fun y hy => ?_⟩
-  show PadicInt.toZModPow k y = a
+  change PadicInt.toZModPow k y = a
   rw [← (show PadicInt.toZModPow k x = a from hx), toZModPow_eq_iff_norm_sub_le]
   rw [Metric.mem_ball, dist_eq_norm] at hy
   exact hy.le
@@ -85,6 +85,7 @@ public def levelRepresentation (k : ℕ) :
       Module.End (ZMod (ℓ ^ k)) (Fin r → ZMod (ℓ ^ k))).toMonoidHom.comp
     ((Units.coeHom _).comp (levelMatrixRepresentation ρ k))
 
+omit [TopologicalSpace G] in
 /-- The level representation acts by the reduced matrices. -/
 public theorem levelRepresentation_apply (k : ℕ) (g : G) (x : Fin r → ZMod (ℓ ^ k)) :
     levelRepresentation ρ k g x =
@@ -98,7 +99,7 @@ public theorem isOpen_setOf_map_toZModPow_eq (hρ : Continuous ρ) (k : ℕ)
   have : {g : G | (ρ g).val.map (PadicInt.toZModPow k) = A} =
       ⋂ i, ⋂ j, (fun g => (ρ g).val i j) ⁻¹' {x | PadicInt.toZModPow k x = A i j} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_iInter, Set.mem_preimage]
+    simp only [Set.mem_ofPred_eq, Set.mem_iInter, Set.mem_preimage]
     exact ⟨fun h i j => congrFun (congrFun h i) j, fun h => Matrix.ext h⟩
   rw [this]
   exact isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j =>
@@ -112,7 +113,7 @@ public theorem isOpen_setOf_levelRepresentation_apply_eq (hρ : Continuous ρ) (
       ⋃ A ∈ {A : Matrix (Fin r) (Fin r) (ZMod (ℓ ^ k)) | A *ᵥ x = x},
         {g : G | (ρ g).val.map (PadicInt.toZModPow k) = A} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion, levelRepresentation_apply, exists_prop]
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion, levelRepresentation_apply, exists_prop]
     exact ⟨fun h => ⟨_, h, rfl⟩, fun ⟨A, hA, hg⟩ => hg ▸ hA⟩
   rw [this]
   exact isOpen_biUnion fun A _ => isOpen_setOf_map_toZModPow_eq ρ hρ k A
@@ -134,6 +135,7 @@ public def levelReduction (k : ℕ) :
     (Fin r → ZMod (ℓ ^ (k + 1))) →+ (Fin r → ZMod (ℓ ^ k)) :=
   (levelRingHom k).toAddMonoidHom.compLeft (Fin r)
 
+omit [Fact ℓ.Prime] in
 /-- The `i`-th coordinate of the reduction of `x` is the reduction of the `i`-th coordinate of
 `x`. -/
 @[simp]
@@ -141,6 +143,7 @@ public theorem levelReduction_apply (k : ℕ) (x : Fin r → ZMod (ℓ ^ (k + 1)
     levelReduction k x i = levelRingHom k (x i) :=
   rfl
 
+omit [Fact ℓ.Prime] in
 /-- Reduction is semilinear along `ℤ/ℓ^{k+1}ℤ → ℤ/ℓ^kℤ`. -/
 public theorem levelReduction_smul (k : ℕ) (a : ZMod (ℓ ^ (k + 1)))
     (x : Fin r → ZMod (ℓ ^ (k + 1))) :
@@ -148,6 +151,7 @@ public theorem levelReduction_smul (k : ℕ) (a : ZMod (ℓ ^ (k + 1)))
   ext i
   simp only [levelReduction_apply, Pi.smul_apply, smul_eq_mul, map_mul]
 
+omit [TopologicalSpace G] in
 /-- **Reduction is `G`-equivariant.** -/
 public theorem levelReduction_levelRepresentation (k : ℕ) (g : G)
     (x : Fin r → ZMod (ℓ ^ (k + 1))) :
@@ -211,6 +215,7 @@ public def levelULiftRepresentation (k : ℕ) :
       ext x : 1
       exact ULift.ext (by simp [Module.End.mul_apply]) }
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] in
 /-- On underlying vectors, the lifted level representation acts as the level representation. -/
 @[simp]
 public theorem levelULiftRepresentation_apply_down (k : ℕ) (g : G)

@@ -88,7 +88,7 @@ theorem natTensorPowUnitShift_powAdd (a : ℕ) : ∀ b : ℕ,
         @powAdd _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L a b =
       powAdd L a b ≫ (natTensorPowUnitShift 𝒪 h𝒪 L (a + b)).hom
   | 0 => by
-      show ((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ⊗ₘ (unitIso 𝒪 h𝒪).hom) ≫
+      change ((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ⊗ₘ (unitIso 𝒪 h𝒪).hom) ≫
           (@MonoidalCategoryStruct.rightUnitor _ _
             (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪).toMonoidalCategoryStruct _).hom =
         (ρ_ _).hom ≫ (natTensorPowUnitShift 𝒪 h𝒪 L a).hom
@@ -97,7 +97,7 @@ theorem natTensorPowUnitShift_powAdd (a : ℕ) : ∀ b : ℕ,
         MonoidalCategory.whiskerLeft_id, Category.id_comp]
       exact rightUnitor_naturality _
   | b + 1 => by
-      show ((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ⊗ₘ
+      change ((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ⊗ₘ
           ((natTensorPowUnitShift 𝒪 h𝒪 L b).hom ▷ L)) ≫
           ((α_ _ _ _).inv ≫
             (@powAdd _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L a b ▷ L)) =
@@ -141,7 +141,7 @@ theorem tensorPowerCompare_powAdd (a b : ℕ) :
       (powMulIso 𝒪 h𝒪 L a b).hom =
       @powAdd _ _ (Stacks.SheafOfModules.monoidalCategory 𝒪 h𝒪) L a b ≫
         (natTensorPowCompare 𝒪 h𝒪 L (a + b)).hom := h1
-  show (((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ≫ (natTensorPowCompare 𝒪 h𝒪 L a).hom) ⊗ₘ
+  change (((natTensorPowUnitShift 𝒪 h𝒪 L a).hom ≫ (natTensorPowCompare 𝒪 h𝒪 L a).hom) ⊗ₘ
       ((natTensorPowUnitShift 𝒪 h𝒪 L b).hom ≫ (natTensorPowCompare 𝒪 h𝒪 L b).hom)) ≫
         (powMulIso 𝒪 h𝒪 L a b).hom =
       powAdd L a b ≫ (natTensorPowUnitShift 𝒪 h𝒪 L (a + b)).hom ≫

@@ -87,7 +87,7 @@ theorem CategoryTheory.Functor.FullyFaithful.bijective_comp_of_arrowIso {𝒞 �
   have key : (fun η : K ⟶ N => Φ.map η ≫ w.hom.right) ∘ (fun ξ : K ⟶ M => ξ ≫ g) =
       (fun ξ : Φ.obj K ⟶ M' => ξ ≫ g') ∘ (fun ξ : K ⟶ M => Φ.map ξ ≫ w.hom.left) := by
     funext ξ
-    show Φ.map (ξ ≫ g) ≫ w.hom.right = (Φ.map ξ ≫ w.hom.left) ≫ g'
+    change Φ.map (ξ ≫ g) ≫ w.hom.right = (Φ.map ξ ≫ w.hom.left) ≫ g'
     rw [Φ.map_comp, Category.assoc, Category.assoc]
     congr 1
     exact w.hom.w.symm

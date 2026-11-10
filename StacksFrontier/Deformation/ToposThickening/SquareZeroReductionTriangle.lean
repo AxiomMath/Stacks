@@ -274,7 +274,8 @@ end Vertices
 
 /-! ### Cellular complexes have flat terms -/
 
-omit [HasDerivedCategory (SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf O))] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [HasDerivedCategory (SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf O))] in
 /-- **The terms of a `P`-cellular complex are flat**: each is the colimit along `ℕ` of flat
 terms, colimits of complexes being computed degreewise, and a colimit along `ℕ` of flat sheaves
 of modules is flat (Stacks 03EU). -/
@@ -457,7 +458,8 @@ end Independence
 
 /-! ### Cellular resolutions -/
 
-omit [HasDerivedCategory.{d} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))]
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [HasDerivedCategory.{d} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))]
   [HasDerivedCategory.{d₀} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))] in
 /-- Every complex of `O`-modules receives a quasi-isomorphism from a `P`-cellular complex
 (Stacks 06XX). -/
@@ -475,6 +477,7 @@ theorem exists_isFlatCellular_quasiIso
   rw [← HomologicalComplex.mem_quasiIso_iff, ← HomotopyCategory.quotient_map_mem_quasiIso_iff, ht]
   exact MorphismProperty.comp_mem _ _ _ (MorphismProperty.of_isIso _ eY.inv) hs
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Every object of `D(O)` has a `P`-cellular resolution. -/
 theorem exists_isFlatCellular_iso
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))) :
@@ -484,6 +487,7 @@ theorem exists_isFlatCellular_iso
   have : IsIso (DerivedCategory.Q.map t) := (DerivedCategory.isIso_Q_map_iff_quasiIso (φ := t)).2 ht
   exact ⟨S, hS, ⟨asIso (DerivedCategory.Q.map t) ≪≫ DerivedCategory.Q.objObjPreimageIso K⟩⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A morphism `Q(P) ⟶ Q(P')` is represented by a morphism of cellular complexes after replacing
 `P` by a cellular complex mapping to it by a quasi-isomorphism. -/
 private theorem exists_isFlatCellular_roof_of_hom
@@ -506,7 +510,7 @@ variable {P P' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tenso
   {K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))}
   (w : DerivedCategory.Q.obj P ≅ K) (w' : DerivedCategory.Q.obj P' ≅ K)
 
-include hP hP' in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Two cellular resolutions of `K` are joined by a roof of quasi-isomorphisms from a cellular
 complex, compatible with the two identifications with `K`. -/
 theorem exists_isFlatCellular_roof :
@@ -518,6 +522,7 @@ theorem exists_isFlatCellular_roof :
   have : IsIso (DerivedCategory.Q.map b) := by rw [hb]; infer_instance
   exact ⟨W, hW, a, b, ha, this, by simp [hb]⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A construction on cellular resolutions of `K` that is invariant under quasi-isomorphisms of
 cellular complexes does not depend on the resolution. -/
 private theorem eq_of_forall_asIso_comp {T : Sort*}
@@ -530,7 +535,7 @@ private theorem eq_of_forall_asIso_comp {T : Sort*}
     {P P' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) ℤ}
     (hP : IsFlatCellular P) (hP' : IsFlatCellular P')
     (w : DerivedCategory.Q.obj P ≅ K) (w' : DerivedCategory.Q.obj P' ≅ K) : F hP w = F hP' w' := by
-  obtain ⟨W, hW, a, b, ha, hb, hab⟩ := exists_isFlatCellular_roof.{d} hP hP' w w'
+  obtain ⟨W, hW, a, b, ha, hb, hab⟩ := exists_isFlatCellular_roof.{d} w w'
   rw [← h hW hP a w, ← h hW hP' b w']
   exact congrArg (F hW) (Iso.ext hab)
 
@@ -556,6 +561,7 @@ def cellularModel
     CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) ℤ :=
   (exists_isFlatCellular_iso K).choose
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The chosen cellular resolution of `K` is `P`-cellular. -/
 theorem isFlatCellular_cellularModel
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O))) :
@@ -692,6 +698,7 @@ theorem connectingAt_naturality :
 
 end Naturality
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A morphism of `D(O)` between objects with cellular resolutions is represented, after
 replacing the first resolution, by a morphism of cellular complexes. -/
 theorem exists_isFlatCellular_hom

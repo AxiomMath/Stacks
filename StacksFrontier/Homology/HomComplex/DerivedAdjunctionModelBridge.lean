@@ -197,7 +197,7 @@ theorem derivedHomModelIso_inv_comp_inv_homEquiv_symm
             (derivedScalarEquivalence.{u, v, w} R).functor.map (DerivedCategory.Q.map h))) := by
   rw [inv_homEquiv_symm_derivedTensorModelIso.{u, v, w} K L I hL h,
     (derivedScalarEquivalence.{u, v, w} R).functor.map_comp]
-  show _ = ((derivedHomULiftIso.{u, v, w} R).app
+  change _ = ((derivedHomULiftIso.{u, v, w} R).app
         (Opposite.op (DerivedCategory.Q.obj L), DerivedCategory.Q.obj I) ≪≫
       (derivedScalarEquivalence.{u, v, w} R).functor.mapIso
         ((derivedHomAdjunctionULift.{u, v, max u v + 1} (R := R)).homIso L I)).inv ≫ _

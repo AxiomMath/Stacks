@@ -100,7 +100,7 @@ private lemma subring_inclusion_isLocalHom_of_fractionRing_dimLE_one
       have hmul : (((u⁻¹ : Units O) : O) : K) * (b : K) = 1 := by
         rw [← hbK]
         exact congrArg Subtype.val (Units.inv_mul u)
-      show (a : K) * (↑(u⁻¹) : K) = z
+      change (a : K) * (↑(u⁻¹) : K) = z
       rw [eq_inv_of_mul_eq_one_left hmul, ← div_eq_mul_inv]
       exact hab
     let e : O ≃+* K := RingEquiv.ofBijective O.subtype
@@ -115,7 +115,7 @@ private lemma subring_inclusion_isLocalHom_of_fractionRing_dimLE_one
     IsLocalRing.eq_maximalIdeal hPmax
   refine ⟨fun a hfa => IsLocalRing.notMem_maximalIdeal.1 fun ha =>
     IsLocalRing.notMem_maximalIdeal.2 hfa ?_⟩
-  show a ∈ (IsLocalRing.maximalIdeal O).comap f
+  change a ∈ (IsLocalRing.maximalIdeal O).comap f
   rwa [hP]
 
 /-- A local ring has finitely many maximal ideals, namely exactly one. -/
@@ -202,12 +202,12 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
     let B : J → Subring K := fun j => (algebraMap (X.presheaf.stalk (x' j)) K).range
     have hstalkN (j : J) : IsNoetherianRing (X.presheaf.stalk (x' j)) := by
       obtain ⟨i, hi⟩ := j.2.1
-      show IsNoetherianRing (X.presheaf.stalk j.1)
+      change IsNoetherianRing (X.presheaf.stalk j.1)
       rw [← hi]
       exact h_noetherian i
     have hstalkDim (j : J) : Ring.KrullDimLE 1 (X.presheaf.stalk (x' j)) := by
       obtain ⟨i, hi⟩ := j.2.1
-      show Ring.KrullDimLE 1 (X.presheaf.stalk j.1)
+      change Ring.KrullDimLE 1 (X.presheaf.stalk j.1)
       rw [← hi]
       exact h_dimension i
     have (j : J) : IsFractionRing (B j) K := isFractionRing_range_algebraMap
@@ -250,15 +250,15 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
         have : IsLocalHom ψ := RingHom.isLocalHom_comp _ _
         have hmap : (algebraMap V K).comp ψ = algebraMap (X.presheaf.stalk (x' m)) K := by
           ext a
-          show ((e ((Subring.inclusion hm) ((stalkRangeEquiv X (x' m)) a)) : V) : K) = _
+          change ((e ((Subring.inclusion hm) ((stalkRangeEquiv X (x' m)) a)) : V) : K) = _
           rw [heval]
-          show ((algebraMap (X.presheaf.stalk (x' m)) K).rangeRestrict a : K) = _
+          change ((algebraMap (X.presheaf.stalk (x' m)) K).rangeRestrict a : K) = _
           rfl
         refine ⟨Spec.map (CommRingCat.ofHom ψ) ≫ X.fromSpecStalk (x' m), ?_, ?_⟩
         · rw [← Spec.map_comp_assoc, ← CommRingCat.ofHom_comp, hmap]
           exact Scheme.SpecMap_stalkSpecializes_fromSpecStalk
             ((genericPoint_spec X).specializes trivial)
-        · show X.fromSpecStalk (x' m)
+        · change X.fromSpecStalk (x' m)
             ((Spec.map (CommRingCat.ofHom ψ)) (IsLocalRing.closedPoint (CommRingCat.of V))) = _
           rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
       obtain ⟨lj, hjgeneric, hjclosed⟩ := key j hj
@@ -315,11 +315,11 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
         X.fromSpecStalk (x' j)
     let qT : Spec (.of K) ⟶ T := Spec.map (CommRingCat.ofHom (algebraMap R K))
     have hqη : qT (genericPoint (Spec (.of K))) = genericPoint T := by
-      show PrimeSpectrum.comap (algebraMap R K) (genericPoint (Spec (.of K))) =
+      change PrimeSpectrum.comap (algebraMap R K) (genericPoint (Spec (.of K))) =
         genericPoint T
       rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap R K) ⊥ = ⊥
+      change Ideal.comap (algebraMap R K) ⊥ = ⊥
       exact Ideal.comap_bot_of_injective _ fun _ _ => Subtype.ext
     have hηrange : genericPoint T ∈ Set.range qT := ⟨genericPoint (Spec (.of K)), hqη⟩
     have hTdom : IsDominant qT := by
@@ -330,7 +330,7 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
         (algebraMap (B j) K).comp (stalkRangeEquiv X (x' j)).toRingHom =
           algebraMap (X.presheaf.stalk (x' j)) K := by
       ext a
-      show ((algebraMap (X.presheaf.stalk (x' j)) K).rangeRestrict a : K) = _
+      change ((algebraMap (X.presheaf.stalk (x' j)) K).rangeRestrict a : K) = _
       rfl
     let q (j : J) : Spec (.of K) ⟶ (U j).toScheme :=
       Spec.map (CommRingCat.ofHom (algebraMap (B j) K)) ≫ (e j).hom
@@ -394,7 +394,7 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
     have hKpt : genericPoint (Spec (.of K)) = IsLocalRing.closedPoint (↑K) := by
       apply PrimeSpectrum.ext
       rw [genericPoint_eq_bot_of_affine]
-      show (⊥ : Ideal (↑K)) = IsLocalRing.maximalIdeal (↑K)
+      change (⊥ : Ideal (↑K)) = IsLocalRing.maximalIdeal (↑K)
       rw [IsLocalRing.maximalIdeal_eq_bot]
     have hgeneric : Set.MapsTo f (genericPoints T) (genericPoints X) := by
       rw [genericPoints_eq_singleton, genericPoints_eq_singleton]
@@ -443,7 +443,7 @@ theorem exists_isAffineOpen_containing_of_stalk_krullDimLE_one
         have hcomp : IsIso ((X.fromSpecStalk (x' j)).stalkMap
             (IsLocalRing.closedPoint (X.presheaf.stalk (x' j))) ≫
               (stalkClosedPointIso (X.presheaf.stalk (x' j))).hom) := by
-          show IsIso (Scheme.stalkClosedPointTo (X.fromSpecStalk (x' j)))
+          change IsIso (Scheme.stalkClosedPointTo (X.fromSpecStalk (x' j)))
           rw [Scheme.stalkClosedPointTo_fromSpecStalk]
           infer_instance
         exact IsIso.of_isIso_comp_right

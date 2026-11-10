@@ -116,9 +116,7 @@ theorem restrictTensor_hom_ext {I G : SheafMod O₀} {N : SheafMod O}
   change N.val.map g.op (k.val.app U s) = N.val.map g.op (l.val.app U s)
   rw [key k, key l]
   clear key ht
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      erw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x a => exact h (Opposite.op V) x a
   | add x y hx hy =>
       erw [map_add, map_add, map_add]

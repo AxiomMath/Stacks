@@ -158,6 +158,7 @@ theorem HasBoundedLocallyConstantReduction.isLE
   rw [DerivedCategory.isLE_iff]
   exact fun i hi => hK.2.1 i fun h => by have := h.2; omega
 
+omit [IsNoetherianRing Λ] in
 /-- Under the condition on `[a, b]`, `K` is derived complete along `I` as an object of the
 `Λ`-linear derived category of sheaves of `Λ`-modules. -/
 theorem HasBoundedLocallyConstantReduction.isDerivedComplete
@@ -371,7 +372,7 @@ theorem isDerivedComplete_singleFunctor_biproduct_completedConstantSheaf (b : �
       E.functor.obj ((DerivedCategory.homologyFunctor _ p).obj
         ((DerivedCategory.singleFunctor _ b).obj G)) :=
     (E.functor.mapDerivedCategoryHomologyIso p).app _
-  show P _
+  change P _
   by_cases hp : p = b
   · subst hp
     exact ObjectProperty.prop_of_iso P (E.functor.mapIso

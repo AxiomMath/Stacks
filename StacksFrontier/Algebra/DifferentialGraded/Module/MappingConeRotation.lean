@@ -117,7 +117,7 @@ theorem desuspendedConnectingHom_apply (f : K ⟶ L) (g : L ⟶ M)
       (Classical.choice (nonempty_compatibleSplittings A f g hfg)).π.toFun
         (L.d ((Classical.choice (nonempty_compatibleSplittings A f g hfg)).s.toFun x)) := by
   let c := Classical.choice (nonempty_compatibleSplittings A f g hfg)
-  show (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x = _
+  change (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x = _
   exact (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).property x
 
 /-- The comparison `L ⟶ C(δ[-1])` built from compatible graded splittings. -/
@@ -372,14 +372,14 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle (f : K ⟶ L) (g : 
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show f.toFun (c.π.toFun x) + c.s.toFun (g.toFun x) = x
+    change f.toFun (c.π.toFun x) + c.s.toFun (g.toFun x) = x
     exact c.decomposition hfg x
   have hright : ei ≫ e = 𝟙 (coneModule φ) := by
     apply Hom.ext
     apply LinearMap.ext
     intro z
     apply (cone φ).coordinates.injective
-    show (c.π.toFun (f.toFun ((cone φ).coordinates z).1 +
+    change (c.π.toFun (f.toFun ((cone φ).coordinates z).1 +
         c.s.toFun ((cone φ).coordinates z).2),
       g.toFun (f.toFun ((cone φ).coordinates z).1 +
         c.s.toFun ((cone φ).coordinates z).2)) = (cone φ).coordinates z
@@ -395,7 +395,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle (f : K ⟶ L) (g : 
     intro x
     apply (cone φ).coordinates.injective
     rw [(cone φ).inclusion_coordinates]
-    show (c.π.toFun (f.toFun x), g.toFun (f.toFun x)) = (x, 0)
+    change (c.π.toFun (f.toFun x), g.toFun (f.toFun x)) = (x, 0)
     exact Prod.ext (c.hπ x) (hgf x)
   have hcomm3 : e ≫ coneProjection φ = g ≫ resuspensionHom M := by
     apply Hom.ext
@@ -406,10 +406,10 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle (f : K ⟶ L) (g : 
     (connectingConeTriangle f g hfg) (Iso.refl _) (Iso.refl _)
     ((toHomotopyCategory A).mapIso eIso) ?_ ?_ ?_⟩
   · rfl
-  · show (toHomotopyCategory A).map f ≫ (toHomotopyCategory A).map e =
+  · change (toHomotopyCategory A).map f ≫ (toHomotopyCategory A).map e =
       (toHomotopyCategory A).map (coneInclusion φ)
     rw [← CategoryTheory.Functor.map_comp, hcomm2]
-  · show ((toHomotopyCategory A).map g ≫
+  · change ((toHomotopyCategory A).map g ≫
         (toHomotopyCategory A).map (resuspensionHom M) ≫
         eqToHom (CategoryTheory.Quotient.functor_obj_shift
           (homotopyRel A) ℤ (shift M (-1)) 1).symm) ≫
@@ -449,14 +449,14 @@ theorem inverseRotatedAssociatedTriangle_iso_mappingConeTriangle (f : K ⟶ L) (
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show f.toFun (c.π.toFun x) - c.s.toFun (-g.toFun x) = x
+    change f.toFun (c.π.toFun x) - c.s.toFun (-g.toFun x) = x
     simpa [map_neg, sub_neg_eq_add] using c.decomposition hfg x
   have hright : ei ≫ e = 𝟙 (coneModule (-φ)) := by
     apply Hom.ext
     apply LinearMap.ext
     intro z
     apply (cone (-φ)).coordinates.injective
-    show (c.π.toFun (f.toFun ((cone (-φ)).coordinates z).1 -
+    change (c.π.toFun (f.toFun ((cone (-φ)).coordinates z).1 -
           c.s.toFun ((cone (-φ)).coordinates z).2),
       -g.toFun (f.toFun ((cone (-φ)).coordinates z).1 -
           c.s.toFun ((cone (-φ)).coordinates z).2)) =
@@ -472,23 +472,23 @@ theorem inverseRotatedAssociatedTriangle_iso_mappingConeTriangle (f : K ⟶ L) (
     intro x
     apply (cone (-φ)).coordinates.injective
     rw [(cone (-φ)).inclusion_coordinates]
-    show (c.π.toFun (f.toFun x), -g.toFun (f.toFun x)) = (x, 0)
+    change (c.π.toFun (f.toFun x), -g.toFun (f.toFun x)) = (x, 0)
     refine Prod.ext (c.hπ x) ?_
     simp [hgf]
   have hcomm3 : e ≫ (-coneProjection (-φ)) = g ≫ resuspensionHom M := by
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show -(-g.toFun x) = (resuspensionHom M).toFun (g.toFun x)
+    change -(-g.toFun x) = (resuspensionHom M).toFun (g.toFun x)
     simp [resuspensionHom, shiftZeroInv, shiftAddHom]
   refine ⟨Pretriangulated.Triangle.isoMk (inverseRotatedAssociatedTriangle f g hfg)
     (mappingConeTriangle (-φ)) (Iso.refl _) (Iso.refl _)
     ((toHomotopyCategory A).mapIso eIso) ?_ ?_ ?_⟩
   · rfl
-  · show (toHomotopyCategory A).map f ≫ (toHomotopyCategory A).map e =
+  · change (toHomotopyCategory A).map f ≫ (toHomotopyCategory A).map e =
       (toHomotopyCategory A).map (coneInclusion (-φ))
     rw [← CategoryTheory.Functor.map_comp, hcomm2]
-  · show ((toHomotopyCategory A).map g ≫
+  · change ((toHomotopyCategory A).map g ≫
         (toHomotopyCategory A).map (resuspensionHom M) ≫
         eqToHom (CategoryTheory.Quotient.functor_obj_shift
           (homotopyRel A) ℤ (shift M (-1)) 1).symm) ≫

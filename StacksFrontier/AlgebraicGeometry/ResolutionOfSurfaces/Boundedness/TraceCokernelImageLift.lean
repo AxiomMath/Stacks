@@ -180,7 +180,7 @@ theorem dualizingModule_eq_homologyFunctor_negTwo_obj {A : Type u} [CommRing A]
   rw [hdim, show ((2 : WithBot ℕ∞)) = (((2 : ℕ) : ℕ∞) : WithBot ℕ∞) by norm_num] at hcast
   have h2 : localRingDimension A = 2 := Nat.cast_inj.mp (WithBot.coe_inj.mp hcast)
   have h3 : -(localRingDimension A : ℤ) = (-2 : ℤ) := by omega
-  show (DerivedCategory.homologyFunctor (ModuleCat.{u} A)
+  change (DerivedCategory.homologyFunctor (ModuleCat.{u} A)
       (-(localRingDimension A : ℤ))).obj K =
     (DerivedCategory.homologyFunctor (ModuleCat.{u} A) (-2)).obj K
   rw [h3]

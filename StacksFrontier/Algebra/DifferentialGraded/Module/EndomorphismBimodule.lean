@@ -166,7 +166,7 @@ theorem homogeneousMapToCochain_d {L M : DifferentialGradedModule.{u, v, w} B} {
   ext x
   let x' : L.grading p := x
   apply Subtype.ext
-  show M.d (f.1 (x' : L.M)) - DifferentialGraded.gradedSign R n • f.1 (L.d (x' : L.M)) =
+  change M.d (f.1 (x' : L.M)) - DifferentialGraded.gradedSign R n • f.1 (L.d (x' : L.M)) =
     ((show M.grading q from M.toCochainComplex.d (p + n) q
       ⟨f.1 (x' : L.M), f.2.1 p (x' : L.M) x'.property⟩) : M.M) +
       ((n + 1).negOnePow : ℤ) • f.1 (L.d (x' : L.M))

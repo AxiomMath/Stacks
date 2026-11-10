@@ -144,7 +144,7 @@ theorem reindexedLift_hom_iff {P Q : TwoFibreProductOver (K ⋙ c) pY pX L G}
     refine ⟨TwoFibreProductOver.Hom.mk' f g.b ?_ ?_, rfl⟩
     · have hb := g.hb
       rw [IsHomLift.fac' pY g.hbase g.b]
-      show eqToHom P.hy.symm ≫ (eqToHom P.hy ≫ g.hbase ≫ eqToHom Q.hy.symm) ≫
+      change eqToHom P.hy.symm ≫ (eqToHom P.hy ≫ g.hbase ≫ eqToHom Q.hy.symm) ≫
         eqToHom Q.hy = eqToHom P.hx.symm ≫ c.map (K.map f) ≫ eqToHom Q.hx
       simpa only [Category.assoc, eqToHom_trans_assoc, eqToHom_trans, eqToHom_refl,
         Category.id_comp, Category.comp_id] using g.hbase_eq.trans (by rw [he])
@@ -196,7 +196,7 @@ theorem reindexedLiftSection_surjective (T : D) (s : N.obj (op (K.obj T))) :
       iso := α.app T ≪≫ iso
       vertical := by
         have hat : pX.IsHomLift (𝟙 base) (α.app T).hom := by
-          show pX.IsHomLift (𝟙 base) (α.hom.app T)
+          change pX.IsHomLift (𝟙 base) (α.hom.app T)
           rw [← hx]
           exact hα T
         exact IsHomLift.comp_lift_id_right pX (𝟙 base) (α.app T).hom iso.hom }

@@ -89,9 +89,8 @@ the site and of the rings, so a search for the abelian structure on the sheaves 
 small étale site that reaches one of them first ends in `stuck at solving universe constraint
 u + 1 =?= max (u + 1) ?u` rather than in a recoverable failure — as happens on the statement of the
 second result below, which does not elaborate with them in scope.  The same removal is made, for
-the same reason, in
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleSliceKInjective.lean` and in
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeAbsoluteSiteAssembly.lean`.
+the same reason, in `StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleSliceKInjective` and in
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeAbsoluteSiteAssembly`.
 
 The derived-category model of the sheaves of modules on the small étale site is left to
 `CategoryTheory.HasDerivedCategory.standard` rather than carried as a binder.  Carried, it is

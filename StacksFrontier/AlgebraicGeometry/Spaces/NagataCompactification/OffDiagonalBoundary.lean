@@ -59,6 +59,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` on presheaves over the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_OffDiagonalBoundary :
@@ -92,7 +93,7 @@ theorem mem_range_diagonal_of_mem_reducedClosedSubspace {U₁ U : (BigFppfOver B
       convert hk using 1
       rw [pointsMap_class, pointsMap_class]
       congr 1
-      show (⟨c, cont, tb, yonedaEquiv (a ≫ f)⟩ : FieldValuedPoint B S hS U) =
+      change (⟨c, cont, tb, yonedaEquiv (a ≫ f)⟩ : FieldValuedPoint B S hS U) =
         ⟨c, cont, tb, f.app _ ((pullback.fst f f).app _ v)⟩
       rw [yonedaEquiv_comp, yonedaEquiv_comp, hm, Equiv.apply_symm_apply])
   have hbij : Function.Bijective ((Subfunctor.fromPreimage
@@ -114,7 +115,7 @@ theorem mem_range_diagonal_of_mem_reducedClosedSubspace {U₁ U : (BigFppfOver B
   refine ⟨(⟨c, cont, tb, yonedaEquiv a⟩ : FieldValuedPoint B S hS U₁).class B S hS U₁, ?_⟩
   rw [pointsMap_class]
   congr 1
-  show (⟨c, cont, tb, (pullback.diagonal f).app _ (yonedaEquiv a)⟩ :
+  change (⟨c, cont, tb, (pullback.diagonal f).app _ (yonedaEquiv a)⟩ :
     FieldValuedPoint B S hS _) = _
   rw [← yonedaEquiv_comp, hma, hm, Equiv.apply_symm_apply]
 

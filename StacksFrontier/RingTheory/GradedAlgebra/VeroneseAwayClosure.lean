@@ -48,7 +48,7 @@ theorem fromZeroRingHom_eq_mk {c : A} (hc : c ∈ 𝒜 0) (h0 : c ∈ 𝒜 (0 �
     fromZeroRingHom 𝒜 (Submonoid.powers f) ⟨c, hc⟩ = Away.mk 𝒜 hf 0 c h0 := by
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.Away.val_mk]
-  show Localization.mk c 1 = _
+  change Localization.mk c 1 = _
   congr 1
   ext
   simp
@@ -94,7 +94,7 @@ private theorem mk_mem_of_mem_span {S : Subring (Away 𝒜 f)}
     rw [← Stacks.Veronese.awayMk_add 𝒜 hf n (hsub hy) (hsub hz) hxd]
     exact add_mem (ihy (hsub hy)) (ihz (hsub hz))
   | smul a y hy ihy =>
-    show Away.mk 𝒜 hf n ((a : A) * y) hxd ∈ _
+    change Away.mk 𝒜 hf n ((a : A) * y) hxd ∈ _
     rw [mk_mul_left_of_mem_zero 𝒜 hf a.property (hsub hy) hxd]
     exact mul_mem (hS ⟨_, rfl⟩) (ihy (hsub hy))
 

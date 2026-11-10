@@ -145,8 +145,8 @@ public theorem alternatingTrace_extendMap
       simp [ComplexShape.embeddingUpIntLE]
     have h1 : (ComplexShape.embeddingUpIntLE 0).f 1 = -1 := by
       simp [ComplexShape.embeddingUpIntLE]
-    simp only [show Even (0 : ℤ) from ⟨0, rfl⟩, if_true, show ¬ Even (-1 : ℤ) by decide,
-      if_false]
+    simp only [show Even (0 : ℤ) from ⟨0, rfl⟩, ite_true, show ¬ Even (-1 : ℤ) by decide,
+      ite_false]
     rw [HomologicalComplex.extendMap_f φ _ h0, HomologicalComplex.extendMap_f φ _ h1,
       sub_eq_add_neg]
     congr 1

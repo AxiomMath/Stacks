@@ -211,7 +211,7 @@ public theorem ι_comp_gluedHom (V : S.affineOpens) :
 /-- The glued morphism is a morphism over `S`. -/
 public theorem gluedHom_comp_hom : gluedHom ψ ≫ Y.hom = X.hom := by
   refine (affinePreimageCover X).hom_ext _ _ fun (V : S.affineOpens) ↦ ?_
-  show (X.hom ⁻¹ᵁ (V : S.Opens)).ι ≫ gluedHom ψ ≫ Y.hom
+  change (X.hom ⁻¹ᵁ (V : S.Opens)).ι ≫ gluedHom ψ ≫ Y.hom
     = (X.hom ⁻¹ᵁ (V : S.Opens)).ι ≫ X.hom
   rw [← Category.assoc, ι_comp_gluedHom]
   exact localHom_comp_hom ψ V.2

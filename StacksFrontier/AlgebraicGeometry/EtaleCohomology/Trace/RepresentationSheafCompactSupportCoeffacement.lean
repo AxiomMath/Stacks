@@ -70,7 +70,7 @@ theorem compactSupportRepresentationHomology_map_coindSum_eq_zero_of_natCard_le
     (compactSupportRepresentationHomology B X x Λ f j kbar)
     (shortExact_kernel_coindRelSum B X x Λ h M) 0 hcard
   rw [← finiteTypeContinuousModuleCoindRelSum_comp_coindSum Λ h M, Functor.map_comp]
-  show ((compactSupportRepresentationHomology B X x Λ f j kbar).functor 1).map
+  change ((compactSupportRepresentationHomology B X x Λ f j kbar).functor 1).map
       (finiteTypeContinuousModuleCoindRelSum Λ h M) ≫ _ = 0
   rw [h0, zero_comp]
 

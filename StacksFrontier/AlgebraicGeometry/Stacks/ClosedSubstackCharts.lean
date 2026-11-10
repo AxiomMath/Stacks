@@ -256,7 +256,7 @@ theorem objSubfunctor_preimage {U U' : BigFppfOver B S hS} (y : 𝒳.val.val.p.F
     (y' : 𝒳.val.val.p.Fiber U') (k : U' ⟶ U) (α : y'.1 ⟶ y.1) (hα : 𝒳.val.val.p.IsHomLift k α) :
     (objSubfunctor hP y).preimage (yoneda.map k) = objSubfunctor hP y' := by
   ext T t
-  show t ≫ k ∈ (objSubfunctor hP y).obj T ↔ t ∈ (objSubfunctor hP y').obj T
+  change t ≫ k ∈ (objSubfunctor hP y).obj T ↔ t ∈ (objSubfunctor hP y').obj T
   obtain ⟨ζ, β, hβ⟩ := 𝒳.val.isFiberedInGroupoids.exists_lift t y'.1 y'.2
   rw [mem_objSubfunctor_iff hP y' t β, mem_objSubfunctor_iff hP y (t ≫ k) (β ≫ α)]
 

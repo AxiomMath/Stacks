@@ -177,7 +177,7 @@ theorem genuineFormsComparison_dividedPowerDifferential (r : primeRing B p lam) 
       genuinePrimeFormsProjection A B p lam hp hpnil
         (KaehlerDifferential.D A (completedPrimeRingSelf B p lam)
           (algebraMap (primeRing B p lam) (completedPrimeRingSelf B p lam) r)) := by
-  show completionDifferentialsMap (A := A) (primeIdeal B p lam)
+  change completionDifferentialsMap (A := A) (primeIdeal B p lam)
     (primeDividedPowers B p lam hp) p (isNilpotent_mk_primeIdeal B p lam hp hpnil)
       (dividedPowerDifferential (A := A) (primeDividedPowers B p lam hp) r) =
     dividedPowerDifferential (A := A) (completedPrimeDividedPowers B p lam hp hpnil)
@@ -257,7 +257,7 @@ theorem genuineComposedComparison_dividedPowerDifferential (b : (B : Type u)) :
       genuinePrimeFormsProjection A B p lam hp hpnil
         (KaehlerDifferential.D A (completedPrimeRingSelf B p lam)
           (algebraMap (B : Type u) (completedPrimeRingSelf B p lam) b)) := by
-  show genuineFormsComparison A B p lam hp hpnil (primeFormsComparison A B p lam hp
+  change genuineFormsComparison A B p lam hp hpnil (primeFormsComparison A B p lam hp
       (dividedPowerDifferential (A := A) B.dividedPowers b)) =
     dividedPowerDifferential (A := A) (completedPrimeDividedPowers B p lam hp hpnil)
       (algebraMap (B : Type u) (completedPrimeRingSelf B p lam) b)

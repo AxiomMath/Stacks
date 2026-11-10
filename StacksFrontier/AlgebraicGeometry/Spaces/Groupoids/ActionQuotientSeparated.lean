@@ -109,7 +109,7 @@ private theorem actionRelation_left_eq :
     ((Over.forget S).map (Sigma.ι (fun _ : G => U) g.as) ≫
       (actionRelationUnderlyingIso U G).hom) ≫
       Sigma.desc fun g : G => (prod.lift (a g).asIso.hom (𝟙 U)).left
-  rw [heι g.as, Sigma.ι_desc]
+  rw [heι g.as, Sigma.ι_comp_desc]
   change (Sigma.ι (fun _ : G => U) g.as).left ≫ (actionRelation U G a).left = _
   rw [← Over.comp_left, sigmaι_comp_actionRelation]
 

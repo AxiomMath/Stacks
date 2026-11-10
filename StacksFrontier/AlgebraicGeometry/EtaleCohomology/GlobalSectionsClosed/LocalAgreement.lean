@@ -55,7 +55,8 @@ Local injectivity of the sheafification map is not available from Mathlib here: 
 instances for it constrain the coefficient category to the universe of the site, and étale
 cohomology is written with coefficients in `Type (max (u + 1) v)` for a free `v`; the same
 constraint is the reason the `HasSheafify` hypotheses of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/HenselianPairRestriction.lean` are hypotheses. The statement under the weaker
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/HenselianPairRestriction.lean` are hypotheses. The
+statement under the weaker
 hypothesis `UnivLE.{max z w, v}` is `Stacks.Sheafification.isLocallyInjective_toPlus_type`, and the
 instance below is that theorem applied to the small étale topology; the small étale site has
 objects in `Type (u + 1)` and morphisms in `Type u`, so the hypothesis it needs is

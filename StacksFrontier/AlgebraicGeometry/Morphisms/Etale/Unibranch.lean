@@ -126,7 +126,7 @@ theorem etaleAt_of_unramifiedAt_of_specializes_genericPoint
   have hxU' : x ∈ U' := by
     rw [Scheme.mem_basicOpen X g x hxU]
     refine IsLocalRing.notMem_maximalIdeal.mp fun hmax ↦ hgq ?_
-    show g ∈ (hUaff.primeIdealOf ⟨x, hxU⟩).asIdeal
+    change g ∈ (hUaff.primeIdealOf ⟨x, hxU⟩).asIdeal
     rwa [hUaff.primeIdealOf_eq_map_closedPoint]
   have hU'V : U' ≤ f ⁻¹ᵁ V := (X.basicOpen_le g).trans hVU
   let : IsLocalization.Away g Γ(X, U') := hUaff.isLocalization_basicOpen g
@@ -136,7 +136,7 @@ theorem etaleAt_of_unramifiedAt_of_specializes_genericPoint
   have : IsScalarTower A B Γ(X, U') := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     ext a
-    show (f.appLE V U' hU'V).hom a =
+    change (f.appLE V U' hU'V).hom a =
       ((X.presheaf.map (homOfLE (X.basicOpen_le g)).op).hom) ((f.appLE V U hVU).hom a)
     exact (congrArg (fun k : Γ(Y, V) ⟶ Γ(X, U') ↦ k.hom a)
       (f.appLE_map hVU (homOfLE (X.basicOpen_le g)).op)).symm

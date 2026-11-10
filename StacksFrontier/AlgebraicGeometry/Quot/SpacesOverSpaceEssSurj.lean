@@ -53,6 +53,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {P : MorphismProperty (AlgebraicSpaces B S hS)} {T : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs more heartbeats
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_spacesOverSpaceEssSurj :
@@ -187,6 +188,7 @@ abbrev glueObject : SpacesOver B S hS P T :=
   ⟨⟨Over.mk (glueSpaceMap G)⟩, prop_glueSpaceMap G⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` instance synthesis for `isoPullback` of algebraic spaces over the big fppf site
 /-- The total space of the base change of the glued space along a point of `T` is the total space
 of the family of `G` at the point. -/
 def glueLeftIso (a : (pointsCategory B S hS T).obj) :

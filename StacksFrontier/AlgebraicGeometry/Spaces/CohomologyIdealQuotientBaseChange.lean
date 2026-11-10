@@ -79,7 +79,7 @@ def sigmaIdealHom : (∐ fun _ : J => ModuleCat.of A A) ⟶ ModuleCat.of A A :=
 theorem ι_sigmaIdealHom (a : J) :
     Sigma.ι (fun _ : J => ModuleCat.of A A) a ≫ sigmaIdealHom J =
       ModuleCat.ofHom (LinearMap.toSpanSingleton A A a) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- For `a ∈ J`, multiplication by `a` on `A` followed by `A ⟶ A / J` is zero. -/
 theorem toSpanSingleton_comp_idealQuotientMk {a : A} (ha : a ∈ J) :

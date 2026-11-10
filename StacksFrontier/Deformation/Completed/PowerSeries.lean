@@ -162,7 +162,7 @@ public theorem surjective_of_mvPowerSeriesEval
   let G : A →ₐ[Λ] R :=
     { toRingHom := F
       commutes' a := by
-        show F (algebraMap Λ (MvPowerSeries (Fin r) R') a) = algebraMap Λ R a
+        change F (algebraMap Λ (MvPowerSeries (Fin r) R') a) = algebraMap Λ R a
         rw [MvPowerSeries.algebraMap_apply, hF_C]
         exact f.hom.commutes a }
   let S : CompleteLocalAlgCat.{u, v, w} Λ k := mvPowerSeriesObject R' r
@@ -237,7 +237,7 @@ public theorem surjective_of_mvPowerSeriesEval
     refine ⟨mA.toCotangent ⟨s, hs⟩, ?_⟩
     rw [Ideal.mapCotangent_toCotangent]
     apply mR.toCotangent_eq.mpr
-    show F s - (z : R) ∈ mR ^ 2
+    change F s - (z : R) ∈ mR ^ 2
     convert (mR ^ 2).neg_mem hrem using 1; ring
   exact (surjective_iff_surjective_cotangentSpaceMap φ).2 hcot
 
@@ -252,9 +252,6 @@ public theorem mvPowerSeries_bijective_of_eventually_quotient_retract
     {r : ℕ} (x : Fin r → I)
     (hspan : ∀ y : I, ∃ a : Fin r → R,
       y.1 - ∑ i, a i * (x i).1 ∈ maximalIdeal R * I)
-    (hindep : ∀ a : Fin r → R,
-      (∑ i, a i * (x i).1 ∈ maximalIdeal R * I) →
-        ∀ i, a i ∈ maximalIdeal R)
     (F : MvPowerSeries (Fin r) R' →+* R)
     (hF_C : ∀ a : R', F (MvPowerSeries.C a) = f.hom a)
     (hF_X : ∀ i, F (MvPowerSeries.X i) = (x i).1)

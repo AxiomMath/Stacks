@@ -75,7 +75,8 @@ below stays inside it; the crossings to the product-presentation API are all dis
 mode.
 
 The idempotents of a local stalk ring are `0` and `1` by
-`IsLocalRing.isIdempotentElem_eq_zero_or_one` (`StacksFrontier.RingTheory.LocalRing.IdempotentElem`).
+`IsLocalRing.isIdempotentElem_eq_zero_or_one`
+(`StacksFrontier.RingTheory.LocalRing.IdempotentElem`).
 
 ## References
 

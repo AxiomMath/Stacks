@@ -280,9 +280,9 @@ private theorem range_sigma_desc_eq_iSup
   constructor
   · rintro ⟨z, rfl⟩
     obtain ⟨⟨i⟩, y, rfl⟩ := Types.jointly_surjective_of_isColimit hcEval z
-    exact ⟨i, y, congrArg (fun q => q.app U y) (Sigma.ι_desc f i).symm⟩
+    exact ⟨i, y, congrArg (fun q => q.app U y) (Sigma.ι_comp_desc f i).symm⟩
   · rintro ⟨i, y, rfl⟩
-    exact ⟨(Sigma.ι F i).app U y, congrArg (fun q => q.app U y) (Sigma.ι_desc f i)⟩
+    exact ⟨(Sigma.ι F i).app U y, congrArg (fun q => q.app U y) (Sigma.ι_comp_desc f i)⟩
 
 private theorem locallySurjective_sigma_desc_of_denseImage
     {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
@@ -416,7 +416,7 @@ private theorem isOpenImmersion_and_locallySurjective_of_isColimit
       (Sigma.desc fun i => (ιX i).hom) := by
     have : IsIso eXsh.hom := Iso.isIso_hom eXsh
     have : IsIso eXsh.hom.hom := by
-      show IsIso ((sheafToPresheaf _ _).map eXsh.hom)
+      change IsIso ((sheafToPresheaf _ _).map eXsh.hom)
       exact Functor.map_isIso _ _
     let : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
         eXsh.hom.hom := by infer_instance
@@ -432,9 +432,9 @@ private theorem isOpenImmersion_and_locallySurjective_of_isColimit
           Sigma.ι (fun i => (Fx i).obj) i ≫ Sigma.desc (fun i => (ιX i).hom) =
             (ιX i).hom := by
         dsimp only [Fx, algebraicSpaceSheaf]
-        exact Sigma.ι_desc _ _
+        exact Sigma.ι_comp_desc _ _
       dsimp only [Fx, algebraicSpaceSheaf] at hright
-      rw [← Category.assoc, Sigma.ι_desc]
+      rw [← Category.assoc, Sigma.ι_comp_desc]
       exact (hXmaps i).trans hright.symm
     rw [hdesc] at hcomp
     exact hcomp
@@ -447,7 +447,7 @@ private theorem isOpenImmersion_and_locallySurjective_of_isColimit
     (@AlgebraicGeometry.IsOpenImmersion.{u}) Tfun)
   let : Q.RespectsIso := inferInstance
   have hfac : (Sigma.ι Fx i).hom ≫ eX.hom.hom = (ιX i).hom := hXmaps i
-  show Q (ιX i).hom
+  change Q (ιX i).hom
   rw [← hfac]
   exact MorphismProperty.RespectsIso.postcomp Q eX.hom.hom _ h
 
@@ -492,7 +492,7 @@ private theorem smooth_finite_coproduct
           intro i
           exact Subfunctor.range_ι (Xopen i)
         _ = ⨆ i : Fin n, Subfunctor.range (ιX i).hom := by
-          show (⨆ i : ULift (Fin n), Subfunctor.range (ιX i.down).hom) = _
+          change (⨆ i : ULift (Fin n), Subfunctor.range (ιX i.down).hom) = _
           exact iSup_ulift
             (fun i : ULift (Fin n) => Subfunctor.range (ιX i.down).hom)
     apply locallySurjective_sigma_desc_of_denseImage
@@ -539,15 +539,15 @@ private theorem smooth_finite_coproduct
     let : IsIso e.hom := Iso.isIso_hom e
     let j : XopenObj ⟶ X₀ := ObjectProperty.homMk (Xopen (ULift.up i)).ι
     have hfac : (e.hom ≫ j).hom = (ιX i).hom := by
-      show (Subfunctor.toRange (ιX i).hom ≫ (Xopen (ULift.up i)).ι) = _
+      change (Subfunctor.toRange (ιX i).hom ≫ (Xopen (ULift.up i)).ι) = _
       simp [Xopen]
     have hcompIso : Q (e.hom ≫ (j ≫ g)) := by
-      show IsSmooth B S hS ((e.hom ≫ j).hom ≫ g.hom)
+      change IsSmooth B S hS ((e.hom ≫ j).hom ≫ g.hom)
       rw [hfac]
       exact hcompXi i
     have hcomp : Q (j ≫ g) :=
       (Q.cancel_left_of_respectsIso e.hom _).mp hcompIso
-    show IsSmooth B S hS ((Xopen (ULift.up i)).ι ≫ g.hom)
+    change IsSmooth B S hS ((Xopen (ULift.up i)).ι ≫ g.hom)
     exact hcomp
   have hpointwise : ∀ x : points B S hS X₀.obj,
       IsSmoothAt B S hS g.hom x := by
@@ -574,7 +574,7 @@ private theorem smooth_iff_affine_pullback
             ((BigAffineFppf.inclusion B S hS).obj T) ⟶ Y),
           smoothMorphismProperty B S hS (pullback.snd f g) := by
   intro X Y f
-  show IsSmooth B S hS f.hom ↔ _
+  change IsSmooth B S hS f.hom ↔ _
   have hTFAE := isSmooth_tfae B S hS X.property Y.property f.hom
   have hiff := (hTFAE.out 1 4)
   constructor
@@ -656,13 +656,13 @@ private theorem smooth_of_affine_fpqc_pullback
       MorphismProperty.IsStableUnderBaseChange.of_isPullback
         (IsPullback.of_hasPullback a (Limits.pullback.fst f.hom
           (schemeSpaceMap (B := B) (S := S) (hS := hS) g₀).hom)) haEtale
-    show QEtale.presheaf (e.hom ≫ qchart)
+    change QEtale.presheaf (e.hom ≫ qchart)
     exact MorphismProperty.RespectsIso.precomp QEtale.presheaf e.hom _ hq
   have hcomm : yoneda.map (Limits.pullback.snd u g₀) ≫ 𝟙 (yoneda.obj T'₀) =
       p' ≫ (Limits.pullback.snd f.hom
         (schemeSpaceMap (B := B) (S := S) (hS := hS) g₀).hom) := by
     rw [Category.comp_id]
-    show yoneda.map (Limits.pullback.snd u g₀) =
+    change yoneda.map (Limits.pullback.snd u g₀) =
       e.hom ≫ qchart ≫ Limits.pullback.snd f.hom (yoneda.map g₀)
     have hstep : e₂.hom ≫ qchart ≫ Limits.pullback.snd f.hom
         (yoneda.map g₀) =
@@ -701,7 +701,7 @@ private theorem smooth_of_affine_fpqc_pullback
   have hsmooth' : Smooth (Tfun.map (Limits.pullback.snd u g₀)) := by
     apply hAll W T'₀ p' (𝟙 _) (Limits.pullback.snd u g₀) hpEtale
     · let QEtale' := MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) Tfun
-      show yoneda.relativelyRepresentable (𝟙 (yoneda.obj T'₀)) ∧ _
+      change yoneda.relativelyRepresentable (𝟙 (yoneda.obj T'₀)) ∧ _
       let idIso := Iso.refl (yoneda.obj T'₀)
       have : IsIso idIso.hom := idIso.isIso_hom
       refine ⟨Functor.relativelyRepresentable.of_isIso yoneda idIso.hom, ?_⟩
@@ -710,7 +710,7 @@ private theorem smooth_of_affine_fpqc_pullback
       let := hIso
       have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map _
       have : IsIso (Tfun.map snd) := by infer_instance
-      show Etale (Tfun.map snd)
+      change Etale (Tfun.map snd)
       exact inferInstance
     · exact hcomm
   have hdesc : Smooth (Tfun.map u) := by
@@ -760,24 +760,24 @@ private theorem smooth_of_affine_fpqc_pullback
           intro A A' A'' f g hf hg
           change Smooth (Tfun.map f) at hf
           change Smooth (Tfun.map g) at hg
-          show Smooth (Tfun.map (f ≫ g))
+          change Smooth (Tfun.map (f ≫ g))
           rw [Functor.map_comp]
           exact MorphismProperty.comp_mem (@Smooth.{u}) _ _ hf hg }
       have hIso : MorphismProperty.isomorphisms C ≤ Qsm := by
         intro A A' e he
-        show Smooth (Tfun.map e)
+        change Smooth (Tfun.map e)
         have : IsIso (Tfun.map e) := Functor.map_isIso Tfun e
         exact inferInstance
       let : MorphismProperty.RespectsIso Qsm :=
         MorphismProperty.respectsIso_of_isStableUnderComposition hIso
       exact (Qsm.arrow_mk_iso_iff hArrow).mpr hdesc
     apply hrep.mpr
-    show Smooth (Tfun.map
+    change Smooth (Tfun.map
       (yoneda.preimage ((yoneda.obj U).reprW.hom ≫ yoneda.map u ≫
         (yoneda.obj T₀).reprW.inv)))
     exact hnorm
   have hcomp : IsSmooth B S hS (a ≫ f.hom) := by
-    show HoldsOnEveryEtaleChart B S hS
+    change HoldsOnEveryEtaleChart B S hS
       (@Smooth.{u} : MorphismProperty Scheme.{u}) (a ≫ f.hom)
     rw [huf]
     exact hchart

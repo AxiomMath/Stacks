@@ -73,7 +73,7 @@ theorem generates_pushforward {C : Type u} [Category.{v} C] {D : Type u'} [Categ
   intro W g hg
   obtain ⟨a, ha⟩ := hc (F.obj W) (F.map g) hg
   refine ⟨fun i => a i, ?_⟩
-  show ∑ i, a i • (M.val.restrictₛₗ (F.map (g ≫ f)).op) (s i) =
+  change ∑ i, a i • (M.val.restrictₛₗ (F.map (g ≫ f)).op) (s i) =
     (M.val.restrictₛₗ (F.map g).op) t
   rw [F.map_comp]
   exact ha

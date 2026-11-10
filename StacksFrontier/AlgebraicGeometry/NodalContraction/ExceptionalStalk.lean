@@ -74,7 +74,7 @@ private theorem vanishingIdeal_singleton_comap_fromSpecStalk_eq {X : Scheme.{u}}
         (Ideal.map (Scheme.ΓSpecIso (CommRingCat.of (X.presheaf.stalk z))).inv.hom
           (IsLocalRing.maximalIdeal (X.presheaf.stalk z))) := by
   rw [vanishingIdeal_singleton_comap_fromSpecStalk z hz, Scheme.ker_SpecMap]
-  show Scheme.IdealSheafData.ofIdealTop
+  change Scheme.IdealSheafData.ofIdealTop
     (Ideal.map _ (RingHom.ker (IsLocalRing.residue (X.presheaf.stalk z)))) = _
   rw [IsLocalRing.ker_residue]
   rfl
@@ -115,7 +115,7 @@ private theorem isIso_stalkMap_blowUpToBase_of_ne {X : Scheme.{u}} (M : X.IdealS
     rfl
   have hmem : y ∈ blowUpToBase M ⁻¹ᵁ
       (⟨M.supportᶜ, M.support.isClosed.isOpen_compl⟩ : X.Opens) := by
-    show blowUpToBase M y ∉ (M.support : Set X)
+    change blowUpToBase M y ∉ (M.support : Set X)
     rwa [hsupport]
   exact isIso_stalkMap_of_isIso_morphismRestrict _ (isIso_blowUp_restrict_compl_support M) hmem
 

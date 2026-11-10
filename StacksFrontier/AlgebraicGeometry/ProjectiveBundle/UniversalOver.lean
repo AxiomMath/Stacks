@@ -87,7 +87,8 @@ it produces.
 ## Implementation notes
 
 **Why `F'` with `hF : F' ≅ f^*F` rather than `f^*F` itself.** This is the shape
-`StacksFrontier/AlgebraicGeometry/RelativeProjSituation/ProjectiveBundleBaseChange.lean` and `TautologicalBaseChange.lean` are stated in — `𝐏(F')`
+`StacksFrontier/AlgebraicGeometry/RelativeProjSituation/ProjectiveBundleBaseChange.lean` and
+`TautologicalBaseChange.lean` are stated in — `𝐏(F')`
 needs `F'.IsQuasicoherent`, which for a literal `f^*F` would need the stability of
 quasi-coherence under pullback — and it is also the shape a consumer holds: the restriction of a
 module to a subscheme is given as a module in its own right, identified with the pullback. Taking
@@ -252,6 +253,7 @@ def overQuotient (D : TautologicalDatum X F) (h : T ⟶ projectiveBundle X F)
   q := hF.hom ≫ D.overQuotientMap h hh
   epi := inferInstance
 
+omit [SheafOfModules.IsQuasicoherent F'] in
 /-- The quotient map of `TautologicalDatum.overQuotient` is the identification `F' ≅ f^*F`
 followed by `TautologicalDatum.overQuotientMap`. -/
 @[simp] theorem overQuotient_q (D : TautologicalDatum X F) (h : T ⟶ projectiveBundle X F)
@@ -391,7 +393,7 @@ as the inhabitant of `TautologicalDatum.IsUniversal` in
 that nothing above is vacuous. -/
 instance isUniversalOver_of_isEmpty [IsEmpty X] (D : TautologicalDatum X F) :
     D.IsUniversalOver where
-  isUniversal_baseChange f F' _ hF :=
+  isUniversal_baseChange f _ _ _ :=
     have : IsEmpty _ := ⟨fun t => isEmptyElim (α := X) (f.base t)⟩
     TautologicalDatum.isUniversal_of_isEmpty _
 

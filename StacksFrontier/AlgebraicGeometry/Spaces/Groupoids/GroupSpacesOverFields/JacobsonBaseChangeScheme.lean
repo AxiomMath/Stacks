@@ -224,7 +224,7 @@ theorem exists_stage_isAffine_isOpenImmersion (Ω : Type u) [Field Ω] [Algebra 
         pullback.lift_snd, Category.comp_id]
   let x := schemePointsHomeomorph C _ hK A a
   have hx : T.map (j ≫ r) x ∈ U' := by
-    show isoE.hom (T.map r (T.map j x)) ∈ U
+    change isoE.hom (T.map r (T.map j x)) ∈ U
     have h1 : (T.map j ≫ isoΩ.hom) x ∈ W := ⟨x, rfl⟩
     rw [← hpre] at h1
     change (isoΩ.hom ≫ pullback.lift _ _ _) (T.map j x) ∈ U at h1
@@ -376,7 +376,7 @@ private theorem mem_range_pointsMap_yoneda_map_comp_iff
   constructor
   · rintro ⟨b, rfl⟩
     refine ⟨schemePointsHomeomorph C _ hK _ b, ?_⟩
-    show _ = schemePointsHomeomorph C _ hK Y (pointsMap C _ hK _ ε.inv
+    change _ = schemePointsHomeomorph C _ hK Y (pointsMap C _ hK _ ε.inv
       (pointsMap C _ hK _ (yoneda.map u ≫ ε.hom) b))
     rw [← Function.comp_apply (f := pointsMap C _ hK _ ε.inv), ← pointsMap_comp,
       Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -384,7 +384,7 @@ private theorem mem_range_pointsMap_yoneda_map_comp_iff
   · rintro ⟨y, hy⟩
     refine ⟨(schemePointsHomeomorph C _ hK A).symm y, ?_⟩
     rw [pointsMap_comp, Function.comp_apply, schemePointsHomeomorph_symm_naturality, hy]
-    show pointsMap C _ hK _ ε.hom ((schemePointsHomeomorph C _ hK Y).symm
+    change pointsMap C _ hK _ ε.hom ((schemePointsHomeomorph C _ hK Y).symm
       (schemePointsHomeomorph C _ hK Y (pointsMap C _ hK _ ε.inv w))) = w
     rw [Homeomorph.symm_apply_apply, ← Function.comp_apply (f := pointsMap C _ hK _ ε.hom),
       ← pointsMap_comp, Iso.inv_hom_id, pointsMap_id, id_eq]
@@ -400,7 +400,7 @@ private theorem surjective_pointsMap_prod_map_extMap (Ω : Type u) [Field Ω] [A
   refine (MorphismProperty.relative_isStableUnderBaseChange _).of_isPullback
     (IsPullback.of_prod_fst_with_id _ H) ?_
   refine presheaf_yoneda_map_of_inverseImage C _ hK inferInstance _ ?_
-  show Surjective (Spec.map _)
+  change Surjective (Spec.map _)
   exact ⟨fun _ ↦ ⟨Classical.arbitrary _, Subsingleton.elim _ _⟩⟩
 
 /-- **A finite base change that is a scheme, inside the algebraic closure.** Let `V` be a
@@ -428,7 +428,7 @@ theorem exists_finiteSubextension_representation
   let g : C.obj hE₀ ⟶ C.obj hk' := ObjectProperty.homMk (Spec.map (CommRingCat.ofHom τ.toRingHom))
   have hg : g ≫ specExtensionHom K k' C hK hk' = specExtensionHom K E₀ C hK hE₀ := by
     apply ObjectProperty.hom_ext
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     congr 1
     ext c
@@ -512,7 +512,7 @@ private theorem exists_pointsMap_snd_eq_class_ptOf (Ω : Type u) [Field Ω] [Alg
   let a₀ : EΩ ⟶ Y.left := Over.homMk ⟨s⟩ (by
     rw [← hYw, ← Category.assoc]
     apply ObjectProperty.hom_ext
-    show (s ≫ T.map Y.hom) ≫ EΩ.hom.hom = EΩ.hom.hom
+    change (s ≫ T.map Y.hom) ≫ EΩ.hom.hom = EΩ.hom.hom
     rw [hs, Category.id_comp])
   obtain ⟨z, hz⟩ := hx
   obtain ⟨z, hxa⟩ : ∃ z : T.obj EΩ, x = T.map a₀ z := ⟨z, hz.symm⟩
@@ -525,12 +525,13 @@ private theorem exists_pointsMap_snd_eq_class_ptOf (Ω : Type u) [Field Ω] [Alg
     rw [hxa, ← schemePointsHomeomorph_symm_naturality, pointsMap_comp, Function.comp_apply]
     congr 2
     exact Subsingleton.elim _ _
-  show pointsMap C _ hK _ prod.snd
+  change pointsMap C _ hK _ prod.snd
     (pointsMap C _ hK _ ε.hom ((schemePointsHomeomorph C _ hK Y.left).symm x)) = _
   rw [h1, ← Function.comp_apply (f := pointsMap C _ hK _ prod.snd), ← pointsMap_comp,
     pointsMap_class, ptOf_map, Category.id_comp, Category.assoc]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through binary products (`⨯`, `prod.map`) of presheaves on the big fppf site
 /-- **An affine open of `H_Ω` descends to a finite stage.** If `H` is a quasi-separated algebraic
 space over `K` with `h_Y ≅ h_Ω × H`, then an affine open `U` of the scheme of `Y` maps into an
 affine open subspace of `h_E × H` for a finite subextension `E` of `Ω/K`. -/
@@ -626,7 +627,7 @@ private theorem mem_range_schematicLocus_of_forall_mem_isAffineOpen
   obtain ⟨w, rfl⟩ := hρsurj z
   refine hcompat w (hfibU w ?_)
   rw [← hz]
-  show πΩ w = pointsMap C _ hK _ prod.snd (pointsMap C _ hK _ ρ w)
+  change πΩ w = pointsMap C _ hK _ prod.snd (pointsMap C _ hK _ ρ w)
   rw [← Function.comp_apply (f := pointsMap C _ hK _ prod.snd), ← pointsMap_comp,
     show ρ ≫ prod.snd = prod.snd by simp [ρ]]
 
@@ -685,10 +686,10 @@ private theorem exists_isAffineOpen_forall_mem_of_pointsMap_snd_eq
     rw [Functor.map_comp, hΦ', Category.assoc, ← hε, Iso.inv_hom_id_assoc, prod.lift_fst]
   let fT : Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Ω A))) ⟶ Γ.X :=
     Over.homMk ((BigFppfOver.toScheme C _ hK).map Φ') (by
-      show (BigFppfOver.toScheme C _ hK).map Φ' ≫
+      change (BigFppfOver.toScheme C _ hK).map Φ' ≫
         (BigFppfOver.toScheme C _ hK).map Y.hom = _
       rw [← Functor.map_comp, hΦ'Y]
-      show Spec.map (CommRingCat.ofHom i₁.toRingHom) = _
+      change Spec.map (CommRingCat.ofHom i₁.toRingHom) = _
       congr 2)
   have := hJ
   obtain ⟨U, hU, hUT⟩ := exists_affineOpen_range_subset Ω A Γ hrat
@@ -698,7 +699,7 @@ private theorem exists_isAffineOpen_forall_mem_of_pointsMap_snd_eq
     (fun M _ _ α β => exists_algHom_perfectClosureTensor Ω M α β) w hw
   apply hUT
   refine ⟨schemePointsHomeomorph C _ hK _ t, ?_⟩
-  show (BigFppfOver.toScheme C _ hK).map Φ' (schemePointsHomeomorph C _ hK _ t) =
+  change (BigFppfOver.toScheme C _ hK).map Φ' (schemePointsHomeomorph C _ hK _ t) =
     schemePointsHomeomorph C _ hK Y.left (pointsMap C _ hK _ ε.inv (pointsMap C _ hK _ Φ t))
   rw [← Function.comp_apply (f := pointsMap C _ hK _ ε.inv), ← pointsMap_comp, ← hΦ']
   exact map_schemePointsHomeomorph K C hK Φ' t

@@ -220,9 +220,9 @@ noncomputable def tensorLeftSheafifyFunctorUnitIso :
             (λ_ source.val).hom ≫ morphism.val
           apply PresheafOfModules.tensorObj_hom_ext
           intro openSet ringSection moduleSection
-          letI : Module (O.obj openSet) (source.val.obj openSet) :=
+          let : Module (O.obj openSet) (source.val.obj openSet) :=
             (source.val.obj openSet).isModule
-          letI : Module (O.obj openSet) (target.val.obj openSet) :=
+          let : Module (O.obj openSet) (target.val.obj openSet) :=
             (target.val.obj openSet).isModule
           change (λ_ target.val).hom.app openSet
               ((PresheafOfModules.tensorHom (𝟙 _) morphism.val).app openSet

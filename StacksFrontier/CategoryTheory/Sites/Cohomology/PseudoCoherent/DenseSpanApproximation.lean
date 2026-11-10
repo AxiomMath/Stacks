@@ -172,7 +172,7 @@ theorem hasLocalHomology (G : Gens c K) (hG : A.gens ⊆ G) : X.HasLocalHomology
     A.hα j i j' a ha n (by omega)
   have hz₁ : ((X.restrictComplex K (A.V j i j' a ha)).d n k).val.app
       (op (Over.mk (A.g j i j' a ha))) ((K.X n).val.map a.op z) = 0 := by
-    show (K.d n k).val.app (op (c j')) ((K.X n).val.map a.op z) = 0
+    change (K.d n k).val.app (op (c j')) ((K.X n).val.map a.op z) = 0
     rw [PresheafOfModules.naturality_apply, hz, map_zero]
     rfl
   obtain ⟨S₁, hS₁, h₁⟩ := SheafOfModules.exists_mem_sieve_of_epi_homologyMap
@@ -187,7 +187,7 @@ theorem hasLocalHomology (G : Gens c K) (hG : A.gens ⊆ G) : X.HasLocalHomology
       (Functor.IsCoverDense.is_cover (G := inducedFunctor c) W)
     obtain ⟨⟨l, lift, map, fac⟩⟩ := he₂
     rw [← fac]
-    show (K.X n).val.map (lift ≫ map).op q ∈ (span G n).obj (op W₂)
+    change (K.X n).val.map (lift ≫ map).op q ∈ (span G n).obj (op W₂)
     rw [op_comp, PresheafOfModules.map_comp_apply]
     refine map_mem_span G lift.op (Submodule.subset_span ⟨l, _, 𝟙 _, hG ⟨⟨j, i, j', ⟨a, ha⟩, n, l,
       map ≫ b, ((A.P j i j' a ha).X n).val.map
@@ -201,7 +201,7 @@ theorem hasLocalHomology (G : Gens c K) (hG : A.gens ⊆ G) : X.HasLocalHomology
       rw [hq]
       exact PresheafOfModules.naturality_apply ((A.α j i j' a ha).f n).val _ p
     exact (SheafOfModules.map_id_apply (K.X n) (c l) _).trans key
-  · show ((X.restrictComplex K (A.V j i j' a ha)).d n k).val.app _
+  · change ((X.restrictComplex K (A.V j i j' a ha)).d n k).val.app _
       (((A.α j i j' a ha).f n).val.app _ p) = 0
     rw [← SheafOfModules.comp_val_app_apply, (A.α j i j' a ha).comm,
       SheafOfModules.comp_val_app_apply, hdp, map_zero]

@@ -45,8 +45,8 @@ over `Λ` holds at a possibly later étale stage.
 **What is not here.** The last step of the first conclusion — assembling the stage datum into an
 étale cover of `Spec C'` through the chosen point and concluding by the source-cover criterion
 `AlgebraicGeometry.etale_of_forall_exists_etale_comp` — is carried out in the next file,
-`StacksFrontier.AlgebraicGeometry.Groupoids.FiniteFlatAffine.EtaleInvariantRingMapAssembly`, where the
-tag is registered on `AlgebraicGeometry.GroupoidScheme.etale_invariantRingMap` and
+`StacksFrontier.AlgebraicGeometry.Groupoids.FiniteFlatAffine.EtaleInvariantRingMapAssembly`, where
+the tag is registered on `AlgebraicGeometry.GroupoidScheme.etale_invariantRingMap` and
 `AlgebraicGeometry.GroupoidScheme.isPullback_mapObjects`. Everything that assembly needs is here or
 imported: the point transport of
 `AlgebraicGeometry.exists_point_specMap_of_ringEquiv_square`, the comparison morphism of two base
@@ -126,7 +126,7 @@ theorem objectsToInvariantSpectrum_comp_specMap_canonicalMapToInvariantFunctions
         Spec.map (CommRingCat.ofHom bc.canonicalMapToInvariantFunctions) =
       bc.groupoid.objects.hom := by
   rw [objectsToInvariantSpectrum, Category.assoc, ← Spec.map_comp]
-  show bc.groupoid.objects.left.toSpecΓ ≫
+  change bc.groupoid.objects.left.toSpecΓ ≫
     Spec.map ((Scheme.ΓSpecIso (.of C₁)).inv ≫ bc.groupoid.objects.hom.appTop) = _
   rw [Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc]
   simp
@@ -295,7 +295,7 @@ private theorem mem_iff_of_eq {R : Type u} [CommRing R] {I : Ideal R} {a b : R} 
 rings so that no rewrite takes place inside a coordinate ring of a base change. -/
 private theorem isIdempotentElem_ringHom {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
     {e : R} (he : IsIdempotentElem e) : IsIdempotentElem (f e) := by
-  show f e * f e = f e
+  change f e * f e = f e
   rw [← map_mul, he]
 
 /-- The generator of the kernel of a map read through identifications of its source and its target,
@@ -489,7 +489,7 @@ private theorem map_id_includeLeft {R A C₁ C₂ : Type u} [CommRing R] [CommRi
     Algebra.TensorProduct.map (AlgHom.id R A) h
         (Algebra.TensorProduct.includeLeftRingHom a) =
       (Algebra.TensorProduct.includeLeftRingHom a : A ⊗[R] C₂) := by
-  show Algebra.TensorProduct.map (AlgHom.id R A) h (a ⊗ₜ (1 : C₁)) = a ⊗ₜ (1 : C₂)
+  change Algebra.TensorProduct.map (AlgHom.id R A) h (a ⊗ₜ (1 : C₁)) = a ⊗ₜ (1 : C₂)
   rw [Algebra.TensorProduct.map_tmul, map_one]
   rfl
 

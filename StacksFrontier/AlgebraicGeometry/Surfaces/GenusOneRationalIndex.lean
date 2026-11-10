@@ -128,10 +128,10 @@ theorem card_filter_add_one_le_of_injOn {n : ℕ} (hn : 1 ≤ n) (P : Fin n × F
   have hle : (univ.filter P).card ≤ (range (n - 1)).card := by
     refine Finset.card_le_card_of_injOn φ ?_ ?_
     · intro q hq
-      simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hq
+      simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hq
       simpa using hφ q hq
     · intro q hq q' hq' hqq'
-      simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq] at hq hq'
+      simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq] at hq hq'
       exact hinj q q' hq hq' hqq'
   rw [card_range] at hle
   omega
@@ -152,7 +152,7 @@ theorem longIntersection_comm (f : LongFamily) (n : ℕ) (i j : Fin n) :
     longIntersection f n i j = longIntersection f n j i := by
   by_cases h : i = j
   · rw [h]
-  · simp only [longIntersection, h, Ne.symm h, if_false, min_comm, max_comm]
+  · simp only [longIntersection, h, Ne.symm h, ite_false, min_comm, max_comm]
 
 /-- A pair `i < j` with a positive intersection coefficient has a positive edge coefficient. -/
 private theorem lt_and_pos_longEdge_of_pos_longIntersection (f : LongFamily) (n : ℕ)
@@ -204,7 +204,7 @@ theorem card_filter_add_one_le_of_fork {n : ℕ} (hn : 6 ≤ n) (A : Fin n → F
     have h1 := hA q hq.1 hq.2
     have h2 := q.2.isLt
     have h3 : q.1.val < q.2.val := hq.1
-    show (if q.2.val = n - 1 then n - 2 else q.1.val) < n - 1
+    change (if q.2.val = n - 1 then n - 2 else q.1.val) < n - 1
     split_ifs <;> omega
   · intro q q' hq hq' h
     have h1 := hA q hq.1 hq.2
@@ -272,7 +272,7 @@ private theorem lt_and_pos_longIntersection_cycle_iff {n : ℕ} (q : Fin n × Fi
     refine ⟨hab, ?_⟩
     rw [longIntersection_of_lt _ n hab]
     simp only [longEdge]
-    rw [if_pos h]
+    rw [ite_eq_left h]
     norm_num
 
 /-- The cycle on `n ≥ 3` components has exactly `n` edges: the pairs `(i, i + 1)` for `i < n - 1`
@@ -288,12 +288,12 @@ theorem card_filter_longIntersection_cycle {n : ℕ} (hn : 3 ≤ n) :
       refine Finset.card_le_card_of_injOn
         (fun q => if q.1.val = 0 ∧ q.2.val = n - 1 then n - 1 else q.1.val) ?_ ?_
       · intro q hq
-        simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq, hpos] at hq
+        simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq, hpos] at hq
         have := q.2.isLt
         simp only [coe_range, Set.mem_Iio]
         split_ifs <;> omega
       · intro q hq q' hq' h
-        simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq, hpos] at hq hq'
+        simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq, hpos] at hq hq'
         have := q.2.isLt
         have := q'.2.isLt
         simp only at h
@@ -305,7 +305,7 @@ theorem card_filter_longIntersection_cycle {n : ℕ} (hn : 3 ≤ n) :
         (fun i : Fin n => if h : i.val + 1 < n then ((i, ⟨i.val + 1, h⟩) : Fin n × Fin n)
           else (⟨0, by omega⟩, ⟨n - 1, by omega⟩)) ?_ ?_
       · intro i _
-        simp only [coe_filter, mem_univ, true_and, Set.mem_setOf_eq, hpos]
+        simp only [coe_filter, mem_univ, true_and, Set.mem_ofPred_eq, hpos]
         split_ifs with h
         · exact ⟨by simp only; omega, Or.inl rfl⟩
         · exact ⟨by simp only; omega, Or.inr ⟨rfl, rfl⟩⟩
@@ -332,7 +332,7 @@ theorem longIntersection_cycle_of_ne {n : ℕ} (hn : 3 ≤ n) {i j : Fin n} (hij
     · rw [h, Nat.mod_self]
     · exact Nat.mod_eq_of_lt (by omega)
   rw [hmod i.val hi, hmod j.val hj]
-  simp only [longIntersection, hij, if_false, longEdge]
+  simp only [longIntersection, hij, ite_false, longEdge]
   rcases lt_or_gt_of_ne hij' with h | h
   · rw [min_eq_left h.le, max_eq_right h.le]
     split_ifs <;> omega
@@ -576,7 +576,7 @@ private theorem intersectionMatrix_nonneg_of_ne (T : NumericalType) {i j : Fin T
 private theorem intersectionMatrix_mulVec_multiplicity (T : NumericalType) :
     (intersectionMatrix T).mulVec T.multiplicity = 0 := by
   ext i
-  show ∑ j, intersectionMatrix T i j * T.multiplicity j = 0
+  change ∑ j, intersectionMatrix T i j * T.multiplicity j = 0
   simpa [intersectionMatrix, T.intersection_symm] using T.intersection_mul_multiplicity i
 
 /-- The intersection matrix of a numerical type is connected: no proper nonempty set of

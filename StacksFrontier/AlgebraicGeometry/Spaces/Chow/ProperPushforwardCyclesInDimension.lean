@@ -284,7 +284,7 @@ theorem finite_integralClosedImage_eq_and_ne_zero (sX : X ⟶ D.space) (sY : Y �
   refine hVfin.subset ?_
   rintro Z ⟨hZimg, hZne⟩
   refine ⟨Z'.ambientGenericPoint D.site D.base D.base_mem, ?_, mem_of_mem_nhds hV⟩
-  show Z'.ambientGenericPoint D.site D.base D.base_mem ∈
+  change Z'.ambientGenericPoint D.site D.base D.base_mem ∈
     closure (pointsMap D.site D.base D.base_mem X f '' supportFamily D α Z)
   rw [closure_image_supportFamily D sY hY f hZne, hZimg]
   exact ⟨Z'.genericPoint D.site D.base D.base_mem, rfl⟩
@@ -327,7 +327,7 @@ theorem properPushforwardCoeffInDimension_mem_cyclesOfDimension (sX : X ⟶ D.sp
       exists_integralClosedImage_eq_of_properPushforwardCoeffInDimension_ne_zero
         D sX sY hX hY f k α Z' hZ'ne
     refine ⟨Z, ⟨q, ?_, hqV⟩, hZimg⟩
-    show q ∈ closure (pointsMap D.site D.base D.base_mem X f '' supportFamily D α Z)
+    change q ∈ closure (pointsMap D.site D.base D.base_mem X f '' supportFamily D α Z)
     rw [closure_image_supportFamily D sY hY f hZne, hZimg]
     exact hqZ'
   · obtain ⟨Z, hZmem, hZne⟩ := exists_ne_zero_of_finsum_mem_ne_zero hZ'
@@ -388,7 +388,7 @@ theorem properPushforwardCoeffInDimension_cycleCoeff (sX : X ⟶ D.space) (sY : 
       exact eq_of_cycleCoeff_ne_zero D (left_ne_zero_of_mul hV)
     · intro V hV
       have hVZ : V = Z := Finset.mem_singleton.1 (Finset.mem_coe.1 hV)
-      show cycleImageSubspace D sY hY f V = Z'
+      change cycleImageSubspace D sY hY f V = Z'
       rwa [hVZ]
     · rw [Finset.sum_singleton, cycleCoeff_self, one_mul]
   · rw [cycleCoeff_eq_zero D (Ne.symm himg), zero_mul]
@@ -449,7 +449,7 @@ theorem properPushforwardInDimension_zero (sX : X ⟶ D.space) (sY : Y ⟶ D.spa
     (hf : IsProper D.site D.base D.base_mem f) (k : ℤ) :
     properPushforwardInDimension D sX sY hX hY f hfB hf k 0 = 0 := by
   refine Subtype.ext (funext fun Z' ↦ ?_)
-  show properPushforwardCoeffInDimension D sX sY hX hY f k (0 : CycleGroup D sX k).1 Z' = 0
+  change properPushforwardCoeffInDimension D sX sY hX hY f k (0 : CycleGroup D sX k).1 Z' = 0
   rw [properPushforwardCoeffInDimension]
   exact finsum_mem_eq_zero_of_forall_eq_zero fun V _ ↦ zero_mul _
 
@@ -476,7 +476,7 @@ theorem properPushforwardInDimension_add (sX : X ⟶ D.space) (sY : Y ⟶ D.spac
       properPushforwardInDimension D sX sY hX hY f hfB hf k α +
         properPushforwardInDimension D sX sY hX hY f hfB hf k β := by
   refine Subtype.ext (funext fun Z' ↦ ?_)
-  show properPushforwardCoeffInDimension D sX sY hX hY f k (α.1 + β.1) Z' =
+  change properPushforwardCoeffInDimension D sX sY hX hY f k (α.1 + β.1) Z' =
     properPushforwardCoeffInDimension D sX sY hX hY f k α.1 Z' +
       properPushforwardCoeffInDimension D sX sY hX hY f k β.1 Z'
   rw [properPushforwardCoeffInDimension, properPushforwardCoeffInDimension,
@@ -585,7 +585,7 @@ theorem properPushforwardInDimension_comp (sX : X ⟶ D.space) (sY : Y ⟶ D.spa
     (fun Z' ↦ cycleImageSubspace D sW hW g Z')
     (fun Z ↦ α.1 Z * properPushforwardWeightInDimension D sX sY hX hY f k Z)
     (fun Z' ↦ properPushforwardWeightInDimension D sY sW hY hW g k Z') Z'' hfib
-  show properPushforwardCoeffInDimension D sY sW hY hW g k
+  change properPushforwardCoeffInDimension D sY sW hY hW g k
       (properPushforwardCoeffInDimension D sX sY hX hY f k α.1) Z'' =
     properPushforwardCoeffInDimension D sX sW hX hW (f ≫ g) k α.1 Z''
   calc properPushforwardCoeffInDimension D sY sW hY hW g k

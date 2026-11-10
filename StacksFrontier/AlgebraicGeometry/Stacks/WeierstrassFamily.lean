@@ -227,7 +227,7 @@ theorem bijective_toGradingZeroOf : Function.Bijective (toGradingZeroOf C) := by
     rw [mem_homogeneousSubmodule, ← totalDegree_zero_iff_isHomogeneous,
       totalDegree_eq_zero_iff_eq_C] at hp
     refine ⟨p.coeff 0, Subtype.ext ?_⟩
-    show (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) (MvPolynomial.C (p.coeff 0)) =
+    change (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) (MvPolynomial.C (p.coeff 0)) =
       (x : coordRingOf C)
     exact (congrArg (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) hp).symm.trans hpx
 
@@ -278,7 +278,7 @@ theorem zeroOf_projectionOf : zeroOf C ≫ projectionOf C = 𝟙 _ := by
     simpa only [CommRingCat.hom_ofHom, RingHom.comp_apply, SetLike.GradeZero.algebraMap_apply,
       evalZeroGlobalOf] using congrArg
         (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom (evalZeroOf_toGradingZeroOf C a)
-  show Proj.fromOfGlobalSections (gradingOf C) (evalZeroGlobalOf C)
+  change Proj.fromOfGlobalSections (gradingOf C) (evalZeroGlobalOf C)
       (map_irrelevant_eq_top_of C) ≫ Proj.toSpecZero (gradingOf C) ≫
       Spec.map (CommRingCat.ofHom (toGradingZeroOf C)) = 𝟙 _
   rw [Proj.fromOfGlobalSections_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp, key]

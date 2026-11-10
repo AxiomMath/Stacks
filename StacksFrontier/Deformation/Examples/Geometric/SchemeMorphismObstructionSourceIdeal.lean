@@ -249,7 +249,7 @@ theorem sourceIdealRel_unique {V : Opens X.carrier}
   have e₁ := sourceIdealTheta_res (θ := θ) (hW := (hW' x).trans inf_le_left) hVx q₁
   have e₂ := sourceIdealTheta_res (θ := θ) (hW := (hW' x).trans inf_le_right) hVx q₂
   rw [hq] at e₁
-  show H.val.map (homOfLE inf_le_left).op h = H.val.map (homOfLE inf_le_left).op h'
+  change H.val.map (homOfLE inf_le_left).op h = H.val.map (homOfLE inf_le_left).op h'
   rw [hh₁, hh₂]
   exact ((map_map_eq_map H (homOfLE hV₁).op (homOfLE inf_le_left).op _ _).trans e₁.symm).trans
     (e₂.trans (map_map_eq_map H (homOfLE hV₂).op (homOfLE inf_le_left).op _ _).symm)
@@ -280,12 +280,12 @@ theorem sourceIdealRel_exists {U : Opens X.carrier}
   let W₂ : Opens yε.1.scheme.carrier := W ⊓ ⟨W'', hW''o⟩
   have hW₂O : (Opens.map yε.1.specialMap.toLRSHom.toShHom.hom.base).obj W₂ ≤ O := by
     intro y hy
-    show y ∈ (O : Set Y.carrier)
+    change y ∈ (O : Set Y.carrier)
     rw [← hW'']
     exact hy.2
   let t₂ := (yε.1.scheme.presheaf.map (homOfLE (inf_le_left : W₂ ≤ W)).op).hom t
   have hred : (sourceSolution pY yε).reduction t₂ = 0 := by
-    show (yε.1.specialMap.toLRSHom.toShHom.hom.c.app (op W₂)).hom t₂ = 0
+    change (yε.1.specialMap.toLRSHom.toShHom.hom.c.app (op W₂)).hom t₂ = 0
     have hn : (yε.1.specialMap.toLRSHom.toShHom.hom.c.app (op W₂)).hom t₂ =
         (Y.presheaf.map (homOfLE ((Opens.map yε.1.specialMap.toLRSHom.toShHom.hom.base).monotone
           (inf_le_left : W₂ ≤ W))).op).hom
@@ -299,7 +299,7 @@ theorem sourceIdealRel_exists {U : Opens X.carrier}
   obtain ⟨q, hq⟩ := (sourceSolution pY yε).exists_incl t₂ hred
   have hxW₂ : x ∈ V ⊓ (Opens.map (f ≫ yε.1.specialMap).toLRSHom.toShHom.hom.base).obj W₂ := by
     refine ⟨hxV, hVW hxV, ?_⟩
-    show yε.1.specialMap.base (f.base x) ∈ W''
+    change yε.1.specialMap.base (f.base x) ∈ W''
     rw [← Set.mem_preimage, hW'']
     exact hxO
   refine ⟨_, inf_le_left.trans hVU, hxW₂, _, W₂, inf_le_right, q, ?_, rfl⟩
@@ -385,7 +385,7 @@ theorem sourceIdealRel_smul {V : Opens X.carrier}
     refine (PresheafOfModules.map_smul H.val (homOfLE hV₂).op c₀ h₀).trans (Eq.trans ?_
       (PresheafOfModules.map_smul H.val (homOfLE hV₃).op c₁ θ₃).symm)
     refine congrArg₂ (· • ·) (hL.trans hR.symm) ?_
-    show H.val.map (homOfLE hV₂).op h = H.val.map (homOfLE hV₃).op θ₃
+    change H.val.map (homOfLE hV₂).op h = H.val.map (homOfLE hV₃).op θ₃
     rw [hh]
     exact (map_map_eq_map H (homOfLE hV).op (homOfLE hV₂).op _ _).trans
       (sourceIdealTheta_res (θ := θ) (hW := (inf_le_left : W ⊓ Wb ≤ W)) hV₃ q).symm

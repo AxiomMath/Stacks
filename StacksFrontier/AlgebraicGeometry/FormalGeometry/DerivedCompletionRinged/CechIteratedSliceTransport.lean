@@ -85,7 +85,7 @@ theorem globalSectionVal_globalSectionTransport
     (T : (Over W.left)ᵒᵖ) :
     globalSectionVal (globalSectionTransport X U W h) T =
       globalSectionVal h (op (W.iteratedSliceBackward.obj T.unop)) := by
-  show (Presheaf.globalSectionsEquivSections _
+  change (Presheaf.globalSectionsEquivSections _
     ((Presheaf.globalSectionsEquivSections _).symm _)).1 T = _
   rw [Equiv.apply_symm_apply]
 
@@ -218,7 +218,7 @@ theorem sliceTransport_map_unitToAwayModule_comp_awayModuleTransportIso :
             (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf ((X.over U).over W).O)))
           (fun V x => awaySmul_app_apply ((X.over U).over W) h _ V x))).ι.app 0 =
       (sliceTransport X U W).map (unitToAwayModule ((X.over U).over W) h) := by
-    show (sliceTransport X U W).map (awayModuleCoconeι ((X.over U).over W) h 0) = _
+    change (sliceTransport X U W).map (awayModuleCoconeι ((X.over U).over W) h 0) = _
     rw [awayModuleCoconeι_zero]
   have htgt : (awayModuleCocone (X.over W.left) (globalSectionTransport X U W h)
         (awaySmulTransport X U W h)
@@ -247,7 +247,7 @@ theorem globalSectionTransport_prodGlobalSection (S : Finset (Fin r)) :
     globalSectionTransport X U W (prodGlobalSection f S) =
       prodGlobalSection (fun i => globalSectionTransport X U W (f i)) S := by
   refine (Presheaf.globalSectionsEquivSections _).injective (Subtype.ext (funext fun V => ?_))
-  show globalSectionVal (globalSectionTransport X U W (prodGlobalSection f S)) V =
+  change globalSectionVal (globalSectionTransport X U W (prodGlobalSection f S)) V =
     globalSectionVal (prodGlobalSection (fun i => globalSectionTransport X U W (f i)) S) V
   rw [globalSectionVal_globalSectionTransport, globalSectionVal_prodGlobalSection,
     globalSectionVal_prodGlobalSection]

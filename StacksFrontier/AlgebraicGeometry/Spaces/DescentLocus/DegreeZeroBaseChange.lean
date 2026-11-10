@@ -253,8 +253,8 @@ private theorem isIso_mateEquiv_symm_app_of_isIso_map (ag : Lg ⊣ Rg) (ag' : Lg
     (hmc : mc = eqToIso h₃ ≪≫ pc.symm ≪≫ tc ≪≫ eqToIso (hk' k₂))
     (hmc' : mc' = eqToIso h₄ ≪≫ pc'.symm ≪≫ tc' ≪≫ eqToIso (hk' k₁))
     (β : Tf ⋙ Mg ⟶ Mg' ⋙ Tf')
-    (hβ : β = ((mateEquiv bg' bg).symm
-      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv))).natTrans)
+    (hβ : β = (mateEquiv bg' bg).symm
+      (TwoSquare.mk _ _ _ _ (mc'.hom ≫ eqToHom (congrArg Nk hk) ≫ mc.inv)))
     (K : B)
     (hK : IsIso (map adjf adjf'
       ((Adjunction.leftAdjointUniq (a₂.ofNatIsoRight pc) (ag.comp adjf')).symm ≪≫
@@ -268,7 +268,7 @@ private theorem isIso_mateEquiv_symm_app_of_isIso_map (ag : Lg ⊣ Rg) (ag' : Lg
         Adjunction.leftAdjointUniq a₂ ((ak k₂).ofNatIsoRight tc.symm))
       (((Adjunction.leftAdjointUniq (a₅.ofNatIsoRight pc') (adjf.comp ag')).symm ≪≫
         Adjunction.leftAdjointUniq a₅ ((ak k₁).ofNatIsoRight tc'.symm)) ≪≫
-          eqToIso (congrArg Lk hk))).natTrans.app K) := hK
+          eqToIso (congrArg Lk hk))).app K) := hK
   rw [twoSquare_eq_mateEquiv_symm_conjugateEquiv _ _ _ _ ag ag',
     conjugateEquiv_pullbackComparison_leftAdjointUniq adjf adjf' ag ag' a₂ a₅ ak hk] at key
   subst hβ
@@ -314,7 +314,7 @@ private theorem isIso_map_of_isIso_homology_map_mapHomotopyCategory_single {T : 
   exact (isIso_map_iff_of_iso a a' (eg₀ ≪≫ eg₁) (ef₀ ≪≫ ef₁)
     (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 M)).1
     ((HomologicalComplex.isIso_homologyMap_zero_iff
-      ((NatTrans.mapHomologicalComplex (twoSquare a a' (eg₀ ≪≫ eg₁) (ef₀ ≪≫ ef₁)).natTrans
+      ((NatTrans.mapHomologicalComplex (twoSquare a a' (eg₀ ≪≫ eg₁) (ef₀ ≪≫ ef₁))
         (ComplexShape.up ℤ)).app ((HomologicalComplex.single VX (ComplexShape.up ℤ) 0).obj M))
       (fun n hn => pg.map_isZero
         (qf.map_isZero (HomologicalComplex.isZero_single_obj_X _ _ _ _ hn)))

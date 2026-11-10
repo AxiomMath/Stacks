@@ -311,6 +311,7 @@ theorem approximationHolds_of_iso (Z : Set (points B S hS X.1))
 /-! ### Open subspaces -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_approximationIso :

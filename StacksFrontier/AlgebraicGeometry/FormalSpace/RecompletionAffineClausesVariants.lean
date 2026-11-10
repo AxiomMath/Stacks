@@ -4,11 +4,12 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionAffineCla
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionMcQuillan
 
 /-!
-# Variants of the results of `StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionAffineClauses`
+# Variants of results of `StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionAffineClauses`
 
-The declarations below extend `StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionAffineClauses`
-and are kept in a module of their own so that that module stays unchanged. A primed name `X'` is a
-variant of the declaration `X` there.
+The declarations below extend
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionAffineClauses` and are kept in a module of
+their own so that that module stays unchanged. A primed name `X'` is a variant of the declaration
+`X` there.
 
 ## Main declarations
 

@@ -268,7 +268,7 @@ public theorem bijective_sectionsBaseChangeMap_of_isAffineOpen (H : IsPullback p
   refine bijective_liftBaseChange_of_tmul (sectionsBaseChangeHom iX p F U)
     g.toAddMonoidHom g.bijective ?_
   intro b m
-  show hbc.equiv (can.symm (b ⊗ₜ[Γ(S, ⊤)] m)) = _
+  change hbc.equiv (can.symm (b ⊗ₜ[Γ(S, ⊤)] m)) = _
   rw [Algebra.IsPushout.cancelBaseChange_symm_tmul, hbc.equiv_tmul]
   rfl
 

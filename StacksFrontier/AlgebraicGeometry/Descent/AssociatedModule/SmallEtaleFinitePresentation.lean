@@ -186,7 +186,7 @@ theorem isFinitePresentation_associatedModule_of_isFinitePresentation (𝓕 : S.
 /-- A free `𝒪_S`-module is quasi-coherent: it is a coproduct of copies of `𝒪_S`. -/
 theorem isQuasicoherent_free (I : Type u) :
     (SheafOfModules.free (R := S.ringCatSheaf) I).IsQuasicoherent := by
-  show (∐ fun _ : I ↦ SheafOfModules.unit S.ringCatSheaf).IsQuasicoherent
+  change (∐ fun _ : I ↦ SheafOfModules.unit S.ringCatSheaf).IsQuasicoherent
   exact Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_sigma _
 
 /-- **A finite global presentation of `𝓕^a` is reflected to one of `𝓕`.**  Let `𝓕` be a

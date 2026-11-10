@@ -82,7 +82,7 @@ theorem firstChernComponentClass_eq_zero_of_isTrivial (W : X.IdealSheafData)
   have hzero : chernComponentCycle C (W.subschemeι ≫ p) hDim hLt
       (M.presheaf.germ ⊤ (genericPoint W.subscheme) trivial t) = 0 := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun z ↦ ?_)
-    show weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hLt _) z = 0
+    change weilDivisorAlgebraicCycle (weilDivisorOfMeromorphicSection hLt _) z = 0
     rw [weilDivisorOfMeromorphicSection_eq_zero_of_isStalkBasis_germ hLt (U := ⊤)
       (fun _ ↦ trivial) ht]
     simp [weilDivisorAlgebraicCycle_apply, weilDivisorCoeff]

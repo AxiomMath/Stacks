@@ -96,15 +96,15 @@ theorem tangentModule_prod_bijective
     intro x hx
     change x.2 = 0 at hx
     refine ⟨x.1, ?_⟩
-    show (x.1, 0) = x
+    change (x.1, 0) = x
     exact Prod.ext rfl hx.symm
   have hS_mono : Mono S.f := by
     rw [ModuleCat.mono_iff_injective]
-    show Function.Injective (LinearMap.inl B N₁ N₂)
+    change Function.Injective (LinearMap.inl B N₁ N₂)
     exact LinearMap.inl_injective
   have hS_epi : Epi S.g := by
     rw [ModuleCat.epi_iff_surjective]
-    show Function.Surjective (LinearMap.snd B N₁ N₂)
+    change Function.Surjective (LinearMap.snd B N₁ N₂)
     intro y
     exact ⟨(0, y), rfl⟩
   have hS : S.ShortExact := ShortComplex.ShortExact.mk' hS_exact hS_mono hS_epi
@@ -160,7 +160,7 @@ theorem tangentModule_prod_bijective
       ((tangentFunctor T.A T.F).map p₁ x, (tangentFunctor T.A T.F).map p₂ x)) := by
     rintro ⟨x, y⟩
     refine ⟨(tangentFunctor T.A T.F).map i x + (tangentFunctor T.A T.F).map s y, ?_⟩
-    show ((tangentFunctor T.A T.F).map p₁
+    change ((tangentFunctor T.A T.F).map p₁
         ((tangentFunctor T.A T.F).map i x + (tangentFunctor T.A T.F).map s y),
       (tangentFunctor T.A T.F).map p₂
         ((tangentFunctor T.A T.F).map i x + (tangentFunctor T.A T.F).map s y)) = (x, y)
@@ -257,13 +257,13 @@ private theorem tangentMap_add_components
     apply AlgebraModulePair.Hom.ext
     · rfl
     · intro n
-      show (n : N) + 0 = n
+      change (n : N) + 0 = n
       simp
   have ha₂ : i₂ ≫ add = 𝟙 X := by
     apply AlgebraModulePair.Hom.ext
     · rfl
     · intro n
-      show (0 : N) + n = n
+      change (0 : N) + n = n
       simp
   calc
     (tangentFunctor S.A S.F).map
@@ -413,11 +413,11 @@ theorem secondScalarAction_naturality {X Y : AlgebraModulePair.{v} S.A}
         have hf : scalarHom S X b ≫ f = f ≫ scalarHom S Y (f.base b) := by
           apply AlgebraModulePair.Hom.ext
           · ext a
-            show f.base (AlgHom.id S.A X.algebra a) =
+            change f.base (AlgHom.id S.A X.algebra a) =
               (AlgHom.id S.A Y.algebra) (f.base a)
             simp
           · intro n
-            show f.linear (b • n) = f.base b • f.linear n
+            change f.linear (b • n) = f.base b • f.linear n
             exact f.linear.map_smulₛₗ b n
         exact congrArg (fun g => (tangentFunctor S.A S.F).map g x) hf
     _ = (tangentFunctor S.A S.F).map (scalarHom S Y (f.base b))
@@ -438,14 +438,14 @@ private lemma moduleValueMap_id_apply (A : Type u) [CommRing A]
     (B : Type v) [CommRing B] [Algebra A B]
     (y : AdequateFunctor.moduleValue A F B) :
     AdequateFunctor.moduleValueMap A F (AlgHom.id A B) y = y := by
-  show F.restrictₛₗ ((CommAlgCat.ofHom (AlgHom.id A B)).op.op) y = y
+  change F.restrictₛₗ ((CommAlgCat.ofHom (AlgHom.id A B)).op.op) y = y
   rw [PresheafOfModules.restrictₛₗ_apply]
   have h : (CommAlgCat.ofHom (AlgHom.id A B)).op.op =
       CategoryTheory.CategoryStruct.id
         (Opposite.op (Opposite.op (CommAlgCat.of A B))) := by
     simp [CommAlgCat.ofHom_id]
   rw [h, F.map_id]
-  show (ModuleCat.restrictScalarsId'App (RingHom.id B) rfl
+  change (ModuleCat.restrictScalarsId'App (RingHom.id B) rfl
     (F.obj (Opposite.op (Opposite.op (CommAlgCat.of A B))))).inv y = y
   rfl
 
@@ -463,12 +463,10 @@ theorem tangentMultiplication_smul_second (S : RightExactTangentFunctor.{u, v, w
       linear := LinearMap.lsmul X.algebra X.module b }
   have hmap :
       TensorProduct.map f.linear (moduleValueMap S.A S.F f.base) t = b • t := by
-    induction t using TensorProduct.induction_on with
-    | zero => change (0 : TensorProduct X.algebra X.module
-      (moduleValue S.A S.F X.algebra)) = 0; rfl
+    induction t using TensorProduct.inductionOn with
     | tmul n y =>
         rw [TensorProduct.map_tmul, TensorProduct.smul_tmul']
-        show (b • n) ⊗ₜ[X.algebra]
+        change (b • n) ⊗ₜ[X.algebra]
           (moduleValueMap S.A S.F (AlgHom.id S.A X.algebra) y) = _
         rw [moduleValueMap_id_apply S.A S.F X.algebra y]
     | add x y hx hy =>

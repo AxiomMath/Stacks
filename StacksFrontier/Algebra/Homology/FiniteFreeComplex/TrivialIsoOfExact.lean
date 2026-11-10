@@ -382,7 +382,7 @@ theorem exists_exact_totalRank_lt_of_blockDiag_one [IsNoetherianRing R] [IsLocal
     simp only [Fin.cast_cast, Fin.cast_eq_self, Fin.cons_succ] at this
     exact this
   refine ⟨C', ?_, ?_, ?_⟩
-  · show ∀ i, i ≤ C₁.e →
+  · change ∀ i, i ≤ C₁.e →
       LinearMap.ker (φ' i).toLin' = LinearMap.range (φ' (i + 1)).toLin'
     intro i hi
     by_cases hcs : i + 2 = s
@@ -510,7 +510,7 @@ theorem exists_exact_totalRank_lt_of_blockDiag_one [IsNoetherianRing R] [IsLocal
       exact exact_eqn_reindex (C₁.φ i) (C₁.φ (i + 1))
         (finCongr (enother i hi_s hi_s1)) (finCongr (enother (i + 1) (by omega) (by omega)))
         (finCongr (enother (i + 1 + 1) (by omega) (by omega))) (hC₁ i hi)
-  · show (∑ i ∈ Finset.range (C₁.e + 1), n' i) < ∑ i ∈ Finset.range (C₁.e + 1), C₁.n i
+  · change (∑ i ∈ Finset.range (C₁.e + 1), n' i) < ∑ i ∈ Finset.range (C₁.e + 1), C₁.n i
     apply Finset.sum_lt_sum
     · intro i _
       by_cases hi : i = s
@@ -573,7 +573,7 @@ theorem exists_exact_totalRank_lt_of_blockDiag_one [IsNoetherianRing R] [IsLocal
         comm := by
           intro i
           rw [htrans]
-          show Ppad i * ((Ppad i)⁻¹ * C₁.φ i * Ppad (i + 1)) = C₁.φ i * Ppad (i + 1)
+          change Ppad i * ((Ppad i)⁻¹ * C₁.φ i * Ppad (i + 1)) = C₁.φ i * Ppad (i + 1)
           rw [← Matrix.mul_assoc, ← Matrix.mul_assoc,
               Matrix.mul_nonsing_inv _ (hPpadunit i), Matrix.one_mul] } with hfD
     refine ⟨D, fD, rfl, fun _ => rfl, ?_⟩
@@ -591,7 +591,7 @@ theorem exists_exact_totalRank_lt_of_blockDiag_one [IsNoetherianRing R] [IsLocal
       rw [Matrix.mul_assoc, ← hgcomm i, ← Matrix.mul_assoc,
         Matrix.nonsing_inv_mul _ (g'.unit i), Matrix.one_mul]
     intro i
-    show IsPartialPerm ((Ppad i)⁻¹ * C₁.φ i * Ppad (i + 1))
+    change IsPartialPerm ((Ppad i)⁻¹ * C₁.φ i * Ppad (i + 1))
     by_cases his1 : i = s + 1
     · apply isPartialPerm_of_no_cols
       rw [his1]; exact htzero'

@@ -97,7 +97,7 @@ theorem trans_chartMor
     (trivCover B L).trans h ≫ chartMor L ε W' = chartMor L ε W := by
   have hw : (chartFunctor A).map (Site.homVal h) ≫ chart A W'.1 = chart A W.1 :=
     transition_comp_chart A (Site.homVal h)
-  show (chartFunctor B).map (Site.homVal h) ≫ (ε W').hom ≫ chart A W'.1 =
+  change (chartFunctor B).map (Site.homVal h) ≫ (ε W').hom ≫ chart A W'.1 =
       (ε W).hom ≫ chart A W.1
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (fun f => f ≫ chart A W'.1) (hnat h).symm).trans

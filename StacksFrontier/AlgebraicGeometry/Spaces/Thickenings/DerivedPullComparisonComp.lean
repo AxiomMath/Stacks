@@ -74,7 +74,7 @@ theorem smallEtaleDerivedPullbackData_compIso_inv_app_Q_comp_derivedPullComparis
       (DerivedCategory.quotientCompQhIso (Modules.{u, u} B S hS Y.1 Y.2)).inv.app
         ((((modulePullbackDataTopos B S hS).pull g).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj N) = 𝟙 _ := by
-    show (DerivedCategory.Qh.map (𝟙 _) ≫ 𝟙 _ ≫
+    change (DerivedCategory.Qh.map (𝟙 _) ≫ 𝟙 _ ≫
       (DerivedCategory.quotientCompQhIso (Modules.{u, u} B S hS Y.1 Y.2)).hom.app _) ≫ _ = _
     simp only [CategoryTheory.Functor.map_id, Category.id_comp]
     exact Iso.hom_inv_id_app _ _

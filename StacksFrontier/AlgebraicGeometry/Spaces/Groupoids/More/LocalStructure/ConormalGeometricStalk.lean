@@ -175,7 +175,7 @@ theorem structureSheafGeometricStalkEquiv_geometricModuleStalkGerm
         (geometricModuleStalkGerm B S hS X x (structureSheafModule B S hS X) N a) =
       etaleLocalRingGerm B S hS X.1 x (op N) a := by
   rw [← etaleLocalRingToStructureSheafStalkAddEquiv_etaleLocalRingGerm B S hS X x N a]
-  show (etaleLocalRingToStructureSheafStalkAddEquiv B S hS X x).symm
+  change (etaleLocalRingToStructureSheafStalkAddEquiv B S hS X x).symm
       (etaleLocalRingToStructureSheafStalkAddEquiv B S hS X x
         (etaleLocalRingGerm B S hS X.1 x (op N) a)) = _
   exact (etaleLocalRingToStructureSheafStalkAddEquiv B S hS X x).symm_apply_apply _

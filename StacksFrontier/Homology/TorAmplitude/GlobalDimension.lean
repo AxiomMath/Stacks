@@ -118,14 +118,14 @@ public theorem hasTorAmplitude_single_of_globalDimension_le (R : Type u) [CommRi
       (FaithfullyFlat.derivedTensorHomologySingle₀Iso N M n)
   · rw [FaithfullyFlat.derivedTensorHomology, ← HomologicalComplex.exactAt_iff_isZero_homology]
     apply ShortComplex.exact_of_isZero_X₂
-    show IsZero (((tensorLeft
+    change IsZero (((tensorLeft
       ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj N)).obj
         (StacksDraft.TorAmplitude.FaithfullyFlat.projResComplex M)).X i)
     have hz : IsZero
         ((((tensorLeft N).mapHomologicalComplex (ComplexShape.up ℤ)).obj
           (StacksDraft.TorAmplitude.FaithfullyFlat.projResComplex M)).X i) := by
       apply (tensorLeft N).map_isZero
-      show IsZero (HomologicalComplex.extend.X (ProjectiveResolution.of M).complex
+      change IsZero (HomologicalComplex.extend.X (ProjectiveResolution.of M).complex
         (ComplexShape.embeddingDownNat.r i))
       rw [show ComplexShape.embeddingDownNat.r i = none by
         apply ComplexShape.Embedding.r_eq_none

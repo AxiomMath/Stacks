@@ -122,7 +122,7 @@ scalars puts on the `B`-module `Hom_B(Y, Hom_A(B, X))`. -/
 theorem toRestriction_smul (a : A) (g : Y ⟶ (ModuleCat.coextendScalars.{u, u, u} f).obj X) :
     HomEquiv.toRestriction f (f a • g) = a • HomEquiv.toRestriction f g := by
   refine ModuleCat.hom_ext <| LinearMap.ext fun y => ?_
-  show ModuleCat.CoextendScalars.equiv f X (f a • g.hom y) (1 : B) =
+  change ModuleCat.CoextendScalars.equiv f X (f a • g.hom y) (1 : B) =
     a • ModuleCat.CoextendScalars.equiv f X (g.hom y) (1 : B)
   rw [ModuleCat.CoextendScalars.smul_apply, one_mul, ← mul_one (f a)]
   exact (ModuleCat.CoextendScalars.equiv f X (g.hom y)).map_smul a (1 : B)
@@ -153,7 +153,7 @@ theorem toRestriction_comp_coextendComplex_d (I : CochainComplex (ModuleCat.{u} 
 theorem toRestriction_fromRestriction (g : (ModuleCat.restrictScalars.{u} f).obj Y ⟶ X) :
     HomEquiv.toRestriction f (HomEquiv.fromRestriction f g) = g := by
   refine ModuleCat.hom_ext <| LinearMap.ext fun y => ?_
-  show g.hom ((1 : B) • (show (Y : Type u) from y)) = g.hom y
+  change g.hom ((1 : B) • (show (Y : Type u) from y)) = g.hom y
   rw [one_smul]
 
 /-- The adjunction bijection is a bijection, second half. -/
@@ -162,7 +162,7 @@ theorem fromRestriction_toRestriction
     HomEquiv.fromRestriction f (HomEquiv.toRestriction f g) = g := by
   refine ModuleCat.hom_ext <| LinearMap.ext fun y => ?_
   refine ModuleCat.CoextendScalars.ext <| LinearMap.ext fun s => ?_
-  show ModuleCat.CoextendScalars.equiv f X (g.hom ((show B from s) • y)) (1 : B) =
+  change ModuleCat.CoextendScalars.equiv f X (g.hom ((show B from s) • y)) (1 : B) =
     ModuleCat.CoextendScalars.equiv f X (g.hom y) s
   rw [map_smul, ModuleCat.CoextendScalars.smul_apply, one_mul]
 

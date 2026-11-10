@@ -307,7 +307,7 @@ private theorem RegularProperModelSituation.exists_iso_componentIdeal_of_apply_g
     rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range]
     congr 1
     ext1
-    show closure (Set.range j) = closure (S.specialFiberι.base '' (Z.1 : Set S.specialFiber))
+    change closure (Set.range j) = closure (S.specialFiberι.base '' (Z.1 : Set S.specialFiber))
     rw [(S.isClosed_image_specialFiberComponent Z).closure_eq,
       ← S.closure_singleton_genericPoint_specialFiberComponent Z,
       show (S.specialFiberComponentIdeal Z).subschemeι.base

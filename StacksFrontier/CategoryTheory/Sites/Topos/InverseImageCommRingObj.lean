@@ -116,7 +116,8 @@ theorem mu_comp_prodComparison (A B : Sheaf K (Type ww')) :
 
 variable (O : Sheaf K CommRingCat.{ww'})
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- The commutative ring object structure that a finite-product-preserving functor `Φ` transports
 from a sheaf of commutative rings `𝒪` to the sheaf of sets `Φ(𝒪)` is the structure that the
 inverse-image sheaf of commutative rings puts on its own underlying sheaf of sets. -/

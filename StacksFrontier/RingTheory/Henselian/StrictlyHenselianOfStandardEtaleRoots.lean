@@ -244,7 +244,7 @@ theorem exists_comap_eq_of_not_isNilpotent {A : Type u} [CommRing A] (P : Standa
   have hcomp : (P.lift x hx : P.Ring →+* T).comp (algebraMap A P.Ring) =
       ((algebraMap B T).comp (algebraMap K B)).comp (algebraMap A K) :=
     (P.lift x hx).comp_algebraMap
-  show Ideal.comap _ (RingHom.ker (P.lift x hx : P.Ring →+* T)) = p
+  change Ideal.comap _ (RingHom.ker (P.lift x hx : P.Ring →+* T)) = p
   rw [RingHom.comap_ker, hcomp, RingHom.ker_comp_of_injective _ (RingHom.injective _),
     Ideal.ker_algebraMap_residueField]
 

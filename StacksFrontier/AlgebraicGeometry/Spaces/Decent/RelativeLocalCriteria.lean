@@ -94,6 +94,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S`
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_relativeLocalCriteria :
@@ -213,7 +214,7 @@ theorem exists_quasiCompact_isEtale_isSurjective_openSubobject {V T : BigFppfOve
       ((BigFppfOver.toScheme B S hS).map (openSubobjectHom B S hS V U.ι hU₀ ≫ p)) := by
     refine ⟨?_⟩
     rw [← Set.range_eq_univ, hcomp]
-    show Set.range ((BigFppfOver.toScheme B S hS).map p ∘ U.ι) = Set.univ
+    change Set.range ((BigFppfOver.toScheme B S hS).map p ∘ U.ι) = Set.univ
     rw [Set.range_comp, Scheme.Opens.range_ι]
     exact hUimage
   have hqcm : AlgebraicGeometry.QuasiCompact

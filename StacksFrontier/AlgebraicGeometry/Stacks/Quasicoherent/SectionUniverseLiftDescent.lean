@@ -132,7 +132,7 @@ theorem HasGlobalPresentation.of_uliftForPresentation' {M : SheafOfModules.{m} R
   set fA : ↥A → SheafOfModules.{max u v r m} R := fun _ ↦ unitV with hfA
   have hmemA : ∀ i, g i ∈ A := fun i ↦ ⟨i, rfl⟩
   set π : ∐ fA ⟶ MV := Sigma.desc (fun s ↦ s.1) with hπdef
-  have hπfac : ∀ s : ↥A, Sigma.ι fA s ≫ π = s.1 := fun s ↦ Sigma.ι_desc _ _
+  have hπfac : ∀ s : ↥A, Sigma.ι fA s ≫ π = s.1 := fun s ↦ Sigma.ι_comp_desc _ _
   have hPA : IsColimit (Cofan.mk (∐ fA) (Sigma.ι fA)) := coproductIsCoproduct fA
   have hLPA : IsColimit (Cofan.mk (L.obj (∐ fA))
       (fun s ↦ γ.inv ≫ L.map (Sigma.ι fA s))) :=
@@ -175,7 +175,7 @@ theorem HasGlobalPresentation.of_uliftForPresentation' {M : SheafOfModules.{m} R
   set fB : ↥B → SheafOfModules.{max u v r m} R := fun _ ↦ unitV with hfB
   have hmemB : ∀ k, sk k ∈ B := fun k ↦ ⟨k, rfl⟩
   set α : ∐ fB ⟶ ∐ fA := Sigma.desc (fun s ↦ s.1) with hαdef
-  have hαfac : ∀ s : ↥B, Sigma.ι fB s ≫ α = s.1 := fun s ↦ Sigma.ι_desc _ _
+  have hαfac : ∀ s : ↥B, Sigma.ι fB s ≫ α = s.1 := fun s ↦ Sigma.ι_comp_desc _ _
   have hQB : IsColimit (Cofan.mk (∐ fB) (Sigma.ι fB)) := coproductIsCoproduct fB
   have hαπ : α ≫ π = 0 := by
     refine Cofan.IsColimit.hom_ext hQB _ _ fun s ↦ ?_

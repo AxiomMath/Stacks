@@ -239,7 +239,7 @@ splitting. -/
 private theorem sectionX_fst (Pk : ConePackage f) (n : ℤ) :
     Pk.sectionX n ≫ (Pk.componentIso (n + -1)).hom ≫ biprod.fst =
       degCastHom K.complex.X (show n = n + -1 + 1 by omega) := by
-  show (degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
+  change (degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
     (Pk.componentIso (n + -1)).inv) ≫ (Pk.componentIso (n + -1)).hom ≫ biprod.fst = _
   simp only [Category.assoc, Iso.inv_hom_id_assoc, biprod.inl_fst, Category.comp_id]
 
@@ -248,7 +248,7 @@ splitting. -/
 @[reassoc]
 private theorem sectionX_snd (Pk : ConePackage f) (n : ℤ) :
     Pk.sectionX n ≫ (Pk.componentIso (n + -1)).hom ≫ biprod.snd = 0 := by
-  show (degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
+  change (degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
     (Pk.componentIso (n + -1)).inv) ≫ (Pk.componentIso (n + -1)).hom ≫ biprod.snd = _
   simp only [Category.assoc, Iso.inv_hom_id_assoc, biprod.inl_snd, comp_zero]
 
@@ -337,7 +337,7 @@ private theorem componentIso_total (Pk : ConePackage f) (n : ℤ) :
     ((Pk.componentIso n).hom ≫ biprod.fst) ≫ biprod.inl ≫ (Pk.componentIso n).inv +
         Pk.coneRetractionX n ≫ Pk.inclusion.toHomologicalComplex.f n = 𝟙 _ := by
   rw [Pk.inclusion_f n]
-  show (Pk.componentIso n).hom ≫ (biprod.fst ≫ biprod.inl) ≫ (Pk.componentIso n).inv +
+  change (Pk.componentIso n).hom ≫ (biprod.fst ≫ biprod.inl) ≫ (Pk.componentIso n).inv +
     (Pk.componentIso n).hom ≫ (biprod.snd ≫ biprod.inr) ≫ (Pk.componentIso n).inv = 𝟙 _
   rw [← Preadditive.comp_add, ← Preadditive.add_comp, biprod.total, Category.id_comp,
     Iso.hom_inv_id]
@@ -348,7 +348,7 @@ theorem sectionFamily_firstFamily (Pk : ConePackage f) :
     GradedModule.shiftComp (show (-1 : ℤ) + 1 = 0 by omega) Pk.sectionFamily Pk.firstFamily =
       GradedModule.shiftOfHom (𝟙 ((forgetToGradedModule A).obj K)) := by
   refine GradedModule.Hom.ext fun n => ?_
-  show Pk.sectionX n ≫ ((Pk.componentIso (n + -1)).hom ≫ biprod.fst) ≫
+  change Pk.sectionX n ≫ ((Pk.componentIso (n + -1)).hom ≫ biprod.fst) ≫
       degCastHom K.complex.X (show n + -1 + 1 = n + 0 by omega) =
     𝟙 _ ≫ degCastHom K.complex.X (show n = n + 0 by omega)
   rw [← Category.assoc, Pk.sectionX_fst n, degCastHom_comp_degCastHom, Category.id_comp]
@@ -359,7 +359,7 @@ theorem sectionFamily_retraction (Pk : ConePackage f) :
     GradedModule.shiftComp (show (-1 : ℤ) + 0 = -1 by omega) Pk.sectionFamily
         (GradedModule.shiftOfHom Pk.gradedSplitting.r) = 0 := by
   refine GradedModule.Hom.ext fun n => ?_
-  show Pk.sectionX n ≫ (((Pk.componentIso (n + -1)).hom ≫ biprod.snd) ≫
+  change Pk.sectionX n ≫ (((Pk.componentIso (n + -1)).hom ≫ biprod.snd) ≫
       degCastHom L.complex.X (show n + -1 = n + -1 + 0 by omega)) ≫
       degCastHom L.complex.X (show n + -1 + 0 = n + -1 by omega) = 0
   rw [← Category.assoc, ← Category.assoc, Pk.sectionX_snd n, zero_comp, zero_comp]
@@ -370,7 +370,7 @@ theorem inclusion_firstFamily (Pk : ConePackage f) :
         (GradedModule.shiftOfHom ((forgetToGradedModule A).map Pk.inclusion))
         Pk.firstFamily = 0 := by
   refine GradedModule.Hom.ext fun n => ?_
-  show (Pk.inclusion.toHomologicalComplex.f n ≫
+  change (Pk.inclusion.toHomologicalComplex.f n ≫
       degCastHom Pk.cone.complex.X (show n = n + 0 by omega)) ≫
       ((Pk.componentIso (n + 0)).hom ≫ biprod.fst) ≫
       degCastHom K.complex.X (show n + 0 + 1 = n + 1 by omega) = 0
@@ -384,7 +384,7 @@ theorem inclusion_retraction (Pk : ConePackage f) :
         (GradedModule.shiftOfHom Pk.gradedSplitting.r) =
       GradedModule.shiftOfHom (𝟙 ((forgetToGradedModule A).obj L)) := by
   refine GradedModule.Hom.ext fun n => ?_
-  show (Pk.inclusion.toHomologicalComplex.f n ≫
+  change (Pk.inclusion.toHomologicalComplex.f n ≫
       degCastHom Pk.cone.complex.X (show n = n + 0 by omega)) ≫
       (Pk.coneRetractionX (n + 0) ≫
         degCastHom L.complex.X (show n + 0 = n + 0 + 0 by omega)) ≫
@@ -419,7 +419,7 @@ theorem firstFamily_sectionFamily_add (Pk : ConePackage f) :
         degCastHom Pk.cone.complex.X (show n = n + 0 by omega) := by
     simp only [Category.assoc, Pk.degCastHom_inclusion_assoc (show n = n + 0 by omega),
       degCastHom_comp_degCastHom]
-  show ((Pk.componentIso n).hom ≫ biprod.fst) ≫ Pk.sectionX (n + 1) ≫
+  change ((Pk.componentIso n).hom ≫ biprod.fst) ≫ Pk.sectionX (n + 1) ≫
         degCastHom Pk.cone.complex.X (show n + 1 + -1 = n + 0 by omega) +
       (Pk.coneRetractionX n ≫ degCastHom L.complex.X (show n = n + 0 by omega)) ≫
         (Pk.inclusion.toHomologicalComplex.f (n + 0) ≫
@@ -436,7 +436,7 @@ shift. -/
 private theorem xIso_inv_coneSectionX (Pk : ConePackage f) (p : ℤ) :
     ((shiftPackage K).xIso p).inv ≫ Pk.coneSectionX p =
       biprod.inl ≫ (Pk.componentIso p).inv := by
-  show ((shiftPackage K).xIso p).inv ≫ ((shiftPackage K).xIso p).hom ≫ biprod.inl ≫
+  change ((shiftPackage K).xIso p).inv ≫ ((shiftPackage K).xIso p).hom ≫ biprod.inl ≫
     (Pk.componentIso p).inv = _
   rw [Iso.inv_hom_id_assoc]
 
@@ -444,7 +444,7 @@ private theorem xIso_inv_coneSectionX (Pk : ConePackage f) (p : ℤ) :
 private theorem sectionX_eq (Pk : ConePackage f) (n : ℤ) :
     Pk.sectionX n = degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫
       ((shiftPackage K).xIso (n + -1)).inv ≫ Pk.coneSectionX (n + -1) := by
-  show degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
+  change degCastHom K.complex.X (show n = n + -1 + 1 by omega) ≫ biprod.inl ≫
     (Pk.componentIso (n + -1)).inv = _
   rw [Pk.xIso_inv_coneSectionX (n + -1)]
 
@@ -457,7 +457,7 @@ private theorem shift_d_eq (p : ℤ) :
   have hcomm : (shift K).complex.d p (p + 1) ≫ ((shiftPackage K).xIso (p + 1)).hom =
       -(((shiftPackage K).xIso p).hom ≫ K.complex.d (p + 1) (p + 1 + 1)) := by
     refine Eq.trans ((eqToHom (shiftPackage K).shifted_complex).comm p (p + 1)).symm ?_
-    show ((shiftPackage K).xIso p).hom ≫
+    change ((shiftPackage K).xIso p).hom ≫
       ((1 : ℤ).negOnePow • K.complex.d (p + 1) (p + 1 + 1)) = _
     simp
   rw [← Iso.eq_comp_inv] at hcomm
@@ -491,7 +491,7 @@ theorem sectionFamily_d (Pk : ConePackage f) (n : ℤ) :
       simp only [shift_d_eq, Preadditive.neg_comp, Preadditive.comp_neg, Category.assoc,
         Iso.inv_hom_id_assoc, Pk.xIso_inv_coneSectionX_assoc, degCastHom_comp_d'_assoc,
         d_comp_degCastHom'_assoc, Pk.inl_comp_eq]
-  show Pk.sectionX n ≫ Pk.cone.complex.d (n + -1) (n + -1 + 1) ≫
+  change Pk.sectionX n ≫ Pk.cone.complex.d (n + -1) (n + -1 + 1) ≫
         degCastHom Pk.cone.complex.X (show n + -1 + 1 = n by omega) +
       K.complex.d n (n + 1) ≫ Pk.sectionX (n + 1) ≫
         degCastHom Pk.cone.complex.X (show n + 1 + -1 = n by omega) =

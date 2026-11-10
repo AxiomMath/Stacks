@@ -98,11 +98,11 @@ theorem eq_zero_of_resTop_eq_zero {ι : Type*} {V : ι → X.Opens}
     (natTensorPow L p)).injective ?_
   refine Eq.trans ?_ (map_zero (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X
     (natTensorPow L p))).symm
-  show globalSection X (natTensorPow L p) w = 0
+  change globalSection X (natTensorPow L p) w = 0
   refine TopCat.Sheaf.eq_of_locally_eq'
     (⟨(natTensorPow L p).presheaf, (natTensorPow L p).isSheaf⟩ : TopCat.Sheaf Ab X)
     V ⊤ (fun _ ↦ homOfLE le_top) hcover _ _ fun i ↦ ?_
-  show resTop (V i) (globalSection X (natTensorPow L p) w)
+  change resTop (V i) (globalSection X (natTensorPow L p) w)
     = (natTensorPow L p).presheaf.map (homOfLE (le_top : V i ≤ ⊤)).op 0
   rw [hw i, map_zero]
 

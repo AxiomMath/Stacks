@@ -120,7 +120,7 @@ theorem exists_constantExtRestriction_two_ne_zero [StrictlyHenselianLocalRing R]
     intro z
     obtain ⟨w, hw⟩ := h1 (Sheaf.H.map ιY.inv 2 z)
     refine ⟨w, ?_⟩
-    show Sheaf.H.map ιY.hom 2 (extForgetSheafH (ZMod ℓ) Y _ 2 w) = z
+    change Sheaf.H.map ιY.hom 2 (extForgetSheafH (ZMod ℓ) Y _ 2 w) = z
     rw [hw, ← Sheaf.H.map_comp_apply, ιY.inv_hom_id, Sheaf.H.map_id_apply]
   obtain ⟨e, he⟩ := hE (kummerClass p σ hσ hℓ0 hℓ)
   refine ⟨e, fun h0 => ?_⟩

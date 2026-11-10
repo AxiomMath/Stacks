@@ -93,7 +93,7 @@ lemma boundaryOne_map_vertex {m m' : SimplexCategoryᵒᵖ} (f : m ⟶ m') (i : 
     ((SSet.boundary.{z} 1).toSSet.map f) (boundaryOneVertex (m := m) i) =
       boundaryOneVertex (m := m') i := by
   apply Subtype.ext
-  show Δ[1].map f
+  change Δ[1].map f
       (SSet.stdSimplex.objEquiv.symm (SimplexCategory.Hom.mk
         (OrderHom.const (Fin (m.unop.len + 1)) i))) =
     SSet.stdSimplex.objEquiv.symm (SimplexCategory.Hom.mk
@@ -286,7 +286,7 @@ lemma boundaryIntervalHomFromSSet_vertex_zero (L : SimplicialObject D)
     (Functor.functorHomEquiv W L ((SSet.boundary.{v'} 1).toSSet)
       ((boundaryIntervalHomFromSSet L).homEquiv f)).app m
       (boundaryOneVertex (m := m) 0) = (f ≫ prod.fst).app m := by
-  show ((boundaryHomObjEquiv W L).symm ((homPairEquiv W L) f)).app m
+  change ((boundaryHomObjEquiv W L).symm ((homPairEquiv W L) f)).app m
     (boundaryOneVertex (m := m) 0) = (f ≫ prod.fst).app m
   simp [boundaryHomObjEquiv, boundaryHomObjOfPair, homPairEquiv]
 
@@ -297,7 +297,7 @@ lemma boundaryIntervalHomFromSSet_vertex_one (L : SimplicialObject D)
     (Functor.functorHomEquiv W L ((SSet.boundary.{v'} 1).toSSet)
       ((boundaryIntervalHomFromSSet L).homEquiv f)).app m
       (boundaryOneVertex (m := m) 1) = (f ≫ prod.snd).app m := by
-  show ((boundaryHomObjEquiv W L).symm ((homPairEquiv W L) f)).app m
+  change ((boundaryHomObjEquiv W L).symm ((homPairEquiv W L) f)).app m
     (boundaryOneVertex (m := m) 1) = (f ≫ prod.snd).app m
   have hneq : boundaryOneVertex (m := m) 1 ≠ boundaryOneVertex (m := m) 0 :=
     Ne.symm (boundaryOneVertex_ne.{v'} (m := m))
@@ -361,7 +361,7 @@ lemma homFromSSetHomObjEquiv_comp (A : SSet.{v'}) (L H : SimplicialObject D)
     (f : W' ⟶ H) :
     homFromSSetHomObjEquiv A L H hH W (g ≫ f) =
       (Functor.HomObj.ofNatTrans g).comp (homFromSSetHomObjEquiv A L H hH W' f) := by
-  show Functor.functorHomEquiv W L A (hH.homEquiv (g ≫ f)) =
+  change Functor.functorHomEquiv W L A (hH.homEquiv (g ≫ f)) =
     (Functor.HomObj.ofNatTrans g).comp (Functor.functorHomEquiv W' L A (hH.homEquiv f))
   calc
     _ = Functor.functorHomEquiv W L A
@@ -579,9 +579,9 @@ lemma homFromSSetPointsEquiv_apply {A T : SSet.{v'}} {L H : SimplicialObject D}
       g.app k t ≫ (homFromSSetHomObjEquiv A L H hH H (𝟙 H)).app k a := by
   have := hasCoproduct_const_obj T X
   rw [homFromSSetPointsEquiv_app]
-  show _ ≫ (homFromSSetHomObjEquiv A L H hH _ (sSetMapCopowerEquiv X T H g)).app k a = _
+  change _ ≫ (homFromSSetHomObjEquiv A L H hH _ (sSetMapCopowerEquiv X T H g)).app k a = _
   rw [homFromSSetHomObjEquiv_eq_comp_id]
-  show _ ≫ ((sSetMapCopowerEquiv X T H g).app k ≫ _) = _
+  change _ ≫ ((sSetMapCopowerEquiv X T H g).app k ≫ _) = _
   simp [sSetMapCopowerEquiv, ← Category.assoc]
 
 /-- The identification of points is natural in the simplicial set `T`. -/
@@ -592,7 +592,7 @@ lemma homFromSSetPointsEquiv_precomp {A T T' : SSet.{v'}} {L H : SimplicialObjec
     homFromSSetPointsEquiv A T' L H hH X (f ≫ g) =
       (A ◁ f) ≫ homFromSSetPointsEquiv A T L H hH X g := by
   ext k ⟨a, t⟩
-  show (homFromSSetPointsEquiv A T' L H hH X (f ≫ g)).app k (a, t) =
+  change (homFromSSetPointsEquiv A T' L H hH X (f ≫ g)).app k (a, t) =
     (homFromSSetPointsEquiv A T L H hH X g).app k (a, f.app k t)
   simp only [homFromSSetPointsEquiv_apply, NatTrans.comp_app, comp_apply]
 
@@ -610,14 +610,14 @@ lemma homFromSSetPointsEquiv_restriction {A B T : SSet.{v'}} {L H K : Simplicial
       Functor.functorHomEquiv H L B (i ≫ hH.homEquiv (𝟙 H)) :=
     congrArg (Functor.functorHomEquiv H L B) he
   ext k ⟨b, t⟩
-  show (homFromSSetPointsEquiv B T L K hK X
+  change (homFromSSetPointsEquiv B T L K hK X
     (g ≫ Functor.whiskerRight e (coyoneda.obj (op X)))).app k (b, t) =
       (homFromSSetPointsEquiv A T L H hH X g).app k (i.app k b, t)
   rw [homFromSSetPointsEquiv_apply, homFromSSetPointsEquiv_apply]
   have hcomp := congrArg (fun y ↦ y.app k b) (hh.symm.trans hh')
   change e.app k ≫ (homFromSSetHomObjEquiv B L K hK K (𝟙 K)).app k b =
     (homFromSSetHomObjEquiv A L H hH H (𝟙 H)).app k (i.app k b) at hcomp
-  show (g.app k t ≫ e.app k) ≫ _ = _
+  change (g.app k t ≫ e.app k) ≫ _ = _
   rw [Category.assoc, hcomp]
 
 /-- The presheaf of simplicial sets attached to a simplicial object: `Y ↦ L ⋙ Mor(Y, -)`. -/
@@ -667,7 +667,7 @@ lemma matchingCoyonedaCounit_postcomp {H K : SimplicialObject D} (e : H ⟶ K) (
   ext m f
   have h := NatTrans.congr_app
     ((SimplicialObject.coskAdj n).counit.naturality ((SimplicialObject.truncation n).map e)) m
-  show (f ≫ ((SimplicialObject.cosk n).map e).app
+  change (f ≫ ((SimplicialObject.cosk n).map e).app
       ((SimplexCategory.Truncated.inclusion n).op.obj m)) ≫
       ((SimplicialObject.coskAdj n).counit.app
         ((SimplicialObject.truncation n).obj K)).app m =
@@ -710,7 +710,7 @@ lemma representableByBoundarySucc_postcomp {H K : SimplicialObject D} (e : H ⟶
         (g ≫ ((SimplicialObject.cosk n).map e).app (op ⦋n + 1⦌)) =
       (representableByBoundarySucc H n).homEquiv g ≫
         Functor.whiskerRight e (coyoneda.obj (op X)) := by
-  show (SSet.skObjStdSimplexIsoBoundary n).inv ≫ matchingSkeletonHomEquiv K n X _ = _
+  change (SSet.skObjStdSimplexIsoBoundary n).inv ≫ matchingSkeletonHomEquiv K n X _ = _
   rw [matchingSkeletonHomEquiv_postcomp]
   rfl
 
@@ -727,7 +727,7 @@ lemma representedRestriction_comp {D : Type u'} [Category.{v'} D] (F : Dᵒᵖ �
       h₃.homEquiv.symm ((j ≫ i) ≫ h₁.homEquiv (𝟙 R₁)) := by
   apply h₃.homEquiv.injective
   rw [h₃.homEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-  show (j ≫ h₂.homEquiv (𝟙 R₂)) ≫ F.map _ = _
+  change (j ≫ h₂.homEquiv (𝟙 R₂)) ≫ F.map _ = _
   rw [Category.assoc]
   have h := h₂.homEquiv_eq (h₂.homEquiv.symm (i ≫ h₁.homEquiv (𝟙 R₁)))
   change _ = h₂.homEquiv (𝟙 R₂) ≫ F.map _ at h

@@ -102,15 +102,15 @@ theorem isInternal_weightGrading : DirectSum.IsInternal (weightGrading R A) := b
       obtain ⟨c', hc'⟩ := (x k).2
       by_cases hk : k = n
       · subst hk
-        rw [if_pos rfl, ← hc, coeff_monomial, if_pos rfl]
-      · rw [if_neg hk, ← hc', coeff_monomial, if_neg hk]
+        rw [ite_eq_left rfl, ← hc, coeff_monomial, ite_eq_left rfl]
+      · rw [ite_eq_right hk, ← hc', coeff_monomial, ite_eq_right hk]
     have h := congrArg (fun q : A[X] => coeff q n) hx
     simp only [DirectSum.coeAddMonoidHom_eq_dfinsuppSum, coeff_zero] at h
-    rw [DFinsupp.sum, finset_sum_coeff] at h
+    rw [DFinsupp.sum, finsetSum_coeff] at h
     simp only [hcoeff, Finset.sum_ite_eq'] at h
     have hc0 : c = 0 := by
       by_cases hn : n ∈ DFinsupp.support x
-      · rwa [if_pos hn] at h
+      · rwa [ite_eq_left hn] at h
       · rw [DFinsupp.notMem_support_iff] at hn
         have := congrArg (fun z : weightGrading R A n => coeff (z : A[X]) n) hn
         simp only [← hc, coeff_monomial, ZeroMemClass.coe_zero, coeff_zero] at this
@@ -177,7 +177,7 @@ theorem evalZeroAlg_comp_inclAlg : (evalZeroAlg R E).comp (inclAlg R E) = AlgHom
 theorem toLaurentR_comp_inclAlg :
     (toLaurentR R E).comp (inclAlg R E) = IsScalarTower.toAlgHom R E E[T;T⁻¹] := by
   refine AlgHom.ext fun a => ?_
-  show toLaurent (Polynomial.C a) = LaurentPolynomial.C a
+  change toLaurent (Polynomial.C a) = LaurentPolynomial.C a
   exact toLaurent_C a
 
 /-- **A form of positive weight on `E[X]` vanishes on the zero section.** -/
@@ -194,7 +194,7 @@ theorem formsₛₗ_evalZero_eq_zero_of_pos {n p : ℕ} (hn : 0 < n) {x : ⋀[E[
       omega
     have hev : evalZeroAlg R E (a i : E[X]) = 0 := by
       obtain ⟨c, hc⟩ := (a i).2
-      show (aeval (0 : E)) (a i : E[X]) = 0
+      change (aeval (0 : E)) (a i : E[X]) = 0
       rw [← hc]
       simp [zero_pow hi.ne']
     induction i using Fin.cases with

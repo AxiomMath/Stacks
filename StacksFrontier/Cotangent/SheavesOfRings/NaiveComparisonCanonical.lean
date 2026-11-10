@@ -157,7 +157,7 @@ theorem ofFreeAlgebraUnder_toFreeAlgebraUnder :
       ((congrArg (Functor.whiskerRight · (forget CommRingCat))
         ((sheafToPresheaf J CommRingCat).map_id _)).trans (Functor.whiskerRight_id' _)).symm))
     rw [Functor.map_comp, Functor.whiskerRight_comp, ← Category.assoc]
-    show (_ ≫ Functor.whiskerRight ((sheafToPresheaf J CommRingCat).map
+    change (_ ≫ Functor.whiskerRight ((sheafToPresheaf J CommRingCat).map
       (ofFreeAlgebra J f)) _) ≫ _ = _
     rw [hv]
     exact (congrArg (fun t => t.hom) hu).symm
@@ -179,7 +179,7 @@ theorem toFreeAlgebraUnder_comp_canonicalPresentationUnder :
   rw [Adjunction.homEquiv_naturality_right, toFreeAlgebraUnder, Equiv.apply_symm_apply,
     Adjunction.homEquiv_unit, Adjunction.right_triangle_components]
   apply Sheaf.hom_ext
-  show Stacks.Sites.FreeAlgebra.freeAlgebraSheafVariable J A
+  change Stacks.Sites.FreeAlgebra.freeAlgebraSheafVariable J A
       (Stacks.Sites.FreeAlgebra.underlyingPresheaf J B) ≫ Functor.whiskerRight
         ((sheafToPresheaf J CommRingCat).map
           (Stacks.Sites.FreeAlgebra.canonicalPresentation J A B f)) (forget CommRingCat) = 𝟙 _

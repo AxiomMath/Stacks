@@ -170,7 +170,7 @@ theorem cocyclesIntoCoboundaries_of_iso'
     (α : C' ≅ C) (β : D' ≅ D) (hcomm : φ' ≫ β.hom = α.hom ≫ φ) (p : ℤ)
     (h : CocyclesIntoCoboundaries φ p) : CocyclesIntoCoboundaries φ' p := by
   refine cocyclesIntoCoboundaries_of_iso φ φ' α.symm β.symm ?_ p h
-  show α.inv ≫ φ' = φ ≫ β.inv
+  change α.inv ≫ φ' = φ ≫ β.inv
   rw [Iso.inv_comp_eq, ← Category.assoc, ← hcomm, Category.assoc, Iso.hom_inv_id,
     Category.comp_id]
 
@@ -203,7 +203,7 @@ theorem cocyclesIntoCoboundaries_rTensor (S : ModuleCat.{u} A) [Module.Flat A S]
   obtain ⟨v, hv⟩ := LinearMap.rTensor_surjective (S : Type u)
     (LinearMap.surjective_rangeRestrict ((D.d (p - 1) p)).hom) (LinearMap.rTensor S ψ w)
   refine ⟨v, ?_⟩
-  show LinearMap.rTensor (S : Type u) ((D.d (p - 1) p)).hom v =
+  change LinearMap.rTensor (S : Type u) ((D.d (p - 1) p)).hom v =
     LinearMap.rTensor (S : Type u) ((φ.f p).hom) y
   calc LinearMap.rTensor (S : Type u) ((D.d (p - 1) p)).hom v
       = LinearMap.rTensor (S : Type u)
@@ -247,7 +247,7 @@ def rTensorModSystemIso (M S : ModuleCat.{u} A) (n : ℕ) :
     modSystem a M n ⋙ rTensorFunctor S ≅ modSystem a ((rTensorFunctor S).obj M) n :=
   NatIso.ofComponents (fun _ => Iso.refl _) (by
     intro V W g
-    show (rTensorFunctor S).map (smulFam a M (koszulExp n V W)) ≫ 𝟙 _ =
+    change (rTensorFunctor S).map (smulFam a M (koszulExp n V W)) ≫ 𝟙 _ =
       𝟙 _ ≫ smulFam a ((rTensorFunctor S).obj M) (koszulExp n V W)
     rw [Category.comp_id, Category.id_comp]
     exact rTensorFunctor_map_smul_id S M _)
@@ -259,9 +259,9 @@ def coeffSystemIso {N M' : ModuleCat.{u} A} (ε : N ≅ M')
     (n : ℕ) : constSystem σ hσ0 hσadd n ≅ modSystem a M' n :=
   NatIso.ofComponents (fun _ => ε) (by
     intro V W g
-    show σ (koszulExp n V W) ≫ ε.hom = ε.hom ≫ smulFam a M' (koszulExp n V W)
+    change σ (koszulExp n V W) ≫ ε.hom = ε.hom ≫ smulFam a M' (koszulExp n V W)
     rw [hσ]
-    show (moduleKoszulValue a (koszulExp n V W) • 𝟙 N) ≫ ε.hom =
+    change (moduleKoszulValue a (koszulExp n V W) • 𝟙 N) ≫ ε.hom =
       ε.hom ≫ (moduleKoszulValue a (koszulExp n V W) • 𝟙 M')
     rw [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id])
 
@@ -287,7 +287,7 @@ theorem cocyclesIntoCoboundaries_of_flat_model
           (smulFam_zero a ((rTensorFunctor S).obj M))
           (smulFam_add a ((rTensorFunctor S).obj M)) hnm := by
     refine NatTrans.ext (funext fun V => ?_)
-    show (rTensorFunctor S).map (smulFam a M (downExp m n V)) ≫ 𝟙 _ =
+    change (rTensorFunctor S).map (smulFam a M (downExp m n V)) ≫ 𝟙 _ =
       𝟙 _ ≫ smulFam a ((rTensorFunctor S).obj M) (downExp m n V)
     rw [Category.comp_id, Category.id_comp]
     exact rTensorFunctor_map_smul_id S M _
@@ -300,7 +300,7 @@ theorem cocyclesIntoCoboundaries_of_flat_model
   refine cocyclesIntoCoboundaries_of_iso _ _
     (mapIso (coeffSystemIso a ε σ hσ0 hσadd hσ m)).symm
     (mapIso (coeffSystemIso a ε σ hσ0 hσadd hσ n)).symm ?_ p h2
-  show map (coeffSystemIso a ε σ hσ0 hσadd hσ m).inv ≫
+  change map (coeffSystemIso a ε σ hσ0 hσadd hσ m).inv ≫
       map (constDownNat σ hσ0 hσadd hnm) =
     map (constDownNat (smulFam a ((rTensorFunctor S).obj M))
         (smulFam_zero a ((rTensorFunctor S).obj M))
@@ -308,10 +308,10 @@ theorem cocyclesIntoCoboundaries_of_flat_model
       map (coeffSystemIso a ε σ hσ0 hσadd hσ n).inv
   rw [← map_comp, ← map_comp]
   refine congrArg map (NatTrans.ext (funext fun V => ?_))
-  show ε.inv ≫ σ (downExp m n V) =
+  change ε.inv ≫ σ (downExp m n V) =
     smulFam a ((rTensorFunctor S).obj M) (downExp m n V) ≫ ε.inv
   rw [hσ]
-  show ε.inv ≫ (moduleKoszulValue a (downExp m n V) • 𝟙 N) =
+  change ε.inv ≫ (moduleKoszulValue a (downExp m n V) • 𝟙 N) =
     (moduleKoszulValue a (downExp m n V) • 𝟙 ((rTensorFunctor S).obj M)) ≫ ε.inv
   rw [Linear.smul_comp, Linear.comp_smul, Category.id_comp, Category.comp_id]
 
@@ -322,7 +322,6 @@ end FlatModel
 section LocalCriterion
 
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}}
-  [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- **A map of complexes of sheaves of modules induces the zero map on a cohomology sheaf as soon
 as, over every object, it carries the sections killed by the differential into the image of the
@@ -343,7 +342,7 @@ theorem homologyMap_eq_zero_of_local {K L : CochainComplex (SheafOfModules.{u} R
   have hkey : K.iCycles p ≫ φ.f p ≫ L.pOpcycles p = 0 := by
     refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
     refine ModuleCat.hom_ext (LinearMap.ext fun w => ?_)
-    show ((L.pOpcycles p).val.app U) (((φ.f p).val.app U) (((K.iCycles p).val.app U) w)) = 0
+    change ((L.pOpcycles p).val.app U) (((φ.f p).val.app U) (((K.iCycles p).val.app U) w)) = 0
     have hx : ((K.d p (p + 1)).val.app U) (((K.iCycles p).val.app U) w) = 0 :=
       congrArg (fun ψ : K.cycles p ⟶ K.X (p + 1) => (ψ.val.app U) w)
         (K.iCycles_d p (p + 1))
@@ -475,10 +474,10 @@ theorem modelSectionsFunctor_map_koszulScalarOn {A : Type u} [CommRing A] (a : F
       moduleKoszulValue a e • 𝟙 ((modelSectionsFunctor X V ρ).obj ℱ) := by
   have hval : koszulValue X f e V = ρ (∏ i, a i ^ e i) := by
     rw [map_prod]
-    show (∏ i, globalSectionVal (f i) V ^ e i) = ∏ i, ρ (a i ^ e i)
+    change (∏ i, globalSectionVal (f i) V ^ e i) = ∏ i, ρ (a i ^ e i)
     exact Finset.prod_congr rfl fun i _ => by rw [map_pow, hρ i]
   refine ModuleCat.hom_ext (LinearMap.ext fun (x : ℱ.val.obj V) => ?_)
-  show koszulValue X f e V • x = ρ (∏ i, a i ^ e i) • x
+  change koszulValue X f e V • x = ρ (∏ i, a i ^ e i) • x
   rw [hval]
 
 /-- The monomial with zero exponent acts on the sections over `V` as the identity. -/

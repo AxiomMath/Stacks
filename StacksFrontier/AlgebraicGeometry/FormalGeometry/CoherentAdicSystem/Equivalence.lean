@@ -54,7 +54,8 @@ global sections is `affineTilde`, built in `AffineComparison` from restriction a
 
 The auxiliary results are public, since the body of `coherentAdicSystemsEquivFGModuleCat` is
 exposed and mentions them. No heartbeat limit is raised: the construction of the system attached
-to a finite module fits inside the default budget as written, and fullness does once the identification of the functor's action
+to a finite module fits inside the default budget as written, and fullness does once the
+identification of the functor's action
 on a morphism is split off as `coherentSystemToFGModuleFunctor_map_hom_hom` and the remaining
 rewrites are replaced by explicit `congrArg` steps, which avoids re-checking a rewrite motive
 against the functor's unfolded body.
@@ -512,7 +513,7 @@ public theorem coherentSystemToFGModuleFunctor_essSurj
       (completionModuleReductionLimitEquiv I N)
   have : Module.Finite (AdicCompletion I A) M := N.property
   have : IsScalarTower A (AdicCompletion I A) M := ⟨fun a r x => by
-    show (algebraMap A (AdicCompletion I A) a * r) • x =
+    change (algebraMap A (AdicCompletion I A) a * r) • x =
       algebraMap A (AdicCompletion I A) a • (r • x)
     exact mul_smul _ _ _⟩
   have hMcomplete : IsAdicComplete I M := finiteCompletionModule_isAdicComplete I
@@ -606,7 +607,7 @@ public theorem globalSectionsComparison_naturality
   apply ModuleCat.hom_ext
   ext x
   obtain ⟨y, rfl⟩ := (AdicCompletion.of_bijective I LF).2 x
-  show eG.symm (AdicCompletion.map I l.hom (AdicCompletion.of I LF y)) =
+  change eG.symm (AdicCompletion.map I l.hom (AdicCompletion.of I LF y)) =
     l.hom (eF.symm (AdicCompletion.of I LF y))
   rw [AdicCompletion.map_of, hsecG, hsecF]
 

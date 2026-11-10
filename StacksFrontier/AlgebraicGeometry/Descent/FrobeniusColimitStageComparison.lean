@@ -251,6 +251,8 @@ variable (f : X ⟶ Y) (g : Y ⟶ W)
   (n : ℕ) (N : _root_.SheafOfModules.{u} W.ringSheafOnOpens)
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the large `pullbackCompOfEq` statement and unifying it with
+-- `pullbackCompOfEq_assoc_app` (many `rfl`/`HEq` arguments) is heavy
 /-- The pentagon of the chain `(ι_W, c_g, c_f)`. -/
 lemma frobeniusStageExtendScalarsPullbackIso_comp_pentagon₁ :
     (pullbackCompOfEq.{u} (Fc := Opens.map (f ≫ g).base)

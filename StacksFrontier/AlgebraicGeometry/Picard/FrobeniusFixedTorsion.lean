@@ -156,10 +156,10 @@ theorem finite_setOf_frobenius_fixed_isOfFinAddOrder :
     have key : schemePullbackClassHom pr (n • w) = schemePullbackClassHom pr 0 := by
       rw [map_nsmul, map_zero]
       exact (congrArg (n • ·) hw).trans h₂
-    show IsOfFinAddOrder w
+    change IsOfFinAddOrder w
     exact isOfFinAddOrder_iff_nsmul_eq_zero.2
       ⟨n, hn, hbij.injOn (Set.mem_univ _) (Set.mem_univ _) key⟩
-  · show schemePullbackClass e.hom (schemePullbackClass pr w) = z
+  · change schemePullbackClass e.hom (schemePullbackClass pr w) = z
     rw [hw, schemePullbackClass_comp, Iso.hom_inv_id, schemePullbackClass_id]
 
 /-- **The `σ`-fixed `ℓⁿ`-torsion of `Pic(Y_{k̄})` is bounded independently of `n`**, in the shape

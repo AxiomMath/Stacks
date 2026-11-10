@@ -71,7 +71,7 @@ theorem exists_mk_modulePullback_openChart_sections_le {X Y : AlgebraicSpaces B 
   let W0 : SmallEtale B S hS Y.1 := ⟨CostructuredArrow.mk (yoneda.map snd ≫ Wc.obj.hom),
     etale_comp_of_scheme B S hS snd Wc.obj.hom (het.property_snd f) Wc.property⟩
   have hw' : yoneda.map fst' ≫ V0.obj.hom = W0.obj.hom ≫ a.hom := by
-    show yoneda.map fst' ≫ u = (yoneda.map snd ≫ Wc.obj.hom) ≫ a.hom
+    change yoneda.map fst' ≫ u = (yoneda.map snd ≫ Wc.obj.hom) ≫ a.hom
     rw [(hf.isPullback' f).w, Category.assoc]
   obtain ⟨ebc⟩ := nonempty_chartRestrictionBaseChange B S hS a M hM V0 W0 fst' hw'
   let P0 := restrictToChart B S hS X.2 M V0

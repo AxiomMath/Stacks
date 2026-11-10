@@ -169,7 +169,7 @@ theorem Scheme.rationalFunctionOfSection_res (X : Scheme.{u}) {P Q : X.Opens}
       X.rationalFunctionOfSection P hP f := by
   rw [rationalFunctionOfSection_eq, rationalFunctionOfSection_eq]
   refine toRationalMap_eq_of_restrict_hom_eq _ _ hQ (le_rfl : Q ≤ Q) hQP ?_
-  show X.homOfLE (le_rfl : Q ≤ Q) ≫ sectionHom Q ((X.presheaf.map (homOfLE hQP).op) f) =
+  change X.homOfLE (le_rfl : Q ≤ Q) ≫ sectionHom Q ((X.presheaf.map (homOfLE hQP).op) f) =
     X.homOfLE hQP ≫ sectionHom P f
   rw [Scheme.homOfLE_rfl, Category.id_comp]
   exact (sectionHom_eq_of_appTop_coord_eq Q _ _

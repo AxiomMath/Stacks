@@ -251,7 +251,7 @@ theorem isWeaklyContractible_small_of_coproduct (X : SmallProetale B S hS)
   let V : I → SmallProetale B S hS := fun i ↦
     ⟨Over.mk (g i ≫ X.obj.hom), by
       have _ : IsOpenImmersion (B.inclusion.map (g i)) := hopen i
-      show WeaklyEtale (B.inclusion.map (g i ≫ X.obj.hom))
+      change WeaklyEtale (B.inclusion.map (g i ≫ X.obj.hom))
       rw [B.inclusion.map_comp]
       infer_instance⟩
   let f : ∀ i, V i ⟶ X := fun i ↦ ObjectProperty.homMk (Over.homMk (g i))
@@ -261,7 +261,7 @@ theorem isWeaklyContractible_small_of_coproduct (X : SmallProetale B S hS)
   · refine ofArrows_mem_smallProetale_topology B S hS V f ?_
     apply Precoverage.generate_mem_toGrothendieck
     rw [B.precoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
-    show Presieve.ofArrows Z (fun i ↦ B.inclusion.map (g i)) ∈ _
+    change Presieve.ofArrows Z (fun i ↦ B.inclusion.map (g i)) ∈ _
     simp only [hg]
     have _ : MorphismProperty.ContainsIdentities (@WeaklyEtale : MorphismProperty Scheme.{u}) :=
       MorphismProperty.IsMultiplicative.toContainsIdentities
@@ -270,13 +270,13 @@ theorem isWeaklyContractible_small_of_coproduct (X : SmallProetale B S hS)
     refine ⟨fun x ↦ ?_, fun i ↦ inferInstance⟩
     obtain ⟨⟨i, y⟩, hy⟩ := (sigmaMk Z).surjective (e.hom.base x)
     refine ⟨i, y, ?_⟩
-    show e.inv.base ((Sigma.ι Z i).base y) = x
+    change e.inv.base ((Sigma.ι Z i).base y) = x
     rw [← sigmaMk_mk, hy]
     exact congrArg (fun k : Scheme.Hom _ _ ↦ k.base x) e.hom_inv_id
   -- each summand is an open subscheme of `X`
   · intro i
     refine (SmallProetale.toBigScheme B S hS ⋙ B.inclusion).mono_of_mono_map ?_
-    show Mono (B.inclusion.map ((SmallProetale.toBigScheme B S hS).map (f i)))
+    change Mono (B.inclusion.map ((SmallProetale.toBigScheme B S hS).map (f i)))
     rw [hf i]
     exact (hopen i).mono
   -- distinct summands do not meet

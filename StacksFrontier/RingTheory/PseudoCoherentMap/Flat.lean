@@ -195,7 +195,7 @@ private lemma pseudoCoherentFrom_single_of_flat_finitePresentation
       have hSC := hS.map (CochainComplex.singleFunctor (ModuleCat.{u} A) 0)
       apply PseudoCoherence.isPseudoCoherent_of_distinguished_one (-(n + 1 : ℤ))
         (DerivedCategory.triangleOfSES hSC) (DerivedCategory.triangleOfSES_distinguished hSC)
-      · show IsPseudoCoherentFrom
+      · change IsPseudoCoherentFrom
           ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N) _
         convert ih N using 1
         simp
@@ -233,7 +233,7 @@ private lemma pseudoCoherent_restrictScalars_of_surjective
     let q : P →ₗ[P] M := LinearMap.toSpanSingleton P M (show B from 1)
     have hq : ∀ x, q x = (show M from f x) := by
       intro x
-      show f.toRingHom x * 1 = f x
+      change f.toRingHom x * 1 = f x
       simp
     have hker : (LinearMap.ker q).FG := by
       have hk : LinearMap.ker q = RingHom.ker f.toRingHom := by
@@ -254,7 +254,7 @@ private lemma pseudoCoherent_restrictScalars_of_surjective
         map_add' _ _ := rfl
         map_smul' := by
           intro a b
-          show f (algebraMap A P a) * (show B from b) = a • (show B from b)
+          change f (algebraMap A P a) * (show B from b) = a • (show B from b)
           rw [f.commutes, Algebra.smul_def] }
     exact Module.Flat.of_linearEquiv e
   obtain ⟨E, hE, ⟨e⟩⟩ := pseudoCoherent_single_of_flat_finitePresentation (R := A) (A := P) M

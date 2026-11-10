@@ -115,7 +115,7 @@ theorem isLocallySurjective_points_map_of_singleton_cover
     rintro Q h ⟨T, k, a', ha', hk⟩
     cases ha'
     refine ⟨F.map k ≫ eX.hom, ?_⟩
-    show (F.map k ≫ eX.hom) ≫ s = F.map h ≫ y
+    change (F.map k ≫ eX.hom) ≫ s = F.map h ≫ y
     rw [Category.assoc, ← ha, ← Category.assoc, ← F.map_comp, hk, F.map_comp, Category.assoc,
       hb, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 

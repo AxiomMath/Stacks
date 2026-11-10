@@ -81,7 +81,7 @@ theorem exists_hom_residueFieldValuedPoint {Y : BigFppfOver B integerBase hZ}
       (T.map Q.value)⟩
   refine ⟨φ, Over.homMk ⟨Spec.map φ⟩ ?_, ?_, rfl⟩
   · ext1
-    show Spec.map φ ≫ (T.obj Y).fromSpecResidueField s ≫ Y.hom.hom = Q.toBase
+    change Spec.map φ ≫ (T.obj Y).fromSpecResidueField s ≫ Y.hom.hom = Q.toBase
     rw [← Category.assoc, hf]
     exact congrArg (fun k => k.hom) (Over.w (show Q.siteObject ⟶ Y from Q.value))
   · rw [yonedaEquiv_symm_value, yonedaEquiv_symm_value]

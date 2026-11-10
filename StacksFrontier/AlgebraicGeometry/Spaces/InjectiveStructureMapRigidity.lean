@@ -125,14 +125,14 @@ theorem hom_ext_of_injective_structureSharp {W Z : AlgebraicSpaces B S hS} (c : 
     ObjectProperty.homMk (t ≫ Subfunctor.toRange (pullback.fst h d))
   have hg : g ≫ ObjectProperty.homMk E.1.ι = c := by
     apply ObjectProperty.hom_ext
-    show (t ≫ Subfunctor.toRange (pullback.fst h d)) ≫
+    change (t ≫ Subfunctor.toRange (pullback.fst h d)) ≫
       (Subfunctor.range (pullback.fst h d)).ι = c.hom
     rw [Category.assoc, Subfunctor.toRange_ι, pullback.lift_fst]
   have htop := eq_top_of_comp_eq_of_injective_structureSharp B S hS c hc E g hg
   apply ObjectProperty.hom_ext
   ext T y
   have hy : y ∈ (Subfunctor.range (pullback.fst h d)).obj T := by
-    show y ∈ E.1.obj T
+    change y ∈ E.1.obj T
     rw [htop]
     trivial
   obtain ⟨e, rfl⟩ := hy

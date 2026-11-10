@@ -71,7 +71,7 @@ theorem sections_eq_zero_of_val_eq_zero {X : AlgebraicSpaces B S hS}
   obtain ⟨_, ⟨a⟩⟩ := hg
   have h1 : M.val.map g.op (s.val W) = s.val (op Z) := s.property g.op
   have h2 : M.val.map a.op (s.val (op U)) = s.val (op Z) := s.property a.op
-  show M.val.map g.op (s.val W) = 0
+  change M.val.map g.op (s.val W) = 0
   rw [h1, ← h2, hs]
   exact (ModuleCat.Hom.hom _).map_zero
 
@@ -80,7 +80,7 @@ private theorem val_app_mem_ker_cokernel_π {X : AlgebraicSpaces B S hS}
     {G N : Modules.{u, u} B S hS X.1 X.2} (ψ : G ⟶ N)
     (W : (smallEtaleRingedSite B S hS X.1 X.2).Cᵒᵖ) (x : G.val.obj W) :
     ψ.val.app W x ∈ (SheafOfModules.Submodule.ker (cokernel.π ψ)).obj W := by
-  show (ψ ≫ cokernel.π ψ).val.app W x = 0
+  change (ψ ≫ cokernel.π ψ).val.app W x = 0
   rw [cokernel.condition]
   rfl
 
@@ -138,7 +138,7 @@ theorem surjective_sectionsMap_of_forall_isCoherent_isZero_rightDerived_one
   -- `t` is a section of the image of `ψ`
   have ht0 : SheafOfModules.sectionsMap (cokernel.π ψ) t = 0 := by
     refine sections_eq_zero_of_val_eq_zero B S hS U hsurj _ ?_
-    show (cokernel.π ψ).val.app (op U) (t.val (op U)) = 0
+    change (cokernel.π ψ).val.app (op U) (t.val (op U)) = 0
     rw [← hm]
     exact val_app_mem_ker_cokernel_π B S hS ψ (op U) ⟨m, hmG⟩
   let t' : J.toSheafOfModules.sections :=

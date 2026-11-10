@@ -60,7 +60,7 @@ def mulSeq (a : A) (M : ModuleCat.{max u w} A) : ℕ ⥤ ModuleCat.{max u w} A w
 /-- The map `n ⟶ n + k` of the multiplication sequence is multiplication by `a ^ k`. -/
 lemma mulSeq_map_le_add (a : A) (M : ModuleCat.{max u w} A) (n k : ℕ) :
     (mulSeq a M).map (homOfLE (Nat.le_add_right n k)) = smulHom (a ^ k) M := by
-  show smulHom (a ^ (n + k - n)) M = _
+  change smulHom (a ^ (n + k - n)) M = _
   rw [Nat.add_sub_cancel_left]
 
 /-- The map `n ⟶ n + 1` of the multiplication sequence is multiplication by `a`. -/
@@ -88,7 +88,7 @@ def locLeg (a : A) (M : ModuleCat.{max u w} A) (n : ℕ) : M ⟶ locObj a M :=
 /-- The `n`-th leg of the colimit presentation of `M[1/a]` sends `m` to `m / aⁿ`. -/
 lemma locLeg_apply (a : A) (M : ModuleCat.{max u w} A) (n : ℕ) (m : M) :
     (locLeg a M n).hom m = LocalizedModule.mk m (powElt a n) := by
-  show LocalizedModule.divBy (powElt a n) (LocalizedModule.mk m 1) = _
+  change LocalizedModule.divBy (powElt a n) (LocalizedModule.mk m 1) = _
   rw [LocalizedModule.divBy_apply, LocalizedModule.liftOn_mk, one_mul]
 
 /-- The `(n + 1)`-th leg of the colimit presentation of `M[1/a]` sends `a • m` to the image of
@@ -171,7 +171,7 @@ lemma descFun_add (x y : LocalizedModule (Submonoid.powers a) M) :
   obtain ⟨n₂, hn₂⟩ := s₂.2
   rw [LocalizedModule.mk_add_mk,
     descFun_mk t _ _ (n₁ + n₂) (by
-      show ((s₁ * s₂ : Submonoid.powers a) : A) = a ^ (n₁ + n₂)
+      change ((s₁ * s₂ : Submonoid.powers a) : A) = a ^ (n₁ + n₂)
       rw [Submonoid.coe_mul, ← hn₁, ← hn₂, pow_add]),
     descFun_mk t m₁ s₁ n₁ hn₁.symm, descFun_mk t m₂ s₂ n₂ hn₂.symm, map_add]
   congr 1

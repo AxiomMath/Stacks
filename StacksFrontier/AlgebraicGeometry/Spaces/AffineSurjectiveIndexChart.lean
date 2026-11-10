@@ -143,7 +143,7 @@ theorem isPullback_chartLift_of_isPullback (d : ChartDiagram B S hS X.1 Y.1 f.ho
       ((SpacesEtale.toSpaces B S hS Y).map ((comparisonFunctor B S hS Y).map m))
       (chartDiagramSpaceMap B S hS f (chartDiagramOfIndex B S hS f U j₀)) := by
     refine IsPullback.of_map_of_faithful (ObjectProperty.ι _) ?_
-    show IsPullback (yoneda.map d.g)
+    change IsPullback (yoneda.map d.g)
       ((SpacesEtale.toSpaces B S hS X).map ((comparisonFunctor B S hS X).map ρ)).hom
       ((SpacesEtale.toSpaces B S hS Y).map ((comparisonFunctor B S hS Y).map m)).hom
       (yoneda.map (chartBaseChangeMap B S hS f U j₀))

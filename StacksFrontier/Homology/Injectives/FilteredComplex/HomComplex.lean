@@ -148,7 +148,7 @@ private lemma precompCM_v {B : Type u₁} [Category.{v₁} B] [Abelian B]
     (z : CochainComplex.HomComplex.Cochain Y I n) (p q : ℤ) (hpq : p + n = q) :
     ((Stacks.Cohomology.Locality.precompCM (L := I) f).f n z).v p q hpq =
       f.f p ≫ z.v p q hpq := by
-  show ((CochainComplex.HomComplex.Cochain.ofHom f).comp z (zero_add n)).v p q hpq = _
+  change ((CochainComplex.HomComplex.Cochain.ofHom f).comp z (zero_add n)).v p q hpq = _
   simp only [CochainComplex.HomComplex.Cochain.zero_cochain_comp_v,
     CochainComplex.HomComplex.Cochain.ofHom_v]
 
@@ -158,7 +158,7 @@ private lemma precompCM_hom_v {B : Type u₁} [Category.{v₁} B] [Abelian B]
     (z : (Y.HomComplex I).X n) (p q : ℤ) (hpq : p + n = q) :
     (((Stacks.Cohomology.Locality.precompCM (L := I) f).f n).hom z).v p q hpq =
       f.f p ≫ (z : CochainComplex.HomComplex.Cochain Y I n).v p q hpq := by
-  show ((Stacks.Cohomology.Locality.precompCM (L := I) f).f n
+  change ((Stacks.Cohomology.Locality.precompCM (L := I) f).f n
     (z : CochainComplex.HomComplex.Cochain Y I n)).v p q hpq = _
   exact precompCM_v f n z p q hpq
 
@@ -344,7 +344,7 @@ private lemma homComplexShortExactOfInjective
         ((Classical.choice (hc p)).fac (c p q hpq) WalkingParallelPair.one)
     have hzπzero : (cokernel.π U.f).hom z = 0 := by
       have hfac : (cokernel.π U.f).hom ((U.f.hom) v) = 0 := by
-        show ((U.f ≫ cokernel.π U.f).hom v) = 0
+        change ((U.f ≫ cokernel.π U.f).hom v) = 0
         rw [cokernel.condition U.f]
         rfl
       rw [← hv]
@@ -596,7 +596,7 @@ theorem filteredHomComplexData_nonempty
       (filteredHomComplexGrIsoCore A M I
         (fun q => kInjectiveRepresentative_injective A K q) p).1
     grIso_hom_comp := fun p => by
-      show FilteredObject.grMapπ (FilteredObject.succHom p)
+      change FilteredObject.grMapπ (FilteredObject.succHom p)
           (filteredHomFilteredComplexCore A M I) ≫
         (filteredHomComplexGrIsoCore A M I
           (fun q => kInjectiveRepresentative_injective A K q) p).1.hom =

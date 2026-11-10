@@ -188,7 +188,7 @@ theorem exists_chartPointOnRestrict_base_eq (hVU : V ≤ U) (I : SpfIndex A P)
     ∃ y, (chartPointOnRestrict U A e V I).toHom.base y = x := by
   obtain ⟨y, hy⟩ := exists_formalChartPointOn_base_eq U A e I (hVU x.2)
   have hyQ : y ∈ chartPointOnPreimage U A e V I := by
-    show (formalChartPointOn U A e I).toHom.base y ∈ V
+    change (formalChartPointOn U A e I).toHom.base y ∈ V
     rw [hy]; exact x.2
   refine ⟨⟨y, hyQ⟩, Subtype.ext ?_⟩
   have hbase := congrArg (fun m : (schemeToLTRSObj (Spec (spfQuotientOn A I))).restrict
@@ -261,7 +261,7 @@ theorem restrict_hom_ext_of_chartOn (I₀ : SpfIndex A P) (hVU : V ≤ U) {Y : L
     intro z
     rw [Category.assoc _ m3 mm,
       Category.assoc _ ((formalChartPointOn U A e I).toHom.c.app (op WX)) (m3 ≫ mm), hptc]
-    show (z ≫ (m1 ≫ inv ((X.ofRestrict V).toHom.c.app (op WX))))
+    change (z ≫ (m1 ≫ inv ((X.ofRestrict V).toHom.c.app (op WX))))
           ≫ ((X.ofRestrict V).toHom.c.app (op WX)
             ≫ (chartPointOnRestrict U A e V I).toHom.c.app
                 (op ((Opens.map (X.ofRestrict V).toHom.base).obj WX)))
@@ -358,7 +358,7 @@ theorem spfQuotientTransition_comp_spfwTransValue
   have key : schemeToMcQuillanFormalScheme.map
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
         ≫ spfwTransValue A hA hsize φ I = spfwTransValue A hA hsize φ J := by
-    show schemeToMcQuillanFormalScheme.map
+    change schemeToMcQuillanFormalScheme.map
           (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
         ≫ φ.app (op (spfwCutoffQuotient A hsize I)) (spfwMcQuillanFormalSchemePoint A hA I)
       = φ.app (op (spfwCutoffQuotient A hsize J)) (spfwMcQuillanFormalSchemePoint A hA J)
@@ -399,7 +399,7 @@ theorem exists_mcQuillanFormalSchemeFunctorOfPoints_map_eq_spfw
   refine ⟨f, ?_⟩
   ext S s
   obtain ⟨S⟩ := S
-  show s ≫ f = φ.app (op S) s
+  change s ≫ f = φ.app (op S) s
   -- Cover `S` by affine opens.
   set V : S.obj.affineCover.I₀ → S.obj.Opens := fun i => (S.obj.affineCover.f i).opensRange
     with hVdef
@@ -410,7 +410,7 @@ theorem exists_mcQuillanFormalSchemeFunctorOfPoints_map_eq_spfw
     Scheme.size_lt_of_isOpenImmersion (V i).ι S.property
   refine (isSheafFor_opensCover_mcQuillanFormalSchemePoints Y V hV).isSeparatedFor.ext ?_
   rintro Z t ⟨i⟩
-  show schemeToMcQuillanFormalScheme.map (V i).ι ≫ (s ≫ f)
+  change schemeToMcQuillanFormalScheme.map (V i).ι ≫ (s ≫ f)
     = schemeToMcQuillanFormalScheme.map (V i).ι ≫ φ.app (op S) s
   have := hVaff i
   -- The point of `Spfw A` over the affine `V i` factors through a quotient.
@@ -469,7 +469,7 @@ theorem exists_hom_restrict_of_weakChart {κ : Cardinal.{u}}
   have hwι : w ≫ ι = (ObjectProperty.homMk (t ≫ X.obj.ofRestrict U) :
       schemeToMcQuillanFormalScheme.obj S.obj ⟶ X) := by
     refine InducedCategory.hom_ext ?_
-    show (t ≫ χ.hom) ≫ (χ.inv ≫ X.obj.ofRestrict U) = t ≫ X.obj.ofRestrict U
+    change (t ≫ χ.hom) ≫ (χ.inv ≫ X.obj.ofRestrict U) = t ≫ X.obj.ofRestrict U
     rw [Category.assoc, Iso.hom_inv_id_assoc]
   have key := congrFun (congrArg (fun η => (ConcreteCategory.hom (η.app (op S)) : _ → _)) hf') w
   have h2 : (φ.app (op S) (w ≫ ι)).hom
@@ -550,7 +550,7 @@ theorem exists_mcQuillanFormalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}}
   refine ⟨fglue, ?_⟩
   ext S s
   obtain ⟨S⟩ := S
-  show s ≫ fglue = φ.app (op S) s
+  change s ≫ fglue = φ.app (op S) s
   set O : ↥X.obj → S.obj.Opens := fun x => (Opens.map s.hom.toHom.base).obj (U x) with hOdef
   have hOcover : iSup O = ⊤ :=
     Opens.ext (Set.eq_univ_iff_forall.2 fun z =>
@@ -559,7 +559,7 @@ theorem exists_mcQuillanFormalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}}
     Scheme.size_lt_of_isOpenImmersion (O x).ι S.property
   refine (isSheafFor_opensCover_mcQuillanFormalSchemePoints Y O hOcover).isSeparatedFor.ext ?_
   rintro Z τ ⟨x⟩
-  show schemeToMcQuillanFormalScheme.map (O x).ι ≫ (s ≫ fglue)
+  change schemeToMcQuillanFormalScheme.map (O x).ι ≫ (s ≫ fglue)
     = schemeToMcQuillanFormalScheme.map (O x).ι ≫ φ.app (op S) s
   set g : schemeToLTRSObj (O x).toScheme ⟶ X.obj :=
     (schemeToMcQuillanFormalScheme.map (O x).ι ≫ s).hom with hg
@@ -576,7 +576,7 @@ theorem exists_mcQuillanFormalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}}
       (φ.app (op ⟨(O x).toScheme, hOsize x⟩) w).hom) hgmk).trans (congrArg InducedCategory.Hom.hom
     (app_comp_of_natTrans_mcQuillan φ (S := ⟨(O x).toScheme, hOsize x⟩) (T := S) (O x).ι s)))
   refine InducedCategory.hom_ext (Eq.trans ?_ hchar3)
-  show (schemeToMcQuillanFormalScheme.map (O x).ι).hom ≫ (s.hom ≫ f₀)
+  change (schemeToMcQuillanFormalScheme.map (O x).ι).hom ≫ (s.hom ≫ f₀)
     = liftToRestrict (U x) g hrange ≫ fU x
   conv_rhs => rw [← hf₀ x]
   exact (Category.assoc _ _ _).symm.trans

@@ -40,7 +40,7 @@ variable {k : Type u} [CommRing k] {C : Type*} [Category.{v} C] [Preadditive C]
 theorem evalModule_eq_of_scalarMap_eq (h : ∀ c : k, G.scalarMap c = c • 𝟙 _) :
     G.evalModule X = Linear.homModule X (G.obj (ModuleCat.of k k)) :=
   Module.ext' _ _ fun c e => by
-    show e ≫ G.scalarMap c = c • e
+    change e ≫ G.scalarMap c = c • e
     rw [h, Linear.comp_smul, Category.comp_id]
 
 /-- **Finiteness of `Hom(X, G(k))` for `Functor.evalModule`** follows from finiteness in the
@@ -59,7 +59,7 @@ theorem scalarMap_comp_eq_smul_id {D : Type*} [Category.{v'} D] [Preadditive D]
     [CategoryTheory.Linear k D] (F : C ⥤ D) [F.Additive] [F.Linear k]
     (h : ∀ c : k, G.scalarMap c = c • 𝟙 _) (c : k) :
     (G ⋙ F).scalarMap c = c • 𝟙 _ := by
-  show F.map (G.scalarMap c) = _
+  change F.map (G.scalarMap c) = _
   rw [h, F.map_smul, F.map_id]
   rfl
 

@@ -127,7 +127,7 @@ public theorem koszulLift_comm :
   apply HomologicalComplex.to_single_hom_ext
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f]
   refine ModuleCat.hom_ext (LinearMap.ext fun (x : CompletedGroupAlgebra Λ G) => ?_)
-  show (koszulAugmentationLinear Λ hV (conjRingEquiv γ x * 1) : TrivialRep Γ Λ) =
+  change (koszulAugmentationLinear Λ hV (conjRingEquiv γ x * 1) : TrivialRep Γ Λ) =
     (γ • (show TrivialRep Γ Λ from koszulAugmentationLinear Λ hV x) : TrivialRep Γ Λ)
   rw [TrivialRep.smul_def, mul_one, koszulAugmentationLinear_apply,
     koszulAugmentationLinear_apply, conjRingEquiv, augmentation_mapRingEquiv]
@@ -333,7 +333,7 @@ public theorem perfectDerivedTrace_trivialRep
       (by lia), projectiveModuleTrace_koszulCoinvariantsMap σ γ hgen w hw 1 le_rfl, ite_eq_left rfl,
       ite_eq_right one_ne_zero, map_one, map_sub]
   · rw [Iso.symm_hom, Iso.symm_inv]
-    show _ = (derivedCoinvariantsIsoOfResolution K).inv ≫ derivedCoinvariantsTwistedMap
+    change _ = (derivedCoinvariantsIsoOfResolution K).inv ≫ derivedCoinvariantsTwistedMap
       (conjActionHom Λ hV γ) ≫ (derivedCoinvariantsIsoOfResolution K).hom
     rw [key, ← Functor.map_comp]
     congr 1

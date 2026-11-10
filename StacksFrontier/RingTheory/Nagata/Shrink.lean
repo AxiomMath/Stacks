@@ -10,7 +10,8 @@ public import StacksFrontier.RingTheory.Nagata.Defs
 /-!
 # Reading N-2 at an arbitrary extension: shrinking into the base ring's universe
 
-The Nagata conditions of `StacksFrontier.RingTheory.Nagata.Defs` test a ring against the finite field
+The Nagata conditions of `StacksFrontier.RingTheory.Nagata.Defs` test a ring against the finite
+field
 extensions of its fraction field that live in **the ring's own universe**. Nothing is lost by that
 — a finite extension of a field in `Type u` is `Small.{u}` — but every argument that has to move
 one of those conditions between universes needs the shrinking machinery, and needs it *before*
@@ -89,7 +90,7 @@ theorem Module.Finite.integralClosure_of_ringEquiv {R : Type u} {S : Type v} {L 
       map_add' := fun _ _ => rfl }
   exact Module.Finite.of_equiv_equiv e e₂ (by
     ext r
-    show algebraMap S L (e r) = algebraMap R L r
+    change algebraMap S L (e r) = algebraMap R L r
     rw [← hcomp]
     rfl)
 

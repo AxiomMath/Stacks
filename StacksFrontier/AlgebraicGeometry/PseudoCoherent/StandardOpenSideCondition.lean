@@ -345,7 +345,7 @@ public theorem pushforwardStructureSheafPseudoCoherentOver_basicOpen (M : ℕ) (
   have htow : IsScalarTower Γ(S, ⊤) Γ(AffineSpace (ULift.{u} (Fin M)) S, ⊤)
       Γ(((AffineSpace (ULift.{u} (Fin M)) S).basicOpen a).toScheme, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show ((((AffineSpace (ULift.{u} (Fin M)) S).basicOpen a).ι ≫
+    change ((((AffineSpace (ULift.{u} (Fin M)) S).basicOpen a).ι ≫
       (AffineSpace.over (ULift.{u} (Fin M)) S).hom).appTop).hom = _
     rw [Scheme.Hom.comp_appTop]
     rfl
@@ -407,7 +407,7 @@ public theorem pushforwardStructureSheafPseudoCoherentOver_affineSpace (n : ℕ)
   have htow : IsScalarTower Γ(S, ⊤) Γ((S.basicOpen b).toScheme, ⊤)
       Γ(AffineSpace (ULift.{u} (Fin n)) (S.basicOpen b).toScheme, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show ((((AffineSpace.over (ULift.{u} (Fin n)) (S.basicOpen b).toScheme).hom ≫
+    change ((((AffineSpace.over (ULift.{u} (Fin n)) (S.basicOpen b).toScheme).hom ≫
       (S.basicOpen b).ι).appTop)).hom = _
     rw [Scheme.Hom.comp_appTop]
     rfl

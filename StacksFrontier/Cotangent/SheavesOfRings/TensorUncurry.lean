@@ -264,15 +264,7 @@ theorem tensorUncurryHom_app (X : (SimplexCategory × C)ᵒᵖ)
         ((tensorSwapHom (O := ((projectionCommRing J B)).obj)
           (projectionCoefficients J (B := B) F).val
           (uncurrySource J G)).app X w) := by
-  induction w using TensorProduct.induction_on with
-  | zero =>
-    exact ((tensorUncurryHom J F G).app X).hom.map_zero.trans
-      ((congrArg (fun z => ConcreteCategory.hom
-            ((tensorLevelUnit J F G (op X.unop.1)).app (op X.unop.2)) z)
-          ((tensorSwapHom (O := ((projectionCommRing J B)).obj)
-            (projectionCoefficients J (B := B) F).val
-            (uncurrySource J G)).app X).hom.map_zero).trans
-        ((tensorLevelUnit J F G (op X.unop.1)).app (op X.unop.2)).hom.map_zero).symm
+  induction w using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add w w' hw hw' =>
     exact (((tensorUncurryHom J F G).app X).hom.map_add w w').trans
@@ -334,12 +326,7 @@ theorem tensorLevel_map_prodSnd (n : SimplexCategory) {U V : C} (ψ : V ⟶ U)
           (projectionCoefficients J (B := B) F).val).map
         ((Functor.prodSectionSnd (C := C) n).map ψ).op z =
       (Stacks.tensorObj (G.obj (op n)).val F.val).map ψ.op z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact (((Stacks.tensorObj (O := ((projectionCommRing J B)).obj) (uncurrySource J G)
-      (projectionCoefficients J (B := B) F).val).map
-        ((Functor.prodSectionSnd (C := C) n).map ψ).op)).hom.map_zero.trans
-      ((Stacks.tensorObj (G.obj (op n)).val F.val).map ψ.op).hom.map_zero.symm
+  induction z using TensorProduct.inductionOn with
   | tmul y x =>
     exact congrArg (fun w => (show (Stacks.tensorObj (G.obj (op n)).val F.val).obj (op V) from
         w ⊗ₜ uncurryTensorLevelCoeff J F (op (n, V)) ((projectionCoefficients J (B := B) F).val.map

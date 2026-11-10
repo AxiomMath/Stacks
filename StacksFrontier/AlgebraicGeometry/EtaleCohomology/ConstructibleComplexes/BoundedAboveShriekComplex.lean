@@ -473,8 +473,8 @@ This is the step the source iterates in the descending induction proving (1) ⟹
 `Stacks.EtaleCohomology.exists_shriekConstant_cover_of_isConstructible_homology`, and the
 cone on it is the object to which Tag 095Z is applied next. Assembling the sequence of such
 steps into a single bounded above complex of shriek sums is done in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ShriekSumResolution`, by the
-same induction carried out on a cochain complex representing `K`.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ShriekSumResolution`,
+by the same induction carried out on a cochain complex representing `K`.
 
 The vanishing of `H^i(L)` for `i ≥ b` comes from
 `Stacks.Homology.isZero_homology_obj₃_of_distTriang`: in degree `b` because `H^b(F[-b]) ⟶ H^b(K)`

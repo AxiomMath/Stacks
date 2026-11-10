@@ -712,7 +712,7 @@ theorem finiteDimensional_tangentSpace :
     letI hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
     letI T := artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered)
     letI : AddCommGroup T := associatedTangentSpaceAddCommGroupUnlifted 𝓕
     letI : Module k T := associatedTangentSpaceModuleUnlifted 𝓕

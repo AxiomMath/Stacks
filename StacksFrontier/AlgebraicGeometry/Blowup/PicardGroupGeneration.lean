@@ -115,14 +115,14 @@ theorem exists_iso_blowUpSpec_comap_exceptionalIdeal (A : Type u) [CommRing A] [
         (Ideal.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (maximalIdeal A))) =
       Stacks.Blowup.toSpec (maximalIdeal A) := Over.w φ.hom
   refine ⟨(Over.forget _).mapIso φ, ?_⟩
-  show (exceptionalIdeal _).comap φ.hom.left = _
+  change (exceptionalIdeal _).comap φ.hom.left = _
   rw [show exceptionalIdeal (Scheme.IdealSheafData.ofIdealTop (Ideal.map
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (maximalIdeal A))) =
       (Scheme.IdealSheafData.ofIdealTop (Ideal.map
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (maximalIdeal A))).comap
           (blowUpToBase _) from rfl,
     ← Scheme.IdealSheafData.comap_comp, hw]
-  show (Scheme.IdealSheafData.ofIdealTop (Ideal.map
+  change (Scheme.IdealSheafData.ofIdealTop (Ideal.map
       (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (maximalIdeal A))).comap
         (Stacks.Blowup.toSpec (maximalIdeal A)) =
     (Scheme.IdealSheafData.ofIdealTop (Ideal.comap

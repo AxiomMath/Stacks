@@ -121,7 +121,7 @@ theorem generate_singleton_mem_etaleTopology (B : BigFppfSite.{u}) {X Y : B.Sche
     exact (Scheme.singleton_mem_precoverage_iff (@Etale.{u} : MorphismProperty Scheme.{u})
       (B.inclusion.map g)).2 ⟨Scheme.Hom.surjective (B.inclusion.map g), he⟩
   have hE : IsEtaleCovering (⟨X, PreZeroHypercover.singleton g⟩ : Covering B.Schemes) := by
-    show ((PreZeroHypercover.singleton g).map B.inclusion).presieve₀ ∈
+    change ((PreZeroHypercover.singleton g).map B.inclusion).presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj X)
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_singleton,
       Presieve.map_singleton]
@@ -233,8 +233,8 @@ Granted `hquot`, nothing else of 02WW is needed: the kernel-pair clause
 This theorem does **not** carry `@[stacks 076M]`, and must not. Stacks 076M's source *proves*
 the result, citing Stacks 02WW as an established theorem; hypothesising 02WW's conclusion makes
 this statement strictly weaker than its source, and a tag may not be certified by a statement
-weaker than the source it names. (For the same reason `hasCoproducts_quasicoherentDerivedCategory`, which assumes as a
-hypothesis a clause of Stacks 03M1 that its own source proves, does not carry
+weaker than the source it names. (For the same reason `hasCoproducts_quasicoherentDerivedCategory`,
+which assumes as a hypothesis a clause of Stacks 03M1 that its own source proves, does not carry
 `@[stacks 08F3]`.) -/
 theorem isAlgebraicSpace_of_isSheaf_etale_of_isLocallySurjective_quotientMap
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -300,7 +300,7 @@ theorem isAlgebraicSpace_of_isSheaf_etale_of_isLocallySurjective_quotientMap
     rw [GrothendieckTopology.mem_over_iff] at hZ ⊢
     exact Stack.etaleTopology_le_topology B X.left hZ
   have : (BigFppfOver.topology B S hS).Subcanonical := by
-    show (B.topology.over (B.obj hS)).Subcanonical
+    change (B.topology.over (B.obj hS)).Subcanonical
     have : B.topology.Subcanonical := BigFppfSite.subcanonical_topology B
     infer_instance
   have hUfppf : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (yoneda.obj U) :=

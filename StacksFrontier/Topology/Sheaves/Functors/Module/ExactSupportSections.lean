@@ -341,7 +341,7 @@ lemma isSheaf_opensFunctor_op_comp
     TopCat.Sheaf.existsUnique_gluing' (⟨P, hP⟩ : TopCat.Sheaf _ _) W
       (S.opensFunctor.obj (iSup U)) (fun j => homOfLE (hWle j)) hcover tf hcompat
   refine ⟨s, fun i => ?_, fun y hy => huniq y ?_⟩
-  · show P.map (S.opensFunctor.map (leSupr U i)).op s = sf i
+  · change P.map (S.opensFunctor.map (leSupr U i)).op s = sf i
     exact (map_eq_map P _ (homOfLE (hWle (some i))).op s).trans (hs (some i))
   · rintro (_ | i)
     · exact hsub le_rfl _ _

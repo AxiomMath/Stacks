@@ -71,7 +71,7 @@ theorem algClosedBase_myPhi_tmul (Ω : Type*) [Field Ω] (Ebar : Type*) [Field E
     [Algebra Ω Ebar] (ι : Type*) (lam : ι → Ω) (a : Ebar) (h : MvPolynomial ι Ω) :
     algClosedBase_myPhi Ω Ebar ι lam (a ⊗ₜ[Ω] h)
       = a * algebraMap Ω Ebar (MvPolynomial.aeval lam h) := by
-  show (Algebra.TensorProduct.rid Ω Ω Ebar)
+  change (Algebra.TensorProduct.rid Ω Ω Ebar)
     (Algebra.TensorProduct.map (AlgHom.id Ω Ebar) (MvPolynomial.aeval lam) (a ⊗ₜ[Ω] h)) = _
   rw [Algebra.TensorProduct.map_tmul, AlgHom.id_apply, Algebra.TensorProduct.rid_tmul,
     Algebra.smul_def, mul_comm]
@@ -130,8 +130,7 @@ theorem algClosedBase_clear_gen (Ω : Type*) [Field Ω] (Ebar : Type*) [Field Eb
     (e : FractionRing (MvPolynomial ι Ω) ≃ₐ[Ω] K₀) (b : Ebar ⊗[Ω] K₀) :
     ∃ (c : MvPolynomial ι Ω) (b₀ : Ebar ⊗[Ω] MvPolynomial ι Ω), c ≠ 0 ∧
       algClosedBase_incl Ω Ebar K₀ ι e b₀ = (1 ⊗ₜ[Ω] algClosedBase_jK Ω K₀ ι e c) * b := by
-  induction b using TensorProduct.induction_on with
-  | zero => exact ⟨1, 0, one_ne_zero, by simp⟩
+  induction b using TensorProduct.inductionOn with
   | tmul x k =>
       obtain ⟨a, c, hc, hck⟩ := algClosedBase_clear_one Ω K₀ ι e k
       refine ⟨c, x ⊗ₜ[Ω] a, hc, ?_⟩
@@ -177,8 +176,7 @@ theorem algClosedBase_myPhi_repr (Ω : Type*) [Field Ω] (Ebar : Type*) [Field E
       = MvPolynomial.eval lam
           ((Algebra.TensorProduct.basis (MvPolynomial ι Ω) b).repr
             (Algebra.TensorProduct.comm Ω Ebar (MvPolynomial ι Ω) w) i) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x h =>
       rw [algClosedBase_myPhi_tmul, Algebra.TensorProduct.comm_tmul,
         Algebra.TensorProduct.basis_repr_tmul, MvPolynomial.aeval_eq_eval, mul_comm x,
@@ -200,8 +198,7 @@ theorem algClosedBase_incl_repr (Ω : Type*) [Field Ω] (Ebar : Type*) [Field Eb
       = algClosedBase_jK Ω K₀ ι e
           ((Algebra.TensorProduct.basis (MvPolynomial ι Ω) b).repr
             (Algebra.TensorProduct.comm Ω Ebar (MvPolynomial ι Ω) w) i) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x h =>
       rw [algClosedBase_incl_tmul, Algebra.TensorProduct.comm_tmul,
         Algebra.TensorProduct.basis_repr_tmul, Algebra.TensorProduct.comm_tmul,
@@ -709,7 +706,7 @@ theorem algClosedBase_tensor_isDomain
       (by ext c; change (algebraMap Kt F') (efield.symm c) = (algebraMap ↥K₀ F') c
           rw [hKtmap, AlgEquiv.apply_symm_apply])
   have hfinKt : FiniteDimensional Kt F' := by
-    show Module.Finite Kt F'
+    change Module.Finite Kt F'
     rw [Module.finite_def, Submodule.fg_def]
     obtain ⟨b, hb⟩ : (⊤ : Submodule ↥K₀ F').FG := (Module.finite_def.mp hfinK0)
     refine ⟨(b : Set F'), b.finite_toSet, ?_⟩

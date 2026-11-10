@@ -59,6 +59,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `PreservesFiniteProducts` of the sheaf pushforward along the chart
 /-- Restriction of sheaves of sets along chart base change preserves finite products (instance
 search times out finding this at its use sites). -/
 instance preservesFiniteProducts_smallBaseChange_pushforwardAlgebraChartBaseChange

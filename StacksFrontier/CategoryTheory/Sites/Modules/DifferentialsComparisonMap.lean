@@ -284,7 +284,7 @@ theorem statement1_isDerivation :
   refine ⟨{ d := fun {U} => (AddMonoidHom.mk'
               (fun a => (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U a))
               (fun a b => by
-                show (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U (a + b))
+                change (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U (a + b))
                   = (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U a)
                     + (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U b)
                 rw [map_add (f.fsharpApp U)]
@@ -304,7 +304,7 @@ theorem statement1_isDerivation :
     simp only [RingCat.hom_comp, RingHom.comp_apply] at nat
     have key : f.fsharpApp V (X.ringSheaf'.obj.map g x)
         = X'.ringSheaf'.obj.map (f.Ff.op.map g) (f.fsharpApp U x) := nat
-    show (X'.d.app (f.Ff.op.obj V)).d (f.fsharpApp V (X.ringSheaf'.obj.map g x))
+    change (X'.d.app (f.Ff.op.obj V)).d (f.fsharpApp V (X.ringSheaf'.obj.map g x))
       = (f.pushΩ.val.map g) ((X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U x))
     rw [key]
     exact X'.d.d_map (f.Ff.op.map g) (f.fsharpApp U x)
@@ -315,7 +315,7 @@ theorem statement1_isDerivation :
       NatTrans.comp_app, RingCat.hom_comp, RingHom.comp_apply] at hc
     have key : f.fsharpApp U (X.φ.app U s)
         = X'.φ.app (f.Ff.op.obj U) (f.fsharpY.app U s) := hc
-    show (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U (X.φ.app U s)) = 0
+    change (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U (X.φ.app U s)) = 0
     rw [key]
     exact ModuleCat.Derivation.d_map (X'.d.app (f.Ff.op.obj U)) (f.fsharpY.app U s)
   · exact fun _ _ => rfl
@@ -377,7 +377,7 @@ theorem statement3_localSection_iff
     intro U t
     subst hadj
     rw [Adjunction.homEquiv_unit]
-    show (((SheafOfModules.pushforward f.fsharp).map cf).val.app U).hom
+    change (((SheafOfModules.pushforward f.fsharp).map cf).val.app U).hom
         (((f.adj.unit.app X.Ω).val.app U).hom (X.d.d t))
       = (cf.val.app (f.Ff.op.obj U)).hom (f.pullbackDiff U t)
     rw [SheafOfModules.pushforward_map_val]
@@ -388,11 +388,11 @@ theorem statement3_localSection_iff
     funext U
     apply AddMonoidHom.ext
     intro t
-    show (cf'.val.app U).hom (X.d.d t) = D.d t
+    change (cf'.val.app U).hom (X.d.d t) = D.d t
     rw [key U t, hP U t]
     exact (hD U t).symm
   · rw [← key U t]
-    show (X.d.postcomp cf'.val).d t = (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U t)
+    change (X.d.postcomp cf'.val).d t = (X'.d.app (f.Ff.op.obj U)).d (f.fsharpApp U t)
     rw [hQ]
     exact hD U t
 

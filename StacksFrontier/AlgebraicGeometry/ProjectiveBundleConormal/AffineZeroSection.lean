@@ -198,7 +198,7 @@ def specQuotKerIso : Spec S ≅ Spec (quotRing (RingHom.ker φ.hom)) where
 `Stacks.ClosedImmersion.AffineConormal.specQuotKerIso`. -/
 theorem specMap_eq_specQuotKerIso_comp :
     Spec.map φ = (specQuotKerIso φ hφ).hom ≫ quotImmersion R (RingHom.ker φ.hom) := by
-  show Spec.map φ
+  change Spec.map φ
     = Spec.map (quotKerRingIso φ hφ).hom ≫ Spec.map (quotHom (RingHom.ker φ.hom))
   rw [← Spec.map_comp]
   exact (congrArg (fun f : R ⟶ S => Spec.map f) (quotHom_comp_quotKerRingIso φ hφ)).symm
@@ -352,7 +352,7 @@ theorem one_tmul_eq_zero_of_mem_sq (z : augIdealOf A K)
       ((Ideal.toCotangent_eq_zero (augIdealOf A K) z).mpr hz)
   refine Submodule.smul_induction_on hz' (fun c hc x _ => ?_) (fun x y hx hy => ?_)
   · have hc0 : c • (1 : A) = 0 := by
-      show algebraMapInv c * (1 : A) = 0
+      change algebraMapInv c * (1 : A) = 0
       rw [mem_augIdeal_iff.mp hc, zero_mul]
     exact ((TensorProduct.smul_tmul c (1 : A) x).symm.trans
         (congrArg (fun s : A => s ⊗ₜ[SymmetricAlgebra A K, (augRingHom A K).hom] x) hc0)).trans

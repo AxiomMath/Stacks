@@ -85,9 +85,11 @@ the sheaf `M̃|_U` attached to a finite module, which is one of the two moves of
 the other being the choice of such an `M` for an arbitrary coherent sheaf on `U`.  That other
 move is *not* outstanding — it is `Stacks.LocalCohomology.exists_finiteModule_iso_restrict_tilde`,
 Stacks 0BK0 (1), in
-`StacksFrontier/AlgebraicGeometry/LocalCohomology/Generalities/QuasiCoherentExtension.lean` — and the
+`StacksFrontier/AlgebraicGeometry/LocalCohomology/Generalities/QuasiCoherentExtension.lean` — and
+the
 tag sits where the two moves are combined, on `Stacks.Algebraization.coherentFormalAlgebraization`
-in `StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentSheafPuncturedAlgebraization.lean`, which
+in `StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentSheafPuncturedAlgebraization.lean`,
+which
 states the theorem at its own hypotheses for an arbitrary coherent `ℱ`.  Read the absence of the
 attribute here as a pointer there, not as a gap.
 

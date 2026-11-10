@@ -392,26 +392,26 @@ theorem exists_of_mem (x : points B S hS X.1) (O : ((BigFppfOver.toScheme B S hS
   let g' : chartOpenOver B S hS C₀ U' ⟶ chartOpenOver B S hS (idEtaleChart B S hS T) O :=
     Over.homMk (ObjectProperty.homMk (g₀.resLE O U' hU'le)) (by
       apply ObjectProperty.hom_ext
-      show g₀.resLE O U' hU'le ≫ O.ι ≫ T.hom.hom = U'.ι ≫ U₀.hom.hom
+      change g₀.resLE O U' hU'le ≫ O.ι ≫ T.hom.hom = U'.ι ≫ U₀.hom.hom
       rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc]
       exact congrArg (U'.ι ≫ ·) (congrArg (fun φ => φ.hom) (Over.w uT)))
   have hg' : g' ≫ chartOpenOverι B S hS (idEtaleChart B S hS T) O =
       chartOpenOverι B S hS C₀ U' ≫ uT :=
     Over.OverMorphism.ext (ObjectProperty.hom_ext _ (Scheme.Hom.resLE_comp_ι _ _))
   refine ⟨⟨O, hO, (chartOpens B S hS C₀).obj U', hU', g', ?_⟩, rfl, ?_⟩
-  · show (yoneda.map (chartOpenOverι B S hS C₀ U') ≫ a) ≫ f.hom = _
+  · change (yoneda.map (chartOpenOverι B S hS C₀ U') ≫ a) ≫ f.hom = _
     have h1 : yoneda.map (chartOpenOverι B S hS C₀ U' ≫ uT) =
         yoneda.map (chartOpenOverι B S hS C₀ U') ≫ (a ≫ f.hom) :=
       (yoneda.map_comp _ _).trans (congrArg (CategoryStruct.comp _) (Functor.map_preimage _ _))
     exact (Category.assoc _ _ _).trans (h1.symm.trans (congrArg yoneda.map hg'.symm))
   · refine ⟨(pointsEquivScheme B S hS (chartOpenOver B S hS C₀ U')).symm ⟨u₀, huU'⟩, ?_⟩
-    show pointsMap B S hS _ (yoneda.map (chartOpenOverι B S hS C₀ U') ≫ a) _ = x
+    change pointsMap B S hS _ (yoneda.map (chartOpenOverι B S hS C₀ U') ≫ a) _ = x
     rw [pointsMap_comp, Function.comp_apply, ← hu]
     congr 1
     apply injective_pointsToScheme B S hS
     rw [pointsToScheme_pointsMap_yoneda]
     have h := (pointsEquivScheme B S hS (chartOpenOver B S hS C₀ U')).apply_symm_apply ⟨u₀, huU'⟩
-    show (BigFppfOver.toScheme B S hS).map (chartOpenOverι B S hS C₀ U')
+    change (BigFppfOver.toScheme B S hS).map (chartOpenOverι B S hS C₀ U')
       ((pointsEquivScheme B S hS (chartOpenOver B S hS C₀ U')) _) = u₀
     rw [h]
     rfl
@@ -431,7 +431,7 @@ theorem ker_appTop_eq_asIdeal_isoSpec {Y Z : Scheme.{u}} [IsAffine Y] [IsAffine 
   have hbot : (Y.isoSpec.hom y).asIdeal = ⊥ := by
     let := hY.toField
     exact Ideal.eq_bot_of_prime _
-  show RingHom.ker h.appTop.hom = Ideal.comap h.appTop.hom (Y.isoSpec.hom y).asIdeal
+  change RingHom.ker h.appTop.hom = Ideal.comap h.appTop.hom (Y.isoSpec.hom y).asIdeal
   rw [hbot, RingHom.ker_eq_comap_bot]
 
 
@@ -455,11 +455,11 @@ theorem exists_ker_residuePoint_eq (c : OpenAffineChartSquare f)
   rw [ker_appTop_eq_asIdeal_isoSpec (isField_siteObject (c.O.ι z)) _ y]
   have hy : c.residuePoint (c.O.ι z) hz y = z := by
     apply c.O.ι.isOpenEmbedding.injective
-    show (c.residueLift (c.O.ι z) hz ≫ c.O.ι) y = c.O.ι z
+    change (c.residueLift (c.O.ι z) hz ≫ c.O.ι) y = c.O.ι z
     rw [c.residueLift_fac]
     exact Scheme.fromSpecResidueField_apply _ _
   rw [hy]
-  show (((chartScheme c.toChartDiagram.V).isoSpec.inv ≫
+  change (((chartScheme c.toChartDiagram.V).isoSpec.inv ≫
     (chartScheme c.toChartDiagram.V).isoSpec.hom) p).asIdeal = p.asIdeal
   rw [Iso.inv_hom_id]
   rfl

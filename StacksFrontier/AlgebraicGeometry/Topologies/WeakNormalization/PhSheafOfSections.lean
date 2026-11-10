@@ -166,7 +166,7 @@ theorem isReduced_absoluteWeakNormalization (X : Scheme.{u}) :
   have hw : m.hom.left ≫ (ι ≫ π) = π := m.hom.w
   let n : initial (UniversalHomeomorphismOver X) ⟶ initial (UniversalHomeomorphismOver X) :=
     ObjectProperty.homMk (Over.homMk (m.hom.left ≫ ι) (by
-      show (m.hom.left ≫ ι) ≫ π = π
+      change (m.hom.left ≫ ι) ≫ π = π
       rw [Category.assoc]
       exact hw))
   have hsplit : m.hom.left ≫ ι = 𝟙 Y :=
@@ -239,11 +239,11 @@ theorem absoluteWeakNormalizationMap_comp_lift {X Y Z : Scheme.{u}} (f : Y ⟶ X
   let rhs := pullback.lift Y.absoluteWeakNormalizationHom g hg.symm
   let hmaps : initial (UniversalHomeomorphismOver Y) ⟶ target :=
     ObjectProperty.homMk (Over.homMk lhs (by
-      show lhs ≫ pullback.fst f q = Y.absoluteWeakNormalizationHom
+      change lhs ≫ pullback.fst f q = Y.absoluteWeakNormalizationHom
       rw [pullback.lift_fst]))
   let hmaps' : initial (UniversalHomeomorphismOver Y) ⟶ target :=
     ObjectProperty.homMk (Over.homMk rhs (by
-      show rhs ≫ pullback.fst f q = Y.absoluteWeakNormalizationHom
+      change rhs ≫ pullback.fst f q = Y.absoluteWeakNormalizationHom
       rw [pullback.lift_fst]))
   have h := congrArg (fun k : initial (UniversalHomeomorphismOver Y) ⟶ target =>
     k.hom.left ≫ pullback.snd f q) (initial.hom_ext hmaps hmaps')
@@ -407,7 +407,7 @@ theorem isIso_absoluteWeakNormalizationMap_pullback_open {X U V : Scheme.{u}} (i
       _ = r z := hw
   have heRange : e.opensRange = ⊤ := by
     apply SetLike.coe_injective
-    show Set.range e = Set.univ
+    change Set.range e = Set.univ
     exact Set.range_eq_univ.mpr heSurj
   exact isIso_of_isOpenImmersion_of_opensRange_eq_top e heRange
 
@@ -443,7 +443,7 @@ theorem absoluteWeakNormalizationMap_pullback_open_appTop {X U V : Scheme.{u}} (
     congr 1
     exact pullback.lift_snd _ _ _
   refine ((forget CommRingCat).mapIso (asIso e.appTop)).toEquiv.injective ?_
-  show ((pullback.fst π₁ π₂).appTop ≫ e.appTop) s = ((pullback.snd π₁ π₂).appTop ≫ e.appTop) t
+  change ((pullback.fst π₁ π₂).appTop ≫ e.appTop) s = ((pullback.snd π₁ π₂).appTop ≫ e.appTop) t
   rw [he₁, he₂]
   exact h
 
@@ -500,7 +500,7 @@ theorem existsUnique_zariski_glue_morphism {X : Scheme.{u}} {I : Type*} {Y : I �
     GrothendieckTopology.Subcanonical.isSheaf_of_isRepresentable P
   have hsf := hP.isSheafFor (Presieve.ofArrows (fun i => (Y i).absoluteWeakNormalization) π)
     (Precoverage.generate_mem_toGrothendieck hcov)
-  rw [Presieve.isSheafFor_ofArrows_iff_bijective_toCompabible] at hsf
+  rw [Presieve.isSheafFor_ofArrows_iff_bijective_toCompatible] at hsf
   have hcompat' : (i : I) → (j : I) → ∀ {W : Scheme.{u}}
       (a : W ⟶ (Y i).absoluteWeakNormalization) (b : W ⟶ (Y j).absoluteWeakNormalization),
       a ≫ π i = b ≫ π j → a ≫ g i = b ≫ g j := by
@@ -538,7 +538,7 @@ theorem existsUnique_zariski_glue_section {X : Scheme.{u}} {I : Type*} {Y : I �
   have hgcompat : ∀ i j, pullback.fst (π i) (π j) ≫ g i = pullback.snd (π i) (π j) ≫ g j := by
     intro i j
     refine AffineSpace.hom_ext ?_ ?_
-    · show (pullback.fst (π i) (π j) ≫ sectionToAffineLine (f i) (s i)) ≫
+    · change (pullback.fst (π i) (π j) ≫ sectionToAffineLine (f i) (s i)) ≫
         (AffineSpace.{u} (ULift.{u} (Fin 1)) X ↘ X) =
         (pullback.snd (π i) (π j) ≫ sectionToAffineLine (f j) (s j)) ≫
         (AffineSpace.{u} (ULift.{u} (Fin 1)) X ↘ X)
@@ -562,20 +562,20 @@ theorem existsUnique_zariski_glue_section {X : Scheme.{u}} {I : Type*} {Y : I �
   let k : ULift.{u} (Fin 1) := ULift.up 0
   refine ⟨g₀.appTop (AffineSpace.coord X k), fun i => ?_, fun s₁ hs₁ => ?_⟩
   · have h := congrArg (fun m => m.appTop (AffineSpace.coord X k)) (hg₀ i)
-    show (π i).appTop (g₀.appTop (AffineSpace.coord X k)) = s i
+    change (π i).appTop (g₀.appTop (AffineSpace.coord X k)) = s i
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.coe_comp,
       Function.comp_apply, g, sectionToAffineLine_appTop_coord] using h
   · let g₁ := sectionToAffineLine (𝟙 X) s₁
     have hg₁ (i : I) : π i ≫ g₁ = g i := by
       refine AffineSpace.hom_ext ?_ ?_
-      · show (π i ≫ sectionToAffineLine (𝟙 X) s₁) ≫
+      · change (π i ≫ sectionToAffineLine (𝟙 X) s₁) ≫
           (AffineSpace.{u} (ULift.{u} (Fin 1)) X ↘ X) =
           sectionToAffineLine (f i) (s i) ≫ (AffineSpace.{u} (ULift.{u} (Fin 1)) X ↘ X)
         rw [Category.assoc, sectionToAffineLine, AffineSpace.homOfVector_over,
           sectionToAffineLine, AffineSpace.homOfVector_over]
         simpa using absoluteWeakNormalizationMap_spec (f i)
       · intro j
-        show (π i ≫ sectionToAffineLine (𝟙 X) s₁).appTop (AffineSpace.coord X j) =
+        change (π i ≫ sectionToAffineLine (𝟙 X) s₁).appTop (AffineSpace.coord X j) =
           (sectionToAffineLine (f i) (s i)).appTop (AffineSpace.coord X j)
         rw [sectionToAffineLine_comp, AffineSpace.homOfVector_appTop_coord,
           sectionToAffineLine_appTop_coord]
@@ -615,7 +615,7 @@ theorem isSheafFor_absoluteWeakNormalizationSections_of_zariskiCover {X : Scheme
   classical
   rw [Scheme.ofArrows_mem_precoverage_iff] at hcover
   obtain ⟨hcover, hf⟩ := hcover
-  rw [Presieve.isSheafFor_ofArrows_iff_bijective_toCompabible]
+  rw [Presieve.isSheafFor_ofArrows_iff_bijective_toCompatible]
   constructor
   · intro s t hst
     have hlocal (i : I) : (absoluteWeakNormalizationMap (f i)).appTop s =
@@ -787,7 +787,7 @@ theorem existsUnique_properSurjective_glue_section {X Y : Scheme.{u}} [IsAffine 
     simpa only [q, e, sectionToAffineLine, Category.assoc, Scheme.Hom.toImage_imageι_assoc] using
       AffineSpace.homOfVector_over (Y.absoluteWeakNormalizationHom ≫ f) (fun _ => s)
   have ht : (absoluteWeakNormalizationMap f).appTop t = s := by
-    show (absoluteWeakNormalizationMap f ≫ g ≫ e.imageι).appTop
+    change (absoluteWeakNormalizationMap f ≫ g ≫ e.imageι).appTop
       (AffineSpace.coord X (ULift.up 0)) = s
     rw [← Category.assoc, hge, Scheme.Hom.toImage_imageι]
     exact sectionToAffineLine_appTop_coord f s _
@@ -882,7 +882,7 @@ theorem isSheaf_absoluteWeakNormalizationSections (B : BigPHSite.{u}) (S : Schem
   refine Presheaf.isSheaf_of_isSheaf_comp (BigPHOver.topology B S hS)
     (absoluteWeakNormalizationSections B S hS) (forget CommRingCat.{u}) ?_
   refine (isSheaf_iff_isSheaf_of_type _ _).mpr ?_
-  show Presieve.IsSheaf (BigPHOver.topology B S hS) P
+  change Presieve.IsSheaf (BigPHOver.topology B S hS) P
   refine (isSheaf_iff_zariski_and_properSurjective B S hS P).mpr ?_
   have hz : IsZariskiSheaf B S hS P := by
     intro X E hE

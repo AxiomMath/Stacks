@@ -173,7 +173,7 @@ public theorem isEtaleChart_of_isIso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     rwa [h.isoIsPullback_hom_snd _ _ h'] at h2
   have _ : IsIso snd := isIso_of_reflects_iso snd yoneda
   have _ : IsIso ((BigFppfOver.toScheme B S hS).map snd) := inferInstance
-  show Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- The étale chart of `X` presented by an isomorphism `X ≅ yoneda.obj T`: the representing

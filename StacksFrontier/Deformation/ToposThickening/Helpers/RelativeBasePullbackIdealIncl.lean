@@ -251,6 +251,7 @@ theorem sectionwiseIsoOfRangeEq_trans_hom_comp {C : Type*} [Category C]
     (sectionwiseIsoOfRangeEq ι₁ ι₂ h₁ h₂ h ≪≫ e).hom ≫ m = ι₁ := by
   rw [Iso.trans_hom, Category.assoc, hm, sectionwiseIsoOfRangeEq_hom_comp]
 
+omit [X'.J.HasSheafCompose (forget CommRingCat.{w})] [HasWeakSheafify X'.J AddCommGrpCat.{w}] in
 /-- **`𝒥̃ ≅ f'⁻¹𝒥` is compatible with the inclusions into `f'⁻¹O_{ℬ'}`.** -/
 theorem relBaseIdealIso_hom_comp_map_incl (ht : FirstOrderThickening t) :
     (relBaseIdealIso t f' ht).hom ≫
@@ -307,7 +308,8 @@ private theorem eqToHom_comp_restrictScalars_map {C : Type*} [Category C]
   subst h
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **The identification of the pullback along the projection with the inverse image is
 natural.** -/
 theorem relBaseProjectionPullbackIso_inv_naturality
@@ -324,7 +326,8 @@ theorem relBaseProjectionPullbackIso_inv_naturality
   exact (whisker_eq _ h1.symm).trans ((Category.assoc _ _ _).symm.trans
     ((eq_whisker h2 _).trans (Category.assoc _ _ _)))
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- The identification of the pullback along the projection with the inverse image is the
 comparison of the two left adjoints of restriction of scalars along the structure map of the
 projection, followed by `restrictScalars (𝟙) = id`. -/
@@ -343,7 +346,8 @@ theorem relBaseProjectionPullbackIso_hom_eq
           (relBaseProjection_asIso_inv f')) :=
   rfl
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- `relBaseProjectionPullbackIso_hom_eq`, followed by a morphism. -/
 theorem relBaseProjectionPullbackIso_hom_comp
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf S'.O))
@@ -363,7 +367,7 @@ theorem relBaseProjectionPullbackIso_hom_comp
           (relBaseProjection_asIso_inv f')) ≫ k :=
   (eq_whisker (relBaseProjectionPullbackIso_hom_eq f' M) k).trans (Category.assoc _ _ _)
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **The identification of the pullback of `O_{ℬ'}` along the projection with `f'⁻¹O_{ℬ'}`,
 transposed along the extension of scalars**: it is the identity `f'⁻¹1 = 1` followed by the
 inverse-image form of the (identity) structure map of the projection. -/
@@ -419,7 +423,7 @@ theorem relBaseProjection_fSharpAdjunction_homEquiv_pullbackIso_unit
       (isIso_relBaseProjection_fSharpInverseImage f'))
     (relBaseProjection_asIso_inv f') _ _
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **The identification `(projection)^*O_{ℬ'} ≅ f'⁻¹O_{ℬ'}` against the comparison
 `(projection)^*O_{ℬ'} ⟶ f'⁻¹O_{ℬ'}`**: the identification followed by `f'⁻¹1 = 1` is the
 comparison attached to the projection. -/
@@ -440,7 +444,7 @@ theorem relBaseProjectionPullbackIso_hom_comp_pullbackModuleUnitIso_inv :
         (relBaseProjection f') (relBaseProjection f').toModulesHom_eq_toRingedToposModulesHom
         rfl).symm)
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
+omit [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **Read through `(projection)^*O_{ℬ'} ≅ f'⁻¹O_{ℬ'}`, the comparison attached to the projection
 is the identity `f'⁻¹1 = 1`.** -/
 theorem relBaseProjectionPullbackIso_inv_comp_pullbackUnitStructureMap :
@@ -456,6 +460,7 @@ theorem relBaseProjectionPullbackIso_inv_comp_pullbackUnitStructureMap :
   (whisker_eq _ (relBaseProjectionPullbackIso_hom_comp_pullbackModuleUnitIso_inv f').symm).trans
     (Iso.inv_hom_id_assoc _ _)
 
+omit [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **`𝒥̃ ⟶ f'⁻¹𝒥 ≅ (projection)^*𝒥`, followed by the comparison of the projection, is the
 inclusion of `𝒥̃`.** -/
 theorem relBaseIdealIso_hom_comp_pullbackIso_inv_comp_pullbackUnitStructureMap
@@ -496,6 +501,7 @@ private theorem map_comp_comp_map_comp_comp {C D : Type*} [Category C] [Category
     G.map (a ≫ b) ≫ G.map c ≫ G.map (d ≫ e) ≫ z = G.map (a ≫ b ≫ c ≫ d ≫ e) ≫ z := by
   simp only [Functor.map_comp, Category.assoc]
 
+omit [X'.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- **`f̃'^*` applied to `𝒥̃ ⟶ (projection)^*𝒥 ⟶ (projection)^*O_{ℬ'} ⟶ f'⁻¹O_{ℬ'}`, followed by
 the comparison of `f̃'`, is `f̃'^*` of the inclusion of `𝒥̃` followed by that comparison.** -/
 theorem relBasePullbackIdealIso_chase_tail (ht : FirstOrderThickening t) :

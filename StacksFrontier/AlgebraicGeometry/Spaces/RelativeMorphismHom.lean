@@ -155,7 +155,7 @@ theorem IsSheaf.existsUnique_comp_eq {J : GrothendieckTopology C} {G : Cᵒᵖ �
         refine hinj' _ _ ?_
         rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hsec, hsec,
           ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, hcomm]
-      show G.map e₁.op (c.app (op W₁) (sec W₁ g₁ h₁)) =
+      change G.map e₁.op (c.app (op W₁) (sec W₁ g₁ h₁)) =
         G.map e₂.op (c.app (op W₂) (sec W₂ g₂ h₂))
       rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply, hAA]
     obtain ⟨t, ht, htu⟩ := hG' R hR fam hcompat
@@ -177,7 +177,7 @@ theorem IsSheaf.existsUnique_comp_eq {J : GrothendieckTopology C} {G : Cᵒᵖ �
         obtain ⟨Y⟩ := Y
         obtain ⟨Z⟩ := Z
         ext pe
-        show (key Z (P.map f pe)).choose = G.map f ((key Y pe).choose)
+        change (key Z (P.map f pe)).choose = G.map f ((key Y pe).choose)
         refine ((key Z (P.map f pe)).choose_spec.2 _ ?_).symm
         intro W' g ae hae
         have h1 : m.app (op W') ae = P.map (g ≫ f.unop).op pe := by
@@ -189,14 +189,14 @@ theorem IsSheaf.existsUnique_comp_eq {J : GrothendieckTopology C} {G : Cᵒᵖ �
     obtain ⟨W⟩ := W
     apply ConcreteCategory.ext
     ext ae
-    show (key W (m.app (op W) ae)).choose = c.app (op W) ae
+    change (key W (m.app (op W) ae)).choose = c.app (op W) ae
     simpa using (key W (m.app (op W) ae)).choose_spec.1 (𝟙 W) ae (by simp)
   · intro b' hb'
     refine NatTrans.ext (funext fun W => ?_)
     obtain ⟨W⟩ := W
     apply ConcreteCategory.ext
     ext pe
-    show b'.app (op W) pe = (key W pe).choose
+    change b'.app (op W) pe = (key W pe).choose
     refine (key W pe).choose_spec.2 _ ?_
     intro W' g ae hae
     rw [← NatTrans.naturality_apply, ← hae]
@@ -283,7 +283,7 @@ theorem RelativeMorphism.eval_restrict {T T' W : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   have h₀ : γ ≫ t ≫ p.base = s ≫ z := h
   have key : pullback.lift γ s h₀ ≫ pullback.mapFst t p.base z = pullback.lift (γ ≫ t) s h' :=
     pullback.lift_comp_mapFst t p.base z γ s h₀ h'
-  show pullback.lift γ s h ≫ (RelativeMorphism.restrict t p).morphism =
+  change pullback.lift γ s h ≫ (RelativeMorphism.restrict t p).morphism =
     pullback.lift (γ ≫ t) s h' ≫ p.morphism
   rw [RelativeMorphism.restrict_morphism_mapFst]
   exact (Category.assoc _ _ _).symm.trans (congrArg (fun m => m ≫ p.morphism) key)
@@ -419,7 +419,7 @@ theorem relativeHomBase_app {T : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (t : T.obj (op V)) :
     (relativeHomBase v).app (op V) t =
       yonedaEquiv (relativeHomSections B S hS Z X Q z x hZ hX hQ V (v.app (op V) t)).base := by
-  show (relativeHomProjection B S hS Z X Q z x hZ hX hQ).app (op V) (v.app (op V) t) = _
+  change (relativeHomProjection B S hS Z X Q z x hZ hX hQ).app (op V) (v.app (op V) t) = _
   exact relativeHomProjection_app B S hS Z X Q z x hZ hX hQ V (v.app (op V) t)
 
 /-- The pair which a morphism into the relative morphism functor produces over a scheme has the
@@ -589,7 +589,7 @@ theorem relativeMorphismOfHom_restrict {T : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
     rw [hvt, relativeHomSections_base_eq]
     refine (yonedaEquiv (X := V) (F := Q)).injective ?_
     rw [Equiv.apply_symm_apply, RelativeMorphism.restrict_base]
-    show yonedaEquiv (η ≫ relativeHomBase v) = _
+    change yonedaEquiv (η ≫ relativeHomBase v) = _
     rw [yonedaEquiv_comp]
   refine RelativeMorphism.ext_of_eval hbase fun W γ s hp hq => ?_
   have hγ : γ = yoneda.map (yonedaEquiv γ) := (yoneda_map_yonedaEquiv γ).symm
@@ -712,7 +712,7 @@ theorem relativeHomEquiv_naturality {T U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
       RelativeMorphism.restrict f
         (relativeHomEquiv B S hS Z X Q z x hZ hX hQ T hT v) := by
   refine RelativeMorphism.ext_of_restrict fun V η => ?_
-  show RelativeMorphism.restrict η (relativeMorphismOfHom (f ≫ v)) =
+  change RelativeMorphism.restrict η (relativeMorphismOfHom (f ≫ v)) =
     RelativeMorphism.restrict η (RelativeMorphism.restrict f (relativeMorphismOfHom v))
   rw [relativeMorphismOfHom_restrict, RelativeMorphism.restrict_comp,
     relativeMorphismOfHom_restrict, Category.assoc]
@@ -728,7 +728,7 @@ theorem homOfRelativeMorphism_relativeMorphismOfHom
   refine NatTrans.ext (funext fun V => ?_)
   obtain ⟨V⟩ := V
   ext t
-  show (relativeHomSections B S hS Z X Q z x hZ hX hQ V).symm
+  change (relativeHomSections B S hS Z X Q z x hZ hX hQ V).symm
       (RelativeMorphism.restrict (yonedaEquiv.symm t) (relativeMorphismOfHom v)) =
     v.app (op V) t
   rw [relativeMorphismOfHom_restrict, Equiv.symm_apply_apply, yonedaEquiv_comp,
@@ -746,7 +746,7 @@ theorem relativeMorphismOfHom_homOfRelativeMorphism
       (relativeHomSections B S hS Z X Q z x hZ hX hQ V).symm
         (RelativeMorphism.restrict η p) := by
     rw [yonedaEquiv_comp]
-    show (relativeHomSections B S hS Z X Q z x hZ hX hQ V).symm
+    change (relativeHomSections B S hS Z X Q z x hZ hX hQ V).symm
       (RelativeMorphism.restrict (yonedaEquiv.symm (yonedaEquiv η)) p) = _
     rw [Equiv.symm_apply_apply]
   rw [hη, Equiv.apply_symm_apply]
@@ -933,10 +933,10 @@ theorem existsUnique_restrict_functorInclusion_eq
     obtain ⟨w, -, hu⟩ := existsUnique_comp_mapFst_functorInclusion_eq hQ' R hR a
       (pullback.snd (R.functorInclusion ≫ a) z ≫ z)
     refine (hu (b ≫ x) ?_).trans (hu (pullback.snd a z ≫ z) ?_).symm
-    · show pullback.mapFst R.functorInclusion a z ≫ b ≫ x =
+    · change pullback.mapFst R.functorInclusion a z ≫ b ≫ x =
         pullback.snd (R.functorInclusion ≫ a) z ≫ z
       rw [← Category.assoc, hb, RelativeMorphism.eval_comp]
-    · show pullback.mapFst R.functorInclusion a z ≫ pullback.snd a z ≫ z =
+    · change pullback.mapFst R.functorInclusion a z ≫ pullback.snd a z ≫ z =
         pullback.snd (R.functorInclusion ≫ a) z ≫ z
       rw [← Category.assoc, pullback.mapFst_snd]
   have hp : RelativeMorphism.restrict R.functorInclusion

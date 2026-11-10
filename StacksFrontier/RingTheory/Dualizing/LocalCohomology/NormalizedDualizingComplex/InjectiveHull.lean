@@ -113,7 +113,7 @@ private theorem scalarHomComplexMap_precomp (A : Type u) [CommRing A]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  show ((Cochain.ofHom f).comp z (zero_add q)).map
+  change ((Cochain.ofHom f).comp z (zero_add q)).map
       (uliftModuleEquivalence.{u, max v u, v} A).functor = _
   exact (Cochain.map_comp _ (Cochain.ofHom f) z (zero_add q)
       (uliftModuleEquivalence.{u, max v u, v} A).functor).trans
@@ -216,7 +216,7 @@ private theorem highUniverse_precomp_postcomp (A : Type u) [CommRing A]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  show ((Cochain.ofHom f).comp z (zero_add q)).comp
+  change ((Cochain.ofHom f).comp z (zero_add q)).comp
       (Cochain.ofHom g) (add_zero q) =
     (Cochain.ofHom f).comp (z.comp (Cochain.ofHom g) (add_zero q)) (zero_add q)
   exact Cochain.comp_assoc (Cochain.ofHom f) z (Cochain.ofHom g)
@@ -459,7 +459,7 @@ private theorem derivedHom_maximalIdealPower_modelIso_naturality
   have h₂ := highUniverseDerivedHomModelIso_precomp A J s
   simp only [Functor.comp_map, quotientPowerFiniteLengthFunctor,
     highUniverseHomPowersComplex, Functor.ofSequence_map_homOfLE_succ]
-  show d.hom.map
+  change d.hom.map
       (show (Opposite.op ((DerivedCategory.singleFunctor _ 0).obj M), K) ⟶
         (Opposite.op ((DerivedCategory.singleFunctor _ 0).obj M'), K) from
         (((DerivedCategory.singleFunctor _ 0).map t).op, 𝟙 _)) ≫

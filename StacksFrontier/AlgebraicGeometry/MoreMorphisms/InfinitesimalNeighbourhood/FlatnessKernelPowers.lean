@@ -64,7 +64,7 @@ theorem flat_stalkMap_of_flat_pullbacks_of_ker_eq_pow
   let : Algebra R A := (f.stalkMap x).hom.toAlgebra
   let q := eqToHom (congrArg S.presheaf.stalk (hz 0)) ≫ (g 0).stalkMap (z 0)
   let I := RingHom.ker q.hom
-  show Module.Flat R A
+  change Module.Flat R A
   refine flat_ringHom_of_flat_quotient_pow_local I (Ideal.map_le_iff_le_comap.mpr
     ((IsLocalRing.le_maximalIdeal (RingHom.ker_ne_top q.hom)).trans_eq
       (IsLocalRing.maximalIdeal_comap (f.stalkMap x).hom).symm)) fun n => ?_
@@ -89,7 +89,7 @@ private lemma ker_ideal_top_spec_quotient {A : Type u} [CommRing A] (K : Ideal A
       (Ideal.Quotient.mk K).comp (e : _ →+* A) :=
     congrArg CommRingCat.Hom.hom
       (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (Ideal.Quotient.mk K)))
-  show RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).appTop.hom = _
+  change RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).appTop.hom = _
   have hk : RingHom.ker (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).appTop.hom =
       RingHom.ker ((e' : _ →+* (A ⧸ K)).comp
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).appTop.hom) := by
@@ -121,7 +121,7 @@ theorem flat_stalkMap_of_flat_pullbacks_spec_quotient_pow {X : Scheme.{u}}
       Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (hle n)⟩
   have hz : ∀ n, f x = g n (z n) := fun n => by
     apply PrimeSpectrum.ext
-    show p.asIdeal = Ideal.comap (Ideal.Quotient.mk (J ^ (n + 1)))
+    change p.asIdeal = Ideal.comap (Ideal.Quotient.mk (J ^ (n + 1)))
       (p.asIdeal.map (Ideal.Quotient.mk (J ^ (n + 1))))
     rw [Ideal.comap_map_of_surjective' _ Ideal.Quotient.mk_surjective, sup_eq_left.mpr (hle n)]
   refine flat_stalkMap_of_flat_pullbacks_of_ker_eq_pow f g hflat x z hz fun n => ?_

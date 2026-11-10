@@ -112,7 +112,8 @@ theorem finite_of_ne_zero_hom_of_orthogonal [Finite Λ]
   have hcomm : ∀ (G : Sheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)) (ψ : N ⟶ G)
       (σ : EtaleFundamentalGroup X x) (v : V),
       ((monodromyAction x).map ψ.hom).hom.hom ((((monodromyAction x).obj N.obj).ρ σ).asHom.hom v) =
-        (((monodromyAction x).obj G.obj).ρ σ).asHom.hom (((monodromyAction x).map ψ.hom).hom.hom v) :=
+        (((monodromyAction x).obj G.obj).ρ σ).asHom.hom
+          (((monodromyAction x).map ψ.hom).hom.hom v) :=
     fun G ψ σ v ↦ ConcreteCategory.congr_hom (((monodromyAction x).map ψ.hom).comm σ) v
   let gA : (monodromyAction x).obj (F i).obj ⟶ (monodromyAction x).obj (F j).obj :=
     { hom := ModuleCat.ofHom g

@@ -35,7 +35,8 @@ This is the Hodge analogue of Tag 0FMX. The proof:
 
 @[expose] public noncomputable section
 
-open CategoryTheory AlgebraicGeometry Stacks.WeilCohomology Stacks.WeilCohomology.SmoothProjectiveScheme
+open CategoryTheory AlgebraicGeometry Stacks.WeilCohomology
+  Stacks.WeilCohomology.SmoothProjectiveScheme
 
 universe u
 
@@ -53,7 +54,7 @@ theorem hodge_divisorAxiom : (hodgeFirstChernClassData k).DivisorAxiom := by
     ((hodgeFirstChernClassData k).cup X) 1 a _).trans ?_
   refine Eq.trans ?_
     (tateTwistCoordinates (V := hodgeAlgebraOf X) (LinearEquiv.refl k k) 1).map_zero.symm
-  show (show hodgeAlgebraOf X from a) *
+  change (show hodgeAlgebraOf X from a) *
     (tateTwistCoordinates (V := hodgeAlgebraOf X) (LinearEquiv.refl k k) 1)
     ((tateTwistCoordinates (V := hodgeAlgebraOf X) (LinearEquiv.refl k k) 1).symm
       ((DirectSum.of (hodgePiece (formsAlgebras X.obj.hom)) 2)

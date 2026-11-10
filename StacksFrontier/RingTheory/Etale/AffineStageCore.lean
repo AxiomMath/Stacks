@@ -152,7 +152,7 @@ theorem exists_eqStage_of_mem_eqStage_iSup (x : C ⧸ ⨆ i, K i)
     exact hx
   obtain ⟨i, hi⟩ := (map_iSup_mem_iff_exists s K hK _).1 hx'
   refine ⟨i, ⟨Ideal.Quotient.mk (K i) c, ?_⟩, rfl⟩
-  show Ideal.Quotient.mk _ (s c) = Ideal.Quotient.mk _ (t c)
+  change Ideal.Quotient.mk _ (s c) = Ideal.Quotient.mk _ (t c)
   exact Ideal.Quotient.eq.2 hi
 
 include hK in
@@ -199,7 +199,7 @@ theorem range_eq_eqLocus_of_bijective [Module.FaithfullyFlat A D] (σ τ : D →
     Set.range (algebraMap A D) = σ.eqLocus τ := by
   rw [← (Algebra.IsEffective.of_faithfullyFlat (R := A) (S := D)).eqLocus_includeLeft_includeRight]
   ext d
-  show d ⊗ₜ[A] (1 : D) = (1 : D) ⊗ₜ[A] d ↔ σ d = τ d
+  change d ⊗ₜ[A] (1 : D) = (1 : D) ⊗ₜ[A] d ↔ σ d = τ d
   constructor
   · intro h
     have := congrArg (tensorLift σ τ hστ) h
@@ -436,7 +436,7 @@ theorem bijective_quotientMap_iff_bijective_tensorLift :
   let e₁' : (R ⧸ J) ≃ₐ[A'] D :=
     { e₁ with
       commutes' := fun a => by
-        show e₁ (algebraMap A' (R ⧸ J) a) = _
+        change e₁ (algebraMap A' (R ⧸ J) a) = _
         exact he₁ a }
   let ε : (R ⊗[A'] B) ⧸ J.map (algebraMap R (R ⊗[A'] B)) ≃+* D ⊗[A'] B :=
     ((Algebra.TensorProduct.quotientTensorEquiv (R := A') R B R J).symm.toRingEquiv).trans
@@ -450,7 +450,7 @@ theorem bijective_quotientMap_iff_bijective_tensorLift :
       apply e₂.injective
       simp only [RingHom.comp_apply, Ideal.quotientMap_mk, RingEquiv.toRingHom_eq_coe,
         RingEquiv.coe_toRingHom, RingEquiv.apply_symm_apply]
-      show e₂ (Ideal.Quotient.mk _ (φ (r ⊗ₜ 1))) =
+      change e₂ (Ideal.Quotient.mk _ (φ (r ⊗ₜ 1))) =
         tensorLift σ τ hστ (ε (Ideal.Quotient.mk _ (r ⊗ₜ 1)))
       have : φ (r ⊗ₜ 1) = algebraMap R Q r := by
         have h1 : (r ⊗ₜ (1 : B) : R ⊗[A'] B) = r • (1 : R ⊗[A'] B) := by
@@ -462,7 +462,7 @@ theorem bijective_quotientMap_iff_bijective_tensorLift :
       apply e₂.injective
       simp only [RingHom.comp_apply, Ideal.quotientMap_mk, RingEquiv.toRingHom_eq_coe,
         RingEquiv.coe_toRingHom, RingEquiv.apply_symm_apply]
-      show e₂ (Ideal.Quotient.mk _ (φ (1 ⊗ₜ b))) =
+      change e₂ (Ideal.Quotient.mk _ (φ (1 ⊗ₜ b))) =
         tensorLift σ τ hστ (ε (Ideal.Quotient.mk _ (1 ⊗ₜ b)))
       rw [← hτ]
       simp [ε, e₁']
@@ -525,7 +525,7 @@ include hK in
 /-- **The coordinates of a presentation lift to a stage.** A ring map from a finitely presented
 algebra over the stagewise equalizer at `m` to `C∞`, which is the inclusion on the equalizer,
 factors through `C ⧸ K k` for some `k ≥ m`. -/
-theorem exists_stage_lift {m : ι} {κ : Type} [Fintype κ]
+theorem exists_stage_lift {m : ι} {κ : Type} [Finite κ]
     (q : κ → MvPolynomial κ (eqStage s t (K m) (hinv m)))
     (θ : (MvPolynomial κ (eqStage s t (K m) (hinv m)) ⧸ Ideal.span (Set.range q)) →+*
       C ⧸ ⨆ i, K i)
@@ -538,6 +538,7 @@ theorem exists_stage_lift {m : ι} {κ : Type} [Fintype κ]
         Ideal.Quotient.factor (hK hmk) (a : C ⧸ K m)) ∧
       (Ideal.Quotient.factor (le_iSup K k)).comp h = θ := by
   classical
+  have := Fintype.ofFinite κ
   choose c hc using fun ν : κ => Ideal.Quotient.mk_surjective
     (θ (Ideal.Quotient.mk _ (MvPolynomial.X ν)))
   let H : MvPolynomial κ (eqStage s t (K m) (hinv m)) →+* C ⧸ K m :=
@@ -568,12 +569,12 @@ theorem exists_stage_lift {m : ι} {κ : Type} [Fintype κ]
     rw [SetLike.mem_coe, RingHom.mem_ker, RingHom.comp_apply,
       ← Ideal.Quotient.factor_comp_apply (hK (hkν ν)) (hK (hνk ν)), hkν0 ν, map_zero]
   refine ⟨k, hmk, Ideal.Quotient.lift _ _ fun x hx => hker hx, fun a => ?_, ?_⟩
-  · show Ideal.Quotient.factor (hK hmk) (H (MvPolynomial.C a)) = _
+  · change Ideal.Quotient.factor (hK hmk) (H (MvPolynomial.C a)) = _
     simp [H]
   · apply Ideal.Quotient.ringHom_ext
     rw [← hH]
     refine RingHom.ext fun p => ?_
-    show Ideal.Quotient.factor (le_iSup K k) (Ideal.Quotient.factor (hK hmk) (H p)) =
+    change Ideal.Quotient.factor (le_iSup K k) (Ideal.Quotient.factor (hK hmk) (H p)) =
       Ideal.Quotient.factor (le_iSup K m) (H p)
     exact Ideal.Quotient.factor_comp_apply _ _ _
 
@@ -646,7 +647,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
   have hθ : ∀ a : eqStage s t (K m) (hinv m), θ (algebraMap (eqStage s t (K m) (hinv m)) _ a) =
       Ideal.Quotient.factor (le_iSup K m) (a : C ⧸ K m) := by
     intro a
-    show e (Ideal.Quotient.mk _ (MvPolynomial.map _ (MvPolynomial.C a))) = _
+    change e (Ideal.Quotient.mk _ (MvPolynomial.map _ (MvPolynomial.C a))) = _
     rw [MvPolynomial.map_C, ← algebraMap_colimMap s t K hinv A hst hbij m a]
     exact e.commutes _
   obtain ⟨k₀, hmk₀, h₀, hh₀, hcomp⟩ := exists_stage_lift s t K hK hinv q θ hθ
@@ -665,7 +666,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
       →ₐ[eqStage s t (K m) (hinv m)] E ⧸ (K k₀).map (algebraMap C E) :=
     { (tBar s t (K k₀) (hinv k₀)).comp h₀ with
       commutes' := fun a => by
-        show ((tBar s t (K k₀) (hinv k₀)).comp h₀) (algebraMap (eqStage s t (K m) (hinv m)) _ a) =
+        change ((tBar s t (K k₀) (hinv k₀)).comp h₀) (algebraMap (eqStage s t (K m) (hinv m)) _ a) =
           algebraMap (C ⧸ K k₀) (E ⧸ (K k₀).map (algebraMap C E))
             (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m))
         rw [RingHom.comp_apply, hh₀ a, hRQ]
@@ -696,7 +697,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
         ((tBar s t J' hJinv).comp ((Ideal.Quotient.factor hJ).comp h₀)).comp
           (algebraMap _ _) := by
       ext a
-      show sBar s J' (Ideal.Quotient.factor hJ (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m))) =
+      change sBar s J' (Ideal.Quotient.factor hJ (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m))) =
         tBar s t J' hJinv (Ideal.Quotient.factor hJ (h₀ (algebraMap _ _ a)))
       rw [hh₀ a, Ideal.Quotient.factor_comp_apply]
       exact sBar_factor_eq_tBar_factor s t _ (hinv m) hJinv a
@@ -723,7 +724,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
       (fun r => ?_) (fun b => ?_)
     · rw [he₁, he₂, hRQ, sBar_factor]
     · rw [he₂]
-      show tBar s t J' hJinv (Ideal.Quotient.factor hJ (h₀ b)) =
+      change tBar s t J' hJinv (Ideal.Quotient.factor hJ (h₀ b)) =
         factorE s hJ (φ (1 ⊗ₜ b))
       rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
       exact tBar_factor s t hJ (hinv k₀) hJinv (h₀ b)
@@ -752,7 +753,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
     let : Algebra (eqStage s t (K m) (hinv m)) A := (colimMap s t K hinv A hst hbij m).toAlgebra
     have : IsScalarTower (eqStage s t (K m) (hinv m)) A (C ⧸ ⨆ i, K i) :=
       IsScalarTower.of_algebraMap_eq fun a => by
-        show Ideal.Quotient.factor (le_iSup K k₀)
+        change Ideal.Quotient.factor (le_iSup K k₀)
             (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m)) =
           algebraMap A _ (colimMap s t K hinv A hst hbij m a)
         rw [algebraMap_colimMap, Ideal.Quotient.factor_comp_apply]
@@ -760,7 +761,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
         →ₐ[eqStage s t (K m) (hinv m)] C ⧸ ⨆ i, K i :=
       { (Ideal.Quotient.factor (le_iSup K k₀)).comp h₀ with
         commutes' := fun a => by
-          show Ideal.Quotient.factor (le_iSup K k₀) (h₀ (algebraMap _ _ a)) = _
+          change Ideal.Quotient.factor (le_iSup K k₀) (h₀ (algebraMap _ _ a)) = _
           rw [hh₀ a]
           rfl }
     have hθ' : ∀ x, θ' x = θ x := fun x => congrArg (fun f => f x) hcomp
@@ -770,17 +771,17 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
         apply Ideal.Quotient.ringHom_ext
         apply MvPolynomial.ringHom_ext
         · intro a
-          show ε ((1 : A) ⊗ₜ algebraMap (eqStage s t (K m) (hinv m)) _ a) =
+          change ε ((1 : A) ⊗ₜ algebraMap (eqStage s t (K m) (hinv m)) _ a) =
             e (Ideal.Quotient.mk _ (MvPolynomial.map _ (MvPolynomial.C a)))
           rw [← Algebra.TensorProduct.tmul_one_eq_one_tmul, MvPolynomial.map_C]
           exact (ε.commutes (algebraMap _ A a)).trans (e.commutes _).symm
         · intro ν
-          show e (Algebra.tensorQuotientSpanEquiv _ A q ((1 : A) ⊗ₜ
+          change e (Algebra.tensorQuotientSpanEquiv _ A q ((1 : A) ⊗ₜ
             Ideal.Quotient.mk _ (MvPolynomial.X ν))) =
             e (Ideal.Quotient.mk _ (MvPolynomial.map _ (MvPolynomial.X ν)))
           congr 1
           rw [MvPolynomial.map_X]
-          show _ = (Ideal.Quotient.mk (Ideal.span (Set.range fun k =>
+          change _ = (Ideal.Quotient.mk (Ideal.span (Set.range fun k =>
             MvPolynomial.map (algebraMap (eqStage s t (K m) (hinv m)) A) (q k)))) (MvPolynomial.X ν)
           rw [← AlgEquiv.apply_symm_apply
             (Algebra.tensorQuotientSpanEquiv _ A q) (Ideal.Quotient.mk _ (MvPolynomial.X ν)),
@@ -806,7 +807,7 @@ theorem exists_stage_data (hfp : @Algebra.FinitePresentation C E _ _ s.toAlgebra
   refine ⟨m, k.1, hi₀m, hmk₀.trans k.2, _, inferInstance, inferInstance,
     (Ideal.Quotient.factor (hK k.2)).comp (algebraMap (eqStage s t (K m) (hinv m)) (C ⧸ K k₀)),
     (Ideal.Quotient.factor (hK k.2)).comp h₀, het, hsurj, fun a => ?_, ?_, hck, hiffk.1 hk⟩
-  · show Ideal.Quotient.factor (hK k.2) (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m)) = _
+  · change Ideal.Quotient.factor (hK k.2) (Ideal.Quotient.factor (hK hmk₀) (a : C ⧸ K m)) = _
     exact Ideal.Quotient.factor_comp_apply _ _ _
   · ext a
     simp only [RingHom.comp_apply, hh₀]

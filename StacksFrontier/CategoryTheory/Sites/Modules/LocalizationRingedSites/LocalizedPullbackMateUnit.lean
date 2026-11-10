@@ -131,7 +131,7 @@ theorem Hom.isIso_overRestrictionModules_map_unit_iff
         (f.localized V).ringedToposHom).unit.app ((Y.overRestrictionModules V).obj G)) := by
   have := f.isIso_localizedPullbackMate V
   have : IsIso ((f.localizedPullbackMate V).app G) :=
-    inferInstanceAs (IsIso ((f.localizedPullbackMate V).natTrans.app G))
+    inferInstance
   rw [← isIso_comp_right_iff _ ((f.localizedPushforwardSquare V).app _),
     f.overRestrictionModules_map_unit_comp V G, isIso_comp_right_iff]
 

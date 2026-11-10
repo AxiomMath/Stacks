@@ -176,7 +176,7 @@ private theorem eq_bot_of_mem_associatedPrimes_sections {X : Scheme.{u}}
   let p' : PrimeSpectrum Γ(X, U) := ⟨p, (AssociatedPrimes.mem_iff.mp hp).isPrime⟩
   let y : U := hU.isoSpec.inv p'
   have hyPrime : hU.primeIdealOf y = p' := by
-    show (hU.isoSpec.inv ≫ hU.isoSpec.hom) p' = p'
+    change (hU.isoSpec.inv ≫ hU.isoSpec.hom) p' = p'
     rw [hU.isoSpec.inv_hom_id]
     rfl
   have hyAssoc : y.1 ∈ Stacks.Divisors.associatedPoints F :=

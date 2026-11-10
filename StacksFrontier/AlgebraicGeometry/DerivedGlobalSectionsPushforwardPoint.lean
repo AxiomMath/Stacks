@@ -125,7 +125,7 @@ public theorem preservesEpimorphisms_evaluation_of_subsingleton {Z : Type u} [To
     have hi : i = 𝟙 W := Subsingleton.elim _ _
     subst i
     exact ⟨s, by
-      show φ.val.app (op W) s = t
+      change φ.val.app (op W) s = t
       rw [op_id, (((SheafOfModules.toSheaf.{u} R).obj N).obj).map_id] at hs
       exact hs⟩
 

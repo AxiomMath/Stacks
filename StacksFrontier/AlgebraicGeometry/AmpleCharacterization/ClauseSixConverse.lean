@@ -211,8 +211,7 @@ theorem germ_tensorSection_mem_maximalSmul (A G : X.Modules) {x : X}
   revert W
   refine Submodule.smul_induction_on hu' ?_ ?_
   · -- a generator `r • n` with `r ∈ 𝔪_x`
-    intro r hr n _
-    intro W hxW t b hb
+    intro r hr n _ W hxW t b hb
     obtain ⟨W₁, hx₁, c, hc⟩ := TopCat.Presheaf.exists_germ_eq X.presheaf r
     obtain ⟨W₂, hx₂, d, hd⟩ := TopCat.Presheaf.exists_germ_eq G.presheaf n
     have hx₃ : x ∈ W ⊓ (W₁ ⊓ W₂) := ⟨hxW, hx₁, hx₂⟩
@@ -233,8 +232,7 @@ theorem germ_tensorSection_mem_maximalSmul (A G : X.Modules) {x : X}
       Stacks.SectionTensorFormula.tensorSection_smul_right, Stacks.ModuleStalk.germ_smul, hgc]
     exact Stacks.ModuleStalk.smul_mem_maximalSmul_of_mem_maximalIdeal hr _
   · -- additivity
-    intro v w hv hw
-    intro W hxW t b hb
+    intro v w hv hw W hxW t b hb
     obtain ⟨W₁, hx₁, b₁, hb₁⟩ := TopCat.Presheaf.exists_germ_eq G.presheaf v
     obtain ⟨W₂, hx₂, b₂, hb₂⟩ := TopCat.Presheaf.exists_germ_eq G.presheaf w
     have hx₃ : x ∈ W ⊓ (W₁ ⊓ W₂) := ⟨hxW, hx₁, hx₂⟩
@@ -469,7 +467,7 @@ theorem isAmple_of_iSup_range_twistHom_ideal [CompactSpace X]
     rw [hsup] at hle
     exact hg (hle Submodule.mem_top)
   obtain ⟨n, hn, m, hnot⟩ := hex
-  obtain ⟨w, hwmem, hwP⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨w, hwmem, hwP⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   obtain ⟨v, rfl⟩ := hwmem
   obtain ⟨σ, hσ⟩ := exists_twistUnitHom_eq L (n : ℤ) (twistHom L J (n : ℤ) m ≫ jj)
   have hvalue : Stacks.ModuleStalk.mapFun (twistUnitHom L (n : ℤ) σ) x v ∉

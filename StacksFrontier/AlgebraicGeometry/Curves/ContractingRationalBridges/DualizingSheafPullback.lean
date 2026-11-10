@@ -97,7 +97,7 @@ theorem nonempty_pullback_dualizingSheafOverField_iso_unit_of_isRationalBridge
     infer_instance
   have hf : C.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(C.subscheme, ⊤))) =
       fC := by
-    show C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
+    change C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   have : Module.Finite k Γ(C.subscheme, ⊤) := (isField_and_finite_globalSections k fC).2

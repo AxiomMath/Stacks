@@ -110,9 +110,10 @@ is proved** in `StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/Vanishi
 `…RelativeProjTwists.vanishingIdealPresentation` and Tag 0803 is registered unconditionally in
 `StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/FiniteTypePresentationOffSupport.lean`.
 
-Two apparent obstructions are not inputs at all. The `Submodule`-versus-`AddSubgroup` grading mismatch between the absolute
-chain and `…SheafGradedAlgebra.grading` is not bridged but bypassed: every input of the absolute
-chain was already stated at an `AddSubgroupClass`-valued grading, and
+Two apparent obstructions are not inputs at all. The `Submodule`-versus-`AddSubgroup` grading
+mismatch between the absolute chain and `…SheafGradedAlgebra.grading` is not bridged but
+bypassed: every input of the absolute chain was already stated at an `AddSubgroupClass`-valued
+grading, and
 `Stacks.ProjChartKerQuotient.ker_eq_ker_projMap_quotientMk` reassembles it there. And the
 chart-level comparison of the relative twists and of the relative section map with the absolute
 ones exists outright, as `…RelativeProjTwists.ChartData.chartIso` and
@@ -427,7 +428,7 @@ theorem quotHomEquiv_apply (n : ℤ) (T : S.Modules)
 /-- The quotient homomorphism kills the inclusion of the ideal. -/
 theorem ι_comp_quotMkApp (n : ℤ) : (ℐ.piece n).ι ≫ quotMkApp 𝒜 ℐ n = 0 := by
   ext U x
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
       (PresheafOfModules.sheafifyUnit (𝟙 S.ringCatSheaf.obj) (preQuotPiece 𝒜 ℐ n)) U
       ((preQuotProj 𝒜 ℐ n).app U ((ℐ.piece n).ι.val.app U x)) = 0
   exact Eq.trans

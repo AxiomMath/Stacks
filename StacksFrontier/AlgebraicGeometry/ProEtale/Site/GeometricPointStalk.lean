@@ -111,7 +111,7 @@ theorem weaklyEtale_fromSpecStalk (X : Scheme.{u}) (x : X) :
   let U := (X.affineCover.f (X.affineCover.idx x)).opensRange
   have hU : IsAffineOpen U := isAffineOpen_opensRange _
   have hx : x ∈ U := X.affineCover.covers x
-  show WeaklyEtale (hU.fromSpecStalk hx)
+  change WeaklyEtale (hU.fromSpecStalk hx)
   dsimp only [IsAffineOpen.fromSpecStalk]
   have hwe : WeaklyEtale (Spec.map (X.presheaf.germ U x hx)) := by
     refine weaklyEtale_specMap _ ?_
@@ -180,7 +180,7 @@ theorem exists_lift_of_strictlyHenselian_of_weaklyEtale
   let z : Spec (.of K) ⟶ Z := pullback.lift t p ht
   let y : Z := z (closedPoint K)
   have hy : π₂ y = closedPoint (CommRingCat.of R) := by
-    show (z ≫ π₂) (closedPoint K) = _
+    change (z ≫ π₂) (closedPoint K) = _
     rw [pullback.lift_snd, hp]
   have : WeaklyEtale π₂ := inferInstanceAs (WeaklyEtale (pullback.snd f g))
   let a : Spec (Z.presheaf.stalk y) ⟶ Spec (.of R) := Z.fromSpecStalk y ≫ π₂
@@ -271,7 +271,7 @@ theorem weaklyEtale_strictHenselizationToBase :
       etaleLocalRingAlgebra B S hS s from (algebraMap_etaleLocalRing B S hS s).symm ▸ rfl]
   have : WeaklyEtale (S.fromSpecStalk (s.hom (closedPoint s.residueField))) :=
     weaklyEtale_fromSpecStalk S _
-  show WeaklyEtale (Spec.map (CommRingCat.ofHom (structureSheafStalkFromLocalRing B S hS s)) ≫
+  change WeaklyEtale (Spec.map (CommRingCat.ofHom (structureSheafStalkFromLocalRing B S hS s)) ≫
     S.fromSpecStalk (s.hom (closedPoint s.residueField)))
   infer_instance
 
@@ -326,7 +326,8 @@ def isInitial_strictHenselizationPoint :
         (strictHenselizationPoint B S hS s) ⟶ U :=
     ⟨MorphismProperty.Over.homMk (h U).choose (h U).choose_spec.1.1,
       Over.OverMorphism.ext (h U).choose_spec.1.2⟩
-  exact IsInitial.ofUniqueHom q fun U m => Functor.Elements.hom_ext <| MorphismProperty.Over.Hom.ext <|
+  exact IsInitial.ofUniqueHom q fun U m => Functor.Elements.hom_ext <|
+    MorphismProperty.Over.Hom.ext <|
     (h U).choose_spec.2 _ ⟨MorphismProperty.Over.w m.hom, congrArg (fun f => f.left) m.map_val⟩
 
 /-- **Stacks Project, Tag 0993.** Sections of a presheaf on the small pro-étale site over the

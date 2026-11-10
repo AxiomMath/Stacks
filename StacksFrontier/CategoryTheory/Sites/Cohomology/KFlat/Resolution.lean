@@ -16,8 +16,8 @@ Let `(C, O)` be a ringed site. Every cochain complex `G` of `O`-modules admits a
 quasi-isomorphism `P ⟶ G` with `P` K-flat. This is the existence half of Stacks 06YS, and it
 is what makes the derived tensor product of Stacks 06YU well defined.
 
-The proof is the one in the source, assembled from parts that are already in the library. Stacks 077J
-produces a ladder `K_1 ⟶ K_2 ⟶ ⋯` of bounded above complexes, each resolving an upper
+The proof is the one in the source, assembled from parts that are already in the library. Stacks
+077J produces a ladder `K_1 ⟶ K_2 ⟶ ⋯` of bounded above complexes, each resolving an upper
 truncation of `G`, whose terms are direct sums of extensions by zero `j_{U!} O_U` of the
 structure sheaves of the slice sites, and whose colimit maps to `G` by a quasi-isomorphism.
 Each `j_{U!} O_U` is a flat `O`-module (Stacks 03EV) and a direct sum of flat modules is flat

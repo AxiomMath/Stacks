@@ -474,7 +474,7 @@ lemma variableKoszulContractBasis_mem_filtration
         rwa [variableKoszulMultidegree_apply_of_not_mem j p e he] at heα
       have hdeg := variableExponent_degree_sub_single p.1 e hem
       refine ⟨⟨(p.1 - Finsupp.single e 1, t), ?_⟩, rfl⟩
-      show n ≤ (p.1 - Finsupp.single e 1).degree
+      change n ≤ (p.1 - Finsupp.single e 1).degree
       omega
 
 /-- `variableKoszulContract` maps the `(n + 1)`-st filtration step of `⋀^j` into the `n`-th
@@ -503,11 +503,11 @@ lemma variableKoszulFiltration_mem_idealPower_smul
       ((I ^ n) • (⊤ : Submodule P (⋀[P]^j (E →₀ P)))).restrictScalars A := by
     apply Submodule.span_le.mpr
     rintro _ ⟨p, rfl⟩
-    show variableKoszulTermBasis A E j p.1 ∈ I ^ n •
+    change variableKoszulTermBasis A E j p.1 ∈ I ^ n •
       (⊤ : Submodule P (⋀[P]^j (E →₀ P)))
     rw [variableKoszulTermBasis_apply]
     have hm : (MvPolynomial.basisMonomials E A) p.1.1 ∈ I ^ n := by
-      show MvPolynomial.monomial p.1.1 (1 : A) ∈
+      change MvPolynomial.monomial p.1.1 (1 : A) ∈
         MvPolynomial.idealOfVars E A ^ n
       by_cases hA : (1 : A) = 0
       · simp [hA]
@@ -569,7 +569,7 @@ lemma variableMonomial_smul_mem_filtration
     have hbase : variableKoszulTermBasis A E j (m, s) ∈
         variableKoszulFiltration A E j n :=
       Submodule.subset_span ⟨⟨(m, s), hm⟩, rfl⟩
-    show MvPolynomial.monomial m (1 : A) •
+    change MvPolynomial.monomial m (1 : A) •
       (Finsupp.basisSingleOne (R := MvPolynomial E A) (ι := E)).exteriorPower j s ∈
         variableKoszulFiltration A E j n
     simpa only [variableKoszulTermBasis_apply,

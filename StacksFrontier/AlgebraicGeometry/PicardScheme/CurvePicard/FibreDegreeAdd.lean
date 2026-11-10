@@ -190,7 +190,7 @@ characteristic `d + 1 - g`. -/
 theorem isDegreeComponent_degreeSubfunctor (d : ℤ) :
     Stacks.AbelMap.IsDegreeComponent B hX hk f d (degreeSubfunctor B hX hk f σ hσ hOiso d) := by
   intro T L hL
-  show (∀ t, fibreDegree B hX hk f σ hσ hOiso T _ t = d) ↔ _
+  change (∀ t, fibreDegree B hX hk f σ hσ hOiso T _ t = d) ↔ _
   refine forall_congr' fun t => ?_
   rw [fibreDegree, fibreEuler_zero]
   have he : fibreEuler B hX hk f σ hσ hOiso T ((toPicardFunctor B hX hk f).app (op T)
@@ -199,7 +199,7 @@ theorem isDegreeComponent_degreeSubfunctor (d : ℤ) :
         (fibreCohomology (pullback.snd (B.inclusion.map f) (B.inclusion.map T.hom)) L t 0) : ℤ) -
       Module.finrank ((B.inclusion.obj T.left).residueField t)
         (fibreCohomology (pullback.snd (B.inclusion.map f) (B.inclusion.map T.hom)) L t 1) := by
-    show fibreEuler B hX hk f σ hσ hOiso T (toPicardFunctorHom B hX hk f T
+    change fibreEuler B hX hk f σ hσ hOiso T (toPicardFunctorHom B hX hk f T
       (Stacks.SheafOfModules.picardClass _ _ L hL)) t = _
     rw [fibreEuler, fibreRank_toPicardFunctorHom, fibreRank_toPicardFunctorHom,
       classFibreRank_picardClass, classFibreRank_picardClass]

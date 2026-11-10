@@ -11,8 +11,8 @@ public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 public import Mathlib.Tactic.LinearCombination
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
@@ -250,7 +250,7 @@ theorem projRes_tower [Small.{v} R] (M : CochainComplex (ModuleCat.{v} R) ℤ)
     exact (cell 0).cover f m (by change (0 : (cell 0).Gc ⟶ (cell 0).Gprev) f = 0; simp) hf
   · intro n f m hf hfm
     exact (cell (n + 1)).cover f m hf hfm
-  · show IsIso (eqToHom (show M.X 0 = M.X (-((0:ℕ):ℤ)) by norm_num))
+  · change IsIso (eqToHom (show M.X 0 = M.X (-((0:ℕ):ℤ)) by norm_num))
     infer_instance
 
 namespace ProjResAssemble
@@ -423,7 +423,7 @@ noncomputable def hom (hcomplex : ∀ n, dG (n + 1) ≫ dG n = 0)
           refine comm_of_chain_of_eq M G pp dG n (hchain n)
             (obj M G i) (obj M G (i+1)) (M.X i) (M.X (i+1))
             ((obj_neg M G i (by omega)).trans (by congr 1; try omega))
-            ((obj_neg M G (i+1) (by omega)).trans (by congr 1; try omega))
+            ((obj_neg M G (i+1) (by omega)).trans (by congr 1))
             (by rw [hi1]) (by rw [hi2'])
             (M.d i (i+1)) ?_ (homApp M G pp i) ?_ (homApp M G pp (i+1)) ?_ (d M G pp dG i) ?_
           · rw [Md_congr M i (i+1) (-((n:ℤ)+1)) (-(n:ℤ)) hi1 hi2']
@@ -469,7 +469,7 @@ theorem projRes_assembleFP (M : CochainComplex (ModuleCat.{v} R) ℤ)
   have hX0 : F.X 0 = M.X 0 := ProjResAssemble.obj_zero M G
   refine ⟨F, p, hX0, ?_, ?_, ?_, ?_⟩
   · intro i
-    show Projective (ProjResAssemble.obj M G i)
+    change Projective (ProjResAssemble.obj M G i)
     by_cases hi : 0 < i
     · exact (ProjResAssemble.isZero_obj_pos M G i hi).projective
     · by_cases hi0 : i = 0
@@ -480,29 +480,29 @@ theorem projRes_assembleFP (M : CochainComplex (ModuleCat.{v} R) ℤ)
         exact hGproj _
   · rw [CochainComplex.isStrictlyLE_iff]
     exact ProjResAssemble.isZero_obj_pos M G
-  · show ProjResAssemble.homApp M G pp 0 = eqToHom hX0
+  · change ProjResAssemble.homApp M G pp 0 = eqToHom hX0
     rw [ProjResAssemble.homApp_zero]
   · let eF : ∀ n : ℕ, F.X (-(n : ℤ)) ≅ G n := fun n =>
       match n with
       | 0 => eqToIso (show F.X (-((0:ℕ):ℤ)) = M.X 0 by
-                show ProjResAssemble.obj M G (-((0:ℕ):ℤ)) = M.X 0
+                change ProjResAssemble.obj M G (-((0:ℕ):ℤ)) = M.X 0
                 rw [show (-((0:ℕ):ℤ)) = 0 by norm_num]; exact ProjResAssemble.obj_zero M G) ≪≫
               (asIso (pp 0)).symm
       | (m+1) => eqToIso (show F.X (-(((m+1):ℕ):ℤ)) = G (m+1) by
-                show ProjResAssemble.obj M G (-(((m+1):ℕ):ℤ)) = G (m+1)
-                rw [ProjResAssemble.obj_neg M G _ (by omega)]; congr 1; try omega)
+                change ProjResAssemble.obj M G (-(((m+1):ℕ):ℤ)) = G (m+1)
+                rw [ProjResAssemble.obj_neg M G _ (by omega)]; congr 1)
     refine ⟨eF, ?_, ?_⟩
     · intro n
       cases n with
       | zero =>
-        show (eF 0).hom ≫ pp 0 = ProjResAssemble.homApp M G pp 0
+        change (eF 0).hom ≫ pp 0 = ProjResAssemble.homApp M G pp 0
         rw [ProjResAssemble.homApp_zero]
-        show (_ ≫ _) ≫ pp 0 = _
+        change (_ ≫ _) ≫ pp 0 = _
         simp only [Iso.symm_hom, asIso_inv, eqToIso.hom, Category.assoc,
           IsIso.inv_hom_id, Category.comp_id]
       | succ m =>
-        show (eF (m+1)).hom ≫ pp (m+1) = ProjResAssemble.homApp M G pp (-(((m+1):ℕ):ℤ))
-        show (eqToIso _).hom ≫ pp (m+1) = _
+        change (eF (m+1)).hom ≫ pp (m+1) = ProjResAssemble.homApp M G pp (-(((m+1):ℕ):ℤ))
+        change (eqToIso _).hom ≫ pp (m+1) = _
         unfold ProjResAssemble.homApp
         rw [dite_eq_right (by omega : ¬ 0 < (-(((m+1):ℕ):ℤ))),
             dite_eq_right (by omega : (-(((m+1):ℕ):ℤ)) ≠ 0),
@@ -514,18 +514,18 @@ theorem projRes_assembleFP (M : CochainComplex (ModuleCat.{v} R) ℤ)
         (-((n:ℤ)+1)) (-(n:ℤ)) (by ring)]
       cases n with
       | zero =>
-        show (eF 1).hom ≫ dG 0 ≫ (eF 0).inv
+        change (eF 1).hom ≫ dG 0 ≫ (eF 0).inv
           = ProjResAssemble.d M G pp dG (-(((0:ℕ):ℤ)+1)) ≫ _
-        show (eqToIso _).hom ≫ dG 0 ≫ (_ ≪≫ _).inv = _
+        change (eqToIso _).hom ≫ dG 0 ≫ (_ ≪≫ _).inv = _
         unfold ProjResAssemble.d
         rw [dite_eq_right (by norm_num : ¬ (0:ℤ) < -(((0:ℕ):ℤ)+1) + 1),
             dite_eq_left (by norm_num : -(((0:ℕ):ℤ)+1) + 1 = 0)]
         simp only [Iso.trans_inv, Iso.symm_inv, asIso_hom, eqToIso.inv, eqToIso.hom,
            eqToHom_refl, Category.id_comp, Category.comp_id]
       | succ m =>
-        show (eF (m+2)).hom ≫ dG (m+1) ≫ (eF (m+1)).inv
+        change (eF (m+2)).hom ≫ dG (m+1) ≫ (eF (m+1)).inv
           = ProjResAssemble.d M G pp dG (-(((m+1:ℕ):ℤ)+1)) ≫ _
-        show (eqToIso _).hom ≫ dG (m+1) ≫ (eqToIso _).inv = _
+        change (eqToIso _).hom ≫ dG (m+1) ≫ (eqToIso _).inv = _
         unfold ProjResAssemble.d
         rw [dite_eq_right (by omega : ¬ (0:ℤ) < -(((m+1:ℕ):ℤ)+1) + 1),
             dite_eq_right (by omega : ¬ -(((m+1:ℕ):ℤ)+1) + 1 = 0),

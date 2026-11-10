@@ -167,7 +167,7 @@ theorem awayToSection_mk_pow {g : S} (hf : f ∈ 𝒮 d) (hg : g ∈ 𝒮 d) (k 
   refine HomogeneousLocalization.val_injective _ ?_
   rw [HomogeneousLocalization.val_pow, HomogeneousLocalization.Away.val_mk,
     HomogeneousLocalization.Away.val_mk, Localization.mk_pow]
-  exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp [pow_mul]))
+  exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 
 
 /-- Restriction of a section of the structure sheaf of `Proj 𝒮` to a smaller open. -/
@@ -285,7 +285,7 @@ theorem exists_glue {k : ℤ} {ι : Type u} (V : ι → Opens (ProjectiveSpectru
   refine ⟨(twistSheafOfModules 𝒮 F k).val.presheaf.map (eqToHom hsup.symm).op b, fun i => ?_⟩
   have hcomp : (eqToHom hsup.symm).op ≫ (homOfLE (le_top : V i ≤ ⊤)).op =
       (Opens.leSupr V i).op := Subsingleton.elim _ _
-  show (twistSheafOfModules 𝒮 F k).val.presheaf.map (homOfLE (le_top : V i ≤ ⊤)).op
+  change (twistSheafOfModules 𝒮 F k).val.presheaf.map (homOfLE (le_top : V i ≤ ⊤)).op
       ((twistSheafOfModules 𝒮 F k).val.presheaf.map (eqToHom hsup.symm).op b) = a i
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, hcomp]
   exact hb i
@@ -358,7 +358,7 @@ degree `n d` whose numerator on `D₊(f)` vanishes is killed by a power of `f`. 
 theorem exists_pow_smul_eq_zero_of_numerSection_eq_zero
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type*} [Fintype ι] {g : ι → S}
+    {ι : Type*} [Finite ι] {g : ι → S}
     (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d)
     (hcov : ∀ y : ProjectiveSpectrum.top 𝒮, ∃ i, y ∈ ProjectiveSpectrum.basicOpen 𝒮 (g i))
     (n : ℕ) (x : twistSectionModule 𝒮 F) (hx : x ∈ moduleGrading 𝒮 F ((n * d : ℕ) : ℤ))
@@ -409,7 +409,7 @@ agreeing on the overlaps after one further multiplication.** -/
 theorem exists_chart_family
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type u} [Fintype ι] {g : ι → S}
+    {ι : Type u} [Finite ι] {g : ι → S}
     (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d)
     (hbo : ∀ i : ι, (AlgebraicGeometry.Proj 𝒮).basicOpen (chartFrac 𝒮 hf (hg i)) ≤
       ProjectiveSpectrum.basicOpen 𝒮 (g i))
@@ -490,7 +490,7 @@ private theorem exists_mem_of_iSup_eq_top {ι : Type*} {V : ι → Opens (Projec
 /-- The local twisted section a chart numerator defines, after one further multiplication by
 `f / g i`. -/
 theorem resM_pow_chartFrac_smul_eq {ι : Type u} {g : ι → S}
-    (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d) (N k : ℕ)
+    (hf : f ∈ 𝒮 d) (hg : ∀ i, g i ∈ 𝒮 d) (N k : ℕ)
     (a : ∀ i : ι, F.val.obj (op (ProjectiveSpectrum.basicOpen 𝒮 (g i))))
     (t : F.val.obj (op (ProjectiveSpectrum.basicOpen 𝒮 f))) (i : ι)
     {Z : Opens (ProjectiveSpectrum.top 𝒮)}
@@ -507,7 +507,7 @@ theorem resM_pow_chartFrac_smul_eq {ι : Type u} {g : ι → S}
 theorem exists_numerSection_eq
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type u} [Fintype ι] {g : ι → S}
+    {ι : Type u} [Finite ι] {g : ι → S}
     (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d)
     (hsup : (⨆ i, ProjectiveSpectrum.basicOpen 𝒮 (g i)) =
       (⊤ : Opens (ProjectiveSpectrum.top 𝒮)))
@@ -605,7 +605,7 @@ theorem exists_numerSection_eq
       (resO 𝒮 (hbo i) (chartFrac 𝒮 hf (hg i)))
       (val_chartFrac_restrict 𝒮 hf (hg i) (hbo i)) _).symm
     refine congrArg (mulTrivSection 𝒮 (hg i) ((N + k : ℕ) : ℤ) F (hbo i)) ?_
-    exact resM_pow_chartFrac_smul_eq 𝒮 F hf hd hg N k a t i (hbo i) (hlef i)
+    exact resM_pow_chartFrac_smul_eq 𝒮 F hf hg N k a t i (hbo i) (hlef i)
       (hS1 i (hbo i) (hlef i) le_rfl)
 
 
@@ -617,7 +617,7 @@ comparison `Γ(D₊(f), M̃) → Γ(D₊(f), ℱ)` is a bijection. -/
 theorem bijective_chartHom_of_cover
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type u} [Fintype ι] {g : ι → S}
+    {ι : Type u} [Finite ι] {g : ι → S}
     (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d)
     (hsup : (⨆ i, ProjectiveSpectrum.basicOpen 𝒮 (g i)) =
       (⊤ : Opens (ProjectiveSpectrum.top 𝒮))) :
@@ -641,7 +641,7 @@ standard opens are the same opens -- so the glued morphism is invertible. -/
 theorem isIso_comparison_of_degreeOneCover
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type u} [Fintype ι] {g : ι → S} (hg : ∀ i, g i ∈ 𝒮 1)
+    {ι : Type u} [Finite ι] {g : ι → S} (hg : ∀ i, g i ∈ 𝒮 1)
     (hsup : (⨆ i, ProjectiveSpectrum.basicOpen 𝒮 (g i)) =
       (⊤ : Opens (ProjectiveSpectrum.top 𝒮))) :
     IsIso (comparison 𝒮 F) := by

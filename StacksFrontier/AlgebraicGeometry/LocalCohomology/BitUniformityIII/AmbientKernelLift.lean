@@ -380,7 +380,7 @@ theorem exists_app_ambientTwistMap_eq_globalSmul (q : ℕ) {b : A} (hb : b ∈ I
         ((globalSmulCenter (blowupScheme I) (pullbackCoeff I b)).app
           (blowupTwist I q)).val.app (op V) c := by
   refine ⟨twistSuccSection I q V ((reesDegOneScalarMap I q hb).val.app (op V) c), ?_⟩
-  show (Stacks.Blowup.twistShiftMap I (q : ℤ)).val.app (op V)
+  change (Stacks.Blowup.twistShiftMap I (q : ℤ)).val.app (op V)
       ((reesDegOneScalarMap I q hb).val.app (op V) c) = _
   exact app_eq_of_eq (X := blowupScheme I) (reesDegOneScalarMap_comp_twistShiftMap I q hb) V c
 
@@ -403,7 +403,7 @@ nonzerodivisor hypothesis. Taking the affine open of the base to be `⊤` turns 
 into the one above, by `Ideal.map_map`. -/
 theorem ideal_thickeningIdeal_one (V : (blowupScheme I).Opens) (hV : IsAffineOpen V) :
     (thickeningIdeal I 1).ideal ⟨V, hV⟩ = Ideal.map (coeffPullback I V).hom I := by
-  show ((Scheme.IdealSheafData.ofIdealTop
+  change ((Scheme.IdealSheafData.ofIdealTop
       (Ideal.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom I)).comap
         (Stacks.Blowup.toSpec I) ^ 1).ideal ⟨V, hV⟩ = _
   rw [pow_one, Stacks.IdealSheaf.ideal_comap_appLE _ _
@@ -479,7 +479,7 @@ theorem exists_app_ambientTwistMapZero_eq_mul {b : A} (hb : b ∈ I)
           (blowupTwist I 0)).val.app (op V)
           ((blowupTwistZeroIsoUnit I).inv.val.app (op V) c)) :=
     app_eq_of_eq hnat V _
-  show (blowupTwistZeroIsoUnit I).hom.val.app (op V)
+  change (blowupTwistZeroIsoUnit I).hom.val.app (op V)
       ((ambientTwistMap I 0).val.app (op V) h.choose) = _
   rw [hs, ← hmove, hid]
   rfl

@@ -144,7 +144,7 @@ theorem exists_point_isPullback_universalFiniteCoverMap_of_thickening (d : ℕ) 
   -- the identification of the global sections of `Zx` with the algebra of the structure
   have : IsIso (Scheme.Hom.appTop κ.hom) := by
     have : IsIso κ.hom := Iso.isIso_hom κ
-    show IsIso (Scheme.Γ.map κ.hom.op)
+    change IsIso (Scheme.Γ.map κ.hom.op)
     infer_instance
   let σ : CommRingCat.of (Carrier (map xpt.appTop.hom (universalStructure.{u} d))) ⟶ Γ(Zx, ⊤) :=
     (Scheme.ΓSpecIso _).inv ≫ κ.hom.appTop
@@ -211,7 +211,7 @@ theorem exists_point_isPullback_universalFiniteCoverMap_of_thickening (d : ℕ) 
   have hζbase : ζ.hom ≫
       (specCover (map xpt'.appTop.hom (universalStructure.{u} d))).hom =
       p' ≫ T'.isoSpec.hom := by
-    show (Z'.isoSpec.hom ≫ Spec.map (ofHom ρ'.toRingHom)) ≫
+    change (Z'.isoSpec.hom ≫ Spec.map (ofHom ρ'.toRingHom)) ≫
       Spec.map (ofHom (algebraMap Γ(T', ⊤)
         (Carrier (map xpt'.appTop.hom (universalStructure.{u} d))))) = _
     rw [Category.assoc, ← Spec.map_comp, hmul, Scheme.isoSpec_hom_naturality]
@@ -233,13 +233,13 @@ theorem exists_point_isPullback_universalFiniteCoverMap_of_thickening (d : ℕ) 
       ΓSpecIso_inv_comp_appTop_specMap, Scheme.Hom.comp_appTop, hζsecα]
     ext v
     refine eA.injective ?_
-    show eA (α.appTop.hom (ρ' (Carrier.mapRingHom xpt'.appTop.hom
+    change eA (α.appTop.hom (ρ' (Carrier.mapRingHom xpt'.appTop.hom
       (universalStructure.{u} d) v))) =
       eA (σ.hom (Carrier.mapRingHom xpt.appTop.hom (universalStructure.{u} d) v))
     rw [← heAsymm, eA.apply_symm_apply]
     refine Carrier.ext fun k => ?_
     rw [← hcomp]
-    show ι.appTop.hom (eA' (eA'.symm (Carrier.mapRingHom xpt'.appTop.hom
+    change ι.appTop.hom (eA' (eA'.symm (Carrier.mapRingHom xpt'.appTop.hom
       (universalStructure.{u} d) v)) k) = _
     rw [eA'.apply_symm_apply, Carrier.mapRingHom_apply, Carrier.mapRingHom_apply, ← hιxpt,
       Scheme.Hom.comp_appTop]

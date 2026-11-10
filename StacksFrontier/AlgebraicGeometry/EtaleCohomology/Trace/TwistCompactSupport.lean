@@ -43,7 +43,7 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard
 
-variable (ℓ M : ℕ) [Fact ℓ.Prime] (G : Type) [Group G] [Fintype G] (Λ : Type) [CommRing Λ]
+variable (ℓ M : ℕ) [Fact ℓ.Prime] (G : Type) [Group G] [Finite G] (Λ : Type) [CommRing Λ]
   [Algebra (ZMod (ℓ ^ M)) Λ] (E : Type (u + 1)) [AddCommGroup E] [Module Λ E]
   [Module (ZMod (ℓ ^ M)) E] [IsScalarTower (ZMod (ℓ ^ M)) Λ E] (ρ : Representation Λ G E)
   [Finite E]
@@ -77,6 +77,7 @@ theorem exists_iso_compactSupport_twistFunctor
         e.hom ≫ DerivedCategory.Plus.ι.map (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q
           hcard ((sheafCompose X.smallEtaleTopology
             (twistFunctor (ZMod (ℓ ^ M)) G Λ E ρ)).mapCochainComplexPlus.obj K)) := by
+  have := Fintype.ofFinite G
   have : NeZero (ℓ ^ M) := ⟨pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero⟩
   have := isIso_extensionByZeroMate_twistFunctor (ZMod (ℓ ^ M)) G Λ E ρ j.immersion
   have := isIso_inverseImageMate_twistFunctor (ZMod (ℓ ^ M)) G Λ E ρ

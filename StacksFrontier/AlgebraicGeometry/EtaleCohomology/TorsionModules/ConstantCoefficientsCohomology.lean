@@ -282,7 +282,7 @@ def zmodULiftHom.{v} (ℓ : ℕ) {A : Type v} [AddCommGroup A] (m : A) (hm : ℓ
 /-- `zmodULiftHom ℓ m hm` sends `a` to `a.val • m`. -/
 theorem zmodULiftHom_apply.{v} (ℓ : ℕ) [NeZero ℓ] {A : Type v} [AddCommGroup A] (m : A)
     (hm : ℓ • m = 0) (a : ZMod ℓ) : zmodULiftHom ℓ m hm (ULift.up a) = a.val • m := by
-  show ZMod.lift ℓ ⟨zmultiplesHom A m, zmultiplesHom_natCast_eq_zero ℓ m hm⟩ a = a.val • m
+  change ZMod.lift ℓ ⟨zmultiplesHom A m, zmultiplesHom_natCast_eq_zero ℓ m hm⟩ a = a.val • m
   have ha : a = ((a.val : ℤ) : ZMod ℓ) := by rw [Int.cast_natCast, ZMod.natCast_zmod_val]
   conv_lhs => rw [ha]
   rw [ZMod.lift_coe, zmultiplesHom_apply, natCast_zsmul]
@@ -365,10 +365,10 @@ theorem module_finite_constantCohomology_of_prime [CompactSpace X] [QuasiSeparat
           (c k j • 𝟙 M) := by
     refine AddCommGrpCat.ext fun w => ?_
     simp_rw [addCommGrpCat_sum_apply]
-    show (w.1 : M) = ∑ k, ∑ j, c k j • (show M from ιm (s j) (ULift.up (e k w)))
+    change (w.1 : M) = ∑ k, ∑ j, c k j • (show M from ιm (s j) (ULift.up (e k w)))
     simp_rw [hιm, smul_comm (c _ _) ((e _ w).val), ← Finset.smul_sum, ← hc]
     conv_lhs => rw [hv w]
-    rw [AddSubgroup.val_finset_sum]
+    rw [AddSubgroup.val_finsetSum]
     rfl
   rw [hφS, key]
   simp only [constantCohomologyMap_sum, addCommGrpCat_sum_apply]
@@ -455,7 +455,7 @@ theorem module_finite_constantCohomology_of_nsmul_eq_zero [IsNoetherianRing Λ] 
       refine module_finite_constantCohomology_of_prime ℓ q (hfin ℓ hℓ ⟨n', hn'⟩ q) S.X₁
         fun x => Subtype.ext ?_
       have hx : (x : M) ∈ K := (Submodule.Quotient.mk_eq_zero K).1 (show g x = 0 from x.2)
-      show ℓ • (x : M) = 0
+      change ℓ • (x : M) = 0
       simpa [K] using hx
     have h₃ : Module.Finite Λ (((etaleModuleGlobalSections.{u, r} Λ X).rightDerived q).obj
         ((constantSheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).obj S.X₃)) := by
@@ -463,9 +463,9 @@ theorem module_finite_constantCohomology_of_nsmul_eq_zero [IsNoetherianRing Λ] 
       refine ih n' hn'lt hn'0 (fun l hl hln => hfin l hl (hln.trans ⟨ℓ, by rw [hn', mul_comm]⟩))
         S.X₃ fun x => ?_
       obtain ⟨m, rfl⟩ := K.mkQ_surjective x
-      show n' • K.mkQ m = 0
+      change n' • K.mkQ m = 0
       rw [← map_nsmul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, LinearMap.mem_ker]
-      show ℓ • n' • m = 0
+      change ℓ • n' • m = 0
       rw [smul_smul, ← hn', hM m]
     let F := (etaleModuleGlobalSections.{u, r} Λ X).rightDerived q
     let cs := constantSheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)

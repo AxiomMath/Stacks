@@ -124,7 +124,7 @@ theorem comap_liftToM_eq :
     have hk : (p : P₀) - α₀ m' ∈ LinearMap.ker dP := by
       rw [LinearMap.mem_ker, map_sub, hcomm, hm', α₁_liftToM, sub_self]
     refine ⟨⟨_, hk⟩, Subtype.ext ?_⟩
-    show β₀ ((p : P₀) - α₀ m') = β₀ p
+    change β₀ ((p : P₀) - α₀ m') = β₀ p
     rw [map_sub, (hex₀ (α₀ m')).2 ⟨m', rfl⟩, sub_zero]
   · rintro ⟨⟨p', hp'⟩, hpp'⟩
     have hb : β₀ ((p : P₀) - p') = 0 := by

@@ -106,7 +106,7 @@ theorem homEquiv_transportedComparison (X : M) :
   have hinner : (E.symm.toAdjunction.comp β).homEquiv (E.functor.obj X) (b.obj X)
       (b.map (E.unitIso.inv.app X)) = E.functor.map (β.unit.app X) := by
     rw [Adjunction.homEquiv_unit, Adjunction.comp_unit_app, Category.assoc]
-    show E.counitIso.inv.app (E.functor.obj X) ≫
+    change E.counitIso.inv.app (E.functor.obj X) ≫
         E.functor.map (β.unit.app (E.inverse.obj (E.functor.obj X))) ≫
           E.functor.map (B.map (b.map (E.unitIso.inv.app X))) =
       E.functor.map (β.unit.app X)
@@ -129,7 +129,7 @@ theorem transportedComparison_eq_mateEquiv_symm_app (X : M) :
         E'.functor.map ((Adjunction.leftAdjointUniq (α.comp E'.symm.toAdjunction)
               ((E.symm.toAdjunction.comp β).ofNatIsoRight cmp)).hom.app (E.functor.obj X) ≫
           b.map (E.unitIso.inv.app X)) =
-      ((mateEquiv β α).symm (TwoSquare.mk B E'.functor E.functor A cmp.hom)).natTrans.app X := by
+      ((mateEquiv β α).symm (TwoSquare.mk B E'.functor E.functor A cmp.hom)).app X := by
   refine (α.homEquiv (E.functor.obj X) (E'.functor.obj (b.obj X))).injective ?_
   rw [homEquiv_transportedComparison E E' α β cmp X, Adjunction.homEquiv_unit]
   exact unit_mateEquiv_symm β α (TwoSquare.mk B E'.functor E.functor A cmp.hom) X
@@ -154,7 +154,7 @@ def transportedComparisonApp (X : M) :
 comparison. -/
 theorem transportedComparisonApp_eq_mateEquiv_symm (X : M) :
     transportedComparisonApp E E' α β cmp X =
-      ((mateEquiv β α).symm (TwoSquare.mk B E'.functor E.functor A cmp.hom)).natTrans.app X :=
+      ((mateEquiv β α).symm (TwoSquare.mk B E'.functor E.functor A cmp.hom)).app X :=
   transportedComparison_eq_mateEquiv_symm_app E E' α β cmp X
 
 end OneSquare
@@ -225,7 +225,7 @@ theorem mateEquiv_symm_cocycle
     mateEquiv_conjugateEquiv_vcomp βc αc (αq.comp αp) _ κa.hom,
     mateEquiv_hcomp βq αq βp αp, Equiv.apply_symm_apply, Equiv.apply_symm_apply,
     Equiv.apply_symm_apply, hκa, hκb]
-  refine TwoSquare.ext _ _ fun Z ↦ ?_
+  refine NatTrans.ext (funext fun Z ↦ ?_)
   simp only [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp,
     NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,

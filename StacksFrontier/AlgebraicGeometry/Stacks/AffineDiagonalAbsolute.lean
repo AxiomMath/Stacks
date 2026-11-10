@@ -80,7 +80,7 @@ theorem Space.isAffineHom_of_relocalizeMap {X Y : (BigFppfOver B W hW)ᵒᵖ ⥤
     PreservesPullback.iso Λ k γ ≪≫ (hpb.isoPullback ≪≫ asIso c).symm
   obtain ⟨T, hT, ⟨eT⟩⟩ := OverShriek.exists_iso_yoneda_of_relocalize_iso h E
   have hTa : IsAffine ((BigFppfOver.toScheme B W hW).obj T) := by
-    show IsAffine (B.inclusion.obj T.left)
+    change IsAffine (B.inclusion.obj T.left)
     rw [hT]
     exact W'.property
   refine ⟨⟨T, hTa⟩, eT.inv ≫ pullback.fst k γ,

@@ -65,7 +65,7 @@ theorem exists_quasiCompact_compactification_over
     simpa [V, Scheme.Hom.coe_opensRange] using hrange
   have hιqc : QuasiCompact V.ι := by
     rw [quasiCompact_iff_isSpectralMap]
-    show IsSpectralMap (Subtype.val : V → Z)
+    change IsSpectralMap (Subtype.val : V → Z)
     exact IsRetrocompact_iff_isSpectralMap_subtypeVal.mp hV
   have hr : Set.range V.ι = Set.range j.immersion := by simp [V, Scheme.Hom.coe_opensRange]
   let e : V.toScheme ≅ X := IsOpenImmersion.isoOfRangeEq V.ι j.immersion hr
@@ -96,7 +96,7 @@ theorem exists_quasiCompact_compactification_over
   have hmProper : IsProper m := by infer_instance
   have hkm : k ≫ m = f := by
     simp only [k, m, Category.assoc, htfst, Scheme.Hom.toImage_imageι_assoc]
-    simp [s, pullback.lift_snd]
+    simp [s]
   exact ⟨⟨StructuredArrow.mk (Over.homMk k hkm : Over.mk f ⟶ Over.mk m), hkOpen, hmProper⟩, hkQC⟩
 
 end AlgebraicGeometry

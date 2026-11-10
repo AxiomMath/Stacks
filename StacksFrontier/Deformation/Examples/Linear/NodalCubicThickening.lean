@@ -86,12 +86,12 @@ def redA : ABase →+* NC :=
 
 /-- The reduction `A' → NC` sends the constant `a` to `a`. -/
 @[simp] theorem redA_cst (a : NC) : redA (cst NC a) = a := by
-  show Polynomial.eval 0 (Polynomial.C a) = a
+  change Polynomial.eval 0 (Polynomial.C a) = a
   simp
 
 /-- The reduction `A' → NC` sends `t` to `0`. -/
 @[simp] theorem redA_tau : redA (tau NC) = 0 := by
-  show Polynomial.eval 0 (Polynomial.X : Polynomial NC) = 0
+  change Polynomial.eval 0 (Polynomial.X : Polynomial NC) = 0
   simp
 
 /-- The reduction `A' → NC` is surjective. -/

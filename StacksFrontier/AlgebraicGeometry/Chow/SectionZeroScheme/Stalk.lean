@@ -64,10 +64,10 @@ theorem eq_bot_of_stalk_eq_bot (I : X.IdealSheafData)
     (h : ∀ x : X, IdealSheafData.stalk I x = ⊥) : I = ⊥ := by
   refine le_antisymm ?_ bot_le
   intro U a ha
-  show a ∈ (⊥ : X.IdealSheafData).ideal U
+  change a ∈ (⊥ : X.IdealSheafData).ideal U
   rw [Scheme.IdealSheafData.ideal_bot, Pi.bot_apply, Ideal.mem_bot]
   refine TopCat.Presheaf.section_ext X.sheaf U.1 a 0 fun x hx => ?_
-  show X.presheaf.germ U.1 x hx a = X.presheaf.germ U.1 x hx 0
+  change X.presheaf.germ U.1 x hx a = X.presheaf.germ U.1 x hx 0
   have hmem : X.presheaf.germ U.1 x hx a ∈ IdealSheafData.stalk I x := by
     rw [IdealSheafData.stalk_eq_map_germ I x U hx]
     exact Ideal.mem_map_of_mem _ ha
@@ -111,7 +111,7 @@ theorem exists_linearForm_eq_one [AlgebraicGeometry.SheafOfModules.IsFiniteLocal
   obtain ⟨f, hfle, hxf⟩ := V₀.2.exists_basicOpen_le (V := W ⊓ V₀.1) ⟨x, hxW, hxV₀⟩ hxV₀
   let V : X.affineOpens := X.affineBasicOpen f
   have htop : (zeroSchemeOfSection X F s).ideal V = ⊤ := by
-    show (zeroSchemeOfSection X F s).ideal (X.affineBasicOpen f) = ⊤
+    change (zeroSchemeOfSection X F s).ideal (X.affineBasicOpen f) = ⊤
     rw [← (zeroSchemeOfSection X F s).map_ideal_basicOpen V₀ f, htop₀, Ideal.map_top]
     rfl
   refine ⟨V, hxf, fun y hy => (hfle hy).1, ?_⟩

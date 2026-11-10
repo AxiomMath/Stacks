@@ -165,7 +165,6 @@ variable [IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj x.T.left, ⊤)]
 /-- Naturality of the composite identification, in a fixed degree. -/
 theorem extGroup_trans_natural
     (L : DerivedCategory (ModuleCat.{u} (D.baseRing x)))
-    (hL : StacksDraft.PseudoCoherence.IsPseudoCoherentFrom L (-3))
     (Ξ : ∀ (N : ModuleCat.{u} (D.baseRing x)) (i : ℤ),
       ShiftedHom L ((DerivedCategory.singleFunctor _ 0).obj N) i ≃+
         ShiftedHom (D.singleObject x) (tensorPullbackComplexDerived (D.baseProjection x)
@@ -262,12 +261,12 @@ theorem exists_perfect_derivedCohomology_addEquiv_extGroup_of_data
       (D.extGroupEquiv x e M 1).symm,
     fun M => ((Ψ₂' M).trans (Ξ (D.baseModule x e M) 2)).trans (D.extGroupEquiv x e M 2).symm,
     ?_, ?_, ?_⟩
-  · exact fun g c => D.extGroup_trans_natural x e L hL Ξ hΞnat hΞδ K 1 Ψ₁' h₁ g c
-  · exact fun g c => D.extGroup_trans_natural x e L hL Ξ hΞnat hΞδ K 2 Ψ₂' h₂ g c
+  · exact fun g c => D.extGroup_trans_natural x e L Ξ hΞnat hΞδ K 1 Ψ₁' h₁ g c
+  · exact fun g c => D.extGroup_trans_natural x e L Ξ hΞnat hΞδ K 2 Ψ₂' h₂ g c
   · intro Sq hSq c
     simp only [AddEquiv.trans_apply]
     refine congrArg (D.extGroupEquiv x e Sq.X₁ 2).symm ?_
-    show _ = (D.extGroupEquiv x e Sq.X₃ 1 ((D.extGroupEquiv x e Sq.X₃ 1).symm _)).comp _ _
+    change _ = (D.extGroupEquiv x e Sq.X₃ 1 ((D.extGroupEquiv x e Sq.X₃ 1).symm _)).comp _ _
     rw [AddEquiv.apply_symm_apply]
     exact (congrArg (Ξ (D.baseModule x e Sq.X₁) 2) (hδ hSq c)).trans
       (hΞδ (Sq := (ShortComplex.mk (X₁ := D.baseModule x e Sq.X₁) (X₂ := D.baseModule x e Sq.X₂)

@@ -89,7 +89,7 @@ theorem app_sum_of_graphCover
   let g i := graph (W i) ≫ R.map (e i).hom
   let t i := G.map (g i).op s
   let x i := H.map (e i).inv.op (η (W i) (t i))
-  show θ.app (Opposite.op Q) (∑ i, x i) = s
+  change θ.app (Opposite.op Q) (∑ i, x i) = s
   rw [map_sum]
   apply hG (R.obj Q) _ hcov
   intro T f hf
@@ -220,7 +220,7 @@ theorem smallEtaleLiftPostIso_inv_comp_graph_comp_proj [IsSeparated (B.inclusion
           smallEtaleBaseChangeProj B X hX U Q = 𝟙 Q := by
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
-  show 𝟙 Q.obj.left ≫ (smallEtaleLiftGraph B X hX U Q φ).hom.left ≫
+  change 𝟙 Q.obj.left ≫ (smallEtaleLiftGraph B X hX U Q φ).hom.left ≫
     pullback.fst Q.obj.hom U.obj.hom = 𝟙 Q.obj.left
   rw [Category.id_comp]
   exact smallEtaleLiftGraph_fst B X hX U Q φ
@@ -255,7 +255,7 @@ private theorem abelianExtensionByZeroAdjunction_counit_app_liftPostIso_inv
       (op (smallEtaleLift B X hX U Q φ)))
       ((abelianExtensionByZeroAdjunction B X hX U).right_triangle_components G)) t
   refine (congrArg (G.obj.map (smallEtaleLiftPostIso B X hX U Q φ).inv.op) htri).trans ?_
-  show G.obj.map (smallEtaleLiftPostIso B X hX U Q φ).inv.op
+  change G.obj.map (smallEtaleLiftPostIso B X hX U Q φ).inv.op
       (G.obj.map ((smallEtalePostcompose B X hX U).map
         (smallEtaleLiftGraph B X hX U Q φ)).op
         (G.obj.map (smallEtaleBaseChangeProj B X hX U Q).op s)) = s
@@ -333,7 +333,7 @@ theorem exists_smallEtaleArrows_cover_natCard_eq_rank {d : ℕ}
   let q₀ : B.obj N hN ⟶ V.obj.left := ObjectProperty.homMk g
   let Q : SmallEtale B X hX :=
     ⟨Over.mk (q₀ ≫ V.obj.hom), by
-      show Etale (g ≫ B.inclusion.map V.obj.hom)
+      change Etale (g ≫ B.inclusion.map V.obj.hom)
       infer_instance⟩
   let q : Q ⟶ V := ObjectProperty.homMk (Over.homMk q₀ rfl)
   have hsq := (IsPullback.pullback_lift_fst_comp Q.obj.hom q₀ V.obj.hom U.obj.hom
@@ -395,7 +395,7 @@ theorem abelianRestrictionUnit_comp_abelianTrace [IsFinite (B.inclusion.map U.ob
   intro Q f hf
   obtain ⟨Q', a, q, ⟨ι, hι, φ, hcov, hd, hcard⟩, rfl⟩ := hf
   have hnat := ConcreteCategory.congr_hom (c.hom.naturality q.op) t
-  show G.obj.map (a ≫ q).op (c.hom.app V t) = G.obj.map (a ≫ q).op ((d • 𝟙 G).hom.app V t)
+  change G.obj.map (a ≫ q).op (c.hom.app V t) = G.obj.map (a ≫ q).op ((d • 𝟙 G).hom.app V t)
   rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
   congr 1
   rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at hnat

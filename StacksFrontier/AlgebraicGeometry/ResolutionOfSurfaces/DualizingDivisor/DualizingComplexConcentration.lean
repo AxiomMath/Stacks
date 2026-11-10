@@ -75,7 +75,7 @@ theorem linearMap_eq_zero_of_one_le_depth {M N : Type u} [AddCommGroup M] [Modul
     refine hcq (hq.annihilator_le (Submodule.mem_annihilator.2 fun z _ => ?_))
     obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 z.2
     refine Subtype.ext ?_
-    show c • (z : N) = 0
+    change c • (z : N) = 0
     rw [← ha, smul_comm, ← map_smul, hc, map_zero, smul_zero]
   subst hqm
   have hN : IsLocalRing.maximalIdeal A ∈ associatedPrimes A N :=

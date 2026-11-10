@@ -129,7 +129,7 @@ theorem isFpqcCovering_of_isQuasiCompact_of_isFlat_of_isSurjective
   · rw [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton]
     exact Scheme.Hom.singleton_mem_fpqcPrecoverage (G.map b)
   · refine ⟨Classical.arbitrary I, a ≫ pullback.snd h f.hom, ?_⟩
-    show (a ≫ pullback.snd h f.hom) ≫ f.hom = yoneda.map b ≫ h
+    change (a ≫ pullback.snd h f.hom) ≫ f.hom = yoneda.map b ≫ h
     rw [hb, Category.assoc, Category.assoc, pullback.condition]
 
 /-- **Stacks 0B8C.** A quasi-compact, flat and surjective monomorphism of algebraic spaces

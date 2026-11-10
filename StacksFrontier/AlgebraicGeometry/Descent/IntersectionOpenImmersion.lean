@@ -221,7 +221,7 @@ lemma subsetΓSpecLift_eq {T Y : Scheme.{u}} (m : T ⟶ Y) (E : Set Y)
       Spec.map (Scheme.sectionsRingOnSubsetMap m E (Set.univ : Set T) hm) := by
   refine Scheme.Hom.ext' ?_
   rw [Scheme.Hom.comp_toLRSHom]
-  show (ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
+  change (ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
       subsetLocallyRingedSpaceMap m E (Set.univ : Set T) hm ≫
         (subsetLocallyRingedSpace Y.toLocallyRingedSpace E).toΓSpec =
     ((ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
@@ -236,7 +236,7 @@ lemma univΓSpecMap_comp_specMap_topToSubset (T : Scheme.{u}) :
     univΓSpecMap T ≫ Spec.map (T.topToSubset (Set.univ : Set T)) = T.toSpecΓ := by
   refine Scheme.Hom.ext' ?_
   rw [Scheme.Hom.comp_toLRSHom]
-  show ((ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
+  change ((ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
       (subsetLocallyRingedSpace T.toLocallyRingedSpace (Set.univ : Set T)).toΓSpec) ≫
         Spec.locallyRingedSpaceMap (T.topToSubset (Set.univ : Set T)) = T.toSpecΓ.toLRSHom
   have hnat : ofSubsetHom T.toLocallyRingedSpace (Set.univ : Set T) ≫ T.toSpecΓ.toLRSHom =
@@ -254,7 +254,7 @@ lemma comp_univΓSpecMap {T' T : Scheme.{u}} (a : T' ⟶ T) :
         (univ_subset_preimage_univ a)) := by
   refine Scheme.Hom.ext' ?_
   rw [Scheme.Hom.comp_toLRSHom, Scheme.Hom.comp_toLRSHom]
-  show a.toLRSHom ≫ (ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
+  change a.toLRSHom ≫ (ofSubsetUnivIso T.toLocallyRingedSpace).inv ≫
       (subsetLocallyRingedSpace T.toLocallyRingedSpace (Set.univ : Set T)).toΓSpec =
     ((ofSubsetUnivIso T'.toLocallyRingedSpace).inv ≫
       (subsetLocallyRingedSpace T'.toLocallyRingedSpace (Set.univ : Set T')).toΓSpec) ≫

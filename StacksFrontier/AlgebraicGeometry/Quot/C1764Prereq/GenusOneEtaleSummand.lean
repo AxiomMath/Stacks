@@ -215,7 +215,7 @@ theorem exists_isSplitEpi_biprod_single_free {Z : AlgebraicSpaces B S hS} (m : �
   let r : SheafOfModules.free (R := Space.ringedToposStructureRingSheaf B S hS Z)
       (ULift.{u} (Fin m)) ⟶ SheafOfModules.unit _ :=
     Sigma.desc fun j => if j = i then 𝟙 _ else 0
-  have hr : SheafOfModules.ιFree i ≫ r = 𝟙 _ := (Sigma.ι_desc _ _).trans (if_pos rfl)
+  have hr : SheafOfModules.ιFree i ≫ r = 𝟙 _ := (Sigma.ι_comp_desc _ _).trans (ite_eq_left rfl)
   have : IsSplitEpi r := IsSplitEpi.mk' ⟨_, hr⟩
   exact ⟨biprod.snd ≫ (DerivedCategory.singleFunctor _ 1).map r, inferInstance⟩
 

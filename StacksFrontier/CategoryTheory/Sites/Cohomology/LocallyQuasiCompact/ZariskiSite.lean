@@ -344,10 +344,10 @@ private theorem opensToSlice_coverPreserving
     (fun i => (G.map (f i)).left)
   have hmem : ∀ i, R (f i) := fun i => i.2
   have hT : T ∈ S.zariskiPrecoverage (G.obj U).left := by
-    show T ∈ (TopCat.precoverage.comap E) ((G.obj U).left)
+    change T ∈ (TopCat.precoverage.comap E) ((G.obj U).left)
     rw [Precoverage.mem_comap_iff]
     simp only [T, Presieve.map_ofArrows]
-    show _ ∧ _
+    change _ ∧ _
     constructor
     · rw [Presieve.ofArrows_mem_comap_jointlySurjectivePrecoverage_iff]
       intro y
@@ -355,7 +355,7 @@ private theorem opensToSlice_coverPreserving
       have hy : (y : X.obj) ∈ U := y.2
       obtain ⟨W, g, hg, hw⟩ := hR' ⟨y, hy⟩
       refine ⟨⟨⟨W, g⟩, hg⟩, ?_⟩
-      show y ∈ Set.range (E.map ((G.map (f ⟨⟨W, g⟩, hg⟩)).left))
+      change y ∈ Set.range (E.map ((G.map (f ⟨⟨W, g⟩, hg⟩)).left))
       exact ⟨⟨(y : X.obj), hw⟩, rfl⟩
     · rw [MorphismProperty.ofArrows_mem_precoverage]
       intro i
@@ -376,7 +376,7 @@ private theorem opensToSlice_coverPreserving
   have hle : Sieve.generate T ≤ Sieve.overEquiv (G.obj U) (R.functorPushforward G) := by
     rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
     intro i
-    show Presieve.functorPushforward (Over.forget X)
+    change Presieve.functorPushforward (Over.forget X)
       (R.functorPushforward G).arrows ((G.map (f i)).left)
     refine ⟨G.obj (V i), G.map (f i), 𝟙 _, ?_, by simp⟩
     exact Sieve.image_mem_functorPushforward G R (hmem i)

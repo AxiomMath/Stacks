@@ -91,10 +91,10 @@ theorem etaleCovering_singleton_id (B : BigFppfSite.{u}) (T : B.Schemes) :
   refine (Scheme.presieve₀_mem_precoverage_iff
     ((PreZeroHypercover.singleton.{u + 1} (𝟙 T)).map B.inclusion)).mpr
       ⟨fun x => ⟨PUnit.unit, x, ?_⟩, fun _ => ?_⟩
-  · show (B.inclusion.map (𝟙 T)).base x = x
+  · change (B.inclusion.map (𝟙 T)).base x = x
     rw [B.inclusion.map_id]
     rfl
-  · show Etale (B.inclusion.map (𝟙 T))
+  · change Etale (B.inclusion.map (𝟙 T))
     rw [B.inclusion.map_id]
     infer_instance
 
@@ -132,13 +132,13 @@ theorem etaleCovering_bind (B : BigFppfSite.{u}) {T : B.Schemes}
     · obtain ⟨i, y, hy⟩ := hEs x
       obtain ⟨j, z, hz⟩ := hGs i y
       refine ⟨⟨i, j⟩, z, ?_⟩
-      show (B.inclusion.map ((G i).f j ≫ E.f i)).base z = x
+      change (B.inclusion.map ((G i).f j ≫ E.f i)).base z = x
       rw [Functor.map_comp]
-      show (B.inclusion.map (E.f i)).base ((B.inclusion.map ((G i).f j)).base z) = x
+      change (B.inclusion.map (E.f i)).base ((B.inclusion.map ((G i).f j)).base z) = x
       rw [hz, hy]
     · have h1 := hEe ij.1
       have h2 := hGe ij.1 ij.2
-      show Etale (B.inclusion.map ((G ij.1).f ij.2 ≫ E.f ij.1))
+      change Etale (B.inclusion.map ((G ij.1).f ij.2 ≫ E.f ij.1))
       rw [Functor.map_comp]
       infer_instance
 
@@ -156,7 +156,7 @@ affine étale site. -/
 theorem AffineEtale.isCovering_singleton_id (X : AffineEtale B S hS F) :
     AffineEtale.IsCovering B S hS F ⟨X, PreZeroHypercover.singleton.{u + 1} (𝟙 X)⟩ := by
   refine ⟨?_, inferInstanceAs (Finite PUnit.{u + 2})⟩
-  show B.etaleCovering ⟨(AffineEtale.toSchemes B S hS F).obj X,
+  change B.etaleCovering ⟨(AffineEtale.toSchemes B S hS F).obj X,
     PreZeroHypercover.singleton.{u + 1} (𝟙 ((AffineEtale.toSchemes B S hS F).obj X))⟩
   exact B.etaleCovering_singleton_id _
 
@@ -173,7 +173,7 @@ theorem AffineEtale.isCovering_bind {X : AffineEtale B S hS F}
   have _ : Finite E.I₀ := hE.2
   have _ : ∀ i, Finite (G i).I₀ := fun i => (hG i).2
   refine ⟨?_, inferInstanceAs (Finite (Σ i, (G i).I₀))⟩
-  show B.etaleCovering ⟨(AffineEtale.toSchemes B S hS F).obj X,
+  change B.etaleCovering ⟨(AffineEtale.toSchemes B S hS F).obj X,
     ((E.map (AffineEtale.inclusion B S hS F)).map (SmallEtale.toSchemes B S hS F)).bind
       fun i => ((G i).map (AffineEtale.inclusion B S hS F)).map
         (SmallEtale.toSchemes B S hS F)⟩
@@ -286,7 +286,7 @@ theorem SmallEtale.exists_finite_affine_refinement (U : SmallEtale B S hS F)
     have hid : (AffineEtale.inclusion B S hS F).map (E.f (e.symm i)) ≫ 𝟙 U =
       (AffineEtale.inclusion B S hS F).map (E.f (e.symm i)) := Category.comp_id _
     exact hid ▸ h
-  · show Sieve.generate (Presieve.ofArrows _ _) ∈ SmallEtale.topology B S hS F U
+  · change Sieve.generate (Presieve.ofArrows _ _) ∈ SmallEtale.topology B S hS F U
     rw [hfam]
     exact Precoverage.generate_mem_toGrothendieck
       ⟨E.map (AffineEtale.inclusion B S hS F), rfl, hE.1⟩

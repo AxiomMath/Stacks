@@ -47,7 +47,7 @@ public theorem pullbackAppEquiv_fst
     {D : Type v} [Category.{w} D] {F G H : Dᵒᵖ ⥤ Type u}
     (f : F ⟶ H) (g : G ⟶ H) (T : Dᵒᵖ) (x : (pullback f g).obj T) :
     (pullbackAppEquiv f g T x).1.1 = (pullback.fst f g).app T x := by
-  show ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
+  change ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
     ((pullbackObjIso f g T).hom x)).1.1 = _
   rw [Types.pullbackIsoPullback_hom_fst]
   exact congrArg (fun k => k x) (pullbackObjIso_hom_comp_fst f g T)
@@ -57,7 +57,7 @@ public theorem pullbackAppEquiv_snd
     {D : Type v} [Category.{w} D] {F G H : Dᵒᵖ ⥤ Type u}
     (f : F ⟶ H) (g : G ⟶ H) (T : Dᵒᵖ) (x : (pullback f g).obj T) :
     (pullbackAppEquiv f g T x).1.2 = (pullback.snd f g).app T x := by
-  show ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
+  change ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
     ((pullbackObjIso f g T).hom x)).1.2 = _
   rw [Types.pullbackIsoPullback_hom_snd]
   exact congrArg (fun k => k x) (pullbackObjIso_hom_comp_snd f g T)
@@ -198,10 +198,10 @@ private theorem functorGroupoid_comp_source_target
   have hc := pd.comp_eq fb fa
   have hs := (pd.arrowEquiv (K.source.app T b) (K.target.app T a) (fb ≫ fa)).2
   have hfa : (pd.arrowEquiv (K.target.app T b) (K.target.app T a) fa).1 = a := by
-    show (eₐ (eₐ.symm ⟨a, h, rfl⟩)).1 = a
+    change (eₐ (eₐ.symm ⟨a, h, rfl⟩)).1 = a
     simp
   have hfb : (pd.arrowEquiv (K.source.app T b) (K.target.app T b) fb).1 = b := by
-    show (eᵦ (eᵦ.symm ⟨b, rfl, rfl⟩)).1 = b
+    change (eᵦ (eᵦ.symm ⟨b, rfl, rfl⟩)).1 = b
     simp
   have hc' :
       (pd.arrowEquiv (K.source.app T b) (K.target.app T a) (fb ≫ fa)).1 =

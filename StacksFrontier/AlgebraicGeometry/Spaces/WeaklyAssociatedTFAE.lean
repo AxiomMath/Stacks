@@ -169,8 +169,7 @@ private theorem isWeaklyAssociatedPrime_maximalIdeal_tensorProduct_congr_algEqui
   refine isWeaklyAssociatedPrime_maximalIdeal_congr_semilinearEquiv e.toRingEquiv
     (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl R M)).toAddEquiv ?_
   intro a z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m => simp [TensorProduct.smul_tmul']
   | add z z' hz hz' => simp only [smul_add, map_add, hz, hz']
 

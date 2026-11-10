@@ -15,8 +15,9 @@ acting as restriction along `π̄ = π_X × id`
 (`Stacks.EtaleCohomology.LAdicSheaf.exists_addEquiv_constantLevel_frobenius`), the Weil pairing
 (`Stacks.Picard.exists_extPairing_of_comp_eq`) is left nondegenerate and multiplied by `q`, since
 pullback along `π̄` multiplies degrees of line bundles by `q`
-(`Stacks.Frobenius.picardDegree_schemePullbackClassHom_geometricFrobeniusBaseChange`). Given that the
-levels form a tower looking free, `Stacks.EtaleCohomology.TowerLimit.exists_isUnit_det_transpose_mul_mul_eq_smul`
+(`Stacks.Frobenius.picardDegree_schemePullbackClassHom_geometricFrobeniusBaseChange`).
+Given that the levels form a tower looking free,
+`Stacks.EtaleCohomology.TowerLimit.exists_isUnit_det_transpose_mul_mul_eq_smul`
 turns this into the matrix identity `Aᵀ J A = q J` of [Tag 03V8](https://stacks.math.columbia.edu/tag/03V8)
 for the matrix `A` of `π_X^*` on `H¹(X_k̄, ℚ_ℓ)` in any basis.
 
@@ -63,7 +64,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1] [Fact ℓ.Prime]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [IsProper f]
+  [IsProper f]
   (kbar : Type u) [Field kbar] [Algebra k kbar] (p q : ℕ) [Fact p.Prime] [CharP k p]
   (hcard : Fintype.card k = p ^ q)
 
@@ -74,7 +75,8 @@ local instance : QuasiSeparatedSpace X.obj :=
 include hcard in
 /-- **The levels of `H¹(X_k̄, ℤ_ℓ)` are killed by `ℓⁿ⁺¹`.** -/
 theorem LAdicSheaf.pow_smul_constantLevel_eq_zero (i n : ℕ)
-    (x : (geometricCompactSupportPadicCohomology B X ℓ f (CompactificationOf.ofProper f) kbar (i : ℤ)).obj
+    (x : (geometricCompactSupportPadicCohomology B X ℓ f (CompactificationOf.ofProper f) kbar
+        (i : ℤ)).obj
       (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) :
     ((ℓ : ℤ_[ℓ]) ^ (n + 1) : ℤ_[ℓ]) • x = 0 := by
   obtain ⟨Φ, -⟩ := LAdicSheaf.exists_addEquiv_constantLevel_frobenius B X ℓ f kbar p q hcard i n
@@ -93,7 +95,8 @@ theorem LAdicSheaf.finite_constantLevel_one (hℓ : IsUnit (ℓ : kbar)) (n : �
     Finite ((geometricCompactSupportPadicCohomology B X ℓ f (CompactificationOf.ofProper f) kbar
       ((1 : ℕ) : ℤ)).obj (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) := by
   obtain ⟨Φ, -⟩ := LAdicSheaf.exists_addEquiv_constantLevel_frobenius B X ℓ f kbar p q hcard 1 n
-  haveI := Stacks.Picard.finite_ext_one_unitSheaf (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) hℓ (n + 1)
+  have := Stacks.Picard.finite_ext_one_unitSheaf
+    (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) hℓ (n + 1)
   exact Finite.of_equiv _ Φ.symm.toEquiv
 
 /-- **The Weil pairing on the level `n` of `H¹(X_k̄, ℤ_ℓ)`**: left nondegenerate, with values in
@@ -107,10 +110,12 @@ theorem LAdicSheaf.exists_levelPairing_constant_one (hℓ : IsUnit (ℓ : kbar))
       (∀ a, (∀ b, e a b = 0) → a = 0) ∧
         ∀ a b, e ((canonicalCompactSupportFrobeniusGroup.{u, 0} ℤ_[ℓ] f
             (CompactificationOf.ofProper f) kbar p q hcard ((padicCoefficientComplex B X ℓ).obj
-              (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) ((1 : ℕ) : ℤ)).hom a)
+              (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n))
+              ((1 : ℕ) : ℤ)).hom a)
           ((canonicalCompactSupportFrobeniusGroup.{u, 0} ℤ_[ℓ] f
             (CompactificationOf.ofProper f) kbar p q hcard ((padicCoefficientComplex B X ℓ).obj
-              (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n)) ((1 : ℕ) : ℤ)).hom b) =
+              (LAdicSheaf.padicLevel B X ℓ (LAdicSheaf.constantSystem B X ℓ) n))
+              ((1 : ℕ) : ℤ)).hom b) =
           (Fintype.card k : ZMod (ℓ ^ (n + 1))) * e a b := by
   obtain ⟨Φ, hΦ⟩ := LAdicSheaf.exists_addEquiv_constantLevel_frobenius B X ℓ f kbar p q hcard 1 n
   obtain ⟨e, he0, he⟩ := Stacks.Picard.exists_extPairing_of_comp_eq
@@ -127,8 +132,8 @@ theorem LAdicSheaf.exists_levelPairing_constant_one (hℓ : IsUnit (ℓ : kbar))
 
 /-- **`Aᵀ J A = q J` for the Frobenius on `H¹(X_k̄, ℚ_ℓ)`, given the tower facts.** If the levels of
 `H¹(X_k̄, ℤ_ℓ)` have surjective transitions with kernels `ℓⁿ⁺¹ H(n+1)`, and their `ℓᵏ⁺¹`-torsion is
-divisible by `ℓⁿ⁺¹`, then every basis of `H¹(X_k̄, ℚ_ℓ)` gives a matrix `J` with unit determinant and
-`Aᵀ J A = q J`, `A` the matrix of `π_X^*`. -/
+divisible by `ℓⁿ⁺¹`, then every basis of `H¹(X_k̄, ℚ_ℓ)` gives a matrix `J` with unit determinant
+and `Aᵀ J A = q J`, `A` the matrix of `π_X^*`. -/
 theorem LAdicSheaf.exists_isUnit_det_transpose_mul_mul_eq_card_smul_of_tower
     (hℓ : IsUnit (ℓ : kbar))
     (hsurj : ∀ n, Function.Surjective (TowerLimit.tr
@@ -165,7 +170,8 @@ theorem LAdicSheaf.exists_isUnit_det_transpose_mul_mul_eq_card_smul_of_tower
     (fun n x => congrArg (fun g => g.hom x)
       (LAdicSheaf.geometricCompactlySupportedFrobenius_π B X ℓ f (CompactificationOf.ofProper f)
         kbar p q hcard (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ) n))
-    (Fintype.card k) (fun n => LAdicSheaf.exists_levelPairing_constant_one B X ℓ f kbar p q hcard hℓ n)
+    (Fintype.card k)
+    (fun n => LAdicSheaf.exists_levelPairing_constant_one B X ℓ f kbar p q hcard hℓ n)
     bV
 
 end Stacks.EtaleCohomology

@@ -61,7 +61,7 @@ theorem isCompact_inter_of_quasiCompact_ι {S : Scheme.{u}} (V W : S.Opens)
   have h := (hqc.isCompact_preimage _ W.2 hW).image V.ι.continuous
   rw [Set.image_preimage_eq_inter_range, V.range_ι] at h
   rw [W.ι.isOpenEmbedding.isEmbedding.isCompact_iff]
-  show IsCompact (W.ι '' (W.ι ⁻¹' (V : Set S)))
+  change IsCompact (W.ι '' (W.ι ⁻¹' (V : Set S)))
   rwa [Set.image_preimage_eq_inter_range, W.range_ι, Set.inter_comm]
 
 variable {I : Type u} [Category.{u} I] (D : I ⥤ Scheme.{u})

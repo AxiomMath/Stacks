@@ -320,7 +320,7 @@ private theorem exists_hasGoodPresentation_of_le (B : Subalgebra k K) {d : ℕ}
       Ideal.Quotient.lift I Ψ0 fun x hx ↦ by rwa [← RingHom.mem_ker, hkerΨ0]
     have hΨ1 : Function.Injective Ψ1 := (Ideal.injective_lift_iff _).2 hkerΨ0
     have hΨB : ∀ b : B, Ψ1 (algebraMap B _ b) = b := fun b ↦ by
-      show Ψ1 (Ideal.Quotient.mk I (MvPolynomial.C (algebraMap B (Localization.Away g) b))) = _
+      change Ψ1 (Ideal.Quotient.mk I (MvPolynomial.C (algebraMap B (Localization.Away g) b))) = _
       simp [Ψ1, Ψ0, φ, hψ, hι]
     let Ψ : LocalizationQuotient g μ →ₐ[k] K :=
       { Ψ1 with

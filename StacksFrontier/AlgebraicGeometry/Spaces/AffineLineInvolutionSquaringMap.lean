@@ -184,7 +184,7 @@ theorem pointsYonedaIso_inv_comp_whiskerLeft {C : Type v} [Category.{u} C] {S : 
     (pointsYonedaIso F V).inv ≫ F.op.whiskerLeft (yoneda.map g) =
       yoneda.map (F.preimage g) ≫ (pointsYonedaIso F W).inv := by
   ext X h
-  show F.map h ≫ g = F.map (h ≫ F.preimage g)
+  change F.map h ≫ g = F.map (h ≫ F.preimage g)
   rw [F.map_comp, F.map_preimage]
 
 end AlgebraicGeometry.Space
@@ -472,6 +472,7 @@ theorem squareFibre_comp_quotientChart_comp_squaringMap :
     ← Category.assoc, ← yoneda.map_comp, ← yoneda.map_comp, pullback.condition]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the pullbacks of presheaves in this statement is heavy
 /-- **The relation of Stacks 02Z1 is a base change of the relative diagonal of the squaring
 map.** The chart of the quotient has the relation as its kernel pair, and the two projections
 of the fibre square of the squaring map are jointly monic. -/

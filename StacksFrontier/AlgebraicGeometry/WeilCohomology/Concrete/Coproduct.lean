@@ -71,10 +71,10 @@ theorem smooth_coprod_desc {X Y S : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) [Smo
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @Smooth)
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @Smooth) (coprodOpenCover.{u, 0} X Y)]
   rintro (⟨⟨⟩⟩ | ⟨⟨⟩⟩)
-  · show Smooth (coprod.inl ≫ coprod.desc f g)
+  · change Smooth (coprod.inl ≫ coprod.desc f g)
     rw [coprod.inl_desc]
     infer_instance
-  · show Smooth (coprod.inr ≫ coprod.desc f g)
+  · change Smooth (coprod.inr ≫ coprod.desc f g)
     rw [coprod.inr_desc]
     infer_instance
 

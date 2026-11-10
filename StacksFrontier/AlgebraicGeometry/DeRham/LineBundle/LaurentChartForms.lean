@@ -219,7 +219,7 @@ theorem generator_overIsoUnitOfBijectiveSmul {C : Type u₁} [Category.{v₁} C]
       Function.Bijective (fun r : R.obj.obj (op V) => r • L.val.map f.op s)) :
     ((overIsoUnitOfBijectiveSmul L U s hs).inv.val.app (op (Over.mk (𝟙 U)))).hom
         (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))) = s := by
-  show (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))) •
+  change (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))) •
       (show (L.over U).val.obj (op (Over.mk (𝟙 U))) from L.val.map (𝟙 U).op s) = s
   rw [one_smul, op_id, PresheafOfModules.map_id]
   rfl
@@ -252,7 +252,7 @@ theorem Situation.laurentStructureHom_eq_incl (U : D.X.Opens) (r : Γ(D.X, U)) :
         D.laurentAlgebra.toPresheafGradedAlgebra.incl 0
           (show (D.tensorPower 0).val.obj (op U) from s) := by
     intro s
-    show s • (1 : D.laurentAlgebra.toPresheafGradedAlgebra.Total (op U)) = _
+    change s • (1 : D.laurentAlgebra.toPresheafGradedAlgebra.Total (op U)) = _
     rw [Stacks.GradedAlgebra.one_eq_incl, ← Stacks.GradedAlgebra.incl_smul]
     exact congrArg (D.laurentAlgebra.toPresheafGradedAlgebra.incl 0) (mul_one s)
   exact key r
@@ -473,7 +473,7 @@ theorem Situation.laurentAlgebraSheafIncl_smul (U : D.X.Opens) (n : ℤ)
   have h1 : Stacks.GradedAlgebra.structureMap D.laurentAlgebra.toPresheafGradedAlgebra (op U) a *
         D.laurentAlgebra.toPresheafGradedAlgebra.incl n y =
       a • D.laurentAlgebra.toPresheafGradedAlgebra.incl n y := by
-    show a • (1 : D.laurentAlgebra.toPresheafGradedAlgebra.Total (op U)) * _ = _
+    change a • (1 : D.laurentAlgebra.toPresheafGradedAlgebra.Total (op U)) * _ = _
     rw [Stacks.GradedAlgebra.smul_mul_eq, one_mul]
   refine (congrArg (Stacks.RelativeSpec.ungradedCommUnit D.X D.laurentAlgebra
     D.laurentAlgebra_mul_comm U).hom ?_).trans (map_mul _ _ _)
@@ -924,7 +924,7 @@ theorem Situation.isAffineOpen_laurentPreimage (D : Situation.{u}) {U : D.X.Open
 theorem Situation.laurentPreimage_le_laurentToBase_preimage (D : Situation.{u})
     {U : D.X.Opens} {V : D.S.Opens} (hUV : U ≤ D.f ⁻¹ᵁ V) :
     D.laurentSpectrumToBase ⁻¹ᵁ U ≤ D.laurentToBase ⁻¹ᵁ V := by
-  show D.laurentSpectrumToBase ⁻¹ᵁ U ≤ (D.laurentSpectrumToBase ≫ D.f) ⁻¹ᵁ V
+  change D.laurentSpectrumToBase ⁻¹ᵁ U ≤ (D.laurentSpectrumToBase ≫ D.f) ⁻¹ᵁ V
   rw [Scheme.Hom.comp_preimage]
   exact fun _ hx => hUV hx
 

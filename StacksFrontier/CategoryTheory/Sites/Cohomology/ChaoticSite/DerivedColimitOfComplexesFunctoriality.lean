@@ -285,7 +285,8 @@ as functors from the complexes of `B̲`-modules on `C` strictly bounded above by
 @[stacks 08QA "the identification `Lπ'_! ∘ g^{-1} = Lπ_!` with values in `D(B)`, at module \
   coefficients, as an isomorphism of functors of a COMPLEX of coefficients strictly bounded \
   above by `0`, whose domain contains the complexes concentrated in degree `0`, so that the \
-  statement specialises to the form at the heart (the two isomorphisms are not compared). The source states the identification on the unbounded `D(C, B̲)`; the module docstring \
+  statement specialises to the form at the heart (the two isomorphisms are not compared). \
+  The source states the identification on the unbounded `D(C, B̲)`; the module docstring \
   records what the unbounded case needs, namely the dévissage along the compact generators, the \
   total complex of the double complex of an unbounded complex not being `Lπ_!` of it"]
 def derivedColimitInverseImageComplexNatIso (f : C' ⥤ C) (U : CosimplicialObject C')
@@ -455,7 +456,8 @@ as functors from the complexes of abelian presheaves on `C` strictly bounded abo
 @[stacks 08QA "the identification `Lπ'_! ∘ g^{-1} = Lπ_!` with values in `D(Ab)`, at abelian \
   coefficients, as an isomorphism of functors of a COMPLEX of coefficients strictly bounded \
   above by `0`, whose domain contains the complexes concentrated in degree `0`, so that the \
-  statement specialises to the form at the heart (the two isomorphisms are not compared). The source states the identification on the unbounded `D(C)`; the module docstring \
+  statement specialises to the form at the heart (the two isomorphisms are not compared). \
+  The source states the identification on the unbounded `D(C)`; the module docstring \
   records what the unbounded case needs, namely the dévissage along the compact generators, the \
   total complex of the double complex of an unbounded complex not being `Lπ_!` of it"]
 def derivedColimitPresheafRestrictionComplexNatIso (f : C' ⥤ C) (U : CosimplicialObject C')

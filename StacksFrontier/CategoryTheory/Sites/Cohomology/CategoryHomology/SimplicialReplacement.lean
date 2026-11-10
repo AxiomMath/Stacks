@@ -121,7 +121,7 @@ by `rw` without this `change`. -/
 private lemma map_op_comp_apply (F : Cᵒᵖ ⥤ AddCommGrpCat.{v})
     {X Y Z : C} (a : X ⟶ Y) (b : Y ⟶ Z) (s : F.obj (op Z)) :
     (F.map (op (a ≫ b))) s = (F.map (op a)) ((F.map (op b)) s) := by
-  show (F.map ((a ≫ b).op)) s = (F.map a.op) ((F.map b.op) s)
+  change (F.map ((a ≫ b).op)) s = (F.map a.op) ((F.map b.op) s)
   rw [CategoryTheory.op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
 
 /-- Two homomorphisms out of a replacement group agree if they agree on all generators. -/

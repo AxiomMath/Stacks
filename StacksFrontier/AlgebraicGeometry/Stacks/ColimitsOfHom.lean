@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleEquiUniverseMode
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.FibredTensorHypotheses
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.InternalHom
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.FibreProducts
-public import
- StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
+public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -109,8 +108,8 @@ algebraic-spaces tree. It is a generalisation of the bespoke
 construction of `AlgebraicGeometry.Space.smallEtaleModelRingedSite`, which is left untouched.
 
 The index category of the colimit is small in the module universe, `K : Type u` with
-`Category.{u} K`, which is what Stacks 0GMZ and the library's form of Stacks 0GN0 ask for; the source
-quantifies over an arbitrary directed set.
+`Category.{u} K`, which is what Stacks 0GMZ and the library's form of Stacks 0GN0 ask for; the
+source quantifies over an arbitrary directed set.
 
 The two `HasColimit` hypotheses are instance binders rather than consequences: on the fppf site of
 a category fibred in groupoids with no smallness hypothesis the module category is not known to

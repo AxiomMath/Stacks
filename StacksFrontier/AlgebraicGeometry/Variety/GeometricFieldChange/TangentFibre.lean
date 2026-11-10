@@ -253,7 +253,7 @@ lemma fiberResidueFieldEquiv_spec :
   have hjz : j z = x := f.fiberι_asFiber x
   let e : (f.fiber (f x)).residueField z ≃+* X.residueField x :=
     fiberResidueFieldEquiv f x
-  show Spec.map (CommRingCat.ofHom e.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom e.toRingHom) ≫
       (f.fiber (f x)).fromSpecResidueField z = f.asFiberHom x
   apply (cancel_mono j).1
   rw [Category.assoc, ← Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField]
@@ -376,7 +376,7 @@ lemma surjective_tangentMap_fiberι :
   let q := S.fromSpecResidueField (f x)
   have hcomp : j ≫ f = p ≫ q := f.fiber_fac (f x)
   let T := tangentMap j (j ≫ f) f rfl z
-  show Function.Surjective T
+  change Function.Surjective T
   intro θ
   let e0 : (f.fiber (f x)).residueField z ≃+* X.residueField (j z) :=
     ((asIso (j.residueFieldMap z)).symm).commRingCatIsoToRingEquiv
@@ -420,7 +420,7 @@ lemma surjective_tangentMap_fiberι :
       have hRingBase :
           (j ≫ f).residueFieldMap z ≫ aF = c.hom ≫ bF := by
         refine CommRingCat.hom_ext (RingHom.ext fun s' => ?_)
-        show aF.hom (((j ≫ f).residueFieldMap z).hom s') = bF.hom ((c.hom).hom s')
+        change aF.hom (((j ≫ f).residueFieldMap z).hom s') = bF.hom ((c.hom).hom s')
         rw [hRpt s']
         rfl
       exact (Spec.map_comp _ _).symm.trans
@@ -464,13 +464,13 @@ lemma surjective_tangentMap_fiberι :
       apply CommRingCat.hom_ext
       ext a
       case h1 =>
-        show e0.symm a = e0.symm a
+        change e0.symm a = e0.symm a
         rfl
       case h2 =>
-        show ((dualNumberCongr e0).symm (TrivSqZeroExt.inl a)).snd =
+        change ((dualNumberCongr e0).symm (TrivSqZeroExt.inl a)).snd =
           (TrivSqZeroExt.inl (e0.symm a)).snd
         simp only [dualNumberCongr]
-        show e0.symm (TrivSqZeroExt.snd (TrivSqZeroExt.inl a)) =
+        change e0.symm (TrivSqZeroExt.snd (TrivSqZeroExt.inl a)) =
           (TrivSqZeroExt.inl (e0.symm a)).snd
         rw [TrivSqZeroExt.snd_inl, TrivSqZeroExt.snd_inl]
         exact map_zero e0.symm
@@ -544,14 +544,14 @@ lemma surjective_tangentMap_fiberι :
       _ = b ≫ S.fromSpecResidueField (f x) := rfl
   let ηval : Spec (.of (DualNumber ((f.fiber (f x)).residueField z))) ⟶
       f.fiber (f x) := by
-    show _ ⟶ pullback f (S.fromSpecResidueField (f x))
+    change _ ⟶ pullback f (S.fromSpecResidueField (f x))
     exact pullback.lift θ' b hcompat
   have hfst : ηval ≫ j = θ' := by
-    show pullback.lift θ' b hcompat ≫ pullback.fst f
+    change pullback.lift θ' b hcompat ≫ pullback.fst f
       (S.fromSpecResidueField (f x)) = θ'
     exact pullback.lift_fst θ' b hcompat
   have hsnd : ηval ≫ p = b := by
-    show pullback.lift θ' b hcompat ≫ pullback.snd f
+    change pullback.lift θ' b hcompat ≫ pullback.snd f
       (S.fromSpecResidueField (f x)) = b
     exact pullback.lift_snd θ' b hcompat
   have hclosed : dualNumberClosedPoint (f.fiber (f x)) z ≫ ηval =
@@ -570,7 +570,7 @@ lemma surjective_tangentMap_fiberι :
       rfl
     apply (cancel_mono j).mp
     rw [Category.assoc, hfst]
-    show (dualNumberClosedPoint (f.fiber (f x)) z ≫
+    change (dualNumberClosedPoint (f.fiber (f x)) z ≫
       Spec.map (CommRingCat.ofHom α.symm.toRingHom)) ≫ θ.val =
         (f.fiber (f x)).fromSpecResidueField z ≫ j
     rw [hclosedcomp, Category.assoc, θ.property.1,
@@ -587,7 +587,7 @@ lemma surjective_tangentMap_fiberι :
   apply Subtype.ext
   show (T η).val = θ.val
   rw [tangentMap_fiberι_val]
-  show Spec.map (CommRingCat.ofHom α.toRingHom) ≫ ηval ≫ j = θ.val
+  change Spec.map (CommRingCat.ofHom α.toRingHom) ≫ ηval ≫ j = θ.val
   have hαinv : Spec.map (CommRingCat.ofHom α.toRingHom) ≫
       Spec.map (CommRingCat.ofHom α.symm.toRingHom) = 𝟙 _ :=
     specMap_dualNumberCongr_comp_symm e0
@@ -596,7 +596,7 @@ lemma surjective_tangentMap_fiberι :
         Spec.map (CommRingCat.ofHom α.toRingHom) ≫ θ' := by
       rw [hfst]
     _ = θ.val := by
-      show (Spec.map (CommRingCat.ofHom α.toRingHom) ≫
+      change (Spec.map (CommRingCat.ofHom α.toRingHom) ≫
         Spec.map (CommRingCat.ofHom α.symm.toRingHom)) ≫ θ.val = θ.val
       rw [hαinv, Category.id_comp]
 
@@ -641,7 +641,7 @@ lemma tangentMap_fiberTangentCore
     (tangentMap (f.fiberι (f x)) (f.fiberι (f x) ≫ f) f rfl
       (f.asFiber x)).toAddMonoidHom
     ⟨injective_tangentMap_fiberι f x, surjective_tangentMap_fiberι f x⟩
-  show T (fiberTangentBridge f x ((fiberTangentBridge f x).symm (T.symm v))) = v
+  change T (fiberTangentBridge f x ((fiberTangentBridge f x).symm (T.symm v))) = v
   rw [(fiberTangentBridge f x).apply_symm_apply, T.apply_symm_apply]
 
 /-- The identification of `AlgebraicGeometry.fiberTangentEquiv` is the one induced by the
@@ -656,7 +656,7 @@ lemma fiberTangentEquiv_fiberι (v : DottedTangentArrow f x) :
   let e : (f.fiber (f x)).residueField z ≃+* X.residueField x :=
     fiberResidueFieldEquiv f x
   let T := tangentMap j (j ≫ f) f rfl z
-  show Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom) ≫
       (fiberTangentEquiv f x v).val ≫ j = v.val
   let v' : DottedTangentArrow f (j z) :=
     Eq.mp (congrArg (DottedTangentArrow f) hjz.symm) v
@@ -709,7 +709,7 @@ lemma fiberTangentEquiv_smul (r : X.residueField x) (v : DottedTangentArrow f x)
   have hscale : σ ≫ scaleDualNumberMap
       ((f.fiber (f x)).residueField z) (e.symm r) =
       scaleDualNumberMap (X.residueField x) r ≫ σ := by
-    show Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom) ≫
         Spec.map (CommRingCat.ofHom (scaleDualNumber
           ((f.fiber (f x)).residueField z) (e.symm r)).toRingHom) =
       Spec.map (CommRingCat.ofHom (scaleDualNumber
@@ -720,25 +720,25 @@ lemma fiberTangentEquiv_smul (r : X.residueField x) (v : DottedTangentArrow f x)
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro w
-    show dualNumberCongr e
+    change dualNumberCongr e
         (scaleDualNumber
           ((f.fiber (f x)).residueField z) (e.symm r) w) =
       scaleDualNumber (X.residueField x) r (dualNumberCongr e w)
     apply TrivSqZeroExt.ext
-    · show e (TrivSqZeroExt.fst (scaleDualNumber
+    · change e (TrivSqZeroExt.fst (scaleDualNumber
           ((f.fiber (f x)).residueField z) (e.symm r) w)) =
         TrivSqZeroExt.fst (scaleDualNumber
           (X.residueField x) r (dualNumberCongr e w))
       rw [scaleDualNumber, TrivSqZeroExt.fst_map,
         scaleDualNumber, TrivSqZeroExt.fst_map]
       rfl
-    · show e (TrivSqZeroExt.snd (scaleDualNumber
+    · change e (TrivSqZeroExt.snd (scaleDualNumber
           ((f.fiber (f x)).residueField z) (e.symm r) w)) =
         TrivSqZeroExt.snd (scaleDualNumber
           (X.residueField x) r (dualNumberCongr e w))
       rw [scaleDualNumber, TrivSqZeroExt.snd_map,
         scaleDualNumber, TrivSqZeroExt.snd_map]
-      show e (e.symm r * TrivSqZeroExt.snd w) =
+      change e (e.symm r * TrivSqZeroExt.snd w) =
         r * e (TrivSqZeroExt.snd w)
       calc
         e (e.symm r * TrivSqZeroExt.snd w) =

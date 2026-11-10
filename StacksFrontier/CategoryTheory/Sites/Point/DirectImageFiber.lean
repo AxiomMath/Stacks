@@ -173,7 +173,7 @@ lemma presheafFiberCompToPiLeg_w (P : Dᵒᵖ ⥤ Type (max w w₂)) ⦃V V' : C
   have h := (Phi i).toPresheafFiber_w_apply (uf.map g) ((ε i).hom.app V t) P s
   have hn := ConcreteCategory.congr_hom ((ε i).hom.naturality g) t
   simp only [Functor.comp_map, types_comp_apply] at hn
-  show (Phi i).toPresheafFiber (uf.obj V) ((ε i).hom.app V t) P (P.map (uf.map g).op s) =
+  change (Phi i).toPresheafFiber (uf.obj V) ((ε i).hom.app V t) P (P.map (uf.map g).op s) =
     (Phi i).toPresheafFiber (uf.obj V') ((ε i).hom.app V' (Psi.fiber.map g t)) P s
   rw [hn]
   exact h
@@ -232,7 +232,7 @@ theorem bijective_presheafFiberCompToPi (P : Sheaf K (Type (max w w₂)))
     obtain ⟨V', t', g, N, -, c, b, hg, hcomm, -, -, hcov, -, -⟩ := hglue V t W w a hw
     have hle : Sieve.ofArrows N c ≤ Sieve.pullback (uf.map g) (Sieve.ofArrows W a) := by
       rintro T h ⟨Y, k, f, ⟨i⟩, rfl⟩
-      show Sieve.ofArrows W a ((k ≫ c i) ≫ uf.map g)
+      change Sieve.ofArrows W a ((k ≫ c i) ≫ uf.map g)
       rw [Category.assoc, hcomm i, ← Category.assoc]
       exact ⟨_, k ≫ b i, a i, ⟨i⟩, rfl⟩
     have hs : P.obj.map (uf.map g).op s = P.obj.map (uf.map g).op s' := by
@@ -271,7 +271,7 @@ theorem bijective_presheafFiberCompToPi (P : Sheaf K (Type (max w w₂)))
     have hσi := ConcreteCategory.congr_hom (hσ i) PUnit.unit
     simp only [types_comp_apply] at hσi
     rw [hσi, ← hs i]
-    show (Phi i).toPresheafFiber (N i) (n i) P.obj (P.obj.map (b i ≫ _).op (s i)) = _
+    change (Phi i).toPresheafFiber (N i) (n i) P.obj (P.obj.map (b i ≫ _).op (s i)) = _
     rw [(Phi i).toPresheafFiber_w_apply, Functor.map_comp_apply, hb i]
     exact congrArg (fun z => (Phi i).toPresheafFiber (W i) z P.obj (s i)) (l i).2
 

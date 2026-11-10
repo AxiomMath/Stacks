@@ -64,11 +64,10 @@ theorem Algebra.TensorProduct.ker_lift (A : Type u) (B : Type v) (D : Type w)
       (by simp [TensorProduct.tmul_sub, Algebra.algebraMap_eq_smul_one]; rfl)
   have heq : q = j.comp ev := by
     refine RingHom.ext fun z ↦ ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [q, j, ev]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul b d =>
-      show q (b ⊗ₜ[A] d) = j (f b * g d)
+      change q (b ⊗ₜ[A] d) = j (f b * g d)
       have ht : b ⊗ₜ[A] d =
           (Algebra.TensorProduct.includeLeftRingHom b) *
             Algebra.TensorProduct.includeRight d := by
@@ -78,16 +77,16 @@ theorem Algebra.TensorProduct.ker_lift (A : Type u) (B : Type v) (D : Type w)
   refine le_antisymm (fun z hz ↦ ?_) (sup_le ?_ ?_)
   · have hqz : q z = 0 := by
       rw [heq]
-      show q (algebraMap A T (ev z)) = 0
+      change q (algebraMap A T (ev z)) = 0
       rw [show ev z = 0 from hz]
       simp [q]
     change Ideal.Quotient.mk K z = 0 at hqz
     simpa only [Ideal.Quotient.eq_zero_iff_mem] using hqz
   · refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
-    show f b * g 1 = 0
+    change f b * g 1 = 0
     simpa using (RingHom.mem_ker.mp hb : f.toRingHom b = 0)
   · refine Ideal.map_le_iff_le_comap.mpr fun d hd ↦ ?_
-    show f 1 * g d = 0
+    change f 1 * g d = 0
     simpa using (RingHom.mem_ker.mp hd : g.toRingHom d = 0)
 
 /-- The kernel of a ring map out of a localization `C` of `T` is the image of the kernel of
@@ -109,7 +108,7 @@ theorem IsLocalization.ker_eq_map_ker {T C A : Type*} [CommRing T] [CommRing C] 
       exact he.symm
     rw [IsLocalization.mem_map_algebraMap_iff M]
     exact ⟨(⟨t, ht⟩, m), hcm⟩
-  · show f (algebraMap T C t) = 0
+  · change f (algebraMap T C t) = 0
     rwa [← RingHom.comp_apply, hf]
 
 /-- The kernel of a ring map out of a localization of `B ⊗[A] D` determined by two
@@ -177,7 +176,7 @@ theorem ker_eq_sup_map_stalkMap_of_isPullback {X Y Z : Scheme.{u}} (f : X ⟶ Z)
           unfold Scheme.Hom.stalkMapAt
           rw [Scheme.Hom.stalkMap_comp]
           rfl
-        show e ((((pullback.snd f g).stalkMap p).hom.comp (algebraMap R B)) r) = r
+        change e ((((pullback.snd f g).stalkMap p).hom.comp (algebraMap R B)) r) = r
         rw [← hfactor, hcongr]
         exact DFunLike.congr_fun he r }
   obtain ⟨φ, hφa, hφb, M, hM⟩ := BaseChangeStalk.pullback_stalk_isLocalization f g p

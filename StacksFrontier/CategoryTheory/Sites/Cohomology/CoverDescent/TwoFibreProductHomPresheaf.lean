@@ -111,7 +111,7 @@ def sliceArrowOfHom {x : 𝒳} (g : f.obj x ⟶ y) :
 /-- The arrow attached to the object of the 2-fibre product determined by `g` is `g`. -/
 lemma sliceArrowHom_sliceArrowOfHom {x : 𝒳} (g : f.obj x ⟶ y) :
     sliceArrowHom p𝒳 p𝒴 f D (sliceArrowOfHom p𝒳 p𝒴 f D h𝒴 hf g) = g := by
-  show f.map (𝟙 x) ≫ (Presheaf.pushforwardIndexInverseObj p𝒳 p𝒴 f D h𝒴 hf
+  change f.map (𝟙 x) ≫ (Presheaf.pushforwardIndexInverseObj p𝒳 p𝒴 f D h𝒴 hf
       (CostructuredArrow.mk g)).iso.inv ≫ D.cone (Presheaf.pushforwardIndexInverseObj p𝒳 p𝒴 f D
         h𝒴 hf (CostructuredArrow.mk g)).x = g
   simpa using Presheaf.pushforwardIndexInverseObj_iso_inv_comp_cone p𝒳 p𝒴 f D h𝒴 hf

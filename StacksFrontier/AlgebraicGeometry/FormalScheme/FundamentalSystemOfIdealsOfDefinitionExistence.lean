@@ -283,7 +283,7 @@ theorem exists_ker_spfProjection_pow_le (V : Opens (spfSpace A)) (J L : IdealsOf
     have hmem := Ideal.le_comap_pow ψ (n + 1) hx
     rwa [hnil, Ideal.mem_comap, Ideal.mem_bot] at hmem
   rw [RingHom.mem_ker, ← spfProjection_app_spfTransition_app A hμL (op V) x]
-  show ((spfTransition A hμL).app (op V)).hom (ψ x) = 0
+  change ((spfTransition A hμL).app (op V)).hom (ψ x) = 0
   rw [hzero, map_zero]
 
 end Spf

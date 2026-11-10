@@ -89,7 +89,8 @@ monomial family of coordinate operators.
 * `b` and `hdx` — a basis of `Ω` on the `d x_i`.  This is carried exactly as it is carried by
   `Crystalline.finite_notMem_pPowSmul_of_isCoordinateExpansion` and by the nine statements of
   `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFree.lean` and
-  `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFreeFinite.lean`: the library has **no** statement that the differentials of
+  `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFreeFinite.lean`: the library has
+  **no** statement that the differentials of
   the `p`-adically completed divided power envelope `D` are free, only
   `Crystalline.dividedPowerDifferentialsBasis` for the divided power *polynomial* algebra.  So the
   theorems below do not apply to `Ω_D` of the source's own situation until that is proved; they
@@ -213,7 +214,7 @@ class of the `j`-th coordinate of `z`. -/
     (z : M ⊗[D] Omega) :
     completedTensorCoordinateLevel p D Omega M b j n (toCompletedTensor p D Omega M z) =
       Submodule.Quotient.mk (p := pLevel p D M n) (tensorCoordinate b j z) := by
-  show pLevelMapQ p D (M ⊗[D] Omega) M (tensorCoordinate b j) n
+  change pLevelMapQ p D (M ⊗[D] Omega) M (tensorCoordinate b j) n
       (AdicCompletion.eval (DividedPowers.pAdicIdeal (A := D) p) (M ⊗[D] Omega) n
         (AdicCompletion.of (DividedPowers.pAdicIdeal (A := D) p) (M ⊗[D] Omega) z)) = _
   rw [AdicCompletion.eval_of]
@@ -301,7 +302,7 @@ theorem completedTensorCoordinateLevel_eq_of_hasSum [DecidableEq ι] {theta : ι
           fun i ↦ toCompletedTensor p D Omega M (theta i m ⊗ₜ[D] dx i)) i =
         if i = j then Submodule.Quotient.mk (p := pLevel p D M n) (theta j m) else 0 := by
     intro i
-    show completedTensorCoordinateLevel p D Omega M b j n
+    change completedTensorCoordinateLevel p D Omega M b j n
         (toCompletedTensor p D Omega M (theta i m ⊗ₜ[D] dx i)) = _
     rw [completedTensorCoordinateLevel_of, hdx i, tensorCoordinate_tmul_basis]
     split_ifs with hij
@@ -401,7 +402,7 @@ theorem isTopologicallyQuasiNilpotent_of_isThetaMonomialFamily
   refine Set.Finite.of_finite_image
     (f := fun q : ι × ℕ ↦ Finsupp.single q.1 q.2) ((hfin m).subset ?_) ?_
   · rintro K ⟨q, ⟨-, hq⟩, rfl⟩
-    rw [Set.mem_setOf_eq, hfamM.single q.1 q.2]
+    rw [Set.mem_ofPred_eq, hfamM.single q.1 q.2]
     exact hq
   · rintro ⟨i, k⟩ ⟨hk, -⟩ ⟨i', k'⟩ ⟨hk', -⟩ hsingle
     rcases (Finsupp.single_eq_single_iff i i' k k').mp hsingle with ⟨rfl, rfl⟩ | ⟨h0, -⟩

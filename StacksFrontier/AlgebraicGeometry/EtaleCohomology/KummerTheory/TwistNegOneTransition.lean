@@ -55,6 +55,7 @@ theorem nsmul_rootsOfUnitySheaf_apply (U : (X.Etale)ᵒᵖ)
 /-- `N` divides `N' = ℓN`. -/
 theorem dvd_of_mul_eq {ℓ N N' : ℕ} (hN : ℓ * N = N') : N ∣ N' := ⟨ℓ, by rw [← hN, mul_comm]⟩
 
+set_option linter.checkUnivs false in
 /-- Restriction of scalars from `ℤ/N` to `ℤ/N'`, `N' = ℓN`. -/
 abbrev zmodRestrict (ℓ N N' : ℕ) (hN : ℓ * N = N') :
     ModuleCat.{max (u + 1) v} (ZMod N) ⥤ ModuleCat.{max (u + 1) v} (ZMod N') :=
@@ -145,7 +146,7 @@ theorem bijective_twistNegOnePrecompPow_app (W : X.Etale) {k : Type u} [Field k]
         ((twistNegOnePrecompPow.{u, v} X ℓ N N' hN G).hom.app (op W) β) =
       twistNegOneModuleEvalRoot.{u, v} W κ hζ' G β := by
     intro β
-    show β.hom.app (op (Over.mk (𝟙 W))) ((rootsOfUnityPowMap.{u, v} X ℓ N N' hN).hom.app (op W)
+    change β.hom.app (op (Over.mk (𝟙 W))) ((rootsOfUnityPowMap.{u, v} X ℓ N N' hN).hom.app (op W)
       (sliceRootSection.{u, v} W κ hζ (Over.mk (𝟙 W)) 1)) =
         β.hom.app (op (Over.mk (𝟙 W))) (sliceRootSection.{u, v} W κ hζ' (Over.mk (𝟙 W)) 1)
     have h := rootsOfUnityPowMap_sliceRootSection.{u, v} ℓ N N' hN W κ hζ hζ' (Over.mk (𝟙 W)) 1

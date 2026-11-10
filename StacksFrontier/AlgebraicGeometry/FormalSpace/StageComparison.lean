@@ -152,11 +152,11 @@ theorem inv_comp_hom :
     inv hsq hK hψ ≫ CommRingCat.ofHom (hom hsq hK) = CategoryStruct.id A0 := by
   refine hsq.hom_ext ?_ ?_
   · ext a
-    show hom hsq hK ((inv hsq hK hψ).hom (θ.hom a)) = θ.hom a
+    change hom hsq hK ((inv hsq hK hψ).hom (θ.hom a)) = θ.hom a
     rw [inv_theta hsq hK hψ a]
     exact hom_mk hsq hK a
   · ext r
-    show hom hsq hK ((inv hsq hK hψ).hom (ρ.hom r)) = ρ.hom r
+    change hom hsq hK ((inv hsq hK hψ).hom (ρ.hom r)) = ρ.hom r
     rw [inv_rho hsq hK hψ r]
     exact hom_inr hsq hK hψ r
 
@@ -504,7 +504,7 @@ theorem stageComparison_naturality {J K : WeakIdealsBelow R J₀} (g : J ⟶ K) 
     { toRingHom := (stageBaseChangeRingMap D v hY hV hv J₀ g).comp
         (stageComparison D v hY hV hv J₀ K : _ →+* _)
       commutes' := fun r => by
-        show stageBaseChangeRingMap D v hY hV hv J₀ g
+        change stageBaseChangeRingMap D v hY hV hv J₀ g
             ((stageComparison D v hY hV hv J₀ K) (algebraMap _ _ r)) = _
         rw [AlgEquiv.commutes]
         exact CommRingCat.PushoutQuotient.apply_eq hsq r }
@@ -518,7 +518,7 @@ theorem stageComparison_naturality {J K : WeakIdealsBelow R J₀} (g : J ⟶ K) 
           (Ideal.Quotient.mk (OrderDual.ofDual J.1).1 r₀) }
   have hf : f₁ = f₂ := by
     refine AlgHom.ext_of_isLocallyNilpotent hnil (AlgHom.ext fun y => ?_)
-    show Ideal.Quotient.mk _ (stageBaseChangeRingMap D v hY hV hv J₀ g
+    change Ideal.Quotient.mk _ (stageBaseChangeRingMap D v hY hV hv J₀ g
         ((stageComparison D v hY hV hv J₀ K) y)) =
       Ideal.Quotient.mk _ ((stageComparison D v hY hV hv J₀ J)
         (stageLiftReductionMap D v hY hV hv J₀ g y))

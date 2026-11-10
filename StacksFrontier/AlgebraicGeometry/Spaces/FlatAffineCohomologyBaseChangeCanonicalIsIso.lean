@@ -140,12 +140,9 @@ theorem affineCohomologyBaseChangeMap_chartTensorToSource (hZ : B.Contains (⊤_
   have := enoughInjectives_modules B S hS D.X.1 D.X.2
   have hY : IsAffineSpace B S hS D.Y.1 := isAffineSpace_of_isIso_chart B S hS D.Y V₀
   have hY' : IsAffineSpace B S hS D.Y'.1 := isAffineSpace_of_isIso_chart B S hS D.Y' V₀'
-  refine TensorProduct.induction_on (motive := fun z =>
+  refine TensorProduct.inductionOn (motive := fun z =>
     (D.affineCohomologyBaseChangeMap hg hY hY' i).hom (D.chartTensorToSource V₀ V₀' i z) =
-      (D.affineCohomologyBaseChangeIso hZ hg hqc hqs V₀ V₀' i).hom.hom z) z ?_ ?_ ?_
-  · exact ((congrArg (D.affineCohomologyBaseChangeMap hg hY hY' i).hom
-      (map_zero (D.chartTensorToSource V₀ V₀' i))).trans
-      (map_zero _)).trans (map_zero _).symm
+      (D.affineCohomologyBaseChangeIso hZ hg hqc hqs V₀ V₀' i).hom.hom z) z ?_ ?_
   · intro h b
     refine Eq.trans (congrArg (D.affineCohomologyBaseChangeMap hg hY hY' i).hom
       ((D.chartTensorToSource_tmul V₀ V₀' i h b).trans

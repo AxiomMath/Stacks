@@ -42,7 +42,7 @@ presentation with its being limit preserving on objects.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinitePresentation`:
+* `isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinPres`:
   **Stacks 07XN**, the implication (3) ⟹ (1). Unconditional.
 * `isRepresentableBySpaceLocallyOfFinitePresentation_of_isLimitPreservingOnObjects`: condition (3)
   for a category fibred in groupoids *already known* to be representable by an algebraic space
@@ -126,7 +126,8 @@ for a stack in setoids amount to *injectivity* of the comparison of sections of 
 sheaf, where conditions (1) and (3) give only surjectivity. That the gap is real for a general
 category fibred in groupoids is
 `ObjectwiseLimitPreserving.exists_stack_isLimitPreservingOnObjects_not_isLimitPreserving`
-(`StacksFrontier/Examples/Stacks/ObjectwiseLimitPreserving.lean`); the source closes it for stacks in
+(`StacksFrontier/Examples/Stacks/ObjectwiseLimitPreserving.lean`);
+the source closes it for stacks in
 setoids in one sentence, and that sentence is what is not formalized.
 
 ## References
@@ -203,7 +204,7 @@ used. -/
 `IsRepresentableBySpaceLocallyOfFinitePresentation` and limit preservation on objects for \
 cofiltered index categories in the universe of the schemes, which is the scope of the library's \
 form of Tag 06CX that the proof uses"]
-theorem isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinitePresentation
+theorem isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinPres
     (h : IsRepresentableBySpaceLocallyOfFinitePresentation B S hS 𝒳) :
     𝒳.val.p.IsStackInSetoids (BigFppfOver.topology B S hS) ∧
       BigFppfOver.IsLimitPreservingOnObjects.{u, u, u, u, u + 1} B S hS 𝒳
@@ -322,7 +323,7 @@ theorem isRepresentableBySpaceLocallyOfFinitePresentation_schemeFibredCategory
       exact Over.OverMorphism.ext ((Category.comp_id _).trans (Category.id_comp _).symm)
     · intro x
       refine IsHomLift.of_fac _ _ _ rfl rfl ?_
-      show (𝟙 x.left : x.left ⟶ x.left) = 𝟙 x.left ≫ 𝟙 x.left ≫ 𝟙 x.left
+      change (𝟙 x.left : x.left ⟶ x.left) = 𝟙 x.left ≫ 𝟙 x.left ≫ 𝟙 x.left
       simp
   exact hasRelativeProperty_of_equivalences.{u, u, u, u + 1, u + 1, u} B S hS
     (Space.locallyOfFinitePresentationProperty B S hS)
@@ -357,7 +358,7 @@ theorem isLimitPreservingOnObjects_toTerminalCFG_schemeFibredCategory
       (schemeFibredCategory B S hS U) (terminalCFG B S hS)
       (Bicategory.InducedBicategory.mkHom
         (toTerminalCFG B S hS (schemeFibredCategory B S hS U))) :=
-  (isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinitePresentation
+  (isStackInSetoids_and_isLimitPreservingOnObjects_of_isRepresentableBySpaceLocallyOfFinPres
     B S hS (schemeFibredCategory B S hS U)
     (isRepresentableBySpaceLocallyOfFinitePresentation_schemeFibredCategory B S hS U hU)).2
 

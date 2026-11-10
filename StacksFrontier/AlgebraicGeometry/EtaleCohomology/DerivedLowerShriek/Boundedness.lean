@@ -44,7 +44,7 @@ theorem torsionSheafProperty_etaleModuleForget_obj_of_nsmul_eq_zero (m : ℕ) (h
       ((etaleModuleForgetAb.{u, 0} Λ Z).obj G) := by
   intro U x
   refine ⟨⊤, Z.smallEtaleTopology.top_mem U, fun V g _ => ⟨m, hm, ?_⟩⟩
-  show m • (G.obj.map g.op x : G.obj.obj (Opposite.op V)) = 0
+  change m • (G.obj.map g.op x : G.obj.obj (Opposite.op V)) = 0
   rw [← Nat.cast_smul_eq_nsmul Λ, hΛ, zero_smul]
 
 /-- `Rf_!` preserves the lower bound of a bounded below complex, `Rj_!` being exact and `Rf̄_*`
@@ -178,7 +178,7 @@ theorem exists_isIso_homology_derivedLowerShriek_map_truncGEπ [CompactSpace Y] 
     (min_le_right _ _) L h1GE h1LE
   let R := derivedLowerShriek.{u, 0} f j Λ ⋙ DerivedCategory.Plus.ι
   have hLE' : (R.mapTriangle.obj T).obj₁.IsLE (b - 1) := by
-    show (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj L)).IsLE (b - 1)
+    change (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj L)).IsLE (b - 1)
     rwa [show b - 1 = b - N - 1 + N by omega]
   exact DerivedCategory.isIso_homologyMap_mor₂_of_isLE₁ (R.mapTriangle.obj T)
     (R.map_distinguished T hT) i (b - 1) hLE' (by omega)

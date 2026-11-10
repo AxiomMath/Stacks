@@ -212,7 +212,7 @@ theorem cycleDimensionLayerWideHom_properPushforwardHom (C : ChowSituation.{u}) 
     (coherentDimensionLayerHom_comp_toKZero_comp_dimensionLayerFinitePushforwardHom
       C sW sX π hπ k) (cycleDimensionLayerHom C sW k c)
   simp only [AddMonoidHom.comp_apply] at hcomp
-  show coherentDimensionLayerHom C sX k (KZero.ofGrothendieckGroup
+  change coherentDimensionLayerHom C sX k (KZero.ofGrothendieckGroup
       (cycleDimensionLayerHom C sX k (properPushforwardHom C sW sX π hπ k c))) = _
   rw [← dimensionLayerFinitePushforwardHom_cycleDimensionLayerHom C sW sX π hπ k c, hcomp]
   rfl

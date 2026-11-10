@@ -258,7 +258,7 @@ private theorem comparisonRestriction_isRestrictionOf {W V Ux Uy : BigFppfOver �
     Functor.IsRestrictionOf _ g hfx hfy (comparisonRestriction fx hx xr)
       (comparisonRestriction fy hy yr) (comparisonRestriction mx hx xs)
       (comparisonRestriction my hy ys) ((comparison hB G).map α) ((comparison hB G).map β) := by
-  show (comparison hB G).map β ≫ _ = _ ≫ (comparison hB G).map α
+  change (comparison hB G).map β ≫ _ = _ ≫ (comparison hB G).map α
   rw [← comparisonRestriction_compTo g fy hfy yr ys,
     ← comparisonRestriction_compTo g fx hfx xr xs]
   exact map_comp_eq_map_comp (comparison hB G) h

@@ -86,10 +86,7 @@ def cotangentToTensorKer (c : E.Cotangent) : S ⊗[E.Ring] E.ker :=
 /-- `cotangentToTensorKer` is a left inverse of `tensorKerToCotangent`. -/
 theorem cotangentToTensorKer_tensorKerToCotangent (t : S ⊗[E.Ring] E.ker) :
     E.cotangentToTensorKer (E.tensorKerToCotangent t) = t := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    change E.cotangentToTensorKerAux (0 : E.Cotangent).val = 0
-    rw [Cotangent.val_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s j =>
     rw [tensorKerToCotangent_tmul]
     change E.cotangentToTensorKerAux (s • Cotangent.mk j).val = _

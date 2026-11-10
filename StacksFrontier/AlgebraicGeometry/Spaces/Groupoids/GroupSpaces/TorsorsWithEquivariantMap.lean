@@ -125,11 +125,11 @@ theorem glueHom (J : GrothendieckTopology C)
       naturality Z W f := by
         ext x
         obtain ⟨i, y, hy⟩ := x.property
-        show val W (R.toFunctor.map f x) = Q.map f (val Z x)
+        change val W (R.toFunctor.map f x) = Q.map f (val Z x)
         rw [val_eq Z x i y hy]
         rw [val_eq W (R.toFunctor.map f x) i ((Pi i).map f y)
           (by
-            show (p i).app W ((Pi i).map f y) = P.map f x.val
+            change (p i).app W ((Pi i).map f y) = P.map f x.val
             rw [← hy]
             exact (p i).naturality_apply f y)]
         exact (φ i).naturality_apply f y }
@@ -151,7 +151,7 @@ theorem glueHom (J : GrothendieckTopology C)
     have hrest : R.ι ≫ ψ' = R.ι ≫ ψ := by
       ext Z x
       obtain ⟨i, y, hy⟩ := x.property
-      show ψ'.app Z x.val = ψ.app Z x.val
+      change ψ'.app Z x.val = ψ.app Z x.val
       rw [hψ Z x, val_eq Z x i y hy, ← hy]
       exact ConcreteCategory.congr_hom (NatTrans.congr_app (hψ' i) Z) y
     have he : (R.sheafify J).ι ≫ ψ' = (R.sheafify J).ι ≫ ψ :=
@@ -190,7 +190,7 @@ theorem familyImage_cover (J : GrothendieckTopology C) {U : C}
   obtain ⟨i⟩ := hl
   have hpb := (hp i).map ((evaluation Cᵒᵖ (Type v₁)).obj (Opposite.op W))
   obtain ⟨y, hy, -⟩ := Types.exists_of_isPullback hpb (P.map g.op x) k (by
-    show a.app (Opposite.op W) (P.map g.op x) = k ≫ f i
+    change a.app (Opposite.op W) (P.map g.op x) = k ≫ f i
     rw [(a.naturality_apply g.op x)]
     exact hkl.symm)
   exact ⟨i, y, hy⟩
@@ -694,7 +694,7 @@ theorem projection_isFiberedInGroupoids
     obtain ⟨T, m, hm⟩ := hqfib.exists_lift f C.toTorsorObj hC
     obtain ⟨⟩ := hm
     refine ⟨restrict X C T m, restrictHom X C T m, ?_⟩
-    show (projection hB G X).IsHomLift ((projection hB G X).map (restrictHom X C T m))
+    change (projection hB G X).IsHomLift ((projection hB G X).map (restrictHom X C T m))
       (restrictHom X C T m)
     infer_instance
   · intro C A D m n f hf
@@ -936,7 +936,7 @@ theorem projection_isStackInGroupoids
       have hcnd : (xx g hg).total.hom.app Z u =
           (yoneda.map c₁.toHom.f).app Z
             (eqToHom (hd Z.unop (k ≫ g) (R.downward_closed hg k)).symm) := by
-        show _ = eqToHom (hd Z.unop (k ≫ g) (R.downward_closed hg k)).symm ≫ c₁.toHom.f
+        change _ = eqToHom (hd Z.unop (k ≫ g) (R.downward_closed hg k)).symm ≫ c₁.toHom.f
         rw [hcfac, ← hk]
         simp
       obtain ⟨v, hv1, hv2⟩ := Types.exists_of_isPullback hpb u
@@ -945,7 +945,7 @@ theorem projection_isStackInGroupoids
       · have hu1 : (c₁.toHom ≫ cc W g hg).f =
             eqToHom (hd Z.unop (k ≫ g) (R.downward_closed hg k)) ≫
               (k ≫ g) ≫ eqToHom h0.symm := by
-          show c₁.toHom.f ≫ (cc W g hg).f = _
+          change c₁.toHom.f ≫ (cc W g hg).f = _
           rw [hcfac, hccb W g hg]
           simp
         have hu2 : (c₁.toHom ≫ cc W g hg) ≫ f₀ = ff (k ≫ g) (R.downward_closed hg k) :=
@@ -954,10 +954,10 @@ theorem projection_isStackInGroupoids
         have hcceq := hccu Z.unop (k ≫ g) (R.downward_closed hg k)
           (c₁.toHom ≫ cc W g hg) ⟨hu1, hu2⟩
         rw [← hcceq]
-        show (cc W g hg).g.app Z (c₁.toHom.g.app Z v) = _
+        change (cc W g hg).g.app Z (c₁.toHom.g.app Z v) = _
         exact congrArg (fun z => (cc W g hg).g.app Z z) hv1
       · rw [← c₁.comp_map]
-        show (xx g hg).map.app Z (c₁.toHom.g.app Z v) = _
+        change (xx g hg).map.app Z (c₁.toHom.g.app Z v) = _
         exact congrArg (fun z => (xx g hg).map.app Z z) hv1
     have hcomp0 : ∀ (Z : (BigFppfOver 𝒞 S hS)ᵒᵖ) (W₁ : BigFppfOver 𝒞 S hS) (g₁ : W₁ ⟶ V)
         (hg₁ : R.arrows g₁) (W₂ : BigFppfOver 𝒞 S hS) (g₂ : W₂ ⟶ V) (hg₂ : R.arrows g₂)
@@ -1074,7 +1074,7 @@ theorem smul_toBase (T : TorsorObj hB G) :
   have hover : (γ[T.group, T.total]).left ≫ T.total.hom =
       pullback.snd T.group.hom T.total.hom ≫ T.total.hom := by
     rw [Over.w]
-    show (T.group ⊗ T.total).hom = _
+    change (T.group ⊗ T.total).hom = _
     rw [Over.tensorObj_hom, pullback.condition]
   rw [smul_tensorUnit_left, actionComparison_snd]
   exact (Category.assoc _ _ _).symm.trans

@@ -115,7 +115,7 @@ private theorem flat_fiber_stalk_isGenericPoint {X S : Scheme.{u}} (f : X ⟶ S)
   let y := f.asFiber x
   have : IrreducibleSpace Y := irreducibleSpace_fiber_of_geometricallyIrreducible f (f x) hgeom
   have hSmooth : Smooth g := by
-    show Smooth (pullback.snd f (S.fromSpecResidueField (f x)))
+    change Smooth (pullback.snd f (S.fromSpecResidueField (f x)))
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback f (S.fromSpecResidueField (f x))) ‹Smooth f›
   have : IsReduced Y :=
@@ -142,7 +142,7 @@ private theorem topologicalKrullDim_lt_of_isClosed_notMem {T : Type*} [Topologic
     IrreducibleCloseds.map_strictMono_of_isInducing hinc
   let q := p.map (IrreducibleCloseds.map (Subtype.val : C → T) hinc.continuous) hmono
   have hsub : (q.last : Set T) ⊆ C := by
-    show closure (Subtype.val '' (p.last : Set C)) ⊆ C
+    change closure (Subtype.val '' (p.last : Set C)) ⊆ C
     exact closure_minimal (Set.image_subset_iff.mpr fun z _ ↦ z.2) hC
   let whole : IrreducibleCloseds T := ⟨Set.univ, IrreducibleSpace.isIrreducible_univ T,
     isClosed_univ⟩

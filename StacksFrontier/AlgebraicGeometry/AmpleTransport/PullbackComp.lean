@@ -153,7 +153,7 @@ theorem pullbackTensorPowerIso_comp_aux_succ (G : D ⥤ C) {a₀ a₁ a₂ c₁ 
         (e₈.symm ≪≫ e₉ ≪≫ e₁₀ ≪≫ e₁₁).hom =
       (e₁₂ ≪≫ e₁₃ ≪≫ e₁₄ ≪≫ e₁₁).hom := by
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.map_comp, Category.assoc,
-    Iso.map_hom_inv_id_assoc, Iso.hom_inv_id_assoc]
+    Iso.hom_inv_id_map_assoc, Iso.hom_inv_id_assoc]
   rw [reassoc_of% h]
 
 /-- The core identity of the successor step, in free objects: naturality of the composition law,
@@ -198,7 +198,7 @@ theorem pullbackTensorPowerIso_comp_aux_inv (T : C ⥤ C ⥤ C) {P₁ P₂ Q : C
   have nat := (T.map u.inv).naturality v.hom
   have h1 : (T.map u.hom).app B₁ ≫ (T.map u.inv).app B₁ = 𝟙 _ := by
     rw [← NatTrans.comp_app, ← T.map_comp, u.hom_inv_id, T.map_id, NatTrans.id_app]
-  rw [reassoc_of% nat, reassoc_of% h1, Iso.map_hom_inv_id, Category.comp_id]
+  rw [reassoc_of% nat, reassoc_of% h1, Iso.hom_inv_id_map, Category.comp_id]
 
 /-- Naturality of a comparison of bifunctors in the first variable, from its naturality as a
 transformation of the uncurried bifunctors. -/
@@ -233,7 +233,7 @@ theorem pullbackTensorPowerIso_naturality_aux (G : D ⥤ C) (T : C ⥤ C ⥤ C) 
   have IH' : G.map cn.hom ≫ Pn'.hom = Pn.hom ≫ cX.hom := congrArg Iso.hom IH
   refine Iso.ext ?_
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.map_comp,
-    Functor.flip_obj_map, Category.assoc, Iso.map_hom_inv_id_assoc, Iso.hom_inv_id_assoc,
+    Functor.flip_obj_map, Category.assoc, Iso.hom_inv_id_map_assoc, Iso.hom_inv_id_assoc,
     cancel_epi]
   simp only [Functor.uncurry_obj_map, Functor.map_comp, Category.assoc] at Nat
   rw [reassoc_of% Nat]
@@ -255,7 +255,7 @@ theorem tensorPowerTransfer_pullback_aux (G : D ⥤ C) {P₀ P₁ Sa Sb Ta Tb : 
   rw [← cancel_mono Qb'.hom]
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]
-  rw [← Hb, Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc, reassoc_of% Nat', ← Ha]
+  rw [← Hb, Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc, reassoc_of% Nat', ← Ha]
   simp
 
 /-- Conjugates compose, in free objects. -/

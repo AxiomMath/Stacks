@@ -133,7 +133,7 @@ private theorem spec_map_fractionRing_genericPoint (A : Type u) [CommRing A] [Is
       (genericPoint (Spec (.of (FractionRing A)))) = genericPoint (Spec (.of A)) := by
   apply PrimeSpectrum.ext
   rw [genericPoint_eq_bot_of_affine (.of (FractionRing A)), genericPoint_eq_bot_of_affine (.of A)]
-  show Ideal.comap (algebraMap A (FractionRing A)) ⊥ = ⊥
+  change Ideal.comap (algebraMap A (FractionRing A)) ⊥ = ⊥
   ext x
   simp
 
@@ -179,7 +179,7 @@ theorem extension_closedPoint_mem
         _ = (i ≫ l).base.hom (genericPoint (Spec (.of K))) := rfl
         _ = (g ≫ a).base.hom (genericPoint (Spec (.of K))) :=
           congrArg (fun m : Spec (.of K) ⟶ X => m.base.hom (genericPoint (Spec (.of K)))) hgen
-    show l.base.hom (genericPoint (Spec (.of A))) ∈ Z
+    change l.base.hom (genericPoint (Spec (.of A))) ∈ Z
     rw [heq]
     exact hgenZ _
   exact ⟨l, hl, map_mem_closed_of_genericPoint_mem l Z hZ hηZ _⟩
@@ -240,7 +240,7 @@ theorem fractionRing_fromSpecStalk_apply
   have hz : z = genericPoint (Spec (.of (FractionRing (C.presheaf.stalk c)))) :=
     Subsingleton.elim _ _
   rw [hz]
-  show C.fromSpecStalk c _ = _
+  change C.fromSpecStalk c _ = _
   rw [← fromSpecStalk_genericPoint c]
   congr 1
   exact spec_map_fractionRing_genericPoint _
@@ -457,7 +457,7 @@ theorem finite_integralClosure_of_japanese
   let : Algebra (FractionRing R) K := e.toRingHom.toAlgebra
   let : Algebra (FractionRing R) L := ((algebraMap K L).comp e.toRingHom).toAlgebra
   have : IsScalarTower R (FractionRing R) L := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show algebraMap R L a = algebraMap K L (e (algebraMap R (FractionRing R) a))
+    change algebraMap R L a = algebraMap K L (e (algebraMap R (FractionRing R) a))
     rw [e.commutes, ← IsScalarTower.algebraMap_apply]
   have : IsScalarTower (FractionRing R) K L := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : Module.Finite (FractionRing R) K :=
@@ -503,9 +503,9 @@ theorem image_mem_of_finite_residue_extension
   have hqη : q (genericPoint (Spec (.of B))) = t := by
     apply PrimeSpectrum.ext
     rw [genericPoint_eq_bot_of_affine]
-    show RingHom.ker q₀ = t.asIdeal
+    change RingHom.ker q₀ = t.asIdeal
     ext r
-    show algebraMap A B (Ideal.Quotient.mk t.asIdeal r) = 0 ↔ r ∈ t.asIdeal
+    change algebraMap A B (Ideal.Quotient.mk t.asIdeal r) = 0 ↔ r ∈ t.asIdeal
     have hinj : Function.Injective (algebraMap A B) := by
       intro a b hab
       apply IsFractionRing.injective A k
@@ -523,9 +523,9 @@ theorem image_mem_of_finite_residue_extension
     rw [hφ, ← Spec.map_comp]
     apply congrArg Spec.map
     ext r
-    show algebraMap B K (algebraMap A B (Ideal.Quotient.mk t.asIdeal r)) = _
+    change algebraMap B K (algebraMap A B (Ideal.Quotient.mk t.asIdeal r)) = _
     rw [← IsScalarTower.algebraMap_apply]
-    show algebraMap k K (algebraMap A k (Ideal.Quotient.mk t.asIdeal r)) = _
+    change algebraMap k K (algebraMap A k (Ideal.Quotient.mk t.asIdeal r)) = _
     rw [Ideal.algebraMap_quotient_residueField_mk]
     rfl
   have h := image_mem_of_fractionRing f hY hext B K q c hc
@@ -579,16 +579,16 @@ theorem image_mem_of_covBy
     (RingHom.Finite.of_surjective _
       (Scheme.Spec.residueFieldIso R t).symm.commRingCatIsoToRingEquiv.surjective)
   refine image_mem_of_finite_residue_extension R f hY hext hR t y hy hcov K (v ≫ j) ?_ Z hZ ?_
-  · show (v ≫ j) ≫ f = Spec.map (CommRingCat.ofHom
+  · change (v ≫ j) ≫ f = Spec.map (CommRingCat.ofHom
       (β.hom.comp (algebraMap R t.asIdeal.ResidueField)))
-    show (v ≫ j) ≫ f = Spec.map (CommRingCat.ofHom
+    change (v ≫ j) ≫ f = Spec.map (CommRingCat.ofHom
       (algebraMap R t.asIdeal.ResidueField) ≫ β)
     simp only [Spec.map_comp, β, Category.assoc,
       Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField]
     rw [show Spec.map α = v ≫ g from Spec.map_preimage _]
     simpa only [Category.assoc, j, g] using congrArg (fun k ↦ v ≫ k) (f.fiber_fac t)
   · intro w
-    show j (v w) ∈ Z
+    change j (v w) ∈ Z
     rw [Scheme.fromSpecResidueField_apply]
     exact hzZ
 
@@ -719,7 +719,7 @@ theorem isClosedMap_of_extension_of_noetherianSpace
     isClosed_singleton_of_injective a.continuous a.isOpenEmbedding.injective (hy ▸ hxc)
   have : IsNoetherianRing R := hW.isNoetherianRing
   have hyE : y ∉ g ⁻¹' E := by
-    show g y ∉ E
+    change g y ∉ E
     rw [hyg]
     exact hx.2
   have hycl : y ∈ closure (g ⁻¹' E) :=

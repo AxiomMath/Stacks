@@ -322,7 +322,7 @@ public theorem CoherentTriple.eulerCharacteristic_eq_zero_iff_isTrivial (A : Typ
     [AlgebraicGeometry.SheafOfModules.IsInvertible (closedFibre A f).presheaf
       (closedFibre A f).ringCatSheaf.2 T.F₀]
     (hdepth : 3 ≤ Module.depth A (maximalIdeal A) A) :
-    T.eulerCharacteristic hf hreg = 0 ↔
+    T.eulerCharacteristic = 0 ↔
       Stacks.SheafOfModules.IsTrivial (Stacks.Divisors.puncturedSpectrum A).toScheme.presheaf
         (Stacks.Divisors.puncturedSpectrum A).toScheme.ringCatSheaf.2 T.F := by
   let := puncturedSectionsModule A T.F

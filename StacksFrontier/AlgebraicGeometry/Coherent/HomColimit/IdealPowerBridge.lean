@@ -131,7 +131,7 @@ theorem idealPowerMultiple_one_eq_unitSubmodule (I : X.IdealSheafData) :
   AlgebraicGeometry.Scheme.Modules.submodule_eq_of_obj_affineOpens_eq _ _ fun V => by
     rw [Stacks.AlgebraicGeometry.IdealPowerComparison.obj_idealPowerMultiple I 1
         (structureModule X) V, pow_one, I.unitSubmodule_obj_affine V]
-    show (I.ideal V) • (⊤ : Ideal Γ(X, V.1)) = _
+    change (I.ideal V) • (⊤ : Ideal Γ(X, V.1)) = _
     rw [Ideal.smul_eq_mul, Ideal.mul_top]
 
 /-! ### The bridge -/
@@ -169,7 +169,7 @@ theorem idealPower_unitSubmodule (I : X.IdealSheafData) (n : ℕ) :
     exact pow_le_pow_left' hle n h1
   · rw [idealPowerMultiple_le_iff]
     intro U
-    show _ ≤ (sInf ((fun P : (structureModule X).Submodule => P.toSubmodule) ''
+    change _ ≤ (sInf ((fun P : (structureModule X).Submodule => P.toSubmodule) ''
       { K : (structureModule X).Submodule | ∀ V : (Opens X)ᵒᵖ,
         (show Ideal _ from I.unitSubmodule.toSubmodule.obj V) ^ n
           ≤ K.toSubmodule.obj V })).obj (op U.1)
@@ -178,7 +178,7 @@ theorem idealPower_unitSubmodule (I : X.IdealSheafData) (n : ℕ) :
     obtain ⟨Q, hQ, rfl⟩ := hP
     have h3 := hQ (op U.1)
     rw [AlgebraicGeometry.Scheme.IdealSheafData.unitSubmodule_obj_affine] at h3
-    show (I.ideal U ^ n) • (⊤ : Ideal Γ(X, U.1)) ≤ _
+    change (I.ideal U ^ n) • (⊤ : Ideal Γ(X, U.1)) ≤ _
     rw [Ideal.smul_eq_mul, Ideal.mul_top]
     exact h3
 
@@ -224,7 +224,7 @@ theorem mem_idealPowerAnnihilator_affineOpen (I : X.IdealSheafData) (F : X.Modul
     obtain ⟨W, rfl⟩ : ∃ W' : X.Opens, op W' = W := ⟨W.unop, rfl⟩
     obtain ⟨a, rfl⟩ : ∃ b : Γ(X, W), b = a := ⟨a, rfl⟩
     have hWV : W ≤ V.1 := f.unop.le
-    show a • F.presheaf.map (homOfLE hWV).op s = (0 : Γ(F, W))
+    change a • F.presheaf.map (homOfLE hWV).op s = (0 : Γ(F, W))
     refine eq_zero_of_restrict_affineOpens_eq_zero (M := F)
       (a • F.presheaf.map (homOfLE hWV).op s) fun V' hV' ↦ ?_
     have hV'V : V'.1 ≤ V.1 := hV'.trans hWV

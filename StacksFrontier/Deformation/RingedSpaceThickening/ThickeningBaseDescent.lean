@@ -287,7 +287,7 @@ theorem adjointBaseHom_baseInverseImageRingMap_comp_eq_zero
   refine (congrArg (fun k : S'.sheaf ⟶ (TopCat.Sheaf.pushforward CommRingCat.{u}
     (f ≫ t).hom.base).obj R => (k.hom.app V).hom s)
     (adjointBaseHom_baseInverseImageRingMap_comp t f R β)).trans ?_
-  show (((TopCat.Sheaf.pushforward CommRingCat.{u} t.hom.base).map
+  change (((TopCat.Sheaf.pushforward CommRingCat.{u} t.hom.base).map
       (adjointHom f R β)).hom.app V).hom ((t.hom.c.app V).hom s) = 0
   exact (congrArg _ hs).trans (map_zero _)
 

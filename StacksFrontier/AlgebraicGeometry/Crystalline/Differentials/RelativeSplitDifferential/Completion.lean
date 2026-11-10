@@ -11,7 +11,8 @@ public import
 /-!
 # The splitting `d = d_rel + d_base` over the `p`-adic completion
 
-Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`, whose
+Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`,
+whose
 module docstring explains the construction.  This file contains the completion of an additive map
 over a finite sum (`Crystalline.PAdicCompletion.mapAddHom_sum`) and the `p`-adic completions of the
 bidegree projections and of the relative and base differentials, with the completed splitting, the
@@ -61,6 +62,7 @@ def completedFormsBidegreeProjection (n i : ℕ) :
     (setIndexedDividedPowerPolynomialAlgebra B W)
     (formsBidegreeProjection A B W n i).toAddMonoidHom
 
+omit [LinearOrder W] in
 /-- The completed projection, unfolded, with every argument explicit; see
 `Crystalline.DividedPowerPolynomial.completedRelativeFormsHomotopy_eq` for why this is a
 lemma. -/
@@ -71,6 +73,7 @@ theorem completedFormsBidegreeProjection_eq (n i : ℕ) :
         (formsBidegreeProjection A B W n i).toAddMonoidHom :=
   rfl
 
+omit [LinearOrder W] in
 /-- The completed projection extends the uncompleted one. -/
 @[simp] theorem completedFormsBidegreeProjection_of (n i : ℕ)
     (x : dividedPowerPolynomialForms A B W n) :
@@ -92,6 +95,7 @@ def completedFormsRelDifferential (n : ℕ) :
     (setIndexedDividedPowerPolynomialAlgebra B W)
     (formsRelDifferentialAux A B W n).toAddMonoidHom
 
+omit [LinearOrder W] in
 /-- The completed relative differential, unfolded. -/
 theorem completedFormsRelDifferential_eq (n : ℕ) :
     completedFormsRelDifferential A B W p n =
@@ -100,6 +104,7 @@ theorem completedFormsRelDifferential_eq (n : ℕ) :
         (formsRelDifferentialAux A B W n).toAddMonoidHom :=
   rfl
 
+omit [LinearOrder W] in
 /-- The completed relative differential extends the uncompleted one. -/
 @[simp] theorem completedFormsRelDifferential_of (n : ℕ)
     (x : dividedPowerPolynomialForms A B W n) :
@@ -115,6 +120,7 @@ def completedFormsBaseDifferential (n : ℕ) :
     (setIndexedDividedPowerPolynomialAlgebra B W)
     (formsBaseDifferential A B W n).toAddMonoidHom
 
+omit [LinearOrder W] in
 /-- The completed base differential, unfolded. -/
 theorem completedFormsBaseDifferential_eq (n : ℕ) :
     completedFormsBaseDifferential A B W p n =
@@ -123,6 +129,7 @@ theorem completedFormsBaseDifferential_eq (n : ℕ) :
         (formsBaseDifferential A B W n).toAddMonoidHom :=
   rfl
 
+omit [LinearOrder W] in
 /-- The completed base differential extends the uncompleted one. -/
 @[simp] theorem completedFormsBaseDifferential_of (n : ℕ)
     (x : dividedPowerPolynomialForms A B W n) :
@@ -187,7 +194,7 @@ theorem completedFormsBidegreeProjection_sum (n : ℕ)
         (formsBidegreeProjection A B W n i).toAddMonoidHom) =
       AddMonoidHom.id (dividedPowerPolynomialForms A B W n) := by
     refine AddMonoidHom.ext fun y ↦ ?_
-    simpa only [AddMonoidHom.finset_sum_apply, LinearMap.toAddMonoidHom_coe,
+    simpa only [AddMonoidHom.finsetSum_apply, LinearMap.toAddMonoidHom_coe,
       AddMonoidHom.id_apply] using formsBidegreeProjection_sum A B W n y
   have hcomp : (∑ i ∈ Finset.range (n + 1), completedFormsBidegreeProjection A B W p n i) =
       AddMonoidHom.id (completedPolynomialForms A B W p n) := by
@@ -198,9 +205,10 @@ theorem completedFormsBidegreeProjection_sum (n : ℕ)
             (formsBidegreeProjection A B W n i).toAddMonoidHom) from
       (PAdicCompletion.mapAddHom_sum p _ _ _ _).symm, huncomp,
       PAdicCompletion.mapAddHom_id]
-  simpa only [AddMonoidHom.finset_sum_apply, AddMonoidHom.id_apply] using
+  simpa only [AddMonoidHom.finsetSum_apply, AddMonoidHom.id_apply] using
     DFunLike.congr_fun hcomp x
 
+omit [LinearOrder W] in
 /-- **The base part of the differential of `Ω̂^*_{D'}` strictly raises the coefficient degree.**
 This is the `hprojbase` hypothesis of
 `Crystalline.CompletedDeRham.exists_twistedHomotopyEquiv` at the completed forms. -/

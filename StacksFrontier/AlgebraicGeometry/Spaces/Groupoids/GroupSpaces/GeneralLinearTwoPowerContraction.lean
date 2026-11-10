@@ -125,7 +125,7 @@ theorem isProper_projectiveSpacePowerOver :
       (IsTerminal.uniqueUpToIso ?_ Over.mkIdTerminal) ?_
     · exact IsTerminal.ofUniqueHom (fun _ => Pi.lift fun i => Fin.elim0 i)
         (fun _ _ => Pi.hom_ext _ _ fun i => Fin.elim0 i)
-    · show _root_.AlgebraicGeometry.IsProper (𝟙 (Spec (CommRingCat.of k)))
+    · change _root_.AlgebraicGeometry.IsProper (𝟙 (Spec (CommRingCat.of k)))
       infer_instance
   | succ n ih =>
     refine isProper_overIso (piFinSuccIso _ n) (isProper_overProd _ _ ih ?_)
@@ -166,7 +166,7 @@ theorem projectiveSpacePowerMatrixAut_one_hom :
   refine Pi.hom_ext _ _ fun i => ?_
   rw [projectiveSpacePowerMatrixAut_hom_π,
     show ((1 : Fin m → Matrix.GeneralLinearGroup (Fin 2) k) i) = 1 from rfl, map_one]
-  show Pi.π _ i ≫ 𝟙 _ = _
+  change Pi.π _ i ≫ 𝟙 _ = _
   simp
 
 /-- The automorphism of the site object of `(ℙ¹_k)^m` attached to the `m`-tuple of identity
@@ -262,7 +262,7 @@ theorem generalLinearTwoPowerPointSection_comp_projectiveSpacePowerProjection :
     (projectiveSpacePowerProjectionOver k B hk m) _ ?_
   rw [CategoryTheory.Functor.map_id]
   apply Over.OverMorphism.ext
-  show generalLinearTwoPowerPointSectionHom k m M ≫
+  change generalLinearTwoPowerPointSectionHom k m M ≫
       pullback.fst (projectiveSpacePowerOver k 1 m).hom
         (Spec.map (generalLinearTwoPowerStructureMap k m)) = 𝟙 _
   exact pullbackSectionOfRetraction_comp_fst _ _ _ _
@@ -339,6 +339,7 @@ theorem projectiveLinePowerPointSection_one_comp_generalLinearTwoPowerAction :
 /-! ### The triangle over the group that Stacks 0AEJ is applied to -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `Spec k` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_GeneralLinearTwoPowerContraction :
@@ -459,19 +460,19 @@ theorem comp_generalLinearTwoPowerSubspaceInclusion_of_comp_fst_eq
           (toBaseFunctor k B hk C.toFunctor) ≫ C.ι) ≫
         projectiveLinePowerPointSection k B hk m M := by
   refine BinaryFan.IsLimit.hom_ext (isLimitBinaryFanFunctorProjections k B hk m) ?_ ?_
-  · show v ≫ generalLinearTwoPowerSubspaceInclusion k B hk m C ≫
+  · change v ≫ generalLinearTwoPowerSubspaceInclusion k B hk m C ≫
         generalLinearTwoPowerFunctorProjection k B hk m = _
     rw [generalLinearTwoPowerSubspaceInclusion_comp_generalLinearTwoPowerFunctorProjection, hv]
-    show _ = (_ ≫ projectiveLinePowerPointSection k B hk m M) ≫
+    change _ = (_ ≫ projectiveLinePowerPointSection k B hk m M) ≫
       generalLinearTwoPowerFunctorProjection k B hk m
     rw [Category.assoc,
       projectiveLinePowerPointSection_comp_generalLinearTwoPowerFunctorProjection,
       ← Category.assoc]
     exact (base_isTerminal k B hk).hom_ext _ _ =≫ _
-  · show v ≫ generalLinearTwoPowerSubspaceInclusion k B hk m C ≫
+  · change v ≫ generalLinearTwoPowerSubspaceInclusion k B hk m C ≫
         projectiveLinePowerFunctorProjection k B hk m = _
     rw [generalLinearTwoPowerSubspaceInclusion_comp_projectiveLinePowerFunctorProjection]
-    show _ = (_ ≫ projectiveLinePowerPointSection k B hk m M) ≫
+    change _ = (_ ≫ projectiveLinePowerPointSection k B hk m M) ≫
       projectiveLinePowerFunctorProjection k B hk m
     rw [Category.assoc,
       projectiveLinePowerPointSection_comp_projectiveLinePowerFunctorProjection,

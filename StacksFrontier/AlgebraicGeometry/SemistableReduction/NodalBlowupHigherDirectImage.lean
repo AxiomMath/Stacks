@@ -105,7 +105,7 @@ theorem nodalCenter_sq_eq {R : Type u} [CommRing R] (π : R) {n : ℕ} (hn : 2 �
     · rw [show y * p = p * y from mul_comm y p]; exact Ideal.mul_mem_mul hpJ hym
     · exact hyx
     · exact hyy
-  rw [sq, hm, Ideal.span_mul_span', Ideal.span_le]
+  rw [sq, hm, Ideal.span_mul_span, Ideal.span_le]
   rintro _ ⟨a, ha, b, hb, rfl⟩
   rw [← hm]
   exact key a ha b hb
@@ -165,6 +165,7 @@ private theorem nonempty_iso_pullback_rightDerivedPlus_pushforward_unit {X Y X' 
     ((Scheme.Modules.pushforward f').rightDerivedPlus q).mapIso
       (Scheme.Modules.pullbackUnitIso g')⟩
 
+omit [IsDomain R] [IsDiscreteValuationRing R] in
 /-- **`R^q b_*𝒪_{X'} = 0` for `q > 0` along the blowup `b : X' ⟶ X` of a nodal family at a closed
 point with an étale nodal chart of exponent `n ≥ 2`.** -/
 theorem isZero_rightDerivedPlus_pushforward_blowUp_of_nodalChartAt {X : Scheme.{u}}
@@ -198,7 +199,7 @@ theorem isZero_rightDerivedPlus_pushforward_blowUp_of_nodalChartAt {X : Scheme.{
           rfl]
       congr 1
       ext1
-      show c.toX.base ⁻¹' {y} = c.toModel.base ⁻¹' {nodalModelOriginPoint hmax h1}
+      change c.toX.base ⁻¹' {y} = c.toModel.base ⁻¹' {nodalModelOriginPoint hmax h1}
       rw [hcX, ← hwo, hcM]
     set I := M.comap c.toX with hI
     obtain ⟨h₁, sq₁⟩ := exists_isPullback_blowUpToBase_comap c.toX M
@@ -238,7 +239,7 @@ theorem isZero_rightDerivedPlus_pushforward_blowUp_of_nodalChartAt {X : Scheme.{
     exact this
   · let V : X.Opens := ⟨M.supportᶜ, M.support.isClosed.isOpen_compl⟩
     have hyV : y ∈ V := by
-      show y ∉ (M.support : Set X)
+      change y ∉ (M.support : Set X)
       rw [hM, Stacks.GenericFlatness.support_vanishingIdeal]
       exact hy
     have hiso : IsIso (b ∣_ V) := isIso_blowUp_restrict_compl_support M

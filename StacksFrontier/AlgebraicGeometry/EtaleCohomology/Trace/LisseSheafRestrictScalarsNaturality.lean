@@ -144,7 +144,7 @@ theorem etaleModuleSMul_app_lisseEtaleSheaf
       (lisseEtaleSheaf B X x S).map (finiteTypeContinuousModuleSMul S P c) := by
   let ΦS := SmallEtale.sheafEquiv B X.1 X.2 (ModuleCat.{u + 1} S)
   apply ΦS.inverse.map_injective
-  show _ = ΦS.inverse.map (ΦS.functor.map ((lisseSheaf B X x S).map
+  change _ = ΦS.inverse.map (ΦS.functor.map ((lisseSheaf B X x S).map
     (finiteTypeContinuousModuleSMul S P c)))
   rw [Equivalence.inv_fun_map]
   symm

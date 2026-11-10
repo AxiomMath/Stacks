@@ -76,7 +76,7 @@ lemma epi_of_stalk_surjective {X : TopCat.{u}} {F G : TopCat.Sheaf (Type u) X}
     exact (TopCat.Presheaf.stalkFunctor_map_germ_apply U x hx γ.hom s).symm
   have hmid : (TopCat.Presheaf.stalkFunctor (Type u) x).map α.hom (stalkMap φ x t) =
       (TopCat.Presheaf.stalkFunctor (Type u) x).map β.hom (stalkMap φ x t) := by
-    show ((TopCat.Presheaf.stalkFunctor (Type u) x).map φ.hom ≫
+    change ((TopCat.Presheaf.stalkFunctor (Type u) x).map φ.hom ≫
         (TopCat.Presheaf.stalkFunctor (Type u) x).map α.hom) t =
       ((TopCat.Presheaf.stalkFunctor (Type u) x).map φ.hom ≫
         (TopCat.Presheaf.stalkFunctor (Type u) x).map β.hom) t

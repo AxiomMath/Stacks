@@ -294,7 +294,7 @@ theorem unitPresheafMap_comp_coneAt_π (G : Sheaf (topology S) AddCommGrpCat.{u 
         ((Functor.RightExtension.mk (unitTargetPresheaf S G)
           ((ι S).op.ranCounit.app ((ι S).op ⋙ G.obj))).coneAt Z).π.app e =
       G.obj.map e.hom := by
-  show (unitPresheafMap S G).app Z ≫
+  change (unitPresheafMap S G).app Z ≫
       (unitTargetPresheaf S G).map e.hom ≫
         ((ι S).op.ranCounit.app ((ι S).op ⋙ G.obj)).app e.right = G.obj.map e.hom
   rw [← Category.assoc, ← (unitPresheafMap S G).naturality e.hom, Category.assoc,
@@ -387,7 +387,7 @@ theorem changeBaseRanCone_π_comp_unitConeAt (G : Sheaf (topology S) AddCommGrpC
           ((ι S).op.ranCounit.app ((ι S).op ⋙ G.obj))).coneAt d.right).π.app e =
       dominationPiOf S S' fS fX hf G D ((ι S).obj (unop e.right)) (unop e.right) (𝟙 _)
         ((changeBase S S' fS fX hf).map e.hom.unop ≫ d.hom.unop) := by
-  show (changeBaseRanCone S S' fS fX hf (unitTargetPresheaf S G) D).π.app d ≫
+  change (changeBaseRanCone S S' fS fX hf (unitTargetPresheaf S G) D).π.app d ≫
       (unitTargetPresheaf S G).map e.hom.unop.op ≫
         ((ι S).op.ranCounit.app ((ι S).op ⋙ G.obj)).app (op (unop e.right)) = _
   rw [dominationPiOf, op_id]

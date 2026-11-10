@@ -134,7 +134,7 @@ lemma isZero_rightDerived_one_cycles (k : ℕ) :
   exact IsZero.of_mono ((T.rightDerived 1).map (K.iCycles k)) (hX k 1 one_pos)
 
 omit [PreservesFiniteLimits T] in
-include hX hK in
+include hX in
 /-- `RʲT(Bᵏ⁺¹) ≅ Rʲ⁺¹T(Zᵏ)` for `j ≥ 1`, the middle term `Kᵏ` being `T`-acyclic: the connecting
 morphism of `0 ⟶ Zᵏ ⟶ Kᵏ ⟶ Bᵏ⁺¹ ⟶ 0` is invertible. -/
 lemma isIso_δ_cyclesSES (k j : ℕ) (hj : 1 ≤ j) :
@@ -163,7 +163,7 @@ theorem prop_rightDerived_cycles (n : ℕ) (hP : ∀ q ≤ n, P (K.homology q))
   obtain _ | _ | m := j
   · omega
   · exact Q.prop_of_isZero (isZero_rightDerived_one_cycles T hX hK k)
-  have hδ := isIso_δ_cyclesSES T hX hK k (m + 1) (by omega)
+  have hδ := isIso_δ_cyclesSES T hX k (m + 1) (by omega)
   refine Q.prop_of_iso (@asIso _ _ _ _ ((rδ T).δ (cyclesSES_shortExact K k) (m + 1)) hδ) ?_
   change Q ((T.rightDerived (m + 1)).obj (cokernel (K.iCycles k)))
   have hB := boundariesSES_shortExact K k

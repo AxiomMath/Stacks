@@ -351,7 +351,7 @@ theorem intMulAt_zero_right (n : ℤ) :
       = (ρ_ (tensorPower O hO L n)).hom := by
   refine (IntPower.mulAt_zero_hom (tensorPower O hO L) L (intSucc O hO L)
     (intZero O hO L) n).trans ?_
-  show tensorPower O hO L n ◁ 𝟙 _ ≫ (ρ_ (tensorPower O hO L n)).hom
+  change tensorPower O hO L n ◁ 𝟙 _ ≫ (ρ_ (tensorPower O hO L n)).hom
     = (ρ_ (tensorPower O hO L n)).hom
   rw [MonoidalCategory.whiskerLeft_id, Category.id_comp]
 
@@ -368,7 +368,7 @@ theorem intMulAt_zero_left (n : ℤ) :
       whiskerRightIso (intZero O hO L) (tensorPower O hO L n) ≪≫ λ_ (tensorPower O hO L n)
         = λ_ (tensorPower O hO L n) := by
     apply Iso.ext
-    show (𝟙 (tensorPower O hO L 0) ▷ tensorPower O hO L n)
+    change (𝟙 (tensorPower O hO L 0) ▷ tensorPower O hO L n)
       ≫ (λ_ (tensorPower O hO L n)).hom = (λ_ (tensorPower O hO L n)).hom
     rw [MonoidalCategory.id_whiskerRight]
     exact Category.id_comp _

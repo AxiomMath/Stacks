@@ -269,7 +269,7 @@ theorem homSingleStructureSheafDegreeZeroIso_naturality {A B : StructureSheafMod
         (-0) =
       f ≫ (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 B (-0) neg_zero).inv := by
     rw [single_map_f_of_eq (ComplexShape.up ℤ) 0 f (-0) neg_zero, Iso.inv_hom_id_assoc]
-  show _ ≫ (homStructureSheafDegreeIso Rc _ (finite_support_single Rc A 0) 0).hom ≫
+  change _ ≫ (homStructureSheafDegreeIso Rc _ (finite_support_single Rc A 0) 0).hom ≫
       RingedSite.internalHomPre (ringedSite Rc)
         (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 A (-0) neg_zero).inv =
     ((homStructureSheafDegreeIso Rc _ (finite_support_single Rc B 0) 0).hom ≫
@@ -327,7 +327,7 @@ theorem homSingleStructureSheafComplexIso_naturality {A B : StructureSheafModule
           (HomologicalComplex.single_map_f_self (V := StructureSheafModules Rc)
             (ComplexShape.up ℤ) 0 (RingedSite.internalHomPre (ringedSite Rc) f))).trans
         (Iso.inv_hom_id_assoc _ _)
-    show _ ≫ (homSingleToSingleStructureSheaf Rc A).f 0 =
+    change _ ≫ (homSingleToSingleStructureSheaf Rc A).f 0 =
       (homSingleToSingleStructureSheaf Rc B).f 0 ≫ _
     refine (congrArg ((RingedSite.homMap (ringedSite Rc)
         ((HomologicalComplex.single (StructureSheafModules Rc) (ComplexShape.up ℤ) 0).map f)

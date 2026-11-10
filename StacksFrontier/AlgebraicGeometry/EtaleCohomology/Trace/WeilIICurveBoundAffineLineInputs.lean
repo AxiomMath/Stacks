@@ -133,7 +133,7 @@ public def CurveFiniteLevelInput : Prop :=
     (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
     [IsAlgClosure k kbar]
     [ConnectedSpace ↥(Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
-    (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n) (_ : ℓ ≠ p)
+    (p : ℕ) [Fact p.Prime] [CharP k p] (_ : ℓ ≠ p)
     (x : GeometricPoint U.1)
     {m : ℕ} (τ : EtaleFundamentalGroup U.1 x →* GL (Fin m) ℚ_[ℓ]) (hτ : Continuous τ) (i : ℤ)
     (N : ℕ), Finite ((geometricCompactSupportPadicCohomology B U ℓ f j kbar i).obj
@@ -226,7 +226,7 @@ public theorem weilIICurveBoundOpenAffineLine_of_inputs (hT : CurveTraceFormulaI
   · subst hi
     obtain ⟨w', hw', hn⟩ := isCharpolyNormMixedOfWeightLE_one_of_isIotaRealizable B U ℓ f j kbar p n
       hcard hℓp x φ hφ htf (fun τ hτ => hFD τ hτ 1)
-      (fun τ hτ N => hF B U ℓ k f j kbar p n hcard hℓp x τ hτ 1 N)
+      (fun τ hτ N => hF B U ℓ k f j kbar p hℓp x τ hτ 1 N)
       (fun E _ _ _ _ b _ σ hσ ι' w'' _ hP => hL B U ℓ k f e he j kbar p n hcard hℓp x E b σ hσ ι'
         w'' hP) ρ hρ ι w hmix hreal z hz
     exact ⟨w', hw', hn⟩
@@ -241,7 +241,7 @@ open LAdicSheaf in
 /-- **The finite levels of `Hⁱ_c(U_k̄, ℱ_τ)` on a smooth curve are finite**: Tag 0GKR over
 `k̄`. -/
 public theorem curveFiniteLevelInput : CurveFiniteLevelInput.{u} := by
-  intro B U ℓ _ _ _ _ _ _ k _ _ f _ _ _ _ j kbar _ _ _ _ p n _ _ hcard hℓp x m τ hτ i N
+  intro B U ℓ _ _ _ _ _ _ k _ _ f _ _ _ _ j kbar _ _ _ _ p _ _ hℓp x m τ hτ i N
   have : IsAlgClosed kbar := IsAlgClosure.isAlgClosed k
   have : Nonempty U.1 := ConnectedSpace.toNonempty
   exact finite_geometricCompactSupportPadicCohomology_padicLevel_of_topologicalKrullDim_le_one

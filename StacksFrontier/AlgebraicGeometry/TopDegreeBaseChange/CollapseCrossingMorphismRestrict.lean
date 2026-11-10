@@ -87,7 +87,8 @@ the pushforward at `f ∣_ V`, the ambient category is pinned at the
 `…HigherDirectImage.restrictToOpen` spelling and `(modulePushforward (f ∣_ V).toLRSHom.toShHom)`
 `.Additive` is not synthesised; re-ascribing that instance does not help, because
 `modulePushforward` determines its own source and target from the morphism, so neither a type
-ascription nor naming the categories with `(C := …)` moves the instance's key. It does **not** follow that the
+ascription nor naming the categories with `(C := …)` moves the instance's key. It does **not**
+follow that the
 crossing's equation cannot be written at `f ∣_ V` at all. Written in the *pure* `f ∣_ V`
 vocabulary — `openSubschemeRestriction f V`, `modulePushforward (f ∣_ V).toLRSHom.toShHom`,
 `sectionsOverOpen (V : Scheme).toRingedSpace ⊤` and `baseTopRestrictScalars V`, which is the
@@ -118,7 +119,8 @@ of it. Three facts about the elaborated statement:
 
 *The route that discharges it.* A cancellation in
 `StacksFrontier/CategoryTheory/CompositeCancellation.lean` taking the existing equation and the two
-`eqToHom` conjugations to the conjugated one does **not** do it: a cancellation would *move* the cast onto the
+`eqToHom` conjugations to the conjugated one does **not** do it: a cancellation would *move* the
+cast onto the
 other side of the equation, whereas hoisting the restricted pushforward onto a variable and
 substituting *discharges* it. The cast at variables is
 `Stacks.Cohomology.AffineBase.rightDerivedCompNatIso_restrictChosenResolution_square_of_eq`

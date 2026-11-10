@@ -24,8 +24,8 @@ comparison datum.  Both of the two things it leaves open are now closed elsewher
 and the agreement of the two structure maps — the `hcomm` hypothesis of
 `AlgebraicGeometry.existsUnique_schemeHom_twoIso_of_affineRepresentableComparison` — is
 `AlgebraicGeometry.forgetFSharp_comp_pushforwardIsoOfAffineRepresentableComparison` in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineExistence.lean`, which is
-also where [Stacks Project, Tag 04I6] itself is proved.  Nothing here carries a `@[stacks 04I6]`
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineExistence.lean`, which
+is also where [Stacks Project, Tag 04I6] itself is proved.  Nothing here carries a `@[stacks 04I6]`
 tag.
 
 ## Implementation notes

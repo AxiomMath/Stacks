@@ -224,8 +224,7 @@ theorem rationalChowMap_of_tmul (d : ℤ → ℤ)
 theorem rationalChowMap_zero (d : ℤ → ℤ) :
     rationalChowMap C sX sY d (fun _ => 0) = 0 :=
   DirectSum.linearMap_ext ℚ fun n => LinearMap.ext fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul r α =>
       rw [LinearMap.comp_apply, rationalChowMap_lof, LinearMap.baseChange_tmul,
         AddMonoidHom.coe_toIntLinearMap, AddMonoidHom.zero_apply, TensorProduct.tmul_zero,
@@ -349,8 +348,7 @@ theorem lciGysinRationalComponent_comp_rationalChowCap (q p : ℤ)
         lciGysinRationalComponent C sX sY hf hlci h q := by
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian sX
   have : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian sY
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.comp_zero, LinearMap.zero_comp]
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' =>
     rw [map_add, map_add, map_add, LinearMap.comp_add, LinearMap.add_comp, hy, hy']
   | tmul r c =>
@@ -455,8 +453,7 @@ theorem lciGysinRational_rationalChernCharacterCap [Finite (_root_.ConnectedComp
       rationalChernCharacterCap C sX
         ((VectorBundleKZero.pullback f).toIntLinearMap.baseChange ℚ x)
         (lciGysinRational C sX sY hf hlci h β) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     rw [rationalChernCharacterCap_tmul, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap, rationalChernCharacterCap_tmul, LinearMap.smul_apply,
@@ -510,8 +507,7 @@ theorem rationalProperChowPushforward_comp_rationalChowCap (p : ℤ)
                 ℚ) y) =
       rationalChowCap C (gysinSystemOfInvertible C) sY p y ∘ₗ
         rationalProperChowPushforward C sX sY hf := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.comp_zero, LinearMap.zero_comp]
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' =>
     rw [map_add, map_add, map_add, LinearMap.comp_add, LinearMap.add_comp, hy, hy']
   | tmul r c =>
@@ -561,8 +557,7 @@ theorem rationalProperChowPushforward_rationalChernCharacterCap
     rationalProperChowPushforward C sX sY hf (rationalChernCharacterCap C sX
         ((VectorBundleKZero.pullback f).toIntLinearMap.baseChange ℚ x) γ) =
       rationalChernCharacterCap C sY x (rationalProperChowPushforward C sX sY hf γ) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     rw [LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap,
       rationalChernCharacterCap_tmul, rationalChernCharacterCap_tmul, LinearMap.smul_apply,

@@ -25,8 +25,7 @@ variable {A B : Type u} [CommRing A] [CommRing B] [Algebra A B]
 
 /-- The Dedekind setup of `A → B` transported to the global sections of
 `Spec B → Spec A`. -/
-@[instance_reducible]
-def DedekindDifferentSetup.toSpec (setup : DedekindDifferentSetup A B) :
+theorem DedekindDifferentSetup.toSpec (setup : DedekindDifferentSetup A B) :
     letI : Algebra Γ(Spec (CommRingCat.of A), ⊤) Γ(Spec (CommRingCat.of B), ⊤) :=
       (Spec.map (CommRingCat.ofHom (algebraMap A B))).appTop.hom.toAlgebra
     DedekindDifferentSetup Γ(Spec (CommRingCat.of A), ⊤) Γ(Spec (CommRingCat.of B), ⊤) :=

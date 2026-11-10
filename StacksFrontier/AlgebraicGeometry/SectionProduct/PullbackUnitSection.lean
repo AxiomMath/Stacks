@@ -155,7 +155,7 @@ counit of sheafification. -/
 theorem globalSection_id (X : Scheme.{u}) :
     globalSection X (𝟙_ X.Modules) (𝟙 (𝟙_ X.Modules)) =
       (unitComparison X).inv.app ⊤ (unitOne X) := by
-  show Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ = _
+  change Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ = _
   rw [Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv_apply, Category.comp_id]
 
 /-- The image of the unit section under the counit of sheafification is the global section of the
@@ -173,7 +173,7 @@ theorem pullbackSectionHom_top_eq (M : Y.Modules)
     (h : (⊤ : Y'.Opens) ≤ j ⁻¹ᵁ (⊤ : Y.Opens)) (x : Γ(M, ⊤)) :
     pullbackSectionHom j M ⊤ ⊤ h x =
       Stacks.RingedSpace.pullbackUnit j.toLRSHom.toShHom M (op ⊤) x := by
-  show ((Scheme.Modules.pullback j).obj M).presheaf.map _ _ = _
+  change ((Scheme.Modules.pullback j).obj M).presheaf.map _ _ = _
   rw [show (homOfLE h).op = 𝟙 _ from Subsingleton.elim _ _]
   simp
   rfl
@@ -189,7 +189,7 @@ theorem unitRingedIso_hom_app_unitOne
     (pullbackSectionHom_top_eq j (unitModule Y) h (unitOne Y))) ?_
   refine Eq.trans
     (Stacks.PullbackAlgebra.pullbackUnitIso_hom_pullbackUnit j.toLRSHom.toShHom (op ⊤) 1) ?_
-  show Stacks.RingedSpace.sharp j.toLRSHom.toShHom (op ⊤) (1 : Γ(Y, ⊤)) = (1 : Γ(Y', ⊤))
+  change Stacks.RingedSpace.sharp j.toLRSHom.toShHom (op ⊤) (1 : Γ(Y, ⊤)) = (1 : Γ(Y', ⊤))
   exact map_one _
 
 /-- **The global section of the comparison is the pullback of the unit section.** This is the
@@ -203,10 +203,10 @@ theorem globalSection_unitPullback :
       (ConcreteCategory.hom (Scheme.Modules.Hom.app (unitPullbackHom j) ⊤) : _ → _) :=
     (ConcreteCategory.bijective_of_isIso _).1
   refine hinj ?_
-  show (unitPullbackHom j).app ⊤ _ = (unitPullbackHom j).app ⊤ _
+  change (unitPullbackHom j).app ⊤ _ = (unitPullbackHom j).app ⊤ _
   rw [← Stacks.SectionProduct.globalSection_comp _ _ (unitPullback j) (unitPullbackHom j),
     unitPullback_comp_unitPullbackHom, unitPullbackHom_eq]
-  show globalSection Y' (𝟙_ Y'.Modules) (𝟙 (𝟙_ Y'.Modules)) =
+  change globalSection Y' (𝟙_ Y'.Modules) (𝟙 (𝟙_ Y'.Modules)) =
     (unitComparison Y').inv.app ⊤
       ((unitRingedIso j).hom.app ⊤
         (((Scheme.Modules.pullback j).map (unitComparison Y).hom).app ⊤ _))

@@ -211,11 +211,11 @@ private lemma exists_invariant_affineOpen_of_isNoetherian_isQuasiAffine
   let k : K.groupoid.objects ⟶ R.groupoid.objects :=
     eqToHom K.objects_eq ≫ k₀ ≫ eqToHom R.objects_eq.symm
   have : IsOpenImmersion k.left := by
-    show IsOpenImmersion ((eqToHom K.objects_eq).left ≫ m.toImage ≫
+    change IsOpenImmersion ((eqToHom K.objects_eq).left ≫ m.toImage ≫
       (eqToHom R.objects_eq.symm).left)
     infer_instance
   have : IsDominant k.left := by
-    show IsDominant ((eqToHom K.objects_eq).left ≫ m.toImage ≫
+    change IsDominant ((eqToHom K.objects_eq).left ≫ m.toImage ≫
       (eqToHom R.objects_eq.symm).left)
     infer_instance
   have hk : k ≫ R.hom.mapObjects = K.hom.mapObjects := by
@@ -225,7 +225,7 @@ private lemma exists_invariant_affineOpen_of_isNoetherian_isQuasiAffine
     congr 1
     exact Over.OverMorphism.ext m.toImage_imageι
   have hmRange : Set.range m = (W : Set G.objects.left) := by
-    show Set.range (W.ι ∘ i) = _
+    change Set.range (W.ι ∘ i) = _
     rw [Set.range_comp, hi.2.range_eq, Set.image_univ]
     exact W.range_ι
   have hkRange : Set.range k.left = R.hom.mapObjects.left ⁻¹' (W : Set G.objects.left) := by
@@ -248,7 +248,7 @@ private lemma exists_invariant_affineOpen_of_isNoetherian_isQuasiAffine
       R.hom.mapObjects.left (R.groupoid.source.left r) at hs
     change G.target.left (R.hom.mapArrows.left r) =
       R.hom.mapObjects.left (R.groupoid.target.left r) at ht
-    show R.hom.mapObjects.left (R.groupoid.target.left r) ∈ W
+    change R.hom.mapObjects.left (R.groupoid.target.left r) ∈ W
     exact ht ▸ hWinv (R.hom.mapArrows.left r) (hs.symm ▸ hr)
   have : Mono K.hom.mapObjects := Over.mono_of_mono_left _
   have : Mono R.hom.mapObjects := Over.mono_of_mono_left _
@@ -311,7 +311,7 @@ theorem exists_isInvariantOpen_isAffineOpen_mem_of_le_isAffineOpen
   let R := AlgebraicGeometry.GroupoidScheme.restrict G g
   have : IsOpenImmersion g.left := show IsOpenImmersion V.ι from inferInstance
   have hginv : Stacks.Groupoids.IsInvariantSet G (Set.range g.left) := by
-    show Stacks.Groupoids.IsInvariantSet G (Set.range V.ι)
+    change Stacks.Groupoids.IsInvariantSet G (Set.range V.ι)
     rw [V.range_ι]
     exact hVinv
   have : IsOpenImmersion R.hom.mapObjects.left :=

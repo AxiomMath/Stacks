@@ -41,8 +41,9 @@ exactness of `f^*` on that class — is the single remaining input of *this file
 
 That input is no longer open. It is discharged for every morphism of ringed topoi coming from a
 morphism of sites by
-`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.pullbackInvertsQuasiIso_isKFlat`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:119`), and `Lf^*` follows on the next line as
+`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.pullbackInvertsQuasiIso_isKFlat` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:119`,
+and `Lf^*` follows on the next line as
 `hasLeftDerivedFunctor_pullbackOnHomotopy` (`:130`).
 
 ## Main definitions

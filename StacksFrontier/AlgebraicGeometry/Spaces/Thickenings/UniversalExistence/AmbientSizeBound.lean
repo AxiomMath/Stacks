@@ -100,7 +100,7 @@ private lemma bridge_preimage_thickeningOpenImage
     i ⁻¹ᵁ bridge_thickeningOpenImage i hi V = V := by
   let e := bridge_thickeningHomeomorph i hi
   ext x
-  show e x ∈ e '' V ↔ x ∈ V
+  change e x ∈ e '' V ↔ x ∈ V
   simp
 
 private lemma bridge_firstOrder_pullback
@@ -232,7 +232,7 @@ private lemma bridge_relationPullback_firstOrder
 private lemma bridge_jointlyMono_of_universalRelation
     {V R V' R' U W : Scheme.{u}}
     (s t : R ⟶ V) (s' t' : R' ⟶ V')
-    (q : V ⟶ U) (r : R ⟶ W) (α β : W ⟶ U)
+    (r : R ⟶ W) (α β : W ⟶ U)
     (iV : V ⟶ V') (iR : R ⟶ R')
     (pV : V' ⟶ U) (pR : R' ⟶ W)
     (hK : JointlyMono₂ s t) (hW : JointlyMono₂ α β)
@@ -346,11 +346,11 @@ private lemma bridge_firstOrder_restrict
   have hJ : (i.ker.ideal A) ^ 2 = ⊥ := by
     have h := congrArg (fun K : Scheme.IdealSheafData Z' => K.ideal A) hi.2
     simpa [Scheme.IdealSheafData.ideal_pow] using h
-  show ((i ∣_ U).ker.ideal W) ^ 2 = ⊥
+  change ((i ∣_ U).ker.ideal W) ^ 2 = ⊥
   rw [hker]
   let φ := CommRingCat.Hom.hom (U.ι.appIso W).inv
   let J := i.ker.ideal A
-  show (Ideal.comap φ J) ^ 2 = ⊥
+  change (Ideal.comap φ J) ^ 2 = ⊥
   have hle := Ideal.le_comap_pow (K := J) φ 2
   rw [hJ] at hle
   have hφ : Function.Injective φ :=
@@ -462,7 +462,7 @@ private lemma bridge_universalThickening_restrictSource
     let P : MorphismProperty Scheme := fun _ _ f => Stacks.Thickenings.IsFirstOrderThickening f
     exact (Scheme.Hom.resLE_congr i hle rfl hpre.symm P).2 hbase
   refine ⟨hi', ?_, ?_⟩
-  · show i' ≫ V'.ι ≫ p = V.ι ≫ h
+  · change i' ≫ V'.ι ≫ p = V.ι ≫ h
     calc
       i' ≫ V'.ι ≫ p = (V.ι ≫ i) ≫ p := by
         rw [← Category.assoc, hi'_comp]
@@ -477,11 +477,11 @@ private lemma bridge_universalThickening_restrictSource
       have heq' : f.base (j.base t) = i.base (V.ι.base (a.base t)) := by
         simpa [Scheme.Hom.comp_base] using heq
       have hmem : i.base (V.ι.base (a.base t)) ∈ V' := by
-        show i.base (V.ι.base (a.base t)) ∈
+        change i.base (V.ι.base (a.base t)) ∈
           bridge_thickeningHomeomorph i hi.isFirstOrderThickening.isThickening '' V
         exact ⟨V.ι.base (a.base t), (a.base t).property, rfl⟩
       refine ⟨⟨i.base (V.ι.base (a.base t)), hmem⟩, ?_⟩
-      show i.base (V.ι.base (a.base t)) = f.base x
+      change i.base (V.ι.base (a.base t)) = f.base x
       rw [← ht]
       exact heq'.symm
     let f' := IsOpenImmersion.lift V'.ι f hrange
@@ -545,7 +545,7 @@ private lemma bridge_size_le_universalThickening
     let : IsAffine (B : Scheme) := ab.1.2.2
     have hbound := bridge_size_le_universalThickening_affine h'
       (i.resLE A' A (by rw [bridge_preimage_thickeningOpenImage])) p' hup
-    show (A' : Scheme).size ≤ max Z.size X.size
+    change (A' : Scheme).size ≤ max Z.size X.size
     exact hbound.trans (max_le_max (Scheme.size_coe_opens_le Z A)
       (Scheme.size_coe_opens_le X B))
   have hcov : ⨆ t, W t = ⊤ := by
@@ -561,7 +561,7 @@ private lemma bridge_size_le_universalThickening
       obtain ⟨A, hA, hzA, hAB⟩ := exists_isAffineOpen_mem_and_subset hzpre
       let ab : I := ⟨(⟨A, hA⟩, ⟨B, hB⟩), hAB⟩
       have hmem : x ∈ W (some ab) := by
-        show x ∈ bridge_thickeningHomeomorph i hi.isFirstOrderThickening.isThickening '' A
+        change x ∈ bridge_thickeningHomeomorph i hi.isFirstOrderThickening.isThickening '' A
         exact ⟨z, hzA, hz⟩
       exact (le_iSup W (some ab)) hmem
   have hℵ : Cardinal.aleph0 ≤ max Z.size X.size := Z.aleph0_le_size.trans (le_max_left _ _)
@@ -594,7 +594,7 @@ private lemma bridge_size_le_universalThickening
     cases t with
     | none =>
         have : IsEmpty (W none : Scheme) := by
-          show IsEmpty ((⊥ : H.Opens) : Scheme)
+          change IsEmpty ((⊥ : H.Opens) : Scheme)
           exact ⟨fun x => x.2⟩
         exact (AlgebraicGeometry.size_le_aleph0_of_isEmpty _ inferInstance).trans hℵ
     | some ab => exact hW ab))

@@ -126,9 +126,6 @@ lemma pushforwardStalkPiNatTrans_app_π
       (pushforwardStalkNatTrans f (Φ i) Ψ (e i)).app N :=
   Pi.lift_comp_π _ _
 
-variable [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-
 /-- **The stalk of `f_*` at `Ψ` is the product of the stalks at the `Φ i`**, as functors, when
 this holds for sheaves of sets and the family is finite. -/
 lemma isIso_pushforwardStalkPiNatTrans [Finite ι]

@@ -67,7 +67,7 @@ theorem residueMap_ker
     {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k]
     (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
     RingHom.ker (Deformation.Artin.residueMap A) = IsLocalRing.maximalIdeal A := by
-  show RingHom.ker
+  change RingHom.ker
     (A.residueEquiv.toAlgHom.toRingHom.comp (IsLocalRing.residue A)) = _
   rw [RingHom.ker_comp_of_injective _ A.residueEquiv.injective]
   exact IsLocalRing.ker_residue
@@ -90,10 +90,10 @@ private theorem localStalkRingEquiv_germ_top
         algebraMap A (Localization.AtPrime p.asIdeal) t := by
     have hM : p.asIdeal.primeCompl = IsUnit.submonoid A := by
       ext b
-      show b ∉ p.asIdeal ↔ IsUnit b
+      change b ∉ p.asIdeal ↔ IsUnit b
       rw [hp, IsLocalRing.mem_maximalIdeal]
       simp [mem_nonunits_iff]
-    show (StructureSheaf.stalkIso A p).symm
+    change (StructureSheaf.stalkIso A p).symm
       ((StructureSheaf.stalkIso A p)
         ((IsLocalization.atUnits A p.asIdeal.primeCompl hM.le).toRingEquiv t)) = _
     rw [AlgEquiv.symm_apply_apply]
@@ -333,7 +333,7 @@ theorem special_stalk_pushout
       residueStalkMap (eA a) = ek (Deformation.Artin.residueMap P.base a) := by
     rw [localStalkRingEquiv_apply z hzmax,
       localStalkRingEquiv_apply z₀ hz0max]
-    show (residueSpecMap P.base).stalkMap z₀
+    change (residueSpecMap P.base).stalkMap z₀
       ((eqToHom (congrArg (fun (t : Spec (.of P.base)) =>
         (Spec (.of P.base)).presheaf.stalk t) hz.symm)).hom
         ((StructureSheaf.toStalk P.base z).hom a)) = _
@@ -346,7 +346,7 @@ theorem special_stalk_pushout
     (by
       apply CommRingCat.hom_ext
       ext b
-      show (P.toBase.stalkMap y).hom b =
+      change (P.toBase.stalkMap y).hom b =
         algebraMap P.base (P.scheme.presheaf.stalk y) (eA.symm b)
       calc
         (P.toBase.stalkMap y).hom b =
@@ -357,7 +357,7 @@ theorem special_stalk_pushout
     (by
       apply CommRingCat.hom_ext
       ext b
-      show ek.symm (residueStalkMap b) = Deformation.Artin.residueMap P.base (eA.symm b)
+      change ek.symm (residueStalkMap b) = Deformation.Artin.residueMap P.base (eA.symm b)
       calc
         ek.symm (residueStalkMap b) =
             ek.symm (residueStalkMap (eA (eA.symm b))) := by rw [eA.apply_symm_apply]
@@ -366,7 +366,7 @@ theorem special_stalk_pushout
     (by
       apply CommRingCat.hom_ext
       ext b
-      show (X.hom.stalkMap x).hom b =
+      change (X.hom.stalkMap x).hom b =
         algebraMap k (X.left.presheaf.stalk x) (ek.symm b)
       calc
         (X.hom.stalkMap x).hom b =

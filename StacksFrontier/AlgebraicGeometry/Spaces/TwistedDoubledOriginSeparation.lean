@@ -129,18 +129,18 @@ theorem presheaf_diag_quotientSheaf {R U : BigFppfOver B S hS} (s t : R ⟶ U)
     asIso (prodComparison post U U) with hpostProd
   have hpost : post.map rsite ≫ postProd.hom = relation B S hS s t := by
     apply prod.hom_ext
-    · show (post.map rsite ≫ prodComparison post U U) ≫ prod.fst = _
+    · change (post.map rsite ≫ prodComparison post U U) ≫ prod.fst = _
       simp only [Category.assoc, prodComparison_fst, ← Functor.map_comp, hrsite,
         prod.lift_fst]
       exact (prod.lift_fst _ _).symm
-    · show (post.map rsite ≫ prodComparison post U U) ≫ prod.snd = _
+    · change (post.map rsite ≫ prodComparison post U U) ≫ prod.snd = _
       simp only [Category.assoc, prodComparison_snd, ← Functor.map_comp, hrsite,
         prod.lift_snd]
       exact (prod.lift_snd _ _).symm
   set targetIso : Fsite.obj (U ⨯ U) ≅ ((post.obj U) ⨯ (post.obj U)).left :=
     (Over.forget S).mapIso postProd with htargetIso
   have htarget : Fsite.map rsite ≫ targetIso.hom = (relation B S hS s t).left := by
-    show (Over.forget S).map (post.map rsite) ≫ (Over.forget S).map postProd.hom = _
+    change (Over.forget S).map (post.map rsite) ≫ (Over.forget S).map postProd.hom = _
     rw [← Functor.map_comp, hpost]
     rfl
   have hrsiteP : P (Fsite.map rsite) := by
@@ -174,18 +174,18 @@ theorem prop_relation_left_of_presheaf_diag {R U : BigFppfOver B S hS} (s t : R 
     asIso (prodComparison post U U) with hpostProd
   have hpost : post.map rsite ≫ postProd.hom = relation B S hS s t := by
     apply prod.hom_ext
-    · show (post.map rsite ≫ prodComparison post U U) ≫ prod.fst = _
+    · change (post.map rsite ≫ prodComparison post U U) ≫ prod.fst = _
       simp only [Category.assoc, prodComparison_fst, ← Functor.map_comp, hrsite,
         prod.lift_fst]
       exact (prod.lift_fst _ _).symm
-    · show (post.map rsite ≫ prodComparison post U U) ≫ prod.snd = _
+    · change (post.map rsite ≫ prodComparison post U U) ≫ prod.snd = _
       simp only [Category.assoc, prodComparison_snd, ← Functor.map_comp, hrsite,
         prod.lift_snd]
       exact (prod.lift_snd _ _).symm
   set targetIso : Fsite.obj (U ⨯ U) ≅ ((post.obj U) ⨯ (post.obj U)).left :=
     (Over.forget S).mapIso postProd with htargetIso
   have htarget : Fsite.map rsite ≫ targetIso.hom = (relation B S hS s t).left := by
-    show (Over.forget S).map (post.map rsite) ≫ (Over.forget S).map postProd.hom = _
+    change (Over.forget S).map (post.map rsite) ≫ (Over.forget S).map postProd.hom = _
     rw [← Functor.map_comp, hpost]
     rfl
   have hmono : Mono (prod.lift (yoneda.map (prod.fst : U ⨯ U ⟶ U)) (yoneda.map prod.snd)) :=
@@ -215,16 +215,16 @@ theorem locallyOfFiniteType_relationOverBase_hom :
   have hfp : LocallyOfFinitePresentation (coverMap k K) := (coverMap_fppf k K).2.1
   have : IsZariskiLocalAtSource (@LocallyOfFiniteType.{u} : MorphismProperty Scheme.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource
-  show LocallyOfFiniteType
+  change LocallyOfFiniteType
     (coprod.desc (coverMap k K) ((puncturedCover K).ι ≫ coverMap k K))
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @LocallyOfFiniteType)
     (coprodOpenCover.{u, u} (cover K) (puncturedCover K).toScheme)]
   rintro (⟨⟩ | ⟨⟩)
-  · show LocallyOfFiniteType
+  · change LocallyOfFiniteType
       (coprod.inl ≫ coprod.desc (coverMap k K) ((puncturedCover K).ι ≫ coverMap k K))
     rw [coprod.inl_desc]
     infer_instance
-  · show LocallyOfFiniteType
+  · change LocallyOfFiniteType
       (coprod.inr ≫ coprod.desc (coverMap k K) ((puncturedCover K).ι ≫ coverMap k K))
     rw [coprod.inr_desc]
     infer_instance

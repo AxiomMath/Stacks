@@ -182,7 +182,7 @@ private lemma point_eq_of_projection_eq {I : Type u} [Category.{u} I] [IsCofilte
     Opens.isBasis_iff_nbhd.mp (isBasis_preimage_isAffineOpen D c hc)
       (show x ∈ (⟨U, hU⟩ : c.pt.Opens) from hxU)
   apply hVU
-  show c.π.app i y ∈ V
+  change c.π.app i y ∈ V
   rw [← h i]
   exact hxV
 
@@ -195,7 +195,7 @@ private lemma support_pulledPointIdeal {I : Type u} [Category.{u} I] [IsCofilter
   simp_rw [Scheme.IdealSheafData.support_comap]
   ext x
   simp only [reducedPointIdeal]
-  show x ∈ (⨅ i, (pointClosure (D.obj i) (c.π.app i s)).preimage
+  change x ∈ (⨅ i, (pointClosure (D.obj i) (c.π.app i s)).preimage
       (c.π.app i).continuous : Closeds c.pt) ↔ x ∈ pointClosure c.pt s
   simp only [Closeds.mem_iInf]
   refine ⟨fun hx => ?_, fun hx i => ?_⟩
@@ -203,7 +203,7 @@ private lemma support_pulledPointIdeal {I : Type u} [Category.{u} I] [IsCofilter
       existsUnique_mem_closure_singleton_of_compatible D c hc s (fun i => c.π.app i x)
         (fun i j f => by rw [← Scheme.Hom.comp_apply, c.w]) hx
     exact (point_eq_of_projection_eq D c hc fun i => by simpa using hycoord i) ▸ hy
-  · show c.π.app i x ∈ pointClosure (D.obj i) (c.π.app i s)
+  · change c.π.app i x ∈ pointClosure (D.obj i) (c.π.app i s)
     exact (image_pointClosure_le c.pt (D.obj i) (c.π.app i) s) ⟨x, hx, rfl⟩
 
 /-- The lift of a cone over the reduced closures to the limit, composed with a projection. -/
@@ -297,7 +297,7 @@ theorem exists_isLimit_reducedClosures
   let e : c'.pt ≅ (reducedPointIdeal c.pt s).subscheme :=
     eqToIso (congrArg Scheme.IdealSheafData.subscheme heq)
   refine ⟨E, ι, c', e, fun _ => ⟨Iso.refl _, Category.id_comp _⟩, fun i => ?_, ⟨hc'⟩⟩
-  show _ = e.hom ≫ (reducedPointIdeal c.pt s).subschemeι ≫ c.π.app i
+  change _ = e.hom ≫ (reducedPointIdeal c.pt s).subschemeι ≫ c.π.app i
   dsimp only [e]
   rw [← Category.assoc, subscheme_eqToIso_hom_ι heq]
   exact Scheme.IdealSheafData.subschemeMap_subschemeι _ _ _ (pulledPointIdeal_le_map D c s i)

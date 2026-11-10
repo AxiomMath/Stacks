@@ -96,7 +96,7 @@ include hw in
 theorem pw_natCast_eq_powCompare (n : ℕ) :
     pw w (n : ℤ) = (CoherentMulSections.powCompare L n).hom.app ⊤ (ψ.pow hf n) := by
   have e := veronesePow_eq_pow ψ hf w hw n
-  show ((w ^ (n : ℤ) : (Ring L (op ⊤))ˣ) : Ring L (op ⊤)) (n : ℤ) = _
+  change ((w ^ (n : ℤ) : (Ring L (op ⊤))ˣ) : Ring L (op ⊤)) (n : ℤ) = _
   rw [zpow_natCast]
   exact (congrArg (fun z : Ring L (op ⊤) => z (n : ℤ)) e.symm).trans (DirectSum.of_eq_same _ _)
 

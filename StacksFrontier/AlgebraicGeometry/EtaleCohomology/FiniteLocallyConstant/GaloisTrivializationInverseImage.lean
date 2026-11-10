@@ -51,7 +51,7 @@ def etaleLeftOverFunctor : W.left.Etale ⥤ Over W where
     (B := W) V.hom)
   map {V V'} g := Over.homMk (MorphismProperty.Over.homMk g.left (by
     change g.left ≫ (V'.hom ≫ W.hom) = V.hom ≫ W.hom
-    have h : g.left ≫ V'.hom = V.hom := by simpa using g.w
+    have h : g.left ≫ V'.hom = V.hom := by simp
     rw [← Category.assoc, h])) (by
       apply MorphismProperty.Comma.Hom.ext
       · exact g.w
@@ -66,7 +66,7 @@ def etaleOverLeftEquivalence : Over W ≌ W.left.Etale where
   unitIso := NatIso.ofComponents (fun V ↦ Over.isoMk
     (MorphismProperty.Over.isoMk (Iso.refl _) (by
       change 𝟙 _ ≫ (V.hom.left ≫ W.hom) = V.left.hom
-      simpa using V.hom.w)) (by
+      simp)) (by
         apply MorphismProperty.Comma.Hom.ext
         · change 𝟙 _ ≫ V.hom.left = V.hom.left
           simp

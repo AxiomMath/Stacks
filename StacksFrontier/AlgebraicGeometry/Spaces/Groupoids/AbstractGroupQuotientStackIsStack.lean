@@ -393,7 +393,7 @@ theorem forget_hsep (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
     map_eq_of_isHomLift_cod SheafOfGroups.Torsors.projection h f' hlf' hxb'
   obtain ⟨χ, ⟨hχb, hχf⟩, -⟩ :=
     hqfib.unique_lift f' f (eqToHom (hxb.trans hxb'.symm)) (by
-      show eqToHom (hxb.trans hxb'.symm) ≫ SheafOfGroups.Torsors.Hom.base f' =
+      change eqToHom (hxb.trans hxb'.symm) ≫ SheafOfGroups.Torsors.Hom.base f' =
         SheafOfGroups.Torsors.Hom.base f
       rw [hbf, hbf']
       simp)
@@ -560,7 +560,7 @@ theorem forget_hglue (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
           c ≫ y.pullbackHom h = fs g hg := by
     intro W g hg
     refine hqfib.unique_lift (y.pullbackHom h) (fs g hg) (eqToHom (hdd W g hg) ≫ g) ?_
-    show (eqToHom (hdd W g hg) ≫ g) ≫
+    change (eqToHom (hdd W g hg) ≫ g) ≫
       SheafOfGroups.Torsors.Hom.base (y.pullbackHom h) =
         SheafOfGroups.Torsors.Hom.base (fs g hg)
     rw [hbfs W g hg]
@@ -619,14 +619,14 @@ theorem forget_hglue (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
                 eqToHom (hdd W g hg).symm) ≫ (eqToHom (hdd W g hg) ≫ g) =
             eqToHom (hdd Z.unop (k ≫ g) (R.downward_closed hg k)) ≫ k ≫ g := by
           simp
-        show Hom.base c₁ ≫ SheafOfGroups.Torsors.Hom.base (cc W g hg) = _
+        change Hom.base c₁ ≫ SheafOfGroups.Torsors.Hom.base (cc W g hg) = _
         rw [hc₁b, hccb W g hg]
         exact e
       · exact (Category.assoc _ _ _).trans
           ((congrArg ((forget (ρ := ρ)).map c₁ ≫ ·) (hccf W g hg)).trans hc₁f)
     refine ⟨ww, ?_, hww1, ?_⟩
     · rw [hceq]
-      show SheafOfGroups.Torsors.Hom.map (cc W g hg) Z (Hom.map c₁ Z ww) = _
+      change SheafOfGroups.Torsors.Hom.map (cc W g hg) Z (Hom.map c₁ Z ww) = _
       exact congrArg (SheafOfGroups.Torsors.Hom.map (cc W g hg) Z) hww2
     · exact (totalToTarget_eq_of_map_eq c₁ hww2).symm
   -- compatibility: two members of the family agreeing on a section of `h^{-1}y` agree there
@@ -695,7 +695,7 @@ theorem forget_hglue (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
           totalPresheafMap (cc i.1 i.2.1 i.2.2)) hcover hX _ _ ?_
       intro i
       ext V'' uu
-      show ψ.app V'' ((y.pullback h).totalSmul _
+      change ψ.app V'' ((y.pullback h).totalSmul _
           (SheafOfGroups.Torsors.Hom.map (cc i.1 i.2.1 i.2.2) V'' uu)) =
         (ρ g).asIso.hom.app V'' (ψ.app V'' (SheafOfGroups.Torsors.Hom.map
           (cc i.1 i.2.1 i.2.2) V'' uu))

@@ -57,7 +57,7 @@ def skyscraperSheafFunctorCompSheafPushforwardContinuousIso (p : Point.{w} J) (q
     q.skyscraperSheafFunctor (A := A) ⋙ F.sheafPushforwardContinuous A J K ≅
       p.skyscraperSheafFunctor :=
   ((fullyFaithfulSheafToPresheaf J A).whiskeringRight A).preimageIso
-    ((flipFunctor _ _ A).mapIso (Functor.isoWhiskerRight (NatIso.op e.symm) piFunctor.flip))
+    ((flipFunctor _ _ A).mapIso (Functor.isoWhiskerRight (NatIso.op e.symm) piConst.flip))
 
 end CategoryTheory.GrothendieckTopology.Point
 

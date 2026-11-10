@@ -56,7 +56,8 @@ finite-product-preserving functor to a generalized element is additive and multi
 both are proved from those and from nothing else.
 
 `Stacks.Sheaves.PolynomialSystem.objCommRing` is a `def` and not an instance, for the reason
-recorded at `CategoryTheory.Sheaf.ringObjRing`: it is stated for an arbitrary `Q` and as an instance would
+recorded at `CategoryTheory.Sheaf.ringObjRing`: it is stated for an arbitrary `Q` and as an instance
+would
 be tried in every instance search.  Every statement below therefore carries it in a `letI`.
 
 ## References

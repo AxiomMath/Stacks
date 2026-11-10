@@ -196,8 +196,7 @@ include hT in
 /-- Every element of `T ⊗_S X` is `1 ⊗ x`, `S → T` being surjective. -/
 theorem exists_one_tmul_eq (X : Type u) [AddCommGroup X] [Module S X] (z : T ⊗[S] X) :
     ∃ x : X, (1 : T) ⊗ₜ[S] x = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t x =>
     obtain ⟨s, rfl⟩ := hT t
     exact ⟨s • x, by rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]⟩
@@ -331,7 +330,7 @@ theorem length_ker_comp_of_surjective {R X Y W : Type u} [CommRing R] [AddCommGr
       Module.length R (LinearMap.ker h) + Module.length R (LinearMap.ker g) := by
   let i : LinearMap.ker h →ₗ[R] LinearMap.ker (g ∘ₗ h) :=
     LinearMap.codRestrict _ (LinearMap.ker h).subtype (fun x => by
-      show g (h x) = 0
+      change g (h x) = 0
       rw [LinearMap.mem_ker.mp x.2, map_zero])
   let q : LinearMap.ker (g ∘ₗ h) →ₗ[R] LinearMap.ker g :=
     LinearMap.codRestrict _ (h ∘ₗ (LinearMap.ker (g ∘ₗ h)).subtype) (fun x => x.2)
@@ -475,7 +474,7 @@ theorem torEulerCharacteristic_eq_zero_of_quotient (M N : Type u) [AddCommGroup 
       (LinearMap.rTensor M (LinearMap.range ι).subtype)
       (LinearMap.rTensor_surjective M (LinearMap.surjective_rangeRestrict _))
     rw [← hcomp, hker1, ← hT1, ← h2a] at hsplit
-    show ((Module.length S _).toNat : ℤ) = ((Module.length T _).toNat : ℤ) +
+    change ((Module.length S _).toNat : ℤ) = ((Module.length T _).toNat : ℤ) +
       ((Module.length T _).toNat : ℤ)
     rw [hsplit, ENat.toNat_add hcfin (hfinT 1)]
     push_cast
@@ -502,7 +501,7 @@ theorem torEulerCharacteristic_eq_zero_of_quotient (M N : Type u) [AddCommGroup 
     tor'δFirstIso hE2 Q (i + 1) (isZero_Tor'_succ_of_projective _ _ _ (i + 1))
       (isZero_Tor'_succ_of_projective _ _ _ i)
   have h5 : ∀ i, tT (i + 2) = w (i + 1) := fun i => by
-    show ((Module.length T _).toNat : ℤ) = ((Module.length T _).toNat : ℤ)
+    change ((Module.length T _).toNat : ℤ) = ((Module.length T _).toNat : ℤ)
     rw [(h5iso i).toLinearEquiv.length_eq]
   -- (5) the long exact sequence of `0 → N → T ⊗ K → N' → 0`
   have hZ : ∀ i, Module.length T (((Tor' (ModuleCat.{u} T) i).obj E1.X₁).obj Q) =
@@ -527,7 +526,7 @@ theorem torEulerCharacteristic_eq_zero_of_quotient (M N : Type u) [AddCommGroup 
     rw [← hc]
     exact hles
   have h7 : tT (d + 1) = 0 := by
-    show ((Module.length T _).toNat : ℤ) = 0
+    change ((Module.length T _).toNat : ℤ) = 0
     rw [Module.length_eq_zero_iff.mpr (ModuleCat.subsingleton_of_isZero (hvanT _ (by omega)))]
     rfl
   -- assembly
@@ -536,7 +535,7 @@ theorem torEulerCharacteristic_eq_zero_of_quotient (M N : Type u) [AddCommGroup 
     (hd.trans_le (by exact_mod_cast Nat.le_succ d))]
   have hflip : ∀ i, ((Module.length S (((Tor (ModuleCat.{u} S) i).obj (ModuleCat.of S M)).obj
       (ModuleCat.of S N))).toNat : ℚ) = (tS i : ℚ) := fun i => by
-    show _ = ((((Module.length S _).toNat : ℕ) : ℤ) : ℚ)
+    change _ = ((((Module.length S _).toNat : ℕ) : ℤ) : ℚ)
     rw [Int.cast_natCast]
     exact congrArg (fun x : ℕ∞ => ((ENat.toNat x : ℕ) : ℚ))
       (((torFlip_iso_Tor' S i).app (ModuleCat.of S N)).app

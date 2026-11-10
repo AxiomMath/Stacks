@@ -35,8 +35,8 @@ into the source's condition that every element of `1 + I` be a unit.
 
 Upper semicontinuity of the rank of a finite flat module is reproved here as
 `Module.isOpen_rankAtStalk_le_of_flat` because the copy in
-`StacksFrontier.RingTheory.Module.LocallyFree.FiniteFlat` is `private` to that module; the two should
-be merged into one provider.
+`StacksFrontier.RingTheory.Module.LocallyFree.FiniteFlat` is `private` to that module; the two
+should be merged into one provider.
 
 ## References
 
@@ -97,7 +97,7 @@ theorem isOpen_rankAtStalk_le_of_flat (M : Type v) [AddCommGroup M] [Module R M]
   rw [Module.notMem_support_iff] at hqs
   have hsurj : Function.Surjective (LocalizedModule.map q.asIdeal.primeCompl φ) := by
     rwa [LinearMap.localizedMap_surjective_iff_subsingleton_localized_coker]
-  show Module.rankAtStalk M q ≤ n
+  change Module.rankAtStalk M q ≤ n
   have : Nontrivial R := ⟨1, 0, fun h => q.isPrime.one_notMem (h ▸ q.asIdeal.zero_mem)⟩
   calc Module.rankAtStalk M q
       = Module.finrank (Localization.AtPrime q.asIdeal)
@@ -207,7 +207,7 @@ theorem projective_of_projective_quotient_of_le_jacobson (I : Ideal R)
     (hM : Module.Projective (R ⧸ I) (M ⧸ I • (⊤ : Submodule R M))) : Module.Projective R M := by
   have hlc : IsLocallyConstant (Module.rankAtStalk (R := R) M) := by
     refine IsLocallyConstant.iff_isOpen_fiber.mpr fun n => ?_
-    show IsOpen {p : PrimeSpectrum R | Module.rankAtStalk M p = n}
+    change IsOpen {p : PrimeSpectrum R | Module.rankAtStalk M p = n}
     have he : {p : PrimeSpectrum R | Module.rankAtStalk M p = n} =
         {p | n ≤ Module.rankAtStalk M p} ∩ {p | Module.rankAtStalk M p ≤ n} :=
       Set.ext fun p => ⟨fun hp => ⟨hp.ge, hp.le⟩, fun hp => le_antisymm hp.2 hp.1⟩

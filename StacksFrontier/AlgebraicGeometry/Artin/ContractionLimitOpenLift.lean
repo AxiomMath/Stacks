@@ -141,12 +141,12 @@ theorem exists_localLift_of_not_mem (c : ContractionSituation B S hS)
   let p₀ : pullback (κ.π.app i).hom q ⟶ κ.pt.obj := pullback.fst _ _
   have hmemU : ∀ y, ((BigFppfOver.toScheme B S hS).map p₀).base y ∈ Vs.basicOpen a := fun y => by
     rw [← hpre]
-    show ((BigFppfOver.toScheme B S hS).map p₀ ≫
+    change ((BigFppfOver.toScheme B S hS).map p₀ ≫
       (BigFppfOver.toScheme B S hS).map (κ.π.app i).hom).base y ∈ U
     rw [← Functor.map_comp, pullback.condition, Functor.map_comp, hq]
     exact (Scheme.Opens.range_ι U).subset ⟨_, rfl⟩
   have hZ0 : (mapTriple c p₀ ξ).Z = ∅ := by
-    show Space.pointsMap B S hS _ (yoneda.map p₀) ⁻¹' ξ.Z = ∅
+    change Space.pointsMap B S hS _ (yoneda.map p₀) ⁻¹' ξ.Z = ∅
     rw [pointsMap_yoneda_preimage_eq]
     ext x
     simp only [Set.mem_preimage, Set.mem_empty_iff_false, iff_false]
@@ -183,7 +183,7 @@ theorem exists_localLift_of_not_mem (c : ContractionSituation B S hS)
   have hagree : mapTriple c (pullback.fst e'.hom (κ.π.app k).hom)
       (c.emptyTriple E'.obj (yonedaEquiv.symm w')) =
       mapTriple c (pullback.snd e'.hom (κ.π.app k).hom) ξ := by
-    show mapTriple c (pullback.fst (pullback.fst (D.map f).hom q) (κ.π.app k).hom)
+    change mapTriple c (pullback.fst (pullback.fst (D.map f).hom q) (κ.π.app k).hom)
       (c.emptyTriple _ (yonedaEquiv.symm w')) =
       mapTriple c (pullback.snd (pullback.fst (D.map f).hom q) (κ.π.app k).hom) ξ
     have hm₁ : m ≫ p₀ = pullback.snd (pullback.fst (D.map f).hom q) (κ.π.app k).hom :=
@@ -195,7 +195,7 @@ theorem exists_localLift_of_not_mem (c : ContractionSituation B S hS)
   refine ⟨k, LocalLift.mk E' e' (etale_pullback_fst _ q hqet) (isAffine_pullback (D.map f).hom q)
     (c.emptyTriple E'.obj (yonedaEquiv.symm w')) hagree, ?_⟩
   have hx : ((BigFppfOver.toScheme B S hS).map (κ.π.app i).hom).base v ∈ U := by
-    show v ∈ (BigFppfOver.toScheme B S hS).map (κ.π.app i).hom ⁻¹ᵁ U
+    change v ∈ (BigFppfOver.toScheme B S hS).map (κ.π.app i).hom ⁻¹ᵁ U
     rwa [hpre]
   obtain ⟨n, hn₀⟩ : ((BigFppfOver.toScheme B S hS).map (κ.π.app i).hom).base v ∈
       Set.range U.ι := by

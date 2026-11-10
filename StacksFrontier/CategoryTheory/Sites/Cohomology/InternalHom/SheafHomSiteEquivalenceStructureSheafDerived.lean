@@ -135,7 +135,7 @@ theorem siteEquivModelHom_structureSheaf
           ((pushComplex eqv φ).obj I)).inv := rfl
   simp only [hηX, hηY, siteEquivModelHom, hM, Category.assoc]
   simp only [reassoc_of% ha]
-  simp only [NatTrans.naturality_assoc, Iso.map_hom_inv_id_assoc]
+  simp only [NatTrans.naturality_assoc, Iso.hom_inv_id_map_assoc]
   simp only [reassoc_of% he, Iso.inv_hom_id_assoc]
   simp only [reassoc_of% hf]
   simp only [← reassoc_of% hg]

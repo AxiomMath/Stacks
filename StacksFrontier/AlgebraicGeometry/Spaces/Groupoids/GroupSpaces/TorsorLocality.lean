@@ -93,7 +93,7 @@ theorem isPseudoTorsor_restrict (b : B' ⟶ B) (G X : Over B) [GrpObj G] [ModObj
     (h : IsPseudoTorsor G X) :
     IsPseudoTorsor ((Over.pullback b).obj G) ((Over.pullback b).obj X) := by
   have : IsIso (ModObj.leftSMul G X) := h
-  show IsIso (ModObj.leftSMul ((Over.pullback b).obj G) ((Over.pullback b).obj X))
+  change IsIso (ModObj.leftSMul ((Over.pullback b).obj G) ((Over.pullback b).obj X))
   rw [Functor.LaxMonoidal.mapModObj_leftSMul (Over.pullback b) (X := X)
     (restrictGrpObj b G).toMonObj rfl rfl]
   infer_instance
@@ -143,7 +143,7 @@ theorem pullbackHomEquiv_smul (b : B' ⟶ B) (G X : Over B) [GrpObj G] [ModObj G
     pullbackHomEquiv b X z (g • u) =
       pullbackHomEquiv b G z g • pullbackHomEquiv b X z u := by
   apply Over.OverMorphism.ext
-  show (CartesianMonoidalCategory.lift g u ≫
+  change (CartesianMonoidalCategory.lift g u ≫
       γ[(Over.pullback b).obj G, (Over.pullback b).obj X]).left ≫
       pullback.fst X.hom b =
     (CartesianMonoidalCategory.lift (pullbackHomEquiv b G z g)
@@ -184,7 +184,7 @@ theorem nonempty_unitHom_pullback_iff (b : B' ⟶ B) (X : Over B) :
     rw [Category.assoc, pullback.condition, ← Category.assoc, hs, Category.id_comp]
   · rintro ⟨t, ht⟩
     refine ⟨Over.homMk (pullback.lift t (𝟙 B') (by rw [ht]; simp)) ?_⟩
-    show pullback.lift t (𝟙 B') _ ≫ pullback.snd X.hom b = 𝟙 B'
+    change pullback.lift t (𝟙 B') _ ≫ pullback.snd X.hom b = 𝟙 B'
     exact pullback.lift_snd _ _ _
 
 /-! ### Base change of local triviality -/

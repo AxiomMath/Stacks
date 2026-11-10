@@ -176,7 +176,7 @@ theorem PurelyTranscendental.of_ringEquiv_square {k K k' K' : Type u} [Field k] 
   let L : IntermediateField k K :=
     { L'.toSubfield.comap E.toRingHom with
       algebraMap_mem' := fun a ↦ by
-        show E (algebraMap k K a) ∈ L'
+        change E (algebraMap k K a) ∈ L'
         rw [show E (algebraMap k K a) = algebraMap k' K' (e a) from (RingHom.congr_fun hc a).symm]
         exact L'.algebraMap_mem (e a) }
   have hL : IntermediateField.adjoin k s ≤ L := by

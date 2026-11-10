@@ -124,6 +124,7 @@ public def IsConstructibleFiniteTor
       (X := constantCoefficientRingedSite.{u, w, r} B X Λ) T
       ((moduleSheafOverConstantCoefficientsFunctor.{u, w, r} B X Λ).mapDerivedCategory.obj K)
 
+omit [IsNoetherianRing Λ] in
 /-- `Stacks.EtaleCohomology.IsConstructibleFiniteTor` is membership of the full subcategory
 `Stacks.EtaleCohomology.ConstructibleFiniteTorDerivedCategory` of Tag 03TQ: an object of
 `D(X_étale, Λ)` satisfies it exactly when it underlies an object of `D_ctf(X_étale, Λ)`. -/
@@ -217,6 +218,7 @@ attribute [local instance] Stacks.SheafOfModules.DerivedTensorProduct.sliceDeriv
   Stacks.SheafOfModules.DerivedTensorProduct.sliceHasMapBifunctor
   AlgebraicGeometry.RingedSite.sliceHasDerivedCategory
 
+omit [IsNoetherianRing Λ] in
 /-- **Stacks 0962, part (1).** Let `Λ` be a Noetherian ring and let `j : U ⟶ X` be an étale
 morphism of schemes, the object `U` of the small étale site of `X`. If `K` lies in
 `D_ctf(X_étale, Λ)`, then its restriction `K|_U`, the image of `K` under the derived functor of

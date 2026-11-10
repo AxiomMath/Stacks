@@ -149,7 +149,7 @@ theorem baseGlobalFunction_comp_structureSharpSet (f : X ⟶ Y) (r : Γ(S, ⊤))
   have hL : (directImageChartProjection B S hS f V j).app (structureSetSheaf B S hS X)
         ((baseGlobalFunction Y r ≫ structureSharpSet B S hS f).hom.app (op V) x) =
       chartPullback B S hS f V j ((chartToBase B S hS Y V).appTop.hom r) := by
-    show (directImageChartProjection B S hS f V j).app (structureSetSheaf B S hS X)
+    change (directImageChartProjection B S hS f V j).app (structureSetSheaf B S hS X)
         ((structureSharpSet B S hS f).hom.app (op V)
           ((baseGlobalFunction Y r).hom.app (op V) x)) = _
     rw [baseGlobalFunction_app]
@@ -286,12 +286,13 @@ theorem baseFunctionTransport_comp
   refine (baseFunctionTransport_eq_comp_app
     (RingedToposHom.comp (X := smallEtaleRingedTopos B S hS X) (Y := smallEtaleRingedTopos B S hS Y)
       (Z := smallEtaleRingedTopos B S hS Z) χ g)
-    (g.toToposHom.inverseImage.map (terminal.from (C := Sheaf (SmallEtale.topology B S hS Y.1) (Type u))
-      (χ.toToposHom.inverseImage.obj (⊤_ Sheaf (SmallEtale.topology B S hS Z.1) (Type u)))))
+    (g.toToposHom.inverseImage.map
+      (terminal.from (C := Sheaf (SmallEtale.topology B S hS Y.1) (Type u))
+        (χ.toToposHom.inverseImage.obj (⊤_ Sheaf (SmallEtale.topology B S hS Z.1) (Type u)))))
     (g.toToposHom.inverseImage.map (baseGlobalFunction Y r) ≫ g.fSharpSet) r ?_ U).trans
     (comp_inverseImageTerminal_app g _ _ U default)
   rw [RingedToposHom.fSharpSet_comp χ g]
-  show g.toToposHom.inverseImage.map (χ.toToposHom.inverseImage.map
+  change g.toToposHom.inverseImage.map (χ.toToposHom.inverseImage.map
         (baseGlobalFunction Z r)) ≫
       g.toToposHom.inverseImage.map χ.fSharpSet ≫ g.fSharpSet = _
   rw [← Category.assoc, ← Functor.map_comp, hχ, Functor.map_comp, Category.assoc]

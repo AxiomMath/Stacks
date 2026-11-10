@@ -116,7 +116,7 @@ theorem torsionSheafProperty_etaleModuleForgetUniv_obj_of_natCast_eq_zero (m : �
       ((etaleModuleForgetAb.{u, u} Λ Z).obj G) := by
   intro U x
   refine ⟨⊤, Z.smallEtaleTopology.top_mem U, fun V g _ => ⟨m, hm, ?_⟩⟩
-  show m • (G.obj.map g.op x : G.obj.obj (Opposite.op V)) = 0
+  change m • (G.obj.map g.op x : G.obj.obj (Opposite.op V)) = 0
   rw [← Nat.cast_smul_eq_nsmul Λ, hΛ, zero_smul]
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -201,7 +201,7 @@ theorem quasiIso_etaleModuleDirectImage_map_of_rightAcyclic {Y Z : Scheme.{u}} (
   have hU' := Stacks.ExactCompDerived.quasiIso_map_of_rightAcyclic_of_bounded.{u + 1} HU (2 * d)
     hdim hL ((r'.mapHomologicalComplex (ComplexShape.up ℤ)).map s) hJ'
   have hU'' : QuasiIso (((r' ⋙ HU).mapHomologicalComplex (ComplexShape.up ℤ)).map s) := hU'
-  show QuasiIso (((etaleModuleDirectImage.{u, u} Λ h ⋙
+  change QuasiIso (((etaleModuleDirectImage.{u, u} Λ h ⋙
     etaleModuleRestriction.{u, u} Λ j).mapHomologicalComplex (ComplexShape.up ℤ)).map s)
   refine (quasiIso_iff_of_arrow_mk_iso _ _ ?_).1 hU''
   exact Arrow.isoMk ((NatIso.mapHomologicalComplex e (ComplexShape.up ℤ)).app P)

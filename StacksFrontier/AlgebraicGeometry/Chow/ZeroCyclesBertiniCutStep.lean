@@ -196,7 +196,7 @@ theorem exists_cut_step {k : Type u} [Field k] [Infinite k] {X : Scheme.{u}}
     have hηI : T.subschemeι η ∉ I.support := fun hm =>
       hyI (hsp'.mem_closed I.support.isClosed hm)
     have hηT : T.subschemeι η ∈ T.support := by
-      show T.subschemeι η ∈ (T.support : Set X)
+      change T.subschemeι η ∈ (T.support : Set X)
       rw [← Scheme.IdealSheafData.range_subschemeι]
       exact ⟨η, rfl⟩
     have h1 := hdim _ hηT hηI

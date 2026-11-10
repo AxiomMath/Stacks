@@ -203,7 +203,7 @@ theorem isIso_projectionFormulaMap_of_isGE_of_isSepClosed {X : Scheme.{u}}
         (fun j => (Lπ ⋙ T).obj (W j)) _ hb
       preservesColimit_of_iso_diagram _ (K₁ := Discrete.functor fun j => (Lπ ⋙ T).obj (W j))
         (K₂ := (Discrete.functor W ⋙ Lπ) ⋙ T) (Discrete.natIso fun _ => Iso.refl _)
-    show PreservesColimit (Discrete.functor W) (Lπ ⋙ T ⋙ etaleRingedDerivedPushforward.{u, 0} ℤ π)
+    change PreservesColimit (Discrete.functor W) (Lπ ⋙ T ⋙ etaleRingedDerivedPushforward.{u, 0} ℤ π)
     infer_instance
   let e := etalePointDerivedEquivalence.{u, 0} ℤ k
   have hM : (e.inverse.obj K).IsGE b :=

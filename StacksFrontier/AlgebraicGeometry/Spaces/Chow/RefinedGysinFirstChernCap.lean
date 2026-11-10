@@ -324,7 +324,6 @@ germ `a` of `s|_W` against `s_ξ` at the generic point of `P` is a unit, then th
 `[P' ×_X E]_k` of `i_* i^*` at `P'`. -/
 theorem integralClosedSubspacePushforward_restrictedGeneratorDivisor_of_isUnit (k : ℤ)
     (W : IntegralClosedSubspace D.site D.base D.base_mem X)
-    (hWE : ¬ W.subspace ≤ (vanishingLocus D sX hX L s).1)
     (hn : deltaDimensionClosed D (W.subspace.ι ≫ sX) (isGood_integralClosedSubspace D sX hX W)
       Set.univ isClosed_univ = ((k + 1 + 1 : ℤ) : EInt))
     (P : PrimeDivisor D.site D.base D.base_mem W.subspace.toFunctor)
@@ -1289,7 +1288,6 @@ theorem isRationallyEquivalentToZeroWithin_gysinCycleMap_firstChernComponentCycl
         (isInvertibleModule_integralClosedSubspaceRestrict D sX hX L hLm W)
         (integralClosedSubspaceRestrictSection D sX hX L s W) hsW hu,
         integralClosedSubspacePushforward_restrictedGeneratorDivisor_of_isUnit D sX hX L hL s k W
-          hWE
           hn P hP hPE hu⟩
 
 /-- **Stacks 0ERB.** In Situation 0EDT let `X/B` be good, let `(ℒ, s, i : E → X)` be a triple as

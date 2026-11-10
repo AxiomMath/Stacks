@@ -127,7 +127,7 @@ private lemma extPowers_map_apply {A : Type u} [CommRing A] (I : Ideal A)
         (ModuleCat.ofHom
           (Ideal.Quotient.factorₐ A (Ideal.pow_le_pow_right (I := I) h)).toLinearMap) ≫ x := by
   let F := extPowers A I K q
-  show F.map (homOfLE h) x = _
+  change F.map (homOfLE h) x = _
   induction j, h using Nat.le_induction with
   | base =>
     simp [F, extPowers, Ideal.Quotient.factorₐ_refl]
@@ -136,11 +136,11 @@ private lemma extPowers_map_apply {A : Type u} [CommRing A] (I : Ideal A)
     have hcomp : homOfLE (show i ≤ j + 1 from hij.trans (Nat.le_succ j)) =
         homOfLE hij ≫ homOfLE (Nat.le_succ j) := Subsingleton.elim _ _
     rw [hcomp, Functor.map_comp]
-    show (F.map (homOfLE (Nat.le_succ j))) ((F.map (homOfLE hij)) x) = _
+    change (F.map (homOfLE (Nat.le_succ j))) ((F.map (homOfLE hij)) x) = _
     rw [ih]
     dsimp only [F, extPowers]
     rw [Functor.ofSequence_map_homOfLE_succ]
-    show (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map (quotientPowerSucc A I j) ≫
+    change (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map (quotientPowerSucc A I j) ≫
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map
         (ModuleCat.ofHom (Ideal.Quotient.factorₐ A
           (Ideal.pow_le_pow_right (I := I) hij)).toLinearMap) ≫ x) = _
@@ -251,7 +251,7 @@ theorem exists_quotientPower_extMapVanishesAbove
   have hkill : F.map (homOfLE hnm.le) x = 0 := by
     rw [show homOfLE hnm.le = homOfLE hnm₀ ≫ homOfLE (Nat.le_succ m₀) from Subsingleton.elim _ _,
       Functor.map_comp]
-    show F.map _ (F.map (homOfLE hnm₀) x) = 0
+    change F.map _ (F.map (homOfLE hnm₀) x) = 0
     rw [hkill₀]
     simp
   refine ⟨m₀ + 1, hnm, ?_⟩

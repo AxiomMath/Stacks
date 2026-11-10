@@ -192,13 +192,13 @@ def exceptionalSymmetricHom :
 /-- The identification of graded algebras is an isomorphism in every degree. -/
 theorem isIso_exceptionalSymmetricHom_app (n : ℤ) :
     IsIso ((exceptionalSymmetricHom f ℐ).app n) := by
-  haveI := isIso_conormalSymmetricHom_app_of_quasiRegular ℐ
+  have := isIso_conormalSymmetricHom_app_of_quasiRegular ℐ
     (isQuasiRegularImmersion_of_smooth_of_smooth f ℐ.subschemeι)
-  haveI := Stacks.Conormal.ConormalAlgebraData.isIso_unitalHom_app
+  have := Stacks.Conormal.ConormalAlgebraData.isIso_unitalHom_app
     (Stacks.Conormal.reesPullbackConormalAlgebra ℐ.subschemeι ℐ
       (Scheme.IdealSheafData.ker_subschemeι ℐ))
     (Stacks.Conormal.conormalAlgebra ℐ.subschemeι) n
-  haveI : IsIso ((Stacks.Conormal.conormalSymmetricHom ℐ.subschemeι).inverse.app n) := by
+  have : IsIso ((Stacks.Conormal.conormalSymmetricHom ℐ.subschemeι).inverse.app n) := by
     rw [SheafOfModules.GradedAlgebra.UnitalHom.inverse_app]
     infer_instance
   unfold exceptionalSymmetricHom
@@ -426,7 +426,7 @@ theorem smooth_exceptionalDivisor_isoProjectiveBundle_twistOne_of_isClosedImmers
                     (exceptionalIdealModule i.ker)) := by
   have hinv : inv i.toImage ≫ i = i.ker.subschemeι :=
     (IsIso.inv_comp_eq _).mpr (Scheme.Hom.toImage_imageι i).symm
-  haveI : Smooth (i.ker.subschemeι ≫ f) := by
+  have : Smooth (i.ker.subschemeι ≫ f) := by
     rw [← hinv, Category.assoc]
     infer_instance
   obtain ⟨h1, h2, e, he, htwist⟩ :=

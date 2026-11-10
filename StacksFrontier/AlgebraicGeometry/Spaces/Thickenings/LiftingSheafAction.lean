@@ -627,7 +627,7 @@ theorem translateScheme_zero : P.translateScheme 0 = P.liftHomScheme := by
     refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
     show (P.translateHom 0).hom x = _
     rw [translateHom, Stacks.Smooth.addDerivationHom_apply]
-    show (P.liftHomScheme.appLE (⊤ : P.tgtScheme.Opens) ⊤ P.ambient_le_preimage_tgt).hom x
+    change (P.liftHomScheme.appLE (⊤ : P.tgtScheme.Opens) ⊤ P.ambient_le_preimage_tgt).hom x
       + ((0 : P.conormal) : Γ(P.ambientScheme, (⊤ : P.ambientScheme.Opens))) = _
     rw [ZeroMemClass.coe_zero, add_zero, Stacks.Smooth.appLE_top_top]
   rw [translateScheme, hhom]
@@ -706,7 +706,7 @@ noncomputable def translateSection (δ : P.Deriv) :
 /-- The zero derivation fixes the presented lift, as a section of the sheaf of lifts. -/
 theorem translateSection_zero : P.translateSection 0 = P.liftSection := by
   refine Subtype.ext ?_
-  show P.translateValue 0 = P.liftValue
+  change P.translateValue 0 = P.liftValue
   rw [translateValue, liftValue, P.translate_zero]
 
 /-- **The action is free on the sheaf of lifts**, granted that the chart of `Y` is étale.  Two
@@ -857,7 +857,7 @@ theorem exists_translateSection_eq
       P.squareZero (P.incl ≫ P.baseHom) (yonedaEquiv (U'.1.hom ≫ p.hom)) hxy
     have e₁ : c' ≫ P.chartHom = z := by
       refine huniq (c' ≫ P.chartHom) ⟨?_, ?_⟩
-      · show P.incl ≫ c' ≫ P.chartHom = P.incl ≫ P.baseHom
+      · change P.incl ≫ c' ≫ P.chartHom = P.incl ≫ P.baseHom
         rw [← Category.assoc, hc'incl, Category.assoc, P.liftSq]
       · rw [app_eq_yonedaEquiv_comp C S hS P.bseChart (c' ≫ P.chartHom), Functor.map_comp,
           Category.assoc, P.chartSq, ← Category.assoc, hc'comp, ← hsymm]
@@ -873,7 +873,7 @@ theorem exists_translateSection_eq
   refine ⟨δ, Subtype.ext ?_⟩
   have hct : P.translate δ = c' :=
     (BigFppfOver.toScheme C S hS).map_injective (by rw [P.toScheme_map_translate, hδ])
-  show P.translateValue δ = β.1
+  change P.translateValue δ = β.1
   rw [translateValue, hct, hc'comp, ← hsymm, Equiv.apply_symm_apply]
 
 

@@ -115,8 +115,7 @@ theorem tensorContractRight_map
     {T : Type uT} [AddCommGroup T] [Module F T] {T' : Type uT'} [AddCommGroup T'] [Module F T']
     (f : A →ₗ[F] A') (g : T →ₗ[F] T') (μ : T' →ₗ[F] F) (η : A ⊗[F] T) :
     tensorContractRight μ (TensorProduct.map f g η) = f (tensorContractRight (μ ∘ₗ g) η) := by
-  induction η using TensorProduct.induction_on with
-  | zero => simp
+  induction η using TensorProduct.inductionOn with
   | tmul a t => simp
   | add x y hx hy => simp [hx, hy]
 

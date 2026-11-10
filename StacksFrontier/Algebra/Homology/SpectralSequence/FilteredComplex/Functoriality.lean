@@ -252,7 +252,7 @@ lemma spectralSequenceMap_id :
     spectralSequenceMap (𝟙 K) exists_id_f_le hantiK hantiK =
       𝟙 (spectralSequence K FK hantiK) := by
   ext r hr pq : 3
-  show cokernel.π _ ≫ pageObjMap _ _ r pq.1 (pq.1 + pq.2) = cokernel.π _ ≫ 𝟙 _
+  change cokernel.π _ ≫ pageObjMap _ _ r pq.1 (pq.1 + pq.2) = cokernel.π _ ≫ 𝟙 _
   rw [π_pageObjMap, cyclesMap_id, Category.id_comp, Category.comp_id]
 
 /-- The morphism of spectral sequences induced by a composite is the composite. -/
@@ -264,7 +264,7 @@ lemma spectralSequenceMap_comp {M : CochainComplex A ℤ} {FM : ℤ → ∀ n : 
     spectralSequenceMap (φ ≫ ψ) hφψ hantiK hantiM =
       spectralSequenceMap φ hφ hantiK hantiL ≫ spectralSequenceMap ψ hψ hantiL hantiM := by
   ext r hr pq : 3
-  show cokernel.π _ ≫ pageObjMap _ _ r pq.1 (pq.1 + pq.2) =
+  change cokernel.π _ ≫ pageObjMap _ _ r pq.1 (pq.1 + pq.2) =
     cokernel.π _ ≫ (pageObjMap φ hφ r pq.1 (pq.1 + pq.2) ≫ pageObjMap ψ hψ r pq.1 (pq.1 + pq.2))
   rw [π_pageObjMap, π_pageObjMap_assoc, π_pageObjMap, cyclesMap_comp φ hφ ψ hψ hφψ,
     Category.assoc]

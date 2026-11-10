@@ -117,11 +117,11 @@ theorem exists_forall_le_of_surjective_pi (R M : Type*) [CommRing R] [IsLocalRin
 
 section Biproduct
 
-variable {C : Type*} [Category C] [Preadditive C] {ι : Type} [Fintype ι] [DecidableEq ι]
+variable {C : Type*} [Category C] [Preadditive C] {ι : Type}
   {B : ι → C} [HasBiproduct B] (F : C ⥤ AddCommGrpCat.{v}) [F.Additive]
 
 /-- Every element of `F(⨁ Bᵢ)` is the sum of its components, read back through the inclusions. -/
-theorem eq_sum_map_ι_map_π (w : F.obj (⨁ B)) :
+theorem eq_sum_map_ι_map_π [Fintype ι] (w : F.obj (⨁ B)) :
     w = ∑ i, (F.map (biproduct.ι B i)).hom ((F.map (biproduct.π B i)).hom w) := by
   have h : (F.map (∑ j, biproduct.π B j ≫ biproduct.ι B j)).hom w =
       (F.map (𝟙 (⨁ B))).hom w := by
@@ -130,15 +130,17 @@ theorem eq_sum_map_ι_map_π (w : F.obj (⨁ B)) :
       ∑ j, (F.map (biproduct.π B j) ≫ F.map (biproduct.ι B j)).hom :=
     map_sum AddCommGrpCat.homAddEquiv _ _
   simp only [CategoryTheory.Functor.map_sum, CategoryTheory.Functor.map_id,
-    CategoryTheory.Functor.map_comp, e, AddMonoidHom.finset_sum_apply, AddCommGrpCat.hom_comp,
+    CategoryTheory.Functor.map_comp, e, AddMonoidHom.finsetSum_apply, AddCommGrpCat.hom_comp,
     AddMonoidHom.comp_apply, AddCommGrpCat.hom_id, AddMonoidHom.id_apply] at h
   exact h.symm
 
 /-- If `F(g)` is surjective for `g : A ⟶ ⨁ Bᵢ`, then the components of `F(g)` are jointly
 surjective onto `∏ F(Bᵢ)`. -/
-theorem exists_forall_map_comp_π_eq {A : C} (g : A ⟶ ⨁ B)
+theorem exists_forall_map_comp_π_eq [Finite ι] {A : C} (g : A ⟶ ⨁ B)
     (hg : Function.Surjective (F.map g).hom) (c : ∀ i, F.obj (B i)) :
     ∃ a, ∀ i, (F.map (g ≫ biproduct.π B i)).hom a = c i := by
+  classical
+  have := Fintype.ofFinite ι
   obtain ⟨a, ha⟩ := hg (∑ i, (F.map (biproduct.ι B i)).hom (c i))
   refine ⟨a, fun j => ?_⟩
   rw [CategoryTheory.Functor.map_comp, AddCommGrpCat.hom_comp, AddMonoidHom.comp_apply, ha,
@@ -150,10 +152,11 @@ theorem exists_forall_map_comp_π_eq {A : C} (g : A ⟶ ⨁ B)
 
 /-- A map into a finite biproduct is sent by `F` to a surjection when at most one summand has a
 nonzero image under `F` and each component of the map is sent to a surjection. -/
-theorem surjective_map_of_surjective_map_comp_π {A : C} (f : A ⟶ ⨁ B)
+theorem surjective_map_of_surjective_map_comp_π [Finite ι] {A : C} (f : A ⟶ ⨁ B)
     (hsub : ∀ i j, i ≠ j → Subsingleton (F.obj (B i)) ∨ Subsingleton (F.obj (B j)))
     (hsurj : ∀ i, Function.Surjective (F.map (f ≫ biproduct.π B i)).hom) :
     Function.Surjective (F.map f).hom := by
+  have := Fintype.ofFinite ι
   intro w
   have hzero (i : ι) (_ : Subsingleton (F.obj (B i))) (v : F.obj (⨁ B)) :
       (F.map (biproduct.ι B i)).hom ((F.map (biproduct.π B i)).hom v) = 0 := by
@@ -191,7 +194,7 @@ theorem locallyQuasiFinite_of_finite_preimage_closedPoints {Z Y : Scheme.{u}} (g
   by_contra hz
   obtain ⟨z, hz, hzc⟩ := nonempty_inter_closedPoints (Z := {z | ¬ g.QuasiFiniteAt z}) ⟨z, hz⟩
     (g.isOpen_quasiFiniteAt.isClosed_compl).isLocallyClosed
-  have hy := g.closePoints_subset_preimage_closedPoints hzc
+  have hy := g.closedPoints_subset_preimage_closedPoints hzc
   refine hz (Scheme.Hom.quasiFiniteAt_iff_isOpen_singleton_asFiber.mpr ?_)
   have : Finite (g ⁻¹' {g z}) := (h _ hy).to_subtype
   have : Finite (g.fiber (g z)) := Finite.of_equiv _ (g.fiberHomeo (g z)).toEquiv.symm
@@ -505,7 +508,7 @@ theorem mem_supp_quasicoherentIntegralTransform_pointTestQcoh [CompactSpace X.le
   have : N.IsQuasicoherent := Stacks.Chow.tensorPullback_isQuasicoherent pr₁ K.obj _
   refine (SheafOfModules.supp_eq_of_iso (X := Y.left)
     ((quasicoherentIntegralTransformData k X Y K).comparison.app (pointTestQcoh x))).symm ▸ ?_
-  show pr₂ p ∈ SheafOfModules.supp ((Scheme.Modules.pushforward pr₂).obj N)
+  change pr₂ p ∈ SheafOfModules.supp ((Scheme.Modules.pushforward pr₂).obj N)
   have hNC : SheafOfModules.supp N ⊆ pr₁ ⁻¹' {x} := by
     refine (supp_tensorPullback_subset pr₁ K.obj (pointTestModule x 1)).trans fun z hz => ?_
     have := hz.2
@@ -526,7 +529,7 @@ theorem mem_supp_quasicoherentIntegralTransform_pointTestQcoh [CompactSpace X.le
     ((isClosed_singleton_iff_isClosedImmersion.mpr ?_).preimage pr₁.continuous) hNC
     (inf_le_right : W ≤ pr₂ ⁻¹ᵁ V) (fun z hz => ⟨?_, hz.2⟩) hpW s hs
   · exact isClosed_singleton_iff_isClosedImmersion.mp hx
-  · show pr₁ z ∈ U
+  · change pr₁ z ∈ U
     rw [show pr₁ z = x from hz.1]
     exact hxU
 
@@ -592,10 +595,10 @@ theorem locallyQuasiFinite_schemeTheoreticSupport_of_exact
       (((hsuppK ▸ ι.isClosedEmbedding.isClosed_range).inter
         ((mem_closedPoints_iff.mp hy).preimage pr₂.continuous)).isLocallyClosed.inter
         hCc.isOpen_compl.isLocallyClosed)
-    refine hqC ⟨pr₁.closePoints_subset_preimage_closedPoints hqc, ?_⟩
+    refine hqC ⟨pr₁.closedPoints_subset_preimage_closedPoints hqc, ?_⟩
     rw [← show pr₂ q = y from hqy]
     exact mem_supp_quasicoherentIntegralTransform_pointTestQcoh k X Y K
-      (pr₁.closePoints_subset_preimage_closedPoints hqc) hqK rfl
+      (pr₁.closedPoints_subset_preimage_closedPoints hqc) hqK rfl
   have hSfin : (SheafOfModules.supp K.obj ∩ pr₂ ⁻¹' {y}).Finite :=
     (hC.biUnion fun x hx => finite_preimage_fst_inter_preimage_snd X.hom Y.hom hx.1 y).subset hS
   refine (hSfin.preimage ι.isClosedEmbedding.injective.injOn).subset fun z hz => ?_

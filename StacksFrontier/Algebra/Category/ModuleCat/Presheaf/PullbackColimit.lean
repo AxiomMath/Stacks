@@ -443,7 +443,7 @@ lemma unit_restrict {V V' : Cᵒᵖ} (g : V ⟶ V') (a : A.obj V) :
     (CostructuredArrow.homMk (f := CostructuredArrow.mk (𝟙 (F.op.obj V) ≫ F.op.map g))
       (f' := CostructuredArrow.mk (𝟙 (F.op.obj V'))) g
       (by
-        show F.op.map g ≫ 𝟙 (F.op.obj V') = 𝟙 (F.op.obj V) ≫ F.op.map g
+        change F.op.map g ≫ 𝟙 (F.op.obj V') = 𝟙 (F.op.obj V) ≫ F.op.map g
         rw [Category.comp_id, Category.id_comp])) 1 a
 
 /-- The adjoint transpose of a morphism `L₀ A ⟶ M`. -/

@@ -79,7 +79,7 @@ private lemma exists_lift_iff_ideal_top_le {S : Scheme.{u}} [IsAffine S] (I : S.
   · rintro ⟨h, rfl⟩ b hb
     have hb' : I.subschemeι.appTop.hom b = 0 :=
       RingHom.mem_ker.mp (by
-        show b ∈ RingHom.ker
+        change b ∈ RingHom.ker
           (I.subschemeι.app (⟨⊤, isAffineOpen_top S⟩ : S.affineOpens)).hom
         rwa [Scheme.IdealSheafData.ker_subschemeι_app])
     rw [RingHom.mem_ker, Scheme.Hom.comp_appTop]
@@ -111,13 +111,13 @@ private theorem factor_through_stalk_ideal_subscheme_iff
     α.appTop ≫ γS.hom
   let κ : CommRingCat.of Γ(S, ⊤) ⟶ CommRingCat.of R := q.appTop ≫ γR.hom
   have hκ : κ.hom = φ.hom.comp e.hom := by
-    show (q.appTop ≫ γR.hom).hom = φ.hom.comp (α.appTop ≫ γS.hom).hom
+    change (q.appTop ≫ γR.hom).hom = φ.hom.comp (α.appTop ≫ γS.hom).hom
     rw [hq, Scheme.Hom.comp_appTop, Category.assoc,
       Scheme.ΓSpecIso_naturality]
     simp only [CommRingCat.hom_comp]
     rfl
   have hκker : RingHom.ker κ.hom = RingHom.ker q.appTop.hom := by
-    show RingHom.ker (γR.hom.hom.comp q.appTop.hom) = _
+    change RingHom.ker (γR.hom.hom.comp q.appTop.hom) = _
     exact RingHom.ker_equiv_comp q.appTop.hom γR.commRingCatIsoToRingEquiv
   let : IsAffine S := (IsAffine.iff_of_isIso α).mp inferInstance
   have heSurj : Function.Surjective e.hom := by
@@ -153,7 +153,7 @@ private theorem exists_local_flattening_ideal
     (pointedStalkMap f x s hxs).hom.toAlgebra
   let L := localFlatSituation f F x s hxs
   have : Algebra.EssFiniteType L.A L.B := by
-    show Algebra.EssFiniteType (S.presheaf.stalk s) (X.presheaf.stalk x)
+    change Algebra.EssFiniteType (S.presheaf.stalk s) (X.presheaf.stalk x)
     rw [← RingHom.essFiniteType_algebraMap, RingHom.algebraMap_toAlgebra]
     exact (RingHom.EssFiniteType.respectsIso.cancel_left_isIso _ (f.stalkMap x)).mpr
       (LocallyOfFiniteType.stalkMap f x)
@@ -227,7 +227,7 @@ private lemma essentiallyOfFinitePresentation_stalkMap_of_finitePresentationAt
     apply top_unique
     intro z _
     obtain ⟨w, rfl⟩ := (S.fromSpecStalk (f x)).surjective z
-    show w ∈ S.fromSpecStalk (f x) ⁻¹ᵁ V
+    change w ∈ S.fromSpecStalk (f x) ⁻¹ᵁ V
     rw [hpre]
     trivial
   subst V
@@ -278,12 +278,12 @@ private lemma finitePresentation_closedSubschemeOfStalkIdeal
   have := isIso_appTop_of_isIso (S.fromSpecStalk s)
   let E := (asIso e).commRingCatIsoToRingEquiv
   have hK : (J.comap e.hom).FG := by
-    show (J.comap E.toRingHom).FG
+    change (J.comap E.toRingHom).FG
     simpa only [RingEquiv.toRingHom_eq_coe, Ideal.map_coe, Ideal.comap_coe,
       Ideal.map_symm] using
       (hJ.map E.symm.toRingHom)
   have hker : (RingHom.ker I.subschemeι.appTop.hom).FG := by
-    show (RingHom.ker (I.subschemeι.app (⟨⊤, isAffineOpen_top S⟩ : S.affineOpens)).hom).FG
+    change (RingHom.ker (I.subschemeι.app (⟨⊤, isAffineOpen_top S⟩ : S.affineOpens)).hom).FG
     rwa [Scheme.IdealSheafData.ker_subschemeι_app, closedSubschemeOfStalkIdeal_ideal_top]
   have : IsAffine I.subscheme := isAffine_of_isAffineHom I.subschemeι
   have : LocallyOfFinitePresentation I.subschemeι :=
@@ -320,7 +320,7 @@ public theorem exists_finitePresentation_closedSubscheme_flatOverAt_iff_factorSt
     (pointedStalkMap f x (f x) rfl).hom.toAlgebra
   let L := localFlatSituation f F x (f x) rfl
   have hB : (algebraMap L.A L.B).EssentiallyOfFinitePresentation := by
-    show ((pointedStalkMap f x (f x) rfl).hom).EssentiallyOfFinitePresentation
+    change ((pointedStalkMap f x (f x) rfl).hom).EssentiallyOfFinitePresentation
     simp only [pointedStalkMap, eqToHom_refl, Category.id_comp]
     exact essentiallyOfFinitePresentation_stalkMap_of_finitePresentationAt f x hfp
   obtain ⟨J, hJfg, hJ⟩ := exists_ideal_factorStalk_iff f F x (f x) rfl

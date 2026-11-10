@@ -275,7 +275,7 @@ theorem nonempty_wellNighAffineChart (𝒳 : AlgebraicStacks.{u, w} B S hS)
           (quotientStackTwoArrow P.groupoid).app a ≫
           (Stack.quotientStackProjection P.groupoid).toFunctor.map (eqToHom h₂))) :=
       Functor.isHomLift_map_of_comp_eq P.canonicalMap.w (𝟙 r.left) _
-    show 𝒳.val.val.p.IsHomLift (𝟙 r.left) _
+    change 𝒳.val.val.p.IsHomLift (𝟙 r.left) _
     exact @IsHomLift.comp_of_lift_id _ _ _ _ 𝒳.val.val.p r.left _ _ _ _ _ (hv z₁)
       (@IsHomLift.comp_of_lift_id _ _ _ _ 𝒳.val.val.p r.left _ _ _ _ _ hc hv₃)
   · -- descent along the canonical morphism, an equivalence by Stacks 04WY, and Stacks 0DUH
@@ -283,7 +283,7 @@ theorem nonempty_wellNighAffineChart (𝒳 : AlgebraicStacks.{u, w} B S hS)
     let φ' : P.groupoid.objects ⟶ W := ObjectProperty.homMk φ
     have hφ' : P.groupoid.target ≫ φ' = P.groupoid.source ≫ φ' := by
       apply ObjectProperty.hom_ext
-      show P.groupoid.target.hom ≫ φ = P.groupoid.source.hom ≫ φ
+      change P.groupoid.target.hom ≫ φ = P.groupoid.source.hom ≫ φ
       rw [hsG, htG]
       exact hφ.symm
     let D := quotientStackOfInvariant P.groupoid φ' hφ'
@@ -307,7 +307,7 @@ theorem nonempty_wellNighAffineChart (𝒳 : AlgebraicStacks.{u, w} B S hS)
       Functor.isHomLift_map_of_comp_eq E.inv_over (𝟙 z.left) _
     have hx : (Stack.quotientStack P.groupoid).p.obj
         ((P.canonicalMap.toFunctor ⋙ E.inv).obj y) = z.left := by
-      show ((P.canonicalMap.toFunctor ⋙ E.inv) ⋙ (Stack.quotientStack P.groupoid).p).obj y = _
+      change ((P.canonicalMap.toFunctor ⋙ E.inv) ⋙ (Stack.quotientStack P.groupoid).p).obj y = _
       rw [Functor.assoc, E.inv_over, P.canonicalMap.w]
       rfl
     have h₂ : (Stack.quotientStack P.groupoid).p.IsHomLift (𝟙 z.left) (E.unitIso.app y).hom :=

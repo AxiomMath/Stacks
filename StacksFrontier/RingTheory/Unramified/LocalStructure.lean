@@ -83,7 +83,8 @@ S_Q` and carries no finiteness at all. Both directions matter here: the source s
 hypothesis on `S`, only unramifiedness of a localization, and the proof needs none — Step 1 begins
 by replacing `S` by that localization.
 
-`S_g` is `Localization.Away g`, as in the statement of Tag 00UE and both Mathlib siblings. Its `R`-algebra
+`S_g` is `Localization.Away g`, as in the statement of Tag 00UE and both Mathlib siblings. Its
+`R`-algebra
 structure is the composite `R → S → S_g`, since `IsScalarTower R S (Localization.Away g)` is an
 instance. Naming any other model of the localization gives an equivalent statement, by
 `Algebra.Unramified.of_equiv` on the hypothesis and `HasStandardEtaleSurjectionOn.mk` on the
@@ -160,8 +161,8 @@ element of `S` produced from such a fraction is `s · a`, because `(S_s)_{a/s^n}
 
 The hypothesis is Definition 00UT (3) verbatim, `∃ g ∉ Q, Algebra.Unramified R (Localization.Away
 g)`, and not Mathlib's hypothesis pair `[Algebra.FiniteType R S] [Algebra.IsUnramifiedAt R Q]`; see
-the docstring of the statement for why that is strictly more general. Consequently the reduction to a
-localization cannot be delegated to Mathlib's own reduction to the unramified case: the appeal is
+the docstring of the statement for why that is strictly more general. Consequently the reduction to
+a localization cannot be delegated to Mathlib's own reduction to the unramified case: the appeal is
 to `Algebra.IsUnramifiedAt.exists_hasStandardEtaleSurjectionOn` for the *localization* `S_s`, which
 is unramified over `R` at each of its primes by `Algebra.unramified_iff_forall`, and finiteness
 enters only there.
@@ -442,9 +443,9 @@ lemma surjective_algebraMap_residueField_of_isLocalization
     (p : Ideal R) [p.IsPrime] (r : Ideal T) [r.IsPrime] [r.LiesOver p]
     (q : Ideal A) [q.IsPrime] [q.LiesOver p] (hq : r = Ideal.under T q)
     [Algebra (Localization.AtPrime p) (Localization.AtPrime r)]
-    [Localization.AtPrime.IsLiesOverAlgebra p r]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime r)]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
     (H : Function.Surjective (algebraMap p.ResidueField r.ResidueField)) :
     Function.Surjective (algebraMap p.ResidueField q.ResidueField) := by
   have hbij := (RingHom.surjectiveOnStalks_of_isLocalization M A).residueFieldMap_bijective r q hq
@@ -574,10 +575,9 @@ lemma isLocalizationAway_map_of_isLocalizationAway
       algebraMap (R' ⊗[R] S) (R'' ⊗[R] S) x := by
     intro x
     rw [h]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
-        show (Algebra.TensorProduct.cancelBaseChange R R' R' R'' S)
+        change (Algebra.TensorProduct.cancelBaseChange R R' R' R'' S)
           ((Algebra.TensorProduct.comm R' (R' ⊗[R] S) R'')
             ((a ⊗ₜ[R] b) ⊗ₜ[R'] (1 : R''))) = _
         rw [Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.cancelBaseChange_tmul]
@@ -596,8 +596,7 @@ lemma forall_exists_mul_eq_of_tmul
     (a : A ⊗[R] S)
     (h : ∀ s : S, ∃ c : A, a * (1 ⊗ₜ[R] s) = a * algebraMap A (A ⊗[R] S) c) (x : A ⊗[R] S) :
     ∃ c : A, a * x = a * algebraMap A (A ⊗[R] S) c := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul r s =>
       obtain ⟨c, hc⟩ := h s
       have hrs : (r ⊗ₜ[R] s : A ⊗[R] S) = algebraMap A (A ⊗[R] S) r * (1 ⊗ₜ[R] s) := by

@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -336,7 +336,7 @@ theorem quotDecompM_ker (N : Submodule S M) (hN : N.IsHomogeneous ℳ) (m : M) (
   simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom]
   ext i
   rw [DirectSum.map_apply]
-  show ((quotFiber ℳ N i (DirectSum.decompose ℳ m i) : ↥(quotGrading ℳ N i)) : M ⧸ N) = _
+  change ((quotFiber ℳ N i (DirectSum.decompose ℳ m i) : ↥(quotGrading ℳ N i)) : M ⧸ N) = _
   rw [quotFiber_coe, show ((0 : ⨁ i, ↥(quotGrading ℳ N i)) i : M ⧸ N) = 0 by simp,
     Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact (Submodule.IsHomogeneous.mem_iff ℳ hN).mp hm i
@@ -608,7 +608,7 @@ theorem hilbertFun_eventually_zero_of_S1_bot (hneg : ∀ d : ℤ, d < 0 → 𝒮
   have hsub : Subsingleton ↥(ℳ n) := by
     rw [hn]
     infer_instance
-  show (gradedFinModule 𝒮 ℳ hneg n).cls = 0
+  change (gradedFinModule 𝒮 ℳ hneg n).cls = 0
   have : Subsingleton (gradedFinModule 𝒮 ℳ hneg n).carrier := hsub
   exact FinModule.cls_zero_of_subsingleton (gradedFinModule 𝒮 ℳ hneg n)
 

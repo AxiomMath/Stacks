@@ -129,7 +129,7 @@ theorem kummerPointClassReductionSquare (K : Type u) [Field K] (ℓ : ℕ) :
     exact Category.comp_id (ρY ≫ RY.map z')
   have hzx : ExtSq RY ρY ((etaleModuleExtensionByZero.{u, 0} (ZMod (ℓ ^ (r + 1))) n).map φ ≫
       θ.hom.app F') (Ext.mk₀ z) (Ext.mk₀ z') := ExtSq.mk₀ hzsq
-  show ExtSq RY ρY ρY (kummerPointClass hζ hN fY n D z) (kummerPointClass hζ' hℓ fY n D z')
+  change ExtSq RY ρY ρY (kummerPointClass hζ hN fY n D z) (kummerPointClass hζ' hℓ fY n D z')
   unfold kummerPointClass
   exact hzx.comp hext (zero_add _)
 

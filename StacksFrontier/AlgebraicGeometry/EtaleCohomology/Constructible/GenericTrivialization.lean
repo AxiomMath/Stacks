@@ -65,7 +65,7 @@ public theorem isOpenImmersion_comp_of_isImmersion_of_subset_range {P X : Scheme
     obtain ⟨p, hp⟩ := hO y.2
     refine ⟨⟨p, show f.base p ∈ O from hp ▸ y.2⟩, ?_⟩
     apply O.ι.isOpenEmbedding.injective
-    show (f ∣_ O ≫ O.ι).base _ = O.ι.base y
+    change (f ∣_ O ≫ O.ι).base _ = O.ι.base y
     rw [morphismRestrict_ι]
     exact hp
   have : IsClosedImmersion (f ∣_ O) :=
@@ -87,7 +87,7 @@ private theorem hasSheafify_over_moduleCat_succ_aux (B : BigEtaleSite.{u}) (Y : 
 attribute [local instance high] hasSheafify_over_moduleCat_succ_aux
 attribute [-instance] Stacks.ConstantSheaf.hasSheafify_over_moduleCat
 
-variable (B : BigEtaleSite.{u}) (Λ : Type (u + 1)) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (Λ : Type (u + 1)) [CommRing Λ]
 
 /-- **A constructible sheaf is locally constant of finite type on an open neighbourhood of each
 generic point.** Let `X` be a reduced scheme of a big étale site, `G` a constructible sheaf of
@@ -184,7 +184,7 @@ public theorem exists_etale_affine_constant_of_isFiniteTypeLocallyConstant (O : 
       ⟨c₀⟩⟩
   refine ⟨⟨w, hwW'⟩, ?_⟩
   rw [← hw]
-  show (B.inclusion.map W₁.obj.hom).base w = (B.inclusion.map g₁.hom.left).base w
+  change (B.inclusion.map W₁.obj.hom).base w = (B.inclusion.map g₁.hom.left).base w
   rw [show B.inclusion.map W₁.obj.hom =
       B.inclusion.map (g₁.hom.left ≫ (SmallEtale.final B O.obj O.property).obj.hom) by
     rw [Over.w g₁.hom]]

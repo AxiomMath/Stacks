@@ -10,7 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.WeilCohomology.WeakChernClasses.R
 /-!
 # The Chern character exists, and Stacks Tag 0FI9, in the weak standing situation
 
-The results of `StacksFrontier.AlgebraicGeometry.WeilCohomology.ChernClasses.ChernCharacterExistence`,
+The results of
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.ChernClasses.ChernCharacterExistence`,
 stated for `Stacks.WeilCohomology.Weak.ChernSetup`: the standing situation
 of Stacks Section 45.12 in which the projective bundle formula, condition (4), is only asked to be
 injective and to resolve the top power `c₁^A(𝒪_P(1))^{r+1}` of the twist class (see
@@ -91,7 +92,7 @@ private theorem chernClass_sum_esymm (hc : IsTotalChernClass 𝔚 c) (P : C) {ι
       rw [Finset.sum_empty, hc.map_zero]
       rcases Nat.eq_zero_or_pos n with rfl | hn
       · simp
-      · rw [if_neg (by omega : ¬ n = 0), Finset.empty_val, Multiset.map_zero,
+      · rw [ite_eq_right (by omega : ¬ n = 0), Finset.empty_val, Multiset.map_zero,
           Multiset.esymm_of_card_lt (by simpa using hn)]
         simp
   | insert a s ha ih =>
@@ -240,7 +241,7 @@ theorem coeff_chernCharacterOfModule_of_sum_invertible (hc : IsTotalChernClass �
   rw [chernCharacterOfModule, PowerSeries.coeff_mk]
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · simp [hrank]
-  · rw [if_neg (by omega : ¬ n = 0), hroots, chernClassEval_powerSumPolynomial _ n hn]
+  · rw [ite_eq_right (by omega : ¬ n = 0), hroots, chernClassEval_powerSumPolynomial _ n hn]
     congr 1
     rw [powerSumOfRoots]
     push_cast
@@ -306,7 +307,7 @@ theorem pull_coeff_chernCharacterOfModule (hc : IsTotalChernClass 𝔚 c)
   rw [chernCharacterOfModule, chernCharacterOfModule, PowerSeries.coeff_mk, PowerSeries.coeff_mk]
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · simpa using 𝔚.pull_rankClass f E hE
-  · simp only [if_neg (by omega : ¬ n = 0)]
+  · simp only [ite_eq_right (by omega : ¬ n = 0)]
     rw [map_mul, pull_algebraMap,
       map_chernClassEval (𝔚.pull f) (centralChernClass hc Y E)
         (centralChernClass hc X ((Scheme.Modules.pullback (S.map f)).obj E))
@@ -322,7 +323,7 @@ theorem coeff_chernCharacterOfModule_mem_grade
   rw [chernCharacterOfModule, PowerSeries.coeff_mk]
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · simpa using 𝔚.rankClass_mem_grade X M
-  · rw [if_neg (by omega : ¬ n = 0)]
+  · rw [ite_eq_right (by omega : ¬ n = 0)]
     have h1 : ((chernClassEval (centralChernClass hc X M)
         (powerSumPolynomial n)) : 𝔚.A X) ∈ 𝔚.grade X n :=
       chernClassEval_mem_of_isWeightedHomogeneous (𝔚.grade X) (𝔚.one_mem X)
@@ -373,7 +374,7 @@ theorem chernCharacterOfModule_unit (hc : IsTotalChernClass 𝔚 c) (X : C) :
     PowerSeries.coeff_one]
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · simp
-  · rw [if_neg (by omega : ¬ n = 0), zero_pow (by omega), mul_zero]
+  · rw [ite_eq_right (by omega : ¬ n = 0), zero_pow (by omega), mul_zero]
 
 /-! ### Additivity along a short exact sequence -/
 
@@ -644,7 +645,7 @@ theorem exists_isChernCharacter
       VectorBundleKZero.addHom_ext fun M hM => by
         simp only [AddMonoidHom.comp_apply, AddMonoidHom.zero_apply,
           QuotientAddGroup.mk'_apply, QuotientAddGroup.eq_zero_iff]
-        show PowerSeries.coeff n (ch X (VectorBundleKZero.classOf (S.obj X) M)) ∈
+        change PowerSeries.coeff n (ch X (VectorBundleKZero.classOf (S.obj X) M)) ∈
           𝔚.grade X n
         rw [hch X M hM]
         exact coeff_chernCharacterOfModule_mem_grade hq hc X M n

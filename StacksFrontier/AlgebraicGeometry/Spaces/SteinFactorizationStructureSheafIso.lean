@@ -13,7 +13,8 @@ scheme `S`, and let `X ⟶ Y' ⟶ Y` be its factorization through the normalizat
 `ν : Y' ⟶ Y` of `Y` in `X` (Stacks 0822, `AlgebraicGeometry.Space.normalizationInQcqs`).  This
 file proves that the normalization `Y'' ⟶ Y'` of `Y'` in `X` along the first factor
 `f' : X ⟶ Y'` is an isomorphism.  The permanence properties of `f'` (quasi-compact, universally
-closed: Stacks 03KS, 04NX) are in `StacksFrontier.AlgebraicGeometry.Spaces.SteinFactorizationGeneral`;
+closed: Stacks 03KS, 04NX) are in
+`StacksFrontier.AlgebraicGeometry.Spaces.SteinFactorizationGeneral`;
 quasi-separatedness (Stacks 03KR) and clause (3) of Stacks 0A19 and of Stacks 0A1C,
 `f'_* 𝒪_X = 𝒪_{Y'}`, are `AlgebraicGeometry.Space.isQuasiSeparated_toNormalizationInQcqs` and
 `AlgebraicGeometry.Space.isIso_fSharp_toNormalizationInQcqs`

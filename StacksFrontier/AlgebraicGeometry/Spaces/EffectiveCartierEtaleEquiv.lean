@@ -187,11 +187,11 @@ theorem hasAffinePrincipalEtaleNeighborhoods_of_hasEffectiveCartierEtaleCover
   obtain ⟨p, hp⟩ := exists_fieldValuedPoint_rep_pullback_of_isSurjective B S hS X D U g hsurj x
   set t := T.map (p.value ≫ j) with ht
   have hwsupp : t (IsLocalRing.closedPoint p.carrier) ∈ ((T.map j).ker).supportSet := by
-    show _ ∈ (((T.map j).ker).support : Set (T.obj U))
+    change _ ∈ (((T.map j).ker).support : Set (T.obj U))
     rw [← Scheme.IdealSheafData.range_subschemeι]
     refine ⟨(Stacks.Divisors.closedImmersionKerIso (T.map j)).hom
       ((T.map p.value) (IsLocalRing.closedPoint p.carrier)), ?_⟩
-    show ((Stacks.Divisors.closedImmersionKerIso (T.map j)).hom ≫
+    change ((Stacks.Divisors.closedImmersionKerIso (T.map j)).hom ≫
       ((T.map j).ker).subschemeι) _ = _
     rw [← Stacks.Divisors.closedImmersion_eq_kerIso_comp]
     rw [ht, Functor.map_comp]
@@ -219,7 +219,7 @@ theorem hasAffinePrincipalEtaleNeighborhoods_of_hasEffectiveCartierEtaleCover
   have ht' : t' ≫ V.1.ι = t := IsOpenImmersion.lift_fac V.1.ι t htr
   set q : p.siteObject ⟶ U' := Over.homMk (ObjectProperty.homMk t') (by
     apply ObjectProperty.hom_ext
-    show t' ≫ (V.1.ι ≫ U.hom.hom) = p.toBase
+    change t' ≫ (V.1.ι ≫ U.hom.hom) = p.toBase
     rw [← Category.assoc, ht']
     exact congrArg (fun z => z.hom) (p.value ≫ j).w)
   have hq : q ≫ k = p.value ≫ j := by
@@ -251,14 +251,14 @@ theorem hasAffinePrincipalEtaleNeighborhoods_of_hasEffectiveCartierEtaleCover
     Stacks.Divisors.isRegular_ringEquiv
       V.1.topIso.symm.commRingCatIsoToRingEquiv hf, he', ?_⟩
   · rw [← hp]
-    show (FieldValuedPoint.map B S hS _ (yoneda.map k ≫ g) p').class B S hS _ =
+    change (FieldValuedPoint.map B S hS _ (yoneda.map k ≫ g) p').class B S hS _ =
       (FieldValuedPoint.map B S hS _ (yoneda.map j ≫ g) p).class B S hS _
     apply congrArg (FieldValuedPoint.class B S hS X.1)
-    show (⟨p.carrier, p.contained, p.toBase, g.app _ (q ≫ k)⟩ :
+    change (⟨p.carrier, p.contained, p.toBase, g.app _ (q ≫ k)⟩ :
       FieldValuedPoint B S hS X.1) =
         ⟨p.carrier, p.contained, p.toBase, g.app _ (p.value ≫ j)⟩
     rw [hq]
-  · show (D.1.preimage g).preimage (yoneda.map k) = _
+  · change (D.1.preimage g).preimage (yoneda.map k) = _
     rw [hrange]
     exact (Subfunctor.range_snd_eq_preimage_range_of_isPullback
       (yoneda.map_isPullback (IsPullback.of_hasPullback k j).flip)).symm

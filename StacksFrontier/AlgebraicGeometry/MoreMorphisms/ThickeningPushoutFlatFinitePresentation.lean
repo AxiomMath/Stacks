@@ -122,7 +122,7 @@ private theorem flat_and_finitePresentation_of_pullback_square
     RingHom.codRestrict ((BtoD.hom.comp base.pullbackCone.fst.hom).prod
         (A'toC'.hom.comp base.pullbackCone.snd.hom))
       (RingHom.pullback DtoC.hom C'toC.hom) (fun x ↦ by
-        show DtoC.hom (BtoD.hom (base.pullbackCone.fst.hom x)) =
+        change DtoC.hom (BtoD.hom (base.pullbackCone.fst.hom x)) =
           C'toC.hom (A'toC'.hom (base.pullbackCone.snd.hom x))
         have hd : DtoC.hom.comp BtoD.hom = AtoC.hom.comp toBase.hom :=
           MilnorPatching.ringPushout_comm hDr
@@ -159,7 +159,7 @@ private theorem flat_and_finitePresentation_of_pullback_square
     · rw [Category.assoc, Category.assoc, htoDsnd, heSsnd, ← Category.assoc, heRsnd, hm₂]
   have hArrow : Arrow.mk mD ≅ Arrow.mk m := by
     refine Arrow.isoMk eR.symm eS.symm ?_
-    show eR.inv ≫ m = mD ≫ eS.inv
+    change eR.inv ≫ m = mD ≫ eS.inv
     apply (cancel_epi eR.hom).mp
     rw [Iso.hom_inv_id_assoc, ← Category.assoc, hcomm, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
@@ -369,7 +369,7 @@ theorem gluingFunctor_obj_flat_iff {X X' Y : Scheme.{u}}
   let : HasPushout (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) :=
     gluingHasPushout i f hi T
   refine ⟨pieces_of_glued i f hi T Flat.isStableUnderBaseChange, fun ⟨hl, hr⟩ ↦ ?_⟩
-  show Flat (gluingPushoutData i f T).hom
+  change Flat (gluingPushoutData i f T).hom
   constructor
   intro U hU V hV hVU
   exact (appLE_properties_of_gluing i f hi T hU hV hVU).1 hl hr
@@ -397,11 +397,11 @@ theorem gluingFunctor_obj_flat_locallyOfFinitePresentation_iff {X X' Y : Scheme.
     exact ⟨⟨hlf, hlp⟩, ⟨hrf, hrp⟩⟩
   · rintro ⟨hl, hr⟩
     refine ⟨?_, ?_⟩
-    · show Flat (gluingPushoutData i f T).hom
+    · change Flat (gluingPushoutData i f T).hom
       constructor
       intro U hU V hV hVU
       exact ((appLE_properties_of_gluing i f hi T hU hV hVU).2 hl hr).1
-    · show LocallyOfFinitePresentation (gluingPushoutData i f T).hom
+    · change LocallyOfFinitePresentation (gluingPushoutData i f T).hom
       constructor
       intro U hU V hV hVU
       exact ((appLE_properties_of_gluing i f hi T hU hV hVU).2 hl hr).2

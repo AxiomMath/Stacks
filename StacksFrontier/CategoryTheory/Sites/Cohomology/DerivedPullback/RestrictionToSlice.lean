@@ -154,7 +154,8 @@ private def derivedPullbackObjIsoOfKFlat {A B : RingedTopos.{u, u, u}}
   derivedPullbackObjIsoOfIsIsoComparison g K
     (isIso_derivedPullbackComparison_app_of_isKFlat g hmos _ hK)
 
-omit [(X.J.over (f.u.obj W)).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(X.J.over (f.u.obj W)).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(Y.J.over W).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The derived localization square of Stacks 04J0.** Pulling an object `E` of `D(O')` back
 along `f` and then restricting to the slice over `U = u(W)` is isomorphic to restricting `E` to
 the slice over `W` and then pulling back along the localized morphism `f'`.
@@ -211,7 +212,8 @@ theorem Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (f.u.obj W)).mapDerivedCategory.mapIso
     (eg.symm ≪≫ (derivedPullback f.toRingedToposSiteHom).mapIso eK)
 
-omit [(X.J.over (f.u.obj W)).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(X.J.over (f.u.obj W)).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(Y.J.over W).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The derived localization square of Stacks 04J0**, in the form in which the two sites are
 assumed to have finite limits and `u` to preserve them. This is the special case of
 `AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits`, which

@@ -250,6 +250,9 @@ public theorem norm_le_of_isRoot_rationalGeometricCompactlySupportedFrobenius_on
   exact norm_le_of_isBigO_trace_pow_sub_trace_pow ι' hRpos hg hbig z
     ((Polynomial.mem_roots ((LinearMap.charpoly_monic F1).map ι').ne_zero).2 hz)
 
+omit [QuasiCompact f] [IsSeparated f] [SmoothOfRelativeDimension 1 f] [IsAlgClosure k kbar]
+  [ConnectedSpace ↥(Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
+  [FiniteDimensional ℚ_[ℓ] E] in
 /-- **The weights of `H²_c` are `≤ w' + 2`, `E`-linearly, for real weights**, given an
 `E`-linear identification of `H²_c` with the geometric coinvariants carrying `π^*` to `q · φ`. -/
 public theorem norm_le_of_isRoot_rationalGeometricCompactlySupportedFrobenius_two_linear

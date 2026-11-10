@@ -82,8 +82,7 @@ private theorem leftInverse_of_tmul {S : Type*} [CommSemiring S] {A B C : Type*}
     [Module S A] [AddCommMonoid B] [Module S B] [AddCommMonoid C] (g : A ⊗[S] B →+ C)
     (h : C →+ A ⊗[S] B) (H : ∀ a b, h (g (a ⊗ₜ b)) = a ⊗ₜ b) : Function.LeftInverse h g := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n => exact H m n
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -94,9 +93,9 @@ theorem bijective_tensorMapOfSemilinear :
     (leftInverse_of_tmul _ _ fun m n => ?_),
     Function.RightInverse.surjective (g := tensorMapOfSemilinearInv ψ e he f hf)
     (leftInverse_of_tmul _ _ fun m n => ?_)⟩
-  · show e.symm (e m) ⊗ₜ[R'] f.symm (f n) = m ⊗ₜ n
+  · change e.symm (e m) ⊗ₜ[R'] f.symm (f n) = m ⊗ₜ n
     rw [AddEquiv.symm_apply_apply, AddEquiv.symm_apply_apply]
-  · show tensorMapOfSemilinear ψ e he f hf (e.symm m ⊗ₜ[R'] f.symm n) = m ⊗ₜ n
+  · change tensorMapOfSemilinear ψ e he f hf (e.symm m ⊗ₜ[R'] f.symm n) = m ⊗ₜ n
     rw [tensorMapOfSemilinear_tmul, AddEquiv.apply_symm_apply, AddEquiv.apply_symm_apply]
 
 end Single
@@ -130,11 +129,10 @@ theorem bijective_of_directSum_tensorMapOfSemilinear {T : Type*} [AddCommGroup T
       (bijective_tensorMapOfSemilinear ψ (e i) (he i) (f i) (hf i)))).bijective
   have key : F.comp G = Φ := by
     refine DirectSum.addHom_ext fun i t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul m n =>
       have hG' : G (DirectSum.of _ i (m ⊗ₜ n)) = DirectSum.of _ i (e i m ⊗ₜ f i n) := by
-        show DFinsupp.mapRange (fun i => τ i) (fun i => map_zero (τ i))
+        change DFinsupp.mapRange (fun i => τ i) (fun i => map_zero (τ i))
           (DFinsupp.single i (m ⊗ₜ[R'] n)) = _
         rw [DFinsupp.mapRange_single]
         exact congrArg (DFinsupp.single i) (tensorMapOfSemilinear_tmul _ _ _ _ _ m n)

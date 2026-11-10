@@ -125,7 +125,7 @@ theorem nonempty_derivedGlobalSectionsOver_iso_derivedGlobalSectionsOverBase (G 
       ((homotopyTopSections (X := X)).totalRightDerivedUnit DerivedCategory.Qh
         (HomotopyCategory.quasiIso X.Modules (ComplexShape.up ℤ))) I hI)
     ((DerivedCategory.Plus.singleFunctor X.Modules 0).obj G) 0 (by
-      show ((DerivedCategory.singleFunctor X.Modules 0).obj G).IsGE 0
+      change ((DerivedCategory.singleFunctor X.Modules 0).obj G).IsGE 0
       infer_instance)
   exact ⟨((derivedTopSectionsRestrictIso f).app _).symm ≪≫
     (ModuleCat.restrictScalars.{u} (Stacks.Cech.globalRingHom f).hom).mapDerivedCategory.mapIso e⟩

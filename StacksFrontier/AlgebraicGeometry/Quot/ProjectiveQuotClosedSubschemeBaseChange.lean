@@ -233,7 +233,7 @@ theorem isPullback_subschemeOfFamily_baseChange (g : T' ⟶ T)
       IsPullback w
         (subschemeOfFamilyι (baseChange g K) hK' ≫ (projectiveSpaceOver n T' ↘ T'))
         (subschemeOfFamilyι K hK ≫ (projectiveSpaceOver n T ↘ T)) g := by
-  show ∃ w : (idealSheafDataOfFamily (baseChange g K) hK').subscheme ⟶
+  change ∃ w : (idealSheafDataOfFamily (baseChange g K) hK').subscheme ⟶
       (idealSheafDataOfFamily K hK).subscheme,
     IsPullback w
       ((idealSheafDataOfFamily (baseChange g K) hK').subschemeι ≫

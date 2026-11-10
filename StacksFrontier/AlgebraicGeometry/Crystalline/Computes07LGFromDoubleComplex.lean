@@ -167,8 +167,8 @@ library proves on the small site, and hypothesis (2) by
   `Crystalline.CosimplicialCompletedPair.rowZeroHomologyIso`, so what is left of `hrow0` is
   exactly that ring isomorphism carried through the completion, the forms and the completed
   tensor product.  `hcolumn0` is the column `a = 0`, which is
-  `M(•)`: that is entry 6 in the list of missing inputs of `SmallSite/AffineCohomology.lean`, and it is the one
-  place the crystal property enters, so `hcolumn0` is stated as a *consequence* of
+  `M(•)`: that is entry 6 in the list of missing inputs of `SmallSite/AffineCohomology.lean`, and
+  it is the one place the crystal property enters, so `hcolumn0` is stated as a *consequence* of
   `...SmallSite.IsCrystalLevelQuotient` rather than unconditionally.
 
   For a `K` built as `Crystalline.CosimplicialCompletedPair.doubleComplex` the first half of

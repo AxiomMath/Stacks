@@ -88,7 +88,7 @@ theorem exists_finiteEtaleOver_transitive_stabilizer_eq
   have hstabQ : ∀ σ : G, σ • q₀ = q₀ ↔ σ ∈ H := by
     intro σ
     have key : σ • q₀ = q₀ ↔ σ • (⟦1⟧ : G ⧸ H.toSubgroup) = ⟦1⟧ := by
-      show (FintypeCat.uSwitch.map (Q0.obj.ρ σ).asHom) q₀ = q₀ ↔ _
+      change (FintypeCat.uSwitch.map (Q0.obj.ρ σ).asHom) q₀ = q₀ ↔ _
       rw [← e.apply_eq_iff_eq, ← FintypeCat.uSwitchEquiv_naturality, hq]
       rfl
     rw [key, MulAction.Quotient.smul_mk, smul_eq_mul, mul_one, QuotientGroup.eq]
@@ -166,7 +166,7 @@ theorem nonempty_curveExtensionByZeroCoindTrace
   have : Etale g.hom := inferInstanceAs (Etale W.hom)
   let t : GeometricPoint Vb.1 := ⟨y.residueField, w.1⟩
   have hy : t.map g.hom = y := by
-    show (⟨y.residueField, w.1 ≫ W.hom⟩ : GeometricPoint U.1) = y
+    change (⟨y.residueField, w.1 ≫ W.hom⟩ : GeometricPoint U.1) = y
     rw [w.2]
   have : Module.Finite Λ N.obj := N.property
   have : Finite N.obj := Module.finite_of_finite Λ

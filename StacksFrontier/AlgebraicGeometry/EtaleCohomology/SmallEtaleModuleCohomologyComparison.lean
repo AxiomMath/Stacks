@@ -63,6 +63,7 @@ public def rightDerivedSectionsToSheafIso (V : SmallEtale B S hS) (n : ℕ) :
   Stacks.Cohomology.ObjectSections.rightDerivedSectionsToSheafIsoOfEssentiallySmall
     (topology B S hS) (structureSheaf B S hS) V n
 
+open Stacks.Cohomology in
 /-- The degree-zero normalisation of `rightDerivedSectionsToSheafIso`: the comparison
 intertwines the two canonical maps to the zeroth right derived functors. -/
 public theorem toRightDerivedZero_comp_rightDerivedSectionsToSheafIso (V : SmallEtale B S hS) :
@@ -71,7 +72,7 @@ public theorem toRightDerivedZero_comp_rightDerivedSectionsToSheafIso (V : Small
         (rightDerivedSectionsToSheafIso B S hS V 0).hom =
       Functor.whiskerLeft (SheafOfModules.toSheaf.{u} (structureSheaf B S hS))
         ((sheafSections (topology B S hS) AddCommGrpCat.{u}).obj (op V)).toRightDerivedZero :=
-  Stacks.Cohomology.ObjectSections.toRightDerivedZero_comp_rightDerivedSectionsToSheafIsoOfEssentiallySmall
+  ObjectSections.toRightDerivedZero_comp_rightDerivedSectionsToSheafIsoOfEssentiallySmall
     (topology B S hS) (structureSheaf B S hS) V
 
 /-- **The cohomology of a sheaf of modules over an object of the small étale site is the étale

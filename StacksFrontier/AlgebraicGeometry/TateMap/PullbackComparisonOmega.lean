@@ -68,9 +68,9 @@ def omegaChartPullbackEquiv :
     haveI : Flat f := AlgebraicGeometry.flat hf.2
     haveI : Module.Flat Γ(X, U.1) Γ(Y, V.1) :=
       RingHom.flat_algebraMap_iff.mp (f.flat_appLE U.2 V.2 hVU)
-    ∀ (_ : ChartBaseChange Γ(X, U.1) Γ(Y, V.1) Γ(X', U'.1) Γ(Y', V'.1))
-      (F : FiniteOpenFactorization.{u, u, u} Γ(X, U.1) Γ(Y, V.1))
-      (G : FiniteOpenFactorization.{u, u, u} Γ(X', U'.1) Γ(Y', V'.1)),
+    ChartBaseChange Γ(X, U.1) Γ(Y, V.1) Γ(X', U'.1) Γ(Y', V'.1) →
+      FiniteOpenFactorization.{u, u, u} Γ(X, U.1) Γ(Y, V.1) →
+      FiniteOpenFactorization.{u, u, u} Γ(X', U'.1) Γ(Y', V'.1) →
       Γ((Scheme.Modules.pullback sq.cover).obj (omega f hf), V'.1) ≃ₗ[Γ(Y', V'.1)]
         Γ(omega f' hf', V'.1) := fun D F G ↦
   letI := isLocallyNoetherian_source f hf
@@ -128,7 +128,7 @@ theorem omegaChartPullbackEquiv_pullbackSection :
   have : Flat f := AlgebraicGeometry.flat hf.2
   have : Module.Flat Γ(X, U.1) Γ(Y, V.1) :=
     RingHom.flat_algebraMap_iff.mp (f.flat_appLE U.2 V.2 hVU)
-  show (omegaData f' hf').localEquiv U' V' hV'U' G (((omegaData f' hf').localEquiv U' V' hV'U'
+  change (omegaData f' hf').localEquiv U' V' hV'U' G (((omegaData f' hf').localEquiv U' V' hV'U'
     G).symm (omegaBaseChange D F G (LinearEquiv.baseChange Γ(Y, V.1) Γ(Y', V'.1) _ _
       ((omegaData f hf).localEquiv U V hVU F)
         ((pullbackSectionsTensorEquiv sq.cover (omega f hf) V V' hV'V).symm

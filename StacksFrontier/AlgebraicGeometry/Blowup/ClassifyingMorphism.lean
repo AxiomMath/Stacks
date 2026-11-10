@@ -124,7 +124,7 @@ theorem reesToBase_sectionRingBaseMap {X : Scheme.{u}} (I : X.IdealSheafData)
         (r • (reesSituation I).algebra.one.eval (op U.1)) from
     (Stacks.RelativeProj.Situation.sectionRingStructure (reesSituation I)).baseMap_apply U.1 r,
     reesToBase_of]
-  show ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
+  change ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
     (r • (reesAlgebraData I).algebra.one.eval (op U.1)) : X.presheaf.obj (.op U.1)) = _
   rw [(reesAlgebraData I).pieceEquiv_smul, (reesAlgebraData I).pieceEquiv_one, mul_one]
 
@@ -144,7 +144,7 @@ theorem Scheme.Opens.isSchemeTheoreticallyDense_preimage_of_isOpenImmersion
   intro V
   have hdom : IsSchemeTheoreticallyDominant ((q ''ᵁ V).ι ⁻¹ᵁ U).ι := hU (q ''ᵁ V)
   have hpre : V.ι ⁻¹ᵁ (q ⁻¹ᵁ U) = (q.isoImage V).hom ⁻¹ᵁ ((q ''ᵁ V).ι ⁻¹ᵁ U) := by
-    show (V.ι ≫ q) ⁻¹ᵁ U = ((q.isoImage V).hom ≫ (q ''ᵁ V).ι) ⁻¹ᵁ U
+    change (V.ι ≫ q) ⁻¹ᵁ U = ((q.isoImage V).hom ≫ (q ''ᵁ V).ι) ⁻¹ᵁ U
     rw [Scheme.Hom.isoImage_hom_ι]
   rw [hpre]
   have hrestr : ((q.isoImage V).hom ⁻¹ᵁ ((q ''ᵁ V).ι ⁻¹ᵁ U)).ι =
@@ -174,7 +174,7 @@ theorem sectionRingZeroMap_comp_ofHom (w : W ⟶ U.1.toScheme)
   apply CommRingCat.hom_ext
   apply RingHom.ext
   intro r
-  show ψ (algebraMap (↥(s.sectionRingGrading U.1 0)) (s.sectionRing U.1)
+  change ψ (algebraMap (↥(s.sectionRingGrading U.1 0)) (s.sectionRing U.1)
     (GradedRing.projZeroRingHom' (s.sectionRingGrading U.1) (s.sectionRingBaseMap U.1 r))) = _
   rw [show GradedRing.projZeroRingHom' (s.sectionRingGrading U.1) (s.sectionRingBaseMap U.1 r) =
       ⟨s.sectionRingBaseMap U.1 r, sectionRingBaseMap_mem_zero s U.1 r⟩ from
@@ -241,7 +241,7 @@ namespace Stacks.Blowup
 theorem specHomRingHom_comp_isoSpec_hom {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen U)
     {W : Scheme.{u}} (w : W ⟶ U.toScheme) :
     specHomRingHom (w ≫ hU.isoSpec.hom) = (U.topIso.inv ≫ w.appTop).hom := by
-  show (CommRingCat.Hom.hom ((Scheme.ΓSpecIso Γ(X, U)).inv ≫ (w ≫ hU.isoSpec.hom).appTop)) = _
+  change (CommRingCat.Hom.hom ((Scheme.ΓSpecIso Γ(X, U)).inv ≫ (w ≫ hU.isoSpec.hom).appTop)) = _
   rw [Scheme.Hom.comp_appTop, hU.isoSpec_hom_appTop, ← Category.assoc, ← Category.assoc,
     Iso.inv_hom_id, Category.id_comp]
 
@@ -387,7 +387,7 @@ theorem exists_hom_blowUp_of_ideal_eq_span {X : Scheme.{u}} (I : X.IdealSheafDat
       refine Ideal.map_le_iff_le_comap.mpr fun a ha => Ideal.subset_span ?_
       refine ⟨1, one_pos, (AlgebraicGeometry.reesDegreeOne I U ⟨a, ha⟩).1,
         (AlgebraicGeometry.reesDegreeOne I U ⟨a, ha⟩).2, ?_⟩
-      show θ (AlgebraicGeometry.reesToBase I U _) = θ a
+      change θ (AlgebraicGeometry.reesToBase I U _) = θ a
       rw [AlgebraicGeometry.reesToBase_degreeOne]
     exact hle (hIt ▸ Ideal.mem_span_singleton_self t)
   refine Stacks.RelativeProj.Situation.exists_hom_relativeProj_of_sectionRingHom
@@ -398,7 +398,7 @@ theorem exists_hom_blowUp_of_ideal_eq_span {X : Scheme.{u}} (I : X.IdealSheafDat
   rw [Stacks.GradedRing.divide_of_mem_zero _ χ t hdiv ht
     (Stacks.RelativeProj.Situation.sectionRingBaseMap_mem_zero
       (AlgebraicGeometry.reesSituation I) U.1 r)]
-  show θ (AlgebraicGeometry.reesToBase I U _) = θ r
+  change θ (AlgebraicGeometry.reesToBase I U _) = θ r
   rw [AlgebraicGeometry.reesToBase_sectionRingBaseMap]
 
 /-- **The existence half of Stacks tag 0806 for the blowup of an arbitrary scheme in a

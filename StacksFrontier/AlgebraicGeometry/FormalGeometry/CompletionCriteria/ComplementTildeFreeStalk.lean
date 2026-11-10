@@ -105,7 +105,7 @@ theorem stalkQuotientRingEquiv_smul {f : S.A} (hI : S.I = Ideal.span {f})
   have hc : c • (Ideal.Quotient.mk (IdealSheafData.stalk (idealOnOpen S) y ^ 1) a) =
       Ideal.Quotient.mk (IdealSheafData.stalk (idealOnOpen S) y ^ 1) (c * a) := rfl
   rw [hc]
-  show Ideal.Quotient.mk _ (pointStalkRingEquiv S y (c * a)) =
+  change Ideal.Quotient.mk _ (pointStalkRingEquiv S y (c * a)) =
     pointStalkRingEquiv S y c • Ideal.Quotient.mk _ (pointStalkRingEquiv S y a)
   rw [map_mul]
   rfl
@@ -160,7 +160,7 @@ theorem exists_linearEquiv_localizedModule_of_free_stalk
   rw [e.apply_symm_apply, RingEquiv.apply_symm_apply] at key
   have h1 : e.symm (d • n) = ρ.symm d • e.symm n := by
     rw [← key, e.symm_apply_apply]
-  show θ (ψ (μ.symm (e.symm (d • n)))) = _
+  change θ (ψ (μ.symm (e.symm (d • n)))) = _
   rw [h1, map_smul, map_smul, hθsmul, RingEquiv.apply_symm_apply]
   rfl
 

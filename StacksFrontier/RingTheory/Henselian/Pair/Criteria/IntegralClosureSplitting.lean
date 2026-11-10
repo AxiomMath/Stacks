@@ -100,16 +100,16 @@ private lemma exists_pow_mul_mem_of_mem_map_of_awayMap_bijective
     exact ⟨n, by simp⟩
   have hcomm : e.toRingHom.comp (algebraMap R (Localization.Away r)) =
       (algebraMap S (Localization.Away (f r))).comp f := by
-    show (IsLocalization.map (Localization.Away (f r)) f hy).comp
+    change (IsLocalization.map (Localization.Away (f r)) f hy).comp
       (algebraMap R (Localization.Away r)) =
       (algebraMap S (Localization.Away (f r))).comp f
     exact IsLocalization.map_comp hy
   have hx' : e (algebraMap R (Localization.Away r) x) ∈
       Ideal.map e.toRingHom (I.map (algebraMap R (Localization.Away r))) := by
-    show (e.toRingHom.comp (algebraMap R (Localization.Away r))) x ∈
+    change (e.toRingHom.comp (algebraMap R (Localization.Away r))) x ∈
       Ideal.map e.toRingHom (I.map (algebraMap R (Localization.Away r)))
     rw [Ideal.map_map, hcomm]
-    show (algebraMap S (Localization.Away (f r))) (f x) ∈
+    change (algebraMap S (Localization.Away (f r))) (f x) ∈
       Ideal.map ((algebraMap S (Localization.Away (f r))).comp f) I
     rw [← Ideal.map_map]
     exact Ideal.mem_map_of_mem _ hx
@@ -258,7 +258,7 @@ private lemma ker_eq_span_one_sub_of_idempotent
   · apply Ideal.span_le.mpr
     intro x hx
     rcases hx with rfl
-    show f (1 - e) = 0
+    change f (1 - e) = 0
     simp [hfe]
 
 private lemma exists_prod_equiv_of_idempotent
@@ -286,7 +286,7 @@ private lemma exists_prod_equiv_of_idempotent
   let α : R ≃+* C × (R ⧸ J₂) := δ.trans (RingEquiv.prodCongr γ (RingEquiv.refl _))
   have hα (x : R) : α x = (φ x, q₂ x) := by
     apply Prod.ext
-    · show γ (q₁ x) = φ x
+    · change γ (q₁ x) = φ x
       exact hγ x
     · rfl
   have hψJ₂ : J₂ ≤ RingHom.ker ψ := by
@@ -336,12 +336,12 @@ private lemma exists_prod_equiv_of_awayMap_bijective
   have hstable := quotient_pow_succ_eq_of_mul_sub_mem I r n hn
   have he : IsIdempotentElem e := isIdempotentElem_quotient_pow_of_mul_sub_mem I r n hn
   have heφ : φ e = 1 := by
-    show φ ((q r) ^ (n + 1)) = 1
+    change φ ((q r) ^ (n + 1)) = 1
     rw [map_pow]
     rw [hφ]
     simp [hrπ]
   have heψ : ψ e = 0 := by
-    show ψ ((q r) ^ (n + 1)) = 0
+    change ψ ((q r) ^ (n + 1)) = 0
     rw [map_pow]
     rw [hψ]
     simp [hrπ]
@@ -370,9 +370,9 @@ private lemma exists_prod_equiv_of_awayMap_bijective
     obtain ⟨k, hk⟩ :=
       exists_pow_mul_mem_of_mem_map_of_awayMap_bijective f I r hbij hmem
     have hk0 : (q r) ^ k * ((q r) ^ (n + 1) * q a) = 0 := by
-      show q (r ^ k * (r ^ (n + 1) * a)) = 0
+      change q (r ^ k * (r ^ (n + 1) * a)) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr hk
-    show e * q a = 0
+    change e * q a = 0
     calc
       e * q a = ((q r) ^ (n + 1) * (q r) ^ k) * q a := by
         rw [pow_mul_pow_eq_of_pow_succ_eq_pow (q r) (n + 1) k hstable]
@@ -481,7 +481,7 @@ private theorem exists_integralClosure_quotient_prod_and_awayMap_bijective_of_qu
     have hkerπJ : RingHom.ker π = J :=
       (RingHom.ker_comp_of_injective (Ideal.Quotient.mk J) e.injective).trans Ideal.mk_ker
     rw [hkerπJ]
-    show I.map (algebraMap A B) =
+    change I.map (algebraMap A B) =
       (I.map (algebraMap A R)).map f
     rw [Ideal.map_map]
     rfl
@@ -519,7 +519,7 @@ private theorem quasiFiniteAt_comap_fst_of_finite_component
   let p : Ideal A := m.under A
   have : p.IsPrime := inferInstance
   have : m.LiesOver p := ⟨rfl⟩
-  obtain ⟨s, hs, huniq⟩ := Ideal.exists_not_mem_forall_mem_of_ne_of_liesOver (R := A) p m
+  obtain ⟨s, hs, huniq⟩ := Ideal.exists_notMem_forall_mem_of_ne_of_liesOver (R := A) p m
   have hf : Function.Surjective f := by
     intro c
     obtain ⟨b, hb⟩ := hπsurj (c, 0)
@@ -531,7 +531,7 @@ private theorem quasiFiniteAt_comap_fst_of_finite_component
   have hqb : b ∉ q := by simpa [q, Ideal.mem_comap, hb1] using hs
   have hqp : q.under A = p := by
     ext t
-    show f (algebraMap A B t) ∈ m ↔ algebraMap A C t ∈ m
+    change f (algebraMap A B t) ∈ m ↔ algebraMap A C t ∈ m
     rfl
   have : q.LiesOver p := ⟨hqp.symm⟩
   have hunique (q' : Ideal B) [q'.IsPrime] (hq'p : q'.LiesOver p)
@@ -558,7 +558,7 @@ private theorem quasiFiniteAt_comap_fst_of_finite_component
         (sup_of_le_left (by simpa [RingHom.ker_eq_comap_bot] using hkerfq'))
     have hqover : (q'.map f).LiesOver p := by
       constructor
-      show p = ((q'.map f).comap f).comap (algebraMap A B)
+      change p = ((q'.map f).comap f).comap (algebraMap A B)
       rw [hcomap]
       exact q'.over_def p
     have hsnot : s ∉ q'.map f := by
@@ -637,13 +637,13 @@ theorem exists_integralClosure_quotient_prod_and_awayMap_bijective
       rw [hkerπ]
       apply Ideal.map_mono
       intro a ha
-      show ((RingHom.fst C₁ C₂).comp π) (algebraMap A B a) ∈ m
+      change ((RingHom.fst C₁ C₂).comp π) (algebraMap A B a) ∈ m
       have hja : algebraMap A B a ∈ J := Ideal.mem_map_of_mem _ ha
       have hzero : π (algebraMap A B a) = 0 := by
         apply (RingHom.mem_ker).mp
         rw [hkerπ]
         exact hja
-      show (π (algebraMap A B a)).1 ∈ m
+      change (π (algebraMap A B a)).1 ∈ m
       rw [congrArg Prod.fst hzero]
       exact m.zero_mem
     exact quasiFiniteAt_comap_fst_of_finite_component π hπsurj hfinπ m hker

@@ -63,8 +63,8 @@ one costs a forgetful functor and loses the module structure, which is the thing
 above exists to keep. The vanishing translation between the two spellings is already proved, as
 `Stacks.Cohomology.CechAcyclic.isZero_rightDerived_evaluation_iff_isZero_Hgroup`.
 
-**The passage to the ordered complex is proved elsewhere and is not restated here either.** The source
-computes with the *ordered* Čech complex, one term per strictly increasing tuple of indices,
+**The passage to the ordered complex is proved elsewhere and is not restated here either.** The
+source computes with the *ordered* Čech complex, one term per strictly increasing tuple of indices,
 whereas `Stacks.Cohomology.CechSheaf.cechComplex` has one term per tuple. The two have the same
 homology, as abelian groups, by `Stacks.Cech.orderedCechHomologyIso` composed with
 `Stacks.Cech.alternatingCechHomologyIso` and

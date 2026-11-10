@@ -85,7 +85,7 @@ theorem schemeSpaceFunctor_map_comp_hom_of_model {T U : s.SchemesOver} (g : T.le
     (schemeSpaceFunctor B S hS).map g ≫ U.hom = T.hom := by
   apply InducedCategory.hom_ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yoneda.map g ≫ U.hom.hom) = yonedaEquiv T.hom.hom
+  change yonedaEquiv (yoneda.map g ≫ U.hom.hom) = yonedaEquiv T.hom.hom
   have h₁ : s.base.1.map g.op (yonedaEquiv U.hom.hom) = yonedaEquiv (yoneda.map g ≫ U.hom.hom) :=
     yonedaEquiv_naturality _ _
   have h₂ : q.app _ (F.map g.op (e U y).val) = s.base.1.map g.op (q.app _ (e U y).val) :=
@@ -124,7 +124,7 @@ theorem hasVerticalPreimages_picardFunctorToModelFunctor :
     ⟨T, ⟨(e T).symm ⟨x, (testPoint_pointTestScheme _ (q.app _ x)).symm⟩⟩⟩
   have h : (⟨U, ⟨x⟩⟩ : (Stack.fibredCategory B S hS F).val.obj) =
       (s.picardFunctorToModelFunctor F q e he).obj o := by
-    show (⟨U, ⟨x⟩⟩ : (Stack.fibredCategory B S hS F).val.obj) =
+    change (⟨U, ⟨x⟩⟩ : (Stack.fibredCategory B S hS F).val.obj) =
       ⟨U, ⟨(e T ((e T).symm ⟨x, (testPoint_pointTestScheme _ (q.app _ x)).symm⟩)).val⟩⟩
     rw [Equiv.apply_symm_apply]
   exact ⟨o, rfl, eqToIso h, IsHomLift.eqToHom_domain_lift_id h rfl⟩

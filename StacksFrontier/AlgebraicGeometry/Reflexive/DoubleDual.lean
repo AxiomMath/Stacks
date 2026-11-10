@@ -131,7 +131,7 @@ public theorem evalHom_restrict (F : X.Modules) {U V : X.Opens} (hle : V ≤ U) 
   refine dualPairing_ext (F := dualSheaf F) (fun W lam => ?_)
   refine Eq.trans ?_ (dualPairing_map (dualSheaf F) hle
     (evalHom F f : Γ(dualSheaf (dualSheaf F), U)) W lam).symm
-  show evalAt F (V := W.left) lam
+  change evalAt F (V := W.left) lam
       (F.presheaf.map W.hom.op (F.presheaf.map (homOfLE hle).op f)) =
     evalAt F (V := W.left) lam (F.presheaf.map (W.hom ≫ homOfLE hle).op f)
   rw [← F.presheaf.map_comp_apply]
@@ -187,7 +187,7 @@ public theorem toDoubleDual_val_app_apply (F : X.Modules) (U : X.Opens) (f : Γ(
     (lam : Γ(dualSheaf F, U)) :
     ((((toDoubleDual F).val.app (op U)).hom f).app (op (Over.mk (𝟙 U)))).hom lam =
       (lam.app (op (Over.mk (𝟙 U)))).hom f := by
-  show evalAt F (V := U) lam (F.presheaf.map (𝟙 (op U)) f) = _
+  change evalAt F (V := U) lam (F.presheaf.map (𝟙 (op U)) f) = _
   rw [F.presheaf.map_id]
   rfl
 

@@ -453,7 +453,7 @@ theorem hom_ext_of_affineEtaleCharts {F : AlgebraicSpaces B S hS}
   refine hom_ext_of_affineChartBaseChange B S hS (Over.mk (𝟙 F)) hY hW fun V hV => ?_
   have hw : hY.fst V.1.hom = yoneda.map (hY.snd V.1.hom) ≫ V.1.hom :=
     (Category.comp_id _).symm.trans (hY.w V.1.hom)
-  show hY.fst V.1.hom ≫ a = hY.fst V.1.hom ≫ b
+  change hY.fst V.1.hom ≫ a = hY.fst V.1.hom ≫ b
   rw [hw, Category.assoc, Category.assoc, hab V hV]
 
 variable (hred : ∀ V : SmallEtale B S hS T₁.1,
@@ -488,7 +488,7 @@ theorem comp_eq_of_thickeningChartSiteHom (g : T₁ ⟶ T₂)
   let e := (thickeningChartTransferIso B S hS hi₁ hi₂).inv.app V
   let e' : rep₁.pullback V.1.hom ⟶ rep₂.pullback V'.1.hom := (SmallEtale.toOver B S hS Z.1).map e
   have hew : yoneda.map e' ≫ rep₂.fst V'.1.hom = rep₁.fst V.1.hom := CostructuredArrow.w e.hom
-  show rep₁.fst V.1.hom ≫ i₁.hom ≫ g.hom = rep₁.fst V.1.hom ≫ i₂.hom
+  change rep₁.fst V.1.hom ≫ i₁.hom ≫ g.hom = rep₁.fst V.1.hom ≫ i₂.hom
   have key : yoneda.map (rep₁.snd V.1.hom) ≫
       yoneda.map (thickeningChartSiteHom B S hS hi₁ hi₂ φ p₁ p₂ hbase V) =
         yoneda.map e' ≫ yoneda.map (rep₂.snd V'.1.hom) := by

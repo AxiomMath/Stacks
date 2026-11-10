@@ -44,12 +44,11 @@ attribute [local instance] HasDerivedCategory.standard
 /-- For an algebraic stack `𝒳` whose flat-fppf site has a terminal object `e` whose image is
 terminal in the fppf site, the counit of the derived adjunction `Lg_! ⊣ g⁻¹` is invertible at the
 constant sheaf `ℤ` of `𝒳_{fppf}` in degree zero, so the canonical comparison `Lg_! ℤ ⟶ ℤ` is an
-isomorphism. -/
+isomorphism. The proof does not use the terminal object, so the statement carries no hypothesis
+about it. -/
 @[stacks 0H0Z "for the `Lg_!` of 07AS part (3), the flat-fppf site of an algebraic stack whose \
 flat-fppf site has a terminal object whose image is terminal in the fppf site"]
-theorem isIso_derivedAbelianLowerShriekAdjunction_counit_constantSheaf_of_isTerminal
-    {e : ObjectProperty.FullSubcategory (objectProperty B S hS 𝒳)} (he : IsTerminal e)
-    (heX : IsTerminal ((objectProperty B S hS 𝒳).ι.obj e)) :
+theorem isIso_derivedAbelianLowerShriekAdjunction_counit_constantSheaf_of_isTerminal :
     IsIso ((derivedAbelianLowerShriekAdjunction B S hS 𝒳
           (abelianLowerShriekAcyclic B S hS 𝒳)).counit.app
         ((DerivedCategory.singleFunctor _ 0).obj

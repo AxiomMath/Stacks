@@ -71,7 +71,7 @@ theorem Scheme.Hom.quasiFiniteAt_iff_exists_isOpen [LocallyOfFiniteType f] {x : 
   constructor
   · rintro ⟨U, hU, hpre⟩
     refine ⟨U, hU, ?_, fun x' hx' hfx ↦ ?_⟩
-    · show (⟨x, rfl⟩ : f ⁻¹' {f x}) ∈ Subtype.val ⁻¹' U
+    · change (⟨x, rfl⟩ : f ⁻¹' {f x}) ∈ Subtype.val ⁻¹' U
       rw [hpre]; rfl
     · have : (⟨x', hfx⟩ : f ⁻¹' {f x}) ∈ Subtype.val ⁻¹' U := hx'
       rw [hpre] at this

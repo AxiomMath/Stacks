@@ -75,8 +75,7 @@ theorem bijective_liftBaseChange_of_bijective_of_injective {A A' : Type*} [CommR
     Function.Bijective (μ.liftBaseChange A') := by
   have hcomp : ∀ z, i' (μ.liftBaseChange A' z) = θP (i.baseChange A' z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r n =>
       rw [liftBaseChange_tmul, baseChange_tmul, map_smul, hμ, ← map_smul, smul_tmul',
         smul_eq_mul, mul_one]

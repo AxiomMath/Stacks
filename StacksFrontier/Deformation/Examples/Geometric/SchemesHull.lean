@@ -95,7 +95,7 @@ the functor A ↦ Ob(Def_X(A))/≅ of isomorphism classes of deformations of X h
 theorem exists_hull_isomorphismClasses_scheme (hΛ : IsClassical Λ k)
     (X : Over (Spec (CommRingCat.of k))) [IsProper X.hom] :
     let F := isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Functor.Elements.π F),
       IsHull (categoryOfElements_projection_isCofibered F) ξ :=
   exists_hull_isomorphismClasses_of_isDeformationCategory hΛ (schemeDeformationBased (Λ := Λ) X)
     (isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X)

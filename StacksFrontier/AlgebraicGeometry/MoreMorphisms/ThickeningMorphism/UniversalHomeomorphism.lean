@@ -49,7 +49,7 @@ lemma universalHomeomorphism {X X' : Scheme.{u}} {i : X ⟶ X'}
   have : IsClosedImmersion i := hi.1
   have : Surjective i := ⟨hi.2⟩
   have hg : IsClosedImmersion (pullback.fst f i) := inferInstance
-  show IsHomeomorph (pullback.fst f i).base
+  change IsHomeomorph (pullback.fst f i).base
   exact isHomeomorph_iff_continuous_isClosedMap_bijective.2 ⟨(pullback.fst f i).continuous,
     hg.isClosedEmbedding.isClosedMap, hg.isClosedEmbedding.injective,
     (pullback.fst f i).surjective⟩

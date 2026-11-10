@@ -76,7 +76,7 @@ theorem isIso_derived_app_iff_isIso_derivedBaseChangePlus_app (K : DerivedCatego
       simp [Functor.mapHomologicalComplexCompIso]
     have e : (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app Kh = 𝟙 _ := by
       ext
-      show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+      change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexCompIso (Iso.refl (G' ⋙ F'))
           (ComplexShape.up ℤ)).inv.app I.obj) = _
       rw [hc', CategoryTheory.Functor.map_id]

@@ -72,7 +72,7 @@ theorem smallEtaleSectionsPullbackAb_etale (F : Sheaf X.smallEtaleTopology Ab.{u
   have hm : (smallEtaleCompose j).map L ≫ (smallEtaleComposeBaseChangeAdj j).counit.app W =
       etaleSectionsMorphism j W r hr :=
     MorphismProperty.Over.Hom.ext (pullback.lift_fst _ _ _)
-  show ((smallEtaleAdjunctionAb j).unit.app F).hom.app (op W) ≫
+  change ((smallEtaleAdjunctionAb j).unit.app F).hom.app (op W) ≫
       ((smallEtalePullbackAb j).obj F).obj.map L.op ≫
         (Sheaf.ΓNatIsoSheafSections Y.smallEtaleTopology Ab.{u + 1}
           (isTerminalEtaleMkId Y)).inv.app ((smallEtalePullbackAb j).obj F) ≫
@@ -99,7 +99,7 @@ theorem isIso_smallEtaleSectionsPullbackAb_app_of_isIso (hiso : IsIso r)
   obtain ⟨r', h₁, h₂⟩ := hiso.out
   have : IsIso (etaleSectionsMorphism j W r hr) :=
     ⟨⟨MorphismProperty.Over.homMk r' (by
-        show r' ≫ 𝟙 Y ≫ j = W.hom
+        change r' ≫ 𝟙 Y ≫ j = W.hom
         rw [Category.id_comp, ← hr, ← Category.assoc, h₂, Category.id_comp]) trivial,
       by apply MorphismProperty.Over.Hom.ext; exact h₁,
       by apply MorphismProperty.Over.Hom.ext; exact h₂⟩⟩

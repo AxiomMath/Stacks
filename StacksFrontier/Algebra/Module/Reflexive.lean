@@ -649,11 +649,11 @@ theorem isReflexive_baseChange_of_flat
   let g' : (Fin n → R') →ₗ[R'] TensorProduct R R' N :=
     (g.baseChange R').comp e.symm.toLinearMap
   have hf_base : Function.Injective (f.baseChange R') := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap f hf
   have hf' : Function.Injective f' := e.injective.comp hf_base
   have hfg_base : Function.Exact (f.baseChange R') (g.baseChange R') := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using
+    simpa only [LinearMap.baseChange_eq_lTensor] using
       Module.Flat.lTensor_exact R' hfg
   have hfg' : Function.Exact f' g' := by
     apply Function.Exact.of_ladder_linearEquiv_of_exact
@@ -2794,7 +2794,7 @@ private theorem adjoin_polynomial_propertySkModule (k : Type u) [Field k] :
   · have hmnot : ¬ m ≤ p := by
       intro hle
       exact hpm ((adjoinMaxIdeal_isMaximal k).eq_of_le hp.ne_top hle).symm
-    obtain ⟨c, hcm, hcp⟩ := SetLike.not_le_iff_exists.mp hmnot
+    obtain ⟨c, hcm, hcp⟩ := IsConcreteLE.not_le_iff_exists.mp hmnot
     apply min_two_le_moduleDepth_localized_of_conductor (S := P) p c hcp
     intro t
     exact ⟨⟨(c : P) * t, mul_mem_adjoin_of_mem_adjoinMaxIdeal k ⟨c, hcm⟩ t⟩, rfl⟩

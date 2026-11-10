@@ -179,7 +179,7 @@ theorem symAlgBaseChangeInv_lift (x : SymmetricAlgebra A M) :
       (Algebra.TensorProduct.includeRight :
         SymmetricAlgebra A M →ₐ[A] B ⊗[A] SymmetricAlgebra A M) := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_)
-    show symAlgBaseChangeInv B M (SymmetricAlgebra.lift (toSymBaseChange B M)
+    change symAlgBaseChangeInv B M (SymmetricAlgebra.lift (toSymBaseChange B M)
       (SymmetricAlgebra.ι A M m)) = 1 ⊗ₜ[A] SymmetricAlgebra.ι A M m
     rw [SymmetricAlgebra.lift_ι_apply, toSymBaseChange_apply, symAlgBaseChangeInv_ι,
       LinearMap.baseChange_tmul]
@@ -245,7 +245,7 @@ theorem map_symAlgBaseChangeEquiv_baseChange_one :
       Set.range fun m : M => SymmetricAlgebra.ι B (B ⊗[A] M) (1 ⊗ₜ[A] m) := by
     rw [← Set.range_comp, ← Set.range_comp]
     refine congrArg Set.range (funext fun m => ?_)
-    show symAlgBaseChangeEquiv B M (1 ⊗ₜ[A] SymmetricAlgebra.ι A M m) = _
+    change symAlgBaseChangeEquiv B M (1 ⊗ₜ[A] SymmetricAlgebra.ι A M m) = _
     rw [symAlgBaseChangeEquiv_apply, symAlgBaseChangeHom_tmul, map_one, one_mul,
       SymmetricAlgebra.lift_ι_apply, toSymBaseChange_apply]
   rw [hr, Submodule.baseChange_span, Submodule.map_span, hset, span_range_ι_one_tmul]
@@ -406,7 +406,7 @@ theorem symmetricAlgebraBaseChange_symm_one_tmul_mem :
           (algebraMap R A r) ⊗ₜ[R] (1 : SymmetricAlgebra R M) := by
         rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
           TensorProduct.smul_tmul]
-      show _ ∈ (LinearMap.range (ι A (A ⊗[R] M))) ^ 0
+      change _ ∈ (LinearMap.range (ι A (A ⊗[R] M))) ^ 0
       rw [h1, TensorProduct.tmul_eq_smul_one_tmul,
         ← Algebra.TensorProduct.one_def, map_smul, map_one, pow_zero]
       exact Submodule.smul_mem _ _ (Submodule.one_le.1 le_rfl)
@@ -418,7 +418,7 @@ theorem symmetricAlgebraBaseChange_symm_one_tmul_mem :
       have h2 : (1 : A) ⊗ₜ[R] ((ι R M m : SymmetricAlgebra R M) * x) =
           ((1 : A) ⊗ₜ[R] (ι R M m : SymmetricAlgebra R M)) * ((1 : A) ⊗ₜ[R] x) := by
         rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-      show _ ∈ (LinearMap.range (ι A (A ⊗[R] M))) ^ (k + 1)
+      change _ ∈ (LinearMap.range (ι A (A ⊗[R] M))) ^ (k + 1)
       rw [h2, map_mul, symmetricAlgebraBaseChange_symm_tmul_ι, pow_succ']
       exact Submodule.mul_mem_mul (LinearMap.mem_range_self _ _) ih
 
@@ -448,11 +448,11 @@ theorem exists_eq_symmetricAlgebraBaseChange_symm_incl :
   induction hw using Submodule.pow_induction_on_left' with
   | algebraMap a =>
       refine ⟨a ⊗ₜ[R] ⟨1, ?_⟩, ?_⟩
-      · show (1 : SymmetricAlgebra R M) ∈ (LinearMap.range (ι R M)) ^ 0
+      · change (1 : SymmetricAlgebra R M) ∈ (LinearMap.range (ι R M)) ^ 0
         rw [pow_zero]
         exact Submodule.one_le.1 le_rfl
       · rw [symmetricPowerBaseChangeIncl_tmul]
-        show (symmetricAlgebraBaseChange R A M).symm
+        change (symmetricAlgebraBaseChange R A M).symm
           (a ⊗ₜ[R] (1 : SymmetricAlgebra R M)) = _
         rw [TensorProduct.tmul_eq_smul_one_tmul,
           ← Algebra.TensorProduct.one_def, map_smul, map_one,

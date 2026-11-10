@@ -79,8 +79,8 @@ public theorem nFoldRelativeFrobenius_naturality (S : Scheme.{u}) (p : ℕ) [Fac
     induction m with
     | zero => simp [absoluteFrobeniusPow]
     | succ m ih =>
-        simp only [absoluteFrobeniusPow, pow_succ, End.mul_def]
-        show (absoluteFrobenius A p hA ≫ absoluteFrobeniusPow A p hA m) ≫ g =
+        simp only [absoluteFrobeniusPow, pow_succ, End.mul_asHom]
+        change (absoluteFrobenius A p hA ≫ absoluteFrobeniusPow A p hA m) ≫ g =
           g ≫ (absoluteFrobenius B p hB ≫ absoluteFrobeniusPow B p hB m)
         rw [Category.assoc, ih, ← Category.assoc,
           absoluteFrobenius_naturality g p hA hB, Category.assoc]

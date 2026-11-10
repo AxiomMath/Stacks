@@ -100,13 +100,13 @@ private theorem comap_mem_minimalPrimes_of_flat (R S : Type*) [CommRing R] [Comm
   have hQprime : q.IsPrime := hq.isPrime
   set p : Ideal R := q.comap (algebraMap R S) with hpdef
   have hpprime : p.IsPrime := Ideal.IsPrime.comap _
-  show Minimal (fun r : Ideal R ↦ r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
+  change Minimal (fun r : Ideal R ↦ r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
   refine ⟨⟨hpprime, bot_le⟩, fun p₀ hp₀ hp₀le ↦ ?_⟩
   by_contra hnle
   have hlt : p₀ < p := lt_of_le_of_ne hp₀le (fun h ↦ hnle (h ▸ le_refl _))
   have : p₀.IsPrime := hp₀.1
   have hunder : Ideal.under R q = p := by
-    show q.comap (algebraMap R S) = p
+    change q.comap (algebraMap R S) = p
     exact hpdef.symm
   have hlt' : p₀ < Ideal.under R q := by rw [hunder]; exact hlt
   obtain ⟨P, hPle, hPp, hPlies⟩ := hgd.exists_ideal_le_liesOver_of_lt q hlt'
@@ -211,10 +211,10 @@ private theorem quotient_tensor_kernel_comap_left
         (Algebra.TensorProduct.includeLeft : A →ₐ[k] A ⊗[k] B).toRingHom = p := by
   let : Nontrivial (B ⧸ q) := inferInstance
   rw [RingHom.comap_ker]
-  show RingHom.ker (((Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k p)
+  change RingHom.ker (((Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k p)
     (Ideal.Quotient.mkₐ k q)).comp Algebra.TensorProduct.includeLeft).toRingHom) = p
   rw [Algebra.TensorProduct.map_comp_includeLeft]
-  show RingHom.ker (((Algebra.TensorProduct.includeLeft :
+  change RingHom.ker (((Algebra.TensorProduct.includeLeft :
     A ⧸ p →ₐ[k] (A ⧸ p) ⊗[k] (B ⧸ q)).toRingHom).comp
       (Ideal.Quotient.mkₐ k p).toRingHom) = p
   rw [RingHom.ker_comp_of_injective _
@@ -233,10 +233,10 @@ private theorem quotient_tensor_kernel_comap_right
         (Algebra.TensorProduct.includeRight : B →ₐ[k] A ⊗[k] B).toRingHom = q := by
   let : Nontrivial (A ⧸ p) := inferInstance
   rw [RingHom.comap_ker]
-  show RingHom.ker (((Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k p)
+  change RingHom.ker (((Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k p)
     (Ideal.Quotient.mkₐ k q)).comp Algebra.TensorProduct.includeRight).toRingHom) = q
   rw [Algebra.TensorProduct.map_comp_includeRight]
-  show RingHom.ker (((Algebra.TensorProduct.includeRight :
+  change RingHom.ker (((Algebra.TensorProduct.includeRight :
     B ⧸ q →ₐ[k] (A ⧸ p) ⊗[k] (B ⧸ q)).toRingHom).comp
       (Ideal.Quotient.mkₐ k q).toRingHom) = q
   rw [RingHom.ker_comp_of_injective _
@@ -321,7 +321,7 @@ private theorem minimalPrimes_tensorProduct_bijOn
   let f : Ideal (A ⊗[k] B) → Ideal A × Ideal B := fun r ↦
     (r.comap (Algebra.TensorProduct.includeLeft : A →ₐ[k] A ⊗[k] B).toRingHom,
      r.comap (Algebra.TensorProduct.includeRight : B →ₐ[k] A ⊗[k] B).toRingHom)
-  show Set.BijOn f _ _
+  change Set.BijOn f _ _
   refine ⟨minimalPrimes_tensorProduct_mapsTo k A B, ?_, ?_⟩
   · intro r hr s hs heq
     have hfr := minimalPrime_tensorProduct_eq_quotient_kernel k A B r hr
@@ -373,9 +373,9 @@ private theorem minimalPrimes_localization_bijOn
   · intro p hp
     let : p.IsPrime := hp.isPrime
     refine ⟨p.map f, ?_, ?_⟩
-    · show p.map f ∈ (⊥ : Ideal T).minimalPrimes
+    · change p.map f ∈ (⊥ : Ideal T).minimalPrimes
       rw [hclass]
-      show (p.map f).under S ∈ minimalPrimes S
+      change (p.map f).under S ∈ minimalPrimes S
       rw [IsLocalization.under_map_of_isPrime_disjoint M T hp.isPrime (hM p hp)]
       exact hp
     · exact IsLocalization.under_map_of_isPrime_disjoint M T hp.isPrime (hM p hp)
@@ -406,24 +406,24 @@ private theorem minimalPrime_tensorProduct_le_residue_ker
     rw [hresB]
     exact IsLocalRing.le_maximalIdeal_of_isPrime q
   rw [minimalPrime_tensorProduct_eq_quotient_kernel k A B r hr]
-  show RingHom.ker
+  change RingHom.ker
     (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k p)
       (Ideal.Quotient.mkₐ k q)) ≤ RingHom.ker f.toRingHom
   rw [quotient_tensor_kernel_eq]
   refine sup_le ?_ ?_
   · apply Ideal.map_le_iff_le_comap.mpr
-    show p ≤ (RingHom.ker f.toRingHom).comap
+    change p ≤ (RingHom.ker f.toRingHom).comap
       (Algebra.TensorProduct.includeLeft : A →ₐ[k] A ⊗[k] B).toRingHom
     rw [RingHom.comap_ker]
-    show p ≤ RingHom.ker
+    change p ≤ RingHom.ker
       (((f.comp (Algebra.TensorProduct.includeLeft : A →ₐ[k] A ⊗[k] B)).toRingHom))
     rw [Algebra.TensorProduct.lift_comp_includeLeft]
     exact hp
   · apply Ideal.map_le_iff_le_comap.mpr
-    show q ≤ (RingHom.ker f.toRingHom).comap
+    change q ≤ (RingHom.ker f.toRingHom).comap
       (Algebra.TensorProduct.includeRight : B →ₐ[k] A ⊗[k] B).toRingHom
     rw [RingHom.comap_ker]
-    show q ≤ RingHom.ker
+    change q ≤ RingHom.ker
       (((f.comp (Algebra.TensorProduct.includeRight : B →ₐ[k] A ⊗[k] B)).toRingHom))
     rw [Algebra.TensorProduct.lift_comp_includeRight']
     exact hq
@@ -643,7 +643,7 @@ private theorem isLocalRing_tensor_baseChange
   have : IsScalarTower NA Y N := IsScalarTower.of_algebraMap_eq fun x => by
     simp [Y, N, RingHom.algebraMap_toAlgebra, Algebra.TensorProduct.algebraMap_apply]
   have : IsScalarTower D Y N := IsScalarTower.of_algebraMap_eq fun x => by
-    show (Algebra.TensorProduct.map (IsScalarTower.toAlgHom k A NA)
+    change (Algebra.TensorProduct.map (IsScalarTower.toAlgHom k A NA)
       (IsScalarTower.toAlgHom k B NB)) x =
       (Algebra.TensorProduct.map (AlgHom.id k NA) (IsScalarTower.toAlgHom k B NB))
         ((Algebra.TensorProduct.map (IsScalarTower.toAlgHom k A NA) (AlgHom.id k B)) x)
@@ -690,9 +690,9 @@ private theorem isLocalHom_of_ker_residue
     apply ((IsLocalRing.local_hom_TFAE res).out 4 1).mp
     intro x hx
     have hx0 : res x = 0 := by
-      show x ∈ RingHom.ker res
+      change x ∈ RingHom.ker res
       rwa [hres]
-    show res x ∈ IsLocalRing.maximalIdeal k
+    change res x ∈ IsLocalRing.maximalIdeal k
     simp [hx0]
   have : IsLocalHom (g.comp f) := hcomp.symm ▸ inferInstance
   exact isLocalHom_of_comp f g
@@ -730,7 +730,7 @@ private theorem localizedTensor_isLocalHom_left
     resA.toRingHom hresA
   rw [← RingHom.comp_assoc, localizedTensor_residueMap_comp]
   ext a
-  show (Algebra.TensorProduct.lift resA resB (fun _ _ ↦ Commute.all _ _))
+  change (Algebra.TensorProduct.lift resA resB (fun _ _ ↦ Commute.all _ _))
     (a ⊗ₜ[k] (1 : B)) = resA a
   simp
 
@@ -750,7 +750,7 @@ private theorem localizedTensor_isLocalHom_right
     resB.toRingHom hresB
   rw [← RingHom.comp_assoc, localizedTensor_residueMap_comp]
   ext b
-  show (Algebra.TensorProduct.lift resA resB (fun _ _ ↦ Commute.all _ _))
+  change (Algebra.TensorProduct.lift resA resB (fun _ _ ↦ Commute.all _ _))
     ((1 : A) ⊗ₜ[k] b) = resB b
   simp
 
@@ -780,7 +780,7 @@ private theorem normalization_tensor_kernel
         (IsScalarTower.toAlgHom k B NB) := by
     rw [← Algebra.TensorProduct.map_comp]
     rfl
-  show RingHom.ker (Algebra.TensorProduct.map (IsScalarTower.toAlgHom k A NA)
+  change RingHom.ker (Algebra.TensorProduct.map (IsScalarTower.toAlgHom k A NA)
     (IsScalarTower.toAlgHom k B NB)).toRingHom = _
   rw [← hcomp]
   exact RingHom.ker_comp_of_injective _ hi
@@ -1007,7 +1007,7 @@ theorem minimalPrimes_localized_tensorProduct_eq_sup
   have hpB : pB.IsPrime := (minimalPrimes_tensorProduct_mapsTo k A B hr).2.isPrime
   have hrsup : r = pA.map iA ⊔ pB.map iB := by
     rw [minimalPrime_tensorProduct_eq_quotient_kernel k A B r hr]
-    show RingHom.ker (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k pA)
+    change RingHom.ker (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k pA)
       (Ideal.Quotient.mkₐ k pB)) = _
     rw [quotient_tensor_kernel_eq k A B pA pB]
     rfl

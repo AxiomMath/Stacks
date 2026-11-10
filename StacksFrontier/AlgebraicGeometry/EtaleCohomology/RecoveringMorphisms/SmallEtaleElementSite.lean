@@ -169,7 +169,7 @@ instance : (overToElementSite B S hS U).Faithful where
 
 /-- The functor `overToElementSite` is full. -/
 instance : (overToElementSite B S hS U).Full where
-  map_surjective {T T'} φ :=
+  map_surjective φ :=
     ⟨Over.homMk φ.left
       (yoneda.map_injective ((yoneda.map_comp _ _).trans (CostructuredArrow.w φ))),
       CostructuredArrow.hom_ext _ _ rfl⟩
@@ -178,7 +178,7 @@ instance : (overToElementSite B S hS U).Full where
 instance : (overToElementSite B S hS U).EssSurj where
   mem_essImage Z := by
     refine ⟨Over.mk (yoneda.preimage Z.hom), ⟨CostructuredArrow.isoMk (Iso.refl _) ?_⟩⟩
-    show yoneda.map (𝟙 _) ≫ Z.hom = yoneda.map (yoneda.preimage Z.hom)
+    change yoneda.map (𝟙 _) ≫ Z.hom = yoneda.map (yoneda.preimage Z.hom)
     simp
 
 /-- The functor `overToElementSite` is an equivalence between the slice `(S_étale)/U` and the site
@@ -394,7 +394,7 @@ def localizedStructureSheafIso :
     (RingedTopos.localizedRingedTopos.{u, u + 1}
       (RingedSite.toRingedTopos (smallEtaleRingedSite B S hS))
       (representableSheaf B S hS U)).J
-    _ _
+    _
     (toElementSite B S hS U)
     (isContinuous_toElementSite_localized B S hS U)
     (RingedTopos.localizedRingedTopos.{u, u + 1}

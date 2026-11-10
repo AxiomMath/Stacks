@@ -73,14 +73,14 @@ theorem range_comap_restrict (hV : IsAffineOpen V) (hW : IsAffineOpen W) (h : V 
   ext p
   constructor
   · rintro ⟨q, rfl⟩
-    show (Spec.map (Z.presheaf.map (homOfLE h).op) ≫ hW.fromSpec) q ∈ (V : Set Z)
+    change (Spec.map (Z.presheaf.map (homOfLE h).op) ≫ hW.fromSpec) q ∈ (V : Set Z)
     rw [e q, ← hV.range_fromSpec]
     exact ⟨q, rfl⟩
   · intro hp
     obtain ⟨q, hq⟩ : hW.fromSpec p ∈ Set.range hV.fromSpec := by
       rwa [hV.range_fromSpec]
     refine ⟨q, hW.fromSpec.isOpenEmbedding.injective ?_⟩
-    show (Spec.map (Z.presheaf.map (homOfLE h).op) ≫ hW.fromSpec) q = _
+    change (Spec.map (Z.presheaf.map (homOfLE h).op) ≫ hW.fromSpec) q = _
     rw [e q, hq]
 
 /-- For a basic open `D(g)` of `Spec Γ(Z, W)` inside the range of the restriction to `V`, the
@@ -276,7 +276,7 @@ theorem isBaseChange_chartRestrictₗ [M.IsQuasicoherent] {W : Y'.Opens} {V : Y.
     IsScalarTower.of_algebraMap_eq fun r => (htow r).symm
   let : IsScalarTower Γ(Y', W) Γ(Y', i ''ᵁ V) Γ(N, V) :=
     ⟨fun r c n => by
-      show ((i.appIso V).hom.hom (Y'.presheaf.map (homOfLE hle).op r * c)) • n =
+      change ((i.appIso V).hom.hom (Y'.presheaf.map (homOfLE hle).op r * c)) • n =
         (i.appLE W V h).hom r • ((i.appIso V).hom.hom c • n)
       rw [map_mul, htow, mul_smul]⟩
   let : IsScalarTower Γ(Y', W) Γ(Y, V) Γ(N, V) := IsScalarTower.of_compHom _ _ _
@@ -412,7 +412,7 @@ theorem chartEquiv_tmul (U : X.affineOpens) (V : Y.affineOpens) (hVU : V.1 ≤ f
     Module.compHom _ (i.appLE (g ⁻¹ᵁ U.1) V.1 hle).hom
   let : IsScalarTower Γ(Y', g ⁻¹ᵁ U.1) Γ(Y, V.1) Γ(N, V.1) := IsScalarTower.of_compHom _ _ _
   have hρ := isBaseChange_chartRestrictₗ M e V.2 (U.2.preimage g) hle
-  show hρ.equiv (((traceDualEquiv M t hbij U).symm.baseChange Γ(Y', g ⁻¹ᵁ U.1) Γ(Y, V.1) _ _)
+  change hρ.equiv (((traceDualEquiv M t hbij U).symm.baseChange Γ(Y', g ⁻¹ᵁ U.1) Γ(Y, V.1) _ _)
     (b ⊗ₜ[Γ(Y', g ⁻¹ᵁ U.1)] φ)) = _
   exact hρ.equiv_tmul b ((traceDualEquiv M t hbij U).symm φ)
 
@@ -511,7 +511,7 @@ theorem ofFiniteTraceLocalEquiv_baseBasicOpen [IsLocallyNoetherian X] [IsLocally
   let : IsLocalization.Away a Γ(X, Ua.1) := U.2.isLocalization_basicOpen a
   let : IsScalarTower Γ(X, U.1) Γ(X, Ua.1) Γ(Y, V.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U V hVU).hom =
+      change (f.appLE U V hVU).hom =
         ((f.appLE Ua V hVa).hom).comp (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom
       rw [← CommRingCat.hom_comp, f.map_appLE hVa (homOfLE (X.basicOpen_le a)).op])
   let : IsNoetherianRing Γ(X, Ua.1) := IsLocallyNoetherian.component_noetherian Ua
@@ -525,7 +525,7 @@ theorem ofFiniteTraceLocalEquiv_baseBasicOpen [IsLocallyNoetherian X] [IsLocally
   let r : F0.middle →ₐ[Γ(X, U.1)] F0'.middle :=
     { toRingHom := (Y'.presheaf.map (homOfLE (Scheme.Hom.preimage_mono g hUa)).op).hom
       commutes' := fun c => by
-        show (Y'.presheaf.map (homOfLE (Scheme.Hom.preimage_mono g hUa)).op).hom
+        change (Y'.presheaf.map (homOfLE (Scheme.Hom.preimage_mono g hUa)).op).hom
             ((g.appLE U.1 (g ⁻¹ᵁ U.1) le_rfl).hom c) =
           (g.appLE Ua.1 (g ⁻¹ᵁ Ua.1) le_rfl).hom ((X.presheaf.map (homOfLE hUa).op).hom c)
         rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_map, ← CommRingCat.comp_apply,
@@ -533,14 +533,14 @@ theorem ofFiniteTraceLocalEquiv_baseBasicOpen [IsLocallyNoetherian X] [IsLocally
   have hrloc : let := r.toRingHom.toAlgebra
       IsLocalization.Away (algebraMap Γ(X, U.1) F0.middle a) F0'.middle := by
     have h1 : algebraMap Γ(X, U.1) F0.middle a = (g.app U.1).hom a := by
-      show (g.appLE U.1 (g ⁻¹ᵁ U.1) le_rfl).hom a = _
+      change (g.appLE U.1 (g ⁻¹ᵁ U.1) le_rfl).hom a = _
       rw [Scheme.Hom.appLE_eq_app]
     rw [h1]
     exact (U.2.preimage g).isLocalization_of_eq_basicOpen ((g.app U.1).hom a)
       (homOfLE (Scheme.Hom.preimage_mono g hUa)) (Scheme.preimage_basicOpen g a)
   have hr : ∀ c : F0.middle,
       F0'.algebraTarget.algebraMap (r c) = F0.algebraTarget.algebraMap c := fun c => by
-    show (i.appLE (g ⁻¹ᵁ Ua.1) V.1 _).hom
+    change (i.appLE (g ⁻¹ᵁ Ua.1) V.1 _).hom
         ((Y'.presheaf.map (homOfLE (Scheme.Hom.preimage_mono g hUa)).op).hom c) =
       (i.appLE (g ⁻¹ᵁ U.1) V.1 _).hom c
     exact congrArg (fun φ => (CommRingCat.Hom.hom φ) c) (Scheme.Hom.map_appLE i
@@ -550,7 +550,6 @@ theorem ofFiniteTraceLocalEquiv_baseBasicOpen [IsLocallyNoetherian X] [IsLocally
         (chartEquiv hig M t hbij e Ua V hVa).symm (chartEquiv hig M t hbij e U V hVU x) := by
     intro x
     induction x using dualizingModule.induction_on with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul φ b =>
       set m := (traceDualEquiv M t hbij U).symm φ
@@ -568,7 +567,7 @@ theorem ofFiniteTraceLocalEquiv_baseBasicOpen [IsLocallyNoetherian X] [IsLocally
           M.presheaf.map (homOfLE (Scheme.Hom.preimage_mono g hUa)).op m :=
         (traceDualEquiv M t hbij Ua).symm_apply_apply _
       rw [hψm, chartRestrict_restrict_target]
-  show dualizingModuleEquiv F0' G ((chartEquiv hig M t hbij e Ua V hVa).symm s) =
+  change dualizingModuleEquiv F0' G ((chartEquiv hig M t hbij e Ua V hVa).symm s) =
     dualizingModule_equiv_of_isLocalization_away a F G
       (dualizingModuleEquiv F0 F ((chartEquiv hig M t hbij e U V hVU).symm s))
   rw [← dualizingModule_equiv_of_isLocalization_away_natural a F0 F F0' G, key,
@@ -585,7 +584,7 @@ theorem chartRestrict_restrict_source {W : Y'.Opens} {V V' : Y.Opens} (hV : V' �
     (M.presheaf.map (homOfLE (image_le_of_le_preimage h)).op m)))
     (e.inv.mapPresheaf.naturality (homOfLE hV).op)
   refine hnat.symm.trans ?_
-  show e.inv.app V' (M.presheaf.map (homOfLE (Scheme.Hom.image_mono i hV)).op
+  change e.inv.app V' (M.presheaf.map (homOfLE (Scheme.Hom.image_mono i hV)).op
       (M.presheaf.map (homOfLE (image_le_of_le_preimage h)).op m)) =
     e.inv.app V' (M.presheaf.map (homOfLE (image_le_of_le_preimage (hV.trans h))).op m)
   rw [Stacks.Modules.res_comp]
@@ -648,7 +647,7 @@ theorem ofFiniteTraceLocalEquiv_basicOpen [IsLocallyNoetherian X] [IsLocallyNoet
   let : IsLocalization.Away b Γ(Y, W.1) := V.2.isLocalization_basicOpen b
   let : IsScalarTower Γ(X, U.1) Γ(Y, V.1) Γ(Y, W.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U W hWU).hom =
+      change (f.appLE U W hWU).hom =
         ((Y.presheaf.map (homOfLE (Y.basicOpen_le b)).op).hom).comp (f.appLE U V hVU).hom
       rw [← CommRingCat.hom_comp, ← f.appLE_map hVU (homOfLE (Y.basicOpen_le b)).op])
   let : Module Γ(Y, V.1) (dualizingModule G) :=
@@ -672,7 +671,7 @@ theorem ofFiniteTraceLocalEquiv_basicOpen [IsLocallyNoetherian X] [IsLocallyNoet
   have hr : IsLocalizedModule (Submonoid.powers b) r :=
     IsLocalizedModule.of_linearEquiv_right (Submonoid.powers b) _ eV.symm
   refine ⟨r, hr, fun s => ?_, ?_⟩
-  · show eW (res s) = eW (res (eV.symm (eV s)))
+  · change eW (res s) = eW (res (eV.symm (eV s)))
     rw [LinearEquiv.symm_apply_apply]
   · have heVsymm : ∀ z, eV.symm (dualizingModuleEquiv (chartFactorization hig U V hVU) F z) =
         chartEquiv hig M t hbij e U V hVU z := fun z => by
@@ -691,7 +690,7 @@ theorem ofFiniteTraceLocalEquiv_basicOpen [IsLocallyNoetherian X] [IsLocallyNoet
             (dualizingModule.tmul (chartFactorization hig U W hWU) φ
               (algebraMap _ Γ(Y, W.1) c)) := by
       intro φ c
-      show eW (res (eV.symm (dualizingModuleEquiv (chartFactorization hig U V hVU) F
+      change eW (res (eV.symm (dualizingModuleEquiv (chartFactorization hig U V hVU) F
         (dualizingModule.tmul (chartFactorization hig U V hVU) φ c)))) = _
       rw [heVsymm, chartEquiv_tmul, map_smul, ← heW,
         chartEquiv_tmul hig M t hbij e U W hWU φ (algebraMap _ Γ(Y, W.1) c),
@@ -703,7 +702,6 @@ theorem ofFiniteTraceLocalEquiv_basicOpen [IsLocallyNoetherian X] [IsLocallyNoet
         (dualizingModuleEquiv (chartFactorization hig U W hWU) G).symm (r0 y) := by
       intro y
       induction y using dualizingModule.induction_on with
-      | zero => simp
       | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
       | tmul φ c =>
         have hr' : ∀ c' : (chartFactorization hig U W hWU).middle,
@@ -724,7 +722,7 @@ theorem ofFiniteTraceLocalEquiv_basicOpen [IsLocallyNoetherian X] [IsLocallyNoet
       have hnat := localizedModule_dualizingModule_equiv_natural_in_source b
         (chartFactorization hig U V hVU) F (chartFactorization hig U W hWU) G r0 hr0
         r hr LinearMap.id (fun _ => rfl) (r0 y)
-      show localizedModule_dualizingModule_equiv b F G r hr (r0 y) = r0 y
+      change localizedModule_dualizingModule_equiv b F G r hr (r0 y) = r0 y
       rw [LinearMap.id_apply] at hnat
       rw [← hnat, hloc0, LinearEquiv.apply_symm_apply]
     have hext : ((localizedModule_dualizingModule_equiv b F G r hr).toLinearMap.restrictScalars
@@ -772,7 +770,7 @@ theorem RelativeDualizingModuleData.ofFiniteTrace_localEquiv [IsLocallyNoetheria
   let : Algebra Γ(X, U.1) Γ(Y, V.1) := (f.appLE U V hVU).hom.toAlgebra
   let : IsNoetherianRing Γ(X, U.1) := IsLocallyNoetherian.component_noetherian U
   intro F s
-  show dualizingModuleEquiv (chartFactorization hig U V hVU) F
+  change dualizingModuleEquiv (chartFactorization hig U V hVU) F
       ((chartEquiv hig M t hbij e U V hVU).symm _) = _
   congr 1
   rw [LinearEquiv.symm_apply_eq, chartEquiv_tmul hig M t hbij e U V hVU (traceDual g t U.1 s) 1,
@@ -793,7 +791,7 @@ omit [IsFinite g] in
 /-- `appLE` of the identity is the identity on sections. -/
 theorem id_appLE_apply {W : Y'.Opens} (h : W ≤ (𝟙 Y') ⁻¹ᵁ W) (c : Γ(Y', W)) :
     (Scheme.Hom.appLE (𝟙 Y') W W h).hom c = c := by
-  show (Y'.presheaf.map (homOfLE h).op).hom c = c
+  change (Y'.presheaf.map (homOfLE h).op).hom c = c
   exact congrArg (fun φ : Γ(Y', W) ⟶ Γ(Y', W) => φ.hom c) (Y'.presheaf.map_id (op W))
 
 /-- **The affine identification of `ofFiniteTrace` for `g` itself on `g⁻¹U`.** For the finite

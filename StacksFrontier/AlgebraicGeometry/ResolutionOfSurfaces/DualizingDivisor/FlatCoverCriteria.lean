@@ -78,25 +78,25 @@ theorem nonempty_stalk_linearEquiv_of_pullback_fromSpecStalk_iso {Y : Scheme.{u}
       map_add' := fun a b => map_add _ a b
       map_smul' := fun r a => (e.hom.val.app (Opposite.op ⊤)).hom.map_smul (φ.inv.hom r) a
       left_inv := fun a => by
-        show ((e.hom ≫ e.inv).val.app (Opposite.op ⊤)).hom a = a
+        change ((e.hom ≫ e.inv).val.app (Opposite.op ⊤)).hom a = a
         rw [e.hom_inv_id]; rfl
       right_inv := fun a => by
-        show ((e.inv ≫ e.hom).val.app (Opposite.op ⊤)).hom a = a
+        change ((e.inv ≫ e.hom).val.app (Opposite.op ⊤)).hom a = a
         rw [e.inv_hom_id]; rfl }
   let E₃ : Γ(R, ⊤) ≃ₗ[Y.presheaf.stalk y] Y.presheaf.stalk y :=
     { toFun := fun a => φ.hom.hom a
       invFun := fun a => φ.inv.hom a
       map_add' := fun a b => map_add _ a b
       map_smul' := fun r a => by
-        show φ.hom.hom (φ.inv.hom r * a) = r * φ.hom.hom a
+        change φ.hom.hom (φ.inv.hom r * a) = r * φ.hom.hom a
         rw [map_mul]
-        show (φ.inv ≫ φ.hom).hom r * _ = _
+        change (φ.inv ≫ φ.hom).hom r * _ = _
         rw [φ.inv_hom_id]; rfl
       left_inv := fun a => by
-        show (φ.hom ≫ φ.inv).hom a = a
+        change (φ.hom ≫ φ.inv).hom a = a
         rw [φ.hom_inv_id]; rfl
       right_inv := fun a => by
-        show (φ.inv ≫ φ.hom).hom a = a
+        change (φ.inv ≫ φ.hom).hom a = a
         rw [φ.inv_hom_id]; rfl }
   exact ⟨(fromSpecStalkSectionsStalkEquiv M y hU hy).symm ≪≫ₗ E₂ ≪≫ₗ E₃⟩
 

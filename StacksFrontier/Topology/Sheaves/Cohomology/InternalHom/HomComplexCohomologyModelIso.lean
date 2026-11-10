@@ -95,8 +95,8 @@ computes -- `Stacks.RegularSequence.KoszulChainData.extSelfAlgebra` is
 
 The comparison here lives over `O_X`, not over the quotient; pushing it through that descent of
 scalars is `Stacks.RegularSequence.KoszulChainData.extSelfAlgebraModelIso` of
-`StacksFrontier.AlgebraicGeometry.RegularSequence.KoszulSelfExtAlgebraModelDescent`, which conjugates
-it by `SheafOfModules.GradedAlgebra.UnitalHom.descend`.
+`StacksFrontier.AlgebraicGeometry.RegularSequence.KoszulSelfExtAlgebraModelDescent`, which
+conjugates it by `SheafOfModules.GradedAlgebra.UnitalHom.descend`.
 
 Two things remain *not* done. This does not construct the intrinsic comparison out of
 `Stacks.SheafOfModules.sheafExtProduct`, the derived composition product: both multiplications
@@ -311,8 +311,8 @@ quasi-isomorphism from a strictly perfect complex into a K-injective one: precom
 hypothesis. -/
 instance isIso_modelComparison_app [QuasiIso κ] [I.IsKInjective] (n : ℤ) :
     IsIso ((modelComparison Rc K I κ).app n) := by
-  haveI := quasiIso_sourceComparison Rc K I κ
-  haveI h : IsIso (HomologicalComplex.homologyMap (sourceComparison Rc K I κ) n ≫
+  have := quasiIso_sourceComparison Rc K I κ
+  have h : IsIso (HomologicalComplex.homologyMap (sourceComparison Rc K I κ) n ≫
       inv (HomologicalComplex.homologyMap (targetComparison Rc K I κ) n)) := inferInstance
   exact h
 
@@ -388,10 +388,10 @@ def extSelfComparisonIso : extSelfGradedAlgebra Rc I A ε ≅ homologyGradedAlge
   inv := (extSelfComparison Rc K I κ A ε).inverse.toHom
   hom_inv_id := by
     refine _root_.SheafOfModules.GradedAlgebra.Hom.ext fun n => ?_
-    simpa using IsIso.hom_inv_id ((extSelfComparison Rc K I κ A ε).app n)
+    simp
   inv_hom_id := by
     refine _root_.SheafOfModules.GradedAlgebra.Hom.ext fun n => ?_
-    simpa using IsIso.inv_hom_id ((extSelfComparison Rc K I κ A ε).app n)
+    simp
 
 end ExtSelf
 

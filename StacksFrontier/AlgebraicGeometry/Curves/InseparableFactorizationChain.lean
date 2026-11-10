@@ -279,7 +279,7 @@ theorem exists_hom_functionFieldMap_eq (V W : Variety k)
     (Over.mk W.structureMap)).surjective ⟨f.toRationalMap, f.isOver⟩
   have hrat : g.left.toRationalMap = f.toRationalMap := congrArg Subtype.val hg
   have hdomR : g.left.toPartialMap.toRationalMap.IsDominant := by
-    show g.left.toRationalMap.IsDominant
+    change g.left.toRationalMap.IsDominant
     rw [hrat]
     exact f.isDominant
   have hdom : IsDominant g.left := by
@@ -296,7 +296,7 @@ the composition of their rational maps. -/
 private lemma toRationalMap_comp_hom {X Y Z : Scheme.{u}} [PreirreducibleSpace X] [Nonempty Y]
     (a : X ⟶ Y) [IsDominant a] (b : Y ⟶ Z) :
     (a ≫ b).toRationalMap = a.toRationalMap.comp b.toRationalMap := by
-  show (Scheme.Hom.toPartialMap (a ≫ b)).toRationalMap =
+  change (Scheme.Hom.toPartialMap (a ≫ b)).toRationalMap =
     (Scheme.Hom.toPartialMap a).toRationalMap.comp (Scheme.Hom.toPartialMap b).toRationalMap
   rw [← Scheme.Hom.toPartialMap_compHom, ← Scheme.PartialMap.comp_toPartialMap,
     ← Scheme.RationalMap.toRationalMap_comp]
@@ -324,7 +324,7 @@ theorem hom_ext_of_fieldHomOfRationalMap_eq (V W : Variety k)
   have _ : IsProperVariety k (Over.mk W.structureMap).hom := IsProperVariety.mk
   apply (toRationalMap_bijective k (Over.mk V.structureMap) (Over.mk W.structureMap)).injective
   apply Subtype.ext
-  show g₁.left.toRationalMap = g₂.left.toRationalMap
+  change g₁.left.toRationalMap = g₂.left.toRationalMap
   rw [← h₁, ← h₂, fieldHomOfRationalMap_injective V W hφ]
 
 /-- A morphism over `k` from a normal curve to a proper curve is determined by the extension of
@@ -340,7 +340,7 @@ theorem over_hom_ext_of_functionFieldMap (V W : Variety k)
   let f₁ : V.Hom W := ⟨g₁.left.toRationalMap⟩
   let f₂ : V.Hom W := ⟨g₂.left.toRationalMap⟩
   refine hom_ext_of_fieldHomOfRationalMap_eq V W g₁ g₂ f₁ f₂ rfl rfl
-    (AlgHom.coe_ringHom_injective ?_)
+    (AlgHom.toRingHom_injective ?_)
   rwa [show ((fieldHomOfRationalMap V W f₁ : _ →+* _)) =
       (fieldHomOfRationalMap V W f₁).toRingHom from rfl,
     show ((fieldHomOfRationalMap V W f₂ : _ →+* _)) =
@@ -361,7 +361,7 @@ theorem exists_isIso_of_algEquiv (V W : Variety k)
   have hgh : g ≫ h = 𝟙 (Over.mk V.structureMap) := by
     refine hom_ext_of_fieldHomOfRationalMap_eq V V (g ≫ h) (𝟙 _)
       (show V ⟶ V from (f : V ⟶ W) ≫ (e : W ⟶ V)) (𝟙 V : V ⟶ V) ?_ ?_ ?_
-    · show f.toRationalMap.comp e.toRationalMap = _
+    · change f.toRationalMap.comp e.toRationalMap = _
       rw [Over.comp_left, toRationalMap_comp_hom g.left h.left]
       exact rationalMap_comp_congr hfg heh
     · rw [Over.id_left]
@@ -371,7 +371,7 @@ theorem exists_isIso_of_algEquiv (V W : Variety k)
   have hhg : h ≫ g = 𝟙 (Over.mk W.structureMap) := by
     refine hom_ext_of_fieldHomOfRationalMap_eq W W (h ≫ g) (𝟙 _)
       (show W ⟶ W from (e : W ⟶ V) ≫ (f : V ⟶ W)) (𝟙 W : W ⟶ W) ?_ ?_ ?_
-    · show e.toRationalMap.comp f.toRationalMap = _
+    · change e.toRationalMap.comp f.toRationalMap = _
       rw [Over.comp_left, toRationalMap_comp_hom h.left g.left]
       exact rationalMap_comp_congr heh hfg
     · rw [Over.id_left]
@@ -531,14 +531,14 @@ private theorem exists_chain_models (p : ℕ) (KY KX : Type u) [Field KY] [Field
   have hladder : ∀ i : Fin n, (ψ i).comp (θ i.succ) = θ i.castSucc := by
     intro i
     refine AlgHom.ext fun a => ?_
-    show (M i.castSucc).equiv.symm (incl i ((M i.succ).equiv ((M i.succ).equiv.symm
+    change (M i.castSucc).equiv.symm (incl i ((M i.succ).equiv ((M i.succ).equiv.symm
       (Algebra.ofId KY ↥(A i.succ) a)))) = (M i.castSucc).equiv.symm
         (Algebra.ofId KY ↥(A i.castSucc) a)
     rw [AlgEquiv.apply_symm_apply]
     exact congrArg (M i.castSucc).equiv.symm (Subtype.ext rfl)
   have hstart : ∀ a : KY, ε (θ 0 a) = algebraMap KY KX a := by
     intro a
-    show IntermediateField.topEquiv (IntermediateField.equivOfEq hA0
+    change IntermediateField.topEquiv (IntermediateField.equivOfEq hA0
       ((M 0).equiv ((M 0).equiv.symm (Algebra.ofId KY ↥(A 0) a)))) = algebraMap KY KX a
     rw [AlgEquiv.apply_symm_apply]
     rfl
@@ -568,7 +568,7 @@ private theorem exists_chain_models (p : ℕ) (KY KX : Type u) [Field KY] [Field
           (algebraMap (M i.succ).variety.toScheme.functionField
             (M i.castSucc).variety.toScheme.functionField) := by
       refine RingHom.ext fun a => ?_
-      show incl i ((M i.succ).equiv a) =
+      change incl i ((M i.succ).equiv a) =
         (M i.castSucc).equiv ((M i.castSucc).equiv.symm (incl i ((M i.succ).equiv a)))
       rw [AlgEquiv.apply_symm_apply]
     refine ⟨?_, ?_⟩

@@ -97,7 +97,7 @@ lemma exactTwistIso_hom_comp (K : CochainComplex.Plus C)
         DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ K τ) := by
     rw [IsIso.eq_inv_comp, ← Category.assoc, hc]
     simp
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ K τ))
   rw [← Functor.map_comp, ← Functor.map_comp]

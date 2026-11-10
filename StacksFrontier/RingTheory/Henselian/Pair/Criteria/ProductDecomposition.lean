@@ -196,7 +196,7 @@ theorem exists_quotient_algEquiv_prod_of_etale_section
   have : IsScalarTower R B R := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap R R x = sigma (algebraMap R B x)
+    change algebraMap R R x = sigma (algebraMap R B x)
     simp
   have : Algebra.FormallyEtale B R :=
     Algebra.FormallyEtale.of_restrictScalars (R := R) (A := B) (B := R)
@@ -235,9 +235,9 @@ theorem exists_quotient_algEquiv_prod_of_etale_section
   let equiv : B ≃ₐ[R] R × C := split.trans (AlgEquiv.prodCongr first AlgEquiv.refl)
   refine ⟨C, inferInstance, inferInstance, equiv, ?_⟩
   intro x
-  show (equiv (Ideal.Quotient.mk _ x)).1 = retraction x
-  show first (Ideal.Quotient.mk (Ideal.span {e}) (Ideal.Quotient.mk _ x)) = retraction x
-  show firstHom (Ideal.Quotient.mk (Ideal.span {e}) (Ideal.Quotient.mk _ x)) = retraction x
+  change (equiv (Ideal.Quotient.mk _ x)).1 = retraction x
+  change first (Ideal.Quotient.mk (Ideal.span {e}) (Ideal.Quotient.mk _ x)) = retraction x
+  change firstHom (Ideal.Quotient.mk (Ideal.span {e}) (Ideal.Quotient.mk _ x)) = retraction x
   rw [hfirst_mk]
   exact hsigma x
 
@@ -338,7 +338,7 @@ private lemma exists_monic_isRoot_of_quotient_prod
       (A ⧸ I) D εₐ Function.surjective_id c hc
   refine ⟨(c : B), d, f, hd, hf, ?_, hfmap, ?_, ?_⟩
   · have hz : aeval c f = 0 := by simpa only [IsRoot, eval_map, aeval_def] using hfc
-    show aeval (S.val c) f = 0
+    change aeval (S.val c) f = 0
     rw [aeval_algHom_apply, hz, map_zero]
   · have hh := hε c
     rw [hc] at hh
@@ -454,7 +454,7 @@ private lemma prod_quotient_bijective_of_isCoprime_of_mul_eq_zero
     have hz₂ : q₂ z = 0 := congrArg Prod.snd hz
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton.mp (Ideal.Quotient.eq_zero_iff_mem.mp hz₁)
     obtain ⟨b, hb⟩ := Ideal.mem_span_singleton.mp (Ideal.Quotient.eq_zero_iff_mem.mp hz₂)
-    show z = 0
+    change z = 0
     calc
       z = (u * x + v * y) * z := by rw [huv, one_mul]
       _ = u * (x * y) * b + v * (x * y) * a := by
@@ -466,10 +466,10 @@ private lemma prod_quotient_bijective_of_isCoprime_of_mul_eq_zero
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective z₁
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective z₂
     refine ⟨v * y * a + u * x * b, Prod.ext ?_ ?_⟩
-    · show q₁ (v * y * a + u * x * b) = q₁ a
+    · change q₁ (v * y * a + u * x * b) = q₁ a
       simp only [map_add, map_mul, hx, mul_zero, zero_mul, add_zero]
       rw [← map_mul, hv, one_mul]
-    · show q₂ (v * y * a + u * x * b) = q₂ b
+    · change q₂ (v * y * a + u * x * b) = q₂ b
       simp only [map_add, map_mul, hy, mul_zero, zero_mul, zero_add]
       rw [← map_mul, hu, one_mul]
 
@@ -530,7 +530,7 @@ theorem exists_integral_factor_decomposition_of_gabber_root_condition
   have hKσ : K ≤ RingHom.ker σ := by
     apply Ideal.span_le.mpr
     rintro z rfl
-    show σ (b - algebraMap A A' a) = 0
+    change σ (b - algebraMap A A' a) = 0
     rw [map_sub, σ.commutes, hσb]
     exact sub_eq_zero.mpr haq.symm
   let q : Q →ₐ[A] A ⧸ I := Ideal.Quotient.liftₐ K σ (fun z hz ↦ hKσ hz)
@@ -559,7 +559,7 @@ theorem exists_integral_factor_decomposition_of_gabber_root_condition
         apply ε.injective
         rw [map_zero, map_mul, map_mul, hb]
         apply Prod.ext
-        · show 1 * (ε (Ideal.Quotient.mk _ z)).1 = 0
+        · change 1 * (ε (Ideal.Quotient.mk _ z)).1 = 0
           rw [one_mul]
           exact (hε z).trans hσz
         · simp
@@ -570,13 +570,13 @@ theorem exists_integral_factor_decomposition_of_gabber_root_condition
         rw [← hmap]
         exact Ideal.mem_map_of_mem p hmem
       have hmul := (I.map (algebraMap A Q)).mul_mem_left (algebraMap A Q (↑u⁻¹ : A)) hpz
-      show p z ∈ I.map (algebraMap A Q)
+      change p z ∈ I.map (algebraMap A Q)
       convert hmul using 1
       rw [map_mul, hpa, ← hu, ← mul_assoc, ← map_mul]
       simp
     · apply Ideal.map_le_iff_le_comap.mpr
       intro a ha
-      show q (algebraMap A Q a) = 0
+      change q (algebraMap A Q a) = 0
       rw [q.commutes]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
   · ext z

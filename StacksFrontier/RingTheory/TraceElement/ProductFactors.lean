@@ -77,8 +77,7 @@ private theorem tensor_apply_eq_of_tmul_eq {R M N P F G : Type*} [CommSemiring R
     [FunLike F (M ⊗[R] N) P] [FunLike G (M ⊗[R] N) P] [AddMonoidHomClass F (M ⊗[R] N) P]
     [AddMonoidHomClass G (M ⊗[R] N) P] (f : F) (g : G)
     (h : ∀ (m : M) (n : N), f (m ⊗ₜ[R] n) = g (m ⊗ₜ[R] n)) (x : M ⊗[R] N) : f x = g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul => exact h _ _
 
@@ -149,12 +148,12 @@ theorem isTraceElement_fst [Module.Flat A B]
           lfirst.1 (dualizingModule.baseChange FB A₁
             ((dualizingModuleProdEquiv G FB FC element).1)) := by
       refine tensor_apply_eq_of_tmul_eq
-        ((AddMonoidHomClass.toAddMonoidHom lprod.1).comp
-          (AddMonoidHomClass.toAddMonoidHom (dualizingModule.baseChange G A₁)))
-        ((AddMonoidHomClass.toAddMonoidHom lfirst.1).comp
-          ((AddMonoidHomClass.toAddMonoidHom (dualizingModule.baseChange FB A₁)).comp
+        ((AddMonoidHom.ofClass lprod.1).comp
+          (AddMonoidHom.ofClass (dualizingModule.baseChange G A₁)))
+        ((AddMonoidHom.ofClass lfirst.1).comp
+          ((AddMonoidHom.ofClass (dualizingModule.baseChange FB A₁)).comp
             ((AddMonoidHom.fst _ _).comp
-              (AddMonoidHomClass.toAddMonoidHom (dualizingModuleProdEquiv G FB FC))))) ?_
+              (AddMonoidHom.ofClass (dualizingModuleProdEquiv G FB FC))))) ?_
       rintro functional ⟨left, right⟩
       have hcomponent := dualizingModuleProdEquiv_tmul G FB FC
         (AlgEquiv.refl : (FB.middle × FC.middle) ≃ₐ[A] G.middle)
@@ -166,14 +165,7 @@ theorem isTraceElement_fst [Module.Flat A B]
           functional.baseChange A₁ (middleEquiv.symm (scalar, 0)) =
             functionalFirst.baseChange A₁ scalar := by
         intro scalar
-        induction scalar using TensorProduct.induction_on with
-        | zero =>
-          refine (congrArg (⇑(functional.baseChange A₁))
-            (congrArg middleEquiv.symm
-              (show ((0 : F₁.middle), (0 : A₁ ⊗[A] FC.middle)) = 0 from rfl))).trans ?_
-          exact ((congrArg (⇑(functional.baseChange A₁)) (map_zero middleEquiv.symm)).trans
-            (map_zero (functional.baseChange A₁))).trans
-            (map_zero (functionalFirst.baseChange A₁)).symm
+        induction scalar using TensorProduct.inductionOn with
         | add left right hleft hright =>
           refine (congrArg (⇑(functional.baseChange A₁))
             (congrArg middleEquiv.symm
@@ -188,7 +180,7 @@ theorem isTraceElement_fst [Module.Flat A B]
               scalar ⊗ₜ[A] ((value, 0) : G.middle) := by
             refine middleEquiv.injective ?_
             rw [middleEquiv.apply_symm_apply]
-            show (scalar ⊗ₜ[A] value, 0) =
+            change (scalar ⊗ₜ[A] value, 0) =
               (Algebra.TensorProduct.prodRight A A₁ A₁ FB.middle FC.middle)
                 (scalar ⊗ₜ[A] ((value, 0) : FB.middle × FC.middle))
             rw [Algebra.TensorProduct.prodRight_tmul, TensorProduct.tmul_zero]
@@ -209,7 +201,7 @@ theorem isTraceElement_fst [Module.Flat A B]
         intro value
         rw [hcoeff, htr]
         exact hdual _
-      show lprod.1 (dualizingModule.baseChange G A₁
+      change lprod.1 (dualizingModule.baseChange G A₁
         (dualizingModule.tmul G functional ((left, right) : B × C))) =
           lfirst.1 (dualizingModule.baseChange FB A₁
             ((dualizingModuleProdEquiv G FB FC
@@ -285,12 +277,12 @@ theorem isTraceElement_snd [Module.Flat A C]
           lfirst.1 (dualizingModule.baseChange FC A₁
             ((dualizingModuleProdEquiv G FB FC element).2)) := by
       refine tensor_apply_eq_of_tmul_eq
-        ((AddMonoidHomClass.toAddMonoidHom lprod.1).comp
-          (AddMonoidHomClass.toAddMonoidHom (dualizingModule.baseChange G A₁)))
-        ((AddMonoidHomClass.toAddMonoidHom lfirst.1).comp
-          ((AddMonoidHomClass.toAddMonoidHom (dualizingModule.baseChange FC A₁)).comp
+        ((AddMonoidHom.ofClass lprod.1).comp
+          (AddMonoidHom.ofClass (dualizingModule.baseChange G A₁)))
+        ((AddMonoidHom.ofClass lfirst.1).comp
+          ((AddMonoidHom.ofClass (dualizingModule.baseChange FC A₁)).comp
             ((AddMonoidHom.snd _ _).comp
-              (AddMonoidHomClass.toAddMonoidHom (dualizingModuleProdEquiv G FB FC))))) ?_
+              (AddMonoidHom.ofClass (dualizingModuleProdEquiv G FB FC))))) ?_
       rintro functional ⟨left, right⟩
       have hcomponent := dualizingModuleProdEquiv_tmul G FB FC
         (AlgEquiv.refl : (FB.middle × FC.middle) ≃ₐ[A] G.middle)
@@ -302,14 +294,7 @@ theorem isTraceElement_snd [Module.Flat A C]
           functional.baseChange A₁ (middleEquiv.symm (scalar, 0)) =
             functionalFirst.baseChange A₁ scalar := by
         intro scalar
-        induction scalar using TensorProduct.induction_on with
-        | zero =>
-          refine (congrArg (⇑(functional.baseChange A₁))
-            (congrArg middleEquiv.symm
-              (show ((0 : F₁.middle), (0 : A₁ ⊗[A] FB.middle)) = 0 from rfl))).trans ?_
-          exact ((congrArg (⇑(functional.baseChange A₁)) (map_zero middleEquiv.symm)).trans
-            (map_zero (functional.baseChange A₁))).trans
-            (map_zero (functionalFirst.baseChange A₁)).symm
+        induction scalar using TensorProduct.inductionOn with
         | add left right hleft hright =>
           refine (congrArg (⇑(functional.baseChange A₁))
             (congrArg middleEquiv.symm
@@ -324,7 +309,7 @@ theorem isTraceElement_snd [Module.Flat A C]
               scalar ⊗ₜ[A] ((0, value) : G.middle) := by
             refine middleEquiv.injective ?_
             rw [middleEquiv.apply_symm_apply]
-            show (scalar ⊗ₜ[A] value, 0) =
+            change (scalar ⊗ₜ[A] value, 0) =
               ((Algebra.TensorProduct.prodRight A A₁ A₁ FB.middle FC.middle).trans
                 (AlgEquiv.prodComm A₁ (A₁ ⊗[A] FB.middle) (A₁ ⊗[A] FC.middle)))
                 (scalar ⊗ₜ[A] ((0, value) : FB.middle × FC.middle))
@@ -348,7 +333,7 @@ theorem isTraceElement_snd [Module.Flat A C]
         intro value
         rw [hcoeff, htr]
         exact hdual _
-      show lprod.1 (dualizingModule.baseChange G A₁
+      change lprod.1 (dualizingModule.baseChange G A₁
         (dualizingModule.tmul G functional ((left, right) : B × C))) =
           lfirst.1 (dualizingModule.baseChange FC A₁
             ((dualizingModuleProdEquiv G FB FC

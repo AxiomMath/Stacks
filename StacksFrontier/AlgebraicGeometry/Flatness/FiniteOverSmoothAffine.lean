@@ -82,7 +82,7 @@ private lemma resLE_apply_eq {X Y : Scheme.{u}} (f : X ⟶ Y) {U : Y.Opens} {V :
     (e : V ≤ f ⁻¹ᵁ U) {x : V.toScheme} {y : U.toScheme} (h : f (V.ι x) = U.ι y) :
     f.resLE U V e x = y := by
   apply U.ι.isOpenEmbedding.injective
-  show (f.resLE U V e ≫ U.ι) x = U.ι y
+  change (f.resLE U V e ≫ U.ι) x = U.ι y
   rw [Scheme.Hom.resLE_comp_ι]
   exact h
 
@@ -211,7 +211,7 @@ theorem exists_finite_over_smooth_affine {X S : Scheme.{u}} (f : X ⟶ S) [Local
   let a₀ : A.1.toScheme := ⟨V₀.point, hsO⟩
   let P : Y₀.Opens := h₀ ⁻¹ᵁ A.1
   have hyP : y₀ ∈ P := by
-    show h₀ y₀ ∈ A.1
+    change h₀ y₀ ∈ A.1
     simpa [hhy₀, a₀] using hsO
   let p₀ : P.toScheme := ⟨y₀, hyP⟩
   let hP : P.toScheme ⟶ A.1.toScheme := h₀.resLE A.1 P le_rfl
@@ -246,7 +246,7 @@ theorem exists_finite_over_smooth_affine {X S : Scheme.{u}} (f : X ⟶ S) [Local
       map_point := V₀.map_point }
   have hV : V.IsElementary := by
     rw [EtaleNeighborhood.isElementary_iff] at hV₀ ⊢
-    show IsIso ((C.1.ι ≫ A.1.ι ≫ V₀.toBase).residueFieldMap c₀)
+    change IsIso ((C.1.ι ≫ A.1.ι ≫ V₀.toBase).residueFieldMap c₀)
     rw [Scheme.residueFieldMap_comp, Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' (IsIso.comp_isIso' hV₀ inferInstance) inferInstance
   let T : B.1.toScheme.Opens := hB ⁻¹ᵁ C.1
@@ -282,14 +282,14 @@ theorem exists_finite_over_smooth_affine {X S : Scheme.{u}} (f : X ⟶ S) [Local
     have : IsAffineHom π₀ := hfinite₀.toIsAffineHom
     exact IsAffineHom.isAffine_preimage F (isAffineOpen_opensRange jY)
   have hU : U.IsElementary := by
-    show IsIso ((X.residueFieldCongr U.map_point).inv ≫ U.toBase.residueFieldMap U.point)
+    change IsIso ((X.residueFieldCongr U.map_point).inv ≫ U.toBase.residueFieldMap U.point)
     rw [Scheme.residueFieldMap_comp]
-    show IsIso (((X.residueFieldCongr U₀.map_point).inv ≫
+    change IsIso (((X.residueFieldCongr U₀.map_point).inv ≫
       U₀.toBase.residueFieldMap U₀.point) ≫ UO.ι.residueFieldMap u₀)
     exact IsIso.comp_isIso' hU₀ (inferInstance : IsIso (UO.ι.residueFieldMap u₀))
   have hfinite : IsFinite π := by
     have : IsFinite πF := resLE_of_isStableUnderBaseChange (P := @IsFinite) π₀ F hfinite₀
-    show IsFinite (πF ≫ eY.inv)
+    change IsFinite (πF ≫ eY.inv)
     infer_instance
   have hhfac : hT ≫ C.1.ι ≫ A.1.ι = jY ≫ h₀ := by
     have ht₁ : hT ≫ C.1.ι = T.ι ≫ hB := Scheme.Hom.resLE_comp_ι hB (by simp [T])
@@ -297,7 +297,7 @@ theorem exists_finite_over_smooth_affine {X S : Scheme.{u}} (f : X ⟶ S) [Local
     rw [← Category.assoc, ht₁]
     simp only [hB, jY, Category.assoc, hp₁]
   have hcomm : U.toBase ≫ f = π ≫ h ≫ V.toBase := by
-    show UO.ι ≫ U₀.toBase ≫ f =
+    change UO.ι ≫ U₀.toBase ≫ f =
       πF ≫ eY.inv ≫ hT ≫ C.1.ι ≫ A.1.ι ≫ V₀.toBase
     rw [hcomm₀, reassoc_of% hhfac, reassoc_of% heYfac, reassoc_of% hπfac]
   have hdim : SmoothOfRelativeDimension n h :=
@@ -323,10 +323,10 @@ theorem exists_finite_over_smooth_affine {X S : Scheme.{u}} (f : X ⟶ S) [Local
     rwa [hπfac] at hbase
   have hπpoint : π U.point = q₀ := by
     apply eY.hom.injective
-    show (eY.inv ≫ eY.hom) (πF U.point) = eY.hom q₀
+    change (eY.inv ≫ eY.hom) (πF U.point) = eY.hom q₀
     rw [CategoryTheory.Iso.inv_hom_id]
     apply F.ι.isOpenEmbedding.injective
-    show (πF ≫ F.ι) U.point = (eY.hom ≫ F.ι) q₀
+    change (πF ≫ F.ι) U.point = (eY.hom ≫ F.ι) q₀
     rw [hπfac, hYfac]
     rfl
   have heq : h (π U.point) = V.point := by

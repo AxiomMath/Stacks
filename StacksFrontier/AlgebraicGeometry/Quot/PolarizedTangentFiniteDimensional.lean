@@ -202,7 +202,7 @@ theorem finiteType_specialFiberAlgebra :
       (bijective_ringOfBaseEq (baseEq₀ B hS hT toS hk x₀ hx)).2)
   let := Stacks.SymGraded.AffinePieces.sectionRingAlgebra
     (deformation₀ B hS hT toS hk x₀ hx).sectionAlgebra ⊤
-  show RingHom.FiniteType ((algebraMap Γ((deformation₀ B hS hT toS hk x₀ hx).S', ⊤)
+  change RingHom.FiniteType ((algebraMap Γ((deformation₀ B hS hT toS hk x₀ hx).S', ⊤)
     ((deformation₀ B hS hT toS hk x₀ hx).sectionAlgebra.sectionRing ⊤)).comp
       (ringOfBaseEq (baseEq₀ B hS hT toS hk x₀ hx)))
   have heq : (algebraMap Γ((deformation₀ B hS hT toS hk x₀ hx).S', ⊤)
@@ -305,7 +305,7 @@ theorem exists_hom_of_classOf_eq (y y₀ : LiftFiber B hS hT toS hk x₀ hx V)
       lineBundleIso := AdmissibleDeformation.polarizationIsoOfAlgebraIso D D₀ (eqToIso hg) γ hγ }
   refine ⟨Φ, ?_⟩
   apply Over.OverMorphism.ext
-  show (((polarizedProjection B).sliceAtTerminal hT).map Φ).left = _
+  change (((polarizedProjection B).sliceAtTerminal hT).map Φ).left = _
   rw [Functor.sliceAtTerminal_map_left, Over.eqToHom_left]
   rfl
 

@@ -188,11 +188,11 @@ theorem actionRelation_rel_comp {U U' : Over S} {G : Type v} [Group G] [Small.{u
   refine ⟨Sigma.desc (fun g : G ↦ m ≫ Sigma.ι (fun _ : G ↦ U) g), ?_, ?_⟩
   · rw [actionRelation_target]
     refine Sigma.hom_ext _ _ fun g ↦ ?_
-    simp only [actionRelationTarget, Sigma.ι_desc_assoc, Category.assoc, Sigma.ι_desc]
+    simp only [actionRelationTarget, Sigma.ι_comp_desc_assoc, Category.assoc, Sigma.ι_comp_desc]
     rw [hm g]
   · rw [actionRelation_source]
     refine Sigma.hom_ext _ _ fun g ↦ ?_
-    simp only [actionRelationSource, Sigma.ι_desc_assoc, Category.assoc, Sigma.ι_desc,
+    simp only [actionRelationSource, Sigma.ι_comp_desc_assoc, Category.assoc, Sigma.ι_comp_desc,
       Category.comp_id, Category.id_comp]
 
 /-- **The graph relation of a group action restricts along an equivariant monomorphism.**
@@ -236,34 +236,34 @@ theorem actionRelation_rel_of_rel_comp {U U' : Over S} {G : Type v} [Group G] [S
         pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g := pullback.condition
     have hsrc : pullback.fst r (Sigma.ι Y g) ≫ y ≫ m = pullback.snd r (Sigma.ι Y g) := by
       rw [← hrs, ← Category.assoc, hcond, Category.assoc]
-      show pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g ≫
+      change pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g ≫
         Sigma.desc (fun _ : G ↦ 𝟙 U) = _
-      rw [Sigma.ι_desc, Category.comp_id]
+      rw [Sigma.ι_comp_desc, Category.comp_id]
     have htgt : pullback.fst r (Sigma.ι Y g) ≫ x ≫ m =
         pullback.snd r (Sigma.ι Y g) ≫ (a g).asIso.hom := by
       rw [← hrt, ← Category.assoc, hcond, Category.assoc]
-      show pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g ≫
+      change pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g ≫
         Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
     simp only [Category.assoc, hm g, reassoc_of% hsrc, htgt]
   refine ⟨ε.inv ≫ Sigma.desc (fun g : G ↦ pullback.fst r (Sigma.ι Y g) ≫ y ≫
     Sigma.ι (fun _ : G ↦ U') g), ?_, ?_⟩
   · rw [actionRelation_target, Category.assoc]
     refine (Iso.inv_comp_eq ε).mpr ?_
     refine Sigma.hom_ext _ _ fun g ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Category.assoc]
-    show pullback.fst r (Sigma.ι Y g) ≫ y ≫ Sigma.ι (fun _ : G ↦ U') g ≫
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, Category.assoc]
+    change pullback.fst r (Sigma.ι Y g) ≫ y ≫ Sigma.ι (fun _ : G ↦ U') g ≫
       Sigma.desc (fun h : G ↦ (b h).asIso.hom) = _
-    rw [Sigma.ι_desc,
+    rw [Sigma.ι_comp_desc,
       ← Category.assoc (Sigma.ι (fun g : G ↦ pullback r (Sigma.ι Y g)) g) ε.hom x,
       hεhom g, hpiece g]
   · rw [actionRelation_source, Category.assoc]
     refine (Iso.inv_comp_eq ε).mpr ?_
     refine Sigma.hom_ext _ _ fun g ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Category.assoc]
-    show pullback.fst r (Sigma.ι Y g) ≫ y ≫ Sigma.ι (fun _ : G ↦ U') g ≫
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, Category.assoc]
+    change pullback.fst r (Sigma.ι Y g) ≫ y ≫ Sigma.ι (fun _ : G ↦ U') g ≫
       Sigma.desc (fun _ : G ↦ 𝟙 U') = _
-    rw [Sigma.ι_desc, Category.comp_id,
+    rw [Sigma.ι_comp_desc, Category.comp_id,
       ← Category.assoc (Sigma.ι (fun g : G ↦ pullback r (Sigma.ι Y g)) g) ε.hom y,
       hεhom g]
 
@@ -283,13 +283,13 @@ theorem genericPointTranslationIso_add (p q : ℤ) :
     genericPointTranslationIso k (p + q) =
       (genericPointTranslationIso k q).trans (genericPointTranslationIso k p) := by
   refine Iso.ext (Over.OverMorphism.ext ?_)
-  show (genericPointTranslationIso k (p + q)).hom.left =
+  change (genericPointTranslationIso k (p + q)).hom.left =
     ((genericPointTranslationIso k q).hom ≫ (genericPointTranslationIso k p).hom).left
   rw [Over.comp_left, genericPointTranslationIso_left, genericPointTranslationIso_left,
     genericPointTranslationIso_left, ← Spec.map_comp]
   refine congrArg Spec.map (CommRingCat.hom_ext ?_)
   ext z
-  show RatFunc.laurent (((p + q : ℤ) : k)) z =
+  change RatFunc.laurent (((p + q : ℤ) : k)) z =
     (RatFunc.laurent ((q : ℤ) : k)) ((RatFunc.laurent ((p : ℤ) : k)) z)
   rw [RatFunc.laurent_laurent, show ((q : ℤ) : k) + ((p : ℤ) : k) = ((p + q : ℤ) : k) by
     push_cast; ring]
@@ -529,7 +529,7 @@ theorem not_mono_genericQuotientMorphism [CharZero k]
     Over.mk (⟨(genericPointOver k).hom⟩ : B.obj hG ⟶ B.obj hS)
   have hrelone := rel_comp_genericPointMapOver k B hS hU
     (Sigma.ι (fun _ : Multiplicative ℤ ↦ genericPointOver k) (Multiplicative.ofAdd (1 : ℤ)))
-  simp only [Space.actionRelationTarget, Space.actionRelationSource, Sigma.ι_desc] at hrelone
+  simp only [Space.actionRelationTarget, Space.actionRelationSource, Sigma.ι_comp_desc] at hrelone
   let pt₁ : (points (siteOver k B hS) (genericPointOver k)).obj (op GP) :=
     (genericPointTranslationAction k (Multiplicative.ofAdd (1 : ℤ))).asIso.hom
   let pt₂ : (points (siteOver k B hS) (genericPointOver k)).obj (op GP) :=

@@ -46,7 +46,7 @@ noncomputable def coproductCokernel
   · intro Z s hs m hm
     ext i
     apply Cofork.IsColimit.hom_ext h
-    simp only [Sigma.ι_desc, CokernelCofork.π_ofπ]
+    simp only [Sigma.ι_comp_desc, CokernelCofork.π_ofπ]
     change b ≫ _ = b ≫ (CokernelCofork.IsColimit.desc' h _ _).1
     exact (show b ≫ Sigma.ι (fun _ : I => M) i ≫ m =
         Sigma.ι (fun _ : I => B) i ≫ s by

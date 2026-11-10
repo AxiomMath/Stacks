@@ -83,11 +83,11 @@ public theorem heckeWhittakerCoeff_rec [NeZero (ringChar k : Λ)]
     simp only [Finsupp.le_def, Finsupp.coe_add, Finsupp.coe_sub, Pi.add_apply,
       Pi.sub_apply, Finsupp.single_apply]
     exact ⟨fun h => by grind, fun h w => by grind [hle w]⟩
-  simp only [heckeWhittakerCoeff, if_pos hle, if_pos h1, e1, e3]
+  simp only [heckeWhittakerCoeff, ite_eq_left hle, ite_eq_left h1, e1, e3]
   rw [heckeCoeff_rec hq hE v]
   by_cases h : 1 ≤ (W₀ - D) v
-  · rw [if_pos (e2.2 h), if_pos h]
-  · rw [if_neg (fun h' => h (e2.1 h')), if_neg h]
+  · rw [ite_eq_left (e2.2 h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (e2.1 h')), ite_eq_right h]
 
 /-- **The converse construction, up to `GL₂(K)`-invariance.** For any `(t, u)`, a nontrivial
 adelic character `ψ` of divisor `W₀`, and an idele character `ω` trivial on `Oˣ` with

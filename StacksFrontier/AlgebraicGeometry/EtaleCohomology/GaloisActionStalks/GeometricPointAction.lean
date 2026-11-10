@@ -47,7 +47,7 @@ stalks along `a`. -/
 theorem etaleStalkSmul_eq_geometricPointStalkMap
     (F : smallEtaleTopos.{u, max u v} B (Spec (.of K)) hK)
     (σ : GeometricPoint.absoluteGaloisGroup sbar)
-    (τ : Gal(sbar.residueField / (Spec (.of K)).residueField (sbar.hom default)))
+    (τ : Gal(sbar.residueField/(Spec (.of K)).residueField (sbar.hom default)))
     (hτ : ∀ a : GeometricPoint.separableClosure sbar,
       (σ a : sbar.residueField) = τ (a : sbar.residueField))
     (a : GeometricPoint.Hom sbar sbar) (ha : a.hom = Spec.map (CommRingCat.ofHom τ.toRingHom)) :
@@ -60,17 +60,17 @@ theorem etaleStalkSmul_eq_geometricPointStalkMap
       (geometricPointFiberMap B (Spec (.of K)) hK a).app X p := by
     apply Subtype.ext
     rw [coe_galoisFiberAction_of_extends B K hK sbar σ τ.toRingHom (fun x ↦ (hτ x).symm) p]
-    show _ = a.hom ≫ p.1
+    change _ = a.hom ≫ p.1
     rw [ha]
   rw [hp]
-  exact (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
+  exact (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
     (sheafToPresheaf _ _).obj F) (neighborhoodFunctor B (Spec (.of K)) hK a).op
     (op (Functor.elementsMk _ X p))).symm
 
 /-- An automorphism of the field of a geometric point over the residue field at its image is an
 automorphism of the geometric point. -/
 theorem GeometricPoint.specMap_algEquiv_comp_hom {S : Scheme.{u}} (t : GeometricPoint S)
-    (τ : Gal(t.residueField / S.residueField (t.hom default))) :
+    (τ : Gal(t.residueField/S.residueField (t.hom default))) :
     Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ t.hom = t.hom := by
   have hfix : CommRingCat.ofHom (GeometricPoint.residueFieldHom t) ≫
       CommRingCat.ofHom τ.toRingHom = CommRingCat.ofHom (GeometricPoint.residueFieldHom t) := by
@@ -82,7 +82,7 @@ theorem GeometricPoint.specMap_algEquiv_comp_hom {S : Scheme.{u}} (t : Geometric
 
 /-- The automorphism `Spec τ` of the source of a geometric point, for `τ` a field automorphism. -/
 def GeometricPoint.specIsoOfAlgEquiv {S : Scheme.{u}} (t : GeometricPoint S)
-    (τ : Gal(t.residueField / S.residueField (t.hom default))) : t.source ≅ t.source where
+    (τ : Gal(t.residueField/S.residueField (t.hom default))) : t.source ≅ t.source where
   hom := Spec.map (CommRingCat.ofHom τ.toRingHom)
   inv := Spec.map (CommRingCat.ofHom τ.symm.toRingHom)
   hom_inv_id := by

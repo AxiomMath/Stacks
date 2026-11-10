@@ -85,7 +85,7 @@ private lemma rename_det_genericMatrix {R β : Type*} [CommRing R] {n : ℕ}
     _ = _ := by
       congr 1
       funext i j
-      show MvPolynomial.rename f (MvPolynomial.X (i, j)) = _
+      change MvPolynomial.rename f (MvPolynomial.X (i, j)) = _
       simp
 
 /-- A variable absent from every entry of a matrix is absent from its determinant. -/
@@ -183,7 +183,7 @@ private lemma not_genericFirstMinor_dvd_genericFirstRowTail {k : Type*} [Field k
   have hmatrix : ev.mapMatrix (genericMatrix k m.succ) = σ.permMatrix k := by
     rw [RingHom.mapMatrix_apply]
     ext i j
-    show ev (MvPolynomial.X (i, j)) = (σ.permMatrix k) i j
+    change ev (MvPolynomial.X (i, j)) = (σ.permMatrix k) i j
     simp only [ev, MvPolynomial.eval_X, Equiv.Perm.permMatrix,
       PEquiv.toMatrix_apply, Equiv.toPEquiv_apply]
     simp [φ, eq_comm]
@@ -198,7 +198,7 @@ private lemma not_genericFirstMinor_dvd_genericFirstRowTail {k : Type*} [Field k
       apply Fin.ext
       simp [r0, Nat.mod_eq_of_lt (show 1 < m + 1 by omega)]
     intro j
-    show ev (MvPolynomial.X (Fin.succ r0, Fin.succ j)) = 0
+    change ev (MvPolynomial.X (Fin.succ r0, Fin.succ j)) = 0
     simp only [ev, MvPolynomial.eval_X]
     simp [φ, hr0, hs1]
   have hx : ev (MvPolynomial.X ((0, 0) : Fin m.succ × Fin m.succ)) = 0 := by
@@ -226,7 +226,7 @@ lemma irreducible_det_genericMatrix (k : Type*) [Field k] (n : ℕ) (hn : 0 < n)
     Irreducible (Matrix.det (fun i j : Fin n ↦ MvPolynomial.X (i, j) :
       Matrix (Fin n) (Fin n) (MvPolynomial (Fin n × Fin n) k))) := by
   classical
-  show Irreducible (genericMatrix k n).det
+  change Irreducible (genericMatrix k n).det
   induction n with
   | zero => omega
   | succ m ih =>

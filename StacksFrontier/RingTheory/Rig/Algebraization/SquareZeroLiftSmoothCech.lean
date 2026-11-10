@@ -79,9 +79,8 @@ noncomputable def derT (s : Finset (Fin k)) : derV N f S s →+ derH N f S s :=
 `S_s ⊗[R] N → S_t ⊗[R] N`. -/
 theorem derιV_apply {s t : Finset (Fin k)} (h : s ⊆ t) (D : derV N f S s) (v : S) :
     derιV N f S h D v = (locS f S h).toLinearMap.rTensor N (D v) := by
-  show AlgebraTensorModule.rTensor R N (locSL f S h) (D v) = _
-  induction D v using TensorProduct.induction_on with
-  | zero => simp
+  change AlgebraTensorModule.rTensor R N (locSL f S h) (D v) = _
+  induction D v using TensorProduct.inductionOn with
   | tmul x n => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -222,8 +221,7 @@ theorem rTensor_locSL_algebraMap {s t : Finset (Fin k)} (h : s ⊆ t) (z : S ⊗
     AlgebraTensorModule.rTensor R N (locSL f S h)
         (AlgebraTensorModule.rTensor R N (Algebra.linearMap S (Sl f S s)) z) =
       AlgebraTensorModule.rTensor R N (Algebra.linearMap S (Sl f S t)) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c n =>
     simp only [AlgebraTensorModule.rTensor_tmul, Algebra.linearMap_apply, locSL_apply,
       locS_algebraMap]
@@ -246,11 +244,9 @@ gives `gH N f S t`. -/
 theorem gH_rTensor_locSL {s t : Finset (Fin k)} (h : s ⊆ t) (z : (S ⊗[R] N) ⊗[S] Sh f S) :
     AlgebraTensorModule.rTensor R N ((locSL f S h).rTensor (Sh f S)) (gH N f S s z) =
       gH N f S t z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
-    induction a using TensorProduct.induction_on with
-    | zero => simp
+    induction a using TensorProduct.inductionOn with
     | tmul c n =>
       rw [gH_tmul, gH_tmul, AlgebraTensorModule.rTensor_tmul, LinearMap.rTensor_tmul, locSL_apply,
         map_one]
@@ -276,8 +272,7 @@ theorem gH_tmul_one (s : Finset (Fin k)) (z : S ⊗[R] N) :
       (Algebra.TensorProduct.includeLeft (R := S) (S := S) (A := Sl f S s)
         (B := Sh f S)).toLinearMap
       (AlgebraTensorModule.rTensor R N (Algebra.linearMap S (Sl f S s)) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c n =>
     rw [gH_tmul, AlgebraTensorModule.rTensor_tmul, AlgebraTensorModule.rTensor_tmul]
     simp only [AlgHom.toLinearMap_apply, Algebra.TensorProduct.includeLeft_apply,
@@ -383,13 +378,13 @@ theorem exists_family_correction (D : FamTerm (derH N f S) 2) (E : FamTerm (derV
   have hdelta : glueingDelta (Sh f S) (gS f S) (derM N S) (D', -E') = 0 := by
     refine Prod.ext (funext fun T ↦ ?_) (funext fun T ↦ ?_)
     · apply (isoH N f S T.1).injective
-      show isoH N f S T.1 (glueingDifferential (gS f S) (derM N S ⊗[S] Sh f S) 2 D' T +
+      change isoH N f S T.1 (glueingDifferential (gS f S) (derM N S ⊗[S] Sh f S) 2 D' T +
         localizationTensorMap (Sh f S) (gS f S) (derM N S) 3 (-E') T) = isoH N f S T.1 0
       rw [map_add, isoH_glueingDifferential N f S 2 (by norm_num), isoH_localizationTensorMap,
         hD, h1, map_zero]
       simp [E']
     · apply (isoV N f S T.1).injective
-      show isoV N f S T.1 (glueingDifferential (gS f S) (derM N S) 3 (-E') T) = isoV N f S T.1 0
+      change isoV N f S T.1 (glueingDifferential (gS f S) (derM N S) 3 (-E') T) = isoV N f S T.1 0
       rw [isoV_glueingDifferential N f S 3 (by norm_num), hE, map_zero, cechDiff_neg, Pi.neg_apply,
         h2, neg_zero]
   obtain ⟨⟨y', x'⟩, hz⟩ := glueingComplex_exact_fourth S (Sh f S) (gS f S) (derM N S)
@@ -401,7 +396,7 @@ theorem exists_family_correction (D : FamTerm (derH N f S) 2) (E : FamTerm (derV
     simpa [glueingGamma] using congrArg Prod.snd hz
   refine ⟨fun u ↦ isoH N f S u.1 (y' u), fun u ↦ isoV N f S u.1 (x' u), fun T ↦ ?_, fun T ↦ ?_⟩
   · rw [← isoH_glueingDifferential N f S 1 one_pos, ← isoH_localizationTensorMap, ← map_sub]
-    show isoH N f S T.1 ((glueingDifferential (gS f S) (derM N S ⊗[S] Sh f S) 1 y' -
+    change isoH N f S T.1 ((glueingDifferential (gS f S) (derM N S ⊗[S] Sh f S) 1 y' -
       localizationTensorMap (Sh f S) (gS f S) (derM N S) 2 x') T) = D T
     rw [hz1]
     exact LinearEquiv.apply_symm_apply _ _

@@ -24,8 +24,8 @@ Stacks 08VB:
 The charts, their functoriality in `U` and the complex of presheaves are in
 `StacksFrontier/Cotangent/StandardResolutionCharts.lean`; the identification of the fibres and the
 point-resolution property, which is Stacks 08PT transported along that identification, are in
-`StacksFrontier/Cotangent/SheavesOfRings/PolynomialChartFibreStandardResolution.lean`; the computation
-of `Lπ_!` is the one of
+`StacksFrontier/Cotangent/SheavesOfRings/PolynomialChartFibreStandardResolution.lean`; the
+computation of `Lπ_!` is the one of
 `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/PointResolution/`, which holds for an
 arbitrary fibred category over a site with fibre products and a fibrewise point resolution.
 

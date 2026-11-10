@@ -138,7 +138,7 @@ theorem regular_sequence_localize_away_dvd_of_atPrime (p : Ideal S) [p.IsPrime] 
     intro m
     obtain ⟨r, ⟨k, rfl⟩, hr⟩ := hsub m
     refine ⟨g ^ k, ⟨k, rfl⟩, ?_⟩
-    show g ^ k • m = 0
+    change g ^ k • m = 0
     rw [show g = g₀ * a by simp [g, mul_comm], mul_pow, mul_smul,
       smul_comm (g₀ ^ k) (a ^ k) m, hr, smul_zero]
   have htop :
@@ -206,7 +206,7 @@ theorem localized_quotient_ring_equiv {S : Type*} [CommRing S] (T : Submonoid S)
       (I.map (algebraMap S (Localization T)) :
         Submodule (Localization T) (Localization T)) := by
     rw [Submodule.localized, Submodule.localized'_eq_span, Submodule.map_span]
-    show Submodule.span (Localization T)
+    change Submodule.span (Localization T)
       (e '' ((LocalizedModule.mkLinearMap T S) '' (I : Set S))) =
         Submodule.span (Localization T) ((algebraMap S (Localization T)) '' (I : Set S))
     congr 1
@@ -292,7 +292,7 @@ theorem exists_away_regular_representation {R S : Type u} [CommRing R] [CommRing
     have hmap : (localizationAwayToAtPrime g q hg)
         (algebraMap S (Localization.Away g) a * f' i) =
         algebraMap S (Localization.AtPrime q) (b i) := by
-      show (localizationAwayToAtPrime g q hg)
+      change (localizationAwayToAtPrime g q hg)
         (algebraMap S (Localization.Away g) a *
           ((↑(v⁻¹) : Localization.Away g) * algebraMap S (Localization.Away g) (b i))) = _
       rw [← hv, ← mul_assoc, Units.mul_inv, one_mul]
@@ -322,7 +322,7 @@ theorem exists_away_regular_representation {R S : Type u} [CommRing R] [CommRing
         (Localization.Away g ⧸ I.map (algebraMap S (Localization.Away g))) :=
       (Module.Flat.equiv_iff (eg.restrictScalars R)).mp hflatg
     have hIf : I.map (algebraMap S (Localization.Away g)) = Ideal.span (Set.range f') := by
-      show (Ideal.span (Set.range b)).map (algebraMap S (Localization.Away g)) = _
+      change (Ideal.span (Set.range b)).map (algebraMap S (Localization.Away g)) = _
       rw [Ideal.map_span, ← Set.range_comp]
       exact (span_range_mul_unit (Units.isUnit v⁻¹) _).symm
     rwa [← hIf]

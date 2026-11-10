@@ -97,8 +97,7 @@ theorem tensorStalkEquiv_tensorRightMap {A B : X.Modules} (f : A ⟶ B) (G : X.M
   obtain ⟨w, rfl⟩ : ∃ w, (tensorStalkEquiv A G x).symm w = z :=
     ⟨tensorStalkEquiv A G x z, (tensorStalkEquiv A G x).symm_apply_apply z⟩
   rw [LinearEquiv.apply_symm_apply]
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, map_add, map_add, ha, hb]
   | tmul p q =>
       obtain ⟨U, hxU, m, hm⟩ := A.presheaf.exists_germ_eq p

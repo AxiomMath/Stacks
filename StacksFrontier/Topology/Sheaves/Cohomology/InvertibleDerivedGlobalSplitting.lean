@@ -55,8 +55,7 @@ public theorem mem_ideal_of_tensor (I : Ideal R) (M N : ModuleCat.{u} R)
     (hM : ∀ (φ : M →ₗ[R] R) (x : M), φ x ∈ I) (L : M ⊗ N ⟶ ModuleCat.of R R)
     (z : TensorProduct R M N) :
     L.hom z ∈ I := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero L.hom).symm ▸ I.zero_mem
+  induction z using TensorProduct.inductionOn with
   | tmul x y => exact hM (L.hom.comp ((TensorProduct.mk R M N).flip y)) x
   | add z z' hz hz' => exact (map_add L.hom z z').symm ▸ I.add_mem hz hz'
 
@@ -268,10 +267,10 @@ public theorem exists_sheaf_splitting
         (π.inv.hom ((splitπ (hidem n)).hom (1 : GlobalRing Y)))
       have e : (π.hom ≫ splitι ((scalarNatTrans (f n)).app RR)).hom
           (π.inv.hom ((splitπ (hidem n)).hom (1 : GlobalRing Y))) = f n := by
-        show (splitι ((scalarNatTrans (f n)).app RR)).hom
+        change (splitι ((scalarNatTrans (f n)).app RR)).hom
           (π.hom.hom (π.inv.hom ((splitπ (hidem n)).hom (1 : GlobalRing Y)))) = f n
         rw [Iso.inv_hom_id_apply]
-        show (splitπ (hidem n) ≫ splitι _).hom (1 : GlobalRing Y) = f n
+        change (splitπ (hidem n) ≫ splitι _).hom (1 : GlobalRing Y) = f n
         rw [splitπ_splitι, scalarNatTrans_app_apply, smul_eq_mul, mul_one]
       exact e ▸ hmem
     have h1 : (1 : GlobalRing Y) ∈ I := fsum ▸ I.sum_mem fun n _ => hf n

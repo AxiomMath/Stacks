@@ -54,7 +54,7 @@ public theorem stalkClosedPointTo_comp_stalkHomAt {W X : Scheme.{u}} {R : CommRi
   have hpoint : (Spec.map f ≫ X.fromSpecStalk x) (closedPoint R) = x :=
     specMap_fromSpecStalk_closedPoint f
   apply CommRingCat.hom_ext_iff.mp
-  show (X.presheaf.stalkCongr (.of_eq hk.symm)).hom ≫
+  change (X.presheaf.stalkCongr (.of_eq hk.symm)).hom ≫
     k.stalkMap (m (closedPoint R)) ≫ Scheme.stalkClosedPointTo m = f
   rw [← Scheme.stalkClosedPointTo_comp]
   exact (stalkCongr_comp_stalkClosedPointTo_congr (m ≫ k) (Spec.map f ≫ X.fromSpecStalk x) hmk hk

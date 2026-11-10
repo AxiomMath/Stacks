@@ -226,7 +226,7 @@ the image of `c` in `κ'` times the symbol of the image of `e`. -/
 theorem determinantFreeMap_single (e : AdmissibleSequence R M) (c : ResidueField R) :
     determinantFreeMap hm g hlen (Finsupp.single e c) =
       ResidueField.map (algebraMap R R') c • symbol (mapAdmissibleSequence hm g hlen e) := by
-  show (Finsupp.single e c).sum (fun e c ↦ ResidueField.map (algebraMap R R') c •
+  change (Finsupp.single e c).sum (fun e c ↦ ResidueField.map (algebraMap R R') c •
     symbol (mapAdmissibleSequence hm g hlen e)) = _
   exact Finsupp.sum_single_index (by simp)
 
@@ -279,7 +279,7 @@ theorem determinantRelations_le_ker :
     have ha' : (mapAdmissibleSequence hm g hlen e).1 (Fin.cast hlen.symm a) =
         ((Units.map (algebraMap R R').toMonoidHom unit : R'ˣ) : R') • g replacement + g y := by
       rw [mapAdmissibleSequence_val, mapSequence_cast_symm, ha, map_add, map_smul,
-        Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe, algebraMap_smul]
+        Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass, algebraMap_smul]
     have hy' : g y ∈ spanBefore (R := R')
         (mapAdmissibleSequence hm g hlen e).1 (Fin.cast hlen.symm a) :=
       map_mem_spanBefore g hlen e.1 (Fin.cast hlen.symm a) hy

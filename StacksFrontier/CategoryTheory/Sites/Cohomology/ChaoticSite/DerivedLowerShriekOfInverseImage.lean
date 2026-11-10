@@ -255,12 +255,12 @@ private theorem rightKanPrecompOfAdjunction
   let δ := equiv (H' ⋙ T) (𝟙 _)
   refine ⟨⟨IsTerminal.ofUniqueHom (fun extension =>
     CostructuredArrow.homMk ((equiv extension.left).symm extension.hom) ?_) ?_⟩⟩
-  · show Functor.whiskerLeft QB ((equiv extension.left).symm extension.hom) ≫ δ = _
+  · change Functor.whiskerLeft QB ((equiv extension.left).symm extension.hom) ≫ δ = _
     rw [← precompKanHomEquiv_naturality adj adj' comm α]
     simp [equiv]
   · intro extension morphism
     apply CostructuredArrow.hom_ext
-    show morphism.left = (equiv extension.left).symm extension.hom
+    change morphism.left = (equiv extension.left).symm extension.hom
     apply (equiv extension.left).injective
     rw [Equiv.apply_symm_apply]
     have factor := CostructuredArrow.w morphism

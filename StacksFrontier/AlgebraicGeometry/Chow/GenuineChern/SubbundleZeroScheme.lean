@@ -57,7 +57,7 @@ theorem restrictFunctorIsoPullback_inv_unitSection' (c : X ⟶ Y) [IsOpenImmersi
         ((Scheme.Modules.restrictFunctorIsoPullback c).inv.app M) =
       (Scheme.Modules.restrictAdjunction c).unit.app M := by
     rw [← h, Category.assoc, ← Functor.map_comp]
-    show _ ≫ (Scheme.Modules.pushforward c).map
+    change _ ≫ (Scheme.Modules.pushforward c).map
       (((Scheme.Modules.restrictFunctorIsoPullback c).hom ≫
         (Scheme.Modules.restrictFunctorIsoPullback c).inv).app M) = _
     rw [Iso.hom_inv_id]
@@ -109,7 +109,7 @@ theorem top_le_chart_preimage (V : X.Opens) (hV : IsAffineOpen V) :
     ⊤ ≤ (relativeProj (schemeSheafGradedAlgebra G hqc)).chart V hV ⁻¹ᵁ
       (relativeProj (schemeSheafGradedAlgebra G hqc)).toBase ⁻¹ᵁ V := by
   intro x _
-  show ((relativeProj (schemeSheafGradedAlgebra G hqc)).chart V hV ≫
+  change ((relativeProj (schemeSheafGradedAlgebra G hqc)).chart V hV ≫
     (relativeProj (schemeSheafGradedAlgebra G hqc)).toBase) x ∈ V
   rw [Stacks.AlgebraicGeometry.RelativeProjMapDomain.chart_comp_toBase]
   exact (projInclusionToOpen (schemeSheafGradedAlgebra G hqc) V hV x).2

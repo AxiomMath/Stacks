@@ -20,7 +20,8 @@ functions on the chart.
 
 Two identifications are involved and both are supplied.  First, the inverse image of the
 structure sheaf is the structure sheaf: `f^*𝒪_Y ≅ 𝒪_X` for a morphism of algebraic spaces, which
-is `AlgebraicGeometry.Space.modulePullbackUnitIso`, already in the library.  Second, the sections of the
+is `AlgebraicGeometry.Space.modulePullbackUnitIso`, already in the library.  Second, the sections of
+the
 module underlying the structure sheaf over an étale chart are the global functions on the chart's
 scheme — the structure sheaf of the small étale site being, by definition, global regular
 functions on the charts, this one holds by definition.

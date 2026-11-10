@@ -130,7 +130,7 @@ theorem bijective_comp_constSimplexPowerProj (n : ℕ) (W : E) :
       (fun (g : W ⟶ (constSimplexPower T k).obj (Opposite.op (SimplexCategory.mk n)))
         (α : (simplexPowerIndex.{w} k).obj (SimplexCategory.mk n)) =>
           g ≫ constSimplexPowerProj T k n α) := by
-  show Function.Bijective (fun (g : W ⟶
+  change Function.Bijective (fun (g : W ⟶
     ∏ᶜ fun _ : (simplexPowerIndex.{w} k).obj (SimplexCategory.mk n) => T) α =>
       g ≫ Pi.π (fun _ : (simplexPowerIndex.{w} k).obj (SimplexCategory.mk n) => T) α)
   exact ⟨fun f g h => Pi.hom_ext _ _ fun α => congrFun h α,
@@ -252,7 +252,7 @@ theorem refinementByCoveringFactor_comp :
   have hproj : c.app d ≫ projY = 𝟙 _ := constSimplexPowerUnit_app_comp_proj K k
   have hpow : projZ ≫ u = b.app d ≫ projY :=
     (constSimplexPowerMap_app_comp_proj.{w} u k k eId).symm
-  show (pullback.snd (c.app d) (b.app d) ≫ projZ) ≫ u =
+  change (pullback.snd (c.app d) (b.app d) ≫ projZ) ≫ u =
     pullback.fst (c.app d) (b.app d)
   rw [Category.assoc, hpow, ← Category.assoc, ← pullback.condition, Category.assoc, hproj,
     Category.comp_id]

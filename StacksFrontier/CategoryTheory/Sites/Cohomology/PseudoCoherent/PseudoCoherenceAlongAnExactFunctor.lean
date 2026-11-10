@@ -140,7 +140,7 @@ private theorem epi_homologyMap_mapHomologicalComplex
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map α) j) := by
   have := h
   have hFe : Epi (F.map (HomologicalComplex.homologyMap α j)) := inferInstance
-  show Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
+  change Epi ((F.mapShortComplex ⋙ ShortComplex.homologyFunctor _).map
     ((HomologicalComplex.shortComplexFunctor _ _ j).map α))
   exact epi_map_of_natIso (ShortComplex.homologyFunctorIso F)
     ((HomologicalComplex.shortComplexFunctor _ _ j).map α) hFe

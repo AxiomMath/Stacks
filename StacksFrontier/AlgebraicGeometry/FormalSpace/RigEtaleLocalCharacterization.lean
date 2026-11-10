@@ -340,7 +340,7 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_of_correspondsToRigEtaleMapAfterSou
       (Sigma.desc fun x : Ix ↦ formalSpectrumMap hRw (gw x.1 x.2.1 x.2.2)) := by
     have hfac : Sigma.desc p ≫ eU.hom =
         Sigma.desc fun x : Ix ↦ formalSpectrumMap hRw (gw x.1 x.2.1 x.2.2) :=
-      Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_desc_assoc, Sigma.ι_desc, hpE]
+      Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, hpE]
     rw [← hfac]
     have := (Sheaf.isLocallySurjective_iff_epi _).1 hsurjP
     exact (Sheaf.isLocallySurjective_iff_epi _).2 (epi_comp _ _)
@@ -383,7 +383,7 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_of_correspondsToRigEtaleMapAfterSou
     (fw (kx j).1 (kx j).2.1 (kx j).2.2).toAlgebra
   have : ∀ j, Algebra.Etale R (Cw (kx j).1 (kx j).2.1 (kx j).2.2) := fun j ↦
     hfw (kx j).1 (kx j).2.1 (kx j).2.2
-  show RingHom.IsRigEtaleArrow g.toRingHom
+  change RingHom.IsRigEtaleArrow g.toRingHom
   refine Rig.isRigEtaleArrow_of_finite_etale_family (σ := σ) hCA hCR g.toRingHom
     g.continuous (fun j : σ ↦ Cw (kx j).1 (kx j).2.1 (kx j).2.2) hff fun j ↦ ?_
   have hsqW : p (kx j) ≫ τ = (Iso.refl _).hom ≫ formalSpectrumMap hA

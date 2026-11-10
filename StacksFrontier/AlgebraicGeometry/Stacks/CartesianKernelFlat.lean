@@ -55,8 +55,7 @@ private theorem liftBaseChange_comm {P Q P' Q' : Type*} [AddCommGroup P] [Module
     (u : P' →ₗ[Bc] Q') (rP : P →ₗ[A] P') (rQ : Q →ₗ[A] Q') (h : P →ₗ[A] Q)
     (hsq : ∀ m, u (rP m) = rQ (h m)) (ζ : Bc ⊗[A] P) :
     u (rP.liftBaseChange Bc ζ) = rQ.liftBaseChange Bc (h.lTensor Bc ζ) := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul b k => simp [hsq]
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -107,8 +106,7 @@ theorem exists_finsupp_of_surjective_liftBaseChange_of_span {I : Type*} (s : I �
   obtain ⟨ζ, rfl⟩ := h m
   have hrN : ∀ n : NT, rN n ∈ Submodule.span Bc (Set.range fun i ↦ rN (s i)) := fun n ↦
     map_mem_span_range_restrictScalars rN s (hs ▸ Submodule.mem_top)
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul b n =>
     rw [LinearMap.liftBaseChange_tmul]
     exact Submodule.smul_mem _ b (hrN n)

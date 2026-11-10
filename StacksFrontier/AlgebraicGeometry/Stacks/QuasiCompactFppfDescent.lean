@@ -85,16 +85,16 @@ theorem exists_affine_refinement_of_isOpenMap_surjective
     Over.mk (⟨d ≫ B.inclusion.map U.hom⟩ : B.obj hY ⟶ B.obj hS)
   let k : A ⟶ U := Over.homMk ⟨d⟩ (by rfl)
   refine ⟨A, k, ?_, ?_⟩
-  · show IsAffine (∐ Y)
+  · change IsAffine (∐ Y)
     let instAff (i : s) : IsAffine (Y i) := i.val.2
     infer_instance
   · intro z
     obtain ⟨i, hi, x, hx, hmx⟩ := Set.mem_iUnion₂.mp (hs (Set.mem_univ z))
-    have hdesc : Limits.Sigma.ι Y (⟨i, hi⟩ : s) ≫ d = i.1.ι := Limits.Sigma.ι_desc _ _
+    have hdesc : Limits.Sigma.ι Y (⟨i, hi⟩ : s) ≫ d = i.1.ι := Limits.Sigma.ι_comp_desc _ _
     refine ⟨(Limits.Sigma.ι Y (⟨i, hi⟩ : s)).base ⟨x, hx⟩, ?_⟩
     have hbase : d.base ((Limits.Sigma.ι Y (⟨i, hi⟩ : s)).base ⟨x, hx⟩) = x :=
       congrArg (fun φ : Y (⟨i, hi⟩ : s) ⟶ X => φ.base ⟨x, hx⟩) hdesc
-    show m ((T.map k).base _) = z
+    change m ((T.map k).base _) = z
     rwa [show (T.map k).base = d.base from rfl, hbase]
 
 /-! ### Fppf descent of quasi-compactness -/

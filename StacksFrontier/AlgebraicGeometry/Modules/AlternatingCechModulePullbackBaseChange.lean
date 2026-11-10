@@ -96,7 +96,7 @@ include hcomm hW in
 theorem preimage_le_preimage_of_comm (k : I') :
     g'₀ ⁻¹ᵁ W k ≤ a₀ ⁻¹ᵁ (g₀ ⁻¹ᵁ U (π k)) := by
   intro x hx
-  show (a₀ ≫ g₀) x ∈ U (π k)
+  change (a₀ ≫ g₀) x ∈ U (π k)
   rw [hcomm]
   exact hW k hx
 

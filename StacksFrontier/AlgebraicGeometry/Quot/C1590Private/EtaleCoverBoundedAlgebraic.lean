@@ -60,11 +60,13 @@ namespace AlgebraicGeometry.C1590Private
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of fppf sheaves times out at the default
 /-- Pullbacks of fppf sheaves on `BigFppfOver B S hS`: instance search for them times out under
 Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_EtaleCoverBoundedAlgebraic :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_EtaleCoverBoundedAlgebraic
     {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
@@ -171,7 +173,7 @@ theorem isAlgebraicSpace_of_etaleCover_isPullback_of_size_le
     have : IsZariskiLocalAtSource (@Etale.{u}) :=
       HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u}) (Q := RingHom.Etale)
     refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
-    show Etale ((BigFppfOver.toScheme B S hS).map (j i) ≫ (BigFppfOver.toScheme B S hS).map q)
+    change Etale ((BigFppfOver.toScheme B S hS).map (j i) ≫ (BigFppfOver.toScheme B S hS).map q)
     rw [hjqs i]
     exact hg i
   -- the base change `P_W = P ×_U W`, as a sheaf

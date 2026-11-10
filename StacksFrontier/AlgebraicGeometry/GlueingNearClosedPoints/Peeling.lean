@@ -124,7 +124,7 @@ theorem isRetrocompact_of_finite {F : Set S} (hF : F.Finite) : IsRetrocompact F 
 retrocompact. -/
 theorem isRetrocompact_of_diff_finite {A B : Set S} (hA : IsRetrocompact A) (hAB : A ⊆ B)
     (hfin : (B \ A).Finite) : IsRetrocompact B := by
-  rw [← Set.union_diff_cancel hAB]
+  rw [← Set.union_sdiff_cancel hAB]
   exact hA.union (isRetrocompact_of_finite hfin)
 
 /-- The open complement of a family of closed points is contained in that of any subfamily. -/
@@ -157,7 +157,7 @@ theorem preimage_fromSpecStalk_compl_singleton_eq_top {x t : S}
     (ht : IsClosed ({t} : Set S)) (hxt : x ≠ t) :
     (S.fromSpecStalk x) ⁻¹ᵁ ⟨({t}ᶜ : Set S), ht.isOpen_compl⟩ = ⊤ := by
   apply TopologicalSpace.Opens.ext
-  show (S.fromSpecStalk x).base ⁻¹' ({t}ᶜ : Set S) = Set.univ
+  change (S.fromSpecStalk x).base ⁻¹' ({t}ᶜ : Set S) = Set.univ
   rw [Set.eq_univ_iff_forall]
   intro z
   simp only [Set.mem_preimage, Set.mem_compl_iff, Set.mem_singleton_iff]

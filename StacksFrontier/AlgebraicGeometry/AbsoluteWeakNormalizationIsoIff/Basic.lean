@@ -295,7 +295,7 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_affineBase
     calc
       (hI.to T).hom.left ≫ T'.obj.hom =
           ((hI.to T).hom.left ≫ T.obj.hom) ≫ e.hom := by
-            show (hI.to T).hom.left ≫ (T.obj.hom ≫ e.hom) = _
+            change (hI.to T).hom.left ≫ (T.obj.hom ≫ e.hom) = _
             exact (Category.assoc _ _ _).symm
       _ = I.obj.hom ≫ e.hom := congrArg (fun q => q ≫ e.hom) (hI.to T).hom.w))
   calc
@@ -350,7 +350,7 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
     let j : 𝒰.I₀ := cast
       (CategoryTheory.PreZeroHypercover.pullback₁_I₀ f 𝒰.toPreZeroHypercover) (cast hIdx i)
     have : IsAffine (𝒰.X j) := inferInstanceAs (IsAffine (Spec _))
-    show IsAffine (pullback f (𝒰.f j))
+    change IsAffine (pullback f (𝒰.f j))
     infer_instance
   have hAWNCover : IsAbsolutelyWeaklyNormal Y ↔
       ∀ i, IsAbsolutelyWeaklyNormal (𝒱.X i) := by
@@ -395,7 +395,7 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
     let eI : I.obj.left ≅ pullback U P.obj.hom := pullback.congrHom rfl rfl
     let eT : T'.obj.left ≅ pullback U T.obj.hom := pullback.congrHom rfl rfl
     have hObj : 𝒱.X i = pullback f U := by
-      show pullback f (𝒰.f i) = pullback f U
+      change pullback f (𝒰.f i) = pullback f U
       congr 1
     let mBase : pullback U P.obj.hom ⟶ pullback U T.obj.hom :=
       pullback.lift (pullback.fst U P.obj.hom)
@@ -408,15 +408,15 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
               simp [T])
     let m : I.obj.left ⟶ T'.obj.left := eI.hom ≫ mBase ≫ eT.inv
     have hmBase : m ≫ T'.obj.hom = I.obj.hom := by
-      simpa [m, mBase, eI, eT, I, T', UniversalHomeomorphismOver.pullback,
-        pullback.congrHom_hom] using pullback.lift_fst _ _ _
+      simp [m, mBase, eI, eT, I, T', UniversalHomeomorphismOver.pullback,
+        pullback.congrHom_hom]
     let mOver : I.obj ⟶ T'.obj := Over.homMk m hmBase
     let mArrow := ObjectProperty.homMk mOver
     have hmEq : (hI.to T').hom.left = m := by
       have hh := hI.hom_ext (hI.to T') mArrow
       exact congrArg (fun q => q.hom.left) hh
     have hAffine : IsAffine T'.obj.left := by
-      show IsAffine (pullback U f)
+      change IsAffine (pullback U f)
       infer_instance
     have hChar : IsIso m ↔
         IsAbsolutelyWeaklyNormal T'.obj.left := by
@@ -428,7 +428,7 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
     let : IsAffine (𝒱.X i) := hAff i
     have hV : 𝒱.f i = eCod.hom ≫ pullback.snd U f := by
       have hV₀ : 𝒱.f i = pullback.fst f U := by
-        show pullback.fst f (𝒰.f i) = pullback.fst f U
+        change pullback.fst f (𝒰.f i) = pullback.fst f U
         congr 1
       have hObjIso : eObj = Iso.refl _ := by
         cases hObj
@@ -439,10 +439,10 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
         (pullbackSymmetry_inv_comp_snd U f).symm
       have hCod : eCod.hom ≫ pullback.snd U f =
           (pullbackSymmetry U f).inv ≫ pullback.snd U f := by
-        show (eObj ≪≫ (pullbackSymmetry U f).symm).hom ≫
+        change (eObj ≪≫ (pullbackSymmetry U f).symm).hom ≫
           pullback.snd U f = _
         rw [hObjIso]
-        show (pullbackSymmetry U f).inv ≫ pullback.snd U f = _
+        change (pullbackSymmetry U f).inv ≫ pullback.snd U f = _
         rfl
       rw [hSym]
       exact hCod.symm
@@ -464,10 +464,10 @@ private theorem isIso_initialMap_iff_isAbsolutelyWeaklyNormal_main
       pullback.lift_snd _ _ _
     have hMapFst : eMap.hom ≫ pullback.fst g (pullback.snd U f) =
         pullback.fst g (𝒱.f i) := by
-      simpa [eMap, eMapHom, pullback.map] using pullback.lift_fst _ _ _
+      simp [eMap, eMapHom, pullback.map]
     have hMapSnd : eMap.hom ≫ pullback.snd g (pullback.snd U f) =
         pullback.snd g (𝒱.f i) ≫ eCod.hom := by
-      simpa [eMap, eMapHom, pullback.map] using pullback.lift_snd _ _ _
+      simp [eMap, eMapHom, pullback.map]
     have hDomFstPB : eDomPB.hom ≫ pullback.fst U P.obj.hom =
         pullback.snd g (𝒱.f i) ≫ eCod.hom ≫ pullback.fst U f := by
       calc

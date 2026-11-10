@@ -75,7 +75,7 @@ theorem exists_lift_adjusted_by_cotangentSpaceMap
   let : Module k N := Module.compHom N (algebraMap k B)
   let : IsScalarTower k P.Ring N := IsScalarTower.of_algebraMap_smul (by
     intro a n
-    show (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
+    change (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
       (algebraMap k B a) • n
     rw [← IsScalarTower.algebraMap_apply k P.Ring B])
   let eLin : N →ₗ[P.Ring] I :=
@@ -84,7 +84,7 @@ theorem exists_lift_adjusted_by_cotangentSpaceMap
       map_smul' := by
         intro r n
         apply Subtype.ext
-        show (X.kernelEquiv ((algebraMap P.Ring B r) • n) : X.B') =
+        change (X.kernelEquiv ((algebraMap P.Ring B r) • n) : X.B') =
           f r * (X.kernelEquiv n : X.B')
         rw [← IsScalarTower.algebraMap_smul (R := B) (A := C)
           (algebraMap P.Ring B r) n, ← hf, kernelEquiv_smul_toB] }
@@ -95,11 +95,11 @@ theorem exists_lift_adjusted_by_cotangentSpaceMap
   let g : P.Ring →ₐ[k] X.B' := liftOfDerivationToSquareZero I X.sq_zero dI
   refine ⟨g, ?_, ?_⟩
   · intro p
-    show X.toB ((dI p : X.B') + f p) = _
+    change X.toB ((dI p : X.B') + f p) = _
     have hd : X.toB (dI p : X.B') = 0 := (dI p).property
     rw [map_add, hd, zero_add, hf]
   · intro p
-    show (dI p : X.B') + f p =
+    change (dI p : X.B') + f p =
       f p + (X.kernelEquiv (u (KaehlerDifferential.D k P.Ring p)) : X.B')
     rw [add_comm]
     rfl
@@ -139,7 +139,7 @@ private theorem exists_presentationExtensionMap_baseChange
   let : Module k N := Module.compHom N (algebraMap k B)
   let : IsScalarTower k P.Ring N := IsScalarTower.of_algebraMap_smul (by
     intro a n
-    show (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
+    change (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
       (algebraMap k B a) • n
     rw [IsScalarTower.algebraMap_apply k P.Ring B])
   let : Module P.Ringᵐᵒᵖ N := Module.compHom N
@@ -159,12 +159,12 @@ private theorem exists_presentationExtensionMap_baseChange
         exact congrArg Subtype.val (Y.kernelEquiv.map_add (j x) (j y))
       map_smul' := by
         intro a n
-        show (Y.kernelEquiv (j ((algebraMap k B a) • n)) : Y.B') = _
+        change (Y.kernelEquiv (j ((algebraMap k B a) • n)) : Y.B') = _
         rw [map_smul]
         have h := kernelEquiv_smul_toB Y (algebraMap k Y.B' a) (j n)
         have ha : Y.toB (algebraMap k Y.B' a) = algebraMap k C a := Y.toB.commutes a
         rw [ha] at h
-        show (Y.kernelEquiv ((algebraMap k B a) • j n) : Y.B') = _
+        change (Y.kernelEquiv ((algebraMap k B a) • j n) : Y.B') = _
         rw [← IsScalarTower.algebraMap_smul (R := B) (A := C)
           (algebraMap k B a) (j n)]
         rw [← IsScalarTower.algebraMap_apply k B C]
@@ -178,9 +178,9 @@ private theorem exists_presentationExtensionMap_baseChange
     rw [← pow_two, Y.sq_zero] at hxy
     exact hxy
   have hfg (p : P.Ring) (n : N) : g (p • n) = f p * g n := by
-    show (Y.kernelEquiv (j ((algebraMap P.Ring B p) • n)) : Y.B') = _
+    change (Y.kernelEquiv (j ((algebraMap P.Ring B p) • n)) : Y.B') = _
     rw [map_smul]
-    show (Y.kernelEquiv ((algebraMap P.Ring B p) • j n) : Y.B') = _
+    change (Y.kernelEquiv ((algebraMap P.Ring B p) • j n) : Y.B') = _
     rw [← IsScalarTower.algebraMap_smul (R := B) (A := C)
       (algebraMap P.Ring B p) (j n)]
     rw [← hf, kernelEquiv_smul_toB]
@@ -241,7 +241,7 @@ private theorem exists_compatibleAlgHom_of_cotangentMap
   let : Module k N := Module.compHom N (algebraMap k B)
   let : IsScalarTower k P.Ring N := IsScalarTower.of_algebraMap_smul (by
     intro a n
-    show (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
+    change (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
       (algebraMap k B a) • n
     rw [IsScalarTower.algebraMap_apply k P.Ring B])
   let : Module P.Ringᵐᵒᵖ N := Module.compHom N
@@ -261,7 +261,7 @@ private theorem exists_compatibleAlgHom_of_cotangentMap
     intro x
     obtain ⟨p, hp⟩ := P.algebraMap_surjective (X.toB x)
     have hm : x - fX p ∈ RingHom.ker X.toB.toRingHom := by
-      show X.toB (x - fX p) = 0
+      change X.toB (x - fX p) = 0
       rw [map_sub, hfX, hp, sub_self]
     let n := X.kernelEquiv.symm ⟨x - fX p, hm⟩
     refine ⟨TrivSqZeroExt.inl p + TrivSqZeroExt.inr n, ?_⟩
@@ -297,7 +297,7 @@ private theorem exists_compatibleAlgHom_of_cotangentMap
           (l (Algebra.Extension.Cotangent.mk p) + t.snd) : X.B') = 0 :=
         hadd.trans (h.symm.trans htX)
       exact X.kernelEquiv.map_eq_zero_iff.mp (Subtype.ext hz)
-    show gY t = 0
+    change gY t = 0
     rw [← t.inl_fst_add_inr_snd_eq, map_add, hgY₁, hgY₂]
     have hy := hlY p
     change (Y.kernelEquiv (j (l (Algebra.Extension.Cotangent.mk p))) : Y.B') =
@@ -390,7 +390,7 @@ private theorem squareZeroRelationIdeal_le_ker
     squareZeroRelationIdeal I l hIop ≤
       RingHom.ker (f.comp (TrivSqZeroExt.fstHom R R N).toRingHom) := by
   rintro _ ⟨i, rfl⟩
-  show f i = 0
+  change f i = 0
   exact hf i.property
 
 /-- The quotient of the trivial square-zero extension by the graph of a relation map, mapped
@@ -453,17 +453,17 @@ private theorem squareZeroRelationKernelMap_bijective
     obtain ⟨t, ht⟩ := Ideal.Quotient.mk_surjective x.1
     have hmem : t.fst ∈ I := by
       rw [hf]
-      show f t.fst = 0
+      change f t.fst = 0
       have hx := x.property
       rw [← ht] at hx
       exact hx
     let i : I := ⟨t.fst, hmem⟩
     refine ⟨t.snd + l i, ?_⟩
     apply Subtype.ext
-    show Ideal.Quotient.mk _ (TrivSqZeroExt.inr (t.snd + l i)) = x.1
+    change Ideal.Quotient.mk _ (TrivSqZeroExt.inr (t.snd + l i)) = x.1
     rw [← ht]
     apply Ideal.Quotient.eq.mpr
-    show TrivSqZeroExt.inr (t.snd + l i) - t ∈
+    change TrivSqZeroExt.inr (t.snd + l i) - t ∈
       squareZeroRelationIdeal I l hIop
     refine ⟨-i, ?_⟩
     apply TrivSqZeroExt.ext
@@ -491,12 +491,12 @@ private theorem squareZeroRelationQuotientMap_sq_zero
     rw [hf]
     exact hy
   let j : I := ⟨u.fst, hu⟩
-  show Ideal.Quotient.mk _ (t * u) = 0
+  change Ideal.Quotient.mk _ (t * u) = 0
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
   refine ⟨t.fst • j, ?_⟩
   apply TrivSqZeroExt.ext
   · rfl
-  · show t.fst • u.snd + MulOpposite.op u.fst • t.snd = -(l (t.fst • j))
+  · change t.fst • u.snd + MulOpposite.op u.fst • t.snd = -(l (t.fst • j))
     rw [hI t.fst ht u.snd, hIop u.fst hu t.snd, map_smul,
       hI t.fst ht (l j)]
     simp
@@ -544,16 +544,16 @@ private theorem squareZeroRelationKernel_smul
   intro c n
   obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective c
   apply Subtype.ext
-  show (e ((q (Ideal.Quotient.mk J t)) • e.symm (e n))).val =
+  change (e ((q (Ideal.Quotient.mk J t)) • e.symm (e n))).val =
     ((Ideal.Quotient.mk J t) • e n).val
   rw [e.symm_apply_apply]
-  show Ideal.Quotient.mk J (TrivSqZeroExt.inr (f t.fst • n)) =
+  change Ideal.Quotient.mk J (TrivSqZeroExt.inr (f t.fst • n)) =
     Ideal.Quotient.mk J t * Ideal.Quotient.mk J (TrivSqZeroExt.inr n)
   rw [← map_mul]
   congr 1
   apply TrivSqZeroExt.ext
   · simp
-  · show f t.fst • n = t.fst • n + MulOpposite.op (0 : R) • t.snd
+  · change f t.fst • n = t.fst • n + MulOpposite.op (0 : R) • t.snd
     rw [← hscalar t.fst n]
     simp
 

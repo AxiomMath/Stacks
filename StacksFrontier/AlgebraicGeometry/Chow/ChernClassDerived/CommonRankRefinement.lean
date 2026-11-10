@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.DerivedChe
 Let `Y` be locally of finite type over the base of chapter 42 of the Stacks Project and let
 `𝓔₁^•`, `𝓔₂^•` be locally bounded complexes of finite locally free `𝒪_Y`-modules. The classes
 `c(𝓔^•)` and the alternating rank class of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.DerivedChernClasses` are glued over the rank
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.DerivedChernClasses` are glued over the
+rank
 loci of the complex they are attached to (Stacks 0FDZ), so an identity relating classes of *two*
 complexes cannot be read on either decomposition alone: it has to be read on the common
 refinement, the loci where `𝓔₁^•` has constant ranks `ρ` and `𝓔₂^•` has constant ranks `σ`.

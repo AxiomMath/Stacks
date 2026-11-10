@@ -178,7 +178,7 @@ private theorem free_finite_cotangent_of_free {A B : Type u} [CommRing A] [CommR
       map_smul' := by
         intro b m
         obtain ⟨a, rfl⟩ := hf b
-        show c (f a • m) = (f a) • c m
+        change c (f a • m) = (f a) • c m
         rw [← hsmul a m, c.map_smul, hAsmul a (c m), hBsmul (f a) (c m), ← hemk a,
           RingEquiv.symm_apply_apply] }
   let b := ((Module.Free.chooseBasis B M).map cB).mapCoeffs e.symm fun _ _ => rfl
@@ -364,7 +364,7 @@ theorem isRegularImmersion_of_perfect_of_conormalSheaf (i : X ⟶ Y) [IsImmersio
     subst hC
     exact (inferInstance : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
       (Stacks.Conormal.conormalSheaf i))
-  show IsRegularIdealSheaf _
+  change IsRegularIdealSheaf _
     (_root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHom i.liftCoborder)
   refine (isRegularIdealSheaf_iff_exists_affine_generators i.coborderRange.toScheme _).mpr
     fun x hx => ?_
@@ -374,12 +374,12 @@ theorem isRegularImmersion_of_perfect_of_conormalSheaf (i : X ⟶ Y) [IsImmersio
   obtain ⟨T, hT, hTeq⟩ :=
     i.liftCoborder.isClosedEmbedding.isEmbedding.isInducing.isOpen_iff.mp O.isOpen
   have hzT : i.liftCoborder.base z ∈ (⟨T, hT⟩ : i.coborderRange.toScheme.Opens) := by
-    show z ∈ i.liftCoborder.base ⁻¹' T
+    change z ∈ i.liftCoborder.base ⁻¹' T
     rwa [hTeq]
   obtain ⟨V, hV, hzV, hVT⟩ := exists_isAffineOpen_mem_and_subset hzT
   have hVO : i.liftCoborder ⁻¹ᵁ V ≤ O := by
     intro y hy
-    show y ∈ (O : Set X)
+    change y ∈ (O : Set X)
     rw [← hTeq]
     exact hVT hy
   obtain ⟨hfree, hfinite⟩ := hO _ hVO

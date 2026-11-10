@@ -529,8 +529,7 @@ private lemma isZero_stalk_pullback_of_isZero_stalk {X Y : Scheme.{u}} (f : Y âŸ
   have hM : Subsingleton M := AddCommGrpCat.isZero_iff_subsingleton.mp h
   have hzero : âˆ€ z : TensorProduct R S M, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul s m => rw [Subsingleton.elim m (0 : M), TensorProduct.tmul_zero]
     | add p q hp hq => rw [hp, hq, add_zero]
   have hN : Subsingleton ((stalkAb Y y).obj ((Scheme.Modules.pullback f).obj H)) :=

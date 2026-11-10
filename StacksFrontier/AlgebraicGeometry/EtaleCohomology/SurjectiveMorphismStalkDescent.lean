@@ -95,7 +95,7 @@ public theorem exists_geometricPoint_map_hom_base_eq_of_surjective {X Y : Scheme
   obtain ⟨z, hz⟩ := hf (s.hom default)
   refine ⟨GeometricPoint.ofPoint X z, ?_⟩
   have h : (GeometricPoint.ofPoint X z).hom default = z := GeometricPoint.ofPoint_liesOver X z
-  show f.base ((GeometricPoint.ofPoint X z).hom default) = s.hom default
+  change f.base ((GeometricPoint.ofPoint X z).hom default) = s.hom default
   rw [h]
   exact hz
 

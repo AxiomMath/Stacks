@@ -333,7 +333,7 @@ public theorem schlessingerConditionS2_objectsOverFunctor
         _ = P.apex.hom := P.toFirst.w
     · ext
       exact hfirst'
-    · show p.map b = _
+    · change p.map b = _
       exact hmap
 
 end
@@ -444,7 +444,7 @@ public lemma cofibered_strong
   refine ⟨?_⟩
   intro z g ψ hψ
   have hcomm : g.op ≫ p.op.map i.op = p.op.map ψ.op := by
-    show (p.map i ≫ g).op = (p.map ψ).op
+    change (p.map i ≫ g).op = (p.map ψ).op
     exact congrArg Quiver.Hom.op (IsHomLift.eq_of_isHomLift p _ ψ)
   obtain ⟨χ, ⟨hχ, hfac⟩, huniq⟩ := hp.unique_lift i.op ψ.op g.op hcomm
   refine ⟨χ.unop, ⟨?_, ?_⟩, ?_⟩
@@ -477,7 +477,7 @@ public lemma surjective_hom_comp
   obtain ⟨y, hy⟩ := hg z
   obtain ⟨x, hx⟩ := hf y
   refine ⟨x, ?_⟩
-  show g.hom (f.hom x) = z
+  change g.hom (f.hom x) = z
   exact (congrArg g.hom hx).trans hy
 
 /-- The data of a pushforward of a formal object `X` along a map `f` of its base: a formal object
@@ -607,7 +607,7 @@ public lemma exists_strictified_restriction_object
   let P : CategoryTheory.Limits.CategoricalPullback e.inclusion q :=
     ⟨X.fst, Y, e.inclusionIso.app X.fst ≪≫ (eqToIso hY).symm⟩
   have hcompat : e.inclusion.map (𝟙 X.fst) ≫ P.iso.hom = X.iso.hom ≫ q.map g := by
-    show e.inclusion.map (𝟙 X.fst) ≫ P.iso.hom = X.iso.hom ≫ f'
+    change e.inclusion.map (𝟙 X.fst) ≫ P.iso.hom = X.iso.hom ≫ f'
     rw [hf']
     simp [P, f, Category.assoc]
   exact ⟨P, hY, rfl, by rfl,
@@ -700,7 +700,7 @@ public lemma surjective_fst_of_equivalence_preimage
   let c₂ := e.canOver.hom.app X₂
   let c := e.canOver.hom.app X
   have hnat : p.map (e.can.map q) ≫ c = c₂ ≫ q.fst := by
-    show (e.can ⋙ p).map q ≫ e.canOver.hom.app X =
+    change (e.can ⋙ p).map q ≫ e.canOver.hom.app X =
       e.canOver.hom.app X₂ ≫ (CategoryTheory.Limits.CategoricalPullback.π₁
         e.inclusion (FormalObject.projection (p := p))).map q
     exact e.canOver.hom.naturality q

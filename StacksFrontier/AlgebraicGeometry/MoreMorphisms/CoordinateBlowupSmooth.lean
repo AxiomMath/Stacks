@@ -205,7 +205,7 @@ variable {X : Scheme.{u}} (I : X.IdealSheafData) (U : X.affineOpens)
 public theorem sectionRingBaseMap_mem_grading_zero (r : X.presheaf.obj (op U.1)) :
     (reesSituation I).sectionRingBaseMap U.1 r ∈
       (reesSituation I).sectionRingGrading U.1 0 := by
-  show (reesSituation I).sectionRingBaseMap U.1 r ∈
+  change (reesSituation I).sectionRingBaseMap U.1 r ∈
     Set.range (DirectSum.of ((reesSituation I).sectionPieces U.1) 0)
   rw [relativeProj_sectionRingBaseMap_apply (reesSituation I) U.1 r]
   exact ⟨_, rfl⟩
@@ -220,12 +220,12 @@ are kept. -/
 public theorem reesToBase_sectionRingBaseMap' (r : X.presheaf.obj (op U.1)) :
     reesToBase I U ((reesSituation I).sectionRingBaseMap U.1 r) = r := by
   let r' : X.ringCatSheaf.obj.obj (op U.1) := r
-  show reesToBase I U ((reesSituation I).sectionRingBaseMap U.1 r') = r
+  change reesToBase I U ((reesSituation I).sectionRingBaseMap U.1 r') = r
   let P := (reesAlgebraData I).algebra.piece 0
   let M := P.val.obj (op U.1)
   let _ : Module (X.ringCatSheaf.obj.obj (op U.1)) M := M.isModule
   rw [relativeProj_sectionRingBaseMap_apply (reesSituation I) U.1 r', reesToBase_of]
-  show ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
+  change ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
     (r' • (reesAlgebraData I).algebra.one.eval (op U.1)) :
     X.presheaf.obj (.op U.1)) = r
   rw [(reesAlgebraData I).pieceEquiv_smul, (reesAlgebraData I).pieceEquiv_one]

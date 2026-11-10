@@ -149,7 +149,10 @@ instance preservesFiniteLimits_ι_quasicoherentSheaves :
   SheafOfModules.preservesFiniteLimits_ι_isQuasicoherentOnSite _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- typeclass synthesis on the quasi-coherent full subcategory needs a raised limit
 set_option maxHeartbeats 800000 in
+-- instance search for limits/colimits/biproducts on the full subcategory of quasi-coherent
+-- `𝒪_F`-modules unfolds the big `isQuasicoherentOnSite` subcategory
 /-- The inclusion `QCoh(𝒪_F) ⥤ Mod(𝒪_F)` is right exact: quasi-coherence is closed under
 cokernels, so the inclusion creates them. -/
 instance preservesFiniteColimits_ι_quasicoherentSheaves :
@@ -165,15 +168,20 @@ instance preservesFiniteColimits_ι_quasicoherentSheaves :
       ((Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS F hF).O))).FullSubcategory := inferInstance
   have : HasFiniteBiproducts (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, m}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).FullSubcategory :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS F hF).O))).FullSubcategory :=
     HasFiniteBiproducts.of_hasFiniteProducts
   have : HasFiniteCoproducts (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, m}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).FullSubcategory :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS F hF).O))).FullSubcategory :=
     hasFiniteCoproducts_of_hasFiniteBiproducts _
   Functor.preservesFiniteColimits_of_preservesCokernels _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- typeclass synthesis on the quasi-coherent full subcategory needs a raised limit
 set_option maxHeartbeats 800000 in
+-- instance search for limits/colimits/biproducts on the full subcategory of quasi-coherent
+-- `𝒪_F`-modules unfolds the big `isQuasicoherentOnSite` subcategory
 /-- The inclusion `QCoh(𝒪_F) ⥤ Mod(𝒪_F)` is additive: it preserves binary products. -/
 instance additive_ι_quasicoherentSheaves :
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, m}

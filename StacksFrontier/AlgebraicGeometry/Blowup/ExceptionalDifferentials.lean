@@ -193,8 +193,7 @@ private theorem smul_kaehler_eq_zero_of_formallyUnramified {R B C : Type*} [Comm
     rw [← LinearMap.range_eq_top, KaehlerDifferential.range_mapBaseChange]
     exact LinearMap.ker_eq_top.mpr (Subsingleton.elim _ _)
   obtain ⟨t, rfl⟩ := hsurj ω
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x z hx hz => simp only [map_add, smul_add, hx, hz, add_zero]
   | tmul c b =>
       rw [KaehlerDifferential.mapBaseChange_tmul, smul_comm]
@@ -467,7 +466,7 @@ theorem ker_residuePoint (A : Type u) [CommRing A] [IsLocalRing A] :
     RingEquiv.toRingHom_eq_coe, Iso.commRingCatIsoToRingEquiv_toRingHom, ← CommRingCat.hom_comp,
     Scheme.ΓSpecIso_naturality, CommRingCat.hom_comp]
   ext x
-  show IsLocalRing.residue A ((Scheme.ΓSpecIso (.of A)).hom.hom x) = 0 ↔ _
+  change IsLocalRing.residue A ((Scheme.ΓSpecIso (.of A)).hom.hom x) = 0 ↔ _
   rw [IsLocalRing.residue_eq_zero_iff]
   exact Iff.rfl
 

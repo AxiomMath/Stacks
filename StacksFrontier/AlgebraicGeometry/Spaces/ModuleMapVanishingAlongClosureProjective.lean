@@ -173,14 +173,14 @@ theorem forall_mem_basePointIdeal_smul_top_of_projective_pullback
           (algebraMap Γ(S, ⊤) Γ((BigFppfOver.toScheme B S hS).obj E', ⊤) r) =
         chartToBaseRingHom B S hS D.X Z₀ r := by
     intro r
-    show ((BigFppfOver.toScheme B S hS).map k).appTop.hom (f.appTop.hom r) =
+    change ((BigFppfOver.toScheme B S hS).map k).appTop.hom (f.appTop.hom r) =
       (chartToBase B S hS D.X Z₀).appTop.hom r
     rw [← hcomp, Scheme.Hom.comp_appTop]
     rfl
   have : IsScalarTower Γ(S, ⊤) Γ((BigFppfOver.toScheme B S hS).obj E', ⊤)
       (D.G.val.obj (op Z₀) : Type u) := by
     refine ⟨fun r a x => ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map k).appTop.hom (r • a) • x =
+    change ((BigFppfOver.toScheme B S hS).map k).appTop.hom (r • a) • x =
       chartToBaseRingHom B S hS D.X Z₀ r •
         (((BigFppfOver.toScheme B S hS).map k).appTop.hom a • x)
     rw [Algebra.smul_def, map_mul, mul_smul, halg]
@@ -199,7 +199,7 @@ theorem forall_mem_basePointIdeal_smul_top_of_projective_pullback
   have hsmem : P s ∈ closure (P '' T) := by
     rw [← PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure, PrimeSpectrum.mem_zeroLocus]
     refine fun a ha => ?_
-    show a ∈ RingHom.ker (S.Γevaluation s).hom
+    change a ∈ RingHom.ker (S.Γevaluation s).hom
     rw [hker]
     refine basePointIdeal_le_of_mem_closure B S hS T hs (fun t ht b hb => ?_) ha
     rw [← hker]

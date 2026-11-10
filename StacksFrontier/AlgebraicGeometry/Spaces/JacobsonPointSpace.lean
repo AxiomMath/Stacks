@@ -109,7 +109,7 @@ theorem exists_isAffine_etaleChart_range_subset (U : BigFppfOver B S hS)
   let V : BigFppfOver B S hS := Over.mk (ι ≫ U.hom)
   let j : V ⟶ U := Over.homMk ι
   have hjScheme : (BigFppfOver.toScheme B S hS).map j = A.ι := by
-    show B.inclusion.map (B.inclusion.preimage hAι) = A.ι
+    change B.inclusion.map (B.inclusion.preimage hAι) = A.ι
     rw [B.inclusion.map_preimage]
   have hpm : ∀ y : points B S hS (yoneda.obj V),
       pointsMap B S hS (yoneda.obj V) (yoneda.map j) y =
@@ -223,7 +223,7 @@ theorem jacobsonSpace_etaleChart_of_jacobsonSpace_points
   have hW₂open : IsOpen
       ((⋃ w ∈ (pointsMap B S hS (yoneda.obj V₁) (yoneda.map j₁ ≫ φ) ⁻¹' {x}) \ {v₁},
         closure {w})ᶜ) :=
-    (hFfin.diff.isClosed_biUnion fun _ _ ↦ isClosed_closure).isOpen_compl
+    (hFfin.sdiff.isClosed_biUnion fun _ _ ↦ isClosed_closure).isOpen_compl
   have hv₁W₂ : v₁ ∈ (⋃ w ∈ (pointsMap B S hS (yoneda.obj V₁) (yoneda.map j₁ ≫ φ) ⁻¹' {x}) \ {v₁},
       closure {w})ᶜ := by
     intro hmem

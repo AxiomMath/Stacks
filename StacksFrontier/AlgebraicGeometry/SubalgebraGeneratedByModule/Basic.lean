@@ -136,7 +136,7 @@ theorem adjoin_toSubmodule_eq_span_image {R S P Q : Type*} [CommRing R] [CommRin
     exact Submodule.span_mono (Set.image_mono Algebra.subset_adjoin)
       (ht.le (Submodule.subset_span hy))
   · rintro z ⟨p, hp, rfl⟩
-    show f p ∈ Algebra.adjoin S t'
+    change f p ∈ Algebra.adjoin S t'
     induction hp using Algebra.adjoin_induction with
     | mem x hx =>
       exact Algebra.span_le_adjoin S t' (ht.ge (Submodule.subset_span ⟨x, hx, rfl⟩))
@@ -400,7 +400,7 @@ theorem isFiniteType_genSubalg
   have hsub : (Algebra.adjoin Γ(X, U) tset).toSubring = (genSubalg A M hM).obj U := by
     refine SetLike.ext fun x ↦ ?_
     rw [mem_genSubalg_obj_iff A M hM ⟨U, hU⟩ x]
-    show x ∈ Algebra.adjoin Γ(X, U) tset ↔ x ∈ Algebra.adjoin Γ(X, U) (submoduleSet A M U)
+    change x ∈ Algebra.adjoin Γ(X, U) tset ↔ x ∈ Algebra.adjoin Γ(X, U) (submoduleSet A M U)
     rw [hadj]
   let fA : Γ(X, U) →+* ↥(Algebra.adjoin Γ(X, U) tset) :=
     algebraMap Γ(X, U) ↥(Algebra.adjoin Γ(X, U) tset)

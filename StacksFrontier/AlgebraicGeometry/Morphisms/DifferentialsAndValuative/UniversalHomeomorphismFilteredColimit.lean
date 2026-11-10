@@ -211,7 +211,7 @@ public theorem isFilteredColimit_finitePresentation_universalHomeomorphism
   have hcA' : IsColimit cA' := hcA.whiskerEquivalence eI.symm
   obtain ⟨i, hi⟩ := eventually_universalHomeomorphism_of_isColimit
     DA' cA'.ι hcA' (fun l ↦ hfp (eI.inverse.obj l)) (fun {_ _} k ↦ by
-      show Function.Surjective (t _ _ _)
+      change Function.Surjective (t _ _ _)
       exact hsurj inferInstance _ _ (eI.inverse.map k).le)
   obtain ⟨l, σ, hσ⟩ :=
     (((CommRingCat.isFinitelyPresentable_under_tfae C).out 1 2).mp hC :
@@ -232,11 +232,11 @@ public theorem isFilteredColimit_finitePresentation_universalHomeomorphism
   · ext x
     have hs := congr($(hσ).right.hom x)
     change g l (σ' x) = q x at hs
-    show inc (g j (t l j hlj (σ' x))) = φ.right.hom x
+    change inc (g j (t l j hlj (σ' x))) = φ.right.hom x
     rw [hg l j hlj]
     exact congrArg inc hs
   · refine ⟨?_, hU⟩
-    show (algebraMap A (G j)).FinitePresentation
+    change (algebraMap A (G j)).FinitePresentation
     exact RingHom.finitePresentation_algebraMap.mpr (hfp j)
 
 
@@ -333,7 +333,7 @@ public theorem ind_finitePresentation_residueFieldMap_isIso_universalHomeomorphi
     eventually_universalHomeomorphism_and_isIso_residueFieldMap_of_isColimit
       (I := I) (B := DL) cL.ι hcL (fun j ↦ hfp j.down)
         (fun {i j} a ↦ by
-          show Function.Surjective (d i.down j.down a.down.down)
+          change Function.Surjective (d i.down j.down a.down.down)
           exact hsurj inferInstance _ _ _)
         (isIso_residueFieldMap_specMap_subalgebra
           (A := A) (B := B) hres B')
@@ -345,7 +345,7 @@ public theorem ind_finitePresentation_residueFieldMap_isIso_universalHomeomorphi
   let qj : C ⟶ Bj := Under.homMk
     (CommRingCat.ofHom ((d i j hij).toRingHom.comp q.right.hom)) (by
       ext a
-      show d i j hij (q.right.hom (C.hom.hom a)) = algebraMap A (G j) a
+      change d i j hij (q.right.hom (C.hom.hom a)) = algebraMap A (G j) a
       rw [show q.right.hom (C.hom.hom a) = algebraMap A (G i) a from
         congr($(Under.w q).hom a)]
       exact (d i j hij).commutes a)
@@ -355,7 +355,7 @@ public theorem ind_finitePresentation_residueFieldMap_isIso_universalHomeomorphi
   ext x
   have eq1 := congrArg (fun z ↦ z.right.hom x) hq
   change g i (q.right.hom x) = ψ x at eq1
-  show ιB (g j (d i j hij (q.right.hom x))) = k.right.hom x
+  change ιB (g j (d i j hij (q.right.hom x))) = k.right.hom x
   rw [hg i j hij]
   exact congrArg ιB eq1
 

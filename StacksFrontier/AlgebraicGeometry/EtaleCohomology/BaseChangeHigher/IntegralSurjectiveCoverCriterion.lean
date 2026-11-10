@@ -204,7 +204,7 @@ public theorem isIso_higherBaseChangeMapAb_app_of_integralSurjective
   rw [isIso_higherBaseChangeMapAb_app_iff_map_eq_zero f n q s p f' g h e hbc sq₁ sq₂ hF
     (Injective.under (torsionEtaleModule G hG)) (j ≫ torsionEtaleInjectiveEmbedding G hG)
     (mono_comp _ _)]
-  show ((smallEtalePushforwardAb h).rightDerived (q + 1)).map
+  change ((smallEtalePushforwardAb h).rightDerived (q + 1)).map
     ((smallEtalePullbackAb e).map (((smallEtaleAdjunctionAb π).unit.app F ≫
       (smallEtalePushforwardAb π).map k') ≫ torsionEtaleInjectiveEmbedding G hG)) = 0
   simp only [Functor.map_comp, h3, zero_comp, comp_zero]

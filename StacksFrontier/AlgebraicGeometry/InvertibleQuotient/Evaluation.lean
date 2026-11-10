@@ -117,7 +117,9 @@ step. -/
 theorem isoTensorPowerNegOne_evaluation_self
     (L M : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [AlgebraicGeometry.SheafOfModules.IsInvertible O hO L]
-    (h : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (L)) ≅
+    (h : (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+          (M)).obj (L)) ≅
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorProductIso O hO (isoTensorPowerNegOne O hO L M h) (Iso.refl L)).hom ≫
       (tensorPowerSuccIso O hO L (-1)).hom ≫
@@ -137,7 +139,9 @@ theorem isoTensorPowerNegOne_evaluation
     (L M B : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [AlgebraicGeometry.SheafOfModules.IsInvertible O hO L]
     (hL : L ≅ B)
-    (h : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (B)) ≅
+    (h : (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+          (M)).obj (B)) ≅
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorProductIso O hO
         (isoTensorPowerNegOne O hO L M (tensorProductIso O hO (Iso.refl M) hL ≪≫ h))
@@ -169,7 +173,9 @@ pullback of the original pairing.** `Stacks.RingedSpace.tensorIsoUnitPullback` i
 comparison, so this is the only fact about it a consumer of the pairing needs. -/
 theorem comparison_comp_tensorIsoUnitPullback_hom {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
     (A B : SheafOfModules.{u} (structureSheafRing Y))
-    (hAB : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Y.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (Y.sheaf.obj) (forget₂ CommRingCat RingCat) ((structureSheafRing Y).property)⟩).obj (A)).obj (B)) ≅
+    (hAB : (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨Y.sheaf.obj, Presheaf.isSheaf_of_isSheaf_comp _ (Y.sheaf.obj)
+          (forget₂ CommRingCat RingCat) ((structureSheafRing Y).property)⟩).obj (A)).obj (B)) ≅
       SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.sheaf.obj
         (structureSheafRing Y).property))
     (hcomp : IsIso (comparison f A B)) :

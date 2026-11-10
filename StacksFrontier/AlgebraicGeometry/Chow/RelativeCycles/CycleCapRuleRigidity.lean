@@ -67,9 +67,9 @@ theorem CycleCapRule.genericFamily_sub (c₁ c₂ : CycleCapRule C sY p r) :
     (c₁ - c₂).genericFamily = c₁.genericFamily - c₂.genericFamily := by
   refine familyOfCycles_ext_familyCoeff p (funext fun x ↦ ?_)
   rw [CycleCapRule.familyCoeff_genericFamily]
-  show _ = (c₁.genericFamily (p x) - c₂.genericFamily (p x)).1 (p.asFiber x)
+  change _ = (c₁.genericFamily (p x) - c₂.genericFamily (p x)).1 (p.asFiber x)
   rw [AddSubgroup.coe_sub]
-  show _ = familyCoeff p r c₁.genericFamily x - familyCoeff p r c₂.genericFamily x
+  change _ = familyCoeff p r c₁.genericFamily x - familyCoeff p r c₂.genericFamily x
   rw [CycleCapRule.familyCoeff_genericFamily, CycleCapRule.familyCoeff_genericFamily]
   rfl
 
@@ -92,7 +92,7 @@ theorem CycleCapRule.genericFamily_ofFamily (β : FamilyOfCycles p r) :
   have := residueFieldMap_isIso_of_isClosedImmersion (integralComponentAt (p x)).subschemeι
     ((pullback.snd p (integralComponentAt (p x)).subschemeι).base
       (exists_pointClosure_lift (p := p) x).choose)
-  show (relativeCycleCap C sY p r β _ _ _).1 _ = _
+  change (relativeCycleCap C sY p r β _ _ _).1 _ = _
   rw [relativeCycleCap_apply_of_isIso,
     fundamentalCycle_apply_of_isIntegral C _ (schemeDeltaDimension_integralComponentAt C sY _),
     ite_eq_left hz₂, one_mul, hz₁]
@@ -147,7 +147,7 @@ theorem exists_generalization_relativeDimension_eq_add_one (C : ChowSituation.{u
   have hlt₁ := d.strictAnti_specializes h₁ (Ne.symm hz.1)
   have hlt₂ := d.strictAnti_specializes h₂ hz.2
   exact hmin z hzS (by
-    show (d z - d t).toNat < (d t' - d t).toNat
+    change (d z - d t).toNat < (d t' - d t).toNat
     omega)
 
 omit [LocallyOfFiniteType sY] in
@@ -201,7 +201,7 @@ theorem CompatibleCycleCapRule.familyCoeff_eq_zero_of_specializes
   set th := e.hom.base ⟨tl, htV⟩ with hth
   have hgt : g'.base th = t := by
     rw [hg', hth, ← htl]
-    show (e.hom ≫ e.inv ≫ V.ι ≫ (integralComponentAt t').subschemeι).base ⟨tl, htV⟩ = _
+    change (e.hom ≫ e.inv ≫ V.ι ≫ (integralComponentAt t').subschemeι).base ⟨tl, htV⟩ = _
     rw [Iso.hom_inv_id_assoc]
     rfl
   have hrel : ∀ z, relativeDimension C.dimensionFunction (g' ≫ sY) z =

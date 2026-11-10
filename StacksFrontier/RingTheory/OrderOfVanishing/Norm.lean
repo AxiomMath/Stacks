@@ -1050,8 +1050,7 @@ theorem exists_fullRank_free_submodule
   have hspan : Submodule.span K (Set.range (fun m : M => (1:K) ⊗ₜ[A] m)) = ⊤ := by
     rw [eq_top_iff]
     intro z _
-    induction z using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul k m =>
         have hkm : k ⊗ₜ[A] m = k • ((1:K) ⊗ₜ[A] m) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -1226,7 +1225,7 @@ theorem det_baseChange_eq_algebraMap_det
     LinearMap.det (ψ.baseChange K) = algebraMap A K (LinearMap.det S) := by
   have : Module.Flat A K := IsLocalization.flat K (nonZeroDivisors A)
   have hjKinj : Function.Injective (j.baseChange K) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap j hjinj
   have : FiniteDimensional K (TensorProduct A K M) := inferInstance
   have : FiniteDimensional K (TensorProduct A K (Fin (Module.finrank K (TensorProduct A K M)) →
@@ -1780,7 +1779,7 @@ theorem cokerLen_ne_top_of_baseChangeDet_ne_zero
   have hTsurj : Function.Surjective (LinearMap.lTensor K (LinearMap.range φ).mkQ) :=
     LinearMap.lTensor_surjective K hsmkQ
   have hsurjT : Function.Surjective (LinearMap.lTensor K φ) := by
-    rw [← LinearMap.baseChange_eq_ltensor]; exact hsurj
+    rw [← LinearMap.baseChange_eq_lTensor]; exact hsurj
   -- `lTensor K mkQ = 0` (its kernel is `range (lTensor K φ) = ⊤`), and it is surjective, so
   -- `K ⊗ N = 0`.
   have hKN : ∀ z : TensorProduct A K (M ⧸ LinearMap.range φ), z = 0 := by
@@ -2363,7 +2362,7 @@ theorem isArtinian_quot_span_of_ne_zero
     rw [Ring.krullDimLE_one_iff_of_noZeroDivisors]
     intro I hIne hIp
     have hcomap_ne : Ideal.comap (algebraMap A B) I ≠ ⊥ :=
-      Ideal.IsIntegral.comap_ne_bot A hIne
+      Ideal.IsIntegral.under_ne_bot A hIne
     have hmax : (Ideal.comap (algebraMap A B) I).IsMaximal :=
       Ideal.isMaximal_of_isPrime_of_ne_bot _ hcomap_ne
     exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) I hmax
@@ -2419,7 +2418,7 @@ theorem localizedModule_offdiag_subsingleton
   set M := B ⧸ Ideal.span {b} with hM
   have : IsArtinian B M := isArtinian_quot_span_of_ne_zero A B b hb
   -- choose `s ∈ m_v` with `s ∉ m_w` (distinct maximal ideals are incomparable)
-  have hsExists : ∃ s ∈ v.asIdeal, s ∉ w.asIdeal := SetLike.not_le_iff_exists.mp fun hle =>
+  have hsExists : ∃ s ∈ v.asIdeal, s ∉ w.asIdeal := IsConcreteLE.not_le_iff_exists.mp fun hle =>
     hvw (MaximalSpectrum.ext (v.isMaximal.eq_of_le w.isMaximal.ne_top hle))
   obtain ⟨s, hsv, hsw⟩ := hsExists
   rw [LocalizedModule.subsingleton_iff]

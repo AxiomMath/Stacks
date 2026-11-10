@@ -475,13 +475,13 @@ section
 variable {R S : Type u} [CommRing R] [CommRing S]
 
 /-- The generators `s ⊗ m` exhaust the base change: a property of elements of `S ⊗_R M`
-which holds at zero and at every generator and is stable under addition holds everywhere. -/
+which holds at every generator and is stable under addition holds everywhere. -/
 public theorem baseChangeObj_induction (φ : R →+* S) (M : ModuleCat.{u} R)
-    {motive : baseChangeObj φ M → Prop} (zero : motive 0)
+    {motive : baseChangeObj φ M → Prop}
     (mk : ∀ (s : S) (m : M), motive (baseChangeMk φ M s m))
     (add : ∀ x y, motive x → motive y → motive (x + y)) (z : baseChangeObj φ M) : motive z :=
   let _ := φ.toAlgebra
-  TensorProduct.induction_on z zero mk add
+  TensorProduct.inductionOn z mk add
 
 /-- The generator `s ⊗ 0` of the base change is zero. -/
 @[simp]
@@ -528,7 +528,6 @@ public theorem baseChange_hom_ext {φ : R →+* S} {M : ModuleCat.{u} R} {N : Mo
     (H : ∀ (s : S) (m : M), g (baseChangeMk φ M s m) = h (baseChangeMk φ M s m)) : g = h := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   induction z using baseChangeObj_induction with
-  | zero => rw [map_zero, map_zero]
   | mk s m => exact H s m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -615,7 +614,6 @@ public noncomputable def semilinearBaseChangeMap (φ : R →+* S) (φ' : R' →+
   map_add' := map_add _
   map_smul' s z := by
     induction z using baseChangeObj_induction with
-    | zero => rw [smul_zero, map_zero, smul_zero]
     | mk s' m =>
         rw [smul_baseChangeMk, baseChangeAddHom_mk, baseChangeAddHom_mk, map_mul,
           smul_baseChangeMk]

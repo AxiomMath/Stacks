@@ -131,7 +131,7 @@ theorem edsRestrictCoefficientExtHom_naturality (f : X ⟶ Y)
   simp only [Functor.map_comp] at hκ
   let Fj := etaleModulePullback.{u, u} B S hS (edsEtaleHom B S hS hsq)
     (isEtale_edsEtaleHom B S hS hsq)
-  show DerivedCategory.shiftedHomMapComplex Fj E _ i _ ≫ _ =
+  change DerivedCategory.shiftedHomMapComplex Fj E _ i _ ≫ _ =
     (DerivedCategory.shiftedHomMapComplex Fj E _ i e ≫ _) ≫ _
   rw [hψ, Category.assoc, Category.assoc]
   exact congrArg (DerivedCategory.shiftedHomMapComplex Fj E _ i e ≫ ·) hκ

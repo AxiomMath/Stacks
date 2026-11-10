@@ -178,7 +178,7 @@ theorem pointQuotientAdjunct_app_eq_zero {d : ℤ} (ℱ : (s.algebra.piece d).Su
     refine s.generatedByDegree_le ?_
     rintro m rfl U a ha b y hy
     rw [eq_of_heq hy, Stacks.SheafOfModules.mem_kerSubmodule_obj]
-    show ((s.pointQuotientAdjunct f ℱ).app (d + m)).val.app U
+    change ((s.pointQuotientAdjunct f ℱ).app (d + m)).val.app U
       ((s.smallAlgebraEquiv.equiv (d + m) U).symm ((s.algebra.mul d m).app U a b)) = 0
     have hmul : (s.smallAlgebraEquiv.equiv (d + m) U).symm ((s.algebra.mul d m).app U a b) =
         (s.smallAlgebra.mul d m).app U ((s.smallAlgebraEquiv.equiv d U).symm a)

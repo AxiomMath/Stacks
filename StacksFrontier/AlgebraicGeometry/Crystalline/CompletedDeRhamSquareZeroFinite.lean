@@ -191,7 +191,7 @@ variable (p : ℕ) (D : Type u) [CommRing D] (Om : ℕ → Type v) [∀ i, AddCo
   [∀ i, Module D (Om i)] (wedge : ∀ i, Om i →ₗ[D] Om 1 →ₗ[D] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1)) {dmap : D → Om 1} (M : Type w) [AddCommGroup M]
   [Module D M] (nabla : CompletedConnection p D (Om 1) dmap M)
-  (hleib : IsGradedLeibniz D Om wedge deRham dmap) {ι : Type uI} [Fintype ι] (dx : ι → Om 1)
+  (hleib : IsGradedLeibniz D Om wedge deRham dmap) {ι : Type uI} [Finite ι] (dx : ι → Om 1)
   (theta : ι → (M → M))
 
 /-- **`Crystalline.CompletedDeRham.isSquareZero_of_isIntegrable` with the finite coordinate
@@ -201,6 +201,7 @@ theorem isSquareZero_of_isIntegrable_of_fintype (hext : IsGradedExterior D Om we
     (hco : IsCoordinateExpansion p D (Om 1) dx nabla theta)
     (hdx : ∀ j, deRham 1 (dx j) = 0) (hint : IsIntegrable p D (Om 1) dx nabla) :
     IsSquareZero p D Om wedge deRham M nabla hleib :=
+  letI := Fintype.ofFinite ι
   isSquareZero_of_isIntegrable p D Om wedge deRham M nabla hleib dx theta Finset.univ hext
     (isFiniteCoordinateExpansion_univ_of_isCoordinateExpansion p D (Om 1) hco) hdx hint
 
@@ -215,7 +216,7 @@ section Pair
 variable (p : ℕ) (D : Type u) [CommRing D] (Om : ℕ → Type v) [∀ i, AddCommGroup (Om i)]
   [∀ i, Module D (Om i)] (wedge : ∀ i, Om i →ₗ[D] Om 1 →ₗ[D] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1)) {dmap : D → Om 1}
-  (hleib : CompletedDeRham.IsGradedLeibniz D Om wedge deRham dmap) {ι : Type uI} [Fintype ι]
+  (hleib : CompletedDeRham.IsGradedLeibniz D Om wedge deRham dmap) {ι : Type uI} [Finite ι]
   (dx : ι → Om 1)
 
 /-- **The completed de Rham differentials of a pair over finitely many coordinates compose to

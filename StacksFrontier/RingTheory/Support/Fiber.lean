@@ -372,7 +372,7 @@ public theorem topologicalKrullDimAt_fiberSupport_eq_of_isIntegral [Module.Finit
     · exact Subtype.ext h
     · have hzp : z.1.asIdeal.IsPrime := z.1.isPrime
       exact absurd (congrArg (fun v : ↥(Module.fiberSupport R B M r) => v.1.asIdeal) hEq)
-        (Ideal.IsIntegral.comap_lt_comap (R := B)
+        (Ideal.IsIntegral.under_lt_under (R := B)
           ((PrimeSpectrum.asIdeal_lt_asIdeal z.1 w.1).mpr hlt)).ne
   · -- The fibre of the contraction over `q` is the single prime `p`.
     ext z

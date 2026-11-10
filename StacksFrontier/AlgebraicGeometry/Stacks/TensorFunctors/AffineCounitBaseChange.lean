@@ -176,7 +176,7 @@ theorem exists_isTerminal_costructuredArrow_of_hasRelativeProperty
   refine ⟨CostructuredArrow.mk (pairMorphism Q' ≫ ξ.hom), ⟨?_⟩, ?_⟩
   · refine IsTerminal.ofUniqueHom (fun c => CostructuredArrow.homMk
       (hQ.from (pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv))).b ?_) ?_
-    · show g.hom.hom.toFunctor.map _ ≫ pairMorphism Q' ≫ ξ.hom = c.hom
+    · change g.hom.hom.toFunctor.map _ ≫ pairMorphism Q' ≫ ξ.hom = c.hom
       rw [← Category.assoc,
         pairMorphism_naturality (hQ.from (pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv))),
         pairMorphism_pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv), Category.assoc,
@@ -193,7 +193,7 @@ theorem exists_isTerminal_costructuredArrow_of_hasRelativeProperty
       exact congrArg TwoFibreProductOver.Hom.b
         (hQ.hom_ext (homOfPairMorphism hF hG h𝒳
           (P := pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv)) (Q := Q') m.left hm) _)
-  · show Q ((BigFppfOver.toScheme B S hS).map
+  · change Q ((BigFppfOver.toScheme B S hS).map
       (𝒳.val.val.p.map ((Q'.iso.inv ≫ G.map (toTerminal Q'.x)) ≫ ξ.hom)))
     simp only [Functor.map_comp, map_over hG (toTerminal Q'.x), Category.assoc]
     rwa [Q.cancel_left_of_respectsIso, Q.cancel_left_of_respectsIso,

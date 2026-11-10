@@ -158,7 +158,7 @@ private lemma pointsRange_preimage_iff
       have hyZ : f.app (Opposite.op (yr.siteObject B S hS Y)) yr.value ∈
           Z.obj (Opposite.op (yr.siteObject B S hS Y)) := by
         rw [hfval]
-        show r.value ∈ Z.obj (Opposite.op r.siteObject)
+        change r.value ∈ Z.obj (Opposite.op r.siteObject)
         rw [← hsq]
         exact Z.map s.op qrep.value.property
       let lift : FieldValuedPoint B S hS (Z.preimage f).toFunctor := {
@@ -173,7 +173,7 @@ private lemma pointsRange_preimage_iff
         apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
         refine ⟨yr, ?_, ?_⟩
         · refine ⟨𝟙 yr.siteObject, ?_⟩
-          show Y.map (𝟙 yr.siteObject).op (lift.value.1) = yr.value
+          change Y.map (𝟙 yr.siteObject).op (lift.value.1) = yr.value
           simp [lift, yr]
         · exact ⟨t, rfl⟩
       refine ⟨lift.class B S hS (Z.preimage f).toFunctor, ?_⟩
@@ -201,7 +201,7 @@ theorem isOpen_of_fpqc_preimages
     (W : Set Y) (hW : ∀ i, IsOpen ((f i) ⁻¹' W)) : IsOpen W := by
   obtain ⟨V, heq, -⟩ := existsUnique_isOpen_preimage_eq_of_mem_fpqcPrecoverage X f hf
     (fun i => ⟨(f i) ⁻¹' W, hW i⟩) (fun i j => TopologicalSpace.Opens.ext (by
-      show ((pullback.fst (f i) (f j)) ≫ f i) ⁻¹' W =
+      change ((pullback.fst (f i) (f j)) ≫ f i) ⁻¹' W =
         ((pullback.snd (f i) (f j)) ≫ f j) ⁻¹' W
       rw [pullback.condition]))
   have hVW : (V : Set Y) = W := by
@@ -249,13 +249,13 @@ private theorem isOpen_preimage_affine_of_fpqcCovering
     have hopen' := hopen.preimage (schemePointHomeomorph B S hS D).continuous
     convert hopen' using 1
     ext x
-    show pointsMap B S hS (yoneda.obj A) g
+    change pointsMap B S hS (yoneda.obj A) g
         (eA (G.map (J.map (U.f j)) x)) ∈ W ↔ _
     have hmap := schemePointHomeomorph_map B S hS (J.map (U.f j)) x
     change pointsMap B S hS (yoneda.obj D) (yoneda.map (J.map (U.f j)))
       (schemePointHomeomorph B S hS D x) = eA (G.map (J.map (U.f j)) x) at hmap
     rw [← hmap]
-    show pointsMap B S hS (yoneda.obj A) g
+    change pointsMap B S hS (yoneda.obj A) g
         (pointsMap B S hS (yoneda.obj D) (yoneda.map (J.map (U.f j)))
           (schemePointHomeomorph B S hS D x)) ∈ W ↔
       pointsMap B S hS (X i) (f i)
@@ -280,15 +280,15 @@ theorem jointly_surjective_points_of_fpqcCovering
   | _ p =>
     let A := p.siteObject B S hS Y
     let A' : BigAffineFppf B S hS := ⟨A, by
-      show IsAffine (Spec (.of p.carrier))
+      change IsAffine (Spec (.of p.carrier))
       infer_instance⟩
     let g : yoneda.obj A ⟶ Y := yonedaEquiv.symm p.value
     let q : FieldValuedPoint B S hS (yoneda.obj A) :=
       ⟨p.carrier, p.contained, p.toBase, 𝟙 A⟩
     have hp : pointsMap B S hS (yoneda.obj A) g q.class = p.class := by
-      show (FieldValuedPoint.map B S hS (yoneda.obj A) g q).class = _
+      change (FieldValuedPoint.map B S hS (yoneda.obj A) g q).class = _
       congr 1
-      show (⟨p.carrier, p.contained, p.toBase, Y.map (𝟙 A).op p.value⟩ :
+      change (⟨p.carrier, p.contained, p.toBase, Y.map (𝟙 A).op p.value⟩ :
         FieldValuedPoint B S hS Y) = p
       simp
     obtain ⟨U, _, hU, hfactor⟩ := hf.2 A' g
@@ -304,10 +304,10 @@ theorem jointly_surjective_points_of_fpqcCovering
     let D := J.obj (U.X j)
     let z := schemePointHomeomorph B S hS D x
     refine ⟨i, pointsMap B S hS (yoneda.obj D) a z, ?_⟩
-    show (pointsMap B S hS (X i) (f i) ∘
+    change (pointsMap B S hS (X i) (f i) ∘
       pointsMap B S hS (yoneda.obj D) a) z = _
     rw [← pointsMap_comp, ha, pointsMap_comp]
-    show pointsMap B S hS (yoneda.obj A) g
+    change pointsMap B S hS (yoneda.obj A) g
       (pointsMap B S hS (yoneda.obj D) (yoneda.map (J.map (U.f j)))
         (schemePointHomeomorph B S hS D x)) = _
     rw [schemePointHomeomorph_map, hx, schemePointHomeomorph_schemePoint]
@@ -351,11 +351,11 @@ theorem isOpen_of_fpqcCovering_preimages
     let A : BigFppfOver B S hS := Over.mk (b ≫ U.hom)
     let j : A ⟶ U := Over.homMk b
     have hj : G.map j = fi := by
-      show B.inclusion.map b = fi
+      change B.inclusion.map b = fi
       rw [B.inclusion.map_preimage]
     let gi : yoneda.obj A ⟶ Y := yoneda.map j ≫ a
     have hAaff : IsAffine (G.obj A) := by
-      show IsAffine (Z.affineCover.X i)
+      change IsAffine (Z.affineCover.X i)
       infer_instance
     have hAiopen := isOpen_preimage_affine_of_fpqcCovering B S hS f hf T hT A hAaff gi
     let eA := schemePointHomeomorph B S hS A
@@ -363,9 +363,9 @@ theorem isOpen_of_fpqcCovering_preimages
     obtain ⟨Vi, hVi, hVimem⟩ := (isOpen_yoneda_iff_isSchemeOpen B S hS A Wi).mp hAiopen
     have hchart : fi ⁻¹' V = Vi := by
       ext y
-      show eU (fi y) ∈ W ↔ y ∈ Vi
+      change eU (fi y) ∈ W ↔ y ∈ Vi
       rw [← hj, ← schemePointHomeomorph_map B S hS j y]
-      show pointsMap B S hS (yoneda.obj U) a
+      change pointsMap B S hS (yoneda.obj U) a
           (pointsMap B S hS (yoneda.obj A) (yoneda.map j) (eA y)) ∈ T ↔
         y ∈ Vi
       have hcomp : pointsMap B S hS (yoneda.obj U) a
@@ -386,7 +386,7 @@ theorem isOpen_of_fpqcCovering_preimages
     apply (isOpen_yoneda_iff_isSchemeOpen B S hS U W).2
     refine ⟨V, hVopen, ?_⟩
     intro p
-    show pointsMap B S hS (yoneda.obj U) a
+    change pointsMap B S hS (yoneda.obj U) a
         (p.class B S hS (yoneda.obj U)) ∈ T ↔
       schemePoint B S hS U p ∈ V
     rw [← schemePointHomeomorph_schemePoint B S hS U p]
@@ -449,7 +449,7 @@ public theorem existsUnique_openSubspace_of_fpqcCovering
           ((Wᵢ i).1.preimage (pullback.fst (f i).hom (f j).hom)).toFunctor
           ((Wᵢ i).1.preimage (pullback.fst (f i).hom (f j).hom)).ι) :=
         (pointsRange_preimage_iff B S hS _ _ z).2 (by
-          show pointsMap B S hS (pullback (f i).hom (f j).hom)
+          change pointsMap B S hS (pullback (f i).hom (f j).hom)
             (pullback.fst (f i).hom (f j).hom) z ∈ V i
           rwa [hz₁])
       rw [hW i j] at hz

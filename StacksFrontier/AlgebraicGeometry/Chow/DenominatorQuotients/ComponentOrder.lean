@@ -101,12 +101,12 @@ theorem Ring.ord_ringEquiv {R T : Type*} [CommRing R] [CommRing T] (φ : R ≃+*
   have hspan : Ideal.span {φ x} = (Ideal.span {x}).map (φ : R →+* T) := by
     rw [Ideal.map_span, Set.image_singleton]
     rfl
-  show Module.length R (R ⧸ Ideal.span {x}) = Module.length T (T ⧸ Ideal.span {φ x})
+  change Module.length R (R ⧸ Ideal.span {x}) = Module.length T (T ⧸ Ideal.span {φ x})
   refine Module.length_eq_of_surjective_of_addEquiv (φ : R →+* T) φ.surjective
     (Ideal.quotientEquiv (Ideal.span {x}) (Ideal.span {φ x}) φ hspan).symm.toAddEquiv ?_
   intro r n
   obtain ⟨m, rfl⟩ := Ideal.Quotient.mk_surjective n
-  show Ideal.Quotient.mk (Ideal.span {x}) (φ.symm (φ r * m)) =
+  change Ideal.Quotient.mk (Ideal.span {x}) (φ.symm (φ r * m)) =
     Ideal.Quotient.mk (Ideal.span {x}) (r * φ.symm m)
   rw [map_mul, φ.symm_apply_apply]
 

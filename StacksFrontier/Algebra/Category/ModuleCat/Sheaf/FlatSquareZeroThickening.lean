@@ -1183,11 +1183,7 @@ private noncomputable def multiplicationPresheafMap_to_annihilator
         inferInstanceAs (Module ((O'.obj ⋙ forget₂ CommRingCat RingCat).obj U) (N.obj U))
       refine ModuleCat.ofHom ((m.app U).hom.codRestrict (N.obj U) ?_)
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero =>
-          have h0 : (m.app U).hom 0 = 0 := map_zero _
-          exact Eq.mpr (congrArg (fun y : G.val.obj U => y ∈ N.obj U) h0)
-            (N.obj U).zero_mem
+      induction z using TensorProduct.inductionOn with
       | tmul a x => exact multiplication_mem_annihilatorPresheaf f I i G hsq U a x
       | add z₁ z₂ hz₁ hz₂ =>
           have ha : (m.app U).hom (z₁ + z₂) =
@@ -1841,15 +1837,7 @@ private lemma reductionTensorPresheafMap_locallySurjective
   let : Module (O.obj.obj (Opposite.op U)) (F.val.obj (Opposite.op U)) :=
     (F.val.obj (Opposite.op U)).isModule
   change B.val.obj (Opposite.op U) ⊗[O.obj.obj (Opposite.op U)] F.val.obj (Opposite.op U) at z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    apply J.superset_covering (S := ⊤) _ (J.top_mem U)
-    intro V g _
-    refine ⟨0, ?_⟩
-    change (t.app _).hom 0 = (((PresheafOfModules.toPresheaf _).obj
-      ((PresheafOfModules.restrictScalars (ringMap f).hom).obj
-        (PresheafOfModules.tensorObj B.val F.val))).map g.op).hom 0
-    simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
     apply J.superset_covering (S := Presheaf.imageSieve qp x) _
       (Presheaf.imageSieve_mem J qp x)
@@ -2247,12 +2235,7 @@ private noncomputable def tensorPairingRestrictLift
               map_smul' := ?_ })
       naturality := ?_ }
   · intro r z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      change p U (r • (0 : (PresheafOfModules.tensorObj B.val F.val).obj U)) =
-        _ • p U (0 : (PresheafOfModules.tensorObj B.val F.val).obj U)
-      refine Eq.trans (congrArg (p U) (smul_zero r)) (Eq.trans (p U).map_zero ?_)
-      exact (Eq.trans (congrArg (fun y => r • y) (p U).map_zero) (smul_zero r)).symm
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       change p U ((f.hom.app U r) • (b ⊗ₜ[O.obj.obj U] x)) = r • p U _
       let b' : ((SheafOfModules.restrictScalars (ringMap f)).obj B).val.obj U := b
@@ -2276,17 +2259,16 @@ private noncomputable def tensorPairingRestrictLift
     apply LinearMap.ext
     intro z
     have key : ∀ {W : Type w} [AddCommMonoid W] (φ ψ : Q.obj U → W),
-        φ 0 = 0 → ψ 0 = 0 → (∀ u v, φ (u + v) = φ u + φ v) →
+        (∀ u v, φ (u + v) = φ u + φ v) →
         (∀ u v, ψ (u + v) = ψ u + ψ v) →
         (∀ (b : B.val.obj U) (x : F.val.obj U),
           φ (b ⊗ₜ[O.obj.obj U] x) = ψ (b ⊗ₜ[O.obj.obj U] x)) → ∀ w, φ w = ψ w := by
-      intro W _ φ ψ h0 k0 ha ka h w
-      induction w using TensorProduct.induction_on with
-      | zero => exact h0.trans k0.symm
+      intro W _ φ ψ ha ka h w
+      induction w using TensorProduct.inductionOn with
       | tmul b x => exact h b x
       | add w w' hw hw' =>
         exact (ha w w').trans ((congrArg₂ (· + ·) hw hw').trans (ka w w').symm)
-    exact key _ _ (map_zero _) (map_zero _) (fun u v => map_add _ u v)
+    exact key _ _ (fun u v => map_add _ u v)
       (fun u v => map_add _ u v)
       (fun b x => PresheafOfModules.naturality_apply t g (b ⊗ₜ[O'.obj.obj U] x)) z
 private lemma reductionTensorMap_id_isIso
@@ -2406,13 +2388,7 @@ private lemma tensorLeft_multiplicationMap_eq_zero
     ((PresheafOfModules.naturality_apply (multiplicationMap f I G i).val g.op z).symm.trans
       (congrArg (fun v => (multiplicationMap f I G i).val.app (Opposite.op V) v) hy).symm)) ?_
   clear hy
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    have h1 : (multiplicationMap f I G i).val.app (Opposite.op V)
-        (η.app (Opposite.op V) 0) = 0 := (congrArg _ (map_zero _)).trans (map_zero _)
-    refine Eq.trans (congrArg (fun w => τ.app (Opposite.op V)
-      (B.val.map g.op b ⊗ₜ[O'.obj.obj (Opposite.op V)] w)) h1) ?_
-    exact (congrArg (τ.app (Opposite.op V)) (TensorProduct.tmul_zero _ _)).trans (map_zero _)
+  induction y using TensorProduct.inductionOn with
   | tmul a x =>
     refine Eq.trans (congrArg (fun w => τ.app (Opposite.op V)
         (B.val.map g.op b ⊗ₜ[O'.obj.obj (Opposite.op V)] w))

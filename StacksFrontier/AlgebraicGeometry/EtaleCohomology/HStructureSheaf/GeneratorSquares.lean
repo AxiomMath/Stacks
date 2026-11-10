@@ -86,7 +86,7 @@ theorem shortExact_biprodLift_biprodDesc {A B C D : AddCommGrpCat.{v}} (r₁ : A
     intro d
     obtain ⟨b, c, rfl⟩ := hsurj d
     refine ⟨(biprodIsoProd B C).inv (b, -c), ?_⟩
-    show biprod.desc s₁ (-s₂) _ = _
+    change biprod.desc s₁ (-s₂) _ = _
     rw [biprodIsoProd_inv_comp_desc_apply]
     simp
 

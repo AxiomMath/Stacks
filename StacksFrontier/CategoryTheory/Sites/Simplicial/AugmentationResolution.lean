@@ -83,7 +83,7 @@ differently but definitionally equally — typically `(Opposite.op ⦋n⦌).unop
 augmentation of a whiskered augmented simplicial object against its unitor. A rewrite elaborates
 its motive at a reduced transparency and fails on those; they are therefore taken either by
 `change` to re-spell the goal or by `exact` against an explicit chain of `Category.assoc`,
-`Category.comp_id` and `CategoryTheory.Limits.Sigma.ι_desc`, where definitional equality is
+`Category.comp_id` and `CategoryTheory.Limits.Sigma.ι_comp_desc`, where definitional equality is
 available.
 
 The isomorphism class of the sheafification counit at a sheaf is supplied as an explicit term
@@ -291,7 +291,7 @@ def simplexCoefficientExtraDegeneracy {B : Type u} [Category B]
         ((Sigma.desc fun _ : Opposite.unop (Opposite.op ⦋0⦌) ⟶ p.obj U => 𝟙 (F.obj U)) ≫
           𝟙 (F.obj U)) = 𝟙 (F.obj U)
     rw [Category.comp_id]
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   s₀_comp_δ₁ := by
     apply Sigma.hom_ext
     intro φ
@@ -414,7 +414,7 @@ theorem exactAt_of_extraDegeneracy (Y : SimplicialObject.Augmented C)
     (ed : Y.ExtraDegeneracy) (n : ℕ) (hn : 0 < n) :
     ((AlgebraicTopology.alternatingFaceMapComplex _).obj
       (SimplicialObject.Augmented.drop.obj Y)).ExactAt n := by
-  show (AlgebraicTopology.AlternatingFaceMapComplex.obj
+  change (AlgebraicTopology.AlternatingFaceMapComplex.obj
     (SimplicialObject.Augmented.drop.obj Y)).ExactAt n
   rw [exactAt_iff_of_quasiIsoAt ed.homotopyEquiv.hom n]
   exact HomologicalComplex.exactAt_single_obj _ 0 _ n (by omega)
@@ -521,7 +521,7 @@ lemma sheafSimplex_augmentation_epi :
       (Opposite.op ⦋0⦌)).app U) from
         ⟨Sigma.ι (fun _ : Opposite.unop (Opposite.op ⦋0⦌) ⟶ p.obj U => F.obj.obj U)
           (SimplexCategory.Hom.mk (OrderHom.const _ 0)), ?_⟩).epi
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   have hepi : Epi ((simplexCoefficientAugmented p F.obj).hom.app (Opposite.op ⦋0⦌)) :=
     NatTrans.epi_of_epi_app _
   have h1 : Epi ((presheafToSheaf J Ab.{u}).map
@@ -530,7 +530,7 @@ lemma sheafSimplex_augmentation_epi :
   have h2 : IsIso ((Functor.constComp SimplexCategoryᵒᵖ
       (simplexCoefficientAugmented p F.obj).right (presheafToSheaf J Ab.{u})).hom.app
       (Opposite.op ⦋0⦌)) := inferInstance
-  show Epi ((presheafToSheaf J Ab.{u}).map
+  change Epi ((presheafToSheaf J Ab.{u}).map
       ((simplexCoefficientAugmented p F.obj).hom.app (Opposite.op ⦋0⦌)) ≫
     (Functor.constComp SimplexCategoryᵒᵖ
       (simplexCoefficientAugmented p F.obj).right (presheafToSheaf J Ab.{u})).hom.app
@@ -570,7 +570,7 @@ lemma sheafSimplexAugmentation_epi : Epi (sheafSimplexAugmentation J p F) := by
   have h2 : Epi ((sheafificationAdjunction J Ab.{u}).counit.app F) :=
     @IsIso.epi_of_iso _ _ _ _ _
       (isIso_sheafificationAdjunction_counit (J := J) (D := Ab.{u}) F)
-  show Epi ((sheafSimplexAugmented J p F).hom.app (Opposite.op ⦋0⦌) ≫
+  change Epi ((sheafSimplexAugmented J p F).hom.app (Opposite.op ⦋0⦌) ≫
     (sheafificationAdjunction J Ab.{u}).counit.app F)
   exact @epi_comp _ _ _ _ _ _ h1 _ h2
 

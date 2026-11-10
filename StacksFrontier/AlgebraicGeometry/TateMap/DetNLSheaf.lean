@@ -154,7 +154,7 @@ theorem detNLHub_chartSection (k i : AdaptedOpen f) (hki : k.Good i.source i.bas
     hki.1.choose hki.le hki.1.choose_spec.symm
   have hbc := IsLocalizedModule.isBaseChange (Submonoid.powers hki.1.choose) Γ(Y, k.source.1)
     (Stacks.Modules.chartSectionOfLE i.source (chartDetNL f hf i) hki.le)
-  show Stacks.TateMap.detNLBaseChange (goodChartBaseChange f k i hki)
+  change Stacks.TateMap.detNLBaseChange (goodChartBaseChange f k i hki)
     (hbc.equiv.symm (Stacks.Modules.chartSectionOfLE i.source (chartDetNL f hf i) hki.le m)) = _
   rw [hbc.equiv_symm_apply m]
 
@@ -236,7 +236,7 @@ theorem detNLHub_restrict (k l i : AdaptedOpen f) (hki : k.Good i.source i.base)
   set r := Y.presheaf.map (homOfLE hki.le).op (hki.1.choose ^ n)
   have hr : IsUnit (Y.presheaf.map (homOfLE hW).op r) := by
     have : IsUnit r := by
-      show IsUnit (algebraMap Γ(Y, i.source.1) Γ(Y, k.source.1) (hki.1.choose ^ n))
+      change IsUnit (algebraMap Γ(Y, i.source.1) Γ(Y, k.source.1) (hki.1.choose ^ n))
       rw [map_pow]
       exact (IsLocalization.Away.algebraMap_isUnit hki.1.choose).pow n
     exact this.map _
@@ -376,7 +376,7 @@ theorem detNLBaseChange_one_tmul_of_eq_id {A B : Type u} [CommRing A] [CommRing 
 theorem presheaf_map_toAlgebra_eq_id {Z : Scheme.{u}} {W : Z.Opens} (h : W ≤ W) :
     (Z.presheaf.map (homOfLE h).op).hom.toAlgebra = Algebra.id Γ(Z, W) := by
   refine Algebra.algebra_ext _ _ fun r ↦ ?_
-  show (Z.presheaf.map (homOfLE h).op).hom r = r
+  change (Z.presheaf.map (homOfLE h).op).hom r = r
   rw [show homOfLE h = 𝟙 W from Subsingleton.elim _ _, op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -430,7 +430,7 @@ theorem detNLChartEquiv_restrict (U : X.affineOpens) (V : Y.affineOpens) (hVU : 
   have h₃ := (gluedDetNL f hf).sections_comparison j i j hji hjj
     ((detNL f hf).presheaf.map (homOfLE (Y.basicOpen_le b)).op t)
   rw [h₂] at h₃
-  show (Stacks.Modules.chartTopEquiv Vb (chartDetNL f hf j)).symm
+  change (Stacks.Modules.chartTopEquiv Vb (chartDetNL f hf j)).symm
     ((gluedDetNL f hf).sections j Vb.1 le_rfl _) = _
   rw [h₃, detNLComparison, LinearEquiv.trans_apply, detNLHub_chartSection,
     LinearEquiv.symm_apply_eq, LinearEquiv.symm_apply_eq, Stacks.Modules.chartTopEquiv_apply,
@@ -500,7 +500,7 @@ theorem detNLHub_sections_localDeltaNL (k i : AdaptedOpen f) (hki : k.Good i.sou
   have h₂ := (gluedDetNL f hf).sections_restrict i i.source.1 k.source.1 le_rfl hki.le
     (localDeltaNL f hf i)
   rw [h₁, Stacks.Modules.chartSection_res] at h₂
-  show detNLHub f hf k i hki ((gluedDetNL f hf).sections i k.source.1 (hki.le.trans le_rfl)
+  change detNLHub f hf k i hki ((gluedDetNL f hf).sections i k.source.1 (hki.le.trans le_rfl)
     ((gluedDetNL f hf).sheaf.presheaf.map (homOfLE hki.le).op (localDeltaNL f hf i))) = _
   rw [h₂, detNLHub_chartSection]
   exact Stacks.TateMap.detNLBaseChange_delta _
@@ -517,7 +517,7 @@ theorem isCompatible_localDeltaNL :
   refine ⟨k.source.1, hkW, hyk, ?_⟩
   rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
     ← Functor.map_comp]
-  show (detNL f hf).presheaf.map (homOfLE hki.le).op (localDeltaNL f hf i) =
+  change (detNL f hf).presheaf.map (homOfLE hki.le).op (localDeltaNL f hf i) =
     (detNL f hf).presheaf.map (homOfLE hkj.le).op (localDeltaNL f hf j)
   apply ((gluedDetNL f hf).sections j k.source.1 hkj.le).injective
   rw [(gluedDetNL f hf).sections_comparison k i j hki hkj, detNLComparison,

@@ -342,9 +342,9 @@ K-flatness of the left complex. -/
 @[stacks 0G7B "left complex"]
 theorem kFlat_left_of_shortExact (hS : S.ShortExact)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R) (S.X₃.X i))
-    (h₂ : Stacks.SheafOfModules.KFlat.KFlat R S.X₂) (h₃ : Stacks.SheafOfModules.KFlat.KFlat R S.X₃)
+    (h₂ : Stacks.SheafOfModules.KFlat R S.X₂) (h₃ : Stacks.SheafOfModules.KFlat R S.X₃)
       :
-    Stacks.SheafOfModules.KFlat.KFlat R S.X₁ := fun F hF =>
+    Stacks.SheafOfModules.KFlat R S.X₁ := fun F hF =>
   acyclic_X₁_of_shortExact _ (shortExact_tensorComplex R F S hS hflat) (h₂ F hF) (h₃ F hF)
 
 /-- **Stacks 0G7B, middle complex.**  In a short exact sequence of complexes of `O`-modules
@@ -353,9 +353,9 @@ the middle complex. -/
 @[stacks 0G7B "middle complex"]
 theorem kFlat_middle_of_shortExact (hS : S.ShortExact)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R) (S.X₃.X i))
-    (h₁ : Stacks.SheafOfModules.KFlat.KFlat R S.X₁) (h₃ : Stacks.SheafOfModules.KFlat.KFlat R S.X₃)
+    (h₁ : Stacks.SheafOfModules.KFlat R S.X₁) (h₃ : Stacks.SheafOfModules.KFlat R S.X₃)
       :
-    Stacks.SheafOfModules.KFlat.KFlat R S.X₂ := fun F hF =>
+    Stacks.SheafOfModules.KFlat R S.X₂ := fun F hF =>
   (shortExact_tensorComplex R F S hS hflat).acyclic_X₂ (h₁ F hF) (h₃ F hF)
 
 /-- **Stacks 0G7B, right complex.**  In a short exact sequence of complexes of `O`-modules whose
@@ -364,9 +364,9 @@ K-flatness of the right complex. -/
 @[stacks 0G7B "right complex"]
 theorem kFlat_right_of_shortExact (hS : S.ShortExact)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R) (S.X₃.X i))
-    (h₁ : Stacks.SheafOfModules.KFlat.KFlat R S.X₁) (h₂ : Stacks.SheafOfModules.KFlat.KFlat R S.X₂)
+    (h₁ : Stacks.SheafOfModules.KFlat R S.X₁) (h₂ : Stacks.SheafOfModules.KFlat R S.X₂)
       :
-    Stacks.SheafOfModules.KFlat.KFlat R S.X₃ := fun F hF =>
+    Stacks.SheafOfModules.KFlat R S.X₃ := fun F hF =>
   acyclic_X₃_of_shortExact _ (shortExact_tensorComplex R F S hS hflat) (h₁ F hF) (h₂ F hF)
 
 end Stacks.SheafOfModules.KFlatTwoOutOfThree

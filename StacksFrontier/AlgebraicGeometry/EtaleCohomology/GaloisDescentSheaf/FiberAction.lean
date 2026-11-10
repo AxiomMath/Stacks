@@ -187,7 +187,7 @@ theorem sepClosureFiberSmul_one {U : SmallEtale B S hS}
     (q : (sepClosureFiber B S hS s).obj U) :
     sepClosureFiberSmul B S hS s 1 q = q := by
   apply Subtype.ext
-  show Spec.map (𝟙 (CommRingCat.of ↥(GeometricPoint.separableClosure s))) ≫ q.1 = q.1
+  change Spec.map (𝟙 (CommRingCat.of ↥(GeometricPoint.separableClosure s))) ≫ q.1 = q.1
   rw [Spec.map_id, Category.id_comp]
 
 /-- The Galois action on the lifts of the separable-closure point is multiplicative. -/
@@ -196,7 +196,7 @@ theorem sepClosureFiberSmul_mul (σ τ : GeometricPoint.absoluteGaloisGroup s)
     sepClosureFiberSmul B S hS s (σ * τ) q =
       sepClosureFiberSmul B S hS s σ (sepClosureFiberSmul B S hS s τ q) := by
   apply Subtype.ext
-  show Spec.map (CommRingCat.ofHom (σ.toAlgHom.toRingHom.comp τ.toAlgHom.toRingHom)) ≫ q.1 =
+  change Spec.map (CommRingCat.ofHom (σ.toAlgHom.toRingHom.comp τ.toAlgHom.toRingHom)) ≫ q.1 =
     Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
       Spec.map (CommRingCat.ofHom τ.toAlgHom.toRingHom) ≫ q.1
   rw [CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc]
@@ -277,10 +277,10 @@ theorem surjective_sepClosureFiberToGeometricPointFiber
     simp
   refine ⟨⟨Spec.map (CommRingCat.ofHom phires) ≫
       Sigma.ι (fun i ↦ Spec (.of (E i))) i ≫ e.inv, ?_⟩, ?_⟩
-  · rw [Category.assoc, Category.assoc, hf, Sigma.ι_desc, ← Spec.map_comp,
+  · rw [Category.assoc, Category.assoc, hf, Sigma.ι_comp_desc, ← Spec.map_comp,
       ← CommRingCat.ofHom_comp, hpre, Spec.map_preimage]
   · apply Subtype.ext
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
         (algebraMap ↥(GeometricPoint.separableClosure sbar) sbar.residueField)) ≫
       (Spec.map (CommRingCat.ofHom phires) ≫
         Sigma.ι (fun i ↦ Spec (.of (E i))) i ≫ e.inv) = p.1

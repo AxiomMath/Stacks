@@ -98,7 +98,7 @@ theorem top_mem_opensLE_of_finsetSup_eq_top (P : Opens X.carrier)
     (s : Finset (Opens X.carrier)) (hmem : ∀ W ∈ s, W ∈ {W' : Opens X.carrier | W' ≤ P})
     (hcover : s.sup id = ⊤) :
     (⊤ : Opens X.carrier) ∈ {W' : Opens X.carrier | W' ≤ P} := by
-  show (⊤ : Opens X.carrier) ≤ P
+  change (⊤ : Opens X.carrier) ≤ P
   rw [← hcover]
   exact Finset.sup_le fun W hW => hmem W hW
 

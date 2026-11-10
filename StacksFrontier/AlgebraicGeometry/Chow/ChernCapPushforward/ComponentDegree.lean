@@ -141,7 +141,7 @@ theorem map_integralComponentAt {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X) :
       Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x} : Set X)) from rfl,
     Scheme.IdealSheafData.map_vanishingIdeal]
   refine congrArg _ (Closeds.ext ?_)
-  show closure (f.base '' closure ({x} : Set X)) = closure ({f.base x} : Set Y)
+  change closure (f.base '' closure ({x} : Set X)) = closure ({f.base x} : Set Y)
   refine le_antisymm (closure_minimal ?_ isClosed_closure) ?_
   · simpa using image_closure_subset_closure_image (s := ({x} : Set X)) f.continuous
   · exact closure_mono (Set.singleton_subset_iff.mpr ⟨x, subset_closure rfl, rfl⟩)
@@ -172,7 +172,7 @@ theorem integralComponentMap_base_genericPoint {X Y : Scheme.{u}} (f : X ⟶ Y) 
   have := isIntegral_integralComponentAt x
   have := isIntegral_integralComponentAt (f.base x)
   refine (integralComponentAt (f.base x)).subschemeι.isClosedEmbedding.injective ?_
-  show (integralComponentMap f x ≫ (integralComponentAt (f.base x)).subschemeι).base
+  change (integralComponentMap f x ≫ (integralComponentAt (f.base x)).subschemeι).base
     (genericPoint (integralComponentAt x).subscheme) = _
   rw [integralComponentMap_subschemeι]
   exact (congrArg f.base (genericPointOf_integralComponentAt x)).trans

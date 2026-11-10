@@ -169,7 +169,7 @@ theorem isScalarTower_moduleOfTopIso {Y : Scheme.{u}} (U : Y.Opens) (M : Type*) 
   let := moduleOfOpensAppTop U M
   let := moduleOfTopIso U M
   refine IsScalarTower.of_algebraMap_smul fun r m ↦ ?_
-  show U.topIso.inv.hom ((Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op).hom r) • m
+  change U.topIso.inv.hom ((Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op).hom r) • m
     = U.ι.appTop.hom r • m
   rw [← CommRingCat.comp_apply, map_comp_topIso_inv U]
 
@@ -188,7 +188,7 @@ theorem restrictₗ_restrictₗ {Y : Scheme.{u}} (M : Y.Modules) {U' U V : Y.Ope
   let := moduleOfLE M h
   let := moduleOfLE M h'
   let := moduleOfLE M (h'.trans h)
-  show (M.presheaf.map (homOfLE h').op) ((M.presheaf.map (homOfLE h).op) y)
+  change (M.presheaf.map (homOfLE h').op) ((M.presheaf.map (homOfLE h).op) y)
     = (M.presheaf.map (homOfLE (h'.trans h)).op) y
   rw [← Functor.map_comp_apply]
   rfl
@@ -205,7 +205,7 @@ theorem isScalarTowerOfLE_of_le {Y : Scheme.{u}} (M : Y.Modules) {U' U V : Y.Ope
   let := moduleOfLE M h'
   let := moduleOfLE M (h'.trans h)
   refine IsScalarTower.of_algebraMap_smul fun r m ↦ ?_
-  show ((Y.presheaf.map (homOfLE h').op).hom ((Y.presheaf.map (homOfLE h).op).hom r)) • m
+  change ((Y.presheaf.map (homOfLE h').op).hom ((Y.presheaf.map (homOfLE h).op).hom r)) • m
     = ((Y.presheaf.map (homOfLE (h'.trans h)).op).hom r) • m
   rw [← CommRingCat.comp_apply, ← Functor.map_comp]
   rfl
@@ -335,7 +335,7 @@ theorem homCompare_apply (hbb' : b ∣ b') (σ : P₁ →ₗ[A] P₂) (hσ : ∀
         = ρ.comp ((IsLocalizedModule.mapExtendScalars (Submonoid.powers b) p₁ c₁ R₁
           ν).restrictScalars A) := by
       refine IsLocalizedModule.ext (Submonoid.powers b) p₁ hunit (LinearMap.ext fun y ↦ ?_)
-      show IsLocalizedModule.mapExtendScalars (Submonoid.powers b') p₂ c₂ R₂ ν (σ (p₁ y))
+      change IsLocalizedModule.mapExtendScalars (Submonoid.powers b') p₂ c₂ R₂ ν (σ (p₁ y))
         = ρ (IsLocalizedModule.mapExtendScalars (Submonoid.powers b) p₁ c₁ R₁ ν (p₁ y))
       rw [hσ y, mapExtendScalars_apply_localizationMap, mapExtendScalars_apply_localizationMap,
         hρ]
@@ -379,7 +379,7 @@ theorem homCompare_iso (hbb' : b ∣ b')
     refine IsLocalizedModule.ext (Submonoid.powers b)
       (LocalizedModule.mkLinearMap (Submonoid.powers b) (P →ₗ[A] C)) hunit
       (LinearMap.ext fun ν ↦ ?_)
-    show homCompare p₁ c₁ p₂ c₂ hbb'
+    change homCompare p₁ c₁ p₂ c₂ hbb'
         (IsLocalizedModule.iso (Submonoid.powers b)
           (IsLocalizedModule.mapExtendScalars (Submonoid.powers b) p₁ c₁ R₁)
           (LocalizedModule.mk ν 1))

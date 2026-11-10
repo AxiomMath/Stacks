@@ -94,7 +94,7 @@ theorem existsUnique_section_of_isThickening
   have hle : Subfunctor.range σ' ≤ G.preimage p := by
     intro T x hx
     obtain ⟨y, rfl⟩ := hx
-    show p.app T (σ'.app T y) ∈ G.obj T
+    change p.app T (σ'.app T y) ∈ G.obj T
     rw [hσapp T y]
     exact y.2
   have hsι : Subfunctor.lift σ' hle ≫ (G.preimage p).ι = σ' := Subfunctor.lift_ι _ _

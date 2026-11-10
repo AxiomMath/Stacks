@@ -155,7 +155,7 @@ public lemma exists_isOpen_model_of_initiallySmall {i : I} (hc : IsLimit c) {Y :
     · rw [← Scheme.Hom.comp_apply]
       simp
     · rintro ⟨x, hx, rfl⟩
-      show e.inv.base (e.hom.base x) ∈ U.1
+      change e.inv.base (e.hom.base x) ∈ U.1
       rw [← Scheme.Hom.comp_apply]
       simpa using hx
   have key : ∃ (a : Over i) (V : (pullback (D.map a.hom) p).Opens)

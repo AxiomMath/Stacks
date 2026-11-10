@@ -110,8 +110,7 @@ variable {R : Type*} [CommRing R] {N₁ N₂ : Type*} [AddCommGroup N₁] [Modul
 lemma piRightHom_rTensor_apply {A : Type*} (Q : A → Type*) [∀ α, AddCommGroup (Q α)]
     [∀ α, Module R (Q α)] (h : N₁ →ₗ[R] N₂) (x : N₁ ⊗[R] (∀ α, Q α)) (α : A) :
     piRightHom R R N₂ Q (rTensor (∀ α, Q α) h x) α = rTensor (Q α) h (piRightHom R R N₁ Q x α) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n q => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -119,8 +118,7 @@ lemma piRightHom_rTensor_apply {A : Type*} (Q : A → Type*) [∀ α, AddCommGro
 lemma piScalarRightHom_rTensor_apply (A : Type*) (h : N₁ →ₗ[R] N₂)
     (x : N₁ ⊗[R] (A → R)) (α : A) :
     piScalarRightHom R R N₂ A (rTensor (A → R) h x) α = h (piScalarRightHom R R N₁ A x α) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n q => simp
   | add x y hx hy => simp [hx, hy]
 

@@ -138,7 +138,7 @@ private theorem homTotalDifferential_of (n : ℤ) (f : homDegree B N P n) :
     homTotalDifferential B N P (DirectSum.of (fun n : ℤ => homDegree B N P n) n f) =
       DirectSum.of (fun n : ℤ => homDegree B N P n) (n + 1)
         (DifferentialGradedModule.homogeneousMapDifferential B f) := by
-  show (DirectSum.toModule R ℤ (homTotal B N P) (fun i =>
+  change (DirectSum.toModule R ℤ (homTotal B N P) (fun i =>
     (DirectSum.lof R ℤ (fun j : ℤ => homDegree B N P j) (i + 1)).comp
       (homDifferentialPiece B N P i)))
       (DirectSum.lof R ℤ (fun i : ℤ => homDegree B N P i) n f) = _
@@ -213,7 +213,7 @@ private theorem cochainDifferentialIncl_apply (n : ℤ)
         ((N.toCochainComplex.d n (n + 1)).hom x) =
       N.d (cochainGradeIncl B N n x) := by
   have h := congrArg (fun f => f.hom x) (cochainDifferentialIncl B N n)
-  show ((cochainGradeIncl B N (n + 1)).hom
+  change ((cochainGradeIncl B N (n + 1)).hom
       ((N.toCochainComplex.d n (n + 1)).hom x)) =
     (ModuleCat.ofHom N.d).hom ((cochainGradeIncl B N n).hom x)
   exact h
@@ -229,12 +229,12 @@ private theorem bimoduleActionTotal_apply (m p : ℤ) (a : A.grading m)
     bimoduleActionTotal A B N L m a (x : N.M) =
       (N.grading (p + m)).subtype
         (((L.1.action m a).v p (p + m) (by omega)).hom x) := by
-  show (DirectSum.toModule R ℤ N.M (fun q =>
+  change (DirectSum.toModule R ℤ N.M (fun q =>
     (N.grading (q + m)).subtype.comp
       (((L.1.action m a).v q (q + m) (by omega)).hom)))
       ((DirectSum.decomposeLinearEquiv N.grading) (x : N.M)) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe]
-  show (DirectSum.toModule R ℤ N.M (fun q =>
+  change (DirectSum.toModule R ℤ N.M (fun q =>
     (N.grading (q + m)).subtype.comp
       (((L.1.action m a).v q (q + m) (by omega)).hom)))
       (DirectSum.lof R ℤ (fun q => N.grading q) p x) =
@@ -259,7 +259,7 @@ private theorem bimoduleActionTotal_mem (m p : ℤ) (a : A.grading m)
     (x : N.M) (hx : x ∈ N.grading p) :
     bimoduleActionTotal A B N L m a x ∈ N.grading (p + m) := by
   let x' : N.grading p := ⟨x, hx⟩
-  show bimoduleActionTotal A B N L m a (x' : N.M) ∈ N.grading (p + m)
+  change bimoduleActionTotal A B N L m a (x' : N.M) ∈ N.grading (p + m)
   rw [bimoduleActionTotal_apply]
   exact (N.grading (p + m)).coe_mem _
 
@@ -271,7 +271,7 @@ private theorem bimoduleActionTotal_eq (m : ℤ) (a : A.grading m) :
   apply DirectSum.decompose_lhom_ext N.grading
   intro p
   ext x
-  show bimoduleActionTotal A B N L m a (x : N.M) = g.1 (x : N.M)
+  change bimoduleActionTotal A B N L m a (x : N.M) = g.1 (x : N.M)
   rw [bimoduleActionTotal_apply]
   exact hg p x
 
@@ -305,7 +305,7 @@ private theorem bimoduleActionTotal_mul (m n : ℤ) (a : A.grading m)
       (show n + m = m + n by omega) p (p + n) (p + (m + n)) rfl
       (by omega), ModuleCat.hom_comp] at h
   have hy : ((L.1.action n b).v p (p + n) (by omega)).hom x = y := Subtype.ext h₂.symm
-  show bimoduleActionTotal A B N L (m + n)
+  change bimoduleActionTotal A B N L (m + n)
       ⟨(a : A.A) * (b : A.A), SetLike.mul_mem_graded a.property b.property⟩
       (x : N.M) =
     bimoduleActionTotal A B N L m a
@@ -413,7 +413,7 @@ private theorem homActionOnTotal_of (n m : ℤ) (a : A.grading m)
       (DirectSum.of (fun n : ℤ => homDegree B N P n) n f) =
     DirectSum.of (fun n : ℤ => homDegree B N P n) (n + m)
       (homPrecompPiece A B N P L n m a f) := by
-  show (DirectSum.toModule R ℤ (homTotal B N P) (fun i =>
+  change (DirectSum.toModule R ℤ (homTotal B N P) (fun i =>
     (DirectSum.lof R ℤ (fun j : ℤ => homDegree B N P j) (i + m)).comp
       (homPrecompPiece A B N P L i m a)))
       (DirectSum.lof R ℤ (fun i : ℤ => homDegree B N P i) n f) = _
@@ -478,7 +478,7 @@ private theorem homActionTotalAll_of (m : ℤ) (a : A.grading m) :
   intro x
   simp only [homActionTotalAll, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
   rw [DirectSum.decomposeLinearEquiv_apply_coe]
-  show (DirectSum.toModule R ℤ (homTotal B N P →ₗ[R] homTotal B N P)
+  change (DirectSum.toModule R ℤ (homTotal B N P →ₗ[R] homTotal B N P)
     (fun i => homActionOnTotalLinear A B N P L i)
     (DirectSum.lof R ℤ (fun i : ℤ => A.grading i) m a)) x = _
   rw [DirectSum.toModule_lof R
@@ -510,7 +510,7 @@ private theorem bimoduleActionTotal_one :
   apply DirectSum.decompose_lhom_ext N.grading
   intro p
   ext x
-  show bimoduleActionTotal A B N L 0
+  change bimoduleActionTotal A B N L 0
       ⟨1, SetLike.one_mem_graded A.grading⟩ (x : N.M) = (x : N.M)
   rw [bimoduleActionTotal_apply]
   have h := congrArg
@@ -575,7 +575,7 @@ private theorem homActionTotalAll_mul_homogeneous (m n : ℤ)
       apply homDegree_heq_of_val_eq (B := B) (N := N) (P := P) hidx
       apply LinearMap.ext
       intro x
-      show (f.1.comp (bimoduleActionTotal A B N L (m + n)
+      change (f.1.comp (bimoduleActionTotal A B N L (m + n)
           ⟨(a : A.A) * (b : A.A),
             SetLike.mul_mem_graded a.property b.property⟩)) x =
         ((f.1.comp (bimoduleActionTotal A B N L m a)).comp
@@ -626,7 +626,7 @@ private theorem homTotalDifferential_d_comp_d :
   intro n
   apply LinearMap.ext
   intro f
-  show homTotalDifferential B N P
+  change homTotalDifferential B N P
       (homTotalDifferential B N P (DirectSum.of _ n f)) = 0
   rw [homTotalDifferential_of, homTotalDifferential_of]
   have hdd :=
@@ -645,7 +645,7 @@ private theorem bimoduleActionTotal_d (m : ℤ) (a : A.grading m) :
   apply DirectSum.decompose_lhom_ext N.grading
   intro p
   ext x
-  show bimoduleActionTotal A B N L (m + 1)
+  change bimoduleActionTotal A B N L (m + 1)
       ⟨A.d a, A.d_mem m a a.property⟩ (x : N.M) =
     N.d (bimoduleActionTotal A B N L m a (x : N.M)) -
       DifferentialGraded.gradedSign
@@ -761,7 +761,7 @@ private theorem homPrecompPiece_homD (n m : ℤ) (a : A.grading m)
               ⟨A.d a, A.d_mem m a a.property⟩ f) := by
   apply Subtype.ext
   ext x
-  show P.d (f.1 (bimoduleActionTotal A B N L m a x)) -
+  change P.d (f.1 (bimoduleActionTotal A B N L m a x)) -
       DifferentialGraded.gradedSign
         R (n + m) • f.1 (bimoduleActionTotal A B N L m a (N.d x)) =
     (P.d (f.1 (bimoduleActionTotal A B N L m a x)) -
@@ -837,7 +837,7 @@ private theorem shiftHomEquiv_homD (k n : ℤ)
         DifferentialGradedModule.homogeneousMapDifferential B
           (shiftHomEquiv B N P k n f)) := by
   apply Subtype.ext
-  show
+  change
     (DifferentialGradedModule.homogeneousMapDifferential B f).1 =
       DifferentialGraded.gradedSign
         R k •
@@ -1134,7 +1134,7 @@ public theorem shiftHomIso (k : ℤ) :
         intro n f
         change H.module.grading (n + k) at f
         apply (shiftHomEquiv B N P k (n + 1)).injective
-        show H.homogeneousEquiv ((n + 1) + k)
+        change H.homogeneousEquiv ((n + 1) + k)
             ((DifferentialGradedModule.shift H.module k).gradedDifferential n f) =
           shiftHomEquiv B N P k (n + 1)
             (DifferentialGradedModule.homogeneousMapDifferential B
@@ -1142,7 +1142,7 @@ public theorem shiftHomIso (k : ℤ) :
         rw [shiftHomEquiv_homD]
         rw [LinearEquiv.apply_symm_apply]
         apply Subtype.ext
-        show (H.homogeneousEquiv (n + 1 + k)
+        change (H.homogeneousEquiv (n + 1 + k)
             ⟨k.negOnePow • H.module.d f, _⟩).1 =
           (DifferentialGraded.gradedSign
             R k •
@@ -1155,7 +1155,7 @@ public theorem shiftHomIso (k : ℤ) :
             rfl
           _ = _ := by
             rw [map_zsmul, H.map_d]
-            show (k.negOnePow : ℤ) •
+            change (k.negOnePow : ℤ) •
                 (DifferentialGradedModule.homogeneousMapDifferential B
                   (H.homogeneousEquiv (n + k) f)).1 = _
             rw [← Int.cast_smul_eq_zsmul R, Int.coe_negOnePow]
@@ -1163,7 +1163,7 @@ public theorem shiftHomIso (k : ℤ) :
       map_smul := by
         intro n m p f a x
         change H.module.grading (n + k) at f
-        show ((shiftHomEquiv B N P k (n + m)).symm
+        change ((shiftHomEquiv B N P k (n + m)).symm
             (H.homogeneousEquiv (n + m + k)
               ⟨MulOpposite.op (a : A.A) • (f : H.module.M),
                 (by
@@ -1184,7 +1184,7 @@ public theorem shiftHomIso (k : ℤ) :
           _ = _ := H.map_smul (n + k) m p f a x }
     refine ⟨H, Hk, Iso.refl _, ?_⟩
     intro n p f x
-    show (Hk.homogeneousEquiv n
+    change (Hk.homogeneousEquiv n
         ((Iso.refl (DifferentialGradedModule.shift H.module k)).hom.gradedMap n f)).1 x =
       (H.homogeneousEquiv (n + k)
         ⟨(f.1 : H.module.M), by

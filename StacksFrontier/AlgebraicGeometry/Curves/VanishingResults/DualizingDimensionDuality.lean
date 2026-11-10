@@ -101,7 +101,8 @@ inverse image — [Stacks, Tag 0AA1] together with clause (b) of [Stacks, Tag 0B
 `Stacks.Duality.isDualizingComplex_upperShriek_of_fts` ([Stacks, Tag 0AA3]) takes as its
 hypothesis `h0AA1` and what the `stacks 0BV2` note of
 `StacksFrontier/AlgebraicGeometry/Duality/UpperShriekAffineComparison/OpenSquare.lean` declines;
-without it `(f^×(𝒪_{Spec k}))|_U` is not computed at any affine open. ([Stacks, Tag 0AWP], [Stacks, Tag 0BRT], [Stacks, Tag 0AWT] and [Stacks, Tag 0E9H] are not
+without it `(f^×(𝒪_{Spec k}))|_U` is not computed at any affine open.
+([Stacks, Tag 0AWP], [Stacks, Tag 0BRT], [Stacks, Tag 0AWT] and [Stacks, Tag 0E9H] are not
 the missing input: they are a representability statement for the dualizing *module*, the smooth
 proper case of `a(𝒪_S) = ∧^dΩ[d]`, a tag which is in fact formalized in its clause (3), and an
 exercise about sheaves on a topological space.) The nearest thing the development does have is
@@ -179,6 +180,7 @@ section Linearity
 
 variable [Linear k X.Modules] [Functor.Linear k (globalSectionsOver f)]
 
+omit [IsProper f] in
 /-- **`Hⁿ(X, a • 𝟙) = a • 𝟙`.** Sheaf cohomology over the base field is the degree-`n`
 hypercohomology of the module placed in degree zero, and both the inclusion in degree zero and
 `RΓ(X, -) ⋙ Hⁿ` are `k`-linear, so the composite sends `a • 𝟙` to `a • 𝟙`. -/
@@ -292,6 +294,7 @@ public def cohomologyOverFieldZeroLinearEquivGlobalSectionsOver (M : X.Modules) 
     (eqToIso (congrArg (fun G : X.Modules ⥤ ModuleCat.{u} k => G.obj M)
       (sectionsOverBase_eq_globalSectionsOver f))).toLinearEquiv
 
+omit [IsProper f] in
 /-- **`dim_k H⁰(X, ℳ) = dim_k Hom_{𝒪_X}(𝒪_X, ℳ)`.** -/
 public theorem finrank_cohomologyOverField_zero_eq_finrank_hom_unit (M : X.Modules) :
     Module.finrank k (cohomologyOverField k f M 0) =

@@ -330,7 +330,7 @@ theorem mem_exceptionalComplement_of_mem_preimage
     (hCU : Disjoint (D.U : Set D.S) (C.support : Set D.S)) (y : blowUp C)
     (hy : y ∈ (blowUpToBase C ⁻¹ᵁ D.U : (blowUp C).Opens)) :
     y ∈ ((exceptionalIdeal C).support.compl : (blowUp C).Opens) := by
-  show y ∉ ((exceptionalIdeal C).support : Set (blowUp C))
+  change y ∉ ((exceptionalIdeal C).support : Set (blowUp C))
   intro hmem
   have h1 : (blowUpToBase C).base y ∈ (C.support : Set D.S) := by
     change y ∈ ((C.comap (blowUpToBase C)).support : Set (blowUp C)) at hmem
@@ -358,7 +358,7 @@ theorem exists_point_of_strictTransform (C : D.S.IdealSheafData)
     (exceptionalIdeal C)).subschemeι with hs
   have hsinv : ∀ w : ↑(Stacks.StrictTransform.baseChange D.f (blowUpToBase C)),
       s.base ((inv s).base w) = w := fun w ↦ by
-    show (inv s ≫ s).base w = w
+    change (inv s ≫ s).base w = w
     rw [IsIso.inv_hom_id]
     rfl
   -- The corresponding point of the ambient base change is generic in its fibre.
@@ -367,7 +367,7 @@ theorem exists_point_of_strictTransform (C : D.S.IdealSheafData)
     intro w hw
     have hmem : (strictTransformToBlowUp D.f C).base ((inv s).base w) =
         (strictTransformToBlowUp D.f C).base z' := by
-      show (pullback.snd D.f (blowUpToBase C)).base (s.base ((inv s).base w)) =
+      change (pullback.snd D.f (blowUpToBase C)).base (s.base ((inv s).base w)) =
         (pullback.snd D.f (blowUpToBase C)).base (s.base z')
       rw [hsinv]
       exact hw

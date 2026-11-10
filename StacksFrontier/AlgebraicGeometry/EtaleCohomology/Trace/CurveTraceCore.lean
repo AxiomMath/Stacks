@@ -71,7 +71,7 @@ variable {k : Type u} [Field k] [Fintype k] [PerfectField k] {U : Scheme.{u}} {H
   [Fintype H] {pU : U ⟶ Spec (.of k)} [IsCurve k pU] [Smooth pU]
   (J : CompactificationOf (Over.mk pU))
   (G : EtaleGaloisCovering U H) [IsFinite (G.cover.hom : G.cover.left ⟶ U)]
-  [ConnectedSpace G.cover.left] [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
+  [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
   (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar] (p q : ℕ)
   [Fact p.Prime] [CharP k p] [CharP kbar p] (hcard : Fintype.card k = p ^ q)
 

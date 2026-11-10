@@ -142,7 +142,7 @@ public theorem exists_mulVec_eq_of_isRoot_toSquareBlockProp {M : Matrix n n K} {
   rw [Module.End.hasEigenvector_iff, Module.End.mem_eigenspace_iff] at hx
   refine ⟨x, fun h => hx.2 (Subtype.ext h), x.2, ?_⟩
   have := congrArg Subtype.val hx.1
-  rwa [LinearMap.restrict_coe_apply, Matrix.toLin'_apply] at this
+  rwa [LinearMap.coe_restrict_apply, Matrix.toLin'_apply] at this
 
 /-- The norm along `ι` of a product. -/
 public theorem norm_map_multiset_prod (ι : K →+* ℂ) (s : Multiset K) :
@@ -178,20 +178,20 @@ public theorem exists_norm_eq_of_isRoot_toSquareBlockProp (ι : K →+* ℂ) {M 
     simp only [Pi.zero_apply] at this
     exact hi this
   · intro j hj
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
   · ext j
     rw [Matrix.mulVec, dotProduct, Pi.smul_apply, smul_eq_mul]
     by_cases hj : d j = d i
-    · rw [if_pos hj, ← smul_eq_mul, ← Pi.smul_apply, ← hMv, Matrix.mulVec, dotProduct]
+    · rw [ite_eq_left hj, ← smul_eq_mul, ← Pi.smul_apply, ← hMv, Matrix.mulVec, dotProduct]
       refine Finset.sum_congr rfl fun k _ => ?_
       by_cases hk : d k = d i
-      · rw [if_pos hk]
-      · rw [if_neg hk, hM j k (fun e => hk (e ▸ hj)), zero_mul, zero_mul]
-    · rw [if_neg hj, mul_zero]
+      · rw [ite_eq_left hk]
+      · rw [ite_eq_right hk, hM j k (fun e => hk (e ▸ hj)), zero_mul, zero_mul]
+    · rw [ite_eq_right hj, mul_zero]
       refine Finset.sum_eq_zero fun k _ => ?_
       by_cases hk : d k = d i
       · rw [hM j k (fun e => hj (e.trans hk)), zero_mul]
-      · rw [if_neg hk, mul_zero]
+      · rw [ite_eq_right hk, mul_zero]
 
 /-- A root of the characteristic polynomial of a diagonal block of an invertible matrix with no
 entries from `p` to `¬ p` is nonzero. -/
@@ -265,11 +265,11 @@ public theorem norm_det_pow_eq_of_stable (ι : K →+* ℂ) (σ' : Γ →* (Matr
   refine ⟨hz', ?_⟩
   have h1 := norm_detCharacter_eq_pow ℓ ι σ' hσ H φ hH hW hg
   have e1 : LinearMap.det (stabRestrict _ hu'') = detCharacter σ' hW (φ ^ (κ * ℓ ^ N)) := by
-    show _ = LinearMap.det (stabRestrict _ (hW _))
+    change _ = LinearMap.det (stabRestrict _ (hW _))
     rw [stabRestrict_congr (show (σ' (φ ^ κ) : Matrix (Fin r) (Fin r) K) ^ (ℓ ^ N) =
       (σ' (φ ^ (κ * ℓ ^ N)) : Matrix (Fin r) (Fin r) K) by
         rw [pow_mul, map_pow σ' (φ ^ κ), Units.val_pow_eq_pow_val]) hu'' (hW _)]
-  show ‖ι (detCharacter σ' hW g)‖ ^ (κ * ℓ ^ N) = _
+  change ‖ι (detCharacter σ' hW g)‖ ^ (κ * ℓ ^ N) = _
   rw [h1, ← hdet', e1, map_pow, map_pow, norm_pow, ← pow_mul, ← pow_mul, mul_comm d]
 
 end DetRelation
@@ -381,7 +381,7 @@ public theorem exists_norm_eq_pow_of_isRoot_toSquareBlock (ι : K →+* ℂ) (H 
   have hσbd : ∀ g i j, d i ≠ d j → (σ' g : Matrix (Fin r) (Fin r) K) i j = 0 := by
     intro g i j h
     rw [hσ' g]
-    exact if_neg h
+    exact ite_eq_right h
   have hstab : ∀ (Q : ℤ → Prop) [DecidablePred Q] (g : Γ), (σ' g : Matrix (Fin r) (Fin r) K) ∈
       stabilizerSubalgebra (coordSubspace (K := K) fun i => Q (d i)) := fun Q _ g =>
     mem_stabilizerSubalgebra_coordSubspace (hσbd g) Q
@@ -671,7 +671,7 @@ public theorem exists_norm_eq_pow_of_isGradedUpper (ι : K →+* ℂ) (H : Subgr
   have hσv : ∀ g, (σ' g : Matrix (Fin r) (Fin r) K) = gradedDiag d (T g) := fun g => rfl
   have hgd : Continuous (gradedDiag d : Matrix (Fin r) (Fin r) K → Matrix (Fin r) (Fin r) K) := by
     refine continuous_pi fun i => continuous_pi fun j => ?_
-    show Continuous fun T : Matrix (Fin r) (Fin r) K => if d i = d j then T i j else 0
+    change Continuous fun T : Matrix (Fin r) (Fin r) K => if d i = d j then T i j else 0
     split_ifs
     · exact (continuous_apply j).comp (continuous_apply i)
     · exact continuous_const
@@ -681,7 +681,7 @@ public theorem exists_norm_eq_pow_of_isGradedUpper (ι : K →+* ℂ) (H : Subgr
       (continuous_algebraMap ℚ_[ℓ] K)))).matrix_mul continuous_const
   have hstab : ∀ (Q : ℤ → Prop) [DecidablePred Q] (g : Γ), (σ' g : Matrix (Fin r) (Fin r) K) ∈
       stabilizerSubalgebra (coordSubspace (K := K) fun i => Q (d i)) := fun Q _ g =>
-    mem_stabilizerSubalgebra_coordSubspace (fun i j h => by rw [hσv]; exact if_neg h) Q
+    mem_stabilizerSubalgebra_coordSubspace (fun i j h => by rw [hσv]; exact ite_eq_right h) Q
   set S : Set (Module.End K (Fin r → K)) :=
     Set.range fun g => Matrix.toLin' (σ' g : Matrix (Fin r) (Fin r) K) with hS_def
   have hSiff : ∀ X : Submodule K (Fin r → K), IsStableUnder S X ↔

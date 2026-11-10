@@ -236,7 +236,7 @@ theorem isIso_baseChangeOverBase_iff_isRelativeIso_restrict
       (RelativeMorphism.restrict e p).baseChangeMap := by
     rw [← Category.assoc, isoMapFst_hom_comp_baseChangeOverBase, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
-  show _ ↔ IsIso (RelativeMorphism.restrict e p).baseChangeMap
+  change _ ↔ IsIso (RelativeMorphism.restrict e p).baseChangeMap
   rw [← key, isIso_comp_left_iff, isIso_comp_right_iff]
 
 /-- **A restriction of a relative isomorphism is a relative isomorphism.** The morphism of base

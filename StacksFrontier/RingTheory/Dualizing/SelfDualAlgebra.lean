@@ -127,7 +127,7 @@ theorem isSelfDualAlgebra_self (R : Type*) [CommRing R] : IsSelfDualAlgebra R R 
     simpa using congrArg (fun m => m (1 : R)) hxy
   · intro k
     refine ⟨k 1, LinearMap.ext fun z => ?_⟩
-    show k 1 * z = k z
+    change k 1 * z = k z
     rw [mul_comm (k 1) z, ← smul_eq_mul, ← k.map_smul, smul_eq_mul, mul_one]
 
 /-- **Self-duality composes along a tower.**  If `A` is self-dual over `R` and `B` is self-dual
@@ -145,10 +145,10 @@ theorem IsSelfDualAlgebra.trans {R A B : Type*} [CommRing R] [CommRing A] [CommR
   · intro x y hxy
     apply hlB.1
     refine LinearMap.ext fun z => ?_
-    show lB (x * z) = lB (y * z)
+    change lB (x * z) = lB (y * z)
     apply hlA.1
     refine LinearMap.ext fun a => ?_
-    show lA (lB (x * z) * a) = lA (lB (y * z) * a)
+    change lA (lB (x * z) * a) = lA (lB (y * z) * a)
     have hx : lA (lB (x * (a • z))) = lA (lB (y * (a • z))) :=
       congrArg (fun m => m (a • z)) hxy
     have hsmul : ∀ w : B, lB (w * (a • z)) = a * lB (w * z) := fun w => by
@@ -181,7 +181,7 @@ theorem IsSelfDualAlgebra.trans {R A B : Type*} [CommRing R] [CommRing A] [CommR
             ← heA, eA.apply_symm_apply] }
     obtain ⟨x, hx⟩ := hlB.2 g
     refine ⟨x, LinearMap.ext fun z => ?_⟩
-    show lA (lB (x * z)) = k z
+    change lA (lB (x * z)) = k z
     have hz : lB (x * z) = eA.symm (φ z) := congrArg (fun m => m z) hx
     rw [hz, ← mul_one (eA.symm (φ z)), ← heA, eA.apply_symm_apply, hφ, one_smul]
 

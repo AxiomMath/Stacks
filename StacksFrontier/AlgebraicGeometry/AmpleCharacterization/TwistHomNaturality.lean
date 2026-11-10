@@ -68,7 +68,7 @@ morphism out of the unit at the canonical section, so naturality in this directi
 statement that evaluation commutes with composition. -/
 public theorem unitHom_comp {M N : X.Modules} (ψ : M ⟶ N) (m : Γ(M, ⊤)) :
     unitHom N (ψ.app ⊤ m) = unitHom M m ≫ ψ := by
-  show (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X N).symm (ψ.app ⊤ m) =
+  change (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X N).symm (ψ.app ⊤ m) =
     (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X M).symm m ≫ ψ
   rw [AddEquiv.symm_apply_eq,
     Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv_apply, ← Category.assoc,
@@ -91,7 +91,7 @@ public theorem twistHom_app_comp (L : X.Modules) [Stacks.Ample.IsInvertibleModul
   have := Stacks.AmpleGlobalGeneration.isEquivalence_tensorRight L n
   refine (CategoryTheory.MonoidalCategory.tensorRight
     (Stacks.Ample.tensorPowModule X L n)).map_injective ?_
-  show twistHom L G n _ ▷ _ = (twistHom L F n m ≫ φ) ▷ _
+  change twistHom L G n _ ▷ _ = (twistHom L F n m ≫ φ) ▷ _
   rw [whiskerRight_twistHom, comp_whiskerRight, whiskerRight_twistHom, Category.assoc,
     unitHom_comp]
 

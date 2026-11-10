@@ -233,7 +233,7 @@ public theorem overPullbackSheafPullbackIso_inv_app_top (X : C) (F : Sheaf J A) 
     (Over.forgetAdjStar X).left_triangle_components (Over.mk (𝟙 X))
   have t : F.obj.map ((Over.forgetAdjStar X).counit.app X).op ≫
       ((J.overPullback A X).obj F).obj.map δ.op = 𝟙 _ := by
-    show F.obj.map ((Over.forgetAdjStar X).counit.app X).op ≫ F.obj.map δ.left.op = _
+    change F.obj.map ((Over.forgetAdjStar X).counit.app X).op ≫ F.obj.map δ.left.op = _
     rw [← F.obj.map_comp, ← op_comp, tri]
     exact (congrArg F.obj.map op_id).trans (F.obj.map_id _)
   let c := F.obj.map ((Over.forgetAdjStar X).counit.app X).op

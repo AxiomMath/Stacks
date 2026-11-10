@@ -71,7 +71,7 @@ private theorem flat_of_etale_retraction {A B : Type*} [CommRing A] [CommRing B]
       (RingHom.finiteType_algebraMap.mpr (inferInstance : Algebra.FiniteType A B))
     have hid : ((σ : B →+* A).comp (algebraMap A B)) = RingHom.id A := by
       ext x; exact σ.commutes x
-    show ((σ : B →+* A).comp (algebraMap A B)).Etale
+    change ((σ : B →+* A).comp (algebraMap A B)).Etale
     rw [hid]; exact RingHom.Etale.of_bijective Function.bijective_id
   let : Algebra B A := σ.toRingHom.toAlgebra
   let : Algebra.Etale B A := hσ.toAlgebra
@@ -92,13 +92,13 @@ private theorem isolate_prime_in_quasiFinite_fiber {R S : Type*}
     have hnot : ¬(t : Ideal S) ≤ q := fun hle ↦
       ht (Subtype.ext (Algebra.QuasiFiniteAt.eq_of_le_of_under_eq (R := R) hle
         ((t.1.over_def p).symm.trans (q.over_def p))))
-    exact SetLike.not_le_iff_exists.mp hnot
+    exact IsConcreteLE.not_le_iff_exists.mp hnot
   let f (t : p.primesOver S) : S :=
     if ht : t = q₀ then 1 else Classical.choose (hsel t ht)
   let s := (Finset.univ : Finset (p.primesOver S)).erase q₀
   let g := ∏ t ∈ s, f t
   refine ⟨g, ?_, ?_⟩
-  · show g ∈ q.primeCompl
+  · change g ∈ q.primeCompl
     apply q.primeCompl.prod_mem
     intro t ht
     have hne : t ≠ q₀ := (Finset.mem_erase.mp ht).1
@@ -267,7 +267,7 @@ private theorem prod_retraction_first_idempotent_map_eq_one {A C : Type*}
     (IsLocalization.AtPrime.isUnit_to_map_iff R m (σ (1, 0))).mpr he₁
   have hidem : IsIdempotentElem ((algebraMap A R) (σ (1, 0))) := by
     have he : IsIdempotentElem ((1, 0) : C × Localization.Away f) := by
-      show ((1, 0) : C × Localization.Away f) * (1, 0) = (1, 0)
+      change ((1, 0) : C × Localization.Away f) * (1, 0) = (1, 0)
       ext <;> simp
     exact (he.map σ).map (algebraMap A R)
   exact (IsIdempotentElem.iff_eq_one_of_isUnit hunit).mp hidem
@@ -337,7 +337,7 @@ private theorem localAlgHom_of_isolated_prime {A B : Type*}
   have hθflat : θ.toRingHom.Flat := hjflat.comp hτflat
   let Q : Ideal B := (IsLocalRing.maximalIdeal R).comap θ.toRingHom
   have : Q.LiesOver m := ⟨by
-    show m = ((IsLocalRing.maximalIdeal R).comap θ.toRingHom).comap (algebraMap A B)
+    change m = ((IsLocalRing.maximalIdeal R).comap θ.toRingHom).comap (algebraMap A B)
     rw [Ideal.comap_comap]
     have hc : θ.toRingHom.comp (algebraMap A B) = algebraMap A R := by
       ext a
@@ -346,7 +346,7 @@ private theorem localAlgHom_of_isolated_prime {A B : Type*}
     exact (Localization.AtPrime.under_maximalIdeal (I := m)).symm⟩
   have hgQ : g ∉ Q := by
     have hu : IsUnit (θ g) := by
-      show IsUnit (τ ((algebraMap B C) g))
+      change IsUnit (τ ((algebraMap B C) g))
       exact (IsLocalization.Away.algebraMap_isUnit g).map τ
     intro hmem
     exact (mem_nonunits_iff.mp ((IsLocalRing.mem_maximalIdeal _).mp hmem)) hu
@@ -358,7 +358,7 @@ private theorem localAlgHom_of_isolated_prime {A B : Type*}
   let : Algebra B R := θ.toRingHom.toAlgebra
   let : Algebra Bq R := φ.toRingHom.toAlgebra
   have : IsScalarTower B Bq R := IsScalarTower.of_algebraMap_eq fun b => by
-    show θ b = φ ((algebraMap B Bq) b)
+    change θ b = φ ((algebraMap B Bq) b)
     exact (IsLocalization.lift_eq hunits b).symm
   have hBR : Module.Flat B R := RingHom.flat_algebraMap_iff.mp hθflat
   have hBqR : Module.Flat Bq R :=
@@ -464,11 +464,11 @@ theorem localizationAtPrime_strictlyHenselian_of_etale_faithfullyFlat_retracts
   have hprime (X : CommAlgCat.AugmentedEtale A L) : X.prime.LiesOver m := by
     refine ⟨?_⟩
     apply Eq.symm; ext a
-    show X.hom.hom (algebraMap A (X.left.obj : Type u) a) = 0 ↔ a ∈ m
+    change X.hom.hom (algebraMap A (X.left.obj : Type u) a) = 0 ↔ a ∈ m
     have hcomm : X.hom.hom (algebraMap A (X.left.obj : Type u) a) =
         (algebraMap A L) a := X.hom.hom.commutes a
     rw [hcomm]
-    show (algebraMap (ResidueField R) L) ((algebraMap A (ResidueField R)) a) = 0 ↔ a ∈ m
+    change (algebraMap (ResidueField R) L) ((algebraMap A (ResidueField R)) a) = 0 ↔ a ∈ m
     rw [← map_zero (algebraMap (ResidueField R) L),
       (RingHom.injective (algebraMap (ResidueField R) L)).eq_iff]
     exact Ideal.algebraMap_residueField_eq_zero
@@ -481,7 +481,7 @@ theorem localizationAtPrime_strictlyHenselian_of_etale_faithfullyFlat_retracts
       CommAlgCat.AugmentedEtale.localization A L :=
     { app X := CommAlgCat.ofHom (α X)
       naturality X Y f := by
-        show CommAlgCat.ofHom (α Y) =
+        change CommAlgCat.ofHom (α Y) =
           CommAlgCat.ofHom (α X) ≫ (CommAlgCat.AugmentedEtale.localization A L).map f
         exact CommAlgCat.hom_ext (algHom_atPrime_ext _ _)
     }
@@ -489,7 +489,7 @@ theorem localizationAtPrime_strictlyHenselian_of_etale_faithfullyFlat_retracts
     let : X.prime.LiesOver m := hprime X
     obtain ⟨e⟩ := etale_localization_algEquiv_of_sections h m X.prime
     have heq : η.app X = (CommAlgCat.isoMk e).hom := by
-      show CommAlgCat.ofHom (α X) = (CommAlgCat.isoMk e).hom
+      change CommAlgCat.ofHom (α X) = (CommAlgCat.isoMk e).hom
       exact CommAlgCat.hom_ext (algHom_atPrime_ext _ _)
     rw [heq]; infer_instance
   let ε : (Functor.const _).obj (CommAlgCat.of A R) ≅

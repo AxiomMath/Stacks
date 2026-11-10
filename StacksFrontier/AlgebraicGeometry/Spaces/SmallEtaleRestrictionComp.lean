@@ -402,7 +402,7 @@ theorem inverseCompIso_smallEtalePostcompComparisonSquare_comp (k : X ⟶ Y) (l 
         ((smallEtaleToposEquiv B S hS Z).inverse.obj M)) = 𝟙 _ :=
     NatTrans.congr_app
       (whiskerRight_whiskerLeft_spacesEtalePostcompSheafComp_inv B S hS k l hk hl) M
-  show (Iso.inverseCompIso (G := smallEtaleToposEquiv B S hS Z)
+  change (Iso.inverseCompIso (G := smallEtaleToposEquiv B S hS Z)
           (smallEtalePostcompComparisonSquare B S hS (k ≫ l) hkl).symm).hom.app M ≫
       ((smallEtalePostcomp B S hS k hk).sheafPushforwardContinuous (Type (u + 1))
             (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Y.1)).map
@@ -427,7 +427,7 @@ theorem inverseCompIso_smallEtalePostcompComparisonSquare_comp (k : X ⟶ Y) (l 
   rw [h0]
   refine Eq.trans ?_ (Category.id_comp _).symm
   simp only [smallEtalePostcompComparisonSquare_eq_refl]
-  show ((smallEtalePostcomp B S hS k hk).sheafPushforwardContinuous (Type (u + 1))
+  change ((smallEtalePostcomp B S hS k hk).sheafPushforwardContinuous (Type (u + 1))
           (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS Y.1)).map
         (((smallEtalePostcomp B S hS l hl).sheafPushforwardContinuous (Type (u + 1))
             (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Z.1)).map

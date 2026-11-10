@@ -176,7 +176,7 @@ theorem isOpenImmersion_mapFrom_directImageQuotSitePresheafMap
       have hnat := NatTrans.naturality_apply q (Quiver.Hom.op g) (𝟙 T)
       rw [yonedaEquiv_apply]
       simpa using hnat
-    show q.app U g ∈ Set.range ((MY.mapFrom (MX.iso.hom ≫ Φ)).app U) ↔
+    change q.app U g ∈ Set.range ((MY.mapFrom (MX.iso.hom ≫ Φ)).app U) ↔
       g ∈ (D.directImageSituation.supportLocus D.comp y).obj U
     have hmem' : ∀ z, z ∈ Set.range ((MY.mapFrom (MX.iso.hom ≫ Φ)).app U) ↔
         ∃ x, D.directImageQuotFamilyOver hmem x = MY.familyEquiv U.unop z := by

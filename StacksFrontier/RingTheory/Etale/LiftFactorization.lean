@@ -113,7 +113,7 @@ theorem exists_etale_lift_of_isCoprime_factorization
   let q : A ⧸ I →+* C := algebraMap (A ⧸ I) C
   let eBC : C ≃ₐ[A ⧸ I] TensorProduct A (A ⧸ I) B :=
     by
-      show (B ⧸ I.map (algebraMap A B)) ≃ₐ[A ⧸ I] TensorProduct A (A ⧸ I) B
+      change (B ⧸ I.map (algebraMap A B)) ≃ₐ[A ⧸ I] TensorProduct A (A ⧸ I) B
       exact Algebra.TensorProduct.quotIdealMapEquivQuotTensor B I
   let : Algebra.Etale (A ⧸ I) C := by
     exact Algebra.Etale.of_equiv eBC.symm
@@ -121,19 +121,19 @@ theorem exists_etale_lift_of_isCoprime_factorization
     dsimp [J]
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show φ (algebraMap A B a) = 0
+    change φ (algebraMap A B a) = 0
     rw [φ.commutes]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
   let σr : C →+* A ⧸ I := Ideal.Quotient.lift J φ.toRingHom hJφ
   have hσq : σr.comp q = RingHom.id (A ⧸ I) := by
     ext a
-    show σr (q (Ideal.Quotient.mk I a)) = Ideal.Quotient.mk I a
+    change σr (q (Ideal.Quotient.mk I a)) = Ideal.Quotient.mk I a
     rw [show q (Ideal.Quotient.mk I a) = Ideal.Quotient.mk J (algebraMap A B a) by
       exact Ideal.quotientMap_mk]
     dsimp [σr]
-    show (Ideal.Quotient.lift J φ.toRingHom hJφ)
+    change (Ideal.Quotient.lift J φ.toRingHom hJφ)
       (Ideal.Quotient.mk J (algebraMap A B a)) = Ideal.Quotient.mk I a
-    show φ (algebraMap A B a) = Ideal.Quotient.mk I a
+    change φ (algebraMap A B a) = Ideal.Quotient.mk I a
     rw [φ.commutes]
     exact DFunLike.congr_fun (Ideal.Quotient.algebraMap_eq I) a
   let : Algebra C (A ⧸ I) := σr.toAlgebra
@@ -143,13 +143,13 @@ theorem exists_etale_lift_of_isCoprime_factorization
   have : Algebra.Etale C (A ⧸ I) := by
     rw [← RingHom.etale_algebraMap]
     apply RingHom.Etale.of_comp (f := q) (g := σr)
-    · show (algebraMap (A ⧸ I) C).FormallyUnramified
+    · change (algebraMap (A ⧸ I) C).FormallyUnramified
       exact RingHom.formallyUnramified_algebraMap.mpr
         (inferInstance : Algebra.FormallyUnramified (A ⧸ I) C)
-    · show (algebraMap (A ⧸ I) C).FiniteType
+    · change (algebraMap (A ⧸ I) C).FiniteType
       exact RingHom.finiteType_algebraMap.mpr (inferInstance : Algebra.FiniteType (A ⧸ I) C)
     · rw [hσq]
-      show (algebraMap (A ⧸ I) (A ⧸ I)).Etale
+      change (algebraMap (A ⧸ I) (A ⧸ I)).Etale
       exact (RingHom.etale_algebraMap (R := A ⧸ I) (S := A ⧸ I)).mpr inferInstance
   obtain ⟨e, he, hker, heLoc⟩ :=
     Algebra.exists_isIdempotentElem_isLocalizationAway_of_surjective C (A ⧸ I) hσsurj
@@ -167,12 +167,12 @@ theorem exists_etale_lift_of_isCoprime_factorization
     dsimp [J]
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show Ideal.Quotient.mk K (algebraMap B A' (algebraMap A B a)) = 0
+    change Ideal.Quotient.mk K (algebraMap B A' (algebraMap A B a)) = 0
     rw [← IsScalarTower.algebraMap_apply A B A']
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ ha)
   let t : C →+* D := Ideal.Quotient.lift J ρ hJρ
   have hφh : φ h = algebraMap C (A ⧸ I) e := by
-    show φ h = σr e
+    change φ h = σr e
     rw [← hh]
     rfl
   have hφhUnit : IsUnit (φ h) := by
@@ -183,23 +183,23 @@ theorem exists_etale_lift_of_isCoprime_factorization
     dsimp [K]
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show ψ (algebraMap A A' a) = 0
+    change ψ (algebraMap A A' a) = 0
     rw [show algebraMap A A' a = algebraMap B A' (algebraMap A B a) by
       exact IsScalarTower.algebraMap_apply A B A' a]
     rw [IsLocalization.Away.lift_eq]
-    show φ (algebraMap A B a) = 0
+    change φ (algebraMap A B a) = 0
     rw [φ.commutes]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
   let ψq : D →+* A ⧸ I := Ideal.Quotient.lift K ψ hIψ
   have hkψ_left : ψq.comp k = RingHom.id (A ⧸ I) := by
     ext a
-    show ψq (k (Ideal.Quotient.mk I a)) = Ideal.Quotient.mk I a
+    change ψq (k (Ideal.Quotient.mk I a)) = Ideal.Quotient.mk I a
     rw [show k (Ideal.Quotient.mk I a) = Ideal.Quotient.mk K (algebraMap A A' a) by
       exact Ideal.quotientMap_mk]
     dsimp [ψq]
-    show (Ideal.Quotient.lift K ψ hIψ) (Ideal.Quotient.mk K (algebraMap A A' a)) =
+    change (Ideal.Quotient.lift K ψ hIψ) (Ideal.Quotient.mk K (algebraMap A A' a)) =
       Ideal.Quotient.mk I a
-    show ψ (algebraMap A A' a) = Ideal.Quotient.mk I a
+    change ψ (algebraMap A A' a) = Ideal.Quotient.mk I a
     dsimp [ψ]
     rw [show algebraMap A A' a = algebraMap B A' (algebraMap A B a) by
       exact IsScalarTower.algebraMap_apply A B A' a]
@@ -221,7 +221,7 @@ theorem exists_etale_lift_of_isCoprime_factorization
     obtain ⟨z, hz⟩ := hd
     have hteUnit : IsUnit (t e) := by
       rw [← hh]
-      show IsUnit (Ideal.Quotient.mk K (algebraMap B A' h))
+      change IsUnit (Ideal.Quotient.mk K (algebraMap B A' h))
       exact (IsLocalization.Away.algebraMap_isUnit (S := A') h).map (Ideal.Quotient.mk K)
     have hte : t e = 1 :=
       (IsIdempotentElem.iff_eq_one_of_isUnit hteUnit).mp (he.map t)
@@ -230,12 +230,12 @@ theorem exists_etale_lift_of_isCoprime_factorization
       exact zero_mul (t z)
     have htq (a : A ⧸ I) : t (q a) = k a := by
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-      show t (Ideal.Quotient.mk J (algebraMap A B a)) =
+      change t (Ideal.Quotient.mk J (algebraMap A B a)) =
         Ideal.Quotient.mk K (algebraMap A A' a)
-      show ρ (algebraMap A B a) = Ideal.Quotient.mk K (algebraMap A A' a)
+      change ρ (algebraMap A B a) = Ideal.Quotient.mk K (algebraMap A A' a)
       simp [ρ, IsScalarTower.algebraMap_apply A B A']
     have htc : t c = Ideal.Quotient.mk K (algebraMap B A' b) := by
-      show ρ b = Ideal.Quotient.mk K (algebraMap B A' b)
+      change ρ b = Ideal.Quotient.mk K (algebraMap B A' b)
       rfl
     rw [map_sub, htc, htq] at htd
     exact sub_eq_zero.mp htd |>.symm
@@ -244,7 +244,7 @@ theorem exists_etale_lift_of_isCoprime_factorization
     apply IsLocalization.ringHom_ext (Submonoid.powers h)
     ext b
     simp only [RingHom.comp_apply]
-    show k (ψ (algebraMap B A' b)) = Ideal.Quotient.mk K (algebraMap B A' b)
+    change k (ψ (algebraMap B A' b)) = Ideal.Quotient.mk K (algebraMap B A' b)
     rw [IsLocalization.Away.lift_eq]
     exact hkey b
   have hmaps : k.comp φ.toRingHom = (Ideal.Quotient.mk K).comp (algebraMap B A') := by
@@ -326,9 +326,9 @@ theorem exists_etale_lift_of_isUnit_leadingCoeff_isCoprime_factorization
     exact (hv.map (Ideal.Quotient.mk J)).unit.inv_mul
   have hprod : (f.map (algebraMap A B)).map (Ideal.Quotient.mk J) = G * H := by
     rw [Polynomial.map_map]
-    show f.map (qAB.comp (Ideal.Quotient.mk I)) = _
+    change f.map (qAB.comp (Ideal.Quotient.mk I)) = _
     rw [← Polynomial.map_map, hfac, Polynomial.map_mul]
-    show gbar.map qAB * hbar.map qAB =
+    change gbar.map qAB * hbar.map qAB =
       (Polynomial.C vinv * gbar.map qAB) * (Polynomial.C vb * hbar.map qAB)
     rw [mul_assoc, ← mul_assoc (gbar.map qAB), mul_comm (gbar.map qAB) (Polynomial.C vb),
       mul_assoc, ← mul_assoc, ← Polynomial.C_mul]
@@ -362,7 +362,7 @@ theorem exists_etale_lift_of_isUnit_leadingCoeff_isCoprime_factorization
     Ideal.quotientMap K (algebraMap A C) Ideal.le_comap_map
   have hcomp : qAC = e.toRingHom.comp (qBC.comp qAB) := by
     ext x
-    show Ideal.Quotient.mk K (algebraMap A C x) =
+    change Ideal.Quotient.mk K (algebraMap A C x) =
       e (Ideal.Quotient.mk L (algebraMap B C (algebraMap A B x)))
     rw [IsScalarTower.algebraMap_apply A B C, Ideal.quotEquivOfEq_mk]
   have hmk : e.toRingHom.comp (Ideal.Quotient.mk L) = Ideal.Quotient.mk K := by
@@ -379,28 +379,28 @@ theorem exists_etale_lift_of_isUnit_leadingCoeff_isCoprime_factorization
   have hg₀barK := hbarK G g₀ hg₀bar
   have hh₀barK := hbarK H h₀ hh₀bar
   have hvimage : e.toRingHom.comp qBC vb = Ideal.Quotient.mk K (algebraMap B C v) := by
-    show e (Ideal.Quotient.mk L (algebraMap B C v)) = Ideal.Quotient.mk K (algebraMap B C v)
+    change e (Ideal.Quotient.mk L (algebraMap B C v)) = Ideal.Quotient.mk K (algebraMap B C v)
     exact DFunLike.congr_fun hmk (algebraMap B C v)
   refine ⟨C, instC, inferInstance, g', h', ?_, ?_, ?_, ?_, ?_⟩
   · let := hetAB
     let := hetBC
     exact Algebra.Etale.comp A B C
-  · show Function.Bijective qAC
+  · change Function.Bijective qAC
     rw [hcomp]
     exact e.bijective.comp (hqBC.comp hqAB)
   · rw [IsScalarTower.algebraMap_eq A B C, ← Polynomial.map_map, hfac₀]
-    show g₀ * h₀ = Polynomial.C (algebraMap B C v) * g₀ * (Polynomial.C winv * h₀)
+    change g₀ * h₀ = Polynomial.C (algebraMap B C v) * g₀ * (Polynomial.C winv * h₀)
     rw [mul_mul_mul_comm, ← Polynomial.C_mul,
       show algebraMap B C v * winv = 1 from (hv.map (algebraMap B C)).unit.mul_inv,
       Polynomial.C_1, one_mul]
   · let r : B ⧸ J →+* C ⧸ K := e.toRingHom.comp qBC
     have huv : r vinv * r vb = 1 := by
       rw [← map_mul]
-      show r (↑(hv.map (Ideal.Quotient.mk J)).unit⁻¹ *
+      change r (↑(hv.map (Ideal.Quotient.mk J)).unit⁻¹ *
         ↑(hv.map (Ideal.Quotient.mk J)).unit) = 1
       simpa only [map_one] using
         congrArg r (hv.map (Ideal.Quotient.mk J)).unit.inv_mul
-    show gbar.map qAC = g'.map (Ideal.Quotient.mk K)
+    change gbar.map qAC = g'.map (Ideal.Quotient.mk K)
     rw [hcomp, ← Polynomial.map_map, ← Polynomial.map_map]
     simp only [g', Polynomial.map_mul, Polynomial.map_C]
     rw [← hg₀barK]
@@ -409,7 +409,7 @@ theorem exists_etale_lift_of_isUnit_leadingCoeff_isCoprime_factorization
     dsimp only [r] at huv
     have huv' : (e.toRingHom.comp qBC) vb * (e.toRingHom.comp qBC) vinv = 1 := by
       simpa only [mul_comm] using huv
-    show (gbar.map qAB).map (e.toRingHom.comp qBC) =
+    change (gbar.map qAB).map (e.toRingHom.comp qBC) =
       Polynomial.C (Ideal.Quotient.mk K (algebraMap B C v)) *
         (Polynomial.C ((e.toRingHom.comp qBC) vinv) *
           (gbar.map qAB).map (e.toRingHom.comp qBC))
@@ -418,18 +418,18 @@ theorem exists_etale_lift_of_isUnit_leadingCoeff_isCoprime_factorization
   · let r : B ⧸ J →+* C ⧸ K := e.toRingHom.comp qBC
     have huv : Ideal.Quotient.mk K winv * r vb = 1 := by
       rw [hvimage, ← map_mul]
-      show Ideal.Quotient.mk K (↑(hv.map (algebraMap B C)).unit⁻¹ *
+      change Ideal.Quotient.mk K (↑(hv.map (algebraMap B C)).unit⁻¹ *
         ↑(hv.map (algebraMap B C)).unit) = 1
       simpa only [map_one] using congrArg (Ideal.Quotient.mk K)
         (hv.map (algebraMap B C)).unit.inv_mul
-    show hbar.map qAC = h'.map (Ideal.Quotient.mk K)
+    change hbar.map qAC = h'.map (Ideal.Quotient.mk K)
     rw [hcomp, ← Polynomial.map_map, ← Polynomial.map_map]
     simp only [h', Polynomial.map_mul, Polynomial.map_C]
     rw [← hh₀barK]
     simp only [H, Polynomial.map_mul, Polynomial.map_C, Polynomial.map_map]
     rw [RingHom.comp_assoc]
     dsimp only [r] at huv
-    show hbar.map ((e.toRingHom.comp qBC).comp qAB) =
+    change hbar.map ((e.toRingHom.comp qBC).comp qAB) =
       Polynomial.C (Ideal.Quotient.mk K winv) *
         (Polynomial.C ((e.toRingHom.comp qBC) vb) *
           hbar.map ((e.toRingHom.comp qBC).comp qAB))
@@ -447,7 +447,7 @@ private theorem quotientMap_pow_bijective {R S : Type*} [CommRing R] [CommRing S
         (Ideal.map_le_iff_le_comap).mp (by rw [Ideal.map_pow]))) := by
   have hI : FormallyEtaleH1D.Iideal f (I.map f) = I := by
     ext x
-    show (Ideal.Quotient.mk (I.map f)) (f x) = 0 ↔ x ∈ I
+    change (Ideal.Quotient.mk (I.map f)) (f x) = 0 ↔ x ∈ I
     rw [← Ideal.quotientMap_mk (H := Ideal.le_comap_map),
       map_eq_zero_iff _ h.1, Ideal.Quotient.eq_zero_iff_mem]
   have hs : Function.Surjective ((Ideal.Quotient.mk (I.map f)).comp f) := by
@@ -501,12 +501,12 @@ private theorem nonempty_adicCompletion_equiv_padicInt {R : Type*} [CommRing R]
     AdicCompletion.evalₐ_liftRingHom I g hg n x
   refine ⟨{ F with invFun := G, left_inv := ?_, right_inv := ?_ }⟩
   · intro x
-    show G (F x) = x
+    change G (F x) = x
     apply AdicCompletion.ext_evalₐ
     intro n
     rw [hG, hF, RingEquiv.apply_symm_apply]
   · intro x
-    show F (G x) = x
+    change F (G x) = x
     apply PadicInt.ext_of_toZModPow.mp
     intro n
     rw [hF, hG, RingEquiv.symm_apply_apply]
@@ -590,7 +590,7 @@ private theorem quadratic_mod_four_properties :
   have h4 : (4 : ℤ ⧸ Ideal.span {(4 : ℤ)}) = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self 4)
   have h4p : (4 : Polynomial (ℤ ⧸ Ideal.span {(4 : ℤ)})) = 0 := by
-    show Polynomial.C 4 = 0
+    change Polynomial.C 4 = 0
     rw [h4, Polynomial.C_0]
   have hsq : p * p = 1 :=
     calc
@@ -604,13 +604,13 @@ private theorem quadratic_mod_four_properties :
   · rw [isCoprime_self]
     exact isUnit_iff_exists_inv.mpr ⟨p, hsq⟩
   · have h2 : (2 : ℤ ⧸ Ideal.span {(4 : ℤ)}) ≠ 0 := by
-      show ¬ Ideal.Quotient.mk (Ideal.span {(4 : ℤ)}) 2 = 0
+      change ¬ Ideal.Quotient.mk (Ideal.span {(4 : ℤ)}) 2 = 0
       rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
       norm_num
     have hd : p.natDegree = 2 := by
       dsimp [p]
       compute_degree <;> simp [h2]
-    show ¬ IsUnit p.leadingCoeff
+    change ¬ IsUnit p.leadingCoeff
     rw [Polynomial.leadingCoeff, hd, coeff_two_quadratic]
     intro hu
     have hm := hu.map (Int.quotientSpanNatEquivZMod 4).toRingHom

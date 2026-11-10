@@ -89,7 +89,7 @@ preserving an isomorphism. -/
 theorem bijective_stalkMapL_of_isIso (φ : M ⟶ N) [IsIso φ] (x : X.carrier) :
     Function.Bijective (stalkMapL X M.val N.val φ.val x) := by
   have hval : IsIso φ.val := by
-    show IsIso ((SheafOfModules.forget (structureSheafRing X)).map φ)
+    change IsIso ((SheafOfModules.forget (structureSheafRing X)).map φ)
     infer_instance
   have hstalk : IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf (O X)).map φ.val)) := inferInstance

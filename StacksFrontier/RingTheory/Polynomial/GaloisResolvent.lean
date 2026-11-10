@@ -161,7 +161,7 @@ theorem aeval_desym (s : RootRing m) (hs : s.IsSymmetric) :
     MvPolynomial.aeval (fun i : Fin m => MvPolynomial.esymm (Fin m) (CoeffRing m) (i + 1))
       (desym m s hs) = s := by
   rw [← MvPolynomial.esymmAlgHom_apply]
-  show ((MvPolynomial.esymmAlgEquiv (Fin m) (CoeffRing m) (Fintype.card_fin m))
+  change ((MvPolynomial.esymmAlgEquiv (Fin m) (CoeffRing m) (Fintype.card_fin m))
     ((MvPolynomial.esymmAlgEquiv (Fin m) (CoeffRing m) (Fintype.card_fin m)).symm ⟨s, hs⟩)).val = s
   rw [AlgEquiv.apply_symm_apply]
 
@@ -258,7 +258,7 @@ theorem Δ_eq_mul_discOff (π : Equiv.Perm (Fin m)) :
 variable (m) in
 /-- `R_τ(t(π)) = Δ · t(π τ)` for the universal polynomials. -/
 theorem eval_R (τ π : Equiv.Perm (Fin m)) : (R m τ).eval (t m π) = Δ m * t m (π * τ) := by
-  rw [R_eq, eval_finset_sum, Finset.sum_eq_single π]
+  rw [R_eq, eval_finsetSum, Finset.sum_eq_single π]
   · rw [eval_mul, eval_C, lagNum, eval_prod, Δ_eq_mul_discOff m π]
     simp only [eval_sub, eval_X, eval_C]
     ring
@@ -291,7 +291,7 @@ private theorem coeff_specPoly (f : A[X]) (c : Fin m → A) (P : (RootRing m)[X]
     (hP : ∀ k, (P.coeff k).IsSymmetric) (k : ℕ) :
     (specPoly f c P hP).coeff k =
       if k ∈ range (m ! + 1) then MvPolynomial.eval c (κ f (desym m _ (hP k))) else 0 := by
-  simp only [specPoly, finset_sum_coeff, coeff_C_mul_X_pow]
+  simp only [specPoly, finsetSum_coeff, coeff_C_mul_X_pow]
   rw [Finset.sum_ite_eq]
 
 end GaloisResolvent
@@ -348,9 +348,9 @@ theorem galoisResolvent_monic (f : A[X]) (c : Fin m → A) : (galoisResolvent f 
   nontriviality A
   have hdeg : (galoisResolvent f c).natDegree ≤ m ! := by
     refine natDegree_le_iff_coeff_eq_zero.mpr fun k hk => ?_
-    rw [galoisResolvent, coeff_specPoly, if_neg (by simpa using hk)]
+    rw [galoisResolvent, coeff_specPoly, ite_eq_right (by simpa using hk)]
   refine monic_of_natDegree_le_of_coeff_eq_one _ hdeg ?_
-  rw [galoisResolvent, coeff_specPoly, if_pos (by simp)]
+  rw [galoisResolvent, coeff_specPoly, ite_eq_left (by simp)]
   have h1 : (Φ m).coeff (m !) = 1 := by
     rw [← natDegree_Φ m]; exact monic_Φ m
   have : desym m _ (isSymmetric_coeff_Φ m (m !)) = 1 := by
@@ -537,10 +537,11 @@ theorem exists_resolventDisc_ne_zero {A : Type*} [CommRing A] [IsDomain A] (f : 
     refine ⟨fun h0 => ?_, ?_⟩
     · have := congrArg (fun p : MvPolynomial (Fin m) L => p.coeff (Finsupp.single i 1)) h0
       simp only [MvPolynomial.coeff_sum, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X,
-        AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finsupp.single_left_inj one_ne_zero, mul_ite, mul_one, mul_zero,
-        Finset.sum_ite_eq', Finset.mem_univ, if_true] at this
+        AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finsupp.single_left_inj one_ne_zero,
+        mul_ite, mul_one, mul_zero,
+        Finset.sum_ite_eq', Finset.mem_univ, ite_true] at this
       exact hi (hbinj (sub_eq_zero.mp this))
-    · refine (MvPolynomial.totalDegree_finset_sum _ _).trans (Finset.sup_le fun j _ => ?_)
+    · refine (MvPolynomial.totalDegree_finsetSum _ _).trans (Finset.sup_le fun j _ => ?_)
       refine (MvPolynomial.totalDegree_mul _ _).trans ?_
       rw [MvPolynomial.totalDegree_C, MvPolynomial.totalDegree_X]
   have hQ0 : resolventDiscPoly m f ≠ 0 := by

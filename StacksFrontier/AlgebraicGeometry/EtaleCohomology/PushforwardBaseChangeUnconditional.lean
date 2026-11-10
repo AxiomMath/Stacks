@@ -136,7 +136,7 @@ theorem preservesLimitsOfShape_smallEtaleInverseImage_of_geometricallyReduced
         infer_instance
       have hfirst : IsIso ((sectionsOver.{u, max v w} U).map (piComparison H F)) :=
         (isIso_comp_right_iff _ _).mp hcompIso
-      show Function.Bijective ((sectionsOver.{u, max v w} U).map (piComparison H F))
+      change Function.Bijective ((sectionsOver.{u, max v w} U).map (piComparison H F))
       rw [← isIso_iff_bijective]
       exact hfirst
     have hInj := Presheaf.isLocallyInjective_of_hasEnoughObjects_injective J φ hEnough
@@ -206,10 +206,10 @@ private lemma exists_pullbackIso_of_isPullback (f : X ⟶ S) (h : Y ⟶ X) (e : 
     infer_instance
   refine ⟨asIso m ≪≫ pullbackSymmetry (pullback.fst f g) p ≪≫
     pullbackRightPullbackFstIso f g p, ?_, ?_⟩
-  · show m ≫ (pullbackSymmetry (pullback.fst f g) p).hom ≫
+  · change m ≫ (pullbackSymmetry (pullback.fst f g) p).hom ≫
       (pullbackRightPullbackFstIso f g p).hom ≫ pullback.fst (p ≫ f) g = _
     rw [pullbackRightPullbackFstIso_hom_fst, pullbackSymmetry_hom_comp_fst, hm_snd]
-  · show m ≫ (pullbackSymmetry (pullback.fst f g) p).hom ≫
+  · change m ≫ (pullbackSymmetry (pullback.fst f g) p).hom ≫
       (pullbackRightPullbackFstIso f g p).hom ≫ pullback.snd (p ≫ f) g = _
     rw [pullbackRightPullbackFstIso_hom_snd,
       ← Category.assoc (pullbackSymmetry (pullback.fst f g) p).hom
@@ -238,7 +238,7 @@ private lemma exists_pullback_map_quasiCompact_geometricallyConnected {W V : Sch
       asIso_hom, Iso.symm_hom, Category.assoc, pullbackSymmetry_inv_comp_snd,
       pullbackRightPullbackFstIso_inv_fst, pullback.lift_fst, eZ, eCommon, eWCommon]
   have heCommon_snd : eCommon.hom ≫ pullback.snd (k ≫ b) g = pullback.snd a g := by
-    show pullback.map a g (k ≫ b) g (𝟙 W) (𝟙 T) (𝟙 S)
+    change pullback.map a g (k ≫ b) g (𝟙 W) (𝟙 T) (𝟙 S)
         (by simpa using hk.symm) (by simp) ≫ pullback.snd (k ≫ b) g = pullback.snd a g
     simp only [pullback.map, pullback.lift_snd, Category.comp_id]
   have heZ_V : kTZ ≫ pullback.fst b g = pullback.fst a g ≫ k := by
@@ -332,7 +332,7 @@ private lemma smallEtaleBaseChange_eqToIso_inv_app_left_fst {A B : Scheme.{u}} (
     ((eqToIso (congrArg (fun m : A ⟶ B ↦ smallEtaleBaseChange m) hpq)).inv.app W).left ≫
       pullback.fst W.hom p = pullback.fst W.hom q := by
   cases hpq
-  show 𝟙 _ ≫ _ = _
+  change 𝟙 _ ≫ _ = _
   exact Category.id_comp _
 
 /-- The projection to `A` of that transport isomorphism. -/
@@ -341,7 +341,7 @@ private lemma smallEtaleBaseChange_eqToIso_inv_app_left_snd {A B : Scheme.{u}} (
     ((eqToIso (congrArg (fun m : A ⟶ B ↦ smallEtaleBaseChange m) hpq)).inv.app W).left ≫
       pullback.snd W.hom p = pullback.snd W.hom q := by
   cases hpq
-  show 𝟙 _ ≫ _ = _
+  change 𝟙 _ ≫ _ = _
   exact Category.id_comp _
 
 /-- Transport of direct image along an equality of morphisms, computed two ways: pushing the
@@ -481,21 +481,21 @@ private lemma etaleBaseChangeFactorizationHom_eq (f : X ⟶ S) (h : Y ⟶ X) (e 
     (comp_congr_left _ (smallEtaleBaseChangeComp_inv_app_left h f V)).trans
       (pullbackLeftPullbackSndIso_hom_snd V.hom f h)
   refine MorphismProperty.Over.Hom.ext (pullback.hom_ext (pullback.hom_ext ?_ ?_) ?_)
-  · show ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
+  · change ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
       (smallEtaleFactorizationHom e kT hkT).left) ≫ _ ≫ _ = _
     rw [hb]
     exact (comp_two_proj_two _ _ _ _ _ _ _ _ haEfst hkTV
         (pullbackSymmetry_inv_comp_snd h U.hom)).trans
       (comp_four_proj_two _ _ _ _ _ _ _ _ _ _ hsFst
         (smallEtaleBaseChange_eqToIso_inv_app_left_fst (e ≫ g) (h ≫ f) w V) hqFst hMapFst).symm
-  · show ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
+  · change ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
       (smallEtaleFactorizationHom e kT hkT).left) ≫ _ ≫ _ = _
     rw [hb]
     exact (comp_two_proj_two _ _ _ _ _ _ _ _ haEfst hkT
         (pullbackSymmetry_inv_comp_fst h U.hom)).trans
       (comp_four_proj_two_comp _ _ _ _ _ _ _ _ _ _ _ hsSnd
         (smallEtaleBaseChange_eqToIso_inv_app_left_snd (e ≫ g) (h ≫ f) w V) hqSnd hMapSnd).symm
-  · show ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
+  · change ((etaleBaseChangeSymmIso h U).inv.hom.left ≫
       (smallEtaleFactorizationHom e kT hkT).left) ≫ _ = _
     rw [hb]
     exact (comp_two_proj_one _ _ _ _ _ haEsnd

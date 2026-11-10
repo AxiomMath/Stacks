@@ -162,7 +162,7 @@ theorem exists_eq_specFppfOverMap {A k : Type u} [CommRing A] [CommRing k]
   have hleft : (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap A k))) :
       B.obj hk ⟶ B.obj hA) = h.left := by
     refine ObjectProperty.hom_ext _ ?_
-    show Spec.map (CommRingCat.ofHom φ) = h.left.hom
+    change Spec.map (CommRingCat.ofHom φ) = h.left.hom
     rw [show CommRingCat.ofHom φ = Spec.preimage h.left.hom from rfl, Spec.map_preimage]
   exact ⟨φ, hleft ▸ Over.w h, Over.OverMorphism.ext hleft⟩
 
@@ -237,7 +237,7 @@ theorem fibreBetti_eq_zero_iff_isZero_homology {A k : Type u} [CommRing A] [Fiel
     have := (hP.finiteFree j).1
     exact module_finite_extendScalars g (P.X j)
   have := module_finite_homology_of_field K j
-  show Module.finrank k (K.homology j) = 0 ↔ _
+  change Module.finrank k (K.homology j) = 0 ↔ _
   rw [Module.finrank_zero_iff]
   exact ⟨fun _ => ModuleCat.isZero_of_subsingleton _, ModuleCat.subsingleton_of_isZero⟩
 
@@ -451,7 +451,7 @@ theorem hasNoNegativeDualExt_comp_chart_iff (L : derivedModules B S hS Y)
   have hq : Φ.hom ≫ (T.hom ≫ φ) =
       schemeSpaceMap (specFppfOverMap B S hS hA gA hk gk w') ≫ φ := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map σ.hom ≫ schemesOverHom T ≫ φ.hom =
+    change yoneda.map σ.hom ≫ schemesOverHom T ≫ φ.hom =
       yoneda.map (specFppfOverMap B S hS hA gA hk gk w') ≫ φ.hom
     rw [hh, yoneda.map_comp, ht]
     exact (Category.assoc _ _ _).symm
@@ -534,11 +534,11 @@ theorem hasNoNegativeDualExt_iff_of_hom (L : derivedModules B S hS Y)
     hT₁ w₁
   have e₀ : HasNoNegativeDualExt L T₀.hom ↔ HasNoNegativeDualExt M (T₀'.hom ≫ Φ₀.hom) := by
     rw [hasNoNegativeDualExt_iff_of_iso L Φ₀ rfl, hasNoNegativeDualExt_comp_iff]
-    show _ ↔ HasNoNegativeDualExt M (𝟙 _ ≫ Φ₀.hom)
+    change _ ↔ HasNoNegativeDualExt M (𝟙 _ ≫ Φ₀.hom)
     rw [Category.id_comp]
   have e₁' : HasNoNegativeDualExt L T₁.hom ↔ HasNoNegativeDualExt M (T₁'.hom ≫ Φ₀.hom) := by
     rw [← CostructuredArrow.w g, hasNoNegativeDualExt_comp_iff]
-    show _ ↔ HasNoNegativeDualExt M (((schemeSpaceFunctor B S hS).map g.left ≫ Φ₀.inv) ≫
+    change _ ↔ HasNoNegativeDualExt M (((schemeSpaceFunctor B S hS).map g.left ≫ Φ₀.inv) ≫
       Φ₀.hom)
     rw [Category.assoc, Φ₀.inv_hom_id, Category.comp_id]
   have hpt : pointsToScheme B S hS (specFppfOver B S hS hk₀ gk₀)

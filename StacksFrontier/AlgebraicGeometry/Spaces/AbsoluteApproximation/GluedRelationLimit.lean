@@ -83,7 +83,7 @@ lemma exists_eq_comp_ι_of_isLimit (j₀ : J) :
     rw [← compatibleOpensDiagramIso_hom_app_ι ν V hν (fun _ ↦ rfl) j, ← Category.assoc,
       ← NatTrans.comp_app, iso.inv_hom_id, NatTrans.id_app, Category.id_comp]
   have h1 : Q.ι ≫ cD.π.app j = c'.π.app j ≫ ν.app j := by
-    show _ = ((cD.π.app j).resLE (V j) Q (hU j).ge ≫ iso.inv.app j) ≫ ν.app j
+    change _ = ((cD.π.app j).resLE (V j) Q (hU j).ge ≫ iso.inv.app j) ≫ ν.app j
     rw [Category.assoc, hinv, Scheme.Hom.resLE_comp_ι]
   rw [hνL, Category.assoc, h1]
   exact (congrArg (· ≫ ν.app j) (IsLimit.conePointUniqueUpToIso_hom_comp hE hc' j)).symm.trans

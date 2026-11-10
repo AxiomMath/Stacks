@@ -56,7 +56,7 @@ public theorem exists_smallEtaleArrows_cover_natCard
   let q₀ : B.obj N hN ⟶ V.obj.left := ObjectProperty.homMk g
   let Q : SmallEtale B X hX :=
     ⟨Over.mk (q₀ ≫ V.obj.hom), by
-      show Etale (g ≫ B.inclusion.map V.obj.hom)
+      change Etale (g ≫ B.inclusion.map V.obj.hom)
       infer_instance⟩
   let q : Q ⟶ V := ObjectProperty.homMk (Over.homMk q₀ rfl)
   let α : pullback Q.obj.hom U.obj.hom ⟶ pullback V.obj.hom U.obj.hom :=

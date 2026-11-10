@@ -74,6 +74,6 @@ theorem mk_sections_le_of_isStrictlyPerfect {P : CochainComplex (SheafOfModules.
   refine (Cardinal.mk_le_of_injective (f := fun x => i.val.app Y x) ?_).trans
     (SheafOfModules.mk_free_sections_le n Y hν hR)
   have h : ∀ x, r.val.app Y (i.val.app Y x) = x := fun x => by
-    show (i ≫ r).val.app Y x = x
+    change (i ≫ r).val.app Y x = x
     rw [hir]; rfl
   exact fun x y hxy => by rw [← h x, ← h y]; exact congrArg (r.val.app Y) hxy

@@ -31,7 +31,8 @@ bounded one.
 The perfect case is proved with exactly the hypotheses of its source: the comparison square of
 Stacks 0E2A is supplied by
 `Dualizing.exists_restrictScalars_map_derivedHomBaseChange_app_eq`. So is the pseudo-coherent
-case, in `StacksFrontier.RingTheory.Dualizing.TrivialDuality.BaseChangeIsomorphismFiniteTorDimension`.
+case, in
+`StacksFrontier.RingTheory.Dualizing.TrivialDuality.BaseChangeIsomorphismFiniteTorDimension`.
 The statements of the pseudo-coherent case recorded here carry one coherence hypothesis, `hAct`, a
 compatibility of the two canonical projection formulas with the restriction/base-change
 identification of Stacks 0661; see the implementation notes.

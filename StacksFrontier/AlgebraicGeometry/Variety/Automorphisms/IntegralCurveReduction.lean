@@ -111,7 +111,7 @@ theorem eq_id_of_covering_dense {X : Scheme.{u}} [IsReduced X] (f : X ⟶ X)
     intro x hx
     obtain ⟨j, y, hy⟩ := hcover (U.1.ι x) hx
     have hyV : y ∈ inclusion j ⁻¹ᵁ U.1 := by
-      show inclusion j y ∈ U.1
+      change inclusion j y ∈ U.1
       rw [hy]
       exact x.2
     set r : (inclusion j ⁻¹ᵁ U.1).toScheme ⟶ U.1.toScheme :=
@@ -158,7 +158,7 @@ theorem exists_restriction_to_reduced_closed {X : Scheme.{u}} (f : X ⟶ X) [IsI
   · simp
   · intro x
     apply I.subschemeι.isClosedEmbedding.injective
-    show (I.subschemeMap I f hmap.ge ≫ I.subschemeι) x = I.subschemeι x
+    change (I.subschemeMap I f hmap.ge ≫ I.subschemeι) x = I.subschemeι x
     rw [Scheme.IdealSheafData.subschemeMap_subschemeι, Scheme.Hom.comp_apply, hpoints]
 
 /-- If every point-fixing automorphism over the base of the reduced induced subscheme on a closed
@@ -212,7 +212,7 @@ theorem eq_id_of_integral_closed_restrictions {k : Type u} [Field k] {X : Scheme
   refine eq_id_of_covering_dense f hpoints (Y := fun Z ↦ (I Z).subscheme)
     (fun Z ↦ (I Z).subschemeι) dense_univ (fun x _ ↦ ?_) (fun Z ↦ ?_)
   · refine ⟨⟨irreducibleComponent x, irreducibleComponent_mem_irreducibleComponents x⟩, ?_⟩
-    show x ∈ Set.range (I ⟨irreducibleComponent x,
+    change x ∈ Set.range (I ⟨irreducibleComponent x,
       irreducibleComponent_mem_irreducibleComponents x⟩).subschemeι
     rw [Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
     exact mem_irreducibleComponent
@@ -273,7 +273,7 @@ private lemma isImmediateSpecialization_of_covBy {X Y : Type*} [TopologicalSpace
       apply IsGenericPoint.eq _ (genericPoint_spec Y)
       rw [isGenericPoint_def, hi.isEmbedding.closure_eq_preimage_closure_image,
         Set.image_singleton]
-      show i ⁻¹' (W : Set X) = Set.univ
+      change i ⁻¹' (W : Set X) = Set.univ
       rw [hW, ← hrange]
       simp
 
@@ -307,7 +307,7 @@ theorem exists_integral_closed_curve {k : Type u} [Field k] {X : Scheme.{u}} [Is
     topologicalKrullDimAt_eq_krullDimOfRing_stalk k I.subscheme (I.subschemeι ≫ p) y hyclosed,
     krullDimOfRing_stalk_eq_add_one_of_isImmediateSpecialization k I.subscheme
       (I.subschemeι ≫ p) _ y himmediate (Or.inl inferInstance)]
-  show ringKrullDim I.subscheme.functionField + 1 = 1
+  change ringKrullDim I.subscheme.functionField + 1 = 1
   rw [ringKrullDim_eq_zero_of_isField (Field.toIsField _), zero_add]
 
 /-- **Reduction to curves, affine case.** An automorphism over `k` of an integral affine scheme of
@@ -333,7 +333,7 @@ theorem eq_id_of_affine_integral_curve_restrictions {k : Type u} [Field k] {X : 
     (fun x hx ↦ ?_) (fun Z ↦ ?_)
   · obtain ⟨Z, hZ, hdimZ, hxZ⟩ := exists_integral_closed_curve p x hx hdim
     refine ⟨⟨Z, hZ, hdimZ⟩, ?_⟩
-    show x ∈ Set.range (I ⟨Z, hZ, hdimZ⟩).subschemeι
+    change x ∈ Set.range (I ⟨Z, hZ, hdimZ⟩).subschemeι
     rw [Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
     exact hxZ
   · have : IsIntegral (I Z).subscheme := Z.2.1
@@ -363,7 +363,7 @@ theorem eq_id_of_integral_curve_restrictions {k : Type u} [Field k] {X : Scheme.
     have : IsIso (f.resLE U.1 U.1 (preimage_eq_of_apply_eq f hpoints U.1).ge) :=
       isIso_resLE_of_apply_eq f hpoints U.1
     have hUdim : 0 < topologicalKrullDim U.1.toScheme := by
-      show 0 < topologicalKrullDim (U.1 : Set X)
+      change 0 < topologicalKrullDim (U.1 : Set X)
       rwa [← topologicalKrullDim_eq_of_isOpen k X p U.1 U.1.isOpen hnonempty]
     refine eq_id_of_affine_integral_curve_restrictions (U.1.ι ≫ p) _ ?_
       (resLE_apply_eq_of_apply_eq f hpoints U.1) hUdim hcurve

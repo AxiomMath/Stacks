@@ -134,10 +134,10 @@ theorem exists_map_from_coproduct
       (ObjectProperty.homMk (Sigma.desc fun i => (V i).hom.hom))
   let k (i : I) : V i ⟶ W := Over.homMk (ObjectProperty.homMk (Sigma.ι D i)) (by
     apply ObjectProperty.hom_ext
-    exact Sigma.ι_desc _ _)
+    exact Sigma.ι_comp_desc _ _)
   have hk (i : I) : _root_.AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (k i)) := by
-    show _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.ι D i)
+    change _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.ι D i)
     infer_instance
   have hcov : ∀ w : (BigFppfOver.toScheme B S hS).obj W,
       ∃ i, w ∈ Set.range ((BigFppfOver.toScheme B S hS).map (k i)) :=

@@ -145,7 +145,7 @@ private lemma pairSurj {R S T U : Type u} [CommRing R] [CommRing S]
                 ((extensionOfScalarsToPullback f g h k comm).obj L).iso.hom
                   ((1 : U) ⊗ₜ[S,h] x)) (hl₀.symm.trans hp₀B.symm)
         _ = _ := p₀.2
-    show (1 : U) ⊗ₜ[T,k] (p.1.2 - p₀.1.2) = 0
+    change (1 : U) ⊗ₜ[T,k] (p.1.2 - p₀.1.2) = 0
     rw [TensorProduct.tmul_sub, hsame, sub_self]
   have hzker : (LinearMap.rTensor L (tensorRingMapLinear g k)) z = 0 := by
     have hc := extendScalarsComp_rTensor g k L z
@@ -190,7 +190,7 @@ private lemma adjUnitPairComponents {A A' B : Type u} [CommRing A] [CommRing A']
   let E := extensionOfScalarsToPullback toB toA' toBase surjection comm
   obtain ⟨hhB, hhA'⟩ := h L (E.obj L) (adj.unit.app L) l
   rw [adj.homEquiv_symm_unit] at hhB hhA'
-  exact ⟨by convert hhB using 1 <;> rfl, by convert hhA' using 1 <;> rfl⟩
+  exact ⟨by convert hhB using 1, by convert hhA' using 1⟩
 
 private lemma surjAdjUnit {A A' B : Type u} [CommRing A] [CommRing A'] [CommRing B]
     (toBase : B →+* A) (surjection : A' →+* A) (I : Ideal A')
@@ -241,9 +241,9 @@ private lemma tensorQuotientClass_eq_zero {R S : Type u} [CommRing R] [CommRing 
       _ = r • Ideal.Quotient.mk J (1 : R) := Submodule.Quotient.mk_smul J r (1 : R)
       _ = r • (1 : R ⧸ J) := by simp
   rw [hr']
-  show (1 : S) ⊗ₜ[R] (r • (1 : R ⧸ J)) = 0
+  change (1 : S) ⊗ₜ[R] (r • (1 : R ⧸ J)) = 0
   rw [TensorProduct.tmul_smul]
-  show (f r * 1 : S) ⊗ₜ[R] (1 : R ⧸ J) = 0
+  change (f r * 1 : S) ⊗ₜ[R] (1 : R ⧸ J) = 0
   simp [hr]
 
 private lemma noninjAdjUnit {A A' B : Type u} [CommRing A] [CommRing A'] [CommRing B]
@@ -293,7 +293,7 @@ private theorem liftedSituation : RingFibreProduct.Situation
   refine ⟨fun z => ?_, rfl⟩
   obtain ⟨a, ha⟩ := situation.surjective_surjection z.down
   refine ⟨⟨a⟩, ?_⟩
-  show ULift.up (reduction a) = z
+  change ULift.up (reduction a) = z
   exact ULift.up_down z ▸ congrArg ULift.up ha
 
 private abbrev DLift := liftedSituation.fibreProduct

@@ -102,7 +102,7 @@ private lemma flat_polynomial_localization_of_parameters
   let f : Rp →+* L := Localization.localRingHom m q (algebraMap R Λ) hm
   let : Algebra Rp L := f.toAlgebra
   have : IsScalarTower R Rp L := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap R L x = f (algebraMap R Rp x)
+    change algebraMap R L x = f (algebraMap R Rp x)
     exact (Localization.localRingHom_to_map m q (algebraMap R Λ) hm x).symm
   have : IsLocalHom (algebraMap Rp L) :=
     Localization.isLocalHom_localRingHom m q (algebraMap R Λ) hm
@@ -319,7 +319,7 @@ private lemma isNilpotent_map_span_range_of_pow_mem
     (Submodule.fg_span (Set.finite_range _))).mpr
   apply Ideal.span_le.mpr
   rintro _ ⟨i, rfl⟩
-  show Ideal.Quotient.mk I (a i) ∈ nilradical (R ⧸ I)
+  change Ideal.Quotient.mk I (a i) ∈ nilradical (R ⧸ I)
   apply mem_nilradical.mpr
   refine ⟨n, ?_⟩
   rw [← map_pow]
@@ -355,7 +355,7 @@ private lemma isFilteredColimitOfSmooth_transport
         CommAlgCat.ofHom
         { toRingHom := f.hom.toRingHom
           commutes' := fun s => by
-            show f.hom (algebraMap R X (eR.symm s)) =
+            change f.hom (algebraMap R X (eR.symm s)) =
               algebraMap R Y (eR.symm s)
             exact f.hom.commutes (eR.symm s) }
       map_id := by intro X; ext x; rfl
@@ -371,7 +371,7 @@ private lemma isFilteredColimitOfSmooth_transport
     · intro x
       obtain ⟨i, a, ha⟩ := Types.jointly_surjective_of_isColimit hc x
       refine ⟨i, a, ?_⟩
-      show x = (c.ι.app i).hom a
+      change x = (c.ι.app i).hom a
       exact ha.symm
     · intro i j a b hab
       have hh : (c.ι.app i).hom a = (c.ι.app j).hom b := by
@@ -379,12 +379,12 @@ private lemma isFilteredColimitOfSmooth_transport
         exact hab
       obtain ⟨k, f, g, hk⟩ := (Types.FilteredColimit.isColimit_eq_iff _ hc).mp hh
       refine ⟨k, f, g, ?_⟩
-      show (F.map f).hom a = (F.map g).hom b
+      change (F.map f).hom a = (F.map g).hom b
       exact hk
   · let e' : (E.mapCocone c).pt ≃ₐ[S] B :=
       { toRingEquiv := e.toRingEquiv.trans eA
         commutes' := fun s => by
-          show eA (e (algebraMap R c.pt (eR.symm s))) = algebraMap S B s
+          change eA (e (algebraMap R c.pt (eR.symm s))) = algebraMap S B s
           rw [e.commutes, he, eR.apply_symm_apply] }
     exact ⟨e'⟩
 
@@ -423,7 +423,7 @@ private theorem isSeparableExtension_of_ringEquiv_square
   have hh := hp'.map_of_surjective_injectiveₛ e E.toAddMonoidHom
     e.surjective E.injective hsmul
   change LinearIndependent k' (fun x : s => E (E.symm x.1 ^ p)) at hh
-  show LinearIndependent k' (fun x : s => x.1 ^ p)
+  change LinearIndependent k' (fun x : s => x.1 ^ p)
   simpa only [map_pow, E.apply_symm_apply] using hh
 
 private lemma isFilteredColimitOfSmooth_of_isSeparableExtension
@@ -543,7 +543,7 @@ private lemma exists_smooth_factorization_of_isFilteredColimitOfSmooth
         (RingHom.FinitePresentation.of_bijective ULift.ringEquiv.bijective))
   have hbase (i : I) : p ≫ f' = α.app i ≫ c'.ι.app i := by
     ext x
-    show e.symm (f (algebraMap R A x.down)) =
+    change e.symm (f (algebraMap R A x.down)) =
       (c.ι.app i).hom (algebraMap R (F.obj i) x.down)
     rw [f.commutes, e.symm.commutes, (c.ι.app i).hom.commutes]
     rfl
@@ -561,7 +561,7 @@ private lemma exists_smooth_factorization_of_isFilteredColimitOfSmooth
     Algebra.Smooth.of_equiv (ULift.algEquiv.symm : (F.obj i) ≃ₐ[R] D), g, h, ?_⟩
   ext a
   have hf := congrArg (fun h => (h (ULift.up a)).down) hgFact
-  show e ((c.ι.app i).hom (g' (ULift.up a)).down) = f a
+  change e ((c.ι.app i).hom (g' (ULift.up a)).down) = f a
   exact (congrArg e hf).symm.trans (e.apply_symm_apply (f a))
 
 /-- A filtered colimit of smooth algebras in the `CommAlgCat` spelling is one in the
@@ -591,7 +591,7 @@ private lemma indSmoothUnder_of_isFilteredColimitOfSmooth {R Λ : Type u} [CommR
   · exact CommRingCat.hom_ext (RingHom.ext fun r => k.commutes r)
   · exact Under.UnderMorphism.ext
       (CommRingCat.hom_ext (RingHom.ext fun a => AlgHom.congr_fun hcomp a))
-  · show (algebraMap R D).Smooth
+  · change (algebraMap R D).Smooth
     exact RingHom.smooth_algebraMap.mpr hsm
 
 /-- Conversely, the `Under (CommRingCat.of R)` spelling gives the `CommAlgCat` one: the
@@ -646,7 +646,7 @@ private theorem isFilteredColimitOfSmooth_of_isNilpotent
         algebraMap (R' ⧸ I') (S' ⧸ J') (eRq x) := by
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient]
-    show (Ideal.quotientEquiv J J' eS hJ')
+    change (Ideal.quotientEquiv J J' eS hJ')
       (Ideal.Quotient.mk J (algebraMap R S r)) =
       algebraMap (R' ⧸ I') (S' ⧸ J')
         ((Ideal.quotientEquiv I I' eR rfl) (Ideal.Quotient.mk I r))

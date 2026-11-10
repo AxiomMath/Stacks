@@ -290,13 +290,13 @@ public theorem representedProjection_cofibered
       (coyoneda.obj (Opposite.op R)).elementsMk V.unop (x.unop.2 ≫ f.unop)
     let a : x.unop ⟶ y := ⟨f.unop, rfl⟩
     exact ⟨Opposite.op y, a.op, by
-      show (representedProjection R).op.IsHomLift
+      change (representedProjection R).op.IsHomLift
         ((representedProjection R).op.map a.op) a.op
       infer_instance⟩
   · intro x y z φ ψ f hf
     have he : φ.unop.hom ≫ f.unop = ψ.unop.hom := congrArg Quiver.Hom.unop hf
     let a : y.unop ⟶ z.unop := ⟨f.unop, by
-      show y.unop.2 ≫ f.unop = z.unop.2
+      change y.unop.2 ≫ f.unop = z.unop.2
       have hφ : x.unop.2 ≫ φ.unop.hom = y.unop.2 := φ.unop.map_val
       rw [← hφ, Category.assoc, he]
       exact ψ.unop.map_val⟩
@@ -401,7 +401,7 @@ public theorem representedRestrictionInverse_adicLevel_eq
       intro r
       rw [P.baseMap_hom, canonicalQuotientPoint_hom]
       rfl
-    show (L.obj.2 ≫ eqToHom L.obj_eq) ≫
+    change (L.obj.2 ≫ eqToHom L.obj_eq) ≫
         artinianToComplete.map (eqToHom hbase) =
       canonicalQuotientPoint R n
     exact hpoint.trans hquot

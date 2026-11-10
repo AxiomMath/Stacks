@@ -186,8 +186,7 @@ public def presentationBaseChangeCochainIso :
             (LinearMap.baseChange (adicCompletionObj I (B := B)).carrier
               ((nlRestrict B G).d) w) := by
         intro w
-        induction w using TensorProduct.induction_on with
-        | zero => simp only [map_zero]
+        induction w using TensorProduct.inductionOn with
         | tmul s x => rfl
         | add x y hx hy => simp only [map_add, hx, hy]
       refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)

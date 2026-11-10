@@ -70,12 +70,10 @@ theorem isIso_restrictionBaseChange_of_comp_left {X Y Z : Cᵒᵖ} (f : X ⟶ Y)
     (M.obj X)
   have key : ∀ z, θfg (c z) = θg (LinearMap.lTensor (R.obj Z) θ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz']
     | tmul d w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' => simp only [tmul_add, map_add, hw, hw']
       | tmul b x =>
         rw [AlgebraTensorModule.cancelBaseChange_tmul, LinearMap.lTensor_tmul]

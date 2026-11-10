@@ -115,7 +115,7 @@ lemma inclusionHom_rfl (j : StageSubalgebra F P) : inclusionHom (le_refl j) = �
 lemma inclusionHom_trans {j k l : StageSubalgebra F P} (h : j ≤ k) (h' : k ≤ l) :
     inclusionHom (h.trans h') = inclusionHom h ≫ inclusionHom h' := by
   refine hom_ext_of_coe_eq fun a ↦ ?_
-  show (inclusionAlgHom (h.trans h') a : F.obj (stage l)) =
+  change (inclusionAlgHom (h.trans h') a : F.obj (stage l)) =
     (inclusionAlgHom h' (inclusionAlgHom h a) : F.obj (stage l))
   rw [inclusionAlgHom_coe, inclusionAlgHom_coe, inclusionAlgHom_coe,
     Subsingleton.elim (homOfLE (le_stage (h.trans h')))

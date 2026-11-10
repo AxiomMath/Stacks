@@ -120,7 +120,7 @@ private theorem isClosedMorphism_of_iso_comp
   have hmap : pointsMap B S hS D f =
       pointsMap B S hS A (e.hom ≫ f) ∘ pointsMap B S hS D e.inv := by
     rw [← pointsMap_comp, ← Category.assoc, e.inv_hom_id, Category.id_comp]
-  show IsClosedMap (pointsMap B S hS D f)
+  change IsClosedMap (pointsMap B S hS D f)
   rw [hmap]
   exact IsClosedMap.comp hf hinv
 
@@ -133,7 +133,7 @@ theorem isClosedMorphism_comp {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let _ := pointTopology B S hS X
   let _ := pointTopology B S hS Y
   let _ := pointTopology B S hS Z
-  show IsClosedMap (pointsMap B S hS X (f ≫ g))
+  change IsClosedMap (pointsMap B S hS X (f ≫ g))
   rw [pointsMap_comp]
   exact IsClosedMap.comp hg hf
 

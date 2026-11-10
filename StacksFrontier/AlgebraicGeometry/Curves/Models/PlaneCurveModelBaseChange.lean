@@ -103,7 +103,7 @@ theorem toSpec_eq :
         (Stacks.HomogeneousIdeal.quotientMk (equationIdeal F hF)).gradedZeroRingHom =
       CommRingCat.ofHom (toGradingZero F hF) := by
     ext a
-    show Ideal.Quotient.mk _ (DirectSum.decompose (homogeneousSubmodule (Fin 3) R)
+    change Ideal.Quotient.mk _ (DirectSum.decompose (homogeneousSubmodule (Fin 3) R)
       (MvPolynomial.C a) 0 : MvPolynomial (Fin 3) R) = Ideal.Quotient.mk _ (MvPolynomial.C a)
     rw [DirectSum.decompose_of_mem_same _ (by
       rw [mem_homogeneousSubmodule]; exact isHomogeneous_C _ _)]
@@ -147,7 +147,7 @@ theorem gradedZeroRingHom_coordHom_comp
     (coordHom σ hσ).gradedZeroRingHom.comp (toGradingZero F hF) =
       (toGradingZero G hG).comp φ :=
   RingHom.ext fun a => Subtype.ext <| by
-    show Ideal.Quotient.mk _ (σ (MvPolynomial.C a)) = Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
+    change Ideal.Quotient.mk _ (σ (MvPolynomial.C a)) = Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
     rw [hφ]
 
 /-- A homomorphism of homogeneous coordinate rings lying over `φ` in degree zero induces a
@@ -214,7 +214,7 @@ theorem irrelevant_le_map_mapHom :
       (monomial m (q.coeff m)) =
       Ideal.Quotient.mk _ (MvPolynomial.C (q.coeff m)) *
         mapHom F hF φ (Ideal.Quotient.mk (equationIdeal F hF).toIdeal (monomial m 1)) := by
-    show _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial m 1))
+    change _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial m 1))
     rw [← map_mul, MvPolynomial.map_monomial, map_one, C_mul_monomial, mul_one]
   rw [h]
   exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ hmem)
@@ -309,7 +309,7 @@ theorem moduleGradingIso_hom_toSpec :
     (moduleGradingIso F hF).hom ≫ toSpec F hF =
       Proj.toSpecZero (moduleGrading F hF) ≫
         Spec.map (CommRingCat.ofHom (algebraMap R ↥(moduleGrading F hF 0))) := by
-  show Proj.map (toModuleGrading F hF) (irrelevant_le_map_toModuleGrading F hF) ≫ _ = _
+  change Proj.map (toModuleGrading F hF) (irrelevant_le_map_toModuleGrading F hF) ≫ _ = _
   rw [toSpec_eq, Proj.map_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 2
 
@@ -329,11 +329,11 @@ theorem equationIdeal_map_eq :
         (Ideal.map (Algebra.TensorProduct.includeRight :
             MvPolynomial (Fin 3) R →ₐ[R] S ⊗[R] MvPolynomial (Fin 3) R)
           (equationIdeal F hF).toIdeal) := by
-  show Ideal.span {MvPolynomial.map (algebraMap R S) F} =
+  change Ideal.span {MvPolynomial.map (algebraMap R S) F} =
     Ideal.map _ (Ideal.map _ (Ideal.span {F}))
   rw [Ideal.map_span, Ideal.map_span, Set.image_singleton, Set.image_singleton]
   congr 2
-  show _ = MvPolynomial.algebraTensorAlgEquiv R S (1 ⊗ₜ[R] F)
+  change _ = MvPolynomial.algebraTensorAlgEquiv R S (1 ⊗ₜ[R] F)
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, one_smul]
 
 /-- `S ⊗[R] R[T]/(F) ≅ S[T]/(φ F)`. -/
@@ -351,13 +351,13 @@ def baseChangeEquiv :
 theorem baseChangeEquiv_tmul (s : S) (p : MvPolynomial (Fin 3) R) :
     baseChangeEquiv F hF S (s ⊗ₜ[R] Ideal.Quotient.mk (equationIdeal F hF).toIdeal p) =
       Ideal.Quotient.mk _ (MvPolynomial.C s * MvPolynomial.map (algebraMap R S) p) := by
-  show Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
+  change Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
       (equationIdeal_map_eq F hF S)
       (Algebra.TensorProduct.tensorQuotientEquiv S (MvPolynomial (Fin 3) R) S
         (equationIdeal F hF).toIdeal
           (s ⊗ₜ[R] Ideal.Quotient.mk (equationIdeal F hF).toIdeal p)) = _
   rw [Algebra.TensorProduct.tensorQuotientEquiv_apply_tmul]
-  show Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
+  change Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, smul_eq_C_mul]
 
 /-- `baseChangeEquiv` as a homomorphism of graded rings. -/
@@ -439,7 +439,7 @@ theorem mapHom_comp_fromModuleGrading_eq :
         (Stacks.ProjBaseChange.includeRight (moduleGrading F hF) S) :=
   GradedRingHom.ext fun x => by
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap R S) p) =
+    change Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap R S) p) =
       baseChangeEquiv F hF S (1 ⊗ₜ[R] Ideal.Quotient.mk (equationIdeal F hF).toIdeal p)
     rw [baseChangeEquiv_tmul, map_one, one_mul]
 
@@ -478,7 +478,7 @@ theorem isPullback_mapMap_algebraMap :
   · rw [Proj.map_comp (fromModuleGrading F hF) (mapHom F hF (algebraMap R S))
       (irrelevant_le_map_fromModuleGrading F hF) (irrelevant_le_map_mapHom F hF (algebraMap R S)),
       Category.assoc]
-    show mapMap F hF (algebraMap R S) ≫ (moduleGradingIso F hF).inv ≫
+    change mapMap F hF (algebraMap R S) ≫ (moduleGradingIso F hF).inv ≫
       (moduleGradingIso F hF).hom = _
     rw [Iso.inv_hom_id, Category.comp_id]
     exact (Category.id_comp _).symm
@@ -568,7 +568,7 @@ theorem coordHom_comp_coordHom
     (coordHom τ hτ).comp (coordHom σ hσ) = GradedRingHom.id (grading F hF) :=
   GradedRingHom.ext fun x => by
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (τ (σ p)) = Ideal.Quotient.mk _ p
+    change Ideal.Quotient.mk _ (τ (σ p)) = Ideal.Quotient.mk _ p
     exact congrArg (Ideal.Quotient.mk _) (congrArg (fun f => GradedRingHom.toRingHom f p) hστ)
 
 /-- If `σ` has a right inverse `τ` with `τ G ∈ (F)`, then the irrelevant ideal of `R[T]/(G)` lies

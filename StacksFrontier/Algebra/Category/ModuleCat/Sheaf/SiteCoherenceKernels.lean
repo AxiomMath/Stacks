@@ -84,7 +84,7 @@ private theorem submodule_coe_sum_smul {M : PresheafOfModules.{m} S} (N : M.Subm
     {X : Cᵒᵖ} {n : ℕ}
     (b : Fin n → S.obj X) (z : Fin n → N.toPresheafOfModules.obj X) :
     (∑ i, b i • z i).val = ∑ i, b i • (z i).val := by
-  show (N.ι.app X) (∑ i, b i • z i) = _
+  change (N.ι.app X) (∑ i, b i • z i) = _
   rw [map_sum]
   simp only [map_smul]
   rfl
@@ -107,7 +107,7 @@ theorem relations_coe_sum {M : PresheafOfModules.{m} S} {U : C} {n : ℕ}
   | empty => simp; rfl
   | insert l t hl ih =>
       rw [Finset.sum_insert hl, Finset.sum_insert hl]
-      show (b l • z l).val j + (∑ x ∈ t, b x • z x).val j = _
+      change (b l • z l).val j + (∑ x ∈ t, b x • z x).val j = _
       rw [ih]
       rfl
 

@@ -65,7 +65,7 @@ theorem exists_isUnit_detJacobian_of_etale {R : Type u} [CommRing R] {T : Type v
   let Q : SubmersivePresentation R T (Fin n) (Fin n) := P.reindex (d.trans e) d
   have hQmap : ∀ k, Q.map k = k := by
     intro k
-    show (P.toPreSubmersivePresentation.reindex (d.trans e) d).map k = k
+    change (P.toPreSubmersivePresentation.reindex (d.trans e) d).map k = k
     rw [PreSubmersivePresentation.reindex_map]
     have he : ∀ x, e.symm (P.map x) = x := fun x => e.symm_apply_apply x
     simp [he]
@@ -82,7 +82,7 @@ theorem exists_isUnit_detJacobian_of_etale {R : Type u} [CommRing R] {T : Type v
       ε (Ideal.Quotient.mk (Ideal.span (Set.range Q.relation)) p)
         = algebraMap Q.Ring T p := by
     intro p
-    show Q.quotientEquiv (Ideal.quotientEquivAlgOfEq R hspan (Ideal.Quotient.mk _ p)) = _
+    change Q.quotientEquiv (Ideal.quotientEquivAlgOfEq R hspan (Ideal.Quotient.mk _ p)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk, Presentation.quotientEquiv_mk]
   refine ⟨n, Q.relation, ?_, ⟨ε⟩⟩
   have hunit : IsUnit (algebraMap Q.Ring T (detJacobian Q.relation)) := by

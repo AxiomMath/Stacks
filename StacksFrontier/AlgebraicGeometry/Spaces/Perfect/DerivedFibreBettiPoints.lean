@@ -118,7 +118,7 @@ of the morphism presented by `p` with `g`. -/
 theorem fieldHom_map {Y : AlgebraicSpaces B S hS} (g : Y ⟶ X) (p : FieldValuedPoint B S hS Y.1) :
     fieldHom B S hS (FieldValuedPoint.map B S hS Y.1 g.hom p) = fieldHom B S hS p ≫ g := by
   apply ObjectProperty.hom_ext
-  show yonedaEquiv.symm (g.hom.app _ p.value) = yonedaEquiv.symm p.value ≫ g.hom
+  change yonedaEquiv.symm (g.hom.app _ p.value) = yonedaEquiv.symm p.value ≫ g.hom
   rw [yonedaEquiv_symm_naturality_right]
 
 /-- **Betti numbers commute with derived pullback**: the Betti numbers of `Lg^*E` at a geometric
@@ -174,14 +174,14 @@ theorem exists_idChart_map_lift (p : FieldValuedPoint B S hS X.1) [IsAlgClosed p
       rw [Functor.map_comp, CategoryTheory.Functor.map_id]
       exact hl)
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk s ?_), ?_⟩
-  · show yoneda.map s ≫ V.obj.hom = 𝟙 _
+  · change yoneda.map s ≫ V.obj.hom = 𝟙 _
     rw [← hπ, ← yoneda.map_comp, hsπ, yoneda.map_id]
   · apply Subtype.ext
-    show z.val.value ≫ s = y.1
+    change z.val.value ≫ s = y.1
     apply BigFppfOver.map_toScheme_injective B S hS
     dsimp only
     rw [Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map z.val.value ≫ l = _
+    change (BigFppfOver.toScheme B S hS).map z.val.value ≫ l = _
     have hz : (BigFppfOver.toScheme B S hS).map z.val.value =
         (BigFppfOver.toScheme B S hS).map y.1 ≫ (BigFppfOver.toScheme B S hS).map π := by
       rw [← Functor.map_comp, hy]
@@ -189,6 +189,7 @@ theorem exists_idChart_map_lift (p : FieldValuedPoint B S hS X.1) [IsAlgClosed p
     exact hq.symm
 
 set_option maxHeartbeats 800000 in
+-- elaborating the nested site-point fibres of ringed-topos structure sheaves is heavy
 open Opposite in
 /-- **On the space of the spectrum of an algebraically closed field the stalk at any geometric
 point is the module of global sections**, so the two have the same dimension. -/
@@ -243,7 +244,7 @@ theorem finrank_idChart_eq_finrank_moduleStalk (p : FieldValuedPoint B S hS X.1)
       (fun r m => by
         have hr : e.inv.hom (e.hom.hom r) = r := by
           rw [← RingCat.comp_apply, Iso.hom_inv_id, RingCat.id_apply]
-        show r • m = (e.inv.hom (e.hom.hom r)) • m
+        change r • m = (e.inv.hom (e.hom.hom r)) • m
         rw [hr])
   exact congrArg Cardinal.toNat (h1.trans h2)
 

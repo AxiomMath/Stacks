@@ -217,11 +217,11 @@ theorem exists_transition_of_isPullback
   refine exists_transition_of_isPushout po₁ po₂ (Scheme.appTopIso φ) ?_ ?_
   · have hr : ρ₁ = φ.inv ≫ π₁ ≫ W := by rw [← h1, Iso.inv_hom_id_assoc]
     rw [hW']
-    show W.appTop ≫ π₁.appTop ≫ φ.inv.appTop = ρ₁.appTop
+    change W.appTop ≫ π₁.appTop ≫ φ.inv.appTop = ρ₁.appTop
     rw [hr, Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop, Category.assoc]
   · have hr : ρ₂ ≫ W = φ.inv ≫ π₂ := by rw [← h2, Iso.inv_hom_id_assoc]
     rw [hW']
-    show π₂.appTop ≫ φ.inv.appTop = W.appTop ≫ ρ₂.appTop
+    change π₂.appTop ≫ φ.inv.appTop = W.appTop ≫ ρ₂.appTop
     rw [← Scheme.Hom.comp_appTop, ← Scheme.Hom.comp_appTop, hr]
 
 /-! ### The scheme-level descent datum of a presheaf-level one -/

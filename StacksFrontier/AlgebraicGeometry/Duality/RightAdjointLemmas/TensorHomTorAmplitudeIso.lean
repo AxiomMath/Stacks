@@ -107,8 +107,8 @@ only remaining input of the mate argument, is the identification of
 class of the morphism of [Stacks, Tag 0BYR] between chosen K-flat and K-injective
 representatives — with the adjunction-theoretic diagonal of that adjunction.
 
-The material about restriction to an open subspace is available, but it belongs to the affine route, which
-is not the route this library will take: the derived pullback restricts to an open by
+The material about restriction to an open subspace is available, but it belongs to the affine route,
+which is not the route this library will take: the derived pullback restricts to an open by
 `Stacks.Cohomology.DerivedRestrictionPullback.derivedRestrictPullbackIso`, the derived tensor
 product of [Stacks, Tag 06YU] restricts on K-flat representatives by
 `Stacks.Cohomology.RestrictionTensor.derivedTensorRestrictIsoOfKFlat`, and

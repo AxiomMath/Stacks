@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Properties.ExtendIdealSheaf
 # A closed subscheme of a quasi-compact quasi-separated scheme is the limit of its
 finite-presentation enlargements
 
-`StacksFrontier/AlgebraicGeometry/Flatness/SubschemeLimit.lean` reduces the limit half of Tag 0EV9 to
-the single statement that a quasi-coherent ideal sheaf on a quasi-compact and quasi-separated
+`StacksFrontier/AlgebraicGeometry/Flatness/SubschemeLimit.lean` reduces the limit half of Tag 0EV9
+to the single statement that a quasi-coherent ideal sheaf on a quasi-compact and quasi-separated
 scheme is the supremum of the finitely generated quasi-coherent ideal sheaves below it — the
 ideal-sheaf case of Tag 01PG — and proves the converse, so that statement is *equivalent* to the
 limit half and cannot be weakened. That statement is now available as

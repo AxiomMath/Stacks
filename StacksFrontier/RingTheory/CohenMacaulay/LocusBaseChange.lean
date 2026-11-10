@@ -88,7 +88,7 @@ private theorem isMaximalCohenMacaulay_localizationAtPrime_iff (k S K : Type*) [
     Module.Flat.of_linearEquiv (Algebra.TensorProduct.commRight k S K).symm.toLinearEquiv
   have : qK.LiesOver q := ⟨hqK⟩
   have : IsLocalHom (algebraMap (Localization.AtPrime q) (Localization.AtPrime qK)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom _ _ _ Ideal.LiesOver.over
   rw [Module.isMaximalCohenMacaulay_self_iff_of_flat (Localization.AtPrime q)
     (Localization.AtPrime qK)]
@@ -361,7 +361,7 @@ public theorem solution (R R' S S' : Type*)
   have : ((PrimeSpectrum.comap (algebraMap R' S') 𝔮').asIdeal).LiesOver
       ((PrimeSpectrum.comap (algebraMap R S)
         (PrimeSpectrum.comap (algebraMap S S') 𝔮')).asIdeal) := ⟨by
-    show Ideal.comap (algebraMap R S) (Ideal.comap (algebraMap S S') 𝔮'.asIdeal)
+    change Ideal.comap (algebraMap R S) (Ideal.comap (algebraMap S S') 𝔮'.asIdeal)
         = Ideal.comap (algebraMap R R') (Ideal.comap (algebraMap R' S') 𝔮'.asIdeal)
     rw [Ideal.comap_comap, Ideal.comap_comap, ← IsScalarTower.algebraMap_eq R S S',
       ← IsScalarTower.algebraMap_eq R R' S']⟩

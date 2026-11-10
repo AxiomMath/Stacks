@@ -202,7 +202,7 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
   let gR : R →+* Q := (Ideal.Quotient.mk K).comp fbar
   have hkillIbar : Ibar ≤ RingHom.ker gR := by
     intro x hx
-    show Ideal.Quotient.mk K (fbar x) = 0
+    change Ideal.Quotient.mk K (fbar x) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem fbar hx)
   let tmap : T →+* Q := Ideal.Quotient.lift Ibar gR hkillIbar
   let gB : B →+* Q := (Ideal.Quotient.mk K).comp (Ideal.Quotient.mk P)
@@ -212,7 +212,7 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
   have hcompTD : tmap.comp eToT = dmap.comp fAD := by
     refine RingHom.ext fun x ↦ ?_
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show (Ideal.Quotient.mk K) (fbar (Ideal.Quotient.mk p a)) =
+    change (Ideal.Quotient.mk K) (fbar (Ideal.Quotient.mk p a)) =
       (Ideal.Quotient.mk K) (Ideal.Quotient.mk P (φ a))
     exact congrArg (Ideal.Quotient.mk K) (congrArg (fun f : A →+* C ↦ f a) hfbar)
   let : Algebra T Q := tmap.toAlgebra
@@ -223,7 +223,7 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
     { toRingHom := dmap
       commutes' := by
         intro x
-        show dmap (fAD x) = (tmap.comp eToT) x
+        change dmap (fAD x) = (tmap.comp eToT) x
         exact (congrArg (fun f : E →+* Q ↦ f x) hcompTD).symm }
   let hcomm : ∀ x y, Commute (fAlg x) (dAlg y) := fun _ _ ↦ Commute.all _ _
   let tensMap := Algebra.TensorProduct.lift fAlg dAlg hcomm
@@ -253,7 +253,7 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
       (C ⧸ (Ibar • (⊤ : Submodule R C))) (Ibar : Set R) := by
     intro x r
     refine Submodule.Quotient.induction_on _ x fun c ↦ ?_
-    show Submodule.Quotient.mk (p := Ibar • (⊤ : Submodule R C)) (r • c) = 0
+    change Submodule.Quotient.mk (p := Ibar • (⊤ : Submodule R C)) (r • c) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_smul r.2 Submodule.mem_top
   let : Module T (C ⧸ (Ibar • (⊤ : Submodule R C))) := hFiberTorsion.module
@@ -275,10 +275,10 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
   have hpushCT : Algebra.IsPushout R C T Q := by
     refine ⟨IsBaseChange.of_equiv eCQ.symm.toLinearEquiv fun x ↦ ?_⟩
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot C Ibar).symm
+    change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot C Ibar).symm
       (1 ⊗ₜ[R] (r : R ⧸ Ibar)) = tmap (Ideal.Quotient.mk Ibar r)
     rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_symm_tmul]
-    show Ideal.Quotient.mk K (fbar r * 1) =
+    change Ideal.Quotient.mk K (fbar r * 1) =
       Ideal.Quotient.lift Ibar gR hkillIbar (Ideal.Quotient.mk Ibar r)
     rw [mul_one]
     rfl
@@ -320,10 +320,10 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
   have hqCPrime : qC.IsPrime := Ideal.isPrime_map_quotientMk_of_isPrime hPq
   have hqCcomap : qC.comap (Ideal.Quotient.mk P) = q := Ideal.comap_map_mk hPq
   have hqCunder : qC.under R = ⊥ := by
-    show qC.comap (algebraMap R C) = ⊥
+    change qC.comap (algebraMap R C) = ⊥
     apply Ideal.comap_injective_of_surjective (Ideal.Quotient.mk p)
       Ideal.Quotient.mk_surjective
-    show qC.comap (fbar.comp (Ideal.Quotient.mk p)) =
+    change qC.comap (fbar.comp (Ideal.Quotient.mk p)) =
       (⊥ : Ideal R).comap (Ideal.Quotient.mk p)
     rw [hfbar, ← Ideal.comap_comap, hqCcomap, ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
   let : Algebra.IsIntegral R C := inferInstance
@@ -356,7 +356,7 @@ public lemma map_comap_eq_map_of_rigPoint_of_etale_quotient
     rw [Ideal.map_map, ← hcomp, ← Ideal.map_map]
     exact hqCmapZero
   have hIqLeq : Iq ≤ q.map (algebraMap B L) := Ideal.map_mono hPq
-  show p.map ((algebraMap B L).comp φ) = q.map (algebraMap B L)
+  change p.map ((algebraMap B L).comp φ) = q.map (algebraMap B L)
   rw [← Ideal.map_map]
   exact le_antisymm hIqLeq hqLeIq
 

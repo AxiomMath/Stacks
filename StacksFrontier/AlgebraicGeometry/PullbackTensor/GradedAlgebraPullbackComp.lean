@@ -60,7 +60,7 @@ theorem iso_hom_app_one_eval (e : A ≅ B) (U : Cᵒᵖ) :
   set u := (e.hom.app 0).val.app U (A.one.eval U)
   set x := (e.inv.app 0).val.app U (B.one.eval U)
   have hx : (e.hom.app 0).val.app U x = B.one.eval U := by
-    show ((e.inv ≫ e.hom).app 0).val.app U (B.one.eval U) = _
+    change ((e.inv ≫ e.hom).app 0).val.app U (B.one.eval U) = _
     rw [e.inv_hom_id]
     rfl
   have h2 : HEq ((e.hom.app (0 + 0)).val.app U ((A.mul 0 0).app U (A.one.eval U) x))

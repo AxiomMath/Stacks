@@ -268,7 +268,7 @@ morphism `g : W' ⟶ W`. If, when `dim_δ(W) = k + 1`, the pushforward along `g`
 divisor on `W'` is a principal divisor on `W` (`hnorm`, the norm step of Stacks 0EQC), then every
 multiple of the defect of the projection formula at `W'`, for the Gysin component rules of
 `(f^*ℒ, f^*s)` and of `(ℒ, s)`, is rationally equivalent to zero inside `|W|`. -/
-theorem isRationallyEquivalentToZeroWithinCanonical_zsmul_properPushforwardChernDefect_sectionGysinChernRule_of_le
+theorem isRationallyEquivalentToZeroWithinCanonical_zsmul_chernDefect_sectionGysinChernRule_of_le
     (W' : IntegralClosedSubspace D.site D.base D.base_mem X')
     (hnorm : ∀ (g : W'.subspace.toFunctor ⟶ (chernImage D hp' hp f W').subspace.toFunctor)
       (hg : g ≫ (chernImage D hp' hp f W').subspace.ι = W'.subspace.ι ≫ f.hom),

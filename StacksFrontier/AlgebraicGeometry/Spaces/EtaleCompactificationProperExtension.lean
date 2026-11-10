@@ -100,7 +100,7 @@ theorem exists_lift_range_eq_preimage_of_isBlowupAlong {Y Y' : AlgebraicSpaces B
     have hmem : pointsMap B S hS V j v ∈ subspacePointSet B S hS Y.1 (Subfunctor.range j) :=
       ⟨pointsMap B S hS V (Subfunctor.toRange j) v, by
         rw [← pointsMap_comp_apply, Subfunctor.toRange_ι]⟩
-    show _ ∈ subspacePointSet B S hS Y.1 O.1
+    change _ ∈ subspacePointSet B S hS Y.1 O.1
     rw [subspacePointSet_openComplement]
     exact fun h => Set.disjoint_left.1 hdisj hmem h)
   set jl : V ⟶ Y'.1 := k ≫ inv (O.1.fromPreimage b.hom) ≫ (O.1.preimage b.hom).ι with hjl
@@ -116,10 +116,10 @@ theorem exists_lift_range_eq_preimage_of_isBlowupAlong {Y Y' : AlgebraicSpaces B
       exact (k.app W v).2
     have hfp : (O.1.fromPreimage b.hom).app W ⟨y, hyO⟩ = k.app W v := by
       apply Subtype.ext
-      show b.hom.app W y = (k ≫ O.1.ι).app W v
+      change b.hom.app W y = (k ≫ O.1.ι).app W v
       rw [hk, hv]
     refine ⟨v, ?_⟩
-    show (k ≫ inv (O.1.fromPreimage b.hom) ≫ (O.1.preimage b.hom).ι).app W v = y
+    change (k ≫ inv (O.1.fromPreimage b.hom) ≫ (O.1.preimage b.hom).ι).app W v = y
     simp only [NatTrans.comp_app, types_comp_apply]
     rw [← hfp]
     have := Iso.hom_inv_id_app_apply (asIso (O.1.fromPreimage b.hom)) W ⟨y, hyO⟩
@@ -185,13 +185,13 @@ theorem exists_isAdmissibleBlowup_isProper_extension_of_isEtale
     toSchemeTheoreticImage_ι B S hS γ.hom
   let s : Vo.1.toFunctor ⟶ P.1 := inv (Subfunctor.toRange j) ≫ γ.hom
   have hs : s ≫ fstB.hom = Vo.1.ι := by
-    show (inv (Subfunctor.toRange j) ≫ γ.hom) ≫ fstB.hom = (Subfunctor.range j).ι
+    change (inv (Subfunctor.toRange j) ≫ γ.hom) ≫ fstB.hom = (Subfunctor.range j).ι
     rw [Category.assoc, hγfst]
     exact (IsIso.inv_comp_eq _).2 (Subfunctor.toRange_ι j).symm
   have hsrange : Subfunctor.range s = Subfunctor.range γ.hom := by
     refine le_antisymm (Subfunctor.range_comp_le _ _) ?_
     rw [show γ.hom = Subfunctor.toRange j ≫ s by
-      show γ.hom = Subfunctor.toRange j ≫ inv (Subfunctor.toRange j) ≫ γ.hom
+      change γ.hom = Subfunctor.toRange j ≫ inv (Subfunctor.toRange j) ≫ γ.hom
       rw [IsIso.hom_inv_id_assoc]]
     exact Subfunctor.range_comp_le _ _
   have hsimage : schemeTheoreticImageSubfunctor B S hS s =
@@ -251,12 +251,12 @@ theorem exists_isAdmissibleBlowup_isProper_extension_of_isEtale
   let V' : OpenSubspaces B S hS Y'.1 :=
     ⟨Subfunctor.range σ.hom, isOpenSubspace_subfunctorRange B S hS hSt' hopen⟩
   have hwσ : w ≫ σ.hom = jl := by
-    show w ≫ St.1.ι ≫
+    change w ≫ St.1.ι ≫
       (strictTransformPullbackToBlowUp B S hS (closedSubspaceFirst B S hS pB gB Z) b).hom = jl
     rw [← Category.assoc, hwι, hw₀snd]
   have hwe : (w ≫ Subfunctor.toRange σ.hom) ≫ V'.1.ι = jl := by
     rw [Category.assoc]
-    show w ≫ Subfunctor.toRange σ.hom ≫ (Subfunctor.range σ.hom).ι = jl
+    change w ≫ Subfunctor.toRange σ.hom ≫ (Subfunctor.range σ.hom).ι = jl
     rw [Subfunctor.toRange_ι, hwσ]
   refine ⟨Y', b, isAdmissibleBlowup_of_isBlowupAlong hfp hdisj hbl, V',
     w ≫ Subfunctor.toRange σ.hom,
@@ -285,7 +285,7 @@ theorem exists_isAdmissibleBlowup_isProper_extension_of_isEtale
           b.hom := pullback.condition
     have h3 : (Subfunctor.range σ.hom).ι = inv (Subfunctor.toRange σ.hom) ≫ σ.hom := by
       rw [IsIso.eq_inv_comp, Subfunctor.toRange_ι]
-    show (inv (Subfunctor.toRange σ.hom) ≫ St.1.ι ≫
+    change (inv (Subfunctor.toRange σ.hom) ≫ St.1.ι ≫
       (strictTransformPullbackToSource B S hS (closedSubspaceFirst B S hS pB gB Z) b).hom ≫
         Z.1.ι ≫ sndB.hom) ≫ g = (Subfunctor.range σ.hom).ι ≫ b.hom ≫ p
     rw [h3]

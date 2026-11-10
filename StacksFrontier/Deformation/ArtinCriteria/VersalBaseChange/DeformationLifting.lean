@@ -310,7 +310,7 @@ private lemma isIso_specMap_artinian_eqToHom
     {A D : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ k} (h : A = D) :
     IsIso (Spec.map (CommRingCat.ofHom (eqToHom h).hom.toRingHom)) := by
   cases h
-  show IsIso (Spec.map (𝟙 (CommRingCat.of A)))
+  change IsIso (Spec.map (𝟙 (CommRingCat.of A)))
   infer_instance
 
 private lemma specMap_artinian_eqToHom
@@ -320,7 +320,7 @@ private lemma specMap_artinian_eqToHom
       eqToHom (congrArg (fun R : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ k =>
         Spec (.of R)) h).symm := by
   cases h
-  show Spec.map (𝟙 (CommRingCat.of A)) = eqToHom rfl
+  change Spec.map (𝟙 (CommRingCat.of A)) = eqToHom rfl
   simp
 
 private lemma deformationMorphism_isHomLift_id_of_ringHom_eqToHom
@@ -421,7 +421,7 @@ private theorem isSmooth_comp_basedEquivalence
   let m : E.functor.obj (E.inverse.obj z) ⟶ E.functor.obj x := i ≫ hz
   let h' : E.inverse.obj z ⟶ x := E.equiv.functor.preimage m
   have hmap : E.functor.map h' = m := by
-    show E.equiv.functor.map h' = m
+    change E.equiv.functor.map h' = m
     simpa only [h'] using E.equiv.functor.map_preimage m
   have hm : 𝓧.p.IsHomLift f₀ h' := by
     let : 𝓨.p.IsHomLift f₀ (E.functor.map h') := by rw [hmap]; infer_instance
@@ -433,7 +433,7 @@ private theorem isSmooth_comp_basedEquivalence
     dsimp [a']
     infer_instance
   refine ⟨E.inverse.obj z, h', a', hm, ha', ?_⟩
-  show g.map (E.functor.map h') = (g.map i ≫ a) ≫ h
+  change g.map (E.functor.map h') = (g.map i ≫ a) ≫ h
   rw [hmap]
   dsimp [m]
   rw [Functor.map_comp, hcomm]
@@ -468,7 +468,7 @@ private theorem isSmooth_of_comp_basedEquivalence
     let : 𝓨.p.IsHomLift (𝟙 A) i := hiA
     exact IsHomLift.comp_lift_id_right 𝓨.p f (E.functor.map l) i
   refine ⟨E.functor.obj x', l', a, hl', ha, ?_⟩
-  show g.map (E.functor.map l ≫ i) = a ≫ kx
+  change g.map (E.functor.map l ≫ i) = a ≫ kx
   have he' : g.map (E.functor.map l) = a ≫
       (kx ≫ g.map iInv) := by
     change g.map (E.functor.map l) = a ≫ k' at he
@@ -476,7 +476,7 @@ private theorem isSmooth_of_comp_basedEquivalence
   rw [Functor.map_comp, he']
   simp only [Category.assoc, ← Functor.map_comp]
   have hcancel : iInv ≫ i = 𝟙 x := by
-    show E.equiv.counitIso.inv.app x ≫ E.equiv.counitIso.hom.app x = 𝟙 x
+    change E.equiv.counitIso.inv.app x ≫ E.equiv.counitIso.hom.app x = 𝟙 x
     exact E.equiv.counitIso.inv_hom_id_app x
   rw [hcancel]
   have hmap_id : g.map (𝟙 x) = 𝟙 (g.obj x) := g.toFunctor.map_id x
@@ -611,12 +611,12 @@ private lemma exists_baseChange_section_of_lift
     ⟨(Over.map V.hom).obj D, D, R, rfl, hR, j, hj⟩
   let g : P ⟶ Q := TwoFibreProductOver.Hom.mk' (eqToHom hP ≫ f) r
     (by
-      show eqToHom P.hy.symm ≫ r.left ≫ eqToHom hR =
+      change eqToHom P.hy.symm ≫ r.left ≫ eqToHom hR =
         eqToHom P.hx.symm ≫ (Over.map V.hom).map (eqToHom hP ≫ f) ≫ eqToHom rfl
       simpa only [eqToHom_refl, Category.comp_id] using hbase) hcomm
   apply exists_section_of_equivalenceOver_lift _ F e f a Q g
   exact IsHomLift.of_fac' _ f g hP rfl (by
-    show eqToHom hP ≫ f = eqToHom hP ≫ f ≫ eqToHom rfl
+    change eqToHom hP ≫ f = eqToHom hP ≫ f ≫ eqToHom rfl
     simp)
 
 /-- The commuting comparison square already forces compatibility of the
@@ -700,7 +700,7 @@ private lemma exists_baseChange_section_of_slice_lift
   have hα : 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D)) (α.app R).inv := by
     rw [← hR]
     let : 𝒳.val.p.IsHomLift (Iso.refl R.left).hom (α.app R).hom := by
-      show 𝒳.val.p.IsHomLift (𝟙 R.left)
+      change 𝒳.val.p.IsHomLift (𝟙 R.left)
         ((twoYonedaLiftIsoSliceFunctor 𝒳.val.p 𝒳.isFiberedInGroupoids
           c U ⟨x, hx⟩).hom.app R)
       exact twoYonedaLiftIsoSliceFunctor_vertical 𝒳.val.p
@@ -710,18 +710,18 @@ private lemma exists_baseChange_section_of_slice_lift
   let := hj
   have hjα : 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D))
       (j ≪≫ (α.app R).symm).hom := by
-    show 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D))
+    change 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D))
       (j.hom ≫ (α.app R).inv)
     infer_instance
   apply exists_baseChange_section_of_commuting_lift B S hS 𝒳 U V x hx y hy F e f a R
     (j ≪≫ (α.app R).symm) hjα r
-  show y.map (eqToHom hP ≫ f) ≫ (j.hom ≫ (α.app R).inv) =
+  change y.map (eqToHom hP ≫ f) ≫ (j.hom ≫ (α.app R).inv) =
     P.iso.hom ≫ (Functor.TwoYoneda.liftBased 𝒳.val.p
       𝒳.isFiberedInGroupoids U ⟨x, hx⟩).map r
   apply (cancel_mono (α.app R).hom).mp
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have hn := α.hom.naturality r
-  show y.map (eqToHom hP ≫ f) ≫ j.hom =
+  change y.map (eqToHom hP ≫ f) ≫ j.hom =
     P.iso.hom ≫ ((Functor.TwoYoneda.liftBased 𝒳.val.p
       𝒳.isFiberedInGroupoids U ⟨x, hx⟩).map r ≫ α.hom.app R)
   rw [hn]
@@ -793,9 +793,9 @@ private lemma exists_baseChange_section_of_deformation_lift
     isHomLift_of_comp_of_injective_obj 𝒳.val.p (Over.post B.inclusion)
       (overPost_injective_obj B S hS) (𝟙 _) j.arrow
       (by
-        show qX.IsHomLift ((Over.post B.inclusion).map
+        change qX.IsHomLift ((Over.post B.inclusion).map
           (𝟙 (𝒳.val.p.obj (PX.objects bX).point))) j.arrow
-        show qX.IsHomLift (𝟙 (qX.obj (PX.objects bX).point)) j.arrow
+        change qX.IsHomLift (𝟙 (qX.obj (PX.objects bX).point)) j.arrow
         exact hjq)
   have hbase : 𝒳.val.p.obj (PX.objects bX).point = (Over.map V.hom).obj D :=
     (congrArg 𝒳.val.p.obj hbX).trans (Functor.congr_obj hy D)
@@ -807,13 +807,13 @@ private lemma exists_baseChange_section_of_deformation_lift
   let := hjD
   let := heq
   have hjiso : 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D)) jiso.hom := by
-    show 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D))
+    change 𝒳.val.p.IsHomLift (𝟙 ((Over.map V.hom).obj D))
       (eqToHom hbX.symm ≫ j.arrow)
     infer_instance
   let r : P.y ⟶ (PU.objects cU).point := eqToHom haU.symm ≫ h.arrow
   apply exists_baseChange_section_of_slice_lift B S hS 𝒳 (𝒳.val.p.obj x) V x rfl
     y hy F e c f a (PU.objects cU).point jiso hjiso r
-  show y.map (eqToHom hP ≫ f) ≫ jiso.hom =
+  change y.map (eqToHom hP ≫ f) ≫ jiso.hom =
     (P.iso ≪≫ α.app P.y).hom ≫ G.map r
   dsimp only [r]
   rw [G.map_comp, hcomm, hiarrow]

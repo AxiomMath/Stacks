@@ -132,7 +132,7 @@ theorem top_le_preimage_cechLiftAt_self
     (⊤ : ((T'.basicOpen (cechSection g x) : T'.Opens) : Scheme.{u}).Opens) ≤
       (cechLiftAt g b x j hj) ⁻¹ᵁ W j := by
   intro y _
-  show (b j).base ((T'.homOfLE hj).base y) ∈ W j
+  change (b j).base ((T'.homOfLE hj).base y) ∈ W j
   exact hbW j (Set.mem_univ _)
 
 omit [IsAffine T'] in

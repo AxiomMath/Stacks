@@ -238,7 +238,7 @@ instance isIso_unit_resolutionPlus :
     IsIso ((SmallSite.bigBaseModuleGlobalSections S).rightDerivedFunctorPlusUnith.app
       (resolutionPlus S R)) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun q => by
-    haveI : Injective ((resolutionPlus S R).obj.as.X q) := R.injective q
+    have : Injective ((resolutionPlus S R).obj.as.X q) := R.injective q
     exact Functor.rightAcyclic_of_injective _ _
 
 /-- The restriction of the resolution to a level is by injectives, so the unit of `RΓ` is
@@ -248,7 +248,7 @@ instance isIso_unit_levelPullback_resolutionPlus (n : ℕ) :
       (S.levelSituation (hN.isLevel n))).rightDerivedFunctorPlusUnith.app
         ((S.levelPullback (hN.isLevel n)).mapHomotopyCategoryPlus.obj (resolutionPlus S R))) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun q => by
-    haveI : Injective (((S.levelPullback (hN.isLevel n)).mapHomotopyCategoryPlus.obj
+    have : Injective (((S.levelPullback (hN.isLevel n)).mapHomotopyCategoryPlus.obj
         (resolutionPlus S R)).obj.as.X q) :=
       S.injective_levelPullback_obj (hN.isLevel n) (R.cocomplex.X q)
     exact Functor.rightAcyclic_of_injective _ _
@@ -291,9 +291,9 @@ instance isIso_unit_levelStepPullback_resolutionPlus (n : ℕ) :
           ((S.levelPullback (hN.isLevel (n + 1))).mapHomotopyCategoryPlus.obj
             (resolutionPlus S R)))) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun q => by
-    haveI : Injective ((S.levelPullback (hN.isLevel n)).obj (R.cocomplex.X q)) :=
+    have : Injective ((S.levelPullback (hN.isLevel n)).obj (R.cocomplex.X q)) :=
       S.injective_levelPullback_obj (hN.isLevel n) (R.cocomplex.X q)
-    haveI : Injective (((S.levelStepPullback (hN.isLevel n) (hN.isLevel (n + 1))
+    have : Injective (((S.levelStepPullback (hN.isLevel n) (hN.isLevel (n + 1))
         (hN.le_succ n)).mapHomotopyCategoryPlus.obj
           ((S.levelPullback (hN.isLevel (n + 1))).mapHomotopyCategoryPlus.obj
             (resolutionPlus S R))).obj.as.X q) :=
@@ -350,7 +350,7 @@ theorem levelDerivedTransition_comp_levelResolutionIso (n : ℕ) :
     (fun L => Functor.mapDerivedCategoryPlusCompTransOfComp_compat _ L) N (resolutionHom S R)
     (S.levelStepResolutionHom hN R n) hg
   rw [levelDerivedTransition, SmallSite.derivedChangeBaseBigGlobalSectionsMap_eq_derivedSquareMap]
-  simp only [levelResolutionIso, Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom, Category.assoc]
+  simp only [levelResolutionIso, Iso.trans_hom, Iso.app_hom, Category.assoc]
   exact key
 
 /-! ### The tower of complexes of global sections over the levels -/
@@ -365,6 +365,11 @@ def levelSectionsComplexTower :
     (fun n => (NatTrans.mapHomologicalComplex (S.levelSectionsTransition (hN.isLevel n)
       (hN.isLevel (n + 1)) (hN.le_succ n)) _).app R.cocomplex)
 
+omit [HasDerivedCategory.{wB} (SmallSite.BigModuleSheaf S)]
+  [∀ n, HasDerivedCategory.{wB} (SmallSite.BigModuleSheaf (S.levelSituation (hN.isLevel n)))]
+  [HasDerivedCategory.{wA} (ModuleCat.{u + 1} Γ(S.S.scheme, ⊤))]
+  [∀ n, HasDerivedCategory.{wA}
+    (ModuleCat.{u + 1} Γ((S.levelSituation (hN.isLevel n)).S.scheme, ⊤))] in
 /-- The transition of the tower of complexes from `n + 1` to `n` is the transition of global
 sections applied termwise. -/
 theorem levelSectionsComplexTower_map_succ (n : ℕ) :
@@ -415,8 +420,7 @@ def isLimitLevelSectionsComplexCone : IsLimit (S.levelSectionsComplexCone hN R) 
   HomologicalComplex.isLimitOfEval _ _ fun q =>
     (IsLimit.postcomposeHomEquiv (asIso (S.levelSectionsComplexTowerEvalHom hN R q)) _)
       (IsLimit.ofIsoLimit (S.isLimitLevelSectionsCone hN (R.cocomplex.X q))
-        (Cone.ext (Iso.refl _) (fun n =>
-          ((Category.id_comp _).trans (Category.comp_id _)).symm)))
+        (Cone.ext (Iso.refl _)))
 
 /-- **The transitions of the tower of complexes are epimorphisms**: degreewise they are the
 transitions of global sections of an injective module, which are surjective. -/

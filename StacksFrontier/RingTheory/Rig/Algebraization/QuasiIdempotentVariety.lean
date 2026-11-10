@@ -157,7 +157,7 @@ theorem sum_smat_mul (F : Matrix ι ι R) (u : R) (Z : Matrix ι ι R) (l : ι �
     Matrix.transpose_apply, smul_eq_mul, Fintype.sum_prod_type, add_mul, sub_mul,
     Finset.sum_add_distrib, Finset.sum_sub_distrib, Matrix.one_apply, ite_mul, mul_ite, one_mul,
     zero_mul, mul_one, mul_zero, Finset.sum_ite_irrel, Finset.sum_const_zero, Finset.sum_ite_eq,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   simp only [mul_comm]
 
 /-- The columns of `J` are the images `Λ(e_{ij})` of the matrix units. -/
@@ -166,7 +166,7 @@ theorem jmat_eq (F : Matrix ι ι R) (u : R) (v l : ι × ι) :
   simp only [jmat, lam, Matrix.add_apply, Matrix.sub_apply, Matrix.smul_apply, Matrix.mul_apply,
     Matrix.transpose_apply, smul_eq_mul, Matrix.single_apply, Matrix.one_apply, ite_and, ite_mul,
     mul_ite, one_mul, zero_mul, mul_one, mul_zero, Finset.sum_ite_irrel, Finset.sum_const_zero,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   split_ifs <;> simp_all
 
 /-- **The relation, in coordinates**: for every `l₀`,
@@ -186,7 +186,7 @@ theorem sum_smat_jmat_mem {K : Ideal R} {F : Matrix ι ι R} {u : R}
   by_cases h : l = l₀
   · subst h; simp
   · have h' : ¬(l₀.1 = l.1 ∧ l₀.2 = l.2) := fun h' ↦ h (Prod.ext h'.1.symm h'.2.symm)
-    rw [if_neg h, if_neg h', zero_mul, mul_zero]
+    simp [h, h']
 
 end MatrixAlgebra
 
@@ -259,7 +259,7 @@ theorem jacPoly_eq (v l : Fin (N * N)) :
   generalize finProdFinEquiv.symm l = w'
   simp only [Finset.sum_add_distrib, Matrix.one_apply, mul_ite, ite_mul, one_mul, zero_mul,
     mul_one, mul_zero, Finset.sum_ite_irrel, Finset.sum_const_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   split_ifs <;> ring
 
 /-- Every entry `G_{ij}` lies in the ideal `(G)`. -/
@@ -281,7 +281,7 @@ theorem relPoly (j : Fin (N * N)) :
   simp only [SPoly, jacPoly_eq, Equiv.symm_apply_apply]
   congr 2
   rw [pow_mul', map_pow]
-  simp only [Matrix.one_apply, Equiv.apply_eq_iff_eq_symm_apply]
+  simp only [Matrix.one_apply, Equiv.eq_symm_apply]
 
 end Polynomial
 

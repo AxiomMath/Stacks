@@ -129,10 +129,10 @@ theorem isFiniteType_of_isElementaryDistinguishedSquare_of_isNoetherian
   refine isFiniteType_of_isElementaryDistinguishedSquare hZ (V := ⟨O.toFunctor, hO.1⟩)
     (f := ObjectProperty.homMk h) hsq (ObjectProperty.homMk g) hYqc hYqs ?_ ?_
   · have : Uw.ι ≫ g = inv ε.hom ≫ p := by rw [← hgU, IsIso.inv_hom_id_assoc]
-    show IsFiniteType B S hS (Uw.ι ≫ g)
+    change IsFiniteType B S hS (Uw.ι ≫ g)
     rw [this]
     exact isFiniteType_comp' B S hS _ _ hU Y.2 (isProper_of_isIso B S hS _).2.1 hp
-  · show IsFiniteType B S hS (h ≫ g)
+  · change IsFiniteType B S hS (h ≫ g)
     rw [hgN]
     exact isFiniteType_comp' B S hS _ _ X.2 Y.2 (isFiniteType_ι_of_isNoetherian hZ X.2 hXN hO) hπ
 
@@ -230,7 +230,7 @@ theorem hasCompactification_of_isProper_extensions (hZ : B.Contains (⊤_ Scheme
   have hr' : r ≫ π₁ = t ≫ π₂'.hom := by
     rw [hr]
     simp only [hπ₂'def, ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.homMk_hom]
-  refine hasCompactification_of_forall_exists_lift hZ (U := ⟨U, hU⟩) hYqc hYqs hpsep hpft
+  refine hasCompactification_of_forall_exists_lift hZ (U := ⟨U, hU⟩) hYqc hYqs hpft
     (ObjectProperty.homMk (ε₁.hom ≫ Uw₁.ι)) (ObjectProperty.homMk (ε₂.hom ≫ Uw₂.ι)) ha₁ ha₂
     (ObjectProperty.homMk g₁) (ObjectProperty.homMk g₂) hg₁ hg₁ft hg₂ hg₂ft
     (by simpa only [ObjectProperty.homMk_hom, Category.assoc] using hgU₁)

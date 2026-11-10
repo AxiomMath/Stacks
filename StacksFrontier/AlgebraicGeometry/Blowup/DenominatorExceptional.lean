@@ -311,7 +311,7 @@ theorem app_mem_denominators (V : Opens Y) {c : Γ(Y, V)} (hc : c ∈ denominato
     ⟨AlgebraicGeometry.modulePullbackUnitApp f.toLRSHom N V a, ?_⟩
   have hpb : AlgebraicGeometry.pullbackSectionOver f.toLRSHom
       ((Opens.map f.base).obj V) V le_rfl c = f.app V c := by
-    show X.presheaf.map (homOfLE le_rfl).op (f.app V c) = _
+    change X.presheaf.map (homOfLE le_rfl).op (f.app V c) = _
     rw [show (homOfLE (le_rfl : (Opens.map f.base).obj V ≤ (Opens.map f.base).obj V)) = 𝟙 _ from
       Subsingleton.elim _ _, op_id, X.presheaf.map_id]
     rfl

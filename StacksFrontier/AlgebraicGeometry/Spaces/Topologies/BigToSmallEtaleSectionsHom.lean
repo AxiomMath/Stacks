@@ -71,6 +71,7 @@ local instance spacesBaseChangeRightAdjoint {X Y : E.Spaces} (f : X ⟶ Y) :
   (Space.spacesEtaleAdjunction E.fppfSite S E.fppf_mem f).isRightAdjoint
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of the pointwise right Kan extension is deep
 /-- Right Kan extensions along the inclusion `i_f` of Stacks 0DF2 exist pointwise: the
 relevant limits are indexed by categories of the size of the site. -/
 local instance inclusionFunctorPointwiseRan {Y : E.Spaces} (f : Y ⟶ X)
@@ -122,6 +123,7 @@ def smallPullbackIso {Y : E.Spaces} (f : Y ⟶ X) :
     (E.bigToSmallEtaleMorphism X).adj (inclusionTransitionInitial E f)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf pullback and sections of the spaces étale sites is deep
 /-- **The section rule of Stacks 0DG7**: the sections of `π_X⁻¹F` over `f : Y ⟶ X` are the
 global sections of `f⁻¹F`, naturally in `F`. -/
 def sectionsIso {Y : E.Spaces} (f : Y ⟶ X) :
@@ -178,7 +180,7 @@ theorem inclusionFunctorTransition_idObj {Y Z : E.Spaces} (h : Z ⟶ Y) (f : Y �
   have hk : k.hom.left ≫ (b.functor.obj (Space.SpacesEtale.idObj E.fppfSite S E.fppf_mem Y)).1.hom
       = 𝟙 Z :=
     Over.w k.hom
-  show k.hom.left ≫ b.projection.app _ ≫
+  change k.hom.left ≫ b.projection.app _ ≫
     (Space.SpacesEtale.idObj E.fppfSite S E.fppf_mem Y).1.hom = h
   rw [(b.isPullback (Space.SpacesEtale.idObj E.fppfSite S E.fppf_mem Y)).w, ← Category.assoc, hk]
   exact Category.id_comp _
@@ -276,6 +278,7 @@ def sectionsIsoApp {Y : E.Spaces} (f : Y ⟶ X)
   (sectionsIso E f).app F
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf pullback and sections of the spaces étale sites is deep
 /-- Pointwise form of `AlgebraicGeometry.BigEtaleSpaceSite.sectionsIso_restriction`. -/
 theorem map_sectionsIsoApp_inv {Y Z : E.Spaces} (h : Z ⟶ Y) (f : Y ⟶ X)
     (F : Sheaf (Space.SpacesEtale.topology E.fppfSite S E.fppf_mem X) (Type (u + 1)))
@@ -496,7 +499,7 @@ theorem isSheafFor_inverseImage_singleton_of_isPrestackFor {U V : Over X} (f : V
     apply (Sieve.overEquiv U).injective
     rw [OrderIso.apply_symm_apply, Sieve.overEquiv_ofArrows]
   rw [Presieve.isSheafFor_iff_generate]
-  show Presieve.IsSheafFor _ (Sieve.ofArrows (fun _ : Unit ↦ V) (fun _ ↦ f)).arrows
+  change Presieve.IsSheafFor _ (Sieve.ofArrows (fun _ : Unit ↦ V) (fun _ ↦ f)).arrows
   rwa [← hs]
 
 /-- **Proper surjective descent for `π_X⁻¹F`**, granted the scheme case of full faithfulness of

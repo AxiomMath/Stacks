@@ -120,7 +120,7 @@ theorem ContinuousHom.stageMap_comp_transition {B : BigFppfSite.{u}} {S : Scheme
     (h : J.1 ≤ Ideal.comap f.toRingHom K.1) (h' : J'.1 ≤ Ideal.comap f.toRingHom K'.1) :
     f.stageMap J K h ≫ D.transition hJ = E.transition hK ≫ f.stageMap J' K' h' := by
   apply stage_hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 f.toRingHom h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 f.toRingHom h)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJ)) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hK)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.quotientMap K'.1 f.toRingHom h'))
@@ -136,7 +136,7 @@ theorem QuotientSystem.transition_refl {B : BigFppfSite.{u}} {S : Scheme.{u}}
     (D : QuotientSystem B S hS R) {J : TopologicalRing.WeakIdealOfDefinitionIndex R}
     (h : J.1 ≤ J.1) : D.transition h = 𝟙 (D.stage J) := by
   apply stage_hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) = 𝟙 _
   rw [← Spec.map_id, Spec.map_inj]
   exact CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun a => by simp))
 
@@ -148,7 +148,7 @@ theorem QuotientSystem.transition_comp {B : BigFppfSite.{u}} {S : Scheme.{u}}
     (h : J'.1 ≤ J.1) (h' : J''.1 ≤ J'.1) :
     D.transition h ≫ D.transition h' = D.transition (h'.trans h) := by
   apply stage_hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h')) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (h'.trans h)))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -390,7 +390,7 @@ theorem toScheme_leftStageMap (i : TopologicalRing.WeakIdealOfDefinitionIndex A)
         (P.baseIdeal_le_comap_algebraMap_left i j) := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun c => ?_)
     simp [Ideal.quotientMap_mk, P.algebraMap_eq_left]
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
     (Ideal.quotientMap i.1 P.toLeft.toRingHom (P.baseIdeal_le_comap_left i j))) = _
   rw [hring]
 
@@ -407,7 +407,7 @@ theorem toScheme_rightStageMap (i : TopologicalRing.WeakIdealOfDefinitionIndex A
         (P.baseIdeal_le_comap_algebraMap_right i j) := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun c => ?_)
     simp [Ideal.quotientMap_mk, P.algebraMap_eq_right]
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
     (Ideal.quotientMap j.1 P.toRight.toRingHom (P.baseIdeal_le_comap_right i j))) = _
   rw [hring]
 
@@ -709,7 +709,7 @@ theorem isThickening_tensorStageDiagram_map {p q : TensorIndex A B} (f : p ⟶ q
     refine ⟨IsClosedImmersion.spec_of_surjective _
       (quotientTensorTransition_surjective C (le_left_of_tensorIndex_hom f)
         (le_right_of_tensorIndex_hom f)), ?_⟩
-    show Function.Surjective (PrimeSpectrum.comap
+    change Function.Surjective (PrimeSpectrum.comap
       (quotientTensorTransition C (le_left_of_tensorIndex_hom f)
         (le_right_of_tensorIndex_hom f)))
     intro x
@@ -792,7 +792,7 @@ theorem isPullback_tensorStage_sheaf (p : TensorIndex A B) :
     intro J K g
     apply Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying
       (BigFppfOver.topology 𝔅 S hS) (BigFppfOver.toScheme 𝔅 S hS)
-    show Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
+    change Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
     have : IsClosedImmersion (Spec.map (CommRingCat.ofHom
         (Ideal.Quotient.factor (leOfHom g)))) :=
       IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective (leOfHom g))
@@ -843,7 +843,7 @@ theorem proj_surjective (p : TensorIndex A B) : Function.Surjective (P.proj p) :
     P.weaklyAdmissibleRight (TensorIndex.left A B p) (TensorIndex.right A B p)
     (((P.sectionsIso p).inv).hom y)
   refine ⟨x, ?_⟩
-  show ((P.sectionsIso p).hom).hom (TopologicalRing.stageProjection C _ _ _ _ x) = y
+  change ((P.sectionsIso p).hom).hom (TopologicalRing.stageProjection C _ _ _ _ x) = y
   rw [hx, P.sectionsIso_hom_inv_apply]
 
 /-- The kernel of the projection onto the sections of a stage is the corresponding stage ideal. -/
@@ -857,7 +857,7 @@ theorem ker_proj (p : TensorIndex A B) :
     have h2 := congrArg ((P.sectionsIso p).inv).hom h
     rw [P.sectionsIso_inv_hom_apply, map_zero] at h2
     exact h2
-  · show ((P.sectionsIso p).hom).hom (TopologicalRing.stageProjection C
+  · change ((P.sectionsIso p).hom).hom (TopologicalRing.stageProjection C
       P.weaklyAdmissibleLeft P.weaklyAdmissibleRight (TensorIndex.left A B p)
       (TensorIndex.right A B p) x) = 0
     rw [RingHom.mem_ker.mp hx, map_zero]

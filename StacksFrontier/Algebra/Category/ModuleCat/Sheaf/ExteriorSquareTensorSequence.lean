@@ -86,8 +86,9 @@ change along the germ maps.
 
 ## Implementation notes
 
-**Why the range computation is cheap.** `StacksFrontier.LinearAlgebra.TensorAlgebra.SymmetricQuotient`
-already computes the kernel of `Tᵏ(M) ⟶ Symᵏ(M)` as the degree-`k` relator submodule
+**Why the range computation is cheap.**
+`StacksFrontier.LinearAlgebra.TensorAlgebra.SymmetricQuotient` already computes the kernel of
+`Tᵏ(M) ⟶ Symᵏ(M)` as the degree-`k` relator submodule
 `TensorAlgebra.relDeg k`, the sum over the `k - 1` adjacent slot pairs of
 `Tⁱ · commSub · Tʲ`. In degree two there is one slot pair and the outer factors are `T⁰ = 1`, so
 `relDeg 2` is the commutator submodule `TensorAlgebra.commSub` itself, which is by definition the
@@ -370,20 +371,20 @@ theorem tensorTwoCoord_extTwoToTensor_ιMulti_family (b : Module.Basis κ R M)
           rw [← hB, ← hA]
           exact ht
         exact absurd (h1.trans hs) (lt_irrefl _)
-      rw [if_neg hB, mul_zero]
-    · rw [if_neg hA, zero_mul]
+      rw [ite_eq_right hB, mul_zero]
+    · rw [ite_eq_right hA, zero_mul]
   rw [hcross, sub_zero]
   by_cases hst : t = s
   · subst hst
-    rw [if_pos rfl, if_pos rfl, if_pos rfl, mul_one]
-  · rw [if_neg hst]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl, mul_one]
+  · rw [ite_eq_right hst]
     by_cases h0 : Set.powersetCard.ofFinEmbEquiv.symm t 0 =
         Set.powersetCard.ofFinEmbEquiv.symm s 0
     · have h1 : Set.powersetCard.ofFinEmbEquiv.symm t 1 ≠
           Set.powersetCard.ofFinEmbEquiv.symm s 1 := fun h1 =>
         hst (eq_of_ofFinEmbEquiv_symm_eq h0 h1)
-      rw [if_neg h1, mul_zero]
-    · rw [if_neg h0, zero_mul]
+      rw [ite_eq_right h1, mul_zero]
+    · rw [ite_eq_right h0, zero_mul]
 
 /-- The images under the antisymmetriser of the basis wedges `bᵢ ∧ bⱼ`, `i < j`, of `⋀²(M)` are
 linearly independent in `T²(M)`. -/
@@ -394,8 +395,9 @@ theorem linearIndependent_extTwoToTensor_ιMulti_family (b : Module.Basis κ R M
   refine LinearIndependent.of_pairwise_dual_eq_zero_one _
     (fun s => tensorTwoCoord b (Set.powersetCard.ofFinEmbEquiv.symm s 0)
       (Set.powersetCard.ofFinEmbEquiv.symm s 1)) (fun s t hst => ?_) fun s => ?_
-  · exact (tensorTwoCoord_extTwoToTensor_ιMulti_family b s t).trans (if_neg (Ne.symm hst))
-  · exact (tensorTwoCoord_extTwoToTensor_ιMulti_family b s s).trans (if_pos rfl)
+  · exact (tensorTwoCoord_extTwoToTensor_ιMulti_family b s t).trans
+      (ite_eq_right (Ne.symm hst))
+  · exact (tensorTwoCoord_extTwoToTensor_ιMulti_family b s s).trans (ite_eq_left rfl)
 
 /-- **The antisymmetriser is injective on a module with a basis indexed by a linearly ordered
 type.** -/
@@ -433,8 +435,7 @@ quotient map `T²(M) ⟶ ⋀²(M)`: both carry a product `x ⊗ y` of degree-one
 `x ⊗ y - y ⊗ x`. -/
 theorem extTwoToTensor_extQuot (t : gradedPiece R 2 M) :
     extTwoToTensor (extQuot 2 t) = altTwo t := by
-  refine two_ext (p := fun t => extTwoToTensor (extQuot 2 t) = altTwo t) ?_ ?_ ?_ t
-  · rw [map_zero, map_zero, map_zero]
+  refine two_ext (p := fun t => extTwoToTensor (extQuot 2 t) = altTwo t) ?_ ?_ t
   · intro a b ha hb
     rw [map_add, map_add, map_add, ha, hb]
   · intro x y

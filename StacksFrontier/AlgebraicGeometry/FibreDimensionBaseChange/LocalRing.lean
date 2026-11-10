@@ -154,11 +154,11 @@ public theorem ringKrullDim_stalk_eq_add_ringKrullDim_stalk_fiber_of_flat {A B :
   let : Algebra ↥(B.presheaf.stalk (φ a)) ↥(A.presheaf.stalk a) :=
     (φ.stalkMap a).hom.toAlgebra
   have hflat : Module.Flat ↥(B.presheaf.stalk (φ a)) ↥(A.presheaf.stalk a) := by
-    show (φ.stalkMap a).hom.Flat
+    change (φ.stalkMap a).hom.Flat
     exact Flat.stalkMap φ a
   have : IsLocalHom
       (algebraMap ↥(B.presheaf.stalk (φ a)) ↥(A.presheaf.stalk a)) := by
-    show IsLocalHom (φ.stalkMap a).hom
+    change IsLocalHom (φ.stalkMap a).hom
     infer_instance
   have hfibre : ringKrullDim
       (ClosedFibre ↥(B.presheaf.stalk (φ a)) ↥(A.presheaf.stalk a)) =
@@ -195,7 +195,7 @@ public lemma fiberMap_asFiber_eq (hsq : IsPullback g' f' f g) (x' : X')
     fiberMap f' g' g f hsq.w (f' x') (f'.asFiber x') =
       (f.fiberHomeo (g (f' x'))).symm ⟨g' x', hbase⟩ := by
   apply (f.fiberι (g (f' x'))).isEmbedding.injective
-  show (fiberMap f' g' g f hsq.w (f' x') ≫ f.fiberι (g (f' x'))) (f'.asFiber x') = _
+  change (fiberMap f' g' g f hsq.w (f' x') ≫ f.fiberι (g (f' x'))) (f'.asFiber x') = _
   rw [fiberMap_fiberι f' g' g f hsq.w (f' x')]
   simp only [Scheme.Hom.comp_apply, Scheme.Hom.fiberι_fiberHomeo_symm,
     Scheme.Hom.fiberι_asFiber]

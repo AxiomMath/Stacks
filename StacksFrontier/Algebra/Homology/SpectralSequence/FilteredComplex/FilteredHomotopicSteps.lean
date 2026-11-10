@@ -59,7 +59,7 @@ lemma dNext_comp_of_comm {K K' L L' : HomologicalComplex V c} (a : K ⟶ K') (b 
     (u : ∀ i j, K.X i ⟶ L.X j) (v : ∀ i j, K'.X i ⟶ L'.X j)
     (huv : ∀ i j, u i j ≫ b.f j = a.f i ≫ v i j) (i : ι) :
     dNext i u ≫ b.f i = a.f i ≫ dNext i v := by
-  show (K.d i (c.next i) ≫ u (c.next i) i) ≫ b.f i
+  change (K.d i (c.next i) ≫ u (c.next i) i) ≫ b.f i
       = a.f i ≫ (K'.d i (c.next i) ≫ v (c.next i) i)
   rw [Category.assoc, huv, ← Category.assoc, ← a.comm, Category.assoc]
 
@@ -69,7 +69,7 @@ lemma prevD_comp_of_comm {K K' L L' : HomologicalComplex V c} (a : K ⟶ K') (b 
     (u : ∀ i j, K.X i ⟶ L.X j) (v : ∀ i j, K'.X i ⟶ L'.X j)
     (huv : ∀ i j, u i j ≫ b.f j = a.f i ≫ v i j) (i : ι) :
     prevD i u ≫ b.f i = a.f i ≫ prevD i v := by
-  show (u i (c.prev i) ≫ L.d (c.prev i) i) ≫ b.f i
+  change (u i (c.prev i) ≫ L.d (c.prev i) i) ≫ b.f i
       = a.f i ≫ (v i (c.prev i) ≫ L'.d (c.prev i) i)
   rw [Category.assoc, ← b.comm, ← Category.assoc, huv, Category.assoc]
 

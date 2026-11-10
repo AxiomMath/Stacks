@@ -277,7 +277,7 @@ theorem chartIso_hom_mul (p q : ℤ)
       exact Ideal.mul_mem_mul a.2 b.2
     have hA := A.localMap_mul U hU n m a b ⟨_, hmem⟩ rfl
     have hB := B.localMap_mul U hU n m a b ⟨_, hmem⟩ rfl
-    show (chartIso A B U hU ((n + m : ℕ) : ℤ)).hom _ = _
+    change (chartIso A B U hU ((n + m : ℕ) : ℤ)).hom _ = _
     rw [← hA, chartIso_hom_localMap, chartIso_hom_localMap, chartIso_hom_localMap, hB]
 
 end ConormalAlgebraData

@@ -70,7 +70,7 @@ theorem kernelSubobject_pullMapOf_quotientProjection {T' T : SchemesOver D.Y} (h
     (α : (modulePullback B S hS (D.relativeMap h)).obj (D.quotientModule T K) ⟶ M')
     (hα : IsIso α) :
     kernelSubobject (D.pullMapOf h α (D.quotientProjection T K)) = D.quotientPullback h K := by
-  haveI : Mono α := IsIso.mono_of_iso α
+  have : Mono α := IsIso.mono_of_iso α
   rw [pullMapOf_def, ← Category.assoc, kernelSubobject_comp_mono]
   rfl
 
@@ -265,7 +265,7 @@ theorem exists_hom_of_fibreClassMap_eq {P Q : (D.fibreProduct y).val.obj} (a : P
   have hgl : g.left = eqToHom (D.fibreQuotBaseEq y P).symm ≫
       (eqToHom (Functor.congr_obj y.w P.x) ≫ a.left ≫ eqToHom (Functor.congr_obj y.w Q.x).symm) ≫
         eqToHom (D.fibreQuotBaseEq y Q) := by
-    show ιP.left ≫ ya.base.left ≫ φQ.base.left = _
+    change ιP.left ≫ ya.base.left ≫ φQ.base.left = _
     rw [D.fibreMapHom_base_left_of y a, D.fibreIsoHom_base_left y Q]
     rfl
   have hbase : eqToHom P.hy.symm ≫ b.base ≫ eqToHom Q.hy =
@@ -279,9 +279,9 @@ theorem exists_hom_of_fibreClassMap_eq {P Q : (D.fibreProduct y).val.obj} (a : P
       P.y.fiber.as.mem
   have hqb : qb.base = g := CostructuredArrow.hom_ext _ _ rfl
   have hb : (CoherentHom.comp ya φQ).base = (CoherentHom.comp φP qb).base := by
-    show ya.base ≫ φQ.base = φP.base ≫ qb.base
+    change ya.base ≫ φQ.base = φP.base ≫ qb.base
     rw [hqb]
-    show ya.base ≫ φQ.base = φP.base ≫ ιP ≫ ya.base ≫ φQ.base
+    change ya.base ≫ φQ.base = φP.base ≫ ιP ≫ ya.base ≫ φQ.base
     rw [← Category.assoc φP.base, D.comp_testInv φP.base (D.fibreIsoHom_base_left y P),
       Category.id_comp]
   have hw : CoherentHom.comp ya φQ = CoherentHom.comp φP qb := by

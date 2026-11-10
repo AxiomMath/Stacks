@@ -28,11 +28,11 @@ All names are in the namespace `AlgebraicGeometry`.
   Stacks 0E6V, the decomposition and part (1).
 
 Writing `P` for the prefix
-`curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_`:
+`curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_`:
 
 * `P` followed by `of_h01Statements`: Stacks 0E6V, the whole statement, with the rank over a
   field as an input `hrk`.
-* `P` followed by `of_h01Statements_rightDerivedComparison`: the same with `hrk` replaced by the
+* `P` followed by `of_h01Statements_rightDerived`: the same with `hrk` replaced by the
   comparison of étale and Zariski higher direct images.
 * `P` followed by `of_h01Statements_genusRank`: the same with `hrk` discharged.
 
@@ -221,7 +221,7 @@ The inputs are `hbetti` (Stacks 0E0R at `i = 0`, for `𝓕 = 𝒪_X`), `hstruct`
 (a)), parts (2) and (3) of Stacks 0E1J (`h2`, `h3`), the at-worst-nodal criterion over a field
 (`hsch`), and the input of part (2) of Stacks 0E6K that `R¹f_*𝒪_X` over a field has rank the
 genus (`hrk`). -/
-theorem curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_of_h01Statements
+theorem curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_of_h01Statements
     (hbetti : ∀ {U : BigFppfOver B integerBase hZ} {X : AlgebraicSpaces B integerBase hZ}
       (f : X ⟶ schemeSpace U), Space.IsProper B integerBase hZ f.hom →
       Space.IsFlat B integerBase hZ f.hom → Space.IsFinitePresentation B integerBase hZ f.hom →
@@ -331,7 +331,7 @@ with its input `hrk` — the rank of `R¹f_*𝒪_X` over a field, part (2) of St
 remain are `hbetti` (Stacks 0E0R at `i = 0`, for `𝓕 = 𝒪_X`), `hstruct` (Stacks 0E6B part (a)),
 parts (2) and (3) of Stacks 0E1J (`h2`, `h3`), and the at-worst-nodal criterion over a field
 (`hsch`, the scheme-level content of part (2) of Stacks 0DSY). -/
-theorem curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_of_h01Statements_genusRank
+theorem curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_of_h01Statements_genusRank
     (hbetti : ∀ {U : BigFppfOver B integerBase hZ} {X : AlgebraicSpaces B integerBase hZ}
       (f : X ⟶ schemeSpace U), Space.IsProper B integerBase hZ f.hom →
       Space.IsFlat B integerBase hZ f.hom → Space.IsFinitePresentation B integerBase hZ f.hom →
@@ -407,7 +407,7 @@ theorem curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_an
           Function.Bijective
             ((BigFppfOver.toScheme B integerBase hZ).map p ≫ eqToHom hW).appTop ∧
           genus ((BigFppfOver.toScheme B integerBase hZ).map p ≫ eqToHom hW) = g))) :=
-  curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_of_h01Statements
+  curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_of_h01Statements
     hbetti hstruct h2 h3 hsch fun k _ _ _ p hW hproper hdim _ =>
       isFiniteLocallyFreeOfRank_firstDirectImage_curveFamilyOverFieldOfProper_genus k p hW hproper
         hdim
@@ -421,11 +421,11 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
 /-- **Stacks 0E6V, over the statements of Stacks 0E0R (at `i = 0`) and 0E6B (a), with `hrk` from
 Stacks 071N.** The whole statement of the theorem of the same name without the suffix
-`_rightDerivedComparison`, with the rank of `R¹f_*𝒪_X` over a field supplied by
+`_rightDerived`, with the rank of `R¹f_*𝒪_X` over a field supplied by
 `isFiniteLocallyFreeOfRank_firstHigherDirectImage_curveFamilyOfSchemeMorphism_genus_of`:
 the only input replacing `hrk` is the comparison of the étale higher direct images of a
 quasi-compact separated morphism of schemes with the Zariski ones (`h071N`, Stacks 071N). -/
-theorem curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_of_h01Statements_rightDerivedComparison
+theorem curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_of_h01Statements_rightDerived
     (hbetti : ∀ {U : BigFppfOver B integerBase hZ} {X : AlgebraicSpaces B integerBase hZ}
       (f : X ⟶ schemeSpace U), Space.IsProper B integerBase hZ f.hom →
       Space.IsFlat B integerBase hZ f.hom → Space.IsFinitePresentation B integerBase hZ f.hom →
@@ -518,7 +518,7 @@ theorem curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_an
           Function.Bijective
             ((BigFppfOver.toScheme B integerBase hZ).map p ≫ eqToHom hW).appTop ∧
           genus ((BigFppfOver.toScheme B integerBase hZ).map p ≫ eqToHom hW) = g))) :=
-  curvesPrestableGenus_isOpenSubstack_and_factors_iff_and_decomposition_and_over_field_iff_of_h01Statements
+  curvesPrestableGenus_isOpenSubstack_factors_decomp_overField_of_h01Statements
     hbetti hstruct h2 h3 hsch fun k _ _ _ p hW hproper hdim _ =>
       isFiniteLocallyFreeOfRank_firstHigherDirectImage_curveFamilyOfSchemeMorphism_genus_of h071N p
         _ hproper _ _ _ _ hdim k hW

@@ -53,8 +53,8 @@ stage *is* an `𝐅_p`-subalgebra of finite type, since `ℤ → A` factors thro
 the square is built functorially out of `(A, f₁, f₂)` — so the system below is the right index
 system for all of them. The identification of each corner over `A` with the base change of the
 corner over the initial stage is
-`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean`, and the limit cones
-it produces, together with [Stacks, Tag 0B8W] applied at each corner, are
+`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean`, and the limit
+cones it produces, together with [Stacks, Tag 0B8W] applied at each corner, are
 `StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorNoetherianCorners.lean`. No `@[stacks 0EXD]`
 attribute appears anywhere: the reduction is the opening of the proof, not the tag.
 

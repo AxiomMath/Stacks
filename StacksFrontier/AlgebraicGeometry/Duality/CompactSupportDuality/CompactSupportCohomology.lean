@@ -204,7 +204,7 @@ public lemma structureSheafPushforwardDerivedHomLinearEquiv_comp
   let _ := HasDerivedCategory.standard c.space.Modules
   let _ := HasDerivedCategory.standard (ModuleCat.{u} k)
   apply (structureSheafHomAddEquiv c.toBase N'.obj).injective
-  show structureSheafHomAddEquiv c.toBase N'.obj
+  change structureSheafHomAddEquiv c.toBase N'.obj
       ((structureSheafHomAddEquiv c.toBase N'.obj).symm _) =
     structureSheafHomAddEquiv c.toBase N'.obj
       ((structureSheafHomAddEquiv c.toBase N.obj).symm _ ≫ g.hom)

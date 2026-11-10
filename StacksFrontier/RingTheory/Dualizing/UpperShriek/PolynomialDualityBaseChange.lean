@@ -273,7 +273,7 @@ theorem isIso_mvPolynomialDerivedHomBaseChange_of_finiteCohomology [IsNoetherian
     let T'' := Ef.mapTriangle.obj T'
     have hT'' : T'' ∈ distTriang _ := Ef.map_distinguished T' hδ
     refine ⟨T''.mor₃, ?_⟩
-    show T'' ∈ distTriang _
+    change T'' ∈ distTriang _
     simpa [F, S, T', T''] using hT''
   have hGtri : ∀ T : Triangle (DerivedCategory (ModuleCat.{u} A)), T ∈ distTriang _ →
       ∃ δ, Triangle.mk (G.map T.mor₂.op) (G.map T.mor₁.op) δ ∈

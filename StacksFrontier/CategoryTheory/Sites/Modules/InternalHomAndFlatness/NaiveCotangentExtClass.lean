@@ -132,7 +132,7 @@ private lemma shortExact_double (d : L ⟶ M) :
   refine HomologicalComplex.shortExact_of_degreewise_shortExact _ fun n => ?_
   let S := (ShortComplex.mk (doubleInclusion d) (doubleProjection d)
     (doubleInclusion_comp_doubleProjection d)).map (HomologicalComplex.eval D _ n)
-  show S.ShortExact
+  change S.ShortExact
   by_cases hn : n = 0
   · subst n
     have hi : IsIso S.f := by
@@ -158,10 +158,10 @@ private lemma shortExact_double (d : L ⟶ M) :
     · have hz : IsZero S.X₂ := HomologicalComplex.isZero_double_X d
         (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide) n hn' hn
       have hz₁ : IsZero S.X₁ := by
-        show IsZero (((CochainComplex.singleFunctor D 0).obj M).X n)
+        change IsZero (((CochainComplex.singleFunctor D 0).obj M).X n)
         exact HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 M n hn
       have hz₃ : IsZero S.X₃ := by
-        show IsZero (((CochainComplex.singleFunctor D (-1)).obj L).X n)
+        change IsZero (((CochainComplex.singleFunctor D (-1)).obj L).X n)
         exact HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) (-1) L n hn'
       exact ShortComplex.ShortExact.mk' (S.exact_of_isZero_X₂ hz)
         (hz₁.mono S.f) (hz₃.epi S.g)
@@ -207,7 +207,7 @@ private lemma exists_map_of_hom_degree_negOne [HasDerivedCategory D] (L G : D)
   obtain ⟨f, hf⟩ := (DerivedCategory.singleFunctor D (-1)).map_surjective
     (g ≫ ((DerivedCategory.singleFunctors D).shiftIso (1 : ℤ) (-1) 0 (by decide)).hom.app G)
   refine ⟨f, ?_⟩
-  show g = (DerivedCategory.singleFunctor D (-1)).map f ≫ _
+  change g = (DerivedCategory.singleFunctor D (-1)).map f ≫ _
   rw [hf]
   simp
 
@@ -239,7 +239,7 @@ private lemma exists_hom_eq_of_restriction_eq_zero [HasDerivedCategory D] (G : D
   congr 2
   apply HomologicalComplex.to_single_hom_ext
   simp [doubleProjection, HomologicalComplex.comp_f, e,
-    CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+    CochainComplex.singleFunctor,
     HomologicalComplex.single_map_f_self]
 
 end TwoTerm
@@ -403,7 +403,7 @@ private lemma exists_derivation_of_locallyBijective
       (J.intersection_covering (Presheaf.imageSieve_mem J α x)
         (Presheaf.imageSieve_mem J α y))
     rintro Y f ⟨⟨x₀, hx₀⟩, ⟨y₀, hy₀⟩⟩
-    show M.val.map f.op _ = M.val.map f.op _
+    change M.val.map f.op _ = M.val.map f.op _
     have hprod : Q.obj.map f.op (x * y) = α.app _ (x₀ * y₀) := by
       rw [map_mul, ← hx₀, ← hy₀, map_mul]
     have hy' : M.val.map f.op (δ X y) = D.d y₀ :=
@@ -426,7 +426,8 @@ private lemma exists_derivation_of_locallyBijective
 /-- **A derivation on a presheaf of rings locally isomorphic to a sheaf of rings extends to the
 sheaf of rings**, with the extension's defining equation on sections. This is the statement of
 `exists_derivation_of_locallyBijective` as a declaration downstream modules may use. -/
-public alias exists_derivation_extension_of_locallyBijective := exists_derivation_of_locallyBijective
+public alias exists_derivation_extension_of_locallyBijective :=
+    exists_derivation_of_locallyBijective
 
 variable [HasWeakSheafify J CommRingCat.{w}]
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
@@ -440,7 +441,8 @@ private lemma freeAlgebraSheafDerivation_ext
       ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A E))]
     (M : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (freeAlgebraSheaf J A E)))
-    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val (freeAlgebraSheafCoefficientMap J A E).hom)
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val
+      (freeAlgebraSheafCoefficientMap J A E).hom)
     (h : ∀ (X : Cᵒᵖ) (e : E.obj X),
       D₁.d (((toSheafification J CommRingCat.{w}).app
         (polynomialPresheaf J A E)).app X (MvPolynomial.X e)) =
@@ -468,7 +470,7 @@ private lemma freeAlgebraSheafDerivation_ext
   ext X x
   apply M.isSheaf.isSeparated _ _ (Presheaf.imageSieve_mem J η x)
   rintro Y f ⟨p, hpx⟩
-  show M.val.map f.op (D₁.d x) = M.val.map f.op (D₂.d x)
+  change M.val.map f.op (D₁.d x) = M.val.map f.op (D₂.d x)
   exact (D₁.d_map f.op x).symm.trans
     ((congrArg D₁.d hpx.symm).trans ((hp _ p).trans
       ((congrArg D₂.d hpx).trans (D₂.d_map f.op x))))
@@ -566,7 +568,8 @@ private lemma exists_tensorHom_on_generators
       (Functor.whiskerRight η (forget₂ CommRingCat RingCat))).obj M.val) g
   obtain ⟨D, hD⟩ := exists_derivation_of_locallyBijective J
     (polynomialCoefficientMap J A E) η M D₀
-  let D' : PresheafOfModulesOfCommRing.Derivation' M.val (freeAlgebraSheafCoefficientMap J A E).hom := D
+  let D' : PresheafOfModulesOfCommRing.Derivation' M.val
+      (freeAlgebraSheafCoefficientMap J A E).hom := D
   refine ⟨(tensorHomEquivDerivation.{v, u, w} J A B a E α N).symm D', fun X e => ?_⟩
   have hEq : tensorHomEquivDerivation.{v, u, w} J A B a E α N
       ((tensorHomEquivDerivation.{v, u, w} J A B a E α N).symm D') = D' :=
@@ -633,8 +636,9 @@ noncomputable def presentationConormalExtClass
           hi' hi'').eq_of_src _ _)) ≫
     ((DerivedCategory.singleFunctors _).shiftIso (1 : ℤ) (-1) 0 (by decide)).inv.app G
 
-omit [HasDerivedCategory.{t}
-  (_root_.SheafOfModules.{max w u v} (Stacks.SheafOfModules.Tensor.ringSheaf B))] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max w u v} RingCat.{max w u v})]
+  [HasDerivedCategory.{t}
+    (_root_.SheafOfModules.{max w u v} (Stacks.SheafOfModules.Tensor.ringSheaf B))] in
 /-- In degree `0` the inclusion of the degree `0` term of `NL(α)` is the canonical
 identification of that term. -/
 private lemma presentationDegreeZeroInclusion_f_zero :
@@ -655,6 +659,7 @@ private lemma presentationDegreeZeroInclusion_f_zero :
   exact congrArg (fun k => (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
     (presentationConormalSequence.{v, u, max w u v, w} J A B a E α).X₂).hom ≫ k) h₁
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max w u v} RingCat.{max w u v})] in
 /-- A first Ext class of `NL(α)` whose restriction to the degree `0` term vanishes is the class
 of a homomorphism out of the conormal sheaf. -/
 private lemma exists_conormalHom_of_restriction_eq_zero
@@ -767,7 +772,7 @@ theorem exists_locallySurjective_presentation_conormalExtClass
       naturality := by
         intro X Y f
         ext e
-        show iso.inv.val.app Y ((adj.unit.app Ωc).val.app Y
+        change iso.inv.val.app Y ((adj.unit.app Ωc).val.app Y
             (univ.d (vars.app Y ((underlyingPresheaf J B).map f e)))) =
           S₀.X₂.val.map f (iso.inv.val.app X
             ((adj.unit.app Ωc).val.app X (univ.d (vars.app X e))))
@@ -852,7 +857,7 @@ theorem exists_locallySurjective_presentation_conormalExtClass
     rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f,
       presentationDegreeZeroInclusion_f_zero, presentationDegreeZeroInclusion_f_zero,
       presentationNaiveCotangentComplexMap_f_zero]
-    simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+    simp [CochainComplex.singleFunctor,
       HomologicalComplex.single_map_f_self]
     rfl
   have hz : (DerivedCategory.singleFunctor
@@ -876,7 +881,7 @@ theorem exists_locallySurjective_presentation_conormalExtClass
     refine Eq.trans (Category.assoc _ _ _).symm ?_
     rw [hq]
     refine Eq.trans (Category.assoc _ _ _) ?_
-    show (DerivedCategory.singleFunctor
+    change (DerivedCategory.singleFunctor
       (_root_.SheafOfModules.{max w u v} (Stacks.SheafOfModules.Tensor.ringSheaf B)) 0).map
         comparison₀ ≫ ξ₀ = 0
     rw [← hlp, Functor.map_comp, Category.assoc, hz, Limits.comp_zero]

@@ -271,11 +271,11 @@ theorem full_baseChangeFunctor_of_diagonalComplement (f : V ⟶ W') (T : Subfunc
     (fun b => match b with | true => φtrue | false => φfalse)
     (by
       rintro Z (_ | _) (_ | _) x y hxy
-      · show φfalse.app Z x = φfalse.app Z y
+      · change φfalse.app Z x = φfalse.app Z y
         exact hhard Z.unop x y hxy
       · exact hcross Z x y hxy
       · exact (hcross Z y x hxy.symm).symm
-      · show φtrue.app Z x = φtrue.app Z y
+      · change φtrue.app Z x = φtrue.app Z y
         have hxyv : x = y := Subtype.ext hxy
         rw [hxyv])
   -- The glued morphism lies over `W`.

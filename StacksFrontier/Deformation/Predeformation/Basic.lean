@@ -125,7 +125,7 @@ public theorem residueFieldObject_residue
   let A := residueFieldObject.{u, v, w} Λ k
   let : Field (↑A) := ULift.field
   have hmax : IsLocalRing.maximalIdeal (↑A) = ⊥ := IsLocalRing.maximalIdeal_eq_bot
-  show ULift.algEquiv (R := Λ) (A := k)
+  change ULift.algEquiv (R := Λ) (A := k)
       ((AlgEquiv.quotientBot Λ (↑A))
         ((Ideal.quotientEquivAlgOfEq Λ hmax)
           (Ideal.Quotient.mk (IsLocalRing.maximalIdeal (↑A)) a))) = a.down
@@ -351,7 +351,7 @@ private lemma residueMorphism_eq
   have hin := (IsLocalRing.residue_eq_zero_iff _).mp hzero
   have hmax : IsLocalRing.maximalIdeal
       ↑(residueFieldObject.{u, v, w} Λ k) = ⊥ := by
-    show IsLocalRing.maximalIdeal (ULift.{v} k) = ⊥
+    change IsLocalRing.maximalIdeal (ULift.{v} k) = ⊥
     exact IsLocalRing.maximalIdeal_eq_bot
   have hz : f.hom a - (residueMorphism A).hom a = 0 := by
     rw [hmax] at hin
@@ -411,7 +411,7 @@ public theorem isPredeformationCategory_objectsOverFunctor
   classical
   let q := objectsOverFunctor p x.1
   refine ⟨?_, ?_⟩
-  · show q.op.IsFiberedInGroupoids
+  · change q.op.IsFiberedInGroupoids
     refine ⟨?_, ?_⟩
     · intro V U f a ha
       let a0 : Over x.1 := Opposite.unop a
@@ -514,7 +514,7 @@ public theorem isPredeformationCategory_objectsOverFunctor
       intro f
       apply Functor.Fiber.hom_ext
       apply Over.OverMorphism.ext
-      show f.1.left = mF.1.left
+      change f.1.left = mF.1.left
       exact (cancel_mono z0.hom).mp (by rw [Over.w f.1, Over.w mF.1])
 
 end
@@ -530,7 +530,7 @@ cofibered in groupoids. -/
 public theorem categoryOfElements_π_isCofibered
     {C : Type u} [Category.{v} C] (F : C ⥤ Type t) :
     IsCofiberedInGroupoids (Functor.Elements.π F) := by
-  show Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
+  change Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
   constructor
   · intro V U f x hx
     rcases V with ⟨V⟩
@@ -570,7 +570,7 @@ public theorem categoryOfElements_π_isCofibered
       apply Functor.Elements.hom_ext
       have hh := congrArg Quiver.Hom.unop hχ.1
       change χ.unop.hom = f.unop at hh
-      show χ.unop.hom = f.unop
+      change χ.unop.hom = f.unop
       exact hh
 
 private theorem categoryOfElements_fiber_hom_subsingleton

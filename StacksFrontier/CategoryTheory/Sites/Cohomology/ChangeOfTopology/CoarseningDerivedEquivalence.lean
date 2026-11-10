@@ -181,7 +181,7 @@ theorem isIso_fSharp_auxHomH_coarseningHom :
   have heq : (StacksPullbackFactorization.auxHomH
       (S.coarseningHom h).toRingedToposSiteHom).fSharp =
       ((𝟭 S.C).sheafAdjunctionContinuous CommRingCat.{u} J' S.J).counit.app S.O := by
-    show (((𝟭 S.C).sheafAdjunctionContinuous CommRingCat.{u} J' S.J).homEquiv _ _).symm
+    change (((𝟭 S.C).sheafAdjunctionContinuous CommRingCat.{u} J' S.J).homEquiv _ _).symm
         (𝟙 _) = _
     rw [Adjunction.homEquiv_counit, CategoryTheory.Functor.map_id, Category.id_comp]
   rw [heq]

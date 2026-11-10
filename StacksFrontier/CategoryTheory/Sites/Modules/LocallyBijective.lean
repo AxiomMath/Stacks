@@ -134,12 +134,12 @@ theorem isIso_of_fac_of_isLocallyBijective {P : PresheafOfModules.{v} R.obj}
       (PresheafOfModules.toPresheaf R.obj).map g := by
     rw [← Functor.map_comp, fac]
   have hi : PresheafOfModules.IsLocallyInjective J h.val := by
-    show Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf R.obj).map h.val)
+    change Presheaf.IsLocallyInjective J ((PresheafOfModules.toPresheaf R.obj).map h.val)
     rw [← Presheaf.comp_isLocallyInjective_iff J
       ((PresheafOfModules.toPresheaf R.obj).map η), hfac]
     infer_instance
   have hs : PresheafOfModules.IsLocallySurjective J h.val := by
-    show Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map h.val)
+    change Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map h.val)
     rw [← Presheaf.comp_isLocallySurjective_iff J
       ((PresheafOfModules.toPresheaf R.obj).map η), hfac]
     infer_instance

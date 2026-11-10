@@ -65,7 +65,7 @@ theorem limitPreserving_jointRange {ι : Type*} {G : Cᵒᵖ ⥤ Type v} {F : ι
     obtain ⟨i, x, hx⟩ := (hmem s.1).1 s.2
     obtain ⟨j, y, rfl⟩ := exists_eq_map_of_isColimit_mapCocone (F i) D c (hFc i) x
     refine ⟨j, ⟨(f i).app _ y, (hmem _).2 ⟨i, y, rfl⟩⟩, Subtype.ext ?_⟩
-    show G.map (c.π.app j).op ((f i).app _ y) = s.1
+    change G.map (c.π.app j).op ((f i).app _ y) = s.1
     rw [← hx]
     exact (NatTrans.naturality_apply (f i) _ y).symm
   · intro k a b hab
@@ -78,7 +78,7 @@ theorem limitPreserving_jointRange {ι : Type*} {G : Cᵒᵖ ⥤ Type v} {F : ι
       y ((F i).map (D.map g).op x) (by
         rw [hy, ← Functor.map_comp_apply, ← op_comp, c.w])
     refine ⟨m, gm ≫ g, Subtype.ext ?_⟩
-    show G.map (D.map (gm ≫ g)).op a.1 = G.map (D.map (gm ≫ g)).op b.1
+    change G.map (D.map (gm ≫ g)).op a.1 = G.map (D.map (gm ≫ g)).op b.1
     rw [← hx, ← hx', D.map_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
       ← NatTrans.naturality_apply, ← NatTrans.naturality_apply, ← hm, NatTrans.naturality_apply,
       hfy]
@@ -100,7 +100,7 @@ theorem exists_lift_of_isPullback {G Fi Fj P : Cᵒᵖ ⥤ Type v} {fi : Fi ⟶ 
       Fi.map (c.π.app l).op y = x ∧ fi.app _ y = G.map (D.map g).op (fj.app _ x') := by
   have hPV := hP.map ((evaluation _ _).obj (op c.pt))
   obtain ⟨r, hr₁, hr₂⟩ := Types.exists_of_isPullback hPV x (Fj.map (c.π.app k).op x') (by
-    show fi.app (op c.pt) x = fj.app (op c.pt) (Fj.map (c.π.app k).op x')
+    change fi.app (op c.pt) x = fj.app (op c.pt) (Fj.map (c.π.app k).op x')
     rw [NatTrans.naturality_apply, hx])
   obtain ⟨l₀, r', rfl⟩ := exists_eq_map_of_isColimit_mapCocone P D c (hPl I D c hc hD hC).some r
   let l₁ := IsCofiltered.min k l₀

@@ -91,10 +91,10 @@ theorem good_zero (X Y : Pairs K F ℓ hL) :
       X.expr).1 ⟶ ((ev (K.prod' F) ((T, hL.inv) : ℳ × 𝒞)).obj Y.expr).1), (0 : _ ⟶ _)) : _) := by
   refine ⟨(pad L).obj Y.expr, (pad L).obj X.expr, β_ _ _, 0, Y.isInvertible, X.isInvertible,
     Prod.hom_ext ?_ ?_⟩
-  · show (0 : ((ev (K.prod' F) ((T, hL.inv) : ℳ × 𝒞)).obj X.expr).1 ⟶ _) ▷ _ ≫ _ ≫ _ =
+  · change (0 : ((ev (K.prod' F) ((T, hL.inv) : ℳ × 𝒞)).obj X.expr).1 ⟶ _) ▷ _ ≫ _ ≫ _ =
       _ ≫ K.map 0
     rw [MonoidalPreadditive.zero_whiskerRight, Limits.zero_comp, K.map_zero, Limits.comp_zero]
-  · show (0 : ((ev (K.prod' F) ((T, hL.inv) : ℳ × 𝒞)).obj X.expr).2 ⟶ _) ▷ _ ≫ _ ≫ _ =
+  · change (0 : ((ev (K.prod' F) ((T, hL.inv) : ℳ × 𝒞)).obj X.expr).2 ⟶ _) ▷ _ ≫ _ ≫ _ =
       _ ≫ F.map 0
     rw [MonoidalPreadditive.zero_whiskerRight, Limits.zero_comp, F.map_zero, Limits.comp_zero]
 
@@ -155,8 +155,7 @@ attribute [local instance] Equivalence.inverseMonoidal Equivalence.inverseBraide
 
 variable (𝒞 : Type u₃) [Category.{v₃} 𝒞] [MonoidalCategory 𝒞] [SymmetricCategory 𝒞]
   (K : 𝒜 ⥤ ℳ) [K.Braided] [K.Full] [K.Faithful] (L : 𝒜) (T : ℳ)
-  [Preadditive 𝒜] [Preadditive ℳ] [Linear ℚ ℳ] [MonoidalPreadditive ℳ]
-  [Preadditive 𝒞] [Linear ℚ 𝒞] [MonoidalPreadditive 𝒞] [K.Additive]
+  [Linear ℚ ℳ] [Preadditive 𝒞] [Linear ℚ 𝒞] [MonoidalPreadditive 𝒞] [K.Additive]
 
 /-- **(L)**, see `CategoryTheory.InvertingObject.LinearExistence`. -/
 theorem linearExistence : LinearExistence 𝒞 K L T := by

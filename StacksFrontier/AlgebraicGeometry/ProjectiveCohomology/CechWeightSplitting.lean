@@ -102,7 +102,8 @@ as terms rather than rewritten with. No heartbeat option is raised anywhere in t
 `inter_coverObject_left` — rather than rebuilt. That layer was
 written for the Čech acyclicity of an injective sheaf of modules, and it is model-free: nothing
 in it mentions projective space.
-`StacksFrontier/AlgebraicGeometry/Cohomology/Cech/StandardCoverVanishing.lean` is the same crossing at
+`StacksFrontier/AlgebraicGeometry/Cohomology/Cech/StandardCoverVanishing.lean` is the same crossing
+at
 an affine cover, done with an isomorphism of terms instead of elementwise; the elementwise route is
 taken here because the weight splitting of `WeightSplitting.lean` is a statement about elements
 of the localizations.

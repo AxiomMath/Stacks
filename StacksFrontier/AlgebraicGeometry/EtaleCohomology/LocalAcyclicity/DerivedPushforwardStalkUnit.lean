@@ -105,7 +105,7 @@ theorem stalk_unit_comp_pushforwardStalkToStrictHenselizationSectionsAb
     exact (congrArg (smallEtalePullbackAb (strictHenselizationBaseChangeToSource B hW h y)).map
       ((smallEtaleAdjunctionAb h).left_triangle_components F)).trans
       (CategoryTheory.Functor.map_id _ _)
-  show (smallEtaleStalkAb y.hom).map η ≫ _ = _
+  change (smallEtaleStalkAb y.hom).map η ≫ _ = _
   rw [hdef, reassoc_of% hnat, ← Functor.map_comp, ← Functor.map_comp, reassoc_of% hχ, htri,
     Category.comp_id]
 
@@ -156,7 +156,7 @@ theorem mapHomotopyCategory_map_unit
         (smallEtalePullbackAb h) (smallEtalePushforwardAb h ⋙ smallEtaleStalkAb y.hom)
         (stalkUnit h y)).app J := by
   rw [Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_app]
-  show ((smallEtaleStalkAb y.hom).mapHomotopyCategory (ComplexShape.up ℤ)).map
+  change ((smallEtaleStalkAb y.hom).mapHomotopyCategory (ComplexShape.up ℤ)).map
       ((HomotopyCategory.quotient _ _).map
         (((smallEtaleAdjunctionAb h).mapHomologicalComplexAdjunction
           (ComplexShape.up ℤ)).unit.app J.as)) = _

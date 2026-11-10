@@ -290,7 +290,7 @@ private lemma etaleStalkIsoEvaluationAtCanonicalPoint_hom_app_etaleStalkGerm
   let hI : IsTerminal tI := canonicalPointFiberTerminalIndex B K hK
   let G := (Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK
     (canonicalGeometricPoint K))).op ⋙ F.obj
-  show (colimitIsoTerminalIndex G tI hI).hom (colimit.ι G tI z) = z
+  change (colimitIsoTerminalIndex G tI hI).hom (colimit.ι G tI z) = z
   have hfrom : hI.from tI = 𝟙 tI := hI.hom_ext _ _
   have hz := congrArg (fun k => k z) (colimitIsoTerminalIndex_hom_ι G tI hI tI)
   simpa [hfrom] using hz
@@ -453,7 +453,7 @@ theorem etaleStalkIsoPullbackGlobalSections_inv_app_etaleStalkGerm (s : Geometri
         etaleStalkGerm.{u, u + 1} B S hS (s₀.map (B.inclusion.map f)) F V₀ t :=
       smallEtalePullbackStalkIso_germ B f s₀ F U V₀ a haU t
     exact inv_app_eq_of_hom_app_eq σ F h'
-  show γ.hom.app (P.obj F)
+  change γ.hom.app (P.obj F)
       (γ.inv.app (P.obj F) (β.hom.app (P.obj F) (σ.inv.app F
         (δ.inv.app F (etaleStalkGerm.{u, u + 1} B S hS s F V t))))) = _
   rw [hδ, hσ, ← CategoryTheory.comp_apply, γ.inv_hom_id_app, CategoryTheory.id_apply]

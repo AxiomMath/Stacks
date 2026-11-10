@@ -9,8 +9,9 @@ public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.QcohGlue
 `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/EffectiveGlueAgreement.lean` proves the
 agreement of the local isomorphisms of Stacks 03DX (1) in the `objRestrict` spelling —
 `AlgebraicGeometry.BigFppfOver.restrictObjRestrictIso_effectiveGlueObjRestrictIso_eq` — and
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ObjRestrictRestrFunBridgeEffectivity.lean`
-reduces the essential surjectivity to the same agreement in the `homRestr` spelling.  **This file
+`ObjRestrictRestrFunBridgeEffectivity.lean` (in the same directory,
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`) reduces the essential
+surjectivity to the same agreement in the `homRestr` spelling.  **This file
 transports the one into the other and closes the clause.**
 
 The transport is the identity

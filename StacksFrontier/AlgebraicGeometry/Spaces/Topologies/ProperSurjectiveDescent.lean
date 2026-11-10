@@ -150,7 +150,7 @@ theorem isPrestackFor_of_cover_of_isHomSeparatedFor {Y : C} {I : Type t} {Z : I 
     rw [← Sieve.overEquiv_symm_pullback]
     exact (F.isPrestackFor_iff_isSheafFor' _).mp (hloc i) M N (g i)
   · intro i j
-    show Presieve.IsSeparatedFor (F.presheafHom M N)
+    change Presieve.IsSeparatedFor (F.presheafHom M N)
       (((Sieve.overEquiv (Over.mk (𝟙 Y))).symm R).pullback
         (Over.homMk ((sq i j).p₁ ≫ g i) : Over.mk (sq i j).p ⟶ _)).arrows
     rw [← Sieve.overEquiv_symm_pullback]

@@ -88,7 +88,7 @@ variable (B : BigEtaleSite.{u}) (U : B.Scheme) (ℓ : ℕ)
   [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
-omit [CompactSpace U.1] in
+omit [CompactSpace U.1] [QuasiCompact f] [IsSeparated f] in
 /-- **The weights of `H²_c` of `ℱ_ρ` on a curve are `≤ w + 2`** for `ρ` pointwise `ι`-mixed of
 weights `≤ w`, given the identification of `H²_c(U_k̄, ℱ_ρ ⊗ ℚ_ℓ)` with the geometric coinvariants
 of `ρ` under which `π_U^*` is `q` times a geometric Frobenius lift `φ` (Weil II 3.2.3). -/

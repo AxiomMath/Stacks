@@ -59,7 +59,7 @@ theorem ker_app_le_of_pushforwardUnit_hom {Z W : Scheme.{u}} (i : Z ⟶ X) (j : 
   have hkill : ∀ s, x • s =
       (0 : Γ((Scheme.Modules.pushforward i).obj (Scheme.unitModule Z), U)) := by
     intro s
-    show (show Γ((Scheme.Modules.pushforward i).obj (Scheme.unitModule Z), U) from
+    change (show Γ((Scheme.Modules.pushforward i).obj (Scheme.unitModule Z), U) from
       i.app U x * (show Γ(Z, i ⁻¹ᵁ U) from s)) = 0
     rw [hx0]
     show (show Γ((Scheme.Modules.pushforward i).obj (Scheme.unitModule Z), U) from
@@ -158,7 +158,7 @@ theorem exists_universalPolarizedFamily_hilbertFunctor (hT : IsTerminal (B.obj h
       eH.hom.naturality_apply _ _
     have hup : (yoneda.obj U₀ ⋙ uliftFunctor.{u + 1}).map (Quiver.Hom.op g)
         (ULift.up (𝟙 U₀)) = ULift.up g := by
-      show ULift.up (g ≫ 𝟙 U₀) = _
+      change ULift.up (g ≫ 𝟙 U₀) = _
       rw [Category.comp_id]
     rw [hup] at hnat
     rw [hK₀]

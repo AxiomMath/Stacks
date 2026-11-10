@@ -269,6 +269,7 @@ theorem toNormQuot_comp_normQuotToBase :
 /-! ### The chart condition at the chart the quotient was built from -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search for presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_NormalizationAtlasQuotient :

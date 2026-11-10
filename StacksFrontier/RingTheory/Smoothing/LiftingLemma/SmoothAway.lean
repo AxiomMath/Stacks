@@ -251,7 +251,7 @@ private lemma polynomial_away_linear_relation_ideal
   simp only [map_sub, map_mul]
   let S := MvPolynomial (σ ⊕ τ) R
   let L := Localization.Away (MvPolynomial.C π : S)
-  show polynomial_away_algEquiv π
+  change polynomial_away_algEquiv π
       (algebraMap S L (MvPolynomial.rename Sum.inl (G j))) -
       polynomial_away_algEquiv π (algebraMap S L (MvPolynomial.C π)) *
         polynomial_away_algEquiv π (algebraMap S L (MvPolynomial.X (Sum.inr j))) = _

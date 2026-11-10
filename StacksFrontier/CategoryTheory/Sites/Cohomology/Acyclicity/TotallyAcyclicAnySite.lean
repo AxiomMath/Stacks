@@ -137,7 +137,7 @@ lemma subsingleton_ext_unit (M : SheafOfModules.{u} R) (n : ℕ)
   have htf : ∀ U, Module.IsTorsionFree ℤ
       (((Presheaf.freeAbelianSheaf J).obj (finalSheaf J).obj).obj.obj U) :=
     ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun V => by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
       exact Module.Flat.isTorsionFree)
   let c := (ModuleSheafCohomology.extComparisonIso (SheafOfModules.toSheaf R)
     ((Presheaf.freeAbelianSheaf J).obj (finalSheaf J).obj) (SheafOfModules.unit R)
@@ -178,7 +178,7 @@ theorem isZero_rightDerived_globalSectionsFunctor_of_isTotallyAcyclic (M : Sheaf
     have he : I.extMk a (n + 2) rfl ha = 0 := Subsingleton.elim _ _
     obtain ⟨b, hb⟩ := (I.extMk_eq_zero_iff a (n + 2) rfl ha n rfl).mp he
     refine ⟨(I.cocomplex.X n).unitHomEquiv b, ?_⟩
-    show SheafOfModules.sectionsMap (I.cocomplex.d n (n + 1)) _ = x
+    change SheafOfModules.sectionsMap (I.cocomplex.d n (n + 1)) _ = x
     rw [← SheafOfModules.unitHomEquiv_comp_apply, hb, hax]
   exact hex.isZero_homology.of_iso (I.isoRightDerivedObj E (n + 1))
 

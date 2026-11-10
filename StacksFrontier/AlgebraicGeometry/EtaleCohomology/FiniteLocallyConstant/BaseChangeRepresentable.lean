@@ -138,7 +138,7 @@ pullback square. -/
 public theorem isFinite_smallEtaleBaseChange_obj (U : SmallEtale B X.1 X.2)
     (hU : finiteSmallEtaleObjects B X U) :
     finiteSmallEtaleObjects B Y ((smallEtaleBaseChange B f).obj U) := by
-  show IsFinite (B.inclusion.map (pullback.snd U.obj.hom f))
+  change IsFinite (B.inclusion.map (pullback.snd U.obj.hom f))
   exact MorphismProperty.of_isPullback
     ((IsPullback.of_hasPullback U.obj.hom f).map B.inclusion) hU
 

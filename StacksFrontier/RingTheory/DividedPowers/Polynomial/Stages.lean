@@ -165,7 +165,7 @@ private theorem restrict_transition {A : Type u} [CommRing A] {W : Type w}
     Finsupp.lmapDomain A A (fun e : E => (⟨e.1, hEF e.2⟩ : F))
       (restrictToStage E x hx) = restrictToStage F x (hx.trans hEF) := by
   apply Finsupp.mapDomain_injective (f := Subtype.val) Subtype.val_injective
-  show ((Finsupp.lmapDomain A A (fun z : F => z.1)).comp
+  change ((Finsupp.lmapDomain A A (fun z : F => z.1)).comp
     (Finsupp.lmapDomain A A (fun e : E => (⟨e.1, hEF e.2⟩ : F))))
     (restrictToStage E x hx) = _
   rw [← Finsupp.lmapDomain_comp]
@@ -206,7 +206,7 @@ public theorem finiteStageInclusion_existsUnique_lift (A : Type u) [CommRing A]
       have hres : restrictToStage x.support (a • x) hs =
           a • restrictToStage x.support x (by simp) := by
         ext y
-        show (a • x) y.1 = a * x y.1
+        change (a • x) y.1 = a * x y.1
         simp [Finsupp.smul_apply]
       rw [hres, DividedPowerAlgebra.dp_smul]
       simp [map_smul])

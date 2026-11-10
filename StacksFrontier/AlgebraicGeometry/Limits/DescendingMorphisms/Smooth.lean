@@ -249,7 +249,7 @@ lemma baseChangeAffineAlgebraDiagram_algebraMap (D : I ⥤ Scheme.{u}) (i₀ : I
     (Y : Over (D.obj i₀)) [IsAffine Y.left] (j : Over i₀) :
     (algebraMap Γ(Y.left, ⊤) ((baseChangeAffineAlgebraDiagram D i₀ Y).obj (.op j))) =
       (pullback.snd (D.map j.hom) Y.hom).appTop.hom := by
-  show ((Scheme.ΓSpecIso Γ(Y.left, ⊤)).inv ≫
+  change ((Scheme.ΓSpecIso Γ(Y.left, ⊤)).inv ≫
     (pullback.snd (D.map j.hom) Y.hom ≫ Y.left.toSpecΓ).appTop).hom = _
   rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop]
   simp only [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
@@ -261,7 +261,7 @@ lemma baseChangeAffineAlgebraCocone_algebraMap (D : I ⥤ Scheme.{u}) (c : Cone 
     (Y : Over (D.obj i₀)) [IsAffine Y.left] :
     (algebraMap Γ(Y.left, ⊤) (baseChangeAffineAlgebraCocone D c i₀ Y).pt) =
       (pullback.snd (c.π.app i₀) Y.hom).appTop.hom := by
-  show ((Scheme.ΓSpecIso Γ(Y.left, ⊤)).inv ≫
+  change ((Scheme.ΓSpecIso Γ(Y.left, ⊤)).inv ≫
     (pullback.snd (c.π.app i₀) Y.hom ≫ Y.left.toSpecΓ).appTop).hom = _
   rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop]
   simp only [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
@@ -380,7 +380,7 @@ theorem exists_smooth_baseChange_of_smooth_limitBaseChange
   let a (j : C.I₀) : UX j ⟶ X₀ := Over.homMk (C.f j)
   let b₀ (j : C.I₀) : VY j ⟶ Y₀ := Over.homMk (b j)
   let p₀ (j : C.I₀) : UX j ⟶ VY j := Over.homMk (p j) (by
-    show p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
+    change p j ≫ (b j ≫ Y₀.hom) = C.f j ≫ X₀.hom
     rw [← Category.assoc, hp, Category.assoc, Over.w])
   have (j : C.I₀) : IsAffine (UX j).left := hCaffine j
   have (j : C.I₀) : IsAffine (VY j).left := hVaffine j

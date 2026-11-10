@@ -236,10 +236,10 @@ theorem exists_isClosed_smoothAt_isSeparable_finrank_le_totalDegree [Infinite k]
   have hΦ : ∀ r : k, Φ (algebraMap k (MvPolynomial (Fin 2) k ⧸ m) r) =
       algebraMap k (Z.residueField z) r := by
     intro r
-    show (hU.residueFieldEquiv z hz) (Φ₃ (Φ₂ (ΦQm.symm
+    change (hU.residueFieldEquiv z hz) (Φ₃ (Φ₂ (ΦQm.symm
       (Ideal.Quotient.mk m (MvPolynomial.C r))))) = _
     rw [DoubleQuot.quotQuotEquivQuotOfLE_symm_mk]
-    show (hU.residueFieldEquiv z hz) (Φ₃ (Φ₂ (Ideal.Quotient.mk Qm
+    change (hU.residueFieldEquiv z hz) (Φ₃ (Φ₂ (Ideal.Quotient.mk Qm
       (Ideal.Quotient.mk (Ideal.span {g}) (MvPolynomial.C r))))) = _
     rw [show Φ₂ (Ideal.Quotient.mk Qm (Ideal.Quotient.mk (Ideal.span {g})
         (MvPolynomial.C r))) =
@@ -248,7 +248,7 @@ theorem exists_isClosed_smoothAt_isSeparable_finrank_le_totalDegree [Infinite k]
       Ideal.quotientEquiv_mk _ _ _ _ _,
       show εₐ (Ideal.Quotient.mk (Ideal.span {g}) (MvPolynomial.C r)) =
         algebraMap k Γ(Z, U) r from hεalg r]
-    show (hU.residueFieldEquiv z hz) (algebraMap Γ(Z, U) _ (algebraMap k Γ(Z, U) r)) = _
+    change (hU.residueFieldEquiv z hz) (algebraMap Γ(Z, U) _ (algebraMap k Γ(Z, U) r)) = _
     rw [hU.residueFieldEquiv_algebraMap z hz]
     exact heval r
   let Φₐ : (MvPolynomial (Fin 2) k ⧸ m) ≃ₐ[k] Z.residueField z :=

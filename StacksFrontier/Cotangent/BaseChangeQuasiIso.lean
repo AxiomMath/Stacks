@@ -337,8 +337,7 @@ private theorem apply_eq_of_tmul_eq {R S P M F G : Type*} [CommSemiring R] [Comm
     [FunLike F (S ⊗[R] P) M] [AddMonoidHomClass F (S ⊗[R] P) M]
     [FunLike G (S ⊗[R] P) M] [AddMonoidHomClass G (S ⊗[R] P) M] (f : F) (g : G)
     (h : ∀ (s : S) (p : P), f (s ⊗ₜ[R] p) = g (s ⊗ₜ[R] p)) (x : S ⊗[R] P) : f x = g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s p => exact h s p
   | add x y hx hy => simp [hx, hy]
 

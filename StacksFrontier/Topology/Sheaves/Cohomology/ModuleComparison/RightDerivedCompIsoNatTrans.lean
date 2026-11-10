@@ -183,7 +183,7 @@ theorem rightDerivedCompIso_natTrans_compat_app (F₁ F₂ : A ⥤ B) (G : B ⥤
     InjectiveResolution.rightDerived_app_eq α (injectiveResolution M) n,
     InjectiveResolution.rightDerived_app_eq β (injectiveResolution M) n,
     Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc,
-    Iso.map_inv_hom_id_assoc, HomologicalComplex.homologyFunctor_map,
+    Iso.inv_hom_id_map_assoc, HomologicalComplex.homologyFunctor_map,
     HomologicalComplex.homologyFunctor_map, Category.assoc, Category.assoc,
     Iso.inv_hom_id_assoc]
   exact congrArg (fun g => G.map ((injectiveResolution M).isoRightDerivedObj F₁ n).hom ≫ g)

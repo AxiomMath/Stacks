@@ -47,7 +47,7 @@ theorem changeBasePointsEquiv_spacePointMap (F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
         (Space.pointsRelocalize B S S' hS hS' g F x) := by
   induction x using Quot.inductionOn with
   | h p =>
-    show changeBasePointsEquiv B S S' hS hS' g 𝒳.val 𝒳.property
+    change changeBasePointsEquiv B S S' hS hS' g 𝒳.val 𝒳.property
         (spacePointMap B S hS F 𝒳 c (p.class B S hS F)) = _
     rw [Space.pointsRelocalize_class, spacePointMap_class, spacePointMap_class]
     exact (class_eq_class_iff_hasCommonExtension B S' hS' _ _ _ _).2 ⟨_, ⟨𝟙 _⟩, ⟨𝟙 _⟩⟩
@@ -181,7 +181,7 @@ theorem isOpenMap_changeBasePointsEquiv
     rw [← hz]
     induction x using Quot.inductionOn with
     | h p =>
-      show spacePointMap B S hS (yoneda.obj U) Ucfg aU (p.class B S hS _) =
+      change spacePointMap B S hS (yoneda.obj U) Ucfg aU (p.class B S hS _) =
         pointsMap B S hS _ _ _ aU (spacePointMap B S hS (yoneda.obj U) _
           (BasedFunctor.id _) (p.class B S hS _))
       rw [spacePointMap_class, spacePointMap_class]

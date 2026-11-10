@@ -48,8 +48,9 @@ finitely many members already cover, and the statement follows from Tag 0D6A dir
 * `Stacks.DerivedGlueing.exists_solution_and_unique_solutionIso_of_finite_cover_unconditional`:
   **both halves of [Stacks, Tag 0D6A] in one statement**, existence and uniqueness up to unique
   isomorphism, on the source's own hypotheses and with nothing granted.
-* `Stacks.DerivedGlueing.exists_solution_and_unique_solutionIso_of_covers_of_compactSpace_unconditional`:
-  existence and uniqueness of a solution over a quasi-compact space, by way of Tag 0D6A.
+* `exists_solution_and_unique_solutionIso_of_covers_of_compactSpace_unconditional`, in the
+  namespace `Stacks.DerivedGlueing`: existence and uniqueness of a solution over a quasi-compact
+  space, by way of Tag 0D6A.
 
 ## References
 

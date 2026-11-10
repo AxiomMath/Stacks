@@ -87,7 +87,7 @@ theorem exists_fg_ideal_of_isEtaleLocallyConstructible {Q W : BigFppfOver B S hS
     rwa [schemePointsHomeomorph_symm_naturality]
   · rintro hh _ ⟨p, rfl⟩ hp
     refine hh ⟨schemePointsHomeomorph B S hS T p, rfl⟩ ?_
-    show φ.symm _ ∈ C
+    change φ.symm _ ∈ C
     rwa [← schemePointsHomeomorph_symm_naturality, Homeomorph.symm_apply_apply]
 
 /-! ### Descent forces the bottom rank stratum -/
@@ -202,7 +202,7 @@ theorem exists_isCutOutBy_descentSubfunctor_of_isCutOutBy (W : SmallEtale B S hS
     quasiSeparatedSpace_of_quasiSeparated ((BigFppfOver.toScheme B S hS).map qs)
   obtain ⟨J₂, hJ₂, hJ₂iff⟩ := exists_fg_ideal_of_isEtaleLocallyConstructible qs hC hCc
   refine ⟨J₂, hJ₂, fun T hT t => ?_⟩
-  show HasDescentAt f E (sectionMap T (Y.1.map t.op (yonedaEquiv W.1.hom))) ↔ _
+  change HasDescentAt f E (sectionMap T (Y.1.map t.op (yonedaEquiv W.1.hom))) ↔ _
   rw [hsec, Ideal.map_mul]
   constructor
   · intro hd
@@ -247,7 +247,7 @@ theorem exists_chart_isCutOutBy_descentSubfunctor (y : points B S hS Y.1) :
     (schemePointsHomeomorph B S hS V₁.obj.left).symm.continuous
   have hψp : ∀ p, ψ (pointsToScheme B S hS V₁.obj.left p) =
       pointsMap B S hS (yoneda.obj V₁.obj.left) V₁.obj.hom p := fun p => by
-    show pointsMap B S hS _ _ ((schemePointsHomeomorph B S hS V₁.obj.left).symm
+    change pointsMap B S hS _ _ ((schemePointsHomeomorph B S hS V₁.obj.left).symm
       (schemePointsHomeomorph B S hS V₁.obj.left p)) = _
     rw [Homeomorph.symm_apply_apply]
   have hOopen : IsOpen (ψ ⁻¹' rankFibreLocus f E r) :=

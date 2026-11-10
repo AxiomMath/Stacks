@@ -92,7 +92,7 @@ theorem IsAdmissibleBlowup.comp_inv {Y₁ Y₂ Y' : AlgebraicSpaces B S hS} (e :
   · exact isFinitePresentation_of_isPullback B S hS
       (preimageClosedSubspace e.hom Z).2.1 Z.2.1 Y₁.2 Y₂.2
       (Subfunctor.isPullback_preimage e.hom.hom Z.1) hZfp
-  · show Disjoint (subspacePointSet B S hS Y₁.1 (U₂.1.preimage e.hom.hom))
+  · change Disjoint (subspacePointSet B S hS Y₁.1 (U₂.1.preimage e.hom.hom))
       (subspacePointSet B S hS Y₁.1 (Z.1.preimage e.hom.hom))
     rw [subspacePointSet_preimage B S hS, subspacePointSet_preimage B S hS]
     exact hZdisj.preimage _
@@ -137,7 +137,7 @@ theorem dominatesSections_schemeSpace_aux (hZ : B.Contains (⊤_ Scheme.{u})) (R
   refine ⟨Y', b, hUU ▸ hb, ObjectProperty.homMk (g ≫ (schemeTheoreticImageSubfunctor B S hS s).ι),
     ?_, ?_⟩
   · refine ObjectProperty.hom_ext _ ?_
-    show (g ≫ (schemeTheoreticImageSubfunctor B S hS s).ι) ≫ f.hom = b.hom
+    change (g ≫ (schemeTheoreticImageSubfunctor B S hS s).ι) ≫ f.hom = b.hom
     exact (Category.assoc _ _ _).trans hg
   · let st : U.1.toFunctor ⟶ (schemeTheoreticImageSubfunctor B S hS s).toFunctor :=
       Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s)
@@ -147,12 +147,12 @@ theorem dominatesSections_schemeSpace_aux (hZ : B.Contains (⊤_ Scheme.{u})) (R
       (p := (U.1.preimage b.hom).ι ≫ g) (q := U.1.fromPreimage b.hom ≫ st) (U.1.fromPreimage b.hom)
       (by
         rw [Category.assoc]
-        show (U.1.preimage b.hom).ι ≫ g ≫ (Over.mk ((schemeTheoreticImageSubfunctor B S hS s).ι ≫
+        change (U.1.preimage b.hom).ι ≫ g ≫ (Over.mk ((schemeTheoreticImageSubfunctor B S hS s).ι ≫
           f.hom)).hom = _
         exact (congrArg ((U.1.preimage b.hom).ι ≫ ·) hg).trans
           (Subfunctor.fromPreimage_ι _ _).symm)
       (by rw [Category.assoc, ← Category.assoc st, hst, hs])
-    show (U.1.preimage b.hom).ι ≫ g ≫ (schemeTheoreticImageSubfunctor B S hS s).ι = _
+    change (U.1.preimage b.hom).ι ≫ g ≫ (schemeTheoreticImageSubfunctor B S hS s).ι = _
     rw [← Category.assoc, h, Category.assoc, hst]
 
 /-- **A quasi-compact quasi-separated scheme of the site dominates sections.** -/
@@ -195,7 +195,7 @@ theorem DominatesSections.of_iso {Y₁ Y₂ : AlgebraicSpaces B S hS} (e : Y₁ 
   have hf' : IsProper B S hS (f ≫ e.hom).hom :=
     isProper_comp B S hS X.2 Y₁.2 Y₂.2 _ _ hf (isProper_of_isIso B S hS e.hom.hom)
   have hs' : (U.1.fromPreimage e.inv.hom ≫ s) ≫ (f ≫ e.hom).hom = U'.1.ι := by
-    show (U.1.fromPreimage e.inv.hom ≫ s) ≫ f.hom ≫ e.hom.hom = U'.1.ι
+    change (U.1.fromPreimage e.inv.hom ≫ s) ≫ f.hom ≫ e.hom.hom = U'.1.ι
     rw [Category.assoc, ← Category.assoc s, hs, ← Category.assoc, Subfunctor.fromPreimage_ι,
       Category.assoc, hinv, Category.comp_id]
   obtain ⟨Y', b, hb, g, hg, hext⟩ := h U' hU'qc X (f ≫ e.hom) hf' _ hs'
@@ -203,7 +203,7 @@ theorem DominatesSections.of_iso {Y₁ Y₂ : AlgebraicSpaces B S hS} (e : Y₁ 
       isOpenSubspace_preimage B S hS e.hom.hom U'.1 Y₂.2 Y₁.2 U'.2⟩ : OpenSubspaces B S hS Y₁.1) =
       U := by
     refine Subtype.ext ?_
-    show (U.1.preimage e.inv.hom).preimage e.hom.hom = U.1
+    change (U.1.preimage e.inv.hom).preimage e.hom.hom = U.1
     rw [← Subfunctor.preimage_comp, hhom, Subfunctor.preimage_id]
   refine ⟨Y', b ≫ e.inv, hUU ▸ IsAdmissibleBlowup.comp_inv e U' hb, g, ?_, hext⟩
   rw [← hg, Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]

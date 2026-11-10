@@ -84,7 +84,7 @@ theorem Module.Finite.of_restrictScalars_ringEquiv {R₁ R₂ Γ : Type*} [CommR
     | add y z _ _ hy hz => exact Submodule.add_mem _ hy hz
     | smul r y _ hy =>
       have : (show M from r • y) = (e.symm r) • (show M from y) := by
-        show g r • (show M from y) = g (e (e.symm r)) • (show M from y)
+        change g r • (show M from y) = g (e (e.symm r)) • (show M from y)
         rw [RingEquiv.apply_symm_apply]
       rw [this]
       exact Submodule.smul_mem _ _ hy
@@ -306,7 +306,7 @@ theorem reesTotalCohomologyAction_C (N : Modules.{u, u} B S hS X.1 X.2) (p : ℕ
   have h2 := rightDerived_globalSections_map_globalSmul B S hS X (baseScalarRingHom B S hS T f a)
     (algebraImageTotal B S hS T f (reesAlgebra J) (basePolynomialRing B S hS T)
         (reesAlgebra J).val N) p
-  show ((modulesCohomologyFunctor B S hS X p).map (algebraImageScalarEnd B S hS T f
+  change ((modulesCohomologyFunctor B S hS X p).map (algebraImageScalarEnd B S hS T f
     (reesAlgebra J) (basePolynomialRing B S hS T) (reesAlgebra J).val N
     (algebraBaseChangeScalar B S hS T f (basePolynomialRing B S hS T) (Polynomial.C a)))).hom q = _
   rw [h1]

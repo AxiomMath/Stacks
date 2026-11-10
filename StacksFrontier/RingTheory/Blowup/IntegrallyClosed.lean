@@ -158,9 +158,9 @@ theorem isIntegralOverIdeal_id_iff [Nontrivial R] {I : Ideal R} {x : R} :
         Polynomial.natDegree_X_pow]
     refine ⟨_, Polynomial.monic_X_pow_add hlt, by rwa [hnat], fun i hi => ?_, ?_⟩
     · rw [hnat] at hi ⊢
-      simp only [Polynomial.coeff_add, Polynomial.coeff_X_pow, if_neg hi.ne,
-        Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow, zero_add,
-        Finset.sum_ite_eq, Finset.mem_range, if_pos hi]
+      simp only [Polynomial.coeff_add, Polynomial.coeff_X_pow, ite_eq_right hi.ne,
+        Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, zero_add,
+        Finset.sum_ite_eq, Finset.mem_range, ite_eq_left hi]
       exact hc i hi
     · simpa only [eval₂_X_pow_add_sum_C_mul, RingHom.id_apply] using hrel
 
@@ -544,7 +544,7 @@ theorem IsIntegralOverIdeal.isIntegral_affineBlowup {n : ℕ} {x : R}
       (γ j : S) * t ^ (n * (k - j)) = algebraMap R S (c j) := by
     intro j hj
     rw [hγdef]
-    simp only [dif_pos (Finset.mem_range.mp hj)]
+    simp only [dite_eq_left (Finset.mem_range.mp hj)]
     exact mk_pow_mul_algebraMap_pow_eq a (n * (k - j)) (c j)
   -- the relation of `hx`, read in `S`
   have hX : (algebraMap R S x) ^ k

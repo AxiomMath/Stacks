@@ -43,7 +43,7 @@ private theorem free_extendScalars
   have heq : (inferInstance : Module R S) = Module.compHom S f :=
     Module.ext' _ _ (by intro r s; rfl)
   cases heq
-  show Module.Free S (TensorProduct R S P)
+  change Module.Free S (TensorProduct R S P)
   infer_instance
 
 /-- On a bounded above complex of projectives, the total derived extension of scalars is computed
@@ -110,7 +110,7 @@ private theorem isPerfect_totalDerived
   · dsimp only [P']; infer_instance
   · exact finite_extendScalars.{u, v} f (P.X i) (hfinite i)
   · let := projective_extendScalars.{u, v} f (P.X i) (hproj i)
-    show Module.Projective A (F.obj (P.X i))
+    change Module.Projective A (F.obj (P.X i))
     exact ModuleCat.projective_of_module_projective (F.obj (P.X i))
   · exact D.functor.mapIso e ≪≫ comparisonIso.{u, v} D P b
 
@@ -218,14 +218,10 @@ private theorem surjective_of_surjective_extendScalars {R : Type u} [CommRing R]
       inducedQuot I f.hom (e₁ z) =
         e₂ (((ModuleCat.extendScalars.{u, u, max v u} (Ideal.Quotient.mk I)).map f).hom z) := by
     dsimp [e₁, e₂, quotTensorEquiv]
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      calc
-        inducedQuot I f.hom 0 = 0 := map_zero _
-        _ = _ := (map_zero _).symm.trans (congrArg _ (map_zero _).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Submodule.Quotient.mk (f.hom (r • y)) = Submodule.Quotient.mk (r • f.hom y)
+      change Submodule.Quotient.mk (f.hom (r • y)) = Submodule.Quotient.mk (r • f.hom y)
       simp
     | add x y hx hy =>
       rw [map_add, map_add, hx, hy]
@@ -477,7 +473,7 @@ theorem exists_unique_boundedAbove_free_complex_representing_of_datum
     exists_boundedAbove_isStablyFree_lift.{u, v} (IsLocalRing.maximalIdeal R) D K E ⟨b, hEb⟩
       (fun i => ⟨hEfin i, by
         let := hEfin i
-        show Module.IsStablyFree k (E.X i)
+        change Module.IsStablyFree k (E.X i)
         infer_instance⟩) ⟨hEK⟩ hK hI
   have hPfin (i : ℤ) : Module.Finite R (P.X i) := (hPterms i).1
   have hPfr (i : ℤ) : Module.Free R (P.X i) :=
@@ -532,7 +528,7 @@ theorem exists_unique_boundedAbove_free_complex_representing_of_datum
         let := hredfin
         let := hEfin i
         have hrank : Module.finrank k ((redC.obj Fc).X i) = Module.finrank k (E.X i) := by
-          show Module.finrank k (red.obj (Fc.X i)) = _
+          change Module.finrank k (red.obj (Fc.X i)) = _
           rw [finrank_extendScalars.{u, v} (IsLocalRing.residue R) (Fc.X i),
             (eFP i).toLinearEquiv.finrank_eq, hPrank i]
           exact (hEH i).some.toLinearEquiv.finrank_eq.symm

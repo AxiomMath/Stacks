@@ -138,7 +138,7 @@ theorem isSeparatedMorphism_completionSheafMap
       (Space.completionSheafMap B S hS (pullback.diagonal f)
         (Space.pullbackPoints B S hS f f T)) :=
     isClosedImmersion_completionSheafMap B S hS hX' hX'' (pullback.diagonal f) _ hf
-  show IsClosedImmersion B S hS (pullback.diagonal (Space.completionSheafMap B S hS f T))
+  change IsClosedImmersion B S hS (pullback.diagonal (Space.completionSheafMap B S hS f T))
   rw [Space.pullback_diagonal_completionSheafMap B S hS f T,
     Space.completionSheafDiagonal_eq_completionSheafMap_diagonal]
   exact isClosedImmersion_comp B S hS _ _
@@ -177,7 +177,7 @@ theorem isQuasiSeparatedMorphism_completionSheafMap
     rw [Space.completionSheafDiagonal_eq_completionSheafMap_diagonal]
     exact isQuasiCompactULift_eqToHom_comp B S hS X'
       (Space.pointsMap_diagonal_preimage_pullbackPoints B S hS f T).symm _ hΔ
-  show Space.IsQuasiCompactULift.{u + 1} B S hS
+  change Space.IsQuasiCompactULift.{u + 1} B S hS
     (pullback.diagonal (Space.completionSheafMap B S hS f T)).hom
   rw [Space.pullback_diagonal_completionSheafMap B S hS f T]
   exact Space.isQuasiCompactULift_postcomp.{u + 1} B S hS

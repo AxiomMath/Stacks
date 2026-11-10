@@ -171,7 +171,7 @@ theorem range_familySubmoduleHom_app (i : D.I) (W : (D.X i).affineOpens) :
     Set.range ((M.familySubmoduleHom T hc i).app W.1)
       = (Submodule.span Γ(D.X i, W.1) (T ⟨i, W⟩) : Set Γ(M.F i, W.1)) := by
   have : (M.F i).IsQuasicoherent := M.isQuasicoherent i
-  show Set.range
+  change Set.range
     ((GabberColimit.submoduleHom (M.F i) (M.familySubmoduleSheaf T hc i)).app W.1) = _
   refine Set.ext fun s => ?_
   rw [GabberColimit.mem_range_submoduleHom_app,

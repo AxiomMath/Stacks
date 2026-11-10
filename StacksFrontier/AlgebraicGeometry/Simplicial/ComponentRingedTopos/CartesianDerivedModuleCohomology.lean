@@ -76,7 +76,7 @@ theorem isIso_liftedTransition_app_iff_forall_isIso_app_homology (K : DerivedCat
       (DerivedCategory.homologyFunctor C q).mapIso (DerivedCategory.Q.objObjPreimageIso K)
   rw [← NatTrans.isIso_app_iff_of_iso _ e, liftedTransition_app_q, isIso_comp_left_iff,
     isIso_comp_left_iff, isIso_comp_right_iff, mapHomotopyCategoryTransition_app]
-  show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient Cn (ComplexShape.up ℤ)).map
+  change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient Cn (ComplexShape.up ℤ)).map
       ((NatTrans.mapHomologicalComplex t (ComplexShape.up ℤ)).app X))) ↔ _
   rw [DerivedCategory.isIso_Qh_map_iff, HomotopyCategory.quotient_map_mem_quasiIso_iff,
     HomologicalComplex.mem_quasiIso_iff, quasiIso_iff]

@@ -72,7 +72,7 @@ theorem ker_inl_of_isPushout {R A T B : CommRingCat.{u}} {φ : R ⟶ A} {ψ : R 
       CommRingCat.ofHom ((Ideal.Quotient.lift I ρ hker).comp (e.symm : ↑T →+* ↑R ⧸ I))
     have hcomm : φ ≫ CommRingCat.ofHom (Ideal.Quotient.mk (I.map φ.hom)) = ψ ≫ χ := by
       ext r
-      show (Ideal.Quotient.mk (I.map φ.hom)) (φ.hom r) =
+      change (Ideal.Quotient.mk (I.map φ.hom)) (φ.hom r) =
         (Ideal.Quotient.lift I ρ hker) (e.symm (ψ.hom r))
       have he : e.symm (ψ.hom r) = Ideal.Quotient.mk I r := by
         rw [RingEquiv.symm_apply_eq]
@@ -119,7 +119,7 @@ theorem ker_stalkMap_eq_map_germ {X Y : Scheme.{u}} (f : X ⟶ Y) {x : X}
   have hmap : (f.stalkMap x).hom = IsLocalization.map (X.presheaf.stalk x) g hle := by
     refine IsLocalization.ringHom_ext p.primeCompl ?_
     rw [IsLocalization.map_comp]
-    show (f.stalkMap x).hom.comp (Y.presheaf.germ U (f x) hfx).hom =
+    change (f.stalkMap x).hom.comp (Y.presheaf.germ U (f x) hfx).hom =
       (X.presheaf.germ V x hx).hom.comp g
     rw [← CommRingCat.hom_comp, ← CommRingCat.hom_comp, f.germ_stalkMap U x hfx]
     congr 1

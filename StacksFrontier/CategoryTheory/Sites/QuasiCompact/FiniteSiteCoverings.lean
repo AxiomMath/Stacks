@@ -59,7 +59,7 @@ theorem exists_covering_le_of_isSite (P : Covering.{u, v, max u v} C → Prop) (
     obtain ⟨V, a, b, hpb, hV⟩ := hP.2.2 ⟨X, E⟩ hE Y f
     refine ⟨⟨E.I₀, V, b⟩, hV, ?_⟩
     rintro Z g ⟨i⟩
-    show T (b i ≫ f)
+    change T (b i ≫ f)
     rw [← (hpb i).w]
     exact T.downward_closed (hET _ _ (Presieve.ofArrows.mk i)) (a i)
   | transitive X T R _ _ ih ihr =>

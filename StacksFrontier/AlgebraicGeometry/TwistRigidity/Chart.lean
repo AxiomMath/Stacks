@@ -167,7 +167,7 @@ public theorem mapSection_chartEndo (D E : TwistData A) (e : D.algebra ≅ E.alg
     E.chartData.mapSection U hU n V ((chartEndo D E e U hU n).val.app (op V) a) =
       (e.hom.app n).val.app (op (((relativeProj A).chart U hU) ''ᵁ V))
         (D.chartData.mapSection U hU n V a) := by
-  show (E.chartData.chartIso U hU n).inv.val.app (op V)
+  change (E.chartData.chartIso U hU n).inv.val.app (op V)
       ((E.chartData.chartIso U hU n).hom.val.app (op V)
         (((Scheme.Modules.restrictFunctor ((relativeProj A).chart U hU)).map
             (e.hom.app n)).val.app (op V)

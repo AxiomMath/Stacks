@@ -158,7 +158,7 @@ private lemma finiteFreeProductIso_inv_proj (n : ℕ) (j : ULift.{u} (Fin n)) :
     preservesLimitIso_hom_π E (Discrete.functor F) (Discrete.mk j)
   have hbp : isoProdS.hom ≫ limit.π (Discrete.functor F) (Discrete.mk j) = biproduct.π F j := by
     simp [isoProdS, biproduct.isoProduct_hom]
-  show E.map iso1.inv ≫ E.map isoProdS.hom ≫ evProd.hom ≫ moduleProductIso.hom ≫
+  change E.map iso1.inv ≫ E.map isoProdS.hom ≫ evProd.hom ≫ moduleProductIso.hom ≫
       prodCone.cone.π.app (Discrete.mk j) = E.map (iso1.inv ≫ biproduct.π F j)
   rw [hprod, hpres, ← Functor.map_comp, hbp, ← Functor.map_comp]
 
@@ -181,7 +181,7 @@ private lemma finiteFreeProductIso_ι_proj (n : ℕ) (i j : ULift.{u} (Fin n)) :
   have hι : SheafOfModules.ιFree (R := 𝒪) i ≫ (biproduct.isoCoproduct F).inv =
       biproduct.ι F i := by
     dsimp [SheafOfModules.ιFree, SheafOfModules.free]
-    rw [biproduct.isoCoproduct_inv, Sigma.ι_desc]
+    rw [biproduct.isoCoproduct_inv, Sigma.ι_comp_desc]
   calc
     E.map (SheafOfModules.ιFree (R := 𝒪) i) ≫
         ((finiteFreeProductIso 𝒪 n).hom ≫
@@ -233,7 +233,7 @@ private lemma finiteFreeEvalLinearEquiv_ι (n : ℕ) (i : ULift.{u} (Fin n)) :
     let p := (ModuleCat.HasLimit.productLimitCone
       (fun _ : ULift.{u} (Fin n) => E.obj (SheafOfModules.unit 𝒪))).cone.π.app
         (Discrete.mk j)
-    show (ConcreteCategory.hom p)
+    change (ConcreteCategory.hom p)
       ((ConcreteCategory.hom (finiteFreeProductIso 𝒪 n).hom)
         ((ConcreteCategory.hom (E.map (SheafOfModules.ιFree (R := 𝒪) i)))
           (unitAtTopOne 𝒪))) = _
@@ -250,7 +250,7 @@ private lemma finiteFreeEvalLinearEquiv_ι (n : ℕ) (i : ULift.{u} (Fin n)) :
         CategoryTheory.Functor.map_id, ModuleCat.hom_id, LinearMap.id_coe] at h'
       simp only [Discrete.functor_obj_eq_as, Functor.const_obj_obj, ↓reduceIte]
       change _ = unitAtTopOne 𝒪 at h'
-      show _ = unitAtTopOne 𝒪
+      change _ = unitAtTopOne 𝒪
       exact h'
     · simp only [Discrete.functor_obj_eq_as, Functor.const_obj_obj, hij, ↓reduceDIte,
         Functor.map_zero, ModuleCat.hom_zero] at h'
@@ -319,7 +319,7 @@ private lemma freeEvalMapPreimage_spec (n m : ℕ)
         (Pi.single i (1 : 𝒪.obj.obj (op ⊤)))) =
         f (en.symm (Pi.single i (1 : 𝒪.obj.obj (op ⊤)))) := by
       rw [hb]
-      show (E.map (SheafOfModules.ιFree (R := 𝒪) i ≫
+      change (E.map (SheafOfModules.ιFree (R := 𝒪) i ≫
         freeEvalMapPreimage 𝒪 n m f) (unitAtTopOne 𝒪)) = _
       rw [eval_unit_hom, SheafOfModules.unitHomEquiv_comp_apply]
       have hfree : (SheafOfModules.free (R := 𝒪) I).unitHomEquiv
@@ -327,7 +327,7 @@ private lemma freeEvalMapPreimage_spec (n m : ℕ)
       dsimp [freeEvalMapPreimage]
       rw [hfree, SheafOfModules.sectionsMap_freeHomEquiv_symm_freeSection,
         (sectionsTopEquiv 𝒪 B).apply_symm_apply]
-      show f (en.symm (Pi.single i (1 : 𝒪.obj.obj (op ⊤)))) =
+      change f (en.symm (Pi.single i (1 : 𝒪.obj.obj (op ⊤)))) =
         f (E.map (SheafOfModules.ιFree (R := 𝒪) i) (unitAtTopOne 𝒪))
       exact congrArg f hb
     simpa [g₁, g₂, Pi.basisFun_apply] using congrArg em hbase
@@ -355,7 +355,7 @@ private lemma freeEvalMap_injective (n m : ℕ)
     apply (sectionsTopEquiv 𝒪 B).injective
     have hgen : E.map (SheafOfModules.ιFree (R := 𝒪) i) (unitAtTopOne 𝒪) =
         sectionsTopEquiv 𝒪 A (SheafOfModules.freeSection (R := 𝒪) i) := rfl
-    show sectionsTopEquiv 𝒪 B (SheafOfModules.sectionsMap f
+    change sectionsTopEquiv 𝒪 B (SheafOfModules.sectionsMap f
         (SheafOfModules.freeSection (R := 𝒪) i)) =
       sectionsTopEquiv 𝒪 B (SheafOfModules.sectionsMap g
         (SheafOfModules.freeSection (R := 𝒪) i))
@@ -427,7 +427,7 @@ private lemma globalSections_map_surjective_of_retract
   let ffree := freeEvalMapPreimage 𝒪 n m hfree
   refine ⟨rM.i ≫ ffree ≫ rN.r, ?_⟩
   simp only [Functor.map_comp]
-  show E.map rM.i ≫ E.map ffree ≫ E.map rN.r = f
+  change E.map rM.i ≫ E.map ffree ≫ E.map rN.r = f
   rw [freeEvalMapPreimage_spec]
   have hleft : E.map rM.i ≫ E.map rM.r = 𝟙 _ := (rM.map E).retract
   have hright : E.map rN.i ≫ E.map rN.r = 𝟙 _ := (rN.map E).retract
@@ -518,11 +518,11 @@ public theorem globalSections_equivalence_finiteFreeSummand_finiteProjective :
     let rM : E.obj A ⟶ M := ModuleCat.ofHom rMap
     have hsplitCat : iM ≫ rM = 𝟙 M := by
       ext x
-      show rMap (iMap x) = x
+      change rMap (iMap x) = x
       exact congrArg (fun k : M →ₗ[R] M => k x) hsplit
     let pM : E.obj A ⟶ E.obj A := rM ≫ iM
     have hpM : pM ≫ pM = pM := by
-      show (rM ≫ iM) ≫ (rM ≫ iM) = rM ≫ iM
+      change (rM ≫ iM) ≫ (rM ≫ iM) = rM ≫ iM
       calc
         (rM ≫ iM) ≫ (rM ≫ iM) = rM ≫ (iM ≫ rM) ≫ iM := by cat_disch
         _ = rM ≫ 𝟙 M ≫ iM := by rw [hsplitCat]

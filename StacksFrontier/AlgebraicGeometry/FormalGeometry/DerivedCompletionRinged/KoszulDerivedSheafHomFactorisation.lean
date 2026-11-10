@@ -180,7 +180,7 @@ theorem derivedSheafHomIterated_map_smul_id_eq_zero
     (derivedSheafHomIterated X E K).map
       (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a •
         𝟙 C).op = 0 := by
-  show ((derivedSheafHomBifunctor X).obj (op E)).map
+  change ((derivedSheafHomBifunctor X).obj (op E)).map
       (((derivedSheafHomBifunctor X).flip.obj K).map (DerivedCategory.Q.map
         (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a •
           𝟙 C)).op) = 0
@@ -192,7 +192,7 @@ theorem derivedSheafHomIterated_map_smul_id_eq_zero
   rw [hQ, Functor.flip_obj_map, derivedSheafHom_map_globalSectionToEnd_source X a _ K]
   erw [derivedSheafHom_map_globalSectionToEnd X a _ _]
   rw [← derivedSheafHom_map_globalSectionToEnd_source X a E _, hE]
-  show ((derivedSheafHomBifunctor X).flip.obj _).map (0 : E ⟶ E).op = 0
+  change ((derivedSheafHomBifunctor X).flip.obj _).map (0 : E ⟶ E).op = 0
   rw [op_zero, Functor.map_zero]
 
 end General
@@ -251,7 +251,7 @@ theorem derivedSheafHomIterated_map_single_map_koszulScalar_eq_zero
     refine koszulScalar_congr X f fun j => ?_
     by_cases hj : j = i
     · subst hj
-      simp only [singleExp, Pi.add_apply, Pi.sub_apply, if_true]
+      simp only [singleExp, Pi.add_apply, Pi.sub_apply, ite_true]
       omega
     · simp [singleExp, hj]
   have h1 : koszulScalar X f (singleExp i k) =
@@ -275,7 +275,7 @@ theorem derivedSheafHomIterated_map_single_map_koszulPowerTransLE_app_eq_zero
       ((single (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (up ℤ) p).map
         ((koszulPowerTransLE X f ((Nat.le_add_right m (k + 1)).trans h)).app S)).op = 0 :=
   derivedSheafHomIterated_map_single_map_koszulScalar_eq_zero X f K k p _ (i := i)
-    (by simp only [koszulPowerTransExp, hi, if_true]; omega)
+    (by simp only [koszulPowerTransExp, hi, ite_true]; omega)
 
 /-- **The graded vanishing**, on the degree-`p` term of the Koszul complex itself: for
 `p ≥ 1` and `m' ≥ m + k + 1`, multiplication by `f_S^{m'-m}` in the factor indexed by every
@@ -381,7 +381,7 @@ theorem derivedSheafHomIterated_map_stupidTruncMap_eq_zero
     refine (Category.assoc _ _ _).trans ?_
     refine (congrArg (ψ ≫ ·) ?_).trans comp_zero
     refine ((derivedSheafHomIterated X _ K).map_comp _ _).symm.trans ?_
-    show (derivedSheafHomIterated X _ K).map
+    change (derivedSheafHomIterated X _ K).map
       (stupidTruncMap ((koszulPowerSystem X f).map
           (homOfLE ((Nat.le_add_right m (k + 1)).trans h₁))) (embeddingUpIntGE p) ≫
         StacksDraft.StupidTruncation.stupidTruncGEπ _ p).op = 0
@@ -442,7 +442,7 @@ theorem exists_factor_derivedSheafHomSystem_koszulPowerSystem
     ((derivedSheafHomIterated X (DerivedCategory.Q.obj (koszulPowerComplex X f k)) K).map
       ((koszulPowerSystem X f).map (homOfLE hnm)).op) (by
       refine ((derivedSheafHomIterated X _ K).map_comp _ _).symm.trans ?_
-      show (derivedSheafHomIterated X _ K).map
+      change (derivedSheafHomIterated X _ K).map
         (((koszulPowerSystem X f).obj n).ιStupidTrunc (embeddingUpIntGE (1 : ℤ)) ≫
           (koszulPowerSystem X f).map (homOfLE hnm)).op = 0
       rw [← hι, op_comp, CategoryTheory.Functor.map_comp, hvan, comp_zero])

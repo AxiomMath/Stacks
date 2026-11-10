@@ -36,8 +36,8 @@ A sharper form of the same input is
 asks only that each global section of the inverse image admit a *compatible* presenting family.
 
 [Stacks, Tag 0A0C] itself, with no hypothesis, is
-`Stacks.EtaleCohomology.isIso_globalSectionsComparison_closedFibre_of_henselianPair_of_isProper`
-in `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreEtaleSectionsProper`,
+`Stacks.EtaleCohomology.isIso_globalSectionsComparison_closedFibre_of_henselianPair_of_isProper` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreEtaleSectionsProper`,
 which supplies both Zariski hypotheses of Tag 09ZF from Tag 0A0B.  It lives there and not here
 because Tag 0A0B rests on the theorem on formal functions:  importing it into this file would
 enlarge the import closure of every module built on this one.

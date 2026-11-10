@@ -83,7 +83,7 @@ theorem map_f_sheafHBoundary (hS : S.ShortExact) (n₀ n₁ : ℕ) (h : n₀ + 1
     (x : Sheaf.H.{w', w} S.X₃ n₀) :
     Sheaf.H.map S.f n₁ (sheafHBoundary hS n₀ n₁ h x) = 0 := by
   rw [Sheaf.H.map_apply]
-  show (x.comp hS.extClass h).comp (Ext.mk₀ S.f) (add_zero n₁) = 0
+  change (x.comp hS.extClass h).comp (Ext.mk₀ S.f) (add_zero n₁) = 0
   rw [Ext.comp_assoc_of_third_deg_zero, hS.extClass_comp, Ext.comp_zero]
 
 /-- **A class coming from the middle sheaf has zero boundary**, the other composite of two
@@ -91,7 +91,7 @@ consecutive maps of the long exact sequence. -/
 theorem sheafHBoundary_map_g (hS : S.ShortExact) (n₀ n₁ : ℕ) (h : n₀ + 1 = n₁)
     (x : Sheaf.H.{w', w} S.X₂ n₀) :
     sheafHBoundary hS n₀ n₁ h (Sheaf.H.map S.g n₀ x) = 0 := by
-  show (Sheaf.H.map S.g n₀ x).comp hS.extClass h = 0
+  change (Sheaf.H.map S.g n₀ x).comp hS.extClass h = 0
   rw [Sheaf.H.map_apply]
   show (x.comp (Ext.mk₀ S.g) (add_zero n₀)).comp hS.extClass h = 0
   rw [Ext.comp_assoc_of_second_deg_zero, hS.comp_extClass, Ext.comp_zero]

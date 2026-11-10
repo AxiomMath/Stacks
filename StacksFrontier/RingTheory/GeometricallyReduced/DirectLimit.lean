@@ -116,7 +116,7 @@ variable {R : Type*} [CommRing R] {ι : Type*} [Preorder ι]
 
 /-- The base change along `R → K` of the transition maps of a directed system of `R`-algebras. -/
 private def baseChange (i j : ι) (h : i ≤ j) : (K ⊗[R] G i) →ₐ[R] (K ⊗[R] G j) :=
-  Algebra.TensorProduct.map (AlgHom.id R K) (AlgHomClass.toAlgHom (f i j h))
+  Algebra.TensorProduct.map (AlgHom.id R K) (AlgHom.ofClass (f i j h))
 
 private lemma baseChange_tmul (i j : ι) (h : i ≤ j) (k : K) (x : G i) :
     baseChange K f i j h (k ⊗ₜ x) = k ⊗ₜ f i j h x := rfl
@@ -127,10 +127,10 @@ omit [IsDirectedOrder ι] [Nonempty ι] in
 private theorem directedSystem_baseChange :
     DirectedSystem (fun i ↦ K ⊗[R] G i) (baseChange K f · · ·) where
   map_self i x := by
-    induction x using TensorProduct.induction_on <;>
+    induction x using TensorProduct.inductionOn <;>
       simp_all [baseChange_tmul, DirectedSystem.map_self' f]
   map_map _ _ _ hij hjk x := by
-    induction x using TensorProduct.induction_on <;>
+    induction x using TensorProduct.inductionOn <;>
       simp_all [baseChange_tmul, DirectedSystem.map_map' f]
 
 attribute [local instance] directedSystem_baseChange
@@ -144,8 +144,7 @@ private lemma baseChangeOf_tmul (i : ι) (k : K) (x : G i) :
 
 private lemma baseChangeOf_baseChange (i j : ι) (h : i ≤ j) (y : K ⊗[R] G i) :
     baseChangeOf K f j (baseChange K f i j h y) = baseChangeOf K f i y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul k x => rw [baseChange_tmul, baseChangeOf_tmul, baseChangeOf_tmul, DirectLimit.mk_apply]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -162,8 +161,7 @@ private def toColim :
 
 private lemma toColim_baseChangeOf (i : ι) (y : K ⊗[R] G i) :
     toColim K f (baseChangeOf K f i y) = ⟦⟨i, y⟩⟧ := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, DirectLimit.zero_def i]
+  induction y using TensorProduct.inductionOn with
   | tmul k x => rfl
   | add u v hu hv => rw [map_add, map_add, hu, hv, DirectLimit.add_def]
 
@@ -183,8 +181,7 @@ private lemma toColim_fromColim (z : DirectLimit (fun i ↦ K ⊗[R] G i) (baseC
 
 private lemma fromColim_toColim (x : K ⊗[R] DirectLimit G f) :
     fromColim K f (toColim K f x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul k z =>
       induction z using DirectLimit.induction with
       | _ i x => rw [← baseChangeOf_tmul, toColim_baseChangeOf, fromColim_mk]

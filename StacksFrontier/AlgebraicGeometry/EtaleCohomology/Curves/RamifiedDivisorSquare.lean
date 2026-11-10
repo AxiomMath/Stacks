@@ -168,6 +168,7 @@ section Pointwise
 variable {X Y : Scheme.{u}} [IsIntegral X] [IsNormal X] [IsIntegral Y] [IsNormal Y]
   (π : X ⟶ Y) [Flat π]
 
+omit [IsNormal X] [IsNormal Y] in
 /-- **The generic point square of `π`**: `j_X ≫ π = (Spec K(X) ⟶ Spec K(Y)) ≫ j_Y`. -/
 theorem genericPointSquare_ramified :
     genericPointInclusion X ≫ π = genericPointMap π ≫ genericPointInclusion Y :=
@@ -180,6 +181,7 @@ abbrev genericFibreRamifiedMap (U : Y.Etale) :
       pullback U.hom (genericPointInclusion Y) :=
   smallEtaleBaseChangeSquareLeft (genericPointSquare_ramified π) U ≫ pullback.fst _ _
 
+omit [IsNormal X] [IsNormal Y] in
 /-- The restriction map of generic fibres followed by the projection to `U` is the projection to
 `U ×_Y X` followed by the projection to `U`. -/
 theorem genericFibreRamifiedMap_fst (U : Y.Etale) :
@@ -406,7 +408,7 @@ theorem ramifiedClosedPointDivisorDirectImageMap_app_sheafSectionOfDirectSum (U 
           ((π.ramificationLength x.1.1 : ℤ) •
             ramifiedSummandMap.{u, v} π U x.1 y (hF y x.1 x.2) t) := by
       rw [ramifiedDirectImageDirectSum, DirectSum.toAddMonoid_of,
-        AddMonoidHom.finset_sum_apply]
+        AddMonoidHom.finsetSum_apply]
       exact Finset.sum_congr rfl fun x _ => rfl
     have h0 : ((closedPointDivisorSheaf.ι.{u, v} Y y ≫
         ramifiedClosedPointDivisorDirectImageMap.{u, v} π F hF).hom.app (op U)).hom t =

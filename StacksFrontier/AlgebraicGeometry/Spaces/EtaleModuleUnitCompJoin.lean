@@ -103,31 +103,51 @@ The target of the two morphisms is the written-out one,
 `(modulePushforward (h ≫ g)).obj ((etaleModulePullback h).obj ((etaleModulePullback g).obj M))`:
 it is read off the hypothesis rather than pinned, which is what the implementation notes of this
 file record. -/
-def innerUnit_app_eq_unit_app :=
-  modulesHom_ext (N := (modulePushforward B S hS (h ≫ g)).obj
+theorem innerUnit_app_eq_unit_app :
+    type_of% (modulesHom_ext (N := (modulePushforward B S hS (h ≫ g)).obj
       ((etaleModulePullback.{u, u} B S hS h hh).obj
         ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
-    (fun W s => innerUnitVal B S hS h g hh hg hhg M W s)
+    (fun W s => innerUnitVal B S hS h g hh hg hhg M W s)) :=
+  (modulesHom_ext (N := (modulePushforward B S hS (h ≫ g)).obj
+      ((etaleModulePullback.{u, u} B S hS h hh).obj
+        ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+    (fun W s => innerUnitVal B S hS h g hh hg hhg M W s) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement and the proof each elaborate the retyping once, which needs twice the budget.
 /-- The unit of the composite adjunction at a module, identified with the inner unit, read at the
 written-out spelling of the target. -/
-def etaleModulePullbackCompAdjunction_unit_app_eq_inner_nested :=
-  Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+theorem etaleModulePullbackCompAdjunction_unit_app_eq_inner_nested :
+    type_of% (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
       ((etaleModulePullback.{u, u} B S hS h hh).obj
         ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
-    (etaleModulePullbackCompAdjunction_unit_app_eq_inner B S hS h g hh hg hhg M)
+    (etaleModulePullbackCompAdjunction_unit_app_eq_inner B S hS h g hh hg hhg M)) :=
+  (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+      ((etaleModulePullback.{u, u} B S hS h hh).obj
+        ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+    (etaleModulePullbackCompAdjunction_unit_app_eq_inner B S hS h g hh hg hhg M) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement and the proof each elaborate the retyping once, which needs twice the budget.
 /-- The unit of the composite adjunction at a module **is** the unit of étale restriction along
 the composite at that module, read at the written-out spelling of the target. -/
-def etaleModulePullbackCompAdjunction_unit_app_eq_nested :=
-  (etaleModulePullbackCompAdjunction_unit_app_eq_inner_nested B S hS h g hh hg hhg M).trans
-    (innerUnit_app_eq_unit_app B S hS h g hh hg hhg M)
+theorem etaleModulePullbackCompAdjunction_unit_app_eq_nested :
+    type_of%
+      ((etaleModulePullbackCompAdjunction_unit_app_eq_inner_nested B S hS h g hh hg hhg M).trans
+        (innerUnit_app_eq_unit_app B S hS h g hh hg hhg M)) :=
+  ((etaleModulePullbackCompAdjunction_unit_app_eq_inner_nested B S hS h g hh hg hhg M).trans
+    (innerUnit_app_eq_unit_app B S hS h g hh hg hhg M) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement and the proof each elaborate the retyping once, which needs twice the budget.
 /-- The same, read at the spelling the components of the two units carry. -/
-def etaleModulePullbackCompAdjunction_unit_app_eq :=
-  Stacks.eq_atType (α := (M ⟶ (etaleModulePullback.{u, u} B S hS (h ≫ g) hhg ⋙
+theorem etaleModulePullbackCompAdjunction_unit_app_eq :
+    type_of% (Stacks.eq_atType (α := (M ⟶ (etaleModulePullback.{u, u} B S hS (h ≫ g) hhg ⋙
       modulePushforward B S hS (h ≫ g)).obj M))
-    (etaleModulePullbackCompAdjunction_unit_app_eq_nested B S hS h g hh hg hhg M)
+    (etaleModulePullbackCompAdjunction_unit_app_eq_nested B S hS h g hh hg hhg M)) :=
+  (Stacks.eq_atType (α := (M ⟶ (etaleModulePullback.{u, u} B S hS (h ≫ g) hhg ⋙
+      modulePushforward B S hS (h ≫ g)).obj M))
+    (etaleModulePullbackCompAdjunction_unit_app_eq_nested B S hS h g hh hg hhg M) :)
 
 section Unit
 

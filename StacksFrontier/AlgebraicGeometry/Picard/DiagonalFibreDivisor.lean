@@ -175,7 +175,7 @@ theorem isPullbackDefined_fibreAt_diagonalIdeal [IsSeparated f] [SmoothOfRelativ
   have hcomp : (diagonalIdeal f).comap (fibreAt t ht) =
       ((diagonalIdeal f).comap (pullback.snd t (pullback.snd f f))).comap h.isoPullback.hom := by
     rw [← Scheme.IdealSheafData.comap_comp, h.isoPullback_hom_snd]
-  show Stacks.Divisors.IsEffectiveCartierDivisor _
+  change Stacks.Divisors.IsEffectiveCartierDivisor _
   rw [hcomp]
   exact Stacks.Divisors.isPullbackDefined_of_flat h.isoPullback.hom _ hbc
 

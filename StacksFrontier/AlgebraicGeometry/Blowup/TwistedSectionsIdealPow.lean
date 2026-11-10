@@ -130,7 +130,7 @@ def ambientSectionsLinear (n : ℕ) :
   toFun x := ambientSections I n x
   map_add' x y := map_add (ambientSections I n) x y
   map_smul' a x := by
-    show degreeSection (reesGrading I) n (reesGradingEquivPow I n (a • x))
+    change degreeSection (reesGrading I) n (reesGradingEquivPow I n (a • x))
       = blowUpCoeffScalar I a • degreeSection (reesGrading I) n (reesGradingEquivPow I n x)
     rw [map_smul]
     exact degreeSection_smul I n a (reesGradingEquivPow I n x)

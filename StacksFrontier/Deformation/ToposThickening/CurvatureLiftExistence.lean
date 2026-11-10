@@ -300,11 +300,11 @@ def pairReduction : CochainComplex (SheafMod O₀) ℤ where
         (L'.baseChange.complex.d i j ≫
           pairInr (L.baseChange.complex.X j) (L'.baseChange.complex.X j))
     else 0
-  shape _ _ h := if_neg h
+  shape _ _ h := ite_eq_right h
   d_comp_d' i j k hij hjk := by
     have hij' : i + 1 = j := hij
     have hjk' : j + 1 = k := hjk
-    rw [if_pos hij', if_pos hjk']
+    rw [ite_eq_left hij', ite_eq_left hjk']
     refine pair_hom_ext ?_ ?_
     · rw [comp_zero, ← Category.assoc, pairInl_desc, Category.assoc, pairInl_desc,
         ← Category.assoc, HomologicalComplex.d_comp_d, zero_comp]
@@ -343,7 +343,7 @@ lemma pairReduction_d (n : ℤ) :
     (pairReduction L L').d n (n + 1) =
       descR L L' (L.baseChange.complex.d n (n + 1) ≫ inlR L L' (n + 1))
         (L'.baseChange.complex.d n (n + 1) ≫ inrR L L' (n + 1)) :=
-  if_pos rfl
+  ite_eq_left rfl
 
 /-- The differential of `pairReduction L L'` restricted to the first reduction is the
 differential of `L.baseChange.complex` followed by the first inclusion. -/
@@ -449,20 +449,20 @@ theorem exists_flatLiftHom_pair (hf : Sheaf.IsLocallySurjective f)
     ⟨FlatLiftHom.ofHom L _ (𝟙 K₀) (fun n => inlG L L' n ≫ T.fromG n) ?_ ?_⟩,
     ⟨FlatLiftHom.ofHom L' _ (𝟙 K₀) (fun n => inrG L L' n ≫ T.fromG n) ?_ ?_⟩⟩
   · intro n
-    show L.F.d n ≫ inlG L L' (n + 1) ≫ T.fromG (n + 1) = (inlG L L' n ≫ T.fromG n) ≫ T.F.d n
+    change L.F.d n ≫ inlG L L' (n + 1) ≫ T.fromG (n + 1) = (inlG L L' n ≫ T.fromG n) ≫ T.F.d n
     rw [← Category.assoc, ← inlG_comp_pairGraded_d, Category.assoc, T.fromG_d,
       ← Category.assoc]
   · intro n
-    show (inlG L L' n ≫ T.fromG n) ≫ T.toTarget n =
+    change (inlG L L' n ≫ T.fromG n) ≫ T.toTarget n =
       L.toTarget n ≫ (restrict f).map (𝟙 (K₀.X n))
     rw [Category.assoc, T.fromG_toTarget n, inlG_descG, CategoryTheory.Functor.map_id,
       Category.comp_id]
   · intro n
-    show L'.F.d n ≫ inrG L L' (n + 1) ≫ T.fromG (n + 1) = (inrG L L' n ≫ T.fromG n) ≫ T.F.d n
+    change L'.F.d n ≫ inrG L L' (n + 1) ≫ T.fromG (n + 1) = (inrG L L' n ≫ T.fromG n) ≫ T.F.d n
     rw [← Category.assoc, ← inrG_comp_pairGraded_d, Category.assoc, T.fromG_d,
       ← Category.assoc]
   · intro n
-    show (inrG L L' n ≫ T.fromG n) ≫ T.toTarget n =
+    change (inrG L L' n ≫ T.fromG n) ≫ T.toTarget n =
       L'.toTarget n ≫ (restrict f).map (𝟙 (K₀.X n))
     rw [Category.assoc, T.fromG_toTarget n, inrG_descG, CategoryTheory.Functor.map_id,
       Category.comp_id]

@@ -327,7 +327,7 @@ theorem ι_ramifiedClosedPointDivisorDirectImageMap
       ∑ x ∈ (F y).attach,
         weightedIntegerSkyscraperDirectImageMap.{u, v} π x.1 y (hF y x.1 x.2)
           (π.ramificationLength x.1.1) :=
-  Sigma.ι_desc _ y
+  Sigma.ι_comp_desc _ y
 
 end Weighted
 

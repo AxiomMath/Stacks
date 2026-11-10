@@ -96,14 +96,12 @@ theorem injOn_and_surjOn_span_of_bijective (f : A →+* B) (hAB : ∀ (a : A) (b
   have hΘ : ∀ (b : B) (m : M), Θ (b ⊗ₜ m) = e.symm b • gen m := fun _ _ => rfl
   have hcΘ : ∀ z, c (Θ z) = β z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b m => rw [hΘ, hc, hgen₁, RingEquiv.apply_symm_apply, hβ]
     | add z z' hz hz' => rw [map_add, map_add, map_add, hz, hz']
   have hsmul : ∀ (k : K) (z : TensorProduct A B M), ∃ w, k • Θ z = Θ w := by
     intro k z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [map_zero, smul_zero]⟩
+    induction z using TensorProduct.inductionOn with
     | tmul b m => exact ⟨(e k * b) ⊗ₜ m, by rw [hΘ, hΘ, map_mul, e.symm_apply_apply, mul_smul]⟩
     | add z z' hz hz' =>
       obtain ⟨w, hw⟩ := hz
@@ -126,8 +124,7 @@ theorem injOn_and_surjOn_span_of_bijective (f : A →+* B) (hAB : ∀ (a : A) (b
       exact ⟨w, hw.symm⟩
   have hmem : ∀ z, Θ z ∈ Submodule.span K (Set.range gen) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b m => rw [hΘ]; exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, rfl⟩)
     | add z z' hz hz' => rw [map_add]; exact Submodule.add_mem _ hz hz'
   refine ⟨fun s hs hcs => ?_, fun q => ?_⟩
@@ -525,14 +522,10 @@ theorem isGoodPullbackIndex_restrictModulePullbackComparisonUnivLE
 module `F` such that `F(y) ⊗_{𝒪(y)} 𝒪(x) ⟶ F(x)` is an isomorphism for every arrow `x ⟶ y` of `𝒳`
 lying over a flat morphism of affine schemes has the flat base change property of Stacks 0762:
 along every arrow over a flat morphism the comparison map `c_φ` is a local isomorphism of the
-small étale site.
-
-The hypothesis `hF` of local quasi-coherence is not used by the proof; it is kept so that the
-statement is the one the consumers of the criterion are written against. -/
+small étale site. -/
 theorem hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange
     (F : PresheafOfModules.{u} (ringStructureSheafCore B S hS p hp (etaleTopology B)
       (etaleTopology_le_topology B)).obj)
-    (hF : IsLocallyQuasicoherent B E h S hS p hp F)
     (hcart : ∀ {x y : 𝒳} (φ : x ⟶ y),
       IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x)) →
       IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj y)) →

@@ -239,7 +239,7 @@ theorem isIso_pullbackLift_of_isProper_of_dense {V Y U X : Scheme.{u}} (a : V �
       (pullback.fst p i).isEmbedding.closure_eq_preimage_closure_image]
     have he : pullback.fst p i '' Set.range t = Set.range a := by
       rw [← Set.range_comp]
-      show Set.range (t ≫ pullback.fst p i) = Set.range a
+      change Set.range (t ≫ pullback.fst p i) = Set.range a
       rw [ht]
     rw [he, a.denseRange.closure_range, Set.preimage_univ]
   have : Surjective t := inferInstance

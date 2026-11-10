@@ -126,7 +126,8 @@ composites argument by argument.  The route that works is to leave the sheaf cat
 altogether and compute on local sections, where there is no composition to reduce.
 
 So `IsIso (AlgebraicGeometry.Space.moduleEtaleBaseChangeComparison …)` — the ordinary clause of
-Stacks 03LX for the canonical map — is **not** proved here; what it is short of is not the h-face but
+Stacks 03LX for the canonical map — is **not** proved here; what it is short of is not the h-face
+but
 one definitional identification in the application of the cube; see the
 section "What is not done" of
 `StacksFrontier/AlgebraicGeometry/Spaces/ModuleEtaleBaseChangeHFace.lean`, which records the

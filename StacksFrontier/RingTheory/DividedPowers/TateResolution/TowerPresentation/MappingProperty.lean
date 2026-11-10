@@ -254,7 +254,7 @@ private theorem exists_isSetStageLift
         rw [← hC.coefficient_dpow n _ hxpos, hpre x]
       rw [show (⟨δ.dpow n (x : C), hmem⟩ : finiteVariableStage δ ι T (∅ : Finset J)) =
           coeffEquiv (γ.dpow n (coeffEquiv.symm x)) from Subtype.ext hform]
-      show f (coeffEquiv.symm (coeffEquiv (γ.dpow n (coeffEquiv.symm x)))) = _
+      change f (coeffEquiv.symm (coeffEquiv (γ.dpow n (coeffEquiv.symm x)))) = _
       rw [coeffEquiv.symm_apply_apply, ← hfdp n _ hxpos]
       rfl
   · intro j S₀ hjS₀ ih
@@ -309,7 +309,7 @@ private theorem exists_isSetStageLift
         intro b hb
         have h1 : (⟨(b : C), hb⟩ : finiteVariableStage δ ι T (insert j S₀)) =
             e (EvenVariableAlgebra.coeffEmbedding b) := Subtype.ext (he1 b).symm
-        show k (e.symm ⟨(b : C), hb⟩) = g b
+        change k (e.symm ⟨(b : C), hb⟩) = g b
         rw [h1, e.symm_apply_apply, hk.1]
       have hdpowgen : ∀ n : ℕ, δ.dpow n (T j) =
           ((e (EvenVariableAlgebra.monomial n (1 : finiteVariableStage δ ι T S₀)) :
@@ -329,7 +329,7 @@ private theorem exists_isSetStageLift
         · rw [show (⟨T j', mem_finiteVariableStage_generator δ ι T hj'⟩ :
               finiteVariableStage δ ι T (insert j' S₀)) =
               e (EvenVariableAlgebra.monomial 1 1) from Subtype.ext he2.symm]
-          show k (e.symm (e (EvenVariableAlgebra.monomial 1 1))) = t j'
+          change k (e.symm (e (EvenVariableAlgebra.monomial 1 1))) = t j'
           rw [e.symm_apply_apply, hk.2.1 1, ε.dpow_one htpos]
         · exact (hextg ⟨T j', mem_finiteVariableStage_generator δ ι T hj'S⟩ _).trans
             (hg.2.1 j' hj'S)
@@ -338,13 +338,13 @@ private theorem exists_isSetStageLift
         · rw [show (⟨δ.dpow n (T j'), mem_finiteVariableStage_dpow_generator δ ι T hj' n⟩ :
               finiteVariableStage δ ι T (insert j' S₀)) =
               e (EvenVariableAlgebra.monomial n 1) from Subtype.ext (hdpowgen n)]
-          show k (e.symm (e (EvenVariableAlgebra.monomial n 1))) = ε.dpow n (t j')
+          change k (e.symm (e (EvenVariableAlgebra.monomial n 1))) = ε.dpow n (t j')
           rw [e.symm_apply_apply, hk.2.1 n]
         · exact (hextg ⟨δ.dpow n (T j'),
             mem_finiteVariableStage_dpow_generator δ ι T hj'S n⟩ _).trans
             (hg.2.2.1 j' hj'S n heven)
       · intro m x hx
-        show k (e.symm x) ∈ Dᵢ m
+        change k (e.symm x) ∈ Dᵢ m
         refine hk.2.2 m (e.symm x) ?_
         rw [he3 m (e.symm x), e.apply_symm_apply]
         exact hx
@@ -357,7 +357,7 @@ private theorem exists_isSetStageLift
             finiteVariableStage δ ι T (insert j S₀)) =
             e ((evenVariableDividedPowerStructure d hd δS).dpow n (e.symm x))
             from Subtype.ext hform]
-        show k (e.symm (e ((evenVariableDividedPowerStructure d hd δS).dpow n
+        change k (e.symm (e ((evenVariableDividedPowerStructure d hd δS).dpow n
           (e.symm x)))) = ε.dpow n (k (e.symm x))
         rw [e.symm_apply_apply]
         exact (hkdpow n (e.symm x) hy).symm
@@ -382,7 +382,7 @@ private theorem exists_isSetStageLift
         intro b hb
         have h1 : (⟨(b : C), hb⟩ : finiteVariableStage δ ι T (insert j S₀)) =
             e (OddVariableExtension.inclusion Sᵢ d b) := Subtype.ext (he1 b).symm
-        show k (e.symm ⟨(b : C), hb⟩) = g b
+        change k (e.symm ⟨(b : C), hb⟩) = g b
         rw [h1, e.symm_apply_apply, hk.1]
       refine ⟨k.comp e.symm.toRingHom, ?_, ?_, ?_, ?_, ?_⟩
       · intro a
@@ -393,14 +393,14 @@ private theorem exists_isSetStageLift
         · rw [show (⟨T j', mem_finiteVariableStage_generator δ ι T hj'⟩ :
               finiteVariableStage δ ι T (insert j' S₀)) =
               e (OddVariableExtension.generator Sᵢ d) from Subtype.ext he2.symm]
-          show k (e.symm (e (OddVariableExtension.generator Sᵢ d))) = t j'
+          change k (e.symm (e (OddVariableExtension.generator Sᵢ d))) = t j'
           rw [e.symm_apply_apply, hk.2.1]
         · exact (hextg ⟨T j', mem_finiteVariableStage_generator δ ι T hj'S⟩ _).trans
             (hg.2.1 j' hj'S)
       · intro j' hj' n heven'
         exact absurd heven' (Nat.not_even_iff_odd.mpr hodd)
       · intro m x hx
-        show k (e.symm x) ∈ Dᵢ m
+        change k (e.symm x) ∈ Dᵢ m
         refine hk.2.2 m (e.symm x) ?_
         rw [he3 m (e.symm x), e.apply_symm_apply]
         exact hx
@@ -413,7 +413,7 @@ private theorem exists_isSetStageLift
             finiteVariableStage δ ι T (insert j S₀)) =
             e ((oddVariableDividedPowerStructure Sᵢ δS d hd hodd).dpow n (e.symm x))
             from Subtype.ext hform]
-        show k (e.symm (e ((oddVariableDividedPowerStructure Sᵢ δS d hd hodd).dpow n
+        change k (e.symm (e ((oddVariableDividedPowerStructure Sᵢ δS d hd hodd).dpow n
           (e.symm x)))) = ε.dpow n (k (e.symm x))
         rw [e.symm_apply_apply]
         exact (hkdpow n (e.symm x) hy).symm
@@ -492,7 +492,7 @@ public theorem IsSetVariableExtension.existsUnique_ringHom
       refine mem_positiveEvenPart_of_mem_grade Cᵢ (d := c) (by omega) ?_
       rw [← hc]
       exact hC.generator_mem j
-    show g' (δ.dpow n (T j)) = ε.dpow n (t j)
+    change g' (δ.dpow n (T j)) = ε.dpow n (t j)
     rw [← hg'.2.2.2 n (T j) hgenpos, hg'.2.1 j]
   exact DFunLike.congr_fun (isSetStageLift_unique hC Dᵢ ε f t hstage (hgS S)) x
 
@@ -749,7 +749,7 @@ public theorem liftAlgebra_exists_gradedDPHom (E : GradedDPAlgebra.{u, max u v w
       g (fun n j => t n j.down) (fun n j => ht n j.down)
   refine ⟨F, fun p => ?_, fun n j => hF2 n (ULift.up j)⟩
   rw [hF1 ((liftBaseEquiv R' σ R A).symm p)]
-  show fP ((liftBaseEquiv R' σ R A) ((liftBaseEquiv R' σ R A).symm p)) = fP p
+  change fP ((liftBaseEquiv R' σ R A) ((liftBaseEquiv R' σ R A).symm p)) = fP p
   rw [AlgEquiv.apply_symm_apply]
 
 end LiftMap

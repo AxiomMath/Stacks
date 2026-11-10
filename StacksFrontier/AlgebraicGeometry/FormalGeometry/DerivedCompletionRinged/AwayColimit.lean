@@ -201,7 +201,7 @@ multiplication by its image, which `AlgebraicGeometry.RingedSite.isUnit_toAwaySh
 unit. -/
 theorem bijective_smul_awayModule (U : X.Cᵒᵖ) (n : ℕ) :
     Function.Bijective fun t : (awayModule X h).val.obj U => globalSectionVal h U ^ n • t := by
-  show Function.Bijective fun t : (awaySheaf h).obj.obj U =>
+  change Function.Bijective fun t : (awaySheaf h).obj.obj U =>
     ((toAwaySheaf h).hom.app U).hom (globalSectionVal h U ^ n) * t
   exact IsUnit.isUnit_iff_mulLeft_bijective.1 (isUnit_toAwaySheaf h U n)
 
@@ -277,7 +277,8 @@ include ha in
 /-- An endomorphism of `𝒪` acting sectionwise by multiplication by `f` *is* multiplication by
 `f`: a map of sheaves of modules is determined by its action on sections. -/
 theorem eq_awaySmul_app_unit :
-    a = (awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
+    a = (awaySmul X h).asHom.app
+      (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
   SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun x => (ha U x).trans
       (awaySmul_app_apply X h _ U x).symm))
@@ -297,7 +298,8 @@ include ha in
 theorem comp_awayModuleCoconeι_succ (n : ℕ) :
     a ≫ awayModuleCoconeι X h (n + 1) = awayModuleCoconeι X h n := by
   have hnat :
-      (awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ≫
+      (awaySmul X h).asHom.app
+          (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ≫
         unitToAwayModule X h = unitToAwayModule X h ≫ (awaySmul X h).asHom.app (awayModule X h) :=
     ((awaySmul X h).asHom.naturality (unitToAwayModule X h)).symm
   simp only [awayModuleCoconeι]
@@ -340,7 +342,8 @@ theorem awayColimitι_comp_awaySmul (n : ℕ) :
     awayColimitι X a n ≫ (awaySmul X h).asHom.app (colimit (awaySequence X a)) =
       a ≫ awayColimitι X a n := by
   have hnat : awayColimitι X a n ≫ (awaySmul X h).asHom.app (colimit (awaySequence X a)) =
-      (awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ≫
+      (awaySmul X h).asHom.app
+          (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ≫
         awayColimitι X a n :=
     (awaySmul X h).asHom.naturality (awayColimitι X a n)
   rw [hnat, ← eq_awaySmul_app_unit X h a ha]

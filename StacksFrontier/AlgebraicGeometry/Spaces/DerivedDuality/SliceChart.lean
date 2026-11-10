@@ -209,7 +209,7 @@ theorem affineChart_coversTop :
       (fun i : AffineChart B S hS F => (i.1 : (smallEtaleModelRingedSite B S hS F hF).C)) := by
   intro W
   let e := smallEtaleModelEquivalence B S hS F
-  show Sieve.ofObjects _ W ∈ smallEtaleModelTopology B S hS F W
+  change Sieve.ofObjects _ W ∈ smallEtaleModelTopology B S hS F W
   refine (Functor.functorPushforward_mem_iff (G := e.functor) (smallEtaleModelTopology B S hS F)
     (SmallEtale.topology B S hS F)).1 ?_
   apply smallEtale_sieve_of_pointwise_covering B S hS F (e.functor.obj W)

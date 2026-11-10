@@ -184,8 +184,7 @@ theorem Projective.of_prod_tensorProduct (hA : Projective A (A ⊗[R] M))
         LinearMap.fst _ _ _ +
       TensorProduct.AlgebraTensorModule.map (inrProd A B) (LinearMap.id (R := R) (M := M)) ∘ₗ
         LinearMap.snd _ _ _) (LinearMap.ext fun x => ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       simp only [LinearMap.comp_apply, LinearMap.prod_apply, Function.prod, LinearMap.add_apply,
         LinearMap.fst_apply, LinearMap.snd_apply, TensorProduct.AlgebraTensorModule.map_tmul,

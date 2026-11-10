@@ -94,20 +94,20 @@ theorem inverse_comm {D E : DescentData.{u, u, w} R A} (g : D ⟶ E)
   have hGiG : Gi.comp G = LinearMap.id := by
     ext x
     exact e.symm_apply_apply (show D.module from x)
-  show (D.transition.toLinearMap.restrictScalars R).comp (Gi.rTensor A) =
+  change (D.transition.toLinearMap.restrictScalars R).comp (Gi.rTensor A) =
     (Gi.lTensor A).comp (E.transition.toLinearMap.restrictScalars R)
   refine LinearMap.ext fun x => ?_
   have hx : G.rTensor A (Gi.rTensor A x) = x := by
-    show (G.rTensor A ∘ₗ Gi.rTensor A) x = x
+    change (G.rTensor A ∘ₗ Gi.rTensor A) x = x
     rw [← LinearMap.rTensor_comp, hGGi, LinearMap.rTensor_id, LinearMap.id_apply]
   have h1 : E.transition.toLinearMap.restrictScalars R (G.rTensor A (Gi.rTensor A x)) =
       (G.lTensor A) (D.transition.toLinearMap.restrictScalars R (Gi.rTensor A x)) :=
     LinearMap.congr_fun g.comm (Gi.rTensor A x)
   rw [hx] at h1
-  show D.transition.toLinearMap.restrictScalars R (Gi.rTensor A x) =
+  change D.transition.toLinearMap.restrictScalars R (Gi.rTensor A x) =
     (Gi.lTensor A) (E.transition.toLinearMap.restrictScalars R x)
   rw [h1]
-  show _ = (Gi.lTensor A ∘ₗ G.lTensor A)
+  change _ = (Gi.lTensor A ∘ₗ G.lTensor A)
     (D.transition.toLinearMap.restrictScalars R (Gi.rTensor A x))
   rw [← LinearMap.lTensor_comp, hGiG, LinearMap.lTensor_id, LinearMap.id_apply]
 
@@ -158,13 +158,9 @@ theorem invariantsCounitHom_comm_tmul (h : Algebra.UniversallyInjective R A)
   let e := invariantsTensorEquiv R A h D
   let g : restrictModule R A C.module →ₗ[R] restrictModule R A D.module :=
     restrictHom R A (ModuleCat.ofHom e.toLinearMap)
-  show D.transitionRestrictScalars R A ((g n) ⊗ₜ[R] b) =
+  change D.transitionRestrictScalars R A ((g n) ⊗ₜ[R] b) =
     (g.lTensor A) (C.transitionRestrictScalars R A (n ⊗ₜ[R] b))
-  induction n using TensorProduct.induction_on with
-  | zero =>
-    calc
-      D.transitionRestrictScalars R A (g 0 ⊗ₜ[R] b) = 0 := by simp
-      _ = (g.lTensor A) (C.transitionRestrictScalars R A (0 ⊗ₜ[R] b)) := by simp
+  induction n using TensorProduct.inductionOn with
   | add n₁ n₂ h₁ h₂ =>
     let n₁' : restrictModule R A C.module := n₁
     let n₂' : restrictModule R A C.module := n₂
@@ -177,11 +173,11 @@ theorem invariantsCounitHom_comm_tmul (h : Algebra.UniversallyInjective R A)
             (g.lTensor A) (C.transitionRestrictScalars R A (n₂ ⊗ₜ[R] b)) := by
         rw [h₁, h₂]
       _ = (g.lTensor A) (C.transitionRestrictScalars R A ((n₁ + n₂) ⊗ₜ[R] b)) := by
-        show _ = (g.lTensor A)
+        change _ = (g.lTensor A)
           (C.transitionRestrictScalars R A ((n₁' + n₂') ⊗ₜ[R] b))
         rw [add_tmul n₁' n₂' b, map_add, map_add]
   | tmul a m =>
-    show D.transitionRestrictScalars R A ((e (a ⊗ₜ[R] m)) ⊗ₜ[R] b) =
+    change D.transitionRestrictScalars R A ((e (a ⊗ₜ[R] m)) ⊗ₜ[R] b) =
       (g.lTensor A) (C.transitionRestrictScalars R A
         ((show C.module from (a ⊗ₜ[R] m)) ⊗ₜ[R] b))
     rw [show C.transitionRestrictScalars R A
@@ -189,7 +185,7 @@ theorem invariantsCounitHom_comm_tmul (h : Algebra.UniversallyInjective R A)
         a ⊗ₜ[R] (show restrictModule R A C.module from (b ⊗ₜ[R] m : C.module)) from
           baseExtension_transition_tmul.{u, w} R A ((pushforward R A).obj D) a b m,
       LinearMap.lTensor_tmul]
-    show D.transitionRestrictScalars R A ((e (a ⊗ₜ[R] m)) ⊗ₜ[R] b) =
+    change D.transitionRestrictScalars R A ((e (a ⊗ₜ[R] m)) ⊗ₜ[R] b) =
       a ⊗ₜ[R] (show restrictModule R A D.module from e (b ⊗ₜ[R] m))
     rw [invariantsTensorEquiv_tmul R A h D a m, invariantsTensorEquiv_tmul R A h D b m]
     exact transition_smul_tmul R A D a b m
@@ -207,7 +203,7 @@ theorem invariantsCounitHom_comm (h : Algebra.UniversallyInjective R A)
   let C := (baseExtension.{u, u, w} R A).functor.obj ((pushforward R A).obj D)
   let g : restrictModule R A C.module →ₗ[R] restrictModule R A D.module :=
     restrictHom R A (ModuleCat.ofHom (invariantsTensorEquiv R A h D).toLinearMap)
-  show (D.transition.toLinearMap.restrictScalars R).comp (g.rTensor A) =
+  change (D.transition.toLinearMap.restrictScalars R).comp (g.rTensor A) =
     (g.lTensor A).comp (C.transition.toLinearMap.restrictScalars R)
   exact TensorProduct.ext' fun n b => invariantsCounitHom_comm_tmul.{u, w} R A h D n b
 
@@ -250,8 +246,7 @@ def invariantsCounitNatIso (h : Algebra.UniversallyInjective R A) :
       change invariantsTensorEquiv R A h E
           (LinearMap.baseChange A (pushforwardMap R A g) x) =
         g.hom.hom (invariantsTensorEquiv R A h D x)
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy]
       | tmul a m =>
         have hL : invariantsTensorEquiv R A h E

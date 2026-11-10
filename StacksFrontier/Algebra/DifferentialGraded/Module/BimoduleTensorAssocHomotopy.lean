@@ -85,7 +85,7 @@ private theorem assocForward_commShift_pure (N : Bimodule A B) (N' : Bimodule B 
           ((tensorPure N (DifferentialGradedModule.shift M n)).toLinearMap x y) y') =
       (tensorPure N' (tensorObj N M)).toLinearMap ((tensorPure N M).toLinearMap x y) y' := by
     rw [Functor.commShiftIso_comp_hom_app]
-    show (((tensorCompFunctor N').commShiftIso n).hom.app
+    change (((tensorCompFunctor N').commShiftIso n).hom.app
         ((tensorCompFunctor N).obj M)).toFun
       (((tensorCompFunctor N').map (((tensorCompFunctor N).commShiftIso n).hom.app M)).toFun
         ((tensorPure N' (tensorObj N (DifferentialGradedModule.shift M n))).toLinearMap
@@ -93,7 +93,7 @@ private theorem assocForward_commShift_pure (N : Bimodule A B) (N' : Bimodule B 
     rw [s1]
     exact tensorShiftIso_inv_pure N' (tensorObj N M) n ((tensorPure N M).toLinearMap x y) y'
   rw [hL, hR1, hR2]
-  show (assocForward N N' M).toFun (assocPure N N' M x (compPure N N' y y')) = _
+  change (assocForward N N' M).toFun (assocPure N N' M x (compPure N N' y y')) = _
   exact assocForward_pure N N' M x y y'
 
 /-- The compatibility of the associativity isomorphism with the shift, at an object. -/

@@ -106,7 +106,7 @@ private lemma sigma_component_isClopen {I : Type v} [Small.{u} I]
 private lemma isClopen_preimage_sigma_component {I : Type v} [Small.{u} I]
     {Y : Scheme.{u}} (X : I → Scheme.{u}) (q : Y ⟶ ∐ X) (i : I) :
     IsClopen ((q ⁻¹ᵁ (Limits.Sigma.ι X i).opensRange : Y.Opens) : Set Y) := by
-  show IsClopen (q.base ⁻¹' (Limits.Sigma.ι X i).opensRange)
+  change IsClopen (q.base ⁻¹' (Limits.Sigma.ι X i).opensRange)
   exact (sigma_component_isClopen X i).preimage q.continuous
 
 /-- A morphism whose image lies in the range of an open immersion factors through it. -/
@@ -162,7 +162,7 @@ private lemma exists_lift_sigmaPiece {I : Type v} [Small.{u} I] (X : I → Schem
   obtain ⟨i, hi, hfactor⟩ := connected_map_factors_through_sigma X (h ≫ q)
   refine ⟨i, exists_lift_of_forall_mem _ h fun z ↦ ?_⟩
   rw [Scheme.Opens.opensRange_ι]
-  show q (h.base z) ∈ (Sigma.ι X i).opensRange
+  change q (h.base z) ∈ (Sigma.ι X i).opensRange
   have heq := congrArg (fun k => k.base z) hfactor
   change (Sigma.ι X i).base (hi.base z) = q (h.base z) at heq
   exact ⟨hi.base z, heq⟩
@@ -211,7 +211,7 @@ private lemma exists_isStandardVCovering_hom_of_sigma {T : Scheme.{u}} {I : Type
   choose x hxq using fun k : K ↦ exists_lift_of_forall_mem (Sigma.ι X k.2.1)
     ((sigmaPiece X (q k.1) k.2.1).ι ≫ q k.1) fun y ↦ y.2
   have hx (k : K) : x k ≫ f k.2.1 = ((sigmaPiece X (q k.1) k.2.1).ι ≫ 𝒰.f k.1) ≫ s := by
-    rw [Category.assoc, ← hq, ← Sigma.ι_desc f k.2.1, ← Category.assoc, hxq, Category.assoc]
+    rw [Category.assoc, ← hq, ← Sigma.ι_comp_desc f k.2.1, ← Category.assoc, hxq, Category.assoc]
   let 𝒱 : PreZeroHypercover.{u} S :=
     { I₀ := J
       X a := (sigmaPiece X (q (e.symm a).1) (e.symm a).2.1).toScheme

@@ -144,7 +144,7 @@ theorem sheafMultiplicity_pullback {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] (F 
   have hlen := length_stalk_pullback_eq_mul f F x
   change Module.length B N =
     Module.length A M * Module.length B (B ⧸ extendedMaximalIdeal A B) at hlen
-  show ((Module.length B N).toNat : ℤ) =
+  change ((Module.length B N).toNat : ℤ) =
     ((Module.length A M).toNat : ℤ) *
       ((Module.length B (B ⧸ extendedMaximalIdeal A B)).toNat : ℤ)
   rw [hlen, ENat.toNat_mul]

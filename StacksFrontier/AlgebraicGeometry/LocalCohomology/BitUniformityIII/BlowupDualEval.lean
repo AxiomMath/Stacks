@@ -117,7 +117,7 @@ theorem blowupPairing_blowupTranspose {F G H : (blowupScheme I).Modules}
     (f : F ⟶ blowupHom I G H) (U : (blowupScheme I).Opens) (y : G.val.obj (op U))
     (x : F.val.obj (op U)) :
     blowupPairing I (blowupTranspose I f) U y x = blowupPairing I f U x y := by
-  show Stacks.PresheafOfModules.InternalHom.pairing _ f.val U x
+  change Stacks.PresheafOfModules.InternalHom.pairing _ f.val U x
     (G.val.map (𝟙 U).op y) = _
   rw [op_id, G.val.map_id]
   rfl
@@ -191,7 +191,7 @@ theorem blowupDualEval_app (N : ModuleCat.{u} (A ⧸ I ^ n)) (z : resModule I n 
       blowupPairing I (𝟙 (blowupDual I n N)) U x
         (((blowupPointSection I n N z).val.app (op U)).hom
           (Stacks.SheafOfModules.OnSpace.unitSection (blowupScheme I).toRingedSpace (op U) 1)) := by
-  show (((blowupCurry I).symm (𝟙 (blowupDual I n N))).val.app (op U)).hom
+  change (((blowupCurry I).symm (𝟙 (blowupDual I n N))).val.app (op U)).hom
     (((blowupDual I n N ◁ blowupPointSection I n N z).val.app (op U)).hom
       ((((ρ_ (blowupDual I n N)).inv).val.app (op U)).hom x)) = _
   refine (congrArg (fun w => (((blowupCurry I).symm (𝟙 (blowupDual I n N))).val.app (op U)).hom
@@ -214,7 +214,7 @@ theorem blowupDualMap_comp_blowupDualEval {N N' : ModuleCat.{u} (A ⧸ I ^ n)} (
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show ((blowupDualEval I n N z).val.app (op U)).hom
+  change ((blowupDualEval I n N z).val.app (op U)).hom
       (((blowupDualMap I n f).val.app (op U)).hom x) =
     ((blowupDualEval I n N' _).val.app (op U)).hom x
   refine (blowupDualEval_app I n N z U _).trans ?_
@@ -280,7 +280,7 @@ theorem blowupDualEval_smul (N : ModuleCat.{u} (A ⧸ I ^ n)) (a : A) (z : resMo
         (globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).app (thickeningSheaf I n) := by
   refine Eq.trans ?_ ((globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).naturality
     (blowupDualEval I n N z)).symm
-  show _ = (globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).app (blowupDual I n N) ≫
+  change _ = (globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).app (blowupDual I n N) ≫
     blowupDualEval I n N z
   unfold blowupDualEval
   have h := (globalSmulCenter (blowupScheme I) (pullbackCoeff I a)).naturality

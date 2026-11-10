@@ -66,9 +66,9 @@ theorem exists_frobeniusSplitting_field (k : Type*) [Field k] [CharP k p] :
       map_add' := fun z z' => by simp }
   refine ⟨π, fun a z => ?_, ?_⟩
   · have hz : a ^ p * z = (e a) • z := by rw [Subfield.smul_def, he, smul_eq_mul]
-    show e.symm (P (a ^ p * z)) = a * e.symm (P z)
+    change e.symm (P (a ^ p * z)) = a * e.symm (P z)
     rw [hz, P.map_smul, smul_eq_mul, map_mul, RingEquiv.symm_apply_apply]
-  · show e.symm (P 1) = 1
+  · change e.symm (P 1) = 1
     rw [h1, map_one]
 
 /-- The terms of `∑_{x ∈ antidiagonal (p m)} wᵖ_{x₁} z_{x₂}` with `x₁` not divisible by `p`
@@ -88,11 +88,11 @@ theorem coeff_frobenius_mul_smul {σ k : Type*} [DecidableEq σ] [CommRing k] [C
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Finset.mem_map.mp hx
     rw [Finset.mem_antidiagonal] at hy ⊢
-    show p • y.1 + p • y.2 = p • m
+    change p • y.1 + p • y.2 = p • m
     rw [← smul_add, hy]
   rw [← Finset.sum_subset hsub, Finset.sum_map]
   · refine Finset.sum_congr rfl fun y _ => ?_
-    show coeff (p • y.1) (map (frobenius k p) (expand p hp0 w)) * coeff (p • y.2) z = _
+    change coeff (p • y.1) (map (frobenius k p) (expand p hp0 w)) * coeff (p • y.2) z = _
     rw [coeff_map, coeff_expand_smul, frobenius_def]
   · intro x hx hxj
     rw [coeff_map]
@@ -113,9 +113,9 @@ theorem coeff_frobenius_mul_smul {σ k : Type*} [DecidableEq σ] [CommRing k] [C
       refine Finset.mem_map.mpr ⟨(d x.1, d x.2), ?_, ?_⟩
       · rw [Finset.mem_antidiagonal]
         apply nsmul_right_injective hp0
-        show p • (d x.1 + d x.2) = p • m
+        change p • (d x.1 + d x.2) = p • m
         rw [smul_add, hd _ hdvd, hd _ hdvd2, hx]
-      · show (p • d x.1, p • d x.2) = x
+      · change (p • d x.1, p • d x.2) = x
         rw [hd _ hdvd, hd _ hdvd2]
     · push Not at hdvd
       obtain ⟨i, hi⟩ := hdvd
@@ -166,9 +166,9 @@ theorem exists_frobeniusSplitting_of_isRegularLocalRing (R : Type*) [CommRing R]
       map_zero' := by simp
       map_add' := fun z z' => by simp }
   refine ⟨θR, fun a z => ?_, ?_⟩
-  · show e.symm (θ (e (a ^ p * z))) = a * e.symm (θ (e z))
+  · change e.symm (θ (e (a ^ p * z))) = a * e.symm (θ (e z))
     rw [map_mul, map_pow, hθ, map_mul, RingEquiv.symm_apply_apply]
-  · show e.symm (θ (e 1)) = 1
+  · change e.symm (θ (e 1)) = 1
     rw [map_one, hθ1, map_one]
 
 end Stacks.ResolutionOfSurfaces

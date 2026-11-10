@@ -143,14 +143,14 @@ public theorem naturalTransformation_lifts_of_units_of_flatBaseChange_large
             simp only [RingHom.id_apply]
             let y : G.obj (Opposite.op (Opposite.op B)) :=
               φ.app (Opposite.op (Opposite.op B)) x
-            show φ.app B' ((algebraRingDiagram.{v} A).map f b • F.map f x) =
+            change φ.app B' ((algebraRingDiagram.{v} A).map f b • F.map f x) =
               G.map f (b • y)
             rw [G.map_smul]
             let φ' : F.obj B' →+ G.obj B' :=
               { toFun := fun z ↦ φ.app B' z
                 map_zero' := (φ.app B').hom.map_zero
                 map_add' := (φ.app B').hom.map_add }
-            show φ' (q b • F.map f x) = q b • G.map f y
+            change φ' (q b • F.map f x) = q b • G.map f y
             rw [hq]
             -- `φ'` bundles `φ.app B'` so that the scalar action on `G.obj B'`
             -- resolves; the cost is that `hunit` and `hnat`, stated for

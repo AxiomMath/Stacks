@@ -67,7 +67,7 @@ theorem pushforwardSquare_vComp (wj : h ≫ j = j' ≫ g') (wf : g' ≫ f = f' �
     Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, Scheme.Modules.Hom.comp_app,
     Scheme.Modules.pushforwardComp_hom_app_app, Scheme.Modules.pushforwardCongr_hom_app_app,
     Scheme.Modules.pushforwardComp_inv_app_app, Category.comp_id, Category.id_comp,
-    TwoSquare.natTrans, TwoSquare.whiskerLeft_app, TwoSquare.whiskerRight_app, TwoSquare.vComp_app,
+    TwoSquare.whiskerLeft_app, TwoSquare.whiskerRight_app, TwoSquare.vComp_app,
     Functor.map_comp, Category.assoc,
     Scheme.Modules.pushforward_map_app, Scheme.Modules.pushforward_obj_presheaf_map,
     AddCommGrpCat.hom_comp]
@@ -98,8 +98,8 @@ theorem baseChangeNatTrans_vertical_app (wj : h ≫ j = j' ≫ g') (wf : g' ≫ 
     (AffinePushforward.baseChangeNatTrans (vertical_comm wj wf)).app M =
       (AffinePushforward.baseChangeNatTrans wf).app ((Scheme.Modules.pushforward j).obj M) ≫
         (Scheme.Modules.pushforward f').map ((AffinePushforward.baseChangeNatTrans wj).app M) := by
-  have hh := congrArg (fun w => w.natTrans.app M) (baseChangeSquare_vertical wj wf)
-  simp only [natTrans_baseChangeSquare, TwoSquare.natTrans, TwoSquare.whiskerBottom_app,
+  have hh := congrArg (fun w => w.app M) (baseChangeSquare_vertical wj wf)
+  simp only [natTrans_baseChangeSquare, TwoSquare.whiskerBottom_app,
     TwoSquare.whiskerTop_app] at hh
   have hR : (TwoSquare.hComp (AffinePushforward.baseChangeNatTrans wj)
       (AffinePushforward.baseChangeNatTrans wf)).app M =

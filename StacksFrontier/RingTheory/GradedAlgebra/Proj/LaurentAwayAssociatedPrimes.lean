@@ -92,7 +92,7 @@ private theorem equiv_comp_algebraMap (hf : f ∈ 𝒜 1) :
         (algebraMap (Away 𝒜 f) (LaurentPolynomial (Away 𝒜 f)))
       = algebraMap (Away 𝒜 f) (Localization.Away f) := by
   ext a
-  show laurentAwayEquiv 𝒜 hf (LaurentPolynomial.C a) = _
+  change laurentAwayEquiv 𝒜 hf (LaurentPolynomial.C a) = _
   rw [laurentAwayEquiv_C, algebraMap_away_eq_val]
 
 /-- The extension of an ideal of the degree-zero part to `A[1/f]`, read through the Laurent

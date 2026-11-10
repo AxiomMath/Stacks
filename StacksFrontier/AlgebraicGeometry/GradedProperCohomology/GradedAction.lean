@@ -379,8 +379,8 @@ theorem gradedCohomologyModule_smul_of {k : ℕ} (b : ↥(𝒜 k)) (n : ℤ)
     (b : B) • (DirectSum.of (fun m : ℤ => ↥(cohomologyOf X p (pieceModule F m))) n x) =
       DirectSum.of (fun m : ℤ => ↥(cohomologyOf X p (pieceModule F m))) (n + (k : ℤ))
         (cohoMap p (actHom σ F b n rfl) x) := by
-  show actRingHom σ F p (b : B) _ = _
-  show actAddHom σ F p (DirectSum.decomposeRingEquiv 𝒜 (b : B)) _ = _
+  change actRingHom σ F p (b : B) _ = _
+  change actAddHom σ F p (DirectSum.decomposeRingEquiv 𝒜 (b : B)) _ = _
   rw [show DirectSum.decomposeRingEquiv 𝒜 (b : B)
       = DirectSum.of (fun j : ℕ => ↥(𝒜 j)) k b from DirectSum.decompose_coe 𝒜 b,
     actAddHom_of]

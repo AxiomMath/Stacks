@@ -118,7 +118,7 @@ theorem isClosedImmersion_zeroLocusι :
 /-- The function `g` vanishes on `V(g)`. -/
 theorem pullbackFunction_zeroLocusι :
     pullbackFunction B hS (zeroLocusι Y₀) (objFunction Y₀) = 0 := by
-  show (pullback.fst (toLine (objFunction Y₀)) zeroPoint).appTop (objFunction Y₀) = 0
+  change (pullback.fst (toLine (objFunction Y₀)) zeroPoint).appTop (objFunction Y₀) = 0
   have h := congrArg (fun a => AffineSpace.toSpecMvPolyIntEquiv PUnit.{u + 1} a PUnit.unit)
     (pullback.condition (f := toLine (objFunction Y₀)) (g := zeroPoint))
   simp only [AffineSpace.toSpecMvPolyIntEquiv_comp, toSpecMvPolyIntEquiv_toLine] at h

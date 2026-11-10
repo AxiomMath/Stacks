@@ -92,7 +92,7 @@ private theorem moduleFinite_ringEquiv_comm_iff {A₁ B₁ A₂ B₂ : Type*} [C
   · exact Module.Finite.of_equiv_equiv e₁ e₂ (RingHom.ext he)
   · refine Module.Finite.of_equiv_equiv e₁.symm e₂.symm (RingHom.ext fun a => ?_)
     refine e₂.injective ?_
-    show e₂ (algebraMap A₁ B₁ (e₁.symm a)) = e₂ (e₂.symm (algebraMap A₂ B₂ a))
+    change e₂ (algebraMap A₁ B₁ (e₁.symm a)) = e₂ (e₂.symm (algebraMap A₂ B₂ a))
     rw [e₂.apply_symm_apply, ← he, e₁.apply_symm_apply]
 
 /-- A composite of restriction maps of a presheaf is the restriction map between the end opens. -/

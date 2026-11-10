@@ -126,7 +126,7 @@ private lemma compactOpenCovered_family_sigmaDesc_iff
   have hcopι (i : ι) (x : T' i) :
       hCop ((Sigma.ι T₀ (e₀ i)) (eSigma.symm ⟨i, x⟩).2) = (Sigma.ι T' i) x := by
     let q := eSigma.symm ⟨i, x⟩
-    show (Sigma.ι (T' ∘ e₀.symm) q.1 ≫ (Sigma.reindex e₀.symm T').hom) q.2 = _
+    change (Sigma.ι (T' ∘ e₀.symm) q.1 ≫ (Sigma.reindex e₀.symm T').hom) q.2 = _
     rw [Sigma.ι_reindex_hom]
     have hq : (⟨e₀.symm q.1, q.2⟩ : Σ j, T' j) = ⟨i, x⟩ := by
       simpa only [eSigma, Equiv.sigmaCongrLeft_apply] using
@@ -138,7 +138,7 @@ private lemma compactOpenCovered_family_sigmaDesc_iff
     obtain ⟨i, x⟩ := p
     have he : e ⟨i, x⟩ = (Sigma.ι T' i) x := by
       simpa [e, hSigma, eSigma, Equiv.sigmaCongrLeft, T₀] using hcopι i x
-    show (f i).base x = (Sigma.desc f).base (e ⟨i, x⟩)
+    change (f i).base x = (Sigma.desc f).base (e ⟨i, x⟩)
     rw [he]
     simp [← Scheme.Hom.comp_apply]
   rw [IsCompactOpenCovered.iff_isCompactOpenCovered_sigmaMk]
@@ -148,7 +148,7 @@ private lemma flat_sigmaDesc_iff
     {ι : Type v} [Small.{u} ι] {T : Scheme.{u}} (T' : ι → Scheme.{u})
     (f : ∀ i, T' i ⟶ T) : (∀ i, Flat (f i)) ↔ Flat (Sigma.desc f) := by
   refine ⟨fun _ => inferInstance, fun h i => ?_⟩
-  simpa only [Sigma.ι_desc] using
+  simpa only [Sigma.ι_comp_desc] using
     MorphismProperty.comp_mem _ _ _ (inferInstance : Flat (Sigma.ι T' i)) h
 
 /-- A family of morphisms of schemes is an fpqc covering precisely when the induced

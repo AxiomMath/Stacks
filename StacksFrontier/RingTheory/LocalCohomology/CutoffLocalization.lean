@@ -75,7 +75,7 @@ theorem depth_localizedModule_localizationLocalization
     ext x
     exact (e.commutes x).symm)
   let : IsScalarTower A L1 M0 := IsScalarTower.of_algebraMap_smul fun x m => by
-    show e.toRingEquiv.symm (algebraMap A L1 x) • m = x • m
+    change e.toRingEquiv.symm (algebraMap A L1 x) • m = x • m
     rw [← e.commutes x]
     exact (congrArg (· • m) (e.toRingEquiv.symm_apply_apply _)).trans
       (IsScalarTower.algebraMap_smul L0 x m)
@@ -93,11 +93,11 @@ theorem depth_localizedModule_localizationLocalization
   have hdepthRing : Module.depth L0 (IsLocalRing.maximalIdeal L0) M0 =
       Module.depth L1 (IsLocalRing.maximalIdeal L1) M0 := by
     rw [Module.depth_eq_depth_map_algebraMap e.surjective]
-    show Module.depth L1 ((IsLocalRing.maximalIdeal L0).map e.toRingEquiv.toRingHom) M0 = _
+    change Module.depth L1 ((IsLocalRing.maximalIdeal L0).map e.toRingEquiv.toRingHom) M0 = _
     have hmax : (IsLocalRing.maximalIdeal L0).map e.toRingEquiv.toRingHom =
         IsLocalRing.maximalIdeal L1 := IsLocalRing.map_ringEquiv_maximalIdeal e.toRingEquiv
     rw [hmax]
-  show Module.depth L0 (IsLocalRing.maximalIdeal L0) M0 =
+  change Module.depth L0 (IsLocalRing.maximalIdeal L0) M0 =
     Module.depth L1 (IsLocalRing.maximalIdeal L1) M1
   exact hdepthRing.trans (Module.depth_eq_depth_of_linearEquiv _ eM)
 
@@ -138,7 +138,7 @@ theorem height_map_quotientMk_localization {A B : Type*} [CommRing A] [CommRing 
   have hcomp : (algebraMap A₀ B₀).comp (Ideal.Quotient.mk p) =
       (Ideal.Quotient.mk pB).comp (algebraMap A B) := by
     ext a
-    show fquot (Ideal.Quotient.mk p a) = Ideal.Quotient.mk pB (algebraMap A B a)
+    change fquot (Ideal.Quotient.mk p a) = Ideal.Quotient.mk pB (algebraMap A B a)
     exact Ideal.quotientMap_mk
   have hmap : Ideal.map (algebraMap A₀ B₀) q₀ = q₁ := by
     dsimp [q₀, q₁, qB, pB]

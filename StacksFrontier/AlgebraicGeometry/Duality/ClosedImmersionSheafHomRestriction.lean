@@ -189,7 +189,7 @@ instance isIso_pushforwardJShriekTwoSquare : IsIso (pushforwardJShriekTwoSquare 
 def pushforwardJShriekIso :
     Scheme.Modules.pushforward (i ∣_ V) ⋙ jShriek V ≅
       jShriek (i ⁻¹ᵁ V) ⋙ Scheme.Modules.pushforward i :=
-  asIso (pushforwardJShriekTwoSquare i V).natTrans
+  asIso (pushforwardJShriekTwoSquare i V)
 
 /-- Extension by zero of modules is additive. -/
 instance jShriek_additive (U : Z.Opens) : (jShriek U).Additive :=

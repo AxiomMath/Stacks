@@ -109,7 +109,7 @@ theorem exists_open_forall_not_geometricallyReduced_fiber
     have hcomm : e.hom ≫ p.fiberToSpecResidueField η' =
         f'.fiberToSpecResidueField η' := by
       dsimp only [e, Scheme.Hom.fiberToSpecResidueField]
-      show e₀.inv ≫ pullback.snd r (pullback.fst p (Y'.fromSpecResidueField η')) ≫
+      change e₀.inv ≫ pullback.snd r (pullback.fst p (Y'.fromSpecResidueField η')) ≫
         pullback.snd p (Y'.fromSpecResidueField η') = _
       calc
         _ = e₀.inv ≫ (pullback.snd r (pullback.fst p (Y'.fromSpecResidueField η')) ≫

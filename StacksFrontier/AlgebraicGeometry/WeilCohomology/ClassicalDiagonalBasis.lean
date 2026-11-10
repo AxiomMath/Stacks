@@ -286,7 +286,7 @@ theorem integration_mul_kunnethCoordinate_pushforward_one
       by_cases hij : ij = (i, 2 * (S.dimension X : ℤ) - i)
       · subst hij
         simp
-      · rw [dif_neg hij, map_zero, mul_zero]
+      · rw [dite_eq_right hij, map_zero, mul_zero]
         have hzero : ∀ t, TensorProduct.lift ((LinearMap.mul F F).compl₁₂
             (((S.H X).traceExtension (S.dimension X) (S.integration X).toLinearMap
                 (ij.1 + (2 * (S.dimension X : ℤ) - i))).comp
@@ -294,8 +294,7 @@ theorem integration_mul_kunnethCoordinate_pushforward_one
             (((S.H X).traceExtension (S.dimension X) (S.integration X).toLinearMap
                 (ij.2 + i)).comp (((S.H X).mul ij.2 i).flip b))) t = 0 := by
           intro t
-          induction t using TensorProduct.induction_on with
-          | zero => simp
+          induction t using TensorProduct.inductionOn with
           | add t t' ht ht' => rw [map_add, ht, ht', add_zero]
           | tmul x y =>
             simp only [TensorProduct.lift.tmul, LinearMap.compl₁₂_apply, LinearMap.comp_apply,

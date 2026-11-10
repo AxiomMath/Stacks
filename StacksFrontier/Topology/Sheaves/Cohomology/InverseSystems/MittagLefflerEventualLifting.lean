@@ -52,7 +52,7 @@ abbrev trans {n m : ℕ} (h : n ≤ m) : H.obj (op m) →ₗ[A] H.obj (op n) :=
 /-- The transition maps of `H` compose. -/
 theorem trans_trans {k n m : ℕ} (h₁ : k ≤ n) (h₂ : n ≤ m) (x : H.obj (op m)) :
     trans H h₁ (trans H h₂ x) = trans H (h₁.trans h₂) x := by
-  show (H.map (homOfLE h₂).op ≫ H.map (homOfLE h₁).op).hom x = _
+  change (H.map (homOfLE h₂).op ≫ H.map (homOfLE h₁).op).hom x = _
   rw [← H.map_comp]
   rfl
 
@@ -118,7 +118,7 @@ theorem exists_sub_mem_pow_smul (hfI : ∀ l, f l ∈ I)
     choose w hw0 hwr using fun l => ih (y l) (hyP l)
     have hle : i ≤ c + k := hi.trans (Nat.le_add_right c k)
     refine ⟨(z - ∑ l, up l (c + k) (y l)) + ∑ l, up l (c + k) (w l), ?_, ?_⟩
-    · show δ (c + k + 1) _ = 0
+    · change δ (c + k + 1) _ = 0
       rw [map_add, hy0, zero_add, map_sum]
       exact Finset.sum_eq_zero fun l _ => by rw [hδup, hw0, map_zero]
     · have key : ∀ (l : L) (x : H.obj (op (c + k))),
@@ -159,12 +159,12 @@ theorem isMittagLefflerCategorical_of_eventualLifting (hfI : ∀ l, f l ∈ I)
     (fun l n x hx => by
       obtain ⟨s, hs, rfl⟩ := hx
       exact ⟨up l n s, by
-        show δ (n + 1) (up l n s) ∈ P (n + 1)
+        change δ (n + 1) (up l n s) ∈ P (n + 1)
         rw [hδup]
         exact hP l n _ hs, hδup l n s⟩)
     (fun n => by
       refine le_bot_iff.mp ?_
-      show I ^ (n + 1) • ((P n).comap (δ n)).map (δ n) ≤ ⊥
+      change I ^ (n + 1) • ((P n).comap (δ n)).map (δ n) ≤ ⊥
       rw [← Submodule.map_smul'']
       calc _ ≤ (I ^ (n + 1) • (⊤ : Submodule A (H.obj (op n)))).map (δ n) :=
             Submodule.map_mono (Submodule.smul_mono le_rfl le_top)
@@ -193,7 +193,7 @@ theorem isMittagLefflerCategorical_of_eventualLifting (hfI : ∀ l, f l ∈ I)
     rintro x ⟨y, rfl⟩
     have h := hM _ (hS n _ ⟨y, rfl⟩) m ((he n).trans hm)
     rwa [trans_trans] at h
-  show Subobject.mk (image.ι (H.map (homOfLE ((hin.trans (he n)).trans hm)).op)) =
+  change Subobject.mk (image.ι (H.map (homOfLE ((hin.trans (he n)).trans hm)).op)) =
     Subobject.mk (image.ι (H.map (homOfLE (hin.trans (he n))).op))
   have hmk {V W : ModuleCat.{v} A} (g : V ⟶ W) :
       Subobject.mk (image.ι g) =
@@ -201,7 +201,7 @@ theorem isMittagLefflerCategorical_of_eventualLifting (hfI : ∀ l, f l ∈ I)
     Subobject.mk_eq_mk_of_comm _ _ (ModuleCat.imageIsoRange g)
       (ModuleCat.imageIsoRange_hom_subtype g)
   rw [hmk, hmk]
-  show Subobject.mk (ModuleCat.ofHom (LinearMap.range (trans H _)).subtype) =
+  change Subobject.mk (ModuleCat.ofHom (LinearMap.range (trans H _)).subtype) =
     Subobject.mk (ModuleCat.ofHom (LinearMap.range (trans H _)).subtype)
   rw [heq]
 

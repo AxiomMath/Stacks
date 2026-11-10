@@ -153,13 +153,13 @@ private lemma restrictionD_commShift {U V : Cᵒᵖ} (a : V ⟶ U) :
       (Localization.Lifting.iso (DerivedCategory.Q (C := A)) W
         (EvV.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
           DerivedCategory.Q (C := ModuleCat (O.obj V))) EvV.mapDerivedCategory).hom ℤ := by
-    show NatTrans.CommShift EvV.mapDerivedCategoryFactors.hom ℤ
+    change NatTrans.CommShift EvV.mapDerivedCategoryFactors.hom ℤ
     infer_instance
   let : NatTrans.CommShift
       (Localization.Lifting.iso (DerivedCategory.Q (C := A)) W
         (EvU.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
           DerivedCategory.Q (C := ModuleCat (O.obj V))) EvU.mapDerivedCategory).hom ℤ := by
-    show NatTrans.CommShift EvU.mapDerivedCategoryFactors.hom ℤ
+    change NatTrans.CommShift EvU.mapDerivedCategoryFactors.hom ℤ
     infer_instance
   unfold restrictionD
   apply localization_liftNatTrans_commShift
@@ -213,13 +213,13 @@ private lemma RGammaRestrictIso_hom_commShift {U V : Cᵒᵖ} (a : V ⟶ U) :
       (Localization.Lifting.iso (DerivedCategory.Q (C := A)) W
         (EvU.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
           DerivedCategory.Q (C := ModuleCat (O.obj V))) EvU.mapDerivedCategory).hom ℤ := by
-    show NatTrans.CommShift EvU.mapDerivedCategoryFactors.hom ℤ
+    change NatTrans.CommShift EvU.mapDerivedCategoryFactors.hom ℤ
     infer_instance
   let : NatTrans.CommShift
       (Localization.Lifting.iso (DerivedCategory.Q (C := A)) W
         (EvU.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
           DerivedCategory.Q (C := ModuleCat (O.obj V))) G').hom ℤ := by
-    show NatTrans.CommShift
+    change NatTrans.CommShift
       (((Functor.associator _ _ _).symm ≪≫
         Functor.isoWhiskerRight Ev.mapDerivedCategoryFactors
           (DRestrict.{w} (O := O) (U := U) (V := V) a) ≪≫
@@ -231,7 +231,7 @@ private lemma RGammaRestrictIso_hom_commShift {U V : Cᵒᵖ} (a : V ⟶ U) :
     simp only [Iso.trans_hom, Iso.symm_hom, Functor.isoWhiskerRight_hom,
       Functor.isoWhiskerLeft_hom]
     infer_instance
-  show NatTrans.CommShift
+  change NatTrans.CommShift
     (Localization.liftNatTrans (DerivedCategory.Q (C := A)) W
       (EvU.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
         DerivedCategory.Q (C := ModuleCat (O.obj V)))
@@ -345,7 +345,7 @@ instance isQC_isClosedUnderIsomorphisms :
 private lemma isQC_stableUnderRetracts :
     CategoryTheory.ObjectProperty.IsStableUnderRetracts (IsQC.{w} bc) := by
   refine ⟨fun {K K'} rt hK' => ?_⟩
-  show ∀ {U V : Cᵒᵖ} (a : V ⟶ U), IsIso (comparison.{w} bc a K)
+  change ∀ {U V : Cᵒᵖ} (a : V ⟶ U), IsIso (comparison.{w} bc a K)
   exact fun a => isIso_app_of_retract (comparisonNatTrans.{w} bc a) rt (hK' a)
 
 /-- **Stacks 0GYW**, saturation: a direct summand of a cartesian object is cartesian. -/

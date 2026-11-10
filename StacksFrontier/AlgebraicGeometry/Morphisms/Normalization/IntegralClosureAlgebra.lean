@@ -114,7 +114,7 @@ private lemma isLocalizedModule_basicOpen_iff
     simp only [hAEq', ConcreteCategory.comp_apply, Iso.inv_hom_id_apply]
   have htop (a : Γ(X, U)) (m : Γ(N, ⊤)) :
       eTop0 (a • m) = a • eTop0 m := by
-    show eTopAb.hom (a • m) = a • eTopAb.hom m
+    change eTopAb.hom (a • m) = a • eTopAb.hom m
     rw [Scheme.Modules.smul_Spec_def]
     have hres : (Spec Γ(X, U)).presheaf.map (⊤ : (Spec Γ(X, U)).Opens).leTop.op = 𝟙 _ := by rfl
     rw [hres]
@@ -183,8 +183,8 @@ private lemma isLocalizedModule_basicOpen_iff
         (Scheme.ΓSpecIso Γ(X, U)).inv.hom)
   have hbasic (a : Γ(X, U)) (m : Γ(N, PrimeSpectrum.basicOpen r)) :
       eBasic0 (a • m) = a • eBasic0 m := by
-    show eBasicAb.hom (a • m) = a • eBasicAb.hom m
-    show eBasicAb.hom
+    change eBasicAb.hom (a • m) = a • eBasicAb.hom m
+    change eBasicAb.hom
       (((Spec Γ(X, U)).presheaf.map (PrimeSpectrum.basicOpen r).leTop.op
         ((Scheme.ΓSpecIso Γ(X, U)).inv a)) • m) = a • eBasicAb.hom m
     simp only [eBasicAb, Iso.trans_hom, ConcreteCategory.comp_apply]
@@ -218,7 +218,7 @@ private lemma isLocalizedModule_basicOpen_iff
     simp only [ConcreteCategory.comp_apply] at hNatElem
     have hEqElem := congrArg (fun φ => φ ((M.restrictAppIso hU.fromSpec ⊤).hom m)) hEq
     simp only [ConcreteCategory.comp_apply] at hEqElem
-    show eBasicAb.hom ((N.presheaf.map (PrimeSpectrum.basicOpen r).leTop.op) m) =
+    change eBasicAb.hom ((N.presheaf.map (PrimeSpectrum.basicOpen r).leTop.op) m) =
       (M.presheaf.map (homOfLE (X.basicOpen_le r)).op) (eTopAb.hom m)
     simp only [eBasicAb, eTopAb, Iso.trans_hom, ConcreteCategory.comp_apply]
     rw [hNatElem]
@@ -234,11 +234,11 @@ private lemma isLocalizedModule_basicOpen_iff
   have hφ : φ = eBasic.toLinearMap ∘ₗ ψ ∘ₗ eTop.symm.toLinearMap := by
     ext m
     have := hSquare (eTop.symm m)
-    show (M.presheaf.map (homOfLE (X.basicOpen_le r)).op) m =
+    change (M.presheaf.map (homOfLE (X.basicOpen_le r)).op) m =
       eBasic (ψ (eTop.symm m))
     rw [hψ]
     simpa only [LinearEquiv.apply_symm_apply] using this.symm
-  show IsLocalizedModule.Away r φ ↔ IsLocalizedModule.Away r ψ
+  change IsLocalizedModule.Away r φ ↔ IsLocalizedModule.Away r ψ
   rw [hφ]
   exact (IsLocalizedModule.comp_iff_of_bijective_left (Submonoid.powers r)
     (f := ψ ∘ₗ eTop.symm.toLinearMap) eBasic.toLinearMap eBasic.bijective).trans
@@ -351,7 +351,7 @@ theorem integralSectionsSubring_map_le (X : Scheme.{u})
     integralSectionsSubring X A V ≤
       (integralSectionsSubring X A U).comap (A.right.presheaf.map (homOfLE h).op).hom := by
   intro s hs
-  show ∀ (x : X) (hx : x ∈ U),
+  change ∀ (x : X) (hx : x ∈ U),
     integralAt X A U x hx ((A.right.presheaf.map (homOfLE h).op).hom s)
   change ∀ (x : X) (hx : x ∈ V), integralAt X A V x hx s at hs
   intro x hx
@@ -415,7 +415,7 @@ private theorem exists_integral_section_near (X : Scheme.{u})
     | @insert i s his ih =>
       simp [hxV i, ih]
   have hxW : x ∈ W := by
-    show x ∈ U₀ ∧ x ∈ p.support.inf V
+    change x ∈ U₀ ∧ x ∈ p.support.inf V
     exact ⟨hx₀, hxInf p.support⟩
   have hWU₀ : W ≤ U₀ := inf_le_left
   have hWVi (i : ℕ) (hi : i ∈ p.support) : W ≤ V i :=
@@ -433,9 +433,9 @@ private theorem exists_integral_section_near (X : Scheme.{u})
   let q : Polynomial (X.presheaf.obj (.op W)) :=
     Polynomial.ofFinsupp (AddMonoidAlgebra.ofCoeff (Finsupp.onFinset p.support coeff hcoeffsupport))
   have hq0 (i : ℕ) (hi : i ∉ p.support) : q.coeff i = 0 := by
-    show (Finsupp.onFinset p.support coeff hcoeffsupport) i = 0
+    change (Finsupp.onFinset p.support coeff hcoeffsupport) i = 0
     rw [Finsupp.onFinset_apply]
-    show (if h : i ∈ p.support then _ else 0) = 0
+    change (if h : i ∈ p.support then _ else 0) = 0
     rw [dite_eq_right hi]
   have hcoeff (i : ℕ) :
       (X.presheaf.germ W x hxW).hom (q.coeff i) = p.coeff i := by
@@ -689,14 +689,14 @@ theorem integralSectionsPresheaf_isSheaf (X : Scheme.{u})
     intro x hx
     obtain ⟨i, hxi⟩ := Opens.mem_iSup.mp hx
     have hi : A.right.presheaf.map (Opens.leSupr U i).op sA = sfA i := hsA i
-    show RingHom.IsIntegralElem _ (A.right.presheaf.germ (iSup U) x hx sA)
+    change RingHom.IsIntegralElem _ (A.right.presheaf.germ (iSup U) x hx sA)
     have hres : A.right.presheaf.germ (iSup U) x hx sA =
         A.right.presheaf.germ (U i) x hxi
           ((A.right.presheaf.map (Opens.leSupr U i).op).hom sA) := by
       simpa only [CommRingCat.comp_apply] using congrArg (fun f => f sA)
         (A.right.presheaf.germ_res (Opens.leSupr U i) x hxi).symm
     rw [hres, hi]
-    show RingHom.IsIntegralElem _
+    change RingHom.IsIntegralElem _
       (A.right.presheaf.germ (U i) x hxi ((incl.app (op (U i))).hom (sf i)))
     exact (sf i).2 x hxi
     ⟩
@@ -714,7 +714,7 @@ theorem integralSectionsPresheaf_isSheaf (X : Scheme.{u})
         (congrArg CommRingCat.Hom.hom
           (incl.naturality (Opens.leSupr U i).op))
     rw [ht i] at hi
-    show (A.right.presheaf.map (Opens.leSupr U i).op).hom t.1 = sfA i
+    change (A.right.presheaf.map (Opens.leSupr U i).op).hom t.1 = sfA i
     exact hi.symm
 
 /-- The sheaf of sections of `A` whose germs are everywhere integral over the local rings. -/
@@ -836,7 +836,7 @@ private lemma integralSections_quasicoherent (X : Scheme.{u})
   refine ⟨?_, ?_, ?_⟩
   · intro m
     apply (Module.End.isUnit_iff _).mpr
-    show Function.Bijective (fun y : Γ(N, X.basicOpen f) => γ (m : R) • y)
+    change Function.Bijective (fun y : Γ(N, X.basicOpen f) => γ (m : R) • y)
     exact (IsLocalization.map_units (S := Rf) m).smul_bijective
   · intro y
     have hy : IsIntegral Rf y.1 :=
@@ -900,7 +900,7 @@ theorem mem_range_integralClosureAlgebraι_app_iff {X : Scheme.{u}}
       ∀ (x : X) (hx : x ∈ U),
         ((TopCat.Presheaf.stalkFunctor CommRingCat x).map A.hom.hom).hom.IsIntegralElem
           (A.right.presheaf.germ U x hx s) := by
-  show s ∈ Set.range (integralSectionsSubring X A U).subtype ↔ _
+  change s ∈ Set.range (integralSectionsSubring X A U).subtype ↔ _
   constructor
   · rintro ⟨t, rfl⟩
     exact t.2
@@ -934,19 +934,19 @@ theorem range_stalkFunctor_map_integralClosureAlgebraι {X : Scheme.{u}}
   let : Algebra ((TopCat.Presheaf.stalkFunctor CommRingCat x).obj X.presheaf)
       ((TopCat.Presheaf.stalkFunctor CommRingCat x).obj A.right.presheaf) := α.toAlgebra
   ext y
-  show y ∈ Set.range β ↔ α.IsIntegralElem y
+  change y ∈ Set.range β ↔ α.IsIntegralElem y
   constructor
   · rintro ⟨b, rfl⟩
     obtain ⟨U, hx, t, ht⟩ := B.presheaf.exists_germ_eq b
     rw [← ht, TopCat.Presheaf.stalkFunctor_map_germ_apply]
-    show RingHom.IsIntegralElem α ((A.right.presheaf.germ U x hx).hom t.1)
+    change RingHom.IsIntegralElem α ((A.right.presheaf.germ U x hx).hom t.1)
     exact t.2 x hx
   · intro hy
     obtain ⟨U, hx, s, hs, hsi, _⟩ := exists_integral_section_near X A x y hy
     let t : B.presheaf.obj (.op U) := ⟨s, hsi⟩
     refine ⟨(B.presheaf.germ U x hx).hom t, ?_⟩
     rw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
-    show A.right.presheaf.germ U x hx s = y
+    change A.right.presheaf.germ U x hx s = y
     exact hs
 
 /-- Over an affine open `U`, the sections of the integral closure of the structure sheaf in a
@@ -960,7 +960,7 @@ theorem range_integralClosureAlgebraι_app_of_isAffineOpen {X : Scheme.{u}}
     Set.range ((integralClosureAlgebraι A).right.hom.app (.op U)) =
       (integralClosure (X.presheaf.obj (.op U)) (A.right.presheaf.obj (.op U)) : Set _) := by
   ext s
-  show s ∈ Set.range (integralSectionsSubring X A U).subtype ↔
+  change s ∈ Set.range (integralSectionsSubring X A U).subtype ↔
     (A.hom.hom.app (.op U)).hom.IsIntegralElem s
   constructor
   · rintro ⟨t, rfl⟩; exact (integralSectionsSubring_mem_iff X A U hU t.1).mp t.2

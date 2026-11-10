@@ -116,10 +116,10 @@ lemma freeOverHomEquiv_apply_generator (U : Opens X)
     let _ : PreservesColimitsOfShape (Discrete I) Q :=
       (Adjunction.ofIsLeftAdjoint Q).leftAdjoint_preservesColimits.preservesColimitsOfShape
     exact SheafOfModules.ιFree_mapFreeIso_hom Q I (Iso.refl _) j
-  show ((G.over U).unitHomEquiv
+  change ((G.over U).unitHomEquiv
     (SheafOfModules.ιFree (R := (structureSheaf Rc).over U) j ≫ e.inv ≫ f)).val W = _
   rw [SheafOfModules.unitHomEquiv_apply_coe]
-  show f.val.app W ((SheafOfModules.ιFree (R := (structureSheaf Rc).over U) j ≫ e.inv).val.app W
+  change f.val.app W ((SheafOfModules.ιFree (R := (structureSheaf Rc).over U) j ≫ e.inv).val.app W
     (1 : (structureSheaf Rc).obj.obj (op U))) = _
   rw [hι]
   rfl
@@ -151,7 +151,7 @@ lemma freeOverHomEquiv_restrict {U V : Opens X} (hVU : V ≤ U)
       (1 : (structureSheaf Rc).obj.obj (op V)) :=
     PresheafOfModules.unit_map_one (R := (structureSheaf Rc).obj) (homOfLE hVU).op
   rw [hone] at hb
-  show f.val.app (op (Over.mk (homOfLE hVU)))
+  change f.val.app (op (Over.mk (homOfLE hVU)))
       (b.val.app (op V) (1 : (structureSheaf Rc).obj.obj (op V))) =
     G.val.map (homOfLE hVU).op (f.val.app (op (Over.mk (𝟙 U)))
       (b.val.app (op U) (1 : (structureSheaf Rc).obj.obj (op U))))

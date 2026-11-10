@@ -85,7 +85,7 @@ theorem isAlgebraicStack_source_of_isRepresentableByAlgebraicSpaces_homUniverse
     Bicategory.InducedBicategory.mkHom (BasedFunctor.comp (BasedFunctor.comp a j.hom) c)
   have he : BasedFunctor.comp a j.hom = BasedFunctor.comp js.hom b := by
     refine BasedCategory.BasedFunctor.ext' ?_
-    show a.toFunctor ⋙ j.hom.toFunctor =
+    change a.toFunctor ⋙ j.hom.toFunctor =
       a.toFunctor ⋙ j.hom.toFunctor ⋙ (ShrinkHoms.functor.{u} 𝒴.val.obj ⋙
         ShrinkHoms.inverse.{u} 𝒴.val.obj)
     rw [BasedCategory.shrinkHoms_functor_comp_inverse 𝒴.val, Functor.comp_id]

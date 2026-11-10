@@ -77,20 +77,22 @@ noncomputable def app (X : Cᵒᵖ) : ↥((sqZeroExtSheaf R N).obj.obj X) →+* 
   toFun w := d.ringMap.hom.app X (sqZeroExtFst (M := modules N) w) +
     d.inr X (sqZeroExtSnd (M := modules N) w)
   map_one' := by
-    show d.ringMap.hom.app X 1 + d.inr X 0 = 1
+    change d.ringMap.hom.app X 1 + d.inr X 0 = 1
     rw [map_one, map_zero, add_zero]
   map_mul' w w' := by
-    show d.ringMap.hom.app X (sqZeroExtFst (M := modules N) w * sqZeroExtFst (M := modules N) w') +
+    change d.ringMap.hom.app X
+          (sqZeroExtFst (M := modules N) w * sqZeroExtFst (M := modules N) w') +
         d.inr X (sqZeroExtFst (M := modules N) w • sqZeroExtSnd (M := modules N) w' +
           sqZeroExtFst (M := modules N) w' • sqZeroExtSnd (M := modules N) w) = _
     rw [map_mul, map_add, d.inr_smul, d.inr_smul]
     linear_combination (-1 : ↥(T.obj.obj X)) *
       d.inr_mul_inr X (sqZeroExtSnd (M := modules N) w) (sqZeroExtSnd (M := modules N) w')
   map_zero' := by
-    show d.ringMap.hom.app X 0 + d.inr X 0 = 0
+    change d.ringMap.hom.app X 0 + d.inr X 0 = 0
     rw [map_zero, map_zero, add_zero]
   map_add' w w' := by
-    show d.ringMap.hom.app X (sqZeroExtFst (M := modules N) w + sqZeroExtFst (M := modules N) w') +
+    change d.ringMap.hom.app X
+          (sqZeroExtFst (M := modules N) w + sqZeroExtFst (M := modules N) w') +
         d.inr X (sqZeroExtSnd (M := modules N) w + sqZeroExtSnd (M := modules N) w') = _
     rw [map_add, map_add]
     abel
@@ -107,7 +109,7 @@ noncomputable def toHom : sqZeroExtSheaf R N ⟶ T :=
     { app := fun X => CommRingCat.ofHom (R := ↥((sqZeroExtSheaf R N).obj.obj X))
         (S := ↥(T.obj.obj X)) (d.app X)
       naturality := fun {X Y} f => CommRingCat.hom_ext (RingHom.ext fun w => by
-        show d.ringMap.hom.app Y ((R.obj.map f).hom (sqZeroExtFst (M := modules N) w)) +
+        change d.ringMap.hom.app Y ((R.obj.map f).hom (sqZeroExtFst (M := modules N) w)) +
             d.inr Y ((modules N).map f (sqZeroExtSnd (M := modules N) w)) =
           (T.obj.map f).hom (d.ringMap.hom.app X (sqZeroExtFst (M := modules N) w) +
             d.inr X (sqZeroExtSnd (M := modules N) w))
@@ -134,7 +136,7 @@ theorem graphIdeal_le_ker (X : Cᵒᵖ) :
     Stacks.Sites.sectionIdeal (graphIdealSubsheaf π N ψ) X ≤
       RingHom.ker (d.toHom.hom.app X).hom := by
   rintro _ ⟨g, rfl⟩
-  show d.ringMap.hom.app X (g : ↥(R.obj.obj X)) + d.inr X (-(ψ.app X g)) = 0
+  change d.ringMap.hom.app X (g : ↥(R.obj.obj X)) + d.inr X (-(ψ.app X g)) = 0
   rw [map_neg, hd, add_neg_cancel]
 
 variable [HasWeakSheafify K CommRingCat.{u}]

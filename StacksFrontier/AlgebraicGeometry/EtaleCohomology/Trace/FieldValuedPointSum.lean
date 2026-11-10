@@ -69,7 +69,7 @@ theorem finsum_fieldValuedPoints_eq_sum {M : Type*} [AddCommMonoid M] (F : X →
   simp only [hpt]
   rw [finsum_eq_sum_of_fintype, Fintype.sum_sigma, ← Finset.sum_coe_sort S]
   refine Finset.sum_congr rfl fun y _ => ?_
-  show ∑ _σ : residueEmbeddings f K y.1.1, F y.1.1 = _
+  change ∑ _σ : residueEmbeddings f K y.1.1, F y.1.1 = _
   rw [Finset.sum_const, Finset.card_univ, ← Nat.card_eq_fintype_card, hcard]
 
 end Stacks.EtaleCohomology

@@ -114,29 +114,29 @@ public theorem finiteLevelStalkEnd_transition (F : LAdicSheaf B X ℓ) {s : Geom
       finiteLevelStalkTransition B X ℓ F s n ≫
         (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
           (finiteLevelStalkEnd B X ℓ F a n) := by
-  show colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+  change colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level (n + 1)).obj) (neighborhoodFunctor B X.1 X.property a).op ≫
       (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+          (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
           (F.transition n).hom) ≫
         (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
             (F.level n).obj)).inv) =
     (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op
+          (Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op
           (F.transition n).hom) ≫
         (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
             (F.level n).obj)).inv) ≫
       (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
-        (colimit.pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+        (colimit.pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
           (F.level n).obj) (neighborhoodFunctor B X.1 X.property a).op)
   refine colimit.hom_ext fun j => ?_
   refine (ι_pre_map_preservesColimitIso_inv _ _ _ j).trans ?_
   symm
   refine ι_map_preservesColimitIso_inv_comp
     (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)) _ _ ?_
-  exact colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+  exact colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
     (F.level n).obj) (neighborhoodFunctor B X.1 X.property a).op j
 
 /-- The commutation of `finiteLevelStalkEnd` with the transitions, read on elements. -/

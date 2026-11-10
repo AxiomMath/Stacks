@@ -134,7 +134,7 @@ theorem completionMap_pullback_snd_comp_eq {X' X W G : (BigFppfOver B S hS)ᵒ�
         ((completionMap B S hS (pullback.snd f q) (pointsMap B S hS G q ⁻¹' T)).app Zo y) :=
     Subtype.ext <| ULift.ext <|
       congrFun (congrArg (fun α => α.app Zo) (pullback.condition (f := f) (g := q))) y.1.down
-  show ŵ.app Zo ((completionMap B S hS q T).app Zo
+  change ŵ.app Zo ((completionMap B S hS q T).app Zo
     ((completionMap B S hS (pullback.snd f q) (pointsMap B S hS G q ⁻¹' T)).app Zo y)) = _
   rw [← h2]
   exact h1

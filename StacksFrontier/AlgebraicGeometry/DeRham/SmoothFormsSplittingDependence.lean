@@ -195,8 +195,8 @@ theorem exteriorPowerProdHom_comp_pieceMap (iF : F ⟶ H) (iG : G ⟶ H) (θ : H
       exteriorPowerProdHom AF AG A iF iG n ≫
         A.exterior_isExteriorAlgebra.pieceMap A'.exterior_isExteriorAlgebra θ (n : ℤ) := by
   refine Limits.Sigma.hom_ext _ _ fun i => ?_
-  rw [exteriorPowerProdHom, Limits.Sigma.ι_desc, exteriorPowerProdHom, ← Category.assoc,
-    Limits.Sigma.ι_desc]
+  rw [exteriorPowerProdHom, Limits.Sigma.ι_comp_desc, exteriorPowerProdHom, ← Category.assoc,
+    Limits.Sigma.ι_comp_desc]
   exact prodWedgeHomOfEq_comp_pieceMap AF AG A A' iF iG θ i.down.1.1 i.down.1.2 n
     i.down.2
 

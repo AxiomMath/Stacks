@@ -122,7 +122,7 @@ theorem additiveRestriction_sheafH_map_zmodSheafHom {p : ℕ} (hX : (p : Γ(X, �
     inverseImage_zmodSheafHom_comp_additiveInverseImageComparison.{u, u + 1} g hX
   rw [etaleCohomologyRestrictionMap_comp_mk₀, Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀,
     hι]
-  show _ = ((etaleCohomologyRestrictionMap.{u, 0, u + 1} g (etaleConstantZMod X p) n x).comp
+  change _ = ((etaleCohomologyRestrictionMap.{u, 0, u + 1} g (etaleConstantZMod X p) n x).comp
     (Ext.mk₀ _) (add_zero n)).comp (Ext.mk₀ _) (add_zero n)
   rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
 
@@ -139,13 +139,13 @@ variable {k k' : Type u} [Field k] [Field k'] [Algebra k k'] {X : Scheme.{u}}
 theorem appTop_scalarExtensionFst_baseScalarSection (c : k) :
     (scalarExtensionFst k k' f).appTop.hom (baseScalarSection k f c) =
       baseScalarSection k' (scalarExtensionStructure f) (algebraMap k k' c) := by
-  show (f.appLE ⊤ ⊤ _ ≫ (scalarExtensionFst k k' f).appTop).hom
+  change (f.appLE ⊤ ⊤ _ ≫ (scalarExtensionFst k k' f).appTop).hom
       ((Scheme.ΓSpecIso (.of k)).inv.hom c) =
     (scalarExtensionStructure f).appLE ⊤ ⊤ _
       ((Scheme.ΓSpecIso (.of k')).inv.hom (algebraMap k k' c))
   rw [Stacks.Descent.appLE_top_top, Stacks.Descent.appLE_top_top, ← Scheme.Hom.comp_appTop,
     pullback.condition, Scheme.Hom.comp_appTop]
-  show ((scalarExtensionStructure f).appTop.hom
+  change ((scalarExtensionStructure f).appTop.hom
     (((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec.map (CommRingCat.ofHom (algebraMap k k'))).appTop).hom
       c)) = _
   rw [← Scheme.ΓSpecIso_inv_naturality]

@@ -114,7 +114,7 @@ theorem sectionsMap_unit_zeroScheme_eq_zero (s : L.sections) :
   have hpIso : IsIso p := inferInstanceAs (IsIso
     (((Scheme.Modules.pullback i).obj L).presheaf.mapIso (eqToIso he).op).hom)
   have hp : ConcreteCategory.hom p ((SheafOfModules.sectionsMap g s).eval (op ⊤)) = 0 := by
-    show pullbackGlobalSections i L (s.eval (op ⊤)) = 0
+    change pullbackGlobalSections i L (s.eval (op ⊤)) = 0
     exact pullbackGlobalSections_subschemeι_zeroScheme_eq_zero X L _
   have htop : (SheafOfModules.sectionsMap g s).eval (op ⊤) = 0 :=
     (ConcreteCategory.bijective_of_isIso p).1 (hp.trans (map_zero _).symm)
@@ -207,8 +207,8 @@ theorem exists_cokernelIso_of_isIso_unit_app {A B : Type*} [Category A] [Categor
       Limits.cokernel.π f ≫ e.hom = adj.unit.app N := by
   have hPf : P.map f = 0 := by
     apply (adj.homEquiv M (P.obj N)).injective
-    show adj.unit.app M ≫ R.map (P.map f) = adj.unit.app M ≫ R.map 0
-    show adj.unit.app M ≫ (P ⋙ R).map f = _
+    change adj.unit.app M ≫ R.map (P.map f) = adj.unit.app M ≫ R.map 0
+    change adj.unit.app M ≫ (P ⋙ R).map f = _
     rw [← adj.unit.naturality f]
     simpa using hf
   have hcol := Limits.isColimitOfHasCokernelOfPreservesColimit P f
@@ -216,7 +216,7 @@ theorem exists_cokernelIso_of_isIso_unit_app {A B : Type*} [Category A] [Categor
     Limits.CokernelCofork.IsColimit.isIso_π _ hcol hPf
   refine ⟨asIso (adj.unit.app (Limits.cokernel f)) ≪≫
     (R.mapIso (asIso (P.map (Limits.cokernel.π f)))).symm, ?_⟩
-  show Limits.cokernel.π f ≫ adj.unit.app (Limits.cokernel f) ≫ _ = _
+  change Limits.cokernel.π f ≫ adj.unit.app (Limits.cokernel f) ≫ _ = _
   have hn := adj.unit.naturality (Limits.cokernel.π f)
   simp only [Functor.id_map, Functor.comp_map] at hn
   rw [← Category.assoc, hn]

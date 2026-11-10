@@ -151,7 +151,7 @@ theorem preimage_sheafify_iSup_range_eq_range {C : Type*} [Category C]
       ha.trans ((f j).hom.naturality_apply g.op b).symm
   · rintro ⟨a, rfl⟩
     apply A.le_sheafify J
-    show ((r j ≫ f j).hom.app T) a ∈ A.obj T
+    change ((r j ≫ f j).hom.app T) a ∈ A.obj T
     exact (le_iSup (fun i ↦ Subfunctor.range (r i ≫ f i).hom) j) T ⟨a, rfl⟩
 
 /-- **A subfunctor whose preimage along a morphism is the range of a monomorphism is pulled back
@@ -170,7 +170,7 @@ theorem isPullback_of_preimage_eq_range {C : Type*} [Category C] {F U V : C ⥤ 
       obtain ⟨t, rfl⟩ := hx
       have h := ConcreteCategory.congr_hom (congr_app hab V') t
       change (a.app V' t).val = (f.app V') (b.app V' t) at h
-      show (f.app V') (b.app V' t) ∈ G.obj V'
+      change (f.app V') (b.app V' t) ∈ G.obj V'
       rw [← h]
       exact (a.app V' t).property
     let l := Subfunctor.lift b hb ≫ inv (Subfunctor.toRange r)
@@ -228,7 +228,7 @@ theorem exists_lift_siteReductionMap_of_relative_etale
   refine ⟨((uliftYoneda.{u + 1}).map l).app U z, ?_⟩
   have hmap : (uliftYoneda.{u + 1}).map l ≫ (uliftYoneda.{u + 1}).map r = hp.rep.fst kk := by
     rw [← Functor.map_comp, hl, hb]
-  show (((uliftYoneda.{u + 1}).map l ≫ (uliftYoneda.{u + 1}).map r).app U) z = x
+  change (((uliftYoneda.{u + 1}).map l ≫ (uliftYoneda.{u + 1}).map r).app U) z = x
   rw [hmap]
   exact hz
 

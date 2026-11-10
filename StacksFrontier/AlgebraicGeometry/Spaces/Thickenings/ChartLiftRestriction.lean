@@ -376,7 +376,7 @@ theorem translateHom_restrictDeriv (δ : P.Deriv) :
   let := R.isAffineAmbient
   refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
   rw [CommRingCat.hom_comp, RingHom.comp_apply]
-  show (R.presentation.translateHom (R.restrictDeriv δ)).hom x
+  change (R.presentation.translateHom (R.restrictDeriv δ)).hom x
     = R.ambientMapScheme.appTop.hom ((P.translateHom δ).hom x)
   simp only [translateHom, Stacks.Smooth.addDerivationHom_apply]
   rw [map_add, R.coe_restrictDeriv_apply δ x, Stacks.Smooth.appLE_top_top,
@@ -414,7 +414,7 @@ theorem map_translateSection (δ : P.Deriv) :
     (liftsSubfunctor C S hS p q a).toFunctor.map R.chartMap.op (P.translateSection δ) =
       R.presentation.translateSection (R.restrictDeriv δ) := by
   refine Subtype.ext ?_
-  show Y.1.map R.ambientMap.op (P.translateValue δ) = R.presentation.translateValue _
+  change Y.1.map R.ambientMap.op (P.translateValue δ) = R.presentation.translateValue _
   simp only [translateValue]
   rw [yonedaEquiv_naturality, ← Category.assoc, ← Functor.map_comp,
     ← R.translate_restrictDeriv δ]

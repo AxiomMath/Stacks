@@ -16,8 +16,8 @@ of `Stacks.Duality.compareWithPullbackTensor`, which is the two-variable form of
 of [Stacks, Tag 0A9S], is an isomorphism when `K` is perfect; and so, in particular, is the
 displayed map `Lf^*K ⊗ᴸ_{𝒪_X} a(𝒪_Y) ⟶ a(K)` of that equation. This is [Stacks, Tag 0A9T]; this
 file proves the source's argument for it granted the duality data of `K`, and the tag itself is
-`Stacks.Duality.isIso_compareWithPullbackTensor_and_compareWithPullback_of_isPerfect` of
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/PullbackComparisonPerfectDual.lean`.
+`Stacks.Duality.isIso_compareWithPullbackTensor_and_compareWithPullback_of_isPerfect` of the module
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.PullbackComparisonPerfectDual`.
 
 ## The argument
 
@@ -106,7 +106,8 @@ comparison map occurs in them. [Stacks, Tag 0A9T] itself is proved in
 `PullbackComparisonPerfectDual.lean` through the left dual `Stacks.Duality.perfectDual` of a
 perfect complex in the monoidal category `D_QCoh(𝒪_Y)`.
 
-*Which `IsPerfect`.* As in `StacksFrontier/AlgebraicGeometry/Duality/IdentityFourierMukaiKernel.lean`
+*Which `IsPerfect`.* As in
+`StacksFrontier/AlgebraicGeometry/Duality/IdentityFourierMukaiKernel.lean`
 perfectness is `Stacks.Cohomology.PerfectComplexes.IsPerfect` of [Stacks, Tag 08CM], read on the
 ringed space `Y.toRingedSpace` underlying the scheme, and applied to the underlying object of the
 derived category of a complex with quasi-coherent cohomology.
@@ -175,7 +176,7 @@ def projectionFormulaTwoSquare (K : quasiCoherentDerivedCategory Y) :
 @[simp]
 theorem projectionFormulaTwoSquare_natTrans_app (K : quasiCoherentDerivedCategory Y)
     (E : quasiCoherentDerivedCategory X) :
-    (projectionFormulaTwoSquare f hpush α K).natTrans.app E =
+    (projectionFormulaTwoSquare f hpush α K).app E =
       projectionFormulaMap f hpush α E K :=
   rfl
 
@@ -187,8 +188,8 @@ variable [∀ (E : quasiCoherentDerivedCategory X) (K : quasiCoherentDerivedCate
 /-- Granted [Stacks, Tag 08EU], the 2-square of the projection formula is invertible, because its
 components are. -/
 instance isIso_projectionFormulaTwoSquare_natTrans (K : quasiCoherentDerivedCategory Y) :
-    IsIso (projectionFormulaTwoSquare f hpush α K).natTrans := by
-  have : ∀ E, IsIso ((projectionFormulaTwoSquare f hpush α K).natTrans.app E) := fun E =>
+    IsIso (projectionFormulaTwoSquare f hpush α K) := by
+  have : ∀ E, IsIso ((projectionFormulaTwoSquare f hpush α K).app E) := fun E =>
     inferInstanceAs (IsIso (projectionFormulaMap f hpush α E K))
   exact NatIso.isIso_of_isIso_app _
 
@@ -199,7 +200,7 @@ def projectionFormulaInvTwoSquare (K : quasiCoherentDerivedCategory Y) :
     TwoSquare (quasiCoherentDerivedPullbackTensor f K)
       (quasiCoherentDerivedPushforward f hpush) (quasiCoherentDerivedPushforward f hpush)
       ((quasiCoherentDerivedTensor Y).obj K) :=
-  TwoSquare.mk _ _ _ _ (inv (projectionFormulaTwoSquare f hpush α K).natTrans)
+  TwoSquare.mk _ _ _ _ (inv (projectionFormulaTwoSquare f hpush α K))
 
 variable {a : quasiCoherentDerivedCategory Y ⥤ quasiCoherentDerivedCategory X}
   (adj : quasiCoherentDerivedPushforward f hpush ⊣ a)
@@ -219,7 +220,7 @@ def compareWithPullbackTensorTwoSquare (K : quasiCoherentDerivedCategory Y) :
 /-- The 2-square of the comparison map has the comparison maps as its components. -/
 @[simp]
 theorem compareWithPullbackTensorTwoSquare_natTrans_app (K L : quasiCoherentDerivedCategory Y) :
-    (compareWithPullbackTensorTwoSquare f hpush α adj K).natTrans.app L =
+    (compareWithPullbackTensorTwoSquare f hpush α adj K).app L =
       compareWithPullbackTensor f hpush α adj K L :=
   rfl
 
@@ -254,12 +255,12 @@ theorem isIso_compareWithPullbackTensorTwoSquare_of_mateEquiv
     (adjY : (quasiCoherentDerivedTensor Y).obj Kd ⊣ (quasiCoherentDerivedTensor Y).obj K)
     (hmate : mateEquiv adjX adjY (projectionFormulaTwoSquare f hpush α Kd) =
       projectionFormulaInvTwoSquare f hpush α K) :
-    IsIso (compareWithPullbackTensorTwoSquare f hpush α adj K).natTrans := by
+    IsIso (compareWithPullbackTensorTwoSquare f hpush α adj K) := by
   have key := iterated_mateEquiv_conjugateEquiv adjX adjY adj adj
     (projectionFormulaTwoSquare f hpush α Kd)
   rw [hmate] at key
   have hconj : IsIso (conjugateEquiv (adjX.comp adj) (adj.comp adjY)
-      (projectionFormulaTwoSquare f hpush α Kd).natTrans) := inferInstance
+      (projectionFormulaTwoSquare f hpush α Kd)) := inferInstance
   rw [compareWithPullbackTensorTwoSquare_eq_mateEquiv, key]
   exact hconj
 
@@ -276,7 +277,7 @@ theorem isIso_compareWithPullbackTensor_of_mateEquiv
     IsIso (compareWithPullbackTensor f hpush α adj K L) := by
   have := isIso_compareWithPullbackTensorTwoSquare_of_mateEquiv f hpush α adj adjX adjY hmate
   exact NatIso.isIso_app_of_isIso
-    (compareWithPullbackTensorTwoSquare f hpush α adj K).natTrans L
+    (compareWithPullbackTensorTwoSquare f hpush α adj K) L
 
 end Comparison
 

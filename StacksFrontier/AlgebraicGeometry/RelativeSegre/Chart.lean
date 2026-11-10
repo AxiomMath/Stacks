@@ -142,7 +142,7 @@ theorem chartι_toBase (a : (alg E).grading U 1) :
       Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U)
         (Away ((alg E).grading U) (a : (alg E).sectionRing U)))) ≫ hU.fromSpec := by
   rw [chartι, Category.assoc, ((bun E).chart_isPullback U hU).w]
-  show Proj.awayι _ _ _ _ ≫ (Proj.toSpecZero _ ≫
+  change Proj.awayι _ _ _ _ ≫ (Proj.toSpecZero _ ≫
     Spec.map (Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) U) ≫
       hU.isoSpec.inv) ≫ U.ι = _
   rw [Category.assoc, Category.assoc, IsAffineOpen.isoSpec_inv_ι, Proj.awayι_toSpecZero_assoc,
@@ -259,7 +259,7 @@ theorem ratioOf_add (a : (alg E).grading U 1) (h h' : Γ(E, U)) :
 /-- The value of the structure map `Γ(X, U) ⟶ Γ(U, Sym E)_{(a)}`, in the localization. -/
 theorem val_awayAlgHom (a : (alg E).grading U 1) (r : Γ(X, U)) :
     (awayAlgHom E a r).val = Localization.mk ((alg E).strHom U r) 1 := by
-  show (HomogeneousLocalization.mk _).val = _
+  change (HomogeneousLocalization.mk _).val = _
   rw [HomogeneousLocalization.val_mk]
   refine congrArg₂ Localization.mk ?_ (Subtype.ext rfl)
   exact Stacks.AlgebraicGeometry.ProjBundleSurjection.coe_strZeroSheaf_apply (alg E) U r

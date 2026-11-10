@@ -126,10 +126,10 @@ theorem uliftQuotientChart_isPullback
   have : F.Full := inferInstanceAs (Over.post (X := B.obj hS) B.inclusion).Full
   have : F.Faithful := inferInstanceAs (Over.post (X := B.obj hS) B.inclusion).Faithful
   have htarget : j.target = F.map t := by
-    show prod.lift (F.map t) (F.map s) ≫ prod.fst = F.map t
+    change prod.lift (F.map t) (F.map s) ≫ prod.fst = F.map t
     exact prod.lift_fst _ _
   have hsource : j.source = F.map s := by
-    show prod.lift (F.map t) (F.map s) ≫ prod.snd = F.map s
+    change prod.lift (F.map t) (F.map s) ≫ prod.snd = F.map s
     exact prod.lift_snd _ _
   have hp : IsPullback
       (Functor.whiskerRight (targetMap F j) uliftFunctor.{v})

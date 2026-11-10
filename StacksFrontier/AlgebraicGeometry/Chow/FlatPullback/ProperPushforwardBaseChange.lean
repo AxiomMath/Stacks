@@ -351,7 +351,7 @@ theorem flatPullback_properPushforward_of_finite_support
   let R : CycleGroup C sX k →+ CycleGroup C sY' (k + (r : ℤ)) :=
     (properPushforwardHom C sX' sY' f' hf' (k + (r : ℤ))).comp
       (flatPullback C sX' sX g' hg' r hgr' k)
-  show L α = R α
+  change L α = R α
   rw [eq_finsetSum_cycleAssociatedToIntegralComponentAt C sX k α hfin, map_sum, map_sum]
   refine Finset.sum_congr rfl fun x hx ↦ ?_
   rw [map_zsmul, map_zsmul]

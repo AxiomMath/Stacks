@@ -117,7 +117,7 @@ private theorem hullStalkEquiv_toDoubleDual {X : Scheme.{u}} (F : X.Modules)
     hullStalkEquiv F x (stalkMapOfHom (toDoubleDual F) x m) =
       Module.Dual.eval (X.presheaf.stalk x) (F.presheaf.stalk x) m := by
   ext l
-  show dualStalkEquiv (dualSheaf F) x (stalkMapOfHom (toDoubleDual F) x m)
+  change dualStalkEquiv (dualSheaf F) x (stalkMapOfHom (toDoubleDual F) x m)
     ((dualStalkEquiv F x).symm l) = l m
   rw [← dualStalkEquiv_eq_dualStalkEquiv_toDoubleDual]
   exact congrArg (fun f : Module.Dual (X.presheaf.stalk x) (F.presheaf.stalk x) => f m)
@@ -186,7 +186,7 @@ private theorem stalkSpecializes_sections_smul {X : Scheme.{u}} (F : X.Modules) 
     letI := affineStalkModule F U x x.2
     letI := affineStalkModule F U y y.2
     F.presheaf.stalkSpecializes h (r • m) = r • F.presheaf.stalkSpecializes h m := by
-  show F.presheaf.stalkSpecializes h (X.presheaf.germ U y y.2 r • m) =
+  change F.presheaf.stalkSpecializes h (X.presheaf.germ U y y.2 r • m) =
     X.presheaf.germ U x x.2 r • F.presheaf.stalkSpecializes h m
   rw [Stacks.ModuleStalkSpecialization.stalkSpecializes_smul F h,
     Stacks.ModuleStalkSpecialization.ringGerm_stalkSpecializes_apply y.2 h]
@@ -228,7 +228,7 @@ private theorem affine_generic_mem_range {X : Scheme.{u}} [IsIntegral X]
   have := affineGenericGerm_isLocalizedModule F hU hη
   have : IsNoetherianRing Γ(X, U) := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
   have := (isNormal_iff_forall_affineOpen_normal X).mp inferInstance ⟨U, hU⟩ inferInstance
-  show z ∈ LinearMap.range (affineGerm F U (genericPoint X) hη)
+  change z ∈ LinearMap.range (affineGerm F U (genericPoint X) hη)
   apply (mem_range_iff_height_one_of_isReflexive _ z).mpr
   intro p hp hheight
   let q : PrimeSpectrum Γ(X, U) := ⟨p, hp⟩
@@ -340,7 +340,7 @@ private theorem exists_hom_of_codimension_one {X : Scheme.{u}} [IsIntegral X]
         change Γ(X, U.unop) at r
         change Γ(G, U.unop) at m
         refine (hu _ _ _ fun hη => ?_).symm
-        show F.presheaf.germ U.unop η hη (r • f U.unop m) =
+        change F.presheaf.germ U.unop η hη (r • f U.unop m) =
           T (G.presheaf.germ U.unop η hη (r • m))
         refine Eq.trans (F.val.germ_smul (R := X.presheaf) η U.unop hη r _) ?_
         refine Eq.trans (congrArg (fun z : ↑(F.presheaf.stalk η) =>
@@ -351,7 +351,7 @@ private theorem exists_hom_of_codimension_one {X : Scheme.{u}} [IsIntegral X]
       ext m
       change Γ(G, U.unop) at m
       refine (hu _ _ _ fun hη => ?_).symm
-      show F.presheaf.germ V.unop η hη (F.presheaf.map i (f U.unop m)) =
+      change F.presheaf.germ V.unop η hη (F.presheaf.map i (f U.unop m)) =
           T (G.presheaf.germ V.unop η hη (G.presheaf.map i m))
       exact (F.presheaf.germ_res_apply i.unop η hη (f U.unop m)).trans
         ((hf U.unop m (i.unop.le hη)).trans

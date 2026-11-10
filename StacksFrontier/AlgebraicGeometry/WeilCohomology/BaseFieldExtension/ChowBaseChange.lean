@@ -164,7 +164,7 @@ theorem codimensionChowBaseChange_diagonalClass (X : (SmoothProjectiveScheme k).
     codimensionGysin_closedSubschemeClass_of_flat Y'.obj.hom P.obj.hom (w e.hom) hY'd hPd he0
       (by simp) (diag X').hom.left d hZ]
   funext m
-  show Stacks.Chow.codimensionChowBaseChange k k' Y.obj.hom d _ m = _
+  change Stacks.Chow.codimensionChowBaseChange k k' Y.obj.hom d _ m = _
   rw [Stacks.Chow.codimensionChowBaseChange_apply, closedSubschemeClass_apply,
     closedSubschemeClass_apply]
   by_cases hm : m = d + d
@@ -223,7 +223,7 @@ theorem codimensionChowBaseChange_diagonalClass (X : (SmoothProjectiveScheme k).
   have hcyc := @cycleAssociatedToClosedSubscheme_eq_of_iso B.baseChange _ _ _
     (pullback.snd Y.obj.hom B.g) _ jA hjAc jB hjBc _ hcomp (((d + d : ℕ) : ℤ) - (d : ℕ) + B.c)
   refine (fieldBaseChangeChow_heq k k' Y.obj.hom _ _).trans ?_
-  show baseChangeChowPullback B Y.obj.hom _ (QuotientAddGroup.mk' _ _) ≍ _
+  change baseChangeChowPullback B Y.obj.hom _ (QuotientAddGroup.mk' _ _) ≍ _
   rw [baseChangeChowPullback_mk, h0, hcyc]
   have hdeg' : ((d + d : ℕ) : ℤ) - (d : ℕ) + B.c = ((d + d : ℕ) : ℤ) - (d : ℕ) := by
     rw [hB, fieldExtensionBaseChangeSituation_c, add_zero]

@@ -103,7 +103,7 @@ theorem RingHom.IsEssentiallySmooth.comp_ringEquiv {R S S' : Type u} [CommRing R
   obtain ⟨⟨T, _, _, _, M, _, htow, hloc⟩, hsm⟩ := hf
   let : Algebra T S' := ((e : S →+* S').comp (algebraMap T S)).toAlgebra
   have htow' : IsScalarTower R T S' := IsScalarTower.of_algebraMap_eq' <| by
-    show (e : S →+* S').comp f = ((e : S →+* S').comp (algebraMap T S)).comp (algebraMap R T)
+    change (e : S →+* S').comp f = ((e : S →+* S').comp (algebraMap T S)).comp (algebraMap R T)
     rw [RingHom.comp_assoc, ← IsScalarTower.algebraMap_eq R T S]
     rfl
   have hloc' : IsLocalization M S' := (IsLocalization.isLocalization_iff_of_ringEquiv M e).mp hloc

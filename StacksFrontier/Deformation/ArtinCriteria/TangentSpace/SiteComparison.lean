@@ -317,7 +317,7 @@ public theorem isHomLift_psiIso_post (w : TwoFibreProductOver p𝒳 p𝒵 p𝒴 
       (@IsHomLift.domain_eq _ _ _ _ p𝒴 _ _ _ _ (𝟙 w.base) w.iso.hom hv))
     (congrArg (Over.post B.inclusion).obj
       (@IsHomLift.codomain_eq _ _ _ _ p𝒴 _ _ _ _ (𝟙 w.base) w.iso.hom hv)) ?_
-  show (Over.post B.inclusion).map (p𝒴.map w.iso.hom) = _
+  change (Over.post B.inclusion).map (p𝒴.map w.iso.hom) = _
   rw [IsHomLift.fac' p𝒴 (𝟙 w.base) w.iso.hom]
   apply Over.OverMorphism.ext
   simp only [Over.post_map, Over.homMk_left, CategoryTheory.Functor.map_comp, Over.comp_left,
@@ -390,7 +390,7 @@ public theorem exists_liftPost_iso_over_base
     TwoFibreProductOver.isIso_of_isIso_components _ _ _ _ _ e₀ ha₀ hb₀
   refine ⟨w, t.hx, asIso e₀, ?_⟩
   refine IsHomLift.of_fac' _ _ _ hbase rfl ?_
-  show e₀.hbase = _
+  change e₀.hbase = _
   rw [show e₀.hbase = TwoFibreProductOver.Hom.hbase
     (TwoFibreProductOver.Hom.mk' (eqToHom hxw) (eqToHom hyw) _ _) from rfl,
     TwoFibreProductOver.Hom.mk'_hbase]

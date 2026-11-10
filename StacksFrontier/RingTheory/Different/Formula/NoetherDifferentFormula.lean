@@ -164,11 +164,11 @@ theorem exists_coefficientMatrix :
   have hFG : d.comp F = d.comp G := AlgHom.ext fun p =>
     (AlgHom.congr_fun hleft (eP p)).trans ((hqeP p).trans (AlgHom.congr_fun hright (eB p)).symm)
   have hqrel (i : Fin n) : q (rel i) = 0 := by
-    show Ideal.Quotient.mk (Ideal.span (Set.range rel)) (rel i) = 0
+    change Ideal.Quotient.mk (Ideal.span (Set.range rel)) (rel i) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_range_self i))
   have hFf (i : Fin n) : F (f i) = rel i ⊗ₜ[A] (1 : B) := rfl
   have hGf (i : Fin n) : G (f i) = 0 := by
-    show (1 : P) ⊗ₜ[A] eB (f i) = 0
+    change (1 : P) ⊗ₜ[A] eB (f i) = 0
     rw [show eB (f i) = q (eP (f i)) from (hqeP (f i)).symm,
       show eP (f i) = rel i from rfl, hqrel i]
     exact TensorProduct.tmul_zero (R := A) (M := P) (N := B) (1 : P)
@@ -285,9 +285,9 @@ theorem noetherDifferent_localizedCompleteIntersection :
     (localizedRelations_isKoszulRegular A n h f)
     Ideal.Quotient.mk_surjective Ideal.mk_ker (diagonalSequence_isKoszulRegular A n h f)
     (span_range_diagonalSequence_eq_ker_multiplicationMap A n h f).symm hcoeff
-  show Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (diagonalAnnihilator A (localizedCompleteIntersection A n h f)) = _
-  show Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (RingHom.ker (Algebra.TensorProduct.lmul' A :
         localizedCompleteIntersection A n h f ⊗[A] localizedCompleteIntersection A n h f →ₐ[A]
           localizedCompleteIntersection A n h f).toRingHom).annihilator = _

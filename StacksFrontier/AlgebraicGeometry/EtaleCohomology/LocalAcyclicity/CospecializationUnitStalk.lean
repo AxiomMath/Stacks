@@ -82,10 +82,10 @@ theorem liesOver_closedPoint_map (x : GeometricPoint (geometricFibre f s)) :
     ((x.map (geometricFibreToStrictHenselizationBaseChange B hS f s)).map
         (strictHenselizationBaseChangeToStrictHenselization B hS f s)).LiesOver
       (closedPoint ↥(etaleLocalRing B S hS s)) := by
-  show (x.hom ≫ geometricFibreToStrictHenselizationBaseChange B hS f s ≫
+  change (x.hom ≫ geometricFibreToStrictHenselizationBaseChange B hS f s ≫
     strictHenselizationBaseChangeToStrictHenselization B hS f s) default = _
   rw [geometricFibreToStrictHenselizationBaseChange, pullback.lift_snd]
-  show geometricPointToStrictHenselization B S hS s
+  change geometricPointToStrictHenselization B S hS s
     ((geometricFibreToPoint f s) (x.hom default)) = _
   rw [Subsingleton.elim ((geometricFibreToPoint f s) (x.hom default))
     (closedPoint s.residueField)]

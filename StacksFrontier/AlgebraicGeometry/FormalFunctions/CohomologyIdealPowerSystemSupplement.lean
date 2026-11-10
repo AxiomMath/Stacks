@@ -14,8 +14,8 @@ public import StacksCore.Tactic.StacksAttribute
 # Further results on `CohomologyIdealPowerSystem`
 
 Results about the objects of
-`StacksFrontier.AlgebraicGeometry.FormalFunctions.CohomologyIdealPowerSystem` that need imports beyond
-those of that module.
+`StacksFrontier.AlgebraicGeometry.FormalFunctions.CohomologyIdealPowerSystem` that need imports
+beyond those of that module.
 -/
 
 @[expose] public noncomputable section

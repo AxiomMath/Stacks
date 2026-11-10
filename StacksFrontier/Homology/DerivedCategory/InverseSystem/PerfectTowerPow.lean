@@ -49,7 +49,7 @@ theorem PerfectTower.endo_pow_compatible (T : PerfectTower.{v} ℓ) (n m : ℕ) 
       T.transition n ≫ (levelRestrict.{v} ℓ n).map (End.asHom (End.of (T.endo n) ^ m)) := by
   induction m with
   | zero =>
-    show 𝟙 _ ≫ T.transition n = T.transition n ≫ (levelRestrict.{v} ℓ n).map (𝟙 _)
+    change 𝟙 _ ≫ T.transition n = T.transition n ≫ (levelRestrict.{v} ℓ n).map (𝟙 _)
     simp
   | succ m ih =>
     rw [End.asHom_of_pow_succ, End.asHom_of_pow_succ, Category.assoc, ih, ← Category.assoc,

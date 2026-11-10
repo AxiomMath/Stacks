@@ -118,7 +118,7 @@ theorem chartBaseLift_comp (e : Module.Basis (Fin d) A B) (he : e 0 = 1) {g : un
     (chartBaseLift A' e he hu).comp (universalChartBaseClassify.{u} g) =
       (algebraMap A A').comp (ofBasis e he).classify := by
   refine RingHom.ext fun a => ?_
-  show chartBaseLift A' e he hu (algebraMap _ _ (ULift.up a)) = _
+  change chartBaseLift A' e he hu (algebraMap _ _ (ULift.up a)) = _
   exact IsLocalization.Away.lift_eq (ULift.up g) hu (ULift.up a)
 
 /-- The table of the base change to `A'` of the universal family over `N_g` is the base change
@@ -143,7 +143,7 @@ theorem ofBasis_baseChange_eq_map (e : Module.Basis (Fin d) A B) (he : e 0 = 1) 
   refine (ofBasis_map (algebraMap A A')
     (Algebra.TensorProduct.includeRight : B →ₐ[A] A' ⊗[A] B).toRingHom (fun r => ?_)
     e he (e.baseChange A') (baseChange_basis_zero_eq_one e he) (fun i => ?_)).symm
-  · show Algebra.TensorProduct.includeRight (algebraMap A B r) = _
+  · change Algebra.TensorProduct.includeRight (algebraMap A B r) = _
     rw [AlgHom.commutes, IsScalarTower.algebraMap_apply A A' (A' ⊗[A] B)]
   · simp [Module.Basis.baseChange_apply]
 
@@ -166,7 +166,7 @@ theorem chartBaseChangeAlgEquiv_tmul_basis (e : Module.Basis (Fin d) A B) (he : 
   refine Carrier.ext fun k => ?_
   simp only [chartBaseChangeAlgEquiv, AlgEquiv.trans_apply, carrierCongr_apply,
     Carrier.basisVector_apply]
-  show (e.baseChange A').repr (1 ⊗ₜ[A] e i) k = _
+  change (e.baseChange A').repr (1 ⊗ₜ[A] e i) k = _
   rw [← Module.Basis.baseChange_apply, Module.Basis.repr_self, Finsupp.single_apply]
   exact if_congr eq_comm rfl rfl
 

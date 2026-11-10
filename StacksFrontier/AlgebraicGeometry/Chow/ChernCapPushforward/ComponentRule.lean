@@ -68,7 +68,7 @@ theorem map_extendCycle_apply {X W Z : Type*} [TopologicalSpace X] [TopologicalS
   have hL : ∀ x' : W, G.extendCycle hi α x' * w x' =
       ∑ᶠ x : X, α x * (G.cycle x x' * w x') := by
     intro x'
-    show (∑ᶠ x : X, α x * G.cycle x x') * w x' = _
+    change (∑ᶠ x : X, α x * G.cycle x x') * w x' = _
     rw [finsum_mul]
     exact finsum_congr fun x ↦ mul_assoc _ _ _
   rw [Function.locallyFinsupp.map_apply, finsum_mem_congr rfl fun x' _ ↦ hL x', key]
@@ -105,7 +105,7 @@ theorem extendCoeff_map_apply {X Y V : Type*} [TopologicalSpace X] [TopologicalS
     intro y
     rw [Function.locallyFinsupp.map_apply, finsum_mem_mul]
     exact finsum_mem_congr rfl fun x (hx : f x = y) ↦ by rw [hx]
-  show (∑ᶠ y : Y, Function.locallyFinsupp.map f w hf α y * G.cycle y v) = _
+  change (∑ᶠ y : Y, Function.locallyFinsupp.map f w hf α y * G.cycle y v) = _
   rw [finsum_congr hstep]
   exact finsum_finsum_mem_fiber f _ hfin
 

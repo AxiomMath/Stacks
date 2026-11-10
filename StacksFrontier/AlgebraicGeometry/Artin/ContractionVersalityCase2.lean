@@ -63,10 +63,10 @@ theorem isClosedMap_pointsMap_of_universallyClosed {F G : (BigFppfOver B S hS)�
     constructor
     · rintro ⟨a, ha, rfl⟩
       refine ⟨pointsMap B S hS _ e.inv a, ?_, ?_⟩
-      · show pointsMap B S hS _ e.hom (pointsMap B S hS _ e.inv a) ∈ C
+      · change pointsMap B S hS _ e.hom (pointsMap B S hS _ e.inv a) ∈ C
         rwa [← pointsMap_comp_apply, e.inv_hom_id, pointsMap_id]
       · rw [hfst, ← pointsMap_comp_apply]
-        show pointsMap B S hS _ (e.inv ≫ e.hom ≫ f) a = _
+        change pointsMap B S hS _ (e.inv ≫ e.hom ≫ f) a = _
         rw [e.inv_hom_id_assoc]
     · rintro ⟨b, hb, rfl⟩
       refine ⟨pointsMap B S hS _ e.hom b, hb, ?_⟩
@@ -122,7 +122,7 @@ theorem CompatibilityWitness.lift_openPart_of_isSmoothAt {V : BigFppfOver B S hS
     have h1 : yonedaEquiv.symm α₀ ≫ w.p = yoneda.map φ := by
       rw [yonedaEquiv_symm_naturality_right, hpα]
       ext; rfl
-    show Space.pointsToScheme B S hS V (Space.pointsMap B S hS w.V' w.p
+    change Space.pointsToScheme B S hS V (Space.pointsMap B S hS w.V' w.p
       (Space.pointsMap B S hS _ (yonedaEquiv.symm α₀) pt₀)) = v
     rw [← Space.pointsMap_comp_apply, h1, Space.pointsToScheme_pointsMap_yoneda]
     rw [show Space.pointsToScheme B S hS T₀ pt₀ = t₀ from
@@ -141,7 +141,7 @@ theorem CompatibilityWitness.lift_openPart_of_isSmoothAt {V : BigFppfOver B S hS
     obtain rfl : q = pt₀ := (Space.pointsEquivScheme B S hS T₀).injective (Subsingleton.elim _ _)
     exact hyU
   have hxy : (U.ι ≫ w.x').app (op T₀) ⟨α₀, hmem⟩ = c.X'.map i.op s.1 := by
-    show w.x'.app (op T₀) α₀ = (c.U'.toFunctor.map i.op s).1
+    change w.x'.app (op T₀) α₀ = (c.U'.toFunctor.map i.op s).1
     rw [hs]
     exact hux T₀ _
   obtain ⟨z, hz₁, hz₂⟩ := Space.FormallySmooth.exists_isLift_of_isNilpotent hFS i hci hnil

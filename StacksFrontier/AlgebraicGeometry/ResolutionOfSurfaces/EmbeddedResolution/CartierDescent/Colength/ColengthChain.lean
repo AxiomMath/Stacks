@@ -165,10 +165,10 @@ private theorem length_prod_lt_of_surjective {L W : Ideal R} (hLW : L ≤ W) (hW
   have hfL : ∀ a : ↥W, (a : R) ∈ L → f a = 0 := by
     intro a haL
     refine Prod.ext (funext fun w => ?_) (funext fun v => ?_)
-    · show (LocalizedModule.mkLinearMap (w : PrimeSpectrum Bt).asIdeal.primeCompl (Bt ⧸ Rx))
+    · change (LocalizedModule.mkLinearMap (w : PrimeSpectrum Bt).asIdeal.primeCompl (Bt ⧸ Rx))
         (Submodule.mkQ (Rx : Submodule Bt Bt) (δB a)) = 0
       rw [Submodule.mkQ_apply, (Submodule.Quotient.mk_eq_zero _).2 (hkerB a haL), map_zero]
-    · show (LocalizedModule.mkLinearMap (v : PrimeSpectrum Ct).asIdeal.primeCompl (Ct ⧸ Ry))
+    · change (LocalizedModule.mkLinearMap (v : PrimeSpectrum Ct).asIdeal.primeCompl (Ct ⧸ Ry))
         (Submodule.mkQ (Ry : Submodule Ct Ct) (δC a)) = 0
       rw [Submodule.mkQ_apply, (Submodule.Quotient.mk_eq_zero _).2 (hkerC a haL), map_zero]
   exact length_lt_of_surjective_of_le hLW hW f hfs hfL
@@ -343,7 +343,7 @@ private theorem gluedIdeal_ne_top_of_not_isUnit {x : R} (y : R) {B : Subalgebra 
   rintro ⟨v, hv, hveq⟩
   refine hxnu (IsUnit.of_mul_eq_one (algebraMap R ↥B x ^ (d - 1) * ⟨v, hv⟩) (Subtype.ext ?_))
   have hdd : d - 1 + 1 = d := Nat.succ_pred_eq_of_pos hd
-  show algebraMap R K x * (algebraMap R K x ^ (d - 1) * v) = 1
+  change algebraMap R K x * (algebraMap R K x ^ (d - 1) * v) = 1
   rw [← mul_assoc, ← pow_succ', hdd]
   exact hveq.symm
 

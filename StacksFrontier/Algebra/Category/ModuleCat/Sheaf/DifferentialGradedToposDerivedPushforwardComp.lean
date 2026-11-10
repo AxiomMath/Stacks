@@ -222,8 +222,8 @@ theorem homotopyHomEquiv_baseChangeHom_comp {P P' : DifferentialGradedModule.{u,
 
 /-- **The base change of a quasi-isomorphism of good modules is a quasi-isomorphism of good
 modules**: its cone corepresents the base change of the cone, which is good and acyclic. -/
-theorem quasiIso_baseChangeHom (hgood : BaseChangeIsGood f φ hφ)
-    (hacyc : BaseChangeIsAcyclic f φ hφ) {P P' : DifferentialGradedModule.{u, u, u} B}
+theorem quasiIso_baseChangeHom (hacyc : BaseChangeIsAcyclic f φ hφ)
+    {P P' : DifferentialGradedModule.{u, u, u} B}
     {T T' : DifferentialGradedModule.{u, u, u} A}
     (e : (toposPushforward (toposDirectImageModules f) φ hφ ⋙
       coyoneda.obj (Opposite.op P)).CorepresentableBy T)
@@ -250,7 +250,7 @@ theorem isGoodLocal_homotopyToposPushforward (hgood : BaseChangeIsGood f φ hφ)
   have hs₀ : QuasiIso s₀.toHomologicalComplex := (quasiIsomorphisms_quotient_map_iff s₀).1 hs
   obtain ⟨T, ⟨e⟩⟩ := (hK.baseChange f A φ hφ).1
   obtain ⟨T', ⟨e'⟩⟩ := (hL.baseChange f A φ hφ).1
-  have ht := quasiIso_baseChangeHom hgood hacyc e e' s₀ hs₀ hK hL
+  have ht := quasiIso_baseChangeHom hacyc e e' s₀ hs₀ hK hL
   have hb := hM (Y := (HomotopyCategory.quotient A).obj T)
     (X := (HomotopyCategory.quotient A).obj T')
     ((HomotopyCategory.quotient A).map (baseChangeHom (toposDirectImageModules f) φ hφ e e' s₀))

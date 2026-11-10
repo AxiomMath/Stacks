@@ -143,7 +143,7 @@ theorem trace_comp_pull_blowup_of_cycleClass [CharZero F] (hA1 : 𝔇.CoproductA
             Set.range ((blowupObj i).obj.left.fromSpecResidueField (x j)) := ⟨pt, rfl⟩
         rw [this] at hmem
         exact hmem
-      show (blowupHom i).hom.left ((pointHom (x j)).hom.left pt) ∉
+      change (blowupHom i).hom.left ((pointHom (x j)).hom.left pt) ∉
         (i.hom.left.ker.support : Set X.obj.left)
       rw [hpt, mem_support_ker_iff]
       exact (hx j).1

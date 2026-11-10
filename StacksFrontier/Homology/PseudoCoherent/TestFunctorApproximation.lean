@@ -131,7 +131,7 @@ theorem exists_distTriang_isZero_homology_step
     refine ⟨((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map
       ((F i).map (biproduct.ι X ⟨i, t⟩))).hom (z ⟨i, t⟩), ?_⟩
     rw [← hxz ⟨i, t⟩]
-    show ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map
+    change ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map
       ((F i).map (biproduct.ι X ⟨i, t⟩)) ≫
       (DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map ((F i).map φ)).hom (z ⟨i, t⟩) = _
     rw [← Functor.map_comp, ← Functor.map_comp, biproduct.ι_desc]
@@ -187,13 +187,13 @@ theorem exists_hom_shift_of_exists_hom
   have hnat := ConcreteCategory.congr_hom (θ.hom.naturality x) w
   have hw : (θ.hom.app ((G k)⟦-j⟧)).hom w = (H₀.map ((F i).map η)).hom z' :=
     ConcreteCategory.congr_hom (θ.inv_hom_id_app ((G k)⟦-j⟧)) _
-  show (θ.hom.app X).hom (((DerivedCategory.homologyFunctor (ModuleCat.{v} R) j).map
+  change (θ.hom.app X).hom (((DerivedCategory.homologyFunctor (ModuleCat.{v} R) j).map
     ((F i).map x)).hom w) = _
   refine ((ConcreteCategory.comp_apply ((F i ⋙ DerivedCategory.homologyFunctor
     (ModuleCat.{v} R) j).map x) (θ.hom.app X) w).symm.trans hnat).trans ?_
   refine (ConcreteCategory.comp_apply _ _ w).trans ?_
   rw [hw, ← hx']
-  show (H₀.map ((F i).map ((shiftEquiv D j).symm.inverse.map x))).hom
+  change (H₀.map ((F i).map ((shiftEquiv D j).symm.inverse.map x))).hom
     ((H₀.map ((F i).map η)).hom z') = _
   rw [hx]
   exact ((ConcreteCategory.congr_hom (congrArg H₀.map ((F i).map_comp η

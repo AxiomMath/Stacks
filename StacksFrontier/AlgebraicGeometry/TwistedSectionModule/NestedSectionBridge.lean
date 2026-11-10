@@ -59,7 +59,8 @@ analogue of `Stacks.SectionRingChartOpen.chartRingMap_comp_awayMap` — is now
 The shrink proved here lands on the **iterated** slice site over `(V, V')`, while the local map
 at a second generator lives on the slice site over `V'`, and nothing identifies the two monoidal
 restrictions. That is why `Stacks.TwistedSections.openDivision_restrict`
-(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/OpenRestrictionShrink.lean`) proves the shrink again, in the
+(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/OpenRestrictionShrink.lean`) proves the
+shrink again, in the
 single-slice spelling the local datum consumes, by taking the multiplication out of the slice
 site altogether: it is the morphism `Stacks.TwistedSections.twistMul` of `𝒪_X`-modules, and a
 morphism commutes with every restriction by naturality. The statement here is kept because it is

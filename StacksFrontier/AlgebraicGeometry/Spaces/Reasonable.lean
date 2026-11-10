@@ -54,7 +54,8 @@ has universally bounded fibres in the sense of Stacks 03JL
 (`AlgebraicGeometry.Space.HasUniversallyBoundedFibers`), and `IsVeryReasonableSpace` uses
 condition (2) of 03IH, the property-`(ε)` form: a jointly surjective family of étale charts
 by schemes whose two self-intersection projections are quasi-compact. Those are the choices
-made in the library's statements of 03JT and 03IH. Each definition therefore agrees with the other formulation of its
+made in the library's statements of 03JT and 03IH. Each definition therefore agrees with the
+other formulation of its
 source definition by an equivalence, and both equivalences are available:
 `AlgebraicGeometry.Space.isReasonableSpace_iff_exists_boundedEtaleCover` is 03JT and
 `AlgebraicGeometry.Space.isVeryReasonableSpace_iff_exists_isZariskiCover_quasiCompact_chart`
@@ -77,7 +78,8 @@ conditions equivalent to the other formulations.
 
 The relative conditions quantify over *all* morphisms from a representable presheaf into
 the target, as the source does — not over a chosen cover of it. All four predicates are kept
-as `abbrev`s, as in the statements of the source definitions, so their quantifiers and the absolute predicates
+as `abbrev`s, as in the statements of the source definitions, so their quantifiers and the
+absolute predicates
 underneath are directly available to base-change and composition statements.
 
 Inside the namespace `AlgebraicGeometry.Space` a bare `IsEtale`, `IsQuasiCompact` or

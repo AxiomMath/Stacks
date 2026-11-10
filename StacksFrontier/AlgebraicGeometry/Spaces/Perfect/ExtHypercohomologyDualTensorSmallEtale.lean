@@ -159,7 +159,7 @@ theorem hasCountableCohomology_derivedGlobalSectionsAb_of_countable_sections
         (Modules.{u, u} B S hS X.1 X.2) q).obj L).val.obj (op v))) :
     HasCountableCohomology ((derivedGlobalSectionsAb B S hS X).obj L) := by
   have hid : IsEtale B S hS (𝟙 X : X ⟶ X).hom := fun _ _ hφ => by simpa using hφ
-  have h := hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X hXqc hXqs L hqc
+  have h := hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X L hqc
     hcount ⟨Over.mk (𝟙 X), hid⟩ hXqc hXqs
   exact h.of_iso ((derivedGlobalSectionsAb B S hS X).mapIso
     ((etaleRestrictIdIso B S hS X hid).app L))

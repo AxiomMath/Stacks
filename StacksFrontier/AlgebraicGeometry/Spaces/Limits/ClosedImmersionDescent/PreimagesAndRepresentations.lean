@@ -340,7 +340,7 @@ lemma restrictedPointsIso_naturality
     (restrictedPoints F).map (F.map f) ≫ (restrictedPointsIso F Y).hom =
       (restrictedPointsIso F X).hom ≫ yoneda.map f := by
   ext Z x
-  show F.preimage (x ≫ F.map f) = F.preimage x ≫ f
+  change F.preimage (x ≫ F.map f) = F.preimage x ≫ f
   apply F.map_injective
   rw [F.map_preimage, F.map_comp, F.map_preimage]
 
@@ -423,11 +423,11 @@ private lemma factor_through_mono_of_atlas
     intro j
     cases j
     · apply Sheaf.hom_ext
-      show (yoneda.map s ≫ a) ≫ (b.hom ≫ m) = (yoneda.map s ≫ a) ≫ f
+      change (yoneda.map s ≫ a) ≫ (b.hom ≫ m) = (yoneda.map s ≫ a) ≫ f
       have hb' : a ≫ b.hom ≫ m = a ≫ f := by rw [← Category.assoc, hb, hk]
       simpa only [Category.assoc] using congrArg (yoneda.map s ≫ ·) hb'
     · apply Sheaf.hom_ext
-      show a ≫ (b.hom ≫ m) = a ≫ f
+      change a ≫ (b.hom ≫ m) = a ≫ f
       rw [← Category.assoc, hb, hk]
   exact congrArg (fun z => z.hom) heq
 
@@ -465,7 +465,7 @@ lemma exists_representation_of_presheaf
   let m' : F.obj W' ⟶ U := Over.homMk m
   let k' : T ⟶ W' := Over.homMk (ObjectProperty.homMk k) (by
     apply B.inclusion.map_injective
-    show k ≫ (m ≫ U.hom) = (F.obj T).hom
+    change k ≫ (m ≫ U.hom) = (F.obj T).hom
     rw [← Category.assoc, hkm]
     exact g.w)
   have hkm' : F.map k' ≫ m' = g := by
@@ -484,7 +484,7 @@ lemma exists_representation_of_presheaf
   have : Mono mR := @mono_comp _ _ _ _ _ _ hinv _ hRm
   have hk : yoneda.map k' ≫ mR = a ≫ f := by
     apply yonedaEquiv.injective
-    show F.map k' ≫ m' = yonedaEquiv (a ≫ f)
+    change F.map k' ≫ m' = yonedaEquiv (a ≫ f)
     exact hkm'
   obtain ⟨b, hb⟩ := factor_through_mono_of_atlas B S hS hG hU
     (isAlgebraicSpace_yoneda B S hS W').isSheaf a haS haE f mR
@@ -502,7 +502,7 @@ lemma exists_representation_of_presheaf
   let v : F.obj V ⟶ U := F.map q ≫ m'
   have hv : P v.left := hP _ m hq hm
   refine ⟨V, e, v, hv, ?_⟩
-  show e.hom ≫ f = (restrictedPointsIso F V).inv ≫ R.map v
+  change e.hom ≫ f = (restrictedPointsIso F V).inv ≫ R.map v
   rw [he, hpq.w]
   dsimp only [mR, v]
   rw [R.map_comp, ← Category.assoc, ← Category.assoc]

@@ -54,14 +54,14 @@ theorem productSpaceMap_hom {V V' : BigFppfOver B S hS} (k : V ⟶ V') :
 theorem productSpaceMap_id (V : BigFppfOver B S hS) :
     productSpaceMap X₀ (𝟙 V) = 𝟙 _ := by
   apply ObjectProperty.hom_ext
-  show prod.map (yoneda.map (𝟙 V)) (𝟙 X₀.1) = 𝟙 _
+  change prod.map (yoneda.map (𝟙 V)) (𝟙 X₀.1) = 𝟙 _
   rw [yoneda.map_id, prod.map_id_id]
 
 /-- The base change of a composite is the composite of the base changes. -/
 theorem productSpaceMap_comp {V V' V'' : BigFppfOver B S hS} (k : V ⟶ V') (k' : V' ⟶ V'') :
     productSpaceMap X₀ (k ≫ k') = productSpaceMap X₀ k ≫ productSpaceMap X₀ k' := by
   apply ObjectProperty.hom_ext
-  show prod.map (yoneda.map (k ≫ k')) (𝟙 X₀.1) =
+  change prod.map (yoneda.map (k ≫ k')) (𝟙 X₀.1) =
     prod.map (yoneda.map k) (𝟙 X₀.1) ≫ prod.map (yoneda.map k') (𝟙 X₀.1)
   rw [prod.map_map, yoneda.map_comp, Category.comp_id]
 

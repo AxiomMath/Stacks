@@ -8,7 +8,7 @@ public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.RingTheory.PicardGroup
 
 /-!
@@ -328,7 +328,7 @@ theorem exists_contracting_homotopy_step (E : CochainComplex (ModuleCat.{v} R) �
       (i+1+1)) - E.d (i+1+1) (i+1+1+1) ≫ s (i+1+1) :=
     eq_sub_iff_add_eq.2 (hInv (i+1) (by omega))
   have hwker : w ≫ E.d (i+1) (i+1+1) = 0 := by
-    show (𝟙 (E.X (i+1)) - E.d (i+1) (i+1+1) ≫ s (i+1)) ≫ E.d (i+1) (i+1+1) = 0
+    change (𝟙 (E.X (i+1)) - E.d (i+1) (i+1+1) ≫ s (i+1)) ≫ E.d (i+1) (i+1+1) = 0
     rw [Preadditive.sub_comp, Category.id_comp, Category.assoc, hkey,
       Preadditive.comp_sub, Category.comp_id, ← Category.assoc, E.d_comp_d, Limits.zero_comp,
       sub_zero, sub_self]
@@ -352,7 +352,7 @@ theorem exists_contracting_homotopy_step (E : CochainComplex (ModuleCat.{v} R) �
   rcases eq_or_lt_of_le hj with hji | hji
   · subst hji
     rw [hs'i, hs'ne (i+1) (by omega), htw]
-    show (𝟙 (E.X (i+1)) - E.d (i+1) (i+1+1) ≫ s (i+1)) + E.d (i+1) (i+1+1) ≫ s (i+1) = 𝟙 (E.X
+    change (𝟙 (E.X (i+1)) - E.d (i+1) (i+1+1) ≫ s (i+1)) + E.d (i+1) (i+1+1) ≫ s (i+1) = 𝟙 (E.X
         (i+1))
     abel
   · rw [hs'ne j (by omega), hs'ne (j+1) (by omega)]
@@ -404,7 +404,7 @@ theorem exists_forall_of_descending_recursion {X : ℤ → Sort*} (Q : ∀ j, X 
       = (coreF (b + 1 - (j + 1)).toNat).1 (j + 1) :=
     stage_succ_eq_of_update_at b (fun n => (coreF n).1) hagree
   refine ⟨fun j => (coreF (b + 1 - j).toNat).1 j, fun j => ?_⟩
-  show Q j ((coreF (b + 1 - j).toNat).1 j) ((coreF (b + 1 - (j + 1)).toNat).1 (j + 1))
+  change Q j ((coreF (b + 1 - j).toNat).1 j) ((coreF (b + 1 - (j + 1)).toNat).1 (j + 1))
   rw [← hsucc j]
   exact (coreF (b + 1 - j).toNat).2 j (by omega)
 
@@ -576,7 +576,7 @@ theorem LiftInvariant.step {P : ModuleCat.{v} R → Prop} (hP : LiftingHypothese
         = 𝟙 _ - g (i + 1) ≫ h (i + 1) := by
       rw [Functor.map_sub, (redFunctor I).map_id, (redFunctor I).map_comp, hR (i + 1) (by omega),
         hRH (i + 1) (by omega)]
-    show (redFunctor I).map (δtil ≫ (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1))) = g i
+    change (redFunctor I).map (δtil ≫ (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1))) = g i
     rw [(redFunctor I).map_comp, hδtil, h1, Preadditive.comp_sub, Category.comp_id,
       ← Category.assoc, hgg i, Limits.zero_comp, sub_zero]
   have hsB : δ (i + 1) ≫ s (i + 1) ≫ δ (i + 1) = δ (i + 1) := by
@@ -585,7 +585,7 @@ theorem LiftInvariant.step {P : ModuleCat.{v} R → Prop} (hP : LiftingHypothese
     rw [hkey, Preadditive.comp_sub, Category.comp_id,
       ← Category.assoc, hD (i + 1) (by omega), Limits.zero_comp, sub_zero]
   have hDi : δi ≫ δ (i + 1) = 0 := by
-    show (δtil ≫ (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1))) ≫ δ (i + 1) = 0
+    change (δtil ≫ (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1))) ≫ δ (i + 1) = 0
     rw [Category.assoc, Preadditive.sub_comp, Category.id_comp, Category.assoc, hsB, sub_self,
       Limits.comp_zero]
   obtain ⟨σ, hσ⟩ := exists_redFunctor_map_eq I (X := M (i + 1)) (Y := M i) (h i)
@@ -603,7 +603,7 @@ theorem LiftInvariant.step {P : ModuleCat.{v} R → Prop} (hP : LiftingHypothese
   have hsurjcyc : ∀ z : M (i + 1), (δ (i + 1)).hom z = 0 → ∃ a : M i, δi.hom a = z :=
     exists_preimage_of_apply_eq_zero I hP (hM (i + 1)) δi (δ (i + 1)) (s (i + 1)) σ hDi hsB hΘ
   have hwker : w ≫ δ (i + 1) = 0 := by
-    show (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1)) ≫ δ (i + 1) = 0
+    change (𝟙 (M (i + 1)) - δ (i + 1) ≫ s (i + 1)) ≫ δ (i + 1) = 0
     rw [Preadditive.sub_comp, Category.id_comp, Category.assoc, hsB, sub_self]
   let K : ModuleCat.{v} R := Limits.kernel (δ (i + 1))
   let δK : M i ⟶ K := Limits.kernel.lift (δ (i + 1)) δi hDi
@@ -666,7 +666,7 @@ theorem exists_lift_families {P : ModuleCat.{v} R → Prop} (hP : LiftingHypothe
       exact ⟨fun j => (δ' j, s' j), fun j hj => ⟨hinv'.d_comp_d j hj, hinv'.red_d j hj,
         hinv'.homotopy_id j hj, hinv'.red_s j hj⟩,
         fun j hj => by
-          show (δ' j, s' j) = F j
+          change (δ' j, s' j) = F j
           rw [hδ' j hj, hs' j hj]⟩)
   exact ⟨fun j => (F j).1, fun j => (F j).2, fun j => (hF j).1, fun j => (hF j).2.2.1,
     fun j => (hF j).2.1, fun j => (hF j).2.2.2⟩
@@ -842,14 +842,7 @@ private noncomputable def redCompNatIso :
     change (TensorProduct.quotTensorEquivQuotSMul N I)
       (((ModuleCat.extendScalars.{u, u, max v u} (Ideal.Quotient.mk I)).map f).hom x) =
       ((redFunctor I).map f).hom ((TensorProduct.quotTensorEquivQuotSMul M I) x)
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      calc
-        (TensorProduct.quotTensorEquivQuotSMul N I)
-            (((ModuleCat.extendScalars.{u, u, max v u} (Ideal.Quotient.mk I)).map f).hom 0) =
-              0 := by
-          rw [map_zero, map_zero]
-        _ = _ := by rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective s
       let : Module R (R ⧸ I) := Module.compHom (R ⧸ I) (Ideal.Quotient.mk I)
@@ -883,7 +876,7 @@ private lemma extension_surjective_of_reduction_surjective
   have hcomp : Epi ((G ⋙ F).map f ≫ (α.app N).hom) := by
     rw [Iso.app_hom, α.hom.naturality f]
     infer_instance
-  show Function.Surjective (((G ⋙ F).map f).hom)
+  change Function.Surjective (((G ⋙ F).map f).hom)
   exact (ModuleCat.epi_iff_surjective _).mp
     ((epi_comp_iff_of_isIso ((G ⋙ F).map f) (α.app N).hom).mp hcomp)
 
@@ -923,7 +916,7 @@ theorem exists_lift_acyclic_complex
   have hacR : ∀ i, ER.ExactAt i := by
     intro i
     rw [HomologicalComplex.exactAt_iff]
-    show ((E.sc i).map F).Exact
+    change ((E.sc i).map F).Exact
     exact ModuleCat.restrictScalars_map_exact (Ideal.Quotient.mk I) (E.sc i)
       ((HomologicalComplex.exactAt_iff E i).mp (hac i))
   have htermsR : HasTermsForm I P ER := by

@@ -101,7 +101,7 @@ theorem appLE_top_eq_crysSheafRingMap
       Γ(A'.thickening.target.scheme, ⊤) ⟶ Γ(A'.thickening.target.scheme, ⊤)) =
       𝟙 Γ(A'.thickening.target.scheme, ⊤) :=
     A'.thickening.target.scheme.presheaf.map_id _
-  show (A'.thickening.target.scheme.presheaf.map (homOfLE hVU).op).hom
+  change (A'.thickening.target.scheme.presheaf.map (homOfLE hVU).op).hom
       ((g.targetHom.hom.app ⊤).hom b) = _
   exact congrArg (fun k ↦ CommRingCat.Hom.hom k ((g.targetHom.hom.app ⊤).hom b)) hid
 
@@ -145,7 +145,7 @@ theorem ambientPullbackAdjunctionAlong_unit_app_val_app
     (W : (A.thickening.target.scheme.Opens)ᵒᵖ) (a : N.val.obj W) :
     ((ambientPullbackAdjunctionAlong g).unit.app N).val.app W a =
       ((Scheme.Modules.pullbackPushforwardAdjunction g.targetHom.hom).unit.app N).val.app W a := by
-  show ((Scheme.Modules.pullback g.targetHom.hom).obj N).val.map
+  change ((Scheme.Modules.pullback g.targetHom.hom).obj N).val.map
       (𝟙 (op (g.targetHom.hom ⁻¹ᵁ W.unop)))
       (((Scheme.Modules.pullbackPushforwardAdjunction g.targetHom.hom).unit.app N).val.app W a) = _
   rw [((Scheme.Modules.pullback g.targetHom.hom).obj N).val.map_id]
@@ -201,7 +201,7 @@ theorem affineComparisonAlong_pullbackSection
           (affineComparisonAlong M g) =
       (SheafOfModules.restrictScalars (Thickening.ringRestrictionSheafStructureIso A).inv).map
         (Thickening.moduleFMapSheaf M g) := by
-    show (ambientPullbackAdjunctionAlong g).homEquiv _ _ (affineComparisonAlong M g) = _
+    change (ambientPullbackAdjunctionAlong g).homEquiv _ _ (affineComparisonAlong M g) = _
     exact Equiv.apply_symm_apply _ _
   refine (congrArg (fun y ↦ (affineComparisonAlong M g).val.app
       (op (g.targetHom.hom ⁻¹ᵁ ⊤)) y) ?_).trans (congrArg (fun k ↦ k.val.app (op ⊤) a) hθ)
@@ -259,7 +259,7 @@ theorem crysPullbackAdjunctionAlong_homEquiv_symm_moduleFMapSheaf :
       (SheafOfModules.pullbackPushforwardAdjunction.{u}
         (Thickening.ringRestrictionSheafFMap g))
       (Thickening.moduleRestrictionSheaf M A')
-  show (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap g)).map
+  change (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap g)).map
         ((SheafOfModules.restrictScalars
             (Thickening.ringRestrictionSheafStructureIso A).hom).map
           ((SheafOfModules.restrictScalars

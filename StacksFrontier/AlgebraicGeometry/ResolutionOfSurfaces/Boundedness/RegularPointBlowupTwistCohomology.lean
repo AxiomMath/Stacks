@@ -242,7 +242,7 @@ theorem isZero_rightDerivedPlus_one_pushforward_blowUpTwist_pointIdeal {X : Sche
     exact e.symm.toEquiv.subsingleton
   · let V : X.Opens := ⟨M.supportᶜ, M.support.isClosed.isOpen_compl⟩
     have hyV : y ∈ V := by
-      show y ∉ (M.support : Set X)
+      change y ∉ (M.support : Set X)
       rw [hM, Stacks.GenericFlatness.support_vanishingIdeal]
       exact hy
     have hiso : IsIso (g ∣_ V) := isIso_blowUp_restrict_compl_support M

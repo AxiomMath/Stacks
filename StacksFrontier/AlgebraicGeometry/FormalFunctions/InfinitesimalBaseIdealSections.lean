@@ -72,7 +72,7 @@ near `y` has a pullback to the whole of `X'`. -/
 public theorem top_le_preimage_stalkBaseChangeι (f : X ⟶ Y) (y : Y) (U : Y.Opens) (hy : y ∈ U) :
     (⊤ : (stalkBaseChange f y).Opens) ≤ stalkBaseChangeι f y ⁻¹ᵁ (f ⁻¹ᵁ U) := by
   intro x _
-  show f.base ((stalkBaseChangeι f y).base x) ∈ U
+  change f.base ((stalkBaseChangeι f y).base x) ∈ U
   have hx : f.base ((stalkBaseChangeι f y).base x) =
       (Y.fromSpecStalk y).base ((stalkBaseChangeStructure f y).base x) :=
     congrArg (fun k : stalkBaseChange f y ⟶ Y => k.base x)
@@ -112,7 +112,7 @@ public theorem pullbackToStalkBaseChange_res (f : X ⟶ Y) (y : Y) {U V : Y.Open
     pullbackToStalkBaseChange f y V hyV
         ((X.presheaf.map ((Opens.map f.base).map (homOfLE hVU)).op).hom s) =
       pullbackToStalkBaseChange f y U (hVU hyV) s := by
-  show ((stalkBaseChangeι f y).appLE (f ⁻¹ᵁ V) ⊤
+  change ((stalkBaseChangeι f y).appLE (f ⁻¹ᵁ V) ⊤
       (top_le_preimage_stalkBaseChangeι f y V hyV)).hom
     ((X.presheaf.map ((Opens.map f.base).map (homOfLE hVU)).op).hom s) = _
   rw [← CommRingCat.comp_apply, Scheme.Hom.map_appLE]
@@ -160,7 +160,7 @@ public theorem infinitesimalStalkRestrictHom_eq (f : X ⟶ Y) (y : Y) (n : ℕ) 
     infinitesimalStalkRestrictHom f y n =
       stalkBaseChangeRestrictHom f y ≫ (infinitesimalιBaseChange f y n).appTop := by
   refine TopCat.Presheaf.stalk_hom_ext _ fun U hyU => CommRingCat.hom_ext (RingHom.ext fun s => ?_)
-  show (infinitesimalStalkRestrictHom f y n).hom (pushforwardStalkGerm f y U hyU s) =
+  change (infinitesimalStalkRestrictHom f y n).hom (pushforwardStalkGerm f y U hyU s) =
     (stalkBaseChangeRestrictHom f y ≫ (infinitesimalιBaseChange f y n).appTop).hom
       (pushforwardStalkGerm f y U hyU s)
   rw [infinitesimalStalkRestrictHom_germ, CommRingCat.comp_apply,
@@ -178,7 +178,7 @@ public theorem stalkBaseChangeRestrictHom_toPushforwardStalk (f : X ⟶ Y) (y : 
       pushforwardStalkGerm f y U hyU ((f.app U).hom t) :=
     TopCat.Presheaf.stalkFunctor_map_germ_apply (F := Y.presheaf)
       (G := pushforwardStructurePresheaf f) U y hyU f.c t
-  show (stalkBaseChangeRestrictHom f y).hom
+  change (stalkBaseChangeRestrictHom f y).hom
       ((toPushforwardStalk f y).hom ((Y.presheaf.germ U y hyU).hom t)) =
     (stalkBaseChangeStructure f y).appTop.hom
       ((Scheme.ΓSpecIso (Y.presheaf.stalk y)).inv.hom ((Y.presheaf.germ U y hyU).hom t))

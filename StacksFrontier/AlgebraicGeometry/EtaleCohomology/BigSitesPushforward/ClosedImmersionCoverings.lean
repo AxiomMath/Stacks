@@ -99,7 +99,7 @@ private theorem etale_affine_lifting
     simp only [RingEquiv.apply_symm_apply, e₀, RingEquiv.trans_apply,
       Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
     symm
-    show ψ (algebraMap A C a) = algebraMap B S (b (Ideal.Quotient.mk I a))
+    change ψ (algebraMap A C a) = algebraMap B S (b (Ideal.Quotient.mk I a))
     rw [AlgHom.commutes]
     rfl
 
@@ -152,7 +152,7 @@ private theorem smooth_affine_lifting :
   · intro a
     apply G.injective
     simp only [e, RingEquiv.trans_apply]
-    show G (G.symm (F (algebraMap B (Localization.Away j.1)
+    change G (G.symm (F (algebraMap B (Localization.Away j.1)
         (algebraMap (A ⧸ I) B (Ideal.Quotient.mk I a))))) = G _
     rw [AlgEquiv.apply_symm_apply]
     calc

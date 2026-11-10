@@ -66,7 +66,8 @@ would take.
 The argument order is outer-first, `FMap.comp … ξ η` with `ξ` the `g`-map, matching
 `CategoryTheory.MorphismOfTopoi.comp` and `AlgebraicGeometry.RingedToposHom.comp`.  The repo's
 `f`-map composition for *topological* spaces,
-`Stacks.Sheaves.StacksFMap.compPresheaf` (`StacksFrontier/Topology/Sheaves/Functors/FMap/Comp.lean`),
+`Stacks.Sheaves.StacksFMap.compPresheaf`
+(`StacksFrontier/Topology/Sheaves/Functors/FMap/Comp.lean`),
 is inner-first; both conventions are in the repo and the topos one is followed here because the
 definition is transport of composition of direct-image homomorphisms.
 

@@ -62,8 +62,8 @@ What is left is the conjugate of
 The morphism of schemes below `ψ ∘ φ` is only *provably* the composite of the ones below `ψ` and
 below `φ`, so each of the two statements of the conjugate file used here is restated at a
 morphism `ab` together with a proof `a ≫ b = ab` and proved by substituting that proof, exactly
-as
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SmallEtaleSheafifiedBaseChangeComposition.lean`
+as the module
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SmallEtaleSheafifiedBaseChangeComposition`
 does for the pullbacks themselves.
 
 No new Stacks tag is registered.  Stacks 075D (1) is tagged where it is proved — on

@@ -183,7 +183,8 @@ presentation of `H` to one of `g_!H` by
 presentation is quasi-coherent. -/
 theorem isQuasicoherentOnSite_subsiteModuleLowerShriek
     (hO : IsIso (subsiteUnitLowerShriekMap B S hS p hp τ hτ P))
-    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O))
+    (H : SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O))
     (hH : H.IsPresentedByGlobalSections) :
     ((subsiteModuleLowerShriek B S hS p hp τ hτ P).obj H).IsQuasicoherentOnSite := by
   have hu := isIso_subsiteModuleLowerShriekAdjunction_unit B S hS p hp τ hτ P
@@ -260,8 +261,9 @@ category underlying the stack.  The conclusion is the clause's own: quasi-cohere
 i.e. of a module on `𝒳` in the sense of 06WG"]
 theorem isQuasicoherentOnSite_moduleLowerShriek
     (hO : IsIso (unitLowerShriekMap B S hS 𝒳))
-    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS 𝒳.val.val.p
-      𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)).O))
+    (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (subsiteRingedTopos B S hS 𝒳.val.val.p
+        𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)).O))
     (hH : H.IsPresentedByGlobalSections) :
     ((moduleLowerShriek B S hS 𝒳).obj H).IsQuasicoherentOnSite :=
   isQuasicoherentOnSite_subsiteModuleLowerShriek B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids

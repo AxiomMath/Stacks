@@ -452,7 +452,7 @@ theorem finrank_globalSections_eq_of_iso {Y Z : Scheme.{u}} (p : Y ⟶ Spec (.of
   have hc : (algebraMap k Γ(Z, ⊤)).comp (RingEquiv.refl k).toRingHom =
       φ.toRingHom.comp (algebraMap k Γ(Y, ⊤)) := by
     ext a
-    simp only [RingHom.comp_apply, RingEquiv.toRingHom_refl, RingHom.id_apply]
+    simp only [RingHom.comp_apply]
     change (((Scheme.ΓSpecIso (.of k)).inv ≫ (e.hom ≫ p).appTop).hom a) =
       (e.hom.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop).hom a)
     rw [Scheme.Hom.comp_appTop]

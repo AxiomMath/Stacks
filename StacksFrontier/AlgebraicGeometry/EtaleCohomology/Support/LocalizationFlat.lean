@@ -92,7 +92,7 @@ private lemma localizationMap_isFlat_and_epi
   have hbS : Presheaf.IsLocallySurjective J bAdd := by
     constructor
     intro U x
-    show Presheaf.imageSieve b x ∈ J U
+    change Presheaf.imageSieve b x ∈ J U
     exact Presheaf.imageSieve_mem J b x
   constructor
   · let α : ringPresheaf O.obj ⟶ (Stacks.SheafOfModules.Tensor.ringSheaf O).obj := 𝟙 _
@@ -119,17 +119,17 @@ private lemma localizationMap_isFlat_and_epi
       constructor
       intro U x y hxy
       apply Presheaf.equalizerSieve_mem J b x y
-      show (b.app U).hom x = (b.app U).hom y
+      change (b.app U).hom x = (b.app U).hom y
       exact hxy
     let gm : M ⟶ (PresheafOfModules.restrictScalars α).obj Gpre :=
       PresheafOfModules.homMk bAdd (by
         intro U r m
         let : Module (P.obj U) (M.obj U) := by
-          show Module (P.obj U) (P.obj U)
+          change Module (P.obj U) (P.obj U)
           infer_instance
         dsimp [M]
         let mP : P.obj U := m
-        show (b.app U).hom ((a.app U).hom r * mP) =
+        change (b.app U).hom ((a.app U).hom r * mP) =
           (f.hom.app U).hom r * (b.app U).hom mP
         have hfU : (f.hom.app U).hom = (b.app U).hom.comp (a.app U).hom :=
           congrArg CommRingCat.Hom.hom (congrArg (fun k => k.app U) hf)
@@ -172,7 +172,7 @@ private lemma localizationMap_isFlat_and_epi
         (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G :=
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.mapIso
         (@asIso _ _ _ _ q hqIso)
-    show IsFlat G
+    change IsFlat G
     exact (exactFunctor _ _).prop_of_iso eS hMs
   · refine ⟨?_⟩
     intro T g₁ g₂ hfg
@@ -217,12 +217,12 @@ private lemma localizationMap_isFlat_and_epi
             (T.obj.map k.op).hom ((g₂.hom.app U).hom x) := by
           rw [hnat₁, hnat₂, ← hp']
           exact congrArg (fun φ => φ p) (hbg (Opposite.op V))
-        show (RingCat.ofHom (evalIntPolynomial ((g₁.hom.app U).hom x)) ≫
+        change (RingCat.ofHom (evalIntPolynomial ((g₁.hom.app U).hom x)) ≫
             (T.obj ⋙ forget₂ CommRingCat RingCat).map k.op) =
           (RingCat.ofHom (evalIntPolynomial ((g₂.hom.app U).hom x)) ≫
             (T.obj ⋙ forget₂ CommRingCat RingCat).map k.op)
         apply RingCat.hom_ext
-        show (T.obj.map k.op).hom.comp (evalIntPolynomial ((g₁.hom.app U).hom x)) =
+        change (T.obj.map k.op).hom.comp (evalIntPolynomial ((g₁.hom.app U).hom x)) =
           (T.obj.map k.op).hom.comp (evalIntPolynomial ((g₂.hom.app U).hom x))
         rw [evalIntPolynomial_comp, evalIntPolynomial_comp, hval]
       have hx := congrArg (fun e : E ⟶ (T.obj ⋙ forget₂ CommRingCat RingCat).obj U =>

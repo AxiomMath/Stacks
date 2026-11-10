@@ -36,7 +36,7 @@ attribute [local instance] kFlatQ_isLocalization kFlatQLeft_isLocalization
 /-- **The comparison of the monoidal tensor product of Stacks 0FPT with the canonical derived
 tensor product carries the K-flat comparison of the latter back to `derivedTensorIso`.** -/
 theorem monoidalTensorCanonicalIso_hom_app_app_comp_comparison (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((monoidalTensorCanonicalIso R).hom.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫
         ((Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R).comparison K L

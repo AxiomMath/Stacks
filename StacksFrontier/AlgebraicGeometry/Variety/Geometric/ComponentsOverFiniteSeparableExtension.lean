@@ -117,7 +117,7 @@ public theorem finite_irreducibleComponents_baseChange_of_isSepClosure
     simpa [imageComponent] using hZT
   have hZsub : Z ⊆ p.base ⁻¹' (Tcomp : Set X) := by
     intro x hx
-    show p.base x ∈ p.base '' W
+    change p.base x ∈ p.base '' W
     rw [← hZT']
     exact ⟨x, hx, rfl⟩
   have hZsUnion : Z ⊆ ⋃₀ (sSet : Set (Set XK)) := by
@@ -231,7 +231,7 @@ public theorem geometricallyIrreducible_irreducibleComponents_of_forall_le
   let ZK : irreducibleComponents XK :=
     ⟨eQ.hom.base '' (W : Set Q), image_mem_irreducibleComponents_of_iso eQ hW⟩
   have hqImage : q.base '' (ZK : Set XK) = Z.1 := by
-    show q.base '' (eQ.hom.base '' (W : Set Q)) = Z.1
+    change q.base '' (eQ.hom.base '' (W : Set Q)) = Z.1
     have hfun : (fun x : Q => q.base (eQ.hom.base x)) = (pullback.fst r c).base := by
       funext x
       simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using

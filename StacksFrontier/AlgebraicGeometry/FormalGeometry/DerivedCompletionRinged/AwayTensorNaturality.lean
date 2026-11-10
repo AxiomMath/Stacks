@@ -85,6 +85,7 @@ section Dvd
 
 variable {h h' : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})}
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- Every power of `h` is invertible in the sectionwise localization at `h`. -/
 theorem isUnit_toAwayPresheaf_self
     (k : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})) (U : X.Cᵒᵖ) (n : ℕ) :
@@ -92,6 +93,7 @@ theorem isUnit_toAwayPresheaf_self
   IsLocalization.map_units ((awayPresheaf k).obj U)
     (⟨globalSectionVal k U ^ n, n, rfl⟩ : (awayMultiplicativeSubpresheaf k).obj U)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **A global section whose value divides that of `h'` becomes invertible in `𝒪[1/h']`**: its
 image times the image of the complementary factor is the image of a power of `h'`. -/
 theorem isUnit_toAwayPresheaf_of_dvd (U : X.Cᵒᵖ)
@@ -105,6 +107,7 @@ theorem isUnit_toAwaySheaf_of_dvd (U : X.Cᵒᵖ)
     IsUnit (((toAwaySheaf h').hom.app U).hom (globalSectionVal h U ^ n)) :=
   isUnit_of_dvd_unit (map_dvd _ (pow_dvd_pow_of_dvd hd n)) (isUnit_toAwaySheaf h' U n)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- Divisibility of the values is inherited by the products with a fixed global section. -/
 theorem dvd_globalSectionVal_mulGlobalSection
     (g : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})) (U : X.Cᵒᵖ)
@@ -124,6 +127,7 @@ variable {h h' : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})}
 
 include hu
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The invertibility hypothesis, read at the multiplicative subpresheaf of powers, which is the
 shape `IsLocalization.lift` asks for. -/
 theorem isUnit_toAwayPresheaf_powers (U : X.Cᵒᵖ)
@@ -132,6 +136,7 @@ theorem isUnit_toAwayPresheaf_powers (U : X.Cᵒᵖ)
   obtain ⟨n, hn⟩ := s.2
   exact hn ▸ hu U n
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition map commutes with restriction: both composites with the localization map out
 of `𝒪(U)` are the canonical map `𝒪(U) ⟶ 𝒪(V)[1/h']`, so `IsLocalization.ringHom_ext` identifies
 them. -/
@@ -158,6 +163,7 @@ def awayPresheafTransitionOfIsUnit : awayPresheaf h ⟶ awayPresheaf h' where
     (M := (awayMultiplicativeSubpresheaf h).obj U) (isUnit_toAwayPresheaf_powers X hu U))
   naturality {_ _} i := CommRingCat.hom_ext (awayPresheafTransitionOfIsUnit_naturality X hu i)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- On the image of a section of `𝒪` the transition map is the canonical map into `𝒪[1/h']`. -/
 theorem awayPresheafTransitionOfIsUnit_app_toAwayPresheaf (U : X.Cᵒᵖ) (a : X.O.obj.obj U) :
     ((awayPresheafTransitionOfIsUnit X hu).app U).hom (((toAwayPresheaf h).app U).hom a) =
@@ -165,6 +171,7 @@ theorem awayPresheafTransitionOfIsUnit_app_toAwayPresheaf (U : X.Cᵒᵖ) (a : X
   IsLocalization.lift_eq (S := (awayPresheaf h).obj U)
     (isUnit_toAwayPresheaf_powers X hu U) a
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The transition map is a map over `𝒪`.** -/
 theorem toAwayPresheaf_comp_awayPresheafTransitionOfIsUnit :
     toAwayPresheaf h ≫ awayPresheafTransitionOfIsUnit X hu = toAwayPresheaf h' :=
@@ -193,12 +200,14 @@ use. -/
 abbrev awayModulePresheafTransitionOfIsUnit : awayModulePresheaf X h ⟶ awayModulePresheaf X h' :=
   awayModulePresheafTransitionAlt X hu
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- On sections the transition map of presheaves of modules is the transition map of presheaves
 of rings. -/
 theorem awayModulePresheafTransitionOfIsUnit_app_apply (U : X.Cᵒᵖ) (x : (awayPresheaf h).obj U) :
     ((awayModulePresheafTransitionOfIsUnit X hu).app U).hom x =
       ((awayPresheafTransitionOfIsUnit X hu).app U).hom x := rfl
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The transition map of presheaves of modules is a map over `𝒪`.** -/
 theorem unitToAwayModulePresheaf_comp_awayModulePresheafTransitionOfIsUnit :
     unitToAwayModulePresheaf X h ≫ awayModulePresheafTransitionOfIsUnit X hu =
@@ -218,6 +227,7 @@ variable (g : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
     IsUnit (((toAwayPresheaf (mulGlobalSection X g h')).app U).hom
       (globalSectionVal (mulGlobalSection X g h) U ^ n)))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition map on the image of a section of `𝒪`, read as the algebra map of the algebra
 structure the presheaf of sectionwise localizations carries. -/
 theorem awayPresheafTransitionOfIsUnit_app_algebraMap (U : X.Cᵒᵖ) (a : X.O.obj.obj U) :
@@ -238,6 +248,7 @@ def awayPresheafTransitionAlgHomOfIsUnit (U : X.Cᵒᵖ) :
   { __ := ((awayPresheafTransitionOfIsUnit X hu).app U).hom
     commutes' := awayPresheafTransitionOfIsUnit_app_toAwayPresheaf X hu U }
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The algebra map is the transition map. -/
 theorem awayPresheafTransitionAlgHomOfIsUnit_apply (U : X.Cᵒᵖ) (x : (awayPresheaf h).obj U) :
     letI := ((toAwayPresheaf h).app U).hom.toAlgebra
@@ -247,6 +258,7 @@ theorem awayPresheafTransitionAlgHomOfIsUnit_apply (U : X.Cᵒᵖ) (x : (awayPre
 
 include huM
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The naturality square of the section comparison, on a pure tensor.**
 `AlgebraicGeometry.RingedSite.awayTensorSectionIso_hom_tmul` computes both legs on `x ⊗ y` as a
 product of the images of `x` and of `y`, and what remains is that the transition map
@@ -310,6 +322,7 @@ theorem awayTensorSectionIso_naturality_right_tmul (U : X.Cᵒᵖ)
     ← awayTensorSectionIso_hom_tmul X g h U x y,
     map_mul ((awayPresheafTransitionOfIsUnit X huM).app U).hom, hLx, hRy]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison of `AwayTensorSections.lean` is natural in the second global section.** -/
 theorem awayTensorSectionIso_naturality_right (U : X.Cᵒᵖ) :
     (MonoidalCategoryStruct.whiskerLeft (awayModulePresheafAlt X g)
@@ -320,6 +333,7 @@ theorem awayTensorSectionIso_naturality_right (U : X.Cᵒᵖ) :
   ModuleCat.hom_ext (TensorProduct.ext' fun x y =>
     awayTensorSectionIso_naturality_right_tmul X g hu huM U x y)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **`𝒪[1/g] ⊗_𝒪 𝒪[1/h] = 𝒪[1/(g h)]` is natural in `h`**, as presheaves of `𝒪`-modules. -/
 theorem awayTensorPresheafIso_naturality_right :
     MonoidalCategoryStruct.whiskerLeft (awayModulePresheafAlt X g)
@@ -334,6 +348,7 @@ section Sheafification
 
 variable {h h' : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})}
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The map from a sheaf of modules into a sheafification is natural in the presheaf: this is
 the functoriality of sheafification, the comparison being the sheafification of the given map
 preceded by the inverse of the counit. -/
@@ -393,6 +408,7 @@ variable (g : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
 include hu huM
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **`𝒪[1/g] ⊗_𝒪 𝒪[1/h] = 𝒪[1/(g h)]` is natural in `h`**, at the monoidal tensor product of
 morphisms, which is the form `PresheafOfModules.sheafificationTensorIso` is
 natural for. -/
@@ -535,6 +551,7 @@ theorem awayTensorSheafIso_naturality_right
   simp only [Category.assoc]
   rw [reassoc_of% hsq1, reassoc_of% hsq2, reassoc_of% hsq3, h3M]
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- Tensoring with a fixed sheaf of modules is the uncurried tensor bifunctor at the identity in
 the first variable: the uncurried map at `(𝟙 A, φ)` is the identity of `A ⊗ B` followed by
 `A ⊗ φ`. -/

@@ -67,8 +67,8 @@ through `f.appTop` and so cannot be an instance, and the subset `E` that `hkey` 
 produced inside the proof by step 3. The hypothesis therefore quantifies over the subset, over the
 three algebra structures and over the three equations identifying each `algebraMap` with its
 geometric morphism — which is the same shape in which
-`StacksFrontier.AlgebraicGeometry.Descent.DescentDatumStepFourFive` states them, so an eventual proof
-of `hkey` slots in without transport. The same applies to `hpreimage` and `hrestrict`.
+`StacksFrontier.AlgebraicGeometry.Descent.DescentDatumStepFourFive` states them, so an eventual
+proof of `hkey` slots in without transport. The same applies to `hpreimage` and `hrestrict`.
 
 *No tag is placed*, for the reason given above.
 

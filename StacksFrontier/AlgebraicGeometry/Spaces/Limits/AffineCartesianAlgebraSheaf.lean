@@ -147,7 +147,7 @@ theorem bijective_restrictionBaseChange_algebra (h : IsAffineCartesian P α)
          map_add' := fun x y => map_add uU.hom x y
          map_smul' := by
            intro r (x : P.obj (op U))
-           show uU (α.app (op U) r * x) =
+           change uU (α.app (op U) r * x) =
              (toSheafify (SmallEtale.topology B S hS F) P).app (op U) (α.app (op U) r) * uU x
            exact map_mul uU.hom _ x } :
         (sectionsModule P α).obj (op U) →ₗ[R.obj (op U)] Q.obj (op U))
@@ -164,7 +164,7 @@ theorem bijective_restrictionBaseChange_algebra (h : IsAffineCartesian P α)
     f.op b (e p)
   have h2 := restrictionBaseChange_tmul.{u + 1, u, u, u} (sectionsModule P α) f.op b p
   refine h1.trans (Eq.trans ?_ (congrArg uV h2).symm)
-  show uV (α.app (op V) b) *
+  change uV (α.app (op V) b) *
       ((presheafToSheaf (SmallEtale.topology B S hS F) _).obj P).obj.map f.op (uU p) =
     uV (α.app (op V) b * P.map f.op p)
   rw [map_mul]
@@ -185,8 +185,7 @@ theorem isQuasicoherent_algebra (h : IsAffineCartesian P α) :
       restrictionBaseChange.{u + 1, u, u, u} (R := structurePresheaf B S hS F)
         (AlgebraSheaf.underlyingModule (algebra P α hF)).val f.op z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add _ x y).symm
     | tmul b x =>

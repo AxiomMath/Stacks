@@ -226,7 +226,7 @@ theorem comparisonMap_comp {X X' X'' : ComplexesObject C.D} (m : ComplexesHom X 
 /-- `testSchemeMap` sends an identity to an identity. -/
 theorem testSchemeMap_id (A : SchemesOver C.D.Y) : C.testSchemeMap (𝟙 A) = 𝟙 (C.testScheme A) :=
   CostructuredArrow.hom_ext _ _ (by
-    show (Over.map g).map (𝟙 A.left) = 𝟙 _
+    change (Over.map g).map (𝟙 A.left) = 𝟙 _
     rw [CategoryTheory.Functor.map_id])
 
 variable {C} in
@@ -235,10 +235,10 @@ theorem comparisonMap_id (X : ComplexesObject C.D) :
     C.comparisonMap (ComplexesHom.id X) = ComplexesHom.id (C.comparisonObj X) := by
   let e : C.comparisonObj X ⟶ C.comparisonObj X := C.comparisonMap (ComplexesHom.id X)
   have he : e ≫ e = e := by
-    show (C.comparisonMap (ComplexesHom.id X)).comp (C.comparisonMap (ComplexesHom.id X)) = _
+    change (C.comparisonMap (ComplexesHom.id X)).comp (C.comparisonMap (ComplexesHom.id X)) = _
     rw [← comparisonMap_comp, ComplexesHom.id_comp]
   have : IsIso (C.comparisonMap (ComplexesHom.id X)).base := by
-    show IsIso (C.testSchemeMap (𝟙 X.T))
+    change IsIso (C.testSchemeMap (𝟙 X.T))
     rw [testSchemeMap_id]
     infer_instance
   have : IsIso e := isIso_of_isIso_base e
@@ -330,7 +330,7 @@ matches `Match.refl C (C.ofTarget y.T)` and `Match.ofTarget C y.T`. -/
 theorem compatible_preimageBaseIso (y : ComplexesObject C.D₁) :
     (Match.refl C (C.ofTarget y.T)).Compatible (Match.ofTarget C y.T) (𝟙 _)
       (C.preimageBaseIso y).hom := by
-  show 𝟙 _ ≫ (C.ofTargetIso y.T).hom = (Over.map g).map (𝟙 _) ≫ (C.ofTargetIso y.T).hom
+  change 𝟙 _ ≫ (C.ofTargetIso y.T).hom = (Over.map g).map (𝟙 _) ≫ (C.ofTargetIso y.T).hom
   rw [CategoryTheory.Functor.map_id]
 
 /-- The morphism from the image of the preimage of an object of `Complexes_{X₁/T}` to it. -/

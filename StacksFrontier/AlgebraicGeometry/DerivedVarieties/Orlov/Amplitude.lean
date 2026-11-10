@@ -148,7 +148,7 @@ theorem isLE_obj_of_fixes_perfectPointSheaf
   let P := perfectPointSheaf X hX x hx
   have h0 : Subsingleton (E.obj ⟶ P.obj⟦-i⟧) := by
     have : (P.obj⟦-i⟧).IsGE i := by
-      show ((pointSheaf X x)⟦-i⟧).IsGE i
+      change ((pointSheaf X x)⟦-i⟧).IsGE i
       have : DerivedCategory.TStructure.t.IsGE (pointSheaf X x) 0 :=
         inferInstanceAs (((DerivedCategory.singleFunctor X.Modules 0).obj
           (show X.Modules from residueFieldSkyscraperSheaf X x)).IsGE 0)
@@ -187,7 +187,7 @@ theorem isGE_obj_of_isLE_inverse (hX : IsRegular X)
   let ι : T ⟶ e.functor.obj E :=
     ObjectProperty.homMk ((DerivedCategory.TStructure.t.truncLTι b).app K)
   have hT : T.obj.IsLE (b - 1) := by
-    show ((DerivedCategory.TStructure.t.truncLT b).obj K).IsLE (b - 1)
+    change ((DerivedCategory.TStructure.t.truncLT b).obj K).IsLE (b - 1)
     exact DerivedCategory.TStructure.t.isLE_truncLT_obj ..
   have hι : ι = 0 := by
     have h2 : (e.symm.toAdjunction.homEquiv T E).symm ι = 0 := by
@@ -204,7 +204,7 @@ theorem isGE_obj_of_isLE_inverse (hX : IsRegular X)
   have := DerivedCategory.isIso_homologyFunctor_map_truncLTι b j hj K
   have h0 : (DerivedCategory.homologyFunctor X.Modules j).map
       ((DerivedCategory.TStructure.t.truncLTι b).app K) = 0 := by
-    show (DerivedCategory.homologyFunctor X.Modules j).map ((ObjectProperty.ι _).map ι) = 0
+    change (DerivedCategory.homologyFunctor X.Modules j).map ((ObjectProperty.ι _).map ι) = 0
     rw [hι, Functor.map_zero, Functor.map_zero]
   have hiso : IsIso (0 : (DerivedCategory.homologyFunctor X.Modules j).obj T.obj ⟶
       (DerivedCategory.homologyFunctor X.Modules j).obj K) := h0 ▸ inferInstance

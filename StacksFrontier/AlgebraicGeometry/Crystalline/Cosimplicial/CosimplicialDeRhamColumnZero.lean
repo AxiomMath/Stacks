@@ -10,7 +10,8 @@ The proof of [Stacks, Proposition 60.21.3, Tag 07LG] runs over the double comple
 
 `K^{a,b} = M(b) ⊗̂_{D(b)} Ω^a_{D(b)}`,
 
-which `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/CosimplicialDeRhamDoubleComplex.lean`
+which
+`StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/CosimplicialDeRhamDoubleComplex.lean`
 builds as `Crystalline.CosimplicialCompletedPair.doubleComplex` out of a
 `Crystalline.CosimplicialCompletedModule` — a cosimplicial module over the completed cosimplicial
 rings `D̂(*)` — together with a connection in each cosimplicial degree.  Its two edges are read in
@@ -205,8 +206,7 @@ theorem comparisonValues_unitEquiv
   have hcompose : ∀ y : M ⊗[D] Om,
       (mu.comp (unitMap D M Om e)) y = unitMap D' M' Om' e' (TensorProduct.map mu psi y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m omega =>
       change mu (unitMap D M Om e (m ⊗ₜ[D] omega)) = _
       rw [unitMap_tmul, TensorProduct.map_tmul, unitMap_tmul, mu.map_smulₛₗ, hpsi]

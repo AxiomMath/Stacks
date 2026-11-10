@@ -60,9 +60,8 @@ local notation "𝒯" => BigFppfOver.toScheme B S hS
 a morphism to an affine scheme of the site. If the reading of `L` on `V` is ample, then the
 pullback of `L` to `V` is ample relative to `V ⟶ F` in the sense of algebraic spaces
 (Stacks 0D32, 01VK). -/
-theorem isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine {U V F : BigFppfOver B S hS}
-    {X : AlgebraicSpaces B S hS} (f : X ⟶ representedAlgebraicSpace B S hS U)
-    (L : Modules.{u, u} B S hS X.1 X.2)
+theorem isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine {V F : BigFppfOver B S hS}
+    {X : AlgebraicSpaces B S hS} (L : Modules.{u, u} B S hS X.1 X.2)
     (hL : Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS X.1)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).property
         L)
@@ -103,8 +102,7 @@ point whose fibre is the scheme `V`, through the cartesian square `hsq` over
 `Spec κ(u) ⟶ U`. If the reading of `L` on `V` is ample, then the pullback of `L` to `V` is ample
 relative to `V ⟶ Spec κ(u)` in the sense of algebraic spaces (Stacks 0D32, 01VK). -/
 theorem isRelativelyAmple_residueField_of_isAmple_baseChangeModule {U V : BigFppfOver B S hS}
-    {X : AlgebraicSpaces B S hS} (f : X ⟶ representedAlgebraicSpace B S hS U)
-    (L : Modules.{u, u} B S hS X.1 X.2)
+    {X : AlgebraicSpaces B S hS} (L : Modules.{u, u} B S hS X.1 X.2)
     (hL : Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS X.1)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).property
         L)
@@ -117,7 +115,7 @@ theorem isRelativelyAmple_residueField_of_isAmple_baseChangeModule {U V : BigFpp
   have : IsAffine ((𝒯).obj
       (residueFieldObject B S hS U u (B.residueField_spec_contains U.left.property u))) :=
     inferInstanceAs (IsAffine (Spec _))
-  exact isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine f L hL j v hamp
+  exact isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine L hL j v hamp
 
 /-- **Stacks 0D3A without the Noetherian hypothesis, from Stacks 0D3D, at an affine point.** Let
 `f : X ⟶ U` be a proper morphism from an algebraic space to a scheme of the site, `L` an
@@ -150,7 +148,7 @@ theorem exists_mem_isRelativelyAmple_openSub_of_isAmple_fibre_of_isAffine
     isPullback_homMk B S hS X.property (isAlgebraicSpace_yoneda B S hS _)
       (isAlgebraicSpace_yoneda B S hS _) (isAlgebraicSpace_yoneda B S hS _) hsq
   have hrW := (hiff (schemeSpaceMap r) _ _ hsq').2
-    (isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine f L hL j v hamp)
+    (isRelativelyAmple_of_isAmple_baseChangeModule_of_isAffine L hL j v hamp)
   have hmem : ∀ {T : BigFppfOver B S hS} (x : T ⟶ U),
       (∃ l : (schemeSpace T).1 ⟶ W.toFunctor, l ≫ W.ι = (schemeSpaceMap x).hom) ↔
         ∀ y, ((𝒯).map x) y ∈ opensOfOpenSubspace B S hS U W hW := by

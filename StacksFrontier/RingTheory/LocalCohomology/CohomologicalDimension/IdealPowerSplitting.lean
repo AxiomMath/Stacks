@@ -149,7 +149,7 @@ private theorem powerSplittingUnitSection (A : Type u) [CommRing A] (I : Ideal A
     by_contra hcon
     simp only [not_exists, not_not] at hcon
     refine hp ?_
-    show p ∈ PrimeSpectrum.zeroLocus (I : Set A)
+    change p ∈ PrimeSpectrum.zeroLocus (I : Set A)
     rw [PrimeSpectrum.mem_zeroLocus, hf]
     exact Ideal.span_le.mpr (by rintro _ ⟨i, rfl⟩; exact hcon i)
   have hbasic : ∀ h ∈ I, basicOpen h ≤ ((complementZeroLocus A I).ι ''ᵁ ⊤) := by
@@ -312,7 +312,7 @@ private theorem exists_pow_linearMaps_of_crossRelations
     (Submodule.liftQ (LinearMap.ker σ) τ hkerle).comp σ.quotKerEquivRange.symm.toLinearMap
   have hΦ : ∀ d : Fin r → A, Φ ⟨σ d, LinearMap.mem_range_self σ d⟩ = τ d := by
     intro d
-    show (Submodule.liftQ (LinearMap.ker σ) τ hkerle)
+    change (Submodule.liftQ (LinearMap.ker σ) τ hkerle)
       (σ.quotKerEquivRange.symm ⟨σ d, LinearMap.mem_range_self σ d⟩) = τ d
     rw [LinearMap.quotKerEquivRange_symm_apply_image, Submodule.mkQ_apply, Submodule.liftQ_apply]
   let ψ : (I ^ c : Ideal A) →ₗ[A] (Fin r → A) := Φ.comp (Submodule.inclusion hIc)
@@ -322,12 +322,12 @@ private theorem exists_pow_linearMaps_of_crossRelations
     have hx : Submodule.inclusion hIc x =
         (⟨σ d, LinearMap.mem_range_self σ d⟩ : LinearMap.range σ) :=
       Subtype.ext (by rw [Submodule.coe_inclusion]; exact hd.symm)
-    show Φ (Submodule.inclusion hIc x) = τ d
+    change Φ (Submodule.inclusion hIc x) = τ d
     rw [hx, hΦ]
   have hval : ∀ j : Fin r, ((LinearMap.proj j : (Fin r → A) →ₗ[A] A).comp ψ) x
       = ∑ i, d i * b i j := by
     intro j
-    show (ψ x) j = _
+    change (ψ x) j = _
     rw [hψ, hτ]
     simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
   calc ∑ j, f j * ((LinearMap.proj j : (Fin r → A) →ₗ[A] A).comp ψ) x

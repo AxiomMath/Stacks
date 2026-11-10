@@ -52,20 +52,19 @@ private theorem lift_lsmul_curry_evaluation_coevaluation (M M' : ModuleCat.{max 
   let e : M →ₗ[R] M' →ₗ[R] (𝟙_ (ModuleCat.{max v u} R)) := TensorProduct.curry (ε_ M' M).hom
   let d : (𝟙_ (ModuleCat.{max v u} R)) →ₗ[R] R := (ULift.moduleEquiv (R := R)).toLinearMap
   let c : (M' ⊗ M : ModuleCat.{max v u} R) := (η_ M' M).hom (ULift.up 1)
-  show TensorProduct.lift ((LinearMap.lsmul R M).comp (d.comp (e m))) c = m
+  change TensorProduct.lift ((LinearMap.lsmul R M).comp (d.comp (e m))) c = m
   have key : ∀ t : (M' ⊗ M : ModuleCat.{max v u} R),
       (λ_ M).hom.hom ((ε_ M' M ▷ M).hom ((α_ M M' M).inv.hom (m ⊗ₜ[R] t))) =
         TensorProduct.lift ((LinearMap.lsmul R M).comp (d.comp (e m))) t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a b => rfl
     | add a b ha hb =>
       rw [TensorProduct.tmul_add, map_add, map_add, map_add, ha, hb, map_add]
   have hz : (λ_ M).hom.hom ((M ◁ η_ M' M ≫ (α_ M M' M).inv ≫ ε_ M' M ▷ M).hom
       (m ⊗ₜ[R] (ULift.up 1 : (𝟙_ (ModuleCat.{max v u} R))))) = m := by
     rw [ExactPairing.coevaluation_evaluation]
-    show ((TensorProduct.congr ULift.moduleEquiv (LinearEquiv.refl R M)).trans
+    change ((TensorProduct.congr ULift.moduleEquiv (LinearEquiv.refl R M)).trans
         (TensorProduct.lid R M)) (((TensorProduct.congr ULift.moduleEquiv
           (LinearEquiv.refl R M)).trans (TensorProduct.lid R M)).symm
         (((TensorProduct.congr (LinearEquiv.refl R M) ULift.moduleEquiv).trans
@@ -97,13 +96,12 @@ theorem bijective_curry_evaluation_of_exactPairing (M M' : ModuleCat.{max v u} R
         e (TensorProduct.lift ((LinearMap.lsmul R M).comp (d.comp l)) t) m' =
           l ((ρ_ M').hom.hom ((M' ◁ ε_ M' M).hom ((α_ M' M M').hom.hom (t ⊗ₜ[R] m')))) := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul a b =>
-        show e ((d (l a)) • b) m' = l ((d (e b m')) • a)
+        change e ((d (l a)) • b) m' = l ((d (e b m')) • a)
         rw [map_smul, LinearMap.smul_apply, map_smul]
         refine ULift.ext ?_
-        show (d (l a)) * (e b m').down = (d (e b m')) * (l a).down
+        change (d (l a)) * (e b m').down = (d (e b m')) * (l a).down
         exact mul_comm _ _
       | add a b ha hb =>
         rw [map_add, map_add, LinearMap.add_apply, ha, hb, TensorProduct.add_tmul, map_add,
@@ -111,7 +109,7 @@ theorem bijective_curry_evaluation_of_exactPairing (M M' : ModuleCat.{max v u} R
     have hz : (ρ_ M').hom.hom ((η_ M' M ▷ M' ≫ (α_ M' M M').hom ≫ M' ◁ ε_ M' M).hom
         ((ULift.up 1 : (𝟙_ (ModuleCat.{max v u} R))) ⊗ₜ[R] m')) = m' := by
       rw [ExactPairing.evaluation_coevaluation]
-      show ((TensorProduct.congr (LinearEquiv.refl R M') ULift.moduleEquiv).trans
+      change ((TensorProduct.congr (LinearEquiv.refl R M') ULift.moduleEquiv).trans
           (TensorProduct.rid R M')) (((TensorProduct.congr (LinearEquiv.refl R M')
             ULift.moduleEquiv).trans (TensorProduct.rid R M')).symm
           (((TensorProduct.congr ULift.moduleEquiv (LinearEquiv.refl R M')).trans

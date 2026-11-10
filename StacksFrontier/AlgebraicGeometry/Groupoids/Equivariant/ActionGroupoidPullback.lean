@@ -96,7 +96,7 @@ private theorem actionComposition_map_compatible (f : Y ⟶ X) [IsModHom G f]
   have hevalY' : Stacks.Groupoids.ActionGroupoid.composition G Y =
       lift ((p ≫ fst G Y) * (q ≫ fst G Y)) (q ≫ snd G Y) := by
     simpa [hid] using hevalY
-  show j ≫ Stacks.Groupoids.ActionGroupoid.composition G X = _
+  change j ≫ Stacks.Groupoids.ActionGroupoid.composition G X = _
   rw [hj, hevalX, hevalY']
   apply CartesianMonoidalCategory.hom_ext (C := Over B.left)
   · simp [Category.assoc, hf]
@@ -139,7 +139,7 @@ theorem actionGroupoidMap_comp
           obtain rfl := hTX.eq
           obtain rfl := hArrow.eq
           intro T a b hab hab'
-          show (pullback.lift a b hab ≫ compY) ≫ (Over.map B.hom).map m =
+          change (pullback.lift a b hab ≫ compY) ≫ (Over.map B.hom).map m =
             pullback.lift (a ≫ (Over.map B.hom).map m)
               (b ≫ (Over.map B.hom).map m) hab' ≫ compX
           obtain rfl : compY = isoY.hom ≫

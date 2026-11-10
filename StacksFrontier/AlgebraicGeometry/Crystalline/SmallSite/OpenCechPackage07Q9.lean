@@ -85,7 +85,6 @@ variable {X' : Scheme.{u}} (f : X' ⟶ S.X) (hW₂ : IsAffineOpen (f ⁻¹ᵁ W)
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 /-- **The morphism of Čech systems over `f`** attached to a morphism of presentations, as a
@@ -96,11 +95,11 @@ def openCechSystemHom07Q9 :
         g₂ hg₂)
       (openSystem07Q9 S hV hW hVW g hg) where
   k := openSystemShift07Q9 S hVW f hW₂
-  τ n e := openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n.len e
+  τ n e := openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n.len e
   naturality_level n {_ _} h := openSystemMap07Q9_naturality_tower S hV hW hVW f hW₂ g hg g₂
-    hg₂ r hrC hr n.len (leOfHom h)
+    hg₂ r hr n.len (leOfHom h)
   naturality_simplicial {_ _} φ e := openSystemMap07Q9_naturality_simplicial S hV hW hVW f hW₂
-    g hg g₂ hg₂ r hrC hr φ e
+    g hg g₂ hg₂ r hr φ e
 
 end Crystalline.GlobalCrystallineSituation.SmallSite
 

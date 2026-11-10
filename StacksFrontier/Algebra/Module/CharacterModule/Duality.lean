@@ -126,7 +126,7 @@ theorem dualFunctor_exact (R : Type u) [CommRing R] :
         apply CharacterModule.ext
         intro x
         change CharacterModule (X.unop : Type u) at χ
-        show χ ((f + g).unop x) = χ (f.unop x) + χ (g.unop x)
+        change χ ((f + g).unop x) = χ (f.unop x) + χ (g.unop x)
         simp }
   apply (Functor.exact_tfae (dualFunctor R)).out 2 4 |>.mp
   intro S hS

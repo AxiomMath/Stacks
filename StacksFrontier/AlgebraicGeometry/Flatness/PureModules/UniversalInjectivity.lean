@@ -87,7 +87,7 @@ theorem universallyInjective_lsmul_of_mem_nonZeroSMulDivisors_quotient
       rfl
     intro x y hxy
     refine e.injective (sub_eq_zero.mp (hs _ ?_))
-    show s • (e x - e y) = 0
+    change s • (e x - e y) = 0
     rw [smul_sub, ← hcomm, ← hcomm, hxy, sub_self]
   rcases subsingleton_or_nontrivial N with hN | hN
   · intro Q _ _
@@ -118,10 +118,10 @@ theorem universallyInjective_localizedModule_mkLinearMap
   intro Q _ _
   let T := nonZeroSMulDivisors S
     (N ⧸ (Ideal.map (algebraMap R S) (IsLocalRing.maximalIdeal R) • (⊤ : Submodule S N)))
-  show Function.Injective
+  change Function.Injective
     (TensorProduct.AlgebraTensorModule.rTensor R Q (LocalizedModule.mkLinearMap T N))
   refine (IsLocalizedModule.injective_iff_isRegular T _).2 fun s => ?_
-  show Function.Injective (fun x : TensorProduct R N Q ↦ (s : S) • x)
+  change Function.Injective (fun x : TensorProduct R N Q ↦ (s : S) • x)
   convert (universallyInjective_lsmul_of_mem_nonZeroSMulDivisors_quotient s.property) Q using 1
   ext n
   rfl

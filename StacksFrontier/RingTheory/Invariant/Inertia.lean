@@ -96,7 +96,7 @@ private lemma exists_fixed_mul_idempotent_eq
       simp [a, hi, hgi]
   refine ⟨∑ i, a i, ?_, ?_⟩
   · intro g
-    show (MulSemiringAction.toRingHom G S g) (∑ i, a i) = _
+    change (MulSemiringAction.toRingHom G S g) (∑ i, a i) = _
     rw [map_sum]
     simp_rw [show ∀ i, (MulSemiringAction.toRingHom G S g) (a i) = a (g • i)
       from hequiv g]
@@ -144,7 +144,7 @@ private lemma fixedPoints_tensorProduct_bijective
        map_smul' := fun b r => by
         apply Subtype.ext
         simp only [Submodule.coe_smul, RingHom.id_apply]
-        show ((b • r : U) : R) = b • (r : R)
+        change ((b • r : U) : R) = b • (r : R)
         simp only [Algebra.smul_def, Subring.coe_mul]
         have hc : ((algebraMap B U b : U) : R) = algebraMap B R b :=
           (IsScalarTower.algebraMap_apply B U R b).symm
@@ -154,8 +154,7 @@ private lemma fixedPoints_tensorProduct_bijective
   let E := u.lTensor A ≪≫ₗ
     (LinearMap.tensorEqLocusEquiv A A f d).restrictScalars B
   have hE (x : A ⊗[B] U) : (E x).val = (φ x).val := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a r => simpa [E, u, LinearEquiv.ofBijective] using (hφ a r).symm
     | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
   refine ⟨fun x y h => E.injective (Subtype.ext (by rw [hE, hE, h])), fun y => ?_⟩
@@ -168,15 +167,13 @@ private lemma fixedPoints_tensorProduct_bijective
       have hf (x : A ⊗[B] R) :
           TensorProduct.piRight (R := B) (S := A) A (fun _ : K => R)
             (TensorProduct.AlgebraTensorModule.lTensor A A f x) g = g • x := by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul a r => simpa [f] using (hsmul g a r).symm
         | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
       have hd (x : A ⊗[B] R) :
           TensorProduct.piRight (R := B) (S := A) A (fun _ : K => R)
             (TensorProduct.AlgebraTensorModule.lTensor A A d x) g = x := by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul a r => simp [d]
         | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
       rw [hf, hd]
@@ -222,7 +219,7 @@ private lemma etale_localization_fixedPoints_of_orthogonalIdempotents
   let T := Localization.Away d
   have hdid : IsIdempotentElem d := by
     apply Subtype.ext
-    show (d : S) * (d : S) = (d : S)
+    change (d : S) * (d : S) = (d : S)
     rw [hd]
     exact he.idem j
   have hcoe (a : A) : ((algebraMap A B a : B) : S) = algebraMap A S a :=
@@ -343,7 +340,7 @@ private lemma inertiaRefinement_complete
       by_contra h
       push Not at h
       exact hff' (funext h)
-    show (∏ g : G, g • e (f g)) * (∏ g : G, g • e (f' g)) = 0
+    change (∏ g : G, g • e (f g)) * (∏ g : G, g • e (f' g)) = 0
     rw [← Finset.prod_mul_distrib]
     apply Finset.prod_eq_zero (Finset.mem_univ g)
     rw [← smul_mul']
@@ -358,7 +355,7 @@ private lemma inertiaRefinement_complete
       _ = 1 := by
         apply Finset.prod_eq_one
         intro g hg
-        show ∑ i : Fin n, (MulSemiringAction.toRingHom G R g) (e i) = 1
+        change ∑ i : Fin n, (MulSemiringAction.toRingHom G R g) (e i) = 1
         rw [← map_sum, he.complete, map_one]
 
 /-- Translation of a choice function by a group element, `f ↦ fun g ↦ f (h⁻¹ * g)`. -/
@@ -390,7 +387,7 @@ private lemma inertiaRefinement_smul_indexShift
     h • inertiaRefinement (G := G) e f =
       inertiaRefinement (G := G) e (inertiaRefinementIndexShift h f) := by
   classical
-  show (MulSemiringAction.toRingHom G R h) (∏ g : G, g • e (f g)) = _
+  change (MulSemiringAction.toRingHom G R h) (∏ g : G, g • e (f g)) = _
   rw [map_prod]
   calc
     (∏ g : G, h • (g • e (f g))) = ∏ g : G, (h * g) • e (f g) := by
@@ -502,7 +499,7 @@ private lemma finite_separable_residueExtension
     letI : q.LiesOver p := ⟨rfl⟩
     letI : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
       Localization.AtPrime.algebraOfLiesOver p q
-    letI : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+    letI : IsScalarTower RG (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
     letI : Algebra p.ResidueField q.ResidueField := inferInstance
     letI : Algebra p.ResidueField (separableClosure p.ResidueField q.ResidueField) := inferInstance
     letI : Module p.ResidueField
@@ -517,7 +514,7 @@ private lemma finite_separable_residueExtension
   let : q.LiesOver p := ⟨rfl⟩
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
     Localization.AtPrime.algebraOfLiesOver p q
-  let : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+  let : IsScalarTower RG (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
   let : Algebra p.ResidueField q.ResidueField := inferInstance
   let : Algebra RG q.ResidueField :=
     ((algebraMap R q.ResidueField).comp (algebraMap RG R)).toAlgebra
@@ -533,14 +530,14 @@ private lemma finite_separable_residueExtension
   let : IsScalarTower RG (RG ⧸ p) p.ResidueField := inferInstance
   let : IsScalarTower RG p.ResidueField q.ResidueField := by
     refine IsScalarTower.of_algebraMap_eq fun x ↦ ?_
-    show algebraMap RG q.ResidueField x =
+    change algebraMap RG q.ResidueField x =
       Ideal.ResidueField.map p q RG.subtype rfl (algebraMap RG p.ResidueField x)
     rw [IsScalarTower.algebraMap_apply RG R q.ResidueField x]
     exact (Ideal.ResidueField.map_algebraMap p q RG.subtype rfl x).symm
   let : IsScalarTower (RG ⧸ p) p.ResidueField q.ResidueField := by
     refine IsScalarTower.of_algebraMap_eq fun x ↦ ?_
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show algebraMap (R ⧸ q) q.ResidueField
+    change algebraMap (R ⧸ q) q.ResidueField
       (algebraMap (RG ⧸ p) (R ⧸ q) (Ideal.Quotient.mk p x)) =
       algebraMap p.ResidueField q.ResidueField
         (algebraMap (RG ⧸ p) p.ResidueField (Ideal.Quotient.mk p x))
@@ -593,7 +590,8 @@ private lemma finite_separable_residueExtension_of_eq
     letI : q.LiesOver p := Ideal.LiesOver.mk hp
     letI : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
       Localization.AtPrime.algebraOfLiesOver p q
-    letI : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+    letI : IsScalarTower (FixedPoints.subring R G) (Localization.AtPrime p)
+      (Localization.AtPrime q) := inferInstance
     letI : Algebra p.ResidueField q.ResidueField := inferInstance
     Module.Finite p.ResidueField
       (separableClosure p.ResidueField q.ResidueField) := by
@@ -663,13 +661,13 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   have hp'_prime : p'.IsPrime := hp'Prime
   obtain ⟨qS₀, hqS₀_bot, hqS₀_prime, hqS₀_under⟩ :=
     Ideal.exists_ideal_over_prime_of_isIntegral (R := R') (S := S) p' ⊥ (by
-      show Ideal.comap (algebraMap R' S) ⊥ ≤ p'
+      change Ideal.comap (algebraMap R' S) ⊥ ≤ p'
       rw [← RingHom.ker_eq_comap_bot, hleft_ker]
       exact bot_le)
   let r0 := qS₀.comap Algebra.TensorProduct.includeRight
   have hr_prime : r0.IsPrime := hqS₀_prime.comap _
   have hr_under : r0.under RG = q.under RG := by
-    show Ideal.comap (algebraMap RG R) (Ideal.comap
+    change Ideal.comap (algebraMap RG R) (Ideal.comap
       (Algebra.TensorProduct.includeRight : R →ₐ[RG] S).toRingHom qS₀) = _
     rw [Ideal.comap_comap]
     have hcomp :
@@ -686,16 +684,16 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let qS := g₀ • qS₀
   have hqS_prime : qS.IsPrime := hqS₀_prime.smul g₀
   have hqS_under : qS.under R = q := by
-    show (g₀ • qS₀).under R = q
+    change (g₀ • qS₀).under R = q
     have hright_smul (g : G) (x : R) :
         g • (algebraMap R S x) = algebraMap R S (g • x) := by
-      show g • ((1 : R') ⊗ₜ[RG] x) = (1 : R') ⊗ₜ[RG] (g • x)
+      change g • ((1 : R') ⊗ₜ[RG] x) = (1 : R') ⊗ₜ[RG] (g • x)
       exact MulSemiringAction.baseChange_smul_tmul (A := R') g 1 x
     let : SMulDistribClass G R S := ⟨fun g x y => by
-      show g • (algebraMap R S x * y) = algebraMap R S (g • x) * (g • y)
+      change g • (algebraMap R S x * y) = algebraMap R S (g • x) * (g • y)
       rw [smul_mul', hright_smul]⟩
     rw [← Ideal.smul_under]
-    show g₀ • r0 = q
+    change g₀ • r0 = q
     exact hg₀.symm
   let : MulSemiringAction G R' := {
     smul := fun _ x => x
@@ -707,16 +705,16 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
     smul_mul := fun _ _ _ => rfl }
   have hleft_smul (g : G) (x : R') :
       g • (algebraMap R' S x) = algebraMap R' S x := by
-    show MulSemiringAction.baseChangeAlgHom (G := G) (R := R) (A := R') g
+    change MulSemiringAction.baseChangeAlgHom (G := G) (R := R) (A := R') g
       (x ⊗ₜ[RG] (1 : R)) = x ⊗ₜ[RG] (1 : R)
     rw [MulSemiringAction.baseChangeAlgHom, Algebra.TensorProduct.map_tmul]
-    show x ⊗ₜ[RG] (g • (1 : R)) = x ⊗ₜ[RG] (1 : R)
+    change x ⊗ₜ[RG] (g • (1 : R)) = x ⊗ₜ[RG] (1 : R)
     simp
   let : SMulCommClass G R' S := ⟨fun g x y => by
     rw [Algebra.smul_def, Algebra.smul_def, smul_mul', hleft_smul]⟩
   have hqS_over : qS.LiesOver p' := by
     refine ⟨?_⟩
-    show p' = (g₀ • qS₀).under R'
+    change p' = (g₀ • qS₀).under R'
     rw [Ideal.under_smul]
     exact hqS₀_under.symm
   have hfqS_exists : ∃ f : G → Fin n, e' f ∉ qS := by
@@ -724,7 +722,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   obtain ⟨f, hf⟩ := hfqS_exists
   have hqS_inertia : q.inertia G = qS.inertia G := by
     apply MulSemiringAction.inertia_eq_inertia_baseChange (G := G) (R := R) (A := R') q qS
-    show q = qS.comap Algebra.TensorProduct.includeRight
+    change q = qS.comap Algebra.TensorProduct.includeRight
     exact hqS_under.symm
   have hfixI : ∀ h ∈ q.inertia G, h • f = f := by
     intro h hh
@@ -747,7 +745,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
       · simp
   let c : S := Finset.sum orbit e'
   have hc_fixed (h : G) : h • c = c := by
-    show (MulSemiringAction.toRingHom G S h) (Finset.sum orbit e') = _
+    change (MulSemiringAction.toRingHom G S h) (Finset.sum orbit e') = _
     rw [map_sum]
     apply Finset.sum_bij (fun f' _ => h • f')
     · intro f' hf'
@@ -761,7 +759,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
       exact ⟨h⁻¹ • (g • f), hmem_orbit _ |>.mpr ⟨h⁻¹ * g, by simp [mul_smul]⟩,
         by simp⟩
     · intro f' hf'
-      show h • e' f' = e' (h • f')
+      change h • e' f' = e' (h • f')
       exact inertiaRefinement_smul_indexShift (G := G) e h f'
   have hc_mul (x : G → Fin n) (hx : x ∈ orbit) : c * e' x = e' x := by
     dsimp [c]
@@ -782,7 +780,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let ι : R' →+* FixedPoints.subring S G := RingHom.codRestrict
     (Algebra.TensorProduct.includeLeftRingHom (R := RG))
     (FixedPoints.subring S G) (fun a h => by
-      show h • (a ⊗ₜ[RG] (1 : R)) = a ⊗ₜ[RG] (1 : R)
+      change h • (a ⊗ₜ[RG] (1 : R)) = a ⊗ₜ[RG] (1 : R)
       exact hleft_smul h a)
   let : MulSemiringAction G (R' ⊗[(FixedPoints.subring R G)] R) :=
     MulSemiringAction.baseChangeMulSemiringAction
@@ -796,7 +794,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   have hc'_not_mem : c' ∉ p' := by
     intro hp
     have hmem : algebraMap R' S c' ∈ qS := by
-      show c' ∈ qS.under R'
+      change c' ∈ qS.under R'
       rw [← hqS_over.over]
       exact hp
     exact hc_not_mem (hc'_map ▸ hmem)
@@ -810,10 +808,10 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
     exact h
   have hc'_idem : c' * c' = c' := by
     apply (hbij inferInstance).1
-    show ι (c' * c') = ι c'
+    change ι (c' * c') = ι c'
     rw [map_mul]
     apply Subtype.ext
-    show algebraMap R' S c' * algebraMap R' S c' = algebraMap R' S c'
+    change algebraMap R' S c' * algebraMap R' S c' = algebraMap R' S c'
     rw [hc'_map, hc_idem]
   let i : Fin n := f 1
   have hrefine_mem (P : Ideal S) [P.IsPrime] (hi : e i ∈ P) : e' f ∈ P := by
@@ -836,12 +834,12 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let : qi.LiesOver p' := hqiOver
   let : Algebra (Localization.AtPrime p') (Localization.AtPrime qi) :=
     Localization.AtPrime.algebraOfLiesOver p' qi
-  let : Localization.AtPrime.IsLiesOverAlgebra p' qi := inferInstance
+  let : IsScalarTower R' (Localization.AtPrime p') (Localization.AtPrime qi) := inferInstance
   let : (r i).IsPrime := hrPrime i
   let : (r i).LiesOver p' := hrLiesOver i
   let : Algebra (Localization.AtPrime p') (Localization.AtPrime (r i)) :=
     Localization.AtPrime.algebraOfLiesOver p' (r i)
-  let : Localization.AtPrime.IsLiesOverAlgebra p' (r i) := inferInstance
+  let : IsScalarTower R' (Localization.AtPrime p') (Localization.AtPrime (r i)) := inferInstance
   have hpureQi : IsPurelyInseparable p'.ResidueField qi.ResidueField := by
     clear_value qi
     cases hqi_eq
@@ -859,11 +857,11 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let : qS.LiesOver p' := hqS_over
   let : Algebra (Localization.AtPrime p') (Localization.AtPrime qS) :=
     Localization.AtPrime.algebraOfLiesOver p' qS
-  let : Localization.AtPrime.IsLiesOverAlgebra p' qS := inferInstance
+  let : IsScalarTower R' (Localization.AtPrime p') (Localization.AtPrime qS) := inferInstance
   let : Algebra p'.ResidueField qS.ResidueField := inferInstance
   have hqSover : p' = qS.comap (algebraMap R' S) := hqS_over.over
   have hqiover : p' = qi.comap (ρ.comp (algebraMap R' S)) := by
-    show p' = qi.under R'
+    change p' = qi.under R'
     exact hqiOver.over
   let βS : p'.ResidueField →+* qS.ResidueField :=
     Ideal.ResidueField.map p' qS (algebraMap R' S) hqSover
@@ -891,7 +889,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
       commutes' := fun x => by
         rw [← hβS_alg, ← hβi_alg]
         have hx := congrArg (fun φ : p'.ResidueField →+* qi.ResidueField => φ x) hβ
-        show Ideal.ResidueField.map qS qi ρ hqScomap (βS x) = βi x
+        change Ideal.ResidueField.map qS qi ρ hqScomap (βS x) = βi x
         simpa only [RingHom.comp_apply] using hx }
   have hpureQS : IsPurelyInseparable p'.ResidueField qS.ResidueField :=
     eResAlg.symm.isPurelyInseparable
@@ -934,7 +932,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
     have hinvpres : h⁻¹ • qS = qS := inv_smul_eq_iff.mpr hpres.symm
     have hcomap : qS = qS.comap (MulSemiringAction.toRingHom G S h) := by
       ext y
-      show y ∈ qS ↔ h • y ∈ qS
+      change y ∈ qS ↔ h • y ∈ qS
       constructor
       · intro hy
         have hy' : h • y ∈ h • qS := Ideal.smul_mem_pointwise_smul h y qS hy
@@ -956,7 +954,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
           intro y
           rw [← hβS_alg]
           have hy := congrArg (fun φ : p'.ResidueField →+* qS.ResidueField => φ y) hγβ
-          show γ (βS y) = βS y
+          change γ (βS y) = βS y
           simpa only [RingHom.comp_apply] using hy }
     have hγid : γAlg = AlgHom.id _ _ := Subsingleton.elim _ _
     have hγfix (z : qS.ResidueField) : γ z = z := by
@@ -969,12 +967,12 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
     have hres : algebraMap S qS.ResidueField (h • x) =
         algebraMap S qS.ResidueField x := by
       simpa only [hmap] using hγfix (algebraMap S qS.ResidueField x)
-    show h • x - x ∈ qS
+    change h • x - x ∈ qS
     rw [← Ideal.algebraMap_residueField_eq_zero, map_sub, hres]
     simp
   have hstabilizer : MulAction.stabilizer G f = q.inertia G := by
     ext h
-    show h • f = f ↔ h ∈ q.inertia G
+    change h • f = f ↔ h ∈ q.inertia G
     constructor
     · intro hh
       rw [hqS_inertia]
@@ -996,7 +994,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let k : RI →+* SI := RingHom.codRestrict
     ((Algebra.TensorProduct.includeRight : R →ₐ[RG] S).toRingHom.comp RI.subtype) SI
     (fun a g => by
-      show g.val • ((1 : R') ⊗ₜ[RG] (a : R)) = (1 : R') ⊗ₜ[RG] (a : R)
+      change g.val • ((1 : R') ⊗ₜ[RG] (a : R)) = (1 : R') ⊗ₜ[RG] (a : R)
       exact (MulSemiringAction.baseChange_smul_tmul
           (G := G) (R := R) (A := R') g.val 1 (a : R)).trans
         (congrArg (fun x : R => (1 : R') ⊗ₜ[RG] x) (a.property g)))
@@ -1009,7 +1007,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
   let α : RI →ₐ[RG] SI := IsScalarTower.toAlgHom RG RI SI
   let φ : R' ⊗[RG] RI →ₐ[R'] SI := AlgHom.liftEquiv RG R' RI SI α
   have hφ (a : R') (r : RI) : (φ (a ⊗ₜ[RG] r) : S) = a ⊗ₜ[RG] (r : R) := by
-    show (a ⊗ₜ[RG] (1 : R)) * ((1 : R') ⊗ₜ[RG] (r : R)) = _
+    change (a ⊗ₜ[RG] (1 : R)) * ((1 : R') ⊗ₜ[RG] (r : R)) = _
     simp
   have hφbij : Function.Bijective φ := fixedPoints_tensorProduct_bijective
     (K := I) (B := RG) (R := R) (A := R')
@@ -1025,7 +1023,7 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
        commutes' := fun _ => rfl } : (RI ⊗[RG] R') ≃ₐ[RI] (R' ⊗[RG] RI))
   have : Algebra.Etale RI SI := Algebra.Etale.of_equiv eRI
   let d : SI := ⟨e' f, fun g => by
-    show g.val • e' f = e' f
+    change g.val • e' f = e' f
     rw [inertiaRefinement_smul_indexShift]
     exact congrArg e' (hfixI g g.property)⟩
   have : Algebra.Etale R' (Localization.Away d) :=
@@ -1046,9 +1044,9 @@ public theorem exists_etale_away_fixedPoints_inertia (q : Ideal R) [q.IsPrime] :
     isPrime_and_under_map_localization_away Q d hdQ
   have hunderRI : QT.under RI = q.comap RI.subtype := by
     rw [← Ideal.under_under (A := RI) (B := SI), hQTunder]
-    show (qS.comap SI.subtype).comap k = _
+    change (qS.comap SI.subtype).comap k = _
     rw [Ideal.comap_comap]
-    show qS.comap ((Algebra.TensorProduct.includeRight : R →ₐ[RG] S).toRingHom.comp
+    change qS.comap ((Algebra.TensorProduct.includeRight : R →ₐ[RG] S).toRingHom.comp
       RI.subtype) = _
     rw [← Ideal.comap_comap]
     exact congrArg (Ideal.comap RI.subtype) hqS_under

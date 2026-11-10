@@ -210,7 +210,7 @@ theorem closure_range_restr [S.X.IsSeparated] :
       exact ⟨k, _, (key k c).symm⟩
     · rintro ⟨k, c, rfl⟩
       refine ⟨_, ⟨k, (U k).topIso.inv.hom c, rfl⟩, ?_⟩
-      show e (restr U k _) = _
+      change e (restr U k _) = _
       rw [key]
       congr 1
       exact ConcreteCategory.congr_hom (U k).topIso.inv_hom_id c
@@ -272,7 +272,7 @@ theorem surjective_tensorMap [∀ k, IsAffine (U k)] [S.X.IsSeparated] :
     obtain ⟨k, c, rfl⟩ := Set.mem_iUnion.mp hy
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective ((L k).equiv c)
     refine ⟨PiTensorProduct.singleAlgHom k b, ?_⟩
-    show tensorMap L (PiTensorProduct.singleAlgHom k b) = _
+    change tensorMap L (PiTensorProduct.singleAlgHom k b) = _
     rw [tensorMap_single, component_apply, hb, RingEquiv.symm_apply_apply]
   rw [closure_range_restr] at h
   exact fun y ↦ h trivial
@@ -286,7 +286,7 @@ theorem map_le_tensorIdeal :
     (baseSectionsRing S).ideal.map (algebraMap (baseSectionsRing S) (tensorRing L)) ≤
       tensorIdeal L := by
   refine Ideal.map_le_iff_le_comap.mpr fun a ha ↦ ?_
-  show tensorMap L (algebraMap _ _ a) = 0
+  change tensorMap L (algebraMap _ _ a) = 0
   rw [AlgHom.commutes]
   exact baseSectionsToSections_eq_zero_of_mem (overSituation S (inter U).ι) a ha
 
@@ -418,7 +418,7 @@ theorem projRingHom_comp_algebraMap (k : Fin (n + 1)) :
       (Scheme.ΓSpecIso (CommRingCat.of (envelope L).object)).inv.hom.comp
         (envelope L).structureMap.toRingHom := by
   refine RingHom.ext fun a ↦ ?_
-  show (Scheme.ΓSpecIso (CommRingCat.of (envelope L).object)).inv.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of (envelope L).object)).inv.hom
     ((envelope L).algebraMap.toRingHom (PiTensorProduct.singleAlgHom
       (R := baseSectionsRing S) (A := fun j ↦ (L j).ring) k (algebraMap _ _ a))) = _
   rw [AlgHom.commutes]
@@ -465,7 +465,7 @@ theorem immersion_appTop_projRingHom (k : Fin (n + 1)) (c : Γ((U k).toScheme, �
         (restr U k c) := by
   refine appTop_specQuotientImmersion_eq (isNilpotent_prime_over S (inter U).ι hp)
     (envelopeThickening hp L) ?_
-  show _ = (envelopeEquiv L).symm (restr U k c)
+  change _ = (envelopeEquiv L).symm (restr U k c)
   refine (RingEquiv.eq_symm_apply _).mpr ?_
   refine (envelopeEquiv_mk_algebraMap L (PiTensorProduct.singleAlgHom
     (R := baseSectionsRing S) (A := fun j ↦ (L j).ring) k b)).trans ?_
@@ -557,13 +557,13 @@ omit [S.X.IsSeparated] in
 include f in
 /-- An object mapping to every `D_k` maps into `U_0 ∩ ⋯ ∩ U_n`. -/
 theorem toX_mem_inter (z : T.thickening.source) : T.toX z ∈ inter U := by
-  show T.toX z ∈ ((⨅ k, U k : S.X.Opens) : Set S.X)
+  change T.toX z ∈ ((⨅ k, U k : S.X.Opens) : Set S.X)
   rw [TopologicalSpace.Opens.coe_iInf, Set.mem_iInter]
   intro k
   rw [← (f k).toX_naturality]
-  show ((L k).object hp).toX ((f k).sourceHom z) ∈ U k
+  change ((L k).object hp).toX ((f k).sourceHom z) ∈ U k
   rw [SmoothLift.object_toX]
-  show (U k).ι _ ∈ U k
+  change (U k).ι _ ∈ U k
   exact ((U k).ι_apply _).symm ▸ (Subtype.prop _)
 
 /-- The map of the thickened scheme of `T` to `U_0 ∩ ⋯ ∩ U_n`. -/
@@ -654,7 +654,7 @@ theorem immersion_legTensorMap (x : tensorRing L) :
   have h : (immersionAlgHom T).comp (legTensorMap hp L f) =
       (interToSource hp L f).comp (tensorMap L) := by
     refine PiTensorProduct.algHom_ext fun k ↦ AlgHom.ext fun b ↦ ?_
-    show T.thickening.immersion.appTop.hom (legTensorMap hp L f
+    change T.thickening.immersion.appTop.hom (legTensorMap hp L f
       (PiTensorProduct.singleAlgHom k b)) =
         (liftToInter hp L f).appTop.hom (tensorMap L (PiTensorProduct.singleAlgHom k b))
     rw [legTensorMap, piLift_single, tensorMap_single]
@@ -672,7 +672,7 @@ theorem map_tensorIdeal_le :
     (tensorIdeal L).map (legTensorRingHom hp L f) ≤
       T.thickening.sectionsRing.ideal := by
   refine Ideal.map_le_iff_le_comap.mpr fun x hx ↦ ?_
-  show legTensorMap hp L f x ∈ SchemeThickening.sectionsIdeal T.thickening
+  change legTensorMap hp L f x ∈ SchemeThickening.sectionsIdeal T.thickening
   rw [SchemeThickening.sectionsIdeal_eq_ker_appTop, RingHom.mem_ker, immersion_legTensorMap,
     show tensorMap L x = 0 from hx, map_zero]
 
@@ -819,7 +819,7 @@ theorem eq_lift (m : T ⟶ envelopeObject hp L) (hm : ∀ k, m ≫ proj hp L k =
     (globalSectionsDPMorphism m.targetHom).comp
       (DividedPowerScheme.specSectionsRingIso (envelope L).object).hom
   have hθs : ∀ a, θ ((envelope L).structureMap a) = T.toBase.hom.appTop.hom a := fun a ↦ by
-    show m.targetHom.hom.appTop.hom ((Scheme.ΓSpecIso _).inv.hom
+    change m.targetHom.hom.appTop.hom ((Scheme.ΓSpecIso _).inv.hom
       ((envelope L).structureMap a)) = _
     exact (congrArg m.targetHom.hom.appTop.hom (envelopeObject_toBase_appTop hp L a).symm).trans
       (ConcreteCategory.congr_hom (congrArg (fun g : T.thickening.target ⟶ S.S ↦ g.hom.appTop)
@@ -834,7 +834,7 @@ theorem eq_lift (m : T ⟶ envelopeObject hp L) (hm : ∀ k, m ≫ proj hp L k =
             (congrArg θ (RingHom.congr_fun (envelope L).algebraMap_comp a)).trans (hθs a) }
       have h : θA = legTensorMap hp L f := by
         refine PiTensorProduct.algHom_ext fun k ↦ AlgHom.ext fun b ↦ ?_
-        show m.targetHom.hom.appTop.hom (projRingHom hp L k b) =
+        change m.targetHom.hom.appTop.hom (projRingHom hp L k b) =
           legTensorMap hp L f (PiTensorProduct.singleAlgHom k b)
         have h1 := proj_targetHom_appTop hp L k
           ((Scheme.ΓSpecIso (CommRingCat.of (L k).dividedPowerRing)).inv.hom b)

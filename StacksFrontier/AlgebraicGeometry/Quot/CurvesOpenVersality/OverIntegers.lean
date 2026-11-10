@@ -69,7 +69,9 @@ attribute [local instance high] hasPullback_presheaf_ProperFlatFamilies
 attribute [local instance] hasLimits_presheaf_ProperFlatFamilies
   hasPullbacks_presheaf_ProperFlatFamilies
 
-private theorem properFlat_relativeDimensionLE_of_hom_over
+/-- The source of a morphism of finitely presented, flat and proper families has relative
+dimension at most one when its target does. -/
+theorem properFlat_relativeDimensionLE_of_hom_over
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : CartesianProperFlatSpaces B S hS} (f : X ⟶ Y)
     (hYdim : Space.HasRelativeDimensionLE 1 B S hS Y.obj.obj.hom) :
@@ -388,7 +390,7 @@ private theorem isVersalAt_curve_of_properFlat
   apply AlgebraicGeometry.CurveFamily.Hom.ext
   · have hbase := congrArg (fun g : py ⟶ (curveToProperFlat B hZ).obj x =>
       g.hom.hom.right) hb
-    show (i.baseMap ≫ bc.baseMap) = a.baseMap
+    change (i.baseMap ≫ bc.baseMap) = a.baseMap
     have hbc : bc.baseMap = b.hom.hom.right := by
       cases properFlatAsCurve_curveToProperFlat_obj B hZ z
       cases properFlatAsCurve_curveToProperFlat_obj B hZ x
@@ -398,7 +400,7 @@ private theorem isVersalAt_curve_of_properFlat
     exact hbase
   · have htotal := congrArg (fun g : py ⟶ (curveToProperFlat B hZ).obj x =>
       g.hom.hom.left) hb
-    show (i.totalMap ≫ bc.totalMap) = a.totalMap
+    change (i.totalMap ≫ bc.totalMap) = a.totalMap
     have hbc : bc.totalMap = b.hom.hom.left := by
       cases properFlatAsCurve_curveToProperFlat_obj B hZ z
       cases properFlatAsCurve_curveToProperFlat_obj B hZ x
@@ -432,7 +434,7 @@ private theorem isVersalAt_properFlat_of_curve
   let ix := properFlatHomAsCurveHom B hZ hyDim hzDim i
   have hDimTarget : Space.HasRelativeDimensionLE 1 B integerBase hZ
       (((curveToProperFlat B hZ).obj x).obj.obj.hom) := by
-    show Space.HasRelativeDimensionLE 1 B integerBase hZ
+    change Space.HasRelativeDimensionLE 1 B integerBase hZ
       (curveToBase x)
     exact x.relativeDimensionLE
   let ax₀ := properFlatHomAsCurveHom B hZ hyDim hDimTarget a
@@ -606,13 +608,13 @@ private theorem relocalizedChartMap_fac
       (relocalizedYonedaIso g (relocalizedChartBase g f)).hom ≫
         (OverShriek.relocalizePresheafFunctor g).map (relocalizedChartMap g f) = f := by
   apply yonedaEquiv.injective
-  show ((OverShriek.relocalizePresheafFunctor g).map
+  change ((OverShriek.relocalizePresheafFunctor g).map
     (relocalizedChartMap g f)).app (Opposite.op T)
       ((relocalizedYonedaIso g (relocalizedChartBase g f)).hom.app (Opposite.op T)
         (𝟙 T ≫ (relocalizedChartIso g f).inv)) = yonedaEquiv f
   rw [Category.id_comp]
   apply Subtype.ext
-  show (⟨_, F.map (Over.homMk (𝟙 T.left) rfl :
+  change (⟨_, F.map (Over.homMk (𝟙 T.left) rfl :
       Over.mk ((𝟙 T.left) ≫ (yonedaEquiv f).1.1) ⟶
         relocalizedChartBase g f).op (yonedaEquiv f).1.2⟩ :
       Σ a, F.obj (Opposite.op (Over.mk a))) = (yonedaEquiv f).1
@@ -662,7 +664,7 @@ private theorem schemeSpaceOverLargerBaseIso_naturality
         ((smallerBaseEquivalenceData
           B S S' hS hS' g).1.functor.map (schemeSpaceMap_ f)).hom.left := by
   let d := smallerBaseEquivalenceData B S S' hS hS' g
-  show yoneda.map ((Over.map g).map f) ≫
+  change yoneda.map ((Over.map g).map f) ≫
       ((relocalizedYonedaIso g T').hom ≫ d.2.inv.app (schemeSpace_ T')) =
     ((relocalizedYonedaIso g T).hom ≫ d.2.inv.app (schemeSpace_ T)) ≫ _
   rw [← Category.assoc, relocalizedYonedaIso_naturality, Category.assoc,
@@ -695,7 +697,7 @@ private theorem schemeSpaceOverLargerBaseMap_left
   have hn := schemeSpaceOverLargerBaseIso_naturality B S S' hS hS' g f
   change yoneda.map ((Over.map g).map f) ≫ j.hom.hom.left =
     i.hom.hom.left ≫ (e.functor.map (schemeSpaceMap_ f)).hom.left at hn
-  show (i.hom.hom.left ≫
+  change (i.hom.hom.left ≫
     (e.functor.map (schemeSpaceMap_ f)).hom.left) ≫
       j.inv.hom.left = yoneda.map ((Over.map g).map f)
   have hj := congrArg (fun k => k.hom.left) j.hom_inv_id

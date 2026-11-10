@@ -109,7 +109,7 @@ theorem projectiveTwistClassHom_eq (m : ℕ) (hm : 0 < m) (d : ℤ) :
       projectiveSpaceOverRingPicardAddEquiv A m hm d := by
   let e := Stacks.ProjectiveCohomology.projModelIso A m
   apply (picardGroupAddEquivOfIso e).symm.injective
-  show pullbackPicardHom e.hom _ = pullbackPicardHom e.hom
+  change pullbackPicardHom e.hom _ = pullbackPicardHom e.hom
     (pullbackPicardHom e.inv (twistPicardHom A m d))
   rw [← pullbackPicardHom_comp_apply, e.hom_inv_id, pullbackPicardHom_id,
     pullbackPicardHom_projModelIso_hom_projectiveTwistClassHom]

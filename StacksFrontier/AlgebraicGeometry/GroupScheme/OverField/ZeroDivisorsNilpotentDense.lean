@@ -76,7 +76,8 @@ theorem _root_.ZeroDivisorsNilpotent.eq_zero_of_forall_minimalPrimes {A : Type*}
     exact ha (eq_zero_of_localization a fun p hp => hne p hp)
   obtain ⟨q, hqp, hq⟩ := Ideal.exists_minimalPrimes_le (bot_le : ⊥ ≤ p)
   have hqmin : q ∈ minimalPrimes A := by
-    rwa [minimalPrimes, Ideal.minimalPrimes] at *
+    rw [minimalPrimes, Ideal.minimalPrimes] at *
+    assumption
   obtain ⟨g, hg, n, hgn⟩ := h q hqmin
   have hqprime : q.IsPrime := hqmin.1.1
   have hzd : algebraMap A (Localization.AtPrime p) (g ^ n) ∉

@@ -164,10 +164,10 @@ theorem IsAffineFinitePresentationAlgebraicSpaceOver.of_isPullback
   let σ' : Over.mk pZ.hom ⟶ Over.mk pQ.hom := hΨ.preimage (iZ.hom ≫ σ ≫ iQ.inv)
   have hcmap : (overPointsULift Y).map c' = iP.hom ≫ c ≫ iQ.inv := hΨ.map_preimage _
   have hσmap : (overPointsULift Y).map σ' = iZ.hom ≫ σ ≫ iQ.inv := hΨ.map_preimage _
-  haveI : HasPullback c' σ' := hasLimit_of_created (cospan c' σ') (Over.forget Y.obj)
+  have : HasPullback c' σ' := hasLimit_of_created (cospan c' σ') (Over.forget Y.obj)
   have sqO := IsPullback.of_hasPullback c' σ'
   have sqL := (Over.forget Y.obj).map_isPullback sqO
-  haveI := sqL.hasPullback
+  have := sqL.hasPullback
   have hW : IsAlgebraicSpace B S hS (pullback c' σ').left :=
     (isAlgebraicSpace_pullback B S hS c'.left σ'.left HP.property HZ.property
       HQ.property).of_iso sqL.isoPullback.symm

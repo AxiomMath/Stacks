@@ -322,7 +322,7 @@ theorem denseRestrictPicardEquiv_classOf
         (Stacks.SheafOfModules.Tensor.ringSheaf (denseRestrict J X G).O).property
         ((denseRestrictModules J X G).obj L)
         (isInvertible_denseRestrictModules_obj J X G L hL) := by
-  show (Picard.picardGroupData (denseRestrict J X G).O.obj
+  change (Picard.picardGroupData (denseRestrict J X G).O.obj
       (Stacks.SheafOfModules.Tensor.ringSheaf (denseRestrict J X G).O).property).classEquiv
         (denseRestrictSkeletonEquiv J X G
           ((Picard.picardGroupData X.O.obj

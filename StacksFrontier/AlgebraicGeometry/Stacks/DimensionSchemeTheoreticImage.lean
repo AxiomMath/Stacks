@@ -1158,7 +1158,7 @@ theorem dimensionAtPoint_ne_bot (𝒳 : AlgebraicStacks.{u, w} B S hS)
     induction δ' using WithTop.recTopCoe with
     | top => exact WithBotTop.top_ne_bot
     | coe m =>
-      show (((m : ℤ) - (d : ℤ) : ℤ) : EInt) ≠ ⊥
+      change (((m : ℤ) - (d : ℤ) : ℤ) : EInt) ≠ ⊥
       exact WithBotTop.coe_ne_bot _
 
 /-- **A nonempty open subset of the points of a Jacobson algebraic stack contains a finite type
@@ -1183,7 +1183,7 @@ theorem exists_isFiniteTypePoint_mem_of_isOpen (𝒳 : AlgebraicStacks.{u, w} B 
   obtain ⟨t₀, ht₀⟩ := hWne
   obtain ⟨z, hz⟩ := hφsurj t₀
   have hOne : O.Nonempty := ⟨e z, by
-    show AlgebraicStacks.pointsMap B S hS φ (e.symm (e z)) ∈ W
+    change AlgebraicStacks.pointsMap B S hS φ (e.symm (e z)) ∈ W
     rw [e.symm_apply_apply, hz]
     exact ht₀⟩
   obtain ⟨y, hyO, hycl⟩ := nonempty_inter_closedPoints hOne hOopen.isLocallyClosed

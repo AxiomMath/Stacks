@@ -97,9 +97,9 @@ private theorem fp_transfer {R : Type*} [CommRing R] {R' : Type*} [CommRing R']
   rw [RingHom.FinitePresentation]
   have key : ∀ r : R, eS (algebraMap R S r) = algebraMap R S' r := by
     intro r
-    show eS (f r) = (algebraMap R' S').comp (algebraMap R R') r
+    change eS (f r) = (algebraMap R' S').comp (algebraMap R R') r
     simp only [RingHom.coe_comp, Function.comp_apply]
-    show eS (f r) = f' (eR r)
+    change eS (f r) = f' (eR r)
     rw [hf']
     simp
   have : Algebra.FinitePresentation R S := hf
@@ -304,7 +304,7 @@ theorem aux_kcomm_tmul (R : Type*) [CommRing R] (S : Type*) [CommRing S] [Algebr
     letI := Algebra.TensorProduct.rightAlgebra (R := R) (A := S) (B := κ)
     (aux_kcomm R S κ) (s ⊗ₜ[R] c) = c ⊗ₜ[R] s := by
   let := Algebra.TensorProduct.rightAlgebra (R := R) (A := S) (B := κ)
-  show (Algebra.TensorProduct.comm R S κ) (s ⊗ₜ[R] c) = c ⊗ₜ[R] s
+  change (Algebra.TensorProduct.comm R S κ) (s ⊗ₜ[R] c) = c ⊗ₜ[R] s
   rw [Algebra.TensorProduct.comm_tmul]
 
 /-- Localization commutes with base change: `(S ⊗_R κ)` localized away from `g_i ⊗ 1` is

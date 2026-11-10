@@ -225,13 +225,13 @@ private noncomputable def sigmaColimitIso :
           (Sigma.ι (fun i ↦ colimit (Sigma.incl i ⋙ X)) i) })
   hom_inv_id := by
     ext i x
-    simp only [Sigma.ι_desc_assoc, colimit.ι_pre_assoc, colimit.ι_desc, Category.comp_id]
+    simp only [Sigma.ι_comp_desc_assoc, colimit.ι_pre_assoc, colimit.ι_desc, Category.comp_id]
     rfl
   inv_hom_id := by
     ext ⟨i, x⟩
     simp only [colimit.ι_desc_assoc, Category.comp_id]
     exact (Category.assoc ..).trans <| (whisker_eq (colimit.ι (Sigma.incl i ⋙ X) x)
-      (Sigma.ι_desc _ i)).trans (colimit.ι_pre X (Sigma.incl i) x)
+      (Sigma.ι_comp_desc _ i)).trans (colimit.ι_pre X (Sigma.incl i) x)
 
 variable [∀ i, HasColimit (Sigma.incl i ⋙ X₁)] [∀ i, HasColimit (Sigma.incl i ⋙ X₂)]
   [HasCoproduct fun i ↦ colimit (Sigma.incl i ⋙ X₁)]
@@ -243,7 +243,7 @@ private lemma sigmaMap_comp_sigmaColimitIso_hom (φ : X₁ ⟶ X₂) :
     (Limits.Sigma.map fun i ↦ colimMap (Functor.whiskerLeft (Sigma.incl i) φ)) ≫
       (sigmaColimitIso X₂).hom = (sigmaColimitIso X₁).hom ≫ colimMap φ := by
   ext i x
-  simp only [sigmaColimitIso_hom, Sigma.ι_map_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc,
+  simp only [sigmaColimitIso_hom, Sigma.ι_map_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc,
     ι_colimMap_assoc, colimit.ι_pre, colimit.ι_pre_assoc, ι_colimMap, Functor.whiskerLeft_app]
 
 /-- Taking the colimit over a disjoint union of categories preserves monomorphisms as soon as

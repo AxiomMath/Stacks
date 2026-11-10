@@ -118,8 +118,7 @@ theorem tensorSMul_tmul (m : M) (c : C) : tensorSMul A C M (m ⊗ₜ c) = c • 
 /-- The multiplication splits the first map of the sequence. -/
 theorem tensorSMul_lTensor_linearMap (w : M ⊗[A] A) :
     tensorSMul A C M ((Algebra.linearMap A C).lTensor M w) = TensorProduct.rid A M w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul m a => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 
@@ -127,8 +126,7 @@ theorem tensorSMul_lTensor_linearMap (w : M ⊗[A] A) :
 theorem tensorSMul_rTensor {M' : Type*} [AddCommGroup M'] [Module A M'] [Module C M']
     [IsScalarTower A C M'] (φ : M →ₗ[C] M') (x : M ⊗[A] C) :
     tensorSMul A C M' ((φ.restrictScalars A).rTensor C x) = φ (tensorSMul A C M x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m c => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
 
@@ -179,8 +177,7 @@ theorem _root_.TensorProduct.exists_smul_mem_of_lTensor_eq_zero {R E M : Type*} 
     Module.Flat.lTensor_exact E (LinearMap.exact_subtype_ker_map φ)
   obtain ⟨w, rfl⟩ := (hex y).mp hy
   clear hy
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨1, (Ideal.ne_top_iff_one Q).mp Ideal.IsPrime.ne_top', by simp⟩
+  induction w using TensorProduct.inductionOn with
   | tmul e m =>
     have hm : φ m = 0 := m.2
     rw [LinearMap.comp_apply,
@@ -255,8 +252,7 @@ theorem EqualizerTensorExact.of_associatedPrimes_of_finite [Module.Finite C M]
       (by rw [tensorSMul_rTensor, hμ, map_zero])
   have hnat (z : M ⊗[A] C) : φ.lTensor (C ⊗[A] C) (tensorCancelEquiv (A := A) z) =
       tensorCancelEquiv (A := A) ((φ.restrictScalars A).rTensor C z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul m c => rfl
     | add z w hz hw => rw [map_add, map_add, hz, hw, map_add, map_add]
   rw [hnat, hx, map_zero]
@@ -266,8 +262,7 @@ omit [Module.Flat A C] [IsNoetherianRing C] [IsNoetherianRing (C ⊗[A] C)] in
 `M'` of `M`. -/
 theorem exists_fg_rTensor_eq (x : M ⊗[A] C) : ∃ M' : Submodule C M, M'.FG ∧
     ∃ x' : M' ⊗[A] C, (M'.subtype.restrictScalars A).rTensor C x' = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, Submodule.fg_bot, 0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul m c =>
     exact ⟨C ∙ m, Submodule.fg_span_singleton m,
       (⟨m, Submodule.mem_span_singleton_self m⟩ : C ∙ m) ⊗ₜ c, rfl⟩

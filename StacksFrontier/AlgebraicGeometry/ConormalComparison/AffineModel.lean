@@ -89,7 +89,8 @@ instance at `k` is `CategoryTheory.Limits.kernel` of
 
 The two spellings are *not* interchangeable at the elaborator's implicit transparency, both
 being plain definitions, so every intermediate statement below is written in the
-`AlgebraicGeometry.Scheme.Modules` spelling and only the final one is restated in the Stacks statements' spelling.
+`AlgebraicGeometry.Scheme.Modules` spelling and only the final one is restated in the Stacks
+statements' spelling.
 
 No hypothesis beyond a commutative ring and an ideal is used: nothing is Noetherian, nothing
 is finitely generated, and `I` is an arbitrary ideal.
@@ -127,7 +128,8 @@ whose type is checked at default transparency, and the final assembly is a `cong
   `Stacks.Conormal.AffineShape.conormalRestrictTopSectionsIso` evaluating it at `⊤`, which is
   where this file's `exists_idealSheafΓIsoCotangent` applies.
 
-  What is still missing is narrower than "no locality". That comparison is a five-fold composite of isomorphisms, and **not one of
+  What is still missing is narrower than "no locality". That comparison is a five-fold composite of
+  isomorphisms, and **not one of
   the five has an elementwise formula**, so a named section cannot be carried across it; and
   the comparison of the two scalar actions, over `Γ((i ⁻¹ᵁ V).toScheme, ⊤)` on one side and
   over `Γ(X, V)` on the other, is recorded as not supplied by

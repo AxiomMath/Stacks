@@ -58,7 +58,7 @@ theorem isIso_fibreImageAdjunction_unit_top (W : SimplicialOpen (fibreSpace X Y 
              le := by
                rintro x ⟨z, hz, hzx⟩
                obtain rfl := fibrePt_injective X Y a ⊤ W.degree hzx
-               show (fibreSpace X Y a ⊤).map (𝟙 W.degree) z ∈ W.toOpens
+               change (fibreSpace X Y a ⊤).map (𝟙 W.degree) z ∈ W.toOpens
                rwa [ConcreteCategory.congr_hom ((fibreSpace X Y a ⊤).map_id W.degree) z] },
       ?_, ?_⟩⟩ <;>
     exact SimplicialOpen.Hom.ext _ _ (Category.id_comp _)

@@ -72,7 +72,7 @@ theorem partMap_ι (d : ℕ) :
 /-- The morphism of parts `X'_d ⟶ X_d` commutes with the structure morphisms to the base. -/
 theorem partMap_comp_partBase (d : ℕ) :
     partMap sX sX' φ hφ d ≫ partBase sX d = partBase sX' d := by
-  show partMap sX sX' φ hφ d ≫ (dimPart sX d).ι ≫ sX = (dimPart sX' d).ι ≫ sX'
+  change partMap sX sX' φ hφ d ≫ (dimPart sX d).ι ≫ sX = (dimPart sX' d).ι ≫ sX'
   rw [partMap_ι_assoc, hφ]
 
 /-- Two open immersions that are equal induce the same morphism of parts. -/
@@ -150,6 +150,7 @@ theorem correspondenceEquivOfIso_congr (C : ChowSituation.{u}) {A B A' B' : Sche
   subst hA hB
   rfl
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- Transport along the identities is the identity. -/
 @[simp]
 theorem corrEquivOfIso_id (r : ℤ) (c : Corr k sX sY r) :
@@ -165,6 +166,8 @@ theorem corrEquivOfIso_id (r : ℤ) (c : Corr k sX sY r) :
 variable (sZ : Z ⟶ (fieldChowSituation k).S) (sZ' : Z' ⟶ (fieldChowSituation k).S) [Smooth sZ]
   [IsSeparated sZ] [Smooth sZ'] [IsSeparated sZ'] (φZ : Z' ⟶ Z) [IsIso φZ] (hφZ : φZ ≫ sZ = sZ')
 
+omit [IsSeparated sX] [IsSeparated sX'] [IsSeparated sY] [IsSeparated sY'] [IsSeparated sZ]
+  [IsSeparated sZ'] in
 /-- Transport is compatible with composition of two correspondences, each concentrated in a
 single block. -/
 theorem comp_corrEquivOfIso_blocks {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoInvariant)
@@ -193,6 +196,8 @@ theorem comp_corrEquivOfIso_blocks {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoInv
   · simp only [corrEquivOfIso_lof_lof, comp_lof_lof_lof_of_ne k sX sY sZ Δ r s d e e' he,
       comp_lof_lof_lof_of_ne k sX' sY' sZ' Δ r s d e e' he, LinearEquiv.map_zero]
 
+omit [IsSeparated sX] [IsSeparated sX'] [IsSeparated sY] [IsSeparated sY'] [IsSeparated sZ]
+  [IsSeparated sZ'] in
 /-- Transport is compatible with composition when the first correspondence is concentrated in a
 single block. -/
 theorem comp_corrEquivOfIso_lof_lof {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoInvariant)
@@ -211,6 +216,8 @@ theorem comp_corrEquivOfIso_lof_lof {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoIn
   | lof e' f y =>
     exact comp_corrEquivOfIso_blocks k sX sX' sY sY' φX φY hφX hφY sZ sZ' φZ hφZ hΔ r s d e x e' f y
 
+omit [IsSeparated sX] [IsSeparated sX'] [IsSeparated sY] [IsSeparated sY'] [IsSeparated sZ]
+  [IsSeparated sZ'] in
 /-- **Composition of correspondences is natural with respect to isomorphisms over `k`**: for
 isomorphisms `φX : X' ≅ X`, `φY : Y' ≅ Y`, `φZ : Z' ≅ Z` over `k`, the transport of `b ∘ a` is the
 composition of the transports, for an iso-invariant family of diagonal classes. -/
@@ -244,6 +251,7 @@ theorem mem_dimPart_of_isIso (ψ : Q ⟶ P) [IsIso ψ] (hψ : ψ ≫ sP = sQ) {e
 
 variable (α : Q' ⟶ P) [IsIso α] (hα : α ≫ sP = sQ') (β : Q' ⟶ Q) [IsIso β] (hβ : β ≫ sQ = sQ')
 
+omit [IsSeparated sQ] in
 /-- The `(d, d)` block of the graph of `β⁻¹ ≫ α : Q ⟶ P` is the transport of the diagonal of
 `Q'_d` along `α × β`. -/
 theorem graphBlock_eq_correspondenceEquivOfIso (d : ℕ) :
@@ -298,8 +306,9 @@ theorem graphBlock_eq_correspondenceEquivOfIso (d : ℕ) :
     (graphMorphism (partBase sQ' d) (partBase sQ' d) (𝟙 _) (Category.id_comp _)) ((d : ℤ) - 0)
   exact (congrArg (QuotientAddGroup.mk' (rationalEquivalences _ _ _)) key).symm
 
--- Lean v4.35.0: instance search for `AddMonoidHomClass` on `Corr` needs more heartbeats.
 set_option synthInstance.maxHeartbeats 200000 in
+-- Lean v4.35.0: instance search for `AddMonoidHomClass` on `Corr` needs more heartbeats.
+omit [IsSeparated sQ] in
 /-- **The graph of `β⁻¹ ≫ α` is the transport of the diagonal along `α × β`**:
 `[Γ_{β⁻¹ ≫ α}] = (α × β)_* [Δ_{Q'}]` in `Corr⁰(P, Q)`. -/
 theorem graphCorr_eq_corrEquivOfIso [QuasiCompact sQ] [QuasiCompact sQ'] :
@@ -347,12 +356,14 @@ variable (k : Type u) [Field k] {X P Q Y Z : Scheme.{u}} (sX : X ⟶ (fieldChowS
   [Smooth sX] [IsSeparated sX] [Smooth sP] [IsSeparated sP] [Smooth sQ] [IsSeparated sQ]
   [Smooth sY] [IsSeparated sY] [Smooth sZ] [IsSeparated sZ] {Δ : DiagonalClassFamily k}
 
+omit [IsSeparated sQ] in
 /-- The graph correspondence depends only on the morphism. -/
 theorem graphCorr_congr [QuasiCompact sQ] {f f' : Q ⟶ P} (hf : f ≫ sP = sQ) (hf' : f' ≫ sP = sQ)
     (h : f = f') : graphCorr k sP sQ f hf = graphCorr k sP sQ f' hf' := by
   subst h
   rfl
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- Transport commutes with the identification of degrees. -/
 theorem corrEquivOfIso_corrCongr {X' Y' : Scheme.{u}} (sX' : X' ⟶ (fieldChowSituation k).S)
     (sY' : Y' ⟶ (fieldChowSituation k).S) [Smooth sX'] [IsSeparated sX'] [Smooth sY']
@@ -379,6 +390,7 @@ theorem comp_graphCorr_left (hΔ : Δ.ProperIntersectionFormula) (hiso : Δ.IsoI
   rw [comp_corrEquivOfIso k sP sQ sQ sQ ψ (𝟙 Q) hψ (Category.id_comp _) sY sY (𝟙 Y)
     (Category.id_comp _) hiso 0 s, hΔ.comp_diagonalCorr k sQ sY s h, corrEquivOfIso_corrCongr]
 
+omit [IsSeparated sZ] in
 /-- **Composing with the graph of an isomorphism on the target side is transport**: for an
 isomorphism `χ : Z ⟶ Y` over `k` and `h ∈ Corrʳ(X, Y)`, `[Γ_χ] ∘ h = (1 × χ⁻¹)_* h`. -/
 theorem comp_graphCorr_right (hΔ : Δ.ProperIntersectionFormula) (hiso : Δ.IsoInvariant)

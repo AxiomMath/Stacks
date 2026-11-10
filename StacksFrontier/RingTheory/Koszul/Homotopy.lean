@@ -111,7 +111,7 @@ public theorem nullHomotopic {R : Type*} [CommRing R] {r : ℕ} (f : Fin r → R
         change (⋀[R]^0 (Fin r → R)) at x
         apply Subtype.ext
         simp only [add_zero, ModuleCat.hom_smul, ModuleCat.hom_id, Koszul.seqComplex_d]
-        show f i • (x : ExteriorAlgebra R (Fin r → R)) =
+        change f i • (x : ExteriorAlgebra R (Fin r → R)) =
           Koszul.contraction (Koszul.seqDual f)
             (wedgeLeft i 0 x : ExteriorAlgebra R (Fin r → R))
         simpa [contraction_zero_degree f x] using
@@ -124,7 +124,7 @@ public theorem nullHomotopic {R : Type*} [CommRing R] {r : ℕ} (f : Fin r → R
         change (⋀[R]^(n + 1) (Fin r → R)) at x
         apply Subtype.ext
         simp only [add_zero, ModuleCat.hom_smul, ModuleCat.hom_id, Koszul.seqComplex_d]
-        show f i • (x : ExteriorAlgebra R (Fin r → R)) =
+        change f i • (x : ExteriorAlgebra R (Fin r → R)) =
           ExteriorAlgebra.ι R (Pi.single i 1) *
               Koszul.contraction (Koszul.seqDual f) (x : ExteriorAlgebra R (Fin r → R)) +
             Koszul.contraction (Koszul.seqDual f)

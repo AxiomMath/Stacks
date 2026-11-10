@@ -203,7 +203,7 @@ def tmul (F : FiniteOpenFactorization.{u, v, w} A B)
 @[simp]
 lemma smul_tmul (F : FiniteOpenFactorization.{u, v, w} A B) (b x : B)
     (f : Module.Dual A F.middle) : b • tmul F f x = tmul F f (b * x) := by
-  show (TensorProduct.comm F.middle (Module.Dual A F.middle) B).symm
+  change (TensorProduct.comm F.middle (Module.Dual A F.middle) B).symm
       (b • (TensorProduct.comm F.middle (Module.Dual A F.middle) B) (f ⊗ₜ x)) = _
   rw [TensorProduct.comm_tmul, TensorProduct.smul_tmul', TensorProduct.comm_symm_tmul]
   rfl
@@ -231,14 +231,14 @@ lemma add_tmul (F : FiniteOpenFactorization.{u, v, w} A B)
   TensorProduct.add_tmul _ _ _
 
 /-- Pure tensors generate the relative dualizing module: to prove a property of every element it
-suffices to prove it for `0`, for pure tensors, and for sums. This repackages
-`TensorProduct.induction_on` so that consumers need not unfold `dualizingModule`. -/
+suffices to prove it for pure tensors and for sums. This repackages
+`TensorProduct.inductionOn` so that consumers need not unfold `dualizingModule`. -/
 theorem induction_on (F : FiniteOpenFactorization.{u, v, w} A B)
-    {motive : dualizingModule F → Prop} (z : dualizingModule F) (zero : motive 0)
+    {motive : dualizingModule F → Prop} (z : dualizingModule F)
     (tmul : ∀ (f : Module.Dual A F.middle) (b : B), motive (dualizingModule.tmul F f b))
     (add : ∀ x y, motive x → motive y → motive (x + y)) : motive z :=
-  TensorProduct.induction_on (R := F.middle) (M := Module.Dual A F.middle) (N := B)
-    z zero tmul add
+  TensorProduct.inductionOn (R := F.middle) (M := Module.Dual A F.middle) (N := B)
+    z tmul add
 
 end dualizingModule
 
@@ -293,7 +293,7 @@ lemma isEpi_of_finiteOpenFactorization
   intro b
   apply sub_eq_zero.mp
   let z : B ⊗[R] B := 1 ⊗ₜ[R] b - b ⊗ₜ[R] 1
-  show z = 0
+  change z = 0
   by_contra hz
   let I := (Submodule.span B {z}).annihilator
   have hI : I ≠ ⊤ := by
@@ -308,15 +308,15 @@ lemma isEpi_of_finiteOpenFactorization
     (F.awayMap_bijective g hbasic).2 b
   have hgz : algebraMap R B g ^ n ∈ I := by
     rw [Submodule.mem_annihilator_span_singleton]
-    show (algebraMap R B g ^ n) • (1 ⊗ₜ[R] b - b ⊗ₜ[R] 1) = 0
+    change (algebraMap R B g ^ n) • (1 ⊗ₜ[R] b - b ⊗ₜ[R] 1) = 0
     rw [smul_sub]
     have hleft : (algebraMap R B g ^ n) • ((1 : B) ⊗ₜ[R] b) =
         (1 : B) ⊗ₜ[R] (algebraMap R B g ^ n * b) := by
-      show (algebraMap R B g ^ n * 1) ⊗ₜ[R] b = _
+      change (algebraMap R B g ^ n * 1) ⊗ₜ[R] b = _
       simpa only [Algebra.smul_def, map_pow, mul_one] using
         TensorProduct.smul_tmul (g ^ n) (1 : B) b
     rw [hleft]
-    show 1 ⊗ₜ[R] (algebraMap R B g ^ n * b) -
+    change 1 ⊗ₜ[R] (algebraMap R B g ^ n * b) -
       (algebraMap R B g ^ n * b) ⊗ₜ[R] 1 = 0
     rw [← ha, Algebra.TensorProduct.tmul_one_eq_one_tmul, sub_self]
   exact hg (hP.isPrime.mem_of_pow_mem n (hIP hgz))
@@ -348,7 +348,7 @@ lemma finiteProjectiveTrace_smulRight
   let p : (Fin n → R) →ₗ[R] P := h.choose_spec.choose
   let i : P →ₗ[R] (Fin n → R) := h.choose_spec.choose_spec.choose
   have hpi : p.comp i = LinearMap.id := h.choose_spec.choose_spec.choose_spec.2.2
-  show LinearMap.trace R (Fin n → R) (i.comp ((f.smulRight x).comp p)) = _
+  change LinearMap.trace R (Fin n → R) (i.comp ((f.smulRight x).comp p)) = _
   have heq : i.comp ((f.smulRight x).comp p) = (f.comp p).smulRight (i x) :=
     LinearMap.ext fun _ => i.map_smul _ _
   rw [heq, LinearMap.trace_smulRight]
@@ -410,24 +410,23 @@ lemma exists_smul_eq_zero_of_restriction_eq_zero
     simp [β, LinearMap.add_comp]
   have hformula (z : dualizingModule F) : β (h z) = algebraMap R S a • z := by
     induction z using dualizingModule.induction_on with
-    | zero => simp [hβzero]
     | add z z' hz hz' => rw [map_add, hβadd, hz, hz', smul_add]
     | tmul f b =>
       have hcomp : (h (dualizingModule.tmul F f b)).comp
           (IsScalarTower.toAlgHom A R C).toLinearMap = t b • f := by
         ext r
-        show h (dualizingModule.tmul F f b) (algebraMap R C r) = f (t b * r)
+        change h (dualizingModule.tmul F f b) (algebraMap R C r) = f (t b * r)
         rw [hh, finiteProjectiveTrace_lmul_of_section l hl]
         congr 1
-        show l (algebraMap S C b * algebraMap R C r) = l (algebraMap S C b) * r
+        change l (algebraMap S C b * algebraMap R C r) = l (algebraMap S C b) * r
         rw [mul_comm, ← Algebra.smul_def, map_smul]
         simp [mul_comm]
-      show dualizingModule.tmul F
+      change dualizingModule.tmul F
         ((h (dualizingModule.tmul F f b)).comp
           (IsScalarTower.toAlgHom A R C).toLinearMap) 1 =
         algebraMap R S a • dualizingModule.tmul F f b
       rw [hcomp, dualizingModule.smul_tmul]
-      show (t b • f) ⊗ₜ[R] (1 : S) = f ⊗ₜ[R] (algebraMap R S a * b)
+      change (t b • f) ⊗ₜ[R] (1 : S) = f ⊗ₜ[R] (algebraMap R S a * b)
       rw [TensorProduct.smul_tmul]
       congr 1
       have : Algebra.IsEpi R S := isEpi_of_finiteOpenFactorization F
@@ -442,7 +441,7 @@ lemma idempotent_quotient_isLocalization_away
   let Q := S ⧸ Ideal.span {1 - e}
   let : Algebra S Q := Ideal.Quotient.algebra _
   have heq : algebraMap S Q e = 1 := by
-    show Ideal.Quotient.mk (Ideal.span {1 - e}) e =
+    change Ideal.Quotient.mk (Ideal.span {1 - e}) e =
       Ideal.Quotient.mk (Ideal.span {1 - e}) 1
     rw [Ideal.Quotient.eq, show e - 1 = -(1 - e) by ring]
     exact (Ideal.span {1 - e}).neg_mem (Ideal.subset_span (by simp))
@@ -479,8 +478,7 @@ lemma mem_prime_of_tmul_eq_zero
       (TensorProduct.rid R S) ((LinearMap.lTensor S I.subtype) z) ∈
         I.map (algebraMap R S) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s r =>
       simp only [LinearMap.lTensor_tmul, TensorProduct.rid_tmul]
       simpa [Algebra.smul_def] using

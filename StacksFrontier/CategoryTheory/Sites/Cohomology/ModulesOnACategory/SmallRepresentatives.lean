@@ -341,7 +341,7 @@ private lemma factors_through_of_sectionwise
     obtain ⟨U⟩ := U
     exact h U x
   have hgmono : Mono g.val := by
-    show Mono ((SheafOfModules.forget R).map g)
+    change Mono ((SheafOfModules.forget R).map g)
     infer_instance
   have hinj (U : Cᵒᵖ) : Function.Injective (g.val.app U) :=
     (ModuleCat.mono_iff_injective _).mp inferInstance
@@ -700,7 +700,7 @@ private lemma stageUnionTermInclusion_mono
     (hℵ₀ : Cardinal.aleph0 ≤ Λ) (S₀ : SmallStage R F Λ) (i : ℤ) :
     Mono (stageUnionTermInclusion R κ₀ hbase hκ₀ hℵ₀ S₀ i) := by
   apply (SheafOfModules.forget R).mono_of_mono_map
-  show Mono ((stageUnionSubmodule R κ₀ hbase hκ₀ hℵ₀ S₀ i).ι)
+  change Mono ((stageUnionSubmodule R κ₀ hbase hκ₀ hℵ₀ S₀ i).ι)
   infer_instance
 
 private noncomputable def stageUnionDifferential
@@ -834,7 +834,7 @@ private lemma stageUnionComplex_size_le
       _ ≤ Cardinal.aleph0 * Λ := mul_le_mul_right hsup Cardinal.aleph0
       _ ≤ Λ := Cardinal.mul_le_of_le hℵ₀ hℵ₀ le_rfl
   unfold complexSectionSize
-  show Cardinal.lift.{max v r} (Cardinal.mk B) ≤ Λ
+  change Cardinal.lift.{max v r} (Cardinal.mk B) ≤ Λ
   calc
     _ ≤ Cardinal.lift.{max v r} (Cardinal.mk (Σ n : ℕ, A n)) :=
       Cardinal.lift_le.mpr (Cardinal.mk_le_of_surjective he)
@@ -856,7 +856,7 @@ private lemma stageUnion_contains_initial
       (stageUnionTermInclusion R κ₀ hbase hκ₀ hℵ₀ S₀ i).val.app (Opposite.op U) y =
         (S₀.inc.f i).val.app (Opposite.op U) x := by
   refine ⟨⟨(S₀.inc.f i).val.app (Opposite.op U) x, ?_⟩, rfl⟩
-  show (S₀.inc.f i).val.app (Opposite.op U) x ∈ ⨆ n,
+  change (S₀.inc.f i).val.app (Opposite.op U) x ∈ ⨆ n,
     (stageRangeSequence R κ₀ hbase hκ₀ hℵ₀ S₀ i n).obj (Opposite.op U)
   exact Submodule.mem_iSup_of_mem 0 ⟨x, rfl⟩
 
@@ -942,7 +942,7 @@ private lemma exists_cycleOfTerm
   have hk : k ≫ E.map (F.d i (i + 1)) = 0 := by
     ext a
     rcases a with ⟨a⟩
-    show ULift.up ((F.d i (i + 1)).val.app U (a • x)) = 0
+    change ULift.up ((F.d i (i + 1)).val.app U (a • x)) = 0
     rw [map_smul, hx, smul_zero]
     rfl
   let kcycle : CategoryTheory.Limits.KernelFork (F.d i (i + 1)) :=
@@ -954,12 +954,12 @@ private lemma exists_cycleOfTerm
   have hK' : CategoryTheory.Limits.IsLimit
       (CategoryTheory.Limits.KernelFork.ofι (E.map (F.iCycles i))
         (by
-          show E.map (kcycle.ι) ≫ E.map (F.d i (i + 1)) = 0
+          change E.map (kcycle.ι) ≫ E.map (F.d i (i + 1)) = 0
           rw [← E.map_comp, kcycle.condition, E.map_zero])) :=
     (kcycle.isLimitMapConeEquiv E) hK
   obtain ⟨l, hl⟩ := CategoryTheory.Limits.KernelFork.IsLimit.lift' hK' k hk
   refine ⟨(l.hom 1).down, (congrArg (fun f => ULift.down (f.hom 1)) hl).trans ?_⟩
-  show ULift.down ((LinearMap.toSpanSingleton A (E.obj (F.X i)) (ULift.up x)) (1 : A)) = x
+  change ULift.down ((LinearMap.toSpanSingleton A (E.obj (F.X i)) (ULift.up x)) (1 : A)) = x
   exact congrArg ULift.down
     (LinearMap.toSpanSingleton_apply_one A (E.obj (F.X i)) (ULift.up x))
 

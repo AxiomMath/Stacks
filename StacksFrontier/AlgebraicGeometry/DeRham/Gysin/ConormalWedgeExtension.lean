@@ -160,7 +160,7 @@ theorem extendedSectionHom_app (ω : Γ(relativeDifferentialForms π (p : ℤ), 
           (relativeDifferentialForms π (p : ℤ)))).val.obj (op U) from
             (extendedSection π p V ω).val (op U)) := by
   simp only [extendedSectionHom, SheafOfModules.unitHomEquiv]
-  show ((PresheafOfModules.unitHomEquiv _).symm (extendedSection π p V ω)).app (op U) r = _
+  change ((PresheafOfModules.unitHomEquiv _).symm (extendedSection π p V ω)).app (op U) r = _
   simp [PresheafOfModules.unitHomEquiv]
   rfl
 

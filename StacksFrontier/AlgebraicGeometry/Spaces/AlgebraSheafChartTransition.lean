@@ -208,7 +208,7 @@ theorem chartOpensRestrict_naturality {U V : SmallEtale B S hS F} (g : V ⟶ U)
   apply CostructuredArrow.hom_ext
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (chartScheme V).homOfLE ((Opens.map (chartSchemeMap g).base).map i).le ≫
+  change (chartScheme V).homOfLE ((Opens.map (chartSchemeMap g).base).map i).le ≫
       (chartSchemeMap g ∣_ O') =
     (chartSchemeMap g ∣_ O) ≫ (chartScheme U).homOfLE i.le
   rw [← cancel_mono O'.ι, Category.assoc, Category.assoc, morphismRestrict_ι,

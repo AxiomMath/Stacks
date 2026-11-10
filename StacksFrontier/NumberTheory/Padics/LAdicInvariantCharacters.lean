@@ -153,7 +153,7 @@ theorem eq_zero_of_encard_invariant_zmod_le {G : Type*} [Group G] [TopologicalSp
   have hr0 : 0 < r := mul_pos ha0 (inv_pos.2 (pow_pos hℓ0 n))
   let B : AddSubgroup K := (IsUltrametricDist.closedBall_openAddSubgroup K hr0).toAddSubgroup
   have hB : ∀ y : K, y ∈ B ↔ ‖y‖ ≤ r := fun y => by
-    show y ∈ Metric.closedBall (0 : K) r ↔ _
+    change y ∈ Metric.closedBall (0 : K) r ↔ _
     rw [mem_closedBall_zero_iff]
   have hBopen : IsOpen (B : Set K) := (IsUltrametricDist.closedBall_openAddSubgroup K hr0).isOpen
   have : DiscreteTopology (K ⧸ B) := QuotientAddGroup.discreteTopology hBopen
@@ -177,7 +177,7 @@ theorem eq_zero_of_encard_invariant_zmod_le {G : Type*} [Group G] [TopologicalSp
   have hkill : ∀ x : A, (ℓ ^ e) • x = 0 := by
     rintro ⟨_, g, rfl⟩
     apply Subtype.ext
-    show (ℓ ^ e) • (QuotientAddGroup.mk (ψ (Additive.toMul g)) : K ⧸ B) = 0
+    change (ℓ ^ e) • (QuotientAddGroup.mk (ψ (Additive.toMul g)) : K ⧸ B) = 0
     rw [← QuotientAddGroup.mk_nsmul, QuotientAddGroup.eq_zero_iff, hB, nsmul_eq_mul, norm_mul]
     have h1 : ‖((ℓ ^ e : ℕ) : K)‖ = ((ℓ : ℝ) ^ e)⁻¹ := by
       rw [norm_natCast_eq_padicNorm (ℓ := ℓ)]
@@ -242,11 +242,11 @@ theorem eq_zero_of_encard_invariant_zmod_le {G : Type*} [Group G] [TopologicalSp
       IsLocallyConstant χ ∧ ∀ a b, R a b → χ b = χ a} := by
     rintro _ ⟨lam, rfl⟩
     refine ⟨fun g h => ?_, htoAlc.comp _, fun g h hgh => ?_⟩
-    · show lam (toA (g * h)) = lam (toA g) + lam (toA h)
+    · change lam (toA (g * h)) = lam (toA g) + lam (toA h)
       rw [← map_add]
       congr 1
       exact Subtype.ext (map_add f (Additive.ofMul g) (Additive.ofMul h))
-    · show lam (toA h) = lam (toA g)
+    · change lam (toA h) = lam (toA g)
       congr 1
       exact Subtype.ext (congrArg (fun y : K => (QuotientAddGroup.mk y : K ⧸ B)) (hinv g h hgh))
   have hcard : Nat.card (A →+ ZMod (ℓ ^ e)) ≤ C := by

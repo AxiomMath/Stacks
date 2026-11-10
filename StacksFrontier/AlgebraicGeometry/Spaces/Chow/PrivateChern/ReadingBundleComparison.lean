@@ -86,7 +86,7 @@ theorem siteMap_bundleRelFst_comp_projectiveBundleSpaceChart (E : Modules.{u, u}
           (projectiveBundlePresentation X))) ≫
         projectiveBundleChart E hfree := by
   ext ⟨T'⟩ x
-  show (projectiveBundleChart E hfree).app _ (x ≫ _) =
+  change (projectiveBundleChart E hfree).app _ (x ≫ _) =
     (projectiveBundleChart E hfree).app _ (x ≫ _)
   refine Stacks.Groupoids.quotientChart_app_eq_of_rel _ _ _ _
     ⟨(Over.post B.inclusion).map x, ?_, ?_⟩
@@ -240,7 +240,7 @@ theorem chartBaseChangePair_w :
         chartBaseChangeToChart ψ) ≫ (bundleBaseChart X).obj.hom := by
   have h := (isPullback_chartBaseChange ψ).w
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc]
-  show _ ≫ yoneda.map (chartBaseChangeToChart ψ) ≫ (chartToSpace B S hS X (bundleBaseChart
+  change _ ≫ yoneda.map (chartBaseChangeToChart ψ) ≫ (chartToSpace B S hS X (bundleBaseChart
       X)).hom =
     _ ≫ yoneda.map (chartBaseChangeToChart ψ) ≫ (chartToSpace B S hS X (bundleBaseChart X)).hom
   rw [h, ← Category.assoc, ← Category.assoc, ← Functor.map_comp, ← Functor.map_comp,
@@ -279,7 +279,7 @@ theorem chartBaseChangePairToRelation_w :
         chartToSpace B S hS X (presentationRelationChart (projectiveBundlePresentation X)) =
       chartBaseChangePairToSpace ψ := by
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (chartBaseChangePairToRelation ψ) ≫
+  change yoneda.map (chartBaseChangePairToRelation ψ) ≫
       (presentationRelationChart (projectiveBundlePresentation X)).obj.hom =
     yoneda.map (pullback.fst _ _ ≫ chartBaseChangeToBase ψ) ≫ ψ.hom
   rw [← yoneda_map_toOver_map_comp_hom (presentationRelationTargetHom (projectiveBundlePresentation
@@ -300,10 +300,10 @@ theorem chartBaseChangePair_comp_toChart_w (q : chartBaseChangePair ψ ⟶ chart
     representedSpaceMap B S hS (q ≫ chartBaseChangeToChart ψ) ≫
         chartToSpace B S hS X (bundleBaseChart X) = chartBaseChangePairToSpace ψ := by
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (q ≫ chartBaseChangeToChart ψ) ≫ (bundleBaseChart X).obj.hom =
+  change yoneda.map (q ≫ chartBaseChangeToChart ψ) ≫ (bundleBaseChart X).obj.hom =
     yoneda.map (pullback.fst _ _ ≫ chartBaseChangeToBase ψ) ≫ ψ.hom
   rw [Functor.map_comp, Category.assoc]
-  show yoneda.map q ≫ yoneda.map (chartBaseChangeToChart ψ) ≫
+  change yoneda.map q ≫ yoneda.map (chartBaseChangeToChart ψ) ≫
       (chartToSpace B S hS X (bundleBaseChart X)).hom = _
   rw [(isPullback_chartBaseChange ψ).w, ← Category.assoc, ← Functor.map_comp, hq]
 
@@ -350,7 +350,7 @@ theorem bundleCoverPair_comp_bundleCoverToSpace :
   have h₁ := bundleCoverPair_comp_bundleCoverToChart ψ E hfree 1
   simp only [Fin.isValue, ↓reduceIte, Fin.one_eq_zero_iff, OfNat.ofNat_ne_one] at h₀ h₁
   rw [← Category.assoc, ← Category.assoc, ← Functor.map_comp, ← Functor.map_comp]
-  show yoneda.map (readingBundleSiteMap E hfree (pullback.fst _ _) _ ≫ _) ≫ _ =
+  change yoneda.map (readingBundleSiteMap E hfree (pullback.fst _ _) _ ≫ _) ≫ _ =
     yoneda.map (readingBundleSiteMap E hfree (pullback.snd _ _) _ ≫ _) ≫ _
   rw [h₀, h₁]
   exact ((congrArg (· ≫ projectiveBundleChart E hfree) (yoneda.map_comp _ _)).trans
@@ -413,7 +413,7 @@ theorem readingBundleToSpace_comp_proj :
   have h₄ := (isPullback_chartBaseChange ψ).w
   rw [← Category.assoc, bundleCover_comp_readingBundleToSpace, Category.assoc, h₁,
     ← Category.assoc, ← Functor.map_comp]
-  show yoneda.map (readingBundleSiteMap E hfree (chartBaseChangeToChart ψ) _ ≫
+  change yoneda.map (readingBundleSiteMap E hfree (chartBaseChangeToChart ψ) _ ≫
       readingBundleSiteToBase E hfree (chartToSpace B S hS X (bundleBaseChart X))) ≫
       (chartToSpace B S hS X (bundleBaseChart X)).hom = _
   rw [h₂, Functor.map_comp]

@@ -103,7 +103,7 @@ lemma finish_local_extension_of_spec_eq
     change U.ι ((U.fromSpecStalkOfMem x hxU) z) = x
     rw [← Scheme.Hom.comp_apply, Scheme.Opens.fromSpecStalkOfMem_ι, hclosed]
   have hφz : (Spec.map φ) z = IsLocalRing.closedPoint (Y.presheaf.stalk y) := by
-    show Spec.map φ (IsLocalRing.closedPoint (X.presheaf.stalk x)) = _
+    change Spec.map φ (IsLocalRing.closedPoint (X.presheaf.stalk x)) = _
     exact Spec_closedPoint
   have hpoint : f ((U.fromSpecStalkOfMem x hxU) z) = y := by
     rw [← Scheme.Hom.comp_apply, ← hspec, Scheme.Hom.comp_apply, hφz,
@@ -114,7 +114,7 @@ lemma finish_local_extension_of_spec_eq
     (CommRingCat.of (X.presheaf.stalk x))
   have he : e (U.fromSpecStalkOfMem x hxU ≫ f) = ⟨y, ⟨φ, hφlocal⟩⟩ := by
     rw [← hspec]
-    show e (e.symm ⟨y, ⟨φ, hφlocal⟩⟩) = _
+    change e (e.symm ⟨y, ⟨φ, hφlocal⟩⟩) = _
     exact e.apply_symm_apply _
   obtain ⟨hpointSpec, hmap⟩ :=
     (AlgebraicGeometry.SpecToEquivOfLocalRing_eq_iff).mp he
@@ -216,7 +216,7 @@ lemma localHom_compat
       eqToHom (congrArg (fun z ↦ S.presheaf.stalk z) hx).symm := by
     rw [stalkSpecializes_of_eq_eqToHom e, eqToHom_trans]
   refine (cancel_epi (eqToHom (congrArg (fun z ↦ S.presheaf.stalk z) hy).symm)).mp ?_
-  show _ ≫ pY.stalkMap y ≫ φ = _
+  change _ ≫ pY.stalkMap y ≫ φ = _
   calc
     _ = (eqToHom (congrArg (fun z ↦ S.presheaf.stalk z) hy).symm ≫
         pY.stalkMap y) ≫ φ := by rw [Category.assoc]

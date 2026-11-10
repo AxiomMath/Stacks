@@ -54,7 +54,7 @@ theorem comp_eq_of_pentagons_v (Φ : E' ⥤ E) {O₁ O₄ O₅ O₆ O₇ O₈ : 
     a ≫ Φ.map i.inv ≫ c ≫ j.inv ≫ e = p ≫ q ≫ k.inv := by
   rw [← cancel_mono k.hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  rw [h₃, Iso.inv_hom_id_assoc, ← h₂, Iso.map_inv_hom_id_assoc, h₁]
+  rw [h₃, Iso.inv_hom_id_assoc, ← h₂, Iso.inv_hom_id_map_assoc, h₁]
 
 /-- **A cancellation of three pentagons, horizontal form.**  Given commuting squares
 `Φ i ≫ p = b ≫ t`, `d ≫ s = j ≫ t` and `Ψ l ≫ s = k ≫ n` with `i`, `j`, `l`, `n` isomorphisms,
@@ -67,7 +67,7 @@ theorem comp_eq_of_pentagons_h (Φ : E' ⥤ E) (Ψ : E'' ⥤ E) {O₃ O₄ O₇ 
     Φ.map i.inv ≫ b ≫ j.inv ≫ d ≫ Ψ.map l.inv ≫ k = p ≫ n.inv := by
   rw [← cancel_mono n.hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  rw [← hC, Iso.map_inv_hom_id_assoc, hB, Iso.inv_hom_id_assoc, ← hA, Iso.map_inv_hom_id_assoc]
+  rw [← hC, Iso.inv_hom_id_map_assoc, hB, Iso.inv_hom_id_assoc, ← hA, Iso.inv_hom_id_map_assoc]
 
 end Algebra
 

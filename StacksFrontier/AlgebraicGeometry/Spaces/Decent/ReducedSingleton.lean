@@ -210,7 +210,7 @@ private theorem isReduced_of_etale_over_field
     have hcomp : ∀ i : 𝒰.I₀, IsReduced (𝒰.X i) := by
       intro i
       let : Field (K i) := hK i
-      show IsReduced (Spec (.of (K i)))
+      change IsReduced (Spec (.of (K i)))
       infer_instance
     exact IsReduced.of_openCover _ 𝒰
   have : IsReduced (∐ fun i : I => Spec (.of (K i))) := hsum
@@ -346,7 +346,7 @@ theorem isReduced_and_singleton_points_iff_hasFlatFieldCover
     let α : T ⟶ U := Over.homMk i
     let g : yoneda.obj T ⟶ F := yoneda.map α ≫ a
     have hαflatScheme : Flat ((BigFppfOver.toScheme B S hS).map α) := by
-      show Flat (B.inclusion.map i)
+      change Flat (B.inclusion.map i)
       rw [B.inclusion.map_preimage]
       exact flat_fromSpecResidueField_of_isField_stalk x hxfield
     have haflat : IsFlat B S hS a :=
@@ -412,7 +412,7 @@ theorem hasFlatFieldCover_iff_hasLocallyOfFiniteTypeFlatFieldCover
     rcases hcover with ⟨T₀, k₀, hk₀, ⟨e₀⟩, f₀, hsurj₀, hflat₀⟩
     let : Field k₀ := hk₀
     have hk₀' : B.Contains (Spec (.of k₀)) := by
-      show (Spec (.of k₀)).size < B.cutoff
+      change (Spec (.of k₀)).size < B.cutoff
       rw [← Scheme.size_congr e₀]
       exact T₀.left.property
     obtain ⟨U, a, haSurj, haEtale⟩ := hF.exists_atlas
@@ -426,7 +426,7 @@ theorem hasFlatFieldCover_iff_hasLocallyOfFiniteTypeFlatFieldCover
       (Set.mem_univ (schemePoint B S hS U p)) isOpen_univ
     let W := X.restrict V.isOpenEmbedding
     have : IsAffine W := by
-      show IsAffine (V : X.Opens)
+      change IsAffine (V : X.Opens)
       exact hVaff
     let R := Γ(W, ⊤)
     have : Nontrivial R :=
@@ -446,7 +446,7 @@ theorem hasFlatFieldCover_iff_hasLocallyOfFiniteTypeFlatFieldCover
     let α : T ⟶ U := Over.homMk i
     let g : yoneda.obj T ⟶ F := yoneda.map α ≫ a
     have hαlftScheme : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map α) := by
-      show LocallyOfFiniteType (B.inclusion.map i)
+      change LocallyOfFiniteType (B.inclusion.map i)
       rw [B.inclusion.map_preimage]
       exact residueFieldMap_locallyOfFiniteType_of_isClosed_singleton fX y hy
     have haEtale' := isEtale_of_presheafEtale B S hS a haEtale
@@ -463,7 +463,7 @@ theorem hasFlatFieldCover_iff_hasLocallyOfFiniteTypeFlatFieldCover
     let b₀ : Spec (.of k₀) ⟶ S := B.inclusion.map (i₀ ≫ T₀.hom)
     let b : Spec (.of k) ⟶ S := B.inclusion.map (i ≫ U.hom)
     have hα₀flatScheme : Flat ((BigFppfOver.toScheme B S hS).map α₀) := by
-      show Flat (B.inclusion.map i₀)
+      change Flat (B.inclusion.map i₀)
       rw [B.inclusion.map_preimage]
       infer_instance
     have hf₀'flat : IsFlat B S hS f₀' :=

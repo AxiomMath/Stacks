@@ -255,10 +255,10 @@ theorem full_restrictElements [(Over.map m).Full] : (restrictElements m F).Full 
   refine ⟨fun {Z W} v => ?_⟩
   obtain ⟨b, hb⟩ := (Over.map m).map_surjective v.base
   refine ⟨⟨b, Discrete.eqToHom ?_⟩, elements_hom_ext _ _ ?_⟩
-  · show Z.fiber.as = F.map ((Over.map m).map b).op W.fiber.as
+  · change Z.fiber.as = F.map ((Over.map m).map b).op W.fiber.as
     rw [hb]
     exact v.fiber.eq
-  · show (Over.map m).map b = v.base
+  · change (Over.map m).map b = v.base
     exact hb
 
 /-- The section named by an object of the category of elements of `F`, read over an object of the
@@ -268,7 +268,7 @@ lemma elementsFiberEquiv_eq_map_eqToHom {G : Cᵒᵖ ⥤ Type v}
     (Z : (presheafOfCategories (G ⋙ typeToCat)).obj) {W : C} (h : Z.base = W) :
     elementsFiberEquiv G W ⟨Z, h⟩ = G.map (eqToHom h.symm).op Z.fiber.as := by
   subst h
-  show Z.fiber.as = G.map (eqToHom rfl).op Z.fiber.as
+  change Z.fiber.as = G.map (eqToHom rfl).op Z.fiber.as
   simp
 
 /-- **The descent of a 1-morphism into `El F` lying over `CategoryTheory.Over.map m` to a

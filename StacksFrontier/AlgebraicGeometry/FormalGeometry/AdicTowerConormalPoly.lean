@@ -162,7 +162,7 @@ lemma genHom_step (k : ℕ) (i : ι) :
   have h2 := congrArg (fun f => f r) (congrArg ModuleCat.Hom.hom
     (genHom_app q t hcart a ha k i ⟨t k ⁻¹ᵁ V.1, V.2.preimage _⟩))
   refine Eq.trans ?_ h2.symm
-  show (stepApp t k 1).val.app (op (chartOpen t (k + 1) V))
+  change (stepApp t k 1).val.app (op (chartOpen t (k + 1) V))
       ((genHom q t hcart a ha (k + 1) i).val.app (op (chartOpen t (k + 1) V)) r) = _
   rw [genHom_app]
   have h1 := ((stepApp t k 1).val.app (op (chartOpen t (k + 1) V))).hom.map_smul r
@@ -180,7 +180,7 @@ lemma genFree_step (k : ℕ) :
     genFree q t hcart a ha (k + 1) ≫ (conormalStep t k).app 1 = genFree q t hcart a ha k := by
   refine Limits.Sigma.hom_ext _ _ fun i => ?_
   have e (n : ℕ) : Limits.Sigma.ι (fun _ : ι => SheafOfModules.unit (Xn 0).ringCatSheaf) i ≫
-      genFree q t hcart a ha n = genHom q t hcart a ha n i := Limits.Sigma.ι_desc _ _
+      genFree q t hcart a ha n = genHom q t hcart a ha n i := Limits.Sigma.ι_comp_desc _ _
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ (conormalStep t k).app 1) (e _)).trans
     ((genHom_step q t hcart a ha k i).trans (e _).symm))
 

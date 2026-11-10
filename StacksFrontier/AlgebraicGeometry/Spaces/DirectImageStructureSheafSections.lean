@@ -177,7 +177,7 @@ theorem chartProjection_chartOverBaseChange_baseChangeChartOfOver (f : X ⟶ Y)
   have hid : ∀ x, ((StructuredArrow.proj (op (chartBaseChange B S hS f V))
       (comparisonFunctor B S hS X).op ⋙ (structureSetSheaf B S hS X).obj).map
         (toChartOverBaseChange B S hS f V j)) x = x := fun x => by
-    show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 j.right.unop.obj.left)).op).hom x = x
+    change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 j.right.unop.obj.left)).op).hom x = x
     simp only [CategoryTheory.Functor.map_id, op_id]
     rfl
   refine (chartProjection_app_apply B S hS f V _ a).trans ?_

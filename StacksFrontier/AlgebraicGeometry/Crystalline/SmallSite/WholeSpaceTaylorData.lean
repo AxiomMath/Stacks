@@ -221,10 +221,11 @@ theorem levelRingTaylorExpansion_theta_zero (e : ℕ) (x : crysSheafRing S (leve
     x
 
 /-- `θ_L ∘ θ_K = θ_{K + L}` for `𝒪_{X/S}` at every level, from `Γ(T(2)_e, 𝒪)`. -/
-theorem levelRingTaylorExpansion_theta_theta [DecidableEq (wholeSpaceIndex S hp)] (e : ℕ)
+theorem levelRingTaylorExpansion_theta_theta (e : ℕ)
     (K L : wholeSpaceIndex S hp →₀ ℕ) (x : crysSheafRing S (levelObj hp 0 e).obj) :
     (levelRingTaylorExpansion hp e).theta L ((levelRingTaylorExpansion hp e).theta K x) =
       (levelRingTaylorExpansion hp e).theta (K + L) x := by
+  classical
   refine (levelRingTaylorExpansion hp e).theta_theta
     (sheafRingMap (wholeSpaceTrans hp (SimplexCategory.const ⦋0⦌ ⦋2⦌ 0) e)).toAddMonoidHom
     (sheafRingMap (wholeSpaceTrans hp (SimplexCategory.δ (n := 1) 2) e)).toAddMonoidHom
@@ -320,7 +321,7 @@ theorem envDTaylorCoeff_zero (d : envD S hp) : envDTaylorCoeff hp 0 d = d :=
     rw [levelRed_envDTaylorCoeff, levelRingTaylorExpansion_theta_zero]
 
 /-- `δ_L ∘ δ_K = δ_{K + L}`. -/
-theorem envDTaylorCoeff_envDTaylorCoeff [DecidableEq (wholeSpaceIndex S hp)]
+theorem envDTaylorCoeff_envDTaylorCoeff
     (K L : wholeSpaceIndex S hp →₀ ℕ) (d : envD S hp) :
     envDTaylorCoeff hp L (envDTaylorCoeff hp K d) = envDTaylorCoeff hp (K + L) d :=
   eq_of_levelRed_eq hp fun e ↦ by
@@ -582,6 +583,7 @@ omit [IsAffine S.X] [IsAffine S.S.scheme] in
 theorem pairCoordDerivation_apply (c : wholeSpaceIndex S hp) (x : envD S hp) :
     pairCoordDerivation hp c x = pairCoord hp c (pairDerivation hp x) := rfl
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **Taylor's formula for the differential of `E(0)` in coordinates**: the coordinate of
 `d y` along `d x_c` is `-δ_{e_c}(y)`. -/
 theorem pairCoord_pairDerivation_pairOf (c : wholeSpaceIndex S hp) (y : wsEnvelope hp 0) :

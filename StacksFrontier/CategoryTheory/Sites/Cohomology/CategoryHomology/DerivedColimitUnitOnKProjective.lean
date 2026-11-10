@@ -3,8 +3,7 @@ module
 public import StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryComparisons
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.CategoryHomology.DerivedColimitOnKProjective
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.CategoryHomology.DerivedColimitOnKProjectiveQuotient
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.CategoryHomology.DerivedColimitOnKProjectiveQuotient
 
 /-!
 # The unit of the derived lower-shriek adjunction at a K-projective complex

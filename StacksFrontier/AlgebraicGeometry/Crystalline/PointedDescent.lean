@@ -676,7 +676,7 @@ theorem existsUnique_descendedRestrictOf (u : X ⟶ X') (f : Dt ⟶ X) (f' : Dt 
   refine ⟨c.comp (C.descendedEval f').toLinearMap, fun z ↦ ?_, fun c' hc' ↦ ?_⟩
   · rw [LinearMap.comp_apply, LinearEquiv.coe_coe,
       C.descendedEval_descendedRestrictOf u f f' hf, hc (C.descendedEval f z)]
-    show s ((C.descendedEval f).symm (C.descendedEval f z)) = s z
+    change s ((C.descendedEval f).symm (C.descendedEval f z)) = s z
     rw [LinearEquiv.symm_apply_apply]
   · have hkey : c'.comp (C.descendedEval f').symm.toLinearMap = c := by
       refine huniq _ fun y ↦ ?_
@@ -824,8 +824,7 @@ noncomputable def pointedSectionsMap (phi : M →ₗ[Dt.ring.carrier] N) (T : Po
   map_smul' b z := by
     change LinearMap.lTensor (TwistedScalars (pointRingHom T)) phi (b • z) =
       b • LinearMap.lTensor (TwistedScalars (pointRingHom T)) phi z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c m => rw [TensorProduct.smul_tmul', LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
         TensorProduct.smul_tmul']
     | add z z' hz hz' => rw [smul_add, map_add, map_add, hz, hz', smul_add]
@@ -841,8 +840,7 @@ theorem pointedSectionsMap_pointedRestriction (phi : M →ₗ[Dt.ring.carrier] N
     {T T' : PointedThickening Dt} (u : T ⟶ T') (z : pointedSections M T) :
     pointedSectionsMap phi T' (pointedRestriction M u z) =
       pointedRestriction N u (pointedSectionsMap phi T z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rw [pointedRestriction_tmul, pointedSectionsMap_tmul, pointedSectionsMap_tmul,
       pointedRestriction_tmul]
   | add z z' hz hz' => rw [map_add, map_add, map_add, map_add, hz, hz']
@@ -886,8 +884,7 @@ theorem comparison_pointedSectionsMap
     (f g : Dt ⟶ X) (z : pointedSections M (pointedOfHom f)) :
     E.comparison f g (pointedSectionsMap phi (pointedOfHom f) z) =
       pointedSectionsMap phi (pointedOfHom g) (C.comparison f g z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [pointedSectionsMap_tmul, comparison_tmul, comparison_tmul, map_smul,
         Tmap_comm C E phi hcomm f g m]

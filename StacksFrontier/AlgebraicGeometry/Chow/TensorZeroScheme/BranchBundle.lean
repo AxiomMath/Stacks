@@ -34,7 +34,8 @@ definitions here take the module as an argument and leave that choice to the con
 The tensor power of [Stacks, Tag 01CU] is written at the `presheaf` spelling of the structure
 sheaf, which is the one `Stacks.LineBundle.inverseSituation` uses and the one the base change of
 the inverse is stated at; the three instances a tensor power needs at that spelling are declared
-in `StacksFrontier.AlgebraicGeometry.DeRham.LineBundle.FibreCoordinate`, so nothing further has to be
+in `StacksFrontier.AlgebraicGeometry.DeRham.LineBundle.FibreCoordinate`,
+so nothing further has to be
 supplied here. Quasi-coherence and finite local freeness of rank one, which the line-bundle
 construction consumes, are not extra hypotheses: on a scheme they follow from invertibility by
 [Stacks, Tag 0B8M].

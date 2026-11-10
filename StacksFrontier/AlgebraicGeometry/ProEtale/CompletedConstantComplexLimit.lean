@@ -233,7 +233,7 @@ theorem epi_adicQuotientConstantComplexTower_map_f
   have : (constantSheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)).IsLeftAdjoint :=
     (constantSheafAdj (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)
       Scheme.ProEt.isTerminal_mk_id).isLeftAdjoint
-  show Epi ((moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, w} X Λ).map
+  change Epi ((moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, w} X Λ).map
     ((constantSheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)).map
       ((adicQuotientModuleSystem Λ I (N.X i)).map (homOfLE (Nat.le_succ n)).op)))
   have h₁ := (constantSheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)).map_epi

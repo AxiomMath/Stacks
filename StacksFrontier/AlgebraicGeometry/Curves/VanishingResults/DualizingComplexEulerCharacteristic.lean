@@ -156,6 +156,7 @@ public theorem finrank_derivedCohomologyOverField_dualizingComplexOverField (i :
   exact (nonempty_derivedCohomologyOverField_dualizingComplexOverField_linearEquiv_dual f i).some
     |>.finrank_eq.trans Subspace.dual_finrank_eq
 
+omit [IsProper f] in
 /-- **`H^m(X, 𝒪_X) = 0` in the negative degrees.** Hypercohomology of the structure sheaf placed
 in degree zero is `Ext^m` out of it, and for `m < 0` there is no nonzero morphism from an object
 in degrees `≤ 0` to one in degrees `≥ -m > 0`. -/
@@ -174,6 +175,7 @@ public theorem subsingleton_derivedCohomologyOverField_unit_single_of_neg (m : �
   exact (Stacks.Duality.nonempty_derivedCohomologyOverFieldLinearEquivExtUnit f _ m).some
     |>.toEquiv.subsingleton
 
+omit [IsProper f] in
 /-- **`dim_k H^m(X, 𝒪_X) = 0` in the negative degrees**, by
 `AlgebraicGeometry.subsingleton_derivedCohomologyOverField_unit_single_of_neg`. -/
 public theorem finrank_derivedCohomologyOverField_unit_single_eq_zero_of_neg (m : ℤ) (hm : m < 0) :
@@ -182,6 +184,7 @@ public theorem finrank_derivedCohomologyOverField_unit_single_eq_zero_of_neg (m 
   have := subsingleton_derivedCohomologyOverField_unit_single_of_neg f m hm
   Module.finrank_zero_of_subsingleton
 
+omit [IsProper f] [Linear k X.Modules] [Functor.Linear k (globalSectionsOver f)] in
 /-- **`H^n(X, 𝒪_X) = Hⁿ(X, 𝒪_X)` in the nonnegative degrees**: hypercohomology of the structure
 sheaf placed in degree zero is its sheaf cohomology, by
 `Stacks.Duality.cohomologyOverFieldLinearEquivDerivedCohomologyOverField`. -/
@@ -271,9 +274,9 @@ public theorem eulerCharacteristicDerived_dualizingComplexOverField_eq_sub
   have h1 := finrank_derivedCohomologyOverField_dualizingComplexOverField_neg_natCast f 1
   rw [Nat.cast_zero, neg_zero] at h0
   rw [Nat.cast_one] at h1
-  show (∑ᶠ i : ℤ, t i) = _
+  change (∑ᶠ i : ℤ, t i) = _
   rw [finsum_eq_sum_of_support_subset t hsupp]
-  simp only [Finset.sum_insert, Finset.mem_singleton, Finset.sum_singleton, t]
+  simp only [t]
   norm_num [h0, h1]
   ring
 

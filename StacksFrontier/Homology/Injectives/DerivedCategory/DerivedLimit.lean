@@ -114,9 +114,9 @@ lemma isDerivedLimit_map_of_preservesProduct
   refine ⟨e.inv ≫ G.map δ ≫ (G.commShiftIso (1 : ℤ)).hom.app K, ?_⟩
   apply isomorphic_distinguished _ (G.map_distinguished _ hT)
   refine Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_
-  · show (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
+  · change (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show d' ≫ e.inv = e.inv ≫ G.map d
+  · change d' ≫ e.inv = e.inv ≫ G.map d
     rw [← cancel_epi e.hom, e.hom_inv_id_assoc, ← Category.assoc, ← hd, Category.assoc,
       e.hom_inv_id, Category.comp_id]
   · dsimp [Functor.mapTriangle]
@@ -233,7 +233,7 @@ lemma preservesLimit_discrete_Q_of_isKInjective (I : ℕ → CochainComplex A �
   refine IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv eJ d).symm hd) (Cone.ext β ?_)
   rintro ⟨n⟩
   dsimp [d, Stacks.DerivedProducts.productFanInDerivedCategory, β, eJ]
-  show DerivedCategory.Q.map (Pi.π J n) ≫ (complexUnit F RF α).app (I n) =
+  change DerivedCategory.Q.map (Pi.π J n) ≫ (complexUnit F RF α).app (I n) =
     (DerivedCategory.Q.map (inv (piComparison FB I)) ≫
       (complexUnit F RF α).app (∏ᶜ I)) ≫ RF.map (DerivedCategory.Q.map (Pi.π I n))
   rw [Category.assoc, ← dsimp% (complexUnit F RF α).naturality (Pi.π I n),

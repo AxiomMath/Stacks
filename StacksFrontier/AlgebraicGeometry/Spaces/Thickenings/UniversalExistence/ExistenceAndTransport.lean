@@ -194,7 +194,7 @@ public lemma exists_site_iso_of_universalThickenings
       e.hom ≫ (Subfunctor.range (yoneda.map i₀)).ι ≫
         (AlgebraicGeometry.schemeSpaceMap p₀).hom := by
     simp only [AlgebraicGeometry.schemeSpaceMap_hom]
-    show (Subfunctor.range (yoneda.map i)).ι ≫ yoneda.map p =
+    change (Subfunctor.range (yoneda.map i)).ι ≫ yoneda.map p =
       (eZ.inv ≫ eY.hom) ≫ (Subfunctor.range (yoneda.map i₀)).ι ≫ yoneda.map p₀
     rw [Category.assoc, ← Category.assoc eY.hom, hY', ← yoneda.map_comp, hcomp₀,
       yoneda.map_comp, ← Category.assoc, hZi]
@@ -220,7 +220,7 @@ public lemma exists_site_iso_of_universalThickenings
       (Category.assoc _ _ _).trans (congrArg (fun t => eZ.hom ≫ t) hA')
     rw [hZ'] at h3
     refine h3.trans ?_
-    show eZ.hom ≫ (eZ.inv ≫ eY.hom) ≫ (Subfunctor.range (yoneda.map i₀)).ι = yoneda.map i₀
+    change eZ.hom ≫ (eZ.inv ≫ eY.hom) ≫ (Subfunctor.range (yoneda.map i₀)).ι = yoneda.map i₀
     rw [Category.assoc, eZ.hom_inv_id_assoc, hY']
   have hbase : e'.hom ≫ yoneda.map p₀ = yoneda.map p := by
     have h2 := hB
@@ -273,12 +273,12 @@ public lemma isUniversalFirstOrderThickening_map_of_site_iso
         rw [← (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_comp, IsIso.hom_inv_id,
           (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_id] }
   refine isUniversalFirstOrderThickening_of_iso hu₀ hfo eS ?_ ?_
-  · show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map i₀ ≫
+  · change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map i₀ ≫
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (inv g) =
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map i
     rw [← (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_comp, ← hig, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
-  · show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (inv g) ≫
+  · change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (inv g) ≫
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map p =
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map p₀
     rw [← (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_comp, ← hpg,

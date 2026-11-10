@@ -83,7 +83,7 @@ public theorem exists_germToFunctionField_eq_of_eval₂_eq_zero (Y : Scheme.{u})
     refine ⟨Polynomial.C b * p,
       Polynomial.monic_C_mul_of_mul_leadingCoeff_eq_one (by rwa [mul_comm]), ?_⟩
     rw [Polynomial.eval₂_mul, Polynomial.eval₂_C]
-    show _ * p.eval₂ (Y.germToFunctionField ⊤).hom u = 0
+    change _ * p.eval₂ (Y.germToFunctionField ⊤).hom u = 0
     rw [hpu, mul_zero]
   refine exists_germToFunctionField_eq_of_forall_mem_range Y ⊤ u fun x => ?_
   let : Algebra Γ(Y, ⊤) (Y.presheaf.stalk x.1) := (Y.presheaf.germ ⊤ x.1 trivial).hom.toAlgebra
@@ -217,7 +217,7 @@ public theorem coeff_mem_one_of_sum_genMonomial_mem {x y : formalNeighborhoodRin
       hE.formalNeighborhoodSymbol_zero] at hsym
     have h0 := congrArg (fun q => q.coeff (Finsupp.single 0 1)) hsym
     have h1 := congrArg (fun q => q.coeff (Finsupp.single 1 1)) hsym
-    simp only [AddMonoidAlgebra.coeff_add, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X',
+    simp only [AddMonoidAlgebra.coeff_add, MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X,
       AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, Finsupp.add_apply,
       Finsupp.single_eq_single_iff] at h0 h1
     simp only [↓reduceIte, mul_one, Fin.isValue, one_ne_zero, and_true,

@@ -219,13 +219,13 @@ private theorem separablyGenerated_of_algEquiv
   let F' : IntermediateField k L := IntermediateField.adjoin k t
   let eF : F ≃ₐ[k] F.map e.toAlgHom := IntermediateField.intermediateFieldMap e F
   have hF : F.map e.toAlgHom = F' := by
-    show (IntermediateField.adjoin k s).map e.toAlgHom = IntermediateField.adjoin k (e '' s)
+    change (IntermediateField.adjoin k s).map e.toAlgHom = IntermediateField.adjoin k (e '' s)
     exact IntermediateField.adjoin_map k s (e : K →ₐ[k] L)
   let e1 : F ≃ₐ[k] F' := eF.trans (IntermediateField.equivOfEq hF)
   have he : (algebraMap F' L).comp (e1 : F →ₐ[k] F') =
       (e : K →+* L).comp (algebraMap F K) := by
     ext x
-    show ((e1 x : F') : L) = e (x : K)
+    change ((e1 x : F') : L) = e (x : K)
     rfl
   have : Algebra.IsSeparable F K := hsep
   exact ⟨t, ht', Algebra.IsSeparable.of_equiv_equiv e1.toRingEquiv e.toRingEquiv he⟩
@@ -273,13 +273,11 @@ private theorem residueField_algebraic_of_closed_point
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   have : Algebra.FiniteType k (Y.residueField y) := by
-    show RingHom.FiniteType (algebraMap k (Y.residueField y))
+    change RingHom.FiniteType (algebraMap k (Y.residueField y))
     convert hcomp using 1
-    all_goals first
-      | rfl
-      | (simp only [RingHom.algebraMap_toAlgebra]
-         rw [← Scheme.Γevaluation_naturality]
-         simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc])
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   have : Module.Finite k (Y.residueField y) := finite_of_finite_type_of_isJacobsonRing _ _
   exact Algebra.IsAlgebraic.of_finite k (Y.residueField y)
 
@@ -324,7 +322,7 @@ private theorem genericPoint_map_of_finiteResidueExtension
           intro heq'
           exact h (congrArg TopologicalSpace.IrreducibleCloseds.carrier heq')
         have hdim' : Order.krullDim (TopologicalSpace.IrreducibleCloseds Y) ≤ 1 := by
-          show topologicalKrullDim Y ≤ 1
+          change topologicalKrullDim Y ≤ 1
           rw [hdim]
         rcases (Order.krullDim_le_one_iff.mp hdim') Z with hmin | hmax
         · have hWZ' : W = Z := le_antisymm hWZ (hmin hWZ)
@@ -396,7 +394,7 @@ private theorem eq_zero_of_stalkLinearMap_genericPoint_eq_zero {X : Scheme.{u}} 
     apply injective_generic_germ_of_isTorsionFree F hF hη
     have hgerm := stalkLinearMap_germ A F φ region.unop (genericPoint X) hη value
     rw [h, LinearMap.zero_apply] at hgerm
-    show F.presheaf.germ region.unop (genericPoint X) hη
+    change F.presheaf.germ region.unop (genericPoint X) hη
       ((φ.val.app (op region.unop)) value) =
         F.presheaf.germ region.unop (genericPoint X) hη 0
     rw [map_zero]

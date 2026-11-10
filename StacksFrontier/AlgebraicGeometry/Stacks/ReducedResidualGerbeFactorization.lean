@@ -166,7 +166,7 @@ theorem exists_factorization_of_range_pointsMap_subset_singleton
   have hemb := (AlgebraicStacks.isClosedEmbedding_pointsMap_of_isClosedSubstack hP hA).isEmbedding
   have hgen : closure {x'} = Set.univ := by
     rw [hemb.closure_eq_preimage_closure_image, Set.image_singleton]
-    show AlgebraicStacks.pointsMap B S hS i ⁻¹'
+    change AlgebraicStacks.pointsMap B S hS i ⁻¹'
       closure {AlgebraicStacks.pointsMap B S hS i x'} = _
     rw [hx', ← hrange, Set.preimage_range]
   have hx'W : x' ∈ W.pointSet B S hS := by

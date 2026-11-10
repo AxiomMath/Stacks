@@ -113,7 +113,6 @@ theorem exists_finiteType_thickening (hRS : SatisfiesRSStar B S hS 𝒳.val.p �
     {x y z : 𝒳.val.obj}
     (hx : 𝒳.val.p.obj x =
       siteObject B S hS hR₀ (Spec.map (CommRingCat.ofHom (algebraMap Λ R₀)) ≫ iΛ))
-    (hy : 𝒳.val.p.obj y = siteObject B S hS hA (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ))
     (hz : 𝒳.val.p.obj z =
       siteObject B S hS hA' (Spec.map (CommRingCat.ofHom (algebraMap Λ A')) ≫ iΛ))
     (i : y ⟶ z) (a : y ⟶ x)
@@ -658,7 +657,7 @@ theorem liftsAlong_of_isVersalAt_of_specializes [IsLocallyNoetherian S]
     isHomLift_of_schemeMap B S hS p hyS hzS _ i (by rw [toScheme_specSiteHom]; exact hi)
   -- the finite type thickening
   obtain ⟨R', _, _, _, hR', gU, gZ, hgU, hcomm, x', hx', κ', ζ, hκ', hζ, hcompat⟩ :=
-    exists_finiteType_thickening B S hS 𝒳 hRS hlim iΛ hΛ hR₀ hA hA' φ f.hom hfs hker hx hyS hzS
+    exists_finiteType_thickening B S hS 𝒳 hRS hlim iΛ hΛ hR₀ hA hA' φ f.hom hfs hker hx hzS
       i a hi' ha'
   -- the smooth locus of the base change
   let UaS := siteObject B S hS hR₀ (Spec.map (CommRingCat.ofHom (algebraMap Λ R₀)) ≫ iΛ)

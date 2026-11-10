@@ -131,7 +131,7 @@ theorem exists_algEquiv_adicCompletion_of_bijective {R : Type*} [CommRing R] (I 
   refine ⟨(AlgEquiv.ofBijective F ⟨hFinj, hFsurj⟩).symm, fun x ↦ ?_⟩
   rw [AlgEquiv.symm_apply_eq]
   refine AdicCompletion.ext_evalₐ fun n ↦ ?_
-  show _ = AdicCompletion.evalₐ IT n (F (φ x))
+  change _ = AdicCompletion.evalₐ IT n (F (φ x))
   rw [hFe]
   apply (hbij n).1
   rw [hψn, AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply,

@@ -151,7 +151,7 @@ theorem exists_chartOpen_dense_of_isOpenSubspace (hY : IsAlgebraicSpace B S hS Y
   have hEne : (pointsToScheme B S hS U ⁻¹' C).Nonempty := by
     obtain ⟨x, hx⟩ := hCne
     refine ⟨(schemePointRepresentative B S hS U x).class B S hS (yoneda.obj U), ?_⟩
-    show schemePoint B S hS U (schemePointRepresentative B S hS U x) ∈ C
+    change schemePoint B S hS U (schemePointRepresentative B S hS U x) ∈ C
     rwa [schemePointRepresentative_point]
   obtain ⟨z, hzE, hzA⟩ := (dense_iff_inter_open.mp hA) _ hEopen hEne
   obtain ⟨p, rfl⟩ := Quot.exists_rep z
@@ -279,7 +279,7 @@ theorem isRetrocompact_chartOpen_of_isQuasiCompact (hY : IsAlgebraicSpace B S hS
           ((schemePointRepresentative B S hS (openSiteObject B S hS U ⟨K, hKopen⟩)
             y).class B S hS _) = y :=
         schemePointRepresentative_point B S hS _ y
-      show (BigFppfOver.toScheme B S hS).map (openSiteObjectHom B S hS U ⟨K, hKopen⟩)
+      change (BigFppfOver.toScheme B S hS).map (openSiteObjectHom B S hS U ⟨K, hKopen⟩)
         (pointsToScheme B S hS (openSiteObject B S hS U ⟨K, hKopen⟩)
           (pointsMap B S hS _ (pullback.fst
             (yoneda.map (openSiteObjectHom B S hS U ⟨K, hKopen⟩) ≫ b) V.ι) w)) = x
@@ -386,6 +386,7 @@ private theorem exists_chart_fiberDimension_le (hX : IsAlgebraicSpace B S hS X)
 /-! ### The theorem -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves on the big fppf site (`pullback.snd`)
 /-- **Stacks 0878.** A flat morphism of algebraic spaces over `S` locally of finite type has
 relative dimension at most `d` if its restriction over a dense open subspace of the target does,
 provided the morphism is locally of finite presentation or the open immersion is quasi-compact. -/

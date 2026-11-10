@@ -92,7 +92,7 @@ public theorem conjE_upperGL (a δ : (AdeleRing K)ˣ) (β : AdeleRing K) :
 public theorem mem_stabSubgroup_upperGL (a δ : (AdeleRing K)ˣ) (β y : AdeleRing K) :
     y ∈ stabSubgroup K (upperGL a δ β) ↔
       y * ((a : AdeleRing K) * ((δ⁻¹ : (AdeleRing K)ˣ) : AdeleRing K)) ∈ integralAdeles K := by
-  show (∀ i j, y * conjE K _ i j ∈ integralAdeles K) ↔ _
+  change (∀ i j, y * conjE K _ i j ∈ integralAdeles K) ↔ _
   rw [conjE_upperGL]
   refine ⟨fun h => by simpa using h 0 1, fun h i j => ?_⟩
   fin_cases i <;> fin_cases j <;> simp [h, (integralAdeles K).zero_mem]
@@ -207,6 +207,7 @@ public theorem cuspSum_eq_of_isCuspTransversal (x : GL (Fin 2) (AdeleRing K))
   rw [AddSubgroup.relIndex_self, one_smul] at this
   exact this.symm
 
+omit hK in
 public theorem cuspSum_mapO_mul (κ : GL (Fin 2) (integralAdeles K)) (x : GL (Fin 2) (AdeleRing K))
     (s : Finset (AdeleRing K)) : cuspSum F (mapO κ * x) s = cuspSum F x s := by
   simp only [cuspSum, mul_assoc, hO]
@@ -377,7 +378,7 @@ public theorem starCusp_sub_comp_glMap (α : K ≃+* K) {Λ : Type w} [CommRing 
   intro x s hs
   obtain ⟨κ, a, δ, β, rfl⟩ := exists_iwasawa x
   rw [Finset.sum_sub_distrib, sub_eq_zero]
-  show ∑ z ∈ s, F (mapO κ * upperGL a δ β * GeneralLinearGroup.upperRightHom z) =
+  change ∑ z ∈ s, F (mapO κ * upperGL a δ β * GeneralLinearGroup.upperRightHom z) =
     ∑ z ∈ s, F (glMap α (mapO κ * upperGL a δ β * GeneralLinearGroup.upperRightHom z))
   have hs₀ : IsCuspTransversal (upperGL a δ β) s :=
     (isCuspTransversal_mapO_mul_iff κ _ s).1 hs
@@ -395,7 +396,7 @@ public theorem starCusp_sub_comp_glMap (α : K ≃+* K) {Λ : Type w} [CommRing 
     refine Finset.sum_congr rfl fun z _ => ?_
     rw [map_mul, map_mul, hκ', glMap_upperGL, glMap_upperRightHom, hoc, hoc', mul_assoc, hO]
   rw [h1, cuspSum_upperGL_eq hO hK β _ ho ho' hc hc' hs₀ hsα]
-  exact cuspSum_mapO_mul hO hK κ _ s
+  exact cuspSum_mapO_mul hO κ _ s
 
 section DoubleCoset
 
@@ -467,7 +468,7 @@ public theorem divNorm_idelDiv_units_map_adeleMap (α : K ≃+* K) (c : (AdeleRi
     rfl
   rw [he, divNorm, divNorm, Finsupp.prod_equivMapDomain]
   refine Finsupp.prod_congr fun v _ => ?_
-  show ((placeComap α.symm v).resCard : ℚ) ^ _ = _
+  change ((placeComap α.symm v).resCard : ℚ) ^ _ = _
   rw [resCard_placeComap]
 
 /-- With class number one, an automorphism `α` fixes every idele class: `α(a) = a o c` with

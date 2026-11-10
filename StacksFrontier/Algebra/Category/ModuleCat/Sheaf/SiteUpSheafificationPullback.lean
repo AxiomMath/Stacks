@@ -372,7 +372,7 @@ theorem upSheafify_comp_bridge (O : Sheaf K CommRingCat.{w}) :
             (forget₂ CommRingCat.{w} RingCat.{w}) := by
   let _ : J.PreservesSheafification (forget₂ CommRingCat.{w} RingCat.{w}) :=
     CategoryTheory.GrothendieckTopology.instPreservesSheafification J _
-  show CategoryTheory.toSheafify J (u.op.lan.obj (O.obj ⋙ forget₂ _ _)) ≫
+  change CategoryTheory.toSheafify J (u.op.lan.obj (O.obj ⋙ forget₂ _ _)) ≫
       ((presheafToSheaf J RingCat.{w}).map (lanForgetToRingIso u O.obj).inv).hom ≫
         (sheafifyForgetToRingIso J (u.op.lan.obj O.obj)).hom.hom = _
   rw [← Category.assoc, ← CategoryTheory.toSheafify_naturality, Category.assoc]

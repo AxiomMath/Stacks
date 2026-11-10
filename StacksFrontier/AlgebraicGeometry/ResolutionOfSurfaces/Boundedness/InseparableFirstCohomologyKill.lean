@@ -71,7 +71,7 @@ theorem smul_firstCohomology_eq_zero_of_frobenius (A B : Type u) [CommRing A] [I
   have : IsScalarTower A X.functionField Y.functionField := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     ext a
-    show Y.presheaf.germ ⊤ (genericPoint Y) trivial (baseSection Y g (algebraMap A B a)) =
+    change Y.presheaf.germ ⊤ (genericPoint Y) trivial (baseSection Y g (algebraMap A B a)) =
       dominantFunctionFieldMap π (X.presheaf.germ ⊤ (genericPoint X) trivial (baseSection X f a))
     rw [← baseSection_comp f g π hcomm]
     exact (dominantFunctionFieldMap_germ π ⊤ trivial _).symm
@@ -121,13 +121,13 @@ theorem smul_firstCohomology_eq_zero_of_frobenius (A B : Type u) [CommRing A] [I
     rw [map_smul, map_zero]
     let y : ((Scheme.sectionsFunctor X).rightDerived 1).obj
         ((Scheme.Modules.pushforward π).obj (SheafOfModules.unit Y.ringCatSheaf)) := E x'
-    show baseSection X f c • y = 0
+    change baseSection X f c • y = 0
     rw [← Scheme.rightDerived_sectionsFunctor_map_smulEnd_apply X (baseSection X f c) 1 _ y,
       hmod]
     rfl
   let x'' : ((Scheme.sectionsFunctor Y).rightDerived 1).obj (SheafOfModules.unit Y.ringCatSheaf) :=
     x
-  show baseSection Y g (algebraMap A B c) • x'' = 0
+  change baseSection Y g (algebraMap A B c) • x'' = 0
   rw [← baseSection_comp f g π hcomm]
   exact hx
 

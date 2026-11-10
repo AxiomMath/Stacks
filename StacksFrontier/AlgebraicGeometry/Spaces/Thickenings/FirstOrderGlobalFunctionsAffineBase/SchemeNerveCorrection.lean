@@ -60,8 +60,7 @@ theorem bijective_productMap_of_isPushout {C A Bb P : CommRingCat.{u}} {f : C �
   have : Algebra.IsPushout C A Bb P := CommRingCat.isPushout_iff_isPushout.mp h
   convert (Algebra.IsPushout.equiv C A Bb P).bijective using 1
   refine funext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     rw [Algebra.TensorProduct.productMap_apply_tmul, Algebra.IsPushout.equiv_tmul]
     rfl
@@ -132,35 +131,35 @@ theorem exists_sub_appTop_eq_of_isPullback [IsAffine W] [IsAffine X₀]
       q := q.appTop.hom
       s₀ := ⟨sL.appTop.hom, fun _ => rfl⟩
       t₀ := ⟨tL.appTop.hom, fun c => by
-        show tL.appTop.hom (αW.appTop.hom c) = (sL ≫ αW).appTop.hom c
+        change tL.appTop.hom (αW.appTop.hom c) = (sL ≫ αW).appTop.hom c
         rw [hC.w]; rfl⟩
       q₀ := ⟨qL.appTop.hom, fun _ => rfl⟩
       e₀ := ⟨d₀L.appTop.hom, fun c => by
-        show d₀L.appTop.hom ((sL ≫ αW).appTop.hom c) = (qL ≫ αW).appTop.hom c
+        change d₀L.appTop.hom ((sL ≫ αW).appTop.hom c) = (qL ≫ αW).appTop.hom c
         rw [hD.w]; rfl⟩
       πE_s := fun x => by
-        show (πR ≫ s).appTop.hom x = (sL ≫ πW).appTop.hom x
+        change (πR ≫ s).appTop.hom x = (sL ≫ πW).appTop.hom x
         rw [hsL]
       πE_t := fun x => by
-        show (πR ≫ t).appTop.hom x = (tL ≫ πW).appTop.hom x
+        change (πR ≫ t).appTop.hom x = (tL ≫ πW).appTop.hom x
         rw [hA.w]
       πE₂_q := fun x => by
-        show (πR₃ ≫ q).appTop.hom x = (qL ≫ πW).appTop.hom x
+        change (πR₃ ≫ q).appTop.hom x = (qL ≫ πW).appTop.hom x
         rw [hqL]
       πE₂_d₀ := fun x => by
-        show (πR₃ ≫ d₀).appTop.hom x = (d₀L ≫ πR).appTop.hom x
+        change (πR₃ ≫ d₀).appTop.hom x = (d₀L ≫ πR).appTop.hom x
         rw [hB.w]
       d₁_s := fun x => by
-        show (d₁ ≫ s).appTop.hom x = q.appTop.hom x
+        change (d₁ ≫ s).appTop.hom x = q.appTop.hom x
         rw [h₁s]
       d₂_s := fun x => by
-        show (d₂ ≫ s).appTop.hom x = q.appTop.hom x
+        change (d₂ ≫ s).appTop.hom x = q.appTop.hom x
         rw [h₂s]
       d₁_t := fun x => by
-        show (d₁ ≫ t).appTop.hom x = (d₀ ≫ t).appTop.hom x
+        change (d₁ ≫ t).appTop.hom x = (d₀ ≫ t).appTop.hom x
         rw [h₁t]
       d₂_t := fun x => by
-        show (d₂ ≫ t).appTop.hom x = (d₀ ≫ s).appTop.hom x
+        change (d₂ ≫ t).appTop.hom x = (d₀ ≫ s).appTop.hom x
         rw [h₂t]
       sq_zero := hsq
       ker_πE := le_of_eq (CommRingCat.ker_eq_map_of_isPushout_of_surjective _ _ _ _

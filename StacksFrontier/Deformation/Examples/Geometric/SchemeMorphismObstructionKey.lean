@@ -74,7 +74,7 @@ theorem ideal_compat_of_mem_span {V : Opens Z.carrier} {S : Set ↥(P.sheaf.obj.
         q.hom.app (Opposite.op V) (P.reduction.hom.app (Opposite.op V) a) :=
       congrArg (fun t => (t.hom.app (Opposite.op V)).hom a) hφ
     have hsm := P.ideal.app_smul (Opposite.op V) a ⟨x, hxk⟩
-    show (φ.hom.app (Opposite.op V)).hom (a * x) = _
+    change (φ.hom.app (Opposite.op V)).hom (a * x) = _
     rw [map_mul, ihx hxk, D.smul_inr (Opposite.op V) _ _ _ hb]
     exact congrArg (D.ι.app (Opposite.op V)) hsm.symm
 
@@ -153,7 +153,7 @@ theorem homOverEquiv_unit_app {Z W : RingedSpace.{u, u}} (β : Z.carrier ⟶ W.c
   subst h
   have hu := congrArg (fun m => (m.hom.app (Opposite.op U)).hom t)
     (Stacks.SheafOfModules.unit_comp_map_ringedSpaceStructureMap χ)
-  simp only [homOverEquiv, Equiv.coe_fn_mk, eqToHom_refl, Category.id_comp,
+  simp only [homOverEquiv, eqToHom_refl,
     Z.presheaf.map_id, CommRingCat.id_apply]
   exact hu
 
@@ -398,7 +398,7 @@ theorem schemeMorphismSheafLiftEquiv_apply_unit (hf : f ≫ pY = pX)
   refine (nat_apply (fiberSolution (maximalIdeal_squareZeroExtensionArtinian_pow_two (Λ := Λ) M)
     xε).inverseImageToThickenedSheaf.hom _ _).trans ?_
   rw [h3]
-  show (xε.1.scheme.presheaf.map _).hom ((xε.1.scheme.presheaf.map _).hom _) = _
+  change (xε.1.scheme.presheaf.map _).hom ((xε.1.scheme.presheaf.map _).hom _) = _
   exact presheaf_map_map_apply_self _ _ _ _
 
 end Deformation.Examples

@@ -162,7 +162,7 @@ theorem schemePoint_eq_of_class_eq (U : BigFppfOver B S hS)
         (schemeFieldValuedPoint B S hS U r) (schemeFieldValuedPoint B S hS U v) := by
     obtain ⟨f, hf⟩ := hv
     refine ⟨(BigFppfOver.toScheme B S hS).map f, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map f ≫
+    change (BigFppfOver.toScheme B S hS).map f ≫
       (BigFppfOver.toScheme B S hS).map v.value =
       (BigFppfOver.toScheme B S hS).map r.value
     have hf' : f ≫ v.value = r.value := by
@@ -457,7 +457,7 @@ theorem holdsOnEveryEtaleChartAtPoint_iff_representable
       representative := p
       point := t
       maps_to := hx }
-  show HoldsOnEveryEtaleChartAtPoint B S hS Q f x ↔
+  change HoldsOnEveryEtaleChartAtPoint B S hS Q f x ↔
     Q (MorphismOfGerms.ofSchemeHom (T.map f₀) (T.map p.value t))
   constructor
   · intro hall

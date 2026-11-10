@@ -208,7 +208,7 @@ theorem kerIdeal_structureSharp_eq_fibreIdeal {U : BigFppfOver B S hS} (p : yone
   obtain ⟨W⟩ := W
   ext a
   refine (mem_kerIdeal_structureSharp_iff B S hS _ hpc.rep W a).trans ?_
-  show _ ↔ a ∈ definingIdealAt B S hS X (fibreSubspace ι hι f) (op W)
+  change _ ↔ a ∈ definingIdealAt B S hS X (fibreSubspace ι hι f) (op W)
   rw [definingIdealAt_eq_ker, ← ker_gamma_eq_of_isPullback φ hφ (hpc.rep.isPullback W.1.hom)
     ((fibreSubspace ι hι f).2.2.rep.isPullback W.1.hom)]
   exact RingHom.mem_ker.symm
@@ -243,7 +243,7 @@ theorem fibreIdeal_obj_of_isAffine [IsAffine ((BigFppfOver.toScheme B S hS).obj 
         (RingHom.ker ((BigFppfOver.toScheme B S hS).map ι).appTop.hom) := by
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (idEtaleChart B S hS T).1.left) :=
     inferInstanceAs (IsAffine ((BigFppfOver.toScheme B S hS).obj T))
-  show definingIdealAt B S hS X (fibreSubspace ι hι f) (op W) = _
+  change definingIdealAt B S hS X (fibreSubspace ι hι f) (op W) = _
   rw [← definingIdealAt_rangeYonedaClosedSubspace_idEtaleChart ι hι]
   exact definingIdealAt_preimage_eq_map B S hS f (rangeYonedaClosedSubspace ι hι)
     (idEtaleChart B S hS T) W g ((Category.comp_id _).trans hg)
@@ -303,7 +303,7 @@ theorem baseScalar_val_mem_fibreIdeal (a : Γ((BigFppfOver.toScheme B S hS).obj 
     (baseScalar f a).1 (op W) ∈ (fibreIdeal ι hι f).obj (op W) := by
   have : Mono ι := mono_of_isClosedImmersion_toScheme ι hι
   rw [baseScalar_val]
-  show _ ∈ definingIdealAt B S hS X (fibreSubspace ι hι f) (op W)
+  change _ ∈ definingIdealAt B S hS X (fibreSubspace ι hι f) (op W)
   rw [definingIdealAt_eq_ker]
   apply RingHom.mem_ker.mpr
   set Z := fibreSubspace ι hι f
@@ -319,7 +319,7 @@ theorem baseScalar_val_mem_fibreIdeal (a : Γ((BigFppfOver.toScheme B S hS).obj 
     rw [Functor.map_comp, Functor.map_comp, yoneda_map_chartBaseHom,
       Yoneda.fullyFaithful.map_preimage, Category.assoc, Category.assoc, h1,
       Subfunctor.fromPreimage_ι, ← Category.assoc (yoneda.map _), ← hpb.w, Category.assoc]
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (Z.2.2.rep.snd W.1.hom)).op).hom
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (Z.2.2.rep.snd W.1.hom)).op).hom
     ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartBaseHom f W)).op).hom a) = 0
   refine (gamma_toScheme_comp B S hS _ _ a).trans ?_
   refine (congrArg (fun m => (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m).op).hom a)

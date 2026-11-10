@@ -93,10 +93,10 @@ public theorem trace_tensorPowerRepresentation (τ : Γ →* GL (Fin m) R) (k : 
       (τ g : Matrix (Fin m) (Fin m) R).trace ^ k := by
   induction k with
   | zero =>
-    show (1 : Matrix (Fin (m ^ 0)) (Fin (m ^ 0)) R).trace = _
+    change (1 : Matrix (Fin (m ^ 0)) (Fin (m ^ 0)) R).trace = _
     rw [Matrix.trace_one, Fintype.card_fin, pow_zero, Nat.cast_one, pow_zero]
   | succ k ih =>
-    show (kroneckerRepresentation (tensorPowerRepresentation τ k) τ g).val.trace = _
+    change (kroneckerRepresentation (tensorPowerRepresentation τ k) τ g).val.trace = _
     rw [trace_kroneckerRepresentation, ih, pow_succ]
 
 /-- The tensor powers of a continuous matrix representation are continuous. -/
@@ -207,11 +207,11 @@ public theorem norm_le_of_satisfiesFrobeniusTraceFormula {q : ℝ} (hq : 1 ≤ q
   have hA : ∀ i, ∀ a ∈ A i, ‖a‖ ≤ q ^ (1 + i * w) := by
     intro i a ha
     by_cases hi : 0 < i
-    · simp only [A, dif_pos hi] at ha
+    · simp only [A, dite_eq_left hi] at ha
       have hb := hcoinv i hi _ ((htf i hi).choose_spec.choose_spec.1 a ha)
       rw [norm_div, Complex.norm_of_nonneg hq0.le, div_le_iff₀ hq0] at hb
       rwa [Real.rpow_add hq0, Real.rpow_one, mul_comm]
-    · simp [A, dif_neg hi] at ha
+    · simp [A, dite_eq_right hi] at ha
   have hsum : ∀ (C : Multiset ℂ) (n : ℕ), (C.map (· ^ n)).sum = ∑ x : C, (x : ℂ) ^ n :=
     fun C n => by
       rw [Finset.sum_eq_multiset_sum]
@@ -222,7 +222,7 @@ public theorem norm_le_of_satisfiesFrobeniusTraceFormula {q : ℝ} (hq : 1 ≤ q
     filter_upwards [eventually_gt_atTop 0] with n hn
     have hdn : 0 < deg y * n := Nat.mul_pos hy hn
     have htr := (htf i hi).choose_spec.choose_spec.2 (deg y * n) hdn
-    simp only [A, B, dif_pos hi]
+    simp only [A, B, dite_eq_left hi]
     have hfs : ∀ f : Y → F, (∑ᶠ (y' : Y) (_ : deg y' ∣ deg y * n), f y') =
         ∑ y' ∈ (hfin (deg y * n) hdn).toFinset, f y' := fun f =>
       finsum_mem_eq_finite_toFinset_sum f (hfin (deg y * n) hdn)

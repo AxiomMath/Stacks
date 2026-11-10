@@ -103,7 +103,7 @@ theorem mem_range_canonicalMorphism_iff (y : (pushforwardSpectrum f).scheme) :
     have hP : IsAffineOpen (f ⁻¹ᵁ V) := hV.preimage_of_isOpenImmersion f hVf
     have : IsAffine (f ⁻¹ᵁ V).toScheme := hP
     have : IsIso (f ⁻¹ᵁ V).toSpecΓ := by
-      show IsIso ((f ⁻¹ᵁ V).toScheme.toSpecΓ ≫ Spec.map (f ⁻¹ᵁ V).topIso.inv)
+      change IsIso ((f ⁻¹ᵁ V).toScheme.toSpecΓ ≫ Spec.map (f ⁻¹ᵁ V).topIso.inv)
       infer_instance
     have hy' : y ∈ Set.range ((pushforwardSpectrum f).chart ⟨V, hV⟩) := by
       have hr := chart_opensRange (pushforwardSituation f) ⟨V, hV⟩
@@ -113,7 +113,7 @@ theorem mem_range_canonicalMorphism_iff (y : (pushforwardSpectrum f).scheme) :
     refine ⟨(f ⁻¹ᵁ V).ι.base t, ?_⟩
     show (canonicalMorphism f).base ((f ⁻¹ᵁ V).ι.base t) = y
     rw [← Scheme.Hom.comp_apply, ι_toRelativeSpec f ⟨V, hV⟩]
-    show (pushforwardSpectrum f).chart ⟨V, hV⟩ ((f ⁻¹ᵁ V).toSpecΓ.base t) = y
+    change (pushforwardSpectrum f).chart ⟨V, hV⟩ ((f ⁻¹ᵁ V).toSpecΓ.base t) = y
     rw [ht, hz]
 
 omit [IsOpenImmersion f] in

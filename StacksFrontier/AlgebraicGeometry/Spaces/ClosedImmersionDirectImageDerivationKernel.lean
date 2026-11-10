@@ -131,7 +131,7 @@ theorem isLocallySurjective_structureSharpCommRing (i : Z ⟶ X)
       (structureSharpCommRing B S hS i).hom := by
   have h := isLocallySurjective_structureSharp B S hS i hi
   rw [Presheaf.isLocallySurjective_iff_whisker_forget]
-  show Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X.1)
+  change Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X.1)
     ((sheafCompose (SmallEtale.topology B S hS X.1) (forget RingCat.{u})).map
       ((Stacks.forgetCommRingSheaf.{u, u + 1, u}
           (SmallEtale.topology B S hS X.1)).map (structureSharpCommRing B S hS i))).hom

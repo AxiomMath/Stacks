@@ -66,7 +66,7 @@ theorem Algebra.map_eq_maximalIdeal_localizationAtPrime_of_formallyUnramified
   have : Algebra.FormallyUnramified (Localization.AtPrime p) (Localization.AtPrime p') :=
     .of_restrictScalars R _ _
   have : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime p')) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom p p' (algebraMap R R') Ideal.LiesOver.over
   have h := Algebra.FormallyUnramified.map_maximalIdeal
     (R := Localization.AtPrime p) (S := Localization.AtPrime p')
@@ -81,7 +81,7 @@ theorem Algebra.comap_maximalIdeal_localizationAtPrime_eq
     (IsLocalRing.maximalIdeal (Localization.AtPrime p')).comap
         (algebraMap R (Localization.AtPrime p')) = p := by
   rw [IsScalarTower.algebraMap_eq R R' (Localization.AtPrime p'), ← Ideal.comap_comap]
-  show ((IsLocalRing.maximalIdeal (Localization.AtPrime p')).under R').under R = p
+  change ((IsLocalRing.maximalIdeal (Localization.AtPrime p')).under R').under R = p
   rw [IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime p') p']
   exact (Ideal.LiesOver.over (p := p) (P := p')).symm
 

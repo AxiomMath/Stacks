@@ -65,7 +65,7 @@ theorem originSection_comp_baseMap : originSection S ≫ baseMap S = 𝟙 _ := b
   rw [originSection, baseMap, ← Spec.map_comp, ← Spec.map_id]
   congr 1
   ext r
-  show originRingMap S (algebraMap S.k (NodalRing S.k) r) = r
+  change originRingMap S (algebraMap S.k (NodalRing S.k) r) = r
   rw [← Ideal.Quotient.mk_algebraMap, originRingMap, Ideal.Quotient.lift_mk,
     MvPolynomial.algebraMap_eq]
   simp [originPolynomialMap]

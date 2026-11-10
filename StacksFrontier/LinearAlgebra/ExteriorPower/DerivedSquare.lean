@@ -209,7 +209,8 @@ instance mono_map_iCycles (S : ShortComplex C) (F : C ⥤ D) [F.Additive] [F.Pre
   infer_instance
 
 -- A composite of functors preserving homology preserves homology
--- (`CategoryTheory.Functor.preservesHomology_comp`, StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean), as an instance here.
+-- (`CategoryTheory.Functor.preservesHomology_comp`,
+-- StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean), as an instance here.
 attribute [instance] CategoryTheory.Functor.preservesHomology_comp
 
 /-- The identification of cycles for a composite of functors preserving homology is the
@@ -219,7 +220,7 @@ lemma mapCyclesIso_comp (S : ShortComplex C) (F : C ⥤ D) (G : D ⥤ E) [F.Addi
     (S.mapCyclesIso (F ⋙ G)).hom =
       ((S.map F).mapCyclesIso G).hom ≫ G.map (S.mapCyclesIso F).hom := by
   rw [← cancel_mono ((F ⋙ G).map S.iCycles), mapCyclesIso_hom_iCycles, Category.assoc]
-  show _ = _ ≫ G.map _ ≫ G.map (F.map S.iCycles)
+  change _ = _ ≫ G.map _ ≫ G.map (F.map S.iCycles)
   rw [← G.map_comp, mapCyclesIso_hom_iCycles, mapCyclesIso_hom_iCycles]
   rfl
 
@@ -875,7 +876,7 @@ theorem isRightExactOn_exteriorPower (P : SimplicialProjectiveResolution M) (n :
   · rw [ShortComplex.moduleCat_exact_iff_range_eq_ker]
     have := exteriorPower.range_map_sub_map_eq_ker_map hepi (hd ▸ hex)
       (fun y => ⟨P.obj.σ 0 y, ?_, ?_⟩) n
-    · show LinearMap.range
+    · change LinearMap.range
           ((P.derivedComplex (ModuleCat.exteriorPower.functor R n)).d 1 0).hom =
         LinearMap.ker ((ModuleCat.exteriorPower.functor R n).map P.ε).hom
       rw [derivedComplex_d_one_zero]

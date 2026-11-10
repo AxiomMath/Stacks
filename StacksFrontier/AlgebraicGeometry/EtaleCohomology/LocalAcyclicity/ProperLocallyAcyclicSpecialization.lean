@@ -105,7 +105,8 @@ data:
   variety of vanishing cycles is an isomorphism; `B` is a big étale site containing `X` and `S`, a
   size device only.
 * `Stacks.Torsion.torsionCohomologyProperty` (`CategoryTheory/Sites/Cohomology/Torsion/
-  StacksFrontier/CategoryTheory/Sites/Cohomology/Torsion/DerivedCategoryOfTorsionSheaves.lean`) says every cohomology sheaf of `K` is torsion.
+  StacksFrontier/CategoryTheory/Sites/Cohomology/Torsion/DerivedCategoryOfTorsionSheaves.lean`)
+  says every cohomology sheaf of `K` is torsion.
 * `smallEtaleDerivedPushforwardAb f` (`EtaleCohomology/StalkOfDerivedPushforward.lean`) is
   `Rf_*`, the total right derived functor of direct image; its existence is the proved instance
   `Stacks.EtaleCohomology.hasRightDerivedFunctor_smallEtalePushforwardAb`

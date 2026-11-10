@@ -132,7 +132,7 @@ private theorem sectionFiberPullbackEquiv_val
     (p : (sectionFiber B S hS (pullback.fst b a) X y).obj Y) :
     (sectionFiberPullbackEquiv B S hS a b X y Y p).1 =
       (pullback.snd b a).app (Opposite.op Y.unop.left) p.1 := by
-  show ((Types.pullbackIsoPullback
+  change ((Types.pullbackIsoPullback
     (b.app (Opposite.op Y.unop.left)) (a.app (Opposite.op Y.unop.left))).hom
       ((pullbackObjIso b a (Opposite.op Y.unop.left)).hom p.1)).1.2 = _
   calc
@@ -354,7 +354,7 @@ private theorem sectionFiberPullbackSquare
     have hpF' : (pullback.fst a b).app T p = x.1 := by simpa using hpF
     have hpH' : (pullback.snd a b).app T p = z.1 := by simpa using hpH
     refine ⟨⟨p, ?_⟩, Subtype.ext hpF', Subtype.ext hpH'⟩
-    show c.app T (a.app T ((pullback.fst a b).app T p)) = E.map Y.unop.hom.op y
+    change c.app T (a.app T ((pullback.fst a b).app T p)) = E.map Y.unop.hom.op y
     rw [hpF']
     exact x.2
 

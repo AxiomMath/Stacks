@@ -368,7 +368,7 @@ public theorem complementRestriction_comp_complementToSupportedCohomologyOne_app
     (exact_supportedCohomology_composableArrows₅ B i F 0).toIsComplex.zero' 1 2 3
   dsimp only [complementToSupportedCohomologyOne, Functor.rightDerivedZeroIsoSelf]
   rw [NatTrans.comp_app]
-  show (complementRestriction B i).app F ≫
+  change (complementRestriction B i).app F ≫
       (complementPullbackPushforward B i).toRightDerivedZero.app F ≫
         (supportedCohomologyDelta B i 0).app F = 0
   rw [← Category.assoc, ← hsq, Category.assoc, hz, comp_zero]
@@ -392,19 +392,19 @@ public theorem exact_complementToSupportedCohomologyOne_app (F : SmallEtaleAbeli
       (asIso ((𝟭 (SmallEtaleAbelianSheaf B X)).toRightDerivedZero.app F)).symm
       (asIso ((complementPullbackPushforward B i).toRightDerivedZero.app F)).symm (Iso.refl _)
       (by
-        show inv ((𝟭 (SmallEtaleAbelianSheaf B X)).toRightDerivedZero.app F) ≫
+        change inv ((𝟭 (SmallEtaleAbelianSheaf B X)).toRightDerivedZero.app F) ≫
             (complementRestriction B i).app F =
           (NatTrans.rightDerived (complementRestriction B i) 0).app F ≫
             inv ((complementPullbackPushforward B i).toRightDerivedZero.app F)
         rw [IsIso.inv_comp_eq, ← Category.assoc, hsq, Category.assoc, IsIso.hom_inv_id,
           Category.comp_id])
       (by
-        show inv ((complementPullbackPushforward B i).toRightDerivedZero.app F) ≫
+        change inv ((complementPullbackPushforward B i).toRightDerivedZero.app F) ≫
             (complementToSupportedCohomologyOne B i).app F =
           (supportedCohomologyDelta B i 0).app F ≫ 𝟙 _
         dsimp only [complementToSupportedCohomologyOne, Functor.rightDerivedZeroIsoSelf]
         rw [NatTrans.comp_app, Category.comp_id]
-        show inv ((complementPullbackPushforward B i).toRightDerivedZero.app F) ≫
+        change inv ((complementPullbackPushforward B i).toRightDerivedZero.app F) ≫
             (complementPullbackPushforward B i).toRightDerivedZero.app F ≫
               (supportedCohomologyDelta B i 0).app F =
           (supportedCohomologyDelta B i 0).app F

@@ -128,7 +128,7 @@ lemma smallPolynomialQuotientAlgEquiv_smallSiteStructureToQuotient
       MvPolynomial.map (algebraMap A (B : Type u))
         (show MvPolynomial ↥(X.unop.unop.1) A from p) := by
   rw [smallSiteStructureToQuotient_apply]
-  show MvPolynomial.algebraTensorAlgEquiv A (B : Type u)
+  change MvPolynomial.algebraTensorAlgEquiv A (B : Type u)
       ((1 : (B : Type u)) ⊗ₜ[A] (show MvPolynomial ↥(X.unop.unop.1) A from p)) = _
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, one_smul]
 
@@ -185,11 +185,7 @@ lemma smallPolynomialAugmentationIdealPowNormalForm_symm_tensorComm_smul (m : �
           ((show MvPolynomial ↥(X.unop.unop.1) A from s) • z)) =
       s • (smallPolynomialAugmentationIdealPowNormalForm A B κ m X h0).symm
         (MvPolynomial.variableIdealPowTensorComm A ↥(X.unop.unop.1) (B : Type u) m z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [smul_zero,
-        (MvPolynomial.variableIdealPowTensorComm A ↥(X.unop.unop.1) (B : Type u) m).map_zero,
-        (smallPolynomialAugmentationIdealPowNormalForm A B κ m X h0).symm.map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul p b =>
       refine Subtype.ext ((smallPolynomialQuotientAlgEquiv A B κ X).injective ?_)
       rw [TensorProduct.smul_tmul']
@@ -286,8 +282,7 @@ lemma smallPolynomialAugmentationIdealPowLocalIso_inv_comp {n m : ℕ} (h : n �
           (E := ↥(X.unop.unop.1)) (ModuleCat.of A (B : Type u)) h ≫
         (smallPolynomialAugmentationIdealPowLocalIso A B κ n X h0).inv := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul p b =>
       refine Subtype.ext ((smallPolynomialQuotientAlgEquiv A B κ X).injective ?_)
       exact (coe_smallPolynomialAugmentationIdealPowNormalForm_symm_tensorComm

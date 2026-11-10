@@ -91,8 +91,7 @@ def tensorLiftₛₗ : B ⊗[A] M →ₗ[B] M' where
     exact smul_comm _ _ _
   map_add' := map_add _
   map_smul' c t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
       rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul,
         TensorProduct.liftAddHom_tmul, tensorLiftAux_apply, tensorLiftAux_apply, smul_eq_mul,
@@ -171,8 +170,7 @@ theorem surjective_levelTensorReduce (hπBs : Function.Surjective πB)
     (hρs : Function.Surjective ρ) :
     Function.Surjective (levelTensorReduce πA πB ρ hπB hρ) := by
   intro w
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction w using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨b, rfl⟩ := hπBs x
     obtain ⟨m, rfl⟩ := hρs y
@@ -261,8 +259,7 @@ def levelTensorLift : P ⊗[R₀] L →+
 theorem levelTensorLift_levelTensorReduce (t : B ⊗[A] M) :
     levelTensorLift p k hπB hρ hπAs hπBs hρs hπBk hρk (levelTensorReduce πA πB ρ hπB hρ t) =
       Submodule.Quotient.mk t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, Submodule.Quotient.mk_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b m => exact levelTensorLiftFun_apply p k hπBs hρs hπBk hρk b m
   | add x y hx hy => rw [map_add, map_add, hx, hy, Submodule.Quotient.mk_add]
 
@@ -287,8 +284,7 @@ theorem bijective_adicQuotientMap_tensorLiftₛₗ (β : P ⊗[R₀] L →+ L')
     Function.Bijective (adicQuotientMap (tensorLiftₛₗ f) (pAdicIdeal_map_id_le p) k) := by
   have hFχ : ∀ t, ρ' (tensorLiftₛₗ f t) = β (levelTensorReduce πA πB ρ hπB hρ t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m => exact (hβt b m).symm
     | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   refine ⟨?_, ?_⟩
@@ -299,14 +295,14 @@ theorem bijective_adicQuotientMap_tensorLiftₛₗ (β : P ⊗[R₀] L →+ L')
       (Submodule.Quotient.mk_eq_zero _).1 hx
     have h1 : β (levelTensorReduce πA πB ρ hπB hρ t) = 0 := (hFχ t).symm.trans ((hρ' _).2 hmem)
     have h2 : levelTensorReduce πA πB ρ hπB hρ t = 0 := hβ.1 (h1.trans (map_zero β).symm)
-    show Submodule.Quotient.mk t = 0
+    change Submodule.Quotient.mk t = 0
     rw [← levelTensorLift_levelTensorReduce p k hπB hρ hπAs hπBs hρs hπBk hρk t, h2, map_zero]
   · intro z
     obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective _ z
     obtain ⟨w, hw⟩ := hβ.2 (ρ' y)
     obtain ⟨t, rfl⟩ := surjective_levelTensorReduce hπB hρ hπBs hρs w
     refine ⟨Submodule.Quotient.mk t, ?_⟩
-    show Submodule.Quotient.mk (tensorLiftₛₗ f t) = Submodule.Quotient.mk y
+    change Submodule.Quotient.mk (tensorLiftₛₗ f t) = Submodule.Quotient.mk y
     rw [Submodule.Quotient.eq, ← hρ', map_sub, hFχ, hw, sub_self]
 
 end LevelBijective
@@ -362,7 +358,7 @@ theorem ambientBaseChangeTensorFun_add
     (x y : ringAlong g ⊗[Γ(A.thickening.target.scheme, ⊤)] Γ(ambientSchemeOf A NA, ⊤)) :
     ambientBaseChangeTensorFun g NA NA' fmap (x + y) =
       ambientBaseChangeTensorFun g NA NA' fmap x + ambientBaseChangeTensorFun g NA NA' fmap y := by
-  show ambientComparisonAbstractTop g NA NA' fmap
+  change ambientComparisonAbstractTop g NA NA' fmap
       ((affineBaseChangeTopIsoAbstract g NA).hom (ambientCrossAbstract g NA (x + y))) = _
   rw [show ambientCrossAbstract g NA (x + y) =
     ambientCrossAbstract g NA x + ambientCrossAbstract g NA y from rfl, map_add, map_add]
@@ -520,7 +516,7 @@ theorem levelAmbientScalars_smul_levelRingAlongReduce
     (b : ((wholeSpaceEnvelopeRing hp).obj ⦋n⦌ : Type u)) :
     levelAmbientScalars hp m e a • levelRingAlongReduce hp φ e b =
       levelRingAlongReduce hp φ e (((wholeSpaceEnvelopeRing hp).map φ).hom a * b) := by
-  show ambientRingSection (levelObj hp m e).obj
+  change ambientRingSection (levelObj hp m e).obj
         (bigRingSection _ (levelSectionsScalars hp ⦋m⦌ e a)) •
       ringAlongSection _ (bigRingSection _ (levelSectionsScalars hp ⦋n⦌ e b)) =
     ringAlongSection _ (bigRingSection _

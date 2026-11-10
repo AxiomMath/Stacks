@@ -66,17 +66,17 @@ private theorem exists_ringEquiv_tensorHenselization_apply_right
       ((Algebra.TensorProduct.comm P' B Q').toRingEquiv.trans
         (RingEquiv.ofBijective _ hbij))), fun p => ?_, fun x => ?_⟩
   · rw [RingEquiv.trans_apply, RingEquiv.trans_apply, RingEquiv.trans_apply]
-    simp only [AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul,
+    simp only [AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul,
       Algebra.TensorProduct.cancelBaseChange_tmul]
     rw [Algebra.smul_def, mul_one]
-    show Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
+    change Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
       (fun _ _ => Commute.all _ _) ((1 : Q') ⊗ₜ[P'] (algebraMap P B p)) = _
     rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
     rfl
   · rw [RingEquiv.trans_apply, RingEquiv.trans_apply, RingEquiv.trans_apply]
-    simp only [AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul,
+    simp only [AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul,
       Algebra.TensorProduct.cancelBaseChange_tmul, one_smul]
-    show Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
+    change Algebra.TensorProduct.lift g (IsScalarTower.toAlgHom P' B Bh)
       (fun _ _ => Commute.all _ _) (x ⊗ₜ[P'] (1 : B)) = _
     rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
 
@@ -281,7 +281,7 @@ public theorem hasFlatAlgebraLift_henselization_iff_at
     MvPolynomial.ker_map (algebraMap A' A)
   have : IsScalarTower A' (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
-    show MvPolynomial.C (algebraMap A' A a') =
+    change MvPolynomial.C (algebraMap A' A a') =
       MvPolynomial.map (algebraMap A' A) (MvPolynomial.C a')
     rw [MvPolynomial.map_C]
   let : Algebra (MvPolynomial (Fin n) A) B := f.toRingHom.toAlgebra
@@ -355,7 +355,7 @@ public theorem hasFlatAlgebraLift_henselization_iff_at
       (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) B hsurjA hnilA hsurjP hkerP b hsyn
       g hg)
     (b.map (algebraMap B Bh)) hhens e (fun a => ?_) hJc).mpr
-  show algebraMap A Bh a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
+  change algebraMap A Bh a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
     ⊗ₜ[MvPolynomial (Fin n) A'] (1 : Q')) ⊗ₜ[MvPolynomial (Fin n) A] (1 : B))
   rw [he (algebraMap A (MvPolynomial (Fin n) A) a),
     ← IsScalarTower.algebraMap_apply A (MvPolynomial (Fin n) A) B,
@@ -442,13 +442,13 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_henselization_of_sqZero
     refine ⟨((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A).trans
       ((MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A' A).restrictScalars A')).toRingEquiv,
       fun x => ?_, fun a => ?_⟩
-    · show MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
+    · change MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
         A ((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A)
           (x ⊗ₜ[A'] (1 : A))) = _
       rw [Algebra.TensorProduct.comm_tmul,
         ← MvPolynomial.algebraTensorAlgEquiv_symm_map (σ := Fin n) A' A x,
         AlgEquiv.apply_symm_apply]
-    · show MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
+    · change MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
         A ((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A)
           ((1 : MvPolynomial (Fin n) A') ⊗ₜ[A'] a)) = _
       rw [Algebra.TensorProduct.comm_tmul]
@@ -544,7 +544,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_henselization_of_sqZero
       e ((algebraMap A (TensorProduct A' (MvPolynomial (Fin n) A') A ⊗[MvPolynomial (Fin n) A']
         Q') a) ⊗ₜ[TensorProduct A' (MvPolynomial (Fin n) A') A] (1 : B)) := by
     intro a
-    show algebraMap A Bh a =
+    change algebraMap A Bh a =
       e (((algebraMap A (TensorProduct A' (MvPolynomial (Fin n) A') A) a)
         ⊗ₜ[MvPolynomial (Fin n) A'] (1 : Q'))
           ⊗ₜ[TensorProduct A' (MvPolynomial (Fin n) A') A] (1 : B))

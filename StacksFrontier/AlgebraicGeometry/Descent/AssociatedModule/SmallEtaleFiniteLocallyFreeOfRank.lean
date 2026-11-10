@@ -82,7 +82,7 @@ theorem isFiniteLocallyFreeOfRank_of_associatedModule (𝓕 : S.Modules) [𝓕.I
       (fun W ⟨x⟩ _ hR => exists_mem_nonempty_of_mem_topology B S hS hR x)
       (fun W ⟨x⟩ => by
         have : Nonempty (⊤ : ((toScheme B S hS).obj W).Opens) := ⟨⟨x, trivial⟩⟩
-        show Nontrivial Γ((toScheme B S hS).obj W, ⊤)
+        change Nontrivial Γ((toScheme B S hS).obj W, ⊤)
         infer_instance)
       (U := (opensToSmallEtale B S hS).obj (V i.1)) i.2
       ⟨fun j => ι' ⟨j⟩, ⟨(Cofan.isColimitEquivOfEquiv Equiv.ulift.symm _) hc'⟩⟩

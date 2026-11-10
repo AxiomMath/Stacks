@@ -109,7 +109,7 @@ theorem isFractionRing_quotient_of_isLocalization_atPrime :
   refine IsFractionRing.of_field (O ⧸ p) L fun z ↦ ?_
   obtain ⟨⟨x, s⟩, rfl⟩ := IsLocalization.mk'_surjective (M := p.primeCompl) z
   refine ⟨Ideal.Quotient.mk p x, Ideal.Quotient.mk p (s : O), ?_⟩
-  show _ = quotientToLocalizationAtPrime p L _ / quotientToLocalizationAtPrime p L _
+  change _ = quotientToLocalizationAtPrime p L _ / quotientToLocalizationAtPrime p L _
   rw [quotientToLocalizationAtPrime_mk, quotientToLocalizationAtPrime_mk]
   exact (eq_div_iff (IsLocalization.map_units L s).ne_zero).2 (IsLocalization.mk'_spec L x s)
 
@@ -176,7 +176,7 @@ theorem fractionRingQuotientEquiv_comp_minimalPrimeFractionMap :
         (minimalPrimeFractionMap (K := K) ⟨p, hp⟩) =
       minimalPrimeLocalizationMap p hp L K := by
   refine IsLocalization.ringHom_ext O⁰ (RingHom.ext fun x ↦ ?_)
-  show fractionRingQuotientEquiv p L
+  change fractionRingQuotientEquiv p L
       (minimalPrimeFractionMap (K := K) ⟨p, hp⟩ (algebraMap O K x)) =
     minimalPrimeLocalizationMap p hp L K (algebraMap O K x)
   rw [minimalPrimeLocalizationMap_algebraMap]

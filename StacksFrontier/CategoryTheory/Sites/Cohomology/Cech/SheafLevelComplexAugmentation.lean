@@ -97,8 +97,6 @@ namespace Stacks.CechSite.SheafLevel
 
 variable {C : Type u'} [Category.{v'} C] [HasBinaryProducts C]
   {J : GrothendieckTopology C} (R : Sheaf J RingCat.{u})
-  [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
-  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- **The augmentation at one object `V`**: the unit `F ⟶ j_{V,*} j_V^{-1} F` of the
 adjunction between restriction to the localized site `C/V` and direct image along the
@@ -148,8 +146,6 @@ theorem augmentationAt_comp_restriction (F : SheafOfModules.{u} R) {V W : C} (f 
   rw [h1, restriction_apply, augmentationAt_apply, augmentationAt_apply]
   exact ConcreteCategory.congr_hom key x
 
-omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
-    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The augmentations are natural in the sheaf of modules, being the components of an
 adjunction unit. -/
 theorem augmentationAt_naturality {F G : SheafOfModules.{u} R} (φ : F ⟶ G) (V : C) :

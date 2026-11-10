@@ -140,13 +140,12 @@ lemma mem_ker_smul_top {j : B} (hj : j ∈ J) :
   have key : ∀ z : (B ⧸ J) ⊗[A₀] d.descended, (((d.isBaseChange).equiv z : J) : B) ∈
       (RingHom.ker (toA₀ s J hinv hcomp hbij)) • (⊤ : Submodule (eqLocus s) B) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add, Submodule.coe_add] using Submodule.add_mem _ hx hy
     | tmul y i =>
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
       rw [IsBaseChange.equiv_tmul]
-      show ((Ideal.Quotient.mk J b • (i : J) : J) : B) ∈ _
+      change ((Ideal.Quotient.mk J b • (i : J) : J) : B) ∈ _
       rw [mk_smul_of_tower, Submodule.coe_smul_of_tower, smul_eq_mul, mul_comm]
       have hi : (⟨((i : J) : B), hJ₀ i⟩ : eqLocus s) ∈ RingHom.ker (toA₀ s J hinv hcomp hbij) :=
         (mem_ker_toA₀ s J hinv hcomp hbij _).mpr (i : J).2
@@ -178,7 +177,7 @@ lemma I₀_smul_top :
   · rw [Submodule.smul_le]
     intro a ha b _
     have h := (mem_ker_toA₀ s J hinv hcomp hbij a).mp ha
-    show (a : B) * b ∈ J
+    change (a : B) * b ∈ J
     exact J.mul_mem_right b h
   · intro j hj
     exact mem_ker_smul_top s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het hj
@@ -325,11 +324,10 @@ noncomputable def ρ :
 lemma κinv_ρ (z : I₀ s J hinv hcomp hbij ⊗[eqLocus s] B) :
     κinv s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het
       (ρ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul i b =>
-    show toI s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het
+    change toI s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het
       (toJ₀ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het i) ⊗ₜ
         lift0 J (Ideal.Quotient.mk J b) = i ⊗ₜ b
     exact tmul_eq_tmul_of_mk_eq s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het _ (mk_lift0 J _)
@@ -340,16 +338,15 @@ lemma equiv_ρ (z : I₀ s J hinv hcomp hbij ⊗[eqLocus s] B) :
     ((((datum s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het).isBaseChange).equiv
       (ρ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het z) : J) : B) =
       TensorProduct.lid (eqLocus s) B ((I₀ s J hinv hcomp hbij).subtype.rTensor B z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, Submodule.coe_add, hx, hy]
   | tmul i b =>
     rw [LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
-    show (((datum s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het).isBaseChange.equiv
+    change (((datum s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het).isBaseChange.equiv
       (Ideal.Quotient.mk J b ⊗ₜ toJ₀ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het i) :
         J) : B) = _
     rw [IsBaseChange.equiv_tmul]
-    show ((Ideal.Quotient.mk J b • ((toJ₀ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het i :
+    change ((Ideal.Quotient.mk J b • ((toJ₀ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het i :
       _) : J) : J) : B) = (i : eqLocus s) • b
     rw [mk_smul_of_tower, Submodule.coe_smul_of_tower, smul_eq_mul, mul_comm]
     rfl
@@ -382,7 +379,7 @@ lemma flat_quotient_I₀ :
       invFun := eA
       map_add' := map_add _
       map_smul' := fun x y => by
-        show eA.symm (eA x * y) = x * eA.symm y
+        change eA.symm (eA x * y) = x * eA.symm y
         rw [map_mul, RingEquiv.symm_apply_apply]
       left_inv := eA.apply_symm_apply
       right_inv := eA.symm_apply_apply }
@@ -390,7 +387,7 @@ lemma flat_quotient_I₀ :
   let : Module (eqLocus s ⧸ I) (B ⧸ J) := Module.compHom _ eA.toRingHom
   have : IsScalarTower (eqLocus s ⧸ I) A₀ (B ⧸ J) :=
     ⟨fun x y z => by
-      show (eA x * y) • z = eA x • (y • z)
+      change (eA x * y) • z = eA x • (y • z)
       rw [mul_smul]⟩
   have : Module.Flat (eqLocus s ⧸ I) (B ⧸ J) := Module.Flat.trans (eqLocus s ⧸ I) A₀ (B ⧸ J)
   have hsm : I • (⊤ : Submodule (eqLocus s) B) = J.restrictScalars (eqLocus s) :=
@@ -404,7 +401,7 @@ lemma flat_quotient_I₀ :
     intro x y
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨b, rfl⟩ := Submodule.Quotient.mk_surjective _ y
-    show e₀ (Ideal.Quotient.mk I a • Submodule.Quotient.mk b) =
+    change e₀ (Ideal.Quotient.mk I a • Submodule.Quotient.mk b) =
       eA (Ideal.Quotient.mk I a) • e₀ (Submodule.Quotient.mk b)
     rw [Module.Quotient.mk_smul_mk, he₀, he₀, heA,
       Algebra.smul_def (toA₀ s J hinv hcomp hbij a), algebraMap_toA₀, ← map_mul]
@@ -463,7 +460,7 @@ lemma faithfullyFlat_eqLocus : Module.FaithfullyFlat (eqLocus s) B := by
   have hle : 𝔞 • (⊤ : Submodule (eqLocus s) B) ≤ S := by
     rw [Submodule.smul_le]
     intro r hr n _
-    show Ideal.Quotient.mk J (r • n) ∈ (𝔞.map ψ) • (⊤ : Submodule A₀ (B ⧸ J))
+    change Ideal.Quotient.mk J (r • n) ∈ (𝔞.map ψ) • (⊤ : Submodule A₀ (B ⧸ J))
     rw [hmk]
     exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem ψ hr) Submodule.mem_top
   rw [eq_top_iff]
@@ -518,8 +515,7 @@ omit [Algebra A₀ (C ⧸ extJ C J)] [IsScalarTower A₀ (B ⧸ J) (C ⧸ extJ C
 lemma cmp₀_red (z : B ⊗[eqLocus s] B) :
     cmp (s₀ s J hinv) A₀ hcomp (red s J hinv hcomp hbij z) =
       Ideal.Quotient.mk (extJ C J) (cmp s (eqLocus s) (eqLocus_comp s) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul x y =>
     rw [red_tmul, cmp_tmul, cmp_tmul, s₀_mk, t₀_mk, map_mul]
@@ -570,7 +566,7 @@ noncomputable def κJ : (B ⧸ J) ⊗[A₀] J →+ B ⊗[eqLocus s] B :=
 lemma κJ_tmul (b : B) (j : J) :
     κJ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het (Ideal.Quotient.mk J b ⊗ₜ j) =
       (j : B) ⊗ₜ b := by
-  show (j : B) ⊗ₜ lift0 J (Ideal.Quotient.mk J b) = _
+  change (j : B) ⊗ₜ lift0 J (Ideal.Quotient.mk J b) = _
   rw [← sub_eq_zero, ← TensorProduct.tmul_sub]
   refine tmul_eq_zero_of_mem_J_eqLocus s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het j.2 ?_
   rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, mk_lift0, sub_self]
@@ -579,8 +575,7 @@ lemma κJ_tmul (b : B) (j : J) :
 lemma cmp_κJ (w : (B ⧸ J) ⊗[A₀] J) :
     cmp s (eqLocus s) (eqLocus_comp s) (κJ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het w) =
       (α s J hinv hcomp w : C) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, Submodule.coe_add]
   | tmul β j =>
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective β
@@ -604,7 +599,7 @@ lemma tmul_mem_rangeκJ_right (b : B) {j : B} (hj : j ∈ J) :
     (fun a ha c _ => ?_) (fun x y hx hy => ?_)
   · rw [← TensorProduct.smul_tmul]
     refine tmul_mem_rangeκJ_left s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het ?_ c
-    show (a : B) * b ∈ J
+    change (a : B) * b ∈ J
     exact J.mul_mem_right b ((mem_ker_toA₀ s J hinv hcomp hbij a).mp ha)
   · rw [TensorProduct.tmul_add]
     exact AddSubgroup.add_mem _ hx hy
@@ -673,11 +668,10 @@ noncomputable def μbar : (B ⧸ J) ⊗[A₀] (B ⧸ J) →+
 lemma μbar_red (z : B ⊗[eqLocus s] B) :
     μbar s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het (red s J hinv hcomp hbij z) =
       QuotientAddGroup.mk z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, QuotientAddGroup.mk_add]
   | tmul x y =>
-    show (QuotientAddGroup.mk (lift0 J (Ideal.Quotient.mk J x) ⊗ₜ[eqLocus s]
+    change (QuotientAddGroup.mk (lift0 J (Ideal.Quotient.mk J x) ⊗ₜ[eqLocus s]
       lift0 J (Ideal.Quotient.mk J y)) :
         (B ⊗[eqLocus s] B) ⧸ rangeκJ s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het) = _
     exact mk_tmul_eq s J hJ hinv hcomp hbij σ hσ m hms hmt e hes het (mk_lift0 J _) (mk_lift0 J _)
@@ -696,8 +690,7 @@ omit [Algebra A₀ (C ⧸ extJ C J)] [IsScalarTower A₀ (B ⧸ J) (C ⧸ extJ C
 /-- The reduction `B ⊗[A] B → B₀ ⊗[A₀] B₀` is surjective. -/
 lemma red_surjective : Function.Surjective (red s J hinv hcomp hbij) := by
   intro w
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction w using TensorProduct.inductionOn with
   | tmul β β' =>
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective β
     obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective β'
@@ -711,7 +704,7 @@ include hJ hinv hcomp hbij hσ hms hmt hes het in
 /-- The comparison `B ⊗[A] B → C` over the equalizer `A` of `s` and `t` is bijective. -/
 theorem bijective_cmp_eqLocus :
     Function.Bijective (cmp s (eqLocus s) (eqLocus_comp s)) := by
-  have hα := α_bijective (s := s) (J := J) (hJ := hJ) (hinv := hinv) (hcomp := hcomp) hbij
+  have hα := α_bijective (s := s) (J := J) (hinv := hinv) (hcomp := hcomp) hbij
   constructor
   · rw [injective_iff_map_eq_zero]
     intro z hz

@@ -231,7 +231,7 @@ theorem chainDualizingModule_eq (hS : IsIntegralRegularSurface S) {T : Set S}
       haveI := quasiSeparatedSpace_of_pointBlowupChain hc
       haveI := (isIntegralRegularSurface_and_isProper_of_pointBlowupChain_unconditional hc hS).2
       relativeDualizingModule h (isQuasicoherent_homology_derivedPushforward_of_qcqs h) ωS :=
-  dif_pos hc
+  dite_eq_left hc
 
 omit [IsNoetherianRing Γ(S, ⊤)] [IsLocalRing Γ(S, ⊤)] in
 /-- **Each dualizing module of the family is quasi-coherent.** -/

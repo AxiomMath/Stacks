@@ -302,8 +302,7 @@ public noncomputable def moduleRestrictionMaps (f g : S)
                   simpa only [pow_mul] using congrArg (fun z : S => z ^ n) hpow⟩⟩
               rw [show LocalizedModule.mk (f ^ n • x) sf =
                   LocalizedModule.mk x 1 by
-                convert LocalizedModule.mk_cancel_common_left sf 1 x <;>
-                  simp [sf, Submonoid.smul_def]]
+                convert LocalizedModule.mk_cancel_common_left sf 1 x; simp [sf]]
               dsimp [lmS]
               change (IsLocalizedModule.lift (Submonoid.powers f)
                 (LocalizedModule.mkLinearMap (Submonoid.powers f) M)
@@ -385,7 +384,7 @@ private lemma mem_degreeZero_iff (f : S) (d : ℕ) (hf : f ∈ 𝒜 d)
         obtain ⟨m, b, hb, rfl⟩ := HomogeneousLocalization.Away.mk_surjective 𝒜 hf a
         refine ⟨m + n, b • x, ?_, ?_⟩
         · exact hsmul hb hx (by simp only [nsmul_eq_mul]; push_cast; ring)
-        · show (HomogeneousLocalization.Away.mk 𝒜 hf m b hb).val •
+        · change (HomogeneousLocalization.Away.mk 𝒜 hf m b hb).val •
               LocalizedModule.mk x (⟨f ^ n, by exact ⟨n, rfl⟩⟩ : Submonoid.powers f) = _
           rw [HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
           congr 1
@@ -438,7 +437,7 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
         LocalizedModule.mkLinearMap (Submonoid.powers g) M x := by
     rw [← (localizedRingMap 𝒜 f g ⟨d, hd, hf⟩ ⟨e, he, hg⟩ hfg).commutes (f ^ N)]
     let q : Submonoid.powers f := ⟨f ^ N, ⟨N, rfl⟩⟩
-    show φ (algebraMap S (Localization.Away f) (f ^ N)) •
+    change φ (algebraMap S (Localization.Away f) (f ^ N)) •
         L (LocalizedModule.mk x q) = _
     calc
       _ = L (algebraMap S (Localization.Away f) (f ^ N) •
@@ -454,7 +453,7 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
       algebraMap S (Localization.Away f) (f ^ e) *
           HomogeneousLocalization.val h =
         algebraMap S (Localization.Away f) (g ^ d) := by
-    show algebraMap S (Localization.Away f) (f ^ e) *
+    change algebraMap S (Localization.Away f) (f ^ e) *
         (HomogeneousLocalization.Away.mk 𝒜 hf e (g ^ d) _).val = _
     rw [HomogeneousLocalization.Away.val_mk, ← Localization.mk_one_eq_algebraMap,
       ← Localization.mk_one_eq_algebraMap, Localization.mk_mul,
@@ -475,7 +474,7 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
   refine { map_units := ?_, surj := ?_, exists_of_eq := ?_ }
   · intro s
     rw [Module.End.isUnit_iff]
-    show Function.Bijective (fun a : GradedModuleDegreeZeroLocalization 𝒜 𝒨 g =>
+    change Function.Bijective (fun a : GradedModuleDegreeZeroLocalization 𝒜 𝒨 g =>
       φ₀ (s : HomogeneousLocalization.Away 𝒜 f) • a)
     exact (IsLocalization.map_units (HomogeneousLocalization.Away 𝒜 g) s).smul_bijective
   · intro y
@@ -489,7 +488,7 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
         have hq' : (q : ℤ) + n = d * n := mod_cast hq
         simp only [nsmul_eq_mul]
         push_cast
-        show (q : ℤ) * e + n * e = _
+        change (q : ℤ) * e + n * e = _
         linear_combination (e : ℤ) * hq'
       exact heq ▸ hx'
     let z : GradedModuleDegreeZeroLocalization 𝒜 𝒨 f :=
@@ -499,13 +498,13 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
     refine ⟨⟨z, ⟨h ^ n, ⟨n, rfl⟩⟩⟩, ?_⟩
     apply Subtype.ext
     rw [maps.degreeZeroMap_val]
-    show HomogeneousLocalization.val (φ₀ (h ^ n)) •
+    change HomogeneousLocalization.val (φ₀ (h ^ n)) •
         (y : LocalizedModule.Away g M) = L (z : LocalizedModule.Away f M)
     have hfunit : IsUnit (algebraMap S (Localization.Away g) f) :=
       φ.commutes f ▸ (IsLocalization.Away.algebraMap_isUnit
         (S := Localization.Away f) f).map φ
     apply (hfunit.pow (e * n)).smul_bijective.injective
-    show (algebraMap S (Localization.Away g) f) ^ (e * n) •
+    change (algebraMap S (Localization.Away g) f) ^ (e * n) •
         (HomogeneousLocalization.val (φ₀ (h ^ n)) •
           (y : LocalizedModule.Away g M)) =
       (algebraMap S (Localization.Away g) f) ^ (e * n) • L (z : _)
@@ -516,14 +515,14 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
           algebraMap S (Localization.Away g) (g ^ (d * n)) := by
       simpa only [map_pow, HomogeneousLocalization.val_pow, pow_mul, mul_pow] using
         congrArg (fun z : Localization.Away g => z ^ n) hscalar
-    show (algebraMap S (Localization.Away g) (f ^ (e * n)) *
+    change (algebraMap S (Localization.Away g) (f ^ (e * n)) *
         HomogeneousLocalization.val (φ₀ (h ^ n))) • (y : LocalizedModule.Away g M) = _
     rw [hscalar_n, hy, ← Localization.mk_one_eq_algebraMap,
       LocalizedModule.mk_smul_mk]
     apply LocalizedModule.mk_eq.mpr
     refine ⟨1, ?_⟩
     simp only [one_smul, Submonoid.smul_def, smul_smul, one_mul]
-    show g ^ (d * n) • x = (g ^ n * g ^ q) • x
+    change g ^ (d * n) • x = (g ^ n * g ^ q) • x
     rw [← pow_add, Nat.add_comm n q, hq]
   · intro a b hab
     have hL : L ((a - b : GradedModuleDegreeZeroLocalization 𝒜 𝒨 f) :
@@ -545,11 +544,11 @@ public theorem isLocalizedModule_degreeZeroMap (f g : S) (d e : ℕ) (hd : 0 < d
       rw [← pow_mul, ← Nat.sub_add_cancel (Nat.le_mul_of_pos_left k hd),
         pow_add, mul_smul, hk', smul_zero]
     refine ⟨⟨h ^ k, ⟨k, rfl⟩⟩, ?_⟩
-    show h ^ k • a = h ^ k • b
+    change h ^ k • a = h ^ k • b
     apply sub_eq_zero.mp
     rw [← smul_sub]
     apply Subtype.ext
-    show (h ^ k).val •
+    change (h ^ k).val •
       ((a - b : GradedModuleDegreeZeroLocalization 𝒜 𝒨 f) :
         LocalizedModule.Away f M) = 0
     rw [hz, HomogeneousLocalization.val_pow]

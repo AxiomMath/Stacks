@@ -164,10 +164,10 @@ theorem isOpenImmersion_presheaf_pieceMap (i : ι) :
   refine ⟨?_, ?_, ?_⟩
   · ext x
     refine Subtype.ext ?_
-    show ((pieceMap hGp i).app (op T'') (x ≫ pieceLift hGp i hk)).1 =
+    change ((pieceMap hGp i).app (op T'') (x ≫ pieceLift hGp i hk)).1 =
       (g.app (op T'') (x ≫ (k ⁻¹ᵁ V i).ι)).1
     rw [pieceMap_app_val, app_val_eq]
-    show x ≫ pieceLift hGp i hk ≫ p i ≫ (V i).ι = x ≫ (k ⁻¹ᵁ V i).ι ≫ k
+    change x ≫ pieceLift hGp i hk ≫ p i ≫ (V i).ι = x ≫ (k ⁻¹ᵁ V i).ι ≫ k
     rw [pieceLift_comp_ι]
   · rintro (x₁ : T'' ⟶ _) (x₂ : T'' ⟶ _) ⟨-, h₂⟩
     exact (cancel_mono (k ⁻¹ᵁ V i).ι).mp h₂
@@ -177,12 +177,12 @@ theorem isOpenImmersion_presheaf_pieceMap (i : ι) :
       rwa [pieceMap_app_val, app_val_eq] at this
     have hy : Set.range y ⊆ Set.range (k ⁻¹ᵁ V i).ι :=
       range_subset_range_ι_of_forall_mem _ _ fun z => by
-        show (y ≫ k) z ∈ V i
+        change (y ≫ k) z ∈ V i
         rw [← hxy']
         exact ((x ≫ p i) z).2
     refine ⟨IsOpenImmersion.lift _ y hy, ?_, IsOpenImmersion.lift_fac _ _ _⟩
     refine (cancel_mono (p i ≫ (V i).ι)).mp ?_
-    show (IsOpenImmersion.lift _ y hy ≫ pieceLift hGp i hk) ≫ p i ≫ (V i).ι = _
+    change (IsOpenImmersion.lift _ y hy ≫ pieceLift hGp i hk) ≫ p i ≫ (V i).ι = _
     rw [Category.assoc, pieceLift_comp_ι, ← Category.assoc, IsOpenImmersion.lift_fac, hxy']
 
 variable (G) in
@@ -213,7 +213,7 @@ theorem isLocallySurjective_sigmaDesc_pieceMap
     (pieceLift hGp (c (k' q)) hk), ?_⟩
   have h := congrArg (fun η => η.app (op (k' ⁻¹ᵁ V (c (k' q))).toScheme)
       (pieceLift hGp (c (k' q)) hk))
-    (Sigma.ι_desc (pieceFamily hGp hG) (c (k' q)))
+    (Sigma.ι_comp_desc (pieceFamily hGp hG) (c (k' q)))
   simp only [NatTrans.comp_app, types_comp_apply] at h
   exact h.trans (Subtype.ext (pieceLift_comp_ι hGp (c (k' q)) hk))
 
@@ -274,7 +274,7 @@ theorem exists_isIso_morphismRestrict_gluedProj (i : ι) :
     (mem_iff_exists_comp_gluedProj hGp hp hG hV _).1 (pieceElement hGp i).2
   have hrange : Set.range n ⊆ Set.range (w ⁻¹ᵁ V i).ι :=
     range_subset_range_ι_of_forall_mem _ _ fun z => by
-      show (n ≫ w) z ∈ V i
+      change (n ≫ w) z ∈ V i
       rw [hn]
       exact ((p i) z).2
   set n' := IsOpenImmersion.lift (w ⁻¹ᵁ V i).ι n hrange
@@ -454,7 +454,7 @@ theorem isSheaf_coconePoints (l : Λ) {T : Scheme.{u}}
     rw [Presieve.compatible_iff_sieveCompatible]
     intro U U' f g hf
     refine injective_coconeMap_app ι hD hinj l U' ?_
-    show (coconeMap ι l).app _ (a (g ≫ f) _) = (coconeMap ι l).app _ (g ≫ a f hf)
+    change (coconeMap ι l).app _ (a (g ≫ f) _) = (coconeMap ι l).app _ (g ≫ a f hf)
     rw [ha, Category.assoc]
     exact (app_map_eq_of_app_eq _ _ g.op (ha f hf)).symm
   refine ⟨(hsh _ hk).amalgamate x hx, ?_⟩
@@ -549,14 +549,14 @@ theorem isThickening_presheaf_coconeMap (l : Λ) :
   rw [Types.isPullback_iff]
   refine ⟨?_, ?_, ?_⟩
   · ext a
-    show (coconeMap ι l).app (op T') (a ≫ k₀) = t.app (op T') (a ≫ w)
+    change (coconeMap ι l).app (op T') (a ≫ k₀) = t.app (op T') (a ≫ w)
     exact app_map_eq_of_app_eq _ _ a.op hk₀
   · rintro (a₁ : T' ⟶ W) (a₂ : T' ⟶ W) ⟨-, h₂⟩
     exact (cancel_mono w).mp h₂
   · intro (x : T' ⟶ D.obj l) (y : T' ⟶ T) hxy
     obtain ⟨n, hn⟩ := (hWG y).1 ⟨x, hxy⟩
     refine ⟨n, injective_coconeMap_app ι hD hinj l T' ?_, hn⟩
-    show (coconeMap ι l).app (op T') (n ≫ k₀) = (coconeMap ι l).app (op T') x
+    change (coconeMap ι l).app (op T') (n ≫ k₀) = (coconeMap ι l).app (op T') x
     exact (app_map_eq_of_app_eq _ _ n.op hk₀).trans
       ((congrArg (t.app (op T')) hn).trans hxy.symm)
 

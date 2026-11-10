@@ -243,7 +243,7 @@ theorem Situation.isIso_Q_map_deRhamAbelianPushforwardMapPlus :
     (HomologicalComplex.quasiIso_extendMap_iff _ _).2 inferInstance
   have hq : QuasiIso (Scheme.Hom.deRhamAbelianPushforwardMapPlus D.totalSpaceToBase D.f
       (D.totalSpaceToBase ≫ D.f) (𝟙 D.S) D.totalSpaceToBase_comp).hom := by
-    show QuasiIso (HomologicalComplex.extendMap D.deRhamPushforward
+    change QuasiIso (HomologicalComplex.extendMap D.deRhamPushforward
       ComplexShape.embeddingUpNat ≫ _)
     have h₂ := quasiIso_of_isIso (HomologicalComplex.mapHomologicalComplexExtendIso
       (abelianPushforward.{u, u} D.totalSpaceToBase.base)

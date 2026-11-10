@@ -120,7 +120,7 @@ theorem multiplicationMap_structureRestrict_eq_zero :
         (show (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U from hi.incl.val.app U a)) =
             0 :=
     (hi.kernel U _).2 ⟨a, rfl⟩
-  show (0 : F.val.obj U) = _
+  change (0 : F.val.obj U) = _
   have h : (show (Stacks.SheafOfModules.Tensor.ringSheaf X'.O).obj.obj U from hi.incl.val.app U a) •
       (show ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F).val.obj U from x) =
       (show (Stacks.SheafOfModules.Tensor.ringSheaf
@@ -188,6 +188,13 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
 
 include comm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})]
+  [HasWeakSheafify X'.J AddCommGrpCat.{w}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- **The reduction of `i_*ℱ` to `ℱ`, read over `f⁻¹O_{ℬ'}`, is invertible**: it is the transport
 of the identity around the square of structure maps. -/
 theorem isIso_baseReductionMap_structureRestrict :
@@ -217,6 +224,8 @@ noncomputable def isColimitCokernelCoforkBaseReductionStructureRestrict :
     ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) (𝟙 _)) ≫ k, ?_⟩
   rw [← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **`f⁻¹𝒥 ⊗_{f⁻¹O_{ℬ'}} i_*ℱ = f⁻¹𝒥 ⊗_{f⁻¹O_ℬ} ℱ`**: the reduction comparison of Stacks 08M4
 for the inverse image of the thickening of the base, at the module `i_*ℱ`. -/
 theorem isIso_reductionTensorMapBaseStructureRestrict :
@@ -240,6 +249,8 @@ theorem isIso_reductionTensorMapBaseStructureRestrict :
       ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) (𝟙 _))
     (isColimitCokernelCoforkBaseReductionStructureRestrict i t f f' ht comm F)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The two readings of the map of ideals `f⁻¹𝒥 ⟶ I` of Situation 08M7 agree on sections**: the
 canonical map of ideals `f^*𝒥 ⟶ I` applied to the image of a section `j` of `f⁻¹𝒥` under the unit
 of the extension of scalars is the `f⁻¹O_ℬ`-linear map of ideals applied to `j`.
@@ -292,6 +303,8 @@ theorem idealTensorComparisonBase_comp_reductionTensorMap_tmul (U : X'.Cᵒᵖ)
     ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj F) F (𝟙 _) U
     ((pullbackBaseIdealMap i t f f' hi ht comm).val.app U p) b
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The base side of the square on a pure tensor**: the reduction comparison
 `f⁻¹𝒥 ⊗_{f⁻¹O_{ℬ'}} i_*ℱ ⟶ f⁻¹𝒥 ⊗_{f⁻¹O_ℬ} ℱ`, followed by the first factor of the canonical
 map of Stacks 08MQ and the transport around the square of structure maps, carries `z ⊗ m` to
@@ -363,6 +376,8 @@ theorem reductionTensorMapBase_comp_canonicalFirstFactor_tmul (U : X'.Cᵒᵖ)
 
 
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The square relating the two spellings of the first factor of the canonical map of
 Stacks 08MQ commutes.**
 
@@ -425,6 +440,11 @@ theorem cancelExtendScalarsTensorMap_comp_idealTensorComparisonBase :
     (pullbackBaseIdealMap_unit_apply i t f f' hi ht comm U z)) ?_
   exact (reductionTensorMapBase_comp_canonicalFirstFactor_tmul i t f f' hi ht comm F U z b).symm
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})]
+  [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})]
+  [HasSheafify X'.J AddCommGrpCat.{w}] in
 /-- The square transport of the tensor product of the ideal of `i` with `F` is invertible. -/
 private theorem isIso_squareTransport_idealTensor :
     IsIso (squareTransport f'.fSharpInverseImage i.fSharp
@@ -438,6 +458,8 @@ private theorem isIso_squareTransport_idealTensor :
     squareTransport_comp_squareTransportSymm _ _ _ _ _ _,
     squareTransportSymm_comp_squareTransport _ _ _ _ _ _⟩⟩
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- The canonical first factor is invertible iff the right route of the square is. -/
 private theorem isIso_canonicalFirstFactor_iff_isIso_right_route :
     IsIso (canonicalFirstFactor i t f f' hi ht comm F) ↔
@@ -467,6 +489,8 @@ private theorem isIso_canonicalFirstFactor_iff_isIso_right_route :
         (AlgebraicGeometry.RingedSpaceThickening.isIso_of_isIso_comp_left _ _
           (isIso_reductionTensorMapBaseStructureRestrict i t f f' ht comm F) h))⟩
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [S.J.HasSheafCompose (forget AddCommGrpCat.{wS})] in
 /-- **The two spellings of the first factor of the canonical map of Stacks 08MQ are invertible
 together.** Every comparison in the square is an isomorphism, so the two first factors differ by
 isomorphisms on both sides.

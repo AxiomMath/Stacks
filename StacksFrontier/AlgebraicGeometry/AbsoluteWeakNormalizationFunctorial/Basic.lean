@@ -91,7 +91,7 @@ private theorem exists_ringHomOfFilteredColimit
           naturality := by
             intro i j f
             ext x
-            show (ULift.up (g j ((F.map f).hom x.down)) : ULift.{u} T) =
+            change (ULift.up (g j ((F.map f).hom x.down)) : ULift.{u} T) =
               ULift.up (g i x.down)
             exact congrArg ULift.up
               (congrArg (fun q : F.obj i →+* T ↦ q x.down) (hg f)) } }
@@ -200,7 +200,7 @@ private theorem isPurelyInseparable_specResidueFieldMap_iff {A B : Type u}
         ((Spec.map (CommRingCat.ofHom (algebraMap A B))).residueFieldMap z) eQiso.hom] at hbridge
     simpa [ePiso, eQiso, f, pSpec, p₀, q₀, idealMap, Spec.map_apply,
       CommRingCat.hom_ofHom] using hbridge
-  show (f.residueFieldMap z).hom.IsPurelyInseparable ↔ idealMap.IsPurelyInseparable
+  change (f.residueFieldMap z).hom.IsPurelyInseparable ↔ idealMap.IsPurelyInseparable
   refine ⟨fun hpure ↦ hbridge' ▸
     ((RingHom.isPurelyInseparable_of_surjective _ eP.symm.surjective).comp hpure).comp
       (RingHom.isPurelyInseparable_of_surjective _ eQ.surjective), fun hIdealPure ↦ ?_⟩
@@ -212,7 +212,7 @@ private theorem isPurelyInseparable_specResidueFieldMap_iff {A B : Type u}
     have heval' : eQ.toRingHom ((f.residueFieldMap z).hom a) = idealMap (eP a) := by
       simpa only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe,
         RingEquiv.coe_toRingHom, RingEquiv.symm_apply_apply] using heval
-    show eQ.toRingHom ((f.residueFieldMap z).hom a) =
+    change eQ.toRingHom ((f.residueFieldMap z).hom a) =
       eQ.toRingHom (eQ.symm.toRingHom (idealMap (eP.toRingHom a)))
     simpa only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
       RingEquiv.apply_symm_apply] using heval'
@@ -281,7 +281,7 @@ private theorem universalHomeomorphism_smallBaseChange
       ext a
       simp only [RingHom.comp_apply, RingHom.algebraMap_toAlgebra]
       rw [IsScalarTower.algebraMap_apply A A' C, ← e.commutes]
-      show e (algebraMap A' T (algebraMap A A' a)) =
+      change e (algebraMap A' T (algebraMap A A' a)) =
         e (algebraMap B T (algebraMap A B a))
       congr 1
       exact (IsScalarTower.algebraMap_apply A A' T a).symm.trans
@@ -374,12 +374,12 @@ private theorem stageComponent_naturality
       rj.2 (Algebra.TensorProduct.includeRight (R := A) (A := A')
         (B := (absoluteWeakNormalizationDiagram A).obj j)
         (((absoluteWeakNormalizationDiagram A).map f).hom x)) := by
-    show (rj.2.toAlgHom.comp
+    change (rj.2.toAlgHom.comp
       ((Algebra.TensorProduct.map (AlgHom.id A' A')
         ((absoluteWeakNormalizationDiagram A).map f).hom).comp
         ri.2.symm.toAlgHom)) (ri.2 _) = _
     simp [Algebra.TensorProduct.includeRight_apply]
-  show kj.hom.hom (rj.2 (Algebra.TensorProduct.includeRight
+  change kj.hom.hom (rj.2 (Algebra.TensorProduct.includeRight
       (R := A) (A := A') (B := (absoluteWeakNormalizationDiagram A).obj j)
       (((absoluteWeakNormalizationDiagram A).map f).hom x))) =
     ki.hom.hom (ri.2 (Algebra.TensorProduct.includeRight
@@ -397,12 +397,12 @@ private theorem stageComponent_algebraMap
   let r := stageRep (A := A) (A' := A') i
   let k := (absoluteWeakNormalizationCategoryObject_isTerminal A').from
     (candidateSmall (A := A) (A' := A') i)
-  show k.hom.hom (r.2 (Algebra.TensorProduct.includeRight
+  change k.hom.hom (r.2 (Algebra.TensorProduct.includeRight
     (R := A) (A := A') (B := (absoluteWeakNormalizationDiagram A).obj i)
     (algebraMap A ((absoluteWeakNormalizationDiagram A).obj i) a))) = _
   rw [Algebra.TensorProduct.includeRight.commutes, IsScalarTower.algebraMap_apply A A'
     (A' ⊗[A] (absoluteWeakNormalizationDiagram A).obj i), r.2.commutes]
-  show k.hom.hom (algebraMap A' (candidateSmall (A := A) (A' := A') i).obj
+  change k.hom.hom (algebraMap A' (candidateSmall (A := A) (A' := A') i).obj
     (algebraMap A A' a)) = _
   exact k.hom.hom.commutes _
 
@@ -438,7 +438,7 @@ private theorem eq_stageComponent_of_comp_algebraMap
     have ha := (RingHom.ext_iff.mp hψ) a
     change ψ (algebraMap A (AbsoluteWeakNormalization A) a) =
       (algebraMap A' (AbsoluteWeakNormalization A')) (algebraMap A A' a) at ha
-    show ψ (algebraMap A (AbsoluteWeakNormalization A) a) = algebraMap A Z a
+    change ψ (algebraMap A (AbsoluteWeakNormalization A) a) = algebraMap A Z a
     rw [ha]
     rfl)
   let r := stageRep (A := A) (A' := A') i
@@ -494,7 +494,7 @@ public theorem existsUnique_absoluteWeakNormalizationMap
   · ext a
     let : Nonempty (AbsoluteWeakNormalizationIndex A) := IsFiltered.nonempty
     let i : AbsoluteWeakNormalizationIndex A := Classical.arbitrary _
-    show q (algebraMap A (AbsoluteWeakNormalization A) a) =
+    change q (algebraMap A (AbsoluteWeakNormalization A) a) =
       algebraMap A' (AbsoluteWeakNormalization A') (φ a)
     rw [← (colimit.ι D i).hom.commutes a]
     exact (ringHomOfFilteredColimit_fac (colimit.isColimit D) g hg i _).trans

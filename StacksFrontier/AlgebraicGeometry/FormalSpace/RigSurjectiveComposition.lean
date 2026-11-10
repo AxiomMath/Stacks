@@ -110,7 +110,7 @@ theorem isRepresentableByAlgebraicSpacesULift_of_comp_eq_formalSpectrumMap_comp
     {y : formalSpectrum D' ⟶ X} (hy : y ≫ g = formalSpectrumMap hRweak e ≫ p) :
     Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS y.hom := by
   have hetaut : RingHom.IsTaut e.toRingHom := by
-    refine RingHom.isTaut_of_isAdic e.toRingHom e.continuous
+    refine RingHom.isTaut_of_isAdic e.toRingHom
       ⟨IsLocalRing.maximalIdeal R, hRadic, ?_⟩
     obtain ⟨hpos, hpow, -, -⟩ := IsDiscreteValuationRing.ramificationIndex_characterization R R'
     rw [he, hpow]

@@ -107,7 +107,7 @@ private theorem isEffectiveCartierDivisor_of_affine_generic_contraction
   let U : X.Opens := X.basicOpen r
   have hU : IsAffineOpen U := (isAffineOpen_top X).basicOpen r
   have hxU : x ∈ U := by
-    show x ∈ X.basicOpen r
+    change x ∈ X.basicOpen r
     have hr' : r ∉ ((isAffineOpen_top X).primeIdealOf
         ⟨x, Set.mem_univ x⟩).asIdeal := hr
     have hspec : (isAffineOpen_top X).primeIdealOf
@@ -147,7 +147,7 @@ private theorem isEffectiveCartierDivisor_of_affine_generic_contraction
     simp only [Set.image_singleton]
     rfl
   refine ⟨U, hU, hxU, f', hf', ?_⟩
-  show I.ideal (X.affineBasicOpen (U := ⟨⊤, isAffineOpen_top X⟩) r) =
+  change I.ideal (X.affineBasicOpen (U := ⟨⊤, isAffineOpen_top X⟩) r) =
     Ideal.span {f'}
   rw [← I.map_ideal_basicOpen ⟨⊤, isAffineOpen_top X⟩ r, hI]
   exact hmap
@@ -176,7 +176,7 @@ private theorem isEffectiveCartierDivisor_of_affine_generic_pushout
   have : IsScalarTower R A C := .of_algebraMap_eq' rfl
   have : IsScalarTower R K C := by
     apply IsScalarTower.of_algebraMap_eq'
-    show p.appTop.hom.comp (algebraMap R A) = β.hom.comp (algebraMap R K)
+    change p.appTop.hom.comp (algebraMap R A) = β.hom.comp (algebraMap R K)
     exact congrArg (fun f => f.hom) hP.w
   have : Algebra.IsPushout R A K C :=
     CommRingCat.isPushout_iff_isPushout.mp hP
@@ -191,7 +191,7 @@ private theorem isEffectiveCartierDivisor_of_affine_generic_pushout
       L.comap (algebraMap A (A ⊗[R] K)) := by
     rw [hSat]
     ext a
-    show p.appTop.hom a ∈ J.ideal ⟨⊤, isAffineOpen_top W⟩ ↔
+    change p.appTop.hom a ∈ J.ideal ⟨⊤, isAffineOpen_top W⟩ ↔
       e (algebraMap A (A ⊗[R] K) a) ∈
         J.ideal ⟨⊤, isAffineOpen_top W⟩
     rw [e.commutes]
@@ -220,7 +220,7 @@ private theorem isEffectiveCartierDivisor_of_invertible_affineIdeals
   let U : X.Opens := X.basicOpen r
   have hU : IsAffineOpen U := hV.basicOpen r
   have hxU : x ∈ U := by
-    show x ∈ X.basicOpen r
+    change x ∈ X.basicOpen r
     have hr' : r ∉ (hV.primeIdealOf
         ⟨x, hxV⟩).asIdeal := hr
     have hspec : hV.primeIdealOf
@@ -260,7 +260,7 @@ private theorem isEffectiveCartierDivisor_of_invertible_affineIdeals
     simp only [Set.image_singleton]
     rfl
   refine ⟨U, hU, hxU, f', hf', ?_⟩
-  show I.ideal (X.affineBasicOpen (U := V') r) =
+  change I.ideal (X.affineBasicOpen (U := V') r) =
     Ideal.span {f'}
   rw [← I.map_ideal_basicOpen V' r]
   exact hmap
@@ -300,7 +300,7 @@ private theorem isEffectiveCartierDivisor_of_affine_generic_kernel
   rw [Stacks.IdealSheaf.ideal_comap_top_of_isAffine, hI, Scheme.Hom.ker_apply]
   have hb : b.appTop.hom = t.appTop.hom.comp p.appTop.hom := by
     rw [← ht, Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
-  show RingHom.ker b.appTop.hom =
+  change RingHom.ker b.appTop.hom =
     Ideal.comap p.appTop.hom (Ideal.map p.appTop.hom (RingHom.ker b.appTop.hom))
   rw [hb, ← RingHom.comap_ker, Ideal.comap_map_comap]
 

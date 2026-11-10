@@ -97,7 +97,7 @@ public theorem free_tensorProduct_of_eq_comap_maximalIdeal {A : Type u} [CommRin
   set I : Ideal A := p₀.map (algebraMap R₀ A)
   have hmem : ∀ a : R₀, a ∈ p₀ → (algebraMap R₀ (A ⧸ I)) a = 0 := by
     intro a ha
-    show Ideal.Quotient.mk I ((algebraMap R₀ A) a) = 0
+    change Ideal.Quotient.mk I ((algebraMap R₀ A) a) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_map_of_mem _ ha)
   have : IsDomain (R₀ ⧸ p₀) := Ideal.Quotient.isDomain p₀
   let g : (R₀ ⧸ p₀) →+* (A ⧸ I) := Ideal.Quotient.lift p₀ (algebraMap R₀ (A ⧸ I)) hmem
@@ -112,9 +112,9 @@ public theorem free_tensorProduct_of_eq_comap_maximalIdeal {A : Type u} [CommRin
     (IsLocalization.lift (M := nonZeroDivisors (R₀ ⧸ p₀)) hunit).toAlgebra
   have _tow : IsScalarTower R₀ p₀.ResidueField (A ⧸ I) := by
     refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun r ↦ ?_)
-    show (algebraMap R₀ (A ⧸ I)) r = _
+    change (algebraMap R₀ (A ⧸ I)) r = _
     rw [RingHom.comp_apply, IsScalarTower.algebraMap_apply R₀ (R₀ ⧸ p₀) p₀.ResidueField r]
-    show _ = IsLocalization.lift hunit _
+    change _ = IsLocalization.lift hunit _
     rw [IsLocalization.lift_eq]
     rfl
   exact Module.Free.of_equiv

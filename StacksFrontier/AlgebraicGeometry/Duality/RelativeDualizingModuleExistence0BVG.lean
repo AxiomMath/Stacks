@@ -105,7 +105,7 @@ private theorem isScalarTower_algebraOfLE {Z : Scheme.{u}} {U V W : Z.Opens}
   let := algebraOfLE Z h₂
   let := algebraOfLE Z h₁
   refine IsScalarTower.of_algebraMap_eq' ?_
-  show (Z.presheaf.map (homOfLE (h₁.trans h₂)).op).hom =
+  change (Z.presheaf.map (homOfLE (h₁.trans h₂)).op).hom =
     ((Z.presheaf.map (homOfLE h₁).op).hom).comp (Z.presheaf.map (homOfLE h₂).op).hom
   rw [← CommRingCat.hom_comp, ← Z.presheaf.map_comp]
   congr 1
@@ -130,7 +130,7 @@ private theorem isScalarTower_moduleOfLE {Z : Scheme.{u}} (M : Z.Modules) {U V W
   let := moduleOfLE M (h₁.trans h₂)
   let := moduleOfLE M h₁
   refine IsScalarTower.of_algebraMap_smul fun r x ↦ ?_
-  show Z.presheaf.map (homOfLE h₁).op (Z.presheaf.map (homOfLE h₂).op r) • x =
+  change Z.presheaf.map (homOfLE h₁).op (Z.presheaf.map (homOfLE h₂).op r) • x =
     Z.presheaf.map (homOfLE (h₁.trans h₂)).op r • x
   rw [presheaf_map_map]
 
@@ -427,7 +427,7 @@ public theorem hubRestrict_of_base_eq_of_basicOpen (k : AdaptedOpen f) (Ws : Y.a
   let : IsLocalization.Away
       (algebraMap Γ(Y, i.source.1) Γ(Y, k.source.1) hli.1.choose) Γ(Y, Ws.1) :=
     k.source.2.isLocalization_of_eq_basicOpen _ (homOfLE hW) (by
-      show Ws.1 = Y.basicOpen (Y.presheaf.map (homOfLE hki.le).op hli.1.choose)
+      change Ws.1 = Y.basicOpen (Y.presheaf.map (homOfLE hki.le).op hli.1.choose)
       rw [Scheme.basicOpen_res, hli.1.choose_spec]
       exact (inf_eq_right.mpr hW).symm)
   let Gk := hubMiddleFactorization f i.base i.source i.source_le k hki
@@ -632,7 +632,7 @@ public theorem nonempty_relativeDualizingModuleData : Nonempty (RelativeDualizin
   · intro U V hVU F G s
     let : IsNoetherianRing Γ(X, U.1) := IsLocallyNoetherian.component_noetherian U
     let : Algebra Γ(X, U.1) Γ(Y, V.1) := (f.appLE U V hVU).hom.toAlgebra
-    show dualizingModuleEquiv (adaptedFactorization f ⟨V, U, hVU⟩) G (Φ ⟨V, U, hVU⟩ s) =
+    change dualizingModuleEquiv (adaptedFactorization f ⟨V, U, hVU⟩) G (Φ ⟨V, U, hVU⟩ s) =
       dualizingModuleEquiv F G
         (dualizingModuleEquiv (adaptedFactorization f ⟨V, U, hVU⟩) F (Φ ⟨V, U, hVU⟩ s))
     rw [← dualizingModuleEquiv_trans (adaptedFactorization f ⟨V, U, hVU⟩) F G]

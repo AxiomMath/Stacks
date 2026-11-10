@@ -205,7 +205,7 @@ private lemma constantRingSectionsAddEquiv_smul_aux (U : C) (a : Λ)
       constantSectionsAddEquiv J (ModuleCat.of Λ Λ) U s := by
     rw [← hinv]
     exact (unitSectionsAddEquiv J U).symm_apply_apply _
-  show unitSectionsAddEquiv J U
+  change unitSectionsAddEquiv J U
     (constantSectionsAddEquiv J (ModuleCat.of Λ Λ) U (a • s)) = _
   rw [constantSectionsAddEquiv_smul, hhom, ← hback]
   rfl

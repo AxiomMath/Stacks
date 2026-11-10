@@ -172,7 +172,7 @@ public lemma exists_linearMap_of_cross_relations {ι : Type w} [Finite ι] (a : 
         (LinearEquiv.ofEq _ _ hrange.symm).toLinearMap) x = g c := by
     have h1 : (LinearEquiv.ofEq (powerSpan a k) (LinearMap.range f) hrange.symm) x =
         ⟨f c, LinearMap.mem_range_self f c⟩ := Subtype.ext hc.symm
-    show ((LinearMap.ker f).liftQ g hker)
+    change ((LinearMap.ker f).liftQ g hker)
       (f.quotKerEquivRange.symm
         ((LinearEquiv.ofEq (powerSpan a k) (LinearMap.range f) hrange.symm) x)) = g c
     rw [h1, LinearMap.quotKerEquivRange_symm_apply_image]
@@ -213,7 +213,7 @@ public lemma exists_idealPow_linearMap_of_cross_relations {ι : Type w} [Finite 
         ((Finset.image a Finset.univ).card * (k - 1) + 1) : Ideal A) : Set A)).mkQ y :=
     fun _ => rfl
   have hcoe' : ((Submodule.inclusion hle x : ↥(powerSpan a k)) : A) = (x : A) := rfl
-  show a i ^ k •
+  change a i ^ k •
     (Submodule.mapQ _ _ LinearMap.id hTle) (φ (Submodule.inclusion hle x)) = _
   rw [← map_smul, hφ i (Submodule.inclusion hle x), hcoe', map_smul, hq]
 
@@ -236,7 +236,7 @@ public lemma exists_linearMap_of_cross_relations_of_torsionFree {ι : Type w} [F
         ((Submodule.torsionBySet A M (powerSpan a k : Set A)).mkQ y) = y := fun _ => rfl
   refine ⟨(Submodule.quotEquivOfEqBot (Submodule.torsionBySet A M
     (powerSpan a k : Set A)) hbot).toLinearMap.comp φ, fun i x => ?_⟩
-  show a i ^ k • (Submodule.quotEquivOfEqBot (Submodule.torsionBySet A M
+  change a i ^ k • (Submodule.quotEquivOfEqBot (Submodule.torsionBySet A M
     (powerSpan a k : Set A)) hbot) (φ x) = (x : A) • m i
   rw [← LinearEquiv.map_smul, hφ i x, LinearEquiv.map_smul, he]
 
@@ -334,7 +334,7 @@ public lemma eq_of_pow_smul_eq_of_basicOpen (F : X.Modules) [F.IsQuasicoherent]
     isLocalizedModule_restrictₗ F hU a hV hVU
   refine (IsLocalizedModule.smul_inj (restrictₗ F hVU)
     (⟨a ^ k, (Submonoid.mem_powers_iff _ _).mpr ⟨k, rfl⟩⟩ : Submonoid.powers a) x y).mp ?_
-  show (X.presheaf.map (homOfLE hVU).op (a ^ k)) • x =
+  change (X.presheaf.map (homOfLE hVU).op (a ^ k)) • x =
     (X.presheaf.map (homOfLE hVU).op (a ^ k)) • y
   rwa [map_pow]
 
@@ -368,7 +368,7 @@ public lemma exists_section_of_compatible_family (I : X.IdealSheafData)
       le_trans inf_le_left (X.basicOpen_le _)
     have hri : X.basicOpen (a i) ⊓ X.basicOpen (a j) ≤ X.basicOpen (a i) := inf_le_left
     have hrj : X.basicOpen (a i) ⊓ X.basicOpen (a j) ≤ X.basicOpen (a j) := inf_le_right
-    show F.presheaf.map (homOfLE hri).op (t i) = F.presheaf.map (homOfLE hrj).op (t j)
+    change F.presheaf.map (homOfLE hri).op (t i) = F.presheaf.map (homOfLE hrj).op (t j)
     have hres : ∀ (l : ι) {W : X.Opens} (hr : W ≤ X.basicOpen (a l)) (hW : W ≤ (U : X.Opens)),
         (X.presheaf.map (homOfLE hW).op (a l)) ^ k • F.presheaf.map (homOfLE hr).op (t l) =
           F.presheaf.map (homOfLE hW).op (m l) := by

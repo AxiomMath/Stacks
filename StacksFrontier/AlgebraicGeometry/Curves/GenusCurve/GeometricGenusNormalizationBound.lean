@@ -90,7 +90,7 @@ public theorem genus_normalizationOverField_eq_sum_components (K : Type u) [Fiel
     infer_instance
   rw [genus_sigma]
   refine Finset.sum_congr rfl fun W _ ↦ ?_
-  rw [← Category.assoc, Sigma.ι_desc, Category.assoc]
+  rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc]
 
 /-- **The geometric genus is at most the genus of the normalization.**  Let `K` be an
 algebraically closed field and let `Z` be a proper scheme of dimension at most one over `K`.

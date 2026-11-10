@@ -209,7 +209,7 @@ public theorem IsPowerSeriesOver.exists_coordinates {R S : CompleteLocalAlgCat.{
         have hS : σ.symm (MvPowerSeries.C a) = f.hom a := by
           rw [← hσC a, AlgEquiv.symm_apply_apply]
         simp only [RingHom.comp_apply]
-        show b.hom (σ.symm (MvPowerSeries.C a)) = b'.hom (σ.symm (MvPowerSeries.C a))
+        change b.hom (σ.symm (MvPowerSeries.C a)) = b'.hom (σ.symm (MvPowerSeries.C a))
         rw [hS]
         exact congrArg (fun φ : R ⟶ T => φ.hom a) hbb)
       hc
@@ -224,21 +224,21 @@ public theorem IsPowerSeriesOver.exists_coordinates {R S : CompleteLocalAlgCat.{
     have hloc : IsLocalHom h := ⟨fun s hu => by
       simpa using (IsLocalHom.map_nonunit (f := ev) (σ s) hu).map σ.symm.toRingEquiv.toRingHom⟩
     have hfac : ∀ a, h (f.hom a) = g.hom a := fun a => by
-      show ev (σ (f.hom a)) = _
+      change ev (σ (f.hom a)) = _
       rw [hσC a]
       exact mvPowerSeriesEval_C g x hx a
     refine ⟨{ hom :=
                 { toRingHom := h
                   commutes' := fun a => by
                     rw [← f.hom.commutes a]
-                    show h (f.hom (algebraMap Λ R a)) = _
+                    change h (f.hom (algebraMap Λ R a)) = _
                     rw [hfac]
                     exact g.hom.commutes a }
               isLocal := hloc
               residue_comm := fun s => residue_comm_of_comp f g h hloc hfac s }, ?_, ?_⟩
     · exact CompleteLocalAlgCat.Hom.ext (AlgHom.ext hfac)
     · intro i
-      show ev (σ (σ.symm (MvPowerSeries.X i))) = x i
+      change ev (σ (σ.symm (MvPowerSeries.X i))) = x i
       rw [AlgEquiv.apply_symm_apply]
       exact mvPowerSeriesEval_X g x hx i
 

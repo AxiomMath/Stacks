@@ -74,7 +74,7 @@ public theorem adicCompletionMapₛₗ_bijective_of_le (g : P →ₛₗ[σ] Q) (
         induction y using Submodule.Quotient.induction_on with
         | _ w => rw [adicTransitionMap_mk, adicTransitionMap_mk, adicTransitionMap_mk]
       have hmax : max m N ≤ max n N := max_le_max hmn le_rfl
-      show AdicCompletion.transitionMap I P hmn
+      change AdicCompletion.transitionMap I P hmn
           (AdicCompletion.transitionMap I P (le_max_left n N)
             (pre ⟨max n N, le_max_right n N⟩)) =
         AdicCompletion.transitionMap I P (le_max_left m N) (pre ⟨max m N, le_max_right m N⟩)

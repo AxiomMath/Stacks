@@ -130,7 +130,7 @@ private lemma finiteEtale_algHom_ext_of_residue
       E.map (CommAlgCat.FiniteEtale.ofHom g) := by
     apply ObjectProperty.hom_ext
     apply CommAlgCat.hom_ext
-    show Algebra.TensorProduct.map (AlgHom.id (IsLocalRing.ResidueField R) _) f =
+    change Algebra.TensorProduct.map (AlgHom.id (IsLocalRing.ResidueField R) _) f =
       Algebra.TensorProduct.map (AlgHom.id (IsLocalRing.ResidueField R) _) g
     apply Algebra.TensorProduct.ext
     · ext
@@ -288,7 +288,7 @@ private lemma surjective_pi_of_surjective_mod_jacobson
   obtain ⟨z, rfl⟩ := Submodule.mkQ_surjective _ y
   obtain ⟨m, hm⟩ := hf (fun i ↦ q (z i))
   refine ⟨m, (Submodule.Quotient.eq _).mpr (pi_mem_smul_top_of_mem _ _ fun i ↦ ?_)⟩
-  show q (f m i - z i) = 0
+  change q (f m i - z i) = 0
   rw [map_sub, hm, sub_self]
 
 private lemma actionTensorMap_surjective_of_residue
@@ -307,7 +307,7 @@ private lemma actionTensorMap_surjective_of_residue
   choose a' ha using fun i ↦ hq (a i)
   choose b' hb using fun i ↦ hq (b i)
   refine ⟨∑ i, a' i ⊗ₜ[R] b' i, fun σ ↦ ?_⟩
-  show q (actionTensorMap R A ρ (∑ i, a' i ⊗ₜ[R] b' i) σ) = y σ
+  change q (actionTensorMap R A ρ (∑ i, a' i ⊗ₜ[R] b' i) σ) = y σ
   simpa only [map_sum, Finset.sum_apply, actionTensorMap_tmul, map_mul, hρ, ha, hb,
     MonoidHom.id_apply] using congrFun ht σ
 
@@ -343,9 +343,9 @@ private lemma residueLiftMap_ker
     RingHom.ker (residueLiftMap R A L e) =
       (IsLocalRing.maximalIdeal R).map (algebraMap R A) := by
   ext a
-  show e ((1 : IsLocalRing.ResidueField R) ⊗ₜ[R] a) = 0 ↔ _
+  change e ((1 : IsLocalRing.ResidueField R) ⊗ₜ[R] a) = 0 ↔ _
   rw [map_eq_zero_iff e e.injective]
-  show ((1 : R ⧸ IsLocalRing.maximalIdeal R) ⊗ₜ[R] a) = 0 ↔ _
+  change ((1 : R ⧸ IsLocalRing.maximalIdeal R) ⊗ₜ[R] a) = 0 ↔ _
   rw [← Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk A (IsLocalRing.maximalIdeal R)]
   exact (map_eq_zero_iff _ (AlgEquiv.injective _)).trans (Ideal.Quotient.eq_zero_iff_mem)
 
@@ -365,7 +365,7 @@ private lemma liftedResidueAction_apply
     (σ : L ≃ₐ[IsLocalRing.ResidueField R] L) (a : A) :
     residueLiftMap R A L e (liftedResidueAction R A L e σ a) =
       σ (residueLiftMap R A L e a) := by
-  show e ((1 : IsLocalRing.ResidueField R) ⊗ₜ[R]
+  change e ((1 : IsLocalRing.ResidueField R) ⊗ₜ[R]
     residueAutLift R A (e.symm.autCongr σ) a) = σ (e (1 ⊗ₜ[R] a))
   rw [residueAutLift_apply]
   simp [AlgEquiv.autCongr]
@@ -725,7 +725,7 @@ private lemma finiteEtaleSpecMap_id
     (B : BigEtaleSite.{u}) (hS : B.Contains (Spec (.of R))) :
     finiteEtaleSpecMap R A A B hS (AlgHom.id R A) = 𝟙 _ := by
   apply (AlgebraicGeometry.SmallEtale.toScheme B (Spec (.of R)) hS).map_injective
-  show Spec.map (𝟙 (.of A)) = 𝟙 _
+  change Spec.map (𝟙 (.of A)) = 𝟙 _
   exact Spec.map_id _
 
 private lemma finiteEtaleSpecMap_comp
@@ -739,7 +739,7 @@ private lemma finiteEtaleSpecMap_comp
     finiteEtaleSpecMap R D E B hS g ≫ finiteEtaleSpecMap R A D B hS f =
       finiteEtaleSpecMap R A E B hS (g.comp f) := by
   apply (AlgebraicGeometry.SmallEtale.toScheme B (Spec (.of R)) hS).map_injective
-  show Spec.map (CommRingCat.ofHom g.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom g.toRingHom) ≫
     Spec.map (CommRingCat.ofHom f.toRingHom) = _
   exact (Spec.map_comp _ _).symm
 
@@ -811,13 +811,13 @@ private lemma exists_galois_graph_point
       rw [← Spec.map_id (.of A)]
       congr 1
       ext a
-      show a = a * ρ g 1
+      change a = a * ρ g 1
       simp
     · simp only [pullback.lift_snd, Category.assoc, e, pullbackSpecIso_inv_snd,
         ← Spec.map_comp]
       congr 1
       ext a
-      show ρ g a = 1 * ρ g a
+      change ρ g a = 1 * ρ g a
       simp
   exact (congrArg (fun k : Spec (.of A) ⟶ Spec (.of (A ⊗[R] A)) ↦ k y) heq).trans hq
 
@@ -851,11 +851,11 @@ private lemma smallEtale_generate_mem_of_etaleCovering
     refine PreZeroHypercover.ext rfl ?_ ?_
     · exact Function.hfunext rfl fun j j' hj ↦ by
         cases eq_of_heq hj
-        show E.X (β j) ≍ Wfamily.X j
+        change E.X (β j) ≍ Wfamily.X j
         exact heq_of_eq (hβsrc j).symm
     · exact Function.hfunext rfl fun j j' hj ↦ by
         cases eq_of_heq hj
-        show E.f (β j) ≍ Wfamily.f j
+        change E.f (β j) ≍ Wfamily.f j
         exact ((heq_of_eq (hβeq j)).trans
           (CategoryTheory.eqToHom_comp_heq _ _)).symm
   have hmap' :
@@ -866,7 +866,7 @@ private lemma smallEtale_generate_mem_of_etaleCovering
       AlgebraicGeometry.SmallEtale.topology B S hS T := by
     apply Precoverage.generate_mem_toGrothendieck
     refine ⟨Wsmall, rfl, ?_⟩
-    show B.IsCovering ⟨T₀,
+    change B.IsCovering ⟨T₀,
       (Wsmall.map (AlgebraicGeometry.SmallEtale.inclusion B S hS)).map
         (AlgebraicGeometry.BigEtaleOver.forget B S hS)⟩
     rwa [hmap']
@@ -898,7 +898,7 @@ private lemma smallEtale_exists_onePoint_cover
     let g : B.obj (O i.down).toScheme hs ⟶ B.obj (Spec (.of R)) hS :=
       ObjectProperty.homMk ((O i.down).ι ≫ B.inclusion.map T.obj.hom)
     refine ⟨Over.mk g, ?_⟩
-    show Etale ((O i.down).ι ≫ B.inclusion.map T.obj.hom)
+    change Etale ((O i.down).ι ≫ B.inclusion.map T.obj.hom)
     infer_instance
   let f (i : ULift.{u + 1, u} X) : V i ⟶ T := by
     let hs : B.Contains (O i.down).toScheme :=
@@ -907,20 +907,20 @@ private lemma smallEtale_exists_onePoint_cover
       ObjectProperty.homMk (O i.down).ι
     exact ObjectProperty.homMk
       (Over.homMk p (by
-        show p ≫ T.obj.hom =
+        change p ≫ T.obj.hom =
           ObjectProperty.homMk ((O i.down).ι ≫ B.inclusion.map T.obj.hom)
         rfl))
   refine ⟨_, V, f, ?_, ?_⟩
   · apply smallEtale_generate_mem_of_etaleCovering B (Spec (.of R)) hS T V f
     apply (Scheme.ofArrows_mem_precoverage_iff (@Etale)).2
     refine ⟨fun x ↦ ⟨ULift.up x, ⟨⟨x, by simp [O]⟩, rfl⟩⟩, fun i ↦ ?_⟩
-    show Etale (O i.down).ι
+    change Etale (O i.down).ι
     infer_instance
   · intro i
     constructor
-    · show Nonempty (O i.down).toScheme
+    · change Nonempty (O i.down).toScheme
       exact ⟨⟨i.down, by simp [O]⟩⟩
-    · show Subsingleton (O i.down).toScheme
+    · change Subsingleton (O i.down).toScheme
       exact (Set.subsingleton_singleton : Set.Subsingleton ({i.down} : Set X)).coe_sort
 
 private lemma smallEtale_ofArrows_mem_of_jointly_surjective
@@ -940,7 +940,7 @@ private lemma smallEtale_ofArrows_mem_of_jointly_surjective
       exact ⟨⟨i⟩, x, hx⟩
     · have heq : P.map (f i.down) ≫ B.inclusion.map Y.obj.hom =
           B.inclusion.map (X i.down).obj.hom := by
-        show B.inclusion.map ((f i.down).hom.left ≫ Y.obj.hom) = _
+        change B.inclusion.map ((f i.down).hom.left ≫ Y.obj.hom) = _
         rw [Over.w]
       have : Etale (P.map (f i.down) ≫ B.inclusion.map Y.obj.hom) := by
         rw [heq]
@@ -1054,7 +1054,7 @@ private lemma span_sections_finiteEtale_galois
     intro x
     obtain ⟨g, y, hy⟩ := hpoints (pullbackComparison P f f x)
     refine ⟨g, y, (pullbackComparison P f f).homeomorph.injective ?_⟩
-    show (pullbackComparison P f f) (P.map _ y) = (pullbackComparison P f f) x
+    change (pullbackComparison P f f) (P.map _ y) = (pullbackComparison P f f) x
     rw [← Scheme.Hom.comp_apply, map_lift_pullbackComparison]
     simpa only [P.map_id] using hy
   let := sectionRingAction Q α
@@ -1062,7 +1062,7 @@ private lemma span_sections_finiteEtale_galois
   have := sectionAction_smulDistribClass Q F.val α
   let e : A ≃+* Q.obj (op W) := (Scheme.ΓSpecIso (.of A)).commRingCatIsoToRingEquiv.symm
   have he (g : G) (b : A) : g • e b = e (ρ g b) := by
-    show (Spec.map (CommRingCat.ofHom (ρ g).toRingHom)).appTop
+    change (Spec.map (CommRingCat.ofHom (ρ g).toRingHom)).appTop
       ((Scheme.ΓSpecIso (.of A)).inv b) = (Scheme.ΓSpecIso (.of A)).inv (ρ g b)
     exact (congrArg (fun k : CommRingCat.of A ⟶ Γ(Spec (.of A), ⊤) ↦ k b)
       (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom (ρ g).toRingHom))).symm
@@ -1094,7 +1094,7 @@ private lemma isSeparator_unit_of_locally_span_sections
   have hH := (isSheaf_iff_isSheaf_of_type J Ht.obj).mp Ht.property
   refine ((Presieve.isSheafFor_iff_generate _).mpr
     (hH _ (hgen F U.unop m))).isSeparatedFor.ext fun V a ha ↦ ?_
-  show H.val.map a.op (f.val.app U m) = H.val.map a.op (g.val.app U m)
+  change H.val.map a.op (f.val.app U m) = H.val.map a.op (g.val.app U m)
   rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply]
   exact LinearMap.eqOn_span (heq (op V)) ha
 
@@ -1164,7 +1164,7 @@ private lemma exists_cover_span_sections_of_onePoint
   have : Module.Finite R A := RingHom.finite_algebraMap.mp hφ.1
   have : Algebra.Etale R A := RingHom.etale_algebraMap.mp hφ.2
   have : Subsingleton (PrimeSpectrum A) := by
-    show Subsingleton (Spec (.of A))
+    change Subsingleton (Spec (.of A))
     exact X.isoSpec.inv.homeomorph.subsingleton
   have : Nontrivial A :=
     PrimeSpectrum.nontrivial (X.isoSpec.hom (Classical.choice inferInstance))
@@ -1177,7 +1177,7 @@ private lemma exists_cover_span_sections_of_onePoint
   let j : finiteEtaleSpec R A B hS ⟶ V.left := by
     refine ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk X.isoSpec.inv) ?_)
     apply B.inclusion.map_injective
-    show X.isoSpec.inv ≫ p = Spec.map (CommRingCat.ofHom φ)
+    change X.isoSpec.inv ≫ p = Spec.map (CommRingCat.ofHom φ)
     rw [← Scheme.isoSpec_inv_naturality, Scheme.isoSpec_Spec_inv, ← Spec.map_comp]
     rfl
   let E := Over.equivalenceOfIsTerminal

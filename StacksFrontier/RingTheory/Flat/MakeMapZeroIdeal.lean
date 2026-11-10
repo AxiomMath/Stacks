@@ -134,7 +134,7 @@ theorem mem_ker_smul_top_of_tmul_eq_zero [Module.Flat R N] {n : N}
   have hz : n ⊗ₜ[R] (1 : R ⧸ I) = 0 := by
     refine hinj ?_
     rw [map_zero, LinearMap.lTensor_tmul]
-    show n ⊗ₜ[R] q (Ideal.Quotient.mk I 1) = 0
+    change n ⊗ₜ[R] q (Ideal.Quotient.mk I 1) = 0
     rwa [show q (Ideal.Quotient.mk I 1) = (1 : R') from map_one (algebraMap R R')]
   -- and `N ⊗_R R/I` is `N/IN`
   exact mem_smul_top_of_tmul_one_eq_zero hz
@@ -163,19 +163,20 @@ injective.**  Let `f i : P ⟶ Q i` be `R`-linear maps, with `i` ranging over a 
 that an element of `P` killed by every `f i` is zero.  If `n ⊗ f i p` vanishes for every `i`,
 then `n ⊗ p` already vanishes. -/
 theorem tmul_eq_zero_of_forall_tmul_eq_zero [Module.Flat R N] {P : Type*} [AddCommGroup P]
-    [Module R P] {ι : Type*} [Fintype ι] {Q : ι → Type*} [∀ i, AddCommGroup (Q i)]
+    [Module R P] {ι : Type*} [Finite ι] {Q : ι → Type*} [∀ i, AddCommGroup (Q i)]
     [∀ i, Module R (Q i)] (f : ∀ i, P →ₗ[R] Q i)
     (hf : ∀ p : P, (∀ i, f i p = 0) → p = 0) {n : N} {p : P}
     (h : ∀ i, n ⊗ₜ[R] f i p = 0) :
     n ⊗ₜ[R] p = 0 := by
   classical
+  have := Fintype.ofFinite ι
   have hinj : Function.Injective (LinearMap.pi f) := by
     rw [← LinearMap.ker_eq_bot]
     refine LinearMap.ker_eq_bot'.2 fun x hx => hf x fun i => ?_
     simpa using congrFun hx i
   refine Module.Flat.lTensor_preserves_injective_linearMap (M := N) (LinearMap.pi f) hinj ?_
   rw [map_zero, LinearMap.lTensor_tmul]
-  show n ⊗ₜ[R] (fun i => f i p) = 0
+  change n ⊗ₜ[R] (fun i => f i p) = 0
   rw [← Finset.univ_sum_single (fun i => f i p), TensorProduct.tmul_sum]
   refine Finset.sum_eq_zero fun i _ => ?_
   calc n ⊗ₜ[R] Pi.single i (f i p)
@@ -192,7 +193,7 @@ Geometrically `R'` is the ring of global functions on a quasi-compact scheme `T`
 `\Spec(R)` and the `Rj i` are the rings of a finite affine open covering of `T`: the structure
 sheaf is separated, so a function vanishing on each member of the covering is zero. -/
 @[ega "IV 11.10.5" "(ii)(a), special case", ega "IV 11.9.10" "(ii)(a), special case"]
-theorem tmul_one_eq_zero_of_forall_tmul_one_eq_zero [Module.Flat R N] {ι : Type*} [Fintype ι]
+theorem tmul_one_eq_zero_of_forall_tmul_one_eq_zero [Module.Flat R N] {ι : Type*} [Finite ι]
     {Rj : ι → Type*} [∀ i, CommRing (Rj i)] [∀ i, Algebra R (Rj i)] (φ : ∀ i, R' →ₐ[R] Rj i)
     (hφ : ∀ x : R', (∀ i, φ i x = 0) → x = 0) {n : N} (h : ∀ i, n ⊗ₜ[R] (1 : Rj i) = 0) :
     n ⊗ₜ[R] (1 : R') = 0 :=

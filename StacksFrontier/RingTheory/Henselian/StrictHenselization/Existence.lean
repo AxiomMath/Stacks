@@ -223,7 +223,7 @@ private theorem Pairs.exists_away (A : Pairs R L) (g : (A.left.obj : Type u))
   refine ⟨Pairs.ofAug R L (Localization.Away g) lift,
     Pairs.homToOfAug R L A _ _
       (IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g)) hlift, ?_⟩
-  show IsUnit (IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g) g)
+  change IsUnit (IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g) g)
   exact IsLocalization.map_units (M := Submonoid.powers g) (Localization.Away g)
     ⟨g, Submonoid.mem_powers g⟩
 
@@ -554,7 +554,7 @@ private theorem Pairs.exists_root (A : Pairs R L) (Q : Polynomial (A.left.obj : 
   refine ⟨Pairs.ofAug R L P.Ring ((P.lift θ hmap).restrictScalars R),
     Pairs.homToOfAug R L A P.Ring _ (IsScalarTower.toAlgHom R (A.left.obj : Type u) P.Ring)
       (fun s => (P.lift θ hmap).commutes s), P.X, ?_, ?_⟩
-  · show (Q.map (algebraMap (A.left.obj : Type u) P.Ring)).eval P.X = 0
+  · change (Q.map (algebraMap (A.left.obj : Type u) P.Ring)).eval P.X = 0
     rw [Polynomial.eval_map, ← Polynomial.aeval_def, ← hPf]
     exact P.hasMap_X.1
   · rw [Pairs.hom_ofAug]
@@ -571,7 +571,7 @@ private theorem henselianLocalRing_augColimit :
     (by rw [← aug_eval_map, ← Polynomial.derivative_map, hQmap]
         exact (isUnit_iff_aug_ne_zero R L _).1 hunit)
   refine ⟨stageHom R L C t, ?_, ?_⟩
-  · show Polynomial.eval (stageHom R L C t) p = 0
+  · change Polynomial.eval (stageHom R L C t) p = 0
     rw [← hQmap, ← stageHom_map_polynomial R L u Q, eval_map_toRingHom, ht0, map_zero]
   · rw [mem_maximalIdeal_iff_aug_eq_zero, map_sub, aug_stageHom, aug_stageHom, htb, sub_self]
 

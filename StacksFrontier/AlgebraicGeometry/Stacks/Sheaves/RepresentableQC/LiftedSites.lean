@@ -232,7 +232,7 @@ instance liftedAffineEtaleInclusion_isContinuous :
     (liftedAffineEtaleInclusion B S hS p hp F hF e).IsContinuous
       (affineEtaleLiftedSite.{u, max v w t} B S hS F hF).J
       (affineLiftedSite.{u, v, w, t} B S hS p hp).J := by
-  haveI := essentiallySmall_lift.{max v w t, u} (AffineEtale B S hS F)
+  have := essentiallySmall_lift.{max v w t, u} (AffineEtale B S hS F)
   let : (affineEtaleInclusion B S hS F p e).IsContinuous (AffineEtale.topology B S hS F)
       (associatedAffineTopology B S hS p (BigAffineFppf.siteKindTopology B S hS .etale)) :=
     affineEtaleInclusion_isContinuous B S hS F p e hF hp
@@ -248,7 +248,7 @@ instance liftedAffineEtaleInclusion_isCocontinuous :
     (liftedAffineEtaleInclusion B S hS p hp F hF e).IsCocontinuous
       (affineEtaleLiftedSite.{u, max v w t} B S hS F hF).J
       (affineLiftedSite.{u, v, w, t} B S hS p hp).J := by
-  haveI := essentiallySmall_lift.{max v w t, u} (AffineEtale B S hS F)
+  have := essentiallySmall_lift.{max v w t, u} (AffineEtale B S hS F)
   let : (affineEtaleInclusion B S hS F p e).IsCocontinuous (AffineEtale.topology B S hS F)
       (associatedAffineTopology B S hS p (BigAffineFppf.siteKindTopology B S hS .etale)) :=
     affineEtaleInclusion_isCocontinuous B S hS F p e hF hp

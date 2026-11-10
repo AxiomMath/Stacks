@@ -109,7 +109,7 @@ theorem singleRightDerivedUnit_app_eq {N : A} (J' : InjectiveResolution N) :
     have e₀ : (DerivedCategory.singleFunctorIsoCompQh A 0).inv.app N =
         (DerivedCategory.quotientCompQhIso A).hom.app _ :=
       Iso.inv_ext (f := (DerivedCategory.singleFunctorIsoCompQh A 0).app N) (by
-        show (DerivedCategory.singleFunctorIsoCompQh A 0).hom.app N ≫ _ = _
+        change (DerivedCategory.singleFunctorIsoCompQh A 0).hom.app N ≫ _ = _
         rw [Stacks.DerivedIndexing.singleFunctorIsoCompQh_hom_app]
         exact Iso.inv_hom_id_app _ _)
     rw [e₀]
@@ -226,7 +226,7 @@ lemma ι'_comp_extendMap {M : B} {N : A} (u : M ⟶ Φ.obj N) (J : InjectiveReso
       HomologicalComplex.single_map_f_self (ComplexShape.up ℤ) 0 u,
     HomologicalComplex.singleMapHomologicalComplex_inv_app_self]
   rw [Category.assoc, Category.assoc, Iso.inv_hom_id_assoc, ← Category.assoc _ (ψ.f 0), hψ']
-  simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc]
 
 /-- A chain map `ψ : J^• ⟶ Φ(J'^•)`, extended by zero to `ℤ`, as a morphism of bounded below
 complexes. -/

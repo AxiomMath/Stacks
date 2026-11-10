@@ -155,7 +155,7 @@ theorem free_rank_le_of_epi {X : Scheme.{u}} (x : X) {I J : Type u}
         ModuleCat.coprodIsoDirectSum (fun _ : K ↦ E)
     rw [ei.toLinearEquiv.rank_eq, rank_directSum]
     have hE : Module.rank R E = 1 := e.rank_eq.trans (Module.rank_self R)
-    show Cardinal.sum (fun _ : K ↦ Module.rank R E) = Cardinal.mk K
+    change Cardinal.sum (fun _ : K ↦ Module.rank R E) = Cardinal.mk K
     simp only [hE, Cardinal.sum_const, Cardinal.lift_id, mul_one]
   have hsurj := (ModuleCat.epi_iff_surjective (G.map f)).mp inferInstance
   exact (hrank J).symm.trans_le

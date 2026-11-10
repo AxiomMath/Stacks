@@ -86,7 +86,7 @@ private lemma isIso_Γevaluation {k : Type u} [Field k] (x : Spec (.of k)) :
           (CommRingCat.ofHom (algebraMap k x.asIdeal.ResidueField) ≫
             (Scheme.Spec.residueFieldIso (.of k) x).inv) := by
               congr 1
-              show (Scheme.ΓSpecIso (.of k)).inv ≫
+              change (Scheme.ΓSpecIso (.of k)).inv ≫
                   ((Spec (.of k)).presheaf.germ ⊤ x trivial ≫
                     (Spec (.of k)).residue x) = _
               rw [← Scheme.Spec.algebraMap_residueFieldIso_inv]
@@ -283,8 +283,7 @@ lemma groupoidCompose_congr_right {S : Scheme.{u}} (G : GroupoidScheme S)
 private lemma compose_target {S : Scheme.{u}} (G : GroupoidScheme S) {T : Over S}
     (D f : T ⟶ G.arrows) (w : D ≫ G.source = f ≫ G.target) :
     G.compose D f w ≫ G.target = D ≫ G.target := by
-  simp [Stacks.Groupoids.GroupoidScheme.compose, Category.assoc, G.target_comp,
-    pullback.lift_fst_assoc]
+  simp [Stacks.Groupoids.GroupoidScheme.compose, Category.assoc, G.target_comp]
 
 /-- If `B` cancels `D` to the identity over the target of `f`, then composing `B` with the
 composite of `D` and `f` gives back `f`. -/
@@ -295,7 +294,7 @@ private lemma compose_compose_cancel {S : Scheme.{u}} (G : GroupoidScheme S) {T 
     G.compose B (G.compose D f wDf) (wBD.trans (compose_target G D f wDf).symm) = f := by
   have w1 : (G.compose B D wBD) ≫ G.source = f ≫ G.target := by
     rw [← wDf]
-    simp [Stacks.Groupoids.GroupoidScheme.compose, G.source_comp, pullback.lift_snd_assoc]
+    simp [Stacks.Groupoids.GroupoidScheme.compose, G.source_comp]
   have wIdentity : ((f ≫ G.target) ≫ G.identity) ≫ G.source = f ≫ G.target := by
     simp [G.source_identity]
   calc
@@ -450,7 +449,7 @@ private lemma leftTranslation_isIso_of_isIso_target {S : Scheme.{u}} (G : Groupo
   have hba : b ≫ G.source ≫ a = b := by
     simp only [b, Category.assoc, reassoc_of% ha]
   have hab : a ≫ G.target ≫ b = a := by
-    show α ≫ inv α ≫ a = a
+    change α ≫ inv α ≫ a = a
     simp
   exact leftTranslation_isIso_of_sections G a ha b hb hba hab
 

@@ -100,7 +100,7 @@ variable {A : Type u} [CommRing A] [Algebra R A]
 vanishes or `p` is zero. -/
 theorem mem_degreeZero_grading_iff (p : ℤ) (y : A) :
     y ∈ (degreeZero R A).grading p ↔ (p ≠ 0 → y = 0) := by
-  show y ∈ degreeZeroGrading R A p ↔ _
+  change y ∈ degreeZeroGrading R A p ↔ _
   by_cases hp : p = 0 <;> simp [degreeZeroGrading, hp]
 
 end DifferentialGradedAlgebra

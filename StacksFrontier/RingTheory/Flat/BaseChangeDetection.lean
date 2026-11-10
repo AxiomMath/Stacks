@@ -119,7 +119,7 @@ theorem injective_of_liftBaseChange_of_flat [Module.Flat A B] (hf : Function.Inj
   injective_of_baseChange_injective f f' rM rN hrM hrN hcomm
     (Module.Flat.lTensor_preserves_injective_linearMap f hf)
 
-include hrM hrN hcomm in
+include hrN hcomm in
 /-- **Base change preserves surjectivity.** -/
 theorem surjective_of_liftBaseChange (hf : Function.Surjective f) : Function.Surjective f' := by
   have h := liftBaseChange_comp_baseChange f f' rM rN hcomm
@@ -136,7 +136,7 @@ theorem bijective_of_liftBaseChange (hf : Function.Bijective f) : Function.Bijec
   have hb : Function.Bijective (f.baseChange B) :=
     ((LinearEquiv.ofBijective f hf).baseChange A B M N).bijective
   exact ⟨injective_of_baseChange_injective f f' rM rN hrM hrN hcomm hb.1,
-    surjective_of_liftBaseChange f f' rM rN hrM hrN hcomm hf.2⟩
+    surjective_of_liftBaseChange f f' rM rN hrN hcomm hf.2⟩
 
 include hrM in
 /-- An element killed by `r_M` becomes zero in `B ⊗_A M`. -/

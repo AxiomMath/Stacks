@@ -169,17 +169,17 @@ private theorem completionConeBoundary_single
       (H (p + 1)).map ((Q.commShiftIso m).hom.app C) ≫
       ((H 0).shiftIso m (p + 1) 0 (by dsimp [m]; omega)).hom.app (Q.obj C) ≫
       (CompletionSequences.singleHomology A 0 M).hom := by
-    show (H (p + 1)).map ((Q.commShiftIso m).hom.app C ≫ d.hom) ≫ _ = _
+    change (H (p + 1)).map ((Q.commShiftIso m).hom.app C ≫ d.hom) ≫ _ = _
     rw [Functor.map_comp, Category.assoc, hd]
   have hz : F.map e.hom ≫ (F.map d.inv ≫ (s.iso (Q.obj C) m).hom) =
       F.map ((Q.commShiftIso m).hom.app C) ≫ (s.iso (Q.obj C) m).hom := by
-    show F.map ((Q.commShiftIso m).hom.app C ≫ d.hom) ≫ _ = _
+    change F.map ((Q.commShiftIso m).hom.app C ≫ d.hom) ≫ _ = _
     rw [Functor.map_comp, Category.assoc, ← F.map_comp_assoc d.hom d.inv, d.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.id_comp]
   have hc : (H p).map (F.map e.hom) ≫ (s.singleIso M (p + 1) p (-1) (by omega)).hom =
       (H p).map (F.map ((Q.commShiftIso m).hom.app C) ≫ (s.iso (Q.obj C) m).hom) ≫
       ((H 0).shiftIso m p (-1) (by dsimp [m]; omega)).hom.app (F.obj (Q.obj C)) := by
-    show (H p).map (F.map e.hom) ≫
+    change (H p).map (F.map e.hom) ≫
       (H p).map (F.map d.inv ≫ (s.iso (Q.obj C) m).hom) ≫ _ = _
     rw [← Functor.map_comp_assoc, hz]
     rfl
@@ -342,7 +342,7 @@ private theorem derivedCompletionBoundary_projection
     exact completionConeBoundary_single f adj c s N seq p n
   have : Mono ((H (p + 1)).map π) := homologyMap_truncGEπ_mono K (p + 1) (p + 1) le_rfl
   apply (cancel_mono ((H (p + 1)).map π)).1
-  show B K ≫ (H (p + 1)).map π = _
+  change B K ≫ (H (p + 1)).map π = _
   have hπ : (H p).map (F.map π) ≫ B Y = B K ≫ (H (p + 1)).map π :=
     derivedCompletionBoundary_naturality f adj c π p (p + 1) rfl n
   rw [← hπ, hY, hj]
@@ -518,7 +518,7 @@ private theorem completionConeProjection_single
   have hcomp : (s.singleIso M p p 0 (by omega)).hom =
       (H p).map (F.map e.inv ≫ F.map ((Q.commShiftIso m).hom.app C) ≫ (s.iso (Q.obj C) m).hom) ≫
         hs.app (F.obj (Q.obj C)) := by
-    show (H p).map (F.map (((singleFunctors (ModuleCat.{v} A)).shiftIso m p 0
+    change (H p).map (F.map (((singleFunctors (ModuleCat.{v} A)).shiftIso m p 0
       (by dsimp [m]; omega)).inv.app M) ≫ (s.iso (Q.obj C) m).hom) ≫ _ = _
     rw [he, Functor.map_comp]
     simp only [Functor.map_comp, Category.assoc]
@@ -565,7 +565,7 @@ private theorem completionConeProjection_naturality
     principalTriangles_naturality f adj c C D g
   refine ⟨ψ n, hψ₁ n, hψ₂ n, ?_⟩
   simp only [completionConeProjection, principalConeProjection, Functor.map_comp, Category.assoc]
-  show (completion ⋙ P.ι).map g ≫ (c.iso D).hom ≫
+  change (completion ⋙ P.ι).map g ≫ (c.iso D).hom ≫
       (CompletionSequences.milnorTriangle A (PrincipalTorsionTower.principalComplexSystem A f
         D)).mor₁ ≫ _ =
     (c.iso C).hom ≫ (CompletionSequences.milnorTriangle A
@@ -648,7 +648,7 @@ private theorem completionConeProjection_truncation
     rw [reassoc_of% hu]
     simp only [← Functor.map_comp_assoc, ← Functor.map_comp]
     rw [Category.assoc eL.hom ι eK.inv]
-    show (H p).map (F.map gK ≫ completionConeProjection f c C n) = _
+    change (H p).map (F.map gK ≫ completionConeProjection f c C n) = _
     rw [hK, Functor.map_comp]
   have hright : u ≫ seq.projection ≫ limit.π (CompletionSequences.powerQuotientSystem A M f) ⟨n⟩ ≫ i
     =
@@ -663,7 +663,7 @@ private theorem completionConeProjection_truncation
 
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
-private theorem homologyMap_epi_of_epi_epi_mono
+theorem homologyMap_epi_of_epi_epi_mono
     {C : Type u} [Category.{v} C] [HasShift C ℤ] [HasZeroObject C] [Preadditive C]
     [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
     {D : Type*} [Category D] [Abelian D]
@@ -733,7 +733,6 @@ private theorem principalCompletionShiftMap_connecting
           (C⟦m⟧)))).mor₃) := by
   dsimp only [principalCompletionShiftMap]
   rw [Functor.map_comp]
-  try simp only [Category.assoc]
   erw [reassoc_of% mappingCoconeShiftIso_hom_mor₃
     (CompletionSequences.complexDifference A (PrincipalTorsionTower.principalComplexSystem A f C))
       m]
@@ -779,7 +778,7 @@ private theorem milnorConnecting_naturality
   erw [← Category.assoc, (homologyFunctor (ModuleCat.{v} A) 0).homologySequenceδ_naturality]
   simp only [Category.assoc]
   congr 1
-  show (homologyFunctor (ModuleCat.{v} A) b).map φ.hom₁ ≫
+  change (homologyFunctor (ModuleCat.{v} A) b).map φ.hom₁ ≫
     (homologyFunctor (ModuleCat.{v} A) b).map (c.iso D).inv = _
   rw [← Functor.map_comp, hh, Functor.map_comp]
 

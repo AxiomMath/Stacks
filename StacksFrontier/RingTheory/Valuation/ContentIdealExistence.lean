@@ -143,8 +143,7 @@ private theorem mem_span_smul_top_of_faithfullyFlat
   let f : S ⊗[R] M →ₗ[S] S ⊗[R] Q :=
     TensorProduct.AlgebraTensorModule.lTensor S S q
   have hkill (z : S ⊗[R] Q) : algebraMap R S r • z = 0 := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s y =>
         obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective
           (I • (⊤ : Submodule R M)) y
@@ -152,7 +151,7 @@ private theorem mem_span_smul_top_of_faithfullyFlat
         rw [IsScalarTower.algebraMap_smul (R := R) (A := S) r s,
           TensorProduct.smul_tmul]
         have hzeroq : r • (Submodule.Quotient.mk m : Q) = 0 := by
-          show Submodule.Quotient.mk (r • m) = 0
+          change Submodule.Quotient.mk (r • m) = 0
           apply (Submodule.Quotient.mk_eq_zero (I • (⊤ : Submodule R M))).mpr
           exact Submodule.smul_mem_smul (by simp [I]) Submodule.mem_top
         rw [hzeroq, TensorProduct.tmul_zero]
@@ -330,7 +329,7 @@ theorem exists_isContentIdeal_of_valuationRing
       exact Ideal.mem_comap.mpr hcomp
     exact IsLocalRing.notMem_maximalIdeal.mp hnot
   let : IsLocalHom (eAh.toRingHom) := ⟨(isLocalHom_equiv eAh).map_nonunit⟩
-  let : IsLocalHom (algebraMap Ah' Ah) := by show IsLocalHom (eAh.toRingHom); infer_instance
+  let : IsLocalHom (algebraMap Ah' Ah) := by change IsLocalHom (eAh.toRingHom); infer_instance
   let : IsLocalHom (algebraMap Ah' C) := RingHom.isLocalHom_comp _ _
   have hMflat' : Module.Flat Ah' M' := Module.Flat.ulift_left_iff.mpr hMflat
   let xM : M' := 1 ⊗ₜ[D] (1 ⊗ₜ[B] x)
@@ -350,7 +349,7 @@ theorem exists_isContentIdeal_of_valuationRing
     · have hm := smul_top_comap_ringEquiv_eq e hsmul Ih xM
       have heq : Ih.comap e.symm.toRingHom = J := by
         ext z
-        show e (e.symm z) ∈ J ↔ z ∈ J
+        change e (e.symm z) ∈ J ↔ z ∈ J
         simp
       have hmem : xM ∈ (Ih.comap e.symm.toRingHom) •
           (⊤ : Submodule Ah' M') := by rw [heq]; exact hJ.mem_smul_top
@@ -450,7 +449,7 @@ theorem exists_isContentIdeal_of_valuationRing
   have hφx : φ xM = (1 : Bh) ⊗ₜ[B] x := by
     have hmap : mapC xM = (1 : Bh) ⊗ₜ[D] (1 ⊗ₜ[B] x) := by
       simp [mapC, xM, TensorProduct.AlgebraTensorModule.map_tmul]
-    show cancel (mapC xM) = _
+    change cancel (mapC xM) = _
     rw [hmap, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
     simp
   have hmemBh : (1 : Bh) ⊗ₜ[B] x ∈

@@ -52,7 +52,8 @@ The centre of the blowup is the closed point `Spec(κ) ⟶ Spec(A)`, which is
 The morphism `E ⟶ Spec(κ)` is `AlgebraicGeometry.exceptionalDivisorToCentre`: the composite
 `E ⟶ X ⟶ Spec(A)` kills the ideal of the centre, so it factors through the closed immersion
 cutting the centre out. `Stacks.Blowup.exceptionalToCentre` is the same construction for the
-parallel blowup `Stacks.Blowup.blowUp` of `StacksFrontier/AlgebraicGeometry/Blowup/ReesSheafData.lean`,
+parallel blowup `Stacks.Blowup.blowUp` of
+`StacksFrontier/AlgebraicGeometry/Blowup/ReesSheafData.lean`,
 which is a different scheme from `AlgebraicGeometry.blowUp` and is not identified with it
 anywhere, so it cannot be used with the properness, integrality and effective-Cartier results
 about the latter.
@@ -152,7 +153,7 @@ theorem supportSet_ker_residuePoint :
       (Ideal.comap (Scheme.ΓSpecIso (.of A)).hom.hom (IsLocalRing.maximalIdeal A)) =
       IsLocalRing.maximalIdeal A := by
     rw [Ideal.comap_comap, hid, Ideal.comap_id]
-  show ((residuePoint A).ker.support : Set (Spec (.of A))) = _
+  change ((residuePoint A).ker.support : Set (Spec (.of A))) = _
   rw [ker_residuePoint, Scheme.IdealSheafData.coe_support_ofIdealTop, Spec_zeroLocus,
     ← Ideal.coe_comap, hcomp]
   refine Set.eq_singleton_iff_unique_mem.2 ⟨(PrimeSpectrum.mem_zeroLocus _ _).2 (le_refl _),
@@ -222,7 +223,7 @@ private theorem dim_le_one_of_lt_two {d : WithBot ℕ∞} (hd : d < 2) : d ≤ 1
 /-- The local dimension at a point is at most the global dimension. -/
 private theorem topologicalKrullDimAt_le_global {Y : Type*} [TopologicalSpace Y] (y : Y) :
     topologicalKrullDimAt Y y ≤ topologicalKrullDim Y := by
-  show (⨅ U : {U : Set Y // y ∈ U ∧ IsOpen U}, topologicalKrullDim (↥U.1)) ≤ _
+  change (⨅ U : {U : Set Y // y ∈ U ∧ IsOpen U}, topologicalKrullDim (↥U.1)) ≤ _
   exact (iInf_le _ ⟨Set.univ, ⟨Set.mem_univ y, isOpen_univ⟩⟩).trans
     (topologicalKrullDim_subspace_le Y Set.univ)
 
@@ -297,7 +298,7 @@ theorem topologicalKrullDim_exceptionalDivisor_residuePoint (A : Type u) [CommRi
   have hIne : I ≠ ⊥ := ker_residuePoint_ne_bot A hdim
   have : IsIntegral (blowUp I) := isIntegral_blowUp I hIne
   have hgenU : genericPoint (Spec (.of A)) ∈ U := by
-    show genericPoint (Spec (.of A)) ∉ I.supportSet
+    change genericPoint (Spec (.of A)) ∉ I.supportSet
     rw [hsupport]
     exact fun h => hgenNe h
   have hIso : IsIso (f ∣_ U) := isIso_blowUp_restrict_compl_support I
@@ -329,7 +330,7 @@ theorem topologicalKrullDim_exceptionalDivisor_residuePoint (A : Type u) [CommRi
       rw [← Arrow.isIso_iff_isIso_of_isIso (morphismRestrictStalkMap f U z).hom]
       exact hstalkV
     have hz : z.1 = genericPoint (blowUp I) := by
-      show V.ι (genericPoint V.toScheme) = _
+      change V.ι (genericPoint V.toScheme) = _
       exact hgenVeq
     exact hz ▸ hstalkAt
   have : IsIso (CommRingCat.ofHom (dominantFunctionFieldMap f)) := by
@@ -417,7 +418,7 @@ theorem topologicalKrullDim_exceptionalDivisor_residuePoint (A : Type u) [CommRi
     rw [hcLast] at hstep
     simpa [b, hcLen] using hstep
   have hbU : b ∈ U := by
-    show b ∉ I.supportSet
+    change b ∉ I.supportSet
     rw [hsupport]
     exact fun h => ne_of_lt hbClosed h
   let y : blowUp I := V.ι (((f ∣_ U).homeomorph).symm ⟨b, hbU⟩)
@@ -454,7 +455,7 @@ theorem topologicalKrullDim_exceptionalDivisor_residuePoint (A : Type u) [CommRi
     ringKrullDim_stalk_ge_two_of_specialization_chain hgenericY hyx hneGenericY hneyx
   have hxSupport : x ∈ ((exceptionalIdeal I).support : Set (blowUp I)) := by
     rw [show exceptionalIdeal I = I.comap f from rfl, Scheme.IdealSheafData.support_comap]
-    show f x ∈ I.supportSet
+    change f x ∈ I.supportSet
     rw [hsupport]
     exact hfx
   have hxRange : x ∈ Set.range (exceptionalIdeal I).subschemeι := by

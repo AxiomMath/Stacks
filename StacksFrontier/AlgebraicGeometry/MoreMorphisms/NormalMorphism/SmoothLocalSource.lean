@@ -147,7 +147,7 @@ private theorem geometricallyNormalFibers_iff_of_smoothZeroHypercover {X Y : Sch
   refine (isGeometricallyNormal_iff_of_smoothZeroHypercover
     (f.fiberToSpecResidueField y) (𝒰.pullback₁ (f.fiberι y))).trans
     (forall_congr' fun i ↦ ?_)
-  show IsGeometricallyNormal (pullback.fst (pullback.fst f (Y.fromSpecResidueField y))
+  change IsGeometricallyNormal (pullback.fst (pullback.fst f (Y.fromSpecResidueField y))
       (𝒰.f i) ≫ pullback.snd f (Y.fromSpecResidueField y)) ↔
     IsGeometricallyNormal (pullback.snd (𝒰.f i ≫ f) (Y.fromSpecResidueField y))
   exact isGeometricallyNormal_iff_of_isoOver _ _

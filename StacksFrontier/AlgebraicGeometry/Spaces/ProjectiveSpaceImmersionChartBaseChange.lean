@@ -122,7 +122,7 @@ theorem exists_chart_isClosedImmersion
     (isPullback_projectiveSpaceOverMap n V₁.hom.hom).flip
   refine ⟨π, (BigFppfOver.toScheme B S hS).map L ≫ (hs.isoIsPullback _ _ hpr).hom, hπ,
     inferInstance, ?_, ?_⟩
-  · show _ ≫ pullback.fst (terminal.from ((BigFppfOver.toScheme B S hS).obj V₁))
+  · change _ ≫ pullback.fst (terminal.from ((BigFppfOver.toScheme B S hS).obj V₁))
         (terminal.from (projectiveSpaceAtUniverse.{u} n)) = _
     rw [Category.assoc, IsPullback.isoIsPullback_hom_fst _ _ hs hpr, ← Functor.map_comp, hLf]
   · exact (Category.assoc _ _ _).trans ((congrArg ((BigFppfOver.toScheme B S hS).map L ≫ ·)

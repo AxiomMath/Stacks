@@ -72,7 +72,7 @@ noncomputable def elemReplBuild (d : A → ℕ∞) (K : CochainComplex A ℤ) (n
 quasi-isomorphism. -/
 theorem elemReplBuild_quasiIso (d : A → ℕ∞) (K : CochainComplex A ℤ) (n : ℤ) (M : A)
     (ι : K.X n ⟶ M) (hιmono : Mono ι) : QuasiIso (elemReplBuild d K n M ι hιmono).f := by
-  show QuasiIso (ElemReplConstruction.fmap K n M ι)
+  change QuasiIso (ElemReplConstruction.fmap K n M ι)
   have := hιmono
   have hcomp : ElemReplConstruction.fmap K n M ι ≫ ElemReplConstruction.pmap K n M ι = 0 := by
     ext i
@@ -174,17 +174,17 @@ theorem elementary_replacement' (d : A → ℕ∞) (hd : BoundedCohomologicalDim
   refine
     ⟨ElemReplConstruction.Kp K n M ι, ElemReplConstruction.fmap K n M ι,
       elemReplBuild_quasiIso d K n M ι hιmono, ?_, ?_, ?_, ?_⟩
-  · show d (ElemReplConstruction.XX K n M _ n) = 0
+  · change d (ElemReplConstruction.XX K n M _ n) = 0
     rw [ElemReplConstruction.XX_n, hM]
   · exact elem_repl_le d hd hM (elemReplBuild d K n M ι hιmono).hses
   · intro m hm1 hm2
-    show d (ElemReplConstruction.XX K n M _ m) = d (K.X m)
+    change d (ElemReplConstruction.XX K n M _ m) = d (K.X m)
     rw [ElemReplConstruction.XX_off K n M _ m hm1 hm2]
   · intro m hm1 hm2
     have hobj : (ElemReplConstruction.Kp K n M ι).X m = K.X m :=
       ElemReplConstruction.XX_off K n M _ m hm1 hm2
     refine ⟨hobj, ?_⟩
-    show ElemReplConstruction.ff K n M ι m = eqToHom hobj.symm
+    change ElemReplConstruction.ff K n M ι m = eqToHom hobj.symm
     unfold ElemReplConstruction.ff
     rw [dite_eq_right hm1, dite_eq_right hm2]
 
@@ -366,11 +366,11 @@ lemma Rcomplex_X (n : ℤ) : (Rcomplex d X D).X n = RX d X D n :=
 
 /-- In degrees `n ≥ 0` the objects of `Rcomplex d X D` have `d`-value `0`. -/
 lemma Rcomplex_pos (n : ℤ) (h : 0 ≤ n) : d ((Rcomplex d X D).X n) = 0 := by
-  show d (RX d X D n) = 0; rw [RX_nonneg d X D n h]; exact D.dB _
+  change d (RX d X D n) = 0; rw [RX_nonneg d X D n h]; exact D.dB _
 
 /-- In negative degrees the objects of `Rcomplex d X D` are zero. -/
 lemma Rcomplex_neg (n : ℤ) (h : n < 0) : IsZero ((Rcomplex d X D).X n) := by
-  show IsZero (RX d X D n); rw [RX_neg d X D n h]; exact isZero_zero A
+  change IsZero (RX d X D n); rw [RX_neg d X D n h]; exact isZero_zero A
 
 /-- The degree-0 component of the augmentation `X ⟶ R^0 = B 0` (the first embedding). -/
 noncomputable def augφ : X ⟶ (Rcomplex d X D).X 0 :=
@@ -382,7 +382,7 @@ lemma augφ_cond (k : ℤ) (hk : (ComplexShape.up ℤ).Rel 0 k) :
   simp only [ComplexShape.up_Rel] at hk
   subst hk
   unfold augφ
-  show _ ≫ Rd d X D 0 1 = 0
+  change _ ≫ Rd d X D 0 1 = 0
   unfold Rd
   rw [dite_eq_left ⟨by ring, le_rfl⟩]
   rw [show delta d X D (0 : ℤ).toNat = delta d X D 0 from rfl]
@@ -425,11 +425,11 @@ lemma delta_sc_exact (k : ℕ) :
         comm₂₃ := by
           dsimp; unfold delta; simp }
     have : Mono ψ.τ₃ := by
-      show Mono (eqToHom _ ≫ D.emb (k + 1 + 1)); apply mono_comp
+      change Mono (eqToHom _ ≫ D.emb (k + 1 + 1)); apply mono_comp
     have : Epi ψ.τ₁ := by
-      show Epi (𝟙 _); infer_instance
+      change Epi (𝟙 _); infer_instance
     have : IsIso ψ.τ₂ := by
-      show IsIso (𝟙 _); infer_instance
+      change IsIso (𝟙 _); infer_instance
     exact ShortComplex.exact_iff_of_epi_of_isIso_of_mono ψ
   have hTpExact := hETp.mp hE
   let φ :
@@ -442,11 +442,11 @@ lemma delta_sc_exact (k : ℕ) :
       comm₂₃ := by
         dsimp; simp }
   have : Epi φ.τ₁ := by
-    show Epi (cokernel.π (D.emb k) ≫ eqToHom _); apply epi_comp
+    change Epi (cokernel.π (D.emb k) ≫ eqToHom _); apply epi_comp
   have : IsIso φ.τ₂ := by
-    show IsIso (𝟙 _); infer_instance
+    change IsIso (𝟙 _); infer_instance
   have : Mono φ.τ₃ := by
-    show Mono (𝟙 _); infer_instance
+    change Mono (𝟙 _); infer_instance
   exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono φ).mpr hTpExact
 
 /-- `Rd i j` rewritten with the source index reified as a natural number `p`. -/
@@ -600,7 +600,7 @@ lemma isIso_lift_of_kernel (K : CochainComplex A ℤ) (i j : ℤ) (hj : (Complex
   refine ⟨m, ?_, ?_⟩
   · rw [← cancel_mono f, Category.assoc, key, hl, Category.id_comp]
   · apply Fork.IsLimit.hom_ext hker
-    show (m ≫ l) ≫ K.iCycles i = 𝟙 _ ≫ K.iCycles i
+    change (m ≫ l) ≫ K.iCycles i = 𝟙 _ ≫ K.iCycles i
     rw [Category.assoc, hl, key, Category.id_comp]
 
 /-- `R^1 = B 1`. -/
@@ -609,7 +609,7 @@ lemma RX_one : RX d X D 1 = D.B 1 := by
 
 /-- The differential of `R` into degree `0` vanishes (`R` is `0` in negative degrees). -/
 lemma Rd_neg0 : (Rcomplex d X D).d (-1) 0 = 0 := by
-  show Rd d X D (-1) 0 = 0; unfold Rd; rw [dite_eq_right]; rintro ⟨_, h⟩; omega
+  change Rd d X D (-1) 0 = 0; unfold Rd; rw [dite_eq_right]; rintro ⟨_, h⟩; omega
 
 /-- `emb 0` is a kernel of `delta 0` (since `delta 0 = π(emb 0) ≫ mono`). -/
 noncomputable def emb0_ker_delta0 :
@@ -631,10 +631,10 @@ lemma sq01 :
     delta d X D 0 ≫ eqToHom (show D.B 1 = (Rcomplex d X D).X 1 by rw [Rcomplex_X, RX_one]) =
       eqToHom (show D.B 0 = (Rcomplex d X D).X 0 by rw [Rcomplex_X, RX_zero]) ≫
         (Rcomplex d X D).d 0 1 := by
-  show _ = _ ≫ Rd d X D 0 1
+  change _ = _ ≫ Rd d X D 0 1
   unfold Rd
   rw [dite_eq_left ⟨by ring, le_rfl⟩]
-  show delta d X D 0 ≫ eqToHom _ = eqToHom _ ≫ eqToHom _ ≫ delta d X D (0 : ℤ).toNat ≫ eqToHom _
+  change delta d X D 0 ≫ eqToHom _ = eqToHom _ ≫ eqToHom _ ≫ delta d X D (0 : ℤ).toNat ≫ eqToHom _
   simp only [Int.toNat_zero, ← Category.assoc, eqToHom_refl, Category.id_comp]
 
 /-- The augmentation `augφ : X ⟶ R⁰` is a kernel of `R.d 0 1`. -/

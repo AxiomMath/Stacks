@@ -166,7 +166,7 @@ theorem isThickeningHom_spaceReductionι (X : AlgebraicSpaces B S hS) :
     IsThickeningHom B S hS (spaceReductionι X) := by
   have : Mono (spaceReductionι X).hom := inferInstanceAs (Mono (reduction B S hS X.1 X.2).ι)
   rw [isThickeningHom_iff_of_mono]
-  show IsThickening B S hS X (Subfunctor.range (reduction B S hS X.1 X.2).ι)
+  change IsThickening B S hS X (Subfunctor.range (reduction B S hS X.1 X.2).ι)
   rw [Subfunctor.range_ι]
   exact ⟨(isAlgebraicSpaceStructure_reduction B S hS X.1 X.2).isClosedSubspace,
     surjective_pointsMap_ι_reduction B S hS X.1 X.2⟩

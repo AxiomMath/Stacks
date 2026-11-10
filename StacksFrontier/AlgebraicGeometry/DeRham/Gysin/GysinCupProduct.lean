@@ -88,9 +88,10 @@ of forms is unital, `AlgebraicGeometry.Scheme.Hom.relativeDifferentialFormsPullb
 `X → S` and the Koszul regularity of `Z → X` of the source enter only through `hvan`, whose
 sufficient condition is Tag 0G7P.  `EquationSupportVanishes`, the shape `hvan` is asked for in, is
 concluded by
-`Stacks.Perfect.LocalCohomologyDegrees.isZero_homology_derivedSupportedSections_of_locallyKoszulRegular_of_lt`
-in `StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.KoszulFlatVanishingLocal` as soon as
-`Ω^{p+c}_{X/S}` is flat and quasi-coherent and the equations are Koszul-regular on the affine
+`isZero_homology_derivedSupportedSections_of_locallyKoszulRegular_of_lt` (namespace
+`Stacks.Perfect.LocalCohomologyDegrees`)
+in `StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.KoszulFlatVanishingLocal` as soon
+as `Ω^{p+c}_{X/S}` is flat and quasi-coherent and the equations are Koszul-regular on the affine
 opens, which is what smoothness and Koszul regularity give; its companion `..._of_ne` carries Tag
 0G7P whole.
 

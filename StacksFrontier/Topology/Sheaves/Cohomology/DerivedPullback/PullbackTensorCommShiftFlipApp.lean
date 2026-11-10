@@ -45,7 +45,8 @@ obligation the two comparisons of [Stacks, Tag 079U] share.
 The second comparison's two one-variable halves and the reduction of
 `Stacks.Cohomology.DerivedPullbackTensor.RightComparisonCommShift₂` to exactly them live beside
 that statement, in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/PullbackTensorCommShiftComparisons.lean`;
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/`
+`PullbackTensorCommShiftComparisons.lean`;
 the note there explains why.
 
 ## Implementation notes
@@ -81,7 +82,8 @@ the wall.
 `rightComparisonCommShift₂_of` is `CategoryTheory.NatTrans.CommShift₂.mk` applied to the two
 one-variable halves and nothing else, and written in this file it is a kernel deterministic
 timeout in every spelling; the spellings, and the cure, are in the docstring of that reduction in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/PullbackTensorCommShiftComparisons.lean`,
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/`
+`PullbackTensorCommShiftComparisons.lean`,
 where it and the two halves live beside `RightComparisonCommShift₂` itself.  The figures for
 *this* file: `mk` takes seventeen arguments before
 its two fields -- three types, three `Category`, the shift monoid and its `AddCommMonoid`, three

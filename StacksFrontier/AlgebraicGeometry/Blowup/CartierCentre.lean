@@ -59,7 +59,7 @@ public theorem isIso_blowUpToBase_of_isEffectiveCartierDivisor {X : Scheme.{u}}
   classical
   obtain ⟨hB, ⟨hT⟩⟩ := isTerminal_blowUp I
   have hX : IsCartierOver I (Over.mk (𝟙 X)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (𝟙 X))
+    change Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (𝟙 X))
     simpa using hI
   let T : CartierOver I := ⟨Over.mk (AlgebraicGeometry.blowUpToBase I), hB⟩
   let Y : CartierOver I := ⟨Over.mk (𝟙 X), hX⟩

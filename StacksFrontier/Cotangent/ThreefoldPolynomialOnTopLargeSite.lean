@@ -264,7 +264,13 @@ towers `(P_n → B, P_n[E] → C)`: on the left by the criterion of Tag 08Q9 app
 identity augmentation `C → C` on `C_{C/B}`, which `u₃(U_•)` is. No hypothesis on a resolution
 survives: the resolution of `B` over `A` is the standard one of Tag 08PM, whose terms are
 polynomial algebras and whose augmentation is a trivial Kan fibration by Tag 08QI. -/
-@[stacks 08QV "the first equality `Lπ_!(g₃^{-1}ℱ) = Lπ_{3,!}ℱ` in `D(Ab)`, at the sites of   Tag 08QT and Tag 08PR themselves -- `CommAlgCat.polynomialTowerSite` and   `CommAlgCat.polynomialSite B (towerRelativeAlgebra B C)`, not restrictions of them -- with   `Lπ_!` and `Lπ_{3,!}` the total left derived functors of the colimits over the index   categories of Tag 08PF and the coefficients at the universe `u + 1` of the sites' objects. The   second equality `Lπ_{3,!}ℱ = π_{3,!}ℱ` is   `CommAlgCat.polynomialSiteDerivedColimitThirdIso`"]
+@[stacks 08QV "the first equality `Lπ_!(g₃^{-1}ℱ) = Lπ_{3,!}ℱ` in `D(Ab)`, at the sites of \
+    Tag 08QT and Tag 08PR themselves -- `CommAlgCat.polynomialTowerSite` and \
+    `CommAlgCat.polynomialSite B (towerRelativeAlgebra B C)`, not restrictions of them -- with \
+    `Lπ_!` and `Lπ_{3,!}` the total left derived functors of the colimits over the index \
+    categories of Tag 08PF and the coefficients at the universe `u + 1` of the sites' objects. The \
+    second equality `Lπ_{3,!}ℱ = π_{3,!}ℱ` is \
+    `CommAlgCat.polynomialSiteDerivedColimitThirdIso`"]
 def polynomialTowerDerivedColimitThirdInverseImageIso
     (F : (polynomialSite B (towerRelativeAlgebra B C))ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
     (totalDerivedColimit' (polynomialTowerSite A B C) AddCommGrpCat.{u + 1}).obj
@@ -300,7 +306,12 @@ degree zero on `π_{3,!}ℱ`, the colimit of `ℱ` over the index category of Ta
 This is where `C = B[E]` is used on `C_{C/B}` itself: it makes the identity augmentation `C → C`
 an object of that site, and that object is initial there, so `π_{3,!}` is an evaluation and hence
 exact. -/
-@[stacks 08QV "the second equality `Lπ_{3,!}ℱ = π_{3,!}ℱ` in `D(Ab)`, at the site `C_{C/B}` of   Tag 08PR itself -- `CommAlgCat.polynomialSite B (towerRelativeAlgebra B C)`, not a restriction   of it -- with `Lπ_{3,!}` the total left derived functor of the colimit over its index category   and `π_{3,!}ℱ` that colimit, as in Tag 08PF. The first equality   `Lπ_!(g₃^{-1}ℱ) = Lπ_{3,!}ℱ` is   `CommAlgCat.polynomialTowerDerivedColimitThirdInverseImageIso`"]
+@[stacks 08QV "the second equality `Lπ_{3,!}ℱ = π_{3,!}ℱ` in `D(Ab)`, at the site `C_{C/B}` of \
+    Tag 08PR itself -- `CommAlgCat.polynomialSite B (towerRelativeAlgebra B C)`, not a restriction \
+    of it -- with `Lπ_{3,!}` the total left derived functor of the colimit over its index category \
+    and `π_{3,!}ℱ` that colimit, as in Tag 08PF. The first equality \
+    `Lπ_!(g₃^{-1}ℱ) = Lπ_{3,!}ℱ` is \
+    `CommAlgCat.polynomialTowerDerivedColimitThirdInverseImageIso`"]
 def polynomialSiteDerivedColimitThirdIso
     (F : (polynomialSite B (towerRelativeAlgebra B C))ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
     (totalDerivedColimit' (polynomialSite B (towerRelativeAlgebra B C))

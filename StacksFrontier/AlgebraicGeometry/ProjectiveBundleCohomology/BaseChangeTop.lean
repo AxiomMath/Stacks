@@ -106,7 +106,6 @@ public theorem tensorMap_split₂ {Z : RingedSpace.{u, u}}
   rw [tensorMap_comp, tensorMap_comp]
   simp
 
-include hfree hfree' in
 /-- The tensor isomorphism of `koszulTopStep_baseChange`, split into its three factors. -/
 public theorem tensorPullbackIso_bundleDet_hom :
     (tensorPullbackIso (bundleBaseChange g E hqc E' hqc' hE).toLRSHom.toShHom
@@ -209,8 +208,8 @@ public theorem koszulTopIso_baseChange (hn : 1 ≤ n) :
       (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc)).toBase g
       (relativeProj (Stacks.SymGraded.schemeSheafGradedAlgebra E' hqc')).toBase
       (bundleBaseChange g E hqc E' hqc' hE) (bundleBaseChange_toBase g E hqc E' hqc' hE) n _)
-    ((congrArg (_ ≫ ·) (tensorPullbackIso_bundleDet_hom g E hqc E' hqc' hE D D' hfree
-      hfree')).symm.trans (koszulTopStep_baseChange g E hqc E' hqc' hE D D' hfree hfree'))
+    ((congrArg (_ ≫ ·) (tensorPullbackIso_bundleDet_hom g E hqc E' hqc' hE D D'
+      (n := n))).symm.trans (koszulTopStep_baseChange g E hqc E' hqc' hE D D' hfree hfree'))
     (koszulChainIso_baseChange g E hqc E' hqc' hE D D' hn hfree hfree' n le_rfl) hR
 
 end Stacks.AlgebraicGeometry.ProjectiveBundleCohomology

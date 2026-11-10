@@ -176,7 +176,8 @@ any topology `τ` coarser than the fppf one, a sheaf of ideals `ℐ ⊂ 𝒪_�
 **every** object `K` of `D(𝒪_𝒳)`, so in particular for every complex of quasi-coherent \
 modules, and every quasi-coherent sheaf of ideals of finite type is an admissible `ℐ`. The \
 proof is [Stacks, Tag 0A0G] for an arbitrary morphism of ringed topoi, \
-`AlgebraicGeometry.RingedToposHom.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`, \
+`AlgebraicGeometry.RingedToposHom.isIso_derivedCompletionPushforwardComparison_\
+inverseImageIdealSheaf_of_isFiniteType`, \
 at the morphism of ringed topoi of [Stacks, Tag 06TW], \
 `AlgebraicGeometry.Stack.fullRingedToposHom`; it holds for every 1-morphism of categories \
 fibred in groupoids over the big fppf site, \

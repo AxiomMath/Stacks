@@ -180,7 +180,7 @@ private theorem mapCyclesIso_inv_comp_iCycles {C D : Type*} [Category* C] [Categ
     (S.mapCyclesIso F).inv ≫ (S.map F).iCycles = F.map S.iCycles := by
   rw [Iso.inv_comp_eq, ShortComplex.mapCyclesIso_hom_iCycles]
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The class of a cocycle of `Γ^Gal_ℤ(res_ℤ K₀)` in `res_ℤ H²(Γ^Gal_{ℤ/n}(K₀))`**: through
 `H²(Q(-)) = H²(-)` and `AlgebraicGeometry.galoisHomOpGCyclotomicHomologyIso`, it is the class of
 the corresponding cocycle of `Γ^Gal_{ℤ/n}(K₀)` (the degreewise identification
@@ -230,7 +230,7 @@ theorem homologyπ_comp_galoisHomOpGCyclotomicHomologyIso_hom :
   exact comp_chase_of_three_squares _ _ _ _ _ _ _ _ _ (Iso.inv_hom_id_app _ _)
     (HomologicalComplex.homologyπ_naturality _ _) (homologyπ_exactFunctorPlusHomologyIso_inv _ _ _)
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The class of a cocycle of `Γ^Gal_ℤ(res_ℤ K₀)` in `H²(Γ(X̄_k̄, K₀|))`**, on underlying groups:
 through `AlgebraicGeometry.galoisHomOpCyclotomicUnderlyingIso`, it is the class of the
 corresponding cocycle of `Γ(X̄_k̄, K₀|)`. -/
@@ -284,7 +284,7 @@ theorem map_homologyπ_comp_galoisHomOpCyclotomicUnderlyingIso_hom :
     ((R.map_comp _ _).symm.trans
       (congrArg R.map (map_homologyπ_exactFunctorPlusHomologyIso_hom Un S ((2 : ℕ) : ℤ))))
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- The cocycle of `Γ(X̄_k̄, K₀|)` attached to a cocycle of `Γ^Gal_ℤ(res_ℤ K₀)` has the same
 sections: its inclusion into the cochains is the degreewise identification
 `AlgebraicGeometry.galoisHomOpGCyclotomicIso` of the inclusion of the original cocycle. -/
@@ -334,7 +334,7 @@ theorem map_cyclesMap_galoisHomOpGCyclotomicIso_iCycles :
       (mapCyclesIso_inv_comp_iCycles _ _))
     (ShortComplex.mapCyclesIso_hom_iCycles _ _) (HomologicalComplex.cyclesMap_i _ _)
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- **The class of a cocycle, from `H²(Q(Γ^Gal_ℤ(res_ℤ K₀)))` to `H²(Γ(X̄_k̄, K₀|))`**: if `c` is a
 degree-two cocycle of the underlying complex of `Γ^Gal_ℤ(res_ℤ K₀)` and `z` the cocycle of
 `Γ(X̄_k̄, K₀|)` with the same sections (`hcz`), then

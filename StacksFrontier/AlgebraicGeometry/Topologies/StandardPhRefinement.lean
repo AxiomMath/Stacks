@@ -95,7 +95,7 @@ theorem exists_finite_affine_refinement {T : Scheme.{u}} [CompactSpace T] (U : T
   let e' : ULift.{v} (Fin n) ≃ 𝒱.I₀ := Equiv.ulift.trans e.symm
   refine ⟨{ I₀ := ULift.{v} (Fin n), X := fun i => 𝒱.X (e' i), f := fun i => 𝒱.f (e' i) },
     inferInstance, fun i => ?_, fun i => inferInstance, ?_, ⟨?_⟩⟩
-  · show IsAffine (Spec _)
+  · change IsAffine (Spec _)
     infer_instance
   · rw [e'.surjective.iUnion_comp fun j => Set.range (𝒱.f j)]
     exact 𝒱.iUnion_range

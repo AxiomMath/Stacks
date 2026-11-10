@@ -138,7 +138,7 @@ theorem exists_affineOpen_forall_fittingIdeal_eq_prod [F.IsFinitePresentation]
     · exact one_mem _
   have hgunit : ∀ k, N ≤ k → IsUnit (g k) := by
     intro k hk
-    rw [hgdef k, if_neg (not_lt.mpr hk)]
+    rw [hgdef k, ite_eq_right (not_lt.mpr hk)]
     exact isUnit_one
   have hfin : Module.Finite Γ(X, V.1) Γ(F, V.1) := moduleFinite_sections_on_affine F V.1 V.2
   have hfitM : ∀ k : ℕ, _root_.fittingIdeal (M := Γ(F, V.1)) (k : ℤ) = Ideal.span {g k} :=

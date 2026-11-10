@@ -171,7 +171,7 @@ theorem baseChangeSubfunctor_hilbertPolynomialQuot (P : ℤ → ℤ) :
         ((modulePullback B S hS (D.baseChangedSourceProjection p)).obj L)
         (isInvertible_modulePullback B S hS (D.baseChangedSourceProjection p) L) P := by
   refine Subfunctor.ext (funext fun T => Set.ext fun y => ?_)
-  show (∀ t n, P n = @CoherentObject.twistedEuler B S hS D.toCoherentSituation L hL
+  change (∀ t n, P n = @CoherentObject.twistedEuler B S hS D.toCoherentSituation L hL
       y.ofCanonicalBaseChanged.cohObject t n) ↔
     ∀ t n, P n = @CoherentObject.twistedEuler B S hS (D.canonicalBaseChanged p).toCoherentSituation
       ((modulePullback B S hS (D.baseChangedSourceProjection p)).obj L)

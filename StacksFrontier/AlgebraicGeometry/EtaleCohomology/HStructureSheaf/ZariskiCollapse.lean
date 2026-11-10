@@ -92,7 +92,7 @@ theorem opensHypercover_mem_fppfPrecoverage {U : S.Opens} (R : Sieve U)
   refine ⟨fun x ↦ ?_, fun i ↦ ?_⟩
   · obtain ⟨V, g, hg, hV⟩ := hR x.1 x.2
     refine ⟨⟨⟨V, g, hg⟩⟩, ⟨⟨x.1, hV⟩, ?_⟩⟩
-    show S.homOfLE (leOfHom g) _ = x
+    change S.homOfLE (leOfHom g) _ = x
     exact (Scheme.homOfLE_apply' (leOfHom g) x.1 hV).trans (Subtype.ext rfl)
   · have : IsOpenImmersion ((BigHOver.toScheme B S hS).map ((opensHypercover B S hS R).f i)) :=
       inferInstanceAs (IsOpenImmersion (S.homOfLE (leOfHom i.down.2.1)))

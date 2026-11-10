@@ -96,14 +96,15 @@ private lemma isReduced_image_of_isReduced' {Z X : Scheme.{u}} (f : Z ⟶ X)
       _ = Scheme.IdealSheafData.vanishingIdeal
           (TopologicalSpace.Closeds.closure (Set.range f)) := by
         simpa using Scheme.IdealSheafData.map_vanishingIdeal f (⊤ : TopologicalSpace.Closeds Z)
-  show IsReduced f.ker.subscheme
+  change IsReduced f.ker.subscheme
   rw [hker]
   exact Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal
     (TopologicalSpace.Closeds.closure (Set.range f))
 
 /-- The inclusion of a scheme-theoretically dense open subscheme is scheme-theoretically
 dominant. -/
-alias isSchemeTheoreticallyDominant_of_isSchemeTheoreticallyDense' := isSchemeTheoreticallyDominant_of_isSchemeTheoreticallyDense
+alias isSchemeTheoreticallyDominant_of_isSchemeTheoreticallyDense' :=
+  isSchemeTheoreticallyDominant_of_isSchemeTheoreticallyDense
 
 private lemma isIso_imageι_and_isReduced_of_dominant {X : Scheme.{u}} (U : X.Opens)
     [IsReduced U] (h : IsSchemeTheoreticallyDominant U.ι) :

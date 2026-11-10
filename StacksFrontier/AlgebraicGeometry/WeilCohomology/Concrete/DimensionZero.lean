@@ -86,7 +86,7 @@ namespace DimensionZero
 section Algebra
 
 variable {F : Type u} [Field F] {M : Type v} [Ring M] [Algebra F M]
-  {R : Type w} [Ring R] [Algebra F R] {ι : Type*} [Fintype ι] [DecidableEq ι]
+  {R : Type w} [Ring R] [Algebra F R] {ι : Type*} [Fintype ι]
 
 /-- The tensor product of two nonzero vectors over a field is nonzero. -/
 theorem tmul_ne_zero {V : Type v} [AddCommGroup V] [Module F V] {U : Type w} [AddCommGroup U]
@@ -103,8 +103,7 @@ theorem exists_fg_contract {V : Type v} [AddCommGroup V] [Module F V] {U : Type 
     [AddCommGroup U] [Module F U] (x : V ⊗[F] U) :
     ∃ P : Submodule F V, P.FG ∧ ∀ g : U →ₗ[F] F,
       TensorProduct.rid F V (LinearMap.lTensor V g x) ∈ P := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, Submodule.fg_bot, fun g ↦ by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     refine ⟨Submodule.span F {a}, Submodule.fg_span_singleton a, fun g ↦ ?_⟩
     simp only [LinearMap.lTensor_tmul, TensorProduct.rid_tmul]
@@ -119,23 +118,25 @@ theorem exists_fg_contract {V : Type v} [AddCommGroup V] [Module F V] {U : Type 
 variable (ψ : ι → M →ₐ[F] R) (Φ : M ⊗[F] R →ₗ[F] (ι → R))
   (hΦ : ∀ a b, Φ (a ⊗ₜ b) = fun i ↦ ψ i a * b)
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [Fintype ι] in
 include hΦ in
 /-- `Φ` is right `R`-linear: `Φ(x · (1 ⊗ r)) = Φ(x) · r`. -/
 theorem apply_lTensor_mulRight (r : R) (x : M ⊗[F] R) :
     Φ (LinearMap.lTensor M (LinearMap.mulRight F r) x) = fun i ↦ Φ x i * r := by
-  induction x using TensorProduct.induction_on with
-  | zero => ext; simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => ext i; simp [hΦ, mul_assoc]
   | add x y hx hy => ext i; simp [map_add, hx, hy, add_mul]
 
+omit [Fintype ι] in
 include hΦ in
 /-- **Finiteness from a splitting.** If `M ⊗_F R → ∏_{i ∈ ι} R`, `a ⊗ b ↦ (ψ_i(a) b)_i`, is
 bijective for algebra maps `ψ_i : M → R`, `ι` finite and `R ≠ 0`, then `M` is finite dimensional:
 the inverse images of the coordinate units are finite sums of pure tensors whose first factors
 span `M`. -/
-theorem finiteDimensional_of_bijective [Nontrivial R] (hbij : Function.Bijective Φ) :
+theorem finiteDimensional_of_bijective [Finite ι] [Nontrivial R] (hbij : Function.Bijective Φ) :
     FiniteDimensional F M := by
+  classical
+  have := Fintype.ofFinite ι
   obtain ⟨l₀, hl₀⟩ := Module.Projective.exists_dual_eq_one F (one_ne_zero : (1 : R) ≠ 0)
   let e := LinearEquiv.ofBijective Φ hbij
   let t : ι → M ⊗[F] R := fun i ↦ e.symm (Pi.single i 1)
@@ -146,9 +147,9 @@ theorem finiteDimensional_of_bijective [Nontrivial R] (hbij : Function.Bijective
     rw [map_sum, hΦ]
     ext j
     simp only [Finset.sum_apply, apply_lTensor_mulRight ψ Φ hΦ, t]
-    show ψ j a * 1 = ∑ i, (e (e.symm (Pi.single i 1))) j * ψ i a
+    change ψ j a * 1 = ∑ i, (e (e.symm (Pi.single i 1))) j * ψ i a
     simp only [LinearEquiv.apply_symm_apply, Pi.single_apply, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true, mul_one]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true, mul_one]
   have htop : (⨆ i, P i) = ⊤ := by
     refine eq_top_iff.mpr fun a _ ↦ ?_
     have h := congrArg (fun x ↦ TensorProduct.rid F M (LinearMap.lTensor M l₀ x)) (hdecomp a)
@@ -326,7 +327,7 @@ theorem restrictCofan_finCofan_bijective (Y : (SmoothProjectiveScheme k).FullSub
       funext a i
       refine Fin.cases ?_ (fun j ↦ ?_) i
       · rfl
-      · show W.pull (c₁.inj j ≫ BinaryCofan.inr c₂) a = _
+      · change W.pull (c₁.inj j ≫ BinaryCofan.inr c₂) a = _
         rw [W.pull_comp]
         rfl
     rw [h]
@@ -346,7 +347,7 @@ theorem restrictCofan_bijective {ι : Type*} [Finite ι] [Nonempty ι]
   have h : (fun g : ι → W.H Y ↦ g ∘ e) ∘ W.restrictCofan c =
       W.restrictCofan d ∘ W.pull φ.hom := by
     funext a j
-    show W.pull (c.inj (e j)) a = W.pull (d.inj j) (W.pull φ.hom a)
+    change W.pull (c.inj (e j)) a = W.pull (d.inj j) (W.pull φ.hom a)
     rw [← hφ, W.pull_comp]
     rfl
   have hcomp : Function.Bijective ((fun g : ι → W.H Y ↦ g ∘ e) ∘ W.restrictCofan c) := by
@@ -417,7 +418,7 @@ theorem trace_cofan {ι : Type*} [Fintype ι] [Nonempty ι]
   rw [trace_finCofan hA hB hC hY n h₁, ← e.sum_comp]
   refine Finset.sum_congr rfl fun j _ ↦ ?_
   rw [← W.pullTw_comp]
-  show W.trace Y d hY (W.pullTw (d'.inj j ≫ φ.hom) _ _ a) = _
+  change W.trace Y d hY (W.pullTw (d'.inj j ≫ φ.hom) _ _ a) = _
   rw [hφ]
 
 end Trace
@@ -542,7 +543,7 @@ def splitMap :
 theorem splitMap_tmul (a : W.H X) (b : W.H (spec k L)) :
     W.splitMap hX L (a ⊗ₜ b) = fun σ ↦ W.splitPull hX L σ a * b := by
   funext σ
-  show W.pull (splitInj hX L σ) (W.pull (fst X _) a * W.pull (snd X _) b) = _
+  change W.pull (splitInj hX L σ) (W.pull (fst X _) a * W.pull (snd X _) b) = _
   rw [map_mul, ← AlgHom.comp_apply (W.pull (splitInj hX L σ)), ← W.pull_comp, splitInj_fst,
     ← AlgHom.comp_apply (W.pull (splitInj hX L σ)), ← W.pull_comp, splitInj_snd, W.pull_id]
   rfl
@@ -584,7 +585,7 @@ theorem traceZero_add (Z : (SmoothProjectiveScheme k).FullSubcategory)
     W.traceZero Z hZ (c + c') (Submodule.add_mem _ hc hc') =
       W.traceZero Z hZ c hc + W.traceZero Z hZ c' hc' := by
   unfold traceZero
-  show W.trace Z 0 hZ ((W.twCoord Z _ _).symm (⟨c, hc⟩ + ⟨c', hc'⟩)) = _
+  change W.trace Z 0 hZ ((W.twCoord Z _ _).symm (⟨c, hc⟩ + ⟨c', hc'⟩)) = _
   rw [map_add, map_add]
 
 /-- The degree-zero trace is `F`-homogeneous. -/
@@ -593,7 +594,7 @@ theorem traceZero_smul (Z : (SmoothProjectiveScheme k).FullSubcategory)
     (r : F) (c : W.H Z) (hc : c ∈ W.grade Z 0) :
     W.traceZero Z hZ (r • c) (Submodule.smul_mem _ r hc) = r * W.traceZero Z hZ c hc := by
   unfold traceZero
-  show W.trace Z 0 hZ ((W.twCoord Z _ _).symm (r • ⟨c, hc⟩)) = _
+  change W.trace Z 0 hZ ((W.twCoord Z _ _).symm (r • ⟨c, hc⟩)) = _
   rw [map_smul, map_smul, smul_eq_mul]
 
 /-- The degree-zero trace commutes with finite sums. -/
@@ -710,7 +711,7 @@ theorem splits_globalSections_spec [Normal k L] (a : globalSections (spec k L)) 
   let e : globalSections (spec k L) ≃ₐ[k] L :=
     { (Scheme.ΓSpecIso (.of L)).commRingCatIsoToRingEquiv with
       commutes' := fun c ↦ by
-        show (Scheme.ΓSpecIso (.of L)).hom.hom
+        change (Scheme.ΓSpecIso (.of L)).hom.hom
           (((Scheme.ΓSpecIso (.of k)).inv ≫ (specStructure k L).appTop).hom c) = algebraMap k L c
         rw [← CommRingCat.comp_apply, Category.assoc, Scheme.ΓSpecIso_naturality,
           Iso.inv_hom_id_assoc]
@@ -775,7 +776,7 @@ theorem H0_eq_top_of_grade_eq_bot {X : (SmoothProjectiveScheme k).FullSubcategor
     (h : ∀ n : ℤ, n ≠ 0 → W.grade X n = ⊥) : W.H0 X = ⊤ := by
   classical
   refine eq_top_iff.mpr fun a _ ↦ ?_
-  show a ∈ W.grade X 0
+  change a ∈ W.grade X 0
   rw [← DirectSum.sum_support_decompose (W.grade X) a]
   refine Submodule.sum_mem _ fun n _ ↦ ?_
   by_cases hn : n = 0

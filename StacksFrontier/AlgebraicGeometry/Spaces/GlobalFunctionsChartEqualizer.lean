@@ -149,7 +149,7 @@ theorem bijective_globalFunctionsToEqualizer (X : AlgebraicSpaces B S hS)
         globalFunctionsChartRestriction B S hS X U s := by
     intro s
     rw [CategoryTheory.Presheaf.globalSectionsEval_def]
-    show ((CategoryTheory.Presheaf.globalSectionsEquivSections P)
+    change ((CategoryTheory.Presheaf.globalSectionsEquivSections P)
       ((CategoryTheory.Presheaf.globalSectionsEquivSections P).symm s)).1 (op U) = _
     rw [Equiv.apply_symm_apply]
     rfl

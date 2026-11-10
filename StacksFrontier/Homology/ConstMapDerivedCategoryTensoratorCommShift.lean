@@ -187,6 +187,12 @@ private lemma locMonMu_natural
       (kFlatQuasiIso (curriedTensor A))
       (Iso.refl ((kFlatQ (curriedTensor A)).obj (𝟙_ _)))) f g).symm
 
+omit [∀ X₁ : A, PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).obj X₁)]
+  [∀ X₂ : A, PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).flip.obj X₂)]
+  [∀ X₁ X₂ X₃ X₄ : GradedObject ℤ A, GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄]
+  [∀ X₁ X₂ X₃ : GradedObject ℤ A, GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃]
+  [∀ X₁ X₂ X₃ : GradedObject ℤ A, GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃]
+  [BraidedCategory (CochainComplex A ℤ)] in
 include hres in
 /-- **The K-flat complexes are essentially surjective onto `D(A)`.**  Every object of `D(A)` is
 the image of a K-flat object of `K(A)` (`CochainComplex.KFlatBifunctor.kFlatQ_essSurj`), every
@@ -199,6 +205,7 @@ private lemma kFlatComplexQ_essSurj : (kFlatComplexQ (curriedTensor A)).EssSurj 
   have := kFlatQ_essSurj (curriedTensor A)
   exact Functor.essSurj_of_iso (kFlatQuotientCompQIso (curriedTensor A))
 
+omit [HasDerivedCategory.{w} A] in
 /-- K-flatness implies left K-flatness, as an inequality of object properties. -/
 private lemma kFlatComplexes_le_kFlatComplexesLeft :
     kFlatComplexes (curriedTensor A) ≤ kFlatComplexesLeft (curriedTensor A) :=
@@ -274,6 +281,8 @@ def Functor.constKFlatComplexLiftMonoidal :
   letI := Functor.constMapHomologicalComplexMonoidal (J := J) (D := D) (c := ComplexShape.up ℤ)
   ObjectProperty.liftMonoidal _ _ _
 
+omit [HasColimitsOfSize.{0, 0} D] [SymmetricCategory (CochainComplex D ℤ)]
+  [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- **Taking the homotopy class of a K-flat complex commutes with constant diagrams on the
 nose.**  Both composites send a K-flat complex `K` to the homotopy class of the constant diagram
 at `K`, and `(Functor.const J).mapHomotopyCategory` acts on homotopy classes as
@@ -283,6 +292,8 @@ lemma Functor.toKFlatObjects_comp_constKFlatLift :
       Functor.constKFlatComplexLift (J := J) (D := D) ⋙ toKFlatObjects (J ⥤ D) :=
   rfl
 
+omit [HasColimitsOfSize.{0, 0} D] [SymmetricCategory (CochainComplex D ℤ)]
+  [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- **The tensorator of `(Functor.const J).mapHomotopyCategory` at the homotopy classes of two
 complexes, with the two comparisons of `CategoryTheory.Functor.mapHomotopyCategoryFactors` it
 carries on the right cancelled.**  This is
@@ -325,6 +336,13 @@ variable [HasDerivedCategory.{w} D] [HasDerivedCategory.{w'} (J ⥤ D)]
   (hresJD : ∀ G : CochainComplex (J ⥤ D) ℤ, ∃ (P : CochainComplex (J ⥤ D) ℤ) (f : P ⟶ G),
     KFlat (curriedTensor (J ⥤ D)) P ∧ QuasiIso f)
 
+omit [MonoidalCategory D] [MonoidalPreadditive D] [HasCoproducts.{0} D]
+  [HasColimitsOfSize.{0, 0} D] [HasInitial D]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorRight X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorRight X)]
+  [SymmetricCategory (CochainComplex D ℤ)] [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- The two factorizations of `(Functor.const J).mapDerivedCategory`, over the homotopy
 category and over the complexes, differ by the bridge `DerivedCategory.quotientCompQhIso` in
 each variable.  This is Mathlib's
@@ -347,6 +365,7 @@ lemma Functor.constMapDerivedCategoryFactorsh_hom_app_comp (M : CochainComplex D
     Category.assoc, ← Functor.map_comp, Iso.inv_hom_id_app]
   simp
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **The tensorator of `(Functor.const J).mapDerivedCategory` at the image of a pair of K-flat
 objects of `K(D)`, in the form of a commuting square.**  This is
@@ -386,6 +405,7 @@ private lemma muZ_kFlatObjects (X Y : (kFlatObjects (curriedTensor D)).FullSubca
     (((Functor.const J : D ⥤ (J ⥤ D)).mapDerivedCategory.mapIso _).inv_hom_id)
     (Iso.inv_hom_id_app _ _)
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **`muZ_kFlatObjects` at the homotopy classes of two K-flat complexes**, with the two
 tensorators of the K-flat localizations named by `CochainComplex.KFlatMonoidal.derivedMu` and the
@@ -432,6 +452,13 @@ private lemma muZ_kFlatComplexes {K L : CochainComplex D ℤ} (hK : KFlat (curri
   rw [Functor.comp_map, ObjectProperty.ι_map, Functor.mu_constKFlatLift_hom] at h
   exact h
 
+omit [MonoidalCategory D] [MonoidalPreadditive D] [HasCoproducts.{0} D]
+  [HasColimitsOfSize.{0, 0} D] [HasInitial D]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorRight X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorRight X)]
+  [SymmetricCategory (CochainComplex D ℤ)] [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- The companion of `CategoryTheory.Functor.constMapDerivedCategoryFactorsh_hom_app_comp`, with
 the bridge to the homotopy category on the other side. -/
 lemma Functor.constMapDerivedCategoryFactorsh_hom_app_comp' (M : CochainComplex D ℤ) :
@@ -450,6 +477,8 @@ lemma Functor.constMapDerivedCategoryFactorsh_hom_app_comp' (M : CochainComplex 
     Category.assoc, Iso.inv_hom_id_app]
   simp
 
+omit [HasColimitsOfSize.{0, 0} D] [SymmetricCategory (CochainComplex D ℤ)]
+  [HasDerivedCategory.{w} D] in
 include hresJD in
 /-- **The tensorator of the K-flat localization of `J ⥤ D` commutes with the comparison of the
 two spellings of a constant diagram's homotopy class.**  The two objects
@@ -497,6 +526,13 @@ private lemma derivedMu_comp_qh_map_mu_constMapHomotopyCategoryFactors
       (((Functor.const J : D ⥤ (J ⥤ D)).mapHomotopyCategoryFactors
         (ComplexShape.up ℤ)).hom.app L))
 
+omit [MonoidalCategory D] [MonoidalPreadditive D] [HasCoproducts.{0} D]
+  [HasColimitsOfSize.{0, 0} D] [HasInitial D]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfSize.{0, 0} (tensorRight X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorLeft X)]
+  [∀ X : D, PreservesColimitsOfShape (Discrete PEmpty.{1}) (tensorRight X)]
+  [SymmetricCategory (CochainComplex D ℤ)] [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- The inverse form of `CategoryTheory.Functor.constMapDerivedCategoryFactorsh_hom_app_comp`. -/
 lemma Functor.constMapDerivedCategoryFactorsh_hom_app_comp_inv (M : CochainComplex D ℤ) :
     ((Functor.const J : D ⥤ (J ⥤ D)).mapDerivedCategory).map
@@ -513,6 +549,8 @@ lemma Functor.constMapDerivedCategoryFactorsh_hom_app_comp_inv (M : CochainCompl
     ← CategoryTheory.Functor.map_comp_assoc, Iso.inv_hom_id_app,
     CategoryTheory.Functor.map_id, Category.id_comp]
 
+omit [HasColimitsOfSize.{0, 0} D] [HasInitial D] [SymmetricCategory (CochainComplex D ℤ)]
+  [SymmetricCategory (CochainComplex (J ⥤ D) ℤ)] in
 /-- **The tail of (Z) on the side of the degreewise action**: the image of
 `CochainComplex.KFlatMonoidal.homotopyMu` followed by the bridge to `D(D)` and the comparison at
 `K ⊗ L`, rewritten through the comparison over the homotopy category.  This is
@@ -541,6 +579,7 @@ lemma Functor.constMapDerivedCategoryFactorsh_homotopyMu (K L : CochainComplex D
   rw [Functor.constMapDerivedCategoryFactorsh_hom_app_comp' (K ⊗ L), reassoc_of% hnat,
     CategoryTheory.Functor.map_comp DerivedCategory.Qh, Category.assoc]
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **(Z) over the homotopy category**: `muZ_kFlatComplexes` with the comparison of the two
 spellings of the constant diagram moved to the source variables, where the descent to the
@@ -598,6 +637,7 @@ private lemma muZ_kFlatComplexes' {K L : CochainComplex D ℤ} (hK : KFlat (curr
       (Functor.mu_constMapHomotopyCategory_comp K L))).trans
     (CategoryTheory.Functor.map_comp DerivedCategory.Qh _ _)
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **(Z): the tensorator of the derived constant diagram at the images of two K-flat
 complexes.** -/
@@ -638,6 +678,7 @@ theorem Functor.mu_constMapDerivedCategory_derivedTensorIso
     CategoryTheory.Functor.map_comp DerivedCategory.Qh, Category.assoc,
     DerivedCategory.quotientCompQhIso_hom_naturality]
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **(Z) solved for the tensorator**, with the tensor product of the two comparisons split into
 its two whiskerings.  This is the componentwise form that the shift compatibility of the

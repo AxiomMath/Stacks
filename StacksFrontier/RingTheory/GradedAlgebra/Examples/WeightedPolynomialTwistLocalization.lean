@@ -33,7 +33,7 @@ namespace Stacks.WeightedPolynomialSituation
 
 private theorem z_mem_naturalGrading (E : WeightedPolynomialSituation) :
     E.z ∈ E.naturalGrading (E.naturalWeight 2) := by
-  show MvPolynomial.IsWeightedHomogeneous E.naturalWeight E.z (E.naturalWeight 2)
+  change MvPolynomial.IsWeightedHomogeneous E.naturalWeight E.z (E.naturalWeight 2)
   exact MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2
 
 /-- Multiplying `m / s` by the degree-zero element `q / z ^ j` gives `q * m / t`, where
@@ -141,7 +141,7 @@ public theorem firstTwistLocalization_eq_span (E : WeightedPolynomialSituation) 
         {Localization.mk E.x (1 : Submonoid.powers E.z),
           Localization.mk (E.y ^ 2) ⟨E.z, Submonoid.mem_powers E.z⟩} := by
   apply le_antisymm
-  · show Submodule.span E.R
+  · change Submodule.span E.R
         {z | ∃ (k e : ℕ) (p : E.S), (e : ℤ) = (k * 3 : ℕ) + 1 ∧
           p ∈ E.naturalGrading e ∧ z = Localization.mk p
             ⟨E.z ^ k, Submonoid.pow_mem _ (Submonoid.mem_powers E.z) k⟩} ≤ _
@@ -153,24 +153,24 @@ public theorem firstTwistLocalization_eq_span (E : WeightedPolynomialSituation) 
     intro z hz
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
     rcases hz with rfl | rfl
-    · show Localization.mk E.x (1 : Submonoid.powers E.z) ∈
+    · change Localization.mk E.x (1 : Submonoid.powers E.z) ∈
         Submodule.span E.R
           {z | ∃ (k e : ℕ) (p : E.S), (e : ℤ) = (k * 3 : ℕ) + 1 ∧
             p ∈ E.naturalGrading e ∧ z = Localization.mk p
               ⟨E.z ^ k, Submonoid.pow_mem _ (Submonoid.mem_powers E.z) k⟩}
       apply Submodule.subset_span
       refine ⟨0, 1, E.x, by norm_num, ?_, ?_⟩
-      · show MvPolynomial.IsWeightedHomogeneous E.naturalWeight E.x 1
+      · change MvPolynomial.IsWeightedHomogeneous E.naturalWeight E.x 1
         exact MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 0
       · congr 1
-    · show Localization.mk (E.y ^ 2) ⟨E.z, Submonoid.mem_powers E.z⟩ ∈
+    · change Localization.mk (E.y ^ 2) ⟨E.z, Submonoid.mem_powers E.z⟩ ∈
         Submodule.span E.R
           {z | ∃ (k e : ℕ) (p : E.S), (e : ℤ) = (k * 3 : ℕ) + 1 ∧
             p ∈ E.naturalGrading e ∧ z = Localization.mk p
               ⟨E.z ^ k, Submonoid.pow_mem _ (Submonoid.mem_powers E.z) k⟩}
       apply Submodule.subset_span
       refine ⟨1, 4, E.y ^ 2, by norm_num, ?_, ?_⟩
-      · show MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.y ^ 2) 4
+      · change MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.y ^ 2) 4
         simpa [WeightedPolynomialSituation.naturalWeight] using
           (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 1).pow 2
       · congr 1
@@ -215,7 +215,8 @@ public theorem secondTwistLocalization_eq_span (E : WeightedPolynomialSituation)
             have hsplit : d = d' + Finsupp.single 0 2 := by
               ext i
               fin_cases i
-              all_goals simp [d'] <;> omega
+              all_goals simp [d']
+              omega
             have hdeg' : Finsupp.weight E.naturalWeight d' = 3 * k := by
               rw [exponent_weight_formula]
               simp [d']
@@ -228,7 +229,8 @@ public theorem secondTwistLocalization_eq_span (E : WeightedPolynomialSituation)
             have hsplit : d = d' + Finsupp.single 1 1 := by
               ext i
               fin_cases i
-              all_goals simp [d'] <;> omega
+              all_goals simp [d']
+              omega
             have hdeg' : Finsupp.weight E.naturalWeight d' = 3 * k := by
               rw [exponent_weight_formula]
               simp [d']
@@ -247,28 +249,28 @@ public theorem secondTwistLocalization_eq_span (E : WeightedPolynomialSituation)
   · rw [Submodule.span_le]
     rintro a (ha | ha)
     · subst a
-      show algebraMap E.S E.ordinaryLocalization E.y ∈ E.secondTwistLocalization
+      change algebraMap E.S E.ordinaryLocalization E.y ∈ E.secondTwistLocalization
       unfold WeightedPolynomialSituation.secondTwistLocalization
         WeightedPolynomialSituation.localizedTwist Stacks.ProjStandardOpenBaseChange.twistAway
       apply Submodule.subset_span
       refine ⟨0, 2, E.y, by norm_num, ?_, ?_⟩
-      · show E.y ∈ E.naturalGrading 2
+      · change E.y ∈ E.naturalGrading 2
         simpa [WeightedPolynomialSituation.naturalWeight] using
           (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 1)
-      · show algebraMap E.S (Localization (Submonoid.powers E.z)) E.y =
+      · change algebraMap E.S (Localization (Submonoid.powers E.z)) E.y =
           Localization.mk E.y 1
         exact (Localization.mk_one_eq_algebraMap
           (M := Submonoid.powers E.z) E.y).symm
     · subst a
-      show algebraMap E.S E.ordinaryLocalization (E.x ^ 2) ∈ E.secondTwistLocalization
+      change algebraMap E.S E.ordinaryLocalization (E.x ^ 2) ∈ E.secondTwistLocalization
       unfold WeightedPolynomialSituation.secondTwistLocalization
         WeightedPolynomialSituation.localizedTwist Stacks.ProjStandardOpenBaseChange.twistAway
       apply Submodule.subset_span
       refine ⟨0, 2, E.x ^ 2, by norm_num, ?_, ?_⟩
-      · show MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x ^ 2) 2
+      · change MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x ^ 2) 2
         simpa [WeightedPolynomialSituation.naturalWeight] using
           (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 0).pow 2
-      · show algebraMap E.S (Localization (Submonoid.powers E.z)) (E.x ^ 2) =
+      · change algebraMap E.S (Localization (Submonoid.powers E.z)) (E.x ^ 2) =
           Localization.mk (E.x ^ 2) 1
         exact (Localization.mk_one_eq_algebraMap
           (M := Submonoid.powers E.z) (E.x ^ 2)).symm

@@ -59,7 +59,7 @@ def etaleLocalRingIsoOfExtension (s t : GeometricPoint S) (f : s.source ⟶ t.so
   (Functor.Final.colimitIso
     (CategoryOfElements.equivalenceOfNatIso
       (geometricPointFiberIsoOfExtension B S hS s t f hf)).op.functor
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj)).symm
 
 /-- A geometric point of `S` factoring through an affine open `Spec R` of `S` is induced, along an
@@ -83,7 +83,7 @@ theorem exists_geometricPoint_small_extension (s : GeometricPoint S) {R : CommRi
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp, hcomp,
       CommRingCat.ofHom_hom, Spec.map_preimage, hs₀]
   · change #L ≤ max ℵ₀ #R
-    haveI : Module.IsTorsionFree K L := DivisionSemiring.to_moduleIsTorsionFree
+    have : Module.IsTorsionFree K L := DivisionSemiring.to_moduleIsTorsionFree
     exact (Algebra.IsAlgebraic.cardinalMk_le_max K L).trans
       (max_le ((Subfield.cardinalMk_closure_le_max _).trans
         (max_le (Cardinal.mk_range_le.trans (le_max_right _ _)) (le_max_left _ _)))

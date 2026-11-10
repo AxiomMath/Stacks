@@ -64,7 +64,7 @@ is the K-flat comparison of `Stacks.DerivedTensor.RingedSite.canonicalDerivedTen
 followed by the inverse of that of `Stacks.SheafOfModules.canonicalDerivedTensorProduct`. -/
 theorem derivedTensorProductFunctorIsoSheafOfModules_hom_app_app_comparison
     (K L : CochainComplex (Modules X.O) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat X.O K) (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+    (hK : Stacks.SheafOfModules.IsKFlat X.O K) (hL : Stacks.SheafOfModules.IsKFlat X.O L) :
     ((derivedTensorProductFunctorIsoSheafOfModules X).hom.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫
         ((Stacks.SheafOfModules.canonicalDerivedTensorProduct X).comparison K L hK hL).hom =
@@ -92,7 +92,7 @@ theorem derivedTensorProductFunctorIsoSheafOfModules_hom_app_app_comparison
 complexes. -/
 theorem derivedTensorProductFunctorIsoSheafOfModules_inv_app_app_comparison
     (K L : CochainComplex (Modules X.O) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat X.O K) (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+    (hK : Stacks.SheafOfModules.IsKFlat X.O K) (hL : Stacks.SheafOfModules.IsKFlat X.O L) :
     ((derivedTensorProductFunctorIsoSheafOfModules X).inv.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫
         ((canonicalDerivedTensorProduct X.O).comparison K L hK hL).hom =
@@ -104,7 +104,7 @@ end Stacks.DerivedTensor.RingedSite
 
 namespace Stacks.Sheaves.DerivedPullback.OfToposHom
 
-open AlgebraicGeometry
+open _root_.AlgebraicGeometry
 open Stacks.Cohomology.DerivedPullbackOfToposHom (derivedPullback)
 
 attribute [local instance 10000] HasDerivedCategory.standard

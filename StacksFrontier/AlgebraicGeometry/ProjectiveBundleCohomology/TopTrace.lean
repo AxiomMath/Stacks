@@ -89,7 +89,7 @@ public def topTraceIso :
       SheafOfModules.unit S.ringCatSheaf :=
   (koszulTopIso E hqc D hn hfree).symm ≪≫ koszulBottomIso E hqc D hn hfree
 
-omit [E.IsQuasicoherent] in
+omit [E.IsQuasicoherent] hn in
 /-- The determinant `⋀ⁿ⁺¹ E` is invertible. -/
 public theorem isInvertible_det :
     Stacks.SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2
@@ -102,7 +102,7 @@ public def topTwistIsoDualDet :
     ((bundlePushforward E hqc).rightDerived n).obj (negTwist E hqc D (n + 1)) ≅
       Stacks.SheafOfModules.dualSheaf S.presheaf S.ringCatSheaf.2
         (Scheme.Modules.exteriorPower E ((n + 1 : ℕ) : ℤ)) :=
-  haveI := isInvertible_det E hn hfree
+  haveI := isInvertible_det E hfree
   isoDualSheaf_of_tensor_iso_unit _ _ (topTraceIso E hqc D hn hfree)
 
 end Trace

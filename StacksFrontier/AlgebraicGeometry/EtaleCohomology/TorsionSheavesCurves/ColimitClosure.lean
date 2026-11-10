@@ -75,7 +75,7 @@ theorem exists_sheafH_map_eq_zero_of_isColimit (hc : IsColimit c) (q : ℕ) {i :
   have h :
       ((Sheaf.functorH.{u + 1, u + 1, u, u + 1} X.smallEtaleTopology q).mapCocone c).ι.app i y =
       ((Sheaf.functorH.{u + 1, u + 1, u, u + 1} X.smallEtaleTopology q).mapCocone c).ι.app i 0 := by
-    show Sheaf.H.map (c.ι.app i) q y = Sheaf.H.map (c.ι.app i) q 0
+    change Sheaf.H.map (c.ι.app i) q y = Sheaf.H.map (c.ι.app i) q 0
     rw [hy, map_zero]
   obtain ⟨j, φ, ψ, hφ⟩ := Concrete.isColimit_exists_of_rep_eq _
     (isColimitMapCoconeFunctorH hc q) y 0 h
@@ -103,6 +103,7 @@ variable {X Y : Scheme.{u}} [CompactSpace X] [QuasiSeparatedSpace X]
   {I : Type (u + 1)} [SmallCategory I] [IsFiltered I]
   {D : I ⥤ Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} {c : Cocone D}
 
+omit [CompactSpace X] [QuasiSeparatedSpace X] [CompactSpace Y] [QuasiSeparatedSpace Y] in
 /-- Restriction commutes with the map on cohomology induced by a morphism of sheaves. -/
 theorem etaleCohomologyRestrictionMap_sheafHMap
     {F G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} (φ : F ⟶ G) (q : ℕ)
@@ -132,6 +133,7 @@ theorem injective_etaleCohomologyRestrictionMap_colimit_of_forall (hc : IsColimi
   rw [← etaleCohomologyRestrictionMap_sheafHMap] at hφ
   rw [← c.w φ, Sheaf.H.map_comp_apply, (injective_iff_map_eq_zero _).mp (h j) _ hφ, map_zero]
 
+omit [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- **Surjectivity of restriction passes to a filtered colimit.** -/
 theorem surjective_etaleCohomologyRestrictionMap_colimit_of_forall (hc : IsColimit c) (q : ℕ)
     (h : ∀ i, Function.Surjective
@@ -162,7 +164,8 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   {I : Type (u + 1)} [SmallCategory I] [IsFiltered I]
   {D : I ⥤ Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} {c : Cocone D}
 
-omit [AlgebraicGeometry.IsNoetherian X] in
+omit [AlgebraicGeometry.IsNoetherian X] [QuasiSeparated f]
+  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- The base change of a quasi-compact `k`-scheme `X` to a field extension `k'` is
 quasi-compact. -/
 theorem compactSpace_scalarExtension (k' : Type u) [Field k'] [Algebra k k'] :
@@ -170,7 +173,8 @@ theorem compactSpace_scalarExtension (k' : Type u) [Field k'] [Algebra k k'] :
   QuasiCompact.compactSpace_of_compactSpace
     (pullback.snd f (Spec.map (CommRingCat.ofHom (algebraMap k k'))))
 
-omit [AlgebraicGeometry.IsNoetherian X] [QuasiCompact f] in
+omit [AlgebraicGeometry.IsNoetherian X] [QuasiCompact f]
+  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- The base change of a quasi-separated `k`-scheme `X` to a field extension `k'` is
 quasi-separated. -/
 theorem quasiSeparatedSpace_scalarExtension (k' : Type u) [Field k'] [Algebra k k'] :

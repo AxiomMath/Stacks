@@ -68,7 +68,7 @@ def objSelfIso : (ModuleCat.extendScalars f).obj (ModuleCat.of R R) ≅ ModuleCa
 @[simp] lemma objSelfIso_hom_tmul (s : S) (r : R) :
     (objSelfIso f).hom (s ⊗ₜ[R,f] r) = s * f r := by
   let _ := f.toAlgebra
-  show (TensorProduct.AlgebraTensorModule.rid R S S) (s ⊗ₜ[R] r) = _
+  change (TensorProduct.AlgebraTensorModule.rid R S S) (s ⊗ₜ[R] r) = _
   rw [TensorProduct.AlgebraTensorModule.rid_tmul, Algebra.smul_def, mul_comm]
   rfl
 
@@ -76,7 +76,7 @@ def objSelfIso : (ModuleCat.extendScalars f).obj (ModuleCat.of R R) ≅ ModuleCa
 @[simp] lemma objSelfIso_inv_apply (s : S) :
     (objSelfIso f).inv s = s ⊗ₜ[R,f] (1 : R) := by
   let _ := f.toAlgebra
-  show (TensorProduct.AlgebraTensorModule.rid R S S).symm s = _
+  change (TensorProduct.AlgebraTensorModule.rid R S S).symm s = _
   rfl
 
 /-- **Extension of scalars along a flat ring map preserves injectivity.** -/
@@ -86,7 +86,7 @@ lemma injective_map_of_flat (hf : f.Flat) {M N : ModuleCat.{u} R} (u : M ⟶ N)
   let _ := f.toAlgebra
   have _ : Module.Flat R S := hf
   have h := Module.Flat.lTensor_preserves_injective_linearMap (M := S) u.hom hu
-  rwa [← LinearMap.baseChange_eq_ltensor] at h
+  rwa [← LinearMap.baseChange_eq_lTensor] at h
 
 end ModuleCat.ExtendScalars
 

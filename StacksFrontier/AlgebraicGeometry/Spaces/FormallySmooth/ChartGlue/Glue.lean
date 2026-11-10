@@ -397,7 +397,7 @@ theorem defect_cocycle (r : R) :
   have h₂ := congrArg (fun φ : R →ₐ[A'] K.B₃.obj ↦ φ r) hv
   simp only [AlgHom.comp_apply, DerAlong.addHom_apply] at h₁ h₂
   rw [coe_defect_apply, map_sub, map_sub, ← h₁]
-  show _ - ah K.q₁₃ (v₂ u' r) = _
+  change _ - ah K.q₁₃ (v₂ u' r) = _
   rw [show ah K.q₁₃ (v₂ u' r) = ah K.q₂₃ (v₂ u' r) from h₂]
   abel
 

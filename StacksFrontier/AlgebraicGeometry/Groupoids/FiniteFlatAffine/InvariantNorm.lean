@@ -184,7 +184,7 @@ theorem det_lmul_targetMap_mem_invariantRing {S : Scheme.{u}} (G : GroupoidSchem
   have hcomp := map_det_lmul_of_isPushout (sourceMap G) (sourceMap G) c p₁
     (composition_source_isPushout G).flip hfinite hprojective hfiniteD hprojectiveD
     (targetMap G f)
-  show sourceMap G (ProjectiveDeterminant.det
+  change sourceMap G (ProjectiveDeterminant.det
       (Algebra.lmul Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤) (targetMap G f))) =
     targetMap G (ProjectiveDeterminant.det
       (Algebra.lmul Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤) (targetMap G f)))

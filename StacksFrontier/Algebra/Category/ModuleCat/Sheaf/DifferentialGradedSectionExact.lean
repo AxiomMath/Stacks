@@ -256,7 +256,7 @@ theorem isIso_evaluation_homologyMap_of_isIso
           (ComplexShape.up ℤ) i).map f))) := by
     rw [← hsq]
     infer_instance
-  show IsIso ((_root_.SheafOfModules.evaluation.{a} R U).map (ShortComplex.homologyMap
+  change IsIso ((_root_.SheafOfModules.evaluation.{a} R U).map (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor (_root_.SheafOfModules.{a} R)
       (ComplexShape.up ℤ) i).map f)))
   exact IsIso.of_isIso_comp_left
@@ -311,7 +311,7 @@ theorem intSummandEquiv_intCast_smul (M : DifferentialGradedModule.{t, a, a} A) 
         (((c.down : ℤ) : R.obj.obj U) • x) =
       c • Stacks.ExternalGrading.intSummandEquiv (M.sectionsPiece U) n x :=
   Subtype.ext (by
-    show DirectSum.of (M.sectionsPiece U) n (((c.down : ℤ) : R.obj.obj U) • x) =
+    change DirectSum.of (M.sectionsPiece U) n (((c.down : ℤ) : R.obj.obj U) • x) =
       (c.down : ℤ) • DirectSum.of (M.sectionsPiece U) n x
     rw [Int.cast_smul_eq_zsmul, map_zsmul])
 

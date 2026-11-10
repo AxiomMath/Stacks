@@ -495,13 +495,13 @@ theorem TrightCochain_mapTriangle_triangle_iso (G : CochainComplex C ℤ)
     rfl
   · simp only [CochainComplex.mappingCone.triangle_mor₂, Iso.refl_hom, Category.id_comp]
     -- expose the (defeq) reduced form of `(mapTriangle.obj _).mor₂`
-    show (TrightCochain G).map (CochainComplex.mappingCone.inr φ)
+    change (TrightCochain G).map (CochainComplex.mappingCone.inr φ)
         ≫ (TrightCochain_mappingCone_iso G φ).hom
       = CochainComplex.mappingCone.inr ((TrightCochain G).map φ)
     rw [← hinr, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   · simp only [Iso.refl_hom, CategoryTheory.Functor.map_id, Category.comp_id]
     -- expose the (defeq) reduced form of `(mapTriangle.obj _).mor₃`
-    show (TrightCochain G).map (CochainComplex.mappingCone.triangle φ).mor₃
+    change (TrightCochain G).map (CochainComplex.mappingCone.triangle φ).mor₃
         ≫ (Functor.commShiftIso (TrightCochain G) 1).hom.app
             (CochainComplex.mappingCone.triangle φ).obj₁
       = (TrightCochain_mappingCone_iso G φ).hom
@@ -592,7 +592,7 @@ theorem Tright_mapTriangle_triangleh_iso (G : CochainComplex C ℤ)
   refine ⟨?_⟩
   refine ?_ ≪≫ (HomotopyCategory.quotient C (ComplexShape.up ℤ)).mapTriangle.mapIso Φ
   refine (Functor.mapTriangleCompIso _ _).symm.app _ ≪≫ ?_ ≪≫ (Functor.mapTriangleCompIso _ _).app _
-  show ((HomotopyCategory.quotient C (ComplexShape.up ℤ)) ⋙ Tright G).mapTriangle.obj _ ≅
+  change ((HomotopyCategory.quotient C (ComplexShape.up ℤ)) ⋙ Tright G).mapTriangle.obj _ ≅
        ((TrightCochain G) ⋙ (HomotopyCategory.quotient C (ComplexShape.up ℤ))).mapTriangle.obj _
   let : (TrightCochain G ⋙ HomotopyCategory.quotient C (ComplexShape.up ℤ)).CommShift ℤ :=
     inferInstance

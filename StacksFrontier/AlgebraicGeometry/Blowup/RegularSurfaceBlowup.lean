@@ -212,7 +212,7 @@ theorem isRegularRing_of_quotient_away {R : Type u} [CommRing R] [IsRegularRing 
         have hXb : algebraMap R B (a * x ^ k) = b * algebraMap R B x ^ (n + k) := by
           rw [map_mul, map_pow, ← hb, pow_add]
           ring
-        show z * algebraMap R (Localization.AtPrime q) (c * x ^ n) =
+        change z * algebraMap R (Localization.AtPrime q) (c * x ^ n) =
           algebraMap R (Localization.AtPrime q) (a * x ^ k)
         rw [halg, halg, hXu, hXb, map_mul, map_mul, map_pow, map_pow, ← hbu]
         ring

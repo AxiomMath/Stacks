@@ -114,7 +114,7 @@ theorem inducedKernelSection_smul {U : Cᵒᵖ} (r : O.obj.obj U) (m : M.val.obj
   have hsep : Presheaf.IsSeparated J N.val.presheaf := Presheaf.IsSheaf.isSeparated N.isSheaf
   refine hsep U.unop _ (P.locallySurjective.imageSieve_mem r) _ _ fun Y g hg => ?_
   obtain ⟨x, hx⟩ := hg
-  show N.val.map g.op _ = N.val.map g.op _
+  change N.val.map g.op _ = N.val.map g.op _
   rw [inducedKernelSection_naturality, PresheafOfModules.map_smul, PresheafOfModules.map_smul,
     inducedKernelSection_naturality]
   have hx' : scalar (P.reduction.hom.app (op Y) x) =
@@ -125,11 +125,11 @@ theorem inducedKernelSection_smul {U : Cᵒᵖ} (r : O.obj.obj U) (m : M.val.obj
 /-- **The map of ideals induced by a homomorphism of middle terms over `𝒪`.** -/
 noncomputable def inducedKernelMap : M ⟶ N where
   val :=
-    { app := fun U => ModuleCat.ofHom
+    { app := fun _ => ModuleCat.ofHom
         { toFun := inducedKernelSection P Q h hh
           map_add' := inducedKernelSection_add P Q h hh
           map_smul' := inducedKernelSection_smul P Q h hh }
-      naturality := fun {U V} f => ModuleCat.hom_ext (LinearMap.ext fun m =>
+      naturality := fun f => ModuleCat.hom_ext (LinearMap.ext fun m =>
         (inducedKernelSection_naturality P Q h hh f m).symm) }
 
 /-- On sections, the induced map of ideals is `inducedKernelSection`. -/

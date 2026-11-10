@@ -5,7 +5,8 @@ public import StacksFrontier.AlgebraicGeometry.SectionRingProjTheta.SectionRingM
 /-!
 # The graded localizations of the two section rings agree
 
-`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/SectionRingMultiplicative.lean` identifies two
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/SectionRingMultiplicative.lean` identifies
+two
 realisations of Stacks Tag 01CV's graded ring `Γ_*(X, L)` as graded rings:
 `Stacks.SectionRingProjTheta.sectionGradedRingHom` goes from
 `Stacks.AmpleFiniteAvoidance.grading M`, the family `Proj` is taken of, to

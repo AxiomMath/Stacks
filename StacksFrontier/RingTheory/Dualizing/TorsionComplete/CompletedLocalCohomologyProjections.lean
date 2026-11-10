@@ -146,7 +146,7 @@ theorem localCohomologyAdicQuotientMap_succ_comp_map (I J : Ideal A) (hJ : J.FG)
       localCohomologyAdicQuotientMap A I J hJ M n := by
   let G := DerivedCategory.singleFunctor (ModuleCat.{u} A) 0 ⋙
     Stacks.LocalCohomology.localCohomologyDerived A J hJ
-  show G.map (adicQuotientProjection A I M (n + 1)) ≫
+  change G.map (adicQuotientProjection A I M (n + 1)) ≫
     G.map ((adicQuotientModuleSystem A I M).map (homOfLE (Nat.le_succ n)).op) = _
   rw [← G.map_comp, adicQuotientProjection_succ_comp_map A I M n]
   rfl
@@ -160,7 +160,7 @@ theorem localCohomologyAdicQuotientMap_comp_map (I J : Ideal A) (hJ : J.FG)
       localCohomologyAdicQuotientMap A I J hJ M n := by
   let G := DerivedCategory.singleFunctor (ModuleCat.{u} A) 0 ⋙
     Stacks.LocalCohomology.localCohomologyDerived A J hJ
-  show G.map (adicQuotientProjection A I M m) ≫
+  change G.map (adicQuotientProjection A I M m) ≫
     G.map ((adicQuotientModuleSystem A I M).map (homOfLE h).op) = _
   rw [← G.map_comp, adicQuotientProjection_comp_map A I M h]
   rfl
@@ -178,7 +178,7 @@ theorem pow_le_annihilator_adicQuotient (I : Ideal A) (M : ModuleCat.{u} A) (n :
   refine Module.mem_annihilator.2 fun x ↦ ?_
   induction x using Submodule.Quotient.induction_on with
   | _ y =>
-    show a • (Submodule.Quotient.mk y : M ⧸ (I ^ n • (⊤ : Submodule A M))) = 0
+    change a • (Submodule.Quotient.mk y : M ⧸ (I ^ n • (⊤ : Submodule A M))) = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_smul ha Submodule.mem_top
 
@@ -364,19 +364,19 @@ theorem isDerivedLimitWithProjections_completedLocalCohomologyProjection
   have hαβ : α ≫ β = 𝟙 _ := by
     refine (completedLocalCohomologyUnit_comp_bijective A I J hI hJ M _ hcompleteKc).1
       (a₁ := α ≫ β) (a₂ := 𝟙 _) ?_
-    show completedLocalCohomologyUnit A I J hI hJ M ≫ α ≫ β =
+    change completedLocalCohomologyUnit A I J hI hJ M ≫ α ≫ β =
       completedLocalCohomologyUnit A I J hI hJ M ≫ 𝟙 _
     rw [← Category.assoc, hα', hβ', Category.comp_id]
   have hβα : β ≫ α = 𝟙 _ := by
     refine (hrefl _ hcompleteK').1 (a₁ := β ≫ α) (a₂ := 𝟙 _) ?_
-    show v ≫ β ≫ α = v ≫ 𝟙 _
+    change v ≫ β ≫ α = v ≫ 𝟙 _
     rw [← Category.assoc, hβ', hα', Category.comp_id]
   let e : completedLocalCohomology A I J hI hJ M ≅ K' := ⟨α, β, hαβ, hβα⟩
   have hπ : (fun n : ℕ ↦ e.hom ≫ π' n) =
       completedLocalCohomologyProjection A I J hI hJ M := by
     funext n
     refine completedLocalCohomologyProjection_unique A I J hI hJ M n _ ?_
-    show completedLocalCohomologyUnit A I J hI hJ M ≫ α ≫ π' n = _
+    change completedLocalCohomologyUnit A I J hI hJ M ≫ α ≫ π' n = _
     rw [← Category.assoc, hα', hv n]
   have := hK'.of_iso e
   rwa [hπ] at this

@@ -45,10 +45,10 @@ theorem exists_section_pullback_separableClosure (k : Type u) [Field k] {X : Sch
         𝟙 _ := by
   have : Surjective (Spec.map (CommRingCat.ofHom (algebraMap k (SeparableClosure k)))) := by
     have : Subsingleton (Spec (CommRingCat.of k)) := by
-      show Subsingleton (PrimeSpectrum k); infer_instance
+      change Subsingleton (PrimeSpectrum k); infer_instance
     refine ⟨fun y => ?_⟩
     obtain ⟨x⟩ : Nonempty (Spec (CommRingCat.of (SeparableClosure k))) := by
-      show Nonempty (PrimeSpectrum (SeparableClosure k)); infer_instance
+      change Nonempty (PrimeSpectrum (SeparableClosure k)); infer_instance
     exact ⟨x, Subsingleton.elim _ _⟩
   obtain ⟨x⟩ := ‹Nonempty X›
   obtain ⟨z, -⟩ := (pullback.fst f

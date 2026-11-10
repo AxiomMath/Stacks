@@ -162,13 +162,13 @@ theorem exact_singletonQuotientMul (a b : S) (hb : IsRegular b) :
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show (Ideal.Quotient.mk _ b) * (Ideal.Quotient.mk _ x) = 0 ↔ _
+    change (Ideal.Quotient.mk _ b) * (Ideal.Quotient.mk _ x) = 0 ↔ _
     rw [← map_mul, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     constructor
     · rintro ⟨y, hy⟩
       have hx : x = a * y := hb.left (by simpa [mul_assoc, mul_left_comm] using hy)
       refine ⟨Ideal.Quotient.mk _ y, ?_⟩
-      show (Ideal.Quotient.mk _ a) * (Ideal.Quotient.mk _ y) = Ideal.Quotient.mk _ x
+      change (Ideal.Quotient.mk _ a) * (Ideal.Quotient.mk _ y) = Ideal.Quotient.mk _ x
       rw [← map_mul, hx]
     · rintro ⟨y, hy⟩
       induction y using Submodule.Quotient.induction_on with
@@ -293,11 +293,11 @@ theorem finiteAlgebraSymbol_of_isCoprime [IsLocalRing R]
   have he_mul (x y : singletonQuotient S (a * b)) : e (x * y) = e x * e y :=
     (singletonQuotientEquivProd (R := R) a b h).map_mul x y
   have hea : e (Ideal.Quotient.mk _ a) = (0, Ideal.Quotient.mk _ a) := by
-    show singletonQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ a) = _
+    change singletonQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ a) = _
     rw [singletonQuotientEquivProd_mk]
     simp
   have heb : e (Ideal.Quotient.mk _ b) = (Ideal.Quotient.mk _ b, 0) := by
-    show singletonQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ b) = _
+    change singletonQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ b) = _
     rw [singletonQuotientEquivProd_mk]
     simp
   have h0ea : Function.Exact (0 : Module.End R (singletonQuotient S a)) ea.toLinearMap :=
@@ -332,7 +332,7 @@ theorem finiteAlgebraSymbol_of_isCoprime [IsLocalRing R]
       (φ₂ ψ₂ : Module.End R (singletonQuotient S b)), Function.Exact φ₁ ψ₁ →
       Function.Exact φ₂ ψ₂ → Function.Exact (φ₁.prodMap φ₂) (ψ₁.prodMap ψ₂) := by
     intro φ₁ ψ₁ φ₂ ψ₂ h₁ h₂ x
-    show (ψ₁ x.1, ψ₂ x.2) = (0, 0) ↔ ∃ y : _ × _, (φ₁ y.1, φ₂ y.2) = x
+    change (ψ₁ x.1, ψ₂ x.2) = (0, 0) ↔ ∃ y : _ × _, (φ₁ y.1, φ₂ y.2) = x
     rw [Prod.mk.injEq, h₁, h₂]
     exact ⟨fun ⟨⟨y₁, hy₁⟩, ⟨y₂, hy₂⟩⟩ => ⟨(y₁, y₂), Prod.ext hy₁ hy₂⟩,
       fun ⟨y, hy⟩ => ⟨⟨y.1, congrArg Prod.fst hy⟩, ⟨y.2, congrArg Prod.snd hy⟩⟩⟩
@@ -375,7 +375,7 @@ theorem singletonQuotientMulMap_injective (a b : S) (hb : IsRegular b) :
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show singletonQuotientMulMap (R := R) a b (Ideal.Quotient.mk _ x) = 0 →
+    change singletonQuotientMulMap (R := R) a b (Ideal.Quotient.mk _ x) = 0 →
       Ideal.Quotient.mk _ x = 0
     rw [singletonQuotientMulMap_mk, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     rintro ⟨y, hy⟩
@@ -428,7 +428,7 @@ theorem singletonQuotientFactor_ker (a b : S) (hb : IsRegular b) :
   ext x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show Ideal.Quotient.mk _ x = 0 ↔ Ideal.Quotient.mk _ (b * x) = 0
+    change Ideal.Quotient.mk _ x = 0 ↔ Ideal.Quotient.mk _ (b * x) = 0
     simp only [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     constructor
     · rintro ⟨y, rfl⟩
@@ -458,7 +458,7 @@ theorem singletonQuotientMul_mul (d a b : S) :
       singletonQuotientMul R d a ∘ₗ singletonQuotientMul R d b := by
   apply LinearMap.ext
   intro x
-  show Ideal.Quotient.mk _ (a * b) * x =
+  change Ideal.Quotient.mk _ (a * b) * x =
     Ideal.Quotient.mk _ a * (Ideal.Quotient.mk _ b * x)
   rw [map_mul, mul_assoc]
 
@@ -529,13 +529,13 @@ theorem singletonQuotientMulRangeEquivOfEq_intertwine (d a b x : S)
   induction y using Submodule.Quotient.induction_on with
   | _ y =>
     apply Subtype.ext
-    show ((singletonQuotientMulRangeEquivOfEq (R := R) d a b hab hb
+    change ((singletonQuotientMulRangeEquivOfEq (R := R) d a b hab hb
       (Ideal.Quotient.mk _ (x * y))) : singletonQuotient S d) = _
     rw [singletonQuotientMulRangeEquivOfEq_mk, LinearMap.comp_apply, hf]
-    show Ideal.Quotient.mk _ (b * (x * y)) = singletonQuotientMul R d x
+    change Ideal.Quotient.mk _ (b * (x * y)) = singletonQuotientMul R d x
       (singletonQuotientMulRangeEquivOfEq (R := R) d a b hab hb (Ideal.Quotient.mk _ y))
     rw [singletonQuotientMulRangeEquivOfEq_mk]
-    show Ideal.Quotient.mk _ (b * (x * y)) =
+    change Ideal.Quotient.mk _ (b * (x * y)) =
       Ideal.Quotient.mk _ x * Ideal.Quotient.mk _ (b * y)
     rw [← map_mul, mul_left_comm b x]
 
@@ -574,10 +574,10 @@ theorem singletonQuotientKerMulEquivOfEq_intertwine (d a b x : S)
     induction y using Submodule.Quotient.induction_on with
     | _ y =>
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, hf]
-      show singletonQuotientKerMulEquivOfEq (R := R) d a b hab hb
+      change singletonQuotientKerMulEquivOfEq (R := R) d a b hab hb
         (Submodule.Quotient.mk (Ideal.Quotient.mk _ (x * y))) = _
       rw [singletonQuotientKerMulEquivOfEq_mk]
-      show Ideal.Quotient.mk _ (x * y) = singletonQuotientMul R a x
+      change Ideal.Quotient.mk _ (x * y) = singletonQuotientMul R a x
         (singletonQuotientKerMulEquivOfEq (R := R) d a b hab hb
           (Submodule.Quotient.mk (Ideal.Quotient.mk _ y)))
       rw [singletonQuotientKerMulEquivOfEq_mk]
@@ -628,7 +628,7 @@ theorem finiteAlgebraSymbol_self [IsLocalRing R]
     (hL : IsFiniteLength R (singletonQuotient S (a * a))) :
     finiteAlgebraSymbol a a ha ha hL =
       (-1 : (IsLocalRing.ResidueField R)ˣ) ^ moduleLength R (singletonQuotient S a) := by
-  show periodicDeterminant (singletonQuotientMul R (a * a) a)
+  change periodicDeterminant (singletonQuotientMul R (a * a) a)
     (singletonQuotientMul R (a * a) a) _ _ hL = _
   rw [periodicDeterminant_self_eq_negOne_pow_range_length]
   congr 1

@@ -285,13 +285,11 @@ def baseChangeDatumHom :
   letI : Algebra Γ(T, ⊤) Γ(T', ⊤) := (h.appLE ⊤ ⊤ (top_le_preimage_top h)).hom.toAlgebra
   { app n := baseChangeDatumApp q g g' h w M M' ε e he n
     app_mul i j a b := by
-      induction a using TensorProduct.induction_on with
-      | zero => rw [LinearMap.map_zero₂, map_zero, map_zero, LinearMap.map_zero₂]
+      induction a using TensorProduct.inductionOn with
       | add a a' ha ha' =>
         rw [LinearMap.map_add₂, map_add, ha, ha', map_add, LinearMap.map_add₂]
       | tmul c x =>
-        induction b using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero, map_zero, map_zero]
+        induction b using TensorProduct.inductionOn with
         | add b b' hb hb' => rw [map_add, map_add, hb, hb', map_add, map_add]
         | tmul c' y =>
           rw [GradedMulDatum.baseChange_mul_tmul, baseChangeDatumApp_tmul,
@@ -330,8 +328,7 @@ theorem bijective_baseChangeDatumHom_app [IsAffine T] [IsAffine T']
   have key : ⇑((tailMapLinearTop q g g' h w M M' ε e he (top_le_preimage_top h) n).liftBaseChange
       Γ(T', ⊤)) = ⇑hbc.equiv := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
     | tmul c x =>
       rw [LinearMap.liftBaseChange_tmul, IsBaseChange.equiv_tmul]
@@ -439,8 +436,7 @@ theorem baseChangeDatumHom_restrict {Y'' T'' : Scheme.{u}} (q' : Y'' ⟶ Y') (g'
   let : Algebra Γ(T, ⊤) Γ(T', ⊤) := (h.appLE ⊤ ⊤ (top_le_preimage_top h)).hom.toAlgebra
   let : Algebra Γ(T, ⊤) Γ(T'', ⊤) :=
     ((h' ≫ h).appLE ⊤ ⊤ (top_le_preimage_top (h' ≫ h))).hom.toAlgebra
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add, map_add]
   | tmul c x =>
     rw [LinearMap.rTensor_tmul, baseChangeDatumHom_app_tmul, baseChangeDatumHom_app_tmul,

@@ -273,7 +273,7 @@ private theorem exists_isAlteration_lift_normalization (Y : Scheme.{u}) [IsInteg
   rw [morphismRestrict_comp] at hfinComp
   refine ⟨g, hgν, inferInstance, hdom, inferInstance, ν ⁻¹ᵁ U,
     ⟨⟨genericPoint (Y.normalizationScheme hY), ?_⟩⟩, IsFinite.comp_iff.mp hfinComp⟩
-  show ν (genericPoint (Y.normalizationScheme hY)) ∈ U
+  change ν (genericPoint (Y.normalizationScheme hY)) ∈ U
   rw [hνgen]
   exact hηU
 
@@ -444,7 +444,7 @@ private theorem isAlteration_pullback_fromSpecStalk {X Y : Scheme.{u}} [IsIntegr
     rw [Scheme.range_fromSpecStalk]
     exact genericPoint_specializes y
   refine ⟨i ⁻¹ᵁ U, ⟨⟨η, ?_⟩⟩, isFinite_morphismRestrict_pullback_snd f i U hfinite⟩
-  show i η ∈ U
+  change i η ∈ U
   rwa [hη]
 
 /-- **The local rings of a normal scheme with an alteration by a regular scheme have normal

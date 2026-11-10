@@ -64,8 +64,8 @@ open-immersion structure and exhausts the heartbeat budget at `whnf`.
 Quasi-coherence over a cover is `Stacks.Modules.isQuasicoherent_of_restrict`
 (`StacksFrontier/AlgebraicGeometry/Modules/QuasicoherentLocal.lean`), which **does** exist in the
 `AlgebraicGeometry.Scheme.Modules.restrict` spelling and over an arbitrary open cover in an
-arbitrary universe, so both locality statements the induction needs are available in this form. Finite type and
-coherence go through the two theorems of `SubmoduleRestrict/Locality.lean`, whose
+arbitrary universe, so both locality statements the induction needs are available in this form.
+Finite type and coherence go through the two theorems of `SubmoduleRestrict/Locality.lean`, whose
 hypotheses are already in the `restrictTo` spelling; those two carry `{I : Type u}`, which is why
 `isFiniteType_glue` and `isCoherent_glue` do and `isQuasicoherent_glue` does not.
 
@@ -122,7 +122,7 @@ theorem restrictTo_glue_of_le {ι : Type*} (W : ι → X.Opens) (N : ι → F.Su
   have key : (glue W N).obj (op ((W j).ι ''ᵁ V.unop)) = (N j).obj (op ((W j).ι ''ᵁ V.unop)) :=
     glue_obj_of_le W N hagree ((W j).ι_image_le V.unop)
   refine SetLike.ext fun x => ?_
-  show x ∈ (glue W N).obj (op ((W j).ι ''ᵁ V.unop)) ↔
+  change x ∈ (glue W N).obj (op ((W j).ι ''ᵁ V.unop)) ↔
     x ∈ (N j).obj (op ((W j).ι ''ᵁ V.unop))
   rw [key]
 

@@ -139,7 +139,7 @@ theorem isElementaryDistinguishedSquare_openSubspaceOfPoints
         rw [yonedaEquiv_comp, Equiv.apply_symm_apply] at this
         exact this
       refine ⟨⟨yonedaEquiv g, ?_⟩, ?_⟩
-      · show (yonedaEquiv g).val ∈ D.obj (Opposite.op A)
+      · change (yonedaEquiv g).val ∈ D.obj (Opposite.op A)
         rw [hgv]
         exact y.property
       · exact Subtype.ext hgv

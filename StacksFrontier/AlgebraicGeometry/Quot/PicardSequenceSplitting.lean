@@ -66,7 +66,8 @@ exactness of the sequence at `Pic(T)`, at `Pic(X_T)` and at `Pic_{X/B}(T)`, and 
 sum decomposition of `Pic(X_T)` that the splitting produces.  The full statement of Stacks 0D28,
 with all four parts and no hypothesis beyond the source's, is
 `AlgebraicGeometry.Space.PicardSituation.picardSequence_splitExact` in
-`StacksFrontier/AlgebraicGeometry/Quot/PicardSequenceSplitExact.lean`, where the coherence datum below
+`StacksFrontier/AlgebraicGeometry/Quot/PicardSequenceSplitExact.lean`, where the coherence datum
+below
 is the unconditional `AlgebraicGeometry.Space.modulePushforwardCoherence`.
 
 The other two parts are **not** proved, and the obstruction is the one recorded in the
@@ -248,7 +249,8 @@ theorem sectionPicardPullbackHom_apply (σ : s.base ⟶ s.X) (hσ : σ ≫ s.f =
 `0 ⟶ Pic(T) ⟶ Pic(X_T) ⟶ Pic_{X/B}(T) ⟶ 0`
 
 of Stacks 0D28, and it holds with no hypothesis on `𝒪_T ⟶ f_{T, *}𝒪_{X_T}`. -/
-@[stacks 0D28 "auxiliary: the splitting by σ_T^* for an arbitrary 03LU coherence datum; the full statement, \
+@[stacks 0D28 "auxiliary: the splitting by σ_T^* for an arbitrary 03LU coherence datum; \
+the full statement, \
 with no hypothesis, is picardSequence_splitExact"]
 theorem leftInverse_sectionPicardPullback (hc : ModulePushforwardCoherence B S hS)
     (σ : s.base ⟶ s.X) (hσ : σ ≫ s.f = 𝟙 s.base) (T : s.SchemesOver) :
@@ -262,7 +264,8 @@ pullback along the projection `f_T : X_T ⟶ T` of the base change is an injecti
 Stacks 0D27 obtains the same conclusion from `𝒪_T ⟶ f_{T, *}𝒪_{X_T}` being an isomorphism; with a
 section neither that hypothesis nor the unit of the Stacks 03LU adjunction being an isomorphism at
 an invertible module is needed. -/
-@[stacks 0D28 "auxiliary: exactness at Pic(T) for an arbitrary 03LU coherence datum; the full statement, \
+@[stacks 0D28 "auxiliary: exactness at Pic(T) for an arbitrary 03LU coherence datum; \
+the full statement, \
 with no hypothesis, is picardSequence_splitExact"]
 theorem injective_basePicardPullback_of_section (hc : ModulePushforwardCoherence B S hS)
     (σ : s.base ⟶ s.X) (hσ : σ ≫ s.f = 𝟙 s.base) (T : s.SchemesOver) :
@@ -288,7 +291,8 @@ the sum of the pullback of a unique Picard class on `T` and a unique class kille
 This is what "the sequence of Stacks 0D28 is split" says internally to `Pic(X_T)`; the
 identification of the kernel of `σ_T^*` with `Pic_{X/B}(T)`, which is the remaining content of
 Stacks 0D28, is not proved here. -/
-@[stacks 0D28 "auxiliary: the direct sum decomposition for an arbitrary 03LU coherence datum; the full \
+@[stacks 0D28 "auxiliary: the direct sum decomposition for an arbitrary 03LU coherence datum; \
+the full \
 statement, with no hypothesis, is picardSequence_splitExact"]
 theorem existsUnique_add_sectionPicardPullback_eq_zero (hc : ModulePushforwardCoherence B S hS)
     (σ : s.base ⟶ s.X) (hσ : σ ≫ s.f = 𝟙 s.base) (T : s.SchemesOver) (x : s.picardAt T) :

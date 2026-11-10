@@ -228,7 +228,7 @@ public theorem exists_eval_eq_zero_of_bijective_algebraMap_quotient {k : Type*} 
   have hzero : φ f = 0 := by
     have hq : (Ideal.Quotient.mkₐ k I) f = 0 := by
       simpa using Ideal.Quotient.eq_zero_iff_mem.mpr hf
-    show e.symm ((Ideal.Quotient.mkₐ k I) f) = 0
+    change e.symm ((Ideal.Quotient.mkₐ k I) f) = 0
     rw [hq, map_zero]
   have hun := AlgHom.congr_fun (aeval_unique φ) f
   rw [show eval (φ ∘ X) f = aeval (φ ∘ X) f from rfl, ← hun, hzero]

@@ -40,7 +40,7 @@ theorem subschemeSmoothAt_of_smoothAt [LocallyOfFiniteType p] (T : X.IdealSheafD
       relativeDimension (fieldChowSituation k).dimensionFunction p (T.subschemeι η) = e) :
     SubschemeSmoothAt p T e (T.subschemeι s) := by
   have hsub : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   have : IsNormal (Spec (.of k)) :=
     isNormal_spec_of_isNormalRing (IsNormalRing.of_isIntegrallyClosed k)
   obtain ⟨U, hsU, hU⟩ := hs

@@ -208,10 +208,10 @@ any universe.  This is `Stacks.hasSheafCompose_forget₂_commRingCat`, which hol
 with no size hypothesis, specialised to the small crystalline topology; it is what lets the
 `CommRingCat`-valued `commStructureSheaf` be used as the ring sheaf of a ringed site.
 
-It is a theorem rather than an instance for the reason given in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposPushforwardModules/HasSheafComposeForget.lean`:
-registering a second globally applicable witness of this class puts two distinct terms of it in
-scope wherever a structure already carries its own. -/
+It is a theorem rather than an instance for the reason given in the file
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposPushforwardModules/`
+`HasSheafComposeForget.lean`: registering a second globally applicable witness of this class
+puts two distinct terms of it in scope wherever a structure already carries its own. -/
 theorem hasSheafCompose_forget₂_smallTopology (S : GlobalCrystallineSituation.{u}) :
     (smallTopology S).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u}) :=
   Stacks.hasSheafCompose_forget₂_commRingCat _

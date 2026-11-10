@@ -114,10 +114,10 @@ theorem comp_isIso (hB : IsSymmetricAlgebra B κ) (c : M ⟶ N) (hc : IsIso c) :
   refine ⟨pairwiseCommutes_comp c hB.1, fun D lam hlam => ?_⟩
   obtain ⟨g, hg, hu⟩ := hB.2 D (inv c ≫ lam) (pairwiseCommutes_comp (inv c) hlam)
   refine ⟨g, ?_, fun h hh => hu h ?_⟩
-  · show (c ≫ κ) ≫ g.app 1 = lam
+  · change (c ≫ κ) ≫ g.app 1 = lam
     rw [Category.assoc, hg, ← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
   · replace hh : (c ≫ κ) ≫ h.app 1 = lam := hh
-    show κ ≫ h.app 1 = inv c ≫ lam
+    change κ ≫ h.app 1 = inv c ≫ lam
     rw [← hh, ← Category.assoc, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
 
 /-- The symmetric algebras of two isomorphic sheaves of modules are isomorphic in every degree,

@@ -152,7 +152,7 @@ lemma snd_symmetricWeightCoaction (x : SymmetricAlgebra R W) :
       symmetricWeightCoaction R W := by
     apply SymmetricAlgebra.algHom_ext
     refine LinearMap.ext fun w => ?_
-    show symmetricSqZeroCompare R W (symmetricSqZeroLift R W (SymmetricAlgebra.ι R W w)) =
+    change symmetricSqZeroCompare R W (symmetricSqZeroLift R W (SymmetricAlgebra.ι R W w)) =
       symmetricWeightCoaction R W (SymmetricAlgebra.ι R W w)
     rw [symmetricSqZeroLift, SymmetricAlgebra.lift_ι_apply, symmetricWeightCoaction,
       SymmetricAlgebra.lift_ι_apply, symmetricSqZeroCompare]

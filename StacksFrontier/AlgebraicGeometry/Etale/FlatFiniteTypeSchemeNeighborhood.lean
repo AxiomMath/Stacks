@@ -195,7 +195,7 @@ theorem exists_open_flat_finitePresentation_of_closedImmersion {X S A : Scheme.{
   obtain ⟨qC, hqCf, hqCs⟩ :=
     Scheme.Pullback.exists_preimage_pullback xV (W.ι w) hwfst.symm
   have hqCW : qC ∈ WR := by
-    show iBase qC ∈ W
+    change iBase qC ∈ W
     rw [hqCs]
     exact w.2
   have hzVout : kR qC ∈ Vout := ⟨qC, hqCW, rfl⟩

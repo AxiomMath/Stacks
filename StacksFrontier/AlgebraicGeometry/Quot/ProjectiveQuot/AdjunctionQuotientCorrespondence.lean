@@ -163,7 +163,7 @@ theorem left_right (ι : B₀ ≅ R.obj A₀) [IsIso (adj.counit.app A₀)] (K :
       R.map (cokernel.π K.arrow) ≫ e.inv := by
     have h0 := Abelian.cokernelKernelSubobjectIso_inv_comp (rightProjection ι K)
     rw [← h0]
-    show ι.inv ≫ (ι.hom ≫ R.map (cokernel.π K.arrow)) ≫ e.inv = _
+    change ι.inv ≫ (ι.hom ≫ R.map (cokernel.π K.arrow)) ≫ e.inv = _
     rw [Category.assoc, Iso.inv_hom_id_assoc]
   have hLR := map_map_eq_counit_comp_comp_inv (adj := adj) (cokernel.π K.arrow)
   have key : leftProjection (adj := adj) ι (rightSubobject ι K) =

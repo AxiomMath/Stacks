@@ -124,7 +124,7 @@ private theorem nonempty_hom_finiteEtaleOverTerminal_of_essImage_of_section
     rw [Category.assoc, ht, Category.comp_id, Category.id_comp]
   refine ⟨MorphismProperty.Over.homMk
     (finiteEtaleBaseChangeLift h U (h ≫ t) (𝟙 W) hlift ≫ e.hom.left) ?_⟩
-  show (finiteEtaleBaseChangeLift h U (h ≫ t) (𝟙 W) hlift ≫ e.hom.left) ≫ V.hom = 𝟙 W
+  change (finiteEtaleBaseChangeLift h U (h ≫ t) (𝟙 W) hlift ≫ e.hom.left) ≫ V.hom = 𝟙 W
   rw [Category.assoc, hehom, finiteEtaleBaseChangeLift_comp_hom]
 
 /-- **A connected finite étale cover with a section over a geometric fibre has a section.** Let

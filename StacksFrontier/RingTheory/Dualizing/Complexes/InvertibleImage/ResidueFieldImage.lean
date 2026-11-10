@@ -247,7 +247,7 @@ public theorem residueField_image_module_finrank_one
   let _ : Module.Finite k M := Module.Finite.of_restrictScalars_finite A k M
   have := nontrivial_of_not_isZero_moduleCat hMne
   have hpos : 0 < Module.finrank k M := Module.finrank_pos (R := k) (M := M)
-  show Module.finrank k M = 1
+  change Module.finrank k M = 1
   by_contra hdim
   have hdim' : 1 < Module.finrank k M := by omega
   let b := Module.finBasis k M
@@ -256,10 +256,10 @@ public theorem residueField_image_module_finrank_one
   have hij : i ≠ j := Fin.ne_of_val_ne (by simp [i, j])
   let ℓ : M →ₗ[k] M := (b.coord i).smulRight (b j)
   have hℓi : ℓ (b i) = b j := by
-    show b.coord i (b i) • b j = b j
+    change b.coord i (b i) • b j = b j
     simp
   have hℓj : ℓ (b j) = 0 := by
-    show b.coord i (b j) • b j = 0
+    change b.coord i (b j) • b j = 0
     rw [show b.coord i (b j) = 0 by simp [hij], zero_smul]
   let f : M ⟶ M := ModuleCat.ofHom (ℓ.restrictScalars A)
   have hf : f ≠ 0 := by
@@ -373,7 +373,7 @@ public theorem residueObject_smul_id_eq_zero (m : Ideal A) [m.IsMaximal] (n : �
     r • 𝟙 (residueObject m n) = 0 := by
   have hE : r • (𝟙 (ModuleCat.of A m.ResidueField)) = 0 := by
     ext x
-    show r • x = 0
+    change r • x = 0
     rw [Algebra.smul_def, Ideal.algebraMap_residueField_eq_zero.mpr hr, zero_mul]
   let S := DerivedCategory.singleFunctor (ModuleCat.{u} A) n
   have hsingle : r • (𝟙 (S.obj (ModuleCat.of A m.ResidueField))) = 0 := by
@@ -416,7 +416,7 @@ public theorem exists_linearMap_residueField_apply_ne_zero (m : Ideal A) [m.IsMa
     simpa only [bM.coord_apply] using (Finsupp.mem_support_iff.mp hi)
   let κ := (Algebra.linearMap k m.ResidueField).restrictScalars A
   refine ⟨κ ∘ₗ (bM.coord i).restrictScalars A, ?_⟩
-  show algebraMap k m.ResidueField (bM.coord i x) ≠ 0
+  change algebraMap k m.ResidueField (bM.coord i x) ≠ 0
   exact (map_ne_zero_iff _ (algebraMap k m.ResidueField).injective).mpr hcoord
 
 /-- Being killed by an ideal transfers along a linear isomorphism. -/
@@ -441,7 +441,7 @@ public theorem projective_residueField_of_forall_linearMap_eq_zero [IsNoetherian
       intro c r
       obtain ⟨z, rfl⟩ := m.toCotangent_surjective c
       rw [← map_smul, Ideal.toCotangent_eq_zero]
-      show (r : A) * (z : A) ∈ m ^ 2
+      change (r : A) * (z : A) ∈ m ^ 2
       rw [pow_two]
       exact Ideal.mul_mem_mul r.2 z.2
     obtain ⟨ω, hω⟩ := exists_linearMap_residueField_apply_ne_zero m htors hx
@@ -455,12 +455,12 @@ public theorem projective_residueField_of_forall_linearMap_eq_zero [IsNoetherian
     intro y hy
     rw [hme] at hy
     obtain ⟨r, rfl⟩ := Submodule.mem_span_singleton.mp hy
-    show (1 - e) * (r • e) = 0
+    change (1 - e) * (r • e) = 0
     rw [smul_eq_mul, mul_left_comm, sub_mul, one_mul, he.eq, sub_self, mul_zero])
   have hsplit : (m.mkQ).comp s₀ = LinearMap.id := by
     apply Submodule.linearMap_qext
     ext
-    show Submodule.Quotient.mk ((1 - e) * 1) = Submodule.Quotient.mk (1 : A)
+    change Submodule.Quotient.mk ((1 - e) * 1) = Submodule.Quotient.mk (1 : A)
     rw [Submodule.Quotient.eq, mul_one, sub_sub_cancel_left]
     exact m.neg_mem hem
   have : Module.Projective A (A ⧸ m) := Module.Projective.of_split s₀ m.mkQ hsplit
@@ -480,7 +480,7 @@ public theorem exists_ne_zero_hom_residueObject_shift_one [IsNoetherianRing A] (
   have hS : S₀.ShortExact := by
     refine ModuleCat.shortComplex_shortExact S₀ ?_ ?_ ?_
     · intro y
-      show algebraMap A κ y = 0 ↔ y ∈ Set.range m.subtype
+      change algebraMap A κ y = 0 ↔ y ∈ Set.range m.subtype
       rw [Ideal.algebraMap_residueField_eq_zero]
       exact ⟨fun hy => ⟨⟨y, hy⟩, rfl⟩, fun ⟨z, hz⟩ => hz ▸ z.2⟩
     · exact m.injective_subtype

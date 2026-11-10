@@ -66,11 +66,11 @@ point carries the germ at a pointed étale neighbourhood `(U, p)` of `t : U ⟶ 
 of `s` obtained by transporting `p` along `t`. -/
 theorem colimit_ι_comp_yonedaCompEtaleStalkPresheafFunctorIso_hom (X : SmallEtale B S hS)
     (U : (geometricPointFiber B S hS s).Elements) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         yoneda.obj X) (op U) ≫
       (yonedaCompEtaleStalkPresheafFunctorIso B S hS s).hom.app X =
       ↾ fun t ↦ (geometricPointFiber B S hS s).map t U.2 := by
-  have key : colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  have key : colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         yoneda.obj X) (op U) ≫
       (yonedaCompEtaleStalkPresheafFunctorIso B S hS s).hom.app X =
       (shrinkYonedaIsoYoneda.inv.app X).app (op U.1) ≫

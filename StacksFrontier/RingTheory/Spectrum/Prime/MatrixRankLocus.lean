@@ -82,7 +82,7 @@ theorem zeroLocus_compl_minorIdeal {R : Type*} [CommRing R] {b a : ℕ}
     {p : PrimeSpectrum R | r ≤ (A.map (algebraMap R p.asIdeal.ResidueField)).rank} =
       (PrimeSpectrum.zeroLocus (minorIdeal A r : Set R))ᶜ := by
   ext p
-  simp only [Set.mem_setOf_eq, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus]
+  simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus]
   rw [← minorIdeal_eq_top_iff_le_rank, minorIdeal_map,
     map_algebraMap_residueField_eq_top_iff]
   rfl
@@ -106,7 +106,7 @@ theorem isConstructible_rank_eq {R : Type*} [CommRing R] {b a : ℕ}
       (A.map (algebraMap R p.asIdeal.ResidueField)).rank = r} := by
   convert (isConstructible_le_rank A r).sdiff (isConstructible_le_rank A (r + 1)) using 1
   ext p
-  simp only [Set.mem_setOf_eq, Set.mem_diff]
+  simp only [Set.mem_ofPred_eq, Set.mem_sdiff]
   omega
 
 end StacksDraft.MinorRank

@@ -112,7 +112,7 @@ theorem spaceSelfArrowMap_comp_spaceRetraction (j : xε.1 ⟶ xε.1) (hj0 : i �
     spaceSelfArrowMap B hΛ hSpec X hX toK j ≫ spaceRetraction B hΛ hSpec X hX toK i =
       spaceRetraction B hΛ hSpec X hX toK i := by
   apply ObjectProperty.hom_ext
-  show j.left.map ≫ i.left.map ≫ _ = i.left.map ≫ _
+  change j.left.map ≫ i.left.map ≫ _ = i.left.map ≫ _
   rw [← Category.assoc]
   exact congrArg (· ≫ _) (congrArg (fun m : x₀.1 ⟶ xε.1 => m.left.map) hj0)
 

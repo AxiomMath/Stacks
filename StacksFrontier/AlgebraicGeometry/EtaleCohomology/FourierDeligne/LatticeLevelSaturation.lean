@@ -212,7 +212,7 @@ theorem exists_primitive_integral_form_of_ne_top {ℓ : O} (hℓ0 : ℓ ≠ 0) (
     refine LinearMap.ext fun x => ?_
     rw [LinearMap.pi_apply_eq_sum_univ f x, LinearMap.zero_apply]
     refine Finset.sum_eq_zero fun i _ => ?_
-    show x i • fc i = 0
+    change x i • fc i = 0
     rw [hfc0 i (congrFun h0 i), smul_zero]
   obtain ⟨k, h, hgh, j, hj⟩ := exists_eq_pow_smul_of_ne_zero hℓ0 hℓu hℓ hg0
   refine ⟨h, ⟨j, hj⟩, fun v hv => ?_⟩
@@ -233,7 +233,7 @@ theorem exists_primitive_integral_form_of_ne_top {ℓ : O} (hℓ0 : ℓ ≠ 0) (
     rw [map_mul, hfc i, smul_eq_mul]
     ring
   rw [this]
-  show _ * ∑ i, algebraMap O E (v i) • f (fun j => if i = j then 1 else 0) = 0
+  change _ * ∑ i, algebraMap O E (v i) • f (fun j => if i = j then 1 else 0) = 0
   rw [hfv, mul_zero]
 
 omit [Fintype ι] [DecidableEq ι] in
@@ -267,7 +267,7 @@ theorem exists_pow_smul_not_mem_latticeLevel [Finite ι] {ℓ : O} (hℓ0 : ℓ 
     have hN : ℓ ^ (N + 1) = ℓ ^ c * ℓ ^ (N + 1 - c) := by
       rw [← pow_add, Nat.add_sub_cancel' (show c ≤ N + 1 by omega)]
     simp only [hz, mul_add, Finset.sum_add_distrib, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [hN, Finset.mul_sum, Finset.mul_sum]
     congr 1
     · ring

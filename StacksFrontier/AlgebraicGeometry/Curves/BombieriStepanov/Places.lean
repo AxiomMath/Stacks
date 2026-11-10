@@ -58,7 +58,7 @@ valuation ring. -/
 def schemeVal (x : X) [IsDiscreteValuationRing (X.presheaf.stalk x)] :
     AddValuation X.functionField (WithTop ℤ) :=
   AddValuation.of (fun f => if f = 0 then ⊤ else ((X.ord f x : ℤ) : WithTop ℤ))
-    (by simp) (by simp [scheme_ord_one])
+    (by simp) (by simp)
     (by
       intro f g
       by_cases hf : f = 0
@@ -67,7 +67,7 @@ def schemeVal (x : X) [IsDiscreteValuationRing (X.presheaf.stalk x)] :
       · simp [hg]
       by_cases hfg : f + g = 0
       · simp [hfg]
-      simp only [hf, hg, hfg, if_false]
+      simp only [hf, hg, hfg, ite_false]
       rw [← WithTop.coe_min]
       exact WithTop.coe_le_coe.2 (Scheme.ord_add hfg))
     (by
@@ -76,7 +76,7 @@ def schemeVal (x : X) [IsDiscreteValuationRing (X.presheaf.stalk x)] :
       · simp [hf]
       by_cases hg : g = 0
       · simp [hg]
-      simp only [mul_eq_zero, hf, hg, or_self, if_false]
+      simp only [mul_eq_zero, hf, hg, or_self, ite_false]
       rw [Scheme.ord_mul hf hg]
       rfl)
 
@@ -123,6 +123,7 @@ variable (k : Type u) [Field k] (p : X ⟶ Spec (.of k))
 /-- The degree `[κ(x) : k]` of a place. -/
 def curveDeg (P : CurvePlace X) : ℕ := p.residueDegree P.1
 
+omit [IsIntegral X] [IsLocallyNoetherian X] in
 /-- An integer-valued function on `X` that vanishes off the points of codimension one has the
 same unconditional sum over the places of `X` as over all of `X`. -/
 private theorem finsum_curvePlace_eq_finsum :
@@ -187,7 +188,7 @@ theorem hasDegreeFormula_curveVal : HasDegreeFormula (curveVal hdvr) (curveDeg k
     refine (hfin.preimage Subtype.val_injective.injOn).subset fun P hP => ?_
     simp only [Function.mem_support, ordZ_curveVal] at hP
     simp only [Set.mem_preimage, Function.mem_support]
-    show (c.1 : AlgebraicCycle X ℤ) P.1 ≠ 0
+    change (c.1 : AlgebraicCycle X ℤ) P.1 ≠ 0
     rw [hc]
     exact hP
   · obtain ⟨c, hc, hdeg⟩ := hcyc f hf
@@ -202,15 +203,15 @@ theorem hasDegreeFormula_curveVal : HasDegreeFormula (curveVal hdvr) (curveDeg k
       (fun x hx => by rw [hord f x hx, mul_zero])]
     refine Eq.trans ?_ hdeg'
     refine finsum_congr fun x => ?_
-    rw [finsum_eq_if, if_pos (by
-      simp only [Set.mem_preimage, Set.mem_singleton_iff]; exact Subsingleton.elim _ _), hc x]
+    rw [finsum_eq_if, ite_eq_left (by
+      simp only [Set.mem_preimage]; exact Subsingleton.elim _ _), hc x]
     by_cases hx0 : X.ord f x = 0
     · rw [hx0]
       simp
     have hcx : (c.1 : AlgebraicCycle X ℤ) x ≠ 0 := by rw [hc x]; exact hx0
     have hrel := (Stacks.Chow.mem_cyclesOfDimension_iff_forall_point
       (Stacks.Chow.fieldChowSituation k) p 0 c.1).1 c.2 x hcx
-    rw [if_pos, mul_comm]
+    rw [ite_eq_left, mul_comm]
     rw [hrel, Stacks.Chow.relativeDimension_id]
     exact (Stacks.Chow.fieldChowSituation_dimensionFunction_eq_zero k (p x)).symm
 

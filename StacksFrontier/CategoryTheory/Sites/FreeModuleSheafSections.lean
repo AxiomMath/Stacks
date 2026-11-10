@@ -80,7 +80,7 @@ lemma smulEnd_hom_app_apply (r : R) (F : Sheaf J (ModuleCat.{w} R)) (U : Cᵒᵖ
 lemma comp_smulEnd (r : R) {F G : Sheaf J (ModuleCat.{w} R)} (h : F ⟶ G) :
     h ≫ smulEnd J r G = smulEnd J r F ≫ h := by
   ext U x
-  show r • (h.hom.app U) x = (h.hom.app U) (r • x)
+  change r • (h.hom.app U) x = (h.hom.app U) (r • x)
   exact ((h.hom.app U).hom.map_smul r x).symm
 
 /-- **A left adjoint commutes with multiplication by scalars** as soon as its right adjoint does.
@@ -119,7 +119,7 @@ lemma freeSectionEquiv_eq_app (U : C) (F : Sheaf J (ModuleCat.{max u v} R))
     (h : (freeModuleSheaf J R).obj U ⟶ F) :
     freeSectionEquiv J R U F h = h.hom.app (op U) (freeTautologicalSection J R U) := by
   conv_lhs => rw [← Category.id_comp h]
-  show sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ F (𝟙 _ ≫ h)) = _
+  change sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ F (𝟙 _ ≫ h)) = _
   rw [(adjunction J (ModuleCat.adj R)).homEquiv_naturality_right, sectionEquiv_comp]
   rfl
 
@@ -129,7 +129,7 @@ lemma freeSectionEquiv_map_comp {U V : C} (g : V ⟶ U) (F : Sheaf J (ModuleCat.
     (h : (freeModuleSheaf J R).obj U ⟶ F) :
     freeSectionEquiv J R V F ((freeModuleSheaf J R).map g ≫ h) =
       F.obj.map g.op (freeSectionEquiv J R U F h) := by
-  show sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ F
+  change sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ F
     ((composeAndSheafify J (ModuleCat.free R)).map ((sheafifiedYoneda J).map g) ≫ h)) = _
   rw [(adjunction J (ModuleCat.adj R)).homEquiv_naturality_left, sectionEquiv_map_comp]
   rfl
@@ -140,7 +140,7 @@ lemma freeSectionEquiv_id (U : C) :
     freeTautologicalSection J R U =
       (toSheafify J (((sheafifiedYoneda J).obj U).obj ⋙ ModuleCat.free R)).app (op U)
         (ModuleCat.freeMk (tautologicalSection J U)) := by
-  show sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ _ (𝟙 _)) = _
+  change sectionEquiv J ((adjunction J (ModuleCat.adj R)).homEquiv _ _ (𝟙 _)) = _
   rw [Adjunction.homEquiv_id, ← Category.id_comp ((adjunction J (ModuleCat.adj R)).unit.app _),
     sectionEquiv_comp, adjunction_unit_app_hom]
   rfl
@@ -224,7 +224,7 @@ theorem elementarySieve_mem (U : C) {V : C}
       fun f t ↦ (NatTrans.naturality_apply τ f.op t).symm
     rw [hnat, hnat]
     congr 1
-    show (ModuleCat.free R).map _ (ModuleCat.freeMk s) =
+    change (ModuleCat.free R).map _ (ModuleCat.freeMk s) =
       (ModuleCat.free R).map _ (ModuleCat.freeMk (tautologicalSection J U))
     rw [ModuleCat.free_map_apply, ModuleCat.free_map_apply, map_op_tautologicalSection,
       sectionEquiv_sheafifiedYoneda_map]
@@ -269,10 +269,10 @@ theorem freeModuleSheaf_hom_locally {U V : C}
     { toFun h := h.hom.app (op W) (freeTautologicalSection J R W)
       map_zero' := rfl
       map_add' _ _ := rfl }
-  show _ = ev _
+  change _ = ev _
   rw [map_sum]
   refine Finset.sum_congr rfl fun k _ ↦ ?_
-  show _ = (smulEnd J (c k) _).hom.app (op W)
+  change _ = (smulEnd J (c k) _).hom.app (op W)
     (((freeModuleSheaf J R).map (φ k)).hom.app (op W) (freeTautologicalSection J R W))
   rw [smulEnd_hom_app_apply, ← freeSectionEquiv_eq_app, ← Category.comp_id
     ((freeModuleSheaf J R).map (φ k)), freeSectionEquiv_map_comp]
@@ -286,11 +286,11 @@ theorem epi_sigmaDesc_freeModuleSheaf_map {ι : Type*} {V : C} {W : ι → C} (g
     Epi (Limits.Sigma.desc fun i ↦ (freeModuleSheaf J R).map (g i)) := by
   refine ⟨fun {G} a b hab ↦ (freeSectionEquiv J R V G).injective ?_⟩
   have hi : ∀ i, (freeModuleSheaf J R).map (g i) ≫ a = (freeModuleSheaf J R).map (g i) ≫ b :=
-    fun i ↦ by simpa only [Limits.Sigma.ι_desc_assoc] using Limits.Sigma.ι _ i ≫= hab
+    fun i ↦ by simpa only [Limits.Sigma.ι_comp_desc_assoc] using Limits.Sigma.ι _ i ≫= hab
   let G' := (sheafCompose J (forget (ModuleCat.{max u v} R))).obj G
   refine ((isSheaf_iff_isSheaf_of_type J G'.obj).1 G'.property _ hg).isSeparatedFor.ext ?_
   rintro Y f ⟨Y', h, g', ⟨i⟩, rfl⟩
-  show G.obj.map (h ≫ g i).op _ = G.obj.map (h ≫ g i).op _
+  change G.obj.map (h ≫ g i).op _ = G.obj.map (h ≫ g i).op _
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply,
     ← freeSectionEquiv_map_comp, ← freeSectionEquiv_map_comp, hi i, freeSectionEquiv_map_comp,
     freeSectionEquiv_map_comp]

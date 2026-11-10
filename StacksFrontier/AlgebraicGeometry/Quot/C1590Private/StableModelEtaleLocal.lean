@@ -162,6 +162,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X' X Y' Y : AlgebraicSpaces B S hS} (i : X' ⟶ X) (f' : X' ⟶ Y') (f : X ⟶ Y) (g : Y' ⟶ Y)
 
 set_option maxHeartbeats 1600000 in
+-- `rw` through the topos-pullback ring-sheaf maps of the Stacks 03LR base-change isomorphism
 set_option synthInstance.maxHeartbeats 400000 in
 /-- The comparison `AlgebraicGeometry.Space.baseChangeRingMap` of the two transports of `𝒪_X` is
 an isomorphism: it is induced by the isomorphism of Stacks 03LR. -/

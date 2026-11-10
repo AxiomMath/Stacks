@@ -82,12 +82,9 @@ open Stacks.SheafOfModules.InternalHom
 section Localization
 
 variable (X : RingedSite.{u, u, u}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [X.J.HasSheafCompose (forget RingCat.{u})]
   [(X.J.over U).HasSheafCompose (forget RingCat.{u})]
-  [X.J.HasSheafCompose (forget CommRingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget CommRingCat.{u})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
   [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})]
   [HasWeakSheafify X.J AddCommGrpCat.{u}]
@@ -100,6 +97,10 @@ local instance scalarUnitMap_localization_isIso
     (T : _root_.SheafOfModules.{u} (Tensor.ringSheaf X.O)) :
     IsIso (scalarUnitMap (X.localizationMorphism U) T) :=
   scalarUnitMap_isIso (X.localizationMorphism U) T
+
+section ScalarUnit
+
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 /-- The native scalar unit followed by restriction is the identity. -/
 theorem scalarUnitMap_localization_comp_restriction
@@ -137,7 +138,8 @@ theorem localization_tensorTranspose_sections
         ((sectionsFunctor (X.over U).J W).map
           (inv (scalarUnitMap (X.localizationMorphism U) F)) b)) =
       t.app (Opposite.op (Opposite.unop W).left)
-        ((((X.localizationPullbackIsoRestriction U).hom.app A).val.app W) a ⊗ₜ[((X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj
+        ((((X.localizationPullbackIsoRestriction U).hom.app A).val.app W) a
+          ⊗ₜ[((X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj
             (Opposite.op (Opposite.unop W).left))]
           (((X.localizationPullbackIsoRestriction U).hom.app F).val.app W) b) := by
   let S := sectionsFunctor (X.over U).J W
@@ -161,6 +163,8 @@ theorem localization_tensorTranspose_sections
   exact pairingApp_pairingOfTensorHom (hO := (Tensor.ringSheaf X.O).property) t
     (Opposite.op (Opposite.unop W).left) _ _
 
+end ScalarUnit
+
 /-- **The comparison of Stacks 03EL at a localization morphism is the mate of Stacks 0E8H.**
 Read through the identification of Stacks 04IX of the pullback along the localization with
 restriction to the slice site, the comparison `π^*(A ⊗_O F) ⟶ π^*A ⊗_{O|_U} π^*F` of Stacks 03EL
@@ -175,7 +179,7 @@ theorem localizationPullbackTensorIso_hom_app :
             ((X.localizationMorphism U).pullbackModules.obj F) ≫
           tensorTransportSecond X U A F
             ((X.localizationPullbackIsoRestriction U).hom.app F)) ≫
-          (ExtensionByZero.tensorRestrictionComparison X U F).natTrans.app A := by
+          (ExtensionByZero.tensorRestrictionComparison X U F).app A := by
   -- The comparison of Stacks 03EL is the chain applied to the identity
   -- (`Stacks.SheafOfModules.pullbackTensorIso_hom_app`, an equality by `rfl`), so precomposing
   -- with it is the inverse chain by naturality in the sheaf of values.
@@ -189,7 +193,8 @@ theorem localizationPullbackTensorIso_hom_app :
   refine (Stacks.SheafOfModules.pullbackTensorHomEquiv_eq_iff_pairingApp_unit
     (X.localizationMorphism U) A F _ _ _).2 ?_
   intro W a b
-  refine (ExtensionByZero.transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTransportComp
+  refine
+  (ExtensionByZero.transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTransportComp
     X U F A ((X.localizationPullbackIsoRestriction U).hom.app A)
     ((X.localizationPullbackIsoRestriction U).hom.app F) W a b).trans ?_
   refine Eq.trans ?_ (pairingApp_pullbackTensorBilinEquiv_tensorTranspose
@@ -223,7 +228,7 @@ theorem localizationPullbackTensorIso_inv_app :
             ((X.localizationMorphism U).pullbackModules.obj F) ≫
           tensorTransportSecond X U A F
             ((X.localizationPullbackIsoRestriction U).hom.app F)) ≫
-        (ExtensionByZero.tensorRestrictionComparison X U F).natTrans.app A :=
+        (ExtensionByZero.tensorRestrictionComparison X U F).app A :=
   cancelWhisker
     ((Stacks.SheafOfModules.pullbackTensorIso
       (X.localizationMorphism U)).inv_hom_id_app (A, F))

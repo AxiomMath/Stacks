@@ -155,7 +155,7 @@ lemma mapHomotopyCategoryPlusIsoOfCompIso_hom_app_quotient (F : C ⥤ D) (G : D 
         (ObjectProperty.homMk ((NatTrans.mapHomologicalComplex e.hom _).app K.obj) :
           (F ⋙ G).mapCochainComplexPlus.obj K ⟶ H.mapCochainComplexPlus.obj K) := by
   ext : 1
-  show (HomotopyCategory.quotient E _).map
+  change (HomotopyCategory.quotient E _).map
       ((mapHomologicalComplexCompIso (Iso.refl (F ⋙ G)) _).inv.app K.obj) ≫
     (HomotopyCategory.quotient E _).map
       ((mapHomologicalComplexCompIso e _).hom.app K.obj) = _
@@ -392,12 +392,12 @@ lemma twistResolutionIso_hom_comp [F₁.PreservesInjectiveObjects] {K T : Cochai
         DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ T g) := by
     rw [IsIso.eq_inv_comp, ← Category.assoc, hc, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ T g))
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
-  show derivedTwistEndo P F₁ F₂ θ K τ ≫ (F₂.rightDerivedFunctorPlus.map
+  change derivedTwistEndo P F₁ F₂ θ K τ ≫ (F₂.rightDerivedFunctorPlus.map
       (F₁.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Q.map ψ)) ≫
         CategoryTheory.inv (twistComparison F₁ F₂ T)) =
     (F₂.rightDerivedFunctorPlus.map
@@ -426,12 +426,12 @@ lemma twistResolutionIso_naturality [F₁.PreservesInjectiveObjects]
           (F₁.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Q.map φ')) ≫
         CategoryTheory.inv (twistComparison F₁ F₂ T') := by
     rw [IsIso.inv_comp_eq, ← reassoc_of% hn, IsIso.hom_inv_id, Category.comp_id]
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (F₂.mapCochainComplexPlus.map (F₁.mapCochainComplexPlus.map φ')))
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
-  show F₂.rightDerivedFunctorPlus.map
+  change F₂.rightDerivedFunctorPlus.map
       (F₁.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Q.map φ)) ≫
       (F₂.rightDerivedFunctorPlus.map
         (F₁.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Q.map ψ')) ≫
@@ -577,7 +577,7 @@ theorem TwistResolution.nonempty {S : ShortComplex (CochainComplex C ℤ)} (hS :
   obtain ⟨e₁, e₂, e₃⟩ := Q_map_τ_eq_of_Qh_map_twoStepComplexMap_eq hS hT' hTinj _ _ hg
   have q₁ : QuasiIso ψ.τ₁ := inferInstanceAs (QuasiIso R₁.ι)
   have q₃ : QuasiIso ψ.τ₃ := by
-    show QuasiIso (resτ₃ R₃.ι)
+    change QuasiIso (resτ₃ R₃.ι)
     unfold resτ₃
     infer_instance
   exact ⟨⟨T, sp, hT, hT₁, plus_X₂_of_shortExact hT hT₁ hT₃, hT₃, i₁, i₂, i₃, ψ, q₁,

@@ -142,10 +142,10 @@ public theorem modelReplacementMap_compatible (φ : F ⟶ Mo.G)
     rw [toUniversalImprovedSystem_app, ← hφ]
     rfl
   rw [happ, Functor.map_comp, Category.assoc]
-  show _ ≫ ((Functor.whiskerRight (Mo.κ ≫ extendNatTrans hdual F hT hT' hTY himm)
+  change _ ≫ ((Functor.whiskerRight (Mo.κ ≫ extendNatTrans hdual F hT hT' hTY himm)
       (sectionsOver U)).app (op (e.α n)) ≫ e.φ n) = _
   rw [hkey]
-  show (sectionsOver U).map (φ.hom.app (op (e.α n))) ≫
+  change (sectionsOver U).map (φ.hom.app (op (e.α n))) ≫
       (sectionsOver U).map (Mo.G.obj.map (homOfLE (e.αle n)).op) ≫
         (modelLevelsMap hdual F hT hT' hTY hTT' himm hU Mo).app (op n) = _
   rw [← Category.assoc, ← Functor.map_comp, ← φ.hom.naturality, Functor.map_comp,
@@ -178,7 +178,7 @@ public theorem smul_eq_zero_of_modelReplacementMap_eq_zero (φ : F ⟶ Mo.G) {c�
     obtain ⟨y, hy⟩ := exists_kernel_section (φ.hom.app (op n)) U (b • q) h2
     have h3 : r • y = 0 :=
       affine_sections_annihilated_of_idealPowerMultiple_eq_bot (hφker n) ⟨U, hU⟩ hr y
-    show r • (b • q) = 0
+    change r • (b • q) = 0
     rw [← hy]
     exact (((sectionsOver U).map (kernel.ι (φ.hom.app (op n)))).hom.map_smul r y).symm.trans
       ((congrArg _ h3).trans (map_zero _))

@@ -219,16 +219,16 @@ theorem toSheafification_comp_baseChange [HasWeakSheafify J CommRingCat.{w}]
   apply CommRingCat.hom_ext
   apply MvPolynomial.ringHom_ext
   · intro r
-    show MvPolynomial.eval₂Hom _ _ (MvPolynomial.C r) = _
+    change MvPolynomial.eval₂Hom _ _ (MvPolynomial.C r) = _
     rw [MvPolynomial.eval₂Hom_C]
-    show _ = ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A₂ E)).app U
+    change _ = ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A₂ E)).app U
       (MvPolynomial.map (u.hom.app U).hom (MvPolynomial.C r))
     rw [MvPolynomial.map_C]
     rfl
   · intro x
-    show MvPolynomial.eval₂Hom _ _ (MvPolynomial.X x) = _
+    change MvPolynomial.eval₂Hom _ _ (MvPolynomial.X x) = _
     rw [MvPolynomial.eval₂Hom_X']
-    show _ = ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A₂ E)).app U
+    change _ = ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A₂ E)).app U
       (MvPolynomial.map (u.hom.app U).hom (MvPolynomial.X x))
     rw [MvPolynomial.map_X]
     rfl

@@ -262,7 +262,7 @@ lemma W_range_ι_of_isLocallySurjective {F G : Cᵒᵖ ⥤ Type w} (f : F ⟶ G)
   · intro g
     refine ⟨inv (((Subfunctor.range f).sheafify J).ι) ≫
       (Subfunctor.range f).sheafifyLift g hZ, ?_⟩
-    show (Subfunctor.range f).ι ≫ _ = g
+    change (Subfunctor.range f).ι ≫ _ = g
     rw [← key, Category.assoc, IsIso.hom_inv_id_assoc]
     exact (Subfunctor.range f).to_sheafifyLift g hZ
 
@@ -398,10 +398,8 @@ noncomputable def cechNerveCompMonoIso :
   NatIso.ofComponents (cechNerveCompMonoIsoApp g m) (fun {n p} h ↦ by
     apply WidePullback.hom_ext
     · intro j
-      simp [Arrow.mk_hom, Arrow.mk_left, Arrow.mk_right, cechNerveCompMonoIsoApp,
-        WidePullback.lift_π]
-    · simp [Arrow.mk_hom, Arrow.mk_left, Arrow.mk_right, cechNerveCompMonoIsoApp,
-        WidePullback.lift_base, WidePullback.lift_base_assoc])
+      simp [Arrow.mk_hom, Arrow.mk_left, Arrow.mk_right, cechNerveCompMonoIsoApp]
+    · simp [Arrow.mk_hom, Arrow.mk_left, Arrow.mk_right, cechNerveCompMonoIsoApp])
 
 end CategoryTheory.Arrow
 
@@ -603,7 +601,7 @@ lemma cechNerveSheafHomologyZeroAugmentation_eq_homologyι_descOpcycles
       HomologicalComplex.pOpcycles_singleObjOpcyclesSelfIso_inv,
       HomologicalComplex.p_descOpcycles]
     exact hk
-  show HomologicalComplex.homologyMap (cechNerveSheafAugmentation J f) 0 ≫
+  change HomologicalComplex.homologyMap (cechNerveSheafAugmentation J f) 0 ≫
       (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.down ℕ) 0
         ((freeAbelianSheaf J).obj G)).hom = _
   rw [← HomologicalComplex.homologyι_singleObjOpcyclesSelfIso_inv,

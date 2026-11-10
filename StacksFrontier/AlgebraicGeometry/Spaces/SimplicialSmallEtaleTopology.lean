@@ -91,7 +91,7 @@ theorem functorPullback_pullback_degreeInclusion {n : SimplexCategory}
     (R.functorPullback (degreeInclusion X n)).pullback g =
       (R.pullback ((degreeInclusion X n).map g)).functorPullback (degreeInclusion X n) := by
   ext Z h
-  show R ((degreeInclusion X n).map (h ≫ g)) ↔ R ((degreeInclusion X n).map h ≫ _)
+  change R ((degreeInclusion X n).map (h ≫ g)) ↔ R ((degreeInclusion X n).map h ≫ _)
   rw [Functor.map_comp]
 
 /-- A covering sieve of `X_{spaces,étale}` on an object of degree `n` restricts to a covering

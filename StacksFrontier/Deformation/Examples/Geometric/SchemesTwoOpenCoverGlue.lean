@@ -411,14 +411,14 @@ theorem comparisonGlue_w :
         (openRestrictionLEFunctor (Λ := Λ) (k := k) (inf_le_right : U₁ ⊓ U₂ ≤ U₂)).map
           (restrictGlueDeformationRightHom X U₁ U₂ Q hcover) := by
   refine SchemeDeformationCategory.Hom.ext ?_ ?_
-  · show glueBaseIso X U₁ U₂ Q ≫ Q.iso.hom.base =
+  · change glueBaseIso X U₁ U₂ Q ≫ Q.iso.hom.base =
       (𝟙 Q.y.base ≫ 𝟙 Q.y.base) ≫ 𝟙 Q.y.base
     simp only [Category.comp_id]
     exact glueBaseIso_comp_glueBaseIsoInv X U₁ U₂ Q
   · refine (cancel_mono (nestedι (glueDeformation X U₁ U₂ Q hcover)
       (inf_le_left : U₁ ⊓ U₂ ≤ U₁) ≫
         restrictDeformationι U₁ (glueDeformation X U₁ U₂ Q hcover))).mp ?_
-    show (Q.iso.hom.map ≫
+    change (Q.iso.hom.map ≫
         ((openRestrictionLEFunctor (Λ := Λ) (k := k) (inf_le_left : U₁ ⊓ U₂ ≤ U₁)).map
           (restrictGlueDeformationLeftHom X U₁ U₂ Q hcover)).map) ≫
         (nestedι (glueDeformation X U₁ U₂ Q hcover) (inf_le_left : U₁ ⊓ U₂ ≤ U₁) ≫
@@ -670,13 +670,13 @@ theorem specialMap_comp_glueDeformationHomMap :
   refine (coverOfTwoOpens X U₁ U₂ hcover).hom_ext _ _ ?_
   intro b
   cases b
-  · show U₁.ι ≫ P.specialMap ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g =
+  · change U₁.ι ≫ P.specialMap ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g =
       U₁.ι ≫ (glueDeformation X U₁ U₂ Q hcover).specialMap
     rw [← Category.assoc, ← restrictDeformation_specialMap_comp_ι U₁ P, Category.assoc,
       restrictDeformationι_comp_glueDeformationHomMap_left, ← Category.assoc,
       (glueHomLeft X U₁ U₂ Q hcover P g).special_compat,
       restrictDeformation_specialMap_comp_ι]
-  · show U₂.ι ≫ P.specialMap ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g =
+  · change U₂.ι ≫ P.specialMap ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g =
       U₂.ι ≫ (glueDeformation X U₁ U₂ Q hcover).specialMap
     rw [← Category.assoc, ← restrictDeformation_specialMap_comp_ι U₂ P, Category.assoc,
       restrictDeformationι_comp_glueDeformationHomMap_right, ← Category.assoc,
@@ -690,14 +690,14 @@ theorem glueDeformationHomMap_comp_toBase :
   refine (coverOfRestrictions P hcover).hom_ext _ _ ?_
   intro b
   cases b
-  · show restrictDeformationι U₁ P ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g ≫
+  · change restrictDeformationι U₁ P ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g ≫
         (glueDeformation X U₁ U₂ Q hcover).toBase =
       restrictDeformationι U₁ P ≫ P.toBase ≫
         baseSpecMap (glueHomLeft X U₁ U₂ Q hcover P g).base
     rw [← Category.assoc, restrictDeformationι_comp_glueDeformationHomMap_left, Category.assoc,
       ← Category.assoc (restrictDeformationι U₁ P)]
     exact (glueHomLeft X U₁ U₂ Q hcover P g).cartesian.w
-  · show restrictDeformationι U₂ P ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g ≫
+  · change restrictDeformationι U₂ P ≫ glueDeformationHomMap X U₁ U₂ Q hcover P g ≫
         (glueDeformation X U₁ U₂ Q hcover).toBase =
       restrictDeformationι U₂ P ≫ P.toBase ≫
         baseSpecMap (glueHomLeft X U₁ U₂ Q hcover P g).base
@@ -802,13 +802,13 @@ theorem twoOpenComparisonFunctor_map_glueDeformationHom :
     (twoOpenComparisonFunctor (Λ := Λ) X U₁ U₂).map (glueDeformationHom X U₁ U₂ Q hcover P g) =
       comparisonGlueHom X U₁ U₂ Q hcover ≫ g := by
   refine TwoFibreProductOver.Hom.ext' ?_ ?_
-  · show restrictDeformationHom U₁ (glueDeformationHom X U₁ U₂ Q hcover P g) =
+  · change restrictDeformationHom U₁ (glueDeformationHom X U₁ U₂ Q hcover P g) =
       glueHomLeft X U₁ U₂ Q hcover P g
     refine SchemeDeformationCategory.Hom.ext rfl ?_
     refine (cancel_mono (restrictDeformationι U₁ (glueDeformation X U₁ U₂ Q hcover))).mp ?_
     rw [restrictDeformationHom_map_comp_restrictDeformationι, glueDeformationHom_map,
       restrictDeformationι_comp_glueDeformationHomMap_left]
-  · show restrictDeformationHom U₂ (glueDeformationHom X U₁ U₂ Q hcover P g) =
+  · change restrictDeformationHom U₂ (glueDeformationHom X U₁ U₂ Q hcover P g) =
       glueHomRight X U₁ U₂ Q hcover P g
     refine SchemeDeformationCategory.Hom.ext
       (glueHomLeft_base_eq_glueHomRight_base X U₁ U₂ Q hcover P g) ?_

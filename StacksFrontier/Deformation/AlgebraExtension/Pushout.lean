@@ -219,7 +219,7 @@ noncomputable abbrev lift : D.presentation ⟶ D.extension.extension :=
 
 /-- The composite `R ⟶ 𝒪' ⟶ 𝒪` of `lift` with the reduction of the pushout is `π`. -/
 theorem lift_reduction : D.lift ≫ D.extension.reduction = D.proj := by
-  show (sqZeroExtSheafInl _ _ ≫ pushoutMk D.proj D.presentationModule D.psi) ≫
+  change (sqZeroExtSheafInl _ _ ≫ pushoutMk D.proj D.presentationModule D.psi) ≫
     pushoutProj D.proj D.presentationModule D.psi = D.proj
   have hs : sqZeroExtSheafInl D.presentation D.presentationModule ≫
       sqZeroExtSheafProj D.presentation D.presentationModule = 𝟙 _ := rfl
@@ -246,7 +246,7 @@ theorem lift_app_kernel (U : Cᵒᵖ) (g : kernelIdeal D.proj.hom U) :
       (graphSection D.proj D.presentationModule D.psi U g) = 0 :=
     Stacks.Sites.app_mem_ker_of_mem (graphIdealSubsheaf D.proj D.presentationModule D.psi) U
       ⟨g, rfl⟩
-  show (pushoutMk D.proj D.presentationModule D.psi).hom.app U
+  change (pushoutMk D.proj D.presentationModule D.psi).hom.app U
       (sqZeroExtMk (M := modules D.presentationModule) (g : ↥(D.presentation.obj.obj U)) 0) = _
   refine (congrArg (ConcreteCategory.hom ((pushoutMk D.proj D.presentationModule D.psi).hom.app U))
     hsum.symm).trans ?_
@@ -255,6 +255,7 @@ theorem lift_app_kernel (U : Cᵒᵖ) (g : kernelIdeal D.proj.hom U) :
   rw [hgraph, zero_add]
   rfl
 
+omit [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- The map `n ↦ Q.incl (φ n)` is additive. -/
 theorem incl_map_add {Q : AlgebraExtension a N} (φ : M ⟶ N) (U : Cᵒᵖ)
     (n m : (modules D.presentationModule).obj U) :
@@ -262,6 +263,7 @@ theorem incl_map_add {Q : AlgebraExtension a N} (φ : M ⟶ N) (U : Cᵒᵖ)
       Q.incl ((φ.val.app U n) : N.val.obj U) + Q.incl ((φ.val.app U m) : N.val.obj U) :=
   (congrArg Q.incl (map_add (φ.val.app U).hom n m)).trans (Q.incl_add _ _)
 
+omit [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- The map `n ↦ Q.incl (φ n)` commutes with restriction along `f : U ⟶ V`. -/
 theorem incl_map_map {Q : AlgebraExtension a N} (φ : M ⟶ N) (U V : Cᵒᵖ) (f : U ⟶ V)
     (n : (modules D.presentationModule).obj U) :
@@ -270,6 +272,7 @@ theorem incl_map_map {Q : AlgebraExtension a N} (φ : M ⟶ N) (U V : Cᵒᵖ) (
   (congrArg Q.incl (PresheafOfModules.naturality_apply φ.val f n)).trans
     (Q.incl_naturality f (φ.val.app U n))
 
+omit [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- For a lift `q : R ⟶ 𝒪'_Q` of `π`, the map `n ↦ Q.incl (φ n)` sends `r • n` to
 `q r * Q.incl (φ n)`. -/
 theorem incl_map_smul {Q : AlgebraExtension a N} (φ : M ⟶ N)
@@ -293,9 +296,10 @@ noncomputable def descData {Q : AlgebraExtension a N} (φ : M ⟶ N)
   inr U := AddMonoidHom.mk' (fun n => Q.incl ((φ.val.app U n) : N.val.obj U))
     (fun n m => D.incl_map_add φ U n m)
   inr_smul U r n := D.incl_map_smul φ q hq U r n
-  inr_mul_inr U n m := Q.incl_mul_incl _ _
+  inr_mul_inr U n m := Q.incl_mul_incl (U := U) (φ.val.app U n) (φ.val.app U m)
   inr_map {U V} f n := D.incl_map_map φ U V f n
 
+omit [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- The module component of `descData φ q hq` sends `n` to `Q.incl (φ n)`. -/
 theorem descData_inr {Q : AlgebraExtension a N} (φ : M ⟶ N)
     (q : D.presentation ⟶ Q.extension) (hq : q ≫ Q.reduction = D.proj) (U : Cᵒᵖ)
@@ -317,7 +321,7 @@ noncomputable def desc {Q : AlgebraExtension a N} (φ : M ⟶ N) (q : D.presenta
         (D.descData φ q hq).inr U (D.psi.app U g) := hψ
   { hom := pushoutDesc D.presentationModule D.proj D.psi (D.descData φ q hq) hd
     reduction_comm := by
-      show pushoutDesc D.presentationModule D.proj D.psi (D.descData φ q hq) hd ≫ Q.reduction =
+      change pushoutDesc D.presentationModule D.proj D.psi (D.descData φ q hq) hd ≫ Q.reduction =
         pushoutProj D.proj D.presentationModule D.psi
       refine pushout_hom_ext D.presentationModule D.proj D.psi ?_
       rw [pushoutMk_comp_pushoutDesc_assoc, pushoutMk_comp_pushoutProj]
@@ -328,7 +332,7 @@ noncomputable def desc {Q : AlgebraExtension a N} (φ : M ⟶ N) (q : D.presenta
       exact congrArg (fun k : D.presentation ⟶ O => k.hom.app U
         (sqZeroExtFst (M := modules D.presentationModule) w)) hq
     algebraMap_comm := by
-      show (D.base ≫ sqZeroExtSheafInl D.presentation D.presentationModule ≫
+      change (D.base ≫ sqZeroExtSheafInl D.presentation D.presentationModule ≫
         pushoutMk D.proj D.presentationModule D.psi) ≫
           pushoutDesc D.presentationModule D.proj D.psi (D.descData φ q hq) hd = Q.algebraMap
       rw [Category.assoc, Category.assoc, pushoutMk_comp_pushoutDesc, ← hbase]

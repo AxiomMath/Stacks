@@ -127,7 +127,8 @@ private theorem isCoherent_homology_shift {X : Scheme.{u}} (L : DerivedCategory 
     (by omega)).app L
   have : (((DerivedCategory.homologyFunctor X.Modules 0).shift (i + 1)).obj L).IsCoherent := by
     simpa [DerivedCategory.shift_homologyFunctor] using hL (i + 1)
-  simpa [DerivedCategory.shift_homologyFunctor] using AlgebraicGeometry.isCoherent_of_moduleIso e.symm this
+  simpa [DerivedCategory.shift_homologyFunctor] using
+    AlgebraicGeometry.isCoherent_of_moduleIso e.symm this
 
 /-! ### The gap pushes the lower truncation down -/
 

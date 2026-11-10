@@ -118,7 +118,7 @@ theorem units_map_opRingHom_complexChernFactor (P : CochainComplex W.Modules ℤ
   congr 1
   refine Units.ext ?_
   rw [Units.coe_map, GenuineChern.val_chernFamilyUnit]
-  show (totalChern C sW (P.X n) (ρ n)).op (𝟙 W) = _
+  change (totalChern C sW (P.X n) (ρ n)).op (𝟙 W) = _
   rw [op_totalChern]
   let := pullbackPreservesRank_of_isFiniteLocallyFreeOfRank (P.X n) (ρ n) (𝟙 W)
   exact GenuineChern.chernFamily_congr C (𝟙 W ≫ sW) (P.X n) (ρ n)
@@ -136,7 +136,7 @@ theorem op_id_complexChernBounded (P : CochainComplex W.Modules ℤ) (ρ : ℤ �
           ((n.negOnePow : ℤˣ) : ℤ)).prod : (GradedCapFamily (chowGroup C (𝟙 W ≫ sW)))ˣ) := by
   rw [complexChernBounded_eq_prod C sW P ρ hP (Finset.Icc a (a + (k : ℤ))) fun n hn ↦
     hρ n (by rw [Finset.mem_Icc] at hn; omega), complexChernProd]
-  show (TotalChowClass.opRingHom (𝟙 W)).toMonoidHom _ = _
+  change (TotalChowClass.opRingHom (𝟙 W)).toMonoidHom _ = _
   rw [← Units.coe_map, map_list_prod, List.map_map]
   congr 2
   exact List.map_congr_left fun n _ ↦ units_map_opRingHom_complexChernFactor C sW P ρ hP n

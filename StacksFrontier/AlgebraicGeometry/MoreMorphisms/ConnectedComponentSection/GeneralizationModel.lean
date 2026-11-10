@@ -32,10 +32,9 @@ squares rather than of `CategoryTheory.Over`, by factoring the cartesian square 
 through the cartesian square of the transition morphism `Sₖ ⟶ Sⱼ`.
 
 Everything up to the flatness step repeats the construction of the private
-`AlgebraicGeometry.ConnectedAlongSection.exists_noetherian_section_model` of
-`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ConnectedComponentSection.LocallyConstructibleLocus`,
-which is not
-exported; it is reproduced here for an arbitrary diagram of affine schemes, and with the
+`AlgebraicGeometry.ConnectedAlongSection.exists_noetherian_section_model` of the module
+`LocallyConstructibleLocus` in this directory (`MoreMorphisms/ConnectedComponentSection`), which
+is not exported; it is reproduced here for an arbitrary diagram of affine schemes, and with the
 conclusion stated as a cartesian square.
 
 ## References

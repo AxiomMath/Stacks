@@ -60,7 +60,8 @@ of open neighbourhoods
 `Stacks.Topology.OpenNhdsSet` and its cofilteredness are taken from that file rather than
 restated. The two comparison maps are built from the two units — the sheaf-level adjunction unit
 there, the presheaf-level one followed by sheafification here — the latter being the route along
-which the germ computation of `StacksFrontier/Topology/Sheaves/Functors/Pullback/SectionsAndStalks.lean` is available.
+which the germ computation of
+`StacksFrontier/Topology/Sheaves/Functors/Pullback/SectionsAndStalks.lean` is available.
 
 Several identities are applied as terms rather than by `rw`. In these goals one object has two
 definitionally but not syntactically equal spellings (`(unop U).obj` versus

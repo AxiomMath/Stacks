@@ -166,7 +166,7 @@ theorem costructuredArrowSectionsEquiv_natural
       f ≫ costructuredArrowSectionsEquiv F G s := by
   apply (Presheaf.isColimitTautologicalCocone F').hom_ext
   intro j
-  show j.hom ≫ _ = j.hom ≫ _
+  change j.hom ≫ _ = j.hom ≫ _
   rw [costructuredArrowSectionsEquiv_fac, ← Category.assoc]
   exact (costructuredArrowSectionsEquiv_fac F G s ((CostructuredArrow.map f).obj j)).symm
 
@@ -276,7 +276,7 @@ theorem affineLinePoints_natural (S : Scheme.{u})
     {Y Z : Over S} (n : Type u) [Unique n] (f : Y ⟶ Z) (s : Γ(Z.left, ⊤)) :
     f ≫ affineLinePoints S Z n s = affineLinePoints S Y n (f.left.appTop s) := by
   ext
-  show f.left ≫ AffineSpace.homOfVector (Z.left ↘ S) (uniqueElim s) =
+  change f.left ≫ AffineSpace.homOfVector (Z.left ↘ S) (uniqueElim s) =
     AffineSpace.homOfVector (Y.left ↘ S) (uniqueElim (f.left.appTop s))
   rw [AffineSpace.comp_homOfVector, show f.left ≫ (Z.left ↘ S) = Y.left ↘ S by simp]
   congr 1
@@ -380,7 +380,7 @@ theorem globalFunctionsHomEquiv_natural
     globalFunctionsHomEquiv B S hS V (globalFunctionsMap B S hS f s) =
       f ≫ globalFunctionsHomEquiv B S hS U s := by
   apply ObjectProperty.hom_ext
-  show chartFunctionsHomEquiv B S hS V.obj
+  change chartFunctionsHomEquiv B S hS V.obj
     ((globalFunctionsChartEquiv B S hS V).val (globalFunctionsMap B S hS f s)) = _
   rw [globalFunctionsMap_chart]
   exact chartFunctionsHomEquiv_natural B S hS f.hom _

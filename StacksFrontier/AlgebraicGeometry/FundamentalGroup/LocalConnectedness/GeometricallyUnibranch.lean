@@ -113,7 +113,7 @@ private theorem isHenselization_of_isStrictHenselization
   have hlast : residueFieldEquivMaximalIdealResidueField Rsh (residue Rsh (algebraMap R Rsh x))
       = algebraMap Rsh (maximalIdeal Rsh).ResidueField (algebraMap R Rsh x) :=
     algebraMap_residueField_residue Rsh (algebraMap R Rsh x)
-  show (residueFieldEquivMaximalIdealResidueField Rsh).symm
+  change (residueFieldEquivMaximalIdealResidueField Rsh).symm
     (h.residueFieldEquiv (algebraMap (ResidueField R) κsep (residue R x)))
       = residue Rsh (algebraMap R Rsh x)
   rw [hbase, hcomp, Ideal.ResidueField.map_algebraMap, ← hlast,

@@ -34,7 +34,7 @@ abbrev homGm (Y : FiniteEtaleOver (Gm k)) : Y.left ⟶ Gm k := Y.hom
 
 /-- The source of a finite étale cover of `𝐆_m` is affine. -/
 instance (Y : FiniteEtaleOver (Gm k)) : IsAffine Y.left := by
-  haveI : IsFinite (homGm Y) := Y.prop.1
+  have : IsFinite (homGm Y) := Y.prop.1
   exact isAffine_of_isAffineHom (homGm Y)
 
 /-- The structure map `k[x]_x → Γ(Y)` of a cover. -/
@@ -110,9 +110,9 @@ theorem pointRingHom_homOfRingHom {Y Y' : FiniteEtaleOver (Gm k)}
     (y : Spec (CommRingCat.of (Omega k)) ⟶ Y.left) :
     pointRingHom (y ≫ (homOfRingHom θ hθ).left) = θ ≫ pointRingHom y := by
   apply Spec.map_injective
-  show Spec.map (Spec.preimage _) = _
+  change Spec.map (Spec.preimage _) = _
   rw [Spec.map_preimage, Spec.map_comp, specMap_pointRingHom]
-  show y ≫ (Y.left.isoSpec.hom ≫ Spec.map θ ≫ Y'.left.isoSpec.inv) ≫ Y'.left.isoSpec.hom = _
+  change y ≫ (Y.left.isoSpec.hom ≫ Spec.map θ ≫ Y'.left.isoSpec.inv) ≫ Y'.left.isoSpec.hom = _
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 end AlgebraicGeometry.TameMultiplicativeGroup

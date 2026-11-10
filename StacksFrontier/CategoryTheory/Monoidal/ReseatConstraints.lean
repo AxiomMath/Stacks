@@ -73,7 +73,7 @@ lemma reseat_associator_whisker (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U)
     (@MonoidalCategoryStruct.associator C _ (reseat e ε).toMonoidalCategoryStruct X Y Z).hom =
       (reseatIso e ((T.obj X).obj Y) Z).inv ≫ (reseatIso e X Y).inv ▷ Z ≫ (α_ X Y Z).hom ≫
         X ◁ (reseatIso e Y Z).hom ≫ (reseatIso e X ((T.obj Y).obj Z)).hom := by
-  show (((reseatIso e ((T.obj X).obj Y) Z).symm ≪≫ ((reseatIso e X Y).symm ⊗ᵢ Iso.refl Z)) ≪≫
+  change (((reseatIso e ((T.obj X).obj Y) Z).symm ≪≫ ((reseatIso e X Y).symm ⊗ᵢ Iso.refl Z)) ≪≫
       α_ X Y Z ≪≫ ((Iso.refl X ⊗ᵢ reseatIso e Y Z) ≪≫
         reseatIso e X ((T.obj Y).obj Z))).hom = _
   simp
@@ -85,7 +85,7 @@ lemma reseat_associator_whisker (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U)
 lemma reseat_rightUnitor (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) (X : C) :
     (@MonoidalCategoryStruct.rightUnitor C _ (reseat e ε).toMonoidalCategoryStruct X).hom =
       (reseatIso e X U).inv ≫ X ◁ ε.inv ≫ (ρ_ X).hom := by
-  show (((reseatIso e X U).symm ≪≫ (Iso.refl X ⊗ᵢ ε.symm)) ≪≫ ρ_ X).hom = _
+  change (((reseatIso e X U).symm ≪≫ (Iso.refl X ⊗ᵢ ε.symm)) ≪≫ ρ_ X).hom = _
   simp
 
 /-- **The left unitor of the re-seated structure is the given left unitor, conjugated by
@@ -96,14 +96,14 @@ braiding, both unitors are written out in
 lemma reseat_leftUnitor (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) (X : C) :
     (@MonoidalCategoryStruct.leftUnitor C _ (reseat e ε).toMonoidalCategoryStruct X).hom =
       (reseatIso e U X).inv ≫ ε.inv ▷ X ≫ (λ_ X).hom := by
-  show (((reseatIso e U X).symm ≪≫ (ε.symm ⊗ᵢ Iso.refl X)) ≪≫ λ_ X).hom = _
+  change (((reseatIso e U X).symm ≪≫ (ε.symm ⊗ᵢ Iso.refl X)) ≪≫ λ_ X).hom = _
   simp
 
 /-- `CategoryTheory.MonoidalCategory.reseat_rightUnitor` for the inverse. -/
 lemma reseat_rightUnitor_inv (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) (X : C) :
     (@MonoidalCategoryStruct.rightUnitor C _ (reseat e ε).toMonoidalCategoryStruct X).inv =
       (ρ_ X).inv ≫ X ◁ ε.hom ≫ (reseatIso e X U).hom := by
-  show (((reseatIso e X U).symm ≪≫ (Iso.refl X ⊗ᵢ ε.symm)) ≪≫ ρ_ X).inv = _
+  change (((reseatIso e X U).symm ≪≫ (Iso.refl X ⊗ᵢ ε.symm)) ≪≫ ρ_ X).inv = _
   simp
 
 /-- **The left unitor of the re-seated structure in terms of the given *right* unitor**, when
@@ -167,7 +167,7 @@ lemma reseat_associator_comp (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) {X
       (α_ X Y Z).hom ≫ X ◁ ((reseatIso e Y Z).hom ≫ n) ≫ ((reseatIso e X YZ).hom ≫ q)) :
     letI := reseat e ε
     m ▷ Z ≫ p ≫ a = (α_ X Y Z).hom ≫ X ◁ n ≫ q := by
-  show (T.map m).app Z ≫ p ≫ a =
+  change (T.map m).app Z ≫ p ≫ a =
     (@MonoidalCategoryStruct.associator C _ (reseat e ε).toMonoidalCategoryStruct X Y Z).hom ≫
       (T.obj X).map n ≫ q
   rw [reseat_associator_whisker e ε X Y Z, reseat_whiskerRight e m Z, reseat_whiskerLeft e X n]

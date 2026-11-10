@@ -92,7 +92,7 @@ theorem exists_isUnit_mul_eq_of_isCoordinateAt {z : X} (hL : IsTrivializedNear L
   obtain ⟨m', hm', hsa'⟩ := ha'
   obtain ⟨u, hu, hmu⟩ := exists_isUnit_smul_eq hm hm'
   refine ⟨u, hu, (hm.toGenericStalk hL).injective ?_⟩
-  show a • toGenericStalk L z m =
+  change a • toGenericStalk L z m =
     (algebraMap (X.presheaf.stalk z) X.functionField u * a') • toGenericStalk L z m
   rw [mul_comm, mul_smul, ← toGenericStalk_smul, ← hmu, ← hsa', hsa]
 

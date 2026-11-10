@@ -227,12 +227,12 @@ theorem exists_isLimit_finitePresentation_isClosedImmersion (f : X ⟶ S) [Local
     exact IsClosedImmersion.of_comp a b
   refine ⟨I, hpre, hne, hdir, D, tY ≫ (Functor.const Iᵒᵖ).map q, p, hlim, ?_, ?_, ?_, ?_⟩
   · ext i
-    show p.app i ≫ tY.app i ≫ q = f
+    change p.app i ≫ tY.app i ≫ q = f
     rw [← Category.assoc, hproj, hjq]
   · intro i
     have hfp : FinitePresentation (tY.app i) := (hstage i).2
     refine ⟨?_, ?_, ?_⟩
-    · show FinitePresentation (tY.app i ≫ q)
+    · change FinitePresentation (tY.app i ≫ q)
       exact hfp.comp hq
     · exact @QuasiCompact.compactSpace_of_compactSpace _ _ (tY.app i) hfp.quasiCompact hYc
     · exact @quasiSeparatedSpace_of_quasiSeparated _ _ (tY.app i) hYq hfp.quasiSeparated

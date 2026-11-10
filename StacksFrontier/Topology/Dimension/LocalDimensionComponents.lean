@@ -157,7 +157,7 @@ theorem exists_mem_irreducibleComponents_topologicalKrullDimAt_eq_of_noetherianS
   set loc : Set Y → WithBot ℕ∞ :=
     fun D => if h : y ∈ D then topologicalKrullDimAt ↥D ⟨y, h⟩ else ⊥
   have hlocval : ∀ (D : Set Y) (h : y ∈ D), loc D = topologicalKrullDimAt ↥D ⟨y, h⟩ :=
-    fun D h => dif_pos h
+    fun D h => dite_eq_left h
   obtain ⟨D₀, hD₀mem, hD₀max⟩ := Set.exists_max_image
     {D : Set Y | D ∈ irreducibleComponents Y ∧ y ∈ D} loc hfin ⟨_, hmem⟩
   -- a neighbourhood of `y` on which each of them already attains its local dimension
@@ -187,7 +187,7 @@ theorem exists_mem_irreducibleComponents_topologicalKrullDimAt_eq_of_noetherianS
     · rintro C ⟨D, rfl⟩
       exact (isClosed_of_mem_irreducibleComponents D.1 D.2.1).preimage continuous_subtype_val
     · rintro C ⟨D, rfl⟩
-      show topologicalKrullDim ↥(Subtype.val ⁻¹' D.1 : Set ↥W) ≤
+      change topologicalKrullDim ↥(Subtype.val ⁻¹' D.1 : Set ↥W) ≤
         topologicalKrullDimAt ↥D₀ ⟨y, hD₀mem.2⟩
       rw [← Subtype.preimage_coe_inter_self W D.1,
         topologicalKrullDim_preimage_val W (D.1 ∩ W) Set.inter_subset_right]

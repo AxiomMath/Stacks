@@ -116,7 +116,7 @@ theorem le_preimage_of_base_surjective {X Y Y' : Scheme.{u}} {i : Y ⟶ Y'} {a :
     (ha : (⊤ : Y.Opens) ≤ a ⁻¹ᵁ W) : (⊤ : Y'.Opens) ≤ b ⁻¹ᵁ W := by
   intro y _
   obtain ⟨y₀, rfl⟩ := hi y
-  show b.base (i.base y₀) ∈ W
+  change b.base (i.base y₀) ∈ W
   rw [← Scheme.Hom.comp_apply, hba]
   exact ha (Set.mem_univ y₀)
 

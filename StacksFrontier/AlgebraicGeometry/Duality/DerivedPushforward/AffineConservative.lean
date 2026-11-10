@@ -90,7 +90,7 @@ theorem isZero_homology_of_isZero_homology_derivedPushforward_of_isAffineHom
   have e₃ := (homologyFunctorModelIso CY i).app
     (@Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforward _ _ g.toLRSHom.toShHom
       (HasDerivedCategory.standard _) (HasDerivedCategory.standard _) |>.obj E')
-  show IsZero (((Stacks.Injectives.grothendieckModelEquiv.{u} CW).functor ⋙
+  change IsZero (((Stacks.Injectives.grothendieckModelEquiv.{u} CW).functor ⋙
     @DerivedCategory.homologyFunctor CW _ _
       (Stacks.Injectives.hasDerivedCategory_of_isGrothendieckAbelian.{u} CW) i).obj E')
   refine IsZero.of_iso ?_ e₁

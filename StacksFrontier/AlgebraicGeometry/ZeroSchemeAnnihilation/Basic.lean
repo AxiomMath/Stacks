@@ -232,7 +232,7 @@ theorem app_eval_eq_zero_of_comp_eq_zero {X : Scheme.{u}}
     congrArg M.unitHomEquiv hp
   rw [L.unitHomEquiv.apply_symm_apply] at h
   have hzero : (M.unitHomEquiv (0 : SheafOfModules.unit X.ringCatSheaf ⟶ M)).val (op V) = 0 := by
-    show ((0 : SheafOfModules.unit X.ringCatSheaf ⟶ M).val.app (op V))
+    change ((0 : SheafOfModules.unit X.ringCatSheaf ⟶ M).val.app (op V))
       (1 : X.ringCatSheaf.obj.obj (op V)) = 0
     rw [show (0 : SheafOfModules.unit X.ringCatSheaf ⟶ M).val = 0 from rfl,
       PresheafOfModules.zero_app]

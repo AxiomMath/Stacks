@@ -127,7 +127,7 @@ theorem exists_isMaximal_mem_nonZeroDivisors_isolated [IsNoetherianRing R] [IsJa
     intro hle
     obtain ⟨P, hP, hPm⟩ := exists_mem_le_of_sInf_le hZfin.sdiff hle
     exact hP.2 ((hmaxf P hP.1.1 hP.1.2).eq_of_le hmax.ne_top hPm)
-  obtain ⟨g, hgT, hgm⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨g, hgT, hgm⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   refine ⟨m, hmax, hpm, f, hfm, hf, g, hgm, fun P hP hfP hgP => ?_⟩
   by_contra hPm
   exact hgP (Submodule.mem_sInf.1 hgT P ⟨⟨hP, hfP⟩, hPm⟩)

@@ -54,7 +54,7 @@ private theorem isCompleteIntersection_of_fieldEquiv
   let eAK : A ≃ₐ[K] (R ⧸ Ideal.ofList fs) := {
     eA.toRingEquiv with
     commutes' := fun c => by
-      show eA (algebraMap k A (eK.symm c)) =
+      change eA (algebraMap k A (eK.symm c)) =
         algebraMap K (R ⧸ Ideal.ofList fs) c
       rw [eA.commutes]
       rfl
@@ -62,7 +62,7 @@ private theorem isCompleteIntersection_of_fieldEquiv
   let eABK : A ≃ₐ[K] B := {
     eAB with
     commutes' := fun c => by
-      show eAB (algebraMap k A (eK.symm c)) = algebraMap K B c
+      change eAB (algebraMap k A (eK.symm c)) = algebraMap K B c
       rw [hmap, RingEquiv.apply_symm_apply]
   }
   exact ⟨R, instR, inferInstance, hR, hEssK, fs, hfs, ⟨eABK.symm.trans eAK⟩⟩
@@ -113,7 +113,7 @@ private lemma relativeGCIRingHom_respectsIso :
     have hbc : IsBaseChange T (IsScalarTower.toAlgHom S R T).toLinearMap := by
       apply IsBaseChange.of_equiv ePush.toLinearEquiv
       intro r
-      show ePush (1 ⊗ₜ[S] r) = algebraMap R T r
+      change ePush (1 ⊗ₜ[S] r) = algebraMap R T r
       calc
         ePush (1 ⊗ₜ[S] r) = eAlg r • (1 : T) := by simp [ePush]
         _ = algebraMap R T r := by
@@ -188,7 +188,7 @@ private theorem exists_affine_standardSyntomic_of_syntomicAt {X S : Scheme.{u}}
   have hxW : x ∈ W := by
     have hpre : U.2.primeIdealOf ⟨x, hxU⟩ ∈ U.2.fromSpec ⁻¹ᵁ X.basicOpen g := by
       rw [U.2.fromSpec_preimage_basicOpen]
-      show g ∉ (U.2.primeIdealOf ⟨x, hxU⟩).asIdeal
+      change g ∉ (U.2.primeIdealOf ⟨x, hxU⟩).asIdeal
       exact hg
     have hx : U.2.fromSpec (U.2.primeIdealOf ⟨x, hxU⟩) ∈ X.basicOpen g := hpre
     simpa [W, U.2.fromSpec_primeIdealOf] using hx
@@ -260,7 +260,7 @@ private theorem syntomicAt_tfae_proof {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
       Algebra.Syntomic.of_isRelativeGlobalCompleteIntersection R T
     refine ⟨?_, ?_, ?_⟩
     · exact ⟨V, U, hxU, hUV, by
-        show φ.FinitePresentation
+        change φ.FinitePresentation
         exact Algebra.Syntomic.finitePresentation⟩
     · let p : Ideal R := (V.2.primeIdealOf ⟨f x, hUV hxU⟩).asIdeal
       let q : Ideal T := (U.2.primeIdealOf ⟨x, hxU⟩).asIdeal
@@ -319,9 +319,9 @@ private theorem syntomicAt_tfae_proof {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
       have : IsScalarTower R T B := by
         apply IsScalarTower.of_algebraMap_eq
         intro r
-        show f.stalkMap x (S.presheaf.germ V.1 (f x) (hUV hxU) r) = _
+        change f.stalkMap x (S.presheaf.germ V.1 (f x) (hUV hxU) r) = _
         rw [Scheme.Hom.germ_stalkMap_apply f V.1 x (hUV hxU) r]
-        show X.presheaf.germ (f ⁻¹ᵁ V.1) x (hUV hxU) (f.app V.1 r) =
+        change X.presheaf.germ (f ⁻¹ᵁ V.1) x (hUV hxU) (f.app V.1 r) =
           X.presheaf.germ U.1 x hxU
             ((X.presheaf.map (homOfLE hUV).op).hom (f.app V.1 r))
         exact (X.presheaf.germ_res_apply (homOfLE hUV) x hxU (f.app V.1 r)).symm
@@ -386,9 +386,9 @@ private theorem syntomicAt_tfae_proof {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
     have : IsScalarTower R T B := by
       apply IsScalarTower.of_algebraMap_eq
       intro r
-      show f.stalkMap x (S.presheaf.germ V₀.1 (f x) (hUV hxU) r) = _
+      change f.stalkMap x (S.presheaf.germ V₀.1 (f x) (hUV hxU) r) = _
       rw [Scheme.Hom.germ_stalkMap_apply f V₀.1 x (hUV hxU) r]
-      show X.presheaf.germ (f ⁻¹ᵁ V₀.1) x (hUV hxU) (f.app V₀.1 r) =
+      change X.presheaf.germ (f ⁻¹ᵁ V₀.1) x (hUV hxU) (f.app V₀.1 r) =
         X.presheaf.germ U₀.1 x hxU
           ((X.presheaf.map (homOfLE hUV).op).hom (f.app V₀.1 r))
       exact (X.presheaf.germ_res_apply (homOfLE hUV) x hxU (f.app V₀.1 r)).symm
@@ -437,7 +437,7 @@ private theorem syntomicAt_tfae_proof {X S : Scheme.{u}} (f : X ⟶ S) (x : X)
     have hxW : x ∈ W := by
       have hpre : U₀.2.primeIdealOf xU ∈ U₀.2.fromSpec ⁻¹ᵁ X.basicOpen g := by
         rw [U₀.2.fromSpec_preimage_basicOpen]
-        show g ∉ (U₀.2.primeIdealOf xU).asIdeal
+        change g ∉ (U₀.2.primeIdealOf xU).asIdeal
         exact hg
       have hx : U₀.2.fromSpec (U₀.2.primeIdealOf xU) ∈ X.basicOpen g := hpre
       simpa [W, xU, U₀.2.fromSpec_primeIdealOf] using hx

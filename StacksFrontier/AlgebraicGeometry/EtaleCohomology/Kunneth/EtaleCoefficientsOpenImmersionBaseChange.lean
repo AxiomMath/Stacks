@@ -37,8 +37,8 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `Stacks.EtaleCohomology.EtaleCoefficients.baseChangeMap` and
--- `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb`
--- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`)
+-- `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb` (at
+-- `StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`)
 -- are stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 

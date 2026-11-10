@@ -69,8 +69,8 @@ perfectness, and both are strictly smaller than the conclusion:
   (`Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`), and the
   direction of [Stacks, Tag 08EA] that the argument needs — that the quasi-coherent modules alone
   detect Tor amplitude — is explicitly recorded as missing in
-  `StacksFrontier/AlgebraicGeometry/Perfect/TorAmplitudeQuasiCoherentTests.lean`.  So this residue is
-  not avoidable at the present state of the tree either.
+  `StacksFrontier/AlgebraicGeometry/Perfect/TorAmplitudeQuasiCoherentTests.lean`.  So this residue
+  is not avoidable at the present state of the tree either.
 
 Both residues take as arguments the clauses of the hypothesis of [Stacks, Tag 08EV] that the
 source feeds into them, so each of the four clauses of that hypothesis is consumed: the

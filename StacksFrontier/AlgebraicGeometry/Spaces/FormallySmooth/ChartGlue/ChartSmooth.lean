@@ -33,7 +33,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (T' : BigFpp
 /-- A ring of cardinality below the cutoff has its spectrum in the site. -/
 lemma contains_spec_of_mk_lt {Q : Type u} [CommRing Q] (hQ : #Q < B.cutoff) :
     B.Contains (Spec (CommRingCat.of Q)) := by
-  show (Spec (CommRingCat.of Q)).size < B.cutoff
+  change (Spec (CommRingCat.of Q)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff hQ
 

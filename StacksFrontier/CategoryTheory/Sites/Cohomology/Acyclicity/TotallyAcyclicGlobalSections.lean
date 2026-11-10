@@ -208,7 +208,7 @@ lemma moduleSectionsLimitIso_naturality (R : Sheaf J RingCat.{u})
         ((SheafOfModules.toSheaf R).map f)) ≫ (moduleSectionsLimitIso R N).hom) ≫
         (moduleSectionsCone R N).π.app U =
       lim.map α ≫ limit.π FN U := by
-        show lim.map α ≫
+        change lim.map α ≫
           ((moduleSectionsLimitIso R N).hom ≫ (moduleSectionsCone R N).π.app U) =
           lim.map α ≫ limit.π FN U
         exact congrArg (fun k => lim.map α ≫ k) hN
@@ -306,7 +306,7 @@ theorem isZero_rightDerived_moduleGlobalSections_of_isTotallyAcyclic
   have := subsingleton_ext_constantSheaf_of_isTotallyAcyclic hM n
   have hExtRepZero : IsZero ((extFunctorObj Xrep (n + 1)).obj
       ((SheafOfModules.toSheaf R).obj M)) := by
-    show IsZero (AddCommGrpCat.of (Ext.{u} Xrep ((SheafOfModules.toSheaf R).obj M) (n + 1)))
+    change IsZero (AddCommGrpCat.of (Ext.{u} Xrep ((SheafOfModules.toSheaf R).obj M) (n + 1)))
     exact AddCommGrpCat.isZero_of_subsingleton _
   -- `Ext` out of `Xrep` is the right derived functor of the functor it corepresents.
   have hCoy : IsZero (((preadditiveCoyoneda.obj (op Xrep)).rightDerived (n + 1)).obj

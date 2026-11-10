@@ -72,32 +72,31 @@ private theorem rankOne_unit_iso
     intro x
     obtain ⟨⟨x⟩⟩ := x
     simp only [inv, map_smul, he]
-    show ULift.up (ULift.up (x * f 1)) = ULift.up (ULift.up x)
+    change ULift.up (ULift.up (x * f 1)) = ULift.up (ULift.up x)
     rw [map_one, mul_one]
   have hleft : Function.LeftInverse inv e := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [inv]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
-      show (e (z + z')).down.down • _ = _
+      change (e (z + z')).down.down • _ = _
       rw [map_add]
-      show ((e z).down.down + (e z').down.down) • _ = _
+      change ((e z).down.down + (e z').down.down) • _ = _
       rw [add_smul]
       exact congrArg₂ (· + ·) hz hz'
     | tmul b x =>
       change B at b
       obtain ⟨⟨x⟩⟩ := x
       rw [hex]
-      show (b * f x) • ((1 : B) ⊗ₜ[A,f] (ULift.up (ULift.up (1 : A)))) =
+      change (b * f x) • ((1 : B) ⊗ₜ[A,f] (ULift.up (ULift.up (1 : A)))) =
         b ⊗ₜ[A,f] (ULift.up (ULift.up x))
-      show ((b * f x) * 1) ⊗ₜ[A,f] (ULift.up (ULift.up (1 : A))) = _
+      change ((b * f x) * 1) ⊗ₜ[A,f] (ULift.up (ULift.up (1 : A))) = _
       rw [mul_one]
       have hx : ULift.up (ULift.up x) = x • (ULift.up (ULift.up (1 : A)) : P) := by
         apply ULift.ext
         apply ULift.ext
         exact (mul_one x).symm
       rw [hx, TensorProduct.tmul_smul]
-      show (b * f x) ⊗ₜ[A,f] _ = (f x * b) ⊗ₜ[A,f] _
+      change (b * f x) ⊗ₜ[A,f] _ = (f x * b) ⊗ₜ[A,f] _
       rw [mul_comm]
   let iso := (LinearEquiv.ofBijective e.hom ⟨hleft.injective, hright.surjective⟩).toModuleIso
   exact ⟨iso, fun a => he _⟩
@@ -154,7 +153,7 @@ private theorem bijective_precomp_scalarExtensionUnit
   apply bijective_precomp_of_iso_square _ (S.map (H.map g₀)) (Iso.refl _)
     (S.mapIso (res.mapIso e)) _ K h
   simp only [Iso.refl_hom, Category.id_comp, Functor.mapIso_hom]
-  show S.map (H.map g₀) = S.map (adj.unit.app P) ≫ S.map (res.map e.hom)
+  change S.map (H.map g₀) = S.map (adj.unit.app P) ≫ S.map (res.map e.hom)
   rw [← S.map_comp, hu]
 
 private theorem isZero_module_of_rankOne_hom_eq_zero
@@ -225,7 +224,7 @@ private theorem exists_restrictScalars_derivedAdjunction_isIso_counit
         (isDerivedComplete_shift A I K hK n))
   exact ⟨G, adj₂, hε⟩
 
-private theorem isEquivalence_restrictScalars_large
+theorem isEquivalence_restrictScalars_large
     (A : Type uA) (B : Type uB) [CommRing A] [CommRing B] [Algebra A B]
     (I : Ideal A) (hI : I.FG) (hflat : Module.Flat A B)
     (hquot : Function.Bijective
@@ -489,7 +488,7 @@ private theorem isTorsionBySet_map_of_restrictScalars
     (h : Module.IsTorsionBySet A ((ModuleCat.restrictScalars f).obj M) J) :
     Module.IsTorsionBySet B M (J.map f) := by
   rw [Module.isTorsionBySet_iff_subset_annihilator] at h ⊢
-  show J.map f ≤ Module.annihilator B M
+  change J.map f ≤ Module.annihilator B M
   apply Ideal.map_le_iff_le_comap.mpr
   intro a ha
   exact Module.mem_annihilator.mpr (Module.mem_annihilator.mp (h ha))
@@ -509,12 +508,12 @@ private theorem exists_quotient_complex
         ((K.d i j).hom.extendScalarsOfSurjective Ideal.Quotient.mk_surjective)
       shape i j h := by
         ext x
-        show (K.d i j).hom x = 0
+        change (K.d i j).hom x = 0
         rw [K.shape i j h]
         rfl
       d_comp_d' i j k _ _ := by
         ext x
-        show (K.d j k).hom ((K.d i j).hom x) = 0
+        change (K.d j k).hom ((K.d i j).hom x) = 0
         have h := congrArg (fun f : K.X i ⟶ K.X k => f.hom x) (K.d_comp_d i j k)
         exact h }
   refine ⟨L, ⟨HomologicalComplex.Hom.isoOfComponents (fun i => ?_) ?_⟩⟩
@@ -666,11 +665,12 @@ private theorem bijective_quotientMap_quotient
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     simp only [DoubleQuot.quotQuotEquivComm_symm, RingEquiv.coe_trans, Function.comp_apply,
       DoubleQuot.quotQuotEquivComm_mk_mk, Ideal.quotientEquiv_apply, RingHom.toMonoidHom_eq_coe,
-      OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe, MonoidHom.coe_coe, Ideal.quotientMap_algebraMap,
+      OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe, MonoidHom.coe_ofClass,
+      Ideal.quotientMap_algebraMap,
       Ideal.Quotient.algebraMap_eq, RingHom.coe_coe, RingEquiv.coe_ofBijective,
       Ideal.quotientMap_mk, fJ, e, eI, fI]
     exact Ideal.quotEquivOfEq_mk hI.symm _
-  show Function.Bijective (Ideal.quotientMap
+  change Function.Bijective (Ideal.quotientMap
     ((I.map (Ideal.Quotient.mk J)).map fJ) fJ Ideal.le_comap_map)
   rw [← he]
   exact e.bijective

@@ -161,7 +161,7 @@ theorem isQuasiAffine_of_isFinite_of_hasNormOfDegree (f : X ⟶ Y) [IsFinite f]
       (unitModule X)
       ((isQuasiAffine_iff_isAmple X).mp inferInstance)
       (f.finite_preimage_singleton y) (f ⁻¹ᵁ V) fun x hx => by
-        show f.base x ∈ V
+        change f.base x ∈ V
         rw [show f.base x = y from hx]
         exact hyV
   obtain ⟨g, hg⟩ :=

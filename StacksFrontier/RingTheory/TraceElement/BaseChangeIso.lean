@@ -64,9 +64,9 @@ theorem exists_linearEquiv_traceCandidate_of_baseChange
       symm
       rw [TensorProduct.AlgebraTensorModule.rid_tmul, Algebra.smul_def, mul_one]
       rfl
-    show e3 (e2 (e1.symm ((1 : A) ⊗ₜ[A₀] d₀))) = _
+    change e3 (e2 (e1.symm ((1 : A) ⊗ₜ[A₀] d₀))) = _
     rw [h1]
-    show baseChangeLinearMap F₀ A ((1 : B₁) ⊗ₜ[B₀] ε₀ d₀) = _
+    change baseChangeLinearMap F₀ A ((1 : B₁) ⊗ₜ[B₀] ε₀ d₀) = _
     rw [hε₀, baseChangeLinearMap_one_tmul]
     exact baseChange_traceCandidate F₀ A
   -- transport along `σ`
@@ -90,12 +90,12 @@ theorem exists_linearEquiv_traceCandidate_of_baseChange
       invFun := fun z ↦ σ (ε₁.symm z)
       map_add' := fun x y ↦ by simp
       map_smul' := fun b x ↦ by
-        show ε₁ (σ.symm (b * x)) = σ.symm b • ε₁ (σ.symm x)
+        change ε₁ (σ.symm (b * x)) = σ.symm b • ε₁ (σ.symm x)
         rw [map_mul, ← smul_eq_mul, map_smul]
       left_inv := fun b ↦ by simp
       right_inv := fun z ↦ by simp }
   refine ⟨eB ≪≫ₗ eR ≪≫ₗ eM, ?_⟩
-  show eM (eR (ε₁ (σ.symm (σ (1 ⊗ₜ d₀))))) = _
+  change eM (eR (ε₁ (σ.symm (σ (1 ⊗ₜ d₀))))) = _
   rw [AlgEquiv.symm_apply_apply, hε₁, heR, heM]
 
 end dualizingModule

@@ -214,7 +214,7 @@ theorem freeUnderlyingPresheafLocallySurjective
             (((SheafOfModules.toSheaf RV).mapCocone (SheafOfModules.freeCofan I)).ι.app ⟨j⟩) := by
       rw [hη]
       rw [Limits.colimit.ι_desc]
-      show _ = ((SheafOfModules.toSheaf RV).map ((SheafOfModules.freeCofan I).ι.app ⟨j⟩)).hom
+      change _ = ((SheafOfModules.toSheaf RV).map ((SheafOfModules.freeCofan I).ι.app ⟨j⟩)).hom
       rw [SheafOfModules.toSheaf_map_hom]
       simp only [SheafOfModules.freeCofan, Limits.Cofan.mk_ι_app]
       rfl
@@ -276,7 +276,7 @@ theorem comb_component {F : SheafOfModules.{u} R}
           ≫ ((SheafOfModules.toSheaf (R.over V)).map ψ).hom)
       = (PresheafOfModules.toPresheaf (R.over V).obj).map
           ((SheafOfModules.forget (R.over V)).map ((F.over V).unitHomEquiv.symm (gs.s j))) := by
-  rw [← Category.assoc, Limits.Sigma.ι_desc,
+  rw [← Category.assoc, Limits.Sigma.ι_comp_desc,
     show ((SheafOfModules.toSheaf (R.over V)).map ψ).hom
       = (PresheafOfModules.toPresheaf (R.over V).obj).map ((SheafOfModules.forget (R.over V)).map
           ψ) from rfl,
@@ -356,7 +356,7 @@ theorem combApp_decode {F : SheafOfModules.{u} R}
       = (PresheafOfModules.toPresheaf (R.over V).obj).map
           ((SheafOfModules.forget (R.over V)).map ((F.over V).unitHomEquiv.symm (gs.s j))) := by
     intro j
-    rw [(by rw [← Iso.eq_comp_inv, Limits.biproduct.isoCoproduct_inv, Limits.Sigma.ι_desc] :
+    rw [(by rw [← Iso.eq_comp_inv, Limits.biproduct.isoCoproduct_inv, Limits.Sigma.ι_comp_desc] :
       Limits.biproduct.ι (fun _ : gs.I => (SheafOfModules.unit (R.over V)).val.presheaf) j ≫
         (Limits.biproduct.isoCoproduct
           (fun _ : gs.I => (SheafOfModules.unit (R.over V)).val.presheaf)).hom
@@ -508,7 +508,7 @@ theorem localLinComb_of_generatingSections {F : SheafOfModules.{u} R}
   have hgen : ∀ i, SheafOfModules.ιFree i ≫ ψ
       = (F.over V).unitHomEquiv.symm (gs.s i) := by
     intro i
-    show (SheafOfModules.freeCofan gs.I).inj i ≫ _ = _
+    change (SheafOfModules.freeCofan gs.I).inj i ≫ _ = _
     rw [hψ, SheafOfModules.freeHomEquiv]
     exact (SheafOfModules.isColimitFreeCofan gs.I).fac _ ⟨i⟩
   intro U hUV t y hyU

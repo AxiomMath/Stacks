@@ -177,7 +177,7 @@ theorem eq_zero_of_forall_smul_eq {ℓ : ℕ} [Fact ℓ.Prime]
     have hid : ((ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ))).map (algebraMap (ZMod ℓ) (ZMod ℓ)) =
         (ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) := by ext; simp
     rw [hid]
-    show (ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) * X.val = X.val * ρ g
+    change (ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) * X.val = X.val * ρ g
     calc (ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) * X.val
         = (ρ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) * X.val * ((ρ g)⁻¹ : _) * ρ g := by
           rw [Matrix.mul_assoc _ (((ρ g)⁻¹ : Matrix.GeneralLinearGroup _ _) :
@@ -316,7 +316,7 @@ private theorem existsUnique_of_small
     (by
       obtain ⟨P, hP⟩ := hρ
       refine ⟨P, fun g => ?_⟩
-      show ρ₀ g = P * Matrix.GeneralLinearGroup.map (red.comp (e : (ULift.{v} S) →+* S))
+      change ρ₀ g = P * Matrix.GeneralLinearGroup.map (red.comp (e : (ULift.{v} S) →+* S))
         (Matrix.GeneralLinearGroup.map (e.symm : S →+* (ULift.{v} S)) (ρ g)) * P⁻¹
       rw [hmapcomp red (ρ g)]
       exact hP g)
@@ -325,7 +325,7 @@ private theorem existsUnique_of_small
       have h1 := congrArg Units.val (hdet g)
       rw [Matrix.GeneralLinearGroup.val_det_apply] at h1
       rw [Matrix.GeneralLinearGroup.val_det_apply]
-      show ((ρ g : Matrix (Fin n) (Fin n) S).map (e.symm : S →+* (ULift.{v} S))).det = _
+      change ((ρ g : Matrix (Fin n) (Fin n) S).map (e.symm : S →+* (ULift.{v} S))).det = _
       rw [show (ρ g : Matrix (Fin n) (Fin n) S).map (e.symm : S →+* (ULift.{v} S)) =
         (e.symm : S →+* (ULift.{v} S)).mapMatrix (ρ g : Matrix (Fin n) (Fin n) S) from rfl,
         ← RingHom.map_det, h1]

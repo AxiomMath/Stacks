@@ -190,8 +190,9 @@ variable {F : 𝒜 ⥤ 𝒳} (hF : p.IsFibredOneMorphism q F) (α : G ⋙ H ≅ 
     ∀ ⦃V : 𝒞⦄ ⦃f : V ⟶ U⦄, R.arrows f →
       (fiberFunctorOfCompEq hF.comp_eq V).essImage (pullbackFiber q x f))
 
-include hα hGobj hFobj
+include hα hFobj
 
+omit [p.IsFibered] [p'.IsFibered] in
 /-- **Clause (2) transports across a vertical 2-isomorphism.** If every object of a fibre of `q` is
 locally in the essential image of `F` on fibres and `α : G ⋙ H ≅ F` is vertical, the same holds
 for `G ⋙ H`: the induced functors on a fibre are isomorphic by
@@ -204,7 +205,7 @@ theorem locally_essImage_comp_of_natIso (U : 𝒞) (x : q.Fiber U) : ∃ R ∈ J
   obtain ⟨a, ⟨ι⟩⟩ := hRess hf
   exact ⟨a, ⟨(IsFibredOneMorphism.natIsoFiber (hG.comp hH) hF α hα a).trans ι⟩⟩
 
-include hH hGmor hFmor
+include hH hGmor hGobj hFmor
 
 /-- **The determinacy clause of Stacks 02ZN and 02ZP with the clauses read on a 1-morphism
 `F : 𝒜 ⥤ 𝒳` only vertically 2-isomorphic to `G ⋙ H`.** This is the shape in which the universal
@@ -217,7 +218,7 @@ theorem nonempty_isEquivalenceOver_of_natIso (hp' : p'.IsStack J) (hq : q.IsStac
     Nonempty (IsEquivalenceOver p' q H) :=
   nonempty_isEquivalenceOver_of_locally_fullyFaithful hG hH J hGmor hGobj
     (isLocallyBijective_morPresheafMap_of_natIso hG hH J hF α hα hFmor)
-    (locally_essImage_comp_of_natIso hG hH J hF α hα hGobj hFobj) hp' hq
+    (locally_essImage_comp_of_natIso hG hH J hF α hα hFobj) hp' hq
 
 end NatIso
 

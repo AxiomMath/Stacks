@@ -248,7 +248,7 @@ def internalHomRestrictOpenSectionsEquiv :
   invFun := internalHomRestrictOpenSectionsInv G M V W hW
   left_inv := internalHomRestrictOpenSectionsInv_fun G M V W hW
   right_inv := internalHomRestrictOpenSectionsFun_inv G M V W hW
-  map_add' a b := PresheafOfModules.hom_ext fun T => ModuleCat.hom_ext (LinearMap.ext fun x => rfl)
+  map_add' := by intros; rfl
 
 include hW in
 /-- **The sectionwise description of `internalHomRestrictOpenSectionsEquiv`.** -/

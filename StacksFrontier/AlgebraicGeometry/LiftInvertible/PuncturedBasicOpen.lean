@@ -102,11 +102,11 @@ theorem exists_notMem_asIdeal_forall_mem_asIdeal {𝔪 : PrimeSpectrum R}
     rw [Set.Finite.mem_toFinset] at hp
     have hpmax : p.asIdeal.IsMaximal := (isClosed_singleton_iff_isMaximal p).mp (hcl p hp)
     exact hm (PrimeSpectrum.ext (hpmax.eq_of_le 𝔪.isPrime.ne_top hple) ▸ hp)
-  obtain ⟨u, humem, hunot⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨u, humem, hunot⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   refine ⟨u, hunot, fun p hp => ?_⟩
   have hle := Finset.inf_le (f := fun q : PrimeSpectrum R => q.asIdeal)
     ((Set.Finite.mem_toFinset hfin).mpr hp)
-  exact SetLike.le_def.mp hle humem
+  exact IsConcreteLE.le_iff.mp hle humem
 
 /-- **A closed point whose zero locus is finite and closed has a basic open neighbourhood with
 basic punctured complement, avoiding any prescribed finite set of other closed points.** Let

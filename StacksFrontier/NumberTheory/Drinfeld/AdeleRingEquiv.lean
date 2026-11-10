@@ -242,7 +242,7 @@ public theorem completionEquiv_mem_integers_iff {v : Place K} {w : Place K'}
     have : {z : v.completion | completionEquiv σ h z ∈ w.integers ↔ z ∈ v.integers} =
         ((completionEquiv σ h) ⁻¹' {z | z ∈ w.integers} ∩ {z | z ∈ v.integers}) ∪
         (((completionEquiv σ h) ⁻¹' {z | z ∈ w.integers})ᶜ ∩ {z | z ∈ v.integers}ᶜ) := by
-      ext z; simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_inter_iff, Set.mem_preimage,
+      ext z; simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_inter_iff, Set.mem_preimage,
         Set.mem_compl_iff]; tauto
     rw [this]
     exact ((h2.isClosed.inter h1.isClosed).union (h2.compl.isClosed.inter h1.compl.isClosed))

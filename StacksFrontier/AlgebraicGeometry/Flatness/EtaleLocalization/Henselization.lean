@@ -108,7 +108,7 @@ private theorem weaklyAssociatedPrime_map_of_ringEquiv
   obtain ⟨q, hq, hqp⟩ : p ∈ Ideal.comap e '' I.minimalPrimes :=
     (Ideal.comap_minimalPrimes_eq_of_surjective (f := (e : R →+* S)) e.surjective I) ▸
       (by simpa [hI, I] using hm : p ∈ (I.comap e).minimalPrimes)
-  show p.map e ∈ I.minimalPrimes
+  change p.map e ∈ I.minimalPrimes
   rwa [← hqp, Ideal.map_comap_of_surjective e e.surjective q]
 
 /-- The prime of `Γ(Spec R, ⊤)` corresponding to a point of `Spec R` is the image of the prime. -/
@@ -117,7 +117,7 @@ private theorem primeIdealOf_top_asIdeal {R : Type u} [CommRing R] (y : PrimeSpe
       y.asIdeal.map (Scheme.ΓSpecIso (CommRingCat.of R)).symm.commRingCatIsoToRingEquiv := by
   rw [IsAffineOpen.primeIdealOf, (isAffineOpen_top (Spec (.of R))).isoSpec_hom,
     Scheme.Opens.toSpecΓ_top]
-  show ((Spec (.of R)).isoSpec.hom y).asIdeal = _
+  change ((Spec (.of R)).isoSpec.hom y).asIdeal = _
   rw [Scheme.isoSpec_Spec_hom]
   exact Ideal.comap_symm (f := (Scheme.ΓSpecIso (CommRingCat.of R)).symm.commRingCatIsoToRingEquiv)
 
@@ -129,10 +129,7 @@ private theorem exists_tensor_rep_of_colimit {R : Type u} [CommRing R]
     (z : (c.pt : Type w) ⊗[R] M) :
     ∃ j : J, ∃ z' : (F.obj j : Type w) ⊗[R] M,
       LinearMap.rTensor M ((c.ι.app j).hom.toLinearMap) z' = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      obtain ⟨j⟩ : Nonempty J := IsFiltered.nonempty
-      exact ⟨j, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       obtain ⟨j, a', ha'⟩ := CommAlgCat.exists_app_eq hc a
       exact ⟨j, a' ⊗ₜ[R] m, by simp [ha']⟩
@@ -145,7 +142,7 @@ private theorem exists_tensor_rep_of_colimit {R : Type u} [CommRing R]
       refine ⟨k, LinearMap.rTensor M (F.map fi).hom.toLinearMap x' +
         LinearMap.rTensor M (F.map fj).hom.toLinearMap y', ?_⟩
       rw [map_add]
-      show (LinearMap.rTensor M ((c.ι.app k).hom.toLinearMap) ∘ₗ
+      change (LinearMap.rTensor M ((c.ι.app k).hom.toLinearMap) ∘ₗ
           LinearMap.rTensor M (F.map fi).hom.toLinearMap) x' +
         (LinearMap.rTensor M ((c.ι.app k).hom.toLinearMap) ∘ₗ
           LinearMap.rTensor M (F.map fj).hom.toLinearMap) y' = _
@@ -213,7 +210,7 @@ theorem weaklyAssociated_tfae_henselization
       { toRingHom := (algebraMap κ κsh).comp (eRh.symm.toRingHom.comp (residue Rh))
         commutes' := by
           intro r
-          show algebraMap κ κsh (eRh.symm (residue Rh (algebraMap R Rh r))) =
+          change algebraMap κ κsh (eRh.symm (residue Rh (algebraMap R Rh r))) =
             algebraMap R κsh r
           rw [← heRh r, eRh.symm_apply_apply]
           exact (IsScalarTower.algebraMap_apply R κ κsh r).symm }
@@ -221,7 +218,7 @@ theorem weaklyAssociated_tfae_henselization
       { toRingHom := eSh.symm.toRingHom.comp (residue Rsh)
         commutes' := by
           intro r
-          show eSh.symm (residue Rsh (algebraMap R Rsh r)) = algebraMap R κsh r
+          change eSh.symm (residue Rsh (algebraMap R Rsh r)) = algebraMap R κsh r
           rw [← heSh r, eSh.symm_apply_apply]
           exact (IsScalarTower.algebraMap_apply R κ κsh r).symm }
     have : HenselianLocalRing Rsh :=
@@ -274,7 +271,7 @@ theorem weaklyAssociated_tfae_henselization
       (R := R) (M := M) (T := A) (S := S) zA hz'
     let pA := (maximalIdeal S).comap (algebraMap A S)
     have hpA : pA.IsPrime := by
-      show ((maximalIdeal S).comap (algebraMap A S)).IsPrime
+      change ((maximalIdeal S).comap (algebraMap A S)).IsPrime
       exact inferInstance
     let f : Spec (.of A) ⟶ Spec (.of R) := Spec.map (CommRingCat.ofHom (algebraMap R A))
     have : Etale f := HasRingHomProperty.Spec_iff.mpr
@@ -300,7 +297,7 @@ theorem weaklyAssociated_tfae_henselization
       let : Module A T := inferInstance
       have : IsScalarTower R A T :=
         IsScalarTower.of_algebraMap_smul (A := A) (M := ↑T) (fun _ _ => rfl)
-      show (A ⊗[R] M) ≃ₗ[A] (TensorProduct R T M)
+      change (A ⊗[R] M) ≃ₗ[A] (TensorProduct R T M)
       exact TensorProduct.AlgebraTensorModule.congr
         (LinearEquiv.refl (R := A) (M := A)) (LinearEquiv.refl (R := R) (M := M))
     have hAweak' : IsWeaklyAssociatedPrime A (↑N) pA := by
@@ -331,7 +328,7 @@ theorem weaklyAssociated_tfae_henselization
     let xR : PrimeSpectrum R := ⟨maximalIdeal R, (maximalIdeal.isMaximal R).isPrime⟩
     have hbase : f.base y = xR := by
       apply PrimeSpectrum.ext
-      show pA.comap (algebraMap R A) = maximalIdeal R
+      change pA.comap (algebraMap R A) = maximalIdeal R
       dsimp [pA]
       rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq]
       exact hmaxR
@@ -347,9 +344,9 @@ theorem weaklyAssociated_tfae_henselization
           intro b m
           rw [Scheme.Modules.smul_Spec_def (M := G) (U := ⊤)]
           congr 1
-          show ((Spec (.of R)).presheaf.map (𝟙 (Opposite.op ⊤))) _ = b
+          change ((Spec (.of R)).presheaf.map (𝟙 (Opposite.op ⊤))) _ = b
           rw [CategoryTheory.Functor.map_id_apply]
-          show ρR (ρR.symm b) = b
+          change ρR (ρR.symm b) = b
           exact ρR.apply_symm_apply b) hRglobal
       have hpR : ((isAffineOpen_top (Spec (.of R))).primeIdealOf
           ⟨xR, Set.mem_univ _⟩).asIdeal = (maximalIdeal R).map ρR :=

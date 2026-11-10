@@ -320,7 +320,7 @@ public lemma stalkFamilyToSkyscraperApp_π
     stalkFamilyToSkyscraperApp F M f W ≫
         restrictedSkyscraperπ B X hX U x M W (pushLift B X hX U x W p w) =
       liftedGerm B X hX U x F p W w ≫ f p := by
-  show Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B X hX U x W) ⟨p, w⟩) = _
+  change Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B X hX U x W) ⟨p, w⟩) = _
   rw [Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 /-- A family of maps out of the stalks at the lifts assembles into a map to the restricted
@@ -510,12 +510,12 @@ public lemma extensionStalkHomEquiv_π
           ((smallEtalePostcompose B X hX U).obj W) q
           ((abelianExtensionByZero B X hX U).obj F).obj ≫ f := by
   rw [extensionStalkAdjunction, Adjunction.comp_homEquiv]
-  show (((abelianExtensionByZeroAdjunction B X hX U).homEquiv F _
+  change (((abelianExtensionByZeroAdjunction B X hX U).homEquiv F _
       ((geometricPointSitePoint B X hX x).skyscraperSheafAdjunction.homEquiv _ M f)).hom.app
         (op W)) ≫
     skyscraperπ B X hX x M ((smallEtalePostcompose B X hX U).obj W) q = _
   rw [Adjunction.homEquiv_apply]
-  show (extensionByZeroUnitApp B X hX U F W ≫
+  change (extensionByZeroUnitApp B X hX U F W ≫
       (((geometricPointSitePoint B X hX x).skyscraperSheafAdjunction.homEquiv _ M f).hom.app
         (op ((smallEtalePostcompose B X hX U).obj W)))) ≫
     skyscraperπ B X hX x M ((smallEtalePostcompose B X hX U).obj W) q = _
@@ -552,12 +552,12 @@ public theorem stalkExtensionByZeroIso_germ
     (q : (geometricPointFiber B X hX x).obj ((smallEtalePostcompose B X hX U).obj W))
     (hq : q.1 = w.1) (s : F.obj.obj (op W)) :
     (stalkExtensionByZeroIso B X hX U x F).hom
-      ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B X hX x)).op ⋙
+      ((colimit.ι ((Functor.Elements.π (geometricPointFiber B X hX x)).op ⋙
           ((abelianExtensionByZero B X hX U).obj F).obj)
           (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj W) q)))
         (((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (op W) s)) =
       (Sigma.ι (fun p : geometricPointLifts B X hX U x => liftedStalk B X hX U x F p) p)
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B U.obj.left.1
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B U.obj.left.1
             U.obj.left.property (geometricPointOfLift B X hX U x p))).op ⋙ F.obj)
           (op (Functor.elementsMk _ W w))) s) := by
   obtain rfl : q = pushLift B X hX U x W p w := Subtype.ext hq
@@ -577,12 +577,12 @@ sheaf. -/
 public theorem stalkExtensionByZeroIso_naturality
     {F G : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property) AddCommGrpCat.{u + 1}}
     (f : F ⟶ G) :
-    colimMap (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X hX x)).op
+    colimMap (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X hX x)).op
         ((abelianExtensionByZero B X hX U).map f).hom) ≫
         (stalkExtensionByZeroIso B X hX U x G).hom =
       (stalkExtensionByZeroIso B X hX U x F).hom ≫
         Limits.Sigma.map (fun p : geometricPointLifts B X hX U x =>
-          colimMap (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber
+          colimMap (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber
             B U.obj.left.1 U.obj.left.property (geometricPointOfLift B X hX U x p))).op f.hom)) :=
   (extensionStalkIso B X hX U x).hom.naturality f
 
@@ -603,7 +603,7 @@ public theorem abelianExtensionByZero_exact :
   have htop := smallEtaleEquivalenceOver_topology B X hX U
   have hDense : e.inverse.IsDenseSubsite K (e.functor.inducedTopology K) := by
     let e' := e.symm
-    show e'.functor.IsDenseSubsite K (e'.inverse.inducedTopology K)
+    change e'.functor.IsDenseSubsite K (e'.inverse.inducedTopology K)
     infer_instance
   let : e.inverse.IsDenseSubsite K
       (SmallEtale.topology B U.obj.left.1 U.obj.left.property) := by
@@ -636,7 +636,7 @@ public theorem abelianExtensionByZero_exact :
     (exactFunctor_iff _).2 ⟨comp_preservesFiniteLimits _ _, comp_preservesFiniteColimits _ _⟩
   have hPush : abelianRestriction B X hX U ≅
       (Over.forget U).sheafPushforwardContinuous AddCommGrpCat.{u + 1} K J ⋙ E.inverse := by
-    show (smallEtalePostcompose B X hX U).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+    change (smallEtalePostcompose B X hX U).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
         (SmallEtale.topology B U.obj.left.1 U.obj.left.property) J ≅
       (Over.forget U).sheafPushforwardContinuous AddCommGrpCat.{u + 1} K J ⋙
         e.functor.sheafPushforwardContinuous AddCommGrpCat.{u + 1}

@@ -157,7 +157,7 @@ theorem exists_pullback_zeroDivisor_invertibleSheaf_iso [IsSeparated E.map]
   have := isEffectiveCartierDivisor_zeroDivisor (E.pullback g)
   obtain ⟨e', he'⟩ := exists_invertibleSheaf'_iso_of_eq (E.zeroDivisor_pullback g).symm
   refine ⟨invertibleSheafPullbackIso _ E.zeroDivisor ≪≫ e', ?_⟩
-  show Scheme.Modules.Hom.app e'.hom ⊤ (Scheme.Modules.Hom.app
+  change Scheme.Modules.Hom.app e'.hom ⊤ (Scheme.Modules.Hom.app
     (invertibleSheafPullbackIso (Limits.pullback.fst E.map g) E.zeroDivisor).hom ⊤
       (pullbackCanonicalSection _ E.zeroDivisor)) = _
   rw [invertibleSheafPullbackIso_canonicalSection]
@@ -178,7 +178,7 @@ theorem zeroDivisor_eq_vanishingIdeal {k : Type u} [Field k] (F : PointedFamily 
   congr 1
   ext x
   rw [Scheme.Hom.support_ker, F.zero.isClosedEmbedding.isClosed_range.closure_eq]
-  show x ∈ Set.range F.zero ↔ x = F.zero x₀
+  change x ∈ Set.range F.zero ↔ x = F.zero x₀
   constructor
   · rintro ⟨y, rfl⟩
     rw [Subsingleton.elim y x₀]

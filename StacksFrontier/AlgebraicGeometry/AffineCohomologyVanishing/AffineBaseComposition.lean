@@ -78,7 +78,7 @@ private theorem isLift_conj_cancel {V W V' W' : Type*} [Category* V] [Category* 
     (G : W ⥤ W') (K : V) (K' : V') (m : G.obj (P.obj K) ⟶ P'.obj K') :
     G.map ((Quotient.lift.isLift r P hP).hom.app K) ≫ m ≫
         (Quotient.lift.isLift r' P' hP').inv.app K' = m := by
-  show G.map (𝟙 (P.obj K)) ≫ m ≫ 𝟙 (P'.obj K') = m
+  change G.map (𝟙 (P.obj K)) ≫ m ≫ 𝟙 (P'.obj K') = m
   rw [G.map_id, Category.id_comp, Category.comp_id]
 
 /-- The homology of an identity of complexes cancels off the right of a morphism. Stated

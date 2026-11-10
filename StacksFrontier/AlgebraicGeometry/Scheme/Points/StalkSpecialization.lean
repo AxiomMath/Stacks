@@ -167,7 +167,7 @@ theorem isLocalization_atPrime_stalk_of_specializes {X : Scheme.{u}} {x y : X} (
   have : IsLocalization.AtPrime S pp := hU.isLocalization_stalk xU
   have : IsLocalization.AtPrime T qq := hU.isLocalization_stalk yU
   have hqp : qq ≤ pp := (PrimeSpectrum.le_iff_specializes _ _).mpr (by
-    show (Scheme.homeoOfIso hU.isoSpec) yU ⤳ (Scheme.homeoOfIso hU.isoSpec) xU
+    change (Scheme.homeoOfIso hU.isoSpec) yU ⤳ (Scheme.homeoOfIso hU.isoSpec) xU
     exact ((subtype_specializes_iff yU xU).mpr h).map (Scheme.homeoOfIso hU.isoSpec).continuous)
   have : IsScalarTower Γ(X, U) S T :=
     IsScalarTower.of_algebraMap_eq' (by

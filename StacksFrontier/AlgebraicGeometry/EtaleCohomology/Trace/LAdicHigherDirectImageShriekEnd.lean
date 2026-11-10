@@ -136,7 +136,7 @@ theorem torsionFreeModelMap_id (F : LAdicSheaf.{u, u + 1} B X ℓ) (N : ℕ) :
     torsionFreeModelMap (𝟙 F) N = 𝟙 _ :=
   torsionFreeModel_hom_ext fun n => by
     rw [torsionFreeModelπ_map_app]
-    show (underlyingLevelFunctor B X ℓ (N + n)).map (𝟙 _) ≫ _ =
+    change (underlyingLevelFunctor B X ℓ (N + n)).map (𝟙 _) ≫ _ =
       _ ≫ (underlyingLevelFunctor B X ℓ n).map (𝟙 _)
     rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id, Category.id_comp,
       Category.comp_id]

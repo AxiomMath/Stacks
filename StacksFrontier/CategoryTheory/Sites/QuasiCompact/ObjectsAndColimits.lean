@@ -971,7 +971,7 @@ public theorem isQuasiCompactObject_iff_isQuasiCompact_sheafifiedYoneda {C : Typ
         (fun b ↦
           m b ≫ Limits.Sigma.ι (fun j : Set.range (idx ∘ φ.s₀) ↦ G (j : I)) ⟨idx (φ.s₀ b), b, rfl⟩)
         (fun b ↦ by
-          rw [Category.assoc, Limits.Sigma.ι_desc]; exact hm b)
+          rw [Category.assoc, Sigma.ι_comp_desc]; exact hm b)
   · -- (2) ⇒ (1)
     intro h2 𝒰 h𝒰
     obtain ⟨T, hTfin, hTls⟩ :=
@@ -1481,7 +1481,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 private lemma sigmaDesc_ι_app_apply {α : Type max u v} {G : α → Sheaf J (Type max u v)}
     {Y : Sheaf J (Type max u v)} (f : ∀ a, G a ⟶ Y) (a : α) (W : Cᵒᵖ) (σ : (G a).obj.obj W) :
     (Limits.Sigma.desc f).hom.app W ((Limits.Sigma.ι G a).hom.app W σ) = (f a).hom.app W σ := by
-  rw [← comp_app_apply, Limits.Sigma.ι_desc]
+  rw [← comp_app_apply, Sigma.ι_comp_desc]
 
 /-- A section in the image of one member of a family is in the image of the map from the
 coproduct. -/
@@ -1715,7 +1715,7 @@ private lemma isLocallySurjective_subsheafι_of_le {X : Sheaf J (Type max u v)} 
         subsheafι B hB =
       Limits.Sigma.desc fun c => subsheafι (A c) (hsheaf c) := by
     refine Limits.Sigma.hom_ext _ _ fun c => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact Sheaf.hom_ext (Subfunctor.homOfLe_ι (hle c))
   exact
     Presheaf.isLocallySurjective_of_isLocallySurjective_fac J
@@ -2266,7 +2266,7 @@ public theorem mono_sheafifiedYoneda_map_of_mono_underlying
   have hloc : Presheaf.IsLocallyInjective J (uliftYoneda.{u, v, u}.map f) :=
     Presheaf.isLocallyInjective_of_injective J _ hinj
   have hloc' : IsLocallyInjective ((sheafifiedYoneda J).map f) := by
-    show IsLocallyInjective
+    change IsLocallyInjective
       ((presheafToSheaf J (Type (max u v))).map (uliftYoneda.{u, v, u}.map f))
     exact (Presheaf.isLocallyInjective_presheafToSheaf_map_iff J _).2 hloc
   exact mono_of_isLocallyInjective _

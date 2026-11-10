@@ -143,7 +143,7 @@ and `Stacks.Perfect.SupportedBiprodShiftAffine.preimage_inv_base_eq_image` ident
 image under `e.hom`, which is compact because `e.hom` is continuous. -/
 theorem isCompact_imageOpenOfIso (hU : IsCompact ((U : Opens X) : Set X)) :
     IsCompact ((imageOpenOfIso e U : Opens Y) : Set Y) := by
-  show IsCompact (e.inv.hom.base ⁻¹' (U : Set X))
+  change IsCompact (e.inv.hom.base ⁻¹' (U : Set X))
   rw [preimage_inv_base_eq_image e (U : Set X)]
   exact hU.image e.hom.hom.base.hom.continuous
 
@@ -162,7 +162,7 @@ theorem cohomologySupportedOn_derivedPullback_hom (T : Set X)
       ((derivedPullback e.hom).obj R) := by
   have hset : closedSubsetPreimage e.hom (e.inv.hom.base ⁻¹' T) = T := by
     ext x
-    show e.inv.hom.base (e.hom.hom.base x) ∈ T ↔ x ∈ T
+    change e.inv.hom.base (e.hom.hom.base x) ∈ T ↔ x ∈ T
     rw [inv_base_hom_base]
   exact hset ▸ cohomologySupportedOn_derivedPullback e.hom (e.inv.hom.base ⁻¹' T) R hR
 

@@ -147,8 +147,7 @@ theorem rigFlat_isomorphismInvariant :
         RingHom.IsRigFlat φ)
       (fun R [CommRing R] [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R] ↦
         TopologicalRing.IsNoetherianAdic R) := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA heB heBs heA heAs f hf hB hA hB' hA'
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f hf hB hA hB' hA'
   exact ⟨isRigFlat_of_ringEquiv_square eB eA heB heBs heA heAs f _ hf (by ext; simp)
       hB hA hB' hA',
     isRigFlat_of_ringEquiv_square eB.symm eA.symm heBs (by simpa using heB) heAs

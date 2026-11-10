@@ -77,7 +77,7 @@ public abbrev overAffineUnder : (Over U)ᵒᵖ ⥤ Under (overAffineBaseRing U) 
 public theorem gammaUnder_hom_eq (Z : (Over U)ᵒᵖ) :
     ((gammaUnder S (𝟭 (Over S)) U ⋙ Under.map (uliftHom Γ(U.left, ⊤))).obj Z).hom =
       ((overAffineUnder U).obj Z).hom := by
-  show uliftHom Γ(U.left, ⊤) ≫ Scheme.Hom.appTop (Z.unop.hom.left) =
+  change uliftHom Γ(U.left, ⊤) ≫ Scheme.Hom.appTop (Z.unop.hom.left) =
     (Scheme.ΓSpecIso (overAffineBaseRing U)).inv ≫
       Scheme.Hom.appTop (Z.unop.hom.left ≫ (specOverAffineBaseRingIso U).inv)
   rw [← Scheme.Γ_map_op (Over.Hom.left (unop Z).hom),

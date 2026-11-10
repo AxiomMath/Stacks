@@ -180,7 +180,7 @@ theorem structureUnitHom_pushforwardSquareIso (w : g' ≫ f = f' ≫ g) :
       structureUnitHom (f' ≫ g) := by
   have key : (AffinePushforward.pushforwardSquareIso w).hom.app (unitObj X') =
       (Scheme.Modules.pushforwardCongr w).hom.app (unitObj X') := by
-    show 𝟙 ((Scheme.Modules.pushforward (g' ≫ f)).obj (unitObj X')) ≫
+    change 𝟙 ((Scheme.Modules.pushforward (g' ≫ f)).obj (unitObj X')) ≫
         (Scheme.Modules.pushforwardCongr w).hom.app (unitObj X') ≫
         𝟙 ((Scheme.Modules.pushforward (f' ≫ g)).obj (unitObj X')) = _
     rw [Category.id_comp, Category.comp_id]
@@ -275,7 +275,7 @@ theorem hom_apply_of_map_one
   rw [hu] at h0
   refine Eq.trans (Eq.trans
     (congrArg u.hom (show a = (a • (1 : R) : R) from (mul_one a).symm)) h0) ?_
-  show (CommRingCat.Hom.hom φ) a • (1 : S) = (CommRingCat.Hom.hom φ) a
+  change (CommRingCat.Hom.hom φ) a • (1 : S) = (CommRingCat.Hom.hom φ) a
   exact mul_one _
 
 /-- The associated sheaf of a map of modules, on the canonical global sections. -/
@@ -314,7 +314,7 @@ of the structure sheaves. -/
 theorem appTop_specMap_toOpen (a : R) :
     (Spec.map φ).appTop ((tilde.toOpen (ModuleCat.of R R) (⊤ : (Spec R).Opens)).hom a) =
       (tilde.toOpen (ModuleCat.of S S) (⊤ : (Spec S).Opens)).hom (φ a) := by
-  show (Spec.map φ).appTop ((Scheme.ΓSpecIso R).inv a) = (Scheme.ΓSpecIso S).inv (φ a)
+  change (Spec.map φ).appTop ((Scheme.ΓSpecIso R).inv a) = (Scheme.ΓSpecIso S).inv (φ a)
   rw [← CategoryTheory.comp_apply, ← Scheme.ΓSpecIso_inv_naturality,
     CategoryTheory.comp_apply]
 

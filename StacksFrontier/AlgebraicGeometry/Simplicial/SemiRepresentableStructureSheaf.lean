@@ -148,7 +148,7 @@ lemma verticalSieve_pullback_verticalArrow_le {X : TotalLocalization K} (S : Sie
   have hh : a ≫ verticalArrow (verticalObject X f) g ≫ verticalArrow X f =
       verticalArrow X (g ≫ f) := by
     apply Comma.hom_ext <;> simp [a, verticalArrow, verticalObject]
-  show S (verticalArrow X (g ≫ f))
+  change S (verticalArrow X (g ≫ f))
   rw [← hh]
   exact S.downward_closed hg a
 
@@ -289,7 +289,7 @@ lemma pulledBackStructureSheaf_component (X : AlgebraicGeometry.RingedSite.{u, u
     (K : SimplicialObject (FormalCoproduct.{x} X.C)) (n : SimplexCategory) :
     (componentInclusion K n).op ⋙ (pulledBackStructureSheaf X K).obj =
       (AlgebraicGeometry.RingedSite.localizationStructureSheaf X (K.obj (op n))).obj := by
-  show (componentInclusion K n ⋙ totalLocalizationFunctor K).op ⋙ X.O.obj = _
+  change (componentInclusion K n ⋙ totalLocalizationFunctor K).op ⋙ X.O.obj = _
   rw [componentInclusion_totalLocalizationFunctor]
   rfl
 

@@ -22,7 +22,7 @@ public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -366,7 +366,7 @@ private lemma shortExact_biprod {S T : ShortComplex 𝒜} (hS : S.ShortExact) (h
     refine ShortComplex.hom_ext _ _ ?_ ?_ ?_ <;> exact biprod.total.symm
   have hSz : IsZero S.homology := (S.exact_iff_isZero_homology).1 hS.exact
   have hTz : IsZero T.homology := (T.exact_iff_isZero_homology).1 hT.exact
-  show U.Exact
+  change U.Exact
   rw [ShortComplex.exact_iff_isZero_homology, IsZero.iff_id_eq_zero,
     ← ShortComplex.homologyMap_id, hid, ShortComplex.homologyMap_add,
     ShortComplex.homologyMap_comp, ShortComplex.homologyMap_comp,
@@ -1056,7 +1056,7 @@ private lemma filteredQuasiIso_πFilteredTruncGE (X : FilteredObject (CochainCom
     (hm : ∀ p : ℤᵒᵖ, Mono (CochainComplex.truncGEMap (X.filtration.ι.app p) a)) :
     CochainComplex.filteredQuasiIso 𝒜 (πFilteredTruncGE X a hm) := by
   refine filteredQuasiIso_of_natTrans _ fun p => ?_
-  show QuasiIso ((fil X p).πTruncGE a)
+  change QuasiIso ((fil X p).πTruncGE a)
   rw [CochainComplex.quasiIso_πTruncGE_iff]
   exact isGE_fil X hX a ha p
 
@@ -1075,7 +1075,7 @@ private lemma finite_filteredTruncGE (X : FilteredObject (CochainComplex 𝒜 �
   have : Mono ((CochainComplex.truncGEMap (X.filtration.ι.app (op p)) a).f n) := inferInstance
   have : Epi ((CochainComplex.truncGEMap (X.filtration.ι.app (op p)) a).f n) :=
     epi_truncGEMap_f _ a n (have := hp; inferInstance)
-  show IsIso ((CochainComplex.truncGEMap (X.filtration.ι.app (op p)) a).f n)
+  change IsIso ((CochainComplex.truncGEMap (X.filtration.ι.app (op p)) a).f n)
   exact isIso_of_mono_of_epi _
 
 /-- The canonical morphism `τ_{≤ b} X^• ⟶ X^•` of filtered complexes is a filtered
@@ -1087,7 +1087,7 @@ public lemma filteredQuasiIso_ιFilteredTruncLE (X : FilteredObject (CochainComp
     (hb : ∀ p : ℤ, ((FilteredObject.gr p).obj X).IsLE b) :
     CochainComplex.filteredQuasiIso 𝒜 (ιFilteredTruncLE X b) := by
   refine filteredQuasiIso_of_natTrans _ fun p => ?_
-  show QuasiIso ((fil X p).ιTruncLE b)
+  change QuasiIso ((fil X p).ιTruncLE b)
   rw [CochainComplex.quasiIso_ιTruncLE_iff]
   exact isLE_fil X hX b hb p
 
@@ -1203,7 +1203,7 @@ private lemma exists_commSq_filteredQuasiIso_of_isGE_of_isLE_gradedPiece
     (by change (K.X.truncLE b).IsStrictlyLE b; infer_instance),
     (by change ((K.X.truncLE b).truncGE a).IsStrictlyGE a; infer_instance),
     (by
-      show ((K.X.truncLE b).truncGE a).IsStrictlyLE b
+      change ((K.X.truncLE b).truncGE a).IsStrictlyLE b
       have : (K.X.truncLE b).IsStrictlyLE b := inferInstance
       exact isStrictlyLE_truncGE (K.X.truncLE b) a b),
     finite_filteredTruncGE K hK a hmK, finite_filteredTruncLE K hK b,

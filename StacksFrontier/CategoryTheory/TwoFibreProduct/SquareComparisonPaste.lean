@@ -121,7 +121,7 @@ here, so that the statement is in simp normal form. -/
 @[simp] lemma pasteCancel_obj_iso_hom (X : p ⊡ b) :
     ((pasteCancel p b a' p' b' β).obj X).iso.hom =
       β.hom.app X.fst ≫ b'.map X.iso.hom := by
-  show β.hom.app X.fst ≫ b'.map (𝟙 (p.obj X.fst) ≫ X.iso.hom ≫ 𝟙 (b.obj X.snd)) = _
+  change β.hom.app X.fst ≫ b'.map (𝟙 (p.obj X.fst) ≫ X.iso.hom ≫ 𝟙 (b.obj X.snd)) = _
   simp
 
 /-- **Stacks 02XB (3) and Stacks 02XD.** The functor

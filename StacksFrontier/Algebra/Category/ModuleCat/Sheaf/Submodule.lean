@@ -63,7 +63,7 @@ noncomputable def generatedBy : F.Submodule :=
 /-- Each generating section is a section of the submodule sheaf it generates. -/
 @[stacks 01AQ "each s_i is a local section of the generated subsheaf"]
 theorem mem_generatedBy (i : ι) : s i ∈ (generatedBy U s).obj (U i) := by
-  show s i ∈ (sInf {G : F.Submodule | ∀ j, s j ∈ G.obj (U j)}).toSubmodule.obj (U i)
+  change s i ∈ (sInf {G : F.Submodule | ∀ j, s j ∈ G.obj (U j)}).toSubmodule.obj (U i)
   rw [toSubmodule_sInf, PresheafOfModules.Submodule.sInf_obj]
   simp only [_root_.Submodule.mem_iInf, Set.mem_image, forall_exists_index, and_imp]
   rintro N G hG rfl

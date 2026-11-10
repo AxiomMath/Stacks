@@ -205,7 +205,9 @@ noncomputable def pullbackCommRingSheafCompIso :
   (fullyFaithfulForgetCommRingSheaf J).preimageIso
     (pullbackRingSheafCompIso J K Φ Ψ (SheafOfModules.Tensor.ringSheaf O))
 
-omit [J.HasSheafCompose (forget RingCat.{ww})] in
+omit [J.HasSheafCompose (forget RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})]
+  [L.HasSheafCompose (forget₂ CommRingCat.{ww''} RingCat.{ww''})] in
 /-- Forgetting commutativity carries the comparison of iterated inverse images to the
 ring-valued comparison. -/
 lemma forgetCommRingSheaf_map_pullbackCommRingSheafCompIso_hom :
@@ -219,6 +221,8 @@ private lemma sheafCompose_forget_map_eq_forgetCommRingSheaf_map
     (sheafCompose J (forget CommRingCat.{ww})).map φ =
       (sheafCompose J (forget RingCat.{ww})).map ((Stacks.forgetCommRingSheaf J).map φ) := rfl
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})]
+  [L.HasSheafCompose (forget₂ CommRingCat.{ww''} RingCat.{ww''})] in
 /-- The comparison of iterated inverse images with the inverse image along the composite is the
 identity on underlying sheaves of sets. -/
 @[simp]
@@ -314,7 +318,7 @@ lemma comp_fSharp_forget (g : RingedToposHom Y Z) (f : RingedToposHom X Y) :
       Z.forgetRing.map g.fSharp ≫
         Z.forgetRing.map ((pushforwardCommRingFunctor g.toToposHom).map f.fSharp) ≫
           Z.forgetRing.map (pushforwardCommRingCompIso f.toToposHom g.toToposHom X.O).hom := by
-    show Z.forgetRing.map (g.fSharp ≫
+    change Z.forgetRing.map (g.fSharp ≫
       (pushforwardCommRingFunctor g.toToposHom).map f.fSharp ≫
         (pushforwardCommRingCompIso f.toToposHom g.toToposHom X.O).hom) = _
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp]
@@ -325,7 +329,7 @@ lemma comp_fSharp_forget (g : RingedToposHom Y Z) (f : RingedToposHom X Y) :
         pullbackRingSheafMap Z.J g.toToposHom.pushforward
           ((Stacks.forgetCommRingSheaf Y.J).map f.fSharp) :=
       forgetCommRingSheaf_map_pullbackCommRingSheafMap Z.J g.toToposHom.pushforward f.fSharp
-    show (sheafCompose Z.J (forget CommRingCat.{w''})).map _ = _
+    change (sheafCompose Z.J (forget CommRingCat.{w''})).map _ = _
     rw [sheafCompose_forget_map_eq_forgetCommRingSheaf_map, e]
     exact ringSheafMap_pullbackRingSheafMap Z.J g.toToposHom.pushforward _
   have h3 : Z.forgetRing.map (pushforwardCommRingCompIso f.toToposHom g.toToposHom X.O).hom =

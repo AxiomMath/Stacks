@@ -132,7 +132,7 @@ private theorem stalkAddCommGroup_preservesColimits {X : Scheme.{u}} (x : X) :
   let F := SheafOfModules.stalkFunctor X.ringCatSheaf x
   let G := forget₂ (ModuleCat.{u}
     (TopCat.Presheaf.stalk (C := RingCat.{u}) X.ringCatSheaf.obj x)) AddCommGrpCat.{u}
-  show PreservesColimits (F ⋙ G)
+  change PreservesColimits (F ⋙ G)
   have hF : PreservesColimits F :=
     SheafOfModules.stalkFunctor_preservesColimits X.ringCatSheaf x
   have hG : PreservesColimits G := inferInstance
@@ -169,7 +169,7 @@ private theorem isZero_of_all_stalks_isZero (X : Scheme.{u}) (E : X.Modules)
     let T := SheafOfModules.stalkAddCommGroupFunctor X.ringCatSheaf x
     have hT0 : IsZero (T.obj (0 : X.Modules)) :=
       Functor.map_isZero T (isZero_zero X.Modules)
-    show IsIso (T.map f)
+    change IsIso (T.map f)
     exact isIso_of_source_target_iso_zero _ (h x).isoZero hT0.isoZero
   have : IsIso f := Functor.ReflectsIsomorphisms.reflects F f
   exact (isZero_zero X.Modules).of_iso (asIso f)
@@ -234,7 +234,7 @@ private theorem isZero_kernel_stalk_of_isIso_restriction {X : Scheme.{u}}
   have hLStalk : IsZero
       ((Scheme.Modules.restrictFunctor j ⋙ Scheme.Modules.toPresheaf U.toScheme ⋙
         TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} xU).obj (kernel η)) := by
-    show IsZero
+    change IsZero
       ((SheafOfModules.stalkAddCommGroupFunctor U.toScheme.ringCatSheaf xU).obj
         (L.obj (kernel η)))
     exact Functor.map_isZero _ hLK
@@ -446,7 +446,7 @@ private theorem exists_nonzero_hom_from_generator (X : Scheme.{u}) [CompactSpace
         have hId : (𝟭 X.Modules).obj A.obj = A.obj := rfl
         let η : A.obj ⟶ Praw := hId ▸ ηraw
         have hηU : IsIso ((Scheme.Modules.restrictFunctor j).map η) := by
-          show IsIso ((Scheme.Modules.restrictFunctor j).map ηraw)
+          change IsIso ((Scheme.Modules.restrictFunctor j).map ηraw)
           exact isIso_restrict_unit j A.obj
         have hKqc : (kernel η).IsQuasicoherent :=
           Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel η
@@ -512,7 +512,7 @@ private theorem exists_nonzero_hom_from_generator (X : Scheme.{u}) [CompactSpace
           let gq : Fgen ⟶ Pobj := Q.homMk gRaw
           have hfg : (Scheme.Modules.restrictFunctor j).map gRaw ≫
               (adj.counit.app EU) = f := by
-            show (adj.homEquiv F EU).symm gRaw = f
+            change (adj.homEquiv F EU).symm gRaw = f
             exact (adj.homEquiv F EU).symm_apply_apply f
           let : Mono ηq := Q.ι.mono_of_mono_map (by simpa [ηq] using ‹Mono η›)
           let : HasPullback ηq gq := by infer_instance
@@ -530,7 +530,7 @@ private theorem exists_nonzero_hom_from_generator (X : Scheme.{u}) [CompactSpace
           have : PreservesLimit (cospan ηq gq) R := inferInstance
           let e := PreservesPullback.iso R ηq gq
           have hηR : IsIso (R.map ηq) := by
-            show IsIso (L.map η)
+            change IsIso (L.map η)
             exact hηU
           let gR := R.map gq
           let ηR := R.map ηq
@@ -593,7 +593,7 @@ private lemma containsZero_isSupportedOn (X : Scheme.{u}) (F : X.Modules) :
   let Q := SheafOfModules.isQuasicoherent X.ringCatSheaf
   let P : ObjectProperty Q.FullSubcategory := fun E ↦ IsSupportedOn E.obj F
   let : Q.ι.PreservesZeroMorphisms := quasicoherentInclusion_preservesZeroMorphisms X
-  show P.ContainsZero
+  change P.ContainsZero
   exact ⟨0, isZero_zero _, supportedOn_of_isZero X F (Functor.map_isZero Q.ι (isZero_zero _))⟩
 
 /-- A quasi-coherent submodule of a module supported on the support of `F` is supported
@@ -604,7 +604,7 @@ private lemma isClosedUnderSubobjects_isSupportedOn (X : Scheme.{u}) (F : X.Modu
         IsSupportedOn E.obj F) := by
   let Q := SheafOfModules.isQuasicoherent X.ringCatSheaf
   let P : ObjectProperty Q.FullSubcategory := fun E ↦ IsSupportedOn E.obj F
-  show P.IsClosedUnderSubobjects
+  change P.IsClosedUnderSubobjects
   have hPresLim : PreservesFiniteLimits Q.ι := preservesFiniteLimits_quasicoherentι X
   constructor
   intro E G f _ hG
@@ -618,7 +618,7 @@ private lemma isClosedUnderQuotients_isSupportedOn (X : Scheme.{u}) (F : X.Modul
         IsSupportedOn E.obj F) := by
   let Q := SheafOfModules.isQuasicoherent X.ringCatSheaf
   let P : ObjectProperty Q.FullSubcategory := fun E ↦ IsSupportedOn E.obj F
-  show P.IsClosedUnderQuotients
+  change P.IsClosedUnderQuotients
   have hPresColim : PreservesFiniteColimits Q.ι := preservesFiniteColimits_quasicoherentι X
   constructor
   intro E G f _ hE
@@ -631,7 +631,7 @@ private lemma isClosedUnderExtensions_isSupportedOn (X : Scheme.{u}) (F : X.Modu
         IsSupportedOn E.obj F) := by
   let Q := SheafOfModules.isQuasicoherent X.ringCatSheaf
   let P : ObjectProperty Q.FullSubcategory := fun E ↦ IsSupportedOn E.obj F
-  show P.IsClosedUnderExtensions
+  change P.IsClosedUnderExtensions
   have hPresLim : PreservesFiniteLimits Q.ι := preservesFiniteLimits_quasicoherentι X
   have hPresColim : PreservesFiniteColimits Q.ι := preservesFiniteColimits_quasicoherentι X
   constructor
@@ -652,7 +652,7 @@ private lemma isClosedUnderDiscreteColimits_isSupportedOn (X : Scheme.{u}) (F : 
         IsSupportedOn E.obj F) (Discrete ι) := by
   let Q := SheafOfModules.isQuasicoherent X.ringCatSheaf
   let P : ObjectProperty Q.FullSubcategory := fun E ↦ IsSupportedOn E.obj F
-  show P.IsClosedUnderColimitsOfShape (Discrete ι)
+  change P.IsClosedUnderColimitsOfShape (Discrete ι)
   have : P.IsClosedUnderSubobjects := isClosedUnderSubobjects_isSupportedOn X F
   apply ObjectProperty.IsClosedUnderColimitsOfShape.mk'
   rintro E ⟨D, hD⟩
@@ -708,11 +708,11 @@ private theorem eq_zero_of_hom_to_cokernel_of_isMax {A : Type (u + 1)} [Category
     refine ⟨l, ?_⟩
     apply pullback.hom_ext (f := q) (g := g)
     · rw [Category.assoc]
-      show l ≫ i ≫ fst = k ≫ fst
+      change l ≫ i ≫ fst = k ≫ fst
       rw [hifst]
       exact Abelian.monoLift_comp S.arrow (k ≫ fst) hkq
     · rw [Category.assoc]
-      show l ≫ i ≫ snd = k ≫ snd
+      change l ≫ i ≫ snd = k ≫ snd
       rw [hisnd, comp_zero, hk]
   have hi : IsLimit (KernelFork.ofι i hisnd) :=
     KernelFork.IsLimit.ofι' i hisnd hLift

@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.AffineEtaleDetection
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.DerivedBaseChangeUnit
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.SepClosedFieldPullbackEquivalence
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.SepClosedFieldPullbackEquivalence
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.FieldExtensionBaseChange
 

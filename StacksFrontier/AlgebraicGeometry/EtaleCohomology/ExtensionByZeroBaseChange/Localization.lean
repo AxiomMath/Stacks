@@ -171,14 +171,14 @@ public lemma smallEtalePostcompose_compatiblePreserving :
     ⟨Over.mk (a₁ ≫ Y₁.obj.hom), hW₁⟩
   let g₁' : W' ⟶ Y₁ := ObjectProperty.homMk (Over.homMk a₁ rfl)
   let g₂' : W' ⟶ Y₂ := ObjectProperty.homMk (Over.homMk a₂ (by
-    show a₂ ≫ Y₂.obj.hom = a₁ ≫ Y₁.obj.hom
+    change a₂ ≫ Y₂.obj.hom = a₁ ≫ Y₁.obj.hom
     rw [← hb₁, ← hb₂, ← Category.assoc, ← Category.assoc, hleft]))
   have hcompat : g₁' ≫ g₁ = g₂' ≫ g₂ :=
     ObjectProperty.hom_ext _ (Over.OverMorphism.ext hleft)
   let e : (smallEtalePostcompose B X hX U).obj W' ≅ W :=
     (BigEtaleOver.IsEtaleOver B X hX).fullyFaithfulι.preimageIso
       (Over.isoMk (Iso.refl _) (by
-        show 𝟙 _ ≫ W.obj.hom = (a₁ ≫ Y₁.obj.hom) ≫ U.obj.hom
+        change 𝟙 _ ≫ W.obj.hom = (a₁ ≫ Y₁.obj.hom) ≫ U.obj.hom
         rw [Category.id_comp, Category.assoc]
         exact hw₁.symm))
   have h : ∀ {Y} (g' : W' ⟶ Y) (f : W ⟶ (smallEtalePostcompose B X hX U).obj Y),

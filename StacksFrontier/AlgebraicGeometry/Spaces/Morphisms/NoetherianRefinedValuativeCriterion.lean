@@ -140,15 +140,15 @@ theorem exists_subfield_valuationSubring {R K : Type u} [CommRing R] [IsDomain R
       rw [hρ] at h1
       exact eq_inv_of_mul_eq_one_right h1
     let z : O₀ := ⟨(x : K₀)⁻¹, by
-      show ((((x : K₀)⁻¹ : K₀)) : K) ∈ Vo
+      change ((((x : K₀)⁻¹ : K₀)) : K) ∈ Vo
       rw [Subfield.coe_inv, ← hwK]
       exact w.2⟩
     refine isUnit_iff_exists_inv.mpr ⟨z, hρinj ?_⟩
     apply Subtype.ext
     rw [map_mul, map_one]
-    show ((ρ x : Vo) : K) * ((ρ z : Vo) : K) = 1
+    change ((ρ x : Vo) : K) * ((ρ z : Vo) : K) = 1
     rw [hρ, hρ]
-    show ((x : K₀) : K) * (((x : K₀)⁻¹ : K₀) : K) = 1
+    change ((x : K₀) : K) * (((x : K₀)⁻¹ : K₀) : K) = 1
     rw [Subfield.coe_inv]
     refine mul_inv_cancel₀ ?_
     intro h0
@@ -355,7 +355,7 @@ theorem universallyClosed_of_exists_discreteLift_of_spec (A : CommRingCat.{u})
   have hτsite : (ObjectProperty.homMk κs.toImage : W.left ⟶ B.obj hZ) ≫ ιsite = κ.left :=
     ObjectProperty.hom_ext _ κs.toImage_imageι
   let τ : W ⟶ Z := Over.homMk (ObjectProperty.homMk κs.toImage : W.left ⟶ B.obj hZ) (by
-    show _ ≫ ιsite ≫ X'.hom = W.hom
+    change _ ≫ ιsite ≫ X'.hom = W.hom
     rw [← Category.assoc, hτsite]
     exact Over.w κ)
   have hτι : τ ≫ ι = κ := Over.OverMorphism.ext hτsite
@@ -413,7 +413,7 @@ theorem universallyClosed_of_exists_discreteLift_of_spec (A : CommRingCat.{u})
     have hM : max (max #A #Γ(G.obj W, ⊤)) ℵ₀ < B.cutoff :=
       max_lt (max_lt hAcard hWcard) B.aleph0_lt_cutoff
     have hKmem : B.Contains (Spec (.of D.K)) := by
-      show (Spec (.of D.K)).size < B.cutoff
+      change (Spec (.of D.K)).size < B.cutoff
       rw [Scheme.size_Spec]
       exact max_lt B.aleph0_lt_cutoff (hcard.trans_lt hM)
     have hRmem : B.Contains (Spec (.of D.R)) :=
@@ -441,7 +441,7 @@ theorem universallyClosed_of_exists_discreteLift_of_spec (A : CommRingCat.{u})
     let gsite : siteObject B S hS hKmem Kbase ⟶ W :=
       Over.homMk (ObjectProperty.homMk g : B.obj hKmem ⟶ W.left) (by
         apply ObjectProperty.hom_ext
-        show g ≫ W.hom.hom = Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ ≫ a
+        change g ≫ W.hom.hom = Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ ≫ a
         rw [hW]
         simpa only [Category.assoc] using congrArg (· ≫ a) hgD)
     have hsite : gsite ≫ κ ≫ ψ = fracHom ≫ i₂site :=

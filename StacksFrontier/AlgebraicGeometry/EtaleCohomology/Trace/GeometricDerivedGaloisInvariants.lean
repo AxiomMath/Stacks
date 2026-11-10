@@ -130,8 +130,8 @@ instance quasiSeparated_overMk_of_isCurve : QuasiSeparated (Over.mk f).hom :=
   inferInstanceAs (QuasiSeparated f)
 
 
-omit [IsAlgClosure k K] [Algebra.IsSeparable k K] [IsAlgClosed K]
-    [ConnectedSpace (Stacks.Frobenius.fieldBaseChange (Over.mk f) K)] in
+omit [Smooth f] [GeometricallyConnected f] [IsAlgClosure k K] [Algebra.IsSeparable k K]
+    [IsAlgClosed K] [ConnectedSpace (Stacks.Frobenius.fieldBaseChange (Over.mk f) K)] in
 /-- The Galois action commutes with `Γ(X_K, ℱ_P) ⟶ Γ(X_K, ℱ_N)`. -/
 lemma galoisAction_geometricSectionsIncl (σ : K ≃ₐ[k] K)
     (N : Stacks.Injectives.ContinuousModule.{0, u + 1, u + 1} Λ
@@ -161,6 +161,7 @@ lemma galoisAction_geometricSectionsIncl (σ : K ≃ₐ[k] K)
           (contains_fieldBaseChange_of_isCurve B X f K)).hom) Λ) P)) z)).trans
     (ConcreteCategory.comp_apply _ _ _)).symm
 
+omit [Smooth f] in
 /-- The canonical identification carries `ρ(γ)` on invariants to the Galois action of the image of
 `γ` on global sections. -/
 lemma galoisAction_geometricInvariantsGlobalSectionsIsoCanonical_hom
@@ -746,6 +747,7 @@ def geometricDerivedSourceGroupCohomologyIso (n : ℕ) :
       (continuousModuleRingInvariants.{0, u + 1, u + 1} Λ
       (EtaleFundamentalGroup (Stacks.Frobenius.fieldBaseChange (Over.mk f) K) y)) n).symm
 
+omit [Smooth f] in
 /-- Forgetting the Galois action, the source δ-functor is universal: it is group cohomology of
 `π₁(X_K)` degreewise, which is effaceable one class at a time. -/
 theorem isUniversal_mapExact_geometricGaloisSourceDelta :

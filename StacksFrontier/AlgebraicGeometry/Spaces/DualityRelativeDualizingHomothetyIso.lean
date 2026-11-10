@@ -116,7 +116,7 @@ theorem qcohDerived_smallEtaleDerivedSheafHom_rightAdjoint_of_isPseudoCoherent
         (derivedStructureSheaf B S hS Y.1 Y.2)).obj) := by
   have hO : DerivedCategoryB.IsBoundedBelow (derivedStructureSheaf B S hS Y.1 Y.2).obj := by
     refine ⟨0, fun n hn => ?_⟩
-    show IsZero ((DerivedCategory.homologyFunctor _ n).obj
+    change IsZero ((DerivedCategory.homologyFunctor _ n).obj
       ((DerivedCategory.singleFunctor (Modules.{u, u} B S hS Y.1 Y.2) 0).obj _))
     exact DerivedCategory.isZero_of_isGE _ 0 n hn
   exact qcohDerived_smallEtaleDerivedSheafHom X _ _ (Or.inl ⟨hω,

@@ -143,9 +143,9 @@ public theorem nonempty_transfer (c : NodalChartAt f x n) {Y X' : Scheme.{u}} (�
     pt_mem := ?_
     pt_origin := ?_ }⟩
   · rw [Category.assoc, ← h, ← pullback.condition_assoc, c.comm, Category.assoc]
-  · show φ.base ((pullback.snd c.toX ψ).base p) = φ.base y
+  · change φ.base ((pullback.snd c.toX ψ).base p) = φ.base y
     rw [hp₂]
-  · show (c.toModel.base ((pullback.fst c.toX ψ).base p)).asIdeal = _
+  · change (c.toModel.base ((pullback.fst c.toX ψ).base p)).asIdeal = _
     rw [hp₁]
     exact c.pt_origin
 
@@ -343,7 +343,7 @@ public theorem blowUp_nodalChartAt (hf : IsAtWorstNodalOfRelativeDimensionOne f)
         rfl]
     congr 1
     ext1
-    show c.toX.base ⁻¹' {x} = c.toModel.base ⁻¹' {nodalModelOriginPoint hmax h1}
+    change c.toX.base ⁻¹' {x} = c.toModel.base ⁻¹' {nodalModelOriginPoint hmax h1}
     rw [hcX, ← hwo, hcM]
   set I := M.comap c.toX with hI
   obtain ⟨h₁, sq₁⟩ := exists_isPullback_blowUpToBase_comap c.toX M
@@ -396,7 +396,7 @@ public theorem blowUp_nodalChartAt (hf : IsAtWorstNodalOfRelativeDimensionOne f)
         · exact he₁
     refine (isAtWorstNodalOfRelativeDimensionOne_iff_of_etaleCovering _ g hcov).mpr fun i ↦ ?_
     rcases i with ⟨_ | _⟩
-    · show IsAtWorstNodalOfRelativeDimensionOne ((b ⁻¹ᵁ complOpen hx).ι ≫ b ≫ f)
+    · change IsAtWorstNodalOfRelativeDimensionOne ((b ⁻¹ᵁ complOpen hx).ι ≫ b ≫ f)
       rw [← morphismRestrict_ι_assoc]
       exact isAtWorstNodalOfRelativeDimensionOne_comp_etale _ _
         (isAtWorstNodalOfRelativeDimensionOne_comp_etale f (complOpen hx).ι hf)
@@ -426,7 +426,7 @@ public theorem blowUp_nodalChartAt (hf : IsAtWorstNodalOfRelativeDimensionOne f)
       pt_mem := ?_
       pt_origin := ?_ }⟩
     · rw [Category.assoc, ← hτ, pullback.condition_assoc, reassoc_of% hjcw]
-    · show h₁.base ((pullback.fst τ jc).base p) = y
+    · change h₁.base ((pullback.fst τ jc).base p) = y
       rw [hp₁, hy']
     · rw [hp₂, hz₂]
 

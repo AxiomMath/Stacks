@@ -88,7 +88,8 @@ unit relations, and `Stacks.EtaleCohomology.BrauerScheme.unitEndValueHom` carrie
 transparency at which `rw` builds its motive: `S.sheaf` is a `TopCat.Sheaf`, and only unfolding
 that definition makes it a `Sheaf (Opens.grothendieckTopology S)`. A `rw` whose pattern is plainly
 present is therefore rejected, with the mismatch reported inside the motive. This is the same
-obstruction `StacksFrontier.AlgebraicGeometry.EtaleCohomology.BrauerGroupScheme.EndAlgebraFreePoints`
+obstruction
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.BrauerGroupScheme.EndAlgebraFreePoints`
 records, and the same answer: the dual-basis dictionary, the points computation, the matrix-unit
 algebra and the section calculus are each stated at a variable category or a variable sheaf of
 rings, and the scheme-level declarations are applications of them.
@@ -166,8 +167,8 @@ theorem dualBasisMatrix_id (hp : ∀ i j, e i ≫ p j = if i = j then 𝟙 (𝟙
   ext
   rw [dualBasisMatrix_apply_asHom, Category.id_comp, hp]
   rcases eq_or_ne a b with rfl | h
-  · rw [if_pos rfl, Matrix.one_apply_eq, End.one_asHom]
-  · rw [if_neg h, Matrix.one_apply_ne h]
+  · rw [ite_eq_left rfl, Matrix.one_apply_eq, End.one_asHom]
+  · rw [ite_eq_right h, Matrix.one_apply_ne h]
     simp
 
 omit [DecidableEq ι] in
@@ -285,12 +286,12 @@ theorem curry'_comp_ihomIsoOfDualBasis_inv_comp {F Q : C} {ι : Type*} [Fintype 
       _ = (e i ≫ f) ≫ (if i = a then p b else 0) := by rw [curry'_comp_ihomCoord, hrowq]
       _ = if i = a then e a ≫ f ≫ p b else 0 := by
           rcases eq_or_ne i a with rfl | h
-          · rw [if_pos rfl, if_pos rfl, Category.assoc]
-          · rw [if_neg h, if_neg h, Limits.comp_zero]
+          · rw [ite_eq_left rfl, ite_eq_left rfl, Category.assoc]
+          · rw [ite_eq_right h, ite_eq_right h, Limits.comp_zero]
   rw [ihomIsoOfDualBasis_inv, Preadditive.sum_comp, Preadditive.comp_sum,
     Finset.sum_congr rfl fun i (_ : i ∈ Finset.univ) => key i,
     Finset.sum_ite_eq' Finset.univ a fun _ => e a ≫ f ≫ p b,
-    if_pos (Finset.mem_univ a)]
+    ite_eq_left (Finset.mem_univ a)]
 
 /-- The map induced on endomorphisms by a morphism of internal endomorphism monoids kills
 zero. -/
@@ -368,9 +369,9 @@ lemma unitCombination_mul
     rw [Finset.sum_congr rfl fun c' (_ : c' ∈ Finset.univ) => h1 c']
     rw [Finset.sum_eq_single e
       (fun c' _ hc' => Finset.sum_eq_zero fun e' _ => by
-        rw [if_neg (Ne.symm hc'), smul_zero])
+        rw [ite_eq_right (Ne.symm hc'), smul_zero])
       (fun hc => absurd (Finset.mem_univ e) hc)]
-    exact Finset.sum_congr rfl fun e' _ => by rw [if_pos rfl]
+    exact Finset.sum_congr rfl fun e' _ => by rw [ite_eq_left rfl]
   rw [step, unitCombination]
   refine Finset.sum_congr rfl fun c _ => ?_
   rw [Finset.sum_comm]
@@ -463,8 +464,8 @@ lemma unitEndValue_ite (V : Cᵒᵖ) {P : Prop} [Decidable P] :
     unitEndValue (R := R) V (End.of (if P then 𝟙 (_root_.SheafOfModules.unit R) else 0))
       = if P then 1 else 0 := by
   by_cases h : P
-  · rw [if_pos h, if_pos h]; rfl
-  · rw [if_neg h, if_neg h]; exact zero_app_apply V _
+  · rw [ite_eq_left h, ite_eq_left h]; rfl
+  · rw [ite_eq_right h, ite_eq_right h]; exact zero_app_apply V _
 
 /-- Restriction along `f : V ⟶ W` sends the value of `r` over `V` to the value of `r` over `W`. -/
 lemma unitEndValue_res {V W : Cᵒᵖ} (f : V ⟶ W) (r : End (_root_.SheafOfModules.unit R)) :
@@ -500,7 +501,7 @@ lemma secToMat_app_secOfMat (V : Cᵒᵖ) (ϑ : A ⟶ A)
       (qq (a, b)).val.app V (ϑ.val.app V ((dd (c, e)).val.app V (toUnit V (M c e))))
         = M c e * unitEndValue V (End.of (dd (c, e) ≫ ϑ ≫ qq (a, b))) :=
     fun c e => app_toUnit (dd (c, e) ≫ ϑ ≫ qq (a, b)) V (M c e)
-  show (qq (a, b)).val.app V (ϑ.val.app V
+  change (qq (a, b)).val.app V (ϑ.val.app V
     (∑ c : I, ∑ e : I, (dd (c, e)).val.app V (toUnit V (M c e)))) = _
   simp only [app_sum_elt]
   exact Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun e _ => key c e
@@ -521,27 +522,27 @@ lemma secToMat_secOfMat (hdq : ∀ k l : I × I,
       app_toUnit (dd (c, e) ≫ qq (a, b)) V (M c e)
     rw [h1, hdq, unitEndValue_ite]
     by_cases hce : ((c, e) : I × I) = (a, b)
-    · rw [if_pos hce, if_pos hce, mul_one]; rfl
-    · rw [if_neg hce, if_neg hce, mul_zero]; rfl
+    · rw [ite_eq_left hce, ite_eq_left hce, mul_one]; rfl
+    · rw [ite_eq_right hce, ite_eq_right hce, mul_zero]; rfl
   have h2 : ∀ c : I, (∑ e : I, if ((c, e) : I × I) = (a, b) then M c e else 0)
       = if c = a then M c b else 0 := by
     intro c
     by_cases hc : c = a
     · subst hc
-      rw [if_pos rfl, Finset.sum_congr rfl fun e (_ : e ∈ Finset.univ) =>
+      rw [ite_eq_left rfl, Finset.sum_congr rfl fun e (_ : e ∈ Finset.univ) =>
         if_congr (show ((c, e) : I × I) = (c, b) ↔ e = b by simp) rfl rfl]
       exact (Finset.sum_ite_eq' Finset.univ b fun e : I => M c e).trans
-        (if_pos (Finset.mem_univ b))
-    · rw [if_neg hc]
-      exact Finset.sum_eq_zero fun e _ => if_neg (by simp [Prod.ext_iff, hc])
-  show (qq (a, b)).val.app V
+        (ite_eq_left (Finset.mem_univ b))
+    · rw [ite_eq_right hc]
+      exact Finset.sum_eq_zero fun e _ => ite_eq_right (by simp [Prod.ext_iff, hc])
+  change (qq (a, b)).val.app V
       (∑ c : I, ∑ e : I, (dd (c, e)).val.app V (toUnit V (M c e))) = M a b
   rw [app_sum_elt, Finset.sum_congr rfl fun c (_ : c ∈ Finset.univ) =>
     (app_sum_elt (qq (a, b)) V Finset.univ
       (fun e : I => (dd (c, e)).val.app V (toUnit V (M c e)))).trans
       ((Finset.sum_congr rfl fun e _ => key c e).trans (h2 c))]
   exact (Finset.sum_ite_eq' Finset.univ a fun c : I => M c b).trans
-    (if_pos (Finset.mem_univ a))
+    (ite_eq_left (Finset.mem_univ a))
 
 omit [DecidableEq I] in
 /-- If `∑ k, qq k ≫ dd k = 𝟙 A`, then a section `s` of `A` over `V` is recovered from its matrix:
@@ -569,7 +570,7 @@ entrywise restriction of `M`. -/
 lemma secOfMat_res {V W : Cᵒᵖ} (f : V ⟶ W) (M : Matrix I I (ToType (R.obj.obj V))) :
     A.val.map f (secOfMat dd V M)
       = secOfMat dd W (fun a b => (R.obj.map f).hom (M a b)) := by
-  show A.val.map f (∑ a : I, ∑ b : I, (dd (a, b)).val.app V (toUnit V (M a b))) = _
+  change A.val.map f (∑ a : I, ∑ b : I, (dd (a, b)).val.app V (toUnit V (M a b))) = _
   simp only [map_sum (A.val.map f).hom]
   exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ =>
     (PresheafOfModules.naturality_apply (dd (a, b)).val f (toUnit V (M a b))).symm
@@ -615,10 +616,12 @@ theorem freeDualMatrix_zero :
     freeDualMatrix (0 : freeModule S I ⟶ freeModule S I) = 0 :=
   dualBasisMatrix_zero _ _
 
+omit [Fintype I] in
 /-- An endomorphism of a finite free sheaf of `𝒪_S`-modules is determined by its matrix. -/
-theorem freeDualMatrix_injective :
-    Function.Injective (freeDualMatrix (S := S) (I := I)) :=
-  dualBasisMatrix_injective _ _ sum_freeProj_comp_freeInj
+theorem freeDualMatrix_injective [Finite I] :
+    Function.Injective (freeDualMatrix (S := S) (I := I)) := by
+  have := Fintype.ofFinite I
+  exact dualBasisMatrix_injective _ _ sum_freeProj_comp_freeInj
 
 /-! ### Matrix units of the matrix algebra sheaf -/
 
@@ -657,17 +660,17 @@ theorem freeMap_comp_freeProj (i a b : I) :
         freeProj (S := S) (a, b)
       = if i = a then freeProj (S := S) b else 0 := by
   rcases eq_or_ne i a with rfl | h
-  · refine Eq.trans ?_ (if_pos rfl).symm
+  · refine Eq.trans ?_ (ite_eq_left rfl).symm
     refine freeModule_hom_ext_inj fun j => ?_
     refine (SheafOfModules.ιFree_freeMap_assoc (fun j : I => (i, j)) j _).trans ?_
     refine (freeInj_comp_freeProj (i, j) (i, b)).trans ?_
     exact (if_congr (by simp [Prod.ext_iff]) rfl rfl).trans
       (freeInj_comp_freeProj j b).symm
-  · refine Eq.trans ?_ (if_neg h).symm
+  · refine Eq.trans ?_ (ite_eq_right h).symm
     refine freeModule_hom_ext_inj fun j => ?_
     refine (SheafOfModules.ιFree_freeMap_assoc (fun j : I => (i, j)) j _).trans ?_
     refine ((freeInj_comp_freeProj (i, j) (a, b)).trans
-      (if_neg (by simp [Prod.ext_iff, h]))).trans ?_
+      (ite_eq_right (by simp [Prod.ext_iff, h]))).trans ?_
     exact (Limits.comp_zero).symm
 
 /-- **The coordinates of a point of the matrix algebra sheaf are the matrix entries of the
@@ -729,11 +732,11 @@ theorem uncurry'_matIncl_comp (a b c e : I) :
         MonoidalClosed.uncurry' (matIncl (S := S) (c, e))
       = if b = c then MonoidalClosed.uncurry' (matIncl (S := S) (a, e)) else 0 := by
   rcases eq_or_ne b c with rfl | h
-  · refine Eq.trans ?_ (if_pos rfl).symm
+  · refine Eq.trans ?_ (ite_eq_left rfl).symm
     refine freeDualMatrix_injective ((freeDualMatrix_comp _ _).trans ?_)
     rw [freeDualMatrix_uncurry'_matIncl, freeDualMatrix_uncurry'_matIncl,
       freeDualMatrix_uncurry'_matIncl, Matrix.single_mul_single_same, mul_one]
-  · refine Eq.trans ?_ (if_neg h).symm
+  · refine Eq.trans ?_ (ite_eq_right h).symm
     refine freeDualMatrix_injective ((freeDualMatrix_comp _ _).trans ?_)
     rw [freeDualMatrix_uncurry'_matIncl, freeDualMatrix_uncurry'_matIncl, freeDualMatrix_zero,
       Matrix.single_mul_single_of_ne (h := h)]
@@ -759,8 +762,8 @@ theorem pointMatrix_mul (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeMo
       (congrArg freeDualMatrix (MonoidalClosed.pointMap_comp ϑ _ _).symm)
   rw [hcomp, uncurry'_matIncl_comp]
   rcases eq_or_ne b c with rfl | h
-  · rw [if_pos rfl, if_pos rfl]; rfl
-  · rw [if_neg h, if_neg h, MonoidalClosed.pointMap_zero, freeDualMatrix_zero]
+  · rw [ite_eq_left rfl, ite_eq_left rfl]; rfl
+  · rw [ite_eq_right h, ite_eq_right h, MonoidalClosed.pointMap_zero, freeDualMatrix_zero]
 
 /-- **The images of the diagonal matrix units add up to the identity matrix.** -/
 theorem sum_pointMatrix (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeModule S I)) :
@@ -836,8 +839,8 @@ theorem sectionPointMatrix_mul (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra 
       = if b = c then sectionPointMatrix ϑ U (a, e) else 0 := by
   rw [sectionPointMatrix, sectionPointMatrix, ← Matrix.map_mul, pointMatrix_mul]
   rcases eq_or_ne b c with rfl | h
-  · rw [if_pos rfl, if_pos rfl, sectionPointMatrix]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left rfl, ite_eq_left rfl, sectionPointMatrix]
+  · rw [ite_eq_right h, ite_eq_right h]
     exact Matrix.map_zero _ (map_zero _)
 
 /-- The diagonal matrices `sectionPointMatrix ϑ U (a, a)` add up to the identity matrix. -/

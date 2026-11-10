@@ -110,9 +110,9 @@ theorem eq_coeff_pushforward_of_sum_eq_coeff {HQ HU : Type*} [Ring HQ] [Ring HU]
     rw [map_mul, map_pow, hι])
   have hpushx : pushR (∑ i : Fin (n + 1), D ^ (i : ℕ) * pullR (y i)) = y (Fin.last n) := by
     rw [map_sum, Fintype.sum_eq_single (Fin.last n)]
-    · rw [hproj, hpush, if_pos rfl, one_mul]
+    · rw [hproj, hpush, ite_eq_left rfl, one_mul]
     · intro i hi
-      rw [hproj, hpush, if_neg hi, zero_mul]
+      rw [hproj, hpush, ite_eq_right hi, zero_mul]
   rw [heq, hpushx, ha']
   simp only [Fin.val_last]
 
@@ -239,7 +239,7 @@ theorem bundleFormulaEquiv_symm_mem (hA3 : 𝔇.ProjectiveBundleAxiom) {m : ℤ}
       hyb
     simp only at h
     rw [decompose_of_mem_same _ hy, bundleFormulaLin_apply, decompose_sum,
-      DFinsupp.finset_sum_apply, Submodule.coe_sum] at h
+      DFinsupp.finsetSum_apply, Submodule.coe_sum] at h
     rw [← h, bundleFormulaLin_apply]
     refine Finset.sum_congr rfl fun j _ => ?_
     have hdeg : m = 2 * ((j : ℕ) : ℤ) + (m - 2 * (j : ℕ)) := by ring
@@ -291,8 +291,7 @@ theorem lTensor_proj_piRight_symm {ι : Type*} [Fintype ι] [DecidableEq ι] {N 
     rw [hx, LinearEquiv.apply_symm_apply]
   rw [hs]
   clear hs hx
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp
   | add a b ha hb => rw [map_add, ha, hb, map_add, Pi.add_apply]
 
@@ -314,7 +313,7 @@ theorem symm_kunnethEquiv_prodBundleFormulaEquiv
       ∑ i : Fin (r + 1), TensorProduct.map LinearMap.id (𝔇.bundleCupPull X E r i)
         ((𝔇.kunnethEquiv hA5 (bundle X E r) X).symm (w i)) := by
   classical
-  show (𝔇.kunnethEquiv hA5 (bundle X E r) (bundle X E r)).symm
+  change (𝔇.kunnethEquiv hA5 (bundle X E r) (bundle X E r)).symm
       (𝔇.kunnethEquiv hA5 (bundle X E r) (bundle X E r)
         (LinearMap.lTensor (𝔇.H (bundle X E r)) (𝔇.bundleFormulaLin X E r)
           ((TensorProduct.piRight F F (𝔇.H (bundle X E r)) fun _ : Fin (r + 1) => 𝔇.H X).symm
@@ -348,8 +347,7 @@ theorem prodBundleFormulaEquiv_apply (w : Fin (r + 1) → 𝔇.H (prod (bundle X
       𝔇.grade (prod (bundle X E r) (bundle X E r)) (2 * (i : ℕ)) := by
     exact pow_mem_grade_two_mul 𝔇
       (𝔇.pull_grade (snd (bundle X E r) (bundle X E r)) 2 _ (𝔇.bundleClassU_mem X E r)) i
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     have hK : ∀ {Y Z : (SmoothProjectiveScheme k).FullSubcategory} (u : 𝔇.H Y ⊗[F] 𝔇.H Z),
         𝔇.kunnethEquiv hA5 Y Z u = 𝔇.kunnethMap Y Z u := fun _ => rfl
@@ -369,10 +367,10 @@ theorem tensorContractRight_bundleTrace_prodBundleFormulaEquiv (intX : 𝔇.H X 
       tensorContractRight intX ((𝔇.kunnethEquiv hA5 (bundle X E r) X).symm (w (Fin.last r))) := by
   classical
   rw [symm_kunnethEquiv_prodBundleFormulaEquiv, map_sum, Fintype.sum_eq_single (Fin.last r)]
-  · rw [tensorContractRight_map, bundleTrace_comp_bundleCupPull, if_pos rfl]
+  · rw [tensorContractRight_map, bundleTrace_comp_bundleCupPull, ite_eq_left rfl]
     rfl
   · intro i hi
-    rw [tensorContractRight_map, bundleTrace_comp_bundleCupPull, if_neg hi,
+    rw [tensorContractRight_map, bundleTrace_comp_bundleCupPull, ite_eq_right hi,
       tensorContractRight_zero, map_zero]
 
 /-- The class `c₁^H(𝒪_P(1))^i` has even degree. -/

@@ -92,7 +92,7 @@ theorem isOpen_setOf_isGeometricallyReducedFibreAt_and_eq_one (U : BigFppfOver B
   have hO : ∀ c : ℕ∞, IsOpen (n ⁻¹' Set.Ioi c) := lowerSemicontinuous_iff_isOpen_preimage.mp hlsc
   have hGeq : G = E ∩ n ⁻¹' Set.Ioi 0 ∩ (n ⁻¹' Set.Ioi 1)ᶜ := by
     ext y
-    simp only [G, E, Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Ioi,
+    simp only [G, E, Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Ioi,
       Set.mem_compl_iff, not_lt]
     exact ⟨fun ⟨h1, h2⟩ => ⟨⟨h1, h2 ▸ zero_lt_one⟩, h2.le⟩,
       fun ⟨⟨h1, h2⟩, h3⟩ => ⟨h1, le_antisymm h3 (Order.one_le_iff_pos.mpr h2)⟩⟩

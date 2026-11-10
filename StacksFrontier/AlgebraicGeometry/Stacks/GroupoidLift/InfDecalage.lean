@@ -155,26 +155,29 @@ theorem q_comp_ε₀ {n : ℕ} (f : C' →ₐ[A'] cech A' C' n) :
 noncomputable def infDecal (n : ℕ) :
     C' ⊗[A'] N (hI := hI) sV tV εbar n →ₗ[A']
       N (hI := hI) sV tV εbar (n + 1) :=
-  K2BC (isBaseChange_nerve_face_zero hκ C' hC I hI n) sV tV
-    (D.vAt_comp_sV sV εbar hsV hε (vₗ A' C' n)) (D.vAt_comp_tV tV εbar htV hε (vₗ A' C' n))
-    ((vₗ A' C' n).comp ε₀) (q_comp_ε₀ εbar ε₀ hε₀ (vₗ A' C' n)) (hv_zero (hI := hI) εbar n)
+  K2BC (isBaseChange_nerve_face_zero hκ C' hC I hI n) sV tV ((vₗ A' C' n).comp ε₀)
+    (q_comp_ε₀ εbar ε₀ hε₀ (vₗ A' C' n)) (hv_zero (hI := hI) εbar n)
 
+include D hsV htV hε in
 /-- The décalage map is bijective. -/
 theorem infDecal_bijective (n : ℕ) :
-    Function.Bijective (D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε n) :=
-  K2BC_bijective _ sV tV _ _ _ _ _ (D.Th_bot_wAt (face A' C' n 0) (vₗ A' C' n) |>.trans
-      (by rw [face_comp_vₗ n 0 (Nat.zero_le _)]))
+    Function.Bijective (infDecal sV tV εbar ε₀ hε₀ n) :=
+  K2BC_bijective _ sV tV (D.vAt_comp_sV sV εbar hsV hε (vₗ A' C' n))
+    (D.vAt_comp_tV tV εbar htV hε (vₗ A' C' n)) _ _ _
+    (D.Th_bot_wAt (face A' C' n 0) (vₗ A' C' n) |>.trans (by rw [face_comp_vₗ n 0 (Nat.zero_le _)]))
     (D.vAt_comp_sV sV εbar hsV hε (vₗ A' C' (n + 1)))
     (D.vAt_comp_tV tV εbar htV hε (vₗ A' C' (n + 1)))
 
+omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
+  [Module.Flat A' C'] in
 /-- The décalage map sends `c ⊗ₜ E` to `1 ⊗ₜ c` times the postcomposition of `E` with the
 face `0`. -/
 theorem infDecal_tmul (n : ℕ) (c : C') (E : N (hI := hI) sV tV εbar n) :
-    ((D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε n (c ⊗ₜ E) : N (hI := hI) sV tV εbar (n + 1)) :
+    ((infDecal sV tV εbar ε₀ hε₀ n (c ⊗ₜ E) : N (hI := hI) sV tV εbar (n + 1)) :
       Q →ₗ[A'] cech A' C' (n + 1)) =
       ((1 : cech A' C' n) ⊗ₜ[A'] c : cech A' C' n ⊗[A'] C') •
         postcomp (Th (hκ := hκ) (hC := hC) (I := I) (hI := hI) (face A' C' n 0)) E.1 :=
-  K2BC_tmul _ sV tV _ _ _ _ _ c E
+  K2BC_tmul _ sV tV _ _ _ c E
 
 omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
   [Module.Flat A' C'] in
@@ -183,18 +186,22 @@ theorem infFacePlain_apply (n : ℕ) (j : Fin (n + 1)) (E : N (hI := hI) sV tV �
     (infFacePlain sV tV εbar n j E : Q →ₗ[A'] cech A' C' (n + 1)) x =
       face A' C' n j.castSucc (E.1 x) := rfl
 
+omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
+  [Module.Flat A' C'] in
 /-- The décalage map sends `c ⊗ₜ E` to `x ↦ (1 ⊗ₜ c) * face 0 (E x)`. -/
 theorem infDecal_tmul_apply (n : ℕ) (c : C') (E : N (hI := hI) sV tV εbar n) (x : Q) :
-    ((D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε n (c ⊗ₜ E) : N (hI := hI) sV tV εbar (n + 1)) :
+    ((infDecal sV tV εbar ε₀ hε₀ n (c ⊗ₜ E) : N (hI := hI) sV tV εbar (n + 1)) :
       Q →ₗ[A'] cech A' C' (n + 1)) x =
       ((1 : cech A' C' n) ⊗ₜ[A'] c : cech A' C' n ⊗[A'] C') * face A' C' n 0 (E.1 x) := by
   rw [infDecal_tmul]
   rfl
 
+omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
+  [Module.Flat A' C'] in
 /-- The décalage map carries the plain face `j` to the plain face `j.succ`. -/
 theorem infFacePlain_decal (n : ℕ) (j : Fin (n + 1)) (c : C') (E : N (hI := hI) sV tV εbar n) :
-    infFacePlain sV tV εbar (n + 1) j.succ (D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε n (c ⊗ₜ E)) =
-      D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε (n + 1) (c ⊗ₜ infFacePlain sV tV εbar n j E) := by
+    infFacePlain sV tV εbar (n + 1) j.succ (infDecal sV tV εbar ε₀ hε₀ n (c ⊗ₜ E)) =
+      infDecal sV tV εbar ε₀ hε₀ (n + 1) (c ⊗ₜ infFacePlain sV tV εbar n j E) := by
   apply Subtype.ext
   ext x
   rw [infFacePlain_apply, infDecal_tmul_apply, infDecal_tmul_apply, infFacePlain_apply,
@@ -399,11 +406,13 @@ theorem infCodeg_val (n : ℕ) (E : N (hI := hI) sV tV εbar (n + 1)) :
       postcomp (Th (hκ := hκ) (hC := hC) (I := I) (hI := hI) (codeg A' C' n)) E.1 :=
   rfl
 
+omit [Module.FinitePresentation P Ω[P⁄A']] [Module.FinitePresentation Q Ω[Q⁄A']]
+  [Module.Flat A' C'] in
 /-- The décalage carries the twisted last face to the twisted last face. -/
 theorem infFaceLast_decal (n : ℕ) (c : C') (E : N (hI := hI) sV tV εbar n) :
     D.infFaceLast sV tV εbar hsV htV hε hb hu hrs hrt (n + 1)
-        (D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε n (c ⊗ₜ E)) =
-      D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε (n + 1)
+        (infDecal sV tV εbar ε₀ hε₀ n (c ⊗ₜ E)) =
+      infDecal sV tV εbar ε₀ hε₀ (n + 1)
         (c ⊗ₜ D.infFaceLast sV tV εbar hsV htV hε hb hu hrs hrt n E) := by
   apply Subtype.ext
   conv_lhs => rw [infFaceLast_val]
@@ -422,7 +431,7 @@ theorem infFaceLast_decal (n : ℕ) (c : C') (E : N (hI := hI) sV tV εbar n) :
   refine D.conjAt_congr sV tV εbar hsV htV hε hb hu _ _ _ _ _ _ rfl rfl rfl ?_
   rw [infDecal_tmul]
   refine LinearMap.ext fun x ↦ ?_
-  show face A' C' (n + 1) (Fin.last (n + 2)) (((1 : cech A' C' n) ⊗ₜ[A'] c :
+  change face A' C' (n + 1) (Fin.last (n + 2)) (((1 : cech A' C' n) ⊗ₜ[A'] c :
       cech A' C' n ⊗[A'] C') * face A' C' n 0 (E.1 x)) =
     ((1 : cech A' C' (n + 1)) ⊗ₜ[A'] c : cech A' C' (n + 1) ⊗[A'] C') *
       face A' C' (n + 1) 0 (face A' C' n (Fin.last (n + 1)) (E.1 x))
@@ -498,14 +507,13 @@ include hrq in
 /-- **The modules of infinitesimal automorphisms along the nerve form a décalage**: plain faces
 by the maps of the nerve, the last face twisted by conjugation with the lifted descent arrow,
 and the décalage maps by flat base change along the face `0`. -/
-noncomputable def infDecalage : Stacks.Decalage.Decalage A' C' (N (hI := hI) sV tV εbar) where
+noncomputable def infDecalage : Stacks.Decalage A' C' (N (hI := hI) sV tV εbar) where
   face := D.infFace sV tV εbar hsV htV hε hb hu hrs hrt
   codeg := infCodeg sV tV εbar
-  decal := D.infDecal sV tV εbar hsV htV ε₀ hε₀ hε
+  decal := infDecal sV tV εbar ε₀ hε₀
   decal_bijective := D.infDecal_bijective sV tV εbar hsV htV ε₀ hε₀ hε
   face_succ_decal n i x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c m =>
       rw [LinearMap.lTensor_tmul]
@@ -515,7 +523,7 @@ noncomputable def infDecalage : Stacks.Decalage.Decalage A' C' (N (hI := hI) sV 
         exact D.infFaceLast_decal sV tV εbar hsV htV ε₀ hε₀ hε hb hu hrs hrt n c m
       | cast j =>
         rw [Fin.succ_castSucc, infFace_castSucc, infFace_castSucc]
-        exact D.infFacePlain_decal sV tV εbar hsV htV ε₀ hε₀ hε n j c m
+        exact infFacePlain_decal sV tV εbar ε₀ hε₀ n j c m
   codeg_face_one n m := by
     cases n with
     | zero =>

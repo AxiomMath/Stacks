@@ -16,9 +16,9 @@ subspace `Z ⊆ yoneda.obj T` of a representable algebraic space:
   both of them modules on the **Zariski site** of the representing scheme.
 
 This file identifies the first with the transport of the second **as objects**.  That is item 2 of
-the list of carried hypotheses in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` under
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`, and it
-is what the section *What this leaves owed* of
+the list of carried hypotheses in `ConormalShortExact.lean` under
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`,
+and it is what the section *What this leaves owed* of
 `StacksFrontier/AlgebraicGeometry/Spaces/RepresentedUniversalThickeningConormal.lean` records as the
 assembly not done there.
 
@@ -367,7 +367,9 @@ conormal module, and the two inverse images are merged by
 `AlgebraicGeometry.Space.modulePullbackObjIsoOfComp`.
 
 This is the form in which the identification of item 2 of the list of carried hypotheses
-in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` is consumed. -/
+in `ConormalShortExact.lean` under
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`
+is consumed. -/
 theorem nonempty_conormalSheafIsoRepresentedUniversalConormalSheaf
     {V U : AlgebraicSpaces B S hS} [V.obj.IsRepresentable] [U.obj.IsRepresentable]
     {g : V ⟶ U} (s : UniversalFirstOrderThickening B S hS g)

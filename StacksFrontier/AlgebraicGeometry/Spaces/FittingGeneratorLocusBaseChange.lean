@@ -358,7 +358,7 @@ theorem mem_idealUnitLocus_fittingIdeal_modulePullback_of_mem_idealUnitLocus (f 
   -- the image of the point in the chart of `Y` lies over the unit locus
   have hv : (BigFppfOver.toScheme B S hS).map d.g z ∈
       chartUnitLocusPreimage B S hS Y (fittingIdeal B S hS Y.1 Y.2 G r) d.V := by
-    show chartSchemeToPoints B S hS Y.1 d.V ((BigFppfOver.toScheme B S hS).map d.g z) ∈
+    change chartSchemeToPoints B S hS Y.1 d.V ((BigFppfOver.toScheme B S hS).map d.g z) ∈
       idealUnitLocus B S hS Y (fittingIdeal B S hS Y.1 Y.2 G r)
     rw [← pointsMap_chartSchemeToPoints_chartDiagram, hxz]
     exact hx

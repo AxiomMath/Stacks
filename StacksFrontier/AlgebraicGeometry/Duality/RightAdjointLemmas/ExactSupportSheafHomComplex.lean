@@ -197,6 +197,7 @@ def internalHomPrecomp {F F' : _root_.SheafOfModules.{u} (Tensor.ringSheaf O)} (
       (internalHomSecondFunctor.{u, u, u, u} J O F).obj G :=
   ⟨Stacks.PresheafOfModules.InternalHom.internalHomMapLeft O.obj f.val⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- On sections over `U`, precomposition in the first variable of the internal Hom is
 precomposition with the restriction of the inducing morphism. -/
 theorem internalHomPrecomp_val_app
@@ -208,6 +209,7 @@ theorem internalHomPrecomp_val_app
       (_root_.restrFun O.obj U).map f.val ≫ α :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- On sections over `U`, the covariant action of the internal Hom in its second variable is
 postcomposition with the restriction of the inducing morphism. -/
 theorem internalHomSecondFunctor_map_val_app

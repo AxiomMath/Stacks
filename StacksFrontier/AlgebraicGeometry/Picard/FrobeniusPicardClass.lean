@@ -52,7 +52,7 @@ theorem unitsPushforwardMap_absoluteFrobenius :
   have hF := unitsPushforwardMap_app (absoluteFrobenius X p hX) U.unop (Additive.toMul s)
   have hI := unitsPushforwardMap_app (𝟙 X) U.unop (Additive.toMul s)
   refine hF.trans (Eq.trans ?_ (congrArg ((p : ℤ) • ·) hI).symm)
-  show _ = ((p : ℤ) • Additive.ofMul (Units.map ((𝟙 X : X ⟶ X).app U.unop).hom.toMonoidHom
+  change _ = ((p : ℤ) • Additive.ofMul (Units.map ((𝟙 X : X ⟶ X).app U.unop).hom.toMonoidHom
     (Additive.toMul s)) : Additive (Γ(X, U.unop))ˣ)
   rw [← ofMul_zpow]
   apply congrArg Additive.ofMul
@@ -80,7 +80,7 @@ theorem schemePullbackClass_absoluteFrobenius (x : ofScheme X) :
     rw [hm]
     exact map_zsmul ((abelianEdgeMap.{u, u} (𝟙 X : X ⟶ X).base 1).app
       (unitsSheaf X.toRingedSpace)).hom (p : ℤ) _
-  show schemePullbackClassHom (absoluteFrobenius X p hX) _ = _
+  change schemePullbackClassHom (absoluteFrobenius X p hX) _ = _
   rw [← hF, key, map_zsmul, hI]
   exact congrArg _ (schemePullbackClass_id X _)
 

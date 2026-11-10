@@ -68,7 +68,7 @@ theorem hom_eq_zero_of_eq_zero_on_nonempty_open [PreirreducibleSpace X] {F G : X
   refine Scheme.Modules.hom_ext _ _ fun U ↦ ?_
   rw [Scheme.Modules.Hom.zero_app]
   ext s
-  show Scheme.Modules.Hom.app φ U s = 0
+  change Scheme.Modules.Hom.app φ U s = 0
   rcases isEmpty_or_nonempty U with hUe | hUne
   · have h0 : U = ⊥ := by
       rw [← Opens.not_nonempty_iff_eq_bot]

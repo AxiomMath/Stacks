@@ -48,7 +48,7 @@ theorem ofFinEmbEquiv_symm_map {I J : Type*} [LinearOrder I] [LinearOrder J] {n 
     ext i
     simp only [Set.powersetCard.ofFinEmbEquiv_apply, Set.powersetCard.coe_ofFinEmb,
       Set.powersetCard.coe_map, Set.mem_range, Set.mem_image]
-    show (∃ j, e (Set.powersetCard.ofFinEmbEquiv.symm s j) = i) ↔ ∃ j, j ∈ s ∧ e j = i
+    change (∃ j, e (Set.powersetCard.ofFinEmbEquiv.symm s j) = i) ↔ ∃ j, j ∈ s ∧ e j = i
     constructor
     · rintro ⟨j, rfl⟩
       exact ⟨_, (Set.powersetCard.mem_range_ofFinEmbEquiv_symm_iff_mem s _).mp ⟨j, rfl⟩, rfl⟩

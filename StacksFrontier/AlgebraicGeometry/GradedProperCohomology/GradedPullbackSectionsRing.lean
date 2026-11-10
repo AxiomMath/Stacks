@@ -322,7 +322,7 @@ theorem specGradedPullbackSectionsRingEquiv_algebraMap (c : ↥(quotRing I₀)) 
         (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv.symm := rfl
     refine (RingEquiv.symm_apply_eq _).2 ?_
     rw [AssociatedGraded.congrRingEquiv_gradeZeroRingHom, hs, RingEquiv.apply_symm_apply]
-  show gradedPullbackSectionsRingEquiv I (quotImmersion R I₀)
+  change gradedPullbackSectionsRingEquiv I (quotImmersion R I₀)
       (surjective_app_top_quotImmersion R I₀) hker hc
       ((AssociatedGraded.congrRingEquiv (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv
         (map_ideal_top_eq R I₀ I hker)).symm

@@ -135,7 +135,7 @@ theorem exists_affine_etale_chart_factorization
     intro x
     refine BigFppfOver.exists_hom_of_comp_eq B S hS (X := O P (C x)) (Y := O U (A x))
       (α.resLE (A x) (C x) (hCle x)) ?_
-    show α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
+    change α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
       (C x).ι ≫ B.inclusion.map P.hom
     rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, hPover]
   choose m hmmap using hm
@@ -181,7 +181,7 @@ theorem exists_affine_etale_chart_factorization
   · have h1 : yoneda.map (m x) ≫ yoneda.map (ι U (A x)) =
         yoneda.map (ι P (C x)) ≫ yoneda.map a := by
       rw [← Functor.map_comp, ← Functor.map_comp, htri x]
-    show yoneda.map (m x) ≫ yoneda.map (ι U (A x)) ≫ f = yoneda.map (ι P (C x) ≫ b) ≫ g
+    change yoneda.map (m x) ≫ yoneda.map (ι U (A x)) ≫ f = yoneda.map (ι P (C x) ≫ b) ≫ g
     rw [← Category.assoc, h1, Category.assoc, hsq, Functor.map_comp, Category.assoc]
 
 end AlgebraicGeometry.Space

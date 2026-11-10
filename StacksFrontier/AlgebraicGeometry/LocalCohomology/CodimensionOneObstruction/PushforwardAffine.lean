@@ -51,7 +51,7 @@ namespace Stacks.AlgebraicGeometry.CodimensionOneObstruction
 theorem ι_image_preimage_eq_inf {X : Scheme.{u}} (U W : X.Opens) :
     U.ι ''ᵁ (U.ι ⁻¹ᵁ W) = U ⊓ W := by
   refine TopologicalSpace.Opens.ext ?_
-  show U.ι.base.hom '' (U.ι.base.hom ⁻¹' (W : Set X)) = _
+  change U.ι.base.hom '' (U.ι.base.hom ⁻¹' (W : Set X)) = _
   rw [Set.image_preimage_eq_inter_range]
   simp [Scheme.Opens.range_ι, Set.inter_comm]
 

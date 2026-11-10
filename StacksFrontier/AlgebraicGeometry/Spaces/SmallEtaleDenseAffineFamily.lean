@@ -85,7 +85,7 @@ theorem SmallEtale.exists_hom_of_comp_eq {U₀ W W' : SmallEtale B S hS F} (β :
   have hβ : m₀ ≫ ((SmallEtale.toOver B S hS F).map β') = (SmallEtale.toOver B S hS F).map β :=
     (BigFppfOver.toScheme B S hS).map_injective (by rwa [Functor.map_comp, hm₀])
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk m₀ ?_), hm₀⟩
-  show yoneda.map m₀ ≫ W'.obj.hom = W.obj.hom
+  change yoneda.map m₀ ≫ W'.obj.hom = W.obj.hom
   rw [← (hw W' β').2, ← Category.assoc, ← Functor.map_comp, hβ, (hw W β).2]
 
 /-- **A chart with a morphism to `U₀` is covered by affine charts isomorphic to members of a

@@ -59,7 +59,7 @@ theorem coinvariantsKer_le_comap_coinvariantsMk_normal :
   rw [Stacks.Trace.coinvariantsKer, Submodule.span_le]
   rintro _ ⟨⟨h, m⟩, rfl⟩
   refine Submodule.subset_span ⟨(h, Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) m), ?_⟩
-  show normalCoinvariantsRepresentation ρ N (ι h)
+  change normalCoinvariantsRepresentation ρ N (ι h)
       (Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) m) -
         Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) m =
     Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) (ρ (ι h) m - m)
@@ -141,7 +141,7 @@ abbrev geometricNormalCoinvariantsQuotient
     (etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range ρ
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- **`M_{π₁(X_k̄)} ⟶ (M_N)_{π₁(X_k̄)}` is bijective.** -/
 theorem bijective_geometricCoinvariantsMap_normalCoinvariantsQuotient
     (ρ : letI := connectedSpace_of_isCurve B X f

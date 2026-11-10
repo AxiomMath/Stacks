@@ -357,7 +357,7 @@ theorem changeBaseBigBaseGlobalSectionsTrans_comp_bigSectionsIsoAbelian (N : Big
           (crisPullback S S' fS fX hf ((bigRestrictToAbelian S').obj N)) ≫
         (globalSections S).map ((crisComparisonTrans fS fX hf).app N) := by
   refine (Sheaf.isLimitConeΓ _).hom_ext fun A => ?_
-  show _ ≫ Sheaf.ΓRes _ A = _ ≫ Sheaf.ΓRes _ A
+  change _ ≫ Sheaf.ΓRes _ A = _ ≫ Sheaf.ΓRes _ A
   -- notation
   let T := SheafOfModules.toSheaf.{u + 1} (crystallineStructureSheaf S')
   let σ := smallRestrictionGlobalSectionsIso (S := S')

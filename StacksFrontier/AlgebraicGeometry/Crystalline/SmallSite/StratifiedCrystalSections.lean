@@ -62,8 +62,7 @@ variable {D : Type u} [CommRing D] {B : Type v} [CommRing B] (f : D →+* B)
 /-- On a twisted tensor product, a scalar `d` of `D` and its image `f d` act in the same way. -/
 theorem ringHom_smul_twistedTensor (d : D) (z : TwistedScalars f ⊗[D] M) :
     f d • z = d • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul']; rfl
   | add x y hx hy => rw [smul_add, smul_add, hx, hy]
 

@@ -85,7 +85,7 @@ private theorem nonempty_algHom_of_section {A : Type u} [CommRing A] {x : A} {B 
   have hτ : τ ≫ Spec.map (CommRingCat.ofHom (algebraMap (Localization.Away x) B)) = 𝟙 _ := by
     have h1 : τ ≫ AffineFieldFactors.coverMap (R := .of A) x B =
         (basicOpenIsoSpecAway (R := .of A) x).inv := by
-      show ((basicOpenIsoSpecAway (R := .of A) x).inv ≫ σ ≫ e.hom) ≫ _ = _
+      change ((basicOpenIsoSpecAway (R := .of A) x).inv ≫ σ ≫ e.hom) ≫ _ = _
       rw [Category.assoc, Category.assoc, he, pullback.lift_snd, Category.comp_id]
     rwa [AffineFieldFactors.coverMap, ← Category.assoc, Iso.comp_inv_eq, Iso.inv_hom_id] at h1
   let φ : B →+* Localization.Away x := (Spec.preimage τ).hom
@@ -96,9 +96,8 @@ private theorem nonempty_algHom_of_section {A : Type u} [CommRing A] {x : A} {B 
   exact ⟨{ φ with commutes' := fun r ↦ congrArg (fun ψ ↦ ψ r) hφ }⟩
 
 /-- **A cover of `D(x)` unramified in codimension one over a strictly henselian regular local ring
-has a section.** The argument `h0BMA` is purity for regular local rings ([Stacks, Tag 0BMA] (1)).
--/
-theorem nonempty_algHom_of_isUnramifiedInCodimensionOne (h0BMA : PurityAtRegularLocalRings.{u})
+has a section.** -/
+theorem nonempty_algHom_of_isUnramifiedInCodimensionOne
     (A : Type u) [CommRing A] [StrictlyHenselianLocalRing A] [IsRegularLocalRing A]
     (x : A) (hx : x ≠ 0)
     (B : Type u) [CommRing B] [Nontrivial B] [Algebra (Localization.Away x) B]
@@ -115,7 +114,7 @@ theorem nonempty_algHom_of_isUnramifiedInCodimensionOne (h0BMA : PurityAtRegular
   have hdense : DenseRange U.ι.base := by
     rw [DenseRange, Scheme.Opens.range_ι]
     refine U.isOpen.dense ⟨⟨⊥, Ideal.isPrime_bot⟩, ?_⟩
-    show x ∉ (⊥ : Ideal A)
+    change x ∉ (⊥ : Ideal A)
     simpa using hx
   have := isFinite_coverMap (R := .of A) x B
   have := etale_coverMap (R := .of A) x B

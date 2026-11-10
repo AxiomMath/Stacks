@@ -70,7 +70,7 @@ private lemma encard_eq_iSup_finset_sum_fibres {α β : Type u} (s : Set α)
   let fibre : β → Set α := fun b => s ∩ f ⁻¹' ({b} : Set β)
   have hdisj : Pairwise (Function.onFun Disjoint fibre) := by
     intro a b hab
-    show Disjoint (fibre a) (fibre b)
+    change Disjoint (fibre a) (fibre b)
     rw [Set.disjoint_left]
     intro z hz hz'
     have hza : f z = a := by simpa [fibre] using hz.2
@@ -168,7 +168,7 @@ private theorem comap_mem_minimalPrimes_of_flat
   let : Algebra.HasGoingDown R S := Algebra.HasGoingDown.of_flat
   let : q.IsPrime := hq.isPrime
   set p : Ideal R := Ideal.comap (algebraMap R S) q
-  show Minimal (fun r : Ideal R => r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
+  change Minimal (fun r : Ideal R => r.IsPrime ∧ (⊥ : Ideal R) ≤ r) p
   refine ⟨⟨Ideal.IsPrime.comap _, bot_le⟩, fun p₀ hp₀ hp₀le => ?_⟩
   let : p₀.IsPrime := hp₀.1
   by_contra hnle
@@ -224,7 +224,7 @@ private theorem encard_fiber_minimalPrimes_eq_quotient
           rwa [Ideal.under_def] at this
         exact hne (by rw [heq, ← hPunder])
       have hmin : q' ∈ minimalPrimes S := by
-        show Minimal (fun r : Ideal S => r.IsPrime ∧ (⊥ : Ideal S) ≤ r) q'
+        change Minimal (fun r : Ideal S => r.IsPrime ∧ (⊥ : Ideal S) ≤ r) q'
         refine ⟨⟨q.2.1.1, bot_le⟩, ?_⟩
         intro r hr hrq
         let : r.IsPrime := hr.1
@@ -236,7 +236,7 @@ private theorem encard_fiber_minimalPrimes_eq_quotient
       exact ⟨⟨q', hmin⟩, hcon⟩
     exact ⟨toFun, invFun, fun _ => rfl, fun _ => rfl⟩
   refine (Set.encard_congr fiberEquiv).trans ?_
-  show I.minimalPrimes.encard = (minimalPrimes (S ⧸ I)).encard
+  change I.minimalPrimes.encard = (minimalPrimes (S ⧸ I)).encard
   rw [Ideal.minimalPrimes_eq_comap]
   exact (Ideal.comap_injective_of_surjective (f := Ideal.Quotient.mk I)
     Ideal.Quotient.mk_surjective).encard_image _
@@ -271,12 +271,12 @@ private theorem encard_minimalPrimes_eq_iSup_sum_quotients
           have h := q.2.2
           change f q.1 ∈ ({p} : Set (minimalPrimes R)) at h
           have heq := Set.mem_singleton_iff.mp h
-          show Ideal.comap (algebraMap R S) q.1 = p.1
+          change Ideal.comap (algebraMap R S) q.1 = p.1
           simpa only [f, dite_eq_left q.2.1] using congrArg Subtype.val heq⟩,
         invFun := fun q => ⟨q.1.1, ⟨q.1.2, by
           have hq := q.2
           change Ideal.comap (algebraMap R S) q.1.1 = p.1 at hq
-          show f q.1.1 = p
+          change f q.1.1 = p
           unfold f
           rw [dite_eq_left q.1.2]
           exact Subtype.ext hq⟩⟩
@@ -489,10 +489,10 @@ private theorem encard_minimalPrimes_strictHenselization_quotient
   let pD : D0 →ₐ[A0] L0 :=
     { toRingHom := eD0.symm.toRingHom.comp (residue D0)
       commutes' := fun x => by
-        show eD0.symm (residue D0 (algebraMap A0 D0 x)) = algebraMap A0 L0 x
+        change eD0.symm (residue D0 (algebraMap A0 D0 x)) = algebraMap A0 L0 x
         apply eD0.injective
         simp only [AlgEquiv.apply_symm_apply]
-        show residue D0 (algebraMap A0 D0 x) =
+        change residue D0 (algebraMap A0 D0 x) =
           eD0 (algebraMap (ResidueField A0) L0 (residue A0 x))
         calc
           residue D0 (algebraMap A0 D0 x) =
@@ -503,7 +503,7 @@ private theorem encard_minimalPrimes_strictHenselization_quotient
   let pQ : Q →ₐ[A0] L0 :=
     { toRingHom := eQ.symm.toRingHom.comp (residue Q)
       commutes' := fun x => by
-        show eQ.symm (residue Q (algebraMap A0 Q x)) = algebraMap A0 L0 x
+        change eQ.symm (residue Q (algebraMap A0 Q x)) = algebraMap A0 L0 x
         apply eQ.injective
         simp only [RingEquiv.apply_symm_apply]
         exact (heQ x).symm }
@@ -511,21 +511,21 @@ private theorem encard_minimalPrimes_strictHenselization_quotient
     intro x
     obtain ⟨y, hy⟩ := residue_surjective (eD0 x)
     refine ⟨y, ?_⟩
-    show eD0.symm (residue D0 y) = x
+    change eD0.symm (residue D0 y) = x
     rw [hy]
     simp
   have hpQsurj : Function.Surjective pQ := by
     intro x
     obtain ⟨y, hy⟩ := residue_surjective (eQ x)
     refine ⟨y, ?_⟩
-    show eQ.symm (residue Q y) = x
+    change eQ.symm (residue Q y) = x
     rw [hy]
     simp
   have hIndQ := IsLocalRing.IsHenselization.ind_etale_of_universe_le
     (R := A0) (L := L0) (Rh := Q)
   obtain ⟨eDQ, -⟩ := HenselianLocalRing.existsUnique_algEquiv_of_ind_etale
     hIndD0 hIndQ pD pQ hpDsurj hpQsurj
-  show Set.encard (minimalPrimes D0) = _
+  change Set.encard (minimalPrimes D0) = _
   rw [numberOfGeometricBranchesOfLocalRing_eq_encard_minimalPrimes]
   exact (Set.encard_congr (minimalPrimes_equiv_of_ringEquiv eDQ.toRingEquiv))
 
@@ -616,7 +616,7 @@ private theorem encard_minimalPrimes_strictHenselization_ringEquiv
       simp [eκ, ResidueField.mapEquiv, ResidueField.map_residue]
     have hK : algebraMap (ResidueField B) K (residue B b) =
         algebraMap (ResidueField A) K (residue A (e.symm b)) := by
-      show algebraMap (ResidueField A) K (eκ.symm (residue B b)) = _
+      change algebraMap (ResidueField A) K (eκ.symm (residue B b)) = _
       rw [hres]
     have hDA : algebraMap B DA b = algebraMap A DA (e.symm b) := by
       simp [RingHom.algebraMap_toAlgebra]
@@ -626,7 +626,7 @@ private theorem encard_minimalPrimes_strictHenselization_ringEquiv
     apply IsHenselization.of_ind_etale.{u, u} (IsHenselization.henselian B KB)
       (IsHenselization.ind_etale_of_universe_le (R := B) (L := KB))
     refine ⟨eK.toRingEquiv.symm.trans a, fun b => ?_⟩
-    show a (eK.symm (algebraMap (ResidueField B) K (residue B b))) = _
+    change a (eK.symm (algebraMap (ResidueField B) K (residue B b))) = _
     rw [← eK.commutes (residue B b), eK.symm_apply_apply]
     exact ha b
   let : IsHenselization B K DA := hbaseDA
@@ -640,26 +640,26 @@ private theorem encard_minimalPrimes_strictHenselization_ringEquiv
   let pDA : DA →ₐ[B] K :=
     { toRingHom := aDA.symm.toRingHom.comp (residue DA)
       commutes' := fun b => by
-        show aDA.symm (residue DA (algebraMap B DA b)) = algebraMap B K b
+        change aDA.symm (residue DA (algebraMap B DA b)) = algebraMap B K b
         rw [← haDA b, aDA.symm_apply_apply]
         rfl }
   let pDB : DB →ₐ[B] K :=
     { toRingHom := aDB.symm.toRingHom.comp (residue DB)
       commutes' := fun b => by
-        show aDB.symm (residue DB (algebraMap B DB b)) = algebraMap B K b
+        change aDB.symm (residue DB (algebraMap B DB b)) = algebraMap B K b
         rw [← haDB b, aDB.symm_apply_apply]
         rfl }
   have hpDAsurj : Function.Surjective pDA := by
     intro z
     obtain ⟨y, hy⟩ := residue_surjective (aDA z)
     refine ⟨y, ?_⟩
-    show aDA.symm (residue DA y) = z
+    change aDA.symm (residue DA y) = z
     rw [hy, aDA.symm_apply_apply]
   have hpDBsurj : Function.Surjective pDB := by
     intro z
     obtain ⟨y, hy⟩ := residue_surjective (aDB z)
     refine ⟨y, ?_⟩
-    show aDB.symm (residue DB y) = z
+    change aDB.symm (residue DB y) = z
     rw [hy, aDB.symm_apply_apply]
   obtain ⟨eD, -⟩ := HenselianLocalRing.existsUnique_algEquiv_of_ind_etale
     (IsHenselization.ind_etale_of_universe_le (R := B) (L := K))
@@ -736,7 +736,7 @@ private theorem encard_minimalPrimes_henselization_quotient
     (residueAlgHomOfBijective Qdata.residueFieldMap_bijective)
     (residueAlgHomOfBijective_surjective hResD0)
     (residueAlgHomOfBijective_surjective Qdata.residueFieldMap_bijective)
-  show Set.encard (minimalPrimes D0) = _
+  change Set.encard (minimalPrimes D0) = _
   rw [numberOfBranchesOfLocalRing_eq_encard_minimalPrimes]
   exact Set.encard_congr (minimalPrimes_equiv_of_ringEquiv eDQ.toRingEquiv)
 
@@ -771,7 +771,7 @@ private theorem encard_minimalPrimes_henselization_ringEquiv
       simp [eκ, ResidueField.mapEquiv, ResidueField.map_residue]
     have hDA : algebraMap B DA b = algebraMap A DA (e.symm b) := by
       simp [RingHom.algebraMap_toAlgebra]
-    show a (eκ.symm (algebraMap (ResidueField B) (ResidueField B) (residue B b))) = _
+    change a (eκ.symm (algebraMap (ResidueField B) (ResidueField B) (residue B b))) = _
     rw [show algebraMap (ResidueField B) (ResidueField B) (residue B b) = residue B b from rfl,
       hres, hDA, ← ha (e.symm b)]
     rfl
@@ -895,7 +895,7 @@ private theorem vanishingComponentStalk_quotientEquiv
       (isClosed_of_mem_irreducibleComponents Z hZ).closure_eq]
     exact hZ
   have hpZ : p ∈ Z := by
-    show fromSpec p ∈ (C : Set X)
+    change fromSpec p ∈ (C : Set X)
     simpa [hp] using hx
   have hJp : J ≤ p.asIdeal := by
     rw [hJ]
@@ -919,7 +919,7 @@ private theorem vanishingComponentStalk_quotientEquiv
         (((⊥ : Ideal A).map (algebraMap A (Localization.AtPrime p.asIdeal))).minimalPrimes) := by
       rw [IsLocalization.minimalPrimes_map p.asIdeal.primeCompl
         (Localization.AtPrime p.asIdeal) (⊥ : Ideal A)]
-      show Ideal.under A Jloc ∈ minimalPrimes A
+      change Ideal.under A Jloc ∈ minimalPrimes A
       rw [hunder]
       exact hJmin
     simpa only [Ideal.map_bot] using hJloc'
@@ -936,7 +936,7 @@ private theorem vanishingComponentStalk_quotientEquiv
   have hz : I.subschemeι (chart z) = x := by
     have hz' : (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J))).base z = p :=
       quotientPrime_comap J p.asIdeal hJp
-    show (chart ≫ I.subschemeι).base z = x
+    change (chart ≫ I.subschemeι).base z = x
     rw [hchart]
     exact (congrArg fromSpec hz').trans hp
   have hychart : chart z = y := Subtype.ext (hz.trans hy.symm)

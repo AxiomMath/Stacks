@@ -150,9 +150,9 @@ theorem isInvertibleModule_piece
       (algebra.piece n) ≪≫
     (Scheme.Modules.restrictFunctor V.ι).mapIso (D.chartIso U.1 U.2 n) ≪≫ eV
 
-/-- **Tag 01O4**, at the spelling of the tag's statement: the invertibility class of Tag 01CS applied to
-the structure presheaf of the relative homogeneous spectrum and the sheaf condition of its
-`ringCatSheaf`, for the homogeneous pieces of the twist data of Tag 01NR, with the generation
+/-- **Tag 01O4**, at the spelling of the tag's statement: the invertibility class of Tag 01CS
+applied to the structure presheaf of the relative homogeneous spectrum and the sheaf condition of
+its `ringCatSheaf`, for the homogeneous pieces of the twist data of Tag 01NR, with the generation
 hypothesis as an ordinary argument. -/
 theorem twistData_isInvertible (D : RelativeProjTwists.TwistData A)
     (hgen : ∀ U : S.Opens, IsAffineOpen U →

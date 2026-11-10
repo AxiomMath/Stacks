@@ -51,12 +51,13 @@ theorem canonicalPrincipalDivisorCycleAt_mul
       canonicalPrincipalDivisorCycleAt D sY hY hintY f hk +
         canonicalPrincipalDivisorCycleAt D sY hY hintY g hk := by
   refine Subtype.ext (funext fun P => ?_)
-  show _ = (canonicalPrincipalDivisorCycleAt D sY hY hintY f hk).1 P +
+  change _ = (canonicalPrincipalDivisorCycleAt D sY hY hintY f hk).1 P +
     (canonicalPrincipalDivisorCycleAt D sY hY hintY g hk).1 P
   by_cases hP : codimension (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 P) = 1
   · simp only [canonicalPrincipalDivisorCycleAt_apply_of_codimension_eq_one D sY hY hintY _ hk P hP,
       ordRationalFunction, GenericFractionEmbedding.ord_mul_apply]
-  · simp only [canonicalPrincipalDivisorCycleAt, principalDivisorCycleCoefficients, dif_neg hP,
+  · simp only [canonicalPrincipalDivisorCycleAt, principalDivisorCycleCoefficients,
+      dite_eq_right hP,
       add_zero]
 
 /-- `div(f⁻¹) = -div(f)` for the canonical principal divisor. -/
@@ -96,7 +97,7 @@ theorem exists_zsmul_sub_canonicalDivisorCycleAt_eq
   obtain ⟨g, hg⟩ := exists_units_orderOfVanishingSection_canonicalLocalRatio_eq_add_ord
     D.site D.base D.base_mem hY.1 (isDecentSpace_of_isGood D sY hY) hintY hNY M hM τ τ' hτ hτ'
   refine ⟨g ^ a, Subtype.ext (funext fun W => ?_)⟩
-  show a • ((canonicalDivisorCycle D sY hY hintY M hM τ hτ hk).1 W -
+  change a • ((canonicalDivisorCycle D sY hY hintY M hM τ hτ hk).1 W -
       (canonicalDivisorCycle D sY hY hintY M hM τ' hτ' hk).1 W) = _
   by_cases hcod : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 W) = 1
@@ -113,7 +114,7 @@ theorem exists_zsmul_sub_canonicalDivisorCycleAt_eq
       show (canonicalDivisorCycle D sY hY hintY M hM τ' hτ' hk).1 W = 0 from
         divisorCycleCoefficients_of_codimension_ne_one D sY hY _ M τ' _ hcod]
     unfold canonicalPrincipalDivisorCycleAt
-    simp only [principalDivisorCycleCoefficients, dif_neg hcod, sub_self, smul_zero]
+    simp only [principalDivisorCycleCoefficients, dite_eq_right hcod, sub_self, smul_zero]
 
 end AlgebraicGeometry.Space
 

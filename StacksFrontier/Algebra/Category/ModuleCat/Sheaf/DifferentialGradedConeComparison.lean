@@ -279,7 +279,7 @@ theorem quasiIso_coneDescHom {S : ShortComplex (DifferentialGradedModule.{t, a, 
     (hS : S.ShortExact) : QuasiIso (coneDescHom S).toHomologicalComplex := by
   have h : QuasiIso (coneDesc S) :=
     CochainComplex.mappingCone.quasiIso_descShortComplex (toCochainComplex_shortExact A S hS)
-  show QuasiIso (eqToHom (conePackage S.f).cone_complex ≫ coneDesc S)
+  change QuasiIso (eqToHom (conePackage S.f).cone_complex ≫ coneDesc S)
   infer_instance
 
 /-- The naturality of the comparison in the short complex, at the level of complexes: Mathlib's

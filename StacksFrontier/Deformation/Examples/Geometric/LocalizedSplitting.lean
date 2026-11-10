@@ -57,7 +57,7 @@ theorem exists_smul_id_factor_of_localized_split
       simpa only [LinearMap.comp_apply, LinearMap.id_apply,
         LocalizedModule.mkLinearMap_apply, LinearMap.restrictScalars_apply,
         LocalizedModule.map_mk] using DFunLike.congr_fun ht (LocalizedModule.mkLinearMap S M x)
-    show (LocalizedModule.mkLinearMap S M) (l (d x)) =
+    change (LocalizedModule.mkLinearMap S M) (l (d x)) =
       (LocalizedModule.mkLinearMap S M) ((s : R) • x)
     rw [h, ht', map_smul]
   obtain ⟨a, ha⟩ := Module.Finite.exists_smul_of_comp_eq_of_isLocalizedModule S

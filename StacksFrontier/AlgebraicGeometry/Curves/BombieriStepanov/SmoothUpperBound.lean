@@ -164,7 +164,7 @@ theorem exists_upper_bound_of_smooth [Fintype k] (pr : ℕ) [Fact pr.Prime] [Cha
     (CommRingCat.ofHom (RingHom.id K)) rfl
   have hfin : Stacks.EtaleCohomology.residueDegree p' y = 1 := by
     let : Algebra K (X'.residueField y) := (fieldToResidue p' y).hom.toAlgebra
-    show Module.finrank K (X'.residueField y) = 1
+    change Module.finrank K (X'.residueField y) = 1
     rw [← (LinearEquiv.ofBijective (Algebra.linearMap K (X'.residueField y)) hbij).finrank_eq,
       Module.finrank_self]
   have hcl : IsClosed ({y} : Set X') := isClosed_singleton_of_residueDegree_eq_one p' y hfin

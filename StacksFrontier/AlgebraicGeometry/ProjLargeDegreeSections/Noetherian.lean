@@ -86,7 +86,7 @@ theorem isHomogeneousSubmodule_tailAnnihilator {r : ℕ} (fam : Fin r → S)
   intro x hx d i hi
   have h := coe_decompose_smul_add_of_left_mem 𝒮 𝒨 (hfam i) x d
   rw [hx i hi] at h
-  show fam i • (decompose 𝒨 x d : M) = 0
+  change fam i • (decompose 𝒨 x d : M) = 0
   rw [← h, decompose_zero]
   rfl
 
@@ -142,7 +142,7 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
         intro l b n w hw
         have h := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := 𝒨) (powDegOne 𝒮 hg l).2 hw
         have hd : l +ᵥ ((b : ℤ) + n) = (b : ℤ) + ((l : ℤ) + n) := by
-          show (l : ℤ) + ((b : ℤ) + n) = (b : ℤ) + ((l : ℤ) + n)
+          change (l : ℤ) + ((b : ℤ) + n) = (b : ℤ) + ((l : ℤ) + n)
           ring
         rwa [hd] at h
       have hP : IsHomogeneousSubmodule 𝒨 (tailAnnihilator (M := M) fam (k + 1)) :=
@@ -171,7 +171,7 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
           obtain ⟨c, hc⟩ := (LocalizedModule.mk_eq).mp h1
           obtain ⟨e, he⟩ := c.2
           refine ⟨e + a, ⟨fam i ^ e • p, Submodule.smul_mem _ _ hpmem, ?_⟩⟩
-          show g • (fam i ^ e • p) = fam i ^ (e + a) • (q : M)
+          change g • (fam i ^ e • p) = fam i ^ (e + a) • (q : M)
           simp only [Submonoid.smul_def, pow_zero, one_smul] at hc
           rw [← he] at hc
           have hce : fam i ^ e • (fam i ^ a • (q : M)) = fam i ^ e • (g • p) := hc
@@ -187,9 +187,9 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
           hP p hpP n'
         have hgp' : g • (decompose 𝒨 p n' : M) = (q : M) := by
           have h := coe_decompose_smul_add_of_left_mem 𝒮 𝒨 hg p n'
-          show g • (decompose 𝒨 p n' : M) = (q : M)
+          change g • (decompose 𝒨 p n' : M) = (q : M)
           rw [← h]
-          show (decompose 𝒨 ((LinearMap.lsmul S M g) p) (((1 : ℕ) : ℤ) + n') : M) = (q : M)
+          change (decompose 𝒨 ((LinearMap.lsmul S M g) p) (((1 : ℕ) : ℤ) + n') : M) = (q : M)
           rw [hpq, decompose_of_mem_same 𝒨 q.2]
         have hv : homogeneousScalarGlobalSections 𝒮 𝒨 1 n' ⟨g, hg⟩
             (u - degreeNToGlobalSections 𝒮 𝒨 n' ⟨(decompose 𝒨 p n' : M), (decompose 𝒨 p n').2⟩)
@@ -263,7 +263,7 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
                 (powDegOne 𝒮 hg (j + 1)) u hw hfr
               rw [hq, coe_frac_degreeNToGlobalSections] at h2
               rw [h1, coe_frac_degreeNToGlobalSections]
-              show LocalizedModule.mk (g • (g ^ j • w)) _ = _
+              change LocalizedModule.mk (g • (g ^ j • w)) _ = _
               rw [← mul_smul, ← pow_succ']
               exact h2.symm
             obtain ⟨m', hm'⟩ := onestep ((j : ℤ) + n') hjn _ hu' _ hq'
@@ -281,7 +281,7 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
           coe_frac_degreeNToGlobalSections, sub_eq_zero]
         refine (LocalizedModule.mk_eq).mpr ⟨1, ?_⟩
         simp only [Submonoid.smul_def, one_smul, pow_zero]
-        show (powDegOne 𝒮 hg a : S) • p = g ^ a • p
+        change (powDegOne 𝒮 hg a : S) • p = g ^ a • p
         rfl
       obtain ⟨l, hl⟩ := exists_pow_smul_eq_zero_of_coe_frac_eq_zero 𝒮 𝒨 fam hfam hspan hg
         ((a : ℤ) + n) _ hfracgt
@@ -304,7 +304,7 @@ theorem exists_forall_surjective_of_tailAnnihilated [IsNoetherianRing S] [Module
           (powDegOne 𝒮 hg l) _ hwa hB
         rw [hl, coe_frac_degreeNToGlobalSections] at hC
         rw [hA, coe_frac_degreeNToGlobalSections]
-        show LocalizedModule.mk (g ^ (l + a) • w) _ = _
+        change LocalizedModule.mk (g ^ (l + a) • w) _ = _
         rw [pow_add, mul_smul]
         exact hC.symm
       exact descent (l + a) n hn s hs _ hqfin

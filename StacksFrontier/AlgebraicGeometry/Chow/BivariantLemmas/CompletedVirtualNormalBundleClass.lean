@@ -81,6 +81,7 @@ section Component
 variable {Z X : Scheme.{u}} [LocallyConnectedSpace Z] [LocallyConnectedSpace X] (i : Z ⟶ X)
   [IsClosedImmersion i] (a : _root_.ConnectedComponents Z)
 
+omit [LocallyConnectedSpace X] in
 /-- The image under the closed immersion `i` of the complement of a connected component `Z_a` of
 `Z` is closed. -/
 theorem isClosed_image_compl_connectedComponentOpens :
@@ -104,7 +105,7 @@ theorem componentNeighbourhood_le :
 theorem preimage_componentNeighbourhood :
     i ⁻¹ᵁ componentNeighbourhood i a = Z.connectedComponentOpens a := by
   ext z
-  show i z ∈ componentNeighbourhood i a ↔ z ∈ Z.connectedComponentOpens a
+  change i z ∈ componentNeighbourhood i a ↔ z ∈ Z.connectedComponentOpens a
   constructor
   · rintro ⟨-, h⟩
     by_contra hz
@@ -195,6 +196,7 @@ theorem isFiniteLocallyFreeOfRank_componentRank :
   Scheme.Modules.isFiniteLocallyFreeOfRank_pullback_of_fiberRank_eq E _ _
     (fiberRank_eq_componentRank E a)
 
+omit [LocallyConnectedSpace Z] [SheafOfModules.IsFiniteLocallyFree E] in
 /-- On a module finite locally free of constant rank `r`, the rank on every connected component
 is `r`. -/
 theorem componentRank_eq_of_isFiniteLocallyFreeOfRank (r : ℕ)
@@ -232,6 +234,7 @@ section Class
 variable (C : ChowSituation.{u}) {Z X : Scheme.{u}} (sZ : Z ⟶ C.S) [LocallyOfFiniteType sZ]
   (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (i : Z ⟶ X) [IsClosedImmersion i] (hi : i ≫ sX = sZ)
 
+omit [LocallyOfFiniteType sZ] [LocallyOfFiniteType sX] in
 include hi in
 /-- The composite `Z_a ⟶ U_a ⟶ X ⟶ S` equals the composite `Z_a ⟶ Z ⟶ S`. -/
 theorem componentRestriction_comp_structureMorphism [LocallyConnectedSpace Z]

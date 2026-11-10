@@ -97,7 +97,7 @@ private theorem exists_surjective_mvPowerSeries_of_residueSection
   let ha : MvPowerSeries.HasEval y :=
     { hpow := fun i => WithIdeal.isTopologicallyNilpotent_of_mem
         (by
-          show y i ∈ maximalIdeal R
+          change y i ∈ maximalIdeal R
           rw [← hy]
           exact Ideal.subset_span ⟨i, rfl⟩)
       tendsto_zero := by simp [Filter.cofinite_eq_bot] }
@@ -268,7 +268,7 @@ private theorem span_pair_subtype_eq_top_of_ideal_span_eq_maximal {R : Type*}
     (g₁ : R) (g₂ : R) (z : R) (hgrad.symm ▸ z.2)
   have heq : z = a • g₁ + b • g₂ := by
     apply Subtype.ext
-    show (z : R) = a * (g₁ : R) + b * (g₂ : R)
+    change (z : R) = a * (g₁ : R) + b * (g₂ : R)
     rw [hab]
     ring
   rw [heq]
@@ -488,9 +488,9 @@ private theorem nodalCorrectionNext_nonempty {R : Type*} [CommRing R]
   let t : NodalCorrectionState R (maximalIdeal R) a b c (n + 1) :=
     ⟨(s.1.1 + u, s.1.2 + v), hx, hy, by simpa using hq, hgrad⟩
   refine ⟨⟨t, ⟨?_, ?_⟩⟩⟩
-  · show (s.1.1 + u) - s.1.1 ∈ (maximalIdeal R) ^ (n + 2)
+  · change (s.1.1 + u) - s.1.1 ∈ (maximalIdeal R) ^ (n + 2)
     simpa using hu
-  · show (s.1.2 + v) - s.1.2 ∈ (maximalIdeal R) ^ (n + 2)
+  · change (s.1.2 + v) - s.1.2 ∈ (maximalIdeal R) ^ (n + 2)
     simpa using hv
 
 private noncomputable def nodalCorrectionNext {R : Type*} [CommRing R]
@@ -512,7 +512,7 @@ private theorem nodalCorrectionSequence_step_x {R : Type*} [CommRing R]
     (s₀ : NodalCorrectionState R (maximalIdeal R) a b c 0) (n : ℕ) :
     (nodalCorrectionSequence a b c s₀ (n + 1)).1.1 -
       (nodalCorrectionSequence a b c s₀ n).1.1 ∈ (maximalIdeal R) ^ (n + 2) := by
-  show (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).1.1.1 -
+  change (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).1.1.1 -
       (nodalCorrectionSequence a b c s₀ n).1.1 ∈ (maximalIdeal R) ^ (n + 2)
   exact (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).2.1
 
@@ -521,7 +521,7 @@ private theorem nodalCorrectionSequence_step_y {R : Type*} [CommRing R]
     (s₀ : NodalCorrectionState R (maximalIdeal R) a b c 0) (n : ℕ) :
     (nodalCorrectionSequence a b c s₀ (n + 1)).1.2 -
       (nodalCorrectionSequence a b c s₀ n).1.2 ∈ (maximalIdeal R) ^ (n + 2) := by
-  show (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).1.1.2 -
+  change (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).1.1.2 -
       (nodalCorrectionSequence a b c s₀ n).1.2 ∈ (maximalIdeal R) ^ (n + 2)
   exact (nodalCorrectionNext a b c n (nodalCorrectionSequence a b c s₀ n)).2.2
 
@@ -641,7 +641,7 @@ private theorem exists_exact_nodal_quadratic_root {R : Type*} [CommRing R]
   have hQzero : a * xlim ^ 2 + b * xlim * ylim + c * ylim ^ 2 = 0 := by
     apply (IsAdicComplete.toIsHausdorff (I := maximalIdeal R) (M := R)).haus
     intro n
-    show a * xlim ^ 2 + b * xlim * ylim + c * ylim ^ 2 ≡
+    change a * xlim ^ 2 + b * xlim * ylim + c * ylim ^ 2 ≡
       0 [SMOD (maximalIdeal R) ^ n • ⊤]
     rw [SModEq.sub_mem]
     simpa [smul_eq_mul, Ideal.mul_top] using hQall n
@@ -826,7 +826,7 @@ private theorem maximalIdeal_mvPowerSeries_eq_span_X
         simpa [this] using hzero)
     simpa using hmem
   · rintro _ ⟨i, rfl⟩
-    show MvPowerSeries.X i ∈ maximalIdeal (MvPowerSeries (Fin n) K)
+    change MvPowerSeries.X i ∈ maximalIdeal (MvPowerSeries (Fin n) K)
     rw [mem_maximalIdeal, mem_nonunits_iff, MvPowerSeries.isUnit_iff_constantCoeff]
     simp
 
@@ -961,7 +961,7 @@ private theorem kernel_le_square_of_cotangent_basis
       Ideal.add_mem _ (Ideal.mul_mem_right _ _ x.2) (Ideal.mul_mem_right _ _ y.2)⟩
   have hz : z = F (g 0) • x + F (g 1) • y := by
     apply Subtype.ext
-    show x.1 * F (g 0) + y.1 * F (g 1) =
+    change x.1 * F (g 0) + y.1 * F (g 1) =
       F (g 0) * x.1 + F (g 1) * y.1
     ring
   have hz0 : (maximalIdeal R).toCotangent z = 0 := by simp [show z = 0 from Subtype.ext hEq]
@@ -1094,7 +1094,7 @@ private theorem exists_nodal_algEquiv_of_complete_depth_one
   let e : (P ⧸ I) ≃+* R :=
     (Ideal.quotEquivOfEq hker.symm).trans (RingHom.quotientKerEquivOfSurjective hF)
   have he (p : P) : e (Ideal.Quotient.mk I p) = F p := by
-    show (RingHom.quotientKerEquivOfSurjective hF)
+    change (RingHom.quotientKerEquivOfSurjective hF)
       ((Ideal.quotEquivOfEq hker.symm) (Ideal.Quotient.mk I p)) = F p
     rw [Ideal.quotEquivOfEq_mk]
     exact RingHom.quotientKerEquivOfSurjective_apply_mk hF p
@@ -1174,7 +1174,7 @@ private theorem exists_approx_adicCompletion
   rw [AdicCompletion.maximalIdeal_eq_map, ← Ideal.map_pow]
   rw [← Submodule.restrictScalars_mem A, ← Ideal.smul_top_eq_map,
     AdicCompletion.pow_smul_top_eq_ker_eval m.fg_of_isNoetherianRing]
-  show AdicCompletion.eval m A n (z - AdicCompletion.of m A x) = 0
+  change AdicCompletion.eval m A n (z - AdicCompletion.of m A x) = 0
   rw [map_sub, AdicCompletion.eval_of]
   exact sub_eq_zero.mpr hx.symm
 
@@ -1226,7 +1226,7 @@ private theorem finrank_cotangentSpace_eq_of_surjective_square_kernel
       F (r • x) = (ResidueField.map f r) • F x := by
     intro r x
     obtain ⟨s, rfl⟩ := residue_surjective r
-    show F (s • x) = (f s) • F x
+    change F (s • x) = (f s) • F x
     exact (map_smul F s x).trans (IsScalarTower.algebraMap_smul (A := S) s (F x)).symm
   let E : CotangentSpace R ≃+ CotangentSpace S :=
     (LinearEquiv.ofBijective F ⟨hFinj, hFsurj⟩).toAddEquiv
@@ -1476,7 +1476,7 @@ private theorem isSeparableExtension_of_algEquiv
   have hh := hp'.map_of_surjective_injectiveₛ (RingEquiv.refl k)
     e.toAddMonoidHom (RingEquiv.refl k).surjective e.injective (by simp)
   change LinearIndependent k (fun x : s => e (e.symm x.1 ^ p)) at hh
-  show LinearIndependent k (fun x : s => (x.1 : K') ^ p)
+  change LinearIndependent k (fun x : s => (x.1 : K') ^ p)
   simpa only [map_pow, e.apply_symm_apply] using hh
 
 private noncomputable def residueFieldAlgEquiv_adicCompletion
@@ -1546,7 +1546,7 @@ private theorem isUnit_of_dvd_binary_series_variables
     exact ⟨Ideal.mem_span_singleton.mpr h₀, Ideal.mem_span_singleton.mpr h₁⟩
   have hfin : Module.finrank (ResidueField P) (CotangentSpace P) ≤ 1 := by
     apply (IsLocalRing.finrank_cotangentSpace_le_one_iff).mpr
-    show m.IsPrincipal
+    change m.IsPrincipal
     exact hprincipal ▸ inferInstance
   rw [Stacks.MvPowerSeries.RegularParameters.finrank_cotangentSpace_field] at hfin
   omega
@@ -1644,11 +1644,11 @@ private theorem hasNodalQuadraticRelation_nodalBinaryQuadratic_quotient
   let mP := maximalIdeal P
   let mQ := maximalIdeal Q
   have hxP : MvPowerSeries.X (0 : Fin 2) ∈ mP := by
-    show MvPowerSeries.X (0 : Fin 2) ∈ maximalIdeal P
+    change MvPowerSeries.X (0 : Fin 2) ∈ maximalIdeal P
     rw [maximalIdeal_mvPowerSeries_eq_span_X K 2]
     exact Ideal.subset_span ⟨0, rfl⟩
   have hyP : MvPowerSeries.X (1 : Fin 2) ∈ mP := by
-    show MvPowerSeries.X (1 : Fin 2) ∈ maximalIdeal P
+    change MvPowerSeries.X (1 : Fin 2) ∈ maximalIdeal P
     rw [maximalIdeal_mvPowerSeries_eq_span_X K 2]
     exact Ideal.subset_span ⟨1, rfl⟩
   have hq2 : nodalBinaryQuadratic a b c ∈ mP ^ 2 := by
@@ -1669,11 +1669,11 @@ private theorem hasNodalQuadraticRelation_nodalBinaryQuadratic_quotient
   let β : Q := f (MvPowerSeries.C b)
   let γ : Q := f (MvPowerSeries.C c)
   have hx : x ∈ mQ := by
-    show x ∈ maximalIdeal Q
+    change x ∈ maximalIdeal Q
     rw [← IsLocalRing.map_maximalIdeal_of_surjective f Ideal.Quotient.mk_surjective]
     exact Ideal.mem_map_of_mem f hxP
   have hy : y ∈ mQ := by
-    show y ∈ maximalIdeal Q
+    change y ∈ maximalIdeal Q
     rw [← IsLocalRing.map_maximalIdeal_of_surjective f Ideal.Quotient.mk_surjective]
     exact Ideal.mem_map_of_mem f hyP
   have hmP : mP = Ideal.span ({MvPowerSeries.X 0, MvPowerSeries.X 1} : Set P) :=
@@ -1796,7 +1796,7 @@ public theorem isNodalAlgebra_tfae (k : Type u) (A : Type v) [Field k] [CommRing
     have hAnodal : HasNodalQuadraticRelation A :=
       hasNodalQuadraticRelation_of_adicCompletion A hBnodal
     exact ⟨hsep, hAred, hAnodal⟩
-  show List.TFAE [P₁, P₂, P₃]
+  change List.TFAE [P₁, P₂, P₃]
   exact List.tfae_of_cycle
     (by simpa [List.isChain_cons_cons] using
       (⟨h12, h23⟩ : (P₁ → P₂) ∧ (P₂ → P₃))) h31

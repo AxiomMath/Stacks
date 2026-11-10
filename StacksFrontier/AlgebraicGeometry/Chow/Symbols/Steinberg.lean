@@ -159,7 +159,7 @@ private theorem exact_prodMap
     (h₁ : Function.Exact φ₁ ψ₁) (h₂ : Function.Exact φ₂ ψ₂) :
     Function.Exact (φ₁.prodMap φ₂) (ψ₁.prodMap ψ₂) := by
   intro x
-  show (ψ₁ x.1, ψ₂ x.2) = (0, 0) ↔ ∃ y : E₁ × E₂, (φ₁ y.1, φ₂ y.2) = x
+  change (ψ₁ x.1, ψ₂ x.2) = (0, 0) ↔ ∃ y : E₁ × E₂, (φ₁ y.1, φ₂ y.2) = x
   rw [Prod.mk.injEq, h₁, h₂]
   constructor
   · rintro ⟨⟨y₁, hy₁⟩, ⟨y₂, hy₂⟩⟩
@@ -222,13 +222,13 @@ private theorem exact_quotientMul (a b : S) (hb : IsRegular b) :
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show (Ideal.Quotient.mk _ b) * (Ideal.Quotient.mk _ x) = 0 ↔ _
+    change (Ideal.Quotient.mk _ b) * (Ideal.Quotient.mk _ x) = 0 ↔ _
     rw [← map_mul, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     constructor
     · rintro ⟨y, hy⟩
       have hx : x = a * y := hb.left (by simpa [mul_assoc, mul_left_comm] using hy)
       refine ⟨Ideal.Quotient.mk _ y, ?_⟩
-      show (Ideal.Quotient.mk _ a) * (Ideal.Quotient.mk _ y) = Ideal.Quotient.mk _ x
+      change (Ideal.Quotient.mk _ a) * (Ideal.Quotient.mk _ y) = Ideal.Quotient.mk _ x
       rw [← map_mul, hx]
     · rintro ⟨y, hy⟩
       induction y using Submodule.Quotient.induction_on with
@@ -356,11 +356,11 @@ private theorem algebraSymbol_of_isCoprime [IsLocalRing R]
   have he_mul (x y : principalQuotient S (a * b)) : e (x * y) = e x * e y :=
     (principalQuotientEquivProd (R := R) a b h).map_mul x y
   have hea : e (Ideal.Quotient.mk _ a) = (0, Ideal.Quotient.mk _ a) := by
-    show principalQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ a) = _
+    change principalQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ a) = _
     rw [principalQuotientEquivProd_mk]
     simp
   have heb : e (Ideal.Quotient.mk _ b) = (Ideal.Quotient.mk _ b, 0) := by
-    show principalQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ b) = _
+    change principalQuotientEquivProd (R := R) a b h (Ideal.Quotient.mk _ b) = _
     rw [principalQuotientEquivProd_mk]
     simp
   have h0ea : Function.Exact (0 : Module.End R (principalQuotient S a)) ea.toLinearMap :=
@@ -427,7 +427,7 @@ private theorem quotientMulMap_injective (a b : S) (hb : IsRegular b) :
   intro x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show quotientMulMap (R := R) a b (Ideal.Quotient.mk _ x) = 0 →
+    change quotientMulMap (R := R) a b (Ideal.Quotient.mk _ x) = 0 →
       Ideal.Quotient.mk _ x = 0
     rw [quotientMulMap_mk, Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     rintro ⟨y, hy⟩
@@ -475,7 +475,7 @@ private theorem principalQuotientFactor_ker (a b : S) (hb : IsRegular b) :
   ext x
   induction x using Submodule.Quotient.induction_on with
   | _ x =>
-    show Ideal.Quotient.mk _ x = 0 ↔ Ideal.Quotient.mk _ (b * x) = 0
+    change Ideal.Quotient.mk _ x = 0 ↔ Ideal.Quotient.mk _ (b * x) = 0
     simp only [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     constructor
     · rintro ⟨y, rfl⟩
@@ -500,7 +500,7 @@ private theorem quotientMul_mul (d a b : S) :
     quotientMul R d (a * b) = quotientMul R d a ∘ₗ quotientMul R d b := by
   apply LinearMap.ext
   intro x
-  show Ideal.Quotient.mk _ (a * b) * x =
+  change Ideal.Quotient.mk _ (a * b) * x =
     Ideal.Quotient.mk _ a * (Ideal.Quotient.mk _ b * x)
   rw [map_mul, mul_assoc]
 
@@ -554,13 +554,13 @@ private theorem quotientMulRangeEquivOfEq_intertwine (d a b x : S)
   induction y using Submodule.Quotient.induction_on with
   | _ y =>
     apply Subtype.ext
-    show ((quotientMulRangeEquivOfEq (R := R) d a b hab hb
+    change ((quotientMulRangeEquivOfEq (R := R) d a b hab hb
       (Ideal.Quotient.mk _ (x * y))) : principalQuotient S d) = _
     rw [quotientMulRangeEquivOfEq_mk, LinearMap.comp_apply, hf]
-    show Ideal.Quotient.mk _ (b * (x * y)) = quotientMul R d x
+    change Ideal.Quotient.mk _ (b * (x * y)) = quotientMul R d x
       (quotientMulRangeEquivOfEq (R := R) d a b hab hb (Ideal.Quotient.mk _ y))
     rw [quotientMulRangeEquivOfEq_mk]
-    show Ideal.Quotient.mk _ (b * (x * y)) =
+    change Ideal.Quotient.mk _ (b * (x * y)) =
       Ideal.Quotient.mk _ x * Ideal.Quotient.mk _ (b * y)
     rw [← map_mul, mul_left_comm b x]
 
@@ -591,10 +591,10 @@ private theorem quotientKerMulEquivOfEq_intertwine (d a b x : S)
     induction y using Submodule.Quotient.induction_on with
     | _ y =>
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, hf]
-      show quotientKerMulEquivOfEq (R := R) d a b hab hb
+      change quotientKerMulEquivOfEq (R := R) d a b hab hb
         (Submodule.Quotient.mk (Ideal.Quotient.mk _ (x * y))) = _
       rw [quotientKerMulEquivOfEq_mk]
-      show Ideal.Quotient.mk _ (x * y) = quotientMul R a x
+      change Ideal.Quotient.mk _ (x * y) = quotientMul R a x
         (quotientKerMulEquivOfEq (R := R) d a b hab hb
           (Submodule.Quotient.mk (Ideal.Quotient.mk _ y)))
       rw [quotientKerMulEquivOfEq_mk]
@@ -645,7 +645,7 @@ private theorem determinantAutomorphism_trans [IsLocalRing R]
     (e f : E ≃ₗ[R] E) (hE : IsFiniteLength R E) :
     determinantAutomorphism (e.trans f) hE =
       determinantAutomorphism e hE * determinantAutomorphism f hE := by
-  show LinearEquiv.det (determinantEquiv (e.trans f) _) =
+  change LinearEquiv.det (determinantEquiv (e.trans f) _) =
     LinearEquiv.det (determinantEquiv e _) * LinearEquiv.det (determinantEquiv f _)
   rw [← determinantEquiv_trans e f rfl rfl, LinearEquiv.det_trans]
   exact mul_comm _ _
@@ -667,7 +667,7 @@ private theorem determinantAutomorphism_neg [IsLocalRing R]
   apply Units.ext
   unfold determinantAutomorphism
   rw [LinearEquiv.coe_det]
-  show LinearMap.det ((determinantFunctor R).mapLinearEquiv f).toLinearMap = _
+  change LinearMap.det ((determinantFunctor R).mapLinearEquiv f).toLinearMap = _
   rw [hf, LinearMap.det_smul, LinearMap.det_id, hd]
   simp
 
@@ -677,7 +677,7 @@ private theorem algebraSymbol_self [IsLocalRing R]
     (hL : IsFiniteLength R (principalQuotient S (a * a))) :
     algebraSymbol a a ha ha hL =
       (-1 : (IsLocalRing.ResidueField R)ˣ) ^ moduleLength R (principalQuotient S a) := by
-  show periodicDeterminant (quotientMul R (a * a) a)
+  change periodicDeterminant (quotientMul R (a * a) a)
     (quotientMul R (a * a) a) _ _ hL = _
   rw [periodicDeterminant_self_eq_negOne_pow_range_length]
   congr 1
@@ -856,7 +856,7 @@ private theorem regular_algebraMap_of_range_pow
     obtain ⟨r, hr⟩ := hn z
     have hr0 : r = 0 := hc.left (by
       apply hi
-      show algebraMap B C (c * r) = algebraMap B C (c * 0)
+      change algebraMap B C (c * r) = algebraMap B C (c * 0)
       rw [mul_zero, map_mul, hr, map_zero]
       calc
         _ = algebraMap B C (u ^ n) * (algebraMap B C c * z) := by ring

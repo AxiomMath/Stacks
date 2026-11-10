@@ -180,12 +180,10 @@ private theorem map_tensor_biadd {R S M N A' B' Q Q' U V W : Type*} [CommRing R]
     (h : ∀ (a c : S) (m : M) (n : N),
       w (f (a ⊗ₜ m) (c ⊗ₜ n)) = g (u (a ⊗ₜ m)) (v (c ⊗ₜ n)))
     (x : S ⊗[R] M) (y : S ⊗[R] N) : w (f x y) = g (u x) (v y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x₁ x₂ h₁ h₂ => simp [h₁, h₂]
   | tmul a m =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y₁ y₂ h₁ h₂ => simp [h₁, h₂]
     | tmul c n => exact h a c m n
 

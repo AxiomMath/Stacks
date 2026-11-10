@@ -106,7 +106,8 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
     Functor.IsPreFibered.exists_isCartesian' (p := F ⋙ p') (a := A.obj) (R := R) f
   have : (F ⋙ p').IsCartesian f φ := hφc
   have : (F ⋙ p').IsStronglyCartesian f φ := inferInstance
-  -- `A.auto.asIso.hom` and `A.auto.asIso.inv` lie over the identity, since `F A.auto.asIso.hom = 𝟙`.
+  -- `A.auto.asIso.hom` and `A.auto.asIso.inv` lie over the identity, since
+  -- `F A.auto.asIso.hom = 𝟙`.
   have hauto_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.asIso.hom :=
     isHomLift_id_of_map_eq_id _ (by simp [A.cond])
   have hautoinv_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.asIso.inv :=
@@ -121,8 +122,10 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
     Functor.IsStronglyCartesian.map_isHomLift (F ⋙ p') f φ hf _
   have hβinv_lift : (F ⋙ p').IsHomLift (𝟙 R) βinv :=
     Functor.IsStronglyCartesian.map_isHomLift (F ⋙ p') f φ hf _
-  have hβhom_fac : βhom ≫ φ = φ ≫ A.auto.asIso.hom := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
-  have hβinv_fac : βinv ≫ φ = φ ≫ A.auto.asIso.inv := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
+  have hβhom_fac : βhom ≫ φ = φ ≫ A.auto.asIso.hom :=
+    Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
+  have hβinv_fac : βinv ≫ φ = φ ≫ A.auto.asIso.inv :=
+    Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
   have hx'R : (F ⋙ p').obj x' = R := IsHomLift.domain_eq (F ⋙ p') f φ
   -- Step 3: `βhom` and `βinv` are mutually inverse, by uniqueness in the universal property.
   have hhom_inv : βhom ≫ βinv = 𝟙 x' :=

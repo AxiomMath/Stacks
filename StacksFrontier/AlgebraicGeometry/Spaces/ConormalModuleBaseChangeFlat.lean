@@ -728,7 +728,8 @@ the one hypothesis of
 
 No `@[stacks]` attribute is claimed.  The identification of the canonical map of Stacks 04CP with
 the comparison of Stacks 04CO is, as the "What is not proved" section of
-`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleEtaleRestriction.lean` records, the content of
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleEtaleRestriction.lean` records, the content
+of
 Stacks 04G2 and 04CQ rather than of 04CO, and no clause of either is stated by this equation on
 its own. -/
 theorem idealSheafMap_eq_modulePullbackIsoEtaleModulePullback_hom_comp (g : X ⟶ X')

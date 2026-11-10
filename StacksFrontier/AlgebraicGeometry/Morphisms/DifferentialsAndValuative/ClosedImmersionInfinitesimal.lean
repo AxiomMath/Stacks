@@ -69,7 +69,7 @@ private lemma isAffineHom_of_baseChange_closedImmersion
       _ _ _ (IsPullback.of_hasPullback f g)
   let ep : pullback (C := Scheme.{u}) f g ≃ₜ X := hp.homeomorph
   have hcomp : Topology.IsClosedEmbedding (p.base ≫ f.base) := by
-    show Topology.IsClosedEmbedding (p ≫ f).base
+    change Topology.IsClosedEmbedding (p ≫ f).base
     rw [show p ≫ f = pullback.snd f g ≫ g from pullback.condition]
     exact g.isClosedEmbedding.comp (pullback.snd f g).isClosedEmbedding
   have hfemb : Topology.IsClosedEmbedding f.base := by
@@ -174,7 +174,7 @@ private theorem surjective_quotient_of_ringPushout
       (ePush.apply_symm_apply _)
   have hmk (a : A) : eD (Ideal.Quotient.mk (I.map (algebraMap A B)) (algebraMap A B a)) =
       (δ'.comp (Ideal.Quotient.mk I)) a := by
-    show ePush (eQuot (Ideal.Quotient.mk (I.map (algebraMap A B)) (algebraMap A B a))) = _
+    change ePush (eQuot (Ideal.Quotient.mk (I.map (algebraMap A B)) (algebraMap A B a))) = _
     rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk, hleft]
     exact congrArg (fun f => f a) hcomp
   intro x
@@ -231,7 +231,7 @@ public theorem isClosedImmersion_of_infinitesimal_baseChange
   have hW : IsAffineOpen W := hU.preimage g
   have hpq : p ⁻¹ᵁ V = q ⁻¹ᵁ W := by
     ext z
-    show f.base (p.base z) ∈ (U : Set S) ↔ g.base (q.base z) ∈ (U : Set S)
+    change f.base (p.base z) ∈ (U : Set S) ↔ g.base (q.base z) ∈ (U : Set S)
     have hz := congrArg (fun k : Scheme.Hom _ _ => k.base z)
       (show p ≫ f = q ≫ g from pullback.condition)
     rw [show f.base (p.base z) = g.base (q.base z) by
@@ -239,7 +239,7 @@ public theorem isClosedImmersion_of_infinitesimal_baseChange
         ContinuousMap.comp_apply] using hz]
   have hUY : Z = p ⁻¹ᵁ V ⊓ q ⁻¹ᵁ W := by
     ext z
-    show z ∈ q ⁻¹ᵁ W ↔ z ∈ p ⁻¹ᵁ V ∧ z ∈ q ⁻¹ᵁ W
+    change z ∈ q ⁻¹ᵁ W ↔ z ∈ p ⁻¹ᵁ V ∧ z ∈ q ⁻¹ᵁ W
     rw [← hpq]
     simp
   let α := f.appLE U V le_rfl
@@ -279,7 +279,7 @@ public theorem isClosedImmersion_of_infinitesimal_baseChange
       have hnilpotent : ∃ n, (I.map α.hom) ^ n = ⊥ :=
         ⟨n, by rw [← Ideal.map_pow, le_bot_iff.mp hn, Ideal.map_bot]⟩
       exact surjective_of_surjective_mod_nilpotent α.hom I hnilpotent hmod
-  show Function.Surjective (f.app U).hom
+  change Function.Surjective (f.app U).hom
   rwa [Scheme.Hom.app_eq_appLE]
 
 end AlgebraicGeometry

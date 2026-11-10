@@ -21,8 +21,8 @@ and proves that it is **free on `F` in degree `d`**: a morphism of `𝒪_X`-modu
 graded `𝓟`-modules `F ⊗ 𝓟(-d) ⟶ N`, by `x ⊗ a ↦ φ(x) · a`.
 
 This is the object the dévissage of part (2) of [Stacks, Tag 0897] needs as the middle term of its
-presentation, and the one
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProjectiveEquivalenceAuxPresentation.lean`
+presentation, and the one the module
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProjectiveEquivalenceAuxPresentation`
 records as missing. `SheafOfModules.freeGradedModule` builds the free graded module on a sheaf of
 graded *sets*, and `Stacks.extByZero` the free one on a single generator supported on an open;
 neither has uniformly acyclic twists. The point of allowing a *sheaf of modules* in the generating

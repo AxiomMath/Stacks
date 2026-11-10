@@ -141,7 +141,7 @@ theorem exists_point_famJ
     · rw [famJ_snd, Category.assoc, ha₂, hb₂]
   refine ⟨k, l, r, ?_⟩
   rw [hj]
-  show Space.pointsMap B S hS _ (b.hom.left.hom ≫ a.hom.left.hom) r = q
+  change Space.pointsMap B S hS _ (b.hom.left.hom ≫ a.hom.left.hom) r = q
   rw [Space.pointsMap_comp_apply, hr, hw₁]
 
 variable (m : ∀ l, (famObj D l).1 ⟶ ζ)
@@ -371,12 +371,12 @@ theorem refl_of_family : ∃ r : ζ ⟶ η, r ≫ σ₁ = 𝟙 ζ ∧ r ≫ σ�
       (IsHomLift.id (p := (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _)) rfl))
   have hrb : Hom.base r = hP.lift (𝟙 _) (𝟙 _) rfl := base_eq_of_isHomLift r hr
   refine ⟨r, hr₁, hom_eq_of_forall_comp_eq ιX hcov (𝟙 ζ.base) ?_ fun l ω' t v hv => ?_⟩
-  · show Hom.base r ≫ Hom.base σ₂ = 𝟙 _
+  · change Hom.base r ≫ Hom.base σ₂ = 𝟙 _
     rw [hrb, hσ₂b, hP.lift_snd]
   · rw [Category.comp_id] at hv
     obtain ⟨α, hα, hαt⟩ := exists_factor_famObj D m hm t v hv
     obtain ⟨β, hβ, hβt⟩ := exists_factor_famObj_sigma₂ D m hm hσ₂b (t ≫ r) (v := v) (by
-      show Hom.base t ≫ Hom.base r ≫ pr₂ = _
+      change Hom.base t ≫ Hom.base r ≫ pr₂ = _
       rw [hrb, hP.lift_snd, Category.comp_id, hv])
     have key := eq_transferHom_of_comp_eq D hε hP m hm hσ₂b hσ₂ (t ≫ r) rfl α β hα hβ
       (by rw [Category.assoc, hr₁, Category.comp_id, hαt]) hβt.symm
@@ -392,26 +392,26 @@ theorem symm_of_family : ∃ v : η ⟶ η, v ≫ σ₁ = σ₂ ∧ v ≫ σ₂ 
     (isHomLift_of_eq_base (by rw [hP.lift_fst, hσ₂b]) (isHomLift_base σ₂))
   have hvb : Hom.base v = hP.lift pr₂ (Hom.base σ₁) hP.w.symm := base_eq_of_isHomLift v hv
   have hb : Hom.base (v ≫ σ₂) = Hom.base σ₁ := by
-    show Hom.base v ≫ Hom.base σ₂ = _
+    change Hom.base v ≫ Hom.base σ₂ = _
     rw [hvb, hσ₂b, hP.lift_snd]
   refine ⟨v, hv₁, hom_eq_of_forall_comp_eq ιX hcov (Hom.base σ₁) hb
     fun k ω' t u₁ hu₁ => ?_⟩
   refine hom_eq_of_forall_comp_eq ιX hcov (Hom.base t ≫ pr₂)
-    (by show Hom.base t ≫ Hom.base (v ≫ σ₂) = Hom.base t ≫ Hom.base σ₁; rw [hb])
+    (by change Hom.base t ≫ Hom.base (v ≫ σ₂) = Hom.base t ≫ Hom.base σ₁; rw [hb])
     fun l ω'' t' u₂ hu₂ => ?_
   simp only [← Category.assoc]
   set T := t' ≫ t
   have hT₁ : Hom.base T ≫ Hom.base σ₁ = (Hom.base t' ≫ u₁) ≫ ιX k := by
-    show (Hom.base t' ≫ Hom.base t) ≫ _ = _
+    change (Hom.base t' ≫ Hom.base t) ≫ _ = _
     rw [Category.assoc, hu₁, Category.assoc]
   have hT₂ : Hom.base T ≫ pr₂ = u₂ ≫ ιX l := by
-    show (Hom.base t' ≫ Hom.base t) ≫ _ = _
+    change (Hom.base t' ≫ Hom.base t) ≫ _ = _
     rw [Category.assoc, hu₂]
   have h₁₂ := comp_eq_comp_of_base hε hP T hT₁ hT₂
   obtain ⟨α₁, hα₁, hα₁t⟩ := exists_factor_famObj D m hm (T ≫ σ₁) (Hom.base t' ≫ u₁) hT₁
   obtain ⟨α₂, hα₂, hα₂t⟩ := exists_factor_famObj_sigma₂ D m hm hσ₂b T hT₂
   obtain ⟨β, hβ, hβt⟩ := exists_factor_famObj D m hm ((T ≫ v) ≫ σ₂) (Hom.base t' ≫ u₁)
-    (by show Hom.base T ≫ Hom.base (v ≫ σ₂) = _; rw [hb, hT₁])
+    (by change Hom.base T ≫ Hom.base (v ≫ σ₂) = _; rw [hb, hT₁])
   have e₁ := eq_transferHom_of_comp_eq D hε hP m hm hσ₂b hσ₂ T h₁₂ α₁ α₂ hα₁ hα₂ hα₁t.symm
     hα₂t.symm
   have e₂ := eq_transferHom_of_comp_eq D hε hP m hm hσ₂b hσ₂ (T ≫ v) h₁₂.symm α₂ β hα₂ hβ
@@ -437,16 +437,16 @@ theorem trans_of_family (ω : EtaleSmoothLift B S hS ι hι W x hx) (a b : ω �
     (isHomLift_of_eq_base (hP.lift_fst _ _ _).symm (isHomLift_base (a ≫ σ₁)))
   have hcb : Hom.base c = hP.lift _ _ hw := base_eq_of_isHomLift c hc
   have hb : Hom.base (c ≫ σ₂) = Hom.base (b ≫ σ₂) := by
-    show Hom.base c ≫ Hom.base σ₂ = Hom.base b ≫ Hom.base σ₂
+    change Hom.base c ≫ Hom.base σ₂ = Hom.base b ≫ Hom.base σ₂
     rw [hcb, hσ₂b, hP.lift_snd]
   refine ⟨c, hc₁, hom_eq_of_forall_comp_eq ιX hcov (Hom.base a ≫ Hom.base σ₁) hb
     fun k ω₁ t₁ u₁ hu₁ => ?_⟩
   refine hom_eq_of_forall_comp_eq ιX hcov (Hom.base t₁ ≫ Hom.base a ≫ pr₂)
-    (by show Hom.base t₁ ≫ Hom.base (c ≫ σ₂) = Hom.base t₁ ≫ Hom.base (b ≫ σ₂); rw [hb])
+    (by change Hom.base t₁ ≫ Hom.base (c ≫ σ₂) = Hom.base t₁ ≫ Hom.base (b ≫ σ₂); rw [hb])
     fun l ω₂ t₂ u₂ hu₂ => ?_
   refine hom_eq_of_forall_comp_eq ιX hcov (Hom.base t₂ ≫ Hom.base t₁ ≫ Hom.base b ≫ pr₂)
     (by
-      show Hom.base t₂ ≫ Hom.base t₁ ≫ Hom.base (c ≫ σ₂) =
+      change Hom.base t₂ ≫ Hom.base t₁ ≫ Hom.base (c ≫ σ₂) =
         Hom.base t₂ ≫ Hom.base t₁ ≫ Hom.base (b ≫ σ₂)
       rw [hb])
     fun n ω₃ t₃ u₃ hu₃ => ?_
@@ -458,25 +458,25 @@ theorem trans_of_family (ω : EtaleSmoothLift B S hS ι hι W x hx) (a b : ω �
     simp only [Category.assoc] at hu₁ ⊢
     rw [hu₁]
   have hT₂ : Hom.base (T ≫ a) ≫ pr₂ = (Hom.base t₃ ≫ u₂) ≫ ιX l := by
-    show (((Hom.base t₃ ≫ Hom.base t₂) ≫ Hom.base t₁) ≫ Hom.base a) ≫ _ = _
+    change (((Hom.base t₃ ≫ Hom.base t₂) ≫ Hom.base t₁) ≫ Hom.base a) ≫ _ = _
     simp only [Category.assoc] at hu₂ ⊢
     rw [hu₂]
   have hT₃ : Hom.base (T ≫ b) ≫ pr₂ = u₃ ≫ ιX n := by
-    show (((Hom.base t₃ ≫ Hom.base t₂) ≫ Hom.base t₁) ≫ Hom.base b) ≫ _ = _
+    change (((Hom.base t₃ ≫ Hom.base t₂) ≫ Hom.base t₁) ≫ Hom.base b) ≫ _ = _
     simp only [Category.assoc] at hu₃ ⊢
     rw [hu₃]
   have hT₂' : Hom.base (T ≫ b) ≫ Hom.base σ₁ = (Hom.base t₃ ≫ u₂) ≫ ιX l := by
     rw [← hT₂]
-    show (Hom.base T ≫ Hom.base b) ≫ _ = (Hom.base T ≫ Hom.base a) ≫ _
+    change (Hom.base T ≫ Hom.base b) ≫ _ = (Hom.base T ≫ Hom.base a) ≫ _
     rw [Category.assoc, Category.assoc, hab']
   have hTc₁ : Hom.base (T ≫ c) ≫ Hom.base σ₁ =
       (Hom.base t₃ ≫ Hom.base t₂ ≫ u₁) ≫ ιX k := by
     rw [← hT₁]
-    show (Hom.base T ≫ Hom.base c) ≫ _ = (Hom.base T ≫ Hom.base a) ≫ _
+    change (Hom.base T ≫ Hom.base c) ≫ _ = (Hom.base T ≫ Hom.base a) ≫ _
     rw [hcb, Category.assoc, Category.assoc, hP.lift_fst]
   have hTc₃ : Hom.base (T ≫ c) ≫ pr₂ = u₃ ≫ ιX n := by
     rw [← hT₃]
-    show (Hom.base T ≫ Hom.base c) ≫ _ = (Hom.base T ≫ Hom.base b) ≫ _
+    change (Hom.base T ≫ Hom.base c) ≫ _ = (Hom.base T ≫ Hom.base b) ≫ _
     rw [hcb, Category.assoc, Category.assoc, hP.lift_snd]
   have h₁₂ := comp_eq_comp_of_base hε hP (T ≫ a) hT₁ hT₂
   have h₂₃ := comp_eq_comp_of_base hε hP (T ≫ b) hT₂' hT₃
@@ -543,7 +543,7 @@ theorem isEffective_of_family (ζ : EtaleSmoothLift B S hS ι hι W x hx)
     refine Eq.trans (Category.assoc _ _ _).symm ?_
     refine Eq.trans (congrArg (· ≫ m n ≫ M) t.symm) ?_
     refine Eq.trans (Category.assoc _ _ _).symm ?_
-    show famN D m l n ≫ M = _
+    change famN D m l n ≫ M = _
     rw [← hσ₂, Category.assoc, ← hMσ, ← Category.assoc, famM_comp, Category.assoc]
 
 end FamilyDescent

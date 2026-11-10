@@ -52,7 +52,7 @@ theorem exists_reduction_closedSubgroupScheme {k : Type u} [Field k] [PerfectFie
   obtain ⟨L, e, he⟩ := exists_closedSubgroupScheme_reduction G
   let I := Scheme.IdealSheafData.vanishingIdeal (⊤ : TopologicalSpace.Closeds G.X.left)
   have : IsIso e.inv.left := by
-    show IsIso ((Over.forget _).map e.inv)
+    change IsIso ((Over.forget _).map e.inv)
     infer_instance
   have hL : L.ι.hom.hom.left = e.inv.left ≫ I.subschemeι := by
     have h1 := congrArg (fun f => f.left) he
@@ -139,7 +139,7 @@ lemma exists_rationalPoint_mem_of_surjective {Ω : Type u} [Field Ω]
   obtain ⟨q, hq⟩ := exists_lift_of_isClosedImmersion_of_surjective' i p.left
   refine ⟨Over.homMk q ?_, ?_⟩
   · rw [← Over.w L.ι.hom.hom, ← Category.assoc, hq, Over.w p]
-  · show q (basePoint Ω) ∈ W
+  · change q (basePoint Ω) ∈ W
     have : i (q (basePoint Ω)) = i w := by
       rw [← Scheme.Hom.comp_apply, hq, hp]
     rwa [hi.injective this]

@@ -81,7 +81,7 @@ theorem exists_finite_over_smooth_of_locallyOfFiniteType
   set gX := (V.ι ≫ pullback.fst π₀ W.toBase) ≫ ι with hgX
   set hm : W.scheme ⟶ S := W.toBase ≫ hY with hhm
   have hgXv : gX v = x := by
-    show ι ((V.ι ≫ pullback.fst π₀ W.toBase) v) = x
+    change ι ((V.ι ≫ pullback.fst π₀ W.toBase) v) = x
     exact (congrArg (fun z : ↥X₀ => ι z) hvx).trans hιx
   have _ : Etale (V.ι ≫ pullback.fst π₀ W.toBase) := by infer_instance
   have hgXetale : Etale gX := by
@@ -94,20 +94,20 @@ theorem exists_finite_over_smooth_of_locallyOfFiniteType
     SmoothOfRelativeDimension.etale_comp n W.toBase hY
   have hNelem : N.IsElementary := by
     rw [EtaleNeighborhood.isElementary_iff]
-    show IsIso (gX.residueFieldMap v)
+    change IsIso (gX.residueFieldMap v)
     have h₁ : ∀ z : ↥X₀, IsIso (ι.residueFieldMap z) := fun _ => inferInstance
     rw [hgX, Scheme.residueFieldMap_comp (f := V.ι ≫ pullback.fst π₀ W.toBase) ι v]
     exact IsIso.comp_isIso' (h₁ _) hvres
   have hpre : {z : V.toScheme | π z = π v} = {v} := by
     ext z
-    show π z = π v ↔ z = v
+    change π z = π v ↔ z = v
     exact ⟨fun hz => hvuniq z (hz.trans hv), fun hz => hz ▸ rfl⟩
   have hsquare : gX ≫ f = π ≫ hm := by
     rw [hgX, hπ, hhm]
     simp only [Category.assoc, hsq, pullback.condition_assoc]
   have hWtoBase : W.toBase (π v) = π₀ x₀ := by rw [hv]; exact W.map_point
   have hym : hm (π v) = f x := by
-    show hY (W.toBase (π v)) = f x
+    change hY (W.toBase (π v)) = f x
     rwa [hWtoBase]
   refine ⟨W.scheme, hm, N, π, hsmoothm, hNelem, hVfin, hpre, hsquare, ⟨hym, ?_⟩, ?_⟩
   · -- the purely transcendental residue field extension
@@ -130,10 +130,10 @@ theorem exists_finite_over_smooth_of_locallyOfFiniteType
         congrArg (fun m : S.residueField (hm (π v)) ⟶ W.scheme.residueField (π v) =>
           m ((S.residueFieldCongr hym).inv z))
             (Scheme.residueFieldMap_comp (f := W.toBase) hY (π v))
-      show (W.scheme.residueFieldCongr hv.symm).hom
+      change (W.scheme.residueFieldCongr hv.symm).hom
         (W.residueFieldMap (@algebraMap _ _ _ _ inst₀ z)) = _
       rw [EtaleNeighborhood.residueFieldMap_def]
-      show (W.scheme.residueFieldCongr hv.symm).hom
+      change (W.scheme.residueFieldCongr hv.symm).hom
         (W.toBase.residueFieldMap W.point ((Y₀.residueFieldCongr W.map_point).inv
           (hY.residueFieldMap (π₀ x₀) ((S.residueFieldCongr hy₀).inv z)))) = _
       rw [hstep₂, hfin]

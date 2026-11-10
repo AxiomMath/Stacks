@@ -82,7 +82,7 @@ theorem HasStrictlyPerfectModel.isPerfect {Y : AlgebraicSpaces B S hS}
   have hSP : IsStrictlyPerfect (ringedToposStructureRingSheaf B S hS Y) P := by
     refine ⟨(Set.finite_Icc a b).subset fun j hj => ?_, fun j =>
       isDirectSummandOfFiniteFree_of_isRetractOfFiniteFree _ (hP j)⟩
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     simp only [Set.mem_Icc]
     by_contra hne
     apply hj

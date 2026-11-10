@@ -94,11 +94,11 @@ private theorem isQuotientMap_sigmaPointMap_of_isAffine {I : Type v} {T : Scheme
   have hgsurj : Surjective g := by
     refine ⟨fun t ↦ ?_⟩
     obtain ⟨y, hy⟩ : t ∈ Set.range (h (e.symm (𝒱.idx t))) := by
-      show t ∈ Set.range (𝒱.f (e (e.symm (𝒱.idx t))))
+      change t ∈ Set.range (𝒱.f (e (e.symm (𝒱.idx t))))
       rw [e.apply_symm_apply]
       exact 𝒱.covers t
     refine ⟨Sigma.ι (fun k ↦ Spec (R k)) (e.symm (𝒱.idx t)) y, ?_⟩
-    rw [hg, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [hg, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     exact hy
   have hgq : Topology.IsQuotientMap g.base := Flat.isQuotientMap_of_surjective g
   set p : (Σ k, (Spec (R k) : Type u)) → (Σ i, (X i : Type u)) :=
@@ -114,7 +114,7 @@ private theorem isQuotientMap_sigmaPointMap_of_isAffine {I : Type v} {T : Scheme
     have hw : (𝒰.f (φ.s₀ (e k))) ((φ.h₀ (e k)) y) = (𝒱.f (e k)) y :=
       congrFun (congrArg (fun m : 𝒱.cover.X (e k) ⟶ T ↦ (⇑m : _ → _)) (φ.w₀ (e k))) y
     have h₂ : g.base ((sigmaMk fun k ↦ Spec (R k)) ⟨k, y⟩) = (h k) y := by
-      rw [sigmaMk_mk, hg, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [sigmaMk_mk, hg, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     exact hw.trans h₂.symm
   rw [he]
   exact hgq.comp (sigmaMk _).isQuotientMap

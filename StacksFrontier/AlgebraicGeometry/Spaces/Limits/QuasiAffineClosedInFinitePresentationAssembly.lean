@@ -53,7 +53,7 @@ theorem exists_finset_forall_algebraHom_exists_isClosedImmersion
     (hXqc : IsQuasiCompactSpace B S hS X.1) (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1) :
     ∃ (U : SmallEtale B S hS X.1), IsAffine (chartScheme U) ∧
       ∃ (s : Finset ((pushforwardAlgebra B S hS (Over.mk f)).right.obj.obj (op U))),
-      ∀ (C : QuasicoherentAlgebra B S hS X) (hC : AlgebraSheaf.SectionsBelowCutoff B S hS C.obj),
+      ∀ (C : QuasicoherentAlgebra B S hS X), AlgebraSheaf.SectionsBelowCutoff B S hS C.obj →
         C.obj.IsFinitePresentation →
         ∀ φ : C.obj ⟶ pushforwardAlgebra B S hS (Over.mk f),
           (s : Set _) ⊆ Set.range (φ.right.hom.app (op U)) →
@@ -78,7 +78,7 @@ theorem exists_finset_forall_algebraHom_exists_isClosedImmersion
     obtain ⟨c, hc⟩ := hsφ ht
     refine ⟨(e.inv.right.hom.app (op U)) c, ?_⟩
     rw [← pushforwardAlgebraMap_right, hgalg]
-    show (φ.right.hom.app (op U)) ((e.hom.right.hom.app (op U))
+    change (φ.right.hom.app (op U)) ((e.hom.right.hom.app (op U))
       ((e.inv.right.hom.app (op U)) c)) = t
     rwa [hinvhom e]
   have himm : IsImmersion B S hS g.left.hom := hs P g hrange

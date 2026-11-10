@@ -110,7 +110,7 @@ theorem res_preimage_eq_zero_of_maximalIdeal_smul_eq_zero
     exists_mem_maximalIdeal_notMem_asIdeal (f.base y) (fun h => hW (h ▸ hy))
   have hyb : y ∈ X.basicOpen (baseSection X f r) := by
     rw [basicOpen_baseSection f r]
-    show f.base y ∈ (Spec (CommRingCat.of A)).basicOpen
+    change f.base y ∈ (Spec (CommRingCat.of A)).basicOpen
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv r)
     rw [basicOpen_eq_of_affine (R := CommRingCat.of A) r]
     exact (PrimeSpectrum.mem_basicOpen r (f.base y)).2 hry
@@ -130,7 +130,7 @@ theorem res_preimage_eq_zero_of_maximalIdeal_smul_eq_zero
           (homOfLE (show X.basicOpen (baseSection X f r) ⊓ f ⁻¹ᵁ W ≤
             X.basicOpen (baseSection X f r) from inf_le_left)).op :=
       Subsingleton.elim _ _
-    show IsUnit (X.ringCatSheaf.obj.map
+    change IsUnit (X.ringCatSheaf.obj.map
       (homOfLE (show X.basicOpen (baseSection X f r) ⊓ f ⁻¹ᵁ W ≤ ⊤ from le_top)).op
       (baseSection X f r))
     rw [hmor, X.ringCatSheaf.obj.map_comp_apply]

@@ -65,8 +65,7 @@ theorem bijective_etaleCohomologyRestrictionMap_of_isIso {T Z : Scheme.{u}} (c :
     · simp only [Ext.mk₀_comp_mk₀_assoc, e.inv_hom_id, Ext.mk₀_id_comp]
   exact hp.comp h
 
-variable {X : Scheme.{u}} [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
-  (G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (q : ℕ)
+variable {X : Scheme.{u}} (G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (q : ℕ)
 
 /-- **Transport of the vanishing of cohomology along a bijective restriction map.** If
 `c₁ = h ≫ c₂` and restriction along `h` is bijective in degree `q` at `c₂⁻¹G`, then

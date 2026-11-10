@@ -224,7 +224,7 @@ private theorem exists_quasiIso_factorization_aux
   obtain ⟨L, i, l, s, hil, hl, his, hh, _⟩ :=
     CochainComplex.exists_isDegreewiseSplitEpi_factorization q
   have hI : HomologicalComplex.homotopyEquivalences B (ComplexShape.up ℤ) i := by
-    show ∃ e : HomotopyEquiv K₀ L, e.hom = i
+    change ∃ e : HomotopyEquiv K₀ L, e.hom = i
     exact ⟨⟨i, s, Homotopy.ofEq his, Classical.choice hh⟩, rfl⟩
   let : QuasiIso i := (homotopyEquivalences_le_quasiIso B (ComplexShape.up ℤ) i) hI
   have hlq : QuasiIso l := (quasiIso_iff_comp_left i l).1 (by simpa [hil] using hq)
@@ -238,7 +238,7 @@ private theorem exists_quasiIso_factorization_aux
     have hlim : PreservesFiniteLimits S := by
       let : PreservesFiniteLimits
           (S ⋙ SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (O)))) := by
-        show PreservesFiniteLimits
+        change PreservesFiniteLimits
           (SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (O₀))))
         infer_instance
       exact preservesFiniteLimits_of_reflects_of_preserves S
@@ -279,7 +279,7 @@ private theorem exists_quasiIso_factorization_aux
       apply HomologicalComplex.epi_of_epi_f
       intro n
       let : IsSplitEpi (l₀.f n) := hl n
-      show Epi (S.map (l₀.f n))
+      change Epi (S.map (l₀.f n))
       exact ((hl n).exists_splitEpi.some.map S).epi
     exact Stacks.KernelQuasiIso.pullback_fst_quasiIso_of_epi (η.app F) (Scomplex.map l₀)
   let : IsIso (Q.map i) :=
@@ -288,7 +288,7 @@ private theorem exists_quasiIso_factorization_aux
   have htriangle : Tcomplex.map (η.app F) ≫ ε.app F₀ = 𝟙 (Tcomplex.obj F) := by
     apply HomologicalComplex.Hom.ext
     funext n
-    show T.map ((η.app F).f n) ≫ (ε.app F₀).f n = 𝟙 _
+    change T.map ((η.app F).f n) ≫ (ε.app F₀).f n = 𝟙 _
     simp only [η, ε, mapHomologicalComplexCompIso', NatTrans.comp_app, id_obj, comp_obj,
       NatIso.ofComponents_inv_app, HomologicalComplex.comp_f, mapHomologicalComplex_obj_X,
       mapHomologicalComplexIdIso_inv_app_f, NatTrans.mapHomologicalComplex_app_f,
@@ -304,7 +304,7 @@ private theorem exists_quasiIso_factorization_aux
   have hil₀ : i ≫ l₀ = q := hil
   refine ⟨G, g, hg, Q.map a ≫ inv (Q.map i), ?_⟩
   change K₀ ⟶ Tcomplex.obj F at q
-  show Q.map (Tcomplex.map g) = (Q.map a ≫ inv (Q.map i)) ≫ Q.map q
+  change Q.map (Tcomplex.map g) = (Q.map a ≫ inv (Q.map i)) ≫ Q.map q
   rw [← hal₀, Functor.map_comp, ← hil₀, Functor.map_comp]
   simp [Category.assoc]
 

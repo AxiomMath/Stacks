@@ -169,6 +169,7 @@ lemma normQuotientMap_comp_normQuotientToBase :
 /-! ### The chart condition at the chart the quotient was built from -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_NormalizationSpaceQuotient :

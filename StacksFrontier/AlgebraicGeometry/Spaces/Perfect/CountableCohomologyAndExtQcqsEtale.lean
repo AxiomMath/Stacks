@@ -74,8 +74,7 @@ canonical derived tensor product of the small étale site, and the `Ext` clause 
 `AlgebraicGeometry.Space.countable_ext_of_qcqs_etale_of_countable_sections`. -/
 @[stacks 0CRU]
 theorem countable_cohomology_derivedTensor_and_ext_of_qcqs_etale
-    (X : AlgebraicSpaces B S hS) (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS B.contains_terminal X.1)
+    (X : AlgebraicSpaces B S hS)
     (K : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2) :
     letI := HasDerivedCategory.standard (Modules.{u, u} B S hS X.1 X.2)
     (∀ v : SmallEtale B S hS X.1, IsAffineChart B S hS X.1 v → ∀ q : ℤ,
@@ -96,9 +95,9 @@ theorem countable_cohomology_derivedTensor_and_ext_of_qcqs_etale
           ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj K.obj) i) := by
   intro hK E hE U hUqc hUqs i
   exact ⟨hasCountableCohomology_derivedTensor_restrict_of_isPerfect B S hS (X := X)
-      B.contains_terminal hXqc hXqs (smallEtaleDerivedTensorProduct B S hS X) K.obj K.property
+      B.contains_terminal (smallEtaleDerivedTensorProduct B S hS X) K.obj K.property
       hK E hE U hUqc hUqs i,
-    countable_ext_of_qcqs_etale_of_countable_sections X hXqc hXqs K hK E hE U hUqc hUqs i⟩
+    countable_ext_of_qcqs_etale_of_countable_sections X K hK E hE U hUqc hUqs i⟩
 
 end AlgebraicGeometry.Space
 

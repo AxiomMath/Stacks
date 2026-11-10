@@ -54,7 +54,7 @@ public abbrev geometricPointAt (X : Scheme.{u}) (x : X) : GeometricPoint X :=
 /-- The geometric point at `x` lies over `x`. -/
 public lemma geometricPointAt_liesOver (X : Scheme.{u}) (x : X) :
     (geometricPointAt X x).LiesOver x := by
-  show (Spec.map (CommRingCat.ofHom
+  change (Spec.map (CommRingCat.ofHom
       (algebraMap (X.residueField x) (AlgebraicClosure (X.residueField x)))) ≫
     X.fromSpecResidueField x) default = x
   exact X.fromSpecResidueField_apply x _

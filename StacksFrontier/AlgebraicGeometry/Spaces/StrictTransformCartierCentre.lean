@@ -185,7 +185,7 @@ theorem isPullbackDefined_ι_of_definingIdealSheaf_eq_supportedSections
       definingIdealAt B S hS W T (op V) = Ideal.span {a} := ⟨a, ha⟩
   have hyx : chartPointsMap V y = pointsMap B S hS Y.1 i.hom x := by
     rw [chartPointsMap_comp B S hS m y, hy]
-    show pointsMap B S hS (yoneda.obj A₀) g₀
+    change pointsMap B S hS (yoneda.obj A₀) g₀
       ((schemePointsHomeomorph B S hS A₀).symm ((schemePointsHomeomorph B S hS A₀) p)) = _
     rwa [Homeomorph.symm_apply_apply]
   set R : BigFppfOver B S hS := W'.2.2.rep.pullback V.1.hom
@@ -258,7 +258,7 @@ theorem isPullbackDefined_strictTransform_of_isBlowupAlong (hb : IsBlowupAlong B
     (strictTransform B S hS f b (preimageClosedSubspace b Z).1) hTlp
     (definingIdealSheaf_strictTransform_of_isBlowupAlong B S hS f b Z hb)
   refine isEffectiveCartierDivisor_of_subfunctor_eq ?_ hmain
-  show (preimageClosedSubspace f Z).1.preimage
+  change (preimageClosedSubspace f Z).1.preimage
       (strictTransformSpaceι B S hS f b (preimageClosedSubspace b Z).1 ≫
         strictTransformPullbackToSource B S hS f b).hom =
     (exceptionalPreimageClosedSubspace B S hS f b Z).1.preimage

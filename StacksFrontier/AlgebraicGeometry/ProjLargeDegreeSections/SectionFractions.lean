@@ -335,7 +335,7 @@ theorem exists_pow_smul_eq_zero_of_coe_frac_eq_zero {ι : Type*} [Finite ι] (fa
       (powDegOne 𝒮 hg l) t hw hfr
     rw [hfrl, mk_eq_zero_iff_exists_pow_smul]
     refine ⟨N, ?_⟩
-    show fam i ^ N • (g ^ l • w) = 0
+    change fam i ^ N • (g ^ l • w) = 0
     rw [show l = l - (N + a) + N + a by omega, pow_add, pow_add, mul_smul, mul_smul,
       smul_comm (fam i ^ N), ← mul_smul (fam i ^ N), ← mul_pow, hN, smul_zero]
   choose p hp using key

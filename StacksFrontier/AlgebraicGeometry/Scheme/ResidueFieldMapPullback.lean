@@ -30,7 +30,7 @@ lemma pullback_snd_residueFieldMap_isIso
   have : IsIso (Y.residueFieldCongr T.hx).hom := (Y.residueFieldCongr T.hx).isIso_hom
   have : IsIso ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x) := by infer_instance
   have : IsIso T.tensorInr := by
-    show IsIso (pushout.inr
+    change IsIso (pushout.inr
       ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((Y.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     apply CategoryTheory.Limits.pushout_inr_iso_of_left_iso
@@ -55,7 +55,7 @@ lemma pullback_snd_residueFieldMap_isIso
     have : IsIso ((Y'.fromSpecResidueField T.y).residueFieldMap ((Spec.map T.tensorInr) p)) :=
       hIsoFrom
     have : IsIso ((Spec.map T.tensorInr).residueFieldMap p) := by infer_instance
-    show IsIso ((Y'.residueFieldCongr hptComp).hom ≫
+    change IsIso ((Y'.residueFieldCongr hptComp).hom ≫
       (Y'.fromSpecResidueField T.y).residueFieldMap ((Spec.map T.tensorInr) p) ≫
       (Spec.map T.tensorInr).residueFieldMap p)
     have htail : IsIso

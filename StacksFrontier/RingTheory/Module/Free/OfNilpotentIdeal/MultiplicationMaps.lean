@@ -255,11 +255,9 @@ theorem rTensor_injective_of_flat_baseChange
   have nat : ∀ z, (LinearMap.rTensor M (φ.restrictScalars R)) (eK z)
       = eF (LinearMap.rTensor (TensorProduct R (R ⧸ I) M) φ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul k y =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul s m =>
             simp only [heK, heF, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,
               LinearMap.rTensor_tmul, LinearMap.coe_restrictScalars]
@@ -293,7 +291,7 @@ theorem flat_quotTensor_of_basis
         intro c z
         induction c using Quotient.inductionOn with
         | _ r =>
-          show e ((Ideal.Quotient.mk I r) • z) = (Ideal.Quotient.mk I r) • e z
+          change e ((Ideal.Quotient.mk I r) • z) = (Ideal.Quotient.mk I r) • e z
           have h1 : (Ideal.Quotient.mk I r) • z = (algebraMap R (R ⧸ I) r) • z := by
             rw [Ideal.Quotient.algebraMap_eq]
           have h2 : (Ideal.Quotient.mk I r) • e z = (algebraMap R (R ⧸ I) r) • e z := by
@@ -327,8 +325,7 @@ theorem range_torMul (I : Ideal R) :
     LinearMap.range (torMul (M := M) I) = smul (M := M) I := by
   apply le_antisymm
   · rintro _ ⟨u, rfl⟩
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | tmul a m => rw [torMul_tmul]; exact Submodule.smul_mem_smul a.property trivial
     | add y z hy hz => rw [map_add]; exact Submodule.add_mem _ hy hz
   · rw [Submodule.smul_le]
@@ -341,7 +338,7 @@ theorem range_torMul (I : Ideal R) :
 theorem exact_torMul_reduction (I : Ideal R) :
     Function.Exact (torMul (M := M) I) (reduction (M := M) I) := by
   rw [LinearMap.exact_iff]
-  show LinearMap.ker (Submodule.mkQ _) = LinearMap.range (torMul (M := M) I)
+  change LinearMap.ker (Submodule.mkQ _) = LinearMap.range (torMul (M := M) I)
   rw [Submodule.ker_mkQ, range_torMul]
 
 /-- **Commuting square `ρ ∘ jK = jP ∘ ρ_I`** (naturality of `lTensor τ` against `rTensor κ`):
@@ -396,8 +393,7 @@ theorem lTensor_torMul_eq_zero_of_smul_eq_bot (I : Ideal R)
     LinearMap.lTensor N (torMul (M := M) I) = 0 := by
   apply TensorProduct.ext'
   intro n u
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul a m =>
       rw [LinearMap.lTensor_tmul, torMul_tmul, LinearMap.zero_apply, TensorProduct.tmul_smul,
         TensorProduct.smul_tmul', smul_eq_zero_of_mem_of_smul_eq_bot I hN a.property n,
@@ -480,7 +476,7 @@ theorem isScalarTower_of_smul_eq_bot {N : Type*} [AddCommGroup N] [Module R N] (
   obtain ⟨s', rfl⟩ := Ideal.Quotient.mk_surjective s
   have key : ∀ (c : R) (m : N), (Ideal.Quotient.mk I c) • m = c • m := fun c m =>
     Module.IsTorsionBySet.mk_smul hts c m
-  show (r • (Ideal.Quotient.mk I s')) • n = (Ideal.Quotient.mk I r) • s' • n
+  change (r • (Ideal.Quotient.mk I s')) • n = (Ideal.Quotient.mk I r) • s' • n
   have h1 : r • Ideal.Quotient.mk I s' = Ideal.Quotient.mk I (r * s') := by
     rw [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul]
   rw [h1, key (r * s') n, key r (s' • n), mul_smul]

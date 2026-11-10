@@ -117,7 +117,7 @@ public def copowerDesc {M : AddCommGrpCat.{w}} {E : Type w} {A : AddCommGrpCat.{
 public theorem copowerMk_comp_desc {M : AddCommGrpCat.{w}} {E : Type w} {A : AddCommGrpCat.{w}}
     (f : E → (M ⟶ A)) (e : E) : copowerMk e ≫ copowerDesc f = f e := by
   ext m
-  show Finsupp.liftAddHom (fun e => (f e).hom) (Finsupp.single e m) = _
+  change Finsupp.liftAddHom (fun e => (f e).hom) (Finsupp.single e m) = _
   exact Finsupp.liftAddHom_apply_single _ _ _
 
 /-- The map of `AddCommGrpCat.copower M` induced by `f : E ⟶ E'` carries the summand at `e` to
@@ -126,7 +126,7 @@ the summand at `f e`. -/
 public theorem copowerMk_comp_map {M : AddCommGrpCat.{w}} {E E' : Type w} (f : E ⟶ E') (e : E) :
     copowerMk e ≫ (copower M).map f = copowerMk (f e) := by
   ext m
-  show Finsupp.mapDomain f (Finsupp.single e m) = Finsupp.single (f e) m
+  change Finsupp.mapDomain f (Finsupp.single e m) = Finsupp.single (f e) m
   exact Finsupp.mapDomain_single
 
 /-- Two morphisms out of `AddCommGrpCat.copower M` at `E` agreeing on every summand agree. -/
@@ -171,7 +171,7 @@ public theorem coyonedaObj_isRightAdjoint (M : AddCommGrpCat.{w}) :
 /-- The copower of a finite abelian group by a finite type is finite. -/
 public theorem finite_copower_obj (M : AddCommGrpCat.{w}) [Finite M] (E : Type w) [Finite E] :
     Finite ((copower M).obj E) := by
-  show Finite (E →₀ (M : Type w))
+  change Finite (E →₀ (M : Type w))
   exact Finite.of_equiv _ Finsupp.equivFunOnFinite.symm
 
 end AddCommGrpCat

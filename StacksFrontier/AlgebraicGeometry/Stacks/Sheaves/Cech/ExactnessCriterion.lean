@@ -170,13 +170,13 @@ public theorem exact_of_exact_inverseImage_of_covering_image
   have hmem : ∀ (U : 𝒳ᵒᵖ) (x : C.X₂.obj.obj U),
       G.sieveOfSection (C.g.hom.app U x) ∈ J U.unop := by
     intro U x
-    show Presheaf.imageSieve (Functor.whiskerRight C.g.hom (forget Ab))
+    change Presheaf.imageSieve (Functor.whiskerRight C.g.hom (forget Ab))
       ((Functor.whiskerRight C.g.hom (forget Ab)).app U x) ∈ J U.unop
     rw [Presheaf.imageSieve_app (Functor.whiskerRight C.g.hom (forget Ab)) x]
     exact J.top_mem _
   let Qpre := localImagePresheaf J C.g.hom
   have hQunder : Presheaf.IsSheaf J (Qpre ⋙ forget Ab) := by
-    show Presheaf.IsSheaf J ((G.sheafify J).toFunctor)
+    change Presheaf.IsSheaf J ((G.sheafify J).toFunctor)
     exact (isSheaf_iff_isSheaf_of_type J _).mpr (G.sheafify_isSheaf hX₃Type)
   let Q : Sheaf J Ab := ⟨Qpre,
     Presheaf.isSheaf_of_isSheaf_comp J Qpre (forget Ab) hQunder⟩
@@ -189,7 +189,7 @@ public theorem exact_of_exact_inverseImage_of_covering_image
       intro U V i
       ext x
       apply Subtype.ext
-      show (ConcreteCategory.hom (C.g.hom.app V))
+      change (ConcreteCategory.hom (C.g.hom.app V))
           ((ConcreteCategory.hom (C.X₂.obj.map i)) x) =
         (ConcreteCategory.hom (C.X₃.obj.map i))
           ((ConcreteCategory.hom (C.g.hom.app U)) x)
@@ -216,7 +216,7 @@ public theorem exact_of_exact_inverseImage_of_covering_image
       (j.hom.app U) ((β.hom.app U) x) at hval
     exact Subtype.ext hval
   have hpLoc : Sheaf.IsLocallySurjective p := by
-    show Presheaf.IsLocallySurjective J p.hom
+    change Presheaf.IsLocallySurjective J p.hom
     refine ⟨?_⟩
     intro U s
     apply J.superset_covering ?_ s.2
@@ -224,9 +224,9 @@ public theorem exact_of_exact_inverseImage_of_covering_image
     obtain ⟨x, hx⟩ : ∃ x, (Functor.whiskerRight C.g.hom (forget Ab)).app (op V) x =
         (C.X₃.obj ⋙ forget Ab).map i.op s.1 := by
       simpa [G, Subfunctor.range_obj] using hi
-    show ∃ x, (p.hom.app (op V)) x = Qpre.map i.op s
+    change ∃ x, (p.hom.app (op V)) x = Qpre.map i.op s
     refine ⟨x, Subtype.ext ?_⟩
-    show (ConcreteCategory.hom (C.g.hom.app (op V))) x =
+    change (ConcreteCategory.hom (C.g.hom.app (op V))) x =
       (ConcreteCategory.hom (C.X₃.obj.map i.op)) s.1
     exact hx
   let : Epi p := Sheaf.epi_of_isLocallySurjective p
@@ -248,7 +248,7 @@ public theorem exact_of_exact_inverseImage_of_covering_image
       have hlocal : G.sieveOfSection gx ∈ J U.unop := hmem U x
       have hdesc := sheafifyLift_app_of_mem G
         (localImageRawDesc C hker_epi k hk) hAtype U gx hgx
-      show (ConcreteCategory.hom (d0.app U))
+      change (ConcreteCategory.hom (d0.app U))
           ((ConcreteCategory.hom (p0.app U)) x) =
         (ConcreteCategory.hom (k.hom.app U)) x
       have hp0x : (p0.app U) x = (⟨gx, hlocal⟩ : Qpre.obj U) := Subtype.ext rfl

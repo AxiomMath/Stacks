@@ -106,7 +106,7 @@ represents. -/
 theorem lift_relabelRels (P : Presentation R A) (σ : Fin P.m ≃ Fin P.m)
     (p : MvPolynomial (Fin P.n) R) : (relabelRels P σ).lift p = P.lift p := by
   have hφ := Ideal.quotientEquivAlgOfEq_mk R (span_range_relabelRels P σ) p
-  show P.iso.symm ((Ideal.quotientEquivAlgOfEq R (span_range_relabelRels P σ)).symm
+  change P.iso.symm ((Ideal.quotientEquivAlgOfEq R (span_range_relabelRels P σ)).symm
       (Ideal.Quotient.mk (Ideal.span (Set.range fun j ↦ P.f (σ j))) p)) = P.lift p
   rw [← hφ, AlgEquiv.symm_apply_apply]
   rfl
@@ -131,7 +131,7 @@ theorem firstRelIdeal_relabelRels (P : Presentation R A) (σ : Fin P.m ≃ Fin P
       obtain ⟨i, hi⟩ := (V.orderIsoOfFin hV).surjective j
       exact ⟨i, by rw [show (relabelRels P σ).f (Fin.castLE hcm' i) = P.f (σ (Fin.castLE hcm i))
         from rfl, hσ i, hi]⟩
-  show Ideal.span (Set.range fun i : Fin c ↦ (relabelRels P σ).f (Fin.castLE hcm' i)) = _
+  change Ideal.span (Set.range fun i : Fin c ↦ (relabelRels P σ).f (Fin.castLE hcm' i)) = _
   rw [hrange]
   rfl
 

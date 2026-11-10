@@ -48,8 +48,8 @@ named above is the counterexample to all three.
 a homeomorphism for the limit topologies, and that assertion is not proved here or anywhere in
 the repository — see the docstring of
 `Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8`, whose conclusion is
-reproduced verbatim below. Clauses (2), (4) and (5) of [Stacks, Tag 02OA], and clause (2) of
-[Stacks, Tag 02OB] for `n > 0`, are likewise untouched.
+reproduced below, behind an extra, vacuous `∃ _c : ℕ`. Clauses (2), (4) and (5) of
+[Stacks, Tag 02OA], and clause (2) of [Stacks, Tag 02OB] for `n > 0`, are likewise untouched.
 
 ## References
 
@@ -126,8 +126,8 @@ public theorem exists_formalFunctionsEquiv_unconditional
       ∀ (n : ℕ) (x : cohomologyOverBase A f p F),
         towerLimit.proj n (e (AdicCompletion.of I (cohomologyOverBase A f p F) x)) =
           adicCohomologyProj A f I F p n x :=
-  exists_formalFunctionsEquiv_of_02O8 A f hX I F hF p
-    Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem
+  ⟨0, exists_formalFunctionsEquiv_of_02O8 A f hX I F hF p
+    Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem⟩
 
 end Stacks.Cohomology.FormalFunctions
 

@@ -217,7 +217,7 @@ theorem isOpenImmersion_specMap_of_isLocalization_away {B : Type v₂} [CommRing
       CommRingCat.hom_ext (RingHom.ext fun x ↦ e.symm_apply_apply x),
       CommRingCat.hom_ext (RingHom.ext fun x ↦ e.apply_symm_apply x)⟩
   rw [hcomp]
-  show IsOpenImmersion (Spec.map
+  change IsOpenImmersion (Spec.map
     (CommRingCat.ofHom (algebraMap B (Localization.Away t)) ≫ CommRingCat.ofHom _))
   rw [Spec.map_comp]
   infer_instance

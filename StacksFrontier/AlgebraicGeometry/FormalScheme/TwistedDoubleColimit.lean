@@ -96,7 +96,7 @@ theorem McQuillanFormalScheme.not_forall_isFppfColimitOfThickenings_of_exists :
   obtain ⟨𝒮, h𝒮⟩ := TwistedDouble.exists_isFundamentalSystemOfIdealsOfDefinitionOn
   refine TwistedDouble.not_isFppfColimitOfThickenings (h TwistedDouble.𝔛.toMcQuillanFormalScheme
     ⟨𝒮, ?_⟩)
-  show IsFundamentalSystemOfWeakIdealsOfDefinitionOn 𝒮
+  change IsFundamentalSystemOfWeakIdealsOfDefinitionOn 𝒮
     (IsWeakAffineFormalOpen TwistedDouble.𝔛.obj)
   rw [TwistedDouble.𝔛.property.isWeakAffineFormalOpen_eq]
   exact

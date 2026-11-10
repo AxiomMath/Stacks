@@ -44,6 +44,7 @@ namespace AlgebraicGeometry.FormalSpace
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_CompletionProper :
@@ -55,6 +56,7 @@ local instance (priority := high) hasPullback_presheaf_CompletionProper
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Pullbacks of large-valued presheaves on the big fppf site over `S`. -/
 local instance hasPullbacks_presheafULift_CompletionProper :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)) := inferInstance
@@ -82,7 +84,7 @@ private theorem isSeparatedULift_whiskerRight_of_isSeparated
     apply pullback.hom_ext <;> simp [← H.map_comp]
   have h : R.relative (yoneda ⋙ H) (H.map (pullback.diagonal q)) :=
     (Space.relative_comp_map_iff yoneda H R (pullback.diagonal q)).mpr hq
-  show R.relative (uliftYoneda.{u + 1}) (pullback.diagonal (H.map q))
+  change R.relative (uliftYoneda.{u + 1}) (pullback.diagonal (H.map q))
   rw [hdiag]
   exact MorphismProperty.RespectsIso.postcomp (R.relative (uliftYoneda.{u + 1}))
     (PreservesPullback.iso H q q).hom _ h
@@ -209,7 +211,7 @@ private theorem hasPropertyULift_completionSheafMap_of_whiskerRight
     (sheafToPresheaf J (Type (u + 1)))
   have hcomm : (Space.sheafifiedULiftMap B S hS f).hom ≫ eX.inv = eX'.inv ≫ H.map f := by
     have hn' : H.map f ≫ eX.hom = eX'.hom ≫ (Space.sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (X ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})

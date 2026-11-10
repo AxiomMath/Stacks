@@ -124,8 +124,7 @@ theorem exists_addMonoidHom_tmul_smul_grading (gradingP : ℕ → Submodule k P)
     Ideal.exists_addMonoidHom_tmul_smul (M := ↥(gradingP e)) (N := ↥(gradingQ e))
       ε πe I hIsq hIker (fun a y => Subtype.ext (hπsmul a y)) hπesurj hπeker
   refine ⟨θe, fun ξ => ?_, hθeinj, fun z hz => ?_⟩
-  · induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, Submodule.coe_zero, map_zero]
+  · induction ξ using TensorProduct.inductionOn with
     | tmul b m =>
         obtain ⟨y, rfl⟩ := hπesurj m
         rw [hθe b y, LinearMap.lTensor_tmul, Submodule.coe_smul]

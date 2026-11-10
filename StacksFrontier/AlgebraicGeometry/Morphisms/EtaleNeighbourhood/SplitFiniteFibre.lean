@@ -142,13 +142,13 @@ private lemma exists_isCompl_isFinite_of_isIso_sigmaDesc {n : ℕ} {Y T : Scheme
     obtain ⟨w, hw⟩ := (Sigma.desc j).surjective y
     obtain ⟨a, z, hz⟩ := hsigma w
     refine ⟨a, z, ?_⟩
-    rw [← hw, ← hz, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← hw, ← hz, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   -- the ranges of two distinct pieces are disjoint
   have hdisjrange : ∀ a b, a ≠ b → ∀ (z : P a) (w : P b), (j a).base z ≠ (j b).base w := by
     intro a b hab z w e
     have e' : (Sigma.desc j).base ((Sigma.ι P a).base z) =
         (Sigma.desc j).base ((Sigma.ι P b).base w) := by
-      rwa [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, Sigma.ι_desc, Sigma.ι_desc]
+      rwa [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     obtain ⟨rfl⟩ := (sigmaι_eq_iff _ _ _ _ _).mp ((Sigma.desc j).homeomorph.injective e')
     exact hab rfl
   refine ⟨⨆ i : Fin n, (j (some i)).opensRange, (j none).opensRange, ?_, ?_, fun w => w.2⟩
@@ -227,7 +227,7 @@ private lemma isIsolatedPoint_asFiber_of_elementary_baseChange {X S : Scheme.{u}
       f.fiberι s (e.hom py) = (e.hom ≫ f.fiberι s) py := by simp
       _ = (q.fiberι U.point ≫ pullback.fst f U.toBase) py := by rw [he]
       _ = (pullback.fst f U.toBase).base y := by
-        show (pullback.fst f U.toBase).base (q.fiberι U.point py) = _
+        change (pullback.fst f U.toBase).base (q.fiberι U.point py) = _
         rw [show q.fiberι U.point py = y from fiberι_cast_asFiber q y hy]
       _ = f.fiberι s (hxs ▸ f.asFiber ((pullback.fst f U.toBase).base y)) :=
         (fiberι_cast_asFiber f _ hxs).symm

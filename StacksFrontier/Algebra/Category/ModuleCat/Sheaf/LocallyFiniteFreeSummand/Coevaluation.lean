@@ -107,14 +107,14 @@ theorem splitting_dualBasis
   let b (j : Fin n) : F.over U ⟶ SheafOfModules.unit R := i ≫ freeCoordinate X U n j
   have hq (j : Fin n) (k : ULift.{u} (Fin n)) :
       SheafOfModules.ιFree (R := R) k ≫ freeCoordinate X U n j =
-        if k = ULift.up j then 𝟙 _ else 0 := Sigma.ι_desc _ _
+        if k = ULift.up j then 𝟙 _ else 0 := Sigma.ι_comp_desc _ _
   have hsumfree : ∑ j : Fin n,
       freeCoordinate X U n j ≫ SheafOfModules.ιFree (R := R) (ULift.up j) =
       𝟙 (SheafOfModules.free (R := R) (ULift.{u} (Fin n))) := by
     apply Sigma.hom_ext
     intro k
     obtain ⟨k⟩ := k
-    show SheafOfModules.ιFree (R := R) (ULift.up k) ≫
+    change SheafOfModules.ιFree (R := R) (ULift.up k) ≫
         (∑ j : Fin n, freeCoordinate X U n j ≫ SheafOfModules.ιFree (ULift.up j)) =
       SheafOfModules.ιFree (R := R) (ULift.up k) ≫
         𝟙 (SheafOfModules.free (R := R) (ULift.{u} (Fin n)))
@@ -159,7 +159,7 @@ theorem splitting_dualBasis
     | empty => rfl
     | @insert j s hj ih =>
       simp only [Finset.sum_insert hj]
-      show ((b j ≫ a j).val.app V).hom g +
+      change ((b j ≫ a j).val.app V).hom g +
         ((∑ j ∈ s, b j ≫ a j).val.app V).hom g = _
       rw [ih]
   refine Eq.trans (Finset.sum_congr rfl fun j _ => hterm j) ?_
@@ -207,7 +207,7 @@ theorem coevaluation_comp_tensorDualToEndomorphism
     (hF : IsLocallyFiniteFreeSummand X F) :
     coevaluation X F hF ≫ tensorDualToEndomorphism X F = identityEndomorphism X F := by
   have hI := tensorDualToEndomorphism_isIso X F hF
-  show (identityEndomorphism X F ≫ @inv _ _ _ _ (tensorDualToEndomorphism X F) hI) ≫
+  change (identityEndomorphism X F ≫ @inv _ _ _ _ (tensorDualToEndomorphism X F) hI) ≫
     tensorDualToEndomorphism X F = _
   exact (Category.assoc _ _ _).trans ((congrArg (identityEndomorphism X F ≫ ·)
     (@IsIso.inv_hom_id _ _ _ _ _ hI)).trans (Category.comp_id _))

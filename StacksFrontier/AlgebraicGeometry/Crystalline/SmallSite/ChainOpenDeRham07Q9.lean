@@ -120,13 +120,13 @@ def sectionsMapArrowIso07Q9 :
   Arrow.isoMk (openSectionsMooreIso07Q9 S hV hW hVW F hF)
     (sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂ (chainPresentation07Q9 S hW hVW f hW₂ ch e)
       (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
-      (chainPresentationRename07Q9 S hW hVW f hW₂) (chainPresentationRename07Q9_C S hW hVW f hW₂)
+      (chainPresentationRename07Q9 S hW hVW f hW₂)
       (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) F hF
       (chainEnvelopeHom07Q9 S hW hVW f hW₂ ch e) (fun _ _ ↦ rfl))
     (sectionsMap_sourceSectionsMooreIso07Q9 S hV hW hVW f hW₂
       (chainPresentation07Q9 S hW hVW f hW₂ ch e)
       (surjective_chainPresentation07Q9 S hW hVW f hW₂ ch e he)
-      (chainPresentationRename07Q9 S hW hVW f hW₂) (chainPresentationRename07Q9_C S hW hVW f hW₂)
+      (chainPresentationRename07Q9 S hW hVW f hW₂)
       (chainPresentation07Q9_comp_rename S hW hVW f hW₂ ch e) F hF
       (chainEnvelopeHom07Q9 S hW hVW f hW₂ ch e) (fun _ _ ↦ rfl)).symm
 

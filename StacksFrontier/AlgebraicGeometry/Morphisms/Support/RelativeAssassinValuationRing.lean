@@ -175,7 +175,7 @@ theorem Scheme.Hom.stalkFibreIdeal_le_ker_stalkMap_fiberι (y : Y) (p : f.fiber 
   rw [maximalIdeal_stalk_fiberToSpecResidueField_eq_bot, Ideal.mem_bot] at h1
   rw [Ideal.mem_comap, RingHom.mem_ker]
   refine (DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp e4) a).trans ?_
-  show ((f.fiberToSpecResidueField y).stalkMap p).hom
+  change ((f.fiberToSpecResidueField y).stalkMap p).hom
       (((Y.fromSpecResidueField y).stalkMap (f.fiberToSpecResidueField y p)).hom
         ((Y.presheaf.stalkCongr (Inseparable.of_eq hpt)).hom.hom a)) = 0
   rw [h1, map_zero]

@@ -169,7 +169,7 @@ private theorem exists_surjective_linearMap_ker {P : Type*} [CommRing P] {b c J 
     exact y.2
   obtain ⟨j, hj, z, hz, hjz⟩ := Submodule.mem_sup.mp (hc hpc)
   refine ⟨⟨j, hj⟩, Subtype.ext ?_⟩
-  show Ideal.Quotient.mk b j = (y : P ⧸ b)
+  change Ideal.Quotient.mk b j = (y : P ⧸ b)
   rw [← hp, ← hjz, Ideal.Quotient.mk_eq_mk_iff_sub_mem]
   simpa using neg_mem hz
 
@@ -267,7 +267,7 @@ private theorem exists_algHom_comp_eq_of_lift_smallExtension
     isUnit_of_map_unit (f : B' →+* B) _ <| by
       rw [RingHom.coe_coe, ← AlgHom.comp_apply, hg']
       exact notMem_maximalIdeal.1 fun hy => y.2 (hq.le hy)
-  refine ⟨IsLocalization.liftAlgHom (M := q.primeCompl) hunits, AlgHom.coe_ringHom_injective ?_⟩
+  refine ⟨IsLocalization.liftAlgHom (M := q.primeCompl) hunits, AlgHom.toRingHom_injective ?_⟩
   refine IsLocalization.ringHom_ext q.primeCompl (RingHom.ext fun s => ?_)
   simp only [RingHom.coe_comp, Function.comp_apply, RingHom.coe_coe, AlgHom.comp_apply]
   rw [IsLocalization.liftAlgHom_apply, IsLocalization.lift_eq]
@@ -366,7 +366,7 @@ private theorem exists_derivation_restrict_eq_of_lift_smallExtension
     ext
     rw [derivationOfSubOfSqZero_apply, hβp, RingHom.mem_ker.mp x.2, map_zero, sub_zero, hψcoe,
       Ideal.Quotient.algebraMap_eq]
-  show w (derivationOfSubOfSqZero hsq β hβmem (x : P)) = u x
+  change w (derivationOfSubOfSqZero hsq β hβmem (x : P)) = u x
   rw [hδ, hw]
 
 /-- With `P` a Noetherian local `R`-algebra surjecting onto a localization `A` of `S` at `q`, the
@@ -390,8 +390,7 @@ private theorem injective_cotangentComplexBaseChange_residueField_of_lift_smallE
   have hv : ∀ z, v z = (LinearMap.liftBaseChange (ResidueField A) D.liftKaehlerDifferential)
       (KaehlerDifferential.cotangentComplexBaseChange R A P (ResidueField A) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c b =>
       have hb : D (b : P) = v (1 ⊗ₜ[P] b) := hD b
       rw [KaehlerDifferential.cotangentComplexBaseChange_tmul,
@@ -407,7 +406,7 @@ private theorem isSmoothAt_of_lift_smallExtension_residueField
     {R : Type u} {S : Type v} [CommRing R] [IsNoetherianRing R] [CommRing S] [Algebra R S]
     [Algebra.FiniteType R S] (q : Ideal S) [q.IsPrime] (h : LiftsAlongSmallExtensions R q) :
     Algebra.IsSmoothAt R q := by
-  show Algebra.FormallySmooth R (Localization.AtPrime q)
+  change Algebra.FormallySmooth R (Localization.AtPrime q)
   have : Algebra.FinitePresentation R S := Algebra.FinitePresentation.of_finiteType.mp inferInstance
   obtain ⟨ι, hι, f₀, hf₀⟩ := Algebra.FiniteType.iff_quotient_mvPolynomial'.mp
     (inferInstance : Algebra.FiniteType R S)

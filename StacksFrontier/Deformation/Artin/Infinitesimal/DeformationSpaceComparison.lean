@@ -134,7 +134,7 @@ public theorem isFG_le_isSiteModule : ModuleCat.isFG.{u} k ≤ IsSiteModule k B 
     have h : (Spec (.of k)).size < B.cutoff := hk
     rwa [Scheme.size_Spec] at h
   have hmk : Cardinal.mk (squareZeroRing k M) < B.cutoff := by
-    show Cardinal.mk (k × (M : Type u)) < B.cutoff
+    change Cardinal.mk (k × (M : Type u)) < B.cutoff
     rw [Cardinal.mk_prod, Cardinal.lift_id, Cardinal.lift_id]
     refine lt_of_le_of_lt (Cardinal.mul_le_max _ _) ?_
     refine max_lt (max_lt (lt_of_le_of_lt (le_max_right _ _) hk') ?_) B.aleph0_lt_cutoff
@@ -323,7 +323,7 @@ private theorem toLiftObj_fiber (V : FGModuleCat.{u} k)
   have hl := deformation_arrow_isHomLift B S hS iΛ toS hk p x₀ hx₀ hx V d hd
   apply StructuredArrow.obj_ext _ _
     (deformation_point_site B S hS iΛ toS hk p x₀ hx₀ hx V d hd)
-  show p.map d.arrow ≫
+  change p.map d.arrow ≫
     eqToHom (deformation_point_site B S hS iΛ toS hk p x₀ hx₀ hx V d hd) =
       eqToHom hx ≫ squareZeroArrow k B S hS toS hk ((fgSiteModule B hk).obj V)
   rw [IsHomLift.fac' p (squareZeroArrow k B S hS toS hk ((fgSiteModule B hk).obj V))
@@ -610,12 +610,12 @@ private theorem fromLiftFib_isIsomorphic (V : FGModuleCat.{u} k)
   · apply Subtype.ext
     refine DeformationMorphism.ext_of_components iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀
       (by rfl) ?_
-    show (e.hom.1).right ≫ (e.inv.1).right = 𝟙 _
+    change (e.hom.1).right ≫ (e.inv.1).right = 𝟙 _
     exact congrArg (fun t : y ⟶ y => (t.1).right) e.hom_inv_id
   · apply Subtype.ext
     refine DeformationMorphism.ext_of_components iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀
       (by rfl) ?_
-    show (e.inv.1).right ≫ (e.hom.1).right = 𝟙 _
+    change (e.inv.1).right ≫ (e.hom.1).right = 𝟙 _
     exact congrArg (fun t : y' ⟶ y' => (t.1).right) e.inv_hom_id
 
 include hx₀ hx in
@@ -874,7 +874,7 @@ private theorem classCompare_classOf (V : FGModuleCat.{u} k)
     (tangentFunctor k B S hS toS hk p x₀ hx hp hRS).liftEquiv ((fgSiteModule B hk).obj V)
         (classCompare B S hS iΛ toS hk p hp hRS x₀ hx₀ hx hcof V (classOf _ hcof z)) =
       Quotient.mk _ (toLiftFib B S hS iΛ toS hk p x₀ hx₀ hx V z) := by
-  show (tangentFunctor k B S hS toS hk p x₀ hx hp hRS).liftEquiv _
+  change (tangentFunctor k B S hS toS hk p x₀ hx hp hRS).liftEquiv _
       (((tangentFunctor k B S hS toS hk p x₀ hx hp hRS).liftEquiv _).symm
         (liftClassEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx V
           (cast (isomorphismClasses_obj _ hcof _) (classOf _ hcof z)))) = _
@@ -941,12 +941,12 @@ classes. -/
 private theorem exists_tangentLinearEquiv
     (hpre : IsPredeformationCategory (BasedCategory.ofFunctor
       (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection).p)
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor
         (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection) hcof)))
     [Fact (IsPredeformationCategory (BasedCategory.ofFunctor
       (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    [Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor
         (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).projection) hcof)))] :
     ∃ e : artinianTangentSpace Λ k (isomorphismClasses (BasedCategory.ofFunctor
@@ -1010,7 +1010,7 @@ public theorem tangentSpace_deformationCategory_linearEquiv
       isDeformationCategory_predeformationCategory_of_satisfiesRSStar B S hS p hp hRS iΛ x₀
         hx₀ hfin hqc
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
     let M : SiteModule k B := (fgSiteModule B hk).obj (FGModuleCat.of k k)
@@ -1028,7 +1028,7 @@ public theorem tangentSpace_deformationCategory_linearEquiv
                 y.1.hom ≫ η.hom = (D.objects z.1).arrow := by
   intro D 𝓕 hD M L
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
     ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
   obtain ⟨e, he⟩ := exists_tangentLinearEquiv B S hS iΛ toS hk p hp hRS x₀ hx₀ hx
@@ -1081,7 +1081,7 @@ private theorem dualInclusion_comp_dualProjection :
   have h0 : (0 : FGModuleCat.of k PUnit.{u + 1} ⟶ FGModuleCat.of k k) ≫ 0 =
       𝟙 (FGModuleCat.of k PUnit.{u + 1}) :=
     FGModuleCat.hom_ext (LinearMap.ext fun _ => Subsingleton.elim (α := PUnit.{u + 1}) _ _)
-  show (artinianSquareZeroExtensionFunctor Λ k).map 0 ≫
+  change (artinianSquareZeroExtensionFunctor Λ k).map 0 ≫
     (artinianSquareZeroExtensionFunctor Λ k).map 0 = _
   rw [← CategoryTheory.Functor.map_comp, h0, CategoryTheory.Functor.map_id]
 
@@ -1260,7 +1260,7 @@ private theorem infinitesimalAutomorphismsAlongSplitPair_eq_top
     (dualProjection Λ k) (dualInclusion_comp_dualProjection Λ k) _ _ a).2 ?_
   refine deformationMorphism_ext_of_isIso_arrow B S hS iΛ p x₀ hx₀ _ _ ?_
     (isIso_trivialLift_zero_hom B S hS toS hk p hp x₀ hx)
-  show (a.asIso.hom.val : DeformationMorphism _ _ _ _ _ _).ringHom ≫ _ = _
+  change (a.asIso.hom.val : DeformationMorphism _ _ _ _ _ _).ringHom ≫ _ = _
   rw [fiberMor_ringHom B S hS iΛ p x₀ hx₀ _ _ a.asIso.hom]
   exact Category.id_comp _
 
@@ -1345,7 +1345,7 @@ public theorem exists_trivialDeformationFunctor_infinitesimalAutomorphisms :
       apply Over.OverMorphism.ext
       rw [Functor.map_comp]
       exact liftBaseThickeningMap_comp k B S hS toS hk p x₀ hx _ _
-    show (Functor.pullbackFiberMap (Under.post p) (liftId k B S hS toS hk p x₀ hx)
+    change (Functor.pullbackFiberMap (Under.post p) (liftId k B S hS toS hk p x₀ hx)
         (liftBaseOverMap k B S hS toS hk p x₀ hx ((fgSiteModule B hk).map (f ≫ g)))).right =
       (trivialTransition B S hS toS hk p hp x₀ hx g).right ≫
         (trivialTransition B S hS toS hk p hp x₀ hx f).right
@@ -1400,7 +1400,7 @@ private theorem infinitesimalComparison_arrow
         (infinitesimalComparison B S hS iΛ toS hk p hp x₀ hx₀ hx hRS hcof a)).1).right =
       (a.val.asIso.hom.val :
         DeformationMorphism iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀ _ _).arrow := by
-  show (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv _)
+  change (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv _)
     (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv _).symm
       (trivialEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k)
         a.val.asIso.hom)) |>.1).right = _

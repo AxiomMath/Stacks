@@ -152,7 +152,7 @@ lemma specStalkSectionsIsScalarTower (F : X.Modules) (η : genericPoints X) (U :
   let _inst := specStalkSectionsModule F η U
   constructor
   intro r b n
-  show ((((X.fromSpecStalk η.1).app U).hom r) * b) • n = _
+  change ((((X.fromSpecStalk η.1).app U).hom r) * b) • n = _
   rw [mul_smul]
   rfl
 
@@ -276,7 +276,7 @@ theorem isLocalizedModule_pi_toGenericPointStalkSections
         toGenericPointStalkSections F η.1 U) =
       LinearMap.pi fun η : genericPoints X ↦ toGenericPointStalkSections F η U := by
     refine LinearMap.ext fun a ↦ e.injective ?_
-    show e (e.symm ((LinearMap.pi fun η : {η : genericPoints X // (η : X) ∈ U} ↦
+    change e (e.symm ((LinearMap.pi fun η : {η : genericPoints X // (η : X) ∈ U} ↦
         toGenericPointStalkSections F η.1 U) a)) =
       e ((LinearMap.pi fun η : genericPoints X ↦ toGenericPointStalkSections F η U) a)
     rw [e.apply_symm_apply]

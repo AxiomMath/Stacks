@@ -52,12 +52,12 @@ theorem gradedCharSeries_mul_prod_even (S : Finset ℤ) (hS : ∀ i ∉ S, Subsi
   have h1 : ∀ i ∈ S.filter Even,
       ((gradedCharPolynomial V φ i : Polynomial Λ) : Λ⟦X⟧) * gradedCharFactor V φ i = 1 := by
     intro i hi
-    rw [gradedCharFactor_eq_matrix, if_pos (Finset.mem_filter.1 hi).2, gradedCharPolynomial,
+    rw [gradedCharFactor_eq_matrix, ite_eq_left (Finset.mem_filter.1 hi).2, gradedCharPolynomial,
       coe_localCharPolynomial]
     exact localCharSeries_mul_localEulerFactor _ one_ne_zero
   rw [Finset.prod_congr rfl h1, Finset.prod_const_one, one_mul]
   refine Finset.prod_congr rfl fun i hi => ?_
-  rw [gradedCharFactor_eq_matrix, if_neg (Finset.mem_filter.1 hi).2, gradedCharPolynomial,
+  rw [gradedCharFactor_eq_matrix, ite_eq_right (Finset.mem_filter.1 hi).2, gradedCharPolynomial,
     coe_localCharPolynomial]
 
 /-- **The alternating product is a rational function**: its product with a polynomial of

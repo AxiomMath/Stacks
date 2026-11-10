@@ -78,12 +78,10 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 
 universe u v u₁ v₁
 
--- Instance search for pullbacks of presheaves on the big fppf site times out under the default
--- limit, and the private shortcut instances below are not visible in public statements.
-set_option synthInstance.maxHeartbeats 400000
-
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem size_le_of_surjective_flat_locallyOfFinitePresentation
     {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hf : Flat f) (hfp : LocallyOfFinitePresentation f) (hs : Surjective f) :
@@ -102,6 +100,8 @@ theorem size_le_of_surjective_flat_locallyOfFinitePresentation
   exact Scheme.size_le_of_fpqc_factorsThrough f E.X E.f hE
     (fun _ ↦ ⟨𝟙 X, Category.id_comp f⟩)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem reasonable_of_quasiSeparated
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))
@@ -118,6 +118,8 @@ theorem reasonable_of_quasiSeparated
   exact AlgebraicGeometry.Space.isReasonableSpace_of_isVeryReasonableSpace
     B S hS X hX hvr
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem exists_affine_etale_atlas_of_quasiCompact
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -131,6 +133,8 @@ theorem exists_affine_etale_atlas_of_quasiCompact
   (AlgebraicGeometry.Space.isQuasiCompactSpace_iff_exists_affine_etale_surjective_cover
     B S hS X hX).mp hqc
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem compactSpace_of_surjective_continuous
     {α β : Type*} [TopologicalSpace α] [TopologicalSpace β]
     [CompactSpace α] (f : α → β) (hf : Function.Surjective f)
@@ -139,6 +143,8 @@ private theorem compactSpace_of_surjective_continuous
   have hrange : Set.range f = Set.univ := Set.range_eq_univ.mpr hf
   exact ⟨by rw [← hrange]; exact himage⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem compactSpace_of_finiteFlatQuotient
     {S : Scheme.{u}} {G : Stacks.Groupoids.GroupoidScheme S}
     (Q : Stacks.Groupoids.FiniteFlatQuotient G)
@@ -147,6 +153,8 @@ theorem compactSpace_of_finiteFlatQuotient
   exact compactSpace_of_surjective_continuous Q.quotientMap.left.base
     Q.surjective.surj (by fun_prop)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- The quotient of a finite locally free equivalence relation each of whose nonempty closed
 subsets contains a point with affine-contained orbit, chosen from Stacks 07S6. -/
 noncomputable def finiteFlatQuotientOfAffineOrbits
@@ -167,6 +175,8 @@ noncomputable def finiteFlatQuotientOfAffineOrbits
   rintro _ ⟨r, hr, rfl⟩
   exact hWorbit r hr
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem compactAndSeparated_finiteFlatQuotient
     {S : Scheme.{u}} (G : Stacks.Groupoids.GroupoidScheme S)
     [Stacks.Morphisms.IsFiniteLocallyFree G.source.left]
@@ -185,6 +195,8 @@ private theorem compactAndSeparated_finiteFlatQuotient
     Stacks.Groupoids.FiniteFlatQuotient.isSeparated_space
       (finiteFlatQuotientOfAffineOrbits G hrel horbit) inferInstance⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem exists_affineOpen_containing_finiteOrbit
     {U Y : Scheme.{u}}
     {G : Type*} [Group G] [Finite G] (a : G →* Aut U)
@@ -202,6 +214,8 @@ theorem exists_affineOpen_containing_finiteOrbit
   intro g
   exact hcontains ⟨g, rfl⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem exists_affineOpen_containing_groupoidOrbit
     {S Y : Scheme.{u}} (R : Stacks.Groupoids.GroupoidScheme S)
     {G : Type*} [Group G] [Finite G]
@@ -222,6 +236,8 @@ private theorem exists_affineOpen_containing_groupoidOrbit
   rw [hg, hr]
   exact hcontains g
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- An object of the big fppf site over `S` whose represented presheaf is a quasi-compact
 algebraic space has compact underlying scheme. -/
 theorem compact_of_isQuasiCompact_yoneda
@@ -243,18 +259,23 @@ theorem compact_of_isQuasiCompact_yoneda
   infer_instance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_fiberPower
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
     HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private instance (priority := high) hasPullback_presheaf_fiberPower
     {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem compact_represented_pullback
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -269,6 +290,8 @@ private theorem compact_represented_pullback
   exact compact_of_isQuasiCompact_yoneda B S hS _
     (isQuasiCompactSpace_of_iso B S hS (hf.isPullback g).flip.isoPullback.symm hp)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- The `(n + 1)`-fold fibre power of a represented map, with its map to the base. -/
 noncomputable def fiberPower
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
@@ -279,6 +302,8 @@ noncomputable def fiberPower
       let P := fiberPower f hf n
       ⟨hf.pullback P.2, hf.fst P.2 ≫ f⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- Projection from a fibre power to its oldest factor. -/
 noncomputable def fiberPowerBaseProjection
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
@@ -287,6 +312,8 @@ noncomputable def fiberPowerBaseProjection
   | 0 => 𝟙 U
   | n + 1 => hf.snd (fiberPower f hf n).2 ≫ fiberPowerBaseProjection f hf n
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem etale_separated_fiberPowerBaseProjection
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -315,12 +342,14 @@ theorem etale_separated_fiberPowerBaseProjection
         hs.property _ _ _ (hf.isPullback _)
       have := ih.1
       have := ih.2
-      show Etale (q.map (hf.snd (fiberPower f hf n).2 ≫ fiberPowerBaseProjection f hf n)) ∧
+      change Etale (q.map (hf.snd (fiberPower f hf n).2 ≫ fiberPowerBaseProjection f hf n)) ∧
         _root_.AlgebraicGeometry.IsSeparated
           (q.map (hf.snd (fiberPower f hf n).2 ≫ fiberPowerBaseProjection f hf n))
       rw [q.map_comp]
       exact ⟨inferInstance, inferInstance⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 noncomputable def fiberPowerProjection
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f) :
@@ -329,6 +358,8 @@ noncomputable def fiberPowerProjection
   | n + 1, i => Fin.cases (hf.fst' (fiberPower f hf n).2)
       (fun j => hf.snd (fiberPower f hf n).2 ≫ fiberPowerProjection f hf n j) i
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPowerProjection_comp
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -338,14 +369,16 @@ theorem fiberPowerProjection_comp
   | zero => simp [fiberPowerProjection, fiberPower]
   | succ n ih =>
       refine Fin.cases ?_ (fun j ↦ ?_) i
-      · show yoneda.map (hf.fst' (fiberPower f hf n).2) ≫ f = _
+      · change yoneda.map (hf.fst' (fiberPower f hf n).2) ≫ f = _
         rw [hf.map_fst']
         rfl
-      · show yoneda.map (hf.snd (fiberPower f hf n).2 ≫
+      · change yoneda.map (hf.snd (fiberPower f hf n).2 ≫
           fiberPowerProjection f hf n j) ≫ f = hf.fst (fiberPower f hf n).2 ≫ f
         rw [Functor.map_comp, Category.assoc, ih]
         exact (hf.w _).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPower_hom_ext
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -367,6 +400,8 @@ theorem fiberPower_hom_ext
           b ≫ (hf.snd (fiberPower f hf n).2 ≫ fiberPowerProjection f hf n i) at hi
         exact (Category.assoc _ _ _).trans (hi.trans (Category.assoc _ _ _).symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 noncomputable def fiberPowerLift
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U V : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -397,6 +432,8 @@ noncomputable def fiberPowerLift
           rw [← Category.assoc, Functor.relativelyRepresentable.lift'_snd]
           exact l.2.2 j
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 noncomputable def fiberPowerPermute
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -406,6 +443,8 @@ noncomputable def fiberPowerPermute
     (fun i ↦ fiberPowerProjection f hf n (σ i))
     (fun i ↦ fiberPowerProjection_comp f hf n (σ i))).1
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPowerPermute_projection
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -414,6 +453,8 @@ theorem fiberPowerPermute_projection
       fiberPowerProjection f hf n (σ i) :=
   (fiberPowerLift f hf n (fiberPower f hf n).2 _ _).2.2 i
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPowerPermute_comp_base
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -422,6 +463,8 @@ theorem fiberPowerPermute_comp_base
       (fiberPower f hf n).2 :=
   (fiberPowerLift f hf n (fiberPower f hf n).2 _ _).2.1
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPowerPermute_injective
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U V : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -435,6 +478,8 @@ theorem fiberPowerPermute_injective
   have hi := congrArg (fun k ↦ k ≫ fiberPowerProjection f hf n i) h
   simpa only [Category.assoc, fiberPowerPermute_projection] using hi
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem fiberPowerPermute_comp
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -445,6 +490,8 @@ theorem fiberPowerPermute_comp
   intro i
   simp [Category.assoc, fiberPowerPermute_projection]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private noncomputable def fiberPowerPermutationIso
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -461,6 +508,8 @@ private noncomputable def fiberPowerPermutationIso
     intro i
     simp [Category.assoc, fiberPowerPermute_projection]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem isPullback_diagonal_of_isLimit_fork
     {C : Type*} [Category* C] {E A U X : C}
     (p q : A ⟶ U) (f : U ⟶ X) [HasPullback f f]
@@ -486,7 +535,7 @@ private theorem isPullback_diagonal_of_isLimit_fork
     (fun s ↦ Fork.IsLimit.lift hE s.snd (hs s)) ?_ ?_ ?_)
   · intro s
     rw [← Category.assoc]
-    show (Fork.IsLimit.lift hE s.snd (hs s) ≫ (Fork.ofι e he).ι) ≫ p = s.fst
+    change (Fork.IsLimit.lift hE s.snd (hs s) ≫ (Fork.ofι e he).ι) ≫ p = s.fst
     rw [Fork.IsLimit.lift_ι']
     exact hfirst s
   · intro s
@@ -494,6 +543,8 @@ private theorem isPullback_diagonal_of_isLimit_fork
   · intro s m _ hm
     exact Fork.IsLimit.hom_ext hE (hm.trans (Fork.IsLimit.lift_ι' hE _ _).symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem property_equalizer_of_diagonal
     {C : Type*} [Category.{u} C] (P : MorphismProperty C)
     {X : Cᵒᵖ ⥤ Type u} {U A : C} (f : yoneda.obj U ⟶ X)
@@ -512,6 +563,8 @@ private theorem property_equalizer_of_diagonal
     (isPullback_diagonal_of_isLimit_fork (yoneda.map p) (yoneda.map q) f hpq
       (yoneda.map e) he hE)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem compact_fiberPower
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -526,6 +579,8 @@ private theorem compact_fiberPower
   | succ n ih =>
       exact compact_represented_pullback B S hS f (fiberPower f hf n).2 hf hqc ih
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 noncomputable def fiberPowerPair
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -534,6 +589,8 @@ noncomputable def fiberPowerPair
     (yoneda.map (fiberPowerProjection f hf n j))
     ((fiberPowerProjection_comp f hf n i).trans (fiberPowerProjection_comp f hf n j).symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- The first coordinate of the pair map of a fibre power is the first of the two
 projections. -/
 theorem fiberPowerPair_fst
@@ -544,6 +601,8 @@ theorem fiberPowerPair_fst
       yoneda.map (fiberPowerProjection f hf n i) :=
   pullback.lift_fst _ _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- The second coordinate of the pair map of a fibre power is the second of the two
 projections. -/
 theorem fiberPowerPair_snd
@@ -554,6 +613,8 @@ theorem fiberPowerPair_snd
       yoneda.map (fiberPowerProjection f hf n j) :=
   pullback.lift_snd _ _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem fiberPowerPermute_pair
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -564,6 +625,8 @@ private theorem fiberPowerPermute_pair
     simp only [fiberPowerPair, Category.assoc, pullback.lift_fst, pullback.lift_snd,
       ← Functor.map_comp, fiberPowerPermute_projection]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private noncomputable def coordinateDiagonalPermute
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -575,6 +638,8 @@ private noncomputable def coordinateDiagonalPermute
     (hd.snd (fiberPowerPair f hf n (σ i) (σ j)) ≫ fiberPowerPermute f hf n σ)
     (by rw [Functor.map_comp, Category.assoc, fiberPowerPermute_pair]; exact hd.w _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem coordinateDiagonalPermute_snd
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -584,6 +649,8 @@ private theorem coordinateDiagonalPermute_snd
       hd.snd (fiberPowerPair f hf n (σ i) (σ j)) ≫ fiberPowerPermute f hf n σ :=
   hd.lift_snd _ _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem isClopen_coordinateDiagonal
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -601,6 +668,8 @@ theorem isClopen_coordinateDiagonal
     hc.property k (ho.rep.fst k) (ho.rep.snd k) (ho.rep.isPullback k)
   exact ⟨d.isClosedEmbedding.isClosed_range, d.isOpenEmbedding.isOpen_range⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem preimage_range_represented_pullback
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -627,6 +696,8 @@ private theorem preimage_range_represented_pullback
   exact (AlgebraicGeometry.range_snd_of_isPullback
     (hp'.map (AlgebraicGeometry.BigFppfOver.toScheme B S hS))).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem fiberPower_snd_pair
     {C : Type*} [Category.{u} C] {X : Cᵒᵖ ⥤ Type u} {U : C}
     (f : yoneda.obj U ⟶ X) (hf : yoneda.relativelyRepresentable f)
@@ -641,6 +712,8 @@ private theorem fiberPower_snd_pair
     exact (yoneda.map_comp _ _).symm.trans
       (fiberPowerPair_snd f hf (n + 1) i.succ j.succ).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- The complement of the coordinate diagonals in a fibre power. -/
 noncomputable def distinctFiberPowerLocus
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -657,6 +730,8 @@ noncomputable def distinctFiberPowerLocus
       (fun ij : {ij : Fin (n + 1) × Fin (n + 1) // ij.1 ≠ ij.2} ↦
       isClopen_coordinateDiagonal B S hS f hf ho hc n ij.1.1 ij.1.2)).compl.isOpen⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem mapsTo_distinctFiberPowerLocus_snd
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -677,6 +752,8 @@ theorem mapsTo_distinctFiberPowerLocus_snd
     (hf.snd (fiberPower f hf n).2) (fiberPower_snd_pair f hf n i j)
   exact heq ▸ hbad
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem compact_distinctFiberPowerLocus
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -693,6 +770,8 @@ theorem compact_distinctFiberPowerLocus
     (fun ij : {ij : Fin (n + 1) × Fin (n + 1) // ij.1 ≠ ij.2} ↦
       isClopen_coordinateDiagonal B S hS f hf ho hc n ij.1.1 ij.1.2)).compl.isClosed.isCompact
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem mapsTo_coordinateDiagonal
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -714,6 +793,8 @@ private theorem mapsTo_coordinateDiagonal
   simpa only [Functor.map_comp, Scheme.Hom.comp_apply] using
     congrArg (fun k ↦ k y) h
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 private theorem mapsTo_coordinateDiagonals
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -739,6 +820,8 @@ private theorem mapsTo_coordinateDiagonals
       (hd.snd (fiberPowerPair f hf n a b))))
     (σ.apply_symm_apply i) (σ.apply_symm_apply j)).mpr hx
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 theorem mapsTo_distinctFiberPowerLocus
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

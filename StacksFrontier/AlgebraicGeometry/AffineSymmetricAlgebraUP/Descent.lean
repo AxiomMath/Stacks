@@ -73,7 +73,7 @@ variable {C : Type u} [Category.{v} C] {O : Cᵒᵖ ⥤ CommRingCat.{w}}
 /-- The projection onto the degree-`i` component kills every other homogeneous component. -/
 theorem proj_incl_of_ne (X : Cᵒᵖ) {i j : ℤ} (h : j ≠ i) (x : (Pc j).obj X) :
     A.proj X i (A.incl j x) = 0 := by
-  show DirectSum.component _ ℤ (fun k => ((Pc k).obj X : Type (max w a))) i
+  change DirectSum.component _ ℤ (fun k => ((Pc k).obj X : Type (max w a))) i
     (DirectSum.of (fun k => ((Pc k).obj X : Type (max w a))) j x) = 0
   rw [← DirectSum.lof_eq_of ((O ⋙ forget₂ _ RingCat).obj X), DirectSum.component.of]
   exact dite_eq_right h
@@ -113,7 +113,7 @@ theorem app_homogeneousProd
   induction n with
   | zero => exact hone X
   | succ n ih =>
-      show Hom.app (ap ((n : ℤ) + 1)) X
+      change Hom.app (ap ((n : ℤ) + 1)) X
         ((A.mul (n : ℤ) 1).app X (A.homogeneousProd X n fun i => z i.castSucc)
           (z (Fin.last n))) = _
       rw [hmul (n : ℤ) 1 X _ _, ih fun i => z i.castSucc]

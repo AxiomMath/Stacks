@@ -110,7 +110,7 @@ private theorem isCoherent_and_isReflexive_restrict_isAffineOpen {U X V : Scheme
     apply hx
     obtain ⟨y, hy⟩ := Scheme.Hom.mem_opensRange.mp hxU
     have hyW : y ∈ T := by
-      show j y ∈ W
+      change j y ∈ W
       rw [hy]
       exact x.property
     refine ⟨⟨y, hyW⟩, ?_⟩

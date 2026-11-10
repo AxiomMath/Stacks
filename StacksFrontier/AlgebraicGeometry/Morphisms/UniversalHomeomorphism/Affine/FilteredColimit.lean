@@ -144,7 +144,7 @@ private lemma specMap_algHom_comp_specMap_algebraMap {A R S : Type u} [CommRing 
     Scheme.Spec.map (CommRingCat.ofHom φ.toRingHom).op ≫
         Scheme.Spec.map (CommRingCat.ofHom (algebraMap A R)).op =
       Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op := by
-  show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A R)) =
     Spec.map (CommRingCat.ofHom (algebraMap A S))
   rw [← Spec.map_comp]
@@ -171,7 +171,7 @@ lemma universallyInjective_specMap_of_isColimit
   apply (Spec.homEquiv).symm.injective
   simp only [Spec.homEquiv_symm_apply, Spec.homEquiv_apply, Spec.map_comp,
     Spec.map_preimage]
-  show g₁ ≫ Scheme.Spec.map (CommRingCat.ofHom (c.ι.app j).hom.toRingHom).op =
+  change g₁ ≫ Scheme.Spec.map (CommRingCat.ofHom (c.ι.app j).hom.toRingHom).op =
     g₂ ≫ Scheme.Spec.map (CommRingCat.ofHom (c.ι.app j).hom.toRingHom).op
   have hj := ((tfae_universallyInjective
     (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A (F.obj j))).op)).out 1 2).mp (h j)
@@ -189,7 +189,7 @@ lemma algHom_eq_of_universallyInjective {A R K : Type u} [CommRing A] [CommRing 
       Scheme.Spec.map ((CommRingCat.ofHom φ₂.toRingHom).op) :=
     hinj K <| (specMap_algHom_comp_specMap_algebraMap φ₁).trans
       (specMap_algHom_comp_specMap_algebraMap φ₂).symm
-  exact AlgHom.coe_ringHom_injective
+  exact AlgHom.toRingHom_injective
     (congrArg CommRingCat.Hom.hom ((Spec.homEquiv).symm.injective hspec))
 
 /-- If every stage of a filtered colimit of `A`-algebras has universally homeomorphic spectrum
@@ -217,7 +217,8 @@ lemma ker_algebraMap_le_of_isColimit
     let : Algebra (Localization.AtPrime p.asIdeal)
         (Localization.AtPrime (q j).asIdeal) :=
       Localization.AtPrime.algebraOfLiesOver p.asIdeal (q j).asIdeal
-    have : Localization.AtPrime.IsLiesOverAlgebra p.asIdeal (q j).asIdeal := inferInstance
+    have : IsScalarTower A (Localization.AtPrime p.asIdeal)
+        (Localization.AtPrime (q j).asIdeal) := inferInstance
     have : Algebra.IsAlgebraic p.asIdeal.ResidueField (q j).asIdeal.ResidueField :=
       inferInstance
     let ψ' : (q j).asIdeal.ResidueField →ₐ[p.asIdeal.ResidueField] Ω := IsAlgClosed.lift
@@ -231,10 +232,10 @@ lemma ker_algebraMap_le_of_isColimit
     ι := {
       app j := CommAlgCat.ofHom (μ j)
       naturality i j g := by
-        show F.map g ≫ CommAlgCat.ofHom (μ j) =
+        change F.map g ≫ CommAlgCat.ofHom (μ j) =
           CommAlgCat.ofHom (μ i) ≫ 𝟙 (CommAlgCat.of A Ω)
         rw [Category.comp_id]
-        show CommAlgCat.ofHom ((μ j).comp (F.map g).hom) = CommAlgCat.ofHom (μ i)
+        change CommAlgCat.ofHom ((μ j).comp (F.map g).hom) = CommAlgCat.ofHom (μ i)
         exact congrArg CommAlgCat.ofHom (algHom_eq_of_universallyInjective (hstage i).2.1
           ((μ j).comp (F.map g).hom) (μ i)) } }
   intro a ha
@@ -267,7 +268,7 @@ lemma universalHomeomorphism_specMap_of_isColimit
     algebraMap_isIntegral_iff.mp (IsIntegralHom.SpecMap_iff.mp (hstage j).1)
   have hsurj : Surjective f := by
     rw [surjective_iff]
-    show Function.Surjective (PrimeSpectrum.comap (algebraMap A c.pt))
+    change Function.Surjective (PrimeSpectrum.comap (algebraMap A c.pt))
     intro p
     obtain ⟨Q, _, hQ, hQcomap⟩ := Ideal.exists_ideal_over_prime_of_isIntegral p.asIdeal
       (⊥ : Ideal c.pt) (ker_algebraMap_le_of_isColimit A F c hc h p)
@@ -321,7 +322,7 @@ lemma bijective_residueFieldMap_of_comp_eq {R S : Type u} [CommRing R] [CommRing
   have hround : (Ideal.ResidueField.map P Q f hPQ).comp e = RingHom.id _ := by
     apply Ideal.ResidueField.ringHom_ext
     ext b
-    show Ideal.ResidueField.map P Q f hPQ (e (algebraMap S Q.ResidueField b)) = _
+    change Ideal.ResidueField.map P Q f hPQ (e (algebraMap S Q.ResidueField b)) = _
     rw [show e (algebraMap S Q.ResidueField b) = L b by
       simpa [e] using Ideal.ResidueField.lift_algebraMap (I := Q) (f := L) _ _ b]
     simpa using RingHom.congr_fun hL b
@@ -346,7 +347,7 @@ lemma exists_lift_residueField_of_bijective {R S T : Type u} [CommRing R] [CommR
   · have he : Ideal.ResidueField.map P Q' φ hP (e.symm (algebraMap S _ s)) =
         algebraMap S Q'.ResidueField s := e.apply_symm_apply _
     refine (RingHom.congr_fun (idealResidueFieldMap_comp P Q' Q φ ψ hP hQ') _).trans ?_
-    show Ideal.ResidueField.map Q' Q ψ hQ'
+    change Ideal.ResidueField.map Q' Q ψ hQ'
       (Ideal.ResidueField.map P Q' φ hP (e.symm (algebraMap S _ s))) = _
     rw [he]
     simp [Ideal.ResidueField.map_algebraMap]
@@ -393,7 +394,7 @@ lemma isIso_residueFieldMap_specMap_of_colimitPresentation
       naturality i j g := by
         ext s
         apply RingHom.injective (Ideal.ResidueField.map pI q.asIdeal f.hom hfI)
-        show Ideal.ResidueField.map pI q.asIdeal f.hom hfI (ℓ j ((F.map g).hom s)) =
+        change Ideal.ResidueField.map pI q.asIdeal f.hom hfI (ℓ j ((F.map g).hom s)) =
           Ideal.ResidueField.map pI q.asIdeal f.hom hfI (ℓ i s)
         rw [hℓ, hℓ]
         exact congrArg (fun k => algebraMap (↥B) q.asIdeal.ResidueField (k.hom s)) (c.w g) } }
@@ -407,10 +408,10 @@ lemma isIso_residueFieldMap_specMap_of_colimitPresentation
       algebraMap (↥B) q.asIdeal.ResidueField := by
     ext b
     obtain ⟨i, y, rfl⟩ := exists_rep_of_isColimit_commAlgCat A pres.isColimit b
-    show Ideal.ResidueField.map pI q.asIdeal f.hom hfI ((ti i ≫ L).hom y) = _
+    change Ideal.ResidueField.map pI q.asIdeal f.hom hfI ((ti i ≫ L).hom y) = _
     rw [hL i]
     exact hℓ i y
-  show IsIso ((Spec.map f).residueFieldMap q)
+  change IsIso ((Spec.map f).residueFieldMap q)
   exact specResidueFieldMap_isIso_of_idealResidueFieldMap f q
     ((ConcreteCategory.isIso_iff_bijective _).2
       (bijective_residueFieldMap_of_comp_eq f.hom pI q.asIdeal hfI L.hom hker hLm))

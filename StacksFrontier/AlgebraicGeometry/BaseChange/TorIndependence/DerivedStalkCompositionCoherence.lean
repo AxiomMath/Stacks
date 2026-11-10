@@ -227,6 +227,9 @@ public theorem derivedPullbackStalkCompIso_hom_app_general
           ((derivedStalkFunctor (g (f x))).obj K) :=
   rfl
 
+omit [HasDerivedCategory X.Modules] [HasDerivedCategory Y.Modules] [HasDerivedCategory Z.Modules]
+  [HasDerivedCategory (ModuleCat (Y.presheaf.stalk (f x)))]
+  [HasDerivedCategory (ModuleCat (Z.presheaf.stalk (g (f x))))] in
 /-- `pullbackStalkIso_comp_inv_mapHomologicalComplex` in the derived category: localization of the
 equation of complexes, with the transport moved across `DerivedCategory.Q`. -/
 public theorem pullbackStalkIso_comp_inv_mapDerived (P : CochainComplex Z.Modules ℤ) :

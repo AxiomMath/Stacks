@@ -266,9 +266,13 @@ add_to_stacks 0A1X "the domain of definition" AlgebraicGeometry.Scheme.RationalM
 add_to_stacks 0A1X "a point is in it iff some representative is defined there"
   AlgebraicGeometry.Scheme.RationalMap.mem_domain
 
-add_to_stacks 01WI "(1) ⟺ (2): being finite is the affine-local property `X` affine with a finite \
-  ring map on global sections"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpens" ++
+      "CarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_stacks 01WI "(1) ⟺ (2): being finite is the affine-local property \
+      `X` affine with a finite ring map on global sections" $decl:ident))
 add_to_stacks 01WI "(1) ⟺ (2), checked on an affine open cover of the target, applied to IsFinite"
   AlgebraicGeometry.HasAffineProperty.iff_of_openCover
 add_to_stacks 01WI "(1) ⟺ (3), checked on an open cover of the target, applied to IsFinite"

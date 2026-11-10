@@ -220,7 +220,7 @@ theorem isClosed_setOf_nontrivial_sections_fiber (F : X.Modules) [F.IsCoherent]
   have hopen := upperSemicontinuous_iff_isOpen_preimage.1 hsc 1
   convert hopen.isClosed_compl using 1
   ext 𝔭
-  simp only [Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_preimage, Set.mem_Iio, not_lt]
+  simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_preimage, Set.mem_Iio, not_lt]
   let κ := 𝔭.asIdeal.ResidueField
   let φ := Spec.map (CommRingCat.ofHom (algebraMap A κ))
   have hsq : IsPullback (pullback.fst f φ) (pullback.snd f φ) f φ := IsPullback.of_hasPullback f φ
@@ -320,7 +320,7 @@ theorem isClosed_setOf_isTrivial_fiber {k : Type u} [Field k] {P : Scheme.{u}}
     (isClosed_setOf_nontrivial_sections_fiber_of_isInvertible f (tensorPowerModule L (-1)))
     using 1
   ext 𝔭
-  simp only [Set.mem_setOf_eq, Set.mem_inter_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_inter_iff]
   let φ := Spec.map (CommRingCat.ofHom (algebraMap R 𝔭.asIdeal.ResidueField))
   have := isInvertible_pullback (pullback.fst f φ) L
   obtain ⟨e⟩ := nonempty_pullback_tensorPowerModule_neg_one_iso (pullback.fst f φ) L

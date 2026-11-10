@@ -254,13 +254,13 @@ theorem gabberX_eq_gabberY_mul_gabberX.{v}
   let ab : Σ a : GabberIndex.{v}, {b : GabberIndex.{v} // a.toOrd.val < b.toOrd.val} :=
     ⟨a, ⟨b, h⟩⟩
   have hab : gabberRelationPolynomial.{v} ab ∈ gabberRelationIdeal.{v} := by
-    show gabberRelationPolynomial ab ∈
+    change gabberRelationPolynomial ab ∈
       Ideal.span (Set.range gabberRelationPolynomial.{v})
     exact Ideal.subset_span ⟨ab, rfl⟩
   have hzero : Ideal.Quotient.mk gabberRelationIdeal.{v}
       (gabberRelationPolynomial.{v} ab) = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr hab
-  show Ideal.Quotient.mk _ (MvPolynomial.X (Sum.inl a)) =
+  change Ideal.Quotient.mk _ (MvPolynomial.X (Sum.inl a)) =
     Ideal.Quotient.mk _ (MvPolynomial.X (Sum.inr ab)) *
       Ideal.Quotient.mk _ (MvPolynomial.X (Sum.inl b))
   exact sub_eq_zero.mp (by simpa [gabberRelationPolynomial] using hzero)
@@ -468,7 +468,7 @@ private lemma gabberEvaluationQuotient_ker.{v}
         (gabberEvaluation γ)) := by
   refine Ideal.span_le.mpr ?_
   rintro _ ⟨a, rfl⟩
-  show Ideal.Quotient.mk _
+  change Ideal.Quotient.mk _
       (gabberEvaluation γ (gabberX a ^ (n + 1))) = 0
   rw [map_pow]
   by_cases ha : a.toOrd.val < γ.toOrd.val
@@ -533,7 +533,7 @@ private lemma gabberCompletionEvaluation_eq_C_of_bound.{v}
       Ideal.Quotient.mk _ (Polynomial.C
         (MvPolynomial.eval₂ (RingHom.id ℚ) gabberScalarVariable
           (gabberRepresentative (gabberCompletionCoordinateRepresentative x n)))) := by
-  show gabberEvaluationQuotient γ n (x.1 n) = _
+  change gabberEvaluationQuotient γ n (x.1 n) = _
   rw [gabberEvaluationQuotient, ← gabberCompletionCoordinateRepresentative_spec,
     Ideal.Quotient.lift_mk]
   apply congrArg (Ideal.Quotient.mk _)
@@ -573,7 +573,7 @@ private lemma gabberCompletionEvaluation_continuous.{v}
   let : DiscreteTopology (gabberPolynomialTruncation n) := ⟨rfl⟩
   have hcoord : Continuous (fun x : GabberCompletion.{v} => x.1 n) :=
     (continuous_apply n).comp continuous_subtype_val
-  show Continuous (fun x : GabberCompletion.{v} =>
+  change Continuous (fun x : GabberCompletion.{v} =>
     gabberEvaluationQuotient.{v} γ n (x.1 n))
   exact continuous_of_discreteTopology.comp hcoord
 
@@ -601,7 +601,7 @@ private lemma polynomialConstant_eq_zero_of_nilpotent_mod_X_power
     refine Ideal.span_le.mpr ?_
     rintro _ rfl
     apply RingHom.mem_ker.mpr
-    show Polynomial.eval 0 (Polynomial.X ^ k) = 0
+    change Polynomial.eval 0 (Polynomial.X ^ k) = 0
     rw [Polynomial.eval_pow, Polynomial.eval_X]
     exact zero_pow hk.ne'
   have hpow : c ^ m = 0 := by simpa using RingHom.mem_ker.mp (hker hmem)
@@ -706,13 +706,13 @@ theorem gabberCompletion_no_fg_isWeakIdealOfDefinition.{v} :
   have hxker : (gabberCompletionX.{v} γ) ^ (n + 1) ∈
       RingHom.ker (gabberCompletionProjection.{v} n) := by
     rw [RingHom.mem_ker]
-    show Ideal.Quotient.mk (gabberPowerIdeal.{v} n)
+    change Ideal.Quotient.mk (gabberPowerIdeal.{v} n)
         (gabberX γ ^ (n + 1)) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨γ, rfl⟩)
   have hevalX : gabberCompletionEvaluation.{v} γ (n + 1)
       (gabberCompletionX.{v} γ) =
         Ideal.Quotient.mk _ (Polynomial.X : Polynomial ℚ) := by
-    show gabberEvaluationQuotient.{v} γ (n + 1)
+    change gabberEvaluationQuotient.{v} γ (n + 1)
       (Ideal.Quotient.mk (gabberPowerIdeal.{v} (n + 1)) (gabberX γ)) = _
     simp [gabberEvaluationQuotient, RingHom.comp_apply, Ideal.Quotient.lift_mk,
       gabberEvaluation_X_of_not_below γ γ (by simp)]

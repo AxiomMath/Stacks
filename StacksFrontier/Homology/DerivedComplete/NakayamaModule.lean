@@ -207,7 +207,7 @@ private lemma subsingleton_of_bijective_recurrence_of_surjective_smul (f : A)
     have h0 : (fun n => g^[n] x) = (0 : ℕ → M) := by
       apply hM.1
       funext n
-      show g^[n] x - f • g^[n + 1] x = (0 : ℕ → M) n - f • (0 : ℕ → M) (n + 1)
+      change g^[n] x - f • g^[n + 1] x = (0 : ℕ → M) n - f • (0 : ℕ → M) (n + 1)
       rw [← hfix n]
       simp
     simpa using congrFun h0 0

@@ -301,7 +301,7 @@ theorem opCompYoneda_ε_comp_map_one :
     Functor.LaxMonoidal.ε (opCompYoneda J) ≫ (opCompYoneda J).map η[M] =
       η[(J.op ⋙ yonedaGrpObj M) ⋙ forget GrpCat] := by
   ext X x
-  show (Functor.LaxMonoidal.ε (opCompYoneda J)).app X x ≫ η[M] = (1 : J.obj X.unop ⟶ M)
+  change (Functor.LaxMonoidal.ε (opCompYoneda J)).app X x ≫ η[M] = (1 : J.obj X.unop ⟶ M)
   rw [Hom.one_def]
   congr 1
   exact toUnit_unique _ _

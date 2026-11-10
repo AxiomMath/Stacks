@@ -98,7 +98,7 @@ theorem exists_mk_eq_val_mul_zpow (hu : u ∈ 𝒜 1) (hh : h ∈ 𝒜 d) (hg : 
     refine ⟨Away.mk 𝒜 hgd (m + k) (x * h ^ k) hmem, ?_⟩
     have hk : ((m * (d + 1) + k : ℕ) : ℤ) - m * (d + 1) = (k : ℤ) := by push_cast; ring
     rw [hk, zpow_natCast, Units.val_pow_eq_pow_val, coe_unitOfMul, Away.val_mk]
-    show _ = Localization.mk (x * h ^ k) (powSub g (m + k)) *
+    change _ = Localization.mk (x * h ^ k) (powSub g (m + k)) *
       algebraMap A (Localization.Away g) u ^ k
     rw [mk_mul_algebraMap_pow_eq_mk, mk_eq_mk_mul_pow x m k, mul_assoc, ← mul_pow, mul_comm h u, hg]
   · obtain ⟨k, hk⟩ := Nat.exists_eq_add_of_lt hlt

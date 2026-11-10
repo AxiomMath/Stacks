@@ -70,6 +70,9 @@ variable {J : Type v} [Category.{w} J] [IsFiltered J]
   [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
   [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
 
+omit [IsFiltered J]
+  [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+  [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The equality of objects underlying the square relating a colimit inclusion to `colimMap`,
 in the form whose transports cancel syntactically. -/
 lemma colimMap_ι_obj (j : J) (a : X.obj j) :
@@ -77,6 +80,9 @@ lemma colimMap_ι_obj (j : J) (a : X.obj j) :
       (colimit.ι Y j).toFunctor.obj ((τ.app j).toFunctor.obj a) :=
   Functor.congr_obj (ι_colimMap_toFunctor τ j) a
 
+omit [IsFiltered J] [HasColimit X] [HasColimit Y]
+  [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+  [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The equality of objects underlying the naturality square of `τ`, in the form whose
 transports cancel syntactically. -/
 lemma map_app_obj {j k : J} (r : j ⟶ k) (a : X.obj j) :
@@ -84,6 +90,9 @@ lemma map_app_obj {j k : J} (r : j ⟶ k) (a : X.obj j) :
       (τ.app k).toFunctor.obj ((X.map r).toFunctor.obj a) :=
   Functor.congr_obj ((naturality_toFunctor τ r).symm) a
 
+omit [IsFiltered J]
+  [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+  [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The square relating a colimit inclusion to `colimMap`, on morphisms. -/
 private lemma colimMap_ι_map {j : J} {x y : X.obj j} (c : x ⟶ y) :
     (colimMap τ).toFunctor.map ((colimit.ι X j).toFunctor.map c) =
@@ -92,6 +101,9 @@ private lemma colimMap_ι_map {j : J} {x y : X.obj j} (c : x ⟶ y) :
           eqToHom (colimMap_ι_obj.{u, v, w} τ j y).symm :=
   strictSquare_map _ _ _ _ (ι_colimMap_toFunctor τ j) c
 
+omit [IsFiltered J] [HasColimit X] [HasColimit Y]
+  [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
+  [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The naturality square of `τ`, on morphisms. -/
 private lemma map_app_map {j k : J} (r : j ⟶ k) {x y : X.obj j} (c : x ⟶ y) :
     (τ.app k).toFunctor.map ((X.map r).toFunctor.map c) =
@@ -100,6 +112,7 @@ private lemma map_app_map {j k : J} (r : j ⟶ k) {x y : X.obj j} (c : x ⟶ y) 
           eqToHom (map_app_obj.{u, v, w} τ r y) :=
   strictSquare_map _ _ _ _ (naturality_toFunctor τ r) c
 
+omit [HasColimit (Y ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **A stagewise faithful morphism of filtered diagrams of categories is faithful on
 colimits.** -/
 theorem faithful_colimMap (h : ∀ j : J, (τ.app j).toFunctor.Faithful) :
@@ -158,6 +171,8 @@ theorem full_colimMap (h : ∀ j : J, (τ.app j).toFunctor.Full) :
     rw [Functor.map_comp, Functor.map_comp, key, eqToHom_map, eqToHom_map]
     exact eqToHom_conj_cancel _ _ _ _ _
 
+omit [IsFiltered J]
+  [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **A stagewise essentially surjective morphism of filtered diagrams of categories is
 essentially surjective on colimits.** -/
 theorem essSurj_colimMap (h : ∀ j : J, (τ.app j).toFunctor.EssSurj) :

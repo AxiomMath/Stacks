@@ -62,7 +62,7 @@ theorem map_smul_id_right (K L : DerivedCategory (ModuleCat.{u} A)) (a : A) :
   obtain ⟨P, hP, ⟨eP⟩⟩ := CochainComplex.KFlat.exists_kFlat_representative K
   obtain ⟨Q, hQ, ⟨eQ⟩⟩ := CochainComplex.KFlat.exists_kFlat_representative L
   let T := canonicalDerivedTensorProduct A
-  show (T.tensor.obj K).map (a • 𝟙 L) = a • 𝟙 ((T.tensor.obj K).obj L)
+  change (T.tensor.obj K).map (a • 𝟙 L) = a • 𝟙 ((T.tensor.obj K).obj L)
   have hPQ : (T.tensor.obj (DerivedCategory.Q.obj P)).map
       (a • 𝟙 (DerivedCategory.Q.obj Q)) =
         a • 𝟙 ((T.tensor.obj (DerivedCategory.Q.obj P)).obj (DerivedCategory.Q.obj Q)) := by
@@ -138,11 +138,11 @@ theorem isIso_smul_id_of_isUnit_algebraMap (B : Type u) [CommRing B] [Algebra A 
   refine ⟨ModuleCat.ofHom (LinearMap.mulLeft A (↑v⁻¹ : B)), ?_, ?_⟩
   · apply ModuleCat.hom_ext
     ext b
-    show (↑v⁻¹ : B) * (x • b) = b
+    change (↑v⁻¹ : B) * (x • b) = b
     rw [Algebra.smul_def, ← hv, ← mul_assoc, v.inv_mul, one_mul]
   · apply ModuleCat.hom_ext
     ext b
-    show x • ((↑v⁻¹ : B) * b) = b
+    change x • ((↑v⁻¹ : B) * b) = b
     rw [Algebra.smul_def, ← hv, ← mul_assoc, v.mul_inv, one_mul]
 
 /-- A scalar multiple of the identity of a module placed in degree zero is the image of the

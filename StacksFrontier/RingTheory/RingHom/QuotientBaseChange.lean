@@ -51,7 +51,7 @@ private theorem IsStableUnderBaseChange.algebraMap_quotient
       = algebraMap (A ⧸ I) (A' ⧸ I.map (algebraMap A A')) := by
     refine RingHom.ext fun x ↦ ?_
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show (Algebra.TensorProduct.quotIdealMapEquivQuotTensor A' I).symm
+    change (Algebra.TensorProduct.quotIdealMapEquivQuotTensor A' I).symm
         (Ideal.Quotient.mk I a ⊗ₜ[A] 1) = _
     rw [AlgEquiv.symm_apply_eq, Ideal.Quotient.algebraMap_quotient_map_quotient,
       Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk, Algebra.algebraMap_eq_smul_one,

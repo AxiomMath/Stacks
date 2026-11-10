@@ -215,15 +215,16 @@ private noncomputable def sigmaOptionIso {ι : Type v} [Finite ι] (Y : Option �
   hom_inv_id := by
     ext i
     cases i with
-    | none => simp only [← Category.assoc, Sigma.ι_desc, coprod.inl_desc, Category.comp_id]
+    | none => simp only [← Category.assoc, Sigma.ι_comp_desc, coprod.inl_desc, Category.comp_id]
     | some i =>
-      rw [Sigma.ι_desc_assoc, Category.assoc, coprod.inr_desc, Sigma.ι_desc, Category.comp_id]
+      rw [Sigma.ι_comp_desc_assoc, Category.assoc, coprod.inr_desc, Sigma.ι_comp_desc,
+        Category.comp_id]
   inv_hom_id := by
     apply coprod.hom_ext
-    · simp only [← Category.assoc, coprod.inl_desc, Sigma.ι_desc, Category.comp_id]
+    · simp only [← Category.assoc, coprod.inl_desc, Sigma.ι_comp_desc, Category.comp_id]
     · simp only [← Category.assoc, coprod.inr_desc]
       ext i
-      simp only [← Category.assoc, Sigma.ι_desc, Category.comp_id]
+      simp only [← Category.assoc, Sigma.ι_comp_desc, Category.comp_id]
 
 /-- A morphism from a finite coproduct of schemes is integral when its restriction to every
 component is integral.
@@ -249,7 +250,7 @@ private instance isIntegralHom_sigmaDesc {ι : Type v} [Finite ι] {X : Scheme.{
       have hf' := ih hι (Y := Y ∘ e) (f := fun i => f (e i))
       have heq : E.inv ≫ Sigma.desc (fun i => f (e i)) = Sigma.desc f := by
         ext i
-        rw [← e.apply_symm_apply i, Sigma.ι_reindex_inv_assoc, Sigma.ι_desc]
+        rw [← e.apply_symm_apply i, Sigma.ι_reindex_inv_assoc, Sigma.ι_comp_desc]
         simp
       rw [← heq]
       infer_instance
@@ -264,11 +265,11 @@ private instance isIntegralHom_sigmaDesc {ι : Type v} [Finite ι] {X : Scheme.{
           coprod.desc (f none) (Sigma.desc fun i => f (some i)) = Sigma.desc f := by
         ext i
         cases i with
-        | none => simp only [← Category.assoc, sigmaOptionIso, Sigma.ι_desc, coprod.inl_desc]
+        | none => simp only [← Category.assoc, sigmaOptionIso, Sigma.ι_comp_desc, coprod.inl_desc]
         | some i =>
           dsimp only [sigmaOptionIso]
-          rw [← Category.assoc, Sigma.ι_desc, Category.assoc, coprod.inr_desc, Sigma.ι_desc,
-            Sigma.ι_desc]
+          rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, coprod.inr_desc,
+            Sigma.ι_comp_desc, Sigma.ι_comp_desc]
       rw [← heq]
       infer_instance
   intro X Y f h
@@ -335,7 +336,7 @@ theorem isRelativeNormalization_coproduct {I : Type v} [Finite I]
         rw [← Functor.map_comp, hdfac]
       exact (congrArg (· ≫ T.map d) (BigFppfOver.toScheme_map_sigmaIncl B S hS V i)).symm.trans h
     have hd : T.map d = Sigma.desc fun i => T.map (p i) :=
-      Sigma.hom_ext _ _ fun i => (hdfacS i).trans (Sigma.ι_desc (fun j => T.map (p j)) i).symm
+      Sigma.hom_ext _ _ fun i => (hdfacS i).trans (Sigma.ι_comp_desc (fun j => T.map (p j)) i).symm
     have : ∀ i, _root_.AlgebraicGeometry.IsIntegralHom (T.map (p i)) := hp
     have hdint : _root_.AlgebraicGeometry.IsIntegralHom (T.map d) := by
       rw [hd]; exact isIntegralHom_sigmaDesc

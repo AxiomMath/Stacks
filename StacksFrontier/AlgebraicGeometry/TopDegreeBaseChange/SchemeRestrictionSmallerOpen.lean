@@ -100,7 +100,7 @@ pushforward agree.** -/
 theorem rightDerived_pushforward_morphismRestrict_eq (V : Y.Opens) (p : ℕ) :
     (Scheme.Modules.pushforward (f ∣_ V)).rightDerived p =
       (modulePushforward (restrictedMorphism f.toLRSHom.toShHom V)).rightDerived p := by
-  show (modulePushforward (f ∣_ V).toLRSHom.toShHom).rightDerived p = _
+  change (modulePushforward (f ∣_ V).toLRSHom.toShHom).rightDerived p = _
   rw [toShHom_morphismRestrict f V]
   rfl
 

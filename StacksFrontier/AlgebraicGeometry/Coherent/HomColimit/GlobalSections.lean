@@ -357,7 +357,7 @@ noncomputable def sectionsOfTop (M : X.Modules) (t : Γ(M, ⊤)) : M.sections :=
 /-- The component of `sectionsOfTop M t` over `⊤` is `t` itself. -/
 theorem sectionsOfTop_val_top (M : X.Modules) (t : Γ(M, ⊤)) :
     (sectionsOfTop M t).val (op ⊤) = t := by
-  show M.val.presheaf.map (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)).op t = t
+  change M.val.presheaf.map (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)).op t = t
   rw [show (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)) = 𝟙 _ from Subsingleton.elim _ _]
   simp
   rfl
@@ -400,7 +400,7 @@ theorem exists_isCoherent_app_eq [AlgebraicGeometry.IsNoetherian X]
     have h1 := congrArg
       (fun q : (G' : X.Modules).restrict U.ι ⟶ Fw => q.app ⊤ w) he
     refine h1.trans ?_
-    show K.arrow.app ⊤ (e.hom.app ⊤ (e.inv.app ⊤ k)) = sTop
+    change K.arrow.app ⊤ (e.hom.app ⊤ (e.inv.app ⊤ k)) = sTop
     exact (congrArg (fun q : (K : U.toScheme.Modules) ⟶ (K : U.toScheme.Modules) =>
       K.arrow.app ⊤ (q.app ⊤ k)) (Iso.inv_hom_id e)).trans hk
   refine ⟨(G' : X.Modules), G'.arrow,
@@ -411,7 +411,7 @@ theorem exists_isCoherent_app_eq [AlgebraicGeometry.IsNoetherian X]
       (AlgebraicGeometry.restrictTopIso_naturality G'.arrow U) w
     rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hw] at h2
     rw [← h2]
-    show (AlgebraicGeometry.restrictTopIso F U).hom
+    change (AlgebraicGeometry.restrictTopIso F U).hom
       ((AlgebraicGeometry.restrictTopIso F U).inv s) = s
     rw [← ConcreteCategory.comp_apply, Iso.inv_hom_id]
     rfl
@@ -443,7 +443,7 @@ theorem exists_hom_idealPow_app_oneSection_eq_of_isCoherent
     (subMod (idealPowerMultiple I m F)) hm s'
   refine ⟨n, ψ ≫ submoduleι (idealPowerMultiple I m F), ?_⟩
   rw [Scheme.Modules.Hom.comp_app]
-  show (submoduleι (idealPowerMultiple I m F)).app _
+  change (submoduleι (idealPowerMultiple I m F)).app _
     (ψ.app (I.support.compl : X.Opens) (oneSection I n)) = s
   rw [hψ]
   exact hs'
@@ -469,7 +469,7 @@ theorem exists_hom_idealPow_app_oneSection_eq_of_isQuasicoherent
   obtain ⟨n, φ, hφ⟩ := exists_hom_idealPow_app_oneSection_eq_of_isCoherent I G t
   refine ⟨n, φ ≫ ιG, ?_⟩
   rw [Scheme.Modules.Hom.comp_app]
-  show ιG.app (I.support.compl : X.Opens)
+  change ιG.app (I.support.compl : X.Opens)
     (φ.app (I.support.compl : X.Opens) (oneSection I n)) = s
   rw [hφ]
   exact ht

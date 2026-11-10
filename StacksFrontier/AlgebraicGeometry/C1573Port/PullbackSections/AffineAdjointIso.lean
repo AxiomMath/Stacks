@@ -47,13 +47,13 @@ universe u
 namespace AlgebraicGeometry
 
 open _root_.AlgebraicGeometry.C1573
-/-- Induction on the elements of an extension of scalars: a property holding at `0`, at the pure
+/-- Induction on the elements of an extension of scalars: a property holding at the pure
 tensors and stable under sums holds everywhere. -/
 theorem ModuleCat.ExtendScalars.C1573.induction_on {R S : Type u} [CommRing R] [CommRing S]
-    (φ : R →+* S) {M : ModuleCat.{u} R} (P : (ModuleCat.extendScalars φ).obj M → Prop) (h0 : P 0)
+    (φ : R →+* S) {M : ModuleCat.{u} R} (P : (ModuleCat.extendScalars φ).obj M → Prop)
     (htmul : ∀ (s : S) (m : M), P (s ⊗ₜ[R,φ] m)) (hadd : ∀ x y, P x → P y → P (x + y))
     (x : (ModuleCat.extendScalars φ).obj M) : P x :=
-  TensorProduct.induction_on x h0 htmul hadd
+  TensorProduct.inductionOn x htmul hadd
 
 open scoped ChangeOfRings in
 /-- **A map out of an extension of scalars is bijective as soon as its restriction along `1 ⊗ -`
@@ -115,7 +115,7 @@ private theorem ModuleCat.C1573.bijective_of_bijective_iso_hom_comp {R : Type u}
     (h : Function.Bijective (e.hom ≫ g)) : Function.Bijective g := by
   have h3 : ⇑g = ⇑(e.hom ≫ g) ∘ e.inv := by
     funext x
-    show _ = g (e.hom (e.inv x))
+    change _ = g (e.hom (e.inv x))
     rw [← ConcreteCategory.comp_apply e.inv e.hom, e.inv_hom_id, ModuleCat.id_apply]
   rw [h3]
   exact h.comp (ConcreteCategory.bijective_of_isIso e.inv)
@@ -139,7 +139,7 @@ private theorem C1573.affinePullbackSectionsBaseChangeIso_hom_comp_one_tmul {X T
   refine (congrArg (ModuleCat.ofHom (Scheme.Modules.sectionsLinearMap ψ W.1))
     (affinePullbackSectionsBaseChangeIso_one_tmul f F (isAffineOpen_top T) W.2
       (le_top : W.1 ≤ f ⁻¹ᵁ ⊤) s)).trans ?_
-  show ψ.app W.1 _ = _
+  change ψ.app W.1 _ = _
   rw [hγ]
   exact NatTrans.naturality_apply ψ.mapPresheaf _ _
 

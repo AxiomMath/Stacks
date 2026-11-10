@@ -288,7 +288,7 @@ theorem existsUnique_iso_relativeSpectrum (A : QuasicoherentAlgebra B S hS X)
     (contains_relativeSpectrumSite A) (relativeSpectrumBase A)
   let c := quasicoherentPushforwardAlgebraRelativeSpectrumIso A
   refine ⟨(F.preimageIso (c ≪≫ e.symm)).unop, ?_, fun ψ hψ => ?_⟩
-  · show F.map (F.preimageIso (c ≪≫ e.symm)).hom ≫ e.hom = c.hom
+  · change F.map (F.preimageIso (c ≪≫ e.symm)).hom ≫ e.hom = c.hom
     simp
   · apply Iso.ext
     apply Quiver.Hom.op_inj
@@ -297,7 +297,7 @@ theorem existsUnique_iso_relativeSpectrum (A : QuasicoherentAlgebra B S hS X)
       rw [← hψ]
       simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
       rfl
-    show F.map ψ.hom.op = F.map (F.preimageIso (c ≪≫ e.symm)).hom
+    change F.map ψ.hom.op = F.map (F.preimageIso (c ≪≫ e.symm)).hom
     rw [h1]
     simp
 

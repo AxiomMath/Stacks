@@ -486,7 +486,7 @@ theorem bijective_serreQuotientHomMap_of_leftOrthogonal
   have key : serreQuotientHomMap adj hL hres hR𝒜 hR𝒮
       ((serreQuotientW 𝒜₁ 𝒮₁).Q.obj E') ((serreQuotientWPlus 𝒜₂ 𝒮₂).Q.obj H) ∘ ψ₁ = ψ₂ := by
     funext b
-    show (serreQuotientDerivedPullback L hL hres).map
+    change (serreQuotientDerivedPullback L hL hres).map
         ((serreQuotientW 𝒜₁ 𝒮₁).Q.map (ObjectProperty.homMk b : E' ⟶ Y)) ≫
         (serreQuotientCounit adj hL hres hR𝒜 hR𝒮).app ((serreQuotientWPlus 𝒜₂ 𝒮₂).Q.obj H) = _
     rw [serreQuotientCounit_app_Q]

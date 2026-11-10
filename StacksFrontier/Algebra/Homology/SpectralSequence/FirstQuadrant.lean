@@ -347,7 +347,7 @@ include hu₂ hK in
 predecessors correspond, and otherwise the target is a zero object. -/
 lemma epi_restrictionNatHom_τ₁ (pq : ℕ × ℕ) :
     Epi (restrictionNatHom K hu₁ hu₂ hK pq).τ₁ := by
-  show Epi (restrictionNatτ₁ K pq)
+  change Epi (restrictionNatτ₁ K pq)
   by_cases h : (εNat u).f ((spectralSequenceNat u).prev pq) = (up' u).prev ((εNat u).f pq)
   · rw [restrictionNatτ₁_eq K pq h]
     infer_instance
@@ -361,11 +361,11 @@ short complexes have a vanishing second map and the cycles are the middle terms.
 lemma isIso_cyclesMap_restrictionNatHom (pq : ℕ × ℕ) :
     IsIso (ShortComplex.cyclesMap (restrictionNatHom K hu₁ hu₂ hK pq)) := by
   have h₂ : IsIso (restrictionNatHom K hu₁ hu₂ hK pq).τ₂ := by
-    show IsIso (K.restrictionXIso (εNat u) (rfl : (εNat u).f pq = (εNat u).f pq)).hom
+    change IsIso (K.restrictionXIso (εNat u) (rfl : (εNat u).f pq = (εNat u).f pq)).hom
     infer_instance
   by_cases h : (εNat u).f ((spectralSequenceNat u).next pq) = (up' u).next ((εNat u).f pq)
   · have h₃ : Mono (restrictionNatHom K hu₁ hu₂ hK pq).τ₃ := by
-      show Mono (restrictionNatτ₃ K pq)
+      change Mono (restrictionNatτ₃ K pq)
       rw [restrictionNatτ₃_eq K pq h]
       infer_instance
     exact ShortComplex.isIso_cyclesMap_of_isIso_of_mono' _ h₂ h₃
@@ -436,7 +436,7 @@ lemma restrictionNatHomologyIso_hom_naturality (ψ : K ⟶ L) (pq : ℕ × ℕ) 
       (restrictionNatHomologyIso K hu₁ hu₂ hK pq).hom ≫ homologyMap ψ ((εNat u).f pq) := by
   have := isIso_homologyMap_restrictionNatHom K hu₁ hu₂ hK pq
   have := isIso_homologyMap_restrictionNatHom L hu₁ hu₂ hL pq
-  show ShortComplex.homologyMap _ ≫ ShortComplex.homologyMap _ =
+  change ShortComplex.homologyMap _ ≫ ShortComplex.homologyMap _ =
     ShortComplex.homologyMap _ ≫ ShortComplex.homologyMap _
   rw [← ShortComplex.homologyMap_comp, ← ShortComplex.homologyMap_comp,
     restrictionNatHom_naturality K L hu₁ hu₂ hK hL ψ pq]

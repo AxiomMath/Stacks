@@ -61,7 +61,7 @@ theorem isIPowerTorsion_ker_restrictionToComplement
   refine ⟨n, hn, fun a ha => Subtype.ext ?_⟩
   have h : a • (localCohomologyZeroToModule A I hI M).hom y =
       (localCohomologyZeroToModule A I hI M).hom (a • y) := (map_smul _ a y).symm
-  show a • (localCohomologyZeroToModule A I hI M).hom y = (0 : M)
+  change a • (localCohomologyZeroToModule A I hI M).hom y = (0 : M)
   rw [h, hkill a ha, map_zero]
 
 /-- **The cokernel of `M ⟶ Γ(U, F)` is `I`-power torsion.** The connecting map identifies it

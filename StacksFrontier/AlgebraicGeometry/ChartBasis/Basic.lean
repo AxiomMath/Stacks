@@ -22,7 +22,8 @@ asks for an immersion into `𝐏(E)` whose `𝒪(1)` is *the* twist of the proje
 the statement of Tag 01OB gives that twist as the degree-`n` piece of
 the relative `Proj` twists of the statement of Tag 01NR — which are a `sorry` **definition**
 there, so that twist is unconstructed data and a hypothesis stated with it would make the
-statement depend on that unproved definition. A statement quantified over an *arbitrary* twist datum is therefore the
+statement depend on that unproved definition. A statement quantified over an *arbitrary* twist datum
+is therefore the
 faithful reading, and it is the one the Tag 01NR and Tag 01O4 material in this repository is
 already written at; it is also *weaker* as a hypothesis, so the theorem proved here is stronger
 than the one stated with that twist. Nothing has to be built.
@@ -81,7 +82,8 @@ with their inputs identified and neither assembled here:
   `degreeSection 𝒮 1 f` as a free generator of `𝒪(1)` on every open of `D₊(f)`.
 
 Tag 01VN's covering set is its own theorem, and the theorem below carries `ProjOneBasisClause` as
-a hypothesis the statement of Tag 01VN does not have, so the tag is not attached. Tags 01VM and 01OB are not asserted either: `HasRelativeVeryAmpleTwist` is a hypothesis
+a hypothesis the statement of Tag 01VN does not have, so the tag is not attached. Tags 01VM and 01OB
+are not asserted either: `HasRelativeVeryAmpleTwist` is a hypothesis
 here, not a definition offered as Tag 01VM's, and nothing about the projective bundle's
 functoriality in `E` is proved.
 
@@ -279,8 +281,10 @@ theorem isRelativelyAmple_of_hasRelativeVeryAmpleTwist (hclause : ProjOneBasisCl
 The statement of Tag 01VN takes a morphism of schemes `f : X ⟶ S`, a module `L : X.Modules`,
 quasi-compactness `hf : QuasiCompact f` and relative very ampleness `hL` of `L` over `S` in the
 sense of Tag 01VM, whose first component is invertibility of `L` in the sense of Tag 01CS, and
-concludes that `L` is relatively ample in the sense of Tag 01VH. The example below is the theorem above written in that statement's binder order. Every binder
-of that statement is present and in position: `f`, `L`, invertibility of `L` (which the statement extracts
+concludes that `L` is relatively ample in the sense of Tag 01VH. The example below is the theorem
+above written in that statement's binder order. Every binder
+of that statement is present and in position: `f`, `L`, invertibility of `L` (which the statement
+extracts
 from the first component of its hypothesis and this file carries as an instance argument, the
 same trade `Stacks.RelativeAmple.IsRelativelyAmple` makes), `hf`, and the relative-very-ampleness
 hypothesis. The conclusion is `Stacks.RelativeAmple.IsRelativelyAmple`, which carries the

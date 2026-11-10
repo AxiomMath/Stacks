@@ -45,6 +45,7 @@ section Fibre
 variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   [IsCurve k f] [GeometricallyIrreducible f] [Smooth f] [IsProper f]
 
+omit [IsCurve k f] in
 /-- **The fibres of the structure sheaf of a family of curves.** For a geometrically irreducible
 smooth proper curve `X` of genus `g` over `k` and a `k`-scheme `T`, every fibre of `X_T ⟶ T` has
 `dim H⁰(X_t, 𝒪) = 1` and `dim H¹(X_t, 𝒪) = g`. -/
@@ -142,7 +143,7 @@ theorem isDegreeComponent_degreeSubfunctor (d : ℤ) :
     IsDegreeComponent B hX hk f d
       (degreeSubfunctor B hX hk f σ hσ (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ) d) := by
   intro T L hL
-  show (∀ t, fibreDegree B hX hk f σ hσ _ T _ t = d) ↔ _
+  change (∀ t, fibreDegree B hX hk f σ hσ _ T _ t = d) ↔ _
   refine forall_congr' fun t => ?_
   unfold fibreDegree
   rw [fibreEuler_zero]

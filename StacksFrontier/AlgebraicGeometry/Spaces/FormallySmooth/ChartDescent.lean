@@ -299,7 +299,7 @@ omit [Algebra.FormallySmooth A' C] in
 to equality. -/
 theorem qL_map_eq {E E₂ : Type u} [CommRing E] [CommRing E₂] [Algebra A' E] [Algebra A' E₂]
     [InSite B E] [InSite B E₂] {χ : C →ₐ[A'] A ⊗[A'] E} (hχ : IsChartOf φ ξ χ)
-    {w : RelSec p E} (hw : IsLiftOf ξ w) {ρ ρ' : E →ₐ[A'] E₂} {σ : E₂ →ₐ[A'] E₂}
+    {w : RelSec p E} (hw : IsLiftOf ξ w) {ρ ρ' : E →ₐ[A'] E₂}
     {χ' : C →ₐ[A'] A ⊗[A'] E₂} (hχ' : IsChartOf φ ξ χ') (hχχ : (redMap A ρ).comp χ = χ')
     (hρ : ρ = ρ') {w' : RelSec p E₂} (hw' : IsLiftOf ξ w') (hww : RelSec.map ρ' w = w') :
     qL hA hI hφ hχ' hw' = ρ.comp (qL hA hI hφ hχ hw) := by
@@ -486,8 +486,7 @@ theorem diffBaseChange_tmul_one
 theorem diffBaseChange_cechD₁ (t : diff (redπ A' A B') ζ ⊗[A'] B') :
     diffBaseChange ((redMap A inl₂).comp ζ) hA hI ((cechD₁ hA hI hφ hζ).rTensor B' t) =
       cechD₁B hA hI hφ hζ (diffBaseChange ζ hA hI t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, map_add, ht, ht', map_add, map_add]
   | tmul D b =>
     rw [LinearMap.rTensor_tmul]
@@ -510,7 +509,7 @@ theorem diffBaseChange_cechD₁ (t : diff (redπ A' A B') ζ ⊗[A'] B') :
       (diffMap (redπ_surjective hA _) (isSqZero_redπ hA hI _) (isSqZero_redπ hA hI _) face₂₃
         (redMap A face₂₃) (redMap_comp_redπ _).symm ((redMap A inl₂).comp ζ)
         (diffBaseChange ζ hA hI (D ⊗ₜ b))) (b₃ • Y) (LinearMap.ext fun y => by
-          show face₂₃ (D.1 y ⊗ₜ b) = b₃ * inl₃ (inr₂ (D.1 y))
+          change face₂₃ (D.1 y ⊗ₜ b) = b₃ * inl₃ (inr₂ (D.1 y))
           simp [hb₃])
     have e₃ := transitionDiff_naturality hφ (redπ_surjective hA _) (isSqZero_redπ hA hI _)
       (redπ_surjective hA _) (isSqZero_redπ hA hI _) inl₃ (redMap A inl₃)

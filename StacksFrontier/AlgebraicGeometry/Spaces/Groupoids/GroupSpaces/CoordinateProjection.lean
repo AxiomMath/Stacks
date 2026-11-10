@@ -427,9 +427,9 @@ noncomputable def isLimit_binaryFan_coordinateProjection (n : ℕ) (I : Finset (
   · refine Pi.hom_ext _ _ fun j => ?_
     rw [Pi.lift_comp_π]
     by_cases h : j ∈ I
-    · rw [dif_pos h, ← hm₁, Category.assoc, Pi.map'_comp_π]
+    · rw [dite_eq_left h, ← hm₁, Category.assoc, Pi.map'_comp_π]
       simp
-    · rw [dif_neg h, ← hm₂, Category.assoc, Pi.map'_comp_π]
+    · rw [dite_eq_right h, ← hm₂, Category.assoc, Pi.map'_comp_π]
       simp
 
 /-- **The coordinate projection is the base change of the structure morphism of the power on

@@ -295,7 +295,7 @@ lemma cohomologyPresheafObjIsoRightDerivedSectionsPinned_hom_zero
       (extZeroIsoSections.{t} J U).hom.app F ≫
         ((sheafSections J AddCommGrpCat.{max v t}).obj
           (op U)).rightDerivedZeroIsoSelf.inv.app F := by
-  show (extFunctorObjIsoRightDerivedSections.{t} J U 0).hom.app F = _
+  change (extFunctorObjIsoRightDerivedSections.{t} J U 0).hom.app F = _
   rw [extFunctorObjIsoRightDerivedSections_hom_zero]
   rfl
 
@@ -331,7 +331,7 @@ lemma sheafCohomologyIsoRightDerivedSectionsPinned_hom_zero
         (extZeroIsoSections.{v} J T).hom.app F ≫
           ((sheafSections J AddCommGrpCat.{v}).obj
             (op T)).rightDerivedZeroIsoSelf.inv.app F := by
-  show (cohomologyPresheafObjIsoPinned.{v} J F 0 T).inv ≫
+  change (cohomologyPresheafObjIsoPinned.{v} J F 0 T).inv ≫
     (cohomologyPresheafObjIsoRightDerivedSectionsPinned.{v} J F 0 T).hom = _
   rw [cohomologyPresheafObjIsoRightDerivedSectionsPinned_hom_zero]
   rfl

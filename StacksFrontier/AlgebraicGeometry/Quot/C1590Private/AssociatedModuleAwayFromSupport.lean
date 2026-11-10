@@ -86,7 +86,7 @@ theorem appTop_topIso_inv_eq_mul {X : Scheme.{u}} (p₁ : Z ⟶ W.toScheme) (p�
   have hle : ⊤ ≤ (p₁ ≫ W.ι) ⁻¹ᵁ (W ⊓ U₀) := by
     intro x _
     refine ⟨(p₁ x).2, ?_⟩
-    show (p₁ ≫ W.ι) x ∈ U₀
+    change (p₁ ≫ W.ι) x ∈ U₀
     rw [hc]
     exact hg (Set.mem_univ (p₂ x))
   have e {Y : Scheme.{u}} (g' : Y ⟶ T) (q : Z ⟶ Y) (U : T.Opens) (hg' : ⊤ ≤ g' ⁻¹ᵁ U)
@@ -176,7 +176,7 @@ theorem associatedModule_map_comp_eq_of_eq_mul (M : T.Modules)
       ((adj.homEquiv_naturality_left ι _).trans
         (congrArg (ι ≫ ·) (homEquiv_associatedModuleUnitToUnit_comp B T hT _))).symm))
   ext W x
-  show (B.inclusion.map (pullback.fst ((SmallEtale.opensToSmallEtale B T hT).obj W).obj.hom
+  change (B.inclusion.map (pullback.fst ((SmallEtale.opensToSmallEtale B T hT).obj W).obj.hom
       W₀.obj.hom)).appTop.hom (W.topIso.inv.hom (tt.val.app (op W) x)) =
     (B.inclusion.map (pullback.fst ((SmallEtale.opensToSmallEtale B T hT).obj W).obj.hom
       W₀.obj.hom)).appTop.hom (W.topIso.inv.hom (ι.val.app (op W) x)) *
@@ -227,7 +227,7 @@ theorem associatedModule_map_app_eq_smul_of_eq_mul (M : T.Modules)
     (B.inclusion.map (pullback.fst W₀.obj.hom W₀.obj.hom)).appTop.hom y' *
       (B.inclusion.map (pullback.snd W₀.obj.hom W₀.obj.hom)).appTop.hom a at hk
   rw [LinearMap.map_smul]
-  show (show Γ(W₀.obj.left.obj, ⊤) from y) = a * (show Γ(W₀.obj.left.obj, ⊤) from y')
+  change (show Γ(W₀.obj.left.obj, ⊤) from y) = a * (show Γ(W₀.obj.left.obj, ⊤) from y')
   let d := pullback.lift (f := W₀.obj.hom) (g := W₀.obj.hom) (𝟙 W₀.obj.left) (𝟙 W₀.obj.left) rfl
   have hd (π : pullback W₀.obj.hom W₀.obj.hom ⟶ W₀.obj.left) (hπ : d ≫ π = 𝟙 _)
       (r : Γ(W₀.obj.left.obj, ⊤)) : (B.inclusion.map d).appTop.hom

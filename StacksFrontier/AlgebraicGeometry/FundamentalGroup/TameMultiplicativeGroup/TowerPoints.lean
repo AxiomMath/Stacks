@@ -53,7 +53,7 @@ abbrev towerField (m : ℕ) : IntermediateField k (Omega k) := frobField k m.fac
 
 /-- The root of unity `ζ_m` lies in `𝔽_{m!}`. -/
 theorem towerZeta_mem (m : ℕ) : towerZeta k m ∈ towerField k m :=
-  mem_frobField_of_pow_eq_one k (Nat.factorial_ne_zero m) (isPrimitiveRoot_towerZeta k m).pow_eq_one
+  mem_frobField_of_pow_eq_one k (isPrimitiveRoot_towerZeta k m).pow_eq_one
 
 /-- **The `m`-th cover of the Kummer tower**, `K_m = Spec 𝔽_{m!}[X]_X ⟶ 𝐆_{m,k}`,
 `x ↦ X^{N_m}`, as a tame cover. -/
@@ -90,7 +90,7 @@ theorem towerPoint_comp_kummerMap (m : ℕ) :
   refine ringHom_ext_away (fun a ↦ ?_) ?_
   · rw [RingHom.comp_apply, kummerMap_C, towerPoint_algebraMap, eval₂_C, algebraMap_C,
       ← algebraMap_omega, ← IsScalarTower.algebraMap_apply]
-  · show towerPoint k m (kummerMap k (towerField k m) (towerN k m) (coord k)) = xΩ k
+  · change towerPoint k m (kummerMap k (towerField k m) (towerN k m) (coord k)) = xΩ k
     rw [kummerMap_coord, map_pow, towerPoint_coord, towerRoot_pow]
 
 /-- For `z ∈ k[X]_X`, the base point `k₀^{(m)}` applied to the image of `z` under the Kummer map

@@ -148,7 +148,7 @@ theorem surjective_ΓSpecIso_inv_comp_Γevaluation (Ω : Type u) [Field Ω]
     inferInstanceAs (Subsingleton (PrimeSpectrum Ω))
   intro c
   obtain ⟨s, rfl⟩ := IsLocalRing.residue_surjective c
-  obtain ⟨U, hpU, s', rfl⟩ := TopCat.Presheaf.germ_exist _ s
+  obtain ⟨U, hpU, s', rfl⟩ := TopCat.Presheaf.exists_germ_eq _ s
   have hU : U = ⊤ := by
     rw [eq_top_iff]
     intro q _

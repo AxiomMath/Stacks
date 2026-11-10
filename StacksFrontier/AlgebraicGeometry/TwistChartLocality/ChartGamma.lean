@@ -12,7 +12,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 The affine invertibility criterion
 `Stacks.AlgebraicGeometry.TwistChartLocality.isIso_transpose_of_isIso_extension` is applied, in
-`StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartTranspose.lean`, to a transpose between the
+`StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartTranspose.lean`, to a transpose between
+the
 inverse images of two twisting sheaves along the chart spectra `AlgebraicGeometry.Proj.awayι`. It
 consumes the global sections of those inverse images as modules over the chart coordinate rings,
 so those modules have to be named: for a graded module `M` over a graded ring `𝒜` and `f`

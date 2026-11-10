@@ -142,7 +142,7 @@ theorem bijective_sum_tmul_right {R A B : Type u} [CommRing R] [AddCommGroup A]
       (TensorProduct.equivFinsuppOfBasisRight bas).symm
   have hΨ : ∀ g : Fin n → A, Ψ g = ∑ j, g j ⊗ₜ[R] b j := by
     intro g
-    show (TensorProduct.equivFinsuppOfBasisRight bas).symm
+    change (TensorProduct.equivFinsuppOfBasisRight bas).symm
         ((Finsupp.linearEquivFunOnFinite R A (Fin n)).symm g) = _
     rw [TensorProduct.equivFinsuppOfBasisRight_symm_apply,
       Finsupp.sum_fintype _ _ (fun i => TensorProduct.zero_tmul A (bas i))]
@@ -188,7 +188,7 @@ theorem bijective_sum_stalkMapL_of_germ_basis (G M : SheafOfModules.{u} (structu
       = fun g : Fin n → grpStalk X G.val y =>
         ∑ j, g j ⊗ₜ[ringStalk X y] grpGerm X M.val y W hy (a j) := by
     funext g
-    show (tensorStalkIso X y G M) (∑ j, _) = _
+    change (tensorStalkIso X y G M) (∑ j, _) = _
     rw [map_sum]
     exact Finset.sum_congr rfl fun j _ =>
       tensorStalkIso_stalkMapL_eq G M (ψ j) W (a j) (hψ j) y hy (g j)

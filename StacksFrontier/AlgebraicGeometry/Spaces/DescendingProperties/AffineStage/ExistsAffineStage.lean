@@ -96,7 +96,7 @@ theorem exists_isAffineSpace_system_obj_of_isTerminal (hterminal : IsTerminal S)
       ((fun k => MvPolynomial.map (D.modelProjection m.1)
         (MvPolynomial.map (D.modelTransition j m.1 hm) (q k))) l) = 0 := by
     intro l
-    show MvPolynomial.eval₂ _ _ (MvPolynomial.map (D.modelProjection m.1)
+    change MvPolynomial.eval₂ _ _ (MvPolynomial.map (D.modelProjection m.1)
       (MvPolynomial.map (D.modelTransition j m.1 hm) (q l))) = 0
     rw [MvPolynomial.map_map_eq_of_comp hmodel.hφ hm (q l)]
     exact hrelLim l

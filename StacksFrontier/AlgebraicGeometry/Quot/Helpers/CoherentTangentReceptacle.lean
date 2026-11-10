@@ -159,7 +159,7 @@ theorem _root_.ModuleCat.restrictScalarsEquivalenceOfRingEquiv_symm_map_smul_id 
     (ModuleCat.restrictScalarsEquivalenceOfRingEquiv e.symm).functor.map (a • 𝟙 M) =
       e a • 𝟙 _ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_)
-  show a • (show M from z) = e.symm (e a) • (show M from z)
+  change a • (show M from z) = e.symm (e a) • (show M from z)
   rw [RingEquiv.symm_apply_apply]
 
 variable [IsNoetherianRing Γ((BigFppfOver.toScheme B S hS).obj x.T.left, ⊤)]
@@ -223,7 +223,7 @@ theorem tangentExtShiftedHomEquiv_smul (L : DerivedCategory (ModuleCat.{u} (D.ba
           (D.extGroupEquiv x ek (ModuleCat.of k k) ((1 : ℕ) : ℤ) c)) := by
     rw [← ShiftedHom.comp_mk₀_singleFunctor_map_smul_id, ← hg', hΞnat, AddEquiv.apply_symm_apply,
       extGroupMap_apply, AddEquiv.apply_symm_apply]
-  show (Ξ (D.baseModule x ek (ModuleCat.of k k)) ((1 : ℕ) : ℤ)).symm
+  change (Ξ (D.baseModule x ek (ModuleCat.of k k)) ((1 : ℕ) : ℤ)).symm
       (D.extGroupEquiv x ek (ModuleCat.of k k) ((1 : ℕ) : ℤ)
         ((D.extGroupAbelianExtEquiv x ek (ModuleCat.of k k) 1).symm
           (m.comp (Abelian.Ext.mk₀ (D.extCoefficientModuleMap x ek

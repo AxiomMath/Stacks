@@ -294,7 +294,7 @@ theorem nonempty_mapHomologicalComplex_koszulTensor_iso_of_linear (G : 𝒜 ⥤ 
       koszulTensor r x ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)) :=
   nonempty_mapHomologicalComplex_koszulTensor_iso G id
     (fun a Y => by
-      show G.map (a • 𝟙 Y) = a • 𝟙 (G.obj Y)
+      change G.map (a • 𝟙 Y) = a • 𝟙 (G.obj Y)
       rw [G.map_smul, G.map_id]) r x K
 
 end Map
@@ -311,7 +311,7 @@ variable {A : Type u} [CommRing A]
 theorem isZero_X_seqComplex_of_gt {r : ℕ} (f : Fin r → A) (j : ℕ) (hj : r < j) :
     IsZero ((Koszul.seqComplex f).X j) := by
   apply ModuleCat.isZero_iff_subsingleton.mpr
-  show Subsingleton (⋀[A]^j (Fin r → A))
+  change Subsingleton (⋀[A]^j (Fin r → A))
   apply exteriorPower.subsingleton_of_span_eq_top_of_card_lt
     (fun i : Fin r => (Pi.basisFun A (Fin r)) i)
     (Pi.basisFun A (Fin r)).span_eq j

@@ -249,9 +249,9 @@ theorem exists_closedImmersion_graphObjectRestrict :
     obtain ⟨τ, hτ⟩ := T₀.mem_range_subschemeι_of_comap_eq_bot _
       ((graphTriple f E hE).comap_preimage_locallyFreeLocus_eq_bot hb.isGoodTriple hT) hzW
     refine ⟨τ, ?_⟩
-    show (graphFibreAtInfinityIso f E hE).hom (T₀.subschemeι τ) = w
+    change (graphFibreAtInfinityIso f E hE).hom (T₀.subschemeι τ) = w
     rw [hτ]
-    show ((graphFibreAtInfinityIso f E hE).inv ≫ (graphFibreAtInfinityIso f E hE).hom) w = w
+    change ((graphFibreAtInfinityIso f E hE).inv ≫ (graphFibreAtInfinityIso f E hE).hom) w = w
     rw [Iso.inv_hom_id]
     rfl
   · have hτ' := (hpt τ).symm ▸ hτ

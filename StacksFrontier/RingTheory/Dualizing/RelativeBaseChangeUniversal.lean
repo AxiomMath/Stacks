@@ -46,14 +46,8 @@ namespace Dualizing
 /-- **A relative dualizing complex stable under every base change exists.**  For `R → A` flat of
 finite presentation there is a relative dualizing complex `K` for `R → A` such that
 `K ⊗ᴸ_A (A ⊗_R R')` is a relative dualizing complex for `R' → A ⊗_R R'` for every ring map
-`R → R'`.
-
-The hypothesis `hProj` is the projection-formula compatibility of [stacks 0E2A] at the square of
-a presentation. -/
+`R → R'`. -/
 theorem exists_isUniversallyRelativeDualizing_of_projectionCompatibility
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S')
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
     [Module.Flat R A] [Algebra.FinitePresentation R A] :
     ∃ K : DerivedCategory (ModuleCat.{u} A),
@@ -66,7 +60,6 @@ theorem exists_isUniversallyRelativeDualizing_of_projectionCompatibility
     (RingHom.finiteType_algebraMap.mpr inferInstance)
   have hflat₁ : (algebraMap R₁ A₁).Flat := RingHom.flat_algebraMap_iff.mpr inferInstance
   have hK₁ := p₁.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat₁
-    (fun t => hProj R₁ A₁ p₁ t.asIdeal.ResidueField) (hProj R₁ A₁ p₁ A₁)
   let : Algebra.FiniteType R₁ (A₁ ⊗[R₁] A₁) :=
     Algebra.FiniteType.trans (R := R₁) (S := A₁) (A := A₁ ⊗[R₁] A₁) inferInstance inferInstance
   let : IsNoetherianRing (A₁ ⊗[R₁] A₁) :=
@@ -78,11 +71,11 @@ theorem exists_isUniversallyRelativeDualizing_of_projectionCompatibility
   have := hFLE
   have hU₁ : IsUniversallyRelativeDualizing R₁ A₁ _ :=
     fun R' _ _ => isRelativeDualizingComplex_baseChange_upperShriek_of_representation R₁ A₁ R' p₁
-      hProj P dP hPkflat eP F dF hFflat eF E hE hEflat hEfin
+      P dP hPkflat eP F dF hFflat eF E hE hEflat hEfin
   have hG₁ : IsUniversallyGeneratorPreserving R₁ A₁ _ :=
     fun R' _ _ => isGeneratorPreservingAt_of_residueFieldVanishing R₁ A₁ R' _ hK₁
       (fun t _ j hj =>
-        isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek R₁ A₁ p₁ hflat₁ hProj
+        isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek R₁ A₁ p₁ hflat₁
           t j hj)
   let : Module.Flat R (A₁ ⊗[R₁] R) := flat_baseChange R₁ A₁ R
   let : Algebra.FinitePresentation R (A₁ ⊗[R₁] R) :=
@@ -99,9 +92,6 @@ This is the last step of the source's reduction: "the uniqueness of relative dua
 then shows that this holds for any relative dualizing complex".  The complex it is compared with
 is the one of `Dualizing.exists_isUniversallyRelativeDualizing_of_projectionCompatibility`. -/
 theorem isUniversallyRelativeDualizing_of_unique
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S')
     {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
     [Module.Flat R A] [Algebra.FinitePresentation R A]
     (huniq : ∀ K L : DerivedCategory (ModuleCat.{u} A), IsRelativeDualizingComplex R A K →
@@ -109,7 +99,7 @@ theorem isUniversallyRelativeDualizing_of_unique
     {K : DerivedCategory (ModuleCat.{u} A)} (hK : IsRelativeDualizingComplex R A K) :
     IsUniversallyRelativeDualizing R A K := by
   obtain ⟨L, hL, hLU, -⟩ :=
-    exists_isUniversallyRelativeDualizing_of_projectionCompatibility hProj R A
+    exists_isUniversallyRelativeDualizing_of_projectionCompatibility R A
   obtain ⟨e⟩ := huniq L K hL hK
   exact hLU.of_iso e
 
@@ -119,9 +109,6 @@ complex and every `R → R'`, derived base change preserves the generators of th
 module.  The complex it is compared with is the one of
 `Dualizing.exists_isUniversallyRelativeDualizing_of_projectionCompatibility`. -/
 theorem isUniversallyGeneratorPreserving_of_unique
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S')
     {R A : Type u} [CommRing R] [CommRing A] [Algebra R A]
     [Module.Flat R A] [Algebra.FinitePresentation R A]
     (huniq : ∀ K L : DerivedCategory (ModuleCat.{u} A), IsRelativeDualizingComplex R A K →
@@ -129,7 +116,7 @@ theorem isUniversallyGeneratorPreserving_of_unique
     {K : DerivedCategory (ModuleCat.{u} A)} (hK : IsRelativeDualizingComplex R A K) :
     IsUniversallyGeneratorPreserving R A K := by
   obtain ⟨L, hL, -, hLG⟩ :=
-    exists_isUniversallyRelativeDualizing_of_projectionCompatibility hProj R A
+    exists_isUniversallyRelativeDualizing_of_projectionCompatibility R A
   obtain ⟨e⟩ := huniq L K hL hK
   exact hLG.of_iso e
 

@@ -60,7 +60,7 @@ private lemma eq_of_resolution {D : Type*} [Category D] {V V₁ V₂ U U₁ U₂
 maps to the total tensor complex, on a pair of K-flat complexes. -/
 theorem derivedTensorProductFunctorIsoSheafOfModules_hom_app_app_toTensor_of_kFlat
     (K L : CochainComplex (Modules X.O) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat X.O K) (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+    (hK : Stacks.SheafOfModules.KFlat X.O K) (hL : Stacks.SheafOfModules.KFlat X.O L) :
     ((derivedTensorProductFunctorIsoSheafOfModules X).hom.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫
         (Stacks.SheafOfModules.canonicalDerivedTensorProduct X).toTensor K L =

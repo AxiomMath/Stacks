@@ -203,7 +203,7 @@ public theorem compareClass_map (hp : p.IsFiberedInGroupoids)
     rw [hmap, compareClass_mk, compareClass_mk]
     exact map_eq_of_lift p x hx hp (Hom.restrict s q hs f) (compareObj s q hs e D d)
       (compareObj s q hs e E d') φ hφ (by
-        show (e.1.hom ≫ d'.1.hom) ≫ φ = e.1.hom ≫ d.1.hom
+        change (e.1.hom ≫ d'.1.hom) ≫ φ = e.1.hom ≫ d.1.hom
         rw [Category.assoc, hw])
 
 end AugmentedSiteRing
@@ -283,7 +283,7 @@ public theorem exists_classes_map_eq_of_isPullback (hp : p.IsFiberedInGroupoids)
     let ρM := relativeHom s Q.aug hs M μ.right φμ hφμ (Under.w μ)
     have hcomp : l ≫ ρL = ρM ≫ Hom.restrict s Q.aug hs (Hom.relative l hl) := by
       apply Under.UnderMorphism.ext
-      show l.right ≫ 𝟙 _ = 𝟙 _ ≫ l.right
+      change l.right ≫ 𝟙 _ = 𝟙 _ ≫ l.right
       rw [Category.comp_id, Category.id_comp]
     rw [← map_comp, hcomp, map_comp]
     refine (congrArg (map p x hx hp ρM) (compareClass_map s Q.aug hs e hp _ t)).trans ?_

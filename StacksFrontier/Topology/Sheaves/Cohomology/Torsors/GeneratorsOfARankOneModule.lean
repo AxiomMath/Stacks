@@ -249,7 +249,7 @@ theorem exists_generator_section (X : RingedSpace.{u})
           ((Over.homMk f (by simp) : Over.mk f ⟶ Over.mk (𝟙 U)).op))
           (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))) =
           (1 : (R.over U).obj.obj (op (Over.mk f))) := by
-        show (PresheafOfModules.unit (R.over U).obj).map
+        change (PresheafOfModules.unit (R.over U).obj).map
           ((Over.homMk f (by simp) : Over.mk f ⟶ Over.mk (𝟙 U)).op)
           (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))) =
           (1 : (R.over U).obj.obj (op (Over.mk f)))
@@ -262,7 +262,7 @@ theorem exists_generator_section (X : RingedSpace.{u})
         (L.val.map f.op) ((e.hom.val.app (op (Over.mk (𝟙 U))))
           (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U))))) at h
       exact h
-    show (eV.hom.val.app (op (Over.mk (𝟙 V))))
+    change (eV.hom.val.app (op (Over.mk (𝟙 V))))
         (1 : (R.over V).obj.obj (op (Over.mk (𝟙 V)))) =
       (L.val.map f.op) ((e.hom.val.app (op (Over.mk (𝟙 U))))
         (1 : (R.over U).obj.obj (op (Over.mk (𝟙 U)))))
@@ -270,7 +270,7 @@ theorem exists_generator_section (X : RingedSpace.{u})
         (1 : (R.over V).obj.obj (op (Over.mk (𝟙 V)))) =
       (e.hom.val.app (op (Over.mk f)))
         (1 : (R.over U).obj.obj (op (Over.mk f))) := by
-      show (((SheafOfModules.overMap R f).map e.hom).val.app
+      change (((SheafOfModules.overMap R f).map e.hom).val.app
         (op (Over.mk (𝟙 V))))
         (1 : (R.over V).obj.obj (op (Over.mk (𝟙 V)))) =
         (e.hom.val.app (op (Over.mk f)))
@@ -289,10 +289,10 @@ theorem exists_generator_section (X : RingedSpace.{u})
       (fun r : R.obj.obj (op V) => r • L.val.restrictₛₗ f.op sU) = m := by
     funext r
     rw [← hsV]
-    show r • sV = m r
+    change r • sV = m r
     have hsmul := m.hom.map_smul r (1 : R.obj.obj (op V))
     have hone : m 1 = sV := by
-      show (eV.hom.val.app (op (Over.mk (𝟙 V))))
+      change (eV.hom.val.app (op (Over.mk (𝟙 V))))
         (1 : (R.over V).obj.obj (op (Over.mk (𝟙 V)))) = sV
       simp [sV, SheafOfModules.unitHomEquiv_apply_coe]
     rw [← hone]
@@ -499,10 +499,10 @@ theorem scalar_smul_bijective_of_locally
     have hglue_rs : TopCat.Presheaf.IsGluing M.presheaf V
         (fun i => M.presheaf.map (homOfLE (hV i)).op t) (rW • s) := by
       intro i
-      show L.val.map (homOfLE (hV i)).op (rW • s) =
+      change L.val.map (homOfLE (hV i)).op (rW • s) =
         L.val.map (homOfLE (hV i)).op t
       rw [L.val.map_smul]
-      show (R.1.map (homOfLE (hV i)).op rW) •
+      change (R.1.map (homOfLE (hV i)).op rW) •
           L.val.map (homOfLE (hV i)).op s = L.val.map (homOfLE (hV i)).op t
       calc
         (R.1.map (homOfLE (hV i)).op rW) •
@@ -540,7 +540,7 @@ theorem generatorSectionsPresheaf_isSheaf (X : RingedSpace.{u, u})
     let smod : ∀ i, L.val.obj (op (V i)) := fun i => (a.1 i).val
     have hc : TopCat.Presheaf.IsCompatible L.val.presheaf V smod := by
       intro i j
-      show L.val.map (homOfLE (inf_le_left : V i ⊓ V j ≤ V i)).op ((a.1 i).val) =
+      change L.val.map (homOfLE (inf_le_left : V i ⊓ V j ≤ V i)).op ((a.1 i).val) =
         L.val.map (homOfLE (inf_le_right : V i ⊓ V j ≤ V j)).op ((a.1 j).val)
       exact congrArg Subtype.val
         (a.property i j (V i ⊓ V j) inf_le_left inf_le_right)

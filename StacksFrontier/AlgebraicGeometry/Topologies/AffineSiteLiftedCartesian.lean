@@ -100,7 +100,7 @@ theorem IsFlatCofinal.inducedTopology (hJ : IsFlatCofinal L J) {D : Type u'} [Ca
           inv (L.map (e.unit.app (E.X i))) ≫ L.map (E.f i) := by
         rw [IsIso.eq_inv_comp, hL]
       have : Flat (L.map (E.f i)) := hfl i
-      show Flat (L.map (e.inverse.map (e.functor.map (E.f i) ≫ e.counit.app y)))
+      change Flat (L.map (e.inverse.map (e.functor.map (E.f i) ≫ e.counit.app y)))
       rw [hi]
       infer_instance
   · rw [PreZeroHypercover.sieve₀, Sieve.generate_le_iff]
@@ -110,7 +110,7 @@ theorem IsFlatCofinal.inducedTopology (hJ : IsFlatCofinal L J) {D : Type u'} [Ca
       rw [hg', Functor.map_comp, Category.assoc]
       congr 1
       exact e.counit.naturality s
-    show S.arrows (e.functor.map (E.f i) ≫ e.counit.app y)
+    change S.arrows (e.functor.map (E.f i) ≫ e.counit.app y)
     rw [this, ← Category.assoc]
     exact S.downward_closed hs _
   · refine (Functor.functorPushforward_mem_iff (e.inverse.inducedTopology J) J e.inverse).1 ?_
@@ -196,6 +196,7 @@ theorem mul_comm_rings (V : Z.Cᵒᵖ) (a b : (rings L ⋙ forget₂ CommRingCat
     inferInstanceAs (CommRing ((rings L).obj V))
   exact mul_comm a b
 
+omit [HasPullbacks Z.C] [PreservesLimitsOfShape WalkingCospan L] in
 include T in
 /-- **The restriction maps of the structure sheaf are flat** when `L` carries every morphism to a
 flat morphism of schemes: they are the restriction maps of `Γ ∘ L`, read through the ring

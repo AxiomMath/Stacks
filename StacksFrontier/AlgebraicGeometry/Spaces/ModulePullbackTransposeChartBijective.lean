@@ -52,7 +52,7 @@ theorem homEquiv_symm_val_app_modulePullbackChartSection (i : Z ⟶ X)
       modulePushforwardCounitApp B S hS i F d (ψ.val.app (op d.V) s) := by
   rw [← modulePullbackUnitSection_eq_modulePullbackChartSection,
     ← modulePullbackHomFMap_app]
-  show modulePushforwardCounitApp B S hS i F d
+  change modulePushforwardCounitApp B S hS i F d
     ((((modulePullbackAdjunction B S hS i).homEquiv M F)
       (((modulePullbackAdjunction B S hS i).homEquiv M F).symm ψ)).val.app (op d.V) s) = _
   rw [Equiv.apply_symm_apply]
@@ -82,8 +82,7 @@ theorem bijective_homEquiv_symm_val_app_of_surjective (i : Z ⟶ X)
       (M.val.obj (op d.V)),
       ∃ m, z = TensorProduct.tmul _ (1 : chartRing B S hS Z.1 Z.2 d.U) m := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+    induction z using TensorProduct.inductionOn with
     | tmul a s =>
       obtain ⟨r, rfl⟩ := hρ a
       refine ⟨r • s, ?_⟩
@@ -106,7 +105,7 @@ theorem bijective_homEquiv_symm_val_app_of_surjective (i : Z ⟶ X)
     intro m hm
     refine Submodule.smul_induction_on hm (fun a ha n _ => ?_) (fun x y hx hy => ?_)
     · rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
-      show TensorProduct.tmul _ (chartDiagramRestrict B S hS i d a) n = 0
+      change TensorProduct.tmul _ (chartDiagramRestrict B S hS i d a) n = 0
       rw [RingHom.mem_ker.1 (hJ ha), TensorProduct.zero_tmul]
     · rw [TensorProduct.tmul_add, hx, hy, add_zero]
   have hcomp : Function.Bijective

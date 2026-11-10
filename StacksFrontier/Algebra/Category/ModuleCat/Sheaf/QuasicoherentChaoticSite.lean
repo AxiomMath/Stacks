@@ -150,7 +150,7 @@ private theorem moduleEvaluationPreservesColimitBot
     infer_instance
   have hcomp : PreservesColimitsOfShape K
       (_root_.SheafOfModules.evaluation.{m} R U ⋙ G) := by
-    show PreservesColimitsOfShape K
+    change PreservesColimitsOfShape K
       (_root_.SheafOfModules.toSheaf R ⋙
         (sheafBotEquivalence (C := C) AddCommGrpCat.{m}).functor ⋙
         (CategoryTheory.evaluation Cᵒᵖ AddCommGrpCat.{m}).obj U)
@@ -302,8 +302,7 @@ private theorem isIso_homEquiv_symm_of_ulift {R S : Type k} [CommRing R] [CommRi
   have hL : ∀ z, d' ((((ModuleCat.extendRestrictScalarsAdj φ).homEquiv
       (ModuleCat.of R (ULift.{t} R)) (ModuleCat.of S (ULift.{t} S))).symm g) z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg (d' ·) (map_zero _)).trans (map_zero d')
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (congrArg (d' ·) (map_add _ x y)).trans
         ((map_add d' _ _).trans (congrArg₂ _ hx hy))
@@ -410,16 +409,13 @@ private theorem baseChangeNat_isIso_ulift_iff
   have he (z : (ModuleCat.extendScalars (X.O.obj.map f.op).hom).obj
       ((_root_.SheafOfModules.uliftForPresentation.{u,v,w,max w m,k} M).val.obj (Opposite.op V))) :
       c (e z) = (c' z).down := by
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg (c ·) (map_zero e)).trans
-        ((map_zero _).trans (congrArg ULift.down (map_zero _)).symm)
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       refine ((congrArg (c ·) (map_add e x y)).trans
         ((map_add _ _ _).trans (congrArg₂ _ hx hy))).trans ?_
       exact congrArg ULift.down (map_add _ x y).symm
     | tmul a s =>
-      show c (a ⊗ₜ s.down) = (c' (a ⊗ₜ s)).down
+      change c (a ⊗ₜ s.down) = (c' (a ⊗ₜ s)).down
       exact (baseChangeNat_apply_tmul X f M s.down a).trans
         (congrArg ULift.down (baseChangeNat_apply_tmul X f
           (_root_.SheafOfModules.uliftForPresentation.{u,v,w,max w m,k} M) s a)).symm
@@ -564,7 +560,7 @@ private theorem isIso_siteEvaluation_map_of_isIso_baseChangeNat
     IsIso ((siteEvaluation X (Opposite.op U)).map g) := by
   have : IsIso ((baseChangeNat X f).app N ≫ (siteEvaluation X (Opposite.op U)).map g) := by
     rw [← (baseChangeNat X f).naturality g]
-    show IsIso ((ModuleCat.extendScalars (X.O.obj.map f.op).hom).map
+    change IsIso ((ModuleCat.extendScalars (X.O.obj.map f.op).hom).map
       ((siteEvaluation X (Opposite.op V)).map g) ≫ (baseChangeNat X f).app M)
     infer_instance
   exact IsIso.of_isIso_comp_left ((baseChangeNat X f).app N) _
@@ -581,7 +577,7 @@ private theorem isIso_of_isIso_siteEvaluation_map
   have : IsIso g.val := show IsIso e.hom from inferInstance
   have : IsIso
       ((_root_.SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map g) := by
-    show IsIso g.val
+    change IsIso g.val
     infer_instance
   exact (_root_.SheafOfModules.fullyFaithfulForget
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).isIso_of_isIso_map g
@@ -609,7 +605,8 @@ private theorem presentation_of_baseChange_isIso (hX : X.J = ⊥)
     fun J => PresheafOfModules.hasColimitsOfShape _ _
   have : ∀ J : Type (max m w), HasColimitsOfShape (Discrete J)
       (_root_.SheafOfModules.{max w m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
-    fun J => SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
+    fun J =>
+      SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   let A := _root_.SheafOfModules.uliftForPresentation.{u,v,w,w,m}
     (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
   let I := M.val.obj (Opposite.op T)
@@ -623,16 +620,16 @@ private theorem presentation_of_baseChange_isIso (hX : X.J = ⊥)
   have hab : a ≫ b = 0 := by
     apply Sigma.hom_ext
     intro x
-    rw [Sigma.ι_desc_assoc, terminalSectionHom_comp, x.2, terminalSectionHom_zero, comp_zero]
+    rw [Sigma.ι_comp_desc_assoc, terminalSectionHom_comp, x.2, terminalSectionHom_zero, comp_zero]
   let E := siteEvaluation.{u,v,w,m} X (Opposite.op T)
   have hb : Function.Surjective (E.map b).hom := by
     intro x
     refine ⟨(Sigma.ι (fun _ : I => A) x).val.app (Opposite.op T)
       (ULift.up (1 : X.O.obj.obj (Opposite.op T))), ?_⟩
-    show ((Sigma.ι (fun _ : I => A) x ≫ b).val.app (Opposite.op T)).hom _ = x
+    change ((Sigma.ι (fun _ : I => A) x ≫ b).val.app (Opposite.op T)).hom _ = x
     exact (congrArg (fun h : A ⟶ M => (h.val.app (Opposite.op T)).hom
         (ULift.up (1 : X.O.obj.obj (Opposite.op T))))
-      (Sigma.ι_desc (fun x => terminalSectionHom X T hT M x) x)).trans
+      (Sigma.ι_comp_desc (fun x => terminalSectionHom X T hT M x) x)).trans
       (terminalSectionHom_app X T hT M x)
   have hex : Function.Exact (E.map a).hom (E.map b).hom := by
     intro x
@@ -641,8 +638,8 @@ private theorem presentation_of_baseChange_isIso (hX : X.J = ⊥)
       let k : K := ⟨x, hx⟩
       refine ⟨(Sigma.ι (fun _ : K => A) k).val.app (Opposite.op T)
         (ULift.up (1 : X.O.obj.obj (Opposite.op T))), ?_⟩
-      show ((Sigma.ι (fun _ : K => A) k ≫ a).val.app (Opposite.op T)).hom _ = x
-      rw [Sigma.ι_desc]
+      change ((Sigma.ι (fun _ : K => A) k ≫ a).val.app (Opposite.op T)).hom _ = x
+      rw [Sigma.ι_comp_desc]
       exact terminalSectionHom_app X T hT P x
     · rintro ⟨y, rfl⟩
       exact congrArg (fun g : Q ⟶ M => (E.map g).hom y) hab
@@ -657,7 +654,7 @@ private theorem presentation_of_baseChange_isIso (hX : X.J = ⊥)
   have : IsIso (E.map g) := by
     have he : E.map g = (hEc.coconePointUniqueUpToIso hEb).hom := by
       apply Cofork.IsColimit.hom_ext hEc
-      show E.map (cokernel.π a) ≫ E.map g = _
+      change E.map (cokernel.π a) ≫ E.map g = _
       rw [← Functor.map_comp, hg]
       exact (hEc.comp_coconePointUniqueUpToIso_hom hEb WalkingParallelPair.one).symm
     rw [he]

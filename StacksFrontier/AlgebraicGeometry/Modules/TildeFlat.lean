@@ -81,7 +81,7 @@ private lemma flat_tildeStalk_iff_flat_localized {R : CommRingCat.{u}} (M : Modu
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
   let : IsLocalization.AtPrime A x.asIdeal :=
     StructureSheaf.IsLocalization.to_stalk (↑R) x
-  show Module.Flat A N ↔ Module.Flat (Localization.AtPrime x.asIdeal)
+  change Module.Flat A N ↔ Module.Flat (Localization.AtPrime x.asIdeal)
     (LocalizedModule.AtPrime x.asIdeal (↑M))
   calc
     Module.Flat A N ↔ Module.Flat (↑R) N :=

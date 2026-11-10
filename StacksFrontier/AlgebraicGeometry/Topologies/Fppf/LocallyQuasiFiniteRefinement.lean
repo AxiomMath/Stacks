@@ -102,7 +102,7 @@ theorem hasLocallyQuasiFiniteRefinement_of_hasQuasiFiniteSlices
   classical
   have hmap (i : 𝒰.I₀) : Flat (𝒰.f i) ∧ LocallyOfFinitePresentation (𝒰.f i) := 𝒰.map_prop i
   have : Scheme.JointlySurjective Scheme.fppfPrecoverage := by
-    show Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
+    change Scheme.JointlySurjective (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
     infer_instance
   have hd (s : S) : Nonempty (FppfRefinementData 𝒰 s) := by
     obtain ⟨i, hi⟩ := 𝒰.exists_eq s

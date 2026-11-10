@@ -97,7 +97,7 @@ theorem bijective_precomp_completionUnit
     have hmap : Φ.map g = Φ.map g' := by
       rw [← cancel_epi (Φ.map (η.app X)), ← Φ.map_comp, ← Φ.map_comp, hgg']
     rw [← cancel_mono (η.app Z), comp_app_unit η g, comp_app_unit η g', hmap]
-  · show η.app X ≫ Φ.map f ≫ inv (η.app Z) = f
+  · change η.app X ≫ Φ.map f ≫ inv (η.app Z) = f
     have h : f ≫ η.app Z = η.app X ≫ Φ.map f := comp_app_unit η f
     rw [← Category.assoc, ← h, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
@@ -126,7 +126,7 @@ theorem completionHomEquiv_naturality (hΦ : ∀ X : D, P (Φ.obj X))
     (h : (⟨Φ.obj X, hΦ X⟩ : P.FullSubcategory) ⟶ Z) :
     completionHomEquiv η hΦ hη hΦη X Z' (h ≫ g) =
       completionHomEquiv η hΦ hη hΦη X Z h ≫ P.ι.map g := by
-  show η.app X ≫ P.ι.map (h ≫ g) = (η.app X ≫ P.ι.map h) ≫ P.ι.map g
+  change η.app X ≫ P.ι.map (h ≫ g) = (η.app X ≫ P.ι.map h) ≫ P.ι.map g
   simp
 
 /-- **The reflector of a completion functor**: the left adjoint of the inclusion of the objects
@@ -148,7 +148,7 @@ def completionAdjunction (hΦ : ∀ X : D, P (Φ.obj X))
 theorem completionAdjunction_unit_app (hΦ : ∀ X : D, P (Φ.obj X))
     (hη : ∀ Z : D, P Z → IsIso (η.app Z)) (hΦη : ∀ X : D, IsIso (Φ.map (η.app X))) (X : D) :
     (completionAdjunction η hΦ hη hΦη).unit.app X = η.app X := by
-  show η.app X ≫ P.ι.map (𝟙 (⟨Φ.obj X, hΦ X⟩ : P.FullSubcategory)) = η.app X
+  change η.app X ≫ P.ι.map (𝟙 (⟨Φ.obj X, hΦ X⟩ : P.FullSubcategory)) = η.app X
   simp
 
 /-- **The reflector of a completion functor, followed by the inclusion, is `Φ`.** The two agree
@@ -194,7 +194,7 @@ theorem unit_app_comp_leftAdjointCompιIsoOfCompletionFunctor_hom_app [P.ι.IsRi
     (hη : ∀ Z : D, P Z → IsIso (η.app Z)) (hΦη : ∀ X : D, IsIso (Φ.map (η.app X))) (X : D) :
     (Adjunction.ofIsRightAdjoint P.ι).unit.app X ≫
         (leftAdjointCompιIsoOfCompletionFunctor η hΦ hη hΦη).hom.app X = η.app X := by
-  show (Adjunction.ofIsRightAdjoint P.ι).unit.app X ≫
+  change (Adjunction.ofIsRightAdjoint P.ι).unit.app X ≫
       (P.ι.map (((Adjunction.ofIsRightAdjoint P.ι).leftAdjointUniq
         (completionAdjunction η hΦ hη hΦη)).hom.app X) ≫ 𝟙 _) = η.app X
   rw [Category.comp_id, Adjunction.unit_leftAdjointUniq_hom_app,

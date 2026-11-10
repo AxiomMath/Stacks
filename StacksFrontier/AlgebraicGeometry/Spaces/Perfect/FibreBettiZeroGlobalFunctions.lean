@@ -263,7 +263,7 @@ theorem fibreBetti_le_one_of_forall_h0FibreRank_le_one (hf : IsProper B S hS f.h
     isProper_isFlat_isFinitePresentation_pullback_snd f (residueFieldSiteHom B S hS U y) hf hfl hfp
   let E := homologyZeroBaseChangeDerivedSectionsIso f (residueFieldSiteHom B S hS U y)
     hfp'.2.1 hfp'.2.2
-  show Module.finrank _ ((DerivedCategory.homologyFunctor (ModuleCat.{u}
+  change Module.finrank _ ((DerivedCategory.homologyFunctor (ModuleCat.{u}
     Γ((BigFppfOver.toScheme B S hS).obj (residueFieldSiteObj B S hS U y), ⊤)) 0).obj
     (baseChangeDerivedSections f (residueFieldSiteHom B S hS U y) (structureModule X))) ≤ 1
   rw [E.toLinearEquiv.finrank_eq]
@@ -377,7 +377,7 @@ theorem h0FibreRank_of_isPullback {U₁ U₂ : BigFppfOver B S hS} {X₁ X₂ : 
   have hmap : h0FibreAlgebraMap B S hS f₁ p =
       (globalFunctionsMapEquiv B S hS e).toRingHom.comp (h0FibreAlgebraMap B S hS f₂ p') := by
     refine RingHom.ext fun c => ?_
-    show globalFunctionsMap B S hS (h0FibreProj B S hS f₁ p) _ =
+    change globalFunctionsMap B S hS (h0FibreProj B S hS f₁ p) _ =
       globalFunctionsMap B S hS e.hom (globalFunctionsMap B S hS (h0FibreProj B S hS f₂ p') _)
     rw [← he]
     exact RingHom.congr_fun (globalFunctionsMap_comp B S hS e.hom _) _
@@ -417,7 +417,7 @@ theorem isOpenCurvesLocus_hasH0RankLeOneOnFieldFibres_of_fibreBetti :
   · rw [Set.range_subset_iff]
     refine ⟨fun hR s => ?_, fun hΩ q => ?_⟩
     · obtain ⟨q, rfl⟩ := Quot.exists_rep s
-      show β (Space.schemePoint B integerBase hZ G.base
+      change β (Space.schemePoint B integerBase hZ G.base
         (q.map B integerBase hZ _ (yoneda.map a.baseMap))) ≤ 1
       rw [show β (Space.schemePoint B integerBase hZ G.base
           (q.map B integerBase hZ _ (yoneda.map a.baseMap))) =

@@ -104,8 +104,7 @@ theorem exists_homogeneous_list (z : A ⊗[F] A) :
     rintro x y ⟨l, hl, rfl⟩ ⟨l', hl', rfl⟩
     exact ⟨l ++ l', List.forall_mem_append.2 ⟨hl, hl'⟩, by simp [tensorSum₄]⟩
   change P z
-  induction z using TensorProduct.induction_on with
-  | zero => exact h0
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => exact hadd _ _ hx hy
   | tmul e f =>
     induction e using DirectSum.Decomposition.inductionOn 𝒜 with

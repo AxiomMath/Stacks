@@ -64,7 +64,7 @@ theorem totalTensorInv_ι (i j n : ℤ) (h : i + j = n) (v : V i) (w : W j) :
 
 /-- **The total space of `V ⊗ W` is the tensor product of the total spaces.** -/
 def totalTensorEquiv : (⨁ i, V i) ⊗[F] (⨁ j, W j) ≃ₗ[F] ⨁ n, (V ⊗ W) n :=
-  LinearEquiv.ofLinear (totalTensorHom V W) (totalTensorInv V W)
+  LinearEquiv.ofLinearMap (totalTensorHom V W) (totalTensorInv V W)
     (by
       refine linearMap_ext F fun n ↦ ?_
       refine ModuleCat.hom_ext_iff.1 (tensorObj_ext (A := ModuleCat.of F (⨁ n, (V ⊗ W) n))

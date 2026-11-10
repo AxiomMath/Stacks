@@ -273,8 +273,8 @@ theorem IsRelativelyAmple.isOpenImmersion_globalMorphism (hL : IsRelativelyAmple
     haveI := hL.quasiSeparated
     IsOpenImmersion
       ((directImagePowerMap f L).globalMorphism (relativeProj (directImageAlgebra f L))) := by
-  haveI := hL.quasiCompact
-  haveI := hL.quasiSeparated
+  have := hL.quasiCompact
+  have := hL.quasiSeparated
   refine (globalMorphism_iff _ _ @IsOpenImmersion).mpr fun V => ?_
   have := isOpenImmersion_glued_canonicalSections _ (isAmple_restrictedModule hL V.2)
   have h := isOpenImmersion_glued_comap _ _ (sectionGradedHomInv_comp f L V.1)
@@ -289,8 +289,8 @@ theorem isOpenImmersion_relativeAmpleProjHom (hL : IsRelativelyAmple f L) :
     haveI := hL.quasiCompact
     haveI := hL.quasiSeparated
     IsOpenImmersion (relativeAmpleProjHom f L hL) := by
-  haveI := hL.quasiCompact
-  haveI := hL.quasiSeparated
+  have := hL.quasiCompact
+  have := hL.quasiSeparated
   have := hL.isOpenImmersion_globalMorphism
   rw [relativeAmpleProjHom]
   infer_instance

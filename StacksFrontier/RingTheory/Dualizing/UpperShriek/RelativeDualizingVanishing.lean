@@ -49,7 +49,8 @@ different quantity from `r`: it is larger, and it depends on the presentation ra
 
 **The fibre-dimension variant.**  The vanishing at a single prime `𝔮 ⊂ A` below minus the
 dimension of the fibre through `𝔮` is [Stacks, Tag 0E9P], proved in
-`StacksFrontier/RingTheory/Dualizing/UpperShriek/FibreDimensionBound.lean`; what is added here is the
+`StacksFrontier/RingTheory/Dualizing/UpperShriek/FibreDimensionBound.lean`; what is added here is
+the
 passage from the primes of `A` to the localization at the image of `R ∖ 𝔭`.  A bound on the fibre
 dimensions is a different hypothesis from the source's (1) and (2), and neither implies the other.
 

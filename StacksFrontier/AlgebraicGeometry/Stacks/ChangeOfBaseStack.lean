@@ -102,7 +102,7 @@ private lemma isHomLift_eqToIso_app {D E W : Type*} [Category D] [Category E] [C
     q.IsHomLift (𝟙 (pW.obj x)) ((eqToIso e).hom.app x) := by
   subst e
   subst hF
-  show q.IsHomLift (𝟙 (q.obj (F.obj x))) (𝟙 (F.obj x))
+  change q.IsHomLift (𝟙 (q.obj (F.obj x))) (𝟙 (F.obj x))
   infer_instance
 
 /-- The two legs of the strict-pullback cone agree after mapping to the final slice object: the

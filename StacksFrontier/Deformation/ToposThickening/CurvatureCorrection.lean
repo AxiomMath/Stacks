@@ -249,7 +249,7 @@ theorem shortExact_correctedSequence (hf : Sheaf.IsLocallySurjective f) :
   have : Mono ((correctedIncl T α k hk).f n) :=
     mono_of_mono_fac (pullback.lift_fst (T.emb n) 0 _)
   have : Epi ((correctedProj T α k hk).f n) := by
-    show Epi (pullback.snd _ _)
+    change Epi (pullback.snd _ _)
     infer_instance
   refine .mk' ?_ ‹_› ‹_›
   exact ShortComplex.exact_of_f_is_kernel _ (correctedTermIsLimit T α n)
@@ -263,7 +263,7 @@ theorem isStrictlyLE_correctedComplex (b : ℤ) (hF : ∀ n, b < n → IsZero (L
   have h2 : IsZero ((restrict f).obj (G₀.X n)) :=
     (G₀.isZero_of_isStrictlyLE b n hn).of_iso (Iso.refl _) |>.of_iso (Iso.refl _) |> fun h =>
       Functor.map_isZero _ h
-  show IsZero (pullback _ _)
+  change IsZero (pullback _ _)
   rw [IsZero.iff_id_eq_zero]
   apply pullback.hom_ext
   · exact h1.eq_of_tgt _ _
@@ -386,7 +386,7 @@ theorem emb_comp_of_unit (hf : Sheaf.IsLocallySurjective f) (TL : IdealKernel S 
   have hred : r.val.app U ((L.baseChange.unit n).val.app U x) =
       (M.baseChange.unit n).val.app U (g.val.app U x) :=
     (congrArg (fun q : L.F.X n ⟶ _ => q.val.app U x) hg).symm
-  show (TM.emb n).val.app U
+  change (TM.emb n).val.app U
       (((restrict f).map (((Stacks.SheafOfModules.Tensor.sheafTensor O₀).flip.obj I).map
         r)).val.app U
         (((PresheafOfModules.sheafificationAdjunction

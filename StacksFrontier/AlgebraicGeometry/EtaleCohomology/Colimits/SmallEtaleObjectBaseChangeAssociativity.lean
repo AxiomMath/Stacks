@@ -52,10 +52,10 @@ after the pinning lemma
 leg of a level over the *base change along the projection* of an object of Mathlib's site of the
 stage, and the hypothesis `hρ` of the one-hypercover step speaks about the object
 `toLimitBaseChangeEtaleObj` of the datum. The implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelLegPinning.lean` record the
-two, and both are here. The second is the commuting square comparing the leg `fV k` of the datum at
-the limit with the base change of its leg `fVn a k` at the level. `OneHypercoverDatum` carries
-`fV` and `fVn` as **independent fields** with no field relating them, and
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelLegPinning.lean` record
+the two, and both are here. The second is the commuting square comparing the leg `fV k` of the
+datum at the limit with the base change of its leg `fVn a k` at the level. `OneHypercoverDatum`
+carries `fV` and `fVn` as **independent fields** with no field relating them, and
 `exists_oneHypercoverOf_datum` returns only `Nonempty`, so nothing about the legs can be read off
 the datum; the square is closed instead by `Stacks.EtaleCohomology.etale_hom_ext_of_mono`, from a
 monomorphic structure morphism on `V₀`, which has to be carried as a hypothesis because
@@ -77,7 +77,7 @@ universe v u
 
 namespace Stacks.EtaleCohomology.AffineLimitCohomology
 
-open AlgebraicGeometry CategoryTheory.Sites.InverseSystem
+open _root_.AlgebraicGeometry CategoryTheory.Sites.InverseSystem
 open Stacks.EtaleCohomology.QcSeparatedColimit (levelIndex transitionScheme
   toLimitBaseChangeEtaleObj toLimitBaseChangeProj toLimitBaseChangeEtaleObj_isPullback
   transitionBaseChangeEtaleObj transitionBaseChangeEtaleObj_isPullback)

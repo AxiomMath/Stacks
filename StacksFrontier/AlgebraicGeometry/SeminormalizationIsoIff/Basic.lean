@@ -291,7 +291,7 @@ theorem isIso_of_isSeminormal_target_of_universalHomeomorphism
   have hOpen : IsOpenImmersion f := by
     apply HasAffineProperty.of_iSup_eq_top (P := @IsOpenImmersion) V hcover
     intro i
-    show IsOpenImmersion (f ∣_ V i)
+    change IsOpenImmersion (f ∣_ V i)
     let : IsIso (f ∣_ V i) :=
       isIso_morphismRestrict_of_isSeminormal_of_universalHomeomorphism f hX hY hU hres (V i)
     infer_instance

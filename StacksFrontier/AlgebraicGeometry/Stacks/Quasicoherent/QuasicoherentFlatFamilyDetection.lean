@@ -88,7 +88,7 @@ theorem eq_of_app_flatObject_eq
       (θ₂ := ((ψ₂.val.app (op z)).hom :
         H.val.obj (op z) →ₗ[FibredSite.objRing B S hS 𝒳.val.val.p z] P.val.obj (op z)))
       fun s => by
-        show ψ₁.val.app (op z) (H.val.map g.op s) = ψ₂.val.app (op z) (H.val.map g.op s)
+        change ψ₁.val.app (op z) (H.val.map g.op s) = ψ₂.val.app (op z) (H.val.map g.op s)
         rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, h w hw hwa]
     ext s
     exact LinearMap.congr_fun this s
@@ -101,7 +101,7 @@ theorem eq_of_app_flatObject_eq
   rintro ⟨W, k, hk⟩
   obtain ⟨Z, k₁, k₂, hk₂, rfl⟩ := hk
   have hZ := hz hk₂
-  show _ ≫ ((SheafOfModules.toSheaf _).obj P).obj.map (k₁ ≫ k₂).op =
+  change _ ≫ ((SheafOfModules.toSheaf _).obj P).obj.map (k₁ ≫ k₂).op =
     _ ≫ ((SheafOfModules.toSheaf _).obj P).obj.map (k₁ ≫ k₂).op
   rw [op_comp, Functor.map_comp, ← Category.assoc, ← Category.assoc,
     ← ((SheafOfModules.toSheaf _).map ψ₁).hom.naturality,
@@ -183,7 +183,7 @@ theorem etale_toScheme_map_smallEtale {U : Scheme.{u}} {hU : E.Contains U}
   have h1 : Etale ((SmallEtale.toScheme E U hU).map g ≫ E.inclusion.map V.obj.hom) := by
     have : (SmallEtale.toScheme E U hU).map g ≫ E.inclusion.map V.obj.hom =
         E.inclusion.map V'.obj.hom := by
-      show E.inclusion.map g.hom.left ≫ _ = _
+      change E.inclusion.map g.hom.left ≫ _ = _
       rw [← Functor.map_comp]
       exact congrArg E.inclusion.map (Over.w g.hom)
     rw [this]
@@ -264,7 +264,7 @@ theorem surjective_app_smallEtaleToStack_of_isLocallySurjective
     rfl
   apply eV.hom.injective
   rw [← Scheme.Hom.comp_apply, e, Scheme.Hom.comp_apply]
-  show (SmallEtale.toScheme E _ _).map (g (eV.hom u)) (eY.hom (eY.inv y)) = _
+  change (SmallEtale.toScheme E _ _).map (g (eV.hom u)) (eY.hom (eY.inv y)) = _
   rwa [hinv]
 
 /-- **Surjectivity at flat affine objects gives local surjectivity of `φ|_{U_étale}`** at a
@@ -311,7 +311,7 @@ theorem injective_app_flatObject_of_restrict
     Function.Injective (φ.hom.val.app (op w)) := by
   obtain ⟨K, v, a, i, W, b, haff, ha, hb, hjs⟩ :=
     exists_flat_refinement_smallEtaleOpen B E h S hS 𝒳 x hflat hsurj hw
-  refine FibredSite.injective_app_of_flat_family F.property G.property φ.hom hwa a haff ha hjs
+  refine FibredSite.injective_app_of_flat_family F.property φ.hom hwa a haff ha hjs
     fun k => ?_
   exact FibredSite.injective_app_of_flat F.property G.property φ.hom (b k)
     (isAffineOver_smallEtaleToStack B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids (x (i k)) _
@@ -332,7 +332,7 @@ theorem surjective_app_flatObject_of_surjective_smallEtaleOpen
     exists_flat_refinement_smallEtaleOpen B E h S hS 𝒳 x hflat hsurj hw
   refine FibredSite.surjective_app_of_flat_family F.property G.property φ.hom hwa a haff ha hjs
     fun k => ?_
-  exact FibredSite.surjective_app_of_hom F.property G.property φ.hom (b k)
+  exact FibredSite.surjective_app_of_hom G.property φ.hom (b k)
     (isAffineOver_smallEtaleToStack B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids (x (i k)) _
       (W k).2) (haff k) (H (i k) (W k))
 
@@ -349,7 +349,7 @@ theorem isIso_iff_restrictMapToSmallEtale :
   · have : IsIso φ.hom := (ObjectProperty.ι _).map_isIso φ
     have : IsIso φ.hom.val := (SheafOfModules.forget _).map_isIso φ.hom
     have : IsIso ((PresheafOfModules.toPresheaf _).map φ.hom.val) := Functor.map_isIso _ _
-    show IsIso (Functor.whiskerLeft _ _)
+    change IsIso (Functor.whiskerLeft _ _)
     infer_instance
   · have hbij : ∀ i V, Function.Bijective ((restrictMapToSmallEtale B E h S hS 𝒳.val.val.p
         𝒳.val.isFiberedInGroupoids (x i)

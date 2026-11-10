@@ -50,7 +50,7 @@ theorem eq_of_le_of_under_eq_of_formallyUnramified {A B : Type*} [CommRing A] [C
   have : Algebra.FormallyUnramified (Localization.AtPrime r) (Localization.AtPrime b) :=
     .of_restrictScalars A _ _
   have hlh : IsLocalHom (algebraMap (Localization.AtPrime r) (Localization.AtPrime b)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom r b (algebraMap A B) rfl
   -- `𝔯 B_𝔟` is the maximal ideal of `B_𝔟`
   have hmax : Ideal.map (algebraMap A (Localization.AtPrime b)) r

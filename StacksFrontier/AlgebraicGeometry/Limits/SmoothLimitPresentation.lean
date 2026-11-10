@@ -80,7 +80,7 @@ theorem specCone_pt : (specCone pres).pt = Spec X.right := rfl
 `pres` at that stage. -/
 theorem specCone_π_app (i : Jᵒᵖ) :
     (specCone pres).π.app i = Spec.map (pres.ι.app i.unop).right := by
-  show Spec.map ((pres.ι.app i.unop).right ≫ 𝟙 _) = _
+  change Spec.map ((pres.ι.app i.unop).right ≫ 𝟙 _) = _
   rw [Category.comp_id]
 
 /-- The morphisms from the stages of `specDiagram pres` down to `Spec R₀`, given by the spectra of

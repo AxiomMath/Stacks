@@ -169,7 +169,7 @@ theorem isSheaf_of_forall_isSheaf_pullback
     have htrestrict : R.functorInclusion ≫ tYon = fNat := by
       ext Y z
       rcases z with ⟨f, hf⟩
-      show F.map f.op t = fNat.app Y ⟨f, hf⟩
+      change F.map f.op t = fNat.app Y ⟨f, hf⟩
       simpa [fNat, compatibleFamilyToNatTrans] using ht f hf
     have hta : tYon ≫ a = gG :=
       hgGuniq (tYon ≫ a) <| by

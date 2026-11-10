@@ -117,6 +117,7 @@ section
 variable {B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` in presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_AffineOfLiftedEtalePresentation :
@@ -176,7 +177,7 @@ theorem exists_comp_eq_eltInt (X : AlgebraicSpaces B S hS) {V : BigFppfOver B S 
   obtain ⟨ψS, hψS⟩ := Cofork.IsColimit.desc' hc (⟨eltInt v⟩ : (⟨yoneda.obj V, hUsh⟩ :
       Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ FY) (by
         apply Sheaf.hom_ext
-        show yoneda.map s₁ ≫ eltInt v = yoneda.map s₂ ≫ eltInt v
+        change yoneda.map s₁ ≫ eltInt v = yoneda.map s₂ ≫ eltInt v
         rw [yoneda_map_comp_eltInt, yoneda_map_comp_eltInt, hv s₁ s₂ hR.w])
   exact ⟨ψS.hom, congrArg (·.hom) hψS⟩
 
@@ -309,12 +310,12 @@ theorem isAffineSpace_of_liftedEtalePresentation
     toScheme_map_intHom B _
   have hEt : Etale ((BigFppfOver.toScheme B _ _).map eZ) := by
     rw [heZ]
-    show Etale (Spec.map (CommRingCat.ofHom (algebraMap P E)))
+    change Etale (Spec.map (CommRingCat.ofHom (algebraMap P E)))
     rw [HasRingHomProperty.Spec_iff (P := @Etale)]
     exact RingHom.etale_algebraMap.mpr inferInstance
   have hSurj : Surjective ((BigFppfOver.toScheme B _ _).map eZ) := by
     rw [heZ]
-    show Surjective (Spec.map (CommRingCat.ofHom (algebraMap P E)))
+    change Surjective (Spec.map (CommRingCat.ofHom (algebraMap P E)))
     rw [surjective_iff]
     exact PrimeSpectrum.comap_surjective_of_faithfullyFlat
   let τ : (BigFppfOver.toScheme B S hS).obj TG ⟶ (BigFppfOver.toScheme B _ _).obj TZ :=
@@ -329,12 +330,12 @@ theorem isAffineSpace_of_liftedEtalePresentation
     exact isPullback_toSpecOfRingHom_of_isPushout _ α ε hpush
   obtain ⟨_, _⟩ := etale_and_surjective_of_isPullback eG hφs hφe ιU πU sqU
   obtain ⟨ψ, hφψ⟩ := exists_comp_eq_eltInt X φ hφs hφe vT fun _ r₁ r₂ h => by
-    show _ ≫ toSpecOfRingHom β = _ ≫ toSpecOfRingHom β
+    change _ ≫ toSpecOfRingHom β = _ ≫ toSpecOfRingHom β
     rw [comp_toSpecOfRingHom, comp_toSpecOfRingHom, hβ r₁ r₂ h]
   have hGψ : eG.inv ≫ G.ι ≫ ψ = eltInt τ :=
     (Category.assoc _ _ _).symm.trans <| comp_eq_eltInt_of_comp_eq ιU πU
       (sqU.w.trans (Category.assoc _ _ _)) hφψ (by
-        show _ ≫ toSpecOfRingHom β = _ ≫ toSpecOfRingHom α
+        change _ ≫ toSpecOfRingHom β = _ ≫ toSpecOfRingHom α
         rw [comp_toSpecOfRingHom, comp_toSpecOfRingHom, hβU])
   exact isAffineSpace_of_isPullback_relocalizeRestrict X hG eG hV hφe ιU πU sqU eZ hEt hSurj ψ
     (eltInt aE)

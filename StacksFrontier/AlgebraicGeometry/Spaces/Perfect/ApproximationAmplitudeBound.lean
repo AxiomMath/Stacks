@@ -88,7 +88,7 @@ theorem exists_cohomologySupportedOnFrom_compl_range {X Y : AlgebraicSpaces B S 
       (((etaleModulePullback.{u, u} B S hS c hc).mapDerivedCategoryHomologyIso i).app E.obj).symm
   have hsupp := cohomologySupportedOnFrom_compl_range_of_isZero B S hS c hc (b + 1) E.obj hzero
   have hrange : Set.range (pointsMap B S hS _ c.hom) = Set.range (pointsMap B S hS Y.1 g.hom) := by
-    show Set.range (pointsMap B S hS _ (a ≫ g.hom)) = _
+    change Set.range (pointsMap B S hS _ (a ≫ g.hom)) = _
     rw [pointsMap_comp, Set.range_comp,
       (surjective_pointsMap_of_presheaf_surjective B S hS a hsurj).range_eq, Set.image_univ]
   rwa [hrange] at hsupp

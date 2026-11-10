@@ -644,7 +644,7 @@ theorem flat_quotient_range_of_exact_baseChange_fiber {R S : Type*} [CommRing R]
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have htRZ : IsScalarTower R (Localization.AtPrime (q.under R)) Z :=
     IsScalarTower.of_algebraMap_smul fun a x => by
-      show algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)
+      change algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)
         (algebraMap R (Localization.AtPrime (q.under R)) a) • x = a • x
       rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have hflatZ : Module.Flat (Localization.AtPrime (q.under R)) Z :=
@@ -826,7 +826,7 @@ theorem exists_basicOpen_forall_flat_localizedModule_mvPolynomial
       (fun i => (LinearMap.baseChange (Localization.AtPrime q) (proj i)).restrictScalars R)
       (fun i =>
         show Function.Injective (LinearMap.baseChange (Localization.AtPrime q) (incl i)) from by
-          rw [LinearMap.baseChange_eq_ltensor]
+          rw [LinearMap.baseChange_eq_lTensor]
           exact Module.Flat.lTensor_preserves_injective_linearMap _ (hinclinj i))
       (fun i => exact_baseChange_incl_proj incl proj _ hmid i)
       (fun i => surjective_baseChange_proj proj _ hprojsurj i) hA0

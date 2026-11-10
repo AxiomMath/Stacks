@@ -155,7 +155,7 @@ public lemma fiberEquiv_lof (p q : ℤ)
     fiberEquiv A B (DirectSum.lof R _ _ (p, q) x) =
       DirectSum.lof R _ _ (p + q)
         (DirectSum.lof R _ _ ⟨(p, q), rfl⟩ x) := by
-  show DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
+  change DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
       (DirectSum.of (fun pq : ℤ × ℤ ↦ A.grading pq.1 ⊗[R] B.grading pq.2) (p, q) x) = _
   exact DirectSum.sigmaFiberAddEquiv_of
     (β := fun pq : ℤ × ℤ ↦ A.grading pq.1 ⊗[R] B.grading pq.2)
@@ -202,8 +202,7 @@ public lemma fiberMap_mem (n : ℤ) (x : totalComponents A B n) :
   | zero => simp
   | add x y hx hy => simpa using (tensorProductGrading A B n).add_mem hx hy
   | of pq x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa using (tensorProductGrading A B n).add_mem hx hy
     | tmul a b =>
       rw [← DirectSum.lof_eq_of (R := R), fiberMap_lof_tmul]
@@ -254,7 +253,7 @@ public lemma gradingEquiv_coe (n : ℤ) (x : tensorProductGrading A B n) :
         DirectSum.lof R ℤ (fun i ↦ tensorProductGrading A B i) n
           (componentEquiv A B n y) by
     simpa [gradingEquiv, componentEquiv_coe, fiberMap] using h
-  show (DirectSum.lmap (fun i ↦ (componentEquiv A B i).toLinearMap))
+  change (DirectSum.lmap (fun i ↦ (componentEquiv A B i).toLinearMap))
       (DirectSum.lof R ℤ (totalComponents A B) n y) = _
   simp
 
@@ -303,7 +302,7 @@ public theorem totalGradedMonoid :
       apply Submodule.span_le.mpr
       rintro z ⟨x, ⟨p, q, a, b, ha, hb, hpn, rfl⟩,
         y, ⟨r, s, c, d, hc, hd, hrm, rfl⟩, rfl⟩
-      show (a ᵍ⊗ₜ[R] b) * (c ᵍ⊗ₜ[R] d) ∈ tensorProductGrading A B (n + m)
+      change (a ᵍ⊗ₜ[R] b) * (c ᵍ⊗ₜ[R] d) ∈ tensorProductGrading A B (n + m)
       rw [GradedTensorProduct.tmul_coe_mul_coe_tmul A.grading B.grading
         a ⟨b, hb⟩ ⟨c, hc⟩ d]
       rw [@Units.smul_def _ _ (_) (_), ← Int.cast_smul_eq_zsmul R]
@@ -368,10 +367,9 @@ public lemma differential_sq_tmul (p : ℤ) (a : A.grading p) (b : B.A) :
 public lemma differential_sq_zero_total :
     tensorProductDifferential A B ∘ₗ tensorProductDifferential A B = 0 := by
   apply LinearMap.ext; intro x
-  show tensorProductDifferential A B (tensorProductDifferential A B x) = 0
+  change tensorProductDifferential A B (tensorProductDifferential A B x) = 0
   obtain ⟨t, rfl⟩ := (GradedTensorProduct.of R A.grading B.grading).surjective x
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, hx, hy]
   | tmul a b =>
     induction a using DirectSum.Decomposition.inductionOn A.grading with
@@ -419,7 +417,7 @@ public lemma tmul_add_right (x : A.A) (y y' : B.A) :
 public lemma units_smul_tmul_left (u : ℤˣ) (x : A.A) (y : B.A) :
     ((u • x) ᵍ⊗ₜ[R] y : A.grading ᵍ⊗[R] B.grading) =
       u • (x ᵍ⊗ₜ[R] y) := by
-  show (GradedTensorProduct.of R A.grading B.grading) ((u • x) ⊗ₜ[R] y) =
+  change (GradedTensorProduct.of R A.grading B.grading) ((u • x) ⊗ₜ[R] y) =
     u • (GradedTensorProduct.of R A.grading B.grading) (x ⊗ₜ[R] y)
   exact of_zsmul_tmul A B u x y
 

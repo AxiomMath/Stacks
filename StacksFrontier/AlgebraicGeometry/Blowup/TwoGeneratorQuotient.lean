@@ -83,7 +83,7 @@ theorem ker_appTop_Spec_map {A B : CommRingCat.{u}} (φ : A ⟶ B) :
   have hinj : Function.Injective (Scheme.ΓSpecIso B).inv.hom :=
     (Scheme.ΓSpecIso B).symm.commRingCatIsoToRingEquiv.injective
   rw [h]
-  show RingHom.ker (((Scheme.ΓSpecIso B).inv.hom.comp φ.hom).comp
+  change RingHom.ker (((Scheme.ΓSpecIso B).inv.hom.comp φ.hom).comp
     (Scheme.ΓSpecIso A).hom.hom) = _
   rw [RingHom.comp_assoc, RingHom.ker_comp_of_injective _ hinj, ← RingHom.comap_ker,
     Ideal.comap_hom_eq_map_inv]

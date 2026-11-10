@@ -96,7 +96,7 @@ theorem BivariantClass.mulId_eq_zero_of_vanishesOver {p q : ℤ}
     ((pullback.snd i g ≫ g) ≫ sX) (pullback.snd i g) (by rw [Category.assoc]) hcompl β).mp hβ
   rw [← hγ]
   -- where `a` caps to zero
-  show a.idRule C sX (gysinSystemOfInvertible C) g (k - q)
+  change a.idRule C sX (gysinSystemOfInvertible C) g (k - q)
     (chowPush C ((pullback.snd i g ≫ g) ≫ sX) (g ≫ sX) (pullback.snd i g)
       (by rw [Category.assoc]) (k - q) γ) = 0
   rw [BivariantClass.idRule_chowPush C _ sX a g (pullback.snd i g) (pullback.snd i g ≫ g) rfl,
@@ -162,7 +162,7 @@ theorem prod_ofFn_eq_zero_of_res_eq_zero {m : ℕ} (U : Fin m → X.Opens)
       rw [Scheme.Opens.range_ι] at hz
       obtain ⟨j', rfl⟩ := Fin.exists_castSucc_eq.mpr (fun h ↦ hz (h ▸ hj))
       exact ⟨j', hj⟩
-    · show res (i ⁻¹ᵁ U j.castSucc).ι rfl (res i rfl (c j.castSucc)) = 0
+    · change res (i ⁻¹ᵁ U j.castSucc).ι rfl (res i rfl (c j.castSucc)) = 0
       have hs : i ∣_ U j.castSucc ≫ (U j.castSucc).ι ≫ sX = (i ⁻¹ᵁ U j.castSucc).ι ≫ i ≫ sX := by
         rw [← Category.assoc, morphismRestrict_ι, Category.assoc]
       rw [res_res, res_congr (morphismRestrict_ι i (U j.castSucc)).symm _

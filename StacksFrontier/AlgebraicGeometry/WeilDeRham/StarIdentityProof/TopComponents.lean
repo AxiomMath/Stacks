@@ -212,7 +212,7 @@ theorem kunnethProj_wedge_fstForms_zero (e n : ℕ) (U : (pullback f f).Opensᵒ
       (kunnethTmul f 0 n U y z) = r • (sndForms f (n : ℤ)).val.app U z := by
     refine eq_of_heq ((heq_of_eq (kunnethIncl_apply f n (deRhamBoxIndexMk 0 n n (zero_add n))
       U y z)).trans ((eqToHom_val_app_heq_nat _ (zero_add n) _ _).trans ?_))
-    show HEq (wedgeW f ((0 : ℕ) : ℤ) (n : ℤ) U ((fstForms f ((0 : ℕ) : ℤ)).val.app U y)
+    change HEq (wedgeW f ((0 : ℕ) : ℤ) (n : ℤ) U ((fstForms f ((0 : ℕ) : ℤ)).val.app U y)
       ((sndForms f (n : ℤ)).val.app U z)) _
     rw [hrΩ, Stacks.BilinearMap.map_smul_left]
     exact smul_heq_smul _ (by push_cast; ring) r
@@ -379,7 +379,7 @@ theorem kunnethIncl_right_zero (n : ℕ) (U : (pullback f f).Opensᵒᵖ)
     (kunnethIncl f n (deRhamBoxIndexMk n 0 n rfl)).val.app U (kunnethTmul f n 0 U y z) =
       r • (fstForms f (n : ℤ)).val.app U y := by
   refine (kunnethIncl_apply f n (deRhamBoxIndexMk n 0 n rfl) U y z).trans ?_
-  show wedgeW f (n : ℤ) ((0 : ℕ) : ℤ) U ((fstForms f (n : ℤ)).val.app U y)
+  change wedgeW f (n : ℤ) ((0 : ℕ) : ℤ) U ((fstForms f (n : ℤ)).val.app U y)
     ((sndForms f ((0 : ℕ) : ℤ)).val.app U z) = _
   rw [hr, Stacks.BilinearMap.map_smul_right]
   exact congrArg (r • ·) (eq_of_heq
@@ -424,7 +424,7 @@ theorem kunnethProj_wedge_sndForms (e n : ℕ) (k : deRhamBoxIndex n) (U : (pull
         r • (kunnethIncl f (e + p) (deRhamBoxIndexMk p e (e + p) (Nat.add_comm p e))).val.app U
           (kunnethTmul f p e U y x) := by
       refine eq_of_heq ((AlgebraicGeometry.SheafOfModules.reindexForm_heq _ _ U _).trans ?_)
-      show HEq (wedgeW f (p : ℤ) (e : ℤ) U (r • (fstForms f (p : ℤ)).val.app U y)
+      change HEq (wedgeW f (p : ℤ) (e : ℤ) U (r • (fstForms f (p : ℤ)).val.app U y)
         ((sndForms f (e : ℤ)).val.app U x)) _
       rw [Stacks.BilinearMap.map_smul_left]
       refine smul_heq_smul _ (by push_cast; ring) r ?_

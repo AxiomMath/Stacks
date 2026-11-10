@@ -273,7 +273,7 @@ theorem isIso_theta_one
     obtain ⟨k, p, q, hp, hq, hpt, hqt⟩ :=
       (Stacks.AlgebraicGeometry.ProjShared.mem_ratioLocus_iff 𝒜 1 _).mp (hR t)
     have htD : t ∈ ψ.glued ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒜 (p * q) := by
-      show p * q ∉ (ψ.glued.base t).asHomogeneousIdeal
+      change p * q ∉ (ψ.glued.base t).asHomogeneousIdeal
       exact fun hpq => ((ψ.glued.base t).isPrime.mem_or_mem hpq).elim hpt hqt
     refine ⟨ψ.glued ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒜 (p * q),
       Stacks.RingedSpace.pullbackUnit ψ.glued.toLRSHom.toShHom (twistM 𝒜 1)
@@ -393,7 +393,7 @@ theorem comap_glued_mem_ratioLocus {Y : Scheme.{u}} (M : Y.Modules)
         (canonicalSections M).toFun n ⟨_, Stacks.ExternalGrading.of_mem_summand n c⟩ :=
       (Stacks.AlgebraicGeometry.ProjChartGradedRingFunctoriality.comap_toFun _ _ n _).trans
         (congrArg _ (Subtype.ext congr($h (DirectSum.of _ n c))))
-    show (comap φ (canonicalSections M)).coveringOpen.ι.base t ∈
+    change (comap φ (canonicalSections M)).coveringOpen.ι.base t ∈
       Stacks.NonvanishingOpen.nonvanishingOpen Y (Stacks.TensorPowers.natTensorPow M n) _
     rw [h1, Stacks.SectionRingGluedComparison.nonvanishingOpen_canonicalSections_of]
     exact hc
@@ -448,7 +448,7 @@ theorem isIso_theta_one_directImagePowerMap (hL : IsRelativelyAmple f L) :
       (Set.mem_univ (f.base ((directImagePowerMap f L).coveringOpen.ι.base z))) isOpen_univ
     have hz : z ∈ (directImagePowerMap f L).toBase ⁻¹ᵁ V := hzV
     refine ⟨⟨V, hV⟩, ((directImagePowerMap f L).pieceIso V hV).hom.base ⟨z, hz⟩, ?_⟩
-    show (((directImagePowerMap f L).pieceIso V hV).hom ≫
+    change (((directImagePowerMap f L).pieceIso V hV).hom ≫
       ((directImagePowerMap f L).pieceIso V hV).inv ≫
       ((directImagePowerMap f L).toBase ⁻¹ᵁ V).ι).base ⟨z, hz⟩ = z
     rw [Iso.hom_inv_id_assoc]

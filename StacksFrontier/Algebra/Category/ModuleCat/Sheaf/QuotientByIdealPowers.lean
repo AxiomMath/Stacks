@@ -161,7 +161,6 @@ variable (I : Ideal Λ) {Q : ℕᵒᵖ ⥤ Sheaf J (ModuleCat.{w} Λ)}
   (q : (Functor.const ℕᵒᵖ).obj F ⟶ Q)
   (hq : ∀ n : ℕ, IsQuotientBy J Λ (I ^ n) F (Q.obj (op n)) (q.app (op n)))
 
-include hq in
 omit [HasSheafify J (ModuleCat Λ)] in
 theorem app_comp_towerMap (n : ℕ) : q.app (op (n + 1)) ≫ towerMap Q n = q.app (op n) := by
   have := q.naturality (homOfLE (Nat.le_succ n)).op
@@ -184,9 +183,9 @@ theorem app_comp_towerMul (a : Λ) (ha : a ∈ I) (n : ℕ) :
 theorem towerMap_comp_towerMul (a : Λ) (ha : a ∈ I) (n : ℕ) :
     towerMap Q n ≫ towerMul I q hq a ha n = towerMul I q hq a ha (n + 1) ≫ towerMap Q (n + 1) := by
   have := (hq (n + 1)).epi
-  rw [← cancel_epi (q.app (op (n + 1))), ← Category.assoc, app_comp_towerMap I q hq,
+  rw [← cancel_epi (q.app (op (n + 1))), ← Category.assoc, app_comp_towerMap q,
     app_comp_towerMul, ← Category.assoc, app_comp_towerMul, Linear.smul_comp,
-    app_comp_towerMap I q hq]
+    app_comp_towerMap q]
 
 theorem towerMul_comm (a b : Λ) (ha : a ∈ I) (hb : b ∈ I) (n : ℕ) :
     towerMul I q hq a ha n ≫ towerMul I q hq b hb (n + 1) =
@@ -224,7 +223,7 @@ theorem span_range_prod_eq_pow {k : ℕ} (μ : Fin k → Λ) (n : ℕ) :
       ext x; simp
     rw [this, Ideal.span_singleton_one, pow_zero, Ideal.one_eq_top]
   | succ n ih =>
-    rw [pow_succ, ← ih, Ideal.span_mul_span']
+    rw [pow_succ, ← ih, Ideal.span_mul_span]
     congr 1
     ext x
     simp only [Set.mem_range, Set.mem_mul]
@@ -246,7 +245,7 @@ variable {k : ℕ} (μ : Fin k → Λ) (hμ : ∀ j, μ j ∈ I)
 
 /-- The map `F ⟶ F / IF`, into the graded piece of degree `0`. -/
 noncomputable def toGradedPieceZero : F ⟶ gradedPiece Q 0 :=
-  kernel.lift _ (q.app (op 1)) (by rw [app_comp_towerMap I q hq, app_zero_eq_zero I q hq])
+  kernel.lift _ (q.app (op 1)) (by rw [app_comp_towerMap q, app_zero_eq_zero I q hq])
 
 theorem toGradedPieceZero_pathHom_ι {n : ℕ} (w : Fin n → Fin k) :
     (toGradedPieceZero I q hq ≫
@@ -257,7 +256,7 @@ theorem toGradedPieceZero_pathHom_ι {n : ℕ} (w : Fin n → Fin k) :
     simp only [Finset.univ_eq_empty, Finset.prod_empty, one_smul]
     exact kernel.lift_ι _ _ _
   | succ n ih =>
-    show (toGradedPieceZero I q hq ≫ (pathHom _ (Fin.init w) ≫ gradedMul I q hq _ _ n)) ≫
+    change (toGradedPieceZero I q hq ≫ (pathHom _ (Fin.init w) ≫ gradedMul I q hq _ _ n)) ≫
       kernel.ι _ = _
     rw [Category.assoc, Category.assoc, gradedMul_ι, ← Category.assoc, ← Category.assoc]
     rw [ih (Fin.init w), Linear.smul_comp,
@@ -277,10 +276,10 @@ theorem gradedPiece_hom_ext (hI : Ideal.span (Set.range μ) = I) {n : ℕ}
   rw [← hspan] at h
   have := (hq (n + 1)).epi
   refine h.eq_zero_of_kernelLift_comp_eq_zero (q.app (op (n + 1))) (towerMap Q n)
-    (app_comp_towerMap I q hq n) g fun b hb => ?_
+    (app_comp_towerMap q n) g fun b hb => ?_
   obtain ⟨w, rfl⟩ := hb
   have hl : kernel.lift (towerMap Q n) ((∏ i, μ (w i)) • q.app (op (n + 1)))
-      (smul_comp_eq_zero_of_isQuotientBy h _ _ (app_comp_towerMap I q hq n)
+      (smul_comp_eq_zero_of_isQuotientBy h _ _ (app_comp_towerMap q n)
         (Ideal.subset_span ⟨w, rfl⟩)) =
       toGradedPieceZero I q hq ≫ pathHom (fun j n => gradedMul I q hq (μ j) (hμ j) n) w := by
     rw [← cancel_mono (kernel.ι _), kernel.lift_ι, toGradedPieceZero_pathHom_ι]

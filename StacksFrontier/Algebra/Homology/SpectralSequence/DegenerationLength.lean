@@ -231,8 +231,8 @@ lemma _root_.ENat.eq_of_sum_eq_sum_of_le {ι : Type*} {s : Finset ι} {f g : ι 
     (hle : ∀ i ∈ s, f i ≤ g i) (hfin : ∀ i ∈ s, g i ≠ ⊤)
     (hsum : ∑ i ∈ s, f i = ∑ i ∈ s, g i) : ∀ i ∈ s, f i = g i := by
   have hf : ∀ i ∈ s, f i = ((f i).toNat : ℕ∞) := fun i hi =>
-    (ENat.coe_toNat (ne_top_of_le_ne_top (hfin i hi) (hle i hi))).symm
-  have hg : ∀ i ∈ s, g i = ((g i).toNat : ℕ∞) := fun i hi => (ENat.coe_toNat (hfin i hi)).symm
+    (ENat.natCast_toNat (ne_top_of_le_ne_top (hfin i hi) (hle i hi))).symm
+  have hg : ∀ i ∈ s, g i = ((g i).toNat : ℕ∞) := fun i hi => (ENat.natCast_toNat (hfin i hi)).symm
   rw [Finset.sum_congr rfl hf, Finset.sum_congr rfl hg, ← Nat.cast_sum, ← Nat.cast_sum,
     Nat.cast_inj] at hsum
   have hle' : ∀ i ∈ s, (f i).toNat ≤ (g i).toNat := fun i hi =>

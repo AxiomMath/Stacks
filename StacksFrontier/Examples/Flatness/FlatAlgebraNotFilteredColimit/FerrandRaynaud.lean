@@ -107,9 +107,9 @@ private lemma exists_derivation_of_isTranscendenceBasis
       map_one_eq_zero' := by simp
       leibniz' := by
         intro a b
-        show DP (e.symm (a * b)) = a • DP (e.symm b) + b • DP (e.symm a)
+        change DP (e.symm (a * b)) = a • DP (e.symm b) + b • DP (e.symm a)
         rw [map_mul, DP.leibniz]
-        show (MvPolynomial.aeval x) (e.symm a) * DP (e.symm b) +
+        change (MvPolynomial.aeval x) (e.symm a) * DP (e.symm b) +
             (MvPolynomial.aeval x) (e.symm b) * DP (e.symm a) = _
         rw [he, he]
         rfl }
@@ -122,9 +122,9 @@ private lemma exists_derivation_of_isTranscendenceBasis
   have hxA : (e (MvPolynomial.X i) : K) = x i :=
     (hx.1.algebraMap_aevalEquiv (MvPolynomial.X i)).trans (MvPolynomial.aeval_X x i)
   rw [← hxA]
-  show DK (algebraMap A K (e (MvPolynomial.X i))) = _
+  change DK (algebraMap A K (e (MvPolynomial.X i))) = _
   rw [IsScalarTower.algebraMap_apply A B K, hDK, hDB]
-  show DP (e.symm (e (MvPolynomial.X i))) = _
+  change DP (e.symm (e (MvPolynomial.X i))) = _
   rw [e.symm_apply_apply]
   exact MvPolynomial.mkDerivation_X R f i
 
@@ -189,17 +189,17 @@ private lemma exists_derivation_powerSeries_rat :
           map_add' := by intro a b; simp only [map_add]
           map_smul' := by
             intro r b
-            show E ((algebraMap (PowerSeries (ULift.{u} ℚ))
+            change E ((algebraMap (PowerSeries (ULift.{u} ℚ))
               (LaurentSeries (ULift.{u} ℚ))) (r.down • b)) =
               r.down • E ((algebraMap (PowerSeries (ULift.{u} ℚ))
                 (LaurentSeries (ULift.{u} ℚ))) b)
             simp only [map_rat_smul] }
       map_one_eq_zero' := by
-        show E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) 1) = 0
+        change E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) 1) = 0
         rw [map_one, E.map_one_eq_zero]
       leibniz' := by
         intro a b
-        show E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) (a * b)) =
+        change E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) (a * b)) =
           a • E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) b) +
           b • E (algebraMap (PowerSeries (ULift.{u} ℚ)) (LaurentSeries (ULift.{u} ℚ)) a)
         simp only [map_mul, E.leibniz, smul_eq_mul, Algebra.smul_def] }
@@ -220,7 +220,7 @@ private lemma exists_derivation_powerSeries_rat :
     have ht0 : E (algebraMap (PowerSeries (ULift.{u} ℚ))
         (LaurentSeries (ULift.{u} ℚ)) PowerSeries.X ^ n) = 0 := by
       rw [E.leibniz_pow]
-      show n • _ • D PowerSeries.X = 0
+      change n • _ • D PowerSeries.X = 0
       rw [hDX, smul_zero, smul_zero]
     rw [ht0, mul_zero, zero_add] at h
     exact h.symm
@@ -238,7 +238,7 @@ private lemma exists_derivation_powerSeries_rat :
   · simp only [Derivation.smul_apply, hDX, smul_zero]
   · simp [s]
   · simp only [Derivation.smul_apply, hDs, smul_eq_mul]
-    show (q⁻¹ * (q ^ n)⁻¹) * q ^ n = q⁻¹
+    change (q⁻¹ * (q ^ n)⁻¹) * q ^ n = q⁻¹
     rw [mul_assoc, inv_mul_cancel₀ (pow_ne_zero n hq), mul_one]
 
 /-- The quotient of a principal localization by the base ring is power torsion. -/
@@ -251,7 +251,7 @@ private lemma exists_pow_smul_eq_zero_quotient_range
     obtain ⟨⟨a, b⟩, hab⟩ := IsLocalization.surj (Submonoid.powers t) x
     obtain ⟨n, hn⟩ := b.property
     refine ⟨n, ?_⟩
-    show (Algebra.linearMap R S).range.mkQ (t ^ n • x) = 0
+    change (Algebra.linearMap R S).range.mkQ (t ^ n • x) = 0
     rw [← LinearMap.mem_ker, Submodule.ker_mkQ]
     refine ⟨a, ?_⟩
     simpa only [Algebra.linearMap_apply, Algebra.smul_def, hn, mul_comm] using hab.symm
@@ -280,7 +280,7 @@ private lemma quotient_powerSeries_X_torsion
   let L := LaurentSeries k
   let N : Submodule B L := (Algebra.linearMap B L).range
   let qx : L := algebraMap B L PowerSeries.X
-  show ∃ r : k, m = (PowerSeries.C r : B) • N.mkQ qx⁻¹
+  change ∃ r : k, m = (PowerSeries.C r : B) • N.mkQ qx⁻¹
   induction m using Submodule.Quotient.induction_on with
   | _ v =>
     have hXv : qx * v ∈ N := by
@@ -307,12 +307,12 @@ private lemma quotient_powerSeries_X_torsion
               rw [mul_inv_cancel₀ hqx, mul_one]
             _ = qx * (g + PowerSeries.C r * qx⁻¹) := by ring
     refine ⟨r, ?_⟩
-    show N.mkQ v = (PowerSeries.C r : B) • N.mkQ qx⁻¹
+    change N.mkQ v = (PowerSeries.C r : B) • N.mkQ qx⁻¹
     rw [hv, map_add]
     have hg : N.mkQ (algebraMap B L g) = 0 :=
       (Submodule.Quotient.mk_eq_zero N).mpr ⟨g, rfl⟩
     rw [hg, zero_add]
-    show N.mkQ ((PowerSeries.C r) • qx⁻¹) =
+    change N.mkQ ((PowerSeries.C r) • qx⁻¹) =
       (PowerSeries.C r : B) • N.mkQ qx⁻¹
     rw [map_smul]
 
@@ -457,15 +457,15 @@ private lemma isNoetherianRing_powerSeries_derivationConstants
     obtain ⟨r, hr⟩ := quotient_powerSeries_X_torsion (E b) hb
     refine ⟨r, ?_⟩
     have hEs : E s = N.mkQ qx⁻¹ := by
-      show N.mkQ (D s) = N.mkQ qx⁻¹
+      change N.mkQ (D s) = N.mkQ qx⁻¹
       rw [hs]
     rw [hr, hEs]
-    show N.mkQ ((algebraMap (ULift.{u} ℚ) B r) • qx⁻¹) =
+    change N.mkQ ((algebraMap (ULift.{u} ℚ) B r) • qx⁻¹) =
       N.mkQ (r.down • qx⁻¹)
     apply congrArg N.mkQ
     simp only [Algebra.smul_def, Rat.smul_def, mul_eq_mul_right_iff, inv_eq_zero]
     left
-    show ((PowerSeries.C r : B) : L) = (r.down : L)
+    change ((PowerSeries.C r : B) : L) = (r.down : L)
     rw [PowerSeries.coe_C]
     cases r
     rfl
@@ -536,7 +536,7 @@ private lemma powerSeries_X_inv_not_mem_range :
   have hmul : PowerSeries.X * b = (1 : B) := by
     apply FaithfulSMul.algebraMap_injective B L
     simp only [map_mul, map_one]
-    show qx * algebraMap B L b = 1
+    change qx * algebraMap B L b = 1
     rw [hb]
     exact mul_inv_cancel₀ hqx
   have hcoeff := congrArg PowerSeries.constantCoeff hmul
@@ -568,7 +568,7 @@ private lemma derivationConstants_approximant_ne_X_sq_mul
     simpa only [pow_two, mul_assoc] using heqB
   have hE : E (s - (s.trunc n : B)) = N.mkQ
       ((algebraMap B L PowerSeries.X)⁻¹) := by
-    show N.mkQ (D (s - (s.trunc n : B))) = _
+    change N.mkQ (D (s - (s.trunc n : B))) = _
     rw [map_sub, derivation_trunc_zero D hDX s n, sub_zero, hs]
   rw [hsplit, E.leibniz, show E PowerSeries.X = 0 from t.property,
     show E (b : B) = 0 from b.property] at hE
@@ -589,7 +589,7 @@ private lemma derivationConstants_approximant_sub_succ
         derivationConstants (poleClassDerivation D)) ^ (n + 1) *
         algebraMap (ULift.{u} ℚ) _ (PowerSeries.coeff n s) := by
   apply Subtype.ext
-  show PowerSeries.X * (s - (s.trunc n : PowerSeries (ULift.{u} ℚ))) -
+  change PowerSeries.X * (s - (s.trunc n : PowerSeries (ULift.{u} ℚ))) -
       PowerSeries.X * (s - (s.trunc (n + 1) : PowerSeries (ULift.{u} ℚ))) =
       PowerSeries.X ^ (n + 1) * PowerSeries.C (PowerSeries.coeff n s)
   rw [PowerSeries.trunc_succ, Polynomial.coe_add,
@@ -614,7 +614,7 @@ private lemma derivationConstants_sq_mem_pow
   have hDtu : D ((t : B) * u) = (t : B) • D u := by
     rw [D.leibniz, t.property, smul_zero, add_zero]
   let y : derivationConstants D := ⟨(x : B) * ((t : B) * u), by
-    show D ((x : B) * ((t : B) * u)) = 0
+    change D ((x : B) * ((t : B) * u)) = 0
     rw [D.leibniz, x.property, smul_zero, add_zero, hDtu, hx]
     calc
       ((t : B) ^ (n + 1) * u) • ((t : B) • D u) =
@@ -625,7 +625,7 @@ private lemma derivationConstants_sq_mem_pow
       _ = 0 := by rw [hDu, smul_zero]⟩
   have heq : x ^ 2 = t ^ n * y := by
     apply Subtype.ext
-    show (x : B) ^ 2 = (t : B) ^ n * ((x : B) * ((t : B) * u))
+    change (x : B) ^ 2 = (t : B) ^ n * ((x : B) * ((t : B) * u))
     rw [hx]
     ring
   rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton]
@@ -650,7 +650,7 @@ private lemma derivationConstants_approximant_sq_mem_pow
     sub_eq_iff_eq_add.mpr (PowerSeries.eq_X_pow_mul_shift_add_trunc n s)
   apply derivationConstants_sq_mem_pow E t
     (derivationConstants_approximant D hDX s hs n) n u
-  show PowerSeries.X * (s - (s.trunc n : PowerSeries (ULift.{u} ℚ))) =
+  change PowerSeries.X * (s - (s.trunc n : PowerSeries (ULift.{u} ℚ))) =
     PowerSeries.X ^ (n + 1) * u
   rw [hsplit]
   ring
@@ -748,7 +748,7 @@ private lemma henselianLocalRing_derivationConstants
     Polynomial.eval_map_apply (algebraMap A B) x
   have hPBmonic : PB.Monic := hP.map (algebraMap A B)
   have hPBroot : PB.eval (a₀ : B) ∈ IsLocalRing.maximalIdeal B := by
-    show ¬ IsUnit (PB.eval (a₀ : B))
+    change ¬ IsUnit (PB.eval (a₀ : B))
     rw [show PB.eval (a₀ : B) = ((P.eval a₀ : A) : B) from heval P a₀]
     exact fun hu => hroot ((isUnit_derivationConstants_iff D (P.eval a₀)).mpr hu)
   have hPBunit : IsUnit (PB.derivative.eval (a₀ : B)) := by
@@ -776,11 +776,11 @@ private lemma henselianLocalRing_derivationConstants
     exact (IsUnit.smul_eq_zero hunitb').mp hchain.symm
   let a : A := ⟨b, hbzero⟩
   refine ⟨a, ?_, ?_⟩
-  · show P.eval a = 0
+  · change P.eval a = 0
     apply Subtype.ext
     change PB.eval b = 0 at hbroot
     rwa [show PB.eval b = ((P.eval a : A) : B) from heval P a] at hbroot
-  · show a - a₀ ∈ IsLocalRing.maximalIdeal A
+  · change a - a₀ ∈ IsLocalRing.maximalIdeal A
     exact fun hu => hdiff ((isUnit_derivationConstants_iff D (a - a₀)).mp hu)
 
 /-- The rational pole-class constants form a Henselian local ring. -/

@@ -157,7 +157,7 @@ theorem reesAway_ringHom_ext {T : Type*} [CommRing T]
     have e : E.symm ⟨_, Subalgebra.algebraMap_mem _ r⟩ = reesAwayMk I a ha 0 ⟨r, by simp⟩ := by
       refine E.symm_apply_eq.2 (Subtype.ext ?_)
       refine Eq.trans ?_ (coe_reesAwayEquivAffineBlowup_reesAwayMk I a ha 0 ⟨r, by simp⟩).symm
-      show algebraMap R (Localization.Away a) r =
+      change algebraMap R (Localization.Away a) r =
         Localization.mk r (⟨a ^ 0, 0, rfl⟩ : Submonoid.powers a)
       rw [← Localization.mk_one_eq_algebraMap]
       exact congrArg (Localization.mk r) (Subtype.ext (pow_zero a).symm)
@@ -231,7 +231,7 @@ theorem infinityReesAwayEquiv_structure :
     (infinityCentreIdeal i.ker) (infinityChartAffineOpen U) (infinityChartSectionsEquiv_X_mem i U)
   refine CommRingCat.hom_ext (RingHom.ext fun p => ?_)
   have hp := congrArg (fun φ => CommRingCat.Hom.hom φ (infinityChartSectionsEquiv U p)) h
-  show (infinityChartRingEquiv i.ker U Polynomial.X (X_mem_infinityChartIdeal _)).symm
+  change (infinityChartRingEquiv i.ker U Polynomial.X (X_mem_infinityChartIdeal _)).symm
     (Subalgebra.equivOfEq _ _ (affineBlowup_eq_affineBlowupAlgebra _ _)
       (Stacks.Blowup.reesAwayEquivAffineBlowup _ _ (infinityChartSectionsEquiv_X_mem i U)
         (HomogeneousLocalization.fromZeroRingHom _ _ (algebraMap _ _
@@ -298,7 +298,7 @@ theorem blowupAtInfinityChartS_eq_awayι :
           (infinityReesCoordinate_mem i U) one_pos ≫ infinityReesChart i U := by
   have hg : Stacks.Blowup.IsCartierOver (infinityCentreIdeal i.ker)
       (Over.mk (blowupAtInfinityChartS i.ker U ≫ blowupAtInfinityToLine i.ker)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor
+    change Stacks.Divisors.IsEffectiveCartierDivisor
       ((infinityCentreIdeal i.ker).comap
         (blowupAtInfinityChartS i.ker U ≫ blowupAtInfinityToLine i.ker))
     rw [Scheme.IdealSheafData.comap_comp]
@@ -308,7 +308,7 @@ theorem blowupAtInfinityChartS_eq_awayι :
           (infinityReesCoordinate_mem i U) one_pos ≫ infinityReesChart i U) ≫
       blowUpToBase (infinityCentreIdeal i.ker) =
       blowupAtInfinityChartS i.ker U ≫ blowupAtInfinityToLine i.ker := by
-    show _ ≫ blowupAtInfinityToLine i.ker = _
+    change _ ≫ blowupAtInfinityToLine i.ker = _
     rw [blowupAtInfinityChartS, blowupAtInfinityPolyChart_comp, Category.assoc, Category.assoc,
       (isPullback_infinityReesChart i U).w, ← Category.assoc (Proj.awayι _ _ _ _),
       Proj.awayι_toSpecZero_assoc, ← specMap_infinityChartSectionsIso_infinityChartOver]
@@ -340,7 +340,7 @@ theorem exceptionalChartRingEquiv_infinitySection :
       classOfPow _ 1 ⟨0, by simp⟩ := by
     rw [S'.p_t₀, map_zero, map_zero]
     exact (map_zero (classOfPow (Stacks.Conormal.chartIdeal i U) 1)).symm
-  show exceptionalChartSymEquiv i U hi (Stacks.ProjectiveCompletion.sectionRingEquiv
+  change exceptionalChartSymEquiv i U hi (Stacks.ProjectiveCompletion.sectionRingEquiv
     (isAffineOpen_centrePreimage i U) (Stacks.ProjectiveCompletion.infinitySection _ _)) = _
   rw [Stacks.ProjectiveCompletion.sectionRingEquiv_infinitySection,
     exceptionalChartSymEquiv_ι_of i U hi _ (zero_mem _) hκ, S'.q_t₀, map_one, one_mul]
@@ -474,7 +474,7 @@ theorem normalConeEmbeddingRingHom_symSectionsRingEquiv
         (conormalSymmetricSectionsEquiv i U hi z) := by
   have := isIso_symmetricAlgebraSheafMap_conormalDegreeOneSurjection i hi
   have := isIso_conormalSymmetricAlgebraSheafHom_of_isRegularImmersion i hi
-  show _ = Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
+  change _ = Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
     ((Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance).symm _)
   rw [RingEquiv.apply_symm_apply]
   rfl
@@ -647,7 +647,7 @@ theorem completionChartRingHom_reesAwayMk_one {x : Γ(X, U.1)}
         (SymmetricAlgebra.ι _ _ ((Stacks.ProjectiveCompletion.sectionsSplitting
         (dualSheaf (VirtualNormalBundle.ofIsRegularImmersion i hi).bundle) (i ⁻¹ᵁ U.1)).j m)) := by
     refine (RingEquiv.symm_apply_eq _).2 ?_
-    show _ = exceptionalChartSymEquiv i U hi
+    change _ = exceptionalChartSymEquiv i U hi
       ((Stacks.ProjectiveCompletion.sectionRingEquiv (isAffineOpen_centrePreimage i U))
         ((Stacks.ProjectiveCompletion.sectionRingEquiv (isAffineOpen_centrePreimage i U)).symm
           (SymmetricAlgebra.ι _ _ ((Stacks.ProjectiveCompletion.sectionsSplitting

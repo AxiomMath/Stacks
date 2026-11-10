@@ -297,7 +297,7 @@ theorem isIso_restrictionBaseChange_of_isFlat_isLfp_jointlySurjective {J : Type 
       (hp.map_isPullback _ _ _ _ _ hsq)
   have hWaff : ∀ i, IsAffine (Φ.obj (W i)) := fun i => by
     have := hα i
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj (W i)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj (W i)))
     rw [IsHomLift.domain_eq 𝒳.val.val.p (v i) (α i)]
     exact hVaff i
   have : IsAffine (Φ.obj y) := hy

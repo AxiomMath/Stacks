@@ -165,8 +165,7 @@ theorem linearEquiv_comp_eq_lTensor {A B B' S S' : Type*} [AddCommGroup A] [Modu
     (z : S) : e' (φ z) = LinearMap.lTensor A g (e z) := by
   have key : ∀ w, e' (φ (e.symm w)) = LinearMap.lTensor A g w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => simp only [map_add, hw, hw']
     | tmul a b => exact (h a b).trans (LinearMap.lTensor_tmul A g a b).symm
   simpa only [LinearEquiv.symm_apply_apply] using key (e z)
@@ -179,8 +178,7 @@ theorem bijective_lTensor_iff {A B B' : Type*} [AddCommGroup A] [Module R A] [Ad
   let eB' := (TensorProduct.congr e (LinearEquiv.refl R B')).trans (TensorProduct.lid R B')
   have h : ∀ z, eB' (LinearMap.lTensor A g z) = g (eB z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz']
     | tmul a b =>
       simp only [eB, eB', LinearMap.lTensor_tmul, LinearEquiv.trans_apply,

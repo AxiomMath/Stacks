@@ -72,12 +72,12 @@ theorem map_mateEquiv_symm_app_comp_eq (ami : Lmi ⊣ Rmi) (amg : Lmg ⊣ Rmg)
     (hi : UC.map (ami.unit.app K) ≫ ρi ≫ Rsi.map εi.hom = asi.unit.app (UC.obj K))
     (hθ : UA.map (θm.app (Lmi.obj K)) ≫ ρg.app (Rmf'.obj (Lmi.obj K)) ≫ Rsg.map ρf' =
       ρf.app (Rmi.obj (Lmi.obj K)) ≫ Rsf.map ρi ≫ θs.app (UD.obj (Lmi.obj K))) :
-    UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).natTrans.app K) ≫ ρf' =
+    UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).app K) ≫ ρf' =
       εg.hom ≫ Lsg.map (ρf.app K) ≫
-        ((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).natTrans.app (UC.obj K) ≫
+        ((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).app (UC.obj K) ≫
           Rsf'.map εi.inv := by
-  set β := ((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).natTrans.app K
-  set βs := ((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).natTrans.app (UC.obj K)
+  set β := ((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).app K
+  set βs := ((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).app (UC.obj K)
   have hm : amg.unit.app (Rmf.obj K) ≫ Rmg.map β =
       Rmf.map (ami.unit.app K) ≫ θm.app (Lmi.obj K) :=
     (unit_mateEquiv_symm ami amg (TwoSquare.mk _ _ _ _ θm) K).symm
@@ -131,9 +131,9 @@ theorem isIso_map_mateEquiv_symm_app (ami : Lmi ⊣ Rmi) (amg : Lmg ⊣ Rmg)
     (hθ : UA.map (θm.app (Lmi.obj K)) ≫ ρg.app (Rmf'.obj (Lmi.obj K)) ≫ Rsg.map ρf' =
       ρf.app (Rmi.obj (Lmi.obj K)) ≫ Rsf.map ρi ≫ θs.app (UD.obj (Lmi.obj K)))
     [IsIso ρf'] [IsIso (ρf.app K)]
-    (h : IsIso (((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).natTrans.app (UC.obj K))) :
-    IsIso (UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).natTrans.app K)) := by
-  have : IsIso (UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).natTrans.app K) ≫
+    (h : IsIso (((mateEquiv asi asg).symm (TwoSquare.mk _ _ _ _ θs)).app (UC.obj K))) :
+    IsIso (UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).app K)) := by
+  have : IsIso (UB.map (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ θm)).app K) ≫
       ρf') := by
     rw [map_mateEquiv_symm_app_comp_eq ami amg asi asg θm θs ρg ρf K ρi ρf' εg εi hg hi hθ]
     infer_instance
@@ -160,16 +160,16 @@ theorem isIso_map_mateEquiv_symm_app_of_comp₃ {P Q : Dm ⥤ Am} (ami : Lmi ⊣
     (hσ₁ : ∀ L, σ₁ L = ρf.app (Rmi.obj L) ≫ Rsf.map (ρi.app L))
     (hσ₂ : ∀ L, σ₂ L = ρg.app (Rmf'.obj L) ≫ Rsg.map (ρf'.app L))
     (hθ : ∀ L, UA.map (a.app L) ≫ UA.map (b.app L) ≫ UA.map (c.app L) ≫ σ₂ L =
-      σ₁ L ≫ θs.natTrans.app (UD.obj L))
+      σ₁ L ≫ θs.app (UD.obj L))
     (hρf' : ∀ L, IsIso (ρf'.app L)) (hρf : ∀ M, IsIso (ρf.app M)) (K : Cm)
-    (h : IsIso (((mateEquiv asi asg).symm θs).natTrans.app (UC.obj K))) :
+    (h : IsIso (((mateEquiv asi asg).symm θs).app (UC.obj K))) :
     IsIso (UB.map
-      (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ (a ≫ b ≫ c))).natTrans.app K)) := by
+      (((mateEquiv ami amg).symm (TwoSquare.mk _ _ _ _ (a ≫ b ≫ c))).app K)) := by
   have h₀ := hθ (Lmi.obj K)
   rw [hσ₁, hσ₂] at h₀
   have := hρf' (Lmi.obj K)
   have := hρf K
-  refine isIso_map_mateEquiv_symm_app ami amg asi asg (a ≫ b ≫ c) θs.natTrans ρg ρf K
+  refine isIso_map_mateEquiv_symm_app ami amg asi asg (a ≫ b ≫ c) θs ρg ρf K
     (ρi.app (Lmi.obj K)) (ρf'.app (Lmi.obj K)) (εg (Rmf.obj K)) (εi K) (hg (Rmf.obj K)) (hi K)
     ?_ h
   simpa only [NatTrans.comp_app, Functor.map_comp, Category.assoc] using h₀

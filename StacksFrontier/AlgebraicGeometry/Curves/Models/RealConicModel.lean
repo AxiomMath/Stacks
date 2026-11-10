@@ -356,7 +356,7 @@ theorem irreducible_equation_zero (hk : ∀ c : k, c ^ 2 ≠ -1) : Irreducible (
   have h1 : finRotate 3 1 = 2 := by decide
   have hr : (MvPolynomial.renameEquiv k (finRotate 3)).toMulEquiv
       (Stacks.Curves.DegenerateConic.conicForm k) = equation (0 : k) := by
-    show MvPolynomial.rename (finRotate 3) (Stacks.Curves.DegenerateConic.conicForm k) = _
+    change MvPolynomial.rename (finRotate 3) (Stacks.Curves.DegenerateConic.conicForm k) = _
     simp [Stacks.Curves.DegenerateConic.conicForm, equation, h0, h1]
   rw [← hr]
   exact (MulEquiv.irreducible_iff _).mpr (Stacks.Curves.DegenerateConic.conicForm_irreducible hk)

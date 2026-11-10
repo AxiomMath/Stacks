@@ -185,7 +185,7 @@ theorem geometricallyRegular_tfae
     let Y := pullback f g
     let : IsLocallyNoetherian Y :=
       (isLocallyNoetherian_baseChange_iff k K X f).mp inferInstance
-    show IsRegular Y
+    change IsRegular Y
     apply ((isRegular_tfae Y).out 2 1).mp
     refine ⟨inferInstance, fun z => ?_⟩
     exact h (pullback.fst f g z) K z rfl
@@ -196,7 +196,7 @@ theorem geometricallyRegular_tfae
     intro h U
     let : Algebra k Γ(X, U.1) :=
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom.toAlgebra
-    show Algebra.IsGeometricallyRegular k Γ(X, U.1)
+    change Algebra.IsGeometricallyRegular k Γ(X, U.1)
     refine ⟨?_⟩
     intro K _ _ hess
     apply (Algebra.forall_isRegularRing_tensorProduct_essFiniteType_iff_finite_isPurelyInseparable
@@ -222,7 +222,7 @@ theorem geometricallyRegular_tfae
       let : IsAffine (𝒰.X i) := Scheme.isAffine_affineOpenCover X 𝒜 i
       let : IsAffineHom (𝒰.f i ≫ f) := isAffineHom_of_isAffine _
       let : IsAffineHom g := inferInstance
-      show IsAffine (pullback (𝒰.f i ≫ f) g)
+      change IsAffine (pullback (𝒰.f i ≫ f) g)
       exact Scheme.Pullback.isAffine_of_isAffine_isAffine_isAffine _ _
     let V : 𝒱.I₀ → Y.affineOpens := fun i =>
       ⟨(𝒱.f i).opensRange, by
@@ -240,10 +240,10 @@ theorem geometricallyRegular_tfae
       let : IsOpenImmersion j := 𝒱.map_prop i
       have hfi := specMap_algebraMap_sections_eq_fromSpec_comp f Ui
       have hfi' : Spec.map (ofHom (algebraMap k A)) = 𝒰.f i ≫ f := by
-        show Spec.map (ofHom (algebraMap k A)) = Ui.2.fromSpec ≫ f
+        change Spec.map (ofHom (algebraMap k A)) = Ui.2.fromSpec ≫ f
         exact hfi
       have e : 𝒱.X i ≅ Spec (.of (A ⊗[k] K)) := by
-        show pullback (𝒰.f i ≫ f) g ≅ _
+        change pullback (𝒰.f i ≫ f) g ≅ _
         exact (pullback.congrHom hfi' rfl).symm ≪≫ pullbackSpecIso k A K
       let : Algebra.IsGeometricallyRegular k A := hgeo i
       have hK : IsRegularRing (K ⊗[k] A) := inferInstance

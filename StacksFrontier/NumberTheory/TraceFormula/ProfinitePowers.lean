@@ -48,7 +48,7 @@ public def primeFactorIndex (p : N.primeFactors) : CoprimePrimes 1 :=
 
 /-- **The reduction `Ẑ → ℤ/N`**, through the Chinese remainder theorem. -/
 public def profiniteMod : ProfiniteIntegers →+* ZMod N :=
-  (ZMod.equivPi N hN).symm.toRingHom.comp (Pi.ringHom fun p : N.primeFactors =>
+  (ZMod.equivPi N hN).symm.toRingHom.comp (RingHom.pi fun p : N.primeFactors =>
     (PadicInt.toZModPow (p := (primeFactorIndex N p).1) (N.factorization p)).comp
       (Pi.evalRingHom _ (primeFactorIndex N p)))
 
@@ -105,7 +105,7 @@ public theorem isOpen_profiniteMod_fiber (z : ProfiniteIntegers) :
     IsOpen {w : ProfiniteIntegers | ∀ p : N.primeFactors,
       PadicInt.toZModPow (N.factorization p) (w (primeFactorIndex N p)) =
         PadicInt.toZModPow (N.factorization p) (z (primeFactorIndex N p))} := by
-  rw [Set.setOf_forall]
+  rw [Set.ofPred_forall]
   refine isOpen_iInter_of_finite fun p => ?_
   change IsOpen ((fun w : ProfiniteIntegers => w (primeFactorIndex N p)) ⁻¹'
     {y : ℤ_[(primeFactorIndex N p).1] | PadicInt.toZModPow (N.factorization p) y =
@@ -213,7 +213,7 @@ public theorem toZModPow_componentPowers (k : ℕ) (z : Multiplicative Profinite
 
 /-- **The profinite powers `z ↦ c^z`**. -/
 public def profinitePowers : Multiplicative ProfiniteIntegers →* (RestrictedProfiniteIntegers q)ˣ :=
-  (Pi.monoidHom fun ℓ : CoprimePrimes q => componentPowers c ℓ).toHomUnits
+  (MonoidHom.pi fun ℓ : CoprimePrimes q => componentPowers c ℓ).toHomUnits
 
 /-- The `ℓ`-coordinate of `c^z` is the `ℓ`-component of `z ↦ c^z`. -/
 public theorem profinitePowers_apply (z : Multiplicative ProfiniteIntegers) (ℓ : CoprimePrimes q) :
@@ -235,8 +235,7 @@ public theorem profinitePowers_ofAdd_one :
 /-- The `ℓ`-component of `z ↦ c^z` is continuous. -/
 public theorem continuous_componentPowers : Continuous (componentPowers c ℓ) := by
   rw [continuous_iff_continuousAt]
-  intro z
-  intro s hs
+  intro z s hs
   obtain ⟨k, hk⟩ := exists_fiber_subset ℓ.1 hs
   set N := Nat.totient (ℓ.1 ^ k)
   have hN := totient_ne_zero ℓ k

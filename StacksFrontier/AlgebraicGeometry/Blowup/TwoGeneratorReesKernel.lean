@@ -56,7 +56,7 @@ private theorem exists_isHomogeneous_eq_C_mul_X_pow_add_X_mul {n : ℕ}
   set r := p - C (p.coeff (Finsupp.single (1 : Fin 2) (n + 1))) * X 1 ^ (n + 1) with hr
   have hp' : r.IsHomogeneous (n + 1) := hp.sub (isHomogeneous_C_mul_X_pow _ _ _)
   have hcoeff : r.coeff (Finsupp.single (1 : Fin 2) (n + 1)) = 0 := by
-    rw [hr, coeff_sub, C_mul_X_pow_eq_monomial, coeff_monomial, if_pos rfl, sub_self]
+    rw [hr, coeff_sub, C_mul_X_pow_eq_monomial, coeff_monomial, ite_eq_left rfl, sub_self]
   have hmod : r.modMonomial (Finsupp.single 0 1) = 0 := by
     ext d
     by_cases hle : Finsupp.single (0 : Fin 2) 1 ≤ d
@@ -177,17 +177,17 @@ private theorem eval_homogeneousComponent_eq_zero_of_mem_ker {p : MvPolynomial (
         ∑ m ∈ Finset.range (p.totalDegree + 1),
           Polynomial.monomial m (eval (centerGens A f₁ f₂) (homogeneousComponent m p)) := by
       conv_lhs => rw [← sum_homogeneousComponent p]
-      rw [map_sum, AddSubmonoidClass.coe_finset_sum]
+      rw [map_sum, AddSubmonoidClass.coe_finsetSum]
       refine Finset.sum_congr rfl fun m _ => ?_
       exact coe_reesPresentation_apply (centerIdeal A f₁ f₂) (centerGens A f₁ f₂)
         (centerGens_mem A f₁ f₂) (homogeneousComponent_isHomogeneous m p)
     rw [hp] at hcoe
     have h0 := congrArg (fun r : Polynomial A => r.coeff k) hcoe
-    simp only [ZeroMemClass.coe_zero, Polynomial.coeff_zero, Polynomial.finset_sum_coeff,
+    simp only [ZeroMemClass.coe_zero, Polynomial.coeff_zero, Polynomial.finsetSum_coeff,
       Polynomial.coeff_monomial] at h0
     rw [Finset.sum_ite_eq' (Finset.range (p.totalDegree + 1)) k
       (fun m => eval (centerGens A f₁ f₂) (homogeneousComponent m p))] at h0
-    rw [if_pos (Finset.mem_range.mpr (by omega))] at h0
+    rw [ite_eq_left (Finset.mem_range.mpr (by omega))] at h0
     exact h0.symm
 
 open Pointwise in

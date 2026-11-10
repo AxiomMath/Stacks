@@ -267,7 +267,7 @@ theorem centerRegularHom_mul (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥)
       DifferentialGradedModule.Hom.comp (centerRegularHom hA z) (centerRegularHom hA z') := by
   refine DifferentialGradedModule.Hom.ext (LinearMap.ext fun y => ?_)
   rw [centerRegularHom_toFun]
-  show (z : A.A) * (z' : A.A) * y =
+  change (z : A.A) * (z' : A.A) * y =
     (centerRegularHom hA z).toFun ((centerRegularHom hA z').toFun y)
   rw [centerRegularHom_toFun, centerRegularHom_toFun, mul_assoc]
 
@@ -275,7 +275,7 @@ theorem centerRegularHom_mul (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥)
 theorem centerRegularHom_apply_zero (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥)
     (u : (regularModule A).M) : (centerRegularHom hA 0).toFun u = 0 := by
   rw [centerRegularHom_toFun]
-  show (0 : A.A) * u = 0
+  change (0 : A.A) * u = 0
   rw [zero_mul]
 
 /-- Left multiplication by `z + z'` is the sum of the left multiplications by `z` and `z'`. -/
@@ -284,7 +284,7 @@ theorem centerRegularHom_apply_add (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = 
     (centerRegularHom hA (z + z')).toFun u =
       (centerRegularHom hA z).toFun u + (centerRegularHom hA z').toFun u := by
   rw [centerRegularHom_toFun, centerRegularHom_toFun, centerRegularHom_toFun]
-  show ((z : A.A) + (z' : A.A)) * u = _
+  change ((z : A.A) + (z' : A.A)) * u = _
   rw [add_mul]
 
 /-- Left multiplication by the image of `r : R` in the centre is scalar multiplication by `r`. -/
@@ -292,7 +292,7 @@ theorem centerRegularHom_apply_algebraMap (hA : ∀ n : ℤ, n ≠ 0 → A.gradi
     (u : (regularModule A).M) :
     (centerRegularHom hA (algebraMap R (Subalgebra.center R A.A) r)).toFun u = r • u := by
   rw [centerRegularHom_toFun]
-  show algebraMap R A.A r * u = r • u
+  change algebraMap R A.A r * u = r • u
   exact (Algebra.smul_def r u).symm
 
 /-- Left multiplication by a central element commutes with the left action of `A` on the regular
@@ -309,7 +309,7 @@ theorem centerRegularHom_map_left (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = �
           ((centerRegularHom hA z).gradedMap p x)) : (regularModule A).M) := by
   rw [regularBimoduleStructure_action A.idHom n p a x,
     regularBimoduleStructure_action A.idHom n p a ((centerRegularHom hA z).gradedMap p x)]
-  show (z : A.A) * ((AlgHom.id R A.A) (a : A.A) * (x : A.A)) =
+  change (z : A.A) * ((AlgHom.id R A.A) (a : A.A) * (x : A.A)) =
     (AlgHom.id R A.A) (a : A.A) * ((z : A.A) * (x : A.A))
   rw [AlgHom.coe_id, id_eq, ← mul_assoc, ← mul_assoc,
     (Subalgebra.mem_center_iff.mp z.property) (a : A.A)]
@@ -372,7 +372,7 @@ theorem centerDiagonalHom_bijective (hA : ∀ n : ℤ, n ≠ 0 → A.grading n =
     Function.Bijective (centerDiagonalHom hA) := by
   have e : ∀ w : Subalgebra.center R A.A,
       (centerDiagonalHom hA w).rightHom.toFun (1 : (regularModule A).M) = (w : A.A) := fun w => by
-    show (centerRegularHom hA w).toFun (1 : (regularModule A).M) = (w : A.A)
+    change (centerRegularHom hA w).toFun (1 : (regularModule A).M) = (w : A.A)
     rw [centerRegularHom_toFun]
     exact mul_one _
   constructor
@@ -642,7 +642,7 @@ the two factors is homogeneous of a nonzero degree, hence zero. -/
 theorem envelopingAlgebra_grading_eq_bot (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) (n : ℤ)
     (hn : n ≠ 0) : (envelopingAlgebra A).grading n = ⊥ := by
   refine le_antisymm ?_ bot_le
-  show DifferentialGradedAlgebra.tensorProductGrading (oppAlgebra A) A n ≤ ⊥
+  change DifferentialGradedAlgebra.tensorProductGrading (oppAlgebra A) A n ≤ ⊥
   refine Submodule.span_le.mpr ?_
   rintro x ⟨p, q, a, b, ha, hb, hpq, rfl⟩
   by_cases hp : p = 0
@@ -650,14 +650,14 @@ theorem envelopingAlgebra_grading_eq_bot (hA : ∀ n : ℤ, n ≠ 0 → A.gradin
       rw [hA q (by omega), Submodule.mem_bot] at hb
       exact hb
     rw [hb0]
-    show GradedTensorProduct.of R (oppAlgebra A).grading A.grading (a ⊗ₜ[R] 0) ∈ _
+    change GradedTensorProduct.of R (oppAlgebra A).grading A.grading (a ⊗ₜ[R] 0) ∈ _
     rw [TensorProduct.tmul_zero, map_zero]
     exact Submodule.zero_mem _
   · have ha0 : a = 0 := by
       rw [oppAlgebra_grading_eq_bot hA p hp, Submodule.mem_bot] at ha
       exact ha
     rw [ha0]
-    show GradedTensorProduct.of R (oppAlgebra A).grading A.grading
+    change GradedTensorProduct.of R (oppAlgebra A).grading A.grading
       ((0 : (oppAlgebra A).A) ⊗ₜ[R] b) ∈ _
     rw [TensorProduct.zero_tmul, map_zero]
     exact Submodule.zero_mem _
@@ -683,7 +683,7 @@ theorem centerToDiagonalDerivedEnd_surjective (hA : ∀ n : ℤ, n ≠ 0 → A.g
   obtain ⟨z, hz⟩ := (centerAlgEquivDiagonalEnd hA).surjective (.of φ)
   have hz' : centerToDiagonalModuleEnd hA z = .of φ := hz
   refine ⟨z, End.ext ?_⟩
-  show (toHomotopyCategory (envelopingAlgebra A) ⋙
+  change (toHomotopyCategory (envelopingAlgebra A) ⋙
     (quasiIsomorphisms' (envelopingAlgebra A)).Q).map (centerToDiagonalModuleEnd hA z).asHom =
       g.asHom
   rw [hz']

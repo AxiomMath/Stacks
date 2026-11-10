@@ -151,14 +151,14 @@ theorem ShortComplex.ShortExact.rightDual {S : ShortComplex C} (hS : S.ShortExac
   have hex := (hT T).1
   have hepiT : Epi (S.map (tensorLeft T)).g := (hT T).2
   have hzero : (S.map (tensorLeft T)).f ≫ (φ ▷ S.X₂ ≫ ε_ S.X₂ S.X₂ᘁ) = 0 := by
-    show T ◁ S.f ≫ _ = 0
+    change T ◁ S.f ≫ _ = 0
     rw [← whiskerRight_rightAdjointMate_comp_evaluation]
-    show (φ ≫ S.rightDual.g) ▷ _ ≫ _ = 0
+    change (φ ≫ S.rightDual.g) ▷ _ ≫ _ = 0
     rw [hφ, MonoidalPreadditive.zero_whiskerRight, zero_comp]
   let χ := hex.gIsCokernel.desc (CokernelCofork.ofπ _ hzero)
   refine ⟨tensorRightHomEquiv T S.X₃ S.X₃ᘁ (𝟙_ C) χ ≫ (λ_ _).hom, ?_⟩
   apply whiskerRight_comp_evaluation_injective
-  show (_ ≫ rightAdjointMate S.g) ▷ S.X₂ ≫ _ = _
+  change (_ ≫ rightAdjointMate S.g) ▷ S.X₂ ≫ _ = _
   rw [whiskerRight_rightAdjointMate_comp_evaluation,
     whiskerRight_tensorRightHomEquiv_comp_evaluation]
   exact hex.gIsCokernel.fac (CokernelCofork.ofπ _ hzero) WalkingParallelPair.one

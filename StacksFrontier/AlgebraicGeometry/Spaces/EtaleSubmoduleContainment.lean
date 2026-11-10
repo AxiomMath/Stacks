@@ -99,7 +99,7 @@ theorem isQuasiCompactSpace_fiberProduct (hZ : B.Contains (⊤_ Scheme.{u}))
     (hWqs : IsAbsolutelyQuasiSeparated B S hS hZ W.1) (hT : IsQuasiCompactSpace B S hS T.1)
     (hY : IsQuasiCompactSpace B S hS Y.1) :
     IsQuasiCompactSpace B S hS (AlgebraicSpaces.fiberProduct B S hS g h).1 := by
-  show IsQuasiCompactSpace B S hS (pullback g.hom h.hom)
+  change IsQuasiCompactSpace B S hS (pullback g.hom h.hom)
   exact isQuasiCompact_of_isQuasiCompactSpace B S hS hZ W.2 hWqs hY h.hom T.1 T.2 hT g.hom
 
 end FiberProduct
@@ -156,7 +156,7 @@ theorem exists_etaleGermSet_subset_of_containmentProperty {W T Y : AlgebraicSpac
   intro z hz
   rw [← h₂]
   refine h₄ ?_
-  show z ∈ etaleGermSet B S hS (p₂ ≫ h) hp₂h (etaleSubmoduleCongr B S hS e hp₁g hp₂h
+  change z ∈ etaleGermSet B S hS (p₂ ≫ h) hp₂h (etaleSubmoduleCongr B S hS e hp₁g hp₂h
     (etaleSubmoduleAlong B S hS p₁ hp₁ g hg hp₁g G)) (GeometricPointLift.comp B S hS h p₂ y b)
   rwa [h₃, h₁]
 
@@ -252,7 +252,7 @@ theorem containmentProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains 
     rw [ht₁, h₁] at hz
     exact etaleGermSet_mono B S hS j hj (le_sup_right : A₂ ≤ A) w (hA₂ x v w hz)
   have hBVW : etaleSubmoduleAlong B S hS ι₀ hι₀ f hf hι₀f BV = CW := by
-    show etaleSubmoduleAlong B S hS ι₀ hι₀ f hf hι₀f (A' ⊔ B₁) = CW
+    change etaleSubmoduleAlong B S hS ι₀ hι₀ f hf hι₀f (A' ⊔ B₁) = CW
     rw [etaleSubmoduleAlong_sup, hA'W]
     exact sup_eq_left.2 hB₁le
   have hagree : EdsGermAgree B S hS hsq Uo hUo A BV := by
@@ -261,7 +261,7 @@ theorem containmentProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains 
     have hmem : t.1 ∈ V₀.obj (op (x.val.siteObject B S hS W.1)) := by
       have h := t.2
       change fV.app _ t.1 = x.val.value at h
-      show fV.app _ t.1 ∈ Uo.obj _
+      change fV.app _ t.1 ∈ Uo.obj _
       rwa [h]
     let t₁ : GeometricPointLift B S hS ι₀.hom (liftGeometricPoint B S hS f t) :=
       ⟨⟨t.1, hmem⟩, rfl⟩

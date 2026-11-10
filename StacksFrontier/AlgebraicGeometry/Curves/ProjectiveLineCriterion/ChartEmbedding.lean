@@ -133,7 +133,7 @@ theorem isClosedImmersion_morphismRestrict_basicOpen (i : Fin (n + 1))
   have hA : IsAffineOpen (Φ ⁻¹ᵁ D) := hpre ▸ hU
   have : IsAffine (Φ ⁻¹ᵁ D).toScheme := hA
   refine IsClosedImmersion.of_surjective_of_isAffine _ ?_
-  show Function.Surjective ((Φ ∣_ D).app ⊤)
+  change Function.Surjective ((Φ ∣_ D).app ⊤)
   rw [morphismRestrict_app']
   refine AlgebraicGeometry.PlaneConic.surjective_appLE_congr Φ (Scheme.Opens.ι_image_top D).symm
     (Scheme.Opens.ι_image_top _).symm le_rfl _ ?_
@@ -188,7 +188,7 @@ theorem isClosedImmersion_toPolynomialModel_of_sup {i₀ i₁ : Fin (n + 1)}
   · rintro (_ | b)
     · have : IsEmpty (Φ ⁻¹ᵁ W).toScheme :=
         ⟨fun x => (x.2 : Φ x.1 ∈ (Set.range Φ)ᶜ) ⟨x.1, rfl⟩⟩
-      show IsClosedImmersion (Φ ∣_ W)
+      change IsClosedImmersion (Φ ∣_ W)
       infer_instance
     · exact isClosedImmersion_morphismRestrict_basicOpen f s hs _
         (AlgebraicGeometry.PlaneConic.isAffineOpen_nvCover f s hdim hcov hvan _)

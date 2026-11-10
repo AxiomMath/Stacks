@@ -659,8 +659,8 @@ theorem localizedChern_two_derivedTensor_of_isLocallyBoundedFiniteLocallyFree :
     S₂.isClosedImmersion_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂)
   have hT₁ := S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁
   have hT₂ := S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂
-  have hzero₁ := S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl
-  have hzero₂ := S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂
+  have hzero₁ := S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.fst b₁ b₂)
+  have hzero₂ := S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b (pullback.snd b₁ b₂)
   have key₁ : modificationPowerSum C f b hA z₁ t₁
       (S₁.hasDefinedChernClasses_graphObject.derivedPullback _) 0 hT₁ hzero₁ =
         S₁.localizedPowerSum h₁ 0 :=

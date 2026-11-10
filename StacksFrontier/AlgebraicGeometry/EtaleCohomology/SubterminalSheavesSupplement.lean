@@ -176,7 +176,7 @@ private theorem supportSchemeCoverFamily_etale' (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max u v} B S hS) :
     (supportSchemeCoverFamily' B S hS F).presieve₀ ∈
       Scheme.etalePrecoverage (supportOpen' B S hS F) := by
-  show Presieve.ofArrows _ _ ∈
+  change Presieve.ofArrows _ _ ∈
     Scheme.precoverage (@Etale : MorphismProperty Scheme) (supportOpen' B S hS F)
   apply (Scheme.ofArrows_mem_precoverage_iff
     (@Etale : MorphismProperty Scheme)).2
@@ -223,7 +223,7 @@ private theorem supportCoverFamily_etale' (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max u v} B S hS) :
     IsEtaleCovering
       ⟨supportBaseObject' B S hS F, supportCoverFamily' B S hS F⟩ := by
-  show ((supportCoverFamily' B S hS F).map B.inclusion).presieve₀ ∈
+  change ((supportCoverFamily' B S hS F).map B.inclusion).presieve₀ ∈
     Scheme.etalePrecoverage _
   exact supportSchemeCoverFamily_etale' B S hS F
 
@@ -332,13 +332,13 @@ private theorem supportRepSmallFamily_isCovering' (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max u v} B S hS) :
     SmallEtale.IsCovering B S hS
       ⟨supportRepSmallTarget' B S hS F, supportRepSmallFamily' B S hS F⟩ := by
-  show B.IsCovering
+  change B.IsCovering
     ⟨(Over.forget (B.obj S hS)).obj
         ((SmallEtale.inclusion B S hS).obj
           (supportRepSmallTarget' B S hS F)),
       (supportRepSmallFamily' B S hS F).map
         (SmallEtale.inclusion B S hS ⋙ Over.forget (B.obj S hS))⟩
-  show B.IsCovering (supportCoveringRep' B S hS F)
+  change B.IsCovering (supportCoveringRep' B S hS F)
   exact supportCoveringRep_isCovering' B S hS F
 
 /-- Transport of an index of a pre-`0`-hypercover along an equality of its target, read back in
@@ -388,7 +388,7 @@ private theorem supportFamilyMap_fac' (B : BigEtaleSite.{u})
   apply B.inclusion.map_injective
   let s := Classical.choice i.2
   have hfac := Over.w (supportSectionArrow' B S hS F i.1 s)
-  show B.inclusion.map (supportFamilyMap' B S hS F i) ≫
+  change B.inclusion.map (supportFamilyMap' B S hS F i) ≫
       B.inclusion.map ((supportObject' B S hS F).obj.hom) = _
   simpa [supportFamilyMap', supportObject', smallEtaleMap, Functor.map_comp] using hfac
 
@@ -563,7 +563,7 @@ private theorem representableArrow_map' (B : BigEtaleSite.{u})
       B.inclusion.obj (supportObject' B S hS F).obj.left := eqToHom hobj.symm
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
-  show B.inclusion.preimage (X := V.obj.left)
+  change B.inclusion.preimage (X := V.obj.left)
       (Y := supportBaseObject' B S hS F)
       (B.inclusion.map (Over.Hom.left f.unop.hom) ≫
         (Over.Hom.left x.down ≫ cast)) =
@@ -637,7 +637,7 @@ public theorem openRepresentable_obj_subsingleton.{u₁, v₁}
     (B : BigEtaleSite.{u₁}) (S : Scheme.{u₁}) (hS : B.Contains S)
     (W : S.Opens) (U : SmallEtale B S hS) :
     Subsingleton ((openRepresentable'.{u₁, v₁} B S hS W).obj (op U)) := by
-  show Subsingleton (ULift (Over.mk (smallEtaleMap B S hS U) ⟶ Over.mk W.ι))
+  change Subsingleton (ULift (Over.mk (smallEtaleMap B S hS U) ⟶ Over.mk W.ι))
   refine ⟨fun x y => ?_⟩
   apply ULift.ext
   apply Over.OverMorphism.ext
@@ -645,6 +645,7 @@ public theorem openRepresentable_obj_subsingleton.{u₁, v₁}
   exact (Over.w x.down).trans (Over.w y.down).symm
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for sheafification on the small étale site, at two universe levels
 /-- **The sheaf on the small étale site represented by an open subscheme is a subsheaf of the
 final sheaf.** This is the direction opposite to Stacks 04HV, and the input through which a
 morphism of topoi out of the small étale topos is fed to it: the presheaf has at most one
@@ -686,7 +687,7 @@ public theorem openRepresentable_range_subset'.{u₁, v₁}
   change x.down.left ≫ W.ι = smallEtaleMap B S hS U at hcomm
   have hpt : W.ι (x.down.left z) = (smallEtaleMap B S hS U) z := by
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun f => f z) hcomm
-  show (smallEtaleMap B S hS U).base z ∈ W
+  change (smallEtaleMap B S hS U).base z ∈ W
   rw [← hpt]
   exact (x.down.left z).property
 

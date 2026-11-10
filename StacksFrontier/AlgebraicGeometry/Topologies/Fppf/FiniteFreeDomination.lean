@@ -143,7 +143,7 @@ theorem exists_openCover_finiteLocallyFree_refinement_of_etaleDominates
       MorphismProperty.IsStableUnderBaseChange.of_isPullback
         (IsPullback.of_hasPullback _ _).flip (hqflf (a j.down k.down))⟩
   refine ⟨𝒰', W', g', 𝒲', T', h', fun j ↦ ⟨hgsurj j.down, hgflf j.down⟩, hh, ?_, ?_⟩
-  · show Presieve.ofArrows (fun jk : Σ j, (𝒲' j).I₀ ↦ T' jk.1 jk.2)
+  · change Presieve.ofArrows (fun jk : Σ j, (𝒲' j).I₀ ↦ T' jk.1 jk.2)
         (fun jk ↦ h' jk.1 jk.2 ≫ (𝒲' jk.1).f jk.2 ≫ g' jk.1 ≫ 𝒰'.f jk.1) ∈
       Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation) S
     rw [Scheme.ofArrows_mem_precoverage_iff]

@@ -65,7 +65,7 @@ theorem tensor_cycles_comp_d (i j : ℤ) :
     ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl) ≫
       (HomologicalComplex.tensorObj P Q).d (i + j) (i + j + 1) = 0 := by
-  show ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
+  change ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
     HomologicalComplex.ιMapBifunctor P Q (curriedTensor C) (ComplexShape.up ℤ)
       i j (i + j) rfl) ≫
     (HomologicalComplex.mapBifunctor P Q (curriedTensor C)
@@ -109,7 +109,7 @@ theorem tensor_left_boundary_d (i j : ℤ) :
       (HomologicalComplex.tensorObj P Q).d (i + j - 1) (i + j) =
     (P.d (i - 1) i ⊗ₘ Q.iCycles j) ≫
       HomologicalComplex.ιTensorObj P Q i j (i + j) rfl := by
-  show ((𝟙 (P.X (i - 1)) ⊗ₘ Q.iCycles j) ≫
+  change ((𝟙 (P.X (i - 1)) ⊗ₘ Q.iCycles j) ≫
       HomologicalComplex.ιMapBifunctor P Q (curriedTensor C)
         (ComplexShape.up ℤ) (i - 1) j (i + j - 1) (by dsimp; omega)) ≫
     (HomologicalComplex.mapBifunctor P Q (curriedTensor C)
@@ -152,7 +152,7 @@ theorem tensor_right_boundary_d (i j : ℤ) :
       ⟨i, j - 1⟩ •
       ((P.iCycles i ⊗ₘ Q.d (j - 1) j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl) := by
-  show ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
+  change ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
       HomologicalComplex.ιMapBifunctor P Q (curriedTensor C)
         (ComplexShape.up ℤ) i (j - 1) (i + j - 1) (by dsimp; omega)) ≫
     (HomologicalComplex.mapBifunctor P Q (curriedTensor C)
@@ -182,7 +182,7 @@ theorem tensorCycles_right_boundary (i j : ℤ) :
       x ≫ (HomologicalComplex.tensorObj P Q).toCycles (i + j - 1) (i + j) := by
     rw [← cancel_mono ((HomologicalComplex.tensorObj P Q).iCycles (i + j))]
     simp only [Category.assoc, tensorCycles_i, HomologicalComplex.toCycles_i]
-    show (𝟙 (P.cycles i) ⊗ₘ Q.toCycles (j - 1) j) ≫
+    change (𝟙 (P.cycles i) ⊗ₘ Q.toCycles (j - 1) j) ≫
       (P.iCycles i ⊗ₘ Q.iCycles j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl =
       (ε • ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
@@ -217,8 +217,8 @@ def tensorHomology (i j : ℤ) :
         (tensorCycles P Q i j ≫ (HomologicalComplex.tensorObj P Q).homologyπ (i + j))
         (by
           apply Limits.coprod.hom_ext
-          · simp [← tensorHom_id, tensorCycles_left_boundary, Limits.coprod.inl_desc]
-          · simp [← id_tensorHom, tensorCycles_right_boundary, Limits.coprod.inr_desc]))
+          · simp [← tensorHom_id, tensorCycles_left_boundary]
+          · simp [← id_tensorHom, tensorCycles_right_boundary]))
 
 /-- The defining property of the homology product: it sends the tensor of the classes of two
 cocycles to the class of the tensor of those cocycles. -/
@@ -278,7 +278,7 @@ theorem tensorHomology_naturality (f : P ⟶ P') (g : Q ⟶ Q') (i j : ℤ) :
       (HomologicalComplex.homologyMap f i ⊗ₘ HomologicalComplex.homologyMap g j) ≫
         tensorHomology P' Q' i j := by
   refine Limits.Cofork.IsColimit.hom_ext (isColimitTensorHomology P Q i j) ?_
-  show (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫ _ = (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫ _
+  change (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫ _ = (P.homologyπ i ⊗ₘ Q.homologyπ j) ≫ _
   rw [← Category.assoc, homologyπ_tensorHomology, Category.assoc,
     HomologicalComplex.homologyπ_naturality, ← Category.assoc, tensorCycles_naturality,
     Category.assoc, ← homologyπ_tensorHomology, ← Category.assoc, tensorHom_comp_tensorHom,

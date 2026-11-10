@@ -182,7 +182,7 @@ public theorem primeFormsComparisonLinear_dividedPowerDifferential (hp : p ≠ 0
         (dividedPowerDifferential (A := A) B.dividedPowers b) =
       dividedPowerDifferential (A := A) (primeDividedPowers B p lam hp)
         (algebraMap (B : Type u) (primeRing B p lam) b) := by
-  show (primeBaseDerivation A B p lam hp).liftKaehlerDifferential
+  change (primeBaseDerivation A B p lam hp).liftKaehlerDifferential
     (KaehlerDifferential.D A (B : Type u) b) = _
   rw [Derivation.liftKaehlerDifferential_comp_D, primeBaseDerivation_apply]
 
@@ -306,7 +306,7 @@ public theorem primeFormsXiMap_coefficient (b : (B : Type u)) :
           (algebraMap (B : Type u) (XiAlg B) b)) =
       ((1 : primeRing B p lam) ⊗ₜ[(B : Type u)]
         dividedPowerDifferential (A := A) B.dividedPowers b, 0) := by
-  show (LinearMap.coprod _ _) (oneVariableDifferentialsEquiv A B
+  change (LinearMap.coprod _ _) (oneVariableDifferentialsEquiv A B
     (dividedPowerDifferential (A := A) (oneVariableDividedPowers B)
       (algebraMap (B : Type u) (oneVariableDividedPowerPolynomial B) b))) = _
   rw [oneVariableDifferentialsEquiv_coefficient A B b]
@@ -317,7 +317,7 @@ public theorem primeFormsXiMap_xi :
     primeFormsXiMap A B p lam
         (dividedPowerDifferential (A := A) (xiDPRing B).dividedPowers (xi B)) =
       primeFormsDXi A B p lam := by
-  show (LinearMap.coprod _ _) (oneVariableDifferentialsEquiv A B
+  change (LinearMap.coprod _ _) (oneVariableDifferentialsEquiv A B
     (dividedPowerDifferential (A := A) (oneVariableDividedPowers B)
       (oneVariableVariable B))) = _
   rw [oneVariableDifferentialsEquiv_variable A B]
@@ -350,7 +350,7 @@ public theorem primeFormsPolyMap_C (b : XiAlg B) :
         (dividedPowerDifferential (A := A) (zPolyDPRing B).dividedPowers (Polynomial.C b)) =
       primeFormsXiMap A B p lam
         (dividedPowerDifferential (A := A) (xiDPRing B).dividedPowers b) := by
-  show (LinearMap.coprod _ _) ((primePolyFormsData A B).1 _) = _
+  change (LinearMap.coprod _ _) ((primePolyFormsData A B).1 _) = _
   rw [(primePolyFormsData A B).2.1 b]
   simp
 
@@ -359,7 +359,7 @@ public theorem primeFormsPolyMap_X :
     primeFormsPolyMap A B p lam
         (dividedPowerDifferential (A := A) (zPolyDPRing B).dividedPowers Polynomial.X) =
       (0, 1) := by
-  show (LinearMap.coprod _ _) ((primePolyFormsData A B).1 _) = _
+  change (LinearMap.coprod _ _) ((primePolyFormsData A B).1 _) = _
   rw [(primePolyFormsData A B).2.2]
   simp
 
@@ -404,13 +404,13 @@ public theorem primePolyDerivation_X_pow :
   have h1 : (Polynomial.X ^ (p - 1) : Polynomial (XiAlg B)) •
       ((0, 1) : primeFormsTarget A B p lam) = (0, zElt B p lam ^ (p - 1)) := by
     refine Prod.ext (smul_zero _) ?_
-    show (Polynomial.X ^ (p - 1) : Polynomial (XiAlg B)) • (1 : primeRing B p lam) =
+    change (Polynomial.X ^ (p - 1) : Polynomial (XiAlg B)) • (1 : primeRing B p lam) =
       zElt B p lam ^ (p - 1)
     rw [Algebra.smul_def, mul_one, map_pow]
     rfl
   rw [Derivation.leibniz_pow, primePolyDerivation_X, h1]
   refine Prod.ext (smul_zero _) ?_
-  show (p : ℕ) • zElt B p lam ^ (p - 1) = _
+  change (p : ℕ) • zElt B p lam ^ (p - 1) = _
   rw [nsmul_eq_mul]
 
 /-- **The derivation annihilates the relation `z^p - ξ - λ`.**  The three contributions
@@ -418,19 +418,19 @@ public theorem primePolyDerivation_X_pow :
 `ξ = z^p - λ` differentiated. -/
 public theorem primePolyDerivation_primePoly :
     primePolyDerivation A B p lam (primePoly B p lam) = 0 := by
-  show primePolyDerivation A B p lam (Polynomial.X ^ p - Polynomial.C (xi B) -
+  change primePolyDerivation A B p lam (Polynomial.X ^ p - Polynomial.C (xi B) -
     Polynomial.C (algebraMap (B : Type u) (XiAlg B) lam)) = 0
   rw [map_sub, map_sub, primePolyDerivation_X_pow, primePolyDerivation_C_xi,
     primePolyDerivation_C_coefficient, primeFormsDXi]
   refine Prod.ext ?_ ?_
-  · show (0 : primeRing B p lam ⊗[(B : Type u)]
+  · change (0 : primeRing B p lam ⊗[(B : Type u)]
       dividedPowerDifferentials (A := A) B.dividedPowers) -
         (-((1 : primeRing B p lam) ⊗ₜ[(B : Type u)]
           dividedPowerDifferential (A := A) B.dividedPowers lam)) -
         ((1 : primeRing B p lam) ⊗ₜ[(B : Type u)]
           dividedPowerDifferential (A := A) B.dividedPowers lam) = 0
     abel
-  · show ((p : ℕ) : primeRing B p lam) * zElt B p lam ^ (p - 1) -
+  · change ((p : ℕ) : primeRing B p lam) * zElt B p lam ^ (p - 1) -
         ((p : ℕ) : primeRing B p lam) * zElt B p lam ^ (p - 1) - 0 = 0
     ring
 
@@ -569,7 +569,7 @@ public theorem primeFormsForward_dividedPowerDifferential (x : primeRing B p lam
     primeFormsForward A B p lam hp
         (dividedPowerDifferential (A := A) (primeDividedPowers B p lam hp) x) =
       primeExtensionDerivation A B p lam x := by
-  show (primeExtensionDerivation A B p lam).liftKaehlerDifferential
+  change (primeExtensionDerivation A B p lam).liftKaehlerDifferential
     (KaehlerDifferential.D A (primeRing B p lam) x) = _
   exact Derivation.liftKaehlerDifferential_comp_D _ x
 
@@ -594,7 +594,7 @@ public theorem primeExtensionDerivation_zElt :
 public theorem primeFormsTarget_smul_free (c : primeRing B p lam) :
     c • ((0, 1) : primeFormsTarget A B p lam) = (0, c) := by
   refine Prod.ext (smul_zero _) ?_
-  show c • (1 : primeRing B p lam) = c
+  change c • (1 : primeRing B p lam) = c
   rw [smul_eq_mul, mul_one]
 
 /-- **The decomposition maps compose to the identity on `(B' ⊗_B Ω¹_{B/A,γ}) ⊕ B'`.**  The right
@@ -606,7 +606,7 @@ public theorem primeFormsForward_comp_primeFormsBackward :
   have hpsi : ((primeFormsForward A B p lam hp).restrictScalars (B : Type u)).comp
       (primeFormsComparisonLinear A B p lam hp) = primeFormsUnitInclusion A B p lam :=
     LinearMap.ext_on_range (dividedPowerDifferentials_span (A := A) B.dividedPowers) fun b => by
-      show primeFormsForward A B p lam hp (primeFormsComparisonLinear A B p lam hp
+      change primeFormsForward A B p lam hp (primeFormsComparisonLinear A B p lam hp
         (dividedPowerDifferential (A := A) B.dividedPowers b)) = _
       rw [primeFormsComparisonLinear_dividedPowerDifferential,
         primeFormsForward_dividedPowerDifferential, primeExtensionDerivation_algebraMap,
@@ -620,16 +620,12 @@ public theorem primeFormsForward_comp_primeFormsBackward :
       dividedPowerDifferentials (A := A) B.dividedPowers,
       primeFormsForward A B p lam hp (primeFormsBackward A B p lam hp (t, 0)) = (t, 0) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      rw [show ((0 : primeRing B p lam ⊗[(B : Type u)]
-          dividedPowerDifferentials (A := A) B.dividedPowers), (0 : primeRing B p lam)) =
-          (0 : primeFormsTarget A B p lam) from rfl, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b' om =>
       rw [show ((b' ⊗ₜ[(B : Type u)] om), (0 : primeRing B p lam)) =
           b' • (((1 : primeRing B p lam) ⊗ₜ[(B : Type u)] om), (0 : primeRing B p lam)) from
         Prod.ext (by
-            show b' ⊗ₜ[(B : Type u)] om = b' • ((1 : primeRing B p lam) ⊗ₜ[(B : Type u)] om)
+            change b' ⊗ₜ[(B : Type u)] om = b' • ((1 : primeRing B p lam) ⊗ₜ[(B : Type u)] om)
             rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one])
           (smul_zero _).symm, map_smul, map_smul, primeFormsBackward_tmul, map_smul, hpsi',
         one_smul]

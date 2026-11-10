@@ -178,7 +178,7 @@ theorem IsOpenCurvesLocus.of_le {P Q : ObjectProperty (AlgebraicGeometry.CurveFa
         Space.pointsMap B integerBase hZ (yoneda.obj V) (yoneda.map j) ''
           Set.range (Space.pointsMap B integerBase hZ (yoneda.obj F.base) (yoneda.map k)) := by
     intro k hk
-    show Set.range (Space.pointsMap B integerBase hZ (yoneda.obj F.base)
+    change Set.range (Space.pointsMap B integerBase hZ (yoneda.obj F.base)
       (yoneda.map a.baseMap)) = _
     rw [← hk, Functor.map_comp, Space.pointsMap_comp, Set.range_comp]
   constructor

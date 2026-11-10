@@ -182,9 +182,7 @@ theorem transportQMap_chartRestrictModulesIso_derivedQIso {C A : SmallEtale B S 
       (chartMap_comp_chartToSpace B S hS X c) _ _)
     (smallEtaleDerivedModulePullbackCompIso_hom_comp_isoEtale (chartMap B S hS X c)
       (chartToSpace B S hS X A) (isEtale_chartMap B S hS X c) (isEtale_chartToSpace B S hS X A)
-      (isEtale_chartMap_comp_chartToSpace B S hS X c) (relativelyRepresentable_chartMap B S hS X c)
-      (relativelyRepresentable_chartToSpace B S hS X A)
-      (relativelyRepresentable_chartMap_comp_chartToSpace B S hS X c))
+      (isEtale_chartMap_comp_chartToSpace B S hS X c))
     (chartDerivedPullbackIso B S hS c) rfl β
 
 /-- **Gluing morphisms of `D(𝒪_X)` along étale charts, through derived pullbacks.** Let `K`, `L`

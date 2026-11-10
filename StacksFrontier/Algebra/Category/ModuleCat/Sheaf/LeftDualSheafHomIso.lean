@@ -166,7 +166,7 @@ theorem dualSheafIsoOfLeftDual_hom_eq :
               (evaluation 𝒪 h𝒪 F) G ≫
             (λ_ G).hom := by
   let pD := exactPairingDualSheafOfLeftDual 𝒪 h𝒪 F G
-  show (rightDualIso pD p).hom = _
+  change (rightDualIso pD p).hom = _
   dsimp only [rightDualIso, rightAdjointMate]
   have hev : ε_ F (dualSheaf 𝒪 h𝒪 F) = evaluation 𝒪 h𝒪 F := rfl
   simp [hev]
@@ -178,7 +178,7 @@ and it is `CategoryTheory.rightAdjointMate_comp_evaluation` for the identity of 
 theorem dualSheafIsoOfLeftDual_inv_whiskerRight_comp_evaluation :
     (dualSheafIsoOfLeftDual 𝒪 h𝒪 F G).inv ▷ F ≫ evaluation 𝒪 h𝒪 F = ε_ F G := by
   let pD := exactPairingDualSheafOfLeftDual 𝒪 h𝒪 F G
-  show (dualSheafIsoOfLeftDual 𝒪 h𝒪 F G).inv ▷ F ≫ ε_ F (dualSheaf 𝒪 h𝒪 F) = ε_ F G
+  change (dualSheafIsoOfLeftDual 𝒪 h𝒪 F G).inv ▷ F ≫ ε_ F (dualSheaf 𝒪 h𝒪 F) = ε_ F G
   have key : (dualSheafIsoOfLeftDual 𝒪 h𝒪 F G).hom ▷ F ≫ ε_ F G
       = ε_ F (dualSheaf 𝒪 h𝒪 F) := by
     have h := @rightAdjointMate_comp_evaluation _ _ _ F F (HasRightDual.mk G)

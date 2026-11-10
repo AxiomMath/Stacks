@@ -155,13 +155,13 @@ private lemma nervePointArrowEquiv_naturality {S : Scheme.{u}}
   have hL : (((evaluationRestriction G f).op.mapArrow).obj
       (nervePointArrowEquiv G T a)).left =
       (nervePointArrowEquiv G T' (f ≫ a)).left := by
-    show Opposite.op (f ≫ a ≫ G.target) =
+    change Opposite.op (f ≫ a ≫ G.target) =
       Opposite.op ((f ≫ a) ≫ G.target)
     congr 1
   have hR : (((evaluationRestriction G f).op.mapArrow).obj
       (nervePointArrowEquiv G T a)).right =
       (nervePointArrowEquiv G T' (f ≫ a)).right := by
-    show Opposite.op (f ≫ a ≫ G.source) =
+    change Opposite.op (f ≫ a ≫ G.source) =
       Opposite.op ((f ≫ a) ≫ G.source)
     congr 1
   have hHom : (((evaluationRestriction G f).op.mapArrow).obj
@@ -182,7 +182,7 @@ private lemma nervePointsOne_naturality {S : Scheme.{u}} (G : GroupoidScheme S)
       ((evaluationRestriction G f).op.mapComposableArrows 1).obj
         (nervePointsOne G T a) = nervePointsOne G T' (f ≫ a) := by
   apply ComposableArrows.arrowEquiv.injective
-  show ((evaluationRestriction G f).op.mapArrow).obj
+  change ((evaluationRestriction G f).op.mapArrow).obj
       (nervePointArrowEquiv G T a) = nervePointArrowEquiv G T' (f ≫ a)
   exact nervePointArrowEquiv_naturality G f a
 
@@ -194,11 +194,11 @@ private noncomputable def nervePullbackPoints {S : Scheme.{u}} (T : Over S)
     simpa only [Category.assoc] using congrArg (fun t => x ≫ t) pullback.condition⟩
   invFun p := pullback.lift p.val.1 p.val.2 p.property
   left_inv x := by
-    apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+    apply pullback.hom_ext <;> simp
   right_inv p := by
     apply Subtype.ext
     rcases p with ⟨⟨a, b⟩, h⟩
-    simp [pullback.lift_fst, pullback.lift_snd]
+    simp
 
 private structure NervePointData {S : Scheme.{u}} (G : GroupoidScheme S)
     (T : Over S) (n : ℕ) where
@@ -345,7 +345,7 @@ private lemma nervePointData_naturality {S : Scheme.{u}} (G : GroupoidScheme S)
       (nervePointData G T' n).equiv (f ≫ x) := by
   induction n with
   | zero =>
-      show ((evaluationRestriction G f).op.mapComposableArrows 0).obj
+      change ((evaluationRestriction G f).op.mapComposableArrows 0).obj
           (nervePointsZero G T x) = nervePointsZero G T' (f ≫ x)
       rfl
   | succ n ih =>
@@ -378,7 +378,7 @@ private lemma nervePointData_naturality {S : Scheme.{u}} (G : GroupoidScheme S)
           have hZero :
               (evaluationRestriction G f).op.obj E.left = E'.left :=
             congrArg Arrow.left hArrow
-          show ((evaluationRestriction G f).op.mapComposableArrows (n + 2)).obj
+          change ((evaluationRestriction G f).op.mapComposableArrows (n + 2)).obj
               ((D.equiv p.val.2).precomp (E.hom ≫ eqToHom h)) =
             (D'.equiv p'.val.2).precomp (E'.hom ≫ eqToHom h')
           refine ComposableArrows.ext_succ (h₀ := hZero) (h := hTailEq) (w := ?_)
@@ -403,7 +403,7 @@ private lemma nervePointData_naturality {S : Scheme.{u}} (G : GroupoidScheme S)
                 (evaluationRestriction G f).op.obj E.right =
                   (((evaluationRestriction G f).op.mapComposableArrows (n + 1)).obj
                     (D.equiv p.val.2)).obj 0 := by
-              show (evaluationRestriction G f).op.obj E.right =
+              change (evaluationRestriction G f).op.obj E.right =
                 (evaluationRestriction G f).op.obj ((D.equiv p.val.2).obj 0)
               exact congrArg (fun z => (evaluationRestriction G f).op.obj z) h
             have hComp : eqToHom hR.symm ≫ eqToHom hMapEnd =
@@ -411,7 +411,7 @@ private lemma nervePointData_naturality {S : Scheme.{u}} (G : GroupoidScheme S)
               rw [eqToHom_trans, eqToHom_trans]
             have hLeft : hL = hZero := by
               apply Subsingleton.elim
-            show (evaluationRestriction G f).op.map
+            change (evaluationRestriction G f).op.map
                 (E.hom ≫ eqToHom h) =
               eqToHom hZero ≫ (E'.hom ≫ eqToHom h') ≫
                 eqToHom (Functor.congr_obj hTailEq.symm 0)
@@ -446,7 +446,7 @@ private lemma nerveOperator_point {S : Scheme.{u}} (G : GroupoidScheme S)
   have hn := nervePointData_naturality G x n (𝟙 X)
   have hm := nervePointData_naturality G x m (nerveOperator G α)
   rw [← hm]
-  show ((evaluationRestriction G x).op.mapComposableArrows m).obj
+  change ((evaluationRestriction G x).op.mapComposableArrows m).obj
       (eM ((nervePointData G X m).equiv.symm
         (ComposableArrows.whiskerLeft ((nervePointData G X n).equiv (𝟙 X)) Φ))) =
     ComposableArrows.whiskerLeft ((nervePointData G T n).equiv x) Φ
@@ -517,7 +517,7 @@ private lemma nervePoints_two_first {S : Scheme.{u}} (G : GroupoidScheme S)
   have h : E.right = (tail.equiv p.val.2).left :=
     (congrArg (fun z : G.Evaluation T => Opposite.op z) p.property).trans
       (tail.obj_zero p.val.2).symm
-  show (((tail.equiv p.val.2).precomp (E.hom ≫ eqToHom h)).map
+  change (((tail.equiv p.val.2).precomp (E.hom ≫ eqToHom h)).map
       (homOfLE (show (0 : Fin 3) ≤ 1 by decide))).unop.arrow =
     x ≫ pullback.fst G.source G.target
   have hEdge : (E.hom ≫ eqToHom h).unop.arrow = p.val.1 := by
@@ -541,7 +541,7 @@ private lemma nervePoints_two_second {S : Scheme.{u}} (G : GroupoidScheme S)
   have h : E.right = (tail.equiv p.val.2).left :=
     (congrArg (fun z : G.Evaluation T => Opposite.op z) p.property).trans
       (tail.obj_zero p.val.2).symm
-  show (((tail.equiv p.val.2).precomp (E.hom ≫ eqToHom h)).map
+  change (((tail.equiv p.val.2).precomp (E.hom ≫ eqToHom h)).map
       (homOfLE (show (1 : Fin 3) ≤ 2 by decide))).unop.arrow =
     x ≫ pullback.snd G.source G.target
   calc
@@ -587,12 +587,12 @@ private lemma nerveOperator_delta_two_one {S : Scheme.{u}}
   intro T x
   rw [nerveOperator_arrow]
   let F := (nervePointData G T 2).equiv x
-  show (F.map (homOfLE (show (0 : Fin 3) ≤ 2 by decide))).unop.arrow = x ≫ G.comp
+  change (F.map (homOfLE (show (0 : Fin 3) ≤ 2 by decide))).unop.arrow = x ≫ G.comp
   have h := F.map_comp (homOfLE (show (0 : Fin 3) ≤ 1 by decide))
     (homOfLE (show (1 : Fin 3) ≤ 2 by decide))
   have h' := congrArg (fun f : F.obj 0 ⟶ F.obj 2 => f.unop.arrow) h
   refine h'.trans ?_
-  show pullback.lift
+  change pullback.lift
     (F.map (homOfLE (show (0 : Fin 3) ≤ 1 by decide))).unop.arrow
     (F.map (homOfLE (show (1 : Fin 3) ≤ 2 by decide))).unop.arrow _ ≫ G.comp = _
   dsimp only [F]
@@ -869,7 +869,7 @@ private lemma groupoidSimplicialScheme_exists {S : Scheme.{u}}
         (congrArg (fun f => x ≫ f) (Category.id_comp (pullback.snd G.source G.target))).symm
     pointEquiv_map := by
       intro m n α T x
-      show (nervePointData G T m).equiv (x ≫ nerveOperator G α) = _
+      change (nervePointData G T m).equiv (x ≫ nerveOperator G α) = _
       exact nerveOperator_point G α T x
     isCoskeletal := nerveSimplicialScheme_isCoskeletal G
   }⟩

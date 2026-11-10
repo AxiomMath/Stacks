@@ -58,7 +58,7 @@ private theorem closureMap_le {X S : Scheme.{u}} (f : X ⟶ S) (y : X) :
       (Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({y} : Set X))).map f := by
   rw [Scheme.IdealSheafData.map_vanishingIdeal]
   refine le_of_eq (congrArg _ (Closeds.ext ?_))
-  show closure ({f y} : Set S) = closure (f '' closure ({y} : Set X))
+  change closure ({f y} : Set S) = closure (f '' closure ({y} : Set X))
   exact ((closure_image_closure f.continuous).trans (by simp)).symm
 
 /-- A point whose image under an inducing map has closure containing the range is a generic
@@ -253,7 +253,7 @@ theorem relativeDimension_closureSubschemeMap
   let x : h.fiber t := genericPoints.ofComponent ⟨Z, hZ⟩
   have hxgen : IsGenericPoint x Z := genericPoints.isGenericPoint_ofComponent ⟨Z, hZ⟩
   have hι : g.fiberι (T.subschemeι t) (e x) = h.fiberι t x := by
-    show ((g.fiberHomeo (T.subschemeι t)) (e x)).1 = ((h.fiberHomeo t) x).1
+    change ((g.fiberHomeo (T.subschemeι t)) (e x)).1 = ((h.fiberHomeo t) x).1
     simp [e, fiberHomeomorphOfFactor, Homeomorph.setCongr]
   have hegen : IsGenericPoint (e x) (e '' Z) := by
     simpa only [(e.isClosedMap Z (isClosed_of_mem_irreducibleComponents Z hZ)).closure_eq]

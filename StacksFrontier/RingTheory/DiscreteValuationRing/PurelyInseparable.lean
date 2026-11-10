@@ -248,7 +248,7 @@ private theorem exists_pow_eq_adicCompletion_of_forall_pow_dvd_sub
   have hcompat : AdicCompletion.IsAdicCauchy I R b := by
     intro m n hmn
     rw [SModEq.sub_mem, smul_eq_mul, Ideal.mul_top]
-    show b m - b n ∈ (Ideal.span {t}) ^ m
+    change b m - b n ∈ (Ideal.span {t}) ^ m
     rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton]
     apply (IsIntegrallyClosed.pow_dvd_pow_iff (Fact.out : p.Prime).ne_zero).mp
     rw [← pow_mul, sub_pow_char]
@@ -259,10 +259,10 @@ private theorem exists_pow_eq_adicCompletion_of_forall_pow_dvd_sub
   let α := AdicCompletion.mk I R ⟨b, hcompat⟩
   refine ⟨α, AdicCompletion.ext_evalₐ fun n => ?_⟩
   simp only [map_pow, α, AlgHom.commutes]
-  show (Ideal.Quotient.mk (I ^ n) (b n)) ^ p = Ideal.Quotient.mk (I ^ n) a
+  change (Ideal.Quotient.mk (I ^ n) (b n)) ^ p = Ideal.Quotient.mk (I ^ n) a
   rw [← map_pow, Ideal.Quotient.eq]
   have hmem : a - b n ^ p ∈ I ^ n := by
-    show a - b n ^ p ∈ (Ideal.span {t}) ^ n
+    change a - b n ^ p ∈ (Ideal.span {t}) ^ n
     rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton]
     exact (pow_dvd_pow t (Nat.le_mul_of_pos_right n (Fact.out : p.Prime).pos)).trans (hb n)
   simpa only [neg_sub] using (I ^ n).neg_mem hmem
@@ -461,7 +461,7 @@ private theorem integralClosure_eq_adjoin_of_pow_eq_uniformizer
   change integralClosure R (AdjoinRoot f) = Algebra.adjoin R {AdjoinRoot.root f} at hclosure
   rw [← integralClosure_map_algEquiv (e.restrictScalars R), hclosure,
     AlgHom.map_adjoin_singleton]
-  show Algebra.adjoin R {e (AdjoinRoot.root f)} = Algebra.adjoin R {x}
+  change Algebra.adjoin R {e (AdjoinRoot.root f)} = Algebra.adjoin R {x}
   rw [he]
 
 private theorem adjoin_eq_top_of_pow_eq_uniformizer
@@ -484,7 +484,7 @@ private theorem adjoin_eq_top_of_pow_eq_uniformizer
   rw [Algebra.map_top, AlgHom.map_adjoin_singleton, hc]
   symm
   apply integralClosure_eq_adjoin_of_pow_eq_uniformizer R K L hp hdegree π hπ
-  show (algebraMap S L x) ^ p = algebraMap R L π
+  change (algebraMap S L x) ^ p = algebraMap R L π
   rw [← map_pow, hx, ← IsScalarTower.algebraMap_apply R S L]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -523,7 +523,7 @@ private theorem exists_root_uniformizer_of_no_nonpower_residue
   let t : D := ⟨AdjoinRoot.root f, hti⟩
   have ht : t ^ p = algebraMap R D π := Subtype.ext htE
   let : Module.Finite R D := by
-    show Module.Finite R ↥(integralClosure R E)
+    change Module.Finite R ↥(integralClosure R E)
     have hc : integralClosure R E = Algebra.adjoin R {AdjoinRoot.root f} :=
       Stacks.KummerExtension.integralClosure_eq_adjoin K π p hp.two_le hπ
     rw [hc]
@@ -779,11 +779,10 @@ private theorem adjoin_tensorProduct_eq_top_of_adjoin_eq_top
     | algebraMap l => exact hl l
     | add a b _ _ ha hb => rw [map_add]; exact S.add_mem ha hb
     | mul a b _ _ ha hb => rw [map_mul]; exact S.mul_mem ha hb
-  show S = ⊤
+  change S = ⊤
   suffices hall : ∀ z : U, z ∈ S from top_unique (fun z _ => hall z)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact S.zero_mem
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => exact S.add_mem hz hw
   | tmul m k =>
     have hk := S.algebraMap_mem ((1 : L) ⊗ₜ[K] k)
@@ -1005,11 +1004,11 @@ theorem weaklyUnramified_or_adjoin_root_or_after_totallyRamified_baseChange
     (by simpa only [Ideal.map_map] using hfm)
   have hfA (z : A) : f (algebraMap A A₁ z) = algebraMap B B₁ (algebraMap A B z) := by
     apply IsFractionRing.injective B₁ L₁
-    show (f (algebraMap A A₁ z) : L₁) = _
+    change (f (algebraMap A A₁ z) : L₁) = _
     have hh := he (algebraMap A A₁ z)
     change (f (algebraMap A A₁ z) : L₁) = _ at hh
     rw [hh]
-    show (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L₁) (algebraMap A K₁ z) =
+    change (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L₁) (algebraMap A K₁ z) =
       algebraMap B L₁ (algebraMap A B z)
     rw [← IsScalarTower.algebraMap_apply A B L₁, IsScalarTower.algebraMap_apply A K K₁,
       IsScalarTower.algebraMap_apply A K L₁]
@@ -1028,13 +1027,13 @@ theorem weaklyUnramified_or_adjoin_root_or_after_totallyRamified_baseChange
     Algebra.TensorProduct.map_tmul _ _ l 1
   have hgK (k : K₁) : g ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L₁) k) =
       (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] M₁) k := by
-    show (algebraMap L M 1) ⊗ₜ[K] k = (1 : M) ⊗ₜ[K] k
+    change (algebraMap L M 1) ⊗ₜ[K] k = (1 : M) ⊗ₜ[K] k
     rw [map_one]
   let : Algebra L₁ M₁ := g.toRingHom.toAlgebra
   let : Algebra B₁ M₁ := ((algebraMap L₁ M₁).comp (algebraMap B₁ L₁)).toAlgebra
   let : IsScalarTower B₁ L₁ M₁ := IsScalarTower.of_algebraMap_eq fun _ => rfl
   let : IsScalarTower B L₁ M₁ := IsScalarTower.of_algebraMap_eq fun z => by
-    show algebraMap B M₁ z = g ((Algebra.TensorProduct.includeLeft : L →ₐ[K] L₁)
+    change algebraMap B M₁ z = g ((Algebra.TensorProduct.includeLeft : L →ₐ[K] L₁)
       (algebraMap B L z))
     rw [hgL, ← IsScalarTower.algebraMap_apply B L M]
     rfl
@@ -1076,7 +1075,7 @@ theorem weaklyUnramified_or_adjoin_root_or_after_totallyRamified_baseChange
         algebraMap L₁ M₁ (algebraMap B₁ L₁ ((f t) ^ (m + 1))) ^ p *
           algebraMap L₁ M₁ (algebraMap B₁ L₁ v) := by
     rw [← map_pow, hxM]
-    show algebraMap B M₁ (↑u * algebraMap A B π) = _
+    change algebraMap B M₁ (↑u * algebraMap A B π) = _
     rw [IsScalarTower.algebraMap_apply B B₁ M₁, hd']
     simp only [map_add, map_mul, map_pow, IsScalarTower.algebraMap_apply B₁ L₁ M₁]
   obtain ⟨y, hyp, hygen⟩ := exists_pow_eq_of_affine_pow_eq L₁ M₁

@@ -192,7 +192,7 @@ theorem affineFiberMap_comp_affineFiberIso_hom
     {T' T : SchemesOver ((schemeSpaceFunctor B S hS).obj T₀)} (g : T' ⟶ T) :
     representedSpaceMap B S hS (affineFiberMap f₀ g) ≫ (affineFiberIso f₀ T).hom =
       (affineFiberIso f₀ T').hom ≫ baseChangeMap ((schemeSpaceFunctor B S hS).map f₀) g := by
-  show (schemeSpaceFunctor B S hS).map (affineFiberMap f₀ g) ≫ (affineFiberIso f₀ T).hom =
+  change (schemeSpaceFunctor B S hS).map (affineFiberMap f₀ g) ≫ (affineFiberIso f₀ T).hom =
     (affineFiberIso f₀ T').hom ≫ baseChangeMap ((schemeSpaceFunctor B S hS).map f₀) g
   refine baseChange_hom_ext ((schemeSpaceFunctor B S hS).map f₀) ?_ ?_
   · simp only [Category.assoc, affineFiberIso_hom_projection, baseChangeMap_comp_projection]
@@ -382,7 +382,7 @@ theorem exists_stage_quotient_of_affineSystem (hF : F.IsFinitePresentationOnSite
       (fun _ ↦ isFinitePresentationOnSite_modulePullback B S hS _ F hF)
       (ML := (modulePullback B S hS bL).obj F)
       (affineSystemStageTau V cV F b bL hbL)
-      (@affineSystemStageSigma _ _ _ _ _ _ V cV _ F b hb)
+      (fun e ↦ affineSystemStageSigma V cV F b hb e)
       (fun {j k} e ↦ Functor.app_symm_coherence_of_pasting_of_heq
         ((affineSpacePullbackSystem B S hS V cV).comp e)
         (modulePullbackTriangle B S hS (hb e)) (modulePullbackTriangle B S hS (hbL j))
@@ -568,7 +568,7 @@ theorem limitPreserving_affineQuotientSituation
         ((affineQuotientSituation f₀ F hFq).quotientPullbackCokernelIso (E.map e') _).symm
         hflat'⟩, hfp⟩
     refine ⟨op j', ⟨_, hmem⟩, Subtype.ext ?_⟩
-    show K = (affineQuotientSituation f₀ F hFq).quotientPullback (c.π.app j')
+    change K = (affineQuotientSituation f₀ F hFq).quotientPullback (c.π.app j')
       ((affineQuotientSituation f₀ F hFq).quotientPullback (E.map e')
         (affineFiberQuotientInv f₀ F hFq (E.obj j) Kjz))
     rw [← (affineQuotientSituation f₀ F hFq).quotientPullback_comp

@@ -104,14 +104,14 @@ theorem RepresentableBy.homEquiv_mul {P : BigFppfOver B S hS}
   set α := representableByPicardGrpFunctor R
   have key : α.homEquiv' (a * b) = α.homEquiv' a * α.homEquiv' b := by
     rw [Hom.mul_def]
-    show α.homEquiv' (lift a b ≫ α.homEquiv'.symm (α.homEquiv' (fst P P) *
+    change α.homEquiv' (lift a b ≫ α.homEquiv'.symm (α.homEquiv' (fst P P) *
       α.homEquiv' (snd P P))) = _
     simp only [α.homEquiv'_comp, Equiv.apply_symm_apply, map_mul]
     simp only [← α.homEquiv'_comp, lift_fst, lift_snd]
   have key' := congrArg Multiplicative.toAdd key
   set e := (picardFunctorIsoPicardAddFunctor B hX hS f).app (op T)
   change e.hom (R.homEquiv (a * b)) = e.hom (R.homEquiv a) + e.hom (R.homEquiv b) at key'
-  show R.homEquiv (a * b) = e.inv (e.hom (R.homEquiv a) + e.hom (R.homEquiv b))
+  change R.homEquiv (a * b) = e.inv (e.hom (R.homEquiv a) + e.hom (R.homEquiv b))
   rw [← key']
   exact (congrFun (congrArg DFunLike.coe (congrArg ConcreteCategory.hom e.hom_inv_id))
     (R.homEquiv (a * b))).symm
@@ -201,10 +201,10 @@ theorem exists_representingPointsAddEquiv_eq {P : BigFppfOver B S hS}
   have hid : B.inclusion.map (𝟙 (B.obj hS)) = 𝟙 S := CategoryTheory.Functor.map_id _ _
   let eT : 𝟙_ (Over S) ≅ (BigFppfOver.toOver B S hS).obj (terminalTest B hS) :=
     { hom := Over.homMk (𝟙 _) (by
-        show 𝟙 S ≫ B.inclusion.map (𝟙 (B.obj hS)) = 𝟙 S
+        change 𝟙 S ≫ B.inclusion.map (𝟙 (B.obj hS)) = 𝟙 S
         rw [hid, Category.comp_id])
       inv := Over.homMk (𝟙 _) (by
-        show 𝟙 S ≫ 𝟙 S = B.inclusion.map (𝟙 (B.obj hS))
+        change 𝟙 S ≫ 𝟙 S = B.inclusion.map (𝟙 (B.obj hS))
         rw [hid, Category.comp_id])
       hom_inv_id := Over.OverMorphism.ext (Category.comp_id _)
       inv_hom_id := Over.OverMorphism.ext (Category.comp_id _) }

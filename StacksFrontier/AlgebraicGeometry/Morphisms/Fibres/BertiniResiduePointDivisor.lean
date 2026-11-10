@@ -200,7 +200,7 @@ theorem mem_smoothLocus_of_mem_smoothLocus_residueCoordDivisor [Smooth D.toBase]
   have hmem : (D.universalDivisorSchemeOver W).ι.base w ∈
       Set.range (D.specializedToUniversal K a).base := by
     rw [hrange, hpt]
-    show D.universalFamilyMap.base _ ∈
+    change D.universalFamilyMap.base _ ∈
       Set.range (D.parameterBase.fromSpecResidueField s).base
     rw [show Set.range (D.parameterBase.fromSpecResidueField s).base = {s} from
       Scheme.range_fromSpecResidueField s]

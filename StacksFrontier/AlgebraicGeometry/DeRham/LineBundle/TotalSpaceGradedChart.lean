@@ -47,7 +47,7 @@ theorem Situation.symSectionsRingEquiv_coe (U : D.X.affineOpens) (k : ℕ)
     DirectSum.decompose_coe (fun n : ℕ => SymPow.symmetricPower n Γ(D.X, U.1) Γ(D.L, U.1)) y
   unfold Situation.totalFunction
   rw [D.universalAlgebraMap_app_eq_sectionsIso U]
-  show (D.sectionsIso U).hom.hom (Stacks.RelativeSpec.ungradedSectionsRingEquiv D.X
+  change (D.sectionsIso U).hom.hom (Stacks.RelativeSpec.ungradedSectionsRingEquiv D.X
     D.symmetricAlgebra D.symmetricAlgebra_mul_comm U.2
       (Stacks.SymAlgSections.symPowersRingEquiv D.L U.2 (DirectSum.decomposeRingEquiv
         (fun n : ℕ => SymPow.symmetricPower n Γ(D.X, U.1) Γ(D.L, U.1))
@@ -119,7 +119,7 @@ theorem Situation.exists_totalFunction_iff (U : D.X.affineOpens)
     obtain ⟨c, hc⟩ := D.polynomialAlgEquiv_mem_range_monomial U b k y.2
     refine ⟨c, ?_⟩
     rw [← D.symSectionsRingEquiv_coe]
-    show D.symSectionsRingEquiv U ((D.polynomialAlgEquiv U b).symm (monomial k c)) = _
+    change D.symSectionsRingEquiv U ((D.polynomialAlgEquiv U b).symm (monomial k c)) = _
     rw [show (monomial k c : Γ(D.X, U.1)[X]) = D.polynomialAlgEquiv U b y from hc,
       AlgEquiv.symm_apply_apply]
   · rintro ⟨c, rfl⟩

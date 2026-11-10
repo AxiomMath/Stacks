@@ -125,8 +125,7 @@ theorem algHom_ext_tripleTensor {D : Type u} [CommRing D] [Algebra R D]
     F = G := by
   apply Algebra.TensorProduct.ext'
   intro x a
-  induction x using TensorProduct.induction_on with
-  | zero => rw [zero_tmul, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [add_tmul, map_add, map_add, hx, hy]
   | tmul b a' =>
     have hdec : ((b ⊗ₜ[R] a') ⊗ₜ[R] a : (B ⊗[R] A) ⊗[R] A) =

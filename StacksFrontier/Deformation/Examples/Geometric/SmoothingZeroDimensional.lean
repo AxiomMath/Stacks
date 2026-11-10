@@ -103,7 +103,7 @@ private theorem nonempty_specialFibre_algEquiv
     have h1 : (e1.trans e2)
         (algebraMap k (B ⧸ I.map (algebraMap (PowerSeries k) B)) a) =
         (1 : k) ⊗ₜ[PowerSeries k] algebraMap k B a := by
-      show (Algebra.TensorProduct.congr ek AlgEquiv.refl)
+      change (Algebra.TensorProduct.congr ek AlgEquiv.refl)
         ((Algebra.TensorProduct.quotIdealMapEquivQuotTensor B I)
           (Ideal.Quotient.mk (I.map (algebraMap (PowerSeries k) B))
             (algebraMap k B a))) = _

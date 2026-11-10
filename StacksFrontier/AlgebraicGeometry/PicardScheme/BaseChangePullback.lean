@@ -110,7 +110,7 @@ theorem exists_isPullback_bigFppfOver {U V T : BigFppfOver B S hS} (a : U ⟶ T)
   obtain ⟨W₀, p₀, q₀, hpb⟩ := exists_isPullback_bigFppfSite B a.left b.left
   have hcond : p₀ ≫ a.left = q₀ ≫ b.left := B.inclusion.map_injective hpb.w
   refine ⟨Over.mk (p₀ ≫ U.hom), Over.homMk p₀, Over.homMk q₀ ?_, ?_, hpb⟩
-  · show q₀ ≫ V.hom = p₀ ≫ U.hom
+  · change q₀ ≫ V.hom = p₀ ≫ U.hom
     rw [← Over.w a, ← Over.w b, ← Category.assoc, ← Category.assoc, hcond]
   · exact Over.OverMorphism.ext hcond
 

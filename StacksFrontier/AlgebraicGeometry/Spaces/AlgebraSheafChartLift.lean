@@ -54,11 +54,7 @@ theorem ringHom_ext_chart (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
   let := chartAlgebra (hF := hF) κ
   ext s
   obtain ⟨t, rfl⟩ := (bijective_sectionsBaseChange_of_isQuasicoherent A hA hV hU κ).2 s
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have e := map_zero (sectionsBaseChange A.underlyingModule κ)
-    rw [e]
-    exact (map_zero ψ).trans (map_zero ψ').symm
+  induction t using TensorProduct.inductionOn with
   | tmul b a =>
     rw [← sectionsBaseChange_tmul_eq A κ b a, map_mul, map_mul]
     exact congrArg₂ (· * ·) (h₁ b) (h₂ a)
@@ -88,7 +84,7 @@ theorem exists_chartLift (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
     { toFun := fun a => g (modToRing A V a)
       map_add' := fun a a' => map_add g (modToRing A V a) (modToRing A V a')
       map_smul' := fun r a => by
-        show g (A.algebraMap (op V) r * modToRing A V a) = f' (chartRestrict κ r) * g _
+        change g (A.algebraMap (op V) r * modToRing A V a) = f' (chartRestrict κ r) * g _
         rw [map_mul]
         exact congrArg (· * g (modToRing A V a)) (h r).symm }
   let L := LinearMap.liftBaseChange (chartRing B S hS F hF U) g'
@@ -99,7 +95,7 @@ theorem exists_chartLift (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
   let ψf : A.right.obj.obj (op U) → G := fun s => L (e.symm s)
   have hψ : ∀ t, ψf (modToRing A U (sectionsBaseChange A.underlyingModule κ t)) = L t := by
     intro t
-    show L (e.symm (e t)) = L t
+    change L (e.symm (e t)) = L t
     rw [e.symm_apply_apply]
   have hψadd : ∀ x y, ψf (x + y) = ψf x + ψf y := fun x y =>
     (congrArg L (map_add e.symm x y)).trans (map_add L _ _)
@@ -108,22 +104,18 @@ theorem exists_chartLift (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
       modToRing A U (sectionsBaseChange A.underlyingModule κ t₁) +
         modToRing A U (sectionsBaseChange A.underlyingModule κ t₂) := fun t₁ t₂ =>
     map_add (sectionsBaseChange A.underlyingModule κ) t₁ t₂
-  have hszero : modToRing A U (sectionsBaseChange A.underlyingModule κ 0) = 0 :=
-    map_zero (sectionsBaseChange A.underlyingModule κ)
   have hmul : ∀ t t', ψf (modToRing A U (sectionsBaseChange A.underlyingModule κ t) *
       modToRing A U (sectionsBaseChange A.underlyingModule κ t')) =
       L t * L t' := by
     intro t t'
-    induction t using TensorProduct.induction_on with
-    | zero => rw [hszero, zero_mul, hψzero, map_zero L, zero_mul]
+    induction t using TensorProduct.inductionOn with
     | tmul b a =>
-      induction t' using TensorProduct.induction_on with
-      | zero => rw [hszero, mul_zero, hψzero, map_zero L, mul_zero]
+      induction t' using TensorProduct.inductionOn with
       | tmul b' a' =>
         have hp := sectionsBaseChange_tmul_mul_tmul A κ b b' (modToRing A V a) (modToRing A V a')
         rw [sectionsBaseChange_tmul_eq A κ b (modToRing A V a),
           sectionsBaseChange_tmul_eq A κ b' (modToRing A V a')] at hp
-        show ψf (modToRing A U (sectionsBaseChange A.underlyingModule κ (b ⊗ₜ a)) *
+        change ψf (modToRing A U (sectionsBaseChange A.underlyingModule κ (b ⊗ₜ a)) *
           modToRing A U (sectionsBaseChange A.underlyingModule κ (b' ⊗ₜ a'))) = _
         rw [hp, hψ]
         refine (hL (b * b') (modToRing A V a * modToRing A V a')).trans ?_
@@ -139,7 +131,7 @@ theorem exists_chartLift (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
   · have k : modToRing A U (sectionsBaseChange A.underlyingModule κ
         ((1 : chartRing B S hS F hF U) ⊗ₜ (1 : A.right.obj.obj (op V)))) = 1 :=
       (sectionsBaseChange_tmul_eq A κ 1 1).symm.trans (by rw [map_one, map_one, one_mul])
-    show ψf 1 = 1
+    change ψf 1 = 1
     rw [← k, hψ]
     exact (hL _ _).trans (by rw [map_one, map_one, one_mul])
   · intro s s'
@@ -152,14 +144,14 @@ theorem exists_chartLift (hA : A.IsQuasicoherent) {U V : SmallEtale B S hS F}
     have k : modToRing A U (sectionsBaseChange A.underlyingModule κ
         ((b : chartRing B S hS F hF U) ⊗ₜ (1 : A.right.obj.obj (op V)))) = A.algebraMap (op U) b :=
       (sectionsBaseChange_tmul_eq A κ b 1).symm.trans (by rw [map_one, mul_one])
-    show ψf _ = _
+    change ψf _ = _
     rw [← k, hψ]
     exact (hL _ _).trans (by rw [map_one, mul_one]; rfl)
   · intro a
     have k : modToRing A U (sectionsBaseChange A.underlyingModule κ
         ((1 : chartRing B S hS F hF U) ⊗ₜ a)) = A.right.obj.map κ.op a :=
       (sectionsBaseChange_tmul_eq A κ 1 a).symm.trans (by rw [map_one, one_mul])
-    show ψf _ = _
+    change ψf _ = _
     rw [← k, hψ]
     exact (hL _ _).trans (by rw [map_one, one_mul])
 

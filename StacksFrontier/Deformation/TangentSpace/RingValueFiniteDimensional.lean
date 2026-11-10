@@ -144,12 +144,10 @@ theorem mem_range_tensorInr {w : TrivSqZeroExt k V ⊗[k] l} (h : tensorFst l V 
 
 /-- The square-zero ideal `V ⊗_k l` of `k[V] ⊗_k l` has vanishing products. -/
 theorem tensorInr_mul_tensorInr (a b : V ⊗[k] l) : tensorInr l V a * tensorInr l V b = 0 := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | add a a' ha ha' => rw [map_add, add_mul, ha, ha', add_zero]
   | tmul v x =>
-    induction b using TensorProduct.induction_on with
-    | zero => simp
+    induction b using TensorProduct.inductionOn with
     | add b b' hb hb' => rw [map_add, mul_add, hb, hb', add_zero]
     | tmul w y =>
       simp only [LinearMap.rTensor_tmul, Algebra.TensorProduct.tmul_mul_tmul,
@@ -329,7 +327,7 @@ theorem finiteDimensional_artinianTangentSpace_of_ringValue [IsNoetherianRing Λ
     [IsNoetherianRing R] [Algebra Λ l] [IsScalarTower Λ k l] [Module.Finite Λ l]
     [Module.Finite k l]
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hφ₀ : ∀ r : Λ, φ₀ (algebraMap Λ R r) = algebraMap Λ l r)
     (hnat : RingValueNatural 𝓕 l R value)
     (halg : ∀ V x (r : Λ), value V x (algebraMap Λ R r) =
@@ -340,7 +338,7 @@ theorem finiteDimensional_artinianTangentSpace_of_ringValue [IsNoetherianRing Λ
       classOf 𝓕 h𝓕.cofibered x = classOf 𝓕 h𝓕.cofibered y) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)) := by
   classical
   -- generators of the kernel of `φ₀`

@@ -146,7 +146,7 @@ theorem totalCupPairing_naturality_apply {S : RingedSpace.{u, u}}
     ((Stacks.Cohomology.DerivedPullbackTensor.derivedToTensorNatTrans S).naturality
       (X := (K, M)) (Y := (K', M')) (f ×ₘ g)).trans (congrArg (_ ≫ DerivedCategory.Q.map ·)
         (Stacks.Cohomology.DerivedPullbackTensor.totalComplexPair_map _ f g))
-  show ((DerivedCategory.homologyFunctor _ (i + j)).map ((baseSections S).map
+  change ((DerivedCategory.homologyFunctor _ (i + j)).map ((baseSections S).map
       ((Stacks.Cohomology.DerivedPullbackTensor.derivedToTensorNatTrans S).app (K', M')))).hom
       ((Stacks.Cohomology.DerivedGlobalCupProduct.cupPairing
         (Stacks.Cohomology.DerivedGlobalCupProduct.cupProductOnSpace S) _ _ i j).hom
@@ -227,7 +227,7 @@ theorem ι_singleIntMultiplication_f
   have hm' : m'.f 0 = AlgebraicGeometry.SheafOfModules.singleMultiplicationX m ≫
       (HomologicalComplex.singleObjXSelf (up ℕ) 0 H).inv :=
     HomologicalComplex.mkHomToSingle_f _ _
-  show HomologicalComplex.ιMapBifunctor (singleInt F) (singleInt G)
+  change HomologicalComplex.ιMapBifunctor (singleInt F) (singleInt G)
       (sheafTensor.{u, u, u, u, u} A) (up ℤ) 0 0 0 (add_zero 0) ≫
       (HomologicalComplex.mapBifunctorMap
         (HomologicalComplex.extendSingleIso embeddingUpNat F 0 0 embeddingUpNat_f_zero).inv
@@ -245,7 +245,7 @@ theorem ι_singleIntMultiplication_f
     HomologicalComplex.ι_mapBifunctorDesc_assoc]
   simp only [HomologicalComplex.singleObjXSelf, Functor.map_comp, NatTrans.comp_app,
     Category.assoc, NatTrans.naturality_assoc, Iso.map_inv_hom_id_app_assoc,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
 
 /-- On the class of a local pure tensor of the summand `F ⊗_A G` in degree `0`, the
 multiplication of complexes concentrated in degree `0` is the underlying morphism. -/

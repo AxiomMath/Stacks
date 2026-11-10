@@ -148,7 +148,7 @@ theorem isDerivedLimit_derivedGlobalSections (M : DifferentialGradedModule.{u, u
   have hT : ∀ n : ℕ, IsIso ((Functor.whiskerRight (sectionsTowerMap R f.toHomologicalComplex)
       DerivedCategory.Q).app (op n)) := fun n => by
     have := quasiIso_sectionsTowerMap_app R f.toHomologicalComplex n
-    show IsIso (DerivedCategory.Q.map ((sectionsTowerMap R f.toHomologicalComplex).app (op n)))
+    change IsIso (DerivedCategory.Q.map ((sectionsTowerMap R f.toHomologicalComplex).app (op n)))
     infer_instance
   have : IsIso (Functor.whiskerRight (sectionsTowerMap R f.toHomologicalComplex)
       DerivedCategory.Q) := NatIso.isIso_of_isIso_app _
@@ -184,7 +184,7 @@ theorem liftedPowSectionAlgebraHom_algebraMap (n : ℕ) (c : R) :
   have h1 : (liftedPowSectionAlgebraHom f ht n).toAlgebraHom
       (algebraMap R (powAlgebra f (t + n)).A c) =
       (sectionRingEquiv A U).symm (algebraMap R (A.obj U).A c) := by
-    show (sectionRingEquiv A U).symm
+    change (sectionRingEquiv A U).symm
       ((liftedPowStageAlgebraHom f ht n).toAlgebraHom (algebraMap R _ c)) = _
     rw [AlgHom.commutes]
   rw [h1]
@@ -205,12 +205,12 @@ theorem liftedPowSectionModule_smul_of (n : ℕ) (k : ℤ)
         (DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) k x) =
       @id (liftedPowSectionModule f ht 𝓜 n).M
         (DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) k (c • x)) := by
-  show 𝓜.act (liftedPowStage t n) (DirectSum.of _ k x)
+  change 𝓜.act (liftedPowStage t n) (DirectSum.of _ k x)
       ((liftedPowSectionAlgebraHom f ht n).toAlgebraHom
         (algebraMap R (powAlgebra f (t + n)).A c)) = _
   rw [liftedPowSectionAlgebraHom_algebraMap, SheafOfModules.DifferentialGradedModule.act_of,
     SheafOfModules.DifferentialGradedModule.actOn_of]
-  show DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) (k + 0)
+  change DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) (k + 0)
       ((𝓜.mul k 0).app (liftedPowStage t n) x
         (c • (liftedPowSheafAlgebra f).one.eval (liftedPowStage t n))) =
     DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) k (c • x)
@@ -276,7 +276,7 @@ theorem liftedPowSectionComplexIso_naturality (n : ℕ) :
       (liftedPowSectionComplexIso f ht 𝓜 n).hom := by
   ext k x
   apply Subtype.ext
-  show 𝓜.sectionRestrictAdd (liftedPowStageMap t (Nat.le_succ n))
+  change 𝓜.sectionRestrictAdd (liftedPowStageMap t (Nat.le_succ n))
       (DirectSum.of (𝓜.sectionsPiece (liftedPowStage t (n + 1))) k x) =
     DirectSum.of (𝓜.sectionsPiece (liftedPowStage t n)) k
       ((𝓜.complex.X k).val.map (Stacks.LiftedNat.ofNat.op.map

@@ -292,7 +292,7 @@ public theorem nilEvalHom_subst {x : A} {D : ℕ} (hx : x ^ D = 0) {g : PowerSer
   have hpoly : Φ.comp Polynomial.coeToPowerSeries.ringHom =
       (aeval (nilEvalHom hx g)).toRingHom := by
     refine Polynomial.ringHom_ext (fun a => ?_) ?_
-    · show ((Φ.comp Polynomial.coeToPowerSeries.ringHom).comp Polynomial.C) a =
+    · change ((Φ.comp Polynomial.coeToPowerSeries.ringHom).comp Polynomial.C) a =
         (((aeval (nilEvalHom hx g)).toRingHom).comp Polynomial.C) a
       rw [RingHom.ext_rat ((Φ.comp Polynomial.coeToPowerSeries.ringHom).comp Polynomial.C)
         (((aeval (nilEvalHom hx g)).toRingHom).comp Polynomial.C)]
@@ -486,7 +486,7 @@ public theorem unipotentLog_map_self [Algebra ℚ (Module.End K V)]
   have hr : IsNilpotent (N.rTensor V) := hN.map (rTensorRingHom V)
   have hl : IsNilpotent (N.lTensor V) := hN.map (lTensorRingHom V)
   have hc : Commute (N.rTensor V) (N.lTensor V) := by
-    show (N.rTensor V).comp (N.lTensor V) = (N.lTensor V).comp (N.rTensor V)
+    change (N.rTensor V).comp (N.lTensor V) = (N.lTensor V).comp (N.rTensor V)
     rw [LinearMap.rTensor_comp_lTensor, LinearMap.lTensor_comp_rTensor]
   have hmap : TensorProduct.map u u = IsNilpotent.exp (N.rTensor V + N.lTensor V) := by
     rw [IsNilpotent.exp_add_of_commute hc hr hl]

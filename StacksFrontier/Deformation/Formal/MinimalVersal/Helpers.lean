@@ -290,8 +290,7 @@ theorem stronglyCocartesian_postcomp_iso
     infer_instance
   let := hφ
   refine { universal_property' := ?_ }
-  intro z g ψ
-  intro hψ
+  intro z g ψ hψ
   let : q.IsHomLift (f ≫ g) ψ := hψ
   obtain ⟨χ, hχ, huniq⟩ :=
     Functor.IsStronglyCocartesian.universal_property q f φ g (f ≫ g) rfl ψ

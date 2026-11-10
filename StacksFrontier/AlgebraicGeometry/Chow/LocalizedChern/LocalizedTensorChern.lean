@@ -136,7 +136,7 @@ theorem bivariantTransport_modificationLocalization {m : ℤ}
   rw [bivariantTransport_cap, bivariantTransportCap_apply, modificationLocalization_cap,
     modificationLocalization_cap, bivariantTransport_cap, bivariantTransportCap_apply,
     chowGroupDegreeEquiv_chowPushforwardOfIso]
-  show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) =
+  change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) =
     chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _)
   rw [chowPush_comp C _ _ _ _ _ _ rfl, chowPush_comp C _ _ _ _ _ _ rfl]
   · refine chowPush_congr C _ _ ?_ _ _ _ _
@@ -316,7 +316,7 @@ theorem modificationInfinityChernClass_one_derivedTensor :
         _ (zero_add 1),
       ((isHomogeneous_perfectPowerSum C (π ≫ f) (hQ₂.derivedPullback ι) 0).res iW rfl).mul_apply
         _ (zero_add 1)]
-    simp only [TotalChowClass.homComponent_apply, if_pos]
+    simp only [TotalChowClass.homComponent_apply, ite_eq_left]
   refine IsClosedCoverExtension.eq (range_union_range_pullbackFst_eq_univ _ _
       (mem_range_reducedUnion_of_notMem_range_pullbackFst f b z₁ z₂ t₁ t₂ hT₁ hT₂))
     (isClosedCoverExtension_closedCoverChernClass C (π ≫ f) _ iW _ rfl _ _ _ _) ?_
@@ -431,7 +431,7 @@ theorem modificationChernClass_derivedPullback_graphObject (h : S.IsZeroOnComple
         (S.hasDefinedChernClasses_graphObject.derivedPullback g) S.p
         (S.mem_range_pullbackSnd_graphZeroSubschemeι b g hb h)
         (exists_isFiniteLocallyFreeOfRankLT_of_isZero _
-          (S.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b g hb) hp) =
+          (S.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b g) hp) =
       S.localizedChern h' :=
   S.modificationChernClass_eq_localizedChern b hA _
     (RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback _ _
@@ -623,20 +623,20 @@ theorem localizedChern_one_derivedTensor_of_isLocallyBoundedFiniteLocallyFree :
   have key₁ : modificationPowerSum C f b hA z₁ t₁
       (S₁.hasDefinedChernClasses_graphObject.derivedPullback _) 0
       (S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁)
-      (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl) =
+      (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) =
         S₁.localizedPowerSum h₁ 0 :=
     S₁.modificationPowerSum_derivedPullback_graphObject b hA (pullback.fst b₁ b₂) rfl hfin₁ h₁ 0
   have key₂ : modificationPowerSum C f b hA z₂ t₂
       (S₂.hasDefinedChernClasses_graphObject.derivedPullback _) 0
       (S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂)
-      (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂) =
+      (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) =
         S₂.localizedPowerSum h₂ 0 :=
     S₂.modificationPowerSum_derivedPullback_graphObject b hA (pullback.snd b₁ b₂) hb₂ hfin₂ h₂ 0
   have key₁' : modificationChernClass C f b hA z₁ t₁
       (S₁.hasDefinedChernClasses_graphObject.derivedPullback _) 1
       (S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁)
       (exists_isFiniteLocallyFreeOfRankLT_of_isZero _
-        (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl) one_pos) =
+        (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) one_pos) =
         S₁'.localizedChern
           (LocalizedChernData.isFiniteLocallyFreeOfRankLTOnComplement_ofIsZero C f z₁ E₁ hE₁ h₁
             one_pos) :=
@@ -646,7 +646,7 @@ theorem localizedChern_one_derivedTensor_of_isLocallyBoundedFiniteLocallyFree :
       (S₂.hasDefinedChernClasses_graphObject.derivedPullback _) 1
       (S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂)
       (exists_isFiniteLocallyFreeOfRankLT_of_isZero _
-        (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂) one_pos) =
+        (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) one_pos) =
         S₂'.localizedChern
           (LocalizedChernData.isFiniteLocallyFreeOfRankLTOnComplement_ofIsZero C f z₂ E₂ hE₂ h₂
             one_pos) :=
@@ -663,18 +663,18 @@ theorem localizedChern_one_derivedTensor_of_isLocallyBoundedFiniteLocallyFree :
   have hres₁ := S₁.modificationRestriction_of_isZero b t₁ (modificationComplementOpens b z₁)
     (fun _ hw => S₁.modificationProjection_notMem_range hw) hQp₁ h₁ hF₁
     (S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁)
-    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl)
+    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _)
   have hres₂ := S₂.modificationRestriction_of_isZero b t₂ (modificationComplementOpens b z₂)
     (fun _ hw => S₂.modificationProjection_notMem_range hw) hQp₂ h₂ hF₂
     (S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂)
-    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂)
+    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _)
   have L1 := modificationChernClass_one_derivedTensor C f b z₁ z₂ t₁ t₂ hQp₁ hQp₂
     (S₁.hasDefinedChernClasses_graphObject.derivedPullback _)
     (S₂.hasDefinedChernClasses_graphObject.derivedPullback _)
     (S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁)
     (S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂)
-    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl)
-    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂) hA hres₁ hres₂ hfin₁ hfin₂
+    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _)
+    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) hA hres₁ hres₂ hfin₁ hfin₂
   have hθ := isoPullback_hom_fst_comp_eq z₁ z₂ z sq hz
   have hgys : (gysinSystemOfInvertible C).IsNaturalUnderBaseChangeIso :=
     gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C
@@ -687,8 +687,8 @@ theorem localizedChern_one_derivedTensor_of_isLocallyBoundedFiniteLocallyFree :
       (exists_isLocallyBoundedFiniteLocallyFree_graphObject f E₂ hE₂ hc₂)) hF₁ hF₂
     (S₁.mem_range_pullbackSnd_graphZeroSubschemeι b _ rfl h₁)
     (S₂.mem_range_pullbackSnd_graphZeroSubschemeι b _ hb₂ h₂)
-    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ rfl)
-    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _ hb₂) one_pos h
+    (S₁.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _)
+    (S₂.isZero_derivedPullback_pullbackSnd_graphZeroSubschemeι b _) one_pos h
   refine bivariantTransport_injective C (gysinSystemOfInvertible C) (z ≫ f)
     ((pullback.fst z₁ z₂ ≫ z₁) ≫ f) f z rfl (pullback.fst z₁ z₂ ≫ z₁) rfl sq.isoPullback hθ _
     hgys ?_

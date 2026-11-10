@@ -53,9 +53,9 @@ Let `adj₁ : L₁ ⊣ R₁` and `adj₂ : L₂ ⊣ R₂` have invertible counit
 `α : R₁ ⋙ G ⟶ H ⋙ R₂` be invertible. If `G ⋙ L₂` and `L₁ ⋙ H` are isomorphic by any natural
 isomorphism, then the mate `G ⋙ L₂ ⟶ L₁ ⋙ H` of `α` is invertible. -/
 public theorem isIso_mateEquiv_symm_of_isIso_counit (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    [IsIso adj₁.counit] [IsIso adj₂.counit] (α : TwoSquare R₁ H G R₂) [IsIso α.natTrans]
+    [IsIso adj₁.counit] [IsIso adj₂.counit] (α : TwoSquare R₁ H G R₂) [IsIso α]
     (ρ : G ⋙ L₂ ≅ L₁ ⋙ H) :
-    IsIso ((mateEquiv adj₁ adj₂).symm α).natTrans := by
+    IsIso ((mateEquiv adj₁ adj₂).symm α) := by
   refine (NatTrans.isIso_iff_isIso_app _).2 fun a => ?_
   have hL : IsIso (L₁.map (adj₁.unit.app a)) := by
     have h := adj₁.left_triangle_components a
@@ -71,8 +71,8 @@ public theorem isIso_mateEquiv_symm_of_isIso_counit (adj₁ : L₁ ⊣ R₁) (ad
       exact (Iso.eq_comp_inv (ρ.app _)).2 hnat
     rw [hrw]
     infer_instance
-  have hcomp : ((mateEquiv adj₁ adj₂).symm α).natTrans.app a =
-      L₂.map (G.map (adj₁.unit.app a)) ≫ L₂.map (α.natTrans.app (L₁.obj a)) ≫
+  have hcomp : ((mateEquiv adj₁ adj₂).symm α).app a =
+      L₂.map (G.map (adj₁.unit.app a)) ≫ L₂.map (α.app (L₁.obj a)) ≫
         adj₂.counit.app (H.obj (L₁.obj a)) := by
     simp [mateEquiv]
   rw [hcomp]

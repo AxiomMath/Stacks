@@ -333,6 +333,7 @@ theorem inr_pairDerivation_tmul_eq {a b t : pairRing hp}
   have h2 := inr_pairDerivation_pow_mul_tmul hp Fc e t x
   simp only [map_add, TrivSqZeroExt.inr_add, TensorProduct.add_tmul, h2, add_zero]
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **Taylor's formula for `d` on `D`, at the image of the envelope**:
 `d y = - ∑_c δ_c(y) d x_c`. -/
 theorem pairDerivation_pairOf (y : wsEnvelope hp 0) (T : Finset (wholeSpaceIndex S hp))
@@ -472,6 +473,7 @@ def envelopeFormsBasis :
     (wholeSpacePresentation S hp) 0).reindex
       (@Equiv.uniqueProd _ (Fin (0 + 1)) Fin.instUnique)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The basis vector of index `c` is the divided power differential of `x_c`. -/
 theorem envelopeFormsBasis_apply (c : wholeSpaceIndex S hp) :
     letI := wsEnvelopeAlgebra hp
@@ -484,6 +486,7 @@ theorem envelopeFormsBasis_apply (c : wholeSpaceIndex S hp) :
   exact tensorPowerDifferentialsBasis_apply (affineSituation S hp)
     (wholeSpacePresentation S hp) 0 _
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- `d x_c` is the completion of the basis vector of index `c`. -/
 theorem pairDx_eq (c : wholeSpaceIndex S hp) :
     pairDx hp c = AdicCompletion.of _ _ (envelopeFormsBasis hp c) := by
@@ -507,6 +510,7 @@ def pairCoord (c : wholeSpaceIndex S hp) : pairForms hp →ₗ[pairRing hp] pair
   adicDualFamily (DividedPowers.pAdicIdeal (A := wsEnvelope hp 0) (affineSituation S hp).p)
     (envelopeFormsBasis hp) c
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The coordinate functionals are dual to the `d x_c`. -/
 theorem isCoordinateDual_pairDx : IsCoordinateDual (pairDx hp) (pairCoord hp) :=
   isCoordinateDual_adicDualFamily _ (envelopeFormsBasis hp) (pairDx_eq hp)
@@ -537,7 +541,7 @@ theorem isThetaMonomialFamily_pairThetaPow :
   · rw [pairThetaPow, map_zero, pow_zero, one_smul, crystalTheta_zero]
     rfl
   · rw [Function.comp_apply, pairThetaPow, pairThetaPow]
-    show _ = -(crystalTheta hp Fc (Finsupp.single i 1)) (((-1 : ℤ) ^ k.degree) • _)
+    change _ = -(crystalTheta hp Fc (Finsupp.single i 1)) (((-1 : ℤ) ^ k.degree) • _)
     rw [map_zsmul, crystalTheta_crystalTheta, map_add, Finsupp.degree_single, pow_succ,
       mul_neg_one, neg_smul]
 
@@ -659,7 +663,7 @@ theorem pairConnection_naturality (psi : Fc ⟶ Gc) (m : wholeSpaceSections hp F
         (TensorProduct.map (pairSectionsMap hp psi)
           (LinearMap.id (R := (pairRing hp : Type u)) (M := pairForms hp)))
         (pairConnection hp Fc m) := by
-  show AdicCompletion.map (DividedPowers.pAdicIdeal (A := (pairRing hp : Type u)) S.p)
+  change AdicCompletion.map (DividedPowers.pAdicIdeal (A := (pairRing hp : Type u)) S.p)
       (firstOrderDifferentialComm (pairRing hp) (pairForms hp) (wholeSpaceSections hp Gc ⦋0⦌))
       (pairComparison hp Gc (pairSectionsMap hp psi m)) = _
   refine (congrArg (AdicCompletion.map _ _) (pairComparison_naturality hp psi m)).trans ?_

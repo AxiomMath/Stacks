@@ -79,7 +79,7 @@ theorem cotangentTerm_one_tmul_smul (n : SimplexCategoryᵒᵖ)
           standardResolutionAugmentationHom.{u, u} A B n] ω) := by
   let : Algebra ((standardResolution.{u, u} A B).left.obj n) B :=
     (standardResolutionAugmentationHom.{u, u} A B n).toAlgebra
-  show (1 : B) ⊗ₜ[(standardResolution.{u, u} A B).left.obj n] (q • ω) =
+  change (1 : B) ⊗ₜ[(standardResolution.{u, u} A B).left.obj n] (q • ω) =
     standardResolutionAugmentationHom.{u, u} A B n q •
       ((1 : B) ⊗ₜ[(standardResolution.{u, u} A B).left.obj n] ω)
   rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul', TensorProduct.smul_tmul']
@@ -118,11 +118,10 @@ theorem cotangentTerm_addMonoidHom_ext (n : SimplexCategoryᵒᵖ) {R : Type*} [
     | smul q x _ hx =>
       rw [cotangentTerm_one_tmul_smul, hf, hg, hx]
   ext x
-  induction x using TensorProduct.induction_on (R := (standardResolution.{u, u} A B).left.obj n)
+  induction x using TensorProduct.inductionOn (R := (standardResolution.{u, u} A B).left.obj n)
       (M := (ModuleCat.restrictScalars (standardResolutionAugmentationHom.{u, u} A B n)).obj
         (ModuleCat.of _ B))
       (N := Ω[(standardResolution.{u, u} A B).left.obj n⁄A]) with
-  | zero => exact (map_zero f).trans (map_zero g).symm
   | add x y hx hy =>
     exact (map_add f x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add g x y).symm)
   | tmul b ω =>
@@ -164,7 +163,7 @@ theorem constantBasePresheafToSheaf_comp_constantStructureMap_app (U : X.Opens) 
     (SchemeOverRing.structureSheafOfSite X) (SchemeOverRing.constantStructureMap Λ structureMap)
   rw [SchemeOverRing.constantStructureMap_eq, Equiv.apply_symm_apply,
     SchemeOverRing.constantAdjunction_unit_app, ← SchemeOverRing.constantStructureMap_eq] at h2
-  show (toSheafify _ _).app (op U) ≫ _ = _
+  change (toSheafify _ _).app (op U) ≫ _ = _
   rw [h1]
   exact (Category.assoc _ _ _).trans ((congrArg (fun t => (toSheafify _ _).app (op ⊤) ≫ t)
     ((SchemeOverRing.constantStructureMap Λ structureMap).hom.naturality
@@ -193,7 +192,7 @@ charts. -/
 theorem baseRingHom_comp_restrictFunctorΓ (U : X.Opens) :
     baseRingHom Λ X structureMap ≫ U.ι.appTop ≫ (X.restrictFunctorΓ.app (op U)).hom =
       CommRingCat.ofHom (algebraMap Λ (sectionCotangentAlgebra Λ X structureMap U)) := by
-  show _ = (SchemeOverRing.constantBasePresheafToSheaf Λ X).app (op U) ≫
+  change _ = (SchemeOverRing.constantBasePresheafToSheaf Λ X).app (op U) ≫
     (SchemeOverRing.constantStructureMap Λ structureMap).hom.app (op U)
   rw [constantBasePresheafToSheaf_comp_constantStructureMap_app]
   refine congrArg (baseRingHom Λ X structureMap ≫ ·) ?_
@@ -244,14 +243,14 @@ theorem chartResolutionIso_hom_augmentation (U : X.Opens) (n : SimplexCategory) 
       (openAlgebraIso Λ X structureMap U).hom).w (op n)
   have hw' := congrArg (forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map hw
   rw [Functor.map_comp, Functor.map_comp] at hw'
-  show (Scheme.ΓSpecIso _).hom ≫ ((forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map
+  change (Scheme.ΓSpecIso _).hom ≫ ((forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map
     (((CommAlgCat.standardResolutionFunctor.{u, u} Λ).map
       (openAlgebraIso Λ X structureMap U).hom).left.app (op n)) ≫
     (forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map
       ((CommAlgCat.standardResolution.{u, u} Λ
           (sectionCotangentAlgebra Λ X structureMap U)).hom.app (op n))) = _
   rw [hw', ← Category.assoc, ← Scheme.ΓSpecIso_naturality, Category.assoc]
-  show _ = Scheme.Γ.map (Spec.map _).op ≫ Scheme.Γ.map ((U : Scheme.{u}).toSpecΓ).op ≫ _
+  change _ = Scheme.Γ.map (Spec.map _).op ≫ Scheme.Γ.map ((U : Scheme.{u}).toSpecΓ).op ≫ _
   rw [Scheme.Γ_map_op, Scheme.Γ_map_op, Scheme.toSpecΓ_appTop]
   rfl
 
@@ -263,7 +262,7 @@ theorem baseSectionsMap_comp_chartResolutionIso_hom (U : X.Opens) (n : SimplexCa
         (chartResolutionIso Λ X structureMap U n).hom =
       CommRingCat.ofHom (algebraMap Λ ((CommAlgCat.standardResolution.{u, u} Λ
           (sectionCotangentAlgebra Λ X structureMap U)).left.obj (op n))) := by
-  show (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫
+  change (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫
     (ofAugmentation (resolutionPresentation Λ X structureMap U n)
       (((openStandardResolution Λ X structureMap).obj (op U)).hom.app (op n))).toBase.appTop ≫
     (Scheme.ΓSpecIso _).hom ≫ (forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map
@@ -323,7 +322,7 @@ theorem openAlgebraIso_naturality {U V : X.Opens} (h : V ⟶ U) :
       (openAlgebraIso Λ X structureMap U).hom ≫ sectionCotangentAlgebraMap Λ X structureMap h := by
   apply (forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map_injective
   rw [Functor.map_comp, Functor.map_comp]
-  show (openRing Λ X structureMap).map (homOfLE (leOfHom h)).op ≫ _ = _
+  change (openRing Λ X structureMap).map (homOfLE (leOfHom h)).op ≫ _ = _
   rw [openRing_map]
   exact X.restrictFunctorΓ.hom.naturality h.op
 
@@ -437,7 +436,7 @@ theorem evaluation_app_down (U : X.Opens) (n : SimplexCategory)
     ((evaluation.{u, u + 1} Λ X structureMap).app
         (op (((standardResolutionChart Λ X structureMap).obj U).obj n)) p).down =
       chartAugmentationHom Λ X structureMap U n p := by
-  show (evaluationSections Λ X structureMap).app _ p.down =
+  change (evaluationSections Λ X structureMap).app _ p.down =
     CommAlgCat.standardResolutionAugmentationHom.{u, u} Λ _ (op n)
       ((chartResolutionIso Λ X structureMap U n).hom p.down)
   rw [← chartResolutionIso_hom_augmentation Λ X structureMap U n]
@@ -733,16 +732,11 @@ theorem cotangentToChart_smul (U : X.Opens) (n : SimplexCategory)
       chartScalarUp Λ X structureMap U n b • cotangentToChart Λ X structureMap U n x := by
   let := ((evaluation.{u, u + 1} Λ X structureMap).app
     (op (resolutionChart Λ X structureMap U n))).hom.toAlgebra
-  induction x using TensorProduct.induction_on (R := resolutionTermAlgebra Λ X structureMap U n)
+  induction x using TensorProduct.inductionOn (R := resolutionTermAlgebra Λ X structureMap U n)
       (M := (ModuleCat.restrictScalars (CommAlgCat.standardResolutionAugmentationHom.{u, u} Λ
         (sectionCotangentAlgebra Λ X structureMap U) (op n))).obj
           (ModuleCat.of _ (sectionCotangentAlgebra Λ X structureMap U)))
       (N := Ω[resolutionTermAlgebra Λ X structureMap U n⁄Λ]) with
-  | zero =>
-    exact (congrArg _ (smul_zero (A := CommAlgCat.cotangentTerm.{u, u} Λ
-      (sectionCotangentAlgebra Λ X structureMap U) (op n)) b)).trans ((map_zero _).trans
-        (smul_zero (A := (chartBaseChangePresheaf Λ X structureMap).obj
-          (op (resolutionChart Λ X structureMap U n))) _).symm)
   | add x x' hx hx' =>
     exact (congrArg _ (smul_add (A := CommAlgCat.cotangentTerm.{u, u} Λ
       (sectionCotangentAlgebra Λ X structureMap U) (op n)) b x x')).trans ((map_add _ _ _).trans
@@ -825,10 +819,10 @@ theorem cotangentToChart_chartCotangentDesc (U : X.Opens) (n : SimplexCategory)
   induction hm using Submodule.span_induction with
   | mem x hx =>
     obtain ⟨p, rfl⟩ := hx
-    show cotangentToChart Λ X structureMap U n
+    change cotangentToChart Λ X structureMap U n
       (chartCotangentDesc Λ X structureMap U n (CommRingCat.KaehlerDifferential.d p)) = _
     rw [chartCotangentDesc_d]
-    show chartSectionsUp Λ X structureMap U n 1 ⊗ₜ[resolutionChartRing Λ X structureMap U n]
+    change chartSectionsUp Λ X structureMap U n 1 ⊗ₜ[resolutionChartRing Λ X structureMap U n]
       (ULift.up (resolutionToChartDifferentials Λ X structureMap U n
         (KaehlerDifferential.D Λ _ ((chartResolutionIso Λ X structureMap U n).hom p.down))) :
           ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n)) = _
@@ -851,7 +845,7 @@ theorem cotangentToChart_chartCotangentDesc (U : X.Opens) (n : SimplexCategory)
     have hp : chartSectionsUp Λ X structureMap U n (chartAugmentationHom Λ X structureMap U n p) =
         algebraMap _ _ p :=
       ULift.ext (evaluation_app_down Λ X structureMap U n p).symm
-    show chartSectionsUp Λ X structureMap U n (chartAugmentationHom Λ X structureMap U n p) •
+    change chartSectionsUp Λ X structureMap U n (chartAugmentationHom Λ X structureMap U n p) •
         ((1 : (zariskiPresheaf.{u, u + 1} Λ X structureMap).obj
           (op (resolutionChart Λ X structureMap U n))) ⊗ₜ[resolutionChartRing Λ X structureMap U n]
             (ULift.up x : ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n))) =
@@ -866,16 +860,15 @@ set_option backward.isDefEq.respectTransparency false in
 theorem chartToCotangent_cotangentToChart (U : X.Opens) (n : SimplexCategory)
     (x : CommAlgCat.cotangentTerm.{u, u} Λ (sectionCotangentAlgebra Λ X structureMap U) (op n)) :
     chartToCotangent Λ X structureMap U n (cotangentToChart Λ X structureMap U n x) = x := by
-  induction x using TensorProduct.induction_on (R := resolutionTermAlgebra Λ X structureMap U n)
+  induction x using TensorProduct.inductionOn (R := resolutionTermAlgebra Λ X structureMap U n)
       (M := (ModuleCat.restrictScalars (CommAlgCat.standardResolutionAugmentationHom.{u, u} Λ
         (sectionCotangentAlgebra Λ X structureMap U) (op n))).obj
           (ModuleCat.of _ (sectionCotangentAlgebra Λ X structureMap U)))
       (N := Ω[resolutionTermAlgebra Λ X structureMap U n⁄Λ]) with
-  | zero => exact (congrArg _ (map_zero _)).trans (map_zero _)
   | add x y hx hy =>
     exact (congrArg _ (map_add _ x y)).trans ((map_add _ _ _).trans (congrArg₂ (· + ·) hx hy))
   | tmul b ω =>
-    show chartSectionsDown Λ X structureMap U n (chartSectionsUp Λ X structureMap U n b) •
+    change chartSectionsDown Λ X structureMap U n (chartSectionsUp Λ X structureMap U n b) •
       chartCotangentDesc Λ X structureMap U n
         (resolutionToChartDifferentials Λ X structureMap U n ω)
         = _
@@ -896,18 +889,17 @@ theorem cotangentToChart_chartToCotangent (U : X.Opens) (n : SimplexCategory)
     cotangentToChart Λ X structureMap U n (chartToCotangent Λ X structureMap U n t) = t := by
   let := ((evaluation.{u, u + 1} Λ X structureMap).app
     (op (resolutionChart Λ X structureMap U n))).hom.toAlgebra
-  induction t using TensorProduct.induction_on (R := resolutionChartRing Λ X structureMap U n)
+  induction t using TensorProduct.inductionOn (R := resolutionChartRing Λ X structureMap U n)
       (M := (zariskiPresheaf.{u, u + 1} Λ X structureMap).obj
         (op (resolutionChart Λ X structureMap U n)))
       (N := ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n)) with
-  | zero => exact (congrArg _ (map_zero _)).trans (map_zero _)
   | add x y hx hy =>
     exact (congrArg _ (map_add _ x y)).trans ((map_add _ _ _).trans (congrArg₂ (· + ·) hx hy))
   | tmul b m =>
-    show cotangentToChart Λ X structureMap U n (chartSectionsDown Λ X structureMap U n b •
+    change cotangentToChart Λ X structureMap U n (chartSectionsDown Λ X structureMap U n b •
       chartCotangentDesc Λ X structureMap U n m.down) = _
     rw [cotangentToChart_smul, cotangentToChart_chartCotangentDesc]
-    show b • ((1 : (zariskiPresheaf.{u, u + 1} Λ X structureMap).obj
+    change b • ((1 : (zariskiPresheaf.{u, u + 1} Λ X structureMap).obj
         (op (resolutionChart Λ X structureMap U n))) ⊗ₜ[resolutionChartRing Λ X structureMap U n]
           m) = b ⊗ₜ[resolutionChartRing Λ X structureMap U n] m
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

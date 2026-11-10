@@ -47,11 +47,11 @@ namespace AlgebraicGeometry
 
 open Stacks.Divisors (IsStalkBasis)
 
-variable {X : Scheme.{u}} [IsIntegral X] (L L' : X.Modules)
+variable {X : Scheme.{u}} (L L' : X.Modules)
   [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]
   [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L']
 
-omit [IsIntegral X] [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L'] in
+omit [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L'] in
 /-- A trivialization of the sections over `U` writes every section as a multiple of the one
 sent to `1`. -/
 theorem eq_smul_symm_one {U : X.Opens} (e : Γ(L', U) ≃ₗ[Γ(X, U)] Γ(X, U)) (t : Γ(L', U)) :
@@ -59,7 +59,6 @@ theorem eq_smul_symm_one {U : X.Opens} (e : Γ(L', U) ≃ₗ[Γ(X, U)] Γ(X, U))
   conv_lhs => rw [← e.symm_apply_apply t]
   rw [← map_smul e.symm (e t) 1, smul_eq_mul, mul_one]
 
-omit [IsIntegral X] in
 /-- The germ of the section a trivialization sends to `1` is a stalk basis: it is a unit
 multiple of a germ that already is one. -/
 theorem isStalkBasis_germ_symm_one {U : X.Opens} (e : Γ(L', U) ≃ₗ[Γ(X, U)] Γ(X, U)) {x : X}

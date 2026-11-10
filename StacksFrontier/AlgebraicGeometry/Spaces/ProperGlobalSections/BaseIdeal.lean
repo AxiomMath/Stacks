@@ -120,7 +120,7 @@ theorem baseIdealPresheaf_le_baseIdealAffineLocal (I : Ideal A) :
     baseIdealPresheaf A X I ≤ (baseIdealAffineLocal A X I).toSubmodule := by
   intro V s hs
   let s' : chartSectionsRing B (Spec (.of A)) hA X V.unop := s
-  show s' ∈ baseIdealAffineLocalIdeal A X I V.unop
+  change s' ∈ baseIdealAffineLocalIdeal A X I V.unop
   refine (mem_baseIdealAffineLocalIdeal_iff A X I s').2 fun W g _ => ?_
   rw [← map_chartBaseRingHom A X g I]
   exact Ideal.mem_map_of_mem _ hs

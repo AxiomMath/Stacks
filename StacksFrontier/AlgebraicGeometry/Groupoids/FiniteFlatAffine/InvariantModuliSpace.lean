@@ -194,11 +194,11 @@ theorem existsUnique_comp_objects_hom_of_flat [Module.Flat (invariantRing G) C']
   obtain ⟨χ₀, hχ₀, huniq⟩ :=
     existsUnique_comp_objectsToInvariantSpectrum G'.groupoid C'' ψ hψ
   refine ⟨inv e ≫ χ₀, ?_, fun χ hχ => ?_⟩
-  · show G'.groupoid.objects.hom ≫ inv e ≫ χ₀ = ψ
+  · change G'.groupoid.objects.hom ≫ inv e ≫ χ₀ = ψ
     rw [← hfac, Category.assoc, IsIso.hom_inv_id_assoc, hχ₀]
   · have hx : e ≫ χ = χ₀ := by
       refine huniq _ ?_
-      show objectsToInvariantSpectrum G'.groupoid ≫ e ≫ χ = ψ
+      change objectsToInvariantSpectrum G'.groupoid ≫ e ≫ χ = ψ
       rwa [← Category.assoc, hfac]
     rw [← hx, IsIso.inv_hom_id_assoc]
 

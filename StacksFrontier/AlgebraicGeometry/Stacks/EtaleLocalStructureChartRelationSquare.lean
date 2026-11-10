@@ -174,7 +174,7 @@ theorem representingMap_relationChart :
 /-- `AlgebraicGeometry.Stack.SelfIntersection.relationChart` is an equivalence of underlying
 categories: it is a composite of the two 1-morphisms of representing equivalences. -/
 theorem isEquivalence_relationChart : (relationChart f eR).hom.toFunctor.IsEquivalence := by
-  show ((representedChart B S hS V).hom.functor ⋙ eR.inv.functor).IsEquivalence
+  change ((representedChart B S hS V).hom.functor ⋙ eR.inv.functor).IsEquivalence
   have := (representedChart B S hS V).isEquivalence_hom_functor
   have := eR.isEquivalence_inv_functor
   infer_instance
@@ -459,7 +459,7 @@ theorem pointsMap_chart_representedChartPointMap {𝒳 : AlgebraicStacks.{u, w} 
         (fibredCategory B S hS (yoneda.obj U)).property 𝒳.val.property
         (BasedFunctor.comp (quotientStackProjection P.groupoid) X) y := by
     rw [hy]
-    show pointsMap B S hS _ _ _ f.hom.hom p = _
+    change pointsMap B S hS _ _ _ f.hom.hom p = _
     rw [← pointsMap_eq_of_basedNatTrans B S hS _ _ _ η, ← pointsMap_comp]
   have hL := pointsMap_smallQuotientStackLift_point.{u, w} P.groupoid algP P.canonicalMap
     (Space.pointsMap B S hS _ φP.toGroupoidHom.mapObjects z)

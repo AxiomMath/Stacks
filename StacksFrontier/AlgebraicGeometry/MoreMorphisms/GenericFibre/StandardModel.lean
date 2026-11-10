@@ -98,7 +98,7 @@ theorem exists_mvPolynomial_model_of_isDomain_tensor (K : Type u) [Field K] (L :
       MvPolynomial (Fin r) K →ₐ[K] L).toRingHom.toAlgebra
   have : IsScalarTower K (MvPolynomial (Fin r) K) L :=
     IsScalarTower.of_algebraMap_eq fun c ↦ by
-      show algebraMap K L c = aeval (fun i : Fin r ↦ v i.castSucc) (C c)
+      change algebraMap K L c = aeval (fun i : Fin r ↦ v i.castSucc) (C c)
       simp
   have : FaithfulSMul (MvPolynomial (Fin r) K) L :=
     (faithfulSMul_iff_algebraMap_injective _ _).mpr hinj
@@ -134,7 +134,7 @@ theorem exists_mvPolynomial_model_of_isDomain_tensor (K : Type u) [Field K] (L :
   -- Step D(i): transport it to the multivariate polynomial ring.
   have hv : ∀ i : Fin r, algebraMap (MvPolynomial (Fin r) K) L (X i) = v i.castSucc := by
     intro i
-    show aeval (fun j : Fin r ↦ v j.castSucc) (X i) = v i.castSucc
+    change aeval (fun j : Fin r ↦ v j.castSucc) (X i) = v i.castSucc
     simp
   have hker := MvPolynomial.ker_aeval_eq_span_finLastEquiv_symm v hv hqker
   have hQ0 : (finLastEquiv K r).symm q ≠ 0 := fun h ↦ hqirr.ne_zero (by

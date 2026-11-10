@@ -61,7 +61,7 @@ private theorem surjective_aeval_away {A : Type*} [CommRing A] (f : A) :
   intro z
   obtain ⟨n, r, hr⟩ := IsLocalization.Away.surj (S := Localization.Away f) f z
   refine ⟨MvPolynomial.C r * MvPolynomial.X 0 ^ n, ?_⟩
-  show (MvPolynomial.aeval (fun _ : Fin 1 => IsLocalization.Away.invSelf f)
+  change (MvPolynomial.aeval (fun _ : Fin 1 => IsLocalization.Away.invSelf f)
     (MvPolynomial.C r * MvPolynomial.X 0 ^ n)) = z
   simp only [map_mul, map_pow, MvPolynomial.aeval_C, MvPolynomial.aeval_X]
   rw [← hr, mul_assoc, ← mul_pow]
@@ -139,16 +139,16 @@ private theorem exists_surjective_polynomialCompletion_away
     apply Ideal.Quotient.eq.mpr
     have hdiff : c - algebraMap Af (AdicCompletion If Af) x ∈ K.map Φ := by
       rw [hK, ← AdicCompletion.ker_evalOneₐ_eq_map If If.fg_of_isNoetherianRing, RingHom.mem_ker]
-      show AdicCompletion.evalOneₐ If (c - algebraMap Af (AdicCompletion If Af) x) = 0
+      change AdicCompletion.evalOneₐ If (c - algebraMap Af (AdicCompletion If Af) x) = 0
       have hEval (y : Af) : AdicCompletion.evalOneₐ If
           (algebraMap Af (AdicCompletion If Af) y) = Ideal.Quotient.mk If y :=
         congrArg (fun g : Af →+* Af ⧸ If => g y)
           (AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk If)
       rw [map_sub, hEval, hx]
       simp
-    show Φ (algebraMap P (AdicCompletion Ip P) p) - c ∈ K.map Φ
+    change Φ (algebraMap P (AdicCompletion Ip P) p) - c ∈ K.map Φ
     rw [Stacks.Nagata.PthRootDescent.mapAdicCompletion_of hle]
-    show algebraMap Af (AdicCompletion If Af) (ev p) - c ∈ K.map Φ
+    change algebraMap Af (AdicCompletion If Af) (ev p) - c ∈ K.map Φ
     rw [show ev p = x from hp]
     simpa [sub_eq_add_neg, add_comm] using neg_mem hdiff
   exact ⟨Φ, surjective_of_mk_map_comp_surjective Φ hmod, hΦ⟩
@@ -182,7 +182,7 @@ private theorem flat_away_of_comap_eq_bot
       obtain ⟨x, hx⟩ := Ideal.mem_span_singleton.mp hn
       have hpowq : φ g ^ n ∈ q := by
         rw [← map_pow]
-        show ψ (g ^ n) ∈ m
+        change ψ (g ^ n) ∈ m
         rw [hx, map_mul]
         exact Ideal.mul_mem_right (ψ x) m ha
       exact hgq ((hq.pow_mem_iff_mem n hnpos).mp hpowq)
@@ -199,7 +199,7 @@ private theorem flat_away_of_comap_eq_bot
   have heq : e.comp (algebraMap A (FractionRing A)) = ψ := by
     ext r
     exact IsLocalization.lift_eq _ r
-  show RingHom.Flat ψ
+  change RingHom.Flat ψ
   rw [← heq]
   exact RingHom.Flat.comp hAflat
     (RingHom.Flat.of_isField (Field.toIsField (FractionRing A)) e)
@@ -213,7 +213,7 @@ private theorem exists_approximation_adicCompletion {R : Type*} [CommRing R]
   obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n c)
   refine ⟨r, ?_⟩
   rw [← AdicCompletion.ker_evalₐ I hI n, RingHom.mem_ker, map_sub]
-  show AdicCompletion.evalₐ I n (AdicCompletion.of I R r) - _ = 0
+  change AdicCompletion.evalₐ I n (AdicCompletion.of I R r) - _ = 0
   rw [AdicCompletion.evalₐ_of, hr]
   exact sub_self _
 
@@ -266,7 +266,7 @@ private theorem denseRange_quotient_adicCompletion {P R S : Type*}
   obtain ⟨r, hr⟩ := exists_approximation_adicCompletion I hI c n
   obtain ⟨p, rfl⟩ := hF r
   refine ⟨p, ?_⟩
-  show π (algebraMap R (AdicCompletion I R) (F p)) - π c ∈ _
+  change π (algebraMap R (AdicCompletion I R) (F p)) - π c ∈ _
   rw [← map_sub, ← Ideal.map_pow]
   exact Ideal.mem_map_of_mem π hr
 
@@ -287,7 +287,7 @@ private theorem exists_adicCompletion_away_equiv {B : Type*} [CommRing B]
   refine ⟨(AdicCompletion.ofAlgEquiv
       (J.map (algebraMap B (Localization.Away g)))).symm.toRingEquiv.trans
     e₀.symm.toRingEquiv, fun b => ?_⟩
-  show e₀.symm ((AdicCompletion.ofAlgEquiv _).symm
+  change e₀.symm ((AdicCompletion.ofAlgEquiv _).symm
     (AdicCompletion.of _ _ (algebraMap B (Localization.Away g) b))) = b
   rw [AdicCompletion.ofAlgEquiv_symm_of, ← he₀, e₀.symm_apply_apply]
 
@@ -333,7 +333,7 @@ private theorem ker_awayMap_le_nilradical {R S : Type*} [CommRing R] [CommRing S
   have hFr : algebraMap S Sa (F r) = 0 := by
     have hmap : G (algebraMap R Ra r) = algebraMap S Sa (F r) := IsLocalization.map_eq _ r
     rw [← hmap, ← hr]
-    show G (z * algebraMap R Ra a ^ n) = 0
+    change G (z * algebraMap R Ra a ^ n) = 0
     rw [map_mul, show G z = 0 from hz, zero_mul]
   obtain ⟨⟨_, m, rfl⟩, hm⟩ :=
     (IsLocalization.map_eq_zero_iff (Submonoid.powers (F a)) Sa (F r)).mp hFr
@@ -450,7 +450,7 @@ private theorem exists_restrictedPowerSeries_presentation
         π (algebraMap Af C (MvPolynomial.aeval
           (fun _ : Fin 1 => IsLocalization.Away.invSelf (S := Af) f) p)) := by
     intro p
-    show π (Φ (eP _)) = _
+    change π (Φ (eP _)) = _
     rw [RestrictedPowerSeries.adicCompletionEquiv_polynomialRingHom]
     exact congrArg π (congrArg (fun H : MvPolynomial (Fin 1) A →+* C => H p) hΦof)
   refine ⟨π.comp (Φ.comp eP.toRingHom),
@@ -483,7 +483,7 @@ private theorem isNaivelyRigFlat_reduction
       (MvPolynomial.aeval (fun _ : Fin 1 => IsLocalization.Away.invSelf (S := Af) f)).toRingHom
     refine ⟨1, (π.comp (algebraMap Af C)).comp F, ?_, ?_⟩
     · ext x
-      show π (algebraMap Af C (MvPolynomial.aeval _ (MvPolynomial.C x))) = φ x
+      change π (algebraMap Af C (MvPolynomial.aeval _ (MvPolynomial.C x))) = φ x
       rw [MvPolynomial.aeval_C]
       rfl
     · rw [← hKJ]
@@ -539,7 +539,7 @@ private theorem not_isNaivelyRigFlat_completedAwayMap
     apply IsLocalization.ringHom_ext (Submonoid.powers f)
     apply RingHom.ext
     intro x
-    show ψ (algebraMap Af C (algebraMap A Af x)) =
+    change ψ (algebraMap Af C (algebraMap A Af x)) =
       β (π (algebraMap Af C (algebraMap A Af x)))
     have hmap : IsLocalization.Away.map Af Bf φ f (algebraMap A Af x) =
         algebraMap B Bf (φ x) := IsLocalization.map_eq _ x
@@ -547,11 +547,11 @@ private theorem not_isNaivelyRigFlat_completedAwayMap
     rfl
   have hGL : K.map (β.comp π) = L := by
     rw [← Ideal.map_map, hKJ]
-    show J.map ((algebraMap Bf D).comp (algebraMap B Bf)) =
+    change J.map ((algebraMap Bf D).comp (algebraMap B Bf)) =
       (J.map (algebraMap B Bf)).map (algebraMap Bf D)
     exact (Ideal.map_map (algebraMap B Bf) (algebraMap Bf D)).symm
   have hψL : K.map ψ = L := by
-    show (If.map (algebraMap Af C)).map ψ = L
+    change (If.map (algebraMap Af C)).map ψ = L
     rw [Ideal.map_map, hcomp, ← Ideal.map_map]
     exact hGL
   have : IsHausdorff L D :=
@@ -568,7 +568,7 @@ private theorem not_isNaivelyRigFlat_completedAwayMap
   have hψker : RingHom.ker ψ ≤ nilradical C := by
     intro c hc
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show π c = 0
+    change π c = 0
     rw [← heψ, show ψ c = 0 from hc, map_zero]
   have : IsReduced B := (Ideal.isRadical_iff_quotient_reduced (nilradical C)).mp
     (Ideal.radical_isRadical (⊥ : Ideal C))

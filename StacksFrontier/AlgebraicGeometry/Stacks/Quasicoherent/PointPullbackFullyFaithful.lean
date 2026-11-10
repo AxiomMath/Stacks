@@ -171,7 +171,7 @@ theorem pointPullbackQuasicoherentDirectImageAddEquiv_quasicoherentUnit {y : �
       pointSectionsAddEquiv hg e ht (((pointPullback B S hS 𝒳 y e).map
         ((affineQuasicoherentDirectImageIso B S hS g hg).hom.app
           (quasicoherentUnit 𝒰))).hom z) := by
-  show ((stackModuleDirectImageSectionsIsoOfIsTerminal B S hS g .fppf ht).hom.app
+  change ((stackModuleDirectImageSectionsIsoOfIsTerminal B S hS g .fppf ht).hom.app
       (quasicoherentUnit 𝒰).obj).hom (((pointPullback B S hS 𝒳 y e).map
         ((affineQuasicoherentDirectImageIso B S hS g hg).hom.app (quasicoherentUnit 𝒰))).hom z) = _
   rw [stackModuleDirectImageSectionsIsoOfIsTerminal_fppf]
@@ -447,11 +447,11 @@ theorem exists_schemeStack_hom_of_ringHom (hU : IsAffine ((BigFppfOver.toScheme 
     rw [Functor.map_comp, Functor.map_preimage, hl, hl, ← Category.assoc, hU'])
   let k : u₁ ⟶ u₂ := Over.homMk kl (by
     refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
-    show B.inclusion.map (B.inclusion.preimage φ ≫ u₂.hom.left) = B.inclusion.map u₁.hom.left
+    change B.inclusion.map (B.inclusion.preimage φ ≫ u₂.hom.left) = B.inclusion.map u₁.hom.left
     rw [Functor.map_comp, Functor.map_preimage]
     exact hU')
   refine ⟨k, fun c => ?_⟩
-  show (B.inclusion.map (B.inclusion.preimage φ)).appTop c = θ c
+  change (B.inclusion.map (B.inclusion.preimage φ)).appTop c = θ c
   rw [Functor.map_preimage, hφ]
   rfl
 

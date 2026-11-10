@@ -98,7 +98,7 @@ theorem projective_sections_of_projective_pullback_restrictToChart
       (y : (Γ(chartRestrictionSheaf B S hS X G Z₀, ⊤) : Type u)),
       φ₂.symm (c • y) = c • φ₂.symm y :=
     (chartRestrictionSheafTopEquiv B S hS X G Z₀).symm.map_smul
-  show φ₂.symm (φ₁ (((BigFppfOver.toScheme B S hS).map k).appTop.hom a • x)) =
+  change φ₂.symm (φ₁ (((BigFppfOver.toScheme B S hS).map k).appTop.hom a • x)) =
     ((BigFppfOver.toScheme B S hS).map k).appTop.hom a • φ₂.symm (φ₁ x)
   rw [h₁, h₂]
 

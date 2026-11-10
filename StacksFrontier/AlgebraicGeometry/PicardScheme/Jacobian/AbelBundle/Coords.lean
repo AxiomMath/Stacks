@@ -44,6 +44,7 @@ variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (hL₀ : Stacks.SheafOfModules.IsInvertible (bc f B₀).presheaf (bc f B₀).ringCatSheaf.2 L₀)
   {n : ℕ} (e : Fin n → Γ(L₀, ⊤)) {V : B₀.left.Opens} (hbasis : IsSectionBasis f L₀ e V)
 
+omit [SmoothOfRelativeDimension 1 f] [IsProper f] [GeometricallyIrreducible f] in
 /-- `∑ (u cᵢ) eᵢ = u · ∑ cᵢ eᵢ`. -/
 theorem abelSection_smul {T : Over (Spec (.of k))} (v : T ⟶ B₀) (c : Fin n → Γ(T.left, ⊤))
     (a : Γ(T.left, ⊤)) :
@@ -83,6 +84,7 @@ private theorem isInvertible_sheaf_pullback
   (Stacks.InvertiblePullback.stacksIsInvertible_iff_algebraicGeometryIsInvertible _ _ _).mp
     (Stacks.RingedSpace.modulePullback_isInvertible_of (bcMap f v).toLRSHom.toShHom L₀ hL₀)
 
+omit [SmoothOfRelativeDimension 1 f] [IsProper f] [GeometricallyIrreducible f] in
 include hbasis in
 /-- **A divisor of the class of `v^*L₀` is the zero scheme of some `∑ cᵢ eᵢ`**, the `cᵢ` having no
 common zero, over an affine `T` mapping into `V`. -/
@@ -171,6 +173,7 @@ theorem eq_one_of_forall_mul_eq_self_of_span_eq_top {R ι : Type*} [CommRing R] 
       rw [smul_eq_mul, mul_left_comm, hx, mul_zero]
   simpa [sub_eq_zero] using hker 1 (hc ▸ Submodule.mem_top)
 
+omit [IsProper f] in
 include hL₀ hbasis in
 /-- **`∑ cᵢ eᵢ` is a regular section** when the `cᵢ` have no common zero. -/
 theorem isRegularSection_abelSection {T : Over (Spec (.of k))} (v : T ⟶ B₀)
@@ -232,7 +235,7 @@ theorem exists_unit_of_zeroScheme_abelSection_eq {T : Over (Spec (.of k))} [IsAf
   let Q : RegularSectionPair (bc f T) :=
     ⟨M, inferInstance, _, isRegularSection_abelSection f L₀ hL₀ e hbasis v hv c' hc'⟩
   have hz : P.zeroScheme = Q.zeroScheme := by
-    show Stacks.Divisors.zeroScheme _ M
+    change Stacks.Divisors.zeroScheme _ M
         ((Stacks.Divisors.sectionsOfTop M (abelSection f L₀ e v c)).eval (op ⊤)) =
       Stacks.Divisors.zeroScheme _ M
         ((Stacks.Divisors.sectionsOfTop M (abelSection f L₀ e v c')).eval (op ⊤))
@@ -253,11 +256,11 @@ theorem exists_unit_of_zeroScheme_abelSection_eq {T : Over (Spec (.of k))} [IsAf
   have hinj := (hbasis v.left hv (bcProj f T) (bcMap f v) (bcMap_isPullback_proj f v)).1
   have hc'eq : c' = fun i => a * c i := by
     refine hinj ?_
-    show abelSection f L₀ e v c' = abelSection f L₀ e v (fun i => a * c i)
+    change abelSection f L₀ e v c' = abelSection f L₀ e v (fun i => a * c i)
     rw [abelSection_smul, ← hβtop, hr]
   have hceq : c = fun i => a' * c' i := by
     refine hinj ?_
-    show abelSection f L₀ e v c = abelSection f L₀ e v (fun i => a' * c' i)
+    change abelSection f L₀ e v c = abelSection f L₀ e v (fun i => a' * c' i)
     rw [abelSection_smul, ← hr', ← hβtop, Scheme.Modules.app_inv_app]
   have hone : a' * a = 1 := eq_one_of_forall_mul_eq_self_of_span_eq_top
     (span_range_eq_top_of_forall_mem_basicOpen c hc) fun i => by

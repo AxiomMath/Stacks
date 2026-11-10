@@ -324,7 +324,7 @@ theorem HasQuasiCompactFieldRepresentative.hasUniquePointInSomeChart
     rw [← hpy]
     simpa only [Set.mem_preimage, Set.mem_singleton_iff] using this
   refine ⟨⟨CostructuredArrow.mk ψ, hψ⟩, pointsEquivScheme B S hS V v, ?_, fun v' hv' => ?_⟩
-  · show pointsMap B S hS (yoneda.obj V) ψ
+  · change pointsMap B S hS (yoneda.obj V) ψ
       ((pointsEquivScheme B S hS V).symm (pointsEquivScheme B S hS V v)) = y
     rw [(pointsEquivScheme B S hS V).symm_apply_apply]
     exact (key v).2 rfl
@@ -357,7 +357,7 @@ theorem isOpen_flatLocus_setFibre_of_hasUniquePointInSomeChart (f : X ⟶ Y)
       pointsMap B S hS X.1 f.hom (pointOfEtaleChart B S hS d.U u) =
         pointOfEtaleChart B S hS V (τ u) := by
     intro u
-    show pointsMap B S hS X.1 f.hom (pointsMap B S hS (yoneda.obj U) p
+    change pointsMap B S hS X.1 f.hom (pointsMap B S hS (yoneda.obj U) p
       ((pointsEquivScheme B S hS U).symm u)) = _
     rw [← pointsMap_comp_apply, hcomm, pointsMap_comp_apply,
       pointsMap_yoneda_map_symm B S hS α u]
@@ -402,7 +402,7 @@ theorem isOpen_flatLocus_setFibre_of_hasUniquePointInSomeChart (f : X ⟶ Y)
     · intro hx
       obtain ⟨w, hw⟩ := hcov x.1 (by rw [hv]; exact x.2)
       have hux : pointOfEtaleChart B S hS d.U (pointsEquivScheme B S hS U w) = x.1 := by
-        show pointsMap B S hS (yoneda.obj U) p
+        change pointsMap B S hS (yoneda.obj U) p
           ((pointsEquivScheme B S hS U).symm ((pointsEquivScheme B S hS U) w)) = x.1
         rw [(pointsEquivScheme B S hS U).symm_apply_apply, hw]
       refine ⟨pointsEquivScheme B S hS U w, (hOfib _ ((hpre _).1 (by rw [hux]; exact x.2))).2 ?_,

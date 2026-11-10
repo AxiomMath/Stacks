@@ -75,7 +75,7 @@ lemma isSite (B : BigProetaleSite.{u}) (S : Scheme.{u})
           (⟨K.obj V, ⟨𝒰.2.I₀, P, p₂⟩⟩ : Covering B.Scheme).2).presieve₀_f i)
     let Q (i : 𝒰.2.I₀) : SmallProetale B S hS :=
       ⟨Over.mk (p₂ i ≫ V.obj.hom), by
-        show WeaklyEtale (B.inclusion.map (p₂ i ≫ V.obj.hom))
+        change WeaklyEtale (B.inclusion.map (p₂ i ≫ V.obj.hom))
         rw [Functor.map_comp]
         have := hWeak i
         infer_instance⟩
@@ -102,7 +102,7 @@ lemma isSite (B : BigProetaleSite.{u}) (S : Scheme.{u})
   refine ⟨?_, ?_, ?_⟩
   · intro U V f _
     let K := BigAffineProetale.inclusion B S hS ⋙ BigProetaleOver.forget B S hS
-    show B.covering _ ∧ Finite PUnit
+    change B.covering _ ∧ Finite PUnit
     exact ⟨B.covering_isSite.1 (K.map f), inferInstance⟩
   · intro 𝒰 h𝒰 𝒱 h𝒱 h
     let K := BigAffineProetale.inclusion B S hS ⋙ BigProetaleOver.forget B S hS
@@ -115,7 +115,7 @@ lemma isSite (B : BigProetaleSite.{u}) (S : Scheme.{u})
         PreZeroHypercover.pushforward] using hcomp, ?_⟩
     have : Finite 𝒰.2.I₀ := h𝒰.2
     have : ∀ i, Finite (𝒱 i).2.I₀ := fun i => (h𝒱 i).2
-    show Finite (Σ i : 𝒰.2.I₀, (𝒱 i).2.I₀)
+    change Finite (Σ i : 𝒰.2.I₀, (𝒱 i).2.I₀)
     infer_instance
   · intro 𝒰 h𝒰 V g
     let K := BigAffineProetale.inclusion B S hS ⋙ BigProetaleOver.forget B S hS
@@ -143,7 +143,7 @@ lemma isSite (B : BigProetaleSite.{u}) (S : Scheme.{u})
       apply IsPullback.of_map_of_faithful K
       simpa [K, BigAffineProetale.inclusion,
         BigProetaleOver.forget, q₁, q₂, Q] using hpb i
-    · show B.covering _ ∧ Finite _
+    · change B.covering _ ∧ Finite _
       refine ⟨?_, h𝒰.2⟩
       simpa [BigAffineProetale.IsCovering,
         BigProetaleOver.IsCovering, K, Q, q₂,

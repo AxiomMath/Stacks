@@ -247,7 +247,7 @@ theorem smallerBaseYonedaIso_hom_naturality {U U' : BigFppfOver B S hS} (ψ : U 
         (BigFppfOver.topology B S hS).uliftYoneda.{u + 1}.map a := by
   ext T p
   exact ULift.ext (Over.OverMorphism.ext (by
-    show p.2.down.left ≫ k.left = p.2.down.left ≫ a.left
+    change p.2.down.left ≫ k.left = p.2.down.left ≫ a.left
     rw [hk]))
 
 /-- On representable sheaves the attached sheaf is the representable sheaf of the object viewed

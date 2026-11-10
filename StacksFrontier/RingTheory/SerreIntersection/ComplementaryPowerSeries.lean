@@ -52,7 +52,7 @@ theorem embDomain_inl_eq_sumElim (a : σ →₀ ℕ) :
     Finsupp.embDomain (Function.Embedding.inl) a = Finsupp.sumElim a (0 : τ →₀ ℕ) := by
   ext (x | y)
   · simp
-  · rw [Finsupp.embDomain_notin_range]
+  · rw [Finsupp.embDomain_of_notMem_range]
     · simp
     · simp
 
@@ -139,7 +139,7 @@ theorem flat_rename_inl [IsNoetherianRing (MvPowerSeries σ K)] (m : ℕ) :
       map_add' := fun g g' => by ext b a; rfl
       map_smul' := fun r g => by
         ext b a
-        show coeff a (splitCoeff (rename (R := K) (Function.Embedding.inl : σ ↪ σ ⊕ Fin m) r
+        change coeff a (splitCoeff (rename (R := K) (Function.Embedding.inl : σ ↪ σ ⊕ Fin m) r
           * g) b) = coeff a (r * splitCoeff g b)
         rw [splitCoeff_rename_inl_mul] }
   have := (Module.flat_and_mittagLeffler_mvPowerSeries (MvPowerSeries σ K) m).1
@@ -165,7 +165,7 @@ theorem ker_killCompl_inr [Finite σ] :
     have he' : Finsupp.embDomain (Function.Embedding.inr : τ ↪ σ ⊕ τ)
         (Finsupp.comapDomain Sum.inr e Sum.inr_injective.injOn) = e := by
       ext (x | y)
-      · rw [Finsupp.embDomain_notin_range _ _ _ (by simp)]
+      · rw [Finsupp.embDomain_of_notMem_range _ _ _ (by simp)]
         exact (he _ (Finset.mem_image.mpr ⟨x, Finset.mem_univ _, rfl⟩)).symm
       · exact Finsupp.embDomain_apply_self (Function.Embedding.inr : τ ↪ σ ⊕ τ) _ y
     rw [← he', ← coeff_killCompl, hg, map_zero]

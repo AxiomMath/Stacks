@@ -94,7 +94,7 @@ theorem isOpen_setOf_isZeroDimensionalBasePoint :
   obtain ⟨U, hsU, hU, hded⟩ := hS.1 s
   have : IsDomain Γ(C.S, U) := hded.toIsDomain
   refine ⟨U, fun t htU ↦ ?_, U.isOpen, hsU⟩
-  rwa [Set.mem_setOf_eq, eq_of_isZeroDimensionalBasePoint_of_mem hs hU hsU htU]
+  rwa [Set.mem_ofPred_eq, eq_of_isZeroDimensionalBasePoint_of_mem hs hU hsU htU]
 
 include hS in
 /-- On a base as in section 42.63 the points which are not zero-dimensional form an open set. -/
@@ -257,7 +257,7 @@ theorem relativeDimension_of_forall_not_isZeroDimensionalBasePoint [Smooth f] (d
     hS.2.2 _ fun hcl ↦ hX η ⟨hcl, mem_genericPoints_of_flat f hη⟩
   refine relativeDimension_of_forall_mem_genericPoints f (d - 1) fun η hη ↦ ?_
   have hge : C.dimensionFunction (f.base η) ≤ relativeDimension C.dimensionFunction f η := by
-    show _ ≤ C.dimensionFunction (f.base η) + (Cardinal.toNat (residueTrdeg f η) : ℤ)
+    change _ ≤ C.dimensionFunction (f.base η) + (Cardinal.toNat (residueTrdeg f η) : ℤ)
     lia
   rw [hd η hη, hδ η hη] at hge ⊢
   lia

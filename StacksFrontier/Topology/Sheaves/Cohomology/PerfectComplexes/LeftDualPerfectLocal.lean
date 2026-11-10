@@ -17,7 +17,8 @@ variable (X : RingedSpace.{u, u})
 
 /-- The biproduct of a family of objects indexed by an empty finite type is a zero object. -/
 theorem isZero_biproduct_of_isEmpty {C : Type*} [Category* C] [Preadditive C]
-    [HasFiniteBiproducts C] {J : Type} [Fintype J] [IsEmpty J] (f : J → C) : IsZero (⨁ f) := by
+    [HasFiniteBiproducts C] {J : Type} [IsEmpty J] (f : J → C) : IsZero (⨁ f) := by
+  have := Fintype.ofIsEmpty (α := J)
   rw [IsZero.iff_id_eq_zero, ← biproduct.total]
   simp
 

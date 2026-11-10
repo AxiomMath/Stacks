@@ -154,7 +154,7 @@ public theorem solution {R Rh : Type u} [CommRing R] [CommRing Rh]
         ⇑(ResidueField.map (algebraMap R Rh)) := by
     refine funext fun y => ?_
     obtain ⟨x, rfl⟩ := residue_surjective y
-    show ResidueField.map _ (ResidueField.map (algebraMap R (R ⧸ I)) (residue R x)) =
+    change ResidueField.map _ (ResidueField.map (algebraMap R (R ⧸ I)) (residue R x)) =
       ResidueField.map _ (ResidueField.map (algebraMap R Rh) (residue R x))
     rw [ResidueField.map_residue, ResidueField.map_residue, ResidueField.map_residue,
       ResidueField.map_residue]

@@ -286,7 +286,7 @@ theorem edgeReadOff_inv_edgeMatchingLeft (i : Z ⟶ X) [IsClosedImmersion i]
   let := pushforward_preservesFiniteLimits X.toRingedSpace (Set.range i.base)
   let := pushforward_preservesFiniteColimits X.toRingedSpace (Set.range i.base)
     i.isClosedEmbedding.isClosed_range
-  show edgeMulReadOff (Set.range i.base) i.isClosedEmbedding.isClosed_range c _ _ = _
+  change edgeMulReadOff (Set.range i.base) i.isClosedEmbedding.isClosed_range c _ _ = _
   -- the unit law for the source of the edge
   have hunit := fun (L : X.Modules) (sL' : (DerivedCategory.singleFunctor X.Modules (c : ℤ)).obj
       ((supportCohomologySheafFunctor (isClosed_range_base i) (c : ℤ)).obj

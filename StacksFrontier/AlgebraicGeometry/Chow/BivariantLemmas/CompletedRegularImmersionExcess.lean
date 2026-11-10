@@ -161,11 +161,11 @@ theorem completedBivariantTransport_completedBivariantRestriction_ofIsRegularImm
       Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   have hsigma : dualMap inc ≫ N'.surjection = Nb.surjection := by
     rw [hdi, hsurj]
-    show (α.hom ≫ c ≫ δ'.hom) ≫ δ'.inv = α.hom ≫ c
+    change (α.hom ≫ c ≫ δ'.hom) ≫ δ'.inv = α.hom ≫ c
     exact (Category.assoc _ _ _).trans (congrArg (α.hom ≫ ·) ((Category.assoc _ _ _).trans
       ((congrArg (c ≫ ·) δ'.hom_inv_id).trans (Category.comp_id _))))
   have h₁ :=
-    completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClassOfOpen
+    completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClass
       C sZ sX i hi i.coborderRange i.liftCoborder i.liftCoborder_ι f i₂ g' sq sZ' hi₂ N
       i₂.coborderRange i₂.liftCoborder i₂.liftCoborder_ι
   have h₂ := completedVirtualNormalGysinClassOfOpen_eq_of_isTopChernComposition C sZ' (f ≫ sX) i₂

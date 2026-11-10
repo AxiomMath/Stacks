@@ -361,7 +361,7 @@ public theorem comparisonDeg_comm [IsAffine S] [IsAffine T] (F : X.Modules)
     (p ⁻¹ᵁ (inter (coverObject U hU) (x ∘ h)).left)
   let := baseModule k ((Scheme.Modules.pullback p).obj F)
     (p ⁻¹ᵁ (inter (coverObject U hU) x).left)
-  show Stacks.Cohomology.Basis.res ((Scheme.Modules.pullback p).obj F).presheaf
+  change Stacks.Cohomology.Basis.res ((Scheme.Modules.pullback p).obj F).presheaf
         (leOfHom (interMap (coverObject (fun i => p ⁻¹ᵁ U i)
           (top_eq_iSup_preimage U hU p)) x h).left)
         (Stacks.Cohomology.Basis.res ((Scheme.Modules.pullback p).obj F).presheaf

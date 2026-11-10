@@ -125,7 +125,7 @@ theorem preservesColimitsOfSize_quasicoherentPullback :
       (quasicoherentPullback B S hS p q hp hq f hF ⋙
         (SheafOfModules.isQuasicoherentOnSite.{u, u, u, u}
           (ringStructureSheafCore B S hS p hp B.topology le_rfl)).ι) := by
-    show PreservesColimitsOfSize.{u, u}
+    change PreservesColimitsOfSize.{u, u}
       ((SheafOfModules.isQuasicoherentOnSite.{u, u, u, u}
           (ringStructureSheafCore B S hS q hq B.topology le_rfl)).ι ⋙
         modulePullback.{u, u, u, u, u, u} B S hS p q hp hq f hF.comp_eq B.topology le_rfl)

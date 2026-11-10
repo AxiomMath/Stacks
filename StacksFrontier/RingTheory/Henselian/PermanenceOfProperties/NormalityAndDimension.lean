@@ -169,12 +169,12 @@ private theorem isNormalRing_of_isColimit_directed
   have hdir : DirectedSystem G (fun i j h => φ i j h) :=
     { map_self := by
         intro i x
-        show (F.map (𝟙 i)).hom x = x
+        change (F.map (𝟙 i)).hom x = x
         rw [F.map_id]
         rfl
       map_map := by
         intro k j i hij hjk x
-        show ((F.map (homOfLE hij) ≫ F.map (homOfLE hjk)).hom) x = _
+        change ((F.map (homOfLE hij) ≫ F.map (homOfLE hjk)).hom) x = _
         rw [← F.map_comp]
         rfl }
   exact IsNormalRing.congr
@@ -292,14 +292,14 @@ public lemma ringKrullDim_le_of_ind_etale
     refine (CategoryTheory.isCardinalPresentable_iff_of_isEquivalence P Cardinal.aleph0
       (commAlgCatEquivUnder (CommRingCat.of R)).functor).mp ?_
     apply CommRingCat.isFinitelyPresentable_under
-    show (algebraMap R (Polynomial R)).FinitePresentation
+    change (algebraMap R (Polynomial R)).FinitePresentation
     rw [RingHom.finitePresentation_algebraMap]
     infer_instance
   obtain ⟨j, ψ, hψ⟩ := CategoryTheory.IsFinitelyPresentable.exists_hom_of_isColimit
     pres.isColimit a
   let y : pres.diag.obj j := ψ.hom Polynomial.X
   have hy : (pres.ι.app j).hom y = x := by
-    show (CommAlgCat.Hom.hom (ψ ≫ pres.ι.app j)) Polynomial.X = x
+    change (CommAlgCat.Hom.hom (ψ ≫ pres.ι.app j)) Polynomial.X = x
     rw [hψ]
     exact Polynomial.aeval_X x
   let Q : Ideal (pres.diag.obj j) := q.1.asIdeal.comap (pres.ι.app j).hom
@@ -308,7 +308,7 @@ public lemma ringKrullDim_le_of_ind_etale
   have : Q'.IsPrime := Ideal.comap_isPrime _ _
   have hQle : Q ≤ Q' := Ideal.comap_mono hqq'
   have hunder : Q.under R = Q'.under R := by
-    show q.1.asIdeal.comap ((pres.ι.app j).hom.toRingHom.comp
+    change q.1.asIdeal.comap ((pres.ι.app j).hom.toRingHom.comp
       (algebraMap R (pres.diag.obj j))) = q'.1.asIdeal.comap
       ((pres.ι.app j).hom.toRingHom.comp (algebraMap R (pres.diag.obj j)))
     rw [show (pres.ι.app j).hom.toRingHom.comp (algebraMap R (pres.diag.obj j)) =
@@ -436,7 +436,7 @@ private theorem exists_adicCompletion_equiv_of_quotient_equiv
       (fun {m n} hmn => by
         ext x
         apply (e m).injective
-        show e m (Ideal.Quotient.factorPow I hmn
+        change e m (Ideal.Quotient.factorPow I hmn
             ((e n).symm (AdicCompletion.evalₐ J n x))) =
           e m ((e m).symm (AdicCompletion.evalₐ J m x))
         rw [hnaturality, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply,
@@ -458,7 +458,7 @@ private theorem exists_adicCompletion_equiv_of_quotient_equiv
     ⟨hleft.injective, hright.surjective⟩, fun x => ?_⟩
   apply AdicCompletion.ext_evalₐ
   intro n
-  show AdicCompletion.evalₐ J n (adicCompletionMap f I J hIJ
+  change AdicCompletion.evalₐ J n (adicCompletionMap f I J hIJ
     (algebraMap R (AdicCompletion I R) x)) = _
   rw [hmap]
   simpa only [AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply,
@@ -527,13 +527,13 @@ private theorem flat_of_ind_etale_of_flat
   let : Module (pres.diag.obj j) M := Module.compHom M φ.toRingHom
   have htower : IsScalarTower R (pres.diag.obj j) M :=
     ⟨fun r s m => by
-      show φ (r • s) • m = r • (φ s • m)
+      change φ (r • s) • m = r • (φ s • m)
       rw [map_smul, smul_assoc]⟩
   have : Algebra.Etale R (pres.diag.obj j) := hpres j
   have hflat : Module.Flat (pres.diag.obj j) M :=
     Algebra.FormallyUnramified.flat_of_restrictScalars R (pres.diag.obj j) M
   have hrel : ∑ i, b i • x i = 0 := by
-    show ∑ i, φ (b i) • x i = 0
+    change ∑ i, φ (b i) • x i = 0
     simpa only [φ, hb] using hx
   obtain ⟨k, coeff, y, hy, hcoeff⟩ :=
     Module.Flat.iff_forall_isTrivialRelation.mp hflat hrel
@@ -595,7 +595,7 @@ private theorem henselization_maximalIdeal_fg_and_quotient_equiv.{u, v}
     rw [Ideal.map_pow, hm]
   refine ⟨(RingEquiv.ofBijective _ (hq n)).trans
     (Ideal.quotientEquivAlgOfEq Rh hn).toRingEquiv, fun x => ?_⟩
-  show (Ideal.quotientEquivAlgOfEq Rh hn)
+  change (Ideal.quotientEquivAlgOfEq Rh hn)
     (Ideal.Quotient.mk _ (algebraMap R Rh x)) = _
   exact Ideal.quotientEquivAlgOfEq_mk Rh hn _
 

@@ -95,7 +95,7 @@ private lemma finiteEtaleSpec_faithful (R : Type u) [CommRing R] :
     have hh : Spec.map (CommRingCat.ofHom f.unop.hom.hom.toRingHom) =
         Spec.map (CommRingCat.ofHom g.unop.hom.hom.toRingHom) :=
       congrArg (fun k => k.left) h
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     exact congrArg CommRingCat.Hom.hom (Spec.map_inj.mp hh)
 
 private lemma finiteEtaleSpec_full (R : Type u) [CommRing R] :
@@ -119,7 +119,7 @@ private lemma finiteEtaleSpec_essSurj (R : Type u) [CommRing R] :
   have : IsFinite X.hom := X.prop.1
   have : Etale X.hom := X.prop.2
   have : IsAffine ((Functor.fromPUnit (Spec (CommRingCat.of R))).obj X.right) := by
-    show IsAffine (Spec (CommRingCat.of R))
+    change IsAffine (Spec (CommRingCat.of R))
     infer_instance
   have : IsAffine X.left := isAffine_of_isAffineHom X.hom
   let φ : CommRingCat.of R ⟶ CommRingCat.of Γ(X.left, ⊤) :=
@@ -132,7 +132,7 @@ private lemma finiteEtaleSpec_essSurj (R : Type u) [CommRing R] :
       exact ⟨inferInstance, inferInstance⟩)
   let B := CommAlgCat.FiniteEtale.of R Γ(X.left, ⊤)
   refine ⟨Opposite.op B, ⟨MorphismProperty.Over.isoMk X.left.isoSpec.symm ?_⟩⟩
-  show X.left.isoSpec.inv ≫ X.hom = Spec.map φ
+  change X.left.isoSpec.inv ≫ X.hom = Spec.map φ
   rw [Spec.map_preimage]
 
 private lemma finiteEtaleSpec_isEquivalence (R : Type u) [CommRing R] :

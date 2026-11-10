@@ -282,19 +282,19 @@ theorem rightComparisonPinnedApp_commShift (h : DerivedToTensorCommShift₂ X) :
     (letI := curriedComplexesTensorOfPullbacks_commShift₂Int f
     letI := curriedComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift (rightComparisonPinnedApp f K) ℤ) := by
-  letI := derivedPullback_commShift f
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj
+  let := derivedPullback_commShift f
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj
       ((derivedPullback f).obj (DerivedCategory.Q.obj K))).CommShift ℤ :=
     (derivedTensorCommShift₂Int X).commShiftObj _
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj
       (DerivedCategory.Q.obj ((pullbackComplex f).obj K))).CommShift ℤ :=
     (derivedTensorCommShift₂Int X).commShiftObj _
-  letI : ((tensorComplexBifunctorOn X).obj ((pullbackComplex f).obj K)).CommShift ℤ :=
+  let : ((tensorComplexBifunctorOn X).obj ((pullbackComplex f).obj K)).CommShift ℤ :=
     (inferInstance : (tensorComplexBifunctorOn X).CommShift₂Int).commShiftObj _
-  letI : ((tensorComplexBifunctor (Y := Y)).obj K).CommShift ℤ :=
+  let : ((tensorComplexBifunctor (Y := Y)).obj K).CommShift ℤ :=
     (inferInstance : (tensorComplexBifunctor (Y := Y)).CommShift₂Int).commShiftObj K
-  letI := curriedComplexesDerivedTensor_commShift₂Int X
-  letI := curriedComplexesTotal_commShift₂Int X
+  let := curriedComplexesDerivedTensor_commShift₂Int X
+  let := curriedComplexesTotal_commShift₂Int X
   exact NatTrans.commShift_assocChain₄ DerivedCategory.Q (derivedPullback f)
     ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj
       ((derivedPullback f).obj (DerivedCategory.Q.obj K)))
@@ -338,8 +338,8 @@ theorem rightComparisonPinnedApp_app (L : CochainComplex (Modules Y) ℤ) :
 conjugated by the two pinning isomorphisms.**  Given `rightComparisonPinnedApp_app` what is left
 is that the two pinning isomorphisms contribute identities, which is `id_wrap`.
 
-The two halves are separate declarations on purpose, and this is a split forced by cost rather than a
-stylistic one: taken as one `exact` the elaborator accepts it and then the kernel reports
+The two halves are separate declarations on purpose, and this is a split forced by cost rather than
+a stylistic one: taken as one `exact` the elaborator accepts it and then the kernel reports
 `(kernel) deterministic timeout` re-checking it.  The elaborator is entitled to the file's
 `attribute [local implicit_reducible]` lines and the kernel is not, so it re-does the whole
 identification — the chain's seven factors, `rightComparison`'s delta, `Functor.uncurry`'s action
@@ -365,11 +365,11 @@ theorem rightComparisonCurryApp_commShift (h : DerivedToTensorCommShift₂ X) :
     (letI := curryComplexesTensorOfPullbacks_commShift₂Int f
     letI := curryComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift ((Functor.curry.map (rightComparison f)).app K) ℤ) := by
-  letI := curryComplexesTensorOfPullbacks_commShift₂Int f
-  letI := curryComplexesTotalPullback_commShift₂Int f
-  letI := curriedComplexesTensorOfPullbacks_commShift₂Int f
-  letI := curriedComplexesTotalPullback_commShift₂Int f
-  letI := rightComparisonPinnedApp_commShift f K h
+  let := curryComplexesTensorOfPullbacks_commShift₂Int f
+  let := curryComplexesTotalPullback_commShift₂Int f
+  let := curriedComplexesTensorOfPullbacks_commShift₂Int f
+  let := curriedComplexesTotalPullback_commShift₂Int f
+  let := rightComparisonPinnedApp_commShift f K h
   exact commShift_of_eq_inv_comp_comp_hom ((curryComplexesTensorOfPullbacksIso f).app K)
     ((curryComplexesTotalPullbackIso f).app K) (rightComparisonPinnedApp_eq_curryApp f K)
 
@@ -417,19 +417,19 @@ theorem rightComparisonPinnedFlipApp_commShift (h : DerivedToTensorCommShift₂ 
     (letI := curriedComplexesTensorOfPullbacks_commShift₂Int f
     letI := curriedComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift (rightComparisonPinnedFlipApp f L) ℤ) := by
-  letI := derivedPullback_commShift f
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).flip.obj
+  let := derivedPullback_commShift f
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).flip.obj
       ((derivedPullback f).obj (DerivedCategory.Q.obj L))).CommShift ℤ :=
     (derivedTensorCommShift₂Int X).commShiftFlipObj _
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).flip.obj
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).flip.obj
       (DerivedCategory.Q.obj ((pullbackComplex f).obj L))).CommShift ℤ :=
     (derivedTensorCommShift₂Int X).commShiftFlipObj _
-  letI : ((tensorComplexBifunctorOn X).flip.obj ((pullbackComplex f).obj L)).CommShift ℤ :=
+  let : ((tensorComplexBifunctorOn X).flip.obj ((pullbackComplex f).obj L)).CommShift ℤ :=
     (inferInstance : (tensorComplexBifunctorOn X).CommShift₂Int).commShiftFlipObj _
-  letI : ((tensorComplexBifunctor (Y := Y)).flip.obj L).CommShift ℤ :=
+  let : ((tensorComplexBifunctor (Y := Y)).flip.obj L).CommShift ℤ :=
     (inferInstance : (tensorComplexBifunctor (Y := Y)).CommShift₂Int).commShiftFlipObj L
-  letI := curriedComplexesDerivedTensor_commShift₂Int X
-  letI := curriedComplexesTotal_commShift₂Int X
+  let := curriedComplexesDerivedTensor_commShift₂Int X
+  let := curriedComplexesTotal_commShift₂Int X
   exact NatTrans.commShift_assocChain₄' DerivedCategory.Q (derivedPullback f)
     ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).flip.obj
       ((derivedPullback f).obj (DerivedCategory.Q.obj L)))
@@ -480,11 +480,11 @@ theorem rightComparisonCurryFlipApp_commShift (h : DerivedToTensorCommShift₂ X
     (letI := curryComplexesTensorOfPullbacks_commShift₂Int f
     letI := curryComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift ((Functor.curry.map (rightComparison f)).flipApp L) ℤ) := by
-  letI := curryComplexesTensorOfPullbacks_commShift₂Int f
-  letI := curryComplexesTotalPullback_commShift₂Int f
-  letI := curriedComplexesTensorOfPullbacks_commShift₂Int f
-  letI := curriedComplexesTotalPullback_commShift₂Int f
-  letI := rightComparisonPinnedFlipApp_commShift f L h
+  let := curryComplexesTensorOfPullbacks_commShift₂Int f
+  let := curryComplexesTotalPullback_commShift₂Int f
+  let := curriedComplexesTensorOfPullbacks_commShift₂Int f
+  let := curriedComplexesTotalPullback_commShift₂Int f
+  let := rightComparisonPinnedFlipApp_commShift f L h
   exact commShift_of_eq_inv_comp_comp_hom
     ((Functor.CommShift₂.flipIso (curryComplexesTensorOfPullbacksIso f)).app L)
     ((Functor.CommShift₂.flipIso (curryComplexesTotalPullbackIso f)).app L)

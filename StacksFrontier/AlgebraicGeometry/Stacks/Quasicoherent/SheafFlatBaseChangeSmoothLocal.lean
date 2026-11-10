@@ -351,7 +351,8 @@ theorem hasSheafFlatBaseChangeProperty_iff_of_isSmooth_jointlySurjective
         (etaleTopology_le_topology B)
         ((stackModulePresheafPullback.{u, w, u} B S hS (f j)).obj F) :=
   ⟨fun hfbc j => hasSheafFlatBaseChangeProperty_modulePresheafPullback B E h S hS
-      𝒳.val.val.p 𝒳.val.isFiberedInGroupoids _ _ F hF hfbc,
+      𝒳.val.val.p 𝒳.val.isFiberedInGroupoids (CatFiberedInGroupoids.homFunctor (f j).hom)
+      (isFiberedInGroupoids_homFunctor_comp B S hS (f j).hom) F hF hfbc,
     hasSheafFlatBaseChangeProperty_of_isSmooth_jointlySurjective B E h S hS f hsmooth hjs F hF⟩
 
 end AlgebraicGeometry.Stack

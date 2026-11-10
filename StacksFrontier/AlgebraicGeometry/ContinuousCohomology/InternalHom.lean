@@ -222,8 +222,7 @@ lemma exists_isOpen_tprod_eq (x : M.obj.obj.V ⊗[R] N.obj.obj.V) (g₀ : G) :
     ∃ U : Set G, IsOpen U ∧ g₀ ∈ U ∧ ∀ g ∈ U,
       (Representation.tprod (rep R G M) (rep R G N)) g x
         = (Representation.tprod (rep R G M) (rep R G N)) g₀ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨Set.univ, isOpen_univ, trivial, fun g _ => by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul m y =>
     refine ⟨{g : G | rep R G M g m = rep R G M g₀ m} ∩
       {g : G | rep R G N g y = rep R G N g₀ y},

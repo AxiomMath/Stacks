@@ -43,6 +43,7 @@ attribute [-instance] Stacks.ModulesOnACategory.QuasiCoherentEquivalence.derived
   Stacks.DerivedQCoh.hasDerivedCategoryQuasicoherent
 attribute [local instance] HasDerivedCategory.standard
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)] in
 /-- A retract of a finite biproduct of copies of the structure sheaf is a direct summand of a
 finite free module, in the spelling of `AlgebraicGeometry.Space.HasStrictlyPerfectModel`. -/
 private theorem isDirectSummandOfFiniteFree_of_isRetractOfFiniteFree_aux
@@ -63,6 +64,7 @@ private theorem isDirectSummandOfFiniteFree_of_isRetractOfFiniteFree_aux
   exact (isDirectSummandOfFiniteFree_iff_free _ _).2
     ⟨n, i ≫ eb.inv, eb.hom ≫ r, by simp [hir]⟩
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)] in
 /-- A strictly perfect model in the spelling of `AlgebraicGeometry.Space.HasStrictlyPerfectModel`
 is a strictly perfect complex. -/
 private theorem exists_isStrictlyPerfect_of_hasStrictlyPerfectModel_aux
@@ -77,7 +79,7 @@ private theorem exists_isStrictlyPerfect_of_hasStrictlyPerfectModel_aux
   obtain ⟨P, hP, ⟨a, b, hGE, hLE⟩, ⟨e⟩⟩ := hE
   refine ⟨P, ⟨(Set.finite_Icc a b).subset fun j hj => ?_, fun j =>
     isDirectSummandOfFiniteFree_of_isRetractOfFiniteFree_aux B S hS U _ (hP j)⟩, ⟨e⟩⟩
-  simp only [Set.mem_setOf_eq] at hj
+  simp only [Set.mem_ofPred_eq] at hj
   simp only [Set.mem_Icc]
   by_contra hne
   apply hj

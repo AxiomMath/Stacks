@@ -297,7 +297,7 @@ theorem prodSndCotangentComparison_changeOfBase :
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
     l₁, l₂, l₃, l₄]
   rw [Functor.map_comp, Functor.map_comp]
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc]
   rw [prodSndSummand_changeOfBase_term_assoc]
 
 end SecondArrow
@@ -491,7 +491,7 @@ lemma prodGraphBaseChangedIso_hom_f (n : ℕ) :
     (AlgebraicTopology.alternatingFaceMapComplex _).mapIso
       (Functor.isoWhiskerLeft (cotangentSimplicialModule.{u, v, w} J g).object
         (prodGraphSummandIso J h))
-  show ((HomologicalComplex.mapHomologicalComplexExtendIso E K
+  change ((HomologicalComplex.mapHomologicalComplexExtendIso E K
       (ComplexShape.embeddingUpIntLE 0)).inv ≫
     HomologicalComplex.extendMap I.hom (ComplexShape.embeddingUpIntLE 0)).f (-(n : ℤ)) = _
   rw [HomologicalComplex.comp_f, h₁', HomologicalComplex.extendMap_f _ _ hn]
@@ -539,7 +539,7 @@ theorem prodSndCotangentComparison_baseChange :
   have l₄ := prodGraphBaseChangedIso_hom_f J g h n
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
     l₁, l₂, l₃, l₄, Functor.map_comp, Functor.map_comp]
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc]
   rw [prodSndSummand_baseChange_term_assoc]
 
 end FirstArrow
@@ -610,7 +610,7 @@ theorem exists_distTriang_towerCotangent
     isomorphic_distinguished _ hΦ _ (Triangle.isoMk _ _ i₁.symm i₂.symm i₃.symm ?_ ?_ ?_)⟩
   · exact (CommSq.vert_inv (g := i₁) (h := i₂) ⟨c₁⟩).w
   · exact (CommSq.vert_inv (g := i₂) (h := i₃) ⟨c₂⟩).w
-  · show (i₃.inv ≫ δ₀ ≫ i₁.hom⟦(1 : ℤ)⟧') ≫ i₁.inv⟦(1 : ℤ)⟧' = i₃.inv ≫ δ₀
+  · change (i₃.inv ≫ δ₀ ≫ i₁.hom⟦(1 : ℤ)⟧') ≫ i₁.inv⟦(1 : ℤ)⟧' = i₃.inv ≫ δ₀
     simp only [Category.assoc, ← Functor.map_comp, Iso.hom_inv_id, Functor.map_id,
       Category.comp_id]
 

@@ -107,7 +107,7 @@ theorem finite_fibre_pointsMap_of_relocalizeRestrict
       value := Y.map (e.hom ≫ σ).op p.value }
   refine ⟨x.class B (Spec (.of K)) hK _, ?_, ?_⟩
   · -- the image of `x` under `w_K` is the chosen representative of `z̄`
-    show (FieldValuedPoint.map B (Spec (.of K)) hK _
+    change (FieldValuedPoint.map B (Spec (.of K)) hK _
       ((OverShriek.relocalizeRestrict g).map w) x).class B (Spec (.of K)) hK _ =
         q.class B (Spec (.of K)) hK _
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B (Spec (.of K)) hK _ ?_
@@ -124,7 +124,7 @@ theorem finite_fibre_pointsMap_of_relocalizeRestrict
       NatTrans.naturality_apply w (e.hom ≫ σ).op p.value
     exact h₁.trans (h₂.symm.trans h₃.symm)
   · -- and `x` lies above `y`
-    show (FieldValuedPoint.ofRelocalizeRestrict B (Spec (.of K)) (Spec (.of k)) hK hk g Y
+    change (FieldValuedPoint.ofRelocalizeRestrict B (Spec (.of K)) (Spec (.of k)) hK hk g Y
       x).class B (Spec (.of k)) hk Y = p.class B (Spec (.of k)) hk Y
     exact FieldValuedPoint.class_eq_class_of_hasCommonExtension B (Spec (.of k)) hk Y
       ⟨_, FieldValuedPoint.dominates_refl B (Spec (.of k)) hk Y _, ⟨e.hom ≫ σ, rfl⟩⟩

@@ -446,7 +446,7 @@ lemma pairingApp_pullbackTensorBottom (V : X.Cᵒᵖ)
         ((inverseImageModules f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj F)
         ((inverseImageModules f.toToposHom
           (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj G)).hom := by
-    show (extendScalarsTensorIso (fSharpCommRing f)
+    change (extendScalarsTensorIso (fSharpCommRing f)
         (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property
         ((inverseImageModules f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj F)

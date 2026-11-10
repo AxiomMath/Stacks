@@ -78,7 +78,7 @@ public theorem isIso_c_of_isIso_morphismRestrict
   let j := (b ⁻¹ᵁ U).ι
   have hcomp : IsIso (j ≫ b).c := by
     rw [← morphismRestrict_ι b U]
-    show IsIso (U.ι.c ≫
+    change IsIso (U.ι.c ≫
       (TopCat.Presheaf.pushforward CommRingCat U.ι.base).map (b ∣_ U).c)
     infer_instance
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun V => ?_
@@ -113,9 +113,9 @@ public theorem exists_const_on_fibre_of_const_on_subscheme
     ∃ y : Y, ∀ z : X, b z = x → φ z = y := by
   classical
   refine ⟨Classical.choose hφ, fun z hz => eq_of_mem_support_of_const_on_subscheme D φ hφ ?_⟩
-  show z ∈ (D.support : Set X)
+  change z ∈ (D.support : Set X)
   rw [hD, Scheme.IdealSheafData.support_comap]
-  show b z ∈
+  change b z ∈
     ((Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds X')).support : Set X')
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   exact hz
@@ -196,7 +196,7 @@ private theorem existsUnique_continuous_comp_eq
     congrArg (fun f : C(X, Y) => (f : X → Y)) (hb.lift_comp fφ hFib)
   have hψ : Continuous ψ := by
     apply hb.continuous_iff.mpr
-    show Continuous (fun x : X => ψ (b x))
+    change Continuous (fun x : X => ψ (b x))
     rw [hcomp]
     exact fφ.continuous
   refine ⟨TopCat.ofHom ⟨ψ, hψ⟩, TopCat.ext (congrFun hcomp), fun ψ' hψ' => TopCat.ext fun x => ?_⟩

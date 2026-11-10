@@ -166,7 +166,7 @@ theorem isCoveringMorphism_sigmaDesc (E : Covering.{w} J U) :
     IsCoveringMorphism J U (Over.mk (Sigma.desc E.f)) := by
   refine J.superset_covering ((Sieve.generate_le_iff _ _).mpr ?_) E.mem₀
   rintro V g ⟨i⟩
-  exact ⟨∐ E.X, Sigma.ι E.X i, Sigma.desc E.f, Presieve.singleton_self _, Sigma.ι_desc E.f i⟩
+  exact ⟨∐ E.X, Sigma.ι E.X i, Sigma.desc E.f, Presieve.singleton_self _, Sigma.ι_comp_desc E.f i⟩
 
 /-- The **one-member covering `{∐ Uᵢ ⟶ U}`** attached to a covering `{Uᵢ ⟶ U}`. -/
 @[implicit_reducible]
@@ -282,7 +282,7 @@ restricts on the `i`-th member to the `i`-th component of the refinement. -/
 theorem ι_sigmaDescHom {E : Covering.{w} J U} {V : SingletonCovering J U}
     (φ : E ⟶ (singletonCoveringInclusion.{w} J U).obj V) (i : E.I₀) :
     Sigma.ι E.X i ≫ sigmaDescHom φ = φ.h₀ i :=
-  Sigma.ι_desc _ i
+  Sigma.ι_comp_desc _ i
 
 /-- The morphism out of the coproduct determined by a refinement of a one-member covering is a
 morphism over `U`. -/
@@ -290,7 +290,7 @@ theorem sigmaDescHom_comp_hom {E : Covering.{w} J U} {V : SingletonCovering J U}
     (φ : E ⟶ (singletonCoveringInclusion.{w} J U).obj V) :
     sigmaDescHom φ ≫ V.obj.hom = Sigma.desc E.f := by
   refine Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [← Category.assoc, ι_sigmaDescHom, Sigma.ι_desc]
+  rw [← Category.assoc, ι_sigmaDescHom, Sigma.ι_comp_desc]
   exact φ.w₀ i
 
 /-- The bijection between morphisms `{∐ Uᵢ ⟶ U} ⟶ {V ⟶ U}` of one-member coverings and
@@ -304,7 +304,8 @@ def coproductCoveringHomEquiv (E : Covering.{w} J U) (V : SingletonCovering J U)
       h₀ := fun i ↦ Sigma.ι E.X i ≫ ψ.hom.left
       w₀ := fun i ↦ by
         rw [Category.assoc]
-        exact (congrArg (fun k ↦ Sigma.ι E.X i ≫ k) (Over.w ψ.hom)).trans (Sigma.ι_desc E.f i) }
+        exact (congrArg (fun k ↦ Sigma.ι E.X i ≫ k) (Over.w ψ.hom)).trans
+          (Sigma.ι_comp_desc E.f i) }
   invFun φ := ObjectProperty.homMk (Over.homMk (sigmaDescHom φ) (sigmaDescHom_comp_hom φ))
   left_inv ψ := by
     apply ObjectProperty.hom_ext

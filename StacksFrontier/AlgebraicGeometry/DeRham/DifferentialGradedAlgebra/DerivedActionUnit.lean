@@ -78,7 +78,7 @@ K-flat and `Tot(u ⊗ 1)` followed by the action is an isomorphism of complexes,
 `(u ⊗ 1) ≫ μ : K ⊗^𝐋 𝒜 ⟶ 𝒜` is an isomorphism. -/
 theorem isIso_map_derivedAction_regular
     {K : CochainComplex (_root_.SheafOfModules.{u} (ringSheaf S.sheaf)) ℤ}
-    (hK : Stacks.SheafOfModules.KFlat.KFlat S.sheaf K) (u : K ⟶ 𝒜.complex)
+    (hK : Stacks.SheafOfModules.IsKFlat S.sheaf K) (u : K ⟶ 𝒜.complex)
     [IsIso (HomologicalComplex.mapBifunctorMap u (𝟙 𝒜.complex) (sheafTensor S.sheaf)
         (ComplexShape.up ℤ) ≫
         dgAction (_root_.SheafOfModules.DifferentialGradedModule.regularModule 𝒜))] :

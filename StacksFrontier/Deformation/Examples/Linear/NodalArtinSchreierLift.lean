@@ -92,8 +92,9 @@ it needs is also what the local liftability hypothesis needs (see
 `StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalLift`). So this file is one input to a
 Lean proof of `¬ Deformation.FlatModuleLiftBaseChangeStatement.{0}`.
 
-Two choices make that instantiation tractable. First, present the base as a quotient rather than a subring: `R` is the nodal
-cubic `𝔽₂[Y, Z]/(Z² + Y·Z + Y³)` with `ω = Y`, which makes `IsNoetherianRing` immediate, keeps
+Two choices make that instantiation tractable. First, present the base as a quotient rather than a
+subring: `R` is the nodal cubic `𝔽₂[Y, Z]/(Z² + Y·Z + Y³)` with `ω = Y`, which makes
+`IsNoetherianRing` immediate, keeps
 `ω ∈ AS(R_ω)` immediate — `α = Z/Y` works because `Z² + Y·Z = Y³` *is* the relation — and still
 gives `ω ∉ AS(R)` from the ring map `R → 𝔽₂[s]`, `Y ↦ s² + s`, `Z ↦ s³ + s²`, whose image lies in
 the subring `nodal` of `ArtinSchreierLocalGlobal` while `s` and `s + 1` do not.

@@ -134,7 +134,7 @@ theorem levelSectionsScalarsAt_mk (n : SimplexCategory) (e k : ℕ)
     (r : ((wholeSpaceEnvelopeRing hp).obj n : Type u)) :
     levelSectionsScalarsAt hp n e k hk (Ideal.Quotient.mk _ r) =
       levelSectionsScalars hp n e r := by
-  show (wholeSpaceEnvelopeRingLevelEquiv hp n.len e).symm
+  change (wholeSpaceEnvelopeRingLevelEquiv hp n.len e).symm
       (Ideal.Quotient.factor (Ideal.pow_le_pow_right hk) (Ideal.Quotient.mk _ r)) = _
   rw [Ideal.Quotient.factor_mk]
   rfl
@@ -252,7 +252,7 @@ theorem levelSectionsIsScalarTowerAt (n : SimplexCategory) (e k : ℕ)
   let := levelSectionsModuleAt hp F n e k hk
   refine ⟨fun r s x ↦ ?_⟩
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective s
-  show levelSectionsScalarsAt hp n e k hk (r • Ideal.Quotient.mk _ a) • x =
+  change levelSectionsScalarsAt hp n e k hk (r • Ideal.Quotient.mk _ a) • x =
     levelSectionsScalars hp n e r • levelSectionsScalarsAt hp n e k hk
       (Ideal.Quotient.mk _ a) • x
   have hrs : r • Ideal.Quotient.mk (DividedPowers.pAdicIdeal
@@ -311,7 +311,7 @@ theorem levelSections_smul_eq (n : SimplexCategory) (e : ℕ)
       (op (((wholeSpaceSystem S hp).obj (op n)).obj e)) : Type u))
     (x : F.val.obj (op (((wholeSpaceSystem S hp).obj (op n)).obj e))) :
     b • x = wholeSpaceEnvelopeRingLevelEquiv hp n.len e b • x := by
-  show _ = levelSectionsScalarsAt hp n e _ le_rfl
+  change _ = levelSectionsScalarsAt hp n e _ le_rfl
     (wholeSpaceEnvelopeRingLevelEquiv hp n.len e b) • x
   rw [levelSectionsScalarsAt_level, RingEquiv.symm_apply_apply]
 

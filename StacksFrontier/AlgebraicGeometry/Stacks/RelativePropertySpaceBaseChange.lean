@@ -178,7 +178,7 @@ theorem prop_pullbackFst_representingMap_of_prop_relocalize
           (schemeSliceMap B S hS U y hy) h
           ((OverShriek.relocalizePresheafFunctor U.hom).obj T) eT')) (Iso.refl _) ?_
     apply ObjectProperty.hom_ext
-    show ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
+    change ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
         fibreProductIsoRepresenting B S hS (schemeSlice B S hS U) 𝒜 𝒵
           (yoneda.obj U) F G (schemeSliceEquivalenceOver B S hS U) eF eG
           (schemeSliceMap B S hS U y hy) h

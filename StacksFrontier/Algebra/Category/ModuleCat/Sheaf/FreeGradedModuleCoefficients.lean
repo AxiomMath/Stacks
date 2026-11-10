@@ -120,7 +120,7 @@ noncomputable def coeffPresMap (g : ∀ k : ℤ, X k ⟶ Y k) (n : ℤ) :
 /-- The identity of the coefficients induces the identity of the presentation. -/
 theorem coeffPresMap_id (n : ℤ) : coeffPresMap S (fun k => 𝟙 (X k)) n = 𝟙 _ := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffPresAddHom S (fun k => 𝟙 (X k)) n U m = m
+  change coeffPresAddHom S (fun k => 𝟙 (X k)) n U m = m
   induction m using coeffSections_induction with
   | hzero => simp
   | hof i s hs x => rw [coeffPresAddHom_coeffOf]; rfl
@@ -131,7 +131,7 @@ composite of the induced morphisms. -/
 theorem coeffPresMap_comp (g : ∀ k : ℤ, X k ⟶ Y k) (h : ∀ k : ℤ, Y k ⟶ Z k) (n : ℤ) :
     coeffPresMap S (fun k => g k ≫ h k) n = coeffPresMap S g n ≫ coeffPresMap S h n := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show coeffPresAddHom S (fun k => g k ≫ h k) n U m =
+  change coeffPresAddHom S (fun k => g k ≫ h k) n U m =
     coeffPresAddHom S h n U (coeffPresAddHom S g n U m)
   induction m using coeffSections_induction with
   | hzero => simp

@@ -98,10 +98,10 @@ public theorem Module.flat_coker_of_flat_of_projective_finsupp
   let e : (Fin r →₀ S) ≃ₗ[S] (Fin r → S) := Finsupp.linearEquivFunOnFinite S S (Fin r)
   obtain ⟨f, hf⟩ : ∃ f : (Fin r → S) →ₗ[S] N, f = alpha ∘ₗ e.symm.toLinearMap := ⟨_, rfl⟩
   have hbase : Function.Bijective (f.rTensor (Algebra.closedFiberIdeal R S).ResidueField) := by
-    rw [hf, ← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_ltensor,
+    rw [hf, ← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_lTensor,
       LinearMap.baseChange_comp]
     refine halpha.comp ?_
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.lTensor_bij_iff_rTensor_bij,
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.lTensor_bij_iff_rTensor_bij,
       ← LinearEquiv.coe_rTensor _ e.symm]
     exact (e.symm.rTensor _).bijective
   have hrange : LinearMap.range f = LinearMap.range alpha := by

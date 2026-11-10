@@ -153,7 +153,7 @@ theorem exists_rational_point_mem_of_isOpen_identityComponent [IsAlgClosed k]
   have hqx : q.1 (IsLocalRing.closedPoint k) = x := by
     simpa [q, pointEquivClosedPoint] using
       congrArg Subtype.val ((pointEquivClosedPoint H.carrier.X.hom).apply_symm_apply ⟨x, hxc⟩)
-  show q.1 (IsLocalRing.closedPoint k) ∈ W
+  change q.1 (IsLocalRing.closedPoint k) ∈ W
   rwa [hqx]
 
 /-- The identity point of a locally algebraic group scheme has an affine open neighbourhood
@@ -200,7 +200,7 @@ theorem exists_rational_point_common_translate [IsAlgClosed k]
       rw [identityComponent_range]
       exact rightTranslationHomeo_mem_connectedComponent_identityPoint G p₀ (g i) (hcomp i)
     refine ⟨y, ?_⟩
-    show rightTranslationHomeo G (q i ≫ GrpObj.inv) (H.ι.hom.hom.left y) ∈ U₀
+    change rightTranslationHomeo G (q i ≫ GrpObj.inv) (H.ι.hom.hom.left y) ∈ U₀
     rw [hy, rightTranslationHomeo_apply_self]
     exact heU₀
   let _ : GeometricallyIrreducible H.carrier.X.hom :=
@@ -259,7 +259,7 @@ theorem exists_affineOpen_containing_rational_points_of_connectedComponent_eq [I
       (aG ≫ (rightTranslationIso G (qi i₀ ≫ GrpObj.inv)).hom).left.base
         (⊥ : PrimeSpectrum k) at hp
     rw [hqi₀] at hp
-    show ((p₀ ≫ T.hom) ≫ GrpObj.inv).left.base (⊥ : PrimeSpectrum k) =
+    change ((p₀ ≫ T.hom) ≫ GrpObj.inv).left.base (⊥ : PrimeSpectrum k) =
       aG.left.base (⊥ : PrimeSpectrum k)
     simpa [rightTranslationIso, GrpObj.mulRight, hunit] using hp
   refine ⟨T.hom.left ⁻¹ᵁ (invMap ⁻¹ᵁ U₀), (hU₀.preimage invMap).preimage T.hom.left,
@@ -269,7 +269,7 @@ theorem exists_affineOpen_containing_rational_points_of_connectedComponent_eq [I
       simpa [qi, aG, H, p₀, rightTranslationIso, Over.comp_left, Scheme.Hom.comp_base,
         Function.comp_apply] using ha i
     have hpt := congr(($(hgroup i)).left (⊥ : PrimeSpectrum k))
-    show invMap.base (T.hom.left.base ((g i).left.base (⊥ : PrimeSpectrum k))) ∈ U₀
+    change invMap.base (T.hom.left.base ((g i).left.base (⊥ : PrimeSpectrum k))) ∈ U₀
     rw [show invMap.base (T.hom.left.base ((g i).left.base (⊥ : PrimeSpectrum k))) =
       (rightTranslationIso G (qi i ≫ GrpObj.inv)).hom.left.base
         (aG.left.base (⊥ : PrimeSpectrum k)) from hpt]

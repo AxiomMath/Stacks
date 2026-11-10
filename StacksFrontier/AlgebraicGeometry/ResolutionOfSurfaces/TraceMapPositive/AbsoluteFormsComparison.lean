@@ -133,8 +133,7 @@ theorem ker_map_le_span_D_algebraMap (A₀ A B : Type*) [CommRing A₀] [CommRin
       Submodule.span B (Set.range fun a : A => D A₀ B (algebraMap A B a)) := by
   rw [← KaehlerDifferential.range_mapBaseChange]
   rintro w ⟨t, rfl⟩
-  induction t using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
   | tmul b a =>
     rw [KaehlerDifferential.mapBaseChange_tmul]
@@ -163,8 +162,7 @@ theorem ker_exteriorPower_map_le_span {K M N : Type*} [CommRing K] [AddCommGroup
   obtain ⟨t, rfl⟩ := exterior_ker_le_im_beta q.ker.subtype q hq
     (Submodule.range_subtype _).symm.le n hz
   clear hz
-  induction t using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
   | tmul a b =>
     have hb : b ∈ Submodule.span K (Set.range (exteriorPower.ιMulti K n)) := by
@@ -330,7 +328,7 @@ theorem ker_absoluteToRelative_le_ker_comp
       rw [ExteriorAlgebra.powMapₛₗ_ιMulti]
       congr 1
       funext _
-      show _ = KaehlerDifferential.map ℤ ℤ R S _
+      change _ = KaehlerDifferential.map ℤ ℤ R S _
       rw [map_D, ← IsScalarTower.algebraMap_apply]
     rw [family_degCongr (fun n => ⇑(Θ n)), hpull, hΘ 1 k,
       family_degCongr (fun n => ⇑(absoluteToRelative Λ R n)), absoluteToRelative_wedgeMul,
@@ -617,14 +615,14 @@ theorem relativeTraceComplex_eq_higherTraceComplexMap (hp : p.Prime) [CharP Λ p
   have : Module.Free R S :=
     Module.Free.of_basis ((AdjoinRoot.powerBasis' (monic_X_pow_sub_C a hp.ne_zero)).map e).basis
   refine eq_higherTraceComplexMap hp a e _ (fun s => ?_) (fun i j α β => ?_) ?_
-  · show exteriorPower.zeroEquiv R (Ω[R⁄Λ])
+  · change exteriorPower.zeroEquiv R (Ω[R⁄Λ])
         (relativeTrace Λ Θ hΘ 0 ((exteriorPower.zeroEquiv S (Ω[S⁄Λ])).symm s)) = _
     rw [zeroEquiv_relativeTrace_zero, zeroEquiv_symm_eq_smul_powMapₛₗ (R := R), htr, map_smul,
       exteriorPower.zeroEquiv_ιMulti, smul_eq_mul, mul_one, LinearMap.comp_apply,
       Stacks.Discriminant.finiteProjectiveTrace_eq_trace]
     rfl
   · exact relativeTrace_wedgeMul Λ Θ hΘ i j α β
-  · show relativeTrace Λ Θ hΘ 1 _ = _
+  · change relativeTrace Λ Θ hΘ 1 _ = _
     have hlift : (exteriorPower.ιMulti S 1 fun _ => x ^ (p - 1) • D Λ S x) =
         absoluteToRelative Λ S 1 (exteriorPower.ιMulti S 1 fun _ => x ^ (p - 1) • D ℤ S x) := by
       rw [absoluteToRelative_ιMulti]
@@ -672,7 +670,7 @@ theorem relativeTraceComplex_eq_higherTraceComplexMap_of_baseChange (hp : p.Prim
   have hθ₀ : ∀ (b : B₀) (ω : Ω[A₀⁄ℤ]),
       θ₀ (b • KaehlerDifferential.map ℤ ℤ A₀ B₀ ω) = Algebra.trace A₀ B₀ b • ω := by
     intro b ω
-    show exteriorPower.oneEquiv A₀ (Ω[A₀⁄ℤ])
+    change exteriorPower.oneEquiv A₀ (Ω[A₀⁄ℤ])
       (Θ₀ 1 ((exteriorPower.oneEquiv B₀ (Ω[B₀⁄ℤ])).symm
         (b • KaehlerDifferential.map ℤ ℤ A₀ B₀ ω))) = _
     rw [map_smul, ← formsMap_one_oneEquiv_symm, htr₀ 1 b, map_smul, LinearEquiv.apply_symm_apply,

@@ -150,7 +150,7 @@ theorem restrictToSmallEtaleEval_comp_map (x : 𝒳) {A : Type t} [Category.{s} 
         (restrictToSmallEtale B E h S hS p hp x F).map r.op =
       restrictToSmallEtaleEval B E h S hS p hp x F W := by
   have := isEquivalence_overPost B S hS p hp x
-  show F.map _ ≫ F.map _ = F.map _
+  change F.map _ ≫ F.map _ = F.map _
   rw [← F.map_comp]
   refine congrArg F.map (Quiver.Hom.unop_inj ?_)
   exact Over.w ((Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).inv.map
@@ -178,7 +178,7 @@ theorem restrictionPushforwardComparison_app_eval {A : Type t} [Category.{s} A] 
   have := isEquivalence_overPost B S hS p hp y
   obtain ⟨φ', hfac, hproj⟩ := exists_restrictionComparisonLift B E h S hS p hp φ W
   rw [restrictionPushforwardComparison_app B E h S hS p hp φ F W φ' hfac hproj]
-  show F.map _ ≫ F.map _ = F.map _ ≫ F.map _
+  change F.map _ ≫ F.map _ = F.map _ ≫ F.map _
   rw [← F.map_comp, ← F.map_comp, ← op_comp, ← op_comp]
   exact congrArg (fun k => F.map (op k)) hfac
 
@@ -244,7 +244,7 @@ the object inverts the evaluation map at the final object. -/
 theorem restrictToSmallEtaleFinalIso_inv (x : 𝒳) {A : Type t} [Category.{s} A] (F : 𝒳ᵒᵖ ⥤ A) :
     (restrictToSmallEtaleFinalIso B E h S hS p hp x F).inv =
       restrictToSmallEtaleEval B E h S hS p hp x F (smallEtaleFinal B E h S hS p x) := by
-  show F.map (smallEtaleFinalObjectIso B E h S hS p hp x).hom.op = _
+  change F.map (smallEtaleFinalObjectIso B E h S hS p hp x).hom.op = _
   rw [smallEtaleFinalObjectIso_hom]
 
 /-- **The comparison map of Stacks 06W2 at the final object is restriction along the arrow.**

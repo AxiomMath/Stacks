@@ -114,7 +114,7 @@ theorem sheafify_iSup_eq_top_of_isZariskiCover {F : (BigFppfOver B S hS)ᵒᵖ �
   have hfac : (Limits.Sigma.desc fun i ↦ Subfunctor.lift (Ui i).ι (hrange i)) ≫ (⨆ j, Ui j).ι =
       Limits.Sigma.desc fun i ↦ (Ui i).ι := by
     refine Limits.Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc, Subfunctor.lift_ι]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc, Subfunctor.lift_ι]
   have hle : Subfunctor.range (Limits.Sigma.desc fun i ↦ (Ui i).ι) ≤ ⨆ j, Ui j := by
     rw [← hfac]
     exact (Subfunctor.range_comp_le _ _).trans (Subfunctor.range_ι _).le
@@ -132,14 +132,14 @@ theorem sheafify_iSup_preimage_eq_top {F F' : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
   have hsieve : (⨆ i, (Ui i).preimage p).sieveOfSection s =
       (⨆ i, Ui i).sieveOfSection (p.app A s) := by
     ext C k
-    show (F'.map k.op s ∈ (⨆ i, (Ui i).preimage p).obj (op C)) ↔
+    change (F'.map k.op s ∈ (⨆ i, (Ui i).preimage p).obj (op C)) ↔
       (F.map k.op (p.app A s) ∈ (⨆ i, Ui i).obj (op C))
     simp only [Subfunctor.iSup_obj, Set.mem_iUnion, Subfunctor.preimage_obj,
       Set.mem_preimage, NatTrans.naturality_apply]
   have hmem : p.app A s ∈ ((⨆ i, Ui i).sheafify (BigFppfOver.topology B S hS)).obj A := by
     rw [hUi]
     trivial
-  show (⨆ i, (Ui i).preimage p).sieveOfSection s ∈ BigFppfOver.topology B S hS A.unop
+  change (⨆ i, (Ui i).preimage p).sieveOfSection s ∈ BigFppfOver.topology B S hS A.unop
   rw [hsieve]
   exact hmem
 
@@ -154,11 +154,11 @@ theorem isSheaf_preimage {F F' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (p : F' 
   rw [Subfunctor.isSheaf_iff _ hF']
   rw [Subfunctor.isSheaf_iff _ hF] at hG
   intro A s hs
-  show p.app A s ∈ G.obj A
+  change p.app A s ∈ G.obj A
   refine hG A (p.app A s)
     ((BigFppfOver.topology B S hS).superset_covering (fun C k hk => ?_) hs)
   have hk' : p.app (op C) (F'.map k.op s) ∈ G.obj (op C) := hk
-  show F.map k.op (p.app A s) ∈ G.obj (op C)
+  change F.map k.op (p.app A s) ∈ G.obj (op C)
   rwa [← NatTrans.naturality_apply p k.op s]
 
 /-! ### Algebraicity from a Zariski covering of the base -/
@@ -188,7 +188,7 @@ theorem isAlgebraicSpace_of_isZariskiCover_preimage
   let gg : (∐ Fs).obj ⟶ X := gsh.hom
   have hfac : ∀ i, (Limits.Sigma.ι Fs i).hom ≫ gg = ((Ui i).preimage pr).ι := fun i =>
     congrArg (fun k : Fs i ⟶ Xs => k.hom)
-      (Limits.Sigma.ι_desc
+      (Limits.Sigma.ι_comp_desc
         (fun i ↦ (ObjectProperty.homMk ((Ui i).preimage pr).ι : Fs i ⟶ Xs)) i)
   refine isAlgebraicSpace_of_open_cover B S hS X hX I Fs hC (∐ Fs) (Limits.Sigma.ι Fs)
     (coproductIsCoproduct Fs) gg (fun i => ?_) ?_

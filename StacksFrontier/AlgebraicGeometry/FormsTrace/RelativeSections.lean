@@ -212,7 +212,7 @@ theorem algebraMap_restrict_comm (hUU : U' ≤ U) (hWW : W' ≤ W) (r : Γ(S, W)
     letI := (g.appLE W' U' h').hom.toAlgebra
     (X.presheaf.map (homOfLE hUU).op).hom (algebraMap Γ(S, W) Γ(X, U) r) =
       algebraMap Γ(S, W') Γ(X, U') ((S.presheaf.map (homOfLE hWW).op).hom r) := by
-  show (g.appLE W U h ≫ X.presheaf.map (homOfLE hUU).op).hom r =
+  change (g.appLE W U h ≫ X.presheaf.map (homOfLE hUU).op).hom r =
     (S.presheaf.map (homOfLE hWW).op ≫ g.appLE W' U' h').hom r
   rw [Scheme.Hom.appLE_map, Scheme.Hom.map_appLE]
 
@@ -297,7 +297,7 @@ theorem relativeDifferentialsSectionsEquiv_absoluteToRelativeDifferentials :
   let := (g.appLE W U h).hom.toAlgebra
   refine LinearMap.ext_on (span_range_universalRelativeDerivation_d X hU) ?_
   rintro _ ⟨b, rfl⟩
-  show relativeDifferentialsSectionsEquiv g hU hW h
+  change relativeDifferentialsSectionsEquiv g hU hW h
       ((g.absoluteToRelativeDifferentials).app U
         ((Hom.universalRelativeDerivation X.toSpecZ).d b)) =
     KaehlerDifferential.map ℤ Γ(S, W) Γ(X, U) Γ(X, U)
@@ -410,7 +410,6 @@ theorem deRhamComplex_d_app_add (p : ℕ) (s t : Γ(Hom.relativeDifferentialForm
         (g.deRhamComplex.d p (p + 1)).val.app (op U) t :=
   map_add ((g.deRhamComplex.d p (p + 1)).val.app (op U)).hom s t
 
-include hU hW in
 /-- The elements `b₀ · D b₁ ∧ ⋯ ∧ D b_p` generate `⋀ᵖ Ω[Γ(X, U)⁄Γ(S, W)]` as an additive
 group. -/
 theorem closure_smul_ιMulti_D_relative (p : ℕ) :
@@ -483,7 +482,7 @@ theorem relativeFormsSectionsEquiv_deRhamComplex_d (p : ℕ)
         exact (relativeFormsSectionsEquiv g hU hW h p).symm.map_add x y }
   let G := (@KaehlerDifferential.deRhamDifferential Γ(S, W) Γ(X, U) _ _
       (g.appLE W U h).hom.toAlgebra p).toAddMonoidHom
-  have hFG : F = G := AddMonoidHom.eq_of_eqOn_dense (closure_smul_ιMulti_D_relative g hU hW h p)
+  have hFG : F = G := AddMonoidHom.eq_of_eqOn_dense (closure_smul_ιMulti_D_relative g h p)
     (by
       rintro _ ⟨b, rfl⟩
       have hm := relativeFormsSectionsEquiv_deRhamComplex_d_smul_ιMulti g hU hW h p b

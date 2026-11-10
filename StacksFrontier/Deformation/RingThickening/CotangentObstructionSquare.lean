@@ -75,7 +75,7 @@ theorem span_cotangentTermDifferential (n : SimplexCategoryᵒᵖ) :
     (Set.range (cotangentTermDifferential.{u, u} A B n))
   have h := cotangentTerm_hom_ext.{u, u} A B n
     (ModuleCat.ofHom (X := (cotangentTerm.{u, u} A B n : Type u)) p.mkQ) 0 fun q => by
-    show p.mkQ _ = 0
+    change p.mkQ _ = 0
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact Submodule.subset_span ⟨q, rfl⟩
   refine eq_top_iff.2 fun x _ => ?_
@@ -120,7 +120,7 @@ theorem standardResolutionZeroAlgEquiv_squareMap
       (towerPolyHom S.A' S.A S.B).toRingHom := by
     refine MvPolynomial.ringHom_ext (fun c => ?_) (fun a => ?_) <;>
       simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe,
-        AlgEquiv.coe_ringEquiv, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
+        AlgEquiv.coe_toRingEquiv, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
     · rw [← MvPolynomial.algebraMap_eq, AlgEquiv.commutes, standardResolutionSquareMap_algebraMap,
         AlgEquiv.commutes, AlgHom.commutes]
       rfl
@@ -153,7 +153,7 @@ theorem towerConormal_cotangentComplexToNaive_differential
     Algebra.Extension.Cotangent.map_mk]
   congr 1
   apply Subtype.ext
-  show towerPolyHom S.A' S.A S.B (standardResolutionZeroAlgEquiv.{u, u} S.A'
+  change towerPolyHom S.A' S.A S.B (standardResolutionZeroAlgEquiv.{u, u} S.A'
       (CommAlgCat.of S.A' S.A) (((standardResolutionExtensionFace _ _ 0 0).subToKer
         (standardResolutionExtensionFace _ _ 0 1) p).val)) =
     standardResolutionZeroAlgEquiv.{u, u} S.A' (CommAlgCat.of S.A' S.B)
@@ -200,7 +200,7 @@ theorem towerConormal_cotangentComplexToNaive
   suffices h : φ₁ = φ₂ from DFunLike.congr_fun h y
   have hsmul₁ : ∀ (a : CommAlgCat.of S.A' S.A) z, φ₁ (a • z) = algebraMap S.A S.B a • φ₁ z := by
     intro a z
-    show towerConormal S.A' S.A S.B ((Algebra.Extension.naiveComplexXNegOneIso
+    change towerConormal S.A' S.A S.B ((Algebra.Extension.naiveComplexXNegOneIso
         S.baseNaive).hom.hom (((Cotangent.cotangentComplexToNaive.{u, u} S.A'
           (CommAlgCat.of S.A' S.A)).f (-1)).hom
         ((cotangentComplex_degreeIso.{u, u} S.A' (CommAlgCat.of S.A' S.A) 1).inv.hom
@@ -210,13 +210,13 @@ theorem towerConormal_cotangentComplexToNaive
     rfl
   have hsmul₂ : ∀ (a : CommAlgCat.of S.A' S.A) z, φ₂ (a • z) = algebraMap S.A S.B a • φ₂ z := by
     intro a z
-    show (Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom.hom
+    change (Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom.hom
         (((Cotangent.cotangentComplexToNaive.{u, u} S.A' (CommAlgCat.of S.A' S.B)).f (-1)).hom
           (((squareCotangentComplexMap.{u, u, u} S.towerSquare).f (-1)).hom
             ((cotangentComplex_degreeIso.{u, u} S.A' (CommAlgCat.of S.A' S.A) 1).inv.hom
               (a • z)))) = _
     rw [LinearMap.map_smul, LinearMap.map_smul]
-    show (Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom.hom
+    change (Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom.hom
         (((Cotangent.cotangentComplexToNaive.{u, u} S.A' (CommAlgCat.of S.A' S.B)).f (-1)).hom
           (S.towerSquare.map a • (show ((CommAlgCat.cotangentComplex.{u, u} S.A'
             (CommAlgCat.of S.A' S.B)).X (-1) : Type u) from
@@ -239,7 +239,7 @@ theorem towerConormal_cotangentComplexToNaive
       rw [← hd]
       exact (Iso.hom_inv_id_apply
         (cotangentComplex_degreeIso.{u, u} S.A' (CommAlgCat.of S.A' S.B) 1) _).symm
-    show towerConormal S.A' S.A S.B _ = (Algebra.Extension.naiveComplexXNegOneIso
+    change towerConormal S.A' S.A S.B _ = (Algebra.Extension.naiveComplexXNegOneIso
       S.towerNaive).hom ((Cotangent.cotangentComplexToNaive.{u, u} S.A'
         (CommAlgCat.of S.A' S.B)).f (-1) ((squareCotangentComplexMap.{u, u, u}
           S.towerSquare).f (-1) ((cotangentComplex_degreeIso.{u, u} S.A'
@@ -268,12 +268,12 @@ theorem baseHomEquiv_eq_towerHomEquiv (M : ModuleCat.{u} S.A) (h : M →ₗ[S.A]
     (k : S.baseChangeFunctor.obj M →ₗ[S.B] S.N)
     (hk : ∀ x : M, k ((1 : S.B) ⊗ₜ[S.A, algebraMap S.A S.B] x) = h x) :
     S.baseHomEquiv M h = S.towerHomEquiv (S.baseChangeFunctor.obj M) k := by
-  show (S.liftBIso _).hom ≫ ((ModuleCat.extendRestrictScalarsAdj.{u, u, u}
+  change (S.liftBIso _).hom ≫ ((ModuleCat.extendRestrictScalarsAdj.{u, u, u}
       (algebraMap S.A S.B)).homEquiv M _).symm (S.toRestrictedKernelEquiv M h) =
     (S.liftBIso _).hom ≫ S.toLiftedKernelEquiv _ k
   congr 1
   refine ModuleCat.ExtendScalars.hom_ext fun x => ?_
-  show ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars (algebraMap S.A S.B)
+  change ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars (algebraMap S.A S.B)
     ((S.toRestrictedKernelEquiv M) h) ((1 : S.B) ⊗ₜ[S.A, algebraMap S.A S.B] x) =
       ULift.up (k ((1 : S.B) ⊗ₜ[S.A, algebraMap S.A S.B] x))
   rw [ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars_tmul, one_smul, hk]
@@ -344,7 +344,7 @@ theorem baseCocycleMap_comp_coneDesc (f : S.towerNaive.Cotangent →ₗ[S.B] S.N
         (Cotangent.cotangentComplexToNaive.{u, u} S.A' (CommAlgCat.of S.A' S.B))).f (-1) ≫
         (naiveComplexConeIsoNegOne S.liftB S.towerNaive).inv ≫
           S.towerHomEquiv (ModuleCat.of S.B S.towerNaive.Cotangent) f := by
-    show S.liftBaseChange.map ((Cotangent.cotangentComplexToNaive.{u, u} S.A'
+    change S.liftBaseChange.map ((Cotangent.cotangentComplexToNaive.{u, u} S.A'
           (CommAlgCat.of S.A' S.A)).f (-1)) ≫
         S.liftBaseChange.map (Algebra.Extension.naiveComplexXNegOneIso S.baseNaive).hom ≫
           S.baseHomEquiv (ModuleCat.of S.A S.baseNaive.Cotangent)
@@ -357,7 +357,7 @@ theorem baseCocycleMap_comp_coneDesc (f : S.towerNaive.Cotangent →ₗ[S.B] S.N
             S.towerHomEquiv (ModuleCat.of S.B S.towerNaive.Cotangent) f
     rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc, ← Functor.map_comp_assoc]
     refine S.liftBaseChange_map_comp_baseHomEquiv _ _ _ _ fun x => ?_
-    show f ((Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom
+    change f ((Algebra.Extension.naiveComplexXNegOneIso S.towerNaive).hom
         ((Cotangent.cotangentComplexToNaive.{u, u} S.A' (CommAlgCat.of S.A' S.B)).f (-1)
           ((cotangentExtendScalarsComplexMap (A := S.A') (A' := S.A')
             (B := CommAlgCat.of S.A' S.A) (B' := CommAlgCat.of S.A' S.B) S.towerAlgHom).f (-1)
@@ -379,7 +379,7 @@ theorem towerClass_eq (y : naiveCotangentExtOne S.A' S.B S.N)
       (NaiveCotangent.ExtCokernelLinear.shiftSingleQIso
         (liftedKernelModule.{u, u, u, u} S)).hom := by
   rw [Functor.map_comp, Category.assoc]
-  show DerivedCategory.Q.map S.towerCocycleMap ≫
+  change DerivedCategory.Q.map S.towerCocycleMap ≫
     NaiveCotangent.ExtCokernelLinear.cokernelExtOneEquiv S.towerDifferential
       (S.towerCokernelEquiv (extCokernelIso S.A' S.B S.N y)) = _
   rw [hf]
@@ -395,7 +395,7 @@ theorem baseClass_eq (y : naiveCotangentExtOne S.A' S.A S.N)
       (NaiveCotangent.ExtCokernelLinear.shiftSingleQIso
         (liftedKernelModule.{u, u, u, u} S)).hom := by
   rw [Functor.map_comp, Category.assoc]
-  show DerivedCategory.Q.map S.baseCocycleMap ≫
+  change DerivedCategory.Q.map S.baseCocycleMap ≫
     NaiveCotangent.ExtCokernelLinear.cokernelExtOneEquiv S.baseDifferential
       (S.baseCokernelEquiv (extCokernelIso S.A' S.A S.N y)) = _
   rw [hf]
@@ -410,7 +410,7 @@ theorem baseClass_towerMap (y : naiveCotangentExtOne S.A' S.B S.N) :
   obtain ⟨f, hf⟩ := Submodule.Quotient.mk_surjective _ (extCokernelIso S.A' S.B S.N y)
   have hb : extCokernelIso S.A' S.A S.N (naiveCotangentExtOneTowerMap S.A' S.A S.B y) =
       Submodule.Quotient.mk (towerConormalPullback S.A' S.A S.B f) := by
-    show extCokernelIso S.A' S.A S.N ((extCokernelIso S.A' S.A S.N).symm
+    change extCokernelIso S.A' S.A S.N ((extCokernelIso S.A' S.A S.N).symm
       (conormalCokernelPullback S.A' S.A S.B (extCokernelIso S.A' S.B S.N y))) = _
     rw [AddEquiv.apply_symm_apply, ← hf]
     rfl

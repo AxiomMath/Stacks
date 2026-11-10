@@ -122,7 +122,7 @@ abbrev equalizerSections (U : (SmallEtale B S hS F)ᵒᵖ) : Subring (A.right.ob
 theorem map_mem_equalizerSections {U V : (SmallEtale B S hS F)ᵒᵖ} (i : U ⟶ V)
     {x : A.right.obj.obj U} (hx : x ∈ equalizerSections φ ψ U) :
     (A.right.obj.map i).hom x ∈ equalizerSections φ ψ V := by
-  show (φ.right.hom.app V).hom ((A.right.obj.map i).hom x) =
+  change (φ.right.hom.app V).hom ((A.right.obj.map i).hom x) =
     (ψ.right.hom.app V).hom ((A.right.obj.map i).hom x)
   rw [app_map φ i x, app_map ψ i x]
   exact congrArg (C.right.obj.map i).hom hx
@@ -161,7 +161,7 @@ theorem isSheaf_equalizerPresheaf :
     refine (C.isSheaf_sectionsPresheaf _ hs).isSeparatedFor.ext fun V f hf => ?_
     have hf' : (φ.right.hom.app (op V)).hom ((A.right.obj.map f.op).hom s) =
         (ψ.right.hom.app (op V)).hom ((A.right.obj.map f.op).hom s) := hf
-    show (C.right.obj.map f.op).hom ((φ.right.hom.app U).hom s) =
+    change (C.right.obj.map f.op).hom ((φ.right.hom.app U).hom s) =
       (C.right.obj.map f.op).hom ((ψ.right.hom.app U).hom s)
     rw [← app_map φ f.op s, ← app_map ψ f.op s]
     exact hf'
@@ -341,7 +341,7 @@ theorem isFinite_relativeSpecPointsπ (hA : AlgebraSheaf.SectionsBelowCutoff B S
       (affineChartSpec B S hS A hA (Vc O))).size ≤
         max Cardinal.aleph0 (Cardinal.mk (A.right.obj.obj (op V'))) := by
     intro O
-    show (Spec (A.right.obj.obj (op (Vc O)))).size ≤ _
+    change (Spec (A.right.obj.obj (op (Vc O)))).size ≤ _
     rw [Scheme.size_Spec]
     refine max_le_max le_rfl ?_
     let W : (chartScheme Uc).affineOpens :=

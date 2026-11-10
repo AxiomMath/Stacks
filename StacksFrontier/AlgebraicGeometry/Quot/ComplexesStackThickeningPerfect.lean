@@ -311,7 +311,7 @@ theorem exists_hasTorAmplitude_derivedRestriction_of_pull_of_isAffine
     obtain ⟨t, ht⟩ := hsurjsn v
     obtain ⟨x, ξ, hξ, ⟨ζ, hζ⟩, hP⟩ := hgood t
     refine ⟨⟨x, ξ, hξ, hP⟩, ζ, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map (ξ ≫ sn) ζ = v
+    change (BigFppfOver.toScheme B S hS).map (ξ ≫ sn) ζ = v
     rwa [Functor.map_comp, Scheme.Hom.comp_apply, hζ]
   · rintro ⟨x, ξ, hξ, hP⟩
     exact hasTorAmplitudeCanonical_derivedModuleFiber_of_pull_of_isNilpotent hpb hφ hq E x

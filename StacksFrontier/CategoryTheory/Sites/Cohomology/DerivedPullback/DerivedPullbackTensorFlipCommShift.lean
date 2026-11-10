@@ -359,6 +359,7 @@ theorem kFlatComparisonFlipIsoOf_pullbackComplex_hom_app
         (fun (P : (flatKFlatComplexes Y).FullSubcategory) =>
           kFlat_pullbackComplex' f P.obj P.2.1 P.2.2) ((pullbackComplex f).obj N) P
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The inverse of the comparison of Stacks 03EL as a transformation, componentwise. -/
 theorem pullbackTensorTotalComplexFlipObjIso_inv_app_flatKFlatComplexes
     (N : CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf Y.O)) ℤ)

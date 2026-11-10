@@ -207,7 +207,7 @@ theorem parameter_mem_maximal (hunit : ¬ ∀ i, IsUnit (a i))
     (q : Ideal B) [q.IsMaximal] :
     P.parameter q ∈ maximalIdeal (Localization.AtPrime q) := by
   let := P.isLocalHom ⟨q, inferInstance⟩
-  show ¬ IsUnit (P.parameter q)
+  change ¬ IsUnit (P.parameter q)
   refine fun h => hunit fun i =>
     isUnit_of_map_unit (algebraMap A (Localization.AtPrime q)) _ ?_
   rw [IsScalarTower.algebraMap_apply A B (Localization.AtPrime q), P.factorization q i]
@@ -266,7 +266,7 @@ private theorem ringKrullDim_le_of_integral
     PrimeSpectrum.comap (algebraMap A B)
   have hmono : Monotone f := by
     intro x y hxy
-    show Ideal.comap (algebraMap A B) x.asIdeal ≤
+    change Ideal.comap (algebraMap A B) x.asIdeal ≤
       Ideal.comap (algebraMap A B) y.asIdeal
     exact Ideal.comap_mono hxy
   have hfiber (z : PrimeSpectrum A) :
@@ -278,7 +278,7 @@ private theorem ringKrullDim_le_of_integral
     have hne : x.1.asIdeal ≠ y.1.asIdeal := fun heq =>
       hnot (le_of_eq (Subtype.ext (PrimeSpectrum.ext heq)).symm)
     have hlt : x.1.asIdeal < y.1.asIdeal := lt_of_le_of_ne hle hne
-    have hcomap := Ideal.IsIntegral.comap_lt_comap (R := A) hlt
+    have hcomap := Ideal.IsIntegral.under_lt_under (R := A) hlt
     have heq : Ideal.comap (algebraMap A B) x.1.asIdeal =
         Ideal.comap (algebraMap A B) y.1.asIdeal := by
       have hxy' : f x.1 = f y.1 := x.2.trans y.2.symm
@@ -300,7 +300,7 @@ private theorem local_dimension_one_of_integral
   have hqeq : q.under A = maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal hqunder
   have haq : algebraMap A B a ∈ q := by
-    show a ∈ q.under A
+    change a ∈ q.under A
     rw [hqeq]
     exact ham
   have hspan : Ideal.span {algebraMap A B a} ≤ q :=

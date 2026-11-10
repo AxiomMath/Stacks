@@ -558,7 +558,7 @@ theorem basicOpen_veronesePower_le (f g : A) {e k : ℕ}
   have key : (veronesePower 𝒜 d g hg) ^ n =
       veronesePower 𝒜 d f hf * veronesePower 𝒜 d a hda := by
     apply Subtype.ext
-    show (g ^ d) ^ n = f ^ d * a ^ d
+    change (g ^ d) ^ n = f ^ d * a ^ d
     rw [← pow_mul, mul_comm d n, pow_mul, hga, mul_pow, mul_comm]
   rw [← ProjectiveSpectrum.basicOpen_pow _ (veronesePower 𝒜 d g hg) n hn, key]
   exact ProjectiveSpectrum.basicOpen_mul_le_left _ _ _
@@ -862,7 +862,7 @@ theorem mem_gradedModuleDegreeZeroLocalization_iff (f : A) (c : ℕ) (hf : f ∈
         obtain ⟨m, b, hb, rfl⟩ := HomogeneousLocalization.Away.mk_surjective 𝒜 hf a
         refine ⟨m + n, b • x, ?_, ?_⟩
         · exact key m n ▸ SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) hb hx
-        · show (HomogeneousLocalization.Away.mk 𝒜 hf m b hb).val •
+        · change (HomogeneousLocalization.Away.mk 𝒜 hf m b hb).val •
               LocalizedModule.mk x (⟨f ^ n, by exact ⟨n, rfl⟩⟩ : Submonoid.powers f) = _
           rw [HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
           congr 1
@@ -1084,7 +1084,7 @@ theorem veroneseModuleAwayEquiv_smul (hd : 0 < d)
       veroneseAwayEquiv 𝒜 d f hf hd r • veroneseModuleAwayEquiv 𝒜 d ℳ f hf hd z := by
   apply Subtype.ext
   rw [coe_veroneseModuleAwayEquiv]
-  show veroneseLocalizedModuleFun 𝒜 d ℳ f hf
+  change veroneseLocalizedModuleFun 𝒜 d ℳ f hf
       (HomogeneousLocalization.val r • (z : LocalizedModule _ _)) =
     HomogeneousLocalization.val (veroneseAwayEquiv 𝒜 d f hf hd r) •
       ((veroneseModuleAwayEquiv 𝒜 d ℳ f hf hd z :
@@ -1197,7 +1197,7 @@ theorem veroneseLocalizedModuleFun_localizedMap (f g : A) {e k : ℕ}
         hfg).toRingHom
     rw [veroneseLocalizedModuleFun_mk_pow, hdecompS, hdecompV, LinearMap.map_smul,
       LinearMap.map_smul, hmkV, hmkS]
-    show veroneseLocalizedModuleFun 𝒜 d ℳ g hg
+    change veroneseLocalizedModuleFun 𝒜 d ℳ g hg
         ((ProjectiveSpectrum.localizedRingMap (veroneseGrading 𝒜 d)
             (veronesePower 𝒜 d f hf) (veronesePower 𝒜 d g hg)
             ⟨e, he, veronesePower_mem 𝒜 d f hf⟩ ⟨k, hk, veronesePower_mem 𝒜 d g hg⟩

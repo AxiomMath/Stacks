@@ -211,7 +211,7 @@ theorem towerConnectingOfInjective_naturality (h₃ : TowerThirdVertexNatural J 
         DerivedCategory.triangleOfSESδ
           (sectionwiseFundamentalShortComplex_map_sheafify_shortExact J g h hinj) := hn
   unfold towerConnectingOfInjective
-  show ((towerThirdVertexIso J (k ≫ g) h hinj).inv ≫
+  change ((towerThirdVertexIso J (k ≫ g) h hinj).inv ≫
       DerivedCategory.triangleOfSESδ
         (sectionwiseFundamentalShortComplex_map_sheafify_shortExact J (k ≫ g) h hinj) ≫
         (DerivedCategory.Q.map (sheafifiedSectionwiseBaseChangedCotangentComplexIso J
@@ -286,7 +286,7 @@ theorem towerConnecting_naturality
       (towerProdFirstVertexIso J (k ≫ g) h).hom ≫
         DerivedCategory.Q.map (baseChangedCotangentBaseMap J k g h) := h₁
   unfold towerConnecting
-  show ((towerProdThirdVertexIso J h).inv ≫
+  change ((towerProdThirdVertexIso J h).inv ≫
       (Φ.map (towerConnectingOfInjective J (k ≫ g) (prodGraph J h) (injective_prodGraph J h)) ≫
         (Φ.commShiftIso (1 : ℤ)).hom.app _) ≫
       (towerProdFirstVertexIso J (k ≫ g) h).hom⟦(1 : ℤ)⟧') ≫

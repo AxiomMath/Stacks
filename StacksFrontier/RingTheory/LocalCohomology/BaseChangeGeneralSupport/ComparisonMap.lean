@@ -73,7 +73,7 @@ theorem comap_preimage_zeroLocus_eq_map (f : A →+* B) (I : Ideal A) :
   ext q
   rw [Set.mem_preimage, PrimeSpectrum.mem_zeroLocus, PrimeSpectrum.comap_asIdeal,
     PrimeSpectrum.mem_zeroLocus]
-  show I ≤ q.asIdeal.comap f ↔ I.map f ≤ q.asIdeal
+  change I ≤ q.asIdeal.comap f ↔ I.map f ≤ q.asIdeal
   exact (Ideal.map_le_iff_le_comap (f := f) (I := I) (K := q.asIdeal)).symm
 
 /-- **A supported section stays supported after extension of scalars.** If `x` has support in
@@ -128,8 +128,7 @@ def sectionsWithSupportInBaseChangeNatTrans (f : A →+* B) (T : Set (PrimeSpect
       (LinearMap.codRestrict _
         ((ModuleCat.extendScalars.{u, uB, max u uB v} f).map
           ((sectionsWithSupportInSubtype.{u, max uB v} A T).app M)).hom fun y ↦ ?_)
-    induction y using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction y using TensorProduct.inductionOn with
     | tmul b x =>
         refine (ModuleCat.ExtendScalars.map_tmul f
           ((sectionsWithSupportInSubtype.{u, max uB v} A T).app M) b x) ▸ ?_
@@ -283,7 +282,7 @@ private lemma htpyBaseChange_subtype (f : A →+* B) (T : Set (PrimeSpectrum A))
   ext K
   simp only [htpyBaseChange, NatTrans.comp_app, whiskerLeft_app, whiskerRight_app,
     Category.assoc]
-  show (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
+  change (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ =
@@ -307,7 +306,7 @@ private lemma htpyBaseChange_support (f : A →+* B) {S T : Set (PrimeSpectrum A
   ext K
   simp only [htpyBaseChange, NatTrans.comp_app, whiskerLeft_app, whiskerRight_app,
     Category.assoc]
-  show (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
+  change (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ =
@@ -315,7 +314,7 @@ private lemma htpyBaseChange_support (f : A →+* B) {S T : Set (PrimeSpectrum A
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ ≫
       (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _
-  show (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ =
+  change (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _ =
     (HomotopyCategory.quotient (ModuleCat.{max u uB v} B) (ComplexShape.up ℤ)).map _
   congr 1
   ext n x

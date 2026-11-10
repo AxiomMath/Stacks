@@ -273,7 +273,7 @@ public theorem hom_surjective : Function.Surjective (hom (R := R) (M := M)) := b
     congr 1
     simp
   intro y
-  show y ∈ (hom (R := R) (M := M)).range
+  change y ∈ (hom (R := R) (M := M)).range
   induction y using CliffordAlgebra.left_induction with
   | algebraMap r => exact Subalgebra.algebraMap_mem _ r
   | add x y hx hy => exact Subalgebra.add_mem _ hx hy

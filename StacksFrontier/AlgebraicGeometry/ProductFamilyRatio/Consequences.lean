@@ -124,7 +124,8 @@ theorem immersionTwistGap_of_eventuallyGeneratesStalksPowers {S : Scheme.{u}} (f
 /-- **[Stacks, Tag 01VS] from one named input**,
 `Stacks.ProductFamilyTwist.EventuallyGeneratesStalksPowers`.
 
-**No Tag 01VS attribute is attached here**: this carries one hypothesis the statement of the tag does
+**No Tag 01VS attribute is attached here**: this carries one hypothesis the statement of the tag
+does
 not. The input is discharged for an ample `L` by
 `Stacks.StalkwiseGeneration.eventuallyGeneratesStalksPowers_of_isAmple`, and the hypothesis-free
 form carrying the attribute is

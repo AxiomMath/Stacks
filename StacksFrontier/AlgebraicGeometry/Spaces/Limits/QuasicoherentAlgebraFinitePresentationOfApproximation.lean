@@ -52,15 +52,17 @@ theorem exists_isColimit_isFinitePresentation_quasicoherentAlgebra_of_noetherian
   exists_isColimit_isFinitePresentation_quasicoherentAlgebra B S hS X hX
     (fun G hG => exists_isColimit_isFinitePresentation_of_noetherianApproximation B S hS hZ h07SU
       hX hqc hqs G hG)
-    (fun G _ => (isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_noetherianApproximation
-      B S hS hZ h07SU hX hqc hqs G).2)
+    (fun G _ =>
+      (isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_approximation
+        B S hS hZ h07SU hX hqc hqs G).2)
     𝒜 h𝒜
 
 /-- Let `Y` be a quasi-compact and quasi-separated algebraic space over `S` and `𝒜` a
 quasi-coherent `𝒪_Y`-algebra. Granted absolute Noetherian approximation over `Spec ℤ` (`h07SU`),
 `𝒜` is a colimit, in the category of all algebra sheaves on `Y`, of a system of quasi-coherent
 `𝒪_Y`-algebras of finite presentation indexed by a directed set. -/
-theorem exists_directed_isColimit_isFinitePresentation_quasicoherentAlgebra_of_noetherianApproximation
+theorem
+    exists_directed_isColimit_isFinitePresentation_quasicoherentAlgebra_of_noetherianApproximation
     (h07SU : ∀ Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u,
       IsAlgebraicSpace B (⊤_ Scheme.{u}) hZ Z → IsQuasiCompactSpace B (⊤_ Scheme.{u}) hZ Z →
         IsAbsolutelyQuasiSeparated B (⊤_ Scheme.{u}) hZ hZ Z →

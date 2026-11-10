@@ -33,7 +33,8 @@ indexing category.  Here that indexing category is `Over (⊤ : Opens X)` and it
 is the inclusion of the top open.  That is *not* `f_*M`:  `ι_⊤` is an isomorphism of schemes but
 not the identity, so the identification needs an isomorphism, which is `topCoefficientIso` below.
 This is the one point at which the present situation differs from the Čech situation of
-`StacksFrontier.AlgebraicGeometry.CechSiteChange.Resolution`, where the indexing category is `Over X`,
+`StacksFrontier.AlgebraicGeometry.CechSiteChange.Resolution`, where the indexing category is
+`Over X`,
 its terminal object is `Over.mk (𝟙 X)`, and the corresponding comparison is the identity.
 
 ## Main definitions

@@ -221,7 +221,7 @@ theorem exists_section_of_transported
     let p := (chartTransportFullyFaithful B B' h S hS X).preimage (n ≫ hk.some.lift)
     have hp : (chartTransport B B' h S hS X).map p = n ≫ hk.some.lift :=
       (chartTransportFullyFaithful B B' h S hS X).map_preimage _
-    show F'.obj.map n.op (F'.obj.map hk.some.lift.op _) = _
+    change F'.obj.map n.op (F'.obj.map hk.some.lift.op _) = _
     rw [← types_comp_apply (F'.obj.map hk.some.lift.op) (F'.obj.map n.op), ← F'.obj.map_comp,
       ← op_comp, ← hp, hx]
     exact congrArg (x U₃) (by rw [hp, Category.assoc, hk.some.fac])
@@ -429,7 +429,7 @@ theorem transport_mem_kernel
     (z : (transportI h hS' E).val.obj V) :
     (transportπ h hS' E).hom.app V (transportι h hS' E V z) = 0 := by
   refine section_ext (F' := structureSet' h hS') fun U₃ n => ?_
-  show (Space.smallEtaleRingedTopos B' S hS'
+  change (Space.smallEtaleRingedTopos B' S hS'
       ((changeBigSite B B' h S hS).obj X)).O.obj.map n.op _ =
     (Space.smallEtaleRingedTopos B' S hS' ((changeBigSite B B' h S hS).obj X)).O.obj.map n.op 0
   refine (NatTrans.naturality_apply (transportπ h hS' E).hom n.op _).symm.trans ?_
@@ -456,7 +456,7 @@ theorem transport_square_zero
     (z₁ z₂ : (transportI h hS' E).val.obj V) :
     transportι h hS' E V z₁ * transportι h hS' E V z₂ = 0 := by
   refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-  show (transportA h hS' E).obj.map n.op (_ * _) = (transportA h hS' E).obj.map n.op 0
+  change (transportA h hS' E).obj.map n.op (_ * _) = (transportA h hS' E).obj.map n.op 0
   rw [map_mul, map_zero, map_transportι_eq, map_transportι_eq]
   exact (map_mul (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃)))
     _ _).symm.trans ((congrArg (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃)))
@@ -556,7 +556,7 @@ theorem transport_smul_lift
         ((((transportI h hS' E).val.obj V).smul ((transportπ h hS' E).hom.app V a)).asHom.hom z) =
       a * transportι h hS' E V z := by
   refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-  show (transportA h hS' E).obj.map n.op _ = (transportA h hS' E).obj.map n.op (_ * _)
+  change (transportA h hS' E).obj.map n.op _ = (transportA h hS' E).obj.map n.op (_ * _)
   refine Eq.trans ?_ (map_mul ((transportA h hS' E).obj.map n.op).hom _ _).symm
   refine (map_transportι_eq h hS' E U₃ n _).trans ?_
   refine Eq.trans ?_ (congrArg (fun t => (transportA h hS' E).obj.map n.op a * t)

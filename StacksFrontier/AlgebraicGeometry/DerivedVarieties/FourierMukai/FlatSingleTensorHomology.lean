@@ -93,8 +93,8 @@ namespace AlgebraicGeometry
 
 -- Tensoring with a fixed module in the *first* variable is additive.  The declaration is
 -- `AlgebraicGeometry.sheafTensorFlipObjAdditive` of
--- `StacksFrontier/AlgebraicGeometry/DerivedVarieties/ExternalTensor/SingleComparison.lean`, where it
--- is a `local instance`; it has to be re-activated here.  The named instance for the *second*
+-- `StacksFrontier/AlgebraicGeometry/DerivedVarieties/ExternalTensor/SingleComparison.lean`, where
+-- it is a `local instance`; it has to be re-activated here.  The named instance for the *second*
 -- variable, `Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive`, does not give it.
 attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive
 

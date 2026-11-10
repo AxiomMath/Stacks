@@ -462,8 +462,7 @@ noncomputable def restrictTensorₛₗ (h : V ≤ W) :
   map_add' := map_add _
   map_smul' := by
     intro r z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
         rw [TensorProduct.smul_tmul']
         change TensorProduct.liftAddHom _ _ ((r • a) ⊗ₜ[s.sectionRing W] b) = _
@@ -502,8 +501,7 @@ theorem sectionModuleRestrict_sectionTensorMap (h : V ≤ W)
     (z : sectionModule ℳ W ⊗[s.sectionRing W] sectionModule 𝒩 W) :
     sectionTensorMap ℳ 𝒩 V (restrictTensorₛₗ ℳ 𝒩 h z)
       = sectionModuleRestrict (s.leftGradedTensor ℳ 𝒩) h (sectionTensorMap ℳ 𝒩 W z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b => rw [restrictTensorₛₗ_tmul, sectionTensorMap_restrict]
   | add z z' hz hz' => rw [map_add, map_add, hz, hz', ← map_add, ← map_add]
 

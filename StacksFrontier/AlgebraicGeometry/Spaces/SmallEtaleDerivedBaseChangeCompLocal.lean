@@ -27,7 +27,8 @@ assume `g : Y' → Y` is a morphism of affine schemes").
   `Y'` for any covering family of étale charts, and
   `AlgebraicGeometry.Space.isIso_smallEtaleDerivedBaseChangeComp_of_coversTop'` the same with the
   horizontal morphisms of each chart square given up to equality.
-* `AlgebraicGeometry.Space.isPullback_chartBaseChangeSquareMap`: the square of charts is cartesian when the
+* `AlgebraicGeometry.Space.isPullback_chartBaseChangeSquareMap`:
+  the square of charts is cartesian when the
   original square is.
 * `AlgebraicGeometry.Space.isIso_smallEtaleDerivedBaseChangeComp_of_affineCharts`: the reduction
   to squares of affine charts, through its chart step
@@ -190,7 +191,8 @@ theorem isPullback_chartBaseChangeSquareMap (sq : IsPullback g' f' f g) (W : Sma
     rw [chartBaseChangeSquareMap_inclusion]
     convert hout using 1
     exact chartSpaceMapOver_comp_chartToSpace B S hS g q hq
-  exact IsPullback.of_right hout' (chartBaseChangeSquareMap_projection B S hS f g f' g' sq.w W V q hq) hV
+  exact IsPullback.of_right hout'
+    (chartBaseChangeSquareMap_projection B S hS f g f' g' sq.w W V q hq) hV
 
 /-- The chart step of `isIso_smallEtaleDerivedBaseChangeComp_of_affineCharts`, at one chart of
 `Y'` carrying an affine chart diagram over `g`. -/

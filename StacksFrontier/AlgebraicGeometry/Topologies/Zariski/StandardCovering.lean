@@ -79,7 +79,7 @@ public theorem OpenCover.exists_isStandardZariski_refinement {T : Scheme.{u}} [I
     obtain ⟨b, hb, hxb⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ x))
     refine ⟨ULift.up (t.equivFin ⟨b, hb⟩), ?_⟩
     have hφ : φ (t.equivFin ⟨b, hb⟩) = b := by simp [φ]
-    show x ∈ T.basicOpen (φ (t.equivFin ⟨b, hb⟩)).2.1
+    change x ∈ T.basicOpen (φ (t.equivFin ⟨b, hb⟩)).2.1
     rw [hφ]
     exact hxb
   let 𝒱 : T.OpenCover.{v} := T.openCoverOfIsOpenCover U hU
@@ -87,7 +87,7 @@ public theorem OpenCover.exists_isStandardZariski_refinement {T : Scheme.{u}} [I
     { s₀ := fun j ↦ (φ j.down).1
       h₀ := fun j ↦ T.homOfLE (φ j.down).2.2 ≫ (𝒰.f (φ j.down).1).isoOpensRange.inv
       w₀ := fun b ↦ by
-        show (T.homOfLE (φ b.down).2.2 ≫
+        change (T.homOfLE (φ b.down).2.2 ≫
           (𝒰.f (φ b.down).1).isoOpensRange.inv) ≫ 𝒰.f (φ b.down).1 =
             (T.basicOpen (φ b.down).2.1).ι
         simp [Category.assoc, Scheme.Hom.isoOpensRange_inv_comp] }

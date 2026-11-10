@@ -112,7 +112,8 @@ one affine chart `U`: it is the identification of
   `AlgebraicGeometry.isPseudoCoherentFrom_of_derivedPullback_iso`.
 
 **All four steps are closed.**  The fourth, the one that names `RΓ(U, E)`, is closed in
-`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineSmallEtaleTopSectionsOnSite.lean` and assembled
+`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineSmallEtaleTopSectionsOnSite.lean` and
+assembled
 in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/
 RelativeAbsoluteChartDictionary.lean`; the section "The route to 0DII" below explains
 why the chain has the shape it has.
@@ -183,7 +184,8 @@ The site-level statement — the one this file does not make — is
 RelativeAbsoluteChartDictionary.lean`), which carries the bare `@[stacks 0DII]`; the one statement
 about a single affine scheme it rests on is
 `AlgebraicGeometry.isPseudoCoherentFrom_derivedSectionsOverTop_iff`
-(`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineSmallEtaleTopSectionsOnSite.lean`).  The rest
+(`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineSmallEtaleTopSectionsOnSite.lean`).  The
+rest
 of this section describes the route: it explains the shape of the chain, and in particular why
 every link is per-degree.  Sections 2 and 3 below are
 closed outright, and of the three comparisons of section 1 the crossing of `ε` is closed too —
@@ -195,8 +197,8 @@ below explains why the "spelling pincer" is not an obstruction.
 **Two further things are proved.**
 
 * **The assembly over the covering sieve of affine squares is proved**, in both directions and in
-  both degree forms, in
-  `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeAbsoluteSiteAssembly.lean`.
+  both degree forms, in the file `RelativeAbsoluteSiteAssembly.lean` of the directory
+  `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/`.
   `AlgebraicGeometry.Space`
   `.isRelativelyPseudoCoherentFrom_iff_isPseudoCoherentFrom_of_chartDictionary`
   and its all-degrees companion
@@ -292,13 +294,15 @@ what it has been reduced to.  Four further facts come first.
 
 * **Comparison (ii) is proved, in both halves.**  The crossing of `ε` is
   `AlgebraicGeometry.SmallEtale.derivedModuleSectionsRestrictModuleIso`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedSectionsOverObject.lean`); the seam between
-  module-valued derived sections at `⊤` on the small Zariski *site* and derived global sections
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`, file
+  `SmallEtaleDerivedSectionsOverObject.lean`); the seam between module-valued derived sections
+  at `⊤` on the small Zariski *site* and derived global sections
   on the ringed *space* is `AlgebraicGeometry.derivedGlobalSectionsOverEvaluationIso`
   (`StacksFrontier/AlgebraicGeometry/DerivedGlobalSectionsZariskiSite.lean`), and the two composed
   are `AlgebraicGeometry.SmallEtale.derivedModuleSectionsGlobalSectionsOverIso`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedGlobalSectionsOverBase.lean`).  See the (ii)
-  entry of the display below for what each one says and for the two restrictions of scalars the
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`, file
+  `SmallEtaleDerivedGlobalSectionsOverBase.lean`).  See the (ii) entry of the display below for
+  what each one says and for the two restrictions of scalars the
   composite carries.
 
 * **The last two legs of the chain on the scheme side are proved.**  From the small Zariski
@@ -309,7 +313,8 @@ what it has been reduced to.  Four further facts come first.
   both predicates to the conjunction over all degrees of their fixed-degree clause.  And from
   the ringed space to a *named* complex of modules is
   `AlgebraicGeometry.isPseudoCoherent_restrictFunctor_iff_derivedSectionsUnbounded`
-  (`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineOpenSectionsDictionary.lean`): for `E` with
+  (`StacksFrontier/AlgebraicGeometry/PseudoCoherent/AffineOpenSectionsDictionary.lean`): for `E`
+  with
   quasi-coherent cohomology and `U` an affine open of a scheme `X`, `E|_U` is pseudo-coherent on
   the ringed space `U` exactly when `RΓ(U, E)` is pseudo-coherent over `Γ(X, U)`.  That is
   Stacks 08E7 after Stacks 06Z0 at an affine open (`...affineDerivedSectionsPresentation`, which
@@ -401,7 +406,8 @@ functors of the composite.  The first seam stands:
 `CategoryTheory.Functor.mapDerivedCategory` of the restriction functor and at
 `AlgebraicGeometry.Space.chartLocalizationReindex`.  For the first half of it
 `Stacks.ClosedImmersion.mapDerivedCategoryIsoTotalRightDerived`
-(`StacksFrontier/AlgebraicGeometry/ClosedImmersion/DerivedPushforwardComparison.lean`) is the general
+(`StacksFrontier/AlgebraicGeometry/ClosedImmersion/DerivedPushforwardComparison.lean`) is the
+general
 bridge — for an exact functor, the functor induced on derived categories *is* the chosen total
 right derived functor, by uniqueness of right derived functors — and its target is
 `Stacks.DerivedFunctor.totalRightDerived` character for character; `chartSliceReindex` is an
@@ -420,7 +426,8 @@ the chart-reindexed object on the small étale site of `T`, three things:
    `Rε_*ε^*E₀` into `E₀` — together with the restriction of scalars that comparison carries,
    absorbed on the `Prop` side by `StacksDraft.PseudoCoherence.pseudoCoherent_iff_of_ringEquiv` as
    in `ChartDerivedSectionsPseudoCoherentAtTop.lean`.  Note that the route through
-   `AlgebraicGeometry.derivedGlobalSectionsOver` is **longer**: no declaration of the library relates
+   `AlgebraicGeometry.derivedGlobalSectionsOver` is **longer**: no declaration of the library
+   relates
    `derivedGlobalSectionsOver` to `AlgebraicGeometry.derivedSectionsUnbounded` at `⊤`, the nearest
    being the non-natural, `isoSpec`-transported
    `AlgebraicGeometry.IsAffineOpen.nonempty_iso_derivedSectionsSpec`.
@@ -436,9 +443,11 @@ geometric objects there.  That declaration is an `abbrev`
 whose body — `(SheafOfModules.evaluation O (op U)).mapHomotopyCategory (.up ℤ) ⋙
 DerivedCategory.Qh`, right-derived — is shared character for character with
 `Stacks.Cohomology.HypercohomologyEdge.derivedSections`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphism.lean`) and with `Stacks.DerivedFunctor.totalRightDerived`
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphism.lean`) and with
+`Stacks.DerivedFunctor.totalRightDerived`
 of `SheafOfModules.evaluation`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/UnboundedDerivedFunctor/LeftTExactness.lean`), the three differing only in
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/UnboundedDerivedFunctor/LeftTExactness.lean`), the
+three differing only in
 which instance supplies `CategoryTheory.Functor.HasRightDerivedFunctor`.  At those spellings the
 functor meets geometry in many places, pseudo-coherence included:
 `AlgebraicGeometry.affineOpenHypercohomologyIso`
@@ -446,7 +455,8 @@ functor meets geometry in many places, pseudo-coherence included:
 `AlgebraicGeometry.derivedSectionsUnboundedιIso`
 (`StacksFrontier/AlgebraicGeometry/PseudoCoherent/DerivedSectionsUnbounded.lean`), and
 `AlgebraicGeometry.finite_homology_derivedSections_of_isPseudoCoherent`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/Completion/FormalFunctionsPseudoCoherent.lean`), which is a finiteness
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/Completion/FormalFunctionsPseudoCoherent.lean`),
+which is a finiteness
 statement about `(derivedSections (structureSheafRing X.toRingedSpace) U.1).obj K` for an affine
 open of a scheme.  What is genuinely absent is narrower, and is stated step by step below: the
 crossing of the chart transport, at an étale chart of an algebraic space.
@@ -512,8 +522,8 @@ the last bullet of (i) below:
 --       `Γ(U, -) ⟶ Γ(U', -) ⋙ Res_ρ`, with its derived companion
 --       `...derivedSectionsRestrict` (`RΓ(U, -) ⟶ RΓ(U', -) ⋙ R Res_ρ`, through the universal
 --       property of the derived functor) and its degreewise form
---       `...derivedSectionsRestrictHomology`, all in
---       `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/SectionsRestriction.lean`.
+--       `...derivedSectionsRestrictHomology`, all in the file `SectionsRestriction.lean` of
+--       `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/`.
 --       What is *not* proved there is only that these are isomorphisms when `g` is, which is a
 --       one-step consequence; and `AlgebraicGeometry.evaluationRestrictScalarsIso` is not the
 --       statement, and not the nearest thing to it.
@@ -536,12 +546,15 @@ the last bullet of (i) below:
 --       **That lemma is already public and nothing has to be exposed.**  The copy in
 --       `StacksFrontier/Homology/PseudoCoherent/Relative/Presentation.lean` is `private`, but the
 --       same statement is
---       public in `StacksFrontier/Homology/PseudoCoherent/Relative/Localization.lean`, at both rings
+--       public in `StacksFrontier/Homology/PseudoCoherent/Relative/Localization.lean`, at both
+--       rings
 --       in `Type u` and the modules at `u`, which is the shape a chart of a `Scheme.{u}` needs.
---       (A third, also `private`, copy sits in `StacksFrontier/Homology/PseudoCoherent/Relative/Finite.lean`.)
+--       (A third, also `private`, copy sits in
+--       `StacksFrontier/Homology/PseudoCoherent/Relative/Finite.lean`.)
 --     * **The passage to the derived functors is available for the whole of (i) at once, and the
 --       three steps collapse into one.**  `AlgebraicGeometry.Space.computesSecond_overFunctor`
---       (`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleSliceKInjective.lean`) is stated for an **arbitrary** additive
+--       (`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleSliceKInjective.lean`) is stated for
+--       an **arbitrary** additive
 --       functor `G` out of the `𝒪_F|_U`-modules on the slice, into any abelian category with a
 --       derived category; `AlgebraicGeometry.Space.computesSecond_overFunctor_evaluation` is only
 --       its specialization at `G = Γ(Over.mk (𝟙 U), -)`.  Its input,
@@ -553,7 +566,8 @@ the last bullet of (i) below:
 --       `G = chartLocalizationReindex ⋙ representedSchemeReindex ⋙ Γ(Z, -)`, with `e = Iso.refl`
 --       and `H = F ⋙ G` — the shape `AlgebraicGeometry.Space.derivedSectionsOverFunctorIso`
 --       already uses — and `Stacks.Injectives.derivedPrecompIso` (which does have consumers, the
---       two isos of `StacksFrontier/AlgebraicGeometry/Spaces/ChartDerivedSectionsTransport.lean`) then splits `R G` into the
+--       two isos of `StacksFrontier/AlgebraicGeometry/Spaces/ChartDerivedSectionsTransport.lean`)
+--       then splits `R G` into the
 --       two derived reindexings followed by `RΓ(Z, -)`.  `totalRightDerivedPrecompIso` is not
 --       needed.
 --       **This is proved, in exactly that shape**, in
@@ -584,7 +598,8 @@ the last bullet of (i) below:
 --       `failed to synthesize Category.{u, u + 1} (Over U)`, because `CategoryTheory.Over` carries
 --       the free universe of the `PUnit` of its `CategoryTheory.Comma` and the goal asks search to
 --       solve `max (u + 1) ?w =?= u + 1`.  (The *module documentation* of
---       `StacksFrontier/AlgebraicGeometry/Spaces/ChartTransportSections.lean` records this too.)  Pinning that category does
+--       `StacksFrontier/AlgebraicGeometry/Spaces/ChartTransportSections.lean` records this too.)
+--       Pinning that category does
 --       not repair it: a local
 --       `Category.{u, u + 1} (Over U)` got by `inferInstanceAs` from
 --       `((smallEtaleRingedSite …).over U).C` does not elaborate — the declaration fails after
@@ -644,12 +659,14 @@ the last bullet of (i) below:
 --       though: `AlgebraicGeometry.Space.isPseudoCoherentFrom_chartSchemeReindex_iff` and its
 --       all-degrees companion are stated at `U : SmallEtale B S hS X.1` and write that term
 --       both in an instance binder and in the conclusion, and
---       `StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` compiles.  What fails at that spelling
+--       `StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` compiles.  What
+--       fails at that spelling
 --       is the elaboration of `Over U` itself, hence of anything whose *own* type needs
 --       `Category.{u, u + 1} (Over U)` to be synthesized rather than carried.
 --       Second, restating the chart-side files is not harmless but destructive: changing the one
 --       `variable` line
---       of `StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` to the `.C` spelling takes that file
+--       of `StacksFrontier/AlgebraicGeometry/Spaces/ChartPseudoCoherentTransport.lean` to the `.C`
+--       spelling takes that file
 --       from compiling to fifteen `failed to synthesize Category.{u, u + 1} (Over U)` — at
 --       `isContinuous_chartLocalization_ringedSite`,
 --       `isContinuous_chartLocalizationInverse_ringedSite`, `chartLocalizationPhi`,
@@ -677,7 +694,8 @@ chartDerivedSections B S hS X hX U E ≅
 --      quasi-coherent cohomology.  This is Stacks 0D6I at the final object together with the
 --      unit of Stacks 071Q.  **The crossing of `ε` itself is proved, module-valued**, as
 --      `AlgebraicGeometry.SmallEtale.derivedModuleSectionsRestrictModuleIso`
---      (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedSectionsOverObject.lean`), beside the
+--      (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`, file
+--      `SmallEtaleDerivedSectionsOverObject.lean`), beside the
 --      cohomology-group form `...cohomologyOverObjectRestrictModuleIso` and the group-valued
 --      functor `...derivedSectionsOverObject`, which lands in `DerivedCategory AddCommGrpCat`
 --      The module-valued `RΓ(U, -)` it is stated through exists by
@@ -695,7 +713,8 @@ chartDerivedSections B S hS X hX U E ≅
 --      ringed *space*, whereas what the crossing of `ε` delivers is module-valued derived
 --      sections at `⊤` on the small Zariski *site*.  That is crossed by
 --      `AlgebraicGeometry.derivedGlobalSectionsOverEvaluationIso`
---      (`StacksFrontier/AlgebraicGeometry/DerivedGlobalSectionsZariskiSite.lean`): the two underived
+--      (`StacksFrontier/AlgebraicGeometry/DerivedGlobalSectionsZariskiSite.lean`): the two
+--      underived
 --      functors are built from the same raw material — `AlgebraicGeometry.globalSectionsOver`
 --      *is* `SheafOfModules.evaluation X.ringCatSheaf (op ⊤)` followed by the restriction of
 --      scalars along `A ≅ Γ(Spec A, 𝒪) ⟶ Γ(X, 𝒪_X)`, by `rfl` — so the content is only that a
@@ -706,14 +725,16 @@ chartDerivedSections B S hS X hX U E ≅
 --      for the identity of `Spec A`.
 --      The two halves composed are
 --      `AlgebraicGeometry.SmallEtale.derivedModuleSectionsGlobalSectionsOverIso`
---      (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedGlobalSectionsOverBase.lean`).  It is
+--      (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`, file
+--      `SmallEtaleDerivedGlobalSectionsOverBase.lean`).  It is
 --      stated with `Rε_*` where the display below has `ε^*`; passing between the two is the unit
 --      of Stacks 071Q, `AlgebraicGeometry.SmallEtale.derivedAssociatedModule_isEquivalence`, and
 --      is the only thing between that composite and the display.  **Two** restrictions of scalars
 --      survive in it, and neither is removable: the one on the étale side described just above,
 --      and the one from `𝒪_S(⊤)` to the base ring `A`.
 --      `AlgebraicGeometry.derivedSectionsBaseIso`
---      (`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/ExtFinitenessLeray.lean`) is **not** this statement: it
+--      (`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/ExtFinitenessLeray.lean`)
+--      is **not** this statement: it
 --      crosses to `derivedGlobalSectionsOver (𝟙 (Spec A))` from
 --      `derivedSectionsOverOpen`, the `Opens`-indexed ringed-space functor, not from the
 --      ringed-site one.
@@ -743,8 +764,8 @@ Grothendieck abelian at `u + 1`, so the one cannot be exchanged for the other.
 
 ### 2. The covering sieve of affine squares, and the assembly over it
 
-The run over this covering is in
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeAbsoluteSiteAssembly.lean`;
+The run over this covering is in the file `RelativeAbsoluteSiteAssembly.lean` of the directory
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/`;
 what follows is the account of its inputs, which that file's documentation does not repeat.
 
 Both sides of 0DII are étale-local by construction, so the site-level predicate has to be
@@ -753,7 +774,8 @@ recovered from the chartwise one over an affine étale cover.  The local-nature 
 (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/LocalNature.lean`) is general in
 all three universes and so does reach the small étale site of an algebraic space, and the
 converse restriction is `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_derivedRestriction`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/Restriction.lean`).  The covering those
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/Restriction.lean`).  The covering
+those
 two have to be run over **is available too**.
 
 The two fit together with nothing in between, which is worth saying because it fixes the shape
@@ -770,7 +792,8 @@ to be usable here, and the covering to supply is
 `AlgebraicGeometry.Space.generate_affineChartDiagram_mem_topology`.  Two nearby presieves are
 **not** it: `AlgebraicGeometry.BigFppfOver.smallEtaleAffinePresieve` with
 `...generate_smallEtaleAffinePresieve_mem`
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FppfEtaleComparison/QuasiCoherentPushforward.lean`) covers an object of
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FppfEtaleComparison/`, file
+`QuasiCoherentPushforward.lean`) covers an object of
 the small étale site of a *scheme* `S` over `B.toBigEtaleSite`, not an object of the small étale
 site of an algebraic space, and it says nothing about the square over `f`; and
 `AlgebraicGeometry.BigFppfOver.affineOverPresieve` in the same file is on the big site.
@@ -846,12 +869,14 @@ all-degrees side of the chain are proved**, and the list below says where each o
   `StacksFrontier/AlgebraicGeometry/PseudoCoherentSites/RestrictionGeneral.lean` beside
   `...isPseudoCoherentFrom_derivedRestriction_general`, and needs no swap at all: the complex-level
   input `AlgebraicGeometry.RingedSite.isPseudoCoherentComplexFrom_restrictComplex_general`
-  (`StacksFrontier/AlgebraicGeometry/PseudoCoherentSites/RestrictionGeneral.lean`) is already stated at
+  (`StacksFrontier/AlgebraicGeometry/PseudoCoherentSites/RestrictionGeneral.lean`) is already stated
+  at
   one complex and an arbitrary degree, so the single complex that pseudo-coherence provides
   restricts directly.
 * Stacks 08HE in all degrees is
   `AlgebraicGeometry.SmallEtale.pseudoCoherentIffAssociatedModule_allDegrees`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtalePseudoCoherentDescent.lean`).
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`, file
+  `SmallEtalePseudoCoherentDescent.lean`).
   Once the swap is public this is the fixed-degree tag with the swap applied on *both* sites —
   once to unfold the Zariski side into its degrees, once to reassemble the étale side out of
   them — so it needs no new mathematics.  It carries no `@[stacks 08HE]` attribute:

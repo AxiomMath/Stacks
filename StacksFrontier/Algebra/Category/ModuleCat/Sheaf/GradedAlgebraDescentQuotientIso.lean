@@ -108,6 +108,7 @@ theorem hom_app_comp (V : Cᵒᵖ) (b : O.obj.obj V) :
     (θ.hom.app V).hom ((α₁.hom.app V).hom b) = (α₂.hom.app V).hom b :=
   congrArg (fun ψ : O ⟶ R₂ => (ψ.hom.app V).hom b) hθ
 
+omit [Presheaf.IsLocallySurjective J α₁.hom] [Presheaf.IsLocallySurjective J α₂.hom] in
 include hθ in
 /-- **The two kernels agree when the comparison is an isomorphism.** A section of `O` killed by
 one of two quotient maps identified by an isomorphism of their targets is killed by the other,

@@ -135,7 +135,7 @@ noncomputable def seriesSubst : MvPowerSeries (Fin n) k →ₐ[k] PowerSeries Γ
       change PowerSeries.constantCoeff _ = 0
       simp)
 
-omit [GradedAlgebra 𝒜] in
+omit [GradedAlgebra 𝒜] [IsScalarTower k (MvPolynomial (Fin n) k) Γ] in
 /-- The substitution sends the variable `Xᵢ` to `xᵢ T`. -/
 theorem seriesSubst_X (i : Fin n) :
     seriesSubst (Γ := Γ) (MvPowerSeries.X (R := k) i) =
@@ -150,19 +150,19 @@ theorem seriesSubst_coe (hX : ∀ i, algebraMap (MvPolynomial (Fin n) k) Γ (MvP
     seriesSubst (Γ := Γ) (q : MvPowerSeries (Fin n) k) =
       toPowerSeries 𝒜 (algebraMap (MvPolynomial (Fin n) k) Γ q) := by
   rw [seriesSubst, MvPowerSeries.substAlgHom_coe]
-  show MvPolynomial.aeval _ q =
+  change MvPolynomial.aeval _ q =
     ((toPowerSeries 𝒜).comp (IsScalarTower.toAlgHom k (MvPolynomial (Fin n) k) Γ)) q
   congr 1
   refine MvPolynomial.algHom_ext fun i => ?_
   rw [MvPolynomial.aeval_X, AlgHom.comp_apply, IsScalarTower.coe_toAlgHom', toPowerSeries_of_mem 𝒜
     (hX i)]
   ext m
-  simp [PowerSeries.coeff_monomial, PowerSeries.coeff_C_mul, PowerSeries.coeff_X, eq_comm]
+  simp [PowerSeries.coeff_monomial, PowerSeries.coeff_C_mul, PowerSeries.coeff_X]
 
 /-- The ideal of the variables of `k⟦X₁, …, Xₙ⟧`. -/
 local notation "𝔍" => Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))
 
-omit [GradedAlgebra 𝒜] in
+omit [GradedAlgebra 𝒜] [IsScalarTower k (MvPolynomial (Fin n) k) Γ] in
 /-- The substitution sends the `N`-th power of the ideal of variables into `T^N Γ⟦T⟧`. -/
 theorem X_pow_dvd_seriesSubst {N : ℕ} {r : MvPowerSeries (Fin n) k} (hr : r ∈ 𝔍 ^ N) :
     PowerSeries.X ^ N ∣ seriesSubst (Γ := Γ) r := by
@@ -186,7 +186,7 @@ theorem seriesSubst_mem_homogeneousSeries
     Stacks.MvPowerSeries.RegularParameters.exists_polynomial_sub_mem_pow_span_range_X (d + 1) r
   obtain ⟨g, hg⟩ := X_pow_dvd_seriesSubst (Γ := Γ) hq
   rw [map_sub, sub_eq_iff_eq_add, seriesSubst_coe hX] at hg
-  rw [hg, map_add, PowerSeries.coeff_X_pow_mul', if_neg (by omega), zero_add,
+  rw [hg, map_add, PowerSeries.coeff_X_pow_mul', ite_eq_right (by omega), zero_add,
     coeff_toPowerSeries]
   exact (decompose 𝒜 _ d).2
 
@@ -216,8 +216,7 @@ theorem completionMap_tmul
     (hX : ∀ i, algebraMap (MvPolynomial (Fin n) k) Γ (MvPolynomial.X i) ∈ 𝒜 1)
     (r : MvPowerSeries (Fin n) k) (γ : Γ) :
     completionMap 𝒜 hX (r ⊗ₜ γ) = seriesSubst r * toPowerSeries 𝒜 γ := by
-  simp only [completionMap, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
-    Algebra.TensorProduct.lift_tmul]
+  simp only [completionMap, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
   rfl
 
 /-- The image of `R ⊗_P Γ → Γ⟦T⟧` consists of series with homogeneous coefficients. -/
@@ -225,8 +224,7 @@ theorem completionMap_mem_homogeneousSeries
     (hX : ∀ i, algebraMap (MvPolynomial (Fin n) k) Γ (MvPolynomial.X i) ∈ 𝒜 1)
     (s : MvPowerSeries (Fin n) k ⊗[MvPolynomial (Fin n) k] Γ) :
     completionMap 𝒜 hX s ∈ homogeneousSeries 𝒜 := by
-  induction s using TensorProduct.induction_on with
-  | zero => simpa using zero_mem _
+  induction s using TensorProduct.inductionOn with
   | tmul r γ =>
     rw [completionMap_tmul]
     exact mul_mem (seriesSubst_mem_homogeneousSeries hX r) (toPowerSeries_mem_homogeneousSeries 𝒜 γ)
@@ -273,8 +271,7 @@ theorem completionMap_injective [Module.Finite (MvPolynomial (Fin n) k) Γ]
   have happrox : ∀ N (s : S), ∃ γ : Γ, s - (1 : MvPowerSeries (Fin n) k) ⊗ₜ γ ∈
       (𝔍 ^ N • ⊤ : Submodule (MvPowerSeries (Fin n) k) S) := by
     intro N s
-    induction s using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction s using TensorProduct.inductionOn with
     | tmul r γ =>
       obtain ⟨q, hq⟩ :=
         Stacks.MvPowerSeries.RegularParameters.exists_polynomial_sub_mem_pow_span_range_X N r
@@ -357,7 +354,7 @@ theorem exists_homogeneous_of_fractionRing [IsDomain Γ]
   have hmono : ∀ a : Γ, PowerSeries.monomial d a = PowerSeries.C a * PowerSeries.X ^ d := by
     intro a
     ext m
-    simp [PowerSeries.coeff_monomial, PowerSeries.coeff_C_mul_X_pow]
+    simp [PowerSeries.coeff_monomial]
   have hφ := congrArg (completionMap 𝒜 hX) heqS
   simp only [map_mul, map_sub, map_pow, completionMap_tmul, map_one, one_mul,
     toPowerSeries_of_mem 𝒜 hα, toPowerSeries_of_mem 𝒜 hβ, hmono] at hφ

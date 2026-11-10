@@ -203,14 +203,14 @@ private lemma exists_productTotal_primitive :
   · obtain rfl : q = n + 1 - ((0 : ℕ) : ℤ) := by push_cast at h ⊢; omega
     rw [K.productTotalD_apply_zero_left n y (n + 1 - ((0 : ℕ) : ℤ)) (n - ((0 : ℕ) : ℤ))
       (by ring) h (by push_cast; ring)]
-    show (K.X 0).d (n - ((0 : ℕ) : ℤ)) (n + 1 - ((0 : ℕ) : ℤ))
+    change (K.X 0).d (n - ((0 : ℕ) : ℤ)) (n + 1 - ((0 : ℕ) : ℤ))
       (((K.X 0).XIsoOfEq (by push_cast; ring)).hom (Y 0).1) = _
     simp only [HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, ConcreteCategory.id_apply]
     exact ha₀
   · obtain rfl : q = n - (p : ℤ) := by push_cast at h ⊢; omega
     rw [K.productTotalD_apply_succ n y p (n - (p : ℤ)) (n - ((p + 1 : ℕ) : ℤ))
       (by push_cast; ring) h (by push_cast; ring)]
-    show (K.d p (p + 1)).f (n - (p : ℤ))
+    change (K.d p (p + 1)).f (n - (p : ℤ))
         (((K.X p).XIsoOfEq (by ring)).hom (Y p).1) +
       ((-1 : ℤ) ^ (p + 1)) • (K.X (p + 1)).d (n - ((p + 1 : ℕ) : ℤ)) (n - (p : ℤ))
         (((K.X (p + 1)).XIsoOfEq (by push_cast; ring)).hom (Y (p + 1)).1) = _

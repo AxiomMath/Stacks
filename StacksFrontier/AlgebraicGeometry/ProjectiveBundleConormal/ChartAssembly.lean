@@ -51,8 +51,8 @@ halves of the chart computation — whose inventory is the "What is not done her
 ## Implementation notes
 
 Nothing is rewritten: see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on this
-layer.
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on
+this layer.
 
 **The target generator formula is applied, never restated.** Supplying its first eleven arguments
 and leaving the remaining telescope as binders costs a fraction of a second; restating it at the
@@ -212,6 +212,7 @@ variable {W : X.Opens} (hW : IsAffineOpen W) (eL : Γ(Q.L, W) ≃ₗ[Γ(X, W)] �
   (t : Γ(E, W)) (ht : chartLinearForm Q W eL t = 1)
 
 include hσ e hqe in
+omit [IsImmersion σ] in
 /-- **The image in the structure sheaf of the transported section of the ideal sheaf that
 `Stacks.ProjectiveBundleConormal.chartIdealSection` is built from.** This is the hypothesis `hy'`
 of `Stacks.ProjectiveBundleConormal.restrictConormalIsoOfOpenFactor_trans_zeroSection_hom_unit_
@@ -423,6 +424,7 @@ variable {W : X.Opens} (hW : IsAffineOpen W) (eL : Γ(Q.L, W) ≃ₗ[Γ(X, W)] �
   (t : Γ(E, W)) (ht : chartLinearForm Q W eL t = 1)
 
 include hσ e hqe in
+omit [IsImmersion σ] in
 /-- **The source side of `hxκ`: the image of
 `Stacks.ProjectiveBundleConormal.chartIdealSection` in `Sym_A(ker p)` is the image of `y`,
 pulled back along the two charts.** `Stacks.ProjectiveBundleConormal.chartIdealSection_app_ι`
@@ -531,6 +533,7 @@ theorem chartIdealSection_app_ι_appLE
   exact congrArg (fun φ => CommRingCat.Hom.hom φ g) hring
 
 include hσ e hqe in
+omit [IsImmersion σ] in
 /-- **The coordinate equation `hxκ` of the target generator formula, discharged on the tautological
 chart.** The element of the augmentation ideal of `Sym_A(ker p)` that the section `y` of `ℐ(σ)`
 cuts out on the chart is `ι k`, where `k` is the coordinate of the ratio.

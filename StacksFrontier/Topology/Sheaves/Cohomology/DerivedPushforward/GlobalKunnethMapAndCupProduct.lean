@@ -86,9 +86,8 @@ parameter elsewhere in this development for the same reason:
   form `Stacks.Cohomology.DerivedRelativeCupProduct.adjunctionBitensorMap_comp` this repository
   has — read for `W ⟶ X ⟶ S ⟶ pt`.  Transporting it onto the two cup products here needs the
   compatibility of the comparison of Tag 079U with composition, recorded as absent in the
-  implementation notes of
-  `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductComposition.lean`,
-  so it is the hypothesis `hπ`.
+  implementation notes of the file `RelativeCupProductComposition.lean` in
+  `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`, so it is the hypothesis `hπ`.
 * the associativity constraints `aA` on `⊗^𝐋_A` and `aB` on `⊗^𝐋_{𝒪_W}`, their naturality, and
   the compatibility `hα` of the comparison with them.  These are universally quantified, so the
   statement is stronger for it, and they are not vacuous: an associator for `⊗^𝐋_A` with exactly

@@ -88,7 +88,8 @@ discharges the generator that way, from the degree-zero output of the degreewise
 ## The crossing from the left coprojection to the map of diagonals
 
 The three identifications of
-`StacksFrontier/RingTheory/Dualizing/RelativeBaseChangeRepresentatives.lean`, and hence the assembly,
+`StacksFrontier/RingTheory/Dualizing/RelativeBaseChangeRepresentatives.lean`, and hence the
+assembly,
 are stated at the *map of diagonals* `Dualizing.diagonalBaseChangeMap : B → B'`, whereas
 [stacks 0E1U] states its base-change clause, and the chase its vanishing, on the base change
 `B ⊗[R] R'`, i.e. at the left coprojection `Algebra.TensorProduct.includeLeftRingHom`.  The two

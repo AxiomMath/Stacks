@@ -54,7 +54,7 @@ def affineSpaceGlobalSectionsEquiv :
 /-- `affineSpaceGlobalSectionsEquiv` sends the `j`-th coordinate to the variable `X j`. -/
 theorem affineSpaceGlobalSectionsEquiv_coord (j : ULift.{u} (Fin n)) :
     affineSpaceGlobalSectionsEquiv K n (AffineSpace.coord (Spec (.of K)) j) = MvPolynomial.X j := by
-  show (Scheme.ΓSpecIso _).hom ((AffineSpace.SpecIso (ULift.{u} (Fin n)) (.of K)).inv.appTop
+  change (Scheme.ΓSpecIso _).hom ((AffineSpace.SpecIso (ULift.{u} (Fin n)) (.of K)).inv.appTop
     (AffineSpace.coord _ j)) = _
   rw [AffineSpace.SpecIso_inv_appTop_coord, ← CommRingCat.comp_apply, Iso.inv_hom_id,
     CommRingCat.id_apply]
@@ -68,7 +68,7 @@ instance isDomain_affineSpace_globalSections :
 theorem prime_affineSpace_coord (j : ULift.{u} (Fin n)) :
     Prime (AffineSpace.coord (Spec (.of K)) j : Γ(𝔸(ULift.{u} (Fin n); Spec (.of K)), ⊤)) := by
   rw [← MulEquiv.prime_iff (affineSpaceGlobalSectionsEquiv K n).toMulEquiv]
-  show Prime (affineSpaceGlobalSectionsEquiv K n (AffineSpace.coord _ j))
+  change Prime (affineSpaceGlobalSectionsEquiv K n (AffineSpace.coord _ j))
   rw [affineSpaceGlobalSectionsEquiv_coord]
   exact MvPolynomial.X_prime
 
@@ -86,7 +86,7 @@ theorem exists_pow_eq_units_affineSpace [IsAlgClosed K] {ℓ : ℕ} (hℓ : 0 < 
       (MvPolynomial.C : K →+* MvPolynomial _ K).toMonoidHom)
   refine ⟨b, Units.ext ?_⟩
   apply (affineSpaceGlobalSectionsEquiv K n).injective
-  show affineSpaceGlobalSectionsEquiv K n
+  change affineSpaceGlobalSectionsEquiv K n
       ((affineSpaceGlobalSectionsEquiv K n).symm (MvPolynomial.C d) ^ ℓ) =
     affineSpaceGlobalSectionsEquiv K n a
   rw [map_pow, RingEquiv.apply_symm_apply, ← map_pow, hd]

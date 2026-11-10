@@ -308,7 +308,7 @@ theorem ringKrullDim_relation_eq_add_ringKrullDim_sourceFibre
   have hjac : (⊥ : Ideal (chartEtaleLocalRing B S hS U f sq R eU eR r)).jacobson =
       IsLocalRing.maximalIdeal (chartEtaleLocalRing B S hS U f sq R eU eR r) :=
     IsLocalRing.jacobson_eq_maximalIdeal _ bot_ne_top
-  show ringKrullDim (Space.etaleLocalRing B S hS R r) =
+  change ringKrullDim (Space.etaleLocalRing B S hS R r) =
     ringKrullDim (chartEtaleLocalRing B S hS U f sq R eU eR r) +
       ringKrullDim (Space.etaleLocalRing B S hS R r ⧸
         Ideal.map (Space.etaleLocalRingMap hR

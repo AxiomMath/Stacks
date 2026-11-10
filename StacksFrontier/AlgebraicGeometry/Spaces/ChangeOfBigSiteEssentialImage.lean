@@ -122,7 +122,7 @@ theorem changeBigSiteOfDescent_fullyFaithful
     intro F Y
     let : HasLimitsOfShape (StructuredArrow Y i.op) (Type u) :=
       hasLimitsOfShape_of_essentiallySmall.{u} _ _
-    show HasLimit (StructuredArrow.proj Y i.op ⋙ F)
+    change HasLimit (StructuredArrow.proj Y i.op ⋙ F)
     infer_instance
   have hpullff := Functor.full_and_faithful_sheafPullback i (Type u) J K
   let : (i.sheafPullback (Type u) J K).Full := hpullff.1
@@ -212,7 +212,7 @@ theorem exists_small_atlas_and_relation
   let Q₀ : BigFppfOver B S hS := Over.mk (Y := B.obj hQsize) (X := B.obj hS) ⟨Q.hom.hom⟩
   let res (a : Q ⟶ V) : Q₀ ⟶ V₀ := Over.homMk ⟨a.left.hom⟩ (by
     apply ObjectProperty.hom_ext
-    show a.left.hom ≫ V.hom.hom = Q.hom.hom
+    change a.left.hom ≫ V.hom.hom = Q.hom.hom
     exact congrArg InducedCategory.Hom.hom (Over.w a))
   exact ⟨V₀, Q₀, res r, res s, q, hQ, hqs, hqe⟩
 

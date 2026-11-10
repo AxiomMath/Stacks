@@ -184,8 +184,7 @@ theorem bijective_of_isBaseChange_comp {R S M N P : Type u} [CommRing R] [CommRi
     Function.Bijective c := by
   have hcomp : ∀ z : S ⊗[R] M, c (ρ.liftBaseChange S z) = g₁.liftBaseChange S z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul s m =>
         rw [LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul, map_smul, hg]
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]

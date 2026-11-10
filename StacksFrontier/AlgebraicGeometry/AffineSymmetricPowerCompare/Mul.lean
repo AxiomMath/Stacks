@@ -110,7 +110,7 @@ theorem tildeSymmetricPowerIso_mul_generator (n : ℕ) (m : M)
         ((tildeSymmetricPowerIso M A n).hom.val.app (.op (⊤ : Opens (Spec R).carrier))
           ((tilde.toOpen (ModuleCat.of R (SymPow.symmetricPower n R M)) ⊤).hom x))) := by
   have hd : ((n + 1 : ℕ) : ℤ) = 1 + (n : ℤ) := by push_cast; ring
-  show HEq (((isSymmetricAlgebra M).pieceIso A.symmetric_isSymmetricAlgebra
+  change HEq (((isSymmetricAlgebra M).pieceIso A.symmetric_isSymmetricAlgebra
         ((n + 1 : ℕ) : ℤ)).hom.val.app (op (⊤ : Opens (Spec R).carrier))
       (AffineBaseChange.toOpenₗ (pieceModule M ((n + 1 : ℕ) : ℤ)) ⊤
         (SymPow.symMulMap n (LinearMap.id : M →ₗ[R] M) (m ⊗ₜ[R] x))))

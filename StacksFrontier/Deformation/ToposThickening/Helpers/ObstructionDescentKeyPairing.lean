@@ -32,7 +32,6 @@ namespace Stacks.SheafOfModules
 section Bilinear
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.HasSheafCompose (forget RingCat.{w})] [J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   {O : Sheaf J CommRingCat.{w}} {A B N : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)}

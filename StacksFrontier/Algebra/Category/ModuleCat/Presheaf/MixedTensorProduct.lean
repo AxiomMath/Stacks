@@ -146,7 +146,7 @@ noncomputable def restrictSect {O : Cᵒᵖ ⥤ CommRingCat.{w}}
 theorem restrictSect_id {O : Cᵒᵖ ⥤ CommRingCat.{w}}
     (M : PresheafOfModules.{w} (ringPresheaf O)) {X : Cᵒᵖ} (x : M.obj X) :
     restrictSect M (𝟙 X) x = x := by
-  show (M.map (𝟙 X)).hom x = x
+  change (M.map (𝟙 X)).hom x = x
   rw [M.map_id, ModuleCat.restrictScalarsId'_inv_app]
   rfl
 
@@ -301,7 +301,7 @@ theorem mixed_map_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) (g : Y ⟶ Z) :
               (by rw [(ringPresheaf O₂).map_comp]; rfl)).inv.app (mixedObj θ H G Z) := by
   refine mixedObj_hom_ext θ H G _ _ fun a x ↦ ?_
   rw [mixedMap_mixedPure]
-  show _ = (mixedMap θ H G g).hom ((mixedMap θ H G f).hom (mixedPure θ H G X a x))
+  change _ = (mixedMap θ H G g).hom ((mixedMap θ H G f).hom (mixedPure θ H G X a x))
   rw [mixedMap_mixedPure, mixedMap_mixedPure, restrictSect_comp H f g a,
     restrictSect_comp G f g x]
 
@@ -393,7 +393,7 @@ noncomputable def mixedHom {H H' : PresheafOfModules.{w} (ringPresheaf O₂)} (�
 theorem mixedHom_id (H : PresheafOfModules.{w} (ringPresheaf O₂)) :
     mixedHom θ G (𝟙 H) = 𝟙 (mixedTensorObj θ H G) := by
   refine PresheafOfModules.hom_ext fun X ↦ ?_
-  show mixedHomApp θ G (𝟙 H) X = 𝟙 (mixedObj θ H G X)
+  change mixedHomApp θ G (𝟙 H) X = 𝟙 (mixedObj θ H G X)
   refine mixedObj_hom_ext θ H G _ _ fun a x ↦ ?_
   rw [mixedHomApp_mixedPure]
   rfl
@@ -403,9 +403,9 @@ theorem mixedHom_comp {H H' H'' : PresheafOfModules.{w} (ringPresheaf O₂)} (φ
     (φ' : H' ⟶ H'') :
     mixedHom θ G φ ≫ mixedHom θ G φ' = mixedHom θ G (φ ≫ φ') := by
   refine PresheafOfModules.hom_ext fun X ↦ ?_
-  show mixedHomApp θ G φ X ≫ mixedHomApp θ G φ' X = mixedHomApp θ G (φ ≫ φ') X
+  change mixedHomApp θ G φ X ≫ mixedHomApp θ G φ' X = mixedHomApp θ G (φ ≫ φ') X
   refine mixedObj_hom_ext θ H G _ _ fun a x ↦ ?_
-  show (mixedHomApp θ G φ' X).hom ((mixedHomApp θ G φ X).hom (mixedPure θ H G X a x)) = _
+  change (mixedHomApp θ G φ' X).hom ((mixedHomApp θ G φ X).hom (mixedPure θ H G X a x)) = _
   rw [mixedHomApp_mixedPure, mixedHomApp_mixedPure, mixedHomApp_mixedPure]
   rfl
 
@@ -513,7 +513,7 @@ theorem mixedBaseChange_naturality {H H' : PresheafOfModules.{w} (ringPresheaf O
   refine ModuleCat.hom_ext (LinearMap.ext ?_)
   refine Stacks.FlatChangeOfRings.tensorBaseChange_hom_ext L R ?_
   intro a s x
-  show Stacks.FlatChangeOfRings.tensorBaseChange
+  change Stacks.FlatChangeOfRings.tensorBaseChange
       ((φ.app X).hom a ⊗ₜ[O₂.obj X] (s ⊗ₜ[O₁.obj X] x)) =
     (mixedHomApp θ G φ X).hom (mixedPure θ H G X (s • a) x)
   rw [Stacks.FlatChangeOfRings.tensorBaseChange_tmul, mixedHomApp_mixedPure,

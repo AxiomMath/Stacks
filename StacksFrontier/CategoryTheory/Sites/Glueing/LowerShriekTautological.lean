@@ -190,7 +190,7 @@ theorem overShriekOverPullbackNatIso_hom_app_prod_fst_aux (X : Sheaf J (Type u))
         (sheafifyNatIso J).hom.app ((sheafToPresheaf J (Type u) ⋙ restrict).obj X) ≫
           (presheafToSheaf J (Type u)).map (prodSnd U ((sheafToPresheaf J (Type u)).obj X)) := by
   refine Eq.trans (congrArg (· ≫ prod.fst) (overShriekOverPullbackNatIso_hom_app U J X)) ?_
-  show (localizationShriek U J).map ((overPullbackNatIso U J).inv.app X) ≫
+  change (localizationShriek U J).map ((overPullbackNatIso U J).inv.app X) ≫
       (sheafifyNatIso J).hom.app ((sheafToPresheaf J (Type u) ⋙ restrict).obj X) ≫
         (presheafToSheaf J (Type u)).map
             (prod.lift (prodSnd U ((sheafToPresheaf J (Type u)).obj X))

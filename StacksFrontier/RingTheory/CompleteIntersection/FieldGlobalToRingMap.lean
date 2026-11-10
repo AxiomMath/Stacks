@@ -106,7 +106,7 @@ theorem RingHom.IsLocalCompleteIntersection.of_isRelativeGlobalCompleteIntersect
   rw [RingHom.IsLocalCompleteIntersection, _root_.toAlgebra_algebraMap]
   refine ⟨RingHom.finiteType_algebraMap.mpr inferInstance, n, aeval P.val,
     P.aeval_val_surjective, ?_⟩
-  show Ideal.IsKoszulRegular (RingHom.ker (aeval (R := A) P.val))
+  change Ideal.IsKoszulRegular (RingHom.ker (aeval (R := A) P.val))
   rw [← P.ker_eq_ker_aeval_val, ← P.span_range_relation_eq_ker]
   exact isKoszulRegularIdeal_span_range P.relation
     (RingHom.isKoszulRegular_relation_of_isRelativeGlobalCompleteIntersection P hP)

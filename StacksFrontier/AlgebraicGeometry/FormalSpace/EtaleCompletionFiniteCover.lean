@@ -86,7 +86,7 @@ theorem comap_mk_eq_of_formalSpectrumInclusion_eq (_hR : TopologicalRing.IsWeakl
   have hmono : Mono (formalSpectrumInclusion D (OrderDual.toDual M)) := by
     refine Sheaf.mono_colimit_ι_of_mono_transition (formalSpectrumDiagram D) (fun K₁ K₂ g ↦ ?_) _
     refine Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying _ (BigFppfOver.toScheme B S hS) _ ?_
-    show Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
+    change Mono (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g))))
     have : AlgebraicGeometry.IsClosedImmersion
         (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom g)))) :=
       IsClosedImmersion.spec_of_surjective _ (Ideal.Quotient.factor_surjective (leOfHom g))
@@ -243,9 +243,9 @@ theorem exists_finite_faithfullyFlat_of_isLocallySurjective
     have hle : J.1.map (f k) ≤ q.asIdeal := by
       rw [Ideal.map_le_iff_le_comap]
       intro r hr
-      show r ∈ (q.comap (f k)).asIdeal
+      change r ∈ (q.comap (f k)).asIdeal
       rw [hq]
-      show Ideal.Quotient.mk J.1 r ∈ x.asIdeal
+      change Ideal.Quotient.mk J.1 r ∈ x.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hr]
       exact x.asIdeal.zero_mem
     have hq' : q ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (J.1.map (f k)))) := by

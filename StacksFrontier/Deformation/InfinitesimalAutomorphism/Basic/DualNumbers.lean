@@ -119,7 +119,7 @@ theorem inr_eq_inl_mul_eps {P : Type*} [CommRing P] (x : P) :
 /-- Multiplying an element of `P[ε]` by `ε` keeps only its constant coordinate. -/
 theorem inl_add_inr_mul_eps {P : Type*} [CommRing P] (x y : P) :
     (TrivSqZeroExt.inl x + TrivSqZeroExt.inr y) * DualNumber.eps = TrivSqZeroExt.inr x := by
-  show (TrivSqZeroExt.inl x + TrivSqZeroExt.inr y) *
+  change (TrivSqZeroExt.inl x + TrivSqZeroExt.inr y) *
     TrivSqZeroExt.inr 1 = TrivSqZeroExt.inr x
   rw [add_mul, TrivSqZeroExt.inl_mul_inr, TrivSqZeroExt.inr_mul_inr, add_zero]
   simp

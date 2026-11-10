@@ -104,7 +104,7 @@ theorem classifyingHom_eq_of_family (hd : 0 < d)
     classifyingHom 𝒜 hd ψ hgen = classifyingHom 𝒜 hd ψ' hgen' := by
   refine classifyingHom_eq_of_isoFamily 𝒜 hd hgen hgen'
     ((unitorPow L).symm ≪≫ c 1 ≪≫ unitorPow L') c (fun y => ?_) hc
-  show (unitorPow L').hom.app ⊤ ((c 1).hom.app ⊤ y)
+  change (unitorPow L').hom.app ⊤ ((c 1).hom.app ⊤ y)
     = ((unitorPow L).inv ≫ (c 1).hom ≫ (unitorPow L').hom).app ⊤
         ((unitorPow L).hom.app ⊤ y)
   rw [Scheme.Modules.Hom.comp_app, CategoryTheory.comp_apply,

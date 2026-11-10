@@ -136,7 +136,8 @@ the site the total sieve is covering, and the restriction of the complex is itse
 complex, hence strictly perfect — it has no nonzero term, and a zero module is a direct summand
 of a finite free module — so the identity is the required quasi-isomorphism. -/
 theorem isPerfectComplex_of_isZero
-    {E : CochainComplex (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ} (hE : IsZero E) :
+    {E : CochainComplex (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
+    (hE : IsZero E) :
     X.IsPerfectComplex E := by
   intro U
   refine ⟨(⊤ : Sieve U).arrows, ?_, ?_⟩
@@ -162,7 +163,8 @@ variable [HasDerivedCategory.{d} (SheafOfModules.{m} (Stacks.SheafOfModules.Tens
 
 /-- A zero object of `D(𝒪)` is perfect: it is represented by the zero complex, which is a
 perfect complex. -/
-theorem isPerfect_of_isZero {K : DerivedCategory (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+theorem isPerfect_of_isZero
+    {K : DerivedCategory (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
     (hK : IsZero K) : X.IsPerfect K :=
   ⟨0, X.isPerfectComplex_of_isZero (isZero_zero _),
     ⟨(DerivedCategory.Q.map_isZero (isZero_zero _)).iso hK⟩⟩
@@ -170,7 +172,8 @@ theorem isPerfect_of_isZero {K : DerivedCategory (SheafOfModules.{m} (Stacks.She
 omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ RingCat.{w} AddCommGrpCat.{w})] in
 /-- Perfectness transports along an isomorphism of `D(𝒪)`: a perfect complex representing the
 source represents the target as well. -/
-theorem IsPerfect.of_iso {K K' : DerivedCategory (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+theorem IsPerfect.of_iso
+    {K K' : DerivedCategory (SheafOfModules.{m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
     (hK : X.IsPerfect K) (e : K ≅ K') : X.IsPerfect K' := by
   obtain ⟨E, hE, ⟨i⟩⟩ := hK
   exact ⟨E, hE, ⟨i ≪≫ e⟩⟩

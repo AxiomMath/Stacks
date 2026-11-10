@@ -167,7 +167,7 @@ theorem smoothGysinRingHom_equiv
     (α : DirectSum ℤ fun j : ℤ => ℚ ⊗[ℤ] chowGroup (fieldChowSituation k) sY j) :
     smoothGysinRingHom sX sY hf (smoothChowEquiv sY α) =
       smoothChowEquiv sX (smoothGysinRational sX sY hf α) := by
-  show smoothChowEquiv sX (smoothGysinRational sX sY hf
+  change smoothChowEquiv sX (smoothGysinRational sX sY hf
     ((smoothChowEquiv sY).symm (smoothChowEquiv sY α))) = _
   rw [LinearEquiv.symm_apply_apply]
 

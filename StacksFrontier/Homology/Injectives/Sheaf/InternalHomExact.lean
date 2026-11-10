@@ -131,7 +131,7 @@ and the sheaf condition for `Ab`-valued presheaves is checked on the underlying
 theorem internalHomPresheaf_isSheaf (K : GrothendieckTopology C) (F G : Sheaf K Ab.{max u v}) :
     Presheaf.IsSheaf K (internalHomPresheaf F.obj G.obj) := by
   rw [Presheaf.isSheaf_iff_isSheaf_forget K (internalHomPresheaf F.obj G.obj) (forget Ab.{max u v})]
-  show Presheaf.IsSheaf K (presheafHom F.obj G.obj)
+  change Presheaf.IsSheaf K (presheafHom F.obj G.obj)
   rw [isSheaf_iff_isSheaf_of_type]
   intro X S hS
   exact presheafHom_isSheafFor F.obj G.obj S fun {Y} f =>
@@ -649,7 +649,7 @@ theorem internalHomFunctor_objwise_surjective
   have hfac := Injective.comp_factorThru a₀ ((K.overPullback Ab.{max u v} U).map i)
   -- the section map is precomposition by `((overPullback U).map i).hom` (defeq), so the goal
   -- becomes `((overPullback U).map i).hom ≫ (factorThru a₀ _).hom = a'`.
-  show ((K.overPullback Ab.{max u v} U).map i).hom ≫
+  change ((K.overPullback Ab.{max u v} U).map i).hom ≫
       (Injective.factorThru a₀ ((K.overPullback Ab.{max u v} U).map i)).hom = a'
   have hcomp : ((K.overPullback Ab.{max u v} U).map i).hom ≫
       (Injective.factorThru a₀ ((K.overPullback Ab.{max u v} U).map i)).hom

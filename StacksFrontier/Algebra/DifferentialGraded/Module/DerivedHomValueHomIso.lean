@@ -71,7 +71,8 @@ the right is a colimit of morphism sets of `D(A)`, which live in `HasDerivedCate
 universe. Both are therefore lifted to `Type v` before being compared, by
 `CategoryTheory.uliftFunctor`, and `CochainComplex.derivedHomValueHomEquiv` strips the two lifts
 again. No constraint between the two universes is imposed: that is what the universe-general form
-of Stacks 05Q0 in `StacksFrontier/CategoryTheory/Localization/LeftFraction/HomAsColimitShift.lean` was proved for.
+of Stacks 05Q0 in
+`StacksFrontier/CategoryTheory/Localization/LeftFraction/HomAsColimitShift.lean` was proved for.
 
 *Where the hypothesis enters.* Only through
 `CochainComplex.isRightDerivedValueAt_derivedHomForgetUnitCocone`, i.e. through Tag 09LK's own

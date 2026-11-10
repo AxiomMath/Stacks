@@ -70,7 +70,7 @@ omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map 
 `Spec k` is an isomorphism. -/
 theorem isIso_baseCurve_fst : IsIso (pullback.fst (B.inclusion.map f)
     (B.inclusion.map (baseObj B hk).hom)) := by
-  show IsIso (pullback.fst (B.inclusion.map f) (𝟙 _))
+  change IsIso (pullback.fst (B.inclusion.map f) (𝟙 _))
   infer_instance
 
 omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
@@ -91,7 +91,7 @@ theorem isPullback_baseCurve : IsPullback
     (baseChangeProj B hX hk f (baseObj B hk)) (B.inclusion.map f)
     (Spec.map (CommRingCat.ofHom (algebraMap k k))) := by
   have h : Spec.map (CommRingCat.ofHom (algebraMap k k)) = B.inclusion.map (baseObj B hk).hom := by
-    show Spec.map (CommRingCat.ofHom (RingHom.id k)) = 𝟙 _
+    change Spec.map (CommRingCat.ofHom (RingHom.id k)) = 𝟙 _
     rw [← Spec.map_id]
     rfl
   rw [h]
@@ -223,7 +223,7 @@ theorem schemePullbackClass_fiberι_picardMap (T : BigFppfOver B (Spec (.of k)) 
     rw [Category.assoc]
     congr 1
     simp [q, baseChangeMap]
-  show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _) = _
+  change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _) = _
   rw [Stacks.Picard.schemePullbackClass_comp]
   refine (Stacks.Picard.pullbackClass_classOf _ _ hL₀q).trans ?_
   refine (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).2 ⟨?_⟩
@@ -311,7 +311,7 @@ theorem exists_translate_mem_curveNormalizedLocus (htw : TwistToNormalized B hX 
     rw [schemePullbackClass_fiberι_picardMap B hX hk f T t L₀ hL₀q hpL₀, hB]
     exact Stacks.SheafOfModules.picardClass_tensorSheaf _ _ L _ hLinv hpL₀ hTw
   have hfib := fibreRank_eq_finrank_of_schemePullbackClass_eq B hX hk f σ hσ T t hTw hcls
-  show fibreRank B hX hk f σ hσ (isIso_c_of_isCurve B hX hk f σ hσ) T _ t 1 = 0 ∧
+  change fibreRank B hX hk f σ hσ (isIso_c_of_isCurve B hX hk f σ hσ) T _ t 1 = 0 ∧
     fibreRank B hX hk f σ hσ (isIso_c_of_isCurve B hX hk f σ hσ) T _ t 0 = 1
   rw [translate_toPicardFunctorHom, hfib, hfib]
   exact ⟨h1, h0⟩

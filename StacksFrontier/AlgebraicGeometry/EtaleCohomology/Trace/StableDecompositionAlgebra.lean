@@ -61,12 +61,12 @@ public theorem finrank_span_range_conj (M : A → Matrix ι ι E) (P : GL ι E) 
         rw [Matrix.mul_smul, Matrix.smul_mul]
         rfl
       left_inv := fun X => by
-        show ((P⁻¹ : GL ι E) : Matrix ι ι E) * ((P : Matrix ι ι E) * X *
+        change ((P⁻¹ : GL ι E) : Matrix ι ι E) * ((P : Matrix ι ι E) * X *
           ((P⁻¹ : GL ι E) : Matrix ι ι E)) * (P : Matrix ι ι E) = X
         simp only [← Matrix.mul_assoc, Units.inv_mul, Matrix.one_mul]
         rw [Matrix.mul_assoc, Units.inv_mul, Matrix.mul_one]
       right_inv := fun X => by
-        show (P : Matrix ι ι E) * (((P⁻¹ : GL ι E) : Matrix ι ι E) * X *
+        change (P : Matrix ι ι E) * (((P⁻¹ : GL ι E) : Matrix ι ι E) * X *
           (P : Matrix ι ι E)) * ((P⁻¹ : GL ι E) : Matrix ι ι E) = X
         simp only [← Matrix.mul_assoc, Units.mul_inv, Matrix.one_mul]
         rw [Matrix.mul_assoc, Units.mul_inv, Matrix.mul_one] }
@@ -128,7 +128,7 @@ public theorem continuous_restrictScalarsRep_of_linearMap {G : Type*} [Group G]
   have h : (fun g => restrictScalarsMatrix b' (τ g).val) =
       L ∘ fun g => (restrictScalarsRep b σ g).val := by
     funext g
-    show restrictScalarsMatrix b' (τ g).val =
+    change restrictScalarsMatrix b' (τ g).val =
       restrictScalarsLinearMap b' n (T (Rinv (restrictScalarsLinearMap b m (σ g).val)))
     rw [← LinearMap.comp_apply Rinv, hRinv, LinearMap.id_apply, ← hT]
     rfl
@@ -171,8 +171,7 @@ def conjReindexHom (ρ : G →* Matrix (Fin m) (Fin m) R) (eqv : Fin m ≃ κ) (
   map_one' := by
     rw [map_one, reindex_apply, submatrix_one_equiv, Matrix.mul_one, Units.mul_inv]
   map_mul' g h := by
-    rw [map_mul, ← Matrix.reindexAlgEquiv_apply R R, map_mul, Matrix.reindexAlgEquiv_apply,
-      Matrix.reindexAlgEquiv_apply]
+    rw [map_mul, ← Matrix.coe_reindexAlgEquiv R R, map_mul]
     simp only [Matrix.mul_assoc]
     rw [← Matrix.mul_assoc ((Q⁻¹ : GL κ R) : Matrix κ κ R) (Q : Matrix κ κ R), Units.inv_mul,
       Matrix.one_mul]
@@ -243,7 +242,7 @@ public theorem exists_intermediateField_blockDiagonal (X : A → Matrix (Fin m) 
     (algebraMap E' K).injective
   have h1 : PE * QE = 1 := by
     apply hinj
-    show (PE * QE).map (algebraMap E' K) =
+    change (PE * QE).map (algebraMap E' K) =
       (1 : Matrix (Σ i, Fin (ms i)) (Σ i, Fin (ms i)) E').map (algebraMap E' K)
     rw [Matrix.map_mul, hPE, hQE, ← Matrix.map_mul, hPm, hQm, Units.mul_inv,
       Matrix.map_one _ (map_zero _) (map_one _), Matrix.map_one _ (map_zero _) (map_one _)]
@@ -260,14 +259,14 @@ public theorem exists_intermediateField_blockDiagonal (X : A → Matrix (Fin m) 
     fun f Z => by ext i j; rfl
   have hT : ∀ a, (YE a).map (algebraMap E' K) = (Yb a).map (algebraMap Fb K) := by
     intro a
-    show (PE * reindex eqv eqv ((X a).map (algebraMap E E')) * QE).map (algebraMap E' K) = _
+    change (PE * reindex eqv eqv ((X a).map (algebraMap E E')) * QE).map (algebraMap E' K) = _
     rw [Matrix.map_mul, Matrix.map_mul, hQE, hPE, hYb, Matrix.map_mul, Matrix.map_mul,
       hreindex, hreindex, Matrix.map_map, Matrix.map_map, ← RingHom.coe_comp, ← RingHom.coe_comp,
       ← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
   have hblk : ∀ a, Yb a = blockDiagonal' (blockDiag' (Yb a)) := hblkb
   refine ⟨E', hfin, r, ms, eqv, Q, fun a => ?_, fun i W hW => ?_⟩
   · apply hinj
-    show (YE a).map (algebraMap E' K) = (blockDiagonal' (blockDiag' (YE a))).map (algebraMap E' K)
+    change (YE a).map (algebraMap E' K) = (blockDiagonal' (blockDiag' (YE a))).map (algebraMap E' K)
     rw [blockDiagonal'_map _ _ (map_zero _), ← blockDiag'_map, hT, hblk a,
       blockDiagonal'_map _ _ (map_zero _), blockDiag'_blockDiagonal']
   · exact eq_bot_or_eq_top_of_forall_mulVec_map_mem (K := K)
@@ -276,7 +275,7 @@ public theorem exists_intermediateField_blockDiagonal (X : A → Matrix (Fin m) 
             reindex eqv eqv ((X a).map (algebraMap E E')) *
               ((Q⁻¹ : GL (Σ i, Fin (ms i)) E') : Matrix (Σ i, Fin (ms i)) (Σ i, Fin (ms i)) E'))
                 i).map (algebraMap E' K) = (blockDiag' (Yb a) i).map (algebraMap Fb K) := by
-          show (blockDiag' (YE a) i).map _ = _
+          change (blockDiag' (YE a) i).map _ = _
           rw [← congrFun (blockDiag'_map (YE a) _) i, hT, blockDiag'_map]
         have := hW a v hv
         rwa [e] at this

@@ -62,7 +62,7 @@ theorem idealKernel_le_idealKernel {A₁ A₂ : Type u} [CommRing A₁] [CommRin
   have hx' := (SheafOfModules.Submodule.mem_ker _ U _).1 hx
   refine (SheafOfModules.Submodule.mem_ker _ U _).2 ?_
   rw [← hq]
-  show (q.val.app U) ((idealQuotientπ φ₁ (structureSheafModule B S hS X) J₁).val.app U x) = 0
+  change (q.val.app U) ((idealQuotientπ φ₁ (structureSheafModule B S hS X) J₁).val.app U x) = 0
   rw [hx', map_zero]
 
 /-- **`J 𝒪_X` along a ring isomorphism.**  Replacing the ring of scalars `A` by `A'` along a
@@ -128,7 +128,7 @@ theorem completionBijectiveOnHoms_baseObject (A : Type u) [CommRing A] [IsNoethe
     RingHom.ext fun a => (pullbackToGlobalFunctions_baseObject B A hA f a).symm
   have hid : baseIdealSubmodule X.1 X.2 (J.comap e.toRingHom) =
       idealKernel (pullbackRingHom B (baseObject A B hA) f) J := by
-    show Stacks.SheafOfModules.ImageSubsheaf.imageSubmodule
+    change Stacks.SheafOfModules.ImageSubsheaf.imageSubmodule
       (idealMultipleι (baseRingHom A B hA X.1 X.2) (structureSheafModule B _ hA X)
         (J.comap e.toRingHom)) = _
     rw [imageSubmodule_idealMultipleι_eq_idealKernel, hφ]

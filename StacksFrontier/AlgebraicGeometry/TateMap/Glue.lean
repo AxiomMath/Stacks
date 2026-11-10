@@ -60,7 +60,7 @@ theorem exists_iso_of_basis (hb : ∀ V : Y.Opens, ∀ x ∈ V, ∃ k, x ∈ W k
     (fun _ V hV r s ↦ (E V hV).symm.map_smul r s)
     (fun _ V V' hV hWV s ↦ by
       apply (E V' (hWV.trans hV)).injective
-      show E V' _ ((E V' _).symm _) = E V' _ (M.presheaf.map (homOfLE hWV).op ((E V hV).symm s))
+      change E V' _ ((E V' _).symm _) = E V' _ (M.presheaf.map (homOfLE hWV).op ((E V hV).symm s))
       rw [hnat V V' hV (hWV.trans hV) hWV, LinearEquiv.apply_symm_apply,
         LinearEquiv.apply_symm_apply])
     (fun _ _ _ _ _ ↦ rfl)

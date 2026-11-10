@@ -78,7 +78,7 @@ def torsionSectionHom (s : ToType (F.obj.obj (op ((opensToEtale S).obj ⊤)))) (
 theorem torsionSectionHom_apply (s : ToType (F.obj.obj (op ((opensToEtale S).obj ⊤))))
     (hs : N • s = 0) (n : ZMod N) :
     torsionSectionHom s hs (ULift.up n) = n.val • s := by
-  show ZMod.lift N (torsionSectionLift s hs) n = n.val • s
+  change ZMod.lift N (torsionSectionLift s hs) n = n.val • s
   have h := (ZMod.lift_coe N (torsionSectionLift s hs) n.val).trans
     (zmultiplesHom_apply _ s n.val)
   rwa [Int.cast_natCast, ZMod.natCast_zmod_val, natCast_zsmul] at h

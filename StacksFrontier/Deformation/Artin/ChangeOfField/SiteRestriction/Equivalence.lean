@@ -147,11 +147,11 @@ private theorem comparisonRing_isPullback_of_iso
       (CommRingCat.ofHom (algebraMap T.k T.l)) := by
   apply (comparisonRing_isPullback T A).of_iso (artinianRingIso e).symm
     (Iso.refl _) (Iso.refl _) (Iso.refl _)
-  · show CommRingCat.ofHom (comparisonProjection T A) ≫ 𝟙 _ =
+  · change CommRingCat.ofHom (comparisonProjection T A) ≫ 𝟙 _ =
       (artinianRingIso e).inv ≫ (artinianRingIso e).hom ≫
         CommRingCat.ofHom (comparisonProjection T A)
     simp
-  · show CommRingCat.ofHom (Deformation.Artin.residueMap _) ≫ 𝟙 _ =
+  · change CommRingCat.ofHom (Deformation.Artin.residueMap _) ≫ 𝟙 _ =
       CommRingCat.ofHom e.inv.hom.toRingHom ≫ CommRingCat.ofHom (Deformation.Artin.residueMap R)
     rw [Category.comp_id, ← CommRingCat.ofHom_comp, artinianResidueMap_natural]
   · simp
@@ -254,7 +254,7 @@ private theorem changeOfFieldFunctor_faithful
   constructor
   intro a b f g hfg
   have hs : f.snd = g.snd := by
-    show (Deformation.changeOfFieldsProjection T C₀.projection).map f =
+    change (Deformation.changeOfFieldsProjection T C₀.projection).map f =
       (Deformation.changeOfFieldsProjection T C₀.projection).map g
     rw [Functor.map_eq_of_comp_eq _ _ F.toFunctor F.projection_comm f,
       Functor.map_eq_of_comp_eq _ _ F.toFunctor F.projection_comm g, hfg]
@@ -283,7 +283,7 @@ private theorem changeOfFieldFunctor_faithful
       (Functor.Fiber.mk (p := p) (a := db'.point) rfl) db.arrow (F.restriction b)
     · exact (C₀.morphisms a.fst b.fst f.fst).triangle.trans
         (C₀.morphisms a.fst b.fst g.fst).triangle.symm
-    · show F.restriction b ≫ (C₀.morphisms a.fst b.fst f.fst).arrow =
+    · change F.restriction b ≫ (C₀.morphisms a.fst b.fst f.fst).arrow =
         F.restriction b ≫ (C₀.morphisms a.fst b.fst g.fst).arrow
       rw [← F.restriction_natural f, ← F.restriction_natural g, hfg]
   exact CategoricalPullback.hom_ext
@@ -411,7 +411,7 @@ private theorem map_arrow_eq_comp_of_schemeMap
   apply P.map_injective
   apply (schemeMap_eq_iff P hx₀ da.base _ _).mp
   rw [schemeMap_comp P hx₀ db.base, hh]
-  show schemeMap q hx₀ da.base da.arrow =
+  change schemeMap q hx₀ da.base da.arrow =
     schemeMap q hx₀ db.base db.arrow ≫ _
   rw [show schemeMap q hx₀ da.base da.arrow = _ from da.arrow_base,
     show schemeMap q hx₀ db.base db.arrow = _ from db.arrow_base,
@@ -457,7 +457,7 @@ private theorem map_restriction_comp_eq_of_schemeMap
   apply P.map_injective
   apply (schemeMap_eq_iff P db'.base da.base _ _).mp
   rw [schemeMap_comp P db'.base db.base, hh]
-  show schemeMap q db'.base da.base (m.arrow ≫ F.restriction a) =
+  change schemeMap q db'.base da.base (m.arrow ≫ F.restriction a) =
     schemeMap q db'.base db.base (F.restriction b) ≫ _
   rw [schemeMap_comp q db'.base da'.base,
     show schemeMap q db'.base da'.base m.arrow = _ from m.arrow_base,
@@ -541,7 +541,7 @@ private theorem changeOfFieldFunctor_full
   have hγmap : p.map γ = h := by simpa using IsHomLift.fac' p h γ
   have hγbase : schemeMap q db.base da.base γ =
       Spec.map (CommRingCat.ofHom v.hom.toRingHom) := by
-    show schemeMap P db.base da.base (p.map γ) = _
+    change schemeMap P db.base da.base (p.map γ) = _
     rw [hγmap]
     exact hh
   let n : Deformation.Artin.DeformationMorphism iΛ q x₀ hx₀ da db := ⟨v, γ, hγr, hγbase⟩
@@ -558,7 +558,7 @@ private theorem changeOfFieldFunctor_full
   refine ⟨φ, changeOfFieldFunctor_hom_ext T iΛ B hS p x₀ xₗ hx₀ hxₗ η hp F ?_ ?_⟩
   · exact projection_map_changeOfFieldFunctor_of_snd T iΛ B hS p x₀ xₗ hx₀ hxₗ η F t φ rfl
   · rw [F.restriction_natural]
-    show F.restriction b ≫ (C₀.morphisms a.fst b.fst f).arrow =
+    change F.restriction b ≫ (C₀.morphisms a.fst b.fst f).arrow =
       m.arrow ≫ F.restriction a
     rw [hf]
     exact hγs

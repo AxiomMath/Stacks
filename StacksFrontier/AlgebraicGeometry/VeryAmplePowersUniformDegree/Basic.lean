@@ -50,11 +50,12 @@ conclusion is not satisfiable by an identity immersion.
 
 `Stacks.VeryAmplePowersUniformDegree.ImmersionTwistGapUniform` is
 `Stacks.AmpleProjectiveImmersion.ImmersionTwistGap` — the content of Stacks Tag 01VS, the only
-thing that tag still owes after `StacksFrontier/AlgebraicGeometry/AmpleProjectiveImmersion/Basic.lean`
-discharges everything formal in it — taken at every scheme, every morphism and every invertible
-module rather than at one. `Stacks.VeryAmplePowersUniformDegree.immersionTwistGapUniform_iff`
-proves, by elaboration rather than by prose, that it is Tag 01VS verbatim at every situation and
-nothing more. It is stated as a hypothesis here, and it is discharged with no hypothesis by
+thing that tag still owes after
+`StacksFrontier/AlgebraicGeometry/AmpleProjectiveImmersion/Basic.lean` discharges everything formal
+in it — taken at every scheme, every morphism and every invertible module rather than at one.
+`Stacks.VeryAmplePowersUniformDegree.immersionTwistGapUniform_iff` proves, by elaboration rather
+than by prose, that it is Tag 01VS verbatim at every situation and nothing more. It is stated as a
+hypothesis here, and it is discharged with no hypothesis by
 `Stacks.VeryAmplePowersUniformDegree.immersionTwistGapUniform`
 (`StacksFrontier/AlgebraicGeometry/ImmersionTwistGapUniform.lean`).
 
@@ -318,9 +319,9 @@ theorem exists_finite_affine_cover_exists_one_le_hasImmersionTwistOver
 /-! ### The same statement over Tag 01CU's tensor powers -/
 
 /-- **The first two steps of Stacks Tag 01VU's (1) ⟹ (3), stated over Tag 01CU's tensor
-powers.** The statement of Tag 01VU writes its conditions with Tag 01CU's `tensorPower`, whose library
-form is `Stacks.SheafOfModules.TensorPower.tensorPower`; the statements above are written over
-`Stacks.Ample.tensorPowModule`, which is the family relative ampleness itself is defined with.
+powers.** The statement of Tag 01VU writes its conditions with Tag 01CU's `tensorPower`, whose
+library form is `Stacks.SheafOfModules.TensorPower.tensorPower`; the statements above are written
+over `Stacks.Ample.tensorPowModule`, which is the family relative ampleness itself is defined with.
 `Stacks.AmpleProjectiveImmersion.tensorPowerModule` is Tag 01CU's power with the invertibility
 class converted, and `Stacks.PowerFamilyBridge.tensorPowerModuleIso` identifies the two families
 in every integer degree, so neither family is privileged and this is the same theorem. -/

@@ -56,7 +56,8 @@ inventory of what is missing is narrower than when this file was written. Closur
 under kernels, cokernels and extensions is
 `Stacks.SheafOfModules.coherentModules_isWeakSerreClass` in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentWeakSerre.lean`, with locality of coherence
-in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherenceClosure.lean`; the identification of coherence with quasi-coherence plus
+in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherenceClosure.lean`; the identification of
+coherence with quasi-coherence plus
 finite type on a locally Noetherian scheme is
 `Stacks.AlgebraicGeometry.CoherentTFAE.isCoherent_iff_isQuasicoherent_and_isFiniteType` in
 `StacksFrontier/AlgebraicGeometry/Cohomology/Coherent/NoetherianCoherent.lean`; and coherence over a

@@ -155,6 +155,7 @@ theorem isIso_of_isIso_restrictScalars_toTotalQuotientRingSheaf {X : Scheme.{u}}
 variable {X : Scheme.{u}}
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the product `∏ᶜ` of sheaves of `K_X`-modules is slow
 /-- The comparison from `K_X(F)` to the product of the generic-point contributions, as a
 morphism of sheaves of `K_X`-modules. -/
 def genericPointComparisonKPi (F : X.Modules) :
@@ -246,7 +247,7 @@ theorem unitToMeromorphicUnit_comp_meromorphicUnitToUnit :
     (J := Opens.grothendieckTopology X) X.totalQuotientSheaf)).unitHomEquiv.injective ?_
   rw [SheafOfModules.unitHomEquiv_comp_apply, unitToMeromorphicUnit, Equiv.apply_symm_apply,
     meromorphicUnitSection]
-  show ((SheafOfModules.restrictScalars (toTotalQuotientRingSheaf X)).obj
+  change ((SheafOfModules.restrictScalars (toTotalQuotientRingSheaf X)).obj
       (SheafOfModules.unit (Stacks.Sheaves.Differentials.ringSheaf
         (J := Opens.grothendieckTopology X) X.totalQuotientSheaf))).unitHomEquiv
         ((totalQuotientChangeOfRingsAdjunction X).unit.app (SheafOfModules.unit X.ringCatSheaf) ≫

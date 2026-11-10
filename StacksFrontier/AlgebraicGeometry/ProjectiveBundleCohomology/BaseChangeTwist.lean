@@ -245,14 +245,13 @@ public theorem thetaLoc_res {U₁ U₂ : X.Opens} (hU₁ : IsAffineOpen U₁) (h
     (hU : U₂ ≤ U₁) {W₁ W₂ : X'.Opens} (hW₁ : IsAffineOpen W₁) (hW₂ : IsAffineOpen W₂)
     (hW : W₂ ≤ W₁) (h₁ : W₁ ≤ g ⁻¹ᵁ U₁) (h₂ : W₂ ≤ g ⁻¹ᵁ U₂) (n : ℤ)
     (V : (relativeProj (schemeSheafGradedAlgebra E hqc)).scheme.Opens)
-    (hV : V ≤ (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ⁻¹ᵁ U₂)
     (x : (D.algebra.piece n).val.obj (op V)) :
     (D'.algebra.piece n).val.map (homOfLE (inf_le_inf_left _ (fun _ hz => hW hz))).op
         (thetaLoc g E hqc E' hqc' hE D D' U₁ hU₁ W₁ hW₁ h₁ n V x) =
       thetaLoc g E hqc E' hqc' hE D D' U₂ hU₂ W₂ hW₂ h₂ n V x := by
   refine (bijective_chartPush D' W₂ hW₂ n _ inf_le_right).1 ?_
   refine Subtype.ext (funext fun z => ?_)
-  refine (chartPush_apply_of_le _ hW hW₂ hW₁ D' n _ inf_le_right _ z).trans ?_
+  refine (chartPush_apply_of_le _ hW hW₂ hW₁ D' n _ _ z).trans ?_
   refine Eq.trans ?_ (congrArg (fun s => s.1 z)
     (chartPush_thetaLoc g E hqc E' hqc' hE D D' U₂ hU₂ W₂ hW₂ h₂ n V x).symm)
   have e1 := PresheafOfModules.naturality_apply (chartPush D' W₁ hW₁ n).val
@@ -273,7 +272,7 @@ public theorem thetaLoc_res {U₁ U₂ : X.Opens} (hU₁ : IsAffineOpen U₁) (h
     ⟨z.1, ?_⟩).symm
   rotate_left
   · exact z.2.1
-  refine Eq.trans ?_ (congrArg _ (chartPush_apply_of_le _ hU hU₂ hU₁ D n V hV x ⟨_, ?_⟩).symm)
+  refine Eq.trans ?_ (congrArg _ (chartPush_apply_of_le _ hU hU₂ hU₁ D n V x ⟨_, ?_⟩).symm)
   rotate_left
   · exact chartBC_mem g E hqc E' hqc' hE U₂ hU₂ W₂ hW₂ h₂ V z.1 z.2.1
   refine Eq.trans ?_ (Stacks.ProjTwistComparison.fibreMap_comp _ _ _ _
@@ -313,7 +312,6 @@ public abbrev thetaLocFam (i : OverIdx g U) :
       (relativeProj (schemeSheafGradedAlgebra E' hqc')).toBase ⁻¹ᵁ i.1.1)) :=
   thetaLoc g E hqc E' hqc' hE D D' U hU i.1.1 i.1.2 i.2 n V x
 
-include hV in
 /-- The local values over the affine opens lying over `U` agree on overlaps. -/
 public theorem thetaLocFam_compat (k l : OverIdx g U) :
     (D'.algebra.piece n).val.resLE inf_le_left (thetaLocFam g E hqc E' hqc' hE D D' U hU n V x k) =
@@ -345,7 +343,7 @@ public theorem thetaLocFam_compat (k l : OverIdx g U) :
             (thetaLoc g E hqc E' hqc' hE D D' U hU m.1.1.1 m.1.1.2 m.1.2 n V x) := fun j hmj hj =>
       ((D'.algebra.piece n).val.resLE_resLE (inf_le_inf_left _ fun _ hz => hmj hz) _ _).symm.trans
         (congrArg _ (thetaLoc_res g E hqc E' hqc' hE D D' hU hU le_rfl j.1.2 m.1.1.2 hmj j.2
-          m.1.2 n V hV x))
+          m.1.2 n V x))
     rw [(D'.algebra.piece n).val.resLE_resLE, (D'.algebra.piece n).val.resLE_resLE]
     exact (key k (m.2.trans inf_le_left) _).trans (key l (m.2.trans inf_le_right) _).symm
 
@@ -367,7 +365,7 @@ public def thetaGlue :
   (TopCat.Sheaf.existsUnique_gluing_of_isSheafPresheaf (D'.algebra.piece n).isSheaf _
     (fun _ => inf_le_left) (le_iSup_overIdx g E hqc E' hqc' hE U V hV)
     (thetaLocFam g E hqc E' hqc' hE D D' U hU n V x)
-    (thetaLocFam_compat g E hqc E' hqc' hE D D' U hU n V hV x)).choose
+    (thetaLocFam_compat g E hqc E' hqc' hE D D' U hU n V x)).choose
 
 /-- The glued comparison restricts to the local values. -/
 public theorem resLE_thetaGlue (i : OverIdx g U) :
@@ -376,7 +374,7 @@ public theorem resLE_thetaGlue (i : OverIdx g U) :
   (TopCat.Sheaf.existsUnique_gluing_of_isSheafPresheaf (D'.algebra.piece n).isSheaf _
     (fun _ => inf_le_left) (le_iSup_overIdx g E hqc E' hqc' hE U V hV)
     (thetaLocFam g E hqc E' hqc' hE D D' U hU n V x)
-    (thetaLocFam_compat g E hqc E' hqc' hE D D' U hU n V hV x)).choose_spec.1 i
+    (thetaLocFam_compat g E hqc E' hqc' hE D D' U hU n V x)).choose_spec.1 i
 
 /-- The glued comparison is determined by its restrictions. -/
 public theorem eq_thetaGlue

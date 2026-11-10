@@ -201,7 +201,7 @@ theorem pullUpperShriekPlusCohIso_hom_app {S : Scheme.{u}} [IsNoetherian S] {X Y
         (isQuasicoherent_homology_derivedPushforward_of_qcqs c.toBase)).obj
           ((plusCohToQCoh Y.left).obj L)).obj := by
   simp [AlgebraicGeometry.pullUpperShriekPlusCohIso, upperShriekStdIso,
-    ObjectProperty.liftCompιIso] <;> rfl
+    ObjectProperty.liftCompιIso]; rfl
 
 /-- The isomorphism of [Stacks, Tag 0AA0] between `f^!` at a compactification and itself is the
 identity, at the standard model. -/
@@ -296,7 +296,8 @@ theorem restrictFunctorMapDerivedCategoryCompIso_inv_app_comp_derivedRestrictIso
         Scheme.Modules.restrictFunctorComp a b)
     have h₂ : Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorCongr
         (rfl : a ≫ b = a ≫ b) ≪≫ Scheme.Modules.restrictFunctorComp a b).symm =
-        Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.restrictFunctorComp a b).symm := by
+        Functor.mapDerivedCategoryCompIsoOfCompIso
+          (Scheme.Modules.restrictFunctorComp a b).symm := by
       rw [restrictFunctorCongr_rfl_trans_restrictFunctorComp]
     exact congrArg (fun e => e.inv.app M) (h₁.trans (congrArg Iso.symm h₂))
   · exact (congrArg (· ≫ _) (Category.comp_id _)).trans (Iso.hom_inv_id_app _ _)

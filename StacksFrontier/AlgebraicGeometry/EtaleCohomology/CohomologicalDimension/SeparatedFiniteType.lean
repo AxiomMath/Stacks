@@ -122,7 +122,7 @@ theorem isEmpty_of_topologicalKrullDim_add_one_le_zero {T : Type*} [TopologicalS
     rw [hd] at h
     exfalso
     have : ((e + 1 : ℕ∞) : WithBot ℕ∞) ≤ ((0 : ℕ∞) : WithBot ℕ∞) := by
-      simpa using h
+      simp at h
     simpa using WithBot.coe_le_coe.mp this
 
 /-- For an affine `f : X ⟶ Y` over `K` and a torsion sheaf `𝓕` supported on points of
@@ -139,8 +139,8 @@ theorem smallEtaleSupport_rightDerived_etaleAbelianDirectImage_subset_trdegLESet
   intro y hy
   have hy' := smallEtaleSupport_rightDerived_etaleAbelianDirectImage_subset K gX gY f hfg a F hF
     hsupp q hy
-  simp only [Set.mem_setOf_eq] at hy'
-  simp only [Scheme.trdegLESet, Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq] at hy'
+  simp only [Scheme.trdegLESet, Set.mem_ofPred_eq]
   set t := (let : Algebra K (Y.residueField y) :=
     ((Scheme.ΓSpecIso (.of K)).inv ≫ gY.appTop ≫ Y.Γevaluation y).hom.toAlgebra
     Algebra.trdeg K (Y.residueField y)) with ht

@@ -278,8 +278,7 @@ noncomputable def tensorEquivExtendScalars (S : Type u) [CommRing S] [Algebra R 
   map_add' := (tensorRestrictScalarsEquiv S A).map_add'
   map_smul' := by
     intro c x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s a =>
         rw [TensorProduct.smul_tmul']
         change tensorRestrictScalarsEquiv S A ((c * s) ⊗ₜ[R] a)
@@ -296,11 +295,10 @@ theorem tensorEquivExtendScalars_natural (S : Type u) [CommRing S] [Algebra R S]
       = (((ModuleCat.extendScalars (algebraMap R S)).map h).hom).comp (tensorEquivExtendScalars S
           A1).toLinearMap := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s a =>
       simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul, LinearEquiv.coe_coe]
-      show tensorRestrictScalarsEquiv S A0 (s ⊗ₜ[R] h.hom a)
+      change tensorRestrictScalarsEquiv S A0 (s ⊗ₜ[R] h.hom a)
         = ((ModuleCat.extendScalars (algebraMap R S)).map h).hom
             (tensorRestrictScalarsEquiv S A1 (s ⊗ₜ[R] a))
       simp only [tensorRestrictScalarsEquiv, TensorProduct.congr_tmul, LinearEquiv.refl_apply,
@@ -459,7 +457,7 @@ theorem exists_baseChange_eq_phi
         intro c y
         simp only [RingHom.id_apply]
         -- the codomain `c • _` is the restrictScalars action: `algebraMap R' R'' c • _`.
-        show e'' (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom
+        change e'' (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom
               ((1 : R'') ⊗ₜ[R'] (e'.symm (c • y))))
           = (algebraMap R' R'' c) • e'' (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom
               ((1 : R'') ⊗ₜ[R'] (e'.symm y)))
@@ -478,7 +476,7 @@ theorem exists_baseChange_eq_phi
   rw [Adjunction.homEquiv_symm_apply]
   rw [ModuleCat.hom_comp, LinearMap.comp_apply]
   -- reduce the functorial map on the simple tensor r'' ⊗ e' t
-  show ((ModuleCat.extendRestrictScalarsAdj (algebraMap R' R'')).counit.app (catTor R'' M)).hom
+  change ((ModuleCat.extendRestrictScalarsAdj (algebraMap R' R'')).counit.app (catTor R'' M)).hom
       (((ModuleCat.extendScalars (algebraMap R' R'')).map
           (ModuleCat.ofHom
             (Y := ((ModuleCat.restrictScalars (algebraMap R' R'')).obj (catTor R'' M) : Type u))
@@ -496,7 +494,7 @@ theorem exists_baseChange_eq_phi
             : Type u)) from rfl]
   rw [show ((ModuleCat.extendRestrictScalarsAdj (algebraMap R' R'')).counit.app
         (catTor R'' M)).hom (r'' ⊗ₜ[R'] (φ (e' t))) = r'' • (φ (e' t)) from rfl]
-  show r'' • (e'' (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom
+  change r'' • (e'' (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom
       ((1 : R'') ⊗ₜ[R'] (e'.symm (e' t))))) = _
   rw [LinearEquiv.symm_apply_apply]
   rw [← map_smul e'', ← map_smul (phi (P.complex.d 2 1).hom (P.complex.d 1 0).hom)]
@@ -509,8 +507,7 @@ theorem lift_val (d1 : F1 →ₗ[R] F0) (v : R'' ⊗[R'] (cycles R' d1)) :
         (cyclesMap (R := R) (R' := R') (R'' := R'') d1)) v : R'' ⊗[R] F1)
       = cmpMap (R := R) (R' := R') (R'' := R'') F1
           (LinearMap.lTensor R'' (cycles R' d1).subtype v) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | tmul r'' k =>
       rw [TensorProduct.AlgebraTensorModule.lift_tmul, LinearMap.lTensor_tmul]
       simp only [cyclesMap, cmpBil, LinearMap.coe_mk, AddHom.coe_mk, Submodule.coe_subtype]
@@ -532,10 +529,10 @@ theorem core_surj {Mod : Type u} [AddCommGroup Mod] [Module R Mod]
   set eps' : (R' ⊗[R] F0) →ₗ[R'] (R' ⊗[R] Mod) := LinearMap.baseChange R' eps with heps'def
   -- exactness of (d1', eps') and surjectivity of eps'
   have hex' : Function.Exact ⇑d1' ⇑eps' := by
-    rw [hd1', heps'def, LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [hd1', heps'def, LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact R' hex heps
   have heps'surj : Function.Surjective ⇑eps' := by
-    rw [heps'def, LinearMap.baseChange_eq_ltensor]
+    rw [heps'def, LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective R' heps
   -- key equality of submodules: ker eps' = range d1'
   have hker_eps' : LinearMap.ker eps' = LinearMap.range d1' := hex'.linearMap_ker_eq
@@ -592,7 +589,7 @@ theorem core_surj {Mod : Type u} [AddCommGroup Mod] [Module R Mod]
   have hwkerg : (LinearMap.lTensor R'' g) w = 0 := by
     apply hinj
     rwa [map_zero, ← LinearMap.comp_apply, ← LinearMap.lTensor_comp, ← hd1'_eq, hd1',
-      ← LinearMap.baseChange_eq_ltensor]
+      ← LinearMap.baseChange_eq_lTensor]
   -- exactness (A): w ∈ range (lTensor R'' subtype)
   rw [hexA] at hwkerg
   obtain ⟨v, hv⟩ := hwkerg
@@ -720,8 +717,7 @@ theorem tor_baseChange_surjective
       phi (R := R) (R' := R') (R'' := R'') d2 d1 ((LinearMap.lTensor R'' qmk) w)
         = Submodule.Quotient.mk (cyclesBC w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul r'' k =>
         rw [LinearMap.lTensor_tmul, hqmk,
           show ((boundaries R' d2).comap (cycles R' d1).subtype).mkQ k

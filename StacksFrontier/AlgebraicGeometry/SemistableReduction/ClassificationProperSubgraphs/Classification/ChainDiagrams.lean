@@ -411,7 +411,9 @@ private lemma dynkin_of_five_chain (T : NumericalType)
       fin_cases r <;> fin_cases s <;>
         simpa [u, DynkinShape.Edge, DynkinShape.weightFactor] using h
 
-private lemma dynkin_of_ordered_chain {t : ℕ} (T : NumericalType)
+/-- An ordered chain of at least four minus-two indices, consecutive ones meeting, can be
+reordered into a Dynkin configuration with the same range. -/
+lemma dynkin_of_ordered_chain {t : ℕ} (T : NumericalType)
     (ht : 4 ≤ t) (hproper : t < T.componentCount)
     (v : Fin t → Fin T.componentCount) (hinj : Function.Injective v)
     (hminus : ∀ r, IsMinusTwoIndex T (v r))
@@ -436,7 +438,9 @@ private lemma dynkin_of_ordered_chain {t : ℕ} (T : NumericalType)
         obtain ⟨d, w, hdynkin⟩ := dynkin_of_long_chain T u huinj hminusu htlarge hcfg
         exact ⟨u, huinj, EquivLike.range_comp v Fin.revPerm, d, w, hdynkin⟩
 
-private lemma classify_two_vertex_subset (T : NumericalType)
+/-- A connected proper subset of two minus-two indices has an ordering that is a Dynkin
+configuration. -/
+lemma classify_two_vertex_subset (T : NumericalType)
     (I : Finset (Fin T.componentCount)) (hproper : I.card < T.componentCount)
     (hminus : ∀ i ∈ I, IsMinusTwoIndex T i)
     (hconnected : ¬ ∃ J : Finset (Fin T.componentCount),
@@ -512,7 +516,9 @@ private lemma dynkin_of_three_vertex_path (T : NumericalType)
       fin_cases r <;>
         simp [DynkinShape.Edge, DynkinShape.weightFactor, Fin.sum_univ_three] <;> omega
 
-private lemma classify_three_vertex_subset (T : NumericalType)
+/-- A connected proper subset of three minus-two indices has an ordering that is a Dynkin
+configuration. -/
+lemma classify_three_vertex_subset (T : NumericalType)
     (I : Finset (Fin T.componentCount)) (hproper : I.card < T.componentCount)
     (hminus : ∀ i ∈ I, IsMinusTwoIndex T i)
     (hconnected : ¬ ∃ J : Finset (Fin T.componentCount),
@@ -573,7 +579,9 @@ private lemma classify_three_vertex_subset (T : NumericalType)
       (hminus i hi) (hminus j hj) (hminus k hk) hij hik hjk hedges
   exact ⟨v, hv, by simpa [hI] using hvrange, d, w, hcfg⟩
 
-private lemma dynkin_of_d4_ordering (T : NumericalType)
+/-- Four minus-two indices, the second meeting each of the other three, form a Dynkin
+configuration (of type `D₄`). -/
+lemma dynkin_of_d4_ordering (T : NumericalType)
     (hcount : 4 < T.componentCount) (v : Fin 4 → Fin T.componentCount)
     (hinj : Function.Injective v) (hminus : ∀ r, IsMinusTwoIndex T (v r))
     (h₀₁ : T.intersection (v 1) (v 0) ≠ 0)
@@ -610,7 +618,9 @@ private lemma dynkin_of_d4_ordering (T : NumericalType)
         (hminus 2).2, (hminus 3).2]
   exact ⟨d, w, isDynkinConfiguration_of_entries T v hinj d w hw hallows hweight hentry⟩
 
-private lemma dynkin_of_d5_ordering (T : NumericalType)
+/-- Five minus-two indices forming a chain `0 - 1 - 2` with `3` and `4` both meeting `2`
+form a Dynkin configuration (of type `D₅`). -/
+lemma dynkin_of_d5_ordering (T : NumericalType)
     (hcount : 5 < T.componentCount) (v : Fin 5 → Fin T.componentCount)
     (hinj : Function.Injective v) (hminus : ∀ r, IsMinusTwoIndex T (v r))
     (h₀₁ : T.intersection (v 0) (v 1) ≠ 0)

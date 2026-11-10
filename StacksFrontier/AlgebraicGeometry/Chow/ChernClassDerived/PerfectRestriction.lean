@@ -160,7 +160,7 @@ theorem res_perfectChernClass_derivedPullback (h : Z ⟶ X) [LocallyOfFiniteType
   have hs' : pullback.fst H.f h ≫ H.f ≫ sX = pullback.snd H.f h ≫ h ≫ sX := by
     rw [← Category.assoc, pullback.condition, Category.assoc]
   refine eq_perfectChernClass C (h ≫ sX) hE' (H.basePullback h) ?_
-  show TotalChowClass.res (pullback.snd H.f h) rfl
+  change TotalChowClass.res (pullback.snd H.f h) rfl
       (TotalChowClass.res h rfl (perfectChernClass C sX hE)) =
     complexChern C (pullback.snd H.f h ≫ h ≫ sX)
       (Stacks.BlowUpComplexes.isLocallyBoundedFiniteLocallyFree_pullback _ H.P H.locallyBounded)

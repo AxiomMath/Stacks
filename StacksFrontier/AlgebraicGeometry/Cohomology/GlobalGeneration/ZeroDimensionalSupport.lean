@@ -65,7 +65,7 @@ theorem discrete_of_noetherian_topologicalKrullDim_le_zero
     refine ⟨fun y z ↦ ?_⟩
     have hle : (⟨closure {x}, isIrreducible_singleton.closure, isClosed_closure⟩ :
       IrreducibleCloseds Y) ≤ ⟨s.1, hTirr s.1 s.2, hTclosed s.1 s.2⟩ := by
-      show closure {x} ⊆ s.1
+      change closure {x} ⊆ s.1
       exact closure_minimal (Set.singleton_subset_iff.mpr hx) (hTclosed s.1 s.2)
     have hdim' : Order.krullDim (IrreducibleCloseds Y) ≤ 0 := hY
     have hmax := (Order.krullDim_nonpos_iff_forall_isMax.mp hdim')
@@ -143,7 +143,7 @@ theorem exists_open_neighborhood_meets_support_singleton
     simpa [v] using himage
   obtain ⟨O, hOopen, hOpre⟩ := (isOpen_induced_iff.mp hsingleS)
   refine ⟨⟨O, hOopen⟩, ?_, ?_⟩
-  · show (x : S) ∈ (fun y : S ↦ (y.1 : X)) ⁻¹' O
+  · change (x : S) ∈ (fun y : S ↦ (y.1 : X)) ⁻¹' O
     rw [hOpre]
     exact Set.mem_singleton _
   · intro y hy hyS
@@ -189,7 +189,7 @@ public noncomputable def sectionOfGlobalValue
 public lemma sectionOfGlobalValue_eval_top
     {X : Scheme.{u}} (F : X.Modules) (s : Γ(F, ⊤)) :
     (sectionOfGlobalValue F s).eval (Opposite.op ⊤) = s := by
-  show F.presheaf.map (homOfLE (show ⊤ ≤ ⊤ from le_rfl)).op s = s
+  change F.presheaf.map (homOfLE (show ⊤ ≤ ⊤ from le_rfl)).op s = s
   simp
 
 private lemma exists_global_section_with_stalk_value
@@ -288,7 +288,7 @@ public theorem nonempty_generatingSections_of_support_dim_le_zero
   have hi :
       ConcreteCategory.hom (TopCat.Presheaf.Γgerm F.val.presheaf x)
         ((s i).eval (Opposite.op ⊤)) = a := by
-    show ConcreteCategory.hom (F.presheaf.Γgerm x) ((s i).eval (Opposite.op ⊤)) = a
+    change ConcreteCategory.hom (F.presheaf.Γgerm x) ((s i).eval (Opposite.op ⊤)) = a
     simpa [i] using hs i
   have hmem :
       ConcreteCategory.hom (TopCat.Presheaf.Γgerm F.val.presheaf x)

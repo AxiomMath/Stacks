@@ -124,7 +124,7 @@ theorem kernelSubmoduleIdeal_mono
     kernelSubmoduleIdeal f E ≤ kernelSubmoduleIdeal f E' := by
   refine generatedIdeal_mono ℬ _ _ fun V e => ?_
   refine ⟨(Subobject.ofLE _ _ (leOfHom h.hom)).val.app V e, ?_⟩
-  show ((Subobject.ofLE _ _ (leOfHom h.hom) ≫ E'.obj.arrow) ≫
+  change ((Subobject.ofLE _ _ (leOfHom h.hom) ≫ E'.obj.arrow) ≫
     kernel.ι (underlyingModuleMap f)).val.app V e = _
   rw [Subobject.ofLE_arrow]
 
@@ -133,7 +133,7 @@ theorem kernelSubmoduleIdeal_le_kerIdeal
     (E : FiniteTypeQuasicoherentSubobject B S hS Y.1 Y.2 (algebraKernel f)) :
     kernelSubmoduleIdeal f E ≤ kerIdeal f := by
   refine generatedIdeal_le ℬ _ fun V e => (mem_kerIdeal f V _).2 ?_
-  show (kernelSubmoduleMap f E ≫ underlyingModuleMap f).val.app V e = 0
+  change (kernelSubmoduleMap f E ≫ underlyingModuleMap f).val.app V e = 0
   rw [Category.assoc, kernel.condition, comp_zero]
   rfl
 
@@ -197,7 +197,7 @@ theorem exists_forall_mem_kernelSubmoduleIdeal (hℬ : ℬ.IsQuasicoherent) (hC 
         a i := by
     have h := congrArg (fun φ => φ.val.app (op W) k)
       (Subobject.underlyingIso_arrow (D.toSubmodule (algebraKernel f)).ι)
-    show (kernel.ι (underlyingModuleMap f)).val.app (op W)
+    change (kernel.ι (underlyingModuleMap f)).val.app (op W)
       (((Subobject.underlyingIso (D.toSubmodule (algebraKernel f)).ι).inv ≫
         (Subobject.mk (D.toSubmodule (algebraKernel f)).ι).arrow).val.app (op W) k) = a i
     rw [h]
@@ -408,7 +408,7 @@ theorem exists_idealQuotient_system_of_epi (hqc : IsQuasiCompactSpace B S hS Y.1
         (ℬ.right.obj.map incl.op a) = 0 := by
       refine (congrArg (fun φ => (ConcreteCategory.hom φ : _ → _) a)
         (f.right.hom.naturality incl.op)).trans ?_
-      show A.obj.right.obj.map incl.op ((f.right.hom.app U) a) = 0
+      change A.obj.right.obj.map incl.op ((f.right.hom.app U) a) = 0
       rw [ha, map_zero]
     obtain ⟨E, hE⟩ := exists_forall_mem_kernelSubmoduleIdeal f hℬ A.property hqc hqs hW
       ({()} : Finset Unit) (fun _ => ℬ.right.obj.map incl.op a) (fun _ _ => hfa)

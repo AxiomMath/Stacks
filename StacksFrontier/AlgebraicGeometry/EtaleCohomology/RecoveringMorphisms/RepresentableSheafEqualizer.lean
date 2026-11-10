@@ -115,7 +115,7 @@ theorem SmallEtale.structureBaseSection_comp_map {X X' : (SmallEtale B Y hY)ᵒ�
     SmallEtale.structureBaseSection B Y hY X ≫
         (SmallEtale.commRingStructureSheaf B Y hY).obj.map g =
       SmallEtale.structureBaseSection B Y hY X' := by
-  show (B.inclusion.map X.unop.obj.hom).appTop ≫
+  change (B.inclusion.map X.unop.obj.hom).appTop ≫
       ((SmallEtale.toScheme B Y hY).map g.unop).appTop = _
   rw [← Scheme.Hom.comp_appTop]
   refine congrArg Scheme.Hom.appTop ?_

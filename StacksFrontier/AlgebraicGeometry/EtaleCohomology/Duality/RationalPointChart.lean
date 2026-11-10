@@ -195,13 +195,13 @@ private theorem mem_range_iff_of_isPullback_resLE {Y A B : Scheme.{u}} (s : Y �
     rfl
   rintro ⟨t, ht⟩
   have ht' : t ∈ s ⁻¹ᵁ U := by
-    show s.base t ∈ U
+    change s.base t ∈ U
     rw [ht, ← h₂, Scheme.Hom.comp_apply]
     exact ((X.homOfLE hWU).base v).2
   let w : (s ⁻¹ᵁ U).toScheme := ⟨t, ht'⟩
   have hu : (s.resLE U (s ⁻¹ᵁ U) le_rfl).base w = (X.homOfLE hWU).base v := by
     apply U.ι.isOpenEmbedding.injective
-    show (s.resLE U (s ⁻¹ᵁ U) le_rfl ≫ U.ι).base w = (X.homOfLE hWU ≫ U.ι).base v
+    change (s.resLE U (s ⁻¹ᵁ U) le_rfl ≫ U.ι).base w = (X.homOfLE hWU ≫ U.ι).base v
     rw [h₁, h₂, Scheme.Hom.comp_apply]
     exact ht
   refine ⟨q.base w, ?_⟩
@@ -228,7 +228,7 @@ private theorem eq_of_etale_affineSpace_of_fieldBaseChange {U : X.Opens} {x : X}
   obtain ⟨y, hy, -⟩ := Scheme.Pullback.exists_preimage_pullback x
     (default : Spec (.of K)) (f := f) (g := s') (Subsingleton.elim _ _)
   have hyU : y ∈ UY := by
-    show pr.base y ∈ U
+    change pr.base y ∈ U
     rwa [hy]
   exact Purity.eq_of_etale_affineSpace K (pullback.snd f s') d UY ⟨y, hyU⟩ n πY
 
@@ -285,7 +285,7 @@ theorem exists_etale_affineSpace_centred_rationalPoint (s : Spec (.of k) ⟶ X)
     ?_⟩
   rintro ⟨p, hp⟩ j
   refine hv.2 (fun j' => ?_) (ULift.up j)
-  show π.base ((X.homOfLE hWU).base v) ∉ _
+  change π.base ((X.homOfLE hWU).base v) ∉ _
   rw [← hp]
   exact coordinateSubspaceEmbedding_zero_notMem_basicOpen_coord _ n p j'
 

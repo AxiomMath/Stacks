@@ -115,7 +115,7 @@ theorem mulApp_naturality (i j : ℤ) {U V : Cᵒᵖ} (f : U ⟶ V) (x : (p i).v
     (y : (p j).val.obj U) :
     (p (i + j)).val.map f (e.mulApp i j U x y) =
       e.mulApp i j V ((p i).val.map f x) ((p j).val.map f y) := by
-  show (p (i + j)).val.map f
+  change (p (i + j)).val.map f
         ((e.equiv (i + j) U).symm ((A.mul i j).app U (e.equiv i U x) (e.equiv j U y))) =
       (e.equiv (i + j) V).symm ((A.mul i j).app V (e.equiv i V ((p i).val.map f x))
         (e.equiv j V ((p j).val.map f y)))
@@ -200,7 +200,7 @@ theorem ofPieceEquiv_symm_mul_app {A : GradedAlgebra.{t, a} R}
     (x : (A.piece i).val.obj U) (y : (A.piece j).val.obj U) :
     ((ofPieceEquiv e).mul i j).app U ((e.equiv i U).symm x) ((e.equiv j U).symm y) =
       (e.equiv (i + j) U).symm ((A.mul i j).app U x y) := by
-  show (e.equiv (i + j) U).symm ((A.mul i j).app U (e.equiv i U ((e.equiv i U).symm x))
+  change (e.equiv (i + j) U).symm ((A.mul i j).app U (e.equiv i U ((e.equiv i U).symm x))
       (e.equiv j U ((e.equiv j U).symm y))) = _
   rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
 

@@ -181,7 +181,7 @@ theorem isBaseChange_sqzTensor :
       rw [Ideal.map_le_iff_le_comap]
       intro z hz
       have hz' : (sqzFst X M hM).hom.hom z = 0 := hz
-      show (sqzTensorE g ψ hM hN j hL).q.hom.hom (z ⊗ₜ[A'] (1 : F)) = 0
+      change (sqzTensorE g ψ hM hN j hL).q.hom.hom (z ⊗ₜ[A'] (1 : F)) = 0
       rw [sqzTensorE_q_apply, sqzTensorLift_tmul_one]
       exact (congrArg g.hom.hom hz').trans (map_zero _)
     refine le_antisymm (fun t ht ↦ ?_) hle
@@ -189,8 +189,7 @@ theorem isBaseChange_sqzTensor :
         (RingHom.ker ((sqzE X M hM).q.hom.hom : (sqzAlg X M hM).obj →+* X.obj)),
         sqzSnd Y N hN (sqzTensorLift g ψ hM hN j (t - t₂)) = 0 := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => exact ⟨0, zero_mem _, by rw [sub_zero, map_zero]; rfl⟩
+      induction t using TensorProduct.inductionOn with
       | tmul z f =>
         refine ⟨sqzInr X M hM (sqzSnd X M hM z) ⊗ₜ[A'] f,
           tmul_mem_extIdeal _ (sqzFst_sqzInr X M hM _) f, ?_⟩

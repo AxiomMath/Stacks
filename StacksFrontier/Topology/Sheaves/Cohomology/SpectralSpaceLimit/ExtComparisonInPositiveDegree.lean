@@ -191,7 +191,7 @@ theorem extCocycleComp_comp_i_of_corepresentation {Z : B} (I : InjectiveResoluti
       αA.inv.app (J.cocomplex.X (n + 1)) (u ≫ φ.f (n + 1)) =
         HA.map (φ.f (n + 1)) (αA.inv.app (F.obj (I.cocomplex.X (n + 1))) u) := fun u =>
     NatTrans.naturality_apply αA.inv (φ.f (n + 1)) u
-  show αA.inv.app (J.cocomplex.X (n + 1))
+  change αA.inv.app (J.cocomplex.X (n + 1))
       (b ≫ F.map (t.val : XB ⟶ I.cocomplex.X (n + 1)) ≫ φ.f (n + 1)) =
     HA.map (φ.f (n + 1)) (αA.inv.app (F.obj (I.cocomplex.X (n + 1)))
       (b ≫ F.map (αB.hom.app (I.cocomplex.X (n + 1))

@@ -73,7 +73,7 @@ theorem isIso_fromPreimage_of_le {V X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (
   · obtain ⟨w, hw⟩ := (hbij U).2 ⟨z.1, hTQ _ z.2⟩
     have hw' : f.app U w.1 = z.1 := congrArg Subtype.val hw
     refine ⟨⟨w.1, ?_⟩, Subtype.ext hw'⟩
-    show f.app U w.1 ∈ T.obj U
+    change f.app U w.1 ∈ T.obj U
     rw [hw']
     exact z.2
 
@@ -95,7 +95,7 @@ theorem pointsMap_restrictionFst_eq_point {t : points B S hS
     (AlgebraicSpaces.isPullback_fiberProduct B S hS a (D.toSpaceHom i)).w
   simp only [ObjectProperty.FullSubcategory.comp_hom, pointsMap_comp_apply] at h1
   refine h1.trans ?_
-  show pointsMap B S hS _ (D.toSpaceHom i).hom
+  change pointsMap B S hS _ (D.toSpaceHom i).hom
     (pointsMap B S hS _ (D.restrictionHom i a).hom t) = _
   rw [htu]
   exact D.pointsMap_toSpaceHom_neighborhoodPoint i
@@ -112,7 +112,7 @@ theorem preimage_pointsMap_restrictionFst {t : points B S hS
   refine pointsMap_fst_injOn_of_isIso_fromPreimage (D.toSpaceHom i).hom a.hom
     (D.pointSubspace i) (D.isIso_fromPreimage_pointSubspace i)
     (D.range_pointsMap_ι_pointSubspace i) (t := t') (t' := t) ?_ ht'
-  show pointsMap B S hS G.obj a.hom (pointsMap B S hS _ (D.restrictionFst i a).hom t') = _
+  change pointsMap B S hS G.obj a.hom (pointsMap B S hS _ (D.restrictionFst i a).hom t') = _
   rw [ht']
   exact D.pointsMap_restrictionFst_eq_point i a htu
 
@@ -269,7 +269,7 @@ theorem range_pullback_fst_openAwayFromPoints_le :
       (pullback.snd a.hom D.openAwayFromPoints.ι ≫ D.openAwayFromPoints.ι).app A p := by
     rw [pullback.condition]
   simp only [NatTrans.comp_app_apply] at h₁
-  show a.hom.app A _ ∈ (D.openAwayFromSinglePoint i).obj A
+  change a.hom.app A _ ∈ (D.openAwayFromSinglePoint i).obj A
   rw [h₁]
   exact D.openAwayFromPoints_le_openAwayFromSinglePoint i A
     ((pullback.snd a.hom D.openAwayFromPoints.ι).app A p).2
@@ -431,7 +431,7 @@ theorem existsUnique_lift_of_coverPullbackObj
     (isSheaf_iff_isSheaf_of_type _ _).1 W.property.isSheaf
   have hγ' : ∀ k, γ k ≫ (Over.mk (w.hom ≫ a.hom)).hom = D.coverPullbackToSpace M k := by
     intro k
-    show γ k ≫ (w.hom ≫ a.hom) = _
+    change γ k ≫ (w.hom ≫ a.hom) = _
     rw [← Category.assoc, hγ k, Category.assoc, ← D.coverPullbackHom_comp_hom M k]
     rfl
   obtain ⟨φ, hφ, -⟩ := Presheaf.existsUnique_hom_of_sheafify_iSup_range_eq_top _
@@ -443,13 +443,13 @@ theorem existsUnique_lift_of_coverPullbackObj
     refine Presheaf.hom_ext_of_sheafify_iSup_range_eq_top _ (D.coverPullbackHom M)
       (D.sheafify_iSup_range_coverPullbackHom_eq_top M)
       ((isSheaf_iff_isSheaf_of_type _ _).1 G.property.isSheaf) fun k => ?_
-    show D.coverPullbackHom M k ≫ φ ≫ w.hom = D.coverPullbackHom M k ≫ y.hom
+    change D.coverPullbackHom M k ≫ φ ≫ w.hom = D.coverPullbackHom M k ≫ y.hom
     rw [← Category.assoc, hφ k, hγ k]
   · apply ObjectProperty.hom_ext
     have hm' : m.hom ≫ w.hom = y.hom := congrArg (fun m => m.hom) hm
     refine Presheaf.hom_ext_of_sheafify_iSup_range_eq_top _ (D.coverPullbackHom M)
       (D.sheafify_iSup_range_coverPullbackHom_eq_top M) hWsheaf fun k => ?_
-    show D.coverPullbackHom M k ≫ m.hom = D.coverPullbackHom M k ≫ φ
+    change D.coverPullbackHom M k ≫ m.hom = D.coverPullbackHom M k ≫ φ
     rw [hφ k]
     exact huniq k _ _ (by rw [Category.assoc, hm']) (hγ k)
 
@@ -466,7 +466,7 @@ theorem isPullbackDefined_of_comp_restrictionFst_eq {Y Y' : AlgebraicSpaces B S 
   refine isEffectiveCartierDivisor_congr ?_ (isPullbackDefined_of_isFlat B S hS f
     ⟨(closedPointSubspace B S hS _ hz).1.preimage y.hom,
       isClosedSubspace_preimage B S hS y.hom _ G.2 Y.2 (closedPointSubspace B S hS _ hz).2⟩ hy hf)
-  show ((closedPointSubspace B S hS _ hz).1.preimage y.hom).preimage f.hom =
+  change ((closedPointSubspace B S hS _ hz).1.preimage y.hom).preimage f.hom =
     (closedPointSubspace B S hS t ht).1.preimage c.hom
   rw [← D.preimage_closedPointSubspace_restrictionFst i a ht htu, ← Subfunctor.preimage_comp,
     ← Subfunctor.preimage_comp,

@@ -165,7 +165,7 @@ theorem isZero_homology_obj_twist_of_window (m : ℤ)
       dsimp only [G]
       infer_instance
     have : HasFiniteBiproducts B := HasFiniteBiproducts.of_hasFiniteProducts
-    show IsZero (G.obj _)
+    change IsZero (G.obj _)
     exact Functor.isZero_obj_biproduct
       (Scheme.Modules.pullback (toProj n S) ⋙ G)
       (koszulFamily (ULift.{u} ℤ) n a j) fun _ => hV i hi

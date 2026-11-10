@@ -425,7 +425,7 @@ theorem isBasis_nthOrderChart (n : ℕ) :
   obtain ⟨t, ht, hteq⟩ :=
     (Scheme.Hom.isClosedEmbedding (nthOrderι i n)).isInducing.isOpen_iff.1 U.2
   have hxt : (nthOrderι i n).base x ∈ (⟨t, ht⟩ : i.coborderRange.toScheme.Opens) := by
-    show x ∈ (nthOrderι i n).base ⁻¹' t
+    change x ∈ (nthOrderι i n).base ⁻¹' t
     rwa [hteq]
   obtain ⟨V, hV, hxV, hVt⟩ :=
     Opens.isBasis_iff_nbhd.1 i.coborderRange.toScheme.isBasis_affineOpens hxt

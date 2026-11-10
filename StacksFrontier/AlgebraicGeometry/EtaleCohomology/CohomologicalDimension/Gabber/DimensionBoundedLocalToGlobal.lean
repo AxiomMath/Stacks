@@ -132,7 +132,7 @@ theorem exists_isTorsionVanishingBound_puncturedSpectrum_etaleLocalRing_of_le {D
     | bot => exact absurd hnn (not_le.2 (WithBot.bot_lt_coe _))
     | coe y =>
       induction y using ENat.recTopCoe with
-      | top => exact absurd hdD (not_le.2 (by exact_mod_cast ENat.coe_lt_top D))
+      | top => exact absurd hdD (not_le.2 (by exact_mod_cast ENat.natCast_lt_top D))
       | coe d => exact ⟨d, rfl⟩
   rw [hd] at h2 hdD
   have h2' : 2 * d ≤ m := by exact_mod_cast h2

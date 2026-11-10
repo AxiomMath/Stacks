@@ -146,7 +146,7 @@ theorem freePieceOf_hom_ext {F : Cᵒᵖ ⥤ Type t} {M : SheafOfModules.{t} (to
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   refine Stacks.eq_of_forall_lift M.isSheaf.isSeparated (freeToSheaf Osharp F) x _ _ ?_
   intro Y r a ha
-  show Stacks.sectionRestrict M.val r (f.val.app U x) =
+  change Stacks.sectionRestrict M.val r (f.val.app U x) =
     Stacks.sectionRestrict M.val r (g.val.app U x)
   have ha' : (freeToSheaf Osharp F).app Y a =
       Stacks.sectionRestrict (freePieceOf Osharp F).val r x := ha

@@ -95,7 +95,6 @@ noncomputable abbrev selfHomOfSquare [Algebra R R'] [Algebra S S'] [Algebra R S'
     (Generators.self R S).Hom (Generators.self R' S') :=
   Generators.defaultHom _ _
 
-include h in
 /-- The algebra homomorphism of polynomial rings underlying `selfHomOfSquare` is
 `selfRingHomOfSquare`. -/
 theorem selfHomOfSquare_toAlgHom (p : (Generators.self R S).Ring) :
@@ -107,7 +106,7 @@ theorem selfHomOfSquare_toAlgHom (p : (Generators.self R S).Ring) :
   let := fR.toAlgebra
   let := fS.toAlgebra
   let := (fS.comp (algebraMap R S)).toAlgebra
-  show (MvPolynomial.aeval (Generators.defaultHom (Generators.self R S)
+  change (MvPolynomial.aeval (Generators.defaultHom (Generators.self R S)
     (Generators.self R' S')).val) p = _
   induction p using MvPolynomial.induction_on with
   | C r =>
@@ -161,7 +160,7 @@ kernel of `R'[S'] → S'`. -/
 theorem selfRingHomOfSquare_mem_ker (p : (Generators.self R S).toExtension.ker) :
     selfRingHomOfSquare fR fS p.1 ∈ (Generators.self R' S').toExtension.ker := by
   have hp : MvPolynomial.aeval (R := R) (S₁ := S) _root_.id p.1 = 0 := p.2
-  show MvPolynomial.aeval (R := R') (S₁ := S') _root_.id (selfRingHomOfSquare fR fS p.1) = 0
+  change MvPolynomial.aeval (R := R') (S₁ := S') _root_.id (selfRingHomOfSquare fR fS p.1) = 0
   exact (aeval_selfRingHomOfSquare fR fS h (p.1 : (Generators.self R S).Ring)).trans
     ((congrArg fS hp).trans (map_zero fS))
 
@@ -176,7 +175,7 @@ theorem cotangentMapOfSquare_mk (p : (Generators.self R S).toExtension.ker) :
   let := (fS.comp (algebraMap R S)).toAlgebra
   have : IsScalarTower R R' S' := IsScalarTower.of_algebraMap_eq fun r => h r
   have : IsScalarTower R S S' := IsScalarTower.of_algebraMap_eq fun _ => rfl
-  show Extension.Cotangent.map
+  change Extension.Cotangent.map
     (selfHomOfSquare (R := R) (S := S) (R' := R') (S' := S')).toExtensionHom
     (Extension.Cotangent.mk p) = _
   rw [Extension.Cotangent.map_mk]
@@ -231,7 +230,7 @@ theorem h1Cotangent_map_eq_h1CotangentMapOfSquare (x : H1Cotangent R S) :
       h1CotangentMapOfSquare (algebraMap R R') (algebraMap S S') algebraMap_square x := by
   apply Subtype.ext
   obtain ⟨p, hp⟩ := Extension.Cotangent.mk_surjective x.1
-  show Extension.Cotangent.map (Generators.defaultHom _ _).toExtensionHom x.1 =
+  change Extension.Cotangent.map (Generators.defaultHom _ _).toExtensionHom x.1 =
     cotangentMapOfSquare (algebraMap R R') (algebraMap S S') algebraMap_square x.1
   rw [← hp, Extension.Cotangent.map_mk, cotangentMapOfSquare_mk]
   congr 2

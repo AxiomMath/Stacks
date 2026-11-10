@@ -326,7 +326,7 @@ theorem isRegularImmersion_of_exists_isRegular_ker_stalkMap {Z X : Scheme.{u}} (
       IsRegular (X.presheaf.stalk (f.base z)) rs ∧
         Ideal.ofList rs = RingHom.ker (f.stalkMap z).hom) :
     IsRegularImmersion f := by
-  show IsRegularIdealSheaf _ (_root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHom
+  change IsRegularIdealSheaf _ (_root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.definingIdealOfHom
   f.liftCoborder)
   refine isRegularIdealSheaf_definingIdealOfHom_of_exists_isRegular_ker_stalkMap
     f.liftCoborder fun z => ?_

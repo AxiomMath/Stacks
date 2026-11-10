@@ -121,7 +121,7 @@ theorem restrictFunctor_map_scalarEndo' {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpen
     (Scheme.Modules.restrictFunctor j).map (scalarEndo G r) =
       scalarEndo ((Scheme.Modules.restrictFunctor j).obj G) (j.appTop r) := by
   ext W x
-  show (scalarEndo G r).app (j ''ᵁ W) x = _
+  change (scalarEndo G r).app (j ''ᵁ W) x = _
   have hL := Stacks.SheafOfModules.smul_val_app Y.ringCatSheaf _ ⊤ isTerminalTop (RingHom.id _)
     r (𝟙 (show SheafOfModules.{u} Y.ringCatSheaf from G)) (op (j ''ᵁ W)) x
   have hR := Stacks.SheafOfModules.smul_val_app X.ringCatSheaf _ ⊤ isTerminalTop
@@ -208,10 +208,10 @@ private theorem finiteDimensional_cohomologyOverField_restrict_aux (k : Type u) 
   have hφ : (Scheme.Modules.restrictFunctor j ⋙ Hfunctor X.ringCatSheaf ⊤ d).map
       (scalarEndo G (fieldScalar k g a)) = (Hfunctor X.ringCatSheaf ⊤ d).map
         (scalarEndo ((Scheme.Modules.restrictFunctor j).obj G) (fieldScalar k (j ≫ g) a)) := by
-    show (Hfunctor X.ringCatSheaf ⊤ d).map
+    change (Hfunctor X.ringCatSheaf ⊤ d).map
       ((Scheme.Modules.restrictFunctor j).map _) = _
     rw [restrictFunctor_map_scalarEndo', fieldScalar_comp]
-  show Ψ.hom (ρ ((Hfunctor Y.ringCatSheaf ⊤ d).map (scalarEndo G (fieldScalar k g a)) x)) = _
+  change Ψ.hom (ρ ((Hfunctor Y.ringCatSheaf ⊤ d).map (scalarEndo G (fieldScalar k g a)) x)) = _
   refine (congrArg Ψ.hom h1).trans (h2.trans ?_)
   exact ConcreteCategory.congr_hom hφ (Ψ.hom (ρ x))
 

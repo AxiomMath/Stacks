@@ -262,7 +262,7 @@ theorem perfectChernCharacter_singleFunctor
     (hE : HasDefinedChernClasses ((DerivedCategory.singleFunctor X.Modules 0).obj M)) :
     perfectChernCharacter C sX hE = moduleChernCharacter C sX M :=
   funext fun p ↦ by
-    show ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] perfectPowerSum C sX hE p p =
+    change ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] perfectPowerSum C sX hE p p =
       ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] modulePowerSumArbitraryRank C sX M p p
     rw [perfectPowerSum_singleFunctor]
 
@@ -305,11 +305,12 @@ triangle of perfect objects, and `Stacks.Chow.eq_vectorBundleKZeroToPerfect` sho
 only additive map with this value on generators. -/
 def vectorBundleKZeroToPerfect : VectorBundleKZero X →+ K0 (PerfectDerivedCategory X) :=
   VectorBundleKZero.liftAddHom (vectorBundleKZeroToPerfectFun X)
-    (fun M hM ↦ dif_neg hM)
+    (fun M hM ↦ dite_eq_right hM)
     (fun {E F G} f g w hE hF hG hmono hepi hexact ↦ by
       have hS : (ShortComplex.mk f g w).ShortExact := ⟨hexact⟩
-      rw [vectorBundleKZeroToPerfectFun, dif_pos hF, vectorBundleKZeroToPerfectFun, dif_pos hE,
-        vectorBundleKZeroToPerfectFun, dif_pos hG]
+      rw [vectorBundleKZeroToPerfectFun, dite_eq_left hF,
+        vectorBundleKZeroToPerfectFun, dite_eq_left hE,
+        vectorBundleKZeroToPerfectFun, dite_eq_left hG]
       exact K0.cls_eq_add_of_distinguished_of_prop _ _ _ _
         ((DerivedCategory.singleFunctor X.Modules 0).map f)
         ((DerivedCategory.singleFunctor X.Modules 0).map g) hS.singleδ
@@ -321,7 +322,7 @@ theorem vectorBundleKZeroToPerfect_classOf (M : X.Modules)
     vectorBundleKZeroToPerfect X (VectorBundleKZero.classOf X M) =
       K0.cls ⟨(DerivedCategory.singleFunctor X.Modules 0).obj M,
         isPerfect_singleFunctor_standard X M hM⟩ :=
-  (VectorBundleKZero.liftAddHom_classOf _ _ _ M).trans (dif_pos hM)
+  (VectorBundleKZero.liftAddHom_classOf _ _ _ M).trans (dite_eq_left hM)
 
 /-- **The map is canonical**: it is the only additive map `K_0(Vect(X)) ⟶ K_0(X)` sending the
 class of every finite locally free module `ℰ` to the class of `ℰ[0]`. -/

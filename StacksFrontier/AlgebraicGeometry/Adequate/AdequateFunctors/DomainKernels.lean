@@ -101,11 +101,11 @@ public theorem isAdequate_kernel_on {ι : C ⥤ CommAlgCat.{max u v} A} (b : Bas
   let graph : F ⟶ E.obj M₁ ⊞ E.obj M₂ := biprod.lift uF (φ ≫ uG)
   let j : F ⟶ E.obj P := graph ≫ eP.inv
   have eP_fst : eP.hom ≫ biprod.fst = E.map biprod.fst := by
-    show (Functor.mapBiprod E M₁ M₂).hom ≫ biprod.fst = E.map biprod.fst
+    change (Functor.mapBiprod E M₁ M₂).hom ≫ biprod.fst = E.map biprod.fst
     rw [Functor.mapBiprod_hom]
     simp
   have eP_snd : eP.hom ≫ biprod.snd = E.map biprod.snd := by
-    show (Functor.mapBiprod E M₁ M₂).hom ≫ biprod.snd = E.map biprod.snd
+    change (Functor.mapBiprod E M₁ M₂).hom ≫ biprod.snd = E.map biprod.snd
     rw [Functor.mapBiprod_hom]
     simp
   have eP_inv_fst : eP.inv ≫ E.map biprod.fst = biprod.fst := by

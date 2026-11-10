@@ -161,7 +161,6 @@ theorem mem_range_pullbackSnd_of_notMem_range
   obtain ⟨s, hs⟩ := hT w (hproj ▸ hw')
   exact ⟨s, by rw [Scheme.Hom.comp_apply, hs, hw, Scheme.Hom.comp_apply]⟩
 
-include hb in
 /-- **`Lg^*Q` restricts to zero on the inverse image of `T`.** Let `g : W' ⟶ W` with
 `b' = b ∘ g`, and let `Q ∈ D(𝒪_W)` restrict to zero on `T ⟶ W_∞ ⟶ W`. Then `Lg^*Q` restricts to
 zero on `W'_∞ ×_W T ⟶ W'_∞ ⟶ W'`. -/

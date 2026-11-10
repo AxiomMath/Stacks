@@ -99,7 +99,7 @@ exactly the perfect objects: `D_{X, perf}(O_X) = D_perf(O_X)`. -/
 @[stacks 0FEU "supported_perfect"]
 theorem supportedPerfectDerivedCategory_id (X : Scheme.{u}) :
     supportedPerfectDerivedCategory (𝟙 X) = PerfectDerivedCategory X := by
-  show ObjectProperty.FullSubcategory _ = _
+  change ObjectProperty.FullSubcategory _ = _
   congr 1
   ext K
   simp

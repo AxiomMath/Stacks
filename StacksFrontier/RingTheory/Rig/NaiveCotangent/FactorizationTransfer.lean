@@ -103,7 +103,7 @@ middle with `π` surjective, that `ι` is injective and that `d₃` is bijective
 `d₃⁻¹` through `π`, lands in the image of `ι`. -/
 public theorem exists_factor_left_of_bijective_right
     (hd₃ : Function.Bijective d₃) (hι : Function.Injective ι)
-    (hsq₁ : ∀ x, d₂ (ι x) = incl (d₁ x)) (hsq₂ : ∀ x, d₃ (π x) = proj (d₂ x))
+    (hsq₁ : ∀ x, d₂ (ι x) = incl (d₁ x))
     (hrow : Function.Exact ι π) (hπ : Function.Surjective π)
     (a : R) (h : ∃ h₂ : L₂ →ₗ[R] M₂, h₂ ∘ₗ d₂ = a • LinearMap.id) :
     ∃ h₁ : L₁ →ₗ[R] M₁, h₁ ∘ₗ d₁ = a • LinearMap.id := by
@@ -169,8 +169,7 @@ public theorem one_tmul_mkQ_smul_id_eq_zero [Module.Flat S T] [Module.FinitePres
   have key : ∀ z, bM.equiv ((LinearMap.lcomp S M d).lTensor T z) =
       (bE.equiv z) ∘ₗ d.baseChange T := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul t g =>
       rw [LinearMap.lTensor_tmul, IsBaseChange.equiv_tmul, IsBaseChange.equiv_tmul,
         LinearMap.smul_comp, LinearMap.baseChangeHom_apply, LinearMap.baseChangeHom_apply,

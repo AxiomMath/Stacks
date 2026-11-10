@@ -72,7 +72,7 @@ theorem eval_quadraticExpansionPoly {d : ℕ} (I : MultilinearMap ℤ (fun _ : F
   classical
   have hsum : U + n • V + n ^ 2 • W = ∑ j : Fin 3, (n ^ (j : ℕ)) • ![U, V, W] j := by
     simp [Fin.sum_univ_three, add_assoc]
-  rw [hsum, MultilinearMap.map_sum, quadraticExpansionPoly, eval_finset_sum, Int.cast_sum]
+  rw [hsum, MultilinearMap.map_sum, quadraticExpansionPoly, eval_finsetSum, Int.cast_sum]
   refine sum_congr rfl fun σ _ => ?_
   rw [MultilinearMap.map_smul_univ, smul_eq_mul, eval_mul, eval_C, eval_pow, eval_X,
     Int.cast_mul, Int.cast_prod, mul_comm]
@@ -137,15 +137,15 @@ theorem coeff_quadraticExpansionPoly {d : ℕ} (hd : 0 < d)
   have hsum_upd : ∀ i, ∑ j, (upd i j : ℕ) = 2 * d - 1 := fun i => by
     simp only [hupd_apply]
     rw [sum_ite, filter_eq' univ i, filter_ne' univ i, sum_const, sum_const,
-      card_erase_of_mem (mem_univ i), if_pos (mem_univ i), card_singleton, card_univ,
+      card_erase_of_mem (mem_univ i), ite_eq_left (mem_univ i), card_singleton, card_univ,
       Fintype.card_fin]
     simp only [smul_eq_mul]
     omega
   have hinj : Function.Injective upd := fun i i' h => by
     have := congrFun h i
     by_contra hne
-    have h1 : (upd i i : ℕ) = 1 := by rw [hupd_apply, if_pos rfl]
-    have h2 : (upd i' i : ℕ) = 2 := by rw [hupd_apply, if_neg hne]
+    have h1 : (upd i i : ℕ) = 1 := by rw [hupd_apply, ite_eq_left rfl]
+    have h2 : (upd i' i : ℕ) = 2 := by rw [hupd_apply, ite_eq_right hne]
     rw [this] at h1
     omega
   have hfilter : univ.filter (fun σ : Fin d → Fin 3 => 2 * d - 1 = ∑ i, (σ i : ℕ)) =
@@ -158,7 +158,7 @@ theorem coeff_quadraticExpansionPoly {d : ℕ} (hd : 0 < d)
       exact ⟨i, hi.symm⟩
     · rintro ⟨i, rfl⟩
       exact (hsum_upd i).symm
-  rw [quadraticExpansionPoly, finset_sum_coeff]
+  rw [quadraticExpansionPoly, finsetSum_coeff]
   simp only [coeff_C_mul_X_pow]
   rw [← sum_filter, hfilter, sum_image fun i _ i' _ h => hinj h]
   refine sum_congr rfl fun i _ => ?_
@@ -191,7 +191,7 @@ theorem coeff_two_mul_quadraticExpansionPoly {d : ℕ}
       omega
     · rintro rfl
       simp [mul_comm]
-  rw [quadraticExpansionPoly, finset_sum_coeff]
+  rw [quadraticExpansionPoly, finsetSum_coeff]
   simp only [coeff_C_mul_X_pow]
   rw [← sum_filter, hfilter, sum_singleton]
   rfl
@@ -293,8 +293,8 @@ theorem abelianVarietyTrace_mul_eq_sum
       simpa using Stacks.QuadraticMap.cubeBilin_zsmul hQ 1 (-1) a e
     rw [h, Fin.sum_univ_two, Fin.sum_univ_two, Fin.sum_univ_two, Fin.sum_univ_two]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Fin.isValue,
-      lt_self_iff_false, if_false, zero_smul, add_zero, Fin.zero_lt_one, if_true,
-      not_lt_zero', neg_neg]
+      lt_self_iff_false, ite_false, zero_smul, add_zero, Fin.zero_lt_one, ite_true,
+      not_lt_zero, neg_neg]
     simp only [U, V, W, Q, B, e, a] at hB ⊢
     rw [hB]
     module
@@ -341,7 +341,7 @@ theorem endCharPoly_one :
   refine Polynomial.eq_of_infinite_eval_eq _ _ ?_
   refine Set.infinite_of_injective_forall_mem (f := fun n : ℤ => (n : ℚ)) Int.cast_injective ?_
   intro n
-  show (endCharPoly A 1).eval (n : ℚ) =
+  change (endCharPoly A 1).eval (n : ℚ) =
     (Polynomial.X ^ (2 * abelianVarietyDimension A)).eval (n : ℚ)
   rw [eval_intCast_endCharPoly, one_mul, ← zpow_neg, eval_pow, eval_X]
   have h := endDegree_zpow_id_eq_pow A (-n)
@@ -354,7 +354,7 @@ theorem endCharPoly_one :
 theorem abelianVarietyTrace_one (hg : 0 < abelianVarietyDimension A) :
     abelianVarietyTrace A (1 : A ⟶ A) = 0 := by
   rw [abelianVarietyTrace, endCharPoly_one, nextCoeff_of_natDegree_pos (by
-    rw [natDegree_X_pow]; omega), natDegree_X_pow, coeff_X_pow, if_neg (by omega), neg_zero]
+    rw [natDegree_X_pow]; omega), natDegree_X_pow, coeff_X_pow, ite_eq_right (by omega), neg_zero]
 
 /-- **The trace of an endomorphism as an intersection number**, with the biadditive form alone:
 `Tr(α) · (W^g · A) = 2 ∑_i (W, …, B(α, 1), …, W · A)` for `W = [N] + [(-1)^* N]` and

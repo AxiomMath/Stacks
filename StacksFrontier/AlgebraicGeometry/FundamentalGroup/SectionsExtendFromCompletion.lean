@@ -458,7 +458,7 @@ theorem nbhdTower_support (V : Neighborhood X Y) (hV : Set.range Y.subschemeι.b
   have e : nbhdImmersion Y.subschemeι _ hV = Neighborhood.toSchemeHom X Y V :=
     (cancel_mono (Neighborhood.open X Y V).ι).1
       ((nbhdImmersion_ι Y.subschemeι _ hV).trans (Neighborhood.toSchemeHom_fac X Y V).symm)
-  show Set.range (nbhdImmersion Y.subschemeι _ hV).base = _
+  change Set.range (nbhdImmersion Y.subschemeι _ hV).base = _
   rw [e]
 
 /-- An open of a neighbourhood containing the support of the tower receives the closed

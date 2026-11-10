@@ -121,8 +121,7 @@ theorem relationMap_tmul (r : R) (t : T) (m : M) :
 /-- **The action map kills every relation.** -/
 theorem actionLift_relationMap (r : R) (z : T ⊗[S] M) :
     actionLift ρ hρ (relationMap T ρ r z) = 0 := by
-  induction z using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction z using _root_.TensorProduct.inductionOn with
   | tmul t m =>
     rw [relationMap_tmul, map_sub, actionLift_tmul, actionLift_tmul, map_mul,
       actionHom_algebraMap_right, sub_eq_zero, ← actionHom_algebraMap_right (T := T) ρ hρ r,
@@ -164,8 +163,7 @@ include hρ in
 theorem tmul_sub_one_tmul_mem (t : T) (m : M) :
     t ⊗ₜ m - (1 : T) ⊗ₜ actionHom ρ hρ t m ∈ relations T ρ := by
   obtain ⟨z, rfl⟩ := (Algebra.IsPushout.equiv A S R T).surjective t
-  induction z using _root_.TensorProduct.induction_on generalizing m with
-  | zero => simp
+  induction z using _root_.TensorProduct.inductionOn generalizing m with
   | tmul s r =>
     rw [Algebra.IsPushout.equiv_tmul, map_mul, actionHom_algebraMap_left,
       actionHom_algebraMap_right]
@@ -177,7 +175,7 @@ theorem tmul_sub_one_tmul_mem (t : T) (m : M) :
         (1 : T) ⊗ₜ[S] ρ r (s • m) - algebraMap R T r • ((1 : T) ⊗ₜ[S] (s • m)) := by
       rw [relationMap_tmul, mul_one, _root_.TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     have h3 : (algebraMap S (Module.End S M) s * ρ r) m = ρ r (s • m) := by
-      show s • ρ r m = ρ r (s • m)
+      change s • ρ r m = ρ r (s • m)
       rw [map_smul]
     rw [h1, h3]
     rw [← neg_mem_iff, neg_sub, ← h2]
@@ -190,8 +188,7 @@ theorem tmul_sub_one_tmul_mem (t : T) (m : M) :
 /-- **Every element of `T ⊗_S M` differs from `1 ⊗ (its action)` by a sum of relations.** -/
 theorem sub_tmul_actionLift_mem (z : T ⊗[S] M) :
     z - (1 : T) ⊗ₜ actionLift ρ hρ z ∈ relations T ρ := by
-  induction z using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction z using _root_.TensorProduct.inductionOn with
   | tmul t m => exact tmul_sub_one_tmul_mem ρ hρ t m
   | add z w hz hw =>
     rw [map_add, _root_.TensorProduct.tmul_add]

@@ -172,7 +172,7 @@ theorem exists_isFiniteLocallyFree_chart (K : Type u) [Field K] {X : Scheme.{u}}
   have : Etale π₁ := by
     have : IsIso e.hom := Iso.isIso_hom e
     have : Etale e.hom := inferInstance
-    show Etale (π ≫ e.hom)
+    change Etale (π ≫ e.hom)
     infer_instance
   have hπ₁ : π₁ ≫ (𝔸(ULift.{u} (Fin d); Spec (.of K)) ↘ Spec (.of K)) = U.ι ≫ f := by
     simp only [π₁, e, Category.assoc, AffineSpace.map_over]
@@ -395,22 +395,22 @@ theorem exists_isAmple_of_smooth_of_irreducibleSpace (K : Type u) [Field K] [IsA
     let jO : Over.mk qW ⟶ H.X := Over.homMk j rfl
     let s' : Over.mk qW ⟶ PO := Over.homMk (pullback.lift (qW ≫ a) (𝟙 W) (by simp [ha]))
       (by
-        show pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
+        change pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
           pullback.fst H.X.hom qW ≫ H.X.hom = qW
         rw [pullback.lift_fst_assoc, Category.assoc, ha, Category.comp_id])
     have h1 : s' ≫ a₁ = jO ≫ toUnit H.X ≫ Over.homMk a (by simpa using ha) := by
       ext
-      show pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
+      change pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
         pullback.fst H.X.hom qW = j ≫ H.X.hom ≫ a
       rw [pullback.lift_fst, Category.assoc]
     have h2 : s' ≫ a₂ = jO ≫ 𝟙 H.X := by
       ext
-      show pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
+      change pullback.lift (f := H.X.hom) (g := qW) (qW ≫ a) (𝟙 W) _ ≫
         pullback.snd H.X.hom qW ≫ j = j ≫ 𝟙 _
       rw [pullback.lift_snd_assoc, Category.id_comp, Category.comp_id]
     have h3 : s' ≫ lift a₁ a₂ ≫ μ[H.X] =
         jO ≫ (leftTranslationAut H.X (Over.homMk a (by simpa using ha))).hom := by
-      show _ = jO ≫ leftTranslation H.X _
+      change _ = jO ≫ leftTranslation H.X _
       rw [leftTranslation, Hom.mul_def, ← Category.assoc, comp_lift, h1, h2, ← comp_lift,
         Category.assoc]
     exact congrArg Over.Hom.left h3
@@ -460,7 +460,7 @@ theorem exists_isAmple_of_smooth_of_irreducibleSpace (K : Type u) [Field K] [IsA
   have hpv : ∀ t, p t = v := pointOfClosedPoint_apply _ _ _
   refine ⟨p, hp, ?_, ?_⟩
   · -- the restricted section does not vanish at `x`
-    show sectionOfPoint H.X.hom p hp x ∈
+    change sectionOfPoint H.X.hom p hp x ∈
       (Stacks.NonvanishingOpen.nonvanishingOpen _ NA τ : Set _)
     rw [Stacks.NonvanishingOpen.coe_nonvanishingOpen, hτ]
     intro z hz

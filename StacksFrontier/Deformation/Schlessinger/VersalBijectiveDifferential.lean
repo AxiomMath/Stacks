@@ -82,7 +82,7 @@ private lemma surjective_fst_of_isPullback_of_surjective_snd
   obtain ⟨z, hz⟩ := hc₂ y
   refine ⟨j.hom z, ?_⟩
   have hv := congrArg (fun a : C ⟶ A₁ => a.hom z) hj
-  show g₁.hom (j.hom z) = y
+  change g₁.hom (j.hom z) = y
   rw [← hz]
   exact hv
 
@@ -186,7 +186,8 @@ public noncomputable def pointClass
     (Deformation.isomorphismClasses (BasedCategory.ofFunctor p) hp).obj A :=
   let φ := (associatedMorphism hp ξ P).toBasedFunctor
   Deformation.classOf (BasedCategory.ofFunctor p) hp
-    ⟨φ.obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a), φ.w_obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a)⟩
+    ⟨φ.obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a),
+      φ.w_obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a)⟩
 
 /-- The class of a pushforward is natural in the base: precomposing the point with a
 morphism of Artinian local algebras is pushing the class forward along it. -/
@@ -200,15 +201,16 @@ public theorem pointClass_naturality
       (Deformation.isomorphismClasses (BasedCategory.ofFunctor p) hp).map f
         (pointClass hp ξ P A a) := by
   let φ := (associatedMorphism hp ξ P).toBasedFunctor
-  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
+  let α : (Deformation.restrictedCoyoneda ξ.base).Elements :=
+    (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
   let β : (Deformation.restrictedCoyoneda ξ.base).Elements :=
     (Deformation.restrictedCoyoneda ξ.base).elementsMk B (a ≫ Deformation.artinianToComplete.map f)
   let g : α ⟶ β := ⟨f, rfl⟩
-  have : (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)).IsHomLift f g :=
-    IsHomLift.map (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)) g
-  have : (BasedCategory.ofFunctor (CategoryOfElements.π
+  have : (Functor.Elements.π (Deformation.restrictedCoyoneda ξ.base)).IsHomLift f g :=
+    IsHomLift.map (Functor.Elements.π (Deformation.restrictedCoyoneda ξ.base)) g
+  have : (BasedCategory.ofFunctor (Functor.Elements.π
       (Deformation.restrictedCoyoneda ξ.base))).p.IsHomLift f g :=
-    IsHomLift.map (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)) g
+    IsHomLift.map (Functor.Elements.π (Deformation.restrictedCoyoneda ξ.base)) g
   have := BasedFunctor.preserves_isHomLift φ f g
   exact (Deformation.map_classOf (BasedCategory.ofFunctor p) hp f
     ⟨φ.obj α, φ.w_obj _⟩ ⟨φ.obj β, φ.w_obj _⟩ (φ.map g)).symm
@@ -228,7 +230,8 @@ public lemma pointClass_of_lift
       Deformation.classOf (BasedCategory.ofFunctor p) hp ⟨x, hx⟩ := by
   let a := truncationPoint ξ.base n ≫ Deformation.artinianToComplete.map f
   let φ := associatedMorphism hp ξ P
-  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
+  let α : (Deformation.restrictedCoyoneda ξ.base).Elements :=
+    (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
   have hpoint : p.IsHomLift (φ.factor α) (φ.pointInclusion α) := by
     have hh := (P (φ.factor α)).cocartesian
       ⟨ξ.level (φ.level α), ξ.level_eq (φ.level α)⟩ |>.toIsHomLift
@@ -249,7 +252,7 @@ public lemma pointClass_of_lift
     have ht' := congrArg (fun h => h.hom r) ht
     have hs' := congrArg (fun h => h.hom r) hs
     have ha' := DFunLike.congr_fun (φ.factor_spec α).2.2 r
-    show (f.hom (t.hom _)) = (φ.factor α).hom (s.hom _)
+    change (f.hom (t.hom _)) = (φ.factor α).hom (s.hom _)
     exact (congrArg f.hom ht').trans ((ha').symm.trans (congrArg (φ.factor α).hom hs').symm)
   let := htl
   let := hsl
@@ -307,7 +310,7 @@ private lemma exists_dualNumberEmbedding
     have hr : rε (residue (DualNumber k) (e a)) = (e a).fst :=
       Deformation.residueEquivOfAugmentation_residue _ _ _
     rw [← hr]
-    show A.residueEquiv ((ResidueField.mapAlgEquiv e).symm (rε.symm (rε _))) = _
+    change A.residueEquiv ((ResidueField.mapAlgEquiv e).symm (rε.symm (rε _))) = _
     rw [rε.symm_apply_apply, ← ResidueField.mapAlgEquiv_residue e, AlgEquiv.symm_apply_apply]
   let D := Deformation.artinianDualNumbers.{u, w, v} Λ k
   let twist : DualNumber k →ₐ[Λ] D :=
@@ -323,18 +326,18 @@ private lemma exists_dualNumberEmbedding
       map_add' := by
         intro x y
         apply TrivSqZeroExt.ext
-        · show σ (x.fst + y.fst) = σ x.fst + σ y.fst
+        · change σ (x.fst + y.fst) = σ x.fst + σ y.fst
           exact map_add σ _ _
         · apply ULift.ext
-          show σ (x.snd + y.snd) = σ x.snd + σ y.snd
+          change σ (x.snd + y.snd) = σ x.snd + σ y.snd
           exact map_add σ _ _
       map_mul' := by
         intro x y
         apply TrivSqZeroExt.ext
-        · show σ (x.fst * y.fst) = σ x.fst * σ y.fst
+        · change σ (x.fst * y.fst) = σ x.fst * σ y.fst
           exact map_mul σ _ _
         · apply ULift.ext
-          show σ (x.fst * y.snd + x.snd * y.fst) =
+          change σ (x.fst * y.snd + x.snd * y.fst) =
             σ x.fst * σ y.snd + σ y.fst * σ x.snd
           simp only [map_add, map_mul, mul_comm]
       commutes' := by
@@ -738,7 +741,7 @@ public theorem finiteDimensional_tangentSpace_of_versal_bijectiveDifferential
         𝓕 hp.cofibered hS2 (Or.inl hp)
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hp⟩
     letI : Fact (Deformation.SchlessingerConditionS2
-      (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hp.cofibered))) :=
+      (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hp.cofibered))) :=
       ⟨hAssocS2⟩
     FiniteDimensional k
       (Deformation.tangentSpaceArtinian Λ k
@@ -751,7 +754,7 @@ public theorem finiteDimensional_tangentSpace_of_versal_bijectiveDifferential
       𝓕 hp.cofibered hS2 (Or.inl hp)
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hp⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π (Deformation.isomorphismClasses 𝓕 hp.cofibered))) := ⟨hAssocS2⟩
+    (Functor.Elements.π (Deformation.isomorphismClasses 𝓕 hp.cofibered))) := ⟨hAssocS2⟩
   let L := Deformation.associatedTangentSpaceModuleStructure 𝓕 hp hAssocS2
   obtain ⟨P, hP⟩ := hbij
   let f := linearMapOfPointNaturality ξ.base L.functor
@@ -766,10 +769,10 @@ public theorem finiteDimensional_tangentSpace_of_versal_bijectiveDifferential
         pointClass hp.cofibered ξ P _ (E.symm d) :=
       derivationToTangent_eq_pointClass hp.cofibered ξ P d
     refine ⟨E.symm d, ?_⟩
-    show (eqToHom L.forget_comp.symm).app V
+    change (eqToHom L.forget_comp.symm).app V
       (pointClass hp.cofibered ξ P _ (E.symm d)) = y
     rw [← hpoint, hd]
-    show ((eqToHom L.forget_comp ≫ eqToHom L.forget_comp.symm).app V) y = y
+    change ((eqToHom L.forget_comp ≫ eqToHom L.forget_comp.symm).app V) y = y
     simp only [eqToHom_trans, eqToHom_refl, NatTrans.id_app, types_id_apply]
   let := Deformation.tangentSpace_finiteDimensional ξ.base
   let := Module.Finite.of_surjective f hsurj

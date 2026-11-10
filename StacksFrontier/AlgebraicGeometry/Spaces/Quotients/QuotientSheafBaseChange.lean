@@ -175,7 +175,7 @@ private theorem isPullback_coequalizer_baseChange_type
   · ext z
     induction z using Quot.inductionOn with
     | h a =>
-      show g a.1.1 = ψ a.1.2
+      change g a.1.1 = ψ a.1.2
       exact a.2
   · rintro z w ⟨hz, hw⟩
     induction z using Quot.inductionOn with
@@ -340,12 +340,12 @@ theorem quotientSheaf_isPullback_baseChange (j : PreRelation R U)
     have hsurj' := surjective_of_equiv_quot e' _ he'
     have heQ (a) : eqQ (πj.app T a) =
         Quot.mk (Function.Coequalizer.Rel (j.target.left.app T) (j.source.left.app T)) a := by
-      show quotEndpointRelEquiv _ _ (e (πj.app T a)) = _
+      change quotEndpointRelEquiv _ _ (e (πj.app T a)) = _
       rw [he]
       rfl
     have heQ' (a) : eqQ' (πj'.app T a) =
         Quot.mk (Function.Coequalizer.Rel sGen tGen) (eA a) := by
-      show quotEndpointRelEquivCoequalizer _ _ sGen tGen eA eR hTargetPair hSourcePair
+      change quotEndpointRelEquivCoequalizer _ _ sGen tGen eA eR hTargetPair hSourcePair
         (e' (πj'.app T a)) = _
       rw [he']
       exact Quot.congr_mk _ _ _
@@ -358,17 +358,17 @@ theorem quotientSheaf_isPullback_baseChange (j : PreRelation R U)
     refine hType.of_iso' eqQ'.toIso (Iso.refl _) eqQ.toIso (Iso.refl _) ?_ ?_ rfl ?_
     · ext z
       obtain ⟨a, rfl⟩ := hsurj' z
-      show Quot.lift _ _ (eqQ' (πj'.app T a)) = dToX'.app T (πj'.app T a)
+      change Quot.lift _ _ (eqQ' (πj'.app T a)) = dToX'.app T (πj'.app T a)
       rw [heQ', hdX']
       exact eA_fst a
     · ext z
       obtain ⟨a, rfl⟩ := hsurj' z
-      show Quot.lift _ _ (eqQ' (πj'.app T a)) = eqQ (dToQ.app T (πj'.app T a))
+      change Quot.lift _ _ (eqQ' (πj'.app T a)) = eqQ (dToQ.app T (πj'.app T a))
       rw [heQ', hdQ, heQ]
       exact congrArg (Quot.mk _) (eA_snd a)
     · ext z
       obtain ⟨a, rfl⟩ := hsurj z
-      show Quot.lift _ _ (eqQ (πj.app T a)) = dToX.app T (πj.app T a)
+      change Quot.lift _ _ (eqQ (πj.app T a)) = dToX.app T (πj.app T a)
       rw [heQ, hdX]
   -- sheafifying it gives the square of quotient sheaves
   let L := presheafToSheaf (BigFppfOver.topology site S hS) (Type u)

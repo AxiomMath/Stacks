@@ -197,7 +197,7 @@ theorem isQuasiSeparatedMorphism_comp {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y) (
     IsQuasiSeparatedMorphism B S hS (f ≫ g) := by
   have hhom : (pullback.diagonal f ≫ pullback.mapDesc f f g).hom =
       (pullback.diagonal f).hom ≫ (pullback.mapDesc f f g).hom := rfl
-  show Space.IsQuasiCompactULift.{u + 1} B S hS (pullback.diagonal (f ≫ g)).hom
+  change Space.IsQuasiCompactULift.{u + 1} B S hS (pullback.diagonal (f ≫ g)).hom
   rw [diagonal_comp_eq_mapDesc f g, hhom]
   exact Space.isQuasiCompactULift_comp_of_presheaf B S hS _ _ hf
     (isQuasiCompactULift_mapDesc B S hS f f g hg)

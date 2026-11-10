@@ -122,7 +122,7 @@ theorem bcTop_hom_naturality {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y] (f : Y
         (bcTop f G).hom := by
   refine Stacks.AlgebraicGeometry.ModuleLimits.extendScalars_hom_ext' _ fun m x hx => ?_
   subst hx
-  show appTopHom ((Scheme.Modules.pullback f).map χ) ((bcTop f F).hom
+  change appTopHom ((Scheme.Modules.pullback f).map χ) ((bcTop f F).hom
       ((1 : Γ(Y, ⊤)) ⊗ₜ[Γ(X, ⊤), (Scheme.Hom.appTop f).hom] m)) =
     (bcTop f G).hom ((ModuleCat.extendScalars (Scheme.Hom.appTop f).hom).map (appTopHom χ)
       ((1 : Γ(Y, ⊤)) ⊗ₜ[Γ(X, ⊤), (Scheme.Hom.appTop f).hom] m))
@@ -240,7 +240,7 @@ theorem isIso_divisorPullbackEtaMap_f_of_isAffine (n : ℤ) :
   let ρ₂ := ModuleCat.ofHom (ρ ∘ₗ LinearMap.inr _ _ _)
   have hρU : aU ≫ ρ₁ + bU ≫ ρ₂ = 𝟙 _ := by
     ext x
-    show ρ (aU x, 0) + ρ (0, bU x) = x
+    change ρ (aU x, 0) + ρ (0, bU x) = x
     rw [← map_add, Prod.mk_add_mk, add_zero, zero_add]
     exact LinearMap.congr_fun hρ x
   let βS := @bcTop _ _ _ _ g ((etaObj U.toRingedSpace (idealSheaf D) (idealSheafι D) N

@@ -137,14 +137,14 @@ theorem conditionOn_iff_forall_prime_comap (g : N →ₗ[C] S.M)
   have hrightHom : (algebraMap (C ⊗[S.A] R) (S.B ⊗[S.A] R)).comp
       (algebraMap R (C ⊗[S.A] R)) = algebraMap R (S.B ⊗[S.A] R) := by
     ext r
-    show τ ((1 : C) ⊗ₜ[S.A] r) = (1 : S.B) ⊗ₜ[S.A] r
+    change τ ((1 : C) ⊗ₜ[S.A] r) = (1 : S.B) ⊗ₜ[S.A] r
     simpa only [map_one, AlgHom.id_apply] using
       Algebra.TensorProduct.map_tmul (IsScalarTower.toAlgHom S.A C S.B) (AlgHom.id S.A R) 1 r
   -- The left-hand inclusion is `C → B` followed by the inclusion of `B`.
   have hleftHom : (algebraMap (C ⊗[S.A] R) (S.B ⊗[S.A] R)).comp
       (algebraMap C (C ⊗[S.A] R)) =
       (algebraMap S.B (S.B ⊗[S.A] R)).comp (algebraMap C S.B) := RingHom.ext fun c ↦ by
-    show τ (c ⊗ₜ[S.A] (1 : R)) = _
+    change τ (c ⊗ₜ[S.A] (1 : R)) = _
     rw [Algebra.TensorProduct.map_tmul]
     simp [Algebra.TensorProduct.algebraMap_apply]
   -- The two spellings of the inclusions of `B` and of `R` into `B ⊗[A] R`.
@@ -162,7 +162,7 @@ theorem conditionOn_iff_forall_prime_comap (g : N →ₗ[C] S.M)
   -- `𝔪_B` is the extension of the stage prime.
   have hmB : Ideal.map (algebraMap C S.B) q₁ = maximalIdeal S.B := by
     conv_lhs => rw [← IsLocalization.AtPrime.under_maximalIdeal S.B q₁]
-    exact IsLocalization.map_comap q₁.primeCompl S.B _
+    exact IsLocalization.map_under q₁.primeCompl S.B _
   -- The same comparison with the prime of `C ⊗[A] R` named, so that no dependent rewrite of a
   -- prime is needed at either use site.
   have htrans' : ∀ (q : Ideal (S.B ⊗[S.A] R)) (_ : q.IsPrime) (𝔭 : Ideal (C ⊗[S.A] R))

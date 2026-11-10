@@ -98,7 +98,7 @@ public lemma smul_mem_idealPowerMultiple (M : X.Modules) (V : (Opens X)ᵒᵖ)
     refine le_idealPowerMultiple_obj I n M ⟨W, hWaff⟩ ?_
     rw [Ideal.smul_top_eq_map, Algebra.algebraMap_self, Ideal.map_id] at hr
     exact Submodule.smul_mem_smul hr Submodule.mem_top
-  show (M.val.map f).hom (_ • m) ∈ (idealPowerMultiple I n M).toSubmodule.obj (op W)
+  change (M.val.map f).hom (_ • m) ∈ (idealPowerMultiple I n M).toSubmodule.obj (op W)
   rw [PresheafOfModules.map_smul, ← hnat]
   exact key _ _ h1
 
@@ -200,7 +200,7 @@ public lemma idealPowerTensorMulAmbient_naturality {M M' : X.Modules} (f : M ⟶
   have h2 := idealPowerTensorMulAmbient_app_toTensorSheafSection I n M' V
     ((f.val.app (op V)).hom m) a
   have h3 := idealPowerTensorMulAmbient_app_toTensorSheafSection I n M V m a
-  show ((idealPowerTensorMulAmbient I n M').val.app (op V)).hom
+  change ((idealPowerTensorMulAmbient I n M').val.app (op V)).hom
       (((((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).map f).app
         (idealPowerSheaf I n)).val.app (op V)).hom
         (toTensorSheafSection X.toRingedSpace M (idealPowerSheaf I n) (op V)
@@ -232,7 +232,7 @@ public lemma idealPowerTensorMulAmbient_transition (M : X.Modules) :
         a :=
     congrArg (fun g => (g.val.app (op V)).hom a)
       (idealPowerMultipleMap_comp_ι I (SheafOfModules.unit X.ringCatSheaf) (Nat.le_succ n))
-  show ((idealPowerTensorMulAmbient I n M).val.app (op V)).hom
+  change ((idealPowerTensorMulAmbient I n M).val.app (op V)).hom
       (((((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).obj M).map
         (idealPowerSheafTransition I n)).val.app (op V)).hom
           (toTensorSheafSection X.toRingedSpace M (idealPowerSheaf I (n + 1)) (op V)
@@ -404,7 +404,7 @@ public lemma derivedTensorIdealPowerMap_naturality (F : CochainComplex X.Modules
       G.map ((DerivedCategory.singleFunctor X.Modules 0).map (idealPowerSheafTransition I n)) :=
     Functor.ofOpSequence_map_homOfLE_succ _ n
   rw [hmap]
-  show G.map ((DerivedCategory.singleFunctor X.Modules 0).map (idealPowerSheafTransition I n)) ≫
+  change G.map ((DerivedCategory.singleFunctor X.Modules 0).map (idealPowerSheafTransition I n)) ≫
       G.map s₀ ≫ T.toTensor F' (idealPowerSingle I n) ≫
         DerivedCategory.Q.map (idealPowerTensorComplexMap I n F) =
     (G.map s₁ ≫ T.toTensor F' (idealPowerSingle I (n + 1)) ≫
@@ -490,7 +490,7 @@ public lemma derivedTensorIdealPowerMap_eq_of_kFlat (F : CochainComplex X.Module
     (ComplexShape.up ℤ))
   let GF := T.tensor.obj (DerivedCategory.Q.obj (show Stacks.Duality.TensorComplex X from F))
   let GP := T.tensor.obj (DerivedCategory.Q.obj P)
-  show α.app _ ≫ GF.map s ≫ τF ≫ c = _
+  change α.app _ ≫ GF.map s ≫ τF ≫ c = _
   calc α.app _ ≫ GF.map s ≫ τF ≫ c = (GP.map s ≫ α.app _) ≫ τF ≫ c :=
         (Category.assoc _ _ _).symm.trans (congrArg (· ≫ τF ≫ c) hnat.symm)
     _ = GP.map s ≫ (τP ≫ mb) ≫ c :=

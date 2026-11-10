@@ -174,7 +174,7 @@ theorem eq_of_isFpqcCovering (h₁ : IsEtaleSheafOnSlice B S hS X F)
     fun Z' g' hg' ↦ ?_
   obtain ⟨j⟩ := hg'
   have hc := refinementLift_comp f (b x) R j (i j) (a j) (ha j)
-  show F.map (refinementOverHom (b x) R j).op (F.map (slicePointHom B S hS X U (b x)).op t₁) =
+  change F.map (refinementOverHom (b x) R j).op (F.map (slicePointHom B S hS X U (b x)).op t₁) =
     F.map (refinementOverHom (b x) R j).op (F.map (slicePointHom B S hS X U (b x)).op t₂)
   have key : ∀ t, F.map (refinementOverHom (b x) R j).op
       (F.map (slicePointHom B S hS X U (b x)).op t) =
@@ -239,7 +239,7 @@ theorem isFpqcCovering_yoneda_of_mem_fpqcPrecoverage {T : BigAffineFppf B S hS}
     exact Precoverage.mem_coverings_of_isPullback (J := Scheme.fpqcPrecoverage) _ hR' (G.map φ)
         (fun j ↦ G.map (pullback.fst φ (A.map (R.f j))))
         (fun j ↦ G.map (pullback.snd φ (A.map (R.f j)))) sq
-  · show yoneda.map (pullback.snd φ (A.map (R.f j))) ≫ yoneda.map (A.map (R.f j)) =
+  · change yoneda.map (pullback.snd φ (A.map (R.f j))) ≫ yoneda.map (A.map (R.f j)) =
       yoneda.map (pullback.fst φ (A.map (R.f j))) ≫ h
     rw [← hφ, ← Functor.map_comp, ← Functor.map_comp, pullback.condition]
 

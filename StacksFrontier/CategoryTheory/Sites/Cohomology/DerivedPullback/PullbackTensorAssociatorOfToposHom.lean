@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorModelOfToposHom
+ StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorModelOfToposHom
 
 /-!
 # The associativity law of the comparison of Tag 07A4, for a morphism of ringed topoi
@@ -476,6 +476,7 @@ theorem pullbackTensorComplexPair_associator_rhs
   totalComplexPair_associator_rhs_eq (pullbackComplex f)
     (fun A B ↦ (pullbackTensorTotalIso f.toModulesHom A B).hom) K L M
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- **The comparison of [Stacks, Tag 03EL] on total complexes is compatible with the associator
 of total tensor complexes**, with every term written at the
 `Stacks.Cohomology.DerivedPullbackTensor.totalComplexPair` spelling. -/
@@ -498,6 +499,7 @@ theorem pullbackTensorComplexPair_associator_pair
     ((pullbackTensorTotalIso_associator_pair f K L M).trans
       (pullbackTensorComplexPair_associator_rhs f K L M).symm)
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- `pullbackTensorComplexPair_associator_pair` in the derived
 category, with the three factors of each side carried across `DerivedCategory.Q` separately. -/
 theorem pullbackTensorComplexPair_associator_pair_Q
@@ -545,8 +547,8 @@ comparison of [Stacks, Tag 06YY] in each tensor factor and the comparison of
 `Stacks.Sheaves.DerivedPullback.OfToposHom.pullbackTensorModel`. -/
 theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair
     (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i)) :
     (derivedPullbackTensorIso f).hom.app
@@ -568,9 +570,9 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair
 the model `Tot(f^*K ⊗ f^*L)` of the first factor, as a proposition. -/
 def ModelIdentificationLeft
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -602,9 +604,9 @@ def ModelIdentificationLeft
 against the model `Tot(f^*K ⊗ f^*L)` of the first factor.** -/
 theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair_left
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -630,9 +632,9 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair_left
 the model `Tot(f^*L ⊗ f^*M)` of the second factor, as a proposition. -/
 def ModelIdentificationRight
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -663,9 +665,9 @@ def ModelIdentificationRight
 against the model `Tot(f^*L ⊗ f^*M)` of the second factor.** -/
 theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair_right
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -695,9 +697,9 @@ followed by the comparison of [Stacks, Tag 06YU] again, is an isomorphism on K-f
 with flat terms. -/
 theorem isIso_modelCorner
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -740,9 +742,9 @@ theorem isIso_modelCorner
 is a monomorphism. -/
 theorem mono_modelCorner
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -776,9 +778,9 @@ constraint is `Stacks.SheafOfModules.DerivedMonoidal.canonicalAssociatorHom` of
 [Stacks, Tag 0FPT]. -/
 def AssocLaws
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -833,9 +835,9 @@ def AssocLaws
 [Stacks, Tag 0FPT] hold.** -/
 theorem assocModelLaws
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -853,9 +855,9 @@ theorem assocModelLaws
 proposition. -/
 def AssocPairs
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -875,9 +877,9 @@ def AssocPairs
 /-- **The model identifications of [Stacks, Tag 07A4] at the pairs `(K, L)` and `(L, M)` hold.** -/
 theorem assocModelPairs
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -889,9 +891,9 @@ theorem assocModelPairs
 `Tot(f^*K ⊗ f^*L)` of the first factor, as a proposition. -/
 def AssocTripleLeft
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -919,9 +921,9 @@ def AssocTripleLeft
 `Tot(f^*K ⊗ f^*L)` of the first factor, holds.** -/
 theorem assocModelTripleLeft
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -933,9 +935,9 @@ theorem assocModelTripleLeft
 `Tot(f^*L ⊗ f^*M)` of the second factor, as a proposition. -/
 def AssocTripleRight
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :
@@ -962,9 +964,9 @@ def AssocTripleRight
 `Tot(f^*L ⊗ f^*M)` of the second factor, holds.** -/
 theorem assocModelTripleRight
     (K L M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
-    (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
+    (hL : Stacks.SheafOfModules.KFlat Y.O L)
+    (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hfK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hfL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
     (hfM : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (M.X i)) :

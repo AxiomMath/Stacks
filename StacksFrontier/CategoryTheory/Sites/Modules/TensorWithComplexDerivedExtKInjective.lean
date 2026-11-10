@@ -29,7 +29,8 @@ bijective on `Hom_{D(E, d)}(E, E[n])`.
 For `K` K-injective these are
 `AlgebraicGeometry.RingedSite.isIso_tensorWithComplexDerived_adj_unit_app_repRegularDerived` and
 `AlgebraicGeometry.RingedSite.tensorWithComplexDerived_map_bijective_of_isKInjective`
-(`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexRegularExt`), and Stacks 09MD itself is
+(`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexRegularExt`), and Stacks 09MD itself
+is
 `AlgebraicGeometry.RingedSite.repCohomologyEquivDerivedHom`
 (`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexRepCohomology`).
 -/
@@ -141,7 +142,7 @@ theorem isIso_tensorWithComplexDerived_adj_unit_app_rep_of_isIso
     (derivedHomWithComplex.{u, v, w, t, s} X K)
     (exists_resolution_map_bijective_rep.{u, v, w, t, s} X K)
   have key := adjH.derivedη_fac_app (quasiIsomorphisms (Rep.{u, v, w, t, s, 0} X ℤ K).algebra) α β R
-  show IsIso ((adjH.derivedη (quasiIsomorphisms (Rep.{u, v, w, t, s, 0} X ℤ K).algebra) α β).app
+  change IsIso ((adjH.derivedη (quasiIsomorphisms (Rep.{u, v, w, t, s, 0} X ℤ K).algebra) α β).app
     ((quasiIsomorphisms (Rep.{u, v, w, t, s, 0} X ℤ K).algebra).Q.obj R))
   have hR : (acyclic (Rep.{u, v, w, t, s, 0} X ℤ K).algebra).leftOrthogonal R :=
     leftOrthogonal_acyclic_rep_self.{u, v, w, t, s} X K

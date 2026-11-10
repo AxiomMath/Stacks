@@ -112,7 +112,6 @@ section Pullback
 
 variable {C : Type u} [Category.{u} C] {C' : Type u} [Category.{u} C']
   [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   {Osharp' : Sheaf (⊥ : GrothendieckTopology C') CommRingCat.{u}}
   {F : C' ⥤ C}
@@ -363,7 +362,6 @@ def sectionsBaseChangeCounit :
       (DifferentialGraded.Bimodule.derivedTensorFunctorCounit (pullbackBimodule φ U'))
 
 omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasWeakSheafify (⊥ : GrothendieckTopology C) (Type m)]
   [HasSheafify (⊥ : GrothendieckTopology C') AddCommGrpCat.{m}] in
 /-- The comparison `sectionsBaseChangeCounit φ U'` is an isomorphism at every object of `K(A)`

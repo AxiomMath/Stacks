@@ -390,7 +390,7 @@ lemma descentIsoFst_fac_a {U : 𝒞} {R : Sieve U}
       (IsPreFibered.pullbackMap (D.obj f hf).2 ε).a ≫ ζf := by
   rw [← pullbackFiberFstIso_hom_fac_assoc hF hG (D.obj f hf) ε ζf, ← h]
   simp [descentIsoFst, Iso.trans_hom, Iso.symm_hom, fibFstIso_hom, Functor.map_comp,
-    Category.assoc, fiberInclusion_map_fibFstHom, Iso.map_hom_inv_id_assoc,
+    Category.assoc, fiberInclusion_map_fibFstHom,
     pullbackFiberFstIso_hom_fac_assoc]
 
 omit [p𝒮.IsFibered] in
@@ -408,7 +408,7 @@ lemma descentIsoSnd_fac_b {U : 𝒞} {R : Sieve U}
       (IsPreFibered.pullbackMap (D.obj f hf).2 ε).b ≫ ζf := by
   rw [← pullbackFiberSndIso_hom_fac_assoc hF hG (D.obj f hf) ε ζf, ← h]
   simp [descentIsoSnd, Iso.trans_hom, Iso.symm_hom, fibSndIso_hom, Functor.map_comp,
-    Category.assoc, fiberInclusion_map_fibSndHom, Iso.map_hom_inv_id_assoc,
+    Category.assoc, fiberInclusion_map_fibSndHom,
     pullbackFiberSndIso_hom_fac_assoc]
 
 omit [p𝒮.IsFibered] in
@@ -506,7 +506,7 @@ lemma exists_vertical_iso_of_component_descent (J : GrothendieckTopology 𝒞)
     refine ⟨fun {_V} f hf => (eF f hf).symm ≪≫ fibIso hF hG (D.obj f hf) ≪≫ eG f hf,
       fun {_V} f hf => ?_⟩
     simp only [Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Category.assoc,
-      fiberInclusion_map_fibIso_hom, Iso.map_hom_inv_id_assoc]
+      fiberInclusion_map_fibIso_hom, Iso.hom_inv_id_map_assoc]
     rw [heG f hf]
   have hcrux : ∀ ⦃V W : 𝒞⦄ (f : V ⟶ U) (hf : R f) (γ : W ⟶ V) (b : W ⟶ U) (_hb : γ ≫ f = b)
       (hb' : R b)

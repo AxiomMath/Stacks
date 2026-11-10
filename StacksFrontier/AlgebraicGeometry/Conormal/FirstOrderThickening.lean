@@ -62,7 +62,7 @@ public theorem isZero_idealSheaf_of_isIso (j : Z ⟶ X) [IsIso j] :
     have : IsIso ((sheafToPresheaf _ _).map (structureSheafHom j.toLRSHom.toShHom)) := by
       rw [NatTrans.isIso_iff_isIso_app]
       intro V
-      show IsIso ((forget₂ CommRingCat RingCat).map (j.app V.unop))
+      change IsIso ((forget₂ CommRingCat RingCat).map (j.app V.unop))
       infer_instance
     exact isIso_of_reflects_iso (structureSheafHom j.toLRSHom.toShHom) (sheafToPresheaf _ _)
   have hq : IsIso (SheafOfModules.unitToPushforwardObjUnit
@@ -92,7 +92,7 @@ public theorem isIso_liftCoborder (i : Z ⟶ X) [IsImmersion i] [IsIso i] : IsIs
   have hU : i.coborderRange = ⊤ := by
     ext x
     refine ⟨fun _ => trivial, fun _ => ?_⟩
-    show x ∈ coborder (Set.range i.base)
+    change x ∈ coborder (Set.range i.base)
     simp [Set.range_eq_univ.mpr hsurj, coborder]
   have : IsIso i.coborderRange.ι := by
     rw [hU, ← Scheme.topIso_hom]

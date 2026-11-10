@@ -106,8 +106,7 @@ noncomputable def twistMap (ψ : B →+* B') {f : D →+* B} {g : D →+* B'} (h
   toFun := TensorProduct.map (twistScalarsHom ψ h) LinearMap.id
   map_add' := map_add _
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m =>
         rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
           TensorProduct.smul_tmul']
@@ -135,8 +134,7 @@ theorem twistMap_twistMap (ψ : B →+* B') (ψ' : B' →+* B'') (ψ'' : B →+*
     (z : TwistedScalars f ⊗[D] M) :
     twistMap ψ' h₂ (twistMap ψ h₁ z) = twistMap ψ'' h₃ z := by
   subst hψ
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
 
@@ -144,8 +142,7 @@ theorem twistMap_twistMap (ψ : B →+* B') (ψ' : B' →+* B'') (ψ'' : B →+*
 theorem twistMap_eq_self (ψ : B →+* B) (hψ : ψ = RingHom.id B) {f : D →+* B}
     (h : ψ.comp f = f) (z : TwistedScalars f ⊗[D] M) : twistMap ψ h z = z := by
   subst hψ
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => rw [map_add, hx, hy]
 
@@ -187,8 +184,7 @@ theorem semilinearBaseChange_twistMap (ψ : B →+* B') {f g : D →+* B} {f' g'
     (T' : M →ₛₗ[f'] TwistedScalars g' ⊗[D] M') (hT : ∀ m, T' m = twistMap ψ hg (T m))
     (z : TwistedScalars f ⊗[D] M) :
     semilinearBaseChange T' (twistMap ψ hf z) = twistMap ψ hg (semilinearBaseChange T z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [twistMap_tmul, semilinearBaseChange_tmul, semilinearBaseChange_tmul, hT,
         map_smulₛₗ]
@@ -201,8 +197,7 @@ noncomputable def twistLTensor (f : D →+* B) (φ : M →ₗ[D] M') :
   toFun := LinearMap.lTensor (TwistedScalars f) φ
   map_add' := map_add _
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m => rfl
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
 
@@ -216,8 +211,7 @@ theorem twistMap_lTensor (ψ : B →+* B') {f : D →+* B} {g : D →+* B'} (h :
     (φ : M →ₗ[D] M') (z : TwistedScalars f ⊗[D] M) :
     twistMap ψ h (LinearMap.lTensor (TwistedScalars f) φ z) =
       LinearMap.lTensor (TwistedScalars g) φ (twistMap ψ h z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
 
@@ -260,21 +254,18 @@ theorem bijective_semilinearBaseChange_twistMap (ψ : B →+* B') {f : D →+* B
     (h : ψ.comp f = g) :
     Function.Bijective (semilinearBaseChange (twistMap (M := M) ψ h)) := by
   refine Function.bijective_iff_has_inverse.mpr ⟨twistMapInv ψ f g h, fun t ↦ ?_, fun x ↦ ?_⟩
-  · induction t using TensorProduct.induction_on with
-    | zero => simp
+  · induction t using TensorProduct.inductionOn with
     | tmul c y =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b m =>
             rw [semilinearBaseChange_tmul, twistMap_tmul, TensorProduct.smul_tmul',
               twistMapInv_tmul, tmul_eq_smul_one_tmul b m, ← TensorProduct.smul_tmul]
             congr 1
-            show TwistedScalars.mk ψ (c.val * ψ b.val) = TwistedScalars.mk ψ (ψ b.val * c.val)
+            change TwistedScalars.mk ψ (c.val * ψ b.val) = TwistedScalars.mk ψ (ψ b.val * c.val)
             rw [mul_comm]
         | add y y' hy hy' => rw [TensorProduct.tmul_add, map_add, map_add, hy, hy']
     | add x y hx hy => rw [map_add, map_add, hx, hy]
-  · induction x using TensorProduct.induction_on with
-    | zero => simp
+  · induction x using TensorProduct.inductionOn with
     | tmul b m =>
         rw [twistMapInv_tmul, semilinearBaseChange_tmul, twistMap_one_tmul,
           tmul_eq_smul_one_tmul b m]
@@ -1015,7 +1006,7 @@ change of ring along `O(k)` composed with `evalEquiv h`. -/
     (z : E.sections A) :
     E.evalEquiv (k ≫ h) (E.restrict k z) =
       twistMap (O.map k.op).hom (S.ptRing_comp k h).symm (E.evalEquiv h z) := by
-  show E.transition (k ≫ h) (k ≫ (S.point A).2) (twistMap (O.map k.op).hom _
+  change E.transition (k ≫ h) (k ≫ (S.point A).2) (twistMap (O.map k.op).hom _
     (E.evalEquiv (S.point A).2 z)) = _
   rw [E.transition_twistMap, E.transition_evalEquiv]
 
@@ -1082,10 +1073,9 @@ theorem bijective_semilinearBaseChange_restrict {A A' : 𝒜} (k : A' ⟶ A) :
       semilinearBaseChange (twistMap (M := M) (O.map k.op).hom (S.ptRing_comp k _).symm) ∘
       TensorProduct.congr (LinearEquiv.refl _ (TwistedScalars (O.map k.op).hom)) ev := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul c z =>
-        show c.val • E.restrict k z = ev'.symm (c.val • twistMap _ _ (ev z))
+        change c.val • E.restrict k z = ev'.symm (c.val • twistMap _ _ (ev z))
         rw [map_smul]
         rfl
     | add x y hx hy =>
@@ -1118,11 +1108,10 @@ theorem comparison_map (φ : M →ₗ[D] M')
     (hf' : (O.map χ.op).hom.comp (S.ptRing (S.v e 1)) = f') (z : TwistedScalars f' ⊗[D] M) :
     S.comparison E'.str χ f f' hf hf' (LinearMap.lTensor _ φ z) =
       LinearMap.lTensor _ φ (S.comparison E.str χ f f' hf hf' z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [LinearMap.lTensor_tmul]
-      show b.val • S.pullStrat E'.str χ f f' hf hf' (φ m) =
+      change b.val • S.pullStrat E'.str χ f f' hf hf' (φ m) =
         twistLTensor f φ (b.val • S.pullStrat E.str χ f f' hf hf' m)
       rw [map_smul, E.pullStrat_map E' φ hφ]
       rfl

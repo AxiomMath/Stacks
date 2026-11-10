@@ -47,7 +47,7 @@ theorem chartFunction_eq_sum (w : D.V) :
     chartFunction eU w =
       ∑ i, U.ι.appTop (D.baseScalar (D.basis.repr w i)) * D.chartEquation eU i := by
   classical
-  show chartFrameSections eU (D.restrictedSection U w) = _
+  change chartFrameSections eU (D.restrictedSection U w) = _
   rw [D.restrictedSection_eq_sum w, map_sum]
   refine Finset.sum_congr rfl fun i _ ↦ ?_
   rw [map_smul, smul_eq_mul]

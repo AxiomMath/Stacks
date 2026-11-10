@@ -492,7 +492,7 @@ theorem exists_etaleChartTower_of_etaleSmoothDiagram
   have hκVsm : IsRelativelySmooth B S hS κV :=
     isRelativelySmooth_of_isRelativelyEtale B S hS κV hκVet
   have hκVeq : Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor κV) := by
-    show Functor.IsEquivalence eV₁.inv.functor
+    change Functor.IsEquivalence eV₁.inv.functor
     exact eV₁.toEquivalence.symm.isEquivalence_functor
   have hκVsu : IsSurjectiveOnObjects B S hS (fibredCategory B S hS V'₁).val.p Vsq.pt.val.p
       (CatFiberedInGroupoids.homFunctor κV) :=
@@ -547,7 +547,7 @@ theorem exists_etaleChartTower_of_etaleSmoothDiagram
     Esq.snd cc₀.hom Psq.swap (Bicategory.isTwoFibreProduct_swap hPsq) hEsqsndsm hEsqsndsu
   set κW := equivalenceOverInvMap B S hS W'₁ eW₁ with hκWdef
   have hκWeq : Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor κW) := by
-    show Functor.IsEquivalence eW₁.inv.functor
+    change Functor.IsEquivalence eW₁.inv.functor
     exact eW₁.toEquivalence.symm.isEquivalence_functor
   have hκWsu : IsSurjectiveOnObjects B S hS (fibredCategory B S hS W'₁).val.p Psq.pt.val.p
       (CatFiberedInGroupoids.homFunctor κW) :=
@@ -794,7 +794,7 @@ theorem exists_etaleDiagram_fWV_of_thickenedEtaleChartTower
   have hκVet : IsRelativelyEtale B S hS κV :=
     isRelativelyEtale_equivalenceOverInvMap B S hS C.V C.algV C.eV
   have hκWeq : Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor κW) := by
-    show Functor.IsEquivalence C.eW.inv.functor
+    change Functor.IsEquivalence C.eW.inv.functor
     exact C.eW.toEquivalence.symm.isEquivalence_functor
   set bhom := κV ≫ bq with hbhomdef
   have hbsm : IsRelativelySmooth B S hS bhom :=

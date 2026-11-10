@@ -162,7 +162,7 @@ theorem isFormalAlgebraicSpace_completionSheafULift {X : FppfSheaf B S hS}
         t ≫ Sigma.desc fun k ↦ pullback.snd (g k) φ := by
       apply Sigma.hom_ext
       intro k
-      simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+      simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
       exact ((hsq k).isoPullback_hom_snd).symm
     rw [hfac, Sheaf.isLocallySurjective_iff_epi]
     let _ : Epi t := hts.epi
@@ -240,7 +240,6 @@ theorem isFormalAlgebraicSpace_completionAlong {X Xred : FppfSheaf B S hS}
     (T : Set (Space.pointsULift.{u + 1} B S hS Xred.obj))
     (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS X.obj)
       (Space.pointsMapULift.{u + 1} B S hS Xred.obj i.hom '' T))
-    (haff : CompletionOfAffineIsAffine B S hS)
     (hset : SatisfiesSetTheoreticCondition B S hS (completionAlong i T)) :
     IsFormalAlgebraicSpace B S hS (completionAlong i T) :=
   isFormalAlgebraicSpace_completionSheafULift' B S hS hX _ hT hset

@@ -8,7 +8,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGraded
 # The derived tensor product and the derived pullback
 
 The two functors of Tag 0FTG are the two instances of the derived pullback-tensor functor of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedDerivedPullbackTensorFunctor.lean`
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedDerivedPullbackTensorFunctor`
 in which one of the two halves of `ℳ ↦ f^*ℳ ⊗_𝒜 𝒩` is trivial.
 
 * The *derived tensor product* `- ⊗^L_𝒜 𝒩` is the case of the identity morphism of ringed
@@ -63,8 +63,8 @@ both cases by `rfl`, because `idPullbackData` takes a module to itself and
 These two functors are stated for an arbitrary resolving class and an arbitrary exactness
 package, at arbitrary universes. Tag 0FTG itself is registered on the constructed functors:
 `SheafOfModules.DifferentialGradedModule.derivedTensorProductTopos` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedToposDerivedTensorProduct.lean` for
-part (1), the functor of Tag 0FTF at the identity morphism of a ringed topos, isomorphic to
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedToposDerivedTensorProduct.lean`
+for part (1), the functor of Tag 0FTF at the identity morphism of a ringed topos, isomorphic to
 `SheafOfModules.DifferentialGradedModule.derivedTensorProduct` (which is `derivedTensor` at the
 flat K-flat resolutions and the constructed exactness of the tensor product), and
 `SheafOfModules.DifferentialGradedModule.derivedPullbackRingedTopos` of

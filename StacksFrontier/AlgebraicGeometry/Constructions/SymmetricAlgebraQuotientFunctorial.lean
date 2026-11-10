@@ -103,7 +103,7 @@ theorem subschemeMap_comp_symQuotientOver_hom
     (h : I ≤ J.map (Scheme.Modules.vectorBundleMap X f).left) :
     Scheme.IdealSheafData.subschemeMap J I (Scheme.Modules.vectorBundleMap X f).left h ≫
         (symQuotientOver E I).hom = (symQuotientOver E' J).hom := by
-  show Scheme.IdealSheafData.subschemeMap J I
+  change Scheme.IdealSheafData.subschemeMap J I
           (Scheme.Modules.vectorBundleMap X f).left h ≫
         I.subschemeι ≫ Scheme.Modules.vectorBundleToBase X E =
       J.subschemeι ≫ Scheme.Modules.vectorBundleToBase X E'
@@ -199,7 +199,7 @@ theorem lift_comp_symQuotientOver_hom {Y : Over X}
     (q : Y ⟶ Scheme.Modules.vectorBundleOver X (F := E)) (hI : I ≤ q.left.ker) :
     IsClosedImmersion.lift I.subschemeι q.left (ker_subschemeι_le E I q hI) ≫
         (symQuotientOver E I).hom = Y.hom := by
-  show IsClosedImmersion.lift I.subschemeι q.left (ker_subschemeι_le E I q hI) ≫
+  change IsClosedImmersion.lift I.subschemeι q.left (ker_subschemeι_le E I q hI) ≫
       I.subschemeι ≫ Scheme.Modules.vectorBundleToBase X E = Y.hom
   rw [← Category.assoc, IsClosedImmersion.lift_fac]
   exact Over.w q

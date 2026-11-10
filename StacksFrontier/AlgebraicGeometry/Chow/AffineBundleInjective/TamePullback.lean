@@ -169,7 +169,7 @@ theorem tameSymbol_map_eq_of_map_maximalIdeal [IsLocalHom φ]
           (ordInt D' ((Units.map (σ : K →* K') y : K'ˣ) : K') (Units.ne_zero _)) /
         ((Units.map (σ : K →* K') y : K'ˣ) : K') ^
           (ordInt D' ((Units.map (σ : K →* K') x : K'ˣ) : K') (Units.ne_zero _)) := by
-    show algebraMap D' K' (φ w) = σ x ^ ordInt D' (σ y) ((map_ne_zero σ).mpr y.ne_zero) /
+    change algebraMap D' K' (φ w) = σ x ^ ordInt D' (σ y) ((map_ne_zero σ).mpr y.ne_zero) /
       σ y ^ ordInt D' (σ x) ((map_ne_zero σ).mpr x.ne_zero)
     rw [hx, hy, ← hσ, hw, map_div₀, map_zpow₀, map_zpow₀]
   have h1 := tameSymbol_eq_negOnePow_mul_residue (A := D') (Units.map (σ : K →* K') x)
@@ -177,14 +177,14 @@ theorem tameSymbol_map_eq_of_map_maximalIdeal [IsLocalHom φ]
   have h2 := tameSymbol_eq_negOnePow_mul_residue (A := D) x y w hw
   apply Units.ext
   refine h1.trans ?_
-  show _ = ResidueField.map φ ((tameSymbol (K := K) hdim x y : (ResidueField D)ˣ) :
+  change _ = ResidueField.map φ ((tameSymbol (K := K) hdim x y : (ResidueField D)ˣ) :
     ResidueField D)
   rw [h2, map_mul, ResidueField.map_residue]
   congr 1
   have e : ordInt D' ((Units.map (σ : K →* K') x : K'ˣ) : K') (Units.ne_zero _) *
       ordInt D' ((Units.map (σ : K →* K') y : K'ˣ) : K') (Units.ne_zero _) =
       ordInt D (x : K) x.ne_zero * ordInt D (y : K) y.ne_zero := by
-    show ordInt D' (σ x) ((map_ne_zero σ).mpr x.ne_zero) *
+    change ordInt D' (σ x) ((map_ne_zero σ).mpr x.ne_zero) *
       ordInt D' (σ y) ((map_ne_zero σ).mpr y.ne_zero) = _
     rw [hx, hy]
   rw [e, Units.val_zpow_eq_zpow_val, Units.val_zpow_eq_zpow_val, map_zpow₀, Units.val_neg,
@@ -221,7 +221,6 @@ theorem milnorKTwoTameSymbol_milnorKTransport_of_map_maximalIdeal [IsDiscreteVal
     milnorKTwoTameSymbol (K := K') hdim' (milnorKTransport σ 2 α) =
       milnorKTransport (ResidueField.map φ) 1 (milnorKTwoTameSymbol (K := K) hdim α) := by
   induction α using milnorKTwo_induction with
-  | h0 => rw [map_zero, map_zero, map_zero, map_zero]
   | hsymb f g =>
       rw [milnorKTransport_milnorKTwoPureSymbol, milnorKTwoTameSymbol_pureSymbol,
         milnorKTwoTameSymbol_pureSymbol, milnorKTransport_symm_milnorKTheoryOneAddEquiv,
@@ -236,7 +235,6 @@ theorem milnorKTwoTameSymbol_milnorKTransport_eq_zero (σ : K →+* K')
     (α : MilnorKTheory K 2) :
     milnorKTwoTameSymbol (K := K') hdim' (milnorKTransport σ 2 α) = 0 := by
   induction α using milnorKTwo_induction with
-  | h0 => rw [map_zero, map_zero]
   | hsymb f g =>
       obtain ⟨u, hu⟩ := hσ f
       obtain ⟨v, hv⟩ := hσ g
@@ -523,7 +521,7 @@ theorem pointClosureMilnorBoundary_milnorKTransport
       (q.residueFieldMap x').hom.comp (pointClosureResidueFieldEquiv (q.base x)
         (specializes_iff_mem_closure.mp (hx.map q.continuous))).toRingHom :=
     RingHom.ext fun r ↦ pointClosureResidueFieldEquiv_map_pointClosureStalkHom q hx r
-  show milnorKOneTransport (pointClosureResidueFieldEquiv x (specializes_iff_mem_closure.mp hx))
+  change milnorKOneTransport (pointClosureResidueFieldEquiv x (specializes_iff_mem_closure.mp hx))
       (milnorKTwoTameSymbol hdimE (milnorKTransport (q.residueFieldMap x).hom 2 α)) =
     milnorKTransport (q.residueFieldMap x').hom 1 (milnorKOneTransport
       (pointClosureResidueFieldEquiv (q.base x)

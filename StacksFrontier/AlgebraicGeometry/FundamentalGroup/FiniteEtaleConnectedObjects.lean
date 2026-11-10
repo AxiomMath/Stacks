@@ -75,7 +75,7 @@ def isInitial_finiteEtaleOver_of_isEmpty_left {X : Scheme.{u}} (A : FiniteEtaleO
 theorem isEmpty_left_of_isInitial_finiteEtaleOver {X : Scheme.{u}} (A : FiniteEtaleOver X)
     (h : IsInitial A) : IsEmpty A.left := by
   have h0 : IsEmpty (finiteEtaleOverEmpty X).left := by
-    show IsEmpty ↥(∅ : Scheme.{u})
+    change IsEmpty ↥(∅ : Scheme.{u})
     infer_instance
   let i : A ≅ finiteEtaleOverEmpty X :=
     h.uniqueUpToIso (isInitial_finiteEtaleOver_of_isEmpty_left (finiteEtaleOverEmpty X))

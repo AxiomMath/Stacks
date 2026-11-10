@@ -82,7 +82,7 @@ theorem isIso_specializationMap_of_smooth_of_isProper_unconditional (B : BigEtal
     SmoothBaseChange.flatReducedFibresBaseChange SmoothBaseChange.etaleLocalHigherBaseChange
     SmoothBaseChange.higherBaseChangePaste SmoothBaseChange.firstFailureNormalization
     SmoothBaseChange.affineCurveCohomologyVanishing
-    SmoothBaseChange.curveCohomologyAlgClosedInvariance AlgebraicGeometry.purityAtRegularLocalRings
+    SmoothBaseChange.curveCohomologyAlgClosedInvariance
     (fun D hD => Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne D hD)
     hX hS f F hFlc hFtors s t
 

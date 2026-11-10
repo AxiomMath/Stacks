@@ -2,10 +2,8 @@ module
 
 public import StacksFrontier.Homology.DerivedIndexing.Composite
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.IntegralRelativeLeray
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.SmallEtaleDerivedDirectImagePasting
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.SmallEtaleHigherBaseChangePasting
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.SmallEtaleDerivedDirectImagePasting
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.SmallEtaleHigherBaseChangePasting
 
 /-!
 # The relative Leray identification is the edge morphism of the composite

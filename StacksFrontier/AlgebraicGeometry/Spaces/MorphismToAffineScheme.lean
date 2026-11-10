@@ -93,7 +93,7 @@ lemma globalFunctionsChartRestriction_naturality (X : AlgebraicSpaces B S hS)
         globalFunctionsChartRestriction B S hS X V := by
   funext s
   let F := structurePresheaf B S hS X.1 ⋙ forget₂ CommRingCat RingCat
-  show F.map g.op (s.1 (op W)) = s.1 (op V)
+  change F.map g.op (s.1 (op W)) = s.1 (op V)
   have hs : Functor.sections (F ⋙ forget RingCat) s.1 := s.2
   exact hs g.op
 
@@ -122,13 +122,13 @@ lemma affineChartMap_appTop (X : AlgebraicSpaces B S hS) (T : BigFppfOver B S hS
       CommRingCat.ofHom ((globalFunctionsChartRestriction B S hS X V).comp φ) := by
   let U := (BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)
   let R := (BigFppfOver.toScheme B S hS).obj T
-  show Scheme.Hom.appTop
+  change Scheme.Hom.appTop
     (ΓSpec.adjunction.homEquiv U (op (CommRingCat.of Γ(R, ⊤)))
       (CommRingCat.ofHom ((globalFunctionsChartRestriction B S hS X V).comp φ)).op ≫
       (Scheme.isoSpec R).inv) = _
   rw [Scheme.Hom.comp_appTop, Stacks.RelativeSpec.isoSpec_inv_appTop,
     ΓSpec_adjunction_homEquiv_eq]
-  show (Scheme.ΓSpecIso Γ(R, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(R, ⊤)).hom ≫ _ = _
+  change (Scheme.ΓSpecIso Γ(R, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(R, ⊤)).hom ≫ _ = _
   rw [Iso.inv_hom_id_assoc]
 
 /-- A morphism of the underlying schemes of two objects of the big fppf site of `S`, read as a
@@ -419,7 +419,7 @@ lemma affineMapConstruction_chart (X : AlgebraicSpaces B S hS) (T : BigFppfOver 
   have hlocal : j ≫ vMap = i ≫ C.chartMapOver := by
     apply yoneda.map_injective
     rw [Functor.map_comp, Functor.map_comp, yoneda.map_preimage]
-    show yoneda.map j ≫ V.1.hom ≫ C.map.hom = yoneda.map i ≫ yoneda.map C.chartMapOver
+    change yoneda.map j ≫ V.1.hom ≫ C.map.hom = yoneda.map i ≫ yoneda.map C.chartMapOver
     rw [← Category.assoc, ← hp.w, Category.assoc]
     exact congrArg (yoneda.map i ≫ ·) C.factor
   have hi' : (BigFppfOver.toScheme B S hS).map i ≫ C.chartMapScheme =

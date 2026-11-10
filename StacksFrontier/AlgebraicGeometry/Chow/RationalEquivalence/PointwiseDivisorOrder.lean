@@ -300,7 +300,7 @@ theorem pointwiseDivisorDifferential_comp_pointwiseMilnorBoundary_of_forall (k :
         pointClosureOrdBoundaryTerm C p k ξ y.1 x x') = 0) :
     (pointwiseDivisorDifferential C p k).comp (pointwiseMilnorBoundary C p k) = 0 := by
   refine AddMonoidHom.ext fun ξ ↦ Subtype.ext (funext fun y ↦ ?_)
-  show (pointwiseDivisorDifferential C p k (pointwiseMilnorBoundary C p k ξ)).1 y = 0
+  change (pointwiseDivisorDifferential C p k (pointwiseMilnorBoundary C p k ξ)).1 y = 0
   refine (milnorKTheoryZeroAddEquiv (X.residueField y.1)).injective ?_
   rw [pointwiseDivisorDifferential_apply_eq_finsum, map_zero,
     finsum_congr fun x' ↦ pointClosureOrdHom_pointwiseMilnorBoundary_apply C p k ξ y.1 x',

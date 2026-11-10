@@ -95,14 +95,14 @@ theorem singleMapHomologicalComplex_inv_app_comp (M : A) :
     simp only [Functor.comp_obj, Functor.mapHomologicalComplex_obj_X, HomologicalComplex.comp_f,
       HomologicalComplex.singleMapHomologicalComplex_inv_app_self,
       HomologicalComplex.singleObjXSelf, Functor.mapHomologicalComplex_map_f, Functor.map_comp,
-      Category.assoc, Iso.map_inv_hom_id_assoc, Functor.mapHomologicalComplexCompIso_inv_app_f]
+      Category.assoc, Iso.inv_hom_id_map_assoc, Functor.mapHomologicalComplexCompIso_inv_app_f]
     have := e.inv.naturality
       (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0 M 0 rfl).inv
     simp only [Functor.comp_map] at this
     refine Eq.trans ?_ (congrArg (_ ≫ ·) this).symm
     rw [← Category.assoc, ← Category.assoc]
     congr 1
-    show ((HomologicalComplex.single C (ComplexShape.up ℤ) 0).map (e.inv.app M)).f 0 ≫ _ = _
+    change ((HomologicalComplex.single C (ComplexShape.up ℤ) 0).map (e.inv.app M)).f 0 ≫ _ = _
     rw [HomologicalComplex.single_map_f_self]
     simp [HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq]
   · simp [hn]
@@ -135,7 +135,7 @@ theorem mapSingleQhIso_inv_app_comp_unit (M : A) :
   congr 1
   rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc, ← Functor.map_comp_assoc]
   congr 2
-  show (HomotopyCategory.quotient C _).map
+  change (HomotopyCategory.quotient C _).map
       ((HomologicalComplex.singleMapHomologicalComplex H (ComplexShape.up ℤ) 0).inv.app M) ≫
       (HomotopyCategory.quotient C _).map ((Functor.mapHomologicalComplexCompIso e
         (ComplexShape.up ℤ)).inv.app ((CochainComplex.singleFunctor A 0).obj M)) =
@@ -206,7 +206,7 @@ theorem homologyFunctor_map_singleDerivedUnit_comp_derivedZeroNatIso (X : A) :
   simp only [Functor.mapIso_inv, Functor.mapIso_hom, Functor.comp_map, Iso.app_inv,
     Iso.app_hom] at e
   rw [reassoc_of% e, asIso_inv, NatIso.isIso_inv_app]
-  show (homologyFunctor B 0).map _ ≫ (singleUnitHomology w Rw α 0).app X ≫
+  change (homologyFunctor B 0).map _ ≫ (singleUnitHomology w Rw α 0).app X ≫
     inv ((singleUnitHomology w Rw α 0).app X) ≫ _ = _
   rw [IsIso.hom_inv_id_assoc, ← (homologyFunctor B 0).map_comp_assoc, Iso.inv_hom_id_app]
   simp
@@ -348,7 +348,8 @@ theorem singleDerivedPushforwardHomologyIso_comp {A B C : Scheme.{u}} (h : A ⟶
   simp only [Functor.comp_map, Functor.id_map] at hs
   simp only [Category.assoc] at hH
   rw [reassoc_of% hs] at hH
-  rw [← (Iso.cancel_iso_hom_left ((singleFunctorCompHomologyFunctorIso C.Modules 0).app _) _ _).mp hH]
+  rw [← (Iso.cancel_iso_hom_left
+    ((singleFunctorCompHomologyFunctorIso C.Modules 0).app _) _ _).mp hH]
   simp only [Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app]
   exact congrArg (_ ≫ ·) (congrArg (_ ≫ ·) (congrArg _ (Category.comp_id _).symm))
 

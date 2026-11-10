@@ -2,8 +2,7 @@ module
 
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.RestrictionLongExactSequence
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.CurveStatementsFilteredColimit
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.CurveStatementsFilteredColimit
 
 /-!
 # The four lemma for restriction on étale cohomology

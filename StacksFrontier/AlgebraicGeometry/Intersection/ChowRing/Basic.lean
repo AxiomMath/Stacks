@@ -26,7 +26,7 @@ commutative ring.
 
 * `Stacks.Intersection.ChowRing.chowMulFun`, `Stacks.Intersection.ChowRing.chowMul`: the
   intersection product `CH_r(X) × CH_s(X) ⟶ CH_m(X)`, `r + s = dim X + m`.
-* `Stacks.Intersection.ChowRing.ChowGrade`, `Stacks.Intersection.ChowRing.ChowRing`: the graded
+* `Stacks.Intersection.ChowRing.ChowGrade`, `Stacks.Intersection.ChowRing`: the graded
   pieces `CH^c(X)` and the Chow ring `CH^*(X)`, with its `DirectSum.GCommRing` structure.
 
 ## Main results
@@ -560,7 +560,7 @@ theorem chowMulFun_mk {n : ℕ} (hn : topologicalKrullDim X = (n : WithBot ℕ�
     (fun _ : Unit => β₀)).choose_spec
   set α₁ := (exists_rationallyEquivalent_forall_intersectProperly K sX hX α₀ _
     (fun _ : Unit => β₀)).choose with hα₁def
-  show QuotientAddGroup.mk' _ (mulCycle K sX hX m α₁.1 β₀.1) = _
+  change QuotientAddGroup.mk' _ (mulCycle K sX hX m α₁.1 β₀.1) = _
   obtain ⟨γ, hγ, hγβ⟩ :=
     exists_rationallyEquivalent_forall_intersectProperly K sX hX α _ (![β, β₀])
   have hγβ' : AlgebraicCycle.IntersectProperly γ.1 β.1 := hγβ 0
@@ -570,7 +570,7 @@ theorem chowMulFun_mk {n : ℕ} (hn : topologicalKrullDim X = (n : WithBot ℕ�
   have hβ₀β : RationallyEquivalent (fieldChowSituation K) sX s β₀ β :=
     (QuotientAddGroup.eq_iff_sub_mem).1 hβ₀b
   have hα₁γ : RationallyEquivalent (fieldChowSituation K) sX r α₁ γ := by
-    show α₁ - γ ∈ _
+    change α₁ - γ ∈ _
     have : α₁ - γ = (α₁ - α₀) + (α₀ - α) - (γ - α) := by abel
     rw [this]
     exact sub_mem (add_mem hα₁ hα₀α) hγ
@@ -960,7 +960,7 @@ instance : DirectSum.GCommRing (ChowGrade K sX n hX hn) where
 /-- **Stacks 0B0G: the Chow ring** `CH^*(X) = ⨁_c CH^c(X)` of a nonsingular projective variety
 `X` of dimension `n`, with the intersection product. It is a commutative ring with unit
 `[X] ∈ CH^0(X)`. -/
-abbrev ChowRing : Type u := DirectSum ℕ (ChowGrade K sX n hX hn)
+abbrev _root_.Stacks.Intersection.ChowRing : Type u := DirectSum ℕ (ChowGrade K sX n hX hn)
 
 end ChowRing
 

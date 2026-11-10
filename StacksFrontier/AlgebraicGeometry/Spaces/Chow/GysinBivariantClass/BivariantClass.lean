@@ -31,7 +31,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ModulePullbackSectionChart
 /-!
 # Stacks 0ERP: the Gysin map of a triple is a bivariant class of degree 1
 
-A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: axiom (3) of Stacks 0ERJ
+A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: axiom (3) of Stacks
+0ERJ
 for the cap operation `AlgebraicGeometry.Space.gysinBivariantCap` (from Stacks 0ERC on the test
 space and Stacks 0ER5 into the vanishing locus), and the bivariant class
 `AlgebraicGeometry.Space.exists_bivariantClassCanonical_gysin` of Stacks 0ERP.

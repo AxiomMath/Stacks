@@ -129,7 +129,7 @@ lemma trivializingFun_mem (hf : f ∈ 𝒮 d) (n : ℤ) {W : Opens (ProjectiveSp
   refine ⟨W, x.2, 𝟙 _, (-n).toNat * d, f ^ n.toNat, f ^ (-n).toNat, ?_,
     pow_toNat_mem 𝒮 hf _,
     fun y ↦ y.1.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem (hW y.2) _, fun y ↦ rfl⟩
-  show f ^ n.toNat ∈ integerGrading 𝒮 ((((-n).toNat * d : ℕ) : ℤ) + n * d)
+  change f ^ n.toNat ∈ integerGrading 𝒮 ((((-n).toNat * d : ℕ) : ℤ) + n * d)
   rw [show (((-n).toNat * d : ℕ) : ℤ) + n * d = ((n.toNat * d : ℕ) : ℤ) by
     have h := toNat_degree_add n d 0
     push_cast at h ⊢

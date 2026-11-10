@@ -57,9 +57,9 @@ theorem isLocallyConstant_smul_units (b : Ωˣ) :
   intro g₀
   refine ⟨(fun g : Gal(Ω/K) ↦ g₀⁻¹ * g) ⁻¹' {g : Gal(Ω/K) | g • b = b},
     (isOpen_stabilizer_units b).preimage (by fun_prop),
-    by simp only [Set.mem_preimage, Set.mem_setOf_eq, inv_mul_cancel, one_smul],
+    by simp only [Set.mem_preimage, Set.mem_ofPred_eq, inv_mul_cancel, one_smul],
     fun g hg ↦ ?_⟩
-  simp only [Set.mem_preimage, Set.mem_setOf_eq] at hg
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq] at hg
   calc g • b = (g₀ * (g₀⁻¹ * g)) • b := by rw [mul_inv_cancel_left]
     _ = g₀ • ((g₀⁻¹ * g) • b) := mul_smul _ _ _
     _ = g₀ • b := by rw [hg]
@@ -69,7 +69,7 @@ omit [IsGalois K Ω] in
 theorem smul_eq_of_mem_zpowers {ζ : Ωˣ} (g : Gal(Ω/K)) (hfix : g • ζ = ζ) {u : Ωˣ}
     (hu : u ∈ Subgroup.zpowers ζ) : g • u = u := by
   obtain ⟨n, rfl⟩ := hu
-  show g • ζ ^ n = ζ ^ n
+  change g • ζ ^ n = ζ ^ n
   rw [smul_zpow', hfix]
 
 /-- **The degree-two Kummer vanishing.** If `Ω` is separably closed, `p` is a prime invertible in

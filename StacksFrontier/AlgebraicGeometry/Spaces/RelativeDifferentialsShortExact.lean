@@ -116,7 +116,7 @@ theorem relativeDifferentialsMap_mono_of_formallySmoothAffineLocally (k : X' ⟶
     formallySmooth_stalkMap_of_formallySmoothAffineLocally hk x
   obtain ⟨e, -, hbridge⟩ := exists_relativeDifferentialsPullbackStalkEquiv k l x
   rw [AddCommGrpCat.mono_iff_injective]
-  show Function.Injective (Stacks.Sheafify.ModuleStalkTensor.stalkLinearMapOfHom
+  change Function.Injective (Stacks.Sheafify.ModuleStalkTensor.stalkLinearMapOfHom
     X'.sheaf.presheaf x
     (relativeDifferentialsMap k l (k ≫ l) (𝟙 Z') (Category.comp_id (k ≫ l)).symm).val)
   intro z₁ z₂ hz

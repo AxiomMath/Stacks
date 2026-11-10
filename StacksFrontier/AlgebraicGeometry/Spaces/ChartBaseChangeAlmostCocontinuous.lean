@@ -170,7 +170,7 @@ theorem exists_geometricFiber_chartOfEtaleSchemeHom (x : GeometricPoint B S hS F
       (chartOfEtaleSchemeHom B S hS U hT m hm) :=
     Over.homMk (ObjectProperty.homMk q) (by
       apply ObjectProperty.hom_ext
-      show q ≫ m ≫ B.inclusion.map ((SmallEtale.toOver B S hS F).obj U).hom = _
+      change q ≫ m ≫ B.inclusion.map ((SmallEtale.toOver B S hS F).obj U).hom = _
       rw [← Category.assoc, hq]
       exact congrArg B.inclusion.map (Over.w t.1))
   have hq' : q' ≫ (SmallEtale.toOver B S hS F).map
@@ -178,7 +178,7 @@ theorem exists_geometricFiber_chartOfEtaleSchemeHom (x : GeometricPoint B S hS F
     apply (BigFppfOver.toScheme B S hS).map_injective
     rwa [Functor.map_comp]
   refine ⟨⟨q', ?_⟩, Subtype.ext hq', rfl⟩
-  show U.1.hom.app (Opposite.op x.val.siteObject) (q' ≫ (SmallEtale.toOver B S hS F).map
+  change U.1.hom.app (Opposite.op x.val.siteObject) (q' ≫ (SmallEtale.toOver B S hS F).map
     (chartOfEtaleSchemeHomMap B S hS U hT m hm)) = x.val.value
   exact (congrArg (U.1.hom.app (Opposite.op x.val.siteObject)) hq').trans t.2
 
@@ -195,7 +195,7 @@ theorem exists_chartOfEtaleSchemeHom_hom {W U' : SmallEtale B S hS F} (a : W ⟶
       (SmallEtale.toOver B S hS F).obj W :=
     Over.homMk (ObjectProperty.homMk f) (by
       apply ObjectProperty.hom_ext
-      show f ≫ B.inclusion.map ((SmallEtale.toOver B S hS F).obj W).hom =
+      change f ≫ B.inclusion.map ((SmallEtale.toOver B S hS F).obj W).hom =
         m ≫ B.inclusion.map ((SmallEtale.toOver B S hS F).obj U).hom
       have ha := congrArg B.inclusion.map (Over.w ((SmallEtale.toOver B S hS F).map a))
       have hk := congrArg B.inclusion.map (Over.w ((SmallEtale.toOver B S hS F).map k))

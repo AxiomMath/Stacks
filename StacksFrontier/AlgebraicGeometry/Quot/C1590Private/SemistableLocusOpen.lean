@@ -127,7 +127,7 @@ theorem exists_isOpen_semistableFibreLocus_of_isAffine (hω : HasNodalRelativeDu
   let ρ : ∀ u' : T.obj U, (residueFieldValuedPoint U u').siteObject ⟶ U := fun u' =>
     (residueFieldValuedPoint U u').value
   have hQ : ∀ u' x, T.map (Q u').value x = T.map φ u' := fun u' x => by
-    show T.map φ ((T.obj U).fromSpecResidueField u' x) = _
+    change T.map φ ((T.obj U).fromSpecResidueField u' x) = _
     exact congrArg _ ((T.obj U).fromSpecResidueField_apply u' x)
   have hpt : ∀ u', Space.schemePoint B integerBase hZ G.base (Q u') = T.map φ u' := fun u' =>
     hQ u' _

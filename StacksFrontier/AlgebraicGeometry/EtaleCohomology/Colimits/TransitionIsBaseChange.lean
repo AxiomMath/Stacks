@@ -99,7 +99,7 @@ end AlgebraicGeometry.SmallEtale
 
 namespace Stacks.EtaleCohomology.TransitionBaseChange
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+variable {I : Type v} [Preorder I]
   {D : Iᵒᵖ ⥤ Scheme.{max u v}} {c : Cone D}
   {B : AlgebraicGeometry.BigEtaleSite.{max u v}}
   {hD : ∀ i, B.Contains (D.obj i)} {hX : B.Contains c.pt}
@@ -266,7 +266,6 @@ private theorem pullback_map_left_fst {C : Type*} [Category* C] [HasPullbacks C]
   exact pullback.lift_fst _ _ _
 
 include E in
-omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The projection onto the object based from is natural: base change of a morphism of the level
 `j`, followed by that projection, is the projection followed by the morphism. -/
 theorem fstProj_naturality (a : i ⟶ j) {Y Y' : E.system.C j} (φ : Y ⟶ Y') :
@@ -280,7 +279,6 @@ theorem fstProj_naturality (a : i ⟶ j) {Y Y' : E.system.C j} (φ : Y ⟶ Y') :
   exact h
 
 include E in
-omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **Two morphisms into a base change agree as soon as they agree on the projection onto the
 object based from.** The transition instance of
 `AlgebraicGeometry.SmallEtale.hom_ext_fst`. -/

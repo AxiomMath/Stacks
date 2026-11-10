@@ -107,14 +107,14 @@ def cotangentPreimage (S : Submodule (ResidueField (X.presheaf.stalk x))
     (CotangentSpace (X.presheaf.stalk x))) : Submodule k V where
   carrier := {v | cotangentOf f M x hβ V hvan v ∈ S}
   add_mem' {v w} hv hw := by
-    simp only [Set.mem_setOf_eq, cotangentOf_add] at hv hw ⊢
+    simp only [Set.mem_ofPred_eq, cotangentOf_add] at hv hw ⊢
     exact S.add_mem hv hw
   zero_mem' := by
     have h0 : cotangentOf f M x hβ V hvan 0 = 0 := by
       simpa using cotangentOf_add f M x hβ V hvan 0 0
-    simp only [Set.mem_setOf_eq, h0, S.zero_mem]
+    simp only [Set.mem_ofPred_eq, h0, S.zero_mem]
   smul_mem' a v hv := by
-    simp only [Set.mem_setOf_eq, cotangentOf_smul] at hv ⊢
+    simp only [Set.mem_ofPred_eq, cotangentOf_smul] at hv ⊢
     exact Submodule.smul_of_tower_mem S _ hv
 
 /-- A family of elements of `𝔪_x M_x` spans it iff the coefficients against a stalk basis span
@@ -185,7 +185,7 @@ theorem exists_submodule_linearIndependent_snoc
     have hv : v ∈ cotangentPreimage f M x hβ V hvan S := htop ▸ Submodule.mem_top
     exact hv
   · rw [Fin.comp_snoc]
-    exact linearIndependent_fin_snoc.mpr ⟨hs, hv⟩
+    exact linearIndependent_finSnoc.mpr ⟨hs, hv⟩
 
 /-- **Independent images span.** If `d` members of `V` have linearly independent images in the
 `d`-dimensional cotangent space, their germs span `𝔪_x M_x`. -/

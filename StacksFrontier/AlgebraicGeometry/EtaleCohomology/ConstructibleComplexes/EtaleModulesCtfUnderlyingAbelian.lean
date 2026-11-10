@@ -119,7 +119,7 @@ def forget₂SheafPullbackIso {S T : B.Scheme} (f : T ⟶ S)
     (SmallEtale.topology B T.obj T.property)
   asIso ((Stacks.EtaleCohomology.coefficientSheafPullbackTwoSquare (smallEtaleBaseChange B f)
     (SmallEtale.topology B S.obj S.property) (SmallEtale.topology B T.obj T.property)
-    (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).natTrans.app F)
+    (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).app F)
 
 /-- **Over a finite ring, the underlying abelian sheaf of a constructible flat sheaf of modules is
 constructible**, on the small étale site of Tag 021B: the stratification which makes the sheaf of

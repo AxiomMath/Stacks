@@ -90,8 +90,8 @@ the two inputs that required that hypothesis in 0G7E are Stacks 05VD and 0G6R, a
 used on this route.
 
 **Universes.** Both ringed topoi are taken at `RingedTopos.{u, u, u}`: the objects, morphisms
-and sections universes agree. This is the narrowing the tagged statement itself carries, and it is forced
-independently by `SheafOfModules.pullback` and by
+and sections universes agree. This is the narrowing the tagged statement itself carries, and it is
+forced independently by `SheafOfModules.pullback` and by
   `Stacks.SheafOfModules.SitePointStalkSheafify.kFlat_of_stalks`, whose site
 and module universes are identified. It is not chosen here.
 

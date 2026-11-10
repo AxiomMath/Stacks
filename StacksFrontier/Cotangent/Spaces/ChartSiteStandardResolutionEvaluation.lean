@@ -119,7 +119,7 @@ theorem cotangentChartComponentPresheafIso_comm (n : ℕ) :
       (chartSectionwiseCotangentComplex Λ B hS X hX).d (-(n + 1 : ℕ) : ℤ) (-(n : ℤ)) ≫
         (cotangentChartComponentPresheafIso Λ B hS X hX n).hom := by
   ext V x
-  show ((chartBaseChangeMooreComplex Λ B hS X hX).d (n + 1) n).app V
+  change ((chartBaseChangeMooreComplex Λ B hS X hX).d (n + 1) n).app V
       (cotangentToChart Λ B hS X hX V.unop ⦋n + 1⦌
         ((CommAlgCat.cotangentComplex_degreeIso.{u + 1, u + 1} (ULift.{u + 1} Λ)
           (liftedSectionsAlgebra Λ B hS X V.unop) (n + 1)).hom x)) =
@@ -212,7 +212,7 @@ theorem chartSectionwiseCotangentComplex_eq
     chartSectionwiseCotangentComplex Λ B hS X hX = sectionwiseCotangentComplexConstant φ := by
   refine congrArg (CategoryTheory.Sheaf.sectionwiseCotangentModuleComplex.{u + 1, u, u} ⊥) ?_
   refine CategoryTheory.Sheaf.hom_ext ?_
-  show Functor.whiskerRight (etaleConstantStructurePresheafMap Λ B hS X)
+  change Functor.whiskerRight (etaleConstantStructurePresheafMap Λ B hS X)
       AlgebraicGeometry.SheafOfModules.commRingCatULift.{u, u + 1} =
     Functor.whiskerRight (toSheafify (SmallEtale.topology B (Spec (CommRingCat.of Λ)) hS X)
         ((Functor.const _).obj (CommRingCat.of Λ)))

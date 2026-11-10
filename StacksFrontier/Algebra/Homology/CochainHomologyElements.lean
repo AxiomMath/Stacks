@@ -95,10 +95,10 @@ theorem cls_eq_zero_iff_zero (K : CochainComplex (ModuleCat.{v} R) ℕ) (z : K.X
 theorem homologyMap_cls {K K' : CochainComplex (ModuleCat.{v} R) ℕ} (φ : K ⟶ K') (p : ℕ)
     (z : K.X p) (hz : IsCocycle K z) (hz' : IsCocycle K' (φ.f p z)) :
     HomologicalComplex.homologyMap φ p (cls K z hz) = cls K' (φ.f p z) hz' := by
-  show (K.homologyπ p ≫ HomologicalComplex.homologyMap φ p) _ = _
+  change (K.homologyπ p ≫ HomologicalComplex.homologyMap φ p) _ = _
   rw [HomologicalComplex.homologyπ_naturality]
   refine congrArg (K'.homologyπ p) (eq_cyclesMk_of_iCycles_eq K' _ _ hz' ?_)
-  show (HomologicalComplex.cyclesMap φ p ≫ K'.iCycles p) _ = _
+  change (HomologicalComplex.cyclesMap φ p ≫ K'.iCycles p) _ = _
   rw [HomologicalComplex.cyclesMap_i]
   exact congrArg (φ.f p) (K.i_cyclesMk z (p + 1) (by simp) hz)
 

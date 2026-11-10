@@ -70,7 +70,7 @@ theorem idealPow_baseIdealSheaf_obj_of_isAffine (n : ℕ) (V : SmallEtale B (Spe
   rw [idealPowSubmodule_unit_eq_idealPow] at h
   change (Stacks.Sites.idealPow (baseIdealSheaf A ⟨X, hX⟩ I) (n + 1)).obj (op V) = _ at h
   refine h.trans ?_
-  show chartSectionIdeal B (Spec (.of A)) hA X hX (baseIdealSheaf A ⟨X, hX⟩ I) V ^ (n + 1) •
+  change chartSectionIdeal B (Spec (.of A)) hA X hX (baseIdealSheaf A ⟨X, hX⟩ I) V ^ (n + 1) •
     (⊤ : Ideal (chartRing B (Spec (.of A)) hA X hX V)) = _
   rw [smul_eq_mul, Ideal.mul_top]
   exact congrArg (· ^ (n + 1)) (baseIdealSheaf_obj_of_isAffine A ⟨X, hX⟩ I V hV)

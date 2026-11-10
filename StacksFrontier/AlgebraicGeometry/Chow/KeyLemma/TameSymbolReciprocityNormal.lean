@@ -62,7 +62,7 @@ theorem units_map_fractionRing_algEquiv_symm (f : (FractionRing A)ˣ) :
   have h : (FractionRing.algEquiv A (FractionRing A)).symm.toAlgHom = AlgHom.id A _ :=
     @Subsingleton.elim _ (IsLocalization.algHom_subsingleton (nonZeroDivisors A)) _ _
   refine Units.ext ?_
-  show (FractionRing.algEquiv A (FractionRing A)).symm.toAlgHom ((f : FractionRing A)) = _
+  change (FractionRing.algEquiv A (FractionRing A)).symm.toAlgHom ((f : FractionRing A)) = _
   rw [h]
   rfl
 

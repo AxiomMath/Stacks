@@ -176,7 +176,7 @@ theorem existsUnique_reductionNeighbourhood_quotientTruncations
     (fun k => ⟨k, (hJ k).le.trans (Ideal.pow_le_pow_right (Nat.le_succ k))⟩)
     hF' (quotientBase hS A hA L) (Iso.refl _) (quotientTruncation hS A hA L) (fun _ => Iso.refl _)
     (quotientTruncationι hS A hA L)
-    (fun n => by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]; rfl)
+    (fun n => by simp only [Iso.refl_hom]; rfl)
     (quotientTruncationSucc hS A hA L) (quotientTruncationSucc_comp_ι hS A hA L) x hx
   have hnat : ∀ {U V : BigFppfOver B S hS} (g : U ⟶ V) (a : F'.obj (op V)),
       e.hom.app (op U) (ULift.up (F'.map g.op a) : ULift.{u + 1} (F'.obj (op U))) =

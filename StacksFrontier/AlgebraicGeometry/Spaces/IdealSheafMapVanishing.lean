@@ -188,7 +188,7 @@ theorem subspaceInclusion_homOfLe_square {X : AlgebraicSpaces B S hS}
             (⟨Y.1.toFunctor, Y.2.1⟩ : AlgebraicSpaces B S hS)) ≫
         subspaceInclusion B S hS X Y :=
   ObjectProperty.hom_ext _ (by
-    show Z.1.ι ≫ 𝟙 X.obj = Subfunctor.homOfLe hZY ≫ Y.1.ι
+    change Z.1.ι ≫ 𝟙 X.obj = Subfunctor.homOfLe hZY ≫ Y.1.ι
     rw [Category.comp_id]
     exact (Subfunctor.homOfLe_ι hZY).symm)
 

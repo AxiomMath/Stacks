@@ -299,7 +299,7 @@ variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
 include hmos hf hA
 
-omit [A'.IsWeakSerreClass] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] [A'.IsWeakSerreClass] in
 /-- **Stacks 0D7U**, the assertion that derived pullback restricts. Let `f` be a flat morphism of
 ringed topoi and let `𝒜 ⊂ Mod(𝒪)`, `𝒜' ⊂ Mod(𝒪')` be weak Serre subcategories with
 `f^*𝒜' ⊂ 𝒜`. Then `Lf^*` carries `D⁺_{𝒜'}(𝒪')` into `D⁺_𝒜(𝒪)`. -/

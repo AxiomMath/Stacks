@@ -26,13 +26,13 @@ theorem subsingleton_of_span_eq_top {r : ℕ} (g : Fin r → M)
     choose c hc using fun i ↦
       (Submodule.mem_span_range_iff_exists_fun R).1 (hg ▸ Submodule.mem_top : v i ∈ _)
     obtain rfl : v = fun i ↦ ∑ j, c i j • g j := funext fun i ↦ (hc i).symm
-    show (ιMulti R n).toMultilinearMap (fun i ↦ ∑ j ∈ (Finset.univ : Finset (Fin r)),
+    change (ιMulti R n).toMultilinearMap (fun i ↦ ∑ j ∈ (Finset.univ : Finset (Fin r)),
       c i j • g j) = 0
     rw [MultilinearMap.map_sum_finset]
     refine Finset.sum_eq_zero fun σ _ ↦ ?_
     rw [MultilinearMap.map_smul_univ]
     obtain ⟨i, j, hne, hij⟩ := Fintype.exists_ne_map_eq_of_card_lt σ (by simpa using hrn)
-    show _ • (ιMulti R n) (fun k ↦ g (σ k)) = 0
+    change _ • (ιMulti R n) (fun k ↦ g (σ k)) = 0
     rw [(ιMulti R n).map_eq_zero_of_eq _ (by simp [hij]) hne, smul_zero]
   refine subsingleton_of_forall_eq 0 fun x ↦ ?_
   have hmem : x ∈ (⊤ : Submodule R (⋀[R]^n M)) := Submodule.mem_top

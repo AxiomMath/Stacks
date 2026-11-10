@@ -151,7 +151,7 @@ theorem isSeparated_of_mono {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : F
   refine presheaf_of_isIso B S hS _ ?_ (pullback.diagonal g) inferInstance
   intro X Y a ha
   have := ha
-  show AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map a)
+  change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map a)
   infer_instance
 
 end Space

@@ -235,9 +235,9 @@ theorem hasGlobalPresentation_sliceRestriction {n : SimplexCategory} (Q : S.comp
     {G : SheafOfModules.{u} (O.over ((componentFunctor S n).obj Q))}
     (hG : G.HasGlobalPresentation) : ((sliceRestriction S O Q).obj G).HasGlobalPresentation := by
   obtain ⟨P⟩ := nonempty_presentation_of_isTerminal Over.mkIdTerminal hG
-  haveI := (Stacks.SheafOfModules.RestrictRan.sheafAdjunction (sliceInclusion S Q)
+  have := (Stacks.SheafOfModules.RestrictRan.sheafAdjunction (sliceInclusion S Q)
     ((S.componentTopology n).over Q) (S.totalTopology.over _)
-      (O.over _)).leftAdjoint_preservesColimits
+      (O.over _)).leftAdjoint_preservesColimits.{u, u}
   exact SheafOfModules.Presentation.hasGlobalPresentation
     (P.map (sliceRestriction S O Q) (asIso (sliceRestrictionUnitHom S O Q)))
 

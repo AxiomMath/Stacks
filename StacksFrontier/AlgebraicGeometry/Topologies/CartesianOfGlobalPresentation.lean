@@ -141,7 +141,7 @@ theorem exists_finite_cover_of_mem_generated
   have he : Presieve.ofArrows (fun i : I => i.1.1) (fun i => i.1.2) = R := by
     funext V f
     exact propext ⟨fun ⟨i⟩ => i.2, fun hf => .mk (⟨⟨V, f⟩, hf⟩ : I)⟩
-  show Sieve.generate (Presieve.ofArrows _ _) ∈ J U
+  change Sieve.generate (Presieve.ofArrows _ _) ∈ J U
   exact he ▸ hR.2
 
 end Stacks.Sites

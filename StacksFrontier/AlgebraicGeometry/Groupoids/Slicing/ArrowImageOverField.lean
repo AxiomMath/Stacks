@@ -136,14 +136,14 @@ private theorem pullbackPostcomposeIso_hom_fst
     {X Y S T : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) (e : S ≅ T) :
     (pullbackPostcomposeIso f g e).hom ≫ pullback.fst (f ≫ e.hom) (g ≫ e.hom) =
       pullback.fst f g := by
-  simp [pullbackPostcomposeIso, pullback.map, pullback.lift_fst]
+  simp [pullbackPostcomposeIso, pullback.map]
 
 /-- `pullbackPostcomposeIso` is compatible with the second projections. -/
 private theorem pullbackPostcomposeIso_hom_snd
     {X Y S T : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) (e : S ≅ T) :
     (pullbackPostcomposeIso f g e).hom ≫ pullback.snd (f ≫ e.hom) (g ≫ e.hom) =
       pullback.snd f g := by
-  simp [pullbackPostcomposeIso, pullback.map, pullback.lift_snd]
+  simp [pullbackPostcomposeIso, pullback.map]
 
 /-- A morphism whose precomposition with a scheme-theoretically dominant morphism factors through
 `f` factors through the scheme-theoretic image of `f`. -/

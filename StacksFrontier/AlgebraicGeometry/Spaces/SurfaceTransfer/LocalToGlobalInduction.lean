@@ -53,6 +53,7 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_LocalToGlobalInduction :
@@ -128,8 +129,8 @@ theorem exists_lift_reflTransGen (hν : IsProper B S hS ν.hom)
     (hchain : Relation.ReflTransGen (IsProperNormalizedBlowUpOutside U) (Over.mk (𝟙 _)) Z) :
     ∃ (A : AlgebraicSpaces B S hS) (g : A ⟶ D.space), D.IsGoodStage ν g ∧
       (∀ k, IsProper B S hS (pullback.snd g.hom (D.toSpaceHom k).hom)) ∧ D.StageRep i g Z ∧
-        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hP : IsAlgebraicSpace B S hS P)
-          (c : P ⟶ D.space.obj), IsEtale B S hS c →
+        ∀ {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS P →
+          ∀ (c : P ⟶ D.space.obj), IsEtale B S hS c →
             (∀ p, pointsMap B S hS P c p ≠ D.point i) →
             ∃ e : pullback g.hom c ≅ pullback g₀.hom c,
               e.hom ≫ pullback.snd g₀.hom c = pullback.snd g.hom c := by

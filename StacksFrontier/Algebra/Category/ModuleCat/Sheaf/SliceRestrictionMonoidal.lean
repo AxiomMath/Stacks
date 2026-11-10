@@ -164,7 +164,8 @@ comparison **exists**; what is missing is the identification
 
 **Where that identification can be stated.** It can be stated outside
 `TensorSheafOverSlice.lean`, without recognising `whiskerTensorSheafIso` as an
-`iso_of_locallyBijective` by a defeq check: the equation `overTensorSheafIso 𝒪 h𝒪 U A B = (tensorSheafOver 𝒪 h𝒪 U A B).symm`
+`iso_of_locallyBijective` by a defeq check: the equation
+`overTensorSheafIso 𝒪 h𝒪 U A B = (tensorSheafOver 𝒪 h𝒪 U A B).symm`
 elaborates in a module that merely imports this file and `TensorSheafOverSlice.lean` — the two
 types agree with no coercion — and `whiskerTensorSheafIso_hom` together with
 `iso_ext_of_locallyBijective` reduce it there, with no option override, to the single equation

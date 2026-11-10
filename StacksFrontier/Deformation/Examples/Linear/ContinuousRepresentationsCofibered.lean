@@ -142,7 +142,7 @@ public theorem isContinuousRepresentation_of_hom
   simp only [Representation.asGroupHom_apply]
   apply (f : FiniteProjectiveRepresentation.Hom X Y).isBaseChange.algHom_ext
   intro x
-  show Y.action δ (f.map x) = Y.action γ (f.map x)
+  change Y.action δ (f.map x) = Y.action γ (f.map x)
   rw [← f.equivariant, ← f.equivariant]
   exact congrArg (fun value => f.map (value.val x)) he
 

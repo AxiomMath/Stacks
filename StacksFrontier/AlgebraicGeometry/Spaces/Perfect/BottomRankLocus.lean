@@ -386,7 +386,7 @@ the represented morphism `h_{T'} ⟶ h_T` with the morphism given by `x`. -/
 theorem sectionMap_map {T T' : BigFppfOver B S hS} (i : T' ⟶ T) (x : X.1.obj (Opposite.op T)) :
     sectionMap T' (X.1.map i.op x) = representedSpaceMap B S hS i ≫ sectionMap T x :=
   InducedCategory.hom_ext (yonedaEquiv.injective (by
-    show yonedaEquiv (yonedaEquiv.symm (X.1.map i.op x)) =
+    change yonedaEquiv (yonedaEquiv.symm (X.1.map i.op x)) =
       yonedaEquiv (yoneda.map i ≫ yonedaEquiv.symm x)
     rw [Equiv.apply_symm_apply, yonedaEquiv_comp, yonedaEquiv_yoneda_map,
       yonedaEquiv_symm_app_apply]
@@ -398,7 +398,7 @@ theorem sectionMap_app {Y : AlgebraicSpaces B S hS} (f : Y ⟶ X) {T : BigFppfOv
     (y : Y.1.obj (Opposite.op T)) :
     sectionMap T (f.hom.app _ y) = sectionMap T y ≫ f :=
   InducedCategory.hom_ext (yonedaEquiv.injective (by
-    show yonedaEquiv (yonedaEquiv.symm (f.hom.app _ y)) =
+    change yonedaEquiv (yonedaEquiv.symm (f.hom.app _ y)) =
       yonedaEquiv (yonedaEquiv.symm y ≫ f.hom)
     rw [Equiv.apply_symm_apply, yonedaEquiv_comp, Equiv.apply_symm_apply]))
 
@@ -434,7 +434,7 @@ theorem exists_lift_bottomRankSubfunctor_iff {Y : AlgebraicSpaces B S hS} (f : Y
   · intro h
     refine ⟨Subfunctor.lift f.hom ?_, Subfunctor.lift_ι _ _⟩
     rintro U _ ⟨y, rfl⟩
-    show IsUniversallyFreeBottom E a r (sectionMap U.unop (f.hom.app U y))
+    change IsUniversallyFreeBottom E a r (sectionMap U.unop (f.hom.app U y))
     rw [sectionMap_app]
     exact h.comp _
 

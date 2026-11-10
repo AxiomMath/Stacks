@@ -148,7 +148,7 @@ total degree `p + q`. -/
 theorem absLeftFiberEquiv_lof (p q : ℤ) (x : C.grading p ⊗[R] M.grading q) :
     absLeftFiberEquiv C M (DirectSum.lof R _ _ (p, q) x) =
       DirectSum.lof R _ _ (p + q) (DirectSum.lof R _ _ ⟨(p, q), rfl⟩ x) := by
-  show DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
+  change DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
       (DirectSum.of (fun pq : ℤ × ℤ ↦ C.grading pq.1 ⊗[R] M.grading pq.2) (p, q) x) = _
   exact DirectSum.sigmaFiberAddEquiv_of
     (β := fun pq : ℤ × ℤ ↦ C.grading pq.1 ⊗[R] M.grading pq.2)
@@ -192,8 +192,7 @@ theorem absLeftFiberMap_mem (n : ℤ) (x : absLeftComponents C M n) :
   | zero => simp
   | add x y hx hy => simpa using (absLeftGrading C M n).add_mem hx hy
   | of pq x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa using (absLeftGrading C M n).add_mem hx hy
     | tmul b a =>
       rw [← DirectSum.lof_eq_of (R := R), absLeftFiberMap_lof_tmul]
@@ -242,7 +241,7 @@ theorem absLeftGradingEquiv_coe (n : ℤ) (x : absLeftGrading C M n) :
         (DirectSum.lof R ℤ (absLeftComponents C M) n y) =
       DirectSum.lof R ℤ (fun i ↦ absLeftGrading C M i) n (absLeftComponentEquiv C M n y) by
     simpa [absLeftGradingEquiv, absLeftComponentEquiv_coe, absLeftFiberMap] using h
-  show (DirectSum.lmap (fun i ↦ (absLeftComponentEquiv C M i).toLinearMap))
+  change (DirectSum.lmap (fun i ↦ (absLeftComponentEquiv C M i).toLinearMap))
     (DirectSum.lof R ℤ (absLeftComponents C M) n y) = _
   simp
 
@@ -316,9 +315,8 @@ theorem absLeftDifferential_sq_tmul (p : ℤ) (b : C.grading p) (a : M.M) :
 theorem absLeftDifferential_sq :
     absLeftDifferential C M ∘ₗ absLeftDifferential C M = 0 := by
   apply LinearMap.ext; intro x
-  show absLeftDifferential C M (absLeftDifferential C M x) = 0
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  change absLeftDifferential C M (absLeftDifferential C M x) = 0
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, hx, hy]
   | tmul b a =>
     induction b using DirectSum.Decomposition.inductionOn C.grading with
@@ -342,7 +340,7 @@ attribute [local instance] absLeftRightScalarTower
 /-- `B` acts on a pure tensor through its second factor. -/
 theorem absLeft_smul_tmul (b : C.A) (x : M.M) (a : B.A) :
     MulOpposite.op a • (b ⊗ₜ[R] x) = b ⊗ₜ[R] (MulOpposite.op a • x) := by
-  show (TensorProduct.comm R M.M C.A)
+  change (TensorProduct.comm R M.M C.A)
     (MulOpposite.op a • (TensorProduct.comm R C.A M.M) (b ⊗ₜ[R] x)) = _
   simp [TensorProduct.smul_tmul']
 
@@ -797,7 +795,7 @@ theorem absLeftUnbalance_one_tmul (N : Bimodule A B) (c : C.A) (y : N.rightModul
   induction c using DirectSum.Decomposition.inductionOn C.grading with
   | zero =>
     have h : (((1 : A.A) ᵍ⊗ₜ[R] (0 : C.A)) : A.grading ᵍ⊗[R] C.grading) = 0 := by
-      show (GradedTensorProduct.of R A.grading C.grading) ((1 : A.A) ⊗ₜ[R] (0 : C.A)) = 0
+      change (GradedTensorProduct.of R A.grading C.grading) ((1 : A.A) ⊗ₜ[R] (0 : C.A)) = 0
       rw [TensorProduct.tmul_zero, map_zero]
     rw [h]
     simp
@@ -805,7 +803,7 @@ theorem absLeftUnbalance_one_tmul (N : Bimodule A B) (c : C.A) (y : N.rightModul
     have h : (((1 : A.A) ᵍ⊗ₜ[R] (c + c')) : A.grading ᵍ⊗[R] C.grading) =
         (((1 : A.A) ᵍ⊗ₜ[R] c) : A.grading ᵍ⊗[R] C.grading) +
           (((1 : A.A) ᵍ⊗ₜ[R] c') : A.grading ᵍ⊗[R] C.grading) := by
-      show (GradedTensorProduct.of R A.grading C.grading) ((1 : A.A) ⊗ₜ[R] (c + c')) = _
+      change (GradedTensorProduct.of R A.grading C.grading) ((1 : A.A) ⊗ₜ[R] (c + c')) = _
       rw [TensorProduct.tmul_add, map_add]
     rw [h, map_add, LinearMap.add_apply, hc, hc', TensorProduct.add_tmul]
   | @homogeneous j c =>
@@ -849,8 +847,7 @@ def absLeftBalanceInverse (N : Bimodule A B) :
     absoluteTensorLeft C N.rightModule ⟶ absLeftRelative A B C N where
   toFun := absLeftBalanceInverseLinear A B C N
   map_smul z b := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul c y =>
       rw [absLeft_smul_tmul, absLeftBalanceInverseLinear_tmul,
@@ -868,8 +865,7 @@ def absLeftBalanceInverse (N : Bimodule A B) :
     apply LinearMap.ext; intro z
     change absLeftBalanceInverseLinear A B C N (absLeftDifferential C N.rightModule z) =
       (absLeftRelative A B C N).d (absLeftBalanceInverseLinear A B C N z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c y =>
       induction c using DirectSum.Decomposition.inductionOn C.grading with

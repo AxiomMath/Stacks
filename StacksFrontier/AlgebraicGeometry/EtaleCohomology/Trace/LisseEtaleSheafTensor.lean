@@ -128,7 +128,7 @@ theorem lisseEtaleSheafBilinear_unit (U : (SmallEtale B X.1 X.2)ᵒᵖ)
     fun F c => ConcreteCategory.congr_hom
       (NatTrans.congr_app (congrArg (fun φ => φ.hom) (E.unitIso.hom_inv_id_app F)) U) c
   refine (Sheaf.denseExtensionBilinear_apply _ _ _ U _ _).trans ?_
-  show ((E.unit.app ((lisseSheaf B X x Λ).obj R)).hom.app U).hom
+  change ((E.unit.app ((lisseSheaf B X x Λ).obj R)).hom.app U).hom
     (lisseSheafBilinear B X x Λ μ hμ U
       (((E.unitInv.app ((lisseSheaf B X x Λ).obj P)).hom.app U).hom
         (((E.unit.app ((lisseSheaf B X x Λ).obj P)).hom.app U).hom a))

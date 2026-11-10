@@ -75,7 +75,7 @@ public theorem liftedEtaleNeighborhood_map
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion
   have wU := elements_comp_eq_lift_comp B f y U x
   have wV := elements_comp_eq_lift_comp B f y V x
-  show hpbU.lift U.2.1 x.1 wU ≫ B.inclusion.map
+  change hpbU.lift U.2.1 x.1 wU ≫ B.inclusion.map
       ((Over.pullback f).map ((SmallEtale.inclusion B Y.1 Y.property).map g.1)).left =
     hpb.lift V.2.1 x.1 wV
   apply hpb.hom_ext
@@ -219,7 +219,7 @@ public theorem forget_map_ι_etaleStalkForgetModuleIso_hom (S : Scheme.{u}) (hS 
       (etaleStalkForgetModuleIso B R S hS s G).hom =
     colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (moduleSheafUnderlyingTypeSheaf B R S hS G).obj) U := by
-  show _ ≫ (preservesColimitIso _ _).hom ≫ (IsColimit.coconePointUniqueUpToIso _ _).hom = _
+  change _ ≫ (preservesColimitIso _ _).hom ≫ (IsColimit.coconePointUniqueUpToIso _ _).hom = _
   rw [ι_preservesColimitIso_hom_assoc]
   exact IsColimit.comp_coconePointUniqueUpToIso_hom _ _ U
 
@@ -255,7 +255,7 @@ public theorem finitePushforwardStalkLiftHom_forget
   have h3 := ConcreteCategory.congr_hom (forget_map_ι_etaleStalkForgetModuleIso_hom B R Y.1
     Y.property y (((smallEtaleBaseChange B f).sheafPushforwardContinuous (ModuleCat.{u + 1} R)
       (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj G) U) t
-  show (etaleStalkForgetModuleIso B R X.1 X.property _ G).hom
+  change (etaleStalkForgetModuleIso B R X.1 X.property _ G).hom
       ((finitePushforwardStalkLiftHom B f y R G x).hom ((colimit.ι D U).hom t)) =
     finitePushforwardStalkComponent B f y (moduleSheafUnderlyingTypeSheaf B R X.1 X.property G) x
       ((etaleStalkForgetModuleIso B R Y.1 Y.property y _).hom ((colimit.ι D U).hom t))
@@ -333,7 +333,7 @@ public theorem liftedEtaleNeighborhood_neighborhoodFunctor_comap (x : GeometricL
       (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) =
         (θ.hom ≫ x.1) ≫ B.inclusion.map f := by
     rw [Category.assoc, w₂, Category.assoc]
-  show hpb.lift (θ.hom ≫ U.2.1) (θ.hom ≫ x.1) w₁ = θ.hom ≫ hpb.lift U.2.1 x.1 w₂
+  change hpb.lift (θ.hom ≫ U.2.1) (θ.hom ≫ x.1) w₁ = θ.hom ≫ hpb.lift U.2.1 x.1 w₂
   apply hpb.hom_ext
   · rw [IsPullback.lift_fst, Category.assoc, IsPullback.lift_fst]
   · rw [IsPullback.lift_snd, Category.assoc, IsPullback.lift_snd]

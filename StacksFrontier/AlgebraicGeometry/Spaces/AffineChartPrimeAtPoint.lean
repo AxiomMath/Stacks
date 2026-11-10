@@ -92,12 +92,12 @@ theorem exists_isAffineChart_prime_of_pointsMap_mem_range (X : AlgebraicSpaces B
       exact (mem_basicOpen_iff_not_mem_toSpecΓ s g).2 hg
     let w' := (pointsEquivScheme B S hS (openSub W O)).symm s'
     refine ⟨w', ?_⟩
-    show pointsMap B S hS (yoneda.obj (openSub W O)) (yoneda.map (openSubHom W O) ≫ b) w' = x
+    change pointsMap B S hS (yoneda.obj (openSub W O)) (yoneda.map (openSubHom W O) ≫ b) w' = x
     rw [pointsMap_comp_apply, ← hw]
     congr 1
     apply injective_pointsToScheme B S hS W
     rw [pointsToScheme_pointsMap_yoneda, toScheme_map_openSubHom]
-    show O.ι (pointsEquivScheme B S hS (openSub W O) w') = s
+    change O.ι (pointsEquivScheme B S hS (openSub W O) w') = s
     exact (congrArg O.ι (Equiv.apply_symm_apply _ s')).trans hs'
 
 end AlgebraicGeometry.Space

@@ -348,7 +348,9 @@ first clause — that `Φ` is an *equivalence* onto `D_QCoh(f_* 𝒪_X)` for `f`
 morphism of schemes, with no affineness needed, and is read on the whole derived categories
 rather than on the quasi-coherent ones, so it is stronger than the source's clause on both
 counts. -/
-@[stacks 0AVW "the factorisation of Rf_* through D(f_*𝒪_X); the equivalence clause is proved in isEquivalence_derivedQuasicoherentPushforwardOverRing (QuasicoherentEquivalenceOverPushforwardRing.lean), on the whole derived categories"]
+@[stacks 0AVW "the factorisation of Rf_* through D(f_*𝒪_X); the equivalence clause is \
+  proved in isEquivalence_derivedQuasicoherentPushforwardOverRing \
+  (QuasicoherentEquivalenceOverPushforwardRing.lean), on the whole derived categories"]
 def derivedPushforwardOverRingCompRestrictScalarsIso :
     AlgebraicGeometry.AnyModel.derivedPushforward.{w} f ≅
       derivedPushforwardOverRing.{w} f ⋙ (scalarRestriction f).mapDerivedCategory :=

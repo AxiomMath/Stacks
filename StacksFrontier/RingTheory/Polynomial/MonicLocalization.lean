@@ -89,9 +89,9 @@ theorem ringKrullDim_le_of_isLocalization_monicSubmonoid (R : Type*) [CommRing R
   have hf : StrictMono f := by
     intro p q hpq
     rw [Subtype.mk_lt_mk, ← PrimeSpectrum.asIdeal_lt_asIdeal]
-    rw [← PrimeSpectrum.asIdeal_lt_asIdeal, SetLike.lt_iff_le_and_exists] at hpq
+    rw [← PrimeSpectrum.asIdeal_lt_asIdeal, IsConcreteLE.lt_iff_le_and_exists] at hpq
     obtain ⟨hle, a, haq, hap⟩ := hpq
-    refine SetLike.lt_iff_le_and_exists.mpr ⟨Ideal.map_mono hle, C a,
+    refine IsConcreteLE.lt_iff_le_and_exists.mpr ⟨Ideal.map_mono hle, C a,
       Ideal.mem_map_of_mem _ haq, fun h => hap ?_⟩
     simpa using Ideal.mem_map_C_iff.mp h 0
   exact Order.krullDim_le_of_strictMono _

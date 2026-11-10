@@ -44,7 +44,7 @@ theorem exists_finiteEtaleGaloisCover_of_fullyFaithful {S T : Scheme.{u}} (q : T
     ((e.symm.conjAut.toMonoidHom).comp Z.action)
   have hequiv : ∀ g, F.map (act g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom := by
     intro g
-    show F.map (hff.preimage (e.symm.conjAut (Z.action g)).asIso.hom) ≫ e.hom = _
+    change F.map (hff.preimage (e.symm.conjAut (Z.action g)).asIso.hom) ≫ e.hom = _
     rw [hff.map_preimage, Iso.conjAut_hom, Iso.conj_apply_asHom]
     simp
   let aY : Gᵐᵒᵖ →* Aut (Over.mk Y.hom) := ((MorphismProperty.Over.forget _ ⊤ S).mapAut Y).comp act
@@ -69,7 +69,7 @@ theorem exists_finiteEtaleGaloisCover_of_fullyFaithful {S T : Scheme.{u}} (q : T
     have h2 : e.inv.left ≫ (F.map (act g).asIso.hom).left =
         (Z.action g).asIso.hom.left ≫ e.inv.left :=
       congrArg (fun φ ↦ φ.left) h1
-    show (Z.action g).asIso.hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q =
+    change (Z.action g).asIso.hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q =
       (e.inv.left ≫ pullback.fst Y.hom q) ≫ (act g).asIso.hom.left
     have h3 := finiteEtaleBaseChange_map_left_fst q (act g).asIso.hom
     calc (Z.action g).asIso.hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q

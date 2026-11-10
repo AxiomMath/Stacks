@@ -90,7 +90,7 @@ def toDerivedPlus : PlusInjective A ⥤ DerivedCategory.Plus A :=
 
 private lemma nonempty_fullyFaithful_toDerivedPlus :
     Nonempty ((toDerivedPlus A ⋙ DerivedCategory.Plus.ι).FullyFaithful) := by
-  show Nonempty (((plusInjective A).ι ⋙ DerivedCategory.Qh).FullyFaithful)
+  change Nonempty (((plusInjective A).ι ⋙ DerivedCategory.Qh).FullyFaithful)
   rw [Functor.FullyFaithful.nonempty_iff_map_bijective]
   rintro ⟨X, hX⟩ ⟨Y, hY⟩
   obtain ⟨I, rfl⟩ := HomotopyCategory.quotient_obj_surjective Y

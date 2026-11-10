@@ -86,9 +86,9 @@ The four differences are these, and none of them is about `ρ` or `hρ`.
   forces `d = (d' : ℕ)` (`Int.eq_ofNat_of_zero_le`). Reordering `∀ d p : ℕ` into
   `∀ d, _ → ∀ p` is free. This difference is a one-line restatement.
 
-So the first two are mathematics, owed by the fibre-module comparison and by [Stacks, Tag 0D2M]; the last
-two are restatements, and they belong on the far side of the first, where the scheme is already
-`X`. Nothing here is a comparison layer and no bridging lemma is introduced.
+So the first two are mathematics, owed by the fibre-module comparison and by [Stacks, Tag 0D2M];
+the last two are restatements, and they belong on the far side of the first, where the scheme is
+already `X`. Nothing here is a comparison layer and no bridging lemma is introduced.
 
 ## Implementation notes
 
@@ -211,7 +211,7 @@ theorem specConormalSectionsRingEquiv_algebraMap (c : ↥(quotRing I)) :
         (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv.symm := rfl
     refine (RingEquiv.symm_apply_eq _).2 ?_
     rw [AssociatedGraded.congrRingEquiv_gradeZeroRingHom, hs, RingEquiv.apply_symm_apply]
-  show conormalSectionsRingEquiv (quotImmersion R I) ⟨⊤, isAffineOpen_top (Spec R)⟩
+  change conormalSectionsRingEquiv (quotImmersion R I) ⟨⊤, isAffineOpen_top (Spec R)⟩
       (isClosedImmersion_resLE_top_quotImmersion R I)
       ((AssociatedGraded.congrRingEquiv (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv
         (map_chartIdeal_quotImmersion R I)).symm

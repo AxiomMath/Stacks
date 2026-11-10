@@ -192,8 +192,7 @@ theorem isFiniteLocallyFreeOfRank_one_sections (H : Modules.{u, u} B S hS F hF)
       map_smul' := fun b z => by
         funext i
         simp only [smul_eq_mul, RingHom.id_apply, Pi.mul_apply]
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul b' x =>
           rw [TensorProduct.smul_tmul', hE, hE, show (b • b') i = b i • b' i from rfl,
             ← TensorProduct.smul_tmul', LinearEquiv.map_smul, smul_eq_mul]

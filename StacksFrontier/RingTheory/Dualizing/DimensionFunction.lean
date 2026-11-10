@@ -97,7 +97,7 @@ theorem exists_isNormalizedDualizingComplex_shift_set_eq_singleton
   obtain ⟨m, hm⟩ := exists_isNormalizedDualizingComplex_shift.{u, v} L hL
   refine ⟨m, hm, ?_⟩
   ext n
-  show IsNormalizedDualizingComplex.{u, v} (L⟦-n⟧) ↔ n = m
+  change IsNormalizedDualizingComplex.{u, v} (L⟦-n⟧) ↔ n = m
   exact isNormalizedDualizingComplex_shift_iff_eq.{u, v} L m hm n
 
 /-- A shift of a dualizing complex over a Noetherian local ring is normalized exactly when the

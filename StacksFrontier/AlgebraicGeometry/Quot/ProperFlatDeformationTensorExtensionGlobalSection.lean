@@ -32,10 +32,6 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
--- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
--- exceeds the default typeclass budget.
-set_option synthInstance.maxHeartbeats 400000
-
 universe u
 
 namespace Deformation.AlgebraExtension
@@ -68,7 +64,11 @@ theorem ringOneHom_comp_map_comp_inclSheafSets_eq_of_incl (P : AlgebraExtension 
   hom_ext_sections fun U _ => h U
 
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`) exceeds the
+-- default typeclass budget
 set_option maxHeartbeats 800000 in
+-- elaborating the nested `sheafCompose`/`forget₂` sheaf-of-modules terms is heavy
 /-- **A global section of the kernel read in the middle term, sectionwise**: the image in the
 middle term of a global section `w` of the kernel is a global section `z` as soon as the inclusion
 of the value of `w` at `1` is the value of `z`, over every object. -/
@@ -86,7 +86,11 @@ theorem ringOneHom_comp_map_comp_inclSheafSets_eq_of_forall (P : AlgebraExtensio
   hom_ext_sections fun U p => h U p
 
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`) exceeds the
+-- default typeclass budget
 set_option maxHeartbeats 800000 in
+-- elaborating the nested `sheafCompose`/`forget₂` sheaf-of-modules terms is heavy
 /-- `Deformation.AlgebraExtension.ringOneHom_comp_map_comp_inclSheafSets_eq_of_forall`, with the
 middle term read through the forgetful functor of commutative rings. -/
 theorem ringOneHom_comp_map_comp_inclSheafSets_eq_of_forall_commRing
@@ -102,7 +106,11 @@ theorem ringOneHom_comp_map_comp_inclSheafSets_eq_of_forall_commRing
           w ≫ P.inclSheafSets = z :=
   hom_ext_sections fun U p => h U p
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`) exceeds the
+-- default typeclass budget
 set_option maxHeartbeats 800000 in
+-- elaborating the nested `sheafCompose`/`forget₂` sheaf-of-modules terms is heavy
 /-- The converse reading: if the image in the middle term of a global section `w` of the kernel
 is `z`, the inclusion of the value of `w` at `1` is the value of `z`, over every object. -/
 theorem incl_eq_of_ringOneHom_comp_map_comp_inclSheafSets_eq (P : AlgebraExtension a M)
@@ -134,17 +142,21 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits on the small étale site is slow
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_discrete_ProperFlatDeformationTensorExtensionGlobalSection
     (Z : AlgebraicSpaces B S hS) (J : Type u) :
     HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits on the small étale site is slow
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
-local instance (priority := high) hasLimitsOfShape_pEmpty_topos_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_pEmpty_topos_ProperFlatDeformationTensorExtensionGlobalSection
     (Z : AlgebraicSpaces B S hS) :
     HasLimitsOfShape (Discrete PEmpty.{1}) (smallEtaleRingedTopos B S hS Z).Topos :=
   haveI : HasLimitsOfShape (Discrete PEmpty.{1})
@@ -154,25 +166,31 @@ local instance (priority := high) hasLimitsOfShape_pEmpty_topos_ProperFlatDeform
     (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits on the small étale site is slow
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discreteF_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_discreteF_ProperFlatDeformationTensorExtensionGlobalSection
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits on the small étale site is slow
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete₀_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_discrete₀_ProperFlatDeformationTensorExtensionGlobalSection
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits on the small étale site is slow
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasDiscreteLimits_topos_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasDiscreteLimits_topos_ProperFlatDeformationTensorExtensionGlobalSection
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
     HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
   letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
@@ -186,12 +204,14 @@ local instance (priority := high) hasDiscreteLimits_topos_ProperFlatDeformationT
 
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
-local instance (priority := high) hasTerminal_topos_ProperFlatDeformationTensorExtensionGlobalSection
+local instance (priority := high)
+    hasTerminal_topos_ProperFlatDeformationTensorExtensionGlobalSection
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
     HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
   hasDiscreteLimits_topos_ProperFlatDeformationTensorExtensionGlobalSection B S hS F PEmpty
 
 set_option maxHeartbeats 800000 in
+-- the statement and the final `exact` elaborate large explicit sheaf-of-modules terms
 /-- **The section `1 ⊗ a` of the ideal of a deformation, on sheaves of sets**: in the extension
 `AlgebraicGeometry.Space.deformationTensorAlgebraExtension`, the unit section followed by `1 ⊗ a`
 and the inclusion of the ideal into `i⁻¹𝒪_{X'}` is the inverse image along the inclusion
@@ -283,6 +303,7 @@ variable {x} (r : (cartesianProperFlatProjection B S hS).obj x.point ⟶
   (hr : (cartesianProperFlatProjection B S hS).map x.arrow ≫ r = 𝟙 _)
 
 set_option maxHeartbeats 800000 in
+-- the statement and the `refine` chain elaborate large explicit sheaf-of-modules terms
 /-- **The section `1 ⊗ v` of `𝒪_{X₀} ⊗_k 𝔪_A`, on sheaves of sets**: in the extension
 `AlgebraicGeometry.Space.deformationTensorBaseExtension` of a deformation, on the space `X₀` it
 deforms, the unit section followed by `1 ⊗ v` (read through

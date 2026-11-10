@@ -265,7 +265,7 @@ public theorem imageSectionsToInverseImageCommRing_comp_fSharpCommRing :
         (inverseImageCommRing B S hS).obj S.zariskiCommRingSheaf => m.hom)
       (invCommRingIsoStructure B S hS).inv_hom_id
   rw [hθ]
-  show imageSectionsToInverseImage B S hS ≫ (invCommRingIsoStructure B S hS).inv.hom ≫
+  change imageSectionsToInverseImage B S hS ≫ (invCommRingIsoStructure B S hS).inv.hom ≫
     ((invCommRingIsoStructure B S hS).hom.hom ≫ (inverseImageStructureMap B S hS).hom) = _
   rw [← Category.assoc ((invCommRingIsoStructure B S hS).inv.hom), hid, Category.id_comp]
   exact imageSectionsToInverseImage_comp_inverseImageStructureMap B S hS

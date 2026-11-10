@@ -98,7 +98,7 @@ theorem ofArrows_mem_zariskiPrecoverage_iff {ι : Type*} {T : S.category}
       IsQcCovering (fun i => (f i : (Y i).obj → T.obj)) :=
     S.qcSite.isCovering_iff_isQcCovering (X := T) ⟨ι, Y, f⟩
   rw [hiff]
-  show _ ∧ _ ↔ _
+  change _ ∧ _ ↔ _
   rw [Presieve.map_ofArrows, Presieve.ofArrows_mem_comap_jointlySurjectivePrecoverage_iff,
     MorphismProperty.ofArrows_mem_precoverage]
   simp only [Functor.comp_obj, Functor.comp_map]

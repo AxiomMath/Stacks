@@ -159,10 +159,10 @@ theorem mono_comp_pullback_snd (α : A ⟶ Z) (β : W ⟶ Z) (r : R ⟶ A) (m : 
     refine pullback.hom_ext ?_ ?_
     · rw [Category.assoc, hgfst, ← Category.assoc, ha'fst, hc]
     · rw [Category.assoc, hgsnd, ha'snd]
-  haveI : Mono a' := by
+  have : Mono a' := by
     have : Mono (a' ≫ g) := by rw [hfac]; infer_instance
     exact mono_of_mono a' g
-  haveI : Mono (pullback.snd m β) := (IsPullback.of_hasPullback m β).mono_snd_of_mono
+  have : Mono (pullback.snd m β) := (IsPullback.of_hasPullback m β).mono_snd_of_mono
   rw [← ha'snd]
   infer_instance
 
@@ -195,10 +195,10 @@ def neighborhoodOverSource
     rw [U.map_point, hsnd]
   mono_residueField := by
     classical
-    haveI hamono : Mono (yoneda.map
+    have hamono : Mono (yoneda.map
         (residueFieldMap B S hS U.scheme U.point U.residueField_contained) ≫ U.toSpace) :=
       U.mono_residueField
-    haveI hmmono : Mono (yoneda.map
+    have hmmono : Mono (yoneda.map
         (residueFieldMap B S hS V.scheme V.point V.residueField_contained) ≫ V.toSpace) :=
       V.mono_residueField
     -- The residue-field point of `u`, pushed to the chart of `V`, has the same class as the
@@ -242,7 +242,7 @@ def neighborhoodOverSource
               (qu.class B S hS (pullback V.toSpace f.hom)) := rfl
         rw [h1, neighborhoodFieldPoint_class, hfst]
         rfl
-      haveI : Mono (yonedaEquiv.symm q0.value) := by
+      have : Mono (yonedaEquiv.symm q0.value) := by
         rw [show yonedaEquiv.symm q0.value =
             yoneda.map (residueFieldMap B S hS V.scheme V.point V.residueField_contained) from
           hq0mor]
@@ -421,11 +421,11 @@ theorem exists_diagram_of_neighborhood (hzbar : zbar.LiesOver z)
         (etaleLocalRing B S hS Xs.1 zbar : Type (u + 1)) _ _ algN ∧
       @IsHenselization (M.scheme.left.1.presheaf.stalk M.point : Type u) _ _ κM _ _
         (etaleLocalRing B S hS Ys.1 wbar : Type (u + 1)) _ _ algM := by
-  letI := isLocalRing_henselianLocalRing B S hS Xs.property hXd z
-  letI := isLocalRing_henselianLocalRing B S hS Ys.property hYd
+  let := isLocalRing_henselianLocalRing B S hS Xs.property hXd z
+  let := isLocalRing_henselianLocalRing B S hS Ys.property hYd
     (pointsMap B S hS Xs.1 g.hom z)
-  letI := isLocalRing_etaleLocalRing B S hS Xs.1 Xs.property zbar
-  letI := isLocalRing_etaleLocalRing B S hS Ys.1 Ys.property wbar
+  let := isLocalRing_etaleLocalRing B S hS Xs.1 Xs.property zbar
+  let := isLocalRing_etaleLocalRing B S hS Ys.1 Ys.property wbar
   obtain ⟨algN, algHX, _algResX, htowerX, hSHN, hHX⟩ :=
     exists_isHenselization_etaleLocalRing B S hS Xs.1 Xs.property z hXd N zbar hzbar κN
   obtain ⟨algM, algHY, _algResY, htowerY, hSHM, hHY⟩ :=
@@ -434,17 +434,17 @@ theorem exists_diagram_of_neighborhood (hzbar : zbar.LiesOver z)
   obtain ⟨φ, hφloc, hφsq⟩ :=
     exists_henselianLocalRingMap_of_neighborhood B S hS Xs.property Ys.property hXd hYd z
       (pointsMap B S hS Xs.1 g.hom z) N M k hk
-  letI := algN
-  letI := algM
-  letI := algHX
-  letI := algHY
-  letI := hSHN
-  letI := hSHM
-  letI := hHX
-  letI := hHY
+  let := algN
+  let := algM
+  let := algHX
+  let := algHY
+  let := hSHN
+  let := hSHM
+  let := hHX
+  let := hHY
   set θ := ((M.scheme.left.1.presheaf.stalkCongr (Inseparable.of_eq hk.symm)).hom ≫
     k.left.1.stalkMap N.point).hom with hθ
-  haveI : IsLocalHom θ := isLocalHom_stalkCongr_comp_stalkMap k.left.1 hk
+  have : IsLocalHom θ := isLocalHom_stalkCongr_comp_stalkMap k.left.1 hk
   obtain ⟨ψ, hψloc, hψsq⟩ :=
     IsLocalRing.IsHenselization.exists_isLocalHom_comp_of_isSepClosure θ
       (κA := κM) (κA' := κN)
@@ -563,11 +563,11 @@ theorem exists_diagram (hzbar : zbar.LiesOver z)
       @IsHenselization (M₀.scheme.left.1.presheaf.stalk M₀.point : Type u) _ _ (SeparableClosure
           (ResidueField (M₀.scheme.left.1.presheaf.stalk M₀.point : Type u))) _ _
         (etaleLocalRing B S hS Ys.1 wbar : Type (u + 1)) _ _ algM := by
-  letI := isLocalRing_henselianLocalRing B S hS Xs.property hXd z
-  letI := isLocalRing_henselianLocalRing B S hS Ys.property hYd
+  let := isLocalRing_henselianLocalRing B S hS Xs.property hXd z
+  let := isLocalRing_henselianLocalRing B S hS Ys.property hYd
     (pointsMap B S hS Xs.1 g.hom z)
-  letI := isLocalRing_etaleLocalRing B S hS Xs.1 Xs.property zbar
-  letI := isLocalRing_etaleLocalRing B S hS Ys.1 Ys.property wbar
+  let := isLocalRing_etaleLocalRing B S hS Xs.1 Xs.property zbar
+  let := isLocalRing_etaleLocalRing B S hS Ys.1 Ys.property wbar
   obtain ⟨M₀, -⟩ := exists_affine_elementaryEtaleNeighborhood' B S hS Ys.property hYd
     (pointsMap B S hS Xs.1 g.hom z)
   obtain ⟨N₀, k₀, hk₀, hsq, -⟩ := exists_elementaryEtaleNeighborhood_pullback_isLocalHom

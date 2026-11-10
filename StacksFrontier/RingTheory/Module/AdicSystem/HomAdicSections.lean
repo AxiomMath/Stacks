@@ -19,8 +19,8 @@ inverse limits**:
 `lim_n Hom_A(P, Q) / I ^ n Hom_A(P, Q) ≃ lim_n Hom_A(P, Q / I ^ n Q)`,
 
 `Stacks.AdicSystem.HomSections.bijective_homAdicComparisonSectionsMap`, the limits being taken as
-compatible sequences in the sense of `StacksFrontier.Algebra.Module.SuccTowerSections` and indexed so
-that the term at `n` is the quotient at level `n + 1`.
+compatible sequences in the sense of `StacksFrontier.Algebra.Module.SuccTowerSections` and indexed
+so that the term at `n` is the quotient at level `n + 1`.
 
 That is the form in which the chartwise half of Stacks 08B6 consumes the commutative algebra: on
 an affine étale chart of an algebraic space the sections of the internal Hom and of the adic
@@ -98,7 +98,7 @@ def postcompMk (k : ℕ) :
 theorem pow_smul_top_le_ker_postcompMk (k : ℕ) :
     I ^ k • (⊤ : Submodule A (P →ₗ[A] Q)) ≤ LinearMap.ker (postcompMk I P Q k) := by
   refine Submodule.smul_le.2 fun r hr f _ => LinearMap.mem_ker.2 (LinearMap.ext fun x => ?_)
-  show Submodule.Quotient.mk ((r • f) x) = 0
+  change Submodule.Quotient.mk ((r • f) x) = 0
   rw [LinearMap.smul_apply, Submodule.Quotient.mk_eq_zero]
   exact Submodule.smul_mem_smul hr Submodule.mem_top
 

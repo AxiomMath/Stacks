@@ -95,7 +95,7 @@ theorem comp_globalFunctionsSmul (s : globalFunctions' B S hS X.1)
     {N N' : Modules.{u, m} B S hS X.1 X.2} (φ : N ⟶ N') :
     φ ≫ globalFunctionsSmul B S hS s N' = globalFunctionsSmul B S hS s N ≫ φ := by
   ext U x
-  show globalFunctionsAt B S hS s U • φ.val.app U x =
+  change globalFunctionsAt B S hS s U • φ.val.app U x =
     φ.val.app U (globalFunctionsAt B S hS s U • x)
   exact (map_smul (φ.val.app U).hom _ x).symm
 
@@ -143,7 +143,7 @@ theorem globalFunctionsMap_val_of_isEtale (f : Y ⟶ X) (hf : IsEtale B S hS f.h
     (globalFunctionsMap_chart B S hS f s)
   rw [(globalFunctionsChartEquiv B S hS Y).2] at h
   refine h.trans ?_
-  show ((globalFunctionsChartEquiv B S hS X).val s).val
+  change ((globalFunctionsChartEquiv B S hS X).val s).val
       ((CostructuredArrow.map f.hom).op.obj ((SmallEtale.inclusion B S hS Y.1).op.obj U)) = _
   exact congrArg (fun t => t.val (op ((smallEtalePostcomp B S hS f hf).obj U.unop)))
     ((globalFunctionsChartEquiv B S hS X).2 s)
@@ -155,7 +155,7 @@ theorem etaleModulePullback_map_globalFunctionsSmul (f : Y ⟶ X) (hf : IsEtale 
       globalFunctionsSmul B S hS (globalFunctionsMap B S hS f s)
         ((etaleModulePullback B S hS f hf).obj N) := by
   ext U x
-  show (globalFunctionsSmul B S hS s N).val.app
+  change (globalFunctionsSmul B S hS s N).val.app
       (op ((smallEtalePostcomp B S hS f hf).obj U.unop)) x =
     globalFunctionsAt B S hS (globalFunctionsMap B S hS f s) U • x
   have hb : globalFunctionsAt B S hS (globalFunctionsMap B S hS f s) U =

@@ -63,10 +63,12 @@ variable {R}
 section. -/
 theorem exists_eq_globalSectionToEnd_app_of_iso {P : _root_.SheafOfModules.{w} R}
     (κ : P ≅ _root_.SheafOfModules.unit R) (t : P ⟶ P) :
-    ∃ f : (R.obj ⋙ forget RingCat).sections, t = (globalSectionToEnd.{v, u, w, w} R f).asHom.app P := by
+    ∃ f : (R.obj ⋙ forget RingCat).sections,
+      t = (globalSectionToEnd.{v, u, w, w} R f).asHom.app P := by
   refine ⟨unitEndSection R (κ.inv ≫ t ≫ κ.hom), ?_⟩
-  have hn := (globalSectionToEnd.{v, u, w, w} R (unitEndSection R (κ.inv ≫ t ≫ κ.hom))).asHom.naturality
-    κ.hom
+  have hn :=
+    (globalSectionToEnd.{v, u, w, w} R (unitEndSection R (κ.inv ≫ t ≫ κ.hom))).asHom.naturality
+      κ.hom
   simp only [Functor.id_map] at hn
   rw [← Iso.cancel_iso_hom_right _ _ κ, ← hn,
     ← eq_globalSectionToEnd_app_unit R (κ.inv ≫ t ≫ κ.hom)]
@@ -117,7 +119,7 @@ theorem jointlyEpi_map_of_generatingSections {D : Type*} [Category D]
   rw [← cancel_epi σ.π]
   apply (_root_.SheafOfModules.freeHomEquiv _).injective
   funext i
-  show (X.rightAdjoint.obj P).unitHomEquiv (_root_.SheafOfModules.ιFree i ≫ σ.π ≫ _) =
+  change (X.rightAdjoint.obj P).unitHomEquiv (_root_.SheafOfModules.ιFree i ≫ σ.π ≫ _) =
     (X.rightAdjoint.obj P).unitHomEquiv (_root_.SheafOfModules.ιFree i ≫ σ.π ≫ _)
   rw [← Category.assoc, hi, ← Category.assoc, hi, ← adj.homEquiv_naturality_left,
     ← adj.homEquiv_naturality_left, h i]

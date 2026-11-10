@@ -117,7 +117,7 @@ pushforward along the projection `Φ.fiber.Elements ⥤ C` from the category of 
 `Φ` with the colimit-module functor for the colimit cocone computing the stalk of `R`. -/
 noncomputable def presheafModuleFiber :
     PresheafOfModules.{w} R ⥤ ModuleCat.{w} ((Φ.presheafFiber (A := RingCat.{w})).obj R) :=
-  PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber) (𝟙 _) ⋙
+  PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber) (𝟙 _) ⋙
     PresheafOfModules.colimitFunctor (Φ.isColimitPresheafFiberCocone R)
 
 /-- The underlying abelian group of the stalk of a presheaf of modules is the stalk of the
@@ -156,7 +156,7 @@ lemma toPresheafModuleFiber_smul (M : PresheafOfModules.{w} R) (U : C) (x : Φ.f
   (PresheafOfModules.ModuleColimit.smul_eq (cR := Φ.presheafFiberCocone R)
     (hcR := Φ.isColimitPresheafFiberCocone R)
     (hcM := colimit.isColimit
-      ((PresheafOfModules.pushforward (F := CategoryOfElements.π Φ.fiber)
+      ((PresheafOfModules.pushforward (F := Functor.Elements.π Φ.fiber)
         (𝟙 _)).obj M).presheaf) (U := op (Φ.fiber.elementsMk U x)) r m).symm
 
 /-- The germ maps are compatible with restriction along a morphism of neighbourhoods. -/

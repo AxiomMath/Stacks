@@ -340,6 +340,9 @@ def sourceModulesEquivalenceExtensionByZeroUnitIso (U : C) :
   (Coyoneda.fullyFaithful.preimageIso
     (c ≪≫ (extensionByZeroUnitCorepresentation (topology.{w} J) R' U').symm)).unop.symm
 
+omit [f.IsCocontinuous J K] [K.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasSheafify J AddCommGrpCat.{w}] [HasWeakSheafify K AddCommGrpCat.{w}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify K AddCommGrpCat.{w}] in
 /-- The transport to the small model of `C` carries a direct sum of the `j_{U!} O_U` to a direct
 sum of the `j_{U'!} O_{U'}`. -/
 theorem isSumOfExtensionByZeroUnits_sourceModulesEquivalence_obj
@@ -369,6 +372,7 @@ private theorem additive_of_preservesBinaryCoproducts {A B : Type*} [Category* A
   have := preservesBinaryBiproducts_of_preservesBinaryCoproducts F
   exact Functor.additive_of_preservesBinaryBiproducts _
 
+omit [f.IsCocontinuous J K] [K.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The acyclicity statement of Stacks 07AC for modules, over essentially small sites.** For a
 continuous and cocontinuous functor `f : C ⥤ D` of essentially small sites satisfying the
 covering-pullback condition of Stacks 00WV, the lower-shriek functor

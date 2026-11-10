@@ -150,8 +150,7 @@ variable {M' M'' : Type*} [AddCommGroup M'] [Module R M'] [AddCommGroup M''] [Mo
 theorem map_id_apply (f : M →ₗ[R] M') (z : N ⊗[R] M) :
     TensorProduct.AlgebraTensorModule.map (LinearMap.id : N →ₗ[S] N) f z
       = LinearMap.lTensor N f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul n m => rfl
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -182,8 +181,7 @@ theorem mem_range_map_subtype_of_le {A B : Submodule R M} (h : A ≤ B) {z : N �
     z ∈ LinearMap.range
       (TensorProduct.AlgebraTensorModule.map (LinearMap.id : N →ₗ[S] N) B.subtype) := by
   obtain ⟨w, rfl⟩ := hz
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul n a => exact ⟨n ⊗ₜ ⟨(a : M), h a.2⟩, rfl⟩
   | add u v hu hv =>
       obtain ⟨u', hu'⟩ := hu
@@ -195,8 +193,7 @@ theorem mem_range_map_subtype_of_le {A B : Submodule R M} (h : A ≤ B) {z : N �
 theorem exists_fg_mem_range (z : N ⊗[R] M) :
     ∃ M₀ : Submodule R M, M₀.FG ∧ z ∈ LinearMap.range
       (TensorProduct.AlgebraTensorModule.map (LinearMap.id : N →ₗ[S] N) M₀.subtype) := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, Submodule.fg_bot, zero_mem _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul n m => exact ⟨Submodule.span R {m}, Submodule.fg_span_singleton m,
       ⟨n ⊗ₜ ⟨m, Submodule.mem_span_singleton_self m⟩, rfl⟩⟩
   | add a b ha hb =>

@@ -103,7 +103,7 @@ theorem torIndependent_of_isEffectiveCartierDivisor_ker {S X D : Scheme.{u}} (g 
     refine isRegular_iff_mem_nonZeroDivisors.mpr
       (Stacks.Divisors.mem_nonZeroDivisors_of_mem_span_singleton
         (isRegular_iff_mem_nonZeroDivisors.mp hb) ?_)
-    show b ∈ Ideal.span {(g.stalkMap x).hom a}
+    change b ∈ Ideal.span {(g.stalkMap x).hom a}
     rw [← hspan, hDb]
     exact Ideal.mem_span_singleton_self b
   have htor := (Koszul.torIndependent_of_isKoszulRegular_map

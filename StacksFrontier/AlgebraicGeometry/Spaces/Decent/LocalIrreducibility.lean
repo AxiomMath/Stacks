@@ -199,7 +199,7 @@ theorem exists_elementaryEtaleNeighborhood_componentsThrough_equiv
       toBase := O.ι ≫ V.toBase
       map_point := V.map_point }
   have hV' : V'.IsElementary := by
-    show IsIso ((U.scheme.left.1.residueFieldCongr V'.map_point).inv ≫
+    change IsIso ((U.scheme.left.1.residueFieldCongr V'.map_point).inv ≫
       (O.ι ≫ V.toBase).residueFieldMap p)
     rw [Scheme.residueFieldMap_comp]
     have hv : IsIso (V.toBase.residueFieldMap (O.ι p)) :=

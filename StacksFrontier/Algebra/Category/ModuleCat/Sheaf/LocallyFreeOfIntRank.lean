@@ -65,7 +65,7 @@ theorem isFiniteLocallyFreeOfIntRank_of_coversTop {ι : Type u₁} {V : ι → C
   ⟨{ I := ι, X := V, coversTop := hV
      generators k := _root_.SheafOfModules.GeneratingSections.ofIsoFree (e k).choose_spec.2.some },
     ⟨fun k => by
-      show IsIso (_root_.SheafOfModules.GeneratingSections.ofIsoFree _).π
+      change IsIso (_root_.SheafOfModules.GeneratingSections.ofIsoFree _).π
       rw [_root_.SheafOfModules.GeneratingSections.ofIsoFree_π]
       exact Iso.isIso_hom _⟩,
     fun k => ⟨(e k).choose, (e k).choose_spec.1, ⟨Equiv.ulift⟩⟩⟩

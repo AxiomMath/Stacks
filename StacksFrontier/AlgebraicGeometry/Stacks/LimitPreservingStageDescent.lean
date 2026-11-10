@@ -397,7 +397,7 @@ private lemma splitFiber_eq_of_descentEq (h : DescentEq p D c) (i : I)
     (Functor.pullbackFiberProj a.obj a.hom (c.π.app i)) inferInstance _ _
     hvert hvert' key
   refine ⟨k, s, Functor.SplitFiber.toFiberHom_injective ?_⟩
-  show Functor.SplitFiber.restrictHom (D.map s) (Functor.SplitFiber.toFiberHom f) =
+  change Functor.SplitFiber.restrictHom (D.map s) (Functor.SplitFiber.toFiberHom f) =
     Functor.SplitFiber.restrictHom (D.map s) (Functor.SplitFiber.toFiberHom g)
   refine Functor.fiber_hom_ext_of_cartesian (D.map s ≫ b.hom)
     (Functor.IsPreFibered.pullbackMap b.obj.2 (D.map s ≫ b.hom))
@@ -493,7 +493,7 @@ private lemma splitFiber_full_of_descentHom (h : DescentHom p D c) (i : I)
         ((Functor.SplitFiber.restrict p (D.map s)).obj z) =
       (Functor.SplitFiber.restrict p (c.π.app i)).obj z := by
     intro z
-    show (⟨z.base, z.obj, c.π.app k ≫ D.map s ≫ z.hom⟩ : p.SplitFiber c.pt) =
+    change (⟨z.base, z.obj, c.π.app k ≫ D.map s ≫ z.hom⟩ : p.SplitFiber c.pt) =
       ⟨z.base, z.obj, c.π.app i ≫ z.hom⟩
     rw [hf]
   let : p.IsStronglyCartesian (D.map s) dx :=
@@ -565,7 +565,7 @@ private lemma splitFiber_full_of_descentHom (h : DescentHom p D c) (i : I)
         Functor.IsPreFibered.pullbackMap b.obj.2 (D.map s ≫ b.hom) =
       Functor.Fiber.fiberInclusion.map u.inv ≫ ψ ≫ dy ≫
         Functor.IsPreFibered.pullbackMap b.obj.2 b.hom := by
-    show (Functor.Fiber.fiberInclusion.map u.inv ≫ ψ ≫
+    change (Functor.Fiber.fiberInclusion.map u.inv ≫ ψ ≫
         Functor.Fiber.fiberInclusion.map v.hom) ≫
         Functor.IsPreFibered.pullbackMap b.obj.2 (D.map s ≫ b.hom) = _
     rw [Category.assoc, Category.assoc, hvfac]

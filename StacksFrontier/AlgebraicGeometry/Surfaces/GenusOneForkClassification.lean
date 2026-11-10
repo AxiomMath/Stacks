@@ -115,7 +115,10 @@ public theorem isGenusOneConfiguration_of_three_le_neighborCount (T : NumericalT
 /-- **Stacks Project, Tag 0C8T** for a numerical type with at least five components one of
 which meets three or more others: it is minimal of genus one exactly when it is one of the forks
 and stars on the list, cases (22), (23), (24), (29), (30), (31), (32), (33) and (34). -/
-@[stacks 0C8T "the classification when some component meets three or more others and there are at least five of them: cases (22), (23) and (24) for five components, the unbounded fork families (29), (30) and (31) for six or more, and the exceptional configurations (32), (33) and (34) on seven, eight and nine components"]
+@[stacks 0C8T "the classification when some component meets three or more others \
+and there are at least five of them: cases (22), (23) and (24) for five components, the unbounded \
+fork families (29), (30) and (31) for six or more, and the exceptional configurations (32), (33) \
+and (34) on seven, eight and nine components"]
 public theorem isMinimal_and_genus_eq_one_iff_of_three_le_neighborCount (T : NumericalType)
     (hn : 5 ≤ T.componentCount) (i₀ : Fin T.componentCount) (hdeg : 3 ≤ neighborCount T i₀) :
     (IsMinimal T ∧ genus T = 1) ↔ IsGenusOneConfiguration T :=
@@ -145,7 +148,8 @@ public theorem isMinimal_and_genus_eq_one_iff_of_five_le_componentCount (T : Num
 one of the thirty-four configurations of the list: the single component of genus one, case (1);
 the twenty-six exceptional coefficient tables on two to nine components, cases (2)-(24) and
 (32)-(34); and the seven unbounded families on six or more, cases (25)-(31). -/
-@[stacks 0C8T "the classification: a numerical type is minimal of genus one exactly when it is one of the thirty-four configurations listed, cases (1)-(34)"]
+@[stacks 0C8T "the classification: a numerical type is minimal of genus one exactly \
+when it is one of the thirty-four configurations listed, cases (1)-(34)"]
 public theorem isMinimal_and_genus_eq_one_iff (T : NumericalType) :
     (IsMinimal T ∧ genus T = 1) ↔ IsGenusOneConfiguration T := by
   obtain h | h | h | h | h : T.componentCount = 1 ∨ T.componentCount = 2 ∨

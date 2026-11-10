@@ -138,23 +138,23 @@ private theorem representativeFiberDimension_eq_of_etaleSquare
       MorphismOfGerms.compRepresentative, morphismRestrict_ι, Category.assoc]
   let x' : W.toScheme := ⟨U'.point, hxW⟩
   have hqpoint : q x' = (⟨U.point, H.mem_source⟩ : H.source.toScheme) := by
-    show q₀ (U'.scheme.homOfLE hWG ⟨U'.point, hxW⟩) = _
+    change q₀ (U'.scheme.homOfLE hWG ⟨U'.point, hxW⟩) = _
     rw [Scheme.homOfLE_apply' hWG U'.point hxW]
     apply Subtype.ext
-    show H.source.ι ((A.hom ∣_ H.source)
+    change H.source.ι ((A.hom ∣_ H.source)
       ((A.source.ι.isoImage _).inv ⟨U'.point, _⟩)) = U.point
     rw [← A.map_point, ← Scheme.Hom.comp_apply, morphismRestrict_ι]
-    show ((A.source.ι.isoImage _).inv ≫ (A.hom ⁻¹ᵁ H.source).ι ≫ A.hom) ⟨U'.point, _⟩ = _
+    change ((A.source.ι.isoImage _).inv ≫ (A.hom ⁻¹ᵁ H.source).ι ≫ A.hom) ⟨U'.point, _⟩ = _
     rw [← Category.assoc, Scheme.Opens.isoImage_ι_inv_ι]
-    show A.hom (U'.scheme.homOfLE _ ⟨U'.point, _⟩) = A.hom ⟨U'.point, A.mem_source⟩
+    change A.hom (U'.scheme.homOfLE _ ⟨U'.point, _⟩) = A.hom ⟨U'.point, A.mem_source⟩
     apply congrArg (fun p : A.source.toScheme ↦ A.hom p)
     apply Subtype.ext
     simp
   have hspoint : s x' = (⟨U'.point, H'.mem_source⟩ : H'.source.toScheme) := by
-    show s₀ (U'.scheme.homOfLE hWF ⟨U'.point, hxW⟩) = _
+    change s₀ (U'.scheme.homOfLE hWF ⟨U'.point, hxW⟩) = _
     rw [Scheme.homOfLE_apply' hWF U'.point hxW]
     apply Subtype.ext
-    show ((H'.source.ι.isoImage D).inv ≫ D.ι ≫ H'.source.ι) ⟨U'.point, _⟩ = U'.point
+    change ((H'.source.ι.isoImage D).inv ≫ D.ι ≫ H'.source.ι) ⟨U'.point, _⟩ = U'.point
     rw [Scheme.Hom.isoImage_inv_ι]
     rfl
   calc

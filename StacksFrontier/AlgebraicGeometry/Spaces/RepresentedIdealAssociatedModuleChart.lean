@@ -38,8 +38,8 @@ inverse-image sheaf of ideals appearing there with the defining ideal:
   functions.
 
 **The route recorded in the "What is not proved" section of
-`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleSchemeComparison.lean` is not the one taken.**
-That section proposes the base change of `ε^*` along an étale morphism
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleSchemeComparison.lean` is not the one
+taken.** That section proposes the base change of `ε^*` along an étale morphism
 (`AlgebraicGeometry.Space.representedAssociatedModuleEtalePullbackIso`), flat base change for a
 sheaf of ideals and Descent 03DX (2).  None of the three is used: the passage to an arbitrary
 étale chart is naturality in the *module* of the Stacks 03DS identification, which is where

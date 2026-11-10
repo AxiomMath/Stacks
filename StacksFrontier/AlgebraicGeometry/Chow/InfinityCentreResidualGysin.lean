@@ -466,7 +466,7 @@ theorem gysinHomomorphismOfInvertible_eq_of_eq_off_zeroScheme
         by_contra hne
         exact ht (support_properPushforward_subset C _ p D.subschemeι rfl (k + 1) _ hne)
       rw [h0]
-      show α.1 t - β.1 t = 0
+      change α.1 t - β.1 t = 0
       rw [hαβ t ht, sub_self]
   rw [← sub_eq_zero, ← map_sub, hδ]
   exact gysinHomomorphismOfInvertible_properPushforward_zeroSchemeι_eq_zero C p k L s htriv _
@@ -521,7 +521,7 @@ theorem closedSubschemeCycleCoeff_residualZeroSchemeAtInfinity (k : ℤ)
         closedSubschemeCycleCoeff C (blowupAtInfinityToBase ℐZ ≫ sX)
           (blowupAtInfinityComap iY ℐZ ℐ' hℐ').ker.subschemeι k
           ((strictTransformComplAtInfinity ℐZ).ι.base x) := by
-    show (cycleAssociatedToClosedSubscheme C
+    change (cycleAssociatedToClosedSubscheme C
       ((strictTransformComplAtInfinity ℐZ).ι ≫ blowupAtInfinityToBase ℐZ ≫ sX)
       (strictTransformToResidualZeroScheme iY h ℐ' hℐ' ≫
         (residualZeroSchemeAtInfinity h).subschemeι) k).1 x = _
@@ -529,7 +529,7 @@ theorem closedSubschemeCycleCoeff_residualZeroSchemeAtInfinity (k : ℤ)
         (strictTransformComplAtInfinityComap iY ℐZ ℐ' hℐ')
         (strictTransformToResidualZeroScheme_subschemeι iY h ℐ' hℐ') k,
       cycleAssociatedToClosedSubscheme_ker]
-    show closedSubschemeCycleCoeff C
+    change closedSubschemeCycleCoeff C
       ((strictTransformComplAtInfinity ℐZ).ι ≫ blowupAtInfinityToBase ℐZ ≫ sX)
       (strictTransformComplAtInfinityComap iY ℐZ ℐ' hℐ').ker.subschemeι k x = _
     rw [closedSubschemeCycleCoeff_congr C _
@@ -598,7 +598,7 @@ theorem gysinSystemOfInvertible_lineInfinityModule_residualZeroSchemeAtInfinity 
             (k + 1))).1 a := by
     intro a ha
     rw [fundamentalCycle, fundamentalCycle, properPushforward_cycleAssociatedToClosedSubscheme_id]
-    show closedSubschemeCycleCoeff C _ (𝟙 _) (k + 1) a =
+    change closedSubschemeCycleCoeff C _ (𝟙 _) (k + 1) a =
       closedSubschemeCycleCoeff C _ (strictTransformToResidualZeroScheme iY h ℐ' hℐ') (k + 1) a
     rw [← closedSubschemeCycleCoeff_comp_isClosedImmersion C _ _
         (residualZeroSchemeAtInfinity h).subschemeι rfl,
@@ -628,7 +628,7 @@ theorem gysinSystemOfInvertible_lineInfinityModule_residualZeroSchemeAtInfinity 
       (residualZeroSchemeAtInfinity h).subschemeι ≫
         (strictTransformComplAtInfinity ℐZ).ι ≫ blowupAtInfinityToBase ℐZ ≫ sX) (k + 1))
   simp only [gysinSystemOfInvertible_onChow_eq_gysinChowOfInvertible] at h02TA ⊢
-  show gysinHomomorphismOfInvertible C _ k _ _ (fundamentalCycle C _ (k + 1)) = _
+  change gysinHomomorphismOfInvertible C _ k _ _ (fundamentalCycle C _ (k + 1)) = _
   rw [gysinHomomorphismOfInvertible_eq_of_eq_off_zeroScheme C _ k _ _
     (isTrivial_lineInfinityModule _) _ _ hoff]
   exact h02TA.trans (congrArg _ h02TB)

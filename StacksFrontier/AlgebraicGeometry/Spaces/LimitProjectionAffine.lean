@@ -67,7 +67,7 @@ theorem eq_zero_of_forall_mem_sieve {T : BigFppfOver B S hS} {R : Sieve T}
   refine (BigFppfSite.isSheaf_globalSections B _ hR').isSeparatedFor.ext
     (t₁ := a) (t₂ := (0 : Γ(B.inclusion.obj T.left, ⊤))) fun Y g hg => ?_
   have := h (Over.homMk g : Over.mk (g ≫ T.hom) ⟶ T) ((Sieve.overEquiv_iff R g).1 hg)
-  show (B.inclusion.map g).appTop a = (B.inclusion.map g).appTop 0
+  change (B.inclusion.map g).appTop a = (B.inclusion.map g).appTop 0
   rw [map_zero]
   exact this
 

@@ -170,7 +170,7 @@ theorem eq_of_comp_toW_eq (hT : IsClosed T) (hX : IsAlgebraicSpace B S hS X)
   have key : (completionOverFunctor B S hS (pointsMap B S hS X e ⁻¹' T)).map a' =
       (completionOverFunctor B S hS (pointsMap B S hS X e ⁻¹' T)).map b' := by
     apply Over.OverMorphism.ext
-    show completionOverMap B S hS (pointsMap B S hS X e ⁻¹' T) a' =
+    change completionOverMap B S hS (pointsMap B S hS X e ⁻¹' T) a' =
       completionOverMap B S hS (pointsMap B S hS X e ⁻¹' T) b'
     have := mono_completionSheafInclusion B S hS (Over.mk M.hom).left
       (pointsMap B S hS (Over.mk M.hom).left (Over.mk M.hom).hom ⁻¹' (pointsMap B S hS X e ⁻¹' T))
@@ -178,7 +178,7 @@ theorem eq_of_comp_toW_eq (hT : IsClosed T) (hX : IsAlgebraicSpace B S hS X)
       (pointsMap B S hS (Over.mk M.hom).left (Over.mk M.hom).hom ⁻¹'
         (pointsMap B S hS X e ⁻¹' T)))).1
     rw [completionOverMap_comp_inclusion, completionOverMap_comp_inclusion]
-    show completionSheafInclusion B S hS P.left (pointsMap B S hS P.left
+    change completionSheafInclusion B S hS P.left (pointsMap B S hS P.left
         (a ≫ Descent.structureMap e M).left ⁻¹' (pointsMap B S hS X e ⁻¹' T)) ≫
         sheafifiedULiftMap B S hS a.left =
       completionSheafInclusion B S hS P.left (pointsMap B S hS P.left
@@ -239,7 +239,7 @@ theorem exists_comp_toW_eq (hT : IsClosed T)
       eqToHom (congrArg (completionSheaf B S hS ((Over.map e).obj M).left) e₂)) hw'')
   have ha'w : a'.left ≫ M.hom = π.left := Over.w a'
   let a : P ⟶ (Over.map e).obj M := Over.homMk a'.left (by
-    show a'.left ≫ M.hom ≫ e = P.hom
+    change a'.left ≫ M.hom ≫ e = P.hom
     rw [← Category.assoc, ha'w, show π.left ≫ e = P.hom from Over.w π])
   refine ⟨a, Over.OverMorphism.ext ha'w, ?_⟩
   rw [← hα₀fst]
@@ -262,7 +262,7 @@ theorem exists_comp_toW_eq (hT : IsClosed T)
           (pointsMap B S hS ((Over.map e).obj M).left ((Over.map e).obj M).hom ⁻¹' T)) := by
     rw [← Category.assoc, completionSheafInclusion_transport B S hS P.left e₁]
     refine h7.trans ?_
-    show (eqToHom (congrArg (completionSheaf B S hS P.left) e₁) ≫ α₀ ≫
+    change (eqToHom (congrArg (completionSheaf B S hS P.left) e₁) ≫ α₀ ≫
       eqToHom (congrArg (completionSheaf B S hS ((Over.map e).obj M).left) e₂)) ≫
         completionSheafInclusion B S hS ((Over.map e).obj M).left
           (pointsMap B S hS ((Over.map e).obj M).left (Descent.structureMap e M).left ⁻¹'
@@ -495,7 +495,7 @@ theorem descentData_transport_move (hcov : IsFppfCovering B S hS X e) {i j : ι}
     (v : Z ⟶ (Over.map (e i)).obj (M i)) (y : Z ⟶ Over.mk (e j)) :
     (descentData g hT hY₀ hX hXnoeth he hM γ hγ hcov).transport.move v y =
       (transport g hT hY₀ hX hXnoeth he hM γ hγ).move v y := by
-  show prod.lift v y ≫ ((transport g hT hY₀ hX hXnoeth he hM γ hγ).gluing i j).hom.left ≫
+  change prod.lift v y ≫ ((transport g hT hY₀ hX hXnoeth he hM γ hγ).gluing i j).hom.left ≫
     prod.snd = _
   rw [FamilyTransport.gluing_hom, prod.lift_snd,
     (transport g hT hY₀ hX hXnoeth he hM γ hγ).comp_move, prod.lift_fst, prod.lift_snd]

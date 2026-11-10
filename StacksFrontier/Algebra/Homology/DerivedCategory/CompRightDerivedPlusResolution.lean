@@ -142,7 +142,7 @@ theorem isIso_rightDerivedFunctorPlusComp_app_single_of_isColimit {J : Type*} [C
   let α : Φ ⟶ Ψ := Functor.whiskerLeft (DerivedCategory.Plus.singleFunctor A 0)
     (Functor.whiskerRight (rightDerivedFunctorPlusComp F H)
       (DerivedCategory.Plus.homologyFunctor C n))
-  show IsIso (α.app c.pt)
+  change IsIso (α.app c.pt)
   rcases lt_or_ge n 0 with hn | hn
   · have hΦ : IsZero (Φ.obj c.pt) := by
       have : ((DerivedCategory.Plus.singleFunctor A 0).obj c.pt).IsGE 0 := inferInstance
@@ -172,7 +172,7 @@ theorem isIso_rightDerivedFunctorPlusComp_app_single_of_isColimit {J : Type*} [C
     have : PreservesColimit D Φ := preservesColimit_of_natIso D eΦ.symm
     have : PreservesColimit D Ψ := preservesColimit_of_natIso D eΨ.symm
     exact Stacks.EtaleCohomology.SmoothBaseChange.isIso_app_of_isColimit hc α fun j => by
-      show IsIso ((DerivedCategory.Plus.homologyFunctor C (q : ℤ)).map
+      change IsIso ((DerivedCategory.Plus.homologyFunctor C (q : ℤ)).map
         ((rightDerivedFunctorPlusComp F H).app
           ((DerivedCategory.Plus.singleFunctor A 0).obj (D.obj j))))
       have := hD j
@@ -207,7 +207,7 @@ theorem quasiIso_map_of_injective_of_isStrictlyGE (K : CochainComplex A ℤ) (n 
   let η := rightDerivedFunctorPlusComp F H
   have hGE : (DerivedCategory.Plus.Qh.obj Kp).IsGE n := by
     rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-    show (DerivedCategory.Qh.obj
+    change (DerivedCategory.Qh.obj
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K)).IsGE n
     have := (DerivedCategory.isGE_Q_obj_iff K n).2 inferInstance
     exact DerivedCategory.TStructure.t.isGE_of_iso

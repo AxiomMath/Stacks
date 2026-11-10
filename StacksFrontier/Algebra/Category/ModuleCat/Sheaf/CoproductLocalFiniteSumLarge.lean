@@ -52,7 +52,7 @@ morphism of presheaves of the `i`-th inclusion into `∐ M`. -/
 @[reassoc (attr := simp)]
 lemma ι_toCoprod {I : Type u} (M : I → SheafOfModules.{u} R) [HasCoproduct M] (i : I) :
     Sigma.ι (fun i => (M i).val) i ≫ toCoprod R M = (Sigma.ι M i).val :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The morphism from the sheafification of the objectwise coproduct to `∐ M`. -/
 noncomputable def coprodCompare
@@ -83,7 +83,7 @@ lemma ι_coprodCompareInv {I : Type u} (M : I → SheafOfModules.{u} R) [HasCopr
     Sigma.ι M i ≫ coprodCompareInv R M =
       (Stacks.SheafOfModules.CoproductSheafification.valIso R (M i)).inv ≫
         (shf R).map (Sigma.ι (fun i => (M i).val) i) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `coprodCompare` is an isomorphism: both source and target are colimiting cocone points for
 the family `M`, the source because sheafification is a left adjoint. -/

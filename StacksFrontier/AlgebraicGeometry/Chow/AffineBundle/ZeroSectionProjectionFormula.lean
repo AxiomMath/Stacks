@@ -198,7 +198,7 @@ theorem flatPullbackChowOfRelativeDimension_firstChernClassCapChow (C : ChowSitu
           (flatPullbackChowOfRelativeDimension C (f ≫ sX) sX f rfl r hf (k + 1) α)) := by
   induction α using QuotientAddGroup.induction_on with
   | H c =>
-    show flatPullbackChowOfRelativeDimension C (f ≫ sX) sX f rfl r hf k
+    change flatPullbackChowOfRelativeDimension C (f ≫ sX) sX f rfl r hf k
         (firstChernClassCapChow C k sX M
           (QuotientAddGroup.mk' (rationalEquivalences C sX (k + 1)) c)) =
       firstChernClassCapChow C (k + (r : ℤ)) (f ≫ sX) ((Scheme.Modules.pullback f).obj M)

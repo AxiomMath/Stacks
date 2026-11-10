@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Thickenings.SummandSubscheme
 # The conormal sheaf of the subscheme cut out by a summand of the conormal sheaf
 
 Let `i : Z ⟶ W` be a first-order thickening of schemes and let `𝒞_{Z/W} = A ⊕ C` be a direct sum
-decomposition of its conormal sheaf.  `StacksFrontier.AlgebraicGeometry.Thickenings.SummandSubscheme`
+decomposition of its conormal sheaf.
+`StacksFrontier.AlgebraicGeometry.Thickenings.SummandSubscheme`
 cuts the summand `C ⊆ 𝒞_{Z/W} = ℐ ⊆ 𝒪_W` out of `W`, producing a factorization
 `Z --a--> Y --b--> W` of `i` into first-order thickenings with `𝒞_{Y/W} = C`.  This file identifies
 the conormal sheaf of the *new* thickening `a : Z ⟶ Y` with the complementary summand `A`,
@@ -58,9 +59,11 @@ namespace Stacks.Thickenings
 variable {Z Y W : Scheme.{u}} (a : Z ⟶ Y) (b : Y ⟶ W)
   [IsClosedImmersion a] [IsClosedImmersion b]
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- The square with horizontal maps `a ≫ b` and `b` and vertical maps `a` and `𝟙_W`. -/
 theorem comp_id_square : (a ≫ b) ≫ (𝟙 W : W ⟶ W) = a ≫ b := Category.comp_id _
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- The pushforward comparison of the square with right edge `𝟙_W` is the identity. -/
 theorem modulePushforwardSquareIso_hom_app_comp_id
     (N : SheafOfModules.{u} (structureSheafRing Z.toLocallyRingedSpace.toRingedSpace)) :
@@ -98,6 +101,7 @@ theorem canonicalConormalQuotientMap_comp_pushforwardConormalLeftMap :
   canonicalConormalQuotientMap_comp_pushforward_homEquiv (a ≫ b) b a (𝟙 W)
     (toShHom_square (comp_id_square a b))
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- `Stacks.ClosedImmersion.unit_comp_pushforward_idealSheafMap_comp_ι` at the same square. -/
 theorem unitIdIdealSheaf_comp_idealSheafMap_comp_ι :
     unitIdIdealSheaf b ≫
@@ -143,6 +147,7 @@ def pushforwardChainUnit (M : SheafOfModules.{u}
   (modulePushforward b.toLRSHom.toShHom).map
     ((modulePullbackPushforwardAdjunction a.toLRSHom.toShHom).unit.app M)
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- `Stacks.Thickenings.pushforwardChainUnit` is invertible whenever the unit it is the pushforward
 of is. -/
 theorem isIso_pushforwardChainUnit
@@ -152,6 +157,7 @@ theorem isIso_pushforwardChainUnit
   inferInstanceAs (IsIso ((modulePushforward b.toLRSHom.toShHom).map
     ((modulePullbackPushforwardAdjunction a.toLRSHom.toShHom).unit.app M)))
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- `b_*` of a transpose along `a^* ⊣ a_*` splits into the unit and the pushforward along the
 composite. -/
 theorem pushforward_homEquiv_eq (φ : (modulePullback a.toLRSHom.toShHom).obj M ⟶ N) :
@@ -264,6 +270,7 @@ section Transport
 
 variable {X X' : Scheme.{u}}
 
+omit [IsClosedImmersion a] [IsClosedImmersion b] in
 /-- The square with horizontal maps `a` and `a ≫ b` and vertical maps `𝟙_Z` and `b`, which is the
 one the right-hand map of the conormal sequence of [Stacks Project, Tag 062S] is attached to. -/
 theorem id_comp_square : a ≫ b = 𝟙 Z ≫ (a ≫ b) := (Category.id_comp _).symm

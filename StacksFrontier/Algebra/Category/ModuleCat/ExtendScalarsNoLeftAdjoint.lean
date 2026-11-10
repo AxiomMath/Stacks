@@ -65,7 +65,7 @@ modules, then `f` is flat. -/
 theorem flat_of_preservesMonomorphisms_extendScalars [Small.{v} R]
     (h : (ModuleCat.extendScalars.{u₁, u₂, v} f).PreservesMonomorphisms) : f.Flat := by
   let : Algebra R S := f.toAlgebra
-  show Module.Flat R S
+  change Module.Flat R S
   rw [Module.Flat.iff_lTensor_preserves_injective_linearMap'.{v}]
   intro N N' _ _ _ _ g hg
   have : Mono (ModuleCat.ofHom g) := (ModuleCat.mono_iff_injective _).2 hg

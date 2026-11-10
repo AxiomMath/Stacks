@@ -148,7 +148,7 @@ private lemma isNoetherianRing_of_cofg_maximal_smul_top {A : Type*} [CommRing A]
   · exact Submodule.fg_bot
   obtain ⟨y, hyI, hy0⟩ := I.ne_bot_iff.mp hI
   obtain ⟨x, hxI, hx⟩ := (Submodule.ne_bot_iff _).mp
-    (Ideal.comap_ne_bot_of_integral_mem hy0 hyI (Algebra.IsIntegral.isIntegral (R := A) y))
+    (Ideal.under_ne_bot_of_integral_mem hy0 hyI (Algebra.IsIntegral.isIntegral (R := A) y))
   set J : Ideal C := Ideal.span {algebraMap A C x} with hJ
   have hJI : J ≤ I := Ideal.span_le.mpr (Set.singleton_subset_iff.mpr hxI)
   have hres : Submodule.restrictScalars A J = (Ideal.span {x} : Ideal A) • (⊤ : Submodule A C) := by
@@ -177,7 +177,7 @@ private lemma finite_fiber_bot (A K L C : Type*) [CommRing A] [IsDomain A]
   have : Module.Flat A (⊥ : Ideal A).ResidueField := IsLocalization.flat _ A⁰
   refine Module.Finite.of_injective
     (LinearMap.baseChange _ ((Algebra.linearMap C L).restrictScalars A)) ?_
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_preserves_injective_linearMap _
     (IsIntegralClosure.algebraMap_injective C A L)
 

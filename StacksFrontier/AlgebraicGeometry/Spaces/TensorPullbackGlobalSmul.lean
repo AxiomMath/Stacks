@@ -92,7 +92,7 @@ theorem tensorLeft_map_presheafSmul {O : Cᵒᵖ ⥤ CommRingCat.{w}}
         (PresheafOfModules.tensorObj (O := O) F P) := by
   refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
   let r : ((ringPresheaf O).obj U) := f.val U
-  show x ⊗ₜ[(ringPresheaf O).obj U] (r • y) = r • (x ⊗ₜ[(ringPresheaf O).obj U] y)
+  change x ⊗ₜ[(ringPresheaf O).obj U] (r • y) = r • (x ⊗ₜ[(ringPresheaf O).obj U] y)
   rw [TensorProduct.tmul_smul]
 
 end Presheaf
@@ -152,7 +152,7 @@ theorem tensorPullbackBifunctor_obj_map_globalSmul {X Y : AlgebraicSpaces B S hS
       modulePullback B S hS f :=
     RingedToposHom.pullbackModules_eq_pullbackModules_toRingedToposModulesHom
       (smallEtaleRingedToposHom B S hS f)
-  show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+  change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
       (smallEtaleRingedTopos B S hS X).O).obj G).map
         ((smallEtaleRingedToposHom B S hS f).toModulesHom.pullbackModules.map
           (globalSmul _ (pullbackToGlobalFunctions B S hS Y T h x) M)) =
@@ -193,7 +193,7 @@ theorem exists_representedAffineAssociated_map_smul_eq_globalSmul (U : BigFppfOv
   have he : e.hom 1 • 𝟙 (ModuleCat.of Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)
       Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) = e := by
     ext
-    show e.hom 1 • (1 : Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) = e.hom 1
+    change e.hom 1 • (1 : Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) = e.hom 1
     rw [smul_eq_mul, mul_one]
   rw [he]
   exact hF.map_preimage _

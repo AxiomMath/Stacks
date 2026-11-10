@@ -479,7 +479,7 @@ public theorem localIso_hom_app_apply
           N.obj).app ⊤
           (((Scheme.Modules.pullbackCongr (Over.w (toOver.map T'.hom))).inv.app N.obj).app ⊤
             x))) := by
-  show (dd i).θ T'.hom (((Scheme.Modules.pullback (toOver.map T'.hom).left).map
+  change (dd i).θ T'.hom (((Scheme.Modules.pullback (toOver.map T'.hom).left).map
     (componentIso ν i).hom).app ⊤
     ((sliceAssociatedPresheafIso S toOver N.obj (V i)).hom.app (op T') x)) = _
   have := Stacks.Modules.isQuasicoherent_pullback (toOver.obj (V i)).hom N.obj inferInstance

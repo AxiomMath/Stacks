@@ -75,7 +75,7 @@ public theorem inclusion_map_postcomposeBaseChangeAdjunction_counit_app
     (W : SmallEtale B X hX) :
     (inclusion B X hX).map ((postcomposeBaseChangeAdjunction B X hX U).counit.app W) =
       (Over.mapPullbackAdj U.obj.hom).counit.app ((inclusion B X hX).obj W) := by
-  show (inclusion B X hX).map
+  change (inclusion B X hX).map
       (((Over.mapPullbackAdj U.obj.hom).restrictFullyFaithful
         (ObjectProperty.fullyFaithfulι
           (BigEtaleOver.IsEtaleOver B U.obj.left.obj U.obj.left.property))

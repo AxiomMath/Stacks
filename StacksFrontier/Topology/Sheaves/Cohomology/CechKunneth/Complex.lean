@@ -79,13 +79,13 @@ def res {Z Z' : L} (h : Z ≤ Z') : P.obj (op Z') →ₗ[k] P.obj (op Z) :=
 `Z ≤ Z''`. -/
 theorem res_res {Z Z' Z'' : L} (h₁ : Z' ≤ Z'') (h₂ : Z ≤ Z') (x : P.obj (op Z'')) :
     res P h₂ (res P h₁ x) = res P (h₂.trans h₁) x := by
-  show (P.map (homOfLE h₁).op ≫ P.map (homOfLE h₂).op).hom x = _
+  change (P.map (homOfLE h₁).op ≫ P.map (homOfLE h₂).op).hom x = _
   rw [← Functor.map_comp]
   rfl
 
 /-- Restriction along `Z ≤ Z` is the identity. -/
 theorem res_self {Z : L} (h : Z ≤ Z) (x : P.obj (op Z)) : res P h x = x := by
-  show (P.map (𝟙 (op Z))).hom x = x
+  change (P.map (𝟙 (op Z))).hom x = x
   rw [P.map_id]
   rfl
 
@@ -99,7 +99,7 @@ theorem res_congr {Z : L} {p : ℕ} {U : ι → L} {s s' : Fin (p + 1) → ι} (
 /-- A morphism of presheaves commutes with restriction. -/
 theorem app_res {P' : Lᵒᵖ ⥤ ModuleCat.{u} k} (f : P ⟶ P') {Z Z' : L} (h : Z ≤ Z')
     (x : P.obj (op Z')) : (f.app (op Z)).hom (res P h x) = res P' h ((f.app (op Z')).hom x) := by
-  show (P.map (homOfLE h).op ≫ f.app (op Z)).hom x = (f.app (op Z') ≫ P'.map _).hom x
+  change (P.map (homOfLE h).op ≫ f.app (op Z)).hom x = (f.app (op Z') ≫ P'.map _).hom x
   rw [f.naturality]
 
 end Res
@@ -257,7 +257,7 @@ theorem Hmk_smul {p : ℕ} (r : k) (z : Cochain P U p) (hz : d P U p z = 0) :
 /-- The class of `r • z` is `r` times the class of `z`, for `r : ℤ`. -/
 theorem Hmk_zsmul {p : ℕ} (r : ℤ) (z : Cochain P U p) (hz : d P U p z = 0) :
     Hmk P U (r • z) (by rw [map_zsmul, hz, smul_zero]) = r • Hmk P U z hz := by
-  show (coboundaries P U p).mkQ ⟨r • z, _⟩ = r • (coboundaries P U p).mkQ ⟨z, hz⟩
+  change (coboundaries P U p).mkQ ⟨r • z, _⟩ = r • (coboundaries P U p).mkQ ⟨z, hz⟩
   rw [← map_zsmul]
   rfl
 
@@ -282,7 +282,7 @@ theorem Hmk_eq_zero_iff_succ {p : ℕ} (z : Cochain P U (p + 1)) (hz : d P U (p 
 theorem Hmk_eq_zero_iff_zero (z : Cochain P U 0) (hz : d P U 0 z = 0) :
     Hmk P U z hz = 0 ↔ z = 0 := by
   rw [Hmk, Submodule.Quotient.mk_eq_zero]
-  show _ ∈ (⊥ : Submodule k _) ↔ _
+  change _ ∈ (⊥ : Submodule k _) ↔ _
   rw [Submodule.mem_bot, Subtype.ext_iff]
   rfl
 

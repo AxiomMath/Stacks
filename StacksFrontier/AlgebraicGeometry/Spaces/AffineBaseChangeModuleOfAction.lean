@@ -104,7 +104,7 @@ theorem ι_moduleOfActionRelations_moduleOfActionπ (r : Γ((BigFppfOver.toSchem
     (modulePullback B S hS pr).map (ρ r).asHom ≫ moduleOfActionπ B S hS pr' pr F ρ =
       globalSmul _ (pullbackFunction B S hS pr' r) _ ≫ moduleOfActionπ B S hS pr' pr F ρ := by
   have h := Sigma.ι _ r ≫= cokernel.condition (moduleOfActionRelations B S hS pr' pr F ρ)
-  rw [comp_zero, ← Category.assoc, moduleOfActionRelations, Sigma.ι_desc, Preadditive.sub_comp,
+  rw [comp_zero, ← Category.assoc, moduleOfActionRelations, Sigma.ι_comp_desc, Preadditive.sub_comp,
     sub_eq_zero] at h
   exact h
 
@@ -249,7 +249,7 @@ abbrev moduleOfActionRelation (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤))
 theorem ι_moduleOfActionRelations (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) :
     Sigma.ι _ r ≫ moduleOfActionRelations B S hS pr' pr F ρ =
       moduleOfActionRelation B S hS pr' pr F ρ r :=
-  Sigma.ι_desc _ r
+  Sigma.ι_comp_desc _ r
 
 /-- Each relation `pr^*(ρ r) - pr'^♯ r` vanishes in `F'`. -/
 theorem moduleOfActionRelation_moduleOfActionπ (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) :
@@ -282,7 +282,7 @@ theorem moduleOfActionRelations_app_mem (Z : SmallEtale B S hS X'.1)
       (ι_moduleOfActionRelations B S hS pr' pr F ρ r)
     simp only [SheafOfModules.comp_val, PresheafOfModules.comp_app, ModuleCat.hom_comp,
       LinearMap.coe_comp, Function.comp_apply] at h2
-    show (moduleOfActionRelations B S hS pr' pr F ρ).val.app (op Z)
+    change (moduleOfActionRelations B S hS pr' pr F ρ).val.app (op Z)
       ((Sigma.ι (fun _ : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) =>
         (modulePullback B S hS pr).obj F) r).val.app (op Z) v) ∈ N
     rw [h2]
@@ -353,7 +353,7 @@ private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schem
           (chartRing B S hS X.1 X.2 U) a) := by
     intro a
     ext m
-    show (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom.val.app (op U) m = _
+    change (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom.val.app (op U) m = _
     rw [hρ a]
     rfl
   let bc : chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U) ⊗[
@@ -373,7 +373,7 @@ private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schem
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) z) =
         ((modulePullback B S hS pr).map (ρ r).asHom).val.app
           (op (baseChangeChart B S hS pr hrep U)) (bc z) := by
-      rw [LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.baseChange_eq_lTensor]
       exact h1.symm
     have e2 : bc ((algebraMap Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) r • z)) =
@@ -382,7 +382,7 @@ private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schem
           (bc z) :=
       bc.map_smul (algebraMap Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) r) z
-    show bc ((ρU r).baseChange
+    change bc ((ρU r).baseChange
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) z -
       algebraMap Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) r • z) = _
@@ -569,7 +569,7 @@ theorem isCoherent_moduleOfAction (hF : F.IsQuasicoherentOnSite)
   have hm : m ∈ (⊤ : Submodule (chartRing B S hS X.1 X.2 U) (F.val.obj (op U))) :=
     Submodule.mem_top
   rw [← hg] at hm
-  show toModuleOfActionApp B S hS pr' pr F ρ hrep U m ∈ _
+  change toModuleOfActionApp B S hS pr' pr F ρ hrep U m ∈ _
   induction hm using Submodule.span_induction with
   | mem x hx =>
     obtain ⟨r, y, hy, rfl⟩ := hx

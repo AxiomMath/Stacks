@@ -148,9 +148,9 @@ private theorem prop_pullbackSnd_of_chart {X : AlgebraicSpaces B S hS}
   have sqh := AlgebraicSpaces.isPullback_hom B S hS (IsPullback.of_hasPullback f g')
   let pp : yoneda.obj W ⟶ (pullback f g').obj :=
     sqh.lift (yoneda.map r ≫ p) (yoneda.map s) (by
-      show yoneda.map r ≫ (p ≫ f.hom) = yoneda.map s ≫ yoneda.map k
+      change yoneda.map r ≫ (p ≫ f.hom) = yoneda.map s ≫ yoneda.map k
       rw [← hh]
-      show yoneda.map r ≫ yoneda.map h = yoneda.map s ≫ yoneda.map k
+      change yoneda.map r ≫ yoneda.map h = yoneda.map s ≫ yoneda.map k
       simpa only [Functor.map_comp] using
         congrArg yoneda.map (pullback.condition : r ≫ h = s ≫ k))
   have sqW : IsPullback (yoneda.map s) (yoneda.map r) (yoneda.map k) (yoneda.map h) :=

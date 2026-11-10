@@ -158,7 +158,7 @@ public theorem cotangentMap_towerConstHom_eq_zero :
     simpa [Generators.Hom.toExtensionHom_toAlgHom_apply] using
       towerConstHom_toAlgHom_eq_zero_of_mem_ker A B C y.1 y.2
   rw [LinearMap.zero_apply, Extension.Cotangent.map_mk, Extension.Cotangent.mk_eq_zero_iff]
-  show (towerConstHom A B C).toExtensionHom.toAlgHom y.1 ∈
+  change (towerConstHom A B C).toExtensionHom.toAlgHom y.1 ∈
     (Generators.self B C).toExtension.ker ^ 2
   rw [hy]
   exact Ideal.zero_mem _

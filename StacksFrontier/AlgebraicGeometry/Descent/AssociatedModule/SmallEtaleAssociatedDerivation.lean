@@ -103,7 +103,7 @@ public theorem siteConstIntMap_app_eq_zero {P : (SmallEtale B X hX)ᵒᵖ ⥤ Co
     {V : (SmallEtale B X hX)ᵒᵖ} {A : Type*} [AddCommGroup A] (d : (P.obj V) →+ A)
     (hone : d 1 = 0) (a : (siteConstIntPresheaf B hX).obj V) :
     d ((siteConstIntMap B hX P).app V a) = 0 := by
-  show d (((a.down : ℤ) : P.obj V)) = 0
+  change d (((a.down : ℤ) : P.obj V)) = 0
   rw [show ((a.down : ℤ) : P.obj V) = a.down • (1 : P.obj V) by simp [zsmul_eq_mul],
     AddMonoidHom.map_zsmul, hone, smul_zero]
 
@@ -150,7 +150,7 @@ public theorem associatedSectionsDerivation_pullbackSection_eq_zero (W : Y.Opens
     simp [Scheme.Opens.ι_preimage_self]
   refine Eq.trans ?_ (etaleAssociatedDerivation_appLE_eq_zero f (f ⁻¹ᵁ W).ι W hι b)
   refine congrArg (etaleAssociatedDerivation f (f ⁻¹ᵁ W).ι) ?_
-  show ((Scheme.Opens.topIso (f ⁻¹ᵁ W)).inv).hom ((Scheme.Hom.app f W).hom b) = _
+  change ((Scheme.Opens.topIso (f ⁻¹ᵁ W)).inv).hom ((Scheme.Hom.app f W).hom b) = _
   rw [← Scheme.Opens.ι_appLE_top (f ⁻¹ᵁ W) hι, ← ConcreteCategory.comp_apply,
     ← Scheme.Hom.appLE_eq_app, Scheme.Hom.appLE_comp_appLE]
 

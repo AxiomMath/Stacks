@@ -118,7 +118,7 @@ theorem cechZeroIso_cechGenMap {R : Type u} [CommRing R] {r s : ℕ} (f : Fin r 
     (Cech.cechGenMap f g α hα (M : Type u)).f 0 ≫ (LocalCohomology.cechZeroIso g M).hom =
       (LocalCohomology.cechZeroIso f M).hom := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show LocalCohomology.cechTermZeroEquiv g M (Cech.genTerm f g α hα (M : Type u) 0 x) =
+  change LocalCohomology.cechTermZeroEquiv g M (Cech.genTerm f g α hα (M : Type u) 0 x) =
     LocalCohomology.cechTermZeroEquiv f M x
   have key : (LocalCohomology.cechTermZeroEquiv g M).toLinearMap.comp
         (Cech.genTerm f g α hα (M : Type u) 0) =
@@ -128,7 +128,7 @@ theorem cechZeroIso_cechGenMap {R : Type u} [CommRing R] {r s : ℕ} (f : Fin r 
     obtain ⟨m, rfl⟩ : ∃ m, y = LocalizedModule.mkLinearMap (Cech.cechSub f ∅) M m :=
       ⟨Stacks.CechBaseChange.cechModEmptyEquiv f M y, by
         rw [← Stacks.CechBaseChange.cechModEmptyEquiv_symm_apply, LinearEquiv.symm_apply_apply]⟩
-    show LocalCohomology.cechTermZeroEquiv g M (Cech.genTerm f g α hα (M : Type u) 0
+    change LocalCohomology.cechTermZeroEquiv g M (Cech.genTerm f g α hα (M : Type u) 0
         (DirectSum.lof R (ExtendedAlternatingCech.Idx r 0)
           (fun U => Cech.cechMod f (M : Type u) U.1) default
           (LocalizedModule.mkLinearMap (Cech.cechSub f ∅) (M : Type u) m))) =
@@ -214,7 +214,7 @@ theorem cechZeroIso_complexMap (φ : A →+* B) (f : Fin r → A) :
         ModuleCat.ofHom (CechRingBaseChange.ofRingHom φ) := by
   refine ModuleCat.hom_ext (DirectSum.linearMap_ext A fun s => LinearMap.ext fun y => ?_)
   obtain rfl : s = default := Subsingleton.elim _ _
-  show LocalCohomology.cechTermZeroEquiv (CechRingBaseChange.mapFamily φ f) (ModuleCat.of B B)
+  change LocalCohomology.cechTermZeroEquiv (CechRingBaseChange.mapFamily φ f) (ModuleCat.of B B)
       (CechRingBaseChange.termMap φ f 0 (DirectSum.lof A (ExtendedAlternatingCech.Idx r 0)
         (fun U => Cech.cechMod f (ModuleCat.of A A : Type u) U.1) default y)) =
     φ (LocalCohomology.cechTermZeroEquiv f (ModuleCat.of A A)
@@ -1028,7 +1028,7 @@ theorem cechSectionsIota_comp_sectionsMap {P Q : Pair.{u}} (f : P ⟶ Q) (S : Pa
               ComplexShape.embeddingUpNat h).inv) ≫ w) hsplit).symm
     exact (congrArg (fun w => (HomologicalComplex.extendXIso (Cech.cechComplex (fam S) P.ring)
         ComplexShape.embeddingUpNat h).hom ≫ (cechTransport f S).f n ≫ w)
-      (CategoryTheory.Iso.map_inv_hom_id_assoc
+      (CategoryTheory.Iso.inv_hom_id_map_assoc
         (HomologicalComplex.extendXIso (Cech.cechComplex (fam (pairGenMap f S)) Q.ring)
           ComplexShape.embeddingUpNat h)
         (ModuleCat.restrictScalars f.toRingHom)

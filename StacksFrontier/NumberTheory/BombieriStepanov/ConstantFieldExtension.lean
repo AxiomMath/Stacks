@@ -123,11 +123,11 @@ theorem liftRingEquiv_constJ (σ : L ≃+* L)
         ((constJ (L := L) pb : E₁ →ₐ[E] AdjoinRoot (constPoly pb L)) :
           E₁ →+* AdjoinRoot (constPoly pb L)) with
       commutes' := fun e => by
-        show liftRingEquiv pb σ hσ (constJ pb (algebraMap E E₁ e)) = _
+        change liftRingEquiv pb σ hσ (constJ pb (algebraMap E E₁ e)) = _
         rw [AlgHom.commutes, IsScalarTower.algebraMap_apply E L (AdjoinRoot (constPoly pb L)) e,
           AdjoinRoot.algebraMap_eq, liftRingEquiv_of, hσ] }
   exact apply_eq_of_apply_gen_eq pb τ (constJ pb) (by
-    show liftRingEquiv pb σ hσ (constJ pb pb.gen) = constJ pb pb.gen
+    change liftRingEquiv pb σ hσ (constJ pb pb.gen) = constJ pb pb.gen
     rw [constJ_gen, liftRingEquiv_root]) e₁
 
 section Galois
@@ -158,7 +158,7 @@ theorem galoisOfAut_constJ (τ : E₁ →ₐ[E] E₁) (e : E₁) :
   exact apply_eq_of_apply_gen_eq pb
     (((galoisOfAut (L := L) pb τ).toAlgHom.restrictScalars E).comp (constJ pb))
     ((constJ pb).comp τ) (by
-    show galoisOfAut (L := L) pb τ (constJ pb pb.gen) = constJ pb (τ pb.gen)
+    change galoisOfAut (L := L) pb τ (constJ pb pb.gen) = constJ pb (τ pb.gen)
     rw [constJ_gen]
     exact AdjoinRoot.liftAlgHom_root (constPoly pb L) (Algebra.ofId L _) (constJ pb (τ pb.gen))
       (aeval_constJ_eq_zero pb τ)) e
@@ -168,7 +168,7 @@ theorem eq_one_of_forall_constJ (γ : AdjoinRoot (constPoly pb L) ≃ₐ[L] Adjo
     (hγ : ∀ e : E₁, γ (constJ pb e) = constJ pb e) : γ = 1 := by
   have : (γ : AdjoinRoot (constPoly pb L) →ₐ[L] _) = AlgHom.id L _ :=
     AdjoinRoot.algHom_ext (by
-      show γ (AdjoinRoot.root _) = AdjoinRoot.root _
+      change γ (AdjoinRoot.root _) = AdjoinRoot.root _
       rw [← constJ_gen pb, hγ])
   ext z
   exact congrArg (fun F : AdjoinRoot (constPoly pb L) →ₐ[L] _ => F z) this

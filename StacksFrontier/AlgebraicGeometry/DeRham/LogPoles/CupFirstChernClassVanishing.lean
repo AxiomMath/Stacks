@@ -136,7 +136,7 @@ theorem deRhamAbelianPushforwardMapPlus_comp_divisorDeRhamPlusAbelianIso :
       ((_root_.SheafOfModules.toSheaf _).mapHomologicalComplex (ComplexShape.up ℕ)).map
         (divisorRestrictionBase p Y) :=
     (Iso.comp_inv_eq _).2 (toSheaf_divisorRestrictionBase_comp_divisorDeRhamAbIso p Y).symm
-  show ((ComplexShape.embeddingUpNat.extendFunctor _).map
+  change ((ComplexShape.embeddingUpNat.extendFunctor _).map
         (deRhamAbelianPushforwardMap Y.subschemeι p (Y.subschemeι ≫ p) (𝟙 S) (by simp)) ≫
       (HomologicalComplex.mapHomologicalComplexExtendIso _ _ ComplexShape.embeddingUpNat).hom) ≫
       ((HomologicalComplex.mapHomologicalComplexExtendIso _ _ ComplexShape.embeddingUpNat).inv ≫
@@ -197,9 +197,9 @@ theorem deRhamCohomologyCup_firstChernClass_eq_zero (hlog : p.HasLogPolesDeRhamC
   let cupB := AddMonoidHom.mk' (fun ξ => SheafOfModules.deRhamCohomologyCup (deRhamAlgebras p)
       (SheafOfModules.deRhamDifferential (deRhamAlgebras p)) 2 m ξ b)
     (fun x y => SheafOfModules.deRhamCohomologyCup_add_left _ _ 2 m x y b)
-  show cupB _ = 0
+  change cupB _ = 0
   rw [SheafOfModules.deRhamCohomologyFirstChernClass_invertibleSheaf, map_neg, neg_eq_zero]
-  show SheafOfModules.deRhamCohomologyCup _ _ 2 m _ b = 0
+  change SheafOfModules.deRhamCohomologyCup _ _ 2 m _ b = 0
   rw [SheafOfModules.deRhamCohomologyCup_eq_deRhamClassMorphism,
     ← Stacks.LineBundle.Situation.residueShiftedSequence_boundary_eq_deRhamClassMorphism
       (Stacks.LineBundle.idealSituation p Y)]

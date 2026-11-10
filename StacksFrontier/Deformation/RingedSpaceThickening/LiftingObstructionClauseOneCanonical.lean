@@ -100,25 +100,37 @@ def liftDiagramNaiveCotangentTwoTerm :
       (SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf D.front.O)) 0) :=
   NaiveCotangentTwoTerm.ofDoubleNegOne (FirstOrderLiftDiagram.reducedDifferential D)
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})] in
 /-- The conormal term of `liftDiagramNaiveCotangentTwoTerm D` is
 `FirstOrderLiftDiagram.reducedConormal D`. -/
 @[simp] theorem liftDiagramNaiveCotangentTwoTerm_conormal :
     (liftDiagramNaiveCotangentTwoTerm D).conormal = FirstOrderLiftDiagram.reducedConormal D := rfl
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})] in
 /-- The degree `0` term of `liftDiagramNaiveCotangentTwoTerm D` is
 `FirstOrderLiftDiagram.reducedDegreeZero D`. -/
 @[simp] theorem liftDiagramNaiveCotangentTwoTerm_base :
     (liftDiagramNaiveCotangentTwoTerm D).base = FirstOrderLiftDiagram.reducedDegreeZero D := rfl
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})] in
 /-- The differential of `liftDiagramNaiveCotangentTwoTerm D` is
 `FirstOrderLiftDiagram.reducedDifferential D`. -/
 @[simp] theorem liftDiagramNaiveCotangentTwoTerm_d :
     (liftDiagramNaiveCotangentTwoTerm D).d = FirstOrderLiftDiagram.reducedDifferential D := rfl
 
-omit [J.HasSheafCompose (forget CommRingCat.{max u v w})] in
+omit [J.HasSheafCompose (forget CommRingCat.{max u v w})]
+  [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})] in
 /-- The underlying object of `liftDiagramNaiveCotangentTwoTerm D` is the image in the derived
 category of the complex `HomologicalComplex.double` of
 `FirstOrderLiftDiagram.reducedDifferential D` in degrees `-1` and `0`. -/

@@ -116,7 +116,7 @@ private theorem asFiber_mem_genericPoints_of_finite {X Y : Scheme.{u}} (f : X �
     have : y = z := Set.mem_singleton_iff.mp hy
     simpa [this] using hz
   rw [genericPoints]
-  show closure ({y} : Set Z) ∈ irreducibleComponents Z
+  change closure ({y} : Set Z) ∈ irreducibleComponents Z
   rw [show closure ({y} : Set Z) = {y} by simp, ← hcomp]
   exact irreducibleComponent_mem_irreducibleComponents y
 
@@ -174,7 +174,7 @@ private theorem specPullback_reverse
   have he : Function.Injective e.hom.hom := fun a b hab => by
     simpa using congrArg e.inv.hom hab
   have hpT : IsWeaklyAssociatedPrime R (S ⊗[R] ((moduleSpecΓFunctor (R := A)).obj G)) p := by
-    show IsWeaklyAssociatedPrime R
+    change IsWeaklyAssociatedPrime R
       ((ModuleCat.restrictScalars (algebraMap R S)).obj
         ((ModuleCat.extendScalars (algebraMap R S)).obj
           ((moduleSpecΓFunctor (R := A)).obj G))) p

@@ -149,7 +149,7 @@ theorem exists_smooth_extension_of_isFiniteOrderThickening
       𝒳.val.val.p L.toFunctor F :=
     { base := T, x := ai, y := u, hx := rfl, hy := huT, iso := (asIso γ).symm,
       vertical := by
-        show 𝒳.val.val.p.IsHomLift (𝟙 T) (inv γ)
+        change 𝒳.val.val.p.IsHomLift (𝟙 T) (inv γ)
         infer_instance }
   let sF : P.pt.val.val.p.Fiber T := Functor.Fiber.mk (a := s) rfl
   obtain ⟨T₀, m₀, hm₀sm, hm₀surj, xc, αc, hαc⟩ :=
@@ -224,7 +224,7 @@ theorem exists_smooth_extension_of_isFiniteOrderThickening
   have hνc : (schemeStack.{u, w} B S hS V₀).val.val.p.IsHomLift r νc := by
     apply IsHomLift.of_fac' _ _ _ rfl hxc
     simp only [eqToHom_refl, Category.id_comp]
-    show r ≫ eqToHom hxc.symm = _
+    change r ≫ eqToHom hxc.symm = _
     rfl
   let A := cF.map μc
   let N := cF.map νc ≫ αc

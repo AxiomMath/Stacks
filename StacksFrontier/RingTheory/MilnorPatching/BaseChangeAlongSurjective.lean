@@ -32,10 +32,9 @@ theorem IsBaseChangeAlong.surjective_liftAlong_of_comp {f : M →ₛₗ[φ] N}
   let := φ.toAlgebra
   have e : ∀ t, g (liftAlong φ f t) = liftAlong φ f' t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul s m =>
-      show g (s • f m) = s • f' m
+      change g (s • f m) = s • f' m
       rw [map_smul, hgf]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   intro y

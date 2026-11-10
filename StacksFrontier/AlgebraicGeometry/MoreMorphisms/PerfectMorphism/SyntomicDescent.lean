@@ -83,7 +83,7 @@ variable {R : Type u} [CommRing R]
 in degrees at most zero. -/
 private lemma projResComplex_isStrictlyLE (M : ModuleCat.{u} R) :
     (FaithfullyFlat.projResComplex M).IsStrictlyLE 0 := by
-  show CochainComplex.IsStrictlyLE
+  change CochainComplex.IsStrictlyLE
     ((CategoryTheory.ProjectiveResolution.of M).complex.extend
       ComplexShape.embeddingDownNat) 0
   infer_instance
@@ -91,7 +91,7 @@ private lemma projResComplex_isStrictlyLE (M : ModuleCat.{u} R) :
 /-- Every term of the chosen projective resolution of a module is projective. -/
 private lemma projResComplex_projective (M : ModuleCat.{u} R) (i : ℤ) :
     Projective ((FaithfullyFlat.projResComplex M).X i) := by
-  show Projective
+  change Projective
     (((CategoryTheory.ProjectiveResolution.of M).complex.extend
       ComplexShape.embeddingDownNat).X i)
   infer_instance
@@ -106,7 +106,7 @@ private noncomputable abbrev projResComplexπ (M : ModuleCat.{u} R) :
 /-- The augmentation of the chosen projective resolution of a module is a quasi-isomorphism. -/
 private lemma projResComplexπ_quasiIso (M : ModuleCat.{u} R) :
     QuasiIso (projResComplexπ M) := by
-  show QuasiIso
+  change QuasiIso
     (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of M).π
       ComplexShape.embeddingDownNat ≫ _)
   have : QuasiIso (HomologicalComplex.extendMap

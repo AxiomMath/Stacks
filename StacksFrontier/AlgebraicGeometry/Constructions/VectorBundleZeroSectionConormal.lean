@@ -124,7 +124,7 @@ theorem symmetricAlgebraTotalAugmentation_app_incl_of_ne {n : ℤ} (hn : n ≠ 0
     (W : (Opens X)ᵒᵖ) (x : (symPiece E n).obj W) :
     ((Scheme.Modules.symmetricAlgebraTotalAugmentation X E).app W).hom
         ((symPresheafAlgebra E).incl n x) = 0 := by
-  show Stacks.RelativeSpec.pieceZeroAugmentation (Scheme.Modules.symmetricAlgebra X E)
+  change Stacks.RelativeSpec.pieceZeroAugmentation (Scheme.Modules.symmetricAlgebra X E)
       (Scheme.Modules.symmetricAlgebraPieceZeroIso X E) W
         ((symPresheafAlgebra E).degreeZeroComponent W ((symPresheafAlgebra E).incl n x)) = 0
   rw [(symPresheafAlgebra E).degreeZeroComponent_incl_of_ne hn W x, map_zero]
@@ -143,7 +143,7 @@ theorem symSectionsRingEquiv_ι (m : Γ(E, V)) :
         ⟨SymmetricAlgebra.ι Γ(X, V) Γ(E, V) m, SymPow.ι_mem_symmetricPower m⟩ :=
     DirectSum.decompose_of_mem (fun n : ℕ => SymPow.symmetricPower n Γ(X, V) Γ(E, V))
       (SymPow.ι_mem_symmetricPower m)
-  show Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
+  change Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
       (Scheme.Modules.symmetricAlgebra_mul_comm X E) hV
         (ofSymPowers E hV (DirectSum.decompose
           (fun n : ℕ => SymPow.symmetricPower n Γ(X, V) Γ(E, V))
@@ -337,7 +337,7 @@ theorem comap_ker_appLE_vectorBundleZeroSection :
       SymmetricAlgebra.augmentationIdeal Γ(X, V.1) Γ(E, V.1) := by
   have hcomp : (chartSymSectionsIso E V).hom ≫ (chartSectionsIso E V).hom =
       (Stacks.SymAlgSections.symSectionsRingEquiv E V.2).toCommRingCatIso.hom := by
-    show ((Stacks.SymAlgSections.symSectionsRingEquiv E V.2).toCommRingCatIso ≪≫
+    change ((Stacks.SymAlgSections.symSectionsRingEquiv E V.2).toCommRingCatIso ≪≫
         (chartSectionsIso E V).symm).hom ≫ (chartSectionsIso E V).hom = _
     rw [Iso.trans_hom, Category.assoc, Iso.symm_hom, Iso.inv_hom_id, Category.comp_id]
   refine Stacks.SymAlgSections.comap_ker_eq_augmentationIdeal _ _ fun x => ?_

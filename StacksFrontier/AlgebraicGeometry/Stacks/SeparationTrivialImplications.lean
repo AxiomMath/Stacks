@@ -60,8 +60,8 @@ taken pointwise in the data the Stacks 04XB conditions are quantified over.
 
 Part (2) uses the existential representability witness carried by
 `AlgebraicGeometry.Stack.IsDM` only to discard it: quasi-DM-ness, like the other three axioms of
-Stacks 04YW formalized in `StacksFrontier.AlgebraicGeometry.Stacks.SeparationAxioms`, is stated by the
-Stacks 04XB quantifier over all algebraic spaces representing a base change and so needs no
+Stacks 04YW formalized in `StacksFrontier.AlgebraicGeometry.Stacks.SeparationAxioms`, is stated by
+the Stacks 04XB quantifier over all algebraic spaces representing a base change and so needs no
 witness. In particular neither implication needs the stability and locality instances of
 Chapter 67 that `AlgebraicGeometry.Stack.HasRelativeProperty` would ask for; that is the reason
 both `AlgebraicGeometry.Stack.IsDM` and the predicates of

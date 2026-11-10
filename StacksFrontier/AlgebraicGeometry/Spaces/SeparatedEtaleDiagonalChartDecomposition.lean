@@ -233,7 +233,7 @@ theorem mono_diagonalChartComplementHom (f : X ⟶ Y) (het : IsEtale B S hS f.ho
     Mono (diagonalChartComplementHom B S hS f het hsep V) := by
   refine SmallEtale.mono_of_mono_toOver_map B S hS
     (inverseImage_isOpenImmersion_le_monomorphisms _ ?_)
-  show _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map _)
+  change _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map _)
   rw [toScheme_toOver_map_diagonalChartComplementHom]
   exact inferInstanceAs (_root_.AlgebraicGeometry.IsOpenImmersion
     (diagonalChartComplementOpens B S hS f het hsep V).ι)
@@ -266,7 +266,7 @@ theorem ofArrows_diagonalChartPair_mem_topology (f : X ⟶ Y) (het : IsEtale B S
   by_cases hx : x ∈ diagonalChartRange B S hS f hsep V
   · exact ⟨true, (range_toScheme_toOver_map_diagonalChartHom B S hS f het hsep V).ge hx⟩
   · refine ⟨false, ?_⟩
-    show x ∈ Set.range ((BigFppfOver.toScheme B S hS).map
+    change x ∈ Set.range ((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS (selfFibreSquare B S hS f).1).map
         (diagonalChartComplementHom B S hS f het hsep V)))
     rwa [range_toScheme_toOver_map_diagonalChartComplementHom]

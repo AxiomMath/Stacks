@@ -122,6 +122,7 @@ universe u v
 
 namespace AlgebraicGeometry.SmallEtale
 
+set_option linter.checkUnivs false in
 /-- The coefficient group of the integral trace map: the integers, lifted to the universe in
 which this library computes étale cohomology. -/
 public abbrev TraceCoeff : Type (max (u + 1) v) := ULift.{max (u + 1) v} ℤ
@@ -227,7 +228,7 @@ public theorem zeroOpen_locallyConstantSheafAb (W : SmallEtale B S hS)
 public theorem supportSection_locallyConstantSheafAb (W : SmallEtale B S hS)
     (a : LocallyConstant ((SmallEtale.toScheme B S hS).obj W) A) :
     supportSection B S hS (locallyConstantSheafAb.{u, v} B S hS A) W a = {x | a x ≠ 0} := by
-  show ((zeroOpen B S hS (locallyConstantSheafAb.{u, v} B S hS A) W a :
+  change ((zeroOpen B S hS (locallyConstantSheafAb.{u, v} B S hS A) W a :
       ((SmallEtale.toScheme B S hS).obj W).Opens) :
     Set ((SmallEtale.toScheme B S hS).obj W))ᶜ = {x | a x ≠ 0}
   rw [zeroOpen_locallyConstantSheafAb.{u, v} B S hS A W a]
@@ -447,7 +448,7 @@ public theorem fibreIntegral_shrink (V : SmallEtale B Y.obj Y.property)
     intro y hy
     have hy' : s ((Scheme.homOfLE _ hle).base y) ≠ 0 := by
       rwa [← hss' y]
-    show (finiteSupportOpen B f V E').ι.base y ∈ E'.1
+    change (finiteSupportOpen B f V E').ι.base y ∈ E'.1
     rw [← hpt y]
     exact hEE' (hsupp _ hy')
   have hrange : ∀ x : (finiteSupportOpen B f V E).toScheme,
@@ -592,10 +593,10 @@ public theorem finiteSupportOpen_preimage_eq {V V' : SmallEtale B Y.obj Y.proper
       ((smallEtaleBaseChange B f).map g)).base :=
     ((SmallEtale.toScheme B X.obj X.property).map
       ((smallEtaleBaseChange B f).map g)).isOpenMap
-  show (closure E'.1 \ E'.1)ᶜ =
+  change (closure E'.1 \ E'.1)ᶜ =
     ((SmallEtale.toScheme B X.obj X.property).map
       ((smallEtaleBaseChange B f).map g)).base ⁻¹' (closure E.1 \ E.1)ᶜ
-  rw [hE', Set.preimage_compl, Set.preimage_diff,
+  rw [hE', Set.preimage_compl, Set.preimage_sdiff,
     hopen.preimage_closure_eq_closure_preimage
       ((SmallEtale.toScheme B X.obj X.property).map
         ((smallEtaleBaseChange B f).map g)).continuous E.1]

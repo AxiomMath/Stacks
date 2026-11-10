@@ -345,7 +345,7 @@ private theorem awayCond_universalJacobian : AwayCond n d (universalJacobian n d
     exact (HasRingHomProperty.Spec_iff (P := @LocallyQuasiFinite)).mpr
       (RingHom.quasiFinite_algebraMap.mpr inferInstance)
   rintro _ ⟨z, rfl⟩
-  show (universalAmbientMorphism n d).QuasiFiniteAt _
+  change (universalAmbientMorphism n d).QuasiFiniteAt _
   exact (Scheme.Hom.quasiFiniteAt_comp_iff_of_isOpenImmersion
     (f := awayChart n d (universalJacobian n d))
     (g := universalAmbientMorphism n d)).mp
@@ -362,7 +362,7 @@ private theorem isRegular_toScheme : IsRegular ((universalQuasiFiniteOpen n d).t
   have _ : IsRegularRing (Localization.Away b) :=
     isRegularRing_of_isLocalization (Submonoid.powers b)
   refine ⟨⟨awayLift n d b hb ''ᵁ ⊤, (isAffineOpen_top _).image_of_isOpenImmersion _⟩, ?_, ?_⟩
-  · show y ∈ (awayLift n d b hb ''ᵁ ⊤ : ((universalQuasiFiniteOpen n d).toScheme).Opens)
+  · change y ∈ (awayLift n d b hb ''ᵁ ⊤ : ((universalQuasiFiniteOpen n d).toScheme).Opens)
     rw [Scheme.Hom.image_top_eq_opensRange]
     exact Scheme.Hom.mem_opensRange.mpr ⟨z, hz⟩
   · exact IsRegularRing.of_ringEquiv
@@ -375,7 +375,7 @@ private theorem syntomic_toScheme :
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Syntomic)
   refine (IsZariskiLocalAtSource.iff_of_openCover (P := @Syntomic)
     (awayCover n d)).mpr fun b => ?_
-  show Syntomic (awayLift n d b.1 b.2 ≫
+  change Syntomic (awayLift n d b.1 b.2 ≫
     (universalQuasiFiniteOpen n d).ι ≫ universalAmbientMorphism n d)
   exact (awayLift_comp_iff (P := @Syntomic) n d b.1 b.2).mpr (syntomic_away n d b.1 b.2)
 

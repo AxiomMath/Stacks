@@ -91,7 +91,7 @@ variable [TopologicalSpace α]
 the complement of an open set. -/
 private lemma openCoverStrata_isLocallyClosed (U : I → Set α) (hU : ∀ i, IsOpen (U i)) (i : I) :
     IsLocallyClosed (openCoverStrata U i) := by
-  show IsLocallyClosed (U i ∩ (⋃ j ∈ {j | i < j}, U j)ᶜ)
+  change IsLocallyClosed (U i ∩ (⋃ j ∈ {j | i < j}, U j)ᶜ)
   exact (hU i).isLocallyClosed.inter
     (isClosed_compl_iff.mpr (isOpen_biUnion fun j _ => hU j)).isLocallyClosed
 
@@ -134,7 +134,7 @@ private lemma isAffine_reducedInduced_openCoverStrata {X : Scheme.{u}} {I : Type
   have : IsAffineHom (U i).ι := isAffineHom_of_isAffine_source (U i).ι
   have hrange : Set.range (K.subschemeι ≫ (U i).ι).base =
       openCoverStrata (fun i => (U i : Set X)) i := by
-    show Set.range ((U i).ι.base ∘ K.subschemeι.base) = _
+    change Set.range ((U i).ι.base ∘ K.subschemeι.base) = _
     rw [Set.range_comp, Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
     ext x
     refine ⟨?_, fun ⟨hxU, hxB⟩ => ⟨⟨x, hxU⟩, hxB, rfl⟩⟩

@@ -349,6 +349,8 @@ theorem towerExtendScalarsCotangentComplexIso_hom_f_comp (j : ℤ) :
         ((squareCotangentComplexMap (towerSquare g h)).f j) :=
   (Category.assoc _ _ _).trans (towerCotangentBaseChange_f_eq_homEquiv_symm.{u, v, w} J g h j)
 
+omit [J.WEqualsLocallyBijective CommRingCat] [Presheaf.IsLocallySurjective J g.hom]
+  [HasDerivedCategory (targetModules J O)] in
 /-- The transpose of `towerNaiveMap` in degree `-1`. -/
 theorem homEquiv_towerNaiveMap_f (j : ℤ) :
     (towerExtendRestrictAdjunction.{u, v, w} J h).homEquiv _ _ ((towerNaiveMap J g h).f j) =

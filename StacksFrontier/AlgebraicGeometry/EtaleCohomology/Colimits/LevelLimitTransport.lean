@@ -91,6 +91,7 @@ theorem hasSheafify_limitSiteRaised :
 abbrev limitSmallMathlib : limitSiteRaised (c := c) (hX := hX) ⥤ c.pt.Etale :=
   AsSmall.down ⋙ limitMathlib (c := c) (hX := hX)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- `limitSmallMathlib` is continuous for the étale topologies. -/
 theorem isContinuous_limitSmallMathlib :
     (limitSmallMathlib (c := c) (hX := hX)).IsContinuous
@@ -113,6 +114,7 @@ def limitSmallMathlibIso (i : E.system.I) :
       levelMathlib E i ⋙ smallEtaleBaseChange (coneProj E i) :=
   limitMathlibIso E i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The components of `limitSmallMathlibIso` are those of `limitMathlibIso`. -/
 theorem limitSmallMathlibIso_hom_app (i : E.system.I) (Y : E.system.C i) :
     (limitSmallMathlibIso E i).hom.app Y = (limitMathlibIso E i).hom.app Y := rfl
@@ -140,6 +142,7 @@ theorem homEquiv_legFlat (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1
         (smallEtalePushforwardAbCompIso' (coneProj E j) (stageProj E d j) p (hp j)).inv.app _ :=
   Equiv.apply_symm_apply _ _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The legs are compatible with the transitions.** -/
 theorem legFlat_transition (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     {i j : E.system.I} (a : i ⟶ j) :
@@ -194,14 +197,14 @@ variable [hcont : ∀ i : E.system.I,
 
 attribute [local instance] isContinuous_levelMathlib
 
-omit hcont in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont in
 /-- The composite of `levelToLimit` and `limitSmallMathlib` is continuous. -/
 theorem isContinuous_levelToLimit_comp (i : E.system.I) :
     (levelToLimit E i ⋙ limitSmallMathlib (c := c) (hX := hX)).IsContinuous (E.system.J i)
       (smallEtaleTopology c.pt) :=
   Functor.isContinuous_comp _ _ _ (limitPrecoverageRaised (c := c) (hX := hX)).toGrothendieck _
 
-omit hcontL in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcontL in
 /-- The composite of `levelMathlib` and base change along the cone projection is continuous. -/
 theorem isContinuous_levelMathlib_comp_coneProj (i : E.system.I) :
     (levelMathlib E i ⋙ smallEtaleBaseChange (coneProj E i)).IsContinuous (E.system.J i)
@@ -227,6 +230,7 @@ def limitMathlibSquare (i : E.system.I) :
   Functor.sheafPushforwardContinuousIso (limitSmallMathlibIso E i) Ab.{max u v + 1}
     (E.system.J i) (smallEtaleTopology c.pt)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The sections of the components of the inverse of `limitMathlibSquare`. -/
 theorem limitMathlibSquare_inv_app_hom_app (i : E.system.I)
     (M : Sheaf (smallEtaleTopology c.pt) Ab.{max u v + 1}) (V : (E.system.C i)ᵒᵖ) :
@@ -249,6 +253,7 @@ theorem rearrange₅ {𝒞 : Type*} [Category 𝒞] {P Q R S T U W Z : 𝒞} (t 
     (t ≫ l ≫ c') ≫ m = (t ≫ g) ≫ (l' ≫ n) ≫ e := by
   simp only [Category.assoc, hkey, reassoc_of% hnat]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The presheaf component of `levelLeg`. -/
 theorem levelLeg_hom_app (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) (j : E.system.I)
     (V : E.system.C j) :
@@ -257,7 +262,7 @@ theorem levelLeg_hom_app (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1
         ((smallEtalePullbackAb p).obj 𝓜).obj.map ((limitMathlibIso E j).hom.app V).op :=
   rfl
 
-omit hcontL in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcontL in
 /-- The presheaf component of `levelTransitionFlat`. -/
 theorem levelTransitionFlat_hom_app (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     {i j : E.system.I} (a : i ⟶ j) (V : E.system.C j) :
@@ -267,6 +272,7 @@ theorem levelTransitionFlat_hom_app (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{
           ((levelMathlibIso E a (stageMor E a) (inclusion_map_stageMap E a)).hom.app V).op :=
   rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The legs are compatible with the transitions of `levelSystem`**, on sections. -/
 theorem levelLeg_transition_app (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     {i j : E.system.I} (a : i ⟶ j) (V : E.system.C j) :
@@ -305,6 +311,7 @@ abbrev levelLegFamily (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) 
       ((limitMathlibRestrict (c := c) (hX := hX)).obj ((smallEtalePullbackAb p).obj 𝓜)).obj :=
   (levelLeg E d p hp 𝓜 j).hom
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 open Stacks.WeakSites.ColimitSiteCohomology in
 /-- **The legs of `levelSystem` form a compatible family**, in the sense of Stacks 09YP. -/
 theorem levelLeg_isCompatible (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) :
@@ -336,6 +343,7 @@ def legTranspose (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) (j : 
     let f := levelLeg E d p hp 𝓜 j
     exact (adj.homEquiv _ _).symm f
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transpose of `legTranspose` is `levelLeg`. -/
 theorem homEquiv_legTranspose (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     (j : E.system.I) :
@@ -395,7 +403,7 @@ theorem isIso_of_transpose_square {𝒞₁ 𝒞₂ 𝒟₁ 𝒟₂ : Type*} {_ :
     (Stacks.Homology.squareIso_inv_app_comp_map_comp_counit adjP adjQ
       (Adjunction.ofIsRightAdjoint E₁) (Adjunction.ofIsRightAdjoint E₂) σ b.hom b' hb')
 
-omit hcont hcontL hequiv in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont hcontL hequiv hequivL in
 /-- The transpose of `transitionFlat` is the comparison of inverse images. -/
 theorem homEquiv_smallEtalePullbackAbCompIso'_hom_app
     (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) {i j : E.system.I} (a : i ⟶ j) :
@@ -405,7 +413,7 @@ theorem homEquiv_smallEtalePullbackAbCompIso'_hom_app
       transitionFlat E d 𝓜 a :=
   homEquiv_leftAdjointCompIso_hom_app _ _ _ _ 𝓜
 
-omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont hcontL hequiv in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcont hcontL hequiv hequivL in
 /-- The transpose of `legFlat` is the comparison of inverse images. -/
 theorem homEquiv_smallEtalePullbackAbCompIso'_hom_app_leg
     (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) (j : E.system.I) :
@@ -414,7 +422,7 @@ theorem homEquiv_smallEtalePullbackAbCompIso'_hom_app_leg
       legFlat E d p hp 𝓜 j :=
   homEquiv_leftAdjointCompIso_hom_app _ _ _ _ 𝓜
 
-omit hcontL in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hcontL hequivL in
 /-- **The transitions of `levelSystem` are isomorphisms.** -/
 theorem isIso_levelSystem_map (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     {i j : E.system.I} (a : i ⟶ j) : IsIso ((levelSystem E d 𝓜).map a) :=
@@ -425,7 +433,7 @@ theorem isIso_levelSystem_map (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u 
         rw [Iso.app_hom, homEquiv_smallEtalePullbackAbCompIso'_hom_app]
         exact Equiv.apply_symm_apply _ _)
 
-omit hequiv in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] hequiv hequivL in
 /-- The transpose of `legTranspose`, written through the comparison of inverse images. -/
 theorem homEquiv_legTranspose_eq (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     (j : E.system.I) :
@@ -439,6 +447,7 @@ theorem homEquiv_legTranspose_eq (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max
     (limitMathlibSquare E j).inv.app _)
       (homEquiv_smallEtalePullbackAbCompIso'_hom_app_leg E d p hp 𝓜 j).symm)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The legs of `levelSystem`, transposed to the raised site of the limit, are isomorphisms.** -/
 theorem isIso_legTranspose (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     (j : E.system.I) : IsIso (legTranspose E d p hp 𝓜 j) := by

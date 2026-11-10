@@ -20,7 +20,8 @@ terms above `d` at all.
 
 The first reduction is not a reformulation for its own sake: the characterization is a
 cycle-level identity through two inverted maps for which only `IsIso` is available, and the two
-maps really do have no cycle-level description. What the reduction shows is that none is needed. Ordinary pullback of sheaves of modules is **right
+maps really do have no cycle-level description. What the reduction shows is that none is needed.
+Ordinary pullback of sheaves of modules is **right
 exact**, so `h^*` applied to the projection `Z^d(P) ⟶ H^d(P)` is again a cokernel projection and
 hence an epimorphism; the cycle-class equation therefore determines its right-hand factor
 uniquely, and it holds exactly when that factor is the canonical comparison

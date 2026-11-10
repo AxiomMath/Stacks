@@ -258,7 +258,7 @@ theorem pairMatchingHom_face_hypercoveringLocalLifts [∀ F : (SimplexCategory.T
         ((SimplicialObject.truncation 0).obj K)).app (op ⟨⦋0⦌, le_rfl⟩) =
       if i = 0 then b else a := by
   refine (lift_comp_face_ranCounit 0 (pairConeHypercoveringLocalLifts a b) i).trans ?_
-  show (if (SimplexCategory.δ i).toOrderHom 0 = 0 then a else b) ≫
+  change (if (SimplexCategory.δ i).toOrderHom 0 = 0 then a else b) ≫
     K.map (SimplexCategory.const ⦋0⦌ ⦋0⦌ 0).op = _
   have hc : SimplexCategory.const ⦋0⦌ ⦋0⦌ 0 = 𝟙 _ := by
     ext p

@@ -80,9 +80,8 @@ theorem mem_annihilator_tensor_of_mem_annihilator {X : ModuleCat.{u} A} {r : A}
     r ∈ Module.annihilator A ((tensorLeft X).obj Y) := by
   rw [Module.mem_annihilator] at hr ⊢
   intro t
-  show (r • t : TensorProduct A X Y) = 0
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  change (r • t : TensorProduct A X Y) = 0
+  induction t using TensorProduct.inductionOn with
   | tmul x y => rw [TensorProduct.smul_tmul', hr, TensorProduct.zero_tmul]
   | add a b ha hb => rw [smul_add, ha, hb, add_zero]
 
@@ -93,7 +92,7 @@ theorem HomologicalComplex.homologyMap_smul_id {ι : Type*} {c : ComplexShape ι
     HomologicalComplex.homologyMap (r • 𝟙 K) i = r • 𝟙 (K.homology i) := by
   have h : (HomologicalComplex.shortComplexFunctor (ModuleCat.{u} A) c i).map (r • 𝟙 K)
       = r • 𝟙 (K.sc i) := by ext <;> rfl
-  show ShortComplex.homologyMap
+  change ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor (ModuleCat.{u} A) c i).map (r • 𝟙 K)) = _
   rw [h, ShortComplex.homologyMap_smul, ShortComplex.homologyMap_id]
   rfl
@@ -138,7 +137,7 @@ theorem tor_map_smul_id (X M : ModuleCat.{u} A) (i : ℕ) (r : A) :
       = r • 𝟙 ((lesShift.phi A (projectiveResolution M).complex).obj X) := by
     apply HomologicalComplex.hom_ext
     intro q
-    show (r • 𝟙 X) ▷ (projectiveResolution M).complex.X q
+    change (r • 𝟙 X) ▷ (projectiveResolution M).complex.X q
       = r • 𝟙 ((tensorLeft X).obj ((projectiveResolution M).complex.X q))
     simp
   have h := torIsoHomology_hom_naturality (r • 𝟙 X) M i
@@ -235,7 +234,7 @@ theorem torShortComplexExact₃ (S : ShortComplex (ModuleCat.{u} A)) (hS : S.Sho
   refine ShortComplex.isoMk (torIsoHomology S.X₂ M (k + 1)).symm
     (torIsoHomology S.X₃ M (k + 1)).symm (torIsoHomology S.X₁ M k).symm
     (torIsoHomology_inv_naturality S.g M (k + 1)).symm ?_
-  show (torIsoHomology S.X₃ M (k + 1)).inv ≫ torDelta S hS M k
+  change (torIsoHomology S.X₃ M (k + 1)).inv ≫ torDelta S hS M k
     = (lesShift.ses A S hS M).δ (k + 1) k hrel ≫ (torIsoHomology S.X₁ M k).inv
   rw [torDelta, Iso.inv_hom_id_assoc]
 

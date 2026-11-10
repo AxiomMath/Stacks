@@ -149,9 +149,9 @@ theorem bifunctorPullbackIso_comp {CX CY CZ : Type*} [Category* CX] [Category* C
     ← Functor.map_comp]
   congr 1
   refine Prod.ext ?_ ?_
-  · show ψ.app F ≫ 𝟙 _ = 𝟙 _ ≫ Pf.map (𝟙 _) ≫ ψ.app F
+  · change ψ.app F ≫ 𝟙 _ = 𝟙 _ ≫ Pf.map (𝟙 _) ≫ ψ.app F
     simp
-  · show 𝟙 _ ≫ τk.inv = τf.inv ≫ Pf.map τg.inv ≫ ψ.app LZ
+  · change 𝟙 _ ≫ τk.inv = τf.inv ≫ Pf.map τg.inv ≫ ψ.app LZ
     rw [Category.id_comp, ← cancel_mono τk.hom, Category.assoc, Category.assoc, ← hτ,
       Iso.inv_hom_id, ← Functor.map_comp_assoc, Iso.inv_hom_id, CategoryTheory.Functor.map_id,
       Category.id_comp, Iso.inv_hom_id]

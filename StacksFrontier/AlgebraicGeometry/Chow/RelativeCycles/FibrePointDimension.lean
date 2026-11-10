@@ -117,7 +117,7 @@ theorem relativeDimension_fiberι {X S : Scheme.{u}}
     rw [← step1, ← trdeg_add_eq (S.residueField (p.base ((p.fiberι s).base z)))
       ((Spec (S.residueField s)).residueField ((p.fiberToSpecResidueField s).base z))
       (A := (p.fiber s).residueField z), hzero, zero_add]
-  show δ (p.base ((p.fiberι s).base z)) +
+  change δ (p.base ((p.fiberι s).base z)) +
       (Cardinal.toNat (Algebra.trdeg (S.residueField (p.base ((p.fiberι s).base z)))
         (X.residueField ((p.fiberι s).base z))) : ℤ) =
     δ s + (0 + (Cardinal.toNat (Algebra.trdeg

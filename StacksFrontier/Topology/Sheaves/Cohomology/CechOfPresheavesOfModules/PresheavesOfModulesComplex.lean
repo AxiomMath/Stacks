@@ -407,31 +407,31 @@ theorem adjEquiv_exists (V : Opens X.carrier) (F : ModPresheaf X) :
   · intro φ
     refine hom_ext fun W => ?_
     refine LinearMap.ext fun x => ?_
-    show adjInverseApp V F (adjForward V F φ) W x = φ.app W x
-    show (if h : W ≤ V then (x.1 : sections X W) • F.res h (adjForward V F φ) else 0)
+    change adjInverseApp V F (adjForward V F φ) W x = φ.app W x
+    change (if h : W ≤ V then (x.1 : sections X W) • F.res h (adjForward V F φ) else 0)
         = φ.app W x
     by_cases h : W ≤ V
     · rw [dite_eq_left h]
-      show (x.1 : sections X W) • F.res h (φ.app V (extZeroOne V)) = φ.app W x
+      change (x.1 : sections X W) • F.res h (φ.app V (extZeroOne V)) = φ.app W x
       rw [← φ.naturality h (extZeroOne V), ← (φ.app W).map_smul]
       congr 1
       apply Subtype.ext
-      show (x.1 : sections X W) * (X.presheaf.map (homOfLE h).op) (extZeroOne V).1 = x.1
-      show (x.1 : sections X W) * (X.presheaf.map (homOfLE h).op) (1 : sections X V) = x.1
+      change (x.1 : sections X W) * (X.presheaf.map (homOfLE h).op) (extZeroOne V).1 = x.1
+      change (x.1 : sections X W) * (X.presheaf.map (homOfLE h).op) (1 : sections X V) = x.1
       rw [map_one, mul_one]
     · rw [dite_eq_right h]
       have hx0 : (x.1 : sections X W) = 0 := mem_extZeroSub_of_not_le h _ x.2
       have hx : x = 0 := Subtype.ext hx0
       rw [hx, map_zero]
   · intro s
-    show (adjInverse V F s).app V (extZeroOne V) = s
-    show adjInverseApp V F s V (extZeroOne V) = s
-    show (if h : V ≤ V then ((extZeroOne V).1 : sections X V) • F.res h s else 0) = s
+    change (adjInverse V F s).app V (extZeroOne V) = s
+    change adjInverseApp V F s V (extZeroOne V) = s
+    change (if h : V ≤ V then ((extZeroOne V).1 : sections X V) • F.res h s else 0) = s
     rw [dite_eq_left (le_refl V)]
-    show ((1 : sections X V) • F.res (le_refl V) s) = s
+    change ((1 : sections X V) • F.res (le_refl V) s) = s
     rw [F.res_id, one_smul]
   · intro φ ψ
-    show (φ + ψ).app V (extZeroOne V) = φ.app V (extZeroOne V) + ψ.app V (extZeroOne V)
+    change (φ + ψ).app V (extZeroOne V) = φ.app V (extZeroOne V) + ψ.app V (extZeroOne V)
     rw [add_app]; rfl
   · intro φ; rfl
   · intro s; rfl
@@ -557,7 +557,7 @@ theorem KdiffApp_naturality (U : Cover X I) (p : ℕ) {W W' : Opens X.carrier} (
       = (Kterm U p).res h (KdiffApp U p W' x) := by
   classical
   refine DirectSum.induction_on x ?_ ?_ ?_
-  · show KdiffApp U p W ((Kterm U (p + 1)).res h 0)
+  · change KdiffApp U p W ((Kterm U (p + 1)).res h 0)
         = (Kterm U p).res h (KdiffApp U p W' 0)
     rw [(Kterm U (p + 1)).res_zero, (KdiffApp U p W).map_zero,
         (KdiffApp U p W').map_zero, (Kterm U p).res_zero]
@@ -568,7 +568,7 @@ theorem KdiffApp_naturality (U : Cover X I) (p : ℕ) {W W' : Opens X.carrier} (
           = DirectSum.map (fun σ => (extZeroOX X (interOpens U σ)).resHom h)
               (DirectSum.of _ σ y) from rfl,
         DirectSum.map_of]
-    show KdiffApp U p W (DirectSum.of _ σ ((extZeroOX X (interOpens U σ)).resHom h y))
+    change KdiffApp U p W (DirectSum.of _ σ ((extZeroOX X (interOpens U σ)).resHom h y))
         = (Kterm U p).res h (KdiffApp U p W' (DirectSum.of _ σ y))
     rw [show KdiffApp U p W (DirectSum.of _ σ ((extZeroOX X (interOpens U σ)).resHom h y))
           = KdiffSummand U p W σ ((extZeroOX X (interOpens U σ)).resHom h y) from
@@ -581,7 +581,7 @@ theorem KdiffApp_naturality (U : Cover X I) (p : ℕ) {W W' : Opens X.carrier} (
     refine Finset.sum_congr rfl (fun j _ => ?_)
     rw [(Kterm U p).res_zsmul]
     congr 1
-    show DirectSum.lof (sections X W) (Fin (p + 1) → I)
+    change DirectSum.lof (sections X W) (Fin (p + 1) → I)
             (fun τ => (extZeroOX X (interOpens U τ)).obj W) (omitIdx σ j)
             (extZeroCanonicalApp (interOpens_le_omitIdx U σ j) W
               ((extZeroOX X (interOpens U σ)).resHom h y))
@@ -597,7 +597,7 @@ theorem KdiffApp_naturality (U : Cover X I) (p : ℕ) {W W' : Opens X.carrier} (
               (DirectSum.of _ (omitIdx σ j)
                 (extZeroCanonicalApp (interOpens_le_omitIdx U σ j) W' y)) from rfl,
         DirectSum.map_of]
-    show DirectSum.of (fun τ => (extZeroOX X (interOpens U τ)).obj W) (omitIdx σ j)
+    change DirectSum.of (fun τ => (extZeroOX X (interOpens U τ)).obj W) (omitIdx σ j)
             (extZeroCanonicalApp (interOpens_le_omitIdx U σ j) W
               ((extZeroOX X (interOpens U σ)).resHom h y))
         = DirectSum.of (fun τ => (extZeroOX X (interOpens U τ)).obj W) (omitIdx σ j)
@@ -681,7 +681,7 @@ private theorem omitIdx_omitIdx_face {p : ℕ} (σ : Fin (p + 3) → I)
     omitIdx (omitIdx σ i) j
       = omitIdx (omitIdx σ (i.succAbove j)) (j.predAbove i) := by
   funext l
-  show σ (i.succAbove (j.succAbove l)) = σ ((i.succAbove j).succAbove ((j.predAbove i).succAbove
+  change σ (i.succAbove (j.succAbove l)) = σ ((i.succAbove j).succAbove ((j.predAbove i).succAbove
       l))
   rw [succAbove_face_eq]
 
@@ -708,19 +708,19 @@ theorem Kdiff_comp_Kdiff (U : Cover X I) (p : ℕ) :
     Kdiff U (p + 1) ≫ Kdiff U p = 0 := by
   classical
   refine hom_ext fun W => ?_
-  show (Kdiff U (p + 1) ≫ Kdiff U p).app W = (0 : Kterm U (p + 1 + 1) ⟶ Kterm U p).app W
+  change (Kdiff U (p + 1) ≫ Kdiff U p).app W = (0 : Kterm U (p + 1 + 1) ⟶ Kterm U p).app W
   rw [comp_app, zero_app]
   refine DirectSum.linearMap_ext (sections X W) ?_
   intro σ
   refine LinearMap.ext fun x => ?_
-  show (KdiffApp U p W) ((KdiffApp U (p + 1) W)
+  change (KdiffApp U p W) ((KdiffApp U (p + 1) W)
       (DirectSum.lof (sections X W) (Fin (p + 1 + 1 + 1) → I)
         (fun τ => (extZeroOX X (interOpens U τ)).obj W) σ x)) = 0
   rw [show (KdiffApp U (p + 1) W) = DirectSum.toModule (sections X W) (Fin (p + 3) → I)
         (KtermObj U (p + 1) W) (fun σ => KdiffSummand U (p + 1) W σ) from rfl,
     DirectSum.toModule_lof]
   have hle := interOpens_le_omitIdx_omitIdx U σ
-  show (KdiffApp U p W) (KdiffSummand U (p + 1) W σ x) = 0
+  change (KdiffApp U p W) (KdiffSummand U (p + 1) W σ x) = 0
   rw [show KdiffSummand U (p + 1) W σ x
       = ∑ i : Fin (p + 3), (-1 : ℤ) ^ (i : ℕ) •
           DirectSum.lof (sections X W) (Fin (p + 1 + 1) → I)
@@ -832,11 +832,11 @@ theorem cechDiff_comp_cechDiff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) :
     cechDiffMor U F p ≫ cechDiffMor U F (p + 1) = 0 := by
   apply AddCommGrpCat.hom_ext
   ext s σ
-  show (cechDiffHom U F (p+1)) (cechDiffHom U F p s) σ = (0 : CechObj U F (p+2)) σ
-  show (∑ i : Fin (p+3), (-1 : ℤ) ^ (i : ℕ) •
+  change (cechDiffHom U F (p+1)) (cechDiffHom U F p s) σ = (0 : CechObj U F (p+2)) σ
+  change (∑ i : Fin (p+3), (-1 : ℤ) ^ (i : ℕ) •
       F.res (interOpens_le_omitIdx U σ i) ((cechDiffHom U F p s) (omitIdx σ i)))
     = (0 : CechObj U F (p+2)) σ
-  show (∑ i : Fin (p+3), (-1 : ℤ) ^ (i : ℕ) •
+  change (∑ i : Fin (p+3), (-1 : ℤ) ^ (i : ℕ) •
       F.res (interOpens_le_omitIdx U σ i) ((cechDiffHom U F p s) (omitIdx σ i)))
     = 0
   have hle := interOpens_le_omitIdx_omitIdx U σ
@@ -846,14 +846,14 @@ theorem cechDiff_comp_cechDiff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) :
         = ∑ j : Fin (p+2), ((-1 : ℤ) ^ (i : ℕ) * (-1 : ℤ) ^ (j : ℕ)) •
             F.res (hle i j) (s (omitIdx (omitIdx σ i) j)) := by
     intro i
-    show (-1 : ℤ) ^ (i : ℕ) • F.res (interOpens_le_omitIdx U σ i)
+    change (-1 : ℤ) ^ (i : ℕ) • F.res (interOpens_le_omitIdx U σ i)
         (∑ j : Fin (p+2), (-1 : ℤ) ^ (j : ℕ) •
           F.res (interOpens_le_omitIdx U (omitIdx σ i) j) (s (omitIdx (omitIdx σ i) j)))
       = _
     rw [F.res_sum, Finset.smul_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [F.res_zsmul, smul_smul]
-    show ((-1 : ℤ) ^ (i : ℕ) * (-1 : ℤ) ^ (j : ℕ)) •
+    change ((-1 : ℤ) ^ (i : ℕ) * (-1 : ℤ) ^ (j : ℕ)) •
         F.res (interOpens_le_omitIdx U σ i)
           (F.res (interOpens_le_omitIdx U (omitIdx σ i) j) (s (omitIdx (omitIdx σ i) j)))
       = ((-1 : ℤ) ^ (i : ℕ) * (-1 : ℤ) ^ (j : ℕ)) •
@@ -902,9 +902,9 @@ theorem cechFunctorMap_comm (U : Cover X I) {F G : ModPresheaf X} (α : F ⟶ G)
       = AddCommGrpCat.ofHom (cechFunctorMapHom U α p) ≫ cechDiffMor U G p := by
   apply AddCommGrpCat.hom_ext
   ext s σ
-  show (cechFunctorMapHom U α (p + 1)) (cechDiffHom U F p s) σ
+  change (cechFunctorMapHom U α (p + 1)) (cechDiffHom U F p s) σ
       = (cechDiffHom U G p) (cechFunctorMapHom U α p s) σ
-  show α.app (interOpens U σ)
+  change α.app (interOpens U σ)
         (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
           F.res (interOpens_le_omitIdx U σ j) (s (omitIdx σ j)))
       = ∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
@@ -914,7 +914,7 @@ theorem cechFunctorMap_comm (U : Cover X I) {F G : ModPresheaf X} (α : F ⟶ G)
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_zsmul]
   congr 1
-  show α.app (interOpens U σ) (F.res (interOpens_le_omitIdx U σ j) (s (omitIdx σ j)))
+  change α.app (interOpens U σ) (F.res (interOpens_le_omitIdx U σ j) (s (omitIdx σ j)))
       = G.res (interOpens_le_omitIdx U σ j) (α.app (interOpens U (omitIdx σ j)) (s (omitIdx σ j)))
   exact α.naturality (interOpens_le_omitIdx U σ j) (s (omitIdx σ j))
 
@@ -1101,7 +1101,7 @@ theorem extZeroOne_res_eq_canonical (U : Cover X I) {p : ℕ} (σ : Fin (p + 2) 
       = extZeroCanonicalApp (interOpens_le_omitIdx U σ j) (interOpens U σ)
         (extZeroOne (interOpens U σ)) := by
   apply Subtype.ext
-  show (X.presheaf.map (homOfLE (interOpens_le_omitIdx U σ j)).op) (1 : sections X _)
+  change (X.presheaf.map (homOfLE (interOpens_le_omitIdx U σ j)).op) (1 : sections X _)
       = (1 : sections X (interOpens U σ))
   rw [map_one]
 
@@ -1112,7 +1112,7 @@ theorem degForward_diff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) (φ : Kter
       = degForward U F (p + 1) (Kdiff U p ≫ φ) := by
   classical
   funext σ
-  show (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
+  change (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
         F.res (interOpens_le_omitIdx U σ j) (degForward U F p φ (omitIdx σ j)))
     = adjForward (interOpens U σ) F (Kincl U (p + 1) σ ≫ (Kdiff U p ≫ φ))
   have hRHS : adjForward (interOpens U σ) F (Kincl U (p + 1) σ ≫ (Kdiff U p ≫ φ))
@@ -1122,20 +1122,20 @@ theorem degForward_diff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) (φ : Kter
               (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U σ)) (omitIdx σ j)
               (extZeroCanonicalApp (interOpens_le_omitIdx U σ j) (interOpens U σ)
                 (extZeroOne (interOpens U σ)))) := by
-    show φ.app (interOpens U σ)
+    change φ.app (interOpens U σ)
         ((Kdiff U p).app (interOpens U σ)
           (DirectSum.lof (sections X (interOpens U σ)) (Fin (p + 1 + 1) → I)
             (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U σ)) σ
             (extZeroOne (interOpens U σ))))
       = _
-    show φ.app (interOpens U σ)
+    change φ.app (interOpens U σ)
         ((KdiffApp U p (interOpens U σ))
           (DirectSum.lof (sections X (interOpens U σ)) (Fin (p + 1 + 1) → I)
             (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U σ)) σ
             (extZeroOne (interOpens U σ))))
       = _
     rw [KdiffApp, DirectSum.toModule_lof]
-    show φ.app (interOpens U σ)
+    change φ.app (interOpens U σ)
         ((∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
             (DirectSum.lof (sections X (interOpens U σ)) (Fin (p + 1) → I)
                 (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U σ)) (omitIdx σ j)).comp
@@ -1155,7 +1155,7 @@ theorem degForward_diff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) (φ : Kter
           (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U σ)) (omitIdx σ j)
           (extZeroCanonicalApp (interOpens_le_omitIdx U σ j) (interOpens U σ)
             (extZeroOne (interOpens U σ))))
-  show F.res (interOpens_le_omitIdx U σ j)
+  change F.res (interOpens_le_omitIdx U σ j)
       (φ.app (interOpens U (omitIdx σ j))
         (DirectSum.lof (sections X (interOpens U (omitIdx σ j))) (Fin (p + 1) → I)
           (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U (omitIdx σ j))) (omitIdx σ j)
@@ -1168,7 +1168,7 @@ theorem degForward_diff (U : Cover X I) (F : ModPresheaf X) (p : ℕ) (φ : Kter
         (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U (omitIdx σ j))) (omitIdx σ j)
         (extZeroOne (interOpens U (omitIdx σ j))))
     = _
-  show DirectSum.map (fun τ => (extZeroOX X (interOpens U τ)).resHom (interOpens_le_omitIdx U σ
+  change DirectSum.map (fun τ => (extZeroOX X (interOpens U τ)).resHom (interOpens_le_omitIdx U σ
       j))
       (DirectSum.lof (sections X (interOpens U (omitIdx σ j))) (Fin (p + 1) → I)
         (fun τ => (extZeroOX X (interOpens U τ)).obj (interOpens U (omitIdx σ j))) (omitIdx σ j)
@@ -1194,7 +1194,7 @@ private theorem degEquiv_comm (U : Cover X I) (F : ModPresheaf X) (i : ℕ) :
         = (preadditiveYoneda.obj F).map ((Kdiff U i).op) from by
       simp only [HomComplex, Functor.mapHomologicalComplex_obj_d, HomologicalComplex.op_d,
         show (KComplex U).d (i + 1) i = Kdiff U i from by simp only [KComplex, ChainComplex.of_d]]]
-  show cechDiffHom U F i (degForward U F i φ) = degForward U F (i + 1) (Kdiff U i ≫ φ)
+  change cechDiffHom U F i (degForward U F i φ) = degForward U F (i + 1) (Kdiff U i ≫ φ)
   exact degForward_diff U F i φ
 
 /-- For a ringed space `X` and an open covering `U : U.carrierOpen = ⋃_i U.obj i`, the two functors
@@ -1219,8 +1219,8 @@ theorem main_theorem_exists (U : Cover X I) :
   apply AddCommGrpCat.hom_ext
   ext φ
   funext σ
-  show degForward U G p (φ ≫ α) σ = α.app (interOpens U σ) (degForward U F p φ σ)
-  show adjForward (interOpens U σ) G (Kincl U p σ ≫ (φ ≫ α))
+  change degForward U G p (φ ≫ α) σ = α.app (interOpens U σ) (degForward U F p φ σ)
+  change adjForward (interOpens U σ) G (Kincl U p σ ≫ (φ ≫ α))
       = α.app (interOpens U σ) (adjForward (interOpens U σ) F (Kincl U p σ ≫ φ))
   rw [← Category.assoc, adjForward_naturality (interOpens U σ) α (Kincl U p σ ≫ φ)]
 

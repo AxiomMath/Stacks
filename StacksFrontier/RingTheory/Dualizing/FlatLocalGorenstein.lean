@@ -170,9 +170,8 @@ private lemma flatExtBaseChangeLinearEquiv
     { __ := f
       map_smul' := by
         intro r z
-        show f (r • z) = r • f z
-        induction z using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        change f (r • z) = r • f z
+        induction z using TensorProduct.inductionOn with
         | tmul s e =>
             simpa [f, TensorProduct.smul_tmul'] using hβsmul e s r
         | add x y hx hy => simp only [smul_add, map_add, hx, hy] }
@@ -351,7 +350,7 @@ private theorem residueField_ext_baseChange_one_degree
   let k := (ModuleCat.restrictScalars (residue R)).obj
     (ModuleCat.of (ResidueField R) (ULift.{0} (ResidueField R)))
   have hk : Module.Finite R k := by
-    show Module.Finite R (ULift.{0} (ResidueField R))
+    change Module.Finite R (ULift.{0} (ResidueField R))
     infer_instance
   let F := ModuleCat.uliftFunctor.{max uA uB, uA} R
   obtain ⟨d, ⟨ed⟩, hd⟩ := residueField_ext_one_degree R hR
@@ -453,7 +452,7 @@ private theorem derivedHom_closedFibre_iso_single
   let c (i : ℤ) := derivedHomHomologyLinearEquivExt.{uB, max uA uB} q K i
   have hzero (i : ℤ) (hi : i ≠ d) : Limits.IsZero ((H i).obj D) := by
     apply ModuleCat.isZero_iff_subsingleton.mpr
-    show Subsingleton (T.obj ((H i).obj D))
+    change Subsingleton (T.obj ((H i).obj D))
     by_cases hi0 : 0 ≤ i
     · obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hi0
       have hz := (hd n).2 hi
@@ -534,7 +533,7 @@ private theorem isGorensteinLocalRing_iff_quotient_of_derivedHom_iso_single
       (ModuleCat.of F (Shrink.{uA} (F ⧸ maximalIdeal F)))
     have hz := hb (T.obj M) (i + d) (by omega)
     have hz' := ((closedFibreDerivedExtEquiv I d e M (i + d)).subsingleton_congr).mp hz
-    show Subsingleton (DerivedCategory.Ext
+    change Subsingleton (DerivedCategory.Ext
       ((DerivedCategory.singleFunctor (ModuleCat.{max uB uA} F) 0).obj M)
       ((DerivedCategory.singleFunctor (ModuleCat.{max uB uA} F) 0).obj
         (ModuleCat.of F (ULift.{uB} F))) i)

@@ -162,14 +162,14 @@ theorem isN2_of_isLocalization_domain (D : Type u) [CommRing D] [IsDomain D] (N 
   have htower : IsScalarTower D (FractionRing D) L := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap D L x = (algebraMap (FractionRing S) L) (e (algebraMap D (FractionRing D) x))
+    change algebraMap D L x = (algebraMap (FractionRing S) L) (e (algebraMap D (FractionRing D) x))
     rw [e.commutes x, ← IsScalarTower.algebraMap_apply D (FractionRing S) L]
   have hfd : FiniteDimensional (FractionRing D) L := by
-    show Module.Finite (FractionRing D) L
+    change Module.Finite (FractionRing D) L
     apply Module.Finite.of_equiv_equiv e.symm.toRingEquiv (RingEquiv.refl L)
     ext y
-    simp only [RingHom.comp_apply, RingEquiv.coe_ringHom_refl, RingHom.id_comp]
-    show (algebraMap (FractionRing S) L) (e (e.symm y)) = _
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_refl, RingHom.id_comp]
+    change (algebraMap (FractionRing S) L) (e (e.symm y)) = _
     simp [AlgEquiv.apply_symm_apply]
   -- Step 2: `D` is N-2, so `integralClosure D L` is module-finite over `D`.
   have hfin : Module.Finite D (integralClosure D L) := hD L

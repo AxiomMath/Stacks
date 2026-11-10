@@ -104,7 +104,7 @@ private lemma exists_equal_section_stage
       apply AffineSpace.hom_ext
       · simp [f, Category.assoc]
       · intro k
-        show (pullback.snd X.hom p).appTop (p.appTop
+        change (pullback.snd X.hom p).appTop (p.appTop
           ((AffineSpace.homOfVector (𝟙 (D.obj i)) (fun _ : PUnit.{u + 1} => s)).appTop _)) =
           (pullback.snd X.hom p).appTop (p.appTop
           ((AffineSpace.homOfVector (𝟙 (D.obj i)) (fun _ : PUnit.{u + 1} => t)).appTop _))
@@ -507,7 +507,7 @@ private lemma exists_relativeGlobalCompleteIntersection_finiteType_model
     (fun i => algebraMap_base_ring_comp R₀ S₀ i)
     (base_jointly_surjective R₀)
     (fun i x h => ⟨i, le_rfl, by
-      show x = 0
+      change x = 0
       exact (algebraMap_base_injective R₀ i) (by simpa [baseToRing] using h)⟩)
     (ring_colimit R₀ S₀ (S := B)).1
     (fun i x h => by
@@ -519,7 +519,7 @@ private lemma exists_relativeGlobalCompleteIntersection_finiteType_model
     CommRingCat.ofHom (algebraMap (Ring R₀ S₀ i) B),
     Algebra.FinitePresentation.of_finiteType.mp inferInstance, ?_,
     CommRingCat.isPushout_iff_isPushout.mpr (ringToRing_isPushout R₀ S₀ (S := B) i)⟩
-  show @Algebra.IsRelativeGlobalCompleteIntersection (Base R₀ i) _ (Ring R₀ S₀ i) _
+  change @Algebra.IsRelativeGlobalCompleteIntersection (Base R₀ i) _ (Ring R₀ S₀ i) _
     (algebraMap (Base R₀ i) (Ring R₀ S₀ i)).toAlgebra
   convert hi using 1
   exact toAlgebra_algebraMap
@@ -698,7 +698,7 @@ private lemma exists_covering_of_models
     exact isCompact_range (Z j).hom.continuous
   have hWlim : (c.π.app k) ⁻¹ᵁ W = ⊤ := by
     apply TopologicalSpace.Opens.ext
-    show (c.π.app k) ⁻¹' (⋃ j, Set.range (Z j).hom) = Set.univ
+    change (c.π.app k) ⁻¹' (⋃ j, Set.range (Z j).hom) = Set.univ
     rw [Set.preimage_iUnion]
     simp_rw [← Scheme.Pullback.range_snd]
     rw [← hcover]
@@ -713,7 +713,7 @@ private lemma exists_covering_of_models
   · intro j
     let := hZ j
     exact hbase _ _ (hZP j)
-  · show (⋃ j, Set.range (pullback.snd (Z j).hom (D.map h))) = Set.univ
+  · change (⋃ j, Set.range (pullback.snd (Z j).hom (D.map h))) = Set.univ
     simp_rw [Scheme.Pullback.range_snd]
     rw [← Set.preimage_iUnion]
     exact congrArg (fun U : (D.obj l).Opens => (U : Set (D.obj l))) hh
@@ -796,7 +796,7 @@ theorem exists_standardZariskiCovering_of_isLimit
   have hsectionFinal (j : 𝒰.I₀) : (c.π.app iFinal).appTop (tFinal j) = s j :=
     (appTop_transport D c fFinal (t j)).trans (ht j)
   refine ⟨iFinal, 𝒰ᵢ, ⟨h𝒰.1, fun j => ⟨tFinal j, Iso.refl _, rfl⟩⟩, Equiv.refl _, fun j => ?_⟩
-  show Nonempty ((Over.pullback (c.π.app iFinal)).obj
+  change Nonempty ((Over.pullback (c.π.app iFinal)).obj
     (Over.mk (((D.obj iFinal).basicOpen (tFinal j)).ι)) ≅ Over.mk (𝒰.f j))
   exact nonempty_pullback_basicOpen_ι_iso (c.π.app iFinal) (tFinal j) (𝒰.f j)
     ((hrange j).trans (congrArg c.pt.basicOpen (hsectionFinal j).symm))

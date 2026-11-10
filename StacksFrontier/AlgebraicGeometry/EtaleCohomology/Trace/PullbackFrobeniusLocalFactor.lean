@@ -105,7 +105,7 @@ omit [Finite (X.residueField (g x'))] in
 public theorem inverseImagePointHom_hom_comp :
     (inverseImagePointHom g x').hom ≫
         Spec.map (CommRingCat.ofHom (inverseImageClosureEquiv g x').symm.toRingHom) = 𝟙 _ := by
-  show Spec.map _ ≫ Spec.map _ = 𝟙 _
+  change Spec.map _ ≫ Spec.map _ = 𝟙 _
   rw [← Spec.map_comp, ← Spec.map_id]
   congr 1
   ext z
@@ -117,7 +117,7 @@ public theorem frobeniusPointHom_map_comp_inverseImagePointHom
     ((frobeniusPointHom X' x').map g).comp (inverseImagePointHom g x') =
       (inverseImagePointHom g x').comp (frobeniusPointHom X (g x')) := by
   refine GeometricPoint.Hom.ext_of_hom ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
   ext z
@@ -156,7 +156,7 @@ public theorem frobeniusStalk_inverseImage_eq_conj
     (J := X.smallEtaleTopology) φ).app F) hc
   simp only [Point.Hom.sheafFiber_comp, NatTrans.comp_app] at h3
   rw [← cancel_epi (inverseImageStalkIso g x' Λ F).hom, Iso.hom_inv_id_assoc]
-  show ((Point.Hom.sheafFiber (A := ModuleCat.{max (u + 1) r} Λ)
+  change ((Point.Hom.sheafFiber (A := ModuleCat.{max (u + 1) r} Λ)
       (smallEtalePointHom X (inverseImagePointHom g x'))).app F ≫
       (etaleModuleStalkPullbackIso Λ g (geometricPointAt X' x').hom).inv.app F) ≫
       (Point.Hom.sheafFiber (smallEtalePointHom X' (frobeniusPointHom X' x'))).app

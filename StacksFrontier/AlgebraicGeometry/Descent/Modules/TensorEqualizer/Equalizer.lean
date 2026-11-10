@@ -130,7 +130,7 @@ public theorem tensorPushforward_isEqualizer_aux
     map_smul' := by
       intro r x
       rw [eP.map_smul]
-      show (1 : A) ⊗ₜ[R] (r • eP x) =
+      change (1 : A) ⊗ₜ[R] (r • eP x) =
         (algebraMap R A r) • ((1 : A) ⊗ₜ[R] eP x)
       rw [← TensorProduct.smul_tmul]
       simp [Algebra.smul_def, TensorProduct.smul_tmul'] }
@@ -144,7 +144,7 @@ public theorem tensorPushforward_isEqualizer_aux
     dsimp [k, i, l]
     cases m with
     | up m =>
-        show DescentData.descentComparisonHom R A D (ULift.up (eC.symm m.1)) =
+        change DescentData.descentComparisonHom R A D (ULift.up (eC.symm m.1)) =
           (1 : A) ⊗ₜ[R] eC (eC.symm m.1)
         rw [DescentData.descentComparisonHom_apply]
         exact m.2
@@ -168,7 +168,7 @@ public theorem tensorPushforward_isEqualizer_aux
               (1 : A) ⊗ₜ[R] eC x at hx'
             rwa [DescentData.descentComparisonHom_apply] at hx'
           refine ⟨ULift.up ⟨eC x, hmem⟩, ?_⟩
-          show (ULift.moduleEquiv.{u, w, v} (R := R) (M := D.module)).symm
+          change (ULift.moduleEquiv.{u, w, v} (R := R) (M := D.module)).symm
             (eC.symm (eC x)) = ULift.up x
           rw [eC.symm_apply_apply]
           rfl
@@ -195,14 +195,13 @@ public theorem tensorPushforward_isEqualizer_aux
         toFun := fun x => (RingHom.id R) r • x
         map_zero' := by simp
         map_add' := fun x y => smul_add _ _ _ }
-      show lhs x = rhs x
-      induction x using TensorProduct.induction_on with
-      | zero => exact rhs.map_zero.symm
+      change lhs x = rhs x
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [lhs.map_add, hx, hy]
           exact (rhs.map_add x y).symm
       | tmul a m =>
-          show (r • a) ⊗ₜ[R] m = (algebraMap R A r * a) ⊗ₜ[R] m
+          change (r • a) ⊗ₜ[R] m = (algebraMap R A r * a) ⊗ₜ[R] m
           exact congrArg (fun b : A => b ⊗ₜ[R] m) (Algebra.smul_def r a)
     left_inv _ := rfl
     right_inv _ := rfl }
@@ -221,23 +220,19 @@ public theorem tensorPushforward_isEqualizer_aux
         toFun := fun x => (RingHom.id R) r • x
         map_zero' := by simp
         map_add' := fun x y => smul_add _ _ _ }
-      show lhs x = rhs x
-      induction x using TensorProduct.induction_on with
-      | zero => exact rhs.map_zero.symm
+      change lhs x = rhs x
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
           rw [lhs.map_add, hx, hy]
           exact (rhs.map_add x y).symm
       | tmul p m =>
-          induction p using TensorProduct.induction_on with
-          | zero =>
-              rw [TensorProduct.zero_tmul]
-              exact rhs.map_zero.symm
+          induction p using TensorProduct.inductionOn with
           | add p p' hp hp' =>
               rw [TensorProduct.add_tmul]
               rw [lhs.map_add, hp, hp']
               exact (rhs.map_add _ _).symm
           | tmul a b =>
-              show ((r • a) ⊗ₜ[R] b) ⊗ₜ[R] m =
+              change ((r • a) ⊗ₜ[R] b) ⊗ₜ[R] m =
                 ((algebraMap R A r * a) ⊗ₜ[R] b) ⊗ₜ[R] m
               exact congrArg (fun c : A => (c ⊗ₜ[R] b) ⊗ₜ[R] m)
                 (Algebra.smul_def r a)
@@ -254,11 +249,11 @@ public theorem tensorPushforward_isEqualizer_aux
     qA.toLinearMap.comp (unitBaseChangeMap (R := R) (A := A) Q)
   have hfEval (x : Q) :
       f x = DescentData.transition12AfterUnit R A D x := by
-    show ((DescentData.transition12AfterUnitHom R A D).restrictScalars R) x = _
+    change ((DescentData.transition12AfterUnitHom R A D).restrictScalars R) x = _
     rw [DescentData.transition12AfterUnitHom_restrictScalars]
   have hgEval (x : Q) :
       g x = DescentData.rightUnitBaseChange R A D x := by
-    show ((DescentData.rightUnitBaseChangeHom R A D).restrictScalars R) x = _
+    change ((DescentData.rightUnitBaseChangeHom R A D).restrictScalars R) x = _
     rw [DescentData.rightUnitBaseChangeHom_restrictScalars]
   have hfEvalRaw (x : A ⊗[R] restrictModule R A D.module) :
       f (eQ x) = DescentData.transition12AfterUnit R A D x := by
@@ -284,7 +279,7 @@ public theorem tensorPushforward_isEqualizer_aux
     ext x
     apply pA.injective
     simp only [LinearMap.comp_apply]
-    show pA (pA.symm (l x)) = pA (unitBaseChangeMap (R := R) (A := A) P x)
+    change pA (pA.symm (l x)) = pA (unitBaseChangeMap (R := R) (A := A) P x)
     rw [pA.apply_symm_apply]
     rfl
   have hunitQ : qA.symm.toLinearMap.comp tQ =
@@ -295,19 +290,18 @@ public theorem tensorPushforward_isEqualizer_aux
   have hmapK : f.comp pA.toLinearMap =
       qA.toLinearMap.comp (LinearMap.lTensor A k) := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [pA, qA]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy, map_add]
     | tmul a x =>
         cases x with
         | up x =>
             simp only [LinearMap.comp_apply]
             let px : P := ULift.up x
-            show f (pA.toLinearMap (a ⊗ₜ[R] px)) =
+            change f (pA.toLinearMap (a ⊗ₜ[R] px)) =
               qA.toLinearMap ((LinearMap.lTensor A k) (a ⊗ₜ[R] px))
             rw [hpATmul, hfEvalRaw, LinearMap.lTensor_tmul, show eP px = eC x from rfl]
             dsimp [qA]
-            show eY (DescentData.transition12AfterUnit R A D
+            change eY (DescentData.transition12AfterUnit R A D
                 (a ⊗ₜ[R] eC x)) =
               eY ((TensorProduct.assoc R A A (restrictModule R A D.module)).symm
                 ((TensorProduct.congr (LinearEquiv.refl R A) eQ.symm)
@@ -320,19 +314,18 @@ public theorem tensorPushforward_isEqualizer_aux
   have hmapL : g.comp pA.toLinearMap =
       qA.toLinearMap.comp (LinearMap.lTensor A l) := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [pA, qA]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy, map_add]
     | tmul a x =>
         cases x with
         | up x =>
             simp only [LinearMap.comp_apply]
             let px : P := ULift.up x
-            show g (pA.toLinearMap (a ⊗ₜ[R] px)) =
+            change g (pA.toLinearMap (a ⊗ₜ[R] px)) =
               qA.toLinearMap ((LinearMap.lTensor A l) (a ⊗ₜ[R] px))
             rw [hpATmul, hgEvalRaw, LinearMap.lTensor_tmul, show eP px = eC x from rfl]
             dsimp [qA]
-            show eY (DescentData.rightUnitBaseChange R A D
+            change eY (DescentData.rightUnitBaseChange R A D
                 (a ⊗ₜ[R] eC x)) =
               eY ((TensorProduct.assoc R A A (restrictModule R A D.module)).symm
                 ((TensorProduct.congr (LinearEquiv.refl R A) eQ.symm)
@@ -452,8 +445,7 @@ public theorem tensorPushforward_isEqualizer_aux
   have hIncQ : cmpQ =
       pA.toLinearMap.comp ((LinearMap.lTensor A i).comp pI.symm.toLinearMap) := by
     refine LinearMap.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul a m =>
         simp [cmpQ, cmpR, tensorPushforwardComparison, pA, pI, i, eI, eP, eC, eQ]

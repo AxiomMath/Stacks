@@ -129,13 +129,13 @@ theorem bijective_liftBaseChange_trans
       rw [LinearMap.liftBaseChange_tmul, hΦ]
       have h0 : Φ (c ⊗ₜ[A] m) = c ⊗ₜ[Bc] ρ₁ m := by
         rw [hΦ]
-        show (LinearEquiv.baseChange Bc Cc (Bc ⊗[A] M) N e₁)
+        change (LinearEquiv.baseChange Bc Cc (Bc ⊗[A] M) N e₁)
           ((TensorProduct.AlgebraTensorModule.cancelBaseChange A Bc Cc Cc M).symm
             (c ⊗ₜ[A] m)) = _
         rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
           LinearEquiv.baseChange_tmul, he₁]
         congr 1
-        show (ρ₁.liftBaseChange Bc) ((1 : Bc) ⊗ₜ[A] m) = ρ₁ m
+        change (ρ₁.liftBaseChange Bc) ((1 : Bc) ⊗ₜ[A] m) = ρ₁ m
         rw [LinearMap.liftBaseChange_tmul, one_smul]
       rw [← hΦ, h0, LinearMap.liftBaseChange_tmul, hρ]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add]

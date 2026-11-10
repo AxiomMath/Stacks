@@ -120,7 +120,7 @@ theorem canHom_val_app_pullbackSection {W Z X : Scheme.{u}} (q : W ⟶ Z) (g : Z
           (pullbackSection g F U W₀ hg a))
       = pullbackSection pi F U V h a := by
   rw [canHom]
-  show ((Scheme.Modules.pullbackCongr hpi).hom.app F).val.app (op V)
+  change ((Scheme.Modules.pullbackCongr hpi).hom.app F).val.app (op V)
     (((Scheme.Modules.pullbackComp q g).hom.app F).val.app (op V) _) = _
   rw [pullbackSection_comp q g F U W₀ V hg hf (hpi ▸ h), pullbackSection_congr hpi F U V _ h]
 
@@ -225,7 +225,7 @@ theorem canHom_cocycle {V₁ W Z X : Scheme.{u}} (r : V₁ ⟶ W) (q : W ⟶ Z) 
         canHom r qg pi h2 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
         (triplePullbackSection r q g F U a)
       = pullbackSection pi F U (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))) hpile a := by
-    show (canHom r qg pi h2 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
+    change (canHom r qg pi h2 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
       (((Scheme.Modules.pullback r).map (canHom q g qg hqg F)).val.app
         (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U)))) (triplePullbackSection r q g F U a)) = _
     rw [map_pullback_canHom_triplePullbackSection r q g qg hqg F U a hqgle,
@@ -235,7 +235,7 @@ theorem canHom_cocycle {V₁ W Z X : Scheme.{u}} (r : V₁ ⟶ W) (q : W ⟶ Z) 
         canHom rq g pi h1 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
         (triplePullbackSection r q g F U a)
       = pullbackSection pi F U (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))) hpile a := by
-    show (canHom rq g pi h1 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
+    change (canHom rq g pi h1 F).val.app (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U))))
       ((canHom r q rq hrq ((Scheme.Modules.pullback g).obj F)).val.app
         (op (r ⁻¹ᵁ (q ⁻¹ᵁ (g ⁻¹ᵁ U)))) (triplePullbackSection r q g F U a)) = _
     rw [triplePullbackSection, doublePullbackSection,

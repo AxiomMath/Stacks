@@ -133,7 +133,8 @@ its torsor to a lift with vanishing obstruction — which supplies the next `Q`-
 continues the induction.
 
 **`∂` IS NOT ADDITIVE, so that route is blocked and not merely unfinished.** This is proved by
-`StacksFrontier.Deformation.ObstructionVariationQuadratic`. A lift is a differential on a bounded-above free resolution reduced
+`StacksFrontier.Deformation.ObstructionVariationQuadratic`. A lift is a differential on a
+bounded-above free resolution reduced
 modulo `Iʲ⁺¹`, the torsor acts by `d_{j+1} + ε` with `ε` of `K_j`-coefficients, and lifting one
 step further gives `(d_{j+2} + ε̃)² = d_{j+2}² + (d_{j+2} ε̃ + ε̃ d_{j+2}) + ε̃²`, whose last term
 has coefficients in `I²ʲ`. Read in `K_{j+1} = Iʲ⁺¹/Iʲ⁺²` that term vanishes exactly when
@@ -674,7 +675,7 @@ theorem exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_
       (AlgHom.id A' A)).toRingHom.toAlgebra
   refine exists_pow_smul_canonicalObstructionMap_eq_zero_of_localizationLift_of_isNilpotent_ker
     A' A P' hsurjA hnilA hsurjP hzeroP M K hK eK g (fun x a => ?_) (hlocal g hg)
-  show Algebra.TensorProduct.map (IsScalarTower.toAlgHom A' P' (Localization.Away g))
+  change Algebra.TensorProduct.map (IsScalarTower.toAlgHom A' P' (Localization.Away g))
     (AlgHom.id A' A) (x ⊗ₜ[A'] a) = (algebraMap P' (Localization.Away g) x) ⊗ₜ[A'] a
   rw [Algebra.TensorProduct.map_tmul]
   rfl
@@ -1161,7 +1162,7 @@ theorem not_hasFlatModuleLift_Nshift : ¬ HasFlatModuleLift bAmb.{u} sMid.{u} Ns
       have h2 := hact ((1 : Mid.{u}) ⊗ₜ[Amb.{u}] m)
       rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', smul_eq_mul, smul_eq_mul,
         mul_one, mul_one] at h2
-      show (1 : Mid.{u}) ⊗ₜ[Amb.{u}] (eps.{u} • m - T • m) = 0
+      change (1 : Mid.{u}) ⊗ₜ[Amb.{u}] (eps.{u} • m - T • m) = 0
       rw [TensorProduct.tmul_sub, hl, hl, sub_eq_zero]
       exact h2
     rw [← LinearMap.mem_ker, TensorProduct.ker_mk_one hsurj, ker_algebraMap_Mid, Ideal.map_span,

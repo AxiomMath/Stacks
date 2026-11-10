@@ -55,8 +55,7 @@ private lemma tensor_linearMap_ext
     (h : ∀ m : M, f ((1 : S) ⊗ₜ[R] m) = g ((1 : S) ⊗ₜ[R] m)) :
     f = g := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     have hs : (s ⊗ₜ[R] m : TensorProduct R S M) = s • ((1 : S) ⊗ₜ[R] m) := by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -200,7 +199,7 @@ private theorem module_pullback_of_idealPowerTorsion
   refine ⟨m₀ + k.1, ⟨by simp [hm₀], hmk⟩, ?_⟩
   intro m hm
   have hdiff : m - (m₀ + k.1) ∈ f.ker := by
-    show f (m - (m₀ + k.1)) = 0
+    change f (m - (m₀ + k.1)) = 0
     rw [map_sub, hm.1]
     simp [hm₀]
   let d : f.ker := ⟨m - (m₀ + k.1), hdiff⟩
@@ -211,7 +210,7 @@ private theorem module_pullback_of_idealPowerTorsion
       rw [map_sub, hm.2, hmk, sub_self]
     have hnat : (f.ker.subtype.rTensor S) (IPowerTorsion.unitMap R S f.ker d) =
         IPowerTorsion.unitMap R S M (m - (m₀ + k.1)) := by
-      show (f.ker.subtype.rTensor S) (d ⊗ₜ[R] (1 : S)) = (m - (m₀ + k.1)) ⊗ₜ[R] (1 : S)
+      change (f.ker.subtype.rTensor S) (d ⊗ₜ[R] (1 : S)) = (m - (m₀ + k.1)) ⊗ₜ[R] (1 : S)
       rw [LinearMap.rTensor_tmul]
       rfl
     simpa only [map_zero] using hnat.trans hdz
@@ -236,8 +235,7 @@ private theorem module_pullback_of_idealPowerTorsion'
   let cN := TensorProduct.comm R S N
   have hcomm (z : TensorProduct R S M) :
       (f.rTensor S) (cM z) = cN (LinearMap.baseChange S f z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s m => simp [cM, cN]
     | add z w hz hw => rw [map_add, map_add, hz, hw, map_add, map_add]
   have hx' : (f.rTensor S) (cM x) = IPowerTorsion.unitMap R S N n := by
@@ -271,7 +269,7 @@ public theorem AdicCompletion.existsUnique_of_descent
   have hbase : LinearMap.baseChange (AdicCompletion I A) ψ (e.symm y) =
       (1 : AdicCompletion I A) ⊗ₜ[A] n := by
     rw [← he]
-    show φ (e (e.symm y)) = _
+    change φ (e (e.symm y)) = _
     rw [e.apply_symm_apply, hy]
   obtain ⟨m, hm, huniq⟩ :=
     module_pullback_of_idealPowerTorsion'.{u, v} I (AdicCompletion.flat_of_isNoetherian I)
@@ -435,7 +433,7 @@ public theorem AdicCompletion.descent_unique
   have htensor (f : M₁ →ₗ[A] M₂) (hf : ∀ m, e₂ ((1 : S) ⊗ₜ[A] f m) = e₁ ((1 : S) ⊗ₜ[A] m)) :
       e₂.toLinearMap.comp (LinearMap.baseChange S f) = e₁.toLinearMap := by
     refine tensor_linearMap_ext _ _ fun m => ?_
-    show e₂ (LinearMap.baseChange S f ((1 : S) ⊗ₜ[A] m)) = e₁ ((1 : S) ⊗ₜ[A] m)
+    change e₂ (LinearMap.baseChange S f ((1 : S) ⊗ₜ[A] m)) = e₁ ((1 : S) ⊗ₜ[A] m)
     rw [LinearMap.baseChange_tmul]
     exact hf m
   refine ⟨d, ⟨LinearMap.ext hdψ, htensor d.toLinearMap hdu⟩, fun d' hd' => ?_⟩

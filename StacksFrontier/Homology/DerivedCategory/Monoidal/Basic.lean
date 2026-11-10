@@ -156,7 +156,7 @@ local notation "T" => CochainComplex.DerivedTensor.canonicalDerivedTensorProduct
 attribute [local instance] derivedMonoidalStruct
 
 private theorem tensor_id (X Y : D) : (𝟙 X) ⊗ₘ (𝟙 Y) = 𝟙 (X ⊗ Y) := by
-  show ((T).tensor.map (𝟙 X)).app Y ≫ ((T).tensor.obj X).map (𝟙 Y) =
+  change ((T).tensor.map (𝟙 X)).app Y ≫ ((T).tensor.obj X).map (𝟙 Y) =
     𝟙 (((T).tensor.obj X).obj Y)
   simp
 
@@ -168,13 +168,13 @@ private theorem tensor_comp {X Y Z X' Y' Z' : D}
 
 private theorem tensor_id_left (X : D) {Y Z : D} (f : Y ⟶ Z) :
     (𝟙 X) ⊗ₘ f = X ◁ f := by
-  show ((T).tensor.map (𝟙 X)).app Y ≫ ((T).tensor.obj X).map f =
+  change ((T).tensor.map (𝟙 X)).app Y ≫ ((T).tensor.obj X).map f =
     ((T).tensor.obj X).map f
   simp
 
 private theorem tensor_id_right {X Y : D} (f : X ⟶ Y) (Z : D) :
     f ⊗ₘ (𝟙 Z) = f ▷ Z := by
-  show ((T).tensor.map f).app Z ≫ ((T).tensor.obj Y).map (𝟙 Z) =
+  change ((T).tensor.map f).app Z ≫ ((T).tensor.obj Y).map (𝟙 Z) =
     ((T).tensor.map f).app Z
   simp
 
@@ -194,7 +194,7 @@ private theorem swap_naturality {X Y X' Y' : D} (f : X ⟶ X') (g : Y ⟶ Y') :
     (f ⊗ₘ g) ≫ (swap X' Y').hom = (swap X Y).hom ≫ (g ⊗ₘ f) := by
   let b := (CochainComplex.DerivedTensor.canonicalSymmetricDerivedTensorProduct
     R).braiding.iso.hom
-  show (((T).tensor.map f).app Y ≫ ((T).tensor.obj X').map g) ≫ (b.app X').app Y' =
+  change (((T).tensor.map f).app Y ≫ ((T).tensor.obj X').map g) ≫ (b.app X').app Y' =
     (b.app X).app Y ≫ (((T).tensor.map g).app X ≫ ((T).tensor.obj Y').map f)
   simp only [Category.assoc]
   rw [← Category.assoc, Category.assoc, (b.app X').naturality g]
@@ -202,7 +202,7 @@ private theorem swap_naturality {X Y X' Y' : D} (f : X ⟶ X') (g : Y ⟶ Y') :
   change ((T).tensor.map f).app Y ≫ (b.app X').app Y =
     (b.app X).app Y ≫ ((T).tensor.obj Y).map f at hn
   rw [← Category.assoc, ← Category.assoc, hn]
-  show ((b.app X).app Y ≫ ((T).tensor.obj Y).map f) ≫
+  change ((b.app X).app Y ≫ ((T).tensor.obj Y).map f) ≫
       ((T).tensor.map g).app X' =
     ((b.app X).app Y ≫ ((T).tensor.map g).app X) ≫ ((T).tensor.obj Y').map f
   simpa only [Category.assoc] using
@@ -215,7 +215,7 @@ private theorem right_naturality {X Y : D} (f : X ⟶ Y) :
 
 private theorem left_naturality {X Y : D} (f : X ⟶ Y) :
     (𝟙 (𝟙_ D) ⊗ₘ f) ≫ (λ_ Y).hom = (λ_ X).hom ≫ f := by
-  show (𝟙 (𝟙_ D) ⊗ₘ f) ≫ ((swap (𝟙_ D) Y).hom ≫ (ρ_ Y).hom) =
+  change (𝟙 (𝟙_ D) ⊗ₘ f) ≫ ((swap (𝟙_ D) Y).hom ≫ (ρ_ Y).hom) =
     ((swap (𝟙_ D) X).hom ≫ (ρ_ X).hom) ≫ f
   rw [← Category.assoc, swap_naturality, Category.assoc, right_naturality, Category.assoc]
 
@@ -309,7 +309,7 @@ private theorem Represents.associator {X Y Z : D}
 
 private theorem Represents.rightUnitor {X : D} (A : Representative X) :
     Represents (A.tensor unitRepresentative) A (ρ_ X).hom (ρ_ A.complex).hom := by
-  show (ρ_ X).hom ≫ A.iso.hom =
+  change (ρ_ X).hom ≫ A.iso.hom =
     ((A.iso.hom ⊗ₘ 𝟙 (𝟙_ D)) ≫
       ((T).comparison A.complex (𝟙_ C) A.flat kFlat_unit).hom) ≫
         (Q).map (ρ_ A.complex).hom
@@ -318,7 +318,7 @@ private theorem Represents.rightUnitor {X : D} (A : Representative X) :
 
 private theorem Represents.leftUnitor {X : D} (A : Representative X) :
     Represents (unitRepresentative.tensor A) A (λ_ X).hom (λ_ A.complex).hom := by
-  show (λ_ X).hom ≫ A.iso.hom =
+  change (λ_ X).hom ≫ A.iso.hom =
     ((𝟙 (𝟙_ D) ⊗ₘ A.iso.hom) ≫
       ((T).comparison (𝟙_ C) A.complex kFlat_unit A.flat).hom) ≫
         (Q).map (λ_ A.complex).hom
@@ -500,10 +500,10 @@ public theorem derivedCategory_symmetricMonoidalCategory (R : Type u) [CommRing 
   let := derivedSymmetricCategory (R := R)
   refine ⟨derivedMonoidalCategory, derivedSymmetricCategory, Iso.refl _, ?_, ?_⟩
   · intro K L
-    show (swap K L).hom ≫ 𝟙 _ = 𝟙 _ ≫ (swap K L).hom
+    change (swap K L).hom ≫ 𝟙 _ = 𝟙 _ ≫ (swap K L).hom
     simp
   · intro K L M hK hL hM hKL hLM
-    show (α_ (Q.obj K) (Q.obj L) (Q.obj M)).hom ≫
+    change (α_ (Q.obj K) (Q.obj L) (Q.obj M)).hom ≫
         (Q.obj K ◁ (𝟙 _ ≫ (T.tensorProduct.comparison L M hL hM).hom)) ≫
         (𝟙 _ ≫ (T.tensorProduct.comparison K (L ⊗ M) hK hLM).hom) =
       ((𝟙 _ ≫ (T.tensorProduct.comparison K L hK hL).hom) ▷ Q.obj M) ≫

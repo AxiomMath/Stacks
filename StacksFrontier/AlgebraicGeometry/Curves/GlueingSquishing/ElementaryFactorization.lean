@@ -152,7 +152,8 @@ this from two ingredients, and the state of each is as follows.
   `0 → 𝒜/𝒪_X → f_*𝒪_{X'}/𝒪_X → f_*𝒪_{X'}/𝒜 → 0`, the fibre sum comparing the measure of the
   upper half with lengths over `𝒪_{X, x}`, strictness at both ends, and the measure itself are
   all proved — `Stacks.GlueSquishFactor.measureOver` in
-  `StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.BadPointsSum`. What is still missing is the identification of each
+  `StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.BadPointsSum`. What is still missing
+  is the identification of each
   half's measure with the corresponding drop; the implementation notes of
   `StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.SubalgebraProducer` and of
   `StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.StalkSubalgebraSpreadOut` set those

@@ -367,11 +367,9 @@ theorem correspondenceToPointEquiv_correspondencePullback (hΔ : Δ.IsoInvariant
             ℤ ℚ _ _ (correspondencePullback k sX' sX Δ hX' hX s (-r) c β)) =
       composition k sX' sX (𝟙 _) Δ hX' hX (relativeDimension_identity _) s r c
         (correspondenceToPointEquiv _ sX r β) := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
-    induction β using TensorProduct.induction_on with
-    | zero => simp
+    induction β using TensorProduct.inductionOn with
     | tmul q' β =>
       simp only [correspondencePullback, rationalBilin_tmul, LinearEquiv.baseChange_tmul,
         LinearMap.compr₂_apply, AddMonoidHom.coe_toIntLinearMap]
@@ -494,11 +492,9 @@ theorem correspondenceFromPointEquiv_correspondencePushforward (hΔ : Δ.IsoInva
         (correspondencePushforward k sX sY Δ hX hY s i c α) =
       composition k (𝟙 _) sX sY Δ (relativeDimension_identity _) hX hY i s
         (correspondenceFromPointEquiv _ sX a i α) c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
-    induction α using TensorProduct.induction_on with
-    | zero => simp
+    induction α using TensorProduct.inductionOn with
     | tmul q' α =>
       simp only [correspondencePushforward, rationalBilin_tmul, LinearMap.compr₂_apply,
         AddMonoidHom.coe_toIntLinearMap]

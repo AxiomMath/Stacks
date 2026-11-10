@@ -245,12 +245,12 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
   have hgen : ∀ (i j : {j : ι // i₀ ≤ j}) (h : i ≤ j) (x : Fin m),
       vecMap n r (a i.1 j.1 h) (gen i x) = gen j x := by
     intro i j h x
-    show vecMap n r (a i.1 j.1 h) (vecMap n r (a i₀ i.1 i.2) (k x)) = _
+    change vecMap n r (a i.1 j.1 h) (vecMap n r (a i₀ i.1 i.2) (k x)) = _
     rw [vecMap_vecMap, hcomp]
   have hgent : ∀ (i : {j : ι // i₀ ≤ j}) (x : Fin m),
       vecMap n r (ρ i.1) (gen i x) = gent x := by
     intro i x
-    show vecMap n r (ρ i.1) (vecMap n r (a i₀ i.1 i.2) (k x)) = _
+    change vecMap n r (ρ i.1) (vecMap n r (a i₀ i.1 i.2) (k x)) = _
     rw [vecMap_vecMap, hρc]
   have hAsys : DirectedSystem (fun i : {j : ι // i₀ ≤ j} ↦ Ar i.1)
       (fun i j h ↦ (a i.1 j.1 h : Ar i.1 →+* Ar j.1)) := by
@@ -265,11 +265,11 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
         MvPolynomial (Fin n) (Ar i.1) →+* MvPolynomial (Fin n) (Ar j.1))) := by
     refine ⟨?_, ?_⟩
     · intro i p
-      show MvPolynomial.map (a i.1 i.1 le_rfl) p = p
+      change MvPolynomial.map (a i.1 i.1 le_rfl) p = p
       rw [hself]
       exact MvPolynomial.map_id p
     · intro l j i hij hjl p
-      show MvPolynomial.map (a j.1 l.1 hjl) (MvPolynomial.map (a i.1 j.1 hij) p) = _
+      change MvPolynomial.map (a j.1 l.1 hjl) (MvPolynomial.map (a i.1 j.1 hij) p) = _
       rw [MvPolynomial.map_map, hcomp]
   have hQle : ∀ (i j : {j : ι // i₀ ≤ j}) (h : i ≤ j),
       Qf i ≤ Submodule.comap (vecMap n r (a i.1 j.1 h)) (Qf j) := fun i j h ↦
@@ -292,11 +292,11 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
     refine ⟨?_, ?_⟩
     · intro i x
       obtain ⟨p, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-      show Submodule.Quotient.mk (vecMap n r (a i.1 i.1 le_rfl) p) = _
+      change Submodule.Quotient.mk (vecMap n r (a i.1 i.1 le_rfl) p) = _
       rw [hself, vecMap_id]
     · intro l j i hij hjl x
       obtain ⟨p, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-      show Submodule.Quotient.mk
+      change Submodule.Quotient.mk
         (vecMap n r (a j.1 l.1 hjl) (vecMap n r (a i.1 j.1 hij) p)) = _
       rw [vecMap_vecMap, hcomp]
       rfl
@@ -307,7 +307,7 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
   have hν : ∀ (i j : {j : ι // i₀ ≤ j}) (h : i ≤ j) (x), νv j (nv i j h x) = νv i x := by
     intro i j h x
     obtain ⟨p, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show Submodule.Quotient.mk (vecMap n r (ρ j.1) (vecMap n r (a i.1 j.1 h) p)) = _
+    change Submodule.Quotient.mk (vecMap n r (ρ j.1) (vecMap n r (a i.1 j.1 h) p)) = _
     rw [vecMap_vecMap, hρc]
     rfl
   have hρs' : ∀ x : Rr, ∃ i : {j : ι // i₀ ≤ j}, ∃ y : Ar i.1, ρ i.1 y = x := by
@@ -335,7 +335,7 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
     obtain ⟨p, rfl⟩ := Submodule.Quotient.mk_surjective _ x
     obtain ⟨c, hc, q, hq⟩ := exists_stage_map_eq_family a ρ hρ hρs (κ := Fin r) i₀ p
     refine ⟨⟨c, hc⟩, Submodule.Quotient.mk q, ?_⟩
-    show Submodule.Quotient.mk (vecMap n r (ρ c) q) = Submodule.Quotient.mk p
+    change Submodule.Quotient.mk (vecMap n r (ρ c) q) = Submodule.Quotient.mk p
     congr 1
     exact funext hq
   have hνz : ∀ (i : {j : ι // i₀ ≤ j}) x,
@@ -353,7 +353,7 @@ theorem exists_flat_quotient_of_directed (a : ∀ i j, i ≤ j → Ar i →+* Ar
       rw [vecMap_vecMap, hρc, map_sum, ← hlam]
       refine Finset.sum_congr rfl fun z _ ↦ ?_
       rw [map_smulₛₗ, hmu z, hgent ⟨c, i.2.trans hic⟩ z]
-    show Submodule.Quotient.mk (vecMap n r (a i.1 c hic) p) = 0
+    change Submodule.Quotient.mk (vecMap n r (a i.1 c hic) p) = 0
     rw [Submodule.Quotient.mk_eq_zero, hkey]
     exact Submodule.sum_mem _ fun z _ ↦
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨z, rfl⟩)

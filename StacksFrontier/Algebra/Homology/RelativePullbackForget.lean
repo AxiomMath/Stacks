@@ -285,7 +285,7 @@ theorem map_comp_forgetMap {M : 𝒳₂} {N : 𝒳₁} (ψ : M ⟶ H.obj N) (n :
       (Ha.mapHomologicalComplex _).obj A₁.cocomplex :=
     forgetComparison U₂ M ≫ d ≫ φ
   have key : U₂.map (aug J₂) ≫ γL.f 0 = U₂.map (aug J₂) ≫ γR.f 0 := by
-    show U₂.map (aug J₂) ≫ U₂.map ((comparison H ψ).f 0) ≫ ξ.hom.app (J₁.cocomplex.X 0) ≫
+    change U₂.map (aug J₂) ≫ U₂.map ((comparison H ψ).f 0) ≫ ξ.hom.app (J₁.cocomplex.X 0) ≫
         Ha.map ((forgetComparison U₁ N).f 0) =
       U₂.map (aug J₂) ≫ (forgetComparison U₂ M).f 0 ≫ d.f 0 ≫ φ.f 0
     rw [← U₂.map_comp_assoc, aug_comp_comparison_f_zero, U₂.map_comp, assoc,

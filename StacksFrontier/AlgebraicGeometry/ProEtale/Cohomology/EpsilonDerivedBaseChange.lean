@@ -122,7 +122,7 @@ theorem isIso_proetaleAbelianDerivedBaseChange_app_epsilon_iff
     (epsilonInverseImage.{u, 0} X) (epsilonInverseImage.{u, 0} X')
     (epsilonInverseImage.{u, 0} Y) (epsilonInverseImage.{u, 0} Y')
     (inv (epsilonInverseImageSquareInv g')) (epsilonInverseImageSquare g)
-    (epsilonDirectImageComparison f).natTrans (inv (epsilonDirectImageComparison f').natTrans)
+    (epsilonDirectImageComparison f) (inv (epsilonDirectImageComparison f'))
     (epsilon_baseChange_cube f g g' f' h) I
     (isIso_etaleAbelianDerivedDirectImageUnit_app_of_injective f I n)
     (isIso_proetaleAbelianDerivedDirectImageUnit_app_epsilon f I n) t

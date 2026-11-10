@@ -24,7 +24,8 @@ sense:
 The source records that (1) and (2) remain equivalent, that (3) and (4) remain equivalent, and
 that it does not know whether (1) and (3) are equivalent. The equivalence of (3) and (4) is
 proved here. The equivalence of (1) and (2) is not: its substantial half is Tag 05J0, whose
-proof — which indeed never uses quasi-compactness — is not available in this library; only the easy half is proved below.
+proof — which indeed never uses quasi-compactness — is not available in this library;
+only the easy half is proved below.
 
 ## Main definitions
 
@@ -230,7 +231,7 @@ theorem specHenselizationToBase_closedPoint :
     (specHenselizationToBase s Rh).base (IsLocalRing.closedPoint Rh) = s := by
   have : IsLocalHom (algebraMap (S.presheaf.stalk s) Rh) :=
     IsLocalRing.IsHenselization.isLocalHom (L := IsLocalRing.ResidueField (S.presheaf.stalk s))
-  show (S.fromSpecStalk s).base
+  change (S.fromSpecStalk s).base
       ((Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s) Rh))).base
         (IsLocalRing.closedPoint Rh)) = s
   rw [Spec_closedPoint]

@@ -101,7 +101,7 @@ public theorem topCodim_toNat_anti_left (Y : Scheme.{u}) [IsNoetherian Y]
   have hbound := IrreducibleClosedsCodim.length_le_topCodim V' W (p.cons V' hhead)
     (by simp) (by simpa using hlast)
   have hlen : p.length ≤ (p.cons V' hhead).length := by
-    show p.length ≤ 0 + p.length + 1
+    change p.length ≤ 0 + p.length + 1
     omega
   exact le_trans (by exact_mod_cast hlen) hbound
 
@@ -284,7 +284,7 @@ private lemma exists_distanceSystem_of_specializationChain {Y : Scheme.{u}} [IsN
       refine ⟨⟨0, fun _ => IrreducibleCloseds.closureSingleton y,
         fun _ => IrreducibleCloseds.closureSingleton y,
         fun _ => le_rfl, fun i => Fin.elim0 i, ?_, rfl⟩, rfl⟩
-      show closure ({y} : Set Y) ⊆ (Z : Set Y)
+      change closure ({y} : Set Y) ⊆ (Z : Set Y)
       exact closure_minimal (Set.singleton_subset_iff.mpr hx) Z.isClosed
   | @head a b hab _ ih =>
       obtain ⟨s, hs⟩ := ih (Z := (⊤ : Closeds Y)) (Set.mem_univ b)

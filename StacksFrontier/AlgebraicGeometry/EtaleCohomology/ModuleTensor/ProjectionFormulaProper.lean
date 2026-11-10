@@ -112,7 +112,7 @@ theorem isIso_iff_forall_isIso_etaleModuleDerivedInverseImage_map {Y : Scheme.{u
           etaleModuleForgetDerived.{u, r} Λ _).map φ ≫
           (etaleModuleDerivedInverseImageForgetIso.{u, r} Λ y).hom.app L := by
     rw [e, IsIso.inv_hom_id_assoc]
-  show IsIso ((etaleModuleForgetDerived.{u, r} Λ Y ⋙
+  change IsIso ((etaleModuleForgetDerived.{u, r} Λ Y ⋙
     etaleAbelianDerivedInverseImage.{u, r} y).map φ)
   rw [h']
   infer_instance
@@ -132,9 +132,9 @@ theorem etaleModuleBaseChange_eq_mateEquiv :
     etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' (hP₁.symm.trans hP₂) =
       (mateEquiv (etaleModuleInverseImageAdj.{u, r} Λ f) (etaleModuleInverseImageAdj.{u, r} Λ f')
         (TwoSquare.mk _ _ _ _ ((etaleModuleInverseImageCompIso'.{u, r} Λ f' g P hP₂).symm.hom ≫
-          (etaleModuleInverseImageCompIso'.{u, r} Λ g' f P hP₁).symm.inv))).natTrans := by
+          (etaleModuleInverseImageCompIso'.{u, r} Λ g' f P hP₁).symm.inv))) := by
   subst hP₁
-  exact congrArg TwoSquare.natTrans
+  exact
     (Stacks.CategoryTheory.mateEquiv_symm_comp_eq_mateEquiv_leftAdjointCompIso
       (etaleModuleInverseImageAdj.{u, r} Λ f) (etaleModuleInverseImageAdj.{u, r} Λ f')
       (etaleModuleInverseImageAdj.{u, r} Λ g) (etaleModuleInverseImageAdj.{u, r} Λ g')

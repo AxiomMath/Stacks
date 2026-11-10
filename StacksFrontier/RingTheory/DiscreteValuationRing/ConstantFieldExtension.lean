@@ -56,7 +56,7 @@ theorem finrank_adjoin_range_le {k K F k₃ : Type*} [Field k] [Field K] [Field 
     rw [Submodule.span_mul_span]
     refine Submodule.span_le.2 ?_
     rintro _ ⟨a, ⟨i, rfl⟩, c, ⟨j, rfl⟩, rfl⟩
-    show φ (b i) * φ (b j) ∈ W
+    change φ (b i) * φ (b j) ∈ W
     rw [← map_mul]
     exact hφW _
   let S : Subalgebra K F := W.toSubalgebra (by rw [← map_one φ]; exact hφW 1)

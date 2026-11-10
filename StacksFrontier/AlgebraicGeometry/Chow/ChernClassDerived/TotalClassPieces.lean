@@ -92,7 +92,7 @@ theorem chowCohomologyRestriction_eq_pieceIdentityCongr {p : ℤ}
     have : IsIso (m ≫ pullback.snd (𝟙 Y) (g ≫ (U i).ι)) := by rw [hm]; infer_instance
     exact IsIso.of_isIso_comp_right m (pullback.snd (𝟙 Y) (g ≫ (U i).ι))
   set x := c.cap (g ≫ (U i).ι) k (chowGroupCongr C (Category.assoc g (U i).ι sY).symm k α)
-  show chowPushforwardOfIso C (pullback.fst pm g ≫ ((U i).ι ≫ sY)) (g ≫ ((U i).ι ≫ sY))
+  change chowPushforwardOfIso C (pullback.fst pm g ≫ ((U i).ι ≫ sY)) (g ≫ ((U i).ι ≫ sY))
       (pullback.snd pm g) _ (k - p)
       (chowGroupRestrict C (pullback.fst (𝟙 Y) (g ≫ (U i).ι) ≫ sY)
         (pullback.fst pm g ≫ ((U i).ι ≫ sY)) m _ (k - p) x) ≍

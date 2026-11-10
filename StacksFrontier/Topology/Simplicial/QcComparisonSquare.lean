@@ -494,7 +494,7 @@ theorem qcSmallRanEquiv_apply (F : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u) (W :
     (qcSmallRanEquiv S X U a F W z).1 t ht =
       ((totalForget (qcSmallSemiRep S X U a)).op.ranCounit.app F).app (op t)
         (((totalForget (qcSmallSemiRep S X U a)).op.ran.obj F).map ht.some.op z) := by
-  show ((Functor.ranObjObjIsoLimit _ F _).hom ≫ Limits.limit.π _
+  change ((Functor.ranObjObjIsoLimit _ F _).hom ≫ Limits.limit.π _
     (qcSmallLiesOverArrow S X U a t ht)) z = _
   rw [Functor.ranObjObjIsoLimit_hom_π]
   rfl
@@ -510,7 +510,7 @@ theorem qcSmallRanEquiv_restrict (F : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u) {
       (qcSmallRanEquiv S X U a F W z).restrict S X U a (leOfHom r) := by
   apply Subtype.ext
   funext t ht
-  show _ = (qcSmallRanEquiv S X U a F W z).1 t _
+  change _ = (qcSmallRanEquiv S X U a F W z).1 t _
   rw [qcSmallRanEquiv_apply, qcSmallRanEquiv_apply, ← Functor.map_comp_apply, ← op_comp,
     qcSmallOpens_hom_ext S X (ht.some ≫ (qcSmallOpensFunctor S X).map r)
       (Nonempty.some ⟨ht.some ≫ (qcSmallOpensFunctor S X).map (homOfLE (leOfHom r))⟩)]
@@ -525,7 +525,7 @@ theorem qcSmallRanEquiv_map {F G : (qcSmallTotal S X U a)ᵒᵖ ⥤ Type u} (α 
       (qcSmallRanEquiv S X U a F W z).map S X U a α := by
   apply Subtype.ext
   funext t ht
-  show _ = α.app _ ((qcSmallRanEquiv S X U a F W z).1 t ht)
+  change _ = α.app _ ((qcSmallRanEquiv S X U a F W z).1 t ht)
   rw [qcSmallRanEquiv_apply, qcSmallRanEquiv_apply, ← NatTrans.naturality_apply]
   exact ConcreteCategory.congr_hom
     (congr_app ((totalForget (qcSmallSemiRep S X U a)).op.ranCounit.naturality α) (op t)) _
@@ -594,7 +594,7 @@ theorem qcZariskiSectionsEquiv_restrict (F : Sheaf (qcSmallTotalTopology S X U a
       (qcZariskiSectionsEquiv S X U a F W z).restrict S X U a (leOfHom r) := by
   apply Subtype.ext
   funext A h
-  show (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
+  change (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
       ((Opens.grothendieckTopology _).yonedaEquiv.symm
         (((qcZariskiAugmentation S X U a).pushforward.obj
           ((qcSmallComparisonMorphism S X U a).pushforward.obj F)).obj.map r.op z))).hom.app
@@ -616,7 +616,7 @@ theorem qcZariskiSectionsEquiv_map {F F' : Sheaf (qcSmallTotalTopology S X U a) 
       (qcZariskiSectionsEquiv S X U a F W z).map S X U a k.hom := by
   apply Subtype.ext
   funext A h
-  show (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
+  change (((qcZariskiAugmentation S X U a).adj.homEquiv _ _).symm
       ((Opens.grothendieckTopology _).yonedaEquiv.symm
         (((qcZariskiAugmentation S X U a).pushforward.map
           ((qcSmallComparisonMorphism S X U a).pushforward.map k)).hom.app (op W) z))).hom.app
@@ -785,7 +785,7 @@ theorem exists_qcComparisonSquare (Y : SimplicialObject LocallyQuasiCompactHausd
   let S : LocallyQuasiCompactZariskiSituation.{u, u + 1} (Set.range Y.obj ∪ {T})
       Cardinal.stacksBound := ⟨Q⟩
   have hc : ∀ Z ∈ Set.range Y.obj ∪ {T}, S.qcSite.Contains Z := fun Z hZ => by
-    show lcSize Z < Q.boundedSubcategory.cutoff
+    change lcSize Z < Q.boundedSubcategory.cutoff
     rw [hQ]
     exact B.contains_initial Z hZ
   have hY : ∀ n, S.qcSite.Contains (Y.obj n) := fun n => hc _ (Or.inl ⟨n, rfl⟩)

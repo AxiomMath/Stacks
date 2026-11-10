@@ -140,9 +140,9 @@ private lemma exists_larger_complement_hom_killing_compact_map {I : Type u}
   have hzero : Sigma.desc (fun j : t => Sigma.ι H j.val) ≫
       finiteComplementMap G (s := s) (t := s ∪ t.image Subtype.val) = 0 := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [← Category.assoc, Sigma.ι_desc, comp_zero]
+    rw [← Category.assoc, Sigma.ι_comp_desc, comp_zero]
     dsimp [finiteComplementMap]
-    rw [Sigma.ι_desc, dite_eq_left]
+    rw [Sigma.ι_comp_desc, dite_eq_left]
     exact Finset.mem_union_right _ (Finset.mem_image.mpr ⟨j.val, j.property, rfl⟩)
   rw [Q.map_comp, ← Category.assoc, ← hg, Category.assoc, ← Q.map_comp, hzero]
   simp only [Functor.map_zero, comp_zero]
@@ -166,7 +166,7 @@ private lemma gradedHomDifferential_range_fg {K M N : DifferentialGradedModule.{
     (LinearMap.range (gradedHomDifferential r)).FG := by
   refine fg_range_of_finite_quotient (Hom.range i) _ ?_
   rintro _ ⟨x, rfl⟩
-  show r.toFun (M.d (i.toFun x)) - N.d (r.toFun (i.toFun x)) = 0
+  change r.toFun (M.d (i.toFun x)) - N.d (r.toFun (i.toFun x)) = 0
   have hi := LinearMap.congr_fun i.map_d x
   change i.toFun (K.d x) = M.d (i.toFun x) at hi
   have hr (y : K.M) : r.toFun (i.toFun y) = q.toFun y := LinearMap.congr_fun h y
@@ -198,7 +198,7 @@ private lemma exists_kernel_factorization_of_fg_differential {I : Type u} (k : I
   let q' := q ≫ finiteComplementMap G (s := s) (t := t)
   have hq' : q'.toFun = (finiteComplementProjection G t).toFun.comp r.toFun := by
     ext x
-    show (finiteComplementMap G).toFun (q.toFun x) = _
+    change (finiteComplementMap G).toFun (q.toFun x) = _
     rw [hq]
     exact congrArg (fun p : (∐ G) ⟶ _ => p.toFun (r.toFun x))
       (finiteComplementProjection_comp_map G hst)
@@ -264,7 +264,7 @@ private lemma exists_kernel_factorization_of_finite_quotient
   let l := gradedHomComp q.toGradedHom r
   have hl : l.toFun.comp i.toFun = q.toFun := by
     ext x
-    show q.toFun (r.toFun (i.toFun x)) = q.toFun x
+    change q.toFun (r.toFun (i.toFun x)) = q.toFun x
     rw [hr]
   have hsurj : Function.Surjective l.toFun := by
     intro y
@@ -275,9 +275,9 @@ private lemma exists_kernel_factorization_of_finite_quotient
   refine ⟨s, q', ?_, hepi, hfactor⟩
   apply Hom.ext
   ext x
-  show q'.toFun (i.toFun x) = _
+  change q'.toFun (i.toFun x) = _
   rw [hq', LinearMap.comp_apply]
-  show (finiteComplementProjection (fun j => shift (regularModule A) (k j)) s).toFun
+  change (finiteComplementProjection (fun j => shift (regularModule A) (k j)) s).toFun
     (q.toFun (r.toFun (i.toFun x))) = _
   rw [hr]
   rfl
@@ -353,7 +353,7 @@ private lemma kernelFiltration_cokernel_iso (i : ℕ)
       change (F.ι.app (i + 1) ≫ q).toFun (a.toFun x) = _ at hh
       rw [hh, hx, sub_self]
     refine ⟨(show (Hom.kernelObj (F.ι.app (i + 1) ≫ q)).M from ⟨y - a.toFun x, hxy⟩), ?_⟩
-    show (cokernel.π a).toFun (y - a.toFun x) = _
+    change (cokernel.π a).toFun (y - a.toFun x) = _
     rw [map_sub, hπ, sub_zero]
   have he (y : (Hom.kernelObj (F.ι.app (i + 1) ≫ q)).M) :
       b.toFun y = 0 ↔ ∃ x : (Hom.kernelObj (F.ι.app i ≫ q)).M, a'.toFun x = y := by
@@ -363,7 +363,7 @@ private lemma kernelFiltration_cokernel_iso (i : ℕ)
       change a.toFun x = y.val at hx
       have hxq : (F.ι.app i ≫ q).toFun x = 0 := by
         rw [← ha, Category.assoc]
-        show (F.ι.app (i + 1) ≫ q).toFun (a.toFun x) = 0
+        change (F.ι.app (i + 1) ≫ q).toFun (a.toFun x) = 0
         rw [hx]
         exact y.property
       exact ⟨⟨x, hxq⟩, Subtype.ext hx⟩
@@ -391,7 +391,7 @@ private lemma kernelFiltration_finite_piece {M : DifferentialGradedModule.{u, u,
   let p := finiteComplementProjection G s
   let b := (kernelFiltrationBeta q F).app (i + 1) ≫ c
   have hbp : b ≫ p = 0 := by
-    show Hom.kernelι (F.ι.app (i + 1) ≫ q) ≫ c ≫ p = 0
+    change Hom.kernelι (F.ι.app (i + 1) ≫ q) ≫ c ≫ p = 0
     rw [← hq]
     exact Hom.kernelι_comp _
   have hl : Function.Surjective (kernelLift b p hbp).toFun := by
@@ -399,7 +399,7 @@ private lemma kernelFiltration_finite_piece {M : DifferentialGradedModule.{u, u,
     obtain ⟨x, hx⟩ := Hom.surjective_of_epi A c z.val
     have hxq : (F.ι.app (i + 1) ≫ q).toFun x = 0 := by
       rw [hq]
-      show p.toFun (c.toFun x) = 0
+      change p.toFun (c.toFun x) = 0
       rw [hx]
       exact z.property
     exact ⟨(show (Hom.kernelObj (F.ι.app (i + 1) ≫ q)).M from ⟨x, hxq⟩), Subtype.ext hx⟩
@@ -413,7 +413,7 @@ private lemma kernelFiltration_finite_piece {M : DifferentialGradedModule.{u, u,
         have ha : a ≫ F.ι.app (i + 1) = F.ι.app i :=
           F.diagram_map_comp_ι_app (homOfLE (Nat.le_succ i))
         rw [← ha, Category.assoc]
-        show (F.ι.app (i + 1) ≫ q).toFun (a.toFun y) = 0
+        change (F.ι.app (i + 1) ≫ q).toFun (a.toFun y) = 0
         rw [hy]
         exact x.property
       exact ⟨⟨y, hyq⟩, Subtype.ext hy⟩
@@ -421,7 +421,7 @@ private lemma kernelFiltration_finite_piece {M : DifferentialGradedModule.{u, u,
       exact Subtype.ext ((hc _).mpr ⟨y.val, rfl⟩)
   obtain ⟨d, hd⟩ := kernel_finiteComplementProjection_iso G s
   refine ⟨cokernelIsoOfExact a' (kernelLift b p hbp) hl hex ≪≫ d, ?_⟩
-  show cokernel.π a' ≫ (cokernelIsoOfExact a' (kernelLift b p hbp) hl hex).hom ≫ d.hom ≫ _ = b
+  change cokernel.π a' ≫ (cokernelIsoOfExact a' (kernelLift b p hbp) hl hex).hom ≫ d.hom ≫ _ = b
   rw [hd, ← Category.assoc,
     cokernelIsoOfExact_π a' (kernelLift b p hbp) hl hex]
   exact kernelLift_ι b p hbp
@@ -435,7 +435,7 @@ private lemma admissibleMono_comp {X Y Z : DifferentialGradedModule.{u, u, u} A}
   obtain ⟨r, hr⟩ := hi
   obtain ⟨s, hs⟩ := hj
   refine ⟨gradedHomComp r s, fun x => ?_⟩
-  show r.toFun (s.toFun (j.toFun (i.toFun x))) = x
+  change r.toFun (s.toFun (j.toFun (i.toFun x))) = x
   rw [hs, hr]
 
 /-- An isomorphism is an admissible monomorphism. -/
@@ -455,7 +455,7 @@ private lemma finite_quotient_comp {S X Y Z : Type u} [Ring S] [AddCommGroup X] 
   refine Module.Finite.of_exact (f := a) (g := b) ?_ ?_
   · intro z
     obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective (LinearMap.range (j.comp i)) z
-    show Submodule.Quotient.mk z = (0 : Z ⧸ LinearMap.range j) ↔ _
+    change Submodule.Quotient.mk z = (0 : Z ⧸ LinearMap.range j) ↔ _
     rw [Submodule.Quotient.mk_eq_zero]
     constructor
     · rintro ⟨y, rfl⟩
@@ -465,7 +465,7 @@ private lemma finite_quotient_comp {S X Y Z : Type u} [Ring S] [AddCommGroup X] 
       obtain ⟨x, hx⟩ : j y - z ∈ LinearMap.range (j.comp i) := (Submodule.Quotient.eq _).mp hy
       refine ⟨y - i x, ?_⟩
       have hx' : j (i x) = j y - z := hx
-      show j (y - i x) = z
+      change j (y - i x) = z
       rw [map_sub, hx']
       abel
   · intro z
@@ -549,7 +549,7 @@ private lemma exact_of_comparison_iso {M P Z : DifferentialGradedModule.{u, u, u
       ⟨(β.app i).toFun y, rfl⟩
     have hh := congrArg (fun t : H.obj i ⟶ F.obj (i + 1) => t.toFun y) hn
     change (β.app (i + 1)).toFun (a.toFun y) = _ at hh
-    show e.hom.toFun ((cokernel.π b).toFun ((β.app (i + 1)).toFun (a.toFun y))) = 0
+    change e.hom.toFun ((cokernel.π b).toFun ((β.app (i + 1)).toFun (a.toFun y))) = 0
     rw [hh]
     exact hy
 
@@ -657,7 +657,7 @@ private lemma finiteLayers_step (A : DifferentialGradedAlgebra.{u, u} R) (n : �
   · intro i him
     have hγ : IsIso (γ.app i) := kernelFiltrationBeta_isIso q H i (hzero i him)
     have hβ : IsIso (β.app i) := T.lower i (by omega)
-    show IsIso (γ.app i ≫ β.app i)
+    change IsIso (γ.app i ≫ β.app i)
     infer_instance
   · intro i him
     by_cases heq : i.val = m
@@ -670,7 +670,7 @@ private lemma finiteLayers_step (A : DifferentialGradedAlgebra.{u, u} R) (n : �
       have hsurj : Function.Surjective (H.ι.app i.val ≫ q).toFun := by
         have hcq : Function.Surjective (H.ι.app (m + 1) ≫ q).toFun := by
           rw [hq]
-          show Function.Surjective fun x => (finiteComplementProjection G s).toFun (c.toFun x)
+          change Function.Surjective fun x => (finiteComplementProjection G s).toFun (c.toFun x)
           exact (surjective_finiteComplementProjection G s).comp (Hom.surjective_of_epi A c)
         intro y
         obtain ⟨x, hx⟩ := hcq y
@@ -683,10 +683,10 @@ private lemma finiteLayers_step (A : DifferentialGradedAlgebra.{u, u} R) (n : �
             rw [← Category.assoc, ha])).trans hx
       obtain ⟨d', hd'⟩ := kernelFiltration_cokernel_iso q H i.val hsurj
       refine ⟨s', d' ≪≫ d, ?_⟩
-      show cokernel.π _ ≫ d'.hom ≫ d.hom ≫ _ = _
+      change cokernel.π _ ≫ d'.hom ≫ d.hom ≫ _ = _
       rw [← Category.assoc (cokernel.π _), hd', Category.assoc]
       exact congrArg (fun t => γ.app (i.val + 1) ≫ t) hd
-  · show g ≫ Q.map (Hom.kernelι q ≫ T.inclusion) = f
+  · change g ≫ Q.map (Hom.kernelι q ≫ T.inclusion) = f
     rw [Q.map_comp, ← Category.assoc, hg]
     exact T.factor_eq
 

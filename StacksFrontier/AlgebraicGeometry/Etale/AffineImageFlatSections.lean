@@ -93,7 +93,7 @@ theorem exists_isAffineOpen_image_isAffineOpen [Etale f] (x : X) :
   have hWU₀ : f.base '' (V' : Set X) ⊆ (U₀ : Set Y) := Set.image_subset_iff.mpr hV'U₀
   refine ⟨V' ⊓ f ⁻¹ᵁ U', U', ⟨hxV', hxU'⟩,
     isAffineOpen_inf_preimage_of_le_preimage f hV' hU₀ hU' hV'U₀ (hU'W.trans hWU₀), hU', ?_⟩
-  show f.base '' ((V' : Set X) ∩ f.base ⁻¹' (U' : Set Y)) = (U' : Set Y)
+  change f.base '' ((V' : Set X) ∩ f.base ⁻¹' (U' : Set Y)) = (U' : Set Y)
   rw [Set.image_inter_preimage]
   exact Set.inter_eq_right.mpr hU'W
 

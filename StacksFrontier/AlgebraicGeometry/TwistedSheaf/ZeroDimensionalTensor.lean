@@ -128,7 +128,7 @@ theorem bijective_tmul_right {R A B : Type u} [CommRing R] [AddCommGroup A] [Mod
   let Ψ : A ≃ₗ[R] TensorProduct R A B :=
     (TensorProduct.rid R A).symm.trans (TensorProduct.congr (LinearEquiv.refl R A) e)
   have hΨ : ∀ x : A, Ψ x = x ⊗ₜ[R] b := fun x => by
-    show TensorProduct.congr (LinearEquiv.refl R A) e ((TensorProduct.rid R A).symm x) = _
+    change TensorProduct.congr (LinearEquiv.refl R A) e ((TensorProduct.rid R A).symm x) = _
     rw [TensorProduct.rid_symm_apply, TensorProduct.congr_tmul, he]
     rfl
   exact (funext hΨ : ⇑Ψ = fun x : A => x ⊗ₜ[R] b) ▸ Ψ.bijective
@@ -146,7 +146,7 @@ theorem secRestr_secRestr (F : PresheafOfModules.{u} (O X)) {U V W : Opens X.car
     (h₁ : V ≤ W) (h₂ : U ≤ V) (a : F.obj (op W)) :
     ((F).restrictₛₗ ((homOfLE (h₂.trans h₁)).op)) a
       = ((F).restrictₛₗ ((homOfLE h₂).op)) (((F).restrictₛₗ ((homOfLE h₁).op)) a) := by
-  show (F.map (homOfLE (h₂.trans h₁)).op).hom a
+  change (F.map (homOfLE (h₂.trans h₁)).op).hom a
     = (F.map (homOfLE h₂).op).hom ((F.map (homOfLE h₁).op).hom a)
   rw [← PresheafOfModules.map_comp_apply]
   exact F.congr_map_apply (Subsingleton.elim _ _) a

@@ -215,7 +215,7 @@ private lemma serreImage_yoneda_exact₂
       exact ⟨g, hg.symm⟩
     · rintro ⟨g, hg⟩
       rw [← hg]
-      show T.mor₁ ≫ (T.mor₂ ≫ g) = 0
+      change T.mor₁ ≫ (T.mor₂ ≫ g) = 0
       rw [← Category.assoc,
         Pretriangulated.comp_distTriang_mor_zero₁₂ T hT]
       simp
@@ -281,7 +281,7 @@ private lemma serreImage_exists_middle_map
       T.rotate (Pretriangulated.Triangle.mk i p
         (S.equivalence.functor.map T.mor₃ ≫ δ.hom))
       (Pretriangulated.rot_of_distTriang T hT) hU a (-b) (by
-        show T.mor₂ ≫ (-b) = a ≫ i
+        change T.mor₂ ≫ (-b) = a ≫ i
         rw [Preadditive.comp_neg]
         exact (eq_neg_of_add_eq_zero_left hz).symm)
     change T.obj₁⟦(1 : ℤ)⟧ ⟶ S.equivalence.functor.obj T.obj₃ at c
@@ -292,7 +292,7 @@ private lemma serreImage_exists_middle_map
         -(T.mor₁ ≫ a)⟦(1 : ℤ)⟧' ≫ δ.inv := by
       rw [← cancel_mono δ.hom]
       simpa [Functor.map_comp, Category.assoc] using hc₂.symm
-    show serreTrace k S T.obj₁ (T.mor₁ ≫ a) +
+    change serreTrace k S T.obj₁ (T.mor₁ ≫ a) +
       serreTrace k S T.obj₃ (b ≫ p) = 0
     have hb : b ≫ p = -(T.mor₃ ≫ c) := by
       simpa using congrArg Neg.neg hc₁.symm
@@ -304,7 +304,7 @@ private lemma serreImage_exists_middle_map
     intro a
     rw [← serreDualHomEquiv_naturality_right, serreDualHomEquiv_pairing]
     have he := LinearMap.congr_fun hψ (a, 0)
-    show ψ (a ≫ i) = S.pairing T.obj₂ (S.equivalence.functor.obj T.obj₁) a
+    change ψ (a ≫ i) = S.pairing T.obj₂ (S.equivalence.functor.obj T.obj₁) a
       (S.equivalence.functor.map T.mor₁)
     calc
       ψ (a ≫ i) = serreTrace k S T.obj₁ (T.mor₁ ≫ a) := by
@@ -351,7 +351,7 @@ private lemma mono_hom₂_of_exact_of_isIso₁₃
   obtain ⟨h, hh⟩ := hex' A (g ≫ φ.hom₁)
     (show (g ≫ φ.hom₁) ≫ T'.mor₁ = 0 by rw [Category.assoc, ← φ.comm₁]; exact hf)
   obtain ⟨l, rfl⟩ : ∃ l : A ⟶ T.invRotate.obj₁, l ≫ T.invRotate.mor₁ = g := by
-    show ∃ l : A ⟶ T.obj₃⟦(-1 : ℤ)⟧, l ≫ T.invRotate.mor₁ = g
+    change ∃ l : A ⟶ T.obj₃⟦(-1 : ℤ)⟧, l ≫ T.invRotate.mor₁ = g
     change A ⟶ T'.obj₃⟦(-1 : ℤ)⟧ at h
     let e := (shiftFunctor C (-1)).mapIso (asIso φ.hom₃)
     refine ⟨h ≫ e.inv, ?_⟩
@@ -360,7 +360,7 @@ private lemma mono_hom₂_of_exact_of_isIso₁₃
       Pretriangulated.Triangle.invRotate, Pretriangulated.Triangle.mk] at eq hh ⊢
     rw [← cancel_mono φ.hom₁, Category.assoc, Category.assoc, eq]
     simpa [e, Category.assoc] using hh
-  show (l ≫ T.invRotate.mor₁) ≫ T.invRotate.mor₂ = 0
+  change (l ≫ T.invRotate.mor₁) ≫ T.invRotate.mor₂ = 0
   rw [Category.assoc, Pretriangulated.comp_distTriang_mor_zero₁₂ _
     (Pretriangulated.inv_rot_of_distTriang _ hT), comp_zero]
 
@@ -466,7 +466,7 @@ private lemma serreShiftHom_trace (n : ℤ) (X : C)
     serreTrace k S (X⟦n⟧) (a⟦n⟧' ≫ serreShiftHom k S n X) =
       n.negOnePow • serreTrace k S X a := by
   rw [serreTrace_comp, serreShiftHom, serreDualHomEquiv_pairing]
-  show n.negOnePow • serreTrace k S X
+  change n.negOnePow • serreTrace k S X
     ((functorHomLinearEquiv k (shiftFunctor C n) X _).symm
       ((functorHomLinearEquiv k (shiftFunctor C n) X _) a)) = _
   rw [LinearEquiv.symm_apply_apply]
@@ -522,7 +522,7 @@ private lemma serreShiftHom_isIso (n : ℤ) (X : C) :
       dsimp [e', e]
       simp only [DistribMulAction.toAddEquiv_apply, Units.smul_def, map_zsmul,
         serreDualHomEquiv_pairing]
-      show _ = n.negOnePow •
+      change _ = n.negOnePow •
         (serreDualHomEquiv k S X Y).symm
           ((functorHomLinearEquiv k (shiftFunctor C n) Y _).symm
             ((functorHomLinearEquiv k (shiftFunctor C n) Y _) g))
@@ -561,7 +561,7 @@ private lemma serreShiftIso_zero :
     serreShiftIso k S 0 = Functor.CommShift.isoZero S.equivalence.functor ℤ := by
   apply Iso.ext_inv
   ext X
-  show serreShiftHom k S 0 X =
+  change serreShiftHom k S 0 X =
     (Functor.CommShift.isoZero S.equivalence.functor ℤ).inv.app X
   symm
   apply serreShiftHom_unique k S 0 X
@@ -577,7 +577,7 @@ private lemma serreShiftIso_add (n m : ℤ) :
       Functor.CommShift.isoAdd (serreShiftIso k S n) (serreShiftIso k S m) := by
   apply Iso.ext_inv
   ext X
-  show serreShiftHom k S (n + m) X =
+  change serreShiftHom k S (n + m) X =
     (Functor.CommShift.isoAdd (serreShiftIso k S n) (serreShiftIso k S m)).inv.app X
   symm
   apply serreShiftHom_unique k S (n + m) X
@@ -603,7 +603,7 @@ private lemma serreCommShift_trace (X : C) (a : X ⟶ S.equivalence.functor.obj 
     serreTrace k S (X⟦(1 : ℤ)⟧)
       (a⟦(1 : ℤ)⟧' ≫ (S.equivalence.functor.commShiftIso (1 : ℤ)).inv.app X) =
       -serreTrace k S X a := by
-  show serreTrace k S (X⟦(1 : ℤ)⟧) (a⟦(1 : ℤ)⟧' ≫ serreShiftHom k S 1 X) = _
+  change serreTrace k S (X⟦(1 : ℤ)⟧) (a⟦(1 : ℤ)⟧' ≫ serreShiftHom k S 1 X) = _
   simpa [Units.smul_def] using serreShiftHom_trace k S 1 X a
 
 end LinearShift

@@ -106,7 +106,8 @@ universe u v w w'
 
 /-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
 times out under Lean v4.35.0. -/
-local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_ClosedImmersionFpqcLocalAtTarget
+local instance (priority := high)
+    AlgebraicGeometry.Space.hasPullback_presheaf_ClosedImmersionFpqcLocalAtTarget
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
   HasLimitsOfShape.has_limit _
@@ -128,7 +129,7 @@ private theorem hasSheafify_of_small_dense
     refine ⟨⟨e.functor.obj Z, a ≫ F.map (e.unitIso.hom.app Z),
       F.map (e.unitIso.inv.app Z) ≫ b, ?_⟩⟩
     rw [Category.assoc, ← F.map_comp_assoc, e.unitIso.hom_inv_id_app]
-    show a ≫ F.map (𝟙 Z) ≫ b = f
+    change a ≫ F.map (𝟙 Z) ≫ b = f
     rw [F.map_id, Category.id_comp]
     exact hab⟩
   let : G.IsDenseSubsite J K := inferInstance
@@ -165,7 +166,7 @@ private theorem closedImmersion_pullback_iff
     fun _ _ h => Q h.hom
   have : Q.RespectsIso := MorphismProperty.relative_respectsIso _
   have : P.RespectsIso := MorphismProperty.RespectsIso.inverseImage Q (ObjectProperty.ι _)
-  show P (pullback.snd f g) ↔ P (ObjectProperty.homMk (pullback.snd f.hom g.hom) :
+  change P (pullback.snd f g) ↔ P (ObjectProperty.homMk (pullback.snd f.hom g.hom) :
     AlgebraicSpaces.fiberProduct B S hS f g ⟶ Z)
   exact snd_iff_of_isPullback P (IsPullback.of_hasPullback f g)
     (AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct B S hS f g)
@@ -182,7 +183,7 @@ private theorem closedImmersion_iff_affine_tests
           IsClosedImmersion B S hS h.hom) (pullback.snd f g) := by
   let P : MorphismProperty (AlgebraicSpaces B S hS) :=
     fun _ _ (h : _ ⟶ _) => IsClosedImmersion B S hS h.hom
-  show P f ↔ ∀ (T : BigAffineFppf B S hS)
+  change P f ↔ ∀ (T : BigAffineFppf B S hS)
     (g : schemeSpace
       ((BigAffineFppf.inclusion B S hS).obj T) ⟶ Y), P (pullback.snd f g)
   have htfae : IsClosedImmersion B S hS f.hom ↔
@@ -216,9 +217,9 @@ private theorem closedImmersion_schemeMap_iff
   let : Q.IsStableUnderBaseChange := by
     refine ⟨?_⟩
     intro X Y Z S f g f' g' hp hg
-    show AlgebraicGeometry.IsClosedImmersion (Tscheme.map g')
+    change AlgebraicGeometry.IsClosedImmersion (Tscheme.map g')
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback (hp.map Tscheme) hg
-  show Q.presheaf (yoneda.map f) ↔ Q f
+  change Q.presheaf (yoneda.map f) ↔ Q f
   exact MorphismProperty.relative_map_iff (P := Q) (F := yoneda)
 
 private theorem isFlat_schemeSpaceMap_inclusion_map
@@ -234,7 +235,7 @@ private theorem isFlat_schemeSpaceMap_inclusion_map
   let : G.IsRepresentable := inferInstance
   let eF : F.reprX ≅ incl.obj T' := yoneda.preimageIso F.reprW
   let eG : incl.obj T ≅ G.reprX := yoneda.preimageIso G.reprW.symm
-  show HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map (incl.map g))
+  change HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map (incl.map g))
   apply (holdsOnEveryEtaleChart_iff_representable
     (B := B) (S := S) (hS := hS)
     (P := @Flat) Flat.isEtaleLocalOnSourceAndTarget
@@ -271,15 +272,15 @@ private theorem isAffine_toScheme_pullback_inclusion_map
     intro i
     cases i with
     | none =>
-        show IsAffine ((BigAffineFppf.toScheme B S hS).obj T)
+        change IsAffine ((BigAffineFppf.toScheme B S hS).obj T)
         exact T.property
     | some j =>
         cases j with
         | left =>
-            show IsAffine ((BigAffineFppf.toScheme B S hS).obj A)
+            change IsAffine ((BigAffineFppf.toScheme B S hS).obj A)
             exact A.property
         | right =>
-            show IsAffine ((BigAffineFppf.toScheme B S hS).obj T')
+            change IsAffine ((BigAffineFppf.toScheme B S hS).obj T')
             exact T'.property
   exact Scheme.isAffine_of_isLimit c hc
 
@@ -312,7 +313,7 @@ private theorem singleton_toScheme_map_pullback_fst_mem_fpqcPrecoverage
   let : IsAffine (Tscheme.obj (incl.obj A)) := A.property
   let : _root_.AlgebraicGeometry.IsAffineHom (Tscheme.map (incl.map b)) := inferInstance
   let : QuasiCompact (Tscheme.map (incl.map b)) := inferInstance
-  show Presieve.singleton (Tscheme.map (incl.map b)) ∈ Scheme.fpqcPrecoverage _
+  change Presieve.singleton (Tscheme.map (incl.map b)) ∈ Scheme.fpqcPrecoverage _
   simpa only [BigAffineFppf.toScheme, Tscheme] using
     (Scheme.Hom.singleton_mem_fpqcPrecoverage (Tscheme.map (incl.map b)))
 
@@ -353,7 +354,7 @@ private theorem singleton_schemeMap_fpqcCover
     dsimp [pOver, p, hOver]
     rw [incl.map_preimage]
     exact Yoneda.fullyFaithful.map_preimage _
-  show yoneda.map (incl.map a) ≫ yoneda.map (incl.map g) =
+  change yoneda.map (incl.map a) ≫ yoneda.map (incl.map g) =
     yoneda.map (incl.map b) ≫ hbase
   rw [← Functor.map_comp, hab, Functor.map_comp, hp]
 
@@ -425,7 +426,7 @@ theorem coproduct_locallySurjective
     intro i
     ext1
     ext X x
-    show ((Subfunctor.toRange q).app X ((Sigma.ι P i).app X x)).val =
+    change ((Subfunctor.toRange q).app X ((Sigma.ι P i).app X x)).val =
       (ι i).hom.app X x
     rw [Subfunctor.toRange_app_val]
     have hq : Sigma.ι P i ≫ q = (ι i).hom := by simp [q]
@@ -477,7 +478,7 @@ private theorem coproduct_binary_decomposition
     intro j
     have hj : ι j.val ≫ hG.desc (Cofan.mk Z (δ Z f g)) = η j ≫ g := by
       simpa [δ, j.property] using hG.fac (Cofan.mk Z (δ Z f g)) (Discrete.mk j.val)
-    show η j ≫ m ≫ hG.desc (Cofan.mk Z (δ Z f g)) = η j ≫ g
+    change η j ≫ m ≫ hG.desc (Cofan.mk Z (δ Z f g)) = η j ≫ g
     rwa [← Category.assoc, hm j]
   · intro Z f g l hl₁ hl₂
     change G ⟶ Z at l

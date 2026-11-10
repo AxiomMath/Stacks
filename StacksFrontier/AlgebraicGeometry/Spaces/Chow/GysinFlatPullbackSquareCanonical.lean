@@ -157,7 +157,8 @@ theorem properCycleDegree_id (V : IntegralClosedSubspace D.site D.base D.base_me
     IntegralClosedSubspace.degreeOverClosureImage_eq_one_of_isClosedImmersion D.site D.base
       D.base_mem hX.1 (D.isDecentSpace_of_isGood sX hX) (D.isDecentSpace_of_isGood sX hX)
       (isClosedImmersion_of_isIso D.site D.base D.base_mem (𝟙 X)) V
-  rw [properCycleDegree, if_pos (by rw [closureImage_id_eq_self D sX hX V]), hone, Nat.cast_one]
+  rw [properCycleDegree, ite_eq_left (by rw [closureImage_id_eq_self D sX hX V]), hone,
+    Nat.cast_one]
 
 open scoped Classical in
 /-- The multiplicity of Stacks 0EP1 along the identity is the indicator of the diagonal. -/
@@ -172,10 +173,10 @@ theorem properCyclePushforward_id (hqc : IsQuasiCompact D.site D.base D.base_mem
     properCyclePushforward D sX hX sX hX (f := 𝟙 X) (Category.id_comp sX) hqc k α = α := by
   classical
   refine Subtype.ext (funext fun Z => ?_)
-  show properCyclePushforwardCoeff D sX hX sX hX (𝟙 X) α.1 Z = α.1 Z
+  change properCyclePushforwardCoeff D sX hX sX hX (𝟙 X) α.1 Z = α.1 Z
   rw [properCyclePushforwardCoeff, finsum_eq_single _ Z fun V hV => by
-      rw [properCycleMult_id D sX hX V Z, if_neg hV, mul_zero],
-    properCycleMult_id D sX hX Z Z, if_pos rfl, mul_one]
+      rw [properCycleMult_id D sX hX V Z, ite_eq_right hV, mul_zero],
+    properCycleMult_id D sX hX Z Z, ite_eq_left rfl, mul_one]
 
 /-- **Pushing forward along an isomorphism undoes a flat pullback.**  Let `e : P ⟶ Q` be an
 isomorphism over a good `T`, i.e. `e ≫ b = a` for flat morphisms `a : P ⟶ T` and `b : Q ⟶ T` of

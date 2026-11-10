@@ -423,13 +423,13 @@ theorem exists_linearEquiv_sections_baseChange
       cmp := cmp
       resM_resM := by
         intro U V W h₁ h₂ x
-        show (F.presheaf.map (homOfLE h₂).op).hom ((F.presheaf.map (homOfLE h₁).op).hom x) =
+        change (F.presheaf.map (homOfLE h₂).op).hom ((F.presheaf.map (homOfLE h₁).op).hom x) =
           (F.presheaf.map (homOfLE (h₂.trans h₁)).op).hom x
         rw [← ConcreteCategory.comp_apply, ← F.presheaf.map_comp]
         rfl
       resN_resN := by
         intro U V W h₁ h₂ y
-        show (((Scheme.Modules.pullback p).obj F).presheaf.map
+        change (((Scheme.Modules.pullback p).obj F).presheaf.map
             (homOfLE (Scheme.Hom.preimage_mono p h₂)).op).hom
           ((((Scheme.Modules.pullback p).obj F).presheaf.map
             (homOfLE (Scheme.Hom.preimage_mono p h₁)).op).hom y) = _
@@ -505,10 +505,10 @@ theorem exists_linearEquiv_sections_baseChange
     let g : Γ(T, ⊤) ⊗[Γ(S, ⊤)] Γ(F, U) ≃+
         Γ((Scheme.Modules.pullback p).obj F, p ⁻¹ᵁ U) :=
       (can.symm.toAddEquiv).trans hbc.equiv.toAddEquiv
-    show Function.Bijective ((c.cmp U).liftBaseChange Γ(T, ⊤))
+    change Function.Bijective ((c.cmp U).liftBaseChange Γ(T, ⊤))
     refine bijective_liftBaseChange_of_tmul (c.cmp U) g.toAddMonoidHom g.bijective ?_
     intro b m
-    show hbc.equiv (can.symm (b ⊗ₜ[Γ(S, ⊤)] m)) = _
+    change hbc.equiv (can.symm (b ⊗ₜ[Γ(S, ⊤)] m)) = _
     rw [Algebra.IsPushout.cancelBaseChange_symm_tmul, hbc.equiv_tmul]
     rfl
   -- injectivity on quasi-compact opens
@@ -526,7 +526,7 @@ theorem exists_linearEquiv_sections_baseChange
       (V j : Set X) (Set.subset_univ _) (V i).isOpen (hV i).isCompact (Set.subset_univ _)
       (V j).isOpen (hV j).isCompact
   refine ⟨LinearEquiv.ofBijective (c.baseChangeMap ⊤) htop, fun b a => ?_⟩
-  show (c.cmp ⊤).liftBaseChange Γ(T, ⊤) (b ⊗ₜ[Γ(S, ⊤)] a) = _
+  change (c.cmp ⊤).liftBaseChange Γ(T, ⊤) (b ⊗ₜ[Γ(S, ⊤)] a) = _
   rw [LinearMap.liftBaseChange_tmul, pullbackSectionsHom_top]
   rfl
 

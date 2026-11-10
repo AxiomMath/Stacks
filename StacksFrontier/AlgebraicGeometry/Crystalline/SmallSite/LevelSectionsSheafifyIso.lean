@@ -107,8 +107,8 @@ uniformly in `n`, it is available as an isomorphism rather than a family of bije
 cosimplicial naturality is the naturality of the adjunction unit.  The cosimplicial naturality
 of `Crystalline.tensorFormsCompletionLevelEquiv`, the other comparison that note lists, is
 untouched here; it is
-`Crystalline.tensorFormsCompletionLevelEquivAt_naturality` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/CompletionLevelFormsNaturality.lean`.
+`Crystalline.tensorFormsCompletionLevelEquivAt_naturality` of the module
+`StacksFrontier.AlgebraicGeometry.Crystalline.ModuleDifferentials.CompletionLevelFormsNaturality`.
 
 ## References
 

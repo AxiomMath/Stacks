@@ -150,7 +150,7 @@ theorem range_pointsMap_fst_fieldFibre (f : X ⟶ Y) (p : FieldValuedPoint B S h
   ext x
   refine ⟨?_, fun hx ↦ ?_⟩
   · rintro ⟨w, rfl⟩
-    show pointsMap B S hS X f _ = _
+    change pointsMap B S hS X f _ = _
     rw [pointsMap_apply_comm B S hS (pullback.condition (f := f)
       (g := yonedaEquiv.symm p.value)) w]
     exact hp _

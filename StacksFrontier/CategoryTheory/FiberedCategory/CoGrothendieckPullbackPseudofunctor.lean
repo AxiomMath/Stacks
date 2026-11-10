@@ -32,7 +32,7 @@ lemma cartesianLift_naturality {V W : 𝒮} (f : W ⟶ V) {X Y : F.obj ⟨op V�
     (ι F W).map ((F.map f.op.toLoc).toFunctor.map α) ≫ cartesianLift Y f =
       cartesianLift X f ≫ (ι F V).map α := by
   ext
-  · show 𝟙 W ≫ f = f ≫ 𝟙 V
+  · change 𝟙 W ≫ f = f ≫ 𝟙 V
     exact (Category.id_comp f).trans (Category.comp_id f).symm
   · simp only [ι, categoryStruct_comp_base, op_comp, Quiver.Hom.comp_toLoc,
       categoryStruct_comp_fiber, op_id, Quiver.Hom.id_toLoc, Cat.Hom.id_toFunctor,
@@ -60,7 +60,7 @@ lemma cartesianLift_comp {V W Z : 𝒮} (φ : W ⟶ V) (ψ : Z ⟶ W) (a : F.obj
       (ι F Z).map ((F.mapComp φ.op.toLoc ψ.op.toLoc).hom.toNatTrans.app a) ≫
         cartesianLift ((F.map φ.op.toLoc).toFunctor.obj a) ψ ≫ cartesianLift a φ := by
   ext
-  · show ψ ≫ φ = 𝟙 Z ≫ ψ ≫ φ
+  · change ψ ≫ φ = 𝟙 Z ≫ ψ ≫ φ
     simp
   · simp only [ι, categoryStruct_comp_base, op_comp, Quiver.Hom.comp_toLoc,
       categoryStruct_comp_fiber, op_id, Quiver.Hom.id_toLoc, Cat.Hom.id_toFunctor,

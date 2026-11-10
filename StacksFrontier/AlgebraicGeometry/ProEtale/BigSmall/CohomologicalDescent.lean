@@ -236,7 +236,7 @@ public theorem proetaleCohomologicalDescent
     ⟨G.mapDerivedCategoryFactors.symm⟩
   have hQ : IsIso ((derivedProjectionAdjunction B S hS).unit.app
       (DerivedCategory.Q.obj P)) := by
-    show IsIso ((adjC.localization
+    change IsIso ((adjC.localization
       DerivedCategory.Q (HomologicalComplex.quasiIso _ (ComplexShape.up ℤ))
       DerivedCategory.Q (HomologicalComplex.quasiIso _ (ComplexShape.up ℤ))
       F.mapDerivedCategory G.mapDerivedCategory).unit.app (DerivedCategory.Q.obj P))

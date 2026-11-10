@@ -319,7 +319,7 @@ public theorem boundaryFun_naturality
     (hpreW : IsPredeformationCategory.{u, v, w}
       (BasedCategory.ofFunctor
         (TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g)).p)
-    (hS2W : SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    (hS2W : SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor
         (TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g)) hpreW.cofibered)))
     {M N : FGModuleCat.{max v w} k} (φ : M ⟶ N)
@@ -338,10 +338,10 @@ public theorem boundaryFun_naturality
     (associatedTangentSpaceModuleStructure.{u, v, w} 𝒲 hpreW hS2W).forget_comp φ
     (boundaryFun.{u, v, w} f g hzy hcmp PH PG PF hcofF hpreW hS2W M α)
   refine (Equiv.cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N)).injective ?_
-  show cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N) _ =
+  change cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N) _ =
     cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N) _
   rw [hcast]
-  show cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N)
+  change cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N)
       (cast (associatedTangentLift_carrier.{u, v, w} 𝒲 hpreW hS2W N).symm _) =
     (isomorphismClasses 𝒲 hpreW.cofibered).map
       ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).map φ)

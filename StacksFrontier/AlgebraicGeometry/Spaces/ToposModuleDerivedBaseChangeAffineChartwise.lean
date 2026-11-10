@@ -43,8 +43,8 @@ degree zero to `D⁺(𝒪_{Y'})` and then through the pasting law.
 *Why a family with enough objects, and not a covering family.*  The bounded below locality
 criterion over a covering family is available —
 `Stacks.SheafOfModules.isIso_of_coversTop_rightDerivedFunctorPlus`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/Slice/DerivedIsomorphismLocalityBoundedBelow.lean`) —
-but it tests restriction to the *slice* site, taken by `SheafOfModules.overFunctor`, whereas the
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/Slice/DerivedIsomorphismLocalityBoundedBelow.lean`)
+— but it tests restriction to the *slice* site, taken by `SheafOfModules.overFunctor`, whereas the
 pasting law of **Stacks 0E47** delivers the inverse image along a morphism of algebraic spaces,
 `AlgebraicGeometry.Space.modulePullback`.  Identifying the two is the transport of **Stacks 04M1**
 to sheaves of modules, which this development does not have;  the implementation notes of
@@ -75,8 +75,8 @@ through `chartToSpace B S hS Y W` for some affine chart `W` of `Y`":
 
 > `(SmallEtale.topology B S hS Y'.obj).HasEnoughObjects P`.
 
-This is the source's own "the question is local on `Y'`" step, and it is not a declaration of the library.
-The nearest available input is
+This is the source's own "the question is local on `Y'`" step, and it is not a declaration of the
+library. The nearest available input is
 `AlgebraicGeometry.Space.exists_affine_etale_chart_factorization`
 (`StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleChartFactorization.lean`), which does lift a
 morphism from a scheme to an algebraic space through an affine étale chart locally on the source —

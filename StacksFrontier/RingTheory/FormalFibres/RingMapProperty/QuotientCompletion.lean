@@ -176,7 +176,7 @@ private theorem map_primeCompl_eq_primeCompl_quotientPrime
       (quotientPrime p q hqp).asIdeal.primeCompl := by
   have hpbar : (quotientPrime p q hqp).asIdeal.comap
       (Ideal.Quotient.mk q.asIdeal) = p.asIdeal := by
-    show (p.asIdeal.map (Ideal.Quotient.mk q.asIdeal)).comap
+    change (p.asIdeal.map (Ideal.Quotient.mk q.asIdeal)).comap
       (Ideal.Quotient.mk q.asIdeal) = p.asIdeal
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective]
     rw [← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
@@ -200,7 +200,7 @@ private theorem isLocalization_atPrime_quotientLocalization
     IsLocalization.AtPrime
       (Localization (Submonoid.map (Ideal.Quotient.mk q.asIdeal) p.asIdeal.primeCompl))
       (quotientPrime p q hqp).asIdeal := by
-  show IsLocalization (quotientPrime p q hqp).asIdeal.primeCompl
+  change IsLocalization (quotientPrime p q hqp).asIdeal.primeCompl
     (Localization (Submonoid.map (Ideal.Quotient.mk q.asIdeal) p.asIdeal.primeCompl))
   rw [← map_primeCompl_eq_primeCompl_quotientPrime p q hqp]
   infer_instance
@@ -225,7 +225,7 @@ private theorem quotientLocalization_maximalIdeal
       @maximalIdeal S _ (isLocalRing_quotientLocalization p q hqp) := by
   let := isLocalRing_quotientLocalization p q hqp
   have := isLocalization_atPrime_quotientLocalization p q hqp
-  show (quotientPrime p q hqp).asIdeal.map _ = maximalIdeal _
+  change (quotientPrime p q hqp).asIdeal.map _ = maximalIdeal _
   exact IsLocalization.AtPrime.map_eq_maximalIdeal _ _
 
 /-- Localization commutes with taking the quotient by a prime below the localizing prime. -/
@@ -336,7 +336,7 @@ private theorem quotientFormalFiberAlgEquiv_nonempty
   let F := Classical.choice (AdicCompletion.nonempty_algEquiv_of_algEquiv e
     (maximalIdeal S) (maximalIdeal (A ⧸ J)) he)
   have hmap : q.asIdeal.map (algebraMap R C) = J.map (algebraMap A C) := by
-    show q.asIdeal.map (algebraMap R C) =
+    change q.asIdeal.map (algebraMap R C) =
       (q.asIdeal.map (algebraMap R A)).map (algebraMap A C)
     rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq R A C]
   let : Algebra Q (C ⧸ J.map (algebraMap A C)) :=
@@ -358,7 +358,7 @@ private theorem quotientFormalFiberAlgEquiv_nonempty
       (AdicCompletion (maximalIdeal S) S ⊗[Q] K) :=
     (tensorQuotientBaseChangeEquiv q.asIdeal C K).trans
       (tensorCongrRight K H)
-  show Nonempty ((C ⊗[R] K) ≃ₐ[K]
+  change Nonempty ((C ⊗[R] K) ≃ₐ[K]
     (AdicCompletion
       ((p.asIdeal.map (Ideal.Quotient.mk q.asIdeal)).map (algebraMap Q S)) S ⊗[Q] K))
   rw [quotientLocalization_maximalIdeal p q hqp]
@@ -469,7 +469,7 @@ private theorem formalFiber_property_iff_quotientCompletion
         (B := K)).toRingHom.comp (RingEquiv.refl K).toRingHom) := by
     apply RingHom.ext
     intro x
-    show Algebra.TensorProduct.includeRight (R := Q) (A := D) (B := K) x =
+    change Algebra.TensorProduct.includeRight (R := Q) (A := D) (B := K) x =
       E₂ (Algebra.TensorProduct.includeRight (R := R) (A := C) (B := K) x)
     rw [includeRight_apply_eq_algebraMap, includeRight_apply_eq_algebraMap]
     exact (E₂.commutes x).symm

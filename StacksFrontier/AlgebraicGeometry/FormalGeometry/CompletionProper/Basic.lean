@@ -134,7 +134,7 @@ public theorem completion_hasProperSupport
       (cokernel.π (C := X.Modules) (idealPowerMultiple J 1 F.obj.obj).ι)
   refine ⟨⟨_root_.SheafOfModules.supp Q, _root_.SheafOfModules.isClosed_supp Q⟩, rfl, ?_⟩
   refine isProperOver_of_le f ?_ hZproper
-  show _root_.SheafOfModules.supp Q ≤ (Z : Set X)
+  change _root_.SheafOfModules.supp Q ≤ (Z : Set X)
   rw [hZF]
   exact hsub
 

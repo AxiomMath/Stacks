@@ -89,7 +89,7 @@ private theorem comap_vanishingIdeal_singleton {U X : Scheme.{u}} (j : U ⟶ X)
   let I := Scheme.IdealSheafData.vanishingIdeal (⟨{j.base z}, hjz⟩ : Closeds X)
   have hrad : I.radical = I := by
     rw [← Scheme.IdealSheafData.vanishingIdeal_support]
-    show Scheme.IdealSheafData.vanishingIdeal I.support =
+    change Scheme.IdealSheafData.vanishingIdeal I.support =
       Scheme.IdealSheafData.vanishingIdeal (⟨{j.base z}, hjz⟩ : Closeds X)
     congr 1
   have hrad' : (I.comap j).radical = I.comap j := by
@@ -97,9 +97,9 @@ private theorem comap_vanishingIdeal_singleton {U X : Scheme.{u}} (j : U ⟶ X)
   rw [← hrad', ← Scheme.IdealSheafData.vanishingIdeal_support]
   congr 1
   ext y
-  show y ∈ (I.comap j).support ↔ y = z
+  change y ∈ (I.comap j).support ↔ y = z
   rw [Scheme.IdealSheafData.support_comap]
-  show j.base y ∈ (I.support : Set X) ↔ y = z
+  change j.base y ∈ (I.support : Set X) ↔ y = z
   rw [show (I.support : Set X) = {j.base z} by simp [I]]
   exact ⟨fun h ↦ j.isOpenEmbedding.injective h, fun h ↦ congrArg j.base h⟩
 

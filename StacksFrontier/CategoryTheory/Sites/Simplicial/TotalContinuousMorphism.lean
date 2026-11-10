@@ -68,7 +68,7 @@ theorem ι_map_comp_mk (S : 𝒮) {Z' Z : F.obj ⟨Opposite.op S⟩} (x : Z' ⟶
     (f : S ⟶ Y.base) (y : Z ⟶ (F.map f.op.toLoc).toFunctor.obj Y.fiber) :
     (ι F S).map x ≫ (⟨f, y⟩ : (ι F S).obj Z ⟶ Y) = (⟨f, x ≫ y⟩ : (ι F S).obj Z' ⟶ Y) := by
   refine Hom.ext _ _ (Category.id_comp f) ?_
-  show (x ≫ (F.mapId ⟨Opposite.op S⟩).inv.toNatTrans.app Z) ≫
+  change (x ≫ (F.mapId ⟨Opposite.op S⟩).inv.toNatTrans.app Z) ≫
       (F.map (𝟙 S).op.toLoc).toFunctor.map y ≫
         (F.mapComp f.op.toLoc (𝟙 S).op.toLoc).inv.toNatTrans.app Y.fiber = _
   simp only [op_id, Quiver.Hom.id_toLoc, Category.assoc, ← NatTrans.naturality_assoc,

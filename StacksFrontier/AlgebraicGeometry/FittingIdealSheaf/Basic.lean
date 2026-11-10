@@ -80,7 +80,7 @@ theorem ideal_basicOpen (k : ℤ) (U : X.affineOpens) (f : Γ(X, U.1)) :
   have hU := finite_affine F U
   have hf : Module.Finite Γ(X, X.basicOpen f) Γ(F, X.basicOpen f) :=
     finite_sections F (U.2.basicOpen f)
-  show (fittingIdeal (R := Γ(X, U.1)) (M := Γ(F, U.1)) k).map
+  change (fittingIdeal (R := Γ(X, U.1)) (M := Γ(F, U.1)) k).map
       (X.presheaf.map (homOfLE (X.basicOpen_le f)).op).hom =
     fittingIdeal (R := Γ(X, X.basicOpen f)) (M := Γ(F, X.basicOpen f)) k
   rcases lt_or_ge k 0 with hk | hk

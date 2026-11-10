@@ -254,12 +254,12 @@ private theorem exists_factor_from_affine_stage
             (BigFppfOver.topology B S hS)) i ≫ e.inv = f := by
   let q := BigFppfOver.toScheme B S hS
   have hcompact : CompactSpace (q.obj U) := by
-    show CompactSpace ((BigAffineFppf.toScheme B S hS).obj
+    change CompactSpace ((BigAffineFppf.toScheme B S hS).obj
       ⟨U, hU⟩)
     infer_instance
   have hqc : Space.IsQuasiCompactSpace B S hS (yoneda.obj U) := by
     refine ⟨U, 𝟙 _, hcompact, ?_, ?_⟩
-    · show (MorphismProperty.presheaf
+    · change (MorphismProperty.presheaf
         (MorphismProperty.inverseImage (@Surjective.{u} : MorphismProperty Scheme.{u}) q))
         (𝟙 (yoneda.obj U))
       refine ⟨Functor.relativelyRepresentable.of_isIso yoneda _, ?_⟩
@@ -299,7 +299,7 @@ private theorem exists_factor_to_stage_of_closedImmersion
   let U := (BigAffineFppf.inclusion B S hS).obj V
   let q := BigFppfOver.toScheme B S hS
   have hcompact : CompactSpace (q.obj U) := by
-    show CompactSpace ((BigAffineFppf.toScheme B S hS).obj V)
+    change CompactSpace ((BigAffineFppf.toScheme B S hS).obj V)
     infer_instance
   have hqc : Space.IsQuasiCompactSpace B S hS (yoneda.obj U) := by
     refine ⟨U, 𝟙 _, hcompact, ?_, ?_⟩
@@ -472,7 +472,7 @@ theorem exists_weakIdeal_over_thickening_stage
   have hquotientIso : Function.Surjective (P.quotientIso K).hom.base :=
     (ConcreteCategory.bijective_of_isIso (P.quotientIso K).hom.base).2
   have hsurj' : Function.Surjective f'.base := by
-    show Function.Surjective
+    change Function.Surjective
       (((BigAffineFppf.toScheme B S hS).map f ≫
         (P.quotientIso K).hom).base)
     rw [Scheme.Hom.comp_base]
@@ -500,12 +500,12 @@ theorem exists_weakIdeal_over_thickening_stage
     apply CommRingCat.hom_ext
     ext x
     dsimp only [qfac]
-    show E.toRingHom
+    change E.toRingHom
         (Ideal.Quotient.factor (show K.1 ≤ J.1 from leOfHom (homOfLE hJK))
           (Ideal.Quotient.mk K.1 x)) =
       Ideal.Quotient.mk H (Ideal.Quotient.mk K.1 x)
     rw [Ideal.Quotient.factor_mk]
-    show quotientQuotientEquivComap K.1 H (Ideal.Quotient.mk J₀ x) = _
+    change quotientQuotientEquivComap K.1 H (Ideal.Quotient.mk J₀ x) = _
     unfold quotientQuotientEquivComap
     rw [RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
       RingHom.quotientKerEquivOfSurjective_apply_mk]
@@ -514,7 +514,7 @@ theorem exists_weakIdeal_over_thickening_stage
       (Scheme.Spec.mapIso E.toCommRingCatIso.op).hom ≫
           Spec.map (CommRingCat.ofHom qfac) =
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk H)) := by
-    show Spec.map (E.toCommRingCatIso.op.hom.unop) ≫
+    change Spec.map (E.toCommRingCatIso.op.hom.unop) ≫
       Spec.map (CommRingCat.ofHom qfac) = _
     have h := congrArg
       (fun g : CommRingCat.of (A ⧸ K.1) ⟶
@@ -549,7 +549,7 @@ theorem exists_weakIdeal_over_thickening_stage
     _ = e.hom ≫
           (BigAffineFppf.toScheme B S hS).map
             (P.diagram.map (homOfLE hJK)) := by
-      show eSpec.hom ≫ Spec.map (CommRingCat.ofHom qfac) ≫
+      change eSpec.hom ≫ Spec.map (CommRingCat.ofHom qfac) ≫
         (P.quotientIso K).inv =
         eSpec.hom ≫ (P.quotientIso J).inv ≫
           (BigAffineFppf.toScheme B S hS).map
@@ -702,7 +702,7 @@ private theorem factor_map_isThickening
     colimit.w (F := GD) u
   have hgcol : F.map (T.map g') ≫ colimit.ι GD m =
       F.map (T.map g) ≫ colimit.ι GD j := by
-    show F.map (T.map (g ≫ D.map v)) ≫ colimit.ι GD m = _
+    change F.map (T.map (g ≫ D.map v)) ≫ colimit.ι GD m = _
     simp only [Functor.map_comp, Category.assoc]
     rw [hcolv]
   have hcompD :
@@ -751,7 +751,7 @@ private theorem factor_map_isThickening
     colimit.w (F := GP) tKL
   have hfL : F.map (T.map f'L) ≫ colimit.ι GP L =
       F.map (T.map f') ≫ colimit.ι GP M := by
-    show F.map (T.map (f' ≫ P.diagram.map tML)) ≫ colimit.ι GP L = _
+    change F.map (T.map (f' ≫ P.diagram.map tML)) ≫ colimit.ι GP L = _
     simp only [Functor.map_comp, Category.assoc]
     rw [hcolML]
   have hcompP :
@@ -1063,7 +1063,7 @@ public theorem presentation_quotients_cofinal
       colimit.ι (P.diagram ⋙ BigAffineFppf.inclusion B S hS ⋙
         Sheaf.sheafifiedYoneda
           (BigFppfOver.topology B S hS)) (J i) := by
-    show (P.diagram ⋙ BigAffineFppf.inclusion B S hS ⋙
+    change (P.diagram ⋙ BigAffineFppf.inclusion B S hS ⋙
       Sheaf.sheafifiedYoneda
         (BigFppfOver.topology B S hS)).map
           (homOfLE (hJK i)) ≫ _ = _
@@ -1078,11 +1078,11 @@ public theorem presentation_quotients_cofinal
         colimit.ι GD i ≫ eD.inv := by
     have hehom : (BigAffineFppf.toScheme B S hS).map (e i).hom =
         (eScheme i).hom := by
-      show B.inclusion.map
+      change B.inclusion.map
         (Over.Hom.left (T.map (T.preimage
           (Over.homMk (B.inclusion.preimage (eScheme i).hom) _)))) = _
       rw [T.map_preimage]
-      show B.inclusion.map (B.inclusion.preimage (eScheme i).hom) = _
+      change B.inclusion.map (B.inclusion.preimage (eScheme i).hom) = _
       exact B.inclusion.map_preimage (eScheme i).hom
     have hfactorCat : f i = (e i).hom ≫ P.diagram.map (homOfLE (hJK i)) := by
       apply (Functor.map_injective
@@ -1199,7 +1199,7 @@ theorem weak_quotient_transition_isThickening
   have hiso₂ : Function.Surjective (P.quotientIso K).inv.base :=
     (ConcreteCategory.bijective_of_isIso (P.quotientIso K).inv.base).2
   rw [weak_quotient_transition_eq_spec_factor B S hS A X P f]
-  show Function.Surjective
+  change Function.Surjective
     (((P.quotientIso J).hom ≫ qSpec ≫ (P.quotientIso K).inv)).base
   rw [Scheme.Hom.comp_base, Scheme.Hom.comp_base]
   exact (hiso₂.comp hq).comp hiso₁

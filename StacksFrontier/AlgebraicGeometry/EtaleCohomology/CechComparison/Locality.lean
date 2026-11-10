@@ -13,8 +13,8 @@ Let `C` be a site, `F` an abelian sheaf on `C`, `U` an object of `C`, `p > 0` an
 with `ξ|_{U_i} = 0` for every `i`.  The source proves it by citing
 [Stacks, Tag 01FW], the same statement for a sheaf of modules on a ringed site, and that is
 exactly what is done here: the abelian-sheaf form of 01FW is
-`Stacks.Cohomology.Locality.cohomologyPresheaf_locally_zero` in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/CohomologyPresheafLocallyZero.lean`,
+`Stacks.Cohomology.Locality.cohomologyPresheaf_locally_zero` in the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.CohomologyPresheafLocallyZero`,
 and the two statements coincide once `H^p(U, F)` is read
 as Mathlib's `CategoryTheory.Sheaf.H'`, the value over `U` of the cohomology presheaf.
 

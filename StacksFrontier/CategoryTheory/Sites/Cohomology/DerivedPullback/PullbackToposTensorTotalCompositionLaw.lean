@@ -519,7 +519,11 @@ omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ),
     HomologicalComplex.HasMapBifunctor A B
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O) (ComplexShape.up ℤ)] in
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.O) (ComplexShape.up ℤ)]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The respelled composition isomorphism in a single degree: it is the underived composition
 isomorphism of Stacks 0D6D at the term of that degree.  This is
 `Stacks.Sheaves.DerivedPullback.CompositionLaw.pullbackComplexCompIso_hom_app_f`. -/

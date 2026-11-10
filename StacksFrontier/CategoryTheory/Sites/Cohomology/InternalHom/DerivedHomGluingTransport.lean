@@ -91,7 +91,8 @@ variable (ρ : ∀ {C A : 𝒜} (_ : C ⟶ A), D A ⥤ D C)
               (e.functor.map c))) (T C) ≪≫ ν C) =
     (Functor.associator _ _ _).symm ≪≫ Functor.isoWhiskerRight (ν A) (ρ c) ≪≫ γ c)
 
-omit [∀ U : X.C, PreservesFiniteLimits
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ U : X.C, PreservesFiniteLimits
     (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)]
   [∀ U : X.C, PreservesFiniteColimits
     (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)] in

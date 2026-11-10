@@ -113,7 +113,7 @@ theorem coe_nonvanishingOpen_eval (X : Scheme.{u}) (M : X.Modules)
     (Stacks.SheafOfModules.nonvanishingOpen (X := X.toRingedSpace) M s : Set X)
       = Stacks.Ample.nonvanishingLocus M (s.eval (op ⊤)) := by
   rw [← coe_nonvanishingOpen_sectionsOfTop X M (s.eval (op ⊤))]
-  show Stacks.SheafOfModules.nonvanishingLocus M s
+  change Stacks.SheafOfModules.nonvanishingLocus M s
       = Stacks.SheafOfModules.nonvanishingLocus M
           (Stacks.SheafOfModules.sectionsOfTop M (s.eval (op ⊤)))
   exact (Stacks.SheafOfModules.nonvanishingLocus_sectionsOfTop_eval M s).symm

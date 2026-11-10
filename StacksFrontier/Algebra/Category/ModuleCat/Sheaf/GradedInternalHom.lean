@@ -116,7 +116,7 @@ theorem castHom_congr_heq (X : ℤ → SheafOfModules.{w} R) {i j k : ℤ} (hi :
 slice site does nothing. -/
 theorem map_top_sections (X : SheafOfModules.{w} R) (U : C) (x : X.val.obj (Opposite.op U)) :
     X.val.map (Over.mk (𝟙 U)).hom.op x = x := by
-  show X.val.map (𝟙 (Opposite.op U)) x = x
+  change X.val.map (𝟙 (Opposite.op U)) x = x
   simp only [PresheafOfModules.map_id]
   rfl
 
@@ -124,7 +124,7 @@ theorem map_top_sections (X : SheafOfModules.{w} R) (U : C) (x : X.val.obj (Oppo
 terminal object of a slice site does nothing. -/
 theorem ring_map_top (U : C) (r : R.obj.obj (Opposite.op U)) :
     R.obj.map (Over.mk (𝟙 U)).hom.op r = r := by
-  show R.obj.map (𝟙 (Opposite.op U)) r = r
+  change R.obj.map (𝟙 (Opposite.op U)) r = r
   simp
 
 /-- The right graded `B`-module underlying a graded `(A, B)`-bimodule, obtained by forgetting

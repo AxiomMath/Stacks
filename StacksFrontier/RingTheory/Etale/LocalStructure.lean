@@ -341,7 +341,7 @@ private lemma step {R : Type u} {S : Type w} [CommRing R] [CommRing S] [Algebra 
   have hmk : ∀ i, Ideal.Quotient.mk (Ideal.span {φ e}) (e'' i) = e₁ (e' i) :=
     fun i ↦ (congr_fun he''e' i).symm
   have hψe : ∀ i, ψ (e'' i) = e' i := fun i ↦ by
-    show e₁.symm (Ideal.Quotient.mk (Ideal.span {φ e}) (e'' i)) = e' i
+    change e₁.symm (Ideal.Quotient.mk (Ideal.span {φ e}) (e'' i)) = e' i
     rw [hmk, e₁.symm_apply_apply]
   have hker : RingHom.ker ψ.toRingHom = Ideal.span {φ e} := by
     ext x
@@ -679,7 +679,7 @@ variable {R S R' : Type*} [CommRing R] [CommRing S] [CommRing R'] [Algebra R S] 
 private lemma algebraMap_residueField_eq {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
     (I : Ideal A) [I.IsPrime] (J : Ideal B) [J.IsPrime] [J.LiesOver I]
     [Algebra (Localization.AtPrime I) (Localization.AtPrime J)]
-    [Localization.AtPrime.IsLiesOverAlgebra I J] :
+    [IsScalarTower A (Localization.AtPrime I) (Localization.AtPrime J)] :
     (algebraMap I.ResidueField J.ResidueField) =
       Ideal.ResidueField.map I J (algebraMap A B) (J.over_def I) :=
   Ideal.ResidueField.ringHom_ext <| by
@@ -867,7 +867,7 @@ private lemma IsSplitFibre.of_algEquiv {R' T T' : Type*} [CommRing R'] [CommRing
     simpa using hnot i
   · -- the transported prime is the only one
     intro i q hq hqo hne
-    show q = (r i).comap f.symm.toAlgHom
+    change q = (r i).comap f.symm.toAlgHom
     rw [← huniq i (q.comap f.toAlgHom) inferInstance inferInstance (by simpa using hne)]
     ext z
     simp
@@ -1001,7 +1001,7 @@ public theorem solution {R : Type u} {S : Type v} [CommRing R] [CommRing S] [Alg
           IsPurelyInseparable p'.ResidueField (r i).ResidueField) ∧
       ∀ (q : Ideal (R' ⊗[R] S)) [q.IsPrime], q.LiesOver p' → e (Fin.last n) ∉ q →
         ¬ Algebra.QuasiFiniteAt R' q := by
-  show Conclusion R S p
+  change Conclusion R S p
   obtain ⟨R₁, _, _, _, p₁, _, _, H⟩ := exists_etale_purelyInseparableFibre (S := S) p
   exact conclusion_of_baseChange p R₁ p₁ (conclusion_of_purelyInseparableFibre p₁ H)
 
@@ -1054,7 +1054,7 @@ inseparable field extension" is the same statement for `r i` read in `R' ⊗[R] 
 The extension `κ(p') → κ(r i)` is the canonical one, `Localization.localRingHom` along
 `algebraMap R' (R' ⊗[R] S)`, introduced as an algebra structure by
 `Localization.AtPrime.algebraOfLiesOver` — the same device `Ideal.inertiaDeg` uses, and pinned by
-`Localization.AtPrime.IsLiesOverAlgebra`. The residue field taken is that of the prime `r i` of
+`IsScalarTower` over `R'`. The residue field taken is that of the prime `r i` of
 `R' ⊗[R] S` rather than of the corresponding prime of the factor `Aᵢ`; the two agree, by the
 previous paragraph.
 

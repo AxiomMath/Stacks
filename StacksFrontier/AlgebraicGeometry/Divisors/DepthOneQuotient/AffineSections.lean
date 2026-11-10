@@ -91,7 +91,7 @@ theorem ker_sectionsLinearMap_eq_sectionsWithSupportIn [IsLocallyNoetherian X] (
       apply hinj
       rw [TopCat.Presheaf.stalkFunctor_map_germ_apply, TopCat.Presheaf.stalkFunctor_map_germ_apply,
         map_zero]
-      show E'.presheaf.germ U _ hyU (φ.app U s) = _
+      change E'.presheaf.germ U _ hyU (φ.app U s) = _
       rw [hs, map_zero]
     obtain ⟨c, hc, hcs⟩ := exists_smul_eq_of_germ_eq E hU hyU s 0 hgerm
     rw [smul_zero, hU.primeIdealOf_fromSpec _ (hU.fromSpec_mem p)] at *

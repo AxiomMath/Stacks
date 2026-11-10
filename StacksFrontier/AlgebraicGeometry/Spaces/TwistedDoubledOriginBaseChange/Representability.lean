@@ -16,8 +16,8 @@ The base change `X' = S' ×_S X` of the twisted doubled origin along the chart, 
 presheaves on the big fppf site of the base, is represented by the glued scheme, so the chart is
 a surjective, finite, étale morphism trivialising `X`.
 
-This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose module
-docstring describes the whole argument.
+This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose
+module docstring describes the whole argument.
 -/
 
 @[expose] public noncomputable section
@@ -200,13 +200,13 @@ theorem doubledRelation_comp_coverSelfProductToBaseChange (hdegree : Module.finr
     rw [doubledRelation_target, prod.map_snd, twistedRelation_target]
   apply pullback.hom_ext
   · simp only [Category.assoc, coverSelfProductToBaseChange_comp_fst]
-    show (pointsFunctor k B hS).map (doubledRelation k K σ).source ≫
+    change (pointsFunctor k B hS).map (doubledRelation k K σ).source ≫
         (pointsFunctor k B hS).map prod.fst =
       (pointsFunctor k B hS).map (doubledRelation k K σ).target ≫
         (pointsFunctor k B hS).map prod.fst
     rw [← Functor.map_comp, ← Functor.map_comp, hfst]
   · simp only [Category.assoc, coverSelfProductToBaseChange_comp_snd]
-    show (pointsFunctor k B hS).map (doubledRelation k K σ).source ≫
+    change (pointsFunctor k B hS).map (doubledRelation k K σ).source ≫
         (pointsFunctor k B hS).map prod.snd ≫
           Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B (base k) hS)
             (Over.post (X := B.obj hS) B.inclusion) (twistedRelation k K σ) =

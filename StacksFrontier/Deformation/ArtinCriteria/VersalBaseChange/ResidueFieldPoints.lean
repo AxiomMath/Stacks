@@ -142,7 +142,7 @@ private lemma twoYonedaLiftIsoSliceFunctor_vertical
     (p : X ⥤ C) (hp : p.IsFiberedInGroupoids) (c : p.ChoiceOfPullbacks)
     (U : C) (x : p.Fiber U) (a : Over U) :
     p.IsHomLift (𝟙 a.left) ((twoYonedaLiftIsoSliceFunctor p hp c U x).hom.app a) := by
-  show p.IsHomLift (𝟙 a.left) (Functor.IsCartesian.map p a.hom
+  change p.IsHomLift (𝟙 a.left) (Functor.IsCartesian.map p a.hom
     (c.map a.hom x) (Functor.TwoYoneda.chosenLift p hp U x a).φ)
   infer_instance
 
@@ -269,7 +269,7 @@ private lemma exists_algebra_factorization
   let := hi
   let t := IsOpenImmersion.lift i g hg
   refine ⟨(Spec.preimage t).hom.toAlgebra, ?_⟩
-  show Spec.map (Spec.preimage t) ≫ i = g
+  change Spec.map (Spec.preimage t) ≫ i = g
   rw [Spec.map_preimage]
   exact IsOpenImmersion.lift_fac i g hg
 
@@ -341,11 +341,11 @@ private lemma dominates_residueFieldRepresentative
         (AlgebraicGeometry.Space.schemePoint B S hS U p) ht).siteObject :=
     Over.homMk ⟨g⟩ (by
       apply ObjectProperty.hom_ext
-      show g ≫ (U.left.1.fromSpecResidueField q.1 ≫ B.inclusion.map U.hom) = p.toBase
+      change g ≫ (U.left.1.fromSpecResidueField q.1 ≫ B.inclusion.map U.hom) = p.toBase
       rw [← Category.assoc, hfac]
       exact congrArg (fun h => B.inclusion.map h) p.value.w)
   refine ⟨a, ?_⟩
-  show a ≫ (residueFieldRepresentative B S hS U
+  change a ≫ (residueFieldRepresentative B S hS U
     (AlgebraicGeometry.Space.schemePoint B S hS U p) ht).value = p.value
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
@@ -407,7 +407,7 @@ private theorem spec_contains_of_artinianLocal_residueEquiv
         have hinj : Function.Injective (fun _ : M => (ULift.up PUnit.unit : ULift.{u} PUnit)) :=
           fun _ _ _ => Subsingleton.elim _ _
         exact (Cardinal.mk_le_of_injective hinj).trans (by
-          show Cardinal.mk (ULift.{u} PUnit) ≤ c
+          change Cardinal.mk (ULift.{u} PUnit) ≤ c
           exact le_trans (by simp) (le_max_left _ _))
     | @of_simple_quotient M _ _ N hsimple hN ih =>
         have hfactor : Cardinal.mk (M ⧸ N) ≤ c := by
@@ -593,7 +593,7 @@ private lemma residueFieldChart_sourcePoint
     (ht : B.Contains (Spec (c.U.left.1.residueField
       (AlgebraicGeometry.Space.schemePoint B S hS c.U c.representative)))) :
     (residueFieldChart B S hS c ht).sourcePoint B S hS = c.sourcePoint B S hS := by
-  show AlgebraicGeometry.Space.schemePoint B S hS c.U
+  change AlgebraicGeometry.Space.schemePoint B S hS c.U
     (residueFieldRepresentative B S hS c.U
       (AlgebraicGeometry.Space.schemePoint B S hS c.U c.representative) ht) = _
   rw [residueFieldRepresentative_schemePoint]
@@ -630,7 +630,7 @@ private theorem schemeProperty_presheaf_id
     (MorphismProperty.presheaf
       (MorphismProperty.inverseImage P (AlgebraicGeometry.BigFppfOver.toScheme B S hS)))
       (𝟙 (yoneda.obj T)) := by
-  show MorphismProperty.relative yoneda
+  change MorphismProperty.relative yoneda
     (MorphismProperty.inverseImage P (AlgebraicGeometry.BigFppfOver.toScheme B S hS))
     (𝟙 (yoneda.obj T))
   constructor
@@ -672,9 +672,9 @@ private theorem etale_presheaf_of_isEtale
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (P := @Etale.{u}) (hs.map (AlgebraicGeometry.BigFppfOver.toScheme B S hS)) hg
   have hid : Q.presheaf (𝟙 (yoneda.obj U)) := by
-    show Q.presheaf (yoneda.map (𝟙 U))
+    change Q.presheaf (yoneda.map (𝟙 U))
     exact (MorphismProperty.relative_map_iff (F := yoneda) (P := Q)).2 (by
-      show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 U))
+      change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 U))
       infer_instance)
   simpa using hf U (𝟙 (yoneda.obj U)) hid
 
@@ -721,7 +721,7 @@ private lemma schemePoint_eq_of_commonExtension
         (schemeFieldValuedPoint B S hS U s) := by
     obtain ⟨f, hf⟩ := h
     refine ⟨(AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f, ?_⟩
-    show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f ≫
+    change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f ≫
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map s.value =
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map r.value
     have hf' : f ≫ s.value = r.value := by
@@ -784,7 +784,7 @@ private lemma restrictChartFieldPoint_mapsTo
         r.value) :
     (AlgebraicGeometry.Space.FieldValuedPoint.map B S hS (yoneda.obj c.U) c.a
       (restrictChartFieldPoint B S hS x c p f)).value = r.value := by
-  show c.a.app (Opposite.op r.siteObject)
+  change c.a.app (Opposite.op r.siteObject)
       ((yoneda.obj c.U).map f.op p.value) = r.value
   have hn := congrArg (fun k => k p.value) (c.a.naturality f.op)
   have hn' : c.a.app (Opposite.op r.siteObject)
@@ -901,7 +901,7 @@ private lemma mapPredeformationCategory_objects
   refine deformationObject_ext _ _ _ _ ?_ (H.object_point a) ?_
   · exact (PY.object_projection _).symm.trans
       ((Functor.congr_obj H.projection_comm a).trans (PX.object_projection a))
-  · show (PY.objects (H.toFunctor.obj a)).arrow ≫ eqToHom (H.object_point a) =
+  · change (PY.objects (H.toFunctor.obj a)).arrow ≫ eqToHom (H.object_point a) =
       G.map (PX.objects a).arrow
     rw [H.object_arrow]
     simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]

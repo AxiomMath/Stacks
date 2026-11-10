@@ -146,7 +146,7 @@ lemma exists_tensor_stalk_transport {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCa
 lemma isIso_ΓSpecIso_inv_germ (pt : Spec (CommRingCat.of k)) :
     IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).presheaf.germ ⊤ pt trivial) := by
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   obtain rfl : pt = IsLocalRing.closedPoint (CommRingCat.of k) := Subsingleton.elim _ _
   rw [← ΓSpecIso_hom_stalkClosedPointIso_inv, Iso.inv_hom_id_assoc]
@@ -158,7 +158,7 @@ noncomputable def basePoint : Spec (CommRingCat.of k) := default
 /-- Every point of `Spec k` is its point `basePoint k`. -/
 lemma eq_basePoint (x : Spec (CommRingCat.of k)) : x = basePoint k := by
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   exact Subsingleton.elim _ _
 
@@ -245,20 +245,20 @@ lemma identityPair_mul : (identityPair k G).left ≫ μ[G.X].left = η[G.X].left
 /-- The first projection sends `(e, e)` to `e`. -/
 lemma fst_identityPairPoint :
     pullback.fst G.X.hom G.X.hom (identityPairPoint k G) = identityPoint k G := by
-  show ((identityPair k G).left ≫ pullback.fst G.X.hom G.X.hom) (basePoint k) = _
+  change ((identityPair k G).left ≫ pullback.fst G.X.hom G.X.hom) (basePoint k) = _
   rw [identityPair_fst]
   rfl
 
 /-- The second projection sends `(e, e)` to `e`. -/
 lemma snd_identityPairPoint :
     pullback.snd G.X.hom G.X.hom (identityPairPoint k G) = identityPoint k G := by
-  show ((identityPair k G).left ≫ pullback.snd G.X.hom G.X.hom) (basePoint k) = _
+  change ((identityPair k G).left ≫ pullback.snd G.X.hom G.X.hom) (basePoint k) = _
   rw [identityPair_snd]
   rfl
 
 /-- The multiplication sends `(e, e)` to `e`. -/
 lemma mul_identityPairPoint : μ[G.X].left (identityPairPoint k G) = identityPoint k G := by
-  show ((identityPair k G).left ≫ μ[G.X].left) (basePoint k) = _
+  change ((identityPair k G).left ≫ μ[G.X].left) (basePoint k) = _
   rw [identityPair_mul]
   rfl
 
@@ -275,14 +275,14 @@ lemma unit_toUnit_unit : η[G.X] ≫ toUnit G.X ≫ η[G.X] = η[G.X] := by
 /-- The section `g ↦ (e, g)` sends `e` to `(e, e)`. -/
 lemma leftSection_identityPoint :
     (leftSection k G).left (identityPoint k G) = identityPairPoint k G := by
-  show (η[G.X] ≫ leftSection k G).left (basePoint k) = (identityPair k G).left (basePoint k)
+  change (η[G.X] ≫ leftSection k G).left (basePoint k) = (identityPair k G).left (basePoint k)
   rw [leftSection, comp_lift, unit_toUnit_unit, Category.comp_id]
   rfl
 
 /-- The section `g ↦ (g, e)` sends `e` to `(e, e)`. -/
 lemma rightSection_identityPoint :
     (rightSection k G).left (identityPoint k G) = identityPairPoint k G := by
-  show (η[G.X] ≫ rightSection k G).left (basePoint k) = (identityPair k G).left (basePoint k)
+  change (η[G.X] ≫ rightSection k G).left (basePoint k) = (identityPair k G).left (basePoint k)
   rw [rightSection, comp_lift, unit_toUnit_unit, Category.comp_id]
   rfl
 
@@ -474,8 +474,7 @@ lemma pairCounit_comp (ψ : G.X.left.presheaf.stalk (identityPoint k G) ⊗[k]
     (stalkPairCounitMap k G ≫ inv (baseGerm k)).hom (ψ t) =
       Algebra.TensorProduct.lift (stalkCounit k G hR) (stalkCounit k G hR)
         (fun _ _ => .all _ _) t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [hψ, map_mul, Algebra.TensorProduct.lift_tmul, stalkCounit_apply, stalkCounit_apply,
       ← RingHom.comp_apply, ← RingHom.comp_apply, ← CommRingCat.hom_comp, ← CommRingCat.hom_comp,

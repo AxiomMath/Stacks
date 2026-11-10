@@ -36,7 +36,7 @@ theorem le_preimage_chart_toBase :
       (relativeProjChart s W ≫ relativeProjToBase s) ⁻¹ᵁ W.1 := by
   intro x _
   have hw := (relativeProjChart_isPullback s W).w
-  show (relativeProjChart s W ≫ relativeProjToBase s).base x ∈ W.1
+  change (relativeProjChart s W ≫ relativeProjToBase s).base x ∈ W.1
   rw [hw]
   exact ((projInclusionToOpen s W.1 W.2).base x).2
 
@@ -66,7 +66,7 @@ theorem chart_toBase_appLE_hom (hd : 0 < d)
     (cHom_mem W.1 c) hd le_top
   have e3 : (Spec.map (sectionRingZeroMap s W.1)).appLE ⊤ ⊤ le_top =
       (Spec.map (sectionRingZeroMap s W.1)).appTop := by
-    show (Spec.map (sectionRingZeroMap s W.1)).app ⊤ ≫ (Spec _).presheaf.map
+    change (Spec.map (sectionRingZeroMap s W.1)).app ⊤ ≫ (Spec _).presheaf.map
       (homOfLE (le_top : (⊤ : (Spec (CommRingCat.of (s.sectionRingGrading W.1 0))).Opens) ≤
         _)).op = (Spec.map (sectionRingZeroMap s W.1)).app ⊤
     rw [show (homOfLE (le_top : (⊤ : (Spec (CommRingCat.of (s.sectionRingGrading W.1 0))).Opens) ≤
@@ -92,7 +92,7 @@ theorem fromZero_sectionRingZeroMap (r : s.base.ringCatSheaf.obj.obj (op W.1)) :
         (Submonoid.powers (cHom W.1 c)) (sectionRingZeroMap s W.1 r) = baseFrac W c r := by
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.Away.val_mk]
-  show (Localization.mk ((sectionRingZeroMap s W.1 r : s.sectionRingGrading W.1 0) :
+  change (Localization.mk ((sectionRingZeroMap s W.1 r : s.sectionRingGrading W.1 0) :
       s.sectionRing W.1) 1 : Localization.Away (cHom W.1 c)) = _
   have hmem := sectionRingBaseMap_mem_zero s W.1 r
   have e : ((sectionRingZeroMap s W.1 r : s.sectionRingGrading W.1 0) : s.sectionRing W.1) =

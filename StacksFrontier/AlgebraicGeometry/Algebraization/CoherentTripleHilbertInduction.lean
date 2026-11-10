@@ -124,7 +124,8 @@ is
   `Supp F` has a generic point, the punctured spectrum being a scheme and hence sober, and that
   generic point is an associated point of `F` by [Stacks, Tag 05AL] --
   `AlgebraicGeometry.mem_associatedPoints_of_isGenericPoint_irreducibleComponent_supp`, in
-  `StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.EmbeddedCharacterization`. So the clause reduces to a *pointwise* statement, and is packaged
+  `StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.EmbeddedCharacterization`. So the
+  clause reduces to a *pointwise* statement, and is packaged
   that way as
   `...CoherentTriple.dimension_drop_cokernelTriple_twistZ_of_notMem_associatedPoints`:
   what is owed is that **no associated point of `F` lies in `Supp G`**. For multiplication by a
@@ -329,7 +330,8 @@ which is the part that needed a lemma.
 
 *That lemma is three steps, and its hard half is already in the library.* The comparison of the
 two localized right unitors does not require opening up
-`CategoryTheory.Localization.Monoidal`'s unitor construction: Mathlib's `CategoryTheory.Monoidal.Localization.rightUnitor_hom_app` writes a localized
+`CategoryTheory.Localization.Monoidal`'s unitor construction: Mathlib's
+`CategoryTheory.Monoidal.Localization.rightUnitor_hom_app` writes a localized
 right unitor as `X ◁ ε.inv ≫ μ.hom ≫ L.map (ρ_ X).hom`, so two localizations of one functor
 differing only in the unit datum `ε` differ only in that first factor — and the resulting
 comparison for *these* two structures was already proved, as
@@ -638,8 +640,7 @@ it the clause is false, and a witness is recorded in the implementation notes be
 induction only ever applies the clause at the bottom of the recursion, where that hypothesis is
 in hand. -/
 public def HasHilbertInductionStep {A : Type u} [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
-    {f : A} (hf : f ∈ maximalIdeal A) (hreg : IsRegular f) (L : CoherentTriple A f)
-    (hL : IsInvertibleTriple L) : Prop :=
+    {f : A} (L : CoherentTriple A f) (hL : IsInvertibleTriple L) : Prop :=
   ∀ T : CoherentTriple A f, SheafOfModules.supp T.F ≠ ∅ →
     ∃ (K T' G : CoherentTriple A f) (φ : K.Hom T) (ψ : T.Hom T')
       (u : ∀ n : ℤ, (T'.twistZ L hL n).Hom (T'.twistZ L hL (n + 1)))
@@ -651,7 +652,7 @@ public def HasHilbertInductionStep {A : Type u} [CommRing A] [IsLocalRing A] [Is
       (topologicalKrullDim ↥(SheafOfModules.supp T.F) ≤ ((0 : ℕ) : WithBot ℕ∞) →
         SheafOfModules.supp G.F = ∅) ∧
       (topologicalKrullDim ↥(SheafOfModules.supp T.F) ≤ ((0 : ℕ) : WithBot ℕ∞) →
-        IsZero G.F → G.eulerCharacteristic hf hreg = 0)
+        IsZero G.F → G.eulerCharacteristic = 0)
 
 /-! ### A function on the integers with equal consecutive values -/
 
@@ -674,18 +675,18 @@ punctured-spectrum member of a coherent triple bounds the degree of a rational p
 computing the Euler characteristics of all of its integer twists. -/
 public theorem exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep {A : Type u}
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) (L : CoherentTriple A f) (hL : IsInvertibleTriple L)
-    (hstep : HasHilbertInductionStep hf hreg L hL) :
+    (L : CoherentTriple A f) (hL : IsInvertibleTriple L)
+    (hstep : HasHilbertInductionStep L hL) :
     ∀ (d : ℕ) (T : CoherentTriple A f),
       topologicalKrullDim ↥(SheafOfModules.supp T.F) ≤ ((d : ℕ) : WithBot ℕ∞) →
       ∃ P : Polynomial ℚ, P.natDegree ≤ d ∧
-        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) := by
+        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) := by
   intro d
   induction d using Nat.strong_induction_on with
   | _ d ih =>
     intro T hT
     by_cases hsupp : SheafOfModules.supp T.F = ∅
-    · obtain ⟨P, hP, hPn⟩ := exists_polynomial_eulerCharacteristic_twistZ_of_isZero hf hreg T L hL
+    · obtain ⟨P, hP, hPn⟩ := exists_polynomial_eulerCharacteristic_twistZ_of_isZero hf T L hL
         (Stacks.AlgebraicGeometry.DevissageNoetherian.isZero_of_supp_eq_empty T.F hsupp)
       exact ⟨P, hP.le.trans (Nat.zero_le d), hPn⟩
     obtain ⟨K, T', G, φ, ψ, u, v, hK, hse, hseq, hdrop, hdrop₀, hvanish⟩ := hstep T hsupp
@@ -694,22 +695,22 @@ public theorem exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep 
       -- the function vanishes identically and the function is constant
       have hz := Stacks.AlgebraicGeometry.DevissageNoetherian.isZero_of_supp_eq_empty G.F
         (hdrop₀ hT)
-      have hconst : ∀ n : ℤ, (T'.twistZ L hL (n + 1)).eulerCharacteristic hf hreg =
-          (T'.twistZ L hL n).eulerCharacteristic hf hreg := fun n => by
-        rw [CoherentTriple.eulerCharacteristic_add_of_shortExact hf hreg (hseq n),
-          G.eulerCharacteristic_twistZ_eq_of_isZero hf hreg L hL hz n, hvanish hT hz, add_zero]
-      refine exists_polynomial_eulerCharacteristic_twistZ_of_shortExact_isZero hf hreg hse hK L hL
+      have hconst : ∀ n : ℤ, (T'.twistZ L hL (n + 1)).eulerCharacteristic =
+          (T'.twistZ L hL n).eulerCharacteristic := fun n => by
+        rw [CoherentTriple.eulerCharacteristic_add_of_shortExact hf (hseq n),
+          G.eulerCharacteristic_twistZ_eq_of_isZero hf L hL hz n, hvanish hT hz, add_zero]
+      refine exists_polynomial_eulerCharacteristic_twistZ_of_shortExact_isZero hf hse hK L hL
         (d := 0) (P := Polynomial.C
-          (((T'.twistZ L hL 0).eulerCharacteristic hf hreg : ℤ) : ℚ))
+          (((T'.twistZ L hL 0).eulerCharacteristic : ℤ) : ℚ))
         (Polynomial.natDegree_C _).le fun n => ?_
       rw [eq_of_forall_succ_eq
-        (g := fun m : ℤ => (T'.twistZ L hL m).eulerCharacteristic hf hreg) hconst n]
+        (g := fun m : ℤ => (T'.twistZ L hL m).eulerCharacteristic) hconst n]
       simp
     · -- above the bottom the induction hypothesis handles the quotient, whatever its support
       obtain ⟨Q, hQ, hQn⟩ := ih e (Nat.lt_succ_self e) G (hdrop e hT)
-      obtain ⟨P', hP', hP'n⟩ := exists_polynomial_eulerCharacteristic_of_shortExact_succ hf hreg
+      obtain ⟨P', hP', hP'n⟩ := exists_polynomial_eulerCharacteristic_of_shortExact_succ hf
         (fun n => T'.twistZ L hL n) (fun n => G.twistZ L hL n) u v hseq hQ hQn
-      exact exists_polynomial_eulerCharacteristic_twistZ_of_shortExact_isZero hf hreg hse hK L hL
+      exact exists_polynomial_eulerCharacteristic_twistZ_of_shortExact_isZero hf hse hK L hL
         hP' hP'n
 
 /-! ### The degree bound at the source's spelling -/
@@ -747,14 +748,14 @@ with vanishing punctured-spectrum member, whose support has dimension `-∞`, ha
 function, not the zero function. -/
 public theorem exists_polynomial_natDegree_le_dim_supp_of_hasInductionStep {A : Type u}
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) (L : CoherentTriple A f) (hL : IsInvertibleTriple L)
-    (hstep : HasHilbertInductionStep hf hreg L hL) (T : CoherentTriple A f) :
+    (L : CoherentTriple A f) (hL : IsInvertibleTriple L)
+    (hstep : HasHilbertInductionStep L hL) (T : CoherentTriple A f) :
     ∃ P : Polynomial ℚ,
       (P.natDegree : WithBot ℕ∞) ≤ max 0 (topologicalKrullDim ↥(SheafOfModules.supp T.F)) ∧
-        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) := by
+        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) := by
   obtain ⟨d, hd, hdmax⟩ := exists_natCast_le_and_eq_max_zero
     (topologicalKrullDim_ne_top_of_subset_puncturedSpectrum A (SheafOfModules.supp T.F))
-  obtain ⟨P, hP, hPn⟩ := exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep hf hreg
+  obtain ⟨P, hP, hPn⟩ := exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep hf
     L hL hstep d T hd
   refine ⟨P, ?_, hPn⟩
   rw [← hdmax]

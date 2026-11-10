@@ -96,7 +96,7 @@ def sheafHomDualizingIsoOfQCoh
   (push f).mapIso (((sheafHom X).obj (op L)).mapIso
       (rightAdjointStdDualizingIso c hpe hωS 𝒦X 𝒦Y).symm) ≪≫
     sheafyTraceIsoStdOfQCoh f L hL _
-      (isBoundedBelow_of_isDualizing_std (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))
+      (isBoundedBelow_of_isDualizing_std (isDualizing_stdComplex c hωS 𝒦Y))
 
 end NormalizedOnOpens
 

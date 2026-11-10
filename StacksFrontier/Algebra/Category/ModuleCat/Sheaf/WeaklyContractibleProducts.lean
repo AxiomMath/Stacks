@@ -171,7 +171,7 @@ private lemma epi_map_limMap {K : Type*} [Category* K] {D : Type*} [Category* D]
   have e := preservesLimitNatIso T (J := K)
   have : Epi (((whiskeringRight K D E).obj T ⋙ lim).map φ) := h
   have : Epi (T.map (limMap φ) ≫ e.hom.app G) := by
-    show Epi ((lim ⋙ T).map φ ≫ e.hom.app G)
+    change Epi ((lim ⋙ T).map φ ≫ e.hom.app G)
     rw [e.hom.naturality φ]
     exact epi_comp _ _
   rw [show T.map (limMap φ) = (T.map (limMap φ) ≫ e.hom.app G) ≫ inv (e.hom.app G) by simp]

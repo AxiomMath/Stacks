@@ -73,7 +73,7 @@ restated here rather than imported because that file sits in `AlgebraicGeometry`
 in `Topology`. -/
 private theorem mate_eq_mateEquiv_symm :
     mate adjg adjg' F F' e =
-      ((mateEquiv adjg' adjg).symm (TwoSquare.mk P' F' F P e.hom)).natTrans := by
+      (mateEquiv adjg' adjg).symm (TwoSquare.mk P' F' F P e.hom) := by
   ext M
   simp [mate, mateEquiv]
 
@@ -90,7 +90,7 @@ the conjugate, which is `CategoryTheory.iterated_mateEquiv_conjugateEquiv`;  the
 `hα` says exactly that the two-fold mate of `α` is `e`. -/
 theorem mate_eq_mateEquiv_vertical (α : TwoSquare G Lf Lf' G')
     (hα : conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') α = e.hom) :
-    mate adjg adjg' F F' e = (mateEquiv adjf adjf' α).natTrans := by
+    mate adjg adjg' F F' e = mateEquiv adjf adjf' α := by
   rw [mate_eq_mateEquiv_symm]
   have h : mateEquiv adjg' adjg (mateEquiv adjf adjf' α) = TwoSquare.mk P' F' F P e.hom := by
     rw [← hα]

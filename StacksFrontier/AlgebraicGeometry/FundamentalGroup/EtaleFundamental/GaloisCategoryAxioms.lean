@@ -32,7 +32,8 @@ gives left exactness.
 | axiom of `IsGaloisCategory` | status |
 | --- | --- |
 | `hasFiniteLimits` | proved elsewhere, `Stacks.FundamentalGroup.hasFiniteLimits_finiteEtaleOver` |
-| `hasFiniteColimits` | proved elsewhere, `Stacks.FundamentalGroup.hasFiniteColimits_finiteEtaleOver` |
+| `hasFiniteColimits` | proved elsewhere,
+  `Stacks.FundamentalGroup.hasFiniteColimits_finiteEtaleOver` |
 | `finite_obj` | here, `AlgebraicGeometry.finite_finiteEtaleFiber` |
 | `reflectsIsomorphisms` | here, `AlgebraicGeometry.reflectsIsomorphisms_finiteEtaleFiberFunctor` |
 | `exists_finite_coproduct_connected` | here,
@@ -89,8 +90,8 @@ appeal to Tag 0BNB.
 The two factorisations of the fibre functor and the equivalence
 `FÉt_{Spec K} ≌ (finite étale K-algebras)ᵒᵖ` that drives them are `private`, because their bodies
 name other private helpers and the 4.34 module system will not expose such a body.
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/FiberFunctorComplete.lean` reaches
-them with `import all` on this module rather than re-deriving them.
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/FiberFunctorComplete.lean`
+reaches them with `import all` on this module rather than re-deriving them.
 
 ## Implementation notes
 
@@ -156,7 +157,7 @@ private lemma finiteEtaleSpecPoint_faithful (K : Type u) [CommRing K] :
     have hh := congrArg (fun k => k.left) h
     change Spec.map (CommRingCat.ofHom f.unop.hom.hom.toRingHom) =
       Spec.map (CommRingCat.ofHom g.unop.hom.hom.toRingHom) at hh
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     exact congrArg CommRingCat.Hom.hom (Spec.map_inj.mp hh)
 
 private lemma finiteEtaleSpecPoint_full (K : Type u) [CommRing K] :
@@ -183,7 +184,7 @@ private lemma finiteEtaleSpecPoint_essSurj (K : Type u) [CommRing K] :
   let : Etale X.hom := X.prop.2
   let : IsAffineHom X.hom := inferInstance
   let : IsAffine ((Functor.fromPUnit (Spec (CommRingCat.of K))).obj X.right) := by
-    show IsAffine (Spec (CommRingCat.of K))
+    change IsAffine (Spec (CommRingCat.of K))
     infer_instance
   let : IsAffine X.left := isAffine_of_isAffineHom X.hom
   let φ : CommRingCat.of K ⟶ CommRingCat.of Γ(X.left, ⊤) :=
@@ -200,9 +201,9 @@ private lemma finiteEtaleSpecPoint_essSurj (K : Type u) [CommRing K] :
   let := heta
   let B := CommAlgCat.FiniteEtale.of K Γ(X.left, ⊤)
   refine ⟨Opposite.op B, ⟨MorphismProperty.Over.isoMk X.left.isoSpec.symm ?_⟩⟩
-  show X.left.isoSpec.inv ≫ X.hom =
+  change X.left.isoSpec.inv ≫ X.hom =
     Spec.map (CommRingCat.ofHom (algebraMap K Γ(X.left, ⊤)))
-  show X.left.isoSpec.inv ≫ X.hom = Spec.map φ
+  change X.left.isoSpec.inv ≫ X.hom = Spec.map φ
   rw [Spec.map_preimage]
 
 private lemma finiteEtaleSpecPoint_isEquivalence (K : Type u) [CommRing K] :
@@ -376,7 +377,7 @@ private lemma baseChange_isIso_of_fiber_isIso {X : Scheme.{u}} (x : GeometricPoi
     (NatIso.isIso_map_iff (fiberIsoPointCoyoneda x) f).mp inferInstance
   have : IsIso ((coyoneda.obj (Opposite.op (finiteEtalePointId x.residueField))).map
       ((finiteEtaleBaseChange x.hom).map f)) := by
-    show IsIso ((finiteEtaleBaseChange x.hom ⋙
+    change IsIso ((finiteEtaleBaseChange x.hom ⋙
       coyoneda.obj (Opposite.op (finiteEtalePointId x.residueField))).map f)
     infer_instance
   exact isIso_of_reflects_iso _
@@ -427,7 +428,7 @@ private lemma finite_connectedComponents_left {X : Scheme.{u}} [ConnectedSpace X
   have hYfin : IsFinite Y.hom := Y.prop.1
   have hYet : Etale Y.hom := Y.prop.2
   have : ConnectedSpace ((Functor.fromPUnit X).obj Y.right) := by
-    show ConnectedSpace X
+    change ConnectedSpace X
     infer_instance
   exact Y.hom.isOpenMap.finite_connectedComponents_of_finite_preimage_singleton_of_connectedSpace
     Y.hom.isClosedMap (Y.hom.finite_preimage_singleton (x.hom default))
@@ -474,7 +475,7 @@ private lemma finiteEtale_connected {X : Scheme.{u}} (B : FiniteEtaleOver X)
     [ConnectedSpace B.left] [Nonempty B.left] : PreGaloisCategory.IsConnected B where
   notInitial h := by
     have h0 : IsEmpty ↥(finiteEtaleEmpty X).left := by
-      show IsEmpty ↥(∅ : Scheme.{u})
+      change IsEmpty ↥(∅ : Scheme.{u})
       infer_instance
     let i : B ≅ finiteEtaleEmpty X :=
       h.uniqueUpToIso (finiteEtaleIsInitialOfIsEmpty (finiteEtaleEmpty X))
@@ -514,7 +515,7 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
       PreGaloisCategory.IsConnected (A i) := by
     have : ConnectedSpace (A i).left :=
       isConnected_iff_connectedSpace.mp (by
-        show _root_.IsConnected (connectedComponent (z (e i)))
+        change _root_.IsConnected (connectedComponent (z (e i)))
         exact isConnected_connectedComponent)
     have : Nonempty (A i).left := ⟨⟨z (e i), mem_connectedComponent⟩⟩
     exact finiteEtale_connected (A i)
@@ -522,7 +523,7 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
     have hscheme : IsColimit (Cofan.mk Y.left (fun i => (f i).left)) := by
       have hoi (i : Fin (Fintype.card (ConnectedComponents Y.left))) :
           IsOpenImmersion (f i).left := by
-        show IsOpenImmersion (U (e i)).ι
+        change IsOpenImmersion (U (e i)).ι
         infer_instance
       have heq (i : Fin (Fintype.card (ConnectedComponents Y.left))) :
           (f i).left.opensRange = U (e i) :=
@@ -533,13 +534,13 @@ private lemma finiteEtale_components {X : Scheme.{u}} [ConnectedSpace X]
         simp only [TopologicalSpace.Opens.coe_iSup,
           TopologicalSpace.Opens.coe_top, Set.mem_iUnion, Set.mem_univ, iff_true]
         refine ⟨e.symm (ConnectedComponents.mk y), ?_⟩
-        show y ∈ connectedComponent (z (e (e.symm (ConnectedComponents.mk y))))
+        change y ∈ connectedComponent (z (e (e.symm (ConnectedComponents.mk y))))
         rw [e.apply_symm_apply]
         have h := Classical.choose_spec
           (ConnectedComponents.surjective_coe (ConnectedComponents.mk y))
         exact (ConnectedComponents.coe_eq_coe').1 h.symm
       · intro i j hij
-        show Disjoint (f i).left.opensRange (f j).left.opensRange
+        change Disjoint (f i).left.opensRange (f j).left.opensRange
         rw [heq, heq]
         apply (TopologicalSpace.Opens.coe_disjoint (s := U (e i)) (t := U (e j))).mp
         rw [Set.disjoint_left]
@@ -573,7 +574,7 @@ private lemma fiber_reflectsIsomorphisms {X : Scheme.{u}} [ConnectedSpace X]
   have hgl : IsIso g.left := (inferInstance : IsIso ((finiteEtaleOverForget x.source).map g))
   have := finite_connectedComponents_left x B
   let _cs : ConnectedSpace ((Functor.fromPUnit X).obj B.right) := by
-    show ConnectedSpace X
+    change ConnectedSpace X
     infer_instance
   have hrank : f.left.finrank = 1 := by
     ext b

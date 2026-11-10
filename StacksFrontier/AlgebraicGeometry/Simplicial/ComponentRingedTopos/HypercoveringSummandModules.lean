@@ -293,7 +293,7 @@ theorem hypercoveringSummandRingMap_comp (n : SimplexCategory)
       𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf OC).over
         ((H.toSimplicialObject.obj (op n)).obj i)) :=
   Sheaf.hom_ext (NatTrans.ext (funext fun W ↦ RingCat.hom_ext (RingHom.ext fun x ↦ by
-    show (Stacks.SheafOfModules.Tensor.ringSheaf OC).obj.map (𝟙 W.unop.left).op x = x
+    change (Stacks.SheafOfModules.Tensor.ringSheaf OC).obj.map (𝟙 W.unop.left).op x = x
     rw [op_id, CategoryTheory.Functor.map_id]
     rfl)))
 

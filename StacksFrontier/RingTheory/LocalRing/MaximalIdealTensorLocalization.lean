@@ -41,8 +41,7 @@ theorem exists_sub_one_tmul_mem_map_maximalIdeal
     (hres : Function.Surjective ((residue A).comp (algebraMap R A)))
     (t : A ⊗[R] B) :
     ∃ b : B, t - 1 ⊗ₜ b ∈ (maximalIdeal A).map Algebra.TensorProduct.includeLeftRingHom := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨r, hr⟩ := hres (residue A a)
     refine ⟨r • b, ?_⟩

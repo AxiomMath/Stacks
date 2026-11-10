@@ -103,9 +103,9 @@ of `Cris(X/S)` to an open of its ambient scheme, and not `(ringRestriction A).ob
 definitionally equal, but only the first has the syntactic shape `O ⋙ forget₂ CommRingCat RingCat`
 that `PresheafOfModules.extPow` and the `CommRing` instance on a ring of sections are found at.
 This is the same wall the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/TensorComparisonSurjectivity.lean` record for
-the tensor product: across that boundary `rw` and `simp` do not fire, and the identifications are
-discharged by `exact` and by `congrArg` chains.  `moduleRestrictionSectionsModule` is the one
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/TensorComparisonSurjectivity.lean` record
+for the tensor product: across that boundary `rw` and `simp` do not fire, and the identifications
+are discharged by `exact` and by `congrArg` chains.  `moduleRestrictionSectionsModule` is the one
 instance that has to be supplied by name, because the module structure on
 `(moduleRestriction F A).obj V` over the first spelling of the ring is not found by instance
 search.

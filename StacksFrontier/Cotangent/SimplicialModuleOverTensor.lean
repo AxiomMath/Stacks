@@ -151,20 +151,17 @@ abbrev tensor : SimplicialModuleOver P where
   obj n := M.obj n ⊗[P.obj n] N.obj n
   map f := tensorMap M N f
   map_smul f p t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       rw [TensorProduct.smul_tmul', tensorMap_tmul, tensorMap_tmul, M.map_smul,
         TensorProduct.smul_tmul']
     | add s t hs ht => rw [smul_add, map_add, map_add, hs, ht, smul_add]
   map_id n t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y => rw [tensorMap_tmul, M.map_id, N.map_id]
     | add s t hs ht => rw [map_add, hs, ht]
   map_comp f g t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y => rw [tensorMap_tmul, tensorMap_tmul, tensorMap_tmul, M.map_comp, N.map_comp]
     | add s t hs ht => rw [map_add, hs, ht, map_add, map_add]
 
@@ -174,8 +171,7 @@ theorem lTensor_tensorMap {N' : SimplicialModuleOver P} (g : N.Hom N') {n m : Si
     (f : n ⟶ m) (t : M.obj n ⊗[P.obj n] N.obj n) :
     LinearMap.lTensor (M.obj m) (g.app m) (tensorMap M N f t) =
       tensorMap M N' f (LinearMap.lTensor (M.obj n) (g.app n) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     rw [tensorMap_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul, tensorMap_tmul,
       g.naturality]
@@ -212,8 +208,7 @@ theorem exists_tensor_δ_sub_δ
     (t : M.obj (op ⦋0⦌) ⊗[P.obj (op ⦋0⦌)] N.obj (op ⦋0⦌)) :
     ∃ v : M.obj (op ⦋1⦌) ⊗[P.obj (op ⦋1⦌)] N.obj (op ⦋1⦌),
       tensorMap M N (SimplexCategory.δ 0).op v - tensorMap M N (SimplexCategory.δ 1).op v = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨u, hu⟩ := hM x
     refine ⟨u ⊗ₜ N.map (SimplexCategory.σ (0 : Fin 1)).op y, ?_⟩

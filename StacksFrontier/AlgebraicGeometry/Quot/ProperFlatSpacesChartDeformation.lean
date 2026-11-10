@@ -115,7 +115,7 @@ theorem siteTransportInverseImageRingIso_hom_comp_map {F₁ F₁' : Sheaf B₁.J
   have n₂ := (siteTransportInverseImageIso K e f₂.toToposHom).inv.naturality m₂
   have n₁ := (siteTransportInverseImageIso K e f₁.toToposHom).hom.naturality m₁
   simp only [Functor.comp_map] at n₁ n₂
-  show ((siteTransportInverseImageIso K e f₁.toToposHom).hom.app F₁ ≫
+  change ((siteTransportInverseImageIso K e f₁.toToposHom).hom.app F₁ ≫
       (e.inverse.sheafPushforwardContinuous CommRingCat.{u} K X.J).map a.hom ≫
       (siteTransportInverseImageIso K e f₂.toToposHom).inv.app F₂) ≫
         (inverseImageCommRingFunctor (f₂.toToposHom.comp
@@ -135,7 +135,7 @@ theorem siteTransportInverseImageRingIso_hom_fSharpInverseImage
     (siteTransportInverseImageRingIso K e f₁ f₂ a).hom ≫
         (siteTransportHom K e f₂).fSharpInverseImage =
       (siteTransportHom K e f₁).fSharpInverseImage := by
-  show (siteTransportInverseImageIso K e f₁.toToposHom).hom.app B₁.O ≫
+  change (siteTransportInverseImageIso K e f₁.toToposHom).hom.app B₁.O ≫
       (e.inverse.sheafPushforwardContinuous CommRingCat.{u} K X.J).map a.hom ≫
       (siteTransportInverseImageIso K e f₂.toToposHom).inv.app B₂.O ≫
       (siteTransportHom K e f₂).fSharpInverseImage = _

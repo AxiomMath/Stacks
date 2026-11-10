@@ -1077,7 +1077,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (Λ : Type) [Ring Λ] [Fintype Λ]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar] [Smooth f] [GeometricallyConnected f] in
 /-- **The evaluation at `η̄` of a global section of `pr⁻¹ℱ_ρ` on `X_k̄` is its value at `η̄` over
 the final object** (`AlgebraicGeometry.pullbackRepresentationEval`). -/
 theorem geometricGlobalSectionsEval_eq_pullbackRepresentationEval
@@ -1122,7 +1122,7 @@ theorem geometricGlobalSectionsEval_eq_pullbackRepresentationEval
 
 variable (n : ℕ) [NeZero n] [Algebra (ZMod n) Λ]
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar] [Smooth f] in
 /-- **`Φ_ρ` on global sections**: for `φ : res_ψ(pr⁻¹ℱ_ρ) ⟶ pr⁻¹ℱ_W` on `X_k̄`, `Φ_ρ(φ)` carries
 the evaluation at `η̄` of a global section `z` to the evaluation at `η̄` of `Γ(φ)(z)`
 (`Stacks.EtaleCohomology.globalSectionsRestrictScalarsAddHom`). -/
@@ -1182,6 +1182,7 @@ theorem pullbackRepresentationHomEquiv_geometricGlobalSectionsEval
     (Category.comp_id _)) (ΓRes_globalSectionsRestrictScalarsAddHom (algebraMap (ZMod n) Λ) _ _ _ φ
       (Scheme.Etale.mk (𝟙 (fieldBaseChange (Over.mk f) kbar))) z).symm
 
+omit [IsAlgClosed kbar] [Smooth f] in
 /-- **`Φ_ρ` for geometrically trivial `ρ` and `W`**: `Φ_ρ(φ)(m) = ev_W(Γ(φ)(ev_ρ⁻¹ m))`, where
 `ev : Γ(X_k̄, pr⁻¹ℱ_ρ) ≃ M` is `AlgebraicGeometry.geometricGlobalSectionsTrivialEquivPullback`. -/
 theorem pullbackRepresentationHomEquiv_apply_of_trivial
@@ -1290,6 +1291,7 @@ def geometricCyclotomicDualHomEquiv (ρ : letI := connectedSpace_of_isCurve B X 
       (Fintype.card Λ)
     (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)) ρ
 
+omit [Smooth f] in
 /-- `AlgebraicGeometry.geometricCyclotomicDualHomEquiv` is
 `AlgebraicGeometry.pullbackRepresentationHomEquiv`. -/
 theorem geometricCyclotomicDualHomEquiv_eq (ρ : letI := connectedSpace_of_isCurve B X f
@@ -1321,6 +1323,7 @@ theorem geometricCyclotomicDualHomEquiv_eq (ρ : letI := connectedSpace_of_isCur
         (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)) ρ φ :=
   rfl
 
+omit [Smooth f] in
 /-- **`Φ_ρ` with values in `Hom_{π₁(X_k̄)}(M, μ_n)` is natural in `ρ`.** -/
 theorem geometricCyclotomicDualHomEquiv_naturality
     {ρ ρ' : letI := connectedSpace_of_isCurve B X f

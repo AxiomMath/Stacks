@@ -68,8 +68,8 @@ coborder carried into `X.Opens`, so the two sides are compared with
 
 ## Vocabulary
 
-No clause of any tag is stated here, and no `stacks` attribute is attached. This is an input to [Stacks, Tag 08S2] and to the part (2) clauses of
-[Stacks, Tag 01R3].
+No clause of any tag is stated here, and no `stacks` attribute is attached. This is an input to
+[Stacks, Tag 08S2] and to the part (2) clauses of [Stacks, Tag 01R3].
 
 ## What is not done
 

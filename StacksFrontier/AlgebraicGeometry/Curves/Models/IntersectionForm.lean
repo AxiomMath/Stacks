@@ -271,7 +271,7 @@ theorem componentDegree_invertibleSheaf_pos_iff (hDE : ¬ D.supportSet ⊆ E.sup
     obtain ⟨e⟩ := nonempty_pullback_zeroScheme_iso_unit k g hdim _ _ hs
     have hzero : componentDegree k D g hg hdim (Stacks.Divisors.invertibleSheaf' E)
         (Stacks.Divisors.isTensorInvertible_invertibleSheaf E) = 0 := by
-      show @invertibleCurveDegree k _ _ g hg hdim
+      change @invertibleCurveDegree k _ _ g hg hdim
         ((Scheme.Modules.pullback D.subschemeι).obj (Stacks.Divisors.invertibleSheaf' E))
         (Stacks.Divisors.isInvertible_pullback_invertibleSheaf D.subschemeι E) = 0
       rw [invertibleCurveDegree_eq_finrank_cohomologyOverField_zero_zeroScheme k g hdim _ _ hs
@@ -416,7 +416,7 @@ omit [Fintype ι] hoffDiag hm hker in
 private theorem intersectionMatrix_isSymm :
     Matrix.IsSymm (A := (fun i j => (N i j : ℚ))) := by
   refine Matrix.ext fun i j => ?_
-  show (N j i : ℚ) = (N i j : ℚ)
+  change (N j i : ℚ) = (N i j : ℚ)
   exact_mod_cast hsymm j i
 
 omit hoffDiag hsymm hm in

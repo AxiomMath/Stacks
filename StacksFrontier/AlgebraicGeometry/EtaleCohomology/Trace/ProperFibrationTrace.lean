@@ -87,7 +87,7 @@ theorem sum_rationalPoints_rationalFibre {M : Type*} [AddCommMonoid M]
       rw [Category.id_comp]
       exact congrArg Subtype.val (Finset.mem_filter.1 hb).2), pullback.lift_snd _ _ _⟩)
     (fun a _ => Finset.mem_filter.2 ⟨Finset.mem_univ _, Subtype.ext (by
-      show (a.1 ≫ pullback.fst π.left y.1) ≫ π.left = y.1
+      change (a.1 ≫ pullback.fst π.left y.1) ≫ π.left = y.1
       rw [Category.assoc]
       exact key a)⟩)
     (fun b _ => Finset.mem_univ _)

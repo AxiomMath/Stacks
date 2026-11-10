@@ -190,7 +190,7 @@ theorem exists_geometricPointMap_eq_of_isOpenImmersion {F G : (BigFppfOver B S h
     ⟨K, hK, tK, vK⟩ q hx
   refine ⟨⟨⟨K, hK, tK, yonedaEquiv a⟩, hp⟩, ?_⟩
   apply Subtype.ext
-  show FieldValuedPoint.map B S hS G i ⟨K, hK, tK, yonedaEquiv a⟩ = ⟨K, hK, tK, vK⟩
+  change FieldValuedPoint.map B S hS G i ⟨K, hK, tK, yonedaEquiv a⟩ = ⟨K, hK, tK, vK⟩
   have hv : i.app _ (yonedaEquiv a) = vK := by
     rw [← yonedaEquiv_comp, ha, Equiv.apply_symm_apply]
   exact congrArg (fun v => (⟨K, hK, tK, v⟩ : FieldValuedPoint B S hS F)) hv
@@ -264,7 +264,7 @@ theorem isFinitePresentationOnSite_modulePushforward_of_isOpenImmersion (j : U �
     · obtain ⟨y, -, rfl⟩ := hx
       exact ⟨ULift.up true, y, rfl⟩
     · refine ⟨ULift.up false, ?_⟩
-      show x ∈ Set.range (pointsMap B S hS W.1 w.hom)
+      change x ∈ Set.range (pointsMap B S hS W.1 w.hom)
       rwa [range_pointsMap_openPointsSubspaceHom]
   · rintro ⟨_ | _⟩
     · refine SheafOfModules.IsFinitePresentationOnSite.of_isZero

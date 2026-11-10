@@ -231,7 +231,7 @@ theorem exists_lift_of_fppf_chart
   let c₀ : xb ⟶ x := Functor.IsPreFibered.pullbackMap hx φT
   let ν := specOverMap q ≫ specOverMap f₁ ≫ sectionsHom c' (r ≫ g ≫ k) ≫ r
   have hν : specOverMap (SmallAlg.homMk ubar) ≫ ι = ν ≫ m ≫ s := by
-    show specOverMap (SmallAlg.homMk ubar) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫
+    change specOverMap (SmallAlg.homMk ubar) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫
       pullback.fst _ _ ≫ s = (specOverMap q ≫ specOverMap f₁ ≫ sectionsHom c' (r ≫ g ≫ k) ≫ r) ≫
         m ≫ s
     rw [show SmallAlg.homMk ubar = sectionsMap m'' hm''s ≫ f₁ ≫ q from rfl, specOverMap_comp,
@@ -244,7 +244,7 @@ theorem exists_lift_of_fppf_chart
   have he₁' : 𝒳.val.p.IsHomLift ν ((CatFiberedInGroupoids.homFunctor a).map e₁) :=
     BasedFunctor.preserves_isHomLift a.hom _ e₁
   have hk : (specOverMap (baseThk B.aleph0_lt_cutoff hC hI hA).bot ≫ φT) ≫ i = (ν ≫ g) ≫ k := by
-    show _ = (specOverMap q ≫ specOverMap f₁ ≫ sectionsHom c' (r ≫ g ≫ k) ≫ r) ≫ g ≫ k
+    change _ = (specOverMap q ≫ specOverMap f₁ ≫ sectionsHom c' (r ≫ g ≫ k) ≫ r) ≫ g ≫ k
     simp only [Category.assoc]
     rw [redToBase_comp, specOverMap_comp_toBase, sectionsHom_comp, specOverMap_comp_toBase,
       specOverMap_comp_toBase]
@@ -283,7 +283,7 @@ theorem exists_lift_of_fppf_lift_core (h𝒳 : IsAlgebraicStack.{u, w} B S hS �
     simpa [Psm, spaceProperty] using Space.isSmooth_isStableUnderBaseChange B S hS
   let _ : (spaceProperty B S hS Psm).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS) := by
-    show (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
+    change (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS)
     exact Space.smooth_isLocalAtTarget_fppf B S hS
   have ha : HasPropertyOnSomeSmoothDiagram B S hS Psm a :=

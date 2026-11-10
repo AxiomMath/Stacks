@@ -59,9 +59,9 @@ and `CategoryTheory.Iso.eq_comp_inv` as *terms*, exactly as in
 
 The remaining legs -- the tensorator of the derived constant diagram, computed by
 `CategoryTheory.Functor.mu_constMapDerivedCategory_derivedTensorIso`, and the defining property
-of the underived mate in degree zero -- are assembled with these in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.CategoryHomology.DerivedExternalTensorProductFormula`,
-which proves Stacks 08QB.
+of the underived mate in degree zero -- are assembled with these in the sibling module
+`DerivedExternalTensorProductFormula` (in `StacksFrontier.CategoryTheory.Sites.Cohomology`,
+under `CategoryHomology`), which proves Stacks 08QB.
 
 ## References
 

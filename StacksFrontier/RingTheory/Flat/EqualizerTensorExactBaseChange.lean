@@ -39,12 +39,12 @@ theorem EqualizerTensorExact.of_residueField_of_algebra {A C D : Type u} [CommRi
   have h₁ : (IsScalarTower.toAlgHom A D (A' ⊗[A] D)).comp p₁ =
       (p₁'.restrictScalars A).comp (IsScalarTower.toAlgHom A C (A' ⊗[A] C)) := by
     ext c
-    show (1 : A') ⊗ₜ _ = Algebra.TensorProduct.map (AlgHom.id A' A') _ ((1 : A') ⊗ₜ c)
+    change (1 : A') ⊗ₜ _ = Algebra.TensorProduct.map (AlgHom.id A' A') _ ((1 : A') ⊗ₜ c)
     simp
   have h₂ : (IsScalarTower.toAlgHom A D (A' ⊗[A] D)).comp p₂ =
       (p₂'.restrictScalars A).comp (IsScalarTower.toAlgHom A C (A' ⊗[A] C)) := by
     ext c
-    show (1 : A') ⊗ₜ _ = Algebra.TensorProduct.map (AlgHom.id A' A') _ ((1 : A') ⊗ₜ c)
+    change (1 : A') ⊗ₜ _ = Algebra.TensorProduct.map (AlgHom.id A' A') _ ((1 : A') ⊗ₜ c)
     simp
   refine (equalizerTensorExact_iff_of_isPushout h₁ h₂ A').mp ?_
   refine EqualizerTensorExact.of_residueField fun Q _ => ?_

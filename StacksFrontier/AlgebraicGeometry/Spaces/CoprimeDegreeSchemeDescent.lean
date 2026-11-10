@@ -196,7 +196,7 @@ private theorem isRepresentable_extensionBaseChange_of_algHom (A : Type u) [Comm
     ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap k A)))
   have hab : a ≫ b = specExtensionHom k L B hk hL := by
     apply ObjectProperty.hom_ext
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     congr 1
     ext t

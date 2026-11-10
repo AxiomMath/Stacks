@@ -59,7 +59,7 @@ theorem isPullback_projectiveLineStrictHenselizationToBase :
       ProjectiveSpace 1 (strictHenselization B T hT t) ↘ strictHenselization B T hT t := by
     rw [← ProjectiveSpace.baseChangeIso_hom_over, Iso.inv_hom_id_assoc]
   refine IsPullback.of_iso_pullback ⟨?_⟩ e.symm rfl w₂
-  show (e.inv ≫ pullback.fst _ _) ≫ _ = _
+  change (e.inv ≫ pullback.fst _ _) ≫ _ = _
   rw [Category.assoc, pullback.condition, ← Category.assoc, w₂]
 
 include sq in

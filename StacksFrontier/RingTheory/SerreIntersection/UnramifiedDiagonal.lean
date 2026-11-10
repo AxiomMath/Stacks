@@ -61,17 +61,17 @@ theorem killFirst_right_mem (r : MvPowerSeries (Fin n) Λ)
     refine sup_le ?_ (Ideal.span_le.mpr ?_)
     · rw [Ideal.map_le_iff_le_comap, Ideal.comap_comap, Ideal.span_le, Set.singleton_subset_iff,
         SetLike.mem_coe, Ideal.mem_comap]
-      show killFirst Λ n (right Λ n (C ϖ)) ∈ _
+      change killFirst Λ n (right Λ n (C ϖ)) ∈ _
       have h : killFirst Λ n (right Λ n (C ϖ)) = C ϖ := by
-        show killCompl _ (rename _ (C ϖ)) = C ϖ
+        change killCompl _ (rename _ (C ϖ)) = C ϖ
         rw [rename_C, killCompl_C]
       rw [h]
       exact Ideal.mem_span_singleton_self _
     · rintro _ ⟨i, rfl⟩
       rw [SetLike.mem_coe, Ideal.mem_comap]
-      show killFirst Λ n (right Λ n (X i)) ∈ _
+      change killFirst Λ n (right Λ n (X i)) ∈ _
       have h : killFirst Λ n (right Λ n (X i)) = 0 := by
-        show killCompl _ (rename _ (X i)) = 0
+        change killCompl _ (rename _ (X i)) = 0
         rw [rename_X]
         exact killCompl_X_eq_zero (by simp)
       rw [h]
@@ -106,7 +106,7 @@ theorem flat_twist_ext_left_of_isSMulRegular (M : Type u) [AddCommGroup M]
     have h : left Λ n (c * C ϖ) = left Λ n c * right Λ n (C ϖ) := by
       rw [map_mul]
       congr 1
-      show rename _ (C ϖ) = rename _ (C ϖ)
+      change rename _ (C ϖ) = rename _ (C ϖ)
       rw [rename_C, rename_C]
     rw [h]
     exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ (C_mem_maximalIdeal_of_eq_span hϖ))
@@ -114,7 +114,7 @@ theorem flat_twist_ext_left_of_isSMulRegular (M : Type u) [AddCommGroup M]
     obtain ⟨v, -, hv⟩ := hx
     have hpv : p v = 0 := by
       apply hM
-      show C ϖ • p v = C ϖ • (0 : M)
+      change C ϖ • p v = C ϖ • (0 : M)
       rw [smul_zero, ← map_smul, hv]
       exact x.2
     rw [Submodule.ideal_span_singleton_smul, Submodule.mem_smul_pointwise_iff_exists]
@@ -198,8 +198,7 @@ theorem extReduce_tmul (M : Type u) [AddCommGroup M] [Module 𝓡 M] (b : 𝓑) 
 /-- `extReduce M` is semilinear along the reduction of coefficients `Λ[[y, x]] → k[[y, x]]`. -/
 theorem extReduce_smul (M : Type u) [AddCommGroup M] [Module 𝓡 M] (b : 𝓑)
     (z : Ext (left Λ n) M) : extReduce M (b • z) = algebraMap 𝓑 𝓑k b • extReduce M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b' m =>
     obtain ⟨b', rfl⟩ : ∃ c : 𝓑, Twist.mk (left Λ n) c = b' := ⟨b', rfl⟩
     rw [TensorProduct.smul_tmul', Twist.smul_mk, extReduce_tmul, extReduce_tmul,
@@ -247,12 +246,11 @@ theorem pairReduceAddHom_tmul (M N : Type u) [AddCommGroup M] [Module 𝓡 M] [A
 theorem pairReduceAddHom_smul (M N : Type u) [AddCommGroup M] [Module 𝓡 M] [AddCommGroup N]
     [Module 𝓡 N] (b : 𝓑) (z : Pair (left Λ n) (right Λ n) M N) :
     pairReduceAddHom M N (b • z) = algebraMap 𝓑 𝓑k b • pairReduceAddHom M N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul y m =>
     rw [TensorProduct.smul_tmul', pairReduceAddHom_tmul, pairReduceAddHom_tmul,
       TensorProduct.smul_tmul', Twist.smul_mk]
-    show Twist.mk _ (extReduce M (b • (@id (Ext (left Λ n) M) y))) ⊗ₜ _ = _
+    change Twist.mk _ (extReduce M (b • (@id (Ext (left Λ n) M) y))) ⊗ₜ _ = _
     rw [extReduce_smul]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
 
@@ -280,32 +278,26 @@ theorem pairReduce_surjective (M N : Type u) [AddCommGroup M] [Module 𝓡 M] [A
   suffices h : w ∈ (pairReduceAddHom (Λ := Λ) (n := n) M N).range by
     obtain ⟨z, hz⟩ := h
     exact ⟨z, by rw [← hz]; rfl⟩
-  induction w using TensorProduct.induction_on with
-  | zero => exact AddSubgroup.zero_mem _
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => exact AddSubgroup.add_mem _ hx hy
   | tmul x m =>
     obtain ⟨x, rfl⟩ : ∃ x' : Ext (left (ResidueField Λ) n) (𝓡k ⊗[𝓡] M),
         Twist.mk (right (ResidueField Λ) n) x' = x := ⟨x, rfl⟩
-    induction m using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero]; exact AddSubgroup.zero_mem _
+    induction m using TensorProduct.inductionOn with
     | add a b ha hb => rw [TensorProduct.tmul_add]; exact AddSubgroup.add_mem _ ha hb
     | tmul c m =>
       obtain ⟨c, rfl⟩ := hR c
       have hc : (algebraMap 𝓡 𝓡k c ⊗ₜ[𝓡] m : 𝓡k ⊗[𝓡] N) = (1 : 𝓡k) ⊗ₜ[𝓡] (c • m) := by
         rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
       rw [hc]
-      induction x using TensorProduct.induction_on with
-      | zero => rw [Twist.mk_zero, TensorProduct.zero_tmul]; exact AddSubgroup.zero_mem _
+      induction x using TensorProduct.inductionOn with
       | add a b ha hb =>
         rw [← Twist.mk_add, TensorProduct.add_tmul]
         exact AddSubgroup.add_mem _ ha hb
       | tmul b' m' =>
         obtain ⟨b', rfl⟩ : ∃ c : 𝓑k, Twist.mk (left (ResidueField Λ) n) c = b' := ⟨b', rfl⟩
         obtain ⟨b, rfl⟩ := hB b'
-        induction m' using TensorProduct.induction_on with
-        | zero =>
-          rw [TensorProduct.tmul_zero, Twist.mk_zero, TensorProduct.zero_tmul]
-          exact AddSubgroup.zero_mem _
+        induction m' using TensorProduct.inductionOn with
         | add a a' ha ha' =>
           rw [TensorProduct.tmul_add, ← Twist.mk_add, TensorProduct.add_tmul]
           exact AddSubgroup.add_mem _ ha ha'
@@ -314,7 +306,7 @@ theorem pairReduce_surjective (M N : Type u) [AddCommGroup M] [Module 𝓡 M] [A
           refine ⟨(Twist.mk (right Λ n) (Twist.mk (left Λ n) b ⊗ₜ (d • m') : Ext (left Λ n) M)) ⊗ₜ
             (c • m), ?_⟩
           rw [pairReduceAddHom_tmul]
-          show Twist.mk _ (extReduce M (Twist.mk (left Λ n) b ⊗ₜ (d • m'))) ⊗ₜ _ = _
+          change Twist.mk _ (extReduce M (Twist.mk (left Λ n) b ⊗ₜ (d • m'))) ⊗ₜ _ = _
           rw [extReduce_tmul, ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
 
 end Reduction
@@ -331,7 +323,7 @@ theorem supportDim_twist_of_surjective {A A' : Type u} [CommRing A] [CommRing A'
   have : Algebra.IsIntegral A A' := Algebra.IsIntegral.of_finite A A'
   have : IsScalarTower A A' (Twist f P) :=
     ⟨fun a b x => by
-      show (f a * b) • x = f a • b • x
+      change (f a * b) • x = f a • b • x
       rw [mul_smul]⟩
   have : Module.Finite A' (Twist f P) := ‹Module.Finite A' P›
   have : Module.Finite A (Twist f P) := Module.Finite.trans A' (Twist f P)
@@ -348,9 +340,9 @@ local notation "𝓑k" => MvPowerSeries (Fin n ⊕ Fin n) (ResidueField Λ)
 include hϖ in
 /-- The kernel of the reduction `Λ[[x]] → k[[x]]` is generated by `ϖ`. -/
 theorem ker_algebraMap_eq : RingHom.ker (algebraMap 𝓡 𝓡k) = Ideal.span {(C ϖ : 𝓡)} := by
-  show RingHom.ker (MvPowerSeries.map (algebraMap Λ (ResidueField Λ))) = _
+  change RingHom.ker (MvPowerSeries.map (algebraMap Λ (ResidueField Λ))) = _
   rw [ker_map_of_fg _ (Ideal.fg_of_isNoetherianRing _)]
-  show Ideal.map C (RingHom.ker (residue Λ)) = _
+  change Ideal.map C (RingHom.ker (residue Λ)) = _
   rw [ker_residue, hϖ, Ideal.map_span, Set.image_singleton]
 
 include hϖ in
@@ -399,15 +391,14 @@ theorem isSMulRegular_pair (M N : Type u) [AddCommGroup M] [Module 𝓡 M] [AddC
   have h : ∀ z : Pair (left Λ n) (right Λ n) M N, (C ϖ : 𝓑) • z =
       LinearMap.lTensor (Twist (right Λ n) (Ext (left Λ n) M)) (LinearMap.lsmul 𝓡 N (C ϖ)) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul y m =>
       rw [LinearMap.lTensor_tmul, LinearMap.lsmul_apply, ← TensorProduct.smul_tmul,
         TensorProduct.smul_tmul']
       congr 1
-      show (C ϖ : 𝓑) • y = right Λ n (C ϖ) • y
+      change (C ϖ : 𝓑) • y = right Λ n (C ϖ) • y
       congr 1
-      show C ϖ = rename _ (C ϖ)
+      change C ϖ = rename _ (C ϖ)
       rw [rename_C]
     | add x y hx hy => rw [smul_add, hx, hy, map_add]
   intro z z' hzz'
@@ -459,11 +450,11 @@ theorem supportDim_add_supportDim_le_and_pos_of_isSMulRegular [IsRegularLocalRin
     intro z hz
     obtain ⟨w, -, rfl⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).mp hz
     rw [LinearMap.mem_ker, map_smul]
-    show Twist.mk _ (algebraMap 𝓑 𝓑k (C ϖ) • pairReduceAddHom M N w) = 0
+    change Twist.mk _ (algebraMap 𝓑 𝓑k (C ϖ) • pairReduceAddHom M N w) = 0
     have hc : algebraMap 𝓑 𝓑k (C ϖ) = 0 := by
-      show MvPowerSeries.map _ (C ϖ) = 0
+      change MvPowerSeries.map _ (C ϖ) = 0
       rw [MvPowerSeries.map_C]
-      show C (residue Λ ϖ) = 0
+      change C (residue Λ ϖ) = 0
       rw [(residue_eq_zero_iff ϖ).mpr hϖm, map_zero]
     rw [hc, zero_smul]
     rfl
@@ -553,8 +544,7 @@ theorem support_baseChange_residue_tensor (M N : Type u) [AddCommGroup M] [Modul
     ← Module.length_eq_of_surjective (algebraMap_surjective Λ n)]
   exact ne_top_of_le_ne_top hMN (Module.length_le_of_surjective
     (TensorProduct.mk 𝓡 𝓡k (M ⊗[𝓡] N) 1) (fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
         obtain ⟨a, rfl⟩ := hx
         obtain ⟨b, rfl⟩ := hy

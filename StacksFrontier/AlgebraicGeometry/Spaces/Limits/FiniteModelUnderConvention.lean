@@ -127,7 +127,7 @@ theorem exists_isFinite_model_of_siteContainsBaseChangeLimits
         (M.toMorphismDescentSituation hconv).mapAt i hi ≫ pullback.fst g (𝟙 (D.obj i₀)) :=
       (pullbackSymmetry_hom_comp_fst T₀.hom g).symm.trans
         (congrArg (fun z => (pullbackSymmetry T₀.hom g).hom ≫ z) hfst.symm)
-    show IsFinite B S hS (pullback.snd T₀.hom g)
+    change IsFinite B S hS (pullback.snd T₀.hom g)
     rw [hsnd]
     exact isFinite_comp B S hS (isFinite_of_isIso_hom B S hS _)
       (isFinite_comp B S hS hfi (@isFinite_of_isIso_hom B S hS _ _ _ hiso))

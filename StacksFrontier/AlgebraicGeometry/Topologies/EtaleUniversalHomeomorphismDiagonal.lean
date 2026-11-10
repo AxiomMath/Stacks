@@ -29,8 +29,8 @@ homeomorphisms too.
 
 The proof reads the characterisation of Stacks Project, Tag 04DF in the direction
 `integral + universally injective + surjective ⟹ universal homeomorphism`, and takes the three
-inputs from the halves already in the library: the diagonal is a closed immersion, hence integral and a
-monomorphism, hence universally injective; and it is surjective.
+inputs from the halves already in the library: the diagonal is a closed immersion, hence integral
+and a monomorphism, hence universally injective; and it is surjective.
 
 ## References
 

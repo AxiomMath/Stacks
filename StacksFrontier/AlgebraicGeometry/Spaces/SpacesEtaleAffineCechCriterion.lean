@@ -206,7 +206,7 @@ theorem preservesLimit_comparisonOver {U : SpacesEtale B S hS Y} {W : SmallEtale
       (Over.post (comparisonFunctor B S hS Y)) :=
     Stacks.Sites.preservesLimit_fibreProducts_overPost (comparisonFunctor B S hS Y) D
       (fun _ _ _ ↦ inferInstance) (fun _ _ _ ↦ inferInstance) n i
-  show PreservesLimit _ (Over.post (comparisonFunctor B S hS Y) ⋙ Over.map e)
+  change PreservesLimit _ (Over.post (comparisonFunctor B S hS Y) ⋙ Over.map e)
   infer_instance
 
 /-- **The collection `Cov` of [Stacks, Tag 03F9] on the spaces-étale site of an algebraic
@@ -290,7 +290,7 @@ theorem imageAffineCov_cofinal
     · rintro Z k ⟨j⟩; exact ⟨j.down⟩
     · rintro Z k ⟨j⟩; exact ⟨ULift.up j⟩
   have hDsieve : D.sieve₀ = Sieve.ofArrows V g := by
-    show Sieve.generate (Presieve.ofArrows _ _) = _
+    change Sieve.generate (Presieve.ofArrows _ _) = _
     rw [Sieve.ofArrows, hpre]
   have hDcov : D.sieve₀ ∈ SmallEtale.topology B S hS Y.1 W := hDsieve ▸ hcov
   have hDaff : ∀ j, IsAffine (chartScheme (D.X j)) := fun j ↦ hVaff j.down

@@ -53,7 +53,7 @@ namespace ReducedTensorTower
 
 end ReducedTensorTower
 
-open ReducedTensorTower in
+open _root_.ReducedTensorTower in
 private theorem reductionMap_bijective_of_surjective_of_ker_le
     {R : Type uR} {A : Type uA} {B : Type uB}
     [CommRing R] [CommRing A] [CommRing B] [Algebra R A] [Algebra R B]
@@ -75,7 +75,7 @@ private theorem reductionMap_bijective_of_surjective_of_ker_le
     obtain ⟨x, rfl⟩ := hf y
     exact ⟨Ideal.Quotient.mk _ x, rfl⟩
 
-open ReducedTensorTower in
+open _root_.ReducedTensorTower in
 private theorem ker_rTensor_mk_nilradical_le
     {R : Type uR} {A : Type uA} {C : Type uC}
     [CommRing R] [CommRing A] [CommRing C] [Algebra R A] [Algebra R C] :
@@ -88,7 +88,7 @@ private theorem ker_rTensor_mk_nilradical_le
   rw [RingHom.mem_ker, Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem] at hx
   exact (mem_nilradical.mp hx).map _
 
-open ReducedTensorTower in
+open _root_.ReducedTensorTower in
 /-- Reducing before or after a base change gives the same reduced ring. -/
 private noncomputable def reductionTensorReductionEquiv
     (R : Type uR) (A : Type uA) (C : Type uC)
@@ -99,7 +99,7 @@ private noncomputable def reductionTensorReductionEquiv
       (Algebra.TensorProduct.map_surjective _ _ (Ideal.Quotient.mkₐ_surjective R _)
         (fun c => ⟨c, rfl⟩)) ker_rTensor_mk_nilradical_le)
 
-open ReducedTensorTower
+open _root_.ReducedTensorTower
 
 section Tower
 variable (R : Type uR) (S : Type uS) (A : Type uA) (T : Type uT) (X : Type uX)
@@ -132,7 +132,7 @@ private theorem reducedTensorTowerEquiv_tmul (a : A) (t : T) :
   simp only [reducedTensorTowerEquiv, AlgEquiv.trans_apply, AlgEquiv.restrictScalars_apply,
     reductionEquiv_mk, Algebra.TensorProduct.comm_tmul,
     Algebra.TensorProduct.cancelBaseChange_symm_tmul]
-  show Ideal.Quotient.mk _
+  change Ideal.Quotient.mk _
     ((swappedReductionEquiv R S A X e he).symm (Ideal.Quotient.mk _ (1 ⊗ₜ[R] a)) ⊗ₜ[S] t) = _
   congr 2
 
@@ -142,7 +142,7 @@ private theorem reducedTensorTowerEquiv_includeLeft
     reducedTensorTowerEquiv R S A T X e he
         (Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] T) a)) =
       Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeLeft : X →ₐ[S] X ⊗[S] T) (f a)) := by
-  show reducedTensorTowerEquiv R S A T X e he (Ideal.Quotient.mk _ (a ⊗ₜ[R] 1)) = _
+  change reducedTensorTowerEquiv R S A T X e he (Ideal.Quotient.mk _ (a ⊗ₜ[R] 1)) = _
   rw [reducedTensorTowerEquiv_tmul, ← hf, e.symm_apply_apply]
   rfl
 
@@ -150,7 +150,7 @@ private theorem reducedTensorTowerEquiv_includeRight (t : T) :
     reducedTensorTowerEquiv R S A T X e he
         (Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeRight : T →ₐ[R] A ⊗[R] T) t)) =
       Ideal.Quotient.mk _ ((Algebra.TensorProduct.includeRight : T →ₐ[S] X ⊗[S] T) t) := by
-  show reducedTensorTowerEquiv R S A T X e he (Ideal.Quotient.mk _ (1 ⊗ₜ[R] t)) = _
+  change reducedTensorTowerEquiv R S A T X e he (Ideal.Quotient.mk _ (1 ⊗ₜ[R] t)) = _
   rw [reducedTensorTowerEquiv_tmul]
   simp only [← Algebra.TensorProduct.one_def, map_one, Algebra.TensorProduct.includeRight_apply]
 end Tower
@@ -197,7 +197,7 @@ theorem isLocalization_reduction
   · ext r
     exact (h r).symm
   · simp only [Ideal.mk_ker]
-    show (⊥ : Ideal S).radical ≤ Ideal.map (algebraMap R S) (⊥ : Ideal R).radical
+    change (⊥ : Ideal S).radical ≤ Ideal.map (algebraMap R S) (⊥ : Ideal R).radical
     rw [IsLocalization.map_radical M S, Ideal.map_bot]
 
 /-- Non-zero-divisors of `R` stay non-zero-divisors in the localization at a prime. -/
@@ -271,7 +271,7 @@ private theorem formallySmoothNAdic_localRingHom_of_isLocalization
     symm
     apply Localization.localRingHom_unique
     intro r
-    show eS (Localization.localRingHom p' q' f' hpq' (eR (algebraMap R _ r))) = _
+    change eS (Localization.localRingHom p' q' f' hpq' (eR (algebraMap R _ r))) = _
     rw [eR.commutes, IsScalarTower.algebraMap_apply R R' (Localization.AtPrime p'),
       Localization.localRingHom_to_map,
       show f' (algebraMap R R' r) = algebraMap S S' (f r) from DFunLike.congr_fun hcomm r,
@@ -319,19 +319,19 @@ private theorem isLocalization_reducedTensor
   let : Algebra (A ⊗[R] C) (B ⊗[R] C) := f.toRingHom.toAlgebra
   let : IsScalarTower A (A ⊗[R] C) (B ⊗[R] C) :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show algebraMap A B a ⊗ₜ[R] (1 : C) = f (a ⊗ₜ[R] (1 : C))
+      change algebraMap A B a ⊗ₜ[R] (1 : C) = f (a ⊗ₜ[R] (1 : C))
       simp [f]
   let : IsLocalization (Algebra.algebraMapSubmonoid (A ⊗[R] C) M) (B ⊗[R] C) :=
     IsLocalization.tensorProduct_tensorProduct R C M B (by
       ext c
-      show f (1 ⊗ₜ[R] c) = 1 ⊗ₜ[R] c
+      change f (1 ⊗ₜ[R] c) = 1 ⊗ₜ[R] c
       simp [f])
   let : Algebra (Reduction (A ⊗[R] C)) (Reduction (B ⊗[R] C)) :=
     (reducedTensorMap (IsScalarTower.toAlgHom R A B) (AlgHom.id R C)).toRingHom.toAlgebra
   have h := isLocalization_reduction (A ⊗[R] C) (B ⊗[R] C)
     (Algebra.algebraMapSubmonoid (A ⊗[R] C) M) (fun _ => rfl)
   convert h using 1
-  show M.map (algebraMap A _) = (M.map (algebraMap A (A ⊗[R] C))).map
+  change M.map (algebraMap A _) = (M.map (algebraMap A (A ⊗[R] C))).map
     (algebraMap (A ⊗[R] C) _)
   exact (Submonoid.map_map _ _ _).symm
 
@@ -365,7 +365,7 @@ private theorem exists_reducedTensorLocalizationEquiv
     ((g.comp e.toAlgHom).commutes r).symm
   have hM : (Algebra.algebraMapSubmonoid D M).map e.toRingEquiv.toMonoidHom =
       Algebra.algebraMapSubmonoid P M := by
-    show (M.map (algebraMap A D)).map e.toRingEquiv.toMonoidHom = M.map (algebraMap A P)
+    change (M.map (algebraMap A D)).map e.toRingEquiv.toMonoidHom = M.map (algebraMap A P)
     trans M.map (e.toRingEquiv.toMonoidHom.comp (algebraMap A D).toMonoidHom)
     · exact Submonoid.map_map _ _ _
     · congr 1
@@ -381,16 +381,16 @@ private theorem exists_reducedTensorLocalizationEquiv
           (Algebra.TensorProduct.includeLeft : B →ₐ[R] B ⊗[R] C).toRingHom := by
       apply IsLocalization.ringHom_ext M
       ext a
-      show e' (algebraMap B D' (algebraMap A B a)) =
+      change e' (algebraMap B D' (algebraMap A B a)) =
         Ideal.Quotient.mk _ (algebraMap A B a ⊗ₜ[R] 1)
       rw [← IsScalarTower.algebraMap_apply A B D', IsScalarTower.algebraMap_apply A D D',
         heD, heA]
       exact reducedTensorMap_tmul _ _ a 1
     exact DFunLike.congr_fun hB
   · intro c
-    show e' (algebraMap C D' c) = _
+    change e' (algebraMap C D' c) = _
     rw [IsScalarTower.algebraMap_apply C D D', heD, heC]
-    show Ideal.Quotient.mk _ (algebraMap A B 1 ⊗ₜ[R] c) = _
+    change Ideal.Quotient.mk _ (algebraMap A B 1 ⊗ₜ[R] c) = _
     rw [map_one]
 
 private theorem isLocalization_integralClosure_of_scalarTower
@@ -412,7 +412,7 @@ private theorem isLocalization_integralClosure_of_scalarTower
   let : IsScalarTower (integralClosure R A) (integralClosure S B) B :=
     ⟨fun a x y => by
       simp only [Subalgebra.smul_def, Algebra.smul_def]
-      show (algebraMap A B (a : A) * (x : B)) * y =
+      change (algebraMap A B (a : A) * (x : B)) * y =
         algebraMap A B (a : A) * ((x : B) * y)
       exact mul_assoc _ _ _⟩
   let : IsScalarTower R (integralClosure R A) (integralClosure S B) :=
@@ -462,7 +462,7 @@ private theorem formallySmooth_integralClosure_localRingHom
     inferInstanceAs (IsLocalHom (Localization.localRingHom p q (algebraMap R S) hpq))
   let : IsExtension Rq Sq := {}
   let : IsScalarTower R Rq Sq := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap S Sq (algebraMap R S r) =
+    change algebraMap S Sq (algebraMap R S r) =
       Localization.localRingHom p q (algebraMap R S) hpq (algebraMap R Rq r)
     exact (Localization.localRingHom_to_map p q _ hpq r).symm
   have hK : ∀ m : p.primeCompl, IsUnit (algebraMap R K m) := fun m =>
@@ -555,7 +555,7 @@ private theorem formallySmooth_integralClosure_localRingHom
   let : IsLocalization (Algebra.algebraMapSubmonoid C p.primeCompl) C :=
     IsLocalization.of_le_isUnit (by
       rintro x ⟨r, hr, rfl⟩
-      show IsUnit (algebraMap R C r)
+      change IsUnit (algebraMap R C r)
       rw [IsScalarTower.algebraMap_apply R K C]
       exact (hK ⟨r, hr⟩).map (algebraMap K C))
   let : IsLocalization (Algebra.algebraMapSubmonoid R₂ p.primeCompl) R₂q :=
@@ -581,7 +581,7 @@ private theorem formallySmooth_integralClosure_localRingHom
     (Algebra.algebraMapSubmonoid S₂ q.primeCompl) f₂ f₂q ?_
     (q₂.comap f₂) q₂ P₂ Q₂ rfl rfl hQ₂ hφsmooth
   ext a
-  show algebraMap C Tq (a : C) = algebraMap T Tq (f₂ a : T)
+  change algebraMap C Tq (a : C) = algebraMap T Tq (f₂ a : T)
   rw [hf₂, ← IsScalarTower.algebraMap_apply C T Tq]
 
 /-- A finite extension of a solution for an extension of discrete valuation rings is again a
@@ -695,12 +695,12 @@ theorem exists_isSolution_of_tower
   have heF (x : F) : eT (algebraMap F T x) = Ideal.Quotient.mk _ (x ⊗ₜ[K₁] 1) :=
     eT₀.apply_symm_apply _
   have heC (x : K₂) : eT (algebraMap K₂ T x) = Ideal.Quotient.mk _ (1 ⊗ₜ[K₁] x) := by
-    show eTower (D₀.eL₁ (algebraMap K₂ T x)) = _
+    change eTower (D₀.eL₁ (algebraMap K₂ T x)) = _
     rw [D₀.eL₁_right]
     exact reducedTensorTowerEquiv_includeRight K K₁ L K₂ F D₁.eL₁ D₁.eL₁_right x
   have heL (x : L) : eT₀ (algebraMap L T x) =
       Ideal.Quotient.mk _ (algebraMap L F x ⊗ₜ[K₁] 1) := by
-    show eTower (D₀.eL₁ (algebraMap L T x)) = _
+    change eTower (D₀.eL₁ (algebraMap L T x)) = _
     rw [D₀.eL₁_left]
     exact reducedTensorTowerEquiv_includeLeft K K₁ L K₂ F D₁.eL₁ D₁.eL₁_right
       (IsScalarTower.toAlgHom K L F) D₁.eL₁_left x
@@ -710,7 +710,7 @@ theorem exists_isSolution_of_tower
   let : IsScalarTower K₁ K₂ T := IsScalarTower.of_algebraMap_eq fun k => by
     apply eT.injective
     rw [eT.commutes, heC]
-    show Ideal.Quotient.mk _ (algebraMap K₁ F k ⊗ₜ[K₁] 1) =
+    change Ideal.Quotient.mk _ (algebraMap K₁ F k ⊗ₜ[K₁] 1) =
       Ideal.Quotient.mk _ (1 ⊗ₜ[K₁] algebraMap K₁ K₂ k)
     exact congrArg (Ideal.Quotient.mk _) (DFunLike.congr_fun
       Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap k)
@@ -760,7 +760,7 @@ theorem exists_isSolution_of_tower
   let : Algebra R₂ S₂ := f₂.toAlgebra
   let : IsScalarTower A R₂ S₂ := IsScalarTower.of_algebraMap_eq fun a => by
     apply Subtype.ext
-    show algebraMap S₂ T (algebraMap A S₂ a) =
+    change algebraMap S₂ T (algebraMap A S₂ a) =
       algebraMap K₂ T (algebraMap R₂ K₂ (algebraMap A R₂ a))
     rw [← IsScalarTower.algebraMap_apply A S₂ T, ← IsScalarTower.algebraMap_apply A R₂ K₂,
       ← IsScalarTower.algebraMap_apply A K₂ T]

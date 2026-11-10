@@ -106,7 +106,7 @@ variable {R} in
 `T`, at a fixed K-flat complex `L`, as an isomorphism of functors of the left K-flat complex
 `K`. -/
 def comparisonRightFirst (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R)
-    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat R L) :
     kFlatComplexQLeft (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R) ⋙
         T.tensor.flip.obj (DerivedCategory.Q.obj L) ≅
       (kFlatComplexesLeft (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R)).ι ⋙
@@ -120,7 +120,7 @@ def comparisonRightFirst (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProdu
 variable {R} in
 /-- The components of `comparisonRightFirst` are the one-sided K-flat comparison. -/
 theorem comparisonRightFirst_hom_app (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R)
-    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat.KFlat R L)
+    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat R L)
     (K : (kFlatComplexesLeft
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R)).FullSubcategory) :
     (comparisonRightFirst T hL).hom.app K = (T.comparisonRight K.1 L hL).hom :=
@@ -131,7 +131,7 @@ comparison `CochainComplex.KFlatBifunctor.comparisonFirst`, and so commutes with
 theorem commShift_comparisonRightFirst_of_eq
     (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R)
     (hT : T = Stacks.DerivedTensor.RingedSite.derivedTensorProductConstruction R)
-    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    {L : Complexes R} (hL : Stacks.SheafOfModules.KFlat R L) :
     NatTrans.CommShift (comparisonRightFirst T hL).hom ℤ := by
   subst hT
   have h : comparisonRightFirst
@@ -147,7 +147,7 @@ theorem commShift_comparisonRightFirst_of_eq
 /-- **The one-sided comparison of the canonical derived tensor product commutes with the shift**
 in the left variable. -/
 theorem commShift_comparisonRightFirst {L : Complexes R}
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     NatTrans.CommShift
       (comparisonRightFirst (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R)
         hL).hom ℤ :=
@@ -176,7 +176,7 @@ theorem canonicalRightUnitorHom_Q_obj (K : Complexes R) :
           (𝟙_ (Complexes R)) (kFlat_tensorUnit_complexes R)).hom ≫
         DerivedCategory.Q.map ((complexRightUnitorNatTrans R).app K) := by
   obtain ⟨P, p, hP, hp⟩ := Stacks.DerivedTensor.RingedSite.exists_kFlat_quasiIso R K
-  have hP' : Stacks.SheafOfModules.KFlat.KFlat R P := hP
+  have hP' : Stacks.SheafOfModules.KFlat R P := hP
   have hPcase : canonicalRightUnitorHom R (DerivedCategory.Q.obj P) =
       ((Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R).comparisonRight P
           (𝟙_ (Complexes R)) (kFlat_tensorUnit_complexes R)).hom ≫

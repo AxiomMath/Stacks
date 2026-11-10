@@ -301,17 +301,17 @@ theorem no_affine_four_chain (T : NumericalType)
     simpa [A] using hlocal
   have hAoff : ∀ i j, i ≠ j → 0 ≤ A i j := by
     intro i j hij
-    show 0 ≤ (T.intersection i j : ℚ)
+    change 0 ≤ (T.intersection i j : ℚ)
     exact_mod_cast T.intersection_nonneg i j hij
   have hmpos : ∀ i, 0 < m i := by
     intro i
-    show 0 < (T.multiplicity i : ℚ)
+    change 0 < (T.multiplicity i : ℚ)
     exact_mod_cast T.multiplicity_pos i
   have hAm : A *ᵥ m = 0 := by
     ext i
     have hrow : (∑ j, (T.intersection i j : ℚ) * (T.multiplicity j : ℚ)) = 0 := by
       exact_mod_cast T.intersection_mul_multiplicity i
-    show (∑ j, A i j * m j) = 0
+    change (∑ j, A i j * m j) = 0
     simpa [A, m] using hrow
   have hconnected : ∀ I : Set (Fin T.componentCount), I.Nonempty →
       I ≠ Set.univ → ¬ ∀ i ∈ I, ∀ j ∉ I, A i j = 0 := by

@@ -390,11 +390,11 @@ public theorem exists_finiteEtaleOver_fiber_equiv {S : Scheme.{u}} [ConnectedSpa
         ((α.app (E.inverse.obj A)).toEquiv.symm y) := by
     apply (α.app (E.inverse.obj A)).toEquiv.symm_apply_eq.2
     refine ((hα (E.inverse.obj A) σ ((α.app (E.inverse.obj A)).toEquiv.symm y)).trans ?_).symm
-    show (σ.asIso.hom.app (E.inverse.obj A)).hom
+    change (σ.asIso.hom.app (E.inverse.obj A)).hom
       ((α.app (E.inverse.obj A)).toEquiv ((α.app (E.inverse.obj A)).toEquiv.symm y)) = σ • y
     rw [Equiv.apply_symm_apply]
     rfl
-  show (((forget₂ (ContAction FintypeCat.{u} (EtaleFundamentalGroup S s)) FintypeCat.{u} ⋙
+  change (((forget₂ (ContAction FintypeCat.{u} (EtaleFundamentalGroup S s)) FintypeCat.{u} ⋙
     FintypeCat.incl).mapIso (E.counitIso.app A)).hom)
       ((α.app (E.inverse.obj A)).toEquiv.symm (σ • y)) = _
   rw [h₁]
@@ -412,7 +412,7 @@ public theorem exists_finiteEtaleOver_quotient_fiber_equiv {S : Scheme.{u}} [Con
   have := compactSpace_etaleFundamentalGroup S s
   obtain ⟨T, e, he⟩ := exists_finiteEtaleOver_fiber_equiv s (quotientContActionSwitch U)
   refine ⟨T, e.trans (FintypeCat.uSwitchEquiv _), fun σ y ↦ ?_⟩
-  show FintypeCat.uSwitchEquiv _ (e (σ • y)) = σ • FintypeCat.uSwitchEquiv _ (e y)
+  change FintypeCat.uSwitchEquiv _ (e (σ • y)) = σ • FintypeCat.uSwitchEquiv _ (e y)
   rw [he]
   exact (FintypeCat.uSwitchEquiv_naturality ((quotientContAction U).obj.ρ σ).asHom (e y)).symm
 
@@ -438,13 +438,13 @@ private theorem exists_finiteEtaleOver_index_transitive_stabilizer {S : Scheme.{
       EtaleFundamentalGroup S s ⧸ U.toSubgroup) := φ.apply_symm_apply _
   refine ⟨T, y₀, ?_, ?_, ?_⟩
   · rw [Nat.card_congr φ, ← Subgroup.index_eq_card]
-    show (H.comap rb).index = H.index
+    change (H.comap rb).index = H.index
     rw [Subgroup.index_comap_of_surjective _ hrbsurj]
   · intro z
     obtain ⟨a, ha⟩ := QuotientGroup.mk_surjective (φ z)
     refine ⟨a, φ.injective ?_⟩
     rw [hφ, hφy₀, ← ha]
-    show ((a * 1 : EtaleFundamentalGroup S s) : EtaleFundamentalGroup S s ⧸ U.toSubgroup) = _
+    change ((a * 1 : EtaleFundamentalGroup S s) : EtaleFundamentalGroup S s ⧸ U.toSubgroup) = _
     rw [mul_one]
   · intro σ hσ
     have h1 : σ • φ y₀ = φ y₀ := by rw [← hφ, hσ]

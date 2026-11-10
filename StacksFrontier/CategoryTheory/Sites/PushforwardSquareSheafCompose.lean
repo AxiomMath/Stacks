@@ -91,7 +91,7 @@ theorem sheafPushforwardSquare_vComp_sheafCompose :
     NatTrans.comp_app, associator_inv_app, whiskerRight_app, NatTrans.id_app, associator_hom_app,
     whiskerLeft_app, Category.id_comp, ObjectProperty.FullSubcategory.comp_hom,
     sheafCompose_map_hom]
-  show 𝟙 _ ≫ 𝟙 _ ≫ ((sheafPushforwardSquare J₁ J₂ J₃ J₄ e B).hom.app
+  change 𝟙 _ ≫ 𝟙 _ ≫ ((sheafPushforwardSquare J₁ J₂ J₃ J₄ e B).hom.app
       ((sheafCompose J₁ G).obj Z)).hom.app x ≫ 𝟙 _ =
     G.map (((sheafPushforwardSquare J₁ J₂ J₃ J₄ e A).hom.app Z).hom.app x) ≫ (𝟙 _ ≫ 𝟙 _)
   simp only [Category.id_comp, Category.comp_id]

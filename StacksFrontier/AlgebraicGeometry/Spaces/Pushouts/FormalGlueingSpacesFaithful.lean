@@ -180,6 +180,7 @@ private instance (priority := high) hasPullback_presheaf
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search on presheaves over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S`. -/
 private instance hasPullbacks_presheaf :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance

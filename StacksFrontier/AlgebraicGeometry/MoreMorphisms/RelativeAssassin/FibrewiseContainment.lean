@@ -77,8 +77,7 @@ corresponding projection. -/
 theorem piRight_apply_eq_lTensor_proj {m : ℕ} (w : K ⊗[A] (Fin m → N)) (j : Fin m) :
     TensorProduct.piRight A A K (fun _ : Fin m => N) w j
       = LinearMap.lTensor K (LinearMap.proj j : (Fin m → N) →ₗ[A] N) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul c v => simp
   | add x y hx hy =>
       simp only [map_add, Pi.add_apply, hx, hy]
@@ -89,8 +88,7 @@ theorem comm_lTensor_lsmul (b : B) (z : K ⊗[A] N) :
     (TensorProduct.comm A K N)
         (LinearMap.lTensor K ((LinearMap.lsmul B N b).restrictScalars A) z)
       = b • (TensorProduct.comm A K N) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c n => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 
@@ -183,8 +181,7 @@ theorem congrRight_smul {K' : Type u} [CommRing K'] [Algebra A K'] (ψ : K ≃�
     (ξ : N ⊗[A] K) :
     TensorProduct.congr (LinearEquiv.refl A N) ψ (b • ξ)
       = b • TensorProduct.congr (LinearEquiv.refl A N) ψ ξ := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul n c => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 
@@ -496,7 +493,7 @@ theorem exists_open_associatedPoints_fiber_subset {X Y : Scheme.{u}} (f : X ⟶ 
   subst hrη'
   have hsymm : eY.symm (r η') = η' := eY.symm_apply_apply η'
   have hη' : IsGenericPoint η' Set.univ := by
-    show closure ({η'} : Set Y.nilradical.subscheme) = Set.univ
+    change closure ({η'} : Set Y.nilradical.subscheme) = Set.univ
     have h1 : closure ({η'} : Set Y.nilradical.subscheme)
         = eY.symm '' closure ({r η'} : Set Y) := by
       rw [eY.symm.image_closure, Set.image_singleton, hsymm]

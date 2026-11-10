@@ -164,7 +164,7 @@ private theorem finitePresentation_cokernel_of_retracts
   have h₂g : h₂ ≫ g = 0 := by
     simp [h₂, g, Preadditive.sub_comp, Category.assoc]
   have hcg : hc ≫ g = 0 := by
-    show coprod.desc h₁ h₂ ≫ g = 0
+    change coprod.desc h₁ h₂ ≫ g = 0
     rw [coprod.desc_comp, h₁g, h₂g]
     apply coprod.hom_ext
     · rw [coprod.inl_desc]

@@ -59,7 +59,7 @@ theorem invRepComparison_comp_chartFiberCoordinate (V : SmallEtale B S hS Y.1)
     [IsAffine (chartSch V)] (b : (structureSetSheaf B S hS Y).obj.obj (op V)) :
     invRepComparison hfb V ≫ chartFiberCoordinate B S hS f V b = (invCoord g V b).hom := by
   ext U s
-  show (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (forget CommRingCat.{u}).map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (chartOverHom hb V U.unop s)).op) b = _
   rw [toScheme_map_chartOverHom, Scheme.Γ_map_op, chartSchemeHom_appTop]
   exact chartRingHom_apply g V U.unop s b
@@ -98,7 +98,7 @@ theorem chartSectionEquiv_eq_iff (V : SmallEtale B S hS Y.1) [IsAffine (chartSch
   refine ⟨fun h ↦ h ▸ invRepComparison_comp_chartSectionEquiv hfb hWb V F x, fun h ↦ ?_⟩
   apply (sectionEquivChartFiberHom B S hS f V F).injective
   apply ((hWb V).homEquiv F.obj F.property).injective
-  show invRepComparison hfb V ≫ _ = invRepComparison hfb V ≫ _
+  change invRepComparison hfb V ≫ _ = invRepComparison hfb V ≫ _
   rw [invRepComparison_comp_chartSectionEquiv, h]
 
 /-- `AlgebraicGeometry.Space.OverBase.chartSectionEquiv` is natural in the sheaf. -/
@@ -187,7 +187,7 @@ theorem affineRestriction_map_pushforwardIsoOfChartComparison_hom_app
       (AffineEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Y.1)).map
         ((pushforwardIsoOfChartComparison hfb hWb).hom.app F) =
       (affinePushforwardIso hfb hWb F).hom := by
-  show ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)
+  change ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)
       (AffineEtale.topology B S hS Y.1) (SmallEtale.topology B S hS Y.1)).map
     ((Functor.FullyFaithful.ofFullyFaithful
       ((AffineEtale.inclusion B S hS Y.1).sheafPushforwardContinuous (Type u)

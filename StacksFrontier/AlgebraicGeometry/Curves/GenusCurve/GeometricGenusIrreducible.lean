@@ -131,7 +131,7 @@ public theorem geometricGenus_eq_genus_normalizationOverField
     rw [IsHomeomorph.topologicalKrullDim_eq _
       (Scheme.homeoOfIso (asIso (irreducibleComponentIdeal Z0).subschemeι)).isHomeomorph]
     exact hdim
-  show ∑ Z : irreducibleComponents (pullback (C := Scheme.{u}) g a),
+  change ∑ Z : irreducibleComponents (pullback (C := Scheme.{u}) g a),
       (if topologicalKrullDim (irreducibleComponentIdeal Z).subscheme = 1 then
         genus (normalizationOverField (AlgebraicClosure k)
             ((irreducibleComponentIdeal Z).subschemeι ≫ pullback.snd g a) ≫
@@ -195,10 +195,10 @@ public theorem genus_toSpecΓ_eq_genus
   let : Algebra k A := α.hom.toAlgebra
   let b : Spec (.of A) ⟶ Spec (.of k) := Spec.map (CommRingCat.ofHom (algebraMap k A))
   have : IsIso b := by
-    show IsIso (Spec.map α)
+    change IsIso (Spec.map α)
     infer_instance
   have hfb : Z.toSpecΓ ≫ b = f := by
-    show Z.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
+    change Z.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   have hsq : IsPullback (𝟙 Z) Z.toSpecΓ f b :=
@@ -260,7 +260,7 @@ public theorem geometricGenus_le_finSepDegree_mul_genus_toSpecΓ
   let : Algebra k Γ(X, ⊤) := ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop).hom.toAlgebra
   have h1 : Field.finSepDegree k Γ(X, ⊤) = 1 := finSepDegree_globalSections_eq_one k g
   have h2 : genus X.toSpecΓ = genus g := genus_toSpecΓ_eq_genus k g
-  show geometricGenus k g ≤ Field.finSepDegree k Γ(X, ⊤) * genus X.toSpecΓ
+  change geometricGenus k g ≤ Field.finSepDegree k Γ(X, ⊤) * genus X.toSpecΓ
   rw [h1, one_mul, h2]
   exact geometricGenus_le_genus k g hirr hred hdim hcoker hker hfin
 

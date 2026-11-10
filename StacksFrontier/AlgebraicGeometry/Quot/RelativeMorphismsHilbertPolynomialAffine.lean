@@ -160,11 +160,11 @@ theorem exists_isPullback_relativeHomHilbertPolynomial_of_isAffine
   let bP := ProjectiveQuotOverSpace.productSnd n (schemeSpace T)
   have hpq : p₀ ≫ f.hom = yoneda.map q₀ := hsq.w.trans (Category.comp_id _)
   have hπ₁ : π₁ ≫ bV = f := ObjectProperty.hom_ext _ (by
-    show ep.inv ≫ yoneda.map c ≫ yoneda.map (o ≫ projectiveSiteStructure B n T) = f.hom
+    change ep.inv ≫ yoneda.map c ≫ yoneda.map (o ≫ projectiveSiteStructure B n T) = f.hom
     rw [← Functor.map_comp, hco, ← hpq]
     exact ep.inv_hom_id_assoc f.hom)
   have hπ₂ : π₂ ≫ bP = bV := by
-    show (schemeSpaceMap o ≫ κ.hom) ≫ bP = bV
+    change (schemeSpaceMap o ≫ κ.hom) ≫ bP = bV
     rw [Category.assoc, QuotSituation.projectiveSiteProductIso_hom_productSnd]
     exact ObjectProperty.hom_ext _ (yoneda.map_comp _ _).symm
   have hclosed : IsClosedImmersion B integerBase ℤS π₁.hom :=
@@ -212,7 +212,7 @@ theorem exists_isPullback_relativeHomHilbertPolynomial_of_isAffine
     (QuotSituation.invertibleTensorPowerAssociatedIso U M₀ (hM₀ := hM₀) hM₀qc (hN := hinv)
       (d : ℤ)).symm
   have hπ₁₂ : π₁ ≫ π₂ = pinv ≫ (schemeSpaceMap (c ≫ o) ≫ κ.hom) := by
-    show (pinv ≫ schemeSpaceMap c) ≫ schemeSpaceMap o ≫ κ.hom = _
+    change (pinv ≫ schemeSpaceMap c) ≫ schemeSpaceMap o ≫ κ.hom = _
     rw [Category.assoc, ← Category.assoc (schemeSpaceMap c)]
     congr 2
   let eM : (modulePullback B integerBase ℤS π₁).obj ((modulePullback B integerBase ℤS π₂).obj O) ≅

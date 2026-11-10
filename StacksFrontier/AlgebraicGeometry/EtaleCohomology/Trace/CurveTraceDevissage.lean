@@ -249,7 +249,7 @@ theorem compactSupportTraceVanishes_of_partition {X : Scheme.{u}} (fX : X ⟶ Sp
       refine hleaf A.toScheme (A.ι ≫ e) a ?_ (A.ι ≫ g) (by rw [hg, Category.assoc])
         (J.restrictOpen A.ι)
       rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, Scheme.Opens.range_ι]
-      show (⇑e) '' ((⇑e) ⁻¹' (Z a : Set X)) = _
+      change (⇑e) '' ((⇑e) ⁻¹' (Z a : Set X)) = _
       rw [Set.image_preimage_eq_inter_range]
       refine Set.inter_eq_left.2 ?_
       rw [he]

@@ -121,7 +121,7 @@ theorem isEmpty_points_yoneda_of_bot_mem {U : BigFppfOver B S hS}
     IsEmpty (points B S hS (yoneda.obj U)) := by
   have hs : (𝟙 U : (yoneda.obj U).obj (op U)) ∈
       ((⊥ : Subfunctor (yoneda.obj U)).sheafify (BigFppfOver.topology B S hS)).obj (op U) := by
-    show (⊥ : Subfunctor (yoneda.obj U)).sieveOfSection (𝟙 U) ∈ BigFppfOver.topology B S hS U
+    change (⊥ : Subfunctor (yoneda.obj U)).sieveOfSection (𝟙 U) ∈ BigFppfOver.topology B S hS U
     rwa [sieveOfSection_bot]
   exact ⟨fun q => (isEmpty_points_sheafify_bot B S hS (yoneda.obj U)).false
     (pointsMap B S hS (yoneda.obj U) (yonedaEquiv.symm ⟨𝟙 U, hs⟩) q)⟩
@@ -421,7 +421,7 @@ theorem completionToW_app_surjective (V : (LocallyNoetherianOver B S hS)ᵒᵖ) 
   have hxT : Space.HasImageIn B S hS X (contractedLocus c α) V.unop.obj x :=
     (hasImageIn_contractedLocus_iff c α V.unop x).mpr (by rw [hx]; rfl)
   refine ⟨⟨ULift.up x, hxT⟩, ?_⟩
-  show completionSectionToW c α V.unop x hxT = w
+  change completionSectionToW c α V.unop x hxT = w
   rw [completionSectionToW, wSection_congr c hx _ rfl]
   exact wSection_tripleOfSection c V.unop.obj w
 

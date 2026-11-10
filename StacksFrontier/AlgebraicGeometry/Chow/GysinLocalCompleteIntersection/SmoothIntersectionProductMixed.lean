@@ -423,7 +423,7 @@ theorem _root_.AlgebraicGeometry.Scheme.Opens.opensRange_ι_morphismRestrict {X 
     obtain ⟨z, hz⟩ : W.ι.base x ∈ Set.range U.ι.base := by rwa [Scheme.Opens.range_ι]
     obtain ⟨y, hy⟩ : z ∈ Set.range (U.ι ⁻¹ᵁ W).ι.base := by
       rw [Scheme.Opens.range_ι]
-      show U.ι.base z ∈ W
+      change U.ι.base z ∈ W
       rw [hz]
       exact x.2
     refine ⟨y, opensι_base_injective W ?_⟩

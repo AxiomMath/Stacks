@@ -138,7 +138,7 @@ noncomputable def tensorLift₃ :
 @[simp]
 theorem tensorLift₃_tmul (x : M) (y : N) (z : L) :
     tensorLift₃ f ha₁ hs₁ ha₂ hs₂ ha₃ hs₃ (x ⊗ₜ[R] (y ⊗ₜ[R] z)) = f x y z := by
-  show trilinearInner f ha₂ hs₂ ha₃ hs₃ x (y ⊗ₜ[R] z) = _
+  change trilinearInner f ha₂ hs₂ ha₃ hs₃ x (y ⊗ₜ[R] z) = _
   simp
 
 /-- Two morphisms out of a right-bracketed triple tensor product which agree on pure tensors
@@ -148,8 +148,7 @@ theorem tensor_ext₃ {T : ModuleCat.{z} R}
     (H : ∀ (x : M) (y : N) (z : L), g (x ⊗ₜ[R] (y ⊗ₜ[R] z)) = h (x ⊗ₜ[R] (y ⊗ₜ[R] z))) :
     g = h := by
   refine ModuleCat.tensor_ext fun x w ↦ ?_
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul y z => exact H x y z
   | add w w' hw hw' =>
     rw [TensorProduct.tmul_add]
@@ -740,7 +739,7 @@ noncomputable def balanceMap (n : ℤ) : relationSum P N n ⟶ tensorSum P N n :
 @[simp]
 theorem relationSumι_balanceMap {n : ℤ} (i : RelationIndex n) :
     relationSumι P N i ≫ balanceMap P N n = balanceSummandMap P N i :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- Degree `n` of the relative tensor product `P ⊗_A N` as a presheaf of modules: the cokernel
 of the balance map. -/
@@ -1098,7 +1097,7 @@ theorem tensorSumDesc_tmul (β : Balanced P N K n) (p : TensorIndex n) (X : Cᵒ
       (β.app p).app X x y :=
   (PresheafOfModules.comp_app_apply (tensorSumι P N p) β.tensorSumDesc X (x ⊗ₜ y)).symm.trans
     ((PresheafOfModules.hom_congr_apply'
-      (Sigma.ι_desc (fun p ↦ PresheafOfModules.ofBilinear (β.app p)) p) X (x ⊗ₜ y)).trans
+      (Sigma.ι_comp_desc (fun p ↦ PresheafOfModules.ofBilinear (β.app p)) p) X (x ⊗ₜ y)).trans
       (PresheafOfModules.ofBilinear_tmul (β.app p) X x y))
 
 /-- A balanced bilinear family kills the relations of the presentation. -/

@@ -103,10 +103,10 @@ private lemma residueField_essFiniteType {k : Type u} [Field k] {X : Scheme.{u}}
       stalkClosedPointIso (.of k)
   have heq : a = eR.inv.hom := by
     ext s
-    show (StructureSheaf.toStalk k (f.base x)).hom s = _
+    change (StructureSheaf.toStalk k (f.base x)).hom s = _
     dsimp only [eR, Iso.trans_inv]
     rw [stalkClosedPointIso_inv]
-    show (StructureSheaf.toStalk k (f.base x)).hom s =
+    change (StructureSheaf.toStalk k (f.base x)).hom s =
       (StructureSheaf.toStalk k (IsLocalRing.closedPoint k) ≫
         (Spec (.of k)).presheaf.stalkSpecializes (Inseparable.of_eq hqclosed).le).hom s
     exact congrArg
@@ -120,7 +120,7 @@ private lemma residueField_essFiniteType {k : Type u} [Field k] {X : Scheme.{u}}
   have hb : b.EssFiniteType := LocallyOfFiniteType.stalkMap f x
   have hc : c.EssFiniteType :=
     (RingHom.FiniteType.of_surjective c IsLocalRing.residue_surjective).essFiniteType
-  show h.EssFiniteType
+  change h.EssFiniteType
   exact (ha.comp hb).comp hc
 
 /-- The nilradical is contained in the kernel of any ring map to a reduced ring. -/
@@ -174,7 +174,7 @@ private theorem isGeometricallyReduced_reducedTensorProduct_of_extension
   let : IsScalarTower k F B := IsScalarTower.of_algebraMap_eq' rfl
   have hmap : algebraMap k B = (algebraMap k₀ B).comp (algebraMap k k₀) := by
     ext x
-    show algebraMap F B (algebraMap k F x) =
+    change algebraMap F B (algebraMap k F x) =
       algebraMap k₀ B (algebraMap k k₀ x)
     rw [IsScalarTower.algebraMap_apply k₀ F B,
       IsScalarTower.algebraMap_apply k k₀ F]
@@ -235,7 +235,7 @@ private theorem isGeometricallyReduced_reducedTensorProduct_of_extension
       show lift (Ideal.Quotient.mk _ b) = fF b from rfl] at hxy
     have hab : a - b ∈ RingHom.ker f.toRingHom := by
       rw [RingHom.mem_ker]
-      show f (a - b) = 0
+      change f (a - b) = 0
       have hxy' : f a = f b := hxy
       rw [map_sub, hxy', sub_self]
     rw [hker] at hab
@@ -272,7 +272,7 @@ private theorem exists_finite_common_purelyInseparable_extension
       intro s
       induction s using Finset.induction with
       | empty =>
-          show FiniteDimensional k (⊥ : IntermediateField k (AlgebraicClosure k))
+          change FiniteDimensional k (⊥ : IntermediateField k (AlgebraicClosure k))
           infer_instance
       | @insert i s hi ih =>
           rw [Finset.sup_insert]
@@ -399,11 +399,11 @@ private lemma isField_reducedTensorProduct (k F K : Type*)
       (R := F ⊗[k] K) le_rfl).injective (Subsingleton.elim _ _)⟩
   have : _root_.IsReduced (ReducedTensorTower.Reduction (F ⊗[k] K)) :=
     (Ideal.isRadical_iff_quotient_reduced _).mp (by
-      show (⊥ : Ideal (F ⊗[k] K)).radical.IsRadical
+      change (⊥ : Ideal (F ⊗[k] K)).radical.IsRadical
       exact Ideal.radical_isRadical _)
   have : Nontrivial (ReducedTensorTower.Reduction (F ⊗[k] K)) :=
     Ideal.Quotient.nontrivial_iff.mpr (by
-      show (⊥ : Ideal (F ⊗[k] K)).radical ≠ ⊤
+      change (⊥ : Ideal (F ⊗[k] K)).radical ≠ ⊤
       simpa only [ne_eq, Ideal.radical_eq_top] using
         (bot_ne_top : (⊥ : Ideal (F ⊗[k] K)) ≠ ⊤))
   exact PrimeSpectrum.subsingleton_iff_isField_of_isReduced.mp hQ
@@ -435,7 +435,7 @@ private lemma specMap_residueFieldMap_comp_residueFieldEquiv (k K : Type u) [Fie
   let eRg : k ≃+* (Spec (.of k)).residueField (g y) :=
     ((g y).asIdeal.algEquivResidueFieldOfField).toRingEquiv.trans
       (Scheme.Spec.residueFieldIso (.of k) (g y)).symm.commRingCatIsoToRingEquiv
-  show ((g.residueFieldMap y).hom.comp ((Spec (.of k)).residueFieldCongr hxy).inv.hom).comp
+  change ((g.residueFieldMap y).hom.comp ((Spec (.of k)).residueFieldCongr hxy).inv.hom).comp
     eR.toRingHom = eC.toRingHom.comp (algebraMap k K)
   ext z'
   apply (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv.injective
@@ -459,7 +459,7 @@ private lemma specMap_residueFieldMap_comp_residueFieldEquiv (k K : Type u) [Fie
   have htransport : (Scheme.residueFieldCongr hxy).inv.hom (eR z') = eRg z' := by
     simpa [eR, eRg, Scheme.residueFieldCongr] using
       spec_residueFieldEquiv_congr k s (g y) hxy.symm z'
-  show (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
+  change (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
       (g.residueFieldMap y ((Scheme.residueFieldCongr hxy).inv (eR z'))) =
     (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
       (eC (algebraMap k K z'))
@@ -509,7 +509,7 @@ private theorem isGeometricallyReducedAt_of_reducedTensorProduct
     obtain ⟨b, rfl⟩ := IsLocalRing.residue_surjective b
     obtain ⟨a, ha⟩ := q.stalkMap_surjective ξ b
     refine ⟨IsLocalRing.residue _ a, ?_⟩
-    show IsLocalRing.ResidueField.map (q.stalkMap ξ).hom (IsLocalRing.residue _ a) = _
+    change IsLocalRing.ResidueField.map (q.stalkMap ξ).hom (IsLocalRing.residue _ a) = _
     rw [IsLocalRing.ResidueField.map_residue, ha]
   let T := Scheme.Pullback.Triplet.ofPoint z
   let R := (Spec (.of k)).residueField (f T.x)
@@ -563,7 +563,7 @@ private theorem isGeometricallyReducedAt_of_reducedTensorProduct
       simpa using DFunLike.congr_fun hcommf (eR.symm z')
     · ext z'
       have hz' := DFunLike.congr_fun hcommg (eR.symm z')
-      show eC.symm (b z') = algebraMap k K (eR.symm z')
+      change eC.symm (b z') = algebraMap k K (eR.symm z')
       simpa only [RingHom.comp_apply, RingEquiv.apply_symm_apply,
         RingEquiv.symm_apply_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe] using
         congrArg eC.symm hz'
@@ -585,7 +585,7 @@ private theorem isGeometricallyReducedAt_of_reducedTensorProduct
   have hπψ : CommRingCat.ofHom π ≫ CommRingCat.ofHom ψ =
       Scheme.Pullback.ofPointTensor z := by
     ext r
-    show β (c.symm r) = _
+    change β (c.symm r) = _
     simp [β]
   have hψ : IsIso (CommRingCat.ofHom ψ) :=
     isIso_of_specMap_comp_eq_fromSpecResidueField z (CommRingCat.ofHom ψ)
@@ -615,7 +615,7 @@ private theorem isGeometricallyReducedAt_of_reducedTensorProduct
       have H := hpo'.inr_isoIsPushout_inv _ _ hTensor
       exact congrArg (fun h => h.hom t) H
     have hβ : ψ (algebraMap K Q t) = (p.residueFieldMap z) (eC t) := by
-      show (Scheme.Pullback.ofPointTensor z) (c (algebraMap K D t)) = _
+      change (Scheme.Pullback.ofPointTensor z) (c (algebraMap K D t)) = _
       rw [hc]
       exact congrArg (fun h => h.hom (eC t))
         (pushout.inr_desc _ _ (Scheme.Pullback.residueFieldCongr_inv_residueFieldMap_ofPoint z))
@@ -623,11 +623,11 @@ private theorem isGeometricallyReducedAt_of_reducedTensorProduct
         ((StructureSheaf.toStalk K T.y).hom t) :=
       congrArg (fun h => h.hom t)
         (Scheme.Spec.algebraMap_residueFieldIso_inv (.of K) T.y)
-    show (Y.residue ξ) (d.hom (algebraMap K Q t)) = _
+    change (Y.residue ξ) (d.hom (algebraMap K Q t)) = _
     have hdres : d.hom ≫ Y.residue ξ =
         CommRingCat.ofHom ψ ≫ q.residueFieldMap ξ := by simp [d]
     rw [← CommRingCat.comp_apply, hdres, CommRingCat.comp_apply]
-    show (q.residueFieldMap ξ).hom (ψ (algebraMap K Q t)) = _
+    change (q.residueFieldMap ξ).hom (ψ (algebraMap K Q t)) = _
     rw [hβ, heC]
     have H := Scheme.residue_residueFieldMap (q ≫ p) ξ
     rw [Scheme.residueFieldMap_comp] at H
@@ -675,7 +675,7 @@ public theorem exists_finite_purelyInseparable_extension_geometricallyReduced_re
   have hfull : Set.range q = Set.univ := by
     simp [q, I, Scheme.IdealSheafData.range_subschemeι]
   have : IsReduced Y := Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal _
-  show GeometricallyReduced (q ≫ p)
+  change GeometricallyReduced (q ≫ p)
   apply geometricallyReduced_of_isGeometricallyReducedAt_genericPoints (q ≫ p)
   intro ξ hξ
   let z := q ξ

@@ -78,7 +78,7 @@ theorem finrank_homology_totalDerivedExtensionScalars_of_isField {A L : Type u} 
   have hflat : ψ.Flat := by
     let := hA.toField
     let := ψ.toAlgebra
-    show Module.Flat A L
+    change Module.Flat A L
     infer_instance
   have := extendScalars_preservesFiniteLimits_of_flat'.{u, u} ψ hflat
   let G := ModuleCat.extendScalars.{u, u, u} ψ
@@ -387,7 +387,7 @@ theorem fibreBetti_eq_comp_isoSpec (hf : IsProper B S hS f.hom)
       (contains_spec_residueField_specGlobalSectionsPoint B S hS U q.asIdeal) :=
     Over.homMk ⟨Spec.map (Y.isoSpec.hom.residueFieldMap y)⟩ (by
       ext1
-      show Spec.map (Y.isoSpec.hom.residueFieldMap y) ≫
+      change Spec.map (Y.isoSpec.hom.residueFieldMap y) ≫
           ((Spec Γ(Y, ⊤)).fromSpecResidueField q ≫ Y.isoSpec.inv ≫ B.inclusion.map U.hom) =
         Y.fromSpecResidueField y ≫ U.hom.hom
       rw [Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField_assoc, Iso.hom_inv_id_assoc]
@@ -396,7 +396,7 @@ theorem fibreBetti_eq_comp_isoSpec (hf : IsProper B S hS f.hom)
       residueFieldSiteHom B S hS U y := by
     ext1
     ext1
-    show Spec.map (Y.isoSpec.hom.residueFieldMap y) ≫
+    change Spec.map (Y.isoSpec.hom.residueFieldMap y) ≫
         ((Spec Γ(Y, ⊤)).fromSpecResidueField q ≫ Y.isoSpec.inv) = Y.fromSpecResidueField y
     rw [Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField_assoc, Iso.hom_inv_id,
       Category.comp_id]
@@ -454,11 +454,11 @@ theorem exists_isOpenEmbedding_fibreBetti_comp_eq (hf : IsProper B S hS f.hom)
     exact (Scheme.Opens.ι W).isOpenEmbedding.comp h.symm.isOpenEmbedding
   · let w : (BigFppfOver.toScheme B S hS).obj T := ⟨x, hxW⟩
     refine ⟨h w, ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map g).base (h.symm (h w)) = x
+    change ((BigFppfOver.toScheme B S hS).map g).base (h.symm (h w)) = x
     rw [h.symm_apply_apply, hg]
     rfl
   · funext z
-    show (fibreBettiFunction f F i ∘ ((BigFppfOver.toScheme B S hS).map g).base) (h.symm z) = _
+    change (fibreBettiFunction f F i ∘ ((BigFppfOver.toScheme B S hS).map g).base) (h.symm z) = _
     rw [← h1, h2]
     exact congrArg (StacksDraft.Perfect.fibreBetti.{u, u} M i) (h.apply_symm_apply z)
 

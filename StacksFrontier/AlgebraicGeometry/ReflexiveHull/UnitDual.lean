@@ -134,7 +134,7 @@ public theorem map_mulFunctional {U V : X.Opens} (hle : V ≤ U) (a : Γ(X, U)) 
   rw [mulFunctional_def, mulFunctional_def, dualPairing_map, dualPairing_smul,
     dualPairing_smul, dualPairing_unitFunctional, dualPairing_unitFunctional]
   congr 1
-  show (X.presheaf.map (W.hom ≫ homOfLE hle).op).hom a =
+  change (X.presheaf.map (W.hom ≫ homOfLE hle).op).hom a =
     (X.presheaf.map W.hom.op).hom ((X.presheaf.map (homOfLE hle).op).hom a)
   rw [op_comp, X.presheaf.map_comp]
   rfl

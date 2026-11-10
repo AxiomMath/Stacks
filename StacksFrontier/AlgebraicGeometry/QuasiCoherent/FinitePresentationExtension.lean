@@ -282,7 +282,7 @@ private lemma isFinitePresentation_restrict_sup (F : X.Modules) [F.IsQuasicohere
   let W := U ⊔ V
   let T : Bool → W.toScheme.Opens := fun b => W.ι ⁻¹ᵁ (if b then U else V)
   apply isFinitePresentation_of_isOpenCover (F.restrict W.ι) T
-  · show (⨆ b : Bool, W.ι ⁻¹ᵁ (if b then U else V)) = ⊤
+  · change (⨆ b : Bool, W.ι ⁻¹ᵁ (if b then U else V)) = ⊤
     rw [← W.ι.preimage_iSup, iSup_bool_eq]
     exact W.ι_preimage_self
   · rintro (_ | _)
@@ -355,7 +355,7 @@ theorem exists_finitePresentation_epi_isIso_restrict_of_epi [CompactSpace X]
     dsimp [a]
     rw [Functor.map_comp, he]
     dsimp [e']
-    show e.hom ≫ (Subobject.mk eK.inv).arrow ≫ R.map (kernel.ι f) =
+    change e.hom ≫ (Subobject.mk eK.inv).arrow ≫ R.map (kernel.ι f) =
       e.hom ≫ (Subobject.underlyingIso eK.inv).hom ≫ kernel.ι fU
     rw [← Subobject.underlyingIso_hom_comp_eq_mk eK.inv, Category.assoc,
       PreservesKernel.iso_inv_ι]
@@ -471,10 +471,10 @@ private lemma extendFinitePresentationLocus [QuasiSeparatedSpace X] (F : X.Modul
     have : PreservesFiniteLimits T := Modules.preservesFiniteLimits_restrictFunctor U.ι
     have : IsIso (T.map b) := by
       refine isIso_restrict_of_isIso_app _ _ fun Z => ?_
-      show IsIso (a.app (V.ι ⁻¹ᵁ (U.ι ''ᵁ Z)))
+      change IsIso (a.app (V.ι ⁻¹ᵁ (U.ι ''ᵁ Z)))
       exact isIso_app_of_isIso_restrict a W _
         (Scheme.Hom.preimage_mono _ (Scheme.Opens.ι_image_le U Z))
-    show IsIso (T.map (Limits.pullback.fst η b))
+    change IsIso (T.map (Limits.pullback.fst η b))
     rw [← PreservesPullback.iso_hom_fst T η b]
     infer_instance
   · have : PreservesFiniteLimits R := Modules.preservesFiniteLimits_restrictFunctor V.ι
@@ -536,7 +536,7 @@ private lemma exists_finitePresentation_model [CompactSpace X] [QuasiSeparatedSp
       have h := isFinitePresentation_restrict_sup K W V.1
       have heq : (U ⊔ ⨆ T ∈ insert V S, (T : X.Opens)) = W ⊔ V.1 := by
         rw [Finset.iSup_insert]
-        show U ⊔ ((V : X.Opens) ⊔ ⨆ T ∈ S, (T : X.Opens)) =
+        change U ⊔ ((V : X.Opens) ⊔ ⨆ T ∈ S, (T : X.Opens)) =
           (U ⊔ ⨆ T ∈ S, (T : X.Opens)) ⊔ V.1
         rw [sup_comm (V : X.Opens) (⨆ T ∈ S, (T : X.Opens)), sup_assoc]
       rwa [heq]

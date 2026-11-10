@@ -133,7 +133,7 @@ theorem exists_flat_isProper_finitePresentation_model_of_isAffine
     finitePresentation_overPullbackObj _ Xᵢ hfp, ?_,
     (overPullback_map_terminal_iff @Flat _ Xᵢ).1 hk,
     ⟨e ≪≫ overPullbackObj_shiftIso _ (affineStageCone S) a Xᵢ⟩⟩
-  show IsProper (pullback.snd Xᵢ.hom ((specAdjoinFinsetDiagram Γ(S, ⊤)).map a))
+  change IsProper (pullback.snd Xᵢ.hom ((specAdjoinFinsetDiagram Γ(S, ⊤)).map a))
   infer_instance
 
 /-! ### The affine case -/
@@ -291,8 +291,8 @@ map is invertible by [Stacks, Tag 08IB]. -/
 @[stacks 0B91 "clause (1) in full: perfectness of Rf_*E, and invertibility of the canonical base \
 change map Lg^*Rf_*E --> Rf'_*L(g')^*E of Tag 08HY for every cartesian square, which is what 'its \
 formation commutes with arbitrary base change' means; finite presentation of the \
-proper f is spelled LocallyOfFinitePresentation, the quasi-compactness and quasi-separation it adds \
-being part of properness",
+proper f is spelled LocallyOfFinitePresentation, the quasi-compactness and quasi-separation \
+it adds being part of properness",
   sga "6 IV 3.1.1" "special case"]
 theorem isPerfect_derivedPushforward_and_isIso_derivedBaseChangeMap_of_flat_of_isProper
     {X S : Scheme.{u}} (f : X ⟶ S) [Flat f] [IsProper f] [LocallyOfFinitePresentation f]

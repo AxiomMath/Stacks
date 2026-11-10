@@ -86,8 +86,8 @@ theorem Scheme.Modules.presheafStalk_preservesFiniteLimitsAndColimits
   have : A.Additive := by
     refine ⟨?_⟩
     intro F G a b
-    show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map (a + b).mapPresheaf = _
-    show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+    change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map (a + b).mapPresheaf = _
+    change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       (a.mapPresheaf + b.mapPresheaf) = _
     exact Functor.map_add _
   exact (A.exact_tfae.out 2 4).mp fun D hD =>
@@ -274,13 +274,11 @@ private theorem injective_baseChange_of_universallyInjective
           ((b.restrictScalars R).rTensor R')
             (leftIncludeBaseChangeEquiv R A R' M (c ⊗ₜ m)) := by
       intro c m
-      induction c using TensorProduct.induction_on with
-      | zero => simp
+      induction c using TensorProduct.inductionOn with
       | tmul a r => simp [leftIncludeBaseChangeEquiv]
       | add c₁ c₂ h₁ h₂ => rw [TensorProduct.add_tmul]; simp only [map_add, h₁, h₂]
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c m => exact htmul c m
     | add x y hx hy => simp only [map_add, hx, hy]
   have hinj := hb R'
@@ -342,7 +340,7 @@ private theorem injective_extendScalars_map_of_universallyInjective
     @injective_baseChange_of_universallyInjective R A R' _ _ _ _ _ (M : Type u) (N : Type u)
       _ _ _ _ iM iN hM hN b.hom hb
   let inst : Algebra A (A ⊗[R] R') := (algebraMap A (A ⊗[R] R')).toAlgebra
-  show Function.Injective (b.hom.baseChange (A ⊗[R] R'))
+  change Function.Injective (b.hom.baseChange (A ⊗[R] R'))
   refine injective_baseChange_of_algebra_eq (i := inst) ?_ _ key
   exact Algebra.algebra_ext _ _ fun _ => rfl
 

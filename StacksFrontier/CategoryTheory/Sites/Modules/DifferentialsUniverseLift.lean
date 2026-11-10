@@ -151,13 +151,13 @@ theorem existsUnique_uliftDifferentialsDerivation
   let U := liftedDiffUniversal.{v, v₁, u, u₁} φ.hom
   let e := PresheafOfModules.homEquivOfIsLocallyBijective (uliftDifferentialsUnit.{v} φ) F.isSheaf
   refine ⟨⟨e.symm (U.desc D)⟩, ?_, fun g hg => ?_⟩
-  · show (liftedDiffDerivation.{v₁, u, u₁, v} φ.hom).postcomp
+  · change (liftedDiffDerivation.{v₁, u, u₁, v} φ.hom).postcomp
       (uliftDifferentialsUnit.{v} φ ≫ e.symm (U.desc D)) = D
     rw [show uliftDifferentialsUnit.{v} φ ≫ e.symm (U.desc D) = U.desc D from
       e.apply_symm_apply (U.desc D)]
     exact U.fac D
   · apply _root_.SheafOfModules.hom_ext
-    show g.val = e.symm (U.desc D)
+    change g.val = e.symm (U.desc D)
     apply e.injective
     rw [e.apply_symm_apply]
     apply U.postcomp_injective

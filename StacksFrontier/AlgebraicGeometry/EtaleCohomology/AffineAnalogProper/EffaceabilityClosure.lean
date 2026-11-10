@@ -85,10 +85,11 @@ theorem of_mono {G H : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} (m : G 
 
 /-- **A finite direct sum of effaceable sheaves is effaceable**, when `P` is stable under finite
 direct sums. -/
-theorem biproduct {ι : Type} [Fintype ι] (A : ι → Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
+theorem biproduct {ι : Type} [Finite ι] (A : ι → Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
     (hP : ∀ B : ι → Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}, (∀ k, P (B k)) →
       P (⨁ B))
     (hA : ∀ k, IsEffaceableAlong i P (A k)) : IsEffaceableAlong i P (⨁ A) := by
+  have := Fintype.ofFinite ι
   intro q hq ξ
   let G := etaleAbelianInverseImage.{u, 0} i
   choose B φ hφ hPB hkill using fun k =>

@@ -189,7 +189,7 @@ theorem corrMapG_of_val_eq_graphHom {P Q : (SmoothProjectiveScheme k).FullSubcat
     (G.corrMapG f n x : (G.cohAlg Q).Total) = G.cohPull g x := by
   rw [coe_corrMapG, coe_eq_of_gradeEquiv G n x, cohPull, Functor.cohomologyMap_of]
   congr 1
-  show (G.functorTK.map (corrHom f) n).hom _ = _
+  change (G.functorTK.map (corrHom f) n).hom _ = _
   rw [corrHom_of_val_eq_graphHom g f hf]
 
 /-- **The action of correspondences of a realization**, `c ↦ G(c)`. -/

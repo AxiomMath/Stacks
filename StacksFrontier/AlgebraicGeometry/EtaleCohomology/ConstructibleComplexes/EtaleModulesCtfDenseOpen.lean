@@ -66,7 +66,7 @@ theorem isFiniteProjectiveLocallyConstant_of_jointlySurjective {S : B.Scheme} {�
   choose I V f hcov hc using fun i => hH i (SmallEtale.final B (T i).obj (T i).property)
   let X' : (Σ i, I i) → SmallEtale B S.obj S.property := fun p =>
     ⟨Over.mk ((V p.1 p.2).obj.hom ≫ g p.1), by
-      show Etale (B.inclusion.map ((V p.1 p.2).obj.hom ≫ g p.1))
+      change Etale (B.inclusion.map ((V p.1 p.2).obj.hom ≫ g p.1))
       rw [Functor.map_comp]
       infer_instance⟩
   have hcov' : Sieve.ofArrows X' (fun p => hT.from (X' p)) ∈
@@ -79,7 +79,7 @@ theorem isFiniteProjectiveLocallyConstant_of_jointlySurjective {S : B.Scheme} {�
     obtain ⟨k, c, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hg'
     refine ⟨⟨i, k⟩, B.inclusion.map c.hom.left z, ?_⟩
     rw [SmallEtale.hom_final_left]
-    show (B.inclusion.map ((V i k).obj.hom ≫ g i)).base (B.inclusion.map c.hom.left z) = x
+    change (B.inclusion.map ((V i k).obj.hom ≫ g i)).base (B.inclusion.map c.hom.left z) = x
     have hz' : (B.inclusion.map (V i k).obj.hom).base (B.inclusion.map c.hom.left z) = y := by
       rwa [← SmallEtale.hom_final_left B (f i k)]
     rw [Functor.map_comp, Scheme.Hom.comp_apply, hz', hy]

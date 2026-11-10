@@ -71,16 +71,16 @@ theorem isPullback_π_of_isLimit_of_isPullback {cA : Cone A} (hcA : IsLimit cA) 
         { app := lift
           naturality := fun j k e => by
             refine (Category.id_comp _).trans ((hι k.hom).hom_ext ?_ ?_).symm
-            · show (lift j ≫ O.map e.left) ≫ O.map k.hom = lift k ≫ O.map k.hom
+            · change (lift j ≫ O.map e.left) ≫ O.map k.hom = lift k ≫ O.map k.hom
               rw [Category.assoc, ← O.map_comp, Over.w e, lift_fst, lift_fst]
-            · show (lift j ≫ O.map e.left) ≫ ι.app k.left = lift k ≫ ι.app k.left
+            · change (lift j ≫ O.map e.left) ≫ ι.app k.left = lift k ≫ ι.app k.left
               rw [Category.assoc, ι.naturality, ← Category.assoc, lift_snd, lift_snd,
                 Category.assoc, cA.w] } }
   have hc : IsLimit c := isLimitOfCartesianCone A cA hcA i (O.obj i) (ι.app i)
     (Over.forget i ⋙ O) c (Functor.whiskerLeft (Over.forget i) ι)
     { app := fun j => O.map j.hom
       naturality := fun j k e => by
-        show O.map e.left ≫ O.map k.hom = O.map j.hom ≫ 𝟙 _
+        change O.map e.left ≫ O.map k.hom = O.map j.hom ≫ 𝟙 _
         rw [← O.map_comp, Over.w e, Category.comp_id] }
     (fun j => (hι j.hom).flip) (pullback.fst _ _) (pullback.snd _ _)
     (IsPullback.of_hasPullback _ _) lift_snd lift_fst
@@ -98,7 +98,7 @@ theorem isPullback_π_of_isLimit_of_isPullback {cA : Cone A} (hcA : IsLimit cA) 
     simpa using lift_fst (Over.mk (𝟙 i))
   · rw [Iso.refl_hom, Category.comp_id]
     refine (hcA'.hom_ext fun j => ?_)
-    show pullback.fst _ _ ≫ cA.π.app j.left = (e.hom ≫ u) ≫ cA.π.app j.left
+    change pullback.fst _ _ ≫ cA.π.app j.left = (e.hom ≫ u) ≫ cA.π.app j.left
     rw [Category.assoc, hu, ← Category.assoc, he, lift_snd]
 
 end Cartesian
@@ -304,7 +304,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
           (AU.isAlgebraicSpace _) hTerm _ _
           (isLocallyOfFinitePresentation_of_isEtale B _ hZ (hys_et _))
           (AU.toNoetherianApproximation.isLocallyOfFinitePresentation_obj _))
-    show LocallyOfFiniteType (terminal.from ((𝕋).obj (Ys.obj (Φ.obj a))))
+    change LocallyOfFiniteType (terminal.from ((𝕋).obj (Ys.obj (Φ.obj a))))
     infer_instance
   have : ∀ a, CompactSpace (D₀.obj a) := fun a => hYc (Φ.obj a)
   have : ∀ a, QuasiCompact (terminal.from (D₀.obj a)) := fun a => inferInstance
@@ -318,7 +318,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
   let p₀ : (Functor.const _).obj (Uop : Scheme.{u}) ⟶ D₀ :=
     { app := fun a => eW.inv ≫ (𝕋).map (πY.app (Φ.obj a))
       naturality := fun a b v => by
-        show 𝟙 _ ≫ eW.inv ≫ (𝕋).map (πY.app (Φ.obj b)) =
+        change 𝟙 _ ≫ eW.inv ≫ (𝕋).map (πY.app (Φ.obj b)) =
           (eW.inv ≫ (𝕋).map (πY.app (Φ.obj a))) ≫ (𝕋).map (Ys.map (Φ.map v))
         rw [Category.id_comp, Category.assoc, ← Functor.map_comp, ← πY.naturality,
           Functor.const_obj_map]
@@ -326,7 +326,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
   have hp₀ : IsLimit (Cone.mk (Uop : Scheme.{u}) p₀) :=
     ((Functor.Initial.isLimitWhiskerEquiv Φ _).symm hlimY).ofIsoLimit
       (Cone.ext eW (fun a => by
-        show (𝕋).map (πY.app (Φ.obj a)) = eW.hom ≫ eW.inv ≫ (𝕋).map (πY.app (Φ.obj a))
+        change (𝕋).map (πY.app (Φ.obj a)) = eW.hom ≫ eW.inv ≫ (𝕋).map (πY.app (Φ.obj a))
         rw [Iso.hom_inv_id_assoc]))
   -- Stacks 07RN: the system extends to a system approximating `V`
   let FA := (exists_finiteTypeApproximation D₀ ((𝕋).obj V) Uop p₀ hp₀).some
@@ -353,7 +353,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
   have hjpb : ∀ {k l : Kᵒᵖ} (e : k ⟶ l), IsPullback ((𝕋).map ((ρ ⋙ Ys).map e))
       ((𝕋).map (jmap k)) ((𝕋).map (jmap l)) ((𝕋).map (Vs.map e)) := fun {k l} e => by
     rw [hjmap, hjmap]
-    show IsPullback ((FA.index.monotone.dual.functor ⋙ D₀).map (ι₀.map e)) _ _
+    change IsPullback ((FA.index.monotone.dual.functor ⋙ D₀).map (ι₀.map e)) _ _
       (FA.ambient.map (ι₀.map e))
     refine (FA.transition_isPullback (ι₀.map e)).of_iso (FA.comparison.app _)
       (FA.comparison.app _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
@@ -371,7 +371,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
         { app := jmap
           naturality := fun k l e => (𝕋).map_injective (by
             rw [Functor.map_comp, Functor.map_comp, hjmap, hjmap]
-            show (FA.index.monotone.dual.functor ⋙ D₀).map (ι₀.map e) ≫ _ =
+            change (FA.index.monotone.dual.functor ⋙ D₀).map (ι₀.map e) ≫ _ =
               _ ≫ FA.ambient.map (ι₀.map e)
             rw [← Category.assoc, FA.comparison.inv.naturality, Category.assoc,
               FA.inclusion.naturality, Category.assoc]) }
@@ -431,7 +431,7 @@ theorem nonempty_presentedNoetherianApproximation_of_isOpenSubspace
   have hπYs : ∀ k : Kᵒᵖ, (𝕋).map (πY.app (ρ.obj k)) =
       eW.hom ≫ FA.openCone.app (ι₀.obj k) ≫ FA.comparison.hom.app (ι₀.obj k) := fun k => by
     rw [FA.comparison_compatibility]
-    show _ = eW.hom ≫ eW.inv ≫ _
+    change _ = eW.hom ≫ eW.inv ≫ _
     rw [Iso.hom_inv_id_assoc]
     rfl
   have hπYpb : ∀ k : Kᵒᵖ, IsPullback ((𝕋).map (πY.app (ρ.obj k))) ((𝕋).map jW)

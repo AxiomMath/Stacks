@@ -87,7 +87,7 @@ theorem toScheme_map_spaceBaseOverMap {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k
 /-- The spectrum of an object of `𝒞_Λ`, as an object of the big fppf site, is affine. -/
 theorem isAffine_toScheme_spaceBaseOver (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
     IsAffine ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).obj (spaceBaseOver B hΛ hSpec A)) := by
-  show IsAffine (Spec (.of A))
+  change IsAffine (Spec (.of A))
   infer_instance
 
 /-- A surjection of `𝒞_Λ` induces a thickening of algebraic spaces on spectra. -/
@@ -191,7 +191,7 @@ theorem satisfiesRS_flatAlgebraicSpaceFamilyFunctor :
       (schemeSpace (spaceBaseOver B hΛ hSpec X₂.base)) (Subfunctor.range i.hom) := by
     have : IsNoetherian ((BigFppfOver.toScheme B (Spec (.of Λ)) hΛ).obj
         (spaceBaseOver B hΛ hSpec X₂.base)) := by
-      show IsNoetherian (Spec (.of X₂.base))
+      change IsNoetherian (Spec (.of X₂.base))
       infer_instance
     refine isFiniteOrderThickening_of_atlas B (Spec (.of Λ)) hΛ hi.2
       (spaceBaseOver B hΛ hSpec X₂.base) (yoneda.map (𝟙 _)) ?_ ?_
@@ -365,9 +365,9 @@ theorem satisfiesRS_flatAlgebraicSpaceFamilyFunctor :
     · intro t; exact (hlift' t).choose_spec.1.2
     · intro t m' h₁ h₂; exact (hlift' t).choose_spec.2 m' ⟨h₁, h₂⟩
   · refine ⟨IsLimit.ofIsoLimit hbp.isLimit (PullbackCone.ext (Iso.refl _) ?_ ?_)⟩
-    · show q₁ = 𝟙 _ ≫ q₁
+    · change q₁ = 𝟙 _ ≫ q₁
       simp
-    · show q₂ = 𝟙 _ ≫ q₂
+    · change q₂ = 𝟙 _ ≫ q₂
       simp
 
 /-- **Stacks Project, Tag 0E40**, the in-particular clause. The deformation category of an

@@ -144,7 +144,7 @@ theorem sectionOrd_unitScalarEquiv_symm_comp (c : Γ(X, ⊤)) {n : ℕ} (s : pow
   have h : globalSection X (natTensorPow L n)
       ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm c ≫ s) =
       c • globalSection X (natTensorPow L n) s := by
-    show Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ =
+    change Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ =
       c • Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ s
     rw [Stacks.SectionRingGeometric.globalSection_unitComp, h1]
   rw [h, Γgerm_smul, stalkOrd_smul]

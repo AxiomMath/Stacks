@@ -111,7 +111,7 @@ public theorem affineWeakNormalization_fac
   dsimp [affineWeakNormalizationFromSource, affineWeakNormalizationToBase,
     affineWeakNormalizationAlgebra]
   rw [Category.assoc, ← Spec.map_comp_assoc]
-  show (f ⁻¹ᵁ U).toSpecΓ ≫ Spec.map (f.app U) ≫ hU.isoSpec.inv = _
+  change (f ⁻¹ᵁ U).toSpecΓ ≫ Spec.map (f.app U) ≫ hU.isoSpec.inv = _
   rw [← Category.assoc, Scheme.Opens.toSpecΓ_naturality]
   simp
 
@@ -254,7 +254,7 @@ private lemma relativeWeakNormalization_restrict_mem
     apply RingHom.ext
     intro x
     apply Subtype.ext
-    show b (algebraMap A B x) = (algebraMap A' B') (a x)
+    change b (algebraMap A B x) = (algebraMap A' B') (a x)
     simpa [e, D, RingHom.comp_apply] using
       (congrArg (fun g : A →+* B' => g x) hcompat).symm
   have hIntC : Algebra.IsIntegral A C := algebraMap_isIntegral_iff.mp <|
@@ -293,13 +293,13 @@ private lemma relativeWeakNormalization_restrict_mem
         exact congrArg (fun q : C →+* K => q c) hφψC)
       (fun a' => congrArg (fun q : A' →+* K => q a') hφψ)
       (fun y z hy hz hfy hfz => by
-        show φ ((⟨y, hy⟩ : D) + ⟨z, hz⟩) = ψ ((⟨y, hy⟩ : D) + ⟨z, hz⟩)
+        change φ ((⟨y, hy⟩ : D) + ⟨z, hz⟩) = ψ ((⟨y, hy⟩ : D) + ⟨z, hz⟩)
         calc
           φ ((⟨y, hy⟩ : D) + ⟨z, hz⟩) = φ ⟨y, hy⟩ + φ ⟨z, hz⟩ := map_add _ _ _
           _ = ψ ⟨y, hy⟩ + ψ ⟨z, hz⟩ := by rw [hfy, hfz]
           _ = ψ ((⟨y, hy⟩ : D) + ⟨z, hz⟩) := (map_add _ _ _).symm)
       (fun y z hy hz hfy hfz => by
-        show φ ((⟨y, hy⟩ : D) * ⟨z, hz⟩) = ψ ((⟨y, hy⟩ : D) * ⟨z, hz⟩)
+        change φ ((⟨y, hy⟩ : D) * ⟨z, hz⟩) = ψ ((⟨y, hy⟩ : D) * ⟨z, hz⟩)
         calc
           φ ((⟨y, hy⟩ : D) * ⟨z, hz⟩) = φ ⟨y, hy⟩ * φ ⟨z, hz⟩ := map_mul _ _ _
           _ = ψ ⟨y, hy⟩ * ψ ⟨z, hz⟩ := by rw [hfy, hfz]
@@ -322,7 +322,7 @@ theorem sections_specMap_isDominant
   have : IsDominant (f ∣_ U) := IsZariskiLocalAtTarget.restrict ‹IsDominant f› U
   have : IsDominant ((f ⁻¹ᵁ U).toSpecΓ ≫ Spec.map (f.app U)) := by
     rw [Scheme.Opens.toSpecΓ_naturality]
-    show IsDominant ((f ∣_ U) ≫ hU.isoSpec.hom)
+    change IsDominant ((f ∣_ U) ≫ hU.isoSpec.hom)
     infer_instance
   exact IsDominant.of_comp (f ⁻¹ᵁ U).toSpecΓ (Spec.map (f.app U))
 
@@ -447,7 +447,7 @@ private lemma bijective_algebraMap_relativeWeakNormalization_of_ringEquiv
   · apply a.symm.injective
     apply h.1
     apply Subtype.ext
-    show algebraMap A B (a.symm x) = algebraMap A B (a.symm y)
+    change algebraMap A B (a.symm x) = algebraMap A B (a.symm y)
     apply b.injective
     rw [← hab, ← hab, a.apply_symm_apply, a.apply_symm_apply]
     exact congrArg Subtype.val hxy
@@ -458,7 +458,7 @@ private lemma bijective_algebraMap_relativeWeakNormalization_of_ringEquiv
     obtain ⟨x, hx⟩ := h.2 ⟨b.symm (c : B'), hmem⟩
     have hxv : algebraMap A B x = b.symm (c : B') := congrArg Subtype.val hx
     refine ⟨a x, Subtype.ext ?_⟩
-    show algebraMap A' B' (a x) = (c : B')
+    change algebraMap A' B' (a x) = (c : B')
     rw [hab, hxv, b.apply_symm_apply]
 
 /-- Whether the relative weak normalization of a dominant algebra map is the base ring itself
@@ -485,7 +485,7 @@ private lemma specMap_isDominant_of_ringEquiv
       Arrow.mk (Spec.map (CommRingCat.ofHom (algebraMap A B))) :=
     Arrow.isoMk (Scheme.Spec.mapIso b.toCommRingCatIso.op)
       (Scheme.Spec.mapIso a.toCommRingCatIso.op) (by
-        show Spec.map (CommRingCat.ofHom b.toRingHom) ≫
+        change Spec.map (CommRingCat.ofHom b.toRingHom) ≫
             Spec.map (CommRingCat.ofHom (algebraMap A B)) =
           Spec.map (CommRingCat.ofHom (algebraMap A' B')) ≫
             Spec.map (CommRingCat.ofHom a.toRingHom)
@@ -531,7 +531,7 @@ private lemma localizedSubalgebra_isLocalization
     · intro r
       obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.surj S r
       refine ⟨algebraMap A C a, s, ?_⟩
-      show f r * d s = k (algebraMap A C a)
+      change f r * d s = k (algebraMap A C a)
       simpa [d, k, f, IsLocalization.map_eq, Subalgebra.algebraMap_eq] using
         congrArg f hs
     · intro x y _ _ hx hy
@@ -556,13 +556,13 @@ private lemma localizedSubalgebra_isLocalization
     have hu := (IsLocalization.map_units L (⟨a, ha⟩ : S)).map (algebraMap L H)
     convert hu using 1
     apply Subtype.ext
-    show (algebraMap B LB) (algebraMap A B a) = f (algebraMap A L a)
+    change (algebraMap B LB) (algebraMap A B a) = f (algebraMap A L a)
     simp [f]
   · intro x
     obtain ⟨c, s, hs⟩ := hfractions x.1 x.2
     refine ⟨⟨c, ⟨algebraMap A C s.1, ⟨s.1, s.2, rfl⟩⟩⟩, ?_⟩
     apply Subtype.ext
-    show x.1 * d s = k c
+    change x.1 * d s = k c
     exact hs
   · intro x y hxy
     have hval : algebraMap B LB x.1 = algebraMap B LB y.1 :=
@@ -598,7 +598,7 @@ private lemma relativeWeakNormalization_isLocalization
       b.toRingEquiv.toRingHom.comp (algebraMap L LB) := by
     apply IsLocalization.ringHom_ext S
     ext x
-    show algebraMap A' B' (a (algebraMap A L x)) = b (f (algebraMap A L x))
+    change algebraMap A' B' (a (algebraMap A L x)) = b (f (algebraMap A L x))
     rw [a.commutes, IsLocalization.map_eq, b.commutes]
     rw [← IsScalarTower.algebraMap_apply, ← IsScalarTower.algebraMap_apply]
   have hlocdom : IsDominant (Spec.map (CommRingCat.ofHom (algebraMap L LB))) :=
@@ -620,7 +620,7 @@ private lemma relativeWeakNormalization_isLocalization
     { eHD.trans eDD with
       commutes' := fun c => by
         apply Subtype.ext
-        show b (algebraMap B LB c.1) = (g c : B')
+        change b (algebraMap B LB c.1) = (g c : B')
         rw [AlgEquiv.commutes, hg] }
   exact IsLocalization.isLocalization_of_algEquiv (S.map (algebraMap A C)) e
 
@@ -891,7 +891,7 @@ private lemma opens_toSpecΓ_bijective
     exact (cancel_mono ((Scheme.ΓSpecIso Γ(Y, V)).hom ≫ V.topIso.inv)).mp E
   · intro g
     refine ⟨Spec.map (g.appTop ≫ V.topIso.hom) ≫ T.isoSpec.inv, ?_⟩
-    show (V.toScheme.toSpecΓ ≫ Spec.map V.topIso.inv) ≫
+    change (V.toScheme.toSpecΓ ≫ Spec.map V.topIso.inv) ≫
       (Spec.map (g.appTop ≫ V.topIso.hom) ≫ T.isoSpec.inv) = g
     rw [Category.assoc, ← Spec.map_comp_assoc]
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -922,7 +922,7 @@ private lemma affineChart_existsUnique_desc
       (topologically @IsHomeomorph).universally q hU.isoSpec.hom).mpr hq.1⟩
   have hfac : g₀ ≫ q₀ = Spec.map (f.app U) := by
     apply (opens_toSpecΓ_bijective (f ⁻¹ᵁ U) (Spec A)).1
-    show (f ⁻¹ᵁ U).toSpecΓ ≫ g₀ ≫ q ≫ hU.isoSpec.hom = _
+    change (f ⁻¹ᵁ U).toSpecΓ ≫ g₀ ≫ q ≫ hU.isoSpec.hom = _
     rw [← Category.assoc, hg₀, ← Category.assoc, hg]
     exact (Scheme.Opens.toSpecΓ_naturality f U).symm
   let G : UniversalHomeomorphismFactorization (Spec.map (f.app U)) :=
@@ -930,20 +930,20 @@ private lemma affineChart_existsUnique_desc
   let I := affineWeakNormalizationFactorizationIsInitial A B hdom
   let m := I.to G
   refine ⟨m.hom, ⟨?_, ?_⟩, ?_⟩
-  · show (f ⁻¹ᵁ U).toSpecΓ ≫
+  · change (f ⁻¹ᵁ U).toSpecΓ ≫
       (affineWeakNormalizationFactorization A B hdom).toMiddle ≫ m.hom = g
     rw [m.toMiddle_hom]
     exact hg₀
   · rw [← cancel_mono hU.isoSpec.hom, Category.assoc]
-    show m.hom ≫ G.toBase = _
+    change m.hom ≫ G.toBase = _
     rw [m.hom_toBase]
     simp [affineWeakNormalizationToBase, affineWeakNormalizationFactorization, A, B]
   · rintro n ⟨hn₁, hn₂⟩
     let n' : affineWeakNormalizationFactorization A B hdom ⟶ G :=
       ⟨n, (opens_toSpecΓ_bijective (f ⁻¹ᵁ U) T).1 (by
-          show affineWeakNormalizationFromSource f U ≫ n = _
+          change affineWeakNormalizationFromSource f U ≫ n = _
           exact hn₁.trans hg₀.symm), by
-        show n ≫ q ≫ hU.isoSpec.hom = _
+        change n ≫ q ≫ hU.isoSpec.hom = _
         rw [← Category.assoc, hn₂]
         simp [affineWeakNormalizationToBase, A, B]⟩
     exact congrArg UniversalHomeomorphismFactorization.Hom.hom (I.hom_ext n' m)
@@ -959,7 +959,7 @@ private lemma property_relativeGluing_toBase
     [IsZariskiLocalAtTarget P] (H : ∀ i, P (D.natTrans.app i)) : P D.toBase := by
   apply IsZariskiLocalAtTarget.of_openCover (P := P) 𝒰
   intro i
-  show P (Limits.pullback.snd D.toBase (𝒰.f i))
+  change P (Limits.pullback.snd D.toBase (𝒰.f i))
   exact (MorphismProperty.cancel_left_of_respectsIso P
       (D.isPullback_natTrans_ι_toBase i).flip.isoPullback.hom
       (Limits.pullback.snd D.toBase (𝒰.f i))).mp
@@ -1042,8 +1042,7 @@ private lemma affineChart_global_existsUnique_desc
     let n' := Limits.pullback.lift n (affineWeakNormalizationToBase f hU) hn₂
     have hn' : n' = m := huniq n' ⟨by
       apply Limits.pullback.hom_ext <;>
-        simp [n', g, Category.assoc, hn₁, affineWeakNormalization_fac,
-          Limits.pullback.lift_fst, Limits.pullback.lift_snd],
+        simp [n', g, Category.assoc, hn₁, affineWeakNormalization_fac],
       Limits.pullback.lift_snd _ _ _⟩
     simpa [n', Limits.pullback.lift_fst] using
       congrArg (fun k => k ≫ Limits.pullback.fst T.toBase U.ι) hn'

@@ -234,7 +234,7 @@ theorem isSheafFor_functorPullback_of_isFibredOneMorphism
   have amalg : ∀ (t' : (u.op ⋙ G).obj (Opposite.op X')),
       x.IsAmalgamation t' → y.IsAmalgamation t' := by
     intro t' ht' V h hh
-    show G.map h.op t' = G.map (toCartLift p u hu h).op (x _ (lift_mem h hh))
+    change G.map h.op t' = G.map (toCartLift p u hu h).op (x _ (lift_mem h hh))
     calc G.map h.op t'
         = G.map (toCartLift p u hu h ≫
             u.map (cartLift p u (X' := X') (p.map h))).op t' := by rw [toCartLift_comp]
@@ -261,9 +261,9 @@ theorem isSheafFor_functorPullback_of_isFibredOneMorphism
     exact toCartLift_uniq p u hu (u.map g) (u.map χ)
       (isHomLift_map_of_comp_eq (q := p) rfl (𝟙 _) χ)
       ((u.map_comp χ _).symm.trans (congrArg u.map hχ))
-  show G.map (u.map g).op t = x g hg
+  change G.map (u.map g).op t = x g hg
   rw [ht _ hug]
-  show G.map (toCartLift p u hu (u.map g)).op (x _ (lift_mem (u.map g) hug)) = x g hg
+  change G.map (toCartLift p u hu (u.map g)).op (x _ (lift_mem (u.map g) hug)) = x g hg
   rw [← hid]
   exact hcompat
 
@@ -293,7 +293,7 @@ theorem IsFibredOneMorphism.isContinuous_inheritedTopology (J : GrothendieckTopo
   have hu : (u ⋙ p).IsFibredOneMorphism p u := ⟨rfl, hcart⟩
   constructor
   intro G
-  show Presieve.IsSheaf ((u ⋙ p).inheritedPrecoverage J.toPrecoverage).toGrothendieck
+  change Presieve.IsSheaf ((u ⋙ p).inheritedPrecoverage J.toPrecoverage).toGrothendieck
     (u.op ⋙ G.obj)
   rw [((u ⋙ p).inheritedPrecoverage J.toPrecoverage).isSheaf_toGrothendieck_iff]
   intro X' Y' f R hR
@@ -375,7 +375,7 @@ theorem IsFibredOneMorphism.isCocontinuous_inheritedTopology (J : GrothendieckTo
       (Precoverage.generate_mem_toGrothendieck hR')
     rw [Sieve.generate_le_iff]
     intro W' e he
-    show (Sieve.generate R).arrows (u.map e ≫ m)
+    change (Sieve.generate R).arrows (u.map e ≫ m)
     rw [generate_arrows_map_iff p R hcartR (u.map e ≫ m), p.map_comp]
     exact he.1
   | top V => simp
@@ -393,7 +393,7 @@ theorem IsFibredOneMorphism.isCocontinuous_inheritedTopology (J : GrothendieckTo
     have hsieve : (R.pullback (u.map g ≫ m)).functorPullback u =
         ((R.pullback m).functorPullback u).pullback g := by
       refine Sieve.ext fun W' h ↦ ?_
-      show R.arrows (u.map h ≫ u.map g ≫ m) ↔ R.arrows (u.map (h ≫ g) ≫ m)
+      change R.arrows (u.map h ≫ u.map g ≫ m) ↔ R.arrows (u.map (h ≫ g) ≫ m)
       rw [u.map_comp, Category.assoc]
     rw [← hsieve]
     exact key

@@ -184,7 +184,7 @@ theorem capTarget_smoothGysinClass_blowupHom :
   refine h.trans ?_
   have hsE : pullback.fst (Stacks.Blowup.blowUpToBase i.hom.left.ker) i.hom.left ≫
       Stacks.Blowup.blowUpToBase i.hom.left.ker ≫ X.obj.hom = (exceptionalObj i).obj.hom := by
-    show _ = pullback.snd _ _ ≫ Z.obj.hom
+    change _ = pullback.snd _ _ ≫ Z.obj.hom
     rw [pullback.condition_assoc, Over.w i.hom]
   have : LocallyOfFiniteType
       (X := Limits.pullback (Stacks.Blowup.blowUpToBase i.hom.left.ker) i.hom.left)

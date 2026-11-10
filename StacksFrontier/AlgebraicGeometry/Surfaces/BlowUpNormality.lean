@@ -174,7 +174,7 @@ public theorem exists_blowUpAffineChart_eq {ι : Type v} (U : ι → X.affineOpe
   rw [← blownUpAffine_chart_cover I (U i)] at hx
   obtain ⟨a, z, hz⟩ := Set.mem_iUnion.mp hx
   refine ⟨i, a, (affineBlowupStandardOpenIso I (U i) a).inv.base z, ?_⟩
-  show ((affineBlowupStandardOpenIso I (U i) a).hom ≫
+  change ((affineBlowupStandardOpenIso I (U i) a).hom ≫
     (Proj.basicOpen ((reesSituation I).sectionRingGrading (U i).1)
       (reesDegreeOne I (U i) a).1).ι ≫
     Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) (U i)).base _ = x

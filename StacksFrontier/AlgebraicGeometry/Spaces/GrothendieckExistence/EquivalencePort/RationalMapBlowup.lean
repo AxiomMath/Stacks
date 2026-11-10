@@ -138,7 +138,7 @@ theorem C1573.exists_isBlowupAlong_comp_of_rationalMap (X : AlgebraicSpaces B S 
       (pullback.snd (schemeSpaceMap π) (schemeSpaceMap pT)) := by
     refine IsBlowupAlong.of_isPullback_of_isFlat hQ.flip (isFlat_of_isEtale B S hS hfstet)
       (preimageClosedSubspace τ' Z) _ ?_ hπ
-    show Z.1.preimage (yoneda.map tV ≫ φ) = Z.1.preimage (yoneda.map pT ≫ τ)
+    change Z.1.preimage (yoneda.map tV ≫ φ) = Z.1.preimage (yoneda.map pT ≫ τ)
     rw [hsq.w]
   have hVV := isBlowupAlong_comp_of_centreSheaf U₀ I₀ g₀ hU hU' hIle hIU hg hgU tV c hct hcg
     (preimageClosedSubspace φ' Z) hZ _ hQV

@@ -207,7 +207,7 @@ theorem isIso_σ (e : ℕ) : IsIso (d.σ e) := by
       IsIso (((ObjectProperty.ι _).map ((baseCompletion X I).map σ')).app n) := by
     intro n
     obtain ⟨n⟩ := n
-    show IsIso (idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 _ (n + 1) (d.σ e))
+    change IsIso (idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 _ (n + 1) (d.σ e))
     rw [← smallEtaleAdicQuotientMapOfHom_eq, mapOfHom_σ]
     exact (adicQuotientCommIso B (Spec (.of A)) hA X.1 X.2 (baseIdealSubmodule X.1 X.2 I) K (e + 1)
       (n + 1) (d.G (e + 1)).obj ≪≫

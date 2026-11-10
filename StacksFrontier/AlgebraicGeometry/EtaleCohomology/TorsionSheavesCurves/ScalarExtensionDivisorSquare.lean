@@ -33,7 +33,7 @@ universe u v
 namespace Stacks.EtaleCohomology
 
 variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
-  [IsCurve k g] [Smooth g] (k' : Type u) [Field k'] [Algebra k k'] [IsAlgClosed k']
+  [IsCurve k g] [Smooth g] (k' : Type u) [Field k'] [Algebra k k']
 
 /-! ### Instances on the scalar extension -/
 
@@ -70,6 +70,7 @@ local instance isLocallyNoetherian_etale_left' {Y : Scheme.{u}} [IsLocallyNoethe
     (U : Y.Etale) : IsLocallyNoetherian U.left :=
   isLocallyNoetherian_etale_left Y U
 
+omit [IsAlgClosed k] [Smooth g] in
 include g in
 /-- The generic point of a curve is not closed. -/
 theorem genericPoint_ne_of_isClosed {x : X} (hx : IsClosed ({x} : Set X)) :
@@ -85,7 +86,7 @@ theorem genericPoint_ne_of_isClosed {x : X} (hx : IsClosed ({x} : Set X)) :
       (Subsingleton.elim z (A.isIrreducible.nonempty.some)) ▸ A.isIrreducible.nonempty.some_mem
     have hB : B.carrier = Set.univ := Set.eq_univ_of_forall fun z =>
       (Subsingleton.elim z (B.isIrreducible.nonempty.some)) ▸ B.isIrreducible.nonempty.some_mem
-    show y ∈ A.carrier ↔ y ∈ B.carrier
+    change y ∈ A.carrier ↔ y ∈ B.carrier
     rw [hA, hB]⟩
   have : Unique (TopologicalSpace.IrreducibleCloseds X) :=
     { default := ⟨Set.univ, IrreducibleSpace.isIrreducible_univ _, isClosed_univ⟩,
@@ -98,6 +99,7 @@ theorem genericPoint_ne_of_isClosed {x : X} (hx : IsClosed ({x} : Set X)) :
 
 variable [IsNormal X] [IsLocallyNoetherian X]
 
+omit [Smooth g] [IsNormal X] [IsLocallyNoetherian X] in
 /-- The generic point square of the projection `X_{k'} ⟶ X`. -/
 theorem genericPointSquare_scalarExtension :
     genericPointInclusion (scalarExtension k k' g) ≫ scalarExtensionFst k k' g =
@@ -112,6 +114,7 @@ abbrev genericFibreScalarExtensionMap (U : X.Etale) :
       pullback U.hom (genericPointInclusion X) :=
   smallEtaleBaseChangeSquareLeft (genericPointSquare_scalarExtension g k') U ≫ pullback.fst _ _
 
+omit [Smooth g] [IsNormal X] [IsLocallyNoetherian X] in
 /-- The restriction map of generic fibres, followed by the projection to `U`, is the projection
 `(U ×_X X') ×_{X'} η' ⟶ U ×_X X'` followed by the projection to `U`. -/
 theorem genericFibreScalarExtensionMap_fst (U : X.Etale) :
@@ -306,6 +309,7 @@ def closedPointDivisorDirectImageDirectSum (U : X.Etale) :
     (DirectSum.of _ (scalarExtensionClosedPoint g k' x)).comp
       (closedPointDivisorDirectImageSummandMap g k' U x)
 
+omit [IsCurve k g] [IsNormal X] [IsLocallyNoetherian X] in
 /-- **The third component on sections is the summandwise map.** -/
 theorem closedPointDivisorDirectImageMap_app_sheafSectionOfDirectSum (U : X.Etale)
     (f : DirectSum ↥(closedPoints X)
@@ -427,7 +431,7 @@ theorem closedPointDivisorDirectImageDirectSum_closedPointDivisorSections (U : X
   · unfold DFinsupp.sum
     rw [Finset.sum_eq_zero fun x _ => by
       beta_reduce
-      exact DirectSum.of_eq_of_ne _ _ _ (fun h => hx' ⟨x, by first | exact h | exact h.symm⟩)]
+      exact DirectSum.of_eq_of_ne _ _ _ (fun h => hx' ⟨x, by first | exact h.symm⟩)]
     refine (integerSkyscraperDivisorOfPoint_scalarExtension_eq_zero g k' U x'.1 ?_ a).symm
     by_contra hne
     have hcl := Stacks.AlgebraicGeometry.AmpleDimensionOne.isClosed_singleton_of_ne_genericPoint X
@@ -452,7 +456,7 @@ theorem divisorSequenceSecondMap_app_of_noetherianSpace {Y : Scheme.{u}} [IsInte
     isLocallyNoetherian_etale_left Y _
   have : NoetherianSpace ((Scheme.AffineEtale.Spec Y).obj W).left :=
     noetherianSpace_affineEtale_left Y W
-  show ((closedPointDivisorSheaf.{u, v} Y).obj.map f.op).hom _ =
+  change ((closedPointDivisorSheaf.{u, v} Y).obj.map f.op).hom _ =
     ((closedPointDivisorSheaf.{u, v} Y).obj.map f.op).hom _
   rw [← ConcreteCategory.comp_apply, ← (divisorSequenceSecondMap.{u, v} Y).hom.naturality,
     ConcreteCategory.comp_apply]
@@ -463,7 +467,7 @@ theorem divisorSequenceSecondMap_app_of_noetherianSpace {Y : Scheme.{u}} [IsInte
     (genericPointDirectImage_multiplicativeSheaf_map_down.{u, v} Y f z)).trans ?_
   exact (closedPointDivisorSheafSection_map.{u, v} f (Additive.toMul z.down)).symm
 
-omit [IsNormal X] [IsLocallyNoetherian X] in
+omit [IsNormal X] [IsLocallyNoetherian X] [Smooth g] in
 /-- **The base change to `X_{k'}` of a quasi-compact étale `X`-scheme has a Noetherian space.** -/
 theorem noetherianSpace_smallEtaleBaseChange_scalarExtension (U : X.Etale) [CompactSpace U.left] :
     NoetherianSpace ((smallEtaleBaseChange (scalarExtensionFst k k' g)).obj U).left := by

@@ -168,7 +168,7 @@ theorem existsUnique_globalLiftsOverBaseVAdd_eq (ℓ₀ ℓ₁ ℓ₂ : globalLi
   obtain ⟨κ₁, hκ₁, -⟩ := existsUnique_globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ ℓ₁
   obtain ⟨κ₂, hκ₂, u₂⟩ := existsUnique_globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ ℓ₂
   refine ⟨κ₂ - κ₁, ?_, fun η hη => ?_⟩
-  · show globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ (κ₂ - κ₁) ℓ₁ = ℓ₂
+  · change globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ (κ₂ - κ₁) ℓ₁ = ℓ₂
     rw [← hκ₁, ← globalLiftsOverBaseVAdd_add, sub_add_cancel]
     exact hκ₂
   · replace hη : globalLiftsOverBaseVAdd f pX pY hf hm ℓ₀ η ℓ₁ = ℓ₂ := hη

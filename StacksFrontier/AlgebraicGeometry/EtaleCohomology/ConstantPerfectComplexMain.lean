@@ -101,7 +101,7 @@ lemma ab5OfSize_moduleCat (Γ : Type r) [Ring Γ] [Small.{m} Γ] :
   have : PreservesFilteredColimits (forget (ModuleCat.{m} Γ)) := by
     let e := ModuleCat.restrictScalarsEquivalenceOfRingEquiv
       (Shrink.ringEquiv Γ : Shrink.{m} Γ ≃+* Γ)
-    show PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} Γ)))
+    change PreservesFilteredColimits (e.functor ⋙ forget (ModuleCat.{m} (Shrink.{m} Γ)))
     infer_instance
   ⟨fun I _ _ => HasExactColimitsOfShape.domain_of_functor I (forget (ModuleCat.{m} Γ))⟩
 
@@ -142,7 +142,7 @@ lemma overPullback_preservesFiniteLimits {C : Type c} [Category.{v} C]
     [∀ W : C, HasSheafify (J.over W) A] (W : C) :
     PreservesFiniteLimits (J.overPullback A W) := by
   have : PreservesFiniteLimits (J.overPullback A W ⋙ sheafToPresheaf (J.over W) A) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J A ⋙ (Functor.whiskeringLeft _ _ _).obj (Over.forget W).op)
     infer_instance
   exact preservesFiniteLimits_of_reflects_of_preserves _ (sheafToPresheaf (J.over W) A)

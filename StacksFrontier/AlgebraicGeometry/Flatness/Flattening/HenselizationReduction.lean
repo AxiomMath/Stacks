@@ -86,14 +86,12 @@ theorem injective_rTensor_tensorProduct_iff (f : X →ₗ[S] Y) (Q : Type*) [Add
   have key : ⇑(AlgebraTensorModule.cancelBaseChange R S S Y Q) ∘ ⇑(f.rTensor (S ⊗[R] Q)) =
       ⇑((f.restrictScalars R).rTensor Q) ∘ ⇑(AlgebraTensorModule.cancelBaseChange R S S X Q) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb =>
       simp only [Function.comp_apply, map_add] at ha hb ⊢
       rw [ha, hb]
     | tmul x w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb =>
         simp only [Function.comp_apply, tmul_add, map_add] at ha hb ⊢
         rw [ha, hb]
@@ -122,22 +120,19 @@ theorem injective_rTensor_baseChange_iff [Module.FaithfullyFlat S S'] (u : N →
       ⇑((AlgebraTensorModule.rTensor R Q u).lTensor S') ∘
         ⇑(AlgebraTensorModule.assoc R S S' S' N Q) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb =>
       simp only [Function.comp_apply, map_add] at ha hb ⊢
       rw [ha, hb]
     | tmul x q =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add a b ha hb =>
         simp only [Function.comp_apply, add_tmul, map_add] at ha hb ⊢
         rw [ha, hb]
       | tmul s n => simp
   have hfun : ⇑(AlgebraTensorModule.rTensor R Q u) = ⇑((u.restrictScalars R).rTensor Q) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, ha, hb]
     | tmul n q => simp
   rw [← EquivLike.comp_injective _ (AlgebraTensorModule.assoc R S S' S' M Q), key,
@@ -243,7 +238,7 @@ theorem conclusions_of_henselian_cases
       commutes' := fun a => by
         have ha : residue Ah (algebraMap A Ah a) = e (residue A a) :=
           (ResidueField.map_residue (algebraMap A Ah) a).symm
-        show (ResidueField.map (algebraMap A B)) (e.symm (residue Ah (algebraMap A Ah a))) = _
+        change (ResidueField.map (algebraMap A B)) (e.symm (residue Ah (algebraMap A Ah a))) = _
         rw [ha, RingEquiv.symm_apply_apply, ResidueField.map_residue,
           IsScalarTower.algebraMap_apply A B (ResidueField B)]
         rfl }
@@ -255,14 +250,14 @@ theorem conclusions_of_henselian_cases
   let B' := Localization.AtPrime q
   have hqB : q.comap (algebraMap B T) = maximalIdeal B := by
     ext b
-    show φ (1 ⊗ₜ b) = 0 ↔ _
+    change φ (1 ⊗ₜ b) = 0 ↔ _
     rw [hφ, map_one, one_mul, ← residue_eq_zero_iff]
     rfl
   have hqAh : q.comap (algebraMap Ah T) = maximalIdeal Ah := by
     ext a
-    show φ (a ⊗ₜ 1) = 0 ↔ _
+    change φ (a ⊗ₜ 1) = 0 ↔ _
     rw [hφ, map_one, mul_one, ← residue_eq_zero_iff]
-    show (ResidueField.map (algebraMap A B)) (e.symm (residue Ah a)) = 0 ↔ _
+    change (ResidueField.map (algebraMap A B)) (e.symm (residue Ah a)) = 0 ↔ _
     rw [map_eq_zero_iff _ (ResidueField.map (algebraMap A B)).injective,
       map_eq_zero_iff _ e.symm.injective]
   have hB' : (maximalIdeal B').comap (algebraMap T B') = q :=

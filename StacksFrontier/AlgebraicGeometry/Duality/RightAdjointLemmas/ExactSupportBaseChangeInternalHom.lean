@@ -128,8 +128,7 @@ theorem pullbackUnitRightUnitor_naturality (g : Z' ⟶ Z)
     (Functor.uncurry.obj (derivedTensorProductFunctor Z'.toSheafedSpace.sheaf)).map
         (x ×ₘ 𝟙 ((derivedPullback g.toLRSHom.toShHom).obj (unitObject Z.toSheafedSpace))) ≫
         (pullbackUnitRightUnitor g B').hom = (pullbackUnitRightUnitor g B).hom ≫ x := by
-  simp only [pullbackUnitRightUnitor, Iso.trans_hom, Functor.mapIso_hom, Iso.prod_hom,
-    Iso.refl_hom]
+  simp only [pullbackUnitRightUnitor]
   exact unitor_comp_naturality _
     (Stacks.RingedSpace.derivedPullbackSingleUnitIso g.toLRSHom.toShHom).hom
     (fun B => (rightUnitor B).hom)

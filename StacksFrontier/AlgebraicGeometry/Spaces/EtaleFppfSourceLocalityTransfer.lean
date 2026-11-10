@@ -328,7 +328,7 @@ theorem isLocalAtSource_of_schemes_of_coveringTransfer
   · have hmem : E.presieve₀ (E.f i) := ⟨i⟩
     obtain ⟨j, hobj, hindex⟩ := Presieve.ofArrows_surj gi (E.f i) (by
       simpa only [hpres] using hmem)
-    show Q (E.f i ≫ f)
+    change Q (E.f i ≫ f)
     rw [hindex]
     exact MorphismProperty.RespectsIso.precomp Q (eqToHom hobj.symm) (gi j ≫ f)
       (holdsOnEveryEtaleChart_comp_of_coveringTransfer B S hS τ K hyoneda hbaseChange
@@ -340,7 +340,7 @@ theorem isLocalAtSource_of_schemes_of_coveringTransfer
       exact ⟨i⟩
     obtain ⟨j, hobj, hgi⟩ := Presieve.ofArrows_surj E.f (gi i) (by
       simpa only [hpres] using hmem)
-    show Q (gi i ≫ f)
+    change Q (gi i ≫ f)
     rw [hgi]
     exact MorphismProperty.RespectsIso.precomp Q (eqToHom hobj.symm) (E.f j ≫ f) (hall j)
 

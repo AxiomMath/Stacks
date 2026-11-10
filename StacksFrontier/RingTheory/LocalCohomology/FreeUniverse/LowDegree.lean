@@ -73,7 +73,7 @@ theorem cechSectionsIsoFree_naturality {M N : ModuleCat.{v} R} (g : M ⟶ N)
         ((cechComplementFunctorShrink.{v} f).map g) x) =
       (associatedAbPresheafMap g).app
         (op ((complementZeroLocus R I).ι ''ᵁ ⊤)) (cechSectionsIsoFree.{v} f I hIf M x) := by
-  show kerCechDOneEquivComplementGlobalSections I N f hIf
+  change kerCechDOneEquivComplementGlobalSections I N f hIf
       (cechComplementHomologyZeroEquivKerFree.{v} f N
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
           ((cechComplementFunctorShrink.{v} f).map g) x)) = _
@@ -90,7 +90,7 @@ theorem cechSectionsIsoFree_restriction (M : ModuleCat.{v} R) (m : M) :
               (ModuleCat.{v} R) 0).inv.app M m)) =
       ⟨fun x ↦ LocalizedModule.mk m (1 : x.1.asIdeal.primeCompl),
         fun x ↦ ⟨_, x.2, 𝟙 _, m, 1, fun y ↦ ⟨by simp [Ideal.IsPrime.one_notMem], rfl⟩⟩⟩ := by
-  show kerCechDOneEquivComplementGlobalSections I M f hIf
+  change kerCechDOneEquivComplementGlobalSections I M f hIf
       (cechComplementHomologyZeroEquivKerFree.{v} f M
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
           ((cechRestrictionShrink.{v} f).app M)

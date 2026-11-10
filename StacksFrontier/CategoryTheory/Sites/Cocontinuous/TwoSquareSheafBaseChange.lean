@@ -72,10 +72,10 @@ def presheafInverseImage :
     TwoSquare ((whiskeringLeft _ _ A).obj B.op) ((whiskeringLeft _ _ A).obj R.op)
       ((whiskeringLeft _ _ A).obj L.op) ((whiskeringLeft _ _ A).obj T.op) :=
   TwoSquare.mk _ _ _ _
-    { app := fun P => Functor.whiskerRight (NatTrans.op w.natTrans) P
+    { app := fun P => Functor.whiskerRight (NatTrans.op w) P
       naturality := fun P P' φ => by
         ext X
-        exact (φ.naturality (w.natTrans.app X.unop).op).symm }
+        exact (φ.naturality (w.app X.unop).op).symm }
 
 /-- **The base change of right Kan extensions of the opposite square is a mate**: it is the mate,
 under the right Kan extension adjunctions of `R.op` and `L.op`, of the 2-cell of restrictions
@@ -83,7 +83,7 @@ under the right Kan extension adjunctions of `R.op` and `L.op`, of the 2-cell of
 theorem mateEquiv_presheafInverseImage [∀ F : C₁ᵒᵖ ⥤ A, L.op.HasRightKanExtension F]
     [∀ F : C₂ᵒᵖ ⥤ A, R.op.HasRightKanExtension F] :
     (mateEquiv (R.op.ranAdjunction A) (L.op.ranAdjunction A)
-      (w.presheafInverseImage A)).natTrans = w.op.ranBaseChange := by
+      (w.presheafInverseImage A)) = w.op.ranBaseChange := by
   refine NatTrans.ext (funext fun F => ?_)
   rw [TwoSquare.ranBaseChange_app]
   refine ((L.op.ranAdjunction A).homEquiv _ _).symm.injective ?_
@@ -107,10 +107,10 @@ def sheafInverseImage :
     TwoSquare (B.sheafPushforwardContinuous A J₃ J₄) (R.sheafPushforwardContinuous A J₂ J₄)
       (L.sheafPushforwardContinuous A J₁ J₃) (T.sheafPushforwardContinuous A J₁ J₂) :=
   TwoSquare.mk _ _ _ _
-    { app := fun F => ⟨Functor.whiskerRight (NatTrans.op w.natTrans) F.obj⟩
+    { app := fun F => ⟨Functor.whiskerRight (NatTrans.op w) F.obj⟩
       naturality := fun F F' φ => by
         ext X
-        exact (φ.hom.naturality (w.natTrans.app X.unop).op).symm }
+        exact (φ.hom.naturality (w.app X.unop).op).symm }
 
 end InverseImage
 
@@ -128,7 +128,7 @@ noncomputable def sheafBaseChange :
     R.sheafPushforwardCocontinuous A J₂ J₄ ⋙ B.sheafPushforwardContinuous A J₃ J₄ ⟶
       T.sheafPushforwardContinuous A J₁ J₂ ⋙ L.sheafPushforwardCocontinuous A J₁ J₃ :=
   (mateEquiv (R.sheafAdjunctionCocontinuous A J₂ J₄) (L.sheafAdjunctionCocontinuous A J₁ J₃)
-    (w.sheafInverseImage A J₁ J₂ J₃ J₄)).natTrans
+    (w.sheafInverseImage A J₁ J₂ J₃ J₄))
 
 /-- **The base change map on underlying presheaves.** The underlying transformation of presheaves
 of the base change map at a sheaf `F` is the base change of right Kan extensions of the opposite
@@ -140,7 +140,7 @@ theorem sheafBaseChange_app_hom (F : Sheaf J₂ A) :
       ((R.sheafAdjunctionCocontinuous A J₂ J₄).counit.app F) =
         ⟨((whiskeringLeft _ _ A).obj T.op).map ((R.op.ranAdjunction A).counit.app F.obj)⟩ := by
     ext1
-    show Functor.whiskerLeft T.op ((R.sheafAdjunctionCocontinuous A J₂ J₄).counit.app F).hom = _
+    change Functor.whiskerLeft T.op ((R.sheafAdjunctionCocontinuous A J₂ J₄).counit.app F).hom = _
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom]
     rfl
   simp only [sheafBaseChange, mateEquiv_apply, NatTrans.comp_app, Functor.whiskerLeft_app,

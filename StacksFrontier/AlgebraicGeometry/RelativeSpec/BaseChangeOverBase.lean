@@ -131,7 +131,7 @@ theorem pushforwardAlgebraMap_overRelativeSpecIso_hom {X : Scheme.{u}} (f : X �
     pushforwardAlgebraMap (overRelativeSpecIso f).hom =
       (pushforwardAlgebraIso (pushforwardAlgebra f)).hom := by
   let := isQuasicoherent_pushforwardAlgebra f
-  show (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
+  change (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
       ((affineOverRelativeSpecIso f).hom).op) = _
   exact map_map_preimage_preimage _
 
@@ -142,7 +142,7 @@ theorem pushforwardAlgebraMap_overRelativeSpecIso_inv {X : Scheme.{u}} (f : X �
     pushforwardAlgebraMap (overRelativeSpecIso f).inv =
       (pushforwardAlgebraIso (pushforwardAlgebra f)).inv := by
   let := isQuasicoherent_pushforwardAlgebra f
-  show (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
+  change (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
       ((affineOverRelativeSpecIso f).inv).op) = _
   exact map_map_preimage_preimage _
 
@@ -157,7 +157,7 @@ universal isomorphisms. -/
 theorem pushforwardAlgebraMap_relativeSpecOverIso_hom :
     pushforwardAlgebraMap (relativeSpecOverIso e).hom =
       (pushforwardAlgebraIso A').hom ≫ e.inv ≫ (pushforwardAlgebraIso A).inv := by
-  show (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
+  change (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
       ((relativeSpecAffineOverIso e).hom).op) = _
   exact map_map_preimage_preimage _
 
@@ -165,7 +165,7 @@ theorem pushforwardAlgebraMap_relativeSpecOverIso_hom :
 theorem pushforwardAlgebraMap_relativeSpecOverIso_inv :
     pushforwardAlgebraMap (relativeSpecOverIso e).inv =
       (pushforwardAlgebraIso A).hom ≫ e.hom ≫ (pushforwardAlgebraIso A').inv := by
-  show (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
+  change (IsQuasicoherentAlgebra S).ι.map ((affineQuasicoherentPushforwardFunctor S).map
       ((relativeSpecAffineOverIso e).inv).op) = _
   exact (map_map_preimage_preimage _).trans (Category.assoc _ _ _)
 

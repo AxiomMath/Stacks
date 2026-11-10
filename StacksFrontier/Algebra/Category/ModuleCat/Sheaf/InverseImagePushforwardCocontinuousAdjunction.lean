@@ -148,7 +148,7 @@ theorem isIso_counit_inverseImagePushforwardCocontinuousAdjunction :
       IsIso ((pushforward₀RanPushforwardAdjunction.{v} w OY.obj).counit.app P) := fun P ↦ by
     have : IsIso ((PresheafOfModules.toPresheaf _).map
         ((pushforward₀RanPushforwardAdjunction.{v} w OY.obj).counit.app P)) := by
-      show IsIso (w.op.ranCounit.app P.presheaf)
+      change IsIso (w.op.ranCounit.app P.presheaf)
       infer_instance
     exact isIso_of_reflects_iso _ (PresheafOfModules.toPresheaf _)
   have : ∀ N, IsIso ((inverseImagePushforwardCocontinuousTautologicalAdjunction (JX := JX) w

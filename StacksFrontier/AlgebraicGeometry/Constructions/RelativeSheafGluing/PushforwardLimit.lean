@@ -55,7 +55,7 @@ noncomputable def transRestrict {i j : 𝒰.I₀} (hij : i ⟶ j) :
 
 omit [Small.{u} 𝒰.I₀] [Quiver.IsThin 𝒰.I₀] in
 private lemma isIso_transRestrict {i j : 𝒰.I₀} (hij : i ⟶ j) : IsIso (D.transRestrict hij) := by
-  show IsIso ((Scheme.Modules.restrictFunctorIsoPullback (d.functor.map hij)).hom.app (D.obj j) ≫
+  change IsIso ((Scheme.Modules.restrictFunctorIsoPullback (d.functor.map hij)).hom.app (D.obj j) ≫
     (D.transitionIso hij).hom)
   infer_instance
 
@@ -70,7 +70,7 @@ omit [Small.{u} 𝒰.I₀] [Quiver.IsThin 𝒰.I₀] in
 private lemma isIso_transSec {i j : 𝒰.I₀} (hij : i ⟶ j) (V : (d.functor.obj i).Opens) :
     IsIso (D.transSec hij V) := by
   have := D.isIso_transRestrict hij
-  show IsIso ((D.transRestrict hij).app V)
+  change IsIso ((D.transRestrict hij).app V)
   infer_instance
 
 omit [Small.{u} 𝒰.I₀] [Quiver.IsThin 𝒰.I₀] in
@@ -98,7 +98,7 @@ private lemma transSec_comp {i j k : 𝒰.I₀} (hij : i ⟶ j) (hjk : j ⟶ k)
   have h : D.transSec (hij ≫ hjk) V = _ :=
     congrArg (fun t => Scheme.Modules.Hom.app t V) hc
   refine h.trans ?_
-  show (D.obj k).presheaf.map _ ≫ (D.obj k).presheaf.map _ ≫
+  change (D.obj k).presheaf.map _ ≫ (D.obj k).presheaf.map _ ≫
     D.transSec hjk (d.functor.map hij ''ᵁ V) ≫ D.transSec hij V = _
   rw [← Category.assoc, ← CategoryTheory.Functor.map_comp,
     Subsingleton.elim (_ ≫ _) ((homOfLE hle).op)]
@@ -128,7 +128,7 @@ private lemma preimage_le_iSup_image {i j : 𝒰.I₀} {W : d.glued.Opens}
   obtain ⟨k, fi, fj, z, hzi, hzj⟩ :=
     (Scheme.IsLocallyDirected.ι_eq_ι_iff (F := d.functor)).mp hxi
   refine TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨k, fi, fj⟩, z, ?_, hzj⟩
-  show colimit.ι d.functor k z ∈ W
+  change colimit.ι d.functor k z ∈ W
   rw [← colimit.w d.functor fj, Scheme.Hom.comp_apply, hzj]
   exact hy
 
@@ -542,7 +542,7 @@ private lemma pic_inj (hW : W ≤ (colimit.ι d.functor i).opensRange)
     (isLimitOfPreserves (secFun d.glued W) (limit.isLimit D.pushFunctor)) x y ?_
   intro a
   obtain ⟨b, rfl⟩ : ∃ b, a = op b := ⟨a.unop, rfl⟩
-  show D.pic b W x = D.pic b W y
+  change D.pic b W x = D.pic b W y
   refine D.eq_of_restrict_eq_pieces hW fun p => ?_
   refine D.transSec_inj p.2.2 (colimit.ι d.functor p.1 ⁻¹ᵁ W) ?_
   rw [pic_compat, pic_compat, ← D.pic_compat p.2.1 W x, ← D.pic_compat p.2.1 W y, h]
@@ -632,7 +632,7 @@ lemma chartProj_app (i : 𝒰.I₀) (V : (d.functor.obj i).Opens) :
       D.pic i (colimit.ι d.functor i ''ᵁ V) ≫
         (D.obj i).presheaf.map
           (homOfLE (Scheme.Hom.preimage_image_eq (colimit.ι d.functor i) V).ge).op := by
-  show (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctor
+  change (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctor
         (colimit.ι d.functor i)).map (limit.π D.pushFunctor (op i))) V ≫
     Scheme.Modules.Hom.app ((Scheme.Modules.restrictAdjunction
         (colimit.ι d.functor i)).counit.app (D.obj i)) V :

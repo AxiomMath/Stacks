@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingComplexC
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectComposite
 public import StacksFrontier.AlgebraicGeometry.Perfect.RelativeStalkTensorBoundProof
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedTensorHomDiagonalRelativeTorAmplitude
+StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedTensorHomDiagonalRelativeTorAmplitude
 import StacksCore.Tactic.StacksAttribute
 
 /-!

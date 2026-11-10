@@ -84,7 +84,7 @@ private theorem map_pi_eq_ideal_pi {ι : Type*} [Finite ι] {B : Type*}
     have hsingle (i : ι) : Ideal.map (f i) I ≤
         singlePreimageIdeal (Ideal.map (RingHom.pi f) I) i := by
       refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
-      show Pi.single i (f i b) ∈ Ideal.map (RingHom.pi f) I
+      change Pi.single i (f i b) ∈ Ideal.map (RingHom.pi f) I
       rw [single_eq_single_one_mul f i b]
       exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ hb)
     rw [← Finset.univ_sum_single x]
@@ -189,7 +189,7 @@ private theorem isTopologicallyOfFiniteType_of_finite {B C : Type*} [CommRing B]
   set E := MvPolynomial.renameEquiv B (Fintype.equivFin τ).symm with hE
   refine ⟨Fintype.card τ, F.comp (E : MvPolynomial (Fin (Fintype.card τ)) B →+* _), ?_, ?_⟩
   · ext b
-    show F (E (MvPolynomial.C b)) = φ b
+    change F (E (MvPolynomial.C b)) = φ b
     rw [show E (MvPolynomial.C b) = MvPolynomial.C b from by simp [hE]]
     exact DFunLike.congr_fun hFC b
   · rw [denseRange_iff_closure_range,
@@ -245,7 +245,7 @@ private theorem isTopologicallyOfFiniteType_pi {ι : Type*} [Finite ι] {B : Typ
       (Set.univ : Set (∀ i, A i)) := by
     rw [closure_pi_set]
     refine Set.eq_univ_of_forall fun x i _ ↦ ?_
-    show x i ∈ closure (Set.range (g i))
+    change x i ∈ closure (Set.range (g i))
     rw [(hgdense i).closure_range]
     exact Set.mem_univ _
   refine isTopologicallyOfFiniteType_of_finite (RingHom.pi f) H (RingHom.ext hHC) ?_

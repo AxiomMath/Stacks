@@ -560,8 +560,13 @@ add_to_ega "I 6.4.4" "affine case: (a) ⇒ (b)" IsArtinianRing.instDiscreteTopol
 add_to_ega "I 6.4.4" "affine case: (a) ⇒ (c′)" IsArtinianRing.instFinitePrimeSpectrum
 add_to_ega "I 6.4.5" AlgebraicGeometry.IsFinite
 add_to_ega "I 6.4.5" "partial" AlgebraicGeometry.IsFinite.SpecMap_iff
-add_to_ega "I 6.4.5" "more general"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrier" ++
+      "CommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 6.4.5" "more general" $decl:ident))
 add_to_ega "I 6.4.5" "more general" AlgebraicGeometry.Scheme.Hom.finrank
 add_to_ega "I 6.4.5" "partial" AlgebraicGeometry.Scheme.Hom.finrank_SpecMap_algebraMap
 add_to_ega "I 6.4.5" "partial" AlgebraicGeometry.Scheme.Hom.finrank_SpecMap_eq_finrank

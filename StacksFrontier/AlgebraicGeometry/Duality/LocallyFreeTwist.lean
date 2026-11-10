@@ -306,7 +306,7 @@ theorem twistAdjunction_unit_app (E : Mod X)
     curriedTensor_obj_obj, Adjunction.mkOfHomEquiv_unit_app, tensor_whiskerLeft, Equiv.coe_fn_mk,
     id_whiskerRight, Category.comp_id, Functor.whiskerRight_app, Functor.flip_obj_map,
     curriedTensor_map_app, Functor.whiskerLeft_app]
-  show _ ≫ _ ≫ _ ≫ MonoidalCategory.whiskerRight (C := Mod X) (𝟙 _) (dual E) ≫ 𝟙 _ = _
+  change _ ≫ _ ≫ _ ≫ MonoidalCategory.whiskerRight (C := Mod X) (𝟙 _) (dual E) ≫ 𝟙 _ = _
   rw [MonoidalCategory.id_whiskerRight, Category.id_comp, Category.comp_id]
 
 /-- **The units of `- ⊗ E ⊣ - ⊗ E^∨` are natural in `E`**, for the dual map `g^∨`: this is the

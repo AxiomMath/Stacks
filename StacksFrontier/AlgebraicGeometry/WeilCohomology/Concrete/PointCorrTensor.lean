@@ -169,6 +169,7 @@ private theorem flatPullbackChow_inv_snd_heq {Q C T : Scheme.{u}}
     (flatPullbackFactorsThroughRationalEquivalence_general _ _ _ _ _ _ _ _) a).trans ?_
   exact flatPullbackChow_heq_congr _ _ _ _ _ _ _ rfl rfl _ _ rfl _ _ _ _ HEq.rfl
 
+omit [IsSeparated sP] [IsSeparated sA] [IsSeparated sB] in
 /-- **The tensor product of two correspondences from a point is the exterior product.** For
 `P ≅ Spec k`, `a ∈ CH_{d-i}(A)` and `b ∈ CH_{e-j}(B)` read as correspondences `P ⟶ A` and
 `P ⟶ B` along `P × A ≅ A` and `P × B ≅ B`, the tensor product
@@ -286,7 +287,7 @@ theorem codimensionToCodimChow_single [CompactSpace X] (i : ℤ) (d : ℕ)
       DirectSum.lof ℚ ℕ (fun d : ℕ ↦
         TensorProduct ℤ ℚ (chowGroup (fieldChowSituation k) (partBase sX d) ((d : ℤ) - i))) d
         ((1 : ℚ) ⊗ₜ[ℤ] a) := by
-  show ∑ d' ∈ nonemptyDimParts k sX, _ = _
+  change ∑ d' ∈ nonemptyDimParts k sX, _ = _
   by_cases hd : d ∈ nonemptyDimParts k sX
   · rw [Finset.sum_eq_single d (fun d' _ hd' ↦ by
       rw [Pi.single_eq_of_ne hd', TensorProduct.tmul_zero, map_zero]) (fun h ↦ absurd hd h),
@@ -556,6 +557,7 @@ theorem correspondenceEquivOfIso_tensorBlockInclusion_point (d e : ℕ) (i j : �
       (chowPushforwardOfIso_tensorBlockHom_point k sX sY d e i j a b)).trans
       (correspondenceFromPointEquivOfIso_tmul _ _ _ _ _ _ _).symm)
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- The correspondence from the point of the exterior product of two classes supported on single
 parts `X_d` and `Y_e`: its only block is `(0, d + e)`. -/
 theorem corrFromPointEquiv_codimensionExteriorProduct_single
@@ -644,7 +646,7 @@ theorem corrEquivOfIso_tensor_corrFromPointEquiv_single [CompactSpace X] [Compac
       (correspondenceEquivOfIso_tensorBlockInclusion_point k sX sY d e i j a b))).trans
       (corrFromPointEquiv_codimensionExteriorProduct_single k sX sY i j d e a b).symm)
 
-omit [IsProper sX] [IsProper sY] in
+omit [IsSeparated sX] [IsSeparated sY] [IsProper sX] [IsProper sY] in
 /-- Two biadditive maps on `CH^i(X) × CH^j(Y)`, `X` and `Y` quasi-compact, agree once they agree
 on pairs of classes supported on single parts. -/
 theorem biadditive_eq_of_pi_single [CompactSpace X] [CompactSpace Y] (i j : ℤ) {M : Type*}

@@ -86,7 +86,7 @@ private theorem selfInjective (k : Type u) [Field k] :
   · refine ⟨0, ?_⟩
     intro x hx
     subst x
-    show 0 = g 0
+    change 0 = g 0
     simp
   · let y : DualNumber k := g ⟨DualNumber.eps, Ideal.mem_span_singleton_self _⟩
     have hy : DualNumber.eps * y = 0 := by
@@ -100,7 +100,7 @@ private theorem selfInjective (k : Type u) [Field k] :
         DualNumber.eps * y = g ((DualNumber.eps : DualNumber k) •
             (⟨DualNumber.eps, Ideal.mem_span_singleton_self _⟩ :
               Ideal.span ({DualNumber.eps} : Set (DualNumber k)))) := by
-          show (DualNumber.eps : DualNumber k) • y = _
+          change (DualNumber.eps : DualNumber k) • y = _
           exact (map_smul g DualNumber.eps _).symm
         _ = g 0 := congrArg g hh
         _ = 0 := map_zero g
@@ -113,7 +113,7 @@ private theorem selfInjective (k : Type u) [Field k] :
     obtain ⟨a, rfl⟩ := Ideal.mem_span_singleton'.mp hx
     have : g ⟨a * DualNumber.eps, Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self _)⟩ =
         a * y := by
-      show g (a • (⟨DualNumber.eps, Ideal.mem_span_singleton_self _⟩ :
+      change g (a • (⟨DualNumber.eps, Ideal.mem_span_singleton_self _⟩ :
         Ideal.span ({DualNumber.eps} : Set (DualNumber k)))) = a • y
       exact map_smul g a _
     rw [this, hz]
@@ -134,7 +134,7 @@ private theorem epsMul_comp_epsMul (k : Type u) [Field k] :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show DualNumber.eps * (DualNumber.eps * x) = 0
+  change DualNumber.eps * (DualNumber.eps * x) = 0
   rw [← mul_assoc, epsSq]
   simp
 
@@ -154,7 +154,7 @@ private theorem epsKer (k : Type u) [Field k] :
         (Ideal.mem_span_singleton_self _)
   · intro hx
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hx
-    show (DualNumber.eps : DualNumber k) * x = 0
+    change (DualNumber.eps : DualNumber k) * x = 0
     rw [← ha, mul_comm a DualNumber.eps, ← mul_assoc, epsSq]
     simp
 
@@ -170,7 +170,7 @@ private theorem epsRange (k : Type u) [Field k] :
   · intro hx
     obtain ⟨a, ha⟩ := Ideal.mem_span_singleton'.mp hx
     refine ⟨a, ?_⟩
-    show DualNumber.eps * a = x
+    change DualNumber.eps * a = x
     rw [mul_comm]
     exact ha
 
@@ -204,7 +204,7 @@ private theorem residueNotInjective (k : Type u) [Field k] :
   apply quotient_one_ne_zero k
   have h1 := hg (Submodule.Quotient.mk (1 : DualNumber k) : DualNumber k ⧸ I)
   have hf1 : f (Submodule.Quotient.mk (1 : DualNumber k)) = DualNumber.eps := by
-    show (I.liftQ (LinearMap.mulLeft (DualNumber k) DualNumber.eps) _)
+    change (I.liftQ (LinearMap.mulLeft (DualNumber k) DualNumber.eps) _)
       (Submodule.Quotient.mk 1) = _
     rw [Submodule.liftQ_apply]
     simp
@@ -362,7 +362,7 @@ private theorem periodicExactAt (k : Type u) [Field k] (i : ℤ) (hi : i < 0) :
     (ShortComplex.isoMk (S₂ := S) (periodicE k (i - 1) (by omega))
       (periodicE k i (by omega)) (periodicE k (i + 1) (by omega))
       (by
-        show (periodicE k (i - 1) (by omega)).hom ≫ f =
+        change (periodicE k (i - 1) (by omega)).hom ≫ f =
           (periodicK k).d (i - 1) i ≫ (periodicE k i (by omega)).hom
         simp only [periodicK, CochainComplex.of.d, hidx, periodicE, eqToIso.hom]
         simp only [dite_eq_left trivial]
@@ -370,7 +370,7 @@ private theorem periodicExactAt (k : Type u) [Field k] (i : ℤ) (hi : i < 0) :
         dsimp [f]
         simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id])
       (by
-        show (periodicE k i (by omega)).hom ≫ f =
+        change (periodicE k i (by omega)).hom ≫ f =
           (periodicK k).d i (i + 1) ≫ (periodicE k (i + 1) (by omega)).hom
         simp only [periodicK, CochainComplex.of_d, periodicE, eqToIso.hom]
         rw [periodicD_neg k i hi]
@@ -393,17 +393,17 @@ private theorem periodicQ_quasiIso (k : Type u) [Field k] :
     rw [ShortComplex.quasiIso_iff_of_zeros']
     · constructor
       · rw [ShortComplex.moduleCat_exact_iff_range_eq_ker]
-        show LinearMap.range ((periodicK k).d (-1) 0).hom =
+        change LinearMap.range ((periodicK k).d (-1) 0).hom =
           LinearMap.ker ((periodicQ k).f 0).hom
         rw [periodicQ_f_zero]
         simp only [periodicK, periodicX, Std.le_refl, ↓dreduceIte, Int.reduceNeg,
           Left.neg_nonpos_iff, zero_le_one, CochainComplex.of.d, neg_add_cancel, ↓reduceDIte,
           Int.reduceAdd, periodicD, Int.neg_neg_iff_pos, zero_lt_one, eqToHom_refl,
           Category.comp_id, Category.id_comp, ConcreteCategory.hom_ofHom, epsRange]
-        show Ideal.span ({DualNumber.eps} : Set (DualNumber k)) =
+        change Ideal.span ({DualNumber.eps} : Set (DualNumber k)) =
           (Submodule.mkQ (Ideal.span ({DualNumber.eps} : Set (DualNumber k)))).ker
         rw [Submodule.ker_mkQ]
-      · show Epi ((periodicQ k).f 0)
+      · change Epi ((periodicQ k).f 0)
         rw [periodicQ_f_zero]
         apply (ModuleCat.epi_iff_surjective _).mpr
         exact Submodule.mkQ_surjective _
@@ -441,7 +441,7 @@ public theorem dualNumber_residueField_infinite_injectiveDimension (k : Type u) 
     simp [periodicE, periodicX]
     rfl
   · intro i hi
-    show (periodicE k i (by omega)).hom ≫
+    change (periodicE k i (by omega)).hom ≫
       ModuleCat.ofHom (LinearMap.mulLeft (DualNumber k) (DualNumber.eps : DualNumber k)) =
       (periodicK k).d i (i + 1) ≫ (periodicE k (i + 1) (by omega)).hom
     simp only [periodicK, CochainComplex.of_d]
@@ -502,7 +502,7 @@ public theorem dedekindDomain_ideal_projective_and_bounded_complex_splitting
   have hall : ∀ N : ModuleCat.{v} R, HasProjectiveDimensionLE N 1 :=
     ((ringGlobalDimension_lt_tfae R 2).out 4 2).mp hcyclic
   have hinj : ∀ M : ModuleCat.{v} R, HasInjectiveDimensionLE M 1 := fun M => by
-    show HasInjectiveDimensionLT M 2
+    change HasInjectiveDimensionLT M 2
     rw [hasInjectiveDimensionLT_iff]
     intro i hi N e
     let := hall N

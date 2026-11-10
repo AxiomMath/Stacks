@@ -109,7 +109,7 @@ theorem openSectionsFunctor_map_sectionSmul (a : S.A) (M : S.U.toScheme.Modules)
 `Stacks.Algebraization.scalarMap`. -/
 theorem baseScalars_eq_scalarMap :
     Stacks.LocalCohomology.baseScalars S.A S.U.ι = scalarMap S := by
-  show ((Scheme.ΓSpecIso (.of S.A)).inv ≫ S.U.ι.appLE ⊤ ⊤ _).hom =
+  change ((Scheme.ΓSpecIso (.of S.A)).inv ≫ S.U.ι.appLE ⊤ ⊤ _).hom =
     ((Scheme.ΓSpecIso (.of S.A)).inv ≫ S.U.ι.app ⊤).hom
   rw [← Scheme.Hom.appLE_eq_app]
   rfl
@@ -121,7 +121,7 @@ theorem finite_openCohomology_of_finite_cohomologyOverBase (p : ℕ) (M : S.U.to
     Module.Finite S.A ((openCohomologyFunctor S p).obj M) := by
   have e : Stacks.LocalCohomology.cohomologyOverBase.{u, u} S.A S.U.ι M p =
       (openCohomologyFunctor S p).obj M := by
-    show (ModuleCat.restrictScalars (Stacks.LocalCohomology.baseScalars S.A S.U.ι)).obj _ = _
+    change (ModuleCat.restrictScalars (Stacks.LocalCohomology.baseScalars S.A S.U.ι)).obj _ = _
     rw [baseScalars_eq_scalarMap]
     rfl
   rwa [← e]
@@ -162,15 +162,15 @@ theorem abstract_boundary_eq_zero_iff (R0 E : C ⥤ ModuleCat.{u} Γ') (α : R0 
     have hnat := congrArg (fun φ => φ.hom z) (α.hom.naturality t)
     change (α.hom.app Y).hom ((R0.map t).hom z) = (E.map t).hom ((α.hom.app X₂).hom z) at hnat
     rw [← hnat, hz']
-    show (α.inv.app Y ≫ α.hom.app Y).hom y = y
+    change (α.inv.app Y ≫ α.hom.app Y).hom y = y
     rw [Iso.inv_hom_id_app]
     rfl
   · rintro ⟨w, rfl⟩
     have hnat := congrArg (fun φ => φ.hom w) (α.inv.naturality t)
     change (α.inv.app Y).hom ((E.map t).hom w) = (R0.map t).hom ((α.inv.app X₂).hom w) at hnat
-    show δ.hom ((R0.map e.inv).hom ((α.inv.app Y).hom ((E.map t).hom w))) = 0
+    change δ.hom ((R0.map e.inv).hom ((α.inv.app Y).hom ((E.map t).hom w))) = 0
     rw [hnat]
-    show δ.hom ((R0.map t ≫ R0.map e.inv).hom ((α.inv.app X₂).hom w)) = 0
+    change δ.hom ((R0.map t ≫ R0.map e.inv).hom ((α.inv.app X₂).hom w)) = 0
     rw [hcomp, ← LinearMap.mem_ker, ← hδ]
     exact LinearMap.mem_range_self _ _
 
@@ -198,7 +198,7 @@ theorem abstract_up_comp_π {P₀ P₁ T₀ T₁ T₂ : C} (π₀ : T₁ ⟶ P�
 theorem abstract_map_comm {A' : Type*} [Ring A'] (G : C ⥤ ModuleCat.{u} A') {K₀ K₁ K₁' K₂ : C}
     (a : K₀ ⟶ K₁) (b : K₁ ⟶ K₂) (a' : K₀ ⟶ K₁') (b' : K₁' ⟶ K₂) (h : a ≫ b = a' ≫ b')
     (x : G.obj K₀) : (G.map b).hom ((G.map a).hom x) = (G.map b').hom ((G.map a').hom x) := by
-  show (G.map a ≫ G.map b).hom x = (G.map a' ≫ G.map b').hom x
+  change (G.map a ≫ G.map b).hom x = (G.map a' ≫ G.map b').hom x
   rw [← G.map_comp, ← G.map_comp, h]
 
 end Abstract

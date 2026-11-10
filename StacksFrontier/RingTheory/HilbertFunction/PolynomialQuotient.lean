@@ -5,7 +5,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.PiTensorProduct
-import Mathlib.Data.Rat.Star
+import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.Order.Interval.Finset.Box
 import Mathlib.Analysis.SpecialFunctions.RegularizedHypergeometric
 import Mathlib.Analysis.Polynomial.Basic
@@ -141,7 +141,7 @@ theorem finrank_gradedPieceS (k : Type*) [Field k] (d : ℕ) (n : ℕ) :
           rw [h]; exact f.property⟩
       invFun := fun s =>
         ⟨Multiset.toFinsupp s.val, by
-          show Finsupp.degree (Multiset.toFinsupp s.val) = n
+          change Finsupp.degree (Multiset.toFinsupp s.val) = n
           have h :
             Finsupp.degree (Multiset.toFinsupp s.val) =
               (Finsupp.toMultiset (Multiset.toFinsupp s.val)).card := by

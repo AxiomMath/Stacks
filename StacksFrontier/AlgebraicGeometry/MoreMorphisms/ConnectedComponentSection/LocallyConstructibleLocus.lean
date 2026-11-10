@@ -85,7 +85,7 @@ private theorem exists_noetherian_section_model {X : Scheme.{u}}
   let cBase := Scheme.Spec.mapCone R.finiteSubalgebrasCocone.op
   let c : Cone D := { pt := Spec R, π := cBase.π }
   have hc : IsLimit c := by
-    show IsLimit cBase
+    change IsLimit cBase
     exact isLimitOfPreserves _ R.finiteSubalgebrasIsColimit.op
   have : ∀ i, IsAffine (D.obj i) := fun i => inferInstanceAs (IsAffine (Spec _))
   obtain ⟨i, Xi, hXi, eX⟩ :=
@@ -96,13 +96,13 @@ private theorem exists_noetherian_section_model {X : Scheme.{u}}
   let πi := c.π.app i
   let Bi : Over (D.obj i) := Over.mk (𝟙 (D.obj i))
   have hBi : FinitePresentation Bi.hom := by
-    show FinitePresentation (𝟙 (D.obj i))
+    change FinitePresentation (𝟙 (D.obj i))
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   let BLim := (Over.pullback πi).obj Bi
   let uIso : BLim ≅ Over.mk (𝟙 c.pt) := overPullbackIdIso πi
   let XLim := (Over.pullback πi).obj Xi
   have hXcomm : eX.some.hom.left ≫ XLim.hom = f' := by
-    show eX.some.hom.left ≫ pullback.snd Xi.hom πi = f
+    change eX.some.hom.left ≫ pullback.snd Xi.hom πi = f
     exact Over.w eX.some.hom
   have hsLim : (s' ≫ eX.some.hom.left) ≫ XLim.hom = 𝟙 c.pt := by
     rw [Category.assoc, hXcomm, hsec']
@@ -120,14 +120,14 @@ private theorem exists_noetherian_section_model {X : Scheme.{u}}
     have : LocallyOfFinitePresentation Xi.hom := hXi.1
     have : QuasiCompact Xi.hom := hXi.2.1
     have : QuasiSeparated Xi.hom := hXi.2.2
-    show FinitePresentation (pullback.snd Xi.hom (D.map eij))
+    change FinitePresentation (pullback.snd Xi.hom (D.map eij))
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   refine ⟨D.obj j, Xj.left, πj, Xj.hom, sj.left, ?_, hXj, ⟨Over.w sj, e, ?_⟩⟩
   · have : Algebra.FiniteType ℤ (Algebra.adjoin ℤ (j.unop : Set R)) :=
       (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_adjoin_finset _)
     have : IsNoetherianRing (Algebra.adjoin ℤ (j.unop : Set R)) :=
       Algebra.FiniteType.isNoetherianRing ℤ (Algebra.adjoin ℤ (j.unop : Set R))
-    show IsNoetherian (Spec (CommRingCat.of (Algebra.adjoin ℤ (j.unop : Set R))))
+    change IsNoetherian (Spec (CommRingCat.of (Algebra.adjoin ℤ (j.unop : Set R))))
     exact AlgebraicGeometry.IsNoetherian.mk
   · have h1 : α.hom ≫ fLim ≫ β.inv = (Over.pullback πj).map gj := by
       calc
@@ -143,10 +143,10 @@ private theorem exists_noetherian_section_model {X : Scheme.{u}}
       simpa [fLim, sLim, Category.assoc] using h
     let sourceJLim := (Over.pullback πj).obj Bj
     let : IsIso Bj.hom := by
-      show IsIso (pullback.snd (𝟙 (D.obj i)) (D.map eij))
+      change IsIso (pullback.snd (𝟙 (D.obj i)) (D.map eij))
       infer_instance
     let : IsIso sourceJLim.hom := by
-      show IsIso (pullback.snd Bj.hom πj)
+      change IsIso (pullback.snd Bj.hom πj)
       infer_instance
     have hsource : (uIso.inv ≫ α.inv).left =
         ((overPullbackIdIso πj).inv ≫ (Over.pullback πj).map uIsoj.inv).left := by
@@ -181,7 +181,7 @@ private theorem pullback_map_homMk_left_comp_fst {Y₀ X₀ S : Scheme.{u}} (f�
     (s₀ : Y₀ ⟶ X₀) (hsec₀ : s₀ ≫ f₀ = 𝟙 Y₀) (g : S ⟶ Y₀) :
     ((Over.pullback g).map (Over.homMk s₀ hsec₀ : Over.mk (𝟙 Y₀) ⟶ Over.mk f₀)).left ≫
         pullback.fst f₀ g = pullback.fst (𝟙 Y₀) g ≫ s₀ := by
-  show pullback.lift (pullback.fst (𝟙 Y₀) g ≫ s₀) (pullback.snd (𝟙 Y₀) g) _ ≫
+  change pullback.lift (pullback.fst (𝟙 Y₀) g ≫ s₀) (pullback.snd (𝟙 Y₀) g) _ ≫
     pullback.fst f₀ g = pullback.fst (𝟙 Y₀) g ≫ s₀
   exact pullback.lift_fst _ _ _
 
@@ -244,7 +244,7 @@ private theorem containsNonemptyOpenOf_or_not_isDenseIn_locus
     have hw : w.1 ∈ Z ∩ O := w.2
     have hqV : (⟨D.f w.1, himage w.1 hw.1⟩ :
         {a : D.Y // a ∈ closure ({y} : Set D.Y)}) ∈ V := by
-      show (⟨D.f w.1, himage w.1 hw.1⟩ : {a : D.Y // a ∈ closure ({y} : Set D.Y)}) ∈
+      change (⟨D.f w.1, himage w.1 hw.1⟩ : {a : D.Y // a ∈ closure ({y} : Set D.Y)}) ∈
         (V : Set (closure ({y} : Set D.Y)))
       rw [← he]
       simpa [O] using hw.2
@@ -308,7 +308,7 @@ private theorem isLocallyConstructible_locus_over_spec
   have hP : IsPullback p₀fst P₀.hom f₀ g := IsPullback.of_hasPullback f₀ g
   have hpb : IsPullback g' D.f f₀ g := by
     refine hP.of_iso eX.symm (Iso.refl X₀) (Iso.refl (Spec R)) (Iso.refl Y₀) ?_ ?_ ?_ ?_
-    · show p₀fst = eX.inv ≫ eX.hom ≫ p₀fst
+    · change p₀fst = eX.inv ≫ eX.hom ≫ p₀fst
       simp
     · have hw : eX.hom ≫ P₀.hom = D.f := Over.w e.hom
       calc
@@ -317,7 +317,7 @@ private theorem isLocallyConstructible_locus_over_spec
     · simp
     · simp
   have hs : D.s ≫ g' = g ≫ D₀.s := by
-    show (D.s ≫ e.hom.left) ≫ p₀fst = g ≫ s₀
+    change (D.s ≫ e.hom.left) ≫ p₀fst = g ≫ s₀
     rw [hcompat, Category.assoc,
       pullback_map_homMk_left_comp_fst f₀ s₀ hsec₀ g, ← Category.assoc,
       overPullbackIdIso_inv_left_comp_fst g]
@@ -366,9 +366,9 @@ theorem isLocallyConstructible_locus_of_clopenLocus
   have hLocRange := hLocᵢ.preimage_of_isOpenEmbedding eᵣ.symm.isOpenEmbedding
   have hSet : eᵣ.symm ⁻¹' Dᵢ.locus = {z : ↥(g'.opensRange) | (z.1 : D.X) ∈ D.locus} := by
     ext z
-    show (eᵣ.symm z ∈ Dᵢ.locus) ↔ z.1 ∈ D.locus
+    change (eᵣ.symm z ∈ Dᵢ.locus) ↔ z.1 ∈ D.locus
     rw [ConnectedAlongSection.locus_eq_preimage_of_isPullback D Dᵢ g' g hPB hSecPB]
-    show D.locus (g' (eᵣ.symm z)) ↔ z.1 ∈ D.locus
+    change D.locus (g' (eᵣ.symm z)) ↔ z.1 ∈ D.locus
     have hv : g' (eᵣ.symm z) = z.1 := by
       calc
         g' (eᵣ.symm z) = (g'.isoOpensRange.inv ≫ g') z := by

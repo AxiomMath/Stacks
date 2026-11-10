@@ -88,8 +88,7 @@ private noncomputable def extendScalarsCongr {A B₁ B₂ : Type u} [CommRing A]
       ((ModuleCat.restrictScalars.{u, u, u} h₁).obj (ModuleCat.of B₁ B₁) : Type u) (M : Type u)),
       t (b • w) = e b • t w := by
     intro b w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul b' m =>
       exact congrArg
         (fun z : ((ModuleCat.restrictScalars.{u, u, u} h₂).obj (ModuleCat.of B₂ B₂) : Type u) =>

@@ -78,7 +78,7 @@ theorem torsionSheafProperty_etaleModuleForget_obj_of_natCast_eq_zero (X : Schem
     Stacks.Torsion.torsionSheafProperty X.smallEtaleTopology
       ((etaleModuleForget Λ X).obj F) :=
   fun U x => ⟨⊤, X.smallEtaleTopology.top_mem U, fun V g _ => ⟨n, hn, by
-    show n • ((F.obj.map g.op).hom x : F.obj.obj (op V)) = 0
+    change n • ((F.obj.map g.op).hom x : F.obj.obj (op V)) = 0
     rw [← Nat.cast_smul_eq_nsmul Λ, hΛ, zero_smul]⟩⟩
 
 include hn hΛ in

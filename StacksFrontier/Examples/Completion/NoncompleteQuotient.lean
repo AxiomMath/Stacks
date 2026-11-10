@@ -119,7 +119,7 @@ private lemma basis_coord (i n : ℕ) : basis i n = if i = n then 1 else 0 := by
   by_cases h : i = n
   · subst i
     simp [basis]
-  · show DirectSum.component B ℕ C n (DirectSum.lof B ℕ C i 1) = _
+  · change DirectSum.component B ℕ C n (DirectSum.lof B ℕ C i 1) = _
     rw [DirectSum.component.of]
     simp [h]
 
@@ -128,7 +128,7 @@ private lemma tbase_smul_basis (n : ℕ) : tbase • basis n = xbase ^ n • bas
   rw [DirectSum.smul_apply, DirectSum.smul_apply, basis_coord]
   split_ifs with h
   · subst i
-    show (proj n tbase) • (1 : C n) = (proj n (xbase ^ n)) • (1 : C n)
+    change (proj n tbase) • (1 : C n) = (proj n (xbase ^ n)) • (1 : C n)
     simp [proj, tbase, xbase]
   · simp
 
@@ -194,7 +194,7 @@ private lemma sndCoord_inl_mul (b : B) (z : A) (n : ℕ) :
     sndCoord (TrivSqZeroExt.inl b * z) n = b n * sndCoord z n := by
   simp only [sndCoord, TrivSqZeroExt.snd_mul]
   simp only [TrivSqZeroExt.fst_inl, TrivSqZeroExt.snd_inl, smul_zero, add_zero]
-  show (b • TrivSqZeroExt.snd z) n = _
+  change (b • TrivSqZeroExt.snd z) n = _
   rw [DirectSum.smul_apply]
   rfl
 
@@ -269,11 +269,11 @@ private lemma fhat_sub_partial_mem (n : ℕ) :
 private lemma termCoord (i n : ℕ) :
     (tbase • basis i) n = if i = n then xbase n ^ n else 0 := by
   rw [DirectSum.smul_apply]
-  show tbase • basis i n = _
+  change tbase • basis i n = _
   rw [basis_coord]
   split_ifs with h
   · subst i
-    show (proj n tbase) • (1 : C n) = _
+    change (proj n tbase) • (1 : C n) = _
     simp [proj, tbase, xbase]
   · simp
 
@@ -282,10 +282,10 @@ private def sndCoordHom (n : ℕ) : A →ₗ[B] C n :=
 
 private lemma sndCoord_partialSum (n : ℕ) :
     sndCoord (partialSum (n + 1)) n = xbase n ^ n := by
-  show sndCoordHom n (partialSum (n + 1)) = _
+  change sndCoordHom n (partialSum (n + 1)) = _
   simp only [sndCoordHom, LinearMap.comp_apply, partialSum,
     TrivSqZeroExt.sndHom_apply, map_sum]
-  show (∑ i ∈ Finset.range (n + 1), (tbase • basis i) n) = _
+  change (∑ i ∈ Finset.range (n + 1), (tbase • basis i) n) = _
   simp [termCoord, Finset.sum_ite_eq']
 
 private lemma sndCoord_t0_mul (z : A) (n : ℕ) :
@@ -388,7 +388,7 @@ private def Qe : (Rhat ⧸ Jbar) ≃+* (Rbig ⧸ Jbig) :=
 private lemma map_adic_ideal_quotient :
     (Ibar.map (Ideal.Quotient.mk Jbar)).map Qe.toRingHom =
       Ibig.map (Ideal.Quotient.mk Jbig) := by
-  show ((I.map (algebraMap A Rhat)).map (Ideal.Quotient.mk Jbar)).map Qe.toRingHom =
+  change ((I.map (algebraMap A Rhat)).map (Ideal.Quotient.mk Jbar)).map Qe.toRingHom =
     ((I.map (algebraMap A Rhat)).map eSmallBig.toRingHom).map (Ideal.Quotient.mk Jbig)
   simp only [Ideal.map_map]
   have hq : Qe.toRingHom.comp ((Ideal.Quotient.mk Jbar).comp (algebraMap A Rhat)) =

@@ -86,7 +86,7 @@ private theorem exists_realizing_and_pow_mul_sub_mem {C : Type u} [CommRing C] (
     intro v hv hsv
     refine mem_map_algebraMap_of_localizedModule_eq_zero Ry v ?_
     have hval := congrFun hγ ⟨v, (hSy v).mpr hv⟩
-    simp only [dif_neg hsv] at hval
+    simp only [dite_eq_right hsv] at hval
     have hsmulq : (Ideal.Quotient.mk Ry (sc ^ k * γ) : C ⧸ Ry) =
         sc ^ k • Ideal.Quotient.mk Ry γ := by
       rw [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, map_mul]
@@ -100,7 +100,7 @@ private theorem exists_realizing_and_pow_mul_sub_mem {C : Type u} [CommRing C] (
   obtain ⟨m, hm⟩ := exists_pow_smul_mem_of_forall_localization Ry sc (b - sc ^ k * γ) hcloc
   refine ⟨γ, m, hm, fun v => ?_⟩
   have hval := congrFun hγ ⟨(v : PrimeSpectrum C), hSy'le v.2⟩
-  simpa only [dif_pos (hSy'mem _ v.2), dif_pos v.2] using hval
+  simpa only [dite_eq_left (hSy'mem _ v.2), dite_eq_left v.2] using hval
 
 /-- If `(x ^ d)·J` is the extension of `L` to the chart `S`, every element of `chartIdealSpan L S`
 is `x ^ d` times an element of `J`. -/

@@ -244,10 +244,10 @@ theorem openInclusionModulePullback_preservesHomology (X : RingedSpace.{u, u})
   let G := modulePullback (X.ofRestrict U.isOpenEmbedding)
   let e : F ≅ G := openInclusionModulePullbackIso X U
   let : F.Additive := by
-    show (HigherDirectImage.moduleRestriction X U).Additive
+    change (HigherDirectImage.moduleRestriction X U).Additive
     infer_instance
   have hF : F.PreservesHomology := by
-    show (ExtensionByZeroModules.jStar U (structureSheafRing X)).PreservesHomology
+    change (ExtensionByZeroModules.jStar U (structureSheafRing X)).PreservesHomology
     let : PreservesLimits (ExtensionByZeroModules.jStar U (structureSheafRing X)) :=
       (ExtensionByZeroModules.jShriekAdjunction U
         (structureSheafRing X)).rightAdjoint_preservesLimits
@@ -267,12 +267,12 @@ theorem openInclusionModulePullback_preservesKInjective (X : RingedSpace.{u, u})
       (((modulePullback (X.ofRestrict U.isOpenEmbedding)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj I) := by
   let : (openInclusionSiteRestriction X U).Additive := by
-    show (HigherDirectImage.moduleRestriction X U).Additive
+    change (HigherDirectImage.moduleRestriction X U).Additive
     infer_instance
   have hF : CochainComplex.IsKInjective
       (((openInclusionSiteRestriction X U).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj I) := by
-    show CochainComplex.IsKInjective
+    change CochainComplex.IsKInjective
       (((ExtensionByZeroModules.jStar U (structureSheafRing X)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj I)
     infer_instance
@@ -337,13 +337,13 @@ theorem openImmersionRangeIso_comp
     simpa [fa] using (SheafedSpace.IsOpenImmersion.forgetMapIsOpenImmersion a)
   have hW : (W : Set (X : TopCat)) = Set.range i.hom.base := coe_functor_obj_top h
   have hr : Set.range fb.base = Set.range fa.base := by
-    show Set.range i.hom.base = Set.range (W.inclusion')
+    change Set.range i.hom.base = Set.range (W.inclusion')
     exact hW.symm.trans (Opens.set_range_inclusion' W).symm
   let e := @AlgebraicGeometry.PresheafedSpace.IsOpenImmersion.isoOfRangeEq
     CommRingCat inferInstance _ _ _ fb hb fa ha hr
-  show (SheafedSpace.isoMk e).hom ≫ a = b
+  change (SheafedSpace.isoMk e).hom ≫ a = b
   apply SheafedSpace.forgetToPresheafedSpace.map_injective
-  show PresheafedSpace.IsOpenImmersion.lift fa fb (le_of_eq hr) ≫ fa = fb
+  change PresheafedSpace.IsOpenImmersion.lift fa fb (le_of_eq hr) ≫ fa = fb
   exact PresheafedSpace.IsOpenImmersion.lift_fac fa fb (le_of_eq hr)
 
 /-- Restricting to the image of an open immersion `i` and including it back recovers `i`. -/
@@ -376,14 +376,14 @@ theorem openImmersion_range_eq_preimage
   ext x
   constructor
   · rintro ⟨u, rfl⟩
-    show f.hom.base (i.hom.base u) ∈ Set.range j.hom.base
+    change f.hom.base (i.hom.base u) ∈ Set.range j.hom.base
     refine ⟨g.hom.base u, ?_⟩
     simpa using (congrArg (fun q : U ⟶ Y => q.hom.base u) h.w).symm
   · intro hx
     rw [← hW]
     rcases hx with ⟨y, hy⟩
     have hyZ : f.hom.base x ∈ Z := by
-      show f.hom.base x ∈ (Z : Set (Y : TopCat))
+      change f.hom.base x ∈ (Z : Set (Y : TopCat))
       rw [hZ]
       exact ⟨y, hy⟩
     let k : openSubspace X ((Opens.map f.hom.base).obj Z) ⟶ X :=
@@ -396,7 +396,7 @@ theorem openImmersion_range_eq_preimage
     have he' : e.inv ≫ j = j₀ := (Iso.inv_comp_eq e).2 he.symm
     let n : openSubspace X ((Opens.map f.hom.base).obj Z) ⟶ V := m ≫ e.inv
     have hmn : k ≫ f = n ≫ j := by
-      show k ≫ f = m ≫ e.inv ≫ j
+      change k ≫ f = m ≫ e.inv ≫ j
       exact (HigherDirectImage.restrictedMorphism_comp_openSubspaceInclusion f Z).trans
         (congrArg (fun t => m ≫ t) he').symm
     let c : PullbackCone f j := PullbackCone.mk k n hmn
@@ -476,7 +476,7 @@ theorem openImmersionModulePullback_preservesHomology
   let : (modulePullback ei.hom).PreservesHomology := modulePullbackIso_preservesHomology ei
   let : (modulePullback ei.hom).PreservesZeroMorphisms := by infer_instance
   let : (modulePullback k).PreservesHomology := by
-    show (modulePullback (X.ofRestrict W.isOpenEmbedding)).PreservesHomology
+    change (modulePullback (X.ofRestrict W.isOpenEmbedding)).PreservesHomology
     exact openInclusionModulePullback_preservesHomology X W
   let : (modulePullback k).PreservesZeroMorphisms := by infer_instance
   let : F.PreservesZeroMorphisms := by dsimp [F]; infer_instance
@@ -531,12 +531,12 @@ theorem openImmersionModulePullback_preservesKInjective
     (eqToIso (congrArg modulePullback he)).symm ≪≫ pullbackComp ei.hom k
   have hF : CochainComplex.IsKInjective
       (((F).mapHomologicalComplex (ComplexShape.up ℤ)).obj I) := by
-    show CochainComplex.IsKInjective
+    change CochainComplex.IsKInjective
       (((modulePullback ei.hom).mapHomologicalComplex (ComplexShape.up ℤ)).obj
         (((modulePullback k).mapHomologicalComplex (ComplexShape.up ℤ)).obj I))
     let : CochainComplex.IsKInjective
         (((modulePullback k).mapHomologicalComplex (ComplexShape.up ℤ)).obj I) := by
-      show CochainComplex.IsKInjective
+      change CochainComplex.IsKInjective
         (((modulePullback (X.ofRestrict W.isOpenEmbedding)).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj I)
       exact openInclusionModulePullback_preservesKInjective X W I
@@ -667,7 +667,7 @@ theorem openImmersionRestriction_counit_isIso
   have : IsIso (T.map ((openImmersionRestrictionData i).2.counit.app M)) := by
     apply (NatTrans.isIso_iff_isIso_app _).2
     intro W
-    show IsIso (M.val.presheaf.map
+    change IsIso (M.val.presheaf.map
       (hi.base_open.isOpenMap.adjunction.unit.app W.unop).op)
     infer_instance
   exact isIso_of_reflects_iso _ T
@@ -702,12 +702,12 @@ theorem openImmersion_unit_app_isIso
   have : IsIso ((a₁.unit.app M).val.app (Opposite.op W)) := by
     let T := forget₂ (ModuleCat ((structureSheafRing X).obj.obj (Opposite.op W))) AddCommGrpCat
     have : IsIso (T.map ((a₁.unit.app M).val.app (Opposite.op W))) := by
-      show IsIso (M.val.presheaf.map (a.counit.app W).op)
+      change IsIso (M.val.presheaf.map (a.counit.app W).op)
       infer_instance
     exact isIso_of_reflects_iso _ T
   have h := Adjunction.unit_leftAdjointUniq_hom_app a₁ a₂ M
   rw [← h]
-  show IsIso ((SheafOfModules.evaluation _ (Opposite.op W)).map
+  change IsIso ((SheafOfModules.evaluation _ (Opposite.op W)).map
     (a₁.unit.app M ≫ (modulePushforward i).map
       ((Adjunction.leftAdjointUniq a₁ a₂).hom.app M)))
   rw [Functor.map_comp]
@@ -729,7 +729,7 @@ theorem openImmersionPullback_map_isIso
       apply (NatTrans.isIso_iff_isIso_app _).2
       intro W
       have := ht W.unop
-      show IsIso ((forget₂ (ModuleCat _) AddCommGrpCat).map
+      change IsIso ((forget₂ (ModuleCat _) AddCommGrpCat).map
         (t.val.app (Opposite.op (hi.base_open.functor.obj W.unop))))
       infer_instance
     exact isIso_of_reflects_iso _ T
@@ -761,7 +761,7 @@ theorem pushforwardRestrictMap_isIso
         rw [openImmersion_range_eq_preimage f i j g h]
         rintro x ⟨z, hz, he⟩
         exact ⟨z, he⟩)
-    show IsIso ((ModuleCat.restrictScalars
+    change IsIso ((ModuleCat.restrictScalars
       ((structureSheafHom f).hom.app (Opposite.op (hj.base_open.functor.obj W))).hom).map
       (((modulePullbackPushforwardAdjunction i).unit.app M).val.app
         (Opposite.op ((Opens.map f.hom.base).obj (hj.base_open.functor.obj W)))))
@@ -779,7 +779,7 @@ theorem pushforwardRestrictMap_isIso
         ((modulePushforward g).obj ((modulePullback i).obj M)) := by
     dsimp only [pushforwardRestrictMap]
     rw [Adjunction.homEquiv_symm_apply]
-    show (modulePullback j).map
+    change (modulePullback j).map
       (𝟙 _ ≫ t ≫ 𝟙 _ ≫ e.hom.app ((modulePullback i).obj M) ≫ 𝟙 _) ≫
       (𝟙 _ ≫ (modulePullbackPushforwardAdjunction j).counit.app
         ((modulePushforward g).obj ((modulePullback i).obj M)) ≫ 𝟙 _) = _
@@ -870,7 +870,7 @@ theorem composite_isRightDerivedFunctor
     (F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh) hA).2
       DerivedCategory.Qh RF αF I hI
   have := hG I hI
-  show IsIso (αG.app _ ≫ RG.map (αF.app _))
+  change IsIso (αG.app _ ≫ RG.map (αF.app _))
   infer_instance
 
 /-- Every complex of sheaves of modules on a ringed space has a K-injective resolution.  This is

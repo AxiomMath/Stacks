@@ -104,8 +104,7 @@ theorem fg_ker_lsmul_of_isPushout
     have key : ∀ y : A ⊗[A₂] B₂,
         e ((LinearMap.mulLeft A₂ h₂).lTensor A y) = algebraMap B₂ B h₂ * e y := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul a b =>
           simp only [LinearMap.lTensor_tmul, LinearMap.mulLeft_apply, he,
             Algebra.IsPushout.equiv_tmul, map_mul]
@@ -122,8 +121,7 @@ theorem fg_ker_lsmul_of_isPushout
     obtain ⟨z, hz⟩ := (hexT _).mp hfr0
     have hgen : ∀ w : A ⊗[A₂] K₂, e (ι.lTensor A w) ∈ N := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul a k =>
           have hk : (k : B₂) ∈ LinearMap.ker (LinearMap.lsmul B₂ B₂ h₂) := k.2
           have := N.smul_mem (algebraMap A B a) (hmemN _ hk)
@@ -148,7 +146,7 @@ lemma flat_quotient_localization {A B : Type*} [CommRing A] [CommRing B] [Algebr
   have : IsScalarTower A (B ⧸ I)
       (Localization.AtPrime q ⧸ I.map (algebraMap B (Localization.AtPrime q))) :=
     .of_algebraMap_eq fun a => by
-      show Ideal.Quotient.mk _ (algebraMap A (Localization.AtPrime q) a) = _
+      change Ideal.Quotient.mk _ (algebraMap A (Localization.AtPrime q) a) = _
       rw [IsScalarTower.algebraMap_apply A B (Localization.AtPrime q)]
       rfl
   exact Module.Flat.of_isLocalizedModule_of_tower
@@ -185,7 +183,7 @@ private lemma exists_linearMap_tensorQuotient {S₀ C A₂ : Type*} [CommRing S�
   · intro x
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (e.symm x)
     exact ⟨b, by
-      show b ⊗ₜ (1 : S₀ ⧸ I) = x
+      change b ⊗ₜ (1 : S₀ ⧸ I) = x
       rw [show b ⊗ₜ (1 : S₀ ⧸ I) = e (Ideal.Quotient.mk _ b) from rfl, hb,
         e.apply_symm_apply]⟩
   · intro y
@@ -203,7 +201,7 @@ private lemma exists_linearMap_tensorQuotient {S₀ C A₂ : Type*} [CommRing S�
       have hq0 : (Ideal.Quotient.mk (I.map (algebraMap S₀ C)) y) = 0 := by
         rw [Ideal.Quotient.eq_zero_iff_mem, hmapI, Ideal.mem_span_singleton']
         exact ⟨b, by rwa [mul_comm]⟩
-      show e (Ideal.Quotient.mk _ y) = 0
+      change e (Ideal.Quotient.mk _ y) = 0
       rw [hq0, map_zero]
 
 /-- Finite generation of the kernel of multiplication by an element is invariant under a ring
@@ -242,7 +240,7 @@ private theorem fg_ker_lsmul_of_flat_quotient_aux {A B : Type u} [CommRing A] [C
   have _t4 : IsScalarTower ↥(i.1.toSubring) A B := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have _t5 : IsScalarTower ↥(i.1.toSubring) (Ring R₀ S₀ i) B := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap A B x.1 = algebraMap (Ring R₀ S₀ i) B (x ⊗ₜ 1)
+    change algebraMap A B x.1 = algebraMap (Ring R₀ S₀ i) B (x ⊗ₜ 1)
     have h1 := ringToRing_tmul R₀ S₀ (S := B) i x 1
     rw [map_one, mul_one] at h1
     exact h1.symm

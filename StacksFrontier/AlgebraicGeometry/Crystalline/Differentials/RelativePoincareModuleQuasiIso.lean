@@ -69,8 +69,7 @@ private theorem polyCancel_map_baseChangeValues (p : ℕ)
     polyCancel A B W M (p + 1) (TensorProduct.map LinearMap.id ((leftWedge p).flip omega)
         (Connection.baseChangeValues (oneFormComparison A B W) z)) =
       LinearMap.lTensor M (polyWedgeOne A B W p omega) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul m' eta =>
     calc polyCancel A B W M (p + 1) (TensorProduct.map LinearMap.id ((leftWedge p).flip omega)
@@ -180,8 +179,8 @@ private theorem projB_comp_polyWedgeOne (n l i : ℕ) (hli : l ≤ i)
   refine LinearMap.ext fun eta ↦ ?_
   have h11 := formsBidegreeProjection_coefficientFormsMap A B W 1 1
     ((exteriorPower.oneEquiv (B : Type u) _).symm eta)
-  rw [if_pos rfl] at h11
-  show formsBidegreeProjection A B W (n + 1) l
+  rw [ite_eq_left rfl] at h11
+  change formsBidegreeProjection A B W (n + 1) l
       (dividedPowerWedge (setIndexedDividedPowerPolynomialDividedPowers B W) n
         (formsBidegreeProjection A B W n i omega)
         (coefficientFormsMap A B W 1 ((exteriorPower.oneEquiv (B : Type u) _).symm eta))) = 0
@@ -319,11 +318,10 @@ private theorem lTensor_proj_perturbation_eq_zero {rel : ∀ n, X n →ₗ[R] X 
     (n l i : ℕ) (hli : l ≤ i) (x : M ⊗[R] X n) :
     LinearMap.lTensor M (proj (n + 1) l) ((dC n - (LinearMap.lTensor M (rel n)).toAddMonoidHom)
       (LinearMap.lTensor M (proj n i) x)) = 0 := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb, add_zero]
   | tmul m ω =>
-    show LinearMap.lTensor M (proj (n + 1) l) (dC n (m ⊗ₜ proj n i ω) -
+    change LinearMap.lTensor M (proj (n + 1) l) (dC n (m ⊗ₜ proj n i ω) -
       LinearMap.lTensor M (rel n) (m ⊗ₜ proj n i ω)) = 0
     rw [hdC, LinearMap.lTensor_tmul, add_sub_assoc, TensorProduct.tmul_add, add_sub_cancel_left,
       map_add, lTensor_lTensor_apply, hprojwedge n l i hli ω, LinearMap.lTensor_zero,
@@ -353,10 +351,10 @@ private theorem iterate_perturbation_eq_zero {rel : ∀ n, X n →ₗ[R] X (n + 
   refine DividedPowerPolynomial.iterate_eq_zero_of_raisesProjectionDegree (n + 2) projT
     ((dC n - (LinearMap.lTensor M (rel n)).toAddMonoidHom).comp
       (LinearMap.lTensor M (hh n)).toAddMonoidHom) (fun y ↦ ?_) (fun l j hlj y ↦ ?_) x
-  · show ∑ i ∈ Finset.range (n + 2), LinearMap.lTensor M (proj (n + 1) i) y = y
+  · change ∑ i ∈ Finset.range (n + 2), LinearMap.lTensor M (proj (n + 1) i) y = y
     rw [lTensor_sum_apply, e, LinearMap.lTensor_id, LinearMap.id_apply]
   · have e' : hh n ∘ₗ proj (n + 1) j = proj n j ∘ₗ hh n := LinearMap.ext (hprojh n j)
-    show LinearMap.lTensor M (proj (n + 1) l)
+    change LinearMap.lTensor M (proj (n + 1) l)
       ((dC n - (LinearMap.lTensor M (rel n)).toAddMonoidHom)
         (LinearMap.lTensor M (hh n) (LinearMap.lTensor M (proj (n + 1) j) y))) = 0
     rw [lTensor_lTensor_apply, e', ← lTensor_lTensor_apply]
@@ -418,13 +416,13 @@ private theorem exists_retraction_abstract
   have hhiota : ∀ (n : ℕ) (y : M ⊗[R] Y (n + 1)), h n (iota (n + 1) y) = 0 :=
     fun n ↦ lTensor_lTensor_eq_zero' (coef (n + 1)) (hh n) (hhcoef n)
   have hd : ∀ (n : ℕ) (x : M ⊗[R] X n), dC n x = d0 n x + t n x := fun n x ↦ by
-    show dC n x = d0 n x + (dC n x - d0 n x)
+    change dC n x = d0 n x + (dC n x - d0 n x)
     abel
   have hd0d0 : ∀ (n : ℕ) (x : M ⊗[R] X n), d0 (n + 1) (d0 n x) = 0 :=
     fun n ↦ lTensor_lTensor_eq_zero' (rel n) (rel (n + 1)) (hrel n)
   have hcross : ∀ (n : ℕ) (x : M ⊗[R] X n), t (n + 1) (dC n x) + d0 (n + 1) (t n x) = 0 := by
     intro n x
-    show dC (n + 1) (dC n x) - d0 (n + 1) (dC n x) + d0 (n + 1) (dC n x - d0 n x) = 0
+    change dC (n + 1) (dC n x) - d0 (n + 1) (dC n x) + d0 (n + 1) (dC n x - d0 n x) = 0
     rw [map_sub, hdd, hd0d0]
     abel
   have hhd0iota : ∀ (n : ℕ) (y : M ⊗[R] Y n), h n (d0 n (iota n y)) = 0 := by
@@ -440,9 +438,9 @@ private theorem exists_retraction_abstract
       exact add_eq_right.mp this
   have hhtiota : ∀ (n : ℕ) (y : M ⊗[R] Y n), h n (t n (iota n y)) = 0 := by
     intro n y
-    show h n (dC n (iota n y) - d0 n (iota n y)) = 0
+    change h n (dC n (iota n y) - d0 n (iota n y)) = 0
     rw [map_sub, hhd0iota, sub_zero]
-    show h n (dC n (LinearMap.lTensor M (coef n) y)) = 0
+    change h n (dC n (LinearMap.lTensor M (coef n) y)) = 0
     rw [hchain]
     exact hhiota n (dL n y)
   have hnil : ∀ (n : ℕ) (x : M ⊗[R] X (n + 1)), (fun y ↦ t n (h n y))^[n + 2] x = 0 :=
@@ -491,7 +489,7 @@ private theorem quasiIso_of_additiveRetraction {R : Type*} [Ring R]
         (fun i ↦ AddCommGrpCat.ofHom (H i))
         (AddCommGrpCat.ext fun y ↦ (h0 y).symm)
         (fun n ↦ AddCommGrpCat.ext fun y ↦ by
-          show y = H (n + 1) ((L.d (n + 1) (n + 1 + 1)).hom y) +
+          change y = H (n + 1) ((L.d (n + 1) (n + 1 + 1)).hom y) +
             (L.d n (n + 1)).hom (H n y) + (f.f (n + 1)).hom (g (n + 1) y)
           rw [add_comm (H (n + 1) _)]
           exact (hs n y).symm)).symm }
@@ -585,7 +583,7 @@ private theorem exists_retraction_poly [LinearOrder W] :
     (dC_lTensor_coefficientFormsMap A B W nabla hint)
     (formsBidegreeProjection_sum A B W)
     (relativeFormsHomotopy_formsBidegreeProjection A B W)
-    (fun n l i hli ω ↦ formsBidegreeProjection_formsBaseDifferential_eq_zero A B W n hli ω)
+    (fun n l i ↦ formsBidegreeProjection_formsBaseDifferential_eq_zero A B W n (l := l) (i := i))
     (projB_comp_polyWedgeOne A B W)
 
 end Instance
@@ -648,11 +646,11 @@ public theorem quasiIso_polyDeRhamComparison :
     (fun i ↦ (pT i).symm.toAddMonoidHom.comp ((H i).comp (pT (i + 1)).toAddMonoidHom))
     ?_ ?_ ?_ ?_
   · intro i x
-    show (bT i).symm (pi' i (pT i (c i x))) = x
+    change (bT i).symm (pi' i (pT i (c i x))) = x
     exact (congrArg (fun z ↦ (bT i).symm (pi' i z)) (hc i x)).trans
       ((congrArg (bT i).symm (h1 i (bT i x))).trans ((bT i).symm_apply_apply x))
   · intro i y
-    show (bT (i + 1)).symm (pi' (i + 1) (pT (i + 1)
+    change (bT (i + 1)).symm (pi' (i + 1) (pT (i + 1)
         (((polyTargetDeRhamComplex A B W nabla hint).d i (i + 1)).hom y))) =
       ((oneVariableSourceDeRhamComplex A B nabla hint).d i (i + 1)).hom
         ((bT i).symm (pi' i (pT i y)))
@@ -661,7 +659,7 @@ public theorem quasiIso_polyDeRhamComparison :
         (LinearMap.congr_fun (oneVariableSourceDeRhamComplex_hom_d A B nabla hint i) _).symm))
   · intro y
     apply (pT 0).injective
-    show pT 0 ((pT 0).symm (H 0 (pT (0 + 1)
+    change pT 0 ((pT 0).symm (H 0 (pT (0 + 1)
         (((polyTargetDeRhamComplex A B W nabla hint).d 0 (0 + 1)).hom y))) +
       c 0 ((bT 0).symm (pi' 0 (pT 0 y)))) = pT 0 y
     refine (map_add (pT 0) _ _).trans ?_

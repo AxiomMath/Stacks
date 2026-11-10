@@ -218,11 +218,11 @@ theorem hasRepresentableDiagonal_of_isAlgebraicSpace_diagonalPointFunctorOverBas
     have hftS : Deformation.Artin.IsFiniteTypeOver B S hS ((Over.map V.hom).obj U) := by
       have : LocallyOfFiniteType (B.inclusion.map U.hom) := hft.1
       have hfin : Finite (B.inclusion.obj ((Over.map V.hom).obj U).left) := by
-        show Finite U.left.1
+        change Finite U.left.1
         rw [hU]
         infer_instance
       refine ⟨?_, @quasiCompact_of_finite _ _ hfin _⟩
-      show LocallyOfFiniteType (B.inclusion.map (U.hom ≫ V.hom))
+      change LocallyOfFiniteType (B.inclusion.map (U.hom ≫ V.hom))
       rw [Functor.map_comp]
       infer_instance
     have h₁ := mk_isoClasses_diagonalPointFibre_le (y := y) U

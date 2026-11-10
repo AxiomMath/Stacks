@@ -227,7 +227,7 @@ theorem preimage_le_infinityChartAffineOpen :
   have := congrArg (fun φ => φ y) (congrArg (fun g => (g.base : _ → _))
     (specMap_evalZero_infinityChartOver U))
   simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_apply] at this
-  show (infinityChartOver U) _ = (i ≫ lineInfinitySection X) z
+  change (infinityChartOver U) _ = (i ≫ lineInfinitySection X) z
   rw [this, hy]
   rfl
 
@@ -453,7 +453,7 @@ theorem centreChartRestrictRingHom_tmul (h : V.1 ≤ U.1) (s : Γ(Z, i ⁻¹ᵁ 
     (f : reesAlgebra ((infinityCentreIdeal i.ker).ideal (infinityChartAffineOpen U))) :
     centreChartRestrictRingHom i h (s ⊗ₜ f) =
       (centreRestrict i h).hom s ⊗ₜ centreReesRestrict i h f := by
-  show ((centreRestrict i h).hom s ⊗ₜ[Γ(relativeProjectiveLine X,
+  change ((centreRestrict i h).hom s ⊗ₜ[Γ(relativeProjectiveLine X,
       (infinityChartAffineOpen V).1)] (1 : reesAlgebra ((infinityCentreIdeal i.ker).ideal
         (infinityChartAffineOpen V)))) * ((1 : Γ(Z, i ⁻¹ᵁ V.1)) ⊗ₜ centreReesRestrict i h f) = _
   rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -479,7 +479,7 @@ theorem centreChartRestrict_comp_includeRight (h : V.1 ≤ U.1) :
       (Stacks.ProjBaseChange.includeRight (centreReesGrading i V) Γ(Z, i ⁻¹ᵁ V.1)).comp
         (centreReesRestrict i h) :=
   GradedRingHom.ext fun f => by
-    show centreChartRestrictRingHom i h (1 ⊗ₜ f) = _
+    change centreChartRestrictRingHom i h (1 ⊗ₜ f) = _
     rw [centreChartRestrictRingHom_tmul, map_one]
     rfl
 
@@ -496,7 +496,7 @@ omit [IsClosedImmersion i] in
 theorem centreChartRestrict_algebraMap (h : V.1 ≤ U.1) (s : Γ(Z, i ⁻¹ᵁ U.1)) :
     centreChartRestrict i h (algebraMap _ (centreChartRing i U) s) =
       algebraMap _ (centreChartRing i V) ((centreRestrict i h).hom s) := by
-  show centreChartRestrictRingHom i h (s ⊗ₜ 1) = (centreRestrict i h).hom s ⊗ₜ 1
+  change centreChartRestrictRingHom i h (s ⊗ₜ 1) = (centreRestrict i h).hom s ⊗ₜ 1
   rw [centreChartRestrictRingHom_tmul, map_one]
 
 omit [IsClosedImmersion i] in

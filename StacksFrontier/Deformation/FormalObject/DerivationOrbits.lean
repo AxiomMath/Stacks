@@ -77,7 +77,7 @@ public noncomputable def derivationDifferentialGraph
     (D : Derivations ξ.base k)
     (y : predeformationTangentSpace.{u, v, w} p hp) : Prop :=
   let source := isomorphismClasses
-    (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+    (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base)))
     (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base))
   let dual := artinianDualNumbers.{u, w, v} Λ k
   ∃ (P : ChosenPushforwards p) (α : (restrictedCoyoneda ξ.base).obj dual),
@@ -87,7 +87,7 @@ public noncomputable def derivationDifferentialGraph
           (restrictedCoyoneda ξ.base)) hp.cofibered
         (associatedMorphism hp.cofibered ξ P).toBasedFunctor dual
         (classOf
-          (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+          (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base)))
           (categoryOfElements_projection_isCofibered
             (restrictedCoyoneda ξ.base))
           ⟨(restrictedCoyoneda ξ.base).elementsMk dual α, rfl⟩ : source.obj dual) = y

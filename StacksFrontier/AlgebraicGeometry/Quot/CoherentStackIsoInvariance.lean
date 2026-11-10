@@ -324,7 +324,7 @@ theorem isoFunctor_comp_projection (cd : CoherentCategoryData hc D)
   let _ : Category.{u + 1} (CoherentObject (isoSituation D f' hf')) := cd'.category
   let _ : Category.{u + 1} (CoherentObject D) := cd.category
   refine CategoryTheory.Functor.ext (fun A => rfl) (fun A A' m => ?_)
-  show ((Equiv.cast (cd.hom_type _ _)) ((isoFunctor hf' e he hc hst cd cd').map m)).base.left =
+  change ((Equiv.cast (cd.hom_type _ _)) ((isoFunctor hf' e he hc hst cd cd').map m)).base.left =
     𝟙 _ ≫ ((Equiv.cast (cd'.hom_type A A')) m).base.left ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id, isoFunctor_cast hf' e he hc hst cd cd' m]
   rfl
@@ -441,7 +441,7 @@ theorem nonempty_isEquivalenceOver_isoFunctor (cd : CoherentCategoryData hc D)
   let φ : y ⟶ (isoFunctor hf' e he hc hst cd cd').obj (isoPreimage hf' e he hst y) :=
     (Equiv.cast (cd.hom_type _ _)).symm (isoPreimageHom hf' e he hc hst y)
   have hφ : (coherentSiteProjection cd).map φ = 𝟙 _ := by
-    show ((Equiv.cast (cd.hom_type _ _)) ((Equiv.cast (cd.hom_type _ _)).symm
+    change ((Equiv.cast (cd.hom_type _ _)) ((Equiv.cast (cd.hom_type _ _)).symm
       (isoPreimageHom hf' e he hc hst y))).base.left = _
     rw [Equiv.apply_symm_apply]
     rfl
@@ -455,7 +455,7 @@ theorem nonempty_isEquivalenceOver_isoFunctor (cd : CoherentCategoryData hc D)
       exact (eqToHom_refl _ _).symm)
   have hiso : IsIso φ := Functor.isIso_of_isHomLift_id' (coherentSiteProjection cd) hfib φ hvert
   refine ⟨isoPreimage hf' e he hst y, rfl, asIso φ, ?_⟩
-  show (coherentSiteProjection cd).map φ = _
+  change (coherentSiteProjection cd).map φ = _
   rw [hφ]
   rfl
 

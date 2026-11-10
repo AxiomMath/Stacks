@@ -135,11 +135,13 @@ private theorem minorIdealInjective_eq_minorIdeal
       exact hzero ▸ Ideal.zero_mem _
 
 private theorem minorIdeal_fromBlocks_maximal
-    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Fintype l₁] [Fintype l₂]
+    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Finite l₁] [Finite l₂]
     (r s : ℕ) (T : Matrix l₁ (Fin r) A) (U : Matrix l₂ (Fin s) A) :
     minorIdeal (Matrix.fromBlocks T 0 0 U) (r + s) =
       minorIdeal T r * minorIdeal U s := by
   classical
+  have := Fintype.ofFinite l₁
+  have := Fintype.ofFinite l₂
   rw [minorIdeal_fromBlocks]
   let F : ℕ × ℕ → Ideal A := fun p => minorIdeal T p.1 * minorIdeal U p.2
   change (∑ p ∈ Finset.HasAntidiagonal.antidiagonal (r + s), F p) = F (r, s)
@@ -160,7 +162,7 @@ private theorem minorIdeal_fromBlocks_maximal
   · simp
 
 private theorem minorIdeal_fromBlocks_one_column
-    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Fintype l₁] [Fintype l₂]
+    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Finite l₁] [Finite l₂]
     (r : ℕ) (T : Matrix l₁ (Fin r) A) (U : Matrix l₂ (Fin 1) A) :
     minorIdeal (Matrix.fromBlocks T 0 0 U) (r + 1) =
       minorIdeal T r * minorIdeal U 1 :=
@@ -213,14 +215,14 @@ private theorem minorIdeal_single_entry
   simp
 
 private theorem minorIdeal_fromBlocks_single_entry
-    {A : Type*} [CommRing A] {l : Type*} [Fintype l]
+    {A : Type*} [CommRing A] {l : Type*} [Finite l]
     (r : ℕ) (T : Matrix l (Fin r) A) (f : A) :
     minorIdeal (Matrix.fromBlocks T 0 0 (Matrix.of fun (_ _ : Fin 1) => f)) (r + 1) =
       Ideal.span {f} * minorIdeal T r := by
   rw [minorIdeal_fromBlocks_one_column, minorIdeal_single_entry, mul_comm]
 
 private theorem minorIdeal_fromBlocks_unit_column
-    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Fintype l₁] [Fintype l₂]
+    {A : Type*} [CommRing A] {l₁ l₂ : Type*} [Finite l₁] [Finite l₂]
     (r : ℕ) (T : Matrix l₁ (Fin r) A) (U : Matrix l₂ (Fin 1) A)
     (j : l₂) (hj : U j 0 = 1) :
     minorIdeal (Matrix.fromBlocks T 0 0 U) (r + 1) = minorIdeal T r := by
@@ -330,7 +332,7 @@ private theorem mapMatrixGeneral_fromBlocks {A : Type*} [CommRing A]
       Matrix.one_apply, Matrix.smul_apply]
 
 private theorem minorIdeal_mapMatrixGeneral_fromBlocks_maximal
-    {A : Type*} [CommRing A] {b d : Type*} [Fintype b] [Fintype d]
+    {A : Type*} [CommRing A] {b d : Type*} [Finite b] [Finite d]
     (f : A) (r s : ℕ) (D : Matrix b (Fin r) A) (E : Matrix d (Fin s) A) :
     minorIdeal (mapMatrixGeneral f (Matrix.fromBlocks D 0 0 E)) (r + s) =
       minorIdeal (mapMatrixGeneral f D) r *
@@ -350,7 +352,7 @@ private theorem minorIdeal_mapMatrixGeneral_fromBlocks_maximal
     _ = _ := minorIdeal_fromBlocks_maximal r s _ _
 
 private theorem minorIdeal_mapMatrixGeneral_fromBlocks_one_column
-    {A : Type*} [CommRing A] {b d : Type*} [Fintype b] [Fintype d]
+    {A : Type*} [CommRing A] {b d : Type*} [Finite b] [Finite d]
     (f : A) (r : ℕ) (D : Matrix b (Fin r) A) (E : Matrix d (Fin 1) A) :
     minorIdeal (mapMatrixGeneral f (Matrix.fromBlocks D 0 0 E)) (r + 1) =
       minorIdeal (mapMatrixGeneral f D) r *
@@ -373,7 +375,7 @@ private theorem minorIdeal_mapMatrixGeneral_unit_one_column
   simp [mapMatrixGeneral]
 
 private theorem minorIdeal_mapMatrixGeneral_fromBlocks_zero_one_column
-    {A : Type*} [CommRing A] {b : Type*} [Fintype b]
+    {A : Type*} [CommRing A] {b : Type*} [Finite b]
     (f : A) (r : ℕ) (D : Matrix b (Fin r) A) :
     minorIdeal (mapMatrixGeneral f (Matrix.fromBlocks D 0 0
       (0 : Matrix (Fin 0) (Fin 1) A))) (r + 1) =
@@ -382,7 +384,7 @@ private theorem minorIdeal_mapMatrixGeneral_fromBlocks_zero_one_column
     minorIdeal_mapMatrixGeneral_zero_one_column, mul_comm]
 
 private theorem minorIdeal_mapMatrixGeneral_fromBlocks_unit_one_column
-    {A : Type*} [CommRing A] {b : Type*} [Fintype b]
+    {A : Type*} [CommRing A] {b : Type*} [Finite b]
     (f : A) (r : ℕ) (D : Matrix b (Fin r) A) :
     minorIdeal (mapMatrixGeneral f (Matrix.fromBlocks D 0 0
       (1 : Matrix (Fin 1) (Fin 1) A))) (r + 1) =
@@ -871,8 +873,7 @@ theorem baseChangeTermEquiv_naturality
         ((ModuleCat.extendScalars φ).map (ModuleCat.ofHom D.mulVecLin) x) =
       D.map φ *ᵥ baseChangeTermEquiv φ r x := by
   let := φ.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, Matrix.mulVec_add, hx, hy]
   | tmul b x =>
     rw [ModuleCat.ExtendScalars.map_tmul, baseChangeTermEquiv_tmul,

@@ -85,7 +85,7 @@ theorem crisInverseImageRestrict_naturality {A₁ A₂ : CrystallineThickening S
     ((crisModuleInverseImage fS fX hf).obj ((moduleULift S').obj F)).val.restrictₛₗ g'.op
         (crisInverseImageRestrict fS fX hf F τ₂ s) =
       crisInverseImageRestrict fS fX hf F τ₁ (F.val.restrictₛₗ g.op s) := by
-  show ((moduleLowerShriek S').obj ((moduleULift S').obj F)).val.restrictₛₗ
+  change ((moduleLowerShriek S').obj ((moduleULift S').obj F)).val.restrictₛₗ
       ((changeBase S S' fS fX hf).map ((CrystallineThickening.ι S).map g')).op
       (lowerShriekRestrict ((moduleULift S').obj F) τ₂ (upSection F s)) = _
   rw [← lowerShriekRestrict_comp, w, lowerShriekRestrict_comp_ι]

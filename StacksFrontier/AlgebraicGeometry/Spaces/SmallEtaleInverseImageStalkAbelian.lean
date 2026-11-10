@@ -109,7 +109,7 @@ def etaleSitePointStalkFunctorIso (x : GeometricPoint B S hS F)
   haveI : HasColimitsOfShape (geometricFiber B S hS F x).Elementsᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape (etaleSitePoint B S hS F x hF).fiber.Elementsᵒᵖ A)
   haveI : (neighborhoodFiberElementsEquiv B S hS F x).functor.Initial := inferInstance
-  (colimIsoOfFinalPrecomp (CategoryOfElements.π (geometricFiber B S hS F x)).op
+  (colimIsoOfFinalPrecomp (Functor.Elements.π (geometricFiber B S hS F x)).op
     (neighborhoodFiberElementsEquiv B S hS F x).functor.op).symm
 
 end SmallSite
@@ -133,8 +133,8 @@ def smallToSpacesFiberElements :
 a lift into an étale scheme chart is the comparison functor of Stacks 03G1 applied to that
 chart, so the two diagrams of sections are the same functor. -/
 theorem smallToSpacesFiberElements_comp_π :
-    smallToSpacesFiberElements B S hS x ⋙ CategoryOfElements.π (spacesGeometricFiber x) =
-      CategoryOfElements.π (geometricFiber B S hS X.1 x) ⋙ comparisonFunctor B S hS X := rfl
+    smallToSpacesFiberElements B S hS x ⋙ Functor.Elements.π (spacesGeometricFiber x) =
+      Functor.Elements.π (geometricFiber B S hS X.1 x) ⋙ comparisonFunctor B S hS X := rfl
 
 /-- The lifts of a geometric point into the étale scheme charts are initial among its lifts
 into the algebraic spaces étale over `X`, because the small étale neighbourhoods are initial
@@ -159,7 +159,7 @@ def spacesComparisonPresheafFiberIso (hX : IsAlgebraicSpace B S hS X.1) :
     inferInstanceAs (HasColimitsOfShape (spacesEtaleSitePoint x).fiber.Elementsᵒᵖ A)
   haveI : HasColimitsOfShape (geometricFiber B S hS X.1 x).Elementsᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape (etaleSitePoint B S hS X.1 x hX).fiber.Elementsᵒᵖ A)
-  (colimIsoOfFinalPrecomp (CategoryOfElements.π (spacesGeometricFiber x)).op
+  (colimIsoOfFinalPrecomp (Functor.Elements.π (spacesGeometricFiber x)).op
     (smallToSpacesFiberElements B S hS x).op).symm
 
 /-- **Stacks 04JZ.** The fibre at a geometric point of a sheaf on the spaces-étale site of `X`

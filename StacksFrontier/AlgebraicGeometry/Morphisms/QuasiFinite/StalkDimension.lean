@@ -123,7 +123,7 @@ private theorem residueFieldMap_genericPoint_comp_eq {X S : Scheme.{u}} (f : X �
   have hcast : (dominantFunctionFieldMap f) =
       ((S.presheaf.stalkCongr (Inseparable.of_eq hgen.symm)).hom ≫
         f.stalkMap (genericPoint X)).hom := by
-    show (hgen ▸ f.stalkMap (genericPoint X)).hom = _
+    change (hgen ▸ f.stalkMap (genericPoint X)).hom = _
     rw [congrArg CommRingCat.Hom.hom (stalkMap_cast_target f (genericPoint X) hgen)]
   rw [hcast]
   simpa only [RingEquiv.toRingHom_trans, RingEquiv.toRingHom_trans', Scheme.functionField,
@@ -160,7 +160,7 @@ theorem Scheme.Hom.finite_residueField_of_quasiFiniteAt {X S : Scheme.{u}} (f : 
   let : Algebra R K := (S.residue (f x)).hom.toAlgebra
   let : IsScalarTower R K L := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (f.residueFieldMap x).hom ((S.residue (f x)).hom a) =
+    change (f.residueFieldMap x).hom ((S.residue (f x)).hom a) =
       (X.residue x).hom (φ a)
     simpa [CommRingCat.hom_comp, φ] using
       congrArg (fun g : CommRingCat.Hom R L => g.hom a) (Scheme.residue_residueFieldMap (f := f) x))

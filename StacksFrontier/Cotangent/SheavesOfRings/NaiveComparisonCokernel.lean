@@ -381,7 +381,7 @@ theorem naiveComparisonNegOne_comp_desc
     naiveComparisonNegOne J f ≫ naiveComparisonNegOneDesc J f h hh = h := by
   refine hom_ext_of_derivationEquiv J f (op ⦋1⦌) fun U x => ?_
   refine (derivationEquiv_val_app J f (op ⦋1⦌) M _ U x).trans ?_
-  show (naiveComparisonNegOneDesc J f h hh).val.app U
+  change (naiveComparisonNegOneDesc J f h hh).val.app U
       ((naiveComparisonNegOne J f).val.app U
         (((cotangentSimplicialModule J f).universalDerivation (op ⦋1⦌)).d x)) = _
   rw [naiveComparisonNegOne_conormalClass, conormalClassSection]
@@ -419,7 +419,7 @@ noncomputable def isColimitNaiveComparisonNegOne :
       (naiveComparisonNegOne_faceSum J f)) :=
   CokernelCofork.IsColimit.ofπ _ _ (fun h hh => naiveComparisonNegOneDesc J f h hh)
     (fun h hh => naiveComparisonNegOne_comp_desc J f h hh)
-    (fun h hh m hm => naiveComparisonNegOne_cancel J f
+    (fun h hh m hm => naiveComparisonNegOne_cancel J f (m₁ := m)
       (hm.trans (naiveComparisonNegOne_comp_desc J f h hh).symm))
 
 /-! ### The degree-zero component is an isomorphism -/
@@ -482,7 +482,7 @@ theorem naiveComparisonZeroInv_tensorDifferential (U : Cᵒᵖ)
         (Stacks.Sites.Conormal.underlyingRingHomForPullback J (resolutionTerm J f (op ⦋0⦌)) B
           (resolutionAugmentation J f (op ⦋0⦌)))).homEquiv _ _).symm
         (differentialsToCotangentZero J f))).symm.trans (Equiv.apply_symm_apply _ _)
-  show (((SheafOfModules.pullbackPushforwardAdjunction
+  change (((SheafOfModules.pullbackPushforwardAdjunction
       (Stacks.Sites.Conormal.underlyingRingHomForPullback J (resolutionTerm J f (op ⦋0⦌)) B
         (resolutionAugmentation J f (op ⦋0⦌)))).homEquiv _ _).symm
       (differentialsToCotangentZero J f)).val.app U

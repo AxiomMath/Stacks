@@ -61,7 +61,7 @@ public theorem isIso_toPresheafFiber_etaleMkId_of_isSepClosed (k : Type u) [Fiel
   have hinit : IsInitial (show (pointSmallEtale x).fiber.Elements from
       (pointSmallEtale x).fiber.elementsMk (Scheme.Etale.mk (𝟙 (Spec (.of k))))
         (Over.homMk x (by
-          show x ≫ 𝟙 _ = x
+          change x ≫ 𝟙 _ = x
           simp))) := by
     classical
     let sectionOf (U : (pointSmallEtale x).fiber.Elements) :=

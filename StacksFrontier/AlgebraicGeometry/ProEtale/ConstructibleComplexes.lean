@@ -155,7 +155,8 @@ abbrev DerivedSheaves :=
 /-- The canonical ring map from the coefficients to the sections of the constant coefficient
 ring sheaf over the terminal object of the pro-étale site. -/
 def toCoefficientSections :
-    Λ →+* ((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O)).obj.obj
+    Λ →+* ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (constantCoefficientRingedSite.{u, r, w} X Λ).O)).obj.obj
       (op (⊤_ X.ProEt)) :=
   (((toSheafify (Scheme.ProEt.topology X) ((Functor.const X.ProEtᵒᵖ).obj
       (CommRingCat.of (ULift.{max (u + 1) w} Λ)))).app (op (⊤_ X.ProEt))).hom).comp
@@ -199,7 +200,8 @@ abbrev constantCoefficientReduction :
 sheaves. -/
 abbrev constantCoefficientRingReduction :
     (Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O) ⟶
-      (Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).O) :=
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).O) :=
   (sheafCompose (Scheme.ProEt.topology X)
     (forget₂ CommRingCat.{max (u + 1) r w} RingCat.{max (u + 1) r w})).map
       (constantCoefficientReduction.{u, r, w} X Λ I)
@@ -233,10 +235,12 @@ abbrev HasConstructibleCohomology (K : DerivedSheaves.{u, r, w} X Λ) : Prop :=
 
 variable
   [∀ U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w, max (u + 1) r w}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w,
+        max (u + 1) r w}
       ((constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w, max (u + 1) r w}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) r w, max (u + 1) r w,
+        max (u + 1) r w}
       ((constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, r, w} X (Λ ⧸ I)).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) r w}
@@ -288,7 +292,8 @@ attribute [local instance] SheafOfModules.wEqualsLocallyBijective_commRingCat
 to the presheaf of rings underlying the constant coefficient ring sheaf. -/
 abbrev constantCoefficientRingMap :
     (Functor.const X.ProEtᵒᵖ).obj (RingCat.of (ULift.{max (u + 1) w} Λ)) ⟶
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O)).obj :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (constantCoefficientRingedSite.{u, r, w} X Λ).O)).obj :=
   Functor.whiskerRight (toSheafify (Scheme.ProEt.topology X)
     ((Functor.const X.ProEtᵒᵖ).obj (CommRingCat.of (ULift.{max (u + 1) w} Λ))))
       (forget₂ CommRingCat.{max (u + 1) r w} RingCat.{max (u + 1) r w})
@@ -439,12 +444,15 @@ on unbounded derived categories. -/
 abbrev overRestrictionDerived (V : X.ProEt) :
     DerivedSheaves.{u, r, w} X Λ ⥤
       DerivedCategory (SheafOfModules.{max (u + 1) r w}
-        (((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O)).over V)) :=
+        (((Stacks.SheafOfModules.Tensor.ringSheaf
+          (constantCoefficientRingedSite.{u, r, w} X Λ).O)).over V)) :=
   letI : PreservesFiniteLimits (SheafOfModules.overFunctor.{max (u + 1) r w}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O)) V) :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (constantCoefficientRingedSite.{u, r, w} X Λ).O)) V) :=
     SheafOfModules.preservesFiniteLimits_pushforward _
   (SheafOfModules.overFunctor.{max (u + 1) r w}
-    ((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} X Λ).O)) V).mapDerivedCategory
+    ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (constantCoefficientRingedSite.{u, r, w} X Λ).O)) V).mapDerivedCategory
 
 /-- **Stacks 09C4, part (1).** An object `K` of `D(X_proét, Λ)` is *adic lisse* if there is a
 finite complex `M^•` of finite projective `Λ^∧`-modules such that `K` is pro-étale locally
@@ -489,7 +497,8 @@ def coefficientRingComparison (i : Z ⟶ X) :
       ((Scheme.proetaleBaseChange i).sheafPushforwardContinuous
           RingCat.{max (u + 1) r w} (Scheme.ProEt.topology X)
           (Scheme.ProEt.topology Z)).obj
-        ((Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, r, w} Z Λ).O)) :=
+        ((Stacks.SheafOfModules.Tensor.ringSheaf
+          (constantCoefficientRingedSite.{u, r, w} Z Λ).O)) :=
   (sheafCompose (Scheme.ProEt.topology X)
     (forget₂ CommRingCat.{max (u + 1) r w} RingCat.{max (u + 1) r w})).map
       (constantCoefficientRingComparison.{u, r, w} Λ i)

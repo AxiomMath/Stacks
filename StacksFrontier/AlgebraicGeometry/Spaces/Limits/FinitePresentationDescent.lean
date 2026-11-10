@@ -174,6 +174,7 @@ private instance (priority := high) bigFppfPresheafHasPullback
     HasPullback f g := HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Cospan-shaped limits of presheaves on the site (instance search times out without this
 shortcut). -/
 instance (priority := high) bigFppfPresheafHasLimitsOfShapeCospan_finitePresentationDescent
@@ -190,6 +191,7 @@ instance (priority := high) bigFppfPresheafHasLimitCospan_finitePresentationDesc
   HasLimitsOfShape.has_limit F
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Small products of presheaves on the site (instance search times out without this
 shortcut). -/
 instance (priority := high) bigFppfPresheafHasLimitsOfShapeDiscrete_finitePresentationDescent
@@ -306,7 +308,7 @@ private theorem represented_etale_of_isEtale
     intro V g
     refine ⟨V, g, 𝟙 V, ?_, ?_⟩
     · simpa using (IsPullback.id_horiz g).flip
-    · show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
+    · change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
       infer_instance
   simpa using hp U (𝟙 _) hid
 
@@ -882,7 +884,7 @@ private theorem atlasKernelPair_isSeparated
       (Over.OverMorphism.ext ht) (Over.OverMorphism.ext hs)
     exact congrArg (fun t => t.left) he⟩
   let : IsAffine (Q.obj W.obj) := W.property
-  show Scheme.IsSeparated (Q.obj K.R)
+  change Scheme.IsSeparated (Q.obj K.R)
   refine ⟨?_⟩
   have : _root_.AlgebraicGeometry.IsSeparated (p ≫ pullback.fst (terminal.from (Q.obj W.obj))
       (terminal.from (Q.obj W.obj)) ≫ terminal.from (Q.obj W.obj)) := inferInstance
@@ -947,7 +949,7 @@ private theorem isQuasiSeparated_of_isAffineHom
     (fun _ _ q hq => by
       let : AlgebraicGeometry.IsAffineHom
           ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map q) := hq
-      show _root_.AlgebraicGeometry.IsSeparated
+      change _root_.AlgebraicGeometry.IsSeparated
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map q)
       infer_instance) f h.2
 
@@ -980,10 +982,10 @@ private theorem isFinitePresentation_of_scheme_chart
       hW hX _).mpr
     exact ⟨W, U, 𝟙 _, p, g,
       presheafProperty_id _ (etaleInverseImageRespectsIso _) W (fun V => by
-        show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
+        change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
         infer_instance), hp,
       presheafProperty_id _ (surjectiveInverseImageRespectsIso _) W (fun V => by
-        show Surjective ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
+        change Surjective ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 V))
         infer_instance), by simp, hg⟩
   · exact AlgebraicGeometry.Space.isQuasiCompact_of_isQuasiCompactSpace
       B S hS hZ hX hXqs
@@ -1057,10 +1059,10 @@ private theorem exists_site_pullback_model
   refine (IsPullback.of_hasPullback (Q.map f) (Q.map q)).of_iso'
     ((Over.forget _).mapIso d) (Iso.refl _) (Iso.refl _) (Iso.refl _)
     ?_ ?_ (by simp) (by simp)
-  · show d.hom.left ≫ pullback.fst (Q.map f) (Q.map q) = Q.map a ≫ 𝟙 _
+  · change d.hom.left ≫ pullback.fst (Q.map f) (Q.map q) = Q.map a ≫ 𝟙 _
     simp only [Category.comp_id]
     rfl
-  · show d.hom.left ≫ pullback.snd (Q.map f) (Q.map q) = Q.map g ≫ 𝟙 _
+  · change d.hom.left ≫ pullback.snd (Q.map f) (Q.map q) = Q.map g ≫ 𝟙 _
     simpa only [Category.comp_id, Over.pullback_obj_hom, Over.mk_hom, Q] using Over.w d.hom
 
 /-- The public form of the private `exists_site_pullback_model` above. -/
@@ -1149,7 +1151,7 @@ private theorem equalizes_kernelPair_after_baseChange
   let z : pullback (p ≫ r) e ⟶ pullback r e :=
     pullback.lift (pullback.fst (p ≫ r) e ≫ p) (pullback.snd (p ≫ r) e)
       (by simp only [Category.assoc, pullback.condition])
-  show s ≫ z ≫ f = t ≫ z ≫ f
+  change s ≫ z ≫ f = t ≫ z ≫ f
   rw [← Category.assoc s z f, ← Category.assoc t z f]
   apply congrArg (fun k => k ≫ f)
   apply pullback.hom_ext
@@ -1540,7 +1542,7 @@ private theorem scheme_affine_model_of_finitePresentation
   refine ⟨j, (Over.pullback (E.map a)).obj Xi, ?_, ha,
     ⟨e ≪≫ (iteratedBaseChangeIso (E.map a) (c.π.app j) (c.π.app i)
       (c.w a) Xi).symm⟩⟩
-  show AlgebraicGeometry.FinitePresentation (pullback.snd Xi.hom (E.map a))
+  change AlgebraicGeometry.FinitePresentation (pullback.snd Xi.hom (E.map a))
   exact ⟨inferInstance, inferInstance, inferInstance⟩
 
 /-- The public form of the private `scheme_affine_model_of_finitePresentation` above. -/
@@ -1595,7 +1597,7 @@ private theorem finitePresentation_of_yoneda
   let : E.RespectsIso := etaleInverseImageRespectsIso _
   have hId (W : AlgebraicGeometry.BigFppfOver B S hS) : E.presheaf (𝟙 (yoneda.obj W)) :=
     presheafProperty_id E (etaleInverseImageRespectsIso _) W (fun T => by
-      show Etale (Q.map (𝟙 T))
+      change Etale (Q.map (𝟙 T))
       infer_instance)
   refine ⟨hf.1 U V (𝟙 _) (𝟙 _) f (hId U) (hId V) (by simp), ?_,
     (AlgebraicGeometry.Space.isQuasiSeparated_yoneda_map_iff B S hS f).mp hf.2.2⟩
@@ -1652,7 +1654,7 @@ private theorem etale_pullback_of_etale_pullback
     (h : q ≫ p = r) (X : Over T)
     [Etale ((Over.pullback p).obj X).hom] : Etale ((Over.pullback r).obj X).hom := by
   let : Etale ((Over.pullback q).obj ((Over.pullback p).obj X)).hom := by
-    show Etale (pullback.snd ((Over.pullback p).obj X).hom q)
+    change Etale (pullback.snd ((Over.pullback p).obj X).hom q)
     infer_instance
   exact etale_of_over_iso (iteratedBaseChangeIso p q r h X).symm
 
@@ -1688,13 +1690,13 @@ private theorem scheme_eventually_etale_pullback
   let : CompactSpace (D.obj i) := inferInstanceAs (CompactSpace (E.obj i).left)
   let : QuasiSeparatedSpace (D.obj i) := inferInstanceAs (QuasiSeparatedSpace (E.obj i).left)
   let : LocallyOfFinitePresentation X₀.hom := by
-    show LocallyOfFinitePresentation (pullback.snd X.hom (E.obj i).hom)
+    change LocallyOfFinitePresentation (pullback.snd X.hom (E.obj i).hom)
     infer_instance
   let : QuasiCompact X₀.hom := by
-    show QuasiCompact (pullback.snd X.hom (E.obj i).hom)
+    change QuasiCompact (pullback.snd X.hom (E.obj i).hom)
     infer_instance
   let : QuasiSeparated X₀.hom := by
-    show QuasiSeparated (pullback.snd X.hom (E.obj i).hom)
+    change QuasiSeparated (pullback.snd X.hom (E.obj i).hom)
     infer_instance
   let : CompactSpace X₀.left := QuasiCompact.compactSpace_of_compactSpace X₀.hom
   let : QuasiSeparatedSpace X₀.left := quasiSeparatedSpace_of_quasiSeparated X₀.hom
@@ -1704,14 +1706,14 @@ private theorem scheme_eventually_etale_pullback
   let e := iteratedBaseChangeIso (E.obj i).hom (c.π.app i).left c.pt.hom (c.π.app i).w X
   let : Etale ((Over.pullback (d.π.app i)).obj X₀).hom := etale_of_over_iso e
   let : IsIso ((Over.pullback (d.π.app i)).obj Y₀).hom := by
-    show IsIso (pullback.snd (𝟙 (D.obj i)) (d.π.app i))
+    change IsIso (pullback.snd (𝟙 (D.obj i)) (d.π.app i))
     infer_instance
   let : Etale ((Over.pullback (d.π.app i)).map f₀).left :=
     etale_overHom_of_isIso_target ((Over.pullback (d.π.app i)).map f₀)
   obtain ⟨j, hj⟩ := AlgebraicGeometry.exists_etale_pullback_of_isLimit D d hc i X₀ Y₀ f₀
   let : Etale ((Over.pullback (D.map j.hom)).map f₀).left := hj
   let : IsIso ((Over.pullback (D.map j.hom)).obj Y₀).hom := by
-    show IsIso (pullback.snd (𝟙 (D.obj i)) (D.map j.hom))
+    change IsIso (pullback.snd (𝟙 (D.obj i)) (D.map j.hom))
     infer_instance
   let : Etale ((Over.pullback (D.map j.hom)).obj X₀).hom := by
     rw [← ((Over.pullback (D.map j.hom)).map f₀).w]
@@ -1991,7 +1993,7 @@ private theorem essentiallySmall_boundedSchemes (κ : Cardinal.{u}) :
     refine ⟨Q₀, inferInstance, ?_⟩
     rintro X ⟨R, hR, ⟨e⟩⟩
     let j := (show Nonempty (R ↪ κ.out) from by
-      show Cardinal.mk R ≤ Cardinal.mk κ.out
+      change Cardinal.mk R ≤ Cardinal.mk κ.out
       simpa using hR).some
     let f : A →+* R := MvPolynomial.eval₂Hom (Int.castRingHom R) (Function.invFun j)
     have hf : Function.Surjective f := fun r =>
@@ -2155,6 +2157,7 @@ private noncomputable def affineStageChartMap (i₀ : I)
   exact yoneda.preimage (Ck.isPullback.lift
     (Cj.toStage ≫ D.map e.left) (yoneda.map Cj.toChart) hcomm)
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartMap_toStage (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -2166,6 +2169,7 @@ private theorem affineStageChartMap_toStage (i₀ : I)
       (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage ≫ D.map e.left := by
   simp [affineStageChartMap]
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartMap_toChart (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -2207,7 +2211,7 @@ private noncomputable def affineStageChartOverDiagram (i₀ : I)
   map e := Over.homMk (affineStageChartMap B S hS D i₀ U₀ q₀ hAff e) (by
     apply yoneda.map_injective
     simpa only [yoneda.map_comp, Over.mk_left, Over.mk_hom] using
-      affineStageChartMap_toChart B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+      affineStageChartMap_toChart B S hS D
         i₀ U₀ q₀ hAff e)
   map_id j := by
     apply Over.OverMorphism.ext
@@ -2230,7 +2234,7 @@ private noncomputable def affineStageChartCone (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    Cone (affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    Cone (affineStageChartOverDiagram B S hS D
       i₀ U₀ q₀ hAff) where
   pt := Over.mk q
   π := {
@@ -2266,11 +2270,11 @@ private noncomputable def affineStageChartConeIsLimit (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    IsLimit (affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    IsLimit (affineStageChartCone B S hS D
       i₀ U₀ q₀ hAff U p q h) := by
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i₀ U₀ q₀ hAff
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i₀ U₀ q₀ hAff U p q h
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
@@ -2279,14 +2283,14 @@ private noncomputable def affineStageChartConeIsLimit (i₀ : I)
   let p' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ Over.forget i₀ ⋙ D := {
     app j := (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage
     naturality j k e :=
-      affineStageChartMap_toStage B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+      affineStageChartMap_toStage B S hS D
         i₀ U₀ q₀ hAff e
   }
   let q' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ (Functor.const _).obj (yoneda.obj T) := {
     app j := yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart
     naturality j k e := by
       simpa [E, T, affineStageChartOverDiagram] using
-        (affineStageChartMap_toChart B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+        (affineStageChartMap_toChart B S hS D
           i₀ U₀ q₀ hAff e)
   }
   exact isLimit_of_cartesian_cone D i₀ (yoneda.obj T) q₀ _ _ p' q'
@@ -2301,6 +2305,7 @@ private noncomputable def affineStageChartConeIsLimit (i₀ : I)
           yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart = yoneda.map q
       simp [affineStageChartLift])
 
+omit [IsCofiltered I] hSize hHomSize hQc hQs in
 private theorem existsUnique_affineStageRelationMap (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (q₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     {j k : Over i} (e : j ⟶ k) :
@@ -2318,7 +2323,7 @@ private theorem existsUnique_affineStageRelationMap (i : I)
   let Kk := atlasKernelPair B S hS Ck.toStage (hD k.left).diagonal_representable
   let u := affineStageChartMap B S hS D i U₀ q₀ hAffine e
   have hu : yoneda.map u ≫ Ck.toStage = Cj.toStage ≫ D.map e.left :=
-    affineStageChartMap_toStage B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    affineStageChartMap_toStage B S hS D
       i U₀ q₀ hAffine e
   let r : Kj.R ⟶ Kk.R := yoneda.preimage (Kk.kernelPair.lift
     (yoneda.map Kj.s ≫ yoneda.map u) (yoneda.map Kj.t ≫ yoneda.map u) (by
@@ -2337,6 +2342,7 @@ private theorem existsUnique_affineStageRelationMap (i : I)
   · simpa only [← yoneda.map_comp] using congrArg yoneda.map (hr'.1.trans ht.symm)
   · simpa only [← yoneda.map_comp] using congrArg yoneda.map (hr'.2.trans hs.symm)
 
+omit hQc hQs in
 private theorem eventually_eq_on_affine_chart (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -2353,11 +2359,11 @@ private theorem eventually_eq_on_affine_chart (i₀ : I)
   obtain ⟨U, p, q, h⟩ :=
     AlgebraicGeometry.Space.isAffineHom_limitπ B S hS D hSize hHomSize hAffine i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -2371,6 +2377,7 @@ private theorem eventually_eq_on_affine_chart (i₀ : I)
       (isLimitOfPreserves (Over.forget T) hc))
     hE U.property f g hf hg hh
 
+omit hQc hQs in
 private theorem exists_hom_on_affine_chart (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj U₀.obj ⟶ D.obj i₀)
@@ -2387,11 +2394,11 @@ private theorem exists_hom_on_affine_chart (i₀ : I)
         (by rw [Category.assoc, limit.w]; exact pullback.condition) ≫ g = f := by
   obtain ⟨U, p, q, h⟩ :=
     AlgebraicGeometry.Space.isAffineHom_limitπ B S hS D hSize hHomSize hAffine i₀ U₀ q₀
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -2402,7 +2409,7 @@ private theorem exists_hom_on_affine_chart (i₀ : I)
       (E ⋙ Over.forget U₀.obj) hE ((Over.forget U₀.obj).mapCone c)
       (isLimitOfPreserves (Over.forget U₀.obj) hc))
     hE U.property (h.isoPullback.hom ≫ f) (by
-      show (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
+      change (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
@@ -2417,6 +2424,7 @@ private theorem exists_hom_on_affine_chart (i₀ : I)
     · simp [affineStageChartLift]
   exact (Category.assoc _ _ _).symm.trans ((congrArg (fun t => t ≫ g) hh).trans he)
 
+omit hD hQc hQs in
 private theorem eventually_eq_on_affine_chart_over (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -2434,11 +2442,11 @@ private theorem eventually_eq_on_affine_chart_over (i₀ : I)
   obtain ⟨U, p, q, h⟩ :=
     AlgebraicGeometry.Space.isAffineHom_limitπ B S hS D hSize hHomSize hAffine i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -2480,27 +2488,28 @@ private noncomputable def affineStageChartDiagram (i₀ : I)
           affineStageChartMap B S hS D i₀ U₀ q₀ hAff f := by
       apply yoneda.map_injective
       apply Cl.isPullback.hom_ext
-      · rw [affineStageChartMap_toStage B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+      · rw [affineStageChartMap_toStage B S hS D
           i₀ U₀ q₀ hAff (e ≫ f)]
         rw [yoneda.map_comp, Category.assoc]
-        rw [affineStageChartMap_toStage B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+        rw [affineStageChartMap_toStage B S hS D
           i₀ U₀ q₀ hAff f]
         rw [← Category.assoc,
-          affineStageChartMap_toStage B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+          affineStageChartMap_toStage B S hS D
             i₀ U₀ q₀ hAff e]
         rw [Category.assoc, ← D.map_comp]
         simp only [Over.comp_left]
-      · rw [affineStageChartMap_toChart B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+      · rw [affineStageChartMap_toChart B S hS D
           i₀ U₀ q₀ hAff (e ≫ f)]
         rw [yoneda.map_comp, Category.assoc]
-        rw [affineStageChartMap_toChart B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+        rw [affineStageChartMap_toChart B S hS D
           i₀ U₀ q₀ hAff f]
-        exact (affineStageChartMap_toChart B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+        exact (affineStageChartMap_toChart B S hS D
           i₀ U₀ q₀ hAff e).symm
     simpa [Functor.map_comp] using congrArg
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS |>.map) hsrc
 }
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartDiagram_map_isAffineHom (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -2508,7 +2517,7 @@ private theorem affineStageChartDiagram_map_isAffineHom (i₀ : I)
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f))
     {j k : Over i₀} (e : j ⟶ k) :
     _root_.AlgebraicGeometry.IsAffineHom
-        ((affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+        ((affineStageChartDiagram B S hS D
       i₀ U₀ q₀ hAff).map e) := by
   let Cj := affineStageChart B S hS D i₀ U₀ q₀ hAff j
   let Ck := affineStageChart B S hS D i₀ U₀ q₀ hAff k
@@ -2516,67 +2525,70 @@ private theorem affineStageChartDiagram_map_isAffineHom (i₀ : I)
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Cj.U)) := Cj.U.property
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Ck.U)) := Ck.U.property
-  show _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
+  change _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
     (affineStageChartMap B S hS D i₀ U₀ q₀ hAff e))
   exact AlgebraicGeometry.isAffineHom_of_isAffine _
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartDiagram_obj_isAffine (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    IsAffine ((affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    IsAffine ((affineStageChartDiagram B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  show IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
+  change IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
     ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj
       (affineStageChart B S hS D i₀ U₀ q₀ hAff j).U))
   exact (affineStageChart B S hS D i₀ U₀ q₀ hAff j).U.property
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartDiagram_obj_compact (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    CompactSpace ((affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    CompactSpace ((affineStageChartDiagram B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let := affineStageChartDiagram_obj_isAffine B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartDiagram_obj_quasiSeparated (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    QuasiSeparatedSpace ((affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    QuasiSeparatedSpace ((affineStageChartDiagram B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let := affineStageChartDiagram_obj_isAffine B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
+omit hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartScheme_model_of_finitePresentation (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f))
-    (c : Cone (affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    (c : Cone (affineStageChartDiagram B S hS D
       i₀ U₀ q₀ hAff))
     (hc : IsLimit c) (X : Over c.pt) (hFp : AlgebraicGeometry.FinitePresentation X.hom) :
-    ∃ (j : Over i₀) (Xⱼ : Over ((affineStageChartDiagram B S hS hZ D hSize hHomSize hD
-      hAffine hQc hQs i₀ U₀ q₀ hAff).obj j)),
+    ∃ (j : Over i₀) (Xⱼ : Over ((affineStageChartDiagram B S hS D i₀ U₀ q₀ hAff).obj j)),
       AlgebraicGeometry.FinitePresentation Xⱼ.hom ∧
         Nonempty (X ≅ (Over.pullback (c.π.app j)).obj Xⱼ) := by
-  let E := affineStageChartDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartDiagram B S hS D
     i₀ U₀ q₀ hAff
   let : ∀ {j k : Over i₀} (e : j ⟶ k), _root_.AlgebraicGeometry.IsAffineHom (E.map e) := by
     intro j k e
-    exact affineStageChartDiagram_map_isAffineHom B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    exact affineStageChartDiagram_map_isAffineHom B S hS D
       i₀ U₀ q₀ hAff e
   let : ∀ j : Over i₀, CompactSpace (E.obj j) := fun j =>
-    affineStageChartDiagram_obj_compact B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    affineStageChartDiagram_obj_compact B S hS D
       i₀ U₀ q₀ hAff j
   let : ∀ j : Over i₀, QuasiSeparatedSpace (E.obj j) := fun j =>
-    affineStageChartDiagram_obj_quasiSeparated B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    affineStageChartDiagram_obj_quasiSeparated B S hS D
       i₀ U₀ q₀ hAff j
   exact scheme_model_of_finitePresentation E c hc X hFp
 
@@ -2607,6 +2619,7 @@ private theorem exists_affine_limit_atlas (i : I) :
   exact ⟨U₀', p₀, U, p, q, hp, P.presheaf.of_isPullback hp.flip hs,
     Q.presheaf.of_isPullback hp.flip (represented_etale_of_isEtale B S hS p₀ he)⟩
 
+omit hD hQc hQs in
 private theorem exists_model_over_affine_chart (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -2614,7 +2627,7 @@ private theorem exists_model_over_affine_chart (i : I)
     (W : AlgebraicGeometry.BigFppfOver B S hS) (g : W ⟶ U.obj)
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) :
-    let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    let c := affineStageChartCone B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -2623,11 +2636,11 @@ private theorem exists_model_over_affine_chart (i : I)
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -2646,6 +2659,7 @@ private theorem exists_model_over_affine_chart (i : I)
   exact scheme_model_of_finitePresentation G sc hsc
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
 
+omit hD hQc hQs in
 private theorem exists_affine_model_over_affine_chart (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -2654,7 +2668,7 @@ private theorem exists_affine_model_over_affine_chart (i : I)
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g))
     [IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)] :
-    let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    let c := affineStageChartCone B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -2663,11 +2677,11 @@ private theorem exists_affine_model_over_affine_chart (i : I)
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -2687,6 +2701,7 @@ private theorem exists_affine_model_over_affine_chart (i : I)
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
     ‹IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)›
 
+omit hQc in
 private theorem exists_site_model_over_affine_chart (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -2700,19 +2715,19 @@ private theorem exists_site_model_over_affine_chart (i : I)
       (v : yoneda.obj V ⟶ D.obj j.left) (a : W ⟶ V),
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  obtain ⟨j, V₀, hV₀, ⟨e⟩⟩ := exists_model_over_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, V₀, hV₀, ⟨e⟩⟩ := exists_model_over_affine_chart B S hS D
+    hSize hHomSize hAffine i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, _, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -2737,6 +2752,7 @@ private theorem exists_site_model_over_affine_chart (i : I)
       V Cj.U.obj hVqc hVqs f Cj.toStage hpc hf.1, ?_⟩
   exact (ha.map yoneda).paste_vert hU
 
+omit hQc in
 private theorem exists_affine_site_model_over_affine_chart (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -2752,20 +2768,19 @@ private theorem exists_affine_site_model_over_affine_chart (i : I)
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj V) ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_affine_model_over_affine_chart B S hS hZ
-      D hSize hHomSize
-    hD hAffine hQc hQs i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_affine_model_over_affine_chart B S hS
+      D hSize hHomSize hAffine i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, ⟨eV⟩, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -2795,6 +2810,7 @@ private theorem exists_affine_site_model_over_affine_chart (i : I)
     exact IsAffine.of_isIso eV.hom.left
   · exact (ha.map yoneda).paste_vert hU
 
+omit hD hQc hQs in
 private theorem eventually_etale_over_affine_chart (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -2806,11 +2822,11 @@ private theorem eventually_etale_over_affine_chart (i : I)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart)).obj X).hom := by
   let Q := AlgebraicGeometry.BigFppfOver.toScheme B S hS
-  let E := affineStageChartOverDiagram B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let E := affineStageChartOverDiagram B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let c := affineStageChartCone B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimit B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+  let hc := affineStageChartConeIsLimit B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -2829,6 +2845,7 @@ private theorem eventually_etale_over_affine_chart (i : I)
     ‹Etale ((Over.pullback (Q.map q)).obj X).hom›
   exact scheme_eventually_etale_pullback E' sc hsc X hX
 
+omit hQc hQs in
 private theorem exists_finitePresentation_atlas_model (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -2839,7 +2856,7 @@ private theorem exists_finitePresentation_atlas_model (i : I)
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS)).presheaf p)
     (Y : Over (limit D)) (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y.left)
     (hf : AlgebraicGeometry.Space.IsFinitePresentation B S hS Y.hom) :
-    let c := affineStageChartCone B S hS hZ D hSize hHomSize hD hAffine hQc hQs
+    let c := affineStageChartCone B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (W : AlgebraicGeometry.BigAffineFppf B S hS) (w : yoneda.obj W.obj ⟶ Y.left)
       (g : W.obj ⟶ U.obj) (j : Over i)
@@ -2856,10 +2873,11 @@ private theorem exists_finitePresentation_atlas_model (i : I)
   obtain ⟨W, w, g, hws, hwe, hw, hg⟩ := exists_affine_finitePresentation_chart B S hS
     (AlgebraicGeometry.Space.isAlgebraicSpace_limit B S hS D hSize hHomSize hD hAffine) hY
         Y.hom hf U p hs he
-  obtain ⟨j, Wj, hWj, hmodel⟩ := exists_model_over_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i U₀ p₀ U p q hp W.obj g hg
+  obtain ⟨j, Wj, hWj, hmodel⟩ := exists_model_over_affine_chart B S hS D
+    hSize hHomSize hAffine i U₀ p₀ U p q hp W.obj g hg
   exact ⟨W, w, g, j, Wj, hws, hwe, hw, hWj, hmodel⟩
 
+omit hQc hQs in
 private theorem eventually_eq_on_quasiCompact_source (i : I)
     {Y Z G : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y)
@@ -2883,8 +2901,8 @@ private theorem eventually_eq_on_quasiCompact_source (i : I)
       (pullback.fst (limit.π D i) (q₀ ≫ r))
       (by simp only [Category.assoc, pullback.condition])
     simpa [k] using congrArg (fun t => k ≫ t) hfg
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i U (q₀ ≫ r) hG b hZalg a ha
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over B S hS D
+    hSize hHomSize hAffine i U (q₀ ≫ r) hG b hZalg a ha
     (q₀ ≫ f) (q₀ ≫ g) (by simp [hf]) (by simp [hg]) hh
   refine ⟨j.left, j.hom, ?_⟩
   let C := affineStageChart B S hS D i U (q₀ ≫ r) hAffine j
@@ -3193,10 +3211,10 @@ private theorem isEtaleEquivalenceRelation_of_witnesses
         isLimit := hFP.isLimit
         t := F.map comp
         transitivity₁ := by
-          show F.map comp ≫ F.map sR = F.map (pullback.fst tR sR) ≫ F.map sR
+          change F.map comp ≫ F.map sR = F.map (pullback.fst tR sR) ≫ F.map sR
           rw [← F.map_comp, ← F.map_comp, hcomp₁]
         transitivity₂ := by
-          show F.map comp ≫ F.map tR = F.map (pullback.snd tR sR) ≫ F.map tR
+          change F.map comp ≫ F.map tR = F.map (pullback.snd tR sR) ≫ F.map tR
           rw [← F.map_comp, ← F.map_comp, hcomp₂] }
   · rwa [hsource]
   · rwa [htarget]
@@ -3459,6 +3477,7 @@ private theorem exists_model_of_descended_presentation (o : I)
     hY w hws hwe kt ks hwk hWoAff sR tR hsE htE hjm refl hrefl₁ hrefl₂ symm hsymm₁ hsymm₂ comp
     hcomp₁ hcomp₂ wo hwow hwoFp hRoqc aw ar hawlim hsqs hsqt
 
+omit hQc hQs in
 private theorem exists_stage_atlas_factorization (i : I)
     (Y : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y.left)
@@ -3491,8 +3510,8 @@ private theorem exists_stage_atlas_factorization (i : I)
   let k : pullback (limit.π D i) (q₀ ≫ Y.hom) ⟶ pullback Y.hom (limit.π D i) :=
     pullback.lift (pullback.snd _ _ ≫ q₀) (pullback.fst _ _)
       (by simp only [Category.assoc, pullback.condition])
-  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
+  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart B S hS D hSize hHomSize
+    hD hAffine i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
       rw [Category.assoc, hf]
       simpa [k, Category.assoc] using (pullback.condition (f := limit.π D i)
         (g := q₀ ≫ Y.hom)).symm)
@@ -3584,7 +3603,7 @@ public theorem exists_morphism_after_baseChange
         pullback.snd Yᵢ.hom (limit.π D i) := f.w
     rw [← Category.assoc, hw]
   obtain ⟨j, U, p, g, hs, he, hg, hgf⟩ := exists_stage_atlas_factorization
-    B S hS hZ D hSize hHomSize hD hAffine hQc hQs i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
+    B S hS D hSize hHomSize hD hAffine i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
   let Yj := (Over.pullback (D.map j.hom)).obj Yᵢ
   have hYj := AlgebraicGeometry.isAlgebraicSpace_pullback B S hS Yᵢ.hom (D.map j.hom)
     hY (hD j.left) (hD i)
@@ -3598,8 +3617,8 @@ public theorem exists_morphism_after_baseChange
   have hlim := equalizes_kernelPair_after_baseChange p Yj.hom (limit.π D j.left)
     ((iteratedBaseChangeIso (D.map j.hom) (limit.π D j.left) (limit.π D i)
       (limit.w D j.hom) Yᵢ).hom.left ≫ f₀) g hgf
-  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs j.left hR hZ' (hD i) hRqc
+  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source B S hS D hSize hHomSize
+    hD hAffine j.left hR hZ' (hD i) hRqc
     (pullback.fst p p ≫ p ≫ Yj.hom) Zᵢ.hom (D.map j.hom) hZfp.1
     (pullback.fst p p ≫ g) (pullback.snd p p ≫ g)
     (by simpa only [Yj, Over.pullback_obj_hom, Category.assoc] using congrArg
@@ -3680,7 +3699,7 @@ public theorem exists_morphism_after_baseChange
       · simp [Yj, Yk, q, A, m, η, l, pK, iteratedBaseChangeIso_hom_left,
           iteratedBaseChangeIso_inv_left, Over.mk_hom, Category.assoc]
     have hEq : q ≫ A.hom.left ≫ (m ≫ raw) = q ≫ A.hom.left ≫ f₀ := by
-      show q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
+      change q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
       have hh := congrArg (fun t => t ≫ gK) hl
       simp only [Category.assoc, hgK] at hh
       rw [hh]
@@ -3720,6 +3739,7 @@ public theorem exists_morphism_after_baseChange
         (Over.w ((Over.pullback (limit.π D k)).map g' ≫ β.hom)).symm
 
 
+omit hQs in
 /-- Two finite-stage morphisms that agree over the limit agree at a sufficiently
 late stage. -/
 @[stacks 07SK "faithfulness"]
@@ -3742,8 +3762,8 @@ public theorem eventually_eq_of_baseChange_eq
   let U : AlgebraicGeometry.BigAffineFppf B S hS := ⟨U₀, hU₀⟩
   have hf : (q₀ ≫ f.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
   have hg : (q₀ ≫ g.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart B S hS D hSize hHomSize
+    hD hAffine i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
     (q₀ ≫ f.left) (q₀ ≫ g.left) hf hg
     (precomp_eq_of_baseChange_eq (limit.π D i) Yᵢ Zᵢ f g hfg q₀)
   refine ⟨j.left, j.hom, ?_⟩
@@ -3822,10 +3842,10 @@ private theorem exists_isIso_after_baseChange
     rw [Category.assoc, hn, ← Category.assoc, ← hg, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Zj, Category.id_comp]
-  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq B S hS hZ D
-    hSize hHomSize hD hAffine hQc hQs j Yj Yj hYj hYj hYjfp hYjfp (fj ≫ g) (𝟙 Yj) hfg
-  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq B S hS hZ D
-    hSize hHomSize hD hAffine hQc hQs j Zj Zj hZj hZj hZjfp hZjfp (g ≫ fj) (𝟙 Zj) hgf
+  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq B S hS D
+    hSize hHomSize hD hAffine hQc j Yj Yj hYj hYj hYjfp hYjfp (fj ≫ g) (𝟙 Yj) hfg
+  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq B S hS D
+    hSize hHomSize hD hAffine hQc j Zj Zj hZj hZj hZjfp hZjfp (g ≫ fj) (𝟙 Zj) hgf
   let k := IsCofiltered.min (Over.mk e₁) (Over.mk e₂)
   let a := IsCofiltered.minToLeft (Over.mk e₁) (Over.mk e₂)
   let b := IsCofiltered.minToRight (Over.mk e₁) (Over.mk e₂)
@@ -3873,8 +3893,8 @@ private theorem exists_mono_after_baseChange
       (Over.pullback (limit.π D i)).map c.snd := by
     apply (cancel_mono ((Over.pullback (limit.π D i)).map f)).mp
     rw [← Functor.map_comp, ← Functor.map_comp, c.condition]
-  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
+  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq B S hS D hSize hHomSize
+    hD hAffine hQc i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
   exact ⟨j, e, IsKernelPair.mono_of_eq_fst_snd (hc.map (Over.pullback (D.map e))) hj⟩
 
 private theorem exists_lift_pair_after_baseChange
@@ -3924,11 +3944,11 @@ private theorem exists_lift_pair_after_baseChange
     (IsPullback.of_hasPullback A.hom (D.map e)) hAfp
   have hWjfp := isFinitePresentation_of_isPullback B S hS hWj hW (hD j) (hD i)
     (IsPullback.of_hasPullback W.hom (D.map e)) hWfp
-  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq B S hS hZ D
-    hSize hHomSize hD hAffine hQc hQs j Aj Wj hAj hWj hAjfp hWjfp
+  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq B S hS D
+    hSize hHomSize hD hAffine hQc j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map s) ((Over.pullback (D.map e)).map a) (heq s a hu₁)
-  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq B S hS hZ D
-    hSize hHomSize hD hAffine hQc hQs j Aj Wj hAj hWj hAjfp hWjfp
+  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq B S hS D
+    hSize hHomSize hD hAffine hQc j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map t) ((Over.pullback (D.map e)).map b) (heq t b hu₂)
   let k := IsCofiltered.min (Over.mk e₁) (Over.mk e₂)
   let c₁ := IsCofiltered.minToLeft (Over.mk e₁) (Over.mk e₂)
@@ -4163,7 +4183,7 @@ theorem exists_model_of_stage_relation_of_cone (c : Cone D)
     exact KWn.kernelPair.lift_snd _ _ _
   let Zₙ : Over (D.obj nn) := Over.mk (yoneda.map KWn.s ≫ wn)
   let ψ : Rₙ ⟶ Zₙ := Over.homMk (yoneda.map ψ₀) (by
-    show yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
+    change yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
     rw [← Category.assoc, ← yoneda.map_comp, hψs])
   have hZnAlg := AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS KWn.R
   have hKWnt : AlgebraicGeometry.Space.IsFinitePresentation B S hS (yoneda.map KWn.s) :=
@@ -4389,7 +4409,7 @@ theorem exists_model_of_stage_relation_of_cone (c : Cone D)
   let Pₒ : Over (D.obj oo.left) := Over.mk (yoneda.map (pullback.fst tO sO) ≫ rO)
   let cfstₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.fst tO sO)) rfl
   let csndₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.snd tO sO)) (by
-    show yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
+    change yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
     calc yoneda.map (pullback.snd tO sO) ≫ rO
         = yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO ≫ wO := by rw [hsOW]
       _ = yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO ≫ wO := by
@@ -4644,9 +4664,9 @@ public theorem exists_model_of_finitePresentation
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W.obj) := W.property
   obtain ⟨j, Wj, wj, aw, hwj, hWjaff, hWmodel⟩ := exists_affine_site_model_over_affine_chart
-    B S hS hZ D hSize hHomSize hD hAffine hQc hQs i U₀' p₀ hp₀ U p q hp W.obj g hg
+    B S hS hZ D hSize hHomSize hD hAffine hQs i U₀' p₀ hp₀ U p q hp W.obj g hg
   obtain ⟨k, Rk, rk, ar, hrk, hRmodel⟩ := exists_site_model_over_affine_chart
-    B S hS hZ D hSize hHomSize hD hAffine hQc hQs i U₀' p₀ hp₀ U p q hp
+    B S hS hZ D hSize hHomSize hD hAffine hQs i U₀' p₀ hp₀ U p q hp
       K.R (K.s ≫ g) hKg
   let l := IsCofiltered.min j.left k.left
   let ej : l ⟶ j.left := IsCofiltered.minToLeft _ _
@@ -4701,7 +4721,7 @@ public theorem exists_model_of_finitePresentation
       (Over.pullback (limit.π D l)).obj target :=
     Over.homMk (pullback.lift (er.inv.left ≫ b)
       (pullback.snd rl (limit.π D l)) (by
-        show (er.inv.left ≫ b) ≫ vKW = _
+        change (er.inv.left ≫ b) ≫ vKW = _
         rw [Category.assoc, hb, ← Category.assoc]
         exact congrArg (fun t => t ≫ limit.π D l) er.inv.w)) (by simp [source, target])
   obtain ⟨m, em, gm, αm, βm, hαm, hβm, hgm⟩ := exists_morphism_after_baseChange
@@ -4807,13 +4827,13 @@ public theorem exists_model_of_finitePresentation
       rw [← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc, sm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map st).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.s ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, st, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.s = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -4825,13 +4845,13 @@ public theorem exists_model_of_finitePresentation
       rw [← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc, tm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map tt).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.t ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, tt, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.t = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -4862,15 +4882,14 @@ public theorem exists_model_of_finitePresentation
   let : Etale ((Over.pullback (Q.map awm)).obj (Over.mk (Q.map tm))).hom :=
     (etale_iff_pullback_of_isPullback (htmSquare.map Q)).mp
       (hwe.property w (yoneda.map K.s) K.t K.kernelPair)
-  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
-  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
+  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart B S hS D
+    hSize hHomSize hAffine m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
+  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart B S hS D
+    hSize hHomSize hAffine m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
   let n := IsCofiltered.min js jt
   let as' := IsCofiltered.minToLeft js jt
   let at' := IsCofiltered.minToRight js jt
-  let En := affineStageChartOverDiagram B S hS hZ D hSize hHomSize
-    hD hAffine hQc hQs m WmA wm hAffine
+  let En := affineStageChartOverDiagram B S hS D m WmA wm hAffine
   let Cn := affineStageChart B S hS D m WmA wm hAffine n
   have hsChart : Etale (pullback.snd (Q.map sm) (Q.map Cn.toChart)) := by
     let : Etale ((Over.pullback (Q.map (En.obj js).hom)).obj (Over.mk (Q.map sm))).hom := hjs
@@ -4936,7 +4955,7 @@ public theorem exists_model_of_finitePresentation
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
+      change yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
       rw [hRnlim.w, hWnlim.w, ← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc]
       have hsn : sn ≫ Cn.toChart = br ≫ sm := pullback.condition.symm
@@ -4947,7 +4966,7 @@ public theorem exists_model_of_finitePresentation
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ yoneda.map tn ≫ wn =
+      change yoneda.map arn ≫ yoneda.map tn ≫ wn =
         yoneda.map K.t ≫ yoneda.map awn ≫ wn
       rw [htn, hRnlim.w, hWnlim.w, ← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc]
@@ -5080,6 +5099,7 @@ private noncomputable def isLimit_toScheme_of_affine_of_bounded (i₀ : I)
 include hSizeB hν hHomSizeB hB
 
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartMap_toStage_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -5091,6 +5111,7 @@ private theorem affineStageChartMap_toStage_of_baseChangeSizeBounded (i₀ : I)
       (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage ≫ D.map e.left := by
   simp [affineStageChartMap]
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartMap_toChart_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -5113,8 +5134,7 @@ private noncomputable def affineStageChartOverDiagramOfSizeBounded (i₀ : I)
   map e := Over.homMk (affineStageChartMap B S hS D i₀ U₀ q₀ hAff e) (by
     apply yoneda.map_injective
     simpa only [yoneda.map_comp, Over.mk_left, Over.mk_hom] using
-      affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-          hν hHomSizeB hB
+      affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS D
         i₀ U₀ q₀ hAff e)
   map_id j := by
     apply Over.OverMorphism.ext
@@ -5137,8 +5157,7 @@ private noncomputable def affineStageChartConeOfSizeBounded (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    Cone (affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-        hν hHomSizeB hB
+    Cone (affineStageChartOverDiagramOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff) where
   pt := Over.mk q
   π := {
@@ -5174,12 +5193,11 @@ private noncomputable def affineStageChartConeIsLimitOfSizeBounded (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    IsLimit (affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+    IsLimit (affineStageChartConeOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff U p q h) := by
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i₀ U₀ q₀ hAff
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i₀ U₀ q₀ hAff U p q h
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
@@ -5188,16 +5206,14 @@ private noncomputable def affineStageChartConeIsLimitOfSizeBounded (i₀ : I)
   let p' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ Over.forget i₀ ⋙ D := {
     app j := (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage
     naturality j k e :=
-      affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-          hSizeB hν hHomSizeB hB
+      affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS D
         i₀ U₀ q₀ hAff e
   }
   let q' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ (Functor.const _).obj (yoneda.obj T) := {
     app j := yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart
     naturality j k e := by
       simpa [E, T, affineStageChartOverDiagramOfSizeBounded] using
-        (affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-            hν hHomSizeB hB
+        (affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff e)
   }
   exact isLimit_of_cartesian_cone D i₀ (yoneda.obj T) q₀ _ _ p' q'
@@ -5212,6 +5228,7 @@ private noncomputable def affineStageChartConeIsLimitOfSizeBounded (i₀ : I)
           yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart = yoneda.map q
       simp [affineStageChartLift])
 
+omit hQc hQs in
 private theorem eventually_eq_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -5228,13 +5245,11 @@ private theorem eventually_eq_on_affine_chart_of_baseChangeSizeBounded (i₀ : I
   obtain ⟨U, p, q, h⟩ :=
     isAffineHom_limitπ_of_baseChangeSizeBounded B S hS D hAffine hSizeB hν hHomSizeB hB i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -5250,6 +5265,7 @@ private theorem eventually_eq_on_affine_chart_of_baseChangeSizeBounded (i₀ : I
       (isLimitOfPreserves (Over.forget T) hc))
     hE U.property f g hf hg hh
 
+omit hQc hQs in
 private theorem exists_hom_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj U₀.obj ⟶ D.obj i₀)
@@ -5266,13 +5282,11 @@ private theorem exists_hom_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
         (by rw [Category.assoc, limit.w]; exact pullback.condition) ≫ g = f := by
   obtain ⟨U, p, q, h⟩ :=
     isAffineHom_limitπ_of_baseChangeSizeBounded B S hS D hAffine hSizeB hν hHomSizeB hB i₀ U₀ q₀
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -5285,7 +5299,7 @@ private theorem exists_hom_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
               ((Over.forget U₀.obj).mapCone c)
       (isLimitOfPreserves (Over.forget U₀.obj) hc))
     hE U.property (h.isoPullback.hom ≫ f) (by
-      show (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
+      change (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
@@ -5300,6 +5314,7 @@ private theorem exists_hom_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
     · simp [affineStageChartLift]
   exact (Category.assoc _ _ _).symm.trans ((congrArg (fun t => t ≫ g) hh).trans he)
 
+omit hD hQc hQs in
 private theorem eventually_eq_on_affine_chart_over_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -5317,13 +5332,11 @@ private theorem eventually_eq_on_affine_chart_over_of_baseChangeSizeBounded (i�
   obtain ⟨U, p, q, h⟩ :=
     isAffineHom_limitπ_of_baseChangeSizeBounded B S hS D hAffine hSizeB hν hHomSizeB hB i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -5367,33 +5380,28 @@ private noncomputable def affineStageChartDiagramOfSizeBounded (i₀ : I)
           affineStageChartMap B S hS D i₀ U₀ q₀ hAff f := by
       apply yoneda.map_injective
       apply Cl.isPullback.hom_ext
-      · rw [affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-          hSizeB hν hHomSizeB hB
+      · rw [affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff (e ≫ f)]
         rw [yoneda.map_comp, Category.assoc]
-        rw [affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-            hSizeB hν hHomSizeB hB
+        rw [affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff f]
         rw [← Category.assoc,
-          affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-              hν hHomSizeB hB
+          affineStageChartMap_toStage_of_baseChangeSizeBounded B S hS D
             i₀ U₀ q₀ hAff e]
         rw [Category.assoc, ← D.map_comp]
         simp only [Over.comp_left]
-      · rw [affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-          hSizeB hν hHomSizeB hB
+      · rw [affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff (e ≫ f)]
         rw [yoneda.map_comp, Category.assoc]
-        rw [affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-            hSizeB hν hHomSizeB hB
+        rw [affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff f]
-        exact (affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc hQs
-            hSizeB hν hHomSizeB hB
+        exact (affineStageChartMap_toChart_of_baseChangeSizeBounded B S hS D
           i₀ U₀ q₀ hAff e).symm
     simpa [Functor.map_comp] using congrArg
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS |>.map) hsrc
 }
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartDiagram_map_isAffineHom_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -5401,7 +5409,7 @@ private theorem affineStageChartDiagram_map_isAffineHom_of_baseChangeSizeBounded
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f))
     {j k : Over i₀} (e : j ⟶ k) :
     _root_.AlgebraicGeometry.IsAffineHom
-        ((affineStageChartDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+        ((affineStageChartDiagramOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff).map e) := by
   let Cj := affineStageChart B S hS D i₀ U₀ q₀ hAff j
   let Ck := affineStageChart B S hS D i₀ U₀ q₀ hAff k
@@ -5409,49 +5417,48 @@ private theorem affineStageChartDiagram_map_isAffineHom_of_baseChangeSizeBounded
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Cj.U)) := Cj.U.property
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj Ck.U)) := Ck.U.property
-  show _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
+  change _root_.AlgebraicGeometry.IsAffineHom ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
     (affineStageChartMap B S hS D i₀ U₀ q₀ hAff e))
   exact AlgebraicGeometry.isAffineHom_of_isAffine _
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartDiagram_obj_isAffine_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    IsAffine ((affineStageChartDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-        hν hHomSizeB hB
+    IsAffine ((affineStageChartDiagramOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  show IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
+  change IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
     ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj
       (affineStageChart B S hS D i₀ U₀ q₀ hAff j).U))
   exact (affineStageChart B S hS D i₀ U₀ q₀ hAff j).U.property
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartDiagram_obj_compact_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    CompactSpace ((affineStageChartDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-        hν hHomSizeB hB
+    CompactSpace ((affineStageChartDiagramOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc
-      hQs hSizeB hν hHomSizeB hB
+  let := affineStageChartDiagram_obj_isAffine_of_baseChangeSizeBounded B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
+omit [IsCofiltered I] hD hAffine hQc hQs hSizeB hν hHomSizeB hB in
 private theorem affineStageChartDiagram_obj_quasiSeparated_of_baseChangeSizeBounded (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
     (hAff : ∀ {i j : I} (f : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f)) (j : Over i₀) :
-    QuasiSeparatedSpace ((affineStageChartDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-        hν hHomSizeB hB
+    QuasiSeparatedSpace ((affineStageChartDiagramOfSizeBounded B S hS D
       i₀ U₀ q₀ hAff).obj j) := by
-  let := affineStageChartDiagram_obj_isAffine_of_baseChangeSizeBounded B S hS hZ D hD hAffine hQc
-      hQs hSizeB hν hHomSizeB hB
+  let := affineStageChartDiagram_obj_isAffine_of_baseChangeSizeBounded B S hS D
     i₀ U₀ q₀ hAff j
   infer_instance
 
+omit hD hQc hQs in
 private theorem exists_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -5459,7 +5466,7 @@ private theorem exists_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (W : AlgebraicGeometry.BigFppfOver B S hS) (g : W ⟶ U.obj)
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) :
-    let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+    let c := affineStageChartConeOfSizeBounded B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -5468,13 +5475,11 @@ private theorem exists_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -5495,6 +5500,7 @@ private theorem exists_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
   exact scheme_model_of_finitePresentation G sc hsc
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
 
+omit hD hQc hQs in
 private theorem exists_affine_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -5503,7 +5509,7 @@ private theorem exists_affine_model_over_affine_chart_of_baseChangeSizeBounded (
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g))
     [IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)] :
-    let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+    let c := affineStageChartConeOfSizeBounded B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -5512,13 +5518,11 @@ private theorem exists_affine_model_over_affine_chart_of_baseChangeSizeBounded (
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -5540,6 +5544,7 @@ private theorem exists_affine_model_over_affine_chart_of_baseChangeSizeBounded (
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
     ‹IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)›
 
+omit hQc in
 private theorem exists_site_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -5553,20 +5558,19 @@ private theorem exists_site_model_over_affine_chart_of_baseChangeSizeBounded (i 
       (v : yoneda.obj V ⟶ D.obj j.left) (a : W ⟶ V),
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   obtain ⟨j, V₀, hV₀, ⟨e⟩⟩ := exists_model_over_affine_chart_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i U₀ p₀ U p q hp W g hg
+    D hAffine hSizeB hν hHomSizeB hB i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, _, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -5591,6 +5595,7 @@ private theorem exists_site_model_over_affine_chart_of_baseChangeSizeBounded (i 
       V Cj.U.obj hVqc hVqs f Cj.toStage hpc hf.1, ?_⟩
   exact (ha.map yoneda).paste_vert hU
 
+omit hQc in
 private theorem exists_affine_site_model_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (hp₀ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
@@ -5606,20 +5611,19 @@ private theorem exists_affine_site_model_over_affine_chart_of_baseChangeSizeBoun
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj V) ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_affine_model_over_affine_chart_of_baseChangeSizeBounded
-      B S hS hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i U₀ p₀ U p q hp W g hg
+      B S hS D hAffine hSizeB hν hHomSizeB hB i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, ⟨eV⟩, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -5649,6 +5653,7 @@ private theorem exists_affine_site_model_over_affine_chart_of_baseChangeSizeBoun
     exact IsAffine.of_isIso eV.hom.left
   · exact (ha.map yoneda).paste_vert hU
 
+omit hD hQc hQs in
 private theorem eventually_etale_over_affine_chart_of_baseChangeSizeBounded (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
     (U : AlgebraicGeometry.BigAffineFppf B S hS) (p : yoneda.obj U.obj ⟶ limit D)
@@ -5660,13 +5665,11 @@ private theorem eventually_etale_over_affine_chart_of_baseChangeSizeBounded (i :
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart)).obj X).hom := by
   let Q := AlgebraicGeometry.BigFppfOver.toScheme B S hS
-  let E := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let E := affineStageChartOverDiagramOfSizeBounded B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB
+  let c := affineStageChartConeOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS hZ D hD hAffine hQc hQs hSizeB
-      hν hHomSizeB hB
+  let hc := affineStageChartConeIsLimitOfSizeBounded B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -5686,6 +5689,7 @@ private theorem eventually_etale_over_affine_chart_of_baseChangeSizeBounded (i :
     ‹Etale ((Over.pullback (Q.map q)).obj X).hom›
   exact scheme_eventually_etale_pullback E' sc hsc X hX
 
+omit hQc hQs in
 private theorem eventually_eq_on_quasiCompact_source_of_baseChangeSizeBounded (i : I)
     {Y Z G : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y)
@@ -5709,9 +5713,8 @@ private theorem eventually_eq_on_quasiCompact_source_of_baseChangeSizeBounded (i
       (pullback.fst (limit.π D i) (q₀ ≫ r))
       (by simp only [Category.assoc, pullback.condition])
     simpa [k] using congrArg (fun t => k ≫ t) hfg
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i U (q₀ ≫ r) hG b hZalg a ha
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_of_baseChangeSizeBounded B S hS D hAffine
+    hSizeB hν hHomSizeB hB i U (q₀ ≫ r) hG b hZalg a ha
     (q₀ ≫ f) (q₀ ≫ g) (by simp [hf]) (by simp [hg]) hh
   refine ⟨j.left, j.hom, ?_⟩
   let C := affineStageChart B S hS D i U (q₀ ≫ r) hAffine j
@@ -5739,6 +5742,7 @@ private theorem eventually_eq_on_quasiCompact_source_of_baseChangeSizeBounded (i
     (Q.presheaf.of_isPullback hp (represented_etale_of_isEtale B S hS q₀ het))
   simpa [p, Category.assoc] using hj
 
+omit hQc hQs in
 private theorem exists_stage_atlas_factorization_of_baseChangeSizeBounded (i : I)
     (Y : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y.left)
@@ -5771,9 +5775,8 @@ private theorem exists_stage_atlas_factorization_of_baseChangeSizeBounded (i : I
   let k : pullback (limit.π D i) (q₀ ≫ Y.hom) ⟶ pullback Y.hom (limit.π D i) :=
     pullback.lift (pullback.snd _ _ ≫ q₀) (pullback.fst _ _)
       (by simp only [Category.assoc, pullback.condition])
-  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
+  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_of_baseChangeSizeBounded B S hS D hD hAffine
+    hSizeB hν hHomSizeB hB i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
       rw [Category.assoc, hf]
       simpa [k, Category.assoc] using (pullback.condition (f := limit.π D i)
         (g := q₀ ≫ Y.hom)).symm)
@@ -5865,7 +5868,7 @@ public theorem exists_morphism_after_baseChange_of_baseChangeSizeBounded
         pullback.snd Yᵢ.hom (limit.π D i) := f.w
     rw [← Category.assoc, hw]
   obtain ⟨j, U, p, g, hs, he, hg, hgf⟩ := exists_stage_atlas_factorization_of_baseChangeSizeBounded
-    B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
+    B S hS D hD hAffine hSizeB hν hHomSizeB hB i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
   let Yj := (Over.pullback (D.map j.hom)).obj Yᵢ
   have hYj := AlgebraicGeometry.isAlgebraicSpace_pullback B S hS Yᵢ.hom (D.map j.hom)
     hY (hD j.left) (hD i)
@@ -5880,8 +5883,7 @@ public theorem exists_morphism_after_baseChange_of_baseChangeSizeBounded
     ((iteratedBaseChangeIso (D.map j.hom) (limit.π D j.left) (limit.π D i)
       (limit.w D j.hom) Yᵢ).hom.left ≫ f₀) g hgf
   obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB j.left hR hZ' (hD i) hRqc
+    D hD hAffine hSizeB hν hHomSizeB hB j.left hR hZ' (hD i) hRqc
     (pullback.fst p p ≫ p ≫ Yj.hom) Zᵢ.hom (D.map j.hom) hZfp.1
     (pullback.fst p p ≫ g) (pullback.snd p p ≫ g)
     (by simpa only [Yj, Over.pullback_obj_hom, Category.assoc] using congrArg
@@ -5962,7 +5964,7 @@ public theorem exists_morphism_after_baseChange_of_baseChangeSizeBounded
       · simp [Yj, Yk, q, A, m, η, l, pK, iteratedBaseChangeIso_hom_left,
           iteratedBaseChangeIso_inv_left, Over.mk_hom, Category.assoc]
     have hEq : q ≫ A.hom.left ≫ (m ≫ raw) = q ≫ A.hom.left ≫ f₀ := by
-      show q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
+      change q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
       have hh := congrArg (fun t => t ≫ gK) hl
       simp only [Category.assoc, hgK] at hh
       rw [hh]
@@ -6003,6 +6005,7 @@ public theorem exists_morphism_after_baseChange_of_baseChangeSizeBounded
         (Over.w ((Over.pullback (limit.π D k)).map g' ≫ β.hom)).symm
 
 
+omit hQs in
 /-- **Faithfulness, cofinality-free.** Two finite-stage morphisms that agree over the limit agree
 at a sufficiently late stage, for a system with fewer stages than the cutoff and uniformly
 bounded base changes. -/
@@ -6025,8 +6028,8 @@ public theorem eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded
   let U : AlgebraicGeometry.BigAffineFppf B S hS := ⟨U₀, hU₀⟩
   have hf : (q₀ ≫ f.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
   have hg : (q₀ ≫ g.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_of_baseChangeSizeBounded B S hS hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_of_baseChangeSizeBounded B S hS D
+    hD hAffine hSizeB hν hHomSizeB hB i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
     (q₀ ≫ f.left) (q₀ ≫ g.left) hf hg
     (precomp_eq_of_baseChange_eq (limit.π D i) Yᵢ Zᵢ f g hfg q₀)
   refine ⟨j.left, j.hom, ?_⟩
@@ -6108,10 +6111,10 @@ public theorem exists_isIso_after_baseChange_of_baseChangeSizeBounded
     rw [Category.assoc, hn, ← Category.assoc, ← hg, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Zj, Category.id_comp]
-  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ D
-    hD hAffine hQc hQs hSizeB hν hHomSizeB hB j Yj Yj hYj hYj hYjfp hYjfp (fj ≫ g) (𝟙 Yj) hfg
-  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ D
-    hD hAffine hQc hQs hSizeB hν hHomSizeB hB j Zj Zj hZj hZj hZjfp hZjfp (g ≫ fj) (𝟙 Zj) hgf
+  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS D
+    hD hAffine hQc hSizeB hν hHomSizeB hB j Yj Yj hYj hYj hYjfp hYjfp (fj ≫ g) (𝟙 Yj) hfg
+  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS D
+    hD hAffine hQc hSizeB hν hHomSizeB hB j Zj Zj hZj hZj hZjfp hZjfp (g ≫ fj) (𝟙 Zj) hgf
   let k := IsCofiltered.min (Over.mk e₁) (Over.mk e₂)
   let a := IsCofiltered.minToLeft (Over.mk e₁) (Over.mk e₂)
   let b := IsCofiltered.minToRight (Over.mk e₁) (Over.mk e₂)
@@ -6159,9 +6162,8 @@ private theorem exists_mono_after_baseChange_of_baseChangeSizeBounded
       (Over.pullback (limit.π D i)).map c.snd := by
     apply (cancel_mono ((Over.pullback (limit.π D i)).map f)).mp
     rw [← Functor.map_comp, ← Functor.map_comp, c.condition]
-  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
+  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS D hD hAffine
+    hQc hSizeB hν hHomSizeB hB i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
   exact ⟨j, e, IsKernelPair.mono_of_eq_fst_snd (hc.map (Over.pullback (D.map e))) hj⟩
 
 private theorem exists_lift_pair_after_baseChange_of_baseChangeSizeBounded
@@ -6211,11 +6213,11 @@ private theorem exists_lift_pair_after_baseChange_of_baseChangeSizeBounded
     (IsPullback.of_hasPullback A.hom (D.map e)) hAfp
   have hWjfp := isFinitePresentation_of_isPullback B S hS hWj hW (hD j) (hD i)
     (IsPullback.of_hasPullback W.hom (D.map e)) hWfp
-  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ D
-    hD hAffine hQc hQs hSizeB hν hHomSizeB hB j Aj Wj hAj hWj hAjfp hWjfp
+  obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS D
+    hD hAffine hQc hSizeB hν hHomSizeB hB j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map s) ((Over.pullback (D.map e)).map a) (heq s a hu₁)
-  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS hZ D
-    hD hAffine hQc hQs hSizeB hν hHomSizeB hB j Aj Wj hAj hWj hAjfp hWjfp
+  obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq_of_baseChangeSizeBounded B S hS D
+    hD hAffine hQc hSizeB hν hHomSizeB hB j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map t) ((Over.pullback (D.map e)).map b) (heq t b hu₂)
   let k := IsCofiltered.min (Over.mk e₁) (Over.mk e₂)
   let c₁ := IsCofiltered.minToLeft (Over.mk e₁) (Over.mk e₂)
@@ -6421,7 +6423,7 @@ private theorem exists_model_of_stage_relation_of_baseChangeSizeBounded (nn : I)
     exact KWn.kernelPair.lift_snd _ _ _
   let Zₙ : Over (D.obj nn) := Over.mk (yoneda.map KWn.s ≫ wn)
   let ψ : Rₙ ⟶ Zₙ := Over.homMk (yoneda.map ψ₀) (by
-    show yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
+    change yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
     rw [← Category.assoc, ← yoneda.map_comp, hψs])
   have hZnAlg := AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS KWn.R
   have hKWnt : AlgebraicGeometry.Space.IsFinitePresentation B S hS (yoneda.map KWn.s) :=
@@ -6649,7 +6651,7 @@ private theorem exists_model_of_stage_relation_of_baseChangeSizeBounded (nn : I)
   let Pₒ : Over (D.obj oo.left) := Over.mk (yoneda.map (pullback.fst tO sO) ≫ rO)
   let cfstₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.fst tO sO)) rfl
   let csndₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.snd tO sO)) (by
-    show yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
+    change yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
     calc yoneda.map (pullback.snd tO sO) ≫ rO
         = yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO ≫ wO := by rw [hsOW]
       _ = yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO ≫ wO := by
@@ -6864,10 +6866,10 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W.obj) := W.property
   obtain ⟨j, Wj, wj, aw, hwj, hWjaff, hWmodel⟩ :=
       exists_affine_site_model_over_affine_chart_of_baseChangeSizeBounded
-    B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB i U₀' p₀ hp₀ U p q hp W.obj g hg
+    B S hS hZ D hD hAffine hQs hSizeB hν hHomSizeB hB i U₀' p₀ hp₀ U p q hp W.obj g hg
   obtain ⟨k, Rk, rk, ar, hrk, hRmodel⟩ :=
       exists_site_model_over_affine_chart_of_baseChangeSizeBounded
-    B S hS hZ D hD hAffine hQc hQs hSizeB hν hHomSizeB hB i U₀' p₀ hp₀ U p q hp
+    B S hS hZ D hD hAffine hQs hSizeB hν hHomSizeB hB i U₀' p₀ hp₀ U p q hp
       K.R (K.s ≫ g) hKg
   let l := IsCofiltered.min j.left k.left
   let ej : l ⟶ j.left := IsCofiltered.minToLeft _ _
@@ -6922,7 +6924,7 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
       (Over.pullback (limit.π D l)).obj target :=
     Over.homMk (pullback.lift (er.inv.left ≫ b)
       (pullback.snd rl (limit.π D l)) (by
-        show (er.inv.left ≫ b) ≫ vKW = _
+        change (er.inv.left ≫ b) ≫ vKW = _
         rw [Category.assoc, hb, ← Category.assoc]
         exact congrArg (fun t => t ≫ limit.π D l) er.inv.w)) (by simp [source, target])
   obtain ⟨m, em, gm, αm, βm, hαm, hβm, hgm⟩ :=
@@ -7029,13 +7031,13 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
       rw [← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc, sm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map st).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.s ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, st, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.s = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -7047,13 +7049,13 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
       rw [← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc, tm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map tt).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.t ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, tt, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.t = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -7084,17 +7086,14 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
   let : Etale ((Over.pullback (Q.map awm)).obj (Over.mk (Q.map tm))).hom :=
     (etale_iff_pullback_of_isPullback (htmSquare.map Q)).mp
       (hwe.property w (yoneda.map K.s) K.t K.kernelPair)
-  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
-  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_of_baseChangeSizeBounded B S hS
-      hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
+  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_of_baseChangeSizeBounded B S hS D hAffine
+    hSizeB hν hHomSizeB hB m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
+  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_of_baseChangeSizeBounded B S hS D hAffine
+    hSizeB hν hHomSizeB hB m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
   let n := IsCofiltered.min js jt
   let as' := IsCofiltered.minToLeft js jt
   let at' := IsCofiltered.minToRight js jt
-  let En := affineStageChartOverDiagramOfSizeBounded B S hS hZ D hD hAffine
-    hQc hQs hSizeB hν hHomSizeB hB m WmA wm hAffine
+  let En := affineStageChartOverDiagramOfSizeBounded B S hS D m WmA wm hAffine
   let Cn := affineStageChart B S hS D m WmA wm hAffine n
   have hsChart : Etale (pullback.snd (Q.map sm) (Q.map Cn.toChart)) := by
     let : Etale ((Over.pullback (Q.map (En.obj js).hom)).obj (Over.mk (Q.map sm))).hom := hjs
@@ -7160,7 +7159,7 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
+      change yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
       rw [hRnlim.w, hWnlim.w, ← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc]
       have hsn : sn ≫ Cn.toChart = br ≫ sm := pullback.condition.symm
@@ -7171,7 +7170,7 @@ public theorem exists_model_of_finitePresentation_of_baseChangeSizeBounded
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ yoneda.map tn ≫ wn =
+      change yoneda.map arn ≫ yoneda.map tn ≫ wn =
         yoneda.map K.t ≫ yoneda.map awn ≫ wn
       rw [htn, hRnlim.w, hWnlim.w, ← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc]
@@ -7218,8 +7217,7 @@ variable (hconv : AlgebraicGeometry.Space.SiteContainsBaseChangeLimits B S hS D)
 
 variable (hDlim : AlgebraicGeometry.IsAlgebraicSpace B S hS (limit D))
 
-omit hSize hHomSize in
-include hconv in
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartMap_toStage_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -7231,8 +7229,7 @@ private theorem affineStageChartMap_toStage_conv (i₀ : I)
       (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage ≫ D.map e.left := by
   simp [affineStageChartMap]
 
-omit hSize hHomSize in
-include hconv in
+omit [IsCofiltered I] hSize hHomSize hD hAffine hQc hQs in
 private theorem affineStageChartMap_toChart_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
@@ -7256,7 +7253,7 @@ private noncomputable def affineStageChartOverDiagramConv (i₀ : I)
   map e := Over.homMk (affineStageChartMap B S hS D i₀ U₀ q₀ hAff e) (by
     apply yoneda.map_injective
     simpa only [yoneda.map_comp, Over.mk_left, Over.mk_hom] using
-      affineStageChartMap_toChart_conv B S hS hZ D hD hAffine hQc hQs hconv
+      affineStageChartMap_toChart_conv B S hS D
         i₀ U₀ q₀ hAff e)
   map_id j := by
     apply Over.OverMorphism.ext
@@ -7281,7 +7278,7 @@ private noncomputable def affineStageChartConeConv (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    Cone (affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+    Cone (affineStageChartOverDiagramConv B S hS D
       i₀ U₀ q₀ hAff) where
   pt := Over.mk q
   π := {
@@ -7319,11 +7316,11 @@ private noncomputable def affineStageChartConeIsLimitConv (i₀ : I)
     (U : AlgebraicGeometry.BigFppfOver B S hS) (p : yoneda.obj U ⟶ limit D)
     (q : U ⟶ (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀)
     (h : IsPullback p (yoneda.map q) (limit.π D i₀) q₀) :
-    IsLimit (affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+    IsLimit (affineStageChartConeConv B S hS D
       i₀ U₀ q₀ hAff U p q h) := by
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i₀ U₀ q₀ hAff
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i₀ U₀ q₀ hAff U p q h
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
@@ -7332,14 +7329,14 @@ private noncomputable def affineStageChartConeIsLimitConv (i₀ : I)
   let p' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ Over.forget i₀ ⋙ D := {
     app j := (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toStage
     naturality j k e :=
-      affineStageChartMap_toStage_conv B S hS hZ D hD hAffine hQc hQs hconv
+      affineStageChartMap_toStage_conv B S hS D
         i₀ U₀ q₀ hAff e
   }
   let q' : (E ⋙ Over.forget T) ⋙ yoneda ⟶ (Functor.const _).obj (yoneda.obj T) := {
     app j := yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart
     naturality j k e := by
       simpa [E, T, affineStageChartOverDiagramConv] using
-        (affineStageChartMap_toChart_conv B S hS hZ D hD hAffine hQc hQs hconv
+        (affineStageChartMap_toChart_conv B S hS D
           i₀ U₀ q₀ hAff e)
   }
   exact isLimit_of_cartesian_cone D i₀ (yoneda.obj T) q₀ _ _ p' q'
@@ -7354,7 +7351,7 @@ private noncomputable def affineStageChartConeIsLimitConv (i₀ : I)
           yoneda.map (affineStageChart B S hS D i₀ U₀ q₀ hAff j).toChart = yoneda.map q
       simp [affineStageChartLift])
 
-omit hSize hHomSize in
+omit [IsCofiltered I] hSize hHomSize hD hQc hQs in
 include hconv in
 /-- The diagram of affine charts over a stage satisfies the chapter's convention: through the
 Yoneda embedding it is the diagram of base changes of the later stages along the chart, each
@@ -7363,10 +7360,10 @@ private theorem limitInSite_affineStageChartOverDiagram_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀) :
     AlgebraicGeometry.BigFppfOver.LimitInSite
-      (affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀ hAffine ⋙
+      (affineStageChartOverDiagramConv B S hS D i₀ U₀ q₀ hAffine ⋙
         Over.forget _) := by
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀ hAffine
+  let E := affineStageChartOverDiagramConv B S hS D i₀ U₀ q₀ hAffine
   let W : Over i₀ ⥤ AlgebraicGeometry.BigAffineFppf B S hS :=
     ObjectProperty.lift _ (E ⋙ Over.forget T)
       (fun j => (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).U.property)
@@ -7395,14 +7392,14 @@ private theorem limitInSite_affineStageChartOverDiagram_conv (i₀ : I)
         let Fm := (W ⋙ AlgebraicGeometry.BigAffineFppf.inclusion B S hS ⋙ yoneda).map f
         apply pullback.hom_ext
         · exact (Category.assoc _ _ _).trans ((congrArg (fun t => Fm ≫ t) hk₁).trans
-            ((affineStageChartMap_toStage_conv B S hS hZ D hD hAffine hQc hQs hconv
+            ((affineStageChartMap_toStage_conv B S hS D
               i₀ U₀ q₀ hAffine f).trans
             (((congrArg (fun t => t ≫ D.map f.left) hj₁).symm.trans
               (Category.assoc _ _ _)).trans
             ((congrArg (fun t => Cj.isPullback.isoPullback.hom ≫ t) hG₁).symm.trans
               (Category.assoc _ _ _).symm))))
         · exact (Category.assoc _ _ _).trans ((congrArg (fun t => Fm ≫ t) hk₂).trans
-            ((affineStageChartMap_toChart_conv B S hS hZ D hD hAffine hQc hQs hconv
+            ((affineStageChartMap_toChart_conv B S hS D
               i₀ U₀ q₀ hAffine f).trans
             (hj₂.symm.trans
             ((congrArg (fun t => Cj.isPullback.isoPullback.hom ≫ t) hG₂).symm.trans
@@ -7416,15 +7413,15 @@ stage, under the chapter's convention. -/
 private noncomputable def isLimit_toScheme_affineStageChart_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
     (q₀ : yoneda.obj ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i₀)
-    (c : Cone (affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀
+    (c : Cone (affineStageChartOverDiagramConv B S hS D i₀ U₀ q₀
       hAffine ⋙ Over.forget _)) (hc : IsLimit c) :
     IsLimit ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).mapCone c) :=
   have := AlgebraicGeometry.BigFppfOver.preservesLimit_toScheme_of_limitInSite _
     (fun j => (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).U.property)
-    (limitInSite_affineStageChartOverDiagram_conv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀)
+    (limitInSite_affineStageChartOverDiagram_conv B S hS D hAffine hconv i₀ U₀ q₀)
   isLimitOfPreserves _ hc
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc hQs in
 include hconv in
 private theorem eventually_eq_on_affine_chart_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
@@ -7443,11 +7440,11 @@ private theorem eventually_eq_on_affine_chart_conv (i₀ : I)
     AlgebraicGeometry.Space.isAffineHom_limitπ_of_siteContainsBaseChangeLimits B S hS D hconv
       hAffine i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -7456,12 +7453,12 @@ private theorem eventually_eq_on_affine_chart_conv (i₀ : I)
     simpa using congrArg (fun k => h.isoPullback.hom ≫ k) hfg
   exact eventually_eq_homs_of_locallyOfFinitePresentation B S hS hZalg (hD i₀)
     a ha T q₀ E c
-    (isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀
+    (isLimit_toScheme_affineStageChart_conv B S hS D hAffine hconv i₀ U₀ q₀
       ((Over.forget T).mapCone c)
       (isLimitOfPreserves (Over.forget T) hc))
     hE U.property f g hf hg hh
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc hQs in
 include hconv in
 private theorem exists_hom_on_affine_chart_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
@@ -7480,22 +7477,22 @@ private theorem exists_hom_on_affine_chart_conv (i₀ : I)
   obtain ⟨U, p, q, h⟩ :=
     AlgebraicGeometry.Space.isAffineHom_limitπ_of_siteContainsBaseChangeLimits B S hS D hconv
       hAffine i₀ U₀ q₀
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
     fun j => (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).U.property
   obtain ⟨j, g, hg, he⟩ := exists_hom_of_locallyOfFinitePresentation B S hS hZalg
     (hD i₀) a ha U₀.obj q₀ E c
-    (isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀
+    (isLimit_toScheme_affineStageChart_conv B S hS D hAffine hconv i₀ U₀ q₀
       ((Over.forget U₀.obj).mapCone c)
       (isLimitOfPreserves (Over.forget U₀.obj) hc))
     hE U.property (h.isoPullback.hom ≫ f) (by
-      show (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
+      change (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
@@ -7510,7 +7507,7 @@ private theorem exists_hom_on_affine_chart_conv (i₀ : I)
     · simp [affineStageChartLift]
   exact (Category.assoc _ _ _).symm.trans ((congrArg (fun t => t ≫ g) hh).trans he)
 
-omit hSize hHomSize in
+omit hSize hHomSize hD hQc hQs in
 include hconv in
 private theorem eventually_eq_on_affine_chart_over_conv (i₀ : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS)
@@ -7530,11 +7527,11 @@ private theorem eventually_eq_on_affine_chart_over_conv (i₀ : I)
     AlgebraicGeometry.Space.isAffineHom_limitπ_of_siteContainsBaseChangeLimits B S hS D hconv
       hAffine i₀ U₀ q₀
   let T := (AlgebraicGeometry.BigAffineFppf.inclusion B S hS).obj U₀
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i₀ U₀ q₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i₀ U₀ q₀ hAffine _ p q h
   let : IsConnected (Over i₀) := IsCofiltered.isConnected _
   have hE : ∀ j, IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj (E.obj j).left) :=
@@ -7543,12 +7540,12 @@ private theorem eventually_eq_on_affine_chart_over_conv (i₀ : I)
     simpa using congrArg (fun k => h.isoPullback.hom ≫ k) hfg
   exact eventually_eq_homs_of_locallyOfFinitePresentation B S hS hZalg hG
     a ha T (q₀ ≫ b) E c
-    (isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs hconv i₀ U₀ q₀
+    (isLimit_toScheme_affineStageChart_conv B S hS D hAffine hconv i₀ U₀ q₀
       ((Over.forget T).mapCone c)
       (isLimitOfPreserves (Over.forget T) hc))
     hE U.property f g hf hg hh
 
-omit hSize hHomSize in
+omit hSize hHomSize hD hQc hQs in
 include hconv in
 private theorem exists_model_over_affine_chart_conv (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -7557,7 +7554,7 @@ private theorem exists_model_over_affine_chart_conv (i : I)
     (W : AlgebraicGeometry.BigFppfOver B S hS) (g : W ⟶ U.obj)
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) :
-    let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+    let c := affineStageChartConeConv B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -7566,11 +7563,11 @@ private theorem exists_model_over_affine_chart_conv (i : I)
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -7583,14 +7580,14 @@ private theorem exists_model_over_affine_chart_conv (i : I)
   let : ∀ j : Over i, CompactSpace (G.obj j) := fun _ => inferInstance
   let : ∀ j : Over i, QuasiSeparatedSpace (G.obj j) := fun _ => inferInstance
   let sc := (Over.forget U₀.obj ⋙ AlgebraicGeometry.BigFppfOver.toScheme B S hS).mapCone c
-  have hsc : IsLimit sc := isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs
+  have hsc : IsLimit sc := isLimit_toScheme_affineStageChart_conv B S hS D hAffine
     hconv i U₀ p₀
     ((Over.forget U₀.obj).mapCone c)
     (isLimitOfPreserves (Over.forget U₀.obj) hc)
   exact scheme_model_of_finitePresentation G sc hsc
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
 
-omit hSize hHomSize in
+omit hSize hHomSize hD hQc hQs in
 include hconv in
 private theorem exists_affine_model_over_affine_chart_conv (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -7600,7 +7597,7 @@ private theorem exists_affine_model_over_affine_chart_conv (i : I)
     (hg : AlgebraicGeometry.FinitePresentation
         ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g))
     [IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)] :
-    let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+    let c := affineStageChartConeConv B S hS D
       i U₀ p₀ hAffine U.obj p q hp
     ∃ (j : Over i) (Wj : Over ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj
       (affineStageChart B S hS D i U₀ p₀ hAffine j).U.obj)),
@@ -7609,11 +7606,11 @@ private theorem exists_affine_model_over_affine_chart_conv (i : I)
         (Over.pullback ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
             (c.π.app j).left)).obj Wj) := by
   dsimp only
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -7626,7 +7623,7 @@ private theorem exists_affine_model_over_affine_chart_conv (i : I)
   let : ∀ j : Over i, CompactSpace (G.obj j) := fun _ => inferInstance
   let : ∀ j : Over i, QuasiSeparatedSpace (G.obj j) := fun _ => inferInstance
   let sc := (Over.forget U₀.obj ⋙ AlgebraicGeometry.BigFppfOver.toScheme B S hS).mapCone c
-  have hsc : IsLimit sc := isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs
+  have hsc : IsLimit sc := isLimit_toScheme_affineStageChart_conv B S hS D hAffine
     hconv i U₀ p₀
     ((Over.forget U₀.obj).mapCone c)
     (isLimitOfPreserves (Over.forget U₀.obj) hc)
@@ -7634,7 +7631,7 @@ private theorem exists_affine_model_over_affine_chart_conv (i : I)
     (Over.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)) hg
     ‹IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W)›
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc in
 include hconv in
 private theorem exists_site_model_over_affine_chart_conv (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -7649,19 +7646,19 @@ private theorem exists_site_model_over_affine_chart_conv (i : I)
       (v : yoneda.obj V ⟶ D.obj j.left) (a : W ⟶ V),
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  obtain ⟨j, V₀, hV₀, ⟨e⟩⟩ := exists_model_over_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, V₀, hV₀, ⟨e⟩⟩ := exists_model_over_affine_chart_conv B S hS D
+    hAffine hconv i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, _, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -7686,7 +7683,7 @@ private theorem exists_site_model_over_affine_chart_conv (i : I)
       V Cj.U.obj hVqc hVqs f Cj.toStage hpc hf.1, ?_⟩
   exact (ha.map yoneda).paste_vert hU
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc in
 include hconv in
 private theorem exists_affine_site_model_over_affine_chart_conv (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -7703,19 +7700,19 @@ private theorem exists_affine_site_model_over_affine_chart_conv (i : I)
       AlgebraicGeometry.Space.IsFinitePresentation B S hS v ∧
       IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj V) ∧
       IsPullback (yoneda.map a) (yoneda.map g ≫ p) v (limit.π D j.left) := by
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_affine_model_over_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv i U₀ p₀ U p q hp W g hg
+  obtain ⟨j, V₀, hV₀, hV₀aff, ⟨e⟩⟩ := exists_affine_model_over_affine_chart_conv B S hS D
+    hAffine hconv i U₀ p₀ U p q hp W g hg
   let Cj := affineStageChart B S hS D i U₀ p₀ hAffine j
   let b : U.obj ⟶ Cj.U.obj := (c.π.app j).left
   obtain ⟨V, f, a, hf, ⟨eV⟩, ha⟩ := exists_site_pullback_model B S hS b g V₀ hV₀ e
   have hbp : yoneda.map b ≫ Cj.toStage = p ≫ limit.π D j.left := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toStage = p ≫ limit.π D j.left
     simp [affineStageChartLift]
   have hbq : yoneda.map b ≫ yoneda.map Cj.toChart = yoneda.map q := by
-    show yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
+    change yoneda.map (affineStageChartLift B S hS D i U₀ p₀ hAffine U.obj p q hp j) ≫
         yoneda.map (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart = yoneda.map q
     simp [affineStageChartLift]
   have hU : IsPullback (yoneda.map b) p Cj.toStage (limit.π D j.left) := by
@@ -7745,7 +7742,7 @@ private theorem exists_affine_site_model_over_affine_chart_conv (i : I)
     exact IsAffine.of_isIso eV.hom.left
   · exact (ha.map yoneda).paste_vert hU
 
-omit hSize hHomSize in
+omit hSize hHomSize hD hQc hQs in
 include hconv in
 private theorem eventually_etale_over_affine_chart_conv (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -7758,11 +7755,11 @@ private theorem eventually_etale_over_affine_chart_conv (i : I)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
         (affineStageChart B S hS D i U₀ p₀ hAffine j).toChart)).obj X).hom := by
   let Q := AlgebraicGeometry.BigFppfOver.toScheme B S hS
-  let E := affineStageChartOverDiagramConv B S hS hZ D hD hAffine hQc hQs hconv
+  let E := affineStageChartOverDiagramConv B S hS D
     i U₀ p₀ hAffine
-  let c := affineStageChartConeConv B S hS hZ D hD hAffine hQc hQs hconv
+  let c := affineStageChartConeConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
-  let hc := affineStageChartConeIsLimitConv B S hS hZ D hD hAffine hQc hQs hconv
+  let hc := affineStageChartConeIsLimitConv B S hS D
     i U₀ p₀ hAffine U.obj p q hp
   let : IsConnected (Over i) := IsCofiltered.isConnected _
   let F := E ⋙ Over.forget U₀.obj
@@ -7771,7 +7768,7 @@ private theorem eventually_etale_over_affine_chart_conv (i : I)
   have hF (j : Over i) : IsAffine (Q.obj (F.obj j)) :=
     (affineStageChart B S hS D i U₀ p₀ hAffine j).U.property
   have hsc : IsLimit ((Over.forget (Q.obj U₀.obj)).mapCone sc) :=
-    isLimit_toScheme_affineStageChart_conv B S hS hZ D hD hAffine hQc hQs hconv i U₀ p₀
+    isLimit_toScheme_affineStageChart_conv B S hS D hAffine hconv i U₀ p₀
       ((Over.forget U₀.obj).mapCone c) (isLimitOfPreserves (Over.forget U₀.obj) hc)
   let : ∀ j, IsAffine (E'.obj j).left := hF
   let : ∀ {j k : Over i} (a : j ⟶ k), _root_.AlgebraicGeometry.IsAffineHom (E'.map a).left := by
@@ -7781,7 +7778,7 @@ private theorem eventually_etale_over_affine_chart_conv (i : I)
     ‹Etale ((Over.pullback (Q.map q)).obj X).hom›
   exact scheme_eventually_etale_pullback E' sc hsc X hX
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc hQs in
 include hconv in
 private theorem eventually_eq_on_quasiCompact_source_conv (i : I)
     {Y Z G : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -7806,8 +7803,8 @@ private theorem eventually_eq_on_quasiCompact_source_conv (i : I)
       (pullback.fst (limit.π D i) (q₀ ≫ r))
       (by simp only [Category.assoc, pullback.condition])
     simpa [k] using congrArg (fun t => k ≫ t) hfg
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_conv B S hS hZ D hD
-    hAffine hQc hQs hconv i U (q₀ ≫ r) hG b hZalg a ha
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_conv B S hS D
+    hAffine hconv i U (q₀ ≫ r) hG b hZalg a ha
     (q₀ ≫ f) (q₀ ≫ g) (by simp [hf]) (by simp [hg]) hh
   refine ⟨j.left, j.hom, ?_⟩
   let C := affineStageChart B S hS D i U (q₀ ≫ r) hAffine j
@@ -7835,7 +7832,7 @@ private theorem eventually_eq_on_quasiCompact_source_conv (i : I)
     (Q.presheaf.of_isPullback hp (represented_etale_of_isEtale B S hS q₀ het))
   simpa [p, Category.assoc] using hj
 
-omit hSize hHomSize in
+omit hSize hHomSize hQc hQs in
 include hconv in
 private theorem exists_stage_atlas_factorization_conv (i : I)
     (Y : Over (D.obj i))
@@ -7869,8 +7866,8 @@ private theorem exists_stage_atlas_factorization_conv (i : I)
   let k : pullback (limit.π D i) (q₀ ≫ Y.hom) ⟶ pullback Y.hom (limit.π D i) :=
     pullback.lift (pullback.snd _ _ ≫ q₀) (pullback.fst _ _)
       (by simp only [Category.assoc, pullback.condition])
-  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
+  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_conv B S hS D hD
+    hAffine hconv i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
       rw [Category.assoc, hf]
       simpa [k, Category.assoc] using (pullback.condition (f := limit.π D i)
         (g := q₀ ≫ Y.hom)).symm)
@@ -7974,7 +7971,7 @@ public theorem exists_morphism_after_baseChange_of_siteContainsBaseChangeLimits
         pullback.snd Yᵢ.hom (limit.π D i) := f.w
     rw [← Category.assoc, hw]
   obtain ⟨j, U, p, g, hs, he, hg, hgf⟩ := exists_stage_atlas_factorization_conv
-    B S hS hZ D hD hAffine hQc hQs hconv i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
+    B S hS D hD hAffine hconv i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
   let Yj := (Over.pullback (D.map j.hom)).obj Yᵢ
   have hYj := AlgebraicGeometry.isAlgebraicSpace_pullback B S hS Yᵢ.hom (D.map j.hom)
     hY (hD j.left) (hD i)
@@ -7988,8 +7985,8 @@ public theorem exists_morphism_after_baseChange_of_siteContainsBaseChangeLimits
   have hlim := equalizes_kernelPair_after_baseChange p Yj.hom (limit.π D j.left)
     ((iteratedBaseChangeIso (D.map j.hom) (limit.π D j.left) (limit.π D i)
       (limit.w D j.hom) Yᵢ).hom.left ≫ f₀) g hgf
-  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source_conv B S hS hZ D hD
-    hAffine hQc hQs hconv j.left hR hZ' (hD i) hRqc
+  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source_conv B S hS D hD
+    hAffine hconv j.left hR hZ' (hD i) hRqc
     (pullback.fst p p ≫ p ≫ Yj.hom) Zᵢ.hom (D.map j.hom) hZfp.1
     (pullback.fst p p ≫ g) (pullback.snd p p ≫ g)
     (by simpa only [Yj, Over.pullback_obj_hom, Category.assoc] using congrArg
@@ -8070,7 +8067,7 @@ public theorem exists_morphism_after_baseChange_of_siteContainsBaseChangeLimits
       · simp [Yj, Yk, q, A, m, η, l, pK, iteratedBaseChangeIso_hom_left,
           iteratedBaseChangeIso_inv_left, Over.mk_hom, Category.assoc]
     have hEq : q ≫ A.hom.left ≫ (m ≫ raw) = q ≫ A.hom.left ≫ f₀ := by
-      show q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
+      change q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
       have hh := congrArg (fun t => t ≫ gK) hl
       simp only [Category.assoc, hgK] at hh
       rw [hh]
@@ -8109,7 +8106,7 @@ public theorem exists_morphism_after_baseChange_of_siteContainsBaseChangeLimits
       (Over.w (α.hom ≫ f)).trans
         (Over.w ((Over.pullback (limit.π D k)).map g' ≫ β.hom)).symm
 
-omit hSize hHomSize in
+omit hSize hHomSize hQs in
 include hconv in
 /-- **Stacks 07SK, faithfulness, under the chapter's convention.** Two morphisms between
 algebraic spaces of finite presentation over a stage whose base changes to the limit agree
@@ -8142,8 +8139,8 @@ public theorem eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
   let U : AlgebraicGeometry.BigAffineFppf B S hS := ⟨U₀, hU₀⟩
   have hf : (q₀ ≫ f.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
   have hg : (q₀ ≫ g.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_conv B S hS D hD
+    hAffine hconv i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
     (q₀ ≫ f.left) (q₀ ≫ g.left) hf hg
     (precomp_eq_of_baseChange_eq (limit.π D i) Yᵢ Zᵢ f g hfg q₀)
   refine ⟨j.left, j.hom, ?_⟩
@@ -8204,7 +8201,7 @@ private theorem exists_mono_after_baseChange_conv
     apply (cancel_mono ((Over.pullback (limit.π D i)).map f)).mp
     rw [← Functor.map_comp, ← Functor.map_comp, c.condition]
   obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
-    B S hS hZ D hD hAffine hQc hQs hconv i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
+    B S hS D hD hAffine hQc hconv i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
   exact ⟨j, e, IsKernelPair.mono_of_eq_fst_snd (hc.map (Over.pullback (D.map e))) hj⟩
 
 omit hSize hHomSize in
@@ -8258,10 +8255,10 @@ private theorem exists_lift_pair_after_baseChange_conv
   have hWjfp := isFinitePresentation_of_isPullback B S hS hWj hW (hD j) (hD i)
     (IsPullback.of_hasPullback W.hom (D.map e)) hWfp
   obtain ⟨k₁, e₁, hk₁⟩ := eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
-    B S hS hZ D hD hAffine hQc hQs hconv j Aj Wj hAj hWj hAjfp hWjfp
+    B S hS D hD hAffine hQc hconv j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map s) ((Over.pullback (D.map e)).map a) (heq s a hu₁)
   obtain ⟨k₂, e₂, hk₂⟩ := eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
-    B S hS hZ D hD hAffine hQc hQs hconv j Aj Wj hAj hWj hAjfp hWjfp
+    B S hS D hD hAffine hQc hconv j Aj Wj hAj hWj hAjfp hWjfp
     (g ≫ (Over.pullback (D.map e)).map t) ((Over.pullback (D.map e)).map b) (heq t b hu₂)
   let k := IsCofiltered.min (Over.mk e₁) (Over.mk e₂)
   let c₁ := IsCofiltered.minToLeft (Over.mk e₁) (Over.mk e₂)
@@ -8465,7 +8462,7 @@ private theorem exists_model_of_stage_relation_conv (nn : I)
     exact KWn.kernelPair.lift_snd _ _ _
   let Zₙ : Over (D.obj nn) := Over.mk (yoneda.map KWn.s ≫ wn)
   let ψ : Rₙ ⟶ Zₙ := Over.homMk (yoneda.map ψ₀) (by
-    show yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
+    change yoneda.map ψ₀ ≫ yoneda.map KWn.s ≫ wn = rn
     rw [← Category.assoc, ← yoneda.map_comp, hψs])
   have hZnAlg := AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS KWn.R
   have hKWnt : AlgebraicGeometry.Space.IsFinitePresentation B S hS (yoneda.map KWn.s) :=
@@ -8692,7 +8689,7 @@ private theorem exists_model_of_stage_relation_conv (nn : I)
   let Pₒ : Over (D.obj oo.left) := Over.mk (yoneda.map (pullback.fst tO sO) ≫ rO)
   let cfstₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.fst tO sO)) rfl
   let csndₒ : Pₒ ⟶ Over.mk rO := Over.homMk (yoneda.map (pullback.snd tO sO)) (by
-    show yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
+    change yoneda.map (pullback.snd tO sO) ≫ rO = yoneda.map (pullback.fst tO sO) ≫ rO
     calc yoneda.map (pullback.snd tO sO) ≫ rO
         = yoneda.map (pullback.snd tO sO) ≫ yoneda.map sO ≫ wO := by rw [hsOW]
       _ = yoneda.map (pullback.fst tO sO) ≫ yoneda.map tO ≫ wO := by
@@ -8920,9 +8917,9 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W.obj) := W.property
   obtain ⟨j, Wj, wj, aw, hwj, hWjaff, hWmodel⟩ := exists_affine_site_model_over_affine_chart_conv
-    B S hS hZ D hD hAffine hQc hQs hconv i U₀' p₀ hp₀ U p q hp W.obj g hg
+    B S hS hZ D hD hAffine hQs hconv i U₀' p₀ hp₀ U p q hp W.obj g hg
   obtain ⟨k, Rk, rk, ar, hrk, hRmodel⟩ := exists_site_model_over_affine_chart_conv
-    B S hS hZ D hD hAffine hQc hQs hconv i U₀' p₀ hp₀ U p q hp
+    B S hS hZ D hD hAffine hQs hconv i U₀' p₀ hp₀ U p q hp
       K.R (K.s ≫ g) hKg
   let l := IsCofiltered.min j.left k.left
   let ej : l ⟶ j.left := IsCofiltered.minToLeft _ _
@@ -8977,7 +8974,7 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
       (Over.pullback (limit.π D l)).obj target :=
     Over.homMk (pullback.lift (er.inv.left ≫ b)
       (pullback.snd rl (limit.π D l)) (by
-        show (er.inv.left ≫ b) ≫ vKW = _
+        change (er.inv.left ≫ b) ≫ vKW = _
         rw [Category.assoc, hb, ← Category.assoc]
         exact congrArg (fun t => t ≫ limit.π D l) er.inv.w)) (by simp [source, target])
   obtain ⟨m, em, gm, αm, βm, hαm, hβm, hgm⟩ :=
@@ -9084,13 +9081,13 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
       rw [← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc, sm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map st).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.s ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, st, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.s = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -9102,13 +9099,13 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
       rw [← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc, tm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map tt).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.t ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, tt, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.t = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -9139,15 +9136,14 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
   let : Etale ((Over.pullback (Q.map awm)).obj (Over.mk (Q.map tm))).hom :=
     (etale_iff_pullback_of_isPullback (htmSquare.map Q)).mp
       (hwe.property w (yoneda.map K.s) K.t K.kernelPair)
-  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
-  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_conv B S hS hZ D hD
-    hAffine hQc hQs hconv m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
+  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_conv B S hS D
+    hAffine hconv m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) hSmFp
+  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_conv B S hS D
+    hAffine hconv m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) hTmFp
   let n := IsCofiltered.min js jt
   let as' := IsCofiltered.minToLeft js jt
   let at' := IsCofiltered.minToRight js jt
-  let En := affineStageChartOverDiagramConv B S hS hZ D hD
-    hAffine hQc hQs hconv m WmA wm hAffine
+  let En := affineStageChartOverDiagramConv B S hS D m WmA wm hAffine
   let Cn := affineStageChart B S hS D m WmA wm hAffine n
   have hsChart : Etale (pullback.snd (Q.map sm) (Q.map Cn.toChart)) := by
     let : Etale ((Over.pullback (Q.map (En.obj js).hom)).obj (Over.mk (Q.map sm))).hom := hjs
@@ -9213,7 +9209,7 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
+      change yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
       rw [hRnlim.w, hWnlim.w, ← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc]
       have hsn : sn ≫ Cn.toChart = br ≫ sm := pullback.condition.symm
@@ -9224,7 +9220,7 @@ public theorem exists_model_of_finitePresentation_of_siteContainsBaseChangeLimit
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ yoneda.map tn ≫ wn =
+      change yoneda.map arn ≫ yoneda.map tn ≫ wn =
         yoneda.map K.t ≫ yoneda.map awn ≫ wn
       rw [htn, hRnlim.w, hWnlim.w, ← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc]

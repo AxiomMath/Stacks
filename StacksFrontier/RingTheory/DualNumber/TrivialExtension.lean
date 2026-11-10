@@ -91,9 +91,9 @@ public theorem mapOfAlgebra_eps : mapOfAlgebra k P (ε : k[ε]) = (ε : P[ε]) :
 public theorem fst_mapOfAlgebra (x : k[ε]) :
     fst (mapOfAlgebra k P x) = algebraMap k P (fst x) := by
   rw [mapOfAlgebra, DualNumber.lift_apply_apply]
-  show fst ((algebraMap k P[ε]) (fst x) + (algebraMap k P[ε]) (snd x) * (ε : P[ε])) = _
+  change fst ((algebraMap k P[ε]) (fst x) + (algebraMap k P[ε]) (snd x) * (ε : P[ε])) = _
   rw [TrivSqZeroExt.fst_add, TrivSqZeroExt.fst_mul]
-  show (algebraMap k P) (fst x) + (algebraMap k P) (snd x) * (0 : P) = _
+  change (algebraMap k P) (fst x) + (algebraMap k P) (snd x) * (0 : P) = _
   rw [mul_zero, add_zero]
 
 /-- The dual numbers of `P` as an algebra over the dual numbers of `k`. -/
@@ -108,9 +108,9 @@ public theorem eps_smul_eq_inr_fst (m : P[ε]) :
     (ε : k[ε]) • m = inr (fst m) := by
   let := algebraOfAlgebra k P
   rw [Algebra.smul_def]
-  show mapOfAlgebra k P (ε : k[ε]) * m = _
+  change mapOfAlgebra k P (ε : k[ε]) * m = _
   rw [mapOfAlgebra_eps]
-  show inr (1 : P) * m = _
+  change inr (1 : P) * m = _
   apply TrivSqZeroExt.ext <;> simp [TrivSqZeroExt.fst_mul, TrivSqZeroExt.snd_mul]
 
 /-- The dual numbers of `P` are flat over the dual numbers of `k`: the trivial deformation of a
@@ -170,19 +170,19 @@ public theorem isPushout_fst :
     have key : ∀ p : P, s.inl.hom (inr p) = 0 := by
       intro p
       have h1 : (inr p : P[ε]) = inl p * (ε : P[ε]) := by
-        show _ = inl p * inr (1 : P)
+        change _ = inl p * inr (1 : P)
         rw [inl_mul_inr]
         simp
       rw [h1, map_mul, ← mapOfAlgebra_eps (k := k) (P := P), inl_mapOfAlgebra_eq_inr_fst]
       simp
-    show s.inl.hom (inl (fst m)) = s.inl.hom m
+    change s.inl.hom (inl (fst m)) = s.inl.hom m
     calc s.inl.hom (inl (fst m))
         = s.inl.hom (inl (fst m)) + s.inl.hom (inr (snd m)) := by rw [key, add_zero]
       _ = s.inl.hom (inl (fst m) + inr (snd m)) := (map_add _ _ _).symm
       _ = s.inl.hom m := by rw [inl_fst_add_inr_snd_eq]
   · intro s
     refine CommRingCat.hom_ext (RingHom.ext fun a ↦ ?_)
-    show s.inl.hom (inl (algebraMap k P a)) = s.inr.hom a
+    change s.inl.hom (inl (algebraMap k P a)) = s.inr.hom a
     rw [← mapOfAlgebra_inl, inl_mapOfAlgebra_eq_inr_fst, fst_inl]
   · intro s m h₁ _
     refine CommRingCat.hom_ext (RingHom.ext fun p ↦ ?_)

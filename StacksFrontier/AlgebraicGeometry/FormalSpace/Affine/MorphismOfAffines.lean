@@ -495,11 +495,11 @@ private theorem relative_isAffineHom_aux
     BigFppfOver.isStableUnderBaseChange_inverseImage B S hS _
   let _ : P.IsMultiplicative :=
     { id_mem := fun V ↦ by
-        show IsAffineHom ((BigFppfOver.toScheme B S hS).map (𝟙 V))
+        change IsAffineHom ((BigFppfOver.toScheme B S hS).map (𝟙 V))
         rw [(BigFppfOver.toScheme B S hS).map_id]
         infer_instance
       comp_mem := fun {V W Z} a b ha hb ↦ by
-        show IsAffineHom ((BigFppfOver.toScheme B S hS).map (a ≫ b))
+        change IsAffineHom ((BigFppfOver.toScheme B S hS).map (a ≫ b))
         rw [(BigFppfOver.toScheme B S hS).map_comp]
         have _ : IsAffineHom ((BigFppfOver.toScheme B S hS).map a) := ha
         have _ : IsAffineHom ((BigFppfOver.toScheme B S hS).map b) := hb
@@ -530,7 +530,7 @@ private theorem relative_isAffineHom_aux
   -- the factoring morphism is a morphism of affine objects of the site
   obtain ⟨q, hq⟩ := G.map_surjective g'
   have hqAff : P q := by
-    show IsAffineHom ((BigFppfOver.toScheme B S hS).map q)
+    change IsAffineHom ((BigFppfOver.toScheme B S hS).map q)
     have _ := hU
     have _ : IsAffine ((BigFppfOver.toScheme B S hS).obj
         ((BigAffineFppf.inclusion B S hS).obj (D.obj μ))) :=

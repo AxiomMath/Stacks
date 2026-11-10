@@ -231,7 +231,7 @@ theorem powSieve_map (n : ℕ) {X Y : Cᵒᵖ} (g : X ⟶ Y) (x : ToType (R.obj.
     powSieve I n ((R.obj.map g).hom x) = (powSieve I n x).pullback g.unop := by
   refine Sieve.ext (fun W f => ?_)
   have h : ((f ≫ g.unop).op : X ⟶ op W) = g ≫ f.op := rfl
-  show (R.obj.map f.op).hom ((R.obj.map g).hom x) ∈ _ ↔
+  change (R.obj.map f.op).hom ((R.obj.map g).hom x) ∈ _ ↔
     (R.obj.map ((f ≫ g.unop).op)).hom x ∈ _
   rw [h, structureMap_comp_apply]
 
@@ -240,7 +240,7 @@ theorem powSieve_add_mem (n : ℕ) {X : Cᵒᵖ} {x y : ToType (R.obj.obj X)}
     (hx : powSieve I n x ∈ J X.unop) (hy : powSieve I n y ∈ J X.unop) :
     powSieve I n (x + y) ∈ J X.unop :=
   J.superset_covering (fun W f hf => by
-    show (R.obj.map f.op).hom (x + y) ∈ _
+    change (R.obj.map f.op).hom (x + y) ∈ _
     rw [map_add]
     exact add_mem hf.1 hf.2) (J.intersection_covering hx hy)
 
@@ -248,7 +248,7 @@ theorem powSieve_add_mem (n : ℕ) {X : Cᵒᵖ} {x y : ToType (R.obj.obj X)}
 theorem powSieve_zero_mem (n : ℕ) (X : Cᵒᵖ) :
     powSieve I n (0 : ToType (R.obj.obj X)) ∈ J X.unop :=
   J.superset_covering (fun W f _ => by
-    show (R.obj.map f.op).hom 0 ∈ _
+    change (R.obj.map f.op).hom 0 ∈ _
     rw [map_zero]
     exact zero_mem _) (J.top_mem X.unop)
 
@@ -258,7 +258,7 @@ theorem powSieve_mul_mem (n : ℕ) {X : Cᵒᵖ} (r : ToType (R.obj.obj X))
     {x : ToType (R.obj.obj X)} (hx : powSieve I n x ∈ J X.unop) :
     powSieve I n (r * x) ∈ J X.unop :=
   J.superset_covering (fun W f hf => by
-    show (R.obj.map f.op).hom (r * x) ∈ _
+    change (R.obj.map f.op).hom (r * x) ∈ _
     rw [map_mul, ← smul_eq_mul]
     exact Submodule.smul_mem _ _ hf) hx
 
@@ -327,7 +327,7 @@ theorem mul_mem_idealSheafPow_add
     (hx : x ∈ idealAt (idealSheafPow I n) X) (hy : y ∈ idealAt (idealSheafPow I m) X) :
     x * y ∈ idealAt (idealSheafPow I (n + m)) X :=
   J.superset_covering (fun W f hf => by
-      show (R.obj.map f.op).hom (x * y) ∈ _
+      change (R.obj.map f.op).hom (x * y) ∈ _
       rw [map_mul]
       exact mul_mem_idealAt_pow_add hcomm n m hf.1 hf.2)
     (J.intersection_covering hx hy)

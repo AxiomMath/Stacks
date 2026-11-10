@@ -166,7 +166,7 @@ public theorem dualNumber_diagram_commutes_up_to_homotopy :
     intro x
     dsimp [dualNumberLeftComplex, dualNumberTwoTermComplex, dualNumberRing,
       DualNumberModuleCat] at x
-    show x + (DualNumber.eps : dualNumberRing k) * x =
+    change x + (DualNumber.eps : dualNumberRing k) * x =
       (1 + (DualNumber.eps : dualNumberRing k)) * x
     rw [add_mul, one_mul]
   · intro n hn; simp [a, hn]
@@ -189,7 +189,7 @@ public theorem dualNumber_diagram_commutes_up_to_homotopy :
         have hdiff : (dualNumberLeftComplex k).d n ((ComplexShape.up ℤ).next n) = 0 := by
           simp [dualNumberLeftComplex, dualNumberTwoTermComplex, CochainComplex.of.d]
           all_goals rfl
-        show (a ≫ i).f n =
+        change (a ≫ i).f n =
           (dualNumberLeftComplex k).d n ((ComplexShape.up ℤ).next n) ≫
               hfun ((ComplexShape.up ℤ).next n) n +
             hfun n ((ComplexShape.up ℤ).prev n) ≫
@@ -204,7 +204,7 @@ public theorem dualNumber_diagram_commutes_up_to_homotopy :
               𝟙 (ModuleCat.of (dualNumberRing k) (dualNumberRing k)) +
                 ModuleCat.ofHom (LinearMap.mulLeft (dualNumberRing k)
                   (DualNumber.eps : dualNumberRing k)) := by
-            show
+            change
               (𝟙 (ModuleCat.of (dualNumberRing k) (dualNumberRing k)) +
                 ModuleCat.ofHom (LinearMap.mulLeft (dualNumberRing k)
                   (DualNumber.eps : dualNumberRing k))) ≫

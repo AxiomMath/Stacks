@@ -150,7 +150,7 @@ theorem isIso_counit_app_of_isGE_of_isLE (k : ℕ) :
     have hZ : IsIso (adj.counit.app T.obj₃) :=
       isIso_counit_app_of_isGE_of_isLE_self adj P hε T.obj₃ (a + k + 1)
         (hX.truncTriangle_obj₃ _)
-    show IsIso (adj.counit.app T.obj₂)
+    change IsIso (adj.counit.app T.obj₂)
     rw [DerivedCategory.isIso_iff]
     intro q
     by_cases hq : q ≤ a + k

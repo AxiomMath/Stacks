@@ -452,10 +452,8 @@ last condition being `IsLocalHom (algebraMap R ↥A)`, that is `𝔪_A ∩ R = �
 @[stacks 00PH "`A` is produced as a `Subalgebra R L`, so that both inclusions are `algebraMap`s
 and domination is `IsLocalHom (algebraMap R ↥A)`. `L/K` finitely generated as a field extension
 is `Algebra.EssFiniteType K L`, by `IntermediateField.fg_top_iff`. See the module docstring.",
-  ega
-  "II 7.1.7",
-  ega "IV 15.1.1.6" "DVR dom. A, frac field K",
   ega "II 7.1.7",
+  ega "IV 15.1.1.6" "DVR dom. A, frac field K",
   ega "II 7.1.2" "special case"]
 public theorem exists_isDiscreteValuationRing_isFractionRing_of_not_isField
     {R : Type*} [CommRing R] [IsDomain R] [IsNoetherianRing R] [IsLocalRing R]

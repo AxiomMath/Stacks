@@ -8,7 +8,8 @@ public import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
 /-!
 # GraphClosureUnconditional
 
-Stronger forms of declarations of `StacksFrontier.AlgebraicGeometry.Morphisms.GraphClosure`, stated as
+Stronger forms of declarations of `StacksFrontier.AlgebraicGeometry.Morphisms.GraphClosure`,
+stated as
 separate declarations beside the ones there: over more general coefficient universes, or with
 inputs that are carried there as hypotheses discharged, together with the new results built on
 them.

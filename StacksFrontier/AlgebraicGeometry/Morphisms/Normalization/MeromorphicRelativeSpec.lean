@@ -187,7 +187,7 @@ lemma meroGenericAlgEquiv_naturality (X : Scheme.{u}) [IsReduced X]
       (weaklyAssociatedPointsOfScheme_eq_genericPoints X).le hfinite hV
   apply CommRingCat.hom_ext
   apply IsLocalization.ringHom_ext (nonZeroDivisors Γ(X, V))
-  show (X.toTotalQuotientSheaf.hom.app (op V) ≫
+  change (X.toTotalQuotientSheaf.hom.app (op V) ≫
       X.totalQuotientSheaf.presheaf.map (homOfLE h).op ≫
       CommRingCat.ofHom (meroGenericAlgEquiv X hfinite U hU).toRingHom).hom =
     (X.toTotalQuotientSheaf.hom.app (op V) ≫
@@ -223,7 +223,7 @@ lemma closureGenericAlgEquiv_naturality (X : Scheme.{u}) [IsReduced X]
   let ι := (QuasicoherentAlgebra.integralClosureAlgebraι X.meromorphicAlgebra).right.hom
   let ρ := X.meromorphicIntegralClosure.right.presheaf.map (homOfLE h).op
   ext x
-  show (meroGenericAlgEquiv X hfinite U hU) ((ι.app (op U)).hom (ρ.hom x)) = _
+  change (meroGenericAlgEquiv X hfinite U hU) ((ι.app (op U)).hom (ρ.hom x)) = _
   have hi := congrArg (fun g => g x) (ι.naturality (homOfLE h).op)
   exact (congrArg (meroGenericAlgEquiv X hfinite U hU).toRingHom hi).trans
     (congrArg (fun g => g ((ι.app (op V)).hom x))
@@ -287,7 +287,7 @@ lemma normalizationSectionsIso_naturality (X : Scheme.{u}) [IsReduced X]
           (homOfLE ((X.normalization hfinite).preimage_mono h)).op := by
   let := X.quasiCompactFromGenericPointResidueFields hfinite
   let := X.quasiSeparatedFromGenericPointResidueFields
-  show X.meromorphicIntegralClosure.right.presheaf.map (homOfLE h).op ≫
+  change X.meromorphicIntegralClosure.right.presheaf.map (homOfLE h).op ≫
       (closureGenericAlgEquiv X hfinite U hU).toRingEquiv.toCommRingCatIso.hom ≫
         (X.fromGenericPointResidueFields.normalizationObjIso hU).symm.hom =
     (closureGenericAlgEquiv X hfinite V hV).toRingEquiv.toCommRingCatIso.hom ≫
@@ -340,9 +340,9 @@ lemma chart_isPullback (X : Scheme.{u}) [IsReduced X]
   have hc : E.hom ≫ X.normalization hfinite ∣_ W.1 =
       specSectionsToOpen (X.meromorphicIntegralClosureSituation hfinite) W := by
     apply (cancel_mono W.1.ι).mp
-    show Spec.map e.inv ≫ hN.isoSpec.inv ≫ (X.normalization hfinite ∣_ W.1) ≫ W.1.ι = _
+    change Spec.map e.inv ≫ hN.isoSpec.inv ≫ (X.normalization hfinite ∣_ W.1) ≫ W.1.ι = _
     rw [morphismRestrict_ι]
-    show Spec.map e.inv ≫ hN.fromSpec ≫ X.normalization hfinite = _
+    change Spec.map e.inv ≫ hN.fromSpec ≫ X.normalization hfinite = _
     rw [← IsAffineOpen.SpecMap_appLE_fromSpec (X.normalization hfinite) W.2 hN le_rfl,
       ← Spec.map_comp_assoc]
     have ha : (X.normalization hfinite).appLE W.1 (X.normalization hfinite ⁻¹ᵁ W.1) le_rfl ≫
@@ -353,7 +353,7 @@ lemma chart_isPullback (X : Scheme.{u}) [IsReduced X]
     rfl
   refine (isPullback_morphismRestrict (X.normalization hfinite) W.1).flip.of_iso
     E.symm (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · show (X.normalization hfinite ⁻¹ᵁ W.1).ι ≫ 𝟙 _ =
+  · change (X.normalization hfinite ⁻¹ᵁ W.1).ι ≫ 𝟙 _ =
       E.inv ≫ E.hom ≫ (X.normalization hfinite ⁻¹ᵁ W.1).ι
     simp only [Category.comp_id, Iso.inv_hom_id_assoc]
   · exact (Category.comp_id _).trans

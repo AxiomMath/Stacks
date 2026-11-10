@@ -114,14 +114,14 @@ lemma isUnit_mk_map_of_mem_localizationSubmonoid
     intro q hmem
     let p : PrimeSpectrum B := PrimeSpectrum.comap π q
     have hOneSub : (1 - stratumIdempotent f E i) ∈ p.asIdeal := by
-      show π (1 - stratumIdempotent f E i) ∈ q.asIdeal
+      change π (1 - stratumIdempotent f E i) ∈ q.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.subset_span (Set.mem_singleton _))]
       exact q.asIdeal.zero_mem
     have hnot : stratumIdempotent f E i ∉ p.asIdeal := fun he =>
       p.2.ne_top ((Ideal.eq_top_iff_one p.asIdeal).2
         (by simpa using p.asIdeal.add_mem he hOneSub))
     have hp : p ∈ stratumClopen f E i := by
-      show p ∈ (stratumClopen f E i : Set (PrimeSpectrum B))
+      change p ∈ (stratumClopen f E i : Set (PrimeSpectrum B))
       rw [coe_stratumClopen_eq_basicOpen f E i]
       exact (PrimeSpectrum.mem_basicOpen _ _).2 hnot
     obtain ⟨c, hpc, hc⟩ :=
@@ -261,18 +261,18 @@ theorem stratificationStageMap_transition
       (stratumIdempotent_mul_eq_of_clopen_subset f E₁ E₂ i₁ i₂
         (stratumClopen_subset_restrictStratum f E₁ E₂ hE i₂))
   have hθ (b : B) : θ (Ideal.Quotient.mk _ b) = Ideal.Quotient.mk _ b := by
-    show Ideal.Quotient.lift _ (Ideal.Quotient.mk _) _
+    change Ideal.Quotient.lift _ (Ideal.Quotient.mk _) _
         (Ideal.Quotient.mk _ b) = _
     rw [Ideal.Quotient.lift_mk]
   rw [stratificationStageMap, RingHom.comp_apply]
-  show (Ideal.Quotient.mk (Ideal.span {1 - e₂}))
+  change (Ideal.Quotient.mk (Ideal.span {1 - e₂}))
       ((stratumQuotientPiEquiv f E₂).symm
         ((RingHom.pi fun i =>
           (stratumLocalizationMap f E₂ i).comp (Pi.evalRingHom _ i))
           ((stratificationRingMap E₁ E₂ hE) x))) = _
   rw [mk_stratumQuotientPiEquiv_symm]
   rw [stratificationStageMap]
-  show (stratumLocalizationMap f E₂ i₂)
+  change (stratumLocalizationMap f E₂ i₂)
       ((stratificationRingMap E₁ E₂ hE x) i₂) =
     Ideal.Quotient.mk (Ideal.span {1 - e₂})
       ((stratumQuotientPiEquiv f E₁).symm
@@ -315,7 +315,7 @@ theorem stratificationColimitLift_comp_algebraMap
     (stratificationColimitLift f).comp
         (stratificationColimitAlgebraMap (A := A)) = f := by
   refine RingHom.ext fun a => ?_
-  show stratificationColimitLift f
+  change stratificationColimitLift f
       (stratificationColimitMap ∅
         (stratificationAlgebraMap ∅ a)) = f a
   rw [stratificationColimitLift_of]
@@ -360,7 +360,7 @@ theorem ringHom_stratificationRing_eq_of_single
       (h₁ : θ (Pi.single i 1) = 1) :
       (RingHom.piSelectedFactor θ i h₁ : L →+* K).comp (algebraMap A L) = f := by
     ext a
-    show θ (Pi.single i (algebraMap A L a)) = f a
+    change θ (Pi.single i (algebraMap A L a)) = f a
     rw [← single_one_mul_stratificationAlgebraMap E i a, map_mul, h₁, one_mul]
     exact DFunLike.congr_fun hθ a
   have hα : (RingHom.piSelectedFactor φ i hφone : L →+* K) =
@@ -389,7 +389,7 @@ theorem stratificationStageMap_single_one
   classical
   let _ := stratumIndexFintype E
   rw [stratificationStageMap]
-  show (stratumQuotientPiEquiv f E).symm
+  change (stratumQuotientPiEquiv f E).symm
     ((RingHom.pi fun k =>
       (stratumLocalizationMap f E k).comp (Pi.evalRingHom _ k))
       (Pi.single j 1)) = stratumIdempotent f E j

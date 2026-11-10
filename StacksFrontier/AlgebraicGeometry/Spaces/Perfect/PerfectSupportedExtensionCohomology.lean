@@ -232,12 +232,12 @@ theorem isIso_biprod_desc_of_distTriang_of_eq_comp_inr [IsTriangulated D]
     refine isomorphic_distinguished _
       (rot_of_distTriang _ (binaryBiproductTriangle_distinguished C' C)) _ ?_
     refine Triangle.isoMk _ _ (e' ≪≫ biprod.braiding C C') (Iso.refl _) ι ?_ ?_ ?_
-    · show (e'.hom ≫ biprod.fst) ≫ 𝟙 C = (e'.hom ≫ (biprod.braiding C C').hom) ≫ biprod.snd
+    · change (e'.hom ≫ biprod.fst) ≫ 𝟙 C = (e'.hom ≫ (biprod.braiding C C').hom) ≫ biprod.snd
       simp
     · dsimp
       rw [zero_comp]
       exact comp_zero.symm
-    · show (biprod.inr ≫ e'.inv)⟦(1 : ℤ)⟧' ≫ (e'.hom ≫ (biprod.braiding C C').hom)⟦(1 : ℤ)⟧' =
+    · change (biprod.inr ≫ e'.inv)⟦(1 : ℤ)⟧' ≫ (e'.hom ≫ (biprod.braiding C C').hom)⟦(1 : ℤ)⟧' =
         (-𝟙 _) ≫ (-((biprod.inl : C' ⟶ C' ⊞ C)⟦(1 : ℤ)⟧'))
       rw [← Functor.map_comp, Category.assoc, Iso.inv_hom_id_assoc, hbr, Preadditive.neg_comp,
         Category.id_comp, neg_neg]
@@ -246,9 +246,9 @@ theorem isIso_biprod_desc_of_distTriang_of_eq_comp_inr [IsTriangulated D]
       (0 : P ⟶ C⟦(1 : ℤ)⟧) ∈ distTriang D := by
     refine isomorphic_distinguished _ (binaryBiproductTriangle_distinguished C P) _ ?_
     refine Triangle.isoMk _ _ (Iso.refl _) (e ≪≫ biprod.braiding P C) (Iso.refl _) ?_ ?_ ?_
-    · show (biprod.inr ≫ e.inv) ≫ (e.hom ≫ (biprod.braiding P C).hom) = 𝟙 C ≫ biprod.inl
+    · change (biprod.inr ≫ e.inv) ≫ (e.hom ≫ (biprod.braiding P C).hom) = 𝟙 C ≫ biprod.inl
       simp only [Category.assoc, Iso.inv_hom_id_assoc, hbr, Category.id_comp]
-    · show (e.hom ≫ biprod.fst) ≫ 𝟙 P = (e.hom ≫ (biprod.braiding P C).hom) ≫ biprod.snd
+    · change (e.hom ≫ biprod.fst) ≫ 𝟙 P = (e.hom ≫ (biprod.braiding P C).hom) ≫ biprod.snd
       simp
     · dsimp
       rw [zero_comp]
@@ -556,7 +556,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isFiniteSumOfPositiveShifts_of_mode
     refine (τ.hom.naturality β₀).trans ?_
     congr 1
     exact (Category.comp_id _).symm
-  show F.mapDerivedCategory.map (ΨX.functor.map β₀ ≫ ΨX.counitIso.hom.app E) = _
+  change F.mapDerivedCategory.map (ΨX.functor.map β₀ ≫ ΨX.counitIso.hom.app E) = _
   rw [Functor.map_comp, key, hβ₀', Functor.map_comp, Functor.map_comp, hα₀]
   have hε : F.mapDerivedCategory.map (ΨX.counitIso.inv.app E) ≫
       F.mapDerivedCategory.map (ΨX.counitIso.hom.app E) = 𝟙 _ := by
@@ -564,7 +564,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isFiniteSumOfPositiveShifts_of_mode
     exact F.mapDerivedCategory.map_id _
   simp only [Iso.trans_hom, Functor.mapIso_hom, Functor.mapBiprod_hom, biprod.mapIso_hom,
     Iso.app_hom, Iso.refl_hom, Category.assoc, Iso.hom_inv_id_app_assoc, hε, Functor.id_obj,
-    Category.comp_id, biprod.map_fst_assoc, biprod.lift_fst_assoc]
+    biprod.map_fst_assoc, biprod.lift_fst_assoc]
   exact congrArg (fun t => τ.hom.app R₀ ≫ ΨW.functor.map e₀.hom ≫ ΨW.functor.map biprod.fst ≫
     ΨW.counitIso.hom.app P ≫ t) (Category.comp_id α)
 /-! ### The cohomology of the restriction -/
@@ -657,7 +657,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isZero_homology_of_sub_one
       biprod.inr ≫ e.inv = α' ≫ (etaleModulePullback.{u, u} B S hS (openSubspaceHom B S hS W hW)
       (isEtale_openSubspaceHom B S hS W hW)).mapDerivedCategory.map u' :=
     Triangle.coyoneda_exact₂ _ hT₁' (biprod.inr ≫ e.inv) (by
-    show (biprod.inr ≫ e.inv) ≫ (etaleModulePullback.{u, u} B S hS (openSubspaceHom B S hS W hW)
+    change (biprod.inr ≫ e.inv) ≫ (etaleModulePullback.{u, u} B S hS (openSubspaceHom B S hS W hW)
       (isEtale_openSubspaceHom B S hS W hW)).mapDerivedCategory.map β = 0
     rw [hβ]
     simp)
@@ -687,7 +687,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isZero_homology_of_sub_one
         ((etaleModulePullback.{u, u} B S hS (openSubspaceHom B S hS W hW)
       (isEtale_openSubspaceHom B S hS W hW)).mapDerivedCategory.commShiftIso (1 : ℤ)).hom.app R') :=
     Triangle.coyoneda_exact₁ _ hT₁₂' ((biprod.inr ≫ e'.inv)⟦(1 : ℤ)⟧') (by
-    show (biprod.inr ≫ e'.inv)⟦(1 : ℤ)⟧' ≫ ((etaleModulePullback.{u, u} B S hS
+    change (biprod.inr ≫ e'.inv)⟦(1 : ℤ)⟧' ≫ ((etaleModulePullback.{u, u} B S hS
         (openSubspaceHom B S hS W hW)
       (isEtale_openSubspaceHom B S hS W hW)).mapDerivedCategory.map β')⟦(1 : ℤ)⟧' = 0
     rw [← Functor.map_comp, Category.assoc, hβ', Iso.inv_hom_id_assoc, biprod.inr_fst_assoc,

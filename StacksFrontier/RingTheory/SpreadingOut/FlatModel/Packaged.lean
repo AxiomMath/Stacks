@@ -144,7 +144,7 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
   let : Module S' M := Module.compHom M e.toRingHom
   have : IsScalarTower S' S M := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R S' M := .of_algebraMap_smul fun x m => by
-    show e (algebraMap R S' x) • m = x • m
+    change e (algebraMap R S' x) • m = x • m
     rw [e.commutes]
     exact IsScalarTower.algebraMap_smul S x m
   have : Algebra.FinitePresentation R S' := Algebra.FinitePresentation.equiv e.symm
@@ -159,21 +159,21 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
     let : Algebra R₀ S := ((algebraMap S' S).comp (algebraMap R₀ S')).toAlgebra
     have : IsScalarTower R₀ S' S := .of_algebraMap_eq fun _ => rfl
     have : IsScalarTower R₀ R S := .of_algebraMap_eq fun x => by
-      show algebraMap S' S (algebraMap R₀ S' x) = algebraMap R S (algebraMap R₀ R x)
+      change algebraMap S' S (algebraMap R₀ S' x) = algebraMap R S (algebraMap R₀ R x)
       rw [IsScalarTower.algebraMap_apply R₀ R S', ← IsScalarTower.algebraMap_apply R S' S]
     have : IsScalarTower R₀ S₀ S := .of_algebraMap_eq fun x => by
-      show algebraMap S' S (algebraMap R₀ S' x)
+      change algebraMap S' S (algebraMap R₀ S' x)
         = algebraMap S' S (algebraMap S₀ S' (algebraMap R₀ S₀ x))
       rw [← IsScalarTower.algebraMap_apply R₀ S₀ S']
     have : IsScalarTower S₀ S M := .of_algebraMap_smul fun x m => by
-      show algebraMap S' S (algebraMap S₀ S' x) • m = x • m
+      change algebraMap S' S (algebraMap S₀ S' x) • m = x • m
       rw [IsScalarTower.algebraMap_smul S, IsScalarTower.algebraMap_smul S']
     have : Algebra.IsPushout R₀ R S₀ S :=
       Algebra.IsPushout.of_equiv e (RingHom.ext fun _ => rfl)
     let e₀ : S' ≃ₐ[S₀] S := AlgEquiv.ofRingEquiv (f := e.toRingEquiv) fun _ => rfl
     have hf' : IsBaseChange S f :=
       IsBaseChange.of_algEquiv e₀.symm (fun s m => by
-        show e (e.symm s) • m = s • m
+        change e (e.symm s) • m = s • m
         rw [AlgEquiv.apply_symm_apply]) hf
     exact Module.Flat.exists_small_finiteType_model (C := R₀) (R := R) f hf'
   · -- Part (2)
@@ -188,21 +188,21 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
     let : Algebra (A i) S := ((algebraMap S' S).comp (algebraMap (A i) S')).toAlgebra
     have : IsScalarTower (A i) S' S := .of_algebraMap_eq fun _ => rfl
     have : IsScalarTower (A i) R S := .of_algebraMap_eq fun x => by
-      show algebraMap S' S (algebraMap (A i) S' x) = algebraMap R S (algebraMap (A i) R x)
+      change algebraMap S' S (algebraMap (A i) S' x) = algebraMap R S (algebraMap (A i) R x)
       rw [IsScalarTower.algebraMap_apply (A i) R S', ← IsScalarTower.algebraMap_apply R S' S]
     have : IsScalarTower (A i) T₀ S := .of_algebraMap_eq fun x => by
-      show algebraMap S' S (algebraMap (A i) S' x)
+      change algebraMap S' S (algebraMap (A i) S' x)
         = algebraMap S' S (algebraMap T₀ S' (algebraMap (A i) T₀ x))
       rw [← IsScalarTower.algebraMap_apply (A i) T₀ S']
     have : IsScalarTower T₀ S M := .of_algebraMap_smul fun x m => by
-      show algebraMap S' S (algebraMap T₀ S' x) • m = x • m
+      change algebraMap S' S (algebraMap T₀ S' x) • m = x • m
       rw [IsScalarTower.algebraMap_smul S, IsScalarTower.algebraMap_smul S']
     have : Algebra.IsPushout (A i) R T₀ S :=
       Algebra.IsPushout.of_equiv e (RingHom.ext fun _ => rfl)
     let e₀ : S' ≃ₐ[T₀] S := AlgEquiv.ofRingEquiv (f := e.toRingEquiv) fun _ => rfl
     have hf' : IsBaseChange S f :=
       IsBaseChange.of_algEquiv e₀.symm (fun s m => by
-        show e (e.symm s) • m = s • m
+        change e (e.symm s) • m = s • m
         rw [AlgEquiv.apply_symm_apply]) hf
     have : Small.{max uA uS} T₀ := Algebra.FiniteType.small.{max uA uS} (R := A i)
     have : Small.{max (max uA uS) uM} T₀ :=
@@ -239,14 +239,14 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
       { toFun := n i j h
         map_add' := (n i j h).map_add
         map_smul' := fun x m => by
-          show n i j h (eB i x • m) = eB j (b' i j h x) • n i j h m
+          change n i j h (eB i x • m) = eB j (b' i j h x) • n i j h m
           rw [hb'apply]
           exact (n i j h).map_smulₛₗ (eB i x) m }
     let ν' : ∀ i, N i →ₛₗ[σ' i] M := fun i =>
       { toFun := ν i
         map_add' := (ν i).map_add
         map_smul' := fun x m => by
-          show ν i (eB i x • m) = e (σ' i x) • ν i m
+          change ν i (eB i x • m) = e (σ' i x) • ν i m
           rw [hσ'apply]
           exact hνσ i (eB i x) m }
     have hdsB' : DirectedSystem B' fun i j h => b' i j h := by
@@ -279,7 +279,7 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
     have hρσ' : ∀ i, (σ' i).comp (algebraMap (A i) (B' i)) = (algebraMap R S').comp (ρ i) := by
       intro i
       refine RingHom.ext fun x => e.injective ?_
-      show e (σ' i (algebraMap (A i) (B' i) x)) = e (algebraMap R S' (ρ i x))
+      change e (σ' i (algebraMap (A i) (B' i) x)) = e (algebraMap R S' (ρ i x))
       rw [hσ'apply, hcomm, e.commutes]
       exact (RingHom.congr_fun (hρσ i) x).symm
     have hσs' : ∀ s : S', ∃ i x, σ' i x = s := by
@@ -310,7 +310,7 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
       let : Algebra (A i) (B j) := ((g j).comp (a i j h)).toAlgebra
       have : IsScalarTower (A i) (A j) (B j) := .of_algebraMap_smul fun _ _ => rfl
       have : IsScalarTower (A i) (B i) (B j) := .of_algebraMap_smul fun x y => by
-        show b i j h (g i x) * y = g j (a i j h x) * y
+        change b i j h (g i x) * y = g j (a i j h x) * y
         exact congrArg (fun z : B j => z * y)
           (by simpa using (RingHom.congr_fun (hg i j h) x).symm)
       have hpij : Algebra.IsPushout (A i) (A j) (B i) (B j) := hp i j h
@@ -322,7 +322,7 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
       refine CommRingCat.isPushout_iff_isPushout.mpr ?_
       refine Algebra.IsPushout.of_algEquiv₂ (eB i).symm (eB j).symm fun x => ?_
       refine (eB j).injective ?_
-      show eB j ((eB j).symm (b i j h x)) = eB j (b' i j h ((eB i).symm x))
+      change eB j ((eB j).symm (b i j h x)) = eB j (b' i j h ((eB i).symm x))
       rw [(eB j).apply_symm_apply, hb'apply, (eB i).apply_symm_apply]
     have hbc' : ∀ i j (h : i ≤ j), let := algebraB b' h
         let := Module.compHom (N j) (b' i j h)
@@ -341,16 +341,16 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
       let : Algebra (B' i) (B j) := ((b i j h).comp (eB i).toRingHom).toAlgebra
       have : IsScalarTower (B' i) (B i) (B j) := .of_algebraMap_eq fun _ => rfl
       have : IsScalarTower (B' i) (B i) (N j) := .of_algebraMap_smul fun x m => by
-        show (b i j h) (eB i x) • m = eB j (b' i j h x) • m
+        change (b i j h) (eB i x) • m = eB j (b' i j h x) • m
         rw [hb'apply]
       have : IsScalarTower (B' i) (B j) (N j) := .of_algebraMap_smul fun x m => by
-        show (b i j h) (eB i x) • m = eB j (b' i j h x) • m
+        change (b i j h) (eB i x) • m = eB j (b' i j h x) • m
         rw [hb'apply]
       have h1 := IsBaseChange.restrictScalars_of_surjective (A := B' i) (B := B i)
         (eB i).bijective.surjective _ hbij
       refine IsBaseChange.of_algEquiv
         (AlgEquiv.ofRingEquiv (f := (eB j).toRingEquiv) (fun x => by
-          show eB j (b' i j h x) = b i j h (eB i x)
+          change eB j (b' i j h x) = b i j h (eB i x)
           exact hb'apply i j h x))
         (fun s m => rfl) h1
     obtain ⟨i₀, hi₀⟩ := Module.Flat.eventually_flat_of_directed (R := R) (S := S') M
@@ -358,6 +358,6 @@ theorem Module.Flat.exists_flat_models_and_eventually_flat
     refine ⟨i₀, fun j hj => ?_⟩
     have heq : Module.compHom (N j) (algebraMap (A j) (B' j)) = Module.compHom (N j) (g j) :=
       Module.ext' _ _ fun x m => by
-        show eB j (algebraMap (A j) (B' j) x) • m = g j x • m
+        change eB j (algebraMap (A j) (B' j) x) • m = g j x • m
         rw [hcomm]
     exact heq ▸ hi₀ j hj

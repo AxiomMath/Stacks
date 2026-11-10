@@ -68,7 +68,6 @@ theorem legMap_stageMap {i j : (Finset A)ᵒᵖ} (e : i ⟶ j) :
 abbrev stageField (i : (Finset A)ᵒᵖ) : Type u :=
   (AdjoinResidueField.prime ℤ p i.unop).ResidueField
 
-include hA in
 /-- If the site contains `Spec κ(𝔭)`, then it contains `Spec κ(𝔭 ∩ ℤ[s])` for every stage. -/
 theorem contains_stageField (hκ : B.Contains (Spec (.of p.ResidueField))) (i : (Finset A)ᵒᵖ) :
     B.Contains (Spec (.of (stageField p i))) :=
@@ -79,7 +78,7 @@ theorem contains_stageField (hκ : B.Contains (Spec (.of p.ResidueField))) (i : 
 
 /-- The point `Spec κ(𝔭 ∩ ℤ[s]) ⟶ Spec ℤ[s]`. -/
 abbrev stagePoint (hκ : B.Contains (Spec (.of p.ResidueField))) (i : (Finset A)ᵒᵖ) :
-    integerSiteObject B hZ (contains_stageField B p hA hκ i) ⟶ stageObj B hZ hA i :=
+    integerSiteObject B hZ (contains_stageField B p hκ i) ⟶ stageObj B hZ hA i :=
   integerSiteMap B hZ _ (contains_sub A ℤ B hA i.unop)
     (Spec.map (CommRingCat.ofHom (algebraMap (sub A ℤ i.unop) (stageField p i))))
 
@@ -95,10 +94,10 @@ abbrev residueLeg (k : (Finset A)ᵒᵖ) : Spec (.of p.ResidueField) ⟶ Spec (.
 /-- The stage points are compatible with the transition maps. -/
 theorem stagePoint_comp (hκ : B.Contains (Spec (.of p.ResidueField))) {k m : (Finset A)ᵒᵖ}
     (e : k ⟶ m) :
-    integerSiteMap B hZ (contains_stageField B p hA hκ k) (contains_stageField B p hA hκ m)
+    integerSiteMap B hZ (contains_stageField B p hκ k) (contains_stageField B p hκ m)
         (stageResidueMap p e) ≫ stagePoint B hZ p hA hκ m =
       stagePoint B hZ p hA hκ k ≫ stageMap B hZ hA e := by
-  show integerSiteMap B hZ _ _ (Spec.map (CommRingCat.ofHom (Ideal.ResidueField.map
+  change integerSiteMap B hZ _ _ (Spec.map (CommRingCat.ofHom (Ideal.ResidueField.map
       (AdjoinResidueField.prime ℤ p m.unop) (AdjoinResidueField.prime ℤ p k.unop)
       (AdjoinResidueField.incl ℤ e.unop) (AdjoinResidueField.prime_comap ℤ p e.unop)))) ≫
       integerSiteMap B hZ _ (contains_sub A ℤ B hA m.unop)
@@ -115,9 +114,9 @@ theorem stagePoint_comp (hκ : B.Contains (Spec (.of p.ResidueField))) {k m : (F
 theorem stagePoint_leg (hκ : B.Contains (Spec (.of p.ResidueField))) (k : (Finset A)ᵒᵖ) :
     integerSiteMap B hZ hκ hA (Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField))) ≫
         legMap B hZ hA k =
-      integerSiteMap B hZ hκ (contains_stageField B p hA hκ k) (residueLeg p k) ≫
+      integerSiteMap B hZ hκ (contains_stageField B p hκ k) (residueLeg p k) ≫
         stagePoint B hZ p hA hκ k := by
-  show integerSiteMap B hZ _ _ (Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField))) ≫
+  change integerSiteMap B hZ _ _ (Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField))) ≫
       integerSiteMap B hZ _ (contains_sub A ℤ B hA k.unop)
         (Spec.map (CommRingCat.ofHom (sub A ℤ k.unop).val.toRingHom)) =
     integerSiteMap B hZ _ _ (Spec.map (CommRingCat.ofHom (Ideal.ResidueField.map
@@ -136,7 +135,7 @@ theorem stagePoint_leg_scheme (k : (Finset A)ᵒᵖ) :
         Spec.map (CommRingCat.ofHom (sub A ℤ k.unop).val.toRingHom) =
       residueLeg p k ≫
         Spec.map (CommRingCat.ofHom (algebraMap (sub A ℤ k.unop) (stageField p k))) := by
-  show _ = Spec.map (CommRingCat.ofHom (Ideal.ResidueField.map
+  change _ = Spec.map (CommRingCat.ofHom (Ideal.ResidueField.map
       (AdjoinResidueField.prime ℤ p k.unop) p (sub A ℤ k.unop).val.toRingHom
       (AdjoinResidueField.prime_eq ℤ p k.unop))) ≫ _
   rw [← Spec.map_comp, ← Spec.map_comp]
@@ -230,7 +229,7 @@ theorem hasEtaleContraction_of_affine
   obtain ⟨φm, hφm1, sqm⟩ := stage m em
   let Fm := (Fi.ofBaseEq hFi).pullback (stageMap B hZ hA em)
   obtain ⟨Xm, hXmp, hXm, ιm, -, hιm⟩ := exists_fibre Fm (rfl : Fm.base = stageObj B hZ hA m)
-    (contains_stageField B p hA hκ m) (stagePoint B hZ p hA hκ m)
+    (contains_stageField B p hκ m) (stagePoint B hZ p hA hκ m)
   have := hXmp
   have eFm : Fm.toBaseYonedaOfEq (rfl : Fm.base = stageObj B hZ hA m) = Fm.toBaseYoneda :=
     toBaseYonedaOfEq_rfl' Fm
@@ -261,7 +260,7 @@ theorem hasEtaleContraction_of_affine
     inferInstanceAs (QuasiCompact Xm.hom), inferInstanceAs (QuasiSeparated Xm.hom)⟩
   have hYmfp : FinitePresentation Ym.hom := by
     obtain ⟨h1, h2, h3⟩ := hpj
-    show FinitePresentation (Limits.pullback.snd pj ((AdjoinResidueField.diagram ℤ p).map emj))
+    change FinitePresentation (Limits.pullback.snd pj ((AdjoinResidueField.diagram ℤ p).map emj))
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   obtain ⟨n, en, g, α, β, hα, hβ, hαβ⟩ :=
     exists_morphism_after_baseChange (AdjoinResidueField.diagram ℤ p) (AdjoinResidueField.cone ℤ p)
@@ -328,7 +327,7 @@ theorem hasEtaleContraction_of_affine
     have : IsIso ψY.inv.left := inferInstanceAs (IsIso ((Over.forget _).map ψY.inv))
     have hP : IsProper ((Over.pullback ((AdjoinResidueField.cone ℤ p).π.app n)).obj Yn).hom := by
       rw [← Over.w ψY.inv]
-      show IsProper (ψY.inv.left ≫ pY₀)
+      change IsProper (ψY.inv.left ≫ pY₀)
       infer_instance
     have hw2 := Over.w ((Over.pullback ((AdjoinResidueField.cone ℤ p).π.app n)).map f₀)
     have : IsIso ((Over.pullback ((AdjoinResidueField.cone ℤ p).π.app n)).obj
@@ -426,13 +425,13 @@ theorem hasEtaleContraction_of_affine
     exact ⟨_, s2.lift_fst _ _ _, IsPullback.of_right' (hof s1 rfl rfl rfl (stageComp e₁ e₂)) s2⟩
   obtain ⟨ψnm, hψnm1, sqnm⟩ := famSq en em
   have hXnC : B.Contains Xn.left :=
-    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Xn.hom (contains_stageField B p hA hκ n)
+    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Xn.hom (contains_stageField B p hκ n)
   obtain ⟨ιn, hιn1, hιn⟩ := exists_fibre_baseChange sqnm (stageResidueMap p en)
     (stagePoint_comp B hZ p hA hκ en).symm hιm hXnC
     (IsPullback.of_hasPullback Xm.hom ((AdjoinResidueField.diagram ℤ p).map en))
   obtain ⟨ψqn, hψqn1, sqqn⟩ := famSq eq' (en ≫ em)
   have hXqC : B.Contains Xq.left :=
-    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Xq.hom (contains_stageField B p hA hκ q)
+    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Xq.hom (contains_stageField B p hκ q)
   obtain ⟨ιq, hιq1, hιq⟩ := exists_fibre_baseChange sqqn (stageResidueMap p eq')
     (stagePoint_comp B hZ p hA hκ eq').symm hιn hXqC
     (IsPullback.of_hasPullback Xn.hom ((AdjoinResidueField.diagram ℤ p).map eq'))
@@ -444,16 +443,16 @@ theorem hasEtaleContraction_of_affine
   let Fq := (Fi.ofBaseEq hFi).pullback (stageMap B hZ hA (eq' ≫ en ≫ em))
   have hFq : Fq.base = integerSiteObject B hZ (contains_sub A ℤ B hA q.unop) := rfl
   have hιq' : IsPullback ιq (yoneda.map (integerSiteMap B hZ hXqC
-        (contains_stageField B p hA hκ q) Xq.hom)) (Fq.toBaseYonedaOfEq hFq)
-      (yoneda.map (integerSiteMap B hZ (contains_stageField B p hA hκ q)
+        (contains_stageField B p hκ q) Xq.hom)) (Fq.toBaseYonedaOfEq hFq)
+      (yoneda.map (integerSiteMap B hZ (contains_stageField B p hκ q)
         (contains_sub A ℤ B hA q.unop) (Spec.map (CommRingCat.ofHom
           (algebraMap (sub A ℤ q.unop) (AdjoinResidueField.prime ℤ p q.unop).ResidueField))))) :=
     hof hιq rfl rfl (toBaseYonedaOfEq_rfl' Fq).symm rfl
   have hYqC : B.Contains Yq.left :=
-    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Yq.hom (contains_stageField B p hA hκ q)
+    Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact Yq.hom (contains_stageField B p hκ q)
   have : IsProper (Y := Spec (.of (stageField p q))) Yq.hom := hYq
   have H := hasEtaleContraction_of_isGRing_localization (AdjoinResidueField.prime ℤ p q.unop)
-    hGRq (contains_sub A ℤ B hA q.unop) (contains_stageField B p hA hκ q) Fq hFq hXqC Xq.hom ιq
+    hGRq (contains_sub A ℤ B hA q.unop) (contains_stageField B p hκ q) Fq hFq hXqC Xq.hom ιq
     hιq' hYqC Yq.hom hq.left (Over.w hq) h0q hR1q
   obtain ⟨φq, hφq1, sqq⟩ := stage q (eq' ≫ en ≫ em)
   have hφ : φq ≫ Fq.toBaseYonedaOfEq hFq = F.toBaseYonedaOfEq hF ≫
@@ -486,16 +485,16 @@ theorem hasEtaleContraction_of_affine
   have e1 : yoneda.map (integerSiteMap B hZ hκ hA
       (Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField)))) ≫
         yoneda.map (legMap B hZ hA q) =
-      yoneda.map (integerSiteMap B hZ hκ (contains_stageField B p hA hκ q) (residueLeg p q)) ≫
+      yoneda.map (integerSiteMap B hZ hκ (contains_stageField B p hκ q) (residueLeg p q)) ≫
         yoneda.map (stagePoint B hZ p hA hκ q) := by
     rw [← yoneda.map_comp, ← yoneda.map_comp, stagePoint_leg]
   have e2 : yoneda.map (integerSiteMap B hZ hX₀ hκ pX₀) ≫
-      yoneda.map (integerSiteMap B hZ hκ (contains_stageField B p hA hκ q) (residueLeg p q)) =
+      yoneda.map (integerSiteMap B hZ hκ (contains_stageField B p hκ q) (residueLeg p q)) =
       yoneda.map (integerSiteMap B hZ hX₀ hXqC xq) ≫
-        yoneda.map (integerSiteMap B hZ hXqC (contains_stageField B p hA hκ q)
+        yoneda.map (integerSiteMap B hZ hXqC (contains_stageField B p hκ q)
           (Limits.pullback.snd Xn.hom ((AdjoinResidueField.diagram ℤ p).map eq'))) :=
     (yoneda_map_integerSiteMap_comp _ _).trans
-      ((congrArg (fun f => yoneda.map (integerSiteMap B hZ hX₀ (contains_stageField B p hA hκ q) f))
+      ((congrArg (fun f => yoneda.map (integerSiteMap B hZ hX₀ (contains_stageField B p hκ q) f))
         sqXq.w.symm).trans (yoneda_map_integerSiteMap_comp _ _).symm)
   have sqFq := Fi.isPullback_pullbackHom_yoneda hFi (stageMap B hZ hA (eq' ≫ en ≫ em))
   have hιx : ι ≫ φq = yoneda.map (integerSiteMap B hZ hX₀ hXqC xq) ≫ ιq := by

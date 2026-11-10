@@ -108,11 +108,11 @@ theorem exists_isClosedImmersion_fiber_preimage {X Y : Scheme.{u}} (f : X ⟶ Y)
   let i : f.fiber (hU.fromSpec x) ⟶ (f ⁻¹ᵁ U).toScheme := φ.inv ≫ pullback.fst g q₁
   have : IsClosedImmersion i := inferInstanceAs (IsClosedImmersion (φ.inv ≫ pullback.fst g q₁))
   refine ⟨i, inferInstance, hbig.isoPullback_inv_fst, ?_, fun a ha => ?_⟩
-  · show (φ.inv ≫ pullback.fst g q₁).ker = _
+  · change (φ.inv ≫ pullback.fst g q₁).ker = _
     rw [Scheme.Hom.ker_comp_of_isIso,
       ← Stacks.PuncturedSpectrumPicard.baseIdealSheaf_eq_ker_pullback_fst]
   · refine appTop_baseRingHom_eq_zero Γ(Y, U) g x.asIdeal i (φ.inv ≫ pullback.snd g q₁) ?_ ha
-    show (φ.inv ≫ pullback.fst g q₁) ≫ g = _
+    change (φ.inv ≫ pullback.fst g q₁) ≫ g = _
     rw [Category.assoc, pullback.condition]
     exact (Category.assoc _ _ _).symm
 
@@ -152,7 +152,7 @@ theorem exists_restrict_iso_unit_of_isClosedImmersion (R : Type u) [CommRing R]
   let s' := (Stacks.NonvanishingSpelling.sectionsEquiv _ F).symm s
   refine ⟨Stacks.SheafOfModules.nonvanishingOpen (X := Z.toRingedSpace) F s', fun z => ?_,
     Stacks.SheafOfModules.nonempty_restrictIsoUnit_of_le_nonvanishingOpen _ F s' _ le_rfl⟩
-  show i.base z ∈ Stacks.SheafOfModules.nonvanishingLocus _ s'
+  change i.base z ∈ Stacks.SheafOfModules.nonvanishingLocus _ s'
   rw [Stacks.NonvanishingSpelling.stalkNonvanishingLocus_symm_eq]
   exact (Set.ext_iff.mp h z).mpr trivial
 

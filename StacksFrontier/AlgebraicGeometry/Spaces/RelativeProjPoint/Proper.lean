@@ -89,7 +89,7 @@ private theorem algebraMap_comp_degreeZero (U : T.Opens) :
     (algebraMap (A.grading U 0) (A.sectionRing U)).comp
         ((GradedRing.projZeroRingHom' (A.grading U)).comp (A.strHom U)) = A.strHom U := by
   refine RingHom.ext fun r => ?_
-  show ((GradedRing.projZeroRingHom' (A.grading U) (A.strHom U r) : A.grading U 0) :
+  change ((GradedRing.projZeroRingHom' (A.grading U) (A.strHom U r) : A.grading U 0) :
     A.sectionRing U) = A.strHom U r
   exact congrArg Subtype.val
     (GradedRing.projZeroRingHom'_apply_coe (A.grading U) ⟨_, A.strHom_mem U r⟩)
@@ -115,7 +115,7 @@ private theorem finite_degreeZero (h : SheafOfModules.IsFiniteType (A.piece 0)) 
       map_smul' := fun r x => by
         refine Subtype.ext ?_
         rw [Algebra.smul_def]
-        show DirectSum.of (A.sectionPieces U) 0 (r • x) =
+        change DirectSum.of (A.sectionPieces U) 0 (r • x) =
           ((φ r : A.grading U 0) : A.sectionRing U) * DirectSum.of (A.sectionPieces U) 0 x
         rw [hcoe r]
         exact (A.strHom_mul_of U r x).symm }

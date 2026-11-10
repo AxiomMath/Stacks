@@ -21,7 +21,8 @@ concrete goal carries the preadditive structures found when its terms were elabo
 naming them again is expensive.
 
 As in the module
-`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.RetractionDerivedPullbackCoherenceAssembly`, the
+`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.RetractionDerivedPullbackCoherenceAssembly`,
+the
 sheafification instances of the small étale site are put first locally, and the derived categories
 of sheaves of modules on `X` that the restated statements use are the standard ones (a local
 instance of default priority: without it these instances are not found).
@@ -257,9 +258,9 @@ theorem squareZeroComplexPullbackIso_comp_coherence
       DerivedCategory.Q.map ((Functor.mapHomologicalComplexCompIso
         (extensionOfScalarsCompIso g hgp) (ComplexShape.up ℤ)).hom.app M) := by
   apply mapHomologicalComplexCompIso_coherence_of_comp_of_eq
-  case hEg => first | exact additive_extensionOfScalars _ | infer_instance
-  case hextW => first | exact additive_extensionOfScalars _ | infer_instance
-  case hextV => first | exact additive_extensionOfScalars _ | infer_instance
+  case hEg => first | exact additive_extensionOfScalars _
+  case hextW => first | exact additive_extensionOfScalars _
+  case hextV => first | exact additive_extensionOfScalars _
   case hEV => exact squareZeroModuleEquivalence_functor_additive (hq := hqV) hiV hV hipV hpbV hβτV
   case hEW => exact squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW
   case hpullW => exact modulePullbackDataTopos_additive B S hS iW

@@ -111,7 +111,7 @@ lemma isIso_rightDerivedFunctorPlusUnit_of_preservesHomology [EnoughInjectives A
   suffices IsIso (DerivedCategory.Plus.ι.map
       ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map f)) from
     isIso_of_reflects_iso _ DerivedCategory.Plus.ι
-  show IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory (.up ℤ)).map f.hom))
+  change IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory (.up ℤ)).map f.hom))
   rw [DerivedCategory.isIso_Qh_map_iff]
   obtain ⟨K, hK⟩ := K
   obtain ⟨L, hL⟩ := L
@@ -121,11 +121,11 @@ lemma isIso_rightDerivedFunctorPlusUnit_of_preservesHomology [EnoughInjectives A
   change HomotopyCategory.quasiIso A (.up ℤ) f.hom at hf
   rw [← hg, HomotopyCategory.quotient_map_mem_quasiIso_iff] at hf
   rw [← hg]
-  show HomotopyCategory.quasiIso B (.up ℤ)
+  change HomotopyCategory.quasiIso B (.up ℤ)
     ((HomotopyCategory.quotient B (.up ℤ)).map ((F.mapHomologicalComplex (.up ℤ)).map g))
   rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
   have : QuasiIso g := hf
-  show QuasiIso ((F.mapHomologicalComplex (.up ℤ)).map g)
+  change QuasiIso ((F.mapHomologicalComplex (.up ℤ)).map g)
   infer_instance
 
 /-- Right derivation on bounded below derived categories is compatible with postcomposition by an

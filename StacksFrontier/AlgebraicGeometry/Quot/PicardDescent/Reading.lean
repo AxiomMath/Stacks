@@ -98,7 +98,7 @@ theorem readIso_readIso {Z' : AlgebraicSpaces B S hS} (w : Z' ⟶ Z) (c : Z ⟶ 
     readIso w hw₁ hw₂ (readIso c h₁ h₂ θ) =
       readIso (w ≫ c) (by rw [Category.assoc, h₁, hw₁]) (by rw [Category.assoc, h₂, hw₂]) θ := by
   subst h₁ h₂ hw₁ hw₂
-  show _ = readIso (w ≫ c) (v₁ := (w ≫ c) ≫ a₁) (v₂ := (w ≫ c) ≫ a₂) rfl rfl θ
+  change _ = readIso (w ≫ c) (v₁ := (w ≫ c) ≫ a₁) (v₂ := (w ≫ c) ≫ a₂) rfl rfl θ
   rw [readIso, readIso, readIso, Functor.mapIso_trans, Functor.mapIso_trans, Functor.mapIso_symm,
     mapIso_pullbackComparison B S hS w c, mapIso_pullbackComparison B S hS w c]
   simp only [pullbackComparison_rfl, Iso.trans_symm, Iso.symm_symm_eq, Iso.trans_assoc]

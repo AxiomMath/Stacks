@@ -74,7 +74,7 @@ def cochainD (M : RightModule.{w} C) (X : C.Obj) (i j : ℤ) :
 /-- At a pair of degrees differing by one, the differential of the complex `M X` is the
 differential of `M`. -/
 theorem cochainD_pos (M : RightModule.{w} C) (X : C.Obj) {i j : ℤ} (h : i + 1 = j) :
-    M.cochainD X i j = ModuleCat.ofHom (M.dLinear (x := X) h) := dif_pos h
+    M.cochainD X i j = ModuleCat.ofHom (M.dLinear (x := X) h) := dite_eq_left h
 
 /-- The complex `M X` of `R`-modules attached to a right differential graded `C`-module `M` and
 an object `X` of `C`: its degree-`i` term is the degree-`i` part of `M` at `X`, and its
@@ -82,7 +82,7 @@ differential is the differential of `M`. -/
 def cochainComplex (M : RightModule.{w} C) (X : C.Obj) : CochainComplex (ModuleCat.{w} R) ℤ where
   X i := ModuleCat.of R (M.obj X i)
   d i j := M.cochainD X i j
-  shape _ _ h := dif_neg h
+  shape _ _ h := dite_eq_right h
   d_comp_d' i j k hij hjk := by
     have hij' : i + 1 = j := hij
     have hjk' : j + 1 = k := hjk
@@ -97,7 +97,7 @@ def cochainComplex (M : RightModule.{w} C) (X : C.Obj) : CochainComplex (ModuleC
 /-- At a pair of degrees with `i + 1 = j`, the differential of the complex `M X` from degree `i`
 to degree `j` is the differential of `M`. -/
 @[simp] theorem cochainComplex_d (M : RightModule.{w} C) (X : C.Obj) {i j : ℤ} (h : i + 1 = j) :
-    (M.cochainComplex X).d i j = ModuleCat.ofHom (M.dLinear (x := X) h) := dif_pos h
+    (M.cochainComplex X).d i j = ModuleCat.ofHom (M.dLinear (x := X) h) := dite_eq_left h
 
 /-- The cohomology `Hⁿ(M X)` of a right differential graded module at an object of `C`. -/
 noncomputable def cohomology (M : RightModule.{w} C) (X : C.Obj) (n : ℤ) : ModuleCat.{w} R :=
@@ -127,8 +127,7 @@ theorem exactAt_cochainComplex_iff (M : RightModule.{w} C) (X : C.Obj) {m n : �
   simp only [HomologicalComplex.sc', HomologicalComplex.shortComplexFunctor'_obj_X₁,
     HomologicalComplex.shortComplexFunctor'_obj_X₂,
     HomologicalComplex.shortComplexFunctor'_obj_f, HomologicalComplex.shortComplexFunctor'_obj_g,
-    cochainComplex_d M X h, cochainComplex_d M X (rfl : n + 1 = n + 1),
-    ModuleCat.hom_ofHom, dLinear_apply]
+    cochainComplex_d M X h, cochainComplex_d M X (rfl : n + 1 = n + 1)]
   exact Iff.rfl
 
 /-- Acyclicity, read elementwise. -/

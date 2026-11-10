@@ -216,7 +216,7 @@ theorem pullTw_pushforward_divisor {Y X : (SmoothProjectiveScheme k).FullSubcate
   apply Subtype.ext
   rw [WeilData.twCoord_pullTw, WeilData.twCoord_cupTw, WeilData.twCoord_pullTw,
     WeilData.coe_pullDeg, WeilData.coe_cup, WeilData.coe_pullDeg, hcY]
-  show 𝔚.pull i zu = c * xu
+  change 𝔚.pull i zu = c * xu
   -- `i_*x = ∑ λ_Y(i^*f_t ∪ x) e_t`, so `i^*i_*x = ∑ λ_Y(i^*f_t ∪ x) i^*e_t`
   have hpz : 𝔚.pull i zu =
       (lX.map fun t => lamY (𝔚.pull i t.2.2 * xu) • 𝔚.pull i t.2.1).sum := by

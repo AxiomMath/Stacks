@@ -73,8 +73,7 @@ coordinate of `(N ⊗ φ) z` is `φ` applied to the `i`-th coordinate of `z`. -/
 theorem tensorCoord_lTensor {Q : Type w} [AddCommGroup Q] [Module A Q] (phi : P →ₗ[A] Q) (i : κ)
     (z : N ⊗[A] P) :
     tensorCoord b Q i (LinearMap.lTensor N phi z) = phi (tensorCoord b P i z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul n x => rw [LinearMap.lTensor_tmul, tensorCoord_tmul, tensorCoord_tmul, map_smul]
   | add z w hz hw => simp only [map_add, hz, hw]
 
@@ -103,16 +102,13 @@ def tensorOfCoord : (κ → P) →ₗ[A] N ⊗[A] P where
   rw [tensorOfCoord_apply, map_sum, Finset.sum_eq_single i]
   · rw [tensorCoord_tmul, Module.Basis.repr_self, Finsupp.single_eq_same, one_smul]
   · intro j _ hj
-    rw [tensorCoord_tmul, Module.Basis.repr_self, Finsupp.single_apply, if_neg hj, zero_smul]
+    rw [tensorCoord_tmul, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right hj, zero_smul]
   · exact fun h ↦ absurd (Finset.mem_univ i) h
 
 /-- An element `z` of `N ⊗_A P` is the sum `∑ i, b i ⊗ zᵢ` of its coordinates `zᵢ`. -/
 @[simp] theorem tensorOfCoord_tensorCoord (z : N ⊗[A] P) :
     tensorOfCoord b P (fun i ↦ tensorCoord b P i z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero, tensorOfCoord_apply, TensorProduct.tmul_zero]
-    exact Finset.sum_const_zero
+  induction z using TensorProduct.inductionOn with
   | tmul n x =>
     simp only [tensorCoord_tmul, tensorOfCoord_apply]
     rw [Finset.sum_congr rfl fun i _ ↦ (TensorProduct.smul_tmul (b.repr n i) (b i) x).symm,
@@ -180,12 +176,13 @@ def invLimitTensorMap :
     (invLimitTensorMap N M t z).val n = LinearMap.lTensor N (invLimit.proj M t n) z :=
   rfl
 
-variable {κ : Type*} [Fintype κ]
+variable {κ : Type*} [Finite κ]
 
 /-- **Base change along a module free of finite rank commutes with the limit of an inverse system
 of modules**: the comparison map `N ⊗_A (lim_n Mₙ) ⟶ lim_n (N ⊗_A Mₙ)` is bijective. -/
 theorem bijective_invLimitTensorMap (b : Module.Basis κ A N) :
     Function.Bijective (invLimitTensorMap N M t) := by
+  have := Fintype.ofFinite κ
   constructor
   · intro z w hzw
     have hlev : ∀ n : ℕ, LinearMap.lTensor N (invLimit.proj M t n) z =

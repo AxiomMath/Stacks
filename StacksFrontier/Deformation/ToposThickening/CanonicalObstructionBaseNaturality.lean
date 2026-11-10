@@ -163,7 +163,7 @@ theorem homologyMap_towerCotangentChangeOfBase_conormalIso_hom :
           (cotangentComplex_degreeIso.{u, u, u} J g 1).inv ≫
         (cotangentComplex_degreeIso.{u, u, u} J g 1).hom ≫ naiveComparisonNegOne J g =
         (squareRestrict.{u, u, u} J (𝟙 B)).map (naiveComparisonNegOne J g) := by
-      show (squareRestrict.{u, u, u} J (𝟙 B)).map
+      change (squareRestrict.{u, u, u} J (𝟙 B)).map
           (cotangentComplex_degreeIso.{u, u, u} J g 1).inv ≫ (squareRestrict.{u, u, u} J (𝟙 B)).map
           ((cotangentComplex_degreeIso.{u, u, u} J g 1).hom ≫ naiveComparisonNegOne J g) = _
       rw [← Functor.map_comp, Iso.inv_hom_id_assoc]
@@ -223,7 +223,7 @@ theorem baseExtEquiv_Q_map_changeOfBase_comp
     rw [Iso.inv_comp_eq, ← Category.assoc, ← hB, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
   have hE' := extendScalarsCotangentHomologyNegOneIso_inv_comp_homologyMap k g h
-  show (cotangentComplexHomologyNegOneIsoConormal.{u, u, u} J (k ≫ g)).inv ≫
+  change (cotangentComplexHomologyNegOneIsoConormal.{u, u, u} J (k ≫ g)).inv ≫
       (towerExtendRestrictAdjunction.{u, u, u} J h).homEquiv _ _
         ((extendScalarsCotangentHomologyNegOneIso.{u, u, u} J (k ≫ g) h).inv ≫
           DerivedCategory.negOneHomologyMap _ G
@@ -316,7 +316,7 @@ variable {X : RingedTopos.{u, u, u}} {B : RingedTopos.{v', u', w'}}
   [B.J.HasSheafCompose (forget RingCat.{w'})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [B.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
-  [HasWeakSheafify X.J CommRingCat.{u}] [X.J.WEqualsLocallyBijective CommRingCat.{u}]
+  [X.J.WEqualsLocallyBijective CommRingCat.{u}]
   [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasDerivedCategory.{t} (Sheaf.targetModules.{u, u, u} X.J X.O)]
 

@@ -273,7 +273,7 @@ private lemma formallySmooth_residueField_tensor_of_isSmoothAt_fiber {R S : Type
     [CommRing S] [Algebra R S] (p : Ideal R) [p.IsPrime] (Q : Ideal (p.Fiber S)) [Q.IsPrime]
     [Algebra.IsSmoothAt p.ResidueField Q] (q : Ideal S) [q.IsPrime] [q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
     (hq : Q.comap (Algebra.TensorProduct.includeRight : S →ₐ[R] p.Fiber S) = q) :
     Algebra.FormallySmooth p.ResidueField
       (p.ResidueField ⊗[Localization.AtPrime p] Localization.AtPrime q) := by

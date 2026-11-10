@@ -196,7 +196,7 @@ theorem Situation.inclusionBaseMap_comp_residueBaseMap :
         D.inclusionMap_comp_residueMap
       simp only [HomologicalComplex.comp_f, HomologicalComplex.zero_f] at h
       exact h
-    show (Scheme.Hom.toBaseModules D.f).map (D.pullbackHom (p + 1)) ≫
+    change (Scheme.Hom.toBaseModules D.f).map (D.pullbackHom (p + 1)) ≫
       (Scheme.Hom.toBaseModules D.f).map (D.residueHom p) = 0
     rw [← Functor.map_comp, h0, Functor.map_zero]
 

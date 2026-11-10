@@ -83,7 +83,7 @@ private lemma exists_finTuple_ofFn_eq_of_length {R : Type*} {r : ℕ} (xs : List
   subst hlen
   refine ⟨xs.get, List.ofFn_get xs, ?_⟩
   ext a
-  simp only [Set.mem_range, Set.mem_setOf_eq, List.mem_iff_get]
+  simp only [Set.mem_range, Set.mem_ofPred_eq, List.mem_iff_get]
 
 variable {X : Scheme.{u}} [IsLocallyNoetherian X] (D : X.IdealSheafData)
 

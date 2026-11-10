@@ -229,7 +229,7 @@ theorem presheaf_surjective_id_presheaf
   refine presheaf_id_of_isIso_presheaf B S hS _ ?_ F
   intro V W h hh
   have := hh
-  show Surjective ((BigFppfOver.toScheme B S hS).map h)
+  change Surjective ((BigFppfOver.toScheme B S hS).map h)
   infer_instance
 
 /-- An isomorphism of schemes is a local isomorphism: `AlgebraicGeometry.IsLocalIso` contains
@@ -253,7 +253,7 @@ theorem presheaf_isLocalIso_id_presheaf
   refine presheaf_id_of_isIso_presheaf B S hS _ ?_ F
   intro V W h hh
   have := hh
-  show IsLocalIso ((BigFppfOver.toScheme B S hS).map h)
+  change IsLocalIso ((BigFppfOver.toScheme B S hS).map h)
   exact isLocalIso_of_isIso _
 
 /-- The identity of a presheaf is étale after every represented base change: such a base
@@ -679,10 +679,10 @@ private theorem kernelPair_other_projection_hasUniversallyBoundedFibers
   have hj : IsPullback j (yoneda.map p) (yoneda.map t) ξ := by
     apply hpull.of_iso (Iso.refl (yoneda.obj V)) (yoneda.mapIso eσ)
       (Iso.refl (yoneda.obj T)) (Iso.refl (yoneda.obj U))
-    · show i ≫ yσ = i ≫ yσ
+    · change i ≫ yσ = i ≫ yσ
       rfl
     · simp
-    · show yoneda.map s = yoneda.map σ ≫ yoneda.map t
+    · change yoneda.map s = yoneda.map σ ≫ yoneda.map t
       rw [← Functor.map_comp, hσt]
     · simp
   exact ⟨V, p, j, r, hr, hrank, hj⟩

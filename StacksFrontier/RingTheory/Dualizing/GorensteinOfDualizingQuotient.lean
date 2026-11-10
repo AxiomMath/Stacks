@@ -145,7 +145,7 @@ theorem ker_idealTensorMul (hinj : Function.Injective (algebraMap A C)) (J : Ide
       rw [← map_zero (algebraMap A C)]
       exact fun h => hj₀ (hinj h)
     refine ⟨⟨algebraMap A C j₀, mem_nonZeroDivisors_of_ne_zero hne⟩, ?_⟩
-    show algebraMap A C ((⟨j₀, hj₀J⟩ : J) : A) • z = 0
+    change algebraMap A C ((⟨j₀, hj₀J⟩ : J) : A) • z = 0
     rw [algebraMap_smul_eq_idealTensorMul_tmul, LinearMap.mem_ker.mp hz, TensorProduct.zero_tmul]
   · intro z hz
     obtain ⟨⟨r, hr⟩, hrz⟩ := hz
@@ -166,7 +166,7 @@ theorem range_idealTensorMul (J : Ideal A) :
       rw [idealTensorMul_tmul]
       exact Ideal.mul_mem_left _ c (Ideal.mem_map_of_mem _ j.2)
     | add z w hz hw => rw [map_add]; exact Submodule.add_mem _ hz hw
-  · show Ideal.map (algebraMap A C) J ≤ LinearMap.range (idealTensorMul (C := C) J)
+  · change Ideal.map (algebraMap A C) J ≤ LinearMap.range (idealTensorMul (C := C) J)
     rw [Ideal.map, Ideal.span_le]
     rintro _ ⟨j, hj, rfl⟩
     exact ⟨1 ⊗ₜ ⟨j, hj⟩, by rw [idealTensorMul_tmul, one_mul]⟩

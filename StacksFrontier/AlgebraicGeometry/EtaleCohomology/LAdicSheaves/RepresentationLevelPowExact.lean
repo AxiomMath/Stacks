@@ -91,7 +91,7 @@ theorem powExact_representationLevelSheaf (k : ℕ) :
     intro n z
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     rfl
-  show (Φ.map ((ℓ ^ a) • 𝟙 _)).hom b = 0 ↔ ∃ y, (Φ.map ((ℓ ^ (k + 1 - a)) • 𝟙 _)).hom y = b
+  change (Φ.map ((ℓ ^ a) • 𝟙 _)).hom b = 0 ↔ ∃ y, (Φ.map ((ℓ ^ (k + 1 - a)) • 𝟙 _)).hom y = b
   simp only [hmap]
   refine ⟨hP a ha b, ?_⟩
   rintro ⟨y, rfl⟩

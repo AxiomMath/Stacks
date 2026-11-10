@@ -326,7 +326,7 @@ private theorem bijective_rightAdjoint_map_of_isIso_counit
       (Iso.homCongr α β) ∘ (adj.homEquiv (R.obj X) Y) ∘
         (fun f : X ⟶ Y => adj.counit.app X ≫ f) := by
     funext f
-    show α.inv ≫ R.map f ≫ β.hom =
+    change α.inv ≫ R.map f ≫ β.hom =
       α.inv ≫ adj.homEquiv (R.obj X) Y (adj.counit.app X ≫ f) ≫ β.hom
     rw [Adjunction.homEquiv_apply, Functor.map_comp]
     simp only [adj.right_triangle_components_assoc]

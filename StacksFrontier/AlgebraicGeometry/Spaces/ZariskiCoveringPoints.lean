@@ -80,7 +80,7 @@ private theorem exists_sigma_component
   have hIso : (Sigma.ι (fun i ↦ (U i).toFunctor) i).app (Opposite.op T) ≫ eX.hom =
       ↾(fun s ↦ (⟨i, s⟩ : Σ j, (U j).toFunctor.obj (Opposite.op T))) := by
     dsimp [eX]
-    show (colimit.ι (Discrete.functor (fun i ↦ (U i).toFunctor))
+    change (colimit.ι (Discrete.functor (fun i ↦ (U i).toFunctor))
       (Discrete.mk i)).app (Opposite.op T) ≫
         (colimitObjIsoColimitCompEvaluation
           (Discrete.functor (fun i ↦ (U i).toFunctor)) (Opposite.op T)).hom ≫
@@ -90,7 +90,7 @@ private theorem exists_sigma_component
       (Discrete.functor (fun i ↦ (U i).toFunctor)) (Discrete.mk i) (Opposite.op T)
       ((HasColimit.isoOfNatIso nX).hom ≫
         (Types.coproductIso (fun i ↦ (U i).toFunctor.obj (Opposite.op T))).hom),
-      HasColimit.isoOfNatIso_ι_hom_assoc nX (Discrete.mk i)
+      HasColimit.ι_isoOfNatIso_hom_assoc nX (Discrete.mk i)
         ((Types.coproductIso (fun i ↦ (U i).toFunctor.obj (Opposite.op T))).hom),
       Types.coproductIso_ι_comp_hom]
     simp [nX]
@@ -152,11 +152,11 @@ private theorem schemePoint_fieldPointOfSectionAt
   let V := B.obj hK
   let a : B.inclusion.obj V ⟶ (BigFppfOver.toScheme B S hS).obj T :=
     ((BigFppfOver.toScheme B S hS).obj T).fromSpecResidueField y
-  show (B.inclusion.map (B.inclusion.preimage a))
+  change (B.inclusion.map (B.inclusion.preimage a))
       (IsLocalRing.closedPoint
         (((BigFppfOver.toScheme B S hS).obj T).residueField y)) = y
   rw [Functor.map_preimage]
-  show ((BigFppfOver.toScheme B S hS).obj T).fromSpecResidueField y _ = y
+  change ((BigFppfOver.toScheme B S hS).obj T).fromSpecResidueField y _ = y
   exact Scheme.fromSpecResidueField_apply y _
 
 private theorem schemePoint_eq_of_pointsMap_eq
@@ -181,17 +181,17 @@ private theorem schemePoint_eq_of_pointsMap_eq
     have hs : Subsingleton ((BigFppfOver.toScheme B S hS).obj
         (FieldValuedPoint.siteObject B S hS (yoneda.obj V)
           (FieldValuedPoint.map B S hS (yoneda.obj U) (yoneda.map f) p))) := by
-      show Subsingleton (Spec (.of p.carrier))
+      change Subsingleton (Spec (.of p.carrier))
       infer_instance
     exact hs.elim _ _
   have hclosedB : (BigFppfOver.toScheme B S hS).map b
       (IsLocalRing.closedPoint r.carrier) = IsLocalRing.closedPoint q.carrier := by
     have hs : Subsingleton ((BigFppfOver.toScheme B S hS).obj
         (FieldValuedPoint.siteObject B S hS (yoneda.obj V) q)) := by
-      show Subsingleton (Spec (.of q.carrier))
+      change Subsingleton (Spec (.of q.carrier))
       infer_instance
     exact hs.elim _ _
-  show (BigFppfOver.toScheme B S hS).map f
+  change (BigFppfOver.toScheme B S hS).map f
       ((BigFppfOver.toScheme B S hS).map p.value
         (IsLocalRing.closedPoint p.carrier)) =
     (BigFppfOver.toScheme B S hS).map q.value
@@ -254,7 +254,7 @@ private theorem generated_scheme_fppf_family_mem_topology
   let E : Covering.{u + 1, u, u + 1} B.Schemes := ⟨X,
     (⟨I, V, f⟩ : PreZeroHypercover.{u + 1} X)⟩
   have hE : IsFppfCovering E := by
-    show E.2.presieve₀.map B.inclusion ∈
+    change E.2.presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj X)
     simpa [E, PreZeroHypercover.map] using hP
   obtain ⟨E', hE', hEquiv⟩ := B.fppf_has_representative E hE
@@ -325,7 +325,7 @@ private theorem isLocallySurjective_sigma_desc_of_points_cover
     simpa [q] using hscheme.trans hy
   have hopen (i : I) : AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (q i)) := by
-    show AlgebraicGeometry.IsOpenImmersion
+    change AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map ((hU i).2.1.snd f))
     exact (hU i).2.2 f _ _ ((hU i).2.1.isPullback f)
   let W' (j : ULift.{u + 1, u} I) := W j.down
@@ -352,10 +352,10 @@ private theorem isLocallySurjective_sigma_desc_of_points_cover
   let sec := ((hU i).2.1.fst f).app (Opposite.op (W i)) (𝟙 (W i))
   refine ⟨(Sigma.ι (fun k ↦ (U k).toFunctor) i).app (Opposite.op (W' j))
       sec, ?_⟩
-  show ((Sigma.ι (fun k ↦ (U k).toFunctor) i ≫
+  change ((Sigma.ι (fun k ↦ (U k).toFunctor) i ≫
       Sigma.desc (fun k ↦ (U k).ι)).app (Opposite.op (W' j)) sec) =
     F.map (q' j).op x
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   have hw := congrArg
     (fun α : yoneda.obj (W i) ⟶ F => α.app (Opposite.op (W i)) (𝟙 (W i)))
     ((hU i).2.1.w f)
@@ -404,9 +404,9 @@ theorem points_cover_of_isLocallySurjective_sigma_desc
   have hcomp : sigma.app (Opposite.op (E.X j))
       ((Sigma.ι (fun k ↦ (U k).toFunctor) i).app
         (Opposite.op (E.X j)) t) = (U i).ι.app (Opposite.op (E.X j)) t := by
-    show ((Sigma.ι (fun k ↦ (U k).toFunctor) i ≫
+    change ((Sigma.ι (fun k ↦ (U k).toFunctor) i ≫
       Sigma.desc (fun k ↦ (U k).ι)).app (Opposite.op (E.X j)) t) = _
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
   have ht : (U i).ι.app (Opposite.op (E.X j)) t =
       F.map (E.f j).op p.value := hcomp.symm.trans (by rw [htcomp, hs])
   let qpt : FieldValuedPoint B S hS (U i).toFunctor :=
@@ -416,17 +416,17 @@ theorem points_cover_of_isLocallySurjective_sigma_desc
   let g : qpt.siteObject B S hS (U i).toFunctor ⟶ T := a ≫ E.f j
   have hmap : F.map (a ≫ E.f j).op p.value =
       F.map a.op (F.map (E.f j).op p.value) := by
-    show F.map ((E.f j).op ≫ a.op) p.value = _
+    change F.map ((E.f j).op ≫ a.op) p.value = _
     rw [Functor.map_comp_apply]
   have hsite : qpt.siteObject B S hS (U i).toFunctor =
       residueFieldTestObject B S hS (E.X j) z' := by
     rfl
   cases hsite
   have hval : F.map g.op p.value = qF.value := by
-    show F.map (a ≫ E.f j).op p.value = qF.value
+    change F.map (a ≫ E.f j).op p.value = qF.value
     rw [hmap, ht.symm]
     dsimp [qF, FieldValuedPoint.map]
-    show F.map a.op ((U i).ι.app (Opposite.op (E.X j)) t) =
+    change F.map a.op ((U i).ι.app (Opposite.op (E.X j)) t) =
       (U i).ι.app (Opposite.op (residueFieldTestObject B S hS (E.X j) z'))
         ((U i).toFunctor.map a.op t)
     rw [(U i).ι.naturality_apply a.op t]
@@ -490,7 +490,7 @@ theorem isCovering_iff_iSup_openSubspacesOrderIso
   have hcoverPts :
       OpenSubspaces.IsCovering B S hS F E ↔
         (⋃ i, Set.range (vmap i)) = Set.univ := by
-    show IsZariskiCover B S hS E.2.I₀
+    change IsZariskiCover B S hS E.2.I₀
         (fun i => (E.2.X i).1.preimage E.1.1.ι) ↔ _
     simpa [G, V] using
       (isZariskiCover_iff_iUnion_points B S hS G.toFunctor hG E.2.I₀ V hV)
@@ -598,7 +598,7 @@ theorem surjective_pointsMap_of_isLocallySurjective
   have : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
       (Sigma.desc fun _ : PUnit.{u + 1} ↦ (Subfunctor.range f).ι) :=
     Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
-      (Sigma.ι_desc (fun _ : PUnit.{u + 1} ↦ (Subfunctor.range f).ι) PUnit.unit)
+      (Sigma.ι_comp_desc (fun _ : PUnit.{u + 1} ↦ (Subfunctor.range f).ι) PUnit.unit)
   have hcover := points_cover_of_isLocallySurjective_sigma_desc B S hS Q PUnit.{u + 1}
     (fun _ ↦ Subfunctor.range f) inferInstance
   have hrange : Function.Surjective

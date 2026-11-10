@@ -80,7 +80,7 @@ theorem C1573.exists_glue_of_pairwise_disjoint {Y : Scheme.{u}} {ι : Type u} {m
   have hsum : ∑ l, a l * s l = 1 := by
     refine Y.sheaf.eq_of_locally_eq O _ _ fun C => ?_
     have e : Opens.leSupr O C = homOfLE (le_iSup O C) := rfl
-    show Y.presheaf.map (Opens.leSupr O C).op _ = Y.presheaf.map (Opens.leSupr O C).op _
+    change Y.presheaf.map (Opens.leSupr O C).op _ = Y.presheaf.map (Opens.leSupr O C).op _
     rw [e, map_one, map_sum]
     simp only [map_mul, a, s, hglue]
     rw [Finset.sum_eq_single (j C)]
@@ -148,7 +148,7 @@ theorem C1573.exists_dense_eq_toProjectiveSpaceAtUniverse {Y : Scheme.{u}}
       obtain ⟨C, hC⟩ := (Opens.mem_iSup).mp x.2
       exact ⟨C, ⟨x.1, hC⟩, Subtype.ext (by simp)⟩)
   refine Scheme.Cover.hom_ext 𝒰 _ _ fun C => ?_
-  show Y.homOfLE (hle C) ≫ U.ι ≫ φ = Y.homOfLE (hle C) ≫ _
+  change Y.homOfLE (hle C) ≫ U.ι ≫ φ = Y.homOfLE (hle C) ≫ _
   rw [Scheme.homOfLE_ι_assoc, hrφ C,
     Stacks.ProjGlobalSectionsAppTop.hasPullbackNaturality (Y.homOfLE (hle C)) _ hs
       (span_range_comp _ _ hs)]

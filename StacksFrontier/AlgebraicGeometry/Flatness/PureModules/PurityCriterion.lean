@@ -152,7 +152,7 @@ theorem mem_relativeAssassin_comp_iff_of_etale {A B S : Scheme.{u}} (i : A ⟶ B
   rw [← relativeWeaklyAssociatedPoints_eq_relativeAssassin (i ≫ f)
       ((Scheme.Modules.pullback i).obj F),
     ← relativeWeaklyAssociatedPoints_eq_relativeAssassin f F]
-  show y ∈ relativeWeaklyAssociatedPoints (i ≫ f) ((Scheme.Modules.pullback i).obj F) ↔
+  change y ∈ relativeWeaklyAssociatedPoints (i ≫ f) ((Scheme.Modules.pullback i).obj F) ↔
     i y ∈ relativeWeaklyAssociatedPoints f F
   simp only [relativeWeaklyAssociatedPoints, Set.mem_iUnion, Set.mem_image]
   constructor
@@ -223,7 +223,7 @@ theorem exists_specializes_fiberι_of_isPureAlong (P : PrePureSituation.{u})
       xi := x
       xi_liesOver := rfl } inferInstance
     (EtaleNeighborhood.isElementary_self P.S P.s) ⟨?_, ?_⟩
-  · show x ∈ Stacks.Divisors.relativeAssassin P.f ((Scheme.Modules.pullback (𝟙 P.X)).obj P.F)
+  · change x ∈ Stacks.Divisors.relativeAssassin P.f ((Scheme.Modules.pullback (𝟙 P.X)).obj P.F)
     rw [relativeAssassin_eq_of_moduleIso P.f ((Scheme.Modules.pullbackId P.X).app P.F)]
     exact hx
   · refine Set.eq_empty_iff_forall_notMem.mpr fun z hz => ?_
@@ -317,12 +317,12 @@ theorem pullbackLift_eq_fiberι_of_fst_eq {X S X' : Scheme.{u}} (f : X ⟶ S) {s
   have : IsIso (U.toBase.residueFieldMap U.point) :=
     isIso_toBase_residueFieldMap_of_isElementary U hU
   have hmem : pullback.lift g p hcomm y ∈ (pullback.snd f U.toBase) ⁻¹' {U.point} := by
-    show (pullback.snd f U.toBase) (pullback.lift g p hcomm y) = U.point
+    change (pullback.snd f U.toBase) (pullback.lift g p hcomm y) = U.point
     rw [← Scheme.Hom.comp_apply, pullback.lift_snd, hpy]
   obtain ⟨z', hz'⟩ := ((pullback.snd f U.toBase).range_fiberι U.point).ge hmem
   have hzz : z' = z := by
     refine baseChangeFiber_fst_injective f U.toBase U.point ?_
-    show pullback.fst f U.toBase ((pullback.snd f U.toBase).fiberι U.point z')
+    change pullback.fst f U.toBase ((pullback.snd f U.toBase).fiberι U.point z')
       = pullback.fst f U.toBase ((pullback.snd f U.toBase).fiberι U.point z)
     rw [hz', ← Scheme.Hom.comp_apply, pullback.lift_fst, hgy]
   rw [← hz', hzz]

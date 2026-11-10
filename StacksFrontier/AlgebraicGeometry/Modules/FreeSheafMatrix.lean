@@ -71,10 +71,10 @@ def scalarEnd (r : Γ(X, ⊤)) :
 
 /-- Multiplication by a global function `r` sends `1` to `r`. -/
 theorem unitEndValue_scalarEnd (r : Γ(X, ⊤)) : unitEndValue (scalarEnd r) = r := by
-  show (((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
+  change (((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
     ((SheafOfModules.unit X.ringCatSheaf).unitHomEquiv.symm (unitSection r))).1 (op ⊤)) = r
   rw [Equiv.apply_symm_apply]
-  show X.presheaf.map (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)).op r = r
+  change X.presheaf.map (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)).op r = r
   rw [show (homOfLE (show (⊤ : X.Opens) ≤ ⊤ from le_top)).op = 𝟙 _ from rfl,
     CategoryTheory.Functor.map_id]
   rfl
@@ -170,9 +170,9 @@ theorem ιFree_comp_freeProjection_value {b : ℕ} (i i' : Fin b) :
         SheafOfModules.freeProjection (ULift.up i)) = if i' = i then 1 else 0 := by
   by_cases h : i' = i
   · subst h
-    rw [SheafOfModules.ιFree_comp_freeProjection_self, if_pos rfl]
+    rw [SheafOfModules.ιFree_comp_freeProjection_self, ite_eq_left rfl]
     rfl
-  · rw [SheafOfModules.ιFree_comp_freeProjection_of_ne (by simpa using h), if_neg h]
+  · rw [SheafOfModules.ιFree_comp_freeProjection_of_ne (by simpa using h), ite_eq_right h]
     rfl
 
 /-- The matrix of the morphism of a matrix `M` is `M`. -/
@@ -181,18 +181,18 @@ theorem toMatrix_ofMatrix {a b : ℕ} (M : Matrix (Fin b) (Fin a) Γ(X, ⊤)) :
   funext i j
   rw [toMatrix_apply, ← Category.assoc, ιFree_ofMatrix, Preadditive.sum_comp, unitEndValue_sum,
     Finset.sum_eq_single (ULift.up i)]
-  · rw [Category.assoc, unitEndValue_comp, ιFree_comp_freeProjection_value, if_pos rfl,
+  · rw [Category.assoc, unitEndValue_comp, ιFree_comp_freeProjection_value, ite_eq_left rfl,
       mul_one, unitEndValue_scalarEnd]
   · intro i' _ hi'
     rw [Category.assoc, unitEndValue_comp, ιFree_comp_freeProjection_value,
-      if_neg (fun h => hi' (by rw [← h])), mul_zero]
+      ite_eq_right (fun h => hi' (by rw [← h])), mul_zero]
   · exact fun h => absurd (Finset.mem_univ _) h
 
 /-- The morphism of the matrix of a morphism `φ` is `φ`. -/
 theorem ofMatrix_toMatrix {a b : ℕ} (φ : F X a ⟶ F X b) : ofMatrix (toMatrix φ) = φ := by
   refine Cofan.IsColimit.hom_ext (SheafOfModules.isColimitFreeCofan (R := X.ringCatSheaf) _)
     _ _ fun j => ?_
-  show SheafOfModules.ιFree j ≫ ofMatrix (toMatrix φ) = SheafOfModules.ιFree j ≫ φ
+  change SheafOfModules.ιFree j ≫ ofMatrix (toMatrix φ) = SheafOfModules.ιFree j ≫ φ
   obtain ⟨j⟩ := j
   rw [ιFree_ofMatrix]
   have h : ∀ i : ULift.{u} (Fin b), scalarEnd (toMatrix φ i.down j) ≫ SheafOfModules.ιFree i =

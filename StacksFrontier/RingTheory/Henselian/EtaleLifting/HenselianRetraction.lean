@@ -224,16 +224,16 @@ lemma henselian_etale_retraction
       (IsScalarTower.toAlgHom S L (L ⧸ 𝔮)).comp (P.equivRing.symm.toAlgHom)
     have hF : F1 = F2 := by
       apply StandardEtalePair.hom_ext
-      show algebraMap S (L ⧸ 𝔮) (σ' P.P.X) = (Ideal.Quotient.mk 𝔮) (P.equivRing.symm P.P.X)
+      change algebraMap S (L ⧸ 𝔮) (σ' P.P.X) = (Ideal.Quotient.mk 𝔮) (P.equivRing.symm P.P.X)
       rw [hσ', StandardEtalePair.lift_X, P.equivRing_symm_X, hqa]
     exact DFunLike.congr_fun hF
   ext b
   rw [Ideal.mem_comap, show σ.toRingHom b = σ b from rfl, ← hker]
   have hcalc : algebraMap S (L ⧸ 𝔮) (σ b) = (Ideal.Quotient.mk 𝔮) (algebraMap B L b) := by
     rw [hσ]
-    show algebraMap S (L ⧸ 𝔮) (σ' (φ b)) = _
+    change algebraMap S (L ⧸ 𝔮) (σ' (φ b)) = _
     rw [hcompat (φ b), hφ]
-    show (Ideal.Quotient.mk 𝔮) (P.equivRing.symm (P.equivRing (algebraMap B L b))) = _
+    change (Ideal.Quotient.mk 𝔮) (P.equivRing.symm (P.equivRing (algebraMap B L b))) = _
     rw [AlgEquiv.symm_apply_apply]
   rw [hcalc, Ideal.Quotient.eq_zero_iff_mem, ← Ideal.mem_comap, hcomapBL]
 
@@ -346,7 +346,7 @@ private theorem exists_algHom_residueField_of_residue_datum
     apply Ideal.ext
     intro s
     rw [Ideal.mem_comap, h𝔫, RingHom.mem_ker]
-    show g (algebraMap S (S ⊗[R] A) s) = 0 ↔ _
+    change g (algebraMap S (S ⊗[R] A) s) = 0 ↔ _
     rw [hgleft, algebraMap_residueField_eq_zero_iff]
   -- The residue map κ(m_S) → κ(𝔫) is bijective: injective (field hom) + surjective.
   have hn_res : Function.Bijective
@@ -363,7 +363,7 @@ private theorem exists_algHom_residueField_of_residue_datum
         Ideal.Quotient.algebraMap_eq]
       apply Ideal.Quotient.eq.mpr
       rw [h𝔫, RingHom.mem_ker]
-      show g (algebraMap S (S ⊗[R] A) s - b) = 0
+      change g (algebraMap S (S ⊗[R] A) s - b) = 0
       rw [map_sub, hgleft, hs, sub_self]
     have hSresSurj : Function.Surjective (algebraMap S 𝔫.ResidueField) := by
       rw [IsScalarTower.algebraMap_eq S ((S ⊗[R] A) ⧸ 𝔫) 𝔫.ResidueField, RingHom.coe_comp]
@@ -417,9 +417,9 @@ lemma exists_algHom_henselian_of_residue_datum
     apply Ideal.ext
     intro a
     rw [Ideal.mem_comap]
-    show Algebra.TensorProduct.includeRight a ∈ 𝔫 ↔ a ∈ 𝔮
+    change Algebra.TensorProduct.includeRight a ∈ 𝔫 ↔ a ∈ 𝔮
     rw [h𝔫, RingHom.mem_ker]
-    show g (Algebra.TensorProduct.includeRight a) = 0 ↔ a ∈ 𝔮
+    change g (Algebra.TensorProduct.includeRight a) = 0 ↔ a ∈ 𝔮
     rw [hgright a, map_eq_zero_iff τ τ.injective,
       ← RingHom.mem_ker, Ideal.ker_algebraMap_residueField]
   -- (Cnj-B) the residue map of includeRight, κ(𝔮) → κ(𝔫), equals (κ(m_S) → κ(𝔫)) ∘ τ.
@@ -443,9 +443,9 @@ lemma exists_algHom_henselian_of_residue_datum
       congr 1
       apply Ideal.Quotient.eq.mpr
       rw [h𝔫, RingHom.mem_ker, map_sub]
-      show g (Algebra.TensorProduct.includeRight a) - g (algebraMap S (S ⊗[R] A) s) = 0
+      change g (Algebra.TensorProduct.includeRight a) - g (algebraMap S (S ⊗[R] A) s) = 0
       rw [hgright a, hgleft, hs, sub_self]
-    show algebraMap (S ⊗[R] A) 𝔫.ResidueField (Algebra.TensorProduct.includeRight a) = _
+    change algebraMap (S ⊗[R] A) 𝔫.ResidueField (Algebra.TensorProduct.includeRight a) = _
     rw [hclass, ← hs, Ideal.ResidueField.map_algebraMap]
   -- Henselian retraction: there is σ : B →ₐ[S] S with σ⁻¹(m_S) = 𝔫.
   obtain ⟨σ, hσ⟩ := henselian_etale_retraction S (TensorProduct R S A) 𝔫 hn_lo hn_res
@@ -453,7 +453,7 @@ lemma exists_algHom_henselian_of_residue_datum
   refine ⟨(σ.restrictScalars R).comp Algebra.TensorProduct.includeRight, ?_, ?_⟩
   · -- 𝔮 = f⁻¹(m_S): comap of f equals comap of includeRight of σ⁻¹(m_S) = 𝔫,
     -- and 𝔫 ∩ A = 𝔮 by the way 𝔫 was constructed (kernel hitting κ(𝔮)).
-    show (maximalIdeal S).comap
+    change (maximalIdeal S).comap
       ((σ.toRingHom).comp (Algebra.TensorProduct.includeRight (R := R) (A := S) (B :=
           A)).toRingHom) = 𝔮
     rw [← Ideal.comap_comap, hσ, hnA]
@@ -474,7 +474,7 @@ lemma exists_algHom_henselian_of_residue_datum
     ext a
     rw [RingHom.comp_apply, RingHom.comp_apply, Ideal.ResidueField.map_algebraMap]
     -- LHS now: algebraMap S κ(m_S) (f a) = algebraMap S κ(m_S) (σ (includeRight a)).
-    show algebraMap S (maximalIdeal S).ResidueField (σ (Algebra.TensorProduct.includeRight a)) = _
+    change algebraMap S (maximalIdeal S).ResidueField (σ (Algebra.TensorProduct.includeRight a)) = _
     -- Rewrite via σ̄ and incR̄ = mn ∘ τ, then σ̄ ∘ mn = id.
     have hstep :
         algebraMap S (maximalIdeal S).ResidueField (σ (Algebra.TensorProduct.includeRight a))
@@ -518,7 +518,7 @@ lemma awayLiftAlgHom_apply
     {S B : Type*} [CommRing S] [CommRing B] [Algebra S B]
     (f : B) (σ : B →ₐ[S] S) (hf : IsUnit (σ f)) (b : B) :
     awayLiftAlgHom f σ hf (algebraMap B (Localization.Away f) b) = σ b := by
-  show IsLocalization.lift _ (algebraMap B (Localization.Away f) b) = σ b
+  change IsLocalization.lift _ (algebraMap B (Localization.Away f) b) = σ b
   rw [IsLocalization.lift_eq]; rfl
 
 open IsLocalRing in
@@ -624,7 +624,7 @@ lemma henselian_etale_retraction_unique
       intro s
       rw [IsScalarTower.algebraMap_apply S L (L ⧸ 𝔮), Ideal.Quotient.algebraMap_eq, hQmk]
       congr 1
-      show t (algebraMap S L s) = s
+      change t (algebraMap S L s) = s
       rw [AlgHom.commutes]; rfl
     -- mk m c = Q (mk 𝔮 P.x); mk m x₀ = Q (algebraMap S (L/𝔮) x₀) = Q (mk 𝔮 P.x).
     have hcx0 : Ideal.Quotient.mk (maximalIdeal S) c = Ideal.Quotient.mk (maximalIdeal S) x₀ := by
@@ -654,7 +654,7 @@ lemma henselian_etale_retraction_unique
     let ρ₂ : P.P.Ring →ₐ[S] S := t₂.comp P.equivRing.symm.toAlgHom
     have hρ : ρ₁ = ρ₂ := by
       apply StandardEtalePair.hom_ext
-      show t₁ (P.equivRing.symm P.P.X) = t₂ (P.equivRing.symm P.P.X)
+      change t₁ (P.equivRing.symm P.P.X) = t₂ (P.equivRing.symm P.P.X)
       rw [P.equivRing_symm_X]
       exact hc12
     refine AlgHom.ext fun l => ?_
@@ -702,7 +702,7 @@ lemma algHom_henselian_unique_of_residue_datum
       apply Algebra.TensorProduct.ext'
       intro s a
       -- both sides on s ⊗ₜ a
-      show (Algebra.ofId S (maximalIdeal S).ResidueField) (σ (s ⊗ₜ[R] a)) = g (s ⊗ₜ[R] a)
+      change (Algebra.ofId S (maximalIdeal S).ResidueField) (σ (s ⊗ₜ[R] a)) = g (s ⊗ₜ[R] a)
       have hσsa : σ (s ⊗ₜ[R] a) = s * f a := by
         rw [hσ, Algebra.TensorProduct.lift_tmul]; simp
       have hgsa : g (s ⊗ₜ[R] a)
@@ -724,13 +724,13 @@ lemma algHom_henselian_unique_of_residue_datum
       rw [show (algebraMap (A ⧸ 𝔮) 𝔮.ResidueField) ((Ideal.Quotient.mk 𝔮) a) = algebraMap A
           𝔮.ResidueField a from key.symm]
       rw [Ideal.ResidueField.map_algebraMap]
-      show (Algebra.ofId S (maximalIdeal S).ResidueField) (f a) = algebraMap S (maximalIdeal
+      change (Algebra.ofId S (maximalIdeal S).ResidueField) (f a) = algebraMap S (maximalIdeal
           S).ResidueField (f a)
       rfl
     apply Ideal.ext
     intro x
     rw [Ideal.mem_comap, h𝔫, RingHom.mem_ker]
-    show σ x ∈ maximalIdeal S ↔ g x = 0
+    change σ x ∈ maximalIdeal S ↔ g x = 0
     rw [← algebraMap_residueField_eq_zero_iff, ← hgσ]
     show algebraMap S (maximalIdeal S).ResidueField (σ x) = 0 ↔ _
     rfl

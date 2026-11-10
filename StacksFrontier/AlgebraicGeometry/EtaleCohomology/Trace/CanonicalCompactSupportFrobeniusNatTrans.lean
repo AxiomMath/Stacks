@@ -135,7 +135,7 @@ public theorem isGE_compactSupportFrobeniusFunctor_obj
         (CochainComplex.isZero_of_isStrictlyGE K.obj a i hi))
   have h₁ : (DerivedCategory.Plus.Q.obj (I.obj (E.obj K))).IsGE a := by
     rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-    show (DerivedCategory.Q.obj (I.obj (E.obj K)).obj).IsGE a
+    change (DerivedCategory.Q.obj (I.obj (E.obj K)).obj).IsGE a
     infer_instance
   have h₂ := (etaleModuleDirectImage.{u, r} Λ
     (pullback.snd Y.hom (specAlgebraMap k kbar))).isGE_rightDerivedFunctorPlus_obj

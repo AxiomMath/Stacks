@@ -271,7 +271,7 @@ theorem exact_mapRange_subtype_mkQ {ι : Type*} (I : Ideal R) :
     rw [Finsupp.mapRange.linearMap_apply, Finsupp.mapRange_apply]
     simp only [Finsupp.coe_zero, Pi.zero_apply]
     rw [Finsupp.mapRange.linearMap_apply, Finsupp.mapRange_apply]
-    show Submodule.mkQ I (g n : R) = 0
+    change Submodule.mkQ I (g n : R) = 0
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact (g n).property
 

@@ -102,7 +102,7 @@ theorem Functor.mapHomologicalComplexHomologyIso_naturality
     (F.mapHomologicalComplexHomologyIso c n).hom.app K ≫
       η.app ((HomologicalComplex.homologyFunctor C c n).obj K) := by
   let S := (HomologicalComplex.shortComplexFunctor C c n).obj K
-  show ShortComplex.homologyMap (S.mapNatTrans η) ≫ (S.mapHomologyIso G).hom =
+  change ShortComplex.homologyMap (S.mapNatTrans η) ≫ (S.mapHomologyIso G).hom =
     (S.mapHomologyIso F).hom ≫ η.app S.homology
   rw [ShortComplex.homologyMap_mapNatTrans]
   simp
@@ -136,7 +136,7 @@ theorem NatTrans.mapDerivedCategory_homology
       Functor.mapDerivedCategoryHomologyIso, Functor.mapDerivedCategoryHomologyIsoAux,
       Localization.liftNatIso_hom, Iso.trans_hom, Functor.isoWhiskerLeft_hom,
       Functor.isoWhiskerRight_hom, Iso.symm_hom, comp_app, Functor.whiskerRight_app,
-      Localization.liftNatTrans_app, Localization.Lifting.compLeft_iso, Iso.refl_hom, id_app,
+      Localization.liftNatTrans_app, Localization.Lifting.compLeft_iso, id_app,
       Iso.refl_inv, Category.comp_id, Category.id_comp, Functor.map_comp,
       Localization.Lifting.compRight_iso, Functor.associator_hom_app, Functor.whiskerLeft_app,
       Category.assoc, τ₁, τ₂]
@@ -243,7 +243,7 @@ theorem isIso_homologyFunctor_map_mapDerivedCategoryCompToId
       rw [NatTrans.mapDerivedCategory_homology η n K]
       infer_instance
     exact IsIso.of_isIso_comp_right _ (((𝟭 C).mapDerivedCategoryHomologyIso n).hom.app K)
-  show IsIso ((DerivedCategory.homologyFunctor C n).map
+  change IsIso ((DerivedCategory.homologyFunctor C n).map
     ((Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso G F).inv.app K ≫
       (NatTrans.mapDerivedCategory η).app K ≫ (Functor.mapDerivedCategoryIdIso C).hom.app K))
   rw [Functor.map_comp, Functor.map_comp]

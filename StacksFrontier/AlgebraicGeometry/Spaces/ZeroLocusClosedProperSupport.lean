@@ -150,16 +150,15 @@ Beyond those two the two theorems carry:
   so the purity hypothesis of Stacks 0CWC cannot even be stated without decency, and
   Situation 083F does not provide it.  This is a requirement inherited from the source's own
   Situation 0CV6, not an assumption introduced here.
-* for the case of `f` of finite presentation, the closed-immersion presentation `𝒢 ≅ i_*ℋ`
-  together with the input `hin` of this library's Stacks 0CVH.  These are exactly the inherited
-  inputs of this library's Stacks 0CVI part (1): the presentation is what Stacks 07U0 produces
-  at the scheme-theoretic support of `𝒢`, and `hin` is affine base change on the base changes of
-  the situation.  Properness of `Z ⟶ B`, which Stacks 0CVI part (1) consumes, is *not* carried:
-  it is derived from hypothesis (3) of Stacks 083M as described above.  What is asked of the
-  presentation beyond the isomorphism is the containment `|i|(|Z|) ⊆ Supp(𝒢)`, the hypothesis
-  `hZsupp`; it holds for the two presentations the source uses — part (4) of Stacks 07U0 for the
-  scheme-theoretic support, part (2) of Stacks 0CZ6 for the Fitting subspace — and hypothesis (3)
-  cannot replace it, since a presentation with `ℋ = 0` leaves `Z` entirely unconstrained.
+* for the case of `f` of finite presentation, the closed-immersion presentation `𝒢 ≅ i_*ℋ`.
+  This is exactly the inherited input of this library's Stacks 0CVI part (1): the presentation
+  is what Stacks 07U0 produces at the scheme-theoretic support of `𝒢`.  Properness of `Z ⟶ B`,
+  which Stacks 0CVI part (1) consumes, is *not* carried: it is derived from hypothesis (3) of
+  Stacks 083M as described above.  What is asked of the presentation beyond the isomorphism is
+  the containment `|i|(|Z|) ⊆ Supp(𝒢)`, the hypothesis `hZsupp`; it holds for the two
+  presentations the source uses — part (4) of Stacks 07U0 for the scheme-theoretic support,
+  part (2) of Stacks 0CZ6 for the Fitting subspace — and hypothesis (3) cannot replace it,
+  since a presentation with `ℋ = 0` leaves `Z` entirely unconstrained.
 * for the general case, `AlgebraicGeometry.Space.ModuleMapSituation.FinitePresentationReduction`,
   whose fields are the second paragraph of the source's proof: the closed subspace `Z` cut out
   by the zeroth Fitting ideal of `𝒢` and the local finite presentation of its inclusion
@@ -326,9 +325,8 @@ with `𝒢 ≅ i_*ℋ`. -/
 the direct image `i_*ℋ` of a finite type quasi-coherent module along a closed immersion
 `i : Z ⟶ X` whose composite `Z ⟶ B` is proper, then `𝒢` is universally pure relative to `B`.
 
-This is part (2) applied to the situation on `Z`, transferred to `𝒢` by Stacks 0CVH.  The
-hypothesis `hin`, affine base change on the base changes of the situation, is not used: the
-proof is the unconditional
+This is part (2) applied to the situation on `Z`, transferred to `𝒢` by Stacks 0CVH, through
+the unconditional
 `AlgebraicGeometry.Space.ClosedSubspaceModule.isUniversallyPureAbove_of_isProper_comp`.
 
 Deliberately carries no Stacks 0CVI tag attribute, for the reason given on
@@ -345,8 +343,6 @@ theorem isTargetUniversallyPureRelative_of_pushforward
     (H : Modules.{u, u} B S hS Z.1 Z.2) (hHft : SheafOfModules.IsFiniteTypeOnSite H)
     (hHqc : H.IsQuasicoherentOnSite)
     (e : D.G ≅ (modulePushforward B S hS i).obj H)
-    (hin : ∀ y : points B S hS D.Y.1,
-      (D.closedSubspaceModuleOfPushforward hft hdec hGft i hi H hHft hHqc e y).BaseChangeInput)
     (hZB : IsProper B S hS (i.hom ≫ D.f.hom)) :
     D.IsTargetUniversallyPureRelative hft hdec hGft :=
   fun y =>
@@ -524,8 +520,7 @@ endgame of that proof is proved, as
 part (2) is carried: part (2) and its transport are proved in
 `StacksFrontier/AlgebraicGeometry/Spaces/ModuleMapZeroLocusLimitPreserving.lean`; its support
 hypothesis follows from hypothesis (1); and its chart case at the affine stages is
-`AlgebraicGeometry.Space.ModuleMapSituation.is0CWCStageChartInput`.  `hin` is the input of this
-library's Stacks 0CVH. -/
+`AlgebraicGeometry.Space.ModuleMapSituation.is0CWCStageChartInput`. -/
 theorem zeroLocusRepresentation_of_isFinitePresentation
     (hdev : DevissageInput B S hS)
     (D : ModuleMapSituation.{u, u} B S hS)
@@ -541,15 +536,12 @@ theorem zeroLocusRepresentation_of_isFinitePresentation
     (H : Modules.{u, u} B S hS Z.1 Z.2) (hHft : SheafOfModules.IsFiniteTypeOnSite H)
     (hHqc : H.IsQuasicoherentOnSite)
     (e : D.G ≅ (modulePushforward B S hS i).obj H)
-    (hin : ∀ y : points B S hS D.Y.1,
-      (D.closedSubspaceModuleOfPushforward (isFiniteType_of_isFinitePresentation B S hS hf)
-        hdec hGft i hi H hHft hHqc e y).BaseChangeInput)
     (hZsupp : Set.range (pointsMap B S hS Z.1 i.hom) ⊆
       supportOfSheaf B S hS D.X.1 ((SheafOfModules.toSheaf _).obj D.G)) :
     D.ZeroLocusRepresentation :=
   is0CWC_of_hasFlatChartWithClosedZeroLocus hdev D hf hGfp hGflat hdec hGft
     (D.isTargetUniversallyPureRelative_of_pushforward
-      (isFiniteType_of_isFinitePresentation B S hS hf) hdec hGft i hi H hHft hHqc e hin
+      (isFiniteType_of_isFinitePresentation B S hS hf) hdec hGft i hi H hHft hHqc e
       (isProper_comp_of_hasProperSupport_of_range_subset B S hS D.X.property D.Y.property
         D.f.hom (isLocallyOfFiniteType_of_isLocallyOfFinitePresentation B S hS hf.1) hproper
         Z.property i.hom hi hZsupp)).isTargetPureRelative

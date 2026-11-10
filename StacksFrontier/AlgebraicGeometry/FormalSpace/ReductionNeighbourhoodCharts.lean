@@ -224,9 +224,9 @@ theorem exists_isPullback_of_isReduction_of_etale {X Z Y R : FppfSheaf B S hS} {
     (by rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy])
   refine ⟨z, ?_, hz⟩
   refine (mono_iff_injective _).1 ((NatTrans.mono_iff_mono_app i.hom).1 hmi (op T')) ?_
-  show (k ≫ i).hom.app (op T') z = _
+  change (k ≫ i).hom.app (op T') z = _
   rw [hk]
-  show f.hom.app (op T') (r.hom.app (op T') z) = _
+  change f.hom.app (op T') (r.hom.app (op T') z) = _
   rw [hz, NatTrans.naturality_apply, NatTrans.naturality_apply, hxy]
 
 /-! ### The neighbourhoods of the first stage of a chain -/
@@ -323,7 +323,7 @@ theorem neighbourhood_eq_range_of_chain (n : ℕ) :
     have := hci n (max n m) h2
     obtain ⟨h', hh'⟩ := exists_comp_eq_of_ker_le (E.map (homOfLE h2)) t hres
     refine ⟨ULift.up h', ?_⟩
-    show (ρ n).app (op V) (ULift.up h') = Y.obj.map g.op y
+    change (ρ n).app (op V) (ULift.up h') = Y.obj.map g.op y
     rw [hyg, ← hρapp, ← hh', ← hw n (max n m) h2]
     rfl
   · rintro ⟨⟨t⟩, rfl⟩

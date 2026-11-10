@@ -97,7 +97,7 @@ def unitHom (s : Γ(N, ⊤)) : schemeUnitModule X ⟶ N :=
          have h1 : N.val.map g (r • restrFromTop X N W s) =
              (X.ringCatSheaf.obj.map g).hom r • N.val.map g (restrFromTop X N W s) :=
            map_smulₛₗ (N.val.restrictₛₗ g) r (restrFromTop X N W s)
-         show (X.ringCatSheaf.obj.map g).hom r • restrFromTop X N V s =
+         change (X.ringCatSheaf.obj.map g).hom r • restrFromTop X N V s =
            N.val.map g (r • restrFromTop X N W s)
          rw [h1, restrFromTop_map]
          rfl) }⟩

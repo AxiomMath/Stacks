@@ -119,7 +119,7 @@ public theorem map_integralModel_val (g : G) :
 public theorem map_modelRestrictScalarsRep_val (g : G) :
     (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (modelRestrictScalarsRep b σ hσ g).val =
       modelConjMatrix b σ hσ * (restrictScalarsRep b σ g).val * modelConjMatrixInv b σ hσ := by
-  show (modelRestrictScalarsRep b σ hσ g).val.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) = _
+  change (modelRestrictScalarsRep b σ hσ g).val.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) = _
   rw [modelConjMatrix_mul_rep, Matrix.mul_assoc, modelConjMatrix_mul_inv, Matrix.mul_one]
 
 /-- **`ℓᵏ T P` intertwines the integral model with the model over `O_E`.** -/
@@ -212,7 +212,7 @@ public theorem latticeChangeMatrix_mul_conjIntegralLift
   have hs : (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix
       (coefficientScalarRingHom (padicIntegerRingBasisOf b) m c') =
       restrictScalarsMatrix (padicIntegerRingBasisRatOf b) (Matrix.scalar (Fin m) (c : E)) := by
-    show (coefficientMatrixRingHom (padicIntegerRingBasisOf b) m (Matrix.scalar (Fin m) c')).map
+    change (coefficientMatrixRingHom (padicIntegerRingBasisOf b) m (Matrix.scalar (Fin m) c')).map
       (algebraMap ℤ_[ℓ] ℚ_[ℓ]) = _
     rw [← restrictScalarsMatrix_map_padicIntegerRing, hc]
     congr 1
@@ -272,7 +272,6 @@ variable {d : ℕ} (b : Basis (Fin d) ℚ_[ℓ] E) {m : ℕ}
   (σ : EtaleFundamentalGroup X.1 x →* GL (Fin m) E)
   (hσ : Continuous (restrictScalarsRep b σ))
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 

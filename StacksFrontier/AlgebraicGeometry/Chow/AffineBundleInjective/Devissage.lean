@@ -268,7 +268,7 @@ theorem relativeDimension_le_of_sub_boundary_fibreFamily_sum (k : ℤ) {N : ℤ}
   rw [fibreRestrict_apply_of_base_eq _ rfl, fibreRestrict_apply_of_base_eq _ rfl] at hv
   exact absurd (by rw [hval, hv, sub_self]) hξ
 
-include hbase hb in
+include hb in
 /-- **One level of the dévissage.** If every point carrying the K₁-chain `a` lies over a point of
 relative dimension at most `N ≠ k + 1 - r`, and the divisor of `a` has no component on the
 fibres over the points of relative dimension `N`, then `a` differs by a tame-symbol boundary from
@@ -304,18 +304,18 @@ theorem exists_devissage_step (k : ℤ) (hL : ∀ y : Y, FibreBoundaryLift C sX 
         · exact absurd rfl hw
       finite := fun W hW ↦ (finite_inter_image_support (f := f) a W hW).subset fun y hy ↦
         ⟨hy.1, exists_base_eq_of_fibreRestrict_ne_zero (f := f) (a := a) fun h0 ↦ hy.2 (by
-          show (if h : _ ∧ _ then (hpiece y h.1).choose else 0 : PointwiseKTwoGroup C sX k) = 0
+          change (if h : _ ∧ _ then (hpiece y h.1).choose else 0 : PointwiseKTwoGroup C sX k) = 0
           rw [dite_eq_right fun h ↦ h.2 h0])⟩ }
   have hF0 : ∀ y, ¬(relativeDimension C.dimensionFunction sY y = N ∧
       fibreRestrict C sX f y (k + 1) 1 a ≠ 0) → F.chain y = 0 := fun y h ↦ by
-    show (if h : _ ∧ _ then _ else 0) = 0
+    change (if h : _ ∧ _ then _ else 0) = 0
     rw [dite_eq_right h]
   refine ⟨F.sum, relativeDimension_le_of_sub_boundary_fibreFamily_sum C sX sY f k a ha F
     (fun y hy ↦ not_not.mp fun hne ↦ hy (hF0 y fun h ↦ hne h.1)) fun y hy ↦ ?_⟩
   by_cases hay : fibreRestrict C sX f y (k + 1) 1 a = 0
   · rw [hF0 y fun h ↦ h.2 hay, map_zero, map_zero, hay]
   · have hFy : F.chain y = (hpiece y hy).choose := by
-      show (if h : _ ∧ _ then _ else 0) = _
+      change (if h : _ ∧ _ then _ else 0) = _
       rw [dite_eq_left ⟨hy, hay⟩]
     rw [hFy]
     exact (hpiece y hy).choose_spec.2
@@ -360,7 +360,7 @@ theorem exists_devissage (k : ℤ) (hL : ∀ y : Y, FibreBoundaryLift C sX sY f 
       intro y hy
       rw [map_sub, pointwiseDivisorDifferential_pointwiseMilnorBoundary, sub_zero]
       exact hdiv y (by omega)
-    obtain ⟨η', hη'⟩ := exists_devissage_step C sX sY f hbase hb k hL (k + 1 - n)
+    obtain ⟨η', hη'⟩ := exists_devissage_step C sX sY f hb k hL (k + 1 - n)
       (by omega) _ hη hdiv'
     refine ⟨η + η', fun ξ hξ ↦ ?_⟩
     have := hη' ξ (by rwa [map_add, ← sub_sub] at hξ)
@@ -443,7 +443,7 @@ theorem exists_eq_bundleChainPullback_of_forall_exists (k : ℤ)
   · rw [bundleChainPullback_apply_of_mem C sX sY f hbase hb _ b ξ hmem, hc ξ]
     congr 1
     have hex : ∃ ξ' : pointsOfDimension C sX (k + r + 1), f.base ξ'.1 = f.base ξ.1 := ⟨ξ, rfl⟩
-    show c ξ = (if h : ∃ ξ' : pointsOfDimension C sX (k + r + 1), f.base ξ'.1 = f.base ξ.1 then
+    change c ξ = (if h : ∃ ξ' : pointsOfDimension C sX (k + r + 1), f.base ξ'.1 = f.base ξ.1 then
       cast (congrArg (fun z ↦ MilnorKTheory (Y.residueField z) 1) h.choose_spec)
         (c h.choose) else 0)
     rw [dite_eq_left hex]
@@ -513,7 +513,7 @@ theorem flatPullbackChow_injective_of_fibreProperties [LocallyOfFiniteType f] [F
   set cp := pointwiseCycleEquiv C sY k c with hcp
   have hclass : pointwiseChowClass C sX (k + r)
       (pointwiseCycleEquiv C sX (k + r) (flatPullback C sX sY f hbase r hf k c)) = 0 := by
-    show QuotientAddGroup.mk' _ ((pointwiseCycleEquiv C sX (k + r)).symm
+    change QuotientAddGroup.mk' _ ((pointwiseCycleEquiv C sX (k + r)).symm
       (pointwiseCycleEquiv C sX (k + r) _)) = 0
     rw [AddEquiv.symm_apply_apply]
     exact hα
@@ -523,7 +523,7 @@ theorem flatPullbackChow_injective_of_fibreProperties [LocallyOfFiniteType f] [F
   have hdivy : ∀ y : Y, relativeDimension C.dimensionFunction sY y ≠ k →
       fibreRestrict C sX f y (k + r) 0 (pointwiseDivisorDifferential C sX (k + r) a) = 0 := by
     intro y hy
-    show milnorChainRestrict C sX (f.base ⁻¹' {y}) (k + r) 0
+    change milnorChainRestrict C sX (f.base ⁻¹' {y}) (k + r) 0
       (pointwiseDivisorDifferential C sX (k + r) a) = 0
     rw [ha, milnorChainRestrict_preimage_bundleChainPullback]
     rw [milnorChainRestrict_eq_zero _ fun z _ hz ↦ hy (by

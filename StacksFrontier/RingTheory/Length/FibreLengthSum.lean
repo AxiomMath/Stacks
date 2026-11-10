@@ -120,7 +120,7 @@ theorem finrank_residueField_eq_primeResidueDegree (q : Ideal Bₚ) [q.IsMaximal
   refine Algebra.finrank_eq_of_equiv_equiv (RingEquiv.refl _)
     (ResidueField.mapEquiv e.toRingEquiv) (RingHom.ext fun x => ?_)
   obtain ⟨x, rfl⟩ := IsLocalRing.residue_surjective (R := Localization.AtPrime p) x
-  show residue _ (algebraMap (Localization.AtPrime p) (Localization.AtPrime q) x) =
+  change residue _ (algebraMap (Localization.AtPrime p) (Localization.AtPrime q) x) =
     ResidueField.map (e.toRingEquiv : Localization.AtPrime (q.comap (algebraMap B Bₚ)) →+*
         Localization.AtPrime q)
       (ResidueField.map (Localization.localRingHom p (q.comap (algebraMap B Bₚ))
@@ -218,11 +218,11 @@ theorem length_localizedModule_eq_sum_maximalSpectrum [IsNoetherianRing A] [Modu
     Module.compHom Nₚ (algebraMap (Localization.AtPrime p) Bₚ)
   have : IsScalarTower (Localization.AtPrime p) Bₚ Nₚ :=
     ⟨fun x y n => by
-      show (x • y) • n = algebraMap _ Bₚ x • y • n
+      change (x • y) • n = algebraMap _ Bₚ x • y • n
       rw [Algebra.smul_def, mul_smul]⟩
   have : IsScalarTower A (Localization.AtPrime p) Nₚ :=
     ⟨fun a x n => by
-      show algebraMap _ Bₚ (a • x) • n = a • algebraMap _ Bₚ x • n
+      change algebraMap _ Bₚ (a • x) • n = a • algebraMap _ Bₚ x • n
       rw [Algebra.smul_def, map_mul, mul_smul,
         ← IsScalarTower.algebraMap_apply A (Localization.AtPrime p) Bₚ a,
         IsScalarTower.algebraMap_apply A B Bₚ a, algebraMap_smul, algebraMap_smul]⟩

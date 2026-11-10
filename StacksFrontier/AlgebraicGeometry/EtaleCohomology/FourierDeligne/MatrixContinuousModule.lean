@@ -70,7 +70,7 @@ public theorem isContinuous_matrixULiftRepresentation (σ : G →* GL (Fin m) Λ
     rintro _ ⟨k, hk, rfl⟩
     have hk' : σ k = 1 := hk
     refine ULift.ext ?_
-    show (σ (g * k)).val *ᵥ x.down = x.down
+    change (σ (g * k)).val *ᵥ x.down = x.down
     rw [map_mul, hk', mul_one]
     exact congrArg ULift.down hg
 

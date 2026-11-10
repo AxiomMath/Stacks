@@ -63,10 +63,10 @@ theorem nsmul_id_sheafFiber_eq_zero_of_forgetAb {Λ : Type} [Ring Λ] {X : Schem
   have h2 : c • 𝟙 ((forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).obj
       (Φ.presheafFiber.obj F.obj)) = e.inv ≫ (c • 𝟙 _) ≫ e.hom := by
     simp
-  show c • 𝟙 ((forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).obj
+  change c • 𝟙 ((forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).obj
       (Φ.presheafFiber.obj F.obj)) = 0
   rw [h2]
-  show e.inv ≫ (c • 𝟙 (Φ.presheafFiber.obj
+  change e.inv ≫ (c • 𝟙 (Φ.presheafFiber.obj
       (F.obj ⋙ forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}))) ≫ e.hom = 0
   rw [h', zero_comp, comp_zero]
 
@@ -223,7 +223,7 @@ theorem nsmul_homology_strictHenselization_zero_eq_zero (B : BigEtaleSite.{u}) {
     ConcreteCategory.hom ψ.hom
   let f := φ.symm.toAddMonoidHom.comp ψh
   have hxw : x = f w := by
-    show x = φ.symm (ψ.hom w)
+    change x = φ.symm (ψ.hom w)
     rw [hw', AddEquiv.symm_apply_apply]
   have k1 : c • x = 0 := by
     rw [hxw, ← f.map_nsmul, hw w, f.map_zero]

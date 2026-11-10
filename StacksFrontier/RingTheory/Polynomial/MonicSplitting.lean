@@ -52,7 +52,7 @@ theorem exists_monic_eq_X_sub_C_mul_of_isRoot {R : Type*} [CommRing R]
     exact le_add_of_nonneg_right (WithBot.coe_nonneg.mpr (Nat.zero_le _))
   have hleading := Polynomial.leadingCoeff_divByMonic_of_monic hL hdegree
   have hQ : (P /ₘ L).Monic := by
-    show (P /ₘ L).leadingCoeff = 1
+    change (P /ₘ L).leadingCoeff = 1
     rw [hleading, hP.leadingCoeff]
   exact ⟨P /ₘ L, hQ, by simpa [L] using hfactor.symm⟩
 
@@ -193,8 +193,7 @@ theorem exists_finite_free_extension_quotient_split_polynomials
           exact (Algebra.TensorProduct.tmul_mul_tmul 1 b r 1).trans (by simp)
         have hg : Function.Surjective g := by
           intro z
-          induction z using TensorProduct.induction_on with
-          | zero => exact ⟨0, map_zero g⟩
+          induction z using TensorProduct.inductionOn with
           | add z w hz hw =>
               obtain ⟨z, rfl⟩ := hz
               obtain ⟨w, rfl⟩ := hw

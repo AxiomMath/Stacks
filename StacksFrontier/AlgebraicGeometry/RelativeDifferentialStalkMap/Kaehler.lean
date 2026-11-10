@@ -66,8 +66,7 @@ public theorem kaehlerMap_bijective_of_surjective
     KaehlerDifferential.subsingleton_of_surjective R S h
   rw [← LinearMap.ker_eq_bot, hex.linearMap_ker_eq, LinearMap.range_eq_bot]
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b y => rw [Subsingleton.elim y 0]; simp
   | add a b ha hb => rw [map_add, ha, hb]; simp
 
@@ -88,7 +87,7 @@ public noncomputable def kaehlerMapEquivOfSurjective
 public theorem kaehlerMapEquivOfSurjective_D (h : Function.Surjective (algebraMap R S)) (b : B) :
     kaehlerMapEquivOfSurjective R S B h (KaehlerDifferential.D R B b) =
       KaehlerDifferential.D S B b := by
-  show KaehlerDifferential.map R S B B (KaehlerDifferential.D R B b) = _
+  change KaehlerDifferential.map R S B B (KaehlerDifferential.D R B b) = _
   rw [KaehlerDifferential.map_D]
   simp
 

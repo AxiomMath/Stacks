@@ -53,14 +53,14 @@ The objects in the statement, with the files that define them:
 * `AlgebraicGeometry.Space.IsProper`
   (`StacksFrontier/AlgebraicGeometry/Spaces/UniversallyClosed.lean`, Stacks 03ZM) is properness of a
   morphism of algebraic spaces: separated, of finite type and universally closed.
-* `AlgebraicGeometry.Space.Modules` (`StacksFrontier/AlgebraicGeometry/Spaces/RingedSite.lean`) is the
-  category of `𝒪_X`-modules on the small étale site of `X`, and
+* `AlgebraicGeometry.Space.Modules` (`StacksFrontier/AlgebraicGeometry/Spaces/RingedSite.lean`) is
+  the category of `𝒪_X`-modules on the small étale site of `X`, and
   `AlgebraicGeometry.Space.IsCoherent`
   (`StacksFrontier/AlgebraicGeometry/Spaces/CoherentModules.lean`, Stacks 07UA) says that such a
   module is coherent.
 * `AlgebraicGeometry.Space.baseRingHom A B hA X.1 X.2`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleCohomology.lean`) is the canonical ring map from
-  `A` to the global functions of `X`, through which `A` acts on cohomology.
+  (`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleCohomology.lean`) is the canonical ring map
+  from `A` to the global functions of `X`, through which `A` acts on cohomology.
 * `AlgebraicGeometry.Space.C1573.cohomologyToIdealQuotientLimit φ F I p` (the imported module)
   is the `A`-linear map `Hᵖ(X, F) ⟶ lim_n Hᵖ(X, F / Iⁿ F)` whose `n`-th component is the map on
   `Hᵖ` induced by the projection `F ⟶ F / Iⁿ F`.  Here `Hᵖ(X, -)` is the `p`-th right derived

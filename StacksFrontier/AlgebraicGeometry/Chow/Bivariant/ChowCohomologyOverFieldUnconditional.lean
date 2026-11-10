@@ -145,13 +145,14 @@ variable (C : ChowSituation.{u}) {X : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFin
   (hπ : ∀ j, (v j).base (genericPoint (Zs j)) = π j) (n : ℤ)
   (hn : ∀ j, relativeDimension C.dimensionFunction sX (π j) = n)
 
+omit [LocallyOfFiniteType sX] [IsProper (Sigma.desc v)] in
 include hπ hn in
 /-- The generic point of a summand `Zⱼ` of `∐ Zⱼ ⟶ X` has the delta-dimension of its image in
 `X`. -/
 theorem relativeDimension_sigmaι_genericPoint (j : J) :
     relativeDimension C.dimensionFunction (Sigma.ι Zs j ≫ Sigma.desc v ≫ sX)
       (genericPoint (Zs j)) = n := by
-  rw [← Category.assoc, Sigma.ι_desc, relativeDimension_comp_closedImmersion, hπ, hn]
+  rw [← Category.assoc, Sigma.ι_comp_desc, relativeDimension_comp_closedImmersion, hπ, hn]
 
 open Classical in
 include hπ hn in
@@ -211,9 +212,9 @@ theorem properPushforward_fundamentalCycle_sigma_apply (y : X) :
     exact Set.disjoint_left.mp (pairwise_disjoint_range_sigmaι Zs hne) ⟨_, rfl⟩
       (hjl ▸ ⟨_, rfl⟩ : e j ∈ Set.range (Sigma.ι Zs l))
   have hge : ∀ j, (Sigma.desc v).base (e j) = π j := fun j ↦ by
-    rw [hedef, ← Scheme.Hom.comp_apply, Sigma.ι_desc, hπ]
+    rw [hedef, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, hπ]
   have hce : ∀ j, c (e j) = 1 := fun j ↦ by
-    rw [hcdef, hedef, fundamentalCycle_sigma_apply C sX Zs v π hπ n hn, if_pos rfl]
+    rw [hcdef, hedef, fundamentalCycle_sigma_apply C sX Zs v π hπ n hn, ite_eq_left rfl]
   have hsupp : ∀ x, c x ≠ 0 → x ∈ Set.range e := fun x hx ↦ by
     obtain ⟨j, z, rfl⟩ := exists_mem_range_sigmaι Zs x
     rw [hcdef, fundamentalCycle_sigma_apply C sX Zs v π hπ n hn] at hx
@@ -311,11 +312,11 @@ theorem exists_properPushforward_fundamentalCycle_eq_multiplicity {X : Scheme.{u
   rw [properPushforward_fundamentalCycle_sigma_apply (fieldChowSituation k) sX Zs v
     (fun j ↦ (j.1 : X)) hπ _ hn y]
   by_cases hy : y ∈ Function.support (a.1 : X → ℤ)
-  · rw [dif_pos hy]
+  · rw [dite_eq_left hy]
     exact (finsum_mem_preimage_sigma_fst_one
       (fun i : ↥(Function.support (a.1 : X → ℤ)) ↦ (i : X)) Subtype.val_injective
       ⟨y, hy⟩).trans (by simp)
-  · rw [dif_neg hy]
+  · rw [dite_eq_right hy]
     refine (finsum_mem_congr (Set.eq_empty_of_forall_notMem fun j hj ↦ hy ?_)
       fun _ _ ↦ rfl).trans finsum_mem_empty
     exact (show (j.1 : X) = y from hj) ▸ j.1.2
@@ -365,7 +366,7 @@ theorem chowClassesGeneratedByBaseFlatPullbacks_fieldChowSituation
     obtain ⟨N, hN, hNy⟩ := hgen fun i ↦ (-a.1 i).toNat
     have hsub : a = P - N := by
       refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-      show a.1 y = P.1 y - N.1 y
+      change a.1 y = P.1 y - N.1 y
       rw [hPy, hNy]
       split_ifs with h
       · simp only

@@ -123,7 +123,7 @@ private theorem exists_coyoneda_iso_of_sheafPushforwardContinuous_iso
       ((lhs H).trans ((sectionMap H).trans (rhs H).symm))) ?_
     intro H H' α
     ext g
-    show (rhs H').symm (sectionMap H' (lhs H' (g ≫ α))) =
+    change (rhs H').symm (sectionMap H' (lhs H' (g ≫ α))) =
       (rhs H).symm (sectionMap H (lhs H g)) ≫ α
     apply (rhs H').injective
     refine (Equiv.apply_symm_apply _ _).trans ?_
@@ -348,7 +348,7 @@ private theorem openImmersion_appLE_isIso {A Z : Scheme.{u}} (f : A ⟶ Z) [IsOp
     rw [← hU]
     simp
   have : IsIso (f.app U) := f.isIso_app U (by rw [hU])
-  show IsIso (f.app U ≫ A.presheaf.map (homOfLE hpre).op)
+  change IsIso (f.app U ≫ A.presheaf.map (homOfLE hpre).op)
   have hmaps : homOfLE hpre = eqToHom hpreEq.symm := Subsingleton.elim _ _
   rw [hmaps]
   infer_instance
@@ -364,7 +364,7 @@ private theorem app_top_map_pullbackFst {X Y : B.Scheme} (c : X ⟶ Y)
       B.inclusion.map (pullback.snd (smallEtaleOpenObject B Y U).obj.hom c) ≫
         B.inclusion.map c := by
     rw [← smallEtaleOpenObject_hom B Y U]
-    show B.inclusion.map (pullback.fst (smallEtaleOpenObject B Y U).obj.hom c) ≫
+    change B.inclusion.map (pullback.fst (smallEtaleOpenObject B Y U).obj.hom c) ≫
         B.inclusion.map (smallEtaleOpenObject B Y U).obj.hom =
       B.inclusion.map (pullback.snd (smallEtaleOpenObject B Y U).obj.hom c) ≫ B.inclusion.map c
     rw [← Functor.map_comp]
@@ -406,7 +406,7 @@ private theorem app_eq_of_baseChange_iso {X Y : B.Scheme} (a b : X ⟶ Y)
   have hφ : φ ≫ qA = qB :=
     congrArg B.inclusion.map ((SmallEtale.inclusion B X.obj X.property).map e.inv).w
   have hqA : ⊤ ≤ qA ⁻¹ᵁ W := by
-    show ⊤ ≤ qA ⁻¹ᵁ ((B.inclusion.map b) ⁻¹ᵁ U)
+    change ⊤ ≤ qA ⁻¹ᵁ ((B.inclusion.map b) ⁻¹ᵁ U)
     rw [← hpre]
     exact top_le_preimage_map_pullbackSnd B a U
   have hqB : ⊤ ≤ qB ⁻¹ᵁ W := top_le_preimage_map_pullbackSnd B b U

@@ -84,6 +84,7 @@ private theorem single_cycles_chain {X : Type*} [Category* X] {P Q Z₁ Z₂ K :
     cyc ≫ i₂ = (s ≫ cm) ≫ i₂ := by
   rw [hcyc, Category.assoc, hm, reassoc_of% hs]
 
+omit [HasDerivedCategory A] [EnoughInjectives A] in
 /-- `F X` as the degree-zero cycles of `F(X[0])`, followed by the class map, is the
 identification of `F X` with the cohomology of `(F X)[0]` followed by the comparison of `(F X)[0]`
 with `F(X[0])`. -/
@@ -107,7 +108,7 @@ theorem singleCyclesHom_comp_homologyπ_eq (F : A ⥤ B) [F.Additive] (M : A) :
         ((Stacks.DerivedIndexing.singleCyclesHom_iCycles F M).trans hx.symm)
         (HomologicalComplex.cyclesMap_i φ 0)
         (HomologicalComplex.singleObjCyclesSelfIso_inv_iCycles _ _ _))
-  show _ = (DerivedCategory.singleFunctorCompHomologyFunctorIso B 0).inv.app (F.obj M) ≫
+  change _ = (DerivedCategory.singleFunctorCompHomologyFunctorIso B 0).inv.app (F.obj M) ≫
     (DerivedCategory.homologyFunctor B 0).map (DerivedCategory.Q.map φ)
   rw [hθ]
   exact single_chain _ _ _ _ _ _ _ _ _ _ hc

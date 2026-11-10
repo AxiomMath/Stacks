@@ -210,7 +210,7 @@ theorem isPullback_assembleOver {C : Type u} [Category.{v} C]
   let f := Limits.Sigma.desc fun j => (Z j).hom ≫ c.ι.app ⟨j⟩
   have hcomm : α ≫ c.ι = cz.ι ≫ (Functor.const (Discrete I)).map f := by
     ext j
-    show (Z j.as).hom ≫ c.ι.app j = Limits.Sigma.ι (fun k => (Z k).left) j.as ≫ f
+    change (Z j.as).hom ≫ c.ι.app j = Limits.Sigma.ι (fun k => (Z k).left) j.as ≫ f
     simp [f]
   exact (hVK cz α f hcomm (.of_discrete α)).mp ⟨coproductIsCoproduct' Fz⟩ i
 
@@ -237,7 +237,7 @@ noncomputable def coproductFamilyIsoData {C : Type u} [Category.{v} C]
   let e := hcP.coconePointUniqueUpToIso hd
   refine ⟨e, hcP.hom_ext fun i => ?_⟩
   change Limits.Sigma.ι P i.as ≫ e.hom = Limits.Sigma.ι P i.as ≫ Limits.Sigma.desc q₁
-  rw [Limits.Sigma.ι_desc]
+  rw [Limits.Sigma.ι_comp_desc]
   exact IsColimit.comp_coconePointUniqueUpToIso_hom hcP hd i
 
 /-- The isomorphism of `coproductFamilyIsoData`. -/
@@ -303,7 +303,7 @@ noncomputable def assembleOverCompPullbackIso {C : Type u} [Category.{v} C]
         exact isoPullback_inv_naturality c
           (Limits.Sigma.desc fun j =>
             (f j).left ≫ Limits.Sigma.ι (fun k => (W k).left) j)
-          (fun j => (f j).left) i (fun j => Limits.Sigma.ι_desc _ j) (Over.w (f i))
+          (fun j => (f j).left) i (fun j => Limits.Sigma.ι_comp_desc _ j) (Over.w (f i))
           (isPullback_assembleOver c hVK Z ⟨i⟩) (isPullback_assembleOver c hVK W ⟨i⟩)
           _ (pullback.lift_fst _ _ _) (pullback.lift_snd _ _ _))
 
@@ -334,7 +334,7 @@ noncomputable def overCoproductEquivalence {C : Type u} [Category.{v} C]
         Limits.Sigma.desc fun i => (B.obj Y i).hom ≫ c.ι.app ⟨i⟩
       rw [coproductFamilyIso_hom]
       refine Limits.Sigma.hom_ext _ _ fun i => ?_
-      rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc]
+      rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc]
       exact (hpb Y i).w)
   have ε : B ⋙ A ≅ 𝟭 _ := NatIso.ofComponents εComponent (by
     intro Y Z f
@@ -344,8 +344,8 @@ noncomputable def overCoproductEquivalence {C : Type u} [Category.{v} C]
         (e Z).hom = (e Y).hom ≫ f.left
     rw [coproductFamilyIso_hom, coproductFamilyIso_hom]
     refine Limits.Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Category.assoc, Limits.Sigma.ι_desc,
-      ← Category.assoc, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Category.assoc, Limits.Sigma.ι_comp_desc,
+      ← Category.assoc, Limits.Sigma.ι_comp_desc]
     exact pullback.lift_fst _ _ _)
   let : B.IsEquivalence := Functor.IsEquivalence.mk' A ε.symm η
   exact ⟨B.asEquivalence, rfl⟩

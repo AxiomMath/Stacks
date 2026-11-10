@@ -81,13 +81,13 @@ attribute [local instance] completedCotangentModule
 
 attribute [local instance] completedCotangentScalarTower
 
-private noncomputable def presentationPartialDeriv
+noncomputable def presentationPartialDeriv
     {A : Type u} [CommRing A] [IsNoetherianRing A] {I : Ideal A}
     {B : AdicFiniteTypeAlgebra.{u, v} A I}
     (P : CompletedPolynomialPresentation I B) (i : Fin P.variableCount) :=
   (Rig.completedNaiveCotangentComplex B P).partialDeriv i
 
-private theorem continuous_presentationPartialDeriv
+theorem continuous_presentationPartialDeriv
     {A : Type u} [CommRing A] [IsNoetherianRing A] {I : Ideal A}
     {B : AdicFiniteTypeAlgebra.{u, v} A I}
     (P : CompletedPolynomialPresentation I B) (i : Fin P.variableCount) :
@@ -98,7 +98,7 @@ private theorem continuous_presentationPartialDeriv
         (Fin P.variableCount)) (presentationPartialDeriv P i) :=
   (Rig.completedNaiveCotangentComplex B P).partialDeriv_continuous i
 
-private theorem presentationPartialDeriv_polynomial
+theorem presentationPartialDeriv_polynomial
     {A : Type u} [CommRing A] [IsNoetherianRing A] {I : Ideal A}
     {B : AdicFiniteTypeAlgebra.{u, v} A I}
     (P : CompletedPolynomialPresentation I B) (i : Fin P.variableCount)
@@ -109,7 +109,7 @@ private theorem presentationPartialDeriv_polynomial
         (MvPolynomial.pderiv i f) :=
   (Rig.completedNaiveCotangentComplex B P).partialDeriv_polynomial i f
 
-private theorem denseRange_presentationRestrictedPolynomials
+theorem denseRange_presentationRestrictedPolynomials
     {A : Type u} [CommRing A] {I : Ideal A} (σ : Type v) :
     DenseRange (RestrictedPowerSeries.polynomialAlgHom I σ) := by
   let R := RestrictedPowerSeries I σ
@@ -161,7 +161,7 @@ private theorem denseRange_presentationRestrictedPolynomials
     exact hfU m hm
   rwa [hrange] at hclose
 
-private theorem denseRange_presentationCompletedPolynomials
+theorem denseRange_presentationCompletedPolynomials
     {A : Type u} [CommRing A] {I : Ideal A}
     {B : AdicFiniteTypeAlgebra.{u, v} A I}
     (P : CompletedPolynomialPresentation I B) :
@@ -196,7 +196,7 @@ private theorem denseRange_presentationCompletedPolynomials
 
 /-! The bridge lemmas below compare completed presentations by continuous substitution. -/
 
-private theorem denseRange_presentationCompletedPolynomials_adic
+theorem denseRange_presentationCompletedPolynomials_adic
     {A : Type u} [CommRing A] [IsNoetherianRing A] {I : Ideal A}
     {B : AdicFiniteTypeAlgebra.{u, v} A I}
     (P : CompletedPolynomialPresentation I B) :

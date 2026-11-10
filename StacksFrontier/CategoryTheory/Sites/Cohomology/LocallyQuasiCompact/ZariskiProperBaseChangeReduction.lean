@@ -359,11 +359,11 @@ lemma pullbackBaseMap_zariskiPullbackHomeo {W W' : Over Y} (k : W' ⟶ W)
   have hsnd := ConcreteCategory.congr_hom (congrArg (siteToTop S).map h2) p
   simp only [Functor.map_comp, ConcreteCategory.comp_apply] at hfst hsnd
   refine Subtype.ext (Prod.ext ?_ ?_)
-  · show ((siteToTop S).map k.left) (Function.Pullback.fst (zariskiPullbackHomeo S f W'.hom p)) =
+  · change ((siteToTop S).map k.left) (Function.Pullback.fst (zariskiPullbackHomeo S f W'.hom p)) =
       Function.Pullback.fst (zariskiPullbackHomeo S f W.hom _)
     rw [zariskiPullbackHomeo_fst, zariskiPullbackHomeo_fst]
     exact hfst.symm
-  · show Function.Pullback.snd (zariskiPullbackHomeo S f W'.hom p) =
+  · change Function.Pullback.snd (zariskiPullbackHomeo S f W'.hom p) =
       Function.Pullback.snd (zariskiPullbackHomeo S f W.hom _)
     rw [zariskiPullbackHomeo_snd, zariskiPullbackHomeo_snd]
     exact hsnd.symm

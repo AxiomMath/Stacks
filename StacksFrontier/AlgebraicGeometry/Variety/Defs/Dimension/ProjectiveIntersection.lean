@@ -74,7 +74,7 @@ private def pushCl {s : Set T} (hs : IsClosed s) (W : IrreducibleCloseds s) :
 strictly monotone. -/
 private lemma pushCl_strictMono {s : Set T} (hs : IsClosed s) : StrictMono (pushCl hs) := by
   refine strictMono_of_le_iff_le fun W W' => ?_
-  show (W : Set s) ⊆ W' ↔ Subtype.val '' (W : Set s) ⊆ Subtype.val '' (W' : Set s)
+  change (W : Set s) ⊆ W' ↔ Subtype.val '' (W : Set s) ⊆ Subtype.val '' (W' : Set s)
   exact (Set.image_subset_image_iff Subtype.val_injective).symm
 
 /-- The height of an irreducible closed subset of a closed subspace bounds the dimension of its

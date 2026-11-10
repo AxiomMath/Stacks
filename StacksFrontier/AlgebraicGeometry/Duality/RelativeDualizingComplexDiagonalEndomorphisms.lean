@@ -60,7 +60,7 @@ alias diag_proj := diag_proj_eq_id
 instance isLocallySurjective_structureMap :
     Sheaf.IsLocallySurjective
       (Stacks.RelativeSpec.AlgebraSheaf.structureMap D.diagonalAlgebra) := by
-  haveI := D.isClosedImmersion
+  have := D.isClosedImmersion
   change TopCat.Presheaf.IsLocallySurjective _
   rw [TopCat.Presheaf.isLocallySurjective_iff]
   intro U t x hx

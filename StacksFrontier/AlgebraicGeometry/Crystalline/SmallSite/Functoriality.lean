@@ -83,11 +83,13 @@ statements about `u_{X/S}` — which is
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiToposMorphism.lean`.  That the square
 formed with `u_{X'/S'}` and `u_{X/S}` commutes is
 `Crystalline.GlobalCrystallineSituation.smallChangeBaseZariskiSquare`, in
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChangeBaseZariski.lean`; that it realizes the
-localization of a morphism of topoi of [Stacks, Tag 04H1] at the sheaf represented by `X'` is
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChangeBaseZariski.lean`; that it realizes
+the localization of a morphism of topoi of [Stacks, Tag 04H1] at the sheaf represented by `X'` is
 `Crystalline.GlobalCrystallineSituation.smallChangeBaseLocalizationSquare`, in
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectLocalization.lean`, together
-with the two slice equivalences of `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectSlice.lean`.  `essImage` above is
+with the two slice equivalences of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectSlice.lean`.
+`essImage` above is
 one of the inputs it needs: the site of elements of `u_{X/S}⁻¹h_{X'}^#` is the full subcategory of
 `Cris(X/S)` on the objects whose structure map lands in `X'`, so the localization statement asks
 for change of base to be an equivalence onto it, which is full faithfulness together with
@@ -418,8 +420,6 @@ theorem range_toBase_subset_of_range_toX_subset [IsOpenImmersion g] (B : Thicken
   exact ⟨(IsOpenImmersion.lift g B.toX hB ≫ sourceToBase S).base s,
     (Scheme.Hom.comp_apply _ _ s).symm⟩
 
-variable [IsOpenImmersion g]
-
 /-- **An object of `CRIS(X/S)` lying over `X'` read as one of `CRIS(X'/S')`.**  The divided power
 thickening is unchanged; the map to `X` is factored through the open immersion `X' ⟶ X`, and the
 map `T ⟶ S` of divided power schemes is factored through `S' ⟶ S`.  The second factorization
@@ -502,7 +502,7 @@ theorem isCrystalline_changeBaseDescend (hf : DividedPowerScheme.IsInducedOpen f
     (hB : Set.range ⇑B.toX.base ⊆ Set.range ⇑g.base) :
     Thickening.IsCrystalline (changeBaseDescend (h := h) hf B hB) := by
   have : IsOpenImmersion B.toX := hBc
-  show IsOpenImmersion (IsOpenImmersion.lift g B.toX hB)
+  change IsOpenImmersion (IsOpenImmersion.lift g B.toX hB)
   have : IsOpenImmersion (IsOpenImmersion.lift g B.toX hB ≫ g) := by
     rw [IsOpenImmersion.lift_fac]
     infer_instance

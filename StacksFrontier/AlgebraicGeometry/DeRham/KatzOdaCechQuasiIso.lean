@@ -35,7 +35,7 @@ namespace AlgebraicGeometry.DeRhamKatzOdaCech
 variable {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S) [IsAffine Y] [IsAffine S] [Smooth f]
   {ι : Type u} [Fintype ι] [DecidableEq ι] (U : ι → X.Opens)
   (haff : ∀ {m : ℕ} (t : Fin (m + 1) → ι), IsAffineOpen (inter U t))
-  {I : Type u} [Fintype I] [DecidableEq I] (n : I → ℕ)
+  {I : Type u} [Fintype I] (n : I → ℕ)
   (x : ∀ i, TotX U (f ≫ g).sectionsDeRhamComplex (n i))
   (hx : ∀ i, totDTo U (f ≫ g).sectionsDeRhamComplex (n i) (n i + 1) rfl (x i) = 0)
 

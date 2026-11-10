@@ -185,7 +185,7 @@ theorem isCartesianPresheaf_of_cover [HasPullbacks C]
   let W : I → C := fun i => pullback (p i) (ht.from X'.unop)
   let gw : ∀ i, W i ⟶ X'.unop := fun i => pullback.snd (p i) (ht.from X'.unop)
   have hcoverV : Sieve.ofArrows W gw ∈ J X'.unop := by
-    show Sieve.generate (Presieve.ofArrows W gw) ∈ J X'.unop
+    change Sieve.generate (Presieve.ofArrows W gw) ∈ J X'.unop
     rw [Presieve.ofArrows_pullback, Sieve.pullbackArrows_comm]
     exact J.pullback_stable _ hcov
   have hsfV : Presieve.IsSheafFor (M.presheaf ⋙ forget AddCommGrpCat)

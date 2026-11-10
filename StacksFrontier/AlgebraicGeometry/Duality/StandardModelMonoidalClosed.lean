@@ -106,7 +106,7 @@ theorem pre_app_std {A B : Std X} (g : A ⟶ B) (Z : Std X) :
   have h3 : MonoidalClosed.curry ((ihom.ev B).app Z) = 𝟙 ((ihom B).obj Z) := by
     rw [← MonoidalClosed.uncurry_id_eq_ev, MonoidalClosed.curry_uncurry]
   refine h1.trans (h.trans ?_)
-  show MonoidalClosed.curry ((ihom.ev B).app Z) ≫ _ = _
+  change MonoidalClosed.curry ((ihom.ev B).app Z) ≫ _ = _
   rw [h3]
   exact Category.id_comp _
 

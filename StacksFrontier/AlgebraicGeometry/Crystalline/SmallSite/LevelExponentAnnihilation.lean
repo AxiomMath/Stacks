@@ -130,8 +130,8 @@ the `ℕ`-action on the sections is the action of the section ring through the c
 is zero in that ring by `pow_cast_p_wholeSpaceSystem_eq_zero`.
 
 This is the verification that the module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean` lists as not done there for
-its result (07JB): that the level `e` of the system is cut out by `(p)^{N + e}`. -/
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean` lists as not done there
+for its result (07JB): that the level `e` of the system is cut out by `(p)^{N + e}`. -/
 theorem nsmul_pow_p_wholeSpaceSystem_eq_zero (F : SheafOfModules.{u} (structureSheaf S)) (n e : ℕ)
     (s : (F.val.obj (op (((wholeSpaceSystem S hp).obj (op ⦋n⦌)).obj e)) : Type u)) :
     S.p ^ wholeSpaceLevelExponent hp e • s = 0 := by
@@ -146,8 +146,8 @@ scalars along the quotient `D(n) ⟶ D(n)/(p)^{N + e} = Γ(T(n)_e, 𝒪)`; `p^{N
 there, so it acts as zero.
 
 This is the spelling `Crystalline.pAdicIdeal_pow_smul_top_eq_bot_iff` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean` takes, and through it the
-annihilation hypothesis of `Crystalline.isPAdicallyComplete_invLimit_of_shift`, that module's
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean` takes, and through it
+the annihilation hypothesis of `Crystalline.isPAdicallyComplete_invLimit_of_shift`, that module's
 result (07JB) for a tower cut out at a shifted exponent.  Its module documentation lists this
 verification as not done there. -/
 theorem pow_p_smul_levelSections_eq_zero (F : SheafOfModules.{u} (structureSheaf S)) (n e : ℕ)

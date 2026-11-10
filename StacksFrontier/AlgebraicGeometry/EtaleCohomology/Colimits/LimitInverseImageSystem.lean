@@ -92,7 +92,7 @@ abbrev toBot (i : (sys D c B hD hX hc).I) : lvl D c B hD hX hc i ⟶ D.obj (op �
 
 /-- The scheme modelled by the bottom level is `X_⊥`. -/
 theorem lvl_bottom : lvl D c B hD hX hc (bottom D c B hD hX hc) = D.obj (op ⊥) := by
-  show D.obj (op ⊥) = D.obj (op ⊥)
+  change D.obj (op ⊥) = D.obj (op ⊥)
   rfl
 
 /-- The morphism from a level to `X_⊥` factors through `f_i` and the morphism of the bottom

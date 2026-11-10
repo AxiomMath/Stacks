@@ -104,9 +104,11 @@ The internal Hom complex of [Stacks, Tag 0A8Z] is produced by `Classical.choice`
 and differential are opaque; everything below goes through the characterising data
 `AlgebraicGeometry.RingedSite.SheafHomComplex.sectionsIso` and the product description
 `AlgebraicGeometry.RingedSite.homDegreeProjection` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/HomComplexOfAStrictlyPerfectComplex.lean`. The proof of `d_comp_homDegreeProjection` is the
-pattern of `AlgebraicGeometry.RingedSite.homUnitEvaluation_d` of `StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/InternalHomUnitSource.lean`:
-the cochain identity `CochainComplex.HomComplex.δ_v` is stated once for an arbitrary cochain and
+`HomComplexOfAStrictlyPerfectComplex.lean` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/`. The proof of
+`d_comp_homDegreeProjection` is the pattern of `AlgebraicGeometry.RingedSite.homUnitEvaluation_d` of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/InternalHomUnitSource.lean`: the
+cochain identity `CochainComplex.HomComplex.δ_v` is stated once for an arbitrary cochain and
 then applied with `congrArg`, rather than rewritten in a goal that mentions a section of an
 opaque term — such a goal is not type-correct at `implicit` transparency, so no `rw` can touch
 it.
@@ -129,8 +131,9 @@ inside the proof: `koszulDualTermIso_d` and `koszulDualComplexIsoAt_d` are the t
 The four `.val`-level lemmas `zsmul_val₀`, `units_zsmul_val₀`, `add_val_app_apply₀` and
 `units_zsmul_val_app_apply₀` restate for an arbitrary sheaf of rings what
 `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/HomComplex.lean` and
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/EvaluatingSections.lean` prove `private`ly or only in the slice spelling; a `private`
-declaration cannot be named from another module, and the cochain components of the internal Hom
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/EvaluatingSections.lean` prove
+`private`ly or only in the slice spelling; a `private` declaration cannot be named from another
+module, and the cochain components of the internal Hom
 complex live over the slice site, so the slice-only versions do not apply.
 
 ## References
@@ -232,6 +235,7 @@ variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- A sum of morphisms of sheaves of modules acts on sections by addition. -/
 theorem add_val_app_apply₀ {A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (f g : A ⟶ B)
@@ -239,6 +243,7 @@ theorem add_val_app_apply₀ {A B : SheafOfModules.{u} (Stacks.SheafOfModules.Te
     (f + g).val.app W x = f.val.app W x + g.val.app W x := by
   with_unfolding_all rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- A unit multiple of a morphism of sheaves of modules acts on sections by scaling. -/
 theorem units_zsmul_val_app_apply₀
     {A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (f : A ⟶ B) (c : ℤˣ)
@@ -246,6 +251,7 @@ theorem units_zsmul_val_app_apply₀
     (c • f).val.app W x = c • (f.val.app W x) :=
   zsmul_val_app_apply (c : ℤ) f W x
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Precomposition on internal Hom sheaves, on a section. -/
 theorem internalHomPre_val_app_apply
     {A B C : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : A ⟶ B)
@@ -254,6 +260,7 @@ theorem internalHomPre_val_app_apply
       ((SheafOfModules.overFunctor
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map g).val ≫ a := rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Precomposition on internal Hom sheaves, evaluated on a local section. -/
 theorem internalHomPre_val_app_app_apply
     {A B C : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : A ⟶ B)
@@ -264,6 +271,7 @@ theorem internalHomPre_val_app_app_apply
       (a.app W) ((((SheafOfModules.overFunctor
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map g).val.app W) y) := rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Postcomposition on internal Hom sheaves, on a section. -/
 theorem internalHomPost_val_app_eq_comp
     {A B C : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : B ⟶ C)
@@ -276,7 +284,7 @@ theorem internalHomPost_val_app_eq_comp
 theorem zsmul_val₀ {C₀ : Type*} [Category C₀] {J : GrothendieckTopology C₀}
     {R : Sheaf J RingCat.{w}} {A B : SheafOfModules.{m} R} (c : ℤ) (f : A ⟶ B) :
     (c • f).val = c • f.val := by
-  show (SheafOfModules.forget R).map (c • f) = _
+  change (SheafOfModules.forget R).map (c • f) = _
   rw [Functor.map_zsmul]
   rfl
 
@@ -293,6 +301,7 @@ theorem Cochain.v_transport {𝒜 : Type*} [Category 𝒜] [Preadditive 𝒜]
   obtain rfl : q = q' := by omega
   rw [eqToHom_refl, Category.comp_id]
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The differential of the internal Hom complex, against the product projections.** -/
 theorem d_comp_homDegreeProjection
     (E F : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
@@ -335,6 +344,7 @@ theorem d_comp_homDegreeProjection
     Functor.mapHomologicalComplex_obj_d, Functor.mapHomologicalComplex_obj_d, eqToHom_map]
   rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Postcomposition with a transport of the target is a transport. -/
 theorem internalHomPost_eqToHom
     (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -344,6 +354,7 @@ theorem internalHomPost_eqToHom
   subst h
   rw [eqToHom_refl, internalHomPost_id, eqToHom_refl]
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Precomposition on internal Hom sheaves commutes with a transport of the target. -/
 theorem internalHomPre_eqToHom
     {A B : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : A ⟶ B)
@@ -368,6 +379,7 @@ private theorem homDegreeIsoSingle_hom_eq (X : RingedSite.{u, u, u})
         eqToHom (congrArg (internalHomSheaf X (E.X (-m)))
           (show (singleSheafComplex X N).X (m - m) = N by rw [sub_self]; rfl)) := rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The differential of the internal Hom complex into a sheaf in degree zero**, read through
 the degreewise identification `homDegreeIsoSingle`: it is the dual of the differential of the
 source, up to the sign of the Hom complex. -/
@@ -390,7 +402,6 @@ theorem homDegreeIsoSingle_d
         internalHomPre X (E.d (-(m + 1)) (-m)) := by
     rw [Category.assoc, Category.assoc, internalHomPost_eqToHom, eqToHom_trans,
       internalHomPre_eqToHom, ← Category.assoc]
-    congr 1
     rw [sub_self]
     rfl
   rw [homDegreeIsoSingle_hom_eq, homDegreeIsoSingle_hom_eq, ← Category.assoc,
@@ -399,6 +410,7 @@ theorem homDegreeIsoSingle_d
   simp only [Units.smul_def]
   rw [Preadditive.zsmul_comp, hcore]
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The map of internal Hom complexes induced by a morphism of sources**, read through the
 degreewise identification `homDegreeIsoSingle` for a target concentrated in degree zero: it is
 precomposition with the corresponding component of that morphism. -/
@@ -456,6 +468,7 @@ def termDualIso
       rw [termι_comp_π_of_ne F (Ne.symm hS), internalHomPre_zero, comp_zero]
     · exact fun h => absurd (Finset.mem_univ S') h
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The projections of `termDualIso`. -/
 @[reassoc]
 theorem termDualIso_hom_π
@@ -473,6 +486,7 @@ def internalHomPreAddHom (A B C : SheafOfModules.{u} (Stacks.SheafOfModules.Tens
     (A ⟶ B) →+ (internalHomSheaf X B C ⟶ internalHomSheaf X A C) :=
   AddMonoidHom.mk' (fun g => internalHomPre X g) (fun g g' => internalHomPre_add X g g')
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Precomposition on internal Hom sheaves is `ℤ`-linear in the morphism. -/
 theorem internalHomPre_zsmul
     {A B C : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (c : ℤ) (g : A ⟶ B) :
@@ -487,6 +501,7 @@ attribute [local instance] hasFiniteBiproducts_sheafOfModules
 
 variable {r : ℕ}
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The `𝒪`-dual of the alternating Čech differential is the contraction.** Read through
 `termDualIso`, the dual of `d` has, at the factor indexed by `S`, the signed sum over the
 elements `i ∉ S` of the transition out of the factor indexed by `S ∪ \{i\}`. -/
@@ -561,6 +576,8 @@ open scoped IsMulCommutative
 variable [HasWeakSheafify X.J CommRingCat.{u}] {r : ℕ}
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Precomposition with multiplication by a monomial is multiplication by that monomial on the
 internal Hom sheaf out of the structure sheaf.** -/
 theorem internalHomPre_koszulScalar (e : Fin r → ℕ)
@@ -653,6 +670,8 @@ def koszulDualIsoAt (p q : ℤ) (hpq : p + q = (r : ℤ)) :
     signedPiIso (complEquiv (show q + p = (r : ℤ) by omega)) (fun T : Idx r q => dualSign T.1)
       (fun T => dualSign_mul_self T.1) (unitHomSheaf X ℱ)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The projections of the dual identification**: at the factor indexed by `T` it is
 precomposition with the inclusion of the factor indexed by the complement of `T`, times
 `dualSign T`. -/
@@ -686,6 +705,8 @@ def koszulDualDiff (q : ℤ) :
       ∏ᶜ fun _ : Idx r (q + 1) => unitHomSheaf X ℱ :=
   AlternatingCech.d (koszulPowerFunctorOn X f (unitHomSheaf X ℱ) n) q
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The components of the Koszul differential with coefficients: into the factor indexed by `B`
 it is the signed sum, over the elements `k` of `B`, of multiplication by `f_k^{n+1}` out of the
 factor indexed by `B ∖ \{k\}`. -/
@@ -697,6 +718,8 @@ theorem koszulDualDiff_π (q : ℤ) (B : Idx r (q + 1)) :
           koszulScalarOn X f (koszulExp n (Idx.erase B k).1 B.1) (unitHomSheaf X ℱ)) :=
   d_comp_pi (koszulPowerFunctorOn X f (unitHomSheaf X ℱ) n) q B
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The `𝒪`-dual of the alternating Čech differential of the Koszul system is the
 contraction.** Out of the dual of the factor indexed by `S` it is the signed sum, over the
 elements `i` not in `S`, of multiplication by `f_i^{n+1}` after the dual of the factor indexed
@@ -718,6 +741,8 @@ theorem internalHomPre_d_comp_koszulDualFactor (j : ℤ) (S : Idx r j) :
   exact congrArg (fun z => koszulDualFactor X f ℱ n (j + 1) (insertIdx S i) ≫ z)
     (internalHomPre_koszulScalar X f _ ℱ)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The dual identification carries the dual of the Koszul differential to the Koszul
 differential with coefficients**, up to the sign `(-1)^{q+1}`. -/
 theorem koszulDualIsoAt_d (j q : ℤ) (hq : (j + 1) + q = (r : ℤ)) :
@@ -765,6 +790,8 @@ def koszulDualTermIso (p q : ℤ) (hpq : p + q = (r : ℤ)) :
       (koszulPowerComplexOn X f (unitHomSheaf X ℱ) n).X q :=
   koszulDualIsoAt X f ℱ n p q hpq
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The dual identification carries the dual of the Koszul differential to the Koszul
 differential with coefficients**, up to the sign `(-1)^{q'}`, at any spelling of the degrees. -/
 theorem koszulDualTermIso_d (j p q q' : ℤ) (hjp : j + 1 = p) (hq : p + q = (r : ℤ))
@@ -806,6 +833,7 @@ private theorem koszulDualComplexIsoAt_hom (X : RingedSite.{u, u, u})
       (homDegreeIsoSingle X (koszulPowerComplex X f n) ℱ m).hom ≫
         (koszulDualTermIso X f ℱ n (-m) q hq).hom := rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The comparison is compatible with the differentials**, up to the sign `(-1)^r` of the
 `r`-fold shift. -/
 theorem koszulDualComplexIsoAt_d (m m' q q' : ℤ) (hm : m + 1 = m') (hq : -m + q = (r : ℤ))
@@ -885,8 +913,9 @@ def koszulDualTransOn (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ring
     rw [koszulScalarOn_comp, koszulScalarOn_comp]
     refine koszulScalarOn_congr X f (fun i => ?_) M
     by_cases hiT : i ∈ T
-    · by_cases hiS : i ∈ S <;>
-        simp [koszulExp, hiT, hiS, Finset.mem_sdiff, Pi.add_apply, Finset.mem_compl] <;>
+    · by_cases hiS : i ∈ S
+      · simp [koszulExp, hiT, hiS, Finset.mem_sdiff, Pi.add_apply, Finset.mem_compl]
+      · simp [koszulExp, hiT, hiS, Finset.mem_sdiff, Pi.add_apply, Finset.mem_compl]
         omega
     · simp [koszulExp, hiT, Finset.mem_sdiff, Pi.add_apply, Finset.mem_compl,
         show i ∉ S from fun hiS => hiT (hST hiS)]
@@ -904,6 +933,8 @@ def koszulDualSystemOn (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.rin
     ℕᵒᵖ ⥤ CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ :=
   Functor.ofOpSequence (koszulDualComplexOnMap X f M)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The `m`-th term of the dual Koszul tower with coefficients is
 `koszulPowerComplexOn X f M m`. -/
 @[simp]
@@ -912,6 +943,8 @@ theorem koszulDualSystemOn_obj
     (koszulDualSystemOn X f M).obj (op m) = koszulPowerComplexOn X f M m :=
   rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition from level `m + 1` to level `m` of the dual Koszul tower with coefficients is
 `koszulDualComplexOnMap X f M m`. -/
 theorem koszulDualSystemOn_map_succ
@@ -924,6 +957,8 @@ theorem koszulDualSystemOn_map_succ
 
 /-! ### The comparison is compatible with the transitions of the two towers -/
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The `𝒪`-dual of the transition of the Koszul tower is multiplication by the monomial
 indexed by the subset.** -/
 theorem internalHomPre_mapX_comp_koszulDualFactor (m : ℕ) (p : ℤ) (S : Idx r p) :
@@ -944,6 +979,8 @@ def koszulDualTransX (m : ℕ) (q : ℤ) :
     (∏ᶜ fun _ : Idx r q => unitHomSheaf X ℱ) ⟶ ∏ᶜ fun _ : Idx r q => unitHomSheaf X ℱ :=
   AlternatingCech.mapX (koszulDualTransOn X f (unitHomSheaf X ℱ) m) q
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The components of that transition: at the factor indexed by `T` it is multiplication by
 `∏_{i ∉ T} f_i`. -/
 @[reassoc]
@@ -953,6 +990,8 @@ theorem koszulDualTransX_π (m : ℕ) (q : ℤ) (T : Idx r q) :
         koszulScalarOn X f (fun i => if i ∈ (T.1)ᶜ then 1 else 0) (unitHomSheaf X ℱ) :=
   mapX_comp_pi (koszulDualTransOn X f (unitHomSheaf X ℱ) m) T
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The dual identification carries the dual of the transition of the Koszul tower to the
 transition of the dual Koszul tower with coefficients.** No sign and no reindexing enter: both
 transitions multiply the factor indexed by `T` by `∏_{i ∉ T} f_i`. -/
@@ -966,6 +1005,8 @@ theorem koszulDualIsoAt_trans (m : ℕ) (p q : ℤ) (hpq : p + q = (r : ℤ)) :
     ← Category.assoc, koszulDualIsoAt_hom_π, Preadditive.zsmul_comp]
   rfl
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The transition square in the spelling of the two towers of complexes.** -/
 theorem koszulDualTermIso_trans (m : ℕ) (p q : ℤ) (hpq : p + q = (r : ℤ)) :
     internalHomPre X (C := ℱ) ((koszulPowerComplexMap X f m).f p) ≫
@@ -974,6 +1015,7 @@ theorem koszulDualTermIso_trans (m : ℕ) (p q : ℤ) (hpq : p + q = (r : ℤ)) 
         (koszulDualComplexOnMap X f (unitHomSheaf X ℱ) m).f q :=
   koszulDualIsoAt_trans X f ℱ m p q hpq
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The comparison of complexes is compatible with the transitions of the two towers.** -/
 theorem koszulDualComplexIsoAt_trans (m : ℕ) (k q : ℤ) (hq : -k + q = (r : ℤ)) :
     (homMap X (koszulPowerComplexMap X f m) (𝟙 (singleSheafComplex X ℱ))).f k ≫
@@ -992,6 +1034,8 @@ theorem koszulDualComplexIsoAt_trans (m : ℕ) (k q : ℤ) (hq : -k + q = (r : �
 def unitHomSheafIso : unitHomSheaf X ℱ ≅ ℱ :=
   Stacks.SheafOfModules.InternalHom.unitSheafInternalHomIso X ℱ
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The isomorphism of coefficient sheaves is compatible with the transitions of the dual
 Koszul towers.** Both transitions are multiplications by monomials in the chosen global
 sections, which are natural in the sheaf of modules. -/
@@ -1025,6 +1069,8 @@ def koszulSheafHomSystemOf :
     ℕᵒᵖ ⥤ CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ :=
   (koszulPowerSystem X f).op ⋙ (sheafHomComplexBifunctor X).flip.obj (singleSheafComplex X ℱ)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition from level `m + 1` to level `m` of the tower of internal Hom complexes is
 induced by precomposition with the Koszul transition `koszulPowerComplexMap X f m`. -/
 theorem koszulSheafHomSystemOf_map_succ (m : ℕ) :
@@ -1037,6 +1083,7 @@ theorem koszulSheafHomSystemOf_map_succ (m : ℕ) :
     koszulPowerSystem_map_succ]
   exact sheafHomComplexBifunctor_map_app X _ (singleSheafComplex X ℱ)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **One step of the comparison of towers.** -/
 theorem koszulDualComplexIsoCoeff_trans (m : ℕ) :
     homMap X (koszulPowerComplexMap X f m) (𝟙 (singleSheafComplex X ℱ)) ≫
@@ -1141,8 +1188,8 @@ def koszulDerivedSheafHomSystemComparison :
         (koszulPowerComplexMap X f m) (𝟙 (singleSheafComplex X ℱ))
       simp only [CategoryTheory.Functor.map_id, Category.comp_id] at hcmp
       simp only [derivedSheafHomSystem, Functor.comp_map, koszulSheafHomSystemOf_map_succ,
-        koszulPowerSystem_map_succ, Functor.flip_obj_map, Functor.op_map, Quiver.Hom.unop_op,
-        derivedInternalHomOfBifunctor_hom] at hcmp ⊢
+        koszulPowerSystem_map_succ, Functor.flip_obj_map, Functor.op_map,
+        Quiver.Hom.unop_op] at hcmp ⊢
       exact hcmp)
 
 /-- The comparison `koszulDerivedSheafHomSystemComparison X f ℱ` of the tower of internal Hom

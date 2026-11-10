@@ -187,7 +187,7 @@ theorem isWeaklyAssociatedPoint_fibre_of_refines (f : X ⟶ Y)
     p.siteObject q.siteObject κ (fibreAtFieldValuedPointStructure B S hS f p)
     (fibreAtFieldValuedPointStructure B S hS f q) (fieldValuedPointSpaceMap B S hS κ) π sq'
     (Iso.refl _) (Iso.refl _) ?_ (Iso.refl _) (Iso.refl _) (by simp) _ ζ ?_
-  · simp only [Iso.refl_hom, Iso.refl_inv, Category.id_comp, Category.comp_id]
+  · simp only [Iso.refl_hom, Iso.refl_inv, Category.id_comp]
     exact (specMap_algebraMap_refinementAlgebra B S hS κ).symm
   · exact (isWeaklyAssociatedPoint_congr B S hS
       ((modulePullbackCompIso B S hS π
@@ -273,7 +273,7 @@ theorem exists_fieldValuedPoint_fibre_isEtale_siteHom (g : Y' ⟶ Y)
   have hκ : (FieldValuedPoint.map B S hS (fibreAtFieldValuedPoint B S hS g p).1
       (pullback.snd g.hom (fieldMorphism B S hS Y.1 p))
       (FieldValuedPoint.map B S hS (yoneda.obj U) α ρ)).siteHom = ρ.siteHom ≫ β := by
-    show (α ≫ pullback.snd g.hom (fieldMorphism B S hS Y.1 p)).app
+    change (α ≫ pullback.snd g.hom (fieldMorphism B S hS Y.1 p)).app
       (Opposite.op ρ.siteObject) ρ.value = ρ.siteHom ≫ β
     rw [← hβmap]
     rfl

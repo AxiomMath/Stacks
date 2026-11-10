@@ -70,7 +70,7 @@ theorem not_hasNoConstantSimpleQuotient_specMap {V : Scheme.{u}} (jV : V ⟶ Spe
   let s := Spec.map (CommRingCat.ofHom ρ)
   have hs : ∀ z, s.base z = jU.base y := fun z => by
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap ρ z.asIdeal = _
+    change Ideal.comap ρ z.asIdeal = _
     have := z.isPrime
     rw [Ideal.eq_bot_of_prime z.asIdeal, ← RingHom.ker_eq_comap_bot, hρ]
   let g := IsOpenImmersion.lift jU s (by rintro _ ⟨z, rfl⟩; exact ⟨y, (hs z).symm⟩)
@@ -91,7 +91,7 @@ theorem not_hasNoConstantSimpleQuotient_specMap {V : Scheme.{u}} (jV : V ⟶ Spe
   have hτ : Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ (GeometricPoint.ofPoint U y').hom ≫ jU =
       s := by
     rw [← hg, ← hφ]
-    show Spec.map _ ≫ (Spec.map (CommRingCat.ofHom (algebraMap (U.residueField y')
+    change Spec.map _ ≫ (Spec.map (CommRingCat.ofHom (algebraMap (U.residueField y')
       (AlgebraicClosure (U.residueField y')))) ≫ U.fromSpecResidueField y') ≫ jU = _
     rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp]
     congr 3
@@ -106,8 +106,9 @@ theorem not_hasNoConstantSimpleQuotient_specMap {V : Scheme.{u}} (jV : V ⟶ Spe
     exact ht
   exact key _ hτ h'
 
+omit [Fintype k] in
 /-- **`\overline{k(t)}` is below every cutoff**: it is countable. -/
-theorem schemeSizeBelow_spec_algebraicClosure_fractionRing :
+theorem schemeSizeBelow_spec_algebraicClosure_fractionRing [Finite k] :
     schemeSizeBelow B.cutoff (Spec (.of (AlgebraicClosure (FractionRing k[X])))) := by
   refine (schemeSizeBelow_spec_iff B.aleph0_lt_cutoff _).2 ?_
   have h1 : Cardinal.mk k[X] ≤ Cardinal.aleph0 :=
@@ -134,7 +135,7 @@ theorem exists_ker_eval₂RingHom_eq_of_ne_bot {K Ω : Type*} [Field K] [Field �
   have : p.IsMaximal := IsPrime.to_maximal_ideal hp0
   refine (Ideal.IsMaximal.eq_of_le this (RingHom.ker_ne_top _) ?_).symm
   rw [hp', Ideal.span_le, Set.singleton_subset_iff]
-  show eval₂ (algebraMap K Ω) σ f₀ = 0
+  change eval₂ (algebraMap K Ω) σ f₀ = 0
   rwa [← aeval_def]
 
 /-- `K[X]` embeds in the algebraic closure of its fraction field. -/
@@ -152,7 +153,7 @@ theorem ker_eval₂RingHom_algebraMap_X_pow_eq_bot (K : Type*) [Field K] (n : �
   have heval : ∀ q g : K[X], eval₂ (algebraMap K Ωs) (algebraMap K[X] Ωs q) g =
       algebraMap K[X] Ωs (g.comp q) := by
     intro q g
-    show eval₂RingHom (algebraMap K Ωs) (algebraMap K[X] Ωs q) g =
+    change eval₂RingHom (algebraMap K Ωs) (algebraMap K[X] Ωs q) g =
       ((algebraMap K[X] Ωs).comp (compRingHom q)) g
     congr 1
     refine Polynomial.ringHom_ext (fun c => ?_) ?_
@@ -201,7 +202,7 @@ theorem fourierTwistNoConstantQuotientInput : FourierTwistNoConstantQuotientInpu
   have key : ∀ σ : Ωs, RingHom.ker (eval₂RingHom (algebraMap k Ωs) σ) = p → σ ∈ F :=
     fun σ hσ => not_hasNoConstantSimpleQuotient_specMap k Λ ψ B p₀ jV M jU y _ hσ hbad
   have hfp : f ∉ p := by
-    show f ∉ Ideal.comap (algebraMap k[X] R) y.asIdeal
+    change f ∉ Ideal.comap (algebraMap k[X] R) y.asIdeal
     rw [Ideal.mem_comap]
     exact fun h => y.isPrime.ne_top
       (Ideal.eq_top_of_isUnit_mem _ h (IsLocalization.Away.algebraMap_isUnit f))

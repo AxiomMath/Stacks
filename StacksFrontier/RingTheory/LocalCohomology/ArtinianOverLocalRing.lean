@@ -76,7 +76,7 @@ private lemma localCohomologyModule_torsion
         (IsLocalRing.maximalIdeal A) (IsLocalRing.maximalIdeal A).fg_of_isNoetherianRing
         M i)
       (IsLocalRing.maximalIdeal A) := by
-  show IsIPowerTorsion A
+  change IsIPowerTorsion A
     ((DerivedCategory.homologyFunctor (ModuleCat.{w} A) i).obj
       ((Dualizing.derivedPowerTorsionProperty A (IsLocalRing.maximalIdeal A)
         (IsLocalRing.maximalIdeal A).fg_of_isNoetherianRing).ι.obj
@@ -217,7 +217,7 @@ public lemma localCohomologyModuleMap_lsmul
   have hf : ModuleCat.ofHom (LinearMap.lsmul A M x) = x • 𝟙 M := by
     ext m
     rfl
-  show F.map (ModuleCat.ofHom (LinearMap.lsmul A M x)) = _
+  change F.map (ModuleCat.ofHom (LinearMap.lsmul A M x)) = _
   rw [hf, Functor.map_smul]
   exact congrArg (fun z => x • z) (F.map_id M)
 
@@ -341,7 +341,7 @@ private lemma isZero_localCohomology_of_torsion
   let e : (Dualizing.derivedPowerTorsionProperty A I hI).ι.obj (G.1.obj X) ≅ X :=
     asIso (adj.counit.app X)
   have hsingle := isZero_homology_single_obj (ModuleCat.{w} A) M i (by omega)
-  show IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{w} A) i).obj
+  change IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{w} A) i).obj
     ((Dualizing.derivedPowerTorsionProperty A I hI).ι.obj
       ((Dualizing.localCohomologyFunctor A I hI).obj X)))
   exact IsZero.of_iso hsingle
@@ -393,7 +393,7 @@ private lemma finiteSocle_of_artinian_smulKernel
   let f : S →ₗ[A] K := LinearMap.codRestrict K S.subtype (by
     intro z
     apply LinearMap.mem_ker.mpr
-    show x • z.1 = 0
+    change x • z.1 = 0
     exact (Submodule.mem_torsionBySet_iff _ _).mp z.2 ⟨x, hx⟩)
   have hf : Function.Injective f := fun _ _ h => Subtype.ext (congrArg (fun y : K => (y.1 : N)) h)
   have : IsArtinian A K := hK
@@ -422,12 +422,12 @@ private lemma isZero_localCohomology_of_subsingleton
   let : G.IsTriangulated := adj.isTriangulated_rightAdjoint
   let L := Dualizing.localCohomologyFunctor.{u, w} A I hI
   let : L.Additive := by
-    show G.Additive
+    change G.Additive
     infer_instance
   have hM : IsZero M := ModuleCat.isZero_iff_subsingleton.mpr inferInstance
   let s := DerivedCategory.singleFunctor (ModuleCat.{w} A) 0
   let H := DerivedCategory.homologyFunctor (ModuleCat.{w} A) i
-  show IsZero (H.obj (P.ι.obj (L.obj (s.obj M))))
+  change IsZero (H.obj (P.ι.obj (L.obj (s.obj M))))
   exact H.map_isZero (P.ι.map_isZero (L.map_isZero (s.map_isZero hM)))
 
 /-- Artinianness transfers along an isomorphism of modules. -/
@@ -527,7 +527,7 @@ public theorem isArtinian_localCohomology_maximalIdeal
           ((Dualizing.localCohomologyFunctor A (IsLocalRing.maximalIdeal A)
             (IsLocalRing.maximalIdeal A).fg_of_isNoetherianRing).obj
             ((DerivedCategory.singleFunctor (ModuleCat.{w} A) 0).obj M)))) := by
-  show IsArtinian A
+  change IsArtinian A
     (localCohomologyModule A
       (IsLocalRing.maximalIdeal A) (IsLocalRing.maximalIdeal A).fg_of_isNoetherianRing M i)
   by_cases hM : Subsingleton (M : Type w)

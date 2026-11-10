@@ -152,7 +152,7 @@ theorem exists_isPerfect_homologyZero_derivedTensorProduct_addEquiv
         (scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L, W)) 0
           ((H0A.mapIso (β.app L ≪≫ τ L)).toLinearEquiv.toAddEquiv a)) := by
     simp only [LinearEquiv.coe_toAddEquiv]
-    show scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L', W)) 0
+    change scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L', W)) 0
         (H0A.map ((β.app L').hom ≫ (τ L').hom)
           (H0A.map ((derivedTensorProduct (E.functor.obj W)).map f) a)) = _
     rw [← Functor.map_comp_apply, ← Category.assoc, hβ, Category.assoc, hτ, ← Category.assoc,

@@ -204,7 +204,7 @@ theorem exists_quotientLocalizedModuleAddEquiv {Mm : Type u} [AddCommGroup Mm] [
     (LocalizedModule.mkLinearMap p.primeCompl Mm).extendScalarsOfSurjective
       Ideal.Quotient.mk_surjective
   have : IsLocalizedModule p.primeCompl (h.restrictScalars A) := by
-    show IsLocalizedModule p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl Mm)
+    change IsLocalizedModule p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl Mm)
     infer_instance
   have : IsLocalizedModule q.primeCompl h :=
     primeCompl_map_quotient_mk f p hf q hq ▸
@@ -283,12 +283,12 @@ theorem free_localizedModule_baseQuotient (f : S.A) (hI : S.I = Ideal.span {f})
       (RingEquiv.symm_apply_eq _).mpr
         (quotientLocalizationAtPrimeRingEquiv_mk f (underlyingPrime S y).asIdeal hfp q hq a).symm
     rw [hε]
-    show Φ₁.symm (Φ₃ (Ideal.Quotient.mk (Ideal.span {f}) a • x)) = _
+    change Φ₁.symm (Φ₃ (Ideal.Quotient.mk (Ideal.span {f}) a • x)) = _
     rw [hΦ₃ a x]
     show Φ₁.symm (a • Φ₃ x) = _
     rw [← algebraMap_smul (Localization.AtPrime (underlyingPrime S y).asIdeal) a (Φ₃ x),
       Φ₁.symm.map_smul]
-    show _ = Ideal.Quotient.mk _ (algebraMap S.A
+    change _ = Ideal.Quotient.mk _ (algebraMap S.A
       (Localization.AtPrime (underlyingPrime S y).asIdeal) a) • Φ₁.symm (Φ₃ x)
     exact (algebraMap_smul _ _ _).symm
   exact free_of_ringEquiv_of_addEquiv ε Φ

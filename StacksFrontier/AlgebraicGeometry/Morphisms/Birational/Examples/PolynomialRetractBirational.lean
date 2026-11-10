@@ -101,13 +101,13 @@ private theorem localRingHom_projection_isIso (k : Type u) [Field k]
   have hcomp : (genericLocalizationEquiv k).toRingHom.comp ℓ =
       eA.toRingHom := by
     refine IsLocalization.ringHom_ext I.primeCompl (RingHom.ext fun a ↦ ?_)
-    show (genericLocalizationEquiv k).toRingHom
+    change (genericLocalizationEquiv k).toRingHom
         (ℓ (algebraMap A (Localization.AtPrime I) a)) =
       eA.toRingHom (algebraMap A (Localization.AtPrime I) a)
     rw [show ℓ (algebraMap A (Localization.AtPrime I) a) =
         algebraMap (extensionRing k) (Localization.AtPrime J) (inclusionMap k a) from
           Localization.localRingHom_to_map I J (inclusionMap k) hIJ a]
-    show genericLocalizationEquiv k
+    change genericLocalizationEquiv k
         (algebraMap (extensionRing k) (Localization.AtPrime J) (inclusionMap k a)) =
       eA.toRingHom (algebraMap A (Localization.AtPrime I) a)
     rw [genericLocalizationEquiv_map, retraction_inclusion]
@@ -116,7 +116,7 @@ private theorem localRingHom_projection_isIso (k : Type u) [Field k]
     rw [← hcomp]
     ext x
     simp
-  show Function.Bijective ℓ
+  change Function.Bijective ℓ
   rw [hℓ]
   exact (genericLocalizationEquiv k).symm.bijective.comp eA.bijective
 
@@ -133,10 +133,10 @@ private theorem projection_stalkMap_isIso (k : Type u) [Field k] :
   have hIJ : p.asIdeal = Ideal.comap (inclusionMap k) J := by simp [p, q, J]
   have hM : p.asIdeal.primeCompl = nonZeroDivisors A := by
     ext a
-    show a ∉ p.asIdeal ↔ a ∈ nonZeroDivisors A
+    change a ∉ p.asIdeal ↔ a ∈ nonZeroDivisors A
     rw [mem_nonZeroDivisors_iff_ne_zero]
-    show inclusionMap k a ∉ projectionKernel k ↔ a ≠ 0
-    show retractionMap k (inclusionMap k a) ≠ 0 ↔ a ≠ 0
+    change inclusionMap k a ∉ projectionKernel k ↔ a ≠ 0
+    change retractionMap k (inclusionMap k a) ≠ 0 ↔ a ≠ 0
     simp [retraction_inclusion]
   have hloc : Function.Bijective (Localization.localRingHom p.asIdeal J
       (inclusionMap k) hIJ) := localRingHom_projection_isIso k p.asIdeal hM hIJ
@@ -176,7 +176,7 @@ private theorem projection_stalkMap_isIso (k : Type u) [Field k] :
       (StructureSheaf.stalkIso (CommRingCat.of (extensionRing k)) q).bijective
   let := hC
   have hstalk := localRingHom_comp_stalkIso f q
-  show IsIso ((Spec.sheafedSpaceMap (CommRingCat.ofHom (inclusionMap k))).hom.stalkMap q)
+  change IsIso ((Spec.sheafedSpaceMap (CommRingCat.ofHom (inclusionMap k))).hom.stalkMap q)
   rw [← hstalk]
   exact IsIso.comp_isIso' hA (IsIso.comp_isIso' hcat hC)
 
@@ -189,7 +189,7 @@ theorem inclusionMap_isBirational (k : Type u) [Field k] :
   let f := Scheme.Spec.map (CommRingCat.ofHom (inclusionMap k)).op
   have : IrreducibleSpace (Spec (.of (extensionRing k))) :=
     (isHomeomorph_comap_inclusionMap (k := k)).homeomorph.irreducibleSpace_iff.mpr inferInstance
-  show Set.BijOn f (genericPoints (Spec (.of (extensionRing k))))
+  change Set.BijOn f (genericPoints (Spec (.of (extensionRing k))))
       (genericPoints (Spec (.of (baseRing k)))) ∧
     ∀ x, x ∈ genericPoints (Spec (.of (extensionRing k))) → IsIso (f.stalkMap x)
   refine ⟨?_, fun x hx ↦ ?_⟩
@@ -223,12 +223,12 @@ theorem retraction_isBirational (k : Type u) [Field k] :
       H (PrimeSpectrum.comap (retractionMap k) p) = p :=
     congrFun hleft
   let : IrreducibleSpace (Spec (.of B)) := H.irreducibleSpace_iff.mpr inferInstance
-  show Set.BijOn f (genericPoints _) (genericPoints _) ∧
+  change Set.BijOn f (genericPoints _) (genericPoints _) ∧
     ∀ x, x ∈ genericPoints _ → IsIso (f.stalkMap x)
   refine ⟨?_, fun x hx ↦ ?_⟩
   · rw [genericPoints_eq_singleton, genericPoints_eq_singleton]
     apply Set.bijOn_singleton.mpr
-    show PrimeSpectrum.comap (retractionMap k) _ = _
+    change PrimeSpectrum.comap (retractionMap k) _ = _
     exact H.injective ((hFH _).trans (homeomorph_genericPoint k).symm)
   · rw [genericPoints_eq_singleton, Set.mem_singleton_iff] at hx
     subst hx
@@ -240,11 +240,11 @@ theorem retraction_isBirational (k : Type u) [Field k] :
     let : Semiring (Localization.AtPrime q.asIdeal) :=
       (inferInstance : CommRing (Localization.AtPrime q.asIdeal)).toSemiring
     have hp : p.asIdeal = ⊥ := by
-      show (genericPoint (Spec (.of A)) : PrimeSpectrum A).asIdeal = ⊥
+      change (genericPoint (Spec (.of A)) : PrimeSpectrum A).asIdeal = ⊥
       rw [genericPoint_eq_bot_of_affine]
       simp
     have hq : q.asIdeal = projectionKernel k := by
-      show Ideal.comap (retractionMap k) p.asIdeal = RingHom.ker (retractionMap k)
+      change Ideal.comap (retractionMap k) p.asIdeal = RingHom.ker (retractionMap k)
       rw [hp]
       ext b
       simp [RingHom.mem_ker]
@@ -274,7 +274,7 @@ theorem retraction_isBirational (k : Type u) [Field k] :
     have hgMap (b : B) :
         g (algebraMap B (Localization.AtPrime q.asIdeal) b) =
           algebraMap A (Localization.AtPrime p.asIdeal) ((retractionMap k) b) := by
-      show Localization.localRingHom q.asIdeal p.asIdeal (retractionMap k) hIJ
+      change Localization.localRingHom q.asIdeal p.asIdeal (retractionMap k) hIJ
         (algebraMap B (Localization.AtPrime q.asIdeal) b) = _
       rw [Localization.localRingHom_to_map]
     have heA (a : A) :
@@ -284,7 +284,7 @@ theorem retraction_isBirational (k : Type u) [Field k] :
     have heB (b : B) :
         eB (algebraMap B (Localization.AtPrime q.asIdeal) b) =
           algebraMap A (FractionRing A) ((retractionMap k) b) := by
-      show genericLocalizationEquiv k
+      change genericLocalizationEquiv k
         (eLoc (algebraMap B (Localization.AtPrime q.asIdeal) b)) = _
       have heLocMap : eLoc (algebraMap B (Localization.AtPrime q.asIdeal) b) =
           algebraMap B (Localization.AtPrime (projectionKernel k)) b := by
@@ -292,7 +292,7 @@ theorem retraction_isBirational (k : Type u) [Field k] :
       rw [heLocMap, genericLocalizationEquiv_map]
     have hmap : eA.toRingHom.comp g = eB.toRingHom := by
       refine IsLocalization.ringHom_ext q.asIdeal.primeCompl (RingHom.ext fun b ↦ ?_)
-      show eA (g (algebraMap B (Localization.AtPrime q.asIdeal) b)) =
+      change eA (g (algebraMap B (Localization.AtPrime q.asIdeal) b)) =
         eB (algebraMap B (Localization.AtPrime q.asIdeal) b)
       rw [hgMap, heA, heB]
     have hg : Function.Bijective g := (Function.Bijective.of_comp_iff' eA.bijective g).mp <| by
@@ -301,11 +301,11 @@ theorem retraction_isBirational (k : Type u) [Field k] :
     -- Transport the localized isomorphism through the canonical stalk isomorphisms.
     let locIso := Scheme.localRingHom_comp_stalkIso
       (CommRingCat.ofHom (retractionMap k)) (genericPoint (Spec (.of A)))
-    show IsIso ((Spec.map (CommRingCat.ofHom (retractionMap k))).stalkMap
+    change IsIso ((Spec.map (CommRingCat.ofHom (retractionMap k))).stalkMap
       (genericPoint (Spec (.of A))))
     rw [← locIso]
     let : IsIso (CommRingCat.ofHom g) := (ConcreteCategory.isIso_iff_bijective _).2 hg
-    show IsIso ((Spec.stalkIso (CommRingCat.of B) q).hom ≫
+    change IsIso ((Spec.stalkIso (CommRingCat.of B) q).hom ≫
       CommRingCat.ofHom g ≫ (Spec.stalkIso (CommRingCat.of A) p).inv)
     infer_instance
 

@@ -392,7 +392,7 @@ theorem exists_descent_of_isEffective {S X : Scheme.{u}} {g : X ⟶ S} (D : Desc
     intro Z k hk
     refine ⟨Over.homMk (k ≫ (pullbackSymmetry g W.hom).hom ≫ ι.inv.left) ?_,
       Over.homMk (k ≫ pullback.fst g W.hom) ?_, rfl, rfl⟩
-    · show (k ≫ (pullbackSymmetry g W.hom).hom ≫ ι.inv.left) ≫
+    · change (k ≫ (pullbackSymmetry g W.hom).hom ≫ ι.inv.left) ≫
         (DescentDatum.over ((canonicalFunctor g).obj W)).hom ≫ g = Z.hom
       rw [Category.assoc, Category.assoc, ← Category.assoc ι.inv.left, hιw,
         ← Category.assoc (pullbackSymmetry g W.hom).hom, hsym1]
@@ -414,7 +414,7 @@ theorem exists_descent_of_isEffective {S X : Scheme.{u}} {g : X ⟶ S} (D : Desc
         pullback.fst g W.hom ≫ g =
         (Over.mk (pullback.fst (pullback.snd g W.hom) (pullback.snd g W.hom) ≫
           pullback.fst g W.hom ≫ g)).hom := by
-      show _ = pullback.fst (pullback.snd g W.hom) (pullback.snd g W.hom) ≫
+      change _ = pullback.fst (pullback.snd g W.hom) (pullback.snd g W.hom) ≫
         pullback.fst g W.hom ≫ g
       rw [hcond, ← Category.assoc, ← Category.assoc, hκ]
     obtain ⟨v₁, x₁, hv₁, hx₁⟩ := hpt (Over.mk (pullback.fst (pullback.snd g W.hom)

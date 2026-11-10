@@ -196,7 +196,7 @@ theorem homotopyHomEquiv_naturality {L L' : ModuleCat.{u} A} (g : L ⟶ L')
           (homotopyHomEquiv M a b hM E L x) := by
   obtain ⟨y, rfl⟩ := (Stacks.HomComplex.homologyZeroHomotopyHomEquiv A M _).surjective x
   rw [← Stacks.HomComplex.homologyZeroHomotopyHomEquiv_naturality]
-  show (homologyHomComplexIso M a b hM E L').hom.hom
+  change (homologyHomComplexIso M a b hM E L').hom.hom
       ((Stacks.HomComplex.homologyZeroHomotopyHomEquiv A M _).symm
         ((Stacks.HomComplex.homologyZeroHomotopyHomEquiv A M _)
           ((HomologicalComplex.homologyMap (postcomp A M _ _ ((NatTrans.mapHomologicalComplex

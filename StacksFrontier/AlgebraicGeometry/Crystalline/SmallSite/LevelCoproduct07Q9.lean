@@ -231,7 +231,7 @@ theorem wholeHomEquiv_comp (C : WholeSpaceThickening S)
     wholeHomEquiv hp C L'
         (k ≫ (wholeι S).map ((wholeSiteEquivLittleAffine hp).inverse.map φ).unop) =
       φ ≫ wholeHomEquiv hp C L k := by
-  show (wholeSiteEquivLittleAffine hp).symm.toAdjunction.homEquiv L' (op C)
+  change (wholeSiteEquivLittleAffine hp).symm.toAdjunction.homEquiv L' (op C)
       (((wholeSiteEquivLittleAffine hp).inverse.map φ) ≫ ((fullyFaithfulWholeι S).preimage k).op) =
     φ ≫ (wholeSiteEquivLittleAffine hp).symm.toAdjunction.homEquiv L (op C)
       ((fullyFaithfulWholeι S).preimage k).op

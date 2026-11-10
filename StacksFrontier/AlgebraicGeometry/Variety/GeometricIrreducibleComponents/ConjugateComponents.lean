@@ -215,7 +215,7 @@ public theorem exists_algEquiv_image_baseChangeComparison_eq
   refine exists_algEquiv_image_eq_of_irreducibleComponentsBaseChangeMap_eq
     k ↥(separableClosure k K) X
     ⟨_, hbij.mapsTo Z.2⟩ ⟨_, hbij.mapsTo W.2⟩ (Subtype.ext ?_)
-  show (pullback.fst X.hom (Spec.map (ofHom (algebraMap k ↥(separableClosure k K))))).base ''
+  change (pullback.fst X.hom (Spec.map (ofHom (algebraMap k ↥(separableClosure k K))))).base ''
       ((baseChangeComparison k ↥(separableClosure k K) K X.left X.hom).base '' Z.1) =
     (pullback.fst X.hom (Spec.map (ofHom (algebraMap k ↥(separableClosure k K))))).base ''
       ((baseChangeComparison k ↥(separableClosure k K) K X.left X.hom).base '' W.1)

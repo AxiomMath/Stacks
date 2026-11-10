@@ -107,7 +107,7 @@ theorem squareIso_cube {P' U' V' W' Pb U V W : AlgebraicSpaces B S hS}
   let Ψiso := (smallEtaleDerivedModulePullback B S hS snd').mapIso
       ((P.iso pV etale e hV.symm).app F) ≪≫ (P.iso snd' e T hT).app F
   refine (Iso.cancel_iso_hom_right _ _ Ψiso).1 ?_
-  show _ ≫ Ψ = _ ≫ Ψ
+  change _ ≫ Ψ = _ ≫ Ψ
   have hR₁ : (smallEtaleDerivedModulePullback B S hS snd').map
         ((P.squareIso etale' p pV etale hV).inv.app F) ≫ Ψ =
       (P.iso snd' etale' (snd' ≫ etale') rfl).hom.app

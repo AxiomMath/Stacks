@@ -61,7 +61,8 @@ add_to_stacks 016E CategoryTheory.Arrow.cechNerve
 /-! ### Tags 0198 019G
 
 For a simplicial object `U` of an abelian category `A`, the canonical maps `N(U_n) → U_n` give a
-morphism of complexes `N(U) → s(U)` (Tag 0198): Mathlib's `AlgebraicTopology.inclusionOfMooreComplexMap`,
+morphism of complexes `N(U) → s(U)` (Tag 0198): Mathlib's
+`AlgebraicTopology.inclusionOfMooreComplexMap`,
 whose components are the subobject inclusions. The normalized complex functor is an equivalence
 (Tag 019G): Mathlib's Dold–Kan equivalence `CategoryTheory.Abelian.DoldKan.equivalence`, whose
 functor is `CategoryTheory.Abelian.DoldKan.N = AlgebraicTopology.normalizedMooreComplex A`.

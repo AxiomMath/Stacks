@@ -86,7 +86,7 @@ private lemma geometricallyRegularAt_of_openImmersion_of_mem {k : Type u} [Field
     infer_instance
   let : IsRegularLocalRing ((pullback (j ≫ f) g).presheaf.stalk z') := by
     simpa [g] using h K z' hz
-  show IsRegularLocalRing ((pullback f g).presheaf.stalk w)
+  change IsRegularLocalRing ((pullback f g).presheaf.stalk w)
   rw [← hz']
   exact IsRegularLocalRing.of_ringEquiv
     ((asIso (q.stalkMap z')).commRingCatIsoToRingEquiv).symm
@@ -179,11 +179,11 @@ private lemma geometricallyRegular_resLE_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
       f (Y.fromSpecResidueField (V.ι yV)) U.ι i₂ V.ι
       (by simp [g, Scheme.Hom.resLE_comp_ι f hUV])
       (by
-        show V.toScheme.fromSpecResidueField yV ≫ V.ι =
+        change V.toScheme.fromSpecResidueField yV ≫ V.ι =
           Spec.map α ≫ Y.fromSpecResidueField (V.ι yV)
         exact (V.ι.SpecMap_residueFieldMap_fromSpecResidueField yV).symm)
   have hqcomm : q ≫ Fmap = g.fiberToSpecResidueField yV ≫ i₂ := by
-    show pullback.lift _ _ _ ≫ pullback.snd _ _ = _
+    change pullback.lift _ _ _ ≫ pullback.snd _ _ = _
     exact pullback.lift_snd _ _ _
   have hqopen : IsOpenImmersion q := by
     let : IsOpenImmersion i₂ := IsOpenImmersion.of_isIso i₂
@@ -198,7 +198,7 @@ private lemma geometricallyRegular_resLE_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
     dsimp [q']
     infer_instance
   let : IsLocallyNoetherian F := by
-    show IsLocallyNoetherian (f.fiber (V.ι yV))
+    change IsLocallyNoetherian (f.fiber (V.ι yV))
     rw [hyV]
     exact hnoeth
   have hbase := @geometricallyRegular_baseChange_iff k k'
@@ -206,7 +206,7 @@ private lemma geometricallyRegular_resLE_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
     (V.toScheme.instFieldCarrierResidueField yV) (inferInstance) (inferInstance)
     F (inferInstance) Fmap
   have hgeo0 : IsGeometricallyRegular Fmap := by
-    show IsGeometricallyRegular (f.fiberToSpecResidueField (V.ι yV))
+    change IsGeometricallyRegular (f.fiberToSpecResidueField (V.ι yV))
     rw [hyV]
     exact hgeo
   have hgeo' : @IsGeometricallyRegular (k'Cat : Type u)
@@ -254,7 +254,7 @@ private lemma regularAt_resLE {X Y : Scheme.{u}} (f : X ⟶ Y)
         f (Y.fromSpecResidueField (V.ι yV)) U.ι i₂ V.ι
         (by simp [g, Scheme.Hom.resLE_comp_ι f hUV])
         (by
-          show V.toScheme.fromSpecResidueField yV ≫ V.ι =
+          change V.toScheme.fromSpecResidueField yV ≫ V.ι =
             Spec.map α ≫ Y.fromSpecResidueField (V.ι yV)
           exact (V.ι.SpecMap_residueFieldMap_fromSpecResidueField yV).symm)
     let zG : g.fiber yV := g.asFiber zU
@@ -271,7 +271,7 @@ private lemma regularAt_resLE {X Y : Scheme.{u}} (f : X ⟶ Y)
       change f.fiberι (V.ι yV) (q zG) = U.ι
         (pullback.fst g (V.toScheme.fromSpecResidueField yV) zG) at hp
       have hzU : pullback.fst g (V.toScheme.fromSpecResidueField yV) zG = zU := by
-        show g.fiberι yV (g.asFiber zU) = zU
+        change g.fiberι yV (g.asFiber zU) = zU
         simp [yV, g.fiberι_asFiber zU]
       rw [hzU] at hp
       have hι : f.fiberι (V.ι yV) zF = x := by
@@ -300,7 +300,7 @@ private lemma regularAt_resLE {X Y : Scheme.{u}} (f : X ⟶ Y)
     have hfst : pullback.fst Fmap i₂ (q' zG) = zF :=
       (congr($(show q' ≫ p₁ = q by simp [q']) zG)).trans hqpoint
     have : IsLocallyNoetherian F := by
-      show IsLocallyNoetherian (f.fiber (V.ι yV))
+      change IsLocallyNoetherian (f.fiber (V.ι yV))
       rw [hyV]
       exact hnoeth
     let fldBase : Field k := Y.instFieldCarrierResidueField (V.ι yV)
@@ -318,12 +318,12 @@ private lemma regularAt_resLE {X Y : Scheme.{u}} (f : X ⟶ Y)
         (Y.instFieldCarrierResidueField s.1) (f.fiber s.1)
         (f.fiberToSpecResidueField s.1) ((f.fiberHomeo s.1).symm ⟨x, s.2⟩)
     have hgeoP : P ⟨V.ι yV, hyV.symm⟩ := by
-      show @IsGeometricallyRegularAt (Y.residueField (V.ι yV) : Type u)
+      change @IsGeometricallyRegularAt (Y.residueField (V.ι yV) : Type u)
         (Y.instFieldCarrierResidueField (V.ι yV)) F Fmap zF
       simpa [k, kCat, F, Fmap, P, zF, Scheme.residueField] using hgeoF
     have hp : (⟨V.ι yV, hyV.symm⟩ : {y : Y // f x = y}) = ⟨f x, rfl⟩ := Subtype.ext hyV
     have hgeoP' : P ⟨f x, rfl⟩ := hp ▸ hgeoP
-    show @IsGeometricallyRegularAt (Y.residueField (f x) : Type u)
+    change @IsGeometricallyRegularAt (Y.residueField (f x) : Type u)
       (Y.instFieldCarrierResidueField (f x)) (f.fiber (f x))
       (f.fiberToSpecResidueField (f x)) (f.asFiber x)
     simpa [P, Scheme.Hom.asFiber, Scheme.residueField] using hgeoP'
@@ -489,14 +489,14 @@ private lemma geometricallyRegular_affineFiber_to_algebra
     intro z
     let zF : f.fiber y := (asIso j).inv z
     have hz : j zF = z := by
-      show ((asIso j).inv ≫ (asIso j).hom) z = z
+      change ((asIso j).inv ≫ (asIso j).hom) z = z
       exact congrArg (fun q => q z) (asIso j).inv_hom_id
     have hzgeo := geometricallyRegularAt_of_openImmersion_of_mem
       ringMap j zF (hgeoComp zF)
     simpa [hz] using hzgeo
   have hnoethA : IsNoetherianRing A := by
     let : IsLocallyNoetherian ((Arrow.mk (f.fiberToSpecResidueField y)).left) := by
-      show IsLocallyNoetherian (f.fiber y)
+      change IsLocallyNoetherian (f.fiber y)
       exact hnoeth
     let : IsIso j := inferInstance
     let jIso := asIso j
@@ -639,7 +639,7 @@ public theorem Scheme.Hom.regular_tfae {X Y : Scheme.{u}} (f : X ⟶ Y)
         let y : V.toScheme := V.toScheme.isoSpec.inv z
         have hpEq : (V.toScheme.isoSpec.hom y).asIdeal = p := by
           have hz : V.toScheme.isoSpec.hom y = z := by
-            show (V.toScheme.isoSpec.inv ≫ V.toScheme.isoSpec.hom) z = z
+            change (V.toScheme.isoSpec.inv ≫ V.toScheme.isoSpec.hom) z = z
             exact congrArg (fun q : Spec (.of R) ⟶ Spec (.of R) => q z)
               V.toScheme.isoSpec.inv_hom_id
           simpa [z] using congrArg PrimeSpectrum.asIdeal hz
@@ -663,7 +663,7 @@ public theorem Scheme.Hom.regular_tfae {X Y : Scheme.{u}} (f : X ⟶ Y)
     · apply Opens.ext
       ext x
       simp only [Opens.coe_iSup, Set.mem_iUnion, U]
-      show (∃ i, ∃ z, (c.f i ≫ W.ι) z = x) ↔ x ∈ W
+      change (∃ i, ∃ z, (c.f i ≫ W.ι) z = x) ↔ x ∈ W
       refine ⟨fun ⟨i, z, hz⟩ => hz ▸ (c.f i z).property, fun hx => ?_⟩
       obtain ⟨i, z, hz⟩ := c.exists_eq (⟨x, hx⟩ : W.toScheme)
       exact ⟨i, z, congrArg W.ι hz⟩

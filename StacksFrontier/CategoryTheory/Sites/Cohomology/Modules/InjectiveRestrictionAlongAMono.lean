@@ -72,7 +72,7 @@ private lemma mono_sectionsCorepresentingMap {U' U : C} (a : U' ⟶ U) [Mono a] 
   have hfree : Mono ((PresheafOfModules.free R.obj).map (yoneda.map a)) := by
     apply PresheafOfModules.mono_of_injective
     intro V
-    show Function.Injective
+    change Function.Injective
       ((ModuleCat.free (R.obj.obj V)).map ((yoneda.map a).app V))
     intro x y hxy
     apply Finsupp.mapDomain_injective (f := fun f : V.unop ⟶ U' => f ≫ a)
@@ -107,7 +107,7 @@ private lemma sectionsCorepresentingHomEquiv_restrict {R : Sheaf J RingCat.{u}} 
   let adj := PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)
   let M := (PresheafOfModules.restrictScalars (𝟙 R.obj)).obj
     ((SheafOfModules.forget R).obj I)
-  show (M.presheaf ⋙ forget AddCommGrpCat).map a.op
+  change (M.presheaf ⋙ forget AddCommGrpCat).map a.op
       (yonedaEquiv (PresheafOfModules.freeHomEquiv (adj.homEquiv _ _ f))) =
     yonedaEquiv (PresheafOfModules.freeHomEquiv
       (adj.homEquiv _ _ (sectionsCorepresentingMap R a ≫ f)))

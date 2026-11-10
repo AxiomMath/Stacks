@@ -105,7 +105,7 @@ private theorem zeroLocus_vanishNearZeroLift_not_isOpen :
       PrimeSpectrum.zeroLocus
         (Stacks.FiniteFlatNotProjective.vanishNearZero : Set
           Stacks.FiniteFlatNotProjective.SmoothFunReal) := by
-    show PrimeSpectrum.comap e.symm.toRingHom '' _ = _
+    change PrimeSpectrum.comap e.symm.toRingHom '' _ = _
     rw [image_comap_zeroLocus_eq_zeroLocus_comap _ e.symm.toRingHom e.symm.surjective
       vanishNearZeroLift]
     congr 1
@@ -126,7 +126,7 @@ theorem exists_flat_closedImmersion_not_isOpenMap :
   refine ⟨Spec (.of (R ⧸ I)), Spec (.of R), Spec.map q, ?_, ?_, ?_⟩
   · exact AlgebraicGeometry.IsClosedImmersion.spec_of_surjective q Ideal.Quotient.mk_surjective
   · rw [AlgebraicGeometry.Flat.SpecMap_iff]
-    show (algebraMap R (R ⧸ I)).Flat
+    change (algebraMap R (R ⧸ I)).Flat
     exact RingHom.flat_algebraMap_iff.mpr vanishNearZeroLift_pure
   · intro hopen
     have hopenV : IsOpen (PrimeSpectrum.zeroLocus (I : Set R)) := by

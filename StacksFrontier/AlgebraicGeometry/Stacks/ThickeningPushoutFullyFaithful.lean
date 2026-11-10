@@ -97,11 +97,11 @@ theorem existsUnique_section_over {U : BigFppfOver B S hS} (H : (Over U)ᵒᵖ �
     have hu : g ≫ (unit Z₂).hom = (unit Z₁).hom ≫
         (Over.iteratedSliceBackward U).map (Φ.map g) :=
       ((Over.iteratedSliceEquiv U).unitIso.hom.naturality g).symm
-    show H.map (unit Z₁).hom.op (e.hom.app (op (Φ.obj Z₁))
+    change H.map (unit Z₁).hom.op (e.hom.app (op (Φ.obj Z₁))
         ((F ⋙ uliftFunctor.{v, u}).map (Φ.map g).op (ULift.up s))).down
       = H.map g.op (H.map (unit Z₂).hom.op (e.hom.app (op (Φ.obj Z₂)) (ULift.up s)).down)
     refine (congrArg (fun t => H.map (unit Z₁).hom.op (ULift.down t)) hn).trans ?_
-    show H.map (unit Z₁).hom.op (H.map ((Over.iteratedSliceBackward U).map (Φ.map g)).op
+    change H.map (unit Z₁).hom.op (H.map ((Over.iteratedSliceBackward U).map (Φ.map g)).op
         (e.hom.app (op (Φ.obj Z₂)) (ULift.up s)).down)
       = H.map g.op (H.map (unit Z₂).hom.op (e.hom.app (op (Φ.obj Z₂)) (ULift.up s)).down)
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, hu]
@@ -253,7 +253,7 @@ lemma fiberSquareComparison_iso_fac (y : p.Fiber Y') :
       Fiber.fiberInclusion.map E ≫ Fiber.fiberInclusion.map C :=
     (Fiber.fiberInclusion.map_comp A (E ≫ C)).trans
       (congrArg (Fiber.fiberInclusion.map A ≫ ·) (Fiber.fiberInclusion.map_comp E C))
-  show Fiber.fiberInclusion.map (A ≫ E ≫ C) ≫ c.map i (c.obj a y) ≫ c.map a y =
+  change Fiber.fiberInclusion.map (A ≫ E ≫ C) ≫ c.map i (c.obj a y) ≫ c.map a y =
     c.map f (c.obj b y) ≫ c.map b y
   calc Fiber.fiberInclusion.map (A ≫ E ≫ C) ≫ c.map i (c.obj a y) ≫ c.map a y
       = Fiber.fiberInclusion.map A ≫ Fiber.fiberInclusion.map E ≫
@@ -309,7 +309,7 @@ lemma morRestrict_snd_eq_morRestrict_fst {y₁ y₂ : p.Fiber Y'}
       c.map f (c.obj b y₁) ≫ ι.map α := c.homMap_fac f α
   have hfac₂ : ι.map (c.homMap i β) ≫ c.map i (c.obj a y₂) =
       c.map i (c.obj a y₁) ≫ ι.map β := c.homMap_fac i β
-  show (ι.map (c.objCompIso i a y₁).hom ≫ c.map i (c.obj a y₁)) ≫ ι.map β ≫
+  change (ι.map (c.objCompIso i a y₁).hom ≫ c.map i (c.obj a y₁)) ≫ ι.map β ≫
       IsPreFibered.pullbackMap y₂.2 a =
     (ι.map θ ≫ c.map f (c.obj b y₁)) ≫ ι.map α ≫ IsPreFibered.pullbackMap y₂.2 b
   calc (ι.map (c.objCompIso i a y₁).hom ≫ c.map i (c.obj a y₁)) ≫ ι.map β ≫
@@ -400,9 +400,9 @@ theorem fiberSquareComparison_full_and_faithful
     have hφ : toSec φ = s := Subtype.ext (idSection_surjective p s.1)
     refine ⟨φ, ?_⟩
     apply CategoricalPullback.hom_ext
-    · show c.homMap b φ = ψ.fst
+    · change c.homMap b φ = ψ.fst
       rw [← resB, hφ, hs₂]
-    · show c.homMap a φ = ψ.snd
+    · change c.homMap a φ = ψ.snd
       rw [← resA, hφ, hs₁]
   · have h₁ : c.homMap b φ₁ = c.homMap b φ₂ := congrArg CategoricalPullback.Hom.fst hφ
     have h₂ : c.homMap a φ₁ = c.homMap a φ₂ := congrArg CategoricalPullback.Hom.snd hφ

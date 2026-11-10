@@ -72,7 +72,7 @@ public theorem exists_span_range_comap_ideal_top {X : Scheme.{u}} (I : X.IdealSh
       (I.comap U.1.ι).ideal ⟨⊤, isAffineOpen_top _⟩ = Ideal.span (Set.range g) := by
   let : IsAffine (U.1 : Scheme.{u}) := U.2
   have hA : Γ((U.1 : Scheme.{u}), ⊤) = Γ(X, U.1) := by
-    show Γ(X, (Scheme.Hom.opensFunctor U.1.ι).obj ⊤) = Γ(X, U.1)
+    change Γ(X, (Scheme.Hom.opensFunctor U.1.ι).obj ⊤) = Γ(X, U.1)
     rw [Scheme.Opens.ι_image_top]
   exact Stacks.Divisors.spanRange_heq hA.symm (Stacks.Divisors.ideal_comap_top_heq I U).symm h
 
@@ -207,7 +207,7 @@ public theorem isLocalGeneratorAlmostBlowUpSheaf_of_isAffineGenerator (r : ℕ)
       using U.mem₀), fun i => ?_⟩
   set x : (BigHOver.toScheme B S hS).obj W := Equiv.ulift.{u + 1, u} i
   have : IsAffine ((BigHOver.toScheme B S hS).obj ((preZeroHypercoverOfOpenCover U).X i)) := by
-    show IsAffine ((Uo x).1 : Scheme.{u})
+    change IsAffine ((Uo x).1 : Scheme.{u})
     exact (Uo x).2
   set h : (preZeroHypercoverOfOpenCover U).X i ⟶ X :=
     (preZeroHypercoverOfOpenCover U).f i ≫ w with hh

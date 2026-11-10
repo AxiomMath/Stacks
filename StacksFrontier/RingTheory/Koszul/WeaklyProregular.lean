@@ -190,7 +190,7 @@ theorem powAugmentationZero_gradedDifferential (f : Fin r → R) (n : ℕ)
     have h := coe_d_zero (fun i => f i ^ n) (⟨x.val, hy⟩ : ⋀[R]^1 (Fin r → R))
     rw [d_apply_coe] at h
     exact h
-  show (powIdeal f n).mkQ (gradeZeroEquiv f n _) = 0
+  change (powIdeal f n).mkQ (gradeZeroEquiv f n _) = 0
   rw [gradeZeroEquiv_eq_of_coe f n hz, Submodule.mkQ_apply,
     Submodule.Quotient.mk_eq_zero]
   exact seqDual_mem_powIdeal f n _
@@ -319,7 +319,7 @@ theorem gradeZeroEquiv_mem_powIdeal_of_augmentation (f : Fin r → R) (n : ℕ)
     (hx : ((powAugmentation f n).f 0).hom x = 0) :
     gradeZeroEquiv f n x ∈ powIdeal f n := by
   have hx' : powAugmentationZero f n x = 0 := by
-    show (ModuleCat.ofHom (powAugmentationZero f n)).hom x = 0
+    change (ModuleCat.ofHom (powAugmentationZero f n)).hom x = 0
     rw [← powAugmentation_f_zero_comp f n, ModuleCat.hom_comp, LinearMap.comp_apply, hx]
     exact map_zero _
   rw [← Submodule.Quotient.mk_eq_zero]
@@ -339,10 +339,10 @@ theorem quasiIsoAt_powAugmentation (f : Fin r → R) (n : ℕ) :
     have hmem := gradeZeroEquiv_mem_powIdeal_of_augmentation f n x hx
     obtain ⟨y, hy⟩ := exists_gradedDifferential_eq f n x hmem
     refine ⟨y, ?_⟩
-    show (ModuleCat.Hom.hom ((regularModule (powAlgebra f n)).toCochainComplex.d (-1) 0)) y = x
+    change (ModuleCat.Hom.hom ((regularModule (powAlgebra f n)).toCochainComplex.d (-1) 0)) y = x
     rw [powCochain_d_neg_one]
     exact hy
-  · show Epi ((powAugmentation f n).f 0)
+  · change Epi ((powAugmentation f n).f 0)
     rw [powAugmentation_f_zero]
     exact @epi_comp _ _ _ _ _ _
       ((ModuleCat.epi_iff_surjective _).2 (surjective_powAugmentationZero f n)) _ inferInstance

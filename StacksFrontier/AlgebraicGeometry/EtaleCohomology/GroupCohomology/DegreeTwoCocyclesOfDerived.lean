@@ -51,6 +51,7 @@ abbrev homAdd {X Y : ContinuousGModule.{u, max u v} G} (f : X ⟶ Y) :
     X.obj.obj.V →+ Y.obj.obj.V :=
   (f.hom.hom.hom.hom : X.obj.obj.V →ₗ[ℤ] Y.obj.obj.V).toAddMonoidHom
 
+omit [IsTopologicalGroup G] in
 /-- The underlying additive map of a morphism of discrete `G`-modules is `G`-equivariant. -/
 lemma homAdd_smul {X Y : ContinuousGModule.{u, max u v} G} (f : X ⟶ Y) (g : G)
     (x : X.obj.obj.V) :
@@ -59,6 +60,7 @@ lemma homAdd_smul {X Y : ContinuousGModule.{u, max u v} G} (f : X ⟶ Y) (g : G)
     homAdd f (g • x) = g • homAdd f x :=
   ConcreteCategory.congr_hom (f.hom.hom.comm g) x
 
+omit [IsTopologicalGroup G] in
 /-- The underlying maps of a short exact sequence of discrete `G`-modules form a short exact
 sequence of abelian groups. -/
 lemma shortExact_underlying {S : ShortComplex (ContinuousGModule.{u, max u v} G)}
@@ -154,12 +156,12 @@ theorem vanishesOne_of_isZero_continuousGroupCohomology_one (N : ContinuousGModu
     VanishesOne G N.obj.obj.V := by
   let S := coinducedSeq N
   have hS : S.ShortExact := shortExact_coinducedSeq N
-  obtain ⟨hi, hp, hpi, hex⟩ := shortExact_underlying hS
+  obtain ⟨hi, -, hpi, hex⟩ := shortExact_underlying hS
   let := carrierAction S.X₁
   let := carrierAction S.X₂
   let := carrierAction S.X₃
   exact vanishesOne_of_exists_invariant_lift (homAdd S.f) (homAdd S.g) (homAdd_smul S.f)
-    (homAdd_smul S.g) hi hp hpi hex (vanishesOne_locallyConstantGModule _)
+    (homAdd_smul S.g) hi hpi hex (vanishesOne_locallyConstantGModule _)
     (fun y hy ↦ exists_invariant_lift_of_isZero_continuousGroupCohomology_one hS h y hy)
 
 /-- **`H ²(G, M) = 0` gives the vanishing of locally constant `2`-cocycles**: for a profinite

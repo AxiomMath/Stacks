@@ -97,7 +97,7 @@ theorem isFlatOver_of_exactFunctor_of_isIso_whiskerLeft (R : Type u) [CommRing R
   set w := hpb.isoPullback.inv z with hw
   have hqw : q w = x := by
     rw [← hz, hw, hq]
-    show (hpb.isoPullback.inv ≫ _) z = _
+    change (hpb.isoPullback.inv ≫ _) z = _
     rw [hpb.isoPullback_inv_fst]
     rfl
   rw [← hqw]

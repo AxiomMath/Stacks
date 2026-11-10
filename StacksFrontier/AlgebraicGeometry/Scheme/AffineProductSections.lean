@@ -222,7 +222,7 @@ theorem prodSectionsEquiv_tmul (H : IsPullback p q f g) {U : X.Opens} {V : Y.Ope
   have := isScalarTower_fst (f := f) p q U V
   have := isScalarTower_snd p q H U V
   have := algebraIsPushout H hU hV
-  show Algebra.IsPushout.equiv R Γ(X, U) Γ(Y, V) _ (a ⊗ₜ b) = _
+  change Algebra.IsPushout.equiv R Γ(X, U) Γ(Y, V) _ (a ⊗ₜ b) = _
   rw [Algebra.IsPushout.equiv_tmul]
   rfl
 

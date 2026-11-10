@@ -31,7 +31,7 @@ a bijection.
   homomorphism satisfying the equation defining a specialization map against a base `g : T ⟶ S`
   is injective when base change along `X_{s̄'} ⟶ X_T` is essentially surjective.
 * `AlgebraicGeometry.injective_specializationMap_of_essSurj` — the same for the base
-  `Spec A ⟶ S` of a strict henselization of `𝒪_{S,s}`, in the shape in which the construction of
+  `Spec A ⟶ S` of a local `𝒪_{S,s}`-algebra `A`, in the shape in which the construction of
   the specialization map presents its data.
 * `AlgebraicGeometry.bijective_specializationMap_of_essSurj_of_flat` — bijectivity, combining
   the above with surjectivity for a flat proper morphism with a geometrically reduced fibre.
@@ -46,9 +46,8 @@ shape in which `AlgebraicGeometry.surjective_specializationMap_of_isProper_of_fl
 surjectivity, and the two combine directly.
 
 Neither the strict henselization hypothesis nor the requirement that `s̄` land on the closed point
-is used for injectivity: all that the argument needs of the base is that `X_T` be connected. They
-appear in `AlgebraicGeometry.injective_specializationMap_of_essSurj` only to fix the shape of the
-statement.
+is used for injectivity: all that the argument needs of the base is that `X_T` be connected, so
+`AlgebraicGeometry.injective_specializationMap_of_essSurj` does not assume them.
 -/
 
 @[expose] public noncomputable section
@@ -143,11 +142,11 @@ theorem injective_of_essSurj_of_specializationMapEquation {X S : Scheme.{u}} (f 
     ((etaleFundamentalGroupMulEquiv t).injective ?_)
   rw [← hform γ₁, ← hform γ₂, hγ]
 
-/-- **Injectivity of a specialization map presented by a strict henselization.** Let
+/-- **Injectivity of a specialization map presented by a local algebra.** Let
 `f : X ⟶ S` be proper with geometrically connected fibres and let `s' ⇝ s` be a specialization of
-points of `S`, realized as in the construction of the specialization map: `A` is a strict
-henselization of `𝒪_{S,s}` relative to a separable closure of `κ(s)`, and the two geometric
-points are factored through `Spec A`, the special one over the closed point. Let
+points of `S`, realized as in the construction of the specialization map: `A` is a local
+`𝒪_{S,s}`-algebra (in the construction, a strict henselization of `𝒪_{S,s}`), and the two
+geometric points are factored through `Spec A`. Let
 
 ```
 sp : π₁(X_{s̄'}) ⟶ π₁(X_{s̄})
@@ -161,23 +160,17 @@ This is the reduction by which injectivity of a specialization map is proved: it
 produce, for each finite étale cover of the geometric generic fibre, a finite étale cover of `X_A`
 restricting to it.
 
-The hypotheses `hA` and `hclosed` are not used: all the argument needs of the base is that `X_A`
-be connected, which follows from properness and local-ringness of `A` alone. They are present so
-that the statement is the one made by the construction of the specialization map, matching
-`AlgebraicGeometry.surjective_specializationMap_of_isProper_of_flat`. -/
+The argument needs nothing of the base beyond `X_A` being connected, which follows from
+properness and local-ringness of `A` alone; in particular `A` need not be a strict henselization
+and `s̄` need not land on the closed point. -/
 theorem injective_specializationMap_of_essSurj {X S : Scheme.{u}} (f : X ⟶ S)
     [IsProper f] [GeometricallyConnected f] (s' s : GeometricPoint S)
     (A : Type u) [CommRing A] [IsLocalRing A]
     [Algebra (S.presheaf.stalk (s.hom (closedPoint s.residueField))) A]
-    (hA : Stacks.StrictHenselization.IsStrictHenselization
-      (S.presheaf.stalk (s.hom (closedPoint s.residueField)))
-      (SeparableClosure
-        (maximalIdeal (S.presheaf.stalk (s.hom (closedPoint s.residueField)))).ResidueField) A)
     (p' : s'.source ⟶ Spec (.of A))
     (hp' : p' ≫ specStalkAlgebraHom S (s.hom (closedPoint s.residueField)) A = s'.hom)
     (p : s.source ⟶ Spec (.of A))
     (hp : p ≫ specStalkAlgebraHom S (s.hom (closedPoint s.residueField)) A = s.hom)
-    (hclosed : p (closedPoint s.residueField) = closedPoint A)
     (x' : GeometricPoint (fiberOverGeometricPoint f s'))
     (x : GeometricPoint (fiberOverGeometricPoint f s))
     (sp : EtaleFundamentalGroup (fiberOverGeometricPoint f s') x' →ₜ*
@@ -241,7 +234,7 @@ theorem bijective_specializationMap_of_essSurj_of_flat {X S : Scheme.{u}} (f : X
             (etaleFundamentalGroupMap (fiberOverGeometricPointMap f s' _ p' hp') x' γ)) →
         Function.Bijective sp := by
   intro t hform
-  exact ⟨injective_specializationMap_of_essSurj f s' s A hA p' hp' p hp hclosed x' x sp hess
+  exact ⟨injective_specializationMap_of_essSurj f s' s A p' hp' p hp x' x sp hess
       t hform,
     surjective_specializationMap_of_isProper_of_flat f s' s hred A hA p' hp' p hp hclosed x' x sp
       t hform⟩

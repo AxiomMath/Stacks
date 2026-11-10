@@ -131,7 +131,7 @@ theorem reindexHom_id_left {Y Z : Scheme.{u}} {g h : Y ⟶ Z} {F : Z.Modules}
     refine (Iso.comp_inv_eq (Eh.app F)).mpr ?_
     calc Ih.hom = Ch.hom.app F ≫ Ch.inv.app F ≫ Ih.hom := by simp
       _ = Ch.hom.app F ≫ Eh.hom.app F := by rw [ph']
-  show Cg.inv.app F ≫ (Scheme.Modules.pullback (𝟙 Y)).map α ≫ Ch.hom.app F =
+  change Cg.inv.app F ≫ (Scheme.Modules.pullback (𝟙 Y)).map α ≫ Ch.hom.app F =
     Eg.hom.app F ≫ α ≫ (Eh.app F).inv
   rw [← hg, ← hh]
   simp only [Category.assoc]
@@ -216,7 +216,7 @@ theorem reindexHom_identity (G : GroupoidScheme S) {F : G.objects.left.Modules}
   have h' : B.hom.app F ≫ reindexHom G.identity.left α ≫ D.hom.app F = 𝟙 _ := by
     simpa [B, D] using congrArg (fun z ↦ (Scheme.Modules.pullbackId G.objects.left).hom.app F ≫
       z ≫ (Scheme.Modules.pullbackId G.objects.left).inv.app F) h
-  show reindexHom G.identity.left α = B.inv.app F ≫ D.inv.app F
+  change reindexHom G.identity.left α = B.inv.app F ≫ D.inv.app F
   calc reindexHom G.identity.left α
       = B.inv.app F ≫ (B.hom.app F ≫ reindexHom G.identity.left α ≫ D.hom.app F) ≫
         D.inv.app F := by simp

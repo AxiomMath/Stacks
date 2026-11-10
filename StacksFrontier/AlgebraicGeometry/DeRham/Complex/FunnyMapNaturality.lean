@@ -117,14 +117,14 @@ theorem funnyMap_naturality
         intro x y; simp only [map_add]; abel
       map_smul' := by
         intro a x
-        show r₂₀ (l (a • x)) - k (r₁ (a • x)) =
+        change r₂₀ (l (a • x)) - k (r₁ (a • x)) =
           (algebraMap R₁ R₂ a) • (r₂₀ (l x) - k (r₁ (x)))
         rw [map_smulₛₗ, LinearMap.map_smul_of_tower, LinearMap.map_smul,
           map_smulₛₗ, smul_sub] }
   have h₁ (x : K₁) : r₁ (i₁ x) = x := LinearMap.congr_fun hr₁ x
   have h₂ (y : K₂) : r₂₀ (i₂ y) = y := LinearMap.congr_fun hr₂₀ y
   have hqi (x : K₁) : q (i₁ x) = 0 := by
-    show r₂₀ (l (i₁ x)) - k (r₁ (i₁ x)) = 0
+    change r₂₀ (l (i₁ x)) - k (r₁ (i₁ x)) = 0
     simp [hki x, h₂, h₁]
   obtain ⟨s, hs⟩ := π₁.exists_rightInverse_of_surjective (LinearMap.range_eq_top.mpr hπ₁)
   let t : Z₁ →ₗ[R₁] K₂ := q.comp s
@@ -134,7 +134,7 @@ theorem funnyMap_naturality
     have hz : zeroBaseChange.symm (zero z) = (1 : R₂) ⊗ₜ[R₁] z := by
       apply zeroBaseChange.injective
       simp [hzeroBaseChange]
-    show (t.liftBaseChange R₂) (zeroBaseChange.symm (zero z)) = t z
+    change (t.liftBaseChange R₂) (zeroBaseChange.symm (zero z)) = t z
     rw [hz, LinearMap.liftBaseChange_one_tmul]
   have hqfactor (x : L₁) : q x = t (π₁ x) := by
     have hss (z : Z₁) : π₁ (s z) = z := LinearMap.congr_fun hs z
@@ -149,7 +149,7 @@ theorem funnyMap_naturality
     simp [r₂, h₂, hexact₂.apply_apply_eq_zero]
   have hrl (x : L₁) : r₂ (l x) = k (r₁ x) := by
     have hfactor : r₂₀ (l x) - k (r₁ x) = t (π₁ x) := hqfactor x
-    show r₂₀ (l x) - t₂ (π₂ (l x)) = k (r₁ x)
+    change r₂₀ (l x) - t₂ (π₂ (l x)) = k (r₁ x)
     rw [← hlπ x, ht₂, ← hfactor]
     abel
   have htop : onNegTop (exteriorPower.ιMulti R₁ n (fun j => bN₁ j)) =
@@ -199,8 +199,7 @@ theorem funnyMap_naturality
           (Module.Dual R₂ (⋀[R₂]^n N₂))
           ((TensorProduct.map onK onZeroTop u) ⊗ₜ[R₂]
             onNegDual (basisTopDual bN₁)) := by
-    induction u using TensorProduct.induction_on with
-    | zero => simp
+    induction u using TensorProduct.inductionOn with
     | tmul z w => simp [TensorProduct.assoc_tmul, honDet]
     | add x y hx hy =>
         simp only [TensorProduct.add_tmul, map_add]; rw [hx, hy]
@@ -219,7 +218,7 @@ theorem funnyMap_naturality
   rintro _ ⟨v, rfl⟩
   choose vL hvL using fun j => (LinearMap.range d₁).mkQ_surjective (v j)
   rw [← funext hvL]
-  show TensorProduct.map onK onDet
+  change TensorProduct.map onK onDet
       (funnyMap n i₁ π₁ d₁ dM₁ hi₁ hexact₁ hπ₁ hsquare₁ hZ₁ hN₁ p
         (exteriorPower.ιMulti R₁ p (fun j => (LinearMap.range d₁).mkQ (vL j)))) =
     funnyMap n i₂ π₂ d₂ dM₂ hi₂ hexact₂ hπ₂ hsquare₂ hZ₂ hN₂ p

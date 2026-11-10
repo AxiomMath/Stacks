@@ -37,8 +37,9 @@ is determined, up to isomorphism, by the Weil divisor class of that restriction.
 **Which clauses of Tag 0EBM are here.**  Tag 0EBM asserts that the group of isomorphism classes of
 rank one coherent reflexive `𝒪_X`-modules is isomorphic to `Cl(X)`.  That isomorphism is not
 constructed here and no declaration in this file claims it; what is proved is the injectivity
-clause of the source's proof, in the form that does not presuppose the map.  The source reads injectivity as: a class in
-the kernel restricts to the trivial class on a common `U`, hence is trivial on `U` by Tag 0BE8, and
+clause of the source's proof, in the form that does not presuppose the map.  The source reads
+injectivity as: a class in the kernel restricts to the trivial class on a common `U`, hence is
+trivial on `U` by Tag 0BE8, and
 therefore trivial on `X` by Tag 0EBJ.  That is exactly
 `nonempty_iso_of_weilDivisorClassOfInvertibleSheaf_restrict_eq` with the two modules compared
 directly instead of through a quotient.

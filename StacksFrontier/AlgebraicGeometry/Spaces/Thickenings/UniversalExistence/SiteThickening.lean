@@ -469,14 +469,14 @@ private lemma bridge_etale_of_universalSiteThickenings
     obtain ⟨g₀, rfl⟩ := yoneda.map_surjective g
     refine ⟨Limits.pullback f g₀, yoneda.map (Limits.pullback.fst f g₀),
       Limits.pullback.snd f g₀, (IsPullback.of_hasPullback f g₀).map yoneda, ?_⟩
-    show Etale (F.map (Limits.pullback.snd f g₀))
+    change Etale (F.map (Limits.pullback.snd f g₀))
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       ((IsPullback.of_hasPullback f g₀).map F) hf
   have hEtf : AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map f) := by
     intro T φ hφ
     let : P.IsStableUnderComposition :=
       ⟨fun f g hf hg => by
-        show Etale (F.map (f ≫ g))
+        change Etale (F.map (f ≫ g))
         rw [Functor.map_comp]
         let : Etale (F.map f) := hf
         let : Etale (F.map g) := hg
@@ -510,7 +510,7 @@ private lemma bridge_etale_of_universalSiteThickenings
   have hk : AlgebraicGeometry.schemeSpaceMap f' ≫
       AlgebraicGeometry.schemeSpaceMap pV = AlgebraicGeometry.schemeSpaceMap pR := by
     apply ObjectProperty.hom_ext
-    show yoneda.map f' ≫ yoneda.map pV = yoneda.map pR
+    change yoneda.map f' ≫ yoneda.map pV = yoneda.map pR
     simpa only [← Functor.map_comp] using congrArg yoneda.map hbase
   obtain ⟨het, hpb⟩ := etale_lift_of_universalThickenings B S hS
     Y Z (AlgebraicGeometry.schemeSpaceMap pV) (AlgebraicGeometry.schemeSpaceMap pR)
@@ -518,7 +518,7 @@ private lemma bridge_etale_of_universalSiteThickenings
   have hid : P.presheaf (𝟙 (yoneda.obj R')) :=
     AlgebraicGeometry.presheaf_id_of_iso B S hS _ (fun _ _ g hg => by
       have : IsIso g := hg
-      show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)
+      change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g)
       infer_instance) R'
   have het' : P.presheaf (yoneda.map f') := by
     have h := het R' (𝟙 _) hid
@@ -527,12 +527,12 @@ private lemma bridge_etale_of_universalSiteThickenings
   have hpb' : IsPullback (yoneda.map f) (yoneda.map iR)
       (yoneda.map iV) (yoneda.map f') := by
     apply hpb.of_iso' eR eV (Iso.refl _) (Iso.refl _)
-    · show (eR.hom ≫ eR.inv) ≫ (yoneda.map f ≫ eV.hom) =
+    · change (eR.hom ≫ eR.inv) ≫ (yoneda.map f ≫ eV.hom) =
         yoneda.map f ≫ eV.hom
       rw [eR.hom_inv_id, Category.id_comp]
     · exact Subfunctor.toRange_ι (yoneda.map iR)
     · exact Subfunctor.toRange_ι (yoneda.map iV)
-    · show yoneda.map f' = yoneda.map f' ≫ 𝟙 _
+    · change yoneda.map f' = yoneda.map f' ≫ 𝟙 _
       simp
   exact ⟨MorphismProperty.of_relative_map (F := yoneda) (P := P) het', hpb'⟩
 

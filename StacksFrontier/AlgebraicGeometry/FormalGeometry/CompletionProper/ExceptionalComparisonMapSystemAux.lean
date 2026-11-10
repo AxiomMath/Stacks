@@ -177,7 +177,7 @@ public def coherentAdicSystemMapOfLimitMap
   ObjectProperty.homMk
     { app n := limitMapComponent a n.unop
       naturality i j f := by
-        letI := coherentAdicSystem_epi_limit_π G i
+        let := coherentAdicSystem_epi_limit_π G i
         apply (cancel_epi (limit.π G.obj i)).mp
         rw [← Category.assoc, limit.w, limitMapComponent_π, ← Category.assoc,
           limitMapComponent_π, Category.assoc, limit.w] }

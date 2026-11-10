@@ -130,10 +130,10 @@ public def spaceBaseOverMap {A A' : ArtinianLocalAlgCat.{u, u, u} Λ k} (f : A �
 public theorem spaceBaseOverMap_id (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
     spaceBaseOverMap B hΛ hSpec (𝟙 A) = 𝟙 _ := by
   apply Over.OverMorphism.ext
-  show B.homOfContains (hSpec A) (hSpec A)
+  change B.homOfContains (hSpec A) (hSpec A)
     (Spec.map (CommRingCat.ofHom (𝟙 A : A ⟶ A).hom.toRingHom)) = 𝟙 _
   rw [ArtinianLocalAlgCat.id_hom]
-  show B.homOfContains (hSpec A) (hSpec A)
+  change B.homOfContains (hSpec A) (hSpec A)
     (Spec.map (CommRingCat.ofHom (RingHom.id A))) = 𝟙 _
   rw [CommRingCat.ofHom_id, Spec.map_id, BigFppfSite.homOfContains_id]
 
@@ -144,7 +144,7 @@ public theorem spaceBaseOverMap_comp {A A' A'' : ArtinianLocalAlgCat.{u, u, u} �
     spaceBaseOverMap B hΛ hSpec (f ≫ g) =
       spaceBaseOverMap B hΛ hSpec g ≫ spaceBaseOverMap B hΛ hSpec f := by
   apply Over.OverMorphism.ext
-  show B.homOfContains (hSpec A'') (hSpec A)
+  change B.homOfContains (hSpec A'') (hSpec A)
       (Spec.map (CommRingCat.ofHom (f ≫ g).hom.toRingHom)) =
     B.homOfContains (hSpec A'') (hSpec A')
       (Spec.map (CommRingCat.ofHom g.hom.toRingHom)) ≫
@@ -233,6 +233,7 @@ private theorem existsUnique_comp_eq {P Q R : FlatAlgebraicSpaceFamily B hΛ hSp
     g.cartesian.hom_ext (hleft.trans hmleft.symm) (d'.cartesian.w.trans hmright.symm)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on the big fppf site over `Spec Λ` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf :
@@ -314,7 +315,7 @@ algebraic spaces is stable under base change. -/
 public theorem flatAlgebraicSpaceFamilyFunctor_isCofiberedInGroupoids :
     IsCofiberedInGroupoids (flatAlgebraicSpaceFamilyFunctor B hΛ hSpec) := by
   let p := flatAlgebraicSpaceFamilyFunctor B hΛ hSpec
-  show p.op.IsFiberedInGroupoids
+  change p.op.IsFiberedInGroupoids
   refine { exists_lift := ?_, unique_lift := ?_ }
   · intro V U f X hX
     subst U
@@ -351,7 +352,7 @@ public theorem isFlat_of_over_residueField
     (@Flat.{u}) Flat.isEtaleLocalOnSourceAndTarget hX
     (isAlgebraicSpace_yoneda B (Spec (.of Λ)) hΛ V) toK).2
   refine ⟨U, V, a, 𝟙 _, h, haEtale, ?_, haSurj, by simp [h], by infer_instance⟩
-  show (MorphismProperty.inverseImage (@Etale.{u}) T).relative yoneda (𝟙 (yoneda.obj V))
+  change (MorphismProperty.inverseImage (@Etale.{u}) T).relative yoneda (𝟙 (yoneda.obj V))
   refine ⟨Functor.relativelyRepresentable.of_isIso yoneda (𝟙 (yoneda.obj V)), ?_⟩
   intro A C g fst snd hsquare
   let : IsIso (yoneda.map snd) := hsquare.isIso_snd_of_isIso

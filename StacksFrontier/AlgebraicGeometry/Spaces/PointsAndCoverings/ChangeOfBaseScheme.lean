@@ -146,7 +146,7 @@ theorem extend_representable
       (adj.homEquiv _ _).trans (eHom.trans (J.yonedaEquiv))
   have lhs_naturality (G G' : Sheaf K (Type u)) (α : G ⟶ G') (f : L.obj F ⟶ G) :
       lhsEquiv G' (f ≫ α) = α.hom.app (Opposite.op (u₀.obj X)) (lhsEquiv G f) := by
-    show J.yonedaEquiv (eF.inv ≫ (adj.homEquiv F G') (f ≫ α)) =
+    change J.yonedaEquiv (eF.inv ≫ (adj.homEquiv F G') (f ≫ α)) =
       α.hom.app (Opposite.op (u₀.obj X))
         (J.yonedaEquiv (eF.inv ≫ (adj.homEquiv F G) f))
     rw [Adjunction.homEquiv_naturality_right, ← Category.assoc, J.yonedaEquiv_comp]
@@ -158,7 +158,7 @@ theorem extend_representable
       (by
         intro G G' α
         ext f
-        show (K.yonedaEquiv).symm (lhsEquiv G' (f ≫ α)) =
+        change (K.yonedaEquiv).symm (lhsEquiv G' (f ≫ α)) =
           (K.yonedaEquiv).symm (lhsEquiv G f) ≫ α
         apply (K.yonedaEquiv).injective
         rw [Equiv.apply_symm_apply, lhs_naturality, K.yonedaEquiv_comp,
@@ -187,12 +187,12 @@ theorem restrict_representable
                 yoneda.obj Xbase) := by
   let Xbase : BigFppfOver B S hS := (Over.pullback g).obj X'
   refine ⟨Xbase, pullback.fst X'.hom g, ?_, ?_⟩
-  · show IsPullback (B.inclusion.map (pullback.fst X'.hom g))
+  · change IsPullback (B.inclusion.map (pullback.fst X'.hom g))
       (B.inclusion.map (pullback.snd X'.hom g)) (B.inclusion.map X'.hom)
       (B.inclusion.map g)
     exact IsPullback.map B.inclusion (IsPullback.of_hasPullback X'.hom g)
   · refine ⟨?_⟩
-    show (Over.map g).op ⋙ F'.obj ≅ yoneda.obj Xbase
+    change (Over.map g).op ⋙ F'.obj ≅ yoneda.obj Xbase
     exact (((Functor.whiskeringLeft _ _ _).obj (Over.map g).op).mapIso hF'.some).trans
       ((Over.mapPullbackAdj g).representableBy X').toIso.symm
 
@@ -330,7 +330,7 @@ theorem isIso_relocalizeOfRestricted_unit (J : GrothendieckTopology C)
     exact Sheaf.hom_ext_iff.1 h
   have hu : u' ≫ R.map a = adj.unit.app F := by
     refine Sheaf.hom_ext ?_
-    show relocalizeToRestricted g (relocalizeOfRestricted g β) = β
+    change relocalizeToRestricted g (relocalizeOfRestricted g β) = β
     exact relocalizeToRestricted_relocalizeOfRestricted g _
   refine (ObjectProperty.isIso_hom_iff a).2 ⟨b, ?_, ?_⟩
   · refine Sheaf.hom_ext ?_
@@ -338,7 +338,7 @@ theorem isIso_relocalizeOfRestricted_unit (J : GrothendieckTopology C)
     refine ((relocalizeAdjunction g).homEquiv F.obj ShP.obj).injective ?_
     rw [(relocalizeAdjunction g).homEquiv_naturality_right,
       (relocalizeAdjunction g).homEquiv_id]
-    show relocalizeToRestricted g (relocalizeOfRestricted g β) ≫
+    change relocalizeToRestricted g (relocalizeOfRestricted g β) ≫
       Functor.whiskerLeft (Over.map g).op b.hom = _
     rw [relocalizeToRestricted_relocalizeOfRestricted]
     exact hb
@@ -579,7 +579,7 @@ theorem exists_extended_presentation
       (extendCompare B S S' g adj U₀).hom ≫ (L.map q₀).hom :=
     extendCompare_naturality B S S' g adj q₀
   have hf : A ≫ (extendCompare B S S' g adj FF).hom = α.inv ≫ (L.map q₀).hom := by
-    show (((relocalizeYonedaIso g).app P.U).inv ≫
+    change (((relocalizeYonedaIso g).app P.U).inv ≫
         (relocalizePresheafFunctor g).map P.toSpace) ≫ (extendCompare B S S' g adj FF).hom =
       ((extendCompare B S S' g adj U₀).symm ≪≫
         (relocalizeYonedaIso g).app P.U).inv ≫ (L.map q₀).hom
@@ -653,7 +653,7 @@ theorem exists_extended_presentation
           ((relocalizeYonedaIso g).app P.R).hom ≫ yoneda.map ((Over.map g).map r) :=
         (relocalizeYonedaIso g).hom.naturality r
       refine Sheaf.hom_ext ?_
-      show ((extendCompare B S S' g adj R₀).symm ≪≫ (relocalizeYonedaIso g).app P.R).hom ≫
+      change ((extendCompare B S S' g adj R₀).symm ≪≫ (relocalizeYonedaIso g).app P.R).hom ≫
           yoneda.map ((Over.map g).map r) =
         (L.map rf).hom ≫ ((extendCompare B S S' g adj U₀).symm ≪≫
           (relocalizeYonedaIso g).app P.U).hom
@@ -663,7 +663,7 @@ theorem exists_extended_presentation
     refine ⟨Cofork.isColimitOfIsos _ hcL _ βR βU (Iso.refl _) (hcomm P.target tf₀ rfl)
       (hcomm P.source sf₀ rfl) ?_⟩
     refine Sheaf.hom_ext ?_
-    show α.inv ≫ (L.map q₀).hom ≫ 𝟙 _ = A ≫ (extendCompare B S S' g adj FF).hom
+    change α.inv ≫ (L.map q₀).hom ≫ 𝟙 _ = A ≫ (extendCompare B S S' g adj FF).hom
     rw [Category.comp_id]
     exact hf.symm
 

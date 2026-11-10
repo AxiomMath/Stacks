@@ -62,7 +62,7 @@ theorem isIntegral_residueFieldMap_of_forall {R : Type u} {S : Type v} [CommRing
   have ha : _root_.IsIntegral (P.comap φ).ResidueField (algebraMap S P.ResidueField a) := h a
   have hs : _root_.IsIntegral (P.comap φ).ResidueField (algebraMap S P.ResidueField s) := h s
   rw [IsScalarTower.algebraMap_apply S (S ⧸ P) P.ResidueField] at ha hs
-  show _root_.IsIntegral _ _
+  change _root_.IsIntegral _ _
   rw [div_eq_mul_inv]
   exact ha.mul hs.inv
 
@@ -222,7 +222,7 @@ theorem trdeg_residueField_le_of_isIntegral (K : Type u) [Field K] {W : Scheme.{
   let : Algebra (X.residueField (i w)) (W.residueField w) := (i.residueFieldMap w).hom.toAlgebra
   have : IsScalarTower K (X.residueField (i w)) (W.residueField w) := by
     apply IsScalarTower.of_algebraMap_eq'
-    show ((Scheme.ΓSpecIso (.of K)).inv ≫ (i ≫ gX).appTop ≫ W.Γevaluation w).hom =
+    change ((Scheme.ΓSpecIso (.of K)).inv ≫ (i ≫ gX).appTop ≫ W.Γevaluation w).hom =
       (i.residueFieldMap w).hom.comp
         ((Scheme.ΓSpecIso (.of K)).inv ≫ gX.appTop ≫ X.Γevaluation (i w)).hom
     have hcat : (Scheme.ΓSpecIso (.of K)).inv ≫ (i ≫ gX).appTop ≫ W.Γevaluation w =

@@ -94,8 +94,7 @@ private theorem sectionDefect_baseChange
         (baseChangeDatum.{u, v, x, w} S B f X) z) =
       (sectionDefect S f X).baseChange B (ambientBaseEquiv.{u, v, x, w} S B f X z) := by
   obtain ⟨y, rfl⟩ := (ambientBaseEquiv.{u, v, x, w} S B f X).symm.surjective z
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' => simpa only [map_add] using congrArg₂ (· + ·) hy hy'
   | tmul b z =>
     rw [LinearEquiv.apply_symm_apply, LinearMap.baseChange_tmul,
@@ -108,7 +107,7 @@ private theorem sectionDefect_baseChange
       simp only [LinearEquiv.apply_symm_apply,
         TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul]
       funext i
-      show pushoutTensorEquiv R S B (S ⊗[R] B) _
+      change pushoutTensorEquiv R S B (S ⊗[R] B) _
         (genericLocalTensorEquiv S B (f i) (X.localPiece i)
           (baseChangeAlpha S B f X i (LocalizedModule.mkLinearMap _ _
             ((genericBaseEquiv S B X.generic).symm (b ⊗ₜ[R] z.1))) -
@@ -127,7 +126,7 @@ private theorem sectionDefect_baseChange
         LinearEquiv.piCongrRight_apply,
         TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul]
       funext j
-      show localOverlapEquiv B f j (X.localPiece j) {i}
+      change localOverlapEquiv B f j (X.localPiece j) {i}
         (baseChangeAlphaIJ S B f X i j (LocalizedModule.mkLinearMap _ _
           ((awayTensorEquiv B (f i) (X.localPiece i)).symm (b ⊗ₜ[R] z.2 i))) -
           LocalizedModule.mkLinearMap _ _
@@ -185,7 +184,7 @@ private theorem sectionsBaseEquiv_naturality
       sectionsBaseEquiv.{u, v, x, w} S B f Y
         (b ⊗ₜ[R] FormalGlueing.compatibleSectionsMap S f g z) := by
   apply Subtype.ext
-  show ((baseChangeMap.{u, v, x, w} S B f g).generic
+  change ((baseChangeMap.{u, v, x, w} S B f g).generic
       (sectionsBaseEquiv.{u, v, x, w} S B f X (b ⊗ₜ[R] z)).1.1,
     fun i => (baseChangeMap.{u, v, x, w} S B f g).localPiece i
       ((sectionsBaseEquiv.{u, v, x, w} S B f X (b ⊗ₜ[R] z)).1.2 i)) = _
@@ -224,8 +223,7 @@ private noncomputable def sectionsBaseChangeIso
           (ModuleCat.ofHom (FormalGlueing.compatibleSectionsMap S f g)) t)) =
     FormalGlueing.compatibleSectionsMap _ _ (baseChangeMap.{u, v, x, w} S B f g)
       (sectionsBaseEquiv.{u, v, x, w} S B f X (extendScalarsEquiv B _ t))
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simpa only [map_add] using congrArg₂ (· + ·) ht ht'
   | tmul b z => exact (sectionsBaseEquiv_naturality.{u, v, x, w} S B f g b z).symm
 
@@ -311,7 +309,7 @@ private theorem canonicalLocalBaseEquiv_symm_mk
           (LocalizedModule.mkLinearMap (Submonoid.powers a) _ m)) := by
   apply (canonicalLocalBaseEquiv B a M).injective
   rw [LinearEquiv.apply_symm_apply]
-  show _ = localizedEquiv (Submonoid.powers (algebraMap R B a))
+  change _ = localizedEquiv (Submonoid.powers (algebraMap R B a))
       (extendScalarsEquiv B M).symm
       ((awayLocalizationBaseChange B a M).symm
         (AlgebraTensorModule.congr (LinearEquiv.refl B B)
@@ -346,12 +344,10 @@ private noncomputable def canonicalBaseChangeMap
           (ModuleCat.ofHom (canonicalLocalBaseEquiv B (f i) M).symm.toLinearMap)).hom)
         (FormalGlueing.canonicalAlpha (S ⊗[R] B) (fun i => algebraMap R B (f i))
           ((ModuleCat.extendScalars (algebraMap R B)).obj M) i (LocalizedModule.mkLinearMap _ _ z))
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simpa only [map_add] using congrArg₂ (· + ·) hz hz'
     | tmul t n =>
-      induction n using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction n using TensorProduct.inductionOn with
       | add n n' hn hn' => simpa only [tmul_add, map_add] using congrArg₂ (· + ·) hn hn'
       | tmul b m =>
         change B at b
@@ -399,8 +395,7 @@ private noncomputable def canonicalBaseChangeMap
           (LocalizedModule.mkLinearMap _ _ (FormalGlueing.canonicalLocalMk fB MB i n)))
     conv_rhs => rw [FormalGlueing.canonicalAlphaIJ_mk]
     conv_rhs => rw [FormalGlueing.localizedMap_mk]
-    induction n using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction n using TensorProduct.inductionOn with
     | add n n' hn hn' => simpa only [map_add] using congrArg₂ (· + ·) hn hn'
     | tmul b m =>
       change B at b
@@ -436,7 +431,7 @@ private theorem localizedLinearMap_ext
   | h m s =>
     have hz : LocalizedModule.mk m s =
         (Localization.mk 1 s) • (LocalizedModule.mkLinearMap T M m) := by
-      show _ = (Localization.mk 1 s) • (LocalizedModule.mk m 1)
+      change _ = (Localization.mk 1 s) • (LocalizedModule.mk m 1)
       rw [LocalizedModule.mk_smul_mk, one_smul, mul_one]
     rw [hz, map_smul, map_smul, he]
 
@@ -460,23 +455,21 @@ private theorem canonicalBaseChangeMap_naturality
   · apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro t
-    show (canonicalGenericBaseEquiv S B N).symm
+    change (canonicalGenericBaseEquiv S B N).symm
         ((AlgebraTensorModule.lTensor (S ⊗[R] B) (S ⊗[R] B)
           ((ModuleCat.extendScalars (algebraMap R B)).map g).hom) t) =
       ((ModuleCat.extendScalars
         (Algebra.TensorProduct.includeLeftRingHom : S →+* S ⊗[R] B)).map
         (FormalGlueing.canonicalDatumMap.{u, v, max u v x w} S f g).generic)
         ((canonicalGenericBaseEquiv S B M).symm t)
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simpa only [map_add] using congrArg₂ (· + ·) ht ht'
     | tmul t n =>
-      induction n using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction n using TensorProduct.inductionOn with
       | add n n' hn hn' => simpa only [tmul_add, map_add] using congrArg₂ (· + ·) hn hn'
       | tmul b m =>
         change B at b
-        show (canonicalGenericBaseEquiv S B N).symm
+        change (canonicalGenericBaseEquiv S B N).symm
             (t ⊗ₜ[B] (b ⊗ₜ[R, algebraMap R B] g m)) = _
         rw [canonicalGenericBaseEquiv_symm_tmul, canonicalGenericBaseEquiv_symm_tmul]
         rfl
@@ -484,7 +477,7 @@ private theorem canonicalBaseChangeMap_naturality
     apply ModuleCat.hom_ext
     apply localizedLinearMap_ext (Submonoid.powers (algebraMap R B (f i)))
     intro n
-    show (canonicalLocalBaseEquiv B (f i) N).symm
+    change (canonicalLocalBaseEquiv B (f i) N).symm
         (FormalGlueing.canonicalLocalMap (fun i => algebraMap R B (f i))
           ((ModuleCat.extendScalars (algebraMap R B)).map g) i
           (FormalGlueing.canonicalLocalMk (fun i => algebraMap R B (f i))
@@ -492,16 +485,14 @@ private theorem canonicalBaseChangeMap_naturality
       ((ModuleCat.extendScalars (awayMap B (f i))).map (FormalGlueing.canonicalLocalMap f g i))
         ((canonicalLocalBaseEquiv B (f i) M).symm (LocalizedModule.mkLinearMap _ _ n))
     rw [FormalGlueing.canonicalLocalMap_mk]
-    induction n using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction n using TensorProduct.inductionOn with
     | add n n' hn hn' => simpa only [map_add] using congrArg₂ (· + ·) hn hn'
     | tmul b m =>
       change B at b
-      show (canonicalLocalBaseEquiv B (f i) N).symm
+      change (canonicalLocalBaseEquiv B (f i) N).symm
           (LocalizedModule.mkLinearMap _ _ (b ⊗ₜ[R, algebraMap R B] g m)) = _
       rw [canonicalLocalBaseEquiv_symm_mk, canonicalLocalBaseEquiv_symm_mk]
-      simp only [awayTensorEquiv_symm_map B (f i) (FormalGlueing.canonicalLocalMap f g i)
-        b (FormalGlueing.canonicalLocalMk f M i m)]
+      simp only
       exact congrArg
         (fun value : (ModuleCat.restrictScalars
             (algebraMap R (Localization.Away (f i)))).obj
@@ -544,8 +535,7 @@ corresponding scalar-extension functors. -/
 public theorem exists_baseChange_commuting_with_canonical_and_sections
     (R : Type u) (S : Type v) (R' : Type x)
     [CommRing R] [CommRing S] [CommRing R'] [Algebra R S] [Algebra R R']
-    {r : ℕ} (f : Fin r → R) (I : Ideal R) (hI : I = Ideal.span (Set.range f))
-    (hS : Module.Flat R S) (hR' : Module.Flat R R') :
+    {r : ℕ} (f : Fin r → R) (hR' : Module.Flat R R') :
     let upper := FormalGlueing.moduleGlueingConstruction.{u, v, max u v x w} S f
     let lower := FormalGlueing.moduleGlueingConstruction.{x, max v x, max u v x w}
       (TensorProduct R S R') (fun i ↦ algebraMap R R' (f i))

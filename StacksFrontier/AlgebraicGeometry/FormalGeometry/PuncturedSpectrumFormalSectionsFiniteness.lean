@@ -175,7 +175,7 @@ public theorem maximalIdeal_mem_associatedPrimes_localization_iff (p : Ideal A) 
   rw [←
     Module.associatedPrimes.preimage_comap_associatedPrimes_eq_associatedPrimes_of_isLocalizedModule
     p.primeCompl (Localization.AtPrime p) (LocalizedModule.mkLinearMap p.primeCompl M)]
-  show (Ideal.comap (algebraMap A (Localization.AtPrime p))
+  change (Ideal.comap (algebraMap A (Localization.AtPrime p))
     (maximalIdeal (Localization.AtPrime p)) ∈ associatedPrimes A M) ↔ _
   rw [show Ideal.comap (algebraMap A (Localization.AtPrime p))
     (maximalIdeal (Localization.AtPrime p)) = p from

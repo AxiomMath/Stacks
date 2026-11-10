@@ -214,7 +214,7 @@ theorem bijective_adicCompletion_of_of_finite {R : Type u} [CommRing R] [IsNoeth
   have key : ⇑(AdicCompletion.of I M) =
       ⇑(AdicCompletion.congr I e) ∘ ⇑(AdicCompletion.of I (Shrink.{u} M)) ∘ ⇑e.symm := by
     funext x
-    show _ = AdicCompletion.map I e.toLinearMap (AdicCompletion.of I _ (e.symm x))
+    change _ = AdicCompletion.map I e.toLinearMap (AdicCompletion.of I _ (e.symm x))
     rw [AdicCompletion.map_of]
     simp
   rw [key]

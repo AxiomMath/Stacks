@@ -143,7 +143,7 @@ theorem IsRelativeDifferentialsMap.comp {X'' X' X S'' S' S : Scheme.{u}}
   simp only [Scheme.Modules.pushforward_obj_obj, Scheme.Hom.comp_base, Opens.map_comp_obj,
     Scheme.Modules.Hom.comp_app, Scheme.Modules.pushforward_map_app,
     Scheme.Modules.pushforwardComp_hom_app_app, Functor.comp_obj,
-    CommRingCat.forgetToRingCat_obj, Scheme.Hom.comp_app, CommRingCat.hom_comp]
+    Scheme.Hom.comp_app, CommRingCat.hom_comp]
   have hgU' : (Scheme.Modules.Hom.app (adjG.homEquiv M N c) U) (dZ.d h) =
       dY.d ((f.app U).hom h) := hc U h
   have hfV' : (Scheme.Modules.Hom.app (adjF.homEquiv N P c') V)

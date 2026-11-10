@@ -284,7 +284,7 @@ private theorem transpose_single {𝒜 ℬ 𝒞 : Type*} [Category 𝒜] [Preadd
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
       HomologicalComplex.singleMapHomologicalComplex_inv_app_self,
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self]
-    show (adj.homEquiv _ _).symm (_ ≫
+    change (adj.homEquiv _ _).symm (_ ≫
         ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map _).f (-1) ≫ _) =
       _ ≫ ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map x).f (-1)
     rw [HomologicalComplex.single_map_f_self, HomologicalComplex.single_map_f_self]

@@ -64,7 +64,7 @@ abbrev IsOfCoconeCohomologyColimit : Prop :=
 
 variable {ι hι c g hg G q}
 
-include hι hg in
+include hι in
 /-- The cohomology maps of the system of inverse images of one sheaf compose. -/
 theorem IsOfCoconeCohomologyColimit.transition_comp {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k) :
     AddCommGrpCat.ofHom (etaleCohomologyPullback (D.map (a ≫ b))
@@ -96,7 +96,7 @@ theorem IsOfCoconeCohomologyColimit.exists_eq_zero [IsDirected I (· ≤ ·)] [N
     ∃ i, etaleCohomologyPullback (ι i) (𝟙 ((smallEtalePullbackAb (ι i)).obj G)) q x = 0 := by
   obtain ⟨i₀⟩ := (inferInstance : Nonempty I)
   obtain ⟨j, a, ha⟩ := IsSystemColimit.exists_eq_zero
-    (fun a b => IsOfCoconeCohomologyColimit.transition_comp (hg := hg) a b)
+    (fun a b => IsOfCoconeCohomologyColimit.transition_comp a b)
     (fun a => IsOfCoconeCohomologyColimit.transition_comp_leg a) hcoh
     (i := op i₀) (etaleCohomologyPullback (ι (op i₀)) (𝟙 _) q x)
     ((etaleCohomologyPullback_π_app_etaleCohomologyPullback ι c g hg (op i₀) G q x).trans hx)
@@ -112,7 +112,7 @@ theorem IsOfCoconeCohomologyColimit.exists_eq [IsDirected I (· ≤ ·)] [Nonemp
     ∃ (i : Iᵒᵖ) (z : Sheaf.H.{u + 1} ((smallEtalePullbackAb (ι i)).obj G) q),
       etaleCohomologyPullback (c.π.app i) (EtaleSheafSystem.ofCoconeLeg ι hι c g hg G i) q z = y :=
   IsSystemColimit.exists_eq
-    (fun a b => IsOfCoconeCohomologyColimit.transition_comp (hg := hg) a b)
+    (fun a b => IsOfCoconeCohomologyColimit.transition_comp a b)
     (fun a => IsOfCoconeCohomologyColimit.transition_comp_leg a) hcoh y
 
 end Elements

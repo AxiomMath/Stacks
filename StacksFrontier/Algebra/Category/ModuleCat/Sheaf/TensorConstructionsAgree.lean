@@ -7,7 +7,8 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LeftDualSheaf
 # The ringed-space tensor product of sheaves of modules agrees with the monoidal one
 
 For a ringed space `X`, the module
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorStalkRingedSpace` describes the tensor product
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorStalkRingedSpace` describes the tensor
+product
 of two presheaves of `𝒪_X`-modules as the presheaf `U ↦ ℱ(U) ⊗_{𝒪_X(U)} 𝒢(U)`, and the tensor
 product of two sheaves of modules as its sheafification. This file shows that these are
 definitionally the tensor products coming from Mathlib's monoidal structure on presheaves of

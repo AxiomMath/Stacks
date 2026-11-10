@@ -295,8 +295,7 @@ public theorem _root_.TensorProduct.exists_sum_tmul_of_span_eq {R M : Type*} [Co
     [AddCommGroup M] [Module R M] {I : Ideal R} {n : ℕ} (a : Fin n → I)
     (hspan : Ideal.span (Set.range fun k => (a k : R)) = I) (t : ↥I ⊗[R] M) :
     ∃ v : Fin n → M, t = ∑ k, (a k) ⊗ₜ[R] (v k) := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x m =>
       have hx : (x : R) ∈ Submodule.span R (Set.range fun k => (a k : R)) := by
         rw [show Submodule.span R (Set.range fun k => (a k : R))

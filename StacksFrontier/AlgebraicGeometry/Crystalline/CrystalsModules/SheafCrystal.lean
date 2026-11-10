@@ -261,7 +261,7 @@ theorem isIso_moduleComparisonSheaf (g : A ⟶ B)
     (bijective_hom_val _ _).comp (Equiv.bijective _)
   refine (hT.of_comp_iff'
     (fun k : moduleRestrictionSheaf M A ⟶ Z ↦ moduleComparisonSheaf M g ≫ k)).1 ?_
-  show Function.Bijective (fun (k : moduleRestrictionSheaf M A ⟶ Z) ↦
+  change Function.Bijective (fun (k : moduleRestrictionSheaf M A ⟶ Z) ↦
     ((SheafOfModules.pullbackPushforwardAdjunction.{u}
         (ringRestrictionSheafFMap g)).homEquiv (moduleRestrictionSheaf M B) Z
       (moduleComparisonSheaf M g ≫ k)).val)

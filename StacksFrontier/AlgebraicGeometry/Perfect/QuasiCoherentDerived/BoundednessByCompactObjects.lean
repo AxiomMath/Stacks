@@ -343,9 +343,9 @@ theorem isWeakTriangulatedGenerator_koszulQC_emptySeq :
 
 /-- The sheafified Koszul complex lives in non-positive degrees. -/
 instance isLE_koszulObject {r : ℕ} (f : Fin r → A) : (koszulObject f).IsLE 0 := by
-  haveI : (tilde.functor (CommRingCat.of A)).Faithful :=
+  have : (tilde.functor (CommRingCat.of A)).Faithful :=
     AlgebraicGeometry.tilde.fullyFaithfulFunctor.faithful
-  haveI : CochainComplex.IsStrictlyLE (((tilde.functor (CommRingCat.of A)).mapHomologicalComplex
+  have : CochainComplex.IsStrictlyLE (((tilde.functor (CommRingCat.of A)).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj ((Koszul.seqComplex f).extend ComplexShape.embeddingDownNat)) 0 :=
     (CochainComplex.isStrictlyLE_mapHomologicalComplex_obj_iff _ _ 0).2 inferInstance
   infer_instance
@@ -516,6 +516,7 @@ private theorem exists_distTriang_unit_isZero_restrict {Y U : Scheme.{u}} (j : U
     ((restrictedDerivedRestrict j).map_distinguished _ hT)
     (isIso_map_unit_of_isIso_counit adj M inferInstance)⟩
 
+omit [CompactSpace U] [QuasiSeparatedSpace U] in
 include hsq hcov in
 /-- **An object of `D_QCoh(𝒪_Y)` vanishing on `U` comes from `Spec A`**: the unit
 `N ⟶ Rj_{V,*}(N|_V)` is invertible. It is so on `Spec A` because `Rj_{V,*}` is fully faithful,

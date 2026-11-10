@@ -134,7 +134,7 @@ private theorem siteDiagram_map_comp_iso_hom_app {j k : Over i₀} (g : j ⟶ k)
 /-- The projection of a chart to its own stage is natural in the stage. -/
 theorem stageMap_naturality {j k : Over i₀} (g : j ⟶ k) :
     yoneda.map (C.siteDiagram.map g) ≫ C.stageMap k = C.stageMap j ≫ D.map g.left := by
-  show yoneda.map (C.siteDiagram.map g) ≫
+  change yoneda.map (C.siteDiagram.map g) ≫
       C.iso.hom.app k ≫ stageBaseChangeFst B S hS i₀ D U₀ f₀ k =
     (C.iso.hom.app j ≫ stageBaseChangeFst B S hS i₀ D U₀ f₀ j) ≫ D.map g.left
   rw [← Category.assoc, C.siteDiagram_map_comp_iso_hom_app g, Category.assoc,
@@ -144,7 +144,7 @@ theorem stageMap_naturality {j k : Over i₀} (g : j ⟶ k) :
 in the stage. -/
 theorem baseMap_naturality {j k : Over i₀} (g : j ⟶ k) :
     yoneda.map (C.siteDiagram.map g) ≫ C.baseMap k = C.baseMap j := by
-  show yoneda.map (C.siteDiagram.map g) ≫
+  change yoneda.map (C.siteDiagram.map g) ≫
       C.iso.hom.app k ≫ stageBaseChangeSnd B S hS i₀ D U₀ f₀ k =
     C.iso.hom.app j ≫ stageBaseChangeSnd B S hS i₀ D U₀ f₀ j
   rw [← Category.assoc, C.siteDiagram_map_comp_iso_hom_app g, Category.assoc,

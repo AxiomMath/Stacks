@@ -457,6 +457,7 @@ public def smallEtaleFiniteTypeLocallyConstantModulePullbackCompIso {S T : B.Sch
 variable {I : Type iu} [Preorder I] (Dg : Iᵒᵖ ⥤ B.Scheme) (c : Cone (Dg ⋙ B.inclusion))
   (hX : B.Contains c.pt)
 
+omit [IsNoetherianRing R] in
 /-- **Clause (3) of Tag 0GL2, reduced to Tag 09YU and the descent condition.** If the category of
 constructible sheaves of `R`-modules on the vertex is the colimit of the categories of
 constructible sheaves of `R`-modules at the stages, and a constructible module sheaf at a stage

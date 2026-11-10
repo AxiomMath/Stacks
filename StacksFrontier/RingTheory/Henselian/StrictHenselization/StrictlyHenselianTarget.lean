@@ -48,8 +48,8 @@ translation between the two residue-field conventions that separate 04GU from
 henselian local, and the chain of reasoning this file is written for — identifying a local ring of
 an absolute integral closure with a strict henselization — has a target which is known to be
 strictly henselian (by Lemma 0DCS) long before it is known to be a strict henselization of
-anything. `StacksFrontier.AlgebraicGeometry.FundamentalGroup.SpecializationMapFunctoriality` contains
-the special case in which `C` is a second strict henselization, as a private lemma.
+anything. `StacksFrontier.AlgebraicGeometry.FundamentalGroup.SpecializationMapFunctoriality`
+contains the special case in which `C` is a second strict henselization, as a private lemma.
 
 *The two residue-field conventions.* `IsStrictHenselization` identifies `κ^sep` with
 `(maximalIdeal R).ResidueField`, the residue field of the localization of `R` at its maximal
@@ -217,7 +217,7 @@ theorem IsStrictHenselization.exists_algHom_of_isSepClosed (hR : IsStrictHenseli
   have halg : ∀ a : A, algebraMap (maximalIdeal A).ResidueField (ResidueField C)
       (algebraMap A (maximalIdeal A).ResidueField a) = residue C (algebraMap A C a) := by
     intro a
-    show (Ideal.algEquivResidueFieldOfField (⊥ : Ideal (ResidueField C))).symm
+    change (Ideal.algEquivResidueFieldOfField (⊥ : Ideal (ResidueField C))).symm
         (Ideal.ResidueField.map (maximalIdeal A) (⊥ : Ideal (ResidueField C))
           ((residue C).comp (algebraMap A C)) hbot
           (algebraMap A (maximalIdeal A).ResidueField a)) = _

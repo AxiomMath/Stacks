@@ -178,7 +178,8 @@ local instance hasProductsOfShape_nat_derivedCategory_sheaves (X : RingedSite.{u
 /-- Sheaves of modules are linear over the centre of their own category, which is the linear
 structure the derived-completeness predicate of [Stacks, Tag 0999] uses. Named apart from the
 `linearCatCenterRingSheaf` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedHomAdditive.lean`, which states the
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedHomAdditive.lean`, which states
+the
 same thing in a closure disjoint from this one: a `local instance` still occupies a global name, so
 two modules declaring it under one name cannot both be imported. -/
 local instance linearCatCenterRingSheafGlobalSections (X : RingedSite.{u, u, u}) :

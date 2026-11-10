@@ -63,11 +63,11 @@ theorem Framing.gBaseChange_tmul (g : Fr.G) (b : R'.R) :
       (Ideal.Quotient.mk (sqIdeal D.C (Alg.tensor R R').R) (incl₂ R' b) :
         Q D.C (Alg.tensor R R').R) • (Fr.tens R').ofT ((Fr.toT g).pull (incl₁ R')) := by
   apply (Fr.tens R').tangentEquiv.injective
-  show (Fr.tens R').tangentEquiv ((Fr.tens R').gEquivA.symm (Fr.baseChange R'
+  change (Fr.tens R').tangentEquiv ((Fr.tens R').gEquivA.symm (Fr.baseChange R'
     (Fr.gEquivA g ⊗ₜ b))) = _
   rw [show (Fr.tens R').tangentEquiv ((Fr.tens R').gEquivA.symm _) = _ from
     LinearEquiv.apply_symm_apply (Fr.tens R').gEquiv _, Fr.baseChange_tmul]
-  show _ = (Fr.tens R').tangentEquiv ((Fr.tens R').toT (_ • _))
+  change _ = (Fr.tens R').tangentEquiv ((Fr.tens R').toT (_ • _))
   rw [(Fr.tens R').smul_eq, (Fr.tens R').tangentEquiv_smul, (Fr.tens R').toT_ofT,
     Fr.tangentEquiv_pull]
   rfl
@@ -117,11 +117,13 @@ end PullLin
 /-- If a finite product of `A`-algebras `C k` is faithfully flat over `A`, an element `n` lies in
 the range of a linear map `δ` as soon as each `n ⊗ 1` lies in the range of `δ ⊗ C k`. -/
 theorem Module.FaithfullyFlat.mem_range_of_forall_mem_range {A M N : Type*} [CommRing A]
-    [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N] {K : Type*} [Fintype K]
-    [DecidableEq K] (C : K → Type*) [∀ k, CommRing (C k)] [∀ k, Algebra A (C k)]
+    [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N] {K : Type*} [Finite K]
+    (C : K → Type*) [∀ k, CommRing (C k)] [∀ k, Algebra A (C k)]
     [Module.FaithfullyFlat A (∀ k, C k)] (δ : M →ₗ[A] N) (n : N)
     (h : ∀ k, n ⊗ₜ[A] (1 : C k) ∈ LinearMap.range (δ.rTensor (C k))) :
     n ∈ LinearMap.range δ := by
+  classical
+  have := Fintype.ofFinite K
   choose ε hε using h
   refine Module.FaithfullyFlat.mem_range_of_tmul_one_mem_range (B' := ∀ k, C k) δ n
     ⟨(TensorProduct.piRight A A M C).symm ε, ?_⟩
@@ -130,8 +132,7 @@ theorem Module.FaithfullyFlat.mem_range_of_forall_mem_range {A M N : Type*} [Com
   have hnat : ∀ x : M ⊗[A] (∀ k, C k), TensorProduct.piRight A A N C (δ.rTensor _ x) k =
       δ.rTensor (C k) (TensorProduct.piRight A A M C x k) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul m f => rfl
     | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
   rw [hnat, LinearEquiv.apply_symm_apply, hε]
@@ -141,7 +142,7 @@ theorem Module.FaithfullyFlat.mem_range_of_forall_mem_range {A M N : Type*} [Com
 
 section Family
 
-variable {K : Type u} [Fintype K] [DecidableEq K] (Bk : K → Alg D)
+variable {K : Type u} (Bk : K → Alg D)
 
 /-- The double overlaps `B_k ⊗ B_l`. -/
 noncomputable abbrev R2 (k l : K) : Alg D := Alg.tensor (Bk k) (Bk l)
@@ -175,17 +176,17 @@ theorem f12_f2 (k l m : K) : (f12 Bk k l m).comp (f2 Bk k l) = (f23 Bk k l m).co
 theorem f13_f2 (k l m : K) : (f13 Bk k l m).comp (f2 Bk k m) = (f23 Bk k l m).comp (f2 Bk l m) := by
   apply AlgHom.ext
   intro b
-  show Alg.tmul (f1 Bk k l 1) b = Alg.tmul (f2 Bk k l 1) b
+  change Alg.tmul (f1 Bk k l 1) b = Alg.tmul (f2 Bk k l 1) b
   rw [map_one, map_one]
 
 theorem f13_incl₂ (k l m : K) (b : (Bk m).R) :
     f13 Bk k l m (incl₂ (R := Bk k) (Bk m) b) = incl₂ (R := R2 Bk k l) (Bk m) b := by
-  show Alg.tmul (f1 Bk k l 1) b = Alg.tmul 1 b
+  change Alg.tmul (f1 Bk k l 1) b = Alg.tmul 1 b
   rw [map_one]
 
 theorem f23_incl₂ (k l m : K) (b : (Bk m).R) :
     f23 Bk k l m (incl₂ (R := Bk l) (Bk m) b) = incl₂ (R := R2 Bk k l) (Bk m) b := by
-  show Alg.tmul (f2 Bk k l 1) b = Alg.tmul 1 b
+  change Alg.tmul (f2 Bk k l 1) b = Alg.tmul 1 b
   rw [map_one]
 
 variable {Fk : K → Frame 𝔓} (Fr : ∀ k, Framing (Fk k) (Bk k)) (z : ∀ k, 𝔓.Lifts (Bk k))
@@ -247,7 +248,7 @@ theorem cech1_cocyc : cech1 Bk Fr z (cocyc Bk Fr z) = 0 := by
     apply Φ.toT_injective_act w
     rw [Φ.act_add]
     exact (congrArg _ h12).trans (h23.trans h13.symm)
-  show _ - _ + _ = (0 : Φ.G)
+  change _ - _ + _ = (0 : Φ.G)
   rw [← key]
   abel
 
@@ -259,18 +260,19 @@ theorem piLeft_apply_eq {A N : Type*} [CommRing A] [AddCommGroup N] [Module A N]
     [Fintype ι] [DecidableEq ι] (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
     (x : (∀ i, M i) ⊗[A] N) (i : ι) :
     TensorProduct.piLeft A N M x i = (LinearMap.proj i).rTensor N x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul f n => rfl
   | add x y hx hy => rw [map_add, Pi.add_apply, hx, hy, map_add]
 
 /-- A family of maps out of the factors of a tensor product with a finite product is jointly
 bijective as soon as each is bijective. -/
 theorem pi_rTensor_bijective {A N : Type*} [CommRing A] [AddCommGroup N] [Module A N] {ι : Type*}
-    [Fintype ι] [DecidableEq ι] (M M' : ι → Type*) [∀ i, AddCommGroup (M i)]
+    [Finite ι] (M M' : ι → Type*) [∀ i, AddCommGroup (M i)]
     [∀ i, Module A (M i)] [∀ i, AddCommGroup (M' i)] [∀ i, Module A (M' i)]
     (g : ∀ i, M i ⊗[A] N →ₗ[A] M' i) (hg : ∀ i, Function.Bijective (g i)) :
     Function.Bijective (LinearMap.pi fun i => g i ∘ₗ (LinearMap.proj i).rTensor N) := by
+  classical
+  have := Fintype.ofFinite ι
   have : (LinearMap.pi fun i => g i ∘ₗ (LinearMap.proj i).rTensor N : _ → _) =
       (fun y i => g i (y i)) ∘ TensorProduct.piLeft A N M := by
     funext x i
@@ -284,7 +286,7 @@ theorem pi_rTensor_bijective {A N : Type*} [CommRing A] [AddCommGroup N] [Module
 
 section Exact
 
-variable {K : Type u} [Fintype K] [DecidableEq K] (Bk : K → Alg D) {Fk : K → Frame 𝔓}
+variable {K : Type u} (Bk : K → Alg D) {Fk : K → Frame 𝔓}
   (Fr : ∀ k, Framing (Fk k) (Bk k)) (z : ∀ k, 𝔓.Lifts (Bk k))
 
 /-- The base change of the degree-zero cochains along `B_m`. -/
@@ -315,11 +317,11 @@ theorem cechD0_apply (m : K) (e : ∀ k, (Fr2 Bk Fr k m).G) (k l : K) :
       pullLin (Fr2 Bk Fr l m) (Fr3 Bk Fr k l m) (f23 Bk k l m) (z2 Bk z l m) (e l) -
         pullLin (Fr2 Bk Fr k m) (Fr3 Bk Fr k l m) (f13 Bk k l m) (z2 Bk z k m) (e k) := rfl
 
-theorem cechI1_bijective [∀ m, Module.Flat D.A (Bk m).R] (m : K) :
+theorem cechI1_bijective [Finite K] [∀ m, Module.Flat D.A (Bk m).R] (m : K) :
     Function.Bijective (cechI1 Bk Fr m) :=
   pi_rTensor_bijective _ _ _ fun k => (Fr k).gBaseChange_bijective (Bk m)
 
-theorem cechI2_bijective [∀ m, Module.Flat D.A (Bk m).R] (m : K) :
+theorem cechI2_bijective [Finite K] [∀ m, Module.Flat D.A (Bk m).R] (m : K) :
     Function.Bijective (cechI2 Bk Fr m) :=
   pi_rTensor_bijective _ _ _ fun k =>
     pi_rTensor_bijective _ _ _ fun l => (Fr2 Bk Fr k l).gBaseChange_bijective (Bk m)
@@ -340,8 +342,7 @@ theorem cech_comm_tmul (m : K) (y : ∀ k, (Fr k).G) (b : (Bk m).R) (k l : K) :
 
 theorem cech_comm (m : K) (w : (∀ k, (Fr k).G) ⊗[D.A] (Bk m).R) :
     cechI2 Bk Fr m ((cech0 Bk Fr z).rTensor _ w) = cechD0 Bk Fr z m (cechI1 Bk Fr m w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul y b =>
     funext k l
     rw [LinearMap.rTensor_tmul, cechI2_tmul, cechD0_apply, cechI1_tmul, cechI1_tmul]
@@ -360,8 +361,8 @@ theorem cech1_apply (x : ∀ k l, (Fr2 Bk Fr k l).G) (k l m : K) :
 
 /-- For a family of flat algebras, the base change of a Čech `1`-cocycle along each `B_m` is a
 coboundary. -/
-theorem cech_tmul_mem_range [∀ m, Module.Flat D.A (Bk m).R] (x : ∀ k l, (Fr2 Bk Fr k l).G)
-    (hx : cech1 Bk Fr z x = 0) (m : K) :
+theorem cech_tmul_mem_range [Finite K] [∀ m, Module.Flat D.A (Bk m).R]
+    (x : ∀ k l, (Fr2 Bk Fr k l).G) (hx : cech1 Bk Fr z x = 0) (m : K) :
     x ⊗ₜ[D.A] (1 : (Bk m).R) ∈ LinearMap.range ((cech0 Bk Fr z).rTensor (Bk m).R) := by
   obtain ⟨w, hw⟩ := (cechI1_bijective Bk Fr m).2 (fun k => -(x k m))
   refine ⟨w, (cechI2_bijective Bk Fr m).1 ?_⟩
@@ -375,7 +376,7 @@ theorem cech_tmul_mem_range [∀ m, Module.Flat D.A (Bk m).R] (x : ∀ k l, (Fr2
   exact neg_sub_neg_eq_of_sub_add h
 
 /-- **Exactness of the Čech complex in degree one**: every cocycle is a coboundary. -/
-theorem cech_exact [∀ m, Module.Flat D.A (Bk m).R]
+theorem cech_exact [Finite K] [∀ m, Module.Flat D.A (Bk m).R]
     [Module.FaithfullyFlat D.A (∀ m, (Bk m).R)] (x : ∀ k l, (Fr2 Bk Fr k l).G)
     (hx : cech1 Bk Fr z x = 0) : ∃ y, cech0 Bk Fr z y = x :=
   Module.FaithfullyFlat.mem_range_of_forall_mem_range (fun m => (Bk m).R) (cech0 Bk Fr z) x
@@ -383,7 +384,7 @@ theorem cech_exact [∀ m, Module.Flat D.A (Bk m).R]
 
 include Fr z in
 /-- **Local lifts can be corrected to agree on the double overlaps.** -/
-theorem exists_compatible_lifts [∀ m, Module.Flat D.A (Bk m).R]
+theorem exists_compatible_lifts [Finite K] [∀ m, Module.Flat D.A (Bk m).R]
     [Module.FaithfullyFlat D.A (∀ m, (Bk m).R)] :
     ∃ z' : ∀ k, 𝔓.Lifts (Bk k), ∀ k l, (z' k).pull (f1 Bk k l) = (z' l).pull (f2 Bk k l) := by
   obtain ⟨y, hy⟩ := cech_exact Bk Fr z (cocyc Bk Fr z) (cech1_cocyc Bk Fr z)
@@ -393,7 +394,7 @@ theorem exists_compatible_lifts [∀ m, Module.Flat D.A (Bk m).R]
         pullLin (Fr k) (Fr2 Bk Fr k l) (f1 Bk k l) (z k) (y k) := by
     rw [← hy]; rfl
   rw [← act_pull, ← act_pull, ← act_cocyc Bk Fr z k l]
-  show act ((Fr2 Bk Fr k l).toT (pullLin (Fr k) (Fr2 Bk Fr k l) (f1 Bk k l) (z k) (-(y k))))
+  change act ((Fr2 Bk Fr k l).toT (pullLin (Fr k) (Fr2 Bk Fr k l) (f1 Bk k l) (z k) (-(y k))))
       (z2 Bk z k l) =
     act ((Fr2 Bk Fr k l).toT (pullLin (Fr l) (Fr2 Bk Fr k l) (f2 Bk k l) (z l) (-(y l))))
       (act ((Fr2 Bk Fr k l).toT (cocyc Bk Fr z k l)) (z2 Bk z k l))

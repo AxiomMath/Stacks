@@ -71,7 +71,7 @@ private lemma stalkShortComplex_g_zero
     (S : ShortComplex (_root_.SheafOfModules.{u} (structureSheafRing X)))
     (h : S.g = 0) (x : X.carrier) :
     (stalkShortComplex (structureSheafRing X) S x).g = 0 := by
-  show (stalkAddCommGroupFunctor (structureSheafRing X) x).map S.g = 0
+  change (stalkAddCommGroupFunctor (structureSheafRing X) x).map S.g = 0
   rw [h, Functor.map_zero]
 
 /-- A morphism of sheaves of modules is an epimorphism iff it is surjective on all stalks. -/
@@ -118,7 +118,7 @@ private lemma stalk_tensor_sheafMap
   have hid : stalkMapL X G.val G.val
       idG.val x = LinearMap.id := by
     ext z
-    show Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap X G.val G.val idG.val x z = z
+    change Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap X G.val G.val idG.val x z = z
     simp [Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap, idG]
     rfl
   have hz := LinearMap.congr_fun h z
@@ -209,7 +209,7 @@ theorem tensorSheafMap_exact
   intro tensorFunctor firstMap secondMap
   have hzero : firstMap ≫ secondMap = 0 := by
     rw [← tensorFunctor.map_comp]
-    show tensorFunctor.map ((S.f ≫ S.g, 𝟙 G ≫ 𝟙 G) :
+    change tensorFunctor.map ((S.f ≫ S.g, 𝟙 G ≫ 𝟙 G) :
       (S.X₁, G) ⟶ (S.X₃, G)) = 0
     rw [S.zero, Category.id_comp]
     exact tensorSheafMap_zero_left X (𝟙 G)

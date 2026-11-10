@@ -58,7 +58,7 @@ theorem C1573.map_colon_singleton_of_isBaseChange [Module.Flat R R'] (hψ : IsBa
       LinearMap.toSpanSingleton_apply, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero,
       Submodule.mem_colon_singleton, lam]
   have hkill : TensorProduct.AlgebraTensorModule.lTensor R' R' lam (r' ⊗ₜ 1) = 0 := by
-    show r' ⊗ₜ[R] lam 1 = 0
+    change r' ⊗ₜ[R] lam 1 = 0
     rw [show lam 1 = Submodule.Quotient.mk k by simp [lam]]
     apply (TensorProduct.tensorQuotientEquiv R' L).injective
     rw [TensorProduct.tensorQuotientEquiv_apply_mk_tmul, map_zero,
@@ -82,8 +82,7 @@ theorem C1573.map_colon_singleton_of_isBaseChange [Module.Flat R R'] (hψ : IsBa
       refine ⟨c • w, ?_⟩
       rw [← hw]
       clear hw
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul x y => simp [TensorProduct.smul_tmul']
       | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   obtain ⟨z, hz⟩ := (Module.Flat.ker_lTensor_eq (R := R) R' R' lam).le
@@ -92,8 +91,7 @@ theorem C1573.map_colon_singleton_of_isBaseChange [Module.Flat R R'] (hψ : IsBa
       Algebra.TensorProduct.rid R R' R' (TensorProduct.AlgebraTensorModule.lTensor R' R'
         (LinearMap.ker lam).subtype w) ∈ Ideal.map (algebraMap R R') (L.colon {k}) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul c a =>
       simp only [TensorProduct.AlgebraTensorModule.lTensor_tmul, Submodule.coe_subtype,
         Algebra.TensorProduct.rid_tmul]

@@ -93,13 +93,13 @@ theorem canonicalDescentData_etale (f : X ⟶ S) (U : S.Etale) :
       ((DescentData.canonicalFunctor f).obj ((Scheme.Etale.forget S).obj U)) := by
   let P := DescentData.pullbackFunctor (𝟙 S) f (𝟙 S) f (by simp)
   let D := (DescentData.trivialFunctor S).obj ((Scheme.Etale.forget S).obj U)
-  show Etale ((P.functor.obj D).obj ()).hom
+  change Etale ((P.functor.obj D).obj ()).hom
   have : Etale ((Scheme.Etale.forget S).obj U).hom := U.prop
   have : Etale ((Over.pullback f).obj ((Scheme.Etale.forget S).obj U)).hom := by
-    show Etale (pullback.snd ((Scheme.Etale.forget S).obj U).hom f)
+    change Etale (pullback.snd ((Scheme.Etale.forget S).obj U).hom f)
     infer_instance
   have : IsIso (P.objIso D).hom.left := by
-    show IsIso ((Over.forget X).map (P.objIso D).hom)
+    change IsIso ((Over.forget X).map (P.objIso D).hom)
     infer_instance
   have hcomm : (P.objIso D).hom.left ≫
       ((Over.pullback f).obj ((Scheme.Etale.forget S).obj U)).hom =

@@ -229,12 +229,12 @@ theorem PrimeDivisor.ΓSpecIso_chartDiagramRestrict
           (Z.genericStalkChartDiagram B S hS hX hdec) a) =
       (((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.germ ⊤
         (Z.genericChart B S hS hX hdec).point trivial).hom a) := by
-  show (Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).hom.hom
+  change (Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).hom.hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (Z.genericStalkSpecToChart B S hS hX hdec)).op).hom a) = _
   rw [Scheme.Γ_map_op, Z.toScheme_map_genericStalkSpecToChart B S hS hX hdec,
     Scheme.fromSpecStalk_appTop]
-  show (Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).hom.hom
+  change (Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).hom.hom
       (((Spec (Z.genericStalkRing B S hS hX hdec)).presheaf.map
           (homOfLE le_top).op).hom
         ((Scheme.ΓSpecIso (Z.genericStalkRing B S hS hX hdec)).inv.hom
@@ -310,8 +310,6 @@ theorem PrimeDivisor.orderOfVanishingSection_globalSectionMeromorphic {s : L.sec
   have hreg := (isRegularMeromorphicSection_iff_ne_zero B S hS hX hInt hN L hL _).2
     (globalSectionMeromorphic_ne_zero B S hS hX L hL hs)
   exact orderOfVanishingSection_eq_ord_of_eq_stalkToHenselianLocalRing B S hS hX hdec Z
-    (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX (Z.genericPoint B S hS X)
-      ⟨Z.genericChart B S hS hX hdec⟩)
     (Z.genericChart B S hS hX hdec) L (globalSectionMeromorphic B S hS hX L s)
     (Z.canonicalLocalRatio B S hS hX hdec L hL hInt hN)
     (Z.globalSectionGerm B S hS hX hdec L hL s)

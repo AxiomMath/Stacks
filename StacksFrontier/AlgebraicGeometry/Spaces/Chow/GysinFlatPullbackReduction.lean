@@ -99,11 +99,11 @@ theorem isPullback_pullbackVanishingLocusProjection (hL : IsInvertibleSheaf D p 
       inv_hom_id := hid _ _ }
   refine IsPullback.of_iso (pullbackDivisor_isPullback D p hp p' hp' f L s) e.symm (Iso.refl _)
     (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
-  · show pullbackDivisorProjection D p hp p' hp' f L s ≫ 𝟙 _ =
+  · change pullbackDivisorProjection D p hp p' hp' f L s ≫ 𝟙 _ =
       Subfunctor.homOfLe h.le ≫ Subfunctor.homOfLe h.ge ≫
         pullbackDivisorProjection D p hp p' hp' f L s
     rw [Category.comp_id, reassoc_of% (hid h.le h.ge)]
-  · show (pullbackDivisor D p hp p' hp' f L s).1.ι ≫ 𝟙 _ =
+  · change (pullbackDivisor D p hp p' hp' f L s).1.ι ≫ 𝟙 _ =
       Subfunctor.homOfLe h.le ≫ (pullbackSectionVanishingLocus D p hp p' hp' f L s).1.ι
     rw [Category.comp_id, Subfunctor.homOfLe_ι]
 
@@ -180,8 +180,8 @@ theorem isRationallyEquivalentToZeroWithinCanonical_flatPullbackMap_firstChernCa
     (fun W => α.1 W ≠ 0)).symm
   refine finsum_congr fun W => ?_
   by_cases hW : α.1 W = 0
-  · rw [hW, zero_mul, finsum_eq_if, if_neg (not_not.2 rfl)]
-  · rw [finsum_eq_if, if_pos hW]
+  · rw [hW, zero_mul, finsum_eq_if, ite_eq_right (not_not.2 rfl)]
+  · rw [finsum_eq_if, ite_eq_left hW]
 
 end Carrier
 
@@ -252,7 +252,7 @@ theorem chowClassCanonical_gysinCycleMap_flatPullbackMap_of_defect
   have hE' : D.IsGood (E'.1.ι ≫ p') := isGood_vanishingLocus D p' hp' _ _
   have hgb := pullbackVanishingLocusProjection_comp_structure D p hp p' hp' f L s hL hfbase
   rw [chowClassCanonical_eq_iff_rationallyEquivalentCanonical]
-  refine isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward
+  refine isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward
     D p' hp' E'.1 E'.2 (k + (r : ℤ)) ?_
   have hL' := isInvertibleSheaf_pullbackSheaf D p hp p' hp' f L hL
   have hA := cycleClosedPushforward_gysinCycleMap_eq_firstChernCapCycleMap D p' hp'
@@ -281,18 +281,18 @@ theorem chowClassCanonical_gysinCycleMap_flatPullbackMap_of_defect
   have hCE : (⋃ W, C W) ⊆ subspacePointSet D.site D.base D.base_mem X' E'.1 := by
     refine Set.iUnion_subset fun W => ?_
     by_cases h : W.subspace ≤ E.1
-    · simp only [C, if_pos h]
+    · simp only [C, ite_eq_left h]
       rw [pullbackVanishingLocus_eq_preimage D p hp p' hp' f L s hL, subspacePointSet_preimage]
       exact Set.preimage_mono (subspacePointSet_mono_of_le D h)
-    · simp only [C, if_neg h, Set.empty_subset]
+    · simp only [C, ite_eq_right h, Set.empty_subset]
   have hcomm :=
     isRationallyEquivalentToZeroWithinCanonical_flatPullbackMap_firstChernCapCycleMap_sub
       D p' hp' p hp f.hom hfbase r hflat hr k (sectionGysinChernRule D p hp L s hL k)
       (gysinPullbackChernRule D p hp p' hp' f r L s hL k) C hC α fun W hW a _ => by
         by_cases h : W.subspace ≤ E.1
-        · simp only [C, if_pos h]
+        · simp only [C, ite_eq_left h]
           exact hle W hW h a
-        · simp only [C, if_neg h]
+        · simp only [C, ite_eq_right h]
           rw [hnotle W hW h, smul_zero]
           exact isRationallyEquivalentToZeroWithinCanonical_zero D p' hp' _ _
   convert (hcomm.neg).mono hCE using 1

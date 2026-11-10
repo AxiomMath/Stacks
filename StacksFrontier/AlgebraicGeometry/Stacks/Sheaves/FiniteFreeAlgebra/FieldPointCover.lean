@@ -71,7 +71,7 @@ theorem exists_point_isPullback_universalFiniteCoverMap_of_field {K : Type u} [F
   obtain ⟨pt, g, hpb⟩ := exists_point_isPullback_universalFiniteCoverMap d (Spec (.of K))
     (map (Scheme.ΓSpecIso (.of K)).inv.hom m)
   have : IsIso (Spec.map (CommRingCat.ofHom (Scheme.ΓSpecIso (.of K)).inv.hom)) := by
-    show IsIso (Spec.map (Scheme.ΓSpecIso (.of K)).inv)
+    change IsIso (Spec.map (Scheme.ΓSpecIso (.of K)).inv)
     infer_instance
   have hsq := isPullback_specCover_map (Scheme.ΓSpecIso (.of K)).inv.hom m
   have := hsq.isIso_fst_of_isIso

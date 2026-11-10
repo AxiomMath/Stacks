@@ -107,7 +107,7 @@ private theorem exists_extend_of_exact
   let φ : d.range →ₗ[A] Z := lift.comp d.quotKerEquivRange.symm.toLinearMap
   have hφ : φ.comp d.rangeRestrict = g := by
     ext x
-    show lift (d.quotKerEquivRange.symm ⟨d x, LinearMap.mem_range_self d x⟩) = g x
+    change lift (d.quotKerEquivRange.symm ⟨d x, LinearMap.mem_range_self d x⟩) = g x
     rw [LinearMap.quotKerEquivRange_symm_apply_image]
     exact congrArg (fun q : X →ₗ[A] Z => q x) (Submodule.liftQ_mkQ d.ker g hker)
   obtain ⟨g', hg'⟩ := exists_extend_of_pureInjective d.range.subtype
@@ -159,7 +159,7 @@ private theorem next_comparison_map
   let g := dI.comp (p.map n)
   have hker : dC.ker ≤ g.ker := by
     intro x hx
-    show dI (p.map n x) = 0
+    change dI (p.map n x) = 0
     cases n with
     | zero =>
         obtain ⟨m, hm⟩ := (hC.exact_zero x).mp hx
@@ -244,7 +244,7 @@ public theorem exists_comparison_map
       simp only [ComplexShape.up_Rel] at hij
       rcases hij with rfl
       apply ModuleCat.hom_ext
-      show (I.d i (i + 1)).hom.comp ((prefixes i).map i) =
+      change (I.d i (i + 1)).hom.comp ((prefixes i).map i) =
         ((prefixes (i + 1)).map (i + 1)).comp (C.d i (i + 1)).hom
       have hmap : ((prefixes (i + 1)).map i) = ((prefixes i).map i) := by
         simp [prefixes, extendComparisonPrefix]
@@ -283,7 +283,7 @@ private theorem homotopy_exists_of_zero_augmentation
     have hc : (e.f 1).hom.comp (C.d 0 1).hom =
         (I.d 0 1).hom.comp (e.f 0).hom :=
       congrArg (fun q : C.X 0 ⟶ I.X 1 => q.hom) (e.comm 0 1).symm
-    show (e.f 1).hom.comp (C.d 0 1).hom =
+    change (e.f 1).hom.comp (C.d 0 1).hom =
       (I.d 0 1).hom.comp (e.f 0).hom
     exact hc
   obtain ⟨h1, hh1⟩ := exists_eq_comp_add_comp (C.d 0 1).hom (C.d 1 2).hom (hC.exact 0)
@@ -292,11 +292,11 @@ private theorem homotopy_exists_of_zero_augmentation
   have comm_one : e.f 1 =
       (ModuleCat.ofHom h0) ≫ I.d 0 1 + C.d 1 2 ≫ (ModuleCat.ofHom h1) := by
     apply ModuleCat.hom_ext
-    show (e.f 1).hom = (I.d 0 1).hom.comp h0 + h1.comp (C.d 1 2).hom
+    change (e.f 1).hom = (I.d 0 1).hom.comp h0 + h1.comp (C.d 1 2).hom
     exact hh1
   refine ⟨Homotopy.mkCoinductive e (ModuleCat.ofHom h0) ?_ (ModuleCat.ofHom h1) comm_one ?_⟩
   · apply ModuleCat.hom_ext
-    show (e.f 0).hom = h0.comp (C.d 0 1).hom
+    change (e.f 0).hom = h0.comp (C.d 0 1).hom
     exact hh0'
   · intro n p
     have heq : g (n + 1) = (I.d n (n + 1)).hom.comp p.1.hom +
@@ -322,7 +322,7 @@ private theorem homotopy_exists_of_zero_augmentation
     have hne := Classical.choose_spec step
     refine ⟨ModuleCat.ofHom hn, ?_⟩
     apply ModuleCat.hom_ext
-    show (e.f (n + 2)).hom =
+    change (e.f (n + 2)).hom =
       (I.d (n + 1) (n + 2)).hom.comp p.2.1.hom +
         hn.comp (C.d (n + 2) (n + 3)).hom
     exact hne
@@ -343,7 +343,7 @@ public theorem homotopy_of_same_augmentation
   let γ : C ⟶ I := α - β
   have hγ : (γ.f 0).hom.comp augmentationC = 0 := by
     ext m
-    show (α.f 0).hom (augmentationC m) - (β.f 0).hom (augmentationC m) = 0
+    change (α.f 0).hom (augmentationC m) - (β.f 0).hom (augmentationC m) = 0
     simpa only [sub_eq_zero, LinearMap.comp_apply] using
       (congrArg (fun q : M →ₗ[A] I.X 0 => q m) hα).trans
         (congrArg (fun q : M →ₗ[A] I.X 0 => q m) hβ).symm
@@ -424,7 +424,7 @@ private lemma exact_comp_surjective_injective
     obtain ⟨y, hy⟩ := hmem
     obtain ⟨z, hz⟩ := hf y
     refine ⟨z, ?_⟩
-    show g (f z) = x
+    change g (f z) = x
     rw [hz]
     exact hy
   · rintro ⟨z, rfl⟩
@@ -436,7 +436,7 @@ private lemma resolution_embedding_comp_quotient (M : Type v) [AddCommGroup M]
     resolutionEmbedding (A := A) M n ≫ resolutionQuotient (A := A) M n = 0 := by
   apply ModuleCat.hom_ext
   ext x
-  show (pureInjectiveExtension (A := A) (resolutionModules (A := A) M n)).g.hom
+  change (pureInjectiveExtension (A := A) (resolutionModules (A := A) M n)).g.hom
       ((pureInjectiveExtension (A := A) (resolutionModules (A := A) M n)).f.hom x) = 0
   apply LinearMap.mem_ker.mp
   rw [← (pureInjectiveExtension (A := A) (resolutionModules (A := A) M n)).exact]
@@ -512,12 +512,12 @@ public theorem exists_pureInjectiveResolution
       (LinearMap.rTensor Q ((resolutionEmbedding (A := A) M 1).hom))
       (by intro x; exact ⟨x, rfl⟩) (hUni 1 Q)
       (rTensor_exact Q (hExact 0) (hSurj 0))
-    show Function.Exact
+    change Function.Exact
       (LinearMap.rTensor Q ((resolutionEmbedding (A := A) M 0).hom))
       (LinearMap.rTensor Q ((I.d 0 1).hom))
     rw [congrArg (LinearMap.rTensor Q) (hI_d_comp 0)]
     rw [LinearMap.rTensor_comp]
-    show Function.Exact
+    change Function.Exact
       (LinearMap.rTensor Q ((resolutionEmbedding (A := A) M 0).hom))
       (LinearMap.rTensor Q ((resolutionEmbedding (A := A) M 1).hom) ∘ₗ
         LinearMap.rTensor Q ((resolutionQuotient (A := A) M 0).hom))
@@ -532,7 +532,7 @@ public theorem exists_pureInjectiveResolution
       ((resolutionQuotient (A := A) M (n + 1)).hom)
       ((resolutionEmbedding (A := A) M (n + 1 + 1)).hom)
       (hSurj n) (hInj (n + 1 + 1)) (hExact (n + 1))
-    show Function.Exact ((I.d n (n + 1)).hom) ((I.d (n + 1) (n + 1 + 1)).hom)
+    change Function.Exact ((I.d n (n + 1)).hom) ((I.d (n + 1) (n + 1 + 1)).hom)
     rw [hI_d_comp n, hI_d_comp (n + 1)]
     exact hresult
   · intro Q hQadd hQmod n
@@ -545,7 +545,7 @@ public theorem exists_pureInjectiveResolution
       (LinearMap.rTensor Q ((resolutionEmbedding (A := A) M (n + 1 + 1)).hom))
       (LinearMap.rTensor_surjective Q (hSurj n)) (hUni (n + 1 + 1) Q)
       (rTensor_exact Q (hExact (n + 1)) (hSurj (n + 1)))
-    show Function.Exact
+    change Function.Exact
       (LinearMap.rTensor Q ((I.d n (n + 1)).hom))
       (LinearMap.rTensor Q ((I.d (n + 1) (n + 1 + 1)).hom))
     rw [congrArg (LinearMap.rTensor Q) (hI_d_comp n),
@@ -553,7 +553,7 @@ public theorem exists_pureInjectiveResolution
     rw [LinearMap.rTensor_comp, LinearMap.rTensor_comp]
     exact hresult
   · intro n
-    show Module.PureInjective A (resolutionTerms (A := A) M n)
+    change Module.PureInjective A (resolutionTerms (A := A) M n)
     exact (pureInjectiveExtension (A := A) (resolutionModules (A := A) M n)).I_pureInjective
 
 end

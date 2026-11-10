@@ -70,7 +70,7 @@ private lemma connectedSpace_pullback_of_algEquiv {k k' K : Type u}
     rw [← Spec.map_comp]
     congr 1
     ext x
-    show (algebraMap k k') x = e.symm ((algebraMap k K) x)
+    change (algebraMap k k') x = e.symm ((algebraMap k K) x)
     exact (e.symm.commutes x).symm
   have : IsIso i := by
     dsimp [i]

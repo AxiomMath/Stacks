@@ -347,7 +347,7 @@ lemma bijective_fiberMaximalIdeal [IsIntegralHom f] (y : Y) :
       rw [← IsAffineOpen.comap_primeIdealOf_appLE (f := f) V hV (f ⁻¹ᵁ V) hU le_rfl z.2]
       apply PrimeSpectrum.ext
       rw [Scheme.Hom.appLE_eq_app]
-      show (hU.primeIdealOf z).asIdeal.comap (f.app V).hom = _
+      change (hU.primeIdealOf z).asIdeal.comap (f.app V).hom = _
       rw [hz]
       exact hq₀comap
     have hfz : f z.1 = y := congrArg Subtype.val (hV.primeIdealOf_injective h2)

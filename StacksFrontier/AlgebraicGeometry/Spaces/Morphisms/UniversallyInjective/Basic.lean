@@ -343,7 +343,7 @@ theorem exists_fieldSpec_lift_of_isLocallySurjective (f : F ⟶ G)
   refine ⟨r.carrier, r.field, r.contained, r.toBase, b, F.map a.op q.value, ?_⟩
   change G.map b.op x = r.value at hb
   change G.map a.op (f.app _ q.value) = r.value at ha
-  show f.app (Opposite.op (FieldValuedPoint.siteObject B S hS G r))
+  change f.app (Opposite.op (FieldValuedPoint.siteObject B S hS G r))
     (F.map a.op q.value) = _
   rw [hb, ← ha]
   exact NatTrans.naturality_apply f a.op q.value
@@ -423,14 +423,14 @@ theorem universallyInjective_of_fieldPoints (f : F ⟶ G)
     refine pullback_section_ext B S hS g f ?_ ?_
     · rw [NatTrans.naturality_apply (pullback.fst g f) c.op xT,
         NatTrans.naturality_apply (pullback.fst g f) c.op yT]
-      show Y'.map c.op ((pullback.fst g f).app
+      change Y'.map c.op ((pullback.fst g f).app
           (Opposite.op (FieldValuedPoint.siteObject B S hS Y' r)) xT) =
         Y'.map c.op ((pullback.fst g f).app
           (Opposite.op (FieldValuedPoint.siteObject B S hS Y' r)) yT)
       rw [hfstx, hfsty]
     · rw [NatTrans.naturality_apply (pullback.snd g f) c.op xT,
         NatTrans.naturality_apply (pullback.snd g f) c.op yT]
-      show F.map c.op ((pullback.snd g f).app
+      change F.map c.op ((pullback.snd g f).app
           (Opposite.op (FieldValuedPoint.siteObject B S hS Y' r)) xT) =
         F.map c.op ((pullback.snd g f).app
           (Opposite.op (FieldValuedPoint.siteObject B S hS Y' r)) yT)
@@ -441,11 +441,11 @@ theorem universallyInjective_of_fieldPoints (f : F ⟶ G)
        contained := q.contained
        toBase := q.toBase
        value := (pullback g f).map c.op xT }, ⟨c ≫ a, ?_⟩, ⟨c ≫ b, ?_⟩⟩
-  · show (pullback g f).map (c ≫ a).op p₀.value = (pullback g f).map c.op xT
+  · change (pullback g f).map (c ≫ a).op p₀.value = (pullback g f).map c.op xT
     rw [hxT]
     rw [op_comp, CategoryTheory.Functor.map_comp]
     rfl
-  · show (pullback g f).map (c ≫ b).op q₀.value = (pullback g f).map c.op xT
+  · change (pullback g f).map (c ≫ b).op q₀.value = (pullback g f).map c.op xT
     rw [hc, hyT]
     rw [op_comp, CategoryTheory.Functor.map_comp]
     rfl

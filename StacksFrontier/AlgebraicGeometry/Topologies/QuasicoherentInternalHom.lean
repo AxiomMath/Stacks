@@ -82,7 +82,7 @@ private noncomputable def coproductCokernel
   · intro Z s hs m hm
     ext i
     apply Cofork.IsColimit.hom_ext h
-    simp only [Sigma.ι_desc, CokernelCofork.π_ofπ]
+    simp only [Sigma.ι_comp_desc, CokernelCofork.π_ofπ]
     change b ≫ _ = b ≫ (CokernelCofork.IsColimit.desc' h _ _).1
     exact (show b ≫ Sigma.ι (fun _ : I => M) i ≫ m =
         Sigma.ι (fun _ : I => B) i ≫ s by
@@ -351,7 +351,7 @@ public theorem internalHomSheaf_isQuasicoherent
     apply X.J.superset_covering _ (hcov W)
     intro Z g hg
     obtain ⟨j, k, hk⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hg
-    show (Sieve.ofArrows V f).arrows (g ≫ a)
+    change (Sieve.ofArrows V f).arrows (g ≫ a)
     rw [Sieve.mem_ofArrows_iff]
     refine ⟨⟨⟨W, a, i, b⟩, j⟩, k, ?_⟩
     dsimp [f, V]

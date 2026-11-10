@@ -312,7 +312,7 @@ private theorem exists_opens_forall_mem_iff_eulerSum_eq_and_isAmple_dualizingShe
   refine ⟨U₂.ι ''ᵁ U₃, fun K _ V y q fV sq => ?_⟩
   rw [forall_mem_image_iff_of_forall_mem_iff f U₂ U₃ Q₃ L₃ K V y q fV sq]
   refine and_congr_left' ?_
-  show fibreEulerCharacteristic f O _ = _ ↔ _
+  change fibreEulerCharacteristic f O _ = _ ↔ _
   rw [fibreEulerCharacteristic_unit_eq_eulerSum f sq]
 
 open ProperFlatFibreEulerCharacteristic in

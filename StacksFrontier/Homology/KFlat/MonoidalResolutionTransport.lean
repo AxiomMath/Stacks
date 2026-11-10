@@ -67,7 +67,8 @@ transport does not close.
   over a sheaf of rings on a ringed site. See the module documentation of
   `StacksFrontier/AlgebraicGeometry/Spaces/AbelianSheafMonoidalPreadditive.lean`.
 
-So what is removed here is the generic obstruction — the absence of any transport at all, described in
+So what is removed here is the generic obstruction — the absence of any transport at all, described
+in
 the module documentation of `StacksFrontier/Homology/ConstMapDerivedCategoryMonoidal.lean`
 — and not the two concrete gaps above.
 

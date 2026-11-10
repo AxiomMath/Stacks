@@ -288,11 +288,11 @@ theorem powAdd_zero_right (n : ℤ) : powAdd e n 0 n (add_zero n) = Iso.refl _ :
   | succ i ih =>
       rw [powAdd_succ e i 0 i (i + 1) (i + 1) rfl (add_zero _) rfl, ih]
       ext X
-      simp [refl_functor_eq]
+      simp
   | pred i ih =>
       rw [powAdd_pred e (-i) 0 (-i) (-i - 1) (-i - 1) rfl (add_zero _) rfl, ih]
       ext X
-      simp [refl_functor_eq]
+      simp
 
 /-- The cocycle identity: the two ways of multiplying three powers agree. -/
 theorem powAdd_assoc (n : ℤ) :
@@ -306,7 +306,7 @@ theorem powAdd_assoc (n : ℤ) :
       obtain rfl : p = m := by omega
       obtain rfl : s = t := by omega
       ext X
-      simp [powAdd_zero_left, refl_functor_eq]
+      simp [powAdd_zero_left]
   | succ i ih =>
       intro m k p t s h₁ h₂ h₃
       rw [powAdd_succ e i m (i + m) p (i + 1) rfl rfl (by omega),

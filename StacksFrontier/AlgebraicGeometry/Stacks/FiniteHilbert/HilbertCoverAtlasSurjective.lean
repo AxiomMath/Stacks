@@ -160,7 +160,7 @@ theorem isSurjectiveOnObjects_finiteCoverUniversalAtlas :
   · refine (IsPullback.of_id_fst (f := y.q)).of_iso e.symm (Iso.refl _) (Iso.refl _)
       (Iso.refl _) ?_ ?_ ?_ ?_
     · exact e.inv_hom_id.symm
-    · show y.q ≫ 𝟙 y.U = e.inv ≫ pullback.snd (universalFiniteCoverMapOver B S hS d) h
+    · change y.q ≫ 𝟙 y.U = e.inv ≫ pullback.snd (universalFiniteCoverMapOver B S hS d) h
       rw [Category.comp_id, ← he, Iso.inv_hom_id_assoc]
     · exact (Category.comp_id _).trans (Category.id_comp _).symm
     · exact (Category.id_comp (𝟙 y.U)).symm

@@ -212,7 +212,7 @@ theorem standardTowerFace_zero_standardTowerX (A : Type u) [CommRing A] (B : Com
     (n : ℕ) (q : standardTower.{u, v} A B n) :
     standardTowerFace.{u, v} A B n 0 (standardTowerX.{u, v} A B n q) = q := by
   rw [standardTowerFace_zero]
-  show ((polynomialComonad.{u, v} A).ε.app
+  change ((polynomialComonad.{u, v} A).ε.app
     (standardTower.{u, v} A B n)).hom (MvPolynomial.X q) = q
   rw [polynomialComonad_counit]
   exact MvPolynomial.aeval_X (id : standardTower.{u, v} A B n → _) q
@@ -225,7 +225,7 @@ theorem standardTowerDegeneracy_zero_standardTowerX (A : Type u) [CommRing A]
     standardTowerDegeneracy.{u, v} A B n 0 (standardTowerX.{u, v} A B n q) =
       standardTowerX.{u, v} A B (n + 1) (standardTowerX.{u, v} A B n q) := by
   rw [standardTowerDegeneracy_zero]
-  show ((polynomialComonad.{u, v} A).δ.app
+  change ((polynomialComonad.{u, v} A).δ.app
     (standardTower.{u, v} A B n)).hom (MvPolynomial.X q) = _
   rw [polynomialComonad_comul]
   exact MvPolynomial.rename_X (f := (MvPolynomial.X : standardTower.{u, v} A B n → _)) q

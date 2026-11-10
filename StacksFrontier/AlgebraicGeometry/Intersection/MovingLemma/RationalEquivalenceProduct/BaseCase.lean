@@ -4,8 +4,7 @@ public import
   StacksFrontier.AlgebraicGeometry.Intersection.MovingLemma.RationalEquivalenceProduct.Reduction
 public import
   StacksFrontier.AlgebraicGeometry.Intersection.MovingLemma.RationalEquivalenceProduct.Sections
-public import
-  StacksFrontier.AlgebraicGeometry.Intersection.MovingLemma.RationalEquivalenceProduct.FibreComponents
+public import StacksFrontier.AlgebraicGeometry.Intersection.MovingLemma.RationalEquivalenceProduct.FibreComponents
 public import StacksFrontier.AlgebraicGeometry.Intersection.RationalEquivalence.FibreSpecialCase
 public import StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.CycleIntersectionProductComm
 
@@ -123,7 +122,7 @@ theorem torFormulaCycleIntersectionProduct_fibreDifference_mem_ratCycles (n r s 
         hdom (isDominant_of_infinityFiber_nonempty k p W hInf hne)
     rw [cycleAssociatedToClosedSubscheme_eq_zero_of_support_eq_empty k p _ h0e,
       cycleAssociatedToClosedSubscheme_eq_zero_of_support_eq_empty k p _ hie, sub_self]
-    show cycleIntersectionProduct _ 0 _ ∈ _
+    change cycleIntersectionProduct _ 0 _ ∈ _
     rw [cycleIntersectionProduct_zero_left]
     exact AddSubgroup.zero_mem _
 

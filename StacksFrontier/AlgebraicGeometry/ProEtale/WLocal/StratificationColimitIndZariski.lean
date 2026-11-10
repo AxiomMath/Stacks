@@ -97,7 +97,7 @@ private theorem stratificationAlgebraMap_faithfullyFlat (E : Finset A) :
           (stratumOpenElement i.val)) := by
       ext a
       rfl
-    show PrimeSpectrum.comap ((Pi.evalRingHom _ i).comp
+    change PrimeSpectrum.comap ((Pi.evalRingHom _ i).comp
       (stratificationAlgebraMap E)) q = p
     rw [hcomp]
     exact hq
@@ -350,7 +350,7 @@ private theorem localIso_ind_prod (X Y : Type u) [CommRing X] [CommRing Y]
     exact isColimitOfReflects (forget (CommAlgCat.{u} A)) hType
   have hStages : ∀ ij : I × J, P (F.obj ij) := by
     intro ij
-    show Algebra.IsLocalIso A
+    change Algebra.IsLocalIso A
       ((pX.diag.obj ij.1 : Type u) × (pY.diag.obj ij.2 : Type u))
     exact localIso_prod_of_localIso _ _ (hPX ij.1) (hPY ij.2)
   exact ⟨I × J, inferInstance, inferInstance, ⟨F, cProd.ι, hcolim⟩, hStages⟩
@@ -438,7 +438,7 @@ private theorem stratificationRing_indZariski (E : Finset A) :
   let P : ObjectProperty (CommAlgCat.{u} A) := fun C => Algebra.IsLocalIso A C
   have hstage : ∀ i : idx, P.ind.{u} (CommAlgCat.of A (S i)) := by
     intro i
-    show ObjectProperty.ind.{u}
+    change ObjectProperty.ind.{u}
       (fun C : CommAlgCat.{u} A => Algebra.IsLocalIso A C)
       (CommAlgCat.of A (Localization
         (localizationSubmonoid (stratumIdeal E i) (stratumOpenElement i.val))))
@@ -452,7 +452,7 @@ private theorem stratificationRing_indZariski (E : Finset A) :
     localIso_ind_isClosedUnderTerminal (A := A)
   let : ObjectProperty.IsClosedUnderFiniteProducts P.ind :=
     ObjectProperty.IsClosedUnderFiniteProducts.mk' (P := P.ind)
-  show P.ind.{u} (CommAlgCat.of A (∀ i : {E' : Finset A // E' ⊆ E},
+  change P.ind.{u} (CommAlgCat.of A (∀ i : {E' : Finset A // E' ⊆ E},
     localizationRing (stratumIdeal E i) (stratumOpenElement i.val)))
   exact (P.ind.{u}.prop_iff_of_iso (commAlgCatPiIso (A := A) S)).mp (P.ind.prop_pi _ hstage)
 
@@ -470,7 +470,7 @@ theorem stratificationColimit_isIndZariski :
       (CommAlgCat.of A (stratificationColimitRing (A := A))) :=
     ObjectProperty.of_essentiallySmall_index pres (stratificationRing_indZariski (A := A))
   rw [ObjectProperty.ind_ind (localIso_isFinitelyPresentable.{u, u} A)] at hind
-  show ObjectProperty.ind.{u}
+  change ObjectProperty.ind.{u}
     (fun C : CommAlgCat.{u} A => Algebra.IsLocalIso A C)
     (CommAlgCat.of A (ULift.{u} (stratificationColimitRing (A := A))))
   exact ((ObjectProperty.ind.{u}

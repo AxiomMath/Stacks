@@ -142,7 +142,7 @@ theorem surjective_app_of_mem_affineFlatAffineFactorArrows
     {x z : 𝒳.val.val.obj} {f : z ⟶ x} (hf : affineFlatAffineFactorArrows x f) :
     Function.Surjective (φ.hom.val.app (op z)) := by
   obtain ⟨⟨w, hw, hwa, ⟨g⟩⟩, hz⟩ := hf
-  exact FibredSite.surjective_app_of_hom F.property G.property φ.hom g hwa hz (h w hw hwa)
+  exact FibredSite.surjective_app_of_hom G.property φ.hom g hwa hz (h w hw hwa)
 
 /-- **A map of quasi-coherent modules surjective at flat affine objects is locally
 surjective.** -/

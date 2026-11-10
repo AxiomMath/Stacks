@@ -210,7 +210,7 @@ variable {Γ G' : Type*} [Group Γ] [Group G']
 /-- The restriction along `φ` of the lattice of `ρ` is the lattice of `ρ ∘ φ`. -/
 def groupRingRestrictLatticeModuleEquiv (ρ : Γ →* GL (Fin r) ℤ_[ℓ]) (φ : G' →* Γ) :
     GroupRingRestrict φ (LatticeModule ρ) ≃ₗ[MonoidAlgebra ℤ G'] LatticeModule (ρ.comp φ) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (groupRingLinearMap ((latticeModuleEquiv (ρ.comp φ)).symm.toLinearMap.toAddMonoidHom.comp
         ((latticeModuleEquiv ρ).toLinearMap.toAddMonoidHom.comp
           (toGroupRingRestrict φ).symm.toAddMonoidHom)) fun g x => by

@@ -57,8 +57,7 @@ public theorem subsingleton_tensorProduct_of_subsingleton_left {A : Type*} [Comm
     {M : Type*} [AddCommGroup M] [Module A M] {N : Type*} [AddCommGroup N] [Module A N]
     (hM : Subsingleton M) : Subsingleton (TensorProduct A M N) := by
   refine subsingleton_of_forall_eq 0 fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [hM.elim a 0, TensorProduct.zero_tmul]
   | add x y hx hy => rw [hx, hy, add_zero]
 

@@ -146,7 +146,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
       map_point := hjaffPoint }
   have hUrel : Urel.IsElementary := by
     rw [EtaleNeighborhood.isElementary_iff]
-    show IsIso (jaff.residueFieldMap Uaff.point)
+    change IsIso (jaff.residueFieldMap Uaff.point)
     infer_instance
   let Ufinal : EtaleNeighborhood S s :=
     { scheme := Uaff.scheme
@@ -203,7 +203,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
       _ = x := hiz
   have hyW : (f.fiberι s y) ∈ W := (hWT y).2 hyT
   have hvB : mf (F.ι v) ∈ B := by
-    show pullback.fst f Ufinal.toBase (mf (F.ι v)) ∈ W
+    change pullback.fst f Ufinal.toBase (mf (F.ι v)) ∈ W
     rw [hmfpoint]
     exact hyW
   let qF : F.toScheme ⟶ Uaff.scheme := F.ι ≫ pullback.snd g Ufinal.toBase
@@ -226,7 +226,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
   let D₀ : Naff.scheme.Opens := D ⊓ Naff.toBase ⁻¹ᵁ Saff
   have hD₀point : Naff.point ∈ D₀ := by
     refine ⟨hDpoint, ?_⟩
-    show Naff.toBase Naff.point ∈ Saff
+    change Naff.toBase Naff.point ∈ Saff
     rw [Naff.map_point, hgs]
     exact hsaff
   obtain ⟨A, hAaff, hApoint, hAsub⟩ := exists_isAffineOpen_mem_and_subset (U := D₀) hD₀point
@@ -366,7 +366,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
         _ = (pullback.fst g Ufinal.toBase ≫ i) (F.ι wold) := congrArg i hX
         _ = (mf ≫ pullback.fst f Ufinal.toBase) (F.ι wold) := by rw [hmfFst]
         _ = pullback.fst f Ufinal.toBase (mf (F.ι wold)) := by simp
-    show pullback.fst f U1.toBase (m1f (F1.ι w)) ∈ W
+    change pullback.fst f U1.toBase (m1f (F1.ι w)) ∈ W
     rw [hcoord]
     exact hB
   have hrangeσ : Set.range (F1.ι ≫ m1f) ⊆ Set.range B1.ι := by
@@ -378,7 +378,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
   have hσ : σ1 ≫ fB = q1 := by
     have hm1snd : m1f ≫ pullback.snd f U1.toBase = pullback.snd g U1.toBase :=
       pullback.lift_snd _ _ _
-    show σ1 ≫ B1.ι ≫ pullback.snd f U1.toBase = F1.ι ≫ pullback.snd g U1.toBase
+    change σ1 ≫ B1.ι ≫ pullback.snd f U1.toBase = F1.ι ≫ pullback.snd g U1.toBase
     rw [← Category.assoc, hσ1, Category.assoc, hm1snd]
   have hZ1 : Nonempty (q1.fiber U1.point) := by
     obtain ⟨v1, hv1, -⟩ := hfinite1.2.1
@@ -416,7 +416,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
       · intro w hw
         let w' : (pullback.snd f U1.toBase).fiber U1.point := (elementaryFiberIso f U1).inv w
         have hw' : (elementaryFiberIso f U1).hom w' = w := by
-          show ((elementaryFiberIso f U1).inv ≫ (elementaryFiberIso f U1).hom) w = w
+          change ((elementaryFiberIso f U1).inv ≫ (elementaryFiberIso f U1).hom) w = w
           rw [Iso.inv_hom_id]
           rfl
         have hW : pullback.fst f U1.toBase
@@ -430,11 +430,11 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
         have hp : pB w'' = w' := by
           apply ((pullback.snd f U1.toBase).fiberι U1.point).isEmbedding.injective
           rw [hpBfiberι w'']
-          show B1.ι (fB.fiberι U1.point w'') =
+          change B1.ι (fB.fiberι U1.point w'') =
             (pullback.snd f U1.toBase).fiberι U1.point w'
           simp [w'', b, Scheme.Hom.fiberι_fiberHomeo_symm]
         refine ⟨w'', ?_⟩
-        show (elementaryFiberIso f U1).hom (pB w'') = w
+        change (elementaryFiberIso f U1).hom (pB w'') = w
         rw [hp, hw']
     let e : fB.fiber U1.point ≅ T.toScheme :=
       IsOpenImmersion.isoOfRangeEq r T.ι (by simpa [Scheme.Opens.range_ι] using hrange)
@@ -442,7 +442,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
         fB.fiberToSpecResidueField U1.point ≫ Spec.map U1.residueFieldMap := by
       have he : e.hom ≫ T.ι = r := IsOpenImmersion.isoOfRangeEq_hom_fac r T.ι _
       rw [← Category.assoc, he]
-      show (pB ≫ (elementaryFiberIso f U1).hom) ≫ f.fiberToSpecResidueField s = _
+      change (pB ≫ (elementaryFiberIso f U1).hom) ≫ f.fiberToSpecResidueField s = _
       rw [Category.assoc, elementaryFiberIso_hom_fiberToSpecResidueField, ← Category.assoc,
         fiberMapOfSourceHom_fiberToSpecResidueField]
     let : IsIso (Spec.map U1.residueFieldMap) := inferInstance
@@ -460,7 +460,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
     ext w
     exact ⟨fun ⟨o, ho⟩ => ⟨O.ι o, o.2, ho⟩, fun ⟨b, hb, hbw⟩ => ⟨⟨b, hb⟩, hbw⟩⟩
   have hV1compact : IsCompact (V1 : Set Yf1) := by
-    show IsCompact (Set.range kO)
+    change IsCompact (Set.range kO)
     rw [hrangeO]
     exact hOcompact.image B1.ι.continuous
   let eO : O.toScheme ≅ V1.toScheme :=
@@ -468,7 +468,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
       simpa [Scheme.Opens.range_ι] using (show Set.range kO = (V1 : Set Yf1) from rfl))
   have heO : eO.hom ≫ V1.ι = kO := IsOpenImmersion.isoOfRangeEq_hom_fac kO V1.ι _
   have hqOeq : eO.hom ≫ pV1 = qO := by
-    show eO.hom ≫ V1.ι ≫ p1 = O.ι ≫ B1.ι ≫ pullback.snd f U1.toBase
+    change eO.hom ≫ V1.ι ≫ p1 = O.ι ≫ B1.ι ≫ pullback.snd f U1.toBase
     rw [← Category.assoc, heO]
     simp [kO, p1]
   have hzbO (wb : fB.fiber U1.point) : fB.fiberι U1.point wb ∈ O := by
@@ -501,7 +501,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
   obtain ⟨wb⟩ := hfbNon
   have hImgpoint : U1.point ∈ img := by
     refine ⟨⟨fB.fiberι U1.point wb, hzbO wb⟩, ?_⟩
-    show fB (fB.fiberι U1.point wb) = U1.point
+    change fB (fB.fiberι U1.point wb) = U1.point
     exact (fB.fiberHomeo U1.point wb).property
   obtain ⟨A2, hA2aff, hA2point, hA2subimg⟩ :=
     exists_isAffineOpen_mem_and_subset (U := img) hImgpoint
@@ -530,7 +530,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   have hqVA : GeometricallyConnected pVA := by
     have heval : eOA ≫ pVA = qOA := by
-      show eOA ≫ pullback.snd pV1 A2.ι = pullback.snd qO A2.ι
+      change eOA ≫ pullback.snd pV1 A2.ι = pullback.snd qO A2.ι
       rw [pullback.lift_snd]
       simp
     refine (MorphismProperty.cancel_left_of_respectsIso
@@ -648,7 +648,7 @@ theorem exists_elementaryEtaleNeighborhood_open_geometricallyConnected
       _ ↔ p1.fiberι U1.point w1 ∈ V1 := by rw [hfiber1]
       _ ↔ pullback.fst f U1.toBase (p1.fiberι U1.point w1) ∈ W := hV1fiber w1
       _ ↔ pullback.fst f U2.toBase y2 ∈ W := by rw [hfiber1, hfst]
-  show y2 ∈ V2 ↔ _
+  change y2 ∈ V2 ↔ _
   exact hViff.trans (hWiff.symm.trans hImage.symm)
 
 /-- **Stacks Project, Tag 055W** follows from Tag 0570 and Tag 057I. This also records that the

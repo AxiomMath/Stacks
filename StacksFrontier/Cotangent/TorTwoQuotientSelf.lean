@@ -129,8 +129,7 @@ noncomputable def torTwoSelfIsoTorOneIdeal (hf : Function.Surjective (algebraMap
 /-- The value of multiplication `J ⊗_P J → J²`, read in `P`. -/
 theorem val_mulMap' (J : Ideal P) (x : ↥J ⊗[P] ↥J) :
     ((Submodule.mulMap' J J x : ↥(J * J)) : P) = Submodule.mulMap J J x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp
   | add x y hx hy => simp [hx, hy]
 

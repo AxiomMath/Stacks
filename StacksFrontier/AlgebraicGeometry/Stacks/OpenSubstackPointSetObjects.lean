@@ -107,7 +107,7 @@ theorem property_of_pointsWithin (U : OpenSubstack 𝒳) {x : 𝒳.val.val.obj}
     let a' : BigFppfOver B T.left.1 T.left.2 := Over.mk tt.left
     let ta : a' ⟶ Over.mk (𝟙 T.left) := Over.homMk tt.left (Category.comp_id _)
     let e : (Over.map T.hom).obj a' ⟶ p.obj r.obj := Over.homMk (𝟙 _) (by
-      show 𝟙 _ ≫ _ = tt.left ≫ T.hom
+      change 𝟙 _ ≫ _ = tt.left ≫ T.hom
       rw [Category.id_comp, Over.w tt])
     have he : (Over.map T.hom).map ta ≫ eqToHom hT' = e ≫ tt := by
       ext
@@ -126,7 +126,7 @@ theorem property_of_pointsWithin (U : OpenSubstack 𝒳) {x : 𝒳.val.val.obj}
       ext Z f
       rfl
     have hne : Nonempty ((BigFppfOver.toScheme B S hS).obj W'') := by
-      show Nonempty ((BigFppfOver.toScheme B S hS).obj (p.obj r.obj))
+      change Nonempty ((BigFppfOver.toScheme B S hS).obj (p.obj r.obj))
       rw [r.over]
       exact ⟨r.isSpec.inv (Classical.arbitrary _)⟩
     obtain ⟨w0⟩ := hne
@@ -147,11 +147,11 @@ theorem property_of_pointsWithin (U : OpenSubstack 𝒳) {x : 𝒳.val.val.obj}
       have := IsHomLift.fac' p ((p.map m ≫ eqToHom (Functor.congr_obj hy a)) ≫
         ((Over.map T.hom).map ta0 ≫ eqToHom hT')) m'
       simpa using this
-    show B.inclusion.map tt.left w0 = B.inclusion.map pv.value.left _
+    change B.inclusion.map tt.left w0 = B.inclusion.map pv.value.left _
     rw [htt]
     simp only [Over.comp_left, Functor.map_comp, Scheme.Hom.comp_apply]
     have hsub : Subsingleton (B.inclusion.obj a.left) := by
-      show Subsingleton (Spec (.of pv.carrier))
+      change Subsingleton (Spec (.of pv.carrier))
       infer_instance
     exact congrArg (fun z => (B.inclusion.map pv.value.left) z) (@Subsingleton.elim _ hsub _ _)
   have hle : (⊤ : Subfunctor (yoneda.obj T)) ≤ Range :=

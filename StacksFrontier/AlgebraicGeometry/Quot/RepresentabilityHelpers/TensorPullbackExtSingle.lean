@@ -107,7 +107,7 @@ theorem tensorPullbackComplexSingleSingleIso_hom_naturality
       (tensorPullbackComplexSingleSingleIso f G N).hom ≫
         (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map
           (((tensorPullbackBifunctor f).obj G).map q) := by
-  show HomologicalComplex.mapBifunctorMap
+  change HomologicalComplex.mapBifunctorMap
       (𝟙 ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G))
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map q) (tensorPullbackBifunctor f)
       (ComplexShape.up ℤ) ≫
@@ -196,7 +196,7 @@ theorem tensorPullbackExtGroupSingleZeroEquiv_naturality
           ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G) q 0 x) =
       tensorPullbackExtGroupSingleZeroEquiv f G F N x ≫
         ((tensorPullbackBifunctor f).obj G).map q := by
-  show (DerivedCategory.singleFunctor (Modules.{u, u} B S hS X.1 X.2) 0).preimage
+  change (DerivedCategory.singleFunctor (Modules.{u, u} B S hS X.1 X.2) 0).preimage
       ((x ≫ ((DerivedCategory.Q (C := Modules.{u, u} B S hS X.1 X.2)).map ((tensorPullbackComplex f
         ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G)).map
           ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map q)))⟦(0 : ℤ)⟧') ≫

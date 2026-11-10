@@ -69,7 +69,7 @@ theorem exists_standardFppf_refinement
     ⟨E.map B.inclusion, hEfp'⟩
   have hUfp := (Scheme.presieve₀_mem_precoverage_iff U.toPreZeroHypercover).mp U.mem₀
   have : Scheme.JointlySurjective Scheme.fppfPrecoverage := by
-    show Scheme.JointlySurjective
+    change Scheme.JointlySurjective
       (Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation))
     infer_instance
   have : MorphismProperty.IsStableUnderComposition
@@ -87,7 +87,7 @@ theorem exists_standardFppf_refinement
     obtain ⟨_, _⟩ := hUfp.2 i
     exact (U.f i).isOpenMap
   have : IsAffine T₀ := by
-    show IsAffine (B.inclusion.obj T)
+    change IsAffine (B.inclusion.obj T)
     infer_instance
   have : CompactSpace T₀ := (TopCat.homeoOfIso (asIso T₀.isoSpec.inv.base)).compactSpace
   obtain ⟨V, φ, hVfinite, hφopen⟩ := QuasiCompactCover.exists_hom U
@@ -148,7 +148,7 @@ theorem exists_standardFppf_refinement
       obtain ⟨e, he⟩ := hα' i
       let j : I := ⟨α' i, ⟨i, rfl⟩⟩
       refine Set.mem_iUnion.mpr ⟨j, Set.mem_range.mpr ⟨e.hom y, ?_⟩⟩
-      show (B.inclusion.map (W.f j.1)) (e.hom y) = x
+      change (B.inclusion.map (W.f j.1)) (e.hom y) = x
       rwa [← Scheme.Hom.comp_apply, he]
   have hQfp : AlgebraicGeometry.IsFppfCovering ⟨T, Q⟩ := by
     simpa [AlgebraicGeometry.IsFppfCovering, Scheme.fppfPrecoverage,
@@ -222,7 +222,7 @@ private theorem bigAffineFppfInclusion_isCoverDense
       AlgebraicGeometry.BigFppfOver.topology B S hS X := by
     rw [AlgebraicGeometry.BigFppfOver.topology, GrothendieckTopology.mem_over_iff,
       Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows W.X W.f ∈ B.topology T
+    change Sieve.ofArrows W.X W.f ∈ B.topology T
     simpa [PreZeroHypercover.presieve₀] using
       Precoverage.generate_mem_toGrothendieck (⟨W, rfl, hW⟩ : W.presieve₀ ∈ B.precoverage T)
   refine (AlgebraicGeometry.BigFppfOver.topology B S hS).superset_covering ?_ hBcover

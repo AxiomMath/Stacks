@@ -108,12 +108,12 @@ public theorem continuous_sumRep {R : Type*} [CommRing R] [TopologicalSpace R]
     [IsTopologicalRing R] {r r' : ℕ} {ρ : Γ →* GL (Fin r) R} {ρ' : Γ →* GL (Fin r') R}
     (hρ : Continuous ρ) (hρ' : Continuous ρ') : Continuous (sumRep ρ ρ') := by
   refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · show Continuous fun g => (sumSplitting (R := R) r r').blockDiag (ρ g).val (ρ' g).val
+  · change Continuous fun g => (sumSplitting (R := R) r r').blockDiag (ρ g).val (ρ' g).val
     simp only [IsSplitting.blockDiag]
     exact ((continuous_const.matrix_mul (Units.continuous_val.comp hρ)).matrix_mul
       continuous_const).add ((continuous_const.matrix_mul
         (Units.continuous_val.comp hρ')).matrix_mul continuous_const)
-  · show Continuous fun g => (sumSplitting (R := R) r r').blockDiag (ρ g)⁻¹.val (ρ' g)⁻¹.val
+  · change Continuous fun g => (sumSplitting (R := R) r r').blockDiag (ρ g)⁻¹.val (ρ' g)⁻¹.val
     simp only [IsSplitting.blockDiag]
     exact ((continuous_const.matrix_mul (Units.continuous_coe_inv.comp hρ)).matrix_mul
       continuous_const).add ((continuous_const.matrix_mul
@@ -133,7 +133,7 @@ private theorem sumGrading_eq_two_mul_iff {r r' : ℕ} (δ : Fin r → ℤ) (d' 
     simp only [sumGrading_natAdd]
     refine ⟨fun h => by omega, fun ⟨j', hj', _⟩ => ?_⟩
     have := congrArg Fin.val hj'
-    simp only [Fin.coe_castAdd, Fin.coe_natAdd] at this
+    simp only [Fin.val_castAdd, Fin.val_natAdd] at this
     omega
 
 /-- **The diagonal blocks of an `ι`-realizable representation are pure along every embedding of the
@@ -184,7 +184,7 @@ public theorem exists_norm_eq_pow_toSquareBlock_of_isIotaRealizable (ι : ℚ_[�
       hsK.blockDiag ((X g).map (algebraMap E ℂ_[ℓ]))
         (P'⁻¹.val * (ρ' g).val.map (algebraMap ℚ_[ℓ] ℂ_[ℓ]) * P'.val) := fun g => by
     rw [sumRep_val, sumSplitting_blockDiag_map]
-    show hsK.blockDiag Q⁻¹.val P'⁻¹.val * hsK.blockDiag _ _ * hsK.blockDiag Q.val P'.val = _
+    change hsK.blockDiag Q⁻¹.val P'⁻¹.val * hsK.blockDiag _ _ * hsK.blockDiag Q.val P'.val = _
     rw [IsSplitting.blockDiag_mul, IsSplitting.blockDiag_mul, hmapK]
     congr 1
     simp only [X, Matrix.map_mul]
@@ -219,7 +219,7 @@ public theorem exists_norm_eq_pow_toSquareBlock_of_isIotaRealizable (ι : ℚ_[�
           simp only [sumGrading_castAdd]
           refine ⟨fun h => by omega, fun ⟨j', hj', _⟩ => ?_⟩
           have := congrArg Fin.val hj'
-          simp only [Fin.coe_castAdd, Fin.coe_natAdd] at this
+          simp only [Fin.val_castAdd, Fin.val_natAdd] at this
           omega
         | right j =>
           simp only [sumGrading_natAdd]
@@ -238,7 +238,7 @@ public theorem exists_norm_eq_pow_toSquareBlock_of_isIotaRealizable (ι : ℚ_[�
     intro y m
     rw [sumRep_val, charpoly_sumSplitting_blockDiag, RingHom.comp_apply,
       IsScalarTower.algebraMap_apply ℚ_[ℓ] E ℂ_[ℓ]]
-    show φK ((algebraMap ℚ_[ℓ] E _ : E) : ℂ_[ℓ]) ∈ _
+    change φK ((algebraMap ℚ_[ℓ] E _ : E) : ℂ_[ℓ]) ∈ _
     rw [hφK _ (Algebra.subset_adjoin (Or.inr ⟨(y, m), rfl⟩)), hι']
     exact hreal y m
   obtain ⟨β, hβ, hβy⟩ := exists_norm_eq_pow_of_isGradedUpper φK H φ hcomm hD1 Fr deg hFr hdeg hfin

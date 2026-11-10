@@ -119,9 +119,9 @@ public theorem isFiniteProjectiveLocallyConstant_composeAndSheafify_free
   refine ⟨I, V, f, hf, fun i ↦ ?_⟩
   obtain ⟨E, hE, ⟨e⟩⟩ := h i
   refine ⟨(ModuleCat.free R).obj E, ?_, ?_, ⟨?_⟩⟩
-  · show Module.Finite R (E →₀ R)
+  · change Module.Finite R (E →₀ R)
     infer_instance
-  · show Module.Projective R (E →₀ R)
+  · change Module.Projective R (E →₀ R)
     infer_instance
   · exact ((Sheaf.constantSheafComposeAndSheafifyFreeIso (J.over (V i)) R
         Over.mkIdTerminal).app E).symm ≪≫
@@ -145,6 +145,8 @@ public def IsConstantFiniteProjectiveOver (V : C) (F : Sheaf J (ModuleCat.{w} R)
     Nonempty ((constantSheaf (J.over V) (ModuleCat.{w} R)).obj E ≅
       (J.overPullback (ModuleCat.{w} R) V).obj F)
 
+omit [∀ (V : C) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.forget V).op.HasPointwiseRightKanExtension G] in
 /-- Local triviality with finite projective value passes to every object lying over a
 trivializing one. -/
 public theorem IsConstantFiniteProjectiveOver.restrict {U V : C} (g : V ⟶ U)
@@ -159,6 +161,8 @@ public def finProjTrivSieve (F : Sheaf J (ModuleCat.{w} R)) (U : C) : Sieve U wh
   arrows V _ := IsConstantFiniteProjectiveOver J R V F
   downward_closed h g := h.restrict J R g
 
+omit [∀ (V : C) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.forget V).op.HasPointwiseRightKanExtension G] in
 /-- Local constancy with finite projective values is exactly: the trivializing sieve covers every
 object. -/
 public theorem isFiniteProjectiveLocallyConstant_iff_trivSieve_mem
@@ -176,6 +180,10 @@ public theorem isFiniteProjectiveLocallyConstant_iff_trivSieve_mem
     exact ⟨I, X, f, hXf ▸ hF U, fun i ↦
       (hXf ▸ Sieve.ofArrows_mk X f i : finProjTrivSieve J R F U (f i))⟩
 
+omit [∀ (V : C) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.forget V).op.HasPointwiseRightKanExtension G]
+  [∀ (U V : C) (f : V ⟶ U) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.map f).op.HasPointwiseRightKanExtension G] in
 /-- The constant sheaf functor on a slice site preserves the coproducts indexed by any
 `ι : Type`: it is the left adjoint of evaluation at the terminal object `𝟙 V` of `C/V`. -/
 public theorem preservesColimitsOfShape_constantSheaf_over (V : C) (ι : Type) :
@@ -186,6 +194,9 @@ public theorem preservesColimitsOfShape_constantSheaf_over (V : C) (ι : Type) :
       (Over.mkIdTerminal (X := V))).leftAdjoint_preservesColimits
   infer_instance
 
+omit [∀ V : C, HasWeakSheafify (J.over V) (ModuleCat.{w} R)]
+  [∀ (U V : C) (f : V ⟶ U) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.map f).op.HasPointwiseRightKanExtension G] in
 /-- Restriction to a slice site preserves the coproducts indexed by any `ι : Type`: it is
 the left adjoint of `CategoryTheory.Functor.sheafAdjunctionCocontinuous`, `Over.forget V` being
 cocontinuous. -/
@@ -197,6 +208,8 @@ public theorem preservesColimitsOfShape_overPullback (V : C) (ι : Type) :
       (J.over V) J).leftAdjoint_preservesColimits
   infer_instance
 
+omit [∀ (U V : C) (f : V ⟶ U) (G : (Over V)ᵒᵖ ⥤ ModuleCat.{w} R),
+    (Over.map f).op.HasPointwiseRightKanExtension G] in
 /-- **A finite direct sum of sheaves constant with finite projective value over `V` is constant
 with finite projective value over `V`.** -/
 public theorem IsConstantFiniteProjectiveOver.sigma {ι : Type} [Finite ι] {V : C}

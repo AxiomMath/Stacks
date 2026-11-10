@@ -76,7 +76,7 @@ sheaves of rings. -/
 lemma FirstOrderThickening.structureMap_locallySurjective (hi : FirstOrderThickening i) :
     Presheaf.IsLocallySurjective Y.J
       (structureRingMap i).hom := by
-  show Presheaf.IsLocallySurjective Y.J
+  change Presheaf.IsLocallySurjective Y.J
     (Functor.whiskerRight i.fSharp.hom (forget₂ CommRingCat RingCat))
   refine ⟨?_⟩
   intro U s
@@ -255,7 +255,7 @@ private lemma middle_smul_eq_zero_of_extensionActionMap_eq_zero
     (show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U
       from hi.incl.val.app U a) • x = 0 := by
   rw [← (extensionActionMap hi E).property U a x, h]
-  show (E.f.val.app U) 0 = 0
+  change (E.f.val.app U) 0 = 0
   exact map_zero _
 
 /-- Conversely, if the square-zero ideal annihilates the middle term of an extension, the action
@@ -518,7 +518,7 @@ private lemma actionOfExt_add
       𝟙 (R.obj F) := by
     rw [← CategoryTheory.Functor.map_comp, biprod.inr_snd, CategoryTheory.Functor.map_id]
   have h₁ : (Abelian.Ext.mk₀ (R.map (biprod.inl : F ⟶ F ⊞ F))).comp z (zero_add 1) = x := by
-    show (Abelian.Ext.mk₀ (R.map (biprod.inl : F ⟶ F ⊞ F))).comp
+    change (Abelian.Ext.mk₀ (R.map (biprod.inl : F ⟶ F ⊞ F))).comp
       ((Abelian.Ext.mk₀ (R.map (biprod.fst : F ⊞ F ⟶ F))).comp x (zero_add 1) +
         (Abelian.Ext.mk₀ (R.map (biprod.snd : F ⊞ F ⟶ F))).comp y (zero_add 1))
       (zero_add 1) = x
@@ -526,7 +526,7 @@ private lemma actionOfExt_add
       Abelian.Ext.mk₀_comp_mk₀_assoc, einl_fst, einl_snd, Abelian.Ext.mk₀_id_comp,
       Abelian.Ext.mk₀_zero, Abelian.Ext.zero_comp, add_zero]
   have h₂ : (Abelian.Ext.mk₀ (R.map (biprod.inr : F ⟶ F ⊞ F))).comp z (zero_add 1) = y := by
-    show (Abelian.Ext.mk₀ (R.map (biprod.inr : F ⟶ F ⊞ F))).comp
+    change (Abelian.Ext.mk₀ (R.map (biprod.inr : F ⟶ F ⊞ F))).comp
       ((Abelian.Ext.mk₀ (R.map (biprod.fst : F ⊞ F ⟶ F))).comp x (zero_add 1) +
         (Abelian.Ext.mk₀ (R.map (biprod.snd : F ⊞ F ⟶ F))).comp y (zero_add 1))
       (zero_add 1) = y
@@ -597,13 +597,13 @@ private lemma actionExtAddHom_eq_zero_iff
     have he : extensionClass F K E = R.mapExtAddHom F K 1 y := by
       rw [Functor.mapExtAddHom_apply, ← hy, Abelian.Ext.mapExactFunctor_extClass]
       rfl
-    show actionOfExt hi F K (R.mapExtAddHom F K 1 y) = 0
+    change actionOfExt hi F K (R.mapExtAddHom F K 1 y) = 0
     rw [← he, actionOfExt_extensionClass]
     apply extensionActionMap_eq_zero_of_middle_smul_eq_zero
     intro U a m
     let : Module (((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U)
         (M.val.obj U) := (M.val.obj U).isModule
-    show (i.fSharp.hom.app U
+    change (i.fSharp.hom.app U
         (show Y.O.obj.obj U from hi.incl.val.app U a)) • (show M.val.obj U from m) = 0
     rw [(hi.kernel U _).2 ⟨a, rfl⟩, zero_smul]
 
@@ -657,7 +657,7 @@ theorem exists_extensionActionMap_eq_iff_exists_add_mapExtAddHom
   let d := actionExtAddHom.{_, _, _, _, _, _, e} hi F K
   have hb : d b.val = c := by
     obtain ⟨E, hc, he⟩ := b.property
-    show actionOfExt hi F K b.val = c
+    change actionOfExt hi F K b.val = c
     rw [← he, actionOfExt_extensionClass, hc]
   have hp : (∃ E, (extensionActionMap hi E).1 = c ∧ extensionClass F K E = x) ↔ d x = c := by
     constructor
@@ -674,7 +674,7 @@ theorem exists_extensionActionMap_eq_iff_exists_add_mapExtAddHom
     exact ⟨a, by change b.val + f a = x; rw [ha]; abel⟩
   · rintro ⟨a, rfl⟩
     have hz : d (f a) = 0 := (actionExtAddHom_eq_zero_iff hi F K (f a)).2 ⟨a, rfl⟩
-    show d (b.val + f a) = c
+    change d (b.val + f a) = c
     rw [map_add, hb, hz, add_zero]
 
 /-- **Stacks 08ME.** If some extension over a first order thickening of ringed topoi induces the

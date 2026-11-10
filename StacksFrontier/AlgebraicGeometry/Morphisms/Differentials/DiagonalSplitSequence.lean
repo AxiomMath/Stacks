@@ -186,7 +186,7 @@ private theorem retractionComparisonInv_app_pullbackSection (hp : i ≫ p = 𝟙
           (Scheme.Modules.pullbackSection p M U (p ⁻¹ᵁ U) le_rfl s)) = s := by
   have h₁ : U ≤ (i ≫ p) ⁻¹ᵁ U := by rw [hp]; exact le_rfl
   have h₂ : U ≤ (𝟙 Z) ⁻¹ᵁ U := le_rfl
-  show (((Scheme.Modules.pullbackId Z).hom.app M).val.app (op U))
+  change (((Scheme.Modules.pullbackId Z).hom.app M).val.app (op U))
     ((((Scheme.Modules.pullbackCongr hp).hom.app M).val.app (op U))
       ((((Scheme.Modules.pullbackComp i p).hom.app M).val.app (op U)) _)) = s
   rw [Scheme.Modules.pullbackSection_comp i p M U (p ⁻¹ᵁ U) U le_rfl
@@ -206,7 +206,7 @@ theorem retractionComparison_val_app (hp : i ≫ p = 𝟙 Z) (M : Z.Modules) (U 
   refine (ConcreteCategory.bijective_of_isIso
     (Scheme.Modules.Hom.app (retractionComparisonInv i p hp M) U)).injective ?_
   rw [retractionComparisonInv_app_pullbackSection i p hp M U s]
-  show ((retractionComparison i p hp M ≫ retractionComparisonInv i p hp M).val.app (op U)) s = s
+  change ((retractionComparison i p hp M ≫ retractionComparisonInv i p hp M).val.app (op U)) s = s
   rw [retractionComparison_comp]
   rfl
 
@@ -294,7 +294,7 @@ theorem projInclusion_val_app_d (p : pullback f f ⟶ X)
         (relativeDifferentials (pullback.fst f f ≫ f)) (p ⁻¹ᵁ U) U
         (le_preimage_preimage (pullback.diagonal f) p hp U)
         ((universalRelativeDerivation (pullback.fst f f ≫ f)).d ((p.app U).hom b)) := by
-  show ((((Scheme.Modules.pullback (pullback.diagonal f)).map
+  change ((((Scheme.Modules.pullback (pullback.diagonal f)).map
       (relativeDifferentialsMap p f (pullback.fst f f ≫ f) (𝟙 S)
         (hpf.trans (Category.comp_id _).symm))).val.app (op U)))
     (((retractionComparison (pullback.diagonal f) p hp
@@ -481,7 +481,7 @@ theorem pullbackSection_d_diffSection (U : X.Opens) (b : Γ(X, U)) :
           (Stacks.Diagonal.diffSection f U b)) =
       ((leftArrow f).val.app (op U)) ((universalRelativeDerivation f).d b) := by
   rw [leftArrow_eq]
-  show _ = ((sndInclusion f).val.app (op U)) ((universalRelativeDerivation f).d b) -
+  change _ = ((sndInclusion f).val.app (op U)) ((universalRelativeDerivation f).d b) -
     ((fstInclusion f).val.app (op U)) ((universalRelativeDerivation f).d b)
   rw [sndInclusion, fstInclusion, projInclusion_val_app_d, projInclusion_val_app_d]
   unfold Stacks.Diagonal.diffSection

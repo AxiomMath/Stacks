@@ -55,7 +55,7 @@ variable {C₁ C₂ D₁ D₂ : Type*} [Category* C₁] [Category* C₂] [Catego
 /-- The mate `Ψ₁ ⋙ L₂ ⟶ L₁ ⋙ Ψ₂` of a square `β : P₁ ⋙ Ψ₁ ⟶ Ψ₂ ⋙ P₂`. -/
 def strictMate {Ψ₁ : C₁ ⥤ D₁} {Ψ₂ : C₂ ⥤ D₂} (β : P₁ ⋙ Ψ₁ ⟶ Ψ₂ ⋙ P₂) :
     Ψ₁ ⋙ L₂ ⟶ L₁ ⋙ Ψ₂ :=
-  ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)).natTrans
+  (mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ β)
 
 /-- The components of `strictMate` in terms of the unit of `adj₁` and the counit of `adj₂`. -/
 lemma strictMate_app {Ψ₁ : C₁ ⥤ D₁} {Ψ₂ : C₂ ⥤ D₂} (β : P₁ ⋙ Ψ₁ ⟶ Ψ₂ ⋙ P₂) (X : C₁) :
@@ -324,20 +324,20 @@ theorem isIso_coefficientMate_of_finite [IsNoetherianRing R]
   have hzT : θ g T (L_R.obj G) ≫ θ (kernel.ι g) T (L_R.obj G) = 0 := by
     apply Sheaf.hom_ext
     ext U f
-    show kernel.ι g ≫ g ≫ (show N ⟶ (L_R.obj G).obj.obj U from f) = 0
+    change kernel.ι g ≫ g ≫ (show N ⟶ (L_R.obj G).obj.obj U from f) = 0
     rw [kernel.condition_assoc, zero_comp]
   let d : (sheafCompose T.smallEtaleTopology (homFunctor N (centralScalars (A := A) N))).obj
       (L_R.obj G) ⟶ L_A.obj ((sheafCompose S.smallEtaleTopology
         (homFunctor N (centralScalars (A := A) N))).obj G) :=
     hk.lift (KernelFork.ofι (θ g T (L_R.obj G) ≫ inv cF) (by
       rw [← cancel_mono cK, zero_comp, Category.assoc, Category.assoc]
-      show θ g T (L_R.obj G) ≫ inv cF ≫ L_A.map (θ (kernel.ι g) S G) ≫ cK = 0
+      change θ g T (L_R.obj G) ≫ inv cF ≫ L_A.map (θ (kernel.ι g) S G) ≫ cK = 0
       rw [eι, IsIso.inv_hom_id_assoc, hzT]))
   have hd : d ≫ L_A.map (θ g S G) = θ g T (L_R.obj G) ≫ inv cF :=
     hk.fac _ WalkingParallelPair.zero
   refine ⟨d, ?_, ?_⟩
   · apply Fork.IsLimit.hom_ext hk
-    show (cN ≫ d) ≫ L_A.map (θ g S G) = 𝟙 _ ≫ L_A.map (θ g S G)
+    change (cN ≫ d) ≫ L_A.map (θ g S G) = 𝟙 _ ≫ L_A.map (θ g S G)
     rw [Category.assoc, hd, ← Category.assoc, ← eg, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id, Category.id_comp]
   · rw [← cancel_mono (θ g T (L_R.obj G)), Category.assoc, ← eg, ← Category.assoc, hd,

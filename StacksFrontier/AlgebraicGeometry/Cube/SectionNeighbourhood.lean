@@ -57,7 +57,7 @@ theorem nonvanishingLocus_hom_app_top_of_iso {X : Scheme.{u}} {M M' : X.Modules}
     Stacks.Ample.nonvanishingLocus M' (e.hom.val.app (op ⊤) t) =
       Stacks.Ample.nonvanishingLocus M t := by
   ext x
-  show _ ∉ Stacks.ModuleStalk.maximalSmul M' x ↔ _ ∉ Stacks.ModuleStalk.maximalSmul M x
+  change _ ∉ Stacks.ModuleStalk.maximalSmul M' x ↔ _ ∉ Stacks.ModuleStalk.maximalSmul M x
   refine not_congr ?_
   let φ := LinearEquiv.ofBijective (stalkLinearMap M M' e.hom x)
     (Stacks.EnriquesSeveriZariski.bijective_stalkLinearMap_of_inverse e.hom e.inv e.hom_inv_id
@@ -78,7 +78,7 @@ private theorem pullbackSectionHom_top_eq {X' X : Scheme.{u}} (i : X' ⟶ X) (M 
       ((Scheme.Modules.pullback i).obj M).presheaf.map a t = t := fun a t => by
     rw [Subsingleton.elim a (𝟙 _),
       ((Scheme.Modules.pullback i).obj M).presheaf.map_id, ConcreteCategory.id_apply]
-  show ((Scheme.Modules.pullback i).obj M).presheaf.map (homOfLE h).op
+  change ((Scheme.Modules.pullback i).obj M).presheaf.map (homOfLE h).op
       (Stacks.NonvanishingPullback.pullbackGlobalSection i M s) = _
   exact key _ _
 
@@ -136,7 +136,7 @@ theorem exists_basicOpen_nonempty_iso_unit {R : Type u} [CommRing R] {X : Scheme
       rw [Scheme.Pullback.range_fst, Set.mem_preimage, hfx]
       refine ⟨(⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum 𝔭.asIdeal.ResidueField), ?_⟩
       apply PrimeSpectrum.ext
-      show Ideal.comap (algebraMap R 𝔭.asIdeal.ResidueField) ⊥ = 𝔭.asIdeal
+      change Ideal.comap (algebraMap R 𝔭.asIdeal.ResidueField) ⊥ = 𝔭.asIdeal
       rw [← RingHom.ker_eq_comap_bot, Ideal.ker_algebraMap_residueField]
     obtain ⟨y, rfl⟩ := hx'
     exact hx (hfib y)

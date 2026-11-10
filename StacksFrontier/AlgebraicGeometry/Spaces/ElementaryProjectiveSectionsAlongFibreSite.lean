@@ -105,7 +105,7 @@ theorem exists_isAffine_elementary_etale_hom_projective_sections_along_fibre
       B.obj hNsize ⟶ B.obj hS))
   have hk : (ObjectProperty.homMk m : B.obj hZsize ⟶ B.obj hNsize) ≫ E'.hom = D'.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show m ≫ N.toBase ≫ B.inclusion.map E.hom = g ≫ B.inclusion.map D.hom
+    change m ≫ N.toBase ≫ B.inclusion.map E.hom = g ≫ B.inclusion.map D.hom
     rw [← Category.assoc, hcomm, Category.assoc, hbaseD]
   refine ⟨D', E',
       Over.homMk (ObjectProperty.homMk g : B.obj hZsize ⟶ D.left) rfl,
@@ -119,7 +119,7 @@ theorem exists_isAffine_elementary_etale_hom_projective_sections_along_fibre
   · obtain ⟨d, hd, hdk⟩ := hcov ((((BigFppfOver.toScheme B S hS).map h).fiberHomeo ε).symm
       ⟨δ, hδ⟩)
     refine ⟨d, ?_, hdk⟩
-    show g d = δ
+    change g d = δ
     rw [hd, Scheme.Hom.fiberι_fiberHomeo_symm]
 
 end AlgebraicGeometry.Space

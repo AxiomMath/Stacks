@@ -241,7 +241,7 @@ public theorem of_mul_of_powSec (m n : ℕ) :
         mul_one]
       rfl
   | succ n ih =>
-      show DirectSum.of (powSections L) (d * m) (powSec L a m)
+      change DirectSum.of (powSections L) (d * m) (powSec L a m)
             * DirectSum.of (powSections L) (d * n + d) (mul (powSec L a n) a)
           = DirectSum.of (powSections L) (d * (m + n) + d) (mul (powSec L a (m + n)) a)
       rw [of_mul_eq, of_mul_eq, ← mul_assoc, ih]

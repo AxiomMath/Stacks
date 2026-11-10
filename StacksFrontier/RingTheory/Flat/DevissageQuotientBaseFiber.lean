@@ -341,15 +341,13 @@ public noncomputable def quotFiberRingEquiv (J r : Ideal R) [r.IsPrime]
   map_add' := map_add _
   left_inv := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x b =>
         rw [quotFiberForward_tmul, quotFiberBackward_tmul_mk, RingEquiv.symm_apply_apply]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
   right_inv := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul y c =>
         obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective c
         rw [show (Ideal.Quotient.mk (Ideal.map (algebraMap R B) J) b)
@@ -370,7 +368,7 @@ public theorem quotFiberRingEquiv_includeRight (J r : Ideal R) [r.IsPrime]
       = Algebra.TensorProduct.includeRight
           (R := R ⧸ J) (A := (Ideal.map (algebraMap R (R ⧸ J)) r).ResidueField)
           (algebraMap B (B ⧸ Ideal.map (algebraMap R B) J) b) := by
-  show quotFiberForward J r hJ B ((1 : r.ResidueField) ⊗ₜ[R] b) = _
+  change quotFiberForward J r hJ B ((1 : r.ResidueField) ⊗ₜ[R] b) = _
   rw [quotFiberForward_tmul, map_one]
   rfl
 

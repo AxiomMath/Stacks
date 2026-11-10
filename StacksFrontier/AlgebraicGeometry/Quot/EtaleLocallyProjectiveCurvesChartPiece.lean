@@ -163,7 +163,7 @@ theorem exists_etale_finite_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : W
     (q₀ ⁻¹ᵁ U₁).ι ≫ j₀ ≫ pullback.fst f Ue.toBase ≫ Z₀.subschemeι ≫ V.ι
   have hP := (IsPullback.of_hasPullback gW φ).map (𝒯)
   have hab : a ≫ (𝒯).map gW = b ≫ (𝒯).map φ := by
-    show a ≫ (𝒯).map gW = b ≫ U₁.ι ≫ Ue.toBase
+    change a ≫ (𝒯).map gW = b ≫ U₁.ι ≫ Ue.toBase
     rw [← Category.assoc b, morphismRestrict_ι]
     simp only [a, q₀, f, Category.assoc]
     rw [pullback.condition]
@@ -176,7 +176,7 @@ theorem exists_etale_finite_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : W
   have hjs : (𝒯).map (j ≫ pullback.snd gW φ) = b := (Functor.map_comp _ _ _).trans hm₂
   have hjf : (𝒯).map (j ≫ pullback.fst gW φ) = a := (Functor.map_comp _ _ _).trans hm₁
   refine ⟨U, P, φ, u, j, ?_, hU₁, ?_, ?_, ?_, ?_, ?_⟩
-  · show Etale (U₁.ι ≫ Ue.toBase); infer_instance
+  · change Etale (U₁.ι ≫ Ue.toBase); infer_instance
   · exact Ue.map_point
   · rw [hjm]
     refine (_root_.AlgebraicGeometry.IsClosedImmersion.iff_isProper_and_mono m).2 ⟨?_, ?_⟩

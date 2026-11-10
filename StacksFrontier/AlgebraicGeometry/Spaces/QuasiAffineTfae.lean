@@ -152,7 +152,7 @@ private theorem isZariskiCover_singletonTop (hY : IsAlgebraicSpace B S hS Y) :
   refine ⟨fun _ ↦ ⟨hY.of_iso (asIso (Subfunctor.ι (⊤ : Subfunctor Y))).symm,
     MorphismProperty.presheaf_of_isIso _ _⟩, ?_⟩
   exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
-    (Sigma.ι_desc (fun _ : PUnit.{u + 1} ↦ (⊤ : Subfunctor Y).ι) PUnit.unit)
+    (Sigma.ι_comp_desc (fun _ : PUnit.{u + 1} ↦ (⊤ : Subfunctor Y).ι) PUnit.unit)
 
 /-- **[Stacks, Tag 03WM], (2) implies (4).** A quasi-affine morphism of algebraic spaces over
 `S` is quasi-affine on the members of a Zariski covering of its target. -/

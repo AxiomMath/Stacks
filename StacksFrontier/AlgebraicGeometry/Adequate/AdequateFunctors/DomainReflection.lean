@@ -160,6 +160,7 @@ public theorem preservesFiniteLimits_adequateι :
   Functor.preservesFiniteLimits_of_preservesKernels _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for finite-colimit preservation of the adequate inclusion functor
 /-- The inclusion of the adequate module-valued functors is right exact. -/
 public theorem preservesFiniteColimits_adequateι :
     PreservesFiniteColimits (adequate.{u, u, u} A).ι :=

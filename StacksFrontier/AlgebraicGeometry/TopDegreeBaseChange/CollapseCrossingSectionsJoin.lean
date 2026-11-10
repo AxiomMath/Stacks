@@ -59,8 +59,8 @@ quasi-separatedness, no quasi-coherence, and no hypothesis on the degree.
 ## Implementation notes
 
 *The split of the scheme-level 01E5 under the outer functor must be paid at the level of natural
-transformations, and four module-level routes to it are kernel timeouts.* Each of the following times out in the kernel, on a
-statement and proof that **elaborate** without error:
+transformations, and four module-level routes to it are kernel timeouts.* Each of the following
+times out in the kernel, on a statement and proof that **elaborate** without error:
 
 * `congrArg (fun t => (openSubschemeTopSections V).map t)` applied to the cast entry at a module;
 * the same with that `congrArg` hoisted into a lemma stated at variable morphisms, so that only
@@ -105,7 +105,8 @@ than twice. The match-first orientation is then reached by `Eq.symm` **in its ow
 where it checks; taken with `.symm` inside a larger term it does not.
 
 *Why the segment rewrites are declared at a variable category.* The composites here are long enough
-that `rw [Category.assoc]` does not find its pattern on the goal, which is the reason `StacksFrontier.CategoryTheory.CompositeCancellation` exists. The three
+that `rw [Category.assoc]` does not find its pattern on the goal, which is the reason
+`StacksFrontier.CategoryTheory.CompositeCancellation` exists. The three
 statements of the first section are the segment rewrites this identification needs and none of them
 is in that module; they are stated at a variable category and applied as terms, so that the
 caller's morphisms keep their own spellings and the objects between them are checked at default

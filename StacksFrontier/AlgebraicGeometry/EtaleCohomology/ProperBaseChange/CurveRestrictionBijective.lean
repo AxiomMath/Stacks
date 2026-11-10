@@ -19,7 +19,8 @@ Let `k ⊆ k'` be separably closed fields. Granted
 
 restriction is bijective in every degree for every torsion abelian sheaf on every proper `k`-scheme
 of dimension at most one. For sheaves killed by a prime this is the induction of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.CurveRestrictionInduction`; a sheaf
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.CurveRestrictionInduction`; a
+sheaf
 killed by a positive integer is reached by the primary dévissage
 (`Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_bijective_of_nsmul_id_eq_zero`), and a
 torsion sheaf is the filtered colimit of its torsion filtration `F[n!]`, along which cohomology on
@@ -178,7 +179,7 @@ theorem bijective_etaleCohomologyRestrictionMap_of_torsion_of_curve_of_isAlgClos
     | coe m =>
       have h1 : m ≤ 1 := by exact_mod_cast hCdim
       have h0' : ¬ m ≤ 0 := fun h => h0 (by exact_mod_cast h)
-      have : m = 1 := le_antisymm h1 (ENat.one_le_iff_ne_zero.2 fun h => h0' h.le)
+      have : m = 1 := le_antisymm h1 (Order.one_le_iff_ne_zero.2 fun h => h0' h.le)
       rw [this]; rfl
 
 end Stacks.EtaleCohomology

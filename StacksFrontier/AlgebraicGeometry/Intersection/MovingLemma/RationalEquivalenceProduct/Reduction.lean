@@ -39,7 +39,7 @@ theorem torFormulaCycleIntersectionProduct_mem_ratCycles_of_single [DecidableEq 
     torFormulaCycleIntersectionProduct C p hX m α β.1 ∈ ratCycles C p m := by
   have hfin := finite_support_of_compactSpace β.1
   rw [AlgebraicCycle.eq_sum_zsmul_single hfin]
-  show cycleIntersectionProductRightHom (torFormulaSubvarietyProductTotal C p hX m) α _ ∈ _
+  change cycleIntersectionProductRightHom (torFormulaSubvarietyProductTotal C p hX m) α _ ∈ _
   rw [map_sum]
   refine AddSubgroup.sum_mem _ fun z hz => ?_
   have hz' : β.1 z ≠ 0 := hfin.mem_toFinset.mp hz

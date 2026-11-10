@@ -173,7 +173,7 @@ private lemma factor_finite_range_function
     have hmem : ∃ n : {n : ℤ // n ∈ t}, decide (D.projFun k x ∈ Eₖ n) = true := by
       refine ⟨⟨f x, hfinite.mem_toFinset.mpr (Set.mem_range_self x)⟩, ?_⟩
       apply decide_eq_true
-      show x ∈ D.projFun k ⁻¹' Eₖ ⟨f x, _⟩
+      change x ∈ D.projFun k ⁻¹' Eₖ ⟨f x, _⟩
       rw [hEq]
       rfl
     have hn : D.projFun k x ∈ Eₖ (Classical.choose hmem) :=
@@ -182,7 +182,7 @@ private lemma factor_finite_range_function
       change x ∈ D.projFun k ⁻¹' Eₖ (Classical.choose hmem) at hn
       rw [hEq] at hn
       exact hn
-    show f x = g (fun n ↦ decide (D.projFun k x ∈ Eₖ n))
+    change f x = g (fun n ↦ decide (D.projFun k x ∈ Eₖ n))
     dsimp only [g]
     rw [dite_eq_left hmem]
     exact hnval
@@ -557,7 +557,7 @@ theorem eventually_exists_weighting_baseChange
       · simp only [Category.assoc, p, q, pullback.lift_snd, pullback.lift_snd_assoc]
         rw [c.w (homOfLE hji).op]
     refine ⟨wⱼ ∘ q, IsWeighting.comp_of_isPullback hwⱼ hq, ?_⟩
-    show w = (wⱼ ∘ q) ∘ p i hi
+    change w = (wⱼ ∘ q) ∘ p i hi
     rw [hpⱼ]
     funext x
     simp only [Function.comp_apply, ← Scheme.Hom.comp_apply, hpp]
@@ -565,7 +565,7 @@ theorem eventually_exists_weighting_baseChange
   let cQ := pullbackCone D (op i₀) f₀ c
   have hcQ : IsLimit cQ := pullbackCone_isLimit D (op i₀) f₀ c hc
   have hQ (j : Over (op i₀)) : IsAffine (Q.obj j) := by
-    show IsAffine (pullback (D.map j.hom) f₀)
+    change IsAffine (pullback (D.map j.hom) f₀)
     exact Scheme.Pullback.isAffine_of_isAffine_isAffine_isAffine _ _
   let e : cQ.pt ≅ pullback f₀ (c.π.app (op i₀)) :=
     pullbackSymmetry (c.π.app (op i₀)) f₀
@@ -591,7 +591,7 @@ theorem eventually_exists_weighting_baseChange
     eᵢ.hom.isConstructible_preimage (hwjlevels n)
   have hcomm : p i hj ≫ eᵢ.hom = e.inv ≫ cQ.π.app j := by
     cases (Subsingleton.elim j.hom (homOfLE hj).op)
-    show p i hj ≫ eᵢ.hom = e.inv ≫
+    change p i hj ≫ eᵢ.hom = e.inv ≫
       pullback.lift
         (pullback.fst (c.π.app (op i₀)) f₀ ≫ c.π.app j.left)
         (pullback.snd (c.π.app (op i₀)) f₀)
@@ -608,7 +608,7 @@ theorem eventually_exists_weighting_baseChange
         pullback.fst (c.π.app (op i₀)) f₀ ≫ c.π.app j.left := by
       have hpt : ((Over.conePost D (op i₀)).obj c).pt.hom =
           c.π.app (op i₀) := rfl
-      show pullback.lift
+      change pullback.lift
           (pullback.fst (c.π.app (op i₀)) f₀ ≫ c.π.app j.left)
           (pullback.snd (c.π.app (op i₀)) f₀) _ ≫
           pullback.fst (D.map j.hom) f₀ = _
@@ -617,7 +617,7 @@ theorem eventually_exists_weighting_baseChange
         pullback.snd (c.π.app (op i₀)) f₀ := by
       have hpt : ((Over.conePost D (op i₀)).obj c).pt.hom =
           c.π.app (op i₀) := rfl
-      show pullback.lift
+      change pullback.lift
           (pullback.fst (c.π.app (op i₀)) f₀ ≫ c.π.app j.left)
           (pullback.snd (c.π.app (op i₀)) f₀) _ ≫
           pullback.snd (D.map j.hom) f₀ = _
@@ -638,7 +638,7 @@ theorem eventually_exists_weighting_baseChange
     have hesnd : e.inv ≫ pullback.snd (c.π.app (op i₀)) f₀ =
         pullback.fst f₀ (c.π.app (op i₀)) := pullbackSymmetry_inv_comp_snd ..
     apply pullback.hom_ext
-    · show (p i hj ≫ eᵢ.hom) ≫ pullback.fst (D.map j.hom) f₀ =
+    · change (p i hj ≫ eᵢ.hom) ≫ pullback.fst (D.map j.hom) f₀ =
         (e.inv ≫ cQ.π.app j) ≫ pullback.fst (D.map j.hom) f₀
       calc
         (p i hj ≫ eᵢ.hom) ≫ pullback.fst (D.map j.hom) f₀ =
@@ -656,7 +656,7 @@ theorem eventually_exists_weighting_baseChange
           (Category.assoc _ _ _).trans (congrArg (fun m ↦ e.inv ≫ m) hfst.symm)
         _ = (e.inv ≫ cQ.π.app j) ≫ pullback.fst (D.map j.hom) f₀ :=
           (Category.assoc _ _ _).symm
-    · show (p i hj ≫ eᵢ.hom) ≫ pullback.snd (D.map j.hom) f₀ =
+    · change (p i hj ≫ eᵢ.hom) ≫ pullback.snd (D.map j.hom) f₀ =
         (e.inv ≫ cQ.π.app j) ≫ pullback.snd (D.map j.hom) f₀
       calc
         (p i hj ≫ eᵢ.hom) ≫ pullback.snd (D.map j.hom) f₀ =
@@ -744,7 +744,7 @@ theorem eventually_exists_weighting_baseChange
     · simp only [Category.assoc, q, pullback.lift_snd, p, pullback.lift_snd_assoc]
       rw [c.w a]
   refine ⟨k, h0k, wₖ, hwₖ, ?_⟩
-  show w = (wᵢ ∘ q) ∘ p k h0k
+  change w = (wᵢ ∘ q) ∘ p k h0k
   rw [hwdesc]
   funext x
   simp only [Function.comp_apply, ← Scheme.Hom.comp_apply, hpq]

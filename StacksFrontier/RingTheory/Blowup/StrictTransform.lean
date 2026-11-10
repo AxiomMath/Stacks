@@ -242,8 +242,7 @@ noncomputable def strictTransform.baseChangeEnd :
   Algebra.TensorProduct.lift (Algebra.lsmul R R (TensorProduct R (Blowup I a) M))
     ((Module.End.lTensorAlgHom R M (Blowup I a)).comp (Algebra.lsmul R R M))
     fun b s => LinearMap.ext fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul c m => simp [TensorProduct.smul_tmul', TensorProduct.liftAux_tmul]
       | add u v hu hv =>
         simp only [Module.End.mul_apply, map_add] at hu hv ⊢

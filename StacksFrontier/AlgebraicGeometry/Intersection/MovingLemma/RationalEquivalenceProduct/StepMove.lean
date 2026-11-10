@@ -318,7 +318,7 @@ theorem exists_zeroFiber_presentation (k : Type u) [Field k] [IsAlgClosed k] {P 
     intro x hx
     have : x = z := by
       by_contra hne
-      exact hx (by rw [Function.locallyFinsuppWithin.single_apply, if_neg hne])
+      exact hx (by rw [Function.locallyFinsuppWithin.single_apply, ite_eq_right hne])
     rw [this, hz]
   have hrdX : relativeDimension (fieldChowSituation k).dimensionFunction sP
       (iX.base (genericPoint Xb)) = n := by

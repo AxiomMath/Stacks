@@ -213,7 +213,7 @@ theorem gysinComponentCycleAt_base_eq_firstChernComponentCycleAt
         ((integralComponentAt x).map (Stacks.Divisors.zeroScheme X L s).subschemeι)
         hW hDimW := by
     apply Subtype.ext
-    show (gysinRule C p k L s (firstChernComponentClass C p k L)).totalize
+    change (gysinRule C p k L s (firstChernComponentClass C p k L)).totalize
       (integralComponentAt ((Stacks.Divisors.zeroScheme X L s).subschemeι.base x)) = _
     rw [ChernCap42.integralComponentAt_comp (Stacks.Divisors.zeroScheme X L s).subschemeι x]
     exact (gysinRule C p k L s (firstChernComponentClass C p k L)).totalize_eq _ _ _

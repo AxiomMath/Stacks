@@ -72,7 +72,7 @@ theorem matMap_matOf {n m : ℕ} (φ : freeObj (unitT T) n ⟶ freeObj (unitT T)
 theorem matOf_matMap {n m : ℕ} (M : Matrix (Fin n) (Fin m) (Gam T)) :
     matOf T (matMap T M) = M := by
   funext j k
-  show unitEndValueHom T (biproduct.ι (fun _ : Fin n => unitT T) j ≫ freeMat _ _ ≫
+  change unitEndValueHom T (biproduct.ι (fun _ : Fin n => unitT T) j ≫ freeMat _ _ ≫
     biproduct.π (fun _ : Fin m => unitT T) k) = M j k
   rw [ι_freeMat_π, unitEndValueHom_funEnd]
 
@@ -115,7 +115,7 @@ theorem exists_basicOpen_test (c : BigFppfOver B S hS) (a : Gam c) :
   · rw [ht]; infer_instance
   · have hsurj : Set.range e.hom.base = Set.univ := Set.range_eq_univ.mpr fun y =>
       ⟨e.inv.base y, by
-        show (e.inv ≫ e.hom).base y = y
+        change (e.inv ≫ e.hom).base y = y
         rw [e.inv_hom_id]
         rfl⟩
     rw [ht, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, hsurj, Set.image_univ,
@@ -198,7 +198,7 @@ def ofIsos {n₂ n₁ n₀ m : ℕ} (e₂ : G.X (-2) ≅ freeObj (unitT T) n₂)
 /-- The two matrices out of degrees `-2` and `-1` compose to zero. -/
 theorem D₂_mul_D₁ (Φ : FreeTruncation G) : Φ.D₂ * Φ.D₁ = 0 := by
   refine matMap_injective T ?_
-  show matMap T (Φ.D₂ * Φ.D₁) = matMap T 0
+  change matMap T (Φ.D₂ * Φ.D₁) = matMap T 0
   rw [matMap_mul, matMap_zero]
   have h : (Φ.e₂.hom ≫ matMap T Φ.D₂ ≫ Φ.e₁.inv) ≫ (Φ.e₁.hom ≫ matMap T Φ.D₁ ≫ Φ.e₀.inv) = 0 := by
     rw [← Φ.hd₂, ← Φ.hd₁]
@@ -269,7 +269,7 @@ theorem fibre_exact (Φ : FreeTruncation G) (x : (BigFppfOver.toScheme B S hS).o
   let ψ := ((BigFppfOver.toScheme B S hS).map f).appTop.hom
   let ρ : ((BigFppfOver.toScheme B S hS).obj T).residueField x →+* Gam T' := ι.symm.toRingHom
   have hψ : ∀ a, ψ a = ρ (φ a) := fun a => by
-    show ψ a = ι.symm (φ a)
+    change ψ a = ι.symm (φ a)
     rw [← hι a, RingEquiv.symm_apply_apply]
   have hmap : ∀ {p q : ℕ} (D : Matrix (Fin p) (Fin q) (Gam T)),
       D.map ψ = (D.map φ).map ρ := fun D => by
@@ -277,13 +277,13 @@ theorem fibre_exact (Φ : FreeTruncation G) (x : (BigFppfOver.toScheme B S hS).o
   let Φ' := Φ.pull f
   have hz := dotProduct_eq_zero_of_isZero_homology _ Φ'.e₂ Φ'.e₁ Φ'.e₀ Φ'.D₂ Φ'.D₁ Φ'.hd₂ Φ'.hd₁
     (hvan T' f) (ρ ∘ v) (by
-      show (ρ ∘ v) ᵥ* Φ.D₁.map ψ = 0
+      change (ρ ∘ v) ᵥ* Φ.D₁.map ψ = 0
       rw [hmap]
       funext k
       rw [← RingHom.map_vecMul ρ (Φ.D₁.map φ) v k, hv]
       simp)
     (ρ ∘ l) (by
-      show Φ.D₂.map ψ *ᵥ (ρ ∘ l) = 0
+      change Φ.D₂.map ψ *ᵥ (ρ ∘ l) = 0
       rw [hmap]
       funext k
       rw [← RingHom.map_mulVec ρ (Φ.D₂.map φ) l k, hl]
@@ -351,7 +351,7 @@ theorem matOf_retract_mul_self {M : toposModules B S hS ((schemeSpaceFunctor B S
     (i : M ⟶ freeObj (unitT c) n) (r : freeObj (unitT c) n ⟶ M) (hir : i ≫ r = 𝟙 M) :
     matOf c (r ≫ i) * matOf c (r ≫ i) = matOf c (r ≫ i) := by
   refine matMap_injective c ?_
-  show matMap c (matOf c (r ≫ i) * matOf c (r ≫ i)) = matMap c (matOf c (r ≫ i))
+  change matMap c (matOf c (r ≫ i) * matOf c (r ≫ i)) = matMap c (matOf c (r ≫ i))
   rw [matMap_mul, matMap_matOf, Category.assoc, ← Category.assoc i, hir, Category.id_comp]
 
 /-- **A direct summand of a free module is free on a principal open neighbourhood of a point**,

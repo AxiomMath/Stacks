@@ -148,10 +148,10 @@ the restriction to `(U, T, δ)|_T` of the object itself, the sections over `T` o
 of a Zariski sheaf with sections in `Type u` (`crysFormsSheafULiftRestrictionIso`). -/
 instance small_crysFormsSheafULift_obj (j : ℕ) (X : (CrystallineThickening S)ᵒᵖ) :
     Small.{u} ((crysFormsSheafULift S j).val.obj X) := by
-  haveI := CrystallineThickening.isIso_restrictOpenHom_top X.unop
+  have := CrystallineThickening.isIso_restrictOpenHom_top X.unop
   let e₁ := (crysFormsSheafULift S j).val.presheaf.mapIso (asIso (X.unop.restrictOpenHom ⊤)).op
   let e₂ := (crysFormsSheafULiftRestrictionIso X.unop j).app (op ⊤)
-  haveI : Small.{u} ((formsRestrictionSheafULift X.unop j).obj (op ⊤)) :=
+  have : Small.{u} ((formsRestrictionSheafULift X.unop j).obj (op ⊤)) :=
     inferInstanceAs (Small.{u} (ULift.{u + 1} _))
   exact small_map ((e₁ ≪≫ e₂).addCommGroupIsoToAddEquiv.toEquiv)
 

@@ -73,7 +73,7 @@ def moduleBasisMapDeg : ModuleCat.of Γ(S, ⊤) (Fin r → Γ(S, ⊤)) ⟶ (base
 /-- `moduleBasisMapDeg` sends the `i`-th basis vector to `zᵢ`. -/
 theorem moduleBasisMapDeg_single (i : Fin r) :
     moduleBasisMapDeg f U z (Pi.single i (1 : Γ(S, ⊤)) : Fin r → Γ(S, ⊤)) = z i := by
-  show ∑ j, (Pi.single i (1 : Γ(S, ⊤)) : Fin r → Γ(S, ⊤)) j • z j = z i
+  change ∑ j, (Pi.single i (1 : Γ(S, ⊤)) : Fin r → Γ(S, ⊤)) j • z j = z i
   rw [Finset.sum_eq_single i (fun j _ hj => by rw [Pi.single_eq_of_ne hj, zero_smul])
     (fun h => absurd (Finset.mem_univ i) h), Pi.single_eq_same, one_smul]
 
@@ -83,7 +83,7 @@ differential is zero. -/
 theorem moduleBasisMapDeg_comp_d :
     moduleBasisMapDeg f U z ≫ (baseCech f U).d q (q + 1) = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun b => ?_)
-  show ((baseCech f U).d q (q + 1)).hom (∑ i, b i • z i) = 0
+  change ((baseCech f U).d q (q + 1)).hom (∑ i, b i • z i) = 0
   rw [map_sum]
   refine Finset.sum_eq_zero fun i _ => ?_
   rw [map_smul, hz i, smul_zero]

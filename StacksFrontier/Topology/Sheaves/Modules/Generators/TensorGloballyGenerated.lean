@@ -87,7 +87,7 @@ theorem commStalk_smul_eq
   rw [hrmap] at hr'
   rw [hmmap] at hm'
   rw [← hr', ← hm', SemilinearStalk.commStalkRingEquiv_germ X.presheaf x (U₁ ⊓ U₂) hmem rr]
-  show TensorStalkRingedSpace.ringGerm X x (U₁ ⊓ U₂) hmem rr •
+  change TensorStalkRingedSpace.ringGerm X x (U₁ ⊓ U₂) hmem rr •
       TensorStalkRingedSpace.grpGerm X M x (U₁ ⊓ U₂) hmem mm =
     (TopCat.Presheaf.germ (C := RingCat.{u}) (X := X.carrier)
       (X.presheaf ⋙ forget₂ CommRingCat RingCat) (U₁ ⊓ U₂) x hmem) rr •
@@ -110,7 +110,7 @@ lemma span_tmul_range_eq_top {R M N I J : Type*} [CommSemiring R]
     ext x
     aesop
   rw [h]
-  show Submodule.span R (Set.image2 (fun m n => (TensorProduct.mk R M N) m n)
+  change Submodule.span R (Set.image2 (fun m n => (TensorProduct.mk R M N) m n)
     (Set.range f) (Set.range g)) = ⊤
   rw [← Submodule.map₂_span_span, hf, hg, TensorProduct.map₂_mk_top_top_eq_top]
 

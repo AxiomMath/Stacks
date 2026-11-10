@@ -40,7 +40,7 @@ def whiskerLeftFlipObjShiftIsoOfUnitor {D : Type*} [Category D] (G : D ⥤ C) (U
     (fun M => ((T.obj (G.obj M)).commShiftIso m).app U ≪≫ (shiftFunctor C m).mapIso (ρ.app M))
     (fun {M M'} g => by
       dsimp
-      simp only [Iso.trans_hom, Functor.mapIso_hom, Category.assoc]
+      simp only [Category.assoc]
       rw [← NatTrans.shift_app_comm_assoc, ← Functor.map_comp, ← Functor.map_comp]
       congr 2
       simpa using ρ.hom.naturality g)

@@ -134,7 +134,7 @@ theorem connectedSpace_of_extClass_ne_zero [ConnectedSpace X] (hne : hS.extClass
 
 section Curve
 
-variable {k : Type u} [Field k] (f : X ⟶ Spec (.of k)) [IsCurve k f] [Smooth f] [IsProper f]
+variable {k : Type u} [Field k] (f : X ⟶ Spec (.of k)) [IsCurve k f] [Smooth f]
 
 /-- **A connected finite étale cover of a smooth proper curve is a curve**: it is integral, being
 connected and smooth over `k`; an étale map does not raise the dimension and a finite surjective

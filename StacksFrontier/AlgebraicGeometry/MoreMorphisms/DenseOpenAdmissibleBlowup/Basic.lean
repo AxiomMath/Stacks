@@ -142,7 +142,7 @@ theorem isEffectiveCartierDivisor_comap_blowUpToBase_of_eq_mul {I A B : X.IdealS
   have e : Over.mk (blowUpToBase (B.comap (blowUpToBase A)) ≫ blowUpToBase A) ≅
       Over.mk (blowUpToBase (A * B)) := AlgebraicGeometry.blowUpMulIso A B
   have : IsIso e.inv.left := by
-    show IsIso ((Over.forget X).map e.inv)
+    change IsIso ((Over.forget X).map e.inv)
     infer_instance
   have hpull := Stacks.Divisors.isPullbackDefined_of_flat e.inv.left _ hseq
   have hmap : e.inv.left ≫ (blowUpToBase (B.comap (blowUpToBase A)) ≫ blowUpToBase A) =

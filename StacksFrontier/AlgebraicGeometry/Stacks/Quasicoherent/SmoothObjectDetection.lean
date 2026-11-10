@@ -25,7 +25,8 @@ lisse-étale counterpart of `AlgebraicGeometry.Stack.isIso_of_flatObject`.
 
 ## Implementation notes
 
-The argument is the one of `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatObjectDetection`
+The argument is the one of
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatObjectDetection`
 with smooth objects in place of flat ones. Every object is covered by objects mapping to the
 smooth object named by a smooth atlas (**Stacks 06XH**,
 `AlgebraicGeometry.Stack.LisseEtale.hasLocalFactorizations_inclusion`); an affine open covering,
@@ -74,12 +75,12 @@ theorem exists_isAffine_etale_ofArrows_mem_etaleTopology (T : B.Schemes) :
   have hWet : ∀ j, Etale (B.inclusion.map (W.f j)) := fun j => by
     obtain ⟨e, he⟩ := hβ j
     have : AlgebraicGeometry.IsOpenImmersion (B.inclusion.map (W.f j)) := by
-      show AlgebraicGeometry.IsOpenImmersion ((W.map B.inclusion).f j)
+      change AlgebraicGeometry.IsOpenImmersion ((W.map B.inclusion).f j)
       rw [← he]
       infer_instance
     infer_instance
   have hcov : IsEtaleCovering ⟨T, W⟩ := by
-    show (W.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
+    change (W.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
     refine (Scheme.presieve₀_mem_precoverage_iff (W.map B.inclusion)).2 ⟨fun z => ?_, hWet⟩
     obtain ⟨i, hi⟩ := U.exists_eq z
     obtain ⟨e, he⟩ := hα i
@@ -91,7 +92,7 @@ theorem exists_isAffine_etale_ofArrows_mem_etaleTopology (T : B.Schemes) :
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   · obtain ⟨e, _⟩ := hβ j
     have : IsAffine (U.X (β j)) := by
-      show IsAffine (Spec ((B.inclusion.obj T).affineOpenCover.X (β j)))
+      change IsAffine (Spec ((B.inclusion.obj T).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     exact @IsAffine.of_isIso _ _ e.hom e.isIso_hom inferInstance
 
@@ -186,7 +187,7 @@ theorem sections_ext_of_affineSmoothFactorization
   refine (P.isSheaf_sections.isSheafFor _
     (affineSmoothFactorization_mem B S hS 𝒳 y)).isSeparatedFor.ext ?_
   rintro Y g ⟨Z, k, f, hf, rfl⟩
-  show P.val.map (k ≫ f).op σ = P.val.map (k ≫ f).op τ
+  change P.val.map (k ≫ f).op σ = P.val.map (k ≫ f).op τ
   rw [op_comp, P.val.map_comp_apply, P.val.map_comp_apply, h f hf]
 
 /-- **A morphism of quasi-coherent modules on an algebraic stack which is bijective on the
@@ -222,7 +223,7 @@ theorem bijective_app_of_smoothObject
   have hcompat : t.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ hcomm
     apply hinj Z
-    show ψ.val.app (op Z) (T.val.map g₁.op (pre f₁ hf₁)) =
+    change ψ.val.app (op Z) (T.val.map g₁.op (pre f₁ hf₁)) =
       ψ.val.app (op Z) (T.val.map g₂.op (pre f₂ hf₂))
     rw [PresheafOfModules.naturality_apply, PresheafOfModules.naturality_apply, ht f₁ hf₁,
       ht f₂ hf₂, ← P.val.map_comp_apply, ← P.val.map_comp_apply, ← op_comp, ← op_comp, hcomm]

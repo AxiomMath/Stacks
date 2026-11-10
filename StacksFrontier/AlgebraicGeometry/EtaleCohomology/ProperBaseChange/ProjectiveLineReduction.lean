@@ -200,7 +200,7 @@ public theorem cohomologyCommutesWithBaseChange_projectiveLineTowerHom
   induction n with
   | zero => exact hfin (𝟙 S) inferInstance
   | succ n ih =>
-      show CohomologyCommutesWithBaseChange.{u, v}
+      change CohomologyCommutesWithBaseChange.{u, v}
         ((ProjectiveSpace 1 (projectiveLineTower S n) ↘ projectiveLineTower S n) ≫
           projectiveLineTowerHom S n)
       exact hcomp _ _ inferInstance (isProper_projectiveLineTowerHom S n)

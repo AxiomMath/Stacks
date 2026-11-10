@@ -3,7 +3,7 @@ module
 public import
   StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.DenseOpenClosedComplement
 public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
+StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
 public import StacksFrontier.AlgebraicGeometry.Morphisms.WeaklyEtale.Characterization
 public import StacksFrontier.AlgebraicGeometry.ProEtale.Site.GeometricPointStalk
 public import StacksFrontier.AlgebraicGeometry.Variety.CompleteLocal.StrictlyHenselian
@@ -186,7 +186,7 @@ theorem isDominant_preimage_ι_of_generalizingMap {T X : Scheme.{u}} (g : T ⟶ 
     (hgen : GeneralizingMap g.base) (U : X.Opens)
     (hU : ∀ x : X, ∃ u, u ∈ U ∧ u ⤳ x) : IsDominant (g ⁻¹ᵁ U).ι := by
   refine ⟨?_⟩
-  show Dense (Set.range (g ⁻¹ᵁ U).ι.base)
+  change Dense (Set.range (g ⁻¹ᵁ U).ι.base)
   rw [Scheme.Opens.range_ι, dense_iff_closure_eq, ← Set.univ_subset_iff]
   intro ξ _
   obtain ⟨u, huU, hu⟩ := hU (g.base ξ)

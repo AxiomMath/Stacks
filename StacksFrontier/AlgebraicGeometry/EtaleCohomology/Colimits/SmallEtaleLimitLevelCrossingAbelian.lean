@@ -16,7 +16,8 @@ the `X_i`. This file carries the level side of that crossing at those coefficien
 abelian sheaves from Mathlib's small étale site of `X_i` to the level is an **equivalence**.
 
 Nothing new is proved about sites. The crossing is a composite of three dense-subsite inclusions,
-each of which is already proved, and the only thing supplied here is the composition at the coefficients
+each of which is already proved, and the only thing supplied here is the composition at the
+coefficients
 `AddCommGrpCat.{max u v + 1}`:
 
 * the level equivalence, `Stacks.EtaleCohomology.affineEtaleSiteColimit_levelEquiv_isDenseSubsite`,

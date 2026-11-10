@@ -83,7 +83,7 @@ theorem ratioOf_smul {n : ℕ} {t : Γ(natTensorPow Z n, ⊤)}
     (x : Γ(natTensorPow Z n, ⊤)) :
     ratioOf Z t hV (a • x) = X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op a * ratioOf Z t hV x := by
   refine ratioOf_eq_of_resTop_eq Z _ hV ?_
-  show (natTensorPow Z n).presheaf.map _ (a • x) = _
+  change (natTensorPow Z n).presheaf.map _ (a • x) = _
   rw [Scheme.Modules.map_smul, mul_smul]
   exact congrArg _ (resTop_eq_ratioOf_smul Z t hV x)
 

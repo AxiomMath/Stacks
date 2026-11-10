@@ -118,7 +118,7 @@ private lemma tensorSingleTermIso_naturality
     (M.X n ◁ g) ≫ (tensorSingleTermIso M P n).hom =
       (tensorSingleTermIso M N n).hom ≫ ((tensorWithCochainComplex M).map g).f n := by
   dsimp [tensorSingleTermIso, tensorWithCochainComplex]
-  simp only [tensorIso_hom, Iso.refl_hom, Iso.symm_hom, id_tensorHom,
+  simp only [id_tensorHom,
     Functor.map₂HomologicalComplex_obj_map, Category.assoc, ι_mapBifunctorMap,
     curriedTensor_obj_obj, id_f, CategoryTheory.Functor.map_id, NatTrans.id_app,
     curriedTensor_obj_map, Category.id_comp]
@@ -348,7 +348,7 @@ private lemma kFlat_tleft_preserves_quasiIso
     rw [ObjectProperty.prop_inverseImage_iff]
     change HomotopyCategory.subcategoryAcyclic _
       ((HomotopyCategory.quotient _ _).obj M) at hX
-    show HomotopyCategory.subcategoryAcyclic _
+    change HomotopyCategory.subcategoryAcyclic _
       ((HomotopyCategory.quotient _ _).obj ((TleftCochain E).obj M))
     rw [HomotopyCategory.quotient_obj_mem_subcategoryAcyclic_iff_acyclic] at hX ⊢
     exact kFlat_left_acyclic S E hE M hX
@@ -403,11 +403,11 @@ private lemma preservesProducts_singleFunctor
     Stacks.DerivedProducts.preservesLimitsOfShape_Q
   have hsingle : PreservesLimitsOfShape (Discrete A)
       (CochainComplex.singleFunctor (ModuleCat.{max v w} (SmallRing.{u, v, w} R)) 0) := by
-    show PreservesLimitsOfShape (Discrete A)
+    change PreservesLimitsOfShape (Discrete A)
       (HomologicalComplex.single (ModuleCat.{max v w} (SmallRing.{u, v, w} R))
         (ComplexShape.up ℤ) 0)
     infer_instance
-  show PreservesLimitsOfShape (Discrete A)
+  change PreservesLimitsOfShape (Discrete A)
     (CochainComplex.singleFunctor (ModuleCat.{max v w} (SmallRing.{u, v, w} R)) 0 ⋙
       DerivedCategory.Q)
   infer_instance
@@ -531,7 +531,7 @@ private lemma isIso_tensorProductComparison_of_isPseudoCoherent
       (T.tensor.obj (DerivedCategory.Q.obj E)) := PreservesProduct.of_iso_comparison _ _
   let : PreservesLimit (Discrete.functor (fun a => d.obj (Q a))) (T.tensor.obj K) :=
     preservesLimit_of_natIso _ (T.tensor.mapIso e)
-  show IsIso (piComparison (T.tensor.obj K) (fun a => d.obj (Q a)))
+  change IsIso (piComparison (T.tensor.obj K) (fun a => d.obj (Q a)))
   infer_instance
 
 noncomputable def moduleTensorRingPowerComparison
@@ -602,7 +602,7 @@ private lemma finite_homology_of_epi_tensorRingPowerComparison_of_zero_d
   have := h A
   exact epi_app_homology_of_epi_homologyMap_of_zero_g
     (moduleTensorRingPowerComparison S A) (E.sc i) (by
-      show E.d i ((ComplexShape.up ℤ).next i) = 0
+      change E.d i ((ComplexShape.up ℤ).next i) = 0
       rw [ComplexShape.next_eq' _ (show (ComplexShape.up ℤ).Rel i (i + 1) from rfl)]
       exact hi)
 

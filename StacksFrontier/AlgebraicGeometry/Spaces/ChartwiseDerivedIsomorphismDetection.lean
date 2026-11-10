@@ -40,7 +40,8 @@ along every chart, and étale charts detect isomorphisms of `𝒪_Y`-modules.
 *Why this is stated at `AlgebraicGeometry.Space.modulePullback` and not at
 `SheafOfModules.overFunctor`.*  The bounded below locality criterion
 `Stacks.SheafOfModules.isIso_rightDerivedFunctorPlus_iff_of_coversTop`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/Slice/DerivedIsomorphismLocalityBoundedBelow.lean`),
+(`DerivedIsomorphismLocalityBoundedBelow.lean`, in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Slice/`),
 tests invertibility after restriction to the *slice* site over each member of a covering family,
 taken by `SheafOfModules.overFunctor`.  The pasting law of **Stacks 0E47** at this development's
 seating — `AlgebraicGeometry.Space.toposModuleDerivedBaseChangeMap_horizontal`

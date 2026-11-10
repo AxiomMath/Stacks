@@ -161,7 +161,7 @@ theorem exists_strictTransformSpace_map {A A' X X₁ : AlgebraicSpaces B S hS}
     have hDpts : subspacePointSet B S hS _ D.1 = pointsMap B S hS _
         ((strictTransformSpaceι B S hS f₁ b E ≫ strictTransformPullbackToSource B S hS f₁ b).hom ≫
           f₁.hom) ⁻¹' subspacePointSet B S hS A.1 Zc.1 := by
-      show Set.range (pointsMap B S hS _ ((Zc.1.preimage f₁.hom).preimage _).ι) = _
+      change Set.range (pointsMap B S hS _ ((Zc.1.preimage f₁.hom).preimage _).ι) = _
       rw [range_pointsMap_preimage_ι, range_pointsMap_preimage_ι, pointsMap_comp,
         Set.preimage_comp]
     have hmor : h.hom ≫ (strictTransformPullbackToSource B S hS f b).hom ≫ f.hom =
@@ -177,7 +177,7 @@ theorem exists_strictTransformSpace_map {A A' X X₁ : AlgebraicSpaces B S hS}
   have hg' : g ≫ strictTransformSpaceι B S hS f b E = h := hg
   refine ⟨g, hg', ?_, ?_⟩
   · rw [← Category.assoc, hg', hh, Category.assoc, hqS]
-  · show g ≫ strictTransformSpaceι B S hS f b E ≫ strictTransformPullbackToBlowUp B S hS f b = _
+  · change g ≫ strictTransformSpaceι B S hS f b E ≫ strictTransformPullbackToBlowUp B S hS f b = _
     rw [← Category.assoc, hg', hh, Category.assoc, hqB]
 
 /-- The base change `X₁ ×_A A' ⟶ X ×_A A'` of `c : X₁ ⟶ X`, read as a cartesian square of
@@ -206,7 +206,7 @@ theorem exists_strictTransformSpace_point_of_mem_range {A A' X X₁ : AlgebraicS
         pointsMap B S hS _ (strictTransformSpaceι B S hS (c ≫ f) b E).hom a₁ = y := by
   obtain ⟨a₁, rfl⟩ := hmem
   refine ⟨a₁, pointsMap_injective_of_mono B S hS (strictTransform B S hS f b E).1.ι ?_, rfl⟩
-  show pointsMap B S hS _ (strictTransformSpaceι B S hS f b E).hom (pointsMap B S hS _ p.hom a₁) =
+  change pointsMap B S hS _ (strictTransformSpaceι B S hS f b E).hom (pointsMap B S hS _ p.hom a₁) =
     pointsMap B S hS _ (strictTransformSpaceι B S hS f b E).hom a
   rw [← hy, ← pointsMap_comp_apply, ← pointsMap_comp_apply]
   exact congrArg (fun k => pointsMap B S hS _ k.hom a₁) hp
@@ -277,7 +277,7 @@ theorem exists_strictTransformSpace_point_of_notMem {A A' X X₁ : AlgebraicSpac
         (strictTransformPullbackToSource B S hS (c ≫ f) b).hom).ι) := by
     rw [range_pointsMap_preimage_ι, Set.mem_preimage, range_pointsMap_preimage_ι,
       Set.mem_preimage, hy₁]
-    show pointsMap B S hS _ (c.hom ≫ f.hom) x₁ ∈ subspacePointSet B S hS A.1 C.1
+    change pointsMap B S hS _ (c.hom ≫ f.hom) x₁ ∈ subspacePointSet B S hS A.1 C.1
     rw [subspacePointSet_openComplement, pointsMap_comp_apply]
     exact hZ
   obtain ⟨z, rfl⟩ := hyC
@@ -319,7 +319,7 @@ theorem exists_strictTransformSpace_point_of_isEtale {A A' X X₁ : AlgebraicSpa
   have hT : exceptionalPreimageSet B S hS (c ≫ f) b (preimageClosedSubspace b Zc).1 =
       pointsMap B S hS _ (strictTransformPullbackMap B S hS c f b).hom ⁻¹'
         exceptionalPreimageSet B S hS f b (preimageClosedSubspace b Zc).1 := by
-    show exceptionalPreimageSet B S hS (c ≫ f) b (Zc.1.preimage b.hom) =
+    change exceptionalPreimageSet B S hS (c ≫ f) b (Zc.1.preimage b.hom) =
       pointsMap B S hS _ (strictTransformPullbackMap B S hS c f b).hom ⁻¹'
         exceptionalPreimageSet B S hS f b (Zc.1.preimage b.hom)
     rw [exceptionalPreimageSet_eq_preimage_centre B S hS (c ≫ f) b Zc,
@@ -330,7 +330,7 @@ theorem exists_strictTransformSpace_point_of_isEtale {A A' X X₁ : AlgebraicSpa
     (strictTransformPullbackMap B S hS c f b) hcan hT
     ⟨strictTransform B S hS f b (preimageClosedSubspace b Zc).1,
       definingIdealSheaf_strictTransform_of_isBlowupAlong B S hS f b Zc hb⟩
-  show y ∈ Set.range (pointsMap B S hS _
+  change y ∈ Set.range (pointsMap B S hS _
     (strictTransformSubfunctor B S hS (c ≫ f) b (preimageClosedSubspace b Zc).1).ι)
   rw [h0863, range_pointsMap_preimage_ι, Set.mem_preimage, hy₂]
   exact Set.mem_range_self _

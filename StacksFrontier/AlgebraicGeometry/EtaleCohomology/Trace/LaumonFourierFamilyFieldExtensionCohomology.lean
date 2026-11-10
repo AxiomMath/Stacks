@@ -85,7 +85,7 @@ public theorem exists_conj_laumonFourierFamilyRep_of_extension
     rw [hfc, Category.assoc, hg]
   have hψ : ∀ w, ψ.compAddMonoidHom (Algebra.trace k κ).toAddMonoidHom w =
       ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom (Algebra.trace k' κ w) := fun w => by
-    show ψ (Algebra.trace k κ w) = ψ (Algebra.trace k k' (Algebra.trace k' κ w))
+    change ψ (Algebra.trace k κ w) = ψ (Algebra.trace k k' (Algebra.trace k' κ w))
     rw [Algebra.trace_trace]
   have hχ := artinSchreierCharacter_trace_baseChange_eq k' κ _ _ hψ (laumonFourierKernel k' n a) φ g
     hφ z pz x' p₀ f₁ f₂ hfc hΦ₁ hΦ₂
@@ -208,7 +208,7 @@ public theorem charpoly_inverseImage_conj_isIso_rationalGeometricCompactlySuppor
 /-- A finite-dimensional `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` is finite over `E` for its `E`-module structure. -/
 private theorem finite_rationalCohomologyModule {X : B.Scheme} [IsNoetherian X.1] {O : Type}
     [CommRing O] [Algebra ℤ_[ℓ] O] [Algebra O E] [IsLocalization (Submonoid.powers (ℓ : O)) E]
-    (F : LAdicSheaf.CoefficientSheaf B X ℓ O) {k : Type u} [Field k] [Fintype k]
+    (F : LAdicSheaf.CoefficientSheaf B X ℓ O) {k : Type u} [Field k]
     (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
     (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
     (hOE : ∀ c : ℤ_[ℓ], algebraMap O E (algebraMap ℤ_[ℓ] O c) = algebraMap ℚ_[ℓ] E c)

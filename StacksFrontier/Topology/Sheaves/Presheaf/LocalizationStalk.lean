@@ -81,7 +81,7 @@ theorem localizationPresheaf_stalk_isLocalization
     IsLocalization (D.S.stalk x) (D.S.localizationPresheaf.stalk x) := by
   let : Algebra (D.O.stalk x) (D.S.localizationPresheaf.stalk x) :=
     ((TopCat.Presheaf.stalkFunctor CommRingCat x).map D.S.toLocalizationPresheaf).hom.toAlgebra
-  show IsLocalization (D.S.stalk x) (D.S.localizationPresheaf.stalk x)
+  change IsLocalization (D.S.stalk x) (D.S.localizationPresheaf.stalk x)
   let f := ((TopCat.Presheaf.stalkFunctor CommRingCat x).map D.S.toLocalizationPresheaf).hom
   have hf (U : Opens D.X) (hx : x ∈ U) (s : D.O.obj (op U)) :
       f (D.O.germ U x hx s) = D.S.localizationPresheaf.germ U x hx (algebraMap _ _ s) :=
@@ -91,7 +91,7 @@ theorem localizationPresheaf_stalk_isLocalization
     refine iSup_le fun U => iSup_le fun hx => ?_
     rw [Submonoid.map_le_iff_le_comap]
     intro s hs
-    show IsUnit (f (D.O.germ U x hx s))
+    change IsUnit (f (D.O.germ U x hx s))
     rw [hf]
     exact IsUnit.map (D.S.localizationPresheaf.germ U x hx).hom
       (IsLocalization.map_units _ ⟨s, hs⟩)
@@ -103,9 +103,9 @@ theorem localizationPresheaf_stalk_isLocalization
     obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.surj (D.S.obj (op U)) zU
     refine ⟨⟨D.O.germ U x hx a, ?_⟩, ?_⟩
     · exact ⟨D.O.germ U x hx s, D.S.germ_mem_stalk hx s.property⟩
-    · show _ * f (D.O.germ U x hx s) = f (D.O.germ U x hx a)
+    · change _ * f (D.O.germ U x hx s) = f (D.O.germ U x hx a)
       rw [hf, hf]
-      show (D.S.localizationPresheaf.germ U x hx).hom zU *
+      change (D.S.localizationPresheaf.germ U x hx).hom zU *
         (D.S.localizationPresheaf.germ U x hx).hom
         (algebraMap (D.O.obj (op U)) (D.S.localizationPresheaf.obj (op U)) s) =
         (D.S.localizationPresheaf.germ U x hx).hom
@@ -180,7 +180,7 @@ lemma isLocalization_stalk_localizationSheaf (D : PresheafLocalizationData.{u}) 
     IsLocalization (D.S.stalk x) ((localizationSheaf D).presheaf.stalk x) := by
   let : Algebra (D.O.stalk x) ((localizationSheaf D).presheaf.stalk x) :=
     (toLocalizationSheafStalk D x).hom.toAlgebra
-  show IsLocalization (D.S.stalk x) ((localizationSheaf D).presheaf.stalk x)
+  change IsLocalization (D.S.stalk x) ((localizationSheaf D).presheaf.stalk x)
   let : Algebra (D.O.stalk x) (D.S.localizationPresheaf.stalk x) :=
     ((stalkFunctor CommRingCat x).map D.S.toLocalizationPresheaf).hom.toAlgebra
   have := localizationPresheaf_stalk_isLocalization D x
@@ -192,7 +192,7 @@ lemma isLocalization_stalk_localizationSheaf (D : PresheafLocalizationData.{u}) 
       (localizationSheaf D).presheaf.stalk x :=
     { (asIso f).commRingCatIsoToRingEquiv with
       commutes' := fun r => by
-        show _ = ((stalkFunctor CommRingCat x).map (D.S.toLocalizationPresheaf ≫ _)).hom r
+        change _ = ((stalkFunctor CommRingCat x).map (D.S.toLocalizationPresheaf ≫ _)).hom r
         rw [Functor.map_comp]
         rfl }
   exact IsLocalization.isLocalization_of_algEquiv (M := D.S.stalk x) e

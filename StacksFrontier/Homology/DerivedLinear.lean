@@ -70,7 +70,7 @@ theorem injectiveResolutions_additive [EnoughInjectives D] :
     let J := injectiveResolution Yo
     let Q := HomotopyCategory.quotient D (ComplexShape.up ℕ)
     dsimp only [injectiveResolutions]
-    show Q.map (InjectiveResolution.desc (f + g) J I) =
+    change Q.map (InjectiveResolution.desc (f + g) J I) =
       Q.map (InjectiveResolution.desc f J I) + Q.map (InjectiveResolution.desc g J I)
     rw [← Q.map_add]
     refine quotient_map_desc_eq _ _ _ _ ?_
@@ -83,7 +83,7 @@ of `CategoryTheory.Functor.rightDerived` is: the injective-resolution functor by
 theorem rightDerived_additive [EnoughInjectives D] (G : D ⥤ E) [G.Additive] (n : ℕ) :
     (G.rightDerived n).Additive := by
   let : (injectiveResolutions D).Additive := injectiveResolutions_additive
-  show Functor.Additive
+  change Functor.Additive
     (injectiveResolutions D ⋙ G.mapHomotopyCategory (ComplexShape.up ℕ) ⋙
       HomotopyCategory.homologyFunctor E (ComplexShape.up ℕ) n)
   infer_instance
@@ -102,7 +102,7 @@ private theorem injectiveResolutions_linear [EnoughInjectives D] :
       HomologicalComplex.smul_f_apply, HomologicalComplex.id_f]
     rfl
   dsimp only [injectiveResolutions]
-  show Q.map (InjectiveResolution.desc (a • 𝟙 X) I I) = a • 𝟙 (Q.obj I.cocomplex)
+  change Q.map (InjectiveResolution.desc (a • 𝟙 X) I I) = a • 𝟙 (Q.obj I.cocomplex)
   refine (quotient_map_desc_eq _ _ _ (a • 𝟙 I.cocomplex) ?_).trans ?_
   · calc
       I.ι ≫ (a • 𝟙 I.cocomplex) = a • I.ι := by simp
@@ -138,7 +138,7 @@ theorem rightDerived_linear [EnoughInjectives D] (G : D ⥤ E) [G.Additive]
   let : Functor.Linear R (injectiveResolutions D) := injectiveResolutions_linear
   let : Functor.Linear R (HomotopyCategory.homologyFunctor E (ComplexShape.up ℕ) n) :=
     homotopyCategory_homology_linear n
-  show Functor.Linear R
+  change Functor.Linear R
     (injectiveResolutions D ⋙ G.mapHomotopyCategory (ComplexShape.up ℕ) ⋙
       HomotopyCategory.homologyFunctor E (ComplexShape.up ℕ) n)
   infer_instance

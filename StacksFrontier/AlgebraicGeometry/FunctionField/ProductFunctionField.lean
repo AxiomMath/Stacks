@@ -86,8 +86,7 @@ private theorem tensorProduct_coe_ext {R A B S F G : Type*} [CommSemiring R] [Ad
     [FunLike G (A ⊗[R] B) S] [AddMonoidHomClass F (A ⊗[R] B) S] [AddMonoidHomClass G (A ⊗[R] B) S]
     (f : F) (g : G) (h : ∀ a b, f (a ⊗ₜ b) = g (a ⊗ₜ b)) : ⇑f = ⇑g := by
   funext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b => exact h a b
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -100,7 +99,7 @@ theorem functionFieldMap_stalkAlgebraOver_algebraMap {Z : Scheme.{u}} [IsIntegra
     functionFieldMap h ((stalkAlgebraOver k f (genericPoint X)).algebraMap r) =
       (stalkAlgebraOver k s (genericPoint Z)).algebraMap r := by
   subst hs
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ _ trivial ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ _ trivial ≫
     h.stalkMapOfEq _ _ (map_genericPoint_of_isDominant h)).hom r = _
   rw [Scheme.Hom.germ_stalkMapOfEq, ← Scheme.Hom.comp_appTop_assoc]
   rfl

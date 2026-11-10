@@ -195,7 +195,7 @@ private theorem topologicalKrullDim_components_of_isEffectiveCartierDivisor
     set T : IrreducibleCloseds X := ⟨A, hA.1, isClosed_of_mem_irreducibleComponents A hA⟩
       with hT
     have hVT : V ≤ T := by
-      show closure ({y} : Set X) ⊆ A
+      change closure ({y} : Set X) ⊆ A
       exact hyA
     have hTmax : IsMax T := fun Z hTZ ↦ hA.2 Z.isIrreducible hTZ
     have hVTne : V ≠ T := by
@@ -253,7 +253,7 @@ private theorem topologicalKrullDim_components_of_isEffectiveCartierDivisor
     have hnonnegD := Stacks.Chow.relativeDimension_nonneg C hzero (D.subschemeι ≫ f) ξD
     rw [hrel, hdy] at hnonnegD
     rw [topologicalKrullDim_vanishingIdeal_subscheme] at hdimI
-    show topologicalKrullDim W = _
+    change topologicalKrullDim W = _
     rw [show (W : Set D.subscheme) =
       ((⟨W, isClosed_of_mem_irreducibleComponents W hW⟩ : Closeds D.subscheme) :
         Set D.subscheme) from rfl, hdimI, hpoint, hrel, hdy,
@@ -314,7 +314,7 @@ theorem relativeDimension_subschemeι_comp_of_isRelativeEffectiveCartierDivisor
     exact ⟨eX (D'.subschemeι w)⟩)
   let C := Stacks.Chow.fieldChowSituation (Y.residueField s)
   have : JacobsonSpace C.S := by
-    show JacobsonSpace (Spec (.of (Y.residueField s)))
+    change JacobsonSpace (Spec (.of (Y.residueField s)))
     infer_instance
   have hzero : ∀ t : C.S, IsClosed ({t} : Set C.S) → C.dimensionFunction t = 0 :=
     fun t _ ↦ Stacks.Chow.fieldChowSituation_dimensionFunction _ t

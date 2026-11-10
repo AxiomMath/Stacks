@@ -69,7 +69,7 @@ theorem mem_propQCPrecoverage_of_refinement {P Q : MorphismProperty Scheme.{u}} 
     refine ⟨fun x ↦ ?_, fun i ↦ hP _ i.2⟩
     obtain ⟨i, z, rfl⟩ := hcov.1 x
     refine ⟨φ.s₀ i, e i z, ?_⟩
-    show (φ.h₀ i ≫ R.preZeroHypercover.f (φ.s₀ i)) z = _
+    change (φ.h₀ i ≫ R.preZeroHypercover.f (φ.s₀ i)) z = _
     rw [φ.w₀ i]
 
 /-- A family of `P`-morphisms from quasi-compact schemes whose images are open and form a basis
@@ -81,7 +81,7 @@ theorem ofArrows_mem_propQCPrecoverage_of_isBasis {P : MorphismProperty Scheme.{
     Presieve.ofArrows Y f ∈ propQCPrecoverage P X := by
   let E : PreZeroHypercover X := ⟨ι, Y, f⟩
   refine ⟨?_, ?_⟩
-  · show E.presieve₀ ∈ _
+  · change E.presieve₀ ∈ _
     rw [presieve₀_mem_qcPrecoverage_iff]
     refine ⟨fun {V} hV ↦ ?_⟩
     refine IsCompactOpenCovered.of_isCompact_of_forall_exists_isCompactOpenCovered hV.isCompact

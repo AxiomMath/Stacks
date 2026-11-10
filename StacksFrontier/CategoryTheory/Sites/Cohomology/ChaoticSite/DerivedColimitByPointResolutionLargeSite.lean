@@ -7,8 +7,7 @@ public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitAlongAnEquivalence
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionAbelian
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitOfComplexesByPointResolution
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitOfComplexesByPointResolution
 import StacksCore.Tactic.StacksAttribute
 
 /-!

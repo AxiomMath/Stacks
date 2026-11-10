@@ -190,7 +190,7 @@ private theorem etale_mem_finestTopology_small (h₁ : IsEtaleSheafOver T X F)
     (hf : IsEtaleCovering T.fppfSite S T.fppf_mem
       (fun i ↦ (V i).left.1) (fun i ↦ (f i).left.hom)) :
     Sieve.ofArrows V f ∈ Sheaf.finestTopologySingle F U := by
-  show Sieve.generate (Presieve.ofArrows V f) ∈ _
+  change Sieve.generate (Presieve.ofArrows V f) ∈ _
   rw [← ofArrows_uliftIndex.{u} f]
   refine etale_mem_finestTopology T X F h₁
     ⟨hf.target_isAlgebraicSpace, fun i ↦ hf.source_isAlgebraicSpace i.down,
@@ -242,14 +242,14 @@ private theorem standardPH_mem_finestTopology (h₁ : IsEtaleSheafOver T X F)
   let j' : ∀ i, E.X i ⟶ W' := fun i ↦
     Over.homMk (ObjectProperty.homMk (j i)) (by
       apply B.inclusion.map_injective
-      show j i ≫ g ≫ B.inclusion.map U.hom = B.inclusion.map (E.X i).hom
+      change j i ≫ g ≫ B.inclusion.map U.hom = B.inclusion.map (E.X i).hom
       rw [← Category.assoc, hcomp i]
       exact congrArg (fun m ↦ B.inclusion.map m) (E.f i).w)
   have hjcomp : ∀ i, j' i ≫ g' = E.f i := fun i ↦ q.map_injective (hcomp i)
   let f' : Over.mk (A.map g' ≫ a) ⟶ Over.mk a := Over.homMk (A.map g') rfl
   let k : ∀ i, Over.mk (A.map (E.f i) ≫ a) ⟶ Over.mk (A.map g' ≫ a) := fun i ↦
     Over.homMk (A.map (j' i)) (by
-      show A.map (j' i) ≫ A.map g' ≫ a = A.map (E.f i) ≫ a
+      change A.map (j' i) ≫ A.map g' ≫ a = A.map (E.f i) ≫ a
       rw [← Category.assoc, ← A.map_comp, hjcomp i])
   have hk : IsEtaleCovering B S T.fppf_mem
       (fun i ↦ (Over.mk (A.map (E.f i) ≫ a)).left.1) (fun i ↦ (k i).left.hom) :=
@@ -266,7 +266,7 @@ private theorem standardPH_mem_finestTopology (h₁ : IsEtaleSheafOver T X F)
     (etale_mem_finestTopology_small T X F h₁ (f := k) hk)
   rw [Sieve.generate_le_iff]
   rintro Z z ⟨i⟩
-  show Sieve.ofArrows _ _ (k i ≫ f')
+  change Sieve.ofArrows _ _ (k i ≫ f')
   have heq : k i ≫ f' = Over.homMk (A.map (E.f i)) rfl :=
     Over.OverMorphism.ext ((A.map_comp (j' i) g').symm.trans (congrArg A.map (hjcomp i)))
   rw [heq]
@@ -302,7 +302,7 @@ private theorem covering_of_affine_pullbacks (h₁ : IsEtaleSheafOver T X F)
   let b : ∀ i, A.obj (V' i) ⟶ U.left := fun i ↦ A.map (c i) ≫ a'
   let k : ∀ i, (Over.mk (b i ≫ U.hom) : BigPHSpaceOver T X) ⟶ Over.mk (a' ≫ U.hom) := fun i ↦
     Over.homMk (A.map (c i)) (by
-      show A.map (c i) ≫ a' ≫ U.hom = (A.map (c i) ≫ a') ≫ U.hom
+      change A.map (c i) ≫ a' ≫ U.hom = (A.map (c i) ≫ a') ≫ U.hom
       rw [Category.assoc])
   have hk : IsEtaleCovering B S T.fppf_mem
       (fun i ↦ (Over.mk (b i ≫ U.hom) : BigPHSpaceOver T X).left.1)
@@ -331,14 +331,14 @@ private theorem ph_mem_finestTopology (h₁ : IsEtaleSheafOver T X F)
       BigPHSpaceOver T X) ⟶ E.X (r.s₀ i) :=
     Over.homMk (ObjectProperty.homMk (r.h₀ i)) (by
       apply ObjectProperty.hom_ext
-      show r.h₀ i ≫ (E.X (r.s₀ i)).hom.hom =
+      change r.h₀ i ≫ (E.X (r.s₀ i)).hom.hom =
         yoneda.map (D.f i) ≫ a.hom ≫ U.hom.hom
       have hw : (E.f (r.s₀ i)).left.hom ≫ U.hom.hom = (E.X (r.s₀ i)).hom.hom :=
         congrArg (fun z ↦ z.hom) (E.f (r.s₀ i)).w
       have hr : r.h₀ i ≫ (E.f (r.s₀ i)).left.hom = yoneda.map (D.f i) ≫ a.hom := r.w₀ i
       rw [← hw, ← Category.assoc, hr]
       exact Category.assoc (yoneda.map (D.f i)) a.hom U.hom.hom)
-  show Sieve.ofArrows E.X E.f _
+  change Sieve.ofArrows E.X E.f _
   exact (Sieve.mem_ofArrows_iff _ _ _).mpr
     ⟨r.s₀ i, b, Over.OverMorphism.ext (ObjectProperty.hom_ext _ (r.w₀ i).symm)⟩
 
@@ -358,7 +358,7 @@ private theorem overEquiv_symm_generate_presieve₀ {U : BigPHSpaceOver T X}
   constructor
   · rintro ⟨W, p, c, ⟨i⟩, hpc⟩
     refine ⟨Over.mk (E.f i ≫ U.hom), Over.homMk p ?_, Over.homMk (E.f i), ⟨i⟩, ?_⟩
-    · show p ≫ E.f i ≫ U.hom = Z.hom
+    · change p ≫ E.f i ≫ U.hom = Z.hom
       rw [← Category.assoc, hpc]
       exact Over.w g
     · exact Over.OverMorphism.ext hpc
@@ -374,7 +374,7 @@ theorem isSheaf_of_etale_and_properSurjective (h₁ : IsEtaleSheafOver T X F)
     (h₂ : IsProperSurjectiveSheafOver T X F) :
     Presieve.IsSheaf (BigPHSpaceOver.topology T X) F := by
   have hle : BigPHSpaceOver.topology T X ≤ Sheaf.finestTopologySingle F := by
-    show T.precoverage.toGrothendieck.over X ≤ _
+    change T.precoverage.toGrothendieck.over X ≤ _
     rw [← phSpaceCoverage_toPrecoverage T, Coverage.toGrothendieck_toPrecoverage]
     refine over_le_of_coverage (phSpaceCoverage T) X _ fun U R hR ↦ ?_
     obtain ⟨E, rfl, hE⟩ := (T.mem_precoverage_iff).mp hR
@@ -412,9 +412,9 @@ theorem generate_presieve₀_mem_topology {U : BigPHSpaceOver T X}
   have hpres : (E.map (Over.forget X)).presieve₀ = G.presieve₀ :=
     PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hcomb
   rw [GrothendieckTopology.mem_over_iff]
-  show Sieve.overEquiv U (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv U (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
-  show Sieve.generate (E.map (Over.forget X)).presieve₀ ∈ _
+  change Sieve.generate (E.map (Over.forget X)).presieve₀ ∈ _
   rw [hpres]
   exact Precoverage.generate_mem_toGrothendieck ((T.mem_precoverage_iff).2 ⟨G, rfl, hG⟩)
 

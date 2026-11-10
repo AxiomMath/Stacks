@@ -121,7 +121,7 @@ namespace Stacks.GradedLocalization
 element of degree `a · d` has degree `e + (a + b) · d`. -/
 private theorem vadd_degree (a b d : ℕ) (e : ℤ) :
     (a • d : ℕ) +ᵥ (e + b • (d : ℤ)) = e + ((a + b) • (d : ℤ)) := by
-  show ((a • d : ℕ) : ℤ) + (e + b • (d : ℤ)) = e + ((a + b) • (d : ℤ))
+  change ((a • d : ℕ) : ℤ) + (e + b • (d : ℤ)) = e + ((a + b) • (d : ℤ))
   simp only [nsmul_eq_mul]
   push_cast
   ring

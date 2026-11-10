@@ -125,9 +125,9 @@ theorem forget₂_map_specializationMapOnStalks_comp_etaleStalkForgetIso
   let Φ := forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}
   let M' := (sheafCompose S.smallEtaleTopology Φ).obj M
   refine (isColimitOfPreserves Φ (colimit.isColimit
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P))).hom_ext fun e => ?_
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P))).hom_ext fun e => ?_
   obtain ⟨@⟨U, x⟩⟩ := e
-  show Φ.map (colimit.ι _ _) ≫ _ = Φ.map (colimit.ι _ _) ≫ _
+  change Φ.map (colimit.ι _ _) ≫ _ = Φ.map (colimit.ι _ _) ≫ _
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun k => k ≫ (etaleStalkForgetIsoSmallEtaleStalkAb Λ B hS σ.target M).hom)
     ((Φ.map_comp _ _).symm.trans (congrArg Φ.map
@@ -135,15 +135,15 @@ theorem forget₂_map_specializationMapOnStalks_comp_etaleStalkForgetIso
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun k => k ≫ (etaleStalkIsoSmallEtaleStalkAb B hS σ.target M').hom)
     (ι_preservesColimitIso_hom Φ
-      ((CategoryOfElements.π (geometricPointFiber B S hS σ.target)).op ⋙ P)
-      (op ((CategoryOfElements.map (specializationFiberHom σ)).obj ⟨x⟩)))).trans ?_
+      ((Functor.Elements.π (geometricPointFiber B S hS σ.target)).op ⋙ P)
+      (op ((NatTrans.mapElements (specializationFiberHom σ)).obj ⟨x⟩)))).trans ?_
   refine Eq.trans ?_ (Category.assoc _ _ _)
   refine Eq.trans ?_ (congrArg (fun k => k ≫ (smallEtaleSpecializationStalkAb B S hS s t).app M')
     ((Category.assoc _ _ _).symm.trans (congrArg (fun k => k ≫
       (etaleStalkIsoSmallEtaleStalkAb B hS s M').hom)
       (ι_preservesColimitIso_hom Φ
-        ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) (op ⟨x⟩)))).symm)
-  have h := congrArg (fun k => colimit.ι ((CategoryOfElements.π
+        ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) (op ⟨x⟩)))).symm)
+  have h := congrArg (fun k => colimit.ι ((Functor.Elements.π
     (geometricPointFiber B S hS s)).op ⋙
       (((SmallEtale.toEtaleSite B S hS).sheafPushforwardContinuous
       AddCommGrpCat.{u + 1} (SmallEtale.topology B S hS) S.smallEtaleTopology).obj M').obj)

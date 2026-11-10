@@ -111,7 +111,9 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in the presheaf category of the big fppf site is slow in this proof
 set_option maxHeartbeats 1600000 in
+-- instance search in the presheaf category of the big fppf site is slow in this proof
 /-- **Base change of flatness at a point, for morphisms of algebraic spaces** — the structure
 sheaf case of **Stacks 05VW**. In a cartesian square of algebraic spaces over `S`, the
 projection to the new base is flat at a point of the apex as soon as the morphism it is a base
@@ -224,7 +226,7 @@ theorem isFlatAt_of_isPullback
           id_eq] }
   have hsource : chartF.sourcePoint B S hS =
       (BigFppfOver.toScheme B S hS).map pU (chartF'.sourcePoint B S hS) := by
-    show ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
+    change ((BigFppfOver.toScheme B S hS).map (r.value ≫ pU))
         (IsLocalRing.closedPoint r.carrier) =
       (BigFppfOver.toScheme B S hS).map pU
         (((BigFppfOver.toScheme B S hS).map r.value) (IsLocalRing.closedPoint r.carrier))

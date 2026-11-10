@@ -138,7 +138,7 @@ theorem universalHomeomorphism_specMap_quotient_of_nilpotent (R : Type u) [CommR
     UniversalHomeomorphism (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) := by
   let F := Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))
   have hs : Surjective F := ⟨by
-    show Function.Surjective (PrimeSpectrum.comap (Ideal.Quotient.mk I))
+    change Function.Surjective (PrimeSpectrum.comap (Ideal.Quotient.mk I))
     exact (PrimeSpectrum.comap_quotientMk_bijective_of_le_nilradical
       fun x hx => mem_nilradical.mpr (hI x hx)).2⟩
   have hc : IsClosedImmersion F :=
@@ -181,7 +181,7 @@ theorem exists_seminormalizationIndex_algEquiv (A C : Type u) [CommRing A] [Comm
     { toRingEquiv := e.toRingEquiv
       commutes' := by
         intro a
-        show e.toRingEquiv (algebraMap A (MvPolynomial (Fin n) A ⧸ I) a) = algebraMap A C a
+        change e.toRingEquiv (algebraMap A (MvPolynomial (Fin n) A ⧸ I) a) = algebraMap A C a
         exact e.commutes a }
   exact ⟨⟨⟨P, universalHomeomorphism_specMap_of_algEquiv eP.symm huh,
     isIso_residueFieldMap_specMap_of_algEquiv eP.symm hres⟩, eP⟩⟩

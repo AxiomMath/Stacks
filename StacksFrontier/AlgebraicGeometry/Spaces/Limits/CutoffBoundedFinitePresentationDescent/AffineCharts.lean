@@ -475,7 +475,7 @@ private theorem exists_hom_on_affine_chart
     (hD i₀) a ha U₀.obj q₀ E c
     (isLimit_toScheme_affineStageChartCone B S hS D hConv i₀ U₀ q₀ hAffine _ p q h)
     hE U.property (h.isoPullback.hom ≫ f) (by
-      show (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
+      change (h.isoPullback.hom ≫ f) ≫ a = yoneda.map q ≫ q₀
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩

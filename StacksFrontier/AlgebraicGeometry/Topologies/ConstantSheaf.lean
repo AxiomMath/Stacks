@@ -381,7 +381,7 @@ public theorem constantSheafIsoLocallyConstantMaps_unit (S : Scheme.{u})
   let P := locallyConstantMapsOver G S ⋙ forget GrpCat
   let α := constantToLocallyConstantMapsOver S G
   have hP : Presheaf.IsSheaf J P := (locallyConstantMapsOver_isSheaf_fpqc S G).of_le hF
-  show (sheafifyLift J α hP).app T
+  change (sheafifyLift J α hP).app T
       ((toSheafify J ((Functor.const (Over S)ᵒᵖ).obj G)).app T g) = _
   exact sheafifyLift_app_toSheafify_app J α hP T g
 
@@ -408,20 +408,20 @@ public theorem constantSheafComparison_isIso (S : Scheme.{u}) (G : Type (max (u 
   have hcomp : c ≫ eJ.hom = eZ.hom := by
     apply sheafify_hom_ext JZ (c ≫ eJ.hom) eZ.hom htarget
     ext T g
-    show (((toSheafify JZ P ≫ c) ≫ eJ.hom).app T) g =
+    change (((toSheafify JZ P ≫ c) ≫ eJ.hom).app T) g =
       (eZ.hom.app T) ((toSheafify JZ P).app T g)
     dsimp [c, zariskiSheafToTauSheaf]
     have hηT' := sheafifyLift_app_toSheafify_app JZ (toSheafify J P)
       (((presheafToSheaf J (Type (max (u + 1) v))).obj P).property.of_le hZ) T g
     rw [hηT']
-    show ((constantSheafIsoLocallyConstantMaps S G J hZ hF).hom.app T)
+    change ((constantSheafIsoLocallyConstantMaps S G J hZ hF).hom.app T)
         ((toSheafify J P).app T g) =
       ((constantSheafIsoLocallyConstantMaps S G JZ le_rfl hFZ).hom.app T)
         ((toSheafify JZ P).app T g)
     rw [constantSheafIsoLocallyConstantMaps_unit S G J hZ hF T g,
       constantSheafIsoLocallyConstantMaps_unit S G JZ le_rfl hFZ T g]
   have hc : c = eZ.hom ≫ eJ.inv := eJ.eq_comp_inv.mpr hcomp
-  show IsIso c
+  change IsIso c
   rw [hc]
   infer_instance
 
@@ -541,7 +541,7 @@ public theorem constantSheafIsoLocallyConstantMapsOn_unit {C : Type (u + 1)} [Ca
       (constantSheafIsoLocallyConstantMapsOn F G J hOpen hEmpty hF) := by
   intro T g
   let α := constantToLocallyConstantMapsOn F G
-  show (sheafifyLift J α hF).app T
+  change (sheafifyLift J α hF).app T
       ((toSheafify J ((Functor.const Cᵒᵖ).obj G)).app T g) = _
   exact sheafifyLift_app_toSheafify_app J α hF T g
 

@@ -94,7 +94,7 @@ private theorem isRegularRing_tensorProduct_of_smooth_of_isLocalization (R : Typ
   let _algTensor : Algebra (C ⊗[R] B) (C ⊗[R] L) := F.toRingHom.toAlgebra
   have : IsScalarTower C (C ⊗[R] B) (C ⊗[R] L) := by
     refine IsScalarTower.of_algebraMap_eq fun c => ?_
-    show _ = F _
+    change _ = F _
     simp [F]
   have : IsLocalization (M.map (Algebra.TensorProduct.includeRight (R := R) (A := C)))
       (C ⊗[R] L) :=

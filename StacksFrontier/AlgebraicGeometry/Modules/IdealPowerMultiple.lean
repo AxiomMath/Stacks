@@ -136,7 +136,7 @@ public lemma le_idealPowerMultiple_obj (I : X.IdealSheafData) (n : ℕ) (M : X.M
     (U : X.affineOpens) :
     I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
       (idealPowerMultiple I n M).toSubmodule.obj (op U.1) := by
-  show _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
+  change _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
     {P : M.Submodule | ∀ V : X.affineOpens,
       I.ideal V ^ n • (⊤ : Submodule Γ(X, V) Γ(M, V)) ≤
         P.toSubmodule.obj (op V.1)})).obj (op U.1)

@@ -102,6 +102,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-! ### Flat base change of the Koszul property -/
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance search for pullbacks of algebraic spaces over the big fppf site
 /-- A flat base change of a local complete intersection morphism of algebraic spaces is a local
 complete intersection morphism: if `f : X ⟶ Y` is Koszul and `g : Y' ⟶ Y` is flat, then the
 projection `X ×_Y Y' ⟶ Y'` is Koszul. -/

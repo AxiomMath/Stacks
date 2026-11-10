@@ -92,7 +92,7 @@ theorem topSegreCycle_flatPullbackMap_integralCycle_eq_of_charts
   have hgq := isLocallyQuasiFinite_of_isEtale D.site D.base D.base_mem hY.1 hget
   have hT : (Z.preimagePointSet D.site D.base D.base_mem g).Nonempty :=
     ⟨w, by
-      show pointsMap D.site D.base D.base_mem W g w ∈
+      change pointsMap D.site D.base D.base_mem W g w ∈
         subspacePointSet D.site D.base D.base_mem Y Z.subspace
       rw [hw]
       exact ⟨_, rfl⟩⟩

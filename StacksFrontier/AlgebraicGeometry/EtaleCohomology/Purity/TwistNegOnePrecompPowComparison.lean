@@ -49,7 +49,7 @@ theorem moduleSheafHomMap_comp_moduleSheafHomMap
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro α
-  show (J.overPullback (ModuleCat.{x} Λ) V.unop).map a' ≫
+  change (J.overPullback (ModuleCat.{x} Λ) V.unop).map a' ≫
       ((J.overPullback (ModuleCat.{x} Λ) V.unop).map a ≫ α ≫
         (J.overPullback (ModuleCat.{x} Λ) V.unop).map b) ≫
       (J.overPullback (ModuleCat.{x} Λ) V.unop).map b' =
@@ -80,7 +80,7 @@ theorem etaleModuleRestrictScalarsHomPrecomp_naturality {M : EtaleModules.{u, 0}
           ((etaleModuleRestrictScalars ρ Y).map w) := by
   refine (tensorHomBijective_moduleSheafHomEvaluation Y.smallEtaleTopology Λ M'
     ((etaleModuleRestrictScalars ρ Y).obj H') _).injective ?_
-  show _ ▷ M' ≫ _ = _ ▷ M' ≫ _
+  change _ ▷ M' ≫ _ = _ ▷ M' ≫ _
   rw [comp_whiskerRight, comp_whiskerRight, Category.assoc, Category.assoc,
     etaleModuleRestrictScalarsHomPrecomp_spec,
     moduleSheafHomMap_whiskerRight_comp_moduleSheafHomEvaluation,

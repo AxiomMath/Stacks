@@ -313,7 +313,7 @@ quasi-isomorphism of complexes"]
 instance quasiIso_totalSectionsToProductTotal
     (I : CochainComplex (Sheaf S.totalTopology Ab.{u}) ℤ) [I.IsKInjective] :
     QuasiIso (S.totalSectionsToProductTotal I) := by
-  haveI := CochainComplex.HomComplex.homComplexMap_quasiIso
+  have := CochainComplex.HomComplex.homComplexMap_quasiIso
     S.integerCochainAugmentation (𝟙 I)
   dsimp only [totalSectionsToProductTotal]
   infer_instance

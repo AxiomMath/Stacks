@@ -568,8 +568,7 @@ public theorem tensorRankOneBaseChangeEquiv_tensorCoefficientMap (ι : V ≃ₗ[
     (x : P ⊗[k] V) :
     tensorRankOneBaseChangeEquiv k P Bh ι (tensorCoefficientMap k P Bh x)
       = TensorProduct.mk P Bh P 1 (tensorRankOneTrivialization k P ι x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul p v =>
       rw [tensorCoefficientMap_tmul]

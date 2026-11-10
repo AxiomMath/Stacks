@@ -191,7 +191,7 @@ public theorem ker_baseChangeTransition (hc : 0 < c)
       (Ideal.pow_le_pow_right (Nat.le_succ (n + 1)) : I₂ ^ (n + 1 + 1) ≤ I₂ ^ (n + 1))) =
       (I₂ ^ (n + 1)).map (Ideal.Quotient.mk (I₂ ^ (n + 1 + 1))) :=
     Ideal.Quotient.factor_ker (Ideal.pow_le_pow_right (Nat.le_succ (n + 1)))
-  show RingHom.ker (Algebra.TensorProduct.map _ _) = _
+  change RingHom.ker (Algebra.TensorProduct.map _ _) = _
   rw [Algebra.TensorProduct.map_ker _ _ (X.transitionOfLE_surjective _)
     (Ideal.Quotient.factor_surjective (Ideal.pow_le_pow_right (Nat.le_succ (n + 1)))), hT, hq]
   have hR : Ideal.map (Algebra.TensorProduct.includeRight : A₂ ⧸ I₂ ^ (n + 1 + 1) →ₐ[A₁]
@@ -211,11 +211,11 @@ public theorem ker_baseChangeTransition (hc : 0 < c)
       X.baseChangeTerm I₂ c (n + 1)) (X.baseMap _ a) =
       Algebra.TensorProduct.includeRight
         (Ideal.Quotient.mk (I₂ ^ (n + 1 + 1)) (Algebra.algebraMap A₁ A₂ a)) := by
-    show (X.baseMap _ a) ⊗ₜ[A₁] (1 : A₂ ⧸ I₂ ^ (n + 1 + 1)) = 1 ⊗ₜ[A₁] _
+    change (X.baseMap _ a) ⊗ₜ[A₁] (1 : A₂ ⧸ I₂ ^ (n + 1 + 1)) = 1 ⊗ₜ[A₁] _
     rw [← algebraMap_B, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul,
       ← Algebra.algebraMap_eq_smul_one]
     rfl
-  show (Algebra.TensorProduct.includeLeft : X.B (c * (n + 1 + 1) - 1) →ₐ[A₁]
+  change (Algebra.TensorProduct.includeLeft : X.B (c * (n + 1 + 1) - 1) →ₐ[A₁]
       X.baseChangeTerm I₂ c (n + 1)) (X.baseMap _ a) ∈ _
   rw [he]
   exact Ideal.mem_map_of_mem _ ha'
@@ -433,7 +433,7 @@ public theorem ker_baseChangedAlgebraReduction (hc : 0 < c)
   refine Ideal.map_le_iff_le_comap.mpr (Ideal.map_le_iff_le_comap.mpr fun a ha => ?_)
   have ha' := AdicAlgebraSystem.algebraMap_mem_pow_of_mem_pow hmap ha
   rw [Ideal.mem_comap, Ideal.mem_comap]
-  show Algebra.algebraMap A₁ B.carrier a ⊗ₜ[A₁] (1 : A₂) ∈ _
+  change Algebra.algebraMap A₁ B.carrier a ⊗ₜ[A₁] (1 : A₂) ∈ _
   rw [Algebra.TensorProduct.tmul_one_eq_one_tmul]
   exact Ideal.mem_map_of_mem _ ha'
 
@@ -497,7 +497,7 @@ public theorem completedBaseChangeQuotient_ringHom_ext (hI₂ : I₂.FG)
       (completedBaseChangedAlgebra (A₂ := A₂) (I₂ := I₂) B))) ^ (n + 1)) y =
       Ideal.Quotient.mk _ (AdicCompletion.of (baseChangedIdeal (A₂ := A₂) (I₂ := I₂) B) _ p) := by
     rw [Ideal.Quotient.eq, completedBaseChange_adicIdeal_pow_eq_ker hI₂ B n, RingHom.mem_ker]
-    show AdicCompletion.evalₐ _ (n + 1) (y - _) = 0
+    change AdicCompletion.evalₐ _ (n + 1) (y - _) = 0
     rw [map_sub, AdicCompletion.evalₐ_of, hp, sub_self]
   simp only [RingHom.comp_apply]
   rw [hy, h]

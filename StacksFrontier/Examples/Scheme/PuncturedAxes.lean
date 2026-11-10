@@ -121,14 +121,14 @@ noncomputable def axisPoint (k : Type u) [Field k] (i : ℕ) :
 /-- The `i`-th coordinate does not vanish at the generic point of the `i`-th axis. -/
 theorem axisQuotientMap_X_notMem_axisPoint (k : Type u) [Field k] (i : ℕ) :
     axisQuotientMap k (MvPolynomial.X i) ∉ (axisPoint k i).asIdeal := by
-  show axisEvalAt k i (axisQuotientMap k (MvPolynomial.X i)) ≠ 0
+  change axisEvalAt k i (axisQuotientMap k (MvPolynomial.X i)) ≠ 0
   rw [axisEvalAt_X]
   exact Polynomial.X_ne_zero
 
 /-- Every coordinate vanishes at the origin. -/
 theorem axisQuotientMap_X_mem_axisOrigin (k : Type u) [Field k] (i : ℕ) :
     axisQuotientMap k (MvPolynomial.X i) ∈ (axisOrigin k).asIdeal := by
-  show axisAugmentation k (axisQuotientMap k (MvPolynomial.X i)) = 0
+  change axisAugmentation k (axisQuotientMap k (MvPolynomial.X i)) = 0
   simp
 
 /-- The generic point of the `i`-th axis specializes to the origin. -/
@@ -149,7 +149,7 @@ theorem axisPoint_le_axisOrigin (k : Type u) [Field k] (i : ℕ) :
       (fun j => if j = i then Polynomial.X else 0) f) = MvPolynomial.eval 0 f := by
     rw [MvPolynomial.map_eval₂Hom, hcoeff, hvars]
     simp
-  show axisAugmentation k (axisQuotientMap k f) = 0
+  change axisAugmentation k (axisQuotientMap k f) = 0
   rw [axisAugmentation_mk, ← hcomp, hker, map_zero]
 
 /-- The generic point of the `i`-th axis specializes to the origin, as a point of the spectrum. -/
@@ -269,7 +269,7 @@ theorem exists_affine_scheme_punctured_without_quasiCompact_dense_open :
   let k := ULift.{u} ℚ
   refine ⟨Spec (.of (puncturedAxisRing k)), inferInstance, axisOrigin k, ?_,
     puncturedAxisRing_has_no_quasiCompact_dense_open k⟩
-  show IsClosed ({axisOrigin k} : Set (PrimeSpectrum _))
+  change IsClosed ({axisOrigin k} : Set (PrimeSpectrum _))
   rw [PrimeSpectrum.isClosed_singleton_iff_isMaximal]
   exact axisAugmentation_ker_isMaximal k
 

@@ -274,7 +274,7 @@ private theorem yoneda_map_comp_sectionPoint (hp : p ≫ w = v)
   refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun x => ?_)
   obtain ⟨T''⟩ := T₀
   apply (sectionSpaceEquiv B U hU Z T'' W w).injective
-  show sectionSpaceEquiv B U hU Z T'' W w
+  change sectionSpaceEquiv B U hU Z T'' W w
       ((yonedaEquiv.symm ((sectionSpaceEquiv B U hU Z T W w).symm σ)).app (op T'')
         ((yoneda.map τ).app (op T'') x)) =
     sectionSpaceEquiv B U hU Z T'' W w ((sectionSpaceMap hp).app (op T'')

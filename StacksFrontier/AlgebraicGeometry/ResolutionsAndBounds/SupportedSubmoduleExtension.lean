@@ -105,7 +105,7 @@ theorem comp_cokernel_π_eq_zero {B C : SheafOfModules.{u} R} {W : Opens X}
   apply LinearMap.ext
   intro s
   let s' : ↥((supportedSubmodule B W).obj V) := s
-  show π.val.app V ((directImageMap φ).val.app V
+  change π.val.app V ((directImageMap φ).val.app V
     ((toDirectImageRestriction B W).val.app V s'.val)) = 0
   apply eq_zero_of_locally_zero Q
   intro x hx

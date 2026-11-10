@@ -134,7 +134,7 @@ private theorem translateField_apply
   have he' : e.symm (x i) = algebraMap (MvPolynomial (Fin n) K)
       (FractionRing (MvPolynomial (Fin n) K)) (MvPolynomial.X i) :=
     e.injective (by simpa using he.symm)
-  show e ((translateFractionRing k K n c a) (e.symm (x i))) = _
+  change e ((translateFractionRing k K n c a) (e.symm (x i))) = _
   rw [he', translateFractionRing, IsFractionRing.algEquivOfAlgEquiv_algebraMap]
   simp [translatePolynomialEquiv, e, translatePolynomial]
   simp only [IsScalarTower.algebraMap_apply k K Ω a,
@@ -291,7 +291,7 @@ private theorem exists_mem_adjoin_of_separable_family
     (Set.range (algebraMap L E))
   have hLi : z i ∈ L := IntermediateField.subset_adjoin A {z i} (by simp)
   have hti : t i ∈ L := by
-    show algebraMap A E ⟨t i, IntermediateField.mem_adjoin_simple_self F (t i)⟩ ∈ U
+    change algebraMap A E ⟨t i, IntermediateField.mem_adjoin_simple_self F (t i)⟩ ∈ U
     exact U.algebraMap_mem _
   have hLM : L.toSubfield ≤ M.toSubfield := fun a ha ↦
     IntermediateField.subset_adjoin _ _ ⟨⟨a, ha⟩, rfl⟩
@@ -500,7 +500,7 @@ private theorem isGeometricallyIrreducible_linearCombination_of_infinite
   let ξ : Ω := ∑ i, algebraMap K Ω (g i) * x i
   let δ : Ω := ∑ i, algebraMap K Ω (algebraMap k K (c i) * g i)
   have htrans : Transcendental (IntermediateField.adjoin B {ξ}) δ := by
-    show Transcendental ((IntermediateField.adjoin B {ξ}).restrictScalars k) δ
+    change Transcendental ((IntermediateField.adjoin B {ξ}).restrictScalars k) δ
     rw [IntermediateField.adjoin_adjoin_left]
     exact IntermediateField.transcendental_adjoin_iff.mpr
       (linearCombination_delta_transcendental k Ω n x ξ δ hind)
@@ -580,7 +580,7 @@ private theorem isGeometricallyIrreducible_of_equiv_overfield
   apply isGeometricallyIrreducible_of_equiv eF eK _ h
   ext a
   apply (algebraMap K' E).injective
-  show algebraMap K' E (algebraMap F' K' (eF a)) =
+  change algebraMap K' E (algebraMap F' K' (eF a)) =
     algebraMap K' E (eK (algebraMap F K a))
   rw [← IsScalarTower.algebraMap_apply F' K' E, heF, heK,
     ← IsScalarTower.algebraMap_apply F K E]
@@ -707,7 +707,7 @@ private theorem algebraMap_mem_adjoin_image
   have hle : (IntermediateField.adjoin F s).toSubfield ≤ M.toSubfield.comap (algebraMap E L) := by
     apply IntermediateField.adjoin_le_subfield
     · rintro _ ⟨a, rfl⟩
-      show algebraMap E L (algebraMap F E a) ∈ M
+      change algebraMap E L (algebraMap F E a) ∈ M
       rw [← IsScalarTower.algebraMap_apply F E L]
       exact M.algebraMap_mem (algebraMap F (IntermediateField.adjoin F {t}) a)
     · intro b hb
@@ -775,13 +775,13 @@ private theorem isGeometricallyIrreducible_of_adjoin_transcendental
     apply ratFunc_ringHom_ext
     · intro a
       simp only [RingHom.comp_apply, ratFunc_algebraMap_C]
-      show ((RatFunc.algEquivOfTranscendental t (ht.of_tower_top F)) (RatFunc.C a) : L) =
+      change ((RatFunc.algEquivOfTranscendental t (ht.of_tower_top F)) (RatFunc.C a) : L) =
         g (RatFunc.C (algebraMap F E a))
       rw [← RatFunc.algebraMap_eq_C, AlgEquiv.commutes,
         ← RatFunc.algebraMap_eq_C, AlgEquiv.commutes]
       exact IsScalarTower.algebraMap_apply F E L a
     · simp only [RingHom.comp_apply, ratFunc_algebraMap_X]
-      show ((RatFunc.algEquivOfTranscendental t (ht.of_tower_top F)) RatFunc.X : L) =
+      change ((RatFunc.algEquivOfTranscendental t (ht.of_tower_top F)) RatFunc.X : L) =
         ((RatFunc.algEquivOfTranscendental t ht) RatFunc.X : L)
       simp only [RatFunc.algEquivOfTranscendental_X]
   exact (AlgebraicGeometry.GeometricallyIrreducible.iff_ratFunc F E).mpr

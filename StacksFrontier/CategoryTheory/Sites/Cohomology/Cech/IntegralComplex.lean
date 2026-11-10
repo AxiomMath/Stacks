@@ -115,7 +115,7 @@ public theorem freeAbelianYonedaEquiv_naturality_left (U U' : C)
       uliftYoneda.{a}.map f ≫
         (AddCommGrpCat.adj.whiskerRight Cᵒᵖ).homEquiv (uliftYoneda.{a}.obj U') A η :=
     (AddCommGrpCat.adj.whiskerRight Cᵒᵖ).homEquiv_naturality_left (uliftYoneda.{a}.map f) η
-  show uliftYonedaEquiv
+  change uliftYonedaEquiv
     ((AddCommGrpCat.adj.whiskerRight Cᵒᵖ).homEquiv (uliftYoneda.{a}.obj U) A
       (freeAbelianYoneda.{v, u, a}.map f ≫ η)) = _
   rw [key]
@@ -239,7 +239,7 @@ private theorem liftedCechComplexFunctor_obj_d
             ((cechSimplicialObject E).δ j).op := by
   simp only [liftedCechComplexFunctor, cechComplexFunctor,
     FormalCoproduct.cochainComplexFunctor]
-  show (AlternatingCofaceMapComplex.obj
+  change (AlternatingCofaceMapComplex.obj
     ((FormalCoproduct.cosimplicialObjectFunctor
       (cechSimplicialObject E)).obj
         ((Over.forget X).op ⋙ F ⋙ AddCommGrpCat.uliftFunctor.{u, max v a}))).d i (i + 1) = _
@@ -271,7 +271,7 @@ private theorem homComplexFunctor_integralCechComplex_obj_d
         (preadditiveYoneda.obj F).map
           ((integralCechRealization.{w, v, u, a} (X := X)).map
             ((cechSimplicialObject E).δ j)).op := by
-  show (preadditiveYoneda.obj F).map
+  change (preadditiveYoneda.obj F).map
     ((integralCechComplex.{w, v, u, a} E).d (i + 1) i).op = _
   rw [integralCechComplex_d'.{w, v, u, a} E i]
   exact map_op_sum_zsmul (preadditiveYoneda.obj F) _ _
@@ -375,7 +375,7 @@ public noncomputable def homIntegralCechComplexIso
               freeAbelianYoneda.{v, u, a}.obj
                 ((∏ᶜ (fun a ↦ Over.mk (E.f (j a)))).left)) (h.f k) := by
         dsimp [R, integralCechRealization]
-        exact Sigma.ι_desc _ _
+        exact Sigma.ι_comp_desc _ _
       have hh :
           Sigma.ι (fun j : Fin (m + 1) → E.I₀ ↦
             freeAbelianYoneda.{v, u, a}.obj

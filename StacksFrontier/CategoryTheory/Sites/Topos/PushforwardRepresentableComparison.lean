@@ -82,10 +82,10 @@ def precompIsoEquiv (F : Sheaf K (Type w)) {V : C}
   toFun h := e.inv ≫ h
   invFun h := e.hom ≫ h
   left_inv h := by
-    show e.hom ≫ e.inv ≫ h = h
+    change e.hom ≫ e.inv ≫ h = h
     rw [← Category.assoc, e.hom_inv_id, Category.id_comp]
   right_inv h := by
-    show e.inv ≫ e.hom ≫ h = h
+    change e.inv ≫ e.hom ≫ h = h
     rw [← Category.assoc, e.inv_hom_id, Category.id_comp]
 
 /-- **The sections of the direct image at one object, computed through a comparison of
@@ -99,6 +99,7 @@ def representableSectionsEquivOfIso (F : Sheaf K (Type w)) {V : C}
       ((g.adj.homEquiv (J.yoneda.obj V) F).symm)).trans
     ((precompIsoEquiv g F e).trans (K.yonedaEquiv (X := u.obj V) (F := F)))
 
+omit [u.IsContinuous J K] in
 /-- The bijection of `MorphismOfTopoi.representableSectionsEquivOfIso` sends a section `x` of
 `g_*F` over `V` to the section of `F` over `u V` obtained by transporting `x` to a morphism
 `g⁻¹h_V ⟶ F` along Yoneda and the adjunction, precomposing with `e.inv`, and reading the resulting
@@ -111,6 +112,7 @@ theorem representableSectionsEquivOfIso_apply (F : Sheaf K (Type w)) {V : C}
         (g.adj.homEquiv (J.yoneda.obj V) F).symm (J.yonedaEquiv.symm x)) :=
   rfl
 
+omit [u.IsContinuous J K] in
 /-- The inverse of the bijection of `MorphismOfTopoi.representableSectionsEquivOfIso`: a section of
 `F` over `u V` is read as a section of `g_*F` over `V` by taking its Yoneda morphism, precomposing
 with `e` and transporting back along the adjunction and Yoneda. -/
@@ -121,6 +123,7 @@ theorem representableSectionsEquivOfIso_symm_apply (F : Sheaf K (Type w)) {V : C
       J.yonedaEquiv (g.adj.homEquiv (J.yoneda.obj V) F (e.hom ≫ K.yonedaEquiv.symm w)) :=
   rfl
 
+omit [u.IsContinuous J K] in
 /-- **The bijection of `MorphismOfTopoi.representableSectionsEquivOfIso` is natural in the
 object**, at every morphism `k` whose naturality square for the chosen isomorphisms commutes. -/
 theorem representableSectionsEquivOfIso_naturality (F : Sheaf K (Type w)) {V V' : C} (k : V' ⟶ V)
@@ -136,6 +139,7 @@ theorem representableSectionsEquivOfIso_naturality (F : Sheaf K (Type w)) {V V' 
   rw [← Category.assoc, hnat, Category.assoc,
     ← GrothendieckTopology.yonedaEquiv_naturality]
 
+omit [u.IsContinuous J K] in
 /-- The bijection of `MorphismOfTopoi.representableSectionsEquivOfIso` is natural in the sheaf
 `F`. -/
 theorem representableSectionsEquivOfIso_naturality_sheaf {F F' : Sheaf K (Type w)} (β : F ⟶ F')
@@ -165,6 +169,7 @@ def representableSectionsEquiv (F : Sheaf K (Type w)) (V : C) :
     (g.pushforward.obj F).obj.obj (op V) ≃ F.obj.obj (op (u.obj V)) :=
   representableSectionsEquivOfIso g F (α.app V)
 
+omit [u.IsContinuous J K] in
 /-- The bijection of `MorphismOfTopoi.representableSectionsEquiv` sends a section `x` of `g_*F`
 over `V` to the section of `F` over `u V` obtained by transporting `x` to a morphism `g⁻¹h_V ⟶ F`
 along Yoneda and the adjunction, precomposing with the component of `α.inv` at `V`, and reading the
@@ -176,6 +181,7 @@ theorem representableSectionsEquiv_apply (F : Sheaf K (Type w)) (V : C)
         (g.adj.homEquiv (J.yoneda.obj V) F).symm (J.yonedaEquiv.symm x)) :=
   rfl
 
+omit [u.IsContinuous J K] in
 /-- The bijection of `MorphismOfTopoi.representableSectionsEquiv` is natural in the object `V`. -/
 theorem representableSectionsEquiv_naturality (F : Sheaf K (Type w)) {V V' : C} (k : V' ⟶ V)
     (x : (g.pushforward.obj F).obj.obj (op V)) :
@@ -183,6 +189,7 @@ theorem representableSectionsEquiv_naturality (F : Sheaf K (Type w)) {V V' : C} 
       F.obj.map (u.map k).op (representableSectionsEquiv g α F V x) :=
   representableSectionsEquivOfIso_naturality g F k (α.inv.naturality k).symm x
 
+omit [u.IsContinuous J K] in
 /-- The bijection of `MorphismOfTopoi.representableSectionsEquiv` is natural in the sheaf `F`. -/
 theorem representableSectionsEquiv_naturality_sheaf {F F' : Sheaf K (Type w)} (β : F ⟶ F')
     (V : C) (x : (g.pushforward.obj F).obj.obj (op V)) :

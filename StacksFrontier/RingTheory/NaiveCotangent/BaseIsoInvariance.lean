@@ -58,14 +58,14 @@ theorem smul_h1Cotangent_eq_zero_of_ringEquiv (β : R₀ ≃+* R₁) (e : T ≃+
   let : Algebra R₁ T := (e.symm.toRingHom.comp (algebraMap R₁ T')).toAlgebra
   have : IsScalarTower R₁ T' T := .of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower R₁ R₀ T := .of_algebraMap_eq fun r ↦ by
-    show e.symm (algebraMap R₁ T' r) = algebraMap R₀ T (β.symm r)
+    change e.symm (algebraMap R₁ T' r) = algebraMap R₀ T (β.symm r)
     rw [e.symm_apply_eq, he, RingEquiv.apply_symm_apply]
   have : IsScalarTower R₀ R₁ R₀ := .of_algebraMap_eq fun r ↦ (β.symm_apply_apply r).symm
   have : IsScalarTower T T' T := .of_algebraMap_eq fun t ↦ (e.symm_apply_apply t).symm
   let m₁ := Algebra.H1Cotangent.map R₀ R₁ T T'
   let m₂ := Algebra.H1Cotangent.map R₁ R₀ T' T
   have hinv : ∀ y : Algebra.H1Cotangent R₀ T, m₂ (m₁ y) = y := fun y ↦ by
-    show ((m₂.restrictScalars T) ∘ₗ m₁) y = y
+    change ((m₂.restrictScalars T) ∘ₗ m₁) y = y
     rw [show m₁ = Algebra.Extension.H1Cotangent.map _ from rfl,
       show m₂ = Algebra.Extension.H1Cotangent.map _ from rfl,
       ← Algebra.Extension.H1Cotangent.map_comp, Algebra.Extension.H1Cotangent.map_eq _
@@ -92,14 +92,14 @@ theorem smul_kaehlerDifferential_eq_zero_of_ringEquiv (β : R₀ ≃+* R₁) (e 
   let : Algebra R₁ T := (e.symm.toRingHom.comp (algebraMap R₁ T')).toAlgebra
   have : IsScalarTower R₁ T' T := .of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower R₁ R₀ T := .of_algebraMap_eq fun r ↦ by
-    show e.symm (algebraMap R₁ T' r) = algebraMap R₀ T (β.symm r)
+    change e.symm (algebraMap R₁ T' r) = algebraMap R₀ T (β.symm r)
     rw [e.symm_apply_eq, he, RingEquiv.apply_symm_apply]
   have : IsScalarTower T T' T := .of_algebraMap_eq fun t ↦ (e.symm_apply_apply t).symm
   let m₁ := KaehlerDifferential.map R₀ R₁ T T'
   let m₂ := KaehlerDifferential.map R₁ R₀ T' T
   have hinv : (m₂.restrictScalars T) ∘ₗ m₁ = LinearMap.id := by
     ext t
-    show m₂ (m₁ (KaehlerDifferential.D R₀ T t)) = KaehlerDifferential.D R₀ T t
+    change m₂ (m₁ (KaehlerDifferential.D R₀ T t)) = KaehlerDifferential.D R₀ T t
     rw [KaehlerDifferential.map_D, KaehlerDifferential.map_D]
     exact congrArg (KaehlerDifferential.D R₀ T) (e.symm_apply_apply t)
   have hm : m₁ (algebraMap R₀ T r • x) = algebraMap R₁ T' (β r) • m₁ x := by

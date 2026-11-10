@@ -88,10 +88,7 @@ def baseChangeCohomologyCatMap :
         map_smul' := fun t m => by
           let H₁ := baseChangeCohomologyOverBase (R := R) (R' := R') K₁ n
           change q.hom (t • m) = t • (q.hom m : H₁)
-          induction t using TensorProduct.induction_on with
-          | zero =>
-            rw [zero_smul, zero_smul]
-            exact q.hom.map_zero
+          induction t using TensorProduct.inductionOn with
           | add x y hx hy =>
             rw [add_smul, add_smul]
             exact (q.hom.map_add _ _).trans (congrArg₂ (· + ·) hx hy)

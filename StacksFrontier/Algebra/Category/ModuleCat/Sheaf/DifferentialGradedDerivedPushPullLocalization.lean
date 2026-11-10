@@ -251,7 +251,7 @@ theorem isIso_pushforwardComparison {P : PullbackData φ} {E : P.HomotopyExtensi
     have : IsIso ((toDerivedCategory.{t, a, m} A).map s₀.hom) :=
       Localization.inverts (toDerivedCategory.{t, a, m} A) (quasiIsomorphisms.{t, a, m} A) _
         s₀.prop
-    show IsIso (D.pushforwardComparison.app s₀.right)
+    change IsIso (D.pushforwardComparison.app s₀.right)
     rw [← hcompat s₀]
     exact IsIso.comp_isIso' (hc.isIso_ι_app hpush s₀) (IsIso.comp_isIso' ε.isIso_hom inferInstance)
   exact NatIso.isIso_of_isIso_app _

@@ -127,12 +127,12 @@ private lemma mk_affineOpens_pushoutScheme_le :
     · have hpre : pushoutInr s ⁻¹ᵁ U.1 = pushoutInr s ⁻¹ᵁ V.1 :=
         congrArg (fun q : s.X.affineOpens × s.Y.affineOpens => q.2.1) h
       rw [← hy]
-      show y ∈ (pushoutInr s ⁻¹ᵁ U.1).1 ↔ y ∈ (pushoutInr s ⁻¹ᵁ V.1).1
+      change y ∈ (pushoutInr s ⁻¹ᵁ U.1).1 ↔ y ∈ (pushoutInr s ⁻¹ᵁ V.1).1
       rw [hpre]
     · have hpre : pushoutInl s ⁻¹ᵁ U.1 = pushoutInl s ⁻¹ᵁ V.1 :=
         congrArg (fun q : s.X.affineOpens × s.Y.affineOpens => q.1.1) h
       rw [← hx]
-      show x ∈ (pushoutInl s ⁻¹ᵁ U.1).1 ↔ x ∈ (pushoutInl s ⁻¹ᵁ V.1).1
+      change x ∈ (pushoutInl s ⁻¹ᵁ U.1).1 ↔ x ∈ (pushoutInl s ⁻¹ᵁ V.1).1
       rw [hpre]
   calc
     #((pushoutScheme s).affineOpens) ≤ #(s.X.affineOpens × s.Y.affineOpens) :=
@@ -385,7 +385,7 @@ private theorem exists_etaleDescent_span
   have hCompat : E.map WalkingSpan.Hom.fst ≫ qL = E.map WalkingSpan.Hom.snd ≫ qR := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Q.map (E.map WalkingSpan.Hom.fst) ≫ pushoutInl t =
+    change Q.map (E.map WalkingSpan.Hom.fst) ≫ pushoutInl t =
       Q.map (E.map WalkingSpan.Hom.snd) ≫ pushoutInr t
     exact (pushoutAlongClosedImmersionAndIntegral t).isPushout.w
   let qBase : PushoutCocone (E.map WalkingSpan.Hom.fst) (E.map WalkingSpan.Hom.snd) :=
@@ -635,12 +635,12 @@ private theorem existsUnique_algebraicSpace_desc
   · intro g hg
     apply hu g
     rintro ⟨(_ | (_ | _))⟩
-    · show yoneda.map (fppfOverI s B hS hX hZ ≫ fppfOverInl s B hS hX hP) ≫ g =
+    · change yoneda.map (fppfOverI s B hS hX hZ ≫ fppfOverInl s B hS hX hP) ≫ g =
         (𝟙 _) ≫ (yoneda.map (fppfOverI s B hS hX hZ) ≫ a)
       rw [yoneda.map_comp, Category.assoc, hg.1, Category.id_comp]
-    · show yoneda.map (fppfOverInl s B hS hX hP) ≫ g = (𝟙 _) ≫ a
+    · change yoneda.map (fppfOverInl s B hS hX hP) ≫ g = (𝟙 _) ≫ a
       simpa only [Category.id_comp] using hg.1
-    · show yoneda.map (fppfOverInr s B hS hY hP) ≫ g = (𝟙 _) ≫ b
+    · change yoneda.map (fppfOverInr s B hS hY hP) ≫ g = (𝟙 _) ≫ b
       simpa only [Category.id_comp] using hg.2
 
 /-- **Stacks 0EDP.** In the standing situation of [Stacks Project, Tag 0ECI], the scheme pushout
@@ -681,7 +681,7 @@ theorem pushout_isPushout_algebraicSpaces :
   classical
   refine IsPushout.of_isColimit (PushoutCocone.IsColimit.mk ?_ (fun t => ?_) ?_ ?_ ?_)
   · apply ObjectProperty.hom_ext
-    show yoneda.map (fppfOverI s B hS hX hZ) ≫ yoneda.map (fppfOverInl s B hS hX hP) =
+    change yoneda.map (fppfOverI s B hS hX hZ) ≫ yoneda.map (fppfOverInl s B hS hX hP) =
       yoneda.map (fppfOverJ s B hS hY hZ) ≫ yoneda.map (fppfOverInr s B hS hY hP)
     rw [← yoneda.map_comp, ← yoneda.map_comp]
     congr 1

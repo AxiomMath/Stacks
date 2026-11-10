@@ -92,7 +92,7 @@ theorem isContinuous_levelCoinvariantsRepresentation (k : ℕ) :
         {g' : G | levelCoinvariantsRepresentation H ρ k g' (ULift.up (Coinvariants.mk _ v)) =
           ULift.up (Coinvariants.mk _ v)} := by
       rintro _ ⟨h, hh, rfl⟩
-      show levelCoinvariantsRepresentation H ρ k (g * h) _ = _
+      change levelCoinvariantsRepresentation H ρ k (g * h) _ = _
       rw [map_mul, Module.End.mul_apply, hfix h hh]
       exact hg
     have hmem : (g * ·) '' {h : G | levelRepresentation ρ k h v = v} ∈ nhds g :=

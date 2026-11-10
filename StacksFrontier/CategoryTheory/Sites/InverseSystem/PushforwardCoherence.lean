@@ -22,7 +22,8 @@ tactic mode, so unfolding them left an opaque `id (…)` around an `Iso.trans` o
 that `simp` could not project `.hom.app P` through, and they are now term-mode, which removes that
 at source.
 
-What blocks them now is **unfolding `abelianSheafPushforward` itself**. With that definition in the simp set the `map_id` goal reduces to one line,
+What blocks them now is **unfolding `abelianSheafPushforward` itself**. With that definition in the
+simp set the `map_id` goal reduces to one line,
 
 `whiskerLeft (u_b).op (𝟙 ((𝟭).op ⋙ P.obj)) ≫ eqToHom h₁ ≫ (eqToHom h₂).hom = 𝟙 ((u_b).op ⋙ P.obj)`
 
@@ -237,7 +238,7 @@ public theorem pushforwardTransition_comp_eqToHom {i j k : D.I} (a : i ⟶ j) (b
               G.obj (F.obj i))
             (abelianSheafPushforward_comp.{v, u, w, t} D a b)) := by
   apply Sheaf.hom_ext
-  show transition D F (a ≫ b) =
+  change transition D F (a ≫ b) =
     (pushforwardTransition D F b).hom ≫
       ((abelianSheafPushforward.{v, u, w, t} D b).map (pushforwardTransition D F a)).hom ≫
       (eqToHom (congrArg
@@ -339,7 +340,7 @@ public theorem sheafHomMk_leg_eq (hι : IsCompatible.{v, u, w, t} D uC hu F 𝒢
                 Sheaf (D.J j) (Ab.{max u v w t}) => G.obj 𝒢)
             (pushforward_uC_comp.{v, u, w, t} D uC hu K a)) := by
   apply Sheaf.hom_ext
-  show ι j = _
+  change ι j = _
   rw [hι a]
   simp only [ObjectProperty.FullSubcategory.comp_hom, pushforwardTransition_hom,
     abelianSheafPushforward_map_hom, Sheaf.eqToHom_hom]

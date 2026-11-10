@@ -107,7 +107,7 @@ theorem isLocalization_primeCompl_of_etale_retraction {A : Type u} {R' : Type v}
     exact RingHom.mem_ker.mp hm
   have he₀p : e₀ ∈ p' := by
     rw [← hσ, Ideal.mem_comap]
-    show σ e₀ ∈ maximalIdeal A
+    change σ e₀ ∈ maximalIdeal A
     rw [he₀ker]
     exact Submodule.zero_mem _
   have hone : (1 - e₀) ∈ p'.primeCompl := by
@@ -125,7 +125,7 @@ theorem isLocalization_primeCompl_of_etale_retraction {A : Type u} {R' : Type v}
     exact ⟨⟨r, 1⟩, by rw [hmap, hmap, hr]; simp⟩
   · have hsub : x - y ∈ RingHom.ker σ.toRingHom := by
       rw [RingHom.mem_ker]
-      show σ (x - y) = 0
+      change σ (x - y) = 0
       rw [map_sub, sub_eq_zero]
       exact (hmap x).symm.trans (h.trans (hmap y))
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp (hker ▸ hsub)
@@ -133,7 +133,7 @@ theorem isLocalization_primeCompl_of_etale_retraction {A : Type u} {R' : Type v}
     have hzero : (1 - e₀) * (x - y) = 0 := by
       rw [← hc]
       linear_combination (-c) * hidem
-    show (1 - e₀) * x = (1 - e₀) * y
+    change (1 - e₀) * x = (1 - e₀) * y
     linear_combination hzero
 
 end Algebra

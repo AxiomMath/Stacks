@@ -54,12 +54,10 @@ variable {M N : Type u} [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A
 private lemma rawBaseChangeAddEquiv_naturality (h : M →ₗ[A] N) (z : (C ⊗[A] M) ⊗[C] K) :
     rawBaseChangeAddEquiv A C K N (LinearMap.rTensor K (LinearMap.baseChange C h) z) =
       LinearMap.rTensor K h (rawBaseChangeAddEquiv A C K M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul t k =>
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => rw [TensorProduct.add_tmul]; simp only [map_add, hx, hy]
     | tmul s m => rfl
 

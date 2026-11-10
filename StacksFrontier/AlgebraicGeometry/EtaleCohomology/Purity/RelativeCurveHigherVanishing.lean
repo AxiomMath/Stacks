@@ -109,7 +109,7 @@ theorem mem_range_morphismRestrict_iff {Z U : Scheme.{u}} (i : Z ⟶ U) (V : U.O
     exact ⟨_, (hc w).symm⟩
   · rintro ⟨z, hz⟩
     have hzV : z ∈ i ⁻¹ᵁ V := by
-      show i.base z ∈ V
+      change i.base z ∈ V
       rw [hz]
       exact v.2
     exact ⟨⟨z, hzV⟩, V.ι.isOpenEmbedding.injective ((hc _).trans hz)⟩
@@ -177,7 +177,7 @@ theorem exists_isPullback_punctured_of_mem_range {U U₀ T : Scheme.{u}} (j : U�
       IsPullback (pullback.snd j e) φ₀ φ (punctured k).ι := by
   have H' : φ ⁻¹ᵁ (punctured k).ι.opensRange = (pullback.snd j e).opensRange := by
     ext t
-    show φ.base t ∈ Set.range (punctured k).ι.base ↔ t ∈ Set.range (pullback.snd j e).base
+    change φ.base t ∈ Set.range (punctured k).ι.base ↔ t ∈ Set.range (pullback.snd j e).base
     rw [Scheme.Opens.range_ι, Scheme.Pullback.range_snd]
     exact h t
   have hsub : Set.range (pullback.snd j e ≫ φ).base ⊆ Set.range (punctured k).ι.base := by

@@ -67,6 +67,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {π : P ⟶ X} (d : RelativeProjPoints B S hS π)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_EtaleChartReduction (B : BigFppfSite.{u}) (S : Scheme.{u})
@@ -199,7 +200,6 @@ theorem universallyClosed_of_etalePoint (hX : IsAlgebraicSpace B S hS X)
     (universallyClosed_of_isIso B S hS _) hyon
   rwa [(d.isPullback T g).flip.isoPullback_inv_fst] at hc
 
-include d in
 /-- **An algebraic space has a surjective étale scheme point**: its atlas. -/
 theorem exists_etalePoint (hX : IsAlgebraicSpace B S hS X) :
     ∃ (T : BigFppfOver B S hS) (g : yoneda.obj T ⟶ X),

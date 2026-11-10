@@ -14,9 +14,9 @@ Stacks 0GIX asserts that the composite of its two canonical maps
 
 is the derived base change map of the cartesian square defining the geometric fibre. The statement
 of that clause is displayed in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedFibreBaseChangeComposition.lean`; this file carries out the left-hand
-half of its proof and assembles the two components of the right-hand half which the library did
-not record.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedFibreBaseChangeComposition.lean`; this
+file carries out the left-hand half of its proof and assembles the two components of the
+right-hand half which the library did not record.
 
 Both sides of the clause are transformations out of the right derived functor
 `Rf_* ⋙ (-)_s`, so `CategoryTheory.Functor.rightDerived_ext` reduces the clause to an equality of
@@ -64,7 +64,8 @@ expands: applying `CategoryTheory.Functor.rightDerived_ext` to the clause, then
 `derivedGeometricStalkSections_app` and `geometricFibreDerivedBaseChangeAb_app` on the right,
 leaves one equality of two explicit composites, both beginning with the identification
 `(smallEtaleStalkAb s.hom).mapDerivedCategoryFactorsh.hom.app (f_*J)` of the two actions of the
-stalk. That equality is proved in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreComposition.lean`, by the
+stalk. That equality is proved in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreComposition.lean`, by the
 rearrangement described next. On the right-hand component the three identities the reduction needs
 are now all available — `derivedGeometricStalkSections_app` and
 `geometricFibreDerivedBaseChangeAb_app` below, together with
@@ -128,7 +129,9 @@ used throughout, each forced by a failure of the more direct approach.
    of natural transformations (`stalkSectionsUnit_def`) is cheap, and the component is then
    computed from it by `simp only [NatTrans.comp_app, …]`.
 2. *The rearrangements are stated for bare morphisms in an abstract category* and applied by
-   `exact`, as in `StacksFrontier/AlgebraicGeometry/EtaleCohomology/GeometricFibreBaseChangeSections.lean`: the composites
+   `exact`, as in
+   `StacksFrontier/AlgebraicGeometry/EtaleCohomology/GeometricFibreBaseChangeSections.lean`: the
+   composites
    involved are spelled through several definitionally equal but syntactically distinct
    descriptions of one object, so `rw` and `simp` cannot reassociate them in place, and
    `CategoryTheory.Category.comp_id` and `CategoryTheory.Functor.map_id` do not fire on them.
@@ -141,7 +144,8 @@ used throughout, each forced by a failure of the more direct approach.
    `geometricFibrePullbackAbCompIso` by plain substitution, which needs no such comparison. The
    body is sealed as well, so the comparison cannot be forced at all; the equations
    `AlgebraicGeometry.geometricFibrePullbackAbCompIso_hom` and its three companions
-   (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/StalkOfDerivedPushforward.lean`) are how the isomorphism is read, and
+   (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/StalkOfDerivedPushforward.lean`) are how the
+   isomorphism is read, and
    `fibreSectionsRestrictionAb_eq` below rewrites with the first of them.
 4. *`rw` leaves motives the kernel cannot check, even where it closes the goal.* The first device
    above says to record a definition as an equality of natural transformations rather than unfold
@@ -149,7 +153,8 @@ used throughout, each forced by a failure of the more direct approach.
    component by `congrArg` and `CategoryTheory.NatTrans.comp_app`, never by `rw` — is just as
    necessary. That step is
    `Stacks.EtaleCohomology.etaleAbelianHomotopyBaseChange_app`
-   (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`), which is what lets
+   (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`), which
+   is what lets
    `etaleAbelianDerivedBaseChange_fac` meet
    `Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_comp_three`. Of the shapes for it,
    unfolding the definition inside a definitional comparison of components fails with

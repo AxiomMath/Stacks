@@ -187,7 +187,7 @@ public theorem exists_trivialLift_conjugation
     ((trivialAutEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k)).trans
       (trivialEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k))), ?_, ?_⟩
   · intro a
-    show (D.morphisms zε.1 zε.1 (ι.inv ≫ a.asIso.hom.1 ≫ ι.hom)).arrow = _
+    change (D.morphisms zε.1 zε.1 (ι.inv ≫ a.asIso.hom.1 ≫ ι.hom)).arrow = _
     rw [D.reversed_composition, D.reversed_composition, Category.assoc]
     rfl
   · intro c

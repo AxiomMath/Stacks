@@ -220,7 +220,7 @@ theorem firstOrderConormalModuleι_liftDifference (hZ : IsFirstOrderThickening B
         ((firstOrderConormalModuleIso B S hS Z hZ).hom.val.app U
           (liftDifference B S hS Z f g hfg U r)) =
       f.hom.app U r - g.hom.app U r := by
-  show ((firstOrderConormalModuleIso B S hS Z hZ).hom ≫
+  change ((firstOrderConormalModuleIso B S hS Z hZ).hom ≫
       firstOrderConormalModuleι B S hS Z hZ).val.app U
     (liftDifference B S hS Z f g hfg U r) = _
   rw [firstOrderConormalModuleIso_hom_comp_firstOrderConormalModuleι B S hS Z hZ]

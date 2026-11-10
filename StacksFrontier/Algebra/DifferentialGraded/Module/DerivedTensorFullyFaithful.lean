@@ -148,7 +148,7 @@ theorem Functor.bijective_map_shift [F.CommShift ℤ] (n : ℤ) {X Y : D}
           (Iso.homCongr ((F.commShiftIso n).app X).symm ((F.commShiftIso n).app Y).symm)) ∘
         (fun f : X ⟶ Y => F.map f) := by
     funext f
-    show F.map ((shiftFunctor D n).map f) = (F.commShiftIso n).hom.app X ≫
+    change F.map ((shiftFunctor D n).map f) = (F.commShiftIso n).hom.app X ≫
       (shiftFunctor C n).map (F.map f) ≫ (F.commShiftIso n).inv.app Y
     rw [← Category.assoc, ← F.commShiftIso_hom_naturality f n, Category.assoc,
       Iso.hom_inv_id_app]
@@ -276,7 +276,7 @@ theorem bijective_comp_unit_app_iff (adj : F ⊣ G) (P X : D) :
   have hfun : (fun f : P ⟶ X => f ≫ adj.unit.app X) =
       (adj.homEquiv P (F.obj X)) ∘ (fun f : P ⟶ X => F.map f) := by
     funext f
-    show f ≫ adj.unit.app X = adj.unit.app P ≫ G.map (F.map f)
+    change f ≫ adj.unit.app X = adj.unit.app P ≫ G.map (F.map f)
     exact adj.unit.naturality f
   rw [hfun, Equiv.comp_bijective]
 

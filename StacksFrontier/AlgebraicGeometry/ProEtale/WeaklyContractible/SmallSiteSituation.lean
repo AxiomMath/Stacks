@@ -98,7 +98,7 @@ theorem exists_clopenRefinement_of_isWContractible (W : X.ProEt) [IsAffine W.lef
   let f : ∀ i, U i ⟶ W := fun i ↦ MorphismProperty.Over.homMk (g i ≫ e.hom) rfl
   have hqc : ∀ i, QuasiCompact (f i).hom.left := by
     intro i
-    show QuasiCompact (g i ≫ e.hom)
+    change QuasiCompact (g i ≫ e.hom)
     have hclosed : Topology.IsClosedEmbedding (g i ≫ e.hom).base :=
       ⟨(hoi i).base_open.isEmbedding, (hdecW.clopen i).1⟩
     have _ : CompactSpace ↥(V i) := hclosed.compactSpace
@@ -113,8 +113,8 @@ theorem exists_clopenRefinement_of_isWContractible (W : X.ProEt) [IsAffine W.lef
     ProEtale.sieve_ofArrows_mem_proetaleTopology U f hwe hqc hsurj, fun i ↦ ?_⟩
   obtain ⟨Z, k, h, hk, hfac⟩ := href i
   have hw : h ≫ Z.hom = (U i).hom := by
-    have hkw : k.hom.left ≫ W.hom = Z.hom := by simpa using k.hom.w
-    show h ≫ Z.hom = (g i ≫ e.hom) ≫ W.hom
+    have hkw : k.hom.left ≫ W.hom = Z.hom := by simp
+    change h ≫ Z.hom = (g i ≫ e.hom) ≫ W.hom
     refine Eq.trans (congrArg (fun q ↦ h ≫ q) hkw.symm) ?_
     refine Eq.trans (Category.assoc h k.hom.left W.hom).symm ?_
     exact congrArg (fun q ↦ q ≫ W.hom) hfac.symm

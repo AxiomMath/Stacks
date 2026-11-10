@@ -60,7 +60,7 @@ private theorem app_up_eq_map_uliftYonedaEquiv {F : Cᵒᵖ ⥤ Type (max w v)} 
     g.app (Opposite.op c) (ULift.up t) = F.map t.op (uliftYonedaEquiv g) := by
   rw [uliftYonedaEquiv_naturality, uliftYonedaEquiv_apply]
   simp only [uliftYoneda]
-  show g.app (Opposite.op c) (ULift.up t) = g.app (Opposite.op c) (ULift.up (𝟙 c ≫ t))
+  change g.app (Opposite.op c) (ULift.up t) = g.app (Opposite.op c) (ULift.up (𝟙 c ≫ t))
   rw [Category.id_comp]
 
 /-- **The relative diagonal through equalizer loci.** Let `p : X ⟶ Y` be a morphism of presheaves
@@ -97,7 +97,7 @@ theorem relative_pullbackDiagonal_of_equalizerLoci (P : MorphismProperty C) [P.R
   refine ⟨?_, ?_, ?_⟩
   · apply ConcreteCategory.hom_ext
     rintro ⟨r⟩
-    show (pullback.diagonal p).app (Opposite.op c) (X.map r.op (X.map s.op x)) =
+    change (pullback.diagonal p).app (Opposite.op c) (X.map r.op (X.map s.op x)) =
       g.app (Opposite.op c) (ULift.up (r ≫ s))
     rw [diagonal_app_eq_iff, hg₁, hg₂]
     simp [hb]
@@ -143,7 +143,7 @@ theorem presheaf_pullbackDiagonal_of_equalizerLoci (P : MorphismProperty C) [P.R
   refine ⟨?_, ?_, ?_⟩
   · apply ConcreteCategory.hom_ext
     intro r
-    show (pullback.diagonal p).app (Opposite.op c) (X.map r.op (X.map s.op x)) =
+    change (pullback.diagonal p).app (Opposite.op c) (X.map r.op (X.map s.op x)) =
       g.app (Opposite.op c) (r ≫ s)
     rw [diagonal_app_eq_iff, hg₁, hg₂]
     simp [hb]
@@ -192,7 +192,7 @@ theorem relative_of_injective_of_imageLoci (P : MorphismProperty C) [P.RespectsI
     have hx' : ι.app (Opposite.op c) x = Y.map t.op y := hx.trans (hg c t)
     obtain ⟨r, hr⟩ := (hloc c t).1 ⟨x, hx'⟩
     refine ⟨ULift.up r, ?_, congrArg ULift.up hr⟩
-    show X.map r.op x₀ = x
+    change X.map r.op x₀ = x
     apply hinj
     rw [hι, hr, hx']
 

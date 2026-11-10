@@ -79,7 +79,7 @@ lemma locallyOfFiniteType_diagonal_left {S : Scheme.{u}} {X Y : Over S} (f : X �
   have hc : LocallyOfFiniteType (F.map (pullback.diagonal f) ≫ e.hom) := by
     rw [map_pullback_diagonal F f]
     infer_instance
-  show LocallyOfFiniteType (F.map (pullback.diagonal f))
+  change LocallyOfFiniteType (F.map (pullback.diagonal f))
   rw [show F.map (pullback.diagonal f) = (F.map (pullback.diagonal f) ≫ e.hom) ≫ e.inv by simp]
   infer_instance
 
@@ -101,10 +101,10 @@ lemma compactSpace_and_quasiSeparatedSpace_diagonalObj_left {S : Scheme.{u}} {X 
   let F := Over.forget S
   let e := PreservesPullback.iso F f f
   have : CompactSpace ↑(pullback (F.map f) (F.map f)) := by
-    show CompactSpace ↑(pullback f.left f.left)
+    change CompactSpace ↑(pullback f.left f.left)
     infer_instance
   have hqs : QuasiSeparatedSpace ↑(pullback (F.map f) (F.map f)) := by
-    show QuasiSeparatedSpace ↑(pullback f.left f.left)
+    change QuasiSeparatedSpace ↑(pullback f.left f.left)
     exact quasiSeparatedSpace_pullback_self f.left
   exact ⟨e.hom.homeomorph.symm.compactSpace, (quasiSeparatedSpace_congr e.hom.homeomorph).mpr hqs⟩
 
@@ -114,7 +114,7 @@ lemma isClosedImmersion_overPullback_diagonal_of_isSeparated {S T : Scheme.{u}} 
     IsClosedImmersion ((Over.pullback g).map (pullback.diagonal f)).left := by
   let F := Over.pullback g ⋙ Over.forget T
   have hsep : IsSeparated (F.map f) := by
-    show IsSeparated ((Over.pullback g).map f).left
+    change IsSeparated ((Over.pullback g).map f).left
     infer_instance
   exact (prop_map_pullback_diagonal_iff (@IsClosedImmersion) F f).mpr ((isSeparated_iff _).mp hsep)
 

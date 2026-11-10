@@ -421,8 +421,7 @@ theorem polyTermEquiv_polyComparison
       exact hx (b • m)
   suffices hFG : ∀ y, F y = G y from hFG y
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => exact (map_zero F).trans (map_zero G).symm
+  induction y using TensorProduct.inductionOn with
   | add a b ha hb =>
     exact (map_add F a b).trans ((congrArg₂ (· + ·) ha hb).trans (map_add G a b).symm)
   | tmul m eta => exact hspan eta m

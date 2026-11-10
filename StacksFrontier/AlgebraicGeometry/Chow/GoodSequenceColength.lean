@@ -222,7 +222,7 @@ public theorem exists_symbol_scalar_length_quotient_range_eq_order
   classical
   let : Ring.KrullDimLE 1 (R ⧸ q) := Ring.krullDimLE_iff.mpr hdim.le
   have hlen : moduleLength (Localization.AtPrime q) (LocalizedModule q.primeCompl N) = l := by
-    show (Module.length (Localization.AtPrime q) (LocalizedModule q.primeCompl N)).toNat = l
+    change (Module.length (Localization.AtPrime q) (LocalizedModule q.primeCompl N)).toNat = l
     rw [localized_length_of_generating q y hy hyf]
     simp
   have hbij := (injective_iff_localizedMap_bijective_of_prime_filtrations

@@ -309,7 +309,7 @@ theorem h1UnitsAddEquivPicardGroup_symm_classOf
         (structureSheaf X.sheaf).property L hL) =
       Stacks.Cohomology.SheafTorsor.torsorClassEquivSheafCohomologyOne X (unitsSheaf X)
         (Quotient.mk _ (generatorTorsorOfInvertible X L hL).toTorsor) := by
-  show Stacks.Cohomology.SheafTorsor.torsorClassEquivSheafCohomologyOne X (unitsSheaf X)
+  change Stacks.Cohomology.SheafTorsor.torsorClassEquivSheafCohomologyOne X (unitsSheaf X)
       (generatorTorsorClassOfPicard X (Stacks.SheafOfModules.Picard.classOf X.sheaf.obj
         (structureSheaf X.sheaf).property L hL)) = _
   rw [generatorTorsorClassOfPicard_classOf]

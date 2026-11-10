@@ -103,7 +103,7 @@ theorem exists_affine_etale_chart_of_isCompact
       Sigma.desc fun a : {i : I // i ∈ t} =>
         (BigFppfOver.toScheme B S hS).map (j a.1) := by
     refine Sigma.hom_ext _ _ fun a => ?_
-    rw [← Category.assoc, hce a, Sigma.ι_desc, ← Functor.map_comp, hd a]
+    rw [← Category.assoc, hce a, Sigma.ι_comp_desc, ← Functor.map_comp, hd a]
   have hEt : ∀ a : {i : I // i ∈ t},
       Etale ((BigFppfOver.toScheme B S hS).map (j a.1)) := by
     intro a

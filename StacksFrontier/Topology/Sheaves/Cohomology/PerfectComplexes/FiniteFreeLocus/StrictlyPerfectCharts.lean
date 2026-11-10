@@ -187,7 +187,7 @@ lemma isLocalRing_structureSheafStalk_restrict
   let G : (OpenNhds (restrictPoint U x))ᵒᵖ ⥤ (OpenNhds (x : X))ᵒᵖ :=
     (U.isOpenEmbedding.functorNhds y).op
   have : G.Final := by
-    show ((U.isOpenEmbedding.functorNhds y).op).Final
+    change ((U.isOpenEmbedding.functorNhds y).op).Final
     infer_instance
   let cR : Cocone (F ⋙ (structureSheafULift Y).obj) := (colimit.cocone A).whisker G
   let hcR : IsColimit cR := (Functor.Final.isColimitWhiskerEquiv G _).symm
@@ -342,7 +342,7 @@ private lemma finite_free_stalk_homeomorph
     RingHomInvPair.of_ringEquiv_symm q
   let : Module.Finite cR.pt cM.pt := hM.1
   let : Module.Free cR.pt cM.pt := hM.2
-  show Module.Finite ↑(colimit (F ⋙ S.obj)) ↑(colimit (F ⋙ N.val.presheaf)) ∧
+  change Module.Finite ↑(colimit (F ⋙ S.obj)) ↑(colimit (F ⋙ N.val.presheaf)) ∧
     Module.Free ↑(colimit (F ⋙ S.obj)) ↑(colimit (F ⋙ N.val.presheaf))
   exact ⟨Module.Finite.of_surjective e.symm.toLinearMap e.symm.surjective,
     Module.Free.of_equiv e.symm⟩

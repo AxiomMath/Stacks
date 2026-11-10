@@ -140,7 +140,7 @@ theorem cechTermShrinkZeroEquiv_naturality (g : M →ₗ[R] N)
     (x : Cech.cechTermShrink.{v} f M 0) :
     cechTermShrinkZeroEquiv.{v} f N (Cech.cechTermShrinkMap.{v} f g 0 x) =
       g (cechTermShrinkZeroEquiv.{v} f M x) := by
-  show cechTermZeroEquivFree f N (Cech.cechTermShrinkEquiv.{v} f N 0
+  change cechTermZeroEquivFree f N (Cech.cechTermShrinkEquiv.{v} f N 0
     (Cech.cechTermShrinkMap.{v} f g 0 x)) = _
   rw [Cech.cechTermShrinkEquiv_cechTermShrinkMap, cechTermZeroEquivFree_naturality]
   rfl
@@ -320,7 +320,7 @@ theorem derivedPowerTorsionProperty_extendedCechObjectShrink (M : ModuleCat.{v} 
       (e.toLinearEquiv m)
   refine ⟨⟨f i ^ n, n, rfl⟩, e.toLinearEquiv.injective ?_⟩
   rw [map_zero]
-  show e.toLinearEquiv ((f i ^ n) • m) = 0
+  change e.toLinearEquiv ((f i ^ n) • m) = 0
   rw [map_smul]
   exact hn
 

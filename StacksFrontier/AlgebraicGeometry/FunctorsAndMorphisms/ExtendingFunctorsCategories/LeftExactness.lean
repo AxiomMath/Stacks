@@ -89,11 +89,11 @@ private lemma moduleCat_colimit_span
   have hq : q = 0 := by
     refine hc.hom_ext fun j => ?_
     ext x
-    show Submodule.Quotient.mk ((c.ι.app j).hom x) = 0
+    change Submodule.Quotient.mk ((c.ι.app j).hom x) = 0
     exact (Submodule.Quotient.mk_eq_zero S).2 (Submodule.subset_span ⟨⟨j, x⟩, rfl⟩)
   apply top_unique
   intro x _
-  show x ∈ S
+  change x ∈ S
   apply (Submodule.Quotient.mk_eq_zero S).1
   simpa [q] using ConcreteCategory.congr_hom hq x
 
@@ -113,9 +113,9 @@ private lemma exists_uliftFunctor_mono_apply_eq {R : Type w} [Ring R] [UnivLE.{w
     eP.injective ((LinearMap.quotKerEquivRange f₀).injective (Subtype.val_injective hab))
   refine ⟨_, m, eP.symm (Submodule.Quotient.mk (eR.symm 1)),
     (ModuleCat.mono_iff_injective m).2 hminj, ?_⟩
-  show fbar (eP (eP.symm (Submodule.Quotient.mk (eR.symm 1)))) = x
+  change fbar (eP (eP.symm (Submodule.Quotient.mk (eR.symm 1)))) = x
   rw [eP.apply_symm_apply]
-  show ↑(f₀.quotKerEquivRange (Submodule.Quotient.mk (eR.symm 1))) = x
+  change ↑(f₀.quotKerEquivRange (Submodule.Quotient.mk (eR.symm 1))) = x
   rw [LinearMap.quotKerEquivRange_apply_mk]
   simp [f₀, eR]
 
@@ -133,7 +133,7 @@ private lemma uliftColimitDesc_surjective {R : Type w} [Ring R] {J : Type s} [Ca
         (LinearMap.range g.hom).comap eC.symm.toLinearMap := by
     refine Submodule.span_le.2 ?_
     rintro _ ⟨⟨j, z⟩, rfl⟩
-    show eC.symm ((c.ι.app j).hom z) ∈ LinearMap.range g.hom
+    change eC.symm ((c.ι.app j).hom z) ∈ LinearMap.range g.hom
     let eF : ULift.{s, p} (F.obj j) ≃ₗ[R] F.obj j := ULift.moduleEquiv
     refine ⟨colimit.ι (F ⋙ U) j (eF.symm z), ?_⟩
     exact ConcreteCategory.congr_hom
@@ -148,7 +148,7 @@ private lemma uliftColimitDesc_injective {R : Type w} [Ring R] {J : Type s} [Cat
   let d : Cocone (F ⋙ U) := colimit.cocone (F ⋙ U)
   let hd : IsColimit d := colimit.isColimit (F ⋙ U)
   let g : d.pt ⟶ U.obj c.pt := hd.desc (U.mapCocone c)
-  show Function.Injective g.hom
+  change Function.Injective g.hom
   refine (injective_iff_map_eq_zero g.hom).2 fun x hgx => ?_
   obtain ⟨P, m, a, hm, rfl⟩ : ∃ (P : ModuleCat.{p} R) (m : U.obj P ⟶ d.pt) (a : U.obj P),
       Mono m ∧ m.hom a = x := exists_uliftFunctor_mono_apply_eq d.pt x

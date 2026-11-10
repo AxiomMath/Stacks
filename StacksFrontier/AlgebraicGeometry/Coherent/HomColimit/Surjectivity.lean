@@ -366,7 +366,7 @@ theorem exists_isValue_of_iSup [F.IsQuasicoherent] (hFT : ∀ V : X.affineOpens,
   choose y hy using hy
   have hcompat : TopCat.Presheaf.IsCompatible F.presheaf W y := by
     intro i j
-    show F.presheaf.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op (y i) =
+    change F.presheaf.map (homOfLE (inf_le_left : W i ⊓ W j ≤ W i)).op (y i) =
       F.presheaf.map (homOfLE (inf_le_right : W i ⊓ W j ≤ W j)).op (y j)
     exact IsValue.unique hFT hTF (le_trans (inf_le_left : W i ⊓ W j ≤ W i) (hWV i))
       ((hy i).res inf_le_left) ((hy j).res inf_le_right)

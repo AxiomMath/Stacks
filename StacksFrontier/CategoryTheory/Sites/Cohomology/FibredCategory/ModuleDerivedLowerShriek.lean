@@ -21,7 +21,7 @@ sheaves of modules** asserts that `g_!` has an unbounded left derived functor
 categories.
 
 This file is the module-sheaf counterpart of the abelian-sheaf development in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/DerivedLowerShriekFunctoriality.lean`,
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.DerivedLowerShriekFunctoriality`,
 which carries `Lg_!^{Ab}` and its derived adjunction for the same situation. As there, the
 existence of the derived functor is the criterion of Stacks 0794 run at the class `P` of direct
 sums of the extensions by zero `j_{U'!} O_{U'}`, and every hypothesis of that criterion is

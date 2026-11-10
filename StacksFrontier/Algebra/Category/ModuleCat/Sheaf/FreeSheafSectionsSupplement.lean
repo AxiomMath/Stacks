@@ -35,13 +35,14 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J
 epimorphism out of the free sheaf of modules.** The morphism `free ι ⟶ M` attached to `s` is
 locally surjective as soon as every section of `M` over any object is, on a covering sieve, a
 linear combination of the restrictions of the `s i`. -/
-theorem isLocallySurjective_freeHomEquiv_symm {M : SheafOfModules.{t} R} {ι : Type t} [Fintype ι]
+theorem isLocallySurjective_freeHomEquiv_symm {M : SheafOfModules.{t} R} {ι : Type t} [Finite ι]
     (s : ι → M.sections)
     (hs : ∀ (V : C) (m : M.val.obj (op V)), ∃ S ∈ J V, ∀ ⦃W : C⦄ (g : W ⟶ V), S g →
       M.val.restrictₛₗ g.op m ∈
         Submodule.span (R.obj.obj (op W)) (Set.range fun i => (s i).eval (op W))) :
     Sheaf.IsLocallySurjective ((SheafOfModules.toSheaf R).map (M.freeHomEquiv.symm s)) := by
   classical
+  have := Fintype.ofFinite ι
   refine ⟨fun {V} m => ?_⟩
   obtain ⟨S, hS, h⟩ := hs V m
   refine J.superset_covering (fun W g hg => ?_) hS
@@ -51,7 +52,7 @@ theorem isLocallySurjective_freeHomEquiv_symm {M : SheafOfModules.{t} R} {ι : T
   exact Finset.sum_congr rfl fun i _ => by rw [app_unitOne_ιFree_comp, Equiv.apply_symm_apply]
 
 /-- The epimorphism form of `isLocallySurjective_freeHomEquiv_symm`. -/
-theorem epi_freeHomEquiv_symm {M : SheafOfModules.{t} R} {ι : Type t} [Fintype ι]
+theorem epi_freeHomEquiv_symm {M : SheafOfModules.{t} R} {ι : Type t} [Finite ι]
     (s : ι → M.sections)
     (hs : ∀ (V : C) (m : M.val.obj (op V)), ∃ S ∈ J V, ∀ ⦃W : C⦄ (g : W ⟶ V), S g →
       M.val.restrictₛₗ g.op m ∈
@@ -64,7 +65,7 @@ family of global sections of a sheaf of modules `M` which generates `M` locally:
 over any object is, on a covering sieve, a linear combination of the restrictions of the `s i`.
 Over an object `U` on which every locally surjective morphism of sheaves of abelian groups is
 surjective on sections, the values of the `s i` over `U` generate the module `M(U)`. -/
-theorem span_range_eval_eq_top {M : SheafOfModules.{t} R} {ι : Type t} [Fintype ι]
+theorem span_range_eval_eq_top {M : SheafOfModules.{t} R} {ι : Type t} [Finite ι]
     (s : ι → M.sections)
     (hs : ∀ (V : C) (m : M.val.obj (op V)), ∃ S ∈ J V, ∀ ⦃W : C⦄ (g : W ⟶ V), S g →
       M.val.restrictₛₗ g.op m ∈
@@ -73,6 +74,7 @@ theorem span_range_eval_eq_top {M : SheafOfModules.{t} R} {ι : Type t} [Fintype
       Function.Surjective (φ.hom.app (op U))) :
     Submodule.span (R.obj.obj (op U)) (Set.range fun i => (s i).eval (op U)) = ⊤ := by
   classical
+  have := Fintype.ofFinite ι
   have hloc := isLocallySurjective_freeHomEquiv_symm s hs
   refine eq_top_iff.mpr fun m _ => ?_
   obtain ⟨e, he⟩ := hU _ hloc m

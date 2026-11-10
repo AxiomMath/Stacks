@@ -89,7 +89,7 @@ theorem exists_curve_model (F : Type u) [Field F] (L : Type u) [Field L] [Algebr
     have hx' : IsRegularLocalRing (NV.toScheme.presheaf.stalk x) :=
       (((isRegular_tfae NV.toScheme).out 1 2 rfl rfl).mp hreg).2 x
     exact ((isDiscreteValuationRing_stalk_tfae_of_isCurve F NV.structureMap hcl).out 1 3).mp hx'
-  · show e₂ (e₁ (algebraMap F L c)) = _
+  · change e₂ (e₁ (algebraMap F L c)) = _
     rw [AlgEquiv.commutes, AlgEquiv.commutes]
     exact functionFieldAlgebraMap_eq_fieldToStalk NV c
 

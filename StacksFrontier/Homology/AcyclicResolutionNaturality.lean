@@ -50,7 +50,7 @@ theorem isoRightDerivedObjOfAcyclic_hom_naturality {X Y : D} {K L : CochainCompl
       comp_descOfResolution]
     apply (CochainComplex.fromSingle₀Equiv _ _).injective
     apply Subtype.ext
-    show JX.ι.f 0 ≫ ψ.f 0 = ((CochainComplex.single₀ D).map φ).f 0 ≫ JY.ι.f 0
+    change JX.ι.f 0 ≫ ψ.f 0 = ((CochainComplex.single₀ D).map φ).f 0 ≫ JY.ι.f 0
     rw [hψ, CochainComplex.single₀_map_f_zero]
     rfl
   obtain ⟨h⟩ := InjectiveResolution.nonempty_descHomotopy_of_quasiIso JY ε hw

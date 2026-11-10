@@ -94,7 +94,7 @@ theorem isIso_genericFiberMap
       rw [Scheme.Pullback.range_fst]
       have h1 : S.X_to_R x = S.X_to_R (S.specialFiberι ζ) := by
         rw [← hc, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hcx]
-      show S.X_to_R x ∈ Set.range (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)))
+      change S.X_to_R x ∈ Set.range (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)))
       rw [h1, ← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
       exact ⟨_, rfl⟩
     obtain ⟨z, rfl⟩ := hxr

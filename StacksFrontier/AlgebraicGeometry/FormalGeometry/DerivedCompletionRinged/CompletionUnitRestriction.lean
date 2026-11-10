@@ -153,8 +153,7 @@ attribute [local implicit_reducible]
   SheafOfModules.toSheaf
   SheafOfModules.forget
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] (U : X.C)
-  [HasWeakSheafify (X.over U).J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u}) (U : X.C)
 
 /-- The restriction of the structure sheaf complex to the slice over `U` is the structure sheaf
 complex of the slice: restriction is additive and carries the structure sheaf to the structure
@@ -162,7 +161,8 @@ sheaf, so it commutes with placing a module in degree zero. -/
 def restrictStructureSheafComplexOverIso :
     restrictComplex X (structureSheafComplex X) U ≅ structureSheafComplex (X.over U) :=
   (HomologicalComplex.singleMapHomologicalComplex
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U) (ComplexShape.up ℤ) 0).app _
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
+      (ComplexShape.up ℤ) 0).app _
 
 /-- The identification of the restricted structure sheaf complex with the structure sheaf
 complex of the slice carries the unit section to the unit section. -/
@@ -186,7 +186,8 @@ theorem overFunctor_map_singleObjXSelf_inv_comp_restrictStructureSheafComplexOve
 Hom section: `AlgebraicGeometry.RingedSite.DerivedHomRestriction.complexMap_apply` read through
 `AlgebraicGeometry.RingedSite.applyHomSection`. -/
 theorem applyHomSection_complexMap (r : DerivedHomRestriction X U)
-    (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) (V : Over U) (n p q : ℤ)
+    (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+    (V : Over U) (n p q : ℤ)
     (hpq : p + n = q)
     (s : ((sheafHomComplex X A B).obj.X n).val.obj (op V.left))
     (x : ((restrictComplex X A U).X p).val.obj (op V)) :
@@ -202,7 +203,8 @@ followed by the identification of the restricted structure sheaf complex with th
 complex of the slice and then by evaluation at the unit section there, evaluates the original Hom
 section at the unit section upstairs. -/
 private theorem applyHomSection_homMap_complexMap_one
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) (V : Over U) (n : ℤ)
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+    (V : Over U) (n : ℤ)
     (s : ((sheafHomComplex X (structureSheafComplex X) I).obj.X n).val.obj (op V.left)) :
     applyHomSection (X.over U)
         (sheafHomComplex (X.over U) (structureSheafComplex (X.over U))
@@ -230,7 +232,8 @@ theorem complexMap_comp_structureSheafHomEvaluation
         homMap (X.over U) (restrictStructureSheafComplexOverIso X U).inv
           (𝟙 (restrictComplex X I U)) ≫
         structureSheafHomEvaluation (X.over U) (restrictComplex X I U) =
-      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapHomologicalComplex
         (ComplexShape.up ℤ)).map (structureSheafHomEvaluation X I) :=
   HomologicalComplex.hom_ext _ _ fun n ↦ SheafOfModules.hom_ext
     (PresheafOfModules.hom_ext fun V ↦ ModuleCat.hom_ext (LinearMap.ext fun s ↦
@@ -258,7 +261,8 @@ theorem comp_comp_eq_of_comp_eq {D : Type*} [Category.{v₁} D] {A B C E : D} {a
   rw [← Category.assoc, h]
 
 /-- Transposing an identity of isomorphisms, in one abstract category. -/
-theorem inv_comp_eq_comp_inv_of {D : Type*} [Category.{v₁} D] {A B C C' : D} (e : A ≅ B) (g : C ≅ C')
+theorem inv_comp_eq_comp_inv_of {D : Type*} [Category.{v₁} D] {A B C C' : D} (e : A ≅ B)
+    (g : C ≅ C')
     {a : A ⟶ C} {b : B ⟶ C'} (h : a ≫ g.hom = e.hom ≫ b) : e.inv ≫ a = b ≫ g.inv := by
   rw [Iso.inv_comp_eq, ← Category.assoc, ← h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
@@ -268,7 +272,8 @@ theorem comp_eq_comp_inv_of_comp_comp {D : Type*} [Category.{v₁} D] {A B C E :
   rw [← h, Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
 /-- Rewriting the first two factors of a triple composite, in one abstract category. -/
-theorem comp_comp_eq_comp_comp {D : Type*} [Category.{v₁} D] {A B B' C E : D} {a : A ⟶ B} {b : B ⟶ C}
+theorem comp_comp_eq_comp_comp {D : Type*} [Category.{v₁} D] {A B B' C E : D} {a : A ⟶ B}
+    {b : B ⟶ C}
     {a' : A ⟶ B'} {b' : B' ⟶ C} (h : a ≫ b = a' ≫ b') (c : C ⟶ E) :
     a ≫ b ≫ c = a' ≫ b' ≫ c := by
   rw [← Category.assoc, h, Category.assoc]
@@ -283,7 +288,8 @@ end Abstract
 
 /-- `𝒪[0]|_U ≅ 𝒪_U[0]` in the derived category of the localized ringed site. -/
 def derivedStructureSheafRestrictIso :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.obj
         (derivedStructureSheaf X) ≅ derivedStructureSheaf (X.over U) :=
   restrictionComparison X U (structureSheafComplex X) ≪≫
     DerivedCategory.Q.mapIso (restrictStructureSheafComplexOverIso X U)
@@ -291,16 +297,21 @@ def derivedStructureSheafRestrictIso :
 /-- The identification of the restriction of the class of a complex with the class of its
 degreewise restriction is natural. -/
 theorem restrictionComparison_naturality
-    {A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ} (g : A ⟶ B) :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    {A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
+    (g : A ⟶ B) :
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.map
           (DerivedCategory.Q.map g) ≫ (restrictionComparison X U B).hom =
       (restrictionComparison X U A).hom ≫ DerivedCategory.Q.map
-        (((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+        (((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapHomologicalComplex
           (ComplexShape.up ℤ)).map g) :=
-  (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategoryFactors.hom.naturality g
+  (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U).mapDerivedCategoryFactors.hom.naturality g
 
 private theorem derivedHomRestriction_iso_structureSheaf_hom_eq
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     ((derivedHomRestriction X U).iso (derivedStructureSheaf X)
         (DerivedCategory.Q.obj I)).hom =
       (restrictionSourceComparison X U (structureSheafComplex X) I).hom ≫
@@ -317,18 +328,22 @@ the sheaf of rings in which sheaves of modules on the slice ringed site are inde
 spelling `X.ringSheaf.over U`; the two are the same object, but not reducibly, so instance
 synthesis does not get from one to the other on its own. -/
 private theorem isKInjective_restrictComplex_over
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     CochainComplex.IsKInjective
-      (show CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (X.over U).O)) ℤ from
+      (show CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+        (X.over U).O)) ℤ from
         restrictComplex X I U) :=
-  Stacks.Cohomology.Localization.isKInjective_over X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U I
+  Stacks.Cohomology.Localization.isKInjective_over X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U I
 
 attribute [local instance] isKInjective_restrictComplex_over
 
 /-- Replacing the first argument of the internal Hom complex of the slice by the structure sheaf
 complex of the slice, read on the K-injective model comparison of derived internal Hom. -/
 private theorem derivedSheafHomComparison_restrictStructureSheafComplexOverIso_inv
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     ((derivedSheafHomBifunctor (X.over U)).map
           (DerivedCategory.Q.map (restrictStructureSheafComplexOverIso X U).inv).op).app
         (DerivedCategory.Q.obj (restrictComplex X I U)) ≫
@@ -345,11 +360,13 @@ private theorem derivedSheafHomComparison_restrictStructureSheafComplexOverIso_i
 `AlgebraicGeometry.RingedSite.derivedStructureSheafHomIso_model`, by the identification of the
 derived internal Hom out of the structure sheaf of the slice with the identity. -/
 private theorem derivedStructureSheafHomIso_restrictStructureSheafComplexOverIso_inv
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     ((derivedSheafHomBifunctor (X.over U)).map
           (DerivedCategory.Q.map (restrictStructureSheafComplexOverIso X U).inv).op).app
         (DerivedCategory.Q.obj (restrictComplex X I U)) ≫
-      (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) (DerivedCategory.Q.obj (restrictComplex X I U)))) =
+      (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) (DerivedCategory.Q.obj
+        (restrictComplex X I U)))) =
     (derivedSheafHomComparison (X.over U) (restrictComplex X (structureSheafComplex X) U)
         (restrictComplex X I U)).hom ≫
       DerivedCategory.Q.map
@@ -365,18 +382,23 @@ Tag 08JB] below the source comparison collapses, by the cancellations of the res
 comparisons, to the chain-level statement
 `AlgebraicGeometry.RingedSite.complexMap_comp_structureSheafHomEvaluation`. -/
 private theorem derivedStructureSheafHomIso_restrict_tail
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     DerivedCategory.Q.map
           ((derivedHomRestriction X U).complexMap (structureSheafComplex X) I) ≫
         (restrictionTargetComparison X U (structureSheafComplex X) I).inv ≫
           ((derivedSheafHomBifunctor (X.over U)).map
               (derivedStructureSheafRestrictIso X U).symm.op.hom).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.obj
               (DerivedCategory.Q.obj I)) ≫
-            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj (DerivedCategory.Q.obj I)))) ≫
+            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U)
+              ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+                U).mapDerivedCategory.obj (DerivedCategory.Q.obj I)))) ≫
               (restrictionComparison X U I).hom =
       DerivedCategory.Q.map
-        (((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+        (((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapHomologicalComplex
           (ComplexShape.up ℤ)).map (structureSheafHomEvaluation X I)) := by
   rw [← derivedStructureSheafHomIso_naturality (X.over U) (restrictionComparison X U I).hom]
   simp only [restrictionTargetComparison, derivedStructureSheafRestrictIso, Iso.trans_inv,
@@ -384,26 +406,33 @@ private theorem derivedStructureSheafHomIso_restrict_tail
     Iso.app_inv, op_comp, Functor.map_comp, NatTrans.comp_app, Category.assoc]
   rw [map_op_app_comp_map_op_app_assoc (derivedSheafHomBifunctor (X.over U)) _ _
       (Iso.inv_hom_id_app
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategoryFactors
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategoryFactors
         (structureSheafComplex X)),
     ← NatTrans.naturality_assoc,
     map_comp_map_assoc _ _ _
       (Iso.inv_hom_id_app
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategoryFactors I),
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategoryFactors I),
     derivedStructureSheafHomIso_restrictStructureSheafComplexOverIso_inv X U I,
     Iso.inv_hom_id_assoc, ← CategoryTheory.Functor.map_comp,
     complexMap_comp_structureSheafHomEvaluation X U I]
 
 private theorem derivedStructureSheafHomIso_restrict_aux
-    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) [I.IsKInjective] :
+    (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
+      [I.IsKInjective] :
     ((derivedHomRestriction X U).iso (derivedStructureSheaf X)
           (DerivedCategory.Q.obj I)).hom ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).symm.op.hom).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj
             (DerivedCategory.Q.obj I)) ≫
-        (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj (DerivedCategory.Q.obj I)))) =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+        (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj
+            (DerivedCategory.Q.obj I)))) =
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
         (derivedStructureSheafHomIso X (DerivedCategory.Q.obj I)).hom := by
   refine (cancel_mono (restrictionComparison X U I).hom).mp ?_
   rw [derivedHomRestriction_iso_structureSheaf_hom_eq X U I,
@@ -419,24 +448,34 @@ private theorem derivedStructureSheafHomIso_restrict_aux
 in its first variable, and of the identification of the derived internal Hom out of the structure
 sheaf of the slice with the identity; on the right by the last of those upstairs. -/
 private theorem derivedStructureSheafHomIso_restrict_natural
-    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))} (φ : K ⟶ K') :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+    (φ : K ⟶ K') :
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.map
           (((derivedSheafHomBifunctor X).obj (op (derivedStructureSheaf X))).map φ) ≫
         (((derivedHomRestriction X U).iso (derivedStructureSheaf X) K').hom ≫
           ((derivedSheafHomBifunctor (X.over U)).map
               (derivedStructureSheafRestrictIso X U).symm.op.hom).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K') ≫
-            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K')))) =
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.obj K') ≫
+            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U)
+              ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+                U).mapDerivedCategory.obj K')))) =
       (((derivedHomRestriction X U).iso (derivedStructureSheaf X) K).hom ≫
           ((derivedSheafHomBifunctor (X.over U)).map
               (derivedStructureSheafRestrictIso X U).symm.op.hom).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
-            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K)))) ≫
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map φ := by
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.obj K) ≫
+            (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U)
+              ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+                U).mapDerivedCategory.obj K)))) ≫
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategory.map φ := by
   simp only [Category.assoc]
   rw [reassoc_of% ((derivedHomRestriction X U).natural_right φ), NatTrans.naturality_assoc,
     derivedStructureSheafHomIso_naturality (X.over U)
-      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map φ)]
+      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map φ)]
 
 /-- **The restriction of the identification `R𝑆heafHom_𝒪(𝒪, K) ≅ K` is the identification
 `R𝑆heafHom_{𝒪_U}(𝒪_U, K|_U) ≅ K|_U` of the slice**, under [Stacks, Tag 08JB] and the
@@ -451,23 +490,31 @@ theorem derivedStructureSheafHomIso_restrict
     ((derivedHomRestriction X U).iso (derivedStructureSheaf X) K).hom ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).symm.op.hom).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
-          (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) ≫
+          (@Iso.hom _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) =
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
         (derivedStructureSheafHomIso X K).hom := by
-  have h2 : (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+  have h2 : (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U).mapDerivedCategory.map
           (((derivedSheafHomBifunctor X).obj (op (derivedStructureSheaf X))).map
             (kInjectiveModelIso X K).inv) ≫
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategory.map
           (derivedStructureSheafHomIso X
             (DerivedCategory.Q.obj (kInjectiveModel X K))).hom =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
           (derivedStructureSheafHomIso X K).hom ≫
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategory.map
           (kInjectiveModelIso X K).inv := by
     rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp,
       derivedStructureSheafHomIso_naturality X (kInjectiveModelIso X K).inv]
-  refine (cancel_mono ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+  refine (cancel_mono ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U).mapDerivedCategory.map
     (kInjectiveModelIso X K).inv)).mp ?_
   rw [← derivedStructureSheafHomIso_restrict_natural X U (kInjectiveModelIso X K).inv, ← h2,
     derivedStructureSheafHomIso_restrict_aux X U (kInjectiveModel X K)]
@@ -504,14 +551,16 @@ This is `AlgebraicGeometry.RingedSite.overFunctor_map_extendedAlternatingCechAug
 which states the same for the augmentations in the other direction, together with the fact that
 the two augmentations are mutually inverse. -/
 theorem overFunctor_map_cechAugmentationZero_comp :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map (cechAugmentationZero X f) =
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
+      (cechAugmentationZero X f) =
       (extendedAlternatingCechOverIso X U f).hom.f 0 ≫
         cechAugmentationZero (X.over U) (fun i ↦ globalSectionOver X U (f i)) := by
   have : IsIso (extendedAlternatingCechAugmentation X f) :=
     ⟨⟨cechAugmentationZero X f,
       extendedAlternatingCechAugmentation_comp_cechAugmentationZero X f,
       cechAugmentationZero_comp_extendedAlternatingCechAugmentation X f⟩⟩
-  refine (cancel_epi ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
+  refine (cancel_epi ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U).map
     (extendedAlternatingCechAugmentation X f))).mp ?_
   rw [← CategoryTheory.Functor.map_comp,
     extendedAlternatingCechAugmentation_comp_cechAugmentationZero X f,
@@ -527,7 +576,8 @@ theorem overFunctor_map_cechAugmentationZero_comp :
 complex concentrated in degree zero, so the identity is checked there, where it is
 `overFunctor_map_cechAugmentationZero_comp`. -/
 theorem overFunctor_map_cechAugmentation_comp :
-    ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+    ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapHomologicalComplex
           (ComplexShape.up ℤ)).map (cechAugmentation X f) ≫
         (restrictStructureSheafComplexOverIso X U).hom =
       (extendedAlternatingCechOverIso X U f).hom ≫
@@ -542,7 +592,8 @@ theorem overFunctor_map_cechAugmentation_comp :
 /-- The chain-level compatibility of the augmentations, read in the other direction. -/
 theorem extendedAlternatingCechOverIso_inv_comp :
     (extendedAlternatingCechOverIso X U f).inv ≫
-        ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+        ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapHomologicalComplex
           (ComplexShape.up ℤ)).map (cechAugmentation X f) =
       cechAugmentation (X.over U) (fun i ↦ globalSectionOver X U (f i)) ≫
         (restrictStructureSheafComplexOverIso X U).inv :=
@@ -555,7 +606,8 @@ the augmentation to the augmentation of the slice**, under the identification
 identifications of classes of restricted complexes cancelling by the naturality of
 `AlgebraicGeometry.RingedSite.restrictionComparison`. -/
 theorem overFunctor_mapDerivedCategory_map_cechAugmentation_comp :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.map
           (DerivedCategory.Q.map (cechAugmentation X f)) ≫
         (derivedStructureSheafRestrictIso X U).hom =
       (extendedAlternatingCechDerivedRestrictIso X U f).hom ≫
@@ -571,7 +623,8 @@ theorem overFunctor_mapDerivedCategory_map_cechAugmentation_comp :
 consumes. -/
 theorem extendedAlternatingCechDerivedRestrictIso_inv_comp :
     (extendedAlternatingCechDerivedRestrictIso X U f).inv ≫
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategory.map
           (DerivedCategory.Q.map (cechAugmentation X f)) =
       DerivedCategory.Q.map
           (cechAugmentation (X.over U) (fun i ↦ globalSectionOver X U (f i))) ≫
@@ -590,38 +643,49 @@ restriction of the augmentation is the augmentation of the slice,
 `R𝑆heafHom(𝒪, K) ≅ K` is the one of the slice, `derivedStructureSheafHomIso_restrict`. -/
 theorem overFunctor_map_completionUnit_comp
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.map
           ((completionUnit X f).app K) ≫
         (completionFunctorRestrictIso X U f).hom.app K =
       (completionUnit (X.over U) (fun i ↦ globalSectionOver X U (f i))).app
-        ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) := by
+        ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+          U).mapDerivedCategory.obj K) := by
   have hii : ((derivedHomRestriction X U).iso
             (DerivedCategory.Q.obj (structureSheafComplex X)) K).hom ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) =
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
           (derivedStructureSheafHomIso X K).hom ≫
-        (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) :=
+        (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) :=
     comp_eq_comp_inv_of_comp_comp _ (derivedStructureSheafHomIso_restrict X U K)
   have haug : ((derivedSheafHomBifunctor (X.over U)).map
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.map
               (DerivedCategory.Q.map (cechAugmentation X f))).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (extendedAlternatingCechDerivedRestrictIso X U f).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) =
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) =
       ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (DerivedCategory.Q.map (cechAugmentation (X.over U)
               (fun i ↦ globalSectionOver X U (f i)))).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) := by
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) := by
     rw [← NatTrans.comp_app, ← NatTrans.comp_app, ← CategoryTheory.Functor.map_comp,
       ← CategoryTheory.Functor.map_comp, ← op_comp, ← op_comp,
       extendedAlternatingCechDerivedRestrictIso_inv_comp X U f]
-  show (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+  change (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+    U).mapDerivedCategory.map
           ((derivedStructureSheafHomIso X K).inv ≫
             ((derivedSheafHomBifunctor X).map
               (DerivedCategory.Q.map (cechAugmentation X f)).op).app K) ≫
@@ -629,17 +693,20 @@ theorem overFunctor_map_completionUnit_comp
               (DerivedCategory.Q.obj (extendedAlternatingCech X f)) K).hom ≫
           ((derivedSheafHomBifunctor (X.over U)).map
               (extendedAlternatingCechDerivedRestrictIso X U f).inv.op).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K)) =
-      (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) ≫
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.obj K)) =
+      (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u}
+        (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K))) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (DerivedCategory.Q.map (cechAugmentation (X.over U)
               (fun i ↦ globalSectionOver X U (f i)))).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K)
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K)
   rw [CategoryTheory.Functor.map_comp]
   simp only [Category.assoc]
   rw [reassoc_of% ((derivedHomRestriction X U).natural_left
       (DerivedCategory.Q.map (cechAugmentation X f))),
-    haug, reassoc_of% hii, Iso.map_inv_hom_id_assoc]
+    haug, reassoc_of% hii, Iso.inv_hom_id_map_assoc]
 
 /-- **The missing compatibility of [Stacks, Tag 0A0F]**: the completion map of the slice,
 followed by the identification `(K|_U)^∧ ≅ K^∧|_U`, is the restriction of the completion map. This
@@ -647,9 +714,11 @@ is `overFunctor_map_completionUnit_comp` with the isomorphism inverted. -/
 theorem completionUnit_comp_completionFunctorRestrictIso_inv
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     (completionUnit (X.over U) (fun i ↦ globalSectionOver X U (f i))).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
+          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.obj K) ≫
         (completionFunctorRestrictIso X U f).inv.app K =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
         ((completionUnit X f).app K) := by
   rw [← overFunctor_map_completionUnit_comp X U f K, Category.assoc,
     ← NatTrans.comp_app, Iso.hom_inv_id, NatTrans.id_app]
@@ -677,13 +746,14 @@ theorem isIso_derivedCompletionRestrictComparisonGlobalSections_app
     letI := isRightAdjoint_ι_isDerivedComplete_idealOfGlobalSections (X.over U)
       (fun i ↦ globalSectionOver X U (f i))
     IsIso ((derivedCompletionRestrictComparisonGlobalSections X U f).app K) := by
-  letI := isRightAdjoint_ι_isDerivedComplete_idealOfGlobalSections X f
-  letI := isRightAdjoint_ι_isDerivedComplete_idealOfGlobalSections (X.over U)
+  let := isRightAdjoint_ι_isDerivedComplete_idealOfGlobalSections X f
+  let := isRightAdjoint_ι_isDerivedComplete_idealOfGlobalSections (X.over U)
     (fun i ↦ globalSectionOver X U (f i))
   obtain ⟨θX, hθX⟩ := exists_iso_derivedCompletion_completionFunctor X f K
   obtain ⟨θU, hθU⟩ := exists_iso_derivedCompletion_completionFunctor (X.over U)
     (fun i ↦ globalSectionOver X U (f i))
-    ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K)
+    ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+      U).mapDerivedCategory.obj K)
   have hX : (derivedCompletionUnit X (idealOfGlobalSections X f)).app K =
       (completionUnit X f).app K ≫ θX.inv := by
     rw [← hθX, Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -691,13 +761,17 @@ theorem isIso_derivedCompletionRestrictComparisonGlobalSections_app
     (idealOfGlobalSections (X.over U) (fun i ↦ globalSectionOver X U (f i)))
     (mem_idealOfGlobalSections_of_mem_idealOfGlobalSections_over X U f)
     (θU ≪≫ ((completionFunctorRestrictIso X U f).app K).symm ≪≫
-      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.mapIso θX).symm) ?_
-  show (derivedCompletionUnit (X.over U)
+      ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.mapIso θX).symm) ?_
+  change (derivedCompletionUnit (X.over U)
           (idealOfGlobalSections (X.over U) (fun i ↦ globalSectionOver X U (f i)))).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K) ≫
+            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+              U).mapDerivedCategory.obj K) ≫
         (θU.hom ≫ (completionFunctorRestrictIso X U f).inv.app K ≫
-          (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map θX.inv) =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+          (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+            U).mapDerivedCategory.map θX.inv) =
+      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
+        U).mapDerivedCategory.map
         ((derivedCompletionUnit X (idealOfGlobalSections X f)).app K)
   rw [← Category.assoc, hθU, ← Category.assoc,
     completionUnit_comp_completionFunctorRestrictIso_inv X U f K,

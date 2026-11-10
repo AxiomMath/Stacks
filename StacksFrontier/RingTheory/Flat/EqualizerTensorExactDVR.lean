@@ -89,11 +89,11 @@ theorem EqualizerTensorExact.self_of_residueField_of_isDiscreteValuationRing
       rfl
     obtain ⟨y', hy'⟩ := exists_smul_eq_of_tmul_eq_zero hϖ hl
     have hy'K : y' ∈ K := by
-      show (p₁.toLinearMap - p₂.toLinearMap) y' = 0
+      change (p₁.toLinearMap - p₂.toLinearMap) y' = 0
       apply smul_injective_of_flat (E := D) hϖ0
-      show ϖ • (p₁.toLinearMap - p₂.toLinearMap) y' = ϖ • 0
+      change ϖ • (p₁.toLinearMap - p₂.toLinearMap) y' = ϖ • 0
       rw [← LinearMap.map_smul, hy', map_sub, hc', smul_zero, zero_sub, neg_eq_zero]
-      show p₁ (algebraMap V C l) - p₂ (algebraMap V C l) = 0
+      change p₁ (algebraMap V C l) - p₂ (algebraMap V C l) = 0
       rw [AlgHom.commutes, AlgHom.commutes, sub_self]
     have hc_eq : c = algebraMap V C l + ϖ • y' := by rw [hy', add_sub_cancel]
     rw [hc_eq]

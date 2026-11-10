@@ -108,7 +108,7 @@ private theorem respectsIso_app_of_isPullback {X S X' : Scheme.{u}} {f : X ⟶ S
   have : IsIso (homOfLE hle) := isIso_homOfLE (le_antisymm hle le_top)
   have : IsIso (homOfLE hpre') := isIso_homOfLE hpre.symm
   have : IsIso (j.appLE (f ⁻¹ᵁ V) ⊤ hle) := by
-    show IsIso (j.app (f ⁻¹ᵁ V) ≫ X'.presheaf.map (homOfLE hle).op)
+    change IsIso (j.app (f ⁻¹ᵁ V) ≫ X'.presheaf.map (homOfLE hle).op)
     have : IsIso (X'.presheaf.map (homOfLE hle).op) := inferInstance
     exact IsIso.comp_isIso' hjapp this
   refine (hP.cancel_right_isIso (f.app V) (j.appLE (f ⁻¹ᵁ V) ⊤ hle)).mp ?_
@@ -170,8 +170,9 @@ theorem isFinite_and_etale_relativeSpecToBase_pushforwardAlgebra {X S : Scheme.{
     (hV s).preimage _
   have : HasAffineProperty @Etale (sourceAffineLocally RingHom.Etale) :=
     HasRingHomProperty.HasAffineProperty @Etale
-  have hfinaff :=
-    IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+  have hfinaff : HasAffineProperty @IsFinite.{u}
+      (fun X _ f _ ↦ IsAffine X ∧ RingHom.Finite (f.appTop).hom) := by
+    set_option backward.isDefEq.respectTransparency.types false in infer_instance
   refine ⟨(@HasAffineProperty.iff_of_iSup_eq_top @IsFinite _ hfinaff _ _
       (relativeSpecToBase (pushforwardAlgebra f)) _ Uaff hcover).2 fun s =>
     ⟨haff s, hrest s _ RingHom.finite_respectsIso (hP s).2⟩,

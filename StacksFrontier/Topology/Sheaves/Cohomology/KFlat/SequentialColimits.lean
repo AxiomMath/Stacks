@@ -128,7 +128,7 @@ theorem kFlat_colimit
       simpa [T, B, Stacks.SheafOfModules.Tensor.tensorComplex] using hK n F hF)
   let e : T.obj (colimit K) ≅ colimit (K ⋙ T) :=
     (preservesColimitIso T K).trans (HasColimit.isoOfNatIso (Iso.refl _))
-  show (T.obj (colimit K)).Acyclic
+  change (T.obj (colimit K)).Acyclic
   intro i
   exact ShortComplex.exact_of_iso
     (((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) i).mapIso e).symm)

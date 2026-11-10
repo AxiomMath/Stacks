@@ -16,8 +16,9 @@ immersion, and the bijection is compatible with base change, the base change of 
 The constructions are compatible with base change, so the statement is checked étale locally on
 `X`, where it is Stacks 0B3V. The points of `𝐏(ℰ)` over a scheme point are identified with
 invertible quotients by `pointsEquivInvertibleQuotientClass`, in
-`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveBundle/SchemePoints.lean`, and the descent from the
-étale charts is `StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveBundle/SectionsDescent.lean` and
+`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveBundle/SchemePoints.lean`, and the descent from
+the étale charts is
+`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveBundle/SectionsDescent.lean` and
 `SectionsDescentBaseChange.lean`.
 
 ## Main definitions

@@ -220,7 +220,7 @@ theorem exists_canonical_eq_resLE_of_isAffineOpen (hc : IsLimit c) (i : I)
           (D.obj m.unop.left).Opens) :=
       (preimage_preimage_eq_of_comp_eq _ _ _ (by rw [← D.map_comp, Over.w ee.unop]) V).ge
     rw [halg, halg]
-    show (Scheme.Hom.resLE (D.map ee.unop.left)
+    change (Scheme.Hom.resLE (D.map ee.unop.left)
         (D.map l.unop.hom ⁻¹ᵁ V : (D.obj l.unop.left).Opens)
         (D.map m.unop.hom ⁻¹ᵁ V : (D.obj m.unop.left).Opens) hp).appTop
           ((σ l.unop).appTop x) = (σ m.unop).appTop x
@@ -235,7 +235,7 @@ theorem exists_canonical_eq_resLE_of_isAffineOpen (hc : IsLimit c) (i : I)
         = algebraMap Γ(V.toScheme, ⊤) d.pt x := by
     intro l x
     rw [halg, halgR]
-    show (Scheme.Hom.resLE (X := c.pt) (c.π.app l.unop.left)
+    change (Scheme.Hom.resLE (X := c.pt) (c.π.app l.unop.left)
         (D.map l.unop.hom ⁻¹ᵁ V : (D.obj l.unop.left).Opens)
         (c.π.app i ⁻¹ᵁ V : c.pt.Opens) (hq l.unop)).appTop ((σ l.unop).appTop x)
       = (Scheme.Hom.resLE (X := c.pt) (c.π.app i) V (c.π.app i ⁻¹ᵁ V : c.pt.Opens) hW').appTop x

@@ -108,7 +108,7 @@ attribute [local instance] linearCatCenterRingSheaf
 
 attribute [local instance] HasDerivedCategory.standard
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
   (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
 
 /-- **Every object of a site covers the final object.** The sieve which the family of all objects
@@ -182,7 +182,7 @@ theorem isDerivedCompleteAt_of_forall_isDerivedCompleteAtSection
       (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
           (awayFamily X h) :
         CatCenter (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) := by
-  show IsIso (oneSubSmulShift K
+  change IsIso (oneSubSmulShift K
     (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
         (awayFamily X h) :
       CatCenter (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
@@ -238,6 +238,7 @@ section Prod
 
 variable {r : ℕ} (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Multiplication by `f_S` splits off multiplication by one generator.** For `i ∈ S` the
 central endomorphism given by `f_S = ∏_{j ∈ S} f_j` is the product of the one given by
 `f_{S \ {i}}` and the one given by `f_i`. -/
@@ -252,11 +253,12 @@ theorem globalSectionToEnd_awayFamily_prodGlobalSection_erase
           (awayFamily X (f i)) :=
   Stacks.SheafOfModules.globalSectionToEnd_mul_of_val (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
       _ _ _ fun U ↦ by
-    show globalSectionVal (prodGlobalSection f S) U =
+    change globalSectionVal (prodGlobalSection f S) U =
       globalSectionVal (prodGlobalSection f (S.erase i)) U * globalSectionVal (f i) U
     rw [globalSectionVal_prodGlobalSection, globalSectionVal_prodGlobalSection]
     exact (Finset.prod_erase_mul S (fun j ↦ globalSectionVal (f j) U) hi).symm
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Derived completeness at one generator gives it at every subproduct containing that
 generator.** If `K` is derived complete at multiplication by `f_i` and `i ∈ S`, then `K` is
 derived complete at multiplication by `f_S = ∏_{j ∈ S} f_j`.

@@ -253,12 +253,9 @@ theorem epi_thickeningConormalSecondMap
       (structureSharpInverseImage B S hS (universalThickeningInclusion B S hS hZ)).hom) :
     Epi (thickeningConormalSecondMap B S hS hZ p) := by
   have : IsIso (thickeningSheafOfDifferentialsMap B S hS hZ p) := he
-  have : Epi (pullbackDifferentialsMap B S hS
-      (universalThickeningInclusion B S hS hZ) (h' ≫ p)) :=
-    epi_pullbackDifferentialsMap_of_isLocallySurjective B S hS
-      (universalThickeningInclusion B S hS hZ) (h' ≫ p) hsharp
-  set_option synthInstance.maxHeartbeats 200000 in
-  exact epi_comp _ _
+  exact epi_comp' (IsIso.epi_of_iso _)
+    (epi_pullbackDifferentialsMap_of_isLocallySurjective B S hS
+      (universalThickeningInclusion B S hS hZ) (h' ≫ p) hsharp)
 
 /-! ### The composite is zero, and exactness at the middle term -/
 

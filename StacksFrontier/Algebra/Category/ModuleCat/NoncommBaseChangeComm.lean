@@ -94,14 +94,12 @@ def baseChangeTensorEquiv : BaseChange (algebraMap A B) M ≃+ B ⊗[A] M where
   map_add' := (toTensor (A := A) (M := M)).map_add
   left_inv x := by
     refine induction_on (algebraMap A B)
-      (motive := fun x => ofTensor (toTensor (A := A) x) = x) x ?_ (fun b m => ?_)
+      (motive := fun x => ofTensor (toTensor (A := A) x) = x) x (fun b m => ?_)
       (fun y z hy hz => ?_)
-    · rw [map_zero, map_zero]
     · rw [toTensor_tmul, ofTensor_tmul]
     · rw [map_add, map_add, hy, hz]
   right_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b m => rw [ofTensor_tmul, toTensor_tmul]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
 

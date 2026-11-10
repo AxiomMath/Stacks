@@ -158,6 +158,7 @@ theorem map_projMap_comp_projToQuadrupleSpace
   simp
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over relative `Proj` and the big fppf site in the `homEquiv` rewrites
 /-- **On schemes, the fibre map is the identification of relative Projs along the comparison of
 the algebras.** -/
 theorem toScheme_map_projMap {T : BigFppfOver B S hS} (f' : yoneda.obj T ⟶ X') :

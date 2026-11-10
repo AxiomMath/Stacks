@@ -446,7 +446,7 @@ the homotopy cofiber. -/
 theorem coneSecond_eq {A : DifferentialGradedAlgebra.{t, a} R}
     {K L : DifferentialGradedModule.{t, a, m} A} (f : K ⟶ L) (n : ℤ) :
     coneSecond f n = HomologicalComplex.homotopyCofiber.sndX f.toHomologicalComplex n := by
-  show (HomologicalComplex.homotopyCofiber.XIsoBiprod
+  change (HomologicalComplex.homotopyCofiber.XIsoBiprod
     f.toHomologicalComplex n (n + 1) rfl).hom ≫ biprod.snd = _
   have hn : (ComplexShape.up ℤ).next n = n + 1 :=
     (ComplexShape.up ℤ).next_eq' (show (ComplexShape.up ℤ).Rel n (n + 1) from rfl)
@@ -487,7 +487,7 @@ private theorem coneFirst_mul {A : DifferentialGradedAlgebra.{t, a} R}
     (a : (A.complex.X i).val.obj U) :
     (coneFirst f (n + i)).val.app U ((coneBilinearMap f n i).app U x a) =
       (((shiftModel K).shifted.mul n i).app U) ((coneFirst f n).val.app U x) a := by
-  show ((biprod.fst : K.complex.X (n + i + 1) ⊞ L.complex.X (n + i) ⟶ _).val.app U)
+  change ((biprod.fst : K.complex.X (n + i + 1) ⊞ L.complex.X (n + i) ⟶ _).val.app U)
     ((coneComponentIso f (n + i)).hom.val.app U
       ((coneComponentIso f (n + i)).inv.val.app U _)) = _
   rw [coneComponentIso_hom_inv_app]
@@ -499,7 +499,7 @@ private theorem coneSecond_mul {A : DifferentialGradedAlgebra.{t, a} R}
     (a : (A.complex.X i).val.obj U) :
     (coneSecond f (n + i)).val.app U ((coneBilinearMap f n i).app U x a) =
       (L.mul n i).app U ((coneSecond f n).val.app U x) a := by
-  show ((biprod.snd : K.complex.X (n + i + 1) ⊞ L.complex.X (n + i) ⟶ _).val.app U)
+  change ((biprod.snd : K.complex.X (n + i + 1) ⊞ L.complex.X (n + i) ⟶ _).val.app U)
     ((coneComponentIso f (n + i)).hom.val.app U
       ((coneComponentIso f (n + i)).inv.val.app U _)) = _
   rw [coneComponentIso_hom_inv_app]
@@ -515,7 +515,7 @@ private theorem coneFirst_d {A : DifferentialGradedAlgebra.{t, a} R}
   have h := congrArg (fun g => g.val.app U x)
     (HomologicalComplex.homotopyCofiber.d_fstX f.toHomologicalComplex
       n (n + 1) (n + 1 + 1) rfl rfl)
-  show _ = ((-1 : ℤ) • K.complex.d (n + 1) (n + 1 + 1)).val.app U _
+  change _ = ((-1 : ℤ) • K.complex.d (n + 1) (n + 1 + 1)).val.app U _
   simpa only [neg_one_zsmul, neg_val_app, SheafOfModules.comp_val,
     PresheafOfModules.comp_app, ModuleCat.comp_apply, Preadditive.neg_comp,
     HomologicalComplex.homotopyCofiber.fstX, coneComponentIso] using! h
@@ -589,7 +589,7 @@ theorem coneProjection_f {A : DifferentialGradedAlgebra.{t, a} R}
     CochainComplex.HomComplex.Cochain.rightShift_v _ _ _ _ _ _ _ (n + 1) rfl]
   simp only [CochainComplex.shiftFunctorObjXIso, CochainComplex.mappingCone.fst,
     coneFirst, coneComponentIso, HomologicalComplex.homotopyCofiber.fstX]
-  show (HomologicalComplex.homotopyCofiber.XIsoBiprod
+  change (HomologicalComplex.homotopyCofiber.XIsoBiprod
     f.toHomologicalComplex n (n + 1) rfl).hom ≫ biprod.fst = _
   rfl
 
@@ -604,7 +604,7 @@ private theorem shiftPackage_transport_mul {A : DifferentialGradedAlgebra.{t, a}
   dsimp only at hc ha ⊢
   subst c
   have hm := eq_of_heq ((ha n i U).trans ((shiftModel K).shifted_action n i U).symm)
-  show (((shiftModel K).shifted.mul n i).app U x a) = (μ n i).app U x a
+  change (((shiftModel K).shifted.mul n i).app U x a) = (μ n i).app U x a
   exact congrArg (fun g => g x a) hm.symm
 
 /-- The mapping-cone construction exists with its componentwise action and
@@ -662,7 +662,7 @@ theorem conePackage_nonempty {A : DifferentialGradedAlgebra.{t, a} R}
     toHomologicalComplex := rawProjection ≫ eqToHom hshift.symm
     map_mul := by
       intro n i U x a
-      show ((eqToHom hshift.symm).f (n + i)).val.app U
+      change ((eqToHom hshift.symm).f (n + i)).val.app U
         ((rawProjection.f (n + i)).val.app U ((coneBilinearMap f n i).app U x a)) =
         ((shift K).mul n i).app U
           (((eqToHom hshift.symm).f n).val.app U ((rawProjection.f n).val.app U x)) a

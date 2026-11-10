@@ -83,12 +83,12 @@ end Stacks.NaiveCotangent
 namespace Stacks.PullbackModel
 
 /-- **Induction on the extension of scalars `B ⊗_A M`**: a property of its elements holding at
-`0`, at the pure tensors and stable under sums holds everywhere. -/
+the pure tensors and stable under sums holds everywhere. -/
 theorem extendScalars_induction {A B : Type u} [CommRing A] [CommRing B] (f : A →+* B)
-    {M : ModuleCat.{u} A} {p : (ModuleCat.extendScalars f).obj M → Prop} (zero : p 0)
+    {M : ModuleCat.{u} A} {p : (ModuleCat.extendScalars f).obj M → Prop}
     (tmul : ∀ (b : B) (m : M), p (Stacks.PullbackModel.tmul f b m))
     (add : ∀ x y, p x → p y → p (x + y)) (x : (ModuleCat.extendScalars f).obj M) : p x :=
-  TensorProduct.induction_on x zero tmul add
+  TensorProduct.inductionOn x tmul add
 
 /-- **Images of a span**: if `Ψ b` is additive in its second argument, moves scalars into the
 first one, and every generator `m` has `Ψ b m` in the image of `ρ` for all `b`, so has every
@@ -157,11 +157,9 @@ theorem exists_covering_pullbackModel_of_tmul {C : Type*} [Category C] {D : Type
   refine Stacks.PullbackModel.extendScalars_induction
     ((transposeRingHom adj φ).app (op V'.left)).hom
     (p := fun w => ∃ R : Sieve V', R ∈ K.over Y V' ∧ ∀ ⦃V'' : Over Y⦄ (g : V'' ⟶ V'), R g →
-      ∃ t, ρ V'' t = ((pullbackModel adj φ).obj M).map g.left.op w) ?_ htmul ?_ w
-  · exact ⟨⊤, GrothendieckTopology.top_mem _ _, fun V'' g _ =>
-      ⟨0, (map_zero _).trans (map_zero (((pullbackModel adj φ).obj M).map g.left.op).hom).symm⟩⟩
-  · intro x y hx hy
-    exact Stacks.PullbackModel.exists_covering_map_add _ K ρ x y hx hy
+      ∃ t, ρ V'' t = ((pullbackModel adj φ).obj M).map g.left.op w) htmul ?_ w
+  intro x y hx hy
+  exact Stacks.PullbackModel.exists_covering_map_add _ K ρ x y hx hy
 
 end Stacks.PullbackLeftAdjoint
 
@@ -498,12 +496,7 @@ theorem exists_mem_representedZariskiKernelSpan
     (Stacks.NaiveCotangentZariskiChart.baseMap ((BigFppfOver.toScheme B S hS).map φ) hZW)
     Stacks.NaiveCotangentZariskiChart.structureMap
     (Stacks.NaiveCotangentZariskiChart.chartSquare ((BigFppfOver.toScheme B S hS).map φ) hZW) O
-  have hσ0 : Stacks.SheafOfModules.sectionsH1NaiveCotangent.{u, u, u, u + 1} _ _ _
-      (representedZariskiSchemeHom B S hS φ).fSharpInverseImage (op O.left) 0 = 0 :=
-    (congrArg _ (map_zero _)).trans (map_zero _)
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact ⟨0, Submodule.zero_mem _, ι.map_zero.trans ((congrArg _ τ.map_zero).trans hσ0).symm⟩
+  induction t using TensorProduct.inductionOn with
   | tmul s h₀ =>
     have e1 := kernel_ι_smul_representedZariskiKernelSectionOver B S hS φ hZW O s h₀
     have e2 := Stacks.NaiveCotangent.H1Tensor.h1Tensor_tmul

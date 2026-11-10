@@ -51,7 +51,7 @@ theorem transportEquiv_refl_kernelSubobject {C D : Type*} [Category* C] [Categor
     [Abelian C] [Abelian D] (E : C ≌ D) {X Y : C} (f : X ⟶ Y) :
     Subobject.transportEquiv E (Iso.refl _) (kernelSubobject f) =
       kernelSubobject (E.functor.map f) := by
-  show Subobject.transportEquiv E (Iso.refl _) (Subobject.mk (kernel.ι f)) =
+  change Subobject.transportEquiv E (Iso.refl _) (Subobject.mk (kernel.ι f)) =
     Subobject.mk (kernel.ι (E.functor.map f))
   rw [Subobject.transportEquiv_mk]
   have hk := isLimitForkMapOfIsLimit' E.functor (kernel.condition f) (kernelIsKernel f)

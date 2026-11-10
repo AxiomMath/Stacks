@@ -123,7 +123,7 @@ private theorem fiberBaseChangeFiberMap_flat {X S S' : Scheme.{u}}
     apply Flat.SpecMap_iff.mpr
     let : Algebra (S.residueField (g s')) (S'.residueField s') :=
       (g.residueFieldMap s').hom.toAlgebra
-    show Module.Flat (S.residueField (g s')) (S'.residueField s')
+    change Module.Flat (S.residueField (g s')) (S'.residueField s')
     infer_instance
   have hp : Flat (pullback.fst (f.fiberToSpecResidueField (g s')) q) := by
     have : MorphismProperty.IsStableUnderBaseChangeAlong
@@ -161,7 +161,7 @@ private lemma fiberι_residueFieldMap_isIso {X S : Scheme.{u}} (f : X ⟶ S)
       isIso_residueFieldMap_fromSpecResidueField S s T.y
     infer_instance
   have : IsIso T.tensorInl := by
-    show IsIso (pushout.inl _ _)
+    change IsIso (pushout.inl _ _)
     exact CategoryTheory.Limits.pushout_inl_iso_of_right_iso _ _
   have hT : IsIso (T.SpecTensorTo.residueFieldMap q) := by
     have h := Scheme.Pullback.isIso_residueFieldMap_specTensorTo_comp_residueFieldIso T q
@@ -348,7 +348,7 @@ private lemma isAssociatedPrimeStacks_maximalIdeal_of_ringEquiv {A B : Type*}
   ext b
   obtain ⟨a, rfl⟩ := e.surjective b
   rw [Submodule.mem_colon_span_singleton, Submodule.mem_bot]
-  show e a * e m = 0 ↔ _
+  change e a * e m = 0 ↔ _
   rw [← map_mul, map_eq_zero_iff e e.injective]
   have h : a * m = 0 ↔ a ∈ IsLocalRing.maximalIdeal A := by
     rw [← hm, Submodule.mem_colon_span_singleton, Submodule.mem_bot]
@@ -386,7 +386,7 @@ private lemma schemeAssociatedPoints_spec (R : CommRingCat.{u}) [IsNoetherianRin
     Module.associatedPrimes.preimage_comap_associatedPrimes_eq_associatedPrimes_of_isLocalizedModule
       p.asIdeal.primeCompl (Localization.AtPrime p.asIdeal)
       (Algebra.linearMap R (Localization.AtPrime p.asIdeal))]
-  show (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)).comap
+  change (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)).comap
     (algebraMap R (Localization.AtPrime p.asIdeal)) ∈ associatedPrimes R R ↔ _
   have hp : (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)).comap
       (algebraMap R (Localization.AtPrime p.asIdeal)) = p.asIdeal := by
@@ -447,7 +447,7 @@ private lemma generic_image_homeomorph {A B : Type*} [TopologicalSpace A]
     e.continuous e.isOpenMap (fun b ↦
       (Set.subsingleton_singleton.preimage e.injective).isPreirreducible)
       e.surjective hZ, ?_⟩
-  show closure {e x} = e '' Z
+  change closure {e x} = e '' Z
   rw [← Set.image_singleton, ← e.image_closure, hx]
 
 /-- Being the generic point of an irreducible component is invariant under a homeomorphism. -/
@@ -518,9 +518,9 @@ private lemma associated_pointFiber_iff_generic {X S S' : Scheme.{u}}
   let T := fiberTriplet f g s' y
   have hT : T = Scheme.Pullback.Triplet.ofPoint x' := by
     apply Scheme.Pullback.Triplet.ext
-    · show f.fiberι (g s') y = pullback.fst f g x'
+    · change f.fiberι (g s') y = pullback.fst f g x'
       rw [← hw, ← apply_fiberι_fiberBaseChangeFiberMap, Scheme.Hom.apply_fiberι]
-    · show s' = pullback.snd f g x'
+    · change s' = pullback.snd f g x'
       rw [← hw, Scheme.Hom.apply_fiberι]
   let eT : Spec T.tensor ≅ Spec (Scheme.Pullback.Triplet.ofPoint x').tensor :=
     Scheme.Spec.mapIso (Scheme.Pullback.Triplet.tensorCongr hT).symm.op
@@ -531,7 +531,7 @@ private lemma associated_pointFiber_iff_generic {X S S' : Scheme.{u}}
     have hcomp : e.hom ≫ (Scheme.Pullback.Triplet.ofPoint x').SpecTensorTo =
         (fiberBaseChangeFiberMap f g s').fiberι y ≫ (pullback.snd f g).fiberι s' := by
       dsimp only [e, eT, Iso.trans_hom, Functor.mapIso_hom, Iso.op_hom, Iso.symm_inv]
-      show (pointFiberTensorIso f g s' y).hom ≫
+      change (pointFiberTensorIso f g s' y).hom ≫
         Spec.map (Scheme.Pullback.Triplet.tensorCongr hT).inv ≫
           (Scheme.Pullback.Triplet.ofPoint x').SpecTensorTo = _
       rw [Scheme.Pullback.Triplet.tensorCongr_inv,
@@ -569,7 +569,7 @@ theorem mem_relativeAssassin_pullback_iff
   have : IsLocallyNoetherian target := isLocallyNoetherian_fiber_of_locallyOfFiniteType f (g s')
   have hFqc : F.IsQuasicoherent := inferInstance
   have : G.IsQuasicoherent := by
-    show ((modulePullback (f.fiberι (g s')).toLRSHom.toShHom).obj F).IsQuasicoherent
+    change ((modulePullback (f.fiberι (g s')).toLRSHom.toShHom).obj F).IsQuasicoherent
     exact @SheafOfModules.modulePullback_isQuasicoherent _ _
       (f.fiberι (g s')).toLRSHom.toShHom F hFqc
   have : Funit.IsQuasicoherent :=

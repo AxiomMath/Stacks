@@ -152,13 +152,13 @@ private theorem representativeFiberKrullDimension_comp_source
   have hk : k ≫ r.hom = c.hom := rfl
   have hp : k ⟨X.point, c.mem_source⟩ = ⟨Y.point, r.mem_source⟩ := by
     apply Subtype.ext
-    show r.source.ι ((a.hom ∣_ r.source)
+    change r.source.ι ((a.hom ∣_ r.source)
       ((a.source.ι.isoImage (a.hom ⁻¹ᵁ r.source)).inv ⟨X.point, _⟩)) = Y.point
     rw [← a.map_point, ← Scheme.Hom.comp_apply, morphismRestrict_ι]
-    show (((a.source.ι.isoImage _).inv ≫ (a.hom ⁻¹ᵁ r.source).ι ≫ a.hom)
+    change (((a.source.ι.isoImage _).inv ≫ (a.hom ⁻¹ᵁ r.source).ι ≫ a.hom)
       ⟨X.point, c.mem_source⟩) = a.hom ⟨X.point, a.mem_source⟩
     rw [← Category.assoc, Scheme.Opens.isoImage_ι_inv_ι]
-    show a.hom (X.scheme.homOfLE _ ⟨X.point, c.mem_source⟩) = _
+    change a.hom (X.scheme.homOfLE _ ⟨X.point, c.mem_source⟩) = _
     congr 1
     exact Subtype.ext (Scheme.homOfLE_apply _ ⟨X.point, c.mem_source⟩)
   have : Etale k := by dsimp [k]; infer_instance
@@ -199,9 +199,9 @@ private theorem representativeFiberKrullDimension_comp_target
     simp
   have hi : i x = ⟨X.point, r.mem_source⟩ := by
     apply Subtype.ext
-    show (i ≫ r.source.ι) x = X.point
+    change (i ≫ r.source.ι) x = X.point
     rw [hinc]
-    show c.source.ι x = X.point
+    change c.source.ι x = X.point
     rw [Scheme.Opens.ι_apply]
   have : Etale i := by dsimp [i]; infer_instance
   have : Etale (𝟙 c.source.toScheme) := inferInstance
@@ -217,7 +217,7 @@ private theorem representativeFiberKrullDimension_comp_target
     simpa [schemeFiberDimensionAt] using
       @ringKrullDim_stalk_fiber_eq_of_etale_square _ _ _ _ j i b.source.ι r.hom
         (inferInstance : Etale i) (inferInstance : Etale b.source.ι) hsquare x
-  show schemeFiberDimensionAt c.hom x =
+  change schemeFiberDimensionAt c.hom x =
     schemeFiberDimensionAt r.hom ⟨X.point, r.mem_source⟩
   rw [← hi]
   exact htarget.symm.trans hsource

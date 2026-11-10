@@ -119,6 +119,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) {T : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_finitePartOperations :
@@ -312,7 +313,7 @@ def star₃ : FinitePartFibre B S hS f a :=
   Z₁.ofClopenSubset (Z₁.pointSet \ Z₂.pointSet)
     ((Z₁.isClopen_pointSet hf).2.sdiff (Z₂.isClopen_pointSet hf).1)
     ((Z₁.isClopen_pointSet hf).1.sdiff (Z₂.isClopen_pointSet hf).2)
-    Set.diff_subset
+    Set.sdiff_subset
 
 /-- **Stacks 04PI, the operation `⋆₄`.** The difference `(a, Z₂ ∖ Z₁)` of two sections of the
 finite part lying over the same morphism to `Y`. -/
@@ -321,7 +322,7 @@ def star₄ : FinitePartFibre B S hS f a :=
   Z₂.ofClopenSubset (Z₂.pointSet \ Z₁.pointSet)
     ((Z₂.isClopen_pointSet hf).2.sdiff (Z₁.isClopen_pointSet hf).1)
     ((Z₂.isClopen_pointSet hf).1.sdiff (Z₁.isClopen_pointSet hf).2)
-    Set.diff_subset
+    Set.sdiff_subset
 
 /-- **Stacks 04PI, the operation `⋆₂`.** On points, `⋆₂(s, s')` is the intersection
 `Z₁ ∩ Z₂`. -/
@@ -450,19 +451,19 @@ theorem star₂_zero : star₂ hf Z₁ (zero Z₁) = zero Z₁ :=
 
 /-- **Stacks 04PI.** `⋆₃(s, s) = 0`: a section differs from itself in nothing. -/
 theorem star₃_self : star₃ hf Z₁ Z₁ = zero Z₁ :=
-  ext_pointSet (by rw [pointSet_star₃, pointSet_zero, Set.diff_self])
+  ext_pointSet (by rw [pointSet_star₃, pointSet_zero, Set.sdiff_self])
 
 /-- **Stacks 04PI.** `⋆₄(s, s) = 0`. -/
 theorem star₄_self : star₄ hf Z₁ Z₁ = zero Z₁ :=
-  ext_pointSet (by rw [pointSet_star₄, pointSet_zero, Set.diff_self])
+  ext_pointSet (by rw [pointSet_star₄, pointSet_zero, Set.sdiff_self])
 
 /-- **Stacks 04PI.** `⋆₃(s, 0) = s`. -/
 theorem star₃_zero : star₃ hf Z₁ (zero Z₁) = Z₁ :=
-  ext_pointSet (by rw [pointSet_star₃, pointSet_zero, Set.diff_empty])
+  ext_pointSet (by rw [pointSet_star₃, pointSet_zero, Set.sdiff_empty])
 
 /-- **Stacks 04PI.** `⋆₄(0, s) = s`. -/
 theorem star₄_zero : star₄ hf (zero Z₁) Z₁ = Z₁ :=
-  ext_pointSet (by rw [pointSet_star₄, pointSet_zero, Set.diff_empty])
+  ext_pointSet (by rw [pointSet_star₄, pointSet_zero, Set.sdiff_empty])
 
 /-- **Stacks 04PI.** `⋆₂` distributes over `⋆₃`, which is the distributivity of the
 multiplication over the difference. -/
@@ -471,7 +472,7 @@ theorem star₂_star₃ (Z₃ : FinitePartFibre B S hS f a) :
   ext_pointSet (by
     simp only [pointSet_star₂, pointSet_star₃]
     ext x
-    simp only [Set.mem_inter_iff, Set.mem_diff]
+    simp only [Set.mem_inter_iff, Set.mem_sdiff]
     tauto)
 
 /-- The three pieces `Z₁ ∖ Z₂`, `Z₁ ∩ Z₂` and `Z₂ ∖ Z₁` are pairwise disjoint on points. -/

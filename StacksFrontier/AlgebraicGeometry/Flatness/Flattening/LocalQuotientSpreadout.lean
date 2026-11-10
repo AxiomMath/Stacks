@@ -121,7 +121,7 @@ attribute [local instance] isScalarTower_localized_baseChange
 `a` to `a ⊗ₜ 1`. -/
 theorem algebraMap_baseChange_localized (a : A') :
     algebraMap (X.baseChange A').A (X.baseChange A').Bₛ a = a ⊗ₜ[X.A] (1 : X.Bₛ) := by
-  show (X.baseChangeAlgHom A') (algebraMap A' (A' ⊗[X.A] X.B) a) = _
+  change (X.baseChangeAlgHom A') (algebraMap A' (A' ⊗[X.A] X.B) a) = _
   simp [baseChangeAlgHom, Algebra.TensorProduct.algebraMap_apply]
 
 /-- The original base ring reaches the localization of the base-changed situation through the

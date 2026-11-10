@@ -282,7 +282,7 @@ theorem chowDenseIncl_comp_chowCoverObjι (i : Fin (n + 1)) :
     chowDenseIncl B S hS X Wch c hc hsep Yo j n V e hj i ≫
         chowCoverObjι B S hS X Wch c hc hsep Yo j n V e hj =
       denseToImage B S hS X Wch c hc hsep Yo j n V e := by
-  show (chowDenseLift B S hS X Wch c hc hsep Yo j n V e hj i ≫
+  change (chowDenseLift B S hS X Wch c hc hsep Yo j n V e hj i ≫
       unionPreimageIncl B S hS (chowImageObj B S hS X Wch c hc hsep Yo j n V e)
         (chowProj B S hS X Wch c hc hsep Yo j n V e)
         (chartOpensRange B S hS j hj) i) ≫

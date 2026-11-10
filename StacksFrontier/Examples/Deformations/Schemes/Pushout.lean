@@ -80,7 +80,7 @@ theorem isPushout_localization_prime
   let : q.asIdeal.IsPrime := q.isPrime
   have hM : M.map h = q.asIdeal.primeCompl := by
     ext z
-    show (∃ s, s ∈ M ∧ h s = z) ↔ z ∉ q.asIdeal
+    change (∃ s, s ∈ M ∧ h s = z) ↔ z ∉ q.asIdeal
     constructor
     · rintro ⟨s, hs, rfl⟩
       change s ∉ p.asIdeal at hs
@@ -88,7 +88,7 @@ theorem isPushout_localization_prime
     · intro hz
       obtain ⟨s, rfl⟩ := hsurj z
       refine ⟨s, ?_, rfl⟩
-      show s ∉ p.asIdeal
+      change s ∉ p.asIdeal
       simpa [hcomap] using hz
   let Sₚ := Localization.AtPrime p.asIdeal
   let Uq := Localization.AtPrime q.asIdeal
@@ -104,7 +104,7 @@ theorem isPushout_localization_prime
     let : q.asIdeal.LiesOver p.asIdeal := ⟨hcomap⟩
     let : Algebra Sₚ Uq := Localization.AtPrime.algebraOfLiesOver p.asIdeal q.asIdeal
     have : IsLocalization (Algebra.algebraMapSubmonoid U M) Uq := by
-      show IsLocalization (M.map h) Uq
+      change IsLocalization (M.map h) Uq
       infer_instance
     have : IsScalarTower S U Uq := .of_algebraMap_eq' <| RingHom.ext fun _ => rfl
     convert (CommRingCat.isPushout_iff_isPushout (R := S) (S := U) (R' := Sₚ) (S' := Uq)).mpr
@@ -142,12 +142,12 @@ theorem pushout_surjective_ker {R S T U : CommRingCat.{u}}
     have hd : h ≫ d = CommRingCat.ofHom q := H.inl_desc _ _ _
     intro a ha
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show q a = 0
+    change q a = 0
     rw [← show d.hom (h.hom a) = q a from congrArg (fun k : S ⟶ _ => k.hom a) hd]
     simp only [RingHom.mem_ker.mp ha, map_zero]
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show h.hom (f.hom a) = 0
+    change h.hom (f.hom a) = 0
     rw [hw, RingHom.mem_ker.mp ha, map_zero]
 
 /-- If the kernel of `φ : X →+* T` is `I.map (algebraMap R X)`, then `x ∈ I • ⊤` iff `φ x = 0`. -/
@@ -176,20 +176,20 @@ theorem bijective_of_flat_of_reduction
     obtain ⟨n, rfl⟩ := (I • (⊤ : Submodule R N)).mkQ_surjective y
     obtain ⟨m, hm⟩ := ha (b n)
     refine ⟨m, ?_⟩
-    show (I • (⊤ : Submodule R N)).mkQ (f m) = (I • (⊤ : Submodule R N)).mkQ n
+    change (I • (⊤ : Submodule R N)).mkQ (f m) = (I • (⊤ : Submodule R N)).mkQ n
     rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq,
       mem_smul_top_iff_of_ker_eq I b hkb]
     rw [map_sub]
     exact sub_eq_zero.mpr ((RingHom.congr_fun hw m).trans hm)
   refine ⟨?_, hs⟩
-  show Function.Injective f.toLinearMap
+  change Function.Injective f.toLinearMap
   apply LinearMap.ker_eq_bot.mp
   apply Submodule.eq_bot_of_le_smul_of_isNilpotent I _ hI
   rw [← LinearMap.ker_inf_smul_top_eq_smul_of_flat I f.toLinearMap hs]
   apply le_inf le_rfl
   intro m hm
   rw [mem_smul_top_iff_of_ker_eq I a hka, ← hw, RingHom.comp_apply]
-  show b (f m) = 0
+  change b (f m) = 0
   rw [show f m = 0 from hm, map_zero]
 
 /-- **Recognition of pushout squares after a nilpotent reduction.** A commuting square

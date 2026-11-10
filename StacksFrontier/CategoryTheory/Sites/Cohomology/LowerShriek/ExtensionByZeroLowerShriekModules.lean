@@ -64,7 +64,9 @@ to Stacks 07AC and of nothing else.
 
 Existence of the extension-by-zero functors — the left adjoints of restriction along
 `Over.forget V` for the slices of the two sites — is carried as an instance hypothesis for the
-same reason as in `StacksFrontier/CategoryTheory/Sites/Modules/ExtensionByZeroUnitSections.lean`: Mathlib constructs them only for a small
+same reason as in
+`StacksFrontier/CategoryTheory/Sites/Modules/ExtensionByZeroUnitSections.lean`: Mathlib
+constructs them only for a small
 site whose module sections lie in the universe of the site, and on such a site each hypothesis is
 discharged by instance search, so every statement below specialises to its single-universe form
 verbatim. These are the objects `j_{V!}` that Stacks 07AC's displayed chain is about, cited there

@@ -72,7 +72,7 @@ theorem exists_translate_mem_cohomologySubfunctor
   have hcl : classOf f σ hσ
       ((functor f σ hσ).map (Over.homMk (fieldExtensionPoint k K).hom).op r * x) =
       c + Stacks.Picard.schemePullbackClass (pullback.fst f (fieldExtensionPoint k K).hom) c₀ := by
-    show smallEquiv (bc f (fieldExtensionPoint k K)) ((groupMap f σ hσ
+    change smallEquiv (bc f (fieldExtensionPoint k K)) ((groupMap f σ hσ
       (Over.homMk (fieldExtensionPoint k K).hom : fieldExtensionPoint k K ⟶ Over.mk (𝟙 _))
         (mkGroup f σ hσ _ (schemePullbackClass_bcSection_normalize f σ hσ _ _)) +
         (Multiplicative.toAdd x : group f σ hσ (fieldExtensionPoint k K)) :
@@ -82,7 +82,7 @@ theorem exists_translate_mem_cohomologySubfunctor
       smallEquiv_mkGroup, normalize_bcMap, Stacks.Picard.schemePullbackClass_comp, bcMap_fst,
       normalize_eq_self f σ hσ _ _ (hT0 _), add_comm]
     rfl
-  show IsCohomologyClass f 0 (fieldExtensionPoint k K) (classOf f σ hσ _)
+  change IsCohomologyClass f 0 (fieldExtensionPoint k K) (classOf f σ hσ _)
   rw [hcl, isCohomologyClass_zero_iff]
   set P := Stacks.Picard.picardRepresentative (bc f (fieldExtensionPoint k K)).toRingedSpace
     (c + Stacks.Picard.schemePullbackClass (pullback.fst f (fieldExtensionPoint k K).hom) c₀)

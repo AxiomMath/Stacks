@@ -131,7 +131,7 @@ theorem comap_bot_representedAffineCommRingCatHom_pointSchemeHom (A : CoherentOb
   have hnat := congrArg (fun k => k s) (Scheme.toSpecΓ_naturality h)
   simp only [Scheme.Hom.comp_apply, hs] at hnat
   rw [hnat]
-  show PrimeSpectrum.comap h.appTop.hom ⊥ = PrimeSpectrum.comap h.appTop.hom _
+  change PrimeSpectrum.comap h.appTop.hom ⊥ = PrimeSpectrum.comap h.appTop.hom _
   congr 1
   ext x
   constructor
@@ -192,7 +192,7 @@ theorem exists_twistedEuler_eq_finsum_rankAtStalk_of_model (L : Modules.{u, u} B
   obtain ⟨M, a, b, ha, hb, hfin, hproj, hφ⟩ := h
   have hsupp : {i | ¬ IsZero (M.X i)}.Finite := by
     refine (Set.finite_Icc a b).subset fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     refine ⟨?_, ?_⟩
     · by_contra hlt
       exact hi (M.isZero_of_isStrictlyGE a i (by omega))
@@ -332,7 +332,7 @@ theorem isLocallyConstant_twistedEuler_of_model (L : Modules.{u, u} B S hS D.X.1
     A hj
   let m := CoherentSituation.pullbackHom' (modulePullbackStabilityOfFinitePresentation B S hS) A hj
   have hm : ∀ s : A'.testScheme, m.baseScheme s = hW.fromSpec s := fun s => by
-    show (BigFppfOver.toScheme B S hS).map j s = hW.fromSpec s
+    change (BigFppfOver.toScheme B S hS).map j s = hW.fromSpec s
     rw [map_affineOpenSpecSiteHom]
   have hA' : IsAffine A'.testScheme :=
     inferInstanceAs (IsAffine (Spec Γ((BigFppfOver.toScheme B S hS).obj A.T.left, W)))

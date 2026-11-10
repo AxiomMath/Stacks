@@ -142,8 +142,7 @@ theorem equivTensorProductMap_symm_comp :
     (equivTensorProductMap ρ.symm α.symm β.symm (symm_compat ρ α hα) (symm_compat ρ β hβ)).comp
       (equivTensorProductMap ρ α β hα hβ) = RingHom.id _ := by
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     simp only [RingHom.comp_apply, equivTensorProductMap_tmul, RingHom.id_apply,
       RingEquiv.symm_apply_apply]

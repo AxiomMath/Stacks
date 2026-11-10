@@ -137,9 +137,9 @@ theorem exists_kernel_ι_app_eq {U : Cᵒᵖ} (n : ℕ) (y : 𝓕.obj.obj U) (hy
     rwa [Functor.map_nsmul, CategoryTheory.Functor.map_id]
   refine ⟨(PreservesKernel.iso G (n • 𝟙 𝓕)).inv
     ((AddCommGrpCat.kernelIsoKer (G.map (n • 𝟙 𝓕))).inv ⟨y, hy'⟩), ?_⟩
-  show ((PreservesKernel.iso G (n • 𝟙 𝓕)).inv ≫ G.map (kernel.ι (n • 𝟙 𝓕))) _ = y
+  change ((PreservesKernel.iso G (n • 𝟙 𝓕)).inv ≫ G.map (kernel.ι (n • 𝟙 𝓕))) _ = y
   rw [PreservesKernel.iso_inv_ι]
-  show ((AddCommGrpCat.kernelIsoKer (G.map (n • 𝟙 𝓕))).inv ≫ kernel.ι _) ⟨y, hy'⟩ = y
+  change ((AddCommGrpCat.kernelIsoKer (G.map (n • 𝟙 𝓕))).inv ≫ kernel.ι _) ⟨y, hy'⟩ = y
   rw [AddCommGrpCat.kernelIsoKer_inv_comp_ι]
   rfl
 

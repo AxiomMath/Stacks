@@ -177,7 +177,7 @@ theorem periodicLength_eq_of_le_ker {R : Type u} [CommRing R] {M : Type v}
   have := toNat_length_quotient_submoduleOf_eq_add hSI hψK hfinφ
   have := toNat_length_quotient_submoduleOf_eq_add hYT hTK hfinψ
   have := toNat_length_quotient_submoduleOf_eq_add hYI hφK hfinψ
-  show ((Module.length R
+  change ((Module.length R
       ((twoPeriodicComplex φ ψ hφψ hψφ).homology (0 : ZMod 2))).toNat : ℤ) -
     ((Module.length R
       ((twoPeriodicComplex φ ψ hφψ hψφ).homology (1 : ZMod 2))).toNat : ℤ) = _

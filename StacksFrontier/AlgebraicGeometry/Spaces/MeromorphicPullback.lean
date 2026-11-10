@@ -300,7 +300,7 @@ theorem chartPullbackMeromorphicFunctions_comp
   refine IsLocalization.ringHom_ext (regularSections B S hS Y d.V)
     (S := (regularSectionsSubpresheaf B S hS Y hY).localizationPresheaf.obj (op d.V))
     (RingHom.ext fun r => ?_)
-  show chartPullbackMeromorphicFunctions B S hS hX hY hf d'
+  change chartPullbackMeromorphicFunctions B S hS hX hY hf d'
       (((regularSectionsSubpresheaf B S hS Y hY).localizationPresheaf.map j.op).hom
         (((regularSectionsSubpresheaf B S hS Y hY).toLocalizationPresheaf.app (op d.V)).hom r)) =
     ((regularSectionsSubpresheaf B S hS X hX).localizationPresheaf.map i.op).hom

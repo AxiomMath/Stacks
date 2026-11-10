@@ -162,7 +162,7 @@ def endMatrixO {n : Type*} [Fintype n] [DecidableEq n] (F : (n → O) →ₗ[R] 
 theorem endMatrixO_apply {n : Type*} [Fintype n] [DecidableEq n] (F : (n → O) →ₗ[R] (n → O))
     (i j : n) : endMatrixO eO F i j = eO.symm (F (Pi.single i (eO 1)) j) := by
   rw [endMatrixO, endMatrix_apply, LinearMap.comp_apply, LinearMap.comp_apply]
-  show (piRankOne eO n).symm (F (piRankOne eO n (Pi.single i 1))) j = _
+  change (piRankOne eO n).symm (F (piRankOne eO n (Pi.single i 1))) j = _
   rw [piRankOne_single]
   simp [piRankOne]
 
@@ -284,7 +284,7 @@ theorem freeι_comp_freeπ (i j : n) :
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp [Ne.symm h]
 
 /-- `Φ(n → O) ≅ n → Φ(O)`, by the images of the projections. -/
@@ -312,7 +312,7 @@ def functorFreeEquiv : Φ.obj (freeObj O n) ≃ₗ[Λ] (n → Φ.obj O) where
       simp only [Φ.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply] at this
       rw [this]
       split_ifs <;> simp
-    simp only [h, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [h, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 /-- The identification `(n → Fin r → Λ) ≃ (Fin r × n → Λ)`. -/
 def blockFunEquiv : (n → Fin r → Λ) ≃ₗ[Λ] (Fin r × n → Λ) where
@@ -338,7 +338,7 @@ under `Φ` of the `i`-th inclusion. -/
 theorem functorFreeBasis_apply (c : Fin r) (i : n) :
     functorFreeBasis Φ b n (c, i) = (Φ.map (freeι n O i)).hom (b.symm (Pi.single c 1)) := by
   rw [functorFreeBasis, Module.Basis.coe_ofEquivFun]
-  show ∑ j, (Φ.map (freeι n O j)).hom
+  change ∑ j, (Φ.map (freeι n O j)).hom
       (b.symm (fun a => (Pi.single (c, i) (1 : Λ) : Fin r × n → Λ) (a, j))) = _
   rw [Finset.sum_eq_single i]
   · congr 2
@@ -401,21 +401,23 @@ include hpi in
 lemma functor_map_comp_eq_id : (Φ.map p).hom.comp (Φ.map i).hom = LinearMap.id := by
   rw [← ModuleCat.hom_comp, ← Φ.map_comp, hpi, Φ.map_id, ModuleCat.hom_id]
 
-omit [DecidableEq n] in
+omit [Fintype n] [DecidableEq n] in
 include b hpi in
 /-- The image under `Φ` of a retract of `n → O` is finite over `Λ`. -/
-theorem functor_obj_finite_of_retract : Module.Finite Λ (Φ.obj P) := by
+theorem functor_obj_finite_of_retract [Finite n] : Module.Finite Λ (Φ.obj P) := by
   classical
+  have := Fintype.ofFinite n
   have := Module.Finite.of_basis (functorFreeBasis Φ b n)
   refine Module.Finite.of_surjective (Φ.map p).hom fun y => ⟨(Φ.map i).hom y, ?_⟩
   have := congrArg (fun g => g y) (functor_map_comp_eq_id Φ n p i hpi)
   simpa using this
 
-omit [DecidableEq n] in
+omit [Fintype n] [DecidableEq n] in
 include b hpi in
 /-- The image under `Φ` of a retract of `n → O` is projective over `Λ`. -/
-theorem functor_obj_projective_of_retract : Module.Projective Λ (Φ.obj P) := by
+theorem functor_obj_projective_of_retract [Finite n] : Module.Projective Λ (Φ.obj P) := by
   classical
+  have := Fintype.ofFinite n
   have := Module.Projective.of_basis (functorFreeBasis Φ b n)
   exact Module.Projective.of_split (Φ.map i).hom (Φ.map p).hom
     (functor_map_comp_eq_id Φ n p i hpi)

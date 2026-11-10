@@ -185,7 +185,7 @@ theorem presentedSubspaceRangeMap_square :
         chartToSpace B S hS X' U' =
       presentedSubspaceRangeMap B S hS Z U' incl hincl c ≫ subspaceInclusion B S hS X' Z := by
   apply ObjectProperty.hom_ext
-  show (Subfunctor.range (yoneda.map incl)).ι ≫ U'.1.hom =
+  change (Subfunctor.range (yoneda.map incl)).ι ≫ U'.1.hom =
     ((rangeIsoPresheaf B S hS incl hincl).inv ≫ c) ≫ Z.1.ι
   have h1 : (rangeIsoPresheaf B S hS incl hincl).hom ≫
       (Subfunctor.range (yoneda.map incl)).ι = yoneda.map incl :=
@@ -204,11 +204,11 @@ theorem isPullback_presentedSubspaceRangeMap :
       (chartToSpace B S hS X' U').hom Z.1.ι :=
   hpb.of_iso (rangeIsoPresheaf B S hS incl hincl) (Iso.refl _) (Iso.refl _) (Iso.refl _)
     (by
-      show yoneda.map incl ≫ 𝟙 _ =
+      change yoneda.map incl ≫ 𝟙 _ =
         Subfunctor.toRange (yoneda.map incl) ≫ (Subfunctor.range (yoneda.map incl)).ι
       rw [Category.comp_id, Subfunctor.toRange_ι])
     (by
-      show c ≫ 𝟙 _ = (rangeIsoPresheaf B S hS incl hincl).hom ≫
+      change c ≫ 𝟙 _ = (rangeIsoPresheaf B S hS incl hincl).hom ≫
         ((rangeIsoPresheaf B S hS incl hincl).inv ≫ c)
       rw [Iso.hom_inv_id_assoc, Category.comp_id])
     (Category.comp_id _ |>.trans (Category.id_comp _).symm)

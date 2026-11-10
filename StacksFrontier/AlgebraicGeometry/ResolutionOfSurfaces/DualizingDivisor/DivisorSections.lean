@@ -138,7 +138,7 @@ theorem nonempty_preimage_puncturedSpectrum (hdim : ringKrullDim A = 2) {X : Sch
     exact absurd hdim (by decide)
   obtain ⟨x, hx⟩ := (inferInstance : Surjective f).surj ⟨⊥, Ideal.isPrime_bot⟩
   refine ⟨⟨x, ?_⟩⟩
-  show f x ≠ closedPoint A
+  change f x ≠ closedPoint A
   rw [hx]
   exact fun h => hbot (congrArg PrimeSpectrum.asIdeal h)
 
@@ -164,7 +164,7 @@ theorem sections_eq_smul_idealInclusion (hdim : ringKrullDim A = 2) {X : Scheme.
       X.presheaf.map (homOfLE h).op (baseRingToSections A (Over.mk f) (op W₁) a) =
         baseRingToSections A (Over.mk f) (op W₂) a := by
     intro W₁ W₂ h
-    show (X.presheaf.map (homOfLE le_top).op ≫ X.presheaf.map (homOfLE h).op) _ = _
+    change (X.presheaf.map (homOfLE le_top).op ≫ X.presheaf.map (homOfLE h).op) _ = _
     rw [← Functor.map_comp]
     rfl
   -- restriction of the ideal inclusion
@@ -187,13 +187,13 @@ theorem sections_eq_smul_idealInclusion (hdim : ringKrullDim A = 2) {X : Scheme.
     have hy : y = c • y₁' := by
       apply Stacks.SheafOfModules.injective_app_kernel_ι
       refine Eq.trans ?_ (((idealInclusion E).val.app (op W)).hom.map_smul c y₁').symm
-      show _ = c • ((idealInclusion E).val.app (op W)).hom y₁'
+      change _ = c • ((idealInclusion E).val.app (op W)).hom y₁'
       rw [← hι hW y₁, hy₁]
-      show _ = @HMul.hMul Γ(X, W) Γ(X, W) Γ(X, W) instHMul c (X.presheaf.map (homOfLE hW).op 1)
+      change _ = @HMul.hMul Γ(X, W) Γ(X, W) Γ(X, W) instHMul c (X.presheaf.map (homOfLE hW).op 1)
       rw [map_one, mul_one]
     conv_lhs => rw [hy]
     refine (dualApp_smul (L := negativeTwist' E) (σ.val (op W)) (op (Over.mk (𝟙 W))) c y₁').trans ?_
-    show @HMul.hMul Γ(X, W) Γ(X, W) Γ(X, W) instHMul c
+    change @HMul.hMul Γ(X, W) Γ(X, W) Γ(X, W) instHMul c
       (dualEval (L := negativeTwist' E) (σ.val (op W)) y₁') = _
     rw [← dualEval_sections_restrict E σ hW y₁, ← ha, hres]
     exact mul_comm (G := Γ(X, W)) _ _
@@ -231,7 +231,7 @@ theorem sections_ext {X : Scheme.{u}} (E : X.IdealSheafData)
   apply Subtype.ext
   funext W
   refine PresheafOfModules.hom_ext fun V' => ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
-  show dualApp (L := negativeTwist' E) (σ.val (op W.unop)) V' y =
+  change dualApp (L := negativeTwist' E) (σ.val (op W.unop)) V' y =
     dualApp (L := negativeTwist' E) (τ.val (op W.unop)) V' y
   refine (dualApp_eq_dualEval E _ V' y).trans (Eq.trans ?_ (dualApp_eq_dualEval E _ V' y).symm)
   rw [PresheafOfModules.sections_property, PresheafOfModules.sections_property]
@@ -254,7 +254,7 @@ theorem smul_val_app (Y : Over (Spec (.of A))) {M N : Y.left.Modules} (g : M ⟶
     letI := modulesLinear A Y
     ((a • g).val.app W).hom x = baseRingToSections A Y W a • (g.val.app W).hom x := by
   let := modulesLinear A Y
-  show (g.val.app W).hom (baseRingToSections A Y W a • x) = _
+  change (g.val.app W).hom (baseRingToSections A Y W a • x) = _
   exact (g.val.app W).hom.map_smul _ x
 
 /-- The canonical map sends `1` to the canonical section. -/
@@ -279,7 +279,7 @@ theorem dualEval_smul_canonicalHom (Y : Over (Spec (.of A))) (E : Y.left.IdealSh
   rw [canonicalHom_val_app_one] at h1
   refine (congrArg (fun z : (invertibleSheaf' E).val.obj (op W) =>
     dualEval (L := negativeTwist' E) z y) h1).trans ?_
-  show @HMul.hMul Γ(Y.left, W) Γ(Y.left, W) Γ(Y.left, W) instHMul
+  change @HMul.hMul Γ(Y.left, W) Γ(Y.left, W) Γ(Y.left, W) instHMul
     (Y.left.presheaf.map (𝟙 (op W)) (baseRingToSections A Y (op W) a)) _ = _
   rw [Y.left.presheaf.map_id]
   rfl

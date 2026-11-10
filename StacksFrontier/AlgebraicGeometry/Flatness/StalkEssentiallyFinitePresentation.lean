@@ -91,7 +91,7 @@ private theorem flat_localRingHom_of_localization
   have hmT : mT.IsPrime := inferInstance
   have hqp : q = Ideal.comap (algebraMap R T) mT := by
     rw [hq, hp, Ideal.comap_comap, ← IsScalarTower.algebraMap_eq R C T]
-  letI : IsLocalization mT.primeCompl T := by
+  let : IsLocalization mT.primeCompl T := by
     have hU : mT.primeCompl = IsUnit.submonoid T := by
       ext r
       simp [mT, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, IsUnit.submonoid]
@@ -128,10 +128,10 @@ private theorem ringHom_essentiallyFP_of_localization
     (f : R →+* A) (hfp : f.FinitePresentation)
     [Algebra A B] (M : Submonoid A) [IsLocalization M B] :
     ((algebraMap A B).comp f).EssentiallyOfFinitePresentation := by
-  letI : Algebra R A := f.toAlgebra
+  let : Algebra R A := f.toAlgebra
   let g : R →+* B := (algebraMap A B).comp f
-  letI : Algebra R B := g.toAlgebra
-  letI : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  let : Algebra R B := g.toAlgebra
+  let : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hfp' : Algebra.FinitePresentation R A := by
     rw [← RingHom.finitePresentation_algebraMap, RingHom.algebraMap_toAlgebra]
     exact hfp
@@ -157,10 +157,10 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
   let R := S.presheaf.stalk (f x)
   let T := X.presheaf.stalk x
   let φ : R →+* T := (f.stalkMap x).hom
-  letI : Algebra R T := φ.toAlgebra
-  letI : IsLocalRing R := S.isLocalRing (f x)
-  letI : IsLocalRing T := X.isLocalRing x
-  letI : IsLocalHom (algebraMap R T) := by
+  let : Algebra R T := φ.toAlgebra
+  let : IsLocalRing R := S.isLocalRing (f x)
+  let : IsLocalRing T := X.isLocalRing x
+  let : IsLocalHom (algebraMap R T) := by
     change IsLocalHom φ
     infer_instance
   have hflat' : (algebraMap R T).Flat := by
@@ -170,7 +170,7 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
   have hft : Algebra.EssFiniteType R T := by
     rw [← RingHom.essFiniteType_algebraMap, RingHom.algebraMap_toAlgebra]
     simpa [φ] using hft'
-  letI : Algebra.EssFiniteType R T := hft
+  let : Algebra.EssFiniteType R T := hft
   -- `T` is the localization at `p` of a finite type `R`-subalgebra `C`.
   let C := Algebra.EssFiniteType.subalgebra R T
   let p : Ideal C := Ideal.comap (algebraMap C T) (IsLocalRing.maximalIdeal T)
@@ -182,11 +182,11 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
     change IsUnit (algebraMap C T c) ↔
       ¬ (algebraMap C T c ∈ IsLocalRing.maximalIdeal T)
     simp [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  letI : Algebra R C := inferInstance
-  letI : IsScalarTower R C T := IsScalarTower.of_algebraMap_eq fun r =>
+  let : Algebra R C := inferInstance
+  let : IsScalarTower R C T := IsScalarTower.of_algebraMap_eq fun r =>
     (C.val.commutes r).symm
   have hlocP : IsLocalization p.primeCompl T := by rw [← hM]; exact hlocT
-  letI := hlocP
+  let := hlocP
   let qR : Ideal R := p.comap (algebraMap R C)
   have hflatLoc' : (Localization.localRingHom qR p (algebraMap R C) rfl).Flat :=
     flat_localRingHom_of_localization hflat' p rfl qR rfl
@@ -232,17 +232,17 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
       rfl
   let F : Z.Modules := SheafOfModules.unit Z.ringCatSheaf
   let G : Y.Modules := (Scheme.Modules.pushforward i).obj F
-  haveI : IsClosedImmersion i := IsClosedImmersion.spec_of_surjective _ hψ
-  haveI : IsFinite i := inferInstance
-  haveI : F.IsQuasicoherent :=
+  have : IsClosedImmersion i := IsClosedImmersion.spec_of_surjective _ hψ
+  have : IsFinite i := inferInstance
+  have : F.IsQuasicoherent :=
     (inferInstance : (SheafOfModules.unit Z.ringCatSheaf).IsQuasicoherent)
-  haveI : F.IsFiniteType := structureSheaf_isFiniteType Z
-  haveI : G.IsQuasicoherent := inferInstance
-  haveI : G.IsFiniteType :=
+  have : F.IsFiniteType := structureSheaf_isFiniteType Z
+  have : G.IsQuasicoherent := inferInstance
+  have : G.IsFiniteType :=
     (isFiniteType_iff_pushforward_isFiniteType i F).mp inferInstance
   have hfpRP : (algebraMap R P).FinitePresentation :=
     RingHom.finitePresentation_algebraMap.mpr inferInstance
-  letI : LocallyOfFinitePresentation h := by
+  let : LocallyOfFinitePresentation h := by
     rw [LocallyOfFinitePresentation.SpecMap_iff]
     exact hfpRP
   -- The structure sheaf of `Z` is flat over `B` at `z`, hence so is its direct image at `t`.
@@ -251,12 +251,12 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
     let E := TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) F.val.presheaf z
     let A := Z.presheaf.stalk z
     let α : D →+* A := ((i ≫ h).stalkMap z).hom
-    letI : Algebra D A := α.toAlgebra
-    letI : Module A E :=
+    let : Algebra D A := α.toAlgebra
+    let : Module A E :=
       PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
         (R := Z.presheaf) F.val z
-    letI : Module D E := Module.compHom _ α
-    letI : Module D A := Module.compHom _ α
+    let : Module D E := Module.compHom _ α
+    let : Module D A := Module.compHom _ α
     have hflatA : Module.Flat D A := RingHom.flat_algebraMap_iff.mp hflatComp
     let e := (Stacks.UnitStalk.unitStalkLinearEquiv Z z).symm
     let e' : E ≃ₗ[D] A :=
@@ -274,13 +274,13 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
   let stalkψ : Q →+* A := (i.stalkMap z).hom
   let E := TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) F.val.presheaf z
   let Epush := TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) G.val.presheaf (i z)
-  letI : Algebra Q A := stalkψ.toAlgebra
-  letI : Module A E :=
+  let : Algebra Q A := stalkψ.toAlgebra
+  let : Module A E :=
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
       (R := Z.presheaf) F.val z
-  letI : Module Q E := Module.compHom _ stalkψ
-  letI : IsScalarTower Q A E := IsScalarTower.of_compHom _ _ _
-  letI : Module Q A := Module.compHom _ stalkψ
+  let : Module Q E := Module.compHom _ stalkψ
+  let : IsScalarTower Q A E := IsScalarTower.of_compHom _ _ _
+  let : Module Q A := Module.compHom _ stalkψ
   have hfpPush : Module.FinitePresentation Q Epush := by
     change Module.FinitePresentation (Y.presheaf.stalk (i z))
       (TopCat.Presheaf.stalk (C := Ab.{u}) G.val.presheaf (i z))
@@ -313,16 +313,16 @@ theorem isEssentiallyOfFinitePresentation_stalkMap_of_flatAt
     RingHom.FinitePresentation.of_surjective stalkψ hsurj hker
   have hessQA : stalkψ.EssentiallyOfFinitePresentation :=
     ringHom_essentiallyFP_of_finitePresentation stalkψ hfpψ
-  letI : Algebra P Q := StructureSheaf.stalkAlgebra P ⟨q, hq⟩
+  let : Algebra P Q := StructureSheaf.stalkAlgebra P ⟨q, hq⟩
   have hlocQ : IsLocalization q.primeCompl Q :=
     StructureSheaf.IsLocalization.to_stalk P ⟨q, hq⟩
-  letI : IsLocalization q.primeCompl Q := hlocQ
+  let : IsLocalization q.primeCompl Q := hlocQ
   have hessRQ : (algebraMap P Q).comp (algebraMap R P) |>.EssentiallyOfFinitePresentation :=
     ringHom_essentiallyFP_of_localization (algebraMap R P) hfpRP q.primeCompl
   have hessRA :
       (stalkψ.comp ((algebraMap P Q).comp (algebraMap R P))).EssentiallyOfFinitePresentation :=
     essFinitePresentation_comp hessRQ hessQA
-  letI : Algebra C A := StructureSheaf.stalkAlgebra C z
+  let : Algebra C A := StructureSheaf.stalkAlgebra C z
   have hlocA : IsLocalization p.primeCompl A := by
     dsimp [A, Z, z]
     exact StructureSheaf.IsLocalization.to_stalk C ⟨p, hp⟩

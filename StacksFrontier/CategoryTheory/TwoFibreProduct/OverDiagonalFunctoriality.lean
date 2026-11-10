@@ -94,13 +94,13 @@ theorem diagonal_comp_mapBase (hH : H ⋙ p𝒮' = q𝒮) (hb : b ⋙ p𝒟 = p�
   refine Functor.ext hobj ?_
   intro x y φ
   refine Hom.ext' ?_ ?_
-  · show φ = (eqToHom (hobj x)).a ≫ φ ≫ (eqToHom (hobj y).symm).a
+  · change φ = (eqToHom (hobj x)).a ≫ φ ≫ (eqToHom (hobj y).symm).a
     rw [eqToHom_a (hobj x), eqToHom_a (hobj y).symm]
-    show φ = 𝟙 x ≫ φ ≫ 𝟙 y
+    change φ = 𝟙 x ≫ φ ≫ 𝟙 y
     simp
-  · show φ = (eqToHom (hobj x)).b ≫ φ ≫ (eqToHom (hobj y).symm).b
+  · change φ = (eqToHom (hobj x)).b ≫ φ ≫ (eqToHom (hobj y).symm).b
     rw [eqToHom_b (hobj x), eqToHom_b (hobj y).symm]
-    show φ = 𝟙 x ≫ φ ≫ 𝟙 y
+    change φ = 𝟙 x ≫ φ ≫ 𝟙 y
     simp
 
 end Diagonal

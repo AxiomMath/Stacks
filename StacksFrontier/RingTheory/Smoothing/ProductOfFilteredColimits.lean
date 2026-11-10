@@ -153,14 +153,14 @@ private theorem smooth_transfer.{v, w} (R A : Type v) (R' A' : Type w)
       have ee : R ≃ₐ[R'] R' :=
         { eR.symm with
           commutes' := fun s => by
-            show eR.symm (algebraMap R' R s) = s
+            change eR.symm (algebraMap R' R s) = s
             exact eR.symm_apply_apply s }
       exact Algebra.Smooth.of_equiv (R := R') (A := R') (B := R) ee.symm
     exact Algebra.Smooth.comp R' R A
   have eAR' : A ≃ₐ[R'] A' :=
     { eA.symm with
       commutes' := fun r => by
-        show eA.symm ((algebraMap R A) (eR r)) = algebraMap R' A' r
+        change eA.symm ((algebraMap R A) (eR r)) = algebraMap R' A' r
         rw [hcompat] }
   exact Algebra.Smooth.of_equiv (R := R') (A := A) (B := A') eAR'
 

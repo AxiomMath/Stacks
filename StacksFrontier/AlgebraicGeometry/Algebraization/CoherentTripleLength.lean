@@ -192,14 +192,14 @@ public theorem puncturedSpectrumIdeal_top (A : Type u) [CommRing A] [IsLocalRing
     ((PrimeSpectrum.isClosed_singleton_iff_isMaximal _).2
       (IsLocalRing.maximalIdeal.isMaximal A)).closure_eq.symm.trans
       (PrimeSpectrum.closure_singleton _)
-  show PrimeSpectrum.vanishingIdeal
+  change PrimeSpectrum.vanishingIdeal
       ((isAffineOpen_top (Spec (.of A))).fromSpec ⁻¹' {IsLocalRing.closedPoint A}) = _
   rw [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv]
-  show PrimeSpectrum.vanishingIdeal
+  change PrimeSpectrum.vanishingIdeal
       (PrimeSpectrum.comap φ ⁻¹' {IsLocalRing.closedPoint A}) = _
   rw [hclosed, PrimeSpectrum.preimage_comap_zeroLocus,
     ← PrimeSpectrum.zeroLocus_span, PrimeSpectrum.vanishingIdeal_zeroLocus_eq_radical]
-  show (Ideal.map φ (IsLocalRing.maximalIdeal A)).radical = _
+  change (Ideal.map φ (IsLocalRing.maximalIdeal A)).radical = _
   have hker : RingHom.ker φ = ⊥ := (RingHom.injective_iff_ker_eq_bot φ).mp
     (Function.LeftInverse.injective (g := (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom)
       fun x => ConcreteCategory.congr_hom (Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id x)
@@ -325,7 +325,7 @@ public theorem puncturedClosedFibre_eq_puncturedSpectrum
       IsLocalRing.closedPoint A :=
     PrimeSpectrum.ext (IsLocalRing.maximalIdeal_comap q)
   ext x
-  show PrimeSpectrum.comap q x ≠ IsLocalRing.closedPoint A ↔
+  change PrimeSpectrum.comap q x ≠ IsLocalRing.closedPoint A ↔
     x ≠ IsLocalRing.closedPoint (A ⧸ Ideal.span {f})
   exact ⟨fun hx hxb => hx (by rwa [hxb]), fun hx hxa => hx
     (PrimeSpectrum.comap_injective_of_surjective q Ideal.Quotient.mk_surjective
@@ -460,10 +460,10 @@ private theorem kernel_cokernel_finiteLength_of_mem_maximalIdeal
   let Res := ModuleCat.restrictScalars (Ideal.Quotient.mk I)
   let gB := (moduleSpecΓFunctor (R := .of B)).map g
   refine ⟨?_, ?_⟩
-  · show IsFiniteLength A (kernel (Res.map gB)).carrier
+  · change IsFiniteLength A (kernel (Res.map gB)).carrier
     exact ModuleCat.isFiniteLength_of_iso (PreservesKernel.iso Res gB)
       (isFiniteLength_restrictScalars_moduleCat A B _ hKmap)
-  · show IsFiniteLength A (cokernel (Res.map gB)).carrier
+  · change IsFiniteLength A (cokernel (Res.map gB)).carrier
     exact ModuleCat.isFiniteLength_of_iso (PreservesCokernel.iso Res gB)
       (isFiniteLength_restrictScalars_moduleCat A B _ hCmap)
 

@@ -180,19 +180,19 @@ theorem ι_fiberColimitIso_inv (F : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w uD vD uC 
   let iw := HasColimit.isoOfNatIso w
   let ia := HasColimit.isoOfNatIso a
   let k := Functor.leftKanExtensionObjIsoColimit s.p.op F (op V)
-  show colimit.ι (Functor.Fiber.fiberInclusion.op ⋙ F) (op x) ≫
+  change colimit.ι (Functor.Fiber.fiberInclusion.op ⋙ F) (op x) ≫
       (k ≪≫ e.symm ≪≫ ia.symm ≪≫ iw).inv =
     (s.p.op.leftKanExtensionUnit F).app (op x.1) ≫
       (s.p.op.leftKanExtension F).map (J.obj (op x)).hom
   rw [Iso.trans_inv, Iso.trans_inv, Iso.trans_inv]
   simp only [← Category.assoc]
-  rw [HasColimit.isoOfNatIso_ι_inv]
+  rw [HasColimit.ι_isoOfNatIso_inv]
   simp only [Functor.comp_obj, Functor.op_obj, fiberOpToCostructuredArrow,
     CostructuredArrow.mk_left, CostructuredArrow.proj_obj, fiberOpToCostructuredArrowCompProj,
     Functor.isoWhiskerRight_refl, Iso.refl_inv, NatTrans.id_app, Category.id_comp, Iso.symm_inv,
     Category.assoc, CostructuredArrow.mk_hom_eq_self, P, w, J]
   simp only [← Category.assoc]
-  rw [HasColimit.isoOfNatIso_ι_hom, Functor.associator_hom_app]
+  rw [HasColimit.ι_isoOfNatIso_hom, Functor.associator_hom_app]
   have hid : (𝟙 (((J ⋙ P) ⋙ F).obj (op x))) ≫
       colimit.ι (J ⋙ P ⋙ F) (op x) = colimit.ι (J ⋙ P ⋙ F) (op x) := by cat_disch
   rw [hid, Functor.Final.ι_colimitIso_hom, Functor.ι_leftKanExtensionObjIsoColimit_inv]
@@ -315,7 +315,7 @@ theorem ι_fiberColimitIso_inv_lan_map_hom (F : s.Cᵒᵖ ⥤ AddCommGrpCat.{max
   let cart := (Functor.chosenPullbacks s.p).map h x
   apply (cancel_mono (fiberColimitIso s F V').inv).mp
   simp only [Category.assoc, Iso.hom_inv_id]
-  show (colimit.ι ((Functor.Fiber.fiberInclusion (p := s.p) (S := V)).op ⋙ F)
+  change (colimit.ι ((Functor.Fiber.fiberInclusion (p := s.p) (S := V)).op ⋙ F)
       (op x) ≫ (fiberColimitIso s F V).inv) ≫
       (s.p.op.lan.obj F).map h.op =
     F.map (op cart) ≫

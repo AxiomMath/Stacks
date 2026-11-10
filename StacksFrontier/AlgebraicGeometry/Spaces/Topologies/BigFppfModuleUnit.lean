@@ -104,8 +104,7 @@ theorem Hom.isIso_unit_app_of_coversTop {ι : Type*} {V : ι → Y.C} (hV : Y.J.
   exact Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_of_isIso_over hV _
     (fun i ↦ (f.isIso_overRestrictionModules_map_unit_iff (V i) G).2 (h i))
 
-variable (V : Y.C) [HasWeakSheafify (X.J.over (f.u.obj V)) AddCommGrpCat.{u}]
-  [(X.J.over (f.u.obj V)).WEqualsLocallyBijective AddCommGrpCat.{u}]
+variable (V : Y.C)
 
 /-- **A component of the unit of `f^* ⊣ f_*` at an object over `V` is invertible as soon as the
 component of the localized unit is**. -/
@@ -121,7 +120,7 @@ theorem Hom.isIso_unit_val_app_of_isIso_localized
   let ev := SheafOfModules.evaluation.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).over V)
     (Opposite.op t)
   have := f.isIso_localizedPullbackMate V
-  let m := asIso ((f.localizedPullbackMate V).natTrans.app G)
+  let m := asIso ((f.localizedPullbackMate V).app G)
   exact Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_val_app_of_isIso_pushforward_val_app
     (𝟙 (((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O)).over V)) _ (Opposite.op t)
     (isIso_map_of_comp_eq ev (f.overRestrictionModules_map_unit_comp V G)
@@ -173,8 +172,6 @@ theorem Hom.isIso_unit_val_app_of_fullyFaithful
         ((g.toModulesHom.pullbackModules ⋙ g.pushforwardModules).mapIso i).isIso_hom
         (ev.mapIso i).isIso_hom h))
 
-omit [HasWeakSheafify (X.J.over (f.u.obj V)) AddCommGrpCat.{u}]
-  [(X.J.over (f.u.obj V)).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The unit of `f^* ⊣ f_*` at `G` is invertible as soon as its components at the objects of a
 cover-dense family are.** -/
 theorem Hom.isIso_pullbackPushforwardAdjunctionTopos_unit_app_of_isCoverDense
@@ -197,6 +194,7 @@ variable {S : Scheme.{u}} {T : BigFppfSpaceSite S} {X : T.Spaces}
   {W : Space.SpacesEtale T.schemeSite S T.scheme_mem X}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfModuleUnit

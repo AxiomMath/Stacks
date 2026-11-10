@@ -82,7 +82,7 @@ lemma ι_sigmaProdIso_hom (α : Type) (β : Type u) (X : A) (x : α × β) :
     Sigma.ι (fun _ : α × β => X) x ≫ (sigmaProdIso α β X).hom =
       Sigma.ι (fun _ : β => X) x.2 ≫
         Sigma.ι (fun _ : ULift.{u} α => ∐ fun _ : β => X) (ULift.up x.1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `P × (Δ[n] × K) ≅ (P × K) × Δ[n]`. -/
 def copowerSimplexProdIso :
@@ -114,7 +114,7 @@ lemma copowerSimplexProdIso_hom_comp_copowerProj :
         Sigma.desc (fun _ : ULift.{u} (m.unop ⟶ n) => 𝟙 (∐ fun _ : K => P.obj m)) =
     Sigma.ι (fun _ : (m.unop ⟶ n) × K => P.obj m) x ≫
       Sigma.map' (fun y : (m.unop ⟶ n) × K => y.2) (fun _ => 𝟙 (P.obj m))
-  rw [ι_sigmaProdIso_hom_assoc, Sigma.ι_desc, Category.comp_id, Sigma.ι_comp_map',
+  rw [ι_sigmaProdIso_hom_assoc, Sigma.ι_comp_desc, Category.comp_id, Sigma.ι_comp_map',
     Category.id_comp]
 
 /-- **Forgetting the simplex coordinate of `P × (Δ[n] × K)` is inverted by every functor which

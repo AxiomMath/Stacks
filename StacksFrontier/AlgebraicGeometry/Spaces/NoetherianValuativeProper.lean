@@ -119,9 +119,9 @@ theorem hasLift_of_pullback_lift_of_chowCover
     rw [yoneda.map_comp, hm]
     exact M.generic_comm
   refine ⟨⟨(BigFppfOver.toScheme B S hS).map m, ?_, ?_⟩⟩
-  · show (BigFppfOver.toScheme B S hS).map ι ≫ (BigFppfOver.toScheme B S hS).map m = D.i₁
+  · change (BigFppfOver.toScheme B S hS).map ι ≫ (BigFppfOver.toScheme B S hS).map m = D.i₁
     rw [← Functor.map_comp, hmι, hk]
-  · show (BigFppfOver.toScheme B S hS).map m ≫ (BigFppfOver.toScheme B S hS).map ψ = D.i₂
+  · change (BigFppfOver.toScheme B S hS).map m ≫ (BigFppfOver.toScheme B S hS).map ψ = D.i₂
     rw [← Functor.map_comp, hmψ, haT]
 
 /-- A valuative square over a discrete valuation ring for the scheme morphism underlying `ψ`,
@@ -195,14 +195,14 @@ theorem hasLift_toScheme_map_of_chowCover
       X' :=
     Over.homMk (ObjectProperty.homMk D.i₁ : B.obj hK ⟶ X'.left) (by
       apply ObjectProperty.hom_ext
-      show D.i₁ ≫ (B.inclusion).map X'.hom =
+      change D.i₁ ≫ (B.inclusion).map X'.hom =
         Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ ≫ a
       rw [hX'hom, ← Category.assoc D.i₁, D.commSq.w, Category.assoc])
   refine hasLift_of_valuativeSquare_lift_of_chowCover B S hS A hA a hlift hXT hp hpψ D hDVR hR hK
     (Over.homMk (ObjectProperty.homMk D.i₂ : B.obj hR ⟶ B.obj hA) rfl) k rfl rfl ?_
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
+  change Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
     D.i₁ ≫ (BigFppfOver.toScheme B S hS).map ψ
   exact D.commSq.w.symm
 

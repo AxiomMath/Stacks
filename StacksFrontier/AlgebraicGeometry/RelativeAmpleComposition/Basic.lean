@@ -24,7 +24,8 @@ affine open of the base be ample.
 * `Stacks.RelativeAmpleComposition.RelativeAmpleLocalOnBase`: **Stacks Tag 01VJ, clause (3)
   implies clause (1)** — relative ampleness may be checked on an affine open covering of the base
   rather than on every affine open. This is the one residue of Tag 0C4L, and one of the two
-  residues of Tag 0C4K; it is a hypothesis neither tag's statement has, so neither tag is attached here.
+  residues of Tag 0C4K; it is a hypothesis neither tag's statement has, so neither tag is attached
+  here.
 
 ## Main results
 
@@ -319,9 +320,9 @@ end Composition
 
 Each of the two tagged statements has a single unlabelled assertion. The `example`s below restate
 what is proved above **in the statement's own binder order**, in the library vocabulary, so that
-the exact distance between statement and theorem is one visible binder in each case. No `@[stacks]` attribute is
-attached to anything in this file; by the covering-set rule the extra binder withholds both
-labels. Tag 0C4L's own statement is met with no extra binder at all, downstream in
+the exact distance between statement and theorem is one visible binder in each case. No `@[stacks]`
+attribute is attached to anything in this file; by the covering-set rule the extra binder withholds
+both labels. Tag 0C4L's own statement is met with no extra binder at all, downstream in
 `../RelativeAmple/CompositionPermanence.lean`, which is where its label sits. -/
 
 section Faithfulness
@@ -334,8 +335,9 @@ example {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S) [IsAffine S] (L : X.Mod
     Stacks.RelativeAmple.IsRelativelyAmple f L :=
   isRelativelyAmple_of_comp_of_isAffine f g L hL hf
 
-/-- **Stacks Tag 0C4K**, in the statement's binder order, with the two extra binders `[IsAffine S]` and
-`Stacks.AmplePullbackPart1.EventualAffineDatum`. The statement's own `[CompactSpace S]` is retained
+/-- **Stacks Tag 0C4K**, in the statement's binder order, with the two extra binders `[IsAffine S]`
+and `Stacks.AmplePullbackPart1.EventualAffineDatum`. The statement's own `[CompactSpace S]` is
+retained
 even though `[IsAffine S]` supplies it, so that nothing the statement asks for is dropped. -/
 example {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S) [CompactSpace S] [IsAffine S]
     (L : X.Modules) (M : Y.Modules) [IsInvertibleModule X L] [IsInvertibleModule Y M]

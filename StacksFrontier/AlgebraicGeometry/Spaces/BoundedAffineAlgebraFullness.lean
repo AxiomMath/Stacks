@@ -312,8 +312,8 @@ with the cartesian projection `Y ×_X V ⟶ Y` is *every* chart morphism of `φ`
 the cartesian projection `Z ×_X V ⟶ Z`.
 
 This is the step the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.BoundedAffineAlgebraFull` record as missing.  A point of `Y`
-factors through an affine étale chart of `X` only locally, by
+`StacksFrontier.AlgebraicGeometry.Spaces.BoundedAffineAlgebraFull` record as missing.  A point of
+`Y` factors through an affine étale chart of `X` only locally, by
 `AlgebraicGeometry.Space.generate_affineChartPresieve_mem`, and
 `AlgebraicGeometry.Space.chartPoint_eq` says the resulting point of `Z` does not depend on the
 factorization; `Z` being a sheaf on the big fppf site, those local points amalgamate.  The

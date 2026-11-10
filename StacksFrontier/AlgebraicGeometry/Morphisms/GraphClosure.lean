@@ -138,7 +138,7 @@ theorem restrictLift_snd :
 theorem isClosedImmersion_restrictLift [IsSeparated q] :
     IsClosedImmersion (restrictLift sX q U g hg) := by
   have : IsSeparated (projection sX q U g hg) := by
-    show IsSeparated (closureι sX q U g hg ≫ pullback.fst sX q)
+    change IsSeparated (closureι sX q U g hg ≫ pullback.fst sX q)
     infer_instance
   have : IsClosedImmersion (restrictLift sX q U g hg ≫
       pullback.snd (projection sX q U g hg) U.ι) := by

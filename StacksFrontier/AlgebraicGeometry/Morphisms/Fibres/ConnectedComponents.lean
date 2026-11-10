@@ -63,7 +63,7 @@ theorem geometricallyConnected_fiber_locus_pullback
         GeometricallyConnected ((pullback.snd f g).fiberToSpecResidueField y')} =
       g ⁻¹' {y : Y | GeometricallyConnected (f.fiberToSpecResidueField y)} := by
   ext y'
-  show GeometricallyConnected ((pullback.snd f g).fiberToSpecResidueField y') ↔
+  change GeometricallyConnected ((pullback.snd f g).fiberToSpecResidueField y') ↔
     GeometricallyConnected (f.fiberToSpecResidueField (g y'))
   have h := isPullback_fiberToSpecResidueField_of_isPullback (IsPullback.of_hasPullback f g) y'
   have he : GeometricallyConnected ((pullback.snd f g).fiberToSpecResidueField y') ↔
@@ -116,7 +116,7 @@ private lemma enatCard_connectedComponents_pullback_assoc
   congr 2
   rw [← Spec.map_comp]
   congr 2
-  show algebraMap k M = (algebraMap L M).comp (algebraMap k L)
+  change algebraMap k M = (algebraMap L M).comp (algebraMap k L)
   exact IsScalarTower.algebraMap_eq k L M
 
 private lemma enatCard_connectedComponents_fiber_isPullback

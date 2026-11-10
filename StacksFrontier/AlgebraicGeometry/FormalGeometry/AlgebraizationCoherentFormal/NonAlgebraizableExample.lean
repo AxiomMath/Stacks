@@ -617,7 +617,7 @@ private lemma planeToLaurent_X (i : Fin 2) :
 /-- A polynomial has no monomial with a negative exponent. -/
 private lemma planeToLaurent_coeff_eq_zero (p : PlaneRing k) (z : ℤ × ℤ)
     (hz : z.1 < 0 ∨ z.2 < 0) : (planeToLaurent k p).coeff z = 0 := by
-  apply Finsupp.mapDomain_notin_range
+  apply Finsupp.mapDomain_of_notMem_range
   rintro ⟨d, rfl⟩
   rcases hz with hz | hz <;> simp [exponentPair] at hz <;> omega
 
@@ -892,7 +892,7 @@ private lemma coeff_zero_ne_zero_of_mul_eq_one (p q : LaurentRing k)
     rw [AddMonoidAlgebra.coeff_mul_apply_left]
     apply Finset.sum_eq_zero
     intro z _
-    show p.coeff z * q.coeff (-z + 0) = 0
+    change p.coeff z * q.coeff (-z + 0) = 0
     by_cases hneg : z.1 < 0 ∨ z.2 < 0
     · rw [hp z hneg, zero_mul]
     · by_cases hz0 : z = 0
@@ -1170,7 +1170,7 @@ private lemma chartExpansion_transitionLift (a : ℕ → PlaneRing k) (φ : ℕ 
       (-(transitionExponent φ 0 : ℤ), -(transitionExponent φ 0 : ℤ)) (1 : k)) *
         PowerSeries.X ^ 0) = 1 := by
     simp only [transitionExponent, ↓reduceIte, Nat.cast_zero, neg_zero, pow_zero, mul_one]
-    show PowerSeries.C (1 : LaurentRing k) = 1
+    change PowerSeries.C (1 : LaurentRing k) = 1
     simp
   rw [h0]
   congr 1

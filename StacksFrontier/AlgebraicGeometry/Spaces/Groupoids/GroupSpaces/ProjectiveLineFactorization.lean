@@ -159,7 +159,7 @@ theorem exists_coordinateProjection_finite_fibres (n : ℕ)
           {x | pointsMap B (Spec (CommRingCat.of (AlgebraicClosure k)))
             (B.contains_spec_algebraicClosure k hk) _ gg x = w} := by
       ext x
-      rw [Set.mem_preimage, Set.mem_setOf_eq, Set.mem_setOf_eq, hcomp, Function.comp_apply]
+      rw [Set.mem_preimage, Set.mem_ofPred_eq, Set.mem_ofPred_eq, hcomp, Function.comp_apply]
     rw [hset]
     exact (hfib w).preimage hinj.injOn
 

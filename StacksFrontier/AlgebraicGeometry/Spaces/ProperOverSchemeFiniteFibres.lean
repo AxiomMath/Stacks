@@ -108,7 +108,7 @@ theorem finite_fibre_range_iff_of_isClosedSubspace
     · rintro ⟨z, hz, rfl⟩
       exact ⟨⟨z, rfl⟩, by rwa [pointsMap_comp] at hz⟩
     · rintro ⟨⟨z, rfl⟩, hx⟩
-      exact ⟨z, by rwa [Set.mem_setOf_eq, pointsMap_comp], rfl⟩
+      exact ⟨z, by rwa [Set.mem_ofPred_eq, pointsMap_comp], rfl⟩
   rw [← himage]
   exact ⟨fun h => h.of_finite_image
     (pointsMap_injective_of_isClosedImmersion B S hS Z.ι hZ.2).injOn, fun h => h.image _⟩

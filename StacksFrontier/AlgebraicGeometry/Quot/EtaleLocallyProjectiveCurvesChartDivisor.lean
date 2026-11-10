@@ -190,7 +190,7 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
   have hb : b ≫ U₁.ι = N₁.ι ≫ N.ι ≫ pr₂ := morphismRestrict_ι _ _
   have hP := (IsPullback.of_hasPullback gW φ).map (𝒯)
   have hab : a ≫ (𝒯).map gW = b ≫ (𝒯).map φ := by
-    show a ≫ (𝒯).map gW = b ≫ U₁.ι ≫ Ue.toBase
+    change a ≫ (𝒯).map gW = b ≫ U₁.ι ≫ Ue.toBase
     rw [reassoc_of% hb]
     simp only [a, Category.assoc]
     rw [pullback.condition]
@@ -199,7 +199,7 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
   have hm₂ : m ≫ (𝒯).map (pullback.snd gW φ) = b := hP.lift_snd _ _ _
   -- `m` is an étale monomorphism
   have hφet : Etale ((𝒯).map φ) := by
-    show Etale (U₁.ι ≫ Ue.toBase)
+    change Etale (U₁.ι ≫ Ue.toBase)
     infer_instance
   have : Etale ((𝒯).map (pullback.fst gW φ)) := MorphismProperty.of_isPullback hP.flip hφet
   have : Etale (m ≫ (𝒯).map (pullback.fst gW φ)) := by
@@ -255,10 +255,10 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
     have h : (bQ ≫ U₁.ι) x = (Q.ι ≫ q) x := by rw [hbQι]
     exact h
   have hfinQ : IsFinite bQ := by
-    show IsFinite ((J.subscheme.isoOfEq hQ).hom ≫ q ∣_ U₁)
+    change IsFinite ((J.subscheme.isoOfEq hQ).hom ≫ q ∣_ U₁)
     infer_instance
   have hflatQ : Flat bQ := by
-    show Flat ((J.subscheme.isoOfEq hQ).hom ≫ q ∣_ U₁)
+    change Flat ((J.subscheme.isoOfEq hQ).hom ≫ q ∣_ U₁)
     infer_instance
   have hcP : B.Contains Q.toScheme := Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact bQ hcU
   let Psite : BigFppfOver B S hS :=
@@ -266,12 +266,12 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
   let jsite : Psite ⟶ Nsite := BigFppfOver.siteMapOver B S hS Nsite hcP (ε₀.hom ≫ J₁.subschemeι)
   have hjm : (𝒯).map jsite = ε₀.hom ≫ J₁.subschemeι := rfl
   have hjs : (𝒯).map (jsite ≫ ι ≫ pullback.snd gW φ) = bQ := by
-    show (ε₀.hom ≫ J₁.subschemeι) ≫ m ≫ (𝒯).map (pullback.snd gW φ) = bQ
+    change (ε₀.hom ≫ J₁.subschemeι) ≫ m ≫ (𝒯).map (pullback.snd gW φ) = bQ
     rw [hm₂]
     exact (Category.assoc _ _ _).trans hbQ
   have hjf :
       (𝒯).map (jsite ≫ ι ≫ pullback.fst gW φ) = Q.ι ≫ J.subschemeι ≫ N.ι ≫ pr₁ ≫ V.ι := by
-    show (ε₀.hom ≫ J₁.subschemeι) ≫ m ≫ (𝒯).map (pullback.fst gW φ) = _
+    change (ε₀.hom ≫ J₁.subschemeι) ≫ m ≫ (𝒯).map (pullback.fst gW φ) = _
     rw [hm₁, Category.assoc]
     simp only [a]
     rw [← Category.assoc J₁.subschemeι, ← Category.assoc, hε₀]
@@ -290,7 +290,7 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
     exact e ▸ h3
   refine ⟨U, Nsite, Psite, φ, u, ι, jsite, hφet, hU₁, Ue.map_point, hres, hetm, ?_, ?_, ?_, ?_,
     ?_, J₁, hJ₁, ε₀, hjm⟩
-  · show _root_.AlgebraicGeometry.IsClosedImmersion ((ε₀.hom ≫ J₁.subschemeι) ≫ m)
+  · change _root_.AlgebraicGeometry.IsClosedImmersion ((ε₀.hom ≫ J₁.subschemeι) ≫ m)
     refine (_root_.AlgebraicGeometry.IsClosedImmersion.iff_isProper_and_mono _).2 ⟨?_, ?_⟩
     · have : _root_.AlgebraicGeometry.IsSeparated ((𝒯).map (pullback.snd gW φ)) :=
         MorphismProperty.of_isPullback hP
@@ -319,13 +319,13 @@ theorem exists_etale_cartier_piece_of_chart {S₀ W : BigFppfOver B S hS} (gW : 
       have : Q.ι v' ∈ {y | q y = Ue.point} := h1
       rw [hfibre] at this
       exact this
-    show (Q.ι ≫ J.subschemeι ≫ N.ι ≫ pr₁ ≫ V.ι) v' = w
+    change (Q.ι ≫ J.subschemeι ≫ N.ι ≫ pr₁ ≫ V.ι) v' = w
     have e : (Q.ι ≫ J.subschemeι ≫ N.ι ≫ pr₁ ≫ V.ι) v' =
         (J.subschemeι ≫ N.ι ≫ pr₁ ≫ V.ι) (Q.ι v') := rfl
     rw [e, h2]
     exact hv₀
   · have hv₀Q : v₀ ∈ Q := by
-      show q v₀ ∈ U₁
+      change q v₀ ∈ U₁
       rw [hq₀]
       exact hpt
     refine ⟨(⟨v₀, hv₀Q⟩ : Q.toScheme), ?_⟩

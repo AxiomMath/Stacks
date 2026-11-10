@@ -204,9 +204,9 @@ theorem isIso_kernelFunctorMap_restriction {V W : Opens X} (hVW : V ⊔ W = ⊤)
       have e : (homOfLE h₁).op = (homOfLE (inf_le_right : V ⊓ W ≤ W)).op ≫ (homOfLE h₂).op :=
         rfl
       let z : G.val.presheaf.obj (op W) := y.1
-      show G.val.presheaf.map (homOfLE h₁).op z = 0
+      change G.val.presheaf.map (homOfLE h₁).op z = 0
       rw [e, Functor.map_comp, ConcreteCategory.comp_apply]
-      show G.val.presheaf.map (homOfLE h₂).op (G.val.presheaf.map _ y.1) = 0
+      change G.val.presheaf.map (homOfLE h₂).op (G.val.presheaf.map _ y.1) = 0
       rw [h0, map_zero]
     obtain ⟨g, hg, -⟩ := 𝒢.existsUnique_gluing' U ⊤ iUT hsup
       (fun b => Bool.rec y.1 0 b) (by

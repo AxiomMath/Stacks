@@ -139,7 +139,7 @@ theorem sch_fullRight : sch B (fullRight p) = B.inclusion.map p.baseMap :=
 theorem fullLeft_comp : fullLeft p ≫ Y.obj.obj.base.hom = X.obj.obj.base.hom ≫ fullRight p :=
   (BigFppfOver.toScheme B integerBase (hZ B)).map_injective (by
     rw [Functor.map_comp, Functor.map_comp]
-    show sch B (fullLeft p) ≫ sch B Y.obj.obj.base.hom = sch B X.obj.obj.base.hom ≫
+    change sch B (fullLeft p) ≫ sch B Y.obj.obj.base.hom = sch B X.obj.obj.base.hom ≫
       sch B (fullRight p)
     rw [sch_fullLeft, sch_fullRight]
     exact p.cartesian.w)

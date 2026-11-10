@@ -168,8 +168,7 @@ public def freeBaseChangeChainMap :
     refine LinearMap.ext fun x ↦ ?_
     change d₂ (θ.liftBaseChange R₂ x) =
       freeBaseChangeEquiv R₁ R₂ r (LinearMap.baseChange R₂ d₁ x)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b y => rw [LinearMap.liftBaseChange_tmul, map_smul, hθd y,
         LinearMap.baseChange_tmul, freeBaseChangeEquiv_tmul]
     | add x y hx hy => simp only [map_add, hx, hy]

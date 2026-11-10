@@ -196,7 +196,7 @@ theorem exists_factor_surjectivityLocus_iff_range_subset
     ((modulePullback B S hS h).mapIso ((ObjectProperty.ι _).mapIso
       (E.counitIso.app (chartPullbackQcoh w 𝓕))))
     (by
-      show (modulePullback B S hS h).map
+      change (modulePullback B S hS h).map
           ((E.counitIso.app (chartPullbackQcoh w 𝓖)).hom.hom) ≫ _ =
         _ ≫ (modulePullback B S hS h).map ((E.counitIso.app (chartPullbackQcoh w 𝓕)).hom.hom)
       exact ((modulePullback B S hS h).map_comp _ _).symm.trans

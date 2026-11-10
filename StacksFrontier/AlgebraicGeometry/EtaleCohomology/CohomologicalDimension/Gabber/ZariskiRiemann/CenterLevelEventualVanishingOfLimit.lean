@@ -9,8 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDime
 This file proves `AlgebraicGeometry.Scheme.ZariskiRiemann.CenterLevelEventualVanishing`, the limit
 layer of Gabber's germ-killing step at a valuation ring `V` of `K = Frac B` containing `B`
 (Travaux de Gabber, Exposé XVIII-A, last remark of §2, Steps 2
-and 4 of the proof). For a center range system `R_a` over the images `A_a ⊆ V` of the local rings at the
-centers, the levels `η ×_{Spec A_a} Spec R_a` are identified with
+and 4 of the proof). For a center range system `R_a` over the images `A_a ⊆ V` of the local rings at
+the centers, the levels `η ×_{Spec A_a} Spec R_a` are identified with
 `Spec R_a ×_{Spec B} Spec K`
 (`AlgebraicGeometry.Scheme.ZariskiRiemann.CenterRangeSystem.levelComparison`): both are the
 spectrum of the localization of `R_a` at the image of `B ∖ 0`, as `K` is the localization of `A_a`

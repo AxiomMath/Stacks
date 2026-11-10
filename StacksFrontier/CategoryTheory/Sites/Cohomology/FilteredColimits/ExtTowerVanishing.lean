@@ -128,7 +128,7 @@ public lemma shortExact_opcycles_of_exactAt {A : Type*} [Category* A] [Abelian A
       (X.opcyclesIsCokernel (i + 1) i (by simp)) S.zero
       (X.p_fromOpcycles (i + 1) i)
   have hMono : Mono S.f := by
-    show Mono (X.fromOpcycles (i + 1) i)
+    change Mono (X.fromOpcycles (i + 1) i)
     have hi : (ComplexShape.down ℕ).prev (i + 1) = i + 2 := by simp
     have hj : (ComplexShape.down ℕ).next (i + 1) = i := by simp
     have he : (X.sc' (i + 2) (i + 1) i).Exact :=
@@ -178,7 +178,7 @@ public lemma hom_to_filtered_colimit_zero_at_stage (X : A) (F : I ⥤ A) [HasCol
     rw [ha]
     have hz := (hpost i (0 : X ⟶ F.obj i)).symm
     change (0 : X ⟶ F.obj i) ≫ colimit.ι F i = t ((colimit.ι (F ⋙ H) i) 0) at hz
-    show (0 : X ⟶ colimit F) = t ((colimit.ι (F ⋙ H) i) 0)
+    change (0 : X ⟶ colimit F) = t ((colimit.ι (F ⋙ H) i) 0)
     simpa only [zero_comp] using hz
   obtain ⟨j, φ, ψ, hφψ⟩ := Concrete.colimit_exists_of_rep_eq (F ⋙ H) a (0 : X ⟶ F.obj i) h
   refine ⟨j, φ, ?_⟩
@@ -336,7 +336,7 @@ public lemma isZero_extFunctorObj_colimit_of_injective [HasExt.{u} A] (X : A) (q
   have := hF i
   have : Subsingleton (Abelian.Ext.{u} X (F.obj i) (q + 1)) :=
     Abelian.Ext.subsingleton_of_injective X (F.obj i) q
-  show IsZero (AddCommGrpCat.of (Abelian.Ext.{u} X (F.obj i) (q + 1)))
+  change IsZero (AddCommGrpCat.of (Abelian.Ext.{u} X (F.obj i) (q + 1)))
   exact AddCommGrpCat.isZero_of_subsingleton _
 
 end FilteredColimit

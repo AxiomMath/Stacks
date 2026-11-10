@@ -102,7 +102,7 @@ theorem baseChangeChowPullbackOfIsPullback_mk (B : FlatBaseChangeSituation.{u}) 
         (QuotientAddGroup.mk' (rationalEquivalences B.base f k) z) =
       QuotientAddGroup.mk' (rationalEquivalences B.baseChange q k)
         (baseChangeCyclePullbackOfIsPullback B hc f sq k z) := by
-  show (chowPushforwardOfIso B.baseChange (pullback.snd f B.g) q sq.isoPullback.inv
+  change (chowPushforwardOfIso B.baseChange (pullback.snd f B.g) q sq.isoPullback.inv
       (isoPullback_inv_comp_snd B f sq) k)
     (chowGroupCongrDegree B.baseChange (pullback.snd f B.g)
       (show k + B.c = k by rw [hc, add_zero])
@@ -422,7 +422,7 @@ private theorem exists_stage_familyMember (k : ℤ)
         s.projectiveLineSystem.limitBaseChange.g :
       Z'.left ⟶ s.limitBaseChange.baseChange.S) =
       familyBase (pullback.snd s.X.hom s.limitBaseChange.g) W := by
-    show (W.subschemeι ≫ e'.hom) ≫ pullback.snd s.projectiveLineSystem.X.hom
+    change (W.subschemeι ≫ e'.hom) ≫ pullback.snd s.projectiveLineSystem.X.hom
       s.projectiveLineSystem.limitBaseChange.g = _
     rw [Category.assoc, hsnd']
     rfl

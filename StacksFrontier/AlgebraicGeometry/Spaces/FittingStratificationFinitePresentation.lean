@@ -155,7 +155,7 @@ theorem exists_range_le_openComplement_fittingClosedSubspace_of_isAffine
   refine ⟨N, (existsUnique_lift_iff_range_le B S hS (openComplement B S hS (Z N).1) a).1 ?_⟩
   refine (existsUnique_lift_openComplement_iff_forall_exists_fin_span B S hS G hGqc hGft Z hZ
     N f).1 fun x ↦ ⟨U, s, hU, hs, ?_⟩
-  show x ∈ Set.range (pointsMap B S hS (yoneda.obj T) (𝟙 (yoneda.obj T)))
+  change x ∈ Set.range (pointsMap B S hS (yoneda.obj T) (𝟙 (yoneda.obj T)))
   rw [pointsMap_id]
   exact ⟨x, rfl⟩
 

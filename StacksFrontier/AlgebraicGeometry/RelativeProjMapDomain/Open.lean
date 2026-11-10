@@ -150,7 +150,7 @@ public theorem opensRange_homOfLE {U V : S.Opens} (h : U ≤ V) :
   refine ⟨fun hx => ?_, fun hx => ?_⟩
   · obtain ⟨y, hy⟩ := hx
     have hx1 : (x.1 : S) = y.1 := by rw [← hy]; exact Scheme.homOfLE_apply h y
-    show (x.1 : S) ∈ U
+    change (x.1 : S) ∈ U
     rw [hx1]
     exact y.2
   · refine ⟨⟨x.1, hx⟩, Subtype.ext ?_⟩
@@ -209,7 +209,7 @@ private theorem exists_projInclusionMap_eq (W V : S.Opens) (hWV : W ≤ V)
     ∃ z', projInclusionMap B W V hWV hW hV z' = z := by
   have hmem : z ∈ (projInclusionMap B W V hWV hW hV).opensRange := by
     rw [opensRange_projInclusionMap]
-    show V.ι (projInclusionToOpen B V hV z) ∈ W
+    change V.ι (projInclusionToOpen B V hV z) ∈ W
     rw [← toBase_chart_apply]
     exact hz
   exact hmem
@@ -281,7 +281,7 @@ public theorem chart_preimage_relativeMapDomain (V : S.Opens) (hV : IsAffineOpen
       (((relativeProj B).chart W hW).isOpenEmbedding.injective hchart).symm
     have hz'W : z' ∈ ψ.chartDomain W := by
       rw [← ψ.projInclusionMap_preimage_chartDomain W U.1 hWU hW U.2]
-      show projInclusionMap B W U.1 hWU hW U.2 z' ∈ ψ.chartDomain U.1
+      change projInclusionMap B W U.1 hWU hW U.2 z' ∈ ψ.chartDomain U.1
       rw [hzw, hw']
       exact hw
     rw [← ψ.projInclusionMap_preimage_chartDomain W V hWV hW hV] at hz'W

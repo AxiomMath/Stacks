@@ -261,11 +261,11 @@ theorem exists_representable_etale_system (hc : IsLimit c)
   let y : Ys ⋙ yoneda ⟶ Over.forget k.left ⋙ D :=
     { app := fun l => (e l).hom ≫ pullback.fst (D.map (ι.obj l).hom) E.w₀
       naturality := fun l l' φ => by
-        show yoneda.map (Ys.map φ) ≫ (e l').hom ≫ pullback.fst _ _ =
+        change yoneda.map (Ys.map φ) ≫ (e l').hom ≫ pullback.fst _ _ =
           ((e l).hom ≫ pullback.fst _ _) ≫ D.map φ.left
         rw [yoneda_map_liftRepresented]
         simp only [Category.assoc, Iso.inv_hom_id_assoc]
-        show (e l).hom ≫ A.diagram.map (ι.map φ) ≫ pullback.fst _ _ = _
+        change (e l).hom ≫ A.diagram.map (ι.map φ) ≫ pullback.fst _ _ = _
         rw [AtlasFamily.diagram_map, E.atlasFamily_map hD, overStageBaseChange_map_fst]
         rfl }
   have hlimY : IsLimit ((BigFppfOver.toScheme B _ hZ).mapCone (Cone.mk W πY)) := by
@@ -281,13 +281,13 @@ theorem exists_representable_etale_system (hc : IsLimit c)
         rw [Category.id_comp]; exact (Over.w b).symm)
       refine ⟨l, yoneda.preimage ((e l).hom ≫ A.diagram.map (i ≫ a) ≫ z),
         yoneda.map_injective ?_⟩
-      show yoneda.map (πY.app l ≫ _) = _
+      change yoneda.map (πY.app l ≫ _) = _
       rwa [Functor.map_comp, hπY, Functor.map_preimage, Category.assoc, Iso.inv_hom_id_assoc,
         ← Category.assoc, cw.w]
     · obtain ⟨m, h', hh'⟩ := exists_stage_hom_of_isLimit_toScheme B _ hZ hTaff hlimT
         hTqc hTqs (hX (ι.obj l)) (hXfp _) (cw.π.app (ι.obj l))
       refine ⟨m, yoneda.preimage (h' ≫ (e l).inv), yoneda.map_injective ?_⟩
-      show yoneda.map (π.app m ≫ _) = yoneda.map (πY.app l)
+      change yoneda.map (π.app m ≫ _) = yoneda.map (πY.app l)
       rw [Functor.map_comp, Functor.map_preimage, ← Category.assoc, hh', hπY]
     · obtain ⟨k', a, ha⟩ := PW.exists_stage_eq hX (isAlgebraicSpace_yoneda B _ hZ (T.obj m))
         (isLocallyOfFinitePresentation_terminal_from_yoneda_of_lft _ (hTlft m))
@@ -296,7 +296,7 @@ theorem exists_representable_etale_system (hc : IsLimit c)
       obtain ⟨l', φ, i, hφ⟩ := hfac l k' a
       refine ⟨l', φ, yoneda.map_injective ?_⟩
       rw [Functor.map_comp, Functor.map_comp, yoneda_map_liftRepresented]
-      show ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _ =
+      change ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _ =
         ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _
       rw [hφ, A.diagram.map_comp]
       simp only [Category.assoc]
@@ -311,7 +311,7 @@ theorem exists_representable_etale_system (hc : IsLimit c)
       have ha' := congrArg (fun x => (e l').hom ≫ A.diagram.map i ≫ x ≫ (e l₂).inv) ha
       simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id] at ha'
       rw [Functor.map_comp, Functor.map_comp, yoneda_map_liftRepresented]
-      show ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _ =
+      change ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _ =
         ((e l').hom ≫ A.diagram.map (ι.map φ) ≫ (e l).inv) ≫ _
       rw [hφ, A.diagram.map_comp]
       simp only [Category.assoc]

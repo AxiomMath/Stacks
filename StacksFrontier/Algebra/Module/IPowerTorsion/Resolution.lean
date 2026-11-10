@@ -76,7 +76,7 @@ private lemma presentationMap_surjective (hN : IsIPowerTorsion R N I) :
   refine ⟨DirectSum.lof R N (fun y ↦ R ⧸ I ^ exponent R I hN y) x
     (Submodule.Quotient.mk (1 : R)), ?_⟩
   rw [presentationMap, DirectSum.toModule_lof]
-  show (I ^ exponent R I hN x).liftQ (cyclicMap R x) _
+  change (I ^ exponent R I hN x).liftQ (cyclicMap R x) _
       (Submodule.Quotient.mk (1 : R)) = x
   rw [Submodule.liftQ_apply]
   simp [cyclicMap]
@@ -84,7 +84,7 @@ private lemma presentationMap_surjective (hN : IsIPowerTorsion R N I) :
 private lemma quotient_smul_eq_zero {n : ℕ} (r : R) (hr : r ∈ I ^ n)
     (x : R ⧸ I ^ n) : r • x = 0 := by
   obtain ⟨s, rfl⟩ := x.exists_rep
-  show Ideal.Quotient.mk (I ^ n) (r * s) = 0
+  change Ideal.Quotient.mk (I ^ n) (r * s) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
   exact (I ^ n).mul_mem_right s hr
 
@@ -102,7 +102,7 @@ private lemma directSum_isIPowerTorsion (hN : IsIPowerTorsion R N I) :
     exact quotient_smul_eq_zero R I r
       (Ideal.pow_le_pow_right (hjle.trans (Nat.le_add_left _ 1)) hr) (x j)
   · have hxj : x j = 0 := by simpa [DFinsupp.mem_support_iff] using hj
-    show r • x j = 0
+    change r • x j = 0
     simp [hxj]
 
 /-- `I`-power torsion passes to a module admitting an injective linear map into a torsion one. -/

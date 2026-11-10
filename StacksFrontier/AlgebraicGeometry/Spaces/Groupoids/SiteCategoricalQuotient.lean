@@ -89,6 +89,7 @@ theorem epi (hφ : IsSiteCategoricalQuotient s t φ) {E : BigFppfOver B S hS} {�
   exact (hu κ₁ rfl).trans (hu κ₂ h.symm).symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs more heartbeats
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_SiteCategoricalQuotient

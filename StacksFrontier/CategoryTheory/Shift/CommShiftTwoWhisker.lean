@@ -64,7 +64,7 @@ appeal to.  So no reassociation is needed and no equation of transformations has
 
 namespace CategoryTheory.NatTrans.CommShift₂
 
-open Category Functor
+open Category _root_.CategoryTheory.Functor
 
 universe v₁ v₂ v₁' v₂' v v' u₁ u₂ u₁' u₂' u u'
 

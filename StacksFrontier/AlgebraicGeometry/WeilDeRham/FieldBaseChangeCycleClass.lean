@@ -83,11 +83,10 @@ differ by `rⁿ`. -/
 theorem tateTwistCoordinates_natCast_of_coord_eq_mul (c c' : L ≃ₗ[R] R) (r : R)
     (h : ∀ l, c' l = r * c l) (n : ℕ) (x : tateTwist R L V (n : ℤ)) :
     tateTwistCoordinates c' (n : ℤ) x = r ^ n • tateTwistCoordinates c (n : ℤ) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul v l =>
     rw [tateTwistCoordinates_tmul, tateTwistCoordinates_tmul]
-    show tensorPowerCoordinates c' n l • v = r ^ n • (tensorPowerCoordinates c n l • v)
+    change tensorPowerCoordinates c' n l • v = r ^ n • (tensorPowerCoordinates c n l • v)
     rw [tensorPowerCoordinates_of_coord_eq_mul c c' r h, mul_smul]
   | add x y hx hy => simp [hx, hy, smul_add]
 
@@ -165,8 +164,7 @@ theorem eq_zero_of_forall_lTensor_eq_zero {ι : Type*} [Finite ι] {V : Type*} [
   have key : ∀ t : F' ⊗[F] V, TensorProduct.piRight F F' F' W ((LinearMap.pi φ).lTensor F' t) =
       fun i => (φ i).lTensor F' t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; rfl
+    induction t using TensorProduct.inductionOn with
     | tmul c v => rfl
     | add x y hx hy =>
       rw [map_add, map_add, hx, hy]
@@ -193,7 +191,7 @@ an isomorphism. -/
 theorem evenHom_injective (X : (SmoothProjectiveScheme k).FullSubcategory) :
     Function.Injective (B.evenHom X) :=
   (B.cohEquiv X).injective.comp (by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.val_injective)
 
 /-- `evenHom` is natural: it intertwines `1 ⊗ f^*` and `(f_{k'})^*`. -/
@@ -201,8 +199,7 @@ theorem pull_evenHom {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f : X �
     (s : F' ⊗[F] 𝔇.A Y) :
     𝔇'.pull ((fieldBaseChange k k').map f) (B.evenHom Y s) =
       B.evenHom X ((𝔇.pullA f).toLinearMap.lTensor F' s) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul c a =>
     rw [evenHom_tmul, LinearMap.lTensor_tmul, evenHom_tmul, map_smul, ← cohHom_pull]
     rfl
@@ -270,7 +267,7 @@ omit [CharZero F'] in
 theorem coe_algebraMap_rat_A (𝔇 : FirstChernClassData k F)
     (X : (SmoothProjectiveScheme k).FullSubcategory) (q : ℚ) :
     ((algebraMap ℚ (𝔇.A X) q : 𝔇.A X) : 𝔇.H X) = algebraMap ℚ F q • (1 : 𝔇.H X) := by
-  show ((algebraMap F (𝔇.A X) (algebraMap ℚ F q) : 𝔇.A X) : 𝔇.H X) = _
+  change ((algebraMap F (𝔇.A X) (algebraMap ℚ F q) : 𝔇.A X) : 𝔇.H X) = _
   rw [Algebra.algebraMap_eq_smul_one, Subalgebra.coe_smul, OneMemClass.coe_one]
 
 omit [CharZero F'] in
@@ -282,7 +279,7 @@ theorem coe_coeff_expFirstChernClass (𝔇 : FirstChernClassData k F) (hA1 : �
       𝔇.H X) = algebraMap ℚ F ((n.factorial : ℚ)⁻¹) • ((𝔇.c₁A X L : 𝔇.A X) : 𝔇.H X) ^ n := by
   refine (congrArg (fun z : 𝔇.A X => (z : 𝔇.H X))
     (Weak.coeff_expFirstChernClass (𝔚 := 𝔇.toChernSetup hA1 hA3) X L n)).trans ?_
-  show ((algebraMap ℚ (𝔇.A X) ((n.factorial : ℚ)⁻¹) * 𝔇.c₁A X L ^ n : 𝔇.A X) : 𝔇.H X) = _
+  change ((algebraMap ℚ (𝔇.A X) ((n.factorial : ℚ)⁻¹) * 𝔇.c₁A X L ^ n : 𝔇.A X) : 𝔇.H X) = _
   rw [MulMemClass.coe_mul, SubmonoidClass.coe_pow, coe_algebraMap_rat_A, smul_one_mul]
 
 /-- **The compatibility of the Chern characters, for one class `α ∈ K₀(Vect(X))`**: the degree
@@ -296,10 +293,12 @@ def ChernCharacterCompat (X : (SmoothProjectiveScheme k).FullSubcategory)
     B.tateScale ^ n • B.cohHom X
       (PowerSeries.coeff n (h.lift X α) : 𝔇.A X)
 
+omit [CharZero F] [CharZero F'] in
 /-- The compatibility holds for `0`. -/
 theorem chernCharacterCompat_zero (X : (SmoothProjectiveScheme k).FullSubcategory) :
     B.ChernCharacterCompat h h' X 0 := fun n => by simp
 
+omit [CharZero F] [CharZero F'] in
 /-- The compatibility is additive. -/
 theorem chernCharacterCompat_add {X : (SmoothProjectiveScheme k).FullSubcategory}
     {α β : VectorBundleKZero ((toScheme k).obj X)}
@@ -308,6 +307,7 @@ theorem chernCharacterCompat_add {X : (SmoothProjectiveScheme k).FullSubcategory
     B.ChernCharacterCompat h h' X (α + β) := fun n => by
   simp only [map_add, Subalgebra.coe_add, hα n, hβ n, smul_add]
 
+omit [CharZero F] [CharZero F'] in
 /-- The compatibility holds for finite sums. -/
 theorem chernCharacterCompat_sum {X : (SmoothProjectiveScheme k).FullSubcategory} {ι : Type*}
     (s : Finset ι) {α : ι → VectorBundleKZero ((toScheme k).obj X)}
@@ -357,7 +357,7 @@ theorem pullbackRingHom_fieldBaseChangeProj_comm {X Y : (SmoothProjectiveScheme 
   rw [← VectorBundleKZero.pullbackRingHom_comp_apply,
     ← VectorBundleKZero.pullbackRingHom_comp_apply, fieldBaseChange_map_comp_proj]
 
-omit [CharZero F'] in
+omit [CharZero F] [CharZero F'] in
 /-- The degree `n` part of `ch^H`, pulled back. -/
 theorem pull_coe_coeff_cohomologicalChernCharacter {𝔈 : FirstChernClassData k F}
     {χ : ∀ X : (SmoothProjectiveScheme k).FullSubcategory,
@@ -370,6 +370,7 @@ theorem pull_coe_coeff_cohomologicalChernCharacter {𝔈 : FirstChernClassData k
   rw [← hχ.map_lift, PowerSeries.coeff_map]
   rfl
 
+omit [CharZero F] [CharZero F'] in
 /-- **Descent along a jointly injective finite family**: the compatibility for `α` follows from
 that for its pullbacks along finitely many morphisms whose pullbacks are jointly injective on
 `A(X)`, those pullbacks staying jointly injective after base change. -/
@@ -460,8 +461,7 @@ theorem coe_coeff_rationalCohomologicalChernCharacter_pullback
         ((VectorBundleKZero.pullback (fieldBaseChangeProj X)).toIntLinearMap.baseChange ℚ a)) :
         𝔇'.A _) : 𝔇'.H _) =
     B.tateScale ^ n • B.cohHom X (PowerSeries.coeff n (h.rationalLift X a) : 𝔇.A X) := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, Subalgebra.coe_add, ha, hb, smul_add]
   | tmul q α =>
     rw [LinearMap.baseChange_tmul, h'.rationalLift_tmul, h.rationalLift_tmul,
@@ -469,7 +469,7 @@ theorem coe_coeff_rationalCohomologicalChernCharacter_pullback
       FirstChernClassData.rat_smul_A, FirstChernClassData.rat_smul_A, Subalgebra.coe_smul,
       Subalgebra.coe_smul, B.cohHom_smul, AddMonoidHom.coe_toIntLinearMap,
       VectorBundleKZero.pullback_eq_pullbackRingHom _ α]
-    show algebraMap ℚ F' q • ((PowerSeries.coeff n (h'.lift ((fieldBaseChange k k').obj X)
+    change algebraMap ℚ F' q • ((PowerSeries.coeff n (h'.lift ((fieldBaseChange k k').obj X)
         (VectorBundleKZero.pullbackRingHom (fieldBaseChangeProj X) α)) :
           𝔇'.A ((fieldBaseChange k k').obj X)) : 𝔇'.H ((fieldBaseChange k k').obj X)) = _
     rw [B.coe_coeff_cohomologicalChernCharacter_pullback hA1 hA3 hA1' hA3' h h' X α n,

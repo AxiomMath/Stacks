@@ -147,14 +147,14 @@ private lemma isSMulRegular_localizedModule {R M : Type*} [CommRing R] [AddCommG
     funext z
     induction z using LocalizedModule.induction_on with
     | h m s =>
-      show ((IsLocalizedModule.map p (LocalizedModule.mkLinearMap p M)
+      change ((IsLocalizedModule.map p (LocalizedModule.mkLinearMap p M)
         (LocalizedModule.mkLinearMap p M)) g) (LocalizedModule.mk m s) = _
       rw [IsLocalizedModule.map_LocalizedModules]
-      show LocalizedModule.mk (x • m) s =
+      change LocalizedModule.mk (x • m) s =
         (algebraMap R (Localization p) x) • LocalizedModule.mk m s
       rw [show algebraMap R (Localization p) x = Localization.mk x (1 : p) from rfl]
       simpa using (LocalizedModule.mk_smul_mk x m (1 : p) s).symm
-  show Function.Injective fun z : LocalizedModule p M =>
+  change Function.Injective fun z : LocalizedModule p M =>
     (LinearMap.lsmul (Localization p) (LocalizedModule p M)
       (algebraMap R (Localization p) x)) z
   intro a b hab
@@ -287,7 +287,7 @@ private lemma isCohenMacaulay_localization_of_mem_associatedPrimes {R M : Type u
       rw [hv] at hle0
       have hc : c ≤ 0 := by exact_mod_cast hle0
       simpa using hc
-  show (Module.depth (Localization.AtPrime p.asIdeal)
+  change (Module.depth (Localization.AtPrime p.asIdeal)
       (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal))
       (LocalizedModule.AtPrime p.asIdeal M) : WithBot ℕ∞) =
     Module.supportDim (Localization.AtPrime p.asIdeal) (LocalizedModule.AtPrime p.asIdeal M)

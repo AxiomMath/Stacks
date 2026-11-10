@@ -208,7 +208,7 @@ theorem exists_isTaut_faithfullyFlat_presentingRing_of_surjective_flat
       refine sq.of_iso (Iso.refl _) PX.formalSpectrumIso.symm (Iso.refl _)
         PY.formalSpectrumIso.symm (Category.id_comp _).symm ?_ ?_ (Category.id_comp _).symm
       · simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]
-      · show formalSpectrumMap hApres.1 g ≫ PY.formalSpectrumIso.inv
+      · change formalSpectrumMap hApres.1 g ≫ PY.formalSpectrumIso.inv
             = PX.formalSpectrumIso.inv ≫ f
         rw [hg, Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
     have hff := faithfullyFlat_of_isPullback_of_surjective_flat B S hS f hrep hsurj hflat

@@ -207,7 +207,7 @@ theorem tensorLocalSectionApp_add {Z : Scheme.{u}} (A B : Z.Modules) (V : Z.Open
           (B.presheaf.map (homOfLE (V.ι_image_le W.unop)).op t') := by
     rw [map_add]
     exact tensorSectionLinear_add A B _ _ _
-  show (ModuleCat.restrictScalars (V.ι.appIso W.unop).inv.hom).map (ModuleCat.ofHom
+  change (ModuleCat.restrictScalars (V.ι.appIso W.unop).inv.hom).map (ModuleCat.ofHom
       (tensorSectionLinear Z A B (op (V.ι ''ᵁ W.unop))
         (B.presheaf.map (homOfLE (V.ι_image_le W.unop)).op (t + t')))) = _
   rw [h, ModuleCat.ofHom_add, Functor.map_add]

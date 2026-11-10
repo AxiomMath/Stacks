@@ -56,7 +56,9 @@ def toSite (T : BigFppfOver B (Spec (.of k)) hk)
     (smallEquiv _ ((Multiplicative.toAdd x : group (B.inclusion.map f) σ hσ (siteOver B hk T)) :
       Stacks.Picard.smallOfScheme (bc (B.inclusion.map f) (siteOver B hk T))))
 
-omit [SmoothOfRelativeDimension 1 (B.inclusion.map f)] [LocallyOfFiniteType (B.inclusion.map f)] in
+omit [Flat (B.inclusion.map f)] [LocallyOfFinitePresentation (B.inclusion.map f)]
+  [IsProper (B.inclusion.map f)] [SmoothOfRelativeDimension 1 (B.inclusion.map f)]
+  [LocallyOfFiniteType (B.inclusion.map f)] in
 /-- `toSite` is natural in `T`: it commutes with pullback along a morphism `g : T ⟶ U` of the
 site. -/
 theorem toSite_naturality {T U : BigFppfOver B (Spec (.of k)) hk} (g : T ⟶ U)
@@ -68,6 +70,9 @@ theorem toSite_naturality {T U : BigFppfOver B (Spec (.of k)) hk} (g : T ⟶ U)
     (functor_map_val (B.inclusion.map f) σ hσ (siteHom B hk g) x)).trans
     (Stacks.PicardFunctor.toPicardFunctor_app_naturality B hX hk f g _)
 
+omit [Flat (B.inclusion.map f)] [LocallyOfFinitePresentation (B.inclusion.map f)]
+  [IsProper (B.inclusion.map f)] [SmoothOfRelativeDimension 1 (B.inclusion.map f)]
+  [LocallyOfFiniteType (B.inclusion.map f)] in
 /-- If `𝒪_U ⟶ f_{U,*}𝒪_{X_U}` is an isomorphism for every `U`, then `toSite` is a bijection from
 `Pic_{X/k,σ}(T)` onto `Pic_{X/k}(T)`. -/
 theorem toSite_bijective

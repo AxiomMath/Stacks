@@ -229,7 +229,7 @@ theorem projectiveBundleChart_app_mem_zeroScheme_iff {b : BigFppfOver B S hS}
         representedAlgebraicSpace B S hS b ⟶ projectiveBundle E hfree) =
         representedSpaceMap B S hS y ≫ projectiveBundleAtlas E hfree := by
     refine ObjectProperty.hom_ext _ ?_
-    show yonedaEquiv.symm ((projectiveBundleChart E hfree).app (op b) y) =
+    change yonedaEquiv.symm ((projectiveBundleChart E hfree).app (op b) y) =
       yoneda.map y ≫ projectiveBundleChart E hfree
     apply yonedaEquiv.injective
     rw [Equiv.apply_symm_apply, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
@@ -247,7 +247,7 @@ theorem projectiveBundleChart_app_mem_zeroScheme_iff {b : BigFppfOver B S hS}
     ((Scheme.Modules.pullback (chartBundleToChart E (bundleBaseChart X))).map
       (schemeReadingMap (chartToSpace B S hS X (bundleBaseChart X)) σ₀))
     (chartBundleTautological E (bundleBaseChart X)) C).trans ?_
-  show ChartSectionPullbackVanishes E σ₀ (bundleBaseChart X)
+  change ChartSectionPullbackVanishes E σ₀ (bundleBaseChart X)
     (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B) y.left) ↔ _
   exact Iff.rfl
 

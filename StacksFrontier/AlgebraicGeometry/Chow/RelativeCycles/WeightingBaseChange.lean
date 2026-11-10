@@ -203,7 +203,7 @@ theorem baseChangeFamily_apply_eq_mul_fiberStalkLength {X S S' : Scheme.{u}} (f 
             ((N.fiber (N x)).presheaf.stalk (N.asFiber x))).toNat : ℤ) := by
   subst hN
   have : LocallyOfFiniteType ((pullback.snd f g).fiberToSpecResidueField t) := by
-    show LocallyOfFiniteType (pullback.snd (pullback.snd f g) (S'.fromSpecResidueField t))
+    change LocallyOfFiniteType (pullback.snd (pullback.snd f g) (S'.fromSpecResidueField t))
     infer_instance
   have hdim : relativeDimension (fieldChowSituation ↥(S'.residueField t)).dimensionFunction
       ((pullback.snd f g).fiberToSpecResidueField t) x = ((0 : ℕ) : ℤ) := by
@@ -214,7 +214,7 @@ theorem baseChangeFamily_apply_eq_mul_fiberStalkLength {X S S' : Scheme.{u}} (f 
     ((pullback.snd f g).fiberToSpecResidueField t)
     (restrictedFiberMap f (pullback.snd f g) (pullback.fst f g) g pullback.condition t)
     ((0 : ℕ) : ℤ) x
-  rw [if_pos hdim] at hfold
+  rw [ite_eq_left hdim] at hfold
   rw [baseChangeFamily_apply, ← hfold]
   rfl
 
@@ -337,7 +337,7 @@ theorem relativeCycleWeight_baseChangeFamily {X S S' : Scheme.{u}} (f : X ⟶ S)
   let _ : Algebra ↥(S.residueField (f ((pullback.fst f g) z)))
       ↥(X.residueField ((pullback.fst f g) z)) :=
     (f.residueFieldMap ((pullback.fst f g) z)).hom.toAlgebra
-  show (baseChangeFamily f g 0 α ((pullback.snd f g) z) :
+  change (baseChangeFamily f g 0 α ((pullback.snd f g) z) :
         AlgebraicCycle ((pullback.snd f g).fiber ((pullback.snd f g) z)) ℤ)
         ((pullback.snd f g).asFiber z) *
       (Field.finInsepDegree ↥(S'.residueField ((pullback.snd f g) z))

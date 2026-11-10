@@ -89,8 +89,7 @@ theorem pull_prodMap_kunnethMap {X' X Y' Y : (SmoothProjectiveScheme k).FullSubc
     (g : Y' ⟶ Y) (z : 𝔇.H X ⊗[F] 𝔇.H Y) :
     𝔇.pull (prodMap f g) (𝔇.kunnethMap X Y z) =
       𝔇.kunnethMap X' Y' (TensorProduct.map (𝔇.pull f).toLinearMap (𝔇.pull g).toLinearMap z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     rw [kunnethMap_tmul, map_mul, TensorProduct.map_tmul, kunnethMap_tmul,
       AlgHom.toLinearMap_apply, AlgHom.toLinearMap_apply]

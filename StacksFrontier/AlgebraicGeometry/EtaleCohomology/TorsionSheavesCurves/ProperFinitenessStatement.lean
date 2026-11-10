@@ -21,7 +21,8 @@ lists eight statements that one wants to prove for such data. The fifth of them 
 The source does not assert it; it names it, so that later results can say that it *holds* in a
 given instance of the situation (Tag 0A5B for a smooth `X` and constant coefficients of prime
 order, Tag 0A5C for an extension of sheaves, Tag 0GJA for a dense open, and so on). The faithful
-formalization of such a statement is therefore a predicate on the data of Situation 0A52, and that is
+formalization of such a statement is therefore a predicate on the data of Situation 0A52, and that
+is
 what this file provides.
 
 ## Main definitions
@@ -100,6 +101,7 @@ open AlgebraicGeometry AlgebraicGeometry.Scheme
 universe u v w
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` finds `IsRightAdjoint` through weak sheafification at universe `max (u + 1) v`
 /-- **The direct image of abelian sheaves between small étale sites is a right adjoint**, at the
 coefficient universe `max (u + 1) v`: weak sheafification exists there
 (`Stacks.ConstantSheaf.hasWeakSheafify_addCommGrp_of_univLE`), so the pullback is constructed by

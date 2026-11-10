@@ -69,7 +69,7 @@ noncomputable def kernelObjIso : (kernel φ).obj ≅ kernel φ.hom :=
 @[reassoc (attr := simp)]
 lemma kernelObjIso_hom_ι :
     (kernelObjIso φ).hom ≫ kernel.ι φ.hom = (kernel.ι φ).hom := by
-  show (PreservesKernel.iso (sheafToPresheaf J AddCommGrpCat.{w}) φ).hom ≫ kernel.ι φ.hom =
+  change (PreservesKernel.iso (sheafToPresheaf J AddCommGrpCat.{w}) φ).hom ≫ kernel.ι φ.hom =
     (kernel.ι φ).hom
   rw [PreservesKernel.iso_hom]
   exact kernelComparison_comp_ι φ (sheafToPresheaf J AddCommGrpCat.{w})
@@ -242,7 +242,7 @@ theorem app_eq_zero_of_imageSieve_mem
   apply (hE.isSeparated _ hz).ext
   intro V g hg
   obtain ⟨b, hb⟩ := hg
-  show E.obj.map g.op (e.hom.app (op U) z) = E.obj.map g.op 0
+  change E.obj.map g.op (e.hom.app (op U) z) = E.obj.map g.op 0
   rw [map_zero, restrict_app_apply, ← hb]
   exact app_apply_eq_of_comp_eq hde (op V) b
 
@@ -259,7 +259,7 @@ theorem imageSieve_mem_of_exact (S : ShortComplex (Sheaf J AddCommGrpCat.{w}))
   let Γ := (sheafSections J AddCommGrpCat.{w}).obj (op U)
   have hadd : Γ.Additive := ⟨rfl⟩
   have hlim : PreservesLimitsOfShape WalkingParallelPair Γ := by
-    show PreservesLimitsOfShape WalkingParallelPair
+    change PreservesLimitsOfShape WalkingParallelPair
       (sheafToPresheaf J AddCommGrpCat.{w} ⋙ (evaluation _ _).obj (op U))
     infer_instance
   let Q := ShortComplex.mk (Γ.map S.iCycles) (Γ.map S.g)

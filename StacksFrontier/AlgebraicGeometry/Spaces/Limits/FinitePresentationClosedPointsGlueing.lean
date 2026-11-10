@@ -132,8 +132,8 @@ theorem pullbackSquareObjIso_comp_base {Z M U L N : C} {m : M ⟶ Z} {um : U ⟶
   rw [Over.comp_left, Over.comp_left]
   apply (isPullback_pullback_snd_pullback_snd_pullback_of_comp (f := nl) (g := lm) (k := m)
     rfl rfl A).hom_ext
-  · simp [pullback.lift_fst_assoc]
-  · simp [pullback.lift_snd]
+  · simp
+  · simp
 
 /-- **The comparison of a commuting square is compatible with a factorisation of its first base
 morphism.** Replacing the first leg `nu` of a square `nu ≫ v = nl ≫ lb` by its composite with a

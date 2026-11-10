@@ -96,8 +96,8 @@ variable [HasEqualizers (F.obj (.mk (.op Y)))] [HasEqualizers (F.obj (.mk (.op X
 /-- **The counit of singleton descent along `f` is invertible** once the base-change `2`-cells of
 the square of `f` against itself and of the square of `XX.p` against `f` are. -/
 theorem isIso_singletonDescentAdjunction_counit_of_isIso_mateEquiv
-    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F XX.condition)).natTrans.app M))
-    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F ZZ.condition)).natTrans.app N))
+    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F XX.condition)).app M))
+    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F ZZ.condition)).app N))
     (D : F.DescentData (fun _ : Unit ↦ f)) :
     IsIso ((singletonDescentAdjunction F f XX af af₁).counit.app D) := by
   have := isEquivalence_toDescentData_chosenPullback_p₂ F f XX
@@ -105,7 +105,7 @@ theorem isIso_singletonDescentAdjunction_counit_of_isIso_mateEquiv
   -- only up to an equation; transport the adjunction and the hypothesis along it.
   have key : ∀ (k : ZZ.pullback ⟶ X) (hk : k = ZZ.p₂) (w : ZZ.p₁ ≫ XX.p = k ≫ f) (N),
       IsIso ((mateEquiv af₁ (hk ▸ aq₁ : (F.map k.op.toLoc).toFunctor ⊣ Tq)
-        (commSqTwoSquare F w)).natTrans.app N) := by
+        (commSqTwoSquare F w)).app N) := by
     rintro k rfl w N
     exact hγ N
   have hp := ChosenPullback.baseChangedSelf_p f f XX XX ZZ
@@ -132,8 +132,8 @@ invertible, then the canonical functor from the fibre over `Y` to descent data f
 equivalence. -/
 theorem isEquivalence_toDescentData_of_isIso_mateEquiv
     [(F.map f.op.toLoc).toFunctor.ReflectsIsomorphisms]
-    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F XX.condition)).natTrans.app M))
-    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F ZZ.condition)).natTrans.app N)) :
+    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F XX.condition)).app M))
+    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F ZZ.condition)).app N)) :
     (F.toDescentData (fun _ : Unit ↦ f)).IsEquivalence := by
   let adj := singletonDescentAdjunction F f XX af af₁
   have hε : ∀ D, IsIso (adj.counit.app D) :=

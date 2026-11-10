@@ -175,12 +175,12 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero (A : Type u) [CommRing A]
   have hF₀ : T.F₀ = Stacks.Ample.unitModule (closedFibre A f) := by rw [hTdef]; rfl
   -- the Euler characteristics of the twists of the unit triple
   obtain ⟨P, -, hP⟩ :=
-    exists_polynomial_natDegree_le_dim_supp hfm hreg T hT (CoherentTriple.unit A f htf)
+    exists_polynomial_natDegree_le_dim_supp hfm T hT (CoherentTriple.unit A f htf)
   have hinv := fun n : ℤ => isInvertibleTriple_twistZ (isInvertibleTriple_unit A f htf) hT n
   have h1 := fun n => (hinv n).invertible_F
   have h2 := fun n => (hinv n).invertible_F₀
   have hkey : ∀ n : ℕ,
-      ((CoherentTriple.unit A f htf).twistZ T hT (n : ℤ)).eulerCharacteristic hfm hreg = 0 ↔
+      ((CoherentTriple.unit A f htf).twistZ T hT (n : ℤ)).eulerCharacteristic = 0 ↔
         (n : ℤ) • x = 0 := by
     intro n
     have hpow : Stacks.SheafOfModules.IsInvertible
@@ -213,8 +213,8 @@ public theorem eq_zero_of_schemePullbackClass_eq_zero (A : Type u) [CommRing A]
   have hbound : ∀ n : ℕ, P.eval (-(n : ℚ)) ≤ (c : ℚ) * n := by
     intro n
     have hq := hP (-(n : ℤ))
-    have hcn : ((((CoherentTriple.unit A f htf).twistZ T hT (-(n : ℤ))).eulerCharacteristic
-        hfm hreg : ℤ) : ℚ) ≤ ((c * n : ℤ) : ℚ) := by exact_mod_cast hc n
+    have hcn : ((((CoherentTriple.unit A f htf).twistZ T hT (-(n : ℤ))).eulerCharacteristic :
+        ℤ) : ℚ) ≤ ((c * n : ℤ) : ℚ) := by exact_mod_cast hc n
     rw [hq] at hcn
     push_cast at hcn
     exact hcn
@@ -255,7 +255,7 @@ public theorem picRestrictionInjective_kollar (A : Type u) [CommRing A] [IsLocal
         (puncturedClosedFibreRestriction A f).toLRSHom.toShHom x =
       Stacks.Picard.pullbackClass
         (puncturedClosedFibreRestriction A f).toLRSHom.toShHom y := hxy
-    show Stacks.Picard.pullbackClass
+    change Stacks.Picard.pullbackClass
       (puncturedClosedFibreRestriction A f).toLRSHom.toShHom (x - y) = 0
     rw [h, hxy', sub_self]
   exact sub_eq_zero.1

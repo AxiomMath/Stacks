@@ -267,8 +267,8 @@ theorem conormalMapOfSquare_eq_zero_of_const (X : Cᵒᵖ) (c : (conormalPreshea
   refine (cotangentMap_toCotangent _ _ _
     (kernelIdeal_le_comap_square φ₁ φ₂ (φ₁ ≫ γ ≫ a₂) β hsq X) c).trans ?_
   refine Eq.trans (congrArg (kernelIdeal φ₂ X).toCotangent (Subtype.ext ?_)) (map_zero _)
-  show (φ₁ ≫ γ ≫ a₂).app X (c : A₁.obj X) = ((0 : kernelIdeal φ₂ X) : A₂.obj X)
-  show a₂.app X (γ.app X (φ₁.app X (c : A₁.obj X))) = _
+  change (φ₁ ≫ γ ≫ a₂).app X (c : A₁.obj X) = ((0 : kernelIdeal φ₂ X) : A₂.obj X)
+  change a₂.app X (γ.app X (φ₁.app X (c : A₁.obj X))) = _
   rw [show φ₁.app X (c : A₁.obj X) = 0 from c.2, map_zero, map_zero]
   rfl
 
@@ -290,7 +290,7 @@ theorem differentialsMapOfSquare_eq_zero_of_const (X : Cᵒᵖ)
   induction mem using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨x, rfl⟩ := hx
-      show differentialsMapOfSquare (φ₁ ≫ γ ≫ a₂) a₁ a₂ ρ ha X
+      change differentialsMapOfSquare (φ₁ ≫ γ ≫ a₂) a₁ a₂ ρ ha X
         (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x) = 0
       rw [differentialsMapOfSquare_d]
       exact ModuleCat.Derivation.d_map (CommRingCat.KaehlerDifferential.D (a₂.app X))
@@ -305,8 +305,7 @@ induces zero on the scalar extensions of the differentials. -/
 theorem tensorMapOfSquareₛₗ_eq_zero_of_const (X : Cᵒᵖ)
     (t : (A₁.obj X ⧸ kernelIdeal φ₁ X) ⊗[A₁.obj X] ((differentialsPresheaf a₁).obj X)) :
     tensorMapOfSquareₛₗ φ₁ φ₂ (φ₁ ≫ γ ≫ a₂) β hsq a₁ a₂ ρ ha X t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       refine (TensorProduct.map_tmul _ _ b ω).trans ?_
       rw [differentialsMapOfSquare_eq_zero_of_const φ₁ a₂ γ a₁ ρ ha X ω]

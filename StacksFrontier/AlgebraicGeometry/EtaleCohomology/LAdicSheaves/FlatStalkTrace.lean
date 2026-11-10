@@ -220,7 +220,7 @@ theorem LAdicSheaf.stalkTransition_flatLevelBasis
     (i : Fin (LAdicSheaf.flatStalkRank F s)) :
     LAdicSheaf.stalkTransition B X ℓ F s n (LAdicSheaf.flatLevelBasis F s hF (n + 1) i) =
       LAdicSheaf.flatLevelBasis F s hF n i := by
-  show (finiteLevelStalkTransition B X ℓ F s n).hom
+  change (finiteLevelStalkTransition B X ℓ F s n).hom
     (LAdicSheaf.flatLevelBasis F s hF (n + 1) i) = _
   simp only [LAdicSheaf.flatLevelBasis]
   exact (congrArg (finiteLevelStalkTransition B X ℓ F s n).hom
@@ -265,7 +265,7 @@ theorem LAdicSheaf.isPowExact_finiteLevelStalk_of_powExact (n : ℕ)
     ext z
     obtain ⟨y, hy⟩ := z
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hy
-    show ℓ ^ a • (c • x) = 0
+    change ℓ ^ a • (c • x) = 0
     rw [smul_comm, hx, smul_zero]
   obtain ⟨T, π, hπ, y, hy⟩ := hn a ha g hg
   obtain ⟨t, ht⟩ := (ModuleCat.epi_iff_surjective π).1 hπ
@@ -291,7 +291,7 @@ theorem LAdicSheaf.exists_trace_rationalStalkEnd_of_flat
   have : Module.Finite ℤ_[ℓ] (LAdicSheaf.stalk B X ℓ F s) := Module.Finite.equiv e.symm
   let A := LinearMap.toMatrix' (e.conj (LAdicSheaf.stalkEnd B X ℓ F a))
   refine ⟨A.trace, ?_, fun n => ?_⟩
-  · show LinearMap.trace ℚ_[ℓ] _ ((LAdicSheaf.stalkEnd B X ℓ F a).baseChange ℚ_[ℓ]) = _
+  · change LinearMap.trace ℚ_[ℓ] _ ((LAdicSheaf.stalkEnd B X ℓ F a).baseChange ℚ_[ℓ]) = _
     rw [LinearMap.trace_baseChange, ← LinearMap.trace_conj' _ e,
       ← Matrix.toLin'_toMatrix' (e.conj (LAdicSheaf.stalkEnd B X ℓ F a)), Matrix.trace_toLin'_eq]
     rfl
@@ -306,12 +306,12 @@ theorem LAdicSheaf.exists_trace_rationalStalkEnd_of_flat
       have hv : b.equivFun (v.1 n) = w := by
         rw [← hw']
         funext i
-        show T.equiv n (v.1 n) i = _
+        change T.equiv n (v.1 n) i = _
         rw [← LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv T v n i]
         simp only [v, e, LinearEquiv.apply_symm_apply]
       rw [LinearEquiv.conj_apply_apply, ← hv, LinearEquiv.symm_apply_apply, Matrix.toLin'_apply]
       funext i
-      show T.equiv n ((LAdicSheaf.stalkEnd B X ℓ F a v).1 n) i = _
+      change T.equiv n ((LAdicSheaf.stalkEnd B X ℓ F a v).1 n) i = _
       rw [← LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv,
         show e (LAdicSheaf.stalkEnd B X ℓ F a v) = Matrix.toLin' A (e v) by
           rw [Matrix.toLin'_toMatrix', LinearEquiv.conj_apply_apply, LinearEquiv.symm_apply_apply],
@@ -351,10 +351,9 @@ theorem LAdicSheaf.rationalStalkMap_nsmul_id (F : LAdicSheaf B X ℓ) (s : Geome
     (k : ℕ) :
     LAdicSheaf.rationalStalkMap (k • 𝟙 F) s = (k : ℚ_[ℓ]) • LinearMap.id := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c v =>
-    show LinearMap.baseChange (Padic ℓ) (LAdicSheaf.stalkMap (k • 𝟙 F) s) (c ⊗ₜ v) = _
+    change LinearMap.baseChange (Padic ℓ) (LAdicSheaf.stalkMap (k • 𝟙 F) s) (c ⊗ₜ v) = _
     rw [LAdicSheaf.stalkMap_nsmul_id, LinearMap.baseChange_tmul, LinearMap.smul_apply,
       LinearMap.id_apply, TensorProduct.tmul_smul, LinearMap.smul_apply, LinearMap.id_apply,
       Nat.cast_smul_eq_nsmul]
@@ -378,7 +377,7 @@ theorem LAdicSheaf.trace_rationalStalkEnd_of_isogeny {F G : LAdicSheaf B X ℓ} 
     simp only [LAdicSheaf.rationalStalkMap, LAdicSheaf.stalkMap_comp, LinearMap.baseChange_comp]
   let e : LAdicSheaf.rationalStalkLeft B X ℓ F s ≃ₗ[ℚ_[ℓ]]
       LAdicSheaf.rationalStalkLeft B X ℓ G s :=
-    LinearEquiv.ofLinear (LAdicSheaf.rationalStalkMap φ s)
+    LinearEquiv.ofLinearMap (LAdicSheaf.rationalStalkMap φ s)
       (((ℓ ^ N : ℕ) : ℚ_[ℓ])⁻¹ • LAdicSheaf.rationalStalkMap ψ s)
       (by rw [LinearMap.comp_smul, hcomp ψ φ h₂, smul_smul, inv_mul_cancel₀ hc, one_smul])
       (by rw [LinearMap.smul_comp, hcomp φ ψ h₁, smul_smul, inv_mul_cancel₀ hc, one_smul])
@@ -387,7 +386,7 @@ theorem LAdicSheaf.trace_rationalStalkEnd_of_isogeny {F G : LAdicSheaf B X ℓ} 
     rw [LinearEquiv.conj_apply]
     refine LinearMap.ext fun x => ?_
     obtain ⟨y, rfl⟩ := e.surjective x
-    show LAdicSheaf.rationalStalkEnd B X ℓ G a (LAdicSheaf.rationalStalkMap φ s y) =
+    change LAdicSheaf.rationalStalkEnd B X ℓ G a (LAdicSheaf.rationalStalkMap φ s y) =
       e (LAdicSheaf.rationalStalkEnd B X ℓ F a (e.symm (e y)))
     rw [LinearEquiv.symm_apply_apply]
     exact LinearMap.congr_fun (LAdicSheaf.rationalStalkEnd_comp_rationalStalkMap φ a) y

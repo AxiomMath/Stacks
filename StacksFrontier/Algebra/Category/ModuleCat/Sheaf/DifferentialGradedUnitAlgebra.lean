@@ -172,14 +172,14 @@ noncomputable def mulApp (n i : ℤ) (U : Cᵒᵖ) :
 theorem mulApp_of {n i : ℤ} (h : n = 0 ∧ i = 0) (U : Cᵒᵖ)
     (x : ((unitComplex Osharp).X n).val.obj U) (y : ((unitComplex Osharp).X i).val.obj U) :
     mulApp n i U x y = ofScalar (by omega) U (toScalar h.1 U x * toScalar h.2 U y) := by
-  rw [mulApp, dif_pos h]
+  rw [mulApp, dite_eq_left h]
   rfl
 
 /-- Outside bidegree `(0, 0)`, `mulApp` is zero. -/
 theorem mulApp_of_not {n i : ℤ} (h : ¬ (n = 0 ∧ i = 0)) (U : Cᵒᵖ)
     (x : ((unitComplex Osharp).X n).val.obj U) (y : ((unitComplex Osharp).X i).val.obj U) :
     mulApp n i U x y = 0 := by
-  rw [mulApp, dif_neg h]
+  rw [mulApp, dite_eq_right h]
   rfl
 
 /-- In bidegree `(0, 0)`, the product under `mulApp` reads as the product of the two scalars. -/
@@ -351,7 +351,7 @@ theorem unitMul_eq (M : DifferentialGradedModule.{t, t, m} (unitDGAlgebra Osharp
       if h : i = 0 then castHom M.complex.X (show n = n + i by omega) U (toScalar h U y • x)
         else 0 := by
   by_cases h : i = 0
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     subst h
     have h1 : (M.mul n 0).app U x ((unitDGAlgebra Osharp).one.eval U) =
         castHom M.complex.X (show n = n + 0 by omega) U x :=
@@ -362,7 +362,7 @@ theorem unitMul_eq (M : DifferentialGradedModule.{t, t, m} (unitDGAlgebra Osharp
       _ = toScalar rfl U y • (M.mul n 0).app U x ((unitDGAlgebra Osharp).one.eval U) :=
           (M.mul n 0).map_smul_right U _ x _
       _ = _ := by rw [h1, castHom_smul]
-  · rw [dif_neg h, unitDGAlgebra.eq_zero h U y]
+  · rw [dite_eq_right h, unitDGAlgebra.eq_zero h U y]
     exact map_zero _
 
 /-- **A morphism of cochain complexes is a morphism of right differential graded
@@ -374,8 +374,8 @@ def homMk {M N : DifferentialGradedModule.{t, t, m} (unitDGAlgebra Osharp)}
   map_mul n i U x y := by
     rw [unitMul_eq, unitMul_eq]
     by_cases h : i = 0
-    · rw [dif_pos h, dif_pos h, f_castHom, map_smul]
-    · rw [dif_neg h, dif_neg h, map_zero]
+    · rw [dite_eq_left h, dite_eq_left h, f_castHom, map_smul]
+    · rw [dite_eq_right h, dite_eq_right h, map_zero]
 
 /-- The underlying morphism of complexes of `homMk φ` is `φ`. -/
 @[simp] theorem homMk_toHomologicalComplex
@@ -419,14 +419,14 @@ theorem ofComplexMulApp_of (K : CochainComplex (SheafOfModules.{m} (toRingCat J 
     {n i : ℤ} (h : i = 0) (U : Cᵒᵖ) (x : (K.X n).val.obj U)
     (y : ((unitComplex Osharp).X i).val.obj U) :
     ofComplexMulApp K n i U x y = castHom K.X (show n = n + i by omega) U (toScalar h U y • x) := by
-  rw [ofComplexMulApp, dif_pos h]
+  rw [ofComplexMulApp, dite_eq_left h]
   rfl
 
 /-- In a nonzero degree, `ofComplexMulApp` is zero. -/
 theorem ofComplexMulApp_of_ne (K : CochainComplex (SheafOfModules.{m} (toRingCat J Osharp)) ℤ)
     {n i : ℤ} (h : i ≠ 0) (U : Cᵒᵖ) (x : (K.X n).val.obj U)
     (y : ((unitComplex Osharp).X i).val.obj U) : ofComplexMulApp K n i U x y = 0 := by
-  rw [ofComplexMulApp, dif_neg h]
+  rw [ofComplexMulApp, dite_eq_right h]
   rfl
 
 /-- `ofComplexMulApp` is `O`-linear in its first argument. -/

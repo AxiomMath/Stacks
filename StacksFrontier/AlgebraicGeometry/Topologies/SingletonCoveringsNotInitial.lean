@@ -174,7 +174,7 @@ theorem surjective_sigmaDesc :
     Function.Surjective (Sigma.desc covering.{u, w}.f).base := by
   intro x
   obtain ⟨i, y, hy⟩ := exists_mem_range_f.{u, w} x
-  exact ⟨(Sigma.ι covering.{u, w}.X i).base y, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+  exact ⟨(Sigma.ι covering.{u, w}.X i).base y, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 /-- **The one-member family given by the disjoint union of a covering need not refine it**: for
 the covering of `Spec ℤ` by the basic opens of `2` and of `3`, the one-member family given by
@@ -220,7 +220,7 @@ theorem exists_isSingletonCovering (P : MorphismProperty Scheme.{u})
   refine ⟨Precoverage.ZeroHypercover.singleton (𝟙 target.{u})
       ((Scheme.singleton_mem_precoverage_iff P _).mpr
         ⟨fun x ↦ ⟨x, by simp⟩, hP _ inferInstance⟩), ⟨?_⟩⟩
-  show Unique (PreZeroHypercover.singleton.{w} (𝟙 target.{u})).I₀
+  change Unique (PreZeroHypercover.singleton.{w} (𝟙 target.{u})).I₀
   infer_instance
 
 /-- **The one-member coverings of an object do not form an initial subcategory of its category

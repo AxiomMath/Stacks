@@ -73,7 +73,7 @@ private lemma smooth_overPullback_of_isPullback
   have hYsnd : eY.hom ≫ pullback.snd (𝟙 B) b = 𝟙 Y := by simp [eY]
   have hcomm : eX.hom ≫ m = f ≫ eY.hom := by
     apply pullback.hom_ext <;> dsimp [m] <;>
-      simp [pullback.lift_fst, pullback.lift_snd, reassoc_of% hXfst, hXsnd, hYfst, hYsnd, h.w]
+      simp [reassoc_of% hXfst, hXsnd, hYfst, hYsnd, h.w]
   have : MorphismProperty.RespectsIso (@Smooth) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   simpa [Over.pullback, Over.homMk, Over.mk, m] using
@@ -222,7 +222,7 @@ private lemma imageTransition_isAffineHom
     {X : Scheme.{u}} {p : X ⟶ D.limitScheme} (G : GoodDiagram D p)
     {j k : Over (op G.index)} (a : j ⟶ k) :
     IsAffineHom ((GoodDiagram.imageSystem G).map a) := by
-  show IsAffineHom (GoodDiagram.imageTransition G a)
+  change IsAffineHom (GoodDiagram.imageTransition G a)
   have := stageTargetMap_isAffineHom D G a
   have : IsAffineHom
       (GoodDiagram.imageTransition G a ≫ (GoodDiagram.stageMap G k).imageι) := by

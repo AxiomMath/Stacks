@@ -85,8 +85,8 @@ theorem exists_isMaximal_finite_lt_ringChar (R : Type u) [CommRing R] [IsDomain 
   let K := x.asIdeal.ResidueField
   have : Algebra.FiniteType ℤ K := Algebra.FiniteType.trans (S := R) inferInstance inferInstance
   have : Module.Finite ℤ K := by
-    convert finite_of_finite_type_of_isJacobsonRing ℤ K <;>
-      first | rfl | exact Subsingleton.elim _ _
+    convert finite_of_finite_type_of_isJacobsonRing ℤ K
+    exact Subsingleton.elim _ _
   have hfin : Finite K := finite_of_moduleFinite_int K
   refine ⟨x, hxU, hmax, hfin, ?_⟩
   obtain ⟨p, hchar⟩ := CharP.exists K

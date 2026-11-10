@@ -147,7 +147,7 @@ theorem comparisonChartHom_chartDiagramOfHom (W : SmallEtale B S hS F)
         (chartDiagramOfHom B S hS F G p q hF hG eF eG f fSpace ha W V κ).comm.symm =
       chartHomOfHom B S hS F G p q hF hG eF eG f fSpace ha W.1 V κ :=
     CostructuredArrow.hom_ext _ _ rfl
-  show ha.hom.app W.1 ≫ (schemeChartFunctor B S hS G q eG).map
+  change ha.hom.app W.1 ≫ (schemeChartFunctor B S hS G q eG).map
     (CostructuredArrow.homMk _ _) = κ
   rw [hmk]
   exact ha_hom_app_comp_map_chartHomOfHom B S hS F G p q hF hG eF eG f fSpace ha W.1 V κ
@@ -336,7 +336,7 @@ theorem exists_chartDiagram_comparisonChartHom_factor
       f.map ι.hom ≫ κ := by
     rw [chartProdChartLiftHom_comp_toV]
     exact ha_hom_app_comp_map_chartHomOfHom B S hS F G p q hF hG eF eG f fSpace ha Z₀ V _
-  show f.map (ι.inv ≫ (schemeChartFunctor B S hS F p eF).map
+  change f.map (ι.inv ≫ (schemeChartFunctor B S hS F p eF).map
         (chartProdChartLiftHom B S hS F G hF hG fSpace W V Z₀ ν ζ)) ≫
       comparisonChartHom B S hS p q eF eG f fSpace ha
         (chartProdChartDiagram B S hS F G hF hG fSpace W V) = κ

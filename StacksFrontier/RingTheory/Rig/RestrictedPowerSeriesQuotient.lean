@@ -60,7 +60,6 @@ public theorem exists_restrictedPowerSeriesSurjection {A C : Type u} [CommRing A
     (hA : TopologicalRing.IsAdic A) (hC : TopologicalRing.IsAdic C)
     (hAfg : ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ I.FG)
     (hCfg : ∃ J : Ideal C, TopologicalRing.IsIdealOfDefinition J ∧ J.FG)
-    (hcont : Continuous (algebraMap A C))
     (hadic : _root_.RingHom.IsAdic (algebraMap A C))
     (hft : TopologicalRing.IsTopologicallyOfFiniteType (algebraMap A C)) :
     ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ ∃ n : ℕ,
@@ -69,7 +68,7 @@ public theorem exists_restrictedPowerSeriesSurjection {A C : Type u} [CommRing A
   have h1 : _root_.RingHom.IsAdic (algebraMap A C) ∧
       TopologicalRing.IsTopologicallyOfFiniteType (algebraMap A C) := ⟨hadic, hft⟩
   have h8 : HasCompletedPolynomialPresentation (algebraMap A C) :=
-    ((adicFiniteType_tfae (algebraMap A C) hcont hA hC hAfg hCfg).out 1 8).mp h1
+    ((adicFiniteType_tfae (algebraMap A C) hA hC hAfg hCfg).out 1 8).mp h1
   obtain ⟨I, hIdef, n, hpres⟩ := h8
   obtain ⟨K, hKclosed, e, hecont, hecont', hecomp⟩ := hpres
   refine ⟨I, hIdef, n, (e.toRingHom.comp (Ideal.Quotient.mk K)).comp
@@ -169,7 +168,6 @@ public theorem exists_restrictedPowerSeriesQuotientMap {A C : Type u} [CommRing 
     (hA : TopologicalRing.IsAdic A) (hC : TopologicalRing.IsAdic C)
     (hAfg : ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ I.FG)
     (hCfg : ∃ J : Ideal C, TopologicalRing.IsIdealOfDefinition J ∧ J.FG)
-    (hcont : Continuous (algebraMap A C))
     (hadic : _root_.RingHom.IsAdic (algebraMap A C))
     (hft : TopologicalRing.IsTopologicallyOfFiniteType (algebraMap A C)) :
     ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ ∃ σ : Type u, ∃ _ : Finite σ,
@@ -177,7 +175,7 @@ public theorem exists_restrictedPowerSeriesQuotientMap {A C : Type u} [CommRing 
         Continuous π ∧ IsOpenMap π ∧
         π.comp (_root_.RestrictedPowerSeries.coefficientRingHom I σ) = algebraMap A C := by
   obtain ⟨I, hIdef, n, π₀, hsurj₀, hπcomp₀⟩ :=
-    exists_restrictedPowerSeriesSurjection hA hC hAfg hCfg hcont hadic hft
+    exists_restrictedPowerSeriesSurjection hA hC hAfg hCfg hadic hft
   obtain ⟨I₀, hI₀def, hI₀adic⟩ := hA.1
   have hIadic : _root_.IsAdic I := (isIdealOfDefinition_iff_isAdic ⟨I₀, hI₀adic⟩ I).1 hIdef
   obtain ⟨E, hE⟩ := exists_restrictedPowerSeriesReindex I

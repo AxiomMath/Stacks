@@ -180,7 +180,7 @@ lemma restrictScalarsComp'_inv_tensorHom_comp_μ (f : R →+* S) (g : S →+* T)
           (restrictScalarsComp' f g gf hgf).inv.app (M ⊗ N) := by
   refine MonoidalCategory.tensor_ext fun m n => ?_
   refine (restrictScalars_μ_tmul gf M N m n).trans ?_
-  show _ = (Functor.LaxMonoidal.μ (restrictScalars g) M N).hom
+  change _ = (Functor.LaxMonoidal.μ (restrictScalars g) M N).hom
     ((Functor.LaxMonoidal.μ (restrictScalars f) ((restrictScalars g).obj M)
       ((restrictScalars g).obj N)).hom (m ⊗ₜ n))
   exact ((congrArg (Functor.LaxMonoidal.μ (restrictScalars g) M N).hom
@@ -265,7 +265,7 @@ lemma wedgeMul_tmul (M : ModuleCat.{u} R) (m n : M) :
 lemma tensorHom_comp_wedgeMul {M N : ModuleCat.{u} R} (f : M ⟶ N) :
     (f ⊗ₘ f) ≫ wedgeMul N = wedgeMul M ≫ (functor R 2).map f := by
   refine MonoidalCategory.tensor_ext fun m n => ?_
-  show (wedgeMul N).hom (f.hom m ⊗ₜ f.hom n) =
+  change (wedgeMul N).hom (f.hom m ⊗ₜ f.hom n) =
     _root_.exteriorPower.map 2 f.hom ((wedgeMul M).hom (m ⊗ₜ n))
   rw [wedgeMul_tmul, wedgeMul_tmul, _root_.exteriorPower.map_apply_ιMulti]
   congr 1
@@ -277,7 +277,7 @@ lemma μ_comp_map_wedgeMul (f : R →+* S) (M : ModuleCat.{u} S) :
     Functor.LaxMonoidal.μ (restrictScalars f) M M ≫ (restrictScalars f).map (wedgeMul M) =
       wedgeMul ((restrictScalars f).obj M) ≫ restrictScalarsMap f M 2 := by
   refine MonoidalCategory.tensor_ext fun m n => ?_
-  show (wedgeMul M).hom ((Functor.LaxMonoidal.μ (restrictScalars f) M M).hom (m ⊗ₜ n)) =
+  change (wedgeMul M).hom ((Functor.LaxMonoidal.μ (restrictScalars f) M M).hom (m ⊗ₜ n)) =
     (restrictScalarsMap f M 2).hom ((wedgeMul ((restrictScalars f).obj M)).hom (m ⊗ₜ n))
   exact ((congrArg (wedgeMul M).hom (restrictScalars_μ_tmul f M M m n)).trans
     (wedgeMul_tmul M m n)).trans ((congrArg (restrictScalarsMap f M 2).hom
@@ -288,7 +288,7 @@ lemma μ_comp_map_wedgeMul (f : R →+* S) (M : ModuleCat.{u} S) :
 lemma functor_map_zero {M N : ModuleCat.{u} R} {n : ℕ} (hn : n ≠ 0) :
     (functor R n).map (0 : M ⟶ N) = 0 := by
   refine hom_ext (AlternatingMap.ext fun v => ?_)
-  show map 0 n (mk v) = 0
+  change map 0 n (mk v) = 0
   rw [map_mk]
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn
   exact (mk (M := N)).map_coord_zero 0 rfl
@@ -367,7 +367,7 @@ lemma exteriorPower.homEquiv_extendScalarsIso_hom_comp (f : R →+* S) {M : Modu
       (exteriorPower.functor R n).map ((extendRestrictScalarsAdj f).homEquiv _ _ a) ≫
         exteriorPower.restrictScalarsMap f M' n := by
   refine exteriorPower.hom_ext (AlternatingMap.ext fun v => ?_)
-  show (exteriorPower.map a n).hom (((exteriorPower.extendScalarsIso f n).hom.app M).hom
+  change (exteriorPower.map a n).hom (((exteriorPower.extendScalarsIso f n).hom.app M).hom
       ((1 : S) ⊗ₜ[R, f] _root_.exteriorPower.ιMulti R n v)) =
     (exteriorPower.restrictScalarsMap f M' n).hom
       ((exteriorPower.map ((extendRestrictScalarsAdj f).homEquiv M M' a) n).hom
@@ -379,7 +379,7 @@ lemma exteriorPower.homEquiv_extendScalarsIso_hom_comp (f : R →+* S) {M : Modu
 lemma whiskerRight_comp_wedgeMul_hom {M N : ModuleCat.{u} R} (f : M ⟶ N) :
     ((f ⊗ₘ 𝟙 N) ≫ exteriorPower.wedgeMul N).hom = Stacks.ExteriorSquare.wedgeLeft f.hom := by
   refine TensorProduct.ext' fun m n => ?_
-  show (exteriorPower.wedgeMul N).hom (f.hom m ⊗ₜ n) = _
+  change (exteriorPower.wedgeMul N).hom (f.hom m ⊗ₜ n) = _
   rw [exteriorPower.wedgeMul_tmul]
   exact (Stacks.ExteriorSquare.wedgeLeft_tmul f.hom m n).symm
 
@@ -478,7 +478,7 @@ theorem shortExact_tensorCross {M N : ModuleCat.{u} R} (f : M ⟶ N) (r : N ⟶ 
       obtain ⟨a, ⟨a', rfl⟩, b, ⟨b', rfl⟩, rfl⟩ := hz
       refine ⟨i₂.hom ((LinearMap.rTensor M (cokernel.π f).hom) a') +
         i₁.hom ((LinearMap.lTensor M (cokernel.π f).hom) b'), ?_⟩
-      show c.hom _ = _
+      change c.hom _ = _
       rw [map_add, map_add]
       exact congrArg₂ (· + ·) (congrArg (fun g => g.hom a') hc₂) (congrArg (fun g => g.hom b') hc₁)
     · rintro ⟨y, rfl⟩
@@ -1011,7 +1011,7 @@ lemma crossSumToRelTensorSquare_comp_relTensorSquareToCoker_app (A : CommRingCat
       ← cancel_epi (((tensorHom (𝟙 left) rightToCoker).app A).app X), comp_zero,
       tensorHom_app_comp_crossToRelTensorSquare_app_assoc, ← NatTrans.comp_app, ← comp_app,
       Category.assoc, relTensorSquareToCoker, cokernelπ_comp_cokernelDesc]
-    show (X.hom ⊗ₘ 𝟙 X.right) ≫ (Limits.cokernel.π X.hom ⊗ₘ Limits.cokernel.π X.hom) = 0
+    change (X.hom ⊗ₘ 𝟙 X.right) ≫ (Limits.cokernel.π X.hom ⊗ₘ Limits.cokernel.π X.hom) = 0
     rw [tensorHom_comp_tensorHom, Limits.cokernel.condition, MonoidalPreadditive.zero_tensor]
   · have : Epi (((tensorHom rightToCoker (𝟙 left)).app A).app X) :=
       ModuleCat.epi_whiskerRight_cokernel X.left X.hom
@@ -1019,7 +1019,7 @@ lemma crossSumToRelTensorSquare_comp_relTensorSquareToCoker_app (A : CommRingCat
       ← cancel_epi (((tensorHom rightToCoker (𝟙 left)).app A).app X), comp_zero,
       tensorHom_app_comp_crossRevToRelTensorSquare_app_assoc, ← NatTrans.comp_app, ← comp_app,
       Category.assoc, relTensorSquareToCoker, cokernelπ_comp_cokernelDesc]
-    show (𝟙 X.right ⊗ₘ X.hom) ≫ (Limits.cokernel.π X.hom ⊗ₘ Limits.cokernel.π X.hom) = 0
+    change (𝟙 X.right ⊗ₘ X.hom) ≫ (Limits.cokernel.π X.hom ⊗ₘ Limits.cokernel.π X.hom) = 0
     rw [tensorHom_comp_tensorHom, Limits.cokernel.condition, MonoidalPreadditive.tensor_zero]
 
 
@@ -1044,7 +1044,7 @@ theorem shortExact_exteriorSquare (A : CommRingCat.{u})
   have := ComposableArrows.isSplitMono_hom P
   refine shortExact_cokernelπ _ A P ?_
   exact (IsSplitMono.mk' ⟨(ModuleCat.exteriorPower.functor A 2).map (retraction P.hom), by
-    show (ModuleCat.exteriorPower.functor A 2).map P.hom ≫
+    change (ModuleCat.exteriorPower.functor A 2).map P.hom ≫
       (ModuleCat.exteriorPower.functor A 2).map (retraction P.hom) = 𝟙 _
     rw [← Functor.map_comp, IsSplitMono.id, CategoryTheory.Functor.map_id]⟩).mono
 
@@ -1058,7 +1058,7 @@ theorem shortExact_tensorSquare (A : CommRingCat.{u})
   have := ComposableArrows.isSplitMono_hom P
   refine shortExact_cokernelπ _ A P ?_
   exact (IsSplitMono.mk' ⟨retraction P.hom ⊗ₘ retraction P.hom, by
-    show (P.hom ⊗ₘ P.hom) ≫ (retraction P.hom ⊗ₘ retraction P.hom) = _
+    change (P.hom ⊗ₘ P.hom) ≫ (retraction P.hom ⊗ₘ retraction P.hom) = _
     rw [tensorHom_comp_tensorHom, IsSplitMono.id, tensorHom_id, id_whiskerRight]⟩).mono
 
 /-- **`0 → P₀ ⊗ coker P → D_Λ(P) → ⋀² coker P → 0`** is short exact for a projective arrow `P`. -/
@@ -1139,7 +1139,7 @@ lemma hasFlatBaseChange_eval (i : Fin 2) : (eval.{u} i).HasFlatBaseChange := by
   have : ((eval i).baseChange φ).app P =
       (ModuleCat.extendRestrictScalarsAdj φ.hom).unit.app (P.obj i) := by
     simp [baseChange, extendRestrictScalarsArrowAdj]
-  show IsIso (((ModuleCat.extendRestrictScalarsAdj φ.hom).homEquiv (P.obj i) _).symm
+  change IsIso (((ModuleCat.extendRestrictScalarsAdj φ.hom).homEquiv (P.obj i) _).symm
     (((eval i).baseChange φ).app P))
   have h : IsIso (((ModuleCat.extendRestrictScalarsAdj φ.hom).homEquiv (P.obj i) _).symm
       ((ModuleCat.extendRestrictScalarsAdj φ.hom).unit.app (P.obj i))) := by
@@ -1195,7 +1195,7 @@ lemma hasFlatBaseChange_tensor (hΦ : Φ.HasFlatBaseChange) (hΨ : Ψ.HasFlatBas
   intro A B φ hφ P hP
   have := hΦ φ hφ P hP
   have := hΨ φ hφ P hP
-  show IsIso (extendScalarsBaseChange (tensor Φ Ψ) φ P)
+  change IsIso (extendScalarsBaseChange (tensor Φ Ψ) φ P)
   rw [extendScalarsBaseChange_tensor]
   have h₁ : IsIso (Functor.OplaxMonoidal.δ (ModuleCat.extendScalars φ.hom) ((Φ.obj A).obj P)
     ((Ψ.obj A).obj P)) := inferInstance
@@ -1224,7 +1224,7 @@ lemma hasFlatBaseChange_exteriorPower (n : ℕ) (hΦ : Φ.HasFlatBaseChange) :
     (exteriorPower n Φ).HasFlatBaseChange := by
   intro A B φ hφ P hP
   have := hΦ φ hφ P hP
-  show IsIso (extendScalarsBaseChange (exteriorPower n Φ) φ P)
+  change IsIso (extendScalarsBaseChange (exteriorPower n Φ) φ P)
   rw [extendScalarsBaseChange_exteriorPower]
   have h₂ : IsIso ((ModuleCat.exteriorPower.functor B n).map (extendScalarsBaseChange Φ φ P)) :=
     inferInstance
@@ -1269,7 +1269,7 @@ lemma hasFlatBaseChange_biprod (hΦ : Φ.HasFlatBaseChange) (hΨ : Ψ.HasFlatBas
     (ModuleCat.extendRestrictScalarsAdj φ.hom).left_adjoint_additive
   have := hΦ φ hφ P hP
   have := hΨ φ hφ P hP
-  show IsIso (extendScalarsBaseChange (biprod Φ Ψ) φ P)
+  change IsIso (extendScalarsBaseChange (biprod Φ Ψ) φ P)
   rw [extendScalarsBaseChange_biprod]
   refine ⟨(biprod.fst : Φ.obj B ⊞ Ψ.obj B ⟶ Φ.obj B).app _ ≫
       inv (extendScalarsBaseChange Φ φ P) ≫

@@ -116,12 +116,12 @@ private theorem comparisonFunctor_map_isPullback
       ArtinianLocalAlgCat.pullbackObj_of_surjective_carrier f g (Or.inr hg)
     cases hcar
     ext a
-    show q.residueEquiv (IsLocalRing.residue q a) =
+    change q.residueEquiv (IsLocalRing.residue q a) =
       A₁.residueEquiv (IsLocalRing.residue A₁
         (RingHom.pullbackFst f.hom.toRingHom g.hom.toRingHom a))
     rw [ArtinianLocalAlgCat.pullbackObj_of_surjective_residueEquiv_residue
       f g (Or.inr hg)]
-    show A.residueEquiv (IsLocalRing.residue A
+    change A.residueEquiv (IsLocalRing.residue A
       (f.hom (AlgHom.pullbackFst f.hom g.hom a))) =
         A₁.residueEquiv (IsLocalRing.residue A₁
           (AlgHom.pullbackFst f.hom g.hom a))
@@ -138,7 +138,7 @@ private theorem comparisonFunctor_map_isPullback
       ArtinianLocalAlgCat.IsConcretePullback.obj]
     apply Subring.ext
     intro t
-    show residueMap S q t.1 = algebraMap S.k S.l t.2 ↔
+    change residueMap S q t.1 = algebraMap S.k S.l t.2 ↔
       ((residueMap S A₁).comp
         (RingHom.pullbackFst f.hom.toRingHom g.hom.toRingHom)) t.1 =
           algebraMap S.k S.l t.2
@@ -200,7 +200,7 @@ private theorem comparisonFunctor_map_isPullback
         intro b
         rw [ArtinianLocalAlgCat.pullbackObj_of_surjective_residueEquiv_residue
           (Fcmp.map f) (Fcmp.map g) (Or.inr hFg)]
-        show (Fcmp.obj A).residueEquiv
+        change (Fcmp.obj A).residueEquiv
             (IsLocalRing.residue (Fcmp.obj A)
               ((Fcmp.map f).hom
                 (AlgHom.pullbackFst (Fcmp.map f).hom (Fcmp.map g).hom (eAlg b)))) = _
@@ -242,12 +242,12 @@ private theorem comparisonFunctor_map_isPullback
       hom_inv_id := by
         apply ArtinianLocalAlgCat.hom_ext
         ext b
-        show eAlg.symm (eAlg b) = b
+        change eAlg.symm (eAlg b) = b
         exact eAlg.symm_apply_apply b
       inv_hom_id := by
         apply ArtinianLocalAlgCat.hom_ext
         ext b
-        show eAlg (eAlg.symm b) = b
+        change eAlg (eAlg.symm b) = b
         exact eAlg.apply_symm_apply b }
   have eAlg_fst (b : Fcmp.obj q) :
       q₁'.hom (eAlg b) = (Fcmp.map q₁).hom b := by
@@ -259,7 +259,7 @@ private theorem comparisonFunctor_map_isPullback
         (((comparisonFunctor.{u, v, w, x} S).pullbackEquiv q b).val.1.val.1,
           ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv q b).val.2) := by
             rw [q₁'_hom]
-            show ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₁
+            change ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₁
               ((eRing' b).val.1)).val = _
             rw [eRing'_apply, eRingFstAny]
       _ = ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₁
@@ -278,7 +278,7 @@ private theorem comparisonFunctor_map_isPullback
         (((comparisonFunctor.{u, v, w, x} S).pullbackEquiv q b).val.1.val.2,
           ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv q b).val.2) := by
             rw [q₂'_hom]
-            show ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₂
+            change ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₂
               ((eRing' b).val.2)).val = _
             rw [eRing'_apply, eRingSndAny]
       _ = ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₂
@@ -367,7 +367,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
     have heq : i₀ (e.hom a) = TrivSqZeroExt.fst (iε a) :=
       DFunLike.congr_fun hie a
     dsimp [jε, dualNumberMapEquiv, σ]
-    show j₀ (i₀.symm (TrivSqZeroExt.fst (iε a))) = _
+    change j₀ (i₀.symm (TrivSqZeroExt.fst (iε a))) = _
     rw [← heq, AlgEquiv.symm_apply_apply]
     simpa [j₀, residueMap] using e.residue_comm a
   let _ : Module S.kᵐᵒᵖ S.l := moduleMulOppositeOfSquareZeroVectorSpace S.k S.l
@@ -390,16 +390,16 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
       · exact hs
     · intro a
       refine ⟨⟨(j₀.symm (algebraMap S.k S.l a), a), ?_⟩, rfl⟩
-      show residueMap S A₀ (j₀.symm (algebraMap S.k S.l a)) = _
+      change residueMap S A₀ (j₀.symm (algebraMap S.k S.l a)) = _
       exact j₀.apply_symm_apply (algebraMap S.k S.l a)
   let e₀Ring : Fcmp.obj A₀ ≃+* S.k :=
     ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀).trans
       (RingEquiv.ofBijective q₀ hq₀)
   let e₀ : Fcmp.obj A₀ ≃ₐ[S.Λ] S.k := AlgEquiv.ofRingEquiv (f := e₀Ring) (by
     intro a
-    show q₀ ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
+    change q₀ ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
       (algebraMap S.Λ (Fcmp.obj A₀) a)) = algebraMap S.Λ S.k a
-    show ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
+    change ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
       (algebraMap S.Λ (Fcmp.obj A₀) a)).val.2 = algebraMap S.Λ S.k a
     exact (comparisonFunctor.{u, v, w, x} S).algebraMap_snd A₀ a)
   let pullε := RingHom.pullback (residueMap S Aε) (algebraMap S.k S.l)
@@ -411,7 +411,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
         right_inv := ?_
         map_mul' := ?_
         map_add' := ?_ }
-    · show residueMap S Aε (jε.symm (algebraMap S.k S.l z.1, z.2)) = _
+    · change residueMap S Aε (jε.symm (algebraMap S.k S.l z.1, z.2)) = _
       calc
         _ = (jε (jε.symm (algebraMap S.k S.l z.1, z.2))).1 :=
           (hjε_fst _).symm
@@ -429,7 +429,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
                   (algebraMap S.k S.l q.2, (jε q.1).2).1 :=
                     congrArg TrivSqZeroExt.fst (jε.apply_symm_apply _)
               _ = (jε q.1).1 := by
-                    show algebraMap S.k S.l q.2 = (jε q.1).1
+                    change algebraMap S.k S.l q.2 = (jε q.1).1
                     exact hq.symm.trans (hjε_fst q.1).symm
           · calc
               TrivSqZeroExt.snd (jε (jε.symm (algebraMap S.k S.l q.2, (jε q.1).2))) =
@@ -461,7 +461,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
             let y : TrivSqZeroExt S.k S.l := (qb.2, (jε qb.1).2)
             simp only [TrivSqZeroExt.snd]
             rw [map_mul]
-            show TrivSqZeroExt.snd (jε qa.1 * jε qb.1) =
+            change TrivSqZeroExt.snd (jε qa.1 * jε qb.1) =
               TrivSqZeroExt.snd (x * y)
             rw [DualNumber.snd_mul, TrivSqZeroExt.snd_mul x y]
             have hfa' : TrivSqZeroExt.fst (jε qa.1) = algebraMap S.k S.l qa.2 := hfa
@@ -493,7 +493,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
       intro a
       apply TrivSqZeroExt.ext
       · exact (comparisonFunctor.{u, v, w, x} S).algebraMap_snd Aε a
-      · show TrivSqZeroExt.snd (jε
+      · change TrivSqZeroExt.snd (jε
           ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv Aε
             (algebraMap S.Λ (Fcmp.obj Aε) a)).val.1) = 0
         rw [(comparisonFunctor.{u, v, w, x} S).algebraMap_fst]
@@ -501,7 +501,7 @@ private theorem comparisonFunctor_map_isSquareZeroProjection
   refine ⟨e₀, eε, ?_⟩
   apply AlgHom.ext
   intro a
-  show q₀ ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
+  change q₀ ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv A₀
       ((Fcmp.map e).hom a)) =
     ((comparisonFunctor.{u, v, w, x} S).pullbackEquiv Aε a).val.2
   exact (comparisonFunctor.{u, v, w, x} S).map_snd e a
@@ -545,7 +545,7 @@ private theorem changeOfFields_dualProjection_isSquareZeroProjection
       (G.map e.snd).hom (Xε.iso.hom.hom a) at hval
     exact hval
   have hcmp := DFunLike.congr_fun hj (Xε.iso.hom.hom a)
-  show j₀ (X₀.iso.hom.hom ((p.map e.fst).hom a)) =
+  change j₀ (X₀.iso.hom.hom ((p.map e.fst).hom a)) =
     TrivSqZeroExt.fst (jV (Xε.iso.hom.hom a))
   rw [hval']
   exact hcmp
@@ -810,7 +810,7 @@ private lemma categoricalPullback_pullback_of_componentPullbacks
     { fst := c.fst
       snd := d.fst
       w := by
-        show p.map c.fst ≫ X₁.iso.hom = e.hom ≫ H.map d.fst
+        change p.map c.fst ≫ X₁.iso.hom = e.hom ≫ H.map d.fst
         have hh := hc'.conePointUniqueUpToIso_hom_comp hd' WalkingCospan.left
         change e.hom ≫ H.map d.fst = p.map c.fst ≫ X₁.iso.hom at hh
         exact hh.symm }
@@ -818,7 +818,7 @@ private lemma categoricalPullback_pullback_of_componentPullbacks
     { fst := c.snd
       snd := d.snd
       w := by
-        show p.map c.snd ≫ X₂.iso.hom = e.hom ≫ H.map d.snd
+        change p.map c.snd ≫ X₂.iso.hom = e.hom ≫ H.map d.snd
         have hh := hc'.conePointUniqueUpToIso_hom_comp hd' WalkingCospan.right
         change e.hom ≫ H.map d.snd = p.map c.snd ≫ X₂.iso.hom at hh
         exact hh.symm }
@@ -870,9 +870,9 @@ private lemma categoricalPullback_pullback_of_componentPullbacks
   refine ⟨t, ⟨ht⟩, ⟨?_⟩⟩
   let iso : d ≅ t.map (CategoricalPullback.π₂ p H) :=
     PullbackCone.ext (Iso.refl _) (by
-      show d.fst = (𝟙 d.pt) ≫ d.fst
+      change d.fst = (𝟙 d.pt) ≫ d.fst
       simp) (by
-      show d.snd = (𝟙 d.pt) ≫ d.snd
+      change d.snd = (𝟙 d.pt) ≫ d.snd
       simp)
   exact IsLimit.ofIsoLimit hd iso
 

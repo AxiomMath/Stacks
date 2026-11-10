@@ -111,7 +111,7 @@ public theorem ker_canonicalMap_eq {A : Type u} [CommRing A] [TopologicalSpace A
         (Ideal.Quotient.mk_eq_mk_iff_sub_mem x y).mp hyx.symm
       rw [Set.mem_add]; exact ⟨x - y, hsub, y, hy, by ring⟩
     simpa [hK.closure_eq] using hclosure
-  · intro hx; show TopologicalRing.CompletionOver.canonicalMap f x = 0
+  · intro hx; change TopologicalRing.CompletionOver.canonicalMap f x = 0
     apply Subtype.ext; funext J
     have hzero : f x = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hx
     simp [f, TopologicalRing.CompletionOver.canonicalMap, hzero]
@@ -353,7 +353,7 @@ private def outerSubmodule : Submodule K2 (ℕ → Q) where
     intro i hi
     by_contra h
     have hxy : x i = 0 ∧ y i = 0 := by
-      simpa [Set.mem_union, Set.mem_setOf_eq] using h
+      simpa [Set.mem_union, Set.mem_ofPred_eq] using h
     simp [hxy.1, hxy.2] at hi
   smul_mem' := by
     intro c x hx
@@ -431,7 +431,7 @@ private theorem outer_isClosed : IsClosed (outerSubmodule : Set (ℕ → Q)) := 
   have hnotSub : ¬ ({i | x i ≠ 0} ⊆ {i | (x + z) i ≠ 0}) := fun hsub =>
     hxnot (hyfinite.subset hsub)
   obtain ⟨i, hxi, hyi⟩ := Set.not_subset.mp hnotSub
-  have hyzero : (x + z) i = 0 := by simpa [Set.mem_setOf_eq] using hyi
+  have hyzero : (x + z) i = 0 := by simpa [Set.mem_ofPred_eq] using hyi
   have hzmem : z i ∈ tail (n i) := hz.2 i (by simp)
   have hzne : z i = -x i := eq_neg_of_add_eq_zero_right (by simpa using hyzero)
   have hxTail : x i ∈ tail (n i) := by simpa [hzne] using (tail (n i)).neg_mem hzmem
@@ -518,7 +518,7 @@ private lemma vSum_mem_tail {x : V} {n : ℕ} (hx : ∀ i, x.1 i ∈ tail n) :
     vSum x ∈ tail n := by
   classical
   let s := x.2.toFinset
-  show (∑ i ∈ s, x.1 i) ∈ tail n
+  change (∑ i ∈ s, x.1 i) ∈ tail n
   induction s using Finset.induction_on with
   | empty => simp [tail]
   | @insert i s hi ih =>
@@ -602,13 +602,13 @@ private theorem a_nhds_hasBasis : (𝓝 (0 : A)).HasBasis
     refine ⟨p.2, trivial, ?_⟩
     intro x hx
     change x.fst = 0 ∧ x.snd ∈ vBoxSubmodule p.2.1 p.2.2 at hx
-    show x ∈ aIdeal p.2
+    change x ∈ aIdeal p.2
     exact hx
   · intro p hp
     refine ⟨((), p), ⟨trivial, hp⟩, ?_⟩
     intro x hx
     change x.fst = 0 ∧ x.snd ∈ vBoxSubmodule p.1 p.2 at hx
-    show x ∈ aIdeal p
+    change x ∈ aIdeal p
     exact hx
 
 private noncomputable instance aLinearTopology : IsLinearTopology A A := by
@@ -703,12 +703,12 @@ private theorem phi_continuous : Continuous phi := by
       TopologicalSpace.induced TrivSqZeroExt.snd qTopology
   have hfstEq : TrivSqZeroExt.fst ∘ phi = TrivSqZeroExt.fst := by
     funext x
-    show TrivSqZeroExt.fst (phi x) = x.fst
+    change TrivSqZeroExt.fst (phi x) = x.fst
     rw [phi_apply]
     rfl
   have hsndEq : TrivSqZeroExt.snd ∘ phi = vSumLinear ∘ TrivSqZeroExt.snd := by
     funext x
-    show TrivSqZeroExt.snd (phi x) = vSumLinear x.snd
+    change TrivSqZeroExt.snd (phi x) = vSumLinear x.snd
     rw [phi_apply]
     rfl
   have hfst : Continuous (TrivSqZeroExt.fst ∘ phi) := by
@@ -725,20 +725,20 @@ private noncomputable def qPrefix (n : ℕ) : Q :=
 
 private lemma qPrefix_apply (n i : ℕ) : qPrefix n i = if i < n then 1 else 0 := by
   classical
-  simp [qPrefix, Finsupp.finset_sum_apply, Finsupp.single_apply, Finset.mem_range]
+  simp [qPrefix, Finsupp.finsetSum_apply, Finsupp.single_apply, Finset.mem_range]
 
 private lemma qPrefix_diff_mem_tail {n m : ℕ} (hnm : n ≤ m) :
     qPrefix m - qPrefix n ∈ tail n := by
   intro i hi
   have him : i < m := lt_of_lt_of_le hi hnm
-  show qPrefix m i - qPrefix n i = 0
+  change qPrefix m i - qPrefix n i = 0
   rw [qPrefix_apply, qPrefix_apply]
   simp [hi, him]
 
 private lemma vCoord_mem_vBox {p : Finset ℕ × (ℕ → ℕ)} {i : ℕ} {q : Q}
     (hi : i ∉ p.1) (hq : q ∈ tail (p.2 i)) :
     vCoord i q ∈ vBoxSubmodule p.1 p.2 := by
-  show (vCoord i q : V).1 ∈ box p.1 p.2
+  change (vCoord i q : V).1 ∈ box p.1 p.2
   constructor
   · intro j hj
     have hji : j ≠ i := by
@@ -851,7 +851,7 @@ private noncomputable def phi2 : A2 →+* Aq :=
   phi.comp (ULift.ringEquiv (R := A)).toRingHom
 
 private theorem phi2_apply (x : A2) : phi2 x = (x.down.fst, vSum x.down.snd) := by
-  show phi ((ULift.ringEquiv (R := A)) x) = (x.down.fst, vSum x.down.snd)
+  change phi ((ULift.ringEquiv (R := A)) x) = (x.down.fst, vSum x.down.snd)
   rw [phi_apply]
   rfl
 
@@ -865,7 +865,7 @@ private theorem phi2_continuous : Continuous phi2 :=
   phi_continuous.comp continuous_uliftDown
 
 private theorem phi2_ker_closed : IsClosed (RingHom.ker phi2 : Set A2) := by
-  show IsClosed (phi2 ⁻¹' ({0} : Set Aq))
+  change IsClosed (phi2 ⁻¹' ({0} : Set Aq))
   exact isClosed_singleton.preimage phi2_continuous
 
 /-- A pure-tensor `(0, q)` with `q` in a deep enough tail comes from `a2Ideal p`. -/
@@ -927,7 +927,7 @@ private theorem quotient_mem_map_of_phi_mem {I : Ideal A2} {x : A2}
     targetQuotientMap x ∈ I.map targetQuotientMap := by
   obtain ⟨y, hy, hxy⟩ := (Ideal.mem_map_iff_of_surjective phi2 phi2_surjective).mp hx
   have hker : x - y ∈ targetKernel := by
-    show phi2 (x - y) = 0
+    change phi2 (x - y) = 0
     rw [map_sub, hxy]
     simp
   have hquot : targetQuotientMap x = targetQuotientMap y :=

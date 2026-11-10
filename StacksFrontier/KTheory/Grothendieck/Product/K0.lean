@@ -257,8 +257,7 @@ noncomputable def K0_product_idem_iso (R1 R2 : Type u) [CommRing R1] [CommRing R
       change (1 : R1) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.fst
       rw [TensorProduct.tmul_add]
       have hcross : (1 : R1) ⊗ₜ[R1 × R2] (g2 x.snd) = 0 := by
-        induction x.snd using TensorProduct.induction_on with
-        | zero => simp
+        induction x.snd using TensorProduct.inductionOn with
         | tmul r2 m =>
           change (1 : R1) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = 0
           rw [TensorProduct.tmul_smul]
@@ -268,8 +267,7 @@ noncomputable def K0_product_idem_iso (R1 R2 : Type u) [CommRing R1] [CommRing R
           rw [TensorProduct.zero_tmul]
         | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb, add_zero]
       have hself : (1 : R1) ⊗ₜ[R1 × R2] (g1 x.fst) = x.fst := by
-        induction x.fst using TensorProduct.induction_on with
-        | zero => simp
+        induction x.fst using TensorProduct.inductionOn with
         | tmul r1 m =>
           change (1 : R1) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = r1 ⊗ₜ[R1 × R2] m
           rw [TensorProduct.tmul_smul]
@@ -282,8 +280,7 @@ noncomputable def K0_product_idem_iso (R1 R2 : Type u) [CommRing R1] [CommRing R
       change (1 : R2) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.snd
       rw [TensorProduct.tmul_add]
       have hcross : (1 : R2) ⊗ₜ[R1 × R2] (g1 x.fst) = 0 := by
-        induction x.fst using TensorProduct.induction_on with
-        | zero => simp
+        induction x.fst using TensorProduct.inductionOn with
         | tmul r1 m =>
           change (1 : R2) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = 0
           rw [TensorProduct.tmul_smul]
@@ -293,8 +290,7 @@ noncomputable def K0_product_idem_iso (R1 R2 : Type u) [CommRing R1] [CommRing R
           rw [TensorProduct.zero_tmul]
         | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb, add_zero]
       have hself : (1 : R2) ⊗ₜ[R1 × R2] (g2 x.snd) = x.snd := by
-        induction x.snd using TensorProduct.induction_on with
-        | zero => simp
+        induction x.snd using TensorProduct.inductionOn with
         | tmul r2 m =>
           change (1 : R2) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = r2 ⊗ₜ[R1 × R2] m
           rw [TensorProduct.tmul_smul]

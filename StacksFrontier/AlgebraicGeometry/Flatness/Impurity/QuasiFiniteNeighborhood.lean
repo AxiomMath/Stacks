@@ -117,11 +117,11 @@ private theorem exists_isImpurity_of_finiteNeighborhoodAt (P : PrePureSituation.
   have hLQFPVT : LocallyQuasiFinite pVT := inferInstance
   have hFinitePVU : IsFinite pVU := hVfinite
   have hvt : pVT.base v = D.t := by
-    show Q.ι.base ((V.ι ≫ pullback.fst gQ U.toBase).base v) = D.t
+    change Q.ι.base ((V.ι ≫ pullback.fst gQ U.toBase).base v) = D.t
     rw [(hvspec v hv).1]
     rfl
   have hpVTU : pVT ≫ D.g = pVU ≫ U.toBase := by
-    show V.ι ≫ (pullback.fst gQ U.toBase ≫ Q.ι) ≫ D.g =
+    change V.ι ≫ (pullback.fst gQ U.toBase ≫ Q.ι) ≫ D.g =
       (V.ι ≫ pullback.snd gQ U.toBase) ≫ U.toBase
     rw [Category.assoc, Category.assoc]
     exact congrArg (fun k : (pullback gQ U.toBase : Scheme.{u}) ⟶ P.S ↦ V.ι ≫ k)
@@ -146,7 +146,7 @@ private theorem exists_isImpurity_of_finiteNeighborhoodAt (P : PrePureSituation.
       ((Scheme.Modules.pullback r).obj (D.pulledBack P)) := by
     refine preimage_relativeAssassin_eq_pullback_of_locallyQuasiFinite D.toT pVT
       (D.pulledBack P) ▸ ?_
-    show r.base ζ ∈ Stacks.Divisors.relativeAssassin D.toT (D.pulledBack P)
+    change r.base ζ ∈ Stacks.Divisors.relativeAssassin D.toT (D.pulledBack P)
     rw [hζr]
     exact hD.1
   /- Compare with the base change along `U`. -/

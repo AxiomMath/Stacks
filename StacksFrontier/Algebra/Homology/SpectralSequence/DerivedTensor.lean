@@ -644,11 +644,11 @@ private lemma exists_stablePageIso (T : CochainComplex C ℤ)
   have : Epi v := by dsimp only [v]; infer_instance
   have hprev : (ComplexShape.up ℤ).prev (p + q) = p + q - 1 := by
     apply ComplexShape.prev_eq'
-    show p + q - 1 + 1 = p + q
+    change p + q - 1 + 1 = p + q
     omega
   have him : imageSubobject (T.sc (p + q)).f =
       imageSubobject (T.d (p + q - 1) (p + q)) := by
-    show imageSubobject (T.d ((ComplexShape.up ℤ).prev (p + q)) (p + q)) = _
+    change imageSubobject (T.d ((ComplexShape.up ℤ).prev (p + q)) (p + q)) = _
     rw [hprev]
   have hker : ∀ {A : C} (g : A ⟶ (V : C)), g ≫ u = 0 ↔ g ≫ v = 0 := by
     intro A g
@@ -844,7 +844,7 @@ private lemma tensorSubobject_eq_top (n : ℤ) (S : Subobject ((P ⊗ Q).X n))
     apply HomologicalComplex.mapBifunctor.hom_ext
     intro i j hij
     have hf := factors_ιTensorObj_of_image_le P Q i j n hij S (hS i j hij)
-    show HomologicalComplex.ιTensorObj P Q i j n hij ≫ f =
+    change HomologicalComplex.ιTensorObj P Q i j n hij ≫ f =
       HomologicalComplex.ιTensorObj P Q i j n hij ≫ g
     rw [← S.factorThru_arrow _ hf, Category.assoc, Category.assoc, hfg]⟩
   have : IsIso S.arrow := isIso_of_mono_of_epi _
@@ -871,7 +871,7 @@ private lemma tensorDifferential_factors (i j n : ℤ) (h : i + j = n)
     (h₁ : S.Factors (HomologicalComplex.ιTensorObj P Q (i + 1) j (n + 1) (by omega)))
     (h₂ : S.Factors (HomologicalComplex.ιTensorObj P Q i (j + 1) (n + 1) (by omega))) :
     S.Factors (HomologicalComplex.ιTensorObj P Q i j n h ≫ (P ⊗ Q).d n (n + 1)) := by
-  show S.Factors (HomologicalComplex.ιMapBifunctor P Q (curriedTensor _) _ i j n h ≫
+  change S.Factors (HomologicalComplex.ιMapBifunctor P Q (curriedTensor _) _ i j n h ≫
     (HomologicalComplex.mapBifunctor P Q (curriedTensor _) _).d n (n + 1))
   rw [HomologicalComplex.mapBifunctor.d_eq, Preadditive.comp_add,
     HomologicalComplex.mapBifunctor.ι_D₁, HomologicalComplex.mapBifunctor.ι_D₂,

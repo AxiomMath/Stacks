@@ -143,7 +143,7 @@ theorem exists_lowerShriekTopTraceTheta_eq :
       (shiftFunctor _ (-2 : ℤ)).mapIso ((DerivedCategory.singleFunctor _ 0).mapIso
         (ν.app (unitSheaf (X := S) ℓ)))
   have htr : lowerShriekTopTrace f jf ℓ hf ν (unitSheaf (X := S) ℓ) = u ≫ γι.hom := by
-    show topProj Kι 2 hK ≫ _ = _
+    change topProj Kι 2 hK ≫ _ = _
     rw [key]
     simp only [Category.assoc]
     rfl

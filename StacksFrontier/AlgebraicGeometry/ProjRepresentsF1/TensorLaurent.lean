@@ -182,7 +182,7 @@ theorem symmetricToTensor_comp_tensorToLaurent :
     (symmetricToTensor L B).comp (tensorToLaurent L B) =
       (laurentSituation L).symmetricToLaurent := by
   refine (laurentSituation L).symmetricToLaurent_unique ?_
-  show (laurentSituation L).symmetricAlgebraGen ≫
+  change (laurentSituation L).symmetricAlgebraGen ≫
     (symmetricToTensor L B).app 1 ≫ (tensorToLaurent L B).app 1 = _
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   exact Eq.trans (congrArg (· ≫ (tensorToLaurent L B).app 1)

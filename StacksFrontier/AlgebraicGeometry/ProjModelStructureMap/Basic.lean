@@ -107,8 +107,8 @@ the same pullback of two `rfl`-equal spellings of the integral model, and
 `IsProper (ProjectiveSpace n S ↘ S)` is `inferInstance` and
 `IsProper (projectiveSpaceOver n S ↘ S)` is `synthInstanceFailed`, because two `def`-level
 `rfl`-equal spellings are different inputs to instance search. Every cohomological statement in
-this development is phrased at the second spelling, which is why instance search does not find the properness there.
-`AlgebraicGeometry.isProper_projectiveSpaceOver` (in
+this development is phrased at the second spelling, which is why instance search does not find the
+properness there. `AlgebraicGeometry.isProper_projectiveSpaceOver` (in
 `StacksFrontier/AlgebraicGeometry/Morphisms/Proper/Projective.lean`) is at that spelling.
 
 **`_root_.SheafOfModules.IsCoherent` is written out.** Inside a namespace beginning `Stacks`, the

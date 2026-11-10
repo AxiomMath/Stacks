@@ -11,7 +11,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.EndomorphismFactoriza
 `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedEnvelopeFactorization.lean` builds the
 factorization `D --σ--> D⟨ξ_i⟩^∧ --τ--> D` of an augmentation-compatible divided power
 `A`-algebra endomorphism `ρ` of `D` that the proof of [Stacks, Lemma 60.21.4, Tag 07LH] uses, and
-`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedEnvelopeFactorizationForms.lean` reads the four maps `ν`, `σ`, `τ`, `α` on the
+`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedEnvelopeFactorizationForms.lean` reads the
+four maps `ν`, `σ`, `τ`, `α` on the
 completed divided power differential forms.  This module reads them on the **completed de Rham
 complexes** of a `D`-module with a completed connection, which is the level at which the source's
 argument runs.

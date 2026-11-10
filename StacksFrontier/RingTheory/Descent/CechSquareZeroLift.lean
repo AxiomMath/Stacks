@@ -63,8 +63,7 @@ variable {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
 theorem rid_lTensor_subtype_mem_map (I : Ideal A) (z : B ⊗[A] I) :
     TensorProduct.rid A B (AlgebraTensorModule.lTensor B B I.subtype z) ∈
       I.map (algebraMap A B) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s k =>
     rw [AlgebraTensorModule.lTensor_tmul, TensorProduct.rid_tmul, Algebra.smul_def]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ k.2)
@@ -233,8 +232,7 @@ theorem exists_sub_mem_map_of_cocycle [Module.FaithfullyFlat A₁ B₁] (𝔞 : 
         (Algebra.TensorProduct.includeRight :
           B₁ ⊗[A₁] B₁ →ₐ[A₁] B₁ ⊗[A₁] (B₁ ⊗[A₁] B₁)) γ) := by
     intro γ
-    induction γ using TensorProduct.induction_on with
-    | zero => simp
+    induction γ using TensorProduct.inductionOn with
     | tmul s t =>
       simp only [ΦC, ΦD, M, LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
         tensorQuotOne_apply, TensorProduct.assoc_tmul, amitsurDiff₁_tmul,

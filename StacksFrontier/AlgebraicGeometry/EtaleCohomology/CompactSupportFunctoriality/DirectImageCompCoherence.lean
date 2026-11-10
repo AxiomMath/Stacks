@@ -143,7 +143,7 @@ theorem etaleModuleDerivedDirectImageUnboundedDerivedCompIso_assoc :
     etaleModuleDerivedDirectImageUnboundedDerivedCompIso_hom_fac_app_assoc,
     ← Functor.map_comp, etaleModuleDerivedDirectImageUnboundedDerivedCompIso_hom_fac_app, hnc,
     etaleModuleDerivedDirectImageUnboundedDerivedCompIso_hom_fac_app_assoc]
-  simp only [Functor.map_comp, Functor.comp_map]
+  simp only [Functor.map_comp]
   rw [reassoc_of% etaleModuleDerivedDirectImageUnboundedUnit_app_comp_map_Q_map,
     ← Functor.map_comp_assoc, ← Functor.map_comp_assoc]
   congr 2
@@ -206,7 +206,7 @@ theorem smallEtaleDirectImageSquare_vComp (A : Type*) [Category* A] :
     (by simp) hP A
   have p₃ := smallEtalePushforwardComp'_assoc a' b' g (a' ≫ b') rfl (g₁ ≫ b) hb
     (g₂ ≫ a ≫ b) hc hP A
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   have q₁ := congrArg (fun e => e.hom.app F) p₁
   have q₂ := congrArg (fun e => e.hom.app F) p₂
   have q₃ := congrArg (fun e => e.hom.app F) p₃
@@ -241,7 +241,7 @@ theorem smallEtaleDirectImageSquare_vComp (A : Type*) [Category* A] :
   simp only [smallEtaleDirectImageSquare, TwoSquare.vComp, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-    Category.id_comp, Category.comp_id, Category.assoc, Functor.map_comp]
+    Category.id_comp, Category.assoc, Functor.map_comp]
   rw [e₁]
   simp only [Category.assoc]
   congr 2
@@ -280,13 +280,13 @@ theorem etaleModuleBaseChange_vComp_app (F : EtaleModules.{u, r} Λ X) :
     rw [Stacks.CategoryTheory.mateEquiv_whisker, mateEquiv_vcomp A₂ A₁ A₀]
     simp only [bca, bcb, Equiv.apply_symm_apply]
     exact (smallEtaleDirectImageSquare_vComp a b ab hab g g₁ g₂ a' b' ab' hab' ha hb hc _).symm
-  have h : etaleModuleBaseChangeGeneral.{u, r} Λ ab g g₂ ab' hc = T.natTrans := by
-    show ((mateEquiv A₂ A₀).symm _).natTrans = T.natTrans
+  have h : etaleModuleBaseChangeGeneral.{u, r} Λ ab g g₂ ab' hc = T := by
+    change (mateEquiv A₂ A₀).symm _ = T
     rw [← key, Equiv.symm_apply_apply]
   rw [h]
   simp only [T, TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp,
     NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
-    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,
+    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     Category.assoc]
   rfl
 
@@ -369,7 +369,7 @@ theorem etaleModuleDerivedBaseChange_vComp :
       simp
     simp [Stacks.Homology.DerivedSquare.cochainDerivedSquareUnit, e₁]
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
-    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,
+    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     hu₀, Category.assoc]
   congr 1
   have n₁ := (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ b g g₁ b' hb).naturality

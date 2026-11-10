@@ -439,7 +439,8 @@ instance isIso_Q_map_baseChange_map {L : FlatLift f K₀} :
 square-zero extension of sheaves of rings with ideal sheaf `I`. It is the curvature of the
 lifted differential of a bounded above flat lift of `K₀`, transported along the
 quasi-isomorphism identifying the reduction of that lift with `K₀`. -/
-@[stacks 0DIU "variant: at a supplied derived ideal tensor datum D; the tag is Deformation.ComplexLift.tensorOmegaMinus, the map K₀ ⟶ (K₀ ⊗^L I)[2]"]
+@[stacks 0DIU "variant: at a supplied derived ideal tensor datum D; the tag is \
+  Deformation.ComplexLift.tensorOmegaMinus, the map K₀ ⟶ (K₀ ⊗^L I)[2]"]
 def obstructionMap {L : FlatLift f K₀} (T : IdealKernel S L) :
     DerivedCategory.Q.obj K₀ ⟶ (D.functor.obj (DerivedCategory.Q.obj K₀))⟦(2 : ℤ)⟧ :=
   inv (DerivedCategory.Q.map L.baseChange.map) ≫ derivedCurvature D T ≫

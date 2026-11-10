@@ -202,7 +202,7 @@ public theorem sepCompApp_naturality {W W' : SmallEtale B Z.obj Z.property} (φ 
   have hE' : dE.support.1 = (sepCompMap B f g W').base ⁻¹' d.support.1 := by
     rw [dE.support_eq, d.support_eq]
     ext x
-    show (sepCompMap B f g W).base (((SmallEtale.toScheme B X.obj X.property).map
+    change (sepCompMap B f g W).base (((SmallEtale.toScheme B X.obj X.property).map
         ((smallEtaleBaseChange B f).map ψ)).base x) ∈ E.1 ↔
       ((SmallEtale.toScheme B X.obj X.property).map
         ((smallEtaleBaseChange B (f ≫ g)).map φ)).base ((sepCompMap B f g W').base x) ∈ E.1
@@ -211,10 +211,10 @@ public theorem sepCompApp_naturality {W W' : SmallEtale B Z.obj Z.property} (φ 
       AddCommGrpCat.ofHom (sepCompGenMap B f g F W' d.support dE.support hE') =
       AddCommGrpCat.ofHom (sepCompSection B f g F W E) ≫ AddCommGrpCat.ofHom dE.sectionsMap := by
     refine ConcreteCategory.hom_ext _ _ fun a => Subtype.ext ?_
-    show (sepCompGenMap B f g F W' d.support dE.support hE' (d.sectionsMap a)).val =
+    change (sepCompGenMap B f g F W' d.support dE.support hE' (d.sectionsMap a)).val =
       (dE.sectionsMap (sepCompSection B f g F W E a)).val
     rw [dE.sectionsMap_apply]
-    show F.obj.map _ (d.sectionsMap a).val = F.obj.map dE.openMap.op (F.obj.map _ a.val)
+    change F.obj.map _ (d.sectionsMap a).val = F.obj.map dE.openMap.op (F.obj.map _ a.val)
     rw [d.sectionsMap_apply]
     exact supportedSectionsPullback_square B X.obj X.property F
       ((smallEtaleBaseChange_compIso B X Y Z f g).val.hom.app W)
@@ -282,25 +282,25 @@ public theorem exists_isProperOver_sepCompImage (W : SmallEtale B Z.obj Z.proper
     simp only [r, q, p]
     exact congrArg (i ≫ ·) ((Category.assoc _ _ _).symm.trans h.symm)
   have hZ : IsProperOver p ⊤ := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal ⊤).subschemeι ≫ p)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal ⊤).subschemeι ≫ p)
     infer_instance
   have hrange' : Set.range (i ≫ sepCompInv B f g W).base = (sepCompSupport B f g W E).1 := by
     rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, hrange]
     ext x
     constructor
     · rintro ⟨y, hy, rfl⟩
-      show (sepCompMap B f g W).base ((sepCompInv B f g W).base y) ∈ E.1
+      change (sepCompMap B f g W).base ((sepCompInv B f g W).base y) ∈ E.1
       rw [← Scheme.Hom.comp_apply, sepCompInv_sepCompMap]
       exact hy
     · intro hx
       refine ⟨_, hx, ?_⟩
-      show (sepCompInv B f g W).base ((sepCompMap B f g W).base x) = x
+      change (sepCompInv B f g W).base ((sepCompMap B f g W).base x) = x
       rw [← Scheme.Hom.comp_apply, sepCompMap_sepCompInv]
       rfl
   have hset : r.base '' ((⊤ : Closeds Zs) : Set Zs) = sepCompImage B f g W E := by
-    show r.base '' Set.univ = _
+    change r.base '' Set.univ = _
     rw [Set.image_univ]
-    show Set.range ((i ≫ sepCompInv B f g W) ≫
+    change Set.range ((i ≫ sepCompInv B f g W) ≫
       B.inclusion.map (baseChangeObjProjection B f (baseChange B g W))).base = _
     rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, hrange']
   have hC : IsClosed (sepCompImage B f g W E) :=
@@ -345,10 +345,10 @@ public theorem properSupportSections_sepCompApp (W : SmallEtale B Z.obj Z.proper
   obtain ⟨n, E, t, hx⟩ := exists_finiteSupport_sum B (f ≫ g) F W x
   let H := (properSupportSubgroup B g ((fShriekFunctor.{u, v} B f).obj F) W).comap
     (sepCompApp B f g F W).hom
-  show x ∈ H
+  change x ∈ H
   rw [hx]
   refine H.sum_mem fun i _ => ?_
-  show properSupportSections B g ((fShriekFunctor.{u, v} B f).obj F) W
+  change properSupportSections B g ((fShriekFunctor.{u, v} B f).obj F) W
     ((finiteSupportPushforwardGenerator B (f ≫ g) F W (E i) ≫ sepCompApp B f g F W) (t i))
   rw [ConcreteCategory.congr_hom (sepCompApp_generator B f g F W (E i)) (t i)]
   exact properSupportSections_sepCompGenerator B f g F W (E i) (t i)

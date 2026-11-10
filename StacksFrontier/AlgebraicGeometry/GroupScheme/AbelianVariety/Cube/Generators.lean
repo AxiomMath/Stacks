@@ -62,7 +62,7 @@ theorem isGen_of_iso {G : X.Modules} (e : unitMod X ≅ G) :
       Scheme.Modules.Hom.app e.hom O := by
     funext f
     rw [hnat, ← Scheme.Modules.Hom.app_smul, smul_oneSec]
-  show Function.Bijective (fun f : Γ(X, O) =>
+  change Function.Bijective (fun f : Γ(X, O) =>
     f • resTop G (Scheme.Modules.Hom.app e.hom ⊤ (oneSec X ⊤)) O)
   rw [hlin]
   exact ConcreteCategory.bijective_of_isIso (Scheme.Modules.Hom.app e.hom O)
@@ -116,9 +116,9 @@ theorem exists_iso_of_isGen {G : X.Modules} {g : Γ(G, ⊤)} (hg : IsGen G g) :
         fun f : Γ(X, O) => f • resTop G g O from funext (happ O)]
     exact hg O
   refine ⟨asIso φ, ?_⟩
-  show Scheme.Modules.Hom.app φ ⊤ (oneSec X ⊤) = g
+  change Scheme.Modules.Hom.app φ ⊤ (oneSec X ⊤) = g
   rw [h1]
-  show G.presheaf.map (𝟙 _) g = g
+  change G.presheaf.map (𝟙 _) g = g
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -128,12 +128,12 @@ theorem exists_unit_smul_eq {G : X.Modules} {g g' : Γ(G, ⊤)} (hg : IsGen G g)
   have h1 := divGen_smul_resTop hg ⊤ g'
   have h2 := divGen_smul_resTop hg' ⊤ g
   have hres : ∀ m : Γ(G, ⊤), resTop G m ⊤ = m := fun m => by
-    show G.presheaf.map (𝟙 _) m = m
+    change G.presheaf.map (𝟙 _) m = m
     rw [CategoryTheory.Functor.map_id]; rfl
   rw [hres] at h1 h2
   have hu : divGen hg ⊤ g' * divGen hg' ⊤ g = 1 := by
     refine (hg ⊤).1 ?_
-    show (divGen hg ⊤ g' * divGen hg' ⊤ g) • resTop G g ⊤ = (1 : Γ(X, ⊤)) • resTop G g ⊤
+    change (divGen hg ⊤ g' * divGen hg' ⊤ g) • resTop G g ⊤ = (1 : Γ(X, ⊤)) • resTop G g ⊤
     rw [hres, mul_comm, mul_smul, h1, h2, one_smul]
   exact ⟨⟨divGen hg ⊤ g', divGen hg' ⊤ g, hu, by rwa [mul_comm]⟩, h1.symm⟩
 
@@ -154,7 +154,7 @@ theorem isGen_unit_smul {G : X.Modules} {g : Γ(G, ⊤)} (hg : IsGen G g) (u : �
   rw [this]
   exact (hg O).comp ⟨fun a b h => hv.mul_right_cancel h,
     fun b => ⟨b * hv.unit⁻¹, by
-      show b * ↑hv.unit⁻¹ * v = b
+      change b * ↑hv.unit⁻¹ * v = b
       rw [mul_assoc, IsUnit.val_inv_mul, mul_one]⟩⟩
 
 /-! ### Pulling generators back -/
@@ -203,12 +203,12 @@ theorem isGen_pbS {G : X.Modules} {g : Γ(G, ⊤)} (hg : IsGen G g) :
   have hu : Scheme.Modules.Hom.app u.hom ⊤ (oneSec T ⊤) =
       pbS f (unitMod X) ⊤ ⊤ (Stacks.AffineProduct.le_preimage_top f ⊤) (oneSec X ⊤) := by
     rw [← pullbackUnitIso_pbS_one f ⊤]
-    show (Scheme.Modules.Hom.app (pullbackUnitIso' f).hom ⊤ ≫
+    change (Scheme.Modules.Hom.app (pullbackUnitIso' f).hom ⊤ ≫
       Scheme.Modules.Hom.app (pullbackUnitIso' f).inv ⊤) _ = _
     rw [← Scheme.Modules.Hom.comp_app, Iso.hom_inv_id]
     rfl
   convert isGen_of_iso (u ≪≫ (Scheme.Modules.pullback f).mapIso e) using 1
-  show _ = Scheme.Modules.Hom.app ((Scheme.Modules.pullback f).map e.hom) ⊤
+  change _ = Scheme.Modules.Hom.app ((Scheme.Modules.pullback f).map e.hom) ⊤
     (Scheme.Modules.Hom.app u.hom ⊤ (oneSec T ⊤))
   rw [hu, ← he]
   exact (Scheme.Modules.pullbackSection_naturality f e.hom ⊤ ⊤
@@ -317,7 +317,7 @@ theorem appLE_divGen_eq (hnorm : pulledGen₁ N f₁ b₁ f₂ b₂ hcomm (g₁ 
       (pbS f₁ _ ⊤ ⊤ (Stacks.AffineProduct.le_preimage_top f₁ ⊤) g₁)))
   simp only [Scheme.Modules.mapPresheaf_app, ConcreteCategory.comp_apply] at this
   refine Eq.trans ?_ this.symm
-  show resTop _ (pulledGen₂ N f₂ b₂ (g₂ := g₂)) W = resTop _ (pulledGen₁ N f₁ b₁ f₂ b₂ hcomm) W
+  change resTop _ (pulledGen₂ N f₂ b₂ (g₂ := g₂)) W = resTop _ (pulledGen₁ N f₁ b₁ f₂ b₂ hcomm) W
   rw [hnorm]
 
 end Compare

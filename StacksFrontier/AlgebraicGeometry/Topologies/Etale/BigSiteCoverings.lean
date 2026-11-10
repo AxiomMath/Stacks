@@ -128,7 +128,7 @@ public theorem exists_covering_refining_etale_cover
     s₀ := β
     h₀ := fun j => B.inclusion.map (eqToHom (hX j))
     w₀ j := by
-      show B.inclusion.map (eqToHom (hX j)) ≫
+      change B.inclusion.map (eqToHom (hX j)) ≫
           B.inclusion.map (𝒱.f (β j)) = B.inclusion.map (W'.2.f j)
       rw [← Functor.map_comp, hf j]
   }
@@ -180,7 +180,7 @@ public theorem exists_isCovering_tautologicallyEquivalent_affineCover
     ⟨T, ⟨U.cover.I₀, fun i => B.obj (U.cover.X i) (hsize i),
       fun i => ⟨U.cover.f i⟩⟩⟩
   have hW : AlgebraicGeometry.IsEtaleCovering W := by
-    show U.cover.toPreZeroHypercover.presieve₀ ∈
+    change U.cover.toPreZeroHypercover.presieve₀ ∈
       Scheme.etalePrecoverage (B.inclusion.obj T)
     simpa only [Scheme.etalePrecoverage] using U.cover.mem₀
   exact exists_isCovering_tautologicallyEquivalent_of_equivalent B U.cover.toPreZeroHypercover
@@ -200,7 +200,7 @@ public theorem exists_isCovering_tautologicallyEquivalent_openCover
     ⟨T, ⟨U.I₀, fun i => B.obj (U.X i) (Scheme.size_lt_of_isOpenImmersion (U.f i) T.2),
       fun i => ⟨U.f i⟩⟩⟩
   have hW : AlgebraicGeometry.IsEtaleCovering W := by
-    show (W.2.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
+    change (W.2.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage (B.inclusion.obj T)
     exact Scheme.precoverage_mono (P := @IsOpenImmersion) (Q := @Etale)
       (fun _ _ _ _ => inferInstance)
       (B.inclusion.obj T) (by simpa [W, PreZeroHypercover.map] using U.mem₀)

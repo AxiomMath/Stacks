@@ -159,7 +159,7 @@ private theorem pointOfObj_objectOfPoint {C : Type u} [Category.{w, u} C]
         ((e.inv.functor ⋙ e.hom.functor).obj qObj) qObj (𝟙 U) c hc)
   have hcodEq : q.obj qObj = U := rfl
   have hdom : z.1 = U := by
-    show (e.hom.functor.obj (e.inv.functor.obj qObj)).base = U
+    change (e.hom.functor.obj (e.inv.functor.obj qObj)).base = U
     exact hbaseEq
   have hfac : c.base = eqToHom hbaseEq ≫ eqToHom hcodEq.symm := by
     simpa only [q, presheafOfCategories, BasedCategory.ofFunctor,
@@ -179,7 +179,7 @@ private theorem pointOfObj_objectOfPoint {C : Type u} [Category.{w, u} C]
   have hcodMap : F.map (eqToHom hcodEq.symm).op aTarget = a := by
     have hcodEq' : hcodEq = rfl := Subsingleton.elim _ _
     rw [hcodEq']
-    show F.map (𝟙 (Opposite.op U)) a = a
+    change F.map (𝟙 (Opposite.op U)) a = a
     simp
   have hbaseEq_dom : hdom = hbaseEq := Subsingleton.elim _ _
   have hpts :
@@ -187,7 +187,7 @@ private theorem pointOfObj_objectOfPoint {C : Type u} [Category.{w, u} C]
         (e.hom.functor.obj (e.inv.functor.obj qObj))).2.as =
       F.map (eqToHom hbaseEq).op a := by
     rw [hpts₀, hfac, op_comp, Functor.map_comp]
-    show F.map (eqToHom hbaseEq).op
+    change F.map (eqToHom hbaseEq).op
         (F.map (eqToHom hcodEq.symm).op aTarget) = _
     rw [hcodMap]
   calc
@@ -224,7 +224,7 @@ private theorem objectOfPoint_pointOfObj_iso {C : Type u} [Category.{w, u} C]
     apply (PresheafOfCategories.objEquiv (F ⋙ typeToCat)).injective
     apply Sigma.ext
     · exact hz.symm
-    · show HEq (Discrete.mk (hz ▸ z.2.as)) z.2
+    · change HEq (Discrete.mk (hz ▸ z.2.as)) z.2
       let htype := congrArg (fun V : C => Discrete (F.obj (Opposite.op V))) hz
       have hcast : cast htype (Discrete.mk z.2.as) = Discrete.mk (hz ▸ z.2.as) := by
         apply Discrete.ext
@@ -309,7 +309,7 @@ private theorem pointOfObj_map_of_lift {C : Type u} [Category.{w, u} C]
         (F.map f.op (F.map (eqToHom hy.symm).op zy.2.as)) := by
     simp only [op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
   have htransport := congrArg (fun z => hy ▸ z) (eqToHom_map_apply F hy.symm zy.2.as)
-  show hx ▸ zx.2.as = F.map f.op (hy ▸ zy.2.as)
+  change hx ▸ zx.2.as = F.map f.op (hy ▸ zy.2.as)
   calc
     hx ▸ zx.2.as = hx ▸ F.map (eqToHom hx).op
         (F.map f.op (F.map (eqToHom hy.symm).op zy.2.as)) := by
@@ -654,14 +654,14 @@ private theorem nonempty_isColimit_of_relativelyLimitPreserving
   let Q := AlgebraicGeometry.sectionFiber B S hS X.1.hom U (𝟙 U)
   have hER : E ⋙ R = 𝟭 (Over U.left) := by
     refine CategoryTheory.Functor.ext (fun W => ?_) ?_
-    · show Over.mk (W.hom ≫ 𝟙 U.left) = W
+    · change Over.mk (W.hom ≫ 𝟙 U.left) = W
       simp only [Category.comp_id]
       rfl
     · intro W W' f
       apply Over.OverMorphism.ext
       simp [E, R, nestedOverToOver, nestedOverObject]
   have hFR : E.op ⋙ R.op ⋙ F = F := by
-    show (E ⋙ R).op ⋙ F = F
+    change (E ⋙ R).op ⋙ F = F
     rw [hER]
     rfl
   let e : F ≅ E.op ⋙ Q := eqToIso hFR.symm ≪≫
@@ -770,7 +770,7 @@ private theorem exists_stage_of_limitPreservingOnObjects
       exact hMap'
     have h3 : 𝒴.val.p.IsHomLift gbase (y.map leg') :=
       (IsHomLift.lift_eqToHom_comp_iff 𝒴.val.p gbase (y.map leg') hbase).1 h2
-    show 𝒴.val.p.IsHomLift gbase (z₀.1.iso.inv ≫ y.map leg')
+    change 𝒴.val.p.IsHomLift gbase (z₀.1.iso.inv ≫ y.map leg')
     exact IsHomLift.comp_lift_id_left' 𝒴.val.p z₀.1.base z₀.1.iso.inv gbase (y.map leg')
   have hgammaSC : 𝒴.val.p.IsStronglyCartesian gbase gamma :=
     𝒴.isFiberedInGroupoids.isStronglyCartesian_homLift gbase gamma
@@ -929,7 +929,7 @@ theorem isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation
     let E := nestedOverToOver U
     let y := E ⋙ cy.sliceFunctor yi
     have hy : y ⋙ 𝒴.val.p = q := by
-      show E ⋙ cy.sliceFunctor yi ⋙ 𝒴.val.p = q
+      change E ⋙ cy.sliceFunctor yi ⋙ 𝒴.val.p = q
       rw [Functor.ChoiceOfPullbacks.sliceFunctor_comp]
       rfl
     obtain ⟨F, hF, ⟨e⟩⟩ := hp U y hy
@@ -948,7 +948,7 @@ theorem isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation
       fun j => (D.obj j.left).property
     have hpt₀ : IsAffine ((Over.forget U.left ⋙ B.inclusion).obj c₀.pt) := c.pt.property
     have hbase₀ : q.obj c₀.pt = cs.pt := by
-      show Over.mk ((cs.π.app i).left ≫ U.hom) = cs.pt
+      change Over.mk ((cs.π.app i).left ≫ U.hom) = cs.pt
       rw [(cs.π.app i).w]
       rfl
     let k₀ := (E.obj c₀.pt).hom
@@ -980,7 +980,7 @@ theorem isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation
       exact ht'.symm)
     have hz' : zf'.1.x = D₀.obj j := zf'.2
     have hbase' : q.obj (D₀.obj j) = Ds.obj j.left := by
-      show Over.mk ((Ds.map j.hom).left ≫ U.hom) = Ds.obj j.left
+      change Over.mk ((Ds.map j.hom).left ≫ U.hom) = Ds.obj j.left
       rw [(Ds.map j.hom).w]
       rfl
     have hzbase : zf'.1.base = Ds.obj j.left :=

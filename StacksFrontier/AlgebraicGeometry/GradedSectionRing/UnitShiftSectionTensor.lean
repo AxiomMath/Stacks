@@ -61,7 +61,6 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (O : Cᵒᵖ ⥤ CommRingCat.{w})
   (hO : Presheaf.IsSheaf J (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
@@ -125,7 +124,6 @@ theorem leftUnitor_inv_whiskerRight_tensorObjIso (A M : SheafOfModules.{w} (stru
             (congrArg (fun φ => φ ≫ sheafifyTensorHom O hO ((unitIso O hO).inv ≫ s) (𝟙 M))
               h4)))))
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The inverse of the fixed left unit constraint of the tensor product sheaf sends a section `v`
 of `M` over `U` to its pure tensor with the unit section `1`. -/
 theorem tensorProductLeftUnitor_inv_val_app (M : SheafOfModules.{w} (structureSheaf O hO))

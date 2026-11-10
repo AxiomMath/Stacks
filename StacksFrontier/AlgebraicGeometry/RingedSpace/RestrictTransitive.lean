@@ -240,7 +240,7 @@ public theorem overUnitHom_comp (p : M ⟶ N) {V : C} (f₁ : U' ⟶ V) (f₂ : 
   refine (N.over U').unitHomEquiv.injective
     (PresheafOfModules.sections_ext _ _ fun V₀ => ?_)
   rw [unitHomEquiv_comp_apply, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-  show p.val.app (op V₀.unop.left) (M.val.map (V₀.unop.hom ≫ f₁).op a) = _
+  change p.val.app (op V₀.unop.left) (M.val.map (V₀.unop.hom ≫ f₁).op a) = _
   rw [PresheafOfModules.naturality_apply, hag, ← N.val.map_comp_apply, ← op_comp]
   exact N.val.congr_map_apply (by rw [Category.assoc]) _
 

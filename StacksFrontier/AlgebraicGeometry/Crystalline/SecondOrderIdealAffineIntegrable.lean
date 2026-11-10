@@ -451,7 +451,7 @@ theorem splitTensorInv_tmul (t : crysSheafRing S (secondOrderThickeningObject S 
 private theorem tensor_addHom_apply_eq {R P Q N : Type*} [CommSemiring R] [AddCommMonoid P]
     [Module R P] [AddCommMonoid Q] [Module R Q] [AddCommMonoid N] {f g : P ⊗[R] Q →+ N}
     (h : ∀ p q, f (p ⊗ₜ[R] q) = g (p ⊗ₜ[R] q)) (z : P ⊗[R] Q) : f z = g z :=
-  z.induction_on (motive := fun z ↦ f z = g z) (by rw [map_zero, map_zero]) h
+  z.inductionOn (motive := fun z ↦ f z = g z) h
     fun _ _ hx hy ↦ by rw [map_add, map_add, hx, hy]
 
 /-- The inverse of the splitting undoes the first middle summand. -/
@@ -505,8 +505,7 @@ def splitTensorEquiv :
       TensorProduct.zero_tmul, TensorProduct.zero_tmul]
     refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_)) <;> simp
   right_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul t s =>
         rw [splitTensorInv_tmul, splitTensor_apply, leftTensorMap_tmul, rightTensorMap_tmul,
           topTensorMap_tmul, ← TensorProduct.smul_tmul, crysSheafRing_smul_def, mul_one,
@@ -568,7 +567,7 @@ theorem extensionSectionsMap_splitTensorEquiv
           (crysSecondFormSections A ⊗[crysSheafRing S A] M.val.obj (op A))))) :
     extensionSectionsMap M A (splitTensorEquiv M A x) = secondOrderSectionsMap M A x := by
   obtain ⟨s, z₁, z₂, w⟩ := x
-  show extensionSectionsMap M A (splitTensor M A (s, z₁, z₂, w)) = _
+  change extensionSectionsMap M A (splitTensor M A (s, z₁, z₂, w)) = _
   rw [splitTensor_apply, map_add, map_add, map_add, extensionSectionsMap_tmul,
     extensionSectionsMap_leftTensorMap, extensionSectionsMap_rightTensorMap,
     extensionSectionsMap_topTensorMap, one_smul, secondOrderSectionsMap_apply]
@@ -586,7 +585,7 @@ theorem bijective_secondOrderSectionsMap_iff_bijective_extensionSectionsMap :
   have hinv : (extensionSectionsMap M A : _ → _) =
       (secondOrderSectionsMap M A) ∘ (splitTensorEquiv M A).symm := by
     refine funext fun t ↦ ?_
-    show _ = secondOrderSectionsMap M A ((splitTensorEquiv M A).symm t)
+    change _ = secondOrderSectionsMap M A ((splitTensorEquiv M A).symm t)
     rw [← extensionSectionsMap_splitTensorEquiv M A, AddEquiv.apply_symm_apply]
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩
   · rw [hinv]

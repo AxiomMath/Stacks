@@ -198,14 +198,14 @@ private theorem exists_least_above_of_isArtinian_quotient {R : Type*} [CommRing 
   let π := Ideal.Quotient.mk A
   have hc (J : Ideal R) (hJ : A ≤ J) : (J.map π).comap π = J := by
     rw [Ideal.comap_map_of_surjective π Ideal.Quotient.mk_surjective]
-    show J ⊔ RingHom.ker π = J
+    change J ⊔ RingHom.ker π = J
     rw [show RingHom.ker π = A from Ideal.mk_ker]
     exact sup_eq_left.mpr hJ
   obtain ⟨L, hL, hmin⟩ := IsArtinian.set_has_minimal
     {L : Ideal (R ⧸ A) | P (Ideal.comap π L)} ⟨⊤, by simpa using htop⟩
   refine ⟨Ideal.comap π L, ?_, hL, ?_⟩
   · intro z hz
-    show π z ∈ L
+    change π z ∈ L
     simp [π, Ideal.Quotient.eq_zero_iff_mem.mpr hz]
   · intro J hAJ hJ
     have hcap : P (Ideal.comap π (L ⊓ J.map π)) := by
@@ -267,7 +267,7 @@ private theorem exists_least_adic_ideal {R : Type*} [CommRing R] [IsLocalRing R]
     apply IsHausdorff.haus' (I := m)
     intro n
     rw [SModEq.zero]
-    show z ∈ Submodule.comap J.mkQ (m ^ n • (⊤ : Submodule R (R ⧸ J)))
+    change z ∈ Submodule.comap J.mkQ (m ^ n • (⊤ : Submodule R (R ⧸ J)))
     rw [Submodule.comap_smul_top_of_surjective _ _ J.mkQ_surjective,
       Submodule.ker_mkQ, Ideal.smul_eq_mul, Ideal.mul_top, sup_comm]
     cases n with
@@ -296,10 +296,10 @@ private theorem flatAfterQuotientAlong_of_flat_tensor_sup_pow
     have hker : I ⊔ m ^ (n + 1) ≤ RingHom.ker (algebraMap R C) := by
       refine sup_le ?_ ?_
       · intro z hz
-        show Ideal.Quotient.mk L (Ideal.Quotient.mk I z) = 0
+        change Ideal.Quotient.mk L (Ideal.Quotient.mk I z) = 0
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hz, map_zero]
       · intro z hz
-        show Ideal.Quotient.mk L (Ideal.Quotient.mk I z) = 0
+        change Ideal.Quotient.mk L (Ideal.Quotient.mk I z) = 0
         apply Ideal.Quotient.eq_zero_iff_mem.mpr
         dsimp [L, mA]
         rw [← Ideal.map_pow]
@@ -333,7 +333,7 @@ private theorem flat_tensor_sup_pow_of_flatAfterQuotientAlong
     rfl
   have hnil : IsNilpotent mC := by
     refine ⟨n, ?_⟩
-    show (m.map (Ideal.Quotient.mk (I ⊔ m ^ n))) ^ n = ⊥
+    change (m.map (Ideal.Quotient.mk (I ⊔ m ^ n))) ^ n = ⊥
     rw [← Ideal.map_pow, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
     exact le_sup_right
   have hD : Module.FlatAlongZeroLocus C D mC (D ⊗[B] N) :=
@@ -412,7 +412,7 @@ private lemma isArtinianRing_quotient_ker
     ← Ideal.map_pow]
   apply le_antisymm
   · rw [Ideal.map_le_iff_le_comap]
-    show IsLocalRing.maximalIdeal R ^ n ≤
+    change IsLocalRing.maximalIdeal R ^ n ≤
       RingHom.ker (Ideal.Quotient.mk (RingHom.ker (algebraMap R A)))
     rw [Ideal.mk_ker]
     intro z hz
@@ -502,7 +502,7 @@ lemma Module.flatAlongZeroLocus_baseChange_iff_map_eq_bot
       let : IsLocalHom (algebraMap R' A) :=
         IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
       let : IsLocalHom (algebraMap R A) := by
-        show IsLocalHom ((algebraMap R' A).comp (algebraMap R R'))
+        change IsLocalHom ((algebraMap R' A).comp (algebraMap R R'))
         infer_instance
       let : IsArtinianRing A := by
         rw [isArtinianRing_iff_isNilpotent_maximalIdeal]
@@ -511,7 +511,7 @@ lemma Module.flatAlongZeroLocus_baseChange_iff_map_eq_bot
           ← Ideal.map_pow]
         refine le_antisymm ?_ bot_le
         rw [Ideal.map_le_iff_le_comap]
-        show IsLocalRing.maximalIdeal R' ^ (n + 1) ≤
+        change IsLocalRing.maximalIdeal R' ^ (n + 1) ≤
           RingHom.ker (Ideal.Quotient.mk (IsLocalRing.maximalIdeal R' ^ (n + 1)))
         rw [Ideal.mk_ker]
       let T := (S ⊗[R] R') ⊗[R'] A
@@ -547,7 +547,7 @@ lemma Module.flatAlongZeroLocus_baseChange_iff_map_eq_bot
     have hIS : I.map (algebraMap R S) ≤ RingHom.ker (algebraMap S T) := by
       rw [Ideal.map_le_iff_le_comap]
       intro z hz
-      show algebraMap S T (algebraMap R S z) = 0
+      change algebraMap S T (algebraMap R S z) = 0
       calc
         algebraMap S T (algebraMap R S z) = algebraMap R T z :=
           (IsScalarTower.algebraMap_apply R S T z).symm
@@ -566,12 +566,12 @@ lemma Module.flatAlongZeroLocus_baseChange_iff_map_eq_bot
       exact (Ideal.Quotient.lift_mk (I.map (algebraMap R S)) (algebraMap S T)
         (fun y hy => hIS hy)).symm
     let : IsScalarTower R Rbar T := IsScalarTower.of_algebraMap_eq fun z => by
-      show algebraMap R T z =
+      change algebraMap R T z =
         algebraMap R' T (algebraMap Rbar R' (algebraMap R Rbar z))
       rw [← IsScalarTower.algebraMap_apply R Rbar R' z]
       exact IsScalarTower.algebraMap_apply R R' T z
     let : IsScalarTower R Sbar T := IsScalarTower.of_algebraMap_eq fun z => by
-      show algebraMap R T z =
+      change algebraMap R T z =
         algebraMap Sbar T (algebraMap R Sbar z)
       rw [IsScalarTower.algebraMap_apply R S Sbar z]
       rw [← IsScalarTower.algebraMap_apply S Sbar T (algebraMap R S z)]
@@ -581,7 +581,7 @@ lemma Module.flatAlongZeroLocus_baseChange_iff_map_eq_bot
     let : IsScalarTower Rbar Sbar T := IsScalarTower.of_algebraMap_eq fun z => by
       obtain ⟨y, hy⟩ := Ideal.Quotient.mk_surjective z
       subst z
-      show algebraMap Rbar T ((Ideal.Quotient.mk I) y) =
+      change algebraMap Rbar T ((Ideal.Quotient.mk I) y) =
         algebraMap Sbar T (algebraMap Rbar Sbar ((Ideal.Quotient.mk I) y))
       have hleft : algebraMap Rbar R' ((Ideal.Quotient.mk I) y) =
           algebraMap R R' y :=
@@ -647,7 +647,7 @@ private theorem flatAlongZeroLocus_baseChange_of_tower
   let : IsScalarTower A (S ⊗[R] A) (S ⊗[R] B) :=
     IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show (1 : S) ⊗ₜ[R] algebraMap A B a = f (1 ⊗ₜ[R] a)
+      change (1 : S) ⊗ₜ[R] algebraMap A B a = f (1 ⊗ₜ[R] a)
       simp [f])
   let : IsScalarTower R (S ⊗[R] A) (S ⊗[R] B) :=
     IsScalarTower.of_algebraMap_eq' (f.restrictScalars R).comp_algebraMap.symm
@@ -707,7 +707,7 @@ private theorem localizationAtComapHom_isLocalHom
   obtain ⟨a, s, rfl⟩ := IsLocalization.exists_mk'_eq
     ((IsLocalRing.maximalIdeal A).comap B.val).primeCompl x
   apply (IsLocalization.AtPrime.isUnit_mk'_iff _ _ a s).mpr
-  show (a : A) ∉ IsLocalRing.maximalIdeal A
+  change (a : A) ∉ IsLocalRing.maximalIdeal A
   apply IsLocalRing.notMem_maximalIdeal.mpr
   have hs : IsUnit (localizationAtComapHom B
       (algebraMap B (localizationAtComap B) s)) := by
@@ -859,10 +859,10 @@ private theorem exists_directed_noetherian_local_subalgebras
     obtain ⟨t, ht⟩ := i.property
     obtain ⟨u, hu⟩ := j.property
     refine ⟨⟨_, ⟨t ∪ u, rfl⟩⟩, ?_, ?_⟩
-    · show i.val ≤ _
+    · change i.val ≤ _
       rw [← ht]
       exact hm Finset.subset_union_left
-    · show j.val ≤ _
+    · change j.val ≤ _
       rw [← hu]
       exact hm Finset.subset_union_right
   · apply top_unique

@@ -253,7 +253,7 @@ For `τ : T' ⟶ T` of the site and scheme points `f`, `f' = f ∘ τ` of `X`, t
 carried to the attached modules of Stacks 03DX (2) and read through `N ≅ (N_Zar)^a` at both ends
 and through `φ^*(M^a) ≅ (τ^*M)^a`, is the composition comparison `φ^*(f^*𝒜_n) ≅ (φ ≫ f)^*𝒜_n` of
 Stacks 03LU followed by the transport along `φ ≫ f = f'`. -/
-theorem modulePullback_map_zariskiReadingQuasicoherentIso_hom_comp_pointComparison_eq_homEquiv_symm_of_compat
+theorem modulePullback_map_zariskiReadingIso_hom_comp_pointComparison_eq_homEquiv_symm_of_compat
     (hH : ZariskiReadingDirectImageCompat τ) {X : AlgebraicSpaces B S hS}
     (A : SheafOfModules.GradedAlgebra.{u, u} (structureRingSheaf B S hS X))
     (hA : ∀ n, (A.piece n).IsQuasicoherentOnSite)
@@ -315,7 +315,7 @@ theorem modulePullback_map_zariskiReadingQuasicoherentIso_hom_comp_pointComparis
         (zariskiReadingQuasicoherentIso T' ((etalePointAlgebra A T' f').piece n)
           (isQuasicoherentOnSite_etalePointAlgebra_piece A hA f' n)).hom := by
   have ka :=
-    modulePullback_map_zariskiReadingQuasicoherentIso_hom_comp_pointComparison_eq_homEquiv_symm_of_compat
+    modulePullback_map_zariskiReadingIso_hom_comp_pointComparison_eq_homEquiv_symm_of_compat
     τ hH A hA f f' hf n
   have k1 := homEquiv_symm_gradedPullRestrictionApp (representedSpaceMap B S hS τ) (pointHom f)
     (pointHom f') (pointHom_comp τ hf) A n

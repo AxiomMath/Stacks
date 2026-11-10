@@ -221,7 +221,7 @@ theorem vanishesAlong_isoUnit_iff {X Y : Scheme.{u}} (g : X ⟶ Y) {M : Y.Module
   have hnat := pullbackSectionTop_naturality g e.hom (e.inv.val.app (op ⊤) c)
   rw [Scheme.Modules.hom_app_inv_app e (op ⊤) c] at hnat
   refine Iff.trans ?_ (vanishesAlong_unitModule_iff g c)
-  show pullbackSectionTop g M (e.inv.val.app (op ⊤) c) = 0 ↔
+  change pullbackSectionTop g M (e.inv.val.app (op ⊤) c) = 0 ↔
     pullbackSectionTop g (Scheme.unitModule Y) c = 0
   rw [← hnat]
   exact (map_eq_zero_iff _ (Scheme.Modules.hom_app_injective
@@ -261,7 +261,7 @@ theorem finrank_sections_specMap {k A : Type u} [Field k] [CommRing A]
           rw [RingHom.algebraMap_toAlgebra]
           exact (congrArg (fun t : CommRingCat.of k ⟶ Γ(Spec (.of A), ⊤) => t.hom r) hnat).symm
         rw [hr]
-        show (Scheme.ΓSpecIso (.of A)).hom ((Scheme.ΓSpecIso (.of A)).inv (ψ r)) = _
+        change (Scheme.ΓSpecIso (.of A)).hom ((Scheme.ΓSpecIso (.of A)).inv (ψ r)) = _
         rw [← CommRingCat.comp_apply, Iso.inv_hom_id]
         rfl }
   exact e.toLinearEquiv.finrank_eq
@@ -284,10 +284,10 @@ theorem finrank_dualNumber_of_bijective {k κ : Type u} [Field k] [Field κ]
       map_add' := fun z w => by apply Prod.ext <;> simp
       map_smul' := fun r z => by
         apply Prod.ext
-        · show e.symm (r • z).fst = r * e.symm z.fst
+        · change e.symm (r • z).fst = r * e.symm z.fst
           rw [hsmul r z]
           simp [TrivSqZeroExt.fst_mul]
-        · show e.symm (r • z).snd = r * e.symm z.snd
+        · change e.symm (r • z).snd = r * e.symm z.snd
           rw [hsmul r z]
           simp [TrivSqZeroExt.snd_mul] }
   rw [L.finrank_eq, Module.finrank_prod, Module.finrank_self]
@@ -317,7 +317,7 @@ theorem surjective_dottedStalkHom (p : X ⟶ Spec (.of k)) [LocallyOfFiniteType 
     Module.compHom _ (X.residue x).hom
   let : SMulCommClass (X.residueField x) (X.presheaf.stalk x) (X.residueField x) := ⟨by
     intro r a v
-    show r * ((X.residue x a) * v) = (X.residue x a) * (r * v)
+    change r * ((X.residue x a) * v) = (X.residue x a) * (r * v)
     ring⟩
   let D := dottedToDerivation p x θ
   have hres (r : k) : X.residue x (α r) = e r := rfl
@@ -325,7 +325,7 @@ theorem surjective_dottedStalkHom (p : X ⟶ Spec (.of k)) [LocallyOfFiniteType 
     have hα : α r = p.stalkMap x
         ((Spec (.of k)).presheaf.germ ⊤ (p x) (by trivial)
           ((Scheme.ΓSpecIso (.of k)).inv r)) := by
-      show X.presheaf.germ ⊤ x trivial
+      change X.presheaf.germ ⊤ x trivial
           (p.appTop ((Scheme.ΓSpecIso (.of k)).inv r)) = _
       symm
       exact Scheme.Hom.germ_stalkMap_apply p ⊤ x (by trivial)
@@ -355,23 +355,23 @@ theorem surjective_dottedStalkHom (p : X ⟶ Spec (.of k)) [LocallyOfFiniteType 
     rw [hres q]
     exact e.apply_symm_apply _
   have hresc₀ : X.residue x c₀ = 0 := by
-    show X.residue x (c - α q) = 0
+    change X.residue x (c - α q) = 0
     rw [map_sub, hq, sub_self]
   have hDc₀ : D.1 c₀ = D.1 c := by
     simp [c₀, map_sub, hbase]
   refine ⟨α r + α ell * c₀, ?_⟩
   apply TrivSqZeroExt.ext
-  · show (g (α r + α ell * c₀)).fst = z.fst
+  · change (g (α r + α ell * c₀)).fst = z.fst
     rw [hfst, map_add, map_mul, hres r, hres ell, hresc₀, mul_zero, add_zero]
     exact e.apply_symm_apply _
-  · show D.1 (α r + α ell * c₀) = z.snd
+  · change D.1 (α r + α ell * c₀) = z.snd
     have hderiv : D.1 (α r + α ell * c₀) = X.residue x (α ell) * D.1 c₀ := by
       calc
         D.1 (α r + α ell * c₀) = D.1 (α r) + D.1 (α ell * c₀) := map_add _ _ _
         _ = 0 + (α ell • D.1 c₀ + c₀ • D.1 (α ell)) := by rw [hbase r, D.1.leibniz]
         _ = X.residue x (α ell) * D.1 c₀ := by
           rw [hbase ell]
-          show 0 + (X.residue x (α ell) * D.1 c₀ + X.residue x c₀ * 0) = _
+          change 0 + (X.residue x (α ell) * D.1 c₀ + X.residue x c₀ * 0) = _
           rw [hresc₀]
           ring
     rw [hderiv, hDc₀, show X.residue x (α ell) = z.snd / D.1 c by

@@ -46,18 +46,6 @@ namespace Stacks.EtaleCohomology
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ)
 
-variable [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
-  ((smallEtaleBaseChange B f).sheafPushforwardContinuous
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
-    (SmallEtale.topology B S.1 S.property)
-    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
-variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
-  HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-variable [∀ n : ℕ, HasWeakSheafify
-  (SmallEtale.topology B X.1 X.property)
-  (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-
 attribute [local instance] underlyingLevelFunctor_additive
   underlyingLevelFunctor_preservesMonomorphisms underlyingLevelFunctor_isLeftAdjoint
   underlyingLevelFunctor_preservesKernels underlyingLevelFunctor_full
@@ -70,6 +58,18 @@ public theorem underlyingLevelFunctor_annihilated (n : ℕ)
     (zmodSheaf_nsmul_id (SmallEtale.topology B X.1 X.property) (ℓ ^ (n + 1)) P)
   simpa only [Functor.map_nsmul, Functor.map_zero,
     (underlyingLevelFunctor B X ℓ n).map_id] using h
+
+variable [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+  ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+    (SmallEtale.topology B S.1 S.property)
+    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+  HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+variable [∀ n : ℕ, HasWeakSheafify
+  (SmallEtale.topology B X.1 X.property)
+  (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 
 variable [Fact ℓ.Prime] [IsNoetherian X.1]
 
@@ -99,7 +99,7 @@ public theorem iteratedUnderlyingTransition_verschiebung (F : LAdicSheaf.{u, u +
   induction k with
   | zero => simp [iteratedUnderlyingTransition, iteratedUnderlyingVerschiebung]
   | succ k hk =>
-    show (underlyingLAdicTransition B X ℓ F (n + k) ≫
+    change (underlyingLAdicTransition B X ℓ F (n + k) ≫
         iteratedUnderlyingTransition B X ℓ F n k) ≫
       (iteratedUnderlyingVerschiebung B X ℓ F n k ≫
         underlyingLAdicVerschiebung B X ℓ F (n + k)) = _
@@ -116,7 +116,7 @@ public theorem iteratedUnderlyingVerschiebung_transition (F : LAdicSheaf.{u, u +
   induction k with
   | zero => simp [iteratedUnderlyingTransition, iteratedUnderlyingVerschiebung]
   | succ k hk =>
-    show (iteratedUnderlyingVerschiebung B X ℓ F n k ≫
+    change (iteratedUnderlyingVerschiebung B X ℓ F n k ≫
         underlyingLAdicVerschiebung B X ℓ F (n + k)) ≫
       (underlyingLAdicTransition B X ℓ F (n + k) ≫
         iteratedUnderlyingTransition B X ℓ F n k) = _
@@ -215,10 +215,10 @@ public theorem iteratedUnderlyingTransition_eq (F : LAdicSheaf.{u, u + 1} B X �
       underlyingTransitionLE B X ℓ F (Nat.le_add_right n k) := by
   induction k with
   | zero =>
-    show 𝟙 _ = (underlyingLAdicTower B X ℓ F).map (𝟙 _)
+    change 𝟙 _ = (underlyingLAdicTower B X ℓ F).map (𝟙 _)
     exact ((underlyingLAdicTower B X ℓ F).map_id _).symm
   | succ k hk =>
-    show underlyingLAdicTransition B X ℓ F (n + k) ≫
+    change underlyingLAdicTransition B X ℓ F (n + k) ≫
       iteratedUnderlyingTransition B X ℓ F n k = _
     rw [hk, ← underlyingTransitionLE_succ, underlyingTransitionLE_comp]
 
@@ -266,7 +266,7 @@ public theorem initialVerschiebung_scalar (F : LAdicSheaf.{u, u + 1} B X ℓ) (n
   | succ n hn =>
     rw [← underlyingTransitionLE_comp B X ℓ F (Nat.zero_le n) (Nat.le_succ n),
       underlyingTransitionLE_succ]
-    show (underlyingLAdicTransition B X ℓ F n ≫
+    change (underlyingLAdicTransition B X ℓ F n ≫
       underlyingTransitionLE B X ℓ F (Nat.zero_le n)) ≫
       (initialVerschiebung B X ℓ F n ≫ underlyingLAdicVerschiebung B X ℓ F n) = _
     rw [Category.assoc, ← Category.assoc (underlyingTransitionLE B X ℓ F (Nat.zero_le n)),
@@ -364,7 +364,7 @@ public theorem underlyingRawKernelTransition_fac {F G : LAdicSheaf.{u, u + 1} B 
     (n : ℕ) :
     underlyingRawKernelTransition B X ℓ f n ≫ underlyingRawKernelι B X ℓ f n =
       underlyingRawKernelι B X ℓ f (n + 1) ≫ underlyingLAdicTransition B X ℓ F n := by
-  show (underlyingLevelFunctor B X ℓ (n + 1)).map (rawKernelTransition f n) ≫
+  change (underlyingLevelFunctor B X ℓ (n + 1)).map (rawKernelTransition f n) ≫
       (underlyingLevelFunctor B X ℓ (n + 1)).map
         ((restrictScalarsFunctor B X ℓ n).map (kernel.ι (f.app n))) = _
   rw [← Functor.map_comp, rawKernelTransition_fac, Functor.map_comp]

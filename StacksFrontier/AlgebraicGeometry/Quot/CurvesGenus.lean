@@ -160,7 +160,7 @@ theorem IsOpenCurvesLocus.of_points_of_isOpenCurvesLocus {P Q : ObjectProperty (
     simp only [eqToHom_refl, Category.comp_id] at h
     exact h
   have hfactor : (schemeSpaceMap φ.baseMap).hom = (yoneda.map i.hom ≫ e.hom) ≫ W.ι := by
-    show yoneda.map φ.baseMap = _
+    change yoneda.map φ.baseMap = _
     rw [hfac, Functor.map_comp, Category.assoc, he]
     rfl
   have hPV : P GV := (hchar GV φ).mpr ⟨yoneda.map i.hom ≫ e.hom, hfactor.symm⟩
@@ -214,10 +214,10 @@ theorem IsOpenCurvesLocus.of_points_of_isOpenCurvesLocus {P Q : ObjectProperty (
           Set.range (Space.pointsMap B integerBase hZ (schemeSpace F.base).obj
             (schemeSpaceMap χ.baseMap).hom) := by
     intro F χ
-    show Set.range (Space.pointsMap B integerBase hZ _
+    change Set.range (Space.pointsMap B integerBase hZ _
       (schemeSpaceMap (χ.baseMap ≫ φ.baseMap)).hom) = _
     rw [schemeSpaceMap_comp]
-    show Set.range (Space.pointsMap B integerBase hZ _
+    change Set.range (Space.pointsMap B integerBase hZ _
       ((schemeSpaceMap χ.baseMap).hom ≫ (schemeSpaceMap φ.baseMap).hom)) = _
     rw [Space.pointsMap_comp, Set.range_comp]
   refine ⟨Space.pointsMap B integerBase hZ (schemeSpace GV.base).obj
@@ -342,7 +342,7 @@ theorem curvesGenus_decomposition_of (G : CurveFamily B hZ) (hG : IsH01CurveFami
     fun g => isGenusCurveFamily_iff_of hopen hpush h3 g hG hR⟩
   have hcompl : (Ω g)ᶜ = ⋃ g' ∈ {g' | g' ≠ g}, Ω g' := by
     ext s
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     constructor
     · intro hs
       obtain ⟨g', hg'⟩ := Space.exists_mem_rankLocus hR s
@@ -545,7 +545,7 @@ theorem isGenusCurveFamily_curveFamilyOfSchemeMorphism_iff_of
         genus ((BigFppfOver.toScheme B integerBase hZ).map g ≫ eqToHom hW) = n := by
   have hne : Nonempty ((BigFppfOver.toScheme B integerBase hZ).obj
       (curveFamilyOfSchemeMorphism B hZ g hflat hproper hlfp hqc hsep hqsep hdim).base) := by
-    show Nonempty ((BigFppfOver.toScheme B integerBase hZ).obj W)
+    change Nonempty ((BigFppfOver.toScheme B integerBase hZ).obj W)
     rw [hW]
     exact inferInstanceAs (Nonempty (PrimeSpectrum k))
   obtain ⟨x⟩ := hne

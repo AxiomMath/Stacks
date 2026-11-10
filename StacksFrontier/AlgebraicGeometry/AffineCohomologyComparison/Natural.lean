@@ -216,7 +216,7 @@ public theorem rightDerived_map_baseSmul_hom (F : Y.left.Modules) (n : ℕ) (r :
           𝟙 (op (⊤ : Y.left.Opens)) := rfl
       rw [h1, CategoryTheory.Functor.map_id]
       rfl
-    show AlgebraicGeometry.baseRingToSections R Y (op ⊤) r = _
+    change AlgebraicGeometry.baseRingToSections R Y (op ⊤) r = _
     exact hres _
   rw [Functor.map_smul, CategoryTheory.Functor.map_id, ← halg]
   rfl

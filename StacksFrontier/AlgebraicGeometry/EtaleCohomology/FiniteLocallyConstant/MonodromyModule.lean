@@ -153,7 +153,7 @@ theorem comp_galoisAutHom {A B : PointedGaloisCover x} (f : A ⟶ B)
   have h : autMap f.val (AutGalois.π _ A ξ) = AutGalois.π _ B ξ := by
     rw [AutGalois.π_apply, AutGalois.π_apply]
     exact ξ.2 f
-  show f.val ≫ (AutGalois.π _ B ξ).asIso.hom = (AutGalois.π _ A ξ).asIso.hom ≫ f.val
+  change f.val ≫ (AutGalois.π _ B ξ).asIso.hom = (AutGalois.π _ A ξ).asIso.hom ≫ f.val
   rw [← h]
   exact comp_autMap _ _
 
@@ -197,7 +197,7 @@ theorem isOpen_setOf_galoisAut_eq_one (A : PointedGaloisCover x) :
   let _ (Y : FiniteEtaleOver X) : TopologicalSpace (F.obj Y) := ⊥
   let _ (Y : FiniteEtaleOver X) : DiscreteTopology (F.obj Y) := ⟨rfl⟩
   let _ (Y : FiniteEtaleOver X) : TopologicalSpace (Equiv.Perm (F.obj Y)) := autTopology
-  show @IsOpen (EtaleFundamentalGroup X x)
+  change @IsOpen (EtaleFundamentalGroup X x)
     (TopologicalSpace.induced (componentEmbedding F) inferInstance) _
   have heval : Continuous (fun g : ∀ Y, Equiv.Perm (F.obj Y) ↦ g A.obj A.basePt) :=
     ((continuous_apply A.basePt).comp continuous_induced_dom).comp (continuous_apply A.obj)
@@ -419,15 +419,15 @@ theorem monodromyAction_isContinuous (F : (X.Etale)ᵒᵖ ⥤ ModuleCat.{max (u 
   refine ⟨(fun σ ↦ σ₀⁻¹ * σ) ⁻¹' {σ | galoisAut x σ A.unop = 1}, ?_, ?_, ?_⟩
   · intro σ hσ
     change galoisAut x (σ₀⁻¹ * σ) A.unop = 1 at hσ
-    show (((monodromyAction x).obj F).ρ σ).asHom.hom _ = _
+    change (((monodromyAction x).obj F).ρ σ).asHom.hom _ = _
     have hσσ : σ = σ₀ * (σ₀⁻¹ * σ) := by group
     rw [hσσ, map_mul, End.mul_asHom, ModuleCat.hom_comp]
-    show (((monodromyAction x).obj F).ρ σ₀).asHom.hom
+    change (((monodromyAction x).obj F).ρ σ₀).asHom.hom
       ((((monodromyAction x).obj F).ρ (σ₀⁻¹ * σ)).asHom.hom _) = _
     rw [monodromyAction_ρ_ι_apply_of_galoisAut_eq_one F hσ]
     exact hσ₀
   · exact (isOpen_setOf_galoisAut_eq_one x A.unop).preimage (continuous_const.mul continuous_id)
-  · show galoisAut x (σ₀⁻¹ * σ₀) A.unop = 1
+  · change galoisAut x (σ₀⁻¹ * σ₀) A.unop = 1
     rw [inv_mul_cancel, galoisAut_one]
 
 variable (x Λ)

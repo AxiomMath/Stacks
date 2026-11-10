@@ -47,11 +47,11 @@ private theorem finitePushforwardStalkComponent_germ_of_hom
       B.inclusion.map (pullback.fst V.1.obj.hom f) = V.2.1)
     (t : F.obj.obj (op ((smallEtaleBaseChange B f).obj V.1))) :
     finitePushforwardStalkComponent B f y F x
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) (op V) t) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj) (op U)
         (F.obj.map a.op t) :=
   pushforwardEtaleStalkComponent_germ B f (geometricPointLift (B.inclusion.map f) y x) y
@@ -64,7 +64,7 @@ private theorem finitePushforwardStalkComponent_germ_eq_iff
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom})
     (V : (geometricPointFiber B Y.1 Y.property y).Elements)
     (t t' : F.obj.obj (op ((smallEtaleBaseChange B f).obj V.1))) :
-    (let D := (CategoryOfElements.π
+    (let D := (Functor.Elements.π
       (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)
@@ -78,7 +78,7 @@ private theorem finitePushforwardStalkComponent_germ_eq_iff
   dsimp only
   rw [finitePushforwardStalkComponent_germ,
     finitePushforwardStalkComponent_germ]
-  let D := (CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  let D := (Functor.Elements.π (geometricPointFiber B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x))).op ⋙ F.obj
   refine (Types.FilteredColimit.isColimit_eq_iff' (colimit.isColimit D)
     (i := op (liftedEtaleNeighborhood B f y x V)) t t').trans ?_
@@ -103,7 +103,7 @@ private theorem exists_geometricLift_of_mem_fiber
     exact (congrArg (fun a => a ≫ y.hom)
       (pointOfClosedPoint_comp (pullback.snd f y.hom) z isClosed_singleton)).trans
         (Category.id_comp _)
-  · show (pullback.fst f y.hom) (p default) = x
+  · change (pullback.fst f y.hom) (p default) = x
     rw [pointOfClosedPoint_apply, hz]
 
 private theorem exists_open_base_of_geometricLifts
@@ -149,13 +149,13 @@ private theorem smallEtale_generate_covering
     constructor
     · refine ⟨id, fun j => (hβ j).symm, ?_⟩
       intro j
-      show G.map (E.f (β j)) = eqToHom (hβ j).symm ≫ C.f j
+      change G.map (E.f (β j)) = eqToHom (hβ j).symm ≫ C.f j
       rw [eβ j, ← Category.assoc, eqToHom_trans, eqToHom_refl, Category.id_comp]
       rfl
     · exact ⟨id, hβ, eβ⟩
   have hD : SmallEtale.IsCovering B S hS ⟨U, D⟩ := by
     refine ⟨?_, hC.2⟩
-    show ((D.map G).map B.inclusion).presieve₀ ∈ _
+    change ((D.map G).map B.inclusion).presieve₀ ∈ _
     rw [PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent
       (combinatoriallyEquivalent_map hDC B.inclusion)]
     exact hC.1
@@ -187,7 +187,7 @@ private theorem etale_smallEtale_map
     Etale ((SmallEtale.toScheme B S hS).map a) := by
   have h : (SmallEtale.toScheme B S hS).map a ≫ B.inclusion.map V.obj.hom =
       B.inclusion.map U.obj.hom := by
-    show B.inclusion.map a.hom.left ≫ _ = _
+    change B.inclusion.map a.hom.left ≫ _ = _
     rw [← Functor.map_comp, Over.w]
   have : Etale ((SmallEtale.toScheme B S hS).map a ≫ B.inclusion.map V.obj.hom) :=
     h.symm ▸ U.property
@@ -208,7 +208,7 @@ private theorem sections_ext_of_range_subset
   let E : PreZeroHypercover.{u + 1} V :=
     { I₀ := I, X := fun i => pullback (b i) a, f := fun i => pullback.snd (b i) a }
   apply sections_ext_of_etale_covering B S hS F V E
-  · show (E.map T).presieve₀ ∈ Scheme.precoverage @Etale (T.obj V)
+  · change (E.map T).presieve₀ ∈ Scheme.precoverage @Etale (T.obj V)
     refine (Scheme.presieve₀_mem_precoverage_iff (P := @Etale) (E.map T)).2
       ⟨fun v => ?_, fun i => etale_smallEtale_map B S hS (E.f i)⟩
     obtain ⟨i, w, hw⟩ := Set.mem_iUnion.mp (hcover (Set.mem_range_self v))
@@ -216,7 +216,7 @@ private theorem sections_ext_of_range_subset
       ((IsPullback.of_hasPullback (b i) a).map T) w v hw
     exact ⟨i, p, hp'⟩
   · intro i
-    show F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
+    change F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t) =
       F.obj.map (pullback.snd (b i) a).op (F.obj.map a.op t')
     have he : a.op ≫ (pullback.snd (b i) a).op =
         (b i).op ≫ (pullback.fst (b i) a).op :=
@@ -263,7 +263,7 @@ private theorem exists_baseChange_refinement_range_subset
   let j : B.obj O' hsize ⟶ V.1.obj.left := ObjectProperty.homMk O'.ι
   let V' : SmallEtale B Y.1 Y.property :=
     ⟨Over.mk (j ≫ V.1.obj.hom), by
-      show Etale (O'.ι ≫ B.inclusion.map V.1.obj.hom)
+      change Etale (O'.ι ≫ B.inclusion.map V.1.obj.hom)
       infer_instance⟩
   have hrange : Set.range V.2.1 ⊆ Set.range O'.ι := by
     rintro _ ⟨a, rfl⟩
@@ -274,7 +274,7 @@ private theorem exists_baseChange_refinement_range_subset
   have hv' : v' ≫ O'.ι = V.2.1 := IsOpenImmersion.lift_fac _ _ _
   let N : (geometricPointFiber B Y.1 Y.property y).Elements :=
     Functor.elementsMk _ V' ⟨v', by
-      show v' ≫ (O'.ι ≫ B.inclusion.map V.1.obj.hom) = y.hom
+      change v' ≫ (O'.ι ≫ B.inclusion.map V.1.obj.hom) = y.hom
       rw [← Category.assoc, hv']
       exact V.2.2⟩
   let a : N ⟶ V := ⟨ObjectProperty.homMk (Over.homMk j rfl), Subtype.ext hv'⟩
@@ -283,13 +283,13 @@ private theorem exists_baseChange_refinement_range_subset
   apply hO'
   have hπ : T.map ((smallEtaleBaseChange B f).map a.1) ≫ π =
       B.inclusion.map (pullback.fst V'.obj.hom f) ≫ O'.ι := by
-    show B.inclusion.map ((Over.pullback f).map a.1.hom).left ≫ _ =
+    change B.inclusion.map ((Over.pullback f).map a.1.hom).left ≫ _ =
       B.inclusion.map (pullback.fst V'.obj.hom f) ≫ B.inclusion.map j
     rw [← Functor.map_comp, ← Functor.map_comp]
     congr 1
     exact pullback.lift_fst _ _ _
   have hz := congrArg (fun k => k z) hπ
-  show π (T.map ((smallEtaleBaseChange B f).map a.1) z) ∈ O'
+  change π (T.map ((smallEtaleBaseChange B f).map a.1) z) ∈ O'
   change π (T.map ((smallEtaleBaseChange B f).map a.1) z) =
     O'.ι (B.inclusion.map (pullback.fst V'.obj.hom f) z) at hz
   rw [hz]
@@ -303,7 +303,7 @@ private theorem finitePushforwardStalkComponent_injective
     Function.Injective (fun z x => finitePushforwardStalkComponent B f y F x z) := by
   classical
   intro z z' hz
-  let D := (CategoryOfElements.π
+  let D := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B Y.1 Y.property)

@@ -209,9 +209,9 @@ theorem sigmaWeakIdealQuotientIso_natural
     (fun k ↦ CommRingCat.ofHom (Ideal.Quotient.factor (hle k)))
     (fun k ↦ hq k ((weakIdealsPiProj A hA k).map f))
   rw [sigmaWeakIdealDiagram_map, sigmaWeakIdealQuotientIso_hom, sigmaWeakIdealQuotientIso_hom]
-  refine (Category.assoc' _ _ _).trans
+  refine (Category.assoc _ _ _).symm.trans
     (((eq_whisker hnat _).trans ((Category.assoc _ _ _).trans ?_)).trans
-      (Category.assoc' _ _ _))
+      (Category.assoc _ _ _).symm)
   refine whisker_eq _ ?_
   refine (Spec.map_comp _ _).symm.trans ((congrArg Spec.map ?_).trans (Spec.map_comp _ _))
   exact (CommRingCat.ofHom_comp _ _).symm.trans

@@ -77,6 +77,8 @@ private lemma comp_eq_of_μ {C : Type*} [Category C] {S T₁ U₁ U₂ U₃ U₄
   rw [reassoc_of% h₁, reassoc_of% hb, hc, hw, reassoc_of% hd,
     reassoc_of% htc]
 
+omit [BraidedCategory (CochainComplex A ℤ)] [BraidedCategory (CochainComplex B ℤ)]
+  [HasDerivedCategory.{w} A] in
 /-- On the classes of K-flat complexes `K`, `L`, the image under `kFlatQ` of the tensorator of
 `kFlatLift F hF` followed by `homotopyMu A K L` is the image of the tensorator of `F` on
 complexes, up to `Functor.mapHomotopyCategoryFactors`. -/
@@ -103,7 +105,7 @@ private lemma kFlatQ_map_kFlatLift_μ_comp_homotopyMu {K L : CochainComplex A �
         (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
           (Functor.LaxMonoidal.μ (F.mapHomologicalComplex (ComplexShape.up ℤ)) K L)) := by
   let := kFlatLiftMonoidal F hF
-  show DerivedCategory.Qh.map (@Functor.LaxMonoidal.μ _ _ _ _ _ _
+  change DerivedCategory.Qh.map (@Functor.LaxMonoidal.μ _ _ _ _ _ _
       (F.mapHomotopyCategory (ComplexShape.up ℤ)) (mapHomotopyCategoryMonoidal F).toLaxMonoidal
         ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K)
         ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj L) ≫
@@ -115,7 +117,7 @@ private lemma kFlatQ_map_kFlatLift_μ_comp_homotopyMu {K L : CochainComplex A �
     ← Functor.map_comp, ← Functor.map_comp]
   congr 1
   simp only [Category.assoc, ← Functor.map_comp_assoc, Iso.inv_hom_id,
-    CategoryTheory.Functor.map_id, Category.id_comp, Iso.inv_hom_id_app, Category.comp_id]
+    CategoryTheory.Functor.map_id, Category.id_comp, Iso.inv_hom_id_app]
   exact congrArg (_ ≫ _ ≫ ·) (Category.comp_id _)
 
 /-- The tensorator of `derivedFunctorMonoidal` at the images of the classes of two K-flat
@@ -296,7 +298,7 @@ theorem derivedFunctorMonoidal_ε_comp_derivedFunctorQComparison :
   have h₂ := Iso.inv_hom_id_app e (𝟙_ (kFlatObjects (curriedTensor A)).FullSubcategory)
   have h₃ := (DerivedCategory.quotientCompQhIso B).hom.naturality
     (Functor.LaxMonoidal.ε (F.mapHomologicalComplex (ComplexShape.up ℤ)))
-  simp only [derivedFunctorQComparison, Category.assoc, ← Φ.map_comp_assoc, h₁,
+  simp only [derivedFunctorQComparison, ← Φ.map_comp_assoc, h₁,
     CategoryTheory.Functor.map_id, Category.id_comp]
   exact comp_eq_of_ε (DerivedCategory.Qh.map_comp _ _) h₂
     ((DerivedCategory.Qh.map_comp _ _).symm.trans ((congrArg DerivedCategory.Qh.map

@@ -216,7 +216,7 @@ underlying functor an equivalence of categories: it is full and faithful because
 and essentially surjective by construction. -/
 theorem isEquivalence_toEssImageBased (i : 𝒵 ⟶ 𝒳) (hi : IsImmersion B S hS i) :
     Functor.IsEquivalence (toEssImageBased i).toFunctor := by
-  show Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
+  change Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
   obtain ⟨hfull, hfaithful⟩ := full_and_faithful_homFunctor_of_isImmersion i hi
   have : (CatFiberedInGroupoids.homFunctor i.hom).Full := hfull
   have : (CatFiberedInGroupoids.homFunctor i.hom).Faithful := hfaithful
@@ -226,7 +226,7 @@ theorem isEquivalence_toEssImageBased (i : 𝒵 ⟶ 𝒳) (hi : IsImmersion B S 
 functor an equivalence of categories. -/
 theorem isEquivalence_basedFunctorId :
     Functor.IsEquivalence (BasedFunctor.id 𝒳.val.val).toFunctor := by
-  show Functor.IsEquivalence (𝟭 𝒳.val.val.obj)
+  change Functor.IsEquivalence (𝟭 𝒳.val.val.obj)
   infer_instance
 
 /-- The 2-commutativity of the square whose top edge is the 1-morphism onto the full subcategory
@@ -403,11 +403,11 @@ theorem eq_essImage_of_isEquivalence_factorization (i : 𝒵 ⟶ 𝒳)
     refine ⟨α.hom.hom.hom.toNatTrans, α.inv.hom.hom.toNatTrans, ?_, ?_⟩
     · have hh : α.hom.hom.hom ≫ α.inv.hom.hom = 𝟙 _ :=
         congrArg (fun z => z.hom.hom) α.hom_inv_id
-      show (α.hom.hom.hom ≫ α.inv.hom.hom).toNatTrans = _
+      change (α.hom.hom.hom ≫ α.inv.hom.hom).toNatTrans = _
       exact congrArg (fun z => BasedNatTrans.toNatTrans z) hh
     · have hh : α.inv.hom.hom ≫ α.hom.hom.hom = 𝟙 _ :=
         congrArg (fun z => z.hom.hom) α.inv_hom_id
-      show (α.inv.hom.hom ≫ α.hom.hom.hom).toNatTrans = _
+      change (α.inv.hom.hom ≫ α.hom.hom.hom).toNatTrans = _
       exact congrArg (fun z => BasedNatTrans.toNatTrans z) hh
   calc P = P.ι.essImage := by
         ext x

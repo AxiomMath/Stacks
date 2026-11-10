@@ -63,19 +63,19 @@ theorem finiteDimensional_artinianTangentSpace_of_tangentSpaceArtinian
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (h : letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
          letI : Fact (SchlessingerConditionS2
-           (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+           (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
          FiniteDimensional k
            (tangentSpaceArtinian.{u, w, w} Λ k (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
   let : FiniteDimensional k
     (tangentSpaceArtinian.{u, w, w} Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := h
   exact (tangentSpaceArtinianLinearEquivUnlifted 𝓖 h𝓖 hS2).finiteDimensional
@@ -123,7 +123,7 @@ theorem finiteDimensional_artinianTangentSpace_stalk_of_finiteDimensional
           let hS2 := schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
           letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
           letI : Fact (SchlessingerConditionS2
-            (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+            (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
           let F := isomorphismClasses 𝓕 hD.predeformation.cofibered
           let T := artinianTangentSpace Λ' k F
           letI : AddCommGroup T := associatedTangentSpaceAddCommGroupUnlifted 𝓕

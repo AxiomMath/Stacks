@@ -174,7 +174,7 @@ theorem globalFunctionsOfSection_mul_self_eq_zero
     globalFunctionsOfSection σ * globalFunctionsOfSection σ = 0 := by
   refine E.globalFunctions_ext_of_thickenedChart P hU hR _ _ fun W => ?_
   have h := E.app_eq_of_globalSectionMap_comp_quotientSheafIso_hom P hU hR σ τ hστ W default default
-  show (globalFunctionsOfSection σ).1 (op (E.thickenedChartDiagram P hU hR W).V) *
+  change (globalFunctionsOfSection σ).1 (op (E.thickenedChartDiagram P hU hR W).V) *
     (globalFunctionsOfSection σ).1 (op (E.thickenedChartDiagram P hU hR W).V) = 0
   rw [globalFunctionsOfSection_apply σ _ default, h]
   exact hτ W default

@@ -40,7 +40,8 @@ compatibility of the monoidality comparison of Tag 079U with those constraints. 
 compatibility is
 `Stacks.Cohomology.DerivedRelativeCupProduct.PullbackTensorComparisonBraided`, and it is
 **proved**: `Stacks.Cohomology.DerivedRelativeCupProduct.pullbackTensorComparisonBraided` in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductCommutativity.lean`.
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/
+RelativeCupProductCommutativity.lean`.
 
 **What is left.**  Exactly the two propositions the source cites, Tag 08EU and Tag 08IB.  The
 final statements below rest on those two and on nothing else beyond the tag's own hypotheses,
@@ -119,7 +120,8 @@ comparison of Tag 079U for `p` is compatible with them, i.e. that derived pullba
 monoidal functor for that comparison.  That last is
 `Stacks.Cohomology.DerivedRelativeCupProduct.PullbackTensorComparisonBraided`, and it is proved
 by `Stacks.Cohomology.DerivedRelativeCupProduct.pullbackTensorComparisonBraided` in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductCommutativity.lean`.
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/
+RelativeCupProductCommutativity.lean`.
 So `hproj₂` reduces to Tag 08EU, and no further.
 
 *Why no tag is registered.*  Every statement below carries a hypothesis beyond those of
@@ -175,7 +177,7 @@ attribute [local instance 100000] HasDerivedCategory.standard
 -- `Stacks.SheafOfModules.Tensor.ringSheaf`; the symmetry of the derived tensor product is
 -- stated at the second spelling and consumed here at the first, exactly as in
 -- `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/
--- StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductCommutativity.lean`.
+-- RelativeCupProductCommutativity.lean`.
 attribute [local implicit_reducible] structureSheafRing
 
 /-! ### Quasi-coherence of a derived direct image, Tag 08D5 part (1) -/

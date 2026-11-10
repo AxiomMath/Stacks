@@ -89,7 +89,7 @@ theorem exists_iso_comp_eq_of_range_eq_of_mono {B : BigFppfSite.{u}} {S : Scheme
     (asIso (Subfunctor.toRange q)).inv_comp_eq.2 (Subfunctor.toRange_ι q).symm
   have hfun : (asIso (Subfunctor.toRange i.hom) ≪≫ k ≪≫
       (asIso (Subfunctor.toRange q)).symm).hom ≫ q = i.hom := by
-    show (Subfunctor.toRange i.hom ≫ k.hom ≫ (asIso (Subfunctor.toRange q)).inv) ≫ q = i.hom
+    change (Subfunctor.toRange i.hom ≫ k.hom ≫ (asIso (Subfunctor.toRange q)).inv) ≫ q = i.hom
     rw [Category.assoc, Category.assoc, hinv, hk, Subfunctor.toRange_ι]
   exact ⟨ObjectProperty.isoMk _ (asIso (Subfunctor.toRange i.hom) ≪≫ k ≪≫
     (asIso (Subfunctor.toRange q)).symm), InducedCategory.hom_ext hfun⟩

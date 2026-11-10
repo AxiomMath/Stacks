@@ -179,7 +179,7 @@ public theorem representationLevelStalkIso_hom_naturality_of_hom {s : GeometricP
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ' hρ' k) :
     (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}).map
         (colim.map (Functor.whiskerLeft
-          ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) φ.hom)) ≫
+          ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) φ.hom)) ≫
         (representationLevelStalkIso B X x ρ' hρ' t k).hom =
       (representationLevelStalkIso B X x ρ hρ t k).hom ≫
         (ObjectProperty.ι _ ⋙ ContinuousGAddCommGrp.forget (EtaleFundamentalGroup X.1 x)).map
@@ -219,7 +219,7 @@ public theorem representationLevelStalkIso_hom_map_of_hom {s : GeometricPoint X.
     ((representationLevelStalkIso B X x ρ' hρ' t k).hom
         ((forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}).map
           (colim.map (Functor.whiskerLeft
-            ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) φ.hom)) y)).down =
+            ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) φ.hom)) y)).down =
       representationLevelHomVec B X x hρ hρ'
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) k φ
         ((representationLevelStalkIso B X x ρ hρ t k).hom y).down :=
@@ -316,10 +316,10 @@ public theorem exists_intertwiner_stalkEquiv_stalkMap {s : GeometricPoint X.1}
       funext i
       rw [← LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv, LinearEquiv.apply_symm_apply]
     funext i
-    show PadicInt.toZModPow (n + 1) (T'.stalkEquiv (LAdicSheaf.stalkMap Φ s
+    change PadicInt.toZModPow (n + 1) (T'.stalkEquiv (LAdicSheaf.stalkMap Φ s
       (T.stalkEquiv.symm w)) i) = _
     rw [LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv]
-    show T'.equiv n ((finiteLevelStalkMap Φ s n).hom ((T.stalkEquiv.symm w).1 n)) i = _
+    change T'.equiv n ((finiteLevelStalkMap Φ s n).hom ((T.stalkEquiv.symm w).1 n)) i = _
     rw [representationLevelTrivialization_finiteLevelStalkMap_of_hom, hw]
   refine ⟨LinearMap.toMatrix' L, fun g => ?_, fun v => ?_⟩
   · apply Matrix.toLin'.injective
@@ -335,7 +335,7 @@ public theorem exists_intertwiner_stalkEquiv_stalkMap {s : GeometricPoint X.1}
       representationLevelHomVec_levelRepresentation B X x hρ hρ' _ (n + 1) (Φ.app n), ← hlev,
       ← toZModPow_mulVec_eq_levelRepresentation B X x]
   · rw [hL]
-    show T'.stalkEquiv (LAdicSheaf.stalkMap Φ s v) =
+    change T'.stalkEquiv (LAdicSheaf.stalkMap Φ s v) =
       T'.stalkEquiv (LAdicSheaf.stalkMap Φ s (T.stalkEquiv.symm (T.stalkEquiv v)))
     rw [LinearEquiv.symm_apply_apply]
 

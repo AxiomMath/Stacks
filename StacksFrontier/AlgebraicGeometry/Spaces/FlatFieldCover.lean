@@ -225,7 +225,7 @@ theorem subsingleton_points_yoneda_fieldSpec (k : Type u) [Field k]
       q.siteObject := Over.homMk (⟨cb⟩ : B.obj hΩ ⟶ B.obj q.contained) (by ext; exact hbase)
   refine ⟨{ carrier := Ω, contained := hΩ, toBase := ca ≫ p.toBase
             value := σ ≫ p.value }, ⟨σ, rfl⟩, ⟨τ, ?_⟩⟩
-  show τ ≫ q.value = σ ≫ p.value
+  change τ ≫ q.value = σ ≫ p.value
   ext
   exact key.symm
 
@@ -338,7 +338,7 @@ theorem isFlat_of_fieldCover
   have hbase : ((BigFppfOver.toScheme B S hS).map (β ≫ σ ≫ h₀)).base pt
       = ((BigFppfOver.toScheme B S hS).map h₀).base u := by
     rw [Functor.map_comp, Functor.map_comp]
-    show ((BigFppfOver.toScheme B S hS).map h₀).base
+    change ((BigFppfOver.toScheme B S hS).map h₀).base
       (ρ.base (((BigFppfOver.toScheme B S hS).map β).base pt)) = _
     rw [hρ]
   rw [← hbase]

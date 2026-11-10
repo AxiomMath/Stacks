@@ -8,7 +8,7 @@ public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Triangulated.Functor
 public import Mathlib.CategoryTheory.Triangulated.HomologicalFunctor
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.FreeAbelianGroup
 public import StacksFrontier.CategoryTheory.Abelian.GrothendieckGroup
 public import StacksFrontier.CategoryTheory.Triangulated.KGroup.Defs
@@ -407,7 +407,7 @@ theorem homological_perDegree_relation (H : D ⥤ A) (hH : H.IsHomological)
   have hZ : KZero.mk A ((H.shift i).obj T.obj₃)
       = KZero.mk A (Abelian.image b) + KZero.mk A (cokernel b) := KZero.mk_eq_image_add_cokernel b
   -- Assemble: rewrite the goal objects (defeq to (H.shift ·).obj ·) and combine.
-  show KZero.mk A ((H.shift i).obj T.obj₁) - KZero.mk A ((H.shift i).obj T.obj₂)
+  change KZero.mk A ((H.shift i).obj T.obj₁) - KZero.mk A ((H.shift i).obj T.obj₂)
       + KZero.mk A ((H.shift i).obj T.obj₃)
       = KZero.mk A (kernel a) + KZero.mk A (kernel a')
   rw [hX, hY, hZ, hca, hcb, hid]

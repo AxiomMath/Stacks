@@ -87,8 +87,7 @@ instance isIso_leftProjectionModuleMap (W : ModuleCat.{u} A) (V : ModuleCat.{u} 
   have he : ∀ x : (W ⊗ (ModuleCat.restrictScalars.{u} φ).obj V : ModuleCat.{u} A),
       (leftProjectionModuleMap φ W V).hom x = e x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero e).symm
+    induction x using TensorProduct.inductionOn with
     | tmul w v => exact (leftProjectionModuleMap_tmul φ W V w v).trans rfl
     | add x y hx hy =>
       exact ((leftProjectionModuleMap φ W V).hom.map_add x y).trans
@@ -167,7 +166,7 @@ theorem ιTensorObj_leftProjectionMap_f (a b n : ℤ) (h : a + b = n) :
         (𝟙 ((mapCochainComplex φ).obj K) ⊗ₘ (extendRestrictScalarsComplexAdj φ).counit.app L).f n =
       (𝟙 _ ⊗ₘ (ModuleCat.extendRestrictScalarsAdj.{u, u, u} φ).counit.app (L.X b)) ≫
         HomologicalComplex.ιTensorObj ((mapCochainComplex φ).obj K) L a b n h := by
-    show HomologicalComplex.ιMapBifunctor _ _ (curriedTensor (ModuleCat.{u} B))
+    change HomologicalComplex.ιMapBifunctor _ _ (curriedTensor (ModuleCat.{u} B))
         (ComplexShape.up ℤ) a b n h ≫
       (HomologicalComplex.mapBifunctorMap (𝟙 _) ((extendRestrictScalarsComplexAdj φ).counit.app L)
         (curriedTensor (ModuleCat.{u} B)) (ComplexShape.up ℤ)).f n = _
@@ -182,7 +181,7 @@ theorem ιTensorObj_leftProjectionMap_f (a b n : ℤ) (h : a + b = n) :
     ((ModuleCat.extendRestrictScalarsAdj.{u, u, u} φ).unit.naturality
       (HomologicalComplex.ιTensorObj K RL a b n h)).symm
   rw [leftProjectionMap_eq_homEquiv, Adjunction.homEquiv_unit]
-  show HomologicalComplex.ιTensorObj K RL a b n h ≫
+  change HomologicalComplex.ιTensorObj K RL a b n h ≫
       (ModuleCat.extendRestrictScalarsAdj.{u, u, u} φ).unit.app ((K ⊗ RL).X n) ≫
         (ModuleCat.restrictScalars.{u} φ).map (μK.inv.f n ≫
           (𝟙 ((mapCochainComplex φ).obj K) ⊗ₘ

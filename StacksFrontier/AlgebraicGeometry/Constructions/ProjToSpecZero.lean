@@ -59,7 +59,7 @@ theorem toSpecZero_apply (x : AlgebraicGeometry.Proj 𝒜) :
   have hz : ((AlgebraicGeometry.Proj 𝒜).isoOfEq (Proj.basicOpen_one 𝒜)).inv
       ((AlgebraicGeometry.Proj 𝒜).topIso.inv x) = ⟨x, mem_basicOpen_one 𝒜 x⟩ := by
     apply Subtype.ext
-    show (Proj.basicOpen 𝒜 1).ι (((AlgebraicGeometry.Proj 𝒜).isoOfEq
+    change (Proj.basicOpen 𝒜 1).ι (((AlgebraicGeometry.Proj 𝒜).isoOfEq
       (Proj.basicOpen_one 𝒜)).inv ((AlgebraicGeometry.Proj 𝒜).topIso.inv x)) = x
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, Scheme.isoOfEq_inv_ι,
       Scheme.toIso_inv_ι]
@@ -71,7 +71,7 @@ theorem toSpecZero_apply (x : AlgebraicGeometry.Proj 𝒜) :
   simp only [Proj.toSpecZero, Scheme.Hom.comp_apply]
   rw [hz, hb]
   refine PrimeSpectrum.ext (Ideal.ext fun a => ?_)
-  show fromZeroRingHom 𝒜 (Submonoid.powers 1) a ∈
+  change fromZeroRingHom 𝒜 (Submonoid.powers 1) a ∈
       ((ProjectiveSpectrum.Proj.toSpec 𝒜 1).base ⟨x, mem_basicOpen_one 𝒜 x⟩).asIdeal ↔
     (a : A) ∈ x.asHomogeneousIdeal
   exact ProjectiveSpectrum.Proj.mk_mem_toSpec_base_apply 𝒜 ⟨x, mem_basicOpen_one 𝒜 x⟩

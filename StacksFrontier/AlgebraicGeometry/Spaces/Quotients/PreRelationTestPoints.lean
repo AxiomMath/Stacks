@@ -97,7 +97,7 @@ unchanged by reading the pre-relation in the slice of presheaves. -/
 theorem isInvariant_presheafPreRelation_iff {R U X : Over B} (j : PreRelation R U)
     (φ : U ⟶ X) :
     IsInvariant (presheafPreRelation j) (φ.left.hom) ↔ IsInvariant j φ.left := by
-  show (presheafPreRelation j).target.left ≫ φ.left.hom =
+  change (presheafPreRelation j).target.left ≫ φ.left.hom =
       (presheafPreRelation j).source.left ≫ φ.left.hom ↔ _
   rw [presheafPreRelation_target_left, presheafPreRelation_source_left]
   refine ⟨ObjectProperty.hom_ext _, fun h => ?_⟩

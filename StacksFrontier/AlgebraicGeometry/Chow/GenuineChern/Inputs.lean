@@ -126,7 +126,7 @@ theorem segre_rank_one (H : TopHalf C)
     rw [h', chowGroupCast_chowGroupCast]
     rfl
   · intro k α d hd y hy
-    show firstChernClassCapChow C d (bundleProj E ≫ sX) (bundleTwist E) y ≍ _
+    change firstChernClassCapChow C d (bundleProj E ≫ sX) (bundleTwist E) y ≍ _
     rw [← firstChernClassCapChow_congr C (bundleProj E ≫ sX) d (bundleTwistIsoOfRankOne E)]
     refine (capOnChow_heq C (bundleProj E ≫ sX)
       (invertibleChernCapOperator C (bundleProj E ≫ sX) ((Scheme.Modules.pullback

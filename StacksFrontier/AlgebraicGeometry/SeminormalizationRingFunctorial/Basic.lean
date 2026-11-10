@@ -106,7 +106,7 @@ private lemma specMap_includeLeftRingHom_eq :
       CommRingCat.hom_ext (congrArg (fun φ : C →ₐ[A] B ⊗[A] C => φ.toRingHom)
         (Algebra.TensorProduct.comm_comp_includeLeft A C B))
     simpa [i, p, q, Spec.map_comp] using congrArg Spec.map hr
-  show q = (asIso i).inv ≫ p
+  change q = (asIso i).inv ≫ p
   rw [← hcomp]
   simp
 
@@ -248,7 +248,7 @@ theorem exists_small_seminormal_subring {ι : Type u} {S : Type v} [CommRing S]
     obtain ⟨a, ha⟩ := x.property
     obtain ⟨b, hb⟩ := y.property
     refine ⟨.root a b, ?_⟩
-    show seminormalRoot hS (ev a) (ev b) = _
+    change seminormalRoot hS (ev a) (ev b) = _
     rw [ha, hb]
   refine ⟨⟨seminormalRoot hS (x : S) (y : S), hm⟩,
     ⟨Subtype.ext (seminormalRoot_spec hS h).1, Subtype.ext (seminormalRoot_spec hS h).2⟩,
@@ -297,12 +297,12 @@ theorem existsUnique_lift_to_seminormal_sameUniverse
   · ext x
     have hx := RingHom.congr_fun hg x
     simp only [RingHom.comp_apply] at hx
-    show e.symm (g (algebraMap R (Algebra.seminormalization R) x)) = f x
+    change e.symm (g (algebraMap R (Algebra.seminormalization R) x)) = f x
     rw [hx]
     exact e.symm_apply_apply (f x)
   · intro k hk
     have he : e.toRingHom.comp k = g := hu _ (by
-      show (e.toRingHom.comp k).comp (algebraMap R (Algebra.seminormalization R)) = _
+      change (e.toRingHom.comp k).comp (algebraMap R (Algebra.seminormalization R)) = _
       rw [RingHom.comp_assoc, hk]
       rfl)
     exact RingHom.ext fun x => e.injective (by simpa using RingHom.congr_fun he x)
@@ -323,7 +323,7 @@ theorem exists_lift_to_seminormal
   refine ⟨T.subtype.comp (e.toRingHom.comp g), RingHom.ext fun x => ?_⟩
   have hx := RingHom.congr_fun hg x
   simp only [RingHom.comp_apply] at hx
-  show (e (g (algebraMap R (Algebra.seminormalization R) x)) : S) = f x
+  change (e (g (algebraMap R (Algebra.seminormalization R) x)) : S) = f x
   rw [hx]
   exact congrArg Subtype.val (e.apply_symm_apply (fT x))
 

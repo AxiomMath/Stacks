@@ -123,7 +123,7 @@ theorem exists_cechToCohomology_spectralSequence_abutsTo_sheafCohomology
     rcases hpq with hp | hq
     · exact Functor.isZero_rightDerivedPlus_of_neg (cechZeroFunctor E) _ p hp
     · have : ((cechZeroFunctor E).rightDerivedPlus p).Additive := by
-        show (DerivedCategory.Plus.singleFunctor _ 0 ⋙
+        change (DerivedCategory.Plus.singleFunctor _ 0 ⋙
           (cechZeroFunctor E).rightDerivedFunctorPlus ⋙
             DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} p).Additive
         infer_instance

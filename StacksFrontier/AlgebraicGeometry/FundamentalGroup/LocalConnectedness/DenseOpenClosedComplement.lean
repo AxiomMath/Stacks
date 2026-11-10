@@ -81,7 +81,7 @@ base. -/
 private lemma over_pullback_map_left_snd {C : Type*} [Category C] [HasPullbacks C]
     {B T : C} (p : T ⟶ B) {X Y : Over B} (f : X ⟶ Y) :
     ((Over.pullback p).map f).left ≫ pullback.snd Y.hom p = pullback.snd X.hom p := by
-  simp [Over.pullback, pullback.lift_snd]
+  simp [Over.pullback]
 
 /-- A morphism over the base is sent by base change to `f` as soon as it is compatible with `f`
 on the first projections. -/
@@ -121,7 +121,7 @@ private theorem isDominant_pullback_snd_of_isOpenMap
     {D X V : Scheme.{u}} (d : D ⟶ X) [IsDominant d]
     (i : V ⟶ X) (hi : IsOpenMap i) : IsDominant (pullback.snd d i) := by
   constructor
-  show Dense (Set.range (pullback.snd d i))
+  change Dense (Set.range (pullback.snd d i))
   rw [Scheme.Pullback.range_snd]
   exact d.denseRange.preimage hi
 
@@ -162,14 +162,14 @@ public theorem exists_hom_of_openCover_of_isDominant
   let h := 𝒰.glueMorphisms g hgg
   refine ⟨h, 𝒰.hom_ext _ _ fun i ↦ by simp [h, hg], ?_⟩
   refine Scheme.Cover.hom_ext (𝒰.pullback₁ d) _ _ fun i ↦ ?_
-  show pullback.fst d (𝒰.f i) ≫ (d ≫ h) = pullback.fst d (𝒰.f i) ≫ f
+  change pullback.fst d (𝒰.f i) ≫ (d ≫ h) = pullback.fst d (𝒰.f i) ≫ f
   rw [pullback.condition_assoc, show 𝒰.f i ≫ h = g i from 𝒰.ι_glueMorphisms g hgg i]
   exact (he i).symm
 
 /-- **Extension of a morphism near a point of the complement.** Let `V` be a retrocompact open
 of `X`, let `A` and `B` be finite étale over `X`, and let `f` be a morphism of their
-restrictions to `V`. At a point `y` of `A` whose image avoids `V`, and for which the trace of
-`V` on the local scheme is the punctured spectrum with connected strict henselizations, the
+restrictions to `V`. At a point `y` of `A` for which the trace of `V` on the local scheme of
+its image is the punctured spectrum with connected strict henselizations, the
 morphism `f` extends over an open neighbourhood of `y`, compatibly with `f` on the pullback
 of `V`. -/
 private theorem exists_openImmersion_extension_of_notMem
@@ -177,7 +177,7 @@ private theorem exists_openImmersion_extension_of_notMem
     (A B : Over X) (hA : IsFinite A.hom ∧ Etale A.hom)
     (hB : IsFinite B.hom ∧ Etale B.hom)
     (f : (Over.pullback V.ι).obj A ⟶ (Over.pullback V.ι).obj B)
-    (y : A.left) (hy : A.hom y ∉ V)
+    (y : A.left)
     (hpunct : (X.fromSpecStalk (A.hom y)) ⁻¹ᵁ V =
       puncturedSpectrum (X.presheaf.stalk (A.hom y)))
     (hconn : IsConnectedPuncturedStrictHenselization (X.presheaf.stalk (A.hom y))) :
@@ -190,7 +190,7 @@ private theorem exists_openImmersion_extension_of_notMem
   let fV : (finiteEtaleBaseChange V.ι).obj Y ⟶ (finiteEtaleBaseChange V.ι).obj Z :=
     MorphismProperty.Over.homMk f.left f.w
   obtain ⟨W, hVW, hxW, t, htZ, hext⟩ :=
-    exists_opens_extension_of_connected_puncturedSpectrum V hV (A.hom y) hy hpunct hconn Y Z fV
+    exists_opens_extension_of_connected_puncturedSpectrum V hV (A.hom y) hpunct hconn Y Z fV
   let t' : pullback A.hom W.ι ⟶ B.left := t
   have htZ' : t' ≫ B.hom = pullback.snd A.hom W.ι ≫ W.ι := htZ
   have hext' : openPullbackMap A.hom hVW ≫ t' = f.left ≫ pullback.fst B.hom V.ι := hext
@@ -240,7 +240,7 @@ private theorem exists_extension_of_local_full
     exact pullback.condition.symm
   have : IsDominant d := by
     constructor
-    show Dense (Set.range (pullback.fst A.hom V.ι))
+    change Dense (Set.range (pullback.fst A.hom V.ι))
     rw [Scheme.Pullback.range_fst]
     exact V.ι.denseRange.preimage A.hom.isOpenMap
   have hex (y : A.left) : ∃ (W : Scheme.{u}) (i : W ⟶ A.left)
@@ -249,11 +249,11 @@ private theorem exists_extension_of_local_full
       pullback.fst d i ≫ f₀ = pullback.snd d i ≫ g := by
     by_cases hy : A.hom y ∈ V
     · refine ⟨D, d, inferInstance, f₀, hf₀, ?_, ?_⟩
-      · show y ∈ Set.range (pullback.fst A.hom V.ι)
+      · change y ∈ Set.range (pullback.fst A.hom V.ι)
         rw [Scheme.Pullback.range_fst]
         exact ⟨⟨A.hom y, hy⟩, rfl⟩
       · rw [(cancel_mono d).mp (pullback.condition (f := d) (g := d))]
-    · exact exists_openImmersion_extension_of_notMem X V hV A B hA hB f y hy
+    · exact exists_openImmersion_extension_of_notMem X V hV A B hA hB f y
         (hpunct _ hy) (hconn _ hy)
   choose W i hi g hg hy he using hex
   have (y : A.left) : IsOpenImmersion (i y) := hi y
@@ -300,10 +300,10 @@ private theorem exists_extension_of_openImmersion_local_full
   have hV : IsRetrocompact (V : Set S) := by
     intro O hOc hOo
     have hc := (QuasiCompact.isCompact_preimage (f := j) O hOo hOc).image j.continuous
-    show IsCompact (Set.range j ∩ O)
+    change IsCompact (Set.range j ∩ O)
     simpa only [Set.image_preimage_eq_range_inter] using hc
   have : IsDominant V.ι := ⟨by
-    show Dense (Set.range V.ι)
+    change Dense (Set.range V.ι)
     rw [Scheme.Opens.range_ι]
     exact j.denseRange⟩
   let e := j.isoOpensRange

@@ -66,7 +66,7 @@ presented by inclusions `i₁`, `i₂` and projections `p₁`, `p₂`.  If the c
 `X ⟶ Y ⟶ Y₂` of the first map is invertible, then `Y₁ ⟶ Y ⟶ Z` is invertible. -/
 theorem isIso_comp_mor₂_of_isIso_mor₁_comp {T : Triangle C} (hT : T ∈ distTriang C)
     {Y₁ Y₂ : C} (i₁ : Y₁ ⟶ T.obj₂) (i₂ : Y₂ ⟶ T.obj₂) (p₁ : T.obj₂ ⟶ Y₁) (p₂ : T.obj₂ ⟶ Y₂)
-    (h₁₁ : i₁ ≫ p₁ = 𝟙 _) (h₂₂ : i₂ ≫ p₂ = 𝟙 _) (h₁₂ : i₁ ≫ p₂ = 0)
+    (h₁₁ : i₁ ≫ p₁ = 𝟙 _) (h₁₂ : i₁ ≫ p₂ = 0)
     (htot : p₁ ≫ i₁ + p₂ ≫ i₂ = 𝟙 _) [IsIso (T.mor₁ ≫ p₂)] :
     IsIso (i₁ ≫ T.mor₂) := by
   set e := T.mor₁ ≫ p₂ with he

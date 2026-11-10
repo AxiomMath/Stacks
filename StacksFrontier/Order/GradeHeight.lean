@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.Int.LeastGreatest
+public import Mathlib.Order.Int.LeastGreatest
 public import StacksFrontier.Order.HeightCoheight
 
 /-!
@@ -151,11 +151,11 @@ theorem height_add_coheight_eq_iff_of_grade (hδ : StrictMono δ)
   obtain ⟨h0, hh⟩ := height_eq_of_grade hδ hcov hmin hbelow x
   have hup := coheight_le_of_grade hδ habove hm
   obtain ⟨c, hc⟩ : ∃ c : ℕ, coheight x = c :=
-    ⟨(coheight x).toNat, (ENat.coe_toNat (ne_top_of_le_ne_top (by simp) hup)).symm⟩
+    ⟨(coheight x).toNat, (ENat.natCast_toNat (ne_top_of_le_ne_top (by simp) hup)).symm⟩
   rw [hc] at hup
   rw [hh, hc]
   have hup' : c ≤ ((m : ℤ) - δ x).toNat := by exact_mod_cast hup
-  rw [← ENat.coe_add, Nat.cast_inj]
+  rw [← ENat.natCast_add, Nat.cast_inj]
   constructor
   · intro h
     by_contra hne

@@ -164,20 +164,20 @@ theorem isLE_map_obj_of_cohomology_mem
           infer_instance
         · exact prop_homology_truncLE_obj hB K (b - 1) q (by omega) (hmem q haq (by omega))
       have : T₀.obj₃.IsGE b := by
-        show (t.truncGE b).obj K |>.IsGE b
+        change (t.truncGE b).obj K |>.IsGE b
         infer_instance
       have : T₀.obj₃.IsLE b := by
-        show (t.truncGE b).obj K |>.IsLE b
+        change (t.truncGE b).obj K |>.IsLE b
         infer_instance
       have : IsIso ((DerivedCategory.Plus.homologyFunctor C b).map T₀.mor₂) := by
-        show IsIso ((DerivedCategory.Plus.homologyFunctor C b).map ((t.truncGEπ b).app K))
+        change IsIso ((DerivedCategory.Plus.homologyFunctor C b).map ((t.truncGEπ b).app K))
         simpa [t] using DerivedCategory.Plus.isIso_homologyMap_truncGEπ_app b b le_rfl K
       have h₃ : (G.obj T₀.obj₃).IsLE (b + d) :=
         isLE_map_obj_of_isGE_of_isLE G B hB d hSingle T₀.obj₃ b
           (hB.of_iso (asIso ((DerivedCategory.Plus.homologyFunctor C b).map T₀.mor₂))
             (hmem b (by omega) (by omega)))
       have h₁ : (G.mapTriangle.obj T₀).obj₁.IsLE (b + d) := by
-        show (G.obj τ).IsLE (b + d)
+        change (G.obj τ).IsLE (b + d)
         exact DerivedCategory.TStructure.t.isLE_of_le _ (a + n + d) (b + d)
           (by omega)
       have hmiddle := DerivedCategory.TStructure.t.isLE₂ (G.mapTriangle.obj T₀) hT (b + d)
@@ -212,10 +212,10 @@ theorem isZero_homology_map_obj_of_vanishing_window
   let T := (t.triangleLEGE j (j + 1) rfl).obj K
   have hfirstGE : T.obj₁.IsGE (min a b) := by
     have := t.isGE_of_ge K (min a b) a (min_le_left _ _)
-    show ((t.truncLE j).obj K).IsGE _
+    change ((t.truncLE j).obj K).IsGE _
     infer_instance
   have hfirstLEj : T.obj₁.IsLE j := by
-    show ((t.truncLE j).obj K).IsLE j
+    change ((t.truncLE j).obj K).IsLE j
     infer_instance
   have hfirstLE : T.obj₁.IsLE b := by
     rw [← DerivedCategory.Plus.isLE_ι_obj_iff, DerivedCategory.isLE_iff]
@@ -239,7 +239,7 @@ theorem isZero_homology_map_obj_of_vanishing_window
     (fun q _ _ => hmem q)
   rw [hlen] at hbound
   have hthird : T.obj₃.IsGE (j + 1) := by
-    show ((t.truncGE (j + 1)).obj K).IsGE _
+    change ((t.truncGE (j + 1)).obj K).IsGE _
     infer_instance
   have h₃GE := hGE T.obj₃ (j + 1) hthird
   exact (DerivedCategory.HomologySequence.exact₂ (G.mapTriangle.obj T)

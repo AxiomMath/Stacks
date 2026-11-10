@@ -83,7 +83,7 @@ identity. -/
 theorem algebraTransport_id (χ : Twisting f A d L) :
     algebraTransport (SheafOfModules.GradedAlgebra.UnitalHom.id A) χ = χ :=
   Twisting.ext fun i => by
-    show (pullbackFunctor (ringedSpaceHom f)).map (𝟙 (A.piece (i * d))) ≫ χ.app i = χ.app i
+    change (pullbackFunctor (ringedSpaceHom f)).map (𝟙 (A.piece (i * d))) ≫ χ.app i = χ.app i
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- **Transporting the map `ψ` along a composite is transporting along the two factors in
@@ -93,7 +93,7 @@ theorem algebraTransport_comp (Φ : SheafOfModules.GradedAlgebra.UnitalHom A B)
     (Ψ : SheafOfModules.GradedAlgebra.UnitalHom B C) (χ : Twisting f C d L) :
     algebraTransport Φ (algebraTransport Ψ χ) = algebraTransport (Φ.comp Ψ) χ :=
   Twisting.ext fun i => by
-    show (pullbackFunctor (ringedSpaceHom f)).map (Φ.app (i * d)) ≫
+    change (pullbackFunctor (ringedSpaceHom f)).map (Φ.app (i * d)) ≫
         (pullbackFunctor (ringedSpaceHom f)).map (Ψ.app (i * d)) ≫ χ.app i =
       (pullbackFunctor (ringedSpaceHom f)).map (Φ.app (i * d) ≫ Ψ.app (i * d)) ≫ χ.app i
     rw [CategoryTheory.Functor.map_comp, Category.assoc]

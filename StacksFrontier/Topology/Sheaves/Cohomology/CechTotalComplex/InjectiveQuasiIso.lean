@@ -276,7 +276,7 @@ theorem quasiIso_globalSectionsToCech_of_injective
   obtain ⟨a, ha⟩ := (CochainComplex.plus_iff _ K).mp hK
   have hzero_neg (p q : ℤ) (hq : q < 0) :
       IsZero (((DA.flip).X p).X q) := by
-    show IsZero ((((cechComplexFunctor U).obj (L.X p)).extend
+    change IsZero ((((cechComplexFunctor U).obj (L.X p)).extend
       embeddingUpNat).X q)
     apply HomologicalComplex.isZero_extend_X
     intro i hi
@@ -312,7 +312,7 @@ theorem quasiIso_globalSectionsToCech_of_injective
         exact isZero_cechUnderlyingHomology_of_injective U hU (K.X p)
           q.toNat (by omega)
       have hq' : (q.toNat : ℤ) = q := Int.toNat_of_nonneg (by omega)
-      show (C.extend embeddingUpNat).ExactAt q
+      change (C.extend embeddingUpNat).ExactAt q
       exact (C.extend_exactAt_iff embeddingUpNat hq').mpr hC
   have hkernel (p : ℤ) :
       ∃ hα : α.f p ≫ ((DA.flip).X p).d 0 1 = 0,
@@ -332,7 +332,7 @@ theorem quasiIso_globalSectionsToCech_of_injective
           (C.extendXIso embeddingUpNat (i := 0) (i' := 0) rfl).inv) hr') :=
       isIso_extendZero_kernelLift C _ hr hr'
     refine ⟨globalSectionsCechRestrictionInt_d X U (L.X p), ?_⟩
-    show IsIso (kernel.lift ((C.extend embeddingUpNat).d 0 1)
+    change IsIso (kernel.lift ((C.extend embeddingUpNat).d 0 1)
       (globalSectionsCechRestriction X U (L.X p) 0 ≫
         (C.extendXIso embeddingUpNat (i := 0) (i' := 0) rfl).inv) _)
     infer_instance

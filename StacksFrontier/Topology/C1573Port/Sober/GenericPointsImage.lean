@@ -95,7 +95,7 @@ theorem C1573.specializes_of_forall_specializes_of_eq_iInf_induced {X : Type*} {
     (p : ∀ i, X → Y i) (ht : t = ⨅ i, TopologicalSpace.induced (p i) (τ i)) {x y : X}
     (h : ∀ i, p i y ⤳ p i x) : y ⤳ x := by
   subst ht
-  show @nhds X (⨅ i, TopologicalSpace.induced (p i) (τ i)) y ≤
+  change @nhds X (⨅ i, TopologicalSpace.induced (p i) (τ i)) y ≤
     @nhds X (⨅ i, TopologicalSpace.induced (p i) (τ i)) x
   rw [nhds_iInf, nhds_iInf]
   refine le_iInf fun i => (iInf_le _ i).trans ?_

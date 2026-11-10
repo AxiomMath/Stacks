@@ -272,7 +272,8 @@ packaged as an `AlgebraicGeometry.RingedToposHom`; the two readings are identifi
 [Stacks Project, Tag 05ZM], whose structure-sheaf half is proved as
 `AlgebraicGeometry.Space.isIso_thickeningFundamentalHom_fSharp` and whose sheaf-of-sets half is
 `AlgebraicGeometry.Space.isEquivalence_smallEtalePushforward_of_isThickening`, both for an
-arbitrary thickening.  The identification is performed at a fixed morphism, in both directions, for an
+arbitrary thickening.  The identification is performed at a fixed morphism, in both directions, for
+an
 arbitrary thickening, by `AlgebraicGeometry.Space.thickeningLiftComparison` and
 `AlgebraicGeometry.Space.thickeningLiftComparisonInv` of
 `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/ThickeningSharpChartProjection.lean`, with

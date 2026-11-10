@@ -98,8 +98,8 @@ What is carried are the two trivial-Kan-fibration conditions, named `hεQ` and `
 augmentations `Q̄_• → C` and `R̄_• → C` are trivial Kan fibrations on underlying simplicial sets.
 These are the halves of the "key fact" of Tag 08SD and of its repetition for `R̄_•` in Remark 08SE
 that the source deduces from Cohomology on Sites, Lemma 21.39.12, i.e. from Tag 08RX, of which
-only the column step is available in this library
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/FlatBaseChangeOfSimplicialModules.lean`).
+only the column step is available in this library (
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/FlatBaseChangeOfSimplicialModules.lean`).
 The other half of that key fact — degreewise polynomiality — is *not* carried: it is proved here
 from the injectivity of `B → C`, which is also what removes the hypothesis `hP` that
 `CommAlgCat.exists_distTriang_fundamentalVertex_of_isResolution` has to carry.
@@ -263,17 +263,17 @@ theorem standardResolutionSquareMap_idSquare (f : B ⟶ C) (n : SimplexCategory�
     induction m with
     | zero => rfl
     | succ m ih =>
-        show mvPolynomialMapRename (RingHom.id A) ⇑(standardTowerMap.{u, u, u} (idSquare f) m) = _
+        change mvPolynomialMapRename (RingHom.id A) ⇑(standardTowerMap.{u, u, u} (idSquare f) m) = _
         rw [ih]
         refine RingHom.ext fun p => ?_
-        show (MvPolynomial.rename _) ((MvPolynomial.map (RingHom.id A)) p) = _
+        change (MvPolynomial.rename _) ((MvPolynomial.map (RingHom.id A)) p) = _
         rw [MvPolynomial.map_id]
         rfl
   obtain ⟨m⟩ := n
   obtain ⟨m, rfl⟩ : ∃ k : ℕ, m = SimplexCategory.mk k := ⟨m.len, rfl⟩
   have h := Functor.congr_hom (standardEndofunctor_obj.{u, u} A m) f
   refine RingHom.ext fun p => ?_
-  show _ = (((standardResolutionFunctor.{u, u} A).map f).left.app (op ⦋m⦌)) p
+  change _ = (((standardResolutionFunctor.{u, u} A).map f).left.app (op ⦋m⦌)) p
   rw [show (((standardResolutionFunctor.{u, u} A).map f).left.app (op ⦋m⦌)) =
     (((standardEndofunctor.{u, u} A).left.obj (op ⦋m⦌)).map f) from rfl, h]
   rw [standardResolutionSquareMap_apply, key]
@@ -331,7 +331,7 @@ theorem baseChangedComparison_w (f : B ⟶ C) (n : SimplexCategoryᵒᵖ) :
       CommRingCat.ofHom (standardResolutionAugmentationHom A B n) ≫
         CommRingCat.ofHom (algebraMap ↥B ((relativeBaseChange f).left.obj n)) := by
   ext p
-  show canonicalBaseChangeMap ↥B (overBase f) n
+  change canonicalBaseChangeMap ↥B (overBase f) n
       (standardResolutionSquareMap.{u, u, u} (baseRingSquareTop f) n
         ((((standardResolutionFunctor.{u, u} A).map f).left.app n).hom.toRingHom p)) =
     algebraMap ↥B ((relativeBaseChange f).left.obj n)
@@ -470,7 +470,7 @@ theorem baseChangedComparison_comp_hom (f : B ⟶ C) :
     baseChangedComparison f ≫ (relativeBaseChange f).hom =
       (baseChangedStandardResolution A f).hom := by
   ext n x
-  show ((relativeBaseChange f).hom.app n).hom.toRingHom
+  change ((relativeBaseChange f).hom.app n).hom.toRingHom
       (baseChangedComparisonHom f n x) =
     ((baseChangedStandardResolution A f).hom.app n).hom.toRingHom x
   refine congrArg (fun φ : (baseChangedStandardResolution A f).left.obj n →+*
@@ -480,7 +480,7 @@ theorem baseChangedComparison_comp_hom (f : B ⟶ C) :
         (baseChangedComparisonHom f n))
       (ψ := ((baseChangedStandardResolution A f).hom.app n).hom.toRingHom) ?_ ?_)
   · intro q
-    show ((relativeBaseChange f).hom.app n).hom.toRingHom
+    change ((relativeBaseChange f).hom.app n).hom.toRingHom
         (baseChangedComparisonHom f n (canonicalBaseChangeMap A f n q)) =
       ((baseChangedStandardResolution A f).hom.app n).hom.toRingHom
         (canonicalBaseChangeMap A f n q)
@@ -489,7 +489,7 @@ theorem baseChangedComparison_comp_hom (f : B ⟶ C) :
       standardResolutionSquareMap_augmentation_app (baseRingSquareTop f) n q]
     exact (canonicalBaseChangeMap_augmentation_apply f n q).symm
   · intro b
-    show ((relativeBaseChange f).hom.app n).hom.toRingHom
+    change ((relativeBaseChange f).hom.app n).hom.toRingHom
         (baseChangedComparisonHom f n
           (algebraMap ↥B ((baseChangedStandardResolution A f).left.obj n) b)) =
       ((baseChangedStandardResolution A f).hom.app n).hom.toRingHom
@@ -517,7 +517,7 @@ private theorem nonempty_mvPolynomialAlgEquiv_of_isPushout {P Q T R : Type u}
   let l : Q →+* MvPolynomial ι T := (MvPolynomial.map a).comp e.symm.toRingHom
   have hl : ∀ p : P, l (g p) = MvPolynomial.C (a p) := by
     intro p
-    show (MvPolynomial.map a) (e.symm (algebraMap P Q p)) = MvPolynomial.C (a p)
+    change (MvPolynomial.map a) (e.symm (algebraMap P Q p)) = MvPolynomial.C (a p)
     rw [AlgEquiv.commutes]
     exact MvPolynomial.map_C a p
   have hw : CommRingCat.ofHom g ≫ CommRingCat.ofHom l =
@@ -536,42 +536,42 @@ private theorem nonempty_mvPolynomialAlgEquiv_of_isPushout {P Q T R : Type u}
       (f := (ψ : MvPolynomial ι T →+* R).comp (MvPolynomial.map a))
       (g := w.comp (e : MvPolynomial ι P →+* Q))
       (fun p => by
-        show ψ ((MvPolynomial.map a) (MvPolynomial.C p)) = w (e (MvPolynomial.C p))
+        change ψ ((MvPolynomial.map a) (MvPolynomial.C p)) = w (e (MvPolynomial.C p))
         rw [MvPolynomial.map_C, MvPolynomial.aeval_C]
-        show algebraMap T R (a p) = w (e (algebraMap P (MvPolynomial ι P) p))
+        change algebraMap T R (a p) = w (e (algebraMap P (MvPolynomial ι P) p))
         rw [e.commutes p]
         exact (hcomm p).symm)
       (fun i => by
-        show ψ ((MvPolynomial.map a) (MvPolynomial.X i)) = w (e (MvPolynomial.X i))
+        change ψ ((MvPolynomial.map a) (MvPolynomial.X i)) = w (e (MvPolynomial.X i))
         rw [MvPolynomial.map_X]
         exact MvPolynomial.aeval_X _ i)
     exact fun p => congrArg (fun k : MvPolynomial ι P →+* R => k p) key
   refine ⟨AlgEquiv.ofAlgHom ψ { toRingHom := φ, commutes' := hφv } ?_ ?_⟩
   · refine AlgHom.ext fun x => ?_
-    show ψ (φ x) = x
+    change ψ (φ x) = x
     refine congrArg (fun k : CommRingCat.of R ⟶ CommRingCat.of R => k.hom x)
       (hpo.hom_ext (k := CommRingCat.ofHom ((ψ : MvPolynomial ι T →+* R).comp φ))
         (l := CommRingCat.ofHom (RingHom.id R)) ?_ ?_)
     · refine CommRingCat.hom_ext (RingHom.ext fun y => ?_)
-      show ψ (φ (w y)) = w y
+      change ψ (φ (w y)) = w y
       rw [hφw]
-      show ψ ((MvPolynomial.map a) (e.symm y)) = w y
+      change ψ ((MvPolynomial.map a) (e.symm y)) = w y
       rw [hψl, AlgEquiv.apply_symm_apply]
     · refine CommRingCat.hom_ext (RingHom.ext fun t => ?_)
-      show ψ (φ (algebraMap T R t)) = algebraMap T R t
+      change ψ (φ (algebraMap T R t)) = algebraMap T R t
       rw [hφv]
       exact MvPolynomial.aeval_C _ t
   · refine AlgHom.ext fun x => ?_
-    show φ (ψ x) = x
+    change φ (ψ x) = x
     refine congrArg (fun k : MvPolynomial ι T →+* MvPolynomial ι T => k x)
       (MvPolynomial.ringHom_ext (f := φ.comp (ψ : MvPolynomial ι T →+* R))
         (g := RingHom.id _) (fun t => ?_) (fun i => ?_))
-    · show φ (ψ (MvPolynomial.C t)) = MvPolynomial.C t
+    · change φ (ψ (MvPolynomial.C t)) = MvPolynomial.C t
       rw [MvPolynomial.aeval_C]
       exact hφv t
-    · show φ (ψ (MvPolynomial.X i)) = MvPolynomial.X i
+    · change φ (ψ (MvPolynomial.X i)) = MvPolynomial.X i
       rw [MvPolynomial.aeval_X, hφw]
-      show (MvPolynomial.map a) (e.symm (e (MvPolynomial.X i))) = MvPolynomial.X i
+      change (MvPolynomial.map a) (e.symm (e (MvPolynomial.X i))) = MvPolynomial.X i
       rw [AlgEquiv.symm_apply_apply]
       exact MvPolynomial.map_X a i
 
@@ -788,7 +788,7 @@ theorem baseChangedCotangentComplexIso_hom_comp (f : B ⟶ C) (hf : Function.Inj
     isIso_q_baseChangedCotangentComparison f hf hεQ hεR
   have h₂ : IsIso (DerivedCategory.Q.map (relativeBaseChangeCotangentLeg f)) :=
     isIso_q_relativeBaseChangeCotangentLeg f hf hεR
-  show (DerivedCategory.Q.map (baseChangedCotangentComparison f) ≫
+  change (DerivedCategory.Q.map (baseChangedCotangentComparison f) ≫
       (asIso (DerivedCategory.Q.map (relativeBaseChangeCotangentLeg f))).inv) ≫
       DerivedCategory.Q.map (relativeBaseChangeCotangentLeg f) = _
   exact comp_inv_comp_hom _ _

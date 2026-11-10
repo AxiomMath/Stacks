@@ -65,7 +65,7 @@ lemma includeLeftRingHom_flat (R A : Type u) [CommRing R] [CommRing A]
     [Algebra R A] [Module.Flat R A] :
     (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] A).Flat := by
   let f : A →+* A ⊗[R] A := Algebra.TensorProduct.includeLeftRingHom
-  show f.Flat
+  change f.Flat
   rw [RingHom.Flat, show f.toAlgebra = (inferInstance : Algebra A (A ⊗[R] A)) from
     Algebra.algebra_ext _ _ fun _ => rfl]
   infer_instance

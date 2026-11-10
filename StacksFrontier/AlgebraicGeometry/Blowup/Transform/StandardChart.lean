@@ -89,7 +89,7 @@ theorem blowUpAffineChart_comp_blowUpToBase (U : X.affineOpens) (a : I.ideal U) 
   have hw := (Stacks.RelativeProj.Situation.relativeProjChart_isPullback
     (reesSituation I) U).w
   have hover := affineBlowupStandardOpenIso_over I U a
-  show ((affineBlowupStandardOpenIso I U a).hom ≫
+  change ((affineBlowupStandardOpenIso I U a).hom ≫
     (Proj.basicOpen ((reesSituation I).sectionRingGrading U.1) (reesDegreeOne I U a).1).ι ≫
       Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U) ≫
         blowUpToBase I = _
@@ -112,7 +112,7 @@ theorem exists_mem_range_blowUpAffineChart_of_mem (U : X.affineOpens) (x : blowU
     exact hx
   obtain ⟨a, z, hz⟩ := Set.mem_iUnion.mp hxchart
   refine ⟨a, (affineBlowupStandardOpenIso I U a).inv z, ?_⟩
-  show Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U
+  change Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U
     ((Proj.basicOpen ((reesSituation I).sectionRingGrading U.1)
       (reesDegreeOne I U a).1).ι
       ((affineBlowupStandardOpenIso I U a).hom
@@ -140,7 +140,7 @@ theorem reesDegreeOne_zero' (U : X.affineOpens) : reesDegreeOne I U (0 : I.ideal
   have he : ((reesAlgebraData I).pieceEquiv 1 (by omega) U).symm
       ⟨(0 : X.presheaf.obj (.op U.1)), by simp⟩ = 0 :=
     ((reesAlgebraData I).pieceEquiv 1 (by omega) U).injective (Subtype.ext (by simp))
-  show DirectSum.of ((reesSituation I).sectionPieces U.1) 1
+  change DirectSum.of ((reesSituation I).sectionPieces U.1) 1
     (((reesAlgebraData I).pieceEquiv 1 (by omega) U).symm ⟨0, by simp⟩) = 0
   rw [he]
   exact map_zero _

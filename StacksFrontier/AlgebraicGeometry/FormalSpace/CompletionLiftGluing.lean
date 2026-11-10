@@ -257,7 +257,7 @@ theorem isCompletionLift_id_of_forall {a : Y ⟶ X'} (hag : a ≫ f = g)
     IsCompletionLift α (𝟙 Y) a := by
   refine ⟨by rw [hag, Category.id_comp], fun W y hy => ?_⟩
   have e : ((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop) = y := by
-    show Y.map (𝟙 W.unop).op y = y
+    change Y.map (𝟙 W.unop).op y = y
     rw [op_id, Functor.map_id_apply]
   have hy' : HasImageIn B S hS Y (pointsMap B S hS Y g ⁻¹' T) W.unop
       (((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop)) := by
@@ -265,7 +265,7 @@ theorem isCompletionLift_id_of_forall {a : Y ⟶ X'} (hag : a ≫ f = g)
     exact hy
   have key := (h W.unop (yonedaEquiv.symm y)).2 W (𝟙 W.unop) hy'
   refine (completionHom_app_congr W hy hy' e.symm).trans (key.trans ?_)
-  show a.app W (((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop)) = a.app W y
+  change a.app W (((yonedaEquiv (X := W.unop) (F := Y)).symm y).app W (𝟙 W.unop)) = a.app W y
   rw [e]
 
 /-- **Gluing lifts over a covering family of a representable presheaf.** Lifts along the members
@@ -377,7 +377,7 @@ private theorem toSheafify_comp_eqToHom_completionSheafMap {M N : (BigFppfOver B
       completionSubfunctorMap B S hS a T₁ T' ha ≫ (BigFppfOver.topology B S hS).toSheafify _ := by
   subst h
   simp only [eqToHom_refl, Category.id_comp]
-  show (BigFppfOver.topology B S hS).toSheafify _ ≫
+  change (BigFppfOver.topology B S hS).toSheafify _ ≫
       (BigFppfOver.topology B S hS).sheafifyMap (completionMap B S hS a T') = _
   rw [GrothendieckTopology.toSheafify_naturality]
   rfl
@@ -406,9 +406,9 @@ theorem completionOverFunctor_map_eq_of_isCompletionLift
   apply ObjectProperty.hom_ext
   refine (BigFppfOver.topology B S hS).sheafify_hom_ext _ _
     ((BigFppfOver.topology B S hS).sheafify_isSheaf _) ?_
-  show (BigFppfOver.topology B S hS).toSheafify _ ≫ (completionOverMap B S hS T a).hom = _
+  change (BigFppfOver.topology B S hS).toSheafify _ ≫ (completionOverMap B S hS T a).hom = _
   rw [toSheafify_comp_completionOverMap]
-  show _ ≫ (completionSheafIsoSubfunctor B S hS hX' (pointsMap B S hS X' f ⁻¹' T)).inv =
+  change _ ≫ (completionSheafIsoSubfunctor B S hS hX' (pointsMap B S hS X' f ⁻¹' T)).inv =
     (completionSheafIsoSubfunctor B S hS hY (pointsMap B S hS Y g ⁻¹' T)).inv ≫ α.left.hom
   rw [hsub]
   exact completionSubfunctorHom_comp_inv hY hX' α.left
@@ -754,14 +754,14 @@ theorem hasLocalCompletionLifts_of_hasAffineChartCompletionLifts
     have hw : (BigFppfOver.toScheme B S hS).map fst w.1 ∈ O₁ := hO₀sub w.2
     refine ⟨⟨_, hw⟩, ?_⟩
     rw [Functor.map_comp]
-    show O₁.ι ⟨_, hw⟩ = (BigFppfOver.toScheme B S hS).map fst (O₀.ι w)
+    change O₁.ι ⟨_, hw⟩ = (BigFppfOver.toScheme B S hS).map fst (O₀.ι w)
     rfl)
   let e : yoneda.obj X₁ ⟶ X := yoneda.map jU ≫ p
   have he : Pe.presheaf e := MorphismProperty.comp_mem Pe.presheaf _ _
     (MorphismProperty.relative_map (etale_toScheme_map_openIncl O₁)) hpe
   let v₀ : yoneda.obj Y₀ ⟶ Y := yoneda.map (jP ≫ snd) ≫ v₁
   have hv₀ : v₀ ≫ g = yoneda.map h₀ ≫ e := by
-    show yoneda.map (jP ≫ snd) ≫ v₁ ≫ g = yoneda.map h₀ ≫ yoneda.map jU ≫ p
+    change yoneda.map (jP ≫ snd) ≫ v₁ ≫ g = yoneda.map h₀ ≫ yoneda.map jU ≫ p
     rw [← Category.assoc (yoneda.map h₀), ← Functor.map_comp, hh₀, Functor.map_comp,
       Functor.map_comp, Category.assoc, Category.assoc, hsq]
   obtain ⟨q₀, hq₀⟩ := surjective_pointsToScheme B S hS Y₀ ⟨z, hzO₀⟩
@@ -771,7 +771,7 @@ theorem hasLocalCompletionLifts_of_hasAffineChartCompletionLifts
     exact hz
   obtain ⟨V, π, hπ, ⟨r, hr⟩, c, hc⟩ := h X₁ hX₁a (isNoetherian_toScheme_openObj ‹_› hO₁) e he Y₀
     hY₀a (isNoetherian_toScheme_openObj ‹_› hO₀) h₀ v₀ hv₀ q₀ (by
-    show pointsMap B S hS _ (yoneda.map (jP ≫ snd) ≫ v₁ ≫ g) q₀ ∈ T
+    change pointsMap B S hS _ (yoneda.map (jP ≫ snd) ≫ v₁ ≫ g) q₀ ∈ T
     rw [pointsMap_comp_apply, hq₀q]
     exact hq)
   refine ⟨V, π ≫ jP ≫ snd, ?_, ⟨r, ?_⟩, c, ?_⟩
@@ -974,10 +974,10 @@ theorem hasAffineChartCompletionLifts_of_affineCompletionLiftProperty
   obtain ⟨V, π, hπ, hqπ, c₁, hc₁⟩ := hcore X₁ hX₁a hX₁n _
     (hT.preimage (continuous_pointsMap B S hS e)) _ hX'₁ _ hf₁ hfU₁ Y₁ hY₁a hY₁n h
     (baseChangeCompletionHom hα e h v₁ hv) (fun W y hy => by
-      show (pullback.snd f e).app W (yonedaEquiv
+      change (pullback.snd f e).app W (yonedaEquiv
         (baseChangeCompletionLift hα e h v₁ hv W y hy)) = y ≫ h
       rw [← yonedaEquiv_comp, baseChangeCompletionLift_snd, yonedaEquiv_yoneda_map]) q (by
-      show pointsMap B S hS _ e (pointsMap B S hS _ (yoneda.map h) q) ∈ T
+      change pointsMap B S hS _ e (pointsMap B S hS _ (yoneda.map h) q) ∈ T
       rw [← pointsMap_comp_apply, ← hv]
       exact hq)
   refine ⟨V, π, hπ, hqπ, c₁ ≫ pullback.fst f e, ?_, fun W z hz => ?_⟩
@@ -994,9 +994,9 @@ theorem hasAffineChartCompletionLifts_of_affineCompletionLiftProperty
       exact hasImageIn_of_comp_eq (a := yoneda.map π ≫ v₁) (b := yoneda.map π)
         (by rw [Category.assoc, hv]) W z hz
     have key := hc₁.2 W z hz₁
-    show _ = (pullback.fst f e).app W (c₁.app W z)
+    change _ = (pullback.fst f e).app W (c₁.app W z)
     rw [← key]
-    show _ = (pullback.fst f e).app W
+    change _ = (pullback.fst f e).app W
       (yonedaEquiv (baseChangeCompletionLift hα e h v₁ hv W _ hz₁))
     rw [← yonedaEquiv_comp, baseChangeCompletionLift_fst, Equiv.apply_symm_apply]
     rfl
@@ -1019,11 +1019,11 @@ theorem completionSubfunctorHom_comp_completionMap
     completionSubfunctorHom hY hX' α ≫ completionMap B S hS f T = completionMap B S hS g T := by
   have hiso := GrothendieckTopology.isIso_toSheafify (BigFppfOver.topology B S hS)
     (isSheaf_completionSubfunctor B S hS hX T)
-  haveI : Mono ((BigFppfOver.topology B S hS).toSheafify
+  have : Mono ((BigFppfOver.topology B S hS).toSheafify
       (completionSubfunctor B S hS X T).toFunctor) := IsIso.mono_of_iso _
   rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify _), Category.assoc,
     GrothendieckTopology.toSheafify_naturality, GrothendieckTopology.toSheafify_naturality]
-  show completionSubfunctorHom hY hX' α ≫
+  change completionSubfunctorHom hY hX' α ≫
       (completionSheafIsoSubfunctor B S hS hX' (pointsMap B S hS X' f ⁻¹' T)).inv ≫
       (completionSheafMap B S hS f T).hom =
     (completionSheafIsoSubfunctor B S hS hY (pointsMap B S hS Y g ⁻¹' T)).inv ≫
@@ -1128,7 +1128,7 @@ theorem completionSheafHomOfSubfunctor_comp
     ((BigFppfOver.topology B S hS).sheafify_isSheaf _) ?_
   have hYs := isSheaf_completionSubfunctor B S hS hY (pointsMap B S hS Y g ⁻¹' T)
   have hX's := isSheaf_completionSubfunctor B S hS hX' (pointsMap B S hS X' f ⁻¹' T)
-  show (BigFppfOver.topology B S hS).toSheafify _ ≫
+  change (BigFppfOver.topology B S hS).toSheafify _ ≫
       (((BigFppfOver.topology B S hS).isoSheafify hYs).inv ≫ α ≫
         ((BigFppfOver.topology B S hS).isoSheafify hX's).hom) ≫
       (BigFppfOver.topology B S hS).sheafifyMap (completionMap B S hS f T) =
@@ -1197,7 +1197,7 @@ theorem isCompletionLift_of_completionOverFunctor_map_eq
           (pointsMap B S hS Y g ⁻¹' T)
           (image_preimage_subset_preimage_of_comp_eq B S hS (rfl : v ≫ g = v ≫ g) T) ≫
         completionSubfunctorHom hY hX' α.left := by
-    haveI : Mono ((BigFppfOver.topology B S hS).toSheafify
+    have : Mono ((BigFppfOver.topology B S hS).toSheafify
         (completionSubfunctor B S hS X' (pointsMap B S hS X' f ⁻¹' T)).toFunctor) :=
       IsIso.mono_of_iso _
     rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify _)]
@@ -1232,7 +1232,7 @@ theorem completionSheafHomOfSubfunctor_app
       ((completionSheafIsoSubfunctor B S hS hY _).inv.app W x) = x :=
     congrFun (congrArg (fun φ => (φ.app W : _ → _))
       (completionSheafIsoSubfunctor B S hS hY (pointsMap B S hS Y g ⁻¹' T)).inv_hom_id) x
-  show (completionSheafIsoSubfunctor B S hS hX' _).inv.app W (α.app W
+  change (completionSheafIsoSubfunctor B S hS hX' _).inv.app W (α.app W
     ((completionSheafIsoSubfunctor B S hS hY _).hom.app W
       ((completionSheafIsoSubfunctor B S hS hY _).inv.app W x))) = _
   rw [hid]

@@ -208,12 +208,12 @@ theorem ambientIso_inclusion :
   apply SheafedSpace.ext _ _ (asIso i.base).hom_inv_id
   apply NatTrans.ext
   funext U
-  show (𝟙 _ ≫ i.app _) ≫ X.presheaf.map _ = i.app _ ≫ X.presheaf.map _
+  change (𝟙 _ ≫ i.app _) ≫ X.presheaf.map _ = i.app _ ≫ X.presheaf.map _
   simp only [Category.id_comp]
   congr 2
   exact Subsingleton.elim _ _
 
-omit [IsClosedImmersion t] in
+omit [IsClosedImmersion t] [IsClosedImmersion i] in
 /-- The inverse of `ambientIso i` followed by `f'` is `thickenedToBase` of the transported
 comorphism of `f'`. -/
 theorem ambientIso_toBase {f' : X' ⟶ S'} (comm : i ≫ f' = f ≫ t) :
@@ -224,9 +224,9 @@ theorem ambientIso_toBase {f' : X' ⟶ S'} (comm : i ≫ f' = f ≫ t) :
   apply NatTrans.ext
   funext V
   refine CommRingCat.hom_ext (RingHom.ext fun a => ?_)
-  show _ = ((transportedBase i comm).hom.app (op V.unop)) a
+  change _ = ((transportedBase i comm).hom.app (op V.unop)) a
   rw [transportedBase_app]
-  show (X'.presheaf.map _) ((X'.presheaf.map _) ((f'.app _).hom a)) = _
+  change (X'.presheaf.map _) ((X'.presheaf.map _) ((f'.app _).hom a)) = _
   exact (scheme_map_comp_apply _ _ _).trans
     (congrArg (fun g => (X'.presheaf.map g).hom _) (Subsingleton.elim _ _))
 
@@ -244,7 +244,7 @@ theorem baseComorphism_toSolution :
     baseComorphism (toSolution hst D c hc) = transportedBase D.i D.isPullback.w := by
   have hb : (baseMap₀ (toSolution hst D c hc)) = baseRingMap D :=
     Iso.inv_hom_id_assoc _ _
-  show (sheafAdjunction _).homEquiv _ _ _ = _
+  change (sheafAdjunction _).homEquiv _ _ _ = _
   rw [hb]
   exact Equiv.apply_symm_apply _ _
 
@@ -254,7 +254,7 @@ theorem toBase_eq :
     (ambientIso D.i).inv ≫ D.f'.toLRSHom.toShHom =
       (toSquareZeroExtension (toSolution hst D c hc)).toBase := by
   refine (ambientIso_toBase D.i D.isPullback.w).trans ?_
-  show _ = thickenedToBase (baseComorphism (toSolution hst D c hc))
+  change _ = thickenedToBase (baseComorphism (toSolution hst D c hc))
   rw [baseComorphism_toSolution]
   rfl
 

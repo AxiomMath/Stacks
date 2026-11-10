@@ -90,7 +90,7 @@ In the Gysin axiom the section on `Z' ×_Z X` is pulled back from `Z'` in one st
 0ER5 along `f' : Z' ×_Z X ⟶ Z' ×_Z Y` pulls it back in two steps, through `Z' ×_Z Y`.  The two
 vanishing loci agree and the two refined Gysin maps agree in `CH_k`, by the comparison
 `a^*(b^*ℒ) ≅ (a ≫ b)^*ℒ` of
-`AlgebraicGeometry.Space.isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforward_gysinCycleMap_sectionGysinRule_comp_sub`;
+`Space.isCanonicallyRationallyEquivalentToZeroWithin_closedPushforward_sectionGysinRule_comp_sub`;
 that is
 `AlgebraicGeometry.Space.chowClassCanonical_gysinCycleMap_properCyclePushforward_of_comp_eq`.
 
@@ -328,7 +328,7 @@ theorem chowClassCanonical_gysinCycleMap_properCyclePushforward_of_comp_eq
   have hgEP := isProper_pullbackVanishingLocusProjection D p' hp' p'' hp'' a
     (pullbackSheaf D p hp p' hp' b L) (pullbackGlobalSection D p hp p' hp' b L s) hbL ha
   have R2 :=
-    isCanonicallyRationallyEquivalentToZeroWithin_cycleGroupClosedPushforward_gysinCycleMap_sectionGysinRule_comp_sub.{v}
+    isCanonicallyRationallyEquivalentToZeroWithin_closedPushforward_sectionGysinRule_comp_sub.{v}
       D p hp p' hp' p'' hp'' a b L s k hL β
   rw [chowClassCanonical_eq_uliftIndex D
       (chowClassCanonical_sectionGysin_properPushforward_eq D p' hp' p'' hp'' a hab ha

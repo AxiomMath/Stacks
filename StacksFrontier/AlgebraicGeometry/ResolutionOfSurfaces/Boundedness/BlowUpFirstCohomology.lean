@@ -65,7 +65,7 @@ theorem exists_awayMapAdd_val_eq
         simpa using SetLike.mul_mem_graded ha (SetLike.pow_mem_graded e hf)
       refine ⟨(0, Away.mk 𝒜 hg e (a * f ^ e) hb), ?_⟩
       simp only [awayMapAdd, AddMonoidHom.coprod_apply, map_zero, zero_add,
-        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
       rw [Away.mk, val_awayMap_mk, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
       refine ⟨1, ?_⟩
       simp only [OneMemClass.coe_one, one_mul]
@@ -76,7 +76,7 @@ theorem exists_awayMapAdd_val_eq
         simpa using SetLike.mul_mem_graded ha (SetLike.pow_mem_graded e hg)
       refine ⟨(Away.mk 𝒜 hf e (a * g ^ e) hb, 0), ?_⟩
       simp only [awayMapAdd, AddMonoidHom.coprod_apply, map_zero, add_zero,
-        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
       rw [Away.mk, val_awayMap_mk, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
       refine ⟨1, ?_⟩
       simp only [OneMemClass.coe_one, one_mul]
@@ -132,7 +132,7 @@ theorem exists_sections_eq_add (hspan : ∀ n, 0 < n → ∀ a ∈ 𝒜 n, a ∈
   simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
     CommRingCat.hom_ofHom] at e₁ e₂
   simp only [awayMapAdd, AddMonoidHom.coprod_apply, RingHom.toAddMonoidHom_eq_coe,
-    AddMonoidHom.coe_coe, map_add]
+    AddMonoidHom.coe_ofClass, map_add]
   rw [e₁, e₂]
 
 end AlgebraicGeometry.Proj
@@ -282,7 +282,6 @@ namespace Proj
 variable {σ : Type*} {A : Type u} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
   (𝒜 : ℕ → σ) [GradedRing 𝒜] {f g : A} (hf : f ∈ 𝒜 1) (hg : g ∈ 𝒜 1)
 
-include hf hg in
 /-- `D₊(f)` and `D₊(g)` cover `Proj A` when every homogeneous element of positive degree lies in
 `(f, g)`. -/
 theorem basicOpen_sup_basicOpen_eq_top
@@ -309,7 +308,7 @@ theorem subsingleton_cohomologyPresheaf_one_top
     (hspan : ∀ n, 0 < n → ∀ a ∈ 𝒜 n, a ∈ Ideal.span {f, g}) :
     Subsingleton (((structureAbelianSheaf (Proj 𝒜)).cohomologyPresheaf.{u} 1).obj
       (op (⊤ : (Proj 𝒜).Opens))) := by
-  rw [← basicOpen_sup_basicOpen_eq_top 𝒜 hf hg hspan]
+  rw [← basicOpen_sup_basicOpen_eq_top 𝒜 hspan]
   exact subsingleton_cohomologyPresheaf_one_sup_of_isAffineOpen
     (isAffineOpen_basicOpen 𝒜 f hf one_pos) (isAffineOpen_basicOpen 𝒜 g hg one_pos)
     (exists_sections_eq_add 𝒜 hf hg hspan _ (basicOpen_mul 𝒜 f g) inf_le_left inf_le_right)

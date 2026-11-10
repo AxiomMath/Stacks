@@ -74,7 +74,7 @@ public theorem exists_isRoot_charpoly_pow_of_localCharSeries_eq_prod (ι : K →
       show (A.map ι).det = ι A.det from (RingHom.map_det ι A).symm] at hz
     exact mul_ne_zero (pow_ne_zero _ (neg_ne_zero.2 one_ne_zero)) ((map_ne_zero ι).2 hA.ne_zero) hz
   have hev := congrArg (fun P => P.eval₂ ι z⁻¹) hpoly
-  simp only [eval₂_localCharPolynomial, Polynomial.eval₂_finset_prod, pow_one] at hev
+  simp only [eval₂_localCharPolynomial, Polynomial.eval₂_finsetProd, pow_one] at hev
   rw [det_one_sub_smul_eq _ (inv_ne_zero hz0), inv_inv, hz, mul_zero] at hev
   obtain ⟨x, hx, hx0⟩ := Finset.prod_eq_zero_iff.1 hev.symm
   refine ⟨x, hx, ?_⟩

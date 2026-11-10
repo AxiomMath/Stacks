@@ -173,8 +173,7 @@ theorem exists_restrictTensor_eq_zero_finsupp {ι : Type*} {X : C} (x : Φ.fiber
   have hcoord : ∀ (t' : P.obj (op X) ⊗[Γ] (ι →₀ Γ)) i,
       Φ.toPresheafFiber X x P (e t' i) = eΦ (germTensor Φ P ε εΦ hεΦ _ X x t') i := by
     intro t' i
-    induction t' using TensorProduct.induction_on with
-    | zero => simp
+    induction t' using TensorProduct.inductionOn with
     | tmul o p =>
       simp only [e, eΦ, germTensor_tmul, TensorProduct.finsuppScalarRight_apply_tmul_apply]
       exact (germLinear Φ P ε εΦ hεΦ X x).map_smul (p i) o
@@ -193,8 +192,7 @@ theorem exists_restrictTensor_eq_zero_finsupp {ι : Type*} {X : C} (x : Φ.fiber
   have hres : ∀ t' : P.obj (op X) ⊗[Γ] (ι →₀ Γ),
       eY (restrictTensor P ε hε _ h t') i = P.map h.op (e t' i) := by
     intro t'
-    induction t' using TensorProduct.induction_on with
-    | zero => simp
+    induction t' using TensorProduct.inductionOn with
     | tmul o p =>
       simp only [eY, e, restrictTensor_tmul, TensorProduct.finsuppScalarRight_apply_tmul_apply]
       exact ((restrictLinear P ε hε h).map_smul (p i) o).symm

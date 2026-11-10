@@ -64,7 +64,7 @@ private theorem genericPoints_mem_dense_open_of_finiteComponents
   have hC : C ∈ irreducibleComponents X := hx
   let O : Set X := (⋃₀ (irreducibleComponents X \ {C}))ᶜ
   have hOopen : IsOpen O := by
-    show IsOpen ((⋃₀ (irreducibleComponents X \ {C}))ᶜ)
+    change IsOpen ((⋃₀ (irreducibleComponents X \ {C}))ᶜ)
     rw [Set.sUnion_eq_biUnion, isOpen_compl_iff]
     exact hfinite.sdiff.isClosed_biUnion fun V hV =>
       isClosed_of_mem_irreducibleComponents V hV.1
@@ -111,7 +111,7 @@ theorem isOpenImmersion_schematicChart
   let G := schematicLocus B S hS F
   let : G.toFunctor.IsRepresentable :=
     (isOpenSubspace_and_isRepresentable_schematicLocus_of_isAlgebraicSpace B S hS hF).2
-  show IsOpenImmersion B S hS (G.toFunctor.reprW.hom ≫ G.ι)
+  change IsOpenImmersion B S hS (G.toFunctor.reprW.hom ≫ G.ι)
   exact MorphismProperty.RespectsIso.precomp _ G.toFunctor.reprW.hom G.ι
     ((isOpenSubspace_and_isRepresentable_schematicLocus_of_isAlgebraicSpace B S hS hF).1).2
 

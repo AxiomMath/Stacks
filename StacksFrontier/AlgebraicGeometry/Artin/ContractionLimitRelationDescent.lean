@@ -117,7 +117,6 @@ theorem exists_factor_baseChange_of_isClosedImmersion (i₀ : I)
   refine ⟨i, g, inv ((Over.pullback (D.map g)).map π₁) ≫ (Over.pullback (D.map g)).map π₂, ?_⟩
   rw [Category.assoc, ← Functor.map_comp, ← hsq.w, Functor.map_comp, IsIso.inv_hom_id_assoc]
 
-include hc in
 omit [IsCofiltered I] [EssentiallySmall.{u} I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- **A limit isomorphism of `π₁ : φ⁻¹(R₀) ⟶ X₀`** from a factorization over the limit: the
 pullback of a monomorphism along a map factoring through it is an isomorphism. -/
@@ -171,7 +170,7 @@ theorem exists_isIso_pullback_fst_left (i₀ : I)
   have : QuasiSeparatedSpace (pullback φ ι).left :=
     quasiSeparatedSpace_of_quasiSeparated (pullback.fst φ ι).left
   obtain ⟨ψ, hψ⟩ := hlim
-  have := isIso_pullback_fst_left_of_factor D c hc i₀ ι φ hψ
+  have := isIso_pullback_fst_left_of_factor D c i₀ ι φ hψ
   obtain ⟨i, g, hg⟩ := exists_isIso_baseChange_of_isIso_limitBaseChange D c hc i₀ _ X₀
     (pullback.fst φ ι)
   exact ⟨Over.mk g, hg⟩
@@ -264,6 +263,8 @@ theorem exists_stage_relation
       · exact ⟨a₅, ha₅⟩)
   exact ⟨a, ha 0, ha 1, ha 2, ha 3, ha 4, ha 5⟩
 
+omit [IsCofiltered I] [EssentiallySmall.{u} I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)]
+  [CompactSpace (D.obj i₀)] [QuasiSeparatedSpace (D.obj i₀)] in
 /-- **The equivalence relation at a stage.** At a stage where the base change of `ι₀` is a
 closed immersion with étale projections and the three test maps factor through it, the two
 projections `s, t` of the base-changed relation are étale and jointly monic, and reflexivity,

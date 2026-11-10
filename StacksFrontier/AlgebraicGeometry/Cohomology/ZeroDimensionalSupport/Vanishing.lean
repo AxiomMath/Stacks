@@ -236,7 +236,7 @@ theorem surjective_suppGermHom {X : Scheme.{u}} (F : X.Modules)
       (Scheme.Modules.presheaf F).germ (V x) x.1 (hV x) (sV x) :=
     TopCat.Presheaf.germ_res_apply (Scheme.Modules.presheaf F)
       (Opens.infLERight (U x.1 x.2) (V x)) x.1 hx (sV x)
-  show (Scheme.Modules.presheaf F).Γgerm x.1 s = t x
+  change (Scheme.Modules.presheaf F).Γgerm x.1 s = t x
   rw [← h₂, h₁, h₃]
   exact hsV x
 

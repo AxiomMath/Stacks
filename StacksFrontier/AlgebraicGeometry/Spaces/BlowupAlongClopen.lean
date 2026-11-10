@@ -115,7 +115,7 @@ theorem isBlowupAlong_openComplement_ι_of_isOpen (X : AlgebraicSpaces B S hS)
     have : Mono O.ι := inferInstance
     refine ⟨ObjectProperty.homMk l, ObjectProperty.hom_ext _ hlι, fun m hm => ?_⟩
     refine ObjectProperty.hom_ext _ ((cancel_mono O.ι).1 ?_)
-    show m.hom ≫ O.ι = l ≫ O.ι
+    change m.hom ≫ O.ι = l ≫ O.ι
     rw [hlι]
     exact congrArg (fun φ : Y ⟶ X => φ.hom) hm
 

@@ -100,7 +100,7 @@ theorem projective_proj_comp_freeYoneda (W : X) (M : D) [Projective M] :
         l (L.map a.op ≫ j.hom) ≫ F₁.map (CostructuredArrow.homMk a.op rfl))
     have happ : ∀ (j : CostructuredArrow L y) (a : (yoneda.obj W).obj j.left),
         ι j a ≫ app j = l (L.map a.op ≫ j.hom) ≫ F₁.map (CostructuredArrow.homMk a.op rfl) :=
-      fun j a => Sigma.ι_desc _ _
+      fun j a => Sigma.ι_comp_desc _ _
     refine ⟨{ app := app, naturality := fun j j' k => ?_ }, ?_⟩
     · refine hext _ _ fun a => ?_
       rw [← Category.assoc, hι, happ, ← Category.assoc, happ, Category.assoc, ← F₁.map_comp]
@@ -177,9 +177,9 @@ def fibreSiteToCostructured :
 /-- The functor `fibreSiteToCostructured A U` is an equivalence of categories. -/
 instance : (fibreSiteToCostructured A U).IsEquivalence := by
   have : (AsSmall.down : FibreSite A U ⥤ _).IsEquivalence :=
-    (AsSmall.equiv (C := polynomialTowerSite A B (fibreAlgebra A U))).isEquivalence_inverse
+    (AsSmall.equiv (C := polynomialTowerSite A B (fibreAlgebra U))).isEquivalence_inverse
   have : (AsSmall.down : FibreSite A U ⥤ _).op.IsEquivalence :=
-    (AsSmall.equiv (C := polynomialTowerSite A B (fibreAlgebra A U))).op.isEquivalence_inverse
+    (AsSmall.equiv (C := polynomialTowerSite A B (fibreAlgebra U))).op.isEquivalence_inverse
   dsimp only [fibreSiteToCostructured]
   infer_instance
 

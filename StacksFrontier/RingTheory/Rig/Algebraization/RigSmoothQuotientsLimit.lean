@@ -79,7 +79,7 @@ private theorem surjective_and_exact_baseChange_mkQ_range {R : Type*} (T : Type*
     [Module R N] (d : M →ₗ[R] N) :
     Function.Surjective ((LinearMap.range d).mkQ.baseChange T) ∧
       Function.Exact (d.baseChange T) ((LinearMap.range d).mkQ.baseChange T) := by
-  simp only [LinearMap.baseChange_eq_ltensor]
+  simp only [LinearMap.baseChange_eq_lTensor]
   exact ⟨LinearMap.lTensor_surjective T (Submodule.mkQ_surjective _),
     lTensor_exact T (LinearMap.exact_map_mkQ_range d) (Submodule.mkQ_surjective _)⟩
 
@@ -153,8 +153,7 @@ theorem subsingleton_ker_and_free_coker_of_mem [IsNoetherianRing R] {M : Type*}
   have hl : (c • h.baseChange T) ∘ₗ d.baseChange T = LinearMap.id := by
     rw [LinearMap.smul_comp, ← LinearMap.baseChange_comp, hh]
     refine LinearMap.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t x =>
       rw [LinearMap.smul_apply, LinearMap.baseChange_tmul, LinearMap.id_apply,
         LinearMap.smul_apply, LinearMap.id_apply, TensorProduct.tmul_smul,
@@ -252,7 +251,7 @@ theorem map_polynomialBaseChange_map (J : Ideal A) :
     (J.map (algebraMap A (completedPolynomialAlgebra I₁ r))).map
         (polynomialBaseChange hmap r) =
       J.map (algebraMap A (completedPolynomialAlgebra I₂ r)) := by
-  show Ideal.map (polynomialBaseChange hmap r).toRingHom _ = _
+  change Ideal.map (polynomialBaseChange hmap r).toRingHom _ = _
   rw [Ideal.map_map]
   congr 1
   ext x
@@ -415,8 +414,7 @@ theorem injective_liftBaseChange_of_mem_smul [IsNoetherianRing R₂] {M₁ M₂ 
     have happ : ∀ y : R₂ ⊗[R₁] M₁, ∃ m : M₁,
         y - (1 : R₂) ⊗ₜ m ∈ 𝔠 ^ n • (⊤ : Submodule R₂ (R₂ ⊗[R₁] M₁)) := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction y using TensorProduct.inductionOn with
       | tmul b m =>
         obtain ⟨c, hc⟩ := happrox n b
         refine ⟨c • m, ?_⟩
@@ -557,7 +555,7 @@ theorem flat_of_isBijectiveMod
     have h := DFunLike.congr_fun
       (_root_.adicCompletionMap_comp_algebraMap f K (K.map f) le_rfl) x
     simp only [RingHom.comp_apply] at h
-    show (AdicCompletion.ofAlgEquiv (K.map f)).symm (e₁ _) = f x
+    change (AdicCompletion.ofAlgEquiv (K.map f)).symm (e₁ _) = f x
     rw [show e₁ (algebraMap B'.carrier (AdicCompletion K B'.carrier) x) =
       _root_.adicCompletionMap f K (K.map f) le_rfl
         (algebraMap B'.carrier (AdicCompletion K B'.carrier) x) from rfl, h,
@@ -656,7 +654,7 @@ theorem localized_hneg_hzero_of_liesOver (ha : a ∈ I)
         (completedPolynomialAlgebra (Ideal.span {a}) r) p - y ∈
           RingHom.ker (completedAeval B' r g).toRingHom := by
       rw [RingHom.mem_ker]
-      show completedAeval B' r g _ = 0
+      change completedAeval B' r g _ = 0
       rw [map_sub, completedAeval_algebraMap, hyeq, sub_self]
     have hβy : β y ∈ (I.map (algebraMap A (completedPolynomialAlgebra I r))) ^ n := by
       rw [← map_polynomialBaseChange_map hmap r, ← Ideal.map_pow]
@@ -715,8 +713,7 @@ theorem localized_hneg_hzero_of_liesOver (ha : a ∈ I)
       (freeBaseChangeEquiv B'.carrier B.carrier r).toLinearMap ∘ₗ
         K₁.differential.baseChange B.carrier := by
     refine LinearMap.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       have h1 : K₂.differential (π (b ⊗ₜ m)) =
           b • fun i ↦ algebraMap B'.carrier B.carrier (K₁.differential m i) := by
@@ -935,12 +932,12 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
   have hφsurj : Function.Surjective φ := e.surjective.comp Ideal.Quotient.mk_surjective
   have hφA : ∀ x : A, φ (algebraMap A B'.carrier x) = algebraMap A C x := by
     intro x
-    show e (Ideal.Quotient.mk _ (algebraMap A B'.carrier x)) = _
+    change e (Ideal.Quotient.mk _ (algebraMap A B'.carrier x)) = _
     rw [Ideal.Quotient.mk_algebraMap, AlgEquiv.commutes]
   have hkerφ : RingHom.ker φ = (Ideal.span {a ^ (k + 1)}).map (algebraMap A B'.carrier) := by
     ext x
     rw [RingHom.mem_ker]
-    show e (Ideal.Quotient.mk _ x) = 0 ↔ _
+    change e (Ideal.Quotient.mk _ x) = 0 ↔ _
     rw [map_eq_zero_iff e e.injective, Ideal.Quotient.eq_zero_iff_mem]
   let : Algebra B'.carrier C := φ.toAlgebra
   have : IsScalarTower A B'.carrier C := IsScalarTower.of_algebraMap_eq fun x ↦ (hφA x).symm
@@ -974,11 +971,11 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
   let f : P₁.extension.Hom G.toExtension :=
     { toRingHom := ρ.toRingHom
       toRingHom_algebraMap := fun x ↦ by
-        show ρ (algebraMap A (completedPolynomialAlgebra (Ideal.span {a}) r) x) = _
+        change ρ (algebraMap A (completedPolynomialAlgebra (Ideal.span {a}) r) x) = _
         rw [AlgHom.commutes, IsScalarTower.algebraMap_apply A Aₙ (MvPolynomial (Fin r) Aₙ)]
         rfl
       algebraMap_toRingHom := fun x ↦ by
-        show algebraMap G.Ring C (ρ x) = φ (P₁.toAlgHom x)
+        change algebraMap G.Ring C (ρ x) = φ (P₁.toAlgHom x)
         exact (hGval _).trans ((hcompat x).trans (congrArg φ
           (DFunLike.congr_fun (ofGenerators_toAlgHom B' r g hI₁ hgen) x)).symm) }
   set πₙ := Cotangent.map f with hπₙ
@@ -986,7 +983,7 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
       πₙ (Cotangent.mk z) = Cotangent.mk ⟨ρ z.1, hz⟩ := fun z _ ↦ Cotangent.map_mk f z
   have hmemG : ∀ z ∈ J₁, ρ z ∈ G.toExtension.ker := by
     intro z hz
-    show ρ z ∈ RingHom.ker (algebraMap G.Ring C)
+    change ρ z ∈ RingHom.ker (algebraMap G.Ring C)
     rw [RingHom.mem_ker, hGval]
     exact (hcompat z).trans ((congrArg φ (RingHom.mem_ker.mp hz)).trans (map_zero φ))
   -- `J̄ = ρ(J₁)`
@@ -1004,7 +1001,7 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
       (completedAeval_surjective B' r g hI₁ hgen)).mp hx'
     have hxy : x - y ∈ J₁ := by
       rw [hJ₁, RingHom.mem_ker]
-      show completedAeval B' r g (x - y) = 0
+      change completedAeval B' r g (x - y) = 0
       rw [map_sub, sub_eq_zero]
       exact hyx.symm
     have : ρ x = ρ (x - y) := by rw [map_sub, reduction_eq_zero_of_mem a r k hy, sub_zero]
@@ -1042,7 +1039,7 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
       rw [← sub_add_cancel z h]
       exact Submodule.add_mem_sup hAR hh
     have := (cotangent_mk_mem_smul_top_iff P₁.extension 𝔞 ⟨z, hzP⟩).mpr
-      (by show z ∈ _; rw [hJ₁P]; exact hz')
+      (by change z ∈ _; rw [hJ₁P]; exact hz')
     have hmapeq : 𝔞.map (algebraMap P₁.extension.Ring B'.carrier) =
         (Ideal.span {a}).map (algebraMap A B'.carrier) :=
       map_map_algebraMap (Ideal.span {a}) P₁.toAlgHom
@@ -1058,7 +1055,7 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
   -- smoothness of `C` at the image of `m`
   have hkerm : RingHom.ker φ ≤ m := by
     rw [hkerφ, Ideal.map_le_iff_le_comap, Ideal.span_le, Set.singleton_subset_iff]
-    show algebraMap A B'.carrier (a ^ (k + 1)) ∈ m
+    change algebraMap A B'.carrier (a ^ (k + 1)) ∈ m
     rw [map_pow]
     exact Ideal.pow_mem_of_mem _ ham _ (Nat.succ_pos k)
   set 𝔪 := m.map φ with h𝔪
@@ -1072,12 +1069,12 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
     apply hIm
     rw [← hcomap, Ideal.map_le_iff_le_comap]
     intro y hy
-    show φ (algebraMap A B'.carrier y) ∈ 𝔪
+    change φ (algebraMap A B'.carrier y) ∈ 𝔪
     rw [hφA, IsScalarTower.algebraMap_apply A Aₙ C, Ideal.Quotient.algebraMap_eq]
     exact hle (Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hy))
   have hSA := hsmooth 𝔪 h𝔪p hnot
   obtain ⟨t, ht, ht𝔪⟩ :=
-    SetLike.not_le_iff_exists.mp (not_retractionIdeal_le_of_smoothAt G 𝔪 hSA)
+    IsConcreteLE.not_le_iff_exists.mp (not_retractionIdeal_le_of_smoothAt G 𝔪 hSA)
   obtain ⟨ψG, hψG⟩ := ht
   have hψG' : ∀ y, ψG (presentationDifferential G y) = t • y := fun y ↦ LinearMap.congr_fun hψG y
   obtain ⟨t', rfl⟩ := hφsurj t
@@ -1095,7 +1092,7 @@ theorem exists_mem_cotangentFactorizationIdeal_of_smoothAwayFrom (r : ℕ)
     have hzJ : z.1 ∈ J₁ := hJ₁P ▸ z.2
     funext i
     rw [hπₙ_mk z (hmemG z.1 hzJ), presentationDifferential_mk, K₁.differential_mk, hGval]
-    show MvPolynomial.aeval _ (MvPolynomial.pderiv i (ρ z.1)) =
+    change MvPolynomial.aeval _ (MvPolynomial.pderiv i (ρ z.1)) =
       φ (P₁.toAlgHom (K₁.partialDeriv i z.1))
     exact (hpd z.1 i).trans
       (congrArg φ (DFunLike.congr_fun (ofGenerators_toAlgHom B' r g hI₁ hgen) _).symm)

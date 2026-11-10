@@ -447,27 +447,27 @@ theorem octahedron_of_isAdmissibleMono {K L M : DifferentialGradedModule A}
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show (β.toFun x, (0 : K.M)) = (β.toFun x, 0)
+    change (β.toFun x, (0 : K.M)) = (β.toFun x, 0)
     rfl
   have hproj : g ≫ (-coneProjection f) = -coneProjection α := by
     apply Hom.ext
     apply LinearMap.ext
     intro x
     obtain ⟨l, k⟩ := x
-    show -k = -k
+    change -k = -k
     rfl
   have hinc₂ : coneInclusion f ≫ h = coneInclusion β := by
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show (x, α.toFun 0) = (x, 0)
+    change (x, α.toFun 0) = (x, 0)
     simp
   have hcancelIncl : coneInclusion g ≫ mappingConeCancel α β f hf = h := by
     apply Hom.ext
     apply LinearMap.ext
     intro x
     obtain ⟨m, k⟩ := x
-    show (m, α.toFun k + 0) = (m, α.toFun k)
+    change (m, α.toFun k + 0) = (m, α.toFun k)
     simp
   have hproj₂ : (-coneProjection f) ≫ shiftMap α 1 =
       h ≫ (-coneProjection β) := by
@@ -475,7 +475,7 @@ theorem octahedron_of_isAdmissibleMono {K L M : DifferentialGradedModule A}
     apply LinearMap.ext
     intro x
     obtain ⟨m, k⟩ := x
-    show α.toFun (-k) = -(α.toFun k)
+    change α.toFun (-k) = -(α.toFun k)
     rw [map_neg]
   have hboundary : Homotopic (-coneProjection g)
       (mappingConeCancel α β f hf ≫ (-coneProjection β) ≫
@@ -487,7 +487,7 @@ theorem octahedron_of_isAdmissibleMono {K L M : DifferentialGradedModule A}
     apply Hom.ext
     apply LinearMap.ext
     intro x
-    show (x.1, α.toFun 0 + x.2) = (x.1, x.2)
+    change (x.1, α.toFun 0 + x.2) = (x.1, x.2)
     simp
   let qCancel := q.map (mappingConeCancel α β f hf)
   let qSection := q.map (mappingConeCancelSection α β f hf)
@@ -521,7 +521,7 @@ theorem octahedron_of_isAdmissibleMono {K L M : DifferentialGradedModule A}
     q.commShiftIso_hom_naturality (X := X) (Y := Y) u (1 : ℤ)
   have hthirdArrow : T₄.mor₃ ≫ (𝟙 T₄.obj₁)⟦1⟧' = e₃.hom ≫ T₄'.mor₃ := by
     let S := CategoryTheory.shiftFunctor (HomotopyCategory A) (1 : ℤ)
-    show (q.map (-coneProjection g) ≫ cCone) ≫
+    change (q.map (-coneProjection g) ≫ cCone) ≫
         S.map (𝟙 (q.obj (coneModule α))) =
       q.map (mappingConeCancel α β f hf) ≫
         (q.map (-coneProjection β) ≫ cL) ≫ S.map (q.map (coneInclusion α))
@@ -557,11 +557,11 @@ theorem octahedron_of_isAdmissibleMono {K L M : DifferentialGradedModule A}
   have hT₄ : IsDistinguishedTriangle A T₄' :=
     isDistinguishedTriangle_of_iso A e₄ (isDistinguishedTriangle_mappingConeTriangle A g)
   refine ⟨Q₁, Q₂, Q₃, p₁, d₁, p₂, d₂, p₃, d₃, a, b, ?_, ?_, ?_, ?_, ?_, ?_, ?_, hT₄⟩
-  · show IsDistinguishedTriangle A (mappingConeTriangle α)
+  · change IsDistinguishedTriangle A (mappingConeTriangle α)
     exact hT₁
-  · show IsDistinguishedTriangle A (mappingConeTriangle f)
+  · change IsDistinguishedTriangle A (mappingConeTriangle f)
     exact hT₂
-  · show IsDistinguishedTriangle A (mappingConeTriangle β)
+  · change IsDistinguishedTriangle A (mappingConeTriangle β)
     exact hT₃
   · dsimp only [p₁, a, p₂, q]
     rw [← Functor.map_comp, hinc₁, Functor.map_comp]

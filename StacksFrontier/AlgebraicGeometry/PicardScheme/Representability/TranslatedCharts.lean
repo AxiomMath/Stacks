@@ -144,14 +144,14 @@ theorem exists_translate_mem_range (F : Subfunctor (G ⋙ forget GrpCat)) (Y : O
     simpa using congrArg ((representingIsoOfGrp A e).inv.app (op V)) h3
   have hγ : γ = t ≫ j ≫ grpTranslate A r⁻¹ := by
     rw [comp_grpTranslate, MonObj.comp_mul, ← Category.assoc, comp_grpToBase, ht]
-    show γ = (grpToBase V ≫ r⁻¹) * ((grpToBase V ≫ r) * γ)
+    change γ = (grpToBase V ≫ r⁻¹) * ((grpToBase V ≫ r) * γ)
     rw [Hom.inv_def r, ← Category.assoc, ← Hom.inv_def, ← mul_assoc, inv_mul_cancel, one_mul]
   let p : V.left := show PrimeSpectrum K from IsLocalRing.closedPoint K
   refine ⟨r⁻¹, t.left p, ?_⟩
   have hγl : t.left ≫ (j ≫ grpTranslate A r⁻¹).left = A.X.left.fromSpecResidueField a := by
     rw [← Over.comp_left, ← hγ]
     rfl
-  show (t.left ≫ (j ≫ grpTranslate A r⁻¹).left) p = a
+  change (t.left ≫ (j ≫ grpTranslate A r⁻¹).left) p = a
   rw [hγl]
   exact A.X.left.fromSpecResidueField_apply a _
 
@@ -180,7 +180,7 @@ theorem of_chart_of_isZariskiLocalAtSource (P : MorphismProperty Scheme.{u})
           (inferInstance : IsIso ((Over.forget _).map (grpTranslate A (r a))))
         exact IsOpenImmersion.comp _ _)
   refine IsZariskiLocalAtSource.of_openCover 𝒰 fun a => ?_
-  show P ((j ≫ grpTranslate A (r a)).left ≫ A.X.hom)
+  change P ((j ≫ grpTranslate A (r a)).left ≫ A.X.hom)
   rw [Over.w (j ≫ grpTranslate A (r a))]
   exact hY
 

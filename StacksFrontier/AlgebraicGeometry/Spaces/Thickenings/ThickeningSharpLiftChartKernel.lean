@@ -98,7 +98,6 @@ universe ww vv uu vv' uu'
 
 variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   (J : GrothendieckTopology C) (K : GrothendieckTopology D)
-  [J.HasSheafCompose (CategoryTheory.forget RingCat.{ww})]
   [K.HasSheafCompose (CategoryTheory.forget RingCat.{ww})]
   (Φ : Sheaf K (Type ww) ⥤ Sheaf J (Type ww)) [PreservesFiniteProducts Φ]
 

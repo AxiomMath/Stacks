@@ -87,7 +87,7 @@ theorem natCast_ord_sub_eq_finsum_components_mul_of_le_iff
   · rw [← zero_le_ringKrullDim_iff_nontrivial, hdimI i]
     norm_num
   · rw [Ideal.minimalPrimes_eq_setOf_mem_minimalPrimes_of_ringKrullDim_eq_one hdim (I i)
-      (hdimI i), Set.mem_setOf_eq]
+      (hdimI i), Set.mem_ofPred_eq]
     exact ⟨fun h => ⟨h.1, (hinc i ⟨q, h.1⟩).mp h.2⟩,
       fun h => ⟨h.choose, (hinc i ⟨q, h.choose⟩).mpr h.choose_spec⟩⟩
 

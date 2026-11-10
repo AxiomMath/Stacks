@@ -391,7 +391,7 @@ public theorem exists_point_offDiagIncidenceVariety [IsAlgClosed k]
   have hloc : ptPair.base x₀ ∈
       ((offDiagLocus k V Y Z hY hZ : (prodOfClosed k V Y Z hY hZ).Opens) :
         Set (prodOfClosed k V Y Z hY hZ)) := by
-    show (prodOfClosedFst k V Y Z hY hZ).base (ptPair.base x₀) ∈ Zᶜ
+    change (prodOfClosedFst k V Y Z hY hZ).base (ptPair.base x₀) ∈ Zᶜ
     rw [hpairfsta]
     exact hyZ
   have hrangesub : Set.range ptPair.base ⊆
@@ -608,7 +608,7 @@ public theorem exists_isOpen_inter_projectionCone_eq_of_union_ne_univ [IsAlgClos
       have hrw : (Y \ Z) ∩ projectionCone k V p Z =
           (Y ∩ projectionCone k V p Z) ∩ Zᶜ := by
         ext x
-        simp only [Set.mem_inter_iff, Set.mem_diff, Set.mem_compl_iff]
+        simp only [Set.mem_inter_iff, Set.mem_sdiff, Set.mem_compl_iff]
         tauto
       rw [hrw]
       exact hYconeClosed.isLocallyClosed.inter hZ.isOpen_compl.isLocallyClosed

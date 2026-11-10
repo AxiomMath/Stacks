@@ -64,13 +64,16 @@ is only definitionally `X.Modules`, so the `Γ(·, ·)` notation's instances are
 **This file proves the two invertibility clauses; the third clause of Tag 0CDX is proved
 elsewhere.** That the canonical multiplication
 `Γ(X, L) ⊗_{Γ(X, 𝒪_X)} Γ(X, L^{⊗ -1}) → Γ(X, 𝒪_X)` is an isomorphism is reduced by
-`Module.Invertible.exists_mulEquiv_of_lTensor_surjective` (`StacksFrontier/AlgebraicGeometry/PicardBaseChange/Basic.lean`)
+`Module.Invertible.exists_mulEquiv_of_lTensor_surjective`
+(`StacksFrontier/AlgebraicGeometry/PicardBaseChange/Basic.lean`)
 to surjectivity of that multiplication after base change along
 `Γ(X, 𝒪_X) → Γ(X_B, 𝒪_{X_B})`, with both invertibility hypotheses supplied from here. That
 surjectivity, and with it the clause, is proved in
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/MulIsomorphism.lean`, against the pairing presented as a linear map by
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/MulIsomorphism.lean`, against the pairing
+presented as a linear map by
 `Stacks.SheafOfModules.Invertible.globalSectionsMulNegOneLinear`
-(`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairingLinear.lean`); the clause written with Tag 01CU's coherent
+(`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairingLinear.lean`); the clause
+written with Tag 01CU's coherent
 multiplication, which is where its `@[stacks 0CDX]` attribute sits, is in
 `StacksFrontier/AlgebraicGeometry/PicardBaseChange/CoherentMul.lean`. Neither route uses
 `Stacks.RingedSpace.pullbackBilinear`.

@@ -66,8 +66,7 @@ theorem span_of_subsingleton_tensor_quotient (s : M) (p : PrimeSpectrum A)
   have hex := lTensor_exact κ (LinearMap.exact_subtype_mkQ N) (Submodule.mkQ_surjective N)
   refine Submodule.eq_top_iff'.2 fun z => ?_
   obtain ⟨w, rfl⟩ := (hex z).1 (Subsingleton.elim _ _)
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul c n =>
     obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 n.2
     rw [LinearMap.lTensor_tmul, Submodule.subtype_apply, ← ha, TensorProduct.tmul_smul]
@@ -87,7 +86,7 @@ theorem isOpen_setOf_span_tmul_eq_top [Module.Finite A M] (s : M) :
       Submodule.span p.asIdeal.ResidueField {(1 : p.asIdeal.ResidueField) ⊗ₜ[A] s} = ⊤} =
       (Module.support A (M ⧸ Submodule.span A {s}))ᶜ := by
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_compl_iff,
+    simp only [Set.mem_ofPred_eq, Set.mem_compl_iff,
       Module.mem_support_iff_nontrivial_residueField_tensorProduct, not_nontrivial_iff_subsingleton]
     exact ⟨subsingleton_tensor_quotient_of_span s p, span_of_subsingleton_tensor_quotient s p⟩
   rw [heq, Module.support_eq_zeroLocus, isOpen_compl_iff]
@@ -124,7 +123,7 @@ theorem injective_smul_of_fibres [Module.Finite A M] [Module.Projective A M] (s 
     rw [LinearMap.mem_ker, LinearMap.sub_apply, map_sub, LinearMap.id_apply,
       LinearMap.comp_apply, ← LinearMap.comp_apply φ σ, hσ, LinearMap.id_apply, sub_self]
   have hψ : ∀ x : K, ψ x = x := fun x => Subtype.ext (by
-    show (x : A) - σ (φ x) = x
+    change (x : A) - σ (φ x) = x
     rw [x.2, map_zero, sub_zero])
   have : Module.Finite A K := Module.Finite.of_surjective ψ fun x => ⟨x, hψ x⟩
   have hK : Subsingleton K := by
@@ -135,7 +134,7 @@ theorem injective_smul_of_fibres [Module.Finite A M] [Module.Projective A M] (s 
     have : FiniteDimensional κ (κ ⊗[A] A) := Module.finite_of_finrank_eq_succ hA
     have : FiniteDimensional κ (κ ⊗[A] M) := Module.finite_of_finrank_eq_succ (h1 p)
     have hsurj : Function.Surjective (φ.baseChange κ) := by
-      rw [LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.baseChange_eq_lTensor]
       exact LinearMap.lTensor_surjective κ hφ
     have hinj : Function.Injective (φ.baseChange κ) :=
       (LinearMap.injective_iff_surjective_of_finrank_eq_finrank

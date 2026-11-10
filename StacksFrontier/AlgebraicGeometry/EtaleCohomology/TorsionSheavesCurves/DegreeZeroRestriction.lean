@@ -115,7 +115,7 @@ theorem bijective_etaleCohomologyRestrictionMap_zero_of_bijective_unit
       (fun φ => Ext.mk₀ φ) ∘ (fun φ : ZX ⟶ F => c.inv ≫ L.map φ) ∘ Ext.homEquiv₀ := by
     funext x
     obtain ⟨φ, rfl⟩ := Ext.homEquiv₀.symm.surjective x
-    simp only [Function.comp_apply, Equiv.apply_symm_apply, Ext.homEquiv₀_symm_apply]
+    simp only [Function.comp_apply, Ext.homEquiv₀_symm_apply]
     rw [etaleCohomologyRestrictionMap_apply, Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀,
       show Ext.homEquiv₀ (Ext.mk₀ φ) = φ from Ext.homEquiv₀.apply_symm_apply φ]
   rw [show (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} p F 0 : Sheaf.H.{u + 1} F 0 → _) =
@@ -213,7 +213,7 @@ theorem isIso_ΓRes_of_isTerminal {Z : Scheme.{u}} (G : Sheaf Z.smallEtaleTopolo
   have h := G.isLimitConeΓ.conePointUniqueUpToIso_hom_comp (limitOfDiagramInitial hI G.obj)
     (op V)
   have h' : (coneOfDiagramInitial hI G.obj).π.app (op V) = 𝟙 _ := by
-    simp [coneOfDiagramInitial, hI.hom_ext (hI.to (op V)) (𝟙 _)]
+    simp [coneOfDiagramInitial]
   rw [h'] at h
   have h'' : G.ΓRes (op V) =
       (G.isLimitConeΓ.conePointUniqueUpToIso (limitOfDiagramInitial hI G.obj)).hom := by

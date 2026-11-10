@@ -86,7 +86,7 @@ theorem flatLiftDifference_add (hi : IsFirstOrderThickening D.i) (hs : D.IsStric
       flatLiftDifference hi hs A C := by
   obtain ⟨_, _, _, _⟩ := modulePushforward_instances D
   refine CategoryTheory.Abelian.mapExactFunctor_injective_one (modulePushforward D.i) _ _ ?_
-  show (flatLiftDifference hi hs A B + flatLiftDifference hi hs B C).mapExactFunctor
+  change (flatLiftDifference hi hs A B + flatLiftDifference hi hs B C).mapExactFunctor
       (modulePushforward D.i) = (flatLiftDifference hi hs A C).mapExactFunctor
       (modulePushforward D.i)
   rw [CategoryTheory.Abelian.Ext.mapExactFunctor_add, flatLiftDifference_mapExactFunctor,
@@ -117,7 +117,7 @@ theorem exists_flatLiftDifference_eq (hi : IsFirstOrderThickening D.i)
   let A := FlatLift.ofExtension D hi ht hs hF hcomp E (isIso_of_eq hact.symm (IsIso.id _))
   refine ⟨A, CategoryTheory.Abelian.mapExactFunctor_injective_one
     (modulePushforward D.i) _ _ ?_⟩
-  show (flatLiftDifference hi hs A B).mapExactFunctor (modulePushforward D.i) =
+  change (flatLiftDifference hi hs A B).mapExactFunctor (modulePushforward D.i) =
     ξ.mapExactFunctor (modulePushforward D.i)
   rw [flatLiftDifference_mapExactFunctor,
     A.extClass_eq_of_isKernelExtension hi (A.isKernelExtension_kernelExtension hi hs)

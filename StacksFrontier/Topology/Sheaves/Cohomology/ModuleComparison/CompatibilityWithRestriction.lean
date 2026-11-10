@@ -132,7 +132,7 @@ theorem evaluationRepresentation_inv_naturality {U V : C} (f : U ⟶ V) :
   refine NatTrans.ext (funext fun F => ?_)
   ext g
   change ((presheafToSheaf J Ab.{u}).obj (yoneda.obj V ⋙ AddCommGrpCat.free) ⟶ F) at g
-  show freeEvaluationHomAddEquiv U F.obj
+  change freeEvaluationHomAddEquiv U F.obj
       ((sheafificationAdjunction J Ab.{u}).homEquiv
         (yoneda.obj U ⋙ AddCommGrpCat.free) F (freeYonedaSheafMap J f ≫ g)) =
     F.obj.map f.op (freeEvaluationHomAddEquiv V F.obj
@@ -142,10 +142,10 @@ theorem evaluationRepresentation_inv_naturality {U V : C} (f : U ⟶ V) :
     with hk
   have hgen : (freeYonedaMap f).app (op U) (FreeAbelianGroup.of (𝟙 U)) =
       (yoneda.obj V ⋙ AddCommGrpCat.free).map f.op (FreeAbelianGroup.of (𝟙 V)) := by
-    show FreeAbelianGroup.map _ (FreeAbelianGroup.of (𝟙 U)) =
+    change FreeAbelianGroup.map _ (FreeAbelianGroup.of (𝟙 U)) =
       FreeAbelianGroup.map _ (FreeAbelianGroup.of (𝟙 V))
     simp
-  show k.app (op U) ((freeYonedaMap f).app (op U) (FreeAbelianGroup.of (𝟙 U))) = _
+  change k.app (op U) ((freeYonedaMap f).app (op U) (FreeAbelianGroup.of (𝟙 U))) = _
   exact (congrArg (fun z => k.app (op U) z) hgen).trans
     (NatTrans.naturality_apply k f.op (FreeAbelianGroup.of (𝟙 V)))
 

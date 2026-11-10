@@ -98,9 +98,9 @@ theorem isIso_twistedInverseImageRestrictionMap_app_iff (K : quasiCoherentDerive
       (isQuasicoherent_homology_derivedRestrict j') hpushj').counit :=
     isIso_liftDerivedRestrictPushforwardAdjunction_counit j' _ _ _ _
   simp only [twistedInverseImageRestrictionMap, NatTrans.comp_app, Functor.whiskerRight_app,
-    Functor.whiskerLeft_app, Functor.comp_map, Functor.map_comp, Category.assoc,
+    Functor.whiskerLeft_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.leftUnitor_inv_app,
-    Functor.rightUnitor_hom_app, Functor.comp_obj, Functor.id_obj, Functor.map_id,
+    Functor.rightUnitor_hom_app, Functor.comp_obj, Functor.id_obj,
     Category.id_comp, Category.comp_id]
   exact isIso_comp_right_iff _ _
 
@@ -149,7 +149,7 @@ theorem exists_cone_unit (K : quasiCoherentDerivedCategory Y) :
   refine ⟨Q, ?_, ?_, ?_⟩
   · have hT₂ := (derivedRestrict j).map_distinguished _ hT₁
     refine (Triangle.isZero₃_iff_isIso₁ _ hT₂).2 ?_
-    show IsIso ((derivedRestrict j).map ((ObjectProperty.ι _).map (adjL.unit.app K)))
+    change IsIso ((derivedRestrict j).map ((ObjectProperty.ι _).map (adjL.unit.app K)))
     rw [hu]
     exact isIso_derivedRestrict_map_unit_app j K.obj
   · intro n hn
@@ -252,7 +252,7 @@ theorem isClosedUnderColimitsOfShape_kerProp {C D : Type*} [Category C] [Categor
     (CategoryTheory.Pretriangulated.kerProp G).IsClosedUnderColimitsOfShape (Discrete J) where
   colimitsOfShape_le := by
     rintro X ⟨h⟩
-    show IsZero (G.obj X)
+    change IsZero (G.obj X)
     rw [IsZero.iff_id_eq_zero]
     refine (isColimitOfPreserves G h.isColimit).hom_ext fun k => ?_
     have hk : IsZero (G.obj (h.diag.obj k)) := h.prop_diag_obj k

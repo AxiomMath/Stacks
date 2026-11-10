@@ -276,7 +276,7 @@ public theorem opensRange_resMap (U : S.AffineZariskiSite) (f : Γ(S, U.toOpens)
     (𝒜.resMap U f).opensRange = 𝒜.toBase U ⁻¹ᵁ S.basicOpen f := by
   refine TopologicalSpace.Opens.ext (Set.Subset.antisymm ?_ ?_)
   · rintro x ⟨y, rfl⟩
-    show 𝒜.toBase U (𝒜.resMap U f y) ∈ S.basicOpen f
+    change 𝒜.toBase U (𝒜.resMap U f y) ∈ S.basicOpen f
     rw [← Scheme.Hom.comp_apply, 𝒜.resMap_toBase U f, ← 𝒜.toOpen_ι, Scheme.Hom.comp_apply]
     exact (𝒜.toOpen (U.basicOpen f) y).2
   · intro x hx

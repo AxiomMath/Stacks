@@ -74,7 +74,7 @@ public theorem exists_permutationTwist_vector (W : G →* GL (Fin m) K) (I : Sub
   have hcomp : ∀ i ∈ I, comp (i • x₀) = ((W i : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) *ᵥ Y := by
     intro i hi
     have hex : ∃ j ∈ I, j • x₀ = i • x₀ := ⟨i, hi, rfl⟩
-    simp only [comp, dif_pos hex]
+    simp only [comp, dite_eq_left hex]
     obtain ⟨hjI, hj⟩ := hex.choose_spec
     set j := hex.choose
     have hji : i⁻¹ * j ∈ I := I.mul_mem (I.inv_mem hi) hjI
@@ -85,7 +85,7 @@ public theorem exists_permutationTwist_vector (W : G →* GL (Fin m) K) (I : Sub
           rw [mulVec_mulVec_units, mul_inv_cancel_left]
       _ = _ := by rw [hYfix _ hji hfix]
   have hcomp0 : ∀ x, (¬ ∃ i ∈ I, i • x₀ = x) → comp x = 0 := fun x hx => by
-    simp only [comp, dif_neg hx]
+    simp only [comp, dite_eq_right hx]
   let ξ : Fin (m * n) → K := fun p => comp (e (finProdFinEquiv.symm p).2) (finProdFinEquiv.symm p).1
   have hξ : ∀ a i, ξ (finProdFinEquiv (a, i)) = comp (e i) a := fun a i => by
     simp only [ξ, Equiv.symm_apply_apply]

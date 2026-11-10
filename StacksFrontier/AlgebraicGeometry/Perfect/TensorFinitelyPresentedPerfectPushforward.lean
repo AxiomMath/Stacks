@@ -205,7 +205,7 @@ theorem pullback {X X' S S' : Scheme.{u}} {f : X ⟶ S} {g : S' ⟶ S} {f' : X' 
       (G.X i) (hG.isFinitePresentation i)
   · exact @modulePullback_isFlatOver _ _ _ _ _ _ _ _ hsq (G.X i) (hG.isQuasicoherent i)
       (hG.isFlatOver i)
-  · show SheafOfModules.supp ((Scheme.Modules.pullback g').obj (G.X i)) ⊆ _
+  · change SheafOfModules.supp ((Scheme.Modules.pullback g').obj (G.X i)) ⊆ _
     rw [@supp_pullback_of_isFinitePresentation _ _ g' (G.X i) (hG.isFinitePresentation i)]
     exact fun x hx => hsub i hx
 
@@ -252,7 +252,7 @@ theorem isPerfect_derivedPushforward_tensor_of_singleDegree {X S : Scheme.{u}} (
     (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct X.sheaf).exact_right _
   let : F.CommShift ℤ := Functor.CommShift.comp _ _
   have : F.IsTriangulated := inferInstance
-  show RingedSpace.IsPerfect (X := S.toRingedSpace) (F.obj (DerivedCategory.Q.obj G))
+  change RingedSpace.IsPerfect (X := S.toRingedSpace) (F.obj (DerivedCategory.Q.obj G))
   obtain ⟨a, b, ha, hb⟩ := hG.bounded
   refine Stacks.DerivedCategory.BoundedInduction.property_of_bounded_complex
     (fun A => RingedSpace.IsPerfect (X := S.toRingedSpace) (F.obj A))

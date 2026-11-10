@@ -296,7 +296,7 @@ private lemma openEmbedding_over_isEquivalence {X : TopCat.{v}} (U : Opens X) (V
     let W := G.obj Z.left
     let f : W ⟶ V := G.map Z.hom ≫ eqToHom (Opens.map_functor_eq V)
     refine ⟨Over.mk f, ⟨Over.isoMk (eqToIso ?_)⟩⟩
-    show F.obj W = Z.left
+    change F.obj W = Z.left
     exact (Opens.functor_map_eq_inf U Z.left).trans (inf_eq_left.mpr hZU)
   exact { }
 
@@ -373,7 +373,7 @@ private lemma finite_free_stalk_restriction
   let G : (OpenNhds (X := TopCat.of (U : Type v)) x)ᵒᵖ ⥤ (OpenNhds (x : X))ᵒᵖ :=
     (U.isOpenEmbedding.functorNhds y).op
   have : G.Final := by
-    show ((U.isOpenEmbedding.functorNhds y).op).Final
+    change ((U.isOpenEmbedding.functorNhds y).op).Final
     infer_instance
   let DR := (OpenNhds.inclusion (x : X)).op ⋙ R.obj
   let DM := (OpenNhds.inclusion (x : X)).op ⋙ M.val.presheaf
@@ -416,7 +416,7 @@ private lemma exists_finite_presentation_of_retract_free
     (fun k hk m hm => by simpa [r.retract_assoc] using congrArg (fun f => r.i ≫ f) hm)
   let p := SheafOfModules.presentationOfIsCokernelFree a r.r ha h
   refine ⟨p, ?_⟩
-  constructor <;> constructor <;> show Finite I <;> infer_instance
+  constructor <;> constructor <;> change Finite I <;> infer_instance
 
 /-- A retract of a finite free sheaf of modules with finite free stalk at a point is finite free
 on an open neighbourhood of that point. -/

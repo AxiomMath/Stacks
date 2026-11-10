@@ -40,8 +40,8 @@ public theorem qcqs_induction_on_enlargement
     (W : Subfunctor X.1) (hWopen : IsOpenSubspace B S hS W)
     (hWqc : IsQuasiCompactSpace B S hS W.toFunctor)
     (P : Subfunctor X.1 → Prop) (hPW : P W)
-    (hstep : ∀ (W₁ W₂ : Subfunctor X.1) (hW₁ : IsOpenSubspace B S hS W₁)
-      (hW₂ : IsOpenSubspace B S hS W₂),
+    (hstep : ∀ (W₁ W₂ : Subfunctor X.1), IsOpenSubspace B S hS W₁ →
+      ∀ (hW₂ : IsOpenSubspace B S hS W₂),
       IsQuasiCompactSpace B S hS W₁.toFunctor →
       IsQuasiCompactSpace B S hS W₂.toFunctor →
       ∀ hle : W₁ ≤ W₂, W ≤ W₁ →
@@ -63,12 +63,12 @@ public theorem qcqs_induction_on_enlargement
     (AlgebraicGeometry.Space.isOpenSubspace_top X.2)
     (IsQuasiCompactSpace.of_iso B S hS hXqc (asIso (⊤ : Subfunctor X.1).ι).symm)
     le_top ?_
-  · intro Vobj hVaff hgopen hgmono D hDopen hDqc _hWD hDrange
+  · rintro Vobj hVaff hgopen hgmono D hDopen hDqc - hDrange
     have := hgmono
     have hVobjalg : IsAlgebraicSpace B S hS Vobj.1.left.1 := Vobj.1.left.property
     have hRopen : IsOpenSubspace B S hS (Subfunctor.range Vobj.1.hom.hom) :=
       isOpenSubspace_range_of_open B S hS Vobj.1.hom.hom hVobjalg hgopen
-    obtain ⟨W', hW'open, hWW', f, hW'range, _hcomm, hsq⟩ :=
+    obtain ⟨W', hW'open, hWW', f, hW'range, -, hsq⟩ :=
       open_union_square B S hS X.2 W (Subfunctor.range Vobj.1.hom.hom) hWopen hRopen
     have hW'D : W' = D :=
       openSubspace_eq_of_pointsMap_range_eq B S hS X.2 W' D hW'open hDopen
@@ -77,8 +77,8 @@ public theorem qcqs_induction_on_enlargement
     exact hstep W W' hWopen hW'open hWqc (by rw [hW'D]; exact hDqc) hWW' le_rfl f
       (IsAffineSpace.of_iso hVaff (asIso (Subfunctor.toRange Vobj.1.hom.hom)))
       hsq hPW
-  · intro Wobj Vobj U f _hcompf hsqf _hWqcobj _hWqsobj hUqc hVaff hQU _hQV
-      _hQpb hgopen hgmono D hDopen hDqc hWD hDrange
+  · rintro Wobj Vobj U f - hsqf - - hUqc hVaff hQU -
+      - hgopen hgmono D hDopen hDqc - hDrange
     have := hgmono
     have hWpalg : IsAlgebraicSpace B S hS Wobj.1.left.1 := Wobj.1.left.property
     have hYopen : IsOpenSubspace B S hS (Subfunctor.range Wobj.1.hom.hom) :=
@@ -93,7 +93,7 @@ public theorem qcqs_induction_on_enlargement
       (range_pointsMap_range B S hS Wobj.1.hom.hom) U hsqf.isOpenSubspace hUqc
       (hQU (isOpenImmersion_comp B S hS U.ι Wobj.1.hom.hom
         hsqf.isOpenSubspace.2 hgopen) inferInstance)
-      A f₄ hsq₄ hV₄aff hApts D hDopen hDqc hWD hDrange
+      A f₄ hsq₄ hV₄aff hApts D hDopen hDqc hDrange
   · rw [pointsMap_id, Set.range_id, Set.union_univ]
     exact Set.range_eq_univ.mpr (pointsMap_surjective_of_iso B S hS
       (asIso (⊤ : Subfunctor X.1).ι))

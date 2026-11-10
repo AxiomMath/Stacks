@@ -132,8 +132,7 @@ theorem includeRight_mem_nonZeroDivisors_tensorProduct
       (Algebra.TensorProduct.includeRight s : K ⊗[k] A) * z =
         LinearMap.lTensor K (LinearMap.mulLeft k s) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x a =>
       simp [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.tmul_mul_tmul]
     | add z w hz hw => rw [mul_add, map_add, hz, hw]

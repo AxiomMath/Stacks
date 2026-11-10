@@ -72,7 +72,7 @@ theorem exists_finiteEtaleOver_bijective_of_isFiniteLocallyConstant {X : Scheme.
     exact ⟨(G.map h).left.base w₀⟩
   let AB : SmallEtale B X hXB := smallEtaleOfFiniteEtale (X := ⟨X, hXB⟩) A
   let eA : G.obj AB ≅ (finiteEtaleToEtale X).obj A := MorphismProperty.Over.isoMk (Iso.refl _) (by
-    show 𝟙 A.left ≫ A.hom = B.inclusion.map AB.obj.hom
+    change 𝟙 A.left ≫ A.hom = B.inclusion.map AB.obj.hom
     rw [smallEtaleOfFiniteEtale_hom (X := ⟨X, hXB⟩) A]
     simp)
   let hG : G.FullyFaithful := Functor.FullyFaithful.ofFullyFaithful G
@@ -85,12 +85,12 @@ theorem exists_finiteEtaleOver_bijective_of_isFiniteLocallyConstant {X : Scheme.
       (ψ.inv.hom.naturality g.op)
     have h2 : ψ.inv.hom.app (op AB) (ULift.up g) = P.obj.map (G.map g).op ν' := by
       refine Eq.trans ?_ (h1.trans ?_)
-      · show _ = (ψ.inv.hom.app (op AB))
+      · change _ = (ψ.inv.hom.app (op AB))
           (((GrothendieckTopology.uliftYoneda.{u + 1} (SmallEtale.topology B X hXB)).obj V).obj.map
             g.op (ULift.up (𝟙 V)))
         congr 1
       · rfl
-    show _ = P.obj.map eA.inv.op (ψ.inv.hom.app (op AB) (ULift.up g))
+    change _ = P.obj.map eA.inv.op (ψ.inv.hom.app (op AB) (ULift.up g))
     rw [h2, hG.map_preimage]
     simp only [ν, ← Functor.map_comp_apply, ← op_comp, Iso.inv_hom_id_assoc]
   rw [show (fun f : A ⟶ Y ↦ P.obj.map ((finiteEtaleToEtale X).map f).op ν) =

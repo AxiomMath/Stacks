@@ -90,7 +90,7 @@ theorem extensionOfScalars_map_snd :
   refine HomologicalComplex.hom_ext _ _ fun n ↦ ?_
   have hcn := congrArg (fun φ ↦ HomologicalComplex.Hom.f φ n) hc
   dsimp only [HomologicalComplex.comp_f] at hcn
-  show (extensionOfScalars f).map ((pullback.snd ((reductionSequence ι hι P').g ≫
+  change (extensionOfScalars f).map ((pullback.snd ((reductionSequence ι hι P').g ≫
       quotientMap ι hι a₀) (reductionSequence ι hι P).g).f n) =
     (extensionOfScalars f).map ((pullback.fst ((reductionSequence ι hι P').g ≫
       quotientMap ι hι a₀) (reductionSequence ι hι P).g).f n) ≫ a₀.f n
@@ -140,7 +140,7 @@ theorem idealActionComplex_app_baerPullback :
         ((idealPart f I₀).mapHomologicalComplex (ComplexShape.up ℤ)).map
           (pullback.fst ((reductionSequence ι hι P').g ≫ quotientMap ι hι a₀)
             (reductionSequence ι hι P).g) ≫ kernelMap ι hι a₀ := by
-      show (restrictComplex (f := f)).map (((tensorRight O₀ I₀).mapHomologicalComplex
+      change (restrictComplex (f := f)).map (((tensorRight O₀ I₀).mapHomologicalComplex
           (ComplexShape.up ℤ)).map ((extensionOfScalarsCochainComplex J f).map _)) =
         (restrictComplex (f := f)).map (((tensorRight O₀ I₀).mapHomologicalComplex
           (ComplexShape.up ℤ)).map ((extensionOfScalarsCochainComplex J f).map _)) ≫

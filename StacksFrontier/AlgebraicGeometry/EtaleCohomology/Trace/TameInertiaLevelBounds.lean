@@ -156,7 +156,7 @@ theorem averagingCorrection_spec {E T : Matrix n n R} (hE : E * E = E) (hTE : T 
 
 /-- With `A = E (T - 1) E + (1 - E)` as in `Stacks.EtaleCohomology.averagingCorrection_spec`,
 `det A` kills every `v` with `E v = v` and `T v = v`. -/
-theorem det_smul_eq_zero_of_averaging {E T : Matrix n n R} (hE : E * E = E)
+theorem det_smul_eq_zero_of_averaging {E T : Matrix n n R}
     {v : n → R} (hv : E *ᵥ v = v) (hTv : T *ᵥ v = v) :
     (E * (T - 1) * E + (1 - E)).det • v = 0 := by
   have hAv : (E * (T - 1) * E + (1 - E)) *ᵥ v = 0 := by
@@ -359,7 +359,7 @@ theorem exists_eq_coboundary_of_forall_exists_coprime_pow_mem {G : Type*} [Group
       let ν : I := (g * s h)⁻¹ * s (gH * h)
       have hν : π ν = 1 := by
         simp only [ν, map_mul, map_inv, hsπ]
-        show (π g * (h : G ⧸ Nn.toSubgroup))⁻¹ * ((gH : G ⧸ Nn.toSubgroup) * h) = 1
+        change (π g * (h : G ⧸ Nn.toSubgroup))⁻¹ * ((gH : G ⧸ Nn.toSubgroup) * h) = 1
         exact inv_mul_cancel _
       obtain ⟨hcν, -⟩ := hNc ν ((hπ ν).1 hν)
       have hs : s (gH * h) = g * s h * ν := (mul_inv_cancel_left _ _).symm
@@ -427,7 +427,7 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
     rintro _ ⟨_, ⟨τ, hτ, rfl⟩, rfl⟩
     refine ⟨I.subtype (σ * τ * σ⁻¹), Subgroup.mem_map_of_mem I.subtype ?_, by simp⟩
     have hτ' : t τ = 1 := hτ
-    show t (σ * τ * σ⁻¹) = 1
+    change t (σ * τ * σ⁻¹) = 1
     rw [map_mul, map_mul, hτ', mul_one, map_inv, mul_inv_cancel])
   obtain ⟨T, hT⟩ := exists_forall_isClosed_subgroup_eq_top_of_ker_le t ht
   set A : Matrix (Fin r) (Fin r) ℤ_[ℓ] := e * ((ρ T : Matrix (Fin r) (Fin r) ℤ_[ℓ]) - 1) * e +
@@ -441,11 +441,11 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
         one_mem' := by simp
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [Subgroup.coe_mul, map_mul, Units.val_mul, ← mulVec_mulVec, hb, ha]
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [InvMemClass.coe_inv, map_inv]
           calc (((ρ a)⁻¹ : GL (Fin r) ℤ_[ℓ]) : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ x =
               (((ρ a)⁻¹ : GL (Fin r) ℤ_[ℓ]) : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ
@@ -456,7 +456,7 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
       isClosed_eq ((Units.continuous_val.comp (hρ.comp continuous_subtype_val)).matrix_mulVec
         continuous_const) continuous_const
     have hZ := hT Z hZc (fun σ hσ => by
-      show (ρ σ : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ x = x
+      change (ρ σ : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ x = x
       rw [← hex, mulVec_mulVec, hJe σ hσ]) hTx
     refine hx0 (hinv x fun σ hσ => ?_)
     have : (⟨σ, hσ⟩ : I) ∈ Z := hZ ▸ Subgroup.mem_top _
@@ -494,14 +494,14 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
   refine ⟨fun v hv => hkill v ?_, fun c hc hcoc => ?_⟩
   · have hvJ : En *ᵥ v = v := hJinv v fun σ _ => hv σ σ.2
     rw [← hdetn]
-    exact det_smul_eq_zero_of_averaging hE2 hvJ (hv T T.2)
+    exact det_smul_eq_zero_of_averaging hvJ (hv T T.2)
   let act : G →* Matrix (Fin r) (Fin r) (ZMod (ℓ ^ (n + 1))) :=
     φ.mapMatrix.toMonoidHom.comp ((Units.coeHom _).comp ρ)
   have hact : ∀ σ : G, act σ = φ.mapMatrix (ρ σ : Matrix (Fin r) (Fin r) ℤ_[ℓ]) := fun _ => rfl
   let W : Set G := ρ ⁻¹' (congruenceSubgroup ℓ r (n + 1) : Set (GL (Fin r) ℤ_[ℓ]))
   have hW : IsOpen W := (isOpen_congruenceSubgroup _).preimage hρ
   have h1W : (1 : G) ∈ W := by
-    show ρ 1 ∈ congruenceSubgroup ℓ r (n + 1)
+    change ρ 1 ∈ congruenceSubgroup ℓ r (n + 1)
     rw [map_one]
     exact (congruenceSubgroup ℓ r (n + 1)).one_mem
   have hWact : ∀ σ ∈ W, act σ = 1 := fun σ hσ => by
@@ -521,14 +521,14 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
     simp only [c', hcoc' σ τ, Subgroup.coe_mul, map_mul, mulVec_sub, ← mulVec_mulVec]
     abel
   have hc'J : ∀ g : I, g ∈ J → c' g = 0 := fun g hg => by
-    show c g - (act g *ᵥ m' - m') = 0
+    change c g - (act g *ᵥ m' - m') = 0
     rw [← hm' g hg, sub_self]
   have hc'inv : ∀ σ g : I, g ∈ J → act g *ᵥ c' σ = c' σ := fun σ g hg => by
     have h1 := hc'coc g σ
     rw [hc'J g hg, add_zero] at h1
     have hconj : σ⁻¹ * g * σ ∈ J := by
       have hg' : t g = 1 := hg
-      show t (σ⁻¹ * g * σ) = 1
+      change t (σ⁻¹ * g * σ) = 1
       rw [map_mul, map_mul, hg', mul_one, map_inv, inv_mul_cancel]
     have h2 := hc'coc σ (σ⁻¹ * g * σ)
     rw [hc'J _ hconj, mulVec_zero, zero_add, show σ * (σ⁻¹ * g * σ) = g * σ by group] at h2
@@ -541,7 +541,7 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
   have hdetn' : (En * (φ.mapMatrix (ρ T : Matrix (Fin r) (Fin r) ℤ_[ℓ]) - 1) * En +
       (1 - En)).det = φ w * (ℓ : ZMod (ℓ ^ (n + 1))) ^ K := hdetn
   have hz'T : (Tn - 1) *ᵥ z' = ℓ ^ K • c' T := by
-    show (φ.mapMatrix (ρ T : Matrix (Fin r) (Fin r) ℤ_[ℓ]) - 1) *ᵥ
+    change (φ.mapMatrix (ρ T : Matrix (Fin r) (Fin r) ℤ_[ℓ]) - 1) *ᵥ
       (φ ((w⁻¹ : ℤ_[ℓ]ˣ) : ℤ_[ℓ]) • z) = _
     rw [mulVec_smul, hzT, hdetn', smul_smul, ← mul_assoc, hwu, one_mul,
       ← Nat.cast_smul_eq_nsmul (ZMod (ℓ ^ (n + 1))), Nat.cast_pow]
@@ -562,11 +562,11 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
       one_mem' := hd1
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [hdcoc, ha, hb, mulVec_zero, add_zero]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         have h := hdcoc a⁻¹ a
         rw [inv_mul_cancel, hd1, ha, mulVec_zero, zero_add] at h
         exact h.symm }
@@ -579,13 +579,13 @@ theorem exists_forall_levelInvariants_and_levelCocycles_killed {G : Type*} [Grou
     · obtain ⟨hcσ, hσW⟩ := hσ
       have hcσ' : c σ = 0 := hcσ
       have haσ := hWact _ hσW
-      show ℓ ^ K • (c σ - (act σ *ᵥ m' - m')) - (act σ *ᵥ z' - z') = 0
+      change ℓ ^ K • (c σ - (act σ *ᵥ m' - m')) - (act σ *ᵥ z' - z') = 0
       rw [hcσ', haσ]
       simp
   have hZ := hT Z (Subgroup.isClosed_of_isOpen Z hZo) (fun g hg => by
-      show ℓ ^ K • c' g - (act g *ᵥ z' - z') = 0
+      change ℓ ^ K • c' g - (act g *ᵥ z' - z') = 0
       rw [hc'J g hg, hz'J g hg, smul_zero, sub_self, sub_self]) (by
-      show ℓ ^ K • c' T - (act T *ᵥ z' - z') = 0
+      change ℓ ^ K • c' T - (act T *ᵥ z' - z') = 0
       rw [← hz'T, sub_mulVec, one_mulVec, hact, sub_self])
   refine ⟨z' + ℓ ^ K • m', fun σ => ?_⟩
   have hσ : σ ∈ Z := hZ ▸ Subgroup.mem_top σ

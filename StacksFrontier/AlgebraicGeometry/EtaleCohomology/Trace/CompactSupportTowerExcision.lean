@@ -83,12 +83,13 @@ public abbrev etaleModuleOpenPart : EtaleModules.{u, 0} Λ X ⥤ EtaleModules.{u
 public abbrev etaleModuleClosedPart : EtaleModules.{u, 0} Λ X ⥤ EtaleModules.{u, 0} Λ X :=
   etaleModuleInverseImage.{u, 0} Λ iZ ⋙ etaleModuleDirectImage.{u, 0} Λ iZ
 
+omit [Fintype k] in
 include hij in
 /-- **Excision for `Hⁱ_c(X_k̄, -)`**: for a sheaf `G` on `X_étale`,
 `Hⁱ_c(X_k̄, j_{U!} j_U⁻¹ G) → Hⁱ_c(X_k̄, G) → Hⁱ_c(X_k̄, i_* i⁻¹ G)` is exact, the maps being
 induced by the counit of `j_{U!} ⊣ j_U⁻¹` and the unit of `i⁻¹ ⊣ i_*`. -/
-public theorem exact_compactSupportSheafCohomology_openClosed (G : EtaleModules.{u, 0} Λ X)
-    (i : ℤ) :
+public theorem exact_compactSupportSheafCohomology_openClosed [Finite k]
+    (G : EtaleModules.{u, 0} Λ X) (i : ℤ) :
     Function.Exact
       ((compactSupportSheafCohomology Λ f j kbar i).map
         ((etaleModuleExtensionByZeroAdj.{u, 0} Λ jU).counit.app G)).hom

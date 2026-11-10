@@ -287,7 +287,7 @@ private lemma ext_subsingleton_iff {A : Type u} [CommRing A] [IsNoetherianRing A
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)) K i) ↔
       IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K) := by
   rw [(extEquivHomology K i).subsingleton_congr]
-  show Subsingleton ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K) ↔ _
+  change Subsingleton ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K) ↔ _
   exact ModuleCat.isZero_iff_subsingleton.symm
 
 private lemma ext_nontrivial_iff {A : Type u} [CommRing A] [IsNoetherianRing A]
@@ -333,12 +333,12 @@ private lemma isCohenMacaulayLocalRing_iff_moduleAtMaximalIdeal
     simpa using (IsLocalRing.maximalIdeal.isMaximal A).ne_top
   rw [isCohenMacaulayLocalRing_iff_isCohenMacaulayModule_self,
     IsCohenMacaulayModule]
-  show (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
+  change (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
       Module.supportDim A A ↔
     (Module.depth A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) = Module.supportDim A A
   have hd : Module.depthSup A (IsLocalRing.maximalIdeal A) A =
       Module.depth A (IsLocalRing.maximalIdeal A) A := by
-    rw [Module.depthSup_eq_iSup, Module.depth, if_neg hproper]
+    rw [Module.depthSup_eq_iSup, Module.depth, ite_eq_right hproper]
   rw [← congrArg (fun x : ℕ∞ => (x : WithBot ℕ∞)) hd]
 
 /-- The (finite) Krull dimension of a Noetherian local ring, as a natural number. -/
@@ -541,8 +541,8 @@ private lemma depth_eq_of_linearEquiv_of_smulTop_neTop {R : Type*} [CommRing R]
     (hM : I • (⊤ : Submodule R M) ≠ ⊤)
     (hN : I • (⊤ : Submodule R N) ≠ ⊤) :
     Module.depth R I M = Module.depth R I N := by
-  rw [Module.depth, if_neg hM, ← Module.depthSup_eq_iSup,
-    Module.depth, if_neg hN, ← Module.depthSup_eq_iSup]
+  rw [Module.depth, ite_eq_right hM, ← Module.depthSup_eq_iSup,
+    Module.depth, ite_eq_right hN, ← Module.depthSup_eq_iSup]
   exact depth_eq_of_linearEquiv I e
 
 /-- **Stacks Project, Tag 0AWS, final assertion.** Over a Cohen--Macaulay local ring, the
@@ -589,7 +589,7 @@ private theorem finite_single_homology {A : Type u} [CommRing A]
   by_cases hi : i = 0
   · subst i
     have : Module.Finite A ((𝟭 (ModuleCat.{v} A)).obj M) := by
-      show Module.Finite A M
+      change Module.Finite A M
       infer_instance
     exact Module.Finite.equiv
       ((DerivedCategory.singleFunctorCompHomologyFunctorIso
@@ -917,7 +917,7 @@ private theorem cohenMacaulay_at_minimal_support
         (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal))
         (LocalizedModule.AtPrime p.asIdeal M) : WithBot ℕ∞) = 0 :=
     le_antisymm hdepthle (WithBot.coe_le_coe.mpr bot_le)
-  show (Module.depth (Localization.AtPrime p.asIdeal)
+  change (Module.depth (Localization.AtPrime p.asIdeal)
       (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal))
       (LocalizedModule.AtPrime p.asIdeal M) : WithBot ℕ∞) =
     Module.supportDim (Localization.AtPrime p.asIdeal)
@@ -978,7 +978,7 @@ public theorem isOpen_cohenMacaulayLocus
     Continuous (Subtype.val : Module.support A M → PrimeSpectrum A))
   convert hpull using 1
   ext p
-  show Module.IsCohenMacaulayAtMaximalIdeal (Localization.AtPrime p.1.asIdeal)
+  change Module.IsCohenMacaulayAtMaximalIdeal (Localization.AtPrime p.1.asIdeal)
     (LocalizedModule.AtPrime p.1.asIdeal M) ↔ ∀ i j : ℤ,
       p.1 ∈ Module.support A ((DerivedCategory.homologyFunctor (ModuleCat.{max u w} A) i).obj H) →
       p.1 ∈ Module.support A ((DerivedCategory.homologyFunctor (ModuleCat.{max u w} A) j).obj H) →

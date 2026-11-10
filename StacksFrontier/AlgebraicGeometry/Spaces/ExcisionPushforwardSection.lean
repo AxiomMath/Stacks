@@ -166,7 +166,7 @@ theorem excisionGlue_ext_section {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (β
   have hback : ((diagOpen B S hS f).preimage (graphKappa B S hS f β)).ι ≫
       pullback.fst (β ≫ f) f ≫ graphSection B S hS f β =
         ((diagOpen B S hS f).preimage (graphKappa B S hS f β)).ι := by
-    have hdiag := diagPreimage_comp_fst_eq_snd B S hS f hV hW hf hsep (graphKappa B S hS f β)
+    have hdiag := diagPreimage_comp_fst_eq_snd B S hS f hV hW hf (graphKappa B S hS f β)
     simp only [graphKappa_fst, graphKappa_snd] at hdiag
     refine pullback.hom_ext ?_ ?_
     · simp

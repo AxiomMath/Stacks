@@ -119,11 +119,11 @@ theorem componentPresheafInclusion_comp_augmentation (U : S.component ⦋0⦌) :
           (Opposite.op ⦋0⦌)).app
             (Opposite.op ((S.componentFunctor ⦋0⦌).obj U)) =
       𝟙 (F.obj.obj (Opposite.op ((S.componentFunctor ⦋0⦌).obj U))) := by
-  show Limits.Sigma.ι _ (eqToHom
+  change Limits.Sigma.ι _ (eqToHom
         (totalSimplexDegree_leftOp_obj_op_componentFunctor_obj S ⦋0⦌ U).symm) ≫
       Limits.Sigma.desc (fun _ => 𝟙 (F.obj.obj
         (Opposite.op ((S.componentFunctor ⦋0⦌).obj U)))) = _
-  exact Limits.Sigma.ι_desc _ _
+  exact Limits.Sigma.ι_comp_desc _ _
 
 /-- The sheafification unit followed by the augmentation of the simplex-coefficient resolution is
 the presheaf-level augmentation: the augmentation is normalised through the counit of the
@@ -144,7 +144,7 @@ theorem toSheafify_comp_barAugmentation (U : S.component ⦋0⦌) :
     ((sheafificationAdjunction S.totalTopology Ab.{u}).right_triangle_components F)
     (Opposite.op ((S.componentFunctor ⦋0⦌).obj U))
   simp only [NatTrans.comp_app] at hnat
-  show (toSheafify S.totalTopology _).app _ ≫
+  change (toSheafify S.totalTopology _).app _ ≫
       (sheafifyMap S.totalTopology
           ((simplexCoefficientAugmentation' ((totalSimplexDegree S).leftOp) F.obj).app
             (Opposite.op ⦋0⦌))).app _ ≫
@@ -167,7 +167,7 @@ theorem componentSheafInclusion_comp_barAugmentation :
   apply NatTrans.ext
   funext Y
   obtain ⟨U⟩ := Y
-  show ((componentSheafInclusion' S ⦋0⦌).app F).hom.app (Opposite.op U) ≫
+  change ((componentSheafInclusion' S ⦋0⦌).app F).hom.app (Opposite.op U) ≫
       ((S.restrictAb ⦋0⦌).map (barAugmentation' S F)).hom.app (Opposite.op U) = 𝟙 _
   refine Eq.trans (congrArg (fun g => g ≫
       ((S.restrictAb ⦋0⦌).map (barAugmentation' S F)).hom.app (Opposite.op U))

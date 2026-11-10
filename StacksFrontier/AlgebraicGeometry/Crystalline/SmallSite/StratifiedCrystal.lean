@@ -130,10 +130,7 @@ theorem bijective_affineBaseChange_iff_of_iso {N N' : PresheafOfModules.{u}
     LinearEquiv.baseChange (affineSectionRing B) (affineRingAlong k) _ _ eB
   have key : ∀ t, affineBaseChange N' k (α t) = eA (affineBaseChange N k t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        rw [map_zero, map_zero, map_zero]
-        exact (map_zero (e.hom.app (op A)).hom).symm
+    induction t using TensorProduct.inductionOn with
     | tmul r x =>
         rw [LinearEquiv.baseChange_tmul, affineBaseChange_tmul, affineBaseChange_tmul]
         exact (((e.hom.app (op A)).hom.map_smul r _).trans
@@ -186,10 +183,7 @@ theorem isQuasicoherentOnSite_stratSheaf : (stratSheaf E).IsQuasicoherentOnSite 
     (affineTopology S) (smallTopology S) (affineι S) (structureSheaf S)).obj (stratSheaf E))
   have heq : ⇑(crysBaseChange (stratSheaf E) k) = ⇑(affineBaseChange N k') := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        exact (map_zero (crysBaseChange (stratSheaf E) k)).trans
-          (map_zero (affineBaseChange N k')).symm
+    induction t using TensorProduct.inductionOn with
     | tmul r x => rfl
     | add x y hx hy =>
         exact (map_add (crysBaseChange (stratSheaf E) k) x y).trans

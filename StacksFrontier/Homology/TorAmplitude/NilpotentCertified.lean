@@ -108,7 +108,7 @@ public lemma liftedRingHom_isNilpotent_ker {R' : Type u} {R : Type v} [CommRing 
       exact Ideal.mem_map_of_mem e (congrArg ULift.down hx)
     · rw [Ideal.map_le_iff_le_comap]
       intro y hy
-      show ULift.up (f y) = 0
+      change ULift.up (f y) = 0
       rw [hy]
       rfl
   obtain ⟨n, hn⟩ := hf

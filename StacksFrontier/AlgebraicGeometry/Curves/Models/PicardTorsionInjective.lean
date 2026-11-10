@@ -299,7 +299,7 @@ theorem eq_empty_of_isClosed_of_disjoint_range {Z : Set S.X} (hZ : IsClosed Z)
   obtain ⟨z', hz', hz'eq⟩ := hmem
   have hrange : z' ∈ Set.range (S.truncationι 0).base := by
     rw [Scheme.Pullback.range_fst]
-    show S.X_to_R.base z' ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk _))
+    change S.X_to_R.base z' ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk _))
     rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, hz'eq, Ideal.mk_ker]
     intro r hr
     rw [truncationIdeal, zero_add, pow_one, SetLike.mem_coe, Ideal.mem_span_singleton] at hr

@@ -205,9 +205,8 @@ variable {X : AlgebraicSpaces B S hS} (f : X ⟶ Y) {Λ : Type u} [PartialOrder 
     (Dy : Λᵒᵖ ⥤ SchemesOverPresheaf B S hS Y) (cy : Cone Dy)
     (hc : IsLimit ((CostructuredArrow.proj yoneda Y.obj ⋙ BigFppfOver.toScheme B S hS).mapCone cy))
     (hD : ∀ j, IsAffine ((BigFppfOver.toScheme B S hS).obj (Dy.obj j).left))
-    (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj cy.pt.left))
 
-include hc hD hT in
+include hc hD in
 /-- **Properness at a stage (Stacks 08K1).** A closed subspace of `X_{T_l}` of finite presentation
 over `T_l` whose inverse image in `X_T` is proper over `T` has an inverse image in `X_{T_i}`
 proper over `T_i` for some `i ≥ l`. -/
@@ -338,7 +337,6 @@ variable {X : AlgebraicSpaces B S hS} (f : X ⟶ Y) {Λ : Type u} [PartialOrder 
     (Dy : Λᵒᵖ ⥤ SchemesOverPresheaf B S hS Y) (cy : Cone Dy)
     (hc : IsLimit ((CostructuredArrow.proj yoneda Y.obj ⋙ BigFppfOver.toScheme B S hS).mapCone cy))
     (hD : ∀ j, IsAffine ((BigFppfOver.toScheme B S hS).obj (Dy.obj j).left))
-    (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj cy.pt.left))
 
 /-- A base-change-stable property of the structure morphism of a subfunctor of a base change
 passes to its inverse image along a transition morphism. -/
@@ -356,7 +354,7 @@ theorem prop_preimage_schemeBaseChangeMap
         schemeOverSpace T') := by
   exact prop_of_isPullback_presheaf P _ _ hW hW' (isPullback_preimage_schemeBaseChangeMap f g W) h
 
-include hc hD hT in
+include hc hD in
 /-- **A family of the Hilbert functor over the limit comes from a stage.** -/
 theorem exists_hilbertFamily_baseChange_eq (hfp : IsFinitePresentation B S hS f.hom)
     (hsep : IsSeparated B S hS f.hom) (z : HilbertFamily f cy.pt) :
@@ -366,7 +364,7 @@ theorem exists_hilbertFamily_baseChange_eq (hfp : IsFinitePresentation B S hS f.
   have hprop : IsProper B S hS ((W.preimage (schemeBaseChangeMap f (cy.π.app (op j.unop)))).ι ≫
       pullback.snd f.hom cy.pt.hom) := by
     rw [hWz]; exact z.proper
-  obtain ⟨i, hi, hpi⟩ := exists_isProper_preimage_stage f Dy cy hc hD hT j.unop hW hWfp hprop
+  obtain ⟨i, hi, hpi⟩ := exists_isProper_preimage_stage f Dy cy hc hD j.unop hW hWfp hprop
   let e : op i ⟶ j := (homOfLE hi).op
   have hW' : IsClosedSubspace B S hS (W.preimage (schemeBaseChangeMap f (Dy.map e))) :=
     isClosedSubspace_preimage B S hS _ _ (isAlgebraicSpace_schemeBaseChange f _)

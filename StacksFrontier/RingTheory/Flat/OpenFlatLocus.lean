@@ -438,15 +438,13 @@ private abbrev tensorModuleDiagram : I ⥤ AddCommGrpCat.{u} where
   map_id i := by
     apply AddCommGrpCat.hom_ext
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x p => simp [diagramAlgHom_apply]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   map_comp {i j k} h h' := by
     apply AddCommGrpCat.hom_ext
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x p => simp [diagramAlgHom_apply]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
 
@@ -465,8 +463,7 @@ private abbrev tensorModuleCocone : Cocone (tensorModuleDiagram F hF P) where
       dsimp only [tensorModuleDiagram]
       apply AddCommGrpCat.hom_ext
       ext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul x p =>
         simp [diagramAlgHom_apply]
       | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy }
@@ -495,15 +492,13 @@ private noncomputable def tensorModuleIsColimit [Nonempty I] [IsDirectedOrder I]
       Stacks.FinitePresentation.ColimitDescent.canonMod (fun j => IsScalarTower.toAlgHom A (F.obj j)
         T) P i x =
         (tensorModuleCocone F hF P ρ hρA).ι.app i x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x p => rfl
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have htrans {i j : I} (h : i ≤ j) (x : F.obj i ⊗[A] P) :
       Stacks.FinitePresentation.ColimitDescent.transMod (fun i j h => f i j h) P h x =
         (tensorModuleDiagram F hF P).map (homOfLE h) x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x p => rfl
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   apply Stacks.SpreadingOut.LocalModuleSystem.isColimitAddCommGrpCatOf
@@ -571,8 +566,7 @@ private theorem tensorModuleDiagram_map_smul {i j : I} (h : i ⟶ j)
     (a : F.obj i) (x : (tensorModuleDiagram F hF P).obj i) :
     (tensorModuleDiagram F hF P).map h (a • x) =
       F.map h a • (tensorModuleDiagram F hF P).map h x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b p => simp [TensorProduct.smul_tmul', diagramAlgHom_apply]
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
 
@@ -586,8 +580,7 @@ private theorem tensorModuleCocone_smul
       HSMul.hSMul (α := T) (β := T ⊗[A] P)
         (Stacks.SpreadingOut.LocalModuleSystem.legHom ρ i a) ((tensorModuleCocone F hF P ρ
             hρA).ι.app i x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b p => simp [TensorProduct.smul_tmul', Stacks.SpreadingOut.LocalModuleSystem.legHom]
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
 
@@ -628,8 +621,7 @@ private theorem exists_isLocalization_tensorProduct_of_isPushout
     RingEquiv.symm_mk, AlgEquiv.toEquiv_eq_coe, AlgEquiv.symm_toEquiv_eq_symm,
     RingEquiv.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe, RingEquiv.coe_mk,
     EquivLike.coe_coe, Function.comp_apply, AlgEquiv.symm_apply_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, hx, hy]
   | tmul b c =>
     rw [Algebra.TensorProduct.mapRingHom_tmul, Algebra.TensorProduct.productMap_apply_tmul,
@@ -793,8 +785,7 @@ private theorem exists_flat_localized_stage
         (.of_algebraMap_smul fun _ _ => rfl) _
         (TensorProduct.AlgebraTensorModule.cancelBaseChange C (locG.obj i) (locG.obj j)
           (locG.obj j) P) fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a p =>
         simp [Algebra.smul_def, RingHom.algebraMap_toAlgebra, N, diagramAlgHom_apply]
       | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy])

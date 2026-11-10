@@ -162,7 +162,7 @@ theorem mono_sectionSpaceToFinitePart (hW : IsAlgebraicSpace B U hU W)
   rw [mono_iff_injective]
   intro s s' hss
   refine (sectionSpaceEquiv B U hU Z T W w).injective (sectionPair_injective hW hw hZfin ?_)
-  show sectionPair hW hw hZfin (sectionSpaceEquiv B U hU Z T W w s) =
+  change sectionPair hW hw hZfin (sectionSpaceEquiv B U hU Z T W w s) =
     sectionPair hW hw hZfin (sectionSpaceEquiv B U hU Z T W w s')
   rw [← sectionSpaceToFinitePart_sections hW hw hZfin T s,
     ← sectionSpaceToFinitePart_sections hW hw hZfin T s', hss]
@@ -214,7 +214,7 @@ theorem finitePairComparison_sectionPair (hW : IsAlgebraicSpace B U hU W) {w : W
     (hZfin : _root_.AlgebraicGeometry.IsFinite (B.inclusion.map Z.hom))
     {T : BigFppfOver B U hU} (σ : SectionsOver B U hU Z T W w) :
     finitePairComparison hW w (sectionPair hW hw hZfin σ) = (sectionLiftRangeIso σ).inv := by
-  show prod.lift ((Subfunctor.range (sectionLift σ)).ι ≫
+  change prod.lift ((Subfunctor.range (sectionLift σ)).ι ≫
       pullback.fst (terminal.from (yoneda.obj T)) (terminal.from W))
       ((Subfunctor.range (sectionLift σ)).ι ≫
         pullback.snd (terminal.from (yoneda.obj T)) (terminal.from W) ≫ w) = _
@@ -278,7 +278,7 @@ theorem exists_sectionPair_eq_iff (hW : IsAlgebraicSpace B U hU W) {w : W ⟶ yo
         (⟨schemeToTerminalPresheaf B U hU T, S, hSopen, hSfin⟩ :
           FiniteOpenSubspace B U hU (toTerminalPresheaf B U hU hW) (schemeSpace T)) =
         S.ι ≫ sectionAmbientProjection T w := by
-      show prod.lift (S.ι ≫ pullback.fst (terminal.from (yoneda.obj T)) (terminal.from W))
+      change prod.lift (S.ι ≫ pullback.fst (terminal.from (yoneda.obj T)) (terminal.from W))
           (S.ι ≫ pullback.snd (terminal.from (yoneda.obj T)) (terminal.from W) ≫ w) =
         S.ι ≫ prod.lift (pullback.fst (terminal.from (yoneda.obj T)) (terminal.from W))
           (pullback.snd (terminal.from (yoneda.obj T)) (terminal.from W) ≫ w)

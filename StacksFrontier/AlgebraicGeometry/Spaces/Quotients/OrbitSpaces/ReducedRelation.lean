@@ -91,7 +91,7 @@ private theorem isLocallySurjective_atlas {B : BigFppfSite.{u}} {S : Scheme.{u}}
     have h : yoneda.map p' ≫ a = yoneda.map q ≫ g := by
       rw [rep.map_fst' g]
       exact rep.w g
-    show a.app (Opposite.op W') (yonedaEquiv (yoneda.map p')) = F.map q.op s
+    change a.app (Opposite.op W') (yonedaEquiv (yoneda.map p')) = F.map q.op s
     rw [yonedaEquiv_yoneda_map]
     exact congrArg (fun k ↦ k.app (Opposite.op W') (𝟙 W')) h
   refine (BigFppfOver.topology B S hS).superset_covering ?_ hcover
@@ -190,7 +190,7 @@ private theorem eq_of_geometricPoints_of_reduced {X : Over Z} (V : BigFppfOver B
         value := yonedaEquiv (yoneda.map m) }
     have hval : (FieldValuedPoint.map B S hS (yoneda.obj W) (yoneda.map i) pw).value =
         p.val.value := by
-      show yonedaEquiv (yoneda.map m ≫ yoneda.map i) = p.val.value
+      change yonedaEquiv (yoneda.map m ≫ yoneda.map i) = p.val.value
       rw [← Functor.map_comp, hm', yonedaEquiv_yoneda_map]
       exact Equiv.apply_symm_apply _ _
     have hcommon : FieldValuedPoint.HasCommonExtension B S hS (yoneda.obj V) p.val
@@ -250,7 +250,7 @@ theorem isInvariant_of_isSetTheoreticallyInvariant_of_reduced {R U X : Over Z}
     have hrepr : yonedaEquiv.symm pr.val.value = yonedaEquiv.symm p.val.value ≫ a :=
       (yonedaEquiv_symm_naturality_right
         (p.val.siteObject B S hS (yoneda.obj V)) a p.val.value).symm
-    show ((yonedaEquiv.symm p.val.value ≫ a) ≫ j.target.left) ≫ φ.left =
+    change ((yonedaEquiv.symm p.val.value ≫ a) ≫ j.target.left) ≫ φ.left =
       ((yonedaEquiv.symm p.val.value ≫ a) ≫ j.source.left) ≫ φ.left
     rw [← hrepr]
     exact endpoints_eq_at_geometricPoint j φ hφ pr

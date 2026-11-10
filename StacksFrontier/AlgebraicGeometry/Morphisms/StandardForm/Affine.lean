@@ -121,10 +121,10 @@ private lemma exists_ringEquiv_of_arrow_iso {X S X' S' : Scheme.{u}} [IsAffine X
     ∃ (α : Γ(X', ⊤) ≃+* Γ(X, ⊤)) (β : Γ(S', ⊤) ≃+* Γ(S, ⊤)),
       α.toRingHom.comp g.appTop.hom = f.appTop.hom.comp β.toRingHom := by
   have : IsIso e.hom.left.appTop := by
-    show IsIso (e.hom.left.app ⊤)
+    change IsIso (e.hom.left.app ⊤)
     infer_instance
   have : IsIso e.hom.right.appTop := by
-    show IsIso (e.hom.right.app ⊤)
+    change IsIso (e.hom.right.app ⊤)
     infer_instance
   exact ⟨RingEquiv.ofBijective e.hom.left.appTop.hom
       ((ConcreteCategory.isIso_iff_bijective _).mp inferInstance),
@@ -219,7 +219,7 @@ private noncomputable def pullbackFstArrowIsoSpecTensor
         change (em ≪≫ pullbackSpecIso R B A).hom ≫ t = _
         rw [Iso.trans_hom, Category.assoc, pullbackSpecIso_hom_fst']
       _ = pullback.fst w g ≫ W.isoSpec.hom := by
-        simp [em, m, pullback.map, pullback.lift_fst]
+        simp [em, m, pullback.map]
   exact Arrow.isoMk e W.isoSpec he
 
 /-- The isomorphisms `ΓSpecIso` intertwine a ring map with the map on global sections of its
@@ -248,7 +248,7 @@ theorem isStandardSmooth_pullback_fst {X S W : Scheme.{u}}
     rw [RingHom.IsStandardSmooth, ← tensorProduct_leftAlgebra_eq R B A]
     exact hbase
   have ht : IsStandardSmooth t := by
-    show t.appTop.hom.IsStandardSmooth
+    change t.appTop.hom.IsStandardSmooth
     simpa [t] using htRing
   exact (isStandardSmooth_iff_of_arrow_iso (pullback.fst w g) t
     (pullbackFstArrowIsoSpecTensor g w)).mpr ht
@@ -273,7 +273,7 @@ theorem isStandardEtale_pullback_fst {X S W : Scheme.{u}}
     rw [← tensorProduct_leftAlgebra_eq R B A]
     exact hbase
   have ht : IsStandardEtale t := by
-    show (let : Algebra Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤) := t.appTop.hom.toAlgebra
+    change (let : Algebra Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤) := t.appTop.hom.toAlgebra
       Algebra.IsStandardEtale Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤))
     exact isStandardEtale_transport_ringEquiv _ _ (algebraMap B C) t.appTop.hom
       (ΓSpecIso_symm_comp_appTop (algebraMap B C)) hbaseRing
@@ -304,7 +304,7 @@ theorem isStandardSyntomic_pullback_fst {X S W : Scheme.{u}}
     rw [← tensorProduct_leftAlgebra_eq R B A]
     exact hbase
   have ht : IsStandardSyntomic t := by
-    show (let : Algebra Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤) := t.appTop.hom.toAlgebra
+    change (let : Algebra Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤) := t.appTop.hom.toAlgebra
       Algebra.IsRelativeGlobalCompleteIntersection Γ(Spec (.of B), ⊤) Γ(Spec (.of C), ⊤))
     exact relativeGCI_transport_ringEquiv _ _ (algebraMap B C) t.appTop.hom
       (ΓSpecIso_symm_comp_appTop (algebraMap B C)) hbaseRing

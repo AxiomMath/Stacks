@@ -84,7 +84,7 @@ private theorem isFlat_ofSchemeHom_of_flat_stalkMap {U V : Scheme.{u}} (g : U �
     (hg : (g.stalkMap x).hom.Flat) :
     MorphismOfGerms.IsFlat (MorphismOfGerms.ofSchemeHom g x) := by
   refine ⟨⟨⊤, by simp, U.topIso.hom ≫ g, by change g x = g x; rfl⟩, rfl, ?_⟩
-  show ((U.topIso.hom ≫ g).stalkMap ⟨x, by simp⟩).hom.Flat
+  change ((U.topIso.hom ≫ g).stalkMap ⟨x, by simp⟩).hom.Flat
   exact (congrArg (fun k => k.hom.Flat)
     (Scheme.Hom.stalkMap_comp U.topIso.hom g ⟨x, by simp⟩)).mpr
       (hg.comp (Flat.stalkMap U.topIso.hom ⟨x, by simp⟩))
@@ -248,7 +248,7 @@ theorem isFlatAt_g'_of_isFlat_f (hf : IsFlat T S hS D.f)
   have hpoint : c.sourcePoint T S hS =
       (Tscheme.map β) ((Tscheme.map p.value) (⟨⊥, inferInstance⟩ :
         Spec (.of p.carrier))) := by
-    show (Tscheme.map (p.value ≫ β)) _ = _
+    change (Tscheme.map (p.value ≫ β)) _ = _
     rw [Tscheme.map_comp]
     rfl
   rw [hpoint]

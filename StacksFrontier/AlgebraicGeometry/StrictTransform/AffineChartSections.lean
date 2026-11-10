@@ -219,7 +219,7 @@ public theorem nonempty_basis_extendScalars_quotient {A B : Type u} [CommRing A]
       (Stacks.quotientTorsionPowersEquiv β (extendScalarsAlgebraMapEquiv φ hφ M))) ψ)⟩
 
 /-- **The conclusion of [Stacks, Tag 0810] on one affine chart of a base change.** Let `X` be
-affine with a quasi-coherent module `F` presented as `M^~`, let `B` be a ring with a map
+affine with a quasi-coherent module `F`, let `B` be a ring with a map
 `ρ : Γ(X, ⊤) ⟶ B`, let `β : B`, let `r : ℕ` and let `J ⊆ B` be an ideal. This says: for every
 second morphism `b : Y ⟶ S`, every ideal sheaf `E` on `Y` whose support has affine open
 complement, and every open immersion `j : Spec B ⟶ X ×_S Y` inducing `ρ` on `X` and carrying
@@ -231,8 +231,7 @@ This is the geometric form of one instance of the conclusion of [Stacks, Tag 081
 the chart algebra `S ⊗_R R[I/a]`, `β` the image of `a`, and `J` the extension `p'S'` of a prime
 of `R[I/a]`. -/
 public def ChartFreeOfRank [IsAffine X] (f : X ⟶ S) (F : X.Modules) [F.IsQuasicoherent]
-    (M : ModuleCat.{u} Γ(X, ⊤)) (B : CommRingCat.{u}) (ρ : Γ(X, ⊤) ⟶ B) (β : B) (r : ℕ)
-    (J : Ideal B) : Prop :=
+    (B : CommRingCat.{u}) (ρ : Γ(X, ⊤) ⟶ B) (β : B) (r : ℕ) (J : Ideal B) : Prop :=
   ∀ {Y : Scheme.{u}} (b : Y ⟶ S) (E : Y.IdealSheafData)
     [IsAffineHom (Scheme.Opens.ι E.support.compl)] (j : Spec B ⟶ baseChange f b)
     [IsOpenImmersion j],
@@ -259,7 +258,7 @@ public theorem chartFreeOfRank_of_nonempty_equiv [IsAffine X] (f : X ⟶ S) (F :
     (h : Nonempty (LocalizedModule (Submonoid.powers g)
         ((B ⊗[Γ(X, ⊤)] M) ⧸ Submodule.torsion' B (B ⊗[Γ(X, ⊤)] M) (Submonoid.powers β))
       ≃ₗ[Localization.Away g] (Fin r → Localization.Away g))) :
-    ChartFreeOfRank f F M (CommRingCat.of B)
+    ChartFreeOfRank f F (CommRingCat.of B)
       (CommRingCat.ofHom (algebraMap Γ(X, ⊤) B)) β r J := by
   intro Y b E _ j _ hfst hZ
   exact ⟨g, hg,
@@ -323,7 +322,7 @@ public theorem exists_fg_ideal_forall_chartFreeOfRank [IsAffine X] [IsAffine S] 
       ∀ (a : Γ(S, ⊤)) (ha : a ∈ I),
         letI : Fact (a ∈ I) := ⟨ha⟩
         ∀ q' : Ideal (Blowup I a), q'.IsPrime →
-          ChartFreeOfRank f F M (CommRingCat.of (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a))
+          ChartFreeOfRank f F (CommRingCat.of (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a))
             (CommRingCat.ofHom (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a)))
             (algebraMap Γ(X, ⊤) (Γ(X, ⊤) ⊗[Γ(S, ⊤)] Blowup I a) (f.appTop.hom a)) r
             (Ideal.map Algebra.TensorProduct.includeRight q') := by

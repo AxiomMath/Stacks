@@ -80,14 +80,14 @@ theorem isIso_presheafToSheaf_map_sigmaPresheafComparison :
     exact adj.counit.naturality (Sigma.ι G i)
   have h1 : Ψ ≫ Φ = 𝟙 _ := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Category.comp_id, ← Category.assoc, hΨ, Sigma.ι_desc, Category.assoc, hkey i,
+    rw [Category.comp_id, ← Category.assoc, hΨ, Sigma.ι_comp_desc, Category.assoc, hkey i,
       IsIso.inv_hom_id_assoc]
   have hΦhom : adj.unit.app P ≫ (sheafToPresheaf J A).map Φ = sigmaPresheafComparison G :=
     (adj.homEquiv P (∐ G)).apply_symm_apply (sigmaPresheafComparison G)
   have hΨhom : ∀ i, (sheafToPresheaf J A).map (Sigma.ι G i) ≫
       (sheafToPresheaf J A).map Ψ = Sigma.ι (fun j ↦ (G j).obj) i ≫ adj.unit.app P := by
     intro i
-    rw [← Functor.map_comp, hΨ, Sigma.ι_desc, Functor.map_comp, ← hunit i]
+    rw [← Functor.map_comp, hΨ, Sigma.ι_comp_desc, Functor.map_comp, ← hunit i]
     exact (adj.unit.naturality (Sigma.ι (fun j ↦ (G j).obj) i)).symm
   have h2 : Φ ≫ Ψ = 𝟙 _ := by
     refine (adj.homEquiv P (L.obj P)).injective ?_

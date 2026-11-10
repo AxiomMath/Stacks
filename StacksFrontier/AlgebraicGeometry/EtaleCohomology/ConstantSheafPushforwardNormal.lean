@@ -96,7 +96,7 @@ theorem exists_isIntegral_open_of_etale {X Y : Scheme.{u}} [AlgebraicGeometry.Is
   obtain ⟨⟨i, z⟩, hz⟩ := (AlgebraicGeometry.sigmaMk W).surjective (e.hom y)
   refine ⟨W i, Sigma.ι W i ≫ e.inv, inferInstance, hWintegral i, z, ?_⟩
   have h : (Sigma.ι W i) z = e.hom y := by simpa only [sigmaMk_mk] using hz
-  show e.inv ((Sigma.ι W i) z) = y
+  change e.inv ((Sigma.ι W i) z) = y
   rw [h]
   exact congrArg (fun k : Y ⟶ Y ↦ k y) e.hom_inv_id
 
@@ -295,7 +295,7 @@ private theorem constantToPushforwardConstant_comp [TopologicalSpace E] :
   have h2 : toSheafify Y.smallEtaleTopology ((Functor.const (Y.Etale)ᵒᵖ).obj E) ≫
       (constantSheafToEtaleContinuous.{u, v} Y E).hom =
       constantToEtaleContinuous.{u, v} Y E := toSheafify_sheafifyLift _ _ _
-  show Functor.whiskerLeft (smallEtaleBaseChange f).op
+  change Functor.whiskerLeft (smallEtaleBaseChange f).op
       (toSheafify Y.smallEtaleTopology ((Functor.const (Y.Etale)ᵒᵖ).obj E) ≫
         (constantSheafToEtaleContinuous.{u, v} Y E).hom) =
     Functor.whiskerLeft (smallEtaleBaseChange f).op (constantToEtaleContinuous.{u, v} Y E)

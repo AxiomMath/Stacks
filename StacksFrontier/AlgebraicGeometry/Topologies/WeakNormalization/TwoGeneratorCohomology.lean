@@ -20,8 +20,8 @@ Let `f₁, f₂` be elements of a commutative ring `A`. The two-generator almost
 
 The third, that the kernel of that map is an ideal of square zero, is
 `Stacks.AlmostBlowUp.modificationToBase_ker_sq_eq_bot` in
-`StacksFrontier/AlgebraicGeometry/Topologies/WeakNormalization/TwoGeneratorKernel.lean`. Together the
-three carry Tag 0EVJ.
+`StacksFrontier/AlgebraicGeometry/Topologies/WeakNormalization/TwoGeneratorKernel.lean`. Together
+the three carry Tag 0EVJ.
 
 ## Main definitions
 

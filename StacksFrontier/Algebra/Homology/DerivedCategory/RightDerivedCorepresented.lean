@@ -128,7 +128,7 @@ theorem exists_classOf_eq (J : CochainComplex A ℤ) (h : (mapComplex F J).homol
     refine (hP _).1 ?_
     dsimp only
     rw [F.map_comp, ConcreteCategory.comp_apply, hf, F.map_zero]
-    show ((mapComplex F J).iCycles n ≫ (mapComplex F J).d n (n + 1)) c = 0
+    change ((mapComplex F J).iCycles n ≫ (mapComplex F J).d n (n + 1)) c = 0
     rw [HomologicalComplex.iCycles_d]
     rfl
   have hd' : ∀ k, (ComplexShape.up ℤ).Rel n k → f ≫ J.d n k = 0 := fun k hk => by
@@ -157,7 +157,7 @@ theorem quotient_map_eq_zero_of_classOf_eq_zero {J : CochainComplex A ℤ}
     refine (hP _).1 ?_
     dsimp only
     rw [← hci, ← hy, F.map_comp, ConcreteCategory.comp_apply]
-    show _ = ((mapComplex F J).toCycles (n - 1) n ≫ (mapComplex F J).iCycles n) _
+    change _ = ((mapComplex F J).toCycles (n - 1) n ≫ (mapComplex F J).iCycles n) _
     rw [HomologicalComplex.toCycles_i]
     rfl
   rw [HomotopyCategory.quotient_map_eq_zero_iff]
@@ -199,7 +199,7 @@ theorem homologyQhIso_hom_naturality {L L' : CochainComplex AddCommGrpCat.{v} �
       (quotientCompQhIso AddCommGrpCat.{v}).hom.app L' =
         (quotientCompQhIso AddCommGrpCat.{v}).hom.app L ≫ Q.map ψ :=
     (quotientCompQhIso AddCommGrpCat.{v}).hom.naturality ψ
-  show _ ≫ ((homologyFunctor AddCommGrpCat.{v} n).map
+  change _ ≫ ((homologyFunctor AddCommGrpCat.{v} n).map
       ((quotientCompQhIso AddCommGrpCat.{v}).hom.app L') ≫
         (homologyFunctorFactors AddCommGrpCat.{v} n).hom.app L') =
     ((homologyFunctor AddCommGrpCat.{v} n).map

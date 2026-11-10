@@ -57,7 +57,7 @@ private theorem essentiallySmall_isFiniteLocallyFreeOfRank (X : Scheme.{u}) (r :
       (fun M : X.Modules ↦ @SheafOfModules.IsFiniteType
         (Opens X.toPresheafedSpace) _
         (Opens.grothendieckTopology X.toPresheafedSpace) X.ringCatSheaf _ _ M) := by
-    show ObjectProperty.EssentiallySmall.{u}
+    change ObjectProperty.EssentiallySmall.{u}
       (fun M : SheafOfModules.{u}
         ((sheafCompose (Opens.grothendieckTopology
           X.toLocallyRingedSpace.toRingedSpace)

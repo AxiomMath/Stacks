@@ -54,7 +54,8 @@ through the identification of Stacks 0B6Y; so the two iterated cap operations
 ### Why `c'` is an argument
 
 The class `c'` of Stacks 0B79 is `Stacks.Chow.gysinBivariantClass` of
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.GysinClass`, which is built downstream of this file:
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.GysinClass`, which is built downstream of this
+file:
 its Gysin axiom needs the commutation of two Gysin maps, proved from the key formula of
 Stacks 0AYC far downstream of the bivariant vocabulary. So Stacks 0FA3 is stated here for a
 bivariant class `c'` capping by the Gysin map of the pulled-back section —

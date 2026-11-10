@@ -45,7 +45,7 @@ theorem specAlgSiteHom_id {Λ T : Type u} [CommRing Λ] [CommRing T] [Algebra Λ
     specAlgSiteHom B S hS iΛ hT hT (AlgHom.id Λ T) = 𝟙 _ := by
   apply (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_injective
   rw [CategoryTheory.Functor.map_id]
-  show Spec.map (CommRingCat.ofHom (RingHom.id T)) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (RingHom.id T)) = 𝟙 _
   exact Spec.map_id _
 
 /-- Composition of arrows lying over morphisms of the site induced by algebra maps. -/
@@ -385,7 +385,7 @@ theorem contains_spec_compatibleTuples_limit (hR₀ : B.Contains (Spec (.of R₀
           rw [Cardinal.prod_const, Cardinal.lift_uzero, Cardinal.mk_nat, Cardinal.lift_aleph0]
       _ = μ ^ Cardinal.aleph0 := by
           rw [← Cardinal.power_add, Cardinal.aleph0_add_aleph0]
-  show (Spec (.of (Stacks.CompatibleTuples.limit φ f))).size < B.cutoff
+  change (Spec (.of (Stacks.CompatibleTuples.limit φ f))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (hmk.trans_lt
     (Cardinal.power_aleph0_lt_of_isStrongPrelimit B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit hμ))
@@ -496,7 +496,7 @@ theorem exists_limit_object
         { app := fun n => eqToHom (hobj' n) ≫ specAlgSiteHom B S hS iΛ (hRn n) hRlim
             (Stacks.CompatibleTuples.proj φ f n)
           naturality := fun i j g => by
-            show p.map (ξ.map g) ≫ _ = _ ≫ 𝟙 _
+            change p.map (ξ.map g) ≫ _ = _ ≫ 𝟙 _
             simp only [hfac, Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp,
               Category.comp_id]
             rw [specAlgSiteHom_comp, Stacks.CompatibleTuples.restrict_comp_proj] } }
@@ -507,7 +507,8 @@ theorem exists_limit_object
           Scheme.Spec.map (CommRingCat.ofHom
             ((Stacks.CompatibleTuples.diagram φ f).map g.op).hom.toRingHom).op := by
     intro i j g
-    show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (p.map (ξ.map g)) ≫ _ = _ ≫ Spec.map _
+    change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (p.map (ξ.map g)) ≫ _ =
+      _ ≫ Spec.map _
     simp only [hfac, CategoryTheory.Functor.map_comp, eqToHom_map, Category.assoc, eqToHom_trans,
       eqToHom_refl, Category.comp_id]
     rfl
@@ -516,7 +517,7 @@ theorem exists_limit_object
         (hobj' n)) ≫ Scheme.Spec.map (CommRingCat.ofHom
           ((Stacks.CompatibleTuples.cone φ f).π.app (.op n)).hom.toRingHom).op := by
     intro n
-    show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom (hobj' n) ≫ _) ≫ 𝟙 _ = _
+    change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom (hobj' n) ≫ _) ≫ 𝟙 _ = _
     rw [CategoryTheory.Functor.map_comp, eqToHom_map, Category.comp_id]
     rfl
   obtain ⟨d, hd⟩ := heff Λ iΛ (Stacks.CompatibleTuples.diagram φ f)
@@ -572,7 +573,7 @@ abbrev IsFailedLiftZArrow {𝒳 : CatFiberedInGroupoids.{u, v, u + 1, w}
   𝒳.val.p.IsHomLift (specAlgSiteHom B S hS iΛ P.memA' hR' g) ζ
 
 /-- A diagram chase in a category: the compatibility of the glued arrows passes to a cocone. -/
-theorem comp_cocone_eq {C : Type*} [Category C] {y z x o o₀ o₁ ξ x' : C} (a : y ⟶ x) (i : y ⟶ z)
+theorem comp_cocone_eq {C : Type*} [Category C] {y z x o₀ o₁ ξ x' : C} (a : y ⟶ x) (i : y ⟶ z)
     (t₀ : x ⟶ o₀) (t₁ : x ⟶ o₁) (ι₀ : o₀ ⟶ ξ) (ι₁ : o₁ ⟶ ξ) (s : z ⟶ o₁) (δ : ξ ⟶ x')
     (hι : t₁ ≫ ι₁ = t₀ ≫ ι₀) (hc : a ≫ t₁ = i ≫ s) :
     a ≫ t₀ ≫ ι₀ ≫ δ = i ≫ s ≫ ι₁ ≫ δ := by

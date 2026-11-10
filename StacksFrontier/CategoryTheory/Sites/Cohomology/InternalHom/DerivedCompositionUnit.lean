@@ -189,7 +189,7 @@ lemma tensorTotalStructureSheafUnit_apply (U : X.C) (n : ℤ)
     ((tensorTotalStructureSheafUnit X W).f n).val.app (op U) w =
       tensorTotalSectionAt X W (structureSheafComplex X) U n 0 n (add_zero n) w
         (structureSheafOne X U) := by
-  show ((structureSheafHomEvaluation X (tensorTotal X W (structureSheafComplex X))).f n).val.app
+  change ((structureSheafHomEvaluation X (tensorTotal X W (structureSheafComplex X))).f n).val.app
       (op U) (((diagonalMap X W (structureSheafComplex X)).f n).val.app (op U) w) = _
   rw [structureSheafHomEvaluation_apply, diagonalMap_applyHomSection]
 
@@ -265,7 +265,7 @@ private lemma tensorTotalStructureSheafCollapse_apply (U : X.C) (t r c : ℤ) (h
         (tensorTotalSectionAt X W (structureSheafComplex X) U t r c h β b) =
       applyHomSection X (sheafHomComplex X (structureSheafComplex X) W) U t r c (by omega)
         (((structureSheafHomIso X W).inv.f t).val.app (op U) β) b := by
-  show ((structureSheafHomEvaluation X W).f c).val.app (op U)
+  change ((structureSheafHomEvaluation X W).f c).val.app (op U)
       (((compositionMap X (structureSheafComplex X) (structureSheafComplex X) W).f c).val.app
         (op U)
         (((tensorTotalMap X (structureSheafHomIso X W).inv
@@ -291,7 +291,7 @@ private lemma structureSheafOne_smul (U : X.C)
     (b : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)) :
     (b • structureSheafOne X U : ((structureSheafComplex X).X 0).val.obj (op U)) =
       show ((structureSheafComplex X).X 0).val.obj (op U) from b := by
-  show b * 1 = b
+  change b * 1 = b
   exact mul_one b
 
 /-- **The collapse undoes the pure tensor with the unit section, on local pure tensors.** -/
@@ -319,7 +319,7 @@ lemma tensorTotalStructureSheafUnit_collapse :
     tensorTotalStructureSheafUnit X W ≫ tensorTotalStructureSheafCollapse X W = 𝟙 W := by
   refine HomologicalComplex.hom_ext _ _ fun n ↦ SheafOfModules.hom_ext
     (PresheafOfModules.hom_ext fun U ↦ ModuleCat.hom_ext (LinearMap.ext fun w ↦ ?_))
-  show ((tensorTotalStructureSheafCollapse X W).f n).val.app U
+  change ((tensorTotalStructureSheafCollapse X W).f n).val.app U
       (((tensorTotalStructureSheafUnit X W).f n).val.app U w) = w
   rw [tensorTotalStructureSheafUnit_apply, tensorTotalStructureSheafCollapse_apply]
   exact applyHomSection_structureSheafHomIso_inv X W U.unop n w
@@ -380,7 +380,7 @@ theorem compositionMap_structureSheafUnit (g : structureSheafComplex X ⟶ L) :
   rw [← cancel_mono (structureSheafHomEvaluation X M)]
   refine HomologicalComplex.hom_ext _ _ fun n ↦ SheafOfModules.hom_ext
     (PresheafOfModules.hom_ext fun U ↦ ModuleCat.hom_ext (LinearMap.ext fun β ↦ ?_))
-  show ((structureSheafHomEvaluation X M).f n).val.app U
+  change ((structureSheafHomEvaluation X M).f n).val.app U
       (((compositionMap X (structureSheafComplex X) L M).f n).val.app U
         (((tensorTotalMap X (𝟙 (sheafHomComplex X L M).obj)
             (g ≫ (structureSheafHomIso X L).inv)).f n).val.app U
@@ -635,7 +635,7 @@ theorem isIso_derivedTensorDualToSheafHom_structureSheaf
       (derivedDual X (derivedStructureSheaf X))) := by
     have : IsIso (T.tensor.map (derivedStructureSheafHomIso X M).inv) := Functor.map_isIso _ _
     infer_instance
-  show IsIso ((T.tensor.map (derivedStructureSheafHomIso X M).inv).app
+  change IsIso ((T.tensor.map (derivedStructureSheafHomIso X M).inv).app
       (derivedDual X (derivedStructureSheaf X)) ≫
     derivedSheafHomComposition X T (derivedInternalHomOfBifunctor X)
       (derivedStructureSheaf X) (derivedStructureSheaf X) M)

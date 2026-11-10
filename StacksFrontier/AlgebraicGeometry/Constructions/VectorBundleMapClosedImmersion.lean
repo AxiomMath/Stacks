@@ -81,13 +81,13 @@ theorem vectorBundleMap_appLE_vectorBundleSections (f : F ⟶ G) {V : X.Opens}
   have h1 := pushforwardAlgebraMap_app (vectorBundleMap X f) V hle
   have h2 := pushforwardAlgebraMap_vectorBundleMap X f
   rw [h2] at h1
-  show _ = ((vectorBundlePushforwardIso X (F := G)).inv.right.hom.app (op V)).hom
+  change _ = ((vectorBundlePushforwardIso X (F := G)).inv.right.hom.app (op V)).hom
     (symSectionsRingEquiv G hV (SymPow.symAlgMap (Stacks.AlgebraicGeometry.QcohLimits.appₗ f V) a))
   rw [← symmetricAlgebraSheafMap_symSectionsRingEquiv hV f a]
   refine (congrArg (fun φ => (CommRingCat.Hom.hom φ)
     (((vectorBundlePushforwardIso X (F := F)).inv.right.hom.app (op V)).hom
       (symSectionsRingEquiv F hV a))) h1).symm.trans ?_
-  show ((vectorBundlePushforwardIso X (F := G)).inv.right.hom.app (op V)).hom
+  change ((vectorBundlePushforwardIso X (F := G)).inv.right.hom.app (op V)).hom
     (((symmetricAlgebraSheafMap X f).right.hom.app (op V)).hom
       (((vectorBundlePushforwardIso X (F := F)).hom.right.hom.app (op V)).hom
         (((vectorBundlePushforwardIso X (F := F)).inv.right.hom.app (op V)).hom

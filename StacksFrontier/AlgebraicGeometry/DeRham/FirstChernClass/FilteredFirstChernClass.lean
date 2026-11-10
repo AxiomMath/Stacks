@@ -55,8 +55,8 @@ out, the five that are covered are
   `AlgebraicGeometry.SheafOfModules.hodgeFirstChernClassAbelian_eq`.
 
 The four `a ≥ 2` cup-product clauses are the subject of the file
-`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, which imports this
-one and proves them there for every `a`. They are
+`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, which imports
+this one and proves them there for every `a`. They are
 
 * **(F)** `ξ = γ₁(L₁) ∪ … ∪ γ₁(L_a) ∈ H^{2a}(X, σ^{≥a}Ω^•)` —
   `AlgebraicGeometry.SheafOfModules.filteredChernProduct`;
@@ -460,7 +460,7 @@ theorem filteredLogarithmicDifferentialComplexMap_degreeOneProjection :
     StacksDraft.StupidTruncation.stupidTruncGEπ_f, ← Category.assoc, ← Category.assoc, hι,
     logarithmicDifferentialComplexMap, HomologicalComplex.mkHomFromSingle_f,
     logarithmicDifferentialAbelian]
-  simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+  simp only [CochainComplex.singleFunctor,
     HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
 
 /-- `Ω¹_{𝒪_X/A}[-1]`: the sheaf of relative differentials placed in cohomological degree one, as
@@ -563,8 +563,8 @@ image of that map. -/
 @[stacks 0FME "Remark 50.9.2, clause C of A-I: the image of γ₁(L) under σ^{≥1}Ω^• ⟶ Ω^• is the \
 de Rham first Chern class c₁^dR(L). The a = 1 case; the a ≥ 2 analogue, clause G, is \
 `truncatedDeRhamCohomologyAbelianMap_filteredChernProduct` in \
-`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, which this is the \
-base case of"]
+`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, \
+which this is the base case of"]
 theorem deRhamFirstChernClassAbelian_eq
     (c : Stacks.SheafOfModules.Picard.PicardGroup X.sheaf.obj
       (structureSheaf X.sheaf).property) :
@@ -630,8 +630,8 @@ the right because the identification is natural in the sheaf
 @[stacks 0FME "Remark 50.9.2, clause E of A-I: the image of γ₁(L) under σ^{≥1}Ω^• ⟶ Ω¹[-1] is \
 the Hodge first Chern class c₁^Hodge(L) ∈ H¹(X, Ω¹). The a = 1 case; the a ≥ 2 analogue, clause \
 I, is `hodgeGradedIso_inv_gradedPieceProjection_filteredChernProduct` in \
-`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, which this is the \
-base case of"]
+`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, \
+which this is the base case of"]
 theorem hodgeFirstChernClassAbelian_eq
     (c : Stacks.SheafOfModules.Picard.PicardGroup X.sheaf.obj
       (structureSheaf X.sheaf).property) :

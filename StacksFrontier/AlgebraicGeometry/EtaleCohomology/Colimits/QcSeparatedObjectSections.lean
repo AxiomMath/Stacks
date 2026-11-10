@@ -124,7 +124,7 @@ def etaleObjLe (Z : AlgebraicGeometry.SmallEtale B S hS)
     (hO : AlgebraicGeometry.IsAffineOpen O) (hO' : AlgebraicGeometry.IsAffineOpen O')
     (e : O ≤ O') : etaleObjOfAffineOpen B S hS Z O hO ⟶ etaleObjOfAffineOpen B S hS Z O' hO' :=
   mkHom B hS (((AlgebraicGeometry.SmallEtale.toScheme B S hS).obj Z).homOfLE e) (by
-    show ((AlgebraicGeometry.SmallEtale.toScheme B S hS).obj Z).homOfLE e ≫
+    change ((AlgebraicGeometry.SmallEtale.toScheme B S hS).obj Z).homOfLE e ≫
         (O'.ι ≫ B.inclusion.map Z.obj.hom) = O.ι ≫ B.inclusion.map Z.obj.hom
     rw [← Category.assoc, Scheme.homOfLE_ι])
 
@@ -150,7 +150,7 @@ def etaleObjResLE {Z W : AlgebraicGeometry.SmallEtale B S hS} (g : Z ⟶ W)
     (e : O ≤ ((AlgebraicGeometry.SmallEtale.toScheme B S hS).map g) ⁻¹ᵁ O') :
     etaleObjOfAffineOpen B S hS Z O hO ⟶ etaleObjOfAffineOpen B S hS W O' hO' :=
   mkHom B hS (((AlgebraicGeometry.SmallEtale.toScheme B S hS).map g).resLE O' O e) (by
-    show ((AlgebraicGeometry.SmallEtale.toScheme B S hS).map g).resLE O' O e ≫
+    change ((AlgebraicGeometry.SmallEtale.toScheme B S hS).map g).resLE O' O e ≫
         (O'.ι ≫ B.inclusion.map W.obj.hom) = O.ι ≫ B.inclusion.map Z.obj.hom
     rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc,
       Stacks.EtaleCohomology.toScheme_map_comp_hom])

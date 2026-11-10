@@ -310,7 +310,7 @@ theorem chowDatumGraphIso_comp_chowDatumMorphism (hb : IsIso ((iZ ≫ p) ∣_ U)
       (iZ ∣_ (q ⁻¹ᵁ V)) ≫ (q ∣_ V) := by
   have key : chowDatumGraphIso p q iZ U V hW ≫ chowDatumMorphism p q iZ U V hb hW =
       (iZ ≫ q) ∣_ V := by
-    show (eqToHom (congrArg Scheme.Opens.toScheme hW.symm) ≫ ((iZ ≫ p) ∣_ U)) ≫
+    change (eqToHom (congrArg Scheme.Opens.toScheme hW.symm) ≫ ((iZ ≫ p) ∣_ U)) ≫
       (@inv _ _ _ _ ((iZ ≫ p) ∣_ U) hb ≫
         eqToHom (congrArg Scheme.Opens.toScheme hW) ≫ ((iZ ≫ q) ∣_ V)) = (iZ ≫ q) ∣_ V
     rw [Category.assoc, IsIso.hom_inv_id_assoc, eqToHom_symm_trans_comp hW]
@@ -321,7 +321,7 @@ composite `W ⟶ q ⁻¹ᵁ V ⟶ T ⟶ X`. -/
 theorem chowDatumGraphIso_comp_ι (hW : (iZ ≫ p) ⁻¹ᵁ U = (iZ ≫ q) ⁻¹ᵁ V) :
     chowDatumGraphIso p q iZ U V hW ≫ U.ι = (iZ ∣_ (q ⁻¹ᵁ V)) ≫ (q ⁻¹ᵁ V).ι ≫ p := by
   have key : chowDatumGraphIso p q iZ U V hW ≫ U.ι = ((iZ ≫ q) ⁻¹ᵁ V).ι ≫ (iZ ≫ p) := by
-    show (eqToHom (congrArg Scheme.Opens.toScheme hW.symm) ≫ ((iZ ≫ p) ∣_ U)) ≫ U.ι =
+    change (eqToHom (congrArg Scheme.Opens.toScheme hW.symm) ≫ ((iZ ≫ p) ∣_ U)) ≫ U.ι =
       ((iZ ≫ q) ⁻¹ᵁ V).ι ≫ (iZ ≫ p)
     rw [Category.assoc, eqToHom_toScheme_comp_morphismRestrict_comp_ι (iZ ≫ p) U hW.symm]
   exact key.trans (morphismRestrict_ι_assoc iZ (q ⁻¹ᵁ V) p).symm

@@ -115,10 +115,10 @@ coordinate formula `Stacks.SheafOfModules.app_eq_sum_smul_freeCoord`; conversely
 coefficients assembles into a section of the free sheaf by
 `Stacks.SheafOfModules.freeMk`, whose image is the corresponding combination. -/
 theorem mem_range_app_free_iff {N : _root_.SheafOfModules.{t} R} {I : Type t} [Fintype I]
-    [DecidableEq I] (p : _root_.SheafOfModules.free I ⟶ N) (V : Cᵒᵖ)
-    (s : ToType (N.val.obj V)) :
+    (p : _root_.SheafOfModules.free I ⟶ N) (V : Cᵒᵖ) (s : ToType (N.val.obj V)) :
     (∃ e, p.val.app V e = s) ↔
       ∃ a : I → ToType (R.obj.obj V), ∑ i, a i • (N.freeHomEquiv p i).eval V = s := by
+  classical
   constructor
   · rintro ⟨e, rfl⟩
     exact ⟨freeCoord (S := R) V e, (app_eq_sum_smul_freeCoord p V e).symm⟩

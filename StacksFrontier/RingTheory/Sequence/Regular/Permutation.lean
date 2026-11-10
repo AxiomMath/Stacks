@@ -482,7 +482,7 @@ private lemma smulReg_kIdeal_of_polySeq (fs : List R)
   have hgk := hw k
   rw [ideal_smul_top, ofList_take_polySeq fs k] at hgk
   have hidx : (polySeq fs)[k] = C (fs.get i') * X i' := by
-    show (polySeq fs)[k.val] = _
+    change (polySeq fs)[k.val] = _
     simp only [polySeq, List.getElem_ofFn]
     congr 1
   rw [hidx] at hgk
@@ -626,7 +626,7 @@ private lemma subReg_quot (M : Type*) [AddCommGroup M] [Module R M] (l : List R)
     match iv, hiv with
     | 0, hiv =>
       -- `l[0] = a`, `l.eraseIdx 0 = rest`. Peel `a` off the front via `isRegular_cons_iff`.
-      show SubReg (QuotSMulTop a M) rest
+      change SubReg (QuotSMulTop a M) rest
       exact hl.quot_cons
     | (j + 1), hiv =>
       have hjr : j < rest.length := by simpa using hiv
@@ -634,7 +634,7 @@ private lemma subReg_quot (M : Type*) [AddCommGroup M] [Module R M] (l : List R)
           = rest[(⟨j, hjr⟩ : Fin rest.length)] := rfl
       rw [hidx]
       set c := rest[(⟨j, hjr⟩ : Fin rest.length)] with hc
-      show SubReg (QuotSMulTop c M) (a :: rest.eraseIdx j)
+      change SubReg (QuotSMulTop c M) (a :: rest.eraseIdx j)
       -- `[c] <+ rest`, so `c` is a singleton-sublist element.
       have hcmem : [c] <+ rest := List.singleton_sublist.mpr (List.getElem_mem hjr)
       -- Sublist-regularity of `M` over `rest` and over `QuotSMulTop a M` over `rest`.

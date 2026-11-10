@@ -338,7 +338,7 @@ theorem isCoherentOnSite_iff (F : SheafOfModules.{w} R) :
     rintro T c ⟨⟨W, lift, mp, fac⟩⟩
     rw [Sieve.overEquiv_iff, Sieve.mem_ofObjects_iff]
     refine ⟨⟨W, mp ≫ Z.hom⟩, ⟨Over.homMk lift ?_⟩⟩
-    show lift ≫ mp ≫ Z.hom = c ≫ Z.hom
+    change lift ≫ mp ≫ Z.hom = c ≫ Z.hom
     rw [← Category.assoc, fac]
   · rintro ⟨W, b⟩
     exact Stacks.DenseSubsiteModules.isFiniteType_of_pushforward₀ (J.over W)

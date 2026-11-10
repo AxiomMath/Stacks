@@ -107,7 +107,7 @@ theorem epi_app_one_of_congrBase {T S : Scheme.{u}}
 include hg in
 /-- **Over the preimage of an affine open of the base, the pulled-back twisting has surjective
 degree-one component.** -/
-theorem epi_pullback_twistTwisting_app_one (hd : 0 < d) (U : S.Opens) (hU : IsAffineOpen U) :
+theorem epi_pullback_twistTwisting_app_one (U : S.Opens) (hU : IsAffineOpen U) :
     Epi (((twistTwisting D d r hg rfl).pullback
       ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι).app 1) := by
   obtain ⟨ψ, hψ⟩ := exists_veroneseSections_restrict A U _ U.ι_image_top
@@ -139,13 +139,13 @@ include hg in
 /-- **The degree-one component of the twisting of the glued twists along `r` is an
 epimorphism**, for `r ≫ π` itself. Being an epimorphism is local, and over the preimage of each
 affine open of the base it is `epi_pullback_twistTwisting_app_one`. -/
-theorem epi_twistTwisting_app_one_rfl (hd : 0 < d) :
+theorem epi_twistTwisting_app_one_rfl :
     Epi ((twistTwisting D d r hg rfl).app 1) := by
   have hloc : ∀ a : {U : S.Opens // IsAffineOpen U},
       Epi ((Scheme.Modules.pullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι).map
         ((twistTwisting D d r hg rfl).app 1)) := by
     intro a
-    have h1 := epi_pullback_twistTwisting_app_one D d r hg hd a.1 a.2
+    have h1 := epi_pullback_twistTwisting_app_one D d r hg a.1 a.2
     have h2 : Epi ((pullbackFunctor (ringedSpaceHom ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι)).map
         ((twistTwisting D d r hg rfl).app 1) ≫
         laurentPullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι (twistLine D d r) 1) :=
@@ -158,7 +158,7 @@ theorem epi_twistTwisting_app_one_rfl (hd : 0 < d) :
           laurentPullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι (twistLine D d r) 1) ≫
         inv (laurentPullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι (twistLine D d r) 1) := by
       rw [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
-    show Epi ((pullbackFunctor (ringedSpaceHom ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι)).map
+    change Epi ((pullbackFunctor (ringedSpaceHom ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ a.1).ι)).map
         ((twistTwisting D d r hg rfl).app 1))
     rw [h3]
     exact epi_comp _ _
@@ -172,28 +172,28 @@ theorem epi_twistTwisting_app_one_rfl (hd : 0 < d) :
 include hg in
 /-- **The degree-one component of the twisting of the glued twists along `r` is an
 epimorphism.** -/
-theorem epi_twistTwisting_app_one (hd : 0 < d) {f : T ⟶ S}
+theorem epi_twistTwisting_app_one {f : T ⟶ S}
     (hr : r ≫ (relativeProj A).toBase = f) :
     Epi ((twistTwisting D d r hg hr).app 1) := by
   subst hr
-  exact epi_twistTwisting_app_one_rfl D d r hg hd
+  exact epi_twistTwisting_app_one_rfl D d r hg
 
 /-! ### The quadruple, and the morphism it classifies -/
 
 /-- **The quadruple of the glued twists along `r`**: `(f, d, r^*𝒪(d), ψ)`, the twisting being the
 second leg of [Stacks, Tag 01O1]'s triangle followed by the recognition comparison. -/
-def twistQuadruple (hd : 0 < d) {f : T ⟶ S} (hr : r ≫ (relativeProj A).toBase = f) :
+def twistQuadruple {f : T ⟶ S} (hr : r ≫ (relativeProj A).toBase = f) :
     Quadruple f (situationAlgebra A) (d : ℤ) where
   L := twistLine D d r
   isInvertible := inferInstance
   twisting := twistTwisting D d r hg hr
-  epi_app_one := epi_twistTwisting_app_one D d r hg hd hr
+  epi_app_one := epi_twistTwisting_app_one D d r hg hr
 
 /-- The degree-`n` component of the twisting of `twistQuadruple` is the Veronese leg
 `psiLegVeronese` followed by the degree-`n` component of `twistRecognition`. -/
-@[simp] theorem twistQuadruple_twisting_app (hd : 0 < d) {f : T ⟶ S}
+@[simp] theorem twistQuadruple_twisting_app {f : T ⟶ S}
     (hr : r ≫ (relativeProj A).toBase = f) (n : ℤ) :
-    (twistQuadruple D d r hg hd hr).twisting.app n =
+    (twistQuadruple D d r hg hr).twisting.app n =
       D.psiLegVeronese r hr (d : ℤ) n ≫ (twistRecognition D d r hg).hom.app n := rfl
 
 /-- **The class of the quadruple of the glued twists along `r` is classified by the
@@ -202,7 +202,7 @@ theorem homDegreeOpen_twistQuadruple (hd : 0 < d) {f : T ⟶ S}
     (hr : r ≫ (relativeProj A).toBase = f)
     (r' : T ⟶ ((relativeProj A).degreeOpen d).toScheme)
     (hr' : r' ≫ ((relativeProj A).degreeOpen d).ι = r) :
-    Fd.homDegreeOpen A (relativeProj A) hd (Fd.mk f (twistQuadruple D d r hg hd hr)) = r' := by
+    Fd.homDegreeOpen A (relativeProj A) hd (Fd.mk f (twistQuadruple D d r hg hr)) = r' := by
   subst hr
   refine (Fd.eq_homDegreeOpen A (relativeProj A) hd _ r' fun U hU η hη => ?_).symm
   obtain ⟨g', q⟩ := η
@@ -212,11 +212,11 @@ theorem homDegreeOpen_twistQuadruple (hd : 0 < d) {f : T ⟶ S}
   obtain rfl : g' = chartBase U r :=
     (cancel_mono U.ι).mp (hfst.trans (chartBase_ι U r).symm)
   have hq := Quadruple.eq_mk_congrBaseStrict_of_heq (chartBase_ι U r).symm
-    ((twistQuadruple D d r hg hd rfl).pullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι) _
+    ((twistQuadruple D d r hg rfl).pullback ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι) _
     (Fd.heq_snd hη)
   have hηeq := (Fd.chartClass_chartClassInv A U ⟨chartBase U r, q⟩).symm.trans
     (congrArg (Fd.chartClass A U (chartBase U r)) hq)
-  show ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι ≫ r' ≫ ((relativeProj A).degreeOpen d).ι =
+  change ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι ≫ r' ≫ ((relativeProj A).degreeOpen d).ι =
     Fd.chartHom A U (relativeProj A) hU hd ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).toScheme
       ⟨chartBase U r, q⟩
   rw [hηeq, Fd.chartClass_mk, Fd.chartHom_eq_toProj_comp_chart]
@@ -225,7 +225,7 @@ theorem homDegreeOpen_twistQuadruple (hd : 0 < d) {f : T ⟶ S}
       (twistLine D d r)) U.ι_image_top
     (veroneseSections (chartTwisting A U (chartBase U r) (chartTwistingOf D d U r hg)))
   have key := Fd.toProj_chartEquiv_mk A U hU hd (chartBase U r)
-    (((Quadruple.congrBaseStrict (chartBase_ι U r).symm ((twistQuadruple D d r hg hd rfl).pullback
+    (((Quadruple.congrBaseStrict (chartBase_ι U r).symm ((twistQuadruple D d r hg rfl).pullback
       ((r ≫ (relativeProj A).toBase) ⁻¹ᵁ U).ι)).baseChangeDown U.ι (chartBase U r)
         (situationAlgebra A) (d : ℤ)).algebraTransport
       (unitalHomInverse (restrictPullbackUnitalHom A U.ι)

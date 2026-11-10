@@ -423,7 +423,7 @@ theorem amplePolarizedFunctor_comp_projection :
       (schemeOverIntegers B).obj V.left = V := by
     intro V
     obtain ⟨V, ⟨⟨⟩⟩, h⟩ := V
-    show Over.mk _ = Over.mk h
+    change Over.mk _ = Over.mk h
     congr 1
     apply ObjectProperty.hom_ext
     exact specULiftZIsTerminal.hom_ext _ _

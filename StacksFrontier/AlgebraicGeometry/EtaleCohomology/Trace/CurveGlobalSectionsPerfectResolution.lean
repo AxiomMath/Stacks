@@ -48,11 +48,11 @@ variable (Λ : Type r) [Ring Λ]
 def forgetOfAbAdj :
     forget₂ (ModuleCat.{w} ℤ) AddCommGrpCat.{w} ⊣ Stacks.InjectiveAcyclic.ofAb.{w} :=
   Adjunction.mkOfHomEquiv
-    { homEquiv := fun M A =>
+    { homEquiv := fun _ _ =>
         { toFun := fun f => ModuleCat.ofHom (StacksDraft.Perfect.intLinearMapOfAddHom f.hom)
           invFun := fun g => AddCommGrpCat.ofHom g.hom.toAddMonoidHom
-          left_inv := fun f => rfl
-          right_inv := fun g => rfl }
+          left_inv := fun _ => rfl
+          right_inv := fun _ => rfl }
       homEquiv_naturality_left_symm := fun _ _ => rfl
       homEquiv_naturality_right := fun _ _ => rfl }
 
@@ -150,6 +150,7 @@ def globalSectionsForgetIso :
 variable [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) r})]
 
 set_option maxHeartbeats 1600000 in
+-- the dimension-shifting argument over an injective resolution of étale sheaves is heavy
 /-- **The cohomology of the global sections of an injective resolution embeds into sheaf
 cohomology.** For an injective resolution `G[0] ⟶ I` of a sheaf of `Λ`-modules by a complex
 concentrated in degrees `≥ 0`, `Hⁿ⁺¹(Γ(Y, I))` embeds into `Hⁿ⁺¹(Y, G)` of the underlying abelian

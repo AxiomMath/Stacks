@@ -289,7 +289,7 @@ omit h₁ h₂
 /-- The comparison of the chosen model of total derived extension of scalars along `ψ` with
 termwise extension of scalars, stated with the termwise functor
 `(ModuleCat.extendScalars ψ).mapHomologicalComplex (ComplexShape.up ℤ)`. See the implementation
-notes of `StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/ClosedImmersionBaseChangeStalkDiagram.lean` (in
+notes of `ClosedImmersionBaseChangeStalkDiagram.lean` (in
 `StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/`) on why the two spellings have to be
 distinguished. -/
 abbrev alpha (ψ : R₂ →+* R') :

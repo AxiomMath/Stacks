@@ -141,7 +141,7 @@ private lemma fromZero_eq_zero_of_global_kernel (f₁ f₂ a : A) (i : Fin 2)
       ((Scheme.ΓSpecIso (.of A)).inv.hom a) = 0 := by
     rw [hcomp]
     rw [Scheme.Γ_map_op] at hker
-    show (Scheme.Hom.appTop (Proj.awayι 𝒮 x hX (show 0 < 1 by decide))).hom
+    change (Scheme.Hom.appTop (Proj.awayι 𝒮 x hX (show 0 < 1 by decide))).hom
       ((Scheme.Hom.appTop (modificationToBase A f₁ f₂)).hom
         ((Scheme.ΓSpecIso (.of A)).inv.hom a)) = 0
     exact (congrArg (Scheme.Hom.appTop (Proj.awayι 𝒮 x hX (show 0 < 1 by decide))).hom
@@ -225,7 +225,7 @@ theorem modificationToBase_ker_sq_eq_bot (A : Type u) [CommRing A] (f₁ f₂ : 
   have hX (i : Fin 2) :
       Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X i) ∈
         modificationGrading A f₁ f₂ 1 := by
-    show Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X i) ∈
+    change Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X i) ∈
       (MvPolynomial.homogeneousSubmodule (Fin 2) A 1).toAddSubgroup.map
         (Ideal.Quotient.mk (relationIdeal A f₁ f₂)).toAddMonoidHom
     exact AddSubgroup.mem_map.mpr ⟨MvPolynomial.X i,
@@ -246,7 +246,7 @@ theorem modificationToBase_ker_sq_eq_bot (A : Type u) [CommRing A] (f₁ f₂ : 
   obtain ⟨q, hq⟩ := exists_factor_chart_one f₁ f₂ (e.hom.hom y) m hm
   have hmul : e.hom.hom (x * y) = 0 :=
     (map_mul _ _ _).trans (mul_eq_zero_of_chart_factors f₁ f₂ _ _ p q hp hq)
-  show x * y = 0
+  change x * y = 0
   rw [← e.hom_inv_id_apply (x * y), hmul, map_zero]
   rfl
 

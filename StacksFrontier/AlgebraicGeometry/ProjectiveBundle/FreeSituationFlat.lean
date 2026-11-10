@@ -71,7 +71,7 @@ theorem irrelevant_le_map_of_graded_comp_eq_id {R S σ τ : Type u} [CommRing R]
     HomogeneousIdeal.irrelevant ℰ ≤ (HomogeneousIdeal.irrelevant 𝒟).map f := by
   refine (HomogeneousIdeal.irrelevant_le _).2 fun k hk x hx => ?_
   have hxy : f (g x) = x := by
-    show (f.comp g) x = x
+    change (f.comp g) x = x
     rw [hfg]; rfl
   rw [← hxy]
   exact Ideal.mem_map_of_mem f (HomogeneousIdeal.mem_irrelevant_of_mem _ hk (g.map_mem hx))

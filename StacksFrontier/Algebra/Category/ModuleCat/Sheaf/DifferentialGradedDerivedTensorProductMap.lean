@@ -75,7 +75,7 @@ namespace RelativeTensor
 section QuasiIso
 
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasWeakSheafify J (Type u)]
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
   {Osharp : Sheaf J CommRingCat.{u}}
   {A : DifferentialGradedAlgebra.{u, u} (toRingCat J Osharp)}
@@ -110,7 +110,6 @@ theorem quasiIso_dgTensorMapLeft_unopLeftMap (hP : IsKFlat P)
     exact quasiIso_comp _ _ (hφ := h₁) (hφ' := h₂)
   exact quasiIso_of_comp_left (dgTensorOpIso P Y).hom _
 
-omit [HasWeakSheafify J (Type u)] in
 /-- Quasi-isomorphy of `P ⊗_A f` depends on `f` only through its underlying morphisms. -/
 theorem quasiIso_dgTensorMapLeft_of_heq {L₁ L₁' L₂ L₂' : LeftDifferentialGradedModule.{u, u, u} A}
     (e : L₁ = L₂) (e' : L₁' = L₂') (g₁ : L₁ ⟶ L₁') (g₂ : L₂ ⟶ L₂')

@@ -144,7 +144,7 @@ theorem etaleH1UnitsAddEquivZariskiPicardGroup_symm_classOf
             (isInvertible_associatedModule B S hS L hL)).torsor) := by
   rw [← etaleH1UnitsAddEquivPicardGroup_symm_classOf B S hS ((associatedModule B S hS).obj L)
     (isInvertible_associatedModule B S hS L hL)]
-  show (etaleH1UnitsAddEquivPicardGroup B S hS).symm
+  change (etaleH1UnitsAddEquivPicardGroup B S hS).symm
       ((associatedModulePicardAddEquiv B S hS) _) = _
   rw [associatedModulePicardAddEquiv_classOf B S hS L hL]
 
@@ -171,7 +171,7 @@ theorem etaleH1UnitsAddEquivZariskiH1Units_symm_classOf
             (ZariskiSite.schemeRingedSite_isLocallyRinged S) L hL).torsor) := by
   rw [← ZariskiSite.zariskiH1UnitsAddEquivPicardGroup_symm_classOf S L hL,
     ← etaleH1UnitsAddEquivZariskiPicardGroup_symm_classOf B S hS L hL]
-  show (Stacks.Picard.ZariskiSite.zariskiH1UnitsAddEquivPicardGroup S).symm
+  change (Stacks.Picard.ZariskiSite.zariskiH1UnitsAddEquivPicardGroup S).symm
       ((etaleH1UnitsAddEquivZariskiPicardGroup B S hS)
         ((etaleH1UnitsAddEquivZariskiPicardGroup B S hS).symm _)) = _
   rw [AddEquiv.apply_symm_apply]

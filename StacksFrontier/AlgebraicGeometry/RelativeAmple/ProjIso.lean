@@ -164,7 +164,7 @@ theorem sectionPieceHom_mul (n m : ℕ) (a : (directImageAlgebra f L).sectionPie
     sectionPieceHom f L V (n + m) (((directImageAlgebra f L).mul (n : ℤ) (m : ℤ)).app V a b)
       = mul (sectionPieceHom f L V n a) (sectionPieceHom f L V m b) := by
   apply (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv _ _).injective
-  show globalSection _ _ (sectionPieceHom f L V (n + m) _)
+  change globalSection _ _ (sectionPieceHom f L V (n + m) _)
     = globalSection _ _ (mul (sectionPieceHom f L V n a) (sectionPieceHom f L V m b))
   rw [← Stacks.AlgebraicGeometry.ProjChartFromRatios.mulSections_globalSection,
     globalSection_sectionPieceHom, globalSection_sectionPieceHom, globalSection_sectionPieceHom]
@@ -268,7 +268,7 @@ theorem affineDatum_eq_comap :
           (Stacks.SectionRingGluedComparison.canonicalSections (restrictedModule f L V)) := by
   refine Stacks.SectionRingGluedComparison.gradedSections_ext ?_
   rintro n ⟨_, a, rfl⟩
-  show restrictPowSection L (f ⁻¹ᵁ V) n ((directImagePowerMap f L).value n V
+  change restrictPowSection L (f ⁻¹ᵁ V) n ((directImagePowerMap f L).value n V
       ((DirectSum.of _ n a : (directImageAlgebra f L).sectionRing V) n))
     = globalSection _ _ ((sectionRingEquiv f L V (DirectSum.of _ n a)) n)
   rw [sectionRingEquiv_of, DirectSum.of_eq_same, DirectSum.of_eq_same,
@@ -342,7 +342,7 @@ theorem isIso_globalMorphism [UniversallyClosed f] (hL : IsRelativelyAmple f L) 
       Scheme.Hom.preimage_top]
   refine IsZariskiLocalAtTarget.of_iSup_eq_top (P := MorphismProperty.isomorphisms Scheme) _ hU
     fun V => ?_
-  show IsIso (P.globalMorphism rp ∣_ rp.toBase ⁻¹ᵁ V.1)
+  change IsIso (P.globalMorphism rp ∣_ rp.toBase ⁻¹ᵁ V.1)
   have hRW : P.globalMorphism rp ⁻¹ᵁ (rp.toBase ⁻¹ᵁ V.1) = P.toBase ⁻¹ᵁ V.1 := by
     rw [← Scheme.Hom.comp_preimage, P.globalMorphism_comp_toBase rp]
   let c : AlgebraicGeometry.Proj ((directImageAlgebra f L).grading V.1)
@@ -357,7 +357,7 @@ theorem isIso_globalMorphism [UniversallyClosed f] (hL : IsRelativelyAmple f L) 
         (P.datumIso V.1).inv ≫ (P.affineDatum V.1).glued ≫ c.hom := by
     rw [← cancel_mono (rp.toBase ⁻¹ᵁ V.1).ι, morphismRestrict_ι]
     simp only [Category.assoc, hc]
-    show _ = (P.coveringOpen.toScheme.isoOfEq hRW).hom ≫ P.piece rp V
+    change _ = (P.coveringOpen.toScheme.isoOfEq hRW).hom ≫ P.piece rp V
     rw [← P.ι_globalMorphism rp V, ← Category.assoc, Scheme.isoOfEq_hom_ι]
   rw [hg]
   infer_instance

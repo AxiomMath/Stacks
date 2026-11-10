@@ -79,7 +79,7 @@ theorem comp_chartHom {T : Scheme.{u}} (t : T ⟶ X) (t₀ : T ⟶ V₀.toScheme
   have hr : Set.range t ⊆ Set.range (d ⁻¹ᵁ V₀).ι := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show d (t x) ∈ V₀
+    change d (t x) ∈ V₀
     rw [← Scheme.Hom.comp_apply, ← h, Scheme.Hom.comp_apply]
     exact (t₀ x).2
   have hw : IsOpenImmersion.lift (d ⁻¹ᵁ V₀).ι t hr ≫ (d ⁻¹ᵁ V₀).ι = t :=
@@ -123,7 +123,7 @@ theorem exists_comp_eq [Surjective d] [IsReduced Y₀] [Y.IsSeparated] {ι : Typ
       rw [← Scheme.Hom.preimage_iSup, hcov.iSup_eq_top, Scheme.Hom.preimage_top])
   · have := hd i
     have h1 : (V₀ i).ι ≫ 𝒰.glueMorphisms g hg = g i := 𝒰.ι_glueMorphisms g hg i
-    show (d ⁻¹ᵁ V₀ i).ι ≫ d ≫ _ = (d ⁻¹ᵁ V₀ i).ι ≫ c
+    change (d ⁻¹ᵁ V₀ i).ι ≫ d ≫ _ = (d ⁻¹ᵁ V₀ i).ι ≫ c
     rw [← Scheme.Hom.resLE_comp_ι_assoc d (le_refl (d ⁻¹ᵁ V₀ i)), h1]
     exact resLE_chartHom (hV i) (hle i)
 
@@ -153,11 +153,11 @@ theorem exists_modulePullbackSection_eq
   refine ⟨Stacks.SheafOfModules.sectionsOfTop N (e.inv.val.app (op ⊤) (v.eval (op ⊤))), ?_⟩
   refine Stacks.SheafOfModules.sections_ext_of_eval_top _ ?_
   refine (Stacks.SheafOfModules.modulePullbackSection_eval_top _ _ _).trans ?_
-  show e.hom.val.app (op ⊤) ((Stacks.SheafOfModules.sectionsOfTop N
+  change e.hom.val.app (op ⊤) ((Stacks.SheafOfModules.sectionsOfTop N
     (e.inv.val.app (op ⊤) (v.eval (op ⊤)))).eval (op ⊤)) = _
   refine (congrArg (fun z => e.hom.val.app (op ⊤) z)
     (Stacks.SheafOfModules.sectionsOfTop_eval_top N _)).trans ?_
-  show (e.inv ≫ e.hom).val.app (op ⊤) (v.eval (op ⊤)) = _
+  change (e.inv ≫ e.hom).val.app (op ⊤) (v.eval (op ⊤)) = _
   rw [e.inv_hom_id]
   rfl
 
@@ -225,13 +225,12 @@ open Opposite
 variable {X Y₀ Y : Scheme.{u}} (d : X ⟶ Y₀) (c : X ⟶ Y)
 
 /-- **A contraction factors through another one identifying ample modules**: let `d : X ⟶ Y₀`
-be surjective with `𝒪_{Y₀} = d_*𝒪_X` and `Y₀` reduced, `c : X ⟶ Y` with `𝒪_Y = c_*𝒪_X` and `Y`
-separated, and let `L₀`, `L` be invertible on `Y₀`, `Y` with `L` ample and `d^*L₀ ≅ c^*L`. Then
+be surjective with `𝒪_{Y₀} = d_*𝒪_X` and `Y₀` reduced, `c : X ⟶ Y` with `Y` separated,
+and let `L₀`, `L` be invertible on `Y₀`, `Y` with `L` ample and `d^*L₀ ≅ c^*L`. Then
 `c` factors through `d`: each affine `Y_s`, `s ∈ Γ(Y, L^{⊗ n})`, has `c⁻¹Y_s = d⁻¹(Y₀)_{s₀}`
 for some `s₀`, and these charts glue (`exists_comp_eq`). -/
 theorem exists_comp_eq_of_isAmple [Surjective d] [IsReduced Y₀] [Y.IsSeparated]
     (hd : IsIso (SheafOfModules.unitToPushforwardObjUnit d.toRingCatSheafHom))
-    (hc : IsIso (SheafOfModules.unitToPushforwardObjUnit c.toRingCatSheafHom))
     (L₀ : Y₀.Modules) (L : Y.Modules)
     [AlgebraicGeometry.SheafOfModules.IsInvertible Y₀.toRingedSpace.presheaf
       (structureSheafRing Y₀.toRingedSpace).property L₀]
@@ -259,7 +258,7 @@ theorem exists_comp_eq_of_isAmple [Surjective d] [IsReduced Y₀] [Y.IsSeparated
     obtain ⟨x, rfl⟩ := d.surjective y₀
     obtain ⟨n, -, s, hxs, haff⟩ := hL.exists_affine_nonvanishingLocus (c x)
     refine Opens.mem_iSup.2 ⟨⟨n, s, haff⟩, ?_⟩
-    show x ∈ d ⁻¹ᵁ V₀ ⟨n, s, haff⟩
+    change x ∈ d ⁻¹ᵁ V₀ ⟨n, s, haff⟩
     rwa [hV₀]
 
 /-- **Two contractions identifying ample modules are isomorphic under the source**: let
@@ -278,8 +277,8 @@ theorem exists_iso_comp_eq_of_isAmple [Surjective d] [Surjective c] [IsReduced Y
     (φ : (Scheme.Modules.pullback d).obj L₀ ≅ (Scheme.Modules.pullback c).obj L)
     (hL₀ : Scheme.Modules.IsAmple Y₀ L₀) (hL : Scheme.Modules.IsAmple Y L) :
     ∃ e : Y₀ ≅ Y, d ≫ e.hom = c := by
-  obtain ⟨e, he⟩ := exists_comp_eq_of_isAmple d c hd hc L₀ L φ hL
-  obtain ⟨e', he'⟩ := exists_comp_eq_of_isAmple c d hc hd L L₀ φ.symm hL₀
+  obtain ⟨e, he⟩ := exists_comp_eq_of_isAmple d c hd L₀ L φ hL
+  obtain ⟨e', he'⟩ := exists_comp_eq_of_isAmple c d hc L L₀ φ.symm hL₀
   refine ⟨⟨e, e', ext_of_isDominant d ?_, ext_of_isDominant c ?_⟩, he⟩
   · rw [reassoc_of% he, he', Category.comp_id]
   · rw [reassoc_of% he', he, Category.comp_id]

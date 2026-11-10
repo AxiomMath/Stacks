@@ -184,7 +184,7 @@ def unitEndPullbackHom (ρ : V ⟶ T) : R₀ T →+* R₀ V where
     refine End.ext ?_
     simp only [End.zero_asHom, Functor.map_zero, Limits.zero_comp, Limits.comp_zero]
   map_add' a b := by
-    letI := additive_modulePullback ρ
+    let := additive_modulePullback ρ
     refine End.ext ?_
     simpa only [End.add_asHom] using
       CategoryTheory.MonoidalCategory.epsilon_comp_map_add_comp_epsilonIso_inv
@@ -275,13 +275,13 @@ This is the whole dictionary: the `(a, b)` entry of the left-hand side is
 `freeInj a ≫ (Φ⁻¹ ≫ ρ^* g ≫ Φ) ≫ freeProj b`, and the two statements about the tautological dual
 basis turn it into `ε ≫ ρ^* (freeInj a ≫ g ≫ freeProj b) ≫ ε⁻¹`, which is `unitEndPullbackHom ρ`
 applied to the `(a, b)` entry of the matrix of `g`. -/
-theorem freeDualMatrix_conj_modulePullbackFreeIso (ρ : V ⟶ T) {I : Type u} [Fintype I]
+theorem freeDualMatrix_conj_modulePullbackFreeIso (ρ : V ⟶ T) {I : Type u}
     [DecidableEq I] (g : freeModule T I ⟶ freeModule T I) :
     freeDualMatrix ((modulePullbackFreeIso ρ I).inv ≫ (modulePullback ρ).map g ≫
         (modulePullbackFreeIso ρ I).hom)
       = (freeDualMatrix g).map (unitEndPullbackHom ρ) := by
   refine Matrix.ext fun a b => End.ext ?_
-  show freeInj (S := V) a ≫ ((modulePullbackFreeIso ρ I).inv ≫ (modulePullback ρ).map g ≫
+  change freeInj (S := V) a ≫ ((modulePullbackFreeIso ρ I).inv ≫ (modulePullback ρ).map g ≫
         (modulePullbackFreeIso ρ I).hom) ≫ freeProj (S := V) b
       = Functor.LaxMonoidal.ε (modulePullback ρ) ≫
         (modulePullback ρ).map (freeInj (S := T) a ≫ g ≫ freeProj (S := T) b) ≫

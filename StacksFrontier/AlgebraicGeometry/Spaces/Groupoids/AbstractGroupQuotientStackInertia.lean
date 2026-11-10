@@ -236,11 +236,11 @@ def fixedPresheafAut (σ : X ⟶ X) (τ : Aut X) (hc : τ.asIso.hom ≫ σ = σ 
     hom_inv_id := by
       ext V y
       exact fixedPresheaf_ext σ (by
-        simpa using presheafHom_congr_apply τ.asIso.hom_inv_id V ((fixedPresheafIncl σ).app V y))
+        simp)
     inv_hom_id := by
       ext V y
       exact fixedPresheaf_ext σ (by
-        simpa using presheafHom_congr_apply τ.asIso.inv_hom_id V ((fixedPresheafIncl σ).app V y)) }
+        simp) }
 
 /-- On sections, the restricted automorphism `fixedPresheafAut σ τ hc` acts as `τ`. -/
 @[simp] lemma fixedPresheafIncl_app_fixedPresheafAut (σ : X ⟶ X) (τ : Aut X)

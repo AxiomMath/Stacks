@@ -301,7 +301,7 @@ theorem finite_restrictScalars_ringEquiv {A B : Type u} [CommRing A] [CommRing B
     { toFun := fun m ↦ m
       map_add' := fun _ _ ↦ rfl
       map_smul' := fun b m ↦ by
-        show b • m = ε (ε.symm b) • m
+        change b • m = ε (ε.symm b) • m
         rw [ε.apply_symm_apply] }
     (fun m ↦ ⟨m, rfl⟩)
 
@@ -313,7 +313,7 @@ theorem projective_restrictScalars_ringEquiv {A B : Type u} [CommRing A] [CommRi
   have : Projective M := inferInstance
   have : Projective ((ModuleCat.restrictScalarsEquivalenceOfRingEquiv ε).functor.obj M) :=
     ((ModuleCat.restrictScalarsEquivalenceOfRingEquiv ε).map_projective_iff M).2 inferInstance
-  show Module.Projective A ((ModuleCat.restrictScalarsEquivalenceOfRingEquiv ε).functor.obj M)
+  change Module.Projective A ((ModuleCat.restrictScalarsEquivalenceOfRingEquiv ε).functor.obj M)
   infer_instance
 
 /-- Restriction of scalars along `R ⧸ ker p ≃+* S`. -/
@@ -435,7 +435,7 @@ theorem exists_finiteProjective_lift_iso_of_surjective_of_models
   refine ⟨P, hP, hPbdd, ((quotientKerRestriction p hp).mapHomologicalComplex
     (ComplexShape.up ℤ)).preimageIso ((quotientKerExtensionComplexIso p hp).app P ≪≫ eRed), eK,
     (quotientKerRestriction p hp).mapDerivedCategory.map_injective ?_⟩
-  show _ = (G ⋙ (quotientKerRestriction p hp).mapDerivedCategory).map eK.hom
+  change _ = (G ⋙ (quotientKerRestriction p hp).mapDerivedCategory).map eK.hom
   have hβ' : β'.app P = (quotientKerRestriction p hp).mapDerivedCategory.map (β.app P) ≫
       (quotientKerExtensionDerivedIso p hp).hom.app P := by
     simp [β']

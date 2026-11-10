@@ -234,13 +234,11 @@ theorem bijective_map (hσ : Function.Bijective σ) (g : M₁ →ₛₗ[σ] M₂
   refine Function.bijective_iff_has_inverse.2
     ⟨TensorProduct.map (LinearMap.inverseOfBijective hσ g hg)
       (LinearMap.inverseOfBijective hσ h hh), fun t => ?_, fun t => ?_⟩
-  · induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction t using TensorProduct.inductionOn with
     | tmul m n => rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
         LinearMap.inverseOfBijective_apply_apply, LinearMap.inverseOfBijective_apply_apply]
     | add t t' ht ht' => rw [map_add, map_add, ht, ht']
-  · induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction t using TensorProduct.inductionOn with
     | tmul m n => rw [TensorProduct.map_tmul, TensorProduct.map_tmul,
         LinearMap.apply_inverseOfBijective_apply, LinearMap.apply_inverseOfBijective_apply]
     | add t t' ht ht' => rw [map_add, map_add, ht, ht']
@@ -348,7 +346,7 @@ theorem quotientMapAlongₛₗ_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
       (quotientPresheaf φ₂.hom).map ((Opens.map f).op.map i)
         (quotientMapAlongₛₗ f B φ₁ φ₂ ψ hψ U b) := by
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-  show Ideal.Quotient.mk _ ((sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom b)) =
+  change Ideal.Quotient.mk _ ((sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom b)) =
     Ideal.Quotient.mk _
       ((A₂.obj.map ((Opens.map f).op.map i)).hom ((sectionsMapAlong f ψ U).hom b))
   exact congrArg (Ideal.Quotient.mk (kernelIdeal φ₂.hom ((Opens.map f).op.obj V)))
@@ -367,7 +365,7 @@ theorem cotangentMapAlong_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
           (sectionsMapAlong f ψ U).hom
           (kernelIdeal_le_comap_sectionsMapAlong f B φ₁ φ₂ ψ hψ U) c) := by
   obtain ⟨c, rfl⟩ := (kernelIdeal φ₁.hom U).toCotangent_surjective c
-  show (kernelIdeal φ₂.hom _).toCotangent
+  change (kernelIdeal φ₂.hom _).toCotangent
       ⟨(sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom (c : A₁.obj.obj U)), _⟩ =
     (kernelIdeal φ₂.hom _).toCotangent
       ⟨(A₂.obj.map ((Opens.map f).op.map i)).hom
@@ -502,7 +500,7 @@ theorem differentialsMapAlong_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
     differentialsMapAlong f ψ R a₁ a₂ ha V ((differentialsPresheaf a₁.hom).map i ω) =
       (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
         (differentialsMapAlong f ψ R a₁ a₂ ha U ω) := by
-  show differentialsMapAlong f ψ R a₁ a₂ ha V ((differentialsPresheaf a₁.hom).restrictₛₗ i ω) =
+  change differentialsMapAlong f ψ R a₁ a₂ ha V ((differentialsPresheaf a₁.hom).restrictₛₗ i ω) =
     (differentialsPresheaf a₂.hom).restrictₛₗ ((Opens.map f).op.map i)
       (differentialsMapAlong f ψ R a₁ a₂ ha U ω)
   let := (a₁.hom.app U).hom.toAlgebra
@@ -512,14 +510,15 @@ theorem differentialsMapAlong_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
   induction mem using Submodule.span_induction with
   | mem s hs =>
       obtain ⟨s, rfl⟩ := hs
-      show differentialsMapAlong f ψ R a₁ a₂ ha V ((differentialsPresheaf a₁.hom).map i
+      change differentialsMapAlong f ψ R a₁ a₂ ha V ((differentialsPresheaf a₁.hom).map i
           (CommRingCat.KaehlerDifferential.d (f := a₁.hom.app U) s)) =
         (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
           (differentialsMapAlong f ψ R a₁ a₂ ha U
             (CommRingCat.KaehlerDifferential.d (f := a₁.hom.app U) s))
       have h₁ : (differentialsPresheaf a₁.hom).map i (CommRingCat.KaehlerDifferential.d s) =
           CommRingCat.KaehlerDifferential.d (f := a₁.hom.app V) ((A₁.obj.map i).hom s) :=
-        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁.hom i s
+        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁.hom
+          i s
       have h₂ : (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
             (CommRingCat.KaehlerDifferential.d (f := a₂.hom.app ((Opens.map f).op.obj U))
               ((sectionsMapAlong f ψ U).hom s)) =
@@ -560,10 +559,9 @@ theorem tensorMapAlongₛₗ_smul (U : (Opens X)ᵒᵖ) (r : A₁.obj.obj U ⧸ 
     tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U (r • x) =
       quotientMapAlongₛₗ f B φ₁ φ₂ ψ hψ U r •
         tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
-    show tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U ((r * b) ⊗ₜ ω) =
+    change tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U ((r * b) ⊗ₜ ω) =
       quotientMapAlongₛₗ f B φ₁ φ₂ ψ hψ U r •
         tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U (b ⊗ₜ ω)
     simp only [tensorMapAlongₛₗ, TensorProduct.map_tmul, TensorProduct.smul_tmul']
@@ -582,8 +580,7 @@ theorem tensorMapAlongₛₗ_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
     tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha V (tensorMapₛₗ φ₁.hom a₁.hom i x) =
       tensorMapₛₗ φ₂.hom a₂.hom ((Opens.map f).op.map i)
         (tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha U x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b ω =>
     refine (congrArg (tensorMapAlongₛₗ f B φ₁ φ₂ ψ hψ R a₁ a₂ ha V)
       (TensorProduct.map_tmul _ _ b ω)).trans ?_
@@ -930,7 +927,7 @@ theorem naiveCotangentComplex_d_zero {C : Type u₁} [Category.{v₁} C]
   have : HasZeroObject
       (_root_.SheafOfModules.{max w u₁ v₁ z} (Stacks.SheafOfModules.Tensor.ringSheaf B')) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (canonicalConormalSequence.{v₁, u₁, w, z} J A' B' a').f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d 0 k = 0
   exact HomologicalComplex.double_d_eq_zero₀ _ _ 0 k (by decide)
@@ -1206,7 +1203,7 @@ theorem bijective_stalkRingMapAlong
         A₁ A₂).symm ψ).hom)) :
     Function.Bijective (stalkRingMapAlong f ψ y) := by
   have hb := (ConcreteCategory.isIso_iff_bijective _).1 hiso
-  show Function.Bijective ((ConcreteCategory.hom
+  change Function.Bijective ((ConcreteCategory.hom
       ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} y).map
         (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} f).homEquiv
           A₁ A₂).symm ψ).hom)) ∘ (Stacks.InverseImageStalk.ringStalkEquiv f A₁ y))

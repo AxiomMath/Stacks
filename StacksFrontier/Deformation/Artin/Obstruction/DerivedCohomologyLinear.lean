@@ -52,7 +52,7 @@ omit [HasZeroObject C] [HasBinaryBiproducts C] in
 /-- The right tensor–total functor `F ↦ Tot(F ⊗ G)` on cochain complexes is `R`-linear. -/
 theorem trightCochain_linear (G : CochainComplex C ℤ) : (TrightCochain G).Linear R where
   map_smul {X Y} f r := by
-    show HomologicalComplex.mapBifunctorMap (r • f) (𝟙 G) (curriedTensor C) (ComplexShape.up ℤ)
+    change HomologicalComplex.mapBifunctorMap (r • f) (𝟙 G) (curriedTensor C) (ComplexShape.up ℤ)
       = r • HomologicalComplex.mapBifunctorMap f (𝟙 G) (curriedTensor C) (ComplexShape.up ℤ)
     ext n i₁ i₂ h
     rw [HomologicalComplex.smul_f_apply,

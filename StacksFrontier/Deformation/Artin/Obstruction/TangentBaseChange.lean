@@ -175,7 +175,7 @@ public theorem squareZeroOverBaseMap_naturality
     simpa using ConcreteCategory.congr_hom hcompat m
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
         (squareZeroRingBaseMap f (restrictScalarsAddHom f ψ₂)
           (restrictScalarsAddHom_smul f ψ₂))) ≫
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.map s.hom.hom).toRingHom) =
@@ -186,7 +186,7 @@ public theorem squareZeroOverBaseMap_naturality
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
   refine CommRingCat.hom_ext (RingHom.ext fun z => ?_)
-  show squareZeroRingBaseMap f (restrictScalarsAddHom f ψ₂)
+  change squareZeroRingBaseMap f (restrictScalarsAddHom f ψ₂)
         (restrictScalarsAddHom_smul f ψ₂) ((TrivSqZeroExt.map s.hom.hom) z) =
       (TrivSqZeroExt.map t.hom.hom)
         (squareZeroRingBaseMap f (restrictScalarsAddHom f ψ₁)

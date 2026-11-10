@@ -209,7 +209,7 @@ theorem isLocalization_sections_basicOpen [A.IsQuasicoherent] [IsAffine X] (a : 
       = Algebra.algebraMapSubmonoid (A.sections ⊤) (Submonoid.powers a) := by
     rw [Algebra.algebraMapSubmonoid, Submonoid.map_powers]
     rfl
-  show IsLocalization (Submonoid.powers (A.unitTop.hom a)) _
+  change IsLocalization (Submonoid.powers (A.unitTop.hom a)) _
   rw [e]
   exact isLocalizedModule_iff_isLocalization.mp key
 
@@ -485,7 +485,7 @@ theorem pullback_pairEquivRingHom_symm (s : RelativeSpecSituation.{u}) [IsAffine
       = (pairEquivRingHom s T').symm (χ ≫ a.appTop) := by
   refine (pairEquivRingHom s T').injective ?_
   rw [Equiv.apply_symm_apply, pairEquivRingHom_apply]
-  show ((pairEquivRingHom s T).symm χ).2.right.app (op ⊤) ≫ a.c.app (op ⊤) = χ ≫ a.appTop
+  change ((pairEquivRingHom s T).symm χ).2.right.app (op ⊤) ≫ a.c.app (op ⊤) = χ ≫ a.appTop
   rw [show ((pairEquivRingHom s T).symm χ).2.right.app (op ⊤) = χ from
     (pairEquivRingHom s T).apply_symm_apply χ]
   rfl
@@ -498,7 +498,7 @@ theorem relativeSpecFunctor_representableBy (s : RelativeSpecSituation.{u}) [IsA
       (Spec (s.algebra.right.obj.obj (.op (⊤ : s.base.Opens))))) :=
   ⟨{ homEquiv {T} := (specHomEquiv _ T).trans (pairEquivRingHom s T).symm
      homEquiv_comp {T T'} a g := by
-       show (pairEquivRingHom s T).symm ((Scheme.ΓSpecIso _).inv ≫ (a ≫ g).appTop)
+       change (pairEquivRingHom s T).symm ((Scheme.ΓSpecIso _).inv ≫ (a ≫ g).appTop)
          = RelativeSpecPair.pullback a
              ((pairEquivRingHom s T').symm ((Scheme.ΓSpecIso _).inv ≫ g.appTop))
        rw [pullback_pairEquivRingHom_symm, Scheme.Hom.comp_appTop, Category.assoc] }⟩

@@ -116,7 +116,7 @@ public theorem isVersalAt_of_forall_approximation
     (Λ A : Type u) [CommRing Λ] [CommRing A] [Algebra Λ A]
     [IsNoetherianRing Λ] [Algebra.FiniteType Λ A]
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
-    (toS : Spec (CommRingCat.of A) ⟶ S) (hA : B.Contains (Spec (CommRingCat.of A)))
+    (toS : Spec (CommRingCat.of A) ⟶ S)
     (iΛ : Spec (CommRingCat.of Λ) ⟶ S) [IsOpenImmersion iΛ]
     (hbase : Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ = toS)
     {F : Type v} [Category.{w} F] (p : F ⥤ AlgebraicGeometry.BigFppfOver B S hS)
@@ -127,28 +127,27 @@ public theorem isVersalAt_of_forall_approximation
     (hC : B.Contains (Spec (CommRingCat.of
       (AlgebraicGeometry.Scheme.completedLocalRing (Spec (CommRingCat.of A)) u₀))))
     (H : ∀ (xR : Deformation.Artin.CompleteLocalObjects B S hS p)
-           (ξ : Deformation.Artin.FormalObject B S hS p)
-           (hξ : ξ = (Deformation.Artin.approximationFunctor B S hS p hp).obj xR)
-           (e : AlgebraicGeometry.Scheme.completedLocalRing (Spec (CommRingCat.of A)) u₀
+           (ξ : Deformation.Artin.FormalObject B S hS p),
+           ξ = (Deformation.Artin.approximationFunctor B S hS p hp).obj xR →
+           ∀ (e : AlgebraicGeometry.Scheme.completedLocalRing (Spec (CommRingCat.of A)) u₀
                   ≃+* ξ.base.R)
-           (g : Spec (CommRingCat.of ξ.base.R) ⟶ Spec (CommRingCat.of A))
-           (hg : g = Spec.map (CommRingCat.ofHom e.toRingHom) ≫
+           (g : Spec (CommRingCat.of ξ.base.R) ⟶ Spec (CommRingCat.of A)),
+           g = Spec.map (CommRingCat.ofHom e.toRingHom) ≫
                  Spec.map (CommRingCat.ofHom (algebraMap
                    ((Spec (CommRingCat.of A)).presheaf.stalk u₀)
                    (AlgebraicGeometry.Scheme.completedLocalRing
                      (Spec (CommRingCat.of A)) u₀))) ≫
-                 (Spec (CommRingCat.of A)).fromSpecStalk u₀)
-           (hbase' : ξ.base.toS = g ≫ toS)
-           (hclosed : ξ.base.toS (IsLocalRing.closedPoint ξ.base.R) =
-                 Deformation.Artin.basePoint (Over.mk toS) u₀)
-           (r : xR.obj.1 ⟶ x) (hr : p.IsCartesian (p.map r) r)
-           (hrbase : HEq
-                 ((eqToHom (Deformation.Artin.chosenBase_eq B S hS p xR.obj).symm ≫
-                   p.map r).left.hom ≫ eqToHom (congrArg Over.left hx)) g)
-           (algR : Algebra Λ ξ.base.R)
-           (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS)
-           (hAR : (algebraMap Λ ξ.base.R) =
-                  (Deformation.Artin.ringHom_of_schemeMap g).comp (algebraMap Λ A)),
+                 (Spec (CommRingCat.of A)).fromSpecStalk u₀ →
+           ξ.base.toS = g ≫ toS →
+           ξ.base.toS (IsLocalRing.closedPoint ξ.base.R) =
+                 Deformation.Artin.basePoint (Over.mk toS) u₀ →
+           ∀ (r : xR.obj.1 ⟶ x), p.IsCartesian (p.map r) r →
+           HEq ((eqToHom (Deformation.Artin.chosenBase_eq B S hS p xR.obj).symm ≫
+                   p.map r).left.hom ≫ eqToHom (congrArg Over.left hx)) g →
+           ∀ [Algebra Λ ξ.base.R]
+           (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS),
+           (algebraMap Λ ξ.base.R) =
+                  (Deformation.Artin.ringHom_of_schemeMap g).comp (algebraMap Λ A) →
          Deformation.Artin.FormalObject.IsVersal B S hS p hp ξ Λ iΛ hΛ) :
     Deformation.Artin.IsVersalAt (Over.mk toS) (p ⋙ Over.post B.inclusion) u₀ x hx := by
   -- The geometric hypotheses on the affine chart, from finite type over a Noetherian ring.
@@ -159,7 +158,7 @@ public theorem isVersalAt_of_forall_approximation
     (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mpr
       (RingHom.finiteType_algebraMap.mpr inferInstance)
   have hLFT : LocallyOfFiniteType (Over.mk toS).hom := by
-    show LocallyOfFiniteType toS
+    change LocallyOfFiniteType toS
     rw [← hbase]
     infer_instance
   have hNS : TopologicalSpace.NoetherianSpace (Over.mk toS).left :=
@@ -216,7 +215,7 @@ public theorem isVersalAt_of_forall_approximation
     rwa [basePoint_eq_hom_apply]
   exact (isVersalAt_iff_isVersal_affineChart B S hS p hp (Over.mk toS) x hx u₀ xR ξ hξ e g hg
     hbase'' r hr hrbase Λ iΛ hΛ _ ht hcompat).mpr
-      (H xR ξ hξ e g hg hbase'' hclosed r hr hrbase algR hΛ hAR)
+      (H xR ξ hξ e g hg hbase'' hclosed r hr hrbase hΛ hAR)
 
 end Deformation.Artin
 

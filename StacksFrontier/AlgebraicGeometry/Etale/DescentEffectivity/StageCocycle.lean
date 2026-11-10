@@ -259,7 +259,7 @@ theorem exists_stage_actPullbackLaw [IsCofiltered I] [EssentiallySmall.{u} I]
   have hG := (DescentDatum.overPullback_map_triOverHom_eq_iff (φ.app i)
     ((triDiagram φ).map m) V _ _ _ _).mp hLR
   have hiso : IsIso (triMapFstIso φ m V).hom.left := by
-    show IsIso ((Over.forget _).map (triMapFstIso φ m V).hom)
+    change IsIso ((Over.forget _).map (triMapFstIso φ m V).hom)
     infer_instance
   have hlaw : DescentDatum.triActTwice (φ.app k) ((Over.pullback (𝒳.map m)).obj V)
         (DescentDatum.pullbackIsoOfBaseChangeIso (φ.app k) ((Over.pullback (𝒳.map m)).obj V)

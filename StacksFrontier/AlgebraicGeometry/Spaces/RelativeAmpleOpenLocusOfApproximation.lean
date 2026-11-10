@@ -105,7 +105,7 @@ theorem isNoetherian_toScheme_of_isFinitePresentation_terminal
     apply presheaf_id_of_iso B _ hZ
     intro V W f hf
     have : IsIso f := hf
-    show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B _ hZ).map f)
+    change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B _ hZ).map f)
     infer_instance
   have : AlgebraicGeometry.LocallyOfFinitePresentation
       ((BigFppfOver.toScheme B _ hZ).map (terminal.from T)) :=
@@ -218,7 +218,7 @@ theorem ampleSpreadsFromResidueFieldsToOpens_of_approximation (hZ : B.Contains (
   let κ := residueFieldObject B _ hZ U u (B.residueField_spec_contains U.left.property u)
   let res : κ ⟶ U := residueFieldMap B _ hZ U u (B.residueField_spec_contains U.left.property u)
   have hκ : IsAffine ((BigFppfOver.toScheme B _ hZ).obj κ) := by
-    show IsAffine (Spec (.of (U.left.1.residueField u)))
+    change IsAffine (Spec (.of (U.left.1.residueField u)))
     infer_instance
   -- the limit and the stages as algebraic spaces
   let XL : AlgebraicSpaces B (⊤_ Scheme.{u}) hZ := ⟨DX.limitCone.pt, DX.limitAlgebraicSpace⟩
@@ -271,11 +271,11 @@ theorem ampleSpreadsFromResidueFieldsToOpens_of_approximation (hZ : B.Contains (
       hsq.of_iso (Iso.refl _) eXa (Iso.refl _) eYa (by simp) (by simp)
         (by
           ext1
-          show (eX.hom ≫ f'.hom ≫ eY.inv) ≫ eY.hom = eX.hom ≫ f'.hom
+          change (eX.hom ≫ f'.hom ≫ eY.inv) ≫ eY.hom = eX.hom ≫ f'.hom
           simp)
         (by
           ext1
-          show (yoneda.map res ≫ eY.inv) ≫ eY.hom = 𝟙 _ ≫ yoneda.map res
+          change (yoneda.map res ≫ eY.inv) ≫ eY.hom = 𝟙 _ ≫ yoneda.map res
           simp)
     have heq : (p₀ ≫ eXa.hom) ≫ eXa.inv ≫ πX iL = (p₀ ≫ πX i) ≫ tX hiL := by
       rw [Category.assoc, Iso.hom_inv_id_assoc, Category.assoc, hπt]
@@ -298,14 +298,14 @@ theorem ampleSpreadsFromResidueFieldsToOpens_of_approximation (hZ : B.Contains (
   let fj : Xs j ⟶ representedAlgebraicSpace B _ hZ T :=
     (ObjectProperty.homMk (φ.app (op j)) : Xs j ⟶ Ysj) ≫ eTa.hom
   have hfj : IsProper B _ hZ fj.hom := by
-    show IsProper B _ hZ (φ.app (op j) ≫ eT.hom)
+    change IsProper B _ hZ (φ.app (op j) ≫ eT.hom)
     exact isProper_comp' B _ hZ _ _ (DY.algebraicSpace j) (isAlgebraicSpace_yoneda B _ hZ T)
       (hφ j).1 (isProper_of_isIso B _ hZ _)
   let a : U ⟶ T := yoneda.preimage (eY.inv ≫ DY.limitCone.π.app (op j) ≫ eT.hom)
   let b : X' ⟶ Xs j := eXa.inv ≫ πX j
   have hw : b ≫ fj = f' ≫ ObjectProperty.homMk (yoneda.map a) := by
     ext1
-    show (eX.inv ≫ DX.limitCone.π.app (op j)) ≫ φ.app (op j) ≫ eT.hom =
+    change (eX.inv ≫ DX.limitCone.π.app (op j)) ≫ φ.app (op j) ≫ eT.hom =
       f'.hom ≫ yoneda.map a
     rw [Functor.map_preimage, Category.assoc, reassoc_of% (hcomm j), Iso.inv_hom_id_assoc]
   have ha : IsAffineHom B _ hZ (yoneda.map a) :=
@@ -313,7 +313,7 @@ theorem ampleSpreadsFromResidueFieldsToOpens_of_approximation (hZ : B.Contains (
       (isAffineSpace_yoneda B _ hZ T hT)
   -- Stacks 07SF: the projection from the limit is affine
   have hb : IsAffineHom B _ hZ b.hom := by
-    show IsAffineHom B _ hZ (eX.inv ≫ DX.limitCone.π.app (op j))
+    change IsAffineHom B _ hZ (eX.inv ≫ DX.limitCone.π.app (op j))
     rw [← IsLimit.conePointUniqueUpToIso_hom_comp DX.isLimit (limit.isLimit DX.system) (op j)]
     exact isAffineHom_comp B _ hZ _ _ (isAffineHom_of_isIso _) (isAffineHom_comp B _ hZ _ _
       (isAffineHom_of_isIso _) (h07SF DX.system hconvX DX.transition_affine (op j)))
@@ -340,7 +340,7 @@ theorem ampleSpreadsFromResidueFieldsToOpens_of_approximation (hZ : B.Contains (
         (by simp [fj])
         (by
           ext1
-          show yoneda.map (res ≫ a) ≫ eT.inv =
+          change yoneda.map (res ≫ a) ≫ eT.inv =
             𝟙 _ ≫ (yoneda.map res ≫ eY.inv) ≫ DY.limitCone.π.app (op j)
           rw [Functor.map_comp, Functor.map_preimage]
           simp)

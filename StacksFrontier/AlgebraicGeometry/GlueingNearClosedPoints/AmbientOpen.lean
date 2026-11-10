@@ -99,7 +99,7 @@ theorem preimage_ι_eq_puncturedOpen {S : Scheme.{u}} (W : S.Opens) {t : S} (V :
     (hcl : IsClosed ({p} : Set W.toScheme)) :
     W.ι ⁻¹ᵁ V = GlueingNearPoint.puncturedOpen hcl := by
   refine TopologicalSpace.Opens.ext (Set.ext fun x ↦ ?_)
-  show W.ι x ∈ (V : Set S) ↔ x ∈ ({p} : Set W.toScheme)ᶜ
+  change W.ι x ∈ (V : Set S) ↔ x ∈ ({p} : Set W.toScheme)ᶜ
   rw [hV]
   refine ⟨fun hx hxe ↦ hx.2 ?_, fun hx ↦ ⟨x.2, fun hxe ↦ hx ?_⟩⟩
   · rw [Set.mem_singleton_iff] at hxe

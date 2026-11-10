@@ -126,11 +126,11 @@ private theorem smooth_quotient_span_of_forall_isPrime {f : MvPolynomial (Fin 2)
   refine { formallySmooth := ?_, finitePresentation := hfp }
   rw [← Algebra.smoothLocus_eq_univ_iff]
   refine Set.eq_univ_of_forall fun Q => ?_
-  show Algebra.IsSmoothAt K Q.asIdeal
+  change Algebra.IsSmoothAt K Q.asIdeal
   rw [Stacks.Curves.isSmoothAt_iff_exists_pderiv_notMem hne hnu]
   by_contra! hQ
   refine h _ (Ideal.comap_isPrime _ _) ?_ hQ
-  show Ideal.Quotient.mk _ _ ∈ Q.asIdeal
+  change Ideal.Quotient.mk _ _ ∈ Q.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self _)]
   exact zero_mem _
 
@@ -293,7 +293,7 @@ theorem isIso_globalSections (a : K) :
 theorem genus_toSpec (a : K) : genus (toSpec a) = 0 := by
   have hker := ker_embedding_eq_zeroScheme a
   rw [genus_eq_finrank_structureSheafCohomology]
-  show Module.finrank K (structureSheafCohomology
+  change Module.finrank K (structureSheafCohomology
     (PlaneCurveModel.embedding (equation a) (isHomogeneous_equation a) ≫
       Stacks.AlgebraicGeometry.ProjPolyChart.projToSpecCoeff K 2) 1) = 0
   rw [finrank_structureSheafCohomology_eq_finrank_twistCohomology_neg K 2 1 2

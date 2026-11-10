@@ -99,21 +99,21 @@ theorem periodicLength_add_of_stable (φ ψ : Module.End R M) (hφψ : φ * ψ =
         K.mkQ (LinearMap.ext fun m ↦ by simp) (LinearMap.ext fun m ↦ by simp)
       zero := by
         ext i x
-        show K.mkQ (K.subtype x) = 0
+        change K.mkQ (K.subtype x) = 0
         simpa using x.2 }
   refine periodicLength_additive_of_shortExact S (.mk' ?_ ?_ ?_) (Or.inr (Or.inl ⟨hfinK, hfinQ⟩))
   · rw [HomologicalComplex.exact_iff_degreewise_exact]
     intro i
     refine (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr ?_
-    show Function.Exact K.subtype K.mkQ
+    change Function.Exact K.subtype K.mkQ
     exact LinearMap.exact_subtype_mkQ K
   · rw [HomologicalComplex.mono_iff_degreewise_mono]
     intro i
-    show Mono (ModuleCat.ofHom K.subtype)
+    change Mono (ModuleCat.ofHom K.subtype)
     exact ConcreteCategory.mono_of_injective _ K.injective_subtype
   · rw [HomologicalComplex.epi_iff_degreewise_epi]
     intro i
-    show Epi (ModuleCat.ofHom K.mkQ)
+    change Epi (ModuleCat.ofHom K.mkQ)
     exact ConcreteCategory.epi_of_surjective _ K.mkQ_surjective
 
 /-- Finite-length cohomology passes to a stable submodule, given it for the module and for the
@@ -137,21 +137,21 @@ theorem hasFiniteLengthHomology_restrict_of_stable
         K.mkQ (LinearMap.ext fun m ↦ by simp) (LinearMap.ext fun m ↦ by simp)
       zero := by
         ext i x
-        show K.mkQ (K.subtype x) = 0
+        change K.mkQ (K.subtype x) = 0
         simpa using x.2 }
   refine finiteLengthHomology_X1_of_shortExact S (.mk' ?_ ?_ ?_) hfinM hfinQ
   · rw [HomologicalComplex.exact_iff_degreewise_exact]
     intro i
     refine (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mpr ?_
-    show Function.Exact K.subtype K.mkQ
+    change Function.Exact K.subtype K.mkQ
     exact LinearMap.exact_subtype_mkQ K
   · rw [HomologicalComplex.mono_iff_degreewise_mono]
     intro i
-    show Mono (ModuleCat.ofHom K.subtype)
+    change Mono (ModuleCat.ofHom K.subtype)
     exact ConcreteCategory.mono_of_injective _ K.injective_subtype
   · rw [HomologicalComplex.epi_iff_degreewise_epi]
     intro i
-    show Epi (ModuleCat.ofHom K.mkQ)
+    change Epi (ModuleCat.ofHom K.mkQ)
     exact ConcreteCategory.epi_of_surjective _ K.mkQ_surjective
 
 end AlgebraicGeometry

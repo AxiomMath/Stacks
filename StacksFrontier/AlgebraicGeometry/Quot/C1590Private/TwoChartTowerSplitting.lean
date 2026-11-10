@@ -159,7 +159,7 @@ theorem exists_compatible_splitting (hf : ∀ n, Function.Surjective (f n))
     let K : ∀ k, Submodule (R k) (Fin m → R k) := fun k => LinearMap.ker (φ k)
     let redK : K (n + 1) →ₛₗ[f n] K n :=
       { toFun := fun w => ⟨reduceCoords f m n w.1, by
-          show φ n _ = 0
+          change φ n _ = 0
           rw [← hgφ, LinearMap.mem_ker.mp w.2, map_zero]⟩
         map_add' := fun _ _ => Subtype.ext (map_add _ _ _)
         map_smul' := fun _ _ => Subtype.ext (LinearMap.map_smulₛₗ _ _ _) }
@@ -169,7 +169,7 @@ theorem exists_compatible_splitting (hf : ∀ n, Function.Surjective (f n))
       exact ⟨⟨w', hw'⟩, Subtype.ext hred⟩
     let δ : M (n + 1) →ₛₗ[f n] K n :=
       { toFun := fun x => ⟨reduceCoords f m n (σ₀ x) - σn.1 (g n x), by
-          show φ n _ = 0
+          change φ n _ = 0
           rw [map_sub, ← hgφ]
           have h2 : φ n (σn.1 (g n x)) = g n x := congrArg (fun F => F (g n x)) σn.2
           rw [h1, h2, sub_self]⟩

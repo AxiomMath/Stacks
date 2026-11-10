@@ -410,7 +410,7 @@ theorem relativeHomOfBaseChange_comp_projection (q : Q' ⟶ Q)
       (pullback.fst q z) (pullback.fst q x)) :
     relativeHomOfBaseChange q H H' ≫ H.projection = H'.projection ≫ q := by
   ext T p
-  show H.projection.app T ((relativeHomOfBaseChange q H H').app T p) =
+  change H.projection.app T ((relativeHomOfBaseChange q H H').app T p) =
     q.app T (H'.projection.app T p)
   rw [H.projection_sections, sections_relativeHomOfBaseChange,
     RelativeMorphism.ofBaseChange_base, yonedaEquiv_comp, H'.projection_sections]
@@ -478,7 +478,7 @@ theorem relativeHomBaseChangeLift_comp (q : Q' ⟶ Q)
     relativeHomBaseChangeLift q H H' v a hva ≫ relativeHomOfBaseChange q H H' = v := by
   ext T w
   refine (H.sections T.unop).injective ?_
-  show H.sections T.unop ((relativeHomOfBaseChange q H H').app T
+  change H.sections T.unop ((relativeHomOfBaseChange q H H').app T
       ((relativeHomBaseChangeLift q H H' v a hva).app T w)) = H.sections T.unop (v.app T w)
   rw [sections_relativeHomOfBaseChange, sections_relativeHomBaseChangeLift,
     RelativeMorphism.ofBaseChange_baseChange]
@@ -492,7 +492,7 @@ theorem relativeHomBaseChangeLift_comp_projection (q : Q' ⟶ Q)
     (v : W ⟶ H.functor) (a : W ⟶ Q') (hva : v ≫ H.projection = a ≫ q) :
     relativeHomBaseChangeLift q H H' v a hva ≫ H'.projection = a := by
   ext T w
-  show H'.projection.app T ((relativeHomBaseChangeLift q H H' v a hva).app T w) = a.app T w
+  change H'.projection.app T ((relativeHomBaseChangeLift q H H' v a hva).app T w) = a.app T w
   rw [H'.projection_sections, sections_relativeHomBaseChangeLift,
     RelativeMorphism.baseChange_base, Equiv.apply_symm_apply]
 

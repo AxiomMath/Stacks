@@ -134,14 +134,14 @@ theorem generate_affineChartPresieve_mem (F : AlgebraicSpaces B S hS) {V : BigFp
     have e2 := Functor.map_comp_apply F.1 b.base.op h.op (yonedaEquiv A.obj.hom)
     refine e1.trans (Eq.trans ?_ e2.symm)
     exact congrArg _ (hga.symm.trans hba)
-  show F.1.map (e₂ ≫ h ≫ g.base).op a =
+  change F.1.map (e₂ ≫ h ≫ g.base).op a =
     F.1.map k.op (yonedaEquiv (yoneda.map (π j) ≫ A.obj.hom))
   rw [← yonedaEquiv_naturality]
   refine (Functor.map_comp_apply F.1 (h ≫ g.base).op e₂.op a).trans ?_
   rw [key]
   refine (Functor.map_comp_apply F.1 (h ≫ b.base).op e₂.op _).symm.trans ?_
   refine Eq.trans ?_ (Functor.map_comp_apply F.1 (π j).op k.op _)
-  show F.1.map (e₂ ≫ h ≫ b.base).op _ = F.1.map (k ≫ π j).op _
+  change F.1.map (e₂ ≫ h ≫ b.base).op _ = F.1.map (k ≫ π j).op _
   rw [hk]; rfl
 
 /-- The presieve of affine objects over which a point of an algebraic space `R` with a map to
@@ -173,6 +173,9 @@ private theorem yoneda_map_comp_eq_of_app_eq {R U : AlgebraicSpaces B S hS} (s :
     op_comp, Functor.map_comp_apply, ← hs,
     ← NatTrans.naturality_apply, hR, NatTrans.naturality_apply]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The two `simpa` calls building the pullback lifts need to synthesize limit instances on
+-- presheaves on `BigFppfOver`, which exceeds the default typeclass heartbeat budget.
 /-- A point of `R` whose images under `s` and `t` factor through the charts `W₁` and `W₂` factors
 fppf locally through affine étale charts of `R` carrying chart squares over `s` and `t`. -/
 theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R ⟶ U)
@@ -210,7 +213,6 @@ theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R �
     rw [op_comp, Functor.map_comp_apply, hk₀, ← Functor.map_comp_apply,
       ← op_comp]
   have hl₁ : yoneda.map (e₀ ≫ h₀ ≫ g₁) ≫ W₁.obj.hom = yoneda.map (e₀ ≫ k₀) ≫ gs := by
-    set_option synthInstance.maxHeartbeats 400000 in
     simpa using yoneda_map_comp_eq_of_app_eq B S hS s r (e₀ ≫ h₀) g₁ _ _ ι₀ hs hR₀
   let k₁ := rep₁.lift' (e₀ ≫ h₀ ≫ g₁) (e₀ ≫ k₀) hl₁
   have hk₁f : k₁ ≫ fst₁ = e₀ ≫ h₀ ≫ g₁ := rep₁.lift'_fst _ _ _
@@ -218,7 +220,6 @@ theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R �
   have hR₁ : R.1.map (e₀ ≫ h₀).op r = R.1.map k₁.op (yonedaEquiv ι₁) := by
     rw [hR₀, ← hk₁s, ← yonedaEquiv_naturality, op_comp, Functor.map_comp_apply]
   have hl₂ : yoneda.map (e₀ ≫ h₀ ≫ g₂) ≫ W₂.obj.hom = yoneda.map k₁ ≫ gt := by
-    set_option synthInstance.maxHeartbeats 400000 in
     simpa using yoneda_map_comp_eq_of_app_eq B S hS t r (e₀ ≫ h₀) g₂ _ _ ι₁ ht hR₁
   let k₂ := rep₂.lift' (e₀ ≫ h₀ ≫ g₂) k₁ hl₂
   have hk₂f : k₂ ≫ fst₂ = e₀ ≫ h₀ ≫ g₂ := rep₂.lift'_fst _ _ _
@@ -236,18 +237,18 @@ theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R �
   refine ⟨T'', e₁, e₂, ⟨hT'', hT'', ⟨_, hπj⟩, hO j, m, π j ≫ snd₂ ≫ fst₁, π j ≫ fst₂,
     ?_, ?_, ?_, ?_, ?_⟩, rfl⟩
   · have w₁' : yoneda.map snd₁ ≫ ι₀ ≫ s.hom = yoneda.map fst₁ ≫ W₁.obj.hom := w₁.symm
-    show (yoneda.map (π j) ≫ yoneda.map snd₂ ≫ yoneda.map snd₁ ≫ ι₀) ≫ s.hom = _
+    change (yoneda.map (π j) ≫ yoneda.map snd₂ ≫ yoneda.map snd₁ ≫ ι₀) ≫ s.hom = _
     simp only [Functor.map_comp, Category.assoc]
     rw [w₁']
   · have w₂' : yoneda.map snd₂ ≫ yoneda.map snd₁ ≫ ι₀ ≫ t.hom =
         yoneda.map fst₂ ≫ W₂.obj.hom := by
       rw [w₂]; simp only [gt, ι₁, Category.assoc]
-    show (yoneda.map (π j) ≫ yoneda.map snd₂ ≫ yoneda.map snd₁ ≫ ι₀) ≫ t.hom = _
+    change (yoneda.map (π j) ≫ yoneda.map snd₂ ≫ yoneda.map snd₁ ≫ ι₀) ≫ t.hom = _
     simp only [Functor.map_comp, Category.assoc]
     rw [w₂']
   · have e1 : yonedaEquiv ι₂ = R.1.map snd₂.op (yonedaEquiv ι₁) :=
       (yonedaEquiv_naturality ι₁ snd₂).symm
-    show _ = R.1.map m.op (yonedaEquiv (yoneda.map (π j) ≫ ι₂))
+    change _ = R.1.map m.op (yonedaEquiv (yoneda.map (π j) ≫ ι₂))
     rw [← yonedaEquiv_naturality ι₂ (π j), e1, op_comp, Functor.map_comp_apply, hR₁,
       ← hk₂s, op_comp, Functor.map_comp_apply, ← Functor.map_comp_apply,
       ← op_comp, hm, op_comp, Functor.map_comp_apply]

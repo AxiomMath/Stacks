@@ -294,7 +294,7 @@ inclusion of irrelevant ideals that makes the standard opens `D₊(ψ f)` cover 
 theorem projMapDomain_psi_eq_top : mapDomain 𝒜 ℬ c.psi = ⊤ := by
   rw [mapDomain_eq_top_iff_irrelevant_le_radical]
   refine (HomogeneousIdeal.irrelevant_le ℬ).mpr fun i hi g hg => ?_
-  show g ∈ (((HomogeneousIdeal.irrelevant 𝒜).map c.psi).radical).toIdeal
+  change g ∈ (((HomogeneousIdeal.irrelevant 𝒜).map c.psi).radical).toIdeal
   rw [HomogeneousIdeal.coe_radical, HomogeneousIdeal.toIdeal_map,
     HomogeneousIdeal.irrelevant_eq_span, Ideal.map_span]
   exact c.psi_pow i hi g hg
@@ -475,7 +475,7 @@ theorem range_zeroSection :
   constructor
   · rintro ⟨p, rfl⟩ d f hd hf
     rw [asHomogeneousIdeal_zeroSection]
-    show c.tau (c.sigma f : B) ∈ p.asHomogeneousIdeal
+    change c.tau (c.sigma f : B) ∈ p.asHomogeneousIdeal
     rw [c.tau_sigma f, GradedRing.projZeroRingHom_apply,
       DirectSum.decompose_of_mem_ne 𝒜 hf (Nat.pos_iff_ne_zero.mp hd)]
     exact zero_mem _

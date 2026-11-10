@@ -17,7 +17,7 @@ type, with `X` and `Y` quasi-compact and quasi-separated. Then `f` factors as a 
 ## Main results
 
 * Stacks 0872, assuming absolute Noetherian approximation over `Spec ℤ` (Stacks 07SU), is
-`exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherianApproximation`
+`exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherian`
   in the namespace `AlgebraicGeometry.Space`.
 
 ## Implementation notes
@@ -156,20 +156,20 @@ private theorem exists_mono_isFinitePresentation_fac_of_relocalize
     rfl
   let Wov : Over (yoneda.obj (Over.mk g)) := Over.mk (p ≫ ι.inv.app Y ≫ (E'.functor.obj Y).hom)
   let qov : E'.functor.obj X ⟶ Wov := Over.homMk (ι.hom.app X ≫ q) (by
-    show (ι.hom.app X ≫ q) ≫ p ≫ ι.inv.app Y ≫ (E'.functor.obj Y).hom =
+    change (ι.hom.app X ≫ q) ≫ p ≫ ι.inv.app Y ≫ (E'.functor.obj Y).hom =
       (E'.functor.obj X).hom
     rw [← Over.w (E'.functor.map f), ← hιf, ← hqp]
     simp only [Category.assoc])
   let pov : Wov ⟶ E'.functor.obj Y := Over.homMk (p ≫ ι.inv.app Y) (Category.assoc _ _ _)
   have hqp' : qov ≫ pov = E'.functor.map f := by
     apply Over.OverMorphism.ext
-    show (ι.hom.app X ≫ q) ≫ p ≫ ι.inv.app Y = (E'.functor.map f).left
+    change (ι.hom.app X ≫ q) ≫ p ≫ ι.inv.app Y = (E'.functor.map f).left
     rw [← hιf, ← hqp]
     simp only [Category.assoc]
   let qS : X ⟶ E'.inverse.obj Wov := E'.unitIso.hom.app X ≫ E'.inverse.map qov
   let pS : E'.inverse.obj Wov ⟶ Y := E'.inverse.map pov ≫ E'.unitIso.inv.app Y
   have hqpS : qS ≫ pS = f := by
-    show (E'.unitIso.hom.app X ≫ E'.inverse.map qov) ≫ E'.inverse.map pov ≫
+    change (E'.unitIso.hom.app X ≫ E'.inverse.map qov) ≫ E'.inverse.map pov ≫
       E'.unitIso.inv.app Y = f
     rw [Category.assoc, ← Category.assoc (E'.inverse.map qov), ← Functor.map_comp, hqp',
       Equivalence.inv_fun_map]
@@ -230,7 +230,7 @@ an absolute Noetherian approximation (`h07SU`, also the one input of the staged 
 a morphism `f : X ⟶ Y` of algebraic spaces over `S`, locally of finite type, with `X` and `Y`
 quasi-compact and quasi-separated, factors as a closed immersion `i : X ⟶ X'` followed by a
 morphism `f' : X' ⟶ Y` of finite presentation. -/
-theorem exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherianApproximation
+theorem exists_isFinitePresentation_isClosedImmersion_of_isLocallyOfFiniteType_of_noetherian
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hft : IsLocallyOfFiniteType B S hS f)

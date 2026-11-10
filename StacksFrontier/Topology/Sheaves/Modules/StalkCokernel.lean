@@ -111,7 +111,7 @@ This is what makes the descended map of stalks of
 zero morphisms, so the stalk maps still compose to zero. -/
 theorem stalkMap_comp_eq_zero {f : A ⟶ B} {φ : B ⟶ N} (h : f ≫ φ = 0) :
     stalkMap 𝒪 x f ≫ stalkMap 𝒪 x φ = 0 := by
-  show (stalkFunctor 𝒪 x).map f ≫ (stalkFunctor 𝒪 x).map φ = 0
+  change (stalkFunctor 𝒪 x).map f ≫ (stalkFunctor 𝒪 x).map φ = 0
   rw [← Functor.map_comp, h, Functor.map_zero]
 
 /-- **The stalk of a map descended to a cokernel is the descent of the stalk map.** Read
@@ -131,7 +131,7 @@ theorem stalkMap_cokernelDesc (f : A ⟶ B) (φ : B ⟶ N) (h : f ≫ φ = 0) :
   have hepi : Epi (stalkMap 𝒪 x (cokernel.π f)) := by rw [hfac]; infer_instance
   rw [← cancel_epi (stalkMap 𝒪 x (cokernel.π f)),
     stalkMap_π_comp_stalkObjCokernelIso_hom_assoc, cokernel.π_desc]
-  show (stalkFunctor 𝒪 x).map (cokernel.π f) ≫ (stalkFunctor 𝒪 x).map (cokernel.desc f φ h) = _
+  change (stalkFunctor 𝒪 x).map (cokernel.π f) ≫ (stalkFunctor 𝒪 x).map (cokernel.desc f φ h) = _
   rw [← Functor.map_comp, cokernel.π_desc]
   rfl
 
@@ -149,7 +149,7 @@ theorem isIso_cokernelDesc_iff_forall_isIso_stalk (f : A ⟶ B) (φ : B ⟶ N) (
       IsIso (cokernel.desc (stalkMap 𝒪 x f) (stalkMap 𝒪 x φ) (stalkMap_comp_eq_zero 𝒪 x h)) := by
   rw [isIso_iff_forall_isIso_stalkFunctor_map]
   refine forall_congr' fun x => ?_
-  show IsIso (stalkMap 𝒪 x (cokernel.desc f φ h)) ↔ _
+  change IsIso (stalkMap 𝒪 x (cokernel.desc f φ h)) ↔ _
   rw [stalkMap_cokernelDesc, isIso_comp_left_iff]
 
 /-- **An elementwise criterion for a map out of a cokernel of sheaves of modules to be an

@@ -117,6 +117,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- discrete limits of presheaves on the big fppf site are not found within the default budget
 /-- Products of presheaves on the big fppf site over `S` (instance search times out without this
 shortcut). -/
 private instance (priority := high) hasLimitsOfShape_discrete_relativeProjHomBaseChange
@@ -158,13 +159,13 @@ theorem sectionOfPoint_eq_comp_projComparison (T : BigFppfOver B S hS) (f : yone
         ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ r) h1).trans (Category.id_comp r))))
   have key : (ρ.quadrupleRelativeProjPoints hc hX).pointEquivOver T f r ⟨u, hu⟩ =
       ⟨s' ≫ ρ.projComparison hc f r, hs⟩ := by
-    rw [Equiv.apply_eq_iff_eq_symm_apply]
+    rw [← Equiv.eq_symm_apply]
     apply Subtype.ext
-    show u = yoneda.map (s' ≫ ρ.projComparison hc f r) ≫ ρ.projToQuadrupleSpace hc hX f
+    change u = yoneda.map (s' ≫ ρ.projComparison hc f r) ≫ ρ.projToQuadrupleSpace hc hX f
     exact h2.symm.trans (((congrArg (yoneda.map s' ≫ ·)
       (ρ.projToQuadrupleSpace_comp hc hX f r)).symm.trans (Category.assoc _ _ _).symm).trans
         (congrArg (· ≫ ρ.projToQuadrupleSpace hc hX f) (Functor.map_comp _ _ _).symm))
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
       ((ρ.quadrupleRelativeProjPoints hc hX).pointEquivOver T f r ⟨u, hu⟩).1 ≫ 𝟙 _ =
     ((BigFppfOver.toScheme B S hS).map s' ≫ 𝟙 _) ≫ _
   rw [key, Category.comp_id, Category.comp_id]
@@ -265,7 +266,7 @@ theorem isDefinedOn_iff_isDefinedOn_restrict (T : BigFppfOver B S hS) (f : yoned
         α T f r u hu ↔
       IsDefinedOn (ρA.quadrupleRelativeProjPoints hcA hX) (ρB.quadrupleRelativeProjPoints hcB hX)
         α T' (yoneda.map r ≫ f) (𝟙 T') u hu' := by
-  show _ ⁻¹ᵁ _ = ⊤ ↔ _ ⁻¹ᵁ _ = ⊤
+  change _ ⁻¹ᵁ _ = ⊤ ↔ _ ⁻¹ᵁ _ = ⊤
   rw [sectionOfPoint_eq_comp_projComparison ρB hcB hX T f r u hu hu']
   exact Iff.of_eq (congrArg (· = ⊤) ((Scheme.Hom.comp_preimage _ _ _).trans
     (congrArg _ (preimage_relativeMapDomain_projComparison ρA ρB hcB α hα f r))))

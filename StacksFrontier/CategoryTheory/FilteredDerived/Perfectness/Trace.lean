@@ -175,7 +175,7 @@ private lemma alternatingTrace_eq_of_homotopy (R : Type u) [Ring R]
           let : Module.Finite R (P.X (i + 1)) := (hP.2 (i + 1)).2
           simpa [traceAt] using projectiveModuleTrace_cyclic R (P.X i) (P.X (i + 1))
             (P.d i (i + 1)).hom (H.hom (i + 1) i).hom
-        show (if Even i then traceAt R P hP i (dNext i H.hom)
+        change (if Even i then traceAt R P hP i (dNext i H.hom)
           else -traceAt R P hP i (dNext i H.hom)) =
           -(if Even (i + 1) then traceAt R P hP (i + 1) (prevD (i + 1) H.hom)
             else -traceAt R P hP (i + 1) (prevD (i + 1) H.hom))
@@ -195,7 +195,7 @@ private lemma alternatingTrace_eq_of_homotopy (R : Type u) [Ring R]
     · simp only [T, A, B, signedDegreeTrace, signedTraceAt, ite_eq_right hi]
       rw [htrace]
       rw [neg_add, neg_add]
-  show (∑ᶠ i : ℤ, T f i) = ∑ᶠ i : ℤ, T g i
+  change (∑ᶠ i : ℤ, T f i) = ∑ᶠ i : ℤ, T g i
   rw [finsum_eq_finsetSum_of_support_subset _ hTf,
     finsum_eq_finsetSum_of_support_subset _ hTg]
   calc
@@ -221,7 +221,7 @@ private lemma alternatingTrace_cyclic (R : Type u) [Ring R]
     (a : P ⟶ Q) (b : Q ⟶ P) :
     alternatingTrace R P hP (a ≫ b) = alternatingTrace R Q hQ (b ≫ a) := by
   classical
-  show (∑ᶠ i : ℤ, signedDegreeTrace R P hP (a ≫ b) i) =
+  change (∑ᶠ i : ℤ, signedDegreeTrace R P hP (a ≫ b) i) =
     ∑ᶠ i : ℤ, signedDegreeTrace R Q hQ (b ≫ a) i
   apply finsum_congr
   intro i
@@ -307,7 +307,7 @@ public theorem perfectDerivedTrace_eq_alternatingTrace (R : Type u) [Ring R]
   obtain ⟨vH, hvH⟩ := (CochainComplex.IsKProjective.Qh_map_bijective P q0).surjective
     (α.hom ≫ α0.inv)
   have hconj : α.inv ≫ (DerivedCategory.Qh).map (Q.map g) ≫ α.hom = f := by
-    show (e.inv ≫ (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).inv.app P) ≫
+    change (e.inv ≫ (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).inv.app P) ≫
         (DerivedCategory.Qh).map (Q.map g) ≫
         ((DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.app P ≫ e.hom) = f
     simp only [Category.assoc]
@@ -330,12 +330,12 @@ public theorem perfectDerivedTrace_eq_alternatingTrace (R : Type u) [Ring R]
   have hu : Q.map u = uH := by simp [u]
   have hv : Q.map v = vH := by simp [v]
   have h0 : Homotopy g0 (u ≫ g ≫ v) := HomotopyCategory.homotopyOfEq _ _ <| by
-    show Q.map g0 = Q.map (u ≫ g ≫ v)
+    change Q.map g0 = Q.map (u ≫ g ≫ v)
     rw [hg0, Q.map_comp, Q.map_comp, hu, hv, hconjH]
   have hHomVU : Homotopy (v ≫ u) (𝟙 P) := HomotopyCategory.homotopyOfEq _ _ <| by
-    show Q.map (v ≫ u) = Q.map (𝟙 P)
+    change Q.map (v ≫ u) = Q.map (𝟙 P)
     rw [Q.map_comp, Q.map_id, hv, hu, hVU]
-  show alternatingTrace R P0 hP0 g0 = alternatingTrace R P hP g
+  change alternatingTrace R P0 hP0 g0 = alternatingTrace R P hP g
   calc
     alternatingTrace R P0 hP0 g0 = alternatingTrace R P0 hP0 (u ≫ g ≫ v) :=
       alternatingTrace_eq_of_homotopy R P0 hP0 h0

@@ -61,12 +61,12 @@ the two vertical functors, the mate of the comparison of the two horizontal left
 the first face, the back 2-cell and the second vertical comparison compose to the front 2-cell
 followed by the mate over the second face. -/
 theorem cubeFaces_of_app
-    (h : ∀ d : D, σG.app (R₁.obj d) ≫ G'.map ((mateEquiv adj₁ adj₁' τ₁).natTrans.app d) ≫
-          β'.natTrans.app (ΦD.obj d) ≫ R₂'.map (σH.app d) =
-        ΦE.map (β.natTrans.app d) ≫ (mateEquiv adj₂ adj₂' τ₂).natTrans.app (H.obj d)) :
+    (h : ∀ d : D, σG.app (R₁.obj d) ≫ G'.map ((mateEquiv adj₁ adj₁' τ₁).app d) ≫
+          β'.app (ΦD.obj d) ≫ R₂'.map (σH.app d) =
+        ΦE.map (β.app d) ≫ (mateEquiv adj₂ adj₂' τ₂).app (H.obj d)) :
     ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂ := by
-  refine TwoSquare.ext _ _ fun d ↦ ?_
+  refine NatTrans.ext (funext fun d ↦ ?_)
   simp only [TwoSquare.vComp, TwoSquare.whiskerRight, TwoSquare.whiskerLeft, NatTrans.comp_app,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.associator_inv_app, Category.id_comp, Category.comp_id, Category.assoc]
@@ -77,12 +77,12 @@ with the cube hypothesis read on components.  This is
 `Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms` composed with
 `Stacks.CategoryTheory.cubeFaces_of_app`. -/
 theorem isIso_mateEquiv_symm_of_app (hΦF : ΦF.ReflectsIsomorphisms)
-    (hτ₁ : IsIso τ₁.natTrans) (hτ₂ : IsIso τ₂.natTrans) (hσG : IsIso σG) (hσH : IsIso σH)
-    (hβ' : IsIso ((mateEquiv adj₁' adj₂').symm β').natTrans)
-    (h : ∀ d : D, σG.app (R₁.obj d) ≫ G'.map ((mateEquiv adj₁ adj₁' τ₁).natTrans.app d) ≫
-          β'.natTrans.app (ΦD.obj d) ≫ R₂'.map (σH.app d) =
-        ΦE.map (β.natTrans.app d) ≫ (mateEquiv adj₂ adj₂' τ₂).natTrans.app (H.obj d)) :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    (hτ₁ : IsIso τ₁) (hτ₂ : IsIso τ₂) (hσG : IsIso σG) (hσH : IsIso σH)
+    (hβ' : IsIso ((mateEquiv adj₁' adj₂').symm β'))
+    (h : ∀ d : D, σG.app (R₁.obj d) ≫ G'.map ((mateEquiv adj₁ adj₁' τ₁).app d) ≫
+          β'.app (ΦD.obj d) ≫ R₂'.map (σH.app d) =
+        ΦE.map (β.app d) ≫ (mateEquiv adj₂ adj₂' τ₂).app (H.obj d)) :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   have := hΦF
   have := hτ₁
   have := hτ₂

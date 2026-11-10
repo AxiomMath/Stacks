@@ -46,8 +46,8 @@ statements apply at the locally small model on which `Stacks.Duality.upperShriek
 derived categories of a ring and of an affine open are read at `HasDerivedCategory.standard`,
 which is the instance sealed inside the body of `Stacks.Duality.HasDualizingModelOn`. The local
 attribute carries priority `10000` because the import closure reaches
-`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, whose `HasDerivedCategory` instances are
-global and would otherwise displace that choice for those two categories; the binder for
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, whose `HasDerivedCategory` instances
+are global and would otherwise displace that choice for those two categories; the binder for
 `D(𝒪_X)` is a local hypothesis and takes precedence over both.
 
 The gluing of the local models is [Stacks, Tag 0A86],

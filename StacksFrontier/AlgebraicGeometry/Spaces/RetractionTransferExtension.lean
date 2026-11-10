@@ -78,7 +78,6 @@ variable {X₀ X₁ X₂ : AlgebraicSpaces B S hS}
   (ψ₁ : (modulePullback B S hS i₁).obj F₁ ≅ G) (ψ₂ : (modulePullback B S hS i₂).obj F₂ ≅ G)
   (hF₁ : F₁.IsQuasicoherentOnSite) (hF₂ : F₂.IsQuasicoherentOnSite)
 
-include hs₁ hs₂ in
 /-- **The transfer is compatible with the projections to `𝒢`.** -/
 theorem transferMap_comp_retractionProjection (h : X₂ ⟶ X₁) (hr : h ≫ r₁ = r₂)
     (hih : i₂ ≫ h = i₁) (θ : (modulePullback B S hS h).obj F₁ ⟶ F₂)
@@ -134,12 +133,12 @@ theorem extensionClass_retractionCopowerExtension_transfer (f : M₁ ⟶ M₂) (
   have := epi_retractionProjection B S hS F₁ G ψ₁ hF₁ hs₁
   refine CopowerExtension.extensionClass_comp_mk₀_map _ _ f
     (transferMap B S hS r₁ hrep₁ r₂ hrep₂ h hr θ)
-    (transferMap_comp_retractionProjection B S hS hs₁ hs₂ ψ₁ ψ₂ h hr hih θ hψ) (fun v => ?_)
+    (transferMap_comp_retractionProjection B S hS ψ₁ ψ₂ h hr hih θ hψ) (fun v => ?_)
   rw [retractionCopowerExtension_μ, retractionCopowerExtension_μ]
   exact comp_eq_of_epi_of_comm this _
     (retractionProjection_comp_factor B S hS F₁ G ψ₁ hF₁ hs₁ v)
     (transferMap_comp_globalSmul B S hS r₁ hrep₁ r₂ hrep₂ h hr θ _ _ (fun U => hι U v))
-    (transferMap_comp_retractionProjection B S hS hs₁ hs₂ ψ₁ ψ₂ h hr hih θ hψ)
+    (transferMap_comp_retractionProjection B S hS ψ₁ ψ₂ h hr hih θ hψ)
     (retractionProjection_comp_factor B S hS F₂ G ψ₂ hF₂ hs₂ (f.hom.hom v))
 
 end Transfer

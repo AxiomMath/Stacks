@@ -160,7 +160,7 @@ lemma linearRestriction_app_apply {Z W : Opens X.carrier} (h : Z ≤ W)
 lemma linearRestriction_id (W : Opens X.carrier) :
     linearRestriction X (le_refl W) = 𝟙 (linearSections X W) := by
   ext M x
-  show M.val.map (𝟙 (op W)) x = x
+  change M.val.map (𝟙 (op W)) x = x
   simp only [PresheafOfModules.map_id]
   rfl
 
@@ -169,7 +169,7 @@ lemma linearRestriction_id (W : Opens X.carrier) :
 lemma linearRestriction_comp {Y Z W : Opens X.carrier} (h : Y ≤ Z) (h' : Z ≤ W) :
     linearRestriction X h' ≫ linearRestriction X h = linearRestriction X (h.trans h') := by
   ext M x
-  show M.val.map (homOfLE h).op (M.val.map (homOfLE h').op x) =
+  change M.val.map (homOfLE h).op (M.val.map (homOfLE h').op x) =
     M.val.map (homOfLE (h.trans h')).op x
   exact (PresheafOfModules.map_comp_apply M.val (homOfLE h').op (homOfLE h).op x).symm
 
@@ -231,7 +231,7 @@ lemma derivedLinearRestriction_comp {Y Z W : Opens X.carrier} (h : Y ≤ Z) (h' 
 lemma fromTop_top :
     (fromTop X ⊤).hom = RingHom.id ((structureSheafRing X).obj.obj (op (⊤ : Opens X.carrier))) := by
   have h : (homOfLE (le_top : (⊤ : Opens X.carrier) ≤ ⊤)).op = 𝟙 (op (⊤ : Opens X.carrier)) := rfl
-  show ((structureSheafRing X).obj.map (homOfLE (le_top : (⊤ : Opens X.carrier) ≤ ⊤)).op).hom = _
+  change ((structureSheafRing X).obj.map (homOfLE (le_top : (⊤ : Opens X.carrier) ≤ ⊤)).op).hom = _
   rw [h, (structureSheafRing X).obj.map_id]
   rfl
 

@@ -120,6 +120,7 @@ universe u w
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_SmoothLocus :
@@ -511,7 +512,7 @@ theorem spacePointMap_pointsMap_associatedMap {F G : (BigFppfOver B S hS)ᵒᵖ 
         (spacePointMap B S hS F (fibredCategory B S hS F) (BasedFunctor.id _) x) := by
   induction x using Quot.inductionOn with
   | h p =>
-    show spacePointMap B S hS G _ _ ((Space.FieldValuedPoint.map B S hS F φ p).class B S hS G) =
+    change spacePointMap B S hS G _ _ ((Space.FieldValuedPoint.map B S hS F φ p).class B S hS G) =
       pointsMap B S hS _ _ _ _ (spacePointMap B S hS F _ _ (p.class B S hS F))
     rw [spacePointMap_class, spacePointMap_class, pointsMap_class]
     have hobj : (associatedMap B S hS φ).1.hom.obj (spaceFieldValuedPoint B S hS F p).obj =
@@ -607,7 +608,7 @@ theorem range_pointsMap_subset_maximalSmoothOpen {U V : (BigFppfOver B S hS)ᵒ�
   obtain ⟨i, hi⟩ := hgs
   refine ⟨spacePointMap B S hS N.toFunctor (fibredCategory B S hS N.toFunctor)
     (BasedFunctor.id _) (Space.pointsMap B S hS Im.toFunctor (Subfunctor.homOfLe hle) i), ?_⟩
-  show pointsMap B S hS _ _ _ (associatedMap B S hS N.ι).1.hom _ =
+  change pointsMap B S hS _ _ _ (associatedMap B S hS N.ι).1.hom _ =
     AlgebraicStacks.pointsMap B S hS ψ (AlgebraicStacks.pointsMap B S hS γ _)
   rw [← spacePointMap_pointsMap_associatedMap, ← Space.pointsMap_comp_apply,
     Subfunctor.homOfLe_ι, hi, spacePointMap_pointsMap_associatedMap,

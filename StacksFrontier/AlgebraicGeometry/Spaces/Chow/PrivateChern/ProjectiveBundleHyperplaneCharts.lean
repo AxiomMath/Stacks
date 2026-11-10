@@ -193,7 +193,7 @@ theorem exists_affine_etale_chart_hyperplaneChain [E.IsQuasicoherentOnSite] (d :
   have h3 : 𝒯.map (j ≫ b) ⟨v, hvW⟩ = 𝒯.map b v := by
     rw [Functor.map_comp, hj]
     rfl
-  show pointsMap D.site D.base D.base_mem _ (yoneda.map (j ≫ b) ≫ ψ) _ = y
+  change pointsMap D.site D.base D.base_mem _ (yoneda.map (j ≫ b) ≫ ψ) _ = y
   rw [pointsMap_comp, Function.comp_apply, h1, h3, ← h2, hv1', hv1, hy1]
 
 /-- **The base change of the projective bundle to a chart over the presenting chart.** For an
@@ -369,7 +369,7 @@ theorem chart_properties {Y P : D.Ambient} {sP : P ⟶ D.space} (hP : D.IsGood s
     (g : yoneda.obj Wst ⟶ Y) (hge : IsEtale D.site D.base D.base_mem g) {QW : D.Ambient}
     (hQW : IsAlgebraicSpace D.site D.base D.base_mem QW) (g' : QW ⟶ pullback f π)
     (qW : QW ⟶ yoneda.obj Wst) (hsq : IsPullback g' qW (pullback.fst f π) g) :
-    ∃ (hW : D.IsGood (g ≫ sY)) (hQW' : D.IsGood (qW ≫ g ≫ sY)),
+    D.IsGood (g ≫ sY) ∧ D.IsGood (qW ≫ g ≫ sY) ∧
       IsProper D.site D.base D.base_mem qW ∧ IsFlat D.site D.base D.base_mem qW ∧
       HasRelativeDimension d D.site D.base D.base_mem qW ∧ IsFlat D.site D.base D.base_mem g' ∧
       HasRelativeDimension 0 D.site D.base D.base_mem g' := by

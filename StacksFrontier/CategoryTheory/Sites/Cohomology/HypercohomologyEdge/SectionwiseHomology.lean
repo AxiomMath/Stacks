@@ -168,7 +168,7 @@ theorem isIso_homologyComparison_app_of_isIso_toSheafify_app
     rw [Adjunction.homEquiv_counit]
     have := isIso_presheafToSheaf_map_homologyComparison O K q
     infer_instance
-  show IsIso (f.app (op U))
+  change IsIso (f.app (op U))
   rw [hf, NatTrans.comp_app]
   exact IsIso.comp_isIso' h inferInstance
 
@@ -206,7 +206,7 @@ theorem isIso_toSheafify_app_of_acyclic_cover
   let P' := (DerivedCategory.homologyFunctor (PresheafOfModules.{w} O.obj) q).obj
     ((derivedSectionsPresheaf O).obj K)
   have h₁ : IsIso ((toSheafify J P'.presheaf).app (op U)) := by
-    show IsIso (((PresheafOfModules.toPresheaf O.obj).map
+    change IsIso (((PresheafOfModules.toPresheaf O.obj).map
       ((PresheafOfModules.sheafificationAdjunction (𝟙 O.obj)).unit.app P')).app (op U))
     exact @Functor.map_isIso _ _ _ _ _ _
       (forget₂ (ModuleCat.{w} (O.obj.obj (op U))) AddCommGrpCat.{w}) _ hedge

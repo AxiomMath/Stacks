@@ -194,7 +194,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
       map_admissible_sequence e0.symm.toLinearMap
         (fun j ↦ z.1 (Fin.cast hlenKQ.symm j)) hzcast⟩
   have hwφspan : Submodule.span R (Set.range wφ.1) = ⊤ := by
-    show Submodule.span R
+    change Submodule.span R
       (Set.range (e0.symm ∘ fun j ↦ z.1 (Fin.cast hlenKQ.symm j))) = ⊤
     exact span_top_map_linearEquiv
       (fun j ↦ z.1 (Fin.cast hlenKQ.symm j)) hzcastspan e0.symm
@@ -223,7 +223,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
       map_admissible_sequence e1.symm.toLinearMap
         (fun j ↦ z.1 (Fin.cast hlenKQ.symm j)) hzcast⟩
   have hwψspan : Submodule.span R (Set.range wψ.1) = ⊤ := by
-    show Submodule.span R
+    change Submodule.span R
       (Set.range (e1.symm ∘ fun j ↦ z.1 (Fin.cast hlenKQ.symm j))) = ⊤
     exact span_top_map_linearEquiv
       (fun j ↦ z.1 (Fin.cast hlenKQ.symm j)) hzcastspan e1.symm
@@ -289,7 +289,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     let q := Fin.cast hlenφ j
     have hq : Fin.cast hlenφ.symm q = j := by simp [q]
     rw [← hq]
-    show φ (Fin.append zφpre tailPreφ q) =
+    change φ (Fin.append zφpre tailPreφ q) =
       (Fin.append (fun i ↦ iKφ (z.1 i)) liftφ q : A)
     refine Fin.addCases ?_ ?_ q
     · intro i
@@ -304,7 +304,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     let q := Fin.cast hlenψ j
     have hq : Fin.cast hlenψ.symm q = j := by simp [q]
     rw [← hq]
-    show ψ (Fin.append zψpre tailPreψ q) =
+    change ψ (Fin.append zψpre tailPreψ q) =
       (Fin.append (fun i ↦ iKψ (z.1 i)) liftψ q : B)
     refine Fin.addCases ?_ ?_ q
     · intro i
@@ -326,7 +326,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     let q := Fin.cast hlenA' j
     have hq : Fin.cast hlenA'.symm q = j := by simp [q]
     rw [← hq]
-    show φ' (Fin.append (fun i => α (tailPreφ i)) wrepφ q) =
+    change φ' (Fin.append (fun i => α (tailPreφ i)) wrepφ q) =
       (Fin.append (fun i ↦ Tφ.subtype (tφ.1 i)) liftQφ q : A')
     refine Fin.addCases ?_ ?_ q
     · intro i
@@ -342,7 +342,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     let q := Fin.cast hlenB' j
     have hq : Fin.cast hlenB'.symm q = j := by simp [q]
     rw [← hq]
-    show ψ' (Fin.append (fun i => α (tailPreψ i)) wrepψ q) =
+    change ψ' (Fin.append (fun i => α (tailPreψ i)) wrepψ q) =
       (Fin.append (fun i ↦ Tψ.subtype (tψ.1 i)) liftQψ q : B')
     refine Fin.addCases ?_ ?_ q
     · intro i
@@ -445,7 +445,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
       simp [tailRight]
   have hprezero (i : Fin (moduleLength R K)) : qN (preK i) = 0 := by
     apply Subtype.ext
-    show α (K.subtype (z.1 i)) = 0
+    change α (K.subtype (z.1 i)) = 0
     exact LinearMap.mem_ker.mp (z.1 i).property
   have hadmTailLeft : IsAdmissibleSequence (R := R) (qN ∘ tailLeft) := by
     have hconcat : IsAdmissibleSequence (R := R) (Fin.append preK tailLeft) := by
@@ -473,7 +473,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     exact append_spans_of_exact A.subtype pψ hip hpp hex
       x.1 y.1 yLift (by intro j; exact Subtype.ext (hyLift j)) hxspan hyspan
   have hsourceLeftSpan : Submodule.span R (Set.range sourceLeft.1) = ⊤ := by
-    show Submodule.span R (Set.range
+    change Submodule.span R (Set.range
       (fun j ↦ Fin.append (fun i ↦ (x.1 i : M)) yLift (Fin.cast hsrcLlen j))) = ⊤
     exact span_top_append_cast hsrcLlen (fun i ↦ (x.1 i : M)) yLift hsourceLeftRawSpan
   have hsourceRightRawSpan : Submodule.span R
@@ -488,7 +488,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     exact append_spans_of_exact B.subtype pφ hip hpp hex
       y.1 x.1 xLift (by intro j; exact Subtype.ext (hxLift j)) hyspan hxspan
   have hsourceRightSpan : Submodule.span R (Set.range sourceRight.1) = ⊤ := by
-    show Submodule.span R (Set.range
+    change Submodule.span R (Set.range
       (fun j ↦ Fin.append (fun i ↦ (y.1 i : M)) xLift (Fin.cast hsrcRlen j))) = ⊤
     exact span_top_append_cast hsrcRlen (fun i ↦ (y.1 i : M)) xLift hsourceRightRawSpan
   have hkernelConcatLeftSpan : Submodule.span R
@@ -500,11 +500,11 @@ theorem periodicDeterminant_eq_det_connecting_mul
     have hcast := span_top_sequence_cast hlenKMN.symm sourceRight.1 hsourceRightSpan
     simpa [hdecompRight] using hcast
   have hnLeftSpan : Submodule.span R (Set.range nLeft.1) = ⊤ := by
-    show Submodule.span R (Set.range (qN ∘ tailLeft)) = ⊤
+    change Submodule.span R (Set.range (qN ∘ tailLeft)) = ⊤
     exact append_tail_spans_of_surjective qN hqN preK tailLeft
       hprezero hkernelConcatLeftSpan
   have hnRightSpan : Submodule.span R (Set.range nRight.1) = ⊤ := by
-    show Submodule.span R (Set.range (qN ∘ tailRight)) = ⊤
+    change Submodule.span R (Set.range (qN ∘ tailRight)) = ⊤
     exact append_tail_spans_of_surjective qN hqN preK tailRight
       hprezero hkernelConcatRightSpan
   have hnLeft0 : symbol nLeft ≠ 0 := symbol_ne_zero_of_span_top hN nLeft hnLeftSpan
@@ -700,7 +700,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     apply congrArg symbol
     apply Subtype.ext
     funext a
-    show Fin.append (fun b ↦ α (tailLeft b)) wrepψ (Fin.cast hlenTargetLeft a) =
+    change Fin.append (fun b ↦ α (tailLeft b)) wrepψ (Fin.cast hlenTargetLeft a) =
       Fin.append (fun b ↦ (x'.1 b : M')) yLift' (Fin.cast htgtLlen a)
     rw [htailLeftDecomp]
     let q := Fin.cast hlenTargetLeft a
@@ -765,7 +765,7 @@ theorem periodicDeterminant_eq_det_connecting_mul
     apply congrArg symbol
     apply Subtype.ext
     funext a
-    show Fin.append (fun b ↦ α (tailRight b)) wrepφ (Fin.cast hlenTargetRight a) =
+    change Fin.append (fun b ↦ α (tailRight b)) wrepφ (Fin.cast hlenTargetRight a) =
       Fin.append (fun b ↦ (y'.1 b : M')) xLift' (Fin.cast htgtRlen a)
     rw [htailRightDecomp]
     let q := Fin.cast hlenTargetRight a
@@ -906,12 +906,12 @@ theorem periodicDeterminant_eq_det_connecting_mul
     ring
   have hsign : ((-1 : κ) ^ (moduleLength R A' * moduleLength R B')) ≠ 0 := by simp
   have hcRatio : c'⁻¹ * c = (D' : κ)⁻¹ * (D : κ) := by
-    show (((-1 : κ) ^ (moduleLength R A' * moduleLength R B')) * (D' : κ))⁻¹ *
+    change (((-1 : κ) ^ (moduleLength R A' * moduleLength R B')) * (D' : κ))⁻¹ *
       (((-1 : κ) ^ (moduleLength R A * moduleLength R B)) * (D : κ)) =
         (D' : κ)⁻¹ * (D : κ)
     rw [hlenAB, mul_inv, mul_mul_mul_comm, inv_mul_cancel₀ hsign, one_mul]
   apply Units.ext
-  show (D : κ) = (determinantAutomorphism f hQ : κ) * (D' : κ)
+  change (D : κ) = (determinantAutomorphism f hQ : κ) * (D' : κ)
   rw [hdetScalar, hcRatio]
   field_simp
 

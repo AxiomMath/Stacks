@@ -38,8 +38,8 @@ the triangle it produces rather than on a triangle of its own.
 ## Implementation notes
 
 The mathematics is the long exact sequence of the triangle in cohomology together with closure of
-the quasi-coherent modules under kernels, cokernels and extensions, and both halves are in the library:
-the closure is
+the quasi-coherent modules under kernels, cokernels and extensions, and both halves are in the
+library: the closure is
 `Stacks.AlgebraicGeometry.QuasicoherentWeakSerre.isQuasicoherent_isWeakSerre`, and reading it
 along a triangle is `DerivedCategoryB.derivedCategoryB_mem_obj₃_of_distinguished`
 (`StacksFrontier/Algebra/Homology/DerivedCategory/SerreSubcategoryCone.lean`), the rotation of the

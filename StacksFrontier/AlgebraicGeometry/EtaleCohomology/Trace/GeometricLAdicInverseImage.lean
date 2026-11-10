@@ -77,7 +77,7 @@ from `ℤ/ℓⁿ⁺¹` to `ℤ_ℓ`, on the small étale sites of Stacks 021B. -
 abbrev padicRestrictInverseImage (n : ℕ) :=
   (coefficientSheafPullbackTwoSquare (AlgebraicGeometry.smallEtaleBaseChange B g)
     (SmallEtale.topology B X.1 X.property) (SmallEtale.topology B X'.1 X'.property)
-    (ModuleCat.restrictScalars.{u + 1, 0, 0} (PadicInt.toZModPow (p := ℓ) (n + 1)))).natTrans
+    (ModuleCat.restrictScalars.{u + 1, 0, 0} (PadicInt.toZModPow (p := ℓ) (n + 1))))
 
 /-- Sheaves of `ℤ_ℓ`-modules on the small étale site of Stacks 021B, read on Mathlib's small étale
 site. -/

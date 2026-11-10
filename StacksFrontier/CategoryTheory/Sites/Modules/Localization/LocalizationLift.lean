@@ -86,9 +86,9 @@ theorem inverseImageIso_trans {p q r : RingedToposHom A B} (s : TwoIso p q) (t :
 theorem inverseImageIso_symm {p q : RingedToposHom A B} (s : TwoIso p q) :
     s.symm.inverseImageIso = s.inverseImageIso.symm := by
   ext1
-  show (conjugateEquiv q.toToposHom.adj p.toToposHom.adj).symm s.e.inv = s.inverseImageIso.inv
+  change (conjugateEquiv q.toToposHom.adj p.toToposHom.adj).symm s.e.inv = s.inverseImageIso.inv
   rw [← Iso.hom_comp_eq_id]
-  show (conjugateEquiv p.toToposHom.adj q.toToposHom.adj).symm s.e.hom ≫
+  change (conjugateEquiv p.toToposHom.adj q.toToposHom.adj).symm s.e.hom ≫
     (conjugateEquiv q.toToposHom.adj p.toToposHom.adj).symm s.e.inv = 𝟙 _
   rw [conjugateEquiv_symm_comp, Iso.inv_hom_id, conjugateEquiv_symm_id]
 
@@ -113,7 +113,7 @@ theorem inverseImageIso_whiskerRight {f₁ f₂ : RingedToposHom A B} (s : TwoIs
   refine (Equiv.apply_symm_apply _ _).trans ?_
   refine Eq.symm ((conjugateEquiv_whiskerLeft f₁.toToposHom.adj f₂.toToposHom.adj
     g.toToposHom.adj s.inverseImageIso.hom).trans ?_)
-  show Functor.whiskerRight ((conjugateEquiv f₁.toToposHom.adj f₂.toToposHom.adj)
+  change Functor.whiskerRight ((conjugateEquiv f₁.toToposHom.adj f₂.toToposHom.adj)
     ((conjugateEquiv f₁.toToposHom.adj f₂.toToposHom.adj).symm s.e.hom))
       g.toToposHom.pushforward = _
   rw [Equiv.apply_symm_apply]
@@ -130,7 +130,7 @@ theorem inverseImageIso_whiskerLeft (f : RingedToposHom A B) {g₁ g₂ : Ringed
   refine (Equiv.apply_symm_apply _ _).trans ?_
   refine Eq.symm ((conjugateEquiv_whiskerRight g₁.toToposHom.adj g₂.toToposHom.adj
     f.toToposHom.adj s.inverseImageIso.hom).trans ?_)
-  show Functor.whiskerLeft f.toToposHom.pushforward ((conjugateEquiv g₁.toToposHom.adj
+  change Functor.whiskerLeft f.toToposHom.pushforward ((conjugateEquiv g₁.toToposHom.adj
     g₂.toToposHom.adj) ((conjugateEquiv g₁.toToposHom.adj g₂.toToposHom.adj).symm s.e.hom)) = _
   rw [Equiv.apply_symm_apply]
   rfl
@@ -390,7 +390,7 @@ theorem relocalizationMorphismOfTopoi_map_tautologicalSection (X : RingedTopos.{
     (((isTerminalTautologicalSource X F).from
       ((X.relocalizationMorphismOfTopoi s).inverseImage.obj
         (CategoryTheory.Stacks.Topos.Localized.terminalFiber X.J K))).hom.app U p).app_val
-  show p.val = s.hom.app _ (((isTerminalTautologicalSource X F).from _).hom.app U p).val
+  change p.val = s.hom.app _ (((isTerminalTautologicalSource X F).from _).hom.app U p).val
   rw [h1, h2]
   exact yonedaEquiv_comp U.unop.hom s.hom
 
@@ -414,7 +414,7 @@ theorem _root_.AlgebraicGeometry.RingedToposHom.relocalized_map_tautologicalSect
         (f.inverseImageCompLocalizationIso G).hom.app G := by
     rw [← localizedToposMorphism_map_tautologicalSection, Category.assoc, Iso.inv_hom_id_app]
     exact (Category.comp_id _).symm
-  show (X.relocalizationMorphismOfTopoi s).inverseImage.map
+  change (X.relocalizationMorphismOfTopoi s).inverseImage.map
     ((RingedToposHom.localizedToposMorphism f G).inverseImage.map (tautologicalSection Y G)) = _
   rw [h1, Functor.map_comp, Functor.map_comp, relocalizationMorphismOfTopoi_map_tautologicalSection]
   exact congrArg (· ≫ _) ((Category.assoc _ _ _).symm.trans

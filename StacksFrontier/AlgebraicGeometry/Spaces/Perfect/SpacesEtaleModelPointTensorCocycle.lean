@@ -307,7 +307,7 @@ theorem spacesEtaleModelToPointPullbackCompIso_comp :
   let P : (SmallModel.{u} (SpacesEtale B S hS X''))ᵒᵖ ⥤ AddCommGrpCat.{u} := M.val.presheaf
   let T := spacesEtaleModelTerminal B S hS X
   let hT'' := isTerminal_spacesEtaleModelTerminal B S hS X''
-  show (P.map (hT''.from ((smallModelBaseChange B S hS g').obj
+  change (P.map (hT''.from ((smallModelBaseChange B S hS g').obj
         (spacesEtaleModelTerminal B S hS X'))).op ≫
       P.map ((smallModelBaseChange B S hS g').map
         ((isTerminal_spacesEtaleModelTerminal B S hS X').from

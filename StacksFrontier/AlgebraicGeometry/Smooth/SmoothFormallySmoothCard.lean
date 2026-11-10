@@ -21,10 +21,10 @@ and is a priori only characterized by its defining equation in that chart.
 
 This file proves that `θ` does not depend on the chart:
 `Stacks.Smooth.liftDiffDerivation_spec_chart_independent`. That is the single statement the
-implementation notes of `StacksFrontier.AlgebraicGeometry.Smooth.CechTorsorAssembly` identify as all
-that stands between the available material and the Čech cocycle: the Čech differential compares, at a
-triple overlap, three pairwise differences formed in the charts attached to two different indices,
-and the two formed in one chart combine by
+implementation notes of `StacksFrontier.AlgebraicGeometry.Smooth.CechTorsorAssembly` identify as
+all that stands between the available material and the Čech cocycle: the Čech differential
+compares, at a triple overlap, three pairwise differences formed in the charts attached to two
+different indices, and the two formed in one chart combine by
 `Stacks.Smooth.liftDiffDerivation_add`, so what is left over is exactly the comparison of two
 charts for one and the same pair of solutions.
 
@@ -400,7 +400,7 @@ theorem exists_basicOpen_refine_chart {X T' : Scheme.{u}} [IsAffine T']
   · have hmul' : T'.basicOpen (c * g t) ≤ T'.basicOpen (g t) := by
       rw [Scheme.basicOpen_mul]; exact inf_le_right
     obtain ⟨y, hy, hyx⟩ := hg₁ t (hmul' x.2)
-    show b₁.base ((T'.homOfLE hle).base x) ∈ W₃ t
+    change b₁.base ((T'.homOfLE hle).base x) ∈ W₃ t
     have hbx : (T'.homOfLE hle).base x = y :=
       Subtype.ext ((Scheme.homOfLE_apply hle x).trans hyx.symm)
     rw [hbx]

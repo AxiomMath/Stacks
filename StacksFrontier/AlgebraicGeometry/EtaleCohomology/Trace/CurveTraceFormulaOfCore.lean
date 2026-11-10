@@ -123,7 +123,7 @@ theorem cohomologicalTraceFormula_of_isZero_off_finite (W : Over (Spec (.of k)))
   let O : W.left.Opens := ⟨Tᶜ, hTcl.isOpen_compl⟩
   have hij : Set.range O.ι = (Set.range i.left)ᶜ := by
     rw [Scheme.Opens.range_ι]
-    show Tᶜ = (Set.range ι0)ᶜ
+    change Tᶜ = (Set.range ι0)ᶜ
     rw [hrange]
   refine cohomologicalTraceFormula_of_isZero_restriction Λ kbar p q hcard i O.ι hij G hG
     (hz _ O.ι ?_)
@@ -219,7 +219,7 @@ theorem cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_bounded
     let iO : Wo ⟶ Y := Over.homMk iW rfl
     have : IsClosedImmersion iO.left := inferInstanceAs (IsClosedImmersion iW)
     have hij : Set.range jU = (Set.range iO.left)ᶜ := by
-      show Set.range jU = (Set.range iW)ᶜ
+      change Set.range jU = (Set.range iW)ᶜ
       rw [hiW, compl_compl]
     refine cohomologicalTraceFormula_of_openClosed Λ kbar p q hcard iO jU hij D hD ?_ ?_
     · -- the open part: the core on the pieces, and no rational points on `U`

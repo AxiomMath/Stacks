@@ -65,6 +65,7 @@ abbrev pairRingDiagram : ((AlgebraModulePair.{max u v} A)ᵒᵖ)ᵒᵖ ⥤ RingC
   obj X := RingCat.of X.unop.unop.algebra
   map f := RingCat.ofHom f.unop.unop.base.toRingHom
 
+set_option linter.checkUnivs false in
 /-- Module-valued functors on pairs of an `A`-algebra and a module over it. -/
 abbrev PairModuleValuedFunctor := PresheafOfModules.{w} (pairRingDiagram.{v} A)
 
@@ -195,8 +196,7 @@ noncomputable def pairTensorLift {X : AlgebraModulePair.{max u v} A} {D : CommAl
           rw [AlgHom.commutes, Algebra.smul_def] }
     map_add' := map_add _
     map_smul' := fun c t => by
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul x n =>
         rw [TensorProduct.smul_tmul', TensorProduct.lift.tmul, TensorProduct.lift.tmul]
         change p.linear (c • x) n = p.base c * p.linear x n
@@ -232,8 +232,7 @@ noncomputable def symPairHomEquiv (X : AlgebraModulePair.{max u v} A) (D : CommA
     refine CommAlgCat.hom_ext (symAlgHom_ext (fun c => ?_) (fun t => ?_))
     · exact symLift_algebraMap _ _ c
     · refine (symLift_ι _ _ t).trans ?_
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul x n => rfl
       | add s t hs ht => rw [map_add, map_add, map_add, hs, ht]
   right_inv p := by

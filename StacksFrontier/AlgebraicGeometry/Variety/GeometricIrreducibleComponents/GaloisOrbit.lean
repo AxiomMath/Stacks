@@ -76,7 +76,7 @@ private theorem galoisActionOnBaseChange_ρ_comp_fst (k K : Type u) [Field k] [F
         pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
   dsimp [galoisActionOnBaseChange, SchemeOver.baseChange]
-  simp [pullback.map, pullback.lift_fst]
+  simp [pullback.map]
 
 /-- The Galois action on a base change acts on the `Spec K` coordinate by `Spec σ`. -/
 private theorem galoisActionOnBaseChange_ρ_comp_snd (k K : Type u) [Field k] [Field K]
@@ -100,7 +100,7 @@ private theorem pullbackSpecIso_comm_inv_fst (k K L : Type u) [Field k] [Field K
   rw [Category.assoc, pullbackSpecIso_inv_fst, ← Spec.map_comp, Spec.map_inj]
   apply CommRingCat.hom_ext
   ext a
-  show Algebra.TensorProduct.comm k L K (a ⊗ₜ[k] (1 : K)) = (1 : K) ⊗ₜ[k] a
+  change Algebra.TensorProduct.comm k L K (a ⊗ₜ[k] (1 : K)) = (1 : K) ⊗ₜ[k] a
   exact Algebra.TensorProduct.comm_tmul k a (1 : K)
 
 private theorem pullbackSpecIso_comm_inv_snd (k K L : Type u) [Field k] [Field K] [Algebra k K]
@@ -114,7 +114,7 @@ private theorem pullbackSpecIso_comm_inv_snd (k K L : Type u) [Field k] [Field K
   rw [Category.assoc, pullbackSpecIso_inv_snd, ← Spec.map_comp, Spec.map_inj]
   apply CommRingCat.hom_ext
   ext a
-  show Algebra.TensorProduct.comm k L K ((1 : L) ⊗ₜ[k] a) = a ⊗ₜ[k] (1 : L)
+  change Algebra.TensorProduct.comm k L K ((1 : L) ⊗ₜ[k] a) = a ⊗ₜ[k] (1 : L)
   exact Algebra.TensorProduct.comm_tmul k (1 : L) a
 
 /-- Under `Spec L ×_{Spec k} Spec K ≅ Spec (K ⊗[k] L)`, the twist `id × Spec σ` becomes
@@ -173,7 +173,7 @@ private theorem pullbackSpecIso_comm_hom_galoisTwist (k K L : Type u) [Field k] 
     · rw [Category.assoc, hInvFst, hTensorFst, Category.assoc, hAffineFst, hInvFst]
     · rw [Category.assoc, hInvSnd, hTensorSnd, Category.assoc, hAffineSnd,
         ← Category.assoc, hInvSnd]
-  show actionOnAffine ≫ affineIso.hom = affineIso.hom ≫ tensorAutMap
+  change actionOnAffine ≫ affineIso.hom = affineIso.hom ≫ tensorAutMap
   rw [← Iso.inv_comp_eq, ← Category.assoc, ← hmap]
   simp
 
@@ -206,15 +206,15 @@ private theorem pullback_galoisAction_comp_hom (k K L : Type u) [Field k] [Field
     (by simpa using (galoisActionOnBaseChange_ρ_comp_fst k K X (.op σ)).symm) (by simp)
   let actionOnAffine := pullback.map fL gK fL gK (𝟙 _) (specMapAlgAut k K σ)
     (𝟙 (Spec (.of k))) rfl (by simp [gK])
-  show actionOnFiber ≫ fiberIso.hom = fiberIso.hom ≫ actionOnAffine
+  change actionOnFiber ≫ fiberIso.hom = fiberIso.hom ≫ actionOnAffine
   have hFst : fiberIso.hom ≫ pullback.fst fL gK = pullback.snd p q := by
-    show ((pullbackSymmetry p q).hom ≫ (pullbackRightPullbackFstIso X.hom gK q).hom ≫
+    change ((pullbackSymmetry p q).hom ≫ (pullbackRightPullbackFstIso X.hom gK q).hom ≫
       (pullback.congrHom hq rfl).hom) ≫ pullback.fst fL gK = _
     simp only [fL, Category.assoc, pullback.congrHom_hom, pullback.map, pullback.lift_fst,
       Category.comp_id, pullbackRightPullbackFstIso_hom_fst]
     exact pullbackSymmetry_hom_comp_fst p q
   have hSnd : fiberIso.hom ≫ pullback.snd fL gK = pullback.fst p q ≫ pullback.snd X.hom gK := by
-    show ((pullbackSymmetry p q).hom ≫ (pullbackRightPullbackFstIso X.hom gK q).hom ≫
+    change ((pullbackSymmetry p q).hom ≫ (pullbackRightPullbackFstIso X.hom gK q).hom ≫
       (pullback.congrHom hq rfl).hom) ≫ pullback.snd fL gK = _
     simp only [fL, Category.assoc, pullback.congrHom_hom, pullback.map, pullback.lift_snd,
       Category.comp_id, pullbackRightPullbackFstIso_hom_snd]
@@ -271,7 +271,7 @@ private theorem exists_pullbackIso_galoisAction_comp (k K L : Type u) [Field k] 
     pullback_galoisAction_comp_hom k K L X q hq σ
   have hAffine : actionOnAffine ≫ affineIso.hom = affineIso.hom ≫ tensorAutMap :=
     pullbackSpecIso_comm_hom_galoisTwist k K L σ
-  show actionOnFiber ≫ (fiberIso ≪≫ affineIso).hom =
+  change actionOnFiber ≫ (fiberIso ≪≫ affineIso).hom =
     (fiberIso ≪≫ affineIso).hom ≫ tensorAutMap
   rw [Iso.trans_hom, ← Category.assoc, hFiber, Category.assoc, hAffine, ← Category.assoc]
 
@@ -301,7 +301,7 @@ private theorem exists_galoisAction_pullback_fst_eq (k K L : Type u) [Field k] [
       Function.comp_apply] at heq
     have hprime : (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.congr σ
         (AlgEquiv.refl (R := k) (A₁ := L))).toRingEquiv.toRingHom)).base Q = P := by
-      show PrimeSpectrum.comap (Algebra.TensorProduct.congr σ
+      change PrimeSpectrum.comap (Algebra.TensorProduct.congr σ
         (AlgEquiv.refl (R := k) (A₁ := L))).toAlgHom.toRingHom Q = P
       exact hσ
     exact heq.trans hprime
@@ -340,7 +340,7 @@ private theorem galoisAction_transitive_on_points_over
       (Scheme.Spec.residueFieldIso (.of k) s).inv ≫ X.hom.residueFieldMap η).hom).toAlgebra
   have hbase :
       q ≫ X.hom = Spec.map (CommRingCat.ofHom (algebraMap k (X.left.residueField η))) := by
-    show X.left.fromSpecResidueField η ≫ X.hom =
+    change X.left.fromSpecResidueField η ≫ X.hom =
       Spec.map (CommRingCat.ofHom (algebraMap k s.asIdeal.ResidueField) ≫
         (Scheme.Spec.residueFieldIso (.of k) s).inv ≫ X.hom.residueFieldMap η)
     rw [Spec.map_comp, Spec.map_comp, Category.assoc,
@@ -398,10 +398,10 @@ private theorem irreducibleComponentsBaseChangeMap_galoisAction
       (galoisActionOnBaseChange_ρ_comp_fst k K X σ)
     simpa [Scheme.Hom.comp_base, TopCat.hom_comp] using hh
   apply Subtype.ext
-  show p.base '' (ConcreteCategory.hom
+  change p.base '' (ConcreteCategory.hom
     ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z).1 = p.base '' Z.1
   rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
-  show p.base '' ((fun x : Y => a.base x) '' Z.1) = p.base '' Z.1
+  change p.base '' ((fun x : Y => a.base x) '' Z.1) = p.base '' Z.1
   ext y
   simp only [Set.mem_image]
   constructor
@@ -442,7 +442,7 @@ private theorem exists_galoisAction_eq_of_irreducibleComponentsBaseChangeMap_eq
     ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)).asHom Z
   let a := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   have hCset : (C : Set Y) = a.base '' (Zc : Set Y) := by
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
       ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)).asHom Z).1 =
         a.base '' (Zc : Set Y)
     rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]

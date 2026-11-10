@@ -103,7 +103,8 @@ That square is the whole of what `β` owes: it is `Reduction.HasStalkBocksteinSq
 `Reduction.hasStalkBocksteinComparison_of_hasStalkBocksteinSquare` builds `β` from it.  No
 *second* residual square — that the components commute with the differentials — is needed, and in
 particular neither the `gradedComplex₂` analogue of `gradedStalkIso` nor the compatibility of an
-exact functor with `ShortComplex.ShortExact.δ` (which Mathlib does not have) is used.  The stalk of the comparison of Tag 0GT9 is a degreewise
+exact functor with `ShortComplex.ShortExact.δ` (which Mathlib does not have) is used.  The stalk
+of the comparison of Tag 0GT9 is a degreewise
 epimorphism (`Reduction.epi_stalk_reductionComparison`), and the comparison, `etaModIdealStalkIso`
 and Tag 0F7T's algebraic comparison are all morphisms of complexes; cancelling that epimorphism
 derives the differential square from the comparison square in degrees `n` and `n + 1`
@@ -157,7 +158,7 @@ restriction of scalars.  Stated as a theorem and supplied explicitly, like
 composite carries two spellings of the same `RingCat` stalk. -/
 public theorem additive_stalkModuleFunctor (x : X) : (stalkModuleFunctor X x).Additive :=
   ⟨fun {Y Z} f g => by
-    show (ModuleCat.restrictScalars (SemilinearStalk.commStalkIso X.presheaf x).inv.hom).map
+    change (ModuleCat.restrictScalars (SemilinearStalk.commStalkIso X.presheaf x).inv.hom).map
         ((AlgebraicGeometry.SheafOfModules.stalkFunctor Oₓ x).map (f + g)) =
       (ModuleCat.restrictScalars (SemilinearStalk.commStalkIso X.presheaf x).inv.hom).map
           ((AlgebraicGeometry.SheafOfModules.stalkFunctor Oₓ x).map f) +
@@ -248,7 +249,7 @@ private lemma fpowMap_idealPowerStalkEquiv
         (idealPowerStalkEquiv X I ι M hM x f hf n z) =
       (idealPowerStalkComparison X I ι M x f hf).map n z := by
   have hreg := isSMulRegular_stalk_of_generatesStalkIdeal X I ι M hM x f hf
-  show (EtaPow.fpowEquiv f hreg n ((EtaPow.fpowEquiv f hreg n).symm _) :
+  change (EtaPow.fpowEquiv f hreg n ((EtaPow.fpowEquiv f hreg n).symm _) :
     EtaPow.Loc f ((stalkModuleFunctor X x).obj M)) = _
   rw [LinearEquiv.apply_symm_apply]
   rfl
@@ -423,7 +424,7 @@ private lemma idealPowerStalkMap_comm
   refine LinearMap.ext fun z => ?_
   apply EtaPow.fpowMap_injective f
     (isSMulRegular_stalk_of_generatesStalkIdeal X I ι (F.X (k + 1)) (hF (k + 1)) x f hgen) n
-  show EtaPow.fpowMap f ((stalkModuleFunctor X x).obj (F.X (k + 1))) n
+  change EtaPow.fpowMap f ((stalkModuleFunctor X x).obj (F.X (k + 1))) n
       (idealPowerStalkEquiv X I ι (F.X (k + 1)) (hF (k + 1)) x f hgen n
         ((stalkModuleFunctor X x).map (idealPowerMap X I n (F.d k (k + 1))) z)) =
     EtaPow.fpowMap f ((stalkModuleFunctor X x).obj (F.X (k + 1))) n
@@ -496,7 +497,7 @@ private lemma gradedTermStalkIso_comm_step₂
     (hF : ∀ j : ℤ, IsIdealTorsionFree X ι (F.X j))
     (x : X) (f : ringStalk X x) (hgen : GeneratesStalkIdeal X ι x f)
     (hf : f ∈ nonZeroDivisors (ringStalk X x))
-    (hreg : ∀ j : ℤ, IsSMulRegular ((stalkComplex X x F).X j) f) (n k : ℤ) :
+    (n k : ℤ) :
     idealPowerStalkMap X I ι (F.X k) (hF k) x f hgen n ≫
         ((Stacks.EtaComplex.ModNonzerodivisor.powerReductionMap f hf
             (stalkComplex X x F) n).f k ≫
@@ -555,7 +556,7 @@ private lemma gradedTermStalkIso_comm
   refine (cancel_epi ((stalkModuleFunctor X x).map
     (cokernel.π (idealPowerIncl X I ι n (F.X k))))).1 ?_
   exact (gradedTermStalkIso_comm_step₁ X I ι F hF x f hgen hf hreg n k).trans
-    ((gradedTermStalkIso_comm_step₂ X I ι F hF x f hgen hf hreg n k).trans
+    ((gradedTermStalkIso_comm_step₂ X I ι F hF x f hgen hf n k).trans
       (gradedTermStalkIso_comm_step₃ X I ι F hF x f hgen hf hreg n k))
 
 /-- **The stalk of the graded complex `F ⊗ I^n/I^{n+1}` is the algebraic successive quotient
@@ -788,7 +789,7 @@ private lemma map_etaToGradedHomology_comp_bocksteinChainStalkTermIso
           (Stacks.EtaComplex.ModNonzerodivisor.etaQuotientToBockstein f hf
             (stalkComplex X x F) hreg).f n) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-  show (bocksteinChainStalkTermIso X I ι F hF x f hgen hf hreg n).hom
+  change (bocksteinChainStalkTermIso X I ι F hF x f hgen hf hreg n).hom
       ((stalkModuleFunctor X x).map (etaToGradedHomology X I ι F n) z) =
     (Stacks.EtaComplex.ModNonzerodivisor.etaQuotientToBockstein f hf
         (stalkComplex X x F) hreg).f n

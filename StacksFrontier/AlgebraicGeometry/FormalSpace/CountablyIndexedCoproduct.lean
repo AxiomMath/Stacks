@@ -76,7 +76,7 @@ theorem isCountablyIndexed_sigma {I : Type (u + 1)} [Finite I] (Z : I → FppfSh
     IsCountablyIndexed B S hS (∐ Z) := by
   classical
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
-  show IsCountablyIndexed B S hS (∐ Z)
+  change IsCountablyIndexed B S hS (∐ Z)
   choose Idx pre hne hdir hcnt D hthick hiso using fun i ↦
     (isCountablyIndexed_iff_exists_countable_presentation B S hS (Z i)).mp (hZ i)
   let : ∀ i, Preorder (Idx i) := pre
@@ -97,7 +97,7 @@ theorem isCountablyIndexedAffine_sigma {I : Type (u + 1)} [Finite I] (Z : I → 
     letI : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
     IsCountablyIndexedAffine B S hS (∐ Z) := by
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
-  show IsCountablyIndexedAffine B S hS (∐ Z)
+  change IsCountablyIndexedAffine B S hS (∐ Z)
   exact ⟨isAffineFormalAlgebraicSpace_sigma B S hS Z fun i ↦ (hZ i).1,
     isCountablyIndexed_sigma B S hS Z fun i ↦ (hZ i).2⟩
 

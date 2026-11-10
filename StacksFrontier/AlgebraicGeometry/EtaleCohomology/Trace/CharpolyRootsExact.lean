@@ -90,7 +90,7 @@ public theorem isRoot_charpoly_map_or_of_exact (ι : K →+* L) {j : A →ₗ[K]
   rw [isRoot_charpoly_map_iff_hasEigenvalue_baseChange] at hz ⊢
   rw [isRoot_charpoly_map_iff_hasEigenvalue_baseChange]
   have hexL : Function.Exact (j.baseChange L) (p.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_exact L hexact
   exact hasEigenvalue_or_of_exact (baseChange_comm ι hj) (baseChange_comm ι hp)
     (fun b hb => (hexL b).1 hb) hz
@@ -102,7 +102,7 @@ public theorem isRoot_charpoly_map_of_injective (ι : K →+* L) {j : A →ₗ[K
   let := ι.toAlgebra
   rw [isRoot_charpoly_map_iff_hasEigenvalue_baseChange] at hz ⊢
   have hinjL : Function.Injective (j.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap j hinj
   obtain ⟨v, hv⟩ := hz.exists_hasEigenvector
   refine Module.End.hasEigenvalue_of_hasEigenvector (x := j.baseChange L v) ⟨?_, ?_⟩
@@ -116,7 +116,7 @@ public theorem isRoot_charpoly_map_of_surjective (ι : K →+* L) {p : B →ₗ[
   let := ι.toAlgebra
   rw [isRoot_charpoly_map_iff_hasEigenvalue_baseChange] at hz ⊢
   have hsurjL : Function.Surjective (p.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective L hsurj
   exact hasEigenvalue_of_surjective hsurjL (baseChange_comm ι hp) hz
 

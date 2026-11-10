@@ -478,16 +478,16 @@ theorem rationalFunctionsRing (X : Scheme.{u}) :
       map_mul' := ?_
       map_zero' := ?_
       map_add' := ?_ }, ?_⟩
-  · show (sectionPartial X U (1 : Γ(X, U.1))).toRationalMap = (partialConst X 1).toRationalMap
+  · change (sectionPartial X U (1 : Γ(X, U.1))).toRationalMap = (partialConst X 1).toRationalMap
     exact Quotient.sound (sectionPartial_one X U)
   · intro s t
-    show (sectionPartial X U (s * t)).toRationalMap =
+    change (sectionPartial X U (s * t)).toRationalMap =
       (partialMul X (sectionPartial X U s) (sectionPartial X U t)).toRationalMap
     exact (Quotient.sound (sectionPartial_mul X U s t)).symm
-  · show (sectionPartial X U (0 : Γ(X, U.1))).toRationalMap = (partialConst X 0).toRationalMap
+  · change (sectionPartial X U (0 : Γ(X, U.1))).toRationalMap = (partialConst X 0).toRationalMap
     exact Quotient.sound (sectionPartial_zero X U)
   · intro s t
-    show (sectionPartial X U (s + t)).toRationalMap =
+    change (sectionPartial X U (s + t)).toRationalMap =
       (partialAdd X (sectionPartial X U s) (sectionPartial X U t)).toRationalMap
     exact (Quotient.sound (sectionPartial_add X U s t)).symm
   · intro s

@@ -168,7 +168,7 @@ public theorem LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv
     PadicInt.toZModPow (n + 1) (T.stalkEquiv v i) = T.equiv n (v.1 n) i := by
   obtain ⟨w, rfl⟩ := T.stalkEquiv.symm.surjective v
   rw [LinearEquiv.apply_symm_apply]
-  show _ = T.equiv n ((T.symmLinear w).1 n) i
+  change _ = T.equiv n ((T.symmLinear w).1 n) i
   rw [symmLinear_apply_coe, AddEquiv.apply_symm_apply]
 
 /-- **An endomorphism of the geometric point acting at every level by the reduction of one
@@ -190,7 +190,7 @@ public theorem LAdicSheaf.LevelTrivialization.charpoly_stalkEnd
     apply eq_of_toZModPow_succ_eq
     intro n
     rw [LinearEquiv.conj_apply_apply, toZModPow_stalkEquiv, Matrix.toLin'_apply]
-    show T.equiv n ((finiteLevelStalkEnd B X ℓ F a n).hom ((T.stalkEquiv.symm w).1 n)) i = _
+    change T.equiv n ((finiteLevelStalkEnd B X ℓ F a n).hom ((T.stalkEquiv.symm w).1 n)) i = _
     rw [hM, RingHom.map_mulVec]
     congr 2
     funext j

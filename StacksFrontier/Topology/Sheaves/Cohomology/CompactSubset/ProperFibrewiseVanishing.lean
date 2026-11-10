@@ -172,7 +172,7 @@ theorem equalizerSieve_mem_of_isSoft_fiber
   have hres := isZero_restrictionCohomologyPresheaf_of_isSoft.{t} G _ (hcpt w) hSep (hsoft w) p hp
   have hU₀ : ((π.hom : X → W) ⁻¹' ({w} : Set W)) ⊆ (((Opens.map π).obj V : Opens X) : Set X) := by
     intro x (hx : (π.hom : X → W) x = w)
-    show (π.hom : X → W) x ∈ V
+    change (π.hom : X → W) x ∈ V
     rwa [hx]
   obtain ⟨U₁, hZU₁, hle, hmap⟩ := exists_openNhds_map_eq_zero_of_isZero_restriction.{t} G _
     (hcpt w) hSep p hres ((Opens.map π).obj V) hU₀ ξ
@@ -180,7 +180,7 @@ theorem equalizerSieve_mem_of_isSoft_fiber
     π.hom.continuous U₁ hZU₁
   have hle₂ : (Opens.map π).obj (V ⊓ V₁) ≤ U₁ := fun x hx => hV₁ hx.2
   refine ⟨V ⊓ V₁, homOfLE inf_le_left, ?_, hwV, hwV₁⟩
-  show ((Opens.map π).op ⋙ restrictionCohomologyPresheaf.{t} X G p).map
+  change ((Opens.map π).op ⋙ restrictionCohomologyPresheaf.{t} X G p).map
     (homOfLE (inf_le_left : V ⊓ V₁ ≤ V)).op ξ = _
   rw [map_zero]
   refine Eq.trans (congrArg

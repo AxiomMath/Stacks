@@ -404,7 +404,7 @@ abbrev FibreAt (x₀ : ComplexesObject D) : Type _ :=
 /-- The scheme `𝟙 : V ⟶ V` over `V` lies over `V`. -/
 theorem overMap_obj_mk_id (V : BigFppfOver B S hS) :
     (Over.map V.hom).obj (Over.mk (𝟙 V.left)) = V := by
-  show Over.mk (𝟙 V.left ≫ V.hom) = V
+  change Over.mk (𝟙 V.left ≫ V.hom) = V
   rw [Category.id_comp]
   rfl
 
@@ -462,7 +462,7 @@ theorem locallyOfFiniteType_point {Λ k : Type u} [CommRing Λ] [Field k] [Algeb
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ))
     (hfinite : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ)) :
     LocallyOfFiniteType (B.inclusion.map x₀.T.left.hom) := by
-  show LocallyOfFiniteType ((complexesFunctor D ⋙ Over.post B.inclusion).obj x₀).hom
+  change LocallyOfFiniteType ((complexesFunctor D ⋙ Over.post B.inclusion).obj x₀).hom
   rwa [hx₀]
 
 /-- **The tangent spaces of the second factor `(Sch/V)` of the fibre are finite dimensional**, at
@@ -738,7 +738,7 @@ theorem finiteDimensional_artinianTangentSpace_stalk_of_isTerminal (hY : IsTermi
           let hS2 := schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
           letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
           letI : Fact (SchlessingerConditionS2
-            (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+            (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
           let F := isomorphismClasses 𝓕 hD.predeformation.cofibered
           let T := artinianTangentSpace Λ' k F
           letI : AddCommGroup T := associatedTangentSpaceAddCommGroupUnlifted 𝓕

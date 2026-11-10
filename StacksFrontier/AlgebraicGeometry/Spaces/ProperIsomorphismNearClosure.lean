@@ -218,7 +218,7 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
     rw [subspacePointSet_inf] at hx
     obtain ⟨hxV, hxG⟩ := hx
     rw [hY₀pts] at hxG
-    show x ∈ Set.range (pointsMap B S hS _ (W.1.preimage b₁.hom).ι)
+    change x ∈ Set.range (pointsMap B S hS _ (W.1.preimage b₁.hom).ι)
     rw [range_pointsMap_preimage_ι]
     have hxV' : pointsMap B S hS _ b₁.hom x ∈ subspacePointSet B S hS Y.1 V.1 := by
       have := hxV
@@ -228,7 +228,7 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
     by_contra hxW
     obtain ⟨t, ht⟩ := hxV'
     refine hGK' hxG (subset_closure ⟨t, hT'T'c ?_, ht⟩)
-    show pointsMap B S hS _ V.1.ι t ∈ (subspacePointSet B S hS Y.1 W.1)ᶜ
+    change pointsMap B S hS _ V.1.ι t ∈ (subspacePointSet B S hS Y.1 W.1)ᶜ
     rw [ht]
     exact hxW
   have hw_iso : IsIso (pullback.snd w.hom U₀.1.ι) := by
@@ -245,7 +245,7 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
         pointsMap B S hS _ Y₀s.ι ⁻¹' subspacePointSet B S hS Y₁.1 V₁.1 :=
       range_pointsMap_preimage_ι B S hS Y₀s.ι V₁.1
     rw [pointsMap_comp, Set.range_comp, hr, Set.image_preimage_eq_inter_range]
-    show IsCompact (subspacePointSet B S hS Y₁.1 V₁.1 ∩ subspacePointSet B S hS Y₁.1 Y₀s)
+    change IsCompact (subspacePointSet B S hS Y₁.1 V₁.1 ∩ subspacePointSet B S hS Y₁.1 Y₀s)
     rw [hY₀pts]
     exact (isCompact_range_of_isQuasiCompactSpace B S hS V₁.2 hV₁qc).inter_of_isOpen hGc
       (isOpen_range_pointsMap_of_isOpenImmersion B S hS _ V₁.2.2) hGo
@@ -274,7 +274,7 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
     rw [hY]
     refine Set.disjoint_union_right.2 ⟨hZ₁V, Set.disjoint_left.2 fun y hyV ⟨z, hz, hzy⟩ => ?_⟩
     refine Set.disjoint_left.1 hZ'V₁ ?_ hz
-    show z ∈ Set.range (pointsMap B S hS _ (V.1.preimage b₁.hom).ι)
+    change z ∈ Set.range (pointsMap B S hS _ (V.1.preimage b₁.hom).ι)
     rw [range_pointsMap_preimage_ι, Set.mem_preimage, hzy]
     exact hyV
   -- Stacks 0863 (2): the strict transform over `Y₀`
@@ -348,12 +348,12 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
         exact congrArg (fun k => pointsMap B S hS _ k y₀) (congrArg (fun k => k.hom) hsqm.w)
       have h1 : y₀ ∈ Set.range (pointsMap B S hS _ (U₀.1.preimage c₀.hom).ι) := by
         rw [range_pointsMap_preimage_ι, Set.mem_preimage]
-        show pointsMap B S hS _ c₀.hom y₀ ∈
+        change pointsMap B S hS _ c₀.hom y₀ ∈
           Set.range (pointsMap B S hS _ (V₁.1.preimage Y₀s.ι).ι)
         rw [range_pointsMap_preimage_ι, Set.mem_preimage]
-        show pointsMap B S hS _ v.hom (pointsMap B S hS _ c₀.hom y₀) ∈ _
+        change pointsMap B S hS _ v.hom (pointsMap B S hS _ c₀.hom y₀) ∈ _
         rw [hcm]
-        show _ ∈ Set.range (pointsMap B S hS _ (V.1.preimage b₁.hom).ι)
+        change _ ∈ Set.range (pointsMap B S hS _ (V.1.preimage b₁.hom).ι)
         rw [range_pointsMap_preimage_ι, Set.mem_preimage]
         refine ⟨t, ?_⟩
         rw [ht]
@@ -370,7 +370,7 @@ theorem exists_isAdmissibleBlowup_isIso_strictTransform_near_closure
       rw [← hmopen.preimage_closure_eq_closure_preimage (continuous_pointsMap B S hS _)]
       exact hx
     obtain ⟨z, hz⟩ := closure_minimal hA₀ hrangeF₀ hx₀
-    show _ ∈ subspacePointSet B S hS Y'.1 W's
+    change _ ∈ subspacePointSet B S hS Y'.1 W's
     rw [subspacePointSet_range]
     refine ⟨pointsMap B S hS _ (Subfunctor.toRange F₀.hom) z, ?_⟩
     rw [pointsMap_comp_apply, ← pointsMap_comp_apply B S hS (Subfunctor.toRange F₀.hom),

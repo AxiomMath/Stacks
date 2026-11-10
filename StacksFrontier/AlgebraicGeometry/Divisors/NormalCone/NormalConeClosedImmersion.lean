@@ -253,6 +253,7 @@ section Nested
 variable {Z Y X : Scheme.{u}} (fZ : Z ⟶ Y) (g : Y ⟶ X)
   [IsClosedImmersion fZ] [IsClosedImmersion g]
 
+omit [IsClosedImmersion fZ] in
 /-- **On an affine chart `U` of `X` the `n`-th power of the ideal of `Z` in `X` surjects onto the
 `n`-th power of the ideal of `Z` in `Y`.** The ring map `Γ(X, U) ⟶ Γ(Y, g⁻¹U)` is surjective
 because `g` is a closed immersion, and it carries the one ideal onto the other because the two

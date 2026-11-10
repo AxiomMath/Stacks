@@ -41,7 +41,7 @@ theorem normSec_unique (h : ChartHyp hV U N)
         LinearMap.ker (coneD₀ (d₀ hV U N) (phi₀ hV U ha₀ N hg₁ hg₂)) := by
       rw [LinearMap.mem_ker]
       refine Prod.ext (d₀_secCochain hV U (s - s')) ?_
-      show phi₀ hV U ha₀ N hg₁ hg₂ (secCochain N hV U (s - s')) = 0
+      change phi₀ hV U ha₀ N hg₁ hg₂ (secCochain N hV U (s - s')) = 0
       refine (congrArg (phi₀ hV U ha₀ N hg₁ hg₂) (secCochain_sub hV U s s')).trans ?_
       rw [map_sub, phi₀_secCochain (hg₁ := hg₁) (hg₂ := hg₂) (hV := hV) (U := U) (ha₀ := ha₀) s hs,
         phi₀_secCochain (hg₁ := hg₁) (hg₂ := hg₂) (hV := hV) (U := U) (ha₀ := ha₀) s' hs',
@@ -58,9 +58,10 @@ theorem normSec_unique (h : ChartHyp hV U N)
 
 variable [IsAlgClosed k] [LocallyOfFiniteType A.hom] [Smooth A.hom]
 
+omit [Fintype ι] [DecidableEq ι] in
 include ha₀ hg₁ hg₂ in
 /-- **Existence of a normalized section** over a chart all of whose fibres are trivial. -/
-theorem exists_normSec (h : ChartHyp hV U N)
+theorem exists_normSec [Finite ι] (h : ChartHyp hV U N)
     (hU : ∀ (n : ℕ) (i : Fin (n + 1) → ι), IsAffineOpen (CechCochains.inter U i))
     (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
     (hAc : Function.Surjective ((Scheme.ΓSpecIso (.of k)).inv ≫ A.hom.appTop))
@@ -69,6 +70,7 @@ theorem exists_normSec (h : ChartHyp hV U N)
     (hall : ∀ (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _) (hzV : z ⁻¹ᵁ V = ⊤),
       ∃ σ₀ : Γ(fibreModule z hzk hzV N, ⊤), IsGen _ σ₀) :
     ∃ s : Γ(N, (PV V).ι ''ᵁ ⊤), NormSec N (g₁ := g₁) (g₂ := g₂) _ s := by
+  have := Fintype.ofFinite ι
   let I : Ideal (chartRing V) :=
     { carrier := {a | ∃ y : CX hV U N 0, d₀ hV U N y = 0 ∧ phi₀ hV U ha₀ N hg₁ hg₂ y = a • w₁ U}
       add_mem' := fun {a b} ⟨y, hy, hφ⟩ ⟨y', hy', hφ'⟩ =>

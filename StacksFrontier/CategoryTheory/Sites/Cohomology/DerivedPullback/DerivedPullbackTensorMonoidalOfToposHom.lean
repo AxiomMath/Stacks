@@ -125,7 +125,7 @@ theorem reseatIso_inv_comp_reseatIso_hom (Z : AlgebraicGeometry.RingedTopos.{u, 
             (Stacks.SheafOfModules.canonicalDerivedTensorProduct Z.toRingedSite))) A B).hom =
       ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctorIsoSheafOfModules
         Z.toRingedSite).hom.app A).app B := by
-  show (((Stacks.SheafOfModules.DerivedMonoidal.derivedTensorBifunctorIso Z.O ≪≫
+  change (((Stacks.SheafOfModules.DerivedMonoidal.derivedTensorBifunctorIso Z.O ≪≫
       Stacks.SheafOfModules.DerivedMonoidal.canonicalTensorIso Z.O).app A).app B).inv ≫
       (((Stacks.SheafOfModules.DerivedMonoidal.derivedTensorBifunctorIso Z.O ≪≫
         Stacks.SheafOfModules.DerivedMonoidal.derivedBifunctorTensorIso Z.O
@@ -160,7 +160,7 @@ theorem derivedPullbackDerivedMonoidal_μ
         (derivedPullback f).map
           (@reseatIso _ _ (Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal Y.O) _
             (Stacks.SheafOfModules.DerivedMonoidal.monoidalTensorCanonicalIso Y.O) A B).inv := by
-  show ((@reseatIso _ _ (Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O) _
+  change ((@reseatIso _ _ (Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O) _
       (Stacks.SheafOfModules.DerivedMonoidal.monoidalTensorCanonicalIso X.O)
       ((derivedPullback f).obj A) ((derivedPullback f).obj B)).hom ≫
       (derivedPullbackTensorIso f).inv.app (A, B)) ≫ (derivedPullback f).map
@@ -187,7 +187,7 @@ theorem reseatIso_inv_comp_reseatIso_hom' (Z : AlgebraicGeometry.RingedTopos.{u,
         (Stacks.SheafOfModules.DerivedMonoidal.monoidalTensorCanonicalIso Z.O) A B).hom =
       ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctorIsoSheafOfModules
         Z.toRingedSite).inv.app A).app B := by
-  show (((Stacks.SheafOfModules.DerivedMonoidal.derivedTensorBifunctorIso Z.O ≪≫
+  change (((Stacks.SheafOfModules.DerivedMonoidal.derivedTensorBifunctorIso Z.O ≪≫
       Stacks.SheafOfModules.DerivedMonoidal.derivedBifunctorTensorIso Z.O
         (Stacks.SheafOfModules.DerivedTensorProduct.toRingedSiteDerivedTensorProduct
           (Stacks.SheafOfModules.canonicalDerivedTensorProduct Z.toRingedSite))).app A).app B).inv ≫
@@ -222,7 +222,7 @@ theorem derivedPullbackTensorMonoidal_μ
       (Stacks.Cohomology.DerivedPullbackOfToposHom.derivedPullbackTensorIso f
           (Stacks.SheafOfModules.canonicalDerivedTensorProduct X.toRingedSite)
           (Stacks.SheafOfModules.canonicalDerivedTensorProduct Y.toRingedSite)).inv.app (A, B) := by
-  show (@Functor.LaxMonoidal.μ _ _
+  change (@Functor.LaxMonoidal.μ _ _
       (Stacks.SheafOfModules.DerivedMonoidal.derivedMonoidal X.O) _ _
       (Stacks.SheafOfModules.DerivedMonoidal.reseatedDerivedMonoidal X.O
           (Stacks.SheafOfModules.DerivedTensorProduct.toRingedSiteDerivedTensorProduct

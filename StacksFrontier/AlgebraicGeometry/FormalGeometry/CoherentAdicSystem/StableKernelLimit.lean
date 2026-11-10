@@ -301,7 +301,7 @@ public theorem stableKernelImage_idealPowerMultiple_eq_bot (α : F ⟶ G) (m : �
     Stacks.Algebraization.affine_sections_annihilated_of_idealPowerMultiple_eq_bot
       (F.property.idealPowerMultiple_eq_bot m) V ha _
   refine hinj ?_
-  show (stableKernelImageIncl I α m).app V.1 (a • x) =
+  change (stableKernelImageIncl I α m).app V.1 (a • x) =
     (stableKernelImageIncl I α m).app V.1 0
   rw [Scheme.Modules.Hom.app_smul, hzero, map_zero]
 
@@ -598,7 +598,7 @@ public theorem linearMap_bijective_of_comp_ker {R A B C : Type*} [CommRing R]
   · refine LinearMap.ker_eq_bot.mp (le_antisymm (fun y hy => ?_) bot_le)
     obtain ⟨x, rfl⟩ := hs y
     have hx : x ∈ LinearMap.ker t := by
-      show t x = 0
+      change t x = 0
       rw [← hf]
       exact hy
     exact (show x ∈ LinearMap.ker s from hker.symm ▸ hx)
@@ -772,7 +772,7 @@ public theorem exists_restrictImageIso {Y Z : Scheme.{u}} (r : Y ⟶ Z) [IsOpenI
   have h1 : (Abelian.imageIsoImage a).inv ≫ kernel.ι (cokernel.π a) = image.ι a := by
     rw [← Abelian.imageIsoImage_hom_comp_image_ι a, ← Category.assoc, Iso.inv_hom_id,
       Category.id_comp]
-  show (T.map (Abelian.imageIsoImage a).inv ≫
+  change (T.map (Abelian.imageIsoImage a).inv ≫
       ((Abelian.PreservesImage.iso T a).hom ≫ (Abelian.imageIsoImage (T.map a)).hom)) ≫
     image.ι (T.map a) = T.map (image.ι a)
   rw [Category.assoc, Category.assoc, Abelian.imageIsoImage_hom_comp_image_ι,
@@ -802,7 +802,7 @@ public theorem kernelImageAt_restrictIso {Y Z : Scheme.{u}} [IsLocallyNoetherian
     ⟨eK.inv, by rw [← heK, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]⟩
   obtain ⟨g, hg⟩ := exists_restrictImageIso r a
   refine ⟨g ≪≫ e, ?_⟩
-  show (g.hom ≫ e.hom) ≫ image.ι b = T.map (image.ι a)
+  change (g.hom ≫ e.hom) ≫ image.ι b = T.map (image.ι a)
   rw [Category.assoc, he, hg]
 
 /-- **The stabilized kernel images commute with restriction**, canonically over the restricted
@@ -830,7 +830,7 @@ public theorem stableKernelImage_restrictIso {Y Z : Scheme.{u}} [IsNoetherian Y]
   have he₁ : e₁.inv ≫ kernelImageAtIncl J α m l ((le_kernelStableLevel J α m).trans hJ) =
       stableKernelImageIncl J α m :=
     stableKernelImageIso_inv_comp J α m l hJ
-  show ((Scheme.Modules.restrictFunctor r).map e₁.inv ≫ e₀.hom ≫ e₂.hom) ≫
+  change ((Scheme.Modules.restrictFunctor r).map e₁.inv ≫ e₀.hom ≫ e₂.hom) ≫
     stableKernelImageIncl (J.comap r) α' m =
       (Scheme.Modules.restrictFunctor r).map (stableKernelImageIncl J α m)
   rw [Category.assoc, Category.assoc, he₂, he₀]
@@ -1038,7 +1038,7 @@ public theorem specStableKernelImageQuotientMap_isIso (R : CommRingCat.{u}) [IsN
   obtain ⟨J, rfl⟩ := (Scheme.IdealSheafData.equivOfIsAffine (X := Spec R)).symm.surjective J
   obtain ⟨c, hc⟩ := affineStableKernelImageQuotientMap_bijective (Spec R) J α n
   refine ⟨c, fun m hm l hml => ?_⟩
-  show IsIso ((stableKernelImageCompletion_project (Scheme.IdealSheafData.ofIdealTop J)
+  change IsIso ((stableKernelImageCompletion_project (Scheme.IdealSheafData.ofIdealTop J)
     α m l hml).hom.app (op n))
   have hcoh : ∀ k : ℕ, ((stableKernelImageCompletion (Scheme.IdealSheafData.ofIdealTop J)
       α k).obj.obj (op n)).IsCoherent := fun k =>

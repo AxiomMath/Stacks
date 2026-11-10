@@ -114,14 +114,14 @@ theorem subsingleton_setFibre_extensionBaseChangeProj
   let a : Q ⟶ p.siteObject := Over.homMk (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom (algebraMap p.carrier R)))) (by
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (algebraMap p.carrier R)) ≫ p.toBase = _
+    change Spec.map (CommRingCat.ofHom (algebraMap p.carrier R)) ≫ p.toBase = _
     rw [← hp, ← Spec.map_comp]
     congr 1)
   let b : Q ⟶ E := Over.homMk (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom : L →+* R))))
     (by
       apply ObjectProperty.hom_ext
-      show Spec.map _ ≫ Spec.map _ = Spec.map _
+      change Spec.map _ ≫ Spec.map _ = Spec.map _
       rw [← Spec.map_comp]
       congr 1
       ext x
@@ -131,7 +131,7 @@ theorem subsingleton_setFibre_extensionBaseChangeProj
   have hab : IsPullback a b a₀ b₀ := by
     apply IsPullback.of_map_of_faithful (Over.forget (B.obj hk))
     apply IsPullback.of_map_of_faithful B.inclusion
-    show IsPullback (Spec.map (CommRingCat.ofHom (algebraMap p.carrier R)))
+    change IsPullback (Spec.map (CommRingCat.ofHom (algebraMap p.carrier R)))
       (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom : L →+* R)))
       p.toBase (Spec.map (CommRingCat.ofHom (algebraMap k L)))
     rw [← hp]

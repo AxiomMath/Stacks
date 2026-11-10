@@ -168,18 +168,18 @@ theorem existsUnique_hom_of_isRepresentableThickening {Y Z Z₀ A : FppfSheaf B 
                uliftYonedaEquiv.{u + 1} (W T.unop (uliftYonedaEquiv.{u + 1}.symm ξ))
              naturality := fun T T' g ↦ ConcreteCategory.hom_ext _ _ fun ξ ↦ ?_ }⟩,
     ⟨?_, ?_⟩, ?_⟩
-  · show uliftYonedaEquiv.{u + 1}
+  · change uliftYonedaEquiv.{u + 1}
         (W T'.unop (uliftYonedaEquiv.{u + 1}.symm (Z.obj.map g ξ)))
       = A.obj.map g (uliftYonedaEquiv.{u + 1} (W T.unop (uliftYonedaEquiv.{u + 1}.symm ξ)))
     rw [uliftYonedaEquiv_naturality, uliftYonedaEquiv_symm_map,
       hnat T.unop T'.unop g.unop (uliftYonedaEquiv.{u + 1}.symm ξ)]
   · refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦ ConcreteCategory.hom_ext _ _ fun ξ ↦ ?_))
-    show q.hom.app T (uliftYonedaEquiv.{u + 1} (W T.unop (uliftYonedaEquiv.{u + 1}.symm ξ)))
+    change q.hom.app T (uliftYonedaEquiv.{u + 1} (W T.unop (uliftYonedaEquiv.{u + 1}.symm ξ)))
       = z.hom.app T ξ
     rw [← uliftYonedaEquiv_comp, (hW T.unop (uliftYonedaEquiv.{u + 1}.symm ξ)).1,
       uliftYonedaEquiv_comp, Equiv.apply_symm_apply]
   · refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦ ConcreteCategory.hom_ext _ _ fun ζ ↦ ?_))
-    show uliftYonedaEquiv.{u + 1}
+    change uliftYonedaEquiv.{u + 1}
         (W T.unop (uliftYonedaEquiv.{u + 1}.symm (ι.hom.app T ζ)))
       = h.hom.app T ζ
     have hsplit : (𝟙 ((uliftYoneda.{u + 1}).obj T.unop)) ≫
@@ -193,7 +193,7 @@ theorem existsUnique_hom_of_isRepresentableThickening {Y Z Z₀ A : FppfSheaf B 
     rw [key, uliftYonedaEquiv_comp, Equiv.apply_symm_apply]
   · rintro f ⟨hf₁, hf₂⟩
     refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦ ConcreteCategory.hom_ext _ _ fun ξ ↦ ?_))
-    show f.hom.app T ξ
+    change f.hom.app T ξ
       = uliftYonedaEquiv.{u + 1} (W T.unop (uliftYonedaEquiv.{u + 1}.symm ξ))
     have hfq : f.hom ≫ q.hom = z.hom := congrArg (fun k : Z ⟶ Y ↦ k.hom) hf₁
     have hιf : ι.hom ≫ f.hom = h.hom := congrArg (fun k : Z₀ ⟶ A ↦ k.hom) hf₂

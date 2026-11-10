@@ -58,8 +58,9 @@ pairings, and checking the two triangle identities for the sums, is available in
 of a monoidal preadditive category with bounded support. What that does not give is that `η` and
 `ε` are morphisms of *complexes* rather than of graded objects, and for that one needs
 the signed-transpose differential of the `ModuleCat` analogue [Stacks, Tag 0FNK], which is
-proved with elements. It has a counterpart over a site: `StacksFrontier/Algebra/Homology/AssembleLeftDual.lean` carries the whole passage
-element-free, for any monoidal preadditive category with the graded-monoidal hypotheses —
+proved with elements. It has a counterpart over a site:
+`StacksFrontier/Algebra/Homology/AssembleLeftDual.lean` carries the whole passage element-free, for
+any monoidal preadditive category with the graded-monoidal hypotheses —
 `CochainComplex.coevaluationHom` and `CochainComplex.evaluationHom` for the sums,
 `CochainComplex.exactPairingOfDegreewise` for the two triangle identities, and
 `CochainComplex.exactPairingOfSignedTranspose` for the whole statement from the signed transpose

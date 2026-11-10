@@ -600,7 +600,7 @@ private theorem baseChange_relationMatrix_span {R : Type*} [CommRing R]
     have hfg : Function.Exact (LinearMap.ker f).subtype f := by
       rw [LinearMap.exact_iff]
       exact (Submodule.range_subtype _).symm
-    simpa only [LinearMap.baseChange_eq_ltensor] using (lTensor_exact S hfg hf)
+    simpa only [LinearMap.baseChange_eq_lTensor] using (lTensor_exact S hfg hf)
   have hker : (f.baseChange S).ker =
       ((LinearMap.ker f).subtype.baseChange S).range :=
     LinearMap.exact_iff.mp hex
@@ -626,8 +626,7 @@ private theorem baseChange_relationMatrix_span {R : Type*} [CommRing R]
         e (((LinearMap.ker f).subtype.baseChange S) y) ∈
           Submodule.span S (Set.range fun j : LinearMap.ker f => fun i => B i j) := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul s j =>
           rw [hcol]
           exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)

@@ -992,7 +992,7 @@ noncomputable def elementRestrictionCompPushforwardModulesIso :
       pushforwardModules.{uu, uu, uu, uu, uu, uu} f.toRingedToposModulesHom ⋙
         elementRestrictionModules Y G :=
   NatIso.ofComponents (fun M ↦ localizedPushforwardElementRestrictionIso f G M)
-    (fun {M M'} φ ↦ hom_ext_moduleSheafFunctor
+    (fun φ ↦ hom_ext_moduleSheafFunctor
       (R := Stacks.SheafOfModules.Tensor.ringSheaf (Y.localizedRingedTopos G).O)
       (localizedPushforwardElementRestriction_naturality f G φ))
 

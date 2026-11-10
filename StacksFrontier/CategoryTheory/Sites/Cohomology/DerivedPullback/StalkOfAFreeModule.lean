@@ -91,11 +91,11 @@ lemma retract_cokernel {R : Type u} [Ring R] {k l : ℕ} {X Y N : ModuleCat.{u} 
     intro v hv
     obtain ⟨w, hw⟩ := (hfg v).1 (LinearMap.mem_ker.mp hv)
     simp only [LinearMap.mem_ker]
-    show cokernel.π u (σ v) = 0
+    change cokernel.π u (σ v) = 0
     rw [← hw]
     have h3 : σ (G.hom w) = u (σ' w) := (ConcreteCategory.congr_hom h1 w).symm
     rw [h3]
-    show (u ≫ cokernel.π u) (σ' w) = 0
+    change (u ≫ cokernel.π u) (σ' w) = 0
     rw [cokernel.condition]
     rfl
   refine ⟨ConcreteCategory.ofHom ((Submodule.liftQ (LinearMap.ker f)
@@ -104,13 +104,13 @@ lemma retract_cokernel {R : Type u} [Ring R] {k l : ℕ} {X Y N : ModuleCat.{u} 
     cokernel.desc u (π ≫ ModuleCat.ofHom f) hzero, ?_⟩
   refine ConcreteCategory.hom_ext _ _ (fun x => ?_)
   obtain ⟨v, rfl⟩ := hf x
-  show cokernel.desc u (π ≫ ModuleCat.ofHom f) hzero
+  change cokernel.desc u (π ≫ ModuleCat.ofHom f) hzero
     ((Submodule.liftQ (LinearMap.ker f) (σ ≫ cokernel.π u).hom hker)
       ((LinearMap.quotKerEquivOfSurjective f hf).symm (f v))) = f v
   rw [LinearMap.quotKerEquivOfSurjective_symm_apply, Submodule.liftQ_apply]
-  show (cokernel.π u ≫ cokernel.desc u (π ≫ ModuleCat.ofHom f) hzero) (σ v) = f v
+  change (cokernel.π u ≫ cokernel.desc u (π ≫ ModuleCat.ofHom f) hzero) (σ v) = f v
   rw [cokernel.π_desc]
-  show f (π (σ v)) = f v
+  change f (π (σ v)) = f v
   rw [show π (σ v) = v from ConcreteCategory.congr_hom hσπ v]
 
 /-- A retract of `X` is a retract of anything isomorphic to `X`. -/
@@ -276,10 +276,12 @@ omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrp
 `(i, f ≫ ψ)`. -/
 lemma restr_gen (U : C) (n : ℕ) {V W : C} (f : V ⟶ W) (q : Fin n × (W ⟶ U)) :
     restr O U n f (gen O U n W q) = gen O U n V (q.1, f ≫ q.2) := by
-  show (freePres O U n).map f.op (gen O U n W q) = _
+  change (freePres O U n).map f.op (gen O U n W q) = _
   rw [PresheafOfModules.freeObj_map]
   exact ModuleCat.freeDesc_apply _ _
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Restricting the generator indexed by `(i, ψ)` scaled by `c` along `f` gives the generator
 indexed by `(i, f ≫ ψ)` scaled by the restriction of `c`. -/
 lemma restr_gens (U : C) (n : ℕ) {V W : C} (f : V ⟶ W) (q : Fin n × (W ⟶ U))
@@ -342,7 +344,7 @@ lemma coeff_smul (V : C) (y : Φ.fiber.obj V) (r : (ringPresheaf O).obj (op V))
   have h1 := ModuleCat.restrictScalars.smul_def (f := germHom O Φ V y)
       (M := ModuleCat.of (structureStalk O Φ : Type u)
         (Fin n → (structureStalk O Φ : Type u))) r (coeffAt O Φ U n x₀ V y c)
-  show coeffAt O Φ U n x₀ V y (r • c) = _
+  change coeffAt O Φ U n x₀ V y (r • c) = _
   rw [h0, h1]
 
 omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
@@ -381,6 +383,7 @@ def coeffAdd (V : C) (y : Φ.fiber.obj V) :
       AddCommGrpCat.of (Fin n → structureStalk O Φ) :=
   AddCommGrpCat.ofHom (coeffAt O Φ U n x₀ V y).hom.toAddMonoidHom
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The maps `coeffAdd` are compatible with the restriction maps of `freePres O U n`. -/
 lemma coeffAdd_naturality : ∀ ⦃V W : C⦄ (f : V ⟶ W) (y : Φ.fiber.obj V),
     (freePres O U n).presheaf.map f.op ≫ coeffAdd O Φ U n x₀ V y
@@ -392,6 +395,7 @@ def projAdd : (Φ.presheafFiber (A := AddCommGrpCat.{u})).obj (freePres O U n).p
     AddCommGrpCat.of (Fin n → structureStalk O Φ) :=
   Φ.presheafFiberDesc (coeffAdd O Φ U n x₀) (coeffAdd_naturality O Φ U n x₀)
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `projAdd` sends the germ of `c` at `(V, y)` to the coefficient of `c` at `(V, y)`. -/
 lemma projAdd_germ (V : C) (y : Φ.fiber.obj V) (c : (freePres O U n).obj (op V)) :
     projAdd O Φ U n x₀ (germMod O Φ (freePres O U n) V y c) = coeff O Φ U n x₀ V y c :=
@@ -442,20 +446,22 @@ def incl : ModuleCat.of (structureStalk O Φ)
         intro a v
         simp only [RingHom.id_apply, Pi.smul_apply, smul_eq_mul, Finset.smul_sum, mul_smul] }
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `proj` sends the germ at `(U, x₀)` of the `i`-th tautological generator to the `i`-th
 basis vector. -/
 lemma proj_gen (i : Fin n) :
     proj O Φ U n x₀ (germMod O Φ (freePres O U n) U x₀ (gen O U n U (i, 𝟙 U)))
       = (Pi.single i 1 : Fin n → structureStalk O Φ) := by
-  show projAdd O Φ U n x₀ _ = _
+  change projAdd O Φ U n x₀ _ = _
   rw [projAdd_germ, coeff_gen]
   have h : Φ.fiber.map ((i, 𝟙 U) : Fin n × (U ⟶ U)).2 x₀ = x₀ := by simp
   rw [ite_eq_left h]
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **`incl` is a section of `proj`**: `incl ≫ proj` is the identity of `O_Φ^n`. -/
 lemma incl_proj : incl O Φ U n x₀ ≫ proj O Φ U n x₀ = 𝟙 _ := by
   refine ConcreteCategory.hom_ext _ _ (fun v => ?_)
-  show proj O Φ U n x₀
+  change proj O Φ U n x₀
     (∑ i, v i • germMod O Φ (freePres O U n) U x₀ (gen O U n U (i, 𝟙 U))) = v
   rw [map_sum]
   have key : ∀ i : Fin n, proj O Φ U n x₀ (v i •
@@ -521,6 +527,8 @@ def matrixHom (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U)) :
   PresheafOfModules.freeObjDesc (R := ringPresheaf O) (G := freePres O U n)
     (matrixNat O U n m A)
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `matrixHom` sends the generator indexed by `(j, ψ)` to the `j`-th column of the matrix,
 restricted along `ψ`. -/
 lemma matrixHom_gen (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U))
@@ -530,6 +538,8 @@ lemma matrixHom_gen (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op 
   rw [matrixHom, PresheafOfModules.freeObjDesc_app]
   exact ModuleCat.freeDesc_apply _ _
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- `matrixHom` sends the generator indexed by `(j, ψ)` scaled by `c` to the `j`-th column of
 the matrix, restricted along `ψ` and scaled by `c`. -/
 lemma matrixHom_gens (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U))
@@ -577,17 +587,20 @@ lemma germMatrix_single (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj 
 
 /-! ### The two intertwining squares -/
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `proj` sends the germ of `c` at `(V, y)` to the coefficient of `c` at `(V, y)`. -/
 lemma proj_germ (V : C) (y : Φ.fiber.obj V) (c : (freePres O U n).obj (op V)) :
     proj O Φ U n x₀ (germMod O Φ (freePres O U n) V y c) = coeff O Φ U n x₀ V y c :=
   projAdd_germ O Φ U n x₀ V y c
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `proj` commutes with finite sums. -/
 lemma proj_sum {ι : Type*} (s : Finset ι)
     (g : ι → ((stalkPres O Φ).obj (freePres O U n) : Type u)) :
     proj O Φ U n x₀ (∑ i ∈ s, g i) = ∑ i ∈ s, proj O Φ U n x₀ (g i) := map_sum _ _ _
 
-omit [DecidableEq (Φ.fiber.obj U)] in
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [DecidableEq (Φ.fiber.obj U)] in
 /-- The map on stalks induced by `matrixHom A` sends the `j`-th basis germ to
 `∑ i, germ (A j i) • basisGerm i`. -/
 lemma stalkMap_basisGerm (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U)) (j : Fin m) :
@@ -599,13 +612,14 @@ lemma stalkMap_basisGerm (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj
   rw [hid]
   exact germMod_smul O Φ (freePres O U n) U x₀ (A j i) (gen O U n U (i, 𝟙 U))
 
-omit [DecidableEq (Φ.fiber.obj U)] in
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [DecidableEq (Φ.fiber.obj U)] in
 /-- **The inclusion intertwines the matrix of germs with the matrix morphism.** -/
 lemma incl_comp_stalkMap (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U)) :
     incl O Φ U m x₀ ≫ (stalkPres O Φ).map (matrixHom O U n m A)
       = germMatrix O Φ U n x₀ m A ≫ incl O Φ U n x₀ := by
   refine ConcreteCategory.hom_ext _ _ (fun v => ?_)
-  show (stalkPres O Φ).map (matrixHom O U n m A) (∑ j, v j • basisGerm O Φ U m x₀ j)
+  change (stalkPres O Φ).map (matrixHom O U n m A) (∑ j, v j • basisGerm O Φ U m x₀ j)
     = ∑ i, germMatrix O Φ U n x₀ m A v i • basisGerm O Φ U n x₀ i
   rw [map_sum]
   have h1 : ∀ j : Fin m, (stalkPres O Φ).map (matrixHom O U n m A)
@@ -619,6 +633,7 @@ lemma incl_comp_stalkMap (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj
   rw [← Finset.sum_smul]
   rfl
 
+omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The projection intertwines the matrix morphism with the matrix of germs.** -/
 lemma stalkMap_comp_proj (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj (op U)) :
     (stalkPres O Φ).map (matrixHom O U n m A) ≫ proj O Φ U n x₀
@@ -626,7 +641,7 @@ lemma stalkMap_comp_proj (m : ℕ) (A : Fin m → Fin n → (ringPresheaf O).obj
   refine ConcreteCategory.hom_ext _ _ (fun l => ?_)
   obtain ⟨V, y, c, rfl⟩ :=
     Stacks.toPresheafModuleFiber_jointly_surjective Φ (freePres O U m) l
-  show proj O Φ U n x₀ ((stalkPres O Φ).map (matrixHom O U n m A)
+  change proj O Φ U n x₀ ((stalkPres O Φ).map (matrixHom O U n m A)
       (germMod O Φ (freePres O U m) V y c))
     = germMatrix O Φ U n x₀ m A (proj O Φ U m x₀ (germMod O Φ (freePres O U m) V y c))
   induction c using freePres_induction with

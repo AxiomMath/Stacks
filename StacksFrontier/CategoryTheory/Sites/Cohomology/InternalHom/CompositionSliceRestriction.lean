@@ -80,7 +80,7 @@ theorem applyHomSectionOver_isInternalHomRestrictionMap
         (sheafHomComplex (X.over U) (restrictComplex X A U) (restrictComplex X B U))
         V W i n p q hpq ((f.f n).val.app (op V) s) x =
       applyHomSectionOver X (sheafHomComplex X A B) V.left W.left i.left n p q hpq s x := by
-  show ((AddCommGrpCat.Hom.hom
+  change ((AddCommGrpCat.Hom.hom
       (((sheafHomComplex (X.over U) (restrictComplex X A U)
         (restrictComplex X B U)).sectionsIso V).hom.f n)
       ((f.f n).val.app (op V) s)).v p q hpq).val.app (op (Over.mk i)) x = _

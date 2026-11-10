@@ -95,6 +95,9 @@ variable (S : SimplicialSiteSituation.{u}) (O : Sheaf S.totalTopology CommRingCa
 
 variable {S O}
 
+omit [∀ (m n : SimplexCategory) (φ : m ⟶ n),
+    (pullbackOnHomotopy (S.transitionRingedToposHom O φ)).HasLeftDerivedFunctor
+      (targetQuasiIso (S.componentRingedTopos O m))] in
 /-- Countable direct sums in the derived category of modules on one simplicial component: sheaves
 of modules have exact countable direct sums, and Stacks 0A5L carries that to the derived
 category. -/
@@ -278,10 +281,10 @@ theorem moduleRealizationComponentInclusion_comp_augmentation
       (moduleRealizationComponentAugmented hflat hsummand T hT m).hom.app
         (Opposite.op ⦋0⦌) = 𝟙 _ := by
   let e := moduleRealizationComponentComparisonIso hflat hsummand T hT m
-  show moduleRealizationComponentInclusion hflat T hT ψ ≫ e.inv.app (Opposite.op ⦋0⦌) ≫
+  change moduleRealizationComponentInclusion hflat T hT ψ ≫ e.inv.app (Opposite.op ⦋0⦌) ≫
     Limits.Sigma.desc (fun _ : ⦋0⦌ ⟶ m => 𝟙 (T.obj m)) = 𝟙 _
   rw [← moduleRealizationComponentComparison_ι hflat T hT ψ]
-  show (Limits.Sigma.ι (fun _ : ⦋0⦌ ⟶ m => T.obj m) ψ ≫ e.hom.app (Opposite.op ⦋0⦌)) ≫
+  change (Limits.Sigma.ι (fun _ : ⦋0⦌ ⟶ m => T.obj m) ψ ≫ e.hom.app (Opposite.op ⦋0⦌)) ≫
     e.inv.app (Opposite.op ⦋0⦌) ≫ Limits.Sigma.desc _ = _
   simp
 

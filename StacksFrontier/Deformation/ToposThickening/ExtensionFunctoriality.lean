@@ -142,7 +142,7 @@ noncomputable abbrev ringMapH :
 
 /-- The morphism of thickenings lies over the base, on underlying sheaves of rings. -/
 lemma ringMapH_comp_structureRingMap : D.ringMapH ≫ structureRingMap i = D.ringMap₂ := by
-  show (sheafCompose Y.J (forget₂ CommRingCat RingCat)).map D.hSharp ≫
+  change (sheafCompose Y.J (forget₂ CommRingCat RingCat)).map D.hSharp ≫
       (sheafCompose Y.J (forget₂ CommRingCat RingCat)).map i.fSharp =
     (sheafCompose Y.J (forget₂ CommRingCat RingCat)).map D.fSharp₂
   rw [← Functor.map_comp, D.comm]
@@ -263,7 +263,7 @@ lemma fSharp₂_locallySurjective : Presheaf.IsLocallySurjective Y.J D.fSharp₂
 /-- The structure map of the second thickening is locally surjective on the underlying sheaves
 of rings. -/
 lemma ringMap₂_locallySurjective : Presheaf.IsLocallySurjective Y.J D.ringMap₂.hom := by
-  show Presheaf.IsLocallySurjective Y.J
+  change Presheaf.IsLocallySurjective Y.J
     (Functor.whiskerRight D.fSharp₂.hom (forget₂ CommRingCat RingCat))
   refine ⟨?_⟩
   intro U s

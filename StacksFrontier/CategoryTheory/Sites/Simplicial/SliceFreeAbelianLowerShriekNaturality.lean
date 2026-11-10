@@ -135,7 +135,7 @@ attribute [local instance] GrothendieckTopology.hasSheafify_addCommGrpCat
 attribute [local instance high] Sheaf.instPreservesSheafificationOfIsLeftAdjoint
 
 variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
-  [J.WEqualsLocallyBijective (Type u)] {M N : FormalCoproduct.{u} C} (f : M ⟶ N)
+  {M N : FormalCoproduct.{u} C} (f : M ⟶ N)
 
 /-- **`freeSheafPushforwardIso` is natural in the semi-representable object, solved for the
 reindexing of the free abelian sheaf.** This is

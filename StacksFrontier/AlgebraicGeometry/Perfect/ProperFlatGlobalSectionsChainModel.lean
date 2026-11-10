@@ -55,7 +55,7 @@ theorem quasiIso_extendScalars_map_of_flat {A A' : Type u} [CommRing A] [CommRin
   have hK : IsIso ((extendScalarsDerivedCounit φ).app K) :=
     isIso_extendScalarsDerivedCounit_app_of_flat φ K c
   have hFu : IsIso ((DerivedCategory.Q ⋙ extendScalarsDerived φ).map u) := by
-    show IsIso ((extendScalarsDerived φ).map (DerivedCategory.Q.map u))
+    change IsIso ((extendScalarsDerived φ).map (DerivedCategory.Q.map u))
     infer_instance
   have h : ((ModuleCat.extendScalars.{u, u, u} φ).mapHomologicalComplex (ComplexShape.up ℤ) ⋙
         DerivedCategory.Q).map u =

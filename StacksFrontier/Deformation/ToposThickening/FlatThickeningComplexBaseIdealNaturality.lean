@@ -263,6 +263,7 @@ noncomputable def basePullbackIdealMap :
     (basePullbackIdeal_eq_pullbackModules_toModulesHom_obj f E.second) E.pullbackIdealMap
     (pullbackModules_toModulesHom_obj_eq_basePullbackIdeal f E.first)
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)] in
 /-- The induced map `f^*t₂^*𝒥₂ ⟶ f^*t₁^*𝒥₁` is `f^*` of the induced map `t₂^*𝒥₂ ⟶ t₁^*𝒥₁`,
 across the transports between the two pullbacks along `t₂` and the two spellings of
 `f^*t^*𝒥`. -/

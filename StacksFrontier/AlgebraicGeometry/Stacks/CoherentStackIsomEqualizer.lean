@@ -693,7 +693,7 @@ morphism of the restriction of `u` along `hl`. -/
 theorem comp_psi {z₁ z₂ : CoherentObject D} {V₁ V₂ : BigFppfOver B S hS} (hz₁ : z₁.T.left = V₁)
     (hz₂ : z₂.T.left = V₂) (κc₂ : CoherentHom z₂ A) {a₁ : V₁ ⟶ U} {a₂ : V₂ ⟶ U}
     (hκ₂ : κc₂.base.left = eqToHom hz₂ ≫ a₂ ≫ eqToHom hA.symm) (ρ : CoherentHom z₁ z₂)
-    (hl : V₁ ⟶ V₂) (hρ : ρ.base.left = eqToHom hz₁ ≫ hl ≫ eqToHom hz₂.symm) (hla : hl ≫ a₂ = a₁)
+    (hl : V₁ ⟶ V₂) (hρ : ρ.base.left = eqToHom hz₁ ≫ hl ≫ eqToHom hz₂.symm)
     (hκ₁ : (ρ.comp κc₂).base.left = eqToHom hz₁ ≫ a₁ ≫ eqToHom hA.symm)
     (κ'₂ : V₂ ⟶ T.left) (hκ'₂ : κ'₂ ≫ ι = a₂)
     (u : ((pairHomSituation tA tA').isomFunctor).obj (Opposite.op (commonTest tA tA' κ'₂)))
@@ -849,9 +849,9 @@ theorem psiPoint_comp {a₁ a₂ : Over U} (h : a₁ ⟶ a₂)
       eqToHom ((coherentSiteProjection D.categoryData).pullbackFiber x a₁.hom).2 ≫ h.left ≫
         eqToHom ((coherentSiteProjection D.categoryData).pullbackFiber x a₂.hom).2.symm := hρ
   unfold psiPoint
-  refine (comp_psi (show x.1.T.left = U from x.2) ι tA htA tA' _ _ _ _
+  refine (comp_psi (a₁ := a₁.hom) (show x.1.T.left = U from x.2) ι tA htA tA' _ _ _ _
     ((Equiv.cast (D.categoryData.hom_type _ _))
-      ((coherentSiteProjection D.categoryData).pullbackFiberMap x h)) h.left hρb (Over.w h)
+      ((coherentSiteProjection D.categoryData).pullbackFiberMap x h)) h.left hρb
     ?_ _ _ _ _ _ ?_ ?_).trans ?_
   · exact (congrArg (fun m => ((Equiv.cast (D.categoryData.hom_type _ _)) m).base.left)
       hfac).trans (IsHomLift.fac' (coherentSiteProjection D.categoryData) a₁.hom

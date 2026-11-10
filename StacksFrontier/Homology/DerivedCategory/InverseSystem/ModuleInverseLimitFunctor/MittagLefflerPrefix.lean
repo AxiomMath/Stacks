@@ -313,7 +313,7 @@ private theorem prefixSystem_map_surjective
   refine ⟨fun index => if bound : index.val < target.unop + 1 then
     values ⟨index.val, bound⟩ else 0, ?_⟩
   funext index
-  show (if bound : index.val < target.unop + 1 then values ⟨index.val, bound⟩ else 0) = values
+  change (if bound : index.val < target.unop + 1 then values ⟨index.val, bound⟩ else 0) = values
     index
   simp [index.isLt]
 
@@ -334,7 +334,7 @@ private theorem surjectiveImage_map_surjective
   obtain ⟨representative, represented⟩ := PresheafOfModules.surjective_of_epi quotient target value
   obtain ⟨lift, lifted⟩ := surjective representative
   refine ⟨quotient.app source lift, ?_⟩
-  show targetSystem.map transition (quotient.app source lift) = value
+  change targetSystem.map transition (quotient.app source lift) = value
   rw [← PresheafOfModules.naturality_apply quotient transition lift]
   exact (congrArg (quotient.app target) lifted).trans represented
 

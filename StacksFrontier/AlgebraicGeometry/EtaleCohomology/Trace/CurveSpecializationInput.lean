@@ -72,7 +72,7 @@ public def levelUnitStalkMap (F : LAdicSheaf.{u, u + 1} B Y ℓ) (s : GeometricP
     finiteLevelStalk B Y ℓ F s n ⟶ etaleStalk B Y.1 Y.2 s
       ((levelPushforward f n).obj ((levelPullback f n).obj (F.level n))).obj :=
   colim.map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
     ((levelAdjunction f n).unit.app (F.level n)).hom)
 
 end Unit

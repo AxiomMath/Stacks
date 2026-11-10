@@ -149,7 +149,7 @@ theorem baseRingToStalk_mem_maximalIdeal_iff (y : X) (a : A) :
     StructureSheaf.stalkAlgebra A (f y)
   have : IsLocalization.AtPrime ((Spec (.of A)).presheaf.stalk (f y)) (f y).asIdeal :=
     StructureSheaf.IsLocalization.to_stalk A (f y)
-  show (f.stalkMap y).hom (StructureSheaf.toStalk A (f y) a) ∈ _ ↔ _
+  change (f.stalkMap y).hom (StructureSheaf.toStalk A (f y) a) ∈ _ ↔ _
   rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff,
     ← IsLocalization.AtPrime.to_map_mem_maximal_iff ((Spec (.of A)).presheaf.stalk (f y))
       (f y).asIdeal a, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
@@ -381,7 +381,7 @@ theorem isIntegralElem_residue (s : Glob f c) {y : X} (hy : OverMin f c y) :
   have : IsProper f := hf.isProper
   refine isIntegralElem_residue_of_forall_specializes f y _ fun x hyx => ?_
   refine ⟨liftGerm f c s x, ?_⟩
-  show X.residue y (X.presheaf.stalkSpecializes hyx
+  change X.residue y (X.presheaf.stalkSpecializes hyx
     (X.presheaf.germ _ x (mem_liftOpen f c s x) (lift f c s x))) = _
   rw [TopCat.Presheaf.germ_stalkSpecializes_apply]
   exact (residue_eq (baseRingToStalk_mem_of_overMin hy) _ _ (proj_lift f c s x)).symm
@@ -457,7 +457,7 @@ theorem exists_overMin {P : Ideal A} (hP : P ∈ (Ideal.span {c}).minimalPrimes)
   obtain ⟨y, hy⟩ := exists_apply_eq f hdim hf ⟨P, this⟩
     (fun h => hPm (congrArg PrimeSpectrum.asIdeal h))
   refine ⟨y, ?_, by rw [hy]⟩
-  show (f y).asIdeal ∈ _
+  change (f y).asIdeal ∈ _
   rwa [hy]
 
 omit [IsIntegral X] in
@@ -644,7 +644,7 @@ theorem isIntegral_psi (s : Glob f c) :
     refine mem_span_of_forall_mem_minimalPrimes hred fun P hP => ?_
     obtain ⟨y, hy, rfl⟩ := exists_overMin hdim hf hP
     rw [← residueAlgebraMap_eq_zero_iff]
-    show (residueAlgebraMap f y).hom z = 0
+    change (residueAlgebraMap f y).hom z = 0
     rw [← Polynomial.eval₂_at_apply, ← hg.2 y hy, Polynomial.scaleRoots_eval₂_mul, hp y hy,
       mul_zero]
   let φ : A →+* Q := algebraMap A Q
@@ -698,7 +698,7 @@ theorem length_quotient_baseToZeroSchemeSections_le_of_isReduced {A : Type u} [C
   have h1 : LinearMap.range (baseToZeroSchemeSections X f c) ≤ LinearMap.ker Φ := by
     rintro _ ⟨a, rfl⟩
     rw [LinearMap.mem_ker]
-    show Submodule.Quotient.mk _ = 0
+    change Submodule.Quotient.mk _ = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact ⟨Ideal.Quotient.mk _ a, Subtype.ext (psi_base hdim hf hred a).symm⟩
   have h2 : LinearMap.ker Φ ≤ LinearMap.range (baseToZeroSchemeSections X f c) := by

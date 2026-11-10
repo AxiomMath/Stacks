@@ -134,8 +134,7 @@ theorem addMonoidHom_tensor_ext {R M N P : Type*} [CommRing R] [AddCommGroup M] 
     [AddCommGroup N] [Module R N] [AddCommGroup P] {g h : TensorProduct R M N →+ P}
     (H : ∀ m n, g (m ⊗ₜ[R] n) = h (m ⊗ₜ[R] n)) : g = h :=
   AddMonoidHom.ext fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact H m n
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -160,7 +159,7 @@ theorem transposeRingHom_app_map {V : D} {Z : C} (g : V ⟶ F.obj Z) (r : ToType
   have hn := ConcreteCategory.congr_hom (φ.naturality ((adj.homEquiv V Z).symm g).op) r
   change (φ.app (op (L.obj V))).hom ((O₀.map ((adj.homEquiv V Z).symm g).op).hom r) =
     (O.map (F.map ((adj.homEquiv V Z).symm g)).op).hom ((φ.app (op Z)).hom r) at hn
-  show (O.map (adj.unit.app V).op).hom ((φ.app (op (L.obj V))).hom
+  change (O.map (adj.unit.app V).op).hom ((φ.app (op (L.obj V))).hom
     ((O₀.map ((adj.homEquiv V Z).symm g).op).hom r)) = _
   rw [hn, ← CommRingCat.comp_apply, ← Functor.map_comp, ← op_comp]
   have e : adj.unit.app V ≫ F.map ((adj.homEquiv V Z).symm g) = g :=
@@ -237,7 +236,7 @@ theorem representedTransposeRingHom_map_topIso (hZW : Z ≤ (BigFppfOver.toSchem
   refine (Stacks.PullbackLeftAdjoint.transposeRingHom_app_map _ _ V.hom _).trans ?_
   have h1 := representedToZariskiRingedToposSiteHom_fSharp_app_apply B S hS U Z
     ((Scheme.Opens.topIso Z).hom.hom a)
-  show ULift.up (((smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj.map
+  change ULift.up (((smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj.map
     V.hom.op).hom (((representedToZariskiRingedToposSiteHom B S hS U).fSharp.hom.app (op Z)).hom
       ((Scheme.Opens.topIso Z).hom.hom a))) = _
   rw [h1]

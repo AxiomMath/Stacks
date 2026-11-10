@@ -203,7 +203,7 @@ theorem freeSectionsCoeff_apply
       ∑ i : Fin n, SMul.smul (M := R.obj.obj V)
         (α := (_root_.SheafOfModules.free (R := R) (ULift.{w} (Fin n))).val.obj V)
         (a i) ((_root_.SheafOfModules.freeSection (R := R) (ULift.up i)).val V) := by
-  show (freeSectionsIso (R := R) (ULift.{w} (Fin n)) V).hom _ = _
+  change (freeSectionsIso (R := R) (ULift.{w} (Fin n)) V).hom _ = _
   refine (freeSectionsIso_hom_apply (R := R) (ULift.{w} (Fin n)) V _).trans ?_
   exact Fintype.sum_equiv Equiv.ulift _ _ (fun _ ↦ rfl)
 

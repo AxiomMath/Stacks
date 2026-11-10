@@ -375,7 +375,7 @@ private lemma Ideal.spanFinrank_le_spanFinrank_map_quotient_add_one
     refine Ideal.eq_of_map_quotientMk_eq hIu hIJ ?_
     rw [hu, Ideal.map_span, ← hspan, Set.image_insert_eq, Set.image_image]
     simp only [hgspec, Set.image_id', hf0]
-    show Submodule.span (R ⧸ Ideal.span ({f} : Set R))
+    change Submodule.span (R ⧸ Ideal.span ({f} : Set R))
         (insert 0 (t : Set (R ⧸ Ideal.span ({f} : Set R))))
       = Submodule.span (R ⧸ Ideal.span ({f} : Set R))
         (t : Set (R ⧸ Ideal.span ({f} : Set R)))

@@ -162,7 +162,7 @@ theorem permConst_comp_permAugment [Nonempty Y] :
     permConst m hY ≫ permAugment m hY hK = 𝟙 _ :=
   finiteTypeContinuousModule_hom_ext m fun c => by
     apply ULift.ext
-    show torsorCardInv m hK * ∑ _y : Y, c.down = c.down
+    change torsorCardInv m hK * ∑ _y : Y, c.down = c.down
     rw [Finset.sum_const, Finset.card_univ, ← card_eq_of_torsor τ htr, nsmul_eq_mul,
       ← mul_assoc, torsorCardInv_mul, one_mul]
 
@@ -174,7 +174,7 @@ theorem permAugment_comp_permConst :
   finiteTypeContinuousModule_hom_ext m fun φ => by
     apply ULift.ext
     funext y a
-    show torsorCardInv m hK * ∑ y' : Y, φ.down y' PUnit.unit =
+    change torsorCardInv m hK * ∑ y' : Y, φ.down y' PUnit.unit =
       torsorCardInv m hK * ∑ b : K, φ.down (τ b y) a
     rw [sum_torsor_apply τ htr (fun y' => φ.down y' a) y]
 
@@ -247,8 +247,9 @@ theorem map_permAverage_eq_id_of_additive [Nonempty Y]
     [T.Additive] [Finite (T.obj (permModule m PUnit.{u + 2} hY))]
     (hcard : Nat.card (T.obj (permModule m PUnit.{u + 2} hY)) =
       Nat.card (T.obj (trivialContinuousModule m)))
-    (A : Type (u + 1)) [Fintype A] [DecidableEq A] :
+    (A : Type (u + 1)) [Fintype A] :
     T.map (permAverage m hY hK τ hτ A) = 𝟙 _ := by
+  classical
   have hdec : 𝟙 (permModule m A hY) - permAverage m hY hK τ hτ A =
       ∑ a : A, permSummandProj m hY a ≫ (𝟙 _ - permAverage m hY hK τ hτ PUnit.{u + 2}) ≫
         permSummandIncl m hY a := by
@@ -259,7 +260,7 @@ theorem map_permAverage_eq_id_of_additive [Nonempty Y]
     refine Eq.trans ?_ (ulift_down_sum_apply m Finset.univ (fun i =>
       ((permSummandProj m hY i ≫ (𝟙 _ - permAverage m hY hK τ hτ PUnit.{u + 2}) ≫
         permSummandIncl m hY i).hom.hom.hom.hom.hom φ)) y a').symm
-    show φ.down y a' - torsorCardInv m hK * ∑ b : K, φ.down (τ b y) a' =
+    change φ.down y a' - torsorCardInv m hK * ∑ b : K, φ.down (τ b y) a' =
       ∑ i : A, (if a' = i then φ.down y i - torsorCardInv m hK * ∑ b : K, φ.down (τ b y) i
         else 0)
     rw [Finset.sum_ite_eq]
@@ -380,7 +381,7 @@ theorem torsorRetractIncl_comp_proj [Nonempty Y] :
     torsorRetractIncl m hY τ htr hτadd y₀ M ρ κ hκ hM bM ≫
       torsorRetractProj m hY hK τ htr hτadd y₀ M ρ κ hκ hM bM = 𝟙 M :=
   finiteTypeContinuousModule_hom_ext m fun v => by
-    show torsorCardInv m hK • ∑ y : Y, ρ (Multiplicative.ofAdd (torsorDiff τ htr y₀ y))
+    change torsorCardInv m hK • ∑ y : Y, ρ (Multiplicative.ofAdd (torsorDiff τ htr y₀ y))
       (∑ i : ι, bM.repr (ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ y)) v) i • bM i) = v
     simp only [Module.Basis.sum_repr]
     have h : ∀ y : Y, ρ (Multiplicative.ofAdd (torsorDiff τ htr y₀ y))
@@ -400,7 +401,7 @@ theorem torsorRetractIncl_comp_permAverage :
   finiteTypeContinuousModule_hom_ext m fun v => by
     apply ULift.ext
     funext y i
-    show torsorCardInv m hK * ∑ a : K,
+    change torsorCardInv m hK * ∑ a : K,
       bM.repr (ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ (τ a y))) v) i = 0
     have h : ∑ a : K, ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ (τ a y))) v =
         ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ y))
@@ -413,9 +414,10 @@ theorem torsorRetractIncl_comp_permAverage :
       abel
     rw [show (∑ a : K, bM.repr (ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ (τ a y))) v) i) =
         bM.repr (∑ a : K, ρ (Multiplicative.ofAdd (-torsorDiff τ htr y₀ (τ a y))) v) i by
-      rw [map_sum, Finsupp.finset_sum_apply], h, hfix, map_zero, map_zero, Finsupp.zero_apply,
+      rw [map_sum, Finsupp.finsetSum_apply], h, hfix, map_zero, map_zero, Finsupp.zero_apply,
       mul_zero]
 
+omit [Fintype ι] in
 include hK hτ htr hτadd y₀ ρ κ hκ hM bM hfix in
 /-- **`T` kills a free module on which `G` acts through the character of the torsor by an action
 of `K` without invariants**, for an additive `T` such that `T(ℤ/m[Y])` is finite with as many
@@ -424,8 +426,9 @@ theorem subsingleton_obj_of_torsor_character [Nonempty Y]
     (T : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G ⥤ ModuleCat.{u + 1} (ZMod m))
     [T.Additive] [Finite (T.obj (permModule m PUnit.{u + 2} hY))]
     (hcard : Nat.card (T.obj (permModule m PUnit.{u + 2} hY)) =
-      Nat.card (T.obj (trivialContinuousModule m))) [DecidableEq ι] :
+      Nat.card (T.obj (trivialContinuousModule m))) [Finite ι] :
     Subsingleton (T.obj M) := by
+  have := Fintype.ofFinite ι
   have h0 : T.map (torsorRetractIncl m hY τ htr hτadd y₀ M ρ κ hκ hM bM) = 0 := by
     rw [← Category.comp_id (T.map (torsorRetractIncl m hY τ htr hτadd y₀ M ρ κ hκ hM bM)), ←
       map_permAverage_eq_id_of_additive m hY hK τ hτ htr T hcard ι, ← T.map_comp,

@@ -135,9 +135,9 @@ public theorem length_quotient_range_eq_zero_of_length_comp_eq_one
     Module.length A (P ⧸ LinearMap.range g) = 0 := by
   rw [length_quotient_range_comp f g hg] at h
   have hfpos : (1 : ℕ∞) ≤ Module.length A (N ⧸ LinearMap.range f) :=
-    ENat.one_le_iff_ne_zero.mpr (length_quotient_range_pos f hf).ne'
+    Order.one_le_iff_ne_zero.mpr (length_quotient_range_pos f hf).ne'
   by_contra hb
-  have htwo := add_le_add hfpos (ENat.one_le_iff_ne_zero.mpr hb)
+  have htwo := add_le_add hfpos (Order.one_le_iff_ne_zero.mpr hb)
   rw [h] at htwo
   norm_num at htwo
 

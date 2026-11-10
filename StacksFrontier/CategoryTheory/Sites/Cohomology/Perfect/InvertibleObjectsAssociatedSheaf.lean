@@ -174,12 +174,10 @@ private theorem eq_of_tmul_tmul {R A B C S F : Type*} [CommSemiring R] [AddCommM
     (h : ∀ (a : A) (b : B) (c : C), f (a ⊗ₜ[R] (b ⊗ₜ[R] c)) = g (a ⊗ₜ[R] (b ⊗ₜ[R] c))) :
     f = g := by
   refine DFunLike.ext _ _ fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul a z =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [TensorProduct.tmul_add, hz, hw]
     | tmul b c => exact h a b c
 
@@ -188,16 +186,12 @@ def assocPTensorIso (M N : ModuleCat.{u} (GammaRing X)) :
     assocP (M ⊗ N) ≅ PresheafOfModules.tensorObj (O := X.O.obj) (assocP M) (assocP N) := by
   refine PresheafOfModules.isoMk (fun U ↦ assocPTensorIsoAt U M N)
     (fun {U V} i ↦ ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_))
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg (fun t ↦ t + _) hx).trans
       ((congrArg (fun t ↦ _ + t) hy).trans (map_add _ x y).symm))
   | tmul a z =>
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact ((congrArg _ (TensorProduct.tmul_zero _ a)).trans (map_zero _)).trans
-        (((congrArg _ (TensorProduct.tmul_zero _ a)).trans (map_zero _)).symm)
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact ((congrArg _ (TensorProduct.tmul_add a z w)).trans ((map_add _ _ _).trans
         ((congrArg (fun t ↦ t + _) hz).trans ((congrArg (fun t ↦ _ + t) hw).trans

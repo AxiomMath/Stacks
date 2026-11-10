@@ -208,8 +208,7 @@ theorem map_contraction_μ_eq_contract (d : (moduleFiber R Φ).obj G ⊗[R] (mod
     ((moduleFiber R Φ).map (contraction ev)).hom
         ((μ (moduleFiber R Φ) (G ⊗ F) G).hom ((μ (moduleFiber R Φ) G F).hom d ⊗ₜ g)) =
       Stacks.PerfectPairing.contract (fiberPairing ev Φ) d g := by
-  induction d using TensorProduct.induction_on with
-  | zero => simp
+  induction d using TensorProduct.inductionOn with
   | tmul a b => rw [map_contraction_μ_μ]; rfl
   | add x y hx hy => simp only [_root_.map_add, add_tmul, hx, hy, LinearMap.add_apply]
 
@@ -221,8 +220,7 @@ theorem map_contractionDual_μ_eq_contractDual (f : (moduleFiber R Φ).obj F)
     ((moduleFiber R Φ).map (contractionDual ev)).hom
         ((μ (moduleFiber R Φ) F (G ⊗ F)).hom (f ⊗ₜ (μ (moduleFiber R Φ) G F).hom d)) =
       Stacks.PerfectPairing.contractDual (fiberPairing ev Φ) d f := by
-  induction d using TensorProduct.induction_on with
-  | zero => simp
+  induction d using TensorProduct.inductionOn with
   | tmul a b => rw [map_contractionDual_μ_μ]; rfl
   | add x y hx hy => simp only [_root_.map_add, tmul_add, hx, hy, LinearMap.add_apply]
 
@@ -522,7 +520,7 @@ theorem sheafFiberIsoOfConstantOver_germ_constSection {G : Sheaf J (ModuleCat.{w
       ((GrothendieckTopology.Point.presheafFiberOverIso Ψ y (ModuleCat.{w} R)).app G.obj).hom =
         Ψ.toPresheafFiber V y G.obj :=
     Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Ψ y).op
-      ((CategoryOfElements.π Ψ.fiber).op ⋙ G.obj) (op (Functor.elementsMk _ (Over.mk (𝟙 V)) y'))
+      ((Functor.Elements.π Ψ.fiber).op ⋙ G.obj) (op (Functor.elementsMk _ (Over.mk (𝟙 V)) y'))
   let c := ((toSheafify (J.over V) ((Functor.const _).obj E)).app (op (Over.mk (𝟙 V)))).hom m
   let d := (e.hom.hom.app (op (Over.mk (𝟙 V)))).hom c
   let κ := (Sites.constantSheafFiberIso (Ψ.over y) E).hom.hom
@@ -660,14 +658,14 @@ theorem exists_isCanonicalSection_near
     κ W₁ (tmulSection (G ⊗ F) G (op W₁) t₁ (gj j)) - gj j
   have hσ : ∀ j, (Φ.obj.toPresheafFiber W₁ w₁ G.obj).hom (σ j) = 0 := by
     intro j
-    show germ Φ.obj w₁ G (σ j) = 0
+    change germ Φ.obj w₁ G (σ j) = 0
     simp only [σ, _root_.map_sub]
     rw [sub_eq_zero, ← germ_naturality, germ_tmulSection, ht₁]
     exact hc _
   obtain ⟨W₂, k, w₂, hw₂, h0⟩ := exists_map_eq_zero_of_germ_eq_zero Φ.obj w₁ σ hσ
   refine ⟨W₂, k ≫ ka.1 ≫ f i, w₂, ?_, ((G ⊗ F).obj.map k.op).hom t₁, fun Ψ z g => ?_⟩
   · simp only [Functor.map_comp, types_comp_apply, hw₂]
-    show Φ.obj.fiber.map (f i) (Φ.obj.fiber.map ka.1 w₁) = _
+    change Φ.obj.fiber.map (f i) (Φ.obj.fiber.map ka.1 w₁) = _
     rw [ka.2]
     simpa using hy₀
   · let z₁ : Ψ.obj.fiber.obj (V i) := Ψ.obj.fiber.map (k ≫ ka.1) z
@@ -677,14 +675,14 @@ theorem exists_isCanonicalSection_near
         (TensorProduct.mk R _ _ (germ Ψ.obj z (G ⊗ F) (((G ⊗ F).obj.map k.op).hom t₁)))) ∘ₗ
           (germ Ψ.obj z₁ G ∘ₗ constSection e) = germ Ψ.obj z₁ G ∘ₗ constSection e := by
       refine LinearMap.ext_on_range hgen fun j => ?_
-      show ((moduleFiber R Ψ.obj).map (contraction ev)).hom
+      change ((moduleFiber R Ψ.obj).map (contraction ev)).hom
         ((μ (moduleFiber R Ψ.obj) (G ⊗ F) G).hom
         (germ Ψ.obj z (G ⊗ F) (((G ⊗ F).obj.map k.op).hom t₁) ⊗ₜ
           germ Ψ.obj z₁ G (constSection e (gen j)))) = germ Ψ.obj z₁ G (constSection e (gen j))
       have h1 : germ Ψ.obj z₁ G (constSection e (gen j)) =
           germ Ψ.obj z G ((G.obj.map k.op).hom (gj j)) := by
         rw [germ_map, germ_map]
-        show germ _ (Ψ.obj.fiber.map (k ≫ ka.1) z) G _ = _
+        change germ _ (Ψ.obj.fiber.map (k ≫ ka.1) z) G _ = _
         rw [Functor.map_comp]
         rfl
       have h2 : ((contraction ev).hom.app (op W₂)).hom
@@ -792,7 +790,7 @@ theorem ε_comp_map_coevaluation (Φ : J.Point.{w}) {X : C} (x : Φ.fiber.obj X)
   have hc : e.inv.app (G ⊗ F).obj ≫
       (moduleFiber R Φ).map ((sheafificationAdjunction J (ModuleCat.{w} R)).counit.app (G ⊗ F)) =
         𝟙 _ := by
-    show Φ.presheafFiber.map (toSheafify J (G ⊗ F).obj) ≫
+    change Φ.presheafFiber.map (toSheafify J (G ⊗ F).obj) ≫
       Φ.presheafFiber.map ((sheafToPresheaf J _).map
         ((sheafificationAdjunction J (ModuleCat.{w} R)).counit.app (G ⊗ F))) = _
     rw [← Φ.presheafFiber.map_comp]

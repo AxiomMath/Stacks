@@ -59,7 +59,7 @@ theorem exists_mul_aeval_sub_one_mem {S : Type*} [CommRing S] [IsLocalRing S] [A
   have hc : g.coeff 0 ≠ 0 := minpoly.coeff_zero_ne_zero hint hres0
   have hg : aeval w g ∈ maximalIdeal S := by
     rw [← residue_eq_zero_iff]
-    show algebraMap S (ResidueField S) (aeval w g) = 0
+    change algebraMap S (ResidueField S) (aeval w g) = 0
     rw [← Polynomial.aeval_algebraMap_apply]
     exact minpoly.aeval k (residue S w)
   have key : aeval w g = w * aeval w g.divX + algebraMap k S (g.coeff 0) := by
@@ -90,7 +90,7 @@ theorem isIntegral_residue {A S : Type*} [CommRing A] [Algebra k A] [Algebra.Fin
   have : Module.Finite k (A ⧸ P) := finite_of_finite_type_of_isJacobsonRing k (A ⧸ P)
   let φ : A ⧸ P →ₐ[k] ResidueField S :=
     Ideal.Quotient.liftₐ P ((IsScalarTower.toAlgHom k S (ResidueField S)).comp g) (fun a ha => by
-      show algebraMap S (ResidueField S) (g a) = 0
+      change algebraMap S (ResidueField S) (g a) = 0
       exact (residue_eq_zero_iff _).mpr ha)
   have hint (a : A) : IsIntegral k (residue S (g a)) :=
     (Algebra.IsIntegral.isIntegral (Ideal.Quotient.mk P a)).map φ
@@ -392,7 +392,7 @@ theorem inv_mem_range_of_isUnit {S : Type*} [CommRing S] [Algebra k S] (ρ : S �
     {w : S} (hw : IsUnit w) : (ρ w)⁻¹ ∈ ρ.range := by
   obtain ⟨u, rfl⟩ := hw
   refine ⟨↑u⁻¹, ?_⟩
-  show ρ ↑u⁻¹ = (ρ ↑u)⁻¹
+  change ρ ↑u⁻¹ = (ρ ↑u)⁻¹
   exact map_units_inv ρ u
 
 /-- If `V` contains the image of `ρ`, the inverse of the image of a unit lies in `V`. -/
@@ -425,7 +425,7 @@ private theorem mem_maximalIdeal_of_mul_mem_prime {A S : Type*} [CommRing A] [Al
   let α : R := ⟨ι a * t ^ n, hn⟩
   have hdα : d * α = x * ⟨t, htR⟩ ^ n := Subtype.ext (by
     push_cast
-    show (d : K) * (ι a * t ^ n) = x * t ^ n
+    change (d : K) * (ι a * t ^ n) = x * t ^ n
     rw [← hdx, mul_assoc])
   have hα : α ∈ 𝔡 :=
     (h𝔡.mem_or_mem (show d * α ∈ 𝔡 from hdα ▸ Ideal.mul_mem_right _ _ hx)).resolve_left hd
@@ -567,7 +567,7 @@ theorem exists_prime_specializing
     obtain ⟨m, hm⟩ := hpow b
     refine ⟨⟨_, mul_pow_mem_of_le htR hn (Nat.le_add_right n m)⟩,
       ⟨_, mul_pow_mem_of_le htR hm (Nat.le_add_left m n)⟩, ?_⟩
-    show ι a / ι b = (ι a * t ^ (n + m)) / (ι b * t ^ (n + m))
+    change ι a / ι b = (ι a * t ^ (n + m)) / (ι b * t ^ (n + m))
     rw [mul_div_mul_right _ _ (pow_ne_zero _ ht0)]
   have hSfin : S.Finite :=
     ((Set.toFinite _).union (s.finite_toSet.image _)).union (s'.finite_toSet.image _)
@@ -592,7 +592,7 @@ theorem exists_prime_specializing
   have hunitρ : ∀ (w : Sr) (x : R), w ∉ maximalIdeal Sr → ρr w = x → x ∉ ρ' := by
     rintro w x hw hwx ⟨w', hw', hw'x⟩
     exact hw (mem_maximalIdeal_of_map_eq ρr.toRingHom hw' (by
-      show ρr w = ρr w'; rw [hwx, hw'x]))
+      change ρr w = ρr w'; rw [hwx, hw'x]))
   have hSR : ∀ c : Sr, ∃ x d : R, d ∉ ρ' ∧ (d : K) * ρr c = x := by
     intro c
     obtain ⟨a, b, hb, hab⟩ := hlr c
@@ -612,14 +612,14 @@ theorem exists_prime_specializing
         have h1 : tl * gr l ∈ maximalIdeal Sr := Ideal.mul_mem_right _ _ hmem
         have h2 : (1 : Sr) ∈ maximalIdeal Sr :=
           mem_maximalIdeal_of_map_eq ρr.toRingHom h1 (by
-            show ρr 1 = ρr (tl * gr l)
+            change ρr 1 = ρr (tl * gr l)
             rw [map_one, map_mul]; exact this.symm)
         exact (maximalIdeal.isMaximal Sr).ne_top ((Ideal.eq_top_iff_one _).mpr h2)
-      · show ρr (gr b * tl ^ (n + m)) = ι b * t ^ (n + m)
+      · change ρr (gr b * tl ^ (n + m)) = ι b * t ^ (n + m)
         rw [map_mul, map_pow, show ρr tl = t from htl]; rfl
-    · show ι b * t ^ (n + m) * ρr c = ι a * t ^ (n + m)
+    · change ι b * t ^ (n + m) * ρr c = ι a * t ^ (n + m)
       have : ι b * ρr c = ι a := by
-        show ρr (gr b) * ρr c = ρr (gr a)
+        change ρr (gr b) * ρr c = ρr (gr a)
         rw [← map_mul, hab]
       rw [mul_right_comm, this]
   -- the prime of the local ring at `r` cut out by `𝔡`
@@ -667,7 +667,7 @@ theorem exists_prime_specializing
     obtain ⟨x₀, hx₀, hx₀0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot h𝔡0
     obtain ⟨w, hw⟩ := hRr x₀.2
     have hwQ : w ∈ Q := ⟨1, hone, x₀, hx₀, by
-      show (1 : K) * ρr w = x₀; rw [one_mul]; exact hw⟩
+      change (1 : K) * ρr w = x₀; rw [one_mul]; exact hw⟩
     have := hle hwQ
     rw [RingHom.mem_ker] at this
     exact hx₀0 (Subtype.ext (by change ρr w = (x₀ : K) at hw; rw [← hw]; exact this))

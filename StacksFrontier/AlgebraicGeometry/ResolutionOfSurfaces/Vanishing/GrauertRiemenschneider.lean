@@ -131,8 +131,7 @@ theorem subsingleton_of_forall_linearMap_residueField_eq_zero (A : Type u) [Comm
   rw [← IsLocalRing.subsingleton_tensorProduct (R := A) (M := M)]
   refine subsingleton_of_forall_eq 0 fun x => ?_
   refine (Module.forall_dual_apply_eq_zero_iff (ResidueField A) x).mp fun φ => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
       have hsmul : (c ⊗ₜ[A] m : TensorProduct A (ResidueField A) M) = c • (1 ⊗ₜ[A] m) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

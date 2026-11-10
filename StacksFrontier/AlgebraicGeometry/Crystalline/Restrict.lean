@@ -114,7 +114,7 @@ theorem restrictRingHom'_eq : V.restrictRingHom' = V.restrictRingHom := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U ↦ ?_))
   have h : (V.ι.appIso U.unop).inv = 𝟙 Γ(V.toScheme, U.unop) := by
     rw [Scheme.Opens.ι_appIso]; rfl
-  show (forget₂ CommRingCat RingCat).map ((V.ι.appIso U.unop).inv) = _
+  change (forget₂ CommRingCat RingCat).map ((V.ι.appIso U.unop).inv) = _
   exact (congrArg (fun g ↦ (forget₂ CommRingCat RingCat).map g) h).trans
     ((forget₂ CommRingCat RingCat).map_id _)
 

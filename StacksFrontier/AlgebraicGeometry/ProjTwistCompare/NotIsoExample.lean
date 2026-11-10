@@ -98,7 +98,7 @@ theorem mem_relA_iff (p : MvPolynomial (Fin 2) R) :
     p ∈ WeightedQuotient.relationIdeal (relA R) ↔ ∀ m ∈ p.support, 2 ≤ m 0 := by
   have h : WeightedQuotient.relationIdeal (relA R) =
       Ideal.span ((fun s => monomial s (1 : R)) '' {Finsupp.single 0 2}) := by
-    show Ideal.span (Set.range fun _ : Unit => (X 0 ^ 2 : MvPolynomial (Fin 2) R)) = _
+    change Ideal.span (Set.range fun _ : Unit => (X 0 ^ 2 : MvPolynomial (Fin 2) R)) = _
     rw [Set.range_const, Set.image_singleton, X_pow_eq_monomial]
   rw [h, mem_ideal_span_monomial_image]
   simp [Finsupp.single_le_iff]
@@ -108,7 +108,7 @@ theorem mem_relA_iff (p : MvPolynomial (Fin 2) R) :
 theorem mem_relB_iff (p : MvPolynomial (Fin 2) R) :
     p ∈ WeightedQuotient.relationIdeal (relB R) ↔ ∀ m ∈ p.support, m 0 ≠ 0 := by
   have h : WeightedQuotient.relationIdeal (relB R) = Ideal.span (X '' {0}) := by
-    show Ideal.span (Set.range fun _ : Unit => (X 0 : MvPolynomial (Fin 2) R)) = _
+    change Ideal.span (Set.range fun _ : Unit => (X 0 : MvPolynomial (Fin 2) R)) = _
     rw [Set.range_const, Set.image_singleton]
   rw [h, mem_ideal_span_X_image]
   simp
@@ -120,7 +120,7 @@ theorem mem_grading_iff {κ : Type} (rel : κ → MvPolynomial (Fin 2) R) (d : �
     a ∈ WeightedQuotient.grading weights rel d ↔
       ∃ p : MvPolynomial (Fin 2) R, p.IsWeightedHomogeneous weights d ∧
         Ideal.Quotient.mk _ p = a := by
-  show a ∈ Submodule.map _ _ ↔ _
+  change a ∈ Submodule.map _ _ ↔ _
   rw [Submodule.mem_map]
   simp only [mem_weightedHomogeneousSubmodule]
   rfl
@@ -132,7 +132,7 @@ theorem relA_le_relB :
     WeightedQuotient.relationIdeal (relA R) ≤ WeightedQuotient.relationIdeal (relB R) := by
   refine Ideal.span_le.2 ?_
   rintro _ ⟨_, rfl⟩
-  show X 0 ^ 2 ∈ _
+  change X 0 ^ 2 ∈ _
   rw [pow_two]
   exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨(), rfl⟩)
 
@@ -387,7 +387,7 @@ theorem not_isIso_twistMap_of_map_eq_zero
     refine (restrictTwistMap_degreeSection 𝒜 ℬ ψ hψ hdom k a ⊤).trans ?_
     apply Subtype.ext
     funext y
-    show (degreeSection ℬ k ⟨ψ a, ψ.map_mem a.2⟩).1 ⟨y.1, trivial⟩ = 0
+    change (degreeSection ℬ k ⟨ψ a, ψ.map_mem a.2⟩).1 ⟨y.1, trivial⟩ = 0
     rw [Stacks.AlgebraicGeometry.ProjTwistSections.degreeSection_apply]
     simp only [ha]
     exact LocalizedModule.zero_mk _

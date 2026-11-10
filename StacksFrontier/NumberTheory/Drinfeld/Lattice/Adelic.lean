@@ -65,7 +65,7 @@ public theorem finite_setOf_not_integral (g : GL (Fin n) (AdeleRing K)) :
     {v : Place K | ¬ ∀ i j, (glAt K n v g).val i j ∈ v.integers}.Finite := by
   refine (Set.finite_iUnion fun i => Set.finite_iUnion fun j =>
     Filter.eventually_cofinite.1 (g.val i j).2).subset fun v hv => ?_
-  simp only [Set.mem_setOf_eq, not_forall] at hv
+  simp only [Set.mem_ofPred_eq, not_forall] at hv
   obtain ⟨i, j, h⟩ := hv
   exact Set.mem_iUnion.2 ⟨i, Set.mem_iUnion.2 ⟨j, h⟩⟩
 
@@ -90,7 +90,7 @@ public instance : SMul (GL (Fin n) (AdeleRing K)) (AdelicLattice K n) where
         refine (Λ.finite_ne.union ((finite_setOf_not_integral g).union
           (finite_setOf_not_integral g⁻¹))).subset fun v hv => ?_
         by_contra h
-        simp only [Set.mem_union, Set.mem_setOf_eq, not_or, not_not] at h
+        simp only [Set.mem_union, Set.mem_ofPred_eq, not_or, not_not] at h
         obtain ⟨h₀, h₁, h₂⟩ := h
         apply hv
         rw [h₀, translate_stdLattice_eq_iff]
@@ -162,13 +162,13 @@ public theorem exists_smul_standard (Λ : AdelicLattice K n) :
   have hh : ∀ v, Λ.lattice v = translate (h v) (stdLattice v n) := by
     intro v
     by_cases hv : Λ.lattice v = stdLattice v n
-    · simp only [h, if_pos hv, translate_one, hv]
-    · simp only [h, if_neg hv]
+    · simp only [h, ite_eq_left hv, translate_one, hv]
+    · simp only [h, ite_eq_right hv]
       exact (hloc v).choose_spec
   have hh1 : ∀ v, v ∉ {v | Λ.lattice v ≠ stdLattice v n} → h v = 1 := by
     intro v hv
-    simp only [Set.mem_setOf_eq, not_not] at hv
-    simp only [h, if_pos hv]
+    simp only [Set.mem_ofPred_eq, not_not] at hv
+    simp only [h, ite_eq_left hv]
   have hfin : ∀ (A : ∀ v : Place K, Matrix (Fin n) (Fin n) v.completion),
       (∀ v, v ∉ {v | Λ.lattice v ≠ stdLattice v n} → A v = 1) → ∀ i j,
       ∀ᶠ v in Filter.cofinite, A v i j ∈ v.integers := by
@@ -222,7 +222,7 @@ public theorem equivQuotient_symm_mk (g : GL (Fin n) (AdeleRing K)) :
 /-- `equivQuotient` sends `g (O_v^n)_v` to the coset `g GL_n(O)`. -/
 public theorem equivQuotient_smul_standard (g : GL (Fin n) (AdeleRing K)) :
     equivQuotient K n k (g • standard K n) = QuotientGroup.mk g := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply, equivQuotient_symm_mk]
+  rw [← Equiv.eq_symm_apply, equivQuotient_symm_mk]
 
 end FunctionField
 

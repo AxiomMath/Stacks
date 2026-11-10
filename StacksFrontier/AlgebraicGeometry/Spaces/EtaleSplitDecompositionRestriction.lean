@@ -53,10 +53,10 @@ No new definitions are introduced.
   points.
 * `AlgebraicGeometry.Space.exists_siteObject_isFinite_part_of_isQuasiFiniteAt` chains that onto the
   scheme-level results of
-  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSplitQuasiFiniteReduction.lean`, delivering the whole
-  of the first three paragraphs of the proof of Stacks 082H over an object of the site rather than
-  over a bare scheme, together with the distinguished point and the two conditions on its fibre.
-  This is the result the remaining presheaf-level step consumes.
+  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSplitQuasiFiniteReduction.lean`, delivering the
+  whole of the first three paragraphs of the proof of Stacks 082H over an object of the site rather
+  than over a bare scheme, together with the distinguished point and the two conditions on its
+  fibre. This is the result the remaining presheaf-level step consumes.
 
 ## Implementation notes
 
@@ -215,7 +215,7 @@ theorem isOpenImmersion_sigmaDesc_some_of_isIso_sigmaDesc {α : Type} [Finite α
           disjoint_opensRange_sigmaι Q (some i) (some j) (by simpa using hij)
   have hfac : ((Sigma.desc fun i : α ↦ Sigma.ι Q (some i)) ≫ Sigma.desc ι) =
       Sigma.desc fun i : α ↦ ι (some i) :=
-    Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_desc_assoc, Sigma.ι_desc, Sigma.ι_desc]
+    Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
   rw [← hfac]
   infer_instance
 
@@ -235,7 +235,7 @@ theorem exists_apply_eq_of_isIso_sigmaDesc {α : Type} [Small.{u} α] {T : Schem
       Sigma.ι Q a q = (asIso (Sigma.desc ι)).inv x := (sigmaOpenCover Q).exists_eq _
   refine ⟨a, q, ?_⟩
   rw [← Scheme.inv_hom_apply (asIso (Sigma.desc ι)) x, ← hq, ← Scheme.Hom.comp_apply,
-    asIso_hom, Sigma.ι_desc]
+    asIso_hom, Sigma.ι_comp_desc]
 
 /-- **A point of the restricted `some`-part over `u'` lies over one of the prescribed points.**
 Let `ρ : X ×_Z V ⟶ X ×_Z U` be the comparison morphism of
@@ -256,7 +256,7 @@ theorem exists_fst_eq_of_snd_eq_of_comparison {X Z Us Vs : Scheme.{u}} {f : X �
     Sigma.ι (fun a ↦ pullback ρ (ι a)) a q = y := (sigmaOpenCover _).exists_eq y
   have hω : (Sigma.desc fun a ↦ pullback.fst ρ (ι a)) (Sigma.ι (fun a ↦ pullback ρ (ι a)) a q) =
       pullback.fst ρ (ι a) q := by
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   rw [hω] at hy ⊢
   have hρq : ρ (pullback.fst ρ (ι a) q) = ι a (pullback.snd ρ (ι a) q) := by
     rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
@@ -291,7 +291,7 @@ theorem mem_range_sigmaDesc_of_fst_eq_of_comparison {X Z Us Vs : Scheme.{u}} {f 
     obtain ⟨q', hq', -⟩ := Scheme.Pullback.exists_preimage_pullback (f := ρ) (g := ι (some i))
       ω q hq.symm
     exact ⟨Sigma.ι (fun i : α ↦ pullback ρ (ι (some i))) i q',
-      by rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+      by rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 namespace Space
 
@@ -415,7 +415,7 @@ theorem exists_siteObject_isFinite_of_pullback_decomposition {Y₀ Zu Z : BigFpp
       (BigFppfOver.toScheme B S hS).map ζ := by
     rw [hζ, Category.assoc]
     congr 1
-    exact Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    exact Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
   refine ⟨Z₁, ζ, e.hom ≫ Sigma.desc fun i : Fin m ↦ pullback.fst ρ (ι (some i)),
     by rw [hζ]; infer_instance, inferInstance, hθfac, ?_⟩
   intro pt u' hu' zz hsome hnone

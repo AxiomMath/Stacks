@@ -184,7 +184,7 @@ lemma compactSupportResolutionRestrictionMap_naturality {F F' : EtaleModules.{u,
   apply ObjectProperty.hom_ext
   have hn := (HomologicalComplex.singleMapHomologicalComplex
     (etaleModuleExtensionByZero.{u, 0} Λ j.immersion) (ComplexShape.up ℤ) 0).hom.naturality v
-  show ((HomologicalComplex.singleMapHomologicalComplex
+  change ((HomologicalComplex.singleMapHomologicalComplex
       (etaleModuleExtensionByZero.{u, 0} Λ j.immersion) (ComplexShape.up ℤ) 0).hom.app F ≫
       I.ι) ≫ φ = ((etaleModuleExtensionByZero.{u, 0} Λ j.immersion).mapHomologicalComplex _).map
         ((CochainComplex.singleFunctor _ 0).map v) ≫

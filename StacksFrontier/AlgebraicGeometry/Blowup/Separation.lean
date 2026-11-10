@@ -158,7 +158,7 @@ theorem preimage_subset_range_strictTransformToBlowUp {Z : Scheme.{u}} (z : Z �
     exact hA hy
   have hpE : p ∉ Stacks.StrictTransform.exceptionalPreimage z (blowUpToBase I)
       (exceptionalIdeal I) := by
-    show (pullback.snd z (blowUpToBase I)).base p ∉
+    change (pullback.snd z (blowUpToBase I)).base p ∉
       ((exceptionalIdeal I).support : Set (blowUp I))
     rw [hp]
     exact hyE
@@ -189,7 +189,7 @@ private theorem range_strictTransformToBlowUp_subset_of_isClosed {Y : Scheme.{u}
       (by rw [← Scheme.IdealSheafData.range_subschemeι]; exact ⟨x, rfl⟩))
   intro p hp
   refine h p fun hmem ↦ hp ?_
-  show (pullback.snd f (blowUpToBase I)).base p ∈
+  change (pullback.snd f (blowUpToBase I)).base p ∈
     ((I.comap (blowUpToBase I)).support : Set (blowUp I))
   rw [Scheme.IdealSheafData.support_comap]
   exact hmem
@@ -296,7 +296,7 @@ private theorem range_strictTransformToBlowUp_subset_image {Y : Scheme.{u}}
     rw [hgt, ht, hw]
   refine ⟨t, hpre ?_, hgt⟩
   have hpt : b.base (p.base t) = w := (congrArg (fun k ↦ k.base t) hp).trans ht
-  show b.base (p.base t) ∈ O
+  change b.base (p.base t) ∈ O
   rw [hpt]
   exact hO w (by rw [hw]; exact hxH) hwT
 
@@ -408,7 +408,7 @@ theorem exists_isAdmissibleBlowup_disjoint_strictTransforms [CompactSpace X]
   have hIsupp : (I.support : Set X) =
       J.subschemeι.base '' (M.support : Set J.subscheme) := by
     rw [hI, Scheme.IdealSheafData.support_map]
-    show closure (J.subschemeι.base '' (T.support : Set J.subscheme)) =
+    change closure (J.subschemeι.base '' (T.support : Set J.subscheme)) =
       J.subschemeι.base '' (M.support : Set J.subscheme)
     rw [hTsupp]
     exact (J.subschemeι.isClosedEmbedding.isClosedMap _ M.support.isClosed).closure_eq

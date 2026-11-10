@@ -248,7 +248,7 @@ theorem localCohomologyModule_isZero_of_supportDim_lt_of_quotient_bound
       (hbound.trans_lt hj)) MB i (by omega)
   have hRestr : IsZero ((ModuleCat.restrictScalars f).obj
       (localCohomologyModule B (I.map f) (hI.map f) MB i)) := by
-    rwa [ModuleCat.isZero_iff_subsingleton] at hMB ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at hMB ⊢; assumption
   let eLin : ((ModuleCat.restrictScalars f).obj MB) ≃ₗ[A] M :=
     { toFun := id
       invFun := id

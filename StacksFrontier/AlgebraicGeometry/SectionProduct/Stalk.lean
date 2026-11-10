@@ -175,8 +175,7 @@ theorem pstalkHom_whiskerLeft_surjective (A : PresheafOfModulesOfCommRing.{u} X.
   intro z
   obtain ⟨U, hxU, w, rfl⟩ := exists_pgerm_eq (PresheafOfModules.tensorObj A Q) z
   rw [← AddMonoidHom.mem_range]
-  induction w using TensorProduct.induction_on with
-  | zero => exact (map_zero (pgerm (PresheafOfModules.tensorObj A Q) U x hxU)) ▸ zero_mem _
+  induction w using TensorProduct.inductionOn with
   | tmul a q =>
     obtain ⟨ξ, hξ⟩ := h (pgerm Q U x hxU q)
     obtain ⟨U₁, hxU₁, p, rfl⟩ := exists_pgerm_eq P ξ

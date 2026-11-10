@@ -137,7 +137,7 @@ public lemma isIso_map_of_kFlat
     (HomotopyCategory.quotient_map_mem_quasiIso_iff s.out).1
       (by rw [HomotopyCategory.quotient_map_out s]; exact hs)
   have h := hL s.out hout hX hY
-  show IsIso (DerivedCategory.Qh.map ((L.mapHomotopyCategory (ComplexShape.up ℤ)).map s))
+  change IsIso (DerivedCategory.Qh.map ((L.mapHomotopyCategory (ComplexShape.up ℤ)).map s))
   rw [← HomotopyCategory.quotient_map_out s]
   exact (DerivedCategory.isIso_Qh_map_iff _).2
     ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 h)
@@ -188,7 +188,7 @@ public lemma isLeftDerivedFunctor_of_natIso {L' : ModuleCat.{max u v} R ⥤ A} [
     _ (L'.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh)
     (quotientCompMapIso L') F _ fun K hK => ?_
   have := isIso_app_of_kFlat L hL F β K hK
-  show IsIso (β.app K ≫ DerivedCategory.Q.map
+  change IsIso (β.app K ≫ DerivedCategory.Q.map
     ((NatIso.mapHomologicalComplex ε (ComplexShape.up ℤ)).hom.app K))
   infer_instance
 

@@ -50,7 +50,7 @@ private lemma support_quotient_range_subset_jacobson
   classical
   intro p hp r hr
   change r ∈ Ring.jacobson B at hr
-  show r ∈ p.asIdeal
+  change r ∈ p.asIdeal
   by_cases hpb : p.asIdeal = ⊥
   · refine (not_subsingleton_iff_nontrivial.mpr (Module.mem_support_iff.mp hp) ?_).elim
     rw [LocalizedModule.subsingleton_iff]
@@ -67,7 +67,7 @@ private lemma support_quotient_range_subset_jacobson
       rw [hclear]
       exact LinearMap.mem_range_self _ b
     refine ⟨d, by simpa [hpb] using nonZeroDivisors.ne_zero hd, ?_⟩
-    show Submodule.Quotient.mk (d • a) = 0
+    change Submodule.Quotient.mk (d • a) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     simpa [Algebra.smul_def] using hmem
   · have := Ring.DimensionLEOne.maximalOfPrime hpb p.isPrime
@@ -170,7 +170,7 @@ public lemma exists_pow_mul_mem_range (B : Type u) (K : Type v) (C : Type w)
     exact h.of_comp
   let I : Ideal B := Ring.jacobson B
   have hcomap_ne : Ideal.comap (algebraMap B C) (Ring.jacobson C) ≠ ⊥ :=
-    Ideal.comap_ne_bot_of_integral_mem hx hxj (Algebra.IsIntegral.isIntegral (R := B) x)
+    Ideal.under_ne_bot_of_integral_mem hx hxj (Algebra.IsIntegral.isIntegral (R := B) x)
   have hcomap_le : Ideal.comap (algebraMap B C) (Ring.jacobson C) ≤ Ring.jacobson B := by
     rw [Ring.jacobson_eq_sInf_isMaximal (R := B)]
     refine le_sInf fun m hm b hb => ?_

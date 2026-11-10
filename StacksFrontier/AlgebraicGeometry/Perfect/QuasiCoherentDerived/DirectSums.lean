@@ -80,7 +80,7 @@ private lemma shortComplexHomology_preservesColimitsOfShape
   have key : ι.app T.homology = (T.mapHomologyIso ((evaluation J A).obj j)).inv ≫
       ShortComplex.homologyMap (T.mapNatTrans ι) ≫ (T.mapHomologyIso colim).hom :=
     NatTrans.app_homology ι T
-  show ((T.mapHomologyIso ((evaluation J A).obj j)).hom ≫ ι.app T.homology) ≫
+  change ((T.mapHomologyIso ((evaluation J A).obj j)).hom ≫ ι.app T.homology) ≫
       (T.mapHomologyIso (colim : (J ⥤ A) ⥤ A)).inv =
     ShortComplex.homologyMap (T.mapNatTrans ι)
   rw [key]

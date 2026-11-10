@@ -144,7 +144,7 @@ inverse of the identification of `A^{opp}` with `A`. -/
 theorem equiv_oppOppHom_apply (A : DifferentialGradedAlgebra.{u, u} R) (a : A.A) :
     (opposite R (oppAlgebra A)).equiv ((oppOppHom A).toAlgebraHom a) =
       (opposite R A).equiv.symm a := by
-  show (opposite R (oppAlgebra A)).equiv (oppOppLinear A a) = _
+  change (opposite R (oppAlgebra A)).equiv (oppOppLinear A a) = _
   rw [oppOppLinear_apply, LinearEquiv.apply_symm_apply]
 
 end DifferentialGradedAlgebra
@@ -202,7 +202,7 @@ theorem flipModule_unflip_smul_of_mem (Y : DifferentialGradedModule.{u, u, u} (o
   have h := flipUnderlying_action' (unflip Y) ha hx
   rw [leftActionTotal_unflip Y (y := flipUnderlying (unflip Y) x) haA hx'] at h
   refine h.trans ?_
-  show (((m * n).negOnePow : ℤ) : R) •
+  change (((m * n).negOnePow : ℤ) : R) •
       oppLeftActionRingHom Y ((oppOppHom A).toAlgebraHom ((opposite R A).equiv a))
         (unflipEquiv Y x) = _
   rw [oppLeftActionRingHom_apply_mem Y ((oppOppHom A).map_grading m _ haA) hx',
@@ -272,10 +272,10 @@ theorem tensorUnflipIso_hom_pure (Y : DifferentialGradedModule.{u, u, u} (oppAlg
     (tensorUnflipIso X Y).hom.toFun
         (((tensorDGFunctor (flip X)).pure Y).toLinearMap y x) =
       (((q * p).negOnePow : ℤ) : R) • ((tensorDGFunctor (unflip Y)).pure X).toLinearMap x y := by
-  show (phi (unflip Y) X).toFun (((tensorCompFunctor (flip X)).map
+  change (phi (unflip Y) X).toFun (((tensorCompFunctor (flip X)).map
       (flipModuleUnflipInv Y)).toFun (((tensorDGFunctor (flip X)).pure Y).toLinearMap y x)) = _
   rw [tensorCompFunctor_map_pure' (flip X) (flipModuleUnflipInv Y) y x]
-  show (phi (unflip Y) X).toFun (((tensorDGFunctor (flip X)).pure
+  change (phi (unflip Y) X).toFun (((tensorDGFunctor (flip X)).pure
       (flipModule (unflip Y))).toLinearMap ((flipUnderlying (unflip Y)).symm y) x) = _
   rw [phi_pure, phiLinear_apply_mem (unflip Y) X (flipUnderlying_symm_grading (unflip Y) hy) hx,
     tensorPureFlip_apply]
@@ -289,7 +289,7 @@ theorem tensorUnflipIso_naturality {Y Y' : DifferentialGradedModule.{u, u, u} (o
     (tensorCompFunctor (flip X)).map f ≫ (tensorUnflipIso X Y').hom =
       (tensorUnflipIso X Y).hom ≫ tensorHomOfBimoduleHom (unflipMap f) X := by
   refine tensorObj_hom_ext' (flip X) Y _ _ fun y x => ?_
-  show (tensorUnflipIso X Y').hom.toFun (((tensorCompFunctor (flip X)).map f).toFun
+  change (tensorUnflipIso X Y').hom.toFun (((tensorCompFunctor (flip X)).map f).toFun
       (((tensorDGFunctor (flip X)).pure Y).toLinearMap y x)) =
     (tensorHomOfBimoduleHom (unflipMap f) X).toFun ((tensorUnflipIso X Y).hom.toFun
       (((tensorDGFunctor (flip X)).pure Y).toLinearMap y x))

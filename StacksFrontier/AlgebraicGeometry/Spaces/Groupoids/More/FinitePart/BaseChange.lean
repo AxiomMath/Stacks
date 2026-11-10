@@ -197,7 +197,7 @@ theorem restrictFinitePair_isBaseChange (B : BigFppfSite.{u}) (S : Scheme.{u})
   let qbase := schemeSpaceMap h ≫ p.toBase
   let κ := baseChangeAmbientMap B S hS f p.toBase (schemeSpaceMap h)
   dsimp [restrictFinitePair]
-  show (qbase.hom = yoneda.map h ≫ p.toBase.hom) ∧ _
+  change (qbase.hom = yoneda.map h ≫ p.toBase.hom) ∧ _
   refine ⟨rfl, p.subspace.fromPreimage κ, ?_, ?_⟩
   · simpa [qbase, κ, restrictFinitePair, schemeSpaceMap, schemeSpace] using
       ((Subfunctor.isPullback_preimage κ p.subspace).paste_vert

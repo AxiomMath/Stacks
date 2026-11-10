@@ -52,7 +52,7 @@ abbrev inverseImageRestrictScalarsTwoSquare :=
 abbrev inverseImageRestrictScalarsApp (L : EtaleModules.{u, 0} Λ' Y) :
     (etaleModuleInverseImage.{u, 0} Λ g).obj ((etaleModuleRestrictScalars ρ Y).obj L) ⟶
       (etaleModuleRestrictScalars ρ Y').obj ((etaleModuleInverseImage.{u, 0} Λ' g).obj L) :=
-  (inverseImageRestrictScalarsTwoSquare ρ g).natTrans.app L
+  (inverseImageRestrictScalarsTwoSquare ρ g).app L
 
 /-- `res_ρ` applied to the unit of `g^{-1} ⊣ g_*` is the unit at `res_ρ L` followed by direct
 image of the inverse-image comparison. -/

@@ -58,7 +58,7 @@ pushforward b'` rather than the adjunction of the composed morphism.  The two ar
 `AlgebraicGeometry.Scheme.Modules.pullbackComp`; those conjugates are
 `AlgebraicGeometry.Scheme.Modules.pushforwardComp` by
 `AlgebraicGeometry.Scheme.Modules.conjugateEquiv_pullbackComp_inv` and by
-`Stacks.ModuleSkyscraper.conjugateEquiv_pullbackComp_hom` below.
+`ModuleSkyscraper.conjugateEquiv_pullbackComp_hom` below.
 
 `isIso_baseChangeNatTrans_congr` is proved by substituting the two equalities of morphisms;
 the two commutation proofs are then proofs of the same proposition, hence equal.
@@ -108,7 +108,7 @@ theorem pushforwardSquareIso_hom_vcomp (wa : a' ≫ f' = f'' ≫ a) (wb : b' ≫
 two adjunctions, of the comparison of inverse images with composition is the comparison of
 direct images with composition.  This is the companion of Mathlib's
 `AlgebraicGeometry.Scheme.Modules.conjugateEquiv_pullbackComp_inv`, in the other direction. -/
-theorem Stacks.ModuleSkyscraper.conjugateEquiv_pullbackComp_hom {Y Z T : Scheme.{u}} (p : Y ⟶ Z)
+theorem ModuleSkyscraper.conjugateEquiv_pullbackComp_hom {Y Z T : Scheme.{u}} (p : Y ⟶ Z)
   (q : Z ⟶ T) :
     conjugateEquiv (pullbackPushforwardAdjunction (p ≫ q))
         ((pullbackPushforwardAdjunction q).comp (pullbackPushforwardAdjunction p))
@@ -148,7 +148,7 @@ theorem baseChangeNatTrans_vcomp (wa : a' ≫ f' = f'' ≫ a) (wb : b' ≫ f = f
       conjugateEquiv_mateEquiv_vcomp _
         ((pullbackPushforwardAdjunction b').comp (pullbackPushforwardAdjunction a')) _,
       mateEquiv_hcomp, ha, hb, Scheme.Modules.conjugateEquiv_pullbackComp_inv,
-      Stacks.ModuleSkyscraper.conjugateEquiv_pullbackComp_hom, pushforwardSquareIso_hom_vcomp wa
+      ModuleSkyscraper.conjugateEquiv_pullbackComp_hom, pushforwardSquareIso_hom_vcomp wa
         wb wab]
   exact (AffinePushforward.baseChangeNatTrans_eq wab).trans
     ((Equiv.eq_symm_apply _).mpr h1).symm

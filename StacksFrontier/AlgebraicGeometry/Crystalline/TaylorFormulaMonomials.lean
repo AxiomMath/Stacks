@@ -124,7 +124,7 @@ source.  This is `DividedPowers.DPMorphism.dpow_comp` taken over the finitely ma
 theorem map_taylorMonomial (f : DividedPowers.DPMorphism D.dividedPowers B.dividedPowers)
     {x : ι → (D : Type u)} (hx : ∀ i, x i ∈ D.ideal) (K : ι →₀ ℕ) :
     f (taylorMonomial D x K) = taylorMonomial B (fun i ↦ f (x i)) K := by
-  show f.toRingHom (taylorMonomial D x K) = _
+  change f.toRingHom (taylorMonomial D x K) = _
   rw [taylorMonomial, taylorMonomial, map_prod]
   exact Finset.prod_congr rfl fun i _ ↦ (f.dpow_comp (x i) (hx i)).symm
 
@@ -175,7 +175,7 @@ theorem taylorMonomial_variable (A : DividedPowerRing.{u}) {W : Type u} (K : W �
     taylorMonomial (setIndexedDividedPowerPolynomialDividedPowerRing A W)
         (fun i ↦ dividedPowerPolynomialVariable A i) K =
       dividedPowerPolynomialMonomial A K := by
-  show ∏ i ∈ K.support, _ = _
+  change ∏ i ∈ K.support, _ = _
   rw [dividedPowerPolynomialMonomial, Finsupp.prod]
   refine Finset.prod_congr rfl fun i _ ↦ ?_
   simpa [setIndexedDividedPowerPolynomialDividedPowerRing,
@@ -256,7 +256,7 @@ theorem map_monomial_eq_sum_partial
     have h1 : P.1 + P.2 = K := mem_antidiagonal.mp hP
     have h2 : P'.1 + P'.2 = K := mem_antidiagonal.mp hP'
     refine Prod.ext hfst (add_right_injective P.1 ?_)
-    show P.1 + P.2 = P.1 + P'.2
+    change P.1 + P.2 = P.1 + P'.2
     rw [h1, hfst, h2]
   have hcongr : ∀ P ∈ antidiagonal K,
       taylorMonomial B xi P.1 *

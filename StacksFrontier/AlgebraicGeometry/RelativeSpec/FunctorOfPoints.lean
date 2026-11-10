@@ -94,8 +94,6 @@ universe u v
 
 namespace Stacks.RelativeSpec
 
-add_to_stacks 01LR relativeSpecFunctor
-
 variable {s : RelativeSpecSituation.{u}} {T T' T'' Y : Scheme.{u}}
 
 /-- The functor of points of a relative spectrum acts on a morphism of test schemes by pullback
@@ -248,7 +246,7 @@ private lemma existsUnique_gluePresheafedSpaceHom {T : Scheme.{u}} (𝒰 : T.Ope
   let D := 𝒰.gluedCover.toGlueData
   have : ∀ i j k, PreservesLimit (cospan (D.f i j) (D.f i k)) forgetToPresheafedSpace := by
     intro i j k
-    show PreservesLimit _ (Scheme.forgetToLocallyRingedSpace ⋙ _)
+    change PreservesLimit _ (Scheme.forgetToLocallyRingedSpace ⋙ _)
     apply +allowSynthFailures Limits.comp_preservesLimit
     apply +allowSynthFailures preservesLimit_of_iso_diagram
     · exact (diagramIsoCospan _).symm
@@ -378,7 +376,7 @@ private lemma existsUnique_glueRelativeSpecPair {T : Scheme.{u}} (𝒰 : T.OpenC
   obtain ⟨r, hr, hrq⟩ := relativeSpecPair_of_hom f q hqf
   have hri (i) : Stacks.RelativeSpec.RelativeSpecPair.pullback (𝒰.f i) r = p i := by
     apply relativeSpecPair_ext
-    · show 𝒰.f i ≫ r.1 = _
+    · change 𝒰.f i ≫ r.1 = _
       rw [hr, hf]
     · rw [relativeSpecPair_toHom_pullback, hrq, hq]
   refine ⟨r, hri, fun r' hr' => relativeSpecPair_ext _ _
@@ -427,7 +425,7 @@ theorem isRepresentable_of_representablePullbacks
     let b : yoneda.obj (𝒱.X i) ⟶ F.obj := yoneda.map (𝒱.f i) ≫ yonedaEquiv.symm p
     have hb : yoneda.map (pullback.snd f (𝒰.f i)) ≫ yoneda.map (𝒰.f i) = b ≫ π := by
       apply yonedaEquiv.injective
-      show pullback.snd f (𝒰.f i) ≫ 𝒰.f i = π.app _ (F.obj.map (𝒱.f i).op p)
+      change pullback.snd f (𝒰.f i) ≫ 𝒰.f i = π.app _ (F.obj.map (𝒱.f i).op p)
       exact pullback.condition.symm.trans
         (ConcreteCategory.congr_hom (π.naturality (𝒱.f i).op) p).symm
     let l : yoneda.obj (𝒱.X i) ⟶ P i :=
@@ -437,7 +435,7 @@ theorem isRepresentable_of_representablePullbacks
       congrArg yonedaEquiv ((comp_inv_comp_hom_comp l (e i)
         (pullback.snd (yoneda.map (𝒰.f i)) π)).trans (pullback.lift_snd _ _ hb))
     exact ⟨(Sigma.ι (fun i => yoneda.obj (X i)) i).app _ m,
-      (natTrans_comp_apply (Sigma.ι_desc η i) _ m).trans hm⟩
+      (natTrans_comp_apply (Sigma.ι_comp_desc η i) _ m).trans hm⟩
   exact Scheme.LocalRepresentability.isRepresentable hopen
 
 end Stacks.RelativeSpecFunctorOfPoints

@@ -69,14 +69,14 @@ theorem isIso_of_isPullback_family {A Y X : Cᵒᵖ ⥤ Type v}
     refine ⟨(φ i).app _ (yonedaEquiv ((hφΨ i).lift yh vh hw)), ?_⟩
     have h := congrArg yonedaEquiv ((hφΨ i).lift_fst yh vh hw)
     rw [yonedaEquiv_comp, Equiv.apply_symm_apply] at h
-    show Ψ.app _ ((φ i).app _ _) = _
+    change Ψ.app _ ((φ i).app _ _) = _
     rw [← h]
     rfl
   have hinj : Sheaf.IsLocallyInjective Ψs := by
     refine ⟨fun {T} x₁ x₂ hx ↦ ?_⟩
     refine J.superset_covering ?_ (hc T.unop (a.app T x₁))
     rintro T' f ⟨i, v, hv⟩
-    show A.map f.op x₁ = A.map f.op x₂
+    change A.map f.op x₁ = A.map f.op x₂
     let xh₁ : yoneda.obj T' ⟶ A := yonedaEquiv.symm (A.map f.op x₁)
     let xh₂ : yoneda.obj T' ⟶ A := yonedaEquiv.symm (A.map f.op x₂)
     let vh : yoneda.obj T' ⟶ W i := yonedaEquiv.symm v
@@ -98,7 +98,7 @@ theorem isIso_of_isPullback_family {A Y X : Cᵒᵖ ⥤ Type v}
       · rw [← Category.assoc, (hφ i).lift_fst, ← Category.assoc, (hφ i).lift_fst]
         apply yonedaEquiv.injective
         rw [yonedaEquiv_comp, yonedaEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-        show (Ψ.app _ (A.map f.op x₁)) = Ψ.app _ (A.map f.op x₂)
+        change (Ψ.app _ (A.map f.op x₁)) = Ψ.app _ (A.map f.op x₂)
         rw [Ψ.naturality_apply, Ψ.naturality_apply]
         exact congrArg (Y.map f.op) hx
       · rw [(hφ i).lift_snd, (hφ i).lift_snd]

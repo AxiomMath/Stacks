@@ -90,6 +90,17 @@ abbrev koszulQuotientModel :
     ((single (_root_.SheafOfModules.{u} (structureSheafRing Y))
       (ComplexShape.up ℤ) 0).obj (cokernel J.ι)))
 
+omit [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}]
+  [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- The complex `koszulQuotientModel J` presenting `O_X = O_Y/𝓘` is K-injective. -/
 theorem isKInjective_koszulQuotientModel : (koszulQuotientModel J).IsKInjective :=
   isKInjective_kInjectiveModel _ _

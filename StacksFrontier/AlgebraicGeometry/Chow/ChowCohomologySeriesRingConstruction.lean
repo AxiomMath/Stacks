@@ -309,14 +309,14 @@ theorem chowSeriesTerm_chowSeriesMul_left {gm : GradedChowProductRule C G sX}
           (if h : p.1 + p.2 = n then
             gm p.1 p.2 n h (chowSeriesTerm gm a b p.1 q) (c p.2) else 0) := by
   by_cases h : p.1 + p.2 = n
-  · rw [chowSeriesTerm, dif_pos h, chowSeriesMul,
+  · rw [chowSeriesTerm, dite_eq_left h, chowSeriesMul,
       show gm p.1 p.2 n h (∑ q ∈ antidiagonal p.1, chowSeriesTerm gm a b p.1 q) (c p.2)
           = ∑ q ∈ antidiagonal p.1, gm p.1 p.2 n h (chowSeriesTerm gm a b p.1 q) (c p.2)
         from map_sum (GradedChowProductRule.leftHom hl p.1 p.2 n h (c p.2)) _ _]
     refine Finset.sum_congr rfl fun q _ => ?_
-    rw [dif_pos h]
-  · rw [chowSeriesTerm, dif_neg h]
-    exact (Finset.sum_eq_zero fun q _ => dif_neg h).symm
+    rw [dite_eq_left h]
+  · rw [chowSeriesTerm, dite_eq_right h]
+    exact (Finset.sum_eq_zero fun q _ => dite_eq_right h).symm
 
 /-- Expanding a term of the Cauchy product whose right factor is itself a Cauchy product: the
 degree-`n` term at `p` is the sum over the antidiagonal of `p.2`. -/
@@ -328,14 +328,14 @@ theorem chowSeriesTerm_chowSeriesMul_right {gm : GradedChowProductRule C G sX}
           (if h : p.1 + p.2 = n then
             gm p.1 p.2 n h (a p.1) (chowSeriesTerm gm b c p.2 q) else 0) := by
   by_cases h : p.1 + p.2 = n
-  · rw [chowSeriesTerm, dif_pos h, chowSeriesMul,
+  · rw [chowSeriesTerm, dite_eq_left h, chowSeriesMul,
       show gm p.1 p.2 n h (a p.1) (∑ q ∈ antidiagonal p.2, chowSeriesTerm gm b c p.2 q)
           = ∑ q ∈ antidiagonal p.2, gm p.1 p.2 n h (a p.1) (chowSeriesTerm gm b c p.2 q)
         from map_sum (GradedChowProductRule.rightHom hr p.1 p.2 n h (a p.1)) _ _]
     refine Finset.sum_congr rfl fun q _ => ?_
-    rw [dif_pos h]
-  · rw [chowSeriesTerm, dif_neg h]
-    exact (Finset.sum_eq_zero fun q _ => dif_neg h).symm
+    rw [dite_eq_left h]
+  · rw [chowSeriesTerm, dite_eq_right h]
+    exact (Finset.sum_eq_zero fun q _ => dite_eq_right h).symm
 
 /-- **The Cauchy product of `Stacks.Chow.chowSeriesMul` is associative** as soon as the degreewise
 product is additive in each variable and associative. Both iterated products are the sum over
@@ -390,7 +390,7 @@ theorem chowSeriesMul_assoc_of_isAssoc {gm : GradedChowProductRule C G sX}
           dsimp only at hx ⊢
           obtain ⟨h₁, h₂⟩ := hx
           have h₃ : u + (v + k) = n := by omega
-          rw [dif_pos h₁, dif_pos h₃, chowSeriesTerm_of_add gm a b h₂,
+          rw [dite_eq_left h₁, dite_eq_left h₃, chowSeriesTerm_of_add gm a b h₂,
             chowSeriesTerm_of_add gm b c (show v + k = v + k from rfl)]
           exact ha u v k m (v + k) n h₂ rfl h₁ h₃ (a u) (b v) (c k)
     _ = ∑ p ∈ antidiagonal n, ∑ q ∈ antidiagonal p.2,
@@ -777,7 +777,7 @@ theorem chowCohomologyRestriction_gradedFormalInverse
         rw [gradedFormalInverse_succ, gradedFormalInverse_succ, map_neg, map_sum]
         refine congrArg Neg.neg (Finset.sum_congr rfl fun p hp => ?_)
         rw [mem_antidiagonal] at hp
-        rw [dif_pos hp, dif_pos hp,
+        rw [dite_eq_left hp, dite_eq_left hp,
           chowCohomologyRestriction_chowCohomologyGradedProductRule C G sX f hgys hiso,
           ih p.2 (by omega)]
 

@@ -72,7 +72,8 @@ theorem totalDerivedExtensionScalarsCompOfEq_hom_app_comparison (f : R →+* A) 
             f).comparison.app P) ≫
         (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
           h).comparison.app
-          (((ModuleCat.extendScalars.{u, u, u} f).mapHomologicalComplex (ComplexShape.up ℤ)).obj P) ≫
+          (((ModuleCat.extendScalars.{u, u, u} f).mapHomologicalComplex
+            (ComplexShape.up ℤ)).obj P) ≫
         DerivedCategory.Q.map ((NatTrans.mapHomologicalComplex
           (extendScalarsCompInvOfEq.{u, u, u, u} f h c hc) (ComplexShape.up ℤ)).app P) :=
   (StacksDraft.DerivedExtensionScalarsModelComp.compModelIso_hom_app_comp_comparison.{u, u, u,
@@ -101,18 +102,18 @@ theorem ringHomSquareComparison_app_eq_map (f : R →+* A) (g : R →+* R') (h :
   let ef := totalDerivedExtensionScalarsCompOfEq f h c h1
   let τ := ringHomSquareComparison f g h i (h1.trans h2.symm)
   let Ri := (ModuleCat.restrictScalars.{u} i).mapDerivedCategory
-  haveI : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} g).isLeftAdjoint
-  haveI : (ModuleCat.extendScalars.{u, u, u} h).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} h).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} h).isLeftAdjoint
-  haveI := Tf.isLeftDerived
-  haveI := Tg.isLeftDerived
-  haveI := Th.isLeftDerived
-  haveI := Ti.isLeftDerived
+  have := Tf.isLeftDerived
+  have := Tg.isLeftDerived
+  have := Th.isLeftDerived
+  have := Ti.isLeftDerived
   -- the 2-cell of the comparison: the mate of `τ`
   have hτ : mateEquiv adjf adji ((mateEquiv adjf adji).symm τ) = τ := Equiv.apply_symm_apply _ _
   let α : Tg.functor ⋙ Ti.functor ⟶ Tf.functor ⋙ Th.functor :=
-    ((mateEquiv adjf adji).symm τ).natTrans
+    (mateEquiv adjf adji).symm τ
   have hM : ∀ N, Tg.functor.map (adjf.unit.app N) ≫ τ.app (Tf.functor.obj N) =
       adji.unit.app (Tg.functor.obj N) ≫ Ri.map (α.app N) := fun N => by
     have := unit_mateEquiv adjf adji ((mateEquiv adjf adji).symm τ) N
@@ -146,7 +147,7 @@ theorem ringHomSquareComparison_app_eq_map (f : R →+* A) (g : R →+* R') (h :
     have hf : ef.hom.app QP ≫ Tc.comparison.app P = ccf.app P :=
       StacksDraft.DerivedExtensionScalarsModelComp.compModelIso_hom_app_comp_comparison.{u, u, u,
         u, u + 1, u + 1, u + 1} f h Tf.functor Tf.comparison Th.functor Th.comparison c h1 P
-    haveI : IsIso (Tc.comparison.app P) := Tc.comparison_isIso_of_kFlat P hP
+    have : IsIso (Tc.comparison.app P) := Tc.comparison_isIso_of_kFlat P hP
     rw [← cancel_mono (ef.hom.app QP ≫ Tc.comparison.app P), hf, ← h3, ← hg]
     simp only [NatTrans.comp_app, Category.assoc]
     rw [← hf, Iso.inv_hom_id_app_assoc]

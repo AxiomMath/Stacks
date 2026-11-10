@@ -47,7 +47,7 @@ theorem algebraMap_functionFieldAlgebra (x : X) (c : k) :
     @algebraMap k X.functionField _ _ (functionFieldAlgebra p) c =
       algebraMap (X.presheaf.stalk x) X.functionField ((fieldToStalk p x).hom c) := by
   rw [RingHom.algebraMap_toAlgebra, RingHom.algebraMap_toAlgebra]
-  show (fieldToStalk p (genericPoint X)).hom c =
+  change (fieldToStalk p (genericPoint X)).hom c =
     ((fieldToStalk p x) ≫ X.presheaf.stalkSpecializes _).hom c
   have h : X.presheaf.germ ⊤ x trivial ≫
       X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial) =

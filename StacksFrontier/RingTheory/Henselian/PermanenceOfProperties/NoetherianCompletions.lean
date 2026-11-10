@@ -173,7 +173,7 @@ private theorem completion_extend_to_discrete
   refine ⟨g, (continuous_ringHom_to_discrete_iff _ g).mpr ⟨n, ?_⟩, ?_⟩
   · rw [← AdicCompletion.ker_evalₐ I hI]
     intro x hx
-    show (Ideal.Quotient.lift (I ^ n) f hn) (AdicCompletion.evalₐ I n x) = 0
+    change (Ideal.Quotient.lift (I ^ n) f hn) (AdicCompletion.evalₐ I n x) = 0
     rw [show AdicCompletion.evalₐ I n x = 0 from hx, map_zero]
   · ext r
     simp only [g, RingHom.comp_apply, AdicCompletion.algebraMap_apply,
@@ -223,7 +223,7 @@ private theorem formallySmooth_completionMap.{u, v, w}
   have hF := completionMap_comp_algebraMap f I J hIJ
   have hFcont : Continuous F := by
     apply continuous_adic_of_map_le Ihat Jhat F
-    show (I.map (algebraMap R (AdicCompletion I R))).map F ≤ Jhat
+    change (I.map (algebraMap R (AdicCompletion I R))).map F ≤ Jhat
     rw [Ideal.map_map, hF, ← Ideal.map_map]
     exact Ideal.map_mono hIJ
   refine ⟨hFcont, ?_⟩
@@ -304,7 +304,7 @@ private theorem henselization_of_algEquiv.{u, v}
     ((CommAlgCat.etale R).ind.prop_of_iso (CommAlgCat.isoMk e)
       (IsHenselization.ind_etale_of_universe_le.{u,v} K))
   refine ⟨a.trans (ResidueField.mapEquiv e.toRingEquiv), fun r => ?_⟩
-  show ResidueField.map (e : A →+* B) (a _) = _
+  change ResidueField.map (e : A →+* B) (a _) = _
   rw [ha, ResidueField.map_residue]
   exact congrArg (residue B) (e.commutes r)
 
@@ -361,7 +361,7 @@ private theorem strictHenselization_tensorProduct.{u}
   have : IsScalarTower R S B := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower Rh S B := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower R Rh B := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap S B (algebraMap R S r) = algebraMap S B (algebraMap Rh S (algebraMap R Rh r))
+    change algebraMap S B (algebraMap R S r) = algebraMap S B (algebraMap Rh S (algebraMap R Rh r))
     rw [← IsScalarTower.algebraMap_apply R Rh S]
   let Rp := Localization.AtPrime (maximalIdeal R)
   let Sq := Localization.AtPrime (maximalIdeal S)
@@ -374,20 +374,20 @@ private theorem strictHenselization_tensorProduct.{u}
   let : SMul Rp Sq := (inferInstance : Algebra Rp Sq).toSMul
   have hloc (x : Rp) : es.symm (algebraMap Rp Sq x) = algebraMap R S (er.symm x) := by
     obtain ⟨r, rfl⟩ := er.surjective x
-    show es.symm (algebraMap Rp Sq (localizationAtMaximalEquiv R r)) = _
-    rw [localizationAtMaximalEquiv_apply, Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq,
+    change es.symm (algebraMap Rp Sq (localizationAtMaximalEquiv R r)) = _
+    rw [localizationAtMaximalEquiv_apply, Localization.AtPrime.algebraMap_eq,
       Localization.localRingHom_to_map]
     rw [← localizationAtMaximalEquiv_apply]
-    show es.symm (es (algebraMap R S r)) = algebraMap R S (er.symm (er r))
+    change es.symm (es (algebraMap R S r)) = algebraMap R S (er.symm (er r))
     simp
   have hrLoc : IsLocalHom (algebraMap Rp Sq) := by
-    show IsLocalHom (Localization.localRingHom _ _ _ _)
+    change IsLocalHom (Localization.localRingHom _ _ _ _)
     infer_instance
   have hresloc (x : ResidueField Rp) :
       ks.symm (ResidueField.map (algebraMap Rp Sq) x) =
         ResidueField.map (algebraMap R S) (kr.symm x) := by
     obtain ⟨r, rfl⟩ := residue_surjective x
-    show ResidueField.map (es.symm : Sq →+* S)
+    change ResidueField.map (es.symm : Sq →+* S)
       (ResidueField.map (algebraMap Rp Sq) (residue Rp r)) =
       ResidueField.map (algebraMap R S) (ResidueField.map (er.symm : Rp →+* R) (residue Rp r))
     simp only [ResidueField.map_residue, RingEquiv.coe_toRingHom]
@@ -396,7 +396,7 @@ private theorem strictHenselization_tensorProduct.{u}
     have heq : ResidueField.map (algebraMap Rp Sq) =
         (ks.toRingHom.comp (ResidueField.map (algebraMap R S))).comp kr.symm.toRingHom := by
       refine RingHom.ext fun x => ks.symm.injective ?_
-      show ks.symm (ResidueField.map (algebraMap Rp Sq) x) =
+      change ks.symm (ResidueField.map (algebraMap Rp Sq) x) =
         ks.symm (ks (ResidueField.map (algebraMap R S) (kr.symm x)))
       rw [RingEquiv.symm_apply_apply]
       exact hresloc x
@@ -414,7 +414,7 @@ private theorem strictHenselization_tensorProduct.{u}
       (by ext x; simp [RingHom.algebraMap_toAlgebra])
   have hKloc (x : ResidueField Rp) : algebraMap (ResidueField Sq) K
       (ResidueField.map (algebraMap Rp Sq) x) = algebraMap (ResidueField Rp) K x := by
-    show algebraMap (ResidueField S) K (ks.symm _) = algebraMap (ResidueField R) K (kr.symm x)
+    change algebraMap (ResidueField S) K (ks.symm _) = algebraMap (ResidueField R) K (kr.symm x)
     rw [hresloc, hK]
   let : Algebra Rp Rh := ((algebraMap R Rh).comp er.symm.toRingHom).toAlgebra
   let : Algebra Sq S := es.symm.toRingHom.toAlgebra
@@ -431,14 +431,14 @@ private theorem strictHenselization_tensorProduct.{u}
   have : IsHenselization Sq K B :=
     henselization_of_base_equiv es.symm (fun _ => rfl) (RingEquiv.refl K) (fun _ => rfl)
   have : IsScalarTower Rp Rh S := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap R S (er.symm x) = algebraMap Rh S (algebraMap R Rh (er.symm x))
+    change algebraMap R S (er.symm x) = algebraMap Rh S (algebraMap R Rh (er.symm x))
     exact IsScalarTower.algebraMap_apply R Rh S _
   have : IsScalarTower Rp Sq S := IsScalarTower.of_algebraMap_eq (fun x => (hloc x).symm)
   have : IsScalarTower Rp Rh Rsh := IsScalarTower.of_algebraMap_eq fun x =>
     IsScalarTower.algebraMap_apply R Rh Rsh _
   have : IsScalarTower Sq S B := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower Rp Sq B := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap S B (algebraMap R S (er.symm x)) =
+    change algebraMap S B (algebraMap R S (er.symm x)) =
       algebraMap S B (es.symm (algebraMap Rp Sq x))
     rw [hloc]
   have : IsScalarTower Rp Rh B := IsScalarTower.of_algebraMap_eq fun x =>
@@ -468,31 +468,31 @@ private theorem quotient_tensor_completion_equiv
   let IC := I.map (algebraMap A C)
   let JT := J.map r
   have hmap : IC.map e.toAlgHom = I.map (algebraMap A (AdicCompletion I A)) := by
-    show (I.map (algebraMap A C)).map e.toRingHom = _
+    change (I.map (algebraMap A C)).map e.toRingHom = _
     rw [Ideal.map_map]
     congr 1
     apply RingHom.ext
     intro a
     exact e.commutes a
   have hCJ : IC.map l = JT := by
-    show (I.map (algebraMap A C)).map l.toRingHom = J.map r.toRingHom
+    change (I.map (algebraMap A C)).map l.toRingHom = J.map r.toRingHom
     rw [← hJ, Ideal.map_map, Ideal.map_map]
     congr 1
     ext a
     exact (l.commutes a).trans (r.commutes a).symm
   let γ : C →ₐ[A] A ⧸ I ^ n := (AdicCompletion.evalₐ I n).comp e.toAlgHom
   have hγ (a : A) : γ (algebraMap A C a) = Ideal.Quotient.mk _ a := by
-    show AdicCompletion.evalₐ I n (e (algebraMap A C a)) = _
+    change AdicCompletion.evalₐ I n (e (algebraMap A C a)) = _
     rw [e.commutes]
     simp [AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of]
   have hker : RingHom.ker γ.toRingHom = IC ^ n := by
-    show (RingHom.ker (AdicCompletion.evalₐ I n).toRingHom).comap e.toAlgHom = _
+    change (RingHom.ker (AdicCompletion.evalₐ I n).toRingHom).comap e.toAlgHom = _
     rw [AdicCompletion.ker_evalₐ I hI, ← hmap, ← Ideal.map_pow,
       Ideal.comap_map_of_bijective e.toAlgHom e.bijective]
   let g : C →ₐ[A] B ⧸ J ^ n :=
     (Ideal.quotientMapₐ (J ^ n) (Algebra.ofId A B)
       (Ideal.map_le_iff_le_comap.mp (by
-        show (I ^ n).map (algebraMap A B) ≤ J ^ n
+        change (I ^ n).map (algebraMap A B) ≤ J ^ n
         rw [Ideal.map_pow, hJ]))).comp γ
   let π : T →ₐ[A] T ⧸ JT ^ n := Ideal.Quotient.mkₐ A (JT ^ n)
   let β : (B ⧸ J ^ n) →ₐ[A] T ⧸ JT ^ n :=
@@ -502,7 +502,7 @@ private theorem quotient_tensor_completion_equiv
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (γ c)
     have hd : c - algebraMap A C a ∈ IC ^ n := by
       rw [← hker, RingHom.mem_ker]
-      show γ (c - algebraMap A C a) = 0
+      change γ (c - algebraMap A C a) = 0
       rw [map_sub, hγ, ← ha, sub_self]
     have heq : π (l c) = π (l (algebraMap A C a)) := by
       rw [← sub_eq_zero, ← map_sub, ← map_sub]
@@ -518,27 +518,26 @@ private theorem quotient_tensor_completion_equiv
   let F : T →ₐ[A] B ⧸ J ^ n :=
     Algebra.TensorProduct.lift g (Ideal.Quotient.mkₐ A (J ^ n)) (fun _ _ => Commute.all _ _)
   have hFr (b : B) : F (r b) = Ideal.Quotient.mk _ b := by
-    show Algebra.TensorProduct.lift g (Ideal.Quotient.mkₐ A (J ^ n)) _
+    change Algebra.TensorProduct.lift g (Ideal.Quotient.mkₐ A (J ^ n)) _
       ((1 : C) ⊗ₜ[A] b) = _
     rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
     rfl
   have hFker : JT ^ n ≤ RingHom.ker F.toRingHom := by
-    show (J.map r) ^ n ≤ _
+    change (J.map r) ^ n ≤ _
     rw [← Ideal.map_pow, Ideal.map_le_iff_le_comap]
     intro b hb
-    show F (r b) = 0
+    change F (r b) = 0
     rw [hFr]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hb
   let δ : T ⧸ JT ^ n →ₐ[A] B ⧸ J ^ n := Ideal.Quotient.liftₐ _ F hFker
   have hround (t : T) : β (F t) = π t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c b =>
-      show β (g c * Ideal.Quotient.mk _ b) = _
+      change β (g c * Ideal.Quotient.mk _ b) = _
       rw [map_mul, hleft, hβ, ← map_mul]
       congr 1
-      show (c ⊗ₜ[A] (1 : B)) * ((1 : C) ⊗ₜ[A] b) = _
+      change (c ⊗ₜ[A] (1 : B)) * ((1 : C) ⊗ₜ[A] b) = _
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   have hδβ : Function.LeftInverse δ β := by
     intro b
@@ -621,7 +620,7 @@ private theorem completion_tensor_equiv
       (maximalIdeal A) hA (maximalIdeal B) hB e n
     let eq := Ideal.quotientEquivAlgOfEq A (congrArg (fun I => I ^ n) hT)
     refine ⟨q.trans eq.toRingEquiv, fun b => ?_⟩
-    show eq (q (Ideal.Quotient.mk _ b)) = _
+    change eq (q (Ideal.Quotient.mk _ b)) = _
     rw [hq]
     exact Ideal.quotientEquivAlgOfEq_mk A _ _
   obtain ⟨E, hE⟩ := exists_adicCompletion_equiv_of_quotient_equiv r.toRingHom
@@ -740,11 +739,11 @@ public theorem isNoetherianRing_iff_henselizations_and_completion_properties.{u,
       (fun x => e.apply_symm_apply (algebraMap Rh D x))
     have : IsScalarTower R Rh C := IsScalarTower.of_algebraMap_eq fun r => by
       apply e.injective
-      show e (algebraMap R C r) = e (e.symm (algebraMap Rh D (algebraMap R Rh r)))
+      change e (algebraMap R C r) = e (e.symm (algebraMap Rh D (algebraMap R Rh r)))
       rw [e.apply_symm_apply]
       exact he r
     have : IsLocalHom (algebraMap Rh C) := by
-      show IsLocalHom ((e.symm : D →+* C).comp (algebraMap Rh D))
+      change IsLocalHom ((e.symm : D →+* C).comp (algebraMap Rh D))
       infer_instance
     have hRMap : IsLocalHom (algebraMap R C) :=
       AdicCompletion.algebraMap_isLocalHom_of_fg (maximalIdeal R).fg_of_isNoetherianRing
@@ -759,7 +758,7 @@ public theorem isNoetherianRing_iff_henselizations_and_completion_properties.{u,
     let := aK
     have hK (x : ResidueField R) : algebraMap (ResidueField C) κsep
         (ResidueField.map (algebraMap R C) x) = algebraMap (ResidueField R) κsep x := by
-      show algebraMap (ResidueField R) κsep (er.symm (er x)) = _
+      change algebraMap (ResidueField R) κsep (er.symm (er x)) = _
       rw [er.symm_apply_apply]
     have hsep : IsSepClosure (ResidueField C) κsep :=
       AlgebraicGeometry.isSepClosure_of_equiv_equiv er (RingEquiv.refl κsep) (RingHom.ext hK)
@@ -774,13 +773,13 @@ public theorem isNoetherianRing_iff_henselizations_and_completion_properties.{u,
         Ideal.map_map, ← IsScalarTower.algebraMap_eq R Rh Rsh]
       exact IsHenselization.map_maximalIdeal (R := R) (L := κsep) (Rh := Rsh)
     have hmC : (maximalIdeal Rh).map (algebraMap Rh C) = maximalIdeal C := by
-      show (maximalIdeal Rh).map (e.symm.toRingHom.comp (algebraMap Rh D)) = _
+      change (maximalIdeal Rh).map (e.symm.toRingHom.comp (algebraMap Rh D)) = _
       rw [← Ideal.map_map, ← AdicCompletion.maximalIdeal_eq_map_of_fg
         (maximalIdeal Rh).fg_of_isNoetherianRing]
       exact map_ringEquiv_maximalIdeal e.symm
     let r : Rsh →ₐ[Rh] T := Algebra.TensorProduct.includeRight
     have hmT : (maximalIdeal Rsh).map r = maximalIdeal T := by
-      show (maximalIdeal Rsh).map r.toRingHom = _
+      change (maximalIdeal Rsh).map r.toRingHom = _
       rw [← hmB, Ideal.map_map]
       have hc : r.toRingHom.comp (algebraMap Rh Rsh) =
           (algebraMap C T).comp (algebraMap Rh C) := by

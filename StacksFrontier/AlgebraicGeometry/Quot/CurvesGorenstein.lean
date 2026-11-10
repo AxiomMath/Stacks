@@ -167,7 +167,7 @@ theorem isGorensteinFamily_curveFamilyOfSchemeMorphism_iff
   have := flat_of_eq_spec_field (F.map g) k hU
   have hfib : ∀ v : F.obj U, IsLocallyNoetherian ((F.map g).fiber v) := fun v => by
     have : LocallyOfFiniteType ((F.map g).fiberToSpecResidueField v) := by
-      show LocallyOfFiniteType (pullback.snd (F.map g) ((F.obj U).fromSpecResidueField v))
+      change LocallyOfFiniteType (pullback.snd (F.map g) ((F.obj U).fromSpecResidueField v))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian ((F.map g).fiberToSpecResidueField v)
   exact isGorenstein_schemeSpaceMap_iff_of_target_eq_spec B hZ g k hU hfib

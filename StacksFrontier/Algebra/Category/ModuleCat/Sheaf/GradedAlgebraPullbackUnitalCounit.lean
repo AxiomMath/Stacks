@@ -141,7 +141,7 @@ theorem counitApp_map_one
   refine (congrArg (fun t => ((counitApp f A).app 0).val.app V t) h1).trans ?_
   refine (counit_scalarUnit_app f (A.piece 0) V _).trans ?_
   let : PreservesFiniteLimits f.toToposHom.inverseImage := f.toToposHom.preservesFiniteLimits
-  show (f.toToposHom.adj.counit.app (Stacks.underlyingModuleSheaf X.J (A.piece 0))).hom.app V
+  change (f.toToposHom.adj.counit.app (Stacks.underlyingModuleSheaf X.J (A.piece 0))).hom.app V
       ((transportSections X.J f.toToposHom.inverseImage V).map
         (oneSheafHom (pushforwardGradedAlgebra f A)) default) = _
   generalize (default : (transportSections X.J f.toToposHom.inverseImage V).obj

@@ -76,7 +76,7 @@ variable {A : Type u} [CommRing A] {r : ℕ}
 the finite free module `Aʳ`, hence free. -/
 theorem projective_seqComplex_X (f : Fin r → A) (j : ℕ) :
     Projective ((Koszul.seqComplex f).X j) := by
-  show Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
+  change Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
   have : Module.Projective A (⋀[A]^j (Fin r → A)) :=
     Module.Projective.of_basis (Module.Free.chooseBasis _ _)
   infer_instance
@@ -112,7 +112,7 @@ theorem finite_extend_seqComplex_X (f : Fin r → A) (i : ℤ) :
   by_cases h : ∃ j : ℕ, ComplexShape.embeddingDownNat.f j = i
   · obtain ⟨j, hj⟩ := h
     have : Module.Finite A ((Koszul.seqComplex f).X j) := by
-      show Module.Finite A (⋀[A]^j (Fin r → A))
+      change Module.Finite A (⋀[A]^j (Fin r → A))
       infer_instance
     exact Module.Finite.equiv
       (((Koszul.seqComplex f).extendXIso ComplexShape.embeddingDownNat hj).toLinearEquiv.symm)

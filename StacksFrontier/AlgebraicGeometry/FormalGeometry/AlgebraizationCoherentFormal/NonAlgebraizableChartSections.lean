@@ -95,7 +95,7 @@ public theorem map_chartOpenEquiv (r q : AmbientRing k) (hdvd : r ∣ q) (n : �
         algebraMap (levelRing k n) Γ(levelScheme k n, chartOpen k q n) z := by
       rw [hrestrict]
       exact (chartOpenEquiv k q n).commutes z
-    show ((levelScheme k n).presheaf.map (homOfLE hle).op).hom
+    change ((levelScheme k n).presheaf.map (homOfLE hle).op).hom
         (chartOpenEquiv k r n (levelToChart k r n z)) =
       chartOpenEquiv k q n (chartRestrict k r q hdvd n (levelToChart k r n z))
     rw [h1, h2]

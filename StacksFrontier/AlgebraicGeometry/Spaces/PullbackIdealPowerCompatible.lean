@@ -128,7 +128,7 @@ theorem smul_mem_localSpan {T T' : ∀ X : Cᵒᵖ, Set (N.val.obj X)} {X : Cᵒ
   refine (mem_localSpan_iff _).2
     (J.superset_covering (fun W a ha => ?_) ((mem_localSpan_iff x).1 hx))
   replace ha : N.val.restrictₛₗ a.op x ∈ (spanSubmodule N T).obj (op W) := ha
-  show N.val.restrictₛₗ a.op (ρ • x) ∈ (spanSubmodule N T').obj (op W)
+  change N.val.restrictₛₗ a.op (ρ • x) ∈ (spanSubmodule N T').obj (op W)
   rw [map_smulₛₗ]
   generalize N.val.restrictₛₗ a.op x = z at ha ⊢
   induction ha using Submodule.span_induction with
@@ -163,7 +163,7 @@ theorem smul_mem_localSpan_of_mem_localImage {K : SheafOfModules.{u} R}
   obtain ⟨w₀, hw₀⟩ := ha
   refine J.superset_covering (fun V' b hb => ?_) ((mem_localSpan_iff w₀).1 (hU _ w₀))
   replace hb : K.val.restrictₛₗ b.op w₀ ∈ (spanSubmodule K U).obj (op V') := hb
-  show N.val.restrictₛₗ (b ≫ a).op (r • y) ∈ (localSpan N T').obj (op V')
+  change N.val.restrictₛₗ (b ≫ a).op (r • y) ∈ (localSpan N T').obj (op V')
   have hy' : N.val.restrictₛₗ (b ≫ a).op y ∈ (localSpan N T).obj (op V') :=
     (localSpan N T).map_mem _ hy
   have hρ : R.obj.map (b ≫ a).op r = ψ.val.app (op V') (K.val.restrictₛₗ b.op w₀) := by
@@ -171,7 +171,7 @@ theorem smul_mem_localSpan_of_mem_localImage {K : SheafOfModules.{u} R}
       Functor.map_comp, ConcreteCategory.comp_apply]
     rfl
   rw [map_smulₛₗ]
-  show R.obj.map (b ≫ a).op r • _ ∈ _
+  change R.obj.map (b ≫ a).op r • _ ∈ _
   generalize R.obj.map (b ≫ a).op r = ρ at hρ ⊢
   generalize N.val.restrictₛₗ (b ≫ a).op y = y' at hy' ⊢
   generalize K.val.restrictₛₗ b.op w₀ = w at hb hρ

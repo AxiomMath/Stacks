@@ -135,14 +135,14 @@ def secIncl {k : ℕ} (b : ↥(𝒜 k)) (W : (Opens ↥X)ᵒᵖ) :
 /-- `secIncl` is additive in the homogeneous element. -/
 theorem secIncl_add {k : ℕ} (b b' : ↥(𝒜 k)) (W : (Opens ↥X)ᵒᵖ) :
     secIncl D S (b + b') W = secIncl D S b W + secIncl D S b' W := by
-  show D.alg.ungradedIncl (k : ℤ) ((S.sec (b + b')).eval W) = _
+  change D.alg.ungradedIncl (k : ℤ) ((S.sec (b + b')).eval W) = _
   rw [S.eval_add b b' W]
   exact D.alg.ungradedIncl_add (k : ℤ) W _ _
 
 /-- `secIncl` sends the unit of the graded algebra `𝒜` to `1`. -/
 theorem secIncl_one (W : (Opens ↥X)ᵒᵖ) :
     secIncl D S (GradedMonoid.GOne.one (A := fun n : ℕ => ↥(𝒜 n))) W = 1 := by
-  show D.alg.ungradedIncl 0
+  change D.alg.ungradedIncl 0
       ((S.sec (GradedMonoid.GOne.one (A := fun n : ℕ => ↥(𝒜 n)))).eval W) = 1
   rw [S.eval_one W]
   exact D.alg.ungradedIncl_one W
@@ -202,7 +202,7 @@ def secRingHom (W : (Opens ↥X)ᵒᵖ) : B →+* ↥(AlgebraSheaf.sections D.sh
 degree-`k` inclusion of the global section that element names. -/
 theorem secRingHom_coe {k : ℕ} (b : ↥(𝒜 k)) (W : (Opens ↥X)ᵒᵖ) :
     secRingHom D S W (b : B) = secIncl D S b W := by
-  show secRingHomDirectSum D S W (DirectSum.decompose 𝒜 (b : B)) = _
+  change secRingHomDirectSum D S W (DirectSum.decompose 𝒜 (b : B)) = _
   rw [DirectSum.decompose_coe]
   exact DirectSum.toAddMonoid_of (fun j => secInclAddHom D S j W) k b
 
@@ -352,9 +352,6 @@ theorem isClosedImmersion_relSpecToPullback (D : GradedQcohAlgebra X)
     _root_.AlgebraicGeometry.IsClosedImmersion (relSpecToPullback B f D ψ) :=
   have hci := Stacks.RelativeSpecClosedImmersion.isClosedImmersion_relativeSpecMapOfAlgebraHom
     ((algebraPullback f).obj (pushforwardAlgebra (algebraSpecToBase A B))) D.sheaf ψ hψ
-  have hiso : IsIso (baseChangeRelativeSpecIso B f).inv.left :=
-    show IsIso ((Over.forget X).map (baseChangeRelativeSpecIso B f).inv) from
-      inferInstance
   @_root_.AlgebraicGeometry.IsClosedImmersion.comp _ _ _ _ _ hci inferInstance
 
 /-! #### The ring map of the structure morphism on global sections -/

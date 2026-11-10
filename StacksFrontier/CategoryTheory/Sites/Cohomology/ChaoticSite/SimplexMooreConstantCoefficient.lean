@@ -17,7 +17,7 @@ extended Moore complex of a constant simplicial object is a resolution of its va
 This is the `Δ`-side half of the computation of `Lπ_!` on a *constant* simplicial module, which is
 what the third term of the Atiyah triangle of [Stacks, Tag 09DH] asks for; the module-coefficient
 half is
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/DerivedProjectionConstantCoefficient.lean`.
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Simplicial.DerivedProjectionConstantCoefficient`.
 Nothing here is specific to modules: as everywhere in the `GeneralValued`/`SimplexValued`
 development, the coefficient category is an arbitrary abelian category.
 

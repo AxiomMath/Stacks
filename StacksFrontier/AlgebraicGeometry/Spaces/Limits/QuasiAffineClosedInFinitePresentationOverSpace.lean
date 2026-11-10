@@ -150,7 +150,7 @@ theorem exists_isFinitePresentation_isClosedImmersion_of_isQuasiAffineHom_of_noe
   refine ⟨U.toFunctor, U.ι ≫ t.app (Opposite.op i), h, hUopen.1,
     isFinitePresentation_comp B S hS hUopen.1 (hDalg _) hY _ _ hUfp (hDfp _), hhclosed, ?_⟩
   rw [← Category.assoc, hhι, Category.assoc]
-  show j.hom ≫ (p.app (Opposite.op i) ≫ t.app (Opposite.op i)) = f
+  change j.hom ≫ (p.app (Opposite.op i) ≫ t.app (Opposite.op i)) = f
   rw [hpt, hjf]
 
 end AlgebraicGeometry.Space

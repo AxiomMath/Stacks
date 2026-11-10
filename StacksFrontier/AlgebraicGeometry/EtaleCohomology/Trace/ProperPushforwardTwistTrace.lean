@@ -54,6 +54,7 @@ variable {R : Type u} [Ring R] {C C' D : Type u₁} [Category.{v₁} C] [Categor
   [F₁'.PreservesInjectiveObjects] [G.PreservesInjectiveObjects]
   (θ : P ⋙ F₁ ≅ F₁) (θ' : P' ⋙ F₁' ≅ F₁') (γ : G ⋙ F₁ ≅ F₁') (ρ : P' ⋙ G ⟶ G ⋙ P)
 
+omit [EnoughInjectives C] [EnoughInjectives C'] in
 /-- `G` of a bounded below complex of injectives is a bounded below complex of injectives. -/
 lemma injective_mapCochainComplexPlus_obj {T : CochainComplex.Plus C'}
     (hT : ∀ n, Injective (T.obj.X n)) (n : ℤ) :
@@ -170,7 +171,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_eq_of_baseChange_quasiIso
     ((congrArg DerivedCategory.Q.map ?_).trans (DerivedCategory.Q.map_comp _ _))
   ext n : 1
   have h₂ := γ.hom.naturality (g.hom.f n)
-  show F₂.map (F₁.map (G.map (g.hom.f n) ≫ ρ.app (T.obj.X n)) ≫
+  change F₂.map (F₁.map (G.map (g.hom.f n) ≫ ρ.app (T.obj.X n)) ≫
       θ.hom.app (G.obj (T.obj.X n))) ≫ F₂.map (γ.hom.app (T.obj.X n)) =
     F₂.map (γ.hom.app (T.obj.X n)) ≫ F₂.map (F₁'.map (g.hom.f n) ≫ θ'.hom.app (T.obj.X n))
   rw [← F₂.map_comp, ← F₂.map_comp]

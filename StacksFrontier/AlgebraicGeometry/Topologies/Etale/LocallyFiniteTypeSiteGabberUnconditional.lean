@@ -9,7 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDime
 
 The Zariski–Riemann proof of Travaux de Gabber, Exposé XVIII-A, Corollary 1.2 (the last remark of
 §2 there) is complete: germ death in the limit of the proper models
-(`AlgebraicGeometry.Scheme.ZariskiRiemann.centerLimitGermDeath`) gives germ death at valuation rings, at the centres of small rank and
+(`AlgebraicGeometry.Scheme.ZariskiRiemann.centerLimitGermDeath`) gives germ death at valuation
+rings, at the centres of small rank and
 pointwise on the proper models, and with the cofilteredness of the refinements, the stalk
 cocycle and the Leray step, Corollary 1.2 (`FractionFieldVanishingBound n` for every `n`). This
 file draws the consequences: Theorem 1.1 of the exposé, the vanishing above `d_V` of Stacks 0DC6,

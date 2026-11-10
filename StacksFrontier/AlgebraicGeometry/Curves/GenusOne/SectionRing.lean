@@ -77,6 +77,7 @@ theorem degreeZeroHom_mul_of (r : Γ(X, ⊤)) {m : ℕ} (s : powSections L m) :
         ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm r ≫ s) :=
   of_zero_mul_of L _ s
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The global section of a homogeneous element scaled by a function is the scaled global
 section. -/
 theorem globalSection_unitScalarEquiv_symm_comp (r : Γ(X, ⊤)) {m : ℕ} (s : powSections L m) :
@@ -86,7 +87,7 @@ theorem globalSection_unitScalarEquiv_symm_comp (r : Γ(X, ⊤)) {m : ℕ} (s : 
   have h1 : Stacks.SectionRingGeometric.unitScalar X
       ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm r) = r :=
     (Stacks.SectionRingGeometric.unitScalarEquiv X).apply_symm_apply r
-  show Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ =
+  change Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ _ =
     r • Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _ s
   rw [Stacks.SectionRingGeometric.globalSection_unitComp, h1]
 
@@ -122,8 +123,7 @@ theorem mem_gradingK_iff {n : ℕ} {a : sectionRing L} :
 /-- The `k`-submodules are a graded monoid. -/
 instance gradedMonoid : SetLike.GradedMonoid (gradingK L k) where
   one_mem := SetLike.GradedOne.one_mem (A := Stacks.AmpleFiniteAvoidance.grading L)
-  mul_mem i j a b ha hb :=
-    SetLike.GradedMul.mul_mem (A := Stacks.AmpleFiniteAvoidance.grading L) ha hb
+  mul_mem := SetLike.GradedMul.mul_mem (A := Stacks.AmpleFiniteAvoidance.grading L)
 
 /-- **The `k`-submodules grade `Γ_*(X, L)`.** -/
 noncomputable instance gradedAlgebra : GradedAlgebra (gradingK L k) where

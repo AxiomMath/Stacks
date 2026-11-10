@@ -404,7 +404,7 @@ lemma isDiffOpOfOrder_add (φ : O₁ ⟶ O₂) (m : ℕ)
       have comm_add :
           (commutator g fun Z => add D₁ D₂ (Over.mk (Z.hom ≫ Y.hom)))
           = add (commutator g (slice D₁ Y)) (commutator g (slice D₂ Y)) := by
-        show commutator g (add (slice D₁ Y) (slice D₂ Y))
+        change commutator g (add (slice D₁ Y) (slice D₂ Y))
           = add (commutator g (slice D₁ Y)) (commutator g (slice D₂ Y))
         generalize slice D₁ Y = A
         generalize slice D₂ Y = B

@@ -273,7 +273,7 @@ local ring `k[x, y]_{(x,y)}` by the nodal equation.**  Localization commutes wit
 theorem isLocalization_quotient_nodalPlaneLocalIdeal :
     IsLocalization.AtPrime (planeLocalRing k ⧸ nodalPlaneLocalIdeal k)
       (nodalPlaneOriginIdeal k) := by
-  show IsLocalization (nodalPlaneOriginIdeal k).primeCompl _
+  change IsLocalization (nodalPlaneOriginIdeal k).primeCompl _
   rw [← algebraMapSubmonoid_primeCompl_eq k]
   infer_instance
 

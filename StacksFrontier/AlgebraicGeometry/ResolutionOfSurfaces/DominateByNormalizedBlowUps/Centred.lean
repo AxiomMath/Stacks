@@ -206,19 +206,19 @@ private lemma hasCentredDominatingTail_of_transcendental_residue (n : ℕ)
       ∀ (l : T ⟶ S) [IsProper l], IsBirational l → topologicalKrullDim T ≤ 2 →
       ∀ W : S.Opens, IsIso (l ∣_ W) →
       (contractedPoints l).ncard < n → HasCentredDominatingTail W l) :
-    ∀ m {S T : Scheme.{u}} [IsNoetherian S] [IsNoetherian T] [IsNormal S] [IsNormal T]
-      (hNagataS : IsNagataScheme S) (hdimS : topologicalKrullDim S ≤ 2)
-      (hlocalS : ∀ x : S, ∃ U : S.Opens, x ∈ U ∧ IsIntegral U.toScheme)
-      (l : T ⟶ S) [IsProper l] (hl : IsBirational l)
-      (hdimT : topologicalKrullDim T ≤ 2) (W : S.Opens) (hW : IsIso (l ∣_ W))
-      (y : T) (hy : ¬ IsClosed ({y} : Set T)) (hly : IsClosed ({l y} : Set S))
-      (e : T.presheaf.stalk y ≃+* R) (a b : S.presheaf.stalk (l y))
-      (hb : e ((l.stalkMap y).hom b) ≠ 0)
-      (hab : e ((l.stalkMap y).hom a) = u * e ((l.stalkMap y).hom b))
-      (hu : letI := (IsLocalRing.ResidueField.map
+    ∀ m {S T : Scheme.{u}} [IsNoetherian S] [IsNoetherian T] [IsNormal S] [IsNormal T],
+      IsNagataScheme S → topologicalKrullDim S ≤ 2 →
+      (∀ x : S, ∃ U : S.Opens, x ∈ U ∧ IsIntegral U.toScheme) →
+      ∀ (l : T ⟶ S) [IsProper l], IsBirational l →
+      topologicalKrullDim T ≤ 2 → ∀ (W : S.Opens), IsIso (l ∣_ W) →
+      ∀ (y : T), ¬ IsClosed ({y} : Set T) → IsClosed ({l y} : Set S) →
+      ∀ (e : T.presheaf.stalk y ≃+* R) (a b : S.presheaf.stalk (l y)),
+      e ((l.stalkMap y).hom b) ≠ 0 →
+      e ((l.stalkMap y).hom a) = u * e ((l.stalkMap y).hom b) →
+      (letI := (IsLocalRing.ResidueField.map
         (e.toRingHom.comp (l.stalkMap y).hom)).toAlgebra;
         Transcendental (IsLocalRing.ResidueField (S.presheaf.stalk (l y)))
-          (IsLocalRing.residue R u)),
+          (IsLocalRing.residue R u)) →
       (IsDiscreteValuationRing.addVal R (e ((l.stalkMap y).hom b))).toNat = m →
       (contractedPoints l).ncard ≤ n → HasCentredDominatingTail W l := by
   intro m

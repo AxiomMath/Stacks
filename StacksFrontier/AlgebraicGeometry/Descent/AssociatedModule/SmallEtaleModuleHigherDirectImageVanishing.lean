@@ -3,12 +3,12 @@ module
 public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleDerivedPushforward
 public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleQuasicoherentKernels
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.ModuleHigherVanishing
 public import StacksFrontier.CategoryTheory.Abelian.RightDerivedTransport
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.RightDerivedSectionsEssentiallySmall
+StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.RightDerivedSectionsEssentiallySmall
 
 /-!
 # The higher direct images of `ε_*` vanish on a quasi-coherent sheaf of modules
@@ -81,8 +81,8 @@ the two `CategoryTheory.HasExt.{u + 1}` instances that needs are
 `Stacks.Cohomology.ModuleDirectImageOnACover.hasExt_morphismUniverse`.
 
 `isZero_rightDerived_evaluation_associatedModule` is the transport that the implementation notes
-of
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleRestrictModuleHomologyEdge.lean`
+of the module
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleRestrictModuleHomologyEdge`
 record as missing for the source's own route through [Stacks, Tag 0BKZ] at the affine objects of
 `S_étale`: `AlgebraicGeometry.isZero_sheafCohomology_succ_smallEtaleAffine` read as a statement
 about `(CategoryTheory.SheafOfModules.evaluation _ _).rightDerived` on

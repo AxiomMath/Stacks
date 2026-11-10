@@ -143,7 +143,7 @@ public lemma kummerSequence_shortExact_of_isLocallySurjective
   let : J.HasSheafCompose (forget AddCommGrpCat.{u + 1}) := inferInstance
   have hlocHigh : Presheaf.IsLocallySurjective J
       ((sheafToPresheaf J AddCommGrpCat.{u + 1}).map (H.map S.g)) := by
-    show Presheaf.IsLocallySurjective J
+    change Presheaf.IsLocallySurjective J
       (Functor.whiskerRight S.g.hom (AddCommGrpCat.uliftFunctor.{u + 1, u}))
     refine ⟨?_⟩
     intro U x
@@ -152,20 +152,20 @@ public lemma kummerSequence_shortExact_of_isLocallySurjective
     intro V f hf
     obtain ⟨b, hb⟩ := hf
     refine ⟨ULift.up b, ?_⟩
-    show ULift.up ((powerPresheaf F n).app (Opposite.op V) b) =
+    change ULift.up ((powerPresheaf F n).app (Opposite.op V) b) =
       ULift.up ((unitsPresheaf F).map f.op x.down)
     rw [hb]
   let : Sheaf.IsLocallySurjective (H.map S.g) := hlocHigh
   have : Epi (H.map S.g) := Sheaf.epi_of_isLocallySurjective _
   have hker : IsLimit (KernelFork.ofι S.f S.zero) := by
-    show IsLimit (KernelFork.ofι
+    change IsLimit (KernelFork.ofι
       (Limits.kernel.ι (powerSheaf J F hF n)) _)
     exact kernelIsKernel _
   let : PreservesLimitsOfShape WalkingParallelPair
       (H ⋙ sheafToPresheaf J AddCommGrpCat.{u + 1}) := by
     let : PreservesLimitsOfShape WalkingParallelPair
         (sheafToPresheaf J AddCommGrpCat.{u}) := inferInstance
-    show PreservesLimitsOfShape WalkingParallelPair
+    change PreservesLimitsOfShape WalkingParallelPair
       (sheafToPresheaf J AddCommGrpCat.{u} ⋙
         (Functor.whiskeringRight Cᵒᵖ AddCommGrpCat AddCommGrpCat).obj
           AddCommGrpCat.uliftFunctor.{u + 1, u})
@@ -196,7 +196,7 @@ public lemma kummerSequence_shortExact_of_isLocallySurjective
       (by
         intro Z' k hk
         apply H.map_injective
-        show H.map S.g ≫ H.map (H.preimage (hcokerHigh.desc (cokerMap k hk))) = H.map k
+        change H.map S.g ≫ H.map (H.preimage (hcokerHigh.desc (cokerMap k hk))) = H.map k
         calc
           H.map S.g ≫ H.map (H.preimage (hcokerHigh.desc (cokerMap k hk))) =
               H.map S.g ≫ hcokerHigh.desc (cokerMap k hk) := by rw [H.map_preimage]
@@ -282,7 +282,7 @@ public lemma kummerSequence_shortExact_of_isLocallySurjective
   have hleftZero : IsZero left.H := hzeroSheaf
   have hExact : S.Exact := (hdata.exact_iff).2 hleftZero
   have hmono : Mono S.f := by
-    show Mono (Limits.kernel.ι (powerSheaf J F hF n))
+    change Mono (Limits.kernel.ι (powerSheaf J F hF n))
     infer_instance
   have : Epi S.g := H.epi_of_epi_map (by infer_instance)
   exact ShortComplex.ShortExact.mk' hExact hmono inferInstance

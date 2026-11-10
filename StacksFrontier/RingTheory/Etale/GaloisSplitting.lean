@@ -125,7 +125,7 @@ theorem exists_isGalois_splits_pi {I : Type v} [Finite I] (K : I → Type v) [�
   let q : k[X] := ∏ i, minpoly k (a i)
   have hq : Polynomial.aeval a q = 0 := by
     ext i
-    show Pi.evalAlgHom k K i (Polynomial.aeval a q) = 0
+    change Pi.evalAlgHom k K i (Polynomial.aeval a q) = 0
     rw [← Polynomial.aeval_algHom_apply, map_prod]
     exact Finset.prod_eq_zero (Finset.mem_univ i) (minpoly.aeval k (a i))
   have hq0 : q ≠ 0 := Finset.prod_ne_zero_iff.mpr fun i _ ↦

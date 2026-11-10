@@ -96,7 +96,7 @@ public abbrev stageΓ' (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S
 private lemma stageΓ_comp (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U V W : BigAffineFppf B S hS} (a : U ⟶ V) (b : V ⟶ W) :
     stageΓ B S hS (a ≫ b) = stageΓ B S hS b ≫ stageΓ B S hS a := by
-  show Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (a ≫ b)).op = _
+  change Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (a ≫ b)).op = _
   rw [(BigAffineFppf.toScheme B S hS).map_comp, op_comp, Scheme.Γ.map_comp]
 
 /-- Pulling a global section back along a composite is pulling it back along each factor. -/
@@ -110,7 +110,7 @@ private lemma stageΓ_comp_apply (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.
 private lemma stageΓ_id (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U : BigAffineFppf B S hS} :
     stageΓ B S hS (𝟙 U) = 𝟙 (Scheme.Γ.obj (op ((BigAffineFppf.toScheme B S hS).obj U))) := by
-  show Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (𝟙 U)).op = _
+  change Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (𝟙 U)).op = _
   rw [(BigAffineFppf.toScheme B S hS).map_id, op_id, Scheme.Γ.map_id]
 
 /-- Pulling a global section back along the identity does nothing. -/
@@ -499,7 +499,7 @@ private theorem sectionsRingHomOfFactorization_comp_apply
         (sectionsRingHomOfFactorization B S hS X I₀ D₀ e₀ I₁ D₁ hD₁ e₁ idx fac hfac s) = s := by
   apply Subtype.ext
   funext m
-  show stageΓ B S hS (gac m.unop)
+  change stageΓ B S hS (gac m.unop)
       (stageΓ B S hS (fac (jdx m.unop)) (s.val (op (idx (jdx m.unop))))) = s.val m
   rw [← stageΓ_comp_apply]
   have key := stageΓ_apply_eq_of_over B S hS X I₁ D₁ hD₁ e₁
@@ -610,7 +610,7 @@ public theorem hasSurjectiveSectionProjections_of_presentations
       ((BigAffineFppf.toScheme B S hS).map (fac m))).2 y
   obtain ⟨t, ht⟩ := h₁ (idx m) z
   refine ⟨sectionsRingHomOfFactorization B S hS X I₀ D₀ e₀ I₁ D₁ hD₁ e₁ idx fac hfac t, ?_⟩
-  show stageΓ B S hS (fac m) (t.val (op (idx m))) = y
+  change stageΓ B S hS (fac m) (t.val (op (idx m))) = y
   rw [show t.val (op (idx m)) = z from ht, hz]
 
 /-- If *some* presentation of an affine formal algebraic space by affine thickenings has all its

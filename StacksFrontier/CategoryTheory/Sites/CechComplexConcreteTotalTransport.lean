@@ -97,13 +97,13 @@ theorem overCochain_cechD (b p : ℕ) (c : Cochain U (P.X b) p) :
     overCochain U hU P b (p + 1) (cechD U (P.X b) p c) =
       cechD (overFamily U hU) ((overComplex P).X b) p (overCochain U hU P b p c) := by
   funext t
-  show (interRestrictUp U hU (P.X b) t).hom (cechD U (P.X b) p c t) =
+  change (interRestrictUp U hU (P.X b) t).hom (cechD U (P.X b) p c t) =
     cechD (overFamily U hU) ((overComplex P).X b) p (overCochain U hU P b p c) t
   rw [cechD_apply, cechD_apply, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_zsmul]
   congr 1
-  show ((P.X b).map (interMap U t j.succAbove).op ≫ interRestrictUp U hU (P.X b) t).hom _ =
+  change ((P.X b).map (interMap U t j.succAbove).op ≫ interRestrictUp U hU (P.X b) t).hom _ =
     (interRestrictUp U hU (P.X b) (t ∘ j.succAbove) ≫
       (P.X b).map (interMap (overFamily U hU) t j.succAbove).left.op).hom _
   dsimp only [interRestrictUp]

@@ -83,7 +83,7 @@ power of the ideal lies inside it, hence so does every higher power of each of i
 public theorem isWeakIdealOfDefinition_of_isIdealOfDefinition {I : Ideal R}
     (hI : IsIdealOfDefinition I) : IsWeakIdealOfDefinition I := by
   refine ⟨hI.1, fun x hx ↦ ?_⟩
-  show Filter.Tendsto (x ^ ·) Filter.atTop (𝓝 (0 : R))
+  change Filter.Tendsto (x ^ ·) Filter.atTop (𝓝 (0 : R))
   rw [Filter.tendsto_def]
   intro U hU
   obtain ⟨n, hn⟩ := hI.2 U hU

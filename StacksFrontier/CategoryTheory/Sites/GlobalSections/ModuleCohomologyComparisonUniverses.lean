@@ -60,8 +60,7 @@ public def tensorPresheafRestrict (F : Dᵒᵖ ⥤ Ab.{max u t}) {X Y : Dᵒᵖ}
     (F.map f).hom.toIntLinearMap
   map_add' := map_add _
   map_smul' r x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul a x => simp [TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -151,7 +150,7 @@ public lemma tensorPresheafUnit_comp_lift {F : Dᵒᵖ ⥤ Ab.{max u t}}
     tensorPresheafUnit R F ≫ (PresheafOfModules.toPresheaf R).map
       (tensorPresheafLift R f) = f := by
   ext X x
-  show (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
+  change (tensorPresheafLift R f).app X (1 ⊗ₜ[ℤ] x) = f.app X x
   rw [tensorPresheafLift_app_tmul, one_smul]
 
 /-- The canonical map into extension of scalars is natural in the abelian presheaf. -/
@@ -261,6 +260,18 @@ local instance toSheaf_preservesFiniteColimits (R : Sheaf J RingCat.{r}) :
 
 end SiteGeneral
 
+universe s
+
+/-- The functor of sections over `U` on abelian sheaves is additive. -/
+local instance {C : Type u} [Category.{v} C] (J : GrothendieckTopology C) (U : C) :
+    ((sheafSections J Ab.{s}).obj (op U)).Additive where
+  map_add := by intros; rfl
+
+/-- The functor of sections over `U` on abelian sheaves preserves finite limits. -/
+local instance {C : Type u} [Category.{v} C] (J : GrothendieckTopology C) (U : C) :
+    PreservesFiniteLimits ((sheafSections J Ab.{s}).obj (op U)) :=
+  preservesFiniteLimits_of_natIso (sheafSectionsNatIsoEvaluation J Ab.{s}).symm
+
 section SiteTensor
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
@@ -324,15 +335,6 @@ public lemma ext_eq_zero_of_isTorsionFree
     ∀ U, Module.IsTorsionFree ℤ (F.obj.obj U)) (fun f _ hG ↦ isTorsionFree_of_mono J f hG)
     (exists_isTorsionFree_epi J) ((SheafOfModules.toSheaf R).obj I)
     (ext_one_eq_zero_of_extension _ _ (exists_extension_of_isTorsionFree.{m} J R I)) n X hX e
-
-/-- The functor of sections over `U` on abelian sheaves is additive. -/
-local instance (U : C) : ((sheafSections J Ab.{max u r m}).obj (op U)).Additive where
-  map_add := by intros; rfl
-
-/-- The functor of sections over `U` on abelian sheaves preserves finite limits. -/
-local instance (U : C) :
-    PreservesFiniteLimits ((sheafSections J Ab.{max u r m}).obj (op U)) :=
-  preservesFiniteLimits_of_natIso (sheafSectionsNatIsoEvaluation J Ab.{max u r m}).symm
 
 omit [HasExt.{max u r m} (Sheaf J Ab.{max u r m})]
   [HasInjectiveResolutions (Sheaf J Ab.{max u r m})] in
@@ -405,7 +407,7 @@ public lemma tensorSheafHomIso_naturality (R : Sheaf J RingCat.{r})
   ext element
   change ((PresheafOfModules.sheafification (𝟙 R.obj)).obj (tensorPresheaf R.obj P') ⟶ M)
     at element
-  show ((sheafificationAdjunction J Ab.{max u r m}).homEquiv P
+  change ((sheafificationAdjunction J Ab.{max u r m}).homEquiv P
         ((SheafOfModules.toSheaf R).obj M)).symm
         ((tensorPresheafHomAddEquiv R.obj P
           ((SheafOfModules.forget R ⋙ PresheafOfModules.restrictScalars (𝟙 R.obj)).obj M))
@@ -454,6 +456,7 @@ private theorem represented_succ_comparison (R : Sheaf J RingCat.{r})
   exact ext_eq_zero_of_isTorsionFree.{m} J R injectiveObject _
     (isTorsionFree_sheafify J P hP) index extension
 
+set_option linter.checkUnivs false in
 /-- Global sections of abelian sheaves are corepresented by the constant sheaf on `ℤ`. -/
 public def globalSectionsRepresentation :
     Sheaf.Γ J Ab.{max u r m} ≅ preadditiveCoyoneda.obj

@@ -232,7 +232,7 @@ theorem smoothProperCurveTrace_diagonalKummerClass :
       ((Stacks.Hilbert.diagonalIdeal f).comap (pullback.snd x (pullback.snd f f))) =
       Stacks.Zeta.pointClass (pullback.fst x (pullback.snd f f)) (fibreDiagonalClosedPoint f x p) :=
     picardClass_congr ((diagonalIdeal_comap_fibre f x).trans (ker_fibreDiagonalPoint f x p))
-  show ((Stacks.Picard.picardDegree (pullback.fst x (pullback.snd f f)) _
+  change ((Stacks.Picard.picardDegree (pullback.fst x (pullback.snd f f)) _
     (Stacks.Picard.schemePullbackClass (pullback.snd x (pullback.snd f f))
       (Stacks.Divisors.picardClass (Stacks.Hilbert.diagonalIdeal f))) : ℤ) : ZMod n) = 1
   rw [h2, h3, Stacks.Zeta.picardDegree_pointClass]

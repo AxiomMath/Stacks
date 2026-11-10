@@ -145,7 +145,7 @@ lemma span_germTop_pullback_eq_top_of_isCompl {X : Scheme.{u}} (p : Y ⟶ X) (M 
   obtain ⟨σ, hσ⟩ := exists_extend_of_isCompl P hinf hsup τ
   have hgerm : germTop P y σ = TopCat.Presheaf.germ P.val.presheaf (p ⁻¹ᵁ V) y (hU hy)
       (Stacks.AlgebraicGeometry.SectionsBaseChange.pullbackUnitSections p M V s) := by
-    show TopCat.Presheaf.germ P.val.presheaf ⊤ y trivial σ = _
+    change TopCat.Presheaf.germ P.val.presheaf ⊤ y trivial σ = _
     rw [← TopCat.Presheaf.germ_res_apply P.val.presheaf (homOfLE le_top) y hy σ, hσ]
     exact TopCat.Presheaf.germ_res_apply P.val.presheaf (homOfLE hU) y hy _
   let e' : ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) P.val.presheaf y)
@@ -160,8 +160,7 @@ lemma span_germTop_pullback_eq_top_of_isCompl {X : Scheme.{u}} (p : Y ⟶ X) (M 
     suffices h : ∀ t, t ∈ Submodule.span (ToType (Y.presheaf.stalk y)) {e' (germTop P y σ)} from
       eq_top_iff.mpr fun t _ => h t
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => exact add_mem ht ht'
     | tmul a m =>
         obtain ⟨r, rfl⟩ := Submodule.mem_span_singleton.mp
@@ -719,7 +718,7 @@ lemma readV_ε : readV.{u} le_rfl ε = ε₀ := by
   have h1 : (ιV.appIso ⊤).inv ≫ ιV.appLE Vo ⊤ (top_le_preimage_of_Vo_le le_rfl) = 𝟙 _ := by
     rw [Scheme.Hom.appIso_inv_appLE]
     exact specL.presheaf.map_id _
-  show ((ιV.appIso ⊤).inv ≫ ιV.appLE Vo ⊤ _ ≫ (Scheme.ΓSpecIso _).hom).hom
+  change ((ιV.appIso ⊤).inv ≫ ιV.appLE Vo ⊤ _ ≫ (Scheme.ΓSpecIso _).hom).hom
     ((Scheme.ΓSpecIso _).inv.hom ε₀) = ε₀
   rw [← Category.assoc, h1, Category.id_comp]
   exact Iso.inv_hom_id_apply (Scheme.ΓSpecIso (CommRingCat.of ringL.{u})) ε₀
@@ -1079,7 +1078,7 @@ lemma flat_pi_factor : @Module.Flat (ULift.{u} ℤ) (∀ b, factor.{u} b) _ _ Al
 lemma faithfullyFlat_φ : φ.{u}.hom.FaithfullyFlat := by
   rw [RingHom.FaithfullyFlat.iff_flat_and_comap_surjective]
   refine ⟨?_, fun P => ?_⟩
-  · show (algebraMap (ULift.{u} ℤ) _).Flat
+  · change (algebraMap (ULift.{u} ℤ) _).Flat
     rw [RingHom.flat_algebraMap_iff]
     exact flat_pi_factor
   · obtain ⟨b, hb⟩ : ∃ b : Bool, cond b (3 : ULift.{u} ℤ) 2 ∉ P.asIdeal := by

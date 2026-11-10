@@ -549,7 +549,7 @@ of `f'`. -/
 private theorem fibre_subset_specialFibreSet (x : S.X) (hx : x ∈ S.positiveFibreLocus) :
     S.g ⁻¹' {x} ⊆ S.specialFibreSet := by
   intro y (hy : S.g y = x)
-  show S.f (S.g y) = S.closedPoint
+  change S.f (S.g y) = S.closedPoint
   rw [hy]
   exact (S.dimension_data_of_mem_positiveFibreLocus x hx).2.2
 

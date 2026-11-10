@@ -46,8 +46,8 @@ and then `φ` vanishes on `ℐⁿ⁺ᵏ 𝒢` because a section of `ℐⁿ⁺ᵏ
 **No `@[stacks 07UM]` attribute is placed here.**  Tag 07UM asserts that the canonical map is
 *bijective*, and only injectivity is proved here; surjectivity is
 `AlgebraicGeometry.Space.canonicalMapToHomRestrict_surjective` of
-`StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitChartDescent.lean`, and the attribute sits
-on the covering set of both clauses,
+`StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitChartDescent.lean`, and the
+attribute sits on the covering set of both clauses,
 `AlgebraicGeometry.Space.canonicalMapToHomRestrict_bijective` of
 `StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitBijective.lean`.
 
@@ -89,8 +89,7 @@ universe w v₁ u₁ u
 namespace Stacks.Sites
 
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
 
 section Add
 
@@ -145,7 +144,7 @@ theorem presheafIdealSmul_map_le (φ : M ⟶ M') (K : IdealSubsheaf O) (N : M.va
       ((presheafIdealSmul K P).obj X).comap (φ.val.app X).hom := by
     refine Submodule.span_le.2 ?_
     rintro w ⟨a, ha, m, hm, rfl⟩
-    show (φ.val.app X).hom (a • m) ∈ (presheafIdealSmul K P).obj X
+    change (φ.val.app X).hom (a • m) ∈ (presheafIdealSmul K P).obj X
     rw [map_smul]
     exact smul_mem_presheafIdealSmul K ha (h X m hm)
   exact hle hz
@@ -242,8 +241,7 @@ end LocalVanishing
 section AmbientChange
 
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
   {M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
 
 /-- A section of a submodule `N` whose image in the ambient sheaf of modules lies in the
@@ -306,7 +304,7 @@ private theorem exists_pc_eq_of_factor {W : SmallEtale B S hS X.1}
     exact W.2
   refine ⟨⟨CostructuredArrow.mk k, hk'⟩, ?_⟩
   refine ObjectProperty.FullSubcategory.ext ?_
-  show CostructuredArrow.mk (k ≫ (idealComplementι B S hS X I).hom) = W.obj
+  change CostructuredArrow.mk (k ≫ (idealComplementι B S hS X I).hom) = W.obj
   rw [hk2]
   exact (CostructuredArrow.eq_mk W.obj).symm
 

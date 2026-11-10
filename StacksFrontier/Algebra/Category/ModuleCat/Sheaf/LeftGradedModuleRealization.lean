@@ -249,7 +249,7 @@ sections.** -/
 lemma incl_smul_incl {X : Cᵒᵖ} (i n : ℤ) (x : (A.piece i).val.obj X)
     (y : (M.piece n).val.obj X) :
     A.toPresheafGradedAlgebra.incl i x • M.incl n y = M.incl (i + n) (M.smul i n X x y) := by
-  show DirectSum.of (fun k => ((A.piece k).val.obj X : Type a)) i x •
+  change DirectSum.of (fun k => ((A.piece k).val.obj X : Type a)) i x •
       DirectSum.of (fun k => ((M.piece k).val.obj X : Type m)) n y = _
   rw [DirectSum.Gmodule.of_smul_of]
   rfl
@@ -412,6 +412,7 @@ lemma isLocallySurjective_ungradedDirectSumHom :
     (CategoryTheory.toSheafify J M.ungradedPresheaf.presheaf) s⟩
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for `Discrete ℤ`-shaped colimits in `SheafOfModules` exceeds the default budget
 omit [HasSheafify J RingCat.{w}] [J.WEqualsLocallyBijective RingCat.{w}] in
 /-- Shortcut instance: coproducts of sheaves of modules indexed by `ℤ` (the search times out
 otherwise). -/
@@ -420,6 +421,7 @@ local instance hasColimitsOfShape_discrete_int :
   inferInstance
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for `Discrete ℕ`-shaped colimits in `SheafOfModules` exceeds the default budget
 omit [HasSheafify J RingCat.{w}] [J.WEqualsLocallyBijective RingCat.{w}] in
 /-- Shortcut instance: coproducts of sheaves of modules indexed by `ℕ`. -/
 local instance hasColimitsOfShape_discrete_nat :

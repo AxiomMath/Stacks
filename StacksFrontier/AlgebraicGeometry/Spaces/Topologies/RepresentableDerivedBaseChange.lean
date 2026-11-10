@@ -95,8 +95,8 @@ images. -/
 theorem spacesEtaleAbelianBaseChange_eq_mateEquiv_symm (sq : IsPullback g' f' f g) :
     spacesEtaleAbelianBaseChange T f g g' f' sq =
       ((mateEquiv (smallEtaleAbelianAdjunction T g') (smallEtaleAbelianAdjunction T g)).symm
-        (spacesEtaleAbelianPushforwardCompSquare T f g g' f' sq)).natTrans :=
-  congrArg TwoSquare.natTrans ((mateEquiv (smallEtaleAbelianAdjunction T g')
+        (spacesEtaleAbelianPushforwardCompSquare T f g g' f' sq)) :=
+  ((mateEquiv (smallEtaleAbelianAdjunction T g')
     (smallEtaleAbelianAdjunction T g)).symm_apply_apply _).symm
 
 /-- **On underlying sheaves of sets, the abelian comparison of composite direct images is the
@@ -104,9 +104,9 @@ comparison of composite direct images of sheaves of sets.** -/
 theorem spacesEtaleAbelianPushforwardCompSquare_app_forget (sq : IsPullback g' f' f g)
     (M : Sheaf (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem Y') Ab.{u + 1}) :
     (sheafCompose _ (forget Ab.{u + 1})).map
-        ((spacesEtaleAbelianPushforwardCompSquare T f g g' f' sq).natTrans.app M) =
+        ((spacesEtaleAbelianPushforwardCompSquare T f g g' f' sq).app M) =
       (TwoSquare.mk _ _ _ _ (Space.spacesPushforwardCompSquare_anyCoefficients T.fppfSite S
-        T.fppf_mem g' f' f g sq.w (Type (u + 1)))).natTrans.app
+        T.fppf_mem g' f' f g sq.w (Type (u + 1)))).app
           ((sheafCompose _ (forget Ab.{u + 1})).obj M) := by
   have hL : ∀ {N₁ N₂ : Sheaf (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X) Ab.{u + 1}}
       (x : N₁ ⟶ N₂), (sheafCompose _ (forget Ab.{u + 1})).map
@@ -179,7 +179,7 @@ theorem spacesEtaleAbelianPushforwardCompSquare_eq (sq : IsPullback g' f' f g) :
       TwoSquare.mk _ _ _ _
         (Space.spacesPushforwardCompSquare_anyCoefficients T.fppfSite S T.fppf_mem g' f' f g sq.w
           Ab.{u + 1}) := by
-  refine TwoSquare.ext _ _ fun M => (sheafCompose _ (forget Ab.{u + 1})).map_injective ?_
+  refine NatTrans.ext (funext fun M => (sheafCompose _ (forget Ab.{u + 1})).map_injective ?_)
   rewrite [spacesEtaleAbelianPushforwardCompSquare_app_forget, TwoSquare.mk_natTrans_app,
     TwoSquare.mk_natTrans_app, sheafCompose_forget_map_spacesPushforwardCompSquare_app]
   rfl
@@ -195,9 +195,9 @@ open Space Stacks.Homology.DerivedSquare
 variable {V W V' W' : BigFppfOver T.fppfSite S T.fppf_mem} (m : W ⟶ V) (n : V' ⟶ V)
   (n' : W' ⟶ W) (m' : W' ⟶ V')
 
-/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
-Kan extensions along the comparison functors times out; supply them directly. -/
 set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
+-- Kan extensions along the comparison functors times out; supply them directly.
 local instance hasLimitsOfSize_presheaf_RepresentableDerivedBaseChange :
     HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
 
@@ -206,6 +206,7 @@ local instance hasLimitsOfShape_presheaf_RepresentableDerivedBaseChange (J : Typ
   HasLimitsOfSize.has_limits_of_shape _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits along the comparison functor of the big fppf site is slow
 local instance hasLimitsOfShape_structuredArrow_RepresentableDerivedBaseChange
     (V₀ : BigFppfOver T.fppfSite S T.fppf_mem)
     (Y : (SpacesEtale T.fppfSite S T.fppf_mem (yonedaSpace T.fppfSite S T.fppf_mem V₀))ᵒᵖ) :
@@ -270,24 +271,24 @@ theorem representedPushforwardCube_abelian_app (hQ₁ : n'.left ≫ m.left = (n'
       (yonedaSpace T.fppfSite S T.fppf_mem W)) Ab.{u + 1}) :
     ((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom n))
         ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n.left Ab.{u + 1})).symm
-        (TwoSquare.mk _ _ _ _ (representedPushforwardIso n Ab.{u + 1}).hom)).natTrans.app
+        (TwoSquare.mk _ _ _ _ (representedPushforwardIso n Ab.{u + 1}).hom)).app
         ((smallEtalePushforward T (yonedaSpaceHom m)).obj c) ≫
       (representedRestriction V' Ab.{u + 1}).map
         (((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom n'))
           (smallEtaleAbelianAdjunction T (yonedaSpaceHom n))).symm
           (spacesEtaleAbelianPushforwardCompSquare T (yonedaSpaceHom m) (yonedaSpaceHom n)
-            (yonedaSpaceHom n') (yonedaSpaceHom m') sq)).natTrans.app c) =
+            (yonedaSpaceHom n') (yonedaSpaceHom m') sq)).app c) =
     ((associatedBigEtaleSite T.fppfSite).smallInverseImage n.left Ab.{u + 1}).map
         ((representedPushforwardIso m Ab.{u + 1}).hom.app c) ≫
       ((mateEquiv ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n'.left Ab.{u + 1})
         ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n.left Ab.{u + 1})).symm
         (SmallEtale.boundedBaseChangeMate (associatedBigEtaleSite T.fppfSite) Ab.{u + 1} m.left
-          n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂)).natTrans.app
+          n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂)).app
           ((representedRestriction W Ab.{u + 1}).obj c) ≫
       ((associatedBigEtaleSite T.fppfSite).smallPushforward m'.left Ab.{u + 1}).map
         (((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom n'))
           ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n'.left Ab.{u + 1})).symm
-          (TwoSquare.mk _ _ _ _ (representedPushforwardIso n' Ab.{u + 1}).hom)).natTrans.app c) ≫
+          (TwoSquare.mk _ _ _ _ (representedPushforwardIso n' Ab.{u + 1}).hom)).app c) ≫
       (representedPushforwardIso m' Ab.{u + 1}).inv.app
         ((CategoryTheory.Sites.abelianInverseImage
           (smallEtaleMorphism T (yonedaSpaceHom n'))).obj c) := by
@@ -336,7 +337,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_iff
           ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n'.left Ab.{u + 1})
           ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n.left Ab.{u + 1})).symm
           (SmallEtale.boundedBaseChangeMate (associatedBigEtaleSite T.fppfSite) Ab.{u + 1} m.left
-            n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂)).natTrans).app
+            n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂))).app
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
           (((representedRestriction W Ab.{u + 1}).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj I)))) ↔
@@ -353,7 +354,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_iff
           ((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom n'))
             (smallEtaleAbelianAdjunction T (yonedaSpaceHom n))).symm
             (spacesEtaleAbelianPushforwardCompSquare T (yonedaSpaceHom m) (yonedaSpaceHom n)
-              (yonedaSpaceHom n') (yonedaSpaceHom m') sq)).natTrans).app
+              (yonedaSpaceHom n') (yonedaSpaceHom m') sq))).app
           (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)))) := by
   have := smallEtaleSheaf_isGrothendieckAbelian (associatedBigEtaleSite T.fppfSite) W.left
   have := smallEtaleSheaf_isGrothendieckAbelian (associatedBigEtaleSite T.fppfSite) W'.left
@@ -363,7 +364,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_iff
   have hmate : ∀ {A B : BigFppfOver T.fppfSite S T.fppf_mem} (k : A ⟶ B),
       IsIso ((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom k))
         ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction k.left Ab.{u + 1})).symm
-          (TwoSquare.mk _ _ _ _ (representedPushforwardIso k Ab.{u + 1}).hom)).natTrans :=
+          (TwoSquare.mk _ _ _ _ (representedPushforwardIso k Ab.{u + 1}).hom)) :=
     fun k => @CategoryTheory.isIso_mateEquiv_symm_of_isEquivalence _ _ _ _ _ _ _ _ _ _ _ _ _ _
       (smallEtaleAbelianAdjunction T (yonedaSpaceHom k))
       ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction k.left Ab.{u + 1})
@@ -396,7 +397,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_iff
     ((mateEquiv (smallEtaleAbelianAdjunction T (yonedaSpaceHom n'))
       (smallEtaleAbelianAdjunction T (yonedaSpaceHom n))).symm
       (spacesEtaleAbelianPushforwardCompSquare T (yonedaSpaceHom m) (yonedaSpaceHom n)
-        (yonedaSpaceHom n') (yonedaSpaceHom m') sq)).natTrans
+        (yonedaSpaceHom n') (yonedaSpaceHom m') sq))
     ((associatedBigEtaleSite T.fppfSite).smallInverseImage n'.left Ab.{u + 1})
     ((associatedBigEtaleSite T.fppfSite).smallInverseImage n.left Ab.{u + 1})
     ((associatedBigEtaleSite T.fppfSite).smallPushforward m.left Ab.{u + 1})
@@ -410,7 +411,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_iff
     ((mateEquiv ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n'.left Ab.{u + 1})
       ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n.left Ab.{u + 1})).symm
       (SmallEtale.boundedBaseChangeMate (associatedBigEtaleSite T.fppfSite) Ab.{u + 1} m.left
-        n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂)).natTrans
+        n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂))
     _ _ _ _ _ _ _ _ (representedPushforwardCube_abelian_app T m n n' m' hQ₁ hQ₂ hw sq)
     (hKinj' W') I hI (hKinj' W I hI)
 
@@ -445,7 +446,7 @@ theorem isIso_derivedBaseChangeMap_representedRestriction_app
           ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n'.left Ab.{u + 1})
           ((associatedBigEtaleSite T.fppfSite).smallPullbackAdjunction n.left Ab.{u + 1})).symm
           (SmallEtale.boundedBaseChangeMate (associatedBigEtaleSite T.fppfSite) Ab.{u + 1} m.left
-            n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂)).natTrans).app
+            n.left n'.left m'.left (n' ≫ m).left hQ₁ hQ₂))).app
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
           (((representedRestriction W Ab.{u + 1}).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj I)))) := by

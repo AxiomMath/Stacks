@@ -356,10 +356,10 @@ public theorem presentationEnvelope_prime_nilpotent
   let D := (presentationEnvelope s f).object
   obtain ⟨n, hn⟩ := s.prime_nilpotent
   refine ⟨n, ?_⟩
-  show Ideal.Quotient.mk D.ideal ((s.p : D) ^ n) = 0
+  change Ideal.Quotient.mk D.ideal ((s.p : D) ^ n) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
   have hkernel : ((s.p : P) ^ n) ∈ presentationKernel s f := by
-    show f ((s.p : P) ^ n) = 0
+    change f ((s.p : P) ^ n) = 0
     rw [map_pow, map_natCast, hn]
   have hmap : (presentationEnvelope s f).algebraMap.toRingHom
       ((s.p : P) ^ n) ∈ D.ideal :=
@@ -376,10 +376,10 @@ public theorem completionIdeal_prime_nilpotent
   obtain ⟨n, hn⟩ := hp
   let hp' : IsNilpotent (Ideal.Quotient.mk I (p : A)) := ⟨n, hn⟩
   refine ⟨n, ?_⟩
-  show Ideal.Quotient.mk (DividedPowers.completionIdeal I p hp')
+  change Ideal.Quotient.mk (DividedPowers.completionIdeal I p hp')
     ((p : AdicCompletion (DividedPowers.pAdicIdeal (A := A) p) A) ^ n) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
-  show _ ∈ RingHom.ker (DividedPowers.completionToQuotient I p hp')
+  change _ ∈ RingHom.ker (DividedPowers.completionToQuotient I p hp')
   have hmap : DividedPowers.completionToQuotient I p hp'
       (p : AdicCompletion (DividedPowers.pAdicIdeal (A := A) p) A) =
       Ideal.Quotient.mk I (p : A) := by

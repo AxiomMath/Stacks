@@ -180,7 +180,7 @@ theorem hasEventualInverses_adicQuotientCone_tensorRight_koszulComplex [IsNoethe
   let eY : Y ≅ Y' := DerivedCategory.Q.mapIso χ.symm
   let eβ : MonoidalCategory.tensorRight Y ≅ MonoidalCategory.tensorLeft Y' := NatIso.ofComponents
     (fun X ↦ β_ X Y ≪≫ whiskerRightIso eY X) (fun {X X'} g ↦ by
-      show g ▷ Y ≫ (β_ X' Y).hom ≫ eY.hom ▷ X' = ((β_ X Y).hom ≫ eY.hom ▷ X) ≫ Y' ◁ g
+      change g ▷ Y ≫ (β_ X' Y).hom ≫ eY.hom ▷ X' = ((β_ X Y).hom ≫ eY.hom ▷ X) ≫ Y' ◁ g
       rw [BraidedCategory.braiding_naturality_left_assoc, Category.assoc, whisker_exchange])
   let e : c ⋙ DerivedCategory.singleFunctor _ 0 ⋙ MonoidalCategory.tensorRight Y ≅
       rowFunctor (curriedTensor (ModuleCat.{w} Λ)) P ⋙ DerivedCategory.Q ⋙ c.mapDerivedCategory :=
@@ -252,7 +252,7 @@ theorem hasEventualInverses_tensorRight_derivedReductionMap [IsNoetherianRing Λ
         (ρ_ K).inv ▷ Y ≫ (α_ K (𝟙_ _) Y).hom ≫ K ◁ (ε.app ⟨p⟩ ▷ Y) ≫
           (α_ K ((quotientPowerTower J Λ I).obj ⟨p⟩) Y).inv := fun p ↦ by
     simp only [constComp_inv_whiskerRight_app, derivedReductionMap_app]
-    show ((ρ_ K).inv ≫ K ◁ ε.app ⟨p⟩) ▷ Y = _
+    change ((ρ_ K).inv ≫ K ◁ ε.app ⟨p⟩) ▷ Y = _
     rw [comp_whiskerRight, associator_inv_naturality_middle]
     simp only [Functor.const_obj_obj, Iso.hom_inv_id_assoc]
   refine ⟨m, hnm, (α_ K _ Y).hom ≫ K ◁ s ≫ (α_ K (𝟙_ _) Y).inv ≫ (ρ_ K).hom ▷ Y, ?_, ?_⟩
@@ -265,7 +265,7 @@ theorem hasEventualInverses_tensorRight_derivedReductionMap [IsNoetherianRing Λ
     simp only [Category.assoc, Functor.const_obj_obj, Iso.inv_hom_id_assoc,
       ← comp_whiskerRight_assoc, Iso.hom_inv_id, id_whiskerRight, Category.id_comp,
       ← whiskerLeft_comp_assoc, hs₂]
-    show _ = (K ◁ (quotientPowerTower J Λ I).map (homOfLE hnm).op) ▷ Y
+    change _ = (K ◁ (quotientPowerTower J Λ I).map (homOfLE hnm).op) ▷ Y
     rw [associator_inv_naturality_middle, Iso.hom_inv_id_assoc]
 
 end Stacks.ModuleSheaf

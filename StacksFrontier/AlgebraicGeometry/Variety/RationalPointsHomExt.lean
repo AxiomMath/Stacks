@@ -40,8 +40,8 @@ theorem overHom_ext_of_points {X Y : Over (Spec (.of k))} [IsReduced X.left]
     dense_univ (fun x _ hx => ?_) (hwf.trans (Over.w g).symm))
   have e := congrArg (fun r => r.left (IsLocalRing.closedPoint k))
     (h (Over.homMk (pointOfClosedPoint X.hom x hx)
-      (by simpa using pointOfClosedPoint_comp X.hom x hx)))
-  simp only [Over.comp_left, Scheme.Hom.comp_apply] at e
+      (by simp)))
+  simp only [Over.comp_left] at e
   rwa [← pointOfClosedPoint_apply X.hom x hx (IsLocalRing.closedPoint k)]
 
 end Stacks.Varieties

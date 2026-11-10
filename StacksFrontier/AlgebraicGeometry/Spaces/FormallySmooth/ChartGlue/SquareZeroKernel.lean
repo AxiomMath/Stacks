@@ -87,7 +87,7 @@ lemma sqZero_isScalarTower :
   let := (π : C →+* D).toAlgebra
   let := sqZeroModule π hπ hJ
   refine ⟨fun c d j ↦ ?_⟩
-  show Function.surjInv hπ ((π : C →+* D) c * d) • j = c • (Function.surjInv hπ d • j)
+  change Function.surjInv hπ ((π : C →+* D) c * d) • j = c • (Function.surjInv hπ d • j)
   rw [← mul_smul]
   exact sqZero_smul_congr π hJ (by
     rw [map_mul, Function.surjInv_eq hπ, Function.surjInv_eq hπ, RingHom.coe_coe]) j

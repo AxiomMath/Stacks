@@ -52,8 +52,7 @@ theorem comap_mem_associatedPrimes_lTensor {Q : Ideal S}
   obtain ⟨N', hN', z', rfl⟩ : ∃ N' : Submodule R N, N'.FG ∧
       ∃ z' : S ⊗[R] N', N'.subtype.lTensor S z' = z := by
     clear hz hann
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨⊥, Submodule.fg_bot, 0, map_zero _⟩
+    induction z using TensorProduct.inductionOn with
     | tmul s n =>
       exact ⟨R ∙ n, Submodule.fg_span_singleton n,
         s ⊗ₜ (⟨n, Submodule.mem_span_singleton_self n⟩ : R ∙ n), rfl⟩
@@ -151,8 +150,7 @@ theorem equalizerTensorExact_iff_of_isPushout (N : Type*) [AddCommGroup N] [Modu
     simp [eC]
   have hδ (x : N ⊗[A₀] C₀) : eD ((q₁.toLinearMap - q₂.toLinearMap).lTensor N x) =
       (p₁.toLinearMap - p₂.toLinearMap).lTensor N (eC x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul n c =>
       have e₁ := congrArg (fun φ => φ c) h₁

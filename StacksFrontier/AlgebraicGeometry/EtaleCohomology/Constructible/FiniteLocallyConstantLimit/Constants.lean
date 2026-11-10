@@ -374,6 +374,7 @@ private instance etale_smallEtaleMemberHom {S : B.Scheme} {K : Type*}
     Etale (B.inclusion.map (smallEtaleMemberHom B V k)) :=
   (V k).property
 
+omit [∀ (S : B.Scheme), HasWeakSheafify (SmallEtale.topology B S.obj S.property) A] in
 /-- **Inverse images to the members of a covering are jointly faithful**: two morphisms of sheaves
 on the small étale site of `S` with equal inverse images along the structure morphisms of the
 members of a covering of the final object are equal. This is
@@ -480,6 +481,7 @@ variable (B : BigEtaleSite.{u}) {A : Type t} [Category.{v} A]
   {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
   (Dg : Iᵒᵖ ⥤ B.Scheme) (c : Cone (Dg ⋙ B.inclusion)) (hX : B.Contains c.pt)
 
+omit [IsDirected I (· ≤ ·)] in
 /-- Transport to a stage followed by transport to the vertex is transport to the vertex. -/
 public theorem smallEtaleConstantTransport_coneStageHom_systemStageHom {i j : I} (hij : i ≤ j)
     {E E' : A}
@@ -492,6 +494,7 @@ public theorem smallEtaleConstantTransport_coneStageHom_systemStageHom {i j : I}
       smallEtaleConstantTransport B A (coneStageHom B Dg c hX i) a :=
   (smallEtaleConstantTransport_comp' B A _ _ _ (coneStageHom_comp B Dg c hX hij) a).symm
 
+omit [IsDirected I (· ≤ ·)] in
 /-- Transport along two transition morphisms is transport along their composite. -/
 public theorem smallEtaleConstantTransport_systemStageHom_trans {i j k : I} (hij : i ≤ j)
     (hjk : j ≤ k) {E E' : A}
@@ -504,6 +507,10 @@ public theorem smallEtaleConstantTransport_systemStageHom_trans {i j k : I} (hij
       smallEtaleConstantTransport B A (systemStageHom B Dg (hij.trans hjk)) a :=
   (smallEtaleConstantTransport_comp' B A _ _ _ (systemStageHom_comp B Dg hij hjk) a).symm
 
+omit [∀ (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous A
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint] in
 /-- **Two constant maps which agree over the base change of a member to the limit agree, or the
 base changes of the member to late stages are empty.** Let `W` be a quasi-compact,
 quasi-separated object of the small étale site of `X_i`. If the constant sheaf maps attached to

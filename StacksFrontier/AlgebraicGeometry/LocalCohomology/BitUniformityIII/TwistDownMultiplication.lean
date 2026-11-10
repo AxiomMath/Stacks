@@ -163,7 +163,7 @@ theorem reesConst_mul_reesDegOne (c : ℕ) {b : A} (hb : b ∈ I) (hb' : b ^ (c 
     (reesConst I (b ^ c) : reesAlgebra I) * (reesDegOne I hb : reesAlgebra I) =
       (reesDegOne I hb' : reesAlgebra I) := by
   refine Subtype.ext ?_
-  show (C (b ^ c) : A[X]) * (monomial 1 b) = monomial 1 (b ^ (c + 1))
+  change (C (b ^ c) : A[X]) * (monomial 1 b) = monomial 1 (b ^ (c + 1))
   rw [C_mul_monomial, pow_succ]
 
 /-! ### The one-step law, at a target degree supplied as a parameter -/
@@ -193,6 +193,7 @@ theorem twistScalarSheafMap_reesDegOne_comp_twistDownMap (t t' : ℤ)
 /-! ### The `c`-step law -/
 
 set_option maxHeartbeats 600000 in
+-- the inductive step elaborates long `Eq.trans` chains of `twistScalarSheafMap` morphisms
 /-- **Multiplication by `(b⁽¹⁾)^c` followed by twisting down `c` steps is multiplication by
 `b^c`**, as morphisms `𝒪_X(q') ⟶ 𝒪_X(q')`, for every `b ∈ I`, every `c : ℕ` and every pair of
 integers `q' ≤ q` with `c + q' = q`.
@@ -295,6 +296,7 @@ theorem twistDownMap_comp_twistScalarSheafMap_reesDegOne (t t' : ℤ)
     (twistShiftMap_comp_twistScalarSheafMap_reesDegOne I t hb)
 
 set_option maxHeartbeats 600000 in
+-- the inductive step elaborates long `Eq.trans` chains of `twistScalarSheafMap` morphisms
 /-- **Twisting down `c` steps followed by multiplication by `a · (b⁽¹⁾)^c` is multiplication by
 `a · b^c`**, as morphisms `𝒪_X(q) ⟶ 𝒪_X(q)`, for every `a : A`, every `b ∈ I`, every `c : ℕ` and
 every pair of integers `q' ≤ q` with `c + q' = q`.

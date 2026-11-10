@@ -141,7 +141,7 @@ theorem quotient_obj_translate (n : ℤ) (M : DifferentialGradedModule.{u, v, w}
     (HomotopyCategory.quotient A).obj (translate A n M) =
       (shiftFunctor (HomotopyCategory.{u, v, w} A) n).obj
         ((HomotopyCategory.quotient A).obj M) := by
-  show _ = (HomotopyCategory.quotient A).obj (asModule A
+  change _ = (HomotopyCategory.quotient A).obj (asModule A
     ((shiftFunctor (dgCategoryData.{u, v, w} A).category.K n).obj (asObject A M)))
   rw [(dgConeSituation A).shift.kShift_functor, dgConeSituation_shift]
   rfl
@@ -419,7 +419,7 @@ private theorem exists_lift_of_nullhomotopic_cone
       (CochainComplex.shiftFunctor _ (1 : ℤ)).map a.toHomologicalComplex
     map_mul := by
       intro n m U x z
-      show (a.toHomologicalComplex.f (n + m + 1)).val.app U
+      change (a.toHomologicalComplex.f (n + m + 1)).val.app U
         (((HomologicalComplex.homotopyCofiber.XIsoBiprod b.toHomologicalComplex
           (n + m) (n + m + 1) (up_rel rfl)).hom ≫ biprod.fst).val.app U
             ((cm n m).app U x z)) =
@@ -440,7 +440,7 @@ private theorem exists_lift_of_nullhomotopic_cone
     toHomologicalComplex := 0
     map_mul := by
       intro n m U x a
-      show 0 = (jm n m).app U 0 a
+      change 0 = (jm n m).app U 0 a
       rw [map_zero, AddMonoidHom.zero_apply] }
   obtain ⟨H⟩ := hzero f z
   let h (n : ℤ) : N.complex.X n ⟶ I.complex.X n :=
@@ -538,7 +538,7 @@ private theorem exists_lift_of_nullhomotopic_cone
         (n - 1) n (n + 1) (up_rel (by omega)) (up_rel rfl),
       Preadditive.add_comp, Preadditive.neg_comp] at hc
     rw [hl' (n + 1) n (up_rel rfl) (by omega)] at hc
-    show b.toHomologicalComplex.f n ≫
+    change b.toHomologicalComplex.f n ≫
         (HomologicalComplex.homotopyCofiber.inrX b.toHomologicalComplex n ≫ h n) -
       a.toHomologicalComplex.f n = _
     simp only [Category.assoc] at hc ⊢

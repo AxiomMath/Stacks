@@ -166,13 +166,13 @@ theorem finitePresentationModule_isColimit_baseChange :
   have hcone : ∀ j, coneProjection B S hS G hD cX hX j ≫ κ j =
       κC ≫ D.relativeMap (cT.π.app j) := fun j =>
     ObjectProperty.hom_ext _ (by
-      show cX.π.app j ≫ 𝟙 _ = 𝟙 _ ≫ (D.relativeMap (cT.π.app j)).hom
+      change cX.π.app j ≫ 𝟙 _ = 𝟙 _ ≫ (D.relativeMap (cT.π.app j)).hom
       rw [Category.comp_id, Category.id_comp]
       rfl)
   have htrans : ∀ {j k : J} (e : k ⟶ j),
       stageTransition B S hS G hD e ≫ κ j = κ k ≫ D.relativeMap (F.map e) :=
     fun {j k} e => ObjectProperty.hom_ext _ (by
-      show G.map e ≫ 𝟙 _ = 𝟙 _ ≫ (D.relativeMap (F.map e)).hom
+      change G.map e ≫ 𝟙 _ = 𝟙 _ ≫ (D.relativeMap (F.map e)).hom
       rw [Category.comp_id, Category.id_comp]
       rfl)
   refine ⟨fun j M N hM hN φ ψ h => ?_, fun j M N hM hN χ => ?_, fun P hP => ?_⟩
@@ -230,7 +230,7 @@ theorem finitePresentationModule_isColimit_baseChange :
       (isFinitePresentationOnSite_modulePullback B S hS κC P hP)
     have hπ : D.relativeMap (cT.π.app k) ≫ ι k = ιC ≫ coneProjection B S hS G hD cX hX k :=
       ObjectProperty.hom_ext _ (by
-        show (D.relativeMap (cT.π.app k)).hom ≫ 𝟙 _ = 𝟙 _ ≫ cX.π.app k
+        change (D.relativeMap (cT.π.app k)).hom ≫ 𝟙 _ = 𝟙 _ ≫ cX.π.app k
         rw [Category.comp_id, Category.id_comp]
         rfl)
     exact ⟨k, (modulePullback B S hS (ι k)).obj Q',
@@ -317,7 +317,7 @@ theorem exists_stage_iso_of_cone (j : J)
         rw [← moduleHomRestrict_comp, ← moduleHomRestrict_id N (R e₆) (R e₃) (R (e₆ ≫ e₃)) hR₆,
           moduleHomRestrict_eq_iff]
         exact h₆₂ }, ?_⟩
-  show moduleHomRestrict M N (π k₆) (R (e₆ ≫ e₃)) (π j) _
+  change moduleHomRestrict M N (π k₆) (R (e₆ ≫ e₃)) (π j) _
     (moduleHomRestrict M N (R e₆) (R e₃) (R (e₆ ≫ e₃)) hR₆ ψ₁') = χ.hom
   rw [moduleHomRestrict_homRestrict,
     moduleHomRestrict_congr (D.relativeMap_cone_comp F cT e₆)]

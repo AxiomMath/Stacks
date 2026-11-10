@@ -68,7 +68,9 @@ def stackModuleDirectImageSheafSectionsIsoOfIsTerminal {y : 𝒴.val.val.obj}
     NatIso.ofComponents (fun _ => Iso.refl _) (fun _ => rfl)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasExt` and `EnoughInjectives` on sheaf categories over the fibred sites
 set_option maxHeartbeats 800000 in
+-- instance search for `HasExt` and `EnoughInjectives` on sheaf categories over the fibred sites
 /-- **The higher direct images on the étale sites vanish on modules cartesian along étale
 morphisms of affines**, for a 1-morphism `f : 𝒳 ⟶ 𝒴` such that every object `y` of `𝒴` lying
 over an affine scheme carries a terminal arrow `(x₀ y, f (x₀ y) ⟶ y)` of

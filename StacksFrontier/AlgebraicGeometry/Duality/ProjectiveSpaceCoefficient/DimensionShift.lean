@@ -41,7 +41,7 @@ theorem epi_freeCoverπ (L : ModuleCat.{u} R) : Epi (freeCoverπ L) := by
   rw [ModuleCat.epi_iff_surjective]
   intro x
   refine ⟨Finsupp.single x 1, ?_⟩
-  show Finsupp.linearCombination R id (Finsupp.single x 1) = x
+  change Finsupp.linearCombination R id (Finsupp.single x 1) = x
   simp
 
 /-- The short exact sequence `0 ⟶ ker ⟶ freeCover L ⟶ L ⟶ 0`. -/

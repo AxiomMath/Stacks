@@ -443,7 +443,6 @@ lemma isHomLift_eqToHom_of_id {D : Type u₂} [Category.{v₂} D] {E : Type u₁
   refine IsHomLift.of_fac' q _ _ hR hT ?_
   rw [IsHomLift.fac' q (𝟙 (q.obj Z)) φ]
   simp only [Category.id_comp, eqToHom_trans]
-  try rfl
 
 end HomLiftHelper
 

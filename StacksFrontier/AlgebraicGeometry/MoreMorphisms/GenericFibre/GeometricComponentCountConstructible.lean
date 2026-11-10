@@ -70,7 +70,7 @@ theorem exists_noetherian_model {X : Scheme.{u}} (R : CommRingCat.{u})
   let cBase := Scheme.Spec.mapCone R.finiteSubalgebrasCocone.op
   let c : Cone D := { pt := Spec R, π := cBase.π }
   have hc : IsLimit c := by
-    show IsLimit cBase
+    change IsLimit cBase
     exact isLimitOfPreserves _ R.finiteSubalgebrasIsColimit.op
   let : ∀ i, IsAffine (D.obj i) := fun i => inferInstanceAs (IsAffine (Spec _))
   obtain ⟨i, Xi, hXi, e⟩ :=
@@ -79,7 +79,7 @@ theorem exists_noetherian_model {X : Scheme.{u}} (R : CommRingCat.{u})
   let : Algebra.FiniteType ℤ (Algebra.adjoin ℤ (i.unop : Set R)) :=
     (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_adjoin_finset _)
   let := Algebra.FiniteType.isNoetherianRing ℤ (Algebra.adjoin ℤ (i.unop : Set R))
-  show TopologicalSpace.NoetherianSpace
+  change TopologicalSpace.NoetherianSpace
     (Spec (CommRingCat.of (Algebra.adjoin ℤ (i.unop : Set R))))
   infer_instance
 
@@ -140,7 +140,7 @@ public theorem isLocallyConstructible_geometricIrreducibleComponentCount_fiber
         (pullback.snd f (Y.affineCover.f i)) y = n} =
       {y | (geometricIrreducibleComponentCount f ∘ (Y.affineCover.f i)) y = n} := by
     ext y
-    show geometricIrreducibleComponentCount (pullback.snd f (Y.affineCover.f i)) y = n ↔
+    change geometricIrreducibleComponentCount (pullback.snd f (Y.affineCover.f i)) y = n ↔
       (geometricIrreducibleComponentCount f ∘ (Y.affineCover.f i)) y = n
     rw [congrFun hfun y]
   have h : IsLocallyConstructible
@@ -149,7 +149,7 @@ public theorem isLocallyConstructible_geometricIrreducibleComponentCount_fiber
   have h' := h.preimage_of_isOpenEmbedding (Y.affineCover.f i).isoOpensRange.inv.isOpenEmbedding
   convert! h' using 1
   ext y
-  show (geometricIrreducibleComponentCount f y.1 = n) ↔
+  change (geometricIrreducibleComponentCount f y.1 = n) ↔
     (geometricIrreducibleComponentCount f
       ((Y.affineCover.f i) ((Y.affineCover.f i).isoOpensRange.inv y)) = n)
   have he := congrArg (fun k : (Y.affineCover.f i).opensRange.toScheme ⟶ Y => k y)

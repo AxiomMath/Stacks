@@ -99,7 +99,7 @@ theorem cochainMap_ordD (p : ℕ) (V : X.Opens) (m : Γ(M, V))
       CechCochains.ordD (fun i => V ⊓ X.basicOpen (f i)) (Scheme.Modules.presheaf P) p
         (cochainMap f μ p V m cc) := by
   funext t
-  show μ.app (op (CechCochains.inter (fun i => V ⊓ X.basicOpen (f i)) t.1))
+  change μ.app (op (CechCochains.inter (fun i => V ⊓ X.basicOpen (f i)) t.1))
       (M.presheaf.map (homOfLE (interLe f (p + 1) t V)).op m)
       (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
         CechCochains.restr (Scheme.Modules.presheaf N)

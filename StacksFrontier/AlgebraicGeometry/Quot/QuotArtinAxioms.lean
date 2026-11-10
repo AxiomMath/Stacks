@@ -122,10 +122,10 @@ theorem isEquivalence_fiberSquareComparison_fibredCategory
     obtain ⟨t, ⟨ht₁, ht₂⟩, -⟩ := hRS a b hab
     refine ⟨fibredCategoryFiberMk t, ⟨CategoricalPullback.mkIso
       (eqToIso (by
-        show (c.pullbackFunctor j').obj _ = _
+        change (c.pullbackFunctor j').obj _ = _
         rw [pullbackFunctor_obj_eq, ht₁]))
       (eqToIso (by
-        show (c.pullbackFunctor i').obj _ = _
+        change (c.pullbackFunctor i').obj _ = _
         rw [pullbackFunctor_obj_eq, ht₂]))
       (Subsingleton.elim _ _)⟩⟩
   exact { }
@@ -190,7 +190,7 @@ theorem baseChange_ofQuot {T T' : BigFppfOver B S hS} (g : T' ⟶ T)
       ⟨D.quotientPullback (D.testHom ι g) K.1,
         D.quotientPullback_mem_properlySupportedQuotients _ K.1 K.2⟩ := by
   refine QuotFamilyOver.ext (Subsingleton.elim _ _) ?_
-  show D.quotientPullback (QuotFamilyOver.restrict g (ι T)) K.1 ≍
+  change D.quotientPullback (QuotFamilyOver.restrict g (ι T)) K.1 ≍
     D.quotientPullback (D.testHom ι g) K.1
   exact D.quotientPullback_homMk_heq (T := D.testOver ι T) g rfl (Subsingleton.elim _ _) K.1
 
@@ -246,10 +246,10 @@ theorem existsUnique_quotSitePresheaf_of_isPushout {X X' Y Y' : BigFppfOver B S 
         ⟨D.isLocallyOfFiniteType_projection _, hU, hpr⟩
     exact ⟨hU', hpr'⟩
   refine ⟨D.ofQuot ι Y' ⟨K'.1, hprop⟩, ⟨?_, ?_⟩, ?_⟩
-  · show (D.ofQuot ι Y' _).baseChange j' = _
+  · change (D.ofQuot ι Y' _).baseChange j' = _
     rw [D.baseChange_ofQuot]
     exact congrArg (D.ofQuot ι Y) (Subtype.ext h₁)
-  · show (D.ofQuot ι Y' _).baseChange i' = _
+  · change (D.ofQuot ι Y' _).baseChange i' = _
     rw [D.baseChange_ofQuot]
     exact congrArg (D.ofQuot ι X') (Subtype.ext h₂)
   · rintro t ⟨ht₁, ht₂⟩
@@ -400,7 +400,7 @@ theorem existsUnique_of_quotSitePresheaf {X X' Y Y' : BigFppfOver B S hS}
   obtain ⟨t, ⟨ht₁, ht₂⟩, hu⟩ := h _ _ hab'
   obtain ⟨t₀, rfl⟩ : ∃ t₀, M.iso.hom.app (op Y') (ULift.up t₀) = t :=
     ⟨(M.iso.inv.app (op Y') t).down, by
-      show (M.iso.inv ≫ M.iso.hom).app (op Y') t = t
+      change (M.iso.inv ≫ M.iso.hom).app (op Y') t = t
       rw [Iso.inv_hom_id]
       rfl⟩
   refine ⟨t₀, ⟨?_, ?_⟩, fun t' ⟨h₁, h₂⟩ => ?_⟩
@@ -448,7 +448,7 @@ theorem exists_stage_eq (hY : ∀ a : BigFppfOver B S hS, Subsingleton (D.Y.1.ob
   let t : D' ⟶ (Functor.const _).obj (V.obj (E.obj i)) :=
     { app := fun j => V.map (E.map j.hom)
       naturality := fun j k f => by
-        show V.map (E.map f.left) ≫ V.map (E.map k.hom) = V.map (E.map j.hom) ≫ 𝟙 _
+        change V.map (E.map f.left) ≫ V.map (E.map k.hom) = V.map (E.map j.hom) ≫ 𝟙 _
         rw [Category.comp_id, ← V.map_comp, ← E.map_comp, Over.w f] }
   let c' : Cone D' := (V.mapCone c).whisker (Over.forget i)
   have hc' : IsLimit c' := (Functor.Initial.isLimitWhiskerEquiv (Over.forget i) _).symm hc
@@ -458,19 +458,19 @@ theorem exists_stage_eq (hY : ∀ a : BigFppfOver B S hS, Subsingleton (D.Y.1.ob
   obtain ⟨j, g, -, hg⟩ := Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation D' t
     (V.map s) c' hc' (V.map r) (by
       ext j
-      show V.map (c.π.app j.left) ≫ V.map (E.map j.hom) = V.map r ≫ V.map s
+      change V.map (c.π.app j.left) ≫ V.map (E.map j.hom) = V.map r ≫ V.map s
       rw [← V.map_comp, ← V.map_comp, c.w, hr])
   refine ⟨j.left, j.hom, (hloc (E.obj j.left) (E.map j.hom)).2 ⟨Over.homMk
     (B.inclusion.preimage g) ?_, ?_⟩⟩
   · apply B.inclusion.map_injective
     rw [Functor.map_comp, Functor.map_preimage, ← Over.w s, Functor.map_comp, ← Category.assoc]
-    show (g ≫ V.map s) ≫ _ = _
+    change (g ≫ V.map s) ≫ _ = _
     rw [hg]
-    show B.inclusion.map (E.map j.hom).left ≫ _ = _
+    change B.inclusion.map (E.map j.hom).left ≫ _ = _
     rw [← Functor.map_comp, Over.w]
   · apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (B.inclusion.preimage g ≫ s.left) = B.inclusion.map (E.map j.hom).left
+    change B.inclusion.map (B.inclusion.preimage g ≫ s.left) = B.inclusion.map (E.map j.hom).left
     rw [Functor.map_comp, Functor.map_preimage]
     exact hg
 

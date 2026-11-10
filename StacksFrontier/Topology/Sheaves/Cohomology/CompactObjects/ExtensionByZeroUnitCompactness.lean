@@ -24,7 +24,8 @@ hypothesis the source states in clause (a) and which the general form charges to
 ## Why this matters for the stand-in
 
 `hreduce` is satisfiable by `K = 0` with `T = 0`, so the general statements are weak rather
-than vacuous, and neither `#print axioms` nor a build can see the difference. The declarations below are the
+than vacuous, and neither `#print axioms` nor a build can see the difference. The declarations
+below are the
 positive test: they exhibit `hreduce` inhabited at a **nonzero** `K` by a **nonzero** `T`,
 using nothing beyond the ringed space itself. They also show what the identity witness costs:
 `T = 𝟭` forces the source object of the bijection to be `K` itself, so the two statements below

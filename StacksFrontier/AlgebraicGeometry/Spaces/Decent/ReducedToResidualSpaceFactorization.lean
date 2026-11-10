@@ -67,7 +67,7 @@ private theorem exists_comp_subfunctorι_eq_of_isLocallySurjective
     have hc : Z.sieveOfSection (f.app A s) ∈ J A.unop := by
       refine J.superset_covering ?_ (hq.imageSieve_mem s)
       rintro W c ⟨t, ht⟩
-      show F.map c.op (f.app A s) ∈ Z.obj (Opposite.op W)
+      change F.map c.op (f.app A s) ∈ Z.obj (Opposite.op W)
       rw [← NatTrans.naturality_apply f c.op s, ← ht, ← types_comp_apply (q.app _) (f.app _),
         ← NatTrans.comp_app, ← hg]
       exact (g.app (Opposite.op W) t).property
@@ -134,7 +134,7 @@ private theorem residualOpenSiteInclusion_map (U : BigFppfOver B S hS)
     (W : ((BigFppfOver.toScheme B S hS).obj U).Opens) :
     (BigFppfOver.toScheme B S hS).map (residualOpenSiteInclusion B S hS U W) = W.ι := by
   let kobj := B.obj (lt_of_le_of_lt (Scheme.size_coe_opens_le _ W) U.left.property)
-  show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left) W.ι) = _
+  change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left) W.ι) = _
   exact B.inclusion.map_preimage _
 
 /-- A family of opens covering the scheme underlying `U` generates a covering sieve of `U`
@@ -188,10 +188,10 @@ private theorem exists_comp_eq_fieldMorphism_of_isResidualSpaceAt
   let pt : Ws ⟶ Ts := ObjectProperty.homMk (pullback.snd iz.hom it.hom)
   have hsq : IsPullback pr pt iz it := AlgebraicSpaces.isPullback_fiberProduct B S hS iz it
   have _ : Mono pt.hom := by
-    show Mono (pullback.snd iz.hom it.hom); infer_instance
+    change Mono (pullback.snd iz.hom it.hom); infer_instance
   let taut := (p.tautologicalPoint B S hS X).class B S hS (yoneda.obj T)
   have hcompat : pointsMap B S hS Zs.1 iz.hom z = pointsMap B S hS Ts.1 it.hom taut := by
-    show pointsMap B S hS Z i z =
+    change pointsMap B S hS Z i z =
       pointsMap B S hS (yoneda.obj T) (fieldMorphism B S hS X p) taut
     rw [hsupp z, pointsMap_fieldMorphism_tautologicalPoint, hp]
   obtain ⟨w, -, -⟩ := exists_point_of_isPullback B S hS hsq z taut hcompat
@@ -259,7 +259,7 @@ private theorem exists_comp_eq_of_chart_of_isResidualSpaceAt
     have hq : schemePoint B S hS U
         (FieldValuedPoint.map B S hS (yoneda.obj V) (yoneda.map b) q) = L.map b w := by
       rw [schemePoint_map_yoneda, schemePointRepresentative_point]
-    show pointsMap B S hS (yoneda.obj U) a
+    change pointsMap B S hS (yoneda.obj U) a
       ((schemePointRepresentative B S hS U (L.map b w)).class B S hS (yoneda.obj U)) = x
     rw [← hq, hcanon, ← pointsMap_class, ← pointsMap_comp_apply]
     exact hb _
@@ -273,7 +273,7 @@ private theorem exists_comp_eq_of_chart_of_isResidualSpaceAt
   have hsig : ⨆ z, (Sigma.ι family z).opensRange = ⊤ :=
     (sigmaOpenCover family).iSup_opensRange
   have hW : ⨆ z, W z = ⊤ := by
-    show ⨆ z, c ⁻¹ᵁ (Sigma.ι family z).opensRange = ⊤
+    change ⨆ z, c ⁻¹ᵁ (Sigma.ι family z).opensRange = ⊤
     rw [← Scheme.Hom.preimage_iSup, hsig]
     simp
   let R := Subfunctor.range i
@@ -298,7 +298,7 @@ private theorem exists_comp_eq_of_chart_of_isResidualSpaceAt
     let ι' : L.obj Tq ⟶ ∐ family := Sigma.ι family z
     have hkι : k ≫ ι' = L.map incl ≫ c := by
       rw [hincl]
-      show (c.resLE (Sigma.ι family z).opensRange (W z) le_rfl ≫
+      change (c.resLE (Sigma.ι family z).opensRange (W z) le_rfl ≫
         (Sigma.ι family z).isoOpensRange.inv) ≫ Sigma.ι family z = (W z).ι ≫ c
       rw [Category.assoc, Scheme.Hom.isoOpensRange_inv_comp]
       exact Scheme.Hom.resLE_comp_ι c le_rfl
@@ -306,7 +306,7 @@ private theorem exists_comp_eq_of_chart_of_isResidualSpaceAt
       toScheme_map_siteHom_schemePointRepresentative B S hS U z.1
     have hιd : ι' ≫ d = L.map q.value := by
       rw [hqval]
-      show Sigma.ι family z ≫ Sigma.desc fam = (L.obj U).fromSpecResidueField z.1
+      change Sigma.ι family z ≫ Sigma.desc fam = (L.obj U).fromSpecResidueField z.1
       have hd : Sigma.ι family z ≫ Sigma.desc fam = fam z := by simp
       exact hd
     have hk : k ≫ L.map q.value = L.map incl ≫ L.map b := by
@@ -325,7 +325,7 @@ private theorem exists_comp_eq_of_chart_of_isResidualSpaceAt
         yoneda.map incl ≫ (yoneda.map b ≫ a) := by
       rw [Category.assoc, hlift, hfm, ← Category.assoc, ← yoneda.map_comp, hksite,
         yoneda.map_comp, Category.assoc]
-    show X.map incl.op (yonedaEquiv (yoneda.map b ≫ a)) ∈ R.obj _
+    change X.map incl.op (yonedaEquiv (yoneda.map b ≫ a)) ∈ R.obj _
     rw [yonedaEquiv_naturality, ← heq, yonedaEquiv_comp]
     exact ⟨_, rfl⟩
   let lift : yoneda.obj V ⟶ R.toFunctor := yonedaEquiv.symm ⟨_, hmem⟩

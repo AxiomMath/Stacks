@@ -124,7 +124,7 @@ theorem isParasitic_of_subsingleton_smoothObject_of_sheafFlatBaseChange
       (0 : F.presheaf.obj (op z) ⟶ F.presheaf.obj (op z)) := by
     refine hsep.ext fun {Y} {f} hf => ?_
     cases hf
-    show (𝟙 (F.presheaf.obj (op z))) ≫ F.presheaf.map α.op
+    change (𝟙 (F.presheaf.obj (op z))) ≫ F.presheaf.map α.op
         = (0 : F.presheaf.obj (op z) ⟶ F.presheaf.obj (op z)) ≫ F.presheaf.map α.op
     rw [hzt'.eq_zero_of_tgt (F.presheaf.map α.op), comp_zero, comp_zero]
   exact AddCommGrpCat.subsingleton_of_isZero ((IsZero.iff_id_eq_zero _).2 hid)

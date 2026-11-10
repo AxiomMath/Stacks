@@ -116,7 +116,7 @@ theorem hasCompactification_of_isNoetherian {X S : Scheme.{u}} (f : X ⟶ S) [Is
           -- the two opens of `W`
           have hcover : (W.ι ⁻¹ᵁ V) ⊔ (W.ι ⁻¹ᵁ G.sup id) = ⊤ := by
             ext x
-            show (x.1 ∈ V ∨ x.1 ∈ G.sup id) ↔ True
+            change (x.1 ∈ V ∨ x.1 ∈ G.sup id) ↔ True
             exact iff_true_intro x.2
           -- the inverse image of the dense open lies in both and is dense
           obtain ⟨V₀, hV₀⟩ := hGne

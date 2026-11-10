@@ -241,7 +241,7 @@ theorem dominantFunctionFieldMap_algebraMap_spec {R S : CommRingCat.{u}} (φ : R
     ((tfae_isDominant_of_isIntegral (Spec.map φ)).out 1 2).mp
       (inferInstance : IsDominant (Spec.map φ))
   rw [algebraMap_functionField_spec_eq_germ R r, algebraMap_functionField_spec_eq_germ S (φ r)]
-  show (hgen ▸ (Spec.map φ).stalkMap (genericPoint (Spec S))).hom _ = _
+  change (hgen ▸ (Spec.map φ).stalkMap (genericPoint (Spec S))).hom _ = _
   rw [stalkMap_germ_transport (Spec.map φ) (genericPoint (Spec S)) ⊤ hgen trivial,
     Scheme.Hom.germ_stalkMap_apply]
   congr 1

@@ -242,7 +242,6 @@ finite `R₀[x]`-module `M₀` defined by the descended generators, so 051R appl
   ega
   "IV 8.9.4" "affine, free case",
   ega "IV 8.9.4.1",
-  ega "IV 8.9.4" "affine, free case",
   ega "IV 11.4.6" "special case",
   ega "IV 6.9.2" "more general", sga "1 IV 6.7" "more general"]
 public theorem exists_ne_zero_free_localizedModule_away

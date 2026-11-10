@@ -157,7 +157,7 @@ theorem transitionImage_comp_eq_of_eq {C : Type*} {D : Type*} [Category C] [Cate
   let f := G.map (homOfLE hik).op
   let g := G.map (homOfLE hic).op
   change Subobject.mk (image.ι f) = Subobject.mk (image.ι g) at h
-  show Subobject.mk (image.ι (U.map f)) = Subobject.mk (image.ι (U.map g))
+  change Subobject.mk (image.ι (U.map f)) = Subobject.mk (image.ι (U.map g))
   simpa only [mapSubobjects_mk, map_imageSubobject_eq] using
     congrArg (mapSubobjects U (G.obj (op i))).obj h
 
@@ -178,7 +178,7 @@ private theorem transitionImage_map_of_comm_aux {C : Type*} [Category C] [Abelia
     (Subobject.map ei.hom).obj (transitionImage F i k h) = transitionImage G i k h := by
   let f := F.map (homOfLE h).op
   let g := G.map (homOfLE h).op
-  show (Subobject.map ei.hom).obj (imageSubobject f) = imageSubobject g
+  change (Subobject.map ei.hom).obj (imageSubobject f) = imageSubobject g
   rw [Subobject.map_mk]
   calc
     Subobject.mk (image.ι f ≫ ei.hom) = imageSubobject (f ≫ ei.hom) :=
@@ -206,7 +206,7 @@ private theorem transitionImage_eq_of_comm {C : Type*} [Category C] [Abelian C] 
     (h : transitionImage G i k hik = transitionImage G i c hic) :
     transitionImage F i k hik = transitionImage F i c hic := by
   apply (Subobject.mapIsoToOrderIso ei).injective
-  show (Subobject.map ei.hom).obj (transitionImage F i k hik) =
+  change (Subobject.map ei.hom).obj (transitionImage F i k hik) =
     (Subobject.map ei.hom).obj (transitionImage F i c hic)
   rw [transitionImage_map_of_comm_aux hik ei ek wik, transitionImage_map_of_comm_aux hic ei ec wic,
     h]

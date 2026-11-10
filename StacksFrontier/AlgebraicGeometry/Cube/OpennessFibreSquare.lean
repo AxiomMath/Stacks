@@ -598,12 +598,12 @@ theorem jYκ_gQ : jYκ f g x hx R 𝔮 ≫ gQ f g R 𝔮 = gY g R 𝔮 ≫ jY f 
 /-- The projection `Q_κ ⟶ X_{R,κ}`. -/
 noncomputable abbrev pXκ : Qκ f g R 𝔮 ⟶ XRκ f R 𝔮 :=
   pullback.map (qR f g R) (σR R 𝔮) (qX f R) (σR R 𝔮) (prX f g R) (𝟙 _) (𝟙 _)
-    (by simp [prX_qX]) (by simp)
+    (by simp) (by simp)
 
 /-- The projection `Q_κ ⟶ Y_{R,κ}`. -/
 noncomputable abbrev pYκ : Qκ f g R 𝔮 ⟶ YRκ g R 𝔮 :=
   pullback.map (qR f g R) (σR R 𝔮) (qY g R) (σR R 𝔮) (prY f g R) (𝟙 _) (𝟙 _)
-    (by simp [prY_qY]) (by simp)
+    (by simp) (by simp)
 
 /-- **`Q_κ = X_{R,κ} ×_κ Y_{R,κ}`.** -/
 theorem isPullback_Qκ : IsPullback (pXκ f g R 𝔮) (pYκ f g R 𝔮) (qXκ f R 𝔮) (qYκ g R 𝔮) :=

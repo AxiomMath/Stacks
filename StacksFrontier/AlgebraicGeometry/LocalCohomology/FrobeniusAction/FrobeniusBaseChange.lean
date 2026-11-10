@@ -81,7 +81,7 @@ private lemma map_frobenius_le_pow {A : Type*} [CommSemiring A]
     Ideal.map (frobenius A p) I ≤ I ^ p := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show frobenius A p x ∈ I ^ p
+  change frobenius A p x ∈ I ^ p
   simpa only [frobenius_def] using Ideal.pow_mem_pow hx p
 
 /-- A finite Frobenius-periodic module over a Noetherian local ring is free. -/
@@ -125,7 +125,7 @@ theorem free_of_frobenius_baseChange_equiv
       have hpow : (Ideal.Quotient.mk J (rho a)) ^ p = 0 := by
         rw [← map_pow]
         apply Ideal.Quotient.eq_zero_iff_mem.mpr
-        show (rho a) ^ p ∈ Ideal.map φ m
+        change (rho a) ^ p ∈ Ideal.map φ m
         simpa [φ, frobenius_def] using Ideal.mem_map_of_mem φ ha
       obtain ⟨z, hz⟩ := hbij.2 (Ideal.Quotient.mk J (rho a))
       have hzpow : z ^ p = 0 := hbij.1 (by simpa only [map_pow, map_zero, hz] using hpow)

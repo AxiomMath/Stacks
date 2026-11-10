@@ -81,7 +81,7 @@ theorem exists_isColimit_isFinitePresentation_of_isAffineHom
     exact preservesColimitsOfShape_coyoneda_of_isFinitePresentation B S hS X.1 X.2 hZ
       hqcX hqsX (G.obj j) I
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X.1 X.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X.1 X.2) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

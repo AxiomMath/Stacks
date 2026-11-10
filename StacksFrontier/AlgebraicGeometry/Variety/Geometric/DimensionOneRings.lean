@@ -76,7 +76,7 @@ private lemma valuation_comap_isNontrivial_of_algebraic {K L : Type*} [Field K] 
   have hEq : (v.comap (algebraMap K L)).valuationSubring =
       intersectionSubring B := by
     ext x
-    show v (algebraMap K L x) ≤ 1 ↔ algebraMap K L x ∈ B
+    change v (algebraMap K L x) ≤ 1 ↔ algebraMap K L x ∈ B
     rw [← ValuationSubring.valuation_le_one_iff B]
     simp [B]
   have hnot : (v.comap (algebraMap K L)).valuationSubring ≠ ⊤ := by
@@ -358,7 +358,7 @@ private lemma exists_pow_in_maximalIdeal_of_valuations_lt_one
     IsIntegralClosure.exists_pow_mul_mem_range B F C c hc0 hcj c
   have hb' : algebraMap B C b = c ^ (n + 1) := by simpa [pow_succ] using hb
   have hbm : b ∈ IsLocalRing.maximalIdeal B := by
-    show ¬ IsUnit b
+    change ¬ IsUnit b
     intro hbu
     have hu := hbu.map (algebraMap B C)
     rw [hb'] at hu
@@ -447,7 +447,7 @@ private lemma exists_minimalPrime_separator
     rintro ⟨j, hj, hji⟩
     have hij : i.1.asIdeal ≤ j.1.asIdeal := i.2.2 ⟨j.2.isPrime, bot_le⟩ hji
     exact (Finset.mem_erase.mp hj).1 (Subtype.ext (PrimeSpectrum.ext (le_antisymm hji hij)))
-  obtain ⟨t, ht, hti⟩ := SetLike.not_le_iff_exists.mp hn
+  obtain ⟨t, ht, hti⟩ := IsConcreteLE.not_le_iff_exists.mp hn
   refine ⟨t, hti, fun j hji => ?_⟩
   have hle : s.inf (fun p : P => p.1.asIdeal) ≤ j.1.asIdeal :=
     Finset.inf_le (Finset.mem_erase.mpr ⟨hji, Finset.mem_univ j⟩)
@@ -476,13 +476,13 @@ private lemma exists_pow_mem_maximalIdeal_of_nonunit_pow
       fun h => htp (Ideal.Quotient.eq_zero_iff_mem.mp h)) hb
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective c
   have hta : t * a ∈ IsLocalRing.maximalIdeal A := by
-    show ¬ IsUnit (t * a)
+    change ¬ IsUnit (t * a)
     intro hu
     have hu' := hu.map (Ideal.Quotient.mk p.1.asIdeal)
     rw [map_mul, ← hc] at hu'
     exact hb ((isUnit_pow_iff hr.ne').mp hu')
   refine ⟨n * r, Nat.mul_pos hn hr, t * a, hta, ?_, ?_⟩
-  · show algebraMap B (FractionRing B) (Ideal.Quotient.mk p.1.asIdeal (t * a)) = _
+  · change algebraMap B (FractionRing B) (Ideal.Quotient.mk p.1.asIdeal (t * a)) = _
     rw [map_mul, ← hc, map_pow, hbz, pow_mul]
   · intro q hqp
     rw [map_mul, Ideal.Quotient.eq_zero_iff_mem.mpr (ht q hqp), zero_mul, map_zero]
@@ -516,7 +516,7 @@ private lemma exists_pow_lift_of_fractional_parameters
   refine ⟨N, hN, ∑ p : P, a p ^ k p,
     (IsLocalRing.maximalIdeal A).sum_mem (fun p _ =>
       (IsLocalRing.maximalIdeal A).pow_mem_of_mem (ha p) (k p) (hkpos p)), fun p => ?_⟩
-  show ψ p (∑ q : P, a q ^ k q) = _
+  change ψ p (∑ q : P, a q ^ k q) = _
   rw [map_sum, Finset.sum_eq_single p]
   · rw [map_pow, haz p, ← pow_mul, ← hk p]
   · intro q _ hqp
@@ -628,7 +628,7 @@ public theorem exists_mem_maximalIdeal_radical_span_eq_of_isIntegral
   have hρ : ρ (f (x ^ n) - algebraMap A L a) = 0 := by
     rw [map_sub]
     ext p
-    show ρ (f (x ^ n)) p - minimalLocalizationToFractionRing p.1.asIdeal
+    change ρ (f (x ^ n)) p - minimalLocalizationToFractionRing p.1.asIdeal
       (algebraMap A (Localization.AtPrime p.1.asIdeal) a) = 0
     rw [minimalLocalizationToFractionRing_algebraMap, hea p]
     simp only [f', RingHom.comp_apply, map_pow, Pi.pow_apply, sub_self]

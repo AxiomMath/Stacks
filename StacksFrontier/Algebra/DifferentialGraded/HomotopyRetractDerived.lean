@@ -280,7 +280,7 @@ theorem restrictedRegularHom_comp_eq {E : DifferentialGradedAlgebra.{u, u} R} {�
       restrictedRegularHom ψ ω φ₁ h₃ := by
   refine DifferentialGradedModule.Hom.ext ?_
   refine LinearMap.ext fun x => ?_
-  show (oppHom φ').toAlgebraHom ((oppHom φ).toAlgebraHom x) = (oppHom φ₁).toAlgebraHom x
+  change (oppHom φ').toAlgebraHom ((oppHom φ).toAlgebraHom x) = (oppHom φ₁).toAlgebraHom x
   rw [oppHom_apply, oppHom_apply, oppHom_apply, LinearEquiv.apply_symm_apply]
   exact congrArg (DifferentialGradedAlgebra.opposite R E).equiv.symm
     (congrArg (fun φ₂ => φ₂ ((DifferentialGradedAlgebra.opposite R B).equiv x)) heq)

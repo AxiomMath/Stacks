@@ -206,7 +206,7 @@ public theorem compChartInclusion_naturality (sq : f' ≫ jY = jX ≫ f)
       (compChartIso B g sq hsq W').inv ≫
         (openPostcompose B jX).map ((smallEtaleBaseChange B (jX ≫ f ≫ g)).map φ) := by
     rw [Iso.comp_inv_eq, Category.assoc]
-    show _ = _ ≫ _ ≫ compChartHom B g sq W
+    change _ = _ ≫ _ ≫ compChartHom B g sq W
     rw [compChartHom_naturality B g sq φ]
     exact ((compChartIso B g sq hsq W').inv_hom_id_assoc _).symm
   rw [compChartInclusion, compChartInclusion, ← Category.assoc, h', Category.assoc, hn,

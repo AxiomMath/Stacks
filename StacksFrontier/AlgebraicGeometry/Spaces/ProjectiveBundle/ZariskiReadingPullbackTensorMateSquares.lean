@@ -40,9 +40,14 @@ variable (N M : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B 
 
 /-- Hypothesis 12 of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMateAux`: the transpose of
 the mate at `𝒩`, as a term whose type fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_12Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T)
-    (isAlgebraicSpace_yoneda B S hS T)) (hN₀ : N₀.IsQuasicoherentOnSite)
-    (hM₀ : M₀.IsQuasicoherentOnSite) :=
+theorem zariskiReadingTensorSquareMate_12Aux (h₀ : T' ⟶ T)
+    (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
+        (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
+        (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
+      (representedSquareFactorizationTopos h₀) N₀) a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 :
+          HypothesisOf₂₀_12 (zariskiReadingTensorSquareMateAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
       (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
       (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
@@ -51,9 +56,11 @@ def zariskiReadingTensorSquareMate_12Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_12`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_12_9Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_12_9Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
+        HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_12Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
       HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_12Aux h₀ N₀ M₀ hN₀ hM₀))
 
@@ -73,9 +80,14 @@ theorem zariskiReadingTensorSquareMate_12 : HypothesisOf₂₀_12
 
 /-- Hypothesis 13 of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMateAux`: the transpose of
 the mate at `ℳ`, as a term whose type fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_13Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T)
-    (isAlgebraicSpace_yoneda B S hS T)) (hN₀ : N₀.IsQuasicoherentOnSite)
-    (hM₀ : M₀.IsQuasicoherentOnSite) :=
+theorem zariskiReadingTensorSquareMate_13Aux (h₀ : T' ⟶ T)
+    (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
+        (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
+        (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
+      (representedSquareFactorizationTopos h₀) M₀) a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 :
+          HypothesisOf₂₀_13 (zariskiReadingTensorSquareMateAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
       (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
       (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
@@ -84,9 +96,11 @@ def zariskiReadingTensorSquareMate_13Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_13`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_13_9Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_13_9Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
+        HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_13Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
       HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_13Aux h₀ N₀ M₀ hN₀ hM₀))
 
@@ -106,9 +120,18 @@ theorem zariskiReadingTensorSquareMate_13 : HypothesisOf₂₀_13
 
 /-- Hypothesis 14 of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMateAux`: the transpose of
 the mate at `𝒩 ⊗ ℳ`, as a term whose type fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_14Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T)
-    (isAlgebraicSpace_yoneda B S hS T)) (hN₀ : N₀.IsQuasicoherentOnSite)
-    (hM₀ : M₀.IsQuasicoherentOnSite) :=
+theorem zariskiReadingTensorSquareMate_14Aux (h₀ : T' ⟶ T)
+    (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
+        (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
+        (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
+      (representedSquareFactorizationTopos h₀)
+          (((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+          (structureSheaf B S hS (yoneda.obj T)
+            (isAlgebraicSpace_yoneda B S hS T))).obj N₀).obj M₀))
+          a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 : HypothesisOf₂₀_14
+          (zariskiReadingTensorSquareMateAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 =>
       (comp_eq_comp_of_heq (Adjunction.map_equivalenceMateApp_comp_counit
       (representedReindexEquivalenceTopos T) (representedReindexEquivalenceTopos T')
@@ -120,9 +143,11 @@ def zariskiReadingTensorSquareMate_14Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_14`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_14_9Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_14_9Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
+        HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_14Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 => (NatTrans.app_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
       HypothesisOf₁₀_9 (zariskiReadingTensorSquareMate_14Aux h₀ N₀ M₀ hN₀ hM₀))
 
@@ -143,9 +168,20 @@ theorem zariskiReadingTensorSquareMate_14 : HypothesisOf₂₀_14
 /-- Hypothesis 15 of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMateAux`: the comparison of
 the inverse of Stacks 04M0 at `T` with tensor products, transposed to the counit, as a term whose
 type fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_15Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T)
-    (isAlgebraicSpace_yoneda B S hS T)) (hN₀ : N₀.IsQuasicoherentOnSite)
-    (hM₀ : M₀.IsQuasicoherentOnSite) :=
+theorem zariskiReadingTensorSquareMate_15Aux (h₀ : T' ⟶ T)
+    (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 =>
+        (comp_eq_of_heq (comp_comp_eq_of_eq
+        (pullbackTensorIsoTransport_representedReindex_hom_eq T _ _)
+      (Equivalence.functor_map_inverseTensor_comp_counit
+          (representedSmallEtaleModuleEquivalence B S hS T)
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+            (representedSchemeCommRingStructureSheaf B S hS T))
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+            (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))) N₀ M₀
+        (representedSmallEtaleModuleTensorIso B S hS T _ _))) a1 a2 a3 a4 a5 a6 a7 a8 :
+            HypothesisOf₂₀_15 (zariskiReadingTensorSquareMateAux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 =>
       (comp_eq_of_heq (comp_comp_eq_of_eq
       (pullbackTensorIsoTransport_representedReindex_hom_eq T _ _)
@@ -160,17 +196,22 @@ def zariskiReadingTensorSquareMate_15Aux (h₀ : T' ⟶ T) (N₀ M₀ : Modules.
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_15`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_15_6Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_15_6Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 a8 => (Functor.map_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 :
+        HypothesisOf₈_6
+        (zariskiReadingTensorSquareMate_15Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 a8 => (Functor.map_heq_of_heq a1 a2 a3 a4 a5 a6 a7 a8 : HypothesisOf₈_6
       (zariskiReadingTensorSquareMate_15Aux h₀ N₀ M₀ hN₀ hM₀))
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_15`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_15_6_8Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_15_6_8Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 => (Iso.hom_heq_of_heq a1 a2 a3 a4 a5 : HypothesisOf₈_8
+        (zariskiReadingTensorSquareMate_15_6Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 => (Iso.hom_heq_of_heq a1 a2 a3 a4 a5 : HypothesisOf₈_8
       (zariskiReadingTensorSquareMate_15_6Aux h₀ N₀ M₀ hN₀ hM₀))
 
@@ -189,17 +230,21 @@ theorem zariskiReadingTensorSquareMate_15_6 : HypothesisOf₈_6
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_15`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_15_7Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_15_7Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 a6 a7 => (comp_heq_of_heq a1 a2 a3 a4 a5 a6 a7 : HypothesisOf₈_7
+        (zariskiReadingTensorSquareMate_15Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 a6 a7 => (comp_heq_of_heq a1 a2 a3 a4 a5 a6 a7 : HypothesisOf₈_7
       (zariskiReadingTensorSquareMate_15Aux h₀ N₀ M₀ hN₀ hM₀))
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorSquareMate_15`, as a term whose type
 fixes the spelling of its factors. -/
-def zariskiReadingTensorSquareMate_15_7_6Aux (h₀ : T' ⟶ T)
+theorem zariskiReadingTensorSquareMate_15_7_6Aux (h₀ : T' ⟶ T)
     (N₀ M₀ : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
-    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :=
+    (hN₀ : N₀.IsQuasicoherentOnSite) (hM₀ : M₀.IsQuasicoherentOnSite) :
+    type_of% (fun a1 a2 a3 a4 a5 => (Iso.hom_heq_of_heq a1 a2 a3 a4 a5 : HypothesisOf₇_6
+        (zariskiReadingTensorSquareMate_15_7Aux h₀ N₀ M₀ hN₀ hM₀))) :=
   fun a1 a2 a3 a4 a5 => (Iso.hom_heq_of_heq a1 a2 a3 a4 a5 : HypothesisOf₇_6
       (zariskiReadingTensorSquareMate_15_7Aux h₀ N₀ M₀ hN₀ hM₀))
 

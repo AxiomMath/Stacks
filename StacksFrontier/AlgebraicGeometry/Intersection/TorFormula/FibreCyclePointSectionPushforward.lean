@@ -52,8 +52,8 @@ Part (3), the converse, is carried at an arbitrary pair of points of the affine 
 `Stacks.Chow.PointCycle.isPointFibreIntersectionDifference_of_mem_rationalEquivalences`, but
 not at a pair with one point at infinity.
 Part (2) at an arbitrary pair is carried in
-`StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FibreCyclePointSectionRationalEquivalence`:
-`Stacks.Chow.fibreDifferences`, the generating set of Tag 0AZG, does have the zero and the
+`StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FibreCyclePointSectionRationalEquivalence`
+: `Stacks.Chow.fibreDifferences`, the generating set of Tag 0AZG, does have the zero and the
 infinity fibre hard-coded, but it never has to be unfolded, because rational equivalence itself
 (Tag 02RW) is defined by an *arbitrary* principal divisor, and the difference of the two fibre
 cycles at an arbitrary pair is the pushforward of one. Tag 0B2U, the 2-transitivity of the

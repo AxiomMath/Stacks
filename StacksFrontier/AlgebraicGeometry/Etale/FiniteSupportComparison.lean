@@ -147,7 +147,7 @@ public theorem isProperOver_finiteSupport [IsSeparated (B.inclusion.map f)]
       (isIso_iff_isOpenImmersion_and_surjective i.toImage).2 ⟨inferInstance, hsurj⟩
     let e : Z ≅ I.subscheme := @asIso _ _ _ _ i.toImage hiso
     have heq : e.hom ≫ (I.subschemeι ≫ p) = i ≫ p := by
-      show i.toImage ≫ (I.subschemeι ≫ p) = i ≫ p
+      change i.toImage ≫ (I.subschemeι ≫ p) = i ≫ p
       rw [← Category.assoc, Scheme.Hom.toImage_imageι]
     have hArrow : Arrow.mk (i ≫ p) ≅ Arrow.mk (I.subschemeι ≫ p) :=
       Arrow.isoMk e (Iso.refl _) heq
@@ -221,9 +221,9 @@ public theorem exists_finiteSupport_union [IsSeparated (B.inclusion.map f)]
     have h := isProperOver_iSup p (fun b : Bool => if b then Z else Z') (by
       intro b
       cases b
-      · show IsProperOver p Z'
+      · change IsProperOver p Z'
         exact isProperOver_finiteSupport B f V E'
-      · show IsProperOver p Z
+      · change IsProperOver p Z
         exact isProperOver_finiteSupport B f V E)
     rwa [iSup_bool_eq] at h
   exact ⟨⟨(Z ⊔ Z' : Closeds _), isFiniteSupport_of_isProper B f V (Z ⊔ Z') hZ''proper⟩,
@@ -404,7 +404,7 @@ public theorem finiteSupportExtension_transition (V : SmallEtale B Y.obj Y.prope
             rw [openObjectHomOfLE_map, Scheme.homOfLE_ι]
   calc
     _ = (F.obj.map (j' ≫ e.inv).op).hom s.val := by
-      show (F.obj.map j'.op).hom ((F.obj.map e.inv.op).hom s.val) = _
+      change (F.obj.map j'.op).hom ((F.obj.map e.inv.op).hom s.val) = _
       rw [← ConcreteCategory.comp_apply, ← F.obj.map_comp, ← op_comp]
     _ = (F.obj.map a.op).hom s.val := by rw [hpath]
     _ = _ := by rw [supportedSectionsMap_apply]
@@ -516,7 +516,7 @@ public theorem finiteSupportStageMap_compatible (V : SmallEtale B Y.obj Y.proper
       finiteSupportStageHom B f F V E := by
   apply AddCommGrpCat.hom_ext
   ext s
-  show finiteSupportStageMap B f F V E'
+  change finiteSupportStageMap B f F V E'
       (((finiteSupportDiagram B f F V).map h).hom s) = finiteSupportStageMap B f F V E s
   apply finiteSupportStageMap_eq_of_extension_eq
   refine finiteSupportExtension_eq_of_restrict_eq B f F V E' _
@@ -548,7 +548,7 @@ public theorem exists_finiteSupportStageMap_eq [LocallyQuasiFinite (B.inclusion.
   · have hι : (SmallEtale.toScheme B X.obj X.property).map
         (finiteSupportOpenIso B f V E).hom = (finiteSupportOpen B f V E).ι :=
       openObjectι_map B X.obj X.property (baseChange B f V) (finiteSupportOpen B f V E)
-    show supportSection B X.obj X.property F (finiteSupportOpenObject B f V E)
+    change supportSection B X.obj X.property F (finiteSupportOpenObject B f V E)
       ((F.obj.map (finiteSupportOpenIso B f V E).hom.op).hom t) ⊆
         (finiteSupportOpen B f V E).ι.base ⁻¹' E.1
     rw [hsupp, hι, hE]
@@ -566,7 +566,7 @@ public theorem finiteSupportStageMap_restrict {V V' : SmallEtale B Y.obj Y.prope
       (((properSupportFunctor B f).obj F).obj.map g.op).hom
         (finiteSupportStageMap B f F V E s) := by
   let d := finiteSupportBaseChange B f F g E
-  show finiteSupportStageMap B f F V' d.support (d.sectionsMap s) =
+  change finiteSupportStageMap B f F V' d.support (d.sectionsMap s) =
     (((properSupportFunctor B f).obj F).obj.map g.op).hom
       (finiteSupportStageMap B f F V E s)
   let c := (smallEtaleBaseChange B f).map g

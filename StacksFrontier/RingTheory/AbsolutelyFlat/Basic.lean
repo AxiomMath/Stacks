@@ -270,11 +270,10 @@ theorem absolutelyFlat_and_isReduced_of_flat_lmul'
       let : Module A' M := Module.compHom M
         (Algebra.TensorProduct.includeLeft (R := A) (S := A') (A := A') (B := B)).toRingHom
       let : IsScalarTower A' B' M := ⟨fun a b m ↦ by
-        show (a • b) • m = (a ⊗ₜ[A] (1 : B)) • (b • m)
+        change (a • b) • m = (a ⊗ₜ[A] (1 : B)) • (b • m)
         rw [← mul_smul]
         congr 1
-        induction b using TensorProduct.induction_on with
-        | zero => simp
+        induction b using TensorProduct.inductionOn with
         | add x y hx hy => rw [smul_add, hx, hy, mul_add]
         | tmul x y =>
             simp only [Algebra.TensorProduct.tmul_mul_tmul, one_mul]

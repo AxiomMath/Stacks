@@ -135,7 +135,7 @@ theorem isSplitMono_secondOrderTensorComparison
   have := isIso_secondOrderTensorToAmbient M A (isIso_ambientSchemeCrystalComparisonQ₀ M A hM)
   have := isSplitMono_secondOrderThickeningTensorTopInr A.obj.thickening.target S.S.scheme
     A.obj.toBase.hom (crysAmbientSchemeModules M A)
-  show IsSplitMono (secondOrderThickeningTensorTopInr A.obj.thickening.target S.S.scheme
+  change IsSplitMono (secondOrderThickeningTensorTopInr A.obj.thickening.target S.S.scheme
     A.obj.toBase.hom (crysAmbientSchemeModules M A) ≫ secondOrderTensorToAmbient M A)
   infer_instance
 

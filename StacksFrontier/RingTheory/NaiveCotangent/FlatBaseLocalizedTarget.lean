@@ -119,18 +119,16 @@ variable {A D C : Type*} [CommRing A] [CommRing D] [CommRing C] [Algebra A D] [A
 
 /-- Cancelling an intermediate base change commutes with the base change of a linear map: both
 sides send `c ⊗ (d ⊗ m)` to `(d • c) ⊗ f m`.  Stated over bare modules, so that the
-`TensorProduct.induction_on` of the proof sees the tensor products rather than the fields of a
+`TensorProduct.inductionOn` of the proof sees the tensor products rather than the fields of a
 `NaiveCotangent.TwoTerm`. -/
 theorem cancelBaseChange_baseChange_comm {M N : Type*} [AddCommGroup M] [Module A M]
     [AddCommGroup N] [Module A N] (f : M →ₗ[A] N) (z : C ⊗[D] (D ⊗[A] M)) :
     LinearMap.baseChange C f (AlgebraTensorModule.cancelBaseChange A D C C M z) =
       AlgebraTensorModule.cancelBaseChange A D C C N
         (LinearMap.baseChange C (LinearMap.baseChange D f) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul c y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul d x =>
       rw [AlgebraTensorModule.cancelBaseChange_tmul, LinearMap.baseChange_tmul,
         LinearMap.baseChange_tmul, LinearMap.baseChange_tmul,
@@ -184,11 +182,9 @@ theorem liftBaseChange_cancelBaseChange (φ : M →ₗ[A] N) (ψ : N →ₗ[D] T
     (hχ : ∀ m, χ m = ψ (φ m)) (z : C ⊗[D] (D ⊗[A] M)) :
     χ.liftBaseChange C (AlgebraTensorModule.cancelBaseChange A D C C M z) =
       ψ.liftBaseChange C (LinearMap.baseChange C (φ.liftBaseChange D) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul c y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul d x =>
       rw [AlgebraTensorModule.cancelBaseChange_tmul, LinearMap.liftBaseChange_tmul,
         LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul,

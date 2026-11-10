@@ -84,7 +84,7 @@ theorem isDifferentialOperatorOfOrderLE_iff_of_surjective {S T M N : Type*}
     have key (s : S) : (D ∘ₗ Algebra.lsmul ℤ ℤ M s - Algebra.lsmul ℤ ℤ N s ∘ₗ D) =
         D ∘ₗ Algebra.lsmul ℤ ℤ M (σ s) - Algebra.lsmul ℤ ℤ N (σ s) ∘ₗ D := by
       ext m
-      show D (s • m) - s • D m = D (σ s • m) - σ s • D m
+      change D (s • m) - s • D m = D (σ s • m) - σ s • D m
       rw [hM, hN]
     constructor
     · intro hD t
@@ -113,7 +113,7 @@ theorem appLE_mem_range_sectionRingHom {W Y : Scheme.{u}} (p : W ⟶ Y) (V : Y.O
   refine ⟨P.obj.map (homOfLE h).op (η.hom.app (op V) b), ?_⟩
   have he : η ≫ (TopCat.Sheaf.pushforward RingCat.{u} p.base).map φ = p.toRingCatSheafHom :=
     adj.homEquiv _ _ |>.apply_symm_apply _
-  show φ.hom.app (op U) (P.obj.map (homOfLE h).op (η.hom.app (op V) b)) = _
+  change φ.hom.app (op U) (P.obj.map (homOfLE h).op (η.hom.app (op V) b)) = _
   rw [show φ.hom.app (op U) (P.presheaf.map (homOfLE h).op (η.hom.app (op V) b)) =
       W.presheaf.map (homOfLE h).op (φ.hom.app (op (p ⁻¹ᵁ V)) (η.hom.app (op V) b)) from
     ConcreteCategory.congr_hom (φ.hom.naturality (homOfLE h).op) _]

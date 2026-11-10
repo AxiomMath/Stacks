@@ -63,6 +63,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {F : Modules.{u, u} B S hS X hX}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf-of-modules API on the small étale ringed site of `X` is deep
 /-- The submodule of `F` given by a chart submodule over the identity of `X` is a finite type
 quasi-coherent subobject of `F`: it is cartesian on affine charts, hence quasi-coherent by
 Stacks 03DX(2), and finitely generated over affine charts, hence of finite type. -/
@@ -88,6 +89,7 @@ theorem ChartSubmodule.finiteTypeQuasicoherentSubobjectProperty_mk
   exact ⟨h1, h2⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf-of-modules API on the small étale ringed site of `X` is deep
 /-- **Stacks 0829, the colimit assertion.**  Let `X` be a quasi-compact and quasi-separated
 algebraic space over a scheme `S` and let `F` be a quasi-coherent `𝒪_X`-module.  Then `F` is the
 colimit of the canonical diagram of its finite type quasi-coherent submodules.
@@ -103,7 +105,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_qcqs
     (F : Modules.{u, u} B S hS X hX) [F.IsQuasicoherentOnSite] :
     Nonempty (IsColimit (finiteTypeQuasicoherentSubobjectCocone B S hS X hX F)) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   have _ : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

@@ -669,7 +669,8 @@ underlying scheme is **affine**.
 
 The proof of `AlgebraicGeometry.Stack.exists_isClosed_smoothChart_of_isFiniteTypePoint` run at
 the given chart rather than at one chosen for the occasion, and with the affine form of
-**Stacks 06EH** (`AlgebraicGeometry.Space.isFiniteTypePoint_iff_exists_isAffine_isClosed_etaleChart`)
+**Stacks 06EH**
+(`AlgebraicGeometry.Space.isFiniteTypePoint_iff_exists_isAffine_isClosed_etaleChart`)
 in place of the general one: the chart it produces is then an **affine** scheme étale over `U₀`,
 so it is quasi-compact and locally of finite type over `U₀`, and **Stacks 04T7**
 (`AlgebraicGeometry.Scheme.size_le_of_locallyOfFiniteType`) bounds its size by that of `U₀`. The

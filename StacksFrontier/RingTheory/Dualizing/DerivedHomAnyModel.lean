@@ -224,9 +224,9 @@ theorem restrictScalarsDerived_adj_derivedHom (f : A →+* B) :
     have hn : LG.map (Q'.map t.hom) ≫ α.app M = α.app t.left ≫ (G ⋙ Q).map t.hom := by
       simpa [LG, Q', α, G, Q, Functor.comp_map] using
         G₀.mapDerivedCategoryFactorsh.hom.naturality t.hom
-    show LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
+    change LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
     simp [reassoc_of% hn]
-  show Nonempty (LG ⊣ RF)
+  change Nonempty (LG ⊣ RF)
   obtain ⟨adjDerived, _, _⟩ :=
     CategoryTheory.Adjunction.exists_derived_of_isRightDerivedValueAt_of_isLeftDerivedValueAt
       adj W W' Q Q' RF β LG α hRF hLG

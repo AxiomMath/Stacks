@@ -183,7 +183,7 @@ private theorem ranBaseChange_op_fac {C₁ : Type u₁} {C₂ : Type u₂} {C₃
     (F : C₂ᵒᵖ ⥤ A) (X : C₁) :
     (w.op.ranBaseChange.app F).app (Opposite.op (L.obj X)) ≫
         (L.op.ranCounit.app (T'.op ⋙ F)).app (Opposite.op X) =
-      (R.op.ran.obj F).map (w.natTrans.app X).op ≫
+      (R.op.ran.obj F).map (w.app X).op ≫
         (R.op.ranCounit.app F).app (Opposite.op (T'.obj X)) :=
   Stacks.SheafOfModules.ranBaseChange_fac w.op F (Opposite.op X)
 
@@ -201,8 +201,8 @@ theorem ranBaseChange_transition_paste (wn : TwoSquare rn ιn dn Q) (wm : TwoSqu
         (ιm.op.ranCounit.app (uφ.op ⋙ rn.op ⋙ G)).app (Opposite.op c) =
       (ιn.op.ran.obj (rn.op ⋙ G)).map (κ'.app c).op ≫
         (ιn.op.ranCounit.app (rn.op ⋙ G)).app (Opposite.op (uφ.obj c)))
-    (hgeo : ∀ c : Cm, wn.natTrans.app (uφ.obj c) ≫ Q.map (κ'.app c) =
-      dn.map (ρ.hom.app c) ≫ κ.natTrans.app (rm.obj c) ≫ wm.natTrans.app c) (c : Cm) :
+    (hgeo : ∀ c : Cm, wn.app (uφ.obj c) ≫ Q.map (κ'.app c) =
+      dn.map (ρ.hom.app c) ≫ κ.app (rm.obj c) ≫ wm.app c) (c : Cm) :
     (wn.op.ranBaseChange.app G).app (Opposite.op (ιm.obj c)) ≫ τ'.app (Opposite.op (ιm.obj c)) ≫
         (ιm.op.ranCounit.app (uφ.op ⋙ rn.op ⋙ G)).app (Opposite.op c) =
       (κ.op.ranBaseChange.app G).app (Opposite.op (Q.obj (ιm.obj c))) ≫
@@ -212,7 +212,7 @@ theorem ranBaseChange_transition_paste (wn : TwoSquare rn ιn dn Q) (wm : TwoSqu
   have n1 := (wn.op.ranBaseChange.app G).naturality (κ'.app c).op
   have f1 := ranBaseChange_op_fac wn G (uφ.obj c)
   have f2 := ranBaseChange_op_fac wm (bc.op ⋙ G) c
-  have n2 := (κ.op.ranBaseChange.app G).naturality (wm.natTrans.app c).op
+  have n2 := (κ.op.ranBaseChange.app G).naturality (wm.app c).op
   have f3 := ranBaseChange_op_fac κ G (rm.obj c)
   have n3 := (dn.op.ranCounit.app G).naturality (ρ.hom.app c).op
   dsimp only [Functor.comp_obj, Functor.whiskeringLeft_obj_obj, Functor.op_obj, Functor.id_obj,
@@ -234,8 +234,8 @@ theorem ranBaseChange_augmentation_paste {Zc : Type u₁} {K : Type u₂} [Categ
     (Sm : TwoSquare pbm dcm dm pa) (Sn : TwoSquare pbn dcn dn pa) (κ : TwoSquare bc dm dn (𝟭 U))
     (G : Xnᵒᵖ ⥤ A) (V : Zc) {Y : Xn} (gm : Y ⟶ bc.obj (pbm.obj V)) (gn : Y ⟶ pbn.obj V)
     (ε : dcn.obj V ⟶ dcm.obj V)
-    (hgeo : dn.map gn ≫ Sn.natTrans.app V ≫ pa.map ε =
-      dn.map gm ≫ κ.natTrans.app (pbm.obj V) ≫ Sm.natTrans.app V) :
+    (hgeo : dn.map gn ≫ Sn.app V ≫ pa.map ε =
+      dn.map gm ≫ κ.app (pbm.obj V) ≫ Sm.app V) :
     (κ.op.ranBaseChange.app G).app (Opposite.op (pa.obj (dcm.obj V))) ≫
         (Sm.op.ranBaseChange.app (bc.op ⋙ G)).app (Opposite.op (dcm.obj V)) ≫
         (dcm.op.ranCounit.app (pbm.op ⋙ bc.op ⋙ G)).app (Opposite.op V) ≫ G.map gm.op =
@@ -243,7 +243,7 @@ theorem ranBaseChange_augmentation_paste {Zc : Type u₁} {K : Type u₂} [Categ
         (Sn.op.ranBaseChange.app G).app (Opposite.op (dcn.obj V)) ≫
         (dcn.op.ranCounit.app (pbn.op ⋙ G)).app (Opposite.op V) ≫ G.map gn.op := by
   have f2 := ranBaseChange_op_fac Sm (bc.op ⋙ G) V
-  have n2 := (κ.op.ranBaseChange.app G).naturality (Sm.natTrans.app V).op
+  have n2 := (κ.op.ranBaseChange.app G).naturality (Sm.app V).op
   have f3 := ranBaseChange_op_fac κ G (pbm.obj V)
   have n3 := (dn.op.ranCounit.app G).naturality gm.op
   have f1 := ranBaseChange_op_fac Sn G V
@@ -319,16 +319,16 @@ transition: both composites `(n, realize_n(u_φ c)) ⟶ (m, realize_m c)` are th
 iterated base change, over `X(φ)`. -/
 theorem componentRealizeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶ n)
     (c : (strictSituation X).component m) :
-    (componentRealizeSquare X n).natTrans.app ((componentStrictTransition X φ).obj c) ≫
+    (componentRealizeSquare X n).app ((componentStrictTransition X φ).obj c) ≫
         (componentTotalComparison X).map
           ((SimplicialSiteSituation.continuousInclusionTransition (strictSimplicialSite X) φ).app
             c) =
       (degreeInclusion X n).map ((componentStrictTransitionRealizeIso X φ).hom.app c) ≫
-        (degreeTransitionSquare X φ).natTrans.app ((componentRealize X m).obj c) ≫
-        (componentRealizeSquare X m).natTrans.app c := by
+        (degreeTransitionSquare X φ).app ((componentRealize X m).obj c) ≫
+        (componentRealizeSquare X m).app c := by
   refine Hom.ext ?_ ?_
   · rfl
-  · show 𝟙 _ ≫ (𝟙 _ ≫ StrictObj.transitionProj φ c) =
+  · change 𝟙 _ ≫ (𝟙 _ ≫ StrictObj.transitionProj φ c) =
       (StrictObj.transitionRealizeIso φ c).hom.hom.left ≫
         (pullback.fst (c.realize.1.hom) (X.map φ.op) ≫ 𝟙 _)
     rw [Category.id_comp, Category.id_comp]
@@ -409,6 +409,7 @@ theorem constDegreePushforwardIso_hom_app (k : SimplexCategory)
   exact Category.id_comp _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for right Kan extensions (`ran`) over the small étale sites of each degree
 /-- **The comparison `a ∘ d_k ≅ a_k` on sections over `V/Z`**: projection to the degree-`k` object
 `V`, base change of right Kan extensions along the degree square, projection to `V` again, and the
 identification of the base changes along `a_k`. -/
@@ -516,7 +517,7 @@ composites `(n, V ×_Z X_n) ⟶ (m, V ×_Z X_m)` are the map of fibre products o
 theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶ n)
     (V : SpacesEtale B S hS Z) :
     (degreeInclusion X n).map ((spacesBaseChangeIso a n).hom.app V) ≫
-        (degreeExchangeSquare a n).natTrans.app V ≫
+        (degreeExchangeSquare a n).app V ≫
         (pullbackFunctor a).map (constDegreeTransitionHom Z φ V) =
       (degreeInclusion X n).map
           (eqToHom (congrArg (fun t ↦ (spacesBaseChange B S hS t).functor.obj V)
@@ -524,8 +525,8 @@ theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶
           (spacesBaseChange_comp B S hS (X.map φ.op) (a.app (op m))).inv.app V ≫
           (spacesBaseChange B S hS (X.map φ.op)).functor.map
             ((spacesBaseChangeIso a m).hom.app V)) ≫
-        (degreeTransitionSquare X φ).natTrans.app ((degreePullback a m).obj V) ≫
-        (degreeExchangeSquare a m).natTrans.app V := by
+        (degreeTransitionSquare X φ).app ((degreePullback a m).obj V) ≫
+        (degreeExchangeSquare a m).app V := by
   refine Hom.ext ?_ ?_
   · rfl
   · simp only [comp_hom, degreeInclusion_map_hom]
@@ -537,7 +538,7 @@ theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶
     have hc := spacesBaseChange_comp_inv_app_hom_left_fst_fst (X.map φ.op) (a.app (op m)) V
     have he := spacesBaseChange_eqToHom_hom_left_fst (augmentation_map_comp_app a φ).symm V
     apply pullback.hom_ext
-    · show (𝟙 _ ≫ 𝟙 _ ≫ ((pullbackFunctor a).map (constDegreeTransitionHom Z φ V)).hom) ≫
+    · change (𝟙 _ ≫ 𝟙 _ ≫ ((pullbackFunctor a).map (constDegreeTransitionHom Z φ V)).hom) ≫
           pullback.fst V.1.hom (a.app (op m)) =
         ((eqToHom (congrArg (fun t ↦ (spacesBaseChange B S hS t).functor.obj V)
             (augmentation_map_comp_app a φ).symm)).hom.left ≫
@@ -559,7 +560,7 @@ theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶
         simp only [Category.assoc]
         rw [reassoc_of% hfst, hc, he]
       exact ((Category.id_comp _).trans (Category.id_comp _) =≫ _).trans (hA.trans hR.symm)
-    · show (𝟙 _ ≫ 𝟙 _ ≫ ((pullbackFunctor a).map (constDegreeTransitionHom Z φ V)).hom) ≫
+    · change (𝟙 _ ≫ 𝟙 _ ≫ ((pullbackFunctor a).map (constDegreeTransitionHom Z φ V)).hom) ≫
           pullback.snd V.1.hom (a.app (op m)) =
         ((eqToHom (congrArg (fun t ↦ (spacesBaseChange B S hS t).functor.obj V)
             (augmentation_map_comp_app a φ).symm) ≫
@@ -589,6 +590,7 @@ theorem degreeExchangeSquare_comp_transition {m n : SimplexCategory} (φ : m ⟶
       exact ((Category.id_comp _).trans (Category.id_comp _) =≫ _).trans (hA.trans hR.symm)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for right Kan extensions (`ran`) over the small étale sites of each degree
 /-- **The augmentation through the degree transition**, in the direction of the direct images:
 `a ∘ d_n ≅ a_n` is `a_*τ_φ` followed by `a ∘ d_m ≅ a_m` and `a_m ∘ X(φ) ≅ a_n`. -/
 theorem augmentation_map_degreeTransition_comp {m n : SimplexCategory} (φ : m ⟶ n)
@@ -632,7 +634,7 @@ theorem augmentation_map_degreeTransition_comp {m n : SimplexCategory} (φ : m �
   have nc := ((constForget Z).op.ranCounit.app
     ((pullbackFunctor a).op ⋙ (degreeInclusion X n).op.ran.obj G.obj)).naturality
     (constDegreeTransitionHom Z φ V.unop).op
-  show ((constForget Z).op.ran.map
+  change ((constForget Z).op.ran.map
       (Functor.whiskerLeft (pullbackFunctor a).op ((degreeTransition X φ).app G).hom)).app V ≫
       ((augmentationDegreeTwoIso a m).e.hom.app
         ((spacesEtaleRingedToposHom (X.map φ.op)).toToposHom.pushforward.obj G)).hom.app V ≫
@@ -648,7 +650,7 @@ theorem augmentation_map_degreeTransition_comp {m n : SimplexCategory} (φ : m �
         ((pullbackFunctor a).map (constDegreeTransitionHom Z φ V.unop)).op := by
     refine Eq.trans ?_ nc
     refine (Category.id_comp _).symm.trans (congrArg (· ≫ _) ?_)
-    show 𝟙 _ = (((constForget Z).op.ran.obj
+    change 𝟙 _ = (((constForget Z).op.ran.obj
       ((pullbackFunctor a).op ⋙ (degreeInclusion X n).op.ran.obj G.obj)).map
         ((constForget Z).map (constDegreeTransitionHom Z φ V.unop)).op)
     rw [constForget_map_constDegreeTransitionHom]
@@ -679,7 +681,7 @@ theorem augmentation_map_degreeTransition_comp {m n : SimplexCategory} (φ : m �
     rw [op_comp, op_comp, G.obj.map_comp, G.obj.map_comp]
     exact (Category.assoc _ _ _).symm
   rw [nc']
-  show (((constForget Z).op.ran.map
+  change (((constForget Z).op.ran.map
         (Functor.whiskerLeft (pullbackFunctor a).op ((degreeTransition X φ).app G).hom)).app V ≫
       ((constForget Z).op.ranCounit.app
         ((pullbackFunctor a).op ⋙ (degreeInclusion X m).op.ran.obj

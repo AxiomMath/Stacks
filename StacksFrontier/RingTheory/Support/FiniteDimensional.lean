@@ -139,7 +139,7 @@ private theorem finiteDimensional_compHom_iff_isFiniteLength
     rw [isFiniteLength_iff_isNoetherian_isArtinian]
     exact ⟨isNoetherian_of_tower k inferInstance, isArtinian_of_tower k inferInstance⟩
   · intro h
-    show Module.Finite k M
+    change Module.Finite k M
     induction h with
     | of_subsingleton => exact Module.Finite.of_finite
     | @of_simple_quotient N _ _ Q _ _ ih =>

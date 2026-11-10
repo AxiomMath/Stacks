@@ -218,7 +218,7 @@ theorem artinianLocalAlgOverMap_comp
       artinianLocalAlgOverMap B S hS sMap hA hD (f ≫ g) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫
       Spec.map (CommRingCat.ofHom f.hom.toRingHom) =
     Spec.map (CommRingCat.ofHom (f ≫ g).hom.toRingHom)
   rw [← Spec.map_comp]
@@ -233,7 +233,7 @@ theorem artinianLocalAlgOverMap_id
     artinianLocalAlgOverMap B S hS sMap hA hA (𝟙 A) = 𝟙 _ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (𝟙 _) = 𝟙 _
+  change Spec.map (𝟙 _) = 𝟙 _
   simp
 
 noncomputable def artinianLocalAlgOverIsoOfEq
@@ -329,7 +329,7 @@ private theorem fiberSquareComparison_iso_fac
     Functor.Fiber.fiberInclusion.map
         ((Deformation.Artin.fiberSquareComparison p c f g i j h).obj z).iso.hom ≫
       c.map g (c.obj j z) ≫ c.map j z = c.map f (c.obj i z) ≫ c.map i z := by
-  show Functor.Fiber.fiberInclusion.map
+  change Functor.Fiber.fiberInclusion.map
     ((c.objCompIso f i z).inv ≫
       (eqToHom (congrArg c.pullbackFunctor h)).app z ≫ (c.objCompIso g j z).hom) ≫
         c.map g (c.obj j z) ≫ c.map j z = _

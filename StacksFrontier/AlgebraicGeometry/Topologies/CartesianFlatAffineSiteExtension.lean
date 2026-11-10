@@ -58,8 +58,7 @@ private theorem restrictionBaseChange_lTensor_app
     ∀ z, θN (φX.lTensor (R.obj Y) z) = φ.app Y (θM z) := by
   let : Algebra (R.obj X) (R.obj Y) := (R.map f).hom.toAlgebra
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => erw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => erw [map_add, map_add, map_add, map_add, hz, hz']
   | tmul b k =>
     rw [LinearMap.lTensor_tmul]
@@ -102,8 +101,7 @@ theorem isIso_restrictionBaseChange_of_split
       ∃ (zK : TensorProduct (R.obj X) (R.obj Y) (K.obj X)) (b : R.obj Y),
         z = ιX.lTensor (R.obj Y) zK + b ⊗ₜ ε := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, 0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       obtain ⟨zK, b, rfl⟩ := hz
       obtain ⟨zK', b', rfl⟩ := hz'
@@ -119,7 +117,7 @@ theorem isIso_restrictionBaseChange_of_split
     intro zK b
     rw [map_add, nι, hθε, map_add, hπι, map_smul, hεY', smul_eq_mul, mul_one, zero_add]
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective θ
+  change Function.Bijective θ
   constructor
   · rw [injective_iff_map_eq_zero]
     intro z hz0
@@ -166,7 +164,7 @@ theorem isIso_restrictionBaseChange_of_shortExact
   have hlsurj : Function.Surjective (φX.lTensor (R.obj Y)) :=
     LinearMap.lTensor_surjective (R.obj Y) (hφ X)
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective θ
+  change Function.Bijective θ
   constructor
   · rw [injective_iff_map_eq_zero]
     intro z hz0
@@ -194,12 +192,12 @@ sections over `Z` of the pullback of `g` along the map `𝒪 ⟶ G` given by the
 def liftSubmodule (Z : Dᵒᵖ) : Submodule (R.obj Z) (E.obj Z × R.obj Z) where
   carrier := {p | g.app Z p.1 = p.2 • σ Z}
   add_mem' {p q} hp hq := by
-    simp only [Set.mem_setOf_eq] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq] at hp hq ⊢
     rw [Prod.fst_add, Prod.snd_add, map_add, hp, hq, add_smul]
   zero_mem' := by
-    simp only [Set.mem_setOf_eq, Prod.fst_zero, Prod.snd_zero, map_zero, zero_smul]
+    simp only [Set.mem_ofPred_eq, Prod.fst_zero, Prod.snd_zero, map_zero, zero_smul]
   smul_mem' c p hp := by
-    simp only [Set.mem_setOf_eq] at hp ⊢
+    simp only [Set.mem_ofPred_eq] at hp ⊢
     rw [Prod.smul_fst, Prod.smul_snd, map_smul, hp, smul_smul, smul_eq_mul]
 
 include hσ in
@@ -207,7 +205,7 @@ include hσ in
 `liftSubmodule g σ Z'`. -/
 theorem liftSubmodule_map {Z Z' : Dᵒᵖ} (f : Z ⟶ Z') (p : liftSubmodule g σ Z) :
     (E.map f p.1.1, R.map f p.1.2) ∈ liftSubmodule g σ Z' := by
-  show g.app Z' (E.map f p.1.1) = (R.map f p.1.2) • σ Z'
+  change g.app Z' (E.map f p.1.1) = (R.map f p.1.2) • σ Z'
   rw [PresheafOfModules.naturality_apply, show g.app Z p.1.1 = p.1.2 • σ Z from p.2,
     PresheafOfModules.map_smul, hσ]
   rfl

@@ -170,9 +170,9 @@ private lemma sheafSquare_mate
     (α : G ⋙ M ⟶ L ⋙ H) :
     (mateEquiv (b.sheafPushforwardContinuous J' K')
       (a.sheafPushforwardContinuous J K)
-      (TwoSquare.mk _ _ _ _ (sheafSquare (A := A) J K J' K' α))).natTrans =
+      (TwoSquare.mk _ _ _ _ (sheafSquare (A := A) J K J' K' α))) =
     sheafSquare K K' J J'
-      (mateEquiv a b (TwoSquare.mk _ _ _ _ α)).natTrans := by
+      (mateEquiv a b (TwoSquare.mk _ _ _ _ α)) := by
   ext P X
   simp [mateEquiv, sheafSquare]
   rfl
@@ -188,7 +188,7 @@ private lemma isIso_iterated_mate_symm
     {H : D ⥤ F} {V : F ⥤ D} (aH : H ⊣ V)
     (γ : V ⋙ R ≅ R' ⋙ U) :
     IsIso ((mateEquiv adj adj').symm
-      ((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom))).natTrans := by
+      ((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom))) := by
   rw [iterated_mateEquiv_conjugateEquiv_symm adj adj' aG aH (TwoSquare.mk _ _ _ _ γ.hom)]
   change IsIso ((conjugateEquiv (adj.comp aH) (aG.comp adj')).symm γ.hom)
   infer_instance
@@ -202,7 +202,7 @@ private lemma isIso_local_counit
     {H : D ⥤ F} {V : F ⥤ D} (aH : H ⊣ V)
     (γ : V ⋙ R ≅ R' ⋙ U)
     [IsIso adj'.counit]
-    (hmate : IsIso (((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)).natTrans)) :
+    (hmate : IsIso (((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)))) :
     ∀ Y, IsIso (H.map (adj.counit.app Y)) := by
   let α := (mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)
   let β := (mateEquiv adj adj').symm α
@@ -227,12 +227,12 @@ private lemma isIso_local_unit_counit
     {H : D ⥤ F} {V : F ⥤ D} (aH : H ⊣ V)
     (γ : V ⋙ R ≅ R' ⋙ U)
     [R'.IsEquivalence]
-    (hmate : IsIso (((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)).natTrans)) :
+    (hmate : IsIso (((mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)))) :
     (∀ X, IsIso (G.map (adj.unit.app X))) ∧
       (∀ Y, IsIso (H.map (adj.counit.app Y))) := by
   let α := (mateEquiv aH aG).symm (TwoSquare.mk _ _ _ _ γ.hom)
   let β := (mateEquiv adj adj').symm α
-  have : IsIso α.natTrans := hmate
+  have : IsIso α := hmate
   refine ⟨fun X ↦ ?_, isIso_local_counit adj adj' aG aH γ hmate⟩
   have : IsIso (β.app X) :=
     (NatTrans.isIso_iff_isIso_app _).mp (isIso_iterated_mate_symm adj adj' aG aH γ) _
@@ -1027,7 +1027,7 @@ private lemma pullback_lift_isPullback_of_right
     (s := ?_) (p := ?_) (t := (IsPullback.of_hasPullback g f).flip)
   · simpa only [pullback.lift_snd, h] using
       (IsPullback.of_hasPullback g' f).flip
-  · simp [pullback.lift_fst]
+  · simp
 
 private lemma jointlySurjective_iff_of_isPullback
     {X Y : Scheme.{u}} (f : X ⟶ Y) [Surjective f]
@@ -1313,8 +1313,7 @@ private noncomputable def smallProetaleBaseChangeSquare
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply pullback.hom_ext <;>
-      simp [smallProetaleMap, smallProetaleBaseChange, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [smallProetaleMap, smallProetaleBaseChange]
 
 /-- A morphism of the small pro-étale site is an isomorphism if its underlying morphism of schemes
 is. -/
@@ -1381,12 +1380,12 @@ private lemma smallProetaleBaseChangeSquare_mate_isIso
     (hw : k ≫ g = h ≫ f) :
     IsIso (mateEquiv (smallProetaleMapPullbackAdjunction B g)
       (smallProetaleMapPullbackAdjunction B h)
-      (TwoSquare.mk _ _ _ _ (smallProetaleBaseChangeSquare B k h g f hw))).natTrans := by
+      (TwoSquare.mk _ _ _ _ (smallProetaleBaseChangeSquare B k h g f hw))) := by
   apply (NatTrans.isIso_iff_isIso_app _).mpr
   intro W
   let δ := (mateEquiv (smallProetaleMapPullbackAdjunction B g)
       (smallProetaleMapPullbackAdjunction B h)
-      (TwoSquare.mk _ _ _ _ (smallProetaleBaseChangeSquare B k h g f hw))).natTrans.app W
+      (TwoSquare.mk _ _ _ _ (smallProetaleBaseChangeSquare B k h g f hw))).app W
   let e := pullbackLeftPullbackSndIso W.obj.hom g k ≪≫
     pullback.congrHom rfl hw ≪≫ (pullbackLeftPullbackSndIso W.obj.hom f h).symm
   have he : δ.hom.left = e.hom := by
@@ -1396,11 +1395,10 @@ private lemma smallProetaleBaseChangeSquare_mate_isIso
     · apply pullback.hom_ext <;>
         simp [smallProetaleMap, smallProetaleBaseChange,
           smallProetaleBaseChangeSquare, smallProetaleMapPullbackAdjunction_unit,
-          smallProetaleMapPullbackAdjunction_counit, pullback.lift_fst, pullback.lift_snd,
-          pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+          smallProetaleMapPullbackAdjunction_counit]
     · simp [smallProetaleMap, smallProetaleBaseChange,
         smallProetaleBaseChangeSquare, smallProetaleMapPullbackAdjunction_unit,
-        smallProetaleMapPullbackAdjunction_counit, pullback.lift_snd]
+        smallProetaleMapPullbackAdjunction_counit]
   have hi : IsIso δ.hom.left := by
     rw [he]
     exact ⟨⟨e.inv, e.hom_inv_id, e.inv_hom_id⟩⟩
@@ -1437,7 +1435,7 @@ private lemma smallProetale_restrict_of_isPullback
   let σ := sheafSquare (A := Type (u + 1)) JU JS JV JT α
   have : IsIso σ := sheafSquare_isIso JU JS JV JT α
   let τ := (mateEquiv (b.sheafPushforwardContinuous JV JT)
-    (a.sheafPushforwardContinuous JU JS) (TwoSquare.mk _ _ _ _ σ)).natTrans
+    (a.sheafPushforwardContinuous JU JS) (TwoSquare.mk _ _ _ _ σ))
   have : IsIso τ := by
     dsimp only [τ, σ]
     rw [sheafSquare_mate]
@@ -1446,11 +1444,11 @@ private lemma smallProetale_restrict_of_isPullback
   let γ := asIso τ
   have hmate : IsIso (((mateEquiv (b.sheafPushforwardContinuous JV JT)
       (a.sheafPushforwardContinuous JU JS)).symm
-        (TwoSquare.mk _ _ _ _ γ.hom)).natTrans) := by
+        (TwoSquare.mk _ _ _ _ γ.hom))) := by
     change IsIso (((mateEquiv (b.sheafPushforwardContinuous JV JT)
       (a.sheafPushforwardContinuous JU JS)).symm
         ((mateEquiv (b.sheafPushforwardContinuous JV JT)
-          (a.sheafPushforwardContinuous JU JS)) (TwoSquare.mk _ _ _ _ σ))).natTrans)
+          (a.sheafPushforwardContinuous JU JS)) (TwoSquare.mk _ _ _ _ σ))))
     rw [Equiv.symm_apply_apply]
     exact inferInstanceAs (IsIso σ)
   exact ⟨fun _ ↦ isIso_local_unit_counit (smallProetaleMorphism B T S f).adj

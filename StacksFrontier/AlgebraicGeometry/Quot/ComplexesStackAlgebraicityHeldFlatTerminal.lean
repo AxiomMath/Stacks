@@ -170,7 +170,7 @@ theorem isAlgebraicStack_complexes_of_held_of_adjoinDescent_of_terminalVersality
               let hS2 := schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F
@@ -314,7 +314,7 @@ theorem isAlgebraicStack_complexes_of_held_of_adjoinDescent_of_terminalVersality
     · intro s
       obtain ⟨W, hW, hsW, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (Set.mem_univ s)
       refine ⟨⟨W, hW⟩, ?_⟩
-      show s ∈ Set.range hW.fromSpec
+      change s ∈ Set.range hW.fromSpec
       rwa [IsAffineOpen.range_fromSpec]
     · intro V
       let g' : (schemeSpaceFunctor B T hT).obj (U V) ⟶ D'.Y := hY.from _

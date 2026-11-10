@@ -72,7 +72,7 @@ def hilb (d : ℕ) : Over S :=
 
 /-- The inclusion of a piece. -/
 def ιH (d : ℕ) (τ : Option (Fin (d + 1))) : component W z d τ ⟶ hilb W z d :=
-  Over.homMk (Sigma.ι (fun τ ↦ (component W z d τ).left) τ) (Sigma.ι_desc _ _)
+  Over.homMk (Sigma.ι (fun τ ↦ (component W z d τ).left) τ) (Sigma.ι_comp_desc _ _)
 
 /-- The inclusion of a piece into the Hilbert scheme is an open immersion. -/
 instance (d : ℕ) (τ : Option (Fin (d + 1))) : IsOpenImmersion (ιH W z d τ).left :=

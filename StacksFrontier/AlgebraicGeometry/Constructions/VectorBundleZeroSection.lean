@@ -143,7 +143,7 @@ lemma structureSheafHom_comp_symmetricAlgebraRingAugmentation :
     (symmetricAlgebra S E).toPresheafGradedAlgebra.structureSheafHom
           (Opens.grothendieckTopology (S : TopCat)) ≫
         (symmetricAlgebraRingAugmentation S E).hom = 𝟙 S.ringCatSheaf.obj := by
-  show (symmetricAlgebra S E).toPresheafGradedAlgebra.structureHom ≫
+  change (symmetricAlgebra S E).toPresheafGradedAlgebra.structureHom ≫
       (symmetricAlgebra S E).toPresheafGradedAlgebra.toTotalSheaf
           (Opens.grothendieckTopology (S : TopCat)) ≫
         (symmetricAlgebraRingAugmentation S E).hom = _

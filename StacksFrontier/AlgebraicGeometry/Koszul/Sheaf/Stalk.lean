@@ -6,8 +6,9 @@ public import StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.SheafCondition
 /-!
 # The stalks of the Koszul complex on a family of sections
 
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.KoszulStalk` develops the stalk theory of the Koszul
-complex of a family of global sections `f₁, …, f_r` of the structure sheaf of a ringed space `X`,
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.KoszulStalk` develops the stalk theory of the
+Koszul complex of a family of global sections `f₁, …, f_r` of the structure sheaf of a ringed space
+`X`,
 for an arbitrary *presentation* of that complex: a family of presheaves of modules `E n` together
 with a sectionwise identification `ξ` of `E n` with the exterior powers of `O_X(U)^r`, the exterior
 products `b` of the free generators, and a differential `D` which under `ξ` is the ring-level

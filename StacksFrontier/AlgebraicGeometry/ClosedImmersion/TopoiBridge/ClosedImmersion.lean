@@ -119,7 +119,7 @@ theorem structureSheafHom_isLocallySurjective
     Sheaf.IsLocallySurjective (RingedSpaceModuleAdjunction.structureSheafHom i) := by
   have h : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier) i.hom.c := hi
   rw [Presheaf.isLocallySurjective_iff_whisker_forget] at h
-  show Presheaf.IsLocallySurjective _ _
+  change Presheaf.IsLocallySurjective _ _
   rw [Presheaf.isLocallySurjective_iff_whisker_forget]
   exact h
 

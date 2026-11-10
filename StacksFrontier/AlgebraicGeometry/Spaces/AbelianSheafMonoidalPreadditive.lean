@@ -65,7 +65,8 @@ file closes the first of the three and nothing else. Still missing, and still bl
   `CochainComplex.KFlatBifunctor.exists_kFlat_resolution_of_equivalence`
   (`StacksFrontier/Homology/KFlat/BifunctorTransportEquivalence.lean`), and an equivalence to
   transport along: `Stacks.Cohomology.Leray.abelianSheafIntModulesEquivalence`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/AbelianSheafAsIntModules.lean`) presents `AbelianSheaf X`
+  (`StacksFrontier/AlgebraicGeometry/Spaces/AbelianSheafAsIntModules.lean`) presents
+  `AbelianSheaf X`
   as the modules over the constant sheaf of rings `ℤ` on the site of opens, which is a ringed
   site, and K-flat resolutions *are* available there, unconditionally, by [Stacks, Tag 06YS]. One
   gap stops that from closing: the equivalence is not known to carry the tensor product of

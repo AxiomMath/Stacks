@@ -140,9 +140,10 @@ private theorem span_invariants_eq_top_of_smooth {V : Type*} [AddCommGroup V] [M
   rwa [hE (s 1) (hs 1)] at hz
 
 /-- Entrywise application of the Galois action to a fixed vector is locally constant. -/
-private theorem isLocallyConstant_galoisEvalPi {n : Type*} [Fintype n] (v : n → L) :
+private theorem isLocallyConstant_galoisEvalPi {n : Type*} [Finite n] (v : n → L) :
     IsLocallyConstant fun σ : Gal(L/K) => (fun i => σ (v i) : n → L) := by
   classical
+  have := Fintype.ofFinite n
   refine isLocallyConstant_of_finset (Finset.univ.image v) fun σ a ha => ?_
   funext i
   rw [AlgEquiv.mul_apply, ha (v i) (Finset.mem_image.2 ⟨i, Finset.mem_univ _, rfl⟩)]
@@ -211,7 +212,7 @@ private theorem exists_eq_mul_map_of_isMulCocycle₁ {n : Type*} [Fintype n] [De
         simp [hUone]
       map_mul' := fun σ τ => by
         refine LinearMap.ext fun v => funext fun i => ?_
-        show ((U (σ * τ) : Matrix n n L) *ᵥ fun j => σ (τ (v j))) i =
+        change ((U (σ * τ) : Matrix n n L) *ᵥ fun j => σ (τ (v j))) i =
           ((U σ : Matrix n n L) *ᵥ
             fun j => σ (((U τ : Matrix n n L) *ᵥ fun k => τ (v k)) j)) i
         rw [hU]
@@ -220,10 +221,10 @@ private theorem exists_eq_mul_map_of_isMulCocycle₁ {n : Type*} [Fintype n] [De
           map_sum, map_mul]
         rw [Finset.sum_comm]
         refine Finset.sum_congr rfl fun j _ => Finset.sum_congr rfl fun k _ => ?_
-        show (U σ : Matrix n n L) i j * σ ((U τ : Matrix n n L) j k) * σ (τ (v k)) = _
+        change (U σ : Matrix n n L) i j * σ ((U τ : Matrix n n L) j k) * σ (τ (v k)) = _
         ring }
   have hsemi (σ : Gal(L/K)) (a : L) (v : n → L) : ρ σ (a • v) = σ a • ρ σ v := by
-    show (U σ : Matrix n n L) *ᵥ (fun i => σ (a * v i)) = _
+    change (U σ : Matrix n n L) *ᵥ (fun i => σ (a * v i)) = _
     simp only [map_mul]
     exact Matrix.mulVec_smul (U σ : Matrix n n L) (σ a) fun i => σ (v i)
   have hsmooth (v : n → L) : ∃ E : FiniteGaloisIntermediateField K L,
@@ -244,8 +245,8 @@ private theorem exists_eq_mul_map_of_isMulCocycle₁ {n : Type*} [Fintype n] [De
   have hB (i j : n) : ((Matrix.GeneralLinearGroup.toLin.symm
       (LinearMap.GeneralLinearGroup.ofLinearEquiv b.equivFun.symm) :
         GL n L) : Matrix n n L) i j = b j i := by
-    show Matrix.toLinAlgEquiv'.symm b.equivFun.symm.toLinearMap i j = _
-    show b.equivFun.symm (Pi.single j 1) i = b j i
+    change Matrix.toLinAlgEquiv'.symm b.equivFun.symm.toLinearMap i j = _
+    change b.equivFun.symm (Pi.single j 1) i = b j i
     rw [Module.Basis.equivFun_symm_apply]
     simp [Pi.single_apply, ite_apply]
   refine Matrix.GeneralLinearGroup.ext fun i j => ?_
@@ -314,7 +315,7 @@ private theorem weightedPerm_mul (p q : Equiv.Perm n) (w v : n → Lˣ) :
     weightedPerm p w * weightedPerm q v =
       weightedPerm (p * q) fun j => w (q j) * v j := by
   refine Matrix.GeneralLinearGroup.ext fun i j => ?_
-  show (∑ k, (if i = p k then (w k : L) else 0) *
+  change (∑ k, (if i = p k then (w k : L) else 0) *
     (if k = q j then (v j : L) else 0)) = _
   rw [Finset.sum_eq_single (q j)]
   · by_cases h : i = p (q j) <;> simp [weightedPerm, h, Equiv.Perm.mul_apply]
@@ -328,7 +329,7 @@ private theorem weightedPerm_map {M : Type*} [Field M] (p : Equiv.Perm n) (w : n
     Matrix.GeneralLinearGroup.map σ (weightedPerm p w) =
       weightedPerm p fun j => Units.map σ.toMonoidHom (w j) := by
   refine Matrix.GeneralLinearGroup.ext fun i j => ?_
-  show σ (if i = p j then (w j : L) else 0) = _
+  change σ (if i = p j then (w j : L) else 0) = _
   by_cases h : i = p j <;> simp [weightedPerm, h]
 
 /-- Scalar matrices are central, so a scalar may be pulled out of a product of two factors each
@@ -359,7 +360,7 @@ private theorem scalar_mul_weightedPerm (a : Lˣ) (p : Equiv.Perm n) (w : n → 
     Matrix.GeneralLinearGroup.scalar n a * weightedPerm p w =
       weightedPerm p fun j => a * w j := by
   refine Matrix.GeneralLinearGroup.ext fun i j => ?_
-  show (Matrix.scalar n (a : L) * (weightedPerm p w : Matrix n n L)) i j = _
+  change (Matrix.scalar n (a : L) * (weightedPerm p w : Matrix n n L)) i j = _
   simp only [Matrix.mul_apply, Matrix.scalar]
   by_cases h : i = p j <;> simp [weightedPerm, h]
 
@@ -433,7 +434,7 @@ private theorem pglCocycle_isCohomologous_trivial (d : ℕ) (hd : 0 < d)
     rw [map_mul, Matrix.ProjGenLinGroup.mk_scalar, one_mul, hUmk]
   have h := congrArg Matrix.ProjGenLinGroup.mk (hB σ)
   rw [map_mul, ← Matrix.ProjGenLinGroup.map_mk, hVmk, toRingHom_eq] at h
-  show (1 : PGL(Fin d, Ksep)) = _
+  change (1 : PGL(Fin d, Ksep)) = _
   rw [mul_assoc, h]
   simp
 
@@ -517,7 +518,7 @@ private theorem exists_pglCocycle_connectingMap_eq (c : twoCocycles K Ksep) :
     have hf : (c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ, s (r τ * γ)) =
         (c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ, τ * s γ) :=
       hE σ _ _ (by change r _ = r _; simp [hs])
-    show ((c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ * τ, s γ))⁻¹ =
+    change ((c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ * τ, s γ))⁻¹ =
       (c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ, τ) *
         (((c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (σ, s (r τ * γ)))⁻¹ *
           σ • ((c : Gal(Ksep/K) × Gal(Ksep/K) → Ksepˣ) (τ, s γ))⁻¹)

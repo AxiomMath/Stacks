@@ -17,8 +17,8 @@ Let `S` be a scheme contained in a big fppf site `B` and let `F` be an algebraic
 The category of elements `S_F` of `F`, read as a category fibred in groupoids over the big fppf
 site of `S`, is an algebraic stack, and in fact a Deligne-Mumford stack.
 
-Three of the four clauses are already available: it is fibred in groupoids by construction, it is a stack in
-groupoids because `F` is an fppf sheaf (Stacks 0432,
+Three of the four clauses are already available: it is fibred in groupoids by construction, it is a
+stack in groupoids because `F` is an fppf sheaf (Stacks 0432,
 `AlgebraicGeometry.Stack.isStackInGroupoids_fibredCategory`), and its diagonal is representable
 by algebraic spaces by Stacks 02ZZ
 (`AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_diagonalBasedFunctor`). What is proved

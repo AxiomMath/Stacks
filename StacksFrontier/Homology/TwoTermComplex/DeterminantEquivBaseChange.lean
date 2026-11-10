@@ -52,6 +52,7 @@ theorem injective_baseChange_subtype_ker (f : M →ₗ[R] N) (hf : Function.Surj
   exact Function.LeftInverse.injective (g := p.baseChange S) fun x ↦
     LinearMap.congr_fun hp' x
 
+omit [Module.Projective R N] in
 theorem range_baseChange_subtype_ker (f : M →ₗ[R] N) (hf : Function.Surjective f) :
     LinearMap.range ((LinearMap.ker f).subtype.baseChange S) =
       LinearMap.ker (f.baseChange S) := by
@@ -117,7 +118,7 @@ theorem map_baseChange_exteriorAlgebraBaseChange_symm (f : M →ₗ[R] N) (z : E
   rw [AlgEquiv.apply_symm_apply]
   have := congrArg (fun φ ↦ φ ((ProjectiveDeterminant.exteriorAlgebraBaseChange R S M).symm
     (1 ⊗ₜ[R] z))) (ProjectiveDeterminant.exteriorAlgebraBaseChange_comp_map S f)
-  simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.toAlgHom_eq_coe, AlgEquiv.coe_algHom,
+  simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.coe_toAlgHom,
     AlgEquiv.apply_symm_apply, Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq] at this
   exact this
 
@@ -150,7 +151,7 @@ theorem kernelDeterminantEquiv_baseChange (f : M →ₗ[R] N) (hf : Function.Sur
         rfl),
     ProjectiveDeterminant.coe_baseChangeEquiv_tmul,
     coe_kernelDeterminantEquiv f hf x y z hz]
-  show ExteriorAlgebra.map (LinearMap.ker (f.baseChange S)).subtype
+  change ExteriorAlgebra.map (LinearMap.ker (f.baseChange S)).subtype
       (ExteriorAlgebra.map (kerBaseChangeEquiv S f hf).toLinearMap
         ((ProjectiveDeterminant.exteriorAlgebraBaseChange R S (LinearMap.ker f)).symm
           (1 ⊗ₜ[R] (x : ExteriorAlgebra R (LinearMap.ker f))))) * _ = _
@@ -169,6 +170,8 @@ variable [AddCommGroup L₁] [Module R L₁] [Module.Finite R L₁] [Module.Proj
 variable [AddCommGroup L₀] [Module R L₀] [Module.Finite R L₀] [Module.Projective R L₀]
 variable {d : K₁ →ₗ[R] K₀} {d' : L₁ →ₗ[R] L₀}
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R K₀] [Module.Projective R K₀]
+  [Module.Finite R L₁] [Module.Finite R L₀] in
 /-- The kernel complex of the base change of a degreewise-surjective morphism is the base change
 of its kernel complex. -/
 theorem kernelDifferential_baseChange_comp (a : Hom d d') (ha : a.IsDegreewiseSurjective) :
@@ -177,11 +180,13 @@ theorem kernelDifferential_baseChange_comp (a : Hom d d') (ha : a.IsDegreewiseSu
   apply TensorProduct.AlgebraTensorModule.ext
   intro s x
   apply Subtype.ext
-  show (d.baseChange S) ((LinearMap.ker a.neg).subtype.baseChange S (s ⊗ₜ x)) =
+  change (d.baseChange S) ((LinearMap.ker a.neg).subtype.baseChange S (s ⊗ₜ x)) =
     (LinearMap.ker a.zero).subtype.baseChange S (s ⊗ₜ a.kernelDifferential x)
   simp only [LinearMap.baseChange_tmul]
   rfl
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R K₀] [Module.Projective R K₀]
+  [Module.Finite R L₁] [Module.Finite R L₀] in
 /-- The canonical element of the kernel complex commutes with base change. -/
 theorem delta_kernelDifferential_baseChange (a : Hom d d') (ha : a.IsDegreewiseSurjective)
     [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
@@ -207,7 +212,7 @@ theorem delta_kernelDifferential_baseChange (a : Hom d d') (ha : a.IsDegreewiseS
         (ProjectiveDeterminant.baseChangeEquiv (R := R) (A := S)
           (1 ⊗ₜ[R] delta a.kernelDifferential h x)) := by
   apply Subtype.ext
-  show ExteriorAlgebra.map (a.baseChange S).kernelDifferential
+  change ExteriorAlgebra.map (a.baseChange S).kernelDifferential
       (ExteriorAlgebra.map (kerBaseChangeEquiv S a.neg ha.1).toLinearMap
         ((ProjectiveDeterminant.exteriorAlgebraBaseChange R S (LinearMap.ker a.neg)).symm
           (1 ⊗ₜ[R] (x : ExteriorAlgebra R (LinearMap.ker a.neg))))) =
@@ -249,6 +254,10 @@ variable (a : Hom d d') (ha : a.IsDegreewiseSurjective)
   [Module.Finite S (LinearMap.ker (a.baseChange S).zero)]
   [Module.Projective S (LinearMap.ker (a.baseChange S).zero)]
 
+omit [Module.Finite R K₀] [Module.Projective R K₀] [Module.Finite R L₀] [Module.Projective R L₀]
+  [Module.Finite R (LinearMap.ker a.zero)] [Module.Projective R (LinearMap.ker a.zero)]
+  [Module.Finite S (LinearMap.ker (a.baseChange S).zero)]
+  [Module.Projective S (LinearMap.ker (a.baseChange S).zero)] in
 theorem kernelDeterminantEquiv_neg_baseChange
     (x : ProjectiveDeterminant.module (R := R) (M := LinearMap.ker a.neg))
     (y : ProjectiveDeterminant.module (R := R) (M := L₁)) :
@@ -264,6 +273,10 @@ theorem kernelDeterminantEquiv_neg_baseChange
     ‹Module.Projective S (LinearMap.ker (a.baseChange S).neg)›
   exact kernelDeterminantEquiv_baseChange S a.neg ha.1 ha'.1 x y
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R L₁] [Module.Projective R L₁]
+  [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
+  [Module.Finite S (LinearMap.ker (a.baseChange S).neg)]
+  [Module.Projective S (LinearMap.ker (a.baseChange S).neg)] in
 theorem kernelDeterminantEquiv_zero_baseChange
     (x : ProjectiveDeterminant.module (R := R) (M := LinearMap.ker a.zero))
     (y : ProjectiveDeterminant.module (R := R) (M := L₀)) :
@@ -279,6 +292,8 @@ theorem kernelDeterminantEquiv_zero_baseChange
     ‹Module.Projective S (LinearMap.ker (a.baseChange S).zero)›
   exact kernelDeterminantEquiv_baseChange S a.zero ha.2 ha'.2 x y
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R K₀] [Module.Projective R K₀]
+  [Module.Finite R L₁] [Module.Finite R L₀] in
 theorem delta_kernelDifferential_baseChange'
     (h : IsRankZero a.kernelDifferential) (hS : IsRankZero (a.baseChange S).kernelDifferential)
     (x : ProjectiveDeterminant.module (R := R) (M := LinearMap.ker a.neg)) :
@@ -302,16 +317,18 @@ variable [AddCommGroup K₀] [Module R K₀] [Module.Finite R K₀] [Module.Proj
 variable [AddCommGroup L₁] [Module R L₁] [Module.Finite R L₁] [Module.Projective R L₁]
 variable [AddCommGroup L₀] [Module R L₀] [Module.Finite R L₀] [Module.Projective R L₀]
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R K₀] [Module.Projective R K₀]
+  [Module.Finite R L₁] [Module.Projective R L₁] [Module.Finite R L₀] [Module.Projective R L₀] in
 /-- The base change of a degreewise-surjective morphism is degreewise surjective. -/
 theorem Hom.isDegreewiseSurjective_baseChange {d : K₁ →ₗ[R] K₀} {d' : L₁ →ₗ[R] L₀}
     (a : Hom d d') (ha : a.IsDegreewiseSurjective) :
     (a.baseChange S).IsDegreewiseSurjective := by
   refine ⟨?_, ?_⟩
-  · show Function.Surjective (a.neg.baseChange S)
-    rw [LinearMap.baseChange_eq_ltensor]
+  · change Function.Surjective (a.neg.baseChange S)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective S ha.1
-  · show Function.Surjective (a.zero.baseChange S)
-    rw [LinearMap.baseChange_eq_ltensor]
+  · change Function.Surjective (a.zero.baseChange S)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective S ha.2
 
 variable {d : K₁ →ₗ[R] K₀} {d' : L₁ →ₗ[R] L₀}
@@ -336,7 +353,11 @@ def baseChangeDeterminantEquiv :
       lineBaseChange S d'
 
 omit [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
-  [Module.Finite R (LinearMap.ker a.zero)] [Module.Projective R (LinearMap.ker a.zero)] in
+  [Module.Finite R (LinearMap.ker a.zero)] [Module.Projective R (LinearMap.ker a.zero)]
+  [Module.Finite S (LinearMap.ker (a.baseChange S).neg)]
+  [Module.Projective S (LinearMap.ker (a.baseChange S).neg)]
+  [Module.Finite S (LinearMap.ker (a.baseChange S).zero)]
+  [Module.Projective S (LinearMap.ker (a.baseChange S).zero)] in
 theorem baseChangeDeterminantEquiv_one_tmul (φ₀ : determinantLine d) :
     letI : Module.Finite R (LinearMap.ker a.neg) := kernel_finite a.neg ha.1
     letI : Module.Projective R (LinearMap.ker a.neg) := kernel_projective a.neg ha.1

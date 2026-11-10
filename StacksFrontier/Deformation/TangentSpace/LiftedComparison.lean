@@ -103,10 +103,10 @@ noncomputable def tangentSpaceArtinianLinearEquivUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     [Fact (IsPredeformationCategory 𝓖.p)]
     [Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))] :
     tangentSpaceArtinian.{u, w, w} Λ k (isomorphismClasses 𝓖 h𝓖.cofibered) ≃ₗ[k]
       artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered) :=
   ((associatedTangentSpaceCarrierLinearEquiv.{u, w, w} 𝓖 h𝓖 hS2).symm.trans
@@ -125,19 +125,19 @@ theorem finiteDimensional_tangentSpaceArtinian_of_artinianTangentSpace
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (h : letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
          letI : Fact (SchlessingerConditionS2
-           (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+           (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
          FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     FiniteDimensional k
       (tangentSpaceArtinian.{u, w, w} Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
   let : FiniteDimensional k
     (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := h
   exact (tangentSpaceArtinianLinearEquivUnlifted 𝓖 h𝓖 hS2).symm.finiteDimensional

@@ -93,15 +93,15 @@ public theorem evenPolynomialDifferential_coeff
     (evenPolynomialDifferential 𝒜 dA f x).coeff n =
       dA (x.coeff n) + signRingHom 𝒜 1 (x.coeff (n + 1)) * f := by
   classical
-  show ((Finsupp.lsum R (evenCoefficientDifferential 𝒜 dA f) x.coeff).coeff n) = _
+  change ((Finsupp.lsum R (evenCoefficientDifferential 𝒜 dA f) x.coeff).coeff n) = _
   rw [Finsupp.lsum_apply]
   let c : EvenVariableAlgebra A →+ A :=
     { toFun := fun y => y.coeff n
       map_zero' := by change (0 : ℕ →₀ A) n = 0; simp
       map_add' := by intro y z; change y.coeff n + z.coeff n = _; rfl }
-  show c (x.coeff.sum fun b => evenCoefficientDifferential 𝒜 dA f b) = _
+  change c (x.coeff.sum fun b => evenCoefficientDifferential 𝒜 dA f b) = _
   simp only [Finsupp.sum, map_sum]
-  show (∑ b ∈ x.coeff.support,
+  change (∑ b ∈ x.coeff.support,
     (evenCoefficientDifferential 𝒜 dA f b (x.coeff b)).coeff n) = _
   simp only [evenCoefficientDifferential_coeff]
   rw [Finset.sum_add_distrib,
@@ -191,7 +191,7 @@ theorem evenPolynomialDifferential_dpow_monomial_one
     simp only [mul_one]
     rw [(Nat.cast_commute (C (n - 1)) f).eq.symm]
     rw [← mul_assoc]
-  show evenPolynomialDifferential 𝒜 dA f (δ.dpow n _ ) = _
+  change evenPolynomialDifferential 𝒜 dA f (δ.dpow n _ ) = _
   rw [hdpn, hdpPrev, hleft, hright]
 
 theorem evenPolynomialDifferential_dpow_add

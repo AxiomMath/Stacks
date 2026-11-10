@@ -97,7 +97,7 @@ theorem isOpen_singleDegreeFreePoints
         ((smallEtaleDerivedModulePullback B S hS (chartToSpace B S hS X V)).obj E)
         i r}, Set.range (pointsMap B S hS (yoneda.obj V.1.1.left) V.1.1.hom) := by
     ext x
-    simp only [singleDegreeFreePoints, Set.mem_setOf_eq, Set.mem_iUnion]
+    simp only [singleDegreeFreePoints, Set.mem_ofPred_eq, Set.mem_iUnion]
     exact ⟨fun ⟨V, hx, hV⟩ => ⟨⟨V, hV⟩, hx⟩, fun ⟨V, hx⟩ => ⟨V.1, hx, V.2⟩⟩
   rw [this]
   exact isOpen_iUnion fun V => (isOpenMap_pointsMap_of_etale B S hS X.2 _ _ V.1.2).isOpen_range

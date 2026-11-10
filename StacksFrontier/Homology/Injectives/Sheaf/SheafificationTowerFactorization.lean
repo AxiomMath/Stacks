@@ -115,7 +115,7 @@ private noncomputable def baseEmb : 𝟭 AddCommGrpCat.{u} ⟶ baseFunc where
 private theorem baseInjective_obj (M : AddCommGrpCat.{u}) : Injective (baseFunc.obj M) := by
   have instInjQ : Module.Injective ℤ (AddCircle (1:ℚ)) :=
     Module.Baer.injective (Module.Baer.of_divisible (AddCircle (1:ℚ)))
-  show Injective (AddCommGrpCat.of (CharacterModule (↑M : Type u) → AddCircle (1:ℚ)))
+  change Injective (AddCommGrpCat.of (CharacterModule (↑M : Type u) → AddCircle (1:ℚ)))
   rw [← AddCommGrpCat.injective_as_module_iff]
   exact Module.injective_object_of_injective_module ℤ _
 
@@ -362,9 +362,9 @@ theorem mono_towerIota (β : Ordinal.{u}) {α α' : Set.Iic β} (h : α ≤ α')
   have hle : (towerSucc J).prop ≤ (monomorphisms (AbSheaf J)).inverseImage E := by
     rw [towerSucc, SuccStruct.prop, ofHoms_le_iff]
     intro G0
-    show Mono (E.map (SuccStruct.toSucc _ G0))
+    change Mono (E.map (SuccStruct.toSucc _ G0))
     rw [hE, evaluation_obj_map, SuccStruct.ofNatTrans_toSucc]
-    show Mono ((uNat J).app (G0.obj F))
+    change Mono ((uNat J).app (G0.obj F))
     exact mono_uNat_app J (G0.obj F)
   have := mono_stableOfShape J (↑(Set.Ici (⟨α, leOfHom (homOfLE h)⟩ : Set.Iic α')))
   -- Push the iteration's transfinite-composition structure through `E` and read off
@@ -472,7 +472,7 @@ theorem factor_set_map_through_stage_of_lt_cof
   have hμβ : μ < β := Ordinal.iSup_lt_of_lt_cof hcard hlt
   have hle : ∀ s, (j s).1 ≤ (⟨μ, le_of_lt hμβ⟩ : Set.Iic β) := by
     intro s
-    show ((j s).1 : Ordinal) ≤ μ
+    change ((j s).1 : Ordinal) ≤ μ
     exact Ordinal.le_iSup _ s
   refine ⟨⟨μ, le_of_lt hμβ⟩, hμβ, fun s => T.map (homOfLE (hle s)) (y s), ?_⟩
   funext s
@@ -761,7 +761,7 @@ theorem hom_colimit_of_isCardinalPresentable (G₀ : AbSheaf J)
     refine ⟨orderIsoShrink.{u} K ⟨⟨μ, le_of_lt hμβ⟩, hmem⟩, ?_⟩
     intro k
     have hle : s' k ≤ (⟨⟨μ, le_of_lt hμβ⟩, hmem⟩ : K) := by
-      show ((s' k : Set.Iic β) : Ordinal) ≤ μ
+      change ((s' k : Set.Iic β) : Ordinal) ≤ μ
       exact Ordinal.le_iSup _ k
     calc s k = orderIsoShrink.{u} K (s' k) := by
               rw [hs']; exact ((orderIsoShrink.{u} K).apply_symm_apply (s k)).symm
@@ -774,7 +774,7 @@ theorem hom_colimit_of_isCardinalPresentable (G₀ : AbSheaf J)
     refine ⟨?_, ?_⟩
     · rw [not_isMin_iff]
       refine ⟨⟨0, bot_le.trans (le_refl β)⟩, ?_⟩
-      show (0 : Ordinal) < β
+      change (0 : Ordinal) < β
       obtain ⟨x, hx⟩ := not_isMin_iff.mp hβlim.1
       exact lt_of_le_of_lt (bot_le : (0:Ordinal) ≤ x) hx
     · intro b hb
@@ -824,7 +824,7 @@ theorem exists_ordinal_towerFactorsThrough_single (G₀ : AbSheaf J) :
     (S := PUnit.{u+1}) hcard (fun _ => (hfval ▸ φ))
   refine ⟨α, hα, g PUnit.unit, ?_⟩
   have hgu := congrFun hg PUnit.unit
-  show φ = g PUnit.unit ≫ towerIota J β _ F
+  change φ = g PUnit.unit ≫ towerIota J β _ F
   exact hgu.symm
 
 /-- Let `{G i}_{i : I}` be a set of abelian sheaves on `C`. There is an ordinal `β`, depending

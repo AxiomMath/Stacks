@@ -60,6 +60,7 @@ nothing assumed about the scheme `X`: the coherent modules on `X` form an abelia
 `[HasDerivedCategory (Coh(𝒪_X))]` carried by
 `AlgebraicGeometry.exists_addEquiv_coherentKZero_K0_bounded` would not be known to be
 satisfiable at any scheme at all. -/
+@[instance_reducible]
 def coherentModulesHasDerivedCategory (X : Scheme.{u}) :
     HasDerivedCategory.{u + 1} (Stacks.SheafOfModules.CoherentModules X.ringCatSheaf) :=
   HasDerivedCategory.standard _

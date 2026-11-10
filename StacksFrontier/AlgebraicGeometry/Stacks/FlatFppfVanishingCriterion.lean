@@ -44,8 +44,8 @@ which proves both):
 * `hgen`, the half of **Stacks 0794** which says that the left derived functor of `g_!` is
   computed on the `P`-cellular complexes, read at the single complex of a generator
   `j_{x!} ℤ_x`, and only at the flat objects `x` lying over an affine scheme — the ones the
-  covering family consists of. It is exactly the input that the library's form of Stacks 0H10 (2)(b),
-  `AlgebraicGeometry.Stack.FlatFppf.derivedSectionsRestrictionIso`, carries, for the reason
+  covering family consists of. It is exactly the input that the library's form of Stacks 0H10
+  (2)(b), `AlgebraicGeometry.Stack.FlatFppf.derivedSectionsRestrictionIso`, carries, for the reason
   given there: the resolving class of the construction of `Lg_!` is private to
   `StacksFrontier/Algebra/Homology/DerivedCategory/UnboundedComplexes.lean`.
 * `hglobal`, the comparison of **Stacks 0H10 part (2)(a)** for complexes,

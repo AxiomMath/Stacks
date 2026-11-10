@@ -98,8 +98,8 @@ caveat anywhere in the library is changed by it.**
    `τ^{≤ -1}P ≅ 0` from it is the statement that a bounded-below acyclic complex of finite free
    `A`-modules is contractible — **the same kind of condition on the ring at which the diagonal
    route stalls**, recorded in the module documentation of
-   `StacksFrontier.RingTheory.Dualizing.RelativeUniquenessDuality`.  So after this file what remains of
-   the duality route is neither a count nor freeness; it is that contractibility
+   `StacksFrontier.RingTheory.Dualizing.RelativeUniquenessDuality`.  So after this file what remains
+   of the duality route is neither a count nor freeness; it is that contractibility
    statement, plus the standing hypothesis that `ω` be a dualizing complex for `A`, which the
    source of [stacks 0E2D] does not assume and which is unconditional only over a field.
    **This derivation is prose: it is not formalized here, and no declaration below states any

@@ -1586,7 +1586,7 @@ private theorem smallEtaleLiftFamily_surjective
       _ = (U j).hom (a y) := by
         change (Sigma.ι (fun j => (U j).left) j ≫ p) (a y) = (U j).hom (a y)
         exact congrArg (fun k : (U j).left ⟶ X => k (a y))
-          (Sigma.ι_desc (fun j => (U j).hom) j)
+          (Sigma.ι_comp_desc (fun j => (U j).hom) j)
       _ = i ((V j).hom y) := by
         simpa [Scheme.Hom.comp_apply] using congrArg (fun k => k y) ha
       _ = i z := congrArg i hy)

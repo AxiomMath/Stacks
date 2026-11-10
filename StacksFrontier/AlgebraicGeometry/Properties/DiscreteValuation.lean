@@ -57,7 +57,7 @@ private lemma residueFieldMap_surjective {X Y : Scheme.{u}} (f : X ⟶ Y)
   obtain ⟨b, rfl⟩ := IsLocalRing.residue_surjective a
   obtain ⟨c, hc⟩ := f.stalkMap_surjective z b
   refine ⟨IsLocalRing.residue (Y.presheaf.stalk (f z)) c, ?_⟩
-  show (IsLocalRing.ResidueField.map (f.stalkMap z).hom) _ = _
+  change (IsLocalRing.ResidueField.map (f.stalkMap z).hom) _ = _
   rw [IsLocalRing.ResidueField.map_residue]
   simpa using congrArg (fun t => IsLocalRing.residue (X.presheaf.stalk z) t) hc
 
@@ -121,7 +121,7 @@ private lemma residueFieldEquivOfEqBot_algebraMap {A : Type*} [CommRing A] [IsDo
     residueFieldEquivOfEqBot K I hI (algebraMap A I.ResidueField b) = algebraMap A K b := by
   have h₀ : I = Ideal.comap (RingEquiv.refl A : A →+* A) ⊥ := hI.trans (by ext; rfl)
   rw [residueFieldEquivOfEqBot, RingEquiv.trans_apply]
-  show (IsLocalization.algEquiv (nonZeroDivisors A) (⊥ : Ideal A).ResidueField K).toRingEquiv
+  change (IsLocalization.algEquiv (nonZeroDivisors A) (⊥ : Ideal A).ResidueField K).toRingEquiv
     (Ideal.ResidueField.map I ⊥ (RingEquiv.refl A) h₀ (algebraMap A I.ResidueField b)) = _
   rw [Ideal.ResidueField.map_algebraMap]
   exact (IsLocalization.algEquiv (nonZeroDivisors A) _ K).commutes' b
@@ -160,7 +160,7 @@ private theorem exists_isDiscreteValuationRing_comap_bot_eq {S : Type u} [CommRi
     fun s => ?_⟩
   · ext s
     simp [map_eq_zero_iff _ hinj, Ideal.Quotient.eq_zero_iff_mem]
-  · show algebraMap F K (e₀.symm (algebraMap (S ⧸ p) p.ResidueField (Ideal.Quotient.mk p s))) = _
+  · change algebraMap F K (e₀.symm (algebraMap (S ⧸ p) p.ResidueField (Ideal.Quotient.mk p s))) = _
     rw [Ideal.algebraMap_quotient_residueField_mk]
 
 /-- The closed point of the spectrum of a local ring `A` with a local map from the stalk at `x`
@@ -168,7 +168,7 @@ maps to `x`. -/
 private lemma spec_map_fromSpecStalk_closedPoint {X : Scheme.{u}} (x : X) {A : Type u}
     [CommRing A] [IsLocalRing A] (j : X.presheaf.stalk x →+* A) [IsLocalHom j] :
     (Spec.map (CommRingCat.ofHom j) ≫ X.fromSpecStalk x) (IsLocalRing.closedPoint A) = x := by
-  show X.fromSpecStalk x (PrimeSpectrum.comap j (IsLocalRing.closedPoint A)) = x
+  change X.fromSpecStalk x (PrimeSpectrum.comap j (IsLocalRing.closedPoint A)) = x
   rw [IsLocalRing.comap_closedPoint j, Scheme.fromSpecStalk_closedPoint]
 
 private lemma exists_dvr_morphism_of_comap_bot_eq {X : Scheme.{u}} {x x' : X}
@@ -188,7 +188,7 @@ private lemma exists_dvr_morphism_of_comap_bot_eq {X : Scheme.{u}} {x x' : X}
   let η := genericPoint (Spec (.of A))
   have : η.asIdeal.IsPrime := η.isPrime
   have hηideal : η.asIdeal = ⊥ := by
-    show (genericPoint (Spec (.of A)) : PrimeSpectrum A).asIdeal = ⊥
+    change (genericPoint (Spec (.of A)) : PrimeSpectrum A).asIdeal = ⊥
     rw [genericPoint_eq_bot_of_affine]
     exact PrimeSpectrum.asIdeal_bot
   have hgen : Spec.map (CommRingCat.ofHom j) η = y :=
@@ -203,7 +203,7 @@ private lemma exists_dvr_morphism_of_comap_bot_eq {X : Scheme.{u}} {x x' : X}
     simp only [RingHom.comp_apply, RingEquiv.coe_toRingHom, Ideal.ResidueField.map_algebraMap,
       residueFieldEquivOfEqBot_algebraMap, hjK]
   have hη : (Spec.map (CommRingCat.ofHom j) ≫ X.fromSpecStalk x) η = x' := by
-    show X.fromSpecStalk x (Spec.map (CommRingCat.ofHom j) η) = x'
+    change X.fromSpecStalk x (Spec.map (CommRingCat.ofHom j) η) = x'
     rw [hgen, hy]
   refine ⟨Spec.map (CommRingCat.ofHom j) ≫ X.fromSpecStalk x, hη,
     spec_map_fromSpecStalk_closedPoint x j,
@@ -246,7 +246,7 @@ theorem exists_dvr_morphism_of_specializes_with_residueField_equiv
     dsimp [ρ, Scheme.fromSpecResidueField]
     rw [Spec.map_comp, Category.assoc, Scheme.SpecMap_stalkSpecializes_fromSpecStalk h]
   have hy : X.fromSpecStalk x y = x' := by
-    show (Spec.map (CommRingCat.ofHom ρ) ≫ X.fromSpecStalk x) z = x'
+    change (Spec.map (CommRingCat.ofHom ρ) ≫ X.fromSpecStalk x) z = x'
     rw [hρ]
     exact Scheme.fromSpecResidueField_apply x' z
   obtain ⟨A, _, _, hDVR, _, _, j, _, hj, hjK⟩ :=
@@ -284,7 +284,7 @@ private theorem exists_dvr_morphism_genericPoint_closedPoint_eq (X : Scheme.{u})
   have hloc : IsLocalHom φ := RingHom.isLocalHom_comp _ _
   have hker : RingHom.ker φ = IsLocalRing.maximalIdeal S := by
     ext s
-    show φ s = 0 ↔ s ∈ IsLocalRing.maximalIdeal S
+    change φ s = 0 ↔ s ∈ IsLocalRing.maximalIdeal S
     constructor
     · intro hs
       have hres : (X.residue x).hom s = 0 := (algebraMap k R).injective (by simpa [φ] using hs)
@@ -296,7 +296,7 @@ private theorem exists_dvr_morphism_genericPoint_closedPoint_eq (X : Scheme.{u})
   have hgeneric : PrimeSpectrum.comap φ (⊥ : PrimeSpectrum R) = IsLocalRing.closedPoint S :=
     PrimeSpectrum.ext hker
   have hη : f (genericPoint (Spec (.of R))) = x := by
-    show X.fromSpecStalk x (PrimeSpectrum.comap φ (genericPoint (Spec (.of R)))) = x
+    change X.fromSpecStalk x (PrimeSpectrum.comap φ (genericPoint (Spec (.of R)))) = x
     rw [AlgebraicGeometry.genericPoint_eq_bot_of_affine, hgeneric,
       Scheme.fromSpecStalk_closedPoint]
   exact ⟨R, inferInstance, inferInstance, inferInstance, f, hη,

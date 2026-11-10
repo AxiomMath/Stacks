@@ -84,7 +84,7 @@ private theorem evaluationTransition_id
     ModuleCat.restrictScalarsId'_inv_app, Functor.whiskerLeft_app,
     ModuleCat.restrictScalarsId'_hom_app, NatTrans.id_app, ModuleCat.hom_id,
     LinearMap.id_coe, id_eq]
-  show x = x
+  change x = x
   rfl
 
 private theorem evaluationTransition_comp
@@ -94,7 +94,7 @@ private theorem evaluationTransition_comp
         evaluationTransition A (a := b) (b := c) g := by
   unfold evaluationTransition
   ext X x
-  show X.map (f ≫ g) x = X.map g (X.map f x)
+  change X.map (f ≫ g) x = X.map g (X.map f x)
   simp
   rfl
 
@@ -466,7 +466,7 @@ private lemma isIso_proMap_whisker_shift_map {X Y : SysComplex A} (g : X ⟶ Y)
     (proIso_whisker _ (proIso_whisker _ hg _) H)
   rw [Iso.symm_hom, Iso.symm_hom, Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
   refine NatTrans.ext (funext fun n => ?_)
-  show H.map ((shiftEvalQIso A X).hom.app n) ≫ H.map (((evalQ A n).map g)⟦(1 : ℤ)⟧') =
+  change H.map ((shiftEvalQIso A X).hom.app n) ≫ H.map (((evalQ A n).map g)⟦(1 : ℤ)⟧') =
     H.map ((evalQ A n).map ((shiftFunctor (SysComplex A) (1 : ℤ)).map g)) ≫
       H.map ((shiftEvalQIso A Y).hom.app n)
   rw [shiftEvalQIso_hom_app, shiftEvalQIso_hom_app]
@@ -512,7 +512,7 @@ private lemma cone_homology_proZero {X Y : SysComplex A} (g : X ⟶ Y)
     refine ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (H.mapIso (e n X).symm) ?_ ?_
     · erw [Category.id_comp]
     · simp only
-      show H.map ((evalQ A n).map δ) = H.map ((evalQ A n).map δ ≫ (e n X).hom) ≫
+      change H.map ((evalQ A n).map δ) = H.map ((evalQ A n).map δ ≫ (e n X).hom) ≫
         H.map (e n X).inv
       rw [← H.map_comp, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   have ha : IsIso (Rlim.Pro.proMap a) := proIso_whisker _ hg H
@@ -609,7 +609,7 @@ private theorem tensor_rLim_map_isIso
   have hT' := Gf.map_distinguished _ (DerivedCategory.mappingCone_triangle_distinguished g)
   have hiso : IsIso (Gf.map (Q.map g)) :=
     (Pretriangulated.Triangle.isZero₃_iff_isIso₁ _ hT').mp hZ
-  show IsIso (Gf.map f)
+  change IsIso (Gf.map f)
   rw [show f = α₀.hom ≫ Q.map g ≫ β₀.inv by
     rw [← Category.assoc, ← hsq, Category.assoc, Iso.hom_inv_id, Category.comp_id],
     Gf.map_comp, Gf.map_comp]

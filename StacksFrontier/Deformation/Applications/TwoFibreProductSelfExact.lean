@@ -332,7 +332,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 public theorem isDeformationCategory_comp_of_isDeformationFunctor
     (U : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t)
     (pF : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k) (f : U.Elements ⥤ F)
-    (hf : f ⋙ pF = CategoryOfElements.π U) (hU : IsDeformationFunctor.{u, v, w} U) :
+    (hf : f ⋙ pF = Functor.Elements.π U) (hU : IsDeformationFunctor.{u, v, w} U) :
     IsDeformationCategory.{u, v, w} (f ⋙ pF) := by
   rw [hf]
   exact (isDeformationCategory_iff U).mpr hU
@@ -343,7 +343,7 @@ of `𝒞_Λ` it lies over. This is the source's `Inf(U) = (0)`. -/
 public theorem isThin_fiber_comp_elementsProjection
     (U : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t)
     (pF : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k) (f : U.Elements ⥤ F)
-    (hf : f ⋙ pF = CategoryOfElements.π U) (A : ArtinianLocalAlgCat.{u, max v w, w} Λ k) :
+    (hf : f ⋙ pF = Functor.Elements.π U) (A : ArtinianLocalAlgCat.{u, max v w, w} Λ k) :
     Quiver.IsThin ((f ⋙ pF).Fiber A) := by
   rw [hf]
   exact elementsFiber_isThin U A
@@ -384,7 +384,7 @@ elements of a set-valued functor are thin
 public theorem exact_selfBoundaryLinearMap_tangentProjPair
     (U : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t)
     (pF : F ⥤ ArtinianLocalAlgCat.{u, max v w, w} Λ k) (f : U.Elements ⥤ F)
-    (hf : f ⋙ pF = CategoryOfElements.π U) (hU : IsDeformationFunctor.{u, v, w} U)
+    (hf : f ⋙ pF = Functor.Elements.π U) (hU : IsDeformationFunctor.{u, v, w} U)
     (hF : IsDeformationCategory.{u, v, w} pF) {y₀ : U.Elements}
     (PH : ChosenPushforwardsAt (f ⋙ pF) y₀) (PF : ChosenPushforwardsAt pF (f.obj y₀))
     (M : FGModuleCat.{max v w} k) :

@@ -225,7 +225,7 @@ theorem AffineChartSystem.nonempty_limitBridge_of_dominant
   have hdS : IsLimit ((BigFppfOver.toScheme B S hS).mapCone d) :=
     IsLimit.ofIsoLimit (limit.isLimit _)
       (Cone.ext (asIso (BigFppfOver.coverι C.siteDiagram e.hom)).symm fun k => by
-        show limit.π _ k = inv (BigFppfOver.coverι C.siteDiagram e.hom) ≫
+        change limit.π _ k = inv (BigFppfOver.coverι C.siteDiagram e.hom) ≫
           (BigFppfOver.coverι C.siteDiagram e.hom ≫ limit.π _ k)
         simp)
   have hpost : IsLimit ((Cone.postcompose C.iso.hom).obj (yoneda.mapCone d)) :=

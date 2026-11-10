@@ -69,16 +69,13 @@ theorem Module.tensorBaseChangeEquiv_smul_map {A : Type*} [CommRing A] [Algebra 
       Module.tensorBaseChangeEquiv (Algebra.TensorProduct.map α (AlgHom.id R R') s •
         (Module.tensorBaseChangeEquiv (R := R) (S := A)).symm
           (Module.tensorBaseChangeEquiv x)) := by
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | add s₁ s₂ h₁ h₂ => simp only [add_smul, map_add, h₁, h₂]
   | tmul p r =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x₁ x₂ h₁ h₂ => simp only [smul_add, map_add, h₁, h₂]
     | tmul b x =>
-      induction b using TensorProduct.induction_on with
-      | zero => simp
+      induction b using TensorProduct.inductionOn with
       | add b₁ b₂ h₁ h₂ => simp only [TensorProduct.add_tmul, smul_add, map_add, h₁, h₂]
       | tmul q r₂ => simp [TensorProduct.smul_tmul', mul_smul, hα]
 
@@ -119,23 +116,22 @@ theorem finitePresentation_relative_baseChange (R A R' M : Type*)
   let Φ : (P ⊗[R] R') →ₐ[R] (A ⊗[R] R') := Algebra.TensorProduct.map α (AlgHom.id R R')
   have hβe0 : ∀ s : B, β (e0 s) = Φ s := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul p r' =>
-      show c (m (g (g.symm (Algebra.TensorProduct.comm R P R' (p ⊗ₜ[R] r'))))) = _
+      change c (m (g (g.symm (Algebra.TensorProduct.comm R P R' (p ⊗ₜ[R] r'))))) = _
       rw [Algebra.TensorProduct.comm_tmul, g.apply_symm_apply]
       exact congrArg c (Algebra.TensorProduct.map_tmul _ _ _ _)
   let : Module R M := Module.compHom M (algebraMap R A)
   have : IsScalarTower R A M := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R P M := .of_algebraMap_smul fun r x => by
-    show α (algebraMap R P r) • x = algebraMap R A r • x
+    change α (algebraMap R P r) • x = algebraMap R A r • x
     rw [AlgHom.commutes]
   let φN := Module.tensorBaseChangeEquiv (R := R) (S := P) (M := M) (R' := R')
   let φM' := Module.tensorBaseChangeEquiv (R := R) (S := A) (M := M) (R' := R')
   refine finitePresentation_of_ringEquiv B P' e0 (B ⊗[P] M) (A ⊗[R] R' ⊗[A] M)
     (φN.toAddEquiv.trans φM'.toAddEquiv.symm) (fun s x => ?_) inferInstance
-  show φM'.symm (φN (s • x)) = β (e0 s) • φM'.symm (φN x)
+  change φM'.symm (φN (s • x)) = β (e0 s) • φM'.symm (φN x)
   rw [hβe0, Module.tensorBaseChangeEquiv_smul_map α (fun _ _ => rfl), LinearEquiv.symm_apply_apply]
 
 /-- An element of the ideal generated in a `P`-algebra `P'` by `RingHom.ker α` annihilates the
@@ -148,8 +144,7 @@ theorem TensorProduct.smul_eq_zero_of_mem_map_ker {P P' A : Type*} [CommRing P] 
     z • x = 0 := by
   have key : ∀ k : P, α k = 0 → ∀ x : P' ⊗[P] M, (algebraMap P P' k) • x = 0 := by
     intro k hk x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero]
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => rw [smul_add, ha, hb, add_zero]
     | tmul p' mm =>
         rw [algebraMap_smul, TensorProduct.smul_tmul']

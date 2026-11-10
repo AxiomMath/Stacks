@@ -8,8 +8,9 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.TorsionComp
 /-!
 # Stacks 0GKY, 0GKZ and 0GL0, and the constructibility of `Rf_!`
 
-The results of `StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.FullConstructible`
-with their two hypotheses discharged: Stacks 0GKV over a Noetherian base
+The results of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.FullConstructible` with their
+two hypotheses discharged: Stacks 0GKV over a Noetherian base
 (`Stacks.EtaleCohomology.isConstructibleEtaleModule_rightDerivedConstantUnit_of_isNoetherian`) and
 Stacks 09YU, essential surjectivity
 (`AlgebraicGeometry.smallEtaleStagesEssSurj_isConstructibleModuleSheaf_of_ringEquiv`, along
@@ -22,8 +23,8 @@ The statements are made in the standard model of the derived category
 ## Main results
 
 * `Stacks.EtaleCohomology.lowerShriekConstructibilityInput`.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isConstructible`:
-  Stacks 0GL0.
+* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isConstructible`
+  : Stacks 0GL0.
 * `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine`:
   Stacks 0GKZ.
 * `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_openAffineLine`:
@@ -70,7 +71,7 @@ local macro "h0GKV%" : term =>
 `ULift Λ ≃ Λ`), in the form of the hypothesis `h09YU` of the constructibility results. -/
 local macro "h09YU%" : term =>
   `(fun Λ _ _ _ _ _ _ Dg c hX hc haff hqc hqs => by
-    haveI := Stacks.ULiftTransport.isNoetherianRing_ulift (R := Λ)
+    have := Stacks.ULiftTransport.isNoetherianRing_ulift (R := Λ)
     exact smallEtaleStagesEssSurj_isConstructibleModuleSheaf_of_ringEquiv _ Λ ULift.ringEquiv Dg c
       hX hc haff hqc hqs)
 
@@ -109,7 +110,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isConstructibl
             K))) ∧
     ((∃ m : ℕ, 0 < m ∧ (m : Λ) = 0) →
       ∀ K : DerivedCategory (EtaleModules.{u, 0} Λ X.obj),
-        (∀ q : ℤ, IsBigSiteConstructibleEtaleModule B X Λ ((DerivedCategory.homologyFunctor _ q).obj K)) →
+        (∀ q : ℤ, IsBigSiteConstructibleEtaleModule B X Λ
+          ((DerivedCategory.homologyFunctor _ q).obj K)) →
         ∀ n : ℤ, IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.homologyFunctor _ n).obj
           ((derivedLowerShriekUnbounded.{u, 0} f j Λ).obj K))) :=
   ⟨fun K hK n => isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_stages B

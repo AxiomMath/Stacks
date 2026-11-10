@@ -83,10 +83,11 @@ theorem exists_coheight_eq_and_relativeDimension_add_le (x : X) (e : ℤ)
     rw [hq] at h1
     exact_mod_cast (by omega : q.length ≤ (e - relativeDimension C.dimensionFunction p x).toNat)
   obtain ⟨n, hn⟩ : ∃ n : ℕ, coheight x = n :=
-    ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.coe_ne_top _) hle) |>.imp fun _ h => h.symm
+    ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.natCast_ne_top _) hle)
+      |>.imp fun _ h => h.symm
   refine ⟨n, hn, ?_⟩
   rw [hn] at hle
-  have := ENat.coe_le_coe.mp hle
+  have := ENat.natCast_le_natCast.mp hle
   have hx := he x (specializes_refl x)
   omega
 
@@ -117,7 +118,7 @@ theorem relativeDimension_sub_le_coheight {η x : X} (h : η ⤳ x) {n : ℕ}
     ⟨x, specializes_iff_mem_closure.mp h⟩))
   obtain ⟨d, hd⟩ := WithBot.ne_bot_iff_exists.mp (ne_bot_of_le_ne_bot WithBot.coe_ne_bot h0)
   have hdn : d ≤ n := by rw [← hd] at hdim; exact_mod_cast hdim
-  obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.coe_ne_top n) hdn)
+  obtain ⟨m, rfl⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.natCast_ne_top n) hdn)
   have hm : m ≤ n := by exact_mod_cast hdn
   have key := relativeDimension_sub_eq_of_ringKrullDim_pointClosureStalk_eq
     C.isUniversallyCatenary C.dimensionFunction p h (n := m) hd.symm

@@ -55,7 +55,7 @@ def derivedLowerShriekUnboundedExtendScalarsMap :
   ((mateEquiv (etaleModuleDerivedExtendRestrictAdj.{u, r} φ X)
     (etaleModuleDerivedExtendRestrictAdj.{u, r} φ Y)).symm
     (TwoSquare.mk _ _ _ _
-      (derivedLowerShriekUnboundedRestrictScalarsIso.{u, r} φ f j).inv)).natTrans
+      (derivedLowerShriekUnboundedRestrictScalarsIso.{u, r} φ f j).inv))
 
 /-- The comparison of extension by zero with derived extension of coefficients,
 `j_!(E) ⊗^L_{Λ₁} Λ₂ ⟶ j_!(E ⊗^L_{Λ₁} Λ₂)`: the mate of the square of extension by zero and
@@ -68,7 +68,7 @@ def derivedExtensionByZeroUnboundedExtendScalarsMap {U X : Scheme.{u}} (j : U �
   ((mateEquiv (etaleModuleDerivedExtendRestrictAdj.{u, r} φ U)
     (etaleModuleDerivedExtendRestrictAdj.{u, r} φ X)).symm
     (TwoSquare.mk _ _ _ _
-      (etaleModuleDerivedExtensionByZeroUnboundedRestrictScalarsIso.{u, r} φ j).inv)).natTrans
+      (etaleModuleDerivedExtensionByZeroUnboundedRestrictScalarsIso.{u, r} φ j).inv))
 
 /-- The comparison of the unbounded derived direct image with derived extension of coefficients,
 `Rg_*(E) ⊗^L_{Λ₁} Λ₂ ⟶ Rg_*(E ⊗^L_{Λ₁} Λ₂)`: the mate of the square of the derived direct
@@ -81,7 +81,7 @@ def derivedDirectImageUnboundedExtendScalarsMap {X Y : Scheme.{u}} (g : X ⟶ Y)
   ((mateEquiv (etaleModuleDerivedExtendRestrictAdj.{u, r} φ X)
     (etaleModuleDerivedExtendRestrictAdj.{u, r} φ Y)).symm
     (TwoSquare.mk _ _ _ _
-      (etaleModuleDerivedDirectImageUnboundedRestrictScalarsIso.{u, r} φ g).inv)).natTrans
+      (etaleModuleDerivedDirectImageUnboundedRestrictScalarsIso.{u, r} φ g).inv))
 
 /-- The comparison for `Rf_! = R(f̄)_* ∘ Rj_!` is the comparison for `R(f̄)_*` at `Rj_!(E)`
 followed by `R(f̄)_*` of the comparison for `Rj_!`: mates are compatible with pasting squares. -/
@@ -105,7 +105,7 @@ theorem derivedLowerShriekUnboundedExtendScalarsMap_app
         (etaleModuleDerivedDirectImageUnboundedRestrictScalarsIso.{u, r} φ j.toBase).inv))
   simp only [Equiv.apply_symm_apply] at h
   have h' := congrArg (fun w => ((mateEquiv (etaleModuleDerivedExtendRestrictAdj.{u, r} φ X)
-    (etaleModuleDerivedExtendRestrictAdj.{u, r} φ Y)).symm w).natTrans.app E) h
+    (etaleModuleDerivedExtendRestrictAdj.{u, r} φ Y)).symm w).app E) h
   simp only [Equiv.symm_apply_apply] at h'
   refine Eq.trans ?_ (h'.symm.trans ?_)
   · dsimp only [derivedLowerShriekUnboundedExtendScalarsMap]

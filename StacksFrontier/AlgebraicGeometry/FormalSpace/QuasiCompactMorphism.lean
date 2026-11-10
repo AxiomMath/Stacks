@@ -164,7 +164,7 @@ theorem IsQuasiCompactSpace.isFormalAlgebraicSpace {X : FppfSheaf B S hS}
   refine ⟨hset, PUnit.{u + 2}, fun _ ↦ Z, fun _ ↦ c, fun _ ↦ haffine, fun _ ↦ hetale, ?_⟩
   have : Epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit ≫
       Sigma.desc (fun _ : PUnit.{u + 2} ↦ c)) := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (Sheaf.isLocallySurjective_iff_epi c).mp hsurjective
   exact (Sheaf.isLocallySurjective_iff_epi _).mpr
     (epi_of_epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit) _)

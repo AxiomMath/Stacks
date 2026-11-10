@@ -106,7 +106,7 @@ theorem holdsOnEveryEtaleChart_vectorBundleProjection (P : MorphismProperty Sche
     ⟨_, Yi, g, rfl, W.2, fun V => (Yi V).2,
       isFpqcCovering_of_isEtaleCovering B S hS _ _
         (isEtaleCovering_trivializingAffineCharts B S hS W F)⟩
-  show Q (vectorBundleProjection B S hS W F)
+  change Q (vectorBundleProjection B S hS W F)
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd (P := Q) hR ?_
   intro U k _ hk
   obtain ⟨V⟩ := hk
@@ -115,7 +115,7 @@ theorem holdsOnEveryEtaleChart_vectorBundleProjection (P : MorphismProperty Sche
   have hsq := AlgebraicSpaces.isPullback_hom B S hS
     (IsPullback.of_hasPullback (vectorBundleProjection B S hS W F) (g ⟨V, hV, ι, hι, ⟨e⟩⟩))
   have sq := isPullback_vectorBundleChart B S hS W F V
-  show HoldsOnEveryEtaleChart B S hS P
+  change HoldsOnEveryEtaleChart B S hS P
     (pullback.snd (vectorBundleProjection B S hS W F) (g ⟨V, hV, ι, hι, ⟨e⟩⟩)).hom
   rw [← hsq.isoIsPullback_hom_snd _ _ sq]
   have _ := holdsOnEveryEtaleChart_respectsIso_presheaf B S hS P

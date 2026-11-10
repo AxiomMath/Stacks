@@ -152,7 +152,8 @@ monotonicity of the span.
 ## What is not done
 
 **The immersion clause of Tag 0FD5 is not proved *here*.** It is proved in
-`StacksFrontier/AlgebraicGeometry/VanishingSystemImmersion/Basic.lean`, for the canonical morphism of
+`StacksFrontier/AlgebraicGeometry/VanishingSystemImmersion/Basic.lean`, for the canonical morphism
+of
 [Stacks, Tag 0FCY] attached to the linear system restricted to `X ∖ Z`, and the tag attribute sits
 there. What this file provides towards it is the generation
 (`Stacks.SectionsVanishingOnSubscheme.exists_bound_generatesOffSupport`); what it does *not*

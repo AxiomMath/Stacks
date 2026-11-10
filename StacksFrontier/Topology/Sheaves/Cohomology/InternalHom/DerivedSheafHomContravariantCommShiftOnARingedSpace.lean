@@ -10,7 +10,8 @@ Let `(X, O_X)` be a ringed space. This file reads the contravariant commutation
 
 `RSheafHom(K[b], L) ≅ RSheafHom(K, L)[-b]`
 
-of `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedSheafHomContravariantCommShift`
+of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedSheafHomContravariantCommShift`
 off along `Stacks.SheafOfModules.ringedSite`, in the vocabulary of
 `Stacks.SheafOfModules.StructureSheafModules`, with no comparison layer between the two
 settings: a topological space with a sheaf of commutative rings *is* a ringed site.

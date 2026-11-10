@@ -131,8 +131,8 @@ theorem cycleCoeffOfClosedSubspace_eq_cycleAssociatedToClosedSubscheme_chart
     (Z : IntegralClosedSubspace D.site D.base D.base_mem X) (v : chartScheme V)
     (hv : chartSchemeToPoints D.site D.base D.base_mem X V v =
       Z.ambientGenericPoint D.site D.base D.base_mem) :
-    haveI hft := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
-    haveI hci := isClosedImmersion_closedSubspaceBaseChangeChartProj D.site D.base D.base_mem
+    haveI := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
+    haveI := isClosedImmersion_closedSubspaceBaseChangeChartProj D.site D.base D.base_mem
       hX.1 Y hY V
     cycleCoeffOfClosedSubspace D sX hX Y hY k γ Z =
       (Stacks.Chow.cycleAssociatedToClosedSubscheme (chartChowSituation D sX hX V hs)

@@ -53,7 +53,7 @@ abbrev towerProjection (n : ℕᵒᵖ) : R.obj n →+* R.obj (op 0) :=
 `Rₘ → R₀`. -/
 theorem towerProjection_comp {m n : ℕᵒᵖ} (f : m ⟶ n) :
     (towerProjection R n).comp (R.map f).hom.toRingHom = towerProjection R m := by
-  show ((R.map f ≫ R.map (homOfLE (Nat.zero_le n.unop)).op).hom.toRingHom) = _
+  change ((R.map f ≫ R.map (homOfLE (Nat.zero_le n.unop)).op).hom.toRingHom) = _
   rw [← R.map_comp]
   rfl
 
@@ -77,7 +77,7 @@ theorem surjective_towerKernelSystem_map (n : ℕ) :
   obtain ⟨y, hy⟩ := hsurj (homOfLE (Nat.le_succ n)).op x.1
   refine ⟨⟨y, ?_⟩, Subtype.ext hy⟩
   rw [RingHom.mem_ker, ← towerProjection_comp R (homOfLE (Nat.le_succ n)).op, RingHom.comp_apply]
-  show towerProjection R (op n) ((R.map (homOfLE (Nat.le_succ n)).op).hom y) = 0
+  change towerProjection R (op n) ((R.map (homOfLE (Nat.le_succ n)).op).hom y) = 0
   rw [hy]
   exact x.2
 
@@ -85,7 +85,7 @@ theorem surjective_towerKernelSystem_map (n : ℕ) :
 commutative rings under the base ring. -/
 theorem forget_preservesLimitsOfShape_nat :
     PreservesLimitsOfShape ℕᵒᵖ (forget (CommAlgCat.{u} Λ)) := by
-  show PreservesLimitsOfShape ℕᵒᵖ ((commAlgCatEquivUnder (CommRingCat.of Λ)).functor ⋙
+  change PreservesLimitsOfShape ℕᵒᵖ ((commAlgCatEquivUnder (CommRingCat.of Λ)).functor ⋙
     Under.forget (CommRingCat.of Λ) ⋙ forget CommRingCat)
   infer_instance
 
@@ -104,7 +104,7 @@ theorem surjective_towerLimit_π_zero : Function.Surjective (towerLimitProjectio
 projection of `c`. -/
 private theorem towerProjection_π_apply (n : ℕᵒᵖ) (c : cR.pt) :
     towerProjection R n ((cR.π.app n).hom c) = towerLimitProjection cR c := by
-  show (cR.π.app n ≫ R.map (homOfLE (Nat.zero_le n.unop)).op) c = _
+  change (cR.π.app n ≫ R.map (homOfLE (Nat.zero_le n.unop)).op) c = _
   rw [cR.w]
   rfl
 
@@ -125,7 +125,7 @@ theorem ker_towerLimit_π_zero_sq_eq_bot :
     exact (towerProjection_π_apply cR n c).trans hc
   have h := Ideal.mul_mem_mul (hmem a ha) (hmem b hb)
   rw [← pow_two, hsq, Ideal.mem_bot] at h
-  show (cR.π.app n).hom (a * b) = (cR.π.app n).hom 0
+  change (cR.π.app n).hom (a * b) = (cR.π.app n).hom 0
   rw [map_mul, map_zero]
   exact h
 

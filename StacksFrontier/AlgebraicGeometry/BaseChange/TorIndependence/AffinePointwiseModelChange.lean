@@ -152,10 +152,7 @@ theorem baseChangeFunctor_hom_ext₂ {X : ModuleCat.{u} C} {M : ModuleCat.{u} E}
     φ = ψ := by
   apply baseChangeFunctor_hom_ext
   intro y t
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg φ.hom (TensorProduct.tmul_zero (D ⊗[C] X) y)).trans ((map_zero φ.hom).trans
-      ((map_zero ψ.hom).symm.trans (congrArg ψ.hom (TensorProduct.tmul_zero (D ⊗[C] X) y).symm)))
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' =>
     exact (congrArg φ.hom (TensorProduct.tmul_add y t t')).trans ((map_add φ.hom _ _).trans
       ((congrArg₂ (· + ·) ht ht').trans ((map_add ψ.hom _ _).symm.trans
@@ -220,7 +217,7 @@ theorem modelMapE_ι_tmul (M : CochainComplex (ModuleCat.{u} A) ℤ) (p : ℤ)
           (ModuleCat.extendScalars (algebraMap A A')).obj (M.X p)) := by
   refine (congrArg (fun φ => φ.hom ((b ⊗ₜ[A] x) ⊗ₜ[B₀] (b' ⊗ₜ[R₀] w)))
     (ι_modelMapE (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) F ε M p h)).trans ?_
-  show (TensorProduct.congr (algebraRestrictLinearEquiv A A') (LinearEquiv.refl A (M.X p)))
+  change (TensorProduct.congr (algebraRestrictLinearEquiv A A') (LinearEquiv.refl A (M.X p)))
       (modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) (M.X p)
         ((b ⊗ₜ[A] x) ⊗ₜ[B₀] (b' ⊗ₜ[R₀] augmentation F ε w))) = _
   rw [modelTermAdd_tmul, TensorProduct.congr_tmul]
@@ -274,8 +271,7 @@ theorem modelRingMap_tensorLocalizationMap
     (hσ : ∀ x : R₀, algebraMap R₀₁ R'₁ (algebraMap R₀ R₀₁ x) =
       algebraMap R' R'₁ (algebraMap R₀ R' x)) (b : B₀) :
     modelRingMap R₁ A₁ R'₁ B R₀₁ (β b) = modelRingMap R A R' B R₀ b := by
-  induction b using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction b using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   | tmul a r =>
     rw [IsLocalization.tensorLocalizationMap_tmul, modelRingMap_tmul, modelRingMap_tmul, hσ,
@@ -384,16 +380,12 @@ theorem baseChangeTensor_hom_ext {X : ModuleCat.{u} A} {W : ModuleCat.{u} R₀} 
   have key : ∀ z z' : ((baseChangeFunctor A B₀).obj X ⊗ (baseChangeFunctor R₀ B₀).obj W :
       ModuleCat.{u} B₀), z = z' →
       φ.hom z' = ψ.hom z' → φ.hom z = ψ.hom z := fun z z' e h' => e ▸ h'
-  induction s using TensorProduct.induction_on with
-  | zero =>
-    exact key _ 0 (TensorProduct.zero_tmul _ t) ((map_zero φ.hom).trans (map_zero ψ.hom).symm)
+  induction s using TensorProduct.inductionOn with
   | add s s' hs hs' =>
     exact key _ _ (TensorProduct.add_tmul s s' t) ((map_add φ.hom _ _).trans
       ((congrArg₂ (· + ·) hs hs').trans (map_add ψ.hom _ _).symm))
   | tmul b x =>
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      exact key _ 0 (TensorProduct.tmul_zero _ _) ((map_zero φ.hom).trans (map_zero ψ.hom).symm)
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' =>
       exact key _ _ (TensorProduct.tmul_add _ t t') ((map_add φ.hom _ _).trans
         ((congrArg₂ (· + ·) ht ht').trans (map_add ψ.hom _ _).symm))
@@ -435,7 +427,7 @@ theorem modelKappa_modelComplexLocMap
     simp only [φ, ModuleCat.hom_comp, LinearMap.comp_apply, HomologicalComplex.comp_f,
       Functor.mapHomologicalComplex_map_f]
     rw [modelComplexLocMap_ι_tmul (R := R) (R₁ := R₁) (R₀₁ := R₀₁) eN F p q n hpq b x b' w]
-    show (α₁.f n).hom (((modelMapE (R := R₁) (A := A₁) (R' := R'₁) (A' := B) (R₀ := R₀₁) _ ε₁
+    change (α₁.f n).hom (((modelMapE (R := R₁) (A := A₁) (R' := R'₁) (A' := B) (R₀ := R₀₁) _ ε₁
         N₁).f n).hom ((HomologicalComplex.ιMapBifunctor _ _ (curriedTensor (ModuleCat.{u} B₁))
           (ComplexShape.up ℤ) p q n hpq).hom
             ((β b ⊗ₜ[A₁] (eN.hom.f p).hom ((1 : A₁) ⊗ₜ[A] x)) ⊗ₜ[B₁]

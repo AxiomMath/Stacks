@@ -93,7 +93,8 @@ public theorem center_toCatCenter_bijective (R : Type u) [CommRing R] :
     Function.Bijective (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R)) := by
   constructor
   · intro a b h
-    simpa [centerEval, CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app] using
+    simpa [centerEval, CategoryTheory.Linear.toCatCenter_apply_asHom_app,
+      CategoryTheory.CatCenter.app] using
       congrArg (centerEval R) h
   · intro z
     refine ⟨centerEval R z, ?_⟩
@@ -101,7 +102,8 @@ public theorem center_toCatCenter_bijective (R : Type u) [CommRing R] :
     intro M
     apply ModuleCat.hom_ext
     ext x
-    simp [CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app, center_apply]
+    simp [CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app,
+      center_apply]
 
 /-- **The centre of `ModuleCat R` is `R`**, for `R` a commutative ring: the canonical ring
 morphism `R →+* CatCenter (ModuleCat R)`, which sends `r` to the natural endomorphism
@@ -207,7 +209,7 @@ private theorem exists_relative_tensor_representation
 private theorem centerRingEquiv_app_comp (R : Type u) [CommRing R] (r : R)
     {X Y : ModuleCat.{u} R} (f : X ⟶ Y) : (centerRingEquiv R r).app X ≫ f = r • f := by
   have hs : (centerRingEquiv R r).app X = r • (𝟙 X) := by
-    show (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) r).app X = _
+    change (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) r).app X = _
     simp [CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app]
   simp [hs]
 
@@ -288,7 +290,7 @@ private theorem regularAlgEquiv_left
       (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A) (B := B)) =
         algebraMap A B := by
   ext a
-  show regularAlgEquiv A B (algebraMap A (A ⊗[A] B) a) = algebraMap A B a
+  change regularAlgEquiv A B (algebraMap A (A ⊗[A] B) a) = algebraMap A B a
   exact (regularAlgEquiv A B).commutes a
 
 /-- The regular `A ⊗[A] B`-module and the regular `B`-module, both restricted to `A`, identified
@@ -331,7 +333,7 @@ private theorem extendScalarsRegularIso_apply
       (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A) (B := B))).obj
         (ModuleCat.of (A ⊗[A] B) (A ⊗[A] B))) :
     (extendScalarsRegularIso A B q hleft).hom x = q.toRingEquiv.toRingHom x := by
-  show (ModuleCat.restrictScalarsIsoOfEquiv q.toRingEquiv).inv x = _
+  change (ModuleCat.restrictScalarsIsoOfEquiv q.toRingEquiv).inv x = _
   exact ModuleCat.restrictScalarsIsoOfEquiv_inv_apply q.toRingEquiv x
 
 private noncomputable def extendScalarsTensorLinearEquiv
@@ -368,7 +370,7 @@ private theorem extendScalarsTensorLinearEquiv_tmul
         (ModuleCat.of (A ⊗[A] B) (A ⊗[A] B))) (m : M) :
     extendScalarsTensorLinearEquiv A B q hleft M (t ⊗ₜ[A] m) =
       q.toRingEquiv.toRingHom t ⊗ₜ[A, algebraMap A B] m := by
-  show (TensorProduct.congr (extendScalarsRegularIso A B q hleft).toLinearEquiv
+  change (TensorProduct.congr (extendScalarsRegularIso A B q hleft).toLinearEquiv
     (LinearEquiv.refl A M)) (t ⊗ₜ[A] m) = _
   have ht : (extendScalarsRegularIso A B q hleft).toLinearEquiv t =
       q.toRingEquiv.toRingHom t := by
@@ -406,12 +408,7 @@ private noncomputable def extendScalarsTensorEquiv
   -- Each step is applied as a term rather than by `rw`/`simp`: the two sides live over
   -- different coefficient rings, so the semilinear `•` on the target carries an instance those
   -- tactics cannot match against the one in the pure tensors.
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      refine (congrArg a (smul_zero s)).trans ?_
-      refine (map_zero a).trans ?_
-      refine (smul_zero (q.toRingEquiv.toRingHom s)).symm.trans ?_
-      exact congrArg (fun z => q.toRingEquiv.toRingHom s • z) (map_zero a).symm
+  induction x using TensorProduct.inductionOn with
   | tmul t m =>
       refine (congrArg a
         (ModuleCat.ExtendScalars.smul_tmul _ s t m)).trans ?_
@@ -446,7 +443,7 @@ private theorem extendScalarsTensorEquiv_natural
           (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A) (B := B))).map f x) =
       (ModuleCat.extendScalars (algebraMap A B)).map f
         (extendScalarsTensorEquiv A B q hleft M x) := by
-  show (extendScalarsTensorLinearEquiv A B q hleft N)
+  change (extendScalarsTensorLinearEquiv A B q hleft N)
       ((ModuleCat.extendScalars
         (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A) (B := B))).map f x) =
     (ModuleCat.extendScalars (algebraMap A B)).map f
@@ -459,12 +456,7 @@ private theorem extendScalarsTensorEquiv_natural
   -- `rw` cannot rewrite with `ExtendScalars.map_tmul` here: the `Module A (A ⊗[A] B)` instance
   -- in the goal comes from `ModuleCat.restrictScalars` rather than from instance search. Each
   -- step is therefore applied as a term.
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      refine (congrArg eN (map_zero FL)).trans ?_
-      refine (map_zero eN).trans ?_
-      refine (map_zero FR).symm.trans ?_
-      exact congrArg FR (map_zero eM).symm
+  induction x using TensorProduct.inductionOn with
   | tmul t m =>
       refine (congrArg eN (ModuleCat.ExtendScalars.map_tmul
         (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A) (B := B))
@@ -530,7 +522,7 @@ private theorem transportTensor_tmul
     (f : X ≃ₛₗ[q.toRingHom] Y) (K : ModuleCat S)
     (L : ModuleCat B) (g : K ≃ₛₗ[q.toRingHom] L) (x : X) (k : K) :
     transportTensor q f K L g (x ⊗ₜ[S] k) = f x ⊗ₜ[B] g k := by
-  show (TensorProduct.congr f g) (x ⊗ₜ[S] k) = _
+  change (TensorProduct.congr f g) (x ⊗ₜ[S] k) = _
   rw [TensorProduct.congr_tmul]
 
 private noncomputable def bridgeComponent
@@ -602,8 +594,7 @@ private noncomputable def moduleTensorBridge
     (ModuleCat.extendScalars (algebraMap A B) ⋙
       (MonoidalCategory.tensoringRight (ModuleCat.{u} B)).obj
         ((ModuleCat.restrictScalars q.toRingEquiv.symm.toRingHom).obj K)).map f)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero L).trans (map_zero R).symm
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       change (bridgeComponent A B N K).hom
           ((((ModuleCat.extendScalars

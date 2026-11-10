@@ -207,7 +207,7 @@ private theorem finite_integralClosure_of_isDiscreteValuationRing_of_isGeometric
   have : IsScalarTower R K T' := isScalarTower_shrink R K T
   let : Algebra S' T' := ((algebraMap S T').comp eS.toRingHom).toAlgebra
   have : IsScalarTower R S' T' := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R T' r = algebraMap S T' (eS (algebraMap R S' r))
+    change algebraMap R T' r = algebraMap S T' (eS (algebraMap R S' r))
     rw [eS.commutes, ← IsScalarTower.algebraMap_apply]
   have : Algebra.EssFiniteType R S' :=
     Algebra.EssFiniteType.of_surjective eS.symm.toAlgHom eS.symm.surjective
@@ -222,7 +222,7 @@ private theorem finite_integralClosure_of_isDiscreteValuationRing_of_isGeometric
     finite_integralClosure_of_isDiscreteValuationRing_of_isGeometricallyReduced_aux R K S' T'
   have : IsScalarTower S S' T' :=
     IsScalarTower.of_algebraMap_eq (R := S) (S := S') (A := T') fun s => by
-    show algebraMap S T' s = algebraMap S T' (eS (eS.symm s))
+    change algebraMap S T' s = algebraMap S T' (eS (eS.symm s))
     rw [eS.apply_symm_apply]
   have : Module.Finite S S' := Module.Finite.equiv (Shrink.algEquiv S S).symm.toLinearEquiv
   have : IsScalarTower S S' (integralClosure S' T') :=
@@ -270,8 +270,7 @@ private theorem exists_finite_intermediateField_tensorProduct_preimage
     ∃ F : IntermediateField K E, Module.Finite K F ∧
       ∃ y : L ⊗[K] F, Algebra.TensorProduct.map (.id L L) F.val y = x := by
   classical
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, inferInstance, 0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul l e =>
     let F := IntermediateField.adjoin K {e}
     have : Module.Finite K F :=
@@ -307,7 +306,7 @@ private theorem exists_map_comap_eq_of_directed_ranges
   intro x hx
   obtain ⟨y, hy⟩ := hmono ((hi ⟨x, hx⟩).trans hij) (hg ⟨x, hx⟩)
   have hyq : y ∈ q.comap (f j) := by
-    show f j y ∈ q
+    change f j y ∈ q
     rw [hy, ← hs]
     exact Ideal.subset_span hx
   have hy' : f j y = x := hy
@@ -362,7 +361,7 @@ private theorem exists_primeSpectrum_comap_bijective_of_directed_ranges
     let g : B →+* R i := (algebraMap B C).codRestrict (R i) fun b =>
       (f i).range.algebraMap_mem b
     apply RingHom.IsIntegral.tower_top g
-    show (algebraMap B C).IsIntegral
+    change (algebraMap B C).IsIntegral
     exact algebraMap_isIntegral_iff.mpr inferInstance
   obtain ⟨i, hi⟩ := exists_primeSpectrum_comap_bijective R hmono hcover hint
   obtain ⟨k, hk⟩ := exists_forall_prime_map_comap_eq_of_directed_ranges S
@@ -373,7 +372,7 @@ private theorem exists_primeSpectrum_comap_bijective_of_directed_ranges
   let e := AlgEquiv.ofInjective (f j) (hf j)
   have hb := (PrimeSpectrum.comapEquiv e.toRingEquiv).symm.bijective.comp (hi j hij)
   convert hb using 1
-  show PrimeSpectrum.comap (f j).toRingHom =
+  change PrimeSpectrum.comap (f j).toRingHom =
     PrimeSpectrum.comap e.toRingHom ∘ PrimeSpectrum.comap (R j).subtype
   rw [← PrimeSpectrum.comap_comp]
   rfl
@@ -394,7 +393,7 @@ theorem monotone_integralClosureReducedTensorMap_range
     (Algebra.TensorProduct.map (.id L L) (IntermediateField.inclusion hFG))).restrictScalars B
   refine ⟨i.mapIntegralClosure y, ?_⟩
   apply Subtype.ext
-  show (ReducedTensorTower.reductionMap (Algebra.TensorProduct.map (.id L L) G.val))
+  change (ReducedTensorTower.reductionMap (Algebra.TensorProduct.map (.id L L) G.val))
     ((ReducedTensorTower.reductionMap
       (Algebra.TensorProduct.map (.id L L) (IntermediateField.inclusion hFG))) y.val) = _
   rw [← AlgHom.comp_apply, ← ReducedTensorTower.reductionMap_comp]
@@ -413,7 +412,7 @@ theorem exists_mem_integralClosureReducedTensorMap_range
     (Algebra.TensorProduct.map (.id L L) F.val)).restrictScalars B
   let y' : ReducedTensorTower.Reduction (L ⊗[K] F) := Ideal.Quotient.mk _ y
   have hxy : f y' = x.val := by
-    show Ideal.Quotient.mk _ (Algebra.TensorProduct.map (.id L L) F.val y) = x.val
+    change Ideal.Quotient.mk _ (Algebra.TensorProduct.map (.id L L) F.val y) = x.val
     rw [hy, hz]
   have hyint : IsIntegral B y' :=
     (isIntegral_algHom_iff f (reducedTensorProduct_map_injective K L F.val)).mp (by
@@ -564,11 +563,10 @@ private theorem isGeometricallyReduced_reduction_of_nilradical_map_eq
         (Algebra.TensorProduct.map (AlgHom.id A A) (IsScalarTower.toAlgHom K F E)).toRingHom := by
     apply RingHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul a f =>
-      show e (1 ⊗ₜ[F] (a ⊗ₜ[K] f)) = a ⊗ₜ[K] algebraMap F E f
+      change e (1 ⊗ₜ[F] (a ⊗ₜ[K] f)) = a ⊗ₜ[K] algebraMap F E f
       simp only [e, AlgEquiv.trans_apply, Algebra.TensorProduct.congr_apply,
         Algebra.TensorProduct.map_tmul, AlgEquiv.coe_refl, AlgEquiv.coe_toAlgHom,
         Algebra.TensorProduct.commRight_symm_tmul, Algebra.TensorProduct.cancelBaseChange_tmul,
@@ -769,7 +767,7 @@ theorem finite_integralClosure_localization_of_isDedekindDomain
   let j : Rp →+* Sq := Localization.localRingHom p q (algebraMap R S) rfl
   let : Algebra Rp Sq := j.toAlgebra
   have : IsScalarTower R Rp Sq := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R Sq r = j (algebraMap R Rp r)
+    change algebraMap R Sq r = j (algebraMap R Rp r)
     exact (IsScalarTower.algebraMap_apply R S Sq r).trans
       (Localization.localRingHom_to_map p q (algebraMap R S) rfl r).symm
   have : IsScalarTower R Sq Tq := IsScalarTower.to₁₃₄ R S Sq Tq

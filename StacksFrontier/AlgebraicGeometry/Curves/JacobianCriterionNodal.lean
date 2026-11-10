@@ -73,7 +73,7 @@ theorem isSeparable_of_surjective_algebraMap {K : Type*} [Field K] [Algebra k K]
   constructor
   intro x
   obtain ⟨a, rfl⟩ := h x
-  show (minpoly k ((algebraMap k K) a)).Separable
+  change (minpoly k ((algebraMap k K) a)).Separable
   rw [minpoly.eq_X_sub_C]
   exact Polynomial.separable_X_sub_C
 
@@ -197,7 +197,7 @@ theorem isNodalAlgebra_tfae_of_jacobianMinorIdeal_iff {m : ℕ}
   have h31 : P₃ → P₁ := by
     rintro ⟨hdepth, hjac⟩
     exact hiff.2 ⟨hsep, hdepth, hkey.1 hjac⟩
-  show List.TFAE [P₁, P₂, P₃]
+  change List.TFAE [P₁, P₂, P₃]
   exact List.tfae_of_cycle
     (by simpa [List.isChain_cons_cons] using (⟨h12, h23⟩ : (P₁ → P₂) ∧ (P₂ → P₃))) h31
 

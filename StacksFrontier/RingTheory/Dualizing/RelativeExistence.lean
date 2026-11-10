@@ -25,9 +25,8 @@ relative dualizing complex for `R → A` in the sense of [stacks 0E2C], which is
 
 ## Main results
 
-* `Dualizing.exists_isRelativeDualizingComplex` — [stacks 0E2F] (1) over
-  `Dualizing.UpperShriekInputs`; the bundle is proved, and the unconditional form is
-  `Dualizing.exists_isRelativeDualizingComplex_of_flat`.
+* `Dualizing.exists_isRelativeDualizingComplex` — [stacks 0E2F] (1), unconditionally; the
+  Noetherian-stage lemmas it uses no longer take `Dualizing.UpperShriekInputs`.
 
 ## The proof
 
@@ -49,11 +48,11 @@ being a relative dualizing complex transports along such an isomorphism, which i
 `Dualizing.RelativeExistence.isRelativeDualizingComplex_of_algEquiv` of
 `StacksFrontier.RingTheory.Dualizing.RelativeAlgEquivTransport`.
 
-## The hypothesis that is carried, and why
+## The bundle `Dualizing.UpperShriekInputs`
 
-Everything above is proved.  One proposition is carried, and it is an input the library already
-carries elsewhere; it does not mention `Dualizing.IsRelativeDualizingComplex` or any part of the
-conclusion.
+Everything above is proved, and `Dualizing.exists_isRelativeDualizingComplex` carries no
+hypothesis.  This file still defines the bundle the theorem once carried; it does not mention
+`Dualizing.IsRelativeDualizingComplex` or any part of the conclusion.
 
 `Dualizing.UpperShriekInputs` bundles the two standing open inputs of the upper shriek formalism:
 `Dualizing.PolynomialEvalDuality`, which is [stacks 0BZH] at the evaluation surjections of
@@ -95,7 +94,7 @@ clause-(2) side being complete at the object this proof reads it at.  The three 
   diagonal condition is exactly the vanishing.  What that carries is the projection-formula
   compatibility of [stacks 0E2A] — the same proposition `hUS` already bundles.
 
-So clause (1) rests on `Dualizing.UpperShriekInputs` alone, and the reason the residue-field
+The reason the residue-field
 vanishing could be discharged where the clause-(2) input could not is that it is read at
 `K = ω^•_{A/R} = φ^!(R)` rather than at an arbitrary relative dualizing complex: identifying an
 arbitrary one with `φ^!(R)` is [stacks 0E2D], which this library does not have.  The Noetherian
@@ -191,7 +190,7 @@ theorem exists_noetherianFlatModel (R A : Type u) [CommRing R] [CommRing A] [Alg
     AlgEquiv.ofRingEquiv (f := (Algebra.TensorProduct.comm R₁ R A₁).toRingEquiv.symm)
       (fun r => by
         apply (Algebra.TensorProduct.comm R₁ R A₁).injective
-        show (Algebra.TensorProduct.comm R₁ R A₁)
+        change (Algebra.TensorProduct.comm R₁ R A₁)
             (algebraMap R (R ⊗[R₁] A₁) r) =
           algebraMap R (A₁ ⊗[R₁] R) r
         rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self_apply,
@@ -207,10 +206,9 @@ theorem exists_noetherianFlatModel (R A : Type u) [CommRing R] [CommRing A] [Alg
       map_add' := eTensorA₀.map_add
       map_smul' := by
         intro r z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul x y =>
-            show (Algebra.TensorProduct.rid A₀ A₀ A₁)
+            change (Algebra.TensorProduct.rid A₀ A₀ A₁)
                 (r • (x ⊗ₜ[A₀] y)) =
               r • (Algebra.TensorProduct.rid A₀ A₀ A₁) (x ⊗ₜ[A₀] y)
             rw [TensorProduct.smul_tmul', Algebra.TensorProduct.rid_tmul,
@@ -218,7 +216,7 @@ theorem exists_noetherianFlatModel (R A : Type u) [CommRing R] [CommRing A] [Alg
             simp only [Algebra.smul_def]
             ring
         | add x y hx hy =>
-            show eTensorA₀ (r • (x + y)) = r • eTensorA₀ (x + y)
+            change eTensorA₀ (r • (x + y)) = r • eTensorA₀ (x + y)
             change eTensorA₀ (r • x) = r • eTensorA₀ x at hx
             change eTensorA₀ (r • y) = r • eTensorA₀ y at hy
             simp only [smul_add, eTensorA₀.map_add, hx, hy] }
@@ -237,28 +235,24 @@ relative dualizing complex.
 
 The proof is the source's reduction to the Noetherian case by spreading out, followed by
 [stacks 0E2E] at the Noetherian stage, clause (2) of this tag for the base change back to `R`,
-and transport along the resulting isomorphism of `R`-algebras.  `hUS` is the one carried input;
-see the module documentation.
+and transport along the resulting isomorphism of `R`-algebras.  Nothing is carried.
 
 Clause (2) is read at the complex the Noetherian stage produces, namely `φ^!(R₁)`, through
 `Dualizing.isRelativeDualizingComplex_baseChange_upperShriek_of_representation`, and the
 representatives of [stacks 0E1U] it consumes come from
 `Dualizing.exists_diagonalHomComplexRepresentation`.  Nothing about clause (2) is carried: the
 residue-field vanishing the degreewise chase needs is the Noetherian case of the clause, which at
-`φ^!(R₁)` is [stacks 0BZV] with [stacks 0E2E] and so carries only the projection-formula
-compatibility that `hUS` already bundles. -/
+`φ^!(R₁)` is [stacks 0BZV] with [stacks 0E2E]. -/
 theorem exists_isRelativeDualizingComplex (R A : Type u) [CommRing R] [CommRing A] [Algebra R A]
-    [Module.Flat R A] [Algebra.FinitePresentation R A] (hUS : UpperShriekInputs.{u}) :
+    [Module.Flat R A] [Algebra.FinitePresentation R A] :
     ∃ K : DerivedCategory (ModuleCat.{u} A), IsRelativeDualizingComplex R A K := by
   classical
-  obtain ⟨-, hProj⟩ := hUS
   obtain ⟨R₁, A₁, _, _, _, _, _, _, _, _, ⟨e⟩⟩ := exists_noetherianFlatModel R A
   let : Algebra R (A₁ ⊗[R₁] R) := Algebra.TensorProduct.rightAlgebra
   obtain ⟨p₁⟩ := nonempty_polynomialPresentation (algebraMap R₁ A₁)
     (RingHom.finiteType_algebraMap.mpr inferInstance)
   have hflat₁ : (algebraMap R₁ A₁).Flat := RingHom.flat_algebraMap_iff.mpr inferInstance
   have hK₁ := p₁.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat₁
-    (fun t => hProj R₁ A₁ p₁ t.asIdeal.ResidueField) (hProj R₁ A₁ p₁ A₁)
   let : Algebra.FiniteType R₁ (A₁ ⊗[R₁] A₁) :=
     Algebra.FiniteType.trans (R := R₁) (S := A₁) (A := A₁ ⊗[R₁] A₁) inferInstance inferInstance
   let : IsNoetherianRing (A₁ ⊗[R₁] A₁) :=
@@ -269,7 +263,7 @@ theorem exists_isRelativeDualizingComplex (R A : Type u) [CommRing R] [CommRing 
   have := hPproj
   have := hFLE
   have hK' := isRelativeDualizingComplex_baseChange_upperShriek_of_representation R₁ A₁ R p₁
-    hProj P dP hPkflat eP F dF hFflat eF E hE hEflat hEfin
+    P dP hPkflat eP F dF hFflat eF E hE hEflat hEfin
   have : Module.Flat R (A₁ ⊗[R₁] R) := flat_baseChange R₁ A₁ R
   have : Algebra.FinitePresentation R (A₁ ⊗[R₁] R) :=
     Algebra.FinitePresentation.equiv (baseChangeComm R₁ A₁ R)

@@ -27,9 +27,11 @@ object-wise `E ↦ E ⊗^𝐋 ℒ` with `ℒ` invertible, which is the shape
 
 ## Main results
 
-* `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.exists_areSiblingsPerfect_of_fullyFaithful_of_essSurj`:
+Both in the namespace `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov`:
+
+* `exists_areSiblingsPerfect_of_fullyFaithful_of_essSurj`:
   [Stacks, Tag 0G27] for `F` fully faithful and essentially surjective.
-* `Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.exists_twist_of_fullyFaithful_of_essSurj`: over
+* `exists_twist_of_fullyFaithful_of_essSurj`: over
   an algebraically closed field, the object-wise twist.
 
 ## References

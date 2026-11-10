@@ -82,7 +82,7 @@ theorem prop_hom_pt_of_isLimit_fan {V : C} :
         (pullback.cone (Y 0).hom (∏ᶜ fun i : Fin (n + 1) ↦ Y i.succ).hom)
     have hc₂ : IsLimit c₂ := (pullback.isLimit _ _).pullbackConeEquivBinaryFanFunctor
     have hpt : P c₂.pt.hom := by
-      show P (pullback.fst (Y 0).hom (∏ᶜ fun i : Fin (n + 1) ↦ Y i.succ).hom ≫ (Y 0).hom)
+      change P (pullback.fst (Y 0).hom (∏ᶜ fun i : Fin (n + 1) ↦ Y i.succ).hom ≫ (Y 0).hom)
       rw [pullback.condition]
       exact P.comp_mem _ _ (P.pullback_snd _ _ (hY 0))
         (ih (productIsProduct _) fun a ↦ hY a.succ)

@@ -188,7 +188,7 @@ private theorem homotopic_zero_of_comp_nullHomotopyProj {u : M ⟶ N} (v : M ⟶
       rw [hvd x]
       exact nullHomotopyObj_d_fst (N := N) (v.toFun x)
     simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero]
-    show u.toFun x =
+    change u.toFun x =
       N.d (show N.M from (v.toFun x).1) + (show N.M from (v.toFun (M.d x)).1)
     rw [h1, hvx x]
     exact (add_neg_cancel_left _ _).symm

@@ -87,7 +87,7 @@ public theorem pullbackSectionsMap_pullbackSection {S : Scheme.{u}} (F : S.Modul
         (eqToHom (show (⊤ : X.left.Opens) = g.left ⁻¹ᵁ ⊤ by simp)).op := rfl
   rw [hunfold, Scheme.Modules.presheaf_map_top_eq_id g.left _
     ((Scheme.Modules.pullback X.hom).obj F)]
-  show (((Scheme.Modules.pullbackCongr (Over.w g)).hom.app F).val.app (op ⊤))
+  change (((Scheme.Modules.pullbackCongr (Over.w g)).hom.app F).val.app (op ⊤))
       ((((Scheme.Modules.pullbackComp g.left Y.hom).hom.app F).val.app (op ⊤))
         ((((Scheme.Modules.pullbackPushforwardAdjunction g.left).unit.app
             ((Scheme.Modules.pullback Y.hom).obj F)).val.app (op ⊤))

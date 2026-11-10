@@ -46,9 +46,9 @@ on. -/
 theorem evalChowGraded_zero_heq {X : Scheme.{u}} (p : X ⟶ C.S) [LocallyOfFiniteType p] (e : ℤ)
     (α : chowGroup C p e) (a : AddMonoid.End (ChowGradedProduct C p e)) :
     evalChowGraded C p e α 0 (a ^ 0) ≍ α := by
-  show (a ^ 0) (chowGradedUnit C p e α) 0 ≍ α
+  change (a ^ 0) (chowGradedUnit C p e α) 0 ≍ α
   rw [pow_zero]
-  show chowGroupDegreeCast C p _ (AddMonoidHom.id _) α ≍ α
+  change chowGroupDegreeCast C p _ (AddMonoidHom.id _) α ≍ α
   rw [chowGroupDegreeCast_apply]
   exact chowGroupCast_heq C p _ α
 

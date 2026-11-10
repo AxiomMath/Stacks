@@ -36,7 +36,8 @@ hypotheses at all.
 
 *That claim is about three names and not about the mathematics.*  The implementation notes of
 `StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean` and of
-`StacksFrontier/AlgebraicGeometry/Spaces/ToposModuleDerivedBaseChangeChartwise.lean` say that nothing
+`StacksFrontier/AlgebraicGeometry/Spaces/ToposModuleDerivedBaseChangeChartwise.lean` say that
+nothing
 in the development asserts invertibility of `toposModuleDerivedBaseChangeMap`, of
 `Stacks.Cohomology.ToposBaseChange.baseChangeMap` or of
 `AlgebraicGeometry.Space.BaseChangeDiagram.baseChangeMap` under any hypothesis.  That is true of

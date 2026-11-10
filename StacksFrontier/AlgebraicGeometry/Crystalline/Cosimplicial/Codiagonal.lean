@@ -142,7 +142,7 @@ public lemma envelopeCodiagonal_comp_reindex {n m : SimplexCategory} (φ : n ⟶
     · exact dpMorphism_comp_comp_structureMap s _ _ _ _ _ (envelopeReindex s f φ).2
         (envelopeCodiagonal s f m.len).2
     · intro a
-      show (envelopeCodiagonal s f m.len).1 ((envelopeReindex s f φ).1 _) = _
+      change (envelopeCodiagonal s f m.len).1 ((envelopeReindex s f φ).1 _) = _
       rw [envelopeReindex_polynomial, envelopeCodiagonal_polynomial,
         envelopeCodiagonal_polynomial, MvPolynomial.rename_rename]
       rfl
@@ -182,10 +182,10 @@ public lemma envelopeCodiagonal_comp_coprojection (b : ℕ) (j : Fin (b + 1))
     · ext a
       rfl
     · intro a
-      show (envelopeCodiagonal s f b).1 ((envelopePolynomialCoprojection s f b j).1 _) = _
+      change (envelopeCodiagonal s f b).1 ((envelopePolynomialCoprojection s f b j).1 _) = _
       rw [envelopePolynomialCoprojection_polynomial, envelopeCodiagonal_polynomial,
         mvPolynomialCoprojection, MvPolynomial.rename_rename]
-      show (polynomialDividedPowerEnvelope s f).algebraMap.toRingHom
+      change (polynomialDividedPowerEnvelope s f).algebraMap.toRingHom
         (MvPolynomial.rename id a) = _
       rw [MvPolynomial.rename_id]
       rfl
@@ -206,10 +206,10 @@ public lemma envelopePolynomialCoprojection_comp_envelopeCodiagonal_zero
     · ext a
       rfl
     · intro a
-      show (envelopePolynomialCoprojection s f 0 0).1 ((envelopeCodiagonal s f 0).1 _) = _
+      change (envelopePolynomialCoprojection s f 0 0).1 ((envelopeCodiagonal s f 0).1 _) = _
       rw [envelopeCodiagonal_polynomial, envelopePolynomialCoprojection_polynomial,
         mvPolynomialCoprojection, MvPolynomial.rename_rename]
-      show (tensorPowerEnvelope s f 0).algebraMap.toRingHom (MvPolynomial.rename _ a) = _
+      change (tensorPowerEnvelope s f 0).algebraMap.toRingHom (MvPolynomial.rename _ a) = _
       rw [show ((fun i => ((0 : Fin 1), i)) ∘ (Prod.snd : Fin 1 × ι → ι)) =
           (id : Fin 1 × ι → Fin 1 × ι) from
         funext fun q => Prod.ext (Subsingleton.elim _ _) rfl, MvPolynomial.rename_id]
@@ -237,7 +237,7 @@ public lemma completedEnvelopeCodiagonal_polynomial (b : ℕ)
     (x : MvPolynomial (Fin (b + 1) × ι) s.A) :
     completedEnvelopeCodiagonal s f hf b (tensorPowerEnvelopeMap s f hf b x) =
       toPAdicCompletedDividedPowerEnvelope s f hf (MvPolynomial.rename Prod.snd x) := by
-  show adicCompletionRingMap (envelopeCodiagonal s f b).1.toRingHom _
+  change adicCompletionRingMap (envelopeCodiagonal s f b).1.toRingHom _
     (AdicCompletion.of _ _ ((tensorPowerEnvelope s f b).algebraMap.toRingHom x)) = _
   rw [adicCompletionRingMap_of]
   exact congrArg (AdicCompletion.of _ _) (envelopeCodiagonal_polynomial s f b x)

@@ -65,10 +65,10 @@ theorem endDegree_mul_selfIntersectionNumber (f : A ⟶ A) (N : A.left.Modules)
   have hdim := topologicalKrullDim_eq_abelianVarietyDimension A
   have := isProper_left_of_isAbelianVariety A f
   by_cases h : IsDominant f.left
-  · rw [endDegree, dif_pos h]
+  · rw [endDegree, dite_eq_left h]
     exact (selfIntersectionNumber_pullback_of_isDominant k A.hom A.hom f.left (Over.w f) _ hdim
       hdim N).symm
-  · rw [endDegree, dif_neg h, Nat.cast_zero, zero_mul]
+  · rw [endDegree, dite_eq_right h, Nat.cast_zero, zero_mul]
     refine (selfIntersectionNumber_pullback_eq_zero_of_not_isDominant k A.hom A.hom f.left
       (Over.w f) _ h (Nat.pos_of_ne_zero fun h0 => h ?_) hdim.le hdim N).symm
     -- in dimension zero `A` is the spectrum of `k`, so `f` is an isomorphism
@@ -161,7 +161,7 @@ theorem endDegree_zpow_id (n : ℤ) (hn : n ≠ 0) :
     surjective_of_isFinite_of_topologicalKrullDim_le _
       (topologicalKrullDim_ne_top_of_isProper k A.hom) le_rfl
   have hd : IsDominant ((𝟙 A : A ⟶ A) ^ n).left := inferInstance
-  rw [endDegree, dif_pos hd]
+  rw [endDegree, dite_eq_left hd]
   exact degreeOver_zpow_id_left A hcube n hn
 
 /-- **Homogeneity of the degree**: `deg (f ^ n) = |n| ^ (2 g) · deg f` for `n ≠ 0`, where

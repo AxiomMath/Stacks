@@ -266,8 +266,8 @@ public noncomputable def squareResolutionRingMap (sq : AlgebraSquare.{u, v, u} A
 /-- The composition `P_• → B → A' → P'_•` attached to an arrow `κ : B → A'`: the augmentation of
 the standard resolution of `B` over `A`, then `κ`, then the structure map of the standard
 resolution of `B'` over `A'`. -/
-public noncomputable def squareResolutionRingBaseMap (sq : AlgebraSquare.{u, v, u} A A' B B')
-    (κ : B →+* A') : resolutionRing.{u, v} A B ⟶ resolutionRing.{u, v} A' B' where
+public noncomputable def squareResolutionRingBaseMap (κ : B →+* A') :
+    resolutionRing.{u, v} A B ⟶ resolutionRing.{u, v} A' B' where
   app n := CommRingCat.ofHom
     (((algebraMap A' ((standardResolution.{u, max u v} A' B').left.obj n)).comp κ).comp
       (standardResolutionAugmentationHom.{u, max u v} A B n))
@@ -293,10 +293,10 @@ cotangent complexes. -/
 differentials, read degreewise on the pure differentials `1 ⊗ d p` which generate the terms of \
 the cotangent complex."]
 public theorem cotangentTermDifferential_squareResolutionRingBaseMap
-    (sq : AlgebraSquare.{u, v, u} A A' B B') (κ : B →+* A') (n : SimplexCategoryᵒᵖ)
+    (κ : B →+* A') (n : SimplexCategoryᵒᵖ)
     (p : (standardResolution.{u, max u v} A B).left.obj n) :
     cotangentTermDifferential.{u, max u v} A' B' n
-      ((squareResolutionRingBaseMap.{u, v} sq κ).app n p) = 0 :=
+      ((squareResolutionRingBaseMap.{u, v} (B' := B') κ).app n p) = 0 :=
   cotangentTermDifferential_algebraMap.{u, max u v} A' B' n
     (κ (standardResolutionAugmentationHom.{u, max u v} A B n p))
 
@@ -339,7 +339,7 @@ private theorem squareResolutionRingMap_comp_emptyCollapse_comp
         Functor.whiskerRight (emptyCollapse.{u, v} A')
           (forget₂ (CommAlgCat.{max u v} A') CommRingCat.{max u v}) ≫
         squareResolutionRingMap.{u, v} (emptyPolySquare.{u, v} B') =
-      squareResolutionRingBaseMap.{u, v} sq κ := by
+      squareResolutionRingBaseMap.{u, v} (B' := B') κ := by
   let M : CommAlgCat.{max u v} A' := emptyPoly.{u, v} A'
   let sq₁ := squareToEmptyPoly.{u, v} sq.base κ hκ
   let sq₂ := emptyPolySquare.{u, v} B'
@@ -380,7 +380,7 @@ public theorem eqvGen_homotopy_squareResolutionRingMap_baseMap
     Relation.EqvGen
       (fun f g : resolutionRing.{u, v} A B ⟶ resolutionRing.{u, v} A' B' =>
         Nonempty (SimplicialObject.Homotopy f g))
-      (squareResolutionRingMap.{u, v} sq) (squareResolutionRingBaseMap.{u, v} sq κ) := by
+      (squareResolutionRingMap.{u, v} sq) (squareResolutionRingBaseMap.{u, v} (B' := B') κ) := by
   classical
   let M : CommAlgCat.{max u v} A' := emptyPoly.{u, v} A'
   let sq₁ := squareToEmptyPoly.{u, v} sq.base κ hκ

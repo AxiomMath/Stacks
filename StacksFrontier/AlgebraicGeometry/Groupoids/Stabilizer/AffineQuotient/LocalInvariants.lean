@@ -215,7 +215,7 @@ private lemma tensorProduct_equiv_arrowRing_of_semilocal_basis
   let N : Submodule C B := LinearMap.range (targetAlgHom G).toLinearMap
   have hNset : (N : Set B) = Set.range (targetMap G) := by
     ext b
-    show (∃ y, targetAlgHom G y = b) ↔ ∃ y, targetMap G y = b
+    change (∃ y, targetAlgHom G y = b) ↔ ∃ y, targetMap G y = b
     rfl
   have hN : GeneratesAsSModule A N := by
     rw [GeneratesAsSModule, hNset]
@@ -270,14 +270,13 @@ private lemma span_right_eq_top_of_tensorMap_surjective
   let T : Submodule A B := Submodule.span A (Set.range g)
   have hmap (x : A ⊗[C] A) :
       Algebra.TensorProduct.lift f g (fun _ _ ↦ Commute.all _ _) x ∈ T := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [T]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [map_add]
         exact T.add_mem hx hy
     | tmul a a' =>
         rw [Algebra.TensorProduct.lift_tmul]
-        show algebraMap A B a * g a' ∈ T
+        change algebraMap A B a * g a' ∈ T
         have hg : g a' ∈ T := Submodule.subset_span ⟨a', rfl⟩
         simpa [Algebra.smul_def] using T.smul_mem a hg
   refine top_unique fun b _ ↦ ?_
@@ -338,7 +337,7 @@ private lemma rankAtStalk_eq_of_moduleRankCover
     have h' := congrArg (algebraMap R' Rₚ) h
     simp at h')
   let : StrongRankCondition R' := commRing_strongRankCondition R'
-  show Module.finrank Rₚ Mₚ = r
+  change Module.finrank Rₚ Mₚ = r
   have hfinrank := Module.finrank_of_isLocalizedModule_of_free Rₚ P' l
   rw [hfinrank, Module.finrank_eq_card_basis b]
   simp
@@ -361,7 +360,7 @@ private lemma map_maximalIdeal_le_jacobson_of_local_integral
   rintro P ⟨-, hP⟩
   rw [Ideal.map_le_iff_le_comap]
   exact (IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' f hf P)).ge
+    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal f hf P)).ge
 
 /-- If `B` is finite over `A` along `t`, both `t` and `s` are integral, and every maximal ideal
 of `A` is the image under `s` of a prime of `B` lying over a fixed maximal ideal `p₀` along `t`,
@@ -381,7 +380,7 @@ private lemma finite_maximalSpectrum_of_finite_target_and_transitive_orbits
   let F : Set (PrimeSpectrum B) :=
     {q | PrimeSpectrum.comap t q = p₀.toPrimeSpectrum}
   have hF : F.Finite := by
-    show (PrimeSpectrum.comap (algebraMap A B) ⁻¹' {p₀.toPrimeSpectrum}).Finite
+    change (PrimeSpectrum.comap (algebraMap A B) ⁻¹' {p₀.toPrimeSpectrum}).Finite
     exact Algebra.QuasiFinite.finite_comap_preimage_singleton p₀.toPrimeSpectrum
   let : Finite F := hF.to_subtype
   let f : F → MaximalSpectrum A := fun q => by
@@ -390,11 +389,11 @@ private lemma finite_maximalSpectrum_of_finite_target_and_transitive_orbits
       have hqtIdeal : Ideal.comap t q.1.asIdeal = p₀.asIdeal := by
         simpa only [PrimeSpectrum.comap_asIdeal, MaximalSpectrum.toPrimeSpectrum] using
           congrArg PrimeSpectrum.asIdeal hqt
-      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' t htint
+      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap t htint
       exact hqtIdeal ▸ p₀.isMaximal
     let : q.1.asIdeal.IsMaximal := hqmax
     exact ⟨(PrimeSpectrum.comap s q.1).asIdeal,
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' s hsint q.1.asIdeal⟩
+      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s hsint q.1.asIdeal⟩
   have hf : Function.Surjective f := by
     intro p
     obtain ⟨q, hqt, hqs⟩ := horbit p
@@ -422,12 +421,12 @@ private lemma objectsToInvariantSpectrum_eq_of_maximalSpectrum
         IsLocalRing.maximalIdeal (invariantRing G) := by
     let : p.asIdeal.IsMaximal := p.isMaximal
     exact IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' _ hf p.asIdeal)
+      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _ hf p.asIdeal)
   have he (p : PrimeSpectrum Γ(G.objects.left, ⊤)) :
       G.objects.left.isoSpec.hom (G.objects.left.isoSpec.inv p) = p :=
     congrArg (fun k : Spec Γ(G.objects.left, ⊤) ⟶ Spec Γ(G.objects.left, ⊤) ↦ k p)
       G.objects.left.isoSpec.inv_hom_id
-  show PrimeSpectrum.comap (invariantRing G).subtype
+  change PrimeSpectrum.comap (invariantRing G).subtype
       (G.objects.left.isoSpec.hom (G.objects.left.isoSpec.inv p.toPrimeSpectrum)) =
     PrimeSpectrum.comap (invariantRing G).subtype
       (G.objects.left.isoSpec.hom (G.objects.left.isoSpec.inv q.toPrimeSpectrum))
@@ -467,7 +466,7 @@ private lemma objectRing_finite_maximalSpectrum_of_local_invariants
       (⟨IsLocalRing.maximalIdeal C, IsLocalRing.maximalIdeal.isMaximal C⟩ :
         MaximalSpectrum C).toPrimeSpectrum
     have hq₀max : q₀.asIdeal.IsMaximal := by
-      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' f hfint q₀.asIdeal
+      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap f hfint q₀.asIdeal
       have he : Ideal.comap f q₀.asIdeal = IsLocalRing.maximalIdeal C :=
         congrArg PrimeSpectrum.asIdeal hq₀
       rw [he]
@@ -476,7 +475,7 @@ private lemma objectRing_finite_maximalSpectrum_of_local_invariants
     have htfinite : let := t.toAlgebra; Module.Finite A B := by
       let : IsFinite G.target.left := (isFinite_and_flat_of_isFiniteLocallyFree G.target.left).1
       let : Algebra A B := t.toAlgebra
-      show Module.Finite A B
+      change Module.Finite A B
       exact G.target.left.finite_appTop
     let : Algebra A B := t.toAlgebra
     let : Module.Finite A B := htfinite
@@ -484,7 +483,7 @@ private lemma objectRing_finite_maximalSpectrum_of_local_invariants
     have hsfinite : let := s.toAlgebra; Module.Finite A B := by
       let : IsFinite G.source.left := (isFinite_and_flat_of_isFiniteLocallyFree G.source.left).1
       let : Algebra A B := s.toAlgebra
-      show Module.Finite A B
+      change Module.Finite A B
       exact G.source.left.finite_appTop
     have hsint : s.IsIntegral := RingHom.IsIntegral.of_finite hsfinite
     have horbit (p : MaximalSpectrum A) :
@@ -514,7 +513,7 @@ lemma arrows_hom_ext {S : Scheme.{u}} (G : GroupoidScheme S)
   let T' := Over.mk (f ≫ G.arrows.hom)
   let f' : T' ⟶ G.arrows := Over.homMk f
   let g' : T' ⟶ G.arrows := Over.homMk g (by
-    show g ≫ G.arrows.hom = f ≫ G.arrows.hom
+    change g ≫ G.arrows.hom = f ≫ G.arrows.hom
     rw [← Over.w G.source, ← Category.assoc, ← hs, Category.assoc])
   let e : EquivalenceRelation G.target G.source :=
     Classical.choice IsEquivalenceRelation.nonempty_equivalenceRelation
@@ -543,14 +542,14 @@ lemma tensorMap_surjective {S : Scheme.{u}} (G : GroupoidScheme S)
     rw [← Spec.map_comp]
     congr 1
     ext a
-    show φ (a ⊗ₜ[C] 1) = sourceMap G a
+    change φ (a ⊗ₜ[C] 1) = sourceMap G a
     exact (Algebra.TensorProduct.lift_tmul (sourceAlgHom G) (targetAlgHom G)
       (fun _ _ ↦ Commute.all _ _) a 1).trans (by rw [map_one, mul_one]; rfl)
   have hr : k ≫ r = Spec.map G.target.left.appTop := by
     rw [← Spec.map_comp]
     congr 1
     ext a
-    show φ (1 ⊗ₜ[C] a) = targetMap G a
+    change φ (1 ⊗ₜ[C] a) = targetMap G a
     exact (Algebra.TensorProduct.lift_tmul (sourceAlgHom G) (targetAlgHom G)
       (fun _ _ ↦ Commute.all _ _) 1 a).trans (by rw [map_one, one_mul]; rfl)
   have hi {u : Spec (.of (A ⊗[C] A)) ⟶ Spec (.of A)} {f : G.arrows.left ⟶ G.objects.left}
@@ -694,7 +693,7 @@ lemma exists_basis_and_tensorEquiv_of_local_invariants
       refine ⟨G.source.left.finrank (G.objects.left.isoSpec.inv P₀.toPrimeSpectrum), ?_⟩
       intro P
       rw [finrank_quotient_tensor_eq_rankAtStalk]
-      show G.source.left.appTop.hom.finrank P.toPrimeSpectrum = _
+      change G.source.left.appTop.hom.finrank P.toPrimeSpectrum = _
       apply (finrank_appTop G.source.left P.toPrimeSpectrum).trans
       have hq := objectsToInvariantSpectrum_eq_of_maximalSpectrum G P P₀
       obtain ⟨a, ht, hs⟩ :=

@@ -197,6 +197,7 @@ private theorem representable_equalizer_map_mono
   exact mono_of_faithfullyMapped_mono yoneda Yoneda.fullyFaithful i
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` on presheaves over the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_beauvilleLaszloGlueingFaithful
@@ -271,10 +272,10 @@ private theorem compactSpace_of_jointly_surjective_lifts
     intro x
     rcases ha (i x) with ⟨y, hy⟩ | ⟨y, hy⟩
     · refine ⟨Sum.inl y, i.injective ?_⟩
-      show i (s₁ y) = i x
+      change i (s₁ y) = i x
       simpa only [← Scheme.Hom.comp_apply, hs₁] using hy
     · refine ⟨Sum.inr y, i.injective ?_⟩
-      show i (s₂ y) = i x
+      change i (s₂ y) = i x
       simpa only [← Scheme.Hom.comp_apply, hs₂] using hy
   exact Function.Surjective.compactSpace (f := Sum.elim s₁ s₂)
     (continuous_sum_dom.mpr ⟨s₁.continuous, s₂.continuous⟩) hsurj
@@ -301,21 +302,21 @@ private theorem affine_lift_of_ringHom_lift
     simp only [Category.assoc, hs₁, hs₂, ← Spec.map_comp]
     exact congrArg (fun z : A →+* A₁₂ => Spec.map (CommRingCat.ofHom z)) hcomm
   have hpq : c.comp p = d.comp q := by
-    show (CommRingCat.ofHom (c.comp p)).hom = (CommRingCat.ofHom (d.comp q)).hom
+    change (CommRingCat.ofHom (c.comp p)).hom = (CommRingCat.ofHom (d.comp q)).hom
     congr 1
     apply Spec.map_injective
-    show Spec.map (Spec.preimage (s₁ ≫ E.toSpecΓ) ≫ CommRingCat.ofHom c) =
+    change Spec.map (Spec.preimage (s₁ ≫ E.toSpecΓ) ≫ CommRingCat.ofHom c) =
       Spec.map (Spec.preimage (s₂ ≫ E.toSpecΓ) ≫ CommRingCat.ofHom d)
     simpa only [CommRingCat.ofHom_hom, Spec.map_comp, Spec.map_preimage,
       ← Category.assoc] using congrArg (fun z => z ≫ E.toSpecΓ) hsq
   obtain ⟨r, hr₁, hr₂⟩ := hlift Γ(E, ⊤) p q hpq
   refine ⟨Spec.map (CommRingCat.ofHom r), ?_, ?_⟩
   · rw [← Spec.map_comp]
-    show Spec.map (CommRingCat.ofHom (a.comp r)) = _
+    change Spec.map (CommRingCat.ofHom (a.comp r)) = _
     rw [hr₁]
     exact Spec.map_preimage _
   · rw [← Spec.map_comp]
-    show Spec.map (CommRingCat.ofHom (b.comp r)) = _
+    change Spec.map (CommRingCat.ofHom (b.comp r)) = _
     rw [hr₂]
     exact Spec.map_preimage _
 
@@ -413,7 +414,7 @@ private theorem isIso_of_mono_of_glueable_affine_lifts
     (Localization.awayMapₐ (Algebra.ofId R S) f)).toRingHom
   have hcomm : c.comp a = d.comp b := by
     ext x
-    show BeauvilleLaszlo.baseChangeToAway A f (x ⊗ₜ[R] (1 : S)) =
+    change BeauvilleLaszlo.baseChangeToAway A f (x ⊗ₜ[R] (1 : S)) =
       BeauvilleLaszlo.localizedBaseChangeToAway A f (x ⊗ₜ[R] (1 : Localization.Away f))
     rw [BeauvilleLaszlo.baseChangeToAway_tmul,
       BeauvilleLaszlo.localizedBaseChangeToAway_tmul, map_one, map_one]
@@ -471,7 +472,7 @@ private theorem equalizer_lift_of_baseChange_map_eq
     exact ha)
   have hcomp : yoneda.map a' ≫ (p ≫ φ.hom) = yoneda.map a' ≫ (p ≫ ψ.hom) := by
     apply yonedaEquiv.injective
-    show φ.hom.app (Opposite.op V₁) (p.app (Opposite.op V₁) a') =
+    change φ.hom.app (Opposite.op V₁) (p.app (Opposite.op V₁) a') =
       ψ.hom.app (Opposite.op V₁) (p.app (Opposite.op V₁) a')
     exact congrArg (fun z => z (p.app (Opposite.op V₁) a'))
       (congrArg (fun z => z.hom.app (Opposite.op V₀)) h)
@@ -502,11 +503,11 @@ private theorem tensorProduct_equalizer_lift_of_baseChange_map_eq
       l ≫ (AlgebraicGeometry.BigFppfOver.toScheme B (Spec (.of R)) hX).map i ≫ eT.hom =
         Spec.map (CommRingCat.ofHom (algebraMap A (TensorProduct R A S))) := by
   have hA : B.Contains (Spec (.of A)) := by
-    show (Spec (.of A)).size < B.cutoff
+    change (Spec (.of A)).size < B.cutoff
     rw [← Scheme.size_congr eT]
     exact T.left.property
   have hAS : B.Contains (Spec (.of (TensorProduct R A S))) := by
-    show (Spec (.of (TensorProduct R A S))).size < B.cutoff
+    change (Spec (.of (TensorProduct R A S))).size < B.cutoff
     rw [← Scheme.size_congr (pullbackSpecIso R A S)]
     exact Scheme.size_pullback_lt _ _ hA hS
   let a := Spec.map (CommRingCat.ofHom (algebraMap A (TensorProduct R A S)))
@@ -643,7 +644,7 @@ private theorem natTrans_eq_of_affine_etale_tests
   apply natTrans_eq_of_locallySurjective _ (Sigma.desc fun i => (X i).ι) hcover.2 hZ
   apply Sigma.hom_ext
   intro i
-  simp only [Sigma.ι_desc_assoc]
+  simp only [Sigma.ι_comp_desc_assoc]
   obtain ⟨U, p, V, hU, hpS, hpE, _⟩ := hatlas i
   apply natTrans_eq_of_surjectiveEtale_atlas B S hS (hcover.1 i).1 hZ U p hpS hpE
   rw [← Category.assoc, ← Category.assoc]

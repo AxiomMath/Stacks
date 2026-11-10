@@ -375,9 +375,9 @@ functions of `f` itself. -/
 public lemma baseRingHom_toSpecGlobalSections {X Y : Scheme.{u}} (f : X ⟶ Y) :
     Stacks.Cohomology.FormalFunctions.baseRingHom Γ(Y, ⊤) (toSpecGlobalSections f) =
       f.appTop.hom := by
-  show ((Scheme.ΓSpecIso (.of Γ(Y, ⊤))).inv ≫ (f ≫ Y.toSpecΓ).appTop).hom = _
+  change ((Scheme.ΓSpecIso (.of Γ(Y, ⊤))).inv ≫ (f ≫ Y.toSpecΓ).appTop).hom = _
   rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop, ← Category.assoc]
-  show ((((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(Y, ⊤)).hom) ≫
+  change ((((Scheme.ΓSpecIso Γ(Y, ⊤)).inv ≫ (Scheme.ΓSpecIso Γ(Y, ⊤)).hom) ≫
     f.appTop) : Γ(Y, ⊤) ⟶ Γ(X, ⊤)).hom = _
   rw [Iso.inv_hom_id, Category.id_comp]
 
@@ -469,7 +469,7 @@ public lemma exists_cohomologyTowerEquiv
   rw [show J.comap f = Stacks.Cohomology.FormalFunctions.baseIdealSheaf (Γ(Y, ⊤) : Type u)
       (J.ideal ⟨⊤, isAffineOpen_top Y⟩) (toSpecGlobalSections f) from
     (baseIdealSheaf_toSpecGlobalSections f J).symm]
-  obtain ⟨c, e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
+  obtain ⟨e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
     (Γ(Y, ⊤) : Type u) (toSpecGlobalSections f) (isProper_toSpecGlobalSections f)
     (J.ideal ⟨⊤, isAffineOpen_top Y⟩) F
     (AlgebraicGeometry.CoherentAbelian.stacksIsCoherent_of_isCoherent ‹F.IsCoherent›) 0

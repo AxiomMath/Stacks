@@ -79,6 +79,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found only after a deep search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_qfSepRep (B : BigFppfSite.{u}) (S : Scheme.{u})
@@ -149,14 +150,14 @@ private theorem exists_affine_open_chart
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
     have hz : z = IsLocalRing.closedPoint x.carrier := Subsingleton.elim _ _
-    show p z ∈ O
+    change p z ∈ O
     rw [hz]
     exact hxO
   let l := _root_.AlgebraicGeometry.IsOpenImmersion.lift O.ι p hr
   have hl : l ≫ O.ι = p := _root_.AlgebraicGeometry.IsOpenImmersion.lift_fac _ _ hr
   let a₀ : x.siteObject ⟶ A := Over.homMk (ObjectProperty.homMk l) (by
     apply B.inclusion.map_injective
-    show l ≫ O.ι ≫ B.inclusion.map U.hom = B.inclusion.map x.siteObject.hom
+    change l ≫ O.ι ≫ B.inclusion.map U.hom = B.inclusion.map x.siteObject.hom
     rw [← Category.assoc, hl]
     exact congrArg B.inclusion.map x.value.w)
   have hai : a₀ ≫ i = x.value := Over.OverMorphism.ext (ObjectProperty.hom_ext _ hl)
@@ -165,7 +166,7 @@ private theorem exists_affine_open_chart
   refine ⟨A, i, hO,
     (show _root_.AlgebraicGeometry.IsOpenImmersion O.ι from inferInstance),
     FieldValuedPoint.class B S hS (yoneda.obj A) a, ?_⟩
-  show Quot.mk _ (FieldValuedPoint.map B S hS _ (yoneda.map i) a) = Quot.mk _ x
+  change Quot.mk _ (FieldValuedPoint.map B S hS _ (yoneda.map i) a) = Quot.mk _ x
   congr 1
   change
     ({ carrier := x.carrier, contained := x.contained, toBase := x.toBase,
@@ -320,7 +321,7 @@ private theorem isRepresentable_of_schematic_neighborhoods
     let e := openSubspacesOrderIso B S hS X hX
     have he : e ⟨schematicLocus B S hS X, hL⟩ = e ⟨⊤, htop⟩ := by
       apply SetLike.coe_injective
-      show (e ⟨schematicLocus B S hS X, hL⟩).1 = (e ⟨⊤, htop⟩).1
+      change (e ⟨schematicLocus B S hS X, hL⟩).1 = (e ⟨⊤, htop⟩).1
       dsimp only [e]
       rw [openSubspacesOrderIso_apply, openSubspacesOrderIso_apply,
         Set.range_eq_univ.mpr hsurj,

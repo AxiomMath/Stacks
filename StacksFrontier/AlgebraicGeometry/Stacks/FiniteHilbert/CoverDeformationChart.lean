@@ -168,12 +168,12 @@ theorem exists_etaleChart_of_coverDeformationData {U U' : BigFppfOver B S hS} (i
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_yoneda_map,
       ← map_yonedaEquiv f aU]
-    show v.app _ ((Over.map i.left).map hU ≫ κ) =
+    change v.app _ ((Over.map i.left).map hU ≫ κ) =
       X'.map ((Over.map i.left).map aU).op x
     rw [← hjyapp, ← NatTrans.naturality_apply, hef, hea]
     have hw' := congrFun (congrArg (fun α => α.app (op ((Over.map i.left).obj ZVU))) hWV.w)
       (e ≫ jV₀)
-    show v.app _ (e ≫ jV₀ ≫ gV₀) = y.app _ ((e ≫ a₀) ≫ j)
+    change v.app _ (e ≫ jV₀ ≫ gV₀) = y.app _ ((e ≫ a₀) ≫ j)
     rw [Category.assoc, ← hZV.w]
     simp only [← Category.assoc]
     exact hw'.symm
@@ -193,10 +193,10 @@ theorem exists_etaleChart_of_coverDeformationData {U U' : BigFppfOver B S hS} (i
     B.inclusion.map κ.left, B.inclusion.map XV₀.hom, B.inclusion.map fV₀,
     (BigFppfOver.toScheme B U'.left.1 U'.left.2).map gV₀, haet, hasurj, hbet, hZVs, hpflat,
     hpbXs, hfu, hflci, ?_, by rw [hfi]; exact hUniv, ?_⟩
-  · show B.inclusion.map fV₀ ≫ B.inclusion.map XV₀.hom =
+  · change B.inclusion.map fV₀ ≫ B.inclusion.map XV₀.hom =
       B.inclusion.map a₀.left ≫ B.inclusion.map q.left
     rw [← Functor.map_comp, ← Functor.map_comp, hpbX.lift_snd]
-  · show B.inclusion.map gV₀.left ≫ B.inclusion.map V₀.hom =
+  · change B.inclusion.map gV₀.left ≫ B.inclusion.map V₀.hom =
       B.inclusion.map b₀.left ≫ B.inclusion.map W.hom
     rw [← Functor.map_comp, ← Functor.map_comp, Over.w gV₀, Over.w b₀]
 

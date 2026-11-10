@@ -79,7 +79,7 @@ theorem mem_supportOfSheaf_representedAssociatedModule_iff
       (selfChart B S hS U).obj.hom
       ((pointsEquivScheme B S hS ((SmallEtale.toOver B S hS X.1).obj (selfChart B S hS U))).symm
         (schemePointsHomeomorph B S hS U p)) = p := by
-    show pointsMap B S hS (yoneda.obj U) (𝟙 _)
+    change pointsMap B S hS (yoneda.obj U) (𝟙 _)
       ((pointsEquivScheme B S hS U).symm (pointsEquivScheme B S hS U p)) = p
     rw [Equiv.symm_apply_apply, pointsMap_id, id_eq]
   have hpt := Set.ext_iff.1 hsupp (schemePointsHomeomorph B S hS U p)

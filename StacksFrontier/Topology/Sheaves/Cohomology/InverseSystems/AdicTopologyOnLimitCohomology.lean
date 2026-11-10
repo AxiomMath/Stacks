@@ -102,7 +102,7 @@ private lemma exists_compatible_lift
     obtain ⟨t, ht⟩ := (hex₁ n ((X.map (homOfLE (Nat.le_succ n)).op).hom w - z.1)).mp hdiff
     refine ⟨⟨w - (δ (n + 1)).hom t, ?_⟩, Subtype.ext ?_⟩
     · rw [map_sub, (hex₁ (n + 1) _).2 ⟨t, rfl⟩, sub_zero, hw]
-    · show (X.map (homOfLE (Nat.le_succ n)).op).hom (w - (δ (n + 1)).hom t) = z.1
+    · change (X.map (homOfLE (Nat.le_succ n)).op).hom (w - (δ (n + 1)).hom t) = z.1
       rw [map_sub, hδnat n t, ht]
       abel
   have hbase : Nonempty (Fibre 0) := by
@@ -114,7 +114,7 @@ private lemma exists_compatible_lift
     NatTrans.ofOpSequence (fun n => ↾fun z : Fibre n => z.1) (by
       intro n
       ext z
-      show (Z.map (homOfLE (Nat.le_succ n)).op z).1 =
+      change (Z.map (homOfLE (Nat.le_succ n)).op z).1 =
         (X.map (homOfLE (Nat.le_succ n)).op).hom z.1
       rw [hZmap n]
       rfl)
@@ -252,10 +252,10 @@ private lemma range_pow_eq_ker_of_deltaFunctor {R : Sheaf J RingCat.{w}} {A : Ty
       τ₂ := map (k + 1)
       τ₃ := 𝟙 _
       comm₁₂ := by
-        show map k ≫ ι k = ι (k + 1) ≫ map (k + 1)
+        change map k ≫ ι k = ι (k + 1) ≫ map (k + 1)
         rw [hback (k + 1), hfac k]
       comm₂₃ := by
-        show map (k + 1) ≫ proj obj map (k + 1) = proj obj map (k + 1 + 1) ≫ 𝟙 _
+        change map (k + 1) ≫ proj obj map (k + 1) = proj obj map (k + 1 + 1) ≫ 𝟙 _
         simp [proj] }
   obtain ⟨P, δ, hδ, hex₁⟩ : ∃ (P : ModuleCat.{m} A) (δ : ∀ k, P ⟶ (D.functor p).obj (obj k)),
       (∀ k, δ (k + 1) ≫ (D.functor p).map (map k) = δ k) ∧
@@ -362,7 +362,7 @@ theorem range_pow_eq_ker_limitProjection (f : ↥(GlobalSectionRing O))
         globalModuleCohomology.{u, v, max u v, max u v} O p) (op n)).hom := by
   refine range_pow_eq_ker_of_deltaFunctor _ f obj map h
     (cohomologyDeltaFunctor.{u, v, max u v, max u v} O) p n fun N y => ?_
-  show ((globalModuleCohomology.{u, v, max u v, max u v} O p).map
+  change ((globalModuleCohomology.{u, v, max u v, max u v} O p).map
     (globalSmul O f N)).hom y = f • y
   rw [globalSmul_eq_smul_id, Functor.map_smul, CategoryTheory.Functor.map_id]
   rfl

@@ -69,8 +69,7 @@ private theorem finitePresentation_of_addEquiv_tensor {R T L M X : Type u} [Comm
   refine Module.FinitePresentation.of_equiv
     ({ e.trans eT.toAddEquiv with map_smul' := fun c x => ?_ } : M ≃ₗ[T] T ⊗[R] L).symm
   obtain ⟨y, rfl⟩ := e.symm.surjective x
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add y z hy hz => simp_all [smul_add]
   | tmul t m => simp [eT, h, TensorProduct.smul_tmul']
 

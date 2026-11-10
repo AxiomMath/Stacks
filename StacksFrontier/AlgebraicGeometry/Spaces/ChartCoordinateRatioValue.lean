@@ -372,7 +372,7 @@ theorem _root_.Stacks.RelativeProj.UnitSplitting.coordVector_eq_app {X T : Schem
   subst hx
   have h := Stacks.RelativeProj.pullbackUnitIso_inv_comp_map_app_top_one g
     (Stacks.RelativeProj.UnitSplitting.basisMap e j)
-  show c.app ⊤ (((Scheme.Modules.pullbackUnitIso g).inv ≫
+  change c.app ⊤ (((Scheme.Modules.pullbackUnitIso g).inv ≫
     (Scheme.Modules.pullback g).map (Stacks.RelativeProj.UnitSplitting.basisMap e j)).app ⊤
       (1 : Γ(T, ⊤))) = _
   rw [h]

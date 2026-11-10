@@ -88,7 +88,7 @@ theorem chartProjection_app (f : X ⟶ Y) (A : Sheaf (SmallEtale.topology B S hS
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app A).hom =
       (comparisonFunctor B S hS X).op.ranCounit.app A.obj := by
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit]
-  show (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
+  change (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app A).hom.app
       j.right (((comparisonFunctor B S hS X).op.ran.obj A.obj).map j.hom a) = _
   rw [h]
@@ -140,7 +140,7 @@ theorem chartMeromorphicPullback_comp (V : SmallEtale B S hS Y.1)
       (regularLocalizationPresheaf B S hS X)).naturality φ.right)
     (chartPullbackMeromorphicFunctions B S hS X.2 Y.2 hf
       (chartDiagramOfIndex B S hS f V j₁) s)
-  show ((toSheafify (SmallEtale.topology B S hS X.1)
+  change ((toSheafify (SmallEtale.topology B S hS X.1)
       (regularLocalizationPresheaf B S hS X)).app j₂.right).hom
         (chartPullbackMeromorphicFunctions B S hS X.2 Y.2 hf
           (chartDiagramOfIndex B S hS f V j₂) s) = _

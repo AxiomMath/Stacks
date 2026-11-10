@@ -76,7 +76,7 @@ lemma qcqsOverField_tensor (X Y : Over (Spec (CommRingCat.of k))) (hX : qcqsOver
     (hY : qcqsOverField k Y) : qcqsOverField k (X ⊗ Y) := by
   obtain ⟨_, _⟩ := hX
   obtain ⟨_, _⟩ := hY
-  show QuasiCompact (pullback.fst X.hom Y.hom ≫ X.hom) ∧
+  change QuasiCompact (pullback.fst X.hom Y.hom ≫ X.hom) ∧
     QuasiSeparated (pullback.fst X.hom Y.hom ≫ X.hom)
   exact ⟨inferInstance, inferInstance⟩
 
@@ -127,10 +127,7 @@ noncomputable def globalSectionsTensorAlgEquiv :
         ((algΓ (CommRingCat.of k)).map (snd X Y)).unop.hom t =
         globalSectionsTensorDesc X.hom Y.hom rfl rfl t := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero =>
-        exact (map_zero _).trans
-          (map_zero (globalSectionsTensorDesc X.hom Y.hom rfl rfl).hom).symm
+      induction t using TensorProduct.inductionOn with
       | tmul a b => exact (globalSectionsTensorDesc_tmul X.hom Y.hom rfl rfl a b).symm
       | add s t hs ht =>
         exact ((map_add _ _ _).trans (congrArg₂ _ hs ht)).trans
@@ -309,7 +306,7 @@ lemma counit_globalSectionsHopfAlgebra (a : Γ(G, ⊤)) :
     rw [Iso.inv_hom_id_apply]
     refine Eq.trans ?_ ((Functor.LaxMonoidal.ε (qcqsGlobalSections k)).unop.hom.commutes r)
     congr 1
-  show (Functor.LaxMonoidal.ε (qcqsGlobalSections k) ≫
+  change (Functor.LaxMonoidal.ε (qcqsGlobalSections k) ≫
     (algΓ (CommRingCat.of k)).map ((qcqsOverField k).ι.map η[qcqsGroupObj f])).unop.hom a = _
   rw [h1]
   exact h2 _
@@ -331,16 +328,15 @@ lemma globalSectionsTensorAlgEquiv_comul (a : Γ(G, ⊤)) :
     (qcqsGroupObj f) (qcqsGroupObj f)
   have h2 : ∀ t, globalSectionsTensorAlgEquiv (Over.mk f) (Over.mk f) t = P.hom.unop.hom t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero P.hom.unop.hom).symm
+    induction t using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add s t hs ht =>
       exact ((map_add _ _ _).trans (congrArg₂ _ hs ht)).trans (map_add P.hom.unop.hom _ _).symm
-  show globalSectionsTensorAlgEquiv (Over.mk f) (Over.mk f)
+  change globalSectionsTensorAlgEquiv (Over.mk f) (Over.mk f)
     ((Functor.LaxMonoidal.μ (qcqsGlobalSections k) (qcqsGroupObj f) (qcqsGroupObj f) ≫
       (algΓ (CommRingCat.of k)).map ((qcqsOverField k).ι.map μ[qcqsGroupObj f])).unop.hom a) = _
   rw [h1, Functor.Monoidal.μ_of_cartesianMonoidalCategory, h2]
-  show (P.hom ≫ P.inv ≫ (algΓ (CommRingCat.of k)).map μ[Over.mk f]).unop.hom a = _
+  change (P.hom ≫ P.inv ≫ (algΓ (CommRingCat.of k)).map μ[Over.mk f]).unop.hom a = _
   rw [P.hom_inv_id_assoc]
   rfl
 

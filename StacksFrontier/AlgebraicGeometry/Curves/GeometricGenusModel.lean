@@ -14,7 +14,8 @@ gives the genus of a given nonsingular projective model of `(X_K)_red`, with no 
 requirement, and its invariance under enlarging the field.
 
 **The geometric genus of Tag 0BYF itself is `AlgebraicGeometry.geometricGenusOfCurve`**, in
-`StacksFrontier/AlgebraicGeometry/Curves/GeometricGenusSmoothModel.lean`: there the model is required
+`StacksFrontier/AlgebraicGeometry/Curves/GeometricGenusSmoothModel.lean`:
+there the model is required
 to be smooth over `K`, as in Tag 0BY4, and the value is proved independent of `K` and of the
 model. `AlgebraicGeometry.geometricGenusOfModel` below agrees with it on smooth models only.
 

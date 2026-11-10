@@ -245,7 +245,7 @@ theorem compactSpace₀ : CompactSpace (B.inclusion.obj x₀.base) := by
 /-- The identity of the polarized family over the field is a thickening of its base. -/
 theorem isThickening_id_baseMap :
     Stacks.Thickenings.IsThickening (B.inclusion.map (𝟙 x₀ : x₀ ⟶ x₀).baseMap) := by
-  show Stacks.Thickenings.IsThickening (𝟙 (B.inclusion.obj x₀.base))
+  change Stacks.Thickenings.IsThickening (𝟙 (B.inclusion.obj x₀.base))
   exact ⟨inferInstance, Function.surjective_id⟩
 
 /-- The polarized family over the field as its own (trivial) admissible deformation. -/
@@ -459,7 +459,7 @@ theorem liftAlgebraHom_comp_toSpecialFiber (f : V ⟶ W) (yV : LiftFiber B hS hT
         toSpecialFiber B hS hT toS hk x₀ hx W yW = toSpecialFiber B hS hT toS hk x₀ hx V yV := by
   apply Deformation.Examples.ProjectiveGradedAlgebra.Hom.ext
   · exact (Deformation.Examples.isTerminal_residueFieldBase (Λ := k) (k := k)).hom_ext _ _
-  · show (AdmissibleDeformation.sectionRingHom (liftHom₀ B hS hT toS hk x₀ hx W yW)).comp
+  · change (AdmissibleDeformation.sectionRingHom (liftHom₀ B hS hT toS hk x₀ hx W yW)).comp
         (AdmissibleDeformation.sectionRingHom (liftHom (compactSpace₀ B hS hT toS hk x₀ hx)
           (isThickening_liftBaseMap B hS hT toS hk x₀ hx W yW)
           (isThickening_liftBaseMap B hS hT toS hk x₀ hx V yV) φ hcomm)) =

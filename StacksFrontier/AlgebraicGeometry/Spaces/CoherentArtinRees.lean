@@ -134,8 +134,7 @@ theorem span_image_chartRestrictLinear_eq (M : Modules.{u, u} B S hS F hF) (G : 
             (chartRestrictLinear M φ '' (chartSubmodule B S hS F hF G U : Set (M.val.obj (op U))))
               := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul b g =>
           rw [chartBaseChange_tmul, map_smul]
           refine Submodule.smul_mem _ b ?_
@@ -390,7 +389,7 @@ theorem exists_sieve_mem_presheafIdealSmul_of_artinRees
     (idealPowSubmodule I c M ⊓ G).toSubmodule).map l.op
     ((presheafIdealSmul_obj_eq B S hS F hF I (n - c) _ C).le hu)
   rw [← presheafIdealSmul_obj_eq] at hfin
-  show chartRestrictLinear M ((l ≫ mc) ≫ g) w ∈ _
+  change chartRestrictLinear M ((l ≫ mc) ≫ g) w ∈ _
   rw [chartRestrictLinear_comp M g (l ≫ mc) w,
     chartRestrictLinear_comp M mc l]
   exact hfin
@@ -434,7 +433,7 @@ theorem idealPowSubmodule_inf_le_idealPowSmul
     (hS₀' f hf) (chartRestrictLinear_mem_chartSubmodule B S hS F hF G f hzG)
   refine (SmallEtale.topology B S hS F).superset_covering ?_ hSw
   intro Y' g hg
-  show chartRestrictLinear M (g ≫ f) z ∈ _
+  change chartRestrictLinear M (g ≫ f) z ∈ _
   rw [chartRestrictLinear_comp M f g z]
   exact hSw' g hg
 

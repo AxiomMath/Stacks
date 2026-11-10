@@ -142,7 +142,7 @@ theorem syntomic_of_comp_of_fppf (f : X ⟶ Y) (q : Y ⟶ S) [Surjective f] [Fla
   have : Flat f' := by dsimp only [f']; infer_instance
   have : LocallyOfFinitePresentation f' := by dsimp only [f']; infer_instance
   refine syntomic_of_comp_of_fppf_affine f' (q.resLE V U hUV) ?_
-  show Syntomic (f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ q.resLE V U hUV)
+  change Syntomic (f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ q.resLE V U hUV)
   rw [Scheme.Hom.resLE_comp_resLE]
   exact syntomic_resLE hp _ _ _
 

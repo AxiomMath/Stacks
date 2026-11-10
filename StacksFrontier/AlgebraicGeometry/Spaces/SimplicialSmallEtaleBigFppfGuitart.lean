@@ -55,7 +55,7 @@ abbrev degreeTwoSquare (m : SimplexCategory) :
 /-- The component of the degree square at an object is an identity. -/
 theorem degreeTwoSquare_app (m : SimplexCategory)
     (V : SpacesEtale T.schemeSite S T.scheme_mem (U.obj (op m))) :
-    (degreeTwoSquare U m).natTrans.app V =
+    (degreeTwoSquare U m).app V =
       𝟙 ((slicesι U m).obj
         ((SpacesEtale.inclusion T.schemeSite S T.scheme_mem (U.obj (op m))).obj V)) :=
   rfl
@@ -64,7 +64,7 @@ theorem degreeTwoSquare_app (m : SimplexCategory)
 theorem structuredArrowDownwards_obj_hom (m : SimplexCategory) (W : Over (U.obj (op m)))
     (c : StructuredArrow W (SpacesEtale.inclusion T.schemeSite S T.scheme_mem (U.obj (op m)))) :
     (((degreeTwoSquare U m).structuredArrowDownwards W).obj c).hom =
-      (slicesι U m).map c.hom ≫ (degreeTwoSquare U m).natTrans.app c.right :=
+      (slicesι U m).map c.hom ≫ (degreeTwoSquare U m).app c.right :=
   rfl
 
 /-- The downwards structured arrows of the degree square are the arrows of degree `m`. -/

@@ -172,7 +172,7 @@ private def resolutionDesc (a : F ⟶ K.X 0) (ha : a ≫ K.d 0 1 = 0) :
 /-- The map produced by `resolutionDesc` is compatible with the augmentations. -/
 private lemma resolutionDesc_zero (a : F ⟶ K.X 0) (ha : a ≫ K.d 0 1 = 0) :
     J.ι.f 0 ≫ (resolutionDesc J K a ha).f 0 = a := by
-  show J.ι.f 0 ≫ Injective.factorThru a (J.ι.f 0) = a
+  change J.ι.f 0 ≫ Injective.factorThru a (J.ι.f 0) = a
   exact Injective.comp_factorThru _ _
 
 end
@@ -286,7 +286,7 @@ private lemma derivedComparison_eq (i : ℕ) {F : A} (I : InjectiveResolution F)
   have h := comparisonValue_naturality T G i (𝟙 F) (injectiveResolution F) I
     (injectiveResolution (T.obj F)) J (resolutionComparison T _ _) φ
     (resolutionComparison_zero T _ _) hφ
-  show (derivedComparison T G i).app F = _
+  change (derivedComparison T G i).app F = _
   simpa [derivedComparison, Functor.map_id] using h.symm
 
 end
@@ -638,7 +638,7 @@ private lemma restriction_eq_zero_iff_boundary
     (AddCommGrpCat.mono_iff_injective
       (I.isoRightDerivedObj ((sheafSections J Ab.{max u v}).obj (op V))
         (n + 1)).inv).1 inferInstance |>.eq_iff]
-  show HomologicalComplex.homologyMap φ (n + 1)
+  change HomologicalComplex.homologyMap φ (n + 1)
     ((sectionsComplex I.cocomplex U).homologyπ (n + 1) z) = 0 ↔ _
   rw [← ConcreteCategory.comp_apply, HomologicalComplex.homologyπ_naturality,
     ConcreteCategory.comp_apply, homologyπ_eq_zero_iff_boundary]
@@ -686,7 +686,7 @@ private lemma locally_boundary_of_homology_image
       ConcreteCategory.comp_apply] at hb
     exact hb
   have hy : (L.d (n + 1) (n + 2)).hom.app (op U) (P.iCycles (n + 1) y) = 0 := by
-    show P.d (n + 1) (n + 2) (P.iCycles (n + 1) y) = 0
+    change P.d (n + 1) (n + 2) (P.iCycles (n + 1) y) = 0
     rw [← ConcreteCategory.comp_apply, P.iCycles_d]
     rfl
   have hloc := Stacks.AbelianSheaves.imageSieve_mem_of_exact (L.sc' n (n + 1) (n + 2))
@@ -702,7 +702,7 @@ private lemma locally_boundary_of_homology_image
   change (K.d n (n + 1)).hom.app (op V) ((φ.f n).hom.app (op V) x) =
     (φ.f (n + 1)).hom.app (op V) ((L.d n (n + 1)).hom.app (op V) x) at hf
   rw [hf, hx, sheaf_naturality_apply]
-  show _ - (K.X (n + 1)).obj.map g.op (Q.d n (n + 1) b) = _
+  change _ - (K.X (n + 1)).obj.map g.op (Q.d n (n + 1) b) = _
   rw [hb', map_sub]
   exact sub_sub_cancel _ _
 
@@ -765,7 +765,7 @@ private lemma covering_over_terminal_iff (K : Precoverage C)
   have he {V : C} (f : V ⟶ X) :
       (Sieve.overEquiv (Over.mk (𝟙 X)) s) f ↔
         s (Over.homMk (U := Over.mk f) (V := Over.mk (𝟙 X)) f (by simp)) := by
-    show ((Sieve.overEquiv (Over.mk (𝟙 X))).symm
+    change ((Sieve.overEquiv (Over.mk (𝟙 X))).symm
       (Sieve.overEquiv (Over.mk (𝟙 X)) s))
         (Over.homMk (U := Over.mk f) (V := Over.mk (𝟙 X)) f (by simp)) ↔ _
     rw [OrderIso.symm_apply_apply]
@@ -830,7 +830,7 @@ private lemma map_resolution_exactness {A B : Type*} [Category* A] [Category* B]
       (ShortComplex.mk (T.map (I.ι.f 0)) _ ha).Exact ∧ Mono (T.map (I.ι.f 0)) ∧
         ∀ j, j < n → ((T.mapHomologicalComplex (.up ℕ)).obj I.cocomplex).ExactAt (j + 1) := by
   have ha : T.map (I.ι.f 0) ≫ ((T.mapHomologicalComplex (.up ℕ)).obj I.cocomplex).d 0 1 = 0 := by
-    show T.map (I.ι.f 0) ≫ T.map (I.cocomplex.d 0 1) = 0
+    change T.map (I.ι.f 0) ≫ T.map (I.cocomplex.d 0 1) = 0
     rw [← T.map_comp, I.ι_f_zero_comp_complex_d, T.map_zero]
   refine ⟨ha, ShortComplex.exact_of_f_is_kernel _ (KernelFork.mapIsLimit _ I.isLimitKernelFork T),
     mono_of_isLimit_fork (KernelFork.mapIsLimit _ I.isLimitKernelFork T), fun j hj => ?_⟩

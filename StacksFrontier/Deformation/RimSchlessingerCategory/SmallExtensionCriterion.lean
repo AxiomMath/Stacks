@@ -155,7 +155,7 @@ private theorem exists_pullback_for_factor
       let g₀ := D.map' 0 1
       let D' := D.δ₀
       have hfactor : D.hom = g₀ ≫ D'.hom := by
-        show D.map' 0 (n + 1) = D.map' 0 1 ≫ D.map' 1 (n + 1)
+        change D.map' 0 (n + 1) = D.map' 0 1 ≫ D.map' 1 (n + 1)
         exact ComposableArrows.map'_comp D 0 1 (n + 1)
       have hψ : p.IsHomLift (D.hom ≫ e.hom) f₂ := by
         have hcomp : D.hom ≫ e.hom = eqToHom hleft ≫ p.map f₂ := by
@@ -208,12 +208,12 @@ private theorem exists_pullback_for_factor
               (pastePullbackCones (c₁.map p) (c₂.map p))) :=
         PullbackCone.ext (Iso.refl _)
           (by
-            show p.map c₀.fst = 𝟙 _ ≫ (p.map c₂.fst ≫ p.map c₁.fst)
+            change p.map c₀.fst = 𝟙 _ ≫ (p.map c₂.fst ≫ p.map c₁.fst)
             rw [Category.id_comp]
-            show p.map (c₂.fst ≫ c₁.fst) = p.map c₂.fst ≫ p.map c₁.fst
+            change p.map (c₂.fst ≫ c₁.fst) = p.map c₂.fst ≫ p.map c₁.fst
             exact p.map_comp _ _)
           (by
-            show p.map c₀.snd = 𝟙 _ ≫ p.map c₂.snd
+            change p.map c₀.snd = 𝟙 _ ≫ p.map c₂.snd
             rw [Category.id_comp]
             rfl)
       exact ⟨IsLimit.ofIsoLimit hbase (hcone₁.trans hcone₂).symm⟩
@@ -233,7 +233,7 @@ public theorem satisfiesRS_of_small_extensions
         ∃ c : PullbackCone f₁ f₂,
           (Nonempty (IsLimit c) ∧ Nonempty (IsLimit (c.map p)))) :
     SatisfiesRS p := by
-  show IsCofiberedInGroupoids p ∧ _
+  change IsCofiberedInGroupoids p ∧ _
   refine ⟨hp, ?_⟩
   intro x₁ x₂ x f₁ f₂ hf₂
   obtain ⟨n, D, hleft, e, hfac, hedge⟩ :=

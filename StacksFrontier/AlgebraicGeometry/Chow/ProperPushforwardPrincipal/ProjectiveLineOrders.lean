@@ -249,7 +249,7 @@ theorem ord_spec_polynomial_eq_ordAt {p : Polynomial k} (hp : Irreducible p)
       rw [hfapp, hsymm]
       exact hmor
     rw [h1]
-    show ((Spec (.of (Polynomial k))).presheaf.stalkSpecializes _).hom _ = _
+    change ((Spec (.of (Polynomial k))).presheaf.stalkSpecializes _).hom _ = _
     rw [TopCat.Presheaf.germ_stalkSpecializes_apply]
     rfl
   obtain ⟨a, b, hb, habg⟩ := IsFractionRing.div_surjective (A := Polynomial k) g
@@ -302,7 +302,7 @@ theorem residueDegree_projectiveLineAffineStructureMorphism_eq_natDegree
     · exact absurd h z.2.ne_top
   have hbase : (Spec.map φ).base z = x := by
     refine PrimeSpectrum.ext ?_
-    show z.asIdeal.comap (Ideal.Quotient.mk (Ideal.span {p})) = x.asIdeal
+    change z.asIdeal.comap (Ideal.Quotient.mk (Ideal.span {p})) = x.asIdeal
     rw [hzb, hxId, ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
   have hq := Stacks.Chow.residueDegree_of_bijective_residueFieldMap_comp (Spec.map φ)
     (projectiveLineAffineStructureMorphism k) z

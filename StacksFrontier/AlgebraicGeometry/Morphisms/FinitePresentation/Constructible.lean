@@ -73,7 +73,7 @@ public lemma isLocallyConstructible_preimage {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hsets : (f.resLE A B hBA) ⁻¹' ((A.1 : Set Y) ↓∩ s) =
       (B : Set X) ↓∩ (f ⁻¹' s) := by
     ext z
-    show ((f.resLE A B hBA z).1 ∈ s) ↔ f z.1 ∈ s
+    change ((f.resLE A B hBA z).1 ∈ s) ↔ f z.1 ∈ s
     rw [f.coe_resLE_apply hBA z]
   rw [← hsets]
   exact (f.resLE A B hBA).isConstructible_preimage
@@ -98,7 +98,7 @@ public theorem mem_nhds_of_isLocallyConstructible_of_specializes_subset
     have hxUClosure : xU ∈ closure F := by
       have hEmb := (U : X.Opens).2.isOpenEmbedding_subtypeVal.isEmbedding
       rw [hEmb.closure_eq_preimage_closure_image]
-      show x ∈ closure
+      change x ∈ closure
         ((Subtype.val : (U.1 : Set X) → X) ''
           ((Subtype.val : (U.1 : Set X) → X) ⁻¹' Eᶜ))
       rw [Subtype.image_preimage_coe]

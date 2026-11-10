@@ -82,7 +82,7 @@ theorem transcendental_adjoin_of_ringEquiv {K L K' L' : Type*} [Field K] [Field 
     let F : IntermediateField K L :=
       { (F'.toSubfield.comap (eL : L →+* L')) with
         algebraMap_mem' := fun k => by
-          show eL (algebraMap K L k) ∈ F'
+          change eL (algebraMap K L k) ∈ F'
           rw [h]
           exact F'.algebraMap_mem _ }
     have hle : IntermediateField.adjoin K {t} ≤ F := by
@@ -169,7 +169,7 @@ theorem IsTranscendentalOneLocalHom.comp_bijective {A B A' : Type*} [CommRing A]
   refine hf.of_comm_of_bijective f (f.comp e) e' (RingHom.id B) ?_
     (RingEquiv.ofBijective e he).symm.bijective Function.bijective_id
   ext x
-  show f x = f (e ((RingEquiv.ofBijective e he).symm x))
+  change f x = f (e ((RingEquiv.ofBijective e he).symm x))
   exact congrArg f ((RingEquiv.ofBijective e he).apply_symm_apply x).symm
 
 /-- The property survives postcomposition with a bijective homomorphism. -/
@@ -318,7 +318,7 @@ theorem transcendental_extendedPrimeGenerator :
       (algebraMap (R ⧸ p) p.ResidueField)).comp (Ideal.Quotient.mk p) =
       (toExtendedPrimeResidueField p).comp LaurentPolynomial.C := by
     refine RingHom.ext fun r => ?_
-    show Ideal.ResidueField.map p (extendedPrime p) (algebraMap R (LaurentPolynomial R))
+    change Ideal.ResidueField.map p (extendedPrime p) (algebraMap R (LaurentPolynomial R))
         (comap_extendedPrime p).symm (algebraMap R p.ResidueField r) = _
     rw [residueFieldMap_algebraMap]
     rfl
@@ -373,7 +373,7 @@ theorem adjoin_extendedPrimeGenerator :
   have : IsLocalRing.residue _ (IsLocalization.mk' (Localization.AtPrime (extendedPrime p)) x s) =
       toExtendedPrimeResidueField p x / toExtendedPrimeResidueField p s := by
     rw [eq_div_iff hs]
-    show IsLocalRing.residue _ (IsLocalization.mk' _ x s) *
+    change IsLocalRing.residue _ (IsLocalization.mk' _ x s) *
       IsLocalRing.residue _ (algebraMap _ _ (s : LaurentPolynomial R)) =
         IsLocalRing.residue _ (algebraMap _ _ x)
     rw [← map_mul, IsLocalization.mk'_spec]

@@ -166,7 +166,8 @@ def projectiveLineFieldExtensionIso :
 
 /-! ### A power -/
 
-set_option synthInstance.maxHeartbeats 400000
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the products of presheaves on the big fppf site and their preservation
 /-- **The base change of a power of the projective line over `k` along a field extension is the
 corresponding power of the projective line over `K`**: base change preserves limits, so it
 carries a product to the product of the base changes, and each factor is identified by
@@ -179,6 +180,8 @@ def projectiveLinePowerFieldExtensionIso (α : Type v) [Small.{u} α] :
       (fun _ : α => projectiveLineFunctor k B hk) ≪≫
     Pi.mapIso fun _ : α => projectiveLineFieldExtensionIso B k K hk hK
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the products of presheaves on the big fppf site and their preservation
 /-- The identification of the base change of a power of the projective line reads the coordinate
 `a` as the base change of the `a`-th coordinate projection followed by the single-factor
 identification. -/
@@ -191,6 +194,8 @@ theorem projectiveLinePowerFieldExtensionIso_hom_comp_π (α : Type v) [Small.{u
   rw [projectiveLinePowerFieldExtensionIso, Iso.trans_hom, Category.assoc, Pi.mapIso_hom_π,
     ← Category.assoc, PreservesProduct.iso_hom, piComparison_comp_π]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the products of presheaves on the big fppf site and their preservation
 /-- **The identification of the base change of a power of the projective line is compatible with
 the coordinate projection onto a finite subset of the coordinates.** -/
 theorem relocalizeRestrict_map_coordinateProjection (n : ℕ) (I : Finset (Fin n)) :

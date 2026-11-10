@@ -116,7 +116,7 @@ theorem exists_pow_smul_mem_of_forall_localization (K : Ideal B) (t b : B)
     · obtain ⟨m, hm, hmb⟩ := (IsLocalization.algebraMap_mem_map_algebraMap_iff
         p.asIdeal.primeCompl (Localization.AtPrime p.asIdeal) K b).mp (h p hKp htp)
       exact ⟨⟨m, hm⟩, (smul_quotient_mk_eq_zero_iff K m b).mpr hmb⟩
-    · obtain ⟨s, hsK, hsp⟩ := SetLike.not_le_iff_exists.mp hKp
+    · obtain ⟨s, hsK, hsp⟩ := IsConcreteLE.not_le_iff_exists.mp hKp
       exact ⟨⟨s, Ideal.mem_primeCompl_iff.mpr hsp⟩,
         (smul_quotient_mk_eq_zero_iff K s b).mpr (K.mul_mem_right b hsK)⟩
   obtain ⟨k, hk⟩ := exists_pow_smul_eq_zero_of_localizedModule_eq_zero (B ⧸ K) t

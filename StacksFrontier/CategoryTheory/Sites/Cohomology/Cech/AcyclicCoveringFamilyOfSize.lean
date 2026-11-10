@@ -212,7 +212,7 @@ lemma inducesIsoKernel_cechBetaRow (p : ℤ) :
   have hz := InjectiveResolution.inclusionZero_comp_d J
   have hβ : ((cechComplexIntFunctor.{a} K E).map J.inclusionZero).f p ≫
       (((cechBicomplex.{a} K E J.cochainComplex).flip).X p).d 0 1 = 0 := by
-    show ((cechComplexIntFunctor.{a} K E).map J.inclusionZero).f p ≫
+    change ((cechComplexIntFunctor.{a} K E).map J.inclusionZero).f p ≫
       ((cechComplexIntFunctor.{a} K E).map (J.cochainComplex.d 0 1)).f p = 0
     rw [← HomologicalComplex.comp_f, ← Functor.map_comp, hz, Functor.map_zero,
       HomologicalComplex.zero_f]

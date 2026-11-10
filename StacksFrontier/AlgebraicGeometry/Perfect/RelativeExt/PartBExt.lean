@@ -87,14 +87,13 @@ section Stage
 
 variable {U S : Scheme.{u}} {g : U ⟶ S} {G : CochainComplex (TModules U.toRingedSpace) ℤ}
   {E : DStd U} (D : PartBApproxSystem g G E) (hG : IsBoundedFlatOver g.toLRSHom.toShHom G)
-  [HasCoproduct (partBSystem D).obj] {L : DStd S} {d : ∀ n, (partBSystem D).obj n ⟶ L}
-  (hL : IsHomotopyColimitWith (partBSystem D) L d) (b : ℤ) (hb : G.IsStrictlyGE b)
+  {L : DStd S} {d : ∀ n, (partBSystem D).obj n ⟶ L} (b : ℤ) (hb : G.IsStrictlyGE b)
   [∀ i : ℤ, HasColimit (partBSystem D ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u}
       (structureSheafRing S.toRingedSpace)) i)]
   (hcolim : PartBHomologyColimit D L d) (η : E ⟶ (partBΦ hG).obj L)
   (hη : ∀ n, D.c n ≫ η = partBUnit D hG n ≫ (partBΦ hG).map (d n))
 
-include hL hb hcolim hη in
+include hb hcolim hη in
 /-- **`Hom(L, N) ≃+ Hom(E, Φ N)`**, `ψ ↦ η ≫ Φ(ψ)`, naturally in `N ∈ D^+_QCoh(𝒪_S)`. -/
 def partBTheta :
     ShiftedHom.NaturalHomIdentification (𝟭 (DStd S)) (partBΦ hG) L E (plusQCohDerived S) where
@@ -102,7 +101,7 @@ def partBTheta :
     (AddMonoidHom.mk' (fun ψ : L ⟶ N => η ≫ (partBΦ hG).map ψ) fun ψ ψ' => by
       change η ≫ (partBΦ hG).map (ψ + ψ') = η ≫ (partBΦ hG).map ψ + η ≫ (partBΦ hG).map ψ'
       rw [Functor.map_add, Preadditive.comp_add])
-    (bijective_partBHocolimUnit_comp D hG hL b hb hcolim η hη N hN.1 hN.2.choose
+    (bijective_partBHocolimUnit_comp D hG b hb hcolim η hη N hN.1 hN.2.choose
       hN.2.choose_spec)
   naturality {N N'} _ _ k ψ := by
     change η ≫ (partBΦ hG).map (ψ ≫ k) = (η ≫ (partBΦ hG).map ψ) ≫ (partBΦ hG).map k
@@ -120,30 +119,30 @@ def relativeExtTargetShiftIso (F : SheafOfModules.{u} (structureSheafRing S.toRi
       (Category.comp_id z))
     right_inv := fun z => (Category.assoc _ _ _).trans ((congrArg (z ≫ ·) e.inv_hom_id).trans
       (Category.comp_id z))
-    map_add' := fun z z' => Preadditive.add_comp _ _ _ _ _ _ }
+    map_add' := fun z z' => Preadditive.add_comp _ _ _ z z' e.hom }
 
-include hL hb hcolim hη in
+include hb hcolim hη in
 /-- **`Ext^i_{𝒪_S}(L, ℱ) ≃+ Ext^i_{𝒪_U}(E, 𝒢 ⊗ g^*ℱ)`** for quasi-coherent `ℱ`: the transport
 of `partBTheta` to shifted morphisms, read through `Φ(ℱ[0]) ≅ 𝒢 ⊗ g^*ℱ`. -/
 def partBExtIso (i : ℤ) (F : SheafOfModules.{u} (structureSheafRing S.toRingedSpace))
     (hF : F.IsQuasicoherent) : baseExtGroup L F i ≃+ relativeExtGroup g G E F i :=
   (@ShiftedHom.transport _ _ _ _ _ _ _ _ _ _ _ _ _ (Functor.CommShift.id _)
     (pullbackTensorDerivedFunctor_commShift hG) _ _ _
-    (partBTheta (D := D) (hG := hG) (hL := hL) (b := b) (hb := hb) (hcolim := hcolim)
+    (partBTheta (D := D) (hG := hG) (b := b) (hb := hb) (hcolim := hcolim)
       (η := η) (hη := hη)) (plusQCohDerived_shift S) _
     (plusQCohDerived_single S F hF) i).trans
     (relativeExtTargetShiftIso hG F i)
 
-include hL hb hcolim hη in
+include hb hcolim hη in
 /-- **The isomorphisms are functorial in `ℱ`.** -/
 theorem partBExtIso_naturality (i : ℤ)
     {F F' : SheafOfModules.{u} (structureSheafRing S.toRingedSpace)} (hF : F.IsQuasicoherent)
     (hF' : F'.IsQuasicoherent) (v : F ⟶ F') (z : baseExtGroup L F i) :
-    partBExtIso D hG hL b hb hcolim η hη i F' hF' (baseExtMap L i v z) =
-      relativeExtMap g G E i v (partBExtIso D hG hL b hb hcolim η hη i F hF z) := by
+    partBExtIso D hG b hb hcolim η hη i F' hF' (baseExtMap L i v z) =
+      relativeExtMap g G E i v (partBExtIso D hG b hb hcolim η hη i F hF z) := by
   have h1 := @ShiftedHom.transport_naturality _ _ _ _ _ _ _ _ _ _ _ _ _ (Functor.CommShift.id _)
     (pullbackTensorDerivedFunctor_commShift hG) _ _ _
-    (partBTheta D hG hL b hb hcolim η hη) (plusQCohDerived_shift S) _ _
+    (partBTheta D hG b hb hcolim η hη) (plusQCohDerived_shift S) _ _
     (plusQCohDerived_single S F hF)
     (plusQCohDerived_single S F' hF') ((DerivedCategory.singleFunctor _ 0).map v) i z
   have h2 := (relativeExtTargetIso hG).hom.naturality v
@@ -166,18 +165,18 @@ theorem _root_.CategoryTheory.ShiftedHom.conj_iso_symm {C : Type*} [Category C] 
     ← CategoryTheory.Functor.map_comp, Iso.hom_inv_id, CategoryTheory.Functor.map_id,
     Category.comp_id]
 
-include hL hb hcolim hη in
+include hb hcolim hη in
 /-- **The isomorphisms are compatible with the boundary maps** of a short exact sequence
 `0 ⟶ ℱ₁ ⟶ ℱ₂ ⟶ ℱ₃ ⟶ 0` of quasi-coherent `𝒪_S`-modules. -/
 theorem partBExtIso_boundary
     {A : ShortComplex (SheafOfModules.{u} (structureSheafRing S.toRingedSpace))}
     (hA : A.ShortExact) (h₁ : A.X₁.IsQuasicoherent) (h₃ : A.X₃.IsQuasicoherent) (n m : ℤ)
     (h : 1 + n = m) (z : baseExtGroup L A.X₃ n) :
-    partBExtIso D hG hL b hb hcolim η hη m A.X₁ h₁ (baseExtBoundaryMap L hA n m h z) =
-      relativeExtBoundaryMap E hG hA n m h (partBExtIso D hG hL b hb hcolim η hη n A.X₃ h₃ z) := by
+    partBExtIso D hG b hb hcolim η hη m A.X₁ h₁ (baseExtBoundaryMap L hA n m h z) =
+      relativeExtBoundaryMap E hG hA n m h (partBExtIso D hG b hb hcolim η hη n A.X₃ h₃ z) := by
   have h1 := @ShiftedHom.transport_comp_map _ _ _ _ _ _ _ _ _ _ _ _ _ (Functor.CommShift.id _)
     (pullbackTensorDerivedFunctor_commShift hG) _ _ _
-    (partBTheta D hG hL b hb hcolim η hη) (plusQCohDerived_shift S) _ _
+    (partBTheta D hG b hb hcolim η hη) (plusQCohDerived_shift S) _ _
     (plusQCohDerived_single S A.X₃ h₃)
     (plusQCohDerived_single S A.X₁ h₁) hA.singleδ n m h z
   rw [ShiftedHom.id_map] at h1
@@ -219,8 +218,7 @@ variable {X U S : Scheme.{u}} (f : X ⟶ S) (j : U ⟶ X) [IsOpenImmersion j]
   {G : CochainComplex (TModules X.toRingedSpace) ℤ} (hG : IsBoundedFlatOver f.toLRSHom.toShHom G)
   (E : DStd X)
   (D : PartBApproxSystem (j ≫ f) (restrictComplex j G) ((restrictDerived j).obj E))
-  (b : ℤ) (hb : G.IsStrictlyGE b) [HasCoproduct (partBSystem D).obj] {L : DStd S}
-  {d : ∀ n, (partBSystem D).obj n ⟶ L} (hL : IsHomotopyColimitWith (partBSystem D) L d)
+  (b : ℤ) (hb : G.IsStrictlyGE b) {L : DStd S} {d : ∀ n, (partBSystem D).obj n ⟶ L}
   [∀ i : ℤ, HasColimit (partBSystem D ⋙ DerivedCategory.homologyFunctor (SheafOfModules.{u}
     (structureSheafRing S.toRingedSpace)) i)]
   (hcolim : PartBHomologyColimit D L d)
@@ -240,7 +238,7 @@ the `Lₙ`, and `η : E|_U ⟶ Φ(L)` the glued unit. Then
 isomorphism `partBExtIso`, the second the inverse of restriction. -/
 def relativeExtIsoOfOpen (i : ℤ) (F : SheafOfModules.{u} (structureSheafRing S.toRingedSpace))
     (hF : F.IsQuasicoherent) : baseExtGroup L F i ≃+ relativeExtGroup f G E F i :=
-  (partBExtIso D (isBoundedFlatOver_restrictComplex (f := f) (j := j) hG) hL b
+  (partBExtIso D (isBoundedFlatOver_restrictComplex (f := f) (j := j) hG) b
     (isStrictlyGE_restrictComplex (j := j) b hb) hcolim η hη i F hF).trans
     (AddEquiv.ofBijective (restrictRelativeExt f j G E F i) (hres F i)).symm
 
@@ -249,8 +247,8 @@ theorem restrictRelativeExt_relativeExtIsoOfOpen (i : ℤ)
     (F : SheafOfModules.{u} (structureSheafRing S.toRingedSpace)) (hF : F.IsQuasicoherent)
     (z : baseExtGroup L F i) :
     restrictRelativeExt f j G E F i
-        (relativeExtIsoOfOpen f j hG E D b hb hL hcolim hres η hη i F hF z) =
-      partBExtIso D (isBoundedFlatOver_restrictComplex (f := f) (j := j) hG) hL b
+        (relativeExtIsoOfOpen f j hG E D b hb hcolim hres η hη i F hF z) =
+      partBExtIso D (isBoundedFlatOver_restrictComplex (f := f) (j := j) hG) b
         (isStrictlyGE_restrictComplex (j := j) b hb) hcolim η hη i F hF z :=
   (AddEquiv.ofBijective (restrictRelativeExt f j G E F i) (hres F i)).apply_symm_apply _
 
@@ -259,14 +257,14 @@ theorem restrictRelativeExt_relativeExtIsoOfOpen (i : ℤ)
 theorem relativeExtIsoOfOpen_naturality (i : ℤ)
     {F F' : SheafOfModules.{u} (structureSheafRing S.toRingedSpace)} (hF : F.IsQuasicoherent)
     (hF' : F'.IsQuasicoherent) (v : F ⟶ F') (z : baseExtGroup L F i) :
-    relativeExtIsoOfOpen f j hG E D b hb hL hcolim hres η hη i F' hF' (baseExtMap L i v z) =
+    relativeExtIsoOfOpen f j hG E D b hb hcolim hres η hη i F' hF' (baseExtMap L i v z) =
       relativeExtMap f G E i v
-        (relativeExtIsoOfOpen f j hG E D b hb hL hcolim hres η hη i F hF z) := by
+        (relativeExtIsoOfOpen f j hG E D b hb hcolim hres η hη i F hF z) := by
   apply (hres F' i).1
   rw [restrictRelativeExt_relativeExtIsoOfOpen]
-  show _ = restrictRelativeExt f j G E F' i (_ ≫ _)
+  change _ = restrictRelativeExt f j G E F' i (_ ≫ _)
   rw [restrictRelativeExt_naturality, restrictRelativeExt_relativeExtIsoOfOpen]
-  exact partBExtIso_naturality D _ hL b _ hcolim η hη i hF hF' v z
+  exact partBExtIso_naturality D _ b _ hcolim η hη i hF hF' v z
 
 include hG in
 /-- `relativeExtIsoOfOpen` is compatible with the boundary maps of a short exact sequence
@@ -276,15 +274,15 @@ theorem relativeExtIsoOfOpen_boundary
     {A : ShortComplex (SheafOfModules.{u} (structureSheafRing S.toRingedSpace))}
     (hA : A.ShortExact) (h₁ : A.X₁.IsQuasicoherent) (h₃ : A.X₃.IsQuasicoherent) (n m : ℤ)
     (h : 1 + n = m) (z : baseExtGroup L A.X₃ n) :
-    relativeExtIsoOfOpen f j hG E D b hb hL hcolim hres η hη m A.X₁ h₁
+    relativeExtIsoOfOpen f j hG E D b hb hcolim hres η hη m A.X₁ h₁
         (baseExtBoundaryMap L hA n m h z) =
       relativeExtBoundaryMap E hG hA n m h
-        (relativeExtIsoOfOpen f j hG E D b hb hL hcolim hres η hη n A.X₃ h₃ z) := by
+        (relativeExtIsoOfOpen f j hG E D b hb hcolim hres η hη n A.X₃ h₃ z) := by
   apply (hres A.X₁ m).1
   rw [restrictRelativeExt_relativeExtIsoOfOpen]
-  show _ = restrictRelativeExt f j G E A.X₁ m (ShiftedHom.comp _ _ h)
+  change _ = restrictRelativeExt f j G E A.X₁ m (ShiftedHom.comp _ _ h)
   rw [restrictRelativeExt_boundary f j hG E hA n m h, restrictRelativeExt_relativeExtIsoOfOpen]
-  exact partBExtIso_boundary D _ hL b _ hcolim η hη hA h₁ h₃ n m h z
+  exact partBExtIso_boundary D _ b _ hcolim η hη hA h₁ h₃ n m h z
 
 end Open
 

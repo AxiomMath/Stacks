@@ -279,7 +279,7 @@ private theorem eulerCharacteristic_twistedModuleUlift_biproduct
     have h : χ _ (hc (s + 1)) n = χ M hM n + χ _ (hc s) n :=
       hadd _ (biproductSuccSplitting M s).shortExact hM (hc (s + 1)) (hc s) n
     have ih' : χ _ (hc s) n = s * χ M hM n := ih
-    show χ _ (hc (s + 1)) n = ((s + 1 : ℕ) : ℤ) * χ M hM n
+    change χ _ (hc (s + 1)) n = ((s + 1 : ℕ) : ℤ) * χ M hM n
     rw [h, ih']
     push_cast
     ring

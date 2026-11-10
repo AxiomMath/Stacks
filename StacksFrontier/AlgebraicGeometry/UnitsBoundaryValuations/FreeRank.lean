@@ -209,7 +209,7 @@ theorem boundaryOrd_eq_zero_of_forall_nonneg [IsLocallyNoetherian Y] (V : Y.Open
     rw [← hc, map_zero] at hs
     exact hne hs.symm
   refine (boundaryOrd_eq_zero_iff k g V u).mpr ⟨Units.mk0 c hc0, Units.ext ?_⟩
-  show structMapOpen k g V c = u.1
+  change structMapOpen k g V c = u.1
   rw [structMapOpen_apply, hc]
   refine Y.germToFunctionField_injective V ?_
   rwa [Y.presheaf.germ_res_apply (homOfLE (le_top : V ≤ ⊤)) (genericPoint Y) hgen]

@@ -73,7 +73,8 @@ open CategoryTheory CategoryTheory.Limits
 
 /- The global instances `Abelian (SheafOfModules.{max u v r w} O)` and its Grothendieck
 counterpart leave a stuck universe constraint against the modules of the small étale site; the
-abelian structure used here is the one of `StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian`. -/
+abelian structure used here is the one of `StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian`.
+-/
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
@@ -99,7 +100,7 @@ theorem nonempty_hom_overMk_iff {U : BigFppfOver B S hS} {W : BigFppfOver B S hS
   · rintro ⟨c⟩
     have hc : c.left ≫ s.left = T.hom := Over.w c
     refine ⟨Over.homMk c.left ?_, ?_⟩
-    · show c.left ≫ W.hom = T.hom ≫ U.hom
+    · change c.left ≫ W.hom = T.hom ≫ U.hom
       rw [← Over.w s, ← Category.assoc, hc]
       simp
     · exact Over.OverMorphism.ext hc
@@ -378,7 +379,7 @@ theorem hasClosedLocus_pushforwardBased :
   have hA : A.T.left = (Over.map U.hom).obj U₀ := Functor.congr_obj hy U₀
   let s' : V₀ ⟶ (Over.map U.hom).obj U₀ := s ≫ eqToHom hA
   refine ⟨Over.mk s'.left, ?_, fun T => ?_⟩
-  · show _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map s')
+  · change _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map s')
     rw [Functor.map_comp]
     infer_instance
   · rw [nonempty_hom_overMk_iff s' T,

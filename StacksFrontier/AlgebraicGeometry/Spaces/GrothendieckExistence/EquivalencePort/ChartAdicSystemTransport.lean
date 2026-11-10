@@ -91,11 +91,11 @@ def C1573.chartTildeSystem :
     refine ⟨fun n => ?_, fun n => ?_, fun n => ?_⟩
     · have := moduleFinite_sections_of_isCoherent B S hS Y.1 Y.2 _ (G.property.1 n)
         (V := V) ‹IsAffine (chartScheme V)›
-      haveI : Module.Finite Γ(chartScheme V, ⊤)
+      have : Module.Finite Γ(chartScheme V, ⊤)
           ((chartSectionsTop B S hS V).obj (G.obj.obj (op n))) :=
         this
       exact Stacks.Coherent.affineTilde_coherent (chartScheme V) _
-    · haveI : SheafOfModules.IsQuasicoherent
+    · have : SheafOfModules.IsQuasicoherent
           ((G.obj ⋙ chartSectionsTop B S hS V ⋙ Stacks.Coherent.affineTilde (chartScheme V)).obj
             (op n)) := Stacks.Coherent.affineTilde_quasicoherent (chartScheme V)
         ((chartSectionsTop B S hS V).obj (G.obj.obj (op n)))

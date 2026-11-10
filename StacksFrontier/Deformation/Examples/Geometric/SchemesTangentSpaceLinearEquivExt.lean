@@ -95,7 +95,7 @@ theorem coordExtCoefficientsAddEquiv_apply (V : FGModuleCat.{u} k)
     coordExtCoefficientsAddEquiv X V e =
       e ≫ ((DerivedCategory.singleFunctor _ 0).map
         (coordPulledIdealIso (Λ := Λ) V X).hom)⟦(1 : ℤ)⟧' := by
-  show 𝟙 _ ≫ e ≫ _ = _
+  change 𝟙 _ ≫ e ≫ _ = _
   exact Category.id_comp _
 
 /-- **The class of a deformation over `k[V]` is natural in `V`.** For an arrow `x ⟶ y` of
@@ -161,7 +161,7 @@ which exposes the canonical vector-space structure of [Stacks Project, Tag 06IH]
 deformation category of `X` is a deformation category ([Stacks Project, Tag 0DY8]), so it
 satisfies (RS). -/
 theorem schlessingerConditionS2_schemeDeformation :
-    SchlessingerConditionS2 (CategoryOfElements.π
+    SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X))) :=
   schlessingerConditionS2_of_isIsomorphismClasses (schemeDeformationBased (Λ := Λ) X)
     (schemeDeformation_cofibered X)
@@ -187,7 +187,7 @@ bijective at the rank-one module. -/
 noncomputable def schemeTangentSpaceLinearEquivExtRankOne :
     letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
       ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
       ⟨schlessingerConditionS2_schemeDeformation X⟩
     schemeTangentSpace (Λ := Λ) (k := k) X ≃ₗ[k]
@@ -247,11 +247,16 @@ ideal `f^*𝒥 = 𝒪_X ⊗_k V`, and its class is the difference class of
 Tag 06IH at `V = k`, where `𝒪_X ⊗_k k = 𝒪_X`. The trivial deformation goes to `0`
 (`Deformation.Examples.schemeTangentSpaceLinearEquivExt_trivial`) and the class of a deformation
 is its difference class (`Deformation.Examples.schemeTangentSpaceLinearEquivExt_classOf`). -/
-@[stacks 0DY9 "second display: for a scheme X over the field k, T Def_X = Ext^1(NL_{X/k}, O_X) as k-vector spaces, from the tangent space of the deformation category of X (isomorphism classes of flat deformations of X over k[eps], with the canonical vector space structure of 06IH) onto Ext^1_{O_X}(NL_{X/k}, O_X); a deformation goes to its 08UC difference class with the trivial deformation X x_k Spec k[eps], which goes to 0. The first display, Inf(Def_X) = Ext^0(NL_{X/k}, O_X) = Der_k(O_X, O_X), is registered separately"]
+@[stacks 0DY9 "second display: for a scheme X over the field k, T Def_X = Ext^1(NL_{X/k}, O_X) \
+as k-vector spaces, from the tangent space of the deformation category of X (isomorphism classes \
+of flat deformations of X over k[eps], with the canonical vector space structure of 06IH) onto \
+Ext^1_{O_X}(NL_{X/k}, O_X); a deformation goes to its 08UC difference class with the trivial \
+deformation X x_k Spec k[eps], which goes to 0. The first display, Inf(Def_X) = Ext^0(NL_{X/k}, \
+O_X) = Der_k(O_X, O_X), is registered separately"]
 noncomputable def schemeTangentSpaceLinearEquivExt :
     letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
       ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
       ⟨schlessingerConditionS2_schemeDeformation X⟩
     letI := schemeTangentExtModule X (structureSheafModules X.left)
@@ -259,7 +264,7 @@ noncomputable def schemeTangentSpaceLinearEquivExt :
       Scheme.naiveCotangentExt X.hom (structureSheafModules X.left) 1 :=
   letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
     ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-  letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
     ⟨schlessingerConditionS2_schemeDeformation X⟩
   letI := schemeTangentExtStdModule X (structureSheafModules X.left)
@@ -280,7 +285,7 @@ theorem schemeTangentSpaceLinearEquivExt_classOf
       (coordBase (FGModuleCat.of k k))) :
     letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
       ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
       ⟨schlessingerConditionS2_schemeDeformation X⟩
     letI := schemeTangentExtModule X (structureSheafModules X.left)
@@ -292,7 +297,7 @@ theorem schemeTangentSpaceLinearEquivExt_classOf
             (fiberSolution (maximalIdeal_squareZeroExtensionArtinian_pow_two _) x)
             (fiberSolution (maximalIdeal_squareZeroExtensionArtinian_pow_two _)
               (trivialFiberAt X (FGModuleCat.of k k)))))) := by
-  show Scheme.extOneNaiveCotangentAddEquiv X.hom (structureSheafModules X.left)
+  change Scheme.extOneNaiveCotangentAddEquiv X.hom (structureSheafModules X.left)
     (schemeTangentExtRankOneLinearEquiv X (schemeTangentSpaceLinearEquivExtRankOne X
       (classOf (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X) x))) = _
   refine congrArg (Scheme.extOneNaiveCotangentAddEquiv X.hom (structureSheafModules X.left)) ?_
@@ -310,7 +315,7 @@ theorem schemeTangentSpaceLinearEquivExt_classOf
 theorem schemeTangentSpaceLinearEquivExt_trivial :
     letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
       ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
       ⟨schlessingerConditionS2_schemeDeformation X⟩
     letI := schemeTangentExtModule X (structureSheafModules X.left)

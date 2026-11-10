@@ -137,7 +137,7 @@ theorem map_mem_openSubspaceOfPoints_of_range_subset
   have hkey : yonedaEquiv.symm (F.map i.op x) = yoneda.map i ≫ yonedaEquiv.symm x :=
     yonedaEquiv_symm_map i.op x
   rw [mem_openSubspaceOfPoints_iff]
-  show Set.range (pointsMap B S hS (yoneda.obj b) (yonedaEquiv.symm (F.map i.op x))) ⊆ D
+  change Set.range (pointsMap B S hS (yoneda.obj b) (yonedaEquiv.symm (F.map i.op x))) ⊆ D
   rw [hkey]
   rintro z ⟨w, rfl⟩
   obtain ⟨p, rfl⟩ := Quot.exists_rep w
@@ -245,7 +245,7 @@ theorem isFinite_ι_openSubspaceOfPoints_union_of_disjoint
       (openSubspaceOfPoints B S hS F (D b)).ι ≫ g := by
     intro b
     rw [← Category.assoc]
-    show (Subfunctor.homOfLe (hle b) ≫ _) ≫ g = _
+    change (Subfunctor.homOfLe (hle b) ≫ _) ≫ g = _
     rw [Subfunctor.homOfLe_ι]
   exact isFinite_coproduct B S hS
     (fun b => (openSubspaceOfPoints B S hS F (D b)).toFunctor) hFalg hG Xs κ hXcolim
@@ -287,7 +287,7 @@ def star₁ : FinitePartFibre B S hS f a where
     (Z₁.isOpen_pointSet.union Z₂.isOpen_pointSet)
   finite_projection := by
     have hU : Z₁.pointSet ∪ Z₂.pointSet = Z₁.pointSet ∪ (Z₂.pointSet \ Z₁.pointSet) :=
-      Set.union_diff_self.symm
+      Set.union_sdiff_self.symm
     rw [hU]
     refine isFinite_ι_openSubspaceOfPoints_union_of_disjoint B S hS
       (isAlgebraicSpace_ambient B S hS f a) T.property _

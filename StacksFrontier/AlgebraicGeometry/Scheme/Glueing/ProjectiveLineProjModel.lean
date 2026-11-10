@@ -527,7 +527,7 @@ theorem projectiveLineIsoProjectiveSpaceOver_hom_fst :
       projectiveLine R ↘ Spec (.of R) := by
   have h := (Stacks.AlgebraicGeometry.ProjBaseChange.polynomialComparison R 1).toBase
   rw [← Iso.eq_inv_comp] at h
-  show (projectiveLineIsoProj R).hom ≫
+  change (projectiveLineIsoProj R).hom ≫
     ((Stacks.AlgebraicGeometry.ProjBaseChange.polynomialComparison R 1).iso.inv ≫
       pullback.fst _ _) = _
   rw [← h]

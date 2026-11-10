@@ -154,7 +154,7 @@ theorem smoothOfRelativeDimension_zeroScheme {k : Type u} [Field k] {G : Scheme.
     have hy : j y = Z.subschemeι w := rfl
     have hysupp : y ∈ ((Z.comap j).support : Set V.toScheme) := by
       rw [Scheme.IdealSheafData.support_comap]
-      show j y ∈ (Z.support : Set G)
+      change j y ∈ (Z.support : Set G)
       rw [hy, ← Scheme.IdealSheafData.range_subschemeι]
       exact ⟨w, rfl⟩
     rw [← Scheme.IdealSheafData.range_subschemeι] at hysupp

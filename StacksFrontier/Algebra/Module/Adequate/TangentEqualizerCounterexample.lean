@@ -96,13 +96,13 @@ noncomputable def hom₂ :
 /-- `q f₁ = q f₂`: the two maps agree on `B[N₁]`. -/
 lemma hom₁_comp_incl_eq : hom₁.comp inclHom = hom₂.comp inclHom := by
   refine AlgHom.ext fun x => TrivSqZeroExt.ext rfl ?_
-  show x.snd = x.snd + 0
+  change x.snd = x.snd + 0
   exact (add_zero _).symm
 
 /-- `p f₁ = p f₂`: the two maps agree after `N₁` is killed. -/
 lemma hom₁_comp_zero_eq : hom₁.comp zeroHom = hom₂.comp zeroHom := by
   refine AlgHom.ext fun x => TrivSqZeroExt.ext rfl ?_
-  show (0 : ℚ) = 0 + 0
+  change (0 : ℚ) = 0 + 0
   exact (add_zero _).symm
 
 /-- Two maps differ if some function of their values at a point differs. -/

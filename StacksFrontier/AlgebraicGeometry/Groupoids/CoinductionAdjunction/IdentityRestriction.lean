@@ -31,8 +31,6 @@ open Stacks.AlgebraicGeometry.FlatBaseChangeCohomology (pasteBase
 
 universe u
 
-set_option synthInstance.maxHeartbeats 200000
-
 namespace Stacks.Groupoids.GroupoidScheme
 
 /-! ### The hom-set bijection -/
@@ -133,8 +131,8 @@ private theorem pullbackComp_pentagon_inv {X Y Z W : Scheme.{u}} (u : X ⟶ Y) (
         (Scheme.Modules.pullback u).map ((Scheme.Modules.pullbackComp g v).inv.app F) ≫
         (Scheme.Modules.pullbackComp u g).hom.app ((Scheme.Modules.pullback v).obj F) =
       eqToHom e ≫ (Scheme.Modules.pullbackComp (u ≫ g) v).inv.app F := by
-  rw [← cancel_mono ((Scheme.Modules.pullbackComp (u ≫ g) v).hom.app F)]
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+  rw [← Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp (u ≫ g) v).app F)]
+  simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   rw [Stacks.Modules.pullbackComp_pentagon u g v F]
 
 /-- The right unitality coherence of the pullback pseudofunctor, with the comparison
@@ -143,9 +141,10 @@ private theorem pullbackComp_id_left_hom_app {X Y : Scheme.{u}} (f : X ⟶ Y) (F
     (e : (Scheme.Modules.pullback f).obj F = (Scheme.Modules.pullback (𝟙 X ≫ f)).obj F) :
     (Scheme.Modules.pullbackId X).inv.app ((Scheme.Modules.pullback f).obj F) ≫
         (Scheme.Modules.pullbackComp (𝟙 X) f).hom.app F = eqToHom e := by
-  rw [← cancel_epi ((Scheme.Modules.pullbackId X).hom.app
-      ((Scheme.Modules.pullback f).obj F)), Iso.hom_inv_id_app_assoc,
-    ← cancel_epi ((Scheme.Modules.pullbackComp (𝟙 X) f).inv.app F), Iso.inv_hom_id_app,
+  rw [← Iso.cancel_iso_hom_left ((Scheme.Modules.pullbackId X).app
+      ((Scheme.Modules.pullback f).obj F)), Iso.app_hom, Iso.hom_inv_id_app_assoc,
+    ← Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackComp (𝟙 X) f).app F), Iso.app_inv,
+    Iso.inv_hom_id_app,
     ← Category.assoc, pullbackComp_id_left_inv_app, Stacks.Modules.pullbackCongr_hom_app,
     eqToHom_trans, eqToHom_refl]
 
@@ -168,9 +167,10 @@ theorem reindexHom₂_assoc_rev {X Y Z W : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ 
       (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g k).hom.app F') ≫
         (Scheme.Modules.pullbackComp f (g ≫ k)).hom.app F' =
       (Scheme.Modules.pullbackComp (f ≫ g) k).hom.app F' ≫ eqToHom e' := by
-    rw [← cancel_epi ((Scheme.Modules.pullbackComp f (g ≫ k)).inv.app F' ≫
-      (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g k).inv.app F') ≫
-      (Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback k).obj F'))]
+    rw [← Iso.cancel_iso_hom_left (((Scheme.Modules.pullbackComp f (g ≫ k)).app F').symm ≪≫
+      (Scheme.Modules.pullback f).mapIso ((Scheme.Modules.pullbackComp g k).app F').symm ≪≫
+      (Scheme.Modules.pullbackComp f g).app ((Scheme.Modules.pullback k).obj F'))]
+    simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Iso.app_hom, Iso.app_inv]
     conv_rhs => rw [Pk]
     simp only [Category.assoc, Iso.hom_inv_id_app_assoc, ← Functor.map_comp_assoc,
       Iso.inv_hom_id_app]
@@ -234,8 +234,9 @@ private theorem pullbackComp_id_right_hom_app {X Y : Scheme.{u}} (f : X ⟶ Y) (
     (e : (Scheme.Modules.pullback f).obj F = (Scheme.Modules.pullback (f ≫ 𝟙 Y)).obj F) :
     (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackId Y).inv.app F) ≫
       (Scheme.Modules.pullbackComp f (𝟙 Y)).hom.app F = eqToHom e := by
-  rw [← cancel_epi ((Scheme.Modules.pullbackComp f (𝟙 Y)).inv.app F ≫
-    (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackId Y).hom.app F))]
+  rw [← Iso.cancel_iso_hom_left (((Scheme.Modules.pullbackComp f (𝟙 Y)).app F).symm ≪≫
+    (Scheme.Modules.pullback f).mapIso ((Scheme.Modules.pullbackId Y).app F))]
+  simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Iso.app_hom, Iso.app_inv]
   conv_rhs => rw [pullbackComp_id_right_inv_app, Stacks.Modules.pullbackCongr_hom_app]
   simp only [Category.assoc, ← Functor.map_comp_assoc, Iso.hom_inv_id_app]
   rw [CategoryTheory.Functor.map_id (Scheme.Modules.pullback f)
@@ -405,9 +406,9 @@ theorem pullback_map_identityRestrict {F F' : G.objects.left.Modules}
         ((Scheme.Modules.pullbackCongr (identity_left_comp_source_left G).symm).hom.app F) =
       eqToHom e₁ ≫ (Scheme.Modules.pullbackComp G.target.left
         (G.identity.left ≫ G.source.left)).inv.app F := by
-    rw [← cancel_mono ((Scheme.Modules.pullbackComp G.target.left
-      (G.identity.left ≫ G.source.left)).hom.app F)]
-    simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+    rw [← Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp G.target.left
+      (G.identity.left ≫ G.source.left)).app F)]
+    simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
     exact pullbackComp_id_chain_hom G.target.left (identity_left_comp_source_left G) F e₁
   have hQ : (Scheme.Modules.pullback G.target.left).map
         ((Scheme.Modules.pullbackCongr (identity_left_comp_target_left G)).hom.app F') ≫
@@ -415,9 +416,9 @@ theorem pullback_map_identityRestrict {F F' : G.objects.left.Modules}
         ((Scheme.Modules.pullbackId G.objects.left).hom.app F') =
       (Scheme.Modules.pullbackComp G.target.left
         (G.identity.left ≫ G.target.left)).hom.app F' ≫ eqToHom e₂ := by
-    rw [← cancel_epi ((Scheme.Modules.pullbackComp G.target.left
-      (G.identity.left ≫ G.target.left)).inv.app F')]
-    simp only [Iso.inv_hom_id_app_assoc]
+    rw [← Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackComp G.target.left
+      (G.identity.left ≫ G.target.left)).app F')]
+    simp only [Iso.app_inv, Iso.inv_hom_id_app_assoc]
     exact pullbackComp_id_chain_inv G.target.left (identity_left_comp_target_left G) F' e₂
   rw [identityRestrict]
   simp only [reindexHom₂, Functor.map_comp, Category.assoc]

@@ -267,7 +267,7 @@ public theorem mapAddHom_eq_adicCompletionMap (f : X →ₗ[R] Y) :
       (AdicCompletion.map (pAdicIdeal (A := R) p) f).toAddMonoidHom := by
   refine (mapAddHom_eq_of_val p R R f.toAddMonoidHom _ ?_).symm
   intro n z y hz
-  show (AdicCompletion.map (pAdicIdeal (A := R) p) f z).val n = Submodule.Quotient.mk (f y)
+  change (AdicCompletion.map (pAdicIdeal (A := R) p) f z).val n = Submodule.Quotient.mk (f y)
   rw [AdicCompletion.map_val_apply, hz]
   rfl
 

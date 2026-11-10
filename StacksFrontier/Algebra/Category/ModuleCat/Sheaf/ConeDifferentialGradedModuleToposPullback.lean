@@ -258,13 +258,13 @@ theorem toposGradedEquiv_eq
       e.homEquiv (𝟙 T) ≫ (toposPushforward G ψ hψ).map
         (Cofree.liftDgHom (GradedModule.ofDifferentialGraded Q) Φ) :=
     e.homEquiv_eq _
-  show Cofree.lowerHom _
+  change Cofree.lowerHom _
       (e.homEquiv (Cofree.liftDgHom (GradedModule.ofDifferentialGraded Q) Φ) ≫
         toposCofreeDescGraded G ψ hψ Q) = _
   rw [h1, Category.assoc]
   refine GradedModule.Hom.ext fun n => ?_
   rw [lowerHom_comp_left]
-  show (e.homEquiv (𝟙 T)).toHomologicalComplex.f n ≫
+  change (e.homEquiv (𝟙 T)).toHomologicalComplex.f n ≫
       (Cofree.lowerHom _ ((toposPushforward G ψ hψ).map
         (Cofree.liftDgHom (GradedModule.ofDifferentialGraded Q) Φ) ≫
           toposCofreeDescGraded G ψ hψ Q)).app n = _
@@ -457,6 +457,7 @@ variable {Y : AlgebraicGeometry.RingedTopos.{v₂, u₂, w}}
 
 attribute [local instance] Stacks.TensorSheafWorld.monoidalCategory
 
+omit [HasSheafify Y.J (Type w)] in
 /-- **Tag 0FSC at the goodness of Tag 0FSA: the cone of a homomorphism of good right differential
 graded modules is good.** Conditions (1) and (2) are Tag 0FSC at flatness, applied to `φ` over
 the target. Condition (3) is the content: at a base change `(f, B, ψ)` the two ends of `φ` have

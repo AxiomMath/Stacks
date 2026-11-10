@@ -57,7 +57,8 @@ theorem comp_horizontal {C₁ C₂ C₃ C₄ : Type*} [Category* C₁] [Category
 
 /-- If `i ≫ L(m) ≫ j` is invertible with `i` and `j` invertible, then `L(m)` is invertible. -/
 theorem isIso_map_of_isIso_comp {C₁ C₂ : Type*} [Category* C₁] [Category* C₂] (L : C₁ ⥤ C₂)
-    {A D : C₂} {P Q : C₁} (i : A ⟶ L.obj P) (m : P ⟶ Q) (j : L.obj Q ⟶ D) (hi : IsIso i) (hj : IsIso j)
+    {A D : C₂} {P Q : C₁} (i : A ⟶ L.obj P) (m : P ⟶ Q) (j : L.obj Q ⟶ D)
+    (hi : IsIso i) (hj : IsIso j)
     {z : A ⟶ D} (e : i ≫ L.map m ≫ j = z) (hz : IsIso z) : IsIso (L.map m) := by
   have h : IsIso (i ≫ L.map m ≫ j) := e ▸ hz
   have : IsIso (L.map m ≫ j) := IsIso.of_isIso_comp_left i _

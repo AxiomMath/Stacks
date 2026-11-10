@@ -231,7 +231,7 @@ theorem fieldMorphism_map {G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (α : F �
     (p : FieldValuedPoint B S hS F) :
     fieldMorphism B S hS G (FieldValuedPoint.map B S hS F α p) =
       fieldMorphism B S hS F p ≫ α := by
-  show yonedaEquiv.symm (α.app _ p.value) = yonedaEquiv.symm p.value ≫ α
+  change yonedaEquiv.symm (α.app _ p.value) = yonedaEquiv.symm p.value ≫ α
   apply yonedaEquiv.injective
   simp only [Equiv.apply_symm_apply, yonedaEquiv_comp]
 
@@ -280,7 +280,7 @@ private theorem yoneda_map_siteHom_comp' {V W : BigFppfOver B S hS}
 /-- The spectrum of the field of definition of a field-valued point has at most one point. -/
 theorem subsingleton_toScheme_siteObject (p : FieldValuedPoint B S hS F) :
     Subsingleton ((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-  show Subsingleton (Spec (CommRingCat.of p.carrier))
+  change Subsingleton (Spec (CommRingCat.of p.carrier))
   infer_instance
 
 /-- The spectrum of the field of definition of a field-valued point has finitely many
@@ -309,7 +309,7 @@ theorem toScheme_map_siteHom_schemePointRepresentative (U : BigFppfOver B S hS)
       ((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x := by
   let Z := (BigFppfOver.toScheme B S hS).obj U
   let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property x)
-  show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+  change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
     (Z.fromSpecResidueField x)) = Z.fromSpecResidueField x
   rw [B.inclusion.map_preimage]
 
@@ -519,11 +519,11 @@ private theorem isPullback_pullbackMap_left {A G H K : C} (i : A ⟶ G) (f : G �
     IsPullback (pullback.map (i ≫ f) g f g i (𝟙 H) (𝟙 K) e₁ e₂)
       (pullback.fst (i ≫ f) g) (pullback.fst f g) i := by
   have hsnd : pullback.map (i ≫ f) g f g i (𝟙 H) (𝟙 K) e₁ e₂ ≫ pullback.snd f g =
-      pullback.snd (i ≫ f) g := by simp [pullback.map, pullback.lift_snd]
+      pullback.snd (i ≫ f) g := by simp [pullback.map]
   refine IsPullback.of_right (t := (IsPullback.of_hasPullback f g).flip) ?_ ?_
   · rw [hsnd]
     exact (IsPullback.of_hasPullback (i ≫ f) g).flip
-  · simp [pullback.map, pullback.lift_fst]
+  · simp [pullback.map]
 
 /-- Precomposing the second leg of a fibre product square exhibits the comparison morphism as
 a base change of that leg. -/
@@ -532,11 +532,11 @@ private theorem isPullback_pullbackMap_right {A G H K : C} (j : A ⟶ H) (f : G 
     IsPullback (pullback.map f (j ≫ g) f g (𝟙 G) j (𝟙 K) e₁ e₂)
       (pullback.snd f (j ≫ g)) (pullback.snd f g) j := by
   have hfst : pullback.map f (j ≫ g) f g (𝟙 G) j (𝟙 K) e₁ e₂ ≫ pullback.fst f g =
-      pullback.fst f (j ≫ g) := by simp [pullback.map, pullback.lift_fst]
+      pullback.fst f (j ≫ g) := by simp [pullback.map]
   refine IsPullback.of_right (t := IsPullback.of_hasPullback f g) ?_ ?_
   · rw [hfst]
     exact IsPullback.of_hasPullback f (j ≫ g)
-  · simp [pullback.map, pullback.lift_snd]
+  · simp [pullback.map]
 
 /-- Precomposing both legs of a fibre product square by monomorphisms gives a monomorphic
 comparison morphism. -/
@@ -564,7 +564,7 @@ private theorem pullback_fst_comp_mem (P : MorphismProperty C) [P.IsStableUnderB
   have h₂ := MorphismProperty.IsStableUnderBaseChange.of_isPullback
     (P := P) (isPullback_pullbackMap_right j (i ≫ f) g (by simp) (by simp)).flip hj
   convert P.comp_mem _ _ h₂ h₁ using 1
-  simp [pullback.map, pullback.lift_fst]
+  simp [pullback.map]
 
 end PullbackChange
 
@@ -613,7 +613,7 @@ private theorem finite_relationFiber_of_finite_points_pullback_comp
       m₁ ≫ pullback.snd f g = pullback.snd (i ≫ f) g ∧
       IsPullback m₁ (pullback.fst (i ≫ f) g) (pullback.fst f g) i :=
     ⟨pullback.map (i ≫ f) g f g i (𝟙 H) (𝟙 K) (by simp) (by simp),
-      by simp [pullback.map, pullback.lift_snd],
+      by simp [pullback.map],
       isPullback_pullbackMap_left i f g _ _⟩
   obtain ⟨m₂, sq₂⟩ : ∃ m₂ : pullback (i ≫ f) (j ≫ g) ⟶ pullback (i ≫ f) g,
       IsPullback m₂ (pullback.snd (i ≫ f) (j ≫ g)) (pullback.snd (i ≫ f) g) j :=
@@ -671,7 +671,7 @@ private theorem finite_points_pullback_fieldMorphism_comp (U : BigFppfOver B S h
       (𝟙 F) (by simp) (by simp))
     (mono_pullbackMap (fieldMorphism B S hS (yoneda.obj U) p)
       (fieldMorphism B S hS (yoneda.obj U) q) hp hq f f)
-    (by simp [pullback.map, pullback.lift_fst]) (by simp [pullback.map, pullback.lift_snd])
+    (by simp [pullback.map]) (by simp [pullback.map])
     ((p.tautologicalPoint B S hS (yoneda.obj U)).class B S hS (yoneda.obj p.siteObject))
     ((q.tautologicalPoint B S hS (yoneda.obj U)).class B S hS (yoneda.obj q.siteObject))
     (subsingleton_points_yoneda_siteObject B S hS p)
@@ -931,7 +931,7 @@ theorem hasFiniteRelationFiberAtEveryEtaleChart_of_hasEtaleQuasiCompactFieldRepr
     ((r.tautologicalPoint B S hS (yoneda.obj P)).class B S hS (yoneda.obj r.siteObject))
     ((r'.tautologicalPoint B S hS (yoneda.obj P)).class B S hS (yoneda.obj r'.siteObject))
     hfinpb
-  show {y : points B S hS (pullback f f) |
+  change {y : points B S hS (pullback f f) |
     pointsMap B S hS _ (pullback.fst f f) y = a ∧
     pointsMap B S hS _ (pullback.snd f f) y = b}.Finite
   simpa only [hra, hrb] using hfin

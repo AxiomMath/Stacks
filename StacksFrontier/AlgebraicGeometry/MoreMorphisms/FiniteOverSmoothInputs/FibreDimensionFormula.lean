@@ -53,7 +53,7 @@ private theorem bijective_specResidueField_Γevaluation {X : Scheme.{u}} (x : X)
     rw [Scheme.Spec.algebraMap_residueFieldIso_inv]
     rfl
   rw [hcat]
-  show Function.Bijective
+  change Function.Bijective
     ((Scheme.Spec.residueFieldIso (X.residueField x) y).inv.hom.comp
       (algebraMap (X.residueField x) y.asIdeal.ResidueField))
   rw [RingHom.coe_comp]

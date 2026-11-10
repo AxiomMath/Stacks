@@ -22,7 +22,7 @@ coordinate expansion in its field `Crystalline.Pair.hasCoordinateOperators`, and
 **finite** in number.  This module constructs the family `hsq` in this way, from three inputs, none
 of them a statement about a crystal:
 
-* `[Fintype ι]` on the index type of the coordinates.  In [Stacks, Tag 07JG] the coordinates are
+* `[Finite ι]` on the index type of the coordinates.  In [Stacks, Tag 07JG] the coordinates are
   the variables of the polynomial presentation `A[x_i] → C`.
 * `hext`, that the carried graded family of forms is exterior:
   `Crystalline.CompletedDeRham.IsGradedExterior`, that is `d ∘ d = 0`, the wedge alternating, and
@@ -42,7 +42,7 @@ Everything is in the namespace `Crystalline.GlobalCrystallineSituation.SmallSite
   attached to any crystal in quasi-coherent modules compose to zero.
 * `computes07LG_of_doubleComplexSmall_of_isGradedExterior` —
   `...SmallSite.computes07LG_of_doubleComplexSmall` with `hsq` replaced by `hext`, `hdx` and
-  `[Fintype ι]`, so that its conclusion is `...SmallSite.Computes07LG` at the **constructed**
+  `[Finite ι]`, so that its conclusion is `...SmallSite.Computes07LG` at the **constructed**
   square-zero family.
 
 ## References
@@ -69,7 +69,7 @@ variable (S : GlobalCrystallineSituation.{u}) (A : Type u) [CommRing A]
   (Dr : DividedPowerRing.{u}) (g : A →+* Dr) (Om : ℕ → Type u) [∀ i, AddCommGroup (Om i)]
   [∀ i, Module (Dr : Type u) (Om i)] [Module (Dr : Type u)ᵐᵒᵖ (Om 1)]
   [IsCentralScalar (Dr : Type u) (Om 1)] (der : DividedPowerDerivation A Dr g (Om 1)) (p : ℕ)
-  {ι : Type uI} [Fintype ι] (dx : ι → Om 1)
+  {ι : Type uI} [Finite ι] (dx : ι → Om 1)
   (wedge : ∀ i, Om i →ₗ[(Dr : Type u)] Om 1 →ₗ[(Dr : Type u)] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1))
   (hleib : CompletedDeRham.IsGradedLeibniz Dr Om wedge deRham
@@ -92,6 +92,7 @@ public theorem squareZero07JG
     CompletedDeRham.IsSquareZero p Dr Om wedge deRham
       ((functor07JG R).obj (toQuasiCoherentCrystal S h07IT F hF)).carrier
       ((functor07JG R).obj (toQuasiCoherentCrystal S h07IT F hF)).nabla hleib :=
+  have : Fintype ι := Fintype.ofFinite ι
   Pair.isSquareZero p (Dr : Type u) Om wedge deRham hleib dx
     ((functor07JG R).obj (toQuasiCoherentCrystal S h07IT F hF)) hext hdx
 
@@ -101,7 +102,7 @@ groups, at the square-zero family `...SmallSite.squareZero07JG`.**
 Given the double complex `K`, the acyclicity of its columns, the row comparison and its
 quasi-isomorphy, the identification of the row `b = 0`, the identification of the column `a = 0`
 and the kernel clause, together with the properties `hext` and `hdx` of the carried family of
-forms and `[Fintype ι]`, `...SmallSite.Computes07LG` holds at the square-zero family
+forms and `[Finite ι]`, `...SmallSite.Computes07LG` holds at the square-zero family
 `...SmallSite.squareZero07JG`. -/
 public theorem computes07LG_of_doubleComplexSmall_of_isGradedExterior
     (hext : CompletedDeRham.IsGradedExterior (Dr : Type u) Om wedge deRham)

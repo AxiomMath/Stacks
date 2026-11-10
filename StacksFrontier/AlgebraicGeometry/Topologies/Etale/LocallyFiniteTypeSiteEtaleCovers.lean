@@ -138,7 +138,7 @@ lemma HasEtalePointCover.pullback {X Y : LocallyFiniteTypeEtale S} {R : Sieve X}
   refine ⟨pullbackObj g f, pullbackFst g f, ?_, ⟨p, hp⟩, ?_⟩
   · rw [forget_map_pullbackFst]
     exact etale_pullback_fst _ _ het
-  · show R.arrows (pullbackFst g f ≫ g)
+  · change R.arrows (pullbackFst g f ≫ g)
     rw [pullbackFst_comp]
     exact R.downward_closed hf _
 
@@ -167,11 +167,11 @@ lemma hasEtalePointCover_generate {X : LocallyFiniteTypeEtale S} {P : Presieve X
   rename_i Y q
   let Zj : LocallyFiniteTypeEtale S :=
     ⟨Over.mk (𝒰.f j ≫ X.obj.hom), by
-      show LocallyOfFiniteType (𝒰.f j ≫ X.obj.hom)
+      change LocallyOfFiniteType (𝒰.f j ≫ X.obj.hom)
       have : LocallyOfFiniteType X.obj.hom := X.property
       infer_instance⟩
   let k : Zj ⟶ Y := ObjectProperty.homMk (Over.homMk h (by
-    show h ≫ Y.obj.hom = 𝒰.f j ≫ X.obj.hom
+    change h ≫ Y.obj.hom = 𝒰.f j ≫ X.obj.hom
     rw [← hfac, ← Over.w q.hom]
     rfl))
   have e : (forget S).map (k ≫ q) = 𝒰.f j := hfac

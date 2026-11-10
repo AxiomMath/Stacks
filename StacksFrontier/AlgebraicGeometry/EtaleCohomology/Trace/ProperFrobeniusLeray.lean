@@ -98,6 +98,7 @@ variable (Λ : Type) [Ring Λ] [Finite Λ] {k : Type u} [Field k] [Fintype k]
   (hcard : Fintype.card k = p ^ q)
   {W' W : Over (Spec (.of k))} (π : W' ⟶ W) [IsProper π.left]
 
+omit [Fintype k] in
 /-- **Perfectness along a proper morphism over `k`**: `RΓ(W_k̄, (π_* M)|_{W_k̄})` is perfect
 exactly when `RΓ(W'_k̄, M|_{W'_k̄})` is, for a bounded below complex of injectives `M`. -/
 theorem isPerfect_frobeniusRestriction_directImage_iff_of_isProper

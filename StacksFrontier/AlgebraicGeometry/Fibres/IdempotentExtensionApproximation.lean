@@ -100,8 +100,7 @@ lemma isAffineHom_pullback_map {X Y S X' Y' S' : Scheme.{u}}
         pullback.map (f ≫ i₃) (g ≫ i₃) f' g' i₁ i₂ (𝟙 S')
           (by simp [e₁]) (by simp [e₂]) := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
   have h₁ : IsAffineHom (pullback.map f g (f ≫ i₃) (g ≫ i₃) (𝟙 X) (𝟙 Y) i₃
       (by simp) (by simp)) :=
     MorphismProperty.of_isPullback (P := @IsAffineHom.{u})
@@ -641,7 +640,7 @@ private lemma exists_idempotent_of_isColimit {K : Type u} [Category.{u} K] [IsFi
     (Types.FilteredColimit.isColimit_eq_iff' (isColimitOfPreserves (forget _) hd)
       (a * a) a).mp ha'
   refine ⟨j, G.map g a, ?_, (ConcreteCategory.congr_hom (d.w g) a).trans ha⟩
-  show G.map g a * G.map g a = G.map g a
+  change G.map g a * G.map g a = G.map g a
   change G.map g (a * a) = G.map g a at hg
   simpa only [map_mul] using hg
 
@@ -726,7 +725,7 @@ public theorem extendsOverNeighbourhood_of_isPullback {X S Y T : Scheme.{u}} {f 
     IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H V
   have hle : g ⁻¹ᵁ V ≤ a ⁻¹ᵁ (f ⁻¹ᵁ (b ''ᵁ V)) := by
     intro x hx
-    show f (a x) ∈ b ''ᵁ V
+    change f (a x) ∈ b ''ᵁ V
     rw [← Scheme.Hom.comp_apply, ← H.w, Scheme.Hom.comp_apply]
     exact ⟨g x, hx, rfl⟩
   obtain ⟨w, hw⟩ : ∃ w : Γ(X, f ⁻¹ᵁ (b ''ᵁ V)),

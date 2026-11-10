@@ -251,7 +251,7 @@ theorem _root_.Stacks.SheafOfModules.isIso_derivedPushforwardUnit_inverseImage
       (ComplexShape.up ℤ)).map q) := by
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology _
       (_root_.SheafOfModules.toSheaf.{u + 1} R')]
-    show QuasiIso (((u'.sheafPushforwardCocontinuous
+    change QuasiIso (((u'.sheafPushforwardCocontinuous
       AddCommGrpCat.{u + 1} J'
       K).mapHomologicalComplex (ComplexShape.up ℤ)).map
         (((_root_.SheafOfModules.toSheaf.{u + 1} (inverseImageRing J' J P.ι R)
@@ -261,7 +261,7 @@ theorem _root_.Stacks.SheafOfModules.isIso_derivedPushforwardUnit_inverseImage
     intro t
     have : ((sheafSections K AddCommGrpCat.{u + 1}).obj t).Additive :=
       ⟨fun {_ _ _ _} => rfl⟩
-    show QuasiIso ((((u'.sheafPushforwardCocontinuous
+    change QuasiIso ((((u'.sheafPushforwardCocontinuous
       AddCommGrpCat.{u + 1} J' K) ⋙
         (sheafSections K AddCommGrpCat.{u + 1}).obj t
       ).mapHomologicalComplex (ComplexShape.up ℤ)).map
@@ -289,7 +289,7 @@ theorem _root_.Stacks.SheafOfModules.isIso_derivedPushforwardUnit_inverseImage
   have hF : IsIso (((pushforwardCocontinuous.{u + 1} u' φ).mapHomotopyCategory
       (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map q)) := by
-    show IsIso (DerivedCategory.Qh.map
+    change IsIso (DerivedCategory.Qh.map
       (((pushforwardCocontinuous.{u + 1} u' φ).mapHomotopyCategory
         (ComplexShape.up ℤ)).map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map q)))
     rw [Functor.mapHomotopyCategory_map]
@@ -324,10 +324,10 @@ on the unbounded derived categories, with no further hypothesis. It is
 `AlgebraicGeometry.Stack.LisseEtale.qh_map_bijective_directImageCorep_restriction`. -/
 @[stacks 07AV "the module case for the lisse-étale sites, first identity: \
 g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹ on the unbounded derived categories of sheaves of modules, as an \
-isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for any total right derived functors Rf_*, Rf'_* of the two \
-direct images, with no further hypothesis: the degree-zero square of Stacks 07AT (1) on modules \
-and the fact that restricted K-injective complexes of modules compute Rf'_* (Stacks 0D6J with \
-Stacks 07AK at the 2-fibre products V ×_y 𝒳) are proved, not assumed"]
+isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for any total right derived functors Rf_*, Rf'_* of \
+the two direct images, with no further hypothesis: the degree-zero square of Stacks 07AT (1) on \
+modules and the fact that restricted K-injective complexes of modules compute Rf'_* (Stacks 0D6J \
+with Stacks 07AK at the 2-fibre products V ×_y 𝒳) are proved, not assumed"]
 def moduleDerivedRestrictionBaseChangeIso
     (Rf : DerivedCategory (_root_.SheafOfModules.{u + 1} (ambientRingStructureSheaf B S hS 𝒳)) ⥤
       DerivedCategory (_root_.SheafOfModules.{u + 1} (ambientRingStructureSheaf B S hS 𝒴)))

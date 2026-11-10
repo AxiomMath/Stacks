@@ -112,7 +112,7 @@ theorem of_faithfullyFlat_reduction {A C : Type*} [CommRing A] [CommRing C] [Alg
     exact (Submodule.restrictScalars_eq_top_iff _ _ _).mp htop
   have hmap : m₀.map (algebraMap (A ⧸ I) (C ⧸ J)) = ⊤ := by
     rw [Ideal.map_map]
-    show m.map ((Ideal.Quotient.mk J).comp (algebraMap A C)) = ⊤
+    change m.map ((Ideal.Quotient.mk J).comp (algebraMap A C)) = ⊤
     rw [← Ideal.map_map, hmC, Ideal.map_top]
   have hcomap := Ideal.comap_map_eq_self_of_faithfullyFlat (B := C ⧸ J) m₀
   rw [hmap, Ideal.comap_top] at hcomap
@@ -246,7 +246,7 @@ theorem exists_isDiscreteValuationRing_isExtension_of_flat
   have hinj : Function.Injective (algebraMap R (T ⧸ q)) := by
     rw [RingHom.injective_iff_ker_eq_bot, IsScalarTower.algebraMap_eq R T (T ⧸ q),
       ← RingHom.comap_ker]
-    show (RingHom.ker (Ideal.Quotient.mk q)).comap (algebraMap R T) = ⊥
+    change (RingHom.ker (Ideal.Quotient.mk q)).comap (algebraMap R T) = ⊥
     rw [Ideal.mk_ker, hqR']
   have : IsLocalRing (T ⧸ q) := IsLocalRing.of_surjective' (Ideal.Quotient.mk q)
     Ideal.Quotient.mk_surjective
@@ -346,8 +346,7 @@ theorem Cardinal.mk_tensorProduct_lt {A C R : Type u} [CommRing A] [CommRing C] 
   have hF : Function.Surjective
       (fun l : List (C × R) => (l.map fun x => x.1 ⊗ₜ[A] x.2).sum) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨[], rfl⟩
+    induction x using TensorProduct.inductionOn with
     | tmul c r => exact ⟨[(c, r)], by simp⟩
     | add x y hx hy =>
       obtain ⟨lx, rfl⟩ := hx
@@ -402,7 +401,7 @@ theorem exists_isAdicComplete_isDiscreteValuationRing_ringHom
     g.toRingHom.comp ((algebraMap P Q).comp
       (Algebra.TensorProduct.includeLeft : C →ₐ[A] P).toRingHom), ?_, hWcard⟩
   ext a
-  show g (algebraMap P Q (Algebra.TensorProduct.includeLeft (algebraMap A C a))) = _
+  change g (algebraMap P Q (Algebra.TensorProduct.includeLeft (algebraMap A C a))) = _
   have hin : (Algebra.TensorProduct.includeLeft : C →ₐ[A] P) (algebraMap A C a) =
       algebraMap R P (algebraMap A R a) :=
     congrArg (fun f : A →+* P => f a)

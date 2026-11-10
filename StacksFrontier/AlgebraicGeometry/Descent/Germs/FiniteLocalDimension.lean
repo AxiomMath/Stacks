@@ -86,7 +86,7 @@ theorem topologicalKrullDimAt_eq_of_isClosedMap_of_specializes_injective
     (hinj : ∀ ⦃x y : X⦄, x ⤳ y → f x = f y → x = y)
     (x : X) (hfib : f ⁻¹' {f x} = {x}) :
     topologicalKrullDimAt X x = topologicalKrullDimAt Y (f x) := by
-  show (⨅ A : {A : Set X // x ∈ A ∧ IsOpen A}, topologicalKrullDim (↥A.1)) =
+  change (⨅ A : {A : Set X // x ∈ A ∧ IsOpen A}, topologicalKrullDim (↥A.1)) =
     ⨅ B : {B : Set Y // f x ∈ B ∧ IsOpen B}, topologicalKrullDim (↥B.1)
   refine le_antisymm (le_iInf fun B ↦ ?_) (le_iInf fun A ↦ ?_)
   · -- Pull the neighbourhood of `f x` back; the comparison is injectivity on specialisations.
@@ -198,7 +198,7 @@ theorem topologicalKrullDimAt_support_eq_of_isIntegral [Module.Finite R M] [Modu
     · exact Subtype.ext h
     · have : z.1.asIdeal.IsPrime := z.1.isPrime
       exact absurd (congrArg (fun v : Module.support R M ↦ v.1.asIdeal) hEq)
-        (Ideal.IsIntegral.comap_lt_comap (R := R)
+        (Ideal.IsIntegral.under_lt_under (R := R)
           ((PrimeSpectrum.asIdeal_lt_asIdeal z.1 w.1).mpr hlt)).ne
   · -- The fibre of the contraction over `q` is the single prime `p`.
     ext z

@@ -34,7 +34,7 @@ private lemma exists_chartThickening
     Stacks.Thickenings.universalFirstOrderThickening
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map ψ)⟩⟩
 
-private lemma universalThickening_lift_map
+lemma universalThickening_lift_map
     {R R' V V' U : Scheme.{u}} (j : R ⟶ R')
     (hj : Stacks.Thickenings.IsFirstOrderThickening j) (s : R ⟶ V) (b : R' ⟶ U)
     (q : V ⟶ U) (i : V ⟶ V') (p : V' ⟶ U)
@@ -43,7 +43,7 @@ private lemma universalThickening_lift_map
     ∃! k : R' ⟶ V', (j ≫ k = s ≫ i) ∧ (k ≫ p = b) :=
   hu.existsUnique_lift j hj s b hcomm
 
-private lemma universalThickening_lift_pair_distinct_base
+lemma universalThickening_lift_pair_distinct_base
     {R R' V V' U : Scheme.{u}} (j : R ⟶ R')
     (hj : Stacks.Thickenings.IsFirstOrderThickening j)
     (s t : R ⟶ V) (b₁ b₂ : R' ⟶ U) (q : V ⟶ U)
@@ -82,7 +82,7 @@ private lemma universalThickening_lift_pair_distinct_base
         ⟨hk.2.1, hk.2.2.2⟩
       rw [hsnd, Limits.prod.lift_snd]
 
-private lemma universalThickening_lift_pair
+lemma universalThickening_lift_pair
     {R R' V V' U : Scheme.{u}} (j : R ⟶ R')
     (hj : Stacks.Thickenings.IsFirstOrderThickening j)
     (s t : R ⟶ V) (b : R' ⟶ U) (q : V ⟶ U)
@@ -96,7 +96,7 @@ private lemma universalThickening_lift_pair
       (k ≫ (Limits.prod.snd : V' ⨯ V' ⟶ V') ≫ p = b) :=
   universalThickening_lift_pair_distinct_base j hj s t b b q i p hu hs ht
 
-private lemma universalThickening_lift_to_pullback
+lemma universalThickening_lift_to_pullback
     {R R' V V' U : Scheme.{u}} (j : R ⟶ R')
     (hj : Stacks.Thickenings.IsFirstOrderThickening j)
     (s t : R ⟶ V) (b : R' ⟶ U) (q : V ⟶ U)
@@ -153,7 +153,7 @@ private lemma universalThickening_lift_to_pullback
         exact Limits.pullback.lift_snd ks kt hbase
       exact hsnd.trans hKsnd.symm
 
-private lemma exists_universalThickening_of_relation_pair
+lemma exists_universalThickening_of_relation_pair
     {R V U V' : Scheme.{u}} (s t : R ⟶ V) (q : V ⟶ U)
     (i : V ⟶ V') (p : V' ⟶ U)
     (hu : Stacks.Thickenings.IsUniversalFirstOrderThickening q i p)
@@ -176,7 +176,7 @@ private lemma exists_universalThickening_of_relation_pair
     H.inclusion H.isUniversal.isFirstOrderThickening s t H.toBase q i p hu hs ht
   exact ⟨H, k, hk.1, hk.2.1, hk.2.2.1, hk.2.2.2⟩
 
-private lemma exists_universalThickening_of_etale_relation_pair
+lemma exists_universalThickening_of_etale_relation_pair
     {R V U V' : Scheme.{u}} (s t : R ⟶ V) (q : V ⟶ U)
     (i : V ⟶ V') (p : V' ⟶ U)
     (hu : Stacks.Thickenings.IsUniversalFirstOrderThickening q i p)
@@ -193,7 +193,7 @@ private lemma exists_universalThickening_of_etale_relation_pair
   exact exists_universalThickening_of_relation_pair s t q i p hu
     (MorphismProperty.comp_mem @FormallyUnramified s q inferInstance hq) hbase
 
-private lemma exists_universal_relation_pair_lift
+lemma exists_universal_relation_pair_lift
     {R W V U V' : Scheme.{u}} (r : R ⟶ W) (f g : W ⟶ U)
     (s t : R ⟶ V) (q : V ⟶ U) (i : V ⟶ V') (p : V' ⟶ U)
     (hu : Stacks.Thickenings.IsUniversalFirstOrderThickening q i p)
@@ -277,7 +277,7 @@ private lemma exists_targetRelation_map_of_chartKernelPair
   exact ⟨W, α, β, r, hrα, hrβ, hα, hβ, hpb⟩
 
 /-- Maps with equal composites to `a` lift through a pullback of `yoneda.map α`, `yoneda.map β`. -/
-private theorem exists_lift_of_isPullback_yoneda {C : Type*} [Category.{u} C] {U W T : C}
+theorem exists_lift_of_isPullback_yoneda {C : Type*} [Category.{u} C] {U W T : C}
     {F : Cᵒᵖ ⥤ Type u} {a : yoneda.obj U ⟶ F} {α β : W ⟶ U}
     (hW : IsPullback (yoneda.map α) (yoneda.map β) a a) (f g : T ⟶ U)
     (h : yoneda.map f ≫ a = yoneda.map g ≫ a) :
@@ -290,7 +290,7 @@ private theorem exists_lift_of_isPullback_yoneda {C : Type*} [Category.{u} C] {U
     rw [Functor.map_comp, yoneda.map_preimage]
     exact hW.lift_snd _ _ _
 
-private lemma bridge_targetRelation_diagonal
+lemma bridge_targetRelation_diagonal
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U W : AlgebraicGeometry.BigFppfOver B S hS}
     {F : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -299,7 +299,7 @@ private lemma bridge_targetRelation_diagonal
     ∃ d : U ⟶ W, d ≫ α = 𝟙 U ∧ d ≫ β = 𝟙 U :=
   exists_lift_of_isPullback_yoneda hW _ _ rfl
 
-private lemma bridge_targetRelation_swap
+lemma bridge_targetRelation_swap
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U W : AlgebraicGeometry.BigFppfOver B S hS}
     {F : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -308,7 +308,7 @@ private lemma bridge_targetRelation_swap
     ∃ e : W ⟶ W, e ≫ α = β ∧ e ≫ β = α :=
   exists_lift_of_isPullback_yoneda hW _ _ hW.w.symm
 
-private lemma bridge_targetRelation_comp
+lemma bridge_targetRelation_comp
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U W : AlgebraicGeometry.BigFppfOver B S hS}
     {F : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -326,7 +326,7 @@ private lemma bridge_targetRelation_comp
     _ = yoneda.map (Limits.pullback.snd β α ≫ α) ≫ a := by rw [hpb]
     _ = _ := by simp only [Functor.map_comp, Category.assoc, hW.w]
 
-private lemma formallyUnramified_yoneda_map_of_formallyUnramified_chart
+lemma formallyUnramified_yoneda_map_of_formallyUnramified_chart
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {R W V U : AlgebraicGeometry.BigFppfOver B S hS}
     {F : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -365,7 +365,7 @@ private lemma formallyUnramified_yoneda_map_of_formallyUnramified_chart
   · simpa only [Functor.map_comp] using congrArg yoneda.map (key s α hrα)
   · simpa only [Functor.map_comp] using congrArg yoneda.map (key t β hrβ)
 
-private lemma formallyUnramified_scheme_map_of_yoneda
+lemma formallyUnramified_scheme_map_of_yoneda
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {R W : AlgebraicGeometry.BigFppfOver B S hS} (r : R ⟶ W)
     (hr : AlgebraicGeometry.Space.FormallyUnramified (yoneda.map r)) :
@@ -379,7 +379,7 @@ private lemma formallyUnramified_scheme_map_of_yoneda
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS)).presheaf (𝟙 (yoneda.obj X)) :=
     AlgebraicGeometry.presheaf_id_of_iso B S hS _ (fun _ _ f hf => by
       have : IsIso f := hf
-      show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f)
+      change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f)
       infer_instance)
   have hcomm : yoneda.map r ≫ 𝟙 (yoneda.obj W) =
       𝟙 (yoneda.obj R) ≫ yoneda.map r := by simp
@@ -457,7 +457,7 @@ private lemma exists_lifted_chartKernelPair_over_targetRelation
     bridge_universalThickening_comp_etale _ _ _ _ H.isUniversal hβ,
     hk1, hk2, hk3, hk4, hk5, hk6⟩
 
-private lemma bridge_descend_map_from_atlas
+lemma bridge_descend_map_from_atlas
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Y T : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y)
@@ -489,7 +489,7 @@ private lemma bridge_descend_map_from_atlas
   exact ⟨(hc.desc c).hom,
     congrArg (fun k => k.hom) (hc.fac c WalkingParallelPair.one)⟩
 
-private lemma bridge_maps_equal_of_atlas
+lemma bridge_maps_equal_of_atlas
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Y T : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y)
@@ -517,7 +517,7 @@ private lemma bridge_maps_equal_of_atlas
     exact Sheaf.hom_ext hfg
   exact congrArg (fun k => k.hom) heq
 
-private lemma bridge_subschemePoints_mk
+lemma bridge_subschemePoints_mk
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {V U : AlgebraicGeometry.BigFppfOver B S hS} (f : V ⟶ U)
     [Mono ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f)] :
@@ -525,10 +525,10 @@ private lemma bridge_subschemePoints_mk
       (Subobject.mk ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f)) =
         Subfunctor.range (yoneda.map f) := by
   ext T x
-  show (∃ g, g ≫ _ = _) ↔ ∃ y, y ≫ f = x
+  change (∃ g, g ≫ _ = _) ↔ ∃ y, y ≫ f = x
   apply (Subobject.factors_iff _ _).symm.trans
   rw [Subobject.mk_factors_iff]
-  show (∃ g, g ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f =
+  change (∃ g, g ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f =
     (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map x) ↔ ∃ y, y ≫ f = x
   constructor
   · rintro ⟨g, hg⟩
@@ -547,13 +547,13 @@ private lemma bridge_subschemePoints_mk
     refine ⟨Over.homMk g' hw, ?_⟩
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (g' ≫ f.left) = B.inclusion.map x.left
+    change B.inclusion.map (g' ≫ f.left) = B.inclusion.map x.left
     rw [Functor.map_comp, hmapg, hg']
   · rintro ⟨g, rfl⟩
     exact ⟨(AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g,
       (Functor.map_comp _ _ _).symm⟩
 
-private lemma bridge_isPullback_fromPreimage
+lemma bridge_isPullback_fromPreimage
     {C : Type*} [Category C] {F G : C ⥤ Type u}
     (Z : Subfunctor F) (f : G ⟶ F) :
     IsPullback (Z.fromPreimage f) (Z.preimage f).ι Z.ι f := by
@@ -563,14 +563,14 @@ private lemma bridge_isPullback_fromPreimage
     rintro U z ⟨x, rfl⟩
     have hx := congrArg (fun q => q.app U x) s.condition
     change (s.fst.app U x).val = f.app U (s.snd.app U x) at hx
-    show f.app U (s.snd.app U x) ∈ Z.obj U
+    change f.app U (s.snd.app U x) ∈ Z.obj U
     exact hx ▸ (s.fst.app U x).property
   apply IsPullback.of_isLimit (c := c)
   refine PullbackCone.IsLimit.mk (Z.fromPreimage_ι f)
     (fun s => Subfunctor.lift s.snd (hmem s)) ?_ ?_ ?_
   · intro s
     apply (cancel_mono Z.ι).mp
-    show (Subfunctor.lift s.snd (hmem s) ≫ Z.fromPreimage f) ≫ Z.ι =
+    change (Subfunctor.lift s.snd (hmem s) ≫ Z.fromPreimage f) ≫ Z.ι =
       s.fst ≫ Z.ι
     rw [Category.assoc, Z.fromPreimage_ι, ← Category.assoc, Subfunctor.lift_ι]
     exact s.condition.symm
@@ -580,7 +580,7 @@ private lemma bridge_isPullback_fromPreimage
     apply (cancel_mono (Z.preimage f).ι).mp
     exact hm₂.trans (Subfunctor.lift_ι _ _).symm
 
-private lemma bridge_isPullback_of_preimage_eq_range
+lemma bridge_isPullback_of_preimage_eq_range
     {C : Type*} [Category C] {F G H : C ⥤ Type u}
     (Z : Subfunctor F) (f : G ⟶ F) (i : H ⟶ G) [Mono i]
     (hi : Z.preimage f = Subfunctor.range i) :
@@ -591,14 +591,14 @@ private lemma bridge_isPullback_of_preimage_eq_range
   apply (bridge_isPullback_fromPreimage Z f).of_iso' e
     (Iso.refl _) (Iso.refl _) (Iso.refl _)
   · simp
-  · show Subfunctor.toRange i ≫
+  · change Subfunctor.toRange i ≫
       eqToHom (congrArg Subfunctor.toFunctor hi.symm) ≫ (Z.preimage f).ι = i ≫ 𝟙 _
     rw [subfunctor_eqToHom_ι hi.symm,
       Subfunctor.toRange_ι, Category.comp_id]
   · simp
   · simp
 
-private lemma bridge_restricted_kernelPair
+lemma bridge_restricted_kernelPair
     {C : Type*} [Category C]
     {R V R' V' Q : C} (s t : R ⟶ V) (s' t' : R' ⟶ V')
     (iV : V ⟶ V') (iR : R ⟶ R') (q : V' ⟶ Q)

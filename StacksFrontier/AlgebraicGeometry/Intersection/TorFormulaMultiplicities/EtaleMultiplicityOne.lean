@@ -4,7 +4,7 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Divisors.DivisorStalkResidueCokernel
 public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartierWeilDivisor
 public import
-  StacksFrontier.AlgebraicGeometry.Intersection.TorFormulaMultiplicities.TransversalCycleMultiplicity
+ StacksFrontier.AlgebraicGeometry.Intersection.TorFormulaMultiplicities.TransversalCycleMultiplicity
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Etale.AtPointCriteria
 public import StacksFrontier.RingTheory.OrderOfVanishing.ResidualCokernel
 

@@ -455,7 +455,7 @@ public theorem unramified_divisorNormalization_of_isStrictNormalCrossingsDivisor
       ((D.subscheme.reducedComponent C).isIso_normalization_iff_isNormal
         (D.subscheme.finite_irreducibleComponents_reducedComponent C)).2 inferInstance
     exact MorphismProperty.comp_mem (@Unramified.{u}) _ _ inferInstance inferInstance
-  show Unramified (Scheme.normalization D.subscheme
+  change Unramified (Scheme.normalization D.subscheme
     (finite_irreducibleComponents_of_isCompact D.subscheme))
   rw [← Iso.inv_hom_id_assoc e (Scheme.normalization _ _), he]
   exact MorphismProperty.comp_mem (@Unramified.{u}) _ _ inferInstance

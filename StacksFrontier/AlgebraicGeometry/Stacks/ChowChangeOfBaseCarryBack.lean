@@ -99,7 +99,7 @@ theorem exists_relocalize_iso_of_structureMap
       (Over.forget (yoneda.obj (Over.mk g))).mapIso c
   have he : e.hom ≫ π = OverShriek.viewStructureMap g F := by
     have hc : c.hom.left ≫ π = (E.functor.obj F).hom := Over.w c.hom
-    show ((smallerBasePresheafForgetIso B S S' hS hS' g).inv.app F ≫ c.hom.left) ≫ π = _
+    change ((smallerBasePresheafForgetIso B S S' hS hS' g).inv.app F ≫ c.hom.left) ≫ π = _
     rw [Category.assoc, hc, smallerBasePresheafEquivalence_functor_obj_hom,
       Iso.inv_hom_id_app_assoc]
   exact ⟨F, isAlgebraicSpace_of_isAlgebraicSpace_relocalizePresheaf B S S' hS hS' g F
@@ -246,7 +246,7 @@ theorem universallyClosed_of_universallyClosed_constructionAHom
     PS.pt.property).homeomorph
   let EZ := (isHomeomorph_changeBasePointsEquiv.{u, w} B S S' hS hS' g 𝒵.val
     𝒵.property).homeomorph
-  show IsClosedMap (Stack.pointsMap B S hS PS.pt.val.val PS.pt.val.property 𝒵.val.property
+  change IsClosedMap (Stack.pointsMap B S hS PS.pt.val.val PS.pt.val.property 𝒵.val.property
     PS.fst.hom.hom)
   have hPS' : Stack.pointsMap B S hS PS.pt.val.val PS.pt.val.property 𝒵.val.property
       PS.fst.hom.hom = EZ.symm ∘ Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property
@@ -256,7 +256,7 @@ theorem universallyClosed_of_universallyClosed_constructionAHom
         (changeBaseFiberedInGroupoids B S S' hS hS' g 𝒵.val).property PT.fst.hom.hom (H (EP z)) =
         EZ (Stack.pointsMap B S hS PS.pt.val.val PS.pt.val.property 𝒵.val.property
           PS.fst.hom.hom z) := by
-      show Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property _ PT.fst.hom.hom
+      change Stack.pointsMap B S' hS' PT.pt.val.val PT.pt.val.property _ PT.fst.hom.hom
           (Stack.pointsMap B S' hS' _ _ PT.pt.val.property Hom
             (changeBasePointsEquiv B S S' hS hS' g PS.pt.val.val PS.pt.val.property z)) =
         changeBasePointsEquiv B S S' hS hS' g 𝒵.val.val 𝒵.val.property

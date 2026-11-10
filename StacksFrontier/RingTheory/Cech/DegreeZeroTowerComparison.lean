@@ -141,7 +141,7 @@ private theorem pow_smul_pow_smul_mem_bd (hfD : ∀ p m (x : C p), x ∈ D p m �
   hann p hp _ (f ^ t • u) (pow_smul_mem f hfD p hu t)
     (by rw [map_smul]; exact htors (p + 1) _ _ hdu) hm
 
-include hdd hdD hfD htors hann in
+include hdd hfD htors hann in
 /-- **The injectivity half.** Let `p ≤ σ` and `N ≥ t + c + 1`. A degree-zero cocycle `z` which,
 up to a degree-zero coboundary, is `f ^ N` times an element of degree `-N`, is a coboundary. -/
 theorem mem_bd_of_sub_pow_smul_mem_bd {p : ℕ} (hp : p ≤ σ) {N : ℕ} (hN : t + c + 1 ≤ N)
@@ -210,7 +210,7 @@ private theorem descend_eq_of_compat {y : ∀ n, G n} (hy : ∀ n, τ n (y (n + 
   induction k with
   | zero => rfl
   | succ k ih =>
-    show descend τ n k (τ (n + k) (y (n + k + 1))) = y n
+    change descend τ n k (τ (n + k) (y (n + k + 1))) = y n
     rw [hy, ih]
 
 include hφτ in

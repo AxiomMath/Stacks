@@ -309,7 +309,7 @@ theorem generator_unitIsoOfSection (s : L.sections) {W : Opens X}
     (hW : W ≤ Stacks.NonvanishingTrivialize.nonvanishingOpen X L s) :
     Stacks.SheafOfModules.TensorGenerator.generator X.presheaf hX W L
       (unitIsoOfSection hX L s hW) = s.eval (op W) := by
-  show ((L.unitHomEquiv.symm s).val.app (op W)).hom (1 : X.presheaf.obj (op W)) =
+  change ((L.unitHomEquiv.symm s).val.app (op W)).hom (1 : X.presheaf.obj (op W)) =
     s.eval (op W)
   have h := Stacks.NonvanishingTrivialize.unitHomEquiv_symm_app s W
     (1 : X.presheaf.obj (op W))

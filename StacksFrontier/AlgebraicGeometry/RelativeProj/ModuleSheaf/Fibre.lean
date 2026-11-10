@@ -72,6 +72,7 @@ variable {A B M N : Type u} {σ τ μ ν : Type u}
 
 /-! ### The comparison of localized modules -/
 
+omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ] in
 /-- A denominator stays a denominator: an element of `A` avoiding `I = φ⁻¹ J` has image avoiding
 `J`. -/
 public theorem map_notMem_of_comap_eq {I : Ideal A} {J : Ideal B}
@@ -88,6 +89,7 @@ public def localizedDenomMap (hIJ : I = J.comap φ.toRingHom) : I.primeCompl →
   map_one' := Subtype.ext (map_one φ)
   map_mul' _ _ := Subtype.ext (map_mul φ _ _)
 
+omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ] in
 /-- The underlying element of a transported denominator is the image of the denominator. -/
 @[simp] public theorem coe_localizedDenomMap (hIJ : I = J.comap φ.toRingHom)
     (s : I.primeCompl) : (localizedDenomMap φ I J hIJ s : B) = φ s := rfl
@@ -103,6 +105,7 @@ public def localizedModuleMap (hIJ : I = J.comap φ.toRingHom)
       simpa only [Submonoid.smul_def, coe_localizedDenomMap, map_smulₛₗ,
         GradedRingHom.coe_toRingHom] using congrArg f hu)
 
+omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ] in
 /-- The comparison on a fraction: apply `f` to the numerator and `φ` to the denominator. -/
 @[simp] public theorem localizedModuleMap_mk (hIJ : I = J.comap φ.toRingHom) (m : M)
     (s : I.primeCompl) :
@@ -110,6 +113,7 @@ public def localizedModuleMap (hIJ : I = J.comap φ.toRingHom)
       LocalizedModule.mk (f m) (localizedDenomMap φ I J hIJ s) :=
   LocalizedModule.liftOn_mk _ m s
 
+omit [AddSubgroupClass σ A] [AddSubgroupClass μ M] [GradedRing 𝒜] [DirectSum.Decomposition 𝒨] in
 /-- **The comparison of localized modules is surjective.** -/
 public theorem surjective_localizedModuleMap (h : IsAwayDegreewise φ g)
     (hmod : IsAwayDegreewiseModule φ 𝒨 𝒩 f g) (hIJ : I = J.comap φ.toRingHom) :
@@ -133,6 +137,7 @@ public theorem surjective_localizedModuleMap (h : IsAwayDegreewise φ g)
     refine congrArg (fun c : B => c • b) ?_
     ring
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
 /-- **The comparison of localized modules is injective.** -/
 public theorem injective_localizedModuleMap (h : IsAwayDegreewise φ g)
     (hmod : IsAwayDegreewiseModule φ 𝒨 𝒩 f g) (hIJ : I = J.comap φ.toRingHom) :
@@ -168,6 +173,7 @@ public theorem injective_localizedModuleMap (h : IsAwayDegreewise φ g)
     induction w using LocalizedModule.induction_on with
     | h a' p' => exact key a a' p p'
 
+omit [AddSubgroupClass σ A] [GradedRing 𝒜] in
 /-- **The localized modules of a degreewise localization agree with those of its source.** For a
 prime `J` of `ℬ` and `I = φ⁻¹ J`, the comparison `M_I ⟶ N_J` is bijective. -/
 public theorem bijective_localizedModuleMap (h : IsAwayDegreewise φ g)

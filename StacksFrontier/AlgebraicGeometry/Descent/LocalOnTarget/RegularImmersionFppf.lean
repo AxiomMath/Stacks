@@ -108,7 +108,7 @@ theorem exists_surjective_flat_lfp_onto_openImage
   have hgRange : (⊤ : V.Opens) ≤ g ⁻¹ᵁ O := fun y _ => ⟨y, rfl⟩
   let gO : V ⟶ O.toScheme := V.topIso.inv ≫ g.resLE O ⊤ hgRange
   have hgOι : gO ≫ O.ι = g := by
-    show V.topIso.inv ≫ (g.resLE O ⊤ hgRange ≫ O.ι) = g
+    change V.topIso.inv ≫ (g.resLE O ⊤ hgRange ≫ O.ι) = g
     rw [Scheme.Hom.resLE_comp_ι, ← Category.assoc, Scheme.toIso_inv_ι, Category.id_comp]
   have hflat : Flat gO := by
     dsimp only [gO]
@@ -209,7 +209,8 @@ Koszul-regular immersion of schemes is local on the target for the fppf topology
 quasi-compactness and no hypothesis that the morphism is an immersion.
 
 The tag asserts this for the fpqc topology, where it is false. -/
-@[stacks 0694 "koszul_regular, erratum: fppf in place of fpqc; counterexample Stacks.Descent.counterexampleHom",
+@[stacks 0694 "koszul_regular, erratum: fppf in place of fpqc; \
+    counterexample Stacks.Descent.counterexampleHom",
   sga "6 VII 1.5" "special case"]
 theorem isLocalAtTarget_koszulRegularImmersion_fppf :
     MorphismProperty.IsLocalAtTarget
@@ -229,7 +230,8 @@ theorem isLocalAtTarget_koszulRegularImmersion_fppf :
 quasi-compactness and no hypothesis that the morphism is an immersion.
 
 The tag asserts this for the fpqc topology, where it is false. -/
-@[stacks 0694 "h1_regular, erratum: fppf in place of fpqc; counterexample Stacks.Descent.counterexampleHom"]
+@[stacks 0694
+    "h1_regular, erratum: fppf in place of fpqc; counterexample Stacks.Descent.counterexampleHom"]
 theorem isLocalAtTarget_h1RegularImmersion_fppf :
     MorphismProperty.IsLocalAtTarget
       (fun _ _ f => ∃ hf : IsImmersion f, @IsH1RegularImmersion _ _ f hf)
@@ -248,7 +250,8 @@ quasi-regular immersion of schemes is local on the target for the fppf topology,
 quasi-compactness and no hypothesis that the morphism is an immersion.
 
 The tag asserts this for the fpqc topology, where it is false. -/
-@[stacks 0694 "quasi_regular, erratum: fppf in place of fpqc; counterexample Stacks.Descent.counterexampleHom",
+@[stacks 0694 "quasi_regular, erratum: fppf in place of fpqc; \
+    counterexample Stacks.Descent.counterexampleHom",
   ega "IV 19.1.5" "(ii), special case"]
 theorem isLocalAtTarget_quasiRegularImmersion_fppf :
     MorphismProperty.IsLocalAtTarget

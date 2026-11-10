@@ -77,7 +77,7 @@ theorem exists_baseFunctional_eq
     simp only [RingHom.id_apply]
     rw [e, map_smul, smul_eq_mul, map_mul, Iso.inv_hom_id_apply, smul_eq_mul]
   · refine LinearMap.ext fun b => ?_
-    show (Scheme.ΓSpecIso (.of S.k)).inv.hom ((Scheme.ΓSpecIso (.of S.k)).hom.hom
+    change (Scheme.ΓSpecIso (.of S.k)).inv.hom ((Scheme.ΓSpecIso (.of S.k)).hom.hom
       (φ ((Scheme.ΓSpecIso (.of K)).inv.hom ((Scheme.ΓSpecIso (.of K)).hom.hom b)))) = φ b
     rw [Iso.hom_inv_id_apply, Iso.hom_inv_id_apply]
 
@@ -165,7 +165,7 @@ theorem eq_zero_of_basePairing_eq_zero {F : (S.baseChange K).X.Modules} [hFq : F
       (S.baseChangeProj K) F 1).toLinearEquiv.surjective y)
     refine (dual_traceAdjunct_apply K hone h hF ψ l v).trans ?_
     rw [hψ]
-    show l ((0 : cohomologyOverField K (S.baseChange K).f F 1 →ₗ[K] K) v) = 0
+    change l ((0 : cohomologyOverField K (S.baseChange K).f F 1 →ₗ[K] K) v) = 0
     exact map_zero l
   have hpush : (Scheme.Modules.pushforward (S.baseChangeProj K)).map ψ = 0 := by
     refine Stacks.FlatTrace.eq_zero_of_forall_comp_traceOf_eq_zero (S.isPullback_baseChange K) ω
@@ -179,7 +179,7 @@ theorem basePairing_add_apply {F : (S.baseChange K).X.Modules}
     (ψ₁ ψ₂ : F ⟶ (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω)
     (y : cohomologyOverField K (S.baseChange K).f F 1) :
     basePairing K hone h (ψ₁ + ψ₂) y = basePairing K hone h ψ₁ y + basePairing K hone h ψ₂ y := by
-  show baseChangeTraceForm K hone h
+  change baseChangeTraceForm K hone h
       ((cohomologyOverFieldMap K (S.baseChange K).f (ψ₁ + ψ₂) 1).hom y) =
     baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f ψ₁ 1).hom y) +
       baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f ψ₂ 1).hom y)
@@ -200,8 +200,9 @@ theorem basePairing_comp_smulEnd_apply {F : (S.baseChange K).X.Modules}
     (ψ : F ⟶ (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω) (a : K)
     (y : cohomologyOverField K (S.baseChange K).f F 1) :
     basePairing K hone h (ψ ≫ (Scheme.smulEnd (S.baseChange K).X
-        (((S.baseChange K).structureRingHom).hom a)).asHom.app _) y = a * basePairing K hone h ψ y := by
-  show baseChangeTraceForm K hone h
+        (((S.baseChange K).structureRingHom).hom a)).asHom.app _) y =
+      a * basePairing K hone h ψ y := by
+  change baseChangeTraceForm K hone h
       ((cohomologyOverFieldMap K (S.baseChange K).f (ψ ≫ _) 1).hom y) =
     a * baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f ψ 1).hom y)
   have h1 := (congrArg (fun m => m.hom y) (cohomologyOverFieldMap_comp K (S.baseChange K).f ψ
@@ -216,7 +217,7 @@ theorem basePairing_pullback_map_pullbackCohomology (F0 : S.X.Modules) [F0.IsQua
     (hF0 : F0.IsQuasicoherent) (φ : F0 ⟶ ω) (x : cohomologyOverField S.k S.f F0 1) :
     basePairing K hone h ((Scheme.Modules.pullback (S.baseChangeProj K)).map φ)
         (S.pullbackCohomology K F0 1 x) = algebraMap S.k K (h.dual F0 hF0 φ x) := by
-  show baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f
+  change baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f
       ((Scheme.Modules.pullback (S.baseChangeProj K)).map φ) 1) (S.pullbackCohomology K F0 1 x)) = _
   rw [cohomologyOverFieldMap_pullback_pullbackCohomology, baseChangeTraceForm_pullbackCohomology,
     dual_eq_traceForm_comp h F0 hF0 φ]
@@ -248,7 +249,8 @@ theorem exists_basePairing_eq_of_isCoherent (F0 : S.X.Modules) [hF0q : F0.IsQuas
       ((Scheme.Modules.pullback (S.baseChangeProj K)).obj F0 ⟶
         (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω) :=
     fun i => (Scheme.Modules.pullback (S.baseChangeProj K)).map (φ i) ≫
-      (Scheme.smulEnd (S.baseChange K).X (((S.baseChange K).structureRingHom).hom (c i))).asHom.app _
+      (Scheme.smulEnd (S.baseChange K).X
+        (((S.baseChange K).structureRingHom).hom (c i))).asHom.app _
   have hu : ∀ i x, basePairing K hone h (u i) (S.pullbackCohomology K F0 1 x) =
       c i * algebraMap S.k K (b.coord i x) := by
     intro i x
@@ -286,7 +288,7 @@ variable {K} in
 include hωq in
 /-- The map `φ : g^*ω ⟶ ω'` that a duality on `X_K` attaches to `t_K` pairs every
 `ψ : ℱ ⟶ g^*ω` to `t_K ∘ H¹(ψ)`. -/
-theorem dual_comp_symm_dual {ω' : (S.baseChange K).X.Modules} (hω' : ω'.IsQuasicoherent)
+theorem dual_comp_symm_dual {ω' : (S.baseChange K).X.Modules}
     (h' : (S.baseChange K).FirstCohomologyDuality ω') {F : (S.baseChange K).X.Modules}
     (hF : F.IsQuasicoherent) (ψ : F ⟶ (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω) :
     h'.dual F hF (ψ ≫ (h'.dual _ (S.isQuasicoherent_pullback_baseChangeProj K ω)).symm
@@ -319,7 +321,7 @@ theorem isIso_symm_dual_baseChangeTraceForm {ω' : (S.baseChange K).X.Modules}
       Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel φ
     have hι : kernel.ι φ = 0 := by
       refine eq_zero_of_basePairing_eq_zero K hone h (hFq := hkq) _ ?_
-      rw [← dual_comp_symm_dual hone h hω' h' hkq, kernel.condition, map_zero]
+      rw [← dual_comp_symm_dual hone h h' hkq, kernel.condition, map_zero]
       rfl
     rw [← kernel.lift_ι φ t ht, hι, comp_zero]
   have hepi : Epi φ := by
@@ -348,7 +350,7 @@ theorem isIso_symm_dual_baseChangeTraceForm {ω' : (S.baseChange K).X.Modules}
         (h'.dual _ hpG u)
       have hvu : v ≫ φ = u := by
         apply (h'.dual _ hpG).injective
-        rw [dual_comp_symm_dual hone h hω' h' hpG, hv]
+        rw [dual_comp_symm_dual hone h h' hpG, hv]
       have hu : u ≫ cokernel.π φ = 0 := by rw [← hvu, Category.assoc, cokernel.condition, comp_zero]
       have key : ∀ (a : (G.1 : S.X.Modules) ⟶
             (Scheme.Modules.pushforward (S.baseChangeProj K)).obj ω')

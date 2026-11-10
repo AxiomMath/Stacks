@@ -67,7 +67,7 @@ theorem chowCohomologyCap_totalChernOfFiniteLocallyFree_heq (C : ChowSituation.{
         k x ≍ GenuineChern.chernFamily C sX F s k s x := by
   refine (chowCohomologyCap_heq_idRule_ofGysinSystem C _ sX s _ k x).trans ?_
   have := pullbackPreservesRank_of_isFiniteLocallyFreeOfRank F s (𝟙 X)
-  show (totalChernOfFiniteLocallyFree C sX F).op (𝟙 X) k s
+  change (totalChernOfFiniteLocallyFree C sX F).op (𝟙 X) k s
     (chowGroupCongr C (Category.id_comp sX).symm k x) ≍ _
   rw [op_totalChernOfFiniteLocallyFree_of_rank C sX F (𝟙 X) s]
   have key : ∀ {q : X ⟶ C.S} [LocallyOfFiniteType q] (hq : q = sX) (G : X.Modules)

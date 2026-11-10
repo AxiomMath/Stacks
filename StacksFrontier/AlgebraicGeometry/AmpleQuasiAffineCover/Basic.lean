@@ -99,7 +99,7 @@ theorem exists_affine_basicOpen_mem_of_isQuasiAffine {X : Scheme.{u}} {U : X.Ope
     (AlgebraicGeometry.Scheme.IsQuasiAffine.isBasis_basicOpen
       U.toScheme).exists_subset_of_mem_open (Set.mem_univ (⟨x, hx⟩ : U.toScheme)) isOpen_univ
   have hinv : U.topIso.inv (U.topIso.hom r) = r := by
-    show (U.topIso.hom ≫ U.topIso.inv) r = r
+    change (U.topIso.hom ≫ U.topIso.inv) r = r
     rw [Iso.hom_inv_id]
     rfl
   refine ⟨U.topIso.hom r, ?_⟩

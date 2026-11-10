@@ -131,7 +131,7 @@ unit `C' ⟶ A_j ⊗_R C'`. -/
 theorem unitCx_comp_tcx {i j : J} (h : i ≤ j) (C' : CochainComplex (ModuleCat.{u} R) ℤ) :
     unitCx (S.φ i) C' ≫ S.tcx C' h = unitCx (S.φ j) C' := by
   ext n x
-  show (tau (S.φ i) (S.φ j) (S.β h) (S.φ_β h)).app (C'.X n) ((1 : S.A i) ⊗ₜ[R, (S.φ i).hom] x) =
+  change (tau (S.φ i) (S.φ j) (S.β h) (S.φ_β h)).app (C'.X n) ((1 : S.A i) ⊗ₜ[R, (S.φ i).hom] x) =
     (1 : S.A j) ⊗ₜ[R, (S.φ j).hom] x
   rw [tau_app_tmul, map_one]
 
@@ -140,7 +140,7 @@ unit `C' ⟶ A ⊗_R C'`. -/
 theorem unitCx_comp_ιcx (j : J) (C' : CochainComplex (ModuleCat.{u} R) ℤ) :
     unitCx (S.φ j) C' ≫ S.ιcx C' j = unitCx S.φlim C' := by
   ext n x
-  show (tau (S.φ j) S.φlim (S.γ j) (S.φ_γ j)).app (C'.X n) ((1 : S.A j) ⊗ₜ[R, (S.φ j).hom] x) =
+  change (tau (S.φ j) S.φlim (S.γ j) (S.φ_γ j)).app (C'.X n) ((1 : S.A j) ⊗ₜ[R, (S.φ j).hom] x) =
     (1 : S.lim) ⊗ₜ[R, S.φlim.hom] x
   rw [tau_app_tmul, map_one]
 

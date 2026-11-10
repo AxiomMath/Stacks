@@ -115,7 +115,7 @@ theorem isProper_of_denseTestExistence_of_forall_affine
   obtain ⟨U, bStack, hbsurj, hbsm, hU⟩ := h𝒴
   let A : (T.obj U).affineOpens → CommRingCat.{u} := fun O => Γ(T.obj U, O.1)
   have hA : ∀ O, B.Contains (Spec (A O)) := fun O => by
-    show (Spec (A O)).size < B.cutoff
+    change (Spec (A O)).size < B.cutoff
     rw [← Scheme.size_congr O.2.isoSpec]
     exact (Scheme.size_coe_opens_le (T.obj U) O.1).trans_lt U.left.property
   let ιO : ∀ O, Spec (A O) ⟶ T.obj U := fun O => O.2.isoSpec.inv ≫ O.1.ι

@@ -53,14 +53,14 @@ theorem exists_affine_ofArrows_zariski (hp : p.IsFiberedInGroupoids) (W : 𝒳) 
       X := fun i => ⟨O.X i, Scheme.size_lt_of_isOpenImmersion (O.f i) (p.obj W).left.2⟩
       f := fun i => ObjectProperty.homMk (O.f i) }
   have hVaff : ∀ j, IsAffine (B.inclusion.obj (V.X j)) := fun j => by
-    show IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X j.down))
+    change IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X j.down))
     exact isAffine_Spec _
   let Vobj (j : V.I₀) : BigFppfOver B S hS := Over.mk (V.f j ≫ (p.obj W).hom)
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .zariski (p.obj W) := by
     have hZ : IsZariskiCovering (⟨(p.obj W).left, V⟩ : Covering B.Schemes) := by
-      show (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
+      change (V.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
       simpa [V, PreZeroHypercover.map] using O.mem₀
     obtain ⟨⟨T', E'⟩, hE', hbase, hfamily⟩ :=
       B.zariskiCovering_has_representative ⟨(p.obj W).left, V⟩ hZ
@@ -71,7 +71,7 @@ theorem exists_affine_ofArrows_zariski (hp : p.IsFiberedInGroupoids) (W : 𝒳) 
         (show PreZeroHypercover.CombinatoriallyEquivalent V E' by simpa using hfamily)]
       exact Precoverage.generate_mem_toGrothendieck ⟨E', rfl, hE'⟩
     let Vover : PreZeroHypercover.{u + 1} (p.obj W) := ⟨V.I₀, Vobj, vmap⟩
-    show Sieve.generate Vover.presieve₀ ∈ B.zariskiTopology.over (B.obj hS) (p.obj W)
+    change Sieve.generate Vover.presieve₀ ∈ B.zariskiTopology.over (B.obj hS) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward]
     simpa [Vover, Vobj, vmap, PreZeroHypercover.presieve₀, PreZeroHypercover.map] using hgen
@@ -85,7 +85,7 @@ theorem exists_affine_ofArrows_zariski (hp : p.IsFiberedInGroupoids) (W : 𝒳) 
     simpa using IsHomLift.fac p (vmap j) (φ j)
   have : p.IsFibered := hp.isFibered
   refine ⟨V.I₀, y, φ, fun j => ?_, ?_⟩
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (y j)))
     rw [hdom j]
     exact hVaff j
   · refine (Functor.isInheritedTopology_inheritedTopology p

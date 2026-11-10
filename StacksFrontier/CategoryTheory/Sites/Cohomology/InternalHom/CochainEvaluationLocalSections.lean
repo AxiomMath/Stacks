@@ -131,7 +131,7 @@ private lemma curry_v_app_tensorComplexSection_of_globalSection (n : ℤ)
       s W a).symm.trans ?_
     rw [hsz]
   rw [sheafHomComplex_globalSectionsIso_v_app, globalSectionsComplexMap_val]
-  show applyHomSectionOver X
+  change applyHomSectionOver X
       (sheafHomComplex X (((Stacks.SheafOfModules.Tensor.tensorComplex X.O).obj A).obj B) D) W W
         (𝟙 W) n c d hcd
       (curryFun X W (s.val (op W))) (tensorComplexSection X t r c htr a l) = _

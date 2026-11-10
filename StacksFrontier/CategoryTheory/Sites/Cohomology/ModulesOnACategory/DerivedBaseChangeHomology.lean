@@ -261,7 +261,7 @@ theorem isIso_baseChangeHomologyComparison_of_flat
           G.mapDerivedCategoryFactors.inv.app
             ((E.mapHomologicalComplex (ComplexShape.up ℤ)).obj X) :=
       hu
-    show ((DerivedCategory.homologyFunctor _ q).map
+    change ((DerivedCategory.homologyFunctor _ q).map
           ((dBaseChangeAdj.{r, t} ψ hR hA).unit.app (DerivedCategory.Q.obj X)) ≫
         (Stacks.Homology.derivedHomologyIso G q).hom.app
           ((dBaseChange.{r, t} ψ hR hA).obj (DerivedCategory.Q.obj X))) ≫

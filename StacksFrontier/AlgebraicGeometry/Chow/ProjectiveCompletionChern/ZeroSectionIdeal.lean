@@ -81,7 +81,7 @@ theorem exists_sub_proj_app_mem_span (g : Γ(space 𝒞, openW 𝒞 hV)) :
     rw [← Set.range_comp]
     congr 1
     funext j
-    show (coordRingEquiv 𝒞 hV).symm (SymmetricAlgebra.ι Γ(X, V) Γ(𝒞, V) (b j)) = _
+    change (coordRingEquiv 𝒞 hV).symm (SymmetricAlgebra.ι Γ(X, V) Γ(𝒞, V) (b j)) = _
     rw [RingEquiv.symm_apply_eq, coordRingEquiv_coordY]
   rw [hset, map_sub] at hmap
   have h1 : (coordRingEquiv 𝒞 hV).symm.toRingHom (coordRingEquiv 𝒞 hV g) = g :=
@@ -89,7 +89,7 @@ theorem exists_sub_proj_app_mem_span (g : Γ(space 𝒞, openW 𝒞 hV)) :
   have h2 : (coordRingEquiv 𝒞 hV).symm.toRingHom
       (algebraMap Γ(X, V) (SymmetricAlgebra Γ(X, V) Γ(𝒞, V)) c) =
       (space 𝒞).presheaf.map (homOfLE (openW_le 𝒞 hV)).op ((proj 𝒞).app V c) := by
-    show (coordRingEquiv 𝒞 hV).symm _ = _
+    change (coordRingEquiv 𝒞 hV).symm _ = _
     rw [RingEquiv.symm_apply_eq, coordRingEquiv_proj_app]
   rwa [h1, h2] at hmap
 

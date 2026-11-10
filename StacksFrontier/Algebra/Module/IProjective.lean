@@ -187,7 +187,7 @@ theorem FactorsThroughProj.exists_small_factorization
   have hgh : h ∘ₗ g = h' ∘ₗ g' := by
     ext m
     apply congrArg h
-    show g m = Finsupp.mapDomain Subtype.val
+    change g m = Finsupp.mapDomain Subtype.val
       (Finsupp.subtypeDomain (fun j ↦ j ∈ s) (g m))
     calc
       g m = (Finsupp.subtypeDomain (fun j ↦ j ∈ s) (g m)).extendDomain :=
@@ -215,7 +215,7 @@ theorem Module.isIProjective_iff_ext_annihilated (R : Type u) [CommRing R] [Smal
     intro e
     rw [← Abelian.Ext.mk₀_id_comp e, ← Abelian.Ext.smul_comp,
       ← Abelian.Ext.mk₀_smul]
-    show (Abelian.Ext.mk₀ (ModuleCat.ofHom ((LinearMap.lsmul R M) a))).comp e _ = 0
+    change (Abelian.Ext.mk₀ (ModuleCat.ofHom ((LinearMap.lsmul R M) a))).comp e _ = 0
     rw [hfac, ModuleCat.ofHom_comp, ← Abelian.Ext.mk₀_comp_mk₀]
     have hz : (Abelian.Ext.mk₀ (ModuleCat.ofHom β)).comp e (zero_add 1) = 0 :=
       Abelian.Ext.eq_zero_of_projective _
@@ -229,7 +229,7 @@ theorem Module.isIProjective_iff_ext_annihilated (R : Type u) [CommRing R] [Smal
     have hzero :
         (Abelian.Ext.mk₀ (ModuleCat.ofHom ((LinearMap.lsmul R M) a))).comp
             hS.extClass (zero_add 1) = 0 := by
-      show (Abelian.Ext.mk₀ (a • 𝟙 X)).comp hS.extClass (zero_add 1) = 0
+      change (Abelian.Ext.mk₀ (a • 𝟙 X)).comp hS.extClass (zero_add 1) = 0
       rw [Abelian.Ext.mk₀_smul, Abelian.Ext.smul_comp]
       simpa using Module.mem_annihilator.mp (h S.X₁ ha) hS.extClass
     obtain ⟨x, hx⟩ := Abelian.Ext.covariant_sequence_exact₃
@@ -285,7 +285,7 @@ theorem Module.isIProjective_of_injective_of_exact {R : Type*} [CommRing R] (I :
   ext k
   have hpi : p (i k) = 0 := by rw [← LinearMap.mem_ker, ← hexact]; exact ⟨k, rfl⟩
   have : θ' (i k) = e (a • k) := Subtype.ext <| by simp [θ', e, hθ, hψ, hpi]
-  show a • k = e.symm (θ' (i k))
+  change a • k = e.symm (θ' (i k))
   rw [this, LinearEquiv.symm_apply_apply]
 
 /-- A linear map into `J →₀ R` sends every element of a module spanned by `s` to a

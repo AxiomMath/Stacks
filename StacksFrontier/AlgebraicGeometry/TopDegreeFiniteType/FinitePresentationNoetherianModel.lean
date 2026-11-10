@@ -114,7 +114,7 @@ theorem modelTransition_isPullback {stage next : Over i₀} (t : stage ⟶ next)
   refine IsPullback.of_right (h₁₂ := pullback.snd (D.map next.hom) M.hom)
     (h₂₂ := D.map next.hom) (v₁₃ := M.hom) ?_ ((modelProjection D i₀ M).naturality t)
     (IsPullback.of_hasPullback (D.map next.hom) M.hom).flip
-  show IsPullback ((modelDiagram D i₀ M).map t ≫ pullback.snd (D.map next.hom) M.hom)
+  change IsPullback ((modelDiagram D i₀ M).map t ≫ pullback.snd (D.map next.hom) M.hom)
       (pullback.fst (D.map stage.hom) M.hom) M.hom (D.map t.left ≫ D.map next.hom)
   rw [hsnd, ← D.map_comp, Over.w t]
   exact (IsPullback.of_hasPullback (D.map stage.hom) M.hom).flip
@@ -129,11 +129,11 @@ theorem modelCone_isPullback (c : Cone D) (stage : Over i₀) :
   refine IsPullback.of_right (h₁₂ := pullback.snd (D.map stage.hom) M.hom)
     (h₂₂ := D.map stage.hom) (v₁₃ := M.hom) ?_ ?_
     (IsPullback.of_hasPullback (D.map stage.hom) M.hom).flip
-  · show IsPullback ((modelCone D i₀ M c).π.app stage ≫ pullback.snd (D.map stage.hom) M.hom)
+  · change IsPullback ((modelCone D i₀ M c).π.app stage ≫ pullback.snd (D.map stage.hom) M.hom)
         (pullback.fst (c.π.app i₀) M.hom) M.hom (c.π.app stage.left ≫ D.map stage.hom)
     rw [hsnd, c.w]
     exact (IsPullback.of_hasPullback (c.π.app i₀) M.hom).flip
-  · show pullback.lift (pullback.fst (c.π.app i₀) M.hom ≫ c.π.app stage.left)
+  · change pullback.lift (pullback.fst (c.π.app i₀) M.hom ≫ c.π.app stage.left)
       (pullback.snd (c.π.app i₀) M.hom) _ ≫ pullback.fst _ _ = _
     exact pullback.lift_fst _ _ _
 
@@ -220,7 +220,7 @@ theorem exists_forall_topologicalKrullDim_fiber_le_modelProjection [IsCofiltered
   have hlift : htlim.lift ((Cone.postcompose projection).obj sourceCone) = g := by
     refine htlim.hom_ext fun stage => ?_
     rw [htlim.fac]
-    show (modelLimitIso c q g sq).hom ≫ (modelCone D i₀ M c).π.app stage ≫
+    change (modelLimitIso c q g sq).hom ≫ (modelCone D i₀ M c).π.app stage ≫
       projection.app stage = g ≫ c.π.app stage.left
     rw [(modelCone_isPullback D i₀ M c stage).w]
     exact modelLimitIso_hom_comp_fst_assoc c q g sq _

@@ -77,7 +77,7 @@ private lemma injective_of_flat_of_maximalIdeal_eq
     have hsS : s ∈ maximalIdeal S := by
       rw [← IsLocalRing.maximalIdeal_comap h.toRingHom]
       exact hsB
-    show s ∈ maximalIdeal R • (⊤ : Submodule R S)
+    change s ∈ maximalIdeal R • (⊤ : Submodule R S)
     rw [Ideal.smul_top_eq_map]
     exact hmS ▸ hsS
   exact (open Module.Flat in
@@ -118,7 +118,7 @@ private lemma map_ideal_le_constantCoeff_ker {R S : Type*} [CommRing R] [CommRin
       RingHom.ker (MvPowerSeries.constantCoeff : MvPowerSeries (Fin n) S →+* S) := by
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show MvPowerSeries.constantCoeff (MvPowerSeries.map φ a) = 0
+  change MvPowerSeries.constantCoeff (MvPowerSeries.map φ a) = 0
   rw [MvPowerSeries.constantCoeff_map]
   exact map_zero φ ▸ congrArg φ (hI ha)
 
@@ -232,7 +232,7 @@ private lemma map_ideal_le_ker_of_eval_map_eq {A B C : Type*}
     I.map f ≤ RingHom.ker H := by
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show H (f a) = 0
+  change H (f a) = 0
   rw [← RingHom.comp_apply, hHG]
   exact hI ha
 
@@ -343,7 +343,7 @@ private lemma surjective_localization_to_residue
   change ε s * ε (φ t) = ε (φ a) at hεspec
   change ψ (θ a) = ε (φ a) at hθa
   change ψ (θ t) = ε (φ t) at hθt
-  show ψ (θ a) = ψ (θ t) * ε s
+  change ψ (θ a) = ψ (θ t) * ε s
   rw [hθa, hθt]
   simpa only [mul_comm] using hεspec.symm
 
@@ -389,7 +389,7 @@ private lemma localization_residue_ringEquiv_of_maximalIdeal
     have ht₀ : θ t ∉ p₀ := by
       intro ht₀
       apply ht
-      show (ψ.comp θ) t = 0
+      change (ψ.comp θ) t = 0
       exact (RingHom.mem_ker).mp ht₀
     refine (IsLocalization.map_eq_zero_iff p₀.primeCompl _ (θ a)).mpr ⟨⟨θ t, ht₀⟩, ?_⟩
     rw [← map_mul]
@@ -434,7 +434,7 @@ private lemma coefficient_section_of_localization
       _ = e.toRingHom.comp (algebraMap D (Localization.AtPrime p)) := he.symm
   let σ : F →+* B := ρloc.comp e.symm.toRingHom
   refine ⟨σ, ?_, ?_⟩
-  · show ε.comp (ρloc.comp e.symm.toRingHom) = RingHom.id F
+  · change ε.comp (ρloc.comp e.symm.toRingHom) = RingHom.id F
     rw [← RingHom.comp_assoc, hεloc]
     exact RingHom.ext fun x => e.apply_symm_apply x
   · have hinv : e.symm.toRingHom.comp ψ = algebraMap D (Localization.AtPrime p) := by
@@ -442,9 +442,9 @@ private lemma coefficient_section_of_localization
       intro d
       have hd := DFunLike.congr_fun he d
       change e (algebraMap D (Localization.AtPrime p) d) = ψ d at hd
-      show e.symm (ψ d) = algebraMap D (Localization.AtPrime p) d
+      change e.symm (ψ d) = algebraMap D (Localization.AtPrime p) d
       rw [← hd, e.symm_apply_apply]
-    show (ρloc.comp e.symm.toRingHom).comp ψ = ρ
+    change (ρloc.comp e.symm.toRingHom).comp ψ = ρ
     rw [RingHom.comp_assoc, hinv, hρloc]
 
 /-- Taking constant coefficients commutes with the coefficientwise map after passing to
@@ -487,7 +487,7 @@ private lemma completionMap_evalOne {A B : Type*} [CommRing A] [CommRing B]
         (AdicCompletion.evalOneₐ I).toRingHom := by
   apply RingHom.ext
   intro a
-  show Ideal.Quotient.factor (show J ^ 1 ≤ J by simp)
+  change Ideal.Quotient.factor (show J ^ 1 ≤ J by simp)
       (AdicCompletion.evalₐ J 1 (adicCompletionMap φ I J hIJ a)) =
     Ideal.quotientMap J φ (Ideal.map_le_iff_le_comap.mp hIJ)
       (Ideal.Quotient.factor (show I ^ 1 ≤ I by simp) (AdicCompletion.evalₐ I 1 a))
@@ -677,7 +677,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
       intro a ha
       have h := congrArg (fun t : _ ⟶ D => t.hom a) hθl
       change θ.hom (lA a) = lD (X.residue (p.base y) a) at h
-      show θ.hom (lA a) = 0
+      change θ.hom (lA a) = 0
       rw [h]
       have ha0 : X.residue (p.base y) a = 0 := by
         rw [← (IsLocalRing.ker_residue (R := X.presheaf.stalk (p.base y)))] at ha
@@ -690,7 +690,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
           p.stalkMap y).hom at h
       simpa using h
     have hm : m.map φ.hom = maximalIdeal (Y.presheaf.stalk y) := by
-      show ((maximalIdeal (X.presheaf.stalk (p.base y))).map lA).map φ.hom = _
+      change ((maximalIdeal (X.presheaf.stalk (p.base y))).map lA).map φ.hom = _
       rw [Ideal.map_map, hφlA]
       exact hmax
     have hcomm : ψ.hom.comp θ.hom = (Y.residue y).hom.comp φ.hom :=
@@ -710,7 +710,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
       have hc' := congrArg (fun t : CommRingCat.of k ⟶ A => t.hom a) hc
       change lA ((fieldToStalk f (p.base y)).hom a) =
         rA ((algebraMap k K) a) at hc'
-      show (p.stalkMap y).hom
+      change (p.stalkMap y).hom
           ((fieldToStalk f (p.base y)).hom a) =
         (fieldToStalk g y).hom
           ((algebraMap k K) a)
@@ -797,7 +797,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
       intro a
       have h := DFunLike.congr_fun hpresentationResidueSquare
         (Ideal.Quotient.mk I (MvPowerSeries.C a))
-      show (AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom
+      change (AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom
           (σx a) = κMap a
       change (AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom
           (σx a) =
@@ -829,13 +829,13 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
       have hb := DFunLike.congr_fun hbase a
       change (p.stalkMap y).hom (algebraMap k (X.presheaf.stalk (p.base y)) a) =
         algebraMap K (Y.presheaf.stalk y) (algebraMap k K a) at hb
-      show σx (algebraMap k (X.residueField (p.base y)) a) =
+      change σx (algebraMap k (X.residueField (p.base y)) a) =
         algebraMap K Bhat (algebraMap k K a)
-      show G (MvPowerSeries.C (algebraMap k (X.residueField (p.base y)) a)) = _
-      show c (e (Ideal.Quotient.mk I
+      change G (MvPowerSeries.C (algebraMap k (X.residueField (p.base y)) a)) = _
+      change c (e (Ideal.Quotient.mk I
         (MvPowerSeries.C (algebraMap k (X.residueField (p.base y)) a)))) = _
       rw [hQ, he']
-      show c (algebraMap k
+      change c (algebraMap k
           (AdicCompletion (maximalIdeal (X.presheaf.stalk (p.base y)))
             (X.presheaf.stalk (p.base y))) a) = _
       rw [show algebraMap k
@@ -843,10 +843,10 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
             (X.presheaf.stalk (p.base y))) a =
           algebraMap (X.presheaf.stalk (p.base y)) _
             (algebraMap k (X.presheaf.stalk (p.base y)) a) from rfl]
-      show c (algebraMap (X.presheaf.stalk (p.base y)) _
+      change c (algebraMap (X.presheaf.stalk (p.base y)) _
         ((fieldToStalk f (p.base y)).hom a)) = _
       rw [← RingHom.comp_apply, hc', RingHom.comp_apply]
-      show (algebraMap (Y.presheaf.stalk y) Bhat)
+      change (algebraMap (Y.presheaf.stalk y) Bhat)
         ((p.stalkMap y).hom (algebraMap k (X.presheaf.stalk (p.base y)) a)) = _
       rw [hb]
       rfl
@@ -871,7 +871,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
         (fieldToResidue g y).hom :=
       congrArg CommRingCat.Hom.hom hψr
     have hεker : RingHom.ker ε = maximalIdeal Bhat := by
-      show RingHom.ker
+      change RingHom.ker
         (AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom = _
       rw [AdicCompletion.ker_evalOneₐ_eq_map
         (maximalIdeal (Y.presheaf.stalk y))
@@ -879,10 +879,10 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
         AdicCompletion.maximalIdeal_eq_map]
     have hKres : ε.comp (algebraMap K Bhat) =
         (fieldToResidue g y).hom := by
-      show ε.comp ((algebraMap (Y.presheaf.stalk y) Bhat).comp
+      change ε.comp ((algebraMap (Y.presheaf.stalk y) Bhat).comp
           (algebraMap K (Y.presheaf.stalk y))) = _
       rw [← RingHom.comp_assoc]
-      show ((AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom.comp
+      change ((AdicCompletion.evalOneₐ (maximalIdeal (Y.presheaf.stalk y))).toRingHom.comp
           (algebraMap (Y.presheaf.stalk y) Bhat)).comp
           (algebraMap K (Y.presheaf.stalk y)) = _
       rw [AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk]
@@ -945,7 +945,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
     let Qx := MvPowerSeries (Fin n) (X.residueField (p.base y)) ⧸ I
     let b : Qx →+* Bhat := c.comp e.toRingEquiv.toRingHom
     have hbmax : (maximalIdeal Qx).map b = maximalIdeal Bhat := by
-      show (maximalIdeal Qx).map (c.comp e.toRingEquiv.toRingHom) = _
+      change (maximalIdeal Qx).map (c.comp e.toRingEquiv.toRingHom) = _
       rw [← Ideal.map_map, IsLocalRing.map_maximalIdeal_of_surjective
         e.toRingEquiv.toRingHom e.surjective]
       exact hcompletionMax
@@ -984,8 +984,8 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
         hσyκ hvmax G (fun _ => rfl) (fun _ => rfl) H hHC hHX
     have hIker : I ≤ RingHom.ker G := by
       intro a ha
-      show G a = 0
-      show c (e (Ideal.Quotient.mk I a)) = 0
+      change G a = 0
+      change c (e (Ideal.Quotient.mk I a)) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero, map_zero]
     have hJker : I.map (MvPowerSeries.map κMap) ≤ RingHom.ker H :=
       map_ideal_le_ker_of_eval_map_eq (MvPowerSeries.map κMap) I G H hIker hHG
@@ -1010,7 +1010,7 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
     have hFQq : FQ.toRingHom.comp q = b := by
       refine RingHom.ext fun z => ?_
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective z
-      show FQ (q (Ideal.Quotient.mk I a)) = b (Ideal.Quotient.mk I a)
+      change FQ (q (Ideal.Quotient.mk I a)) = b (Ideal.Quotient.mk I a)
       rw [Ideal.quotientMap_mk]
       exact DFunLike.congr_fun hHG a
     have hbflat : b.Flat :=
@@ -1037,16 +1037,16 @@ theorem exists_baseChanged_powerSeries_quotient_algEquiv_adicCompletion
           Y.residueField y) := by
       apply mvPowerSeries_hom_ext (maximalIdeal (Y.residueField y)) n
       · intro a
-        show ε (H (MvPowerSeries.C a)) = a
+        change ε (H (MvPowerSeries.C a)) = a
         rw [hHC]
         simpa using DFunLike.congr_fun hσyres a
       · intro i
-        show ε (H (MvPowerSeries.X i)) =
+        change ε (H (MvPowerSeries.X i)) =
           MvPowerSeries.constantCoeff (MvPowerSeries.X i)
         rw [hHX, MvPowerSeries.constantCoeff_X]
         exact (RingHom.mem_ker).mp (hεker ▸ hvmax i)
       · intro i
-        show ε (H (MvPowerSeries.X i)) ∈ maximalIdeal (Y.residueField y)
+        change ε (H (MvPowerSeries.X i)) ∈ maximalIdeal (Y.residueField y)
         rw [hHX, (RingHom.mem_ker).mp (hεker ▸ hvmax i)]
         exact Ideal.zero_mem _
     have hresQ : ε.comp FQ.toRingHom =

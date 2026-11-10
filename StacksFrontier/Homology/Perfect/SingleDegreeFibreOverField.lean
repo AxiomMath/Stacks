@@ -150,8 +150,8 @@ theorem exists_away_homotopyEquiv_single_of_finrank_homology {k : Type u} [Field
       H0.toLinearEquiv.finrank_eq]
   -- the principal neighbourhood
   obtain ⟨g, hg, ⟨e⟩⟩ := exists_away_iso_singleFunctor_free_of_fibre_concentrated.{u, v} p K hK i
-    (fun j hj => by rw [hdim0 j, if_neg hj])
-  rw [hdim0 i, if_pos rfl] at e
+    (fun j hj => by rw [hdim0 j, ite_eq_right hj])
+  rw [hdim0 i, ite_eq_left rfl] at e
   refine ⟨g, fun h => hg (RingHom.mem_ker.2 h), ?_⟩
   obtain ⟨eg⟩ := nonempty_totalDerivedExtensionScalars_obj_Q_iso.{u, v}
     (algebraMap R (Localization.Away g)) L b

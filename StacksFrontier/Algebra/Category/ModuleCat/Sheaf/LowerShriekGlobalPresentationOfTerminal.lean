@@ -69,12 +69,12 @@ theorem isCorepresentingSection_unit_of_isTerminal {V : C} (hV : IsTerminal V) :
       exact congrArg _ hst
     · refine ⟨PresheafOfModules.sectionsMk (fun X => N.val.map (hV.from X.unop).op n) ?_, ?_⟩
       · intro X Y f
-        show (N.val.presheaf.map f) ((N.val.presheaf.map (hV.from X.unop).op) n) =
+        change (N.val.presheaf.map f) ((N.val.presheaf.map (hV.from X.unop).op) n) =
           N.val.presheaf.map (hV.from Y.unop).op n
         rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
         congr 3
         exact Quiver.Hom.unop_inj (hV.hom_ext _ _)
-      · show N.val.presheaf.map (hV.from V).op n = n
+      · change N.val.presheaf.map (hV.from V).op n = n
         rw [show hV.from V = 𝟙 V from hV.hom_ext _ _, op_id, CategoryTheory.Functor.map_id]
         rfl
   exact hev.comp N.unitHomEquiv.bijective

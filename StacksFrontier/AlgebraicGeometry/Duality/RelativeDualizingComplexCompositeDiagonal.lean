@@ -214,12 +214,12 @@ theorem comp_diag : (Dg.comp Df).diag = Df.diag ≫ Dg.compδ Df := rfl
 
 /-- The first projection of `W'` restricts to that of `V` along `δ`. -/
 theorem compδ_proj : Dg.compδ Df ≫ (Dg.comp Df).proj = Df.proj := by
-  show Dg.compδ Df ≫ (Dg.compOpen Df).ι ≫ pullback.fst _ _ = Df.ι ≫ pullback.fst _ _
+  change Dg.compδ Df ≫ (Dg.compOpen Df).ι ≫ pullback.fst _ _ = Df.ι ≫ pullback.fst _ _
   rw [compδ_ι_assoc, pullback.lift_fst, Category.comp_id]
 
 /-- `f ∘ pr₁ = pr₁ ∘ (f × f)` on `W'`. -/
 theorem comp_proj_comp : (Dg.comp Df).proj ≫ f = Dg.compProd Df ≫ Dg.proj := by
-  show ((Dg.compOpen Df).ι ≫ pullback.fst _ _) ≫ f = Dg.compProd Df ≫ Dg.ι ≫ pullback.fst _ _
+  change ((Dg.compOpen Df).ι ≫ pullback.fst _ _) ≫ f = Dg.compProd Df ≫ Dg.ι ≫ pullback.fst _ _
   rw [compProd_ι_assoc, pullback.lift_fst, Category.assoc]
 
 end AlgebraicGeometry.Scheme.Hom.DiagonalOpen

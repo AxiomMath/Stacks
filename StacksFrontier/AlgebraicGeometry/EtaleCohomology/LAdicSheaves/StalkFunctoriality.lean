@@ -95,16 +95,16 @@ the étale neighbourhoods of `x̄` of its level-`n` component. -/
 public def finiteLevelStalkMap {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G) (s : GeometricPoint X.1)
     (n : ℕ) : finiteLevelStalk B X ℓ F s n ⟶ finiteLevelStalk B X ℓ G s n :=
   colim.map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app n).hom)
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app n).hom)
 
 /-- The map of level-`n` stalks induced by `φ`, composed with the colimit inclusion at an étale
 neighbourhood `j` of `x̄`, is the component of `φₙ` at `j` followed by the inclusion at `j`. -/
 @[reassoc (attr := simp)]
 public theorem ι_finiteLevelStalkMap {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G)
     (s : GeometricPoint X.1) (n : ℕ) (j : (geometricPointFiber B X.1 X.property s).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op ⋙
         (F.level n).obj) j ≫ finiteLevelStalkMap φ s n =
-      (φ.app n).hom.app _ ≫ colimit.ι ((CategoryOfElements.π
+      (φ.app n).hom.app _ ≫ colimit.ι ((Functor.Elements.π
         (geometricPointFiber B X.1 X.property s)).op ⋙ (G.level n).obj) j :=
   colimit.ι_map _ j
 
@@ -117,17 +117,17 @@ public theorem finiteLevelStalkMap_transition {F G : LAdicSheaf B X ℓ} (φ : F
         (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
           (finiteLevelStalkMap φ s n) := by
   have hφ : Functor.whiskerLeft
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app (n + 1)).hom ≫
-      Functor.whiskerLeft ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app (n + 1)).hom ≫
+      Functor.whiskerLeft ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
         (G.transition n).hom =
-      Functor.whiskerLeft ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op)
+      Functor.whiskerLeft ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op)
         (F.transition n).hom ≫
       Functor.whiskerRight (Functor.whiskerLeft
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app n).hom)
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op) (φ.app n).hom)
         (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)) := by
     ext j : 2
     exact congrArg (fun t => t.hom.app
-      (((CategoryOfElements.π (geometricPointFiber B X.1 X.property s)).op).obj j))
+      (((Functor.Elements.π (geometricPointFiber B X.1 X.property s)).op).obj j))
       (φ.naturality n)
   exact colim_map_comp_preservesColimitIso_inv _ _ _ _ _ hφ
 

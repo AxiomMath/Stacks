@@ -157,7 +157,7 @@ theorem isQuasicoherent_restrictScalars_extendScalars [IsAffineHom f] (F : S.Mod
         h₁⟩).obj ((restrictScalarsPushforwardRing f).obj
           (SheafOfModules.unit (pushforwardRing f.base X.ringCatSheaf)))).obj
             F).IsQuasicoherent := by
-    show (((Stacks.SheafOfModules.Tensor.sheafTensor
+    change (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨S.toRingedSpace.presheaf, S.toRingedSpace.IsSheaf⟩).obj _).obj F).IsQuasicoherent
     exact @AlgebraicGeometry.tensorSheaf_isQuasicoherent _ _ F hA hF
   exact (SheafOfModules.isQuasicoherent S.ringCatSheaf).prop_of_iso

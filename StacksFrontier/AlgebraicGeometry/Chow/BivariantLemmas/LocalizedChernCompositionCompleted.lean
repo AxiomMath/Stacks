@@ -156,7 +156,7 @@ theorem VirtualNormalBundle.baseChangeCompDualIso_hom_comp_surjection (N : Virtu
       Q'.hom ≫ W :=
     (P.inv ≫= pullback_map_comp_immersionConormalSheafMap_comp sq₁.w sq₂.w N.surjection).trans
       (Category.assoc _ _ _).symm
-  show (Q ≪≫ Q'.symm).hom ≫ _ = _
+  change (Q ≪≫ Q'.symm).hom ≫ _ = _
   rw [hA, hB]
   exact (Category.assoc _ _ _).trans (Q.hom ≫= Iso.inv_hom_id_assoc Q' W)
 
@@ -316,7 +316,7 @@ theorem BivariantClass.eq_of_bivariantRestriction_eq {n : ℤ}
   -- the piece over `Z_a` lies in `Z ×_X t⁻¹(W_a)`
   have hle : O ≤ pullback.snd f t ⁻¹ᵁ V := by
     intro x hx
-    show t (pullback.snd f t x) ∈ W a
+    change t (pullback.snd f t x) ∈ W a
     rw [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply]
     exact hW a hx
   have hcond : (O.ι ≫ pullback.fst f t) ≫ f = (pullback.snd f t).resLE V O hle ≫ (V.ι ≫ t) := by

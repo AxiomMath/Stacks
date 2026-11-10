@@ -87,6 +87,7 @@ def structureSheafHomToCohomology (K : DerivedCategory X.Modules) :
   (derivedPushforward f).mapAddHom.comp <|
   Preadditive.leftComp _ (pullbackDerivedStructureSheafIso f).hom
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- `structureSheafHomToCohomology` sends `u : 𝒪_X ⟶ K` to the image of `1 : k` under the
 map `H⁰` of the composite `RΓ(Spec k, 𝒪) ⟶ RΓ(X, K)` induced by `u`. -/
 theorem structureSheafHomToCohomology_apply (K : DerivedCategory X.Modules)
@@ -102,6 +103,7 @@ theorem structureSheafHomToCohomology_apply (K : DerivedCategory X.Modules)
         (show k from 1) :=
   rfl
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- **`structureSheafHomToCohomology` is natural in the target.** -/
 theorem structureSheafHomToCohomology_naturality {K L : DerivedCategory X.Modules}
     (u : (DerivedPushforward.derivedStructureSheaf X).obj ⟶ K) (g : K ⟶ L) :
@@ -177,7 +179,7 @@ def structureSheafHomAddEquiv (K : quasiCoherentDerivedCategory X) :
         (derivedGlobalSectionsQuasicoherent (CommRingCat.of k)).map ∘
           (Equiv.ofBijective _ hι).symm := by
       funext y
-      simp only [Function.comp_apply]
+      simp only
       conv_lhs => rw [← Equiv.ofBijective_apply_symm_apply _ hι y]
       rfl
     rw [this]

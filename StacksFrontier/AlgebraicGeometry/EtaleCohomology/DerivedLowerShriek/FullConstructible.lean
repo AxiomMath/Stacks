@@ -21,13 +21,13 @@ The statements are made in the standard model of the derived category
 
 ## Main results
 
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_stages`:
+* `isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_stages`:
   Stacks 0GL0 for `K ∈ D⁺_{tors,c}(X_étale, Λ)`.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine_of_stages`:
+* `isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine_of_stages`:
   Stacks 0GKZ.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_openAffineLine_of_stages`:
+* `isConstructibleEtaleModule_homology_derivedLowerShriek_openAffineLine_of_stages`:
   Stacks 0GKY.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriekUnbounded_of_stages`:
+* `isConstructibleEtaleModule_homology_derivedLowerShriekUnbounded_of_stages`:
   Stacks 0GL0 for `K ∈ D_c(X_étale, Λ)`, `Λ` torsion.
 -/
 
@@ -106,7 +106,7 @@ separated morphism of finite presentation of schemes of `B`, with `Y` quasi-comp
 quasi-separated, `j` a compactification of `f`, `Λ` a Noetherian ring, and `K` an object of
 `D⁺(X_étale, Λ)` whose cohomology sheaves are constructible and torsion. Then every cohomology
 sheaf of `Rf_! K` is constructible: the dévissage of Stacks 015J reduces it to sheaves,
-`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isTorsion_of_stages`. -/
+`isConstructibleEtaleModule_homology_derivedLowerShriek_of_isTorsion_of_stages`. -/
 theorem isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_stages
     (h0GKV : ∀ (X S : B.Scheme) (f : X.obj ⟶ S.obj) [IsProper f] [Smooth f]
       [GeometricallyConnected f], (∀ s, topologicalKrullDim (f.fiber s) ≤ 1) →
@@ -200,7 +200,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_openAffineLine_of
   have : IsLocallyNoetherian (AffineSpace (ULift.{u} (Fin 1)) Y.obj) :=
     LocallyOfFiniteType.isLocallyNoetherian π
   have hc : IsBigSiteConstructibleEtaleModule B U Λ F := by
-    letI := SmallEtale.hasSheafify_moduleCat.{u, 0, 0} B U Λ
+    let := SmallEtale.hasSheafify_moduleCat.{u, 0, 0} B U Λ
     exact isConstructibleModuleSheaf_of_isFiniteTypeLocallyConstant B U Λ _
       ((SmallEtale.isFiniteTypeLocallyConstant_sheafEquiv_inverse_iff B U Λ F).mpr hF)
   exact isConstructibleEtaleModule_homology_derivedLowerShriek_of_torsion B Λ m hm hΛ h0GKV
@@ -258,7 +258,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriekUnbounded_of_stage
     [IsSeparated f] [LocallyOfFinitePresentation f] [QuasiCompact f]
     (j : CompactificationOf (Over.mk f)) (Λ : Type) [CommRing Λ] [IsNoetherianRing Λ]
     (m : ℕ) (hm : 0 < m) (hΛ : (m : Λ) = 0) (K : DerivedCategory (EtaleModules.{u, 0} Λ X.obj))
-    (hK : ∀ q : ℤ, IsBigSiteConstructibleEtaleModule B X Λ ((DerivedCategory.homologyFunctor _ q).obj K))
+    (hK : ∀ q : ℤ, IsBigSiteConstructibleEtaleModule B X Λ
+      ((DerivedCategory.homologyFunctor _ q).obj K))
     (n : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.homologyFunctor _ n).obj
       ((derivedLowerShriekUnbounded.{u, 0} f j Λ).obj K)) := by

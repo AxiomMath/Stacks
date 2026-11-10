@@ -23,7 +23,7 @@ open scoped BigOperators
 
 namespace AlgebraicGeometry.NumericalType
 
-private lemma sum_if_fin_val_eq {t : ℕ} (n : ℕ) (hn : n < t)
+lemma sum_if_fin_val_eq {t : ℕ} (n : ℕ) (hn : n < t)
     (f : Fin t → ℤ) :
     (∑ s : Fin t, if s.val = n then f s else 0) = f ⟨n, hn⟩ := by
   classical
@@ -33,7 +33,7 @@ private lemma sum_if_fin_val_eq {t : ℕ} (n : ℕ) (hn : n < t)
     simp [show s.val ≠ n from fun h => hne (Fin.ext h)]
   · simp
 
-private lemma sum_if_fin_val_succ_eq {t : ℕ} (n : ℕ) (hn : 0 < n) (hn' : n < t)
+lemma sum_if_fin_val_succ_eq {t : ℕ} (n : ℕ) (hn : 0 < n) (hn' : n < t)
     (f : Fin t → ℤ) :
     (∑ s : Fin t, if s.val + 1 = n then f s else 0) =
       f ⟨n - 1, by omega⟩ := by
@@ -44,7 +44,7 @@ private lemma sum_if_fin_val_succ_eq {t : ℕ} (n : ℕ) (hn : 0 < n) (hn' : n <
     by_cases h : s.val + 1 = n <;> by_cases h' : s.val = n - 1 <;> simp_all <;> omega
   rw [hrewrite, sum_if_fin_val_eq (n - 1) (by omega)]
 
-private lemma sum_if_fin_adjacent_eq {t : ℕ} (n : ℕ) (hn : 0 < n)
+lemma sum_if_fin_adjacent_eq {t : ℕ} (n : ℕ) (hn : 0 < n)
     (hn' : n + 1 < t) (f : Fin t → ℤ) :
     (∑ s : Fin t,
       if n + 1 = s.val ∨ s.val + 1 = n then f s else 0) =
@@ -156,10 +156,10 @@ private lemma sum_edge_B_last {t : ℕ} (ht : 1 < t) (f : Fin t → ℤ) :
     simp [DynkinShape.Edge] at h
     omega
   have hfr : DynkinShape.weightFactor .B (⟨t - 1, by omega⟩ : Fin t) = 1 := by
-    show (if t - 1 + 1 = t then 1 else 2) = 1
+    change (if t - 1 + 1 = t then 1 else 2) = 1
     simp [Nat.sub_add_cancel (by omega : 1 ≤ t)]
   have hfs : DynkinShape.weightFactor .B s = 2 := by
-    show (if s.val + 1 = t then 1 else 2) = 2
+    change (if s.val + 1 = t then 1 else 2) = 2
     have hsn : s.val + 1 ≠ t := by omega
     rw [ite_eq_right hsn]
   rw [hfr, hfs]
@@ -175,13 +175,13 @@ private lemma sum_edge_C_nonlast {t : ℕ} (r : Fin t) (hr : r.val + 2 < t)
   rw [sum_edge_max_weight .C r 1 (fun s => by simp [DynkinShape.Edge]) (fun s h => ?_) f,
     one_mul]
   have hfr : DynkinShape.weightFactor .C r = 1 := by
-    show (if r.val + 1 = t then 2 else 1) = 1
+    change (if r.val + 1 = t then 2 else 1) = 1
     have hnot : r.val + 1 ≠ t := by omega
     rw [ite_eq_right hnot]
   have hfs : DynkinShape.weightFactor .C s = 1 := by
     simp [DynkinShape.Edge] at h
     have hsn : s.val + 1 ≠ t := by omega
-    show (if s.val + 1 = t then 2 else 1) = 1
+    change (if s.val + 1 = t then 2 else 1) = 1
     rw [ite_eq_right hsn]
   rw [hfr, hfs]
   simp
@@ -200,11 +200,11 @@ private lemma sum_edge_C_last {t : ℕ} (ht : 1 < t) (f : Fin t → ℤ) :
     simp [DynkinShape.Edge] at h
     omega
   have hfr : DynkinShape.weightFactor .C (⟨t - 1, by omega⟩ : Fin t) = 2 := by
-    show (if t - 1 + 1 = t then 2 else 1) = 2
+    change (if t - 1 + 1 = t then 2 else 1) = 2
     simp [Nat.sub_add_cancel (by omega : 1 ≤ t)]
   have hfs : DynkinShape.weightFactor .C s = 1 := by
     have hsn : s.val + 1 ≠ t := by omega
-    show (if s.val + 1 = t then 2 else 1) = 1
+    change (if s.val + 1 = t then 2 else 1) = 1
     rw [ite_eq_right hsn]
   rw [hfr, hfs]
   norm_num
@@ -230,15 +230,15 @@ private lemma sum_edge_C_penultimate {t : ℕ} (ht : 2 < t) (f : Fin t → ℤ) 
         simpa [DynkinShape.Edge] using hedge
       by_cases hlast : s.val = t - 1
       · have hfr : DynkinShape.weightFactor .C r = 1 := by
-          show (if t - 2 + 1 = t then 2 else 1) = 1
+          change (if t - 2 + 1 = t then 2 else 1) = 1
           rw [ite_eq_right (by omega)]
         have hfs : DynkinShape.weightFactor .C s = 2 := by
-          show (if s.val + 1 = t then 2 else 1) = 2
+          change (if s.val + 1 = t then 2 else 1) = 2
           rw [ite_eq_left (by omega)]
         simp [hedge, hedgeC, hlast, hfr, hfs]
         ring
       · have hfr : DynkinShape.weightFactor .C r = 1 := by
-          show (if t - 2 + 1 = t then 2 else 1) = 1
+          change (if t - 2 + 1 = t then 2 else 1) = 1
           rw [ite_eq_right (by omega)]
         have hh := hedge
         simp [DynkinShape.Edge, r] at hh

@@ -59,7 +59,7 @@ public theorem Derivation.apply_dpow_succ (d : Derivation A B B) {z : B} (hz : z
     rw [show ((n : B) + 1) * (n.factorial : B) * (hJ.dpow n z * d z) =
       ((n : B) + 1) * (((n.factorial : B) * hJ.dpow n z) * d z) by ring,
       hJ.factorial_mul_dpow_eq_pow hz]
-  show ((n + 1).factorial : ℤ) • d (hJ.dpow (n + 1) z) =
+  change ((n + 1).factorial : ℤ) • d (hJ.dpow (n + 1) z) =
     ((n + 1).factorial : ℤ) • (hJ.dpow n z * d z)
   rw [h1, h2, Derivation.leibniz_pow]
   simp only [Nat.add_sub_cancel, smul_eq_mul, nsmul_eq_mul]

@@ -67,7 +67,7 @@ theorem geometricallyReduced_of_unramified_over_field (k : Type u) [Field k]
     have hcomp : ∀ i : 𝒰.I₀, IsReduced (𝒰.X i) := by
       intro i
       let : Field (L i) := hL i
-      show IsReduced (Spec (.of (L i)))
+      change IsReduced (Spec (.of (L i)))
       infer_instance
     exact IsReduced.of_openCover _ 𝒰
   exact isReduced_of_isOpenImmersion e.hom

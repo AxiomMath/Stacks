@@ -76,7 +76,7 @@ theorem exists_section_of_smooth_of_residuePoint {R' : Type u} [CommRing R']
     have h1 : (RingHom.quotientKerEquivOfSurjective hε).symm (ε r) =
         Ideal.Quotient.mk (RingHom.ker ε) r :=
       (RingEquiv.symm_apply_eq _).2 (RingHom.quotientKerEquivOfSurjective_apply_mk hε r).symm
-    show (Ideal.quotEquivOfEq hker) ((RingHom.quotientKerEquivOfSurjective hε).symm (ε r)) = _
+    change (Ideal.quotEquivOfEq hker) ((RingHom.quotientKerEquivOfSurjective hε).symm (ε r)) = _
     rw [h1, Ideal.quotEquivOfEq_mk]
     rfl
   obtain ⟨y⟩ : Nonempty (Spec (.of K)) := inferInstance
@@ -111,7 +111,7 @@ theorem exists_section_of_smooth_of_residuePoint {R' : Type u} [CommRing R']
     { toRingHom := e.toRingHom.comp (σ₁.appTop ≫ (Scheme.ΓSpecIso (.of K)).hom).hom
       commutes' := fun r => by
         have := ConcreteCategory.congr_hom h2 r
-        show e ((σ₁.appTop ≫ (Scheme.ΓSpecIso (.of K)).hom).hom (φ r)) = residue R' r
+        change e ((σ₁.appTop ≫ (Scheme.ΓSpecIso (.of K)).hom).hom (φ r)) = residue R' r
         rw [CommRingCat.hom_comp, RingHom.comp_apply]
         simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at this
         rw [this]

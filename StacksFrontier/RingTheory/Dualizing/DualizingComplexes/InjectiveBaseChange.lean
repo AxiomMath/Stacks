@@ -117,7 +117,7 @@ private theorem isUnit_smul_of_residueField_injectiveHull
     isIso_of_isInjectiveHull_of_extends_iso
       i i hi hi eK.toModuleIso (ModuleCat.ofHom f) (by
         ext x
-        show (s : R) • i.hom x = i.hom (eK x)
+        change (s : R) • i.hom x = i.hom (eK x)
         rw [heK, map_smul])
   let := hf
   exact (Module.End.isUnit_iff f).mpr (asIso (ModuleCat.ofHom f)).toLinearEquiv.bijective
@@ -146,7 +146,7 @@ private theorem essential_range_multiple
   intro x hx
   let e := ModuleCat.subobjectModule (ModuleCat.of R E)
   have hImage : e (Subobject.mk i) = LinearMap.range i.hom := by
-    show LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
+    change LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
     rw [← ModuleCat.hom_ext_iff.mp (Subobject.underlyingIso_hom_comp_eq_mk i),
       ModuleCat.hom_comp]
     exact LinearEquiv.range_comp (Subobject.underlyingIso i).toLinearEquiv i.hom
@@ -198,7 +198,7 @@ private theorem baer_restrictScalars_of_flat
   obtain ⟨h, hh⟩ := hE.extension_property f hf (g.liftBaseChange S)
   refine ⟨(h.restrictScalars R).comp (Algebra.linearMap R S), fun x hx => ?_⟩
   have hhx := LinearMap.congr_fun hh (1 ⊗ₜ[R] (⟨x, hx⟩ : J))
-  show h (algebraMap R S x) = _
+  change h (algebraMap R S x) = _
   rw [← mul_one (algebraMap R S x), ← smul_eq_mul, h.map_smul,
     IsScalarTower.algebraMap_smul]
   simpa [f] using hhx
@@ -265,7 +265,7 @@ private theorem localized_residueField_injectiveHull
       (LocalizedModule.mkLinearMap p.primeCompl K) Rp (LinearEquiv.refl R K)
   have heK (z : K) : eK z = LocalizedModule.mkLinearMap p.primeCompl K z := by
     rw [IsLocalizedModule.mapEquiv_apply]
-    show ((IsLocalizedModule.map p.primeCompl fK
+    change ((IsLocalizedModule.map p.primeCompl fK
       (LocalizedModule.mkLinearMap p.primeCompl K) LinearMap.id) (fK z)) = _
     rw [IsLocalizedModule.map_apply]
     simp
@@ -292,7 +292,7 @@ private theorem localized_residueField_injectiveHull
       simp [r, eRange]
     have hmk : Subobject.mk j = Subobject.mk r :=
       Subobject.mk_eq_mk_of_comm _ _ eRange.toModuleIso heq.symm
-    show ∀ q : Subobject (ModuleCat.of Rp EL), q ≠ ⊥ → q ⊓ Subobject.mk j ≠ ⊥
+    change ∀ q : Subobject (ModuleCat.of Rp EL), q ≠ ⊥ → q ⊓ Subobject.mk j ≠ ⊥
     rw [hmk]
     refine (isEssentialMono_subtype_iff (R := Rp)
       (N := ModuleCat.of Rp EL) (LinearMap.range jL)).2 fun x hx => ?_
@@ -319,7 +319,7 @@ private theorem localized_residueField_injectiveHull
                 rw [IsScalarTower.algebraMap_smul, ← map_smul]
           _ = LocalizedModule.mkLinearMap p.primeCompl E (i.hom z) := by rw [hz]
           _ = iL (LocalizedModule.mkLinearMap p.primeCompl K z) := by
-                show LocalizedModule.mk (i.hom z) 1 =
+                change LocalizedModule.mk (i.hom z) 1 =
                   LocalizedModule.map p.primeCompl i.hom (LocalizedModule.mk z 1)
                 rw [LocalizedModule.map_mk]
       have hx' : (algebraMap R Rp a) • x ∈ LinearMap.range iL := by
@@ -347,8 +347,7 @@ private theorem tensorProduct_subsingleton_of_unit_of_torsion
     (hE : ∀ x : E, ∃ n : ℕ, a ^ n • x = 0) : Subsingleton (B ⊗[A] E) := by
   apply subsingleton_of_forall_eq 0
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul b x =>
     obtain ⟨n, hn⟩ := hE x
@@ -443,7 +442,7 @@ private theorem tensorProduct_injective_of_local_residueFieldHull
         (Localization.AtPrime q) (Localization.AtPrime q ⊗[A] E)).2 hHull.1
     · have hm : ¬ IsLocalRing.maximalIdeal A ≤ Ideal.comap (algebraMap A B) q := fun hm =>
         h (le_antisymm (IsLocalRing.le_maximalIdeal (Ideal.IsPrime.ne_top inferInstance)) hm)
-      obtain ⟨a, ha, hqa⟩ := SetLike.not_le_iff_exists.mp hm
+      obtain ⟨a, ha, hqa⟩ := IsConcreteLE.not_le_iff_exists.mp hm
       let : Subsingleton (Localization.AtPrime q ⊗[A] E) :=
         tensorProduct_subsingleton_of_unit_of_torsion a
           (by rw [IsScalarTower.algebraMap_apply A B (Localization.AtPrime q)]
@@ -522,7 +521,7 @@ private theorem tensorProduct_injective_of_map_comap_eq_sameUniverse
     Subobject.mk_eq_mk_of_comm _ _ eK.symm.toModuleIso rfl
   apply tensorProduct_injective_of_residueFieldHull hprime p j
   refine ⟨hHull.1, ?_⟩
-  show ∀ q : Subobject J, q ≠ ⊥ → q ⊓ Subobject.mk j ≠ ⊥
+  change ∀ q : Subobject J, q ≠ ⊥ → q ⊓ Subobject.mk j ≠ ⊥
   rw [hj]
   exact hHull.2
 

@@ -389,7 +389,7 @@ private lemma attachment_hom_ext (j : SimplexCategoryᵒᵖ) {T : FormalCoproduc
   cases a with
   | none => exact hK
   | some a =>
-    show (FormalCoproduct.cofan _ (attachmentFamily K A N j)).inj (some a) ≫ f =
+    change (FormalCoproduct.cofan _ (attachmentFamily K A N j)).inj (some a) ≫ f =
       (FormalCoproduct.cofan _ (attachmentFamily K A N j)).inj (some a) ≫ g
     simpa only [attachmentCell, dite_eq_right a.2] using hN a.1
 
@@ -442,7 +442,7 @@ private lemma isIso_attachmentInclusion (j : SimplexCategoryᵒᵖ)
   funext a
   cases a with
   | none =>
-    show attachmentInclusion K A N j ≫ r ≫ attachmentInclusion K A N j = _
+    change attachmentInclusion K A N j ≫ r ≫ attachmentInclusion K A N j = _
     rw [← Category.assoc, hr, Category.id_comp]
     simp [FormalCoproduct.cofanHomEquiv]
   | some a => exact (a.2 (h a.1)).elim
@@ -469,13 +469,13 @@ private lemma attachmentMap_components_of_epi
   rcases a with ⟨a, b⟩
   cases a with
   | none =>
-    show IsIso ((K.map f).φ b ≫ 𝟙 _)
+    change IsIso ((K.map f).φ b ≫ 𝟙 _)
     simpa only [Category.comp_id] using hK f b
   | some a =>
     have ha : U.map f a.1 ∉ A.obj j := subcomplex_map_notMem_of_epi A f a.2
-    show IsIso ((attachmentCell K A N d j (U.map f a.1)).φ b)
+    change IsIso ((attachmentCell K A N d j (U.map f a.1)).φ b)
     rw [attachmentCell, dite_eq_right ha]
-    show IsIso (𝟙 (N.obj b))
+    change IsIso (𝟙 (N.obj b))
     infer_instance
 
 private lemma attachCells_split (hK : Nonempty K.Splitting) :
@@ -570,7 +570,7 @@ theorem exists_matching_boundary
   let u := Functor.whiskerRight ((SimplicialObject.coskAdj n).unit.app K)
     (coyoneda.obj (op T))
   have : IsIso ((SSet.truncation n).map u) := by
-    show IsIso (Functor.whiskerRight
+    change IsIso (Functor.whiskerRight
       ((SimplicialObject.truncation n).map ((SimplicialObject.coskAdj n).unit.app K))
       (coyoneda.obj (op T)))
     infer_instance
@@ -720,7 +720,7 @@ private lemma map_f_map_f_of_comp_eq_id {D : Type u} [Category.{v} D]
     (K : SimplicialObject (FormalCoproduct.{w} D)) {a b : SimplexCategory}
     {f : a ⟶ b} {s : b ⟶ a} (hs : s ≫ f = 𝟙 b) (y : (K.obj (op b)).I) :
     (K.map s.op).f ((K.map f.op).f y) = y := by
-  show ((K.map f.op ≫ K.map s.op).f y) = y
+  change ((K.map f.op ≫ K.map s.op).f y) = y
   rw [← K.map_comp]
   simp [← op_comp, hs]
 
@@ -834,7 +834,7 @@ private lemma degenerateAbove_attachment
   | none =>
     obtain ⟨k, f, hf, y, hy⟩ := hK m (by omega) b
     refine ⟨⟨k.1, by omega⟩, f, hf, ⟨none, y⟩, ?_⟩
-    show (⟨none, b⟩ : (attachmentLevel K (SSet.boundary (n + 1)) N
+    change (⟨none, b⟩ : (attachmentLevel K (SSet.boundary (n + 1)) N
       (op ⦋m⦌)).I) =
       (attachmentInclusion K (SSet.boundary (n + 1)) N _).f
         ((K.map f.op).f y)
@@ -851,9 +851,9 @@ private lemma degenerateAbove_attachment
       SSet.stdSimplex.notMem_boundary (n + 1)
     refine ⟨⟨n + 1, by omega⟩, f, hf, ⟨some ⟨a₀, ha₀⟩, b⟩, ?_⟩
     have hmap : (Δ[n + 1] : SSet.{w}).map f.op a₀ = a.1 := by
-      show SSet.stdSimplex.objEquiv.symm (f ≫ 𝟙 _) = a.1
+      change SSet.stdSimplex.objEquiv.symm (f ≫ 𝟙 _) = a.1
       simp [f]
-    show (⟨some a, b⟩ : (attachmentLevel K (SSet.boundary (n + 1)) N
+    change (⟨some a, b⟩ : (attachmentLevel K (SSet.boundary (n + 1)) N
       (op ⦋m⦌)).I) =
       (attachmentCell K (SSet.boundary (n + 1)) N d _
         ((Δ[n + 1] : SSet.{w}).map f.op a₀)).f b
@@ -927,7 +927,7 @@ private lemma exists_boundary_cells
         (boundary_le_skeleton n) j
           (stdSimplexUniverseMap_boundary (n + 1) j a.1 a.2)⟩)
         (NatTrans.congr_app hb j)
-  · show q ≫ ((SimplicialObject.cosk n).obj K).map (𝟙 _) = q
+  · change q ≫ ((SimplicialObject.cosk n).obj K).map (𝟙 _) = q
     simp
 
 /-- In degree `n + 1`, the map from a boundary attachment of a covering `N` of the matching object
@@ -992,7 +992,7 @@ private lemma isIso_cosk_map_of_isIso_app {X : C}
     {K L : SimplicialObject (FormalCoproduct.{w} (Over X))} (n : ℕ) (f : K ⟶ L)
     (h : ∀ m ≤ n, IsIso (f.app (op ⦋m⦌))) : IsIso ((SimplicialObject.cosk n).map f) := by
   have := isIso_truncation_map_of_isIso_app f n h
-  show IsIso ((SimplicialObject.Truncated.cosk n).map ((SimplicialObject.truncation n).map f))
+  change IsIso ((SimplicialObject.Truncated.cosk n).map ((SimplicialObject.truncation n).map f))
   infer_instance
 
 /-- If `ι : K ⟶ L` is an isomorphism up to degree `n` and factors the unit of `K` through
@@ -1061,7 +1061,7 @@ private theorem exists_split_matching_attachment
     ι, p, e, hfd, ?_, ?_, ?_,
     attachCells_split K (SSet.boundary (n + 1)) N d' hd' hK, ?_, ?_,
     degenerateAbove_attachment K n N d' hd' hdeg, ?_⟩
-  · show attachmentCell K (SSet.boundary (n + 1)) N d' _ a ≫
+  · change attachmentCell K (SSet.boundary (n + 1)) N d' _ a ≫
       attachmentDescApp K (SSet.boundary (n + 1)) N c t _ = q
     exact (attachmentCell_desc K (SSet.boundary (n + 1)) N d' c t hdt _ a).trans htq
   · intro i j hij
@@ -1072,7 +1072,7 @@ private theorem exists_split_matching_attachment
   · intro i
     dsimp [e, attachmentCell]
     rw [dite_eq_right ha]
-    show IsIso (𝟙 (N.obj i))
+    change IsIso (𝟙 (N.obj i))
     infer_instance
   · exact fun m hm ↦ isIso_boundaryAttachment_app_of_lt K (n + 1) N d' hd' hm
   · exact fun m i ↦ attachCells_objects K (SSet.boundary (n + 1)) N d' hd'
@@ -1098,7 +1098,7 @@ private lemma degenerateAbove_const {X : C} (T : FormalCoproduct.{w} (Over X)) :
   intro m hm i
   let f : ⦋m⦌ ⟶ ⦋0⦌ := SimplexCategory.isTerminalZero.from _
   have hf : Epi f := SimplexCategory.epi_iff_surjective.mpr fun j ↦ ⟨0, by
-    show (0 : Fin 1) = j
+    change (0 : Fin 1) = j
     omega⟩
   exact ⟨⟨0, by omega⟩, f, hf, i, rfl⟩
 
@@ -1178,7 +1178,7 @@ theorem exists_hypercovering_with_objects_in
   have hK₀ : Good 0 K₀ := by
     refine ⟨fun _ i ↦ hT i, (split_iff_components_of_epi K₀).2 fun _ _ i ↦ ?_,
       degenerateAbove_const T⟩
-    show IsIso (𝟙 (T.obj i))
+    change IsIso (𝟙 (T.obj i))
     infer_instance
   have hs : ∀ n (Q : {K // Good n K}),
       ∃ R : {L // Good (n + 1) L}, ∃ f : Q.1 ⟶ R.1,
@@ -1209,7 +1209,7 @@ theorem exists_hypercovering_with_objects_in
   · have hc : IsCoveringOver J
         ((ι 0).app (op ⦋0⦌) ≫ terminal.from (K.obj (op ⦋0⦌))) := by
       rw [terminal.comp_from]
-      show IsCoveringOver J (terminal.from T)
+      change IsCoveringOver J (terminal.from T)
       exact hTcover
     exact covering_over_of_eqToHom J ((ι 0).app (op ⦋0⦌))
       (hobj (op ⦋0⦌)).symm (hιeq (op ⦋0⦌)) (terminal.from _) hc

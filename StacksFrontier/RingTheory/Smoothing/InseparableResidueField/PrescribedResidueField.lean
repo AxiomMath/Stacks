@@ -176,7 +176,7 @@ private theorem exists_mvPolynomial_flat_localization_of_basis {k Λ : Type u} [
       (Localization.AtPrime 𝔮) := by
     refine IsScalarTower.of_algebraMap_eq fun gg => ?_
     rw [hP'P, hPL, hP'L]
-    show φ' gg = algebraMap Λ (Localization.AtPrime 𝔮)
+    change φ' gg = algebraMap Λ (Localization.AtPrime 𝔮)
       (MvPolynomial.aeval (Fin.append lam mu) (MvPolynomial.rename _ gg))
     rw [MvPolynomial.aeval_rename, happ]
     rfl
@@ -219,7 +219,7 @@ private theorem exists_mvPolynomial_flat_localization_of_basis {k Λ : Type u} [
         (MvPolynomial.X (Fin.natAdd t j)) = algebraMap Λ (Localization.AtPrime 𝔮) (mu j) := by
     intro j
     rw [hPL]
-    show algebraMap Λ (Localization.AtPrime 𝔮) (φ (MvPolynomial.X (Fin.natAdd t j))) = _
+    change algebraMap Λ (Localization.AtPrime 𝔮) (φ (MvPolynomial.X (Fin.natAdd t j))) = _
     rw [hφX, Fin.append_right]
   have hX : ∀ j : Fin r, algebraMap (MvPolynomial (Fin (t + r)) k) (Localization.AtPrime 𝔮)
       (MvPolynomial.X (Fin.natAdd t j)) ∈ maximalIdeal (Localization.AtPrime 𝔮) := by
@@ -434,7 +434,7 @@ theorem exists_mvPolynomial_flat_localization_of_intermediateField
   set ι : ResidueField (Localization.AtPrime 𝔭) →+* F := ResidueField.lift ι₀ with hιdef
   have hιcomp : (F.val.toRingHom).comp ι₀ = (residue (Localization.AtPrime 𝔮)).comp g := by
     refine IsLocalization.ringHom_ext 𝔭.primeCompl (RingHom.ext fun f => ?_)
-    show ((ι₀ (algebraMap (MvPolynomial (Fin m) k) (Localization.AtPrime 𝔭) f) : F) :
+    change ((ι₀ (algebraMap (MvPolynomial (Fin m) k) (Localization.AtPrime 𝔭) f) : F) :
         ResidueField (Localization.AtPrime 𝔮))
       = residue (Localization.AtPrime 𝔮)
           (g (algebraMap (MvPolynomial (Fin m) k) (Localization.AtPrime 𝔭) f))
@@ -456,7 +456,7 @@ theorem exists_mvPolynomial_flat_localization_of_intermediateField
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
     rw [hκF]
     refine Subtype.ext ?_
-    show (algebraMap k (ResidueField (Localization.AtPrime 𝔮)) a) = _
+    change (algebraMap k (ResidueField (Localization.AtPrime 𝔮)) a) = _
     rw [show (algebraMap k (ResidueField (Localization.AtPrime 𝔭)) a)
         = residue (Localization.AtPrime 𝔭) (algebraMap k (Localization.AtPrime 𝔭) a) from rfl,
       hι (algebraMap k (Localization.AtPrime 𝔭) a), hgk a]

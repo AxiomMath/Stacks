@@ -192,7 +192,8 @@ abbrev mooreAbBicomplexFunctor :
 
 variable (X : CochainComplex (SheafOfModules.{w} (projectionRing C J O)) ℤ)
 
-omit [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
+  [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
   [(projectionTopology C J).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [(SheafOfModules.pushforward.{w} (F := projection C)
@@ -287,7 +288,8 @@ def totalMooreSpliceIso [X.IsStrictlyLE 0] :
 
 variable {X}
 
-omit [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
+  [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
   [(projectionTopology C J).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [(SheafOfModules.pushforward.{w} (F := projection C)
     (Stacks.Cohomology.DerivedLowerShriek.idRingMap
@@ -337,7 +339,8 @@ lemma totalMooreSpliceIso_hom_naturality
     HomologicalComplex₂.total.mapIso_hom]
   rw [← Category.assoc, ← h3, Category.assoc, h4, Category.assoc]
 
-omit [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
+  [HasWeakSheafify (projectionTopology C J) AddCommGrpCat.{w}]
   [(projectionTopology C J).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [(SheafOfModules.pushforward.{w} (F := projection C)
     (Stacks.Cohomology.DerivedLowerShriek.idRingMap

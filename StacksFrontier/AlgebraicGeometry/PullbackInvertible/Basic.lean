@@ -125,7 +125,8 @@ noncomputable def restrictPullbackObjIso (f : X ⟶ Y) {U : Y.Opens} {V : X.Open
 trivialization of `L` over the localized site `Over U`.
 
 This is the passage inverse to
-`Stacks.AlgebraicGeometry.ProjInvertibleLocus.restrictIsoUnitOfOverIsoUnit`, which is in the library and
+`Stacks.AlgebraicGeometry.ProjInvertibleLocus.restrictIsoUnitOfOverIsoUnit`, which is in the library
+and
 not re-derived here; the two together are what lets the trivializations produced by the pullback
 calculus be fed to Tag 0B8M's descent step, which speaks the localized site. -/
 noncomputable def overIsoUnitOfRestrictIsoUnit (L : Y.Modules) (U : Y.Opens)

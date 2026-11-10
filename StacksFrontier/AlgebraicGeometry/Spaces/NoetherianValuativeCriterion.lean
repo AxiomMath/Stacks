@@ -160,10 +160,10 @@ private theorem exists_contained_discreteValuationSpecialization {W V : Scheme.{
               toSource := b ≫ W.fromSpecResidueField d.genericPoint
               toTarget := a ≫ W.fromSpecResidueField d.genericPoint ≫ f
               maps_genericPoint := by
-                show W.fromSpecResidueField d.genericPoint (b _) = d.genericPoint
+                change W.fromSpecResidueField d.genericPoint (b _) = d.genericPoint
                 exact Scheme.fromSpecResidueField_apply _ _
               maps_closedPoint := by
-                show f (W.fromSpecResidueField d.genericPoint (a _)) = y
+                change f (W.fromSpecResidueField d.genericPoint (a _)) = y
                 rw [Scheme.fromSpecResidueField_apply]
                 exact heq
               commutes := by
@@ -172,7 +172,7 @@ private theorem exists_contained_discreteValuationSpecialization {W V : Scheme.{
               residueFieldEquiv := fun h ↦ (h heq).elim }, hK, hA, rfl⟩
   · obtain ⟨e, -⟩ := d.residueFieldEquiv heq
     have hK : B.Contains (Spec (.of d.fractionField)) := by
-      show (Spec (.of d.fractionField)).size < B.cutoff
+      change (Spec (.of d.fractionField)).size < B.cutoff
       change (Spec (.of (W.residueField d.genericPoint))).size < B.cutoff at hk
       rw [Scheme.size_Spec] at hk ⊢
       simpa only [Cardinal.mk_congr e.toEquiv] using hk
@@ -349,7 +349,7 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
   let cX : yoneda.obj W ⟶ X := b ≫ qaff.hom
   have hpull : cX ≫ f = yoneda.map e ≫ aaff := by
     rw [he]
-    show (b ≫ qaff.hom) ≫ f = (b ≫ paff.hom) ≫ aaff
+    change (b ≫ qaff.hom) ≫ f = (b ≫ paff.hom) ≫ aaff
     rw [Category.assoc, Category.assoc]
     exact congrArg (fun t ↦ b ≫ t) pullback.condition.symm
   have hqaffEtale : IsEtale B S hS qaff.hom :=
@@ -425,7 +425,7 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
   -- The generic point of the component selected in the chart has codimension zero.
   set η := dvr.genericPoint
   have hηgeneric : η ∈ genericPoints ((BigFppfOver.toScheme B S hS).obj W) := by
-    show closure ({η} : Set ((BigFppfOver.toScheme B S hS).obj W)) ∈
+    change closure ({η} : Set ((BigFppfOver.toScheme B S hS).obj W)) ∈
       irreducibleComponents ((BigFppfOver.toScheme B S hS).obj W)
     rw [dvr.isGenericPoint.def]
     exact dvr.component_mem
@@ -462,7 +462,7 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
         (CommRingCat.ofHom (algebraMap dvr.valuationRing dvr.fractionField)).op⟩ :
       B.obj hK ⟶ B.obj hA) (by
       apply ObjectProperty.hom_ext
-      show Scheme.Spec.map
+      change Scheme.Spec.map
           (CommRingCat.ofHom (algebraMap dvr.valuationRing dvr.fractionField)).op ≫
             dvr.toTarget ≫ Vaff.hom.1 = dvr.toSource ≫ W.hom.1
       rw [← Category.assoc, dvr.commutes, Category.assoc]
@@ -471,11 +471,11 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
     have hw : genericW.class B S hS (yoneda.obj W) = ηrep.class B S hS (yoneda.obj W) := by
       refine injective_pointsToScheme B S hS W ?_
       rw [hηpt]
-      show dvr.toSource.base (IsLocalRing.closedPoint dvr.fractionField) = η
+      change dvr.toSource.base (IsLocalRing.closedPoint dvr.fractionField) = η
       rw [show IsLocalRing.closedPoint dvr.fractionField =
         (⟨⊥, inferInstance⟩ : PrimeSpectrum dvr.fractionField) from Subsingleton.elim _ _]
       exact dvr.maps_genericPoint
-    show (FieldValuedPoint.map B S hS (yoneda.obj W) cX genericW).class B S hS X = x
+    change (FieldValuedPoint.map B S hS (yoneda.obj W) cX genericW).class B S hS X = x
     rw [← pointsMap_class, hw]
   refine ⟨{ valuationRing := dvr.valuationRing
             generic := generic
@@ -494,12 +494,12 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
   · have hdiag : KtoWover ≫ e = genericToValuation ≫ AtoVaff := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show dvr.toSource ≫ schemeMap =
+      change dvr.toSource ≫ schemeMap =
         Scheme.Spec.map
           (CommRingCat.ofHom (algebraMap dvr.valuationRing dvr.fractionField)).op ≫ dvr.toTarget
       exact dvr.commutes.symm
     have hvalue : yonedaEquiv.symm generic.value = yoneda.map KtoWover ≫ cX := by
-      show yonedaEquiv.symm (cX.app (Opposite.op Ksite) (yonedaEquiv (yoneda.map KtoWover))) =
+      change yonedaEquiv.symm (cX.app (Opposite.op Ksite) (yonedaEquiv (yoneda.map KtoWover))) =
         yoneda.map KtoWover ≫ cX
       rw [← yonedaEquiv_symm_naturality_right, Equiv.symm_apply_apply]
     calc yoneda.map genericToValuation ≫ toTarget
@@ -524,7 +524,7 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
             PrimeSpectrum dvr.valuationRing) from
         schemePointRepresentative_point B S hS Aobj _]
       exact dvr.maps_closedPoint
-    show pointsMap B S hS (yoneda.obj Aobj) (yoneda.map AtoVaff ≫ aaff) _ = y
+    change pointsMap B S hS (yoneda.obj Aobj) (yoneda.map AtoVaff ≫ aaff) _ = y
     rwa [pointsMap_comp_apply, hmapClosed]
   · intro hneq
     have hEq : schemeMap.base η ≠ yV := by
@@ -535,7 +535,7 @@ theorem nonempty_discreteValuationSpecialization {X Y : (BigFppfOver B S hS)ᵒ�
           (ηrep.class B S hS (yoneda.obj W)) = vAff := by
         refine injective_pointsToScheme B S hS Vaff ?_
         rwa [pointsToScheme_pointsMap, hηpt]
-      show pointsMap B S hS X f (pointsMap B S hS (yoneda.obj W) cX
+      change pointsMap B S hS X f (pointsMap B S hS (yoneda.obj W) cX
         (ηrep.class B S hS (yoneda.obj W))) = y
       rwa [← pointsMap_comp_apply, hpull, pointsMap_comp_apply, hmapη]
     obtain ⟨eK, heK⟩ := dvr.residueFieldEquiv hEq

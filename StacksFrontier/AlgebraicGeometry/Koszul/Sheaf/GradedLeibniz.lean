@@ -19,7 +19,8 @@ generators, and it is the form the Leibniz axiom of
 
 The file also provides the Koszul differential between two homogeneous degrees named
 independently of one another, `PresheafOfModules.exteriorKoszulDOf`. The differential of
-`StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.Differential` has source `exteriorAlgebraPiece (n + 1)`
+`StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.Differential` has source
+`exteriorAlgebraPiece (n + 1)`
 on the nose, which is what makes the `ℕ`-indexed chain complex assemble with no transport; a
 `CochainComplex` indexed by `ℤ`, on the other hand, wants a differential out of degree `-n` into
 degree `-(n + 1)`, and `-(n + 1) + 1` is not syntactically `-n`.

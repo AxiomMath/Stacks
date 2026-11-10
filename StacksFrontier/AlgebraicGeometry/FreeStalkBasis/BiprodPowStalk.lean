@@ -138,11 +138,11 @@ theorem biprodPowIncl_desc (G M : X.Modules) (n : ℕ) (ψ : Fin n → (G ⟶ M)
   | succ n ih =>
     induction j using Fin.cases with
     | zero =>
-      show (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫
+      change (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫
         biprod.desc (ψ 0) (biprodPowDesc G M n fun i => ψ i.succ) = ψ 0
       exact biprod.inl_desc _ _
     | succ i =>
-      show (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
+      change (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
         biprod.desc (ψ 0) (biprodPowDesc G M n fun i => ψ i.succ) = ψ i.succ
       rw [Category.assoc, biprod.inr_desc]
       exact ih _ i
@@ -157,22 +157,22 @@ theorem biprodPowIncl_proj (G : X.Modules) (n : ℕ) (j j' : Fin n) :
     | zero =>
       induction j' using Fin.cases with
       | zero =>
-        show (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫ biprod.fst = _
+        change (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫ biprod.fst = _
         simp
       | succ i' =>
-        show (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫
+        change (biprod.inl : G ⟶ G ⊞ G.biprodPow n) ≫
           (biprod.snd ≫ biprodPowProj G n i') = _
         rw [← Category.assoc, biprod.inl_snd, Limits.zero_comp,
           ite_eq_right (Fin.succ_ne_zero i').symm]
     | succ i =>
       induction j' using Fin.cases with
       | zero =>
-        show (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
+        change (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
           biprod.fst = _
         rw [Category.assoc, biprod.inr_fst, Limits.comp_zero,
           ite_eq_right (Fin.succ_ne_zero i)]
       | succ i' =>
-        show (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
+        change (biprodPowIncl G n i ≫ (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n)) ≫
           (biprod.snd ≫ biprodPowProj G n i') = _
         rw [Category.assoc, ← Category.assoc (biprod.inr : G.biprodPow n ⟶ G ⊞ G.biprodPow n),
           biprod.inr_snd, Category.id_comp, ih i i']
@@ -254,7 +254,7 @@ theorem bijective_sum_map_biprodPowIncl (F : X.Modules ⥤ AddCommGrpCat.{u}) [F
   refine Function.bijective_iff_has_inverse.mpr
     ⟨fun z j => F.map (Scheme.Modules.biprodPowProj G n j) z, fun c => ?_, fun z => ?_⟩
   · funext j
-    show F.map (Scheme.Modules.biprodPowProj G n j)
+    change F.map (Scheme.Modules.biprodPowProj G n j)
       (∑ j', F.map (Scheme.Modules.biprodPowIncl G n j') (c j')) = c j
     rw [map_sum]
     have e : ∀ j' : Fin n, F.map (Scheme.Modules.biprodPowProj G n j)
@@ -269,7 +269,7 @@ theorem bijective_sum_map_biprodPowIncl (F : X.Modules ⥤ AddCommGrpCat.{u}) [F
         rfl
     rw [Finset.sum_congr rfl fun j' _ => e j']
     simp
-  · show (∑ j, F.map (Scheme.Modules.biprodPowIncl G n j)
+  · change (∑ j, F.map (Scheme.Modules.biprodPowIncl G n j)
       (F.map (Scheme.Modules.biprodPowProj G n j) z)) = z
     have hsum : (∑ j : Fin n, F.map (Scheme.Modules.biprodPowProj G n j ≫
             Scheme.Modules.biprodPowIncl G n j)) z

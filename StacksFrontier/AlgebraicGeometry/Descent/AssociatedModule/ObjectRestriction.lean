@@ -327,7 +327,7 @@ public theorem comparisonComp_objStarIso :
         (objSliceStructureMap B S hS T) := by
   ext : 2
   funext V
-  show (structureMap B S hS).hom.app V ≫
+  change (structureMap B S hS).hom.app V ≫
       (structureSheaf B S hS).obj.map
         (prod.snd : T ⨯ (opensToBig B S hS).obj V.unop ⟶ (opensToBig B S hS).obj V.unop).op ≫
       (structureSheaf B S hS).obj.map
@@ -359,7 +359,7 @@ public theorem comparisonComp_objStarIso :
     ((hom_hom_eq B S hS (homOfRangeLe B S hS V.unop
         (range_le_of_le_preimage B S hS T V.unop _ le_rfl))).symm.trans
       (objToBig_obj_left_hom_hom B S hS T _))
-  show (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := S) V.unop).inv ≫
+  change (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := S) V.unop).inv ≫
       (forget₂ CommRingCat RingCat.{u}).map
         ((homOfRangeLe B S hS V.unop
           (range_le_of_le_preimage B S hS T V.unop _ le_rfl)).left.hom).appTop =

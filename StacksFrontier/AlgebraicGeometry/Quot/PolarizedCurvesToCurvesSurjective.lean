@@ -120,7 +120,7 @@ theorem exists_polarizedFamily_of_base_eq {K : Type u} [Field K]
   have : Flat f := inferInstance
   have : LocallyOfFinitePresentation f := inferInstance
   have hdimY : topologicalKrullDim (Y : Type u) ≤ 1 := by
-    show topologicalKrullDim ((BigFppfOver.toScheme B integerBase hZ).obj T) ≤ 1
+    change topologicalKrullDim ((BigFppfOver.toScheme B integerBase hZ).obj T) ≤ 1
     rw [← Space.dimension_yoneda_eq_topologicalKrullDim B integerBase hZ,
       Space.dimension_eq_of_iso B integerBase hZ (isAlgebraicSpace_yoneda B integerBase hZ _)
         total.property ((ObjectProperty.ι _).mapIso e)]
@@ -179,7 +179,7 @@ theorem exists_polarizedFamily_of_base_eq {K : Type u} [Field K]
   have hw : τ ≫ toBase = G.toBase ≫ schemeSpaceMap (𝟙 _) := by
     rw [hid, Category.comp_id]
     apply ObjectProperty.hom_ext
-    show yoneda.map ι.hom ≫ e.hom.hom ≫ toBase.hom = yoneda.map P.structureMapOverIntegers
+    change yoneda.map ι.hom ≫ e.hom.hom ≫ toBase.hom = yoneda.map P.structureMapOverIntegers
     rw [← hιg, Functor.map_comp]
     exact congrArg (yoneda.map ι.hom ≫ ·) hg.symm
   let h : G ⟶ ⟨(schemeOverIntegers B).obj (B.obj hK), total, toBase, hflat, hproper, hfp, hrel⟩ :=

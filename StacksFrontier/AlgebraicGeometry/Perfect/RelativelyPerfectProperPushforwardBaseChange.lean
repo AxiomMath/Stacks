@@ -117,11 +117,11 @@ private theorem isPerfect_derivedPushforward_of_baseChange {X S X' S' : Scheme.{
     (isQuasicoherent_homology_derivedPushforward_of_qcqs g)
     (isQuasicoherent_homology_derivedPullback' g) (isQuasicoherent_homology_derivedPullback' g')
     sq.w
-  have : IsIso T.natTrans := isIso_quasiCoherentDerivedBaseChange_natTrans _ _ _ _ sq
+  have : IsIso T := isIso_quasiCoherentDerivedBaseChange_natTrans _ _ _ _ sq
     (torIndependent_of_flat_left f' g)
   exact isPerfect_of_iso ((ObjectProperty.ι (DerivedCategoryB.derivedCategoryB (A := S.Modules)
       (SheafOfModules.isQuasicoherent S.ringCatSheaf))).mapIso
-      (asIso (T.natTrans.app ⟨E', hqc⟩)) ≪≫ (derivedPushforward f).mapIso eE)
+      (asIso (NatTrans.app T ⟨E', hqc⟩)) ≪≫ (derivedPushforward f).mapIso eE)
     (RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
       (hX := Scheme.Modules.hasDerivedCategory S)
       (hY := Scheme.Modules.hasDerivedCategory S') g.toLRSHom.toShHom _ hN)

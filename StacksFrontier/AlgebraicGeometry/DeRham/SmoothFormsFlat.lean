@@ -78,7 +78,7 @@ theorem isFlat_deRhamCochainComplex_X [Smooth f] (i : ℤ) :
   rcases lt_or_ge i 0 with hneg | hpos
   · exact AlgebraicGeometry.SheafOfModules.IsFlat.of_isZero _
       (HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat i
-        (fun n => by simpa using (hneg.trans_le (Int.ofNat_zero_le n)).ne'))
+        (fun n => by simpa using (hneg.trans_le (Int.natCast_nonneg n)).ne'))
   · obtain ⟨n, rfl⟩ : ∃ n : ℕ, i = (n : ℤ) := ⟨i.toNat, by omega⟩
     refine AlgebraicGeometry.SheafOfModules.IsFlat.of_iso _
       (HomologicalComplex.extendXIso

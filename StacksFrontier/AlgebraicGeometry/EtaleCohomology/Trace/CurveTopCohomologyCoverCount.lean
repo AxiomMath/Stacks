@@ -90,8 +90,8 @@ section Surjective
 attribute [local instance] HasDerivedCategory.standard
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : GeometricPoint X.1)
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k))
+  [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar] (m : ℕ) [NeZero m]
 
@@ -118,7 +118,7 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [IsCurve k f] [Smooth f]
+  [LocallyOfFiniteType f] [QuasiCompact f] [IsCurve k f] [Smooth f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime] [CharP k p]
   (hcard : Fintype.card k = p ^ q)

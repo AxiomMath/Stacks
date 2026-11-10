@@ -199,7 +199,7 @@ public lemma germ_appIso_hom_eq_stalkMap (x : X) (U : X.Opens) (hxU : x ∈ U)
     X.presheaf.germ U x hxU ((f.appIso U).hom s) =
       (f.stalkMap x).hom (Y.presheaf.germ (f ''ᵁ U) (f.base x) ⟨x, hxU, rfl⟩ s) := by
   rw [Scheme.Hom.germ_stalkMap_apply f (f ''ᵁ U) x ⟨x, hxU, rfl⟩ s, Scheme.Hom.appIso_hom f U]
-  show X.presheaf.germ U x hxU
+  change X.presheaf.germ U x hxU
       (X.presheaf.map (eqToHom (Scheme.Hom.preimage_image_eq f U).symm).op
         (f.app (f ''ᵁ U) s)) = _
   rw [X.presheaf.germ_res_apply (eqToHom (Scheme.Hom.preimage_image_eq f U).symm) x hxU]
@@ -245,7 +245,7 @@ public lemma restrictStalkAddEquiv_smul (x : X) (s : Y.presheaf.stalk (f.base x)
 public lemma supp_restrict :
     SheafOfModules.supp (M.restrict f) = f.base ⁻¹' SheafOfModules.supp M := by
   ext x
-  show x ∈ SheafOfModules.supp (M.restrict f) ↔ f.base x ∈ SheafOfModules.supp M
+  change x ∈ SheafOfModules.supp (M.restrict f) ↔ f.base x ∈ SheafOfModules.supp M
   refine ((SheafOfModules.mem_supp_iff_nontrivial_stalk (M.restrict f) x).trans ?_).trans
     (SheafOfModules.mem_supp_iff_nontrivial_stalk M (f.base x)).symm
   exact Equiv.nontrivial_congr (restrictStalkAddEquiv f M x).toEquiv

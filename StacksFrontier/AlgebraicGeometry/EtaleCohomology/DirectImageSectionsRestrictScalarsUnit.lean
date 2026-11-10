@@ -269,7 +269,7 @@ theorem directImageSectionsDerivedUnit_comp_map_restrictScalars
   let e' := DerivedCategory.Plus.Q.map (directImageSectionsRestrictScalarsComplexIso ρ f C).inv
   have hn : gμ ≫ d = a ≫ bm := (directImageSectionsDerivedUnit Λ f).naturality μ
   have hee : e' ≫ e = 𝟙 _ :=
-    (directImageSectionsRestrictScalarsComplexIso ρ f C).map_inv_hom_id DerivedCategory.Plus.Q
+    (directImageSectionsRestrictScalarsComplexIso ρ f C).inv_hom_id_map DerivedCategory.Plus.Q
   have hL : RΓ.map (Rf.map (DerivedCategory.Plus.Q.map μ ≫
       (Functor.mapDerivedCategoryPlusQIso (etaleModuleRestrictScalars ρ Y)).inv.app C)) = bm ≫ cm :=
     (congrArg RΓ.map (Rf.map_comp _ _)).trans (RΓ.map_comp _ _)

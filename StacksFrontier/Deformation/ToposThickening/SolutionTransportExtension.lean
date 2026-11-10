@@ -59,8 +59,8 @@ def transportExtension : S.CompatibleFirstOrderThickening where
   extension := A
   reduction := φ.inv ≫ P.reduction
   locallySurjective := by
-    haveI := P.locallySurjective
-    haveI : IsIso φ.inv.hom := (inferInstance : IsIso ((sheafToPresheaf X.J _).map φ.inv))
+    have := P.locallySurjective
+    have : IsIso φ.inv.hom := (inferInstance : IsIso ((sheafToPresheaf X.J _).map φ.inv))
     exact Presheaf.isLocallySurjective_comp X.J _ _
   squareZero U := by
     rw [pow_two, eq_bot_iff]

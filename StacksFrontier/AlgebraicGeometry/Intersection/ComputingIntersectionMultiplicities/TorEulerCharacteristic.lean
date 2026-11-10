@@ -159,8 +159,7 @@ private theorem annihilator_smul_tensor_eq_bot
   refine le_antisymm (Submodule.smul_le.2 fun a ha x _ => ?_) bot_le
   have hkill : ∀ y : P ⊗[A] M, a • y = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add u v hu hv => simp [hu, hv]
     | tmul p m =>
       calc
@@ -197,7 +196,7 @@ private lemma quotientBaseChangeModuleEquiv_baseChange_naturality
     (z : (A ⧸ K) ⊗[A] X) :
     quotientBaseChangeModuleEquiv K Y hY (LinearMap.baseChange (A ⧸ K) f z) =
       f (quotientBaseChangeModuleEquiv K X hX z) := by
-  simpa [LinearMap.baseChange_eq_ltensor] using
+  simpa [LinearMap.baseChange_eq_lTensor] using
     LinearMap.congr_fun (quotientBaseChangeModuleEquiv_naturality K f hX hY) z
 
 /-- The Koszul homology of `f` on a module annihilated by `K` may be computed over `A / K`,

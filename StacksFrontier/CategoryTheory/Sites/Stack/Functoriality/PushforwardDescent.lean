@@ -57,7 +57,8 @@ namespace CategoryTheory
 
 open Limits
 
--- As in `StacksFrontier.CategoryTheory.Sites.Descent.IsStack`: the instance arguments of `IsHomLift`
+-- As in `StacksFrontier.CategoryTheory.Sites.Descent.IsStack`: the instance arguments of
+-- `IsHomLift`
 -- and `IsCartesian` are only found after unfolding the chosen pullbacks.
 set_option backward.isDefEq.respectTransparency false
 

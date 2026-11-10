@@ -331,7 +331,7 @@ lemma UniversalSoberMap.prespectralSpace
       obtain ⟨B, ⟨hB_open, hB_compact⟩, hxB, hBU⟩ :=
         PrespectralSpace.isTopologicalBasis.isOpen_iff.mp (c.φ U'o).isOpen x hx
       exact Opens.mem_iSup.mpr ⟨⟨B, hB_open⟩, by
-        rwa [show G ⟨B, hB_open⟩ = ⟨B, hB_open⟩ from if_pos ⟨hB_compact, hBU⟩]⟩
+        rwa [show G ⟨B, hB_open⟩ = ⟨B, hB_open⟩ from ite_eq_left ⟨hB_compact, hBU⟩]⟩
   have h_eq : (⨆ V : Opens X, F V) = U'o :=
     c.φ_injective ((c.invFun_opens_iSup F G hFG).trans h_sup_G)
   have hx'_mem : x' ∈ (⨆ V : Opens X, F V : Opens X') := h_eq ▸ (show x' ∈ U'o from hx'U')

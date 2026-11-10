@@ -104,7 +104,7 @@ theorem exists_isPushout_isLocalizationAway [IsOpenImmersion (pullback.lift b f'
       pullback.lift b f' w ⁻¹ᵁ (pullback f a).basicOpen g ≤ W ⊓ f' ⁻¹ᵁ U'.1 ⊓ b ⁻¹ᵁ V.1 := by
   set j := pullback.lift b f' w with hj
   have hfy : f' y' ∈ a ⁻¹ᵁ U.1 := by
-    show a (f' y') ∈ U.1
+    change a (f' y') ∈ U.1
     rw [← Scheme.Hom.comp_apply, ← w, Scheme.Hom.comp_apply]
     exact e hy
   obtain ⟨_, ⟨U', hU'aff, rfl⟩, hyU', hU'le⟩ :=
@@ -120,10 +120,10 @@ theorem exists_isPushout_isLocalizationAway [IsOpenImmersion (pullback.lift b f'
     (isIso_pushoutSection_of_isAffineOpen H hU'le e rfl U.2 hU'aff V.2)
   have hjy : j y' ∈ Z := by
     refine ⟨?_, ?_⟩
-    · show (pullback.fst f a) (j y') ∈ V.1
+    · change (pullback.fst f a) (j y') ∈ V.1
       rw [← Scheme.Hom.comp_apply, hj, pullback.lift_fst]
       exact hy
-    · show (pullback.snd f a) (j y') ∈ U'
+    · change (pullback.snd f a) (j y') ∈ U'
       rw [← Scheme.Hom.comp_apply, hj, pullback.lift_snd]
       exact hyU'
   let O : (pullback f a).Opens := j ''ᵁ (W ⊓ f' ⁻¹ᵁ U' ⊓ b ⁻¹ᵁ V.1)

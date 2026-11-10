@@ -67,7 +67,7 @@ public theorem continuous_algebraMap_completedTensorProduct_right
     TopologicalRing.tensorProductTopology (R := R) (M := A) (N := C)
   let : UniformSpace (A ⊗[R] C) :=
     TopologicalRing.tensorProductUniformSpace (R := R) (M := A) (N := C)
-  show Continuous fun c : C =>
+  change Continuous fun c : C =>
     (((1 : A) ⊗ₜ[R] c : A ⊗[R] C) :
       TopologicalRing.CompletedTensorProduct (R := R) (M := A) (N := C))
   exact (UniformSpace.Completion.continuous_coe (A ⊗[R] C)).comp
@@ -105,13 +105,13 @@ public theorem isTopologicallyOfFiniteType_completedTensorProduct_baseChange
     · ext r
       dsimp [mapC]
       rw [MvPolynomial.map_C]
-      show q (algebraMap C (MvPolynomial (Fin n) C) (algebraMap R C r)) =
+      change q (algebraMap C (MvPolynomial (Fin n) C) (algebraMap R C r)) =
         f (MvPolynomial.C r) ⊗ₜ[R] (1 : C)
       rw [q.commutes]
-      show algebraMap C T (algebraMap R C r) =
+      change algebraMap C T (algebraMap R C r) =
         (f.comp MvPolynomial.C) r ⊗ₜ[R] (1 : C)
       rw [hf, hright]
-      show (1 : A) ⊗ₜ[R] algebraMap R C r =
+      change (1 : A) ⊗ₜ[R] algebraMap R C r =
         (algebraMap R A r) ⊗ₜ[R] (1 : C)
       calc
         (1 : A) ⊗ₜ[R] algebraMap R C r =
@@ -139,16 +139,15 @@ public theorem isTopologicallyOfFiniteType_completedTensorProduct_baseChange
         dsimp [g]
         rw [Algebra.TensorProduct.tmul_mul_tmul]
         simp
-      show g (f p) ∈ S
+      change g (f p) ∈ S
       rw [heq]
       exact S.mul_mem hq (S.algebraMap_mem c)
-    show g a ∈ S
+    change g a ∈ S
     exact closure_minimal hrange hclosed
       (by rw [denseRange_iff_closure_range.mp hfdense]; simp)
   have hall : ∀ x : T, x ∈ S := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact S.zero_mem
+    induction x using TensorProduct.inductionOn with
     | tmul a c => exact hpure a c
     | add x y hx hy => exact S.add_mem hx hy
   have htop : S = ⊤ := top_unique fun x _ => hall x
@@ -159,10 +158,10 @@ public theorem isTopologicallyOfFiniteType_completedTensorProduct_baseChange
   let qD : MvPolynomial (Fin n) C →+* D :=
     (UniformSpace.Completion.coeRingHom : T →+* D).comp q.toRingHom
   refine ⟨n, qD, ?_, ?_⟩
-  · show qD.comp MvPolynomial.C = algebraMap C D
+  · change qD.comp MvPolynomial.C = algebraMap C D
     have hqconst : q.toRingHom.comp MvPolynomial.C = algebraMap C T :=
       RingHom.ext fun c => q.commutes c
-    show (UniformSpace.Completion.coeRingHom : T →+* D).comp
+    change (UniformSpace.Completion.coeRingHom : T →+* D).comp
         (q.toRingHom.comp MvPolynomial.C) =
       (UniformSpace.Completion.coeRingHom : T →+* D).comp (algebraMap C T)
     rw [hqconst]
@@ -203,9 +202,9 @@ public theorem isAdic_and_isTopologicallyOfFiniteType_completedTensorProduct_bas
     hDweak.2.2
   exact (RingHom.isAdic_iff_isTaut
     (algebraMap C (TopologicalRing.CompletedTensorProduct (R := R) (M := A) (N := C)))
-    continuous_algebraMap_completedTensorProduct_right hCfg).mpr
+    hCfg).mpr
       (RingHom.isTaut_completedTensorProduct_baseChange hRA hRC
-        (RingHom.isTaut_of_isAdic (algebraMap R A) hRA hPadic))
+        (RingHom.isTaut_of_isAdic (algebraMap R A) hPadic))
 
 end
 

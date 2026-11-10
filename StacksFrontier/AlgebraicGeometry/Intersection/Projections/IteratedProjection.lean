@@ -128,7 +128,7 @@ variable [IsAlgClosed k] [FiniteDimensional k V]
 nonsingular closed points and for the local isomorphism of the projection on a smaller closed
 subvariety.** Let `V` have dimension `m + 2`, let `X ⊆ 𝐏(V)` be a closed subvariety of dimension `m`
 other than `𝐏(V)`, let `Z ⊊ X` be an irreducible closed subscheme, let `a t` be finitely many
-nonsingular closed points of `X` and let `b s` be finitely many points of `Z` which are nonsingular
+nonsingular points of `X` and let `b s` be finitely many points of `Z` which are nonsingular
 on `X`. Then there is a nonempty Zariski open `U ⊆ 𝐏(V)` such that for every closed point `p ∈ U`
 the projection `r_p` is defined on `X` and the resulting morphism `r_p|_X : X ⟶ 𝐏(W_p)` is
 
@@ -147,7 +147,7 @@ public theorem exists_isOpen_forall_closedPoint_good_projection {m : ℕ}
     (iZ : Z ⟶ projectiveSpaceOfModule k V) [IsClosedImmersion iZ] [IrreducibleSpace Z]
     (e : Z ⟶ X) (he : e ≫ iX = iZ) (hZX : ¬ IsIso e) (hXP : ¬ IsIso iX)
     (hdimX : topologicalKrullDim X + 1 = ((m + 1 : ℕ) : WithBot ℕ∞))
-    {α : Type*} [Finite α] (a : α → X) (hac : ∀ t, IsClosed ({a t} : Set X))
+    {α : Type*} [Finite α] (a : α → X)
     (hareg : ∀ t, a t ∈ regularLocus X)
     {β : Type*} [Finite β] (b : β → Z)
     (hbreg : ∀ s, e (b s) ∈ regularLocus X) :

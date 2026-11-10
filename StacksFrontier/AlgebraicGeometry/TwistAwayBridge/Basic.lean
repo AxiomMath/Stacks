@@ -114,7 +114,7 @@ public theorem localizedAwayEquiv_mk (f x : A) (s : Submonoid.powers f) :
     simp only [Algebra.linearMap_apply, ← Localization.mk_one_eq_algebraMap,
       Localization.mk_eq_mk_iff, Localization.r_iff_exists]
     exact ⟨1, by simp⟩
-  show (IsLocalizedModule.iso (Submonoid.powers f)
+  change (IsLocalizedModule.iso (Submonoid.powers f)
     (Algebra.linearMap A (Localization.Away f))) (LocalizedModule.mk x s) = _
   rw [← h, LinearEquiv.apply_symm_apply]
 

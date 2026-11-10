@@ -272,7 +272,7 @@ followed by `f_*` of the first component of `a`. -/
 theorem glue_map_fst {A A' : CategoricalPullback ju gu} (a : A ⟶ A') :
     (glue adjJ adjG c).map a ≫ pullback.fst (toOverlapFst adjJ c A') (toOverlapSnd adjG A') =
       pullback.fst (toOverlapFst adjJ c A) (toOverlapSnd adjG A) ≫ fl.map a.fst := by
-  simp [glue, pullback.map, pullback.lift_fst]
+  simp [glue, pullback.map]
 
 /-- The glueing of a morphism `a`, followed by the projection to `i_* G`, is that projection
 followed by `i_*` of the second component of `a`. -/
@@ -280,7 +280,7 @@ followed by `i_*` of the second component of `a`. -/
 theorem glue_map_snd {A A' : CategoricalPullback ju gu} (a : A ⟶ A') :
     (glue adjJ adjG c).map a ≫ pullback.snd (toOverlapFst adjJ c A') (toOverlapSnd adjG A') =
       pullback.snd (toOverlapFst adjJ c A) (toOverlapSnd adjG A) ≫ il.map a.snd := by
-  simp [glue, pullback.map, pullback.lift_snd]
+  simp [glue, pullback.map]
 
 omit [HasPullbacks 𝒳] in
 /-- The transposes of `a : f^* F ⟶ G'` and `b : i^* F ⟶ G` agree in `i_* g_* j^* G'` if and only

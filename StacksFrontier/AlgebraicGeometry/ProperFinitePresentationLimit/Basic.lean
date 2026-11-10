@@ -148,7 +148,7 @@ proper. -/
 theorem isProper_properStageStructure_app (j : X ⟶ Y) [IsClosedImmersion j] (p : Y ⟶ S)
     [IsProper p] (i : (FinitePresentationSubscheme j.ker)ᵒᵖ) :
     IsProper ((properStageStructure j p).app i) := by
-  show IsProper (((subschemeDiagram j.ker).obj i).hom ≫ p)
+  change IsProper (((subschemeDiagram j.ker).obj i).hom ≫ p)
   infer_instance
 
 /-- Every stage is of finite presentation over `S` as soon as `Y` is: each stage is of finite
@@ -163,7 +163,7 @@ theorem properStageCone_comp_properStageStructure (j : X ⟶ Y) [IsClosedImmersi
     properStageCone j ≫ properStageStructure j p =
       (Functor.const (FinitePresentationSubscheme j.ker)ᵒᵖ).map (j ≫ p) := by
   ext i
-  show (properStageCone j).app i ≫ ((subschemeDiagram j.ker).obj i).hom ≫ p = j ≫ p
+  change (properStageCone j).app i ≫ ((subschemeDiagram j.ker).obj i).hom ≫ p = j ≫ p
   rw [← Category.assoc, properStageCone_app_comp_hom]
 
 /-- **Limits, Tag 09ZR from its single-stage form.** Let `f : X ⟶ S` be a morphism onto a

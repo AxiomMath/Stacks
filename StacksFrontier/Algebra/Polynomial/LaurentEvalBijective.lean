@@ -139,7 +139,7 @@ theorem bijective_eval₂_of_isHomogeneousOf
       hmul _ _ _ _ (hpow _) hy
     rw [neg_add_cancel] at h0
     refine ⟨φ.symm (e (↑(x ^ (-k)) * e.symm (DirectSum.of M k y)) 0), k, ?_⟩
-    show e.symm (DirectSum.of M k y) = _
+    change e.symm (DirectSum.of M k y) = _
     rw [← hdeg0 _ h0, mul_comm, ← mul_assoc, zpow_neg, Units.mul_inv, one_mul]
 
 end Graded

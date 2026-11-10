@@ -52,12 +52,12 @@ private theorem apply_eq_apply_of_span_eq {T : Type w} [TopologicalSpace T] {�
   | add y z hy hz ihy ihz =>
     have : (⟨y + z, hx⟩ : 𝔞) = ⟨y, hs ▸ hy⟩ + ⟨z, hs ▸ hz⟩ := rfl
     rw [this, map_add]
-    show φ ⟨y, _⟩ t + φ ⟨z, _⟩ t = φ ⟨y, _⟩ t' + φ ⟨z, _⟩ t'
+    change φ ⟨y, _⟩ t + φ ⟨z, _⟩ t = φ ⟨y, _⟩ t' + φ ⟨z, _⟩ t'
     rw [ihy, ihz]
   | smul r y hy ihy =>
     have : (⟨r • y, hx⟩ : 𝔞) = r • ⟨y, hs ▸ hy⟩ := rfl
     rw [this, map_smul]
-    show r • φ ⟨y, _⟩ t = r • φ ⟨y, _⟩ t'
+    change r • φ ⟨y, _⟩ t = r • φ ⟨y, _⟩ t'
     rw [ihy]
 
 /-- **Baer's criterion for locally constant maps into an injective module.** -/
@@ -85,24 +85,24 @@ theorem baer_locallyConstant [Small.{v} R] [Module.Injective R M] (T : Type w)
         simp }
   let ext : (V → M) → (s → M) → M := fun g w => if hw : w ∈ V then g ⟨w, hw⟩ else 0
   have hext : ∀ (g : V → M) (t : T), ext g (π t) = g ⟨π t, t, rfl⟩ := fun g t =>
-    dif_pos ⟨t, rfl⟩
+    dite_eq_left ⟨t, rfl⟩
   let ι : (V → M) →ₗ[R] LocallyConstant T M :=
     { toFun := fun g => π.map (ext g)
       map_add' := fun g₁ g₂ => by
         ext t
-        show ext (g₁ + g₂) (π t) = ext g₁ (π t) + ext g₂ (π t)
+        change ext (g₁ + g₂) (π t) = ext g₁ (π t) + ext g₂ (π t)
         rw [hext, hext, hext]
         rfl
       map_smul' := fun r g => by
         ext t
-        show ext (r • g) (π t) = r • ext g (π t)
+        change ext (r • g) (π t) = r • ext g (π t)
         rw [hext, hext]
         rfl }
   have : Small.{max u v} R := small_lift R
   obtain ⟨ψ', hψ'⟩ := Module.Baer.of_injective (R := R) (Q := V → M) inferInstance 𝔞 φ'
   refine ⟨ι ∘ₗ ψ', fun x hx => ?_⟩
   ext t
-  show ext (ψ' x) (π t) = φ ⟨x, hx⟩ t
+  change ext (ψ' x) (π t) = φ ⟨x, hx⟩ t
   rw [hext, hψ' x hx]
   exact hπ _ _ (hpt _) x hx
 

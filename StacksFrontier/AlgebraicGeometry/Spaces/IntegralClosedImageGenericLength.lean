@@ -173,7 +173,7 @@ theorem IntegralClosedSubspace.isProper_toClosureImage (hY : IsAlgebraicSpace B 
 
 /-- The generic point of `Z` maps to the generic point of `f(Z)`. -/
 theorem IntegralClosedSubspace.isGenericPoint_pointsMap_toClosureImage
-    (hY : IsAlgebraicSpace B S hS Y) (hX : IsAlgebraicSpace B S hS X)
+    (hX : IsAlgebraicSpace B S hS X)
     (hXdec : IsDecentSpace B S hS X) (f : Y ⟶ X) (Z : IntegralClosedSubspace B S hS Y) :
     IsGenericPoint
       (pointsMap B S hS Z.subspace.toFunctor
@@ -215,7 +215,7 @@ noncomputable abbrev IntegralClosedSubspace.toClosureImageSituation (hY : IsAlge
     (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) (Z.genericPoint B S hS)
   isGenericPoint_sourcePoint := Z.closure_singleton_genericPoint B S hS
   isGenericPoint_targetPoint :=
-    IntegralClosedSubspace.isGenericPoint_pointsMap_toClosureImage B S hS hY hX hXdec f Z
+    IntegralClosedSubspace.isGenericPoint_pointsMap_toClosureImage B S hS hX hXdec f Z
 
 /-- **Stacks 0EDC for `Z ⟶ f(Z)`.** For a proper morphism `f : Y ⟶ X` into a decent locally
 Noetherian algebraic space, the dimension of an integral closed subspace `Z ⊂ Y` is the
@@ -289,7 +289,6 @@ the generic point of `Z` is the only point of `Z` over the generic point of `f(Z
 theorem IntegralClosedSubspace.finite_and_unique_of_hasTranscendenceDegreeAt_zero
     (hY : IsAlgebraicSpace B S hS Y) (hX : IsAlgebraicSpace B S hS X)
     (hXdec : IsDecentSpace B S hS X)
-    (hXLN : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (f : Y ⟶ X) (hf : IsProper B S hS f) (Z : IntegralClosedSubspace B S hS Y)
     (h0 : HasTranscendenceDegreeAt B S hS
       (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) (Z.genericPoint B S hS) 0) :
@@ -312,7 +311,7 @@ theorem IntegralClosedSubspace.finite_and_unique_of_hasTranscendenceDegreeAt_zer
     (IntegralClosedSubspace.isProper_toClosureImage B S hS hY hX hXdec f hf Z).2.1.1
     (IntegralClosedSubspace.isDominant_toClosureImage B S hS hX hXdec f Z)
     (Z.closure_singleton_genericPoint B S hS)
-    (IntegralClosedSubspace.isGenericPoint_pointsMap_toClosureImage B S hS hY hX hXdec f Z)).1
+    (IntegralClosedSubspace.isGenericPoint_pointsMap_toClosureImage B S hS hX hXdec f Z)).1
   exact ⟨(h.out 1 2).1 h0, (h.out 1 5).1 h0⟩
 
 /-- **The degree of `Z ⟶ f(Z)` is positive** (Stacks 0AD6) once the transcendence degree of the
@@ -320,7 +319,6 @@ generic point of `Z` over that of `f(Z)` is zero. -/
 theorem IntegralClosedSubspace.degree_toClosureImage_pos
     (hY : IsAlgebraicSpace B S hS Y) (hX : IsAlgebraicSpace B S hS X)
     (hXdec : IsDecentSpace B S hS X)
-    (hXLN : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (f : Y ⟶ X) (hf : IsProper B S hS f) (Z : IntegralClosedSubspace B S hS Y)
     (h0 : HasTranscendenceDegreeAt B S hS
       (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) (Z.genericPoint B S hS) 0) :
@@ -330,7 +328,7 @@ theorem IntegralClosedSubspace.degree_toClosureImage_pos
       (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) :=
   degree_pos B S hS _ _ _ _ _ (Z.closure_singleton_genericPoint B S hS)
     (IntegralClosedSubspace.finite_and_unique_of_hasTranscendenceDegreeAt_zero B S hS hY hX hXdec
-      hXLN f hf Z h0).1
+      f hf Z h0).1
 
 /-! ### The length of the direct image at the generic point of the image -/
 
@@ -358,7 +356,6 @@ private theorem pointsMap_ι_comp_eq_pointsMap_toClosureImage
 theorem IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton
     (hY : IsAlgebraicSpace B S hS Y) (hX : IsAlgebraicSpace B S hS X)
     (hXdec : IsDecentSpace B S hS X)
-    (hXLN : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (f : Y ⟶ X) (hf : IsProper B S hS f) (Z : IntegralClosedSubspace B S hS Y)
     (h0 : HasTranscendenceDegreeAt B S hS
       (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) (Z.genericPoint B S hS) 0)
@@ -380,9 +377,9 @@ theorem IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton
   have : Mono W.subspace.ι := inferInstanceAs (Mono (Subfunctor.ι _))
   have hinj := pointsMap_injective_of_mono B S hS W.subspace.ι
   have huniq := (IntegralClosedSubspace.finite_and_unique_of_hasTranscendenceDegreeAt_zero B S hS
-    hY hX hXdec hXLN f hf Z h0).2
+    hY hX hXdec f hf Z h0).2
   ext z
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   refine ⟨fun hz => huniq z (hinj ?_), fun hz => hz ▸ hηζ.symm⟩
   rw [← hgt, ← hgt, hz, hηζ]
 
@@ -436,7 +433,7 @@ theorem IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree
   have hg : IsProper B S hS g.hom := hZf
   have hgt := pointsMap_ι_comp_eq_pointsMap_toClosureImage B S hS hX hXdec f Z
   have hfibre : {z : points B S hS ZA.1 | pointsMap B S hS ZA.1 g.hom z = η} = {ζ} :=
-    IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton B S hS hY hX hXdec hXLN f hf Z h0 hη
+    IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton B S hS hY hX hXdec f hf Z h0 hη
   have hmax : ∀ z ∈ supportOfSheaf B S hS ZA.1
       ((SheafOfModules.toSheaf _).obj (structureSheafModule B S hS ZA)),
       η ∈ closure {pointsMap B S hS ZA.1 g.hom z} → pointsMap B S hS ZA.1 g.hom z = η := by
@@ -451,7 +448,7 @@ theorem IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree
   rw [hfibre, finsum_mem_singleton] at hL
   have hgenZ : ζ ∈ genericPoints (points B S hS ZA.1) := by
     have : IrreducibleSpace (points B S hS ZA.1) := Z.isIntegralSpace.2.2
-    show closure {ζ} ∈ irreducibleComponents _
+    change closure {ζ} ∈ irreducibleComponents _
     rw [Z.closure_singleton_genericPoint B S hS, irreducibleComponents_eq_singleton]
     rfl
   have hone := geometricLength_structureSheafModule_eq_one_of_isIntegralSpace B S hS ZA
@@ -459,7 +456,7 @@ theorem IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree
     ((canonicalGeometricPoint_image B S hS ZA.1 ζ).symm ▸ hgenZ)
   have hdeg : residueFieldDegreeAt B S hS hX hZdec hXdec g.hom ζ =
       residueFieldDegreeAt B S hS W.isClosedSubspace.1 hZdec hWdec t ζ := by
-    show residueFieldDegreeAt B S hS hX hZdec hXdec (Z.subspace.ι ≫ f) ζ = _
+    change residueFieldDegreeAt B S hS hX hZdec hXdec (Z.subspace.ι ≫ f) ζ = _
     rw [← IntegralClosedSubspace.toClosureImage_ι B S hS hX hXdec f Z,
       residueFieldDegreeAt_comp B S hS W.isClosedSubspace.1 hX hZdec hWdec hXdec t W.subspace.ι ζ,
       residueFieldDegreeAt_eq_one_of_mono B S hS hX hWdec hXdec W.subspace.ι, mul_one]
@@ -468,12 +465,12 @@ theorem IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree
     degree_eq_residueFieldDegreeAt B S hS Z.isClosedSubspace.1 W.isClosedSubspace.1
       Z.isIntegralSpace W.isIntegralSpace t (Z.closure_singleton_genericPoint B S hS)
   rw [hone, hdeg, ENat.toNat_one, one_mul, ← hdegree] at hL
-  have hpos := IntegralClosedSubspace.degree_toClosureImage_pos B S hS hY hX hXdec hXLN f hf Z h0
+  have hpos := IntegralClosedSubspace.degree_toClosureImage_pos B S hS hY hX hXdec f hf Z h0
   have hne : geometricLength B S hS XA ybar
       ((modulePushforward B S hS g).obj (structureSheafModule B S hS ZA)) ≠ ⊤ := fun htop => by
     rw [htop, ENat.toNat_top] at hL
     exact hpos.ne hL
-  rw [← hL, ENat.coe_toNat hne]
+  rw [← hL, ENat.natCast_toNat hne]
 
 /-! ### The support of the direct image -/
 
@@ -523,14 +520,14 @@ theorem IntegralClosedSubspace.mem_supportOfSheaf_modulePushforward
       (⟨Z.subspace.toFunctor, Z.isClosedSubspace.1⟩ : AlgebraicSpaces B S hS) ⟶ ⟨X, hX⟩)
     hg.2.1.2 (isQuasiSeparated_of_isSeparated B S hS hg.1)
     (structureSheafModule B S hS ⟨Z.subspace.toFunctor, Z.isClosedSubspace.1⟩) inferInstance
-  have hpos := IntegralClosedSubspace.degree_toClosureImage_pos B S hS hY hX hXdec hXLN f hf Z h0
+  have hpos := IntegralClosedSubspace.degree_toClosureImage_pos B S hS hY hX hXdec f hf Z h0
   have hlen := IntegralClosedSubspace.geometricLength_modulePushforward_eq_degree B S hS hY hX
     hXdec hXLN f hf Z h0 hη (canonicalGeometricPoint B S hS X η)
     (canonicalGeometricPoint_image B S hS X η)
   refine (mem_supportOfSheaf_iff_nontrivial_geometricModuleStalk_of_liesOver B S hS ⟨X, hX⟩ _
     (canonicalGeometricPoint B S hS X η) η (canonicalGeometricPoint_image B S hS X η)).2 ?_
   rw [← Module.length_pos_iff (R := etaleLocalRing B S hS X (canonicalGeometricPoint B S hS X η))]
-  show 0 < geometricLength B S hS ⟨X, hX⟩ _ _
+  change 0 < geometricLength B S hS ⟨X, hX⟩ _ _
   rw [hlen]
   exact_mod_cast hpos
 
@@ -663,7 +660,6 @@ applies. -/
 theorem IntegralClosedSubspace.notMem_supportOfSheaf_rightDerived_modulePushforward
     (hY : IsAlgebraicSpace B S hS Y) (hX : IsAlgebraicSpace B S hS X)
     (hXdec : IsDecentSpace B S hS X)
-    (hXLN : HasEtaleLocalProperty B S hS X (fun T : Scheme.{u} => IsLocallyNoetherian T))
     (f : Y ⟶ X) (hf : IsProper B S hS f) (Z : IntegralClosedSubspace B S hS Y)
     (h0 : HasTranscendenceDegreeAt B S hS
       (IntegralClosedSubspace.toClosureImage B S hS hX hXdec f Z) (Z.genericPoint B S hS) 0)
@@ -685,8 +681,8 @@ theorem IntegralClosedSubspace.notMem_supportOfSheaf_rightDerived_modulePushforw
     (Z := ⟨Z.subspace.toFunctor, Z.isClosedSubspace.1⟩) (X := ⟨X, hX⟩) Z.isIntegralSpace.2.1 hXdec
     _ (isProper_ι_comp B S hS hY hX f hf Z) _ inferInstance
     (by
-      show {z | pointsMap B S hS Z.subspace.toFunctor (Z.subspace.ι ≫ f) z = η}.Finite
-      rw [IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton B S hS hY hX hXdec hXLN f hf Z
+      change {z | pointsMap B S hS Z.subspace.toFunctor (Z.subspace.ι ≫ f) z = η}.Finite
+      rw [IntegralClosedSubspace.setOf_pointsMap_eq_eq_singleton B S hS hY hX hXdec f hf Z
         h0 hη]
       exact Set.finite_singleton _) q hq
 

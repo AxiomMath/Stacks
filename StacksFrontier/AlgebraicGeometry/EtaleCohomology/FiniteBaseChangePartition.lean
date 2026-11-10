@@ -128,7 +128,7 @@ theorem exists_etale_partition_refining_of_isFinite
     (ρ₁ i) ⁻¹ᵁ (coprod.inl ≫ (e₁ i).hom).opensRange ⊓ ρ₀ ⁻¹ᵁ D (κ i)
   have hℓO (i : I) : (ℓ i) default ∈ O i := by
     refine ⟨?_, hκ i⟩
-    show (ρ₁ i) ((ℓ i) default) ∈ Set.range (coprod.inl ≫ (e₁ i).hom)
+    change (ρ₁ i) ((ℓ i) default) ∈ Set.range (coprod.inl ≫ (e₁ i).hom)
     refine ⟨u₁ i default, ?_⟩
     rw [← Scheme.Hom.comp_apply, ← hℓ₁ i, Scheme.Hom.comp_apply]
   have hOdis : Pairwise fun i j ↦ Disjoint (O i).1 (O j).1 := by
@@ -174,7 +174,7 @@ theorem exists_etale_partition_refining_of_isFinite
       exact hq'
   have hℓ'r (i : I) : Set.range (ℓ' i) ⊆ Set.range (N i).ι := by
     refine hrange _ _ ?_
-    show τ (ℓ' i default) ∈ O i
+    change τ (ℓ' i default) ∈ O i
     rw [← Scheme.Hom.comp_apply, hℓ' i]
     exact hℓO i
   refine ⟨A.toScheme, inferInstance, e', inferInstance, q', hq'e, N, fun i ↦ c i ≫ h₁ i,
@@ -195,7 +195,7 @@ theorem exists_etale_partition_refining_of_isFinite
   · exact Set.disjoint_left.mpr fun z hz hz' ↦
       Set.disjoint_left.mp (hOdis hij) (show τ z ∈ O i from hz) (show τ z ∈ O j from hz')
   · have hz : τ z ∈ (pullback.snd f e) ⁻¹' (O' : Set T) := by
-      show (pullback.snd f e) (τ z) ∈ O'
+      change (pullback.snd f e) (τ z) ∈ O'
       rw [← Scheme.Hom.comp_apply]
       have hτ : τ ≫ pullback.snd f e = pullback.snd f e' ≫ A.ι := by
         simp only [τ, pullback.lift_snd]

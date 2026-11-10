@@ -35,8 +35,9 @@ its derived pullback to `Z` is the module associated with `𝒪(W) ⊗^L_{𝒪(V
 ## Main results
 
 * `RingTheory.TorIndependence.isIso_comparison_app_restrictScalars_single_of_torIndependent`
-* `AlgebraicGeometry.Space.isIso_smallEtaleDerivedModulePullbackComparison_app_representedAffineAssociated`
-* `AlgebraicGeometry.Space.isIso_smallEtaleDerivedModulePullbackComparison_app_pushforwardStructure`
+* In the namespace `AlgebraicGeometry.Space`:
+  * `isIso_smallEtaleDerivedModulePullbackComparison_app_representedAffineAssociated`
+  * `isIso_smallEtaleDerivedModulePullbackComparison_app_pushforwardStructure`
 
 ## References
 
@@ -64,8 +65,8 @@ theorem isIso_comparison_app_restrictScalars_single_of_torIndependent
     (D : CochainComplex.DerivedExtensionScalars.TotalDerivedExtensionScalars.{u, u, u} φ) :
     IsIso (D.comparison.app ((CochainComplex.restrictScalarsLarge.{u, u, u} ψ).obj
       ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)))) := by
-  letI := ψ.toAlgebra
-  letI := φ.toAlgebra
+  let := ψ.toAlgebra
+  let := φ.toAlgebra
   exact @isIso_extendScalarsCounit_app_restrict_of_torIndependent.{u, u, u, u} _ _ _ _ _ _ _ _ _ _
     hTor D.functor D.comparison D.isLeftDerived _
     (CochainComplex.DerivedTensor.kFlat_single_of_flat _)
@@ -107,7 +108,7 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_representedAffineAss
   have h₁ : IsIso (((Functor.associator _ _ _).inv ≫
       Functor.whiskerRight (representedAffineDerivedExtension B S hS g).comparison
         (representedAffineDerivedAssociated B S hS U')).app K) := by
-    haveI := hK
+    have := hK
     dsimp
     infer_instance
   have h₂ : IsIso ((representedAffineDerivedBaseChangeHom B S hS g).app
@@ -120,7 +121,8 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_representedAffineAss
       ((representedAffineDerivedAssociatedFactors B S hS U).hom.app K)) :=
     @Functor.map_isIso _ _ _ _ _ _ _ _
       (Iso.isIso_hom ((representedAffineDerivedAssociatedFactors B S hS U).app K))
-  have i₂ : IsIso (DerivedCategory.Qh.map ((representedAffineHomotopyPullbackIso B S hS g).hom.app K) ≫
+  have i₂ : IsIso (DerivedCategory.Qh.map
+      ((representedAffineHomotopyPullbackIso B S hS g).hom.app K) ≫
       (representedAffineDerivedAssociatedFactors B S hS U').inv.app
         (((ModuleCat.extendScalars.{u, u, u}
           (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
@@ -200,8 +202,8 @@ theorem torIndependent_appTop_of_torIndependent (f : X ⟶ Y) (g : Y' ⟶ Y)
         Γ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y'.1).obj W), ⊤)
         Γ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj Z), ⊤) := by
     rintro α β rfl rfl h
-    letI := (representedAffineCommRingCatHom B S hS c).hom.toAlgebra
-    letI := (representedAffineCommRingCatHom B S hS b).hom.toAlgebra
+    let := (representedAffineCommRingCatHom B S hS c).hom.toAlgebra
+    let := (representedAffineCommRingCatHom B S hS b).hom.toAlgebra
     exact (RingTheory.TorIndependence.torIndependent_iff_isZero_tor _ _ _).2 h
   exact key _ _ (Scheme.Hom.appLE_eq_app _) (Scheme.Hom.appLE_eq_app _) h₅
 
@@ -269,12 +271,12 @@ theorem nonempty_pullbackModules_pushforwardModules_unit_iso (g : Y' ⟶ Y)
   let uf := (pushforwardOnHomotopy (X := smallEtaleRingedTopos B S hS Y')
     (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposHom B S hS g)).totalRightDerivedUnit
       DerivedCategory.Qh (sourceQuasiIso (smallEtaleRingedTopos B S hS Y'))
-  haveI : Pv.Additive := pullbackModules_smallEtale_additive _
-  haveI := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS v hv N
-  haveI := isIso_totalRightDerivedUnit_app_structureHomotopy B S hS g hg
-  haveI := isIso_smallEtaleDerivedBaseChangeMap_of_isEtale B S hS g v p v' sq hv hvr
+  have : Pv.Additive := pullbackModules_smallEtale_additive _
+  have := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS v hv N
+  have := isIso_totalRightDerivedUnit_app_structureHomotopy B S hS g hg
+  have := isIso_smallEtaleDerivedBaseChangeMap_of_isEtale B S hS g v p v' sq hv hvr
     (structureDerived Y')
-  haveI := isIso_representedAffineTransportUnit B S hS c hp MA
+  have := isIso_representedAffineTransportUnit B S hS c hp MA
   let eK := pullbackPushforwardUnitHomotopyIso B S hS g v
   let D₁ : (DerivedCategory.singleFunctor _ 0).obj (Pv.obj (Pg.obj O')) ≅
       Lv.obj (DerivedCategory.Qh.obj N) :=
@@ -333,15 +335,18 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_pullback_pushforward
   let A := Γ((BigFppfOver.toScheme B S hS).obj T', ⊤)
   let K := (CochainComplex.restrictScalarsLarge.{u, u, u} ψ).obj
     ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A))
-  have hK := RingTheory.TorIndependence.isIso_comparison_app_restrictScalars_single_of_torIndependent
-    ψ (representedAffineCommRingCatHom B S hS b).hom hTor (representedAffineDerivedExtension B S hS b)
+  have hK :=
+    RingTheory.TorIndependence.isIso_comparison_app_restrictScalars_single_of_torIndependent
+      ψ (representedAffineCommRingCatHom B S hS b).hom hTor
+      (representedAffineDerivedExtension B S hS b)
   have h := isIso_smallEtaleDerivedModulePullbackComparison_app_representedAffineAssociated
     B S hS b K hK
   let assoc := representedAffineAssociated B S hS T
   let res := ModuleCat.restrictScalars.{u} ψ
   let eH : (smallEtalePullbackMapHomotopy B S hS v).obj
       ((smallEtalePushforwardMapHomotopy B S hS g).obj (structureHomotopy B S hS Y')) ≅
-      (HomotopyCategory.quotient _ _).obj ((assoc.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) :=
+      (HomotopyCategory.quotient _ _).obj
+        ((assoc.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) :=
     pullbackPushforwardUnitHomotopyIso B S hS g v ≪≫ (HomotopyCategory.quotient _ _).mapIso
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).mapIso eM ≪≫
         ((HomologicalComplex.singleMapHomologicalComplex assoc (ComplexShape.up ℤ) 0).app
@@ -366,12 +371,12 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_pushforwardStructure
   obtain ⟨T, hT, ⟨e⟩⟩ := hY
   let V : SmallEtale B S hS Y.1 :=
     ⟨CostructuredArrow.mk e.inv, isEtaleChart_of_isIso B S hS T e.inv⟩
-  haveI hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y.1).obj V)) :=
+  have hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y.1).obj V)) :=
     hT
   let W := (smallBaseChange B S hS g hrg).obj V
   have hW' : IsAffine ((SmallEtale.toOver B S hS Y'.1 ⋙ BigFppfOver.toScheme B S hS).obj W) :=
     isAffine_smallBaseChange_obj B S hS g hrg hg V hV
-  haveI hW : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y'.1).obj W)) :=
+  have hW : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y'.1).obj W)) :=
     hW'
   let c : (SmallEtale.toOver B S hS Y'.1).obj W ⟶ (SmallEtale.toOver B S hS Y.1).obj V :=
     hrg.snd V.1.hom
@@ -386,7 +391,7 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_pushforwardStructure
   have hvr : yoneda.relativelyRepresentable v.hom := relativelyRepresentable_chartToSpace B S hS Y V
   refine isIso_of_isIso_smallEtaleDerivedModulePullback_chartToSpace B S hS
     (SmallEtale.coversTop_affineCharts B S hS X.1) _ fun ⟨Z, hZ⟩ => ?_
-  haveI : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj Z)) := hZ
+  have : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj Z)) := hZ
   let u : representedAlgebraicSpace B S hS ((SmallEtale.toOver B S hS X.1).obj Z) ⟶ X :=
     ObjectProperty.homMk Z.1.hom
   have hu : IsEtale B S hS u.hom := isEtale_chartToSpace B S hS X Z
@@ -404,16 +409,16 @@ theorem isIso_smallEtaleDerivedModulePullbackComparison_app_pushforwardStructure
       (representedSpaceMap B S hS b ≫ v)).app N) := by
     have e₁ := smallEtaleDerivedModulePullbackCompIso_hom_app_comparison B S hS
       (representedSpaceMap B S hS b) v N
-    haveI := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS v hv N
-    haveI := hchart
+    have := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS v hv N
+    have := hchart
     exact IsIso.of_isIso_fac_left e₁
   -- the comparison along `u ≫ f`
   have huf : IsIso ((smallEtaleDerivedModulePullbackComparison B S hS (u ≫ f)).app N) :=
     hw ▸ hbv
   have e₃ := smallEtaleDerivedModulePullbackCompIso_hom_app_comparison B S hS u f N
-  haveI := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS u hu
+  have := isIso_smallEtaleDerivedModulePullbackComparison_app_of_isEtale B S hS u hu
     ((smallEtalePullbackMapHomotopy B S hS f).obj N)
-  haveI := huf
+  have := huf
   have key : IsIso ((smallEtaleDerivedModulePullback B S hS u).map
       ((smallEtaleDerivedModulePullbackComparison B S hS f).app N)) :=
     IsIso.of_isIso_fac_right e₃.symm

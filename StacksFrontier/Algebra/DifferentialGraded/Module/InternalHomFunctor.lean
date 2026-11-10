@@ -114,7 +114,7 @@ private theorem homPostcomp_apply {X Y : DifferentialGradedModule B}
       ((HY.homogeneousEquiv (n + p)).symm
         (homogeneousMapComp B (rfl : n + p = n + p) f (HX.homogeneousEquiv p g)) :
           HY.module.M) := by
-  show (DirectSum.toModule R ℤ HY.module.M
+  change (DirectSum.toModule R ℤ HY.module.M
     (fun i => homPostcompComponent A B N L HX HY n i f))
     ((DirectSum.decomposeLinearEquiv HX.module.grading) (g : HX.module.M)) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]

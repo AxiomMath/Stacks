@@ -100,8 +100,8 @@ Two things remain carried, and neither is discharged anywhere here.
   `StacksFrontier/CategoryTheory/Sites/Simplicial/AugmentationCechComplex.lean` has that exactness
   only in the two lowest degrees, positive-degree exactness needing the resolution of
   Stacks 0D78 together with the injective-resolution argument that applies it; the resolution
-  itself is `CategoryTheory.SimplicialSiteSituation.Augmentation.resolution`. Neither is the first page of that sequence
-  identified with `R^q a_{p,*} K_p`; the two other Stacks 0D7A clauses in
+  itself is `CategoryTheory.SimplicialSiteSituation.Augmentation.resolution`. Neither is the first
+  page of that sequence identified with `R^q a_{p,*} K_p`; the two other Stacks 0D7A clauses in
   `AugmentationFirstPage.lean` and `AugmentationComponentPushforwardAb.lean` supply that term and
   its attachment to the double complex, not the identification. Without convergence the sequence
   says nothing about `R^p a_*`, so `hacyclic` cannot be read off it.

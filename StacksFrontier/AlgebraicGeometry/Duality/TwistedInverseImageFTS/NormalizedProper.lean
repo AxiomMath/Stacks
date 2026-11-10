@@ -131,8 +131,8 @@ def upperShriekObjIso (hωS : haveI := hp.base_noetherian; IsDualizingComplex ω
     (fun _ => inf_le_left)).exists.choose
 
 /-- A proper morphism of schemes of finite type over a Noetherian base is shriekable. -/
-theorem isShriekable_of_isProper (hp : IsFiniteTypeOverNoetherian p)
-    (hq : IsFiniteTypeOverNoetherian q) [IsProper f] : IsShriekable f :=
+theorem isShriekable_of_isProper (hq : IsFiniteTypeOverNoetherian q) [IsProper f] :
+    IsShriekable f :=
   { target_noetherian := hq.source_noetherian
     separatedFiniteType := ⟨⟨inferInstance, inferInstance⟩, inferInstance⟩ }
 
@@ -151,10 +151,10 @@ def twistedInverseImageObjIso
         𝒦Y.complex.obj ≅ 𝒦X.complex.obj :=
   haveI := hq.source_noetherian
   haveI := hp.source_noetherian
-  ((UpperShriek.shriekOfIsoOfIsProper c f (isShriekable_of_isProper hp hq)).app
+  ((UpperShriek.shriekOfIsoOfIsProper c f (isShriekable_of_isProper hq)).app
       𝒦Y.complex).symm ≪≫
     (ObjectProperty.ι _).mapIso
-      (upperShriekObjIso c hpe hωS (isShriekable_of_isProper hp hq) 𝒦X 𝒦Y).symm
+      (upperShriekObjIso c hpe hωS (isShriekable_of_isProper hq) 𝒦X 𝒦Y).symm
 
 /-- **[Stacks, Tag 0B6X], the trace map**, for the upper shriek functors of compactifications:
 for a proper `f : X ⟶ Y` of schemes of finite type over `S` and the dualizing complexes
@@ -209,7 +209,7 @@ theorem homEquivOfCompactifications_apply
         traceOfCompactifications c hpe hωS 𝒦X 𝒦Y := by
   have := hq.source_noetherian
   have := hp.source_noetherian
-  show relativeDualizingComplexHomEquiv f _ 𝒦Y.complex.obj L
+  change relativeDualizingComplexHomEquiv f _ 𝒦Y.complex.obj L
     (𝟙 L ≫ u ≫ (twistedInverseImageObjIso c hpe hωS 𝒦X 𝒦Y).inv) = _
   rw [relativeDualizingComplexHomEquiv_apply, Category.id_comp]
   exact (congrArg (· ≫ _) ((quasiCoherentDerivedPushforward f _).map_comp _ _)).trans

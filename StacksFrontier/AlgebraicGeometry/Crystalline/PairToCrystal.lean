@@ -171,7 +171,7 @@ def pointedScalarsMap {T T' : PointedThickening Dt} (u : T ⟶ T') :
 theorem pointedScalarsMap_smul {T T' : PointedThickening Dt} (u : T ⟶ T')
     (b : T.right.ring.carrier) (c : TwistedScalars (pointRingHom T)) :
     pointedScalarsMap u (b • c) = pointedHomRingHom u b • pointedScalarsMap u c := by
-  show pointedHomRingHom u (TwistedScalars.val (b • c)) =
+  change pointedHomRingHom u (TwistedScalars.val (b • c)) =
     pointedHomRingHom u b * pointedHomRingHom u c.val
   rw [TwistedScalars.val_smul, map_mul]
 
@@ -211,8 +211,7 @@ theorem pointedRestriction_smul {T T' : PointedThickening Dt} (u : T ⟶ T')
     (b : T.right.ring.carrier) (z : pointedSections M T) :
     pointedRestriction M u (b • z) =
       pointedHomRingHom u b • pointedRestriction M u z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c m =>
       rw [TensorProduct.smul_tmul', pointedRestriction_tmul, pointedRestriction_tmul,
         TensorProduct.smul_tmul', pointedScalarsMap_smul]
@@ -287,8 +286,7 @@ theorem pairToCrystal_map_app_smul
     (z : pointedSections P.carrier T) :
     LinearMap.lTensor (TwistedScalars (pointRingHom T)) phi.toLinearMap (b • z) =
       b • LinearMap.lTensor (TwistedScalars (pointRingHom T)) phi.toLinearMap z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c m => rw [TensorProduct.smul_tmul', LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
       TensorProduct.smul_tmul']
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]

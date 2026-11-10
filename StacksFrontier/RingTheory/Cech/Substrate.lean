@@ -72,14 +72,14 @@ theorem dvd_pow_prod {f : Fin r → R} {s : Finset (Fin r)}
   | mem y hy =>
       obtain ⟨i, hi, rfl⟩ := hy
       refine ⟨∏ j ∈ s.erase i, f j, 1, ?_⟩
-      show (∏ i ∈ s, f i) ^ 1 = _
+      change (∏ i ∈ s, f i) ^ 1 = _
       rw [pow_one]
       exact (Finset.prod_erase_mul _ _ (by exact_mod_cast hi)).symm
   | mul a b _ _ ha hb =>
       obtain ⟨ma, na, hna⟩ := ha
       obtain ⟨mb, nb, hnb⟩ := hb
       refine ⟨ma * mb, na + nb, ?_⟩
-      show (∏ i ∈ s, f i) ^ (na + nb) = _
+      change (∏ i ∈ s, f i) ^ (na + nb) = _
       simp only at hna hnb
       rw [pow_add, hna, hnb]
       push_cast

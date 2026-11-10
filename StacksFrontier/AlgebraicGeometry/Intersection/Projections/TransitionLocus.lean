@@ -200,7 +200,7 @@ omit [IsAlgClosed k] in
 public theorem finrank_transitionEquations {n : ℕ} (hV : Module.finrank k V = n + 1)
     {f f' : Module.Dual k V} (hf : f ≠ 0) (hf' : f' ≠ 0) :
     Module.finrank k (transitionEquations k V f f') = n := by
-  show Module.finrank k ((transitionSubmodule k V f f').dualAnnihilator) = n
+  change Module.finrank k ((transitionSubmodule k V f f').dualAnnihilator) = n
   have h1 := Subspace.finrank_add_finrank_dualAnnihilator_eq
     (transitionSubmodule k V f f' : Subspace k (V →ₗ[k] V))
   have h2 := Submodule.finrank_quotient_add_finrank (transitionSubmodule k V f f')

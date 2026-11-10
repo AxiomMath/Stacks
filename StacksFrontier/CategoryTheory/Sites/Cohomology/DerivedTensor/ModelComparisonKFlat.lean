@@ -128,7 +128,7 @@ identification `derivedTensorProductFunctorIsoDerivedBifunctor` of its bifunctor
 bifunctor of the total tensor complex, followed by the one-sided comparison of that derived
 bifunctor. -/
 theorem canonicalDerivedTensorProduct_comparison_hom (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((canonicalDerivedTensorProduct R).comparison K L hK hL).hom =
       ((derivedTensorProductFunctorIsoDerivedBifunctor R).hom.app (DerivedCategory.Q.obj K)).app
           (DerivedCategory.Q.obj L) ≫
@@ -178,7 +178,7 @@ followed by the image under the comparison equivalence of the inverse of the K-f
 the standard model. -/
 theorem derivedTensorProductFunctorModelIso_hom_app_app_of_kFlat
     [IsGrothendieckAbelian.{u} (Modules R)] (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((derivedTensorProductFunctorModelIso R).hom.app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj K)).app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj L) =
@@ -338,7 +338,7 @@ K-flat comparison at the standard model: for `K`, `L` K-flat, the component at `
 followed by `G` of the standard comparison is the comparison at the locally small model. -/
 theorem derivedTensorProductFunctorModelIso_hom_app_app_comp_map_comparison_hom
     [IsGrothendieckAbelian.{u} (Modules R)] (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((derivedTensorProductFunctorModelIso R).hom.app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj K)).app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj L) ≫
@@ -363,7 +363,7 @@ followed by the K-flat comparison at the locally small model, is the image under
 comparison at the standard model. -/
 theorem derivedTensorProductFunctorModelIso_inv_app_app_comp_comparison_hom
     [IsGrothendieckAbelian.{u} (Modules R)] (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((derivedTensorProductFunctorModelIso R).inv.app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj K)).app
         ((@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard (Modules R))).obj L) ≫

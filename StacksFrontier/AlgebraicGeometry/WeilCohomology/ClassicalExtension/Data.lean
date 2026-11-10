@@ -142,7 +142,7 @@ theorem pullTotal_congr {X : (SmoothProjectiveScheme k).FullSubcategory}
 the restriction `X_i ⟶ Y_j` of `f`. -/
 def extPull {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f : X ⟶ Y) :
     T.extH Y →ₐ[F] T.extH X :=
-  Pi.algHom F _ fun i ↦ (T.pullTotal (resIdx f i)).comp (Pi.evalAlgHom F _ (idxMap f i))
+  AlgHom.pi fun i ↦ (T.pullTotal (resIdx f i)).comp (Pi.evalAlgHom F _ (idxMap f i))
 
 /-- The component of `f^* a` at `X_i` is the pullback of the component of `a` at the component
 of `Y` into which `X_i` maps. -/
@@ -192,7 +192,7 @@ def restrictChow (X : (SmoothProjectiveScheme k).FullSubcategory) (i : Idx X) (r
 /-- The cycle class map `γ(α) = (γ(α|_{X_i}))_i` into `∏_i H^*(X_i)`, untwisted. -/
 def extCycleClassUntw (X : (SmoothProjectiveScheme k).FullSubcategory) (r : ℤ) :
     codimensionChowGroup k X.obj.hom r →+ T.extH X :=
-  Pi.addMonoidHom fun i ↦ (lof F ℤ (T.H (compAt X i)).piece (2 * r)).toAddMonoidHom.comp
+  AddMonoidHom.pi fun i ↦ (lof F ℤ (T.H (compAt X i)).piece (2 * r)).toAddMonoidHom.comp
     ((T.cycleClass (compAt X i) r).comp (restrictChow X i r))
 
 /-- The component of the untwisted cycle class of `α` at `X_i` is `γ(α|_{X_i})` in degree `2r`. -/

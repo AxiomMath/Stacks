@@ -66,7 +66,8 @@ ideal along an integral extension stays maximal, which is false for the prime sp
 With this, `CommRing.Pic.instSubsingletonPic` applies to the ring presenting
 `X ×_Y Spec 𝒪_{Y,t}`, so the Picard group there vanishes and every invertible module over it is
 free: that is `nonempty_linearEquiv_self_of_moduleFinite_of_isLocalRing`. The step then needs
-only the second missing input, which this file does not supply and which is restated here: **nothing identifies an invertible module sheaf on `Spec R` with an invertible
+only the second missing input, which this file does not supply and which is restated here: **nothing
+identifies an invertible module sheaf on `Spec R` with an invertible
 `R`-module**, so the invertible `𝒪_X`-module of the tag cannot yet be fed to the statements below,
 and the passage from a trivialization over the limit `X ×_Y Spec 𝒪_{Y,t}` to one over a finite
 stage `f⁻¹(U_t)` is a spreading-out that this file does not address either. No `stacks` attribute
@@ -237,7 +238,7 @@ theorem exists_mem_primeCompl_forall_exists_smul_eq
       rw [hσ, ← Finset.mul_prod_erase G sg hy]
       push_cast
       ring
-    show (σ : B) • y ∈ Submodule.span B ({m} : Set M)
+    change (σ : B) • y ∈ Submodule.span B ({m} : Set M)
     rw [hfac, mul_smul, hsb y]
     exact Submodule.smul_mem _ _
       (Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self m))

@@ -213,6 +213,9 @@ def rearrangeBwdCurry : M →+ C →+ B →+ ((B ⊗[R] C) ⊗[A ⊗[R] R'] M) :
     (fun m₁ m₂ => AddMonoidHom.ext fun c => AddMonoidHom.ext fun b => by
       simp only [AddMonoidHom.mk'_apply, AddMonoidHom.add_apply, TensorProduct.tmul_add])
 
+omit [Algebra A B] [IsScalarTower R A B] [Algebra R' C] [IsScalarTower R R' C] [Module A M]
+  [Module R' M] [IsScalarTower A (A ⊗[R] R') M] [IsScalarTower R' (A ⊗[R] R') M]
+  [SMulCommClass R' A M] in
 @[simp] theorem rearrangeBwdCurry_apply (m : M) (c : C) (b : B) :
     rearrangeBwdCurry (R := R) (A := A) m c b = (b ⊗ₜ[R] c) ⊗ₜ[A ⊗[R] R'] m := rfl
 
@@ -226,11 +229,13 @@ def rearrangeBwdHom : (M ⊗[R'] C) →+ (B →+ ((B ⊗[R] C) ⊗[A ⊗[R] R'] 
           rw [smul_tmul_tmul halg, one_smul],
         TensorProduct.smul_tmul, tmul_smul_eq, one_smul]
 
+omit [IsScalarTower R A B] [IsScalarTower R R' C] [SMulCommClass R' A M] in
 include halg in
 @[simp] theorem rearrangeBwdHom_tmul (m : M) (c : C) (b : B) :
     rearrangeBwdHom halg (m ⊗ₜ[R'] c) b = (b ⊗ₜ[R] c) ⊗ₜ[A ⊗[R] R'] m := by
   simp [rearrangeBwdHom]
 
+omit [IsScalarTower R A B] [IsScalarTower R R' C] in
 include halg in
 /-- The backward map is balanced over `A`. -/
 theorem rearrangeBwdHom_smul (a : A) (b : B) (x : M ⊗[R'] C) :
@@ -250,6 +255,7 @@ def rearrangeBwd : B ⊗[A] (M ⊗[R'] C) →+ (B ⊗[R] C) ⊗[A ⊗[R] R'] M :
     fun a b x => by
       simpa only [AddMonoidHom.flip_apply] using rearrangeBwdHom_smul halg a b x
 
+omit [IsScalarTower R A B] [IsScalarTower R R' C] in
 include halg in
 @[simp] theorem rearrangeBwd_tmul (b : B) (m : M) (c : C) :
     rearrangeBwd halg (b ⊗ₜ[A] (m ⊗ₜ[R'] c)) = (b ⊗ₜ[R] c) ⊗ₜ[A ⊗[R] R'] m := by
@@ -359,6 +365,7 @@ def localizedBaseEquiv [Algebra (A ⊗[R] R') (B ⊗[R] C)]
         | tmul a r' => rw [halg, halg']; rfl
       rw [hcoe, hcoe, Algebra.smul_def, Algebra.smul_def, map_mul, hmap]
 
+omit [IsScalarTower R A B] [IsScalarTower R R' C] in
 include S halg in
 @[simp] theorem localizedBaseEquiv_tmul [Algebra (A ⊗[R] R') (B ⊗[R] C)]
     (halg' : ∀ (a : A) (r' : R'),

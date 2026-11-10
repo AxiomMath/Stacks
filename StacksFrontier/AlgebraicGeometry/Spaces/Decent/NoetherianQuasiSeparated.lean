@@ -107,7 +107,7 @@ private theorem compactSpace_of_hasUniversallyBoundedFibers
     rw [Set.mem_iUnion]
     refine ⟨r, ?_⟩
     rw [Scheme.Pullback.range_fst]
-    show g.base x ∈ Set.range (i r).base
+    change g.base x ∈ Set.range (i r).base
     rwa [hrange]
   have hcompactUnion : IsCompact
       (⋃ r : Fin (n + 1), Set.range (pullback.fst g (i r)).base) := by
@@ -321,13 +321,13 @@ theorem presheafQuasiCompact_of_affine_etale_chart
   set aO := yoneda.map j ≫ a with haO
   have hOaff : IsAffine (F.obj (opensObject B S hS A O)) := hO
   have hONoeth : IsLocallyNoetherian (F.obj (opensObject B S hS A O)) := by
-    show IsLocallyNoetherian O.toScheme
+    change IsLocallyNoetherian O.toScheme
     infer_instance
   have hjetale : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       F).presheaf (yoneda.map j) :=
     (BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS
       (@Etale.{u} : MorphismProperty Scheme.{u}) j).2 (by
-        show Etale O.ι
+        change Etale O.ι
         infer_instance)
   have hOetale : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       F).presheaf aO :=
@@ -383,7 +383,7 @@ private lemma range_fst_of_isPullback
     {R W T U : Scheme.{u}} {r : R ⟶ W} {s : R ⟶ T} {p : W ⟶ U} {j : T ⟶ U}
     (h : IsPullback r s p j) : Set.range r = p ⁻¹' Set.range j := by
   rw [← h.isoPullback_hom_fst]
-  show Set.range ((Limits.pullback.fst p j) ∘ h.isoPullback.hom) = _
+  change Set.range ((Limits.pullback.fst p j) ∘ h.isoPullback.hom) = _
   rw [(show Function.Surjective h.isoPullback.hom from
     (inferInstance : Surjective h.isoPullback.hom).surj).range_comp]
   exact Scheme.Pullback.range_fst p j
@@ -472,7 +472,7 @@ private lemma presheafQuasiCompact_of_finite_source_cover
     obtain ⟨i, hi⟩ := hcover (F.map p w)
     exact ⟨i, by rwa [range_fst_of_isPullback ((hcart i).map F)]⟩
   · intro i
-    show IsCompact ((F.map (l i) ≫ F.map q) ⁻¹' O)
+    change IsCompact ((F.map (l i) ≫ F.map q) ⁻¹' O)
     rw [← Functor.map_comp, hlq]
     have _ : QuasiCompact (F.map (t i)) := (hqc i).property_snd g
     exact QuasiCompact.isCompact_preimage (f := F.map (t i)) O ho hc
@@ -526,7 +526,7 @@ private lemma presheafQuasiCompact_of_affine_etale_charts
   set j : ∀ e, opensObject B S hS (ha.rep.pullback f) (O e) ⟶ U := fun e =>
     opensObjectι B S hS (ha.rep.pullback f) (O e) ≫ t with hjdef
   have hje (e) : Etale (F.map (j e)) := by
-    show Etale ((O e).ι ≫ F.map t)
+    change Etale ((O e).ι ≫ F.map t)
     infer_instance
   have hopen (e) : IsOpen (Set.range (F.map (j e))) :=
     (F.map (j e)).isOpenMap.isOpen_range
@@ -549,7 +549,7 @@ private lemma presheafQuasiCompact_of_affine_etale_charts
     set b := liftOpensObject B S hS p (O e) (P e) (hOP e) with hbdef
     have hai : Pe.presheaf (yoneda.map ai) :=
       MorphismProperty.relative_map (show Etale (F.map ai) from by
-        show Etale (P e).ι
+        change Etale (P e).ι
         infer_instance)
     have hchart : Pq.presheaf (yoneda.map ai ≫ a) :=
       hcharts (opensObject B S hS A (P e)) (hP e) _
@@ -561,7 +561,7 @@ private lemma presheafQuasiCompact_of_affine_etale_charts
       infer_instance
     have hfac : yoneda.map (j e) ≫ f = yoneda.map b ≫ (yoneda.map ai ≫ a) := by
       rw [← Category.assoc, ← Functor.map_comp]
-      show yoneda.map (opensObjectι B S hS (ha.rep.pullback f) (O e) ≫ t) ≫ f =
+      change yoneda.map (opensObjectι B S hS (ha.rep.pullback f) (O e) ≫ t) ≫ f =
         yoneda.map (liftOpensObject B S hS p (O e) (P e) (hOP e) ≫
           opensObjectι B S hS A (P e)) ≫ a
       rw [liftOpensObject_fac, Functor.map_comp, Functor.map_comp, Category.assoc,

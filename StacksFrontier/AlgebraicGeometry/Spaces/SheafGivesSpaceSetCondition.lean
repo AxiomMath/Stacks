@@ -70,7 +70,8 @@ the resulting kernel pair. Tag 0GF6 needs only the first stage: the source obtai
 
 The general-site result is proved directly rather than transported from
 `isLocallySurjective_π` of `StacksFrontier/CategoryTheory/Sites/Representable/`
-`StacksFrontier/CategoryTheory/Sites/Representable/CoveredByRepresentables.lean` (Tag 00WS), whose source object is the sheafification of a
+`StacksFrontier/CategoryTheory/Sites/Representable/CoveredByRepresentables.lean` (Tag 00WS), whose
+source object is the sheafification of a
 *presheaf* coproduct; stating the conclusion with `CategoryTheory.Sheaf.sheafifiedYoneda`
 matches the shape `∐ h_{V_i} → 𝓕` the source's proof writes down. The witness is `Sigma.desc`
 of the Yoneda transposes `CategoryTheory.Sheaf.sectionEquiv` of the sections, and local
@@ -127,7 +128,7 @@ theorem exists_epi_coproduct_sheafifiedYoneda (F : Sheaf J (Type max u v)) :
       rw [← Category.id_comp (Sigma.ι (fun i : I ↦ (Sheaf.sheafifiedYoneda J).obj (U i)) j)]
       exact Sheaf.sectionEquiv_comp J (𝟙 _) _
     have hval : f.hom.app (op (U j)) t = s := by
-      rw [← hι, ← Sheaf.sectionEquiv_comp J _ f, Sigma.ι_desc]
+      rw [← hι, ← Sheaf.sectionEquiv_comp J _ f, Sigma.ι_comp_desc]
       exact Equiv.apply_symm_apply _ _
     have hid : Presheaf.imageSieve f.hom s (𝟙 X) := ⟨t, by simpa using hval⟩
     rw [Sieve.id_mem_iff_eq_top.1 hid]
@@ -185,7 +186,7 @@ theorem satisfiesSetTheoreticCondition_iff
     let D : PUnit.{u + 2} → Sheaf (SmallEtale.topology B S hS Y.1) (Type (u + 1)) :=
       fun _ ↦ (Sheaf.sheafifiedYoneda (SmallEtale.topology B S hS Y.1)).obj V
     refine ⟨PUnit, fun _ ↦ V, Sigma.desc fun _ ↦ e, ?_, V, fun _ ↦ 𝟙 V, ?_⟩
-    · have hfac : Sigma.ι D PUnit.unit ≫ Sigma.desc (fun _ ↦ e) = e := Sigma.ι_desc _ _
+    · have hfac : Sigma.ι D PUnit.unit ≫ Sigma.desc (fun _ ↦ e) = e := Sigma.ι_comp_desc _ _
       exact epi_of_epi_fac hfac
     · have hsig : (Sigma.desc fun _ : PUnit.{u + 2} ↦
           (Sheaf.sheafifiedYoneda (SmallEtale.topology B S hS Y.1)).map (𝟙 V)) =
@@ -194,10 +195,10 @@ theorem satisfiesSetTheoreticCondition_iff
         funext
         exact (Sheaf.sheafifiedYoneda (SmallEtale.topology B S hS Y.1)).map_id V
       rw [hsig]
-      refine ⟨Sigma.ι D PUnit.unit, ?_, Sigma.ι_desc _ _⟩
+      refine ⟨Sigma.ι D PUnit.unit, ?_, Sigma.ι_comp_desc _ _⟩
       apply Sigma.hom_ext
       rintro ⟨⟩
-      rw [Sigma.ι_desc_assoc, Category.id_comp, Category.comp_id]
+      rw [Sigma.ι_comp_desc_assoc, Category.id_comp, Category.comp_id]
 
 /-- **The Stacks 00WS step in the proof of Stacks 0GF6.** Every sheaf of sets on the small
 étale site of an algebraic space `Y` over `S` receives an epimorphism from a coproduct

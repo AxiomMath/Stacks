@@ -147,6 +147,7 @@ public theorem isUnit_det_of_residue_det_ne_zero {n : ℕ} (N : Matrix (Fin n) (
   have hdet : residue A N.det = (N.map (residue A)).det := RingHom.map_det (residue A) N
   exact h (hdet ▸ (IsLocalRing.residue_eq_zero_iff _).mpr hmem)
 
+omit [IsLocalRing A] in
 /-- Multiplying a family by a matrix and then by a left inverse of it returns the family. -/
 public theorem sum_mul_sum_of_mul_eq_one {n : ℕ} (M M' : Matrix (Fin n) (Fin n) A)
     (h : M * M' = 1) (v : Fin n → A) (i : Fin n) : ∑ p, M i p * ∑ q, M' p q * v q = v i :=
@@ -160,6 +161,7 @@ public theorem sum_mul_sum_of_mul_eq_one {n : ℕ} (M M' : Matrix (Fin n) (Fin n
     _ = ∑ q, (1 : Matrix (Fin n) (Fin n) A) i q * v q := by rw [h]
     _ = v i := by simp [Matrix.one_apply]
 
+omit [IsLocalRing A] in
 /-- The inverse change of generators: if `x'ᵢ = Σ Mᵢₚ xₚ` for an invertible matrix `M`, then
 `xᵢ = Σ (M⁻¹)ᵢₚ x'ₚ`. -/
 public theorem eq_sum_nonsingInv_mul {n : ℕ} (x x' : Fin n → A)
@@ -178,6 +180,7 @@ private theorem span_range_le_of_eq_sum_mul {B : Type*} [CommRing B] {n : ℕ} (
   rw [SetLike.mem_coe, hx' i]
   exact Ideal.sum_mem _ fun p _ => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨p, rfl⟩)
 
+omit [IsLocalRing A] in
 /-- An invertible matrix carries a family of ring elements to a family spanning the same ideal. -/
 public theorem span_range_eq_of_isUnit_det {n : ℕ} (x x' : Fin n → A)
     (M : Matrix (Fin n) (Fin n) A) (hM : IsUnit M.det)

@@ -80,7 +80,8 @@ Nothing here is registered. Tag 08RX is stated at a general site with a cosimpli
 resolution and for an arbitrary object of `D(𝒪)`; what the Δ-instance gives is one special case of
 it. Tags 08QX and 08QS assume nothing of `A → B → C`, whereas the statements here assume `B → C`
 injective; they are registered in
-`StacksFrontier/Cotangent/Triangle/ProductDescent.lean`, which drops the hypothesis by the passage to
+`StacksFrontier/Cotangent/Triangle/ProductDescent.lean`, which drops the hypothesis by the passage
+to
 `A → B → B × C` of Remark 08SD and the product decomposition of Tag 08SC
 (`CommAlgCat.isIso_Q_map_cotangentComplexProductMap`).
 
@@ -246,7 +247,7 @@ theorem bijective_baseChangeComparison_app (f : B ⟶ C) (n : SimplexCategoryᵒ
     have hmul : (b ⊗ₜ[↥((resolutionRing.{u, u} A B).obj n)] x) =
         Algebra.TensorProduct.includeLeftRingHom b *
           Algebra.TensorProduct.includeRight.toRingHom x := by
-      show _ =
+      change _ =
         (b ⊗ₜ[↥((resolutionRing.{u, u} A B).obj n)] (1 : ↥((resolutionRing.{u, u} A C).obj n))) *
           ((1 : ↥B) ⊗ₜ[↥((resolutionRing.{u, u} A B).obj n)] x)
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -254,8 +255,7 @@ theorem bijective_baseChangeComparison_app (f : B ⟶ C) (n : SimplexCategoryᵒ
   have key : ∀ t : ↥B ⊗[↥((resolutionRing.{u, u} A B).obj n)] ↥((resolutionRing.{u, u} A C).obj n),
       ((baseChangeComparison f).app n).hom t = e.hom.hom t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb =>
       exact ((map_add ((baseChangeComparison f).app n).hom a b).trans
         (congrArg₂ (· + ·) ha hb)).trans (map_add e.hom.hom a b).symm
@@ -301,7 +301,7 @@ theorem baseChangeLegModuleHom_eq (f : B ⟶ C) :
         canonicalBaseChangeMap A f n y := by
     intro y
     rw [baseChangeComparison_app_tmul, map_one, one_mul]
-  show canonicalBaseChangeMap A f n x =
+  change canonicalBaseChangeMap A f n x =
     ((baseChangeComparison f).app n).hom
       ((((changeOfRingsAdjunction (resolutionAug A B)).unit.app
         (resolutionModule f)).app n).hom x)

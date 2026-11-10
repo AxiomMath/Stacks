@@ -108,7 +108,7 @@ theorem comp_derivationActionHom_eq {A' : Sheaf J RingCat.{u}} (ψ : A' ⟶ A)
     (hD : ∀ (V : Ccᵒᵖ) (x : A'.obj.obj V), D V (q.hom.app V (ψ.hom.app V x)) = 0) :
     ψ ≫ derivationActionHom E f D hmul hmap ι_smul = ψ ≫ f :=
   Sheaf.hom_ext (NatTrans.ext (funext fun V ↦ RingCat.hom_ext (RingHom.ext fun x ↦ by
-    show f.hom.app V (ψ.hom.app V x) -
+    change f.hom.app V (ψ.hom.app V x) -
         E.ι (D V (q.hom.app V (ψ.hom.app V x))) = f.hom.app V (ψ.hom.app V x)
     rw [hD V x, map_zero, sub_zero])))
 
@@ -266,7 +266,7 @@ theorem app_liftRestrictedSharpThroughThickening_eq
 
 variable {Y T : AlgebraicSpaces B S hS} (b : Y ⟶ T)
   {A : Sheaf (SmallEtale.topology B S hS Y.1) RingCat.{u}}
-  {q : A ⟶ structureRingSheaf B S hS Y} [Sheaf.IsLocallySurjective q]
+  {q : A ⟶ structureRingSheaf B S hS Y}
   {X' : AlgebraicSpaces B S hS} (aa : X' ⟶ Y) (Cm : Modules B S hS X'.1 X'.2)
   {E : SquareZeroValues ((modulePushforward B S hS aa).obj Cm)}
   (f : A ⟶ E.ambient)

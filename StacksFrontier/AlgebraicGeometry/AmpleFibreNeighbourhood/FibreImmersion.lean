@@ -243,7 +243,7 @@ theorem subsingleton_preimage_of_fibreFactorization {X S P F Q : Scheme.{u}} {f 
     intro x hx
     have hfx : f.base x = y := by
       rw [← hφ]
-      show p.base (φ.base x) = y
+      change p.base (φ.base x) = y
       rw [hx, hz]
     have hmem : x ∈ Set.range ι.base := by rw [hι]; exact hfx
     obtain ⟨a, ha⟩ := hmem

@@ -113,10 +113,10 @@ theorem localized₀_eq_top_of_le {R : Type u} [CommRing R] {M : Type v} [AddCom
   have hqmem : (u : R) * (s : R) * (t : R) ∈ q :=
     mul_mem (mul_mem (hpq u.2) (hpq s.2)) t.2
   refine ⟨(u : R) • m, M'.smul_mem _ hm, ⟨_, hqmem⟩, ?_⟩
-  show IsLocalizedModule.mk' b ((u : R) • m) (⟨_, hqmem⟩ : q)
+  change IsLocalizedModule.mk' b ((u : R) • m) (⟨_, hqmem⟩ : q)
       = IsLocalizedModule.mk' b x t
   rw [IsLocalizedModule.mk'_eq_iff]
-  show b ((u : R) • m)
+  change b ((u : R) • m)
       = ((u : R) * (s : R) * (t : R)) • IsLocalizedModule.mk' b x t
   rw [← hu', map_smul, mul_smul _ (t : R), hcancel]
 

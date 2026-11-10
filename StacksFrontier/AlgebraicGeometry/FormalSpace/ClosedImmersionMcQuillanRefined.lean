@@ -43,18 +43,6 @@ section Source
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-add_to_stacks 0AJK "part (1), the conclusion that `Y` is McQuillan: the source of a closed \
-immersion of formal algebraic spaces whose target is a McQuillan affine formal algebraic space \
-is again a McQuillan affine formal algebraic space. Part (1)'s three conclusions about the \
-presenting homomorphism `φ : A → B` — that it is taut, that its kernel `K` is closed and that \
-its image is dense — are tagged separately on \
-`AlgebraicGeometry.FormalSpace.isTaut_of_isClosedImmersion_formalSpectrumMap`, \
-`AlgebraicGeometry.FormalSpace.isClosed_ker_toRingHom` and \
-`AlgebraicGeometry.FormalSpace.denseRange_of_isClosedImmersion_formalSpectrumMap`. The question \
-part (1) raises, which conditions on `A` force `B = (A/K)^∧`, is a question and is asserted \
-nowhere."
-  hasSomeSurjectivePresentation_of_isClosedImmersion
-
 end Source
 
 section Sheaves
@@ -68,18 +56,6 @@ section Rings
 end Rings
 
 section Spectrum
-
-add_to_stacks 0AJK "part (1), the conclusion that the kernel `K ⊂ A` of the homomorphism \
-`φ : A → B` presenting a closed immersion is a closed ideal. It is proved here in the stronger \
-form that needs only continuity of the homomorphism and separatedness of its target, so no \
-closed-immersion hypothesis appears."
-  isClosed_ker_toRingHom
-
-add_to_stacks 0AJK "part (1), the conclusion that the image `φ(A)` of the homomorphism \
-`φ : A → B` presenting a closed immersion is dense in `B`. Whether `φ` is moreover surjective \
-and open, equivalently whether `B` is the quotient `A/K` itself, is the question part (2) of \
-the remark raises and is asserted nowhere."
-  denseRange_of_isClosedImmersion_formalSpectrumMap
 
 /-- **Stacks 0ANQ**, the tautness assertion. The continuous homomorphism presenting a closed
 immersion of formal spectra of weakly admissible topological rings over `S` is taut. A closed

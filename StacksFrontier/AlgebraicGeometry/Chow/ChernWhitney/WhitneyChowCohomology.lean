@@ -173,7 +173,7 @@ theorem toChowCohomology_mul (c d : TotalChowClass C sY) (a b : ℕ)
   · rintro ⟨m, j⟩ hx hn
     simp only [mem_sigma, mem_range] at hx
     have hjm : j ≤ m := by omega
-    rw [mulTerm, dif_pos hjm, of_bivariantClassDegreeCongr]
+    rw [mulTerm, dite_eq_left hjm, of_bivariantClassDegreeCongr]
     by_cases hi : a < m - j
     · rw [hc _ hi, BivariantClass.zero_mulId, map_zero]
     by_cases hj : b < j
@@ -184,7 +184,7 @@ theorem toChowCohomology_mul (c d : TotalChowClass C sY) (a b : ℕ)
     · simp only [Sigma.mk.injEq, heq_eq_eq, and_true]
       omega
   · rintro ⟨i, j⟩ _
-    rw [mulTerm, dif_pos (Nat.le_add_left j i), of_bivariantClassDegreeCongr]
+    rw [mulTerm, dite_eq_left (Nat.le_add_left j i), of_bivariantClassDegreeCongr]
     exact (hF i (i + j - j) j (Nat.add_sub_cancel i j)).symm
 
 end TotalChowClass

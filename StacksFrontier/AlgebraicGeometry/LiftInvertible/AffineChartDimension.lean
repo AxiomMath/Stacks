@@ -69,7 +69,7 @@ at an arbitrary bound rather than at `0`. -/
 theorem topologicalKrullDim_primeSpectrum_le_of_isAffineOpen {X : Scheme.{u}}
     (U : X.affineOpens) {n : WithBot ℕ∞} (h : topologicalKrullDim X ≤ n) :
     topologicalKrullDim (PrimeSpectrum Γ(X, U.1)) ≤ n := by
-  show topologicalKrullDim (Spec Γ(X, U.1)) ≤ n
+  change topologicalKrullDim (Spec Γ(X, U.1)) ≤ n
   rw [← IsHomeomorph.topologicalKrullDim_eq _ U.2.isoSpec.hom.homeomorph.isHomeomorph]
   exact (topologicalKrullDim_subspace_le X U).trans h
 

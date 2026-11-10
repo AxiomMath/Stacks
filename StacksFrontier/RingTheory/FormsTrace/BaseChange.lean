@@ -92,8 +92,7 @@ theorem trace_algebraMap_of_isPushout [Module.Finite R₁ B₁] [Module.Projecti
     obtain ⟨t, rfl⟩ := e.surjective x
     simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
       LinearEquiv.symm_apply_apply]
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul r y =>
       simp only [LinearMap.baseChange_tmul, Algebra.coe_lmul_eq_mul, LinearMap.mul_apply', e,
         hbc.equiv_tmul, AlgHom.toLinearMap_apply, IsScalarTower.coe_toAlgHom', map_mul,

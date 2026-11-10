@@ -8,8 +8,9 @@ public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.QcohGlue
 /-!
 # The restriction of a local isomorphism of Stacks 03DX (1), in the `restrFun` spelling
 
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ObjRestrictRestrFunBridgeEffectivity.lean`
-reduces the gluing step of Stacks 03DX (1) to the hypothesis `hagree` of
+The file `ObjRestrictRestrFunBridgeEffectivity.lean` (in
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`) reduces the gluing step of
+Stacks 03DX (1) to the hypothesis `hagree` of
 `AlgebraicGeometry.BigFppfOver.essImage_associatedModuleQcoh_of_agree`, which asks for the
 agreement of the relocalizations
 
@@ -191,7 +192,7 @@ public theorem ComponentIs.congr {N₁ N₂ : SheafOfModules.{m} S'} {f : N₁ �
   obtain ⟨e₁, e₂, hu⟩ := h
   refine ⟨e₁.trans eα, e₂.trans eβ, fun y => ?_⟩
   rw [← cast_cast e₂ eβ, hu, ← cast_cast e₁ eα]
-  simp only [cast_cast, cast_eq]
+  simp only [cast_cast]
 
 /-- An equal component function. -/
 public theorem ComponentIs.ofFunEq {N₁ N₂ : SheafOfModules.{m} S'} {f : N₁ ⟶ N₂} {U : C'ᵒᵖ}

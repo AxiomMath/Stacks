@@ -166,7 +166,6 @@ variable {X Y : Scheme.{u}} (f : X ⟶ Y) {G N : Y.Modules}
         ⟨Y.toRingedSpace.presheaf, Y.toRingedSpace.IsSheaf⟩).obj G).obj N)]
   {G' N' : X.Modules}
   [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} G']
-  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} N']
   [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf)
     (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj G').obj N')]

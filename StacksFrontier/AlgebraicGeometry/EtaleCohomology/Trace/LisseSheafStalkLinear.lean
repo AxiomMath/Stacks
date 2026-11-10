@@ -121,7 +121,7 @@ theorem sheafCompose_forget₂_map_etaleModuleSheafSMul
 theorem etaleStalk_map_etaleModuleSheafSMul_apply (s : GeometricPoint S)
     (F : Sheaf (SmallEtale.topology B S hS) (ModuleCat.{u + 1} Λ)) (a : Λ)
     (v : (etaleStalkPresheafFunctor B S hS s (ModuleCat.{u + 1} Λ)).obj F.obj) :
-    (colim.map (Functor.whiskerLeft ((CategoryOfElements.π (geometricPointFiber B S hS s)).op)
+    (colim.map (Functor.whiskerLeft ((Functor.Elements.π (geometricPointFiber B S hS s)).op)
       (etaleModuleSheafSMul B S hS Λ F a).hom)).hom v = a • v :=
   colimMap_smulNatEnd_apply _ a v
 
@@ -182,7 +182,7 @@ theorem finiteTypeLocallyConstantStalkAddEquiv_smul {s : GeometricPoint X.1}
       (ObjectProperty.ι _ ⋙ abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map (G.map α) := by
     rw [sheafCompose_forget₂_map_etaleModuleSheafSMul]
     rfl
-  show (finiteLocallyConstantAbelianStalkIso B X t).hom.app A
+  change (finiteLocallyConstantAbelianStalkIso B X t).hom.app A
       ((etaleStalkForget₂Iso B X.1 X.2 s Λ F.obj).hom (a • v)) =
     a • (show ((𝔈).functor.obj F).obj.obj.obj.V from
       (finiteLocallyConstantAbelianStalkIso B X t).hom.app A

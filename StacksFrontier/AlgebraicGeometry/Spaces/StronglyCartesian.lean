@@ -145,7 +145,7 @@ theorem spacesProjection_isStronglyCartesian_iff
         { left := e
           right := 𝟙 A.right
           w := by
-            show e.hom ≫ fstP.hom = A.hom
+            change e.hom ≫ fstP.hom = A.hom
             have h := congrArg (fun f => f.hom) heFst
             rw [ObjectProperty.FullSubcategory.comp_hom] at h
             simpa [aMap, schemeSpace] using h }
@@ -190,7 +190,7 @@ theorem spacesProjection_isStronglyCartesian_iff
         right := g
         w := by
           have h := congrArg (fun f => f.hom) hAlphaFst
-          show α.hom ≫ A.hom = X.hom ≫ yoneda.map g
+          change α.hom ≫ A.hom = X.hom ≫ yoneda.map g
           simpa [aMap, beta, schemeSpace, schemeSpaceMap] using h }
     have hχlift : p.IsHomLift g χ := by
       have hmap : p.map χ = g := by simp [p, χ]

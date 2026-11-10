@@ -78,7 +78,7 @@ end Acyclic
 section Cone
 
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasWeakSheafify J (Type u)]
+  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
   {Osharp : Sheaf J CommRingCat.{u}}
   {A' A'' : DifferentialGradedAlgebra.{u, u} (toRingCat J Osharp)}
@@ -101,7 +101,6 @@ theorem acyclic_dgTensor_cone_iff (hR' : RelativeTensor.IsKFlat R')
     RelativeTensor.dgTensorOpIso K N'.toLeftDifferentialGradedModule.opRight ≪≫
       eqToIso (by rw [LeftDifferentialGradedModule.opRight_unopLeft])
 
-omit [HasWeakSheafify J (Type u)] in
 /-- For a homomorphism `p : 𝒫 → 𝒴` out of a K-flat module and an acyclic left module `ℒ`,
 `cone(p) ⊗ ℒ` is acyclic if and only if `𝒴 ⊗ ℒ` is: the former is the cone of
 `𝒫 ⊗ ℒ → 𝒴 ⊗ ℒ`, whose source is acyclic. -/
@@ -155,7 +154,7 @@ theorem isIso_derivedTensorProductCounit_app_iff (hR' : RelativeTensor.IsKFlat.{
     rw [← isIso_comp_left_iff ((toDerivedCategory A' ⋙ derivedTensorProduct N').map
         ((HomotopyCategory.quotient A').map p)) ((derivedTensorProductCounit N').app _),
       (derivedTensorProductCounit N').naturality, isIso_comp_left_iff]
-    show IsIso ((toDerivedCategory A'').map ((HomotopyCategory.quotient A'').map
+    change IsIso ((toDerivedCategory A'').map ((HomotopyCategory.quotient A'').map
         ((pullbackTensorFunctor (idPullbackData.{u, u, u} (A := A')) (tensorData N')).map p))) ↔ _
     rw [pullbackTensorFunctor, Functor.comp_map, PullbackData.functor_map, idPullbackData_map]
     exact Iff.rfl

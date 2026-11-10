@@ -112,7 +112,7 @@ lemma yonedaEquiv_comp (X : C) {P Q : Cᵒᵖ ⥤ Type (max (max u v) (max q w))
     (k : (presheafULift.{q, w, v, u} (C := C)).obj (uliftYoneda.{w}.obj X) ⟶ P) :
     yonedaEquiv.{q, w, v, u} (C := C) X Q (k ≫ m) =
       m.app (op X) (yonedaEquiv.{q, w, v, u} (C := C) X P k) := by
-  show uliftYonedaEquiv.{max (max u v) (max q w)}
+  change uliftYonedaEquiv.{max (max u v) (max q w)}
       ((nestedYonedaIso.{q, w, v, u} (C := C) X).inv ≫ k ≫ m) = _
   rw [← Category.assoc, uliftYonedaEquiv_comp]
   rfl

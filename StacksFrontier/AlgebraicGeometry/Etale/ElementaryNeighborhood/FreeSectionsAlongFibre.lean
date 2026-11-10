@@ -796,7 +796,7 @@ private lemma exists_free_sections_of_charts {X S : Scheme.{u}} (f : X ⟶ S) [Q
   have hpChart_fst (i : ι) : pChart i ≫ pullback.fst f aV =
       pullback.fst (q i) (r i) ≫ p i.1 ≫ pullback.fst f (aMap i) := by
     simp [pChart, baseChangeChartMap, pullback.congrHom, Category.assoc]
-    simp only [← Category.assoc, pullback.lift_fst, Category.comp_id]
+    simp only [← Category.assoc]
     rfl
   have hpChart_snd (i : ι) : pChart i ≫ pullback.snd f aV =
       pullback.snd (q i) (r i) := by
@@ -808,7 +808,7 @@ private lemma exists_free_sections_of_charts {X S : Scheme.{u}} (f : X ⟶ S) [Q
   have hdescG : Sigma.desc gChart = P ≫ pullback.fst f aV := by
     apply Sigma.hom_ext
     intro i
-    simp [gChart, P, ← Category.assoc, Sigma.ι_desc]
+    simp [gChart, P, ← Category.assoc]
   let qChart (i : ι) : Z i ⟶ T := pullback.snd (q i) (r i)
   have hdescQ : Sigma.desc qChart = P ≫ pullback.snd f aV := by
     apply Sigma.hom_ext
@@ -830,14 +830,14 @@ private lemma exists_free_sections_of_charts {X S : Scheme.{u}} (f : X ⟶ S) [Q
       obtain ⟨zj, hzfst, hzsnd⟩ :=
         Scheme.Pullback.exists_preimage_pullback (f := q j) (g := r j) y₀ tV hyEq
       refine ⟨Sigma.ι Z j zj, ?_, ?_⟩
-      · show (P ≫ pullback.snd f aV) (Sigma.ι Z j zj) = tV
+      · change (P ≫ pullback.snd f aV) (Sigma.ι Z j zj) = tV
         have hh : (Sigma.ι Z j ≫ P ≫ pullback.snd f aV) zj = tV := by
-          rw [← Category.assoc, Sigma.ι_desc, hpChart_snd]
+          rw [← Category.assoc, Sigma.ι_comp_desc, hpChart_snd]
           exact hzsnd
         simpa only [Scheme.Hom.comp_apply] using hh
       · have hz : f.fiberι s z = z₀ := f.fiberι_fiberHomeo_symm s ⟨z₀, hz₀⟩
         have hh : (Sigma.ι Z j ≫ P ≫ pullback.fst f aV) zj = z₀ := by
-          rw [← Category.assoc, Sigma.ι_desc, hpChart_fst]
+          rw [← Category.assoc, Sigma.ι_comp_desc, hpChart_fst]
           simp only [Scheme.Hom.comp_apply, hzfst]
           change (p i ≫ pullback.fst f (aMap j)) y₀ = z₀
           exact hgy₀.trans hz
@@ -871,7 +871,7 @@ private lemma exists_free_sections_of_charts {X S : Scheme.{u}} (f : X ⟶ S) [Q
     refine free_globalSections_sigma (.of (V.scheme.presheaf.stalk V.point)) Z gChart F
       (P ≫ pullback.snd f aV) qChart (fun i => ?_) (fun i => ?_)
     · change (Sigma.ι Z i ≫ P) ≫ pullback.snd f aV = pullback.snd (q i) (r i)
-      rw [Sigma.ι_desc, hpChart_snd]
+      rw [Sigma.ι_comp_desc, hpChart_snd]
     · exact free_sections_pullback_base_change
         (.of ((U i.1).scheme.presheaf.stalk (U i.1).point)) (.of (V.scheme.presheaf.stalk V.point))
         (neighborhoodStalkMap (h i)) (q i) (p i.1 ≫ pullback.fst f (aMap i)) F (gChart i)
@@ -1150,11 +1150,11 @@ theorem exists_free_sections_along_fibre_of_neighborhoodHom {X S : Scheme.{u}} (
         m ≫ (pullbackLeftPullbackSndIso f aU r).hom ≫ (pullback.congrHom rfl hr).hom := by
       apply pullback.hom_ext
       · simp only [m, g', p, Category.assoc, pullback.lift_fst, pullback.congrHom_hom,
-          Category.comp_id, pullbackLeftPullbackSndIso_hom_fst_assoc, pullback.lift_fst_assoc]
+          Category.comp_id]
         rw [pullbackLeftPullbackSndIso_hom_fst, ← Category.assoc, pullback.lift_fst,
           Category.assoc, pullback.lift_fst]
       · simp only [m, q', Category.assoc, pullback.lift_snd, pullback.congrHom_hom,
-          Category.comp_id, pullbackLeftPullbackSndIso_hom_snd, pullback.lift_snd_assoc]
+          Category.comp_id, pullbackLeftPullbackSndIso_hom_snd]
     rw [hlift]
     exact MorphismProperty.comp_mem @Etale _ _ hm
       (MorphismProperty.comp_mem @Etale _ _ inferInstance inferInstance)

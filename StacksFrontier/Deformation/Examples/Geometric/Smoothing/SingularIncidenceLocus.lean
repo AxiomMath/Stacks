@@ -164,10 +164,10 @@ private theorem exists_injective_columns_det_ne_zero {F : Type u} [Field F]
     have hvec : v (e i) = v (e j) := by rw [← ha i, ← ha j, hij]
     exact hli.injective hvec
   have hcols : LinearIndependent F (M.submatrix id a).col := by
-    show LinearIndependent F (fun i => M.col (a i))
+    change LinearIndependent F (fun i => M.col (a i))
     rwa [show (fun i => M.col (a i)) = fun i => v (e i) from funext ha]
   exact ⟨a, hai, ((Matrix.isUnit_iff_isUnit_det _).mp
-    (Matrix.linearIndependent_cols_iff_isUnit.mp hcols)).ne_zero⟩
+    (Matrix.linearIndependent_col_iff_isUnit.mp hcols)).ne_zero⟩
 
 /-- Coordinates for the incidence variety after normalizing one nonzero kernel
 coordinate to `1`: the point coordinates, the remaining kernel coordinates,
@@ -322,7 +322,7 @@ private theorem incidenceEvaluation_point {k F : Type u} [Field k] [Field F]
     (lam : Fin c → F) (A : Fin c → Fin n → F) (p : MvPolynomial (Fin n) k) :
     incidenceEvaluation j₀ x lam A (incidencePointMap j₀ p) =
       MvPolynomial.aeval (R := k) x p := by
-  show ((incidenceEvaluation j₀ x lam A).comp (incidencePointMap j₀)) p = _
+  change ((incidenceEvaluation j₀ x lam A).comp (incidencePointMap j₀)) p = _
   congr 1
   ext i
   simp [incidenceEvaluation, incidencePointMap]

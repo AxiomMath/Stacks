@@ -89,8 +89,7 @@ theorem bijective_app_of_isQuasicoherentOnSite_of_affine
   have hsq : ∀ z, f.val.app (op x) (fibredSectionsBaseChange 𝒳.val.isFiberedInGroupoids H₁ φ z) =
       fibredSectionsBaseChange 𝒳.val.isFiberedInGroupoids H₂ φ (T z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul c t =>
       let a : H₁.val.obj (op x) := H₁.val.map φ.op t
@@ -176,7 +175,7 @@ theorem isIso_of_isQuasicoherentOnSite_of_bijective_flat
     rintro w g ⟨w', e, g', hg', rfl⟩
     obtain ⟨s, hs⟩ := (hgood g' hg').2 (H₂.val.map g'.op t)
     refine ⟨H₁.val.map e.op s, ?_⟩
-    show f.val.app (op w) (H₁.val.map e.op s) = H₂.val.map (e ≫ g').op t
+    change f.val.app (op w) (H₁.val.map e.op s) = H₂.val.map (e ≫ g').op t
     rw [PresheafOfModules.naturality_apply]
     exact (congrArg (H₂.val.map e.op) hs).trans
       (PresheafOfModules.map_comp_apply H₂.val g'.op e.op t).symm
@@ -201,8 +200,7 @@ theorem app_eq_of_isQuasicoherentOnSite_of_affine
   let := fibredSectionsModule 𝒳.val.isFiberedInGroupoids T x
   ext s
   obtain ⟨z, rfl⟩ := hc.2 s
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul c t =>
     let a : Z.val.obj (op x) := Z.val.map φ.op t

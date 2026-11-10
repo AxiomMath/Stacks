@@ -242,7 +242,7 @@ public theorem stalkDepth_restrict {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmer
         Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a) := by
     apply e.symm.injective
     simp only [e.symm_apply_apply]
-    show X.presheaf.germ U x hx a =
+    change X.presheaf.germ U x hx a =
       j.stalkMap x (Y.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa) ((j.appIso U).inv a))
     rw [j.germ_stalkMap_apply, Scheme.Hom.appIso_inv_app_apply]
     exact (X.presheaf.germ_res_apply _ _ _ _).symm
@@ -261,10 +261,10 @@ public theorem stalkDepth_restrict {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmer
     change a • t = (G.smul ((j.appIso U).inv a)).asHom.hom t at hs
     rw [hs]
     let z : Γ(G, j ''ᵁ U) := t
-    show G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
+    change G.presheaf.germ (j ''ᵁ U) (j.base x) (by simpa)
       ((G.smul ((j.appIso U).inv a)).asHom.hom z) = _
     rw [G.smul_apply ((j.appIso U).inv a) z]
-    show TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
+    change TopCat.Presheaf.germ G.val.presheaf (j ''ᵁ U) (j.base x) (by simpa)
       (((j.appIso U).inv a) • z) = _
     exact PresheafOfModules.germ_smul G.val (j.base x) (j ''ᵁ U) (by simpa)
       ((j.appIso U).inv a) z
@@ -307,7 +307,7 @@ public theorem stalkDepth_tilde {R : CommRingCat.{u}} (M : ModuleCat.{u} R)
   have towerAp : IsScalarTower (ToType R) (Localization.AtPrime p.asIdeal)
       ((tilde M).presheaf.stalk p : Type u) :=
     IsScalarTower.of_algebraMap_smul fun a n => by
-      show (e₀ (algebraMap (ToType R) (Localization.AtPrime p.asIdeal) a)) • n = a • n
+      change (e₀ (algebraMap (ToType R) (Localization.AtPrime p.asIdeal) a)) • n = a • n
       rw [e₀.commutes]
       exact algebraMap_smul ((Spec R).presheaf.stalk p) a n
   have g : LocalizedModule p.asIdeal.primeCompl M ≃ₗ[ToType R]
@@ -332,7 +332,7 @@ variable {A : Type u} [CommRing A] [IsLocalRing A]
 closed point: the zero locus of the maximal ideal is the closed point. -/
 public theorem mem_complementZeroLocus_maximalIdeal_iff (p : PrimeSpectrum A) :
     p ∈ complementZeroLocus A (maximalIdeal A) ↔ p ≠ closedPoint A := by
-  show p ∉ PrimeSpectrum.zeroLocus ((maximalIdeal A : Ideal A) : Set A) ↔ _
+  change p ∉ PrimeSpectrum.zeroLocus ((maximalIdeal A : Ideal A) : Set A) ↔ _
   rw [zeroLocus_maximalIdeal]
   exact not_congr Set.mem_singleton_iff
 

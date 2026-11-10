@@ -100,7 +100,7 @@ theorem bijective_homology_map_localCohomology_map (A : Type u) [CommRing A] (I 
   have h₃ : Function.Bijective (fun χ : G.obj K ⟶ G.obj X ↦ P.ι.map χ ≫ β.hom) := by
     refine ⟨fun a b h ↦ P.ι.map_injective ((cancel_mono β.hom).1 h),
       fun y ↦ ⟨P.ι.preimage (y ≫ β.inv), ?_⟩⟩
-    show P.ι.map (P.ι.preimage (y ≫ β.inv)) ≫ β.hom = y
+    change P.ι.map (P.ι.preimage (y ≫ β.inv)) ≫ β.hom = y
     rw [Functor.map_preimage]
     simp
   have hcomp : (fun φ : K ⟶ X ↦ H.map (P.ι.map (G.map φ)) ≫ H.map β.hom ≫
@@ -116,7 +116,7 @@ theorem bijective_homology_map_localCohomology_map (A : Type u) [CommRing A] (I 
         Adjunction.right_triangle_components, Category.id_comp]
     simp only [Function.comp_apply]
     rw [key, H.map_comp, Category.assoc]
-  show Function.Bijective (fun φ : K ⟶ X ↦ H.map (P.ι.map (G.map φ)) ≫ H.map β.hom ≫
+  change Function.Bijective (fun φ : K ⟶ X ↦ H.map (P.ι.map (G.map φ)) ≫ H.map β.hom ≫
       (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{u} A) d).hom.app J)
   rw [hcomp]
   exact (DerivedCategory.bijective_homologyMap_comp_of_injective (P.ι.obj (G.obj K)) J d).comp

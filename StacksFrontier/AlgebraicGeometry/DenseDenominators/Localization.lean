@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.DenseDenominators.Algebra
 /-!
 # The algebra of denominators is quasi-coherent
 
-Let `Y` be a reduced scheme, `Ω` a dense open subset of `Y` and `S` a flat algebra over the
+Let `Y` be a reduced scheme, `Ω` an open subset of `Y` and `S` a flat algebra over the
 sections of the structure sheaf on `Ω`, presented by a finite spanning family. For an affine open
 `U` of `Y` and a section `r` over `U`, the algebra of denominators over the basic open set of `r`
 is the localization of the algebra of denominators over `U` away from `r`. Together with
@@ -68,8 +68,7 @@ variable (S : Type u) [CommRing S] [Algebra Γ(Y, Ω) S]
 the restriction of `t` tensored with `s`. -/
 lemma ambRes_eq_rTensor {V W : Y.Opens} (h : V ≤ W) (x : amb Ω S W) :
     ambRes Ω S h x = LinearMap.rTensor S (resAlgHom Ω h).toLinearMap x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul t s => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -99,8 +98,7 @@ lemma toAmb_mul_eq_zero_of_ambRes_eq_zero [IsReduced Y] [Module.Flat Γ(Y, Ω) S
   obtain ⟨v, hv⟩ := (hex w).mp hw'
   rw [← hv]
   clear hv hw' hw
-  induction v using TensorProduct.induction_on with
-  | zero => rw [map_zero, mul_zero]
+  induction v using TensorProduct.inductionOn with
   | tmul k s => exact hgen _ (LinearMap.mem_ker.mp k.2) s
   | add v v' h1 h2 => rw [map_add, mul_add, h1, h2, add_zero]
 
@@ -128,7 +126,7 @@ localization, denominators over the basic open set can be cleared to denominator
 open at the cost of a power of `r`, and flatness of `S` makes one single factor of `r` enough to
 detect equality. -/
 theorem isLocalization_away_sub {Y : Scheme.{u}} [IsReduced Y] {Ω : Y.Opens}
-    (hΩ : Dense (Ω : Set Y)) {S : Type u} [CommRing S] [Algebra Γ(Y, Ω) S]
+    {S : Type u} [CommRing S] [Algebra Γ(Y, Ω) S]
     [Module.Flat Γ(Y, Ω) S] (P : Presentation Γ(Y, Ω) S)
     {U : Y.Opens} (hU : IsAffineOpen U) (r : Γ(Y, U)) :
     letI := (subRes P (Y.basicOpen_le r)).toAlgebra
@@ -151,7 +149,7 @@ theorem isLocalization_away_sub {Y : Scheme.{u}} [IsReduced Y] {Ω : Y.Opens}
     obtain ⟨n₀, a₀, ha₀⟩ := IsLocalization.Away.surj r u
     rw [algebraMap_basicOpen_eq] at ha₀
     choose m ρ' hρ'mem hρ'eq using fun l =>
-      exists_pow_mul_eq_resHom_of_mem_denom hΩ P.coeffFamily hU r (ρ l) (hρ l)
+      exists_pow_mul_eq_resHom_of_mem_denom P.coeffFamily hU r (ρ l) (hρ l)
     obtain ⟨N, hn₀, hm⟩ : ∃ N : ℕ, n₀ ≤ N ∧ ∀ l, m l ≤ N :=
       ⟨max n₀ (Finset.univ.sup m), le_max_left _ _,
         fun l => (Finset.le_sup (Finset.mem_univ l)).trans (le_max_right _ _)⟩

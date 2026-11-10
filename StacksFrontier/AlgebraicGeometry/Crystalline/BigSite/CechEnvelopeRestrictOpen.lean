@@ -61,7 +61,7 @@ variable {S : GlobalCrystallineSituation.{u}} {U V : Scheme.{u}} {j : U ⟶ S.X}
 theorem comp_sourceToBase_overSituation (i : V ⟶ U) {j' : V ⟶ S.X} (hij : i ≫ j = j') :
     i ≫ sourceToBase (overSituation S j) = sourceToBase (overSituation S j') := by
   subst hij
-  show i ≫ (j ≫ S.toClosedFiber) ≫ _ = ((i ≫ j) ≫ S.toClosedFiber) ≫ _
+  change i ≫ (j ≫ S.toClosedFiber) ≫ _ = ((i ≫ j) ≫ S.toClosedFiber) ≫ _
   simp only [Category.assoc]
 
 namespace SmoothLift
@@ -199,7 +199,7 @@ theorem restrict_equiv_restrictAlgHom (b : L.ring) :
       L.liftMap i (algebraMap L.ring (L.liftRing i) b) :=
     (RingHom.congr_fun (L.liftMap_comp_algebraMap i) b).symm
   rw [h]
-  show (Ideal.quotEquivOfEq (L.ker_liftMap' i))
+  change (Ideal.quotEquivOfEq (L.ker_liftMap' i))
     ((RingHom.quotientKerEquivOfSurjective (L.surjective_liftMap i)).symm
       (L.liftMap i (algebraMap L.ring (L.liftRing i) b))) = _
   rw [RingEquiv.symm_apply_eq _ |>.2

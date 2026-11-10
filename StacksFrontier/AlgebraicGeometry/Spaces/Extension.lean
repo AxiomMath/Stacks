@@ -94,7 +94,7 @@ theorem relocalizePresheaf_preservesConnectedLimits
   have _ : PreservesLimitsOfShape K E₂.inverse := inferInstance
   have _ : PreservesLimitsOfShape K M :=
     overMap_preservesConnectedLimits (f := yoneda.map g)
-  show PreservesLimitsOfShape K (E₁.functor ⋙ M ⋙ E₂.inverse)
+  change PreservesLimitsOfShape K (E₁.functor ⋙ M ⋙ E₂.inverse)
   infer_instance
 
 /-- The presheaf-level extension of a sheaf on the big fppf site of `S` is already a sheaf on the
@@ -190,7 +190,7 @@ private theorem relocalizeSheafModel_preservesConnectedLimits
   have _ : PreservesLimitsOfShape WalkingCospan P :=
     relocalizePresheaf_preservesConnectedLimits g
   have _ : PreservesLimitsOfShape WalkingCospan (R ⋙ sheafToPresheaf J' (Type u)) := by
-    show PreservesLimitsOfShape WalkingCospan (sheafToPresheaf J (Type u) ⋙ P)
+    change PreservesLimitsOfShape WalkingCospan (sheafToPresheaf J (Type u) ⋙ P)
     infer_instance
   exact preservesLimitsOfShape_of_reflects_of_preserves R (sheafToPresheaf J' (Type u))
 
@@ -216,7 +216,7 @@ private theorem bigFppfOver_isSheaf_yoneda
     Presheaf.IsSheaf (BigFppfOver.topology B (B.inclusion.obj S) hS) (yoneda.obj U) := by
   have _ : B.topology.Subcanonical := BigFppfSite.subcanonical_topology B
   have _ : (BigFppfOver.topology B (B.inclusion.obj S) hS).Subcanonical := by
-    show (B.topology.over (B.obj hS)).Subcanonical
+    change (B.topology.over (B.obj hS)).Subcanonical
     infer_instance
   exact (isSheaf_iff_isSheaf_of_type _ _).mpr
     (GrothendieckTopology.Subcanonical.isSheaf_of_isRepresentable (J := _) (yoneda.obj U))
@@ -326,7 +326,7 @@ private theorem extendedRepresentableIso_naturality
       (L.map q).hom ≫ (extendedPresheafIso B S S' g adj XV).hom :=
     extendedPresheafIso_naturality B S S' g adj q
   have hγ := relocalizedYonedaIso_naturality B S S' g k
-  show (extendedPresheafIso B S S' g adj XU).hom ≫ (relocalizedYonedaIso B S S' g U).hom ≫
+  change (extendedPresheafIso B S S' g adj XU).hom ≫ (relocalizedYonedaIso B S S' g U).hom ≫
       yoneda.map ((Over.map g).map k) =
     (L.map q).hom ≫ (extendedPresheafIso B S S' g adj XV).hom ≫
       (relocalizedYonedaIso B S S' g V).hom
@@ -382,7 +382,7 @@ private theorem extendedSection_factorization
   let M := relocalizeSheafModel B S S' g adj
   let θ := extendedPresheafIso B S S' g adj U₀
   have hα : (extendedRepresentableIso B S S' g adj V₀ U₀.property).inv = ρ.inv ≫ θ.inv := by
-    show (θ ≪≫ ρ).inv = ρ.inv ≫ θ.inv
+    change (θ ≪≫ ρ).inv = ρ.inv ≫ θ.inv
     rw [Iso.trans_inv]
   have hComp : θ.inv ≫ (L.map q₀).hom ≫ (η.app X).inv.hom =
       (M.map q₀).hom :=
@@ -390,16 +390,16 @@ private theorem extendedSection_factorization
   let κ := relocalizedYonedaRepresentableBy B S S' g V₀
   let s₀ : (yoneda.obj V₀).obj (Opposite.op V₀) := 𝟙 V₀
   have hψ₀ : V₀.hom ≫ g = V.hom := by
-    show ψ ≫ g = V.hom
+    change ψ ≫ g = V.hom
     exact hψ'
   have heVleft : Over.Hom.left eV.inv = 𝟙 V.left := by
     rfl
   have hρ : ρ.inv.app (Opposite.op V) eV.inv = ⟨⟨ψ, s₀⟩, hψ₀⟩ := by
-    show κ.homEquiv eV.inv = ⟨⟨ψ, s₀⟩, hψ₀⟩
+    change κ.homEquiv eV.inv = ⟨⟨ψ, s₀⟩, hψ₀⟩
     apply Subtype.ext
     apply Sigma.ext
     · dsimp [κ, relocalizedYonedaRepresentableBy]
-      show Over.Hom.left eV.inv ≫ V₀.hom = ψ
+      change Over.Hom.left eV.inv ≫ V₀.hom = ψ
       rw [heVleft]
       simp [V₀]
     · dsimp [κ, relocalizedYonedaRepresentableBy]
@@ -408,7 +408,7 @@ private theorem extendedSection_factorization
       exact heVleft
   rw [hα]
   simp only [Category.assoc]
-  show yonedaEquiv h =
+  change yonedaEquiv h =
     yonedaEquiv (yoneda.map eV.inv ≫ ρ.inv ≫ θ.inv ≫ (L.map q₀).hom ≫ (η.app X).inv.hom)
   rw [hComp]
   apply Subtype.ext
@@ -422,7 +422,7 @@ private theorem extendedSection_factorization
   apply Sigma.ext
   · rfl
   · apply heq_of_eq
-    show s = e₀.app (Opposite.op V₀) s₀
+    change s = e₀.app (Opposite.op V₀) s₀
     simp [e₀, s₀]
 
 /-- Étaleness of morphisms of schemes is invariant under pre- and post-composition with
@@ -479,7 +479,7 @@ private theorem extended_presheaf_property
   let q₁ : yoneda.obj ((Over.map g).obj U) ⟶ (L.obj X).obj :=
     (extendedRepresentableIso B S S' g adj U hU).inv ≫ (L.map q₀).hom
   have _ : Q₁.RespectsIso := inferInstance
-  show Q₁.presheaf q₁
+  change Q₁.presheaf q₁
   refine MorphismProperty.relative.of_exists (F := yoneda) (f := q₁) ?_
   · intro V e
     obtain ⟨V₀, eV, e₀, he⟩ := extendedSection_factorization B S S' g adj F hF V e
@@ -544,7 +544,7 @@ private theorem extended_presheaf_property
         simp [e₁, δ, βV, Category.assoc]
     have hQr₁ : Q₁ (F'.map r₀ ≫ eV.hom) := by
       have hbase : Q₁ (F'.map r₀) := by
-        show Q (T.map r₀)
+        change Q (T.map r₀)
         exact hQr₀
       exact MorphismProperty.RespectsIso.postcomp Q (T'.map eV.hom)
         (T'.map (F'.map r₀)) (by simpa [Q₁, T'] using hbase)

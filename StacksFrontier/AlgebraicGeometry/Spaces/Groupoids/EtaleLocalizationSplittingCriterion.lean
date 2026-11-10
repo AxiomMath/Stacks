@@ -228,7 +228,7 @@ theorem exists_mem_arrows_of_target_eq {G H : GroupoidInAlgebraicSpaces C S hS B
   have hxy : x₀.class C S hS G.objects.obj = y₀.class C S hS G.objects.obj := by
     refine Space.FieldValuedPoint.class_eq_class_of_hasCommonExtension C S hS _ ?_
     refine ⟨x₀, Space.FieldValuedPoint.dominates_refl C S hS _ x₀, ⟨𝟙 _, ?_⟩⟩
-    show G.objects.obj.map (𝟙 _).op y₀.value = x₀.value
+    change G.objects.obj.map (𝟙 _).op y₀.value = x₀.value
     rw [op_id, G.objects.obj.map_id]
     exact (φ.toGroupoidHom.map_target _ r₀.value).symm
   have hclass : x₀.class C S hS G.objects.obj =
@@ -247,7 +247,7 @@ theorem exists_mem_arrows_of_target_eq {G H : GroupoidInAlgebraicSpaces C S hS B
   have hr₁val : G.target.hom.app (Opposite.op r₁.siteObject)
       (φ.toGroupoidHom.mapArrows.app (Opposite.op r₁.siteObject) r₁.value) = w.value := by
     rw [← hg₁]
-    show G.target.hom.app _ (φ.toGroupoidHom.mapArrows.app _
+    change G.target.hom.app _ (φ.toGroupoidHom.mapArrows.app _
       (H.arrows.obj.map g₁.op r₀.value)) = G.objects.obj.map g₁.op x₀.value
     rw [show φ.toGroupoidHom.mapArrows.app (Opposite.op w.siteObject)
         (H.arrows.obj.map g₁.op r₀.value) =
@@ -273,7 +273,7 @@ theorem pointsMap_mapObjects_pointsMap_eqToHom
   have key : (eqToHom (restrict G g).objects_eq.symm).hom ≫
       (restrict G g).hom.toGroupoidHom.mapObjects = g.hom := by
     rw [(restrict G g).mapObjects_eq]
-    show ((eqToHom (restrict G g).objects_eq.symm) ≫
+    change ((eqToHom (restrict G g).objects_eq.symm) ≫
       (eqToHom (restrict G g).objects_eq ≫ g)).hom = g.hom
     rw [← Category.assoc, eqToHom_trans, eqToHom_refl, Category.id_comp]
   rw [← key]

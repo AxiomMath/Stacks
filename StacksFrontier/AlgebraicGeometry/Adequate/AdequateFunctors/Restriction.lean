@@ -99,6 +99,7 @@ private theorem pushforward_preserves_kernel
         ((restrictAlgebras.{max u u' v} f).op.op.obj X) ⋙
       ModuleCat.restrictScalars ((restrictRingDiagram.{max u u' v} f).app X).hom))
 
+set_option linter.checkUnivs false in
 /-- The universe lift of presheaves of modules preserves the kernel of a given morphism. -/
 private theorem ulift_preserves_kernel
     {F G : ModuleValuedFunctor.{w, max u u' v} A} (e : F ⟶ G) :
@@ -135,8 +136,7 @@ private noncomputable def moduleExtensionRestrictIso (f : A →+* A')
     let : IsScalarTower A A' B := .of_algebraMap_eq' rfl
     let : IsScalarTower A A' C := .of_algebraMap_eq' rfl
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy => convert congrArg₂ (· + ·) hx hy using 1 <;> apply map_add
 
@@ -154,8 +154,7 @@ private theorem moduleExtensionRestrictIso_naturality (f : A →+* A')
   classical
   ext X
   rename_i x
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => convert congrArg₂ (· + ·) hx hy using 1 <;> apply map_add
 
@@ -283,7 +282,7 @@ public theorem IsAdequate.restrict (f : A →+* A')
   have hD := pushforwardUliftIso_naturality f q
   have hE := moduleExtensionRestrictIso_naturality f g
   have hD' : P.map (U.map q) ≫ dN.hom = dM.hom ≫ U'.map (P.map q) := by
-    show (PresheafOfModules.pushforward (restrictRingDiagram.{max u u' v} f)).map
+    change (PresheafOfModules.pushforward (restrictRingDiagram.{max u u' v} f)).map
         ((presheafOfModulesUliftFunctor.{u}
           (algebraRingDiagram.{max u u' v} A)).map q) ≫ dN.hom = _
     exact hD
@@ -295,7 +294,7 @@ public theorem IsAdequate.restrict (f : A →+* A')
     calc
       P.map (U.map q) ≫ dN.hom ≫ U'.map eN.hom ≫ uN.hom =
           (dM.hom ≫ U'.map (P.map q)) ≫ U'.map eN.hom ≫ uN.hom := by
-              show (P.map (U.map q) ≫ dN.hom) ≫ U'.map eN.hom ≫ uN.hom = _
+              change (P.map (U.map q) ≫ dN.hom) ≫ U'.map eN.hom ≫ uN.hom = _
               rw [hD']
       _ = dM.hom ≫ U'.map (P.map q ≫ eN.hom) ≫ uN.hom := by
               simp only [Functor.map_comp, Category.assoc]

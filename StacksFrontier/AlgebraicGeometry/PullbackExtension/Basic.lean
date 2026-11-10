@@ -219,7 +219,8 @@ This is the input that
 input, precisely" and calls "the genuine content of Tag 01PW that the repository does not have",
 and that `Stacks.Tag087SAmpleRoute.EventualAffineDatumUniform` repeats as "no statement in the
 repository extends a
-section of an invertible `F` over `X_σ` to a global section of `F ⊗ N ^⊗ e`". **It is available**, as
+section of an invertible `F` over `X_σ` to a global section of `F ⊗ N ^⊗ e`". **It is available**,
+as
 `Stacks.SectionExtensionNoAmple.exists_tensorPow_tensorSection_of_hasPointwiseNonvanishing`,
 which asks of the twisting module only
 `Stacks.SectionExtensionNoAmple.HasPointwiseNonvanishing` and not ampleness — and that hypothesis

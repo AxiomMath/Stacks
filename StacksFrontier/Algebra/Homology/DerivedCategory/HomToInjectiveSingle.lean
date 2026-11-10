@@ -46,7 +46,7 @@ private theorem homologyπ_homologyMap_single_hom (K : CochainComplex C ℤ) (E 
     (g : K ⟶ (CochainComplex.singleFunctor C i).obj E) :
     K.homologyπ i ≫ homologyMap g i ≫ (singleObjHomologySelfIso (ComplexShape.up ℤ) i E).hom =
       K.iCycles i ≫ g.f i ≫ (singleObjXSelf (ComplexShape.up ℤ) i E).hom := by
-  simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors] at g ⊢
+  simp only [CochainComplex.singleFunctor] at g ⊢
   rw [homologyπ_naturality_assoc, homologyπ_singleObjHomologySelfIso_hom,
     singleObjCyclesSelfIso_hom, cyclesMap_i_assoc]
 
@@ -56,7 +56,7 @@ theorem exists_homologyMap_toSingle_of_injective (K : CochainComplex C ℤ) (E :
     (i : ℤ) (f : K.homology i ⟶ E) :
     ∃ g : K ⟶ (CochainComplex.singleFunctor C i).obj E,
       homologyMap g i ≫ (singleObjHomologySelfIso (ComplexShape.up ℤ) i E).hom = f := by
-  simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+  simp only [CochainComplex.singleFunctor]
   let t := Injective.factorThru f (K.homologyι i)
   let g : K ⟶ (CochainComplex.singleFunctor C i).obj E :=
     mkHomToSingle (K.pOpcycles i ≫ t) (by intros; simp)
@@ -90,7 +90,7 @@ theorem nonempty_homotopy_zero_of_homologyMap_eq_zero (K : CochainComplex C ℤ)
       eqToHom (congrArg J.X hb.symm) else 0 else 0
   have heq : f = Homotopy.nullHomotopicMap h := by
     apply to_single_hom_ext
-    show f.f i = _
+    change f.f i = _
     simp only [Homotopy.nullHomotopicMap, dNext, prevD, h]
     simpa [S] using (hS.comp_descToInjective (f.f i) hz).symm
   rw [heq]
@@ -152,7 +152,7 @@ private theorem bijective_homologyMap_Q_single (K : CochainComplex C ℤ) (E : C
     have hψ' := (hQ g₁).symm.trans (hψ.trans (hQ g₂))
     rw [cancel_mono] at hψ'
     have h0 : homologyMap (g₁ - g₂) i = 0 := by
-      show (HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) i).map (g₁ - g₂) = 0
+      change (HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) i).map (g₁ - g₂) = 0
       rw [Functor.map_sub, hψ', sub_self]
     obtain ⟨H⟩ := CochainComplex.nonempty_homotopy_zero_of_homologyMap_eq_zero K E i _ h0
     exact Q_map_eq_of_homotopy C (Homotopy.equivSubZero.symm H)
@@ -183,7 +183,7 @@ theorem bijective_homologyMap_comp_of_injective (X : DerivedCategory C) (E : C) 
       (homologyFunctor C i).map φ ≫ (singleFunctorCompHomologyFunctorIso C i).hom.app E) =
       G ∘ Φ ∘ T := by
     funext φ
-    show _ = G (Φ (T φ))
+    change _ = G (Φ (T φ))
     dsimp only [G, Φ, T, w, uI]
     simp
   rw [hcomp]

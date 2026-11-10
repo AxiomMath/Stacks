@@ -244,7 +244,7 @@ private theorem AdjoinFinset.compactSpace_and_quasiSeparatedSpace_bcDiagram_obj 
   have : IsAffineHom (pullback.snd s f) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (IsPullback.of_hasPullback s f)
       (isAffineHom_of_isAffine _)
-  show CompactSpace ↥(pullback s f) ∧ QuasiSeparatedSpace ↥(pullback s f)
+  change CompactSpace ↥(pullback s f) ∧ QuasiSeparatedSpace ↥(pullback s f)
   exact ⟨QuasiCompact.compactSpace_of_compactSpace (pullback.snd s f),
     quasiSeparatedSpace_of_quasiSeparated (pullback.snd s f)⟩
 

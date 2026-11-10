@@ -104,10 +104,10 @@ public theorem isCocontinuous_opensToEtale (X : Scheme.{u})
     have m : (opensToEtale X).obj (V₀ ⊓ V) ⟶ Z i :=
       MorphismProperty.Over.homMk (X.homOfLE (inf_le_left : V₀ ⊓ V ≤ V₀) ≫ s)
         (by
-          show (X.homOfLE (inf_le_left : V₀ ⊓ V ≤ V₀) ≫ s) ≫ ((Z i).hom : (Z i).left ⟶ X) =
+          change (X.homOfLE (inf_le_left : V₀ ⊓ V ≤ V₀) ≫ s) ≫ ((Z i).hom : (Z i).left ⟶ X) =
             (V₀ ⊓ V).ι
           rw [Category.assoc, hs, X.homOfLE_ι]) trivial
-    show (Sieve.ofArrows Z fam).arrows
+    change (Sieve.ofArrows Z fam).arrows
       ((opensToEtale X).map (homOfLE (inf_le_right : V₀ ⊓ V ≤ V)))
     have key : (opensToEtale X).map (homOfLE (inf_le_right : V₀ ⊓ V ≤ V)) = m ≫ fam i :=
       Subsingleton.elim _ _

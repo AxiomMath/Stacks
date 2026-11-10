@@ -259,7 +259,7 @@ private theorem ι_map_quasiCoherentDerivedTensor_map_app
       ((derivedTensor X).map
         ((DerivedCategoryB.derivedCategoryB (A := X.Modules)
           (SheafOfModules.isQuasicoherent X.ringCatSheaf)).ι.map f)).app L.obj := by
-  show ((derivedTensor X).map
+  change ((derivedTensor X).map
       ((DerivedCategoryB.derivedCategoryB (A := X.Modules)
         (SheafOfModules.isQuasicoherent X.ringCatSheaf)).ι.map f)).app L.obj ≫
     ((derivedTensor X).obj

@@ -114,18 +114,15 @@ theorem bijective_restrictionBaseChange_presheafRingULiftUp_iff
     TensorProduct.smul_tmul (show ↑(𝒪.obj X) from ULift.down a) (show S from ULift.down b)
       (show ↑(N.obj X) from x))
   have hβα : ∀ t : T, β (α t) = t := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x => rfl
     | add t t' ht ht' => rw [map_add, map_add, ht, ht']
   have hαβ : ∀ t : T', α (β t) = t := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x => rfl
     | add t t' ht ht' => rw [map_add, map_add, ht, ht']
   have hcomp : ∀ s : T, c' (α s) = c s := fun s => by
-    induction s using TensorProduct.induction_on with
-    | zero => exact ((congrArg c' (map_zero α)).trans c'.hom.map_zero).trans c.hom.map_zero.symm
+    induction s using TensorProduct.inductionOn with
     | tmul b x =>
       exact (restrictionBaseChange_tmul.{u, v, max u v r z, max m r u v z} (R := R') N' f
           (ULift.up b) x).trans

@@ -64,11 +64,13 @@ theorem false_of_chart_two {w : Fin 3 → A} (hspan : Ideal.span (Set.range w) =
         ≤ M) : False :=
   false_of_mul_self_mem_pow_three (hspan ▸ Ideal.subset_span ⟨2, rfl⟩) hsq S M hle
 
+omit [IsLocalRing A] in
 /-- Exchanging the first two of three generators does not change the ideal they span. -/
 theorem span_range_comp_swap_zero_one (w : Fin 3 → A) :
     Ideal.span (Set.range (w ∘ Equiv.swap 0 1)) = Ideal.span (Set.range w) := by
   rw [Set.range_comp, Equiv.range_eq_univ, Set.image_univ]
 
+omit [IsLocalRing A] in
 /-- Reindexing a quadratic expression and its variables by the same permutation does not change
 its value. -/
 theorem sum_quadratic_comp_perm (w : Fin 3 → A) (f : Fin 3 → Fin 3 → A)
@@ -77,6 +79,7 @@ theorem sum_quadratic_comp_perm (w : Fin 3 → A) (f : Fin 3 → Fin 3 → A)
   rw [← Equiv.sum_comp σ (fun p => ∑ q, f p q * (w p * w q))]
   exact Finset.sum_congr rfl fun p _ => Equiv.sum_comp σ (fun q => f (σ p) q * (w (σ p) * w q))
 
+omit [IsLocalRing A] in
 /-- Reindexing a cubic expression and its variables by the same permutation does not change its
 value. -/
 theorem sum_cubic_comp_perm (w : Fin 3 → A) (b : Fin 3 → Fin 3 → Fin 3 → A)

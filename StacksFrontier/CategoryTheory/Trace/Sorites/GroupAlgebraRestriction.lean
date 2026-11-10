@@ -197,7 +197,7 @@ theorem projective_restrictScalars_subgroup [Finite G] :
     { toFun := fun a q => subgroupCoeff Λ H (Quotient.out q) a
       map_add' := fun a b => funext fun q => subgroupCoeff_add Λ H _ a b
       map_smul' := fun b a => funext fun q => by
-        show subgroupCoeff Λ H (Quotient.out q) (b • a) = b * subgroupCoeff Λ H _ a
+        change subgroupCoeff Λ H (Quotient.out q) (b • a) = b * subgroupCoeff Λ H _ a
         rw [hsmul]
         exact subgroupCoeff_mul Λ H _ b a }
   let s : (Quotient (QuotientGroup.rightRel H) → Λ[H]) →ₗ[Λ[H]] Λ[G] :=
@@ -206,13 +206,13 @@ theorem projective_restrictScalars_subgroup [Finite G] :
         simp only [Pi.add_apply, map_add, add_mul]
         exact Finset.sum_add_distrib
       map_smul' := fun b x => by
-        show (∑ q, mapDomainRingHom Λ H.subtype (b * x q) * single (Quotient.out q) 1) =
+        change (∑ q, mapDomainRingHom Λ H.subtype (b * x q) * single (Quotient.out q) 1) =
           mapDomainRingHom Λ H.subtype b *
             ∑ q, mapDomainRingHom Λ H.subtype (x q) * single (Quotient.out q) 1
         rw [Finset.mul_sum]
         exact Finset.sum_congr rfl fun q _ => by rw [map_mul, mul_assoc] }
   refine Module.Projective.of_split i s (LinearMap.ext fun a => ?_)
-  show (∑ q, mapDomainRingHom Λ H.subtype (subgroupCoeff Λ H (Quotient.out q) a) *
+  change (∑ q, mapDomainRingHom Λ H.subtype (subgroupCoeff Λ H (Quotient.out q) a) *
     single (Quotient.out q) 1) = a
   calc
     _ = ∑ q : Quotient (QuotientGroup.rightRel H), ∑ h : H,

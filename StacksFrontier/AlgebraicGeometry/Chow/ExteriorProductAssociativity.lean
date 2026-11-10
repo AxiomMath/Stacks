@@ -118,8 +118,8 @@ about Chow groups: `Stacks.Chow.chowExteriorProduct_assoc`.
 * `Stacks.Chow.exteriorProduct_assoc` — the associativity of the exterior product of cycles over
   a field, stated coefficientwise.
 * `Stacks.Chow.chowExteriorProduct_assoc_unconditional` — Tag 0FBZ with nothing assumed, and
-  `Stacks.Chow.chowExteriorProduct_assoc` — Tag 0FBZ granted Stacks 02S1: the associativity of the exterior product
-  on Chow groups over a field.
+  `Stacks.Chow.chowExteriorProduct_assoc` — Tag 0FBZ: the associativity of the
+  exterior product on Chow groups over a field.
 
 ## Implementation notes
 
@@ -1169,12 +1169,10 @@ the base by `Stacks.Chow.tripleProductAssoc_hom_comp_base`, followed by
 transports are the identity on cycle coefficients, so what is asserted is the source's identity.
 
 On classes of cycles it is `Stacks.Chow.exteriorProduct_assoc`, the cycle-level identity, read
-modulo rational equivalence. Stacks 02S1 is assumed, in the bundled form
-`Stacks.Chow.FlatPullbackDescends`; it is what makes the exterior product on Chow groups exist at
-all, see `Stacks.Chow.chowExteriorProduct`. -/
+modulo rational equivalence. Nothing is assumed: it is
+`Stacks.Chow.chowExteriorProduct_assoc_unconditional`. -/
 @[stacks 0FBZ]
-theorem chowExteriorProduct_assoc (k : Type u) [Field k]
-    (hfp : FlatPullbackDescends (fieldChowSituation k)) {X Y Z : Scheme.{u}}
+theorem chowExteriorProduct_assoc (k : Type u) [Field k] {X Y Z : Scheme.{u}}
     (f : X ⟶ (fieldChowSituation k).S) [LocallyOfFiniteType f]
     (g : Y ⟶ (fieldChowSituation k).S) [LocallyOfFiniteType g]
     (h : Z ⟶ (fieldChowSituation k).S) [LocallyOfFiniteType h] (n m l : ℤ)

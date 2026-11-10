@@ -56,8 +56,10 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] AlgebraicGeometry.BigFppfOver.hasSheafify_type
 
-set_option maxHeartbeats 1600000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search on pullbacks of sheaves on the big fppf site is expensive
+set_option maxHeartbeats 1600000 in
+-- the proof builds many pullbacks of sheaves on the big fppf site and their instances
 /-- **A morphism out of a finite coproduct of algebraic spaces over `S` is quasi-compact as
 soon as its restrictions to the summands are.** -/
 theorem isQuasiCompact_of_isColimit_cofan {I : Type v} [Finite I] [Small.{u} I]

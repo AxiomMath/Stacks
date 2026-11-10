@@ -216,8 +216,9 @@ theorem geometricPointwiseBaseChange_sheafHom_of_isPseudoCoherent (sq : IsPullba
       (asIso (smallEtaleDerivedPullbackSheafHomMap a'
         ((smallEtaleDerivedModulePullback B S hS g').obj E) K')).symm hH
   have hI := hH.isIso U V V' U' a b c a' f₀ g₀ f₀' g₀' hpb.w ha hb hc' hpb hfa hgb hfc ha'
-  have hP := (forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_representedAffineSectionsBaseChangeComp
-    B S hS f₀ g₀ f₀' g₀' hpb.w hpb _ hQ₁ _ hQ₂ _).2 hI x'' n
+  have hP :=
+    (forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_affineSectionsBaseChangeComp
+      B S hS f₀ g₀ f₀' g₀' hpb.w hpb _ hQ₁ _ hQ₂ _).2 hI x'' n
   have h' := (isIso_geometricStalkBaseChangeCohomologyMap_iff_affineQuadruple sq _ _ _ U V V' U'
     a b c a' f₀ g₀ f₀' g₀' hpb.w ha hb hc' hpb hfa hgb hfc ha' x'' n).2 hP
   rw [hx''] at h'

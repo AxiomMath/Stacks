@@ -59,7 +59,7 @@ theorem constantRingedSiteRingMap_app_apply (U : Cᵒᵖ) (a : Λ) :
         ((RingedSite.constantRingSheafIso_general J Λ).hom).hom =
       (Functor.constComp Cᵒᵖ (CommRingCat.of Λ) (forget₂ CommRingCat.{w} RingCat.{w})).hom ≫
         Stacks.ConstantRingModules.constantRingMap Λ J := by
-    show _ ≫ ((sheafifyComposeIso J (forget₂ CommRingCat.{w} RingCat.{w})
+    change _ ≫ ((sheafifyComposeIso J (forget₂ CommRingCat.{w} RingCat.{w})
       ((Functor.const Cᵒᵖ).obj (CommRingCat.of Λ))).inv ≫ sheafifyMap J
         (Functor.constComp Cᵒᵖ (CommRingCat.of Λ) (forget₂ CommRingCat.{w} RingCat.{w})).hom) = _
     rw [reassoc_of% h₁, ← h₂]

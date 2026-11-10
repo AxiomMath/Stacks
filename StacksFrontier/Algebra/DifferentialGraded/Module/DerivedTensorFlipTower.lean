@@ -205,7 +205,6 @@ variable {A C : DifferentialGradedAlgebra.{u, u} R} (φ ψ : A.Hom C) (ι : C.Ho
   (v : restrictedRegularOpp ψ ⟶ restrictScalars (oppHom φ) (restrictedRegularOpp ι))
   (hv : ∀ x, v.toFun x = x)
 
-include hk hv in
 /-- Tensoring with a resolution and then with the map induced by `g` is tensoring with the map
 induced by the composite. -/
 theorem tensorHomOfBimoduleHom_comp_flipTensor {P : DifferentialGradedModule.{u, u, u} A}
@@ -225,7 +224,7 @@ theorem tensorHomOfBimoduleHom_comp_flipTensor {P : DifferentialGradedModule.{u,
   have h4 := tensorCompFunctor_map_pure' (flip P) v x y
   have h5 := tensorCompNatTransOfSemilinear_app_pure (oppHom φ) (flip P) (flip N₀)
     (flipMap p ≫ k) (restrictedRegularOpp ι) (v.toFun x) y
-  show ((tensorCompNatTransOfSemilinear (oppHom φ) (flip N) (flip N₀) k).app
+  change ((tensorCompNatTransOfSemilinear (oppHom φ) (flip N) (flip N₀) k).app
       (restrictedRegularOpp ι)).toFun (((tensorCompFunctor (flip N)).map v).toFun
         ((tensorHomOfBimoduleHom (flipMap p) (restrictedRegularOpp ψ)).toFun
           (((tensorDGFunctor (flip P)).pure (restrictedRegularOpp ψ)).toLinearMap x y))) =
@@ -272,7 +271,7 @@ theorem isIso_flipTowerMap_of_isIso_derivedTranspose
   have hA := derivedTensorNatTrans_app_comp_comparison (flipMap p) (restrictedRegularOpp ψ)
   have hcomb := flipTower_combine_aux (toHomotopyCategory (degreeZero R R))
     (quasiIsomorphisms' (degreeZero R R)).Q _ _ _ _ _ _ _ _ hT hA
-    (tensorHomOfBimoduleHom_comp_flipTensor φ ψ ι g k hk v hv p)
+    (tensorHomOfBimoduleHom_comp_flipTensor φ ψ ι k v p)
   have hq : QuasiIso ((forgetToCochainComplex (degreeZero R R)).map (flipMap p).rightHom) := by
     have h : @Eq (P.toCochainComplex ⟶ N.toCochainComplex)
         (restrictScalarsHom (baseHom A) p).toCochainMap p.toCochainMap :=

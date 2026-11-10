@@ -192,7 +192,7 @@ theorem residueField_module_finite_of_locallyQuasiFinite
   have : P.IsMaximal := IsLocalRing.maximalIdeal.isMaximal A
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime P) :=
     Localization.AtPrime.algebraOfLiesOver p P
-  have : Localization.AtPrime.IsLiesOverAlgebra p P := inferInstance
+  have : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime P) := inferInstance
   have : Module.Finite p.ResidueField P.ResidueField := inferInstance
   let eR : IsLocalRing.ResidueField R ≃+* p.ResidueField :=
     (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
@@ -204,24 +204,24 @@ theorem residueField_module_finite_of_locallyQuasiFinite
       eA.toRingHom.comp (IsLocalRing.ResidueField.map φ) := by
     ext z
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
-    show algebraMap p.ResidueField P.ResidueField (eR (IsLocalRing.residue R r)) =
+    change algebraMap p.ResidueField P.ResidueField (eR (IsLocalRing.residue R r)) =
       eA ((IsLocalRing.ResidueField.map φ) (IsLocalRing.residue R r))
     rw [IsLocalRing.ResidueField.map_residue]
-    show algebraMap p.ResidueField P.ResidueField
+    change algebraMap p.ResidueField P.ResidueField
         ((IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p))
           (Ideal.Quotient.mk _ r)) =
       (IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P))
         (Ideal.Quotient.mk _ (φ r))
     rw [IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk,
       IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk]
-    show algebraMap p.ResidueField P.ResidueField (algebraMap R p.ResidueField r) =
+    change algebraMap p.ResidueField P.ResidueField (algebraMap R p.ResidueField r) =
       algebraMap A P.ResidueField (φ r)
     exact Ideal.ResidueField.map_algebraMap p P φ
       (IsLocalRing.maximalIdeal_comap φ).symm r
   have hdim : Module.finrank (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A) =
       Module.finrank p.ResidueField P.ResidueField :=
     Algebra.finrank_eq_of_equiv_equiv eR eA hcompat
-  show Module.Finite (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A)
+  change Module.Finite (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A)
   exact Module.finite_of_finrank_pos (hdim ▸ Module.finrank_pos)
 
 /-- **The scheme-level content of Stacks 06RX.** For `p : A ⟶ B` locally quasi-finite and
@@ -244,7 +244,7 @@ theorem trdeg_residueField_eq_of_locallyQuasiFinite
   let : Algebra K L := ((p ≫ q).residueFieldMap x).hom.toAlgebra
   have : IsScalarTower K K' L := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show ((p ≫ q).residueFieldMap x).hom a =
+    change ((p ≫ q).residueFieldMap x).hom a =
       (p.residueFieldMap x).hom ((q.residueFieldMap (p x)).hom a)
     rw [Scheme.residueFieldMap_comp]
     rfl)
@@ -280,7 +280,7 @@ private theorem hasResidueFieldTranscendenceDegree_zero_of_finite {X Y : Scheme.
   have _ : Module.Finite (Y.residueField (φ x)) (X.residueField x) := hfin
   have _ : Algebra.IsAlgebraic (Y.residueField (φ x)) (X.residueField x) :=
     Algebra.IsAlgebraic.of_finite _ _
-  show Cardinal.toENat (Algebra.trdeg (Y.residueField (φ x)) (X.residueField x)) = 0
+  change Cardinal.toENat (Algebra.trdeg (Y.residueField (φ x)) (X.residueField x)) = 0
   rw [trdeg_eq_zero]
   simp
 
@@ -309,7 +309,7 @@ private theorem relativeDimension_of_forall_topologicalKrullDimAt_fiber_eq {X Y 
     RelativeDimension f d := by
   intro s hs
   have _ : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField s))
     infer_instance
   have _ : Nonempty (f.fiber s) := hs
   have hlocal : ∀ w : f.fiber s, topologicalKrullDimAt (f.fiber s) w = (d : WithBot ℕ∞) :=
@@ -381,7 +381,7 @@ theorem hasTranscendenceDegreeAt_comp_iff_of_isLocallyQuasiFinite
   let t : Spec (.of p.carrier) := IsLocalRing.closedPoint p.carrier
   let c₁ := etaleChartAtPointOfId B S hS U W (α ≫ β) p t
   let c₂ := etaleChartAtPointOfId B S hS V W β pV t
-  show HoldsOnEveryEtaleChartAtPoint B S hS
+  change HoldsOnEveryEtaleChartAtPoint B S hS
       (@MorphismOfGerms.HasResidueFieldTranscendenceDegree.{u} r) (yoneda.map (α ≫ β))
       (p.class B S hS (yoneda.obj U)) ↔
     HoldsOnEveryEtaleChartAtPoint B S hS
@@ -391,7 +391,7 @@ theorem hasTranscendenceDegreeAt_comp_iff_of_isLocallyQuasiFinite
     holdsOnEveryEtaleChartAtPoint_hasResidueFieldTranscendenceDegree_iff B S hS r c₂]
   have hlqf : LocallyQuasiFinite (T.map α) := (hf U V a b α haEt hbEt hcommF).2
   have hy : (T.map α) ((T.map p.value) t) = (T.map pV.value) t := by
-    show (T.map α) ((T.map p.value) t) = (T.map (p.value ≫ α)) t
+    change (T.map α) ((T.map p.value) t) = (T.map (p.value ≫ α)) t
     rw [Functor.map_comp]
     rfl
   exact MorphismOfGerms.hasResidueFieldTranscendenceDegree_comp_iff_of_locallyQuasiFinite r

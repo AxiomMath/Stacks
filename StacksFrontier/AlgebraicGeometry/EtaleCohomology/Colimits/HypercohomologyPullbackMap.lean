@@ -162,7 +162,7 @@ lemma etaleConstantComplexPullback_comp (g : X ⟶ Y) (f : Y ⟶ Z) (gf : X ⟶ 
     smallEtalePullbackAbConstantIso_comp_inv_app g f gf hgf, Category.assoc, Functor.map_comp]
   dsimp only [Functor.comp_obj]
   simp only [Iso.inv_hom_id_assoc, ← Functor.map_comp_assoc (smallEtalePullbackAb g),
-    Iso.inv_hom_id, Functor.map_id, Category.id_comp, Category.comp_id, hnat]
+    Iso.inv_hom_id, Category.comp_id, hnat]
 
 /-- **Pull back along a composite.** Pulling back along `f` with `κ : f⁻¹K ⟶ L` and then along `g`
 with `κ' : g⁻¹L ⟶ M` is pulling back along `gf = g ≫ f` with the composite
@@ -332,7 +332,7 @@ lemma etaleHypercohomologyPullback_singleShiftAddEquiv (f : X ⟶ Y)
       (((CochainComplex.singleFunctors _).shiftIso 1 n m h).app F))).inv_hom_id
     exact (Category.comp_id x).symm.trans ((congrArg (x ≫ ·) this).symm.trans
       (Category.assoc _ _ _).symm)
-  show Functor.shiftedHomShiftAddEquiv _ _ p 1 q hpq
+  change Functor.shiftedHomShiftAddEquiv _ _ p 1 q hpq
       (etaleHypercohomologyPullback f _ p x ≫ _) =
     etaleHypercohomologyPullback f _ q (Functor.shiftedHomShiftAddEquiv _ _ p 1 q hpq _)
   rw [etaleHypercohomologyPullback_comp_Q_map]
@@ -341,7 +341,7 @@ lemma etaleHypercohomologyPullback_singleShiftAddEquiv (f : X ⟶ Y)
     Functor.mapAlongExact_shiftedHomShiftAddEquiv]
   congr 2
   rw [← Category.assoc, key]
-  simp only [Category.assoc, Iso.hom_inv_id_app, Category.comp_id, Functor.map_comp]
+  simp only [Category.assoc, Iso.hom_inv_id_app, Functor.map_comp]
   rfl
 
 end Single
@@ -391,7 +391,7 @@ def etaleHypercohomologyδ
       etaleHypercohomology X (DerivedCategory.Q.obj S.X₁) q where
   toFun x := x.comp (DerivedCategory.triangleOfSESδ hS) h
   map_zero' := ShiftedHom.zero_comp _ _ _ _
-  map_add' x y := ShiftedHom.add_comp _ _ _ _
+  map_add' x y := ShiftedHom.add_comp x y _ _
 
 /-- `etaleHypercohomologyδ hS p q h` sends `x` to its composite with the connecting morphism
 `DerivedCategory.triangleOfSESδ hS`. -/

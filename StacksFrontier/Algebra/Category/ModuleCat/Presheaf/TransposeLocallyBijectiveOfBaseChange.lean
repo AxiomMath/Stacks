@@ -104,7 +104,7 @@ theorem res_sub {W W' : D} (a : W ⟶ W') (y y' : Q.obj (op W')) :
 omit ψ in
 /-- Restriction along the identity is the identity. -/
 theorem res_id {W : D} (y : Q.obj (op W)) : res (𝟙 W) y = y := by
-  show Q.map (𝟙 W).op y = y
+  change Q.map (𝟙 W).op y = y
   rw [op_id, PresheafOfModules.map_id]
   rfl
 
@@ -179,8 +179,7 @@ theorem range_pairBaseChange {W : D} {V : C} (a : W ⟶ F.obj V) :
       Submodule.span (R.obj (op W)) (Set.range fun m => res a (comp φ ψ V m)) := by
   apply le_antisymm
   · rintro _ ⟨z, rfl⟩
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero (pairBaseChange φ ψ a).hom).symm ▸ Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul o m =>
       refine (congrArg (· ∈ Submodule.span (R.obj (op W))
         (Set.range fun m => res a (comp φ ψ V m))) (pairBaseChange_tmul φ ψ a o m)).mpr ?_
@@ -198,7 +197,7 @@ omit ψ in
 /-- Restriction along `a` after restriction along `b` is restriction along `a ≫ b`. -/
 theorem res_comp {W W' W'' : D} (a : W ⟶ W') (b : W' ⟶ W'') (y : Q.obj (op W'')) :
     res a (res b y) = res (a ≫ b) y := by
-  show Q.map a.op (Q.map b.op y) = Q.map (a ≫ b).op y
+  change Q.map a.op (Q.map b.op y) = Q.map (a ≫ b).op y
   rw [op_comp, PresheafOfModules.map_comp_apply]
 
 /-- The component of `ψ` commutes with the restriction maps: `ψ` is a morphism into the direct
@@ -219,7 +218,7 @@ theorem res_mem_range_pairBaseChange {W W' : D} {V V' : C} (a : W ⟶ F.obj V)
   | mem y hy =>
     obtain ⟨m, rfl⟩ := hy
     refine Submodule.subset_span ⟨P.map b.op m, ?_⟩
-    show res a' (comp φ ψ V' (P.map b.op m)) = res t (res a (comp φ ψ V m))
+    change res a' (comp φ ψ V' (P.map b.op m)) = res t (res a (comp φ ψ V m))
     rw [comp_naturality, res_comp, res_comp, hab]
   | zero => exact (congrArg (· ∈ _) (map_zero (Q.map t.op).hom)).mpr (Submodule.zero_mem _)
   | add y y' _ _ hy hy' =>
@@ -257,10 +256,7 @@ theorem transpose_pairBaseChange_unitPullback {W : D} {V : C} (a : W ⟶ F.obj V
       (P.obj (op V) : ModuleCat (S.obj (op V)))) :
     (transpose φ ψ).app (op W) ((pairBaseChange φ (unitPullback φ P) a).hom z) =
       (pairBaseChange φ ψ a).hom z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact ((congrArg _ (map_zero (pairBaseChange φ (unitPullback φ P) a).hom)).trans
-      (map_zero _)).trans (map_zero (pairBaseChange φ ψ a).hom).symm
+  induction z using TensorProduct.inductionOn with
   | tmul o m =>
     refine (congrArg _ (pairBaseChange_tmul φ (unitPullback φ P) a o m)).trans ?_
     refine Eq.trans ?_ (pairBaseChange_tmul φ ψ a o m).symm
@@ -303,7 +299,7 @@ theorem bijective_homEquiv_symm_of_ringEquiv {A A' B B' : Type u} [CommRing A] [
   let _ : Module A M := Module.compHom _ αh
   let uu := Stacks.RingSquare.tensorMap (P := M) a b α β hsq (fun _ _ => rfl) (fun _ _ => rfl)
     (fun t x => by
-      show αh t • x = α t • x
+      change αh t • x = α t • x
       rw [hα])
   have hu : Function.Bijective uu := Stacks.RingSquare.bijective_tensorMap _ _ _ _ _ _ _ _
   let κb := ((ModuleCat.extendRestrictScalarsAdj b).homEquiv _ _).symm g
@@ -323,10 +319,7 @@ theorem bijective_homEquiv_symm_of_ringEquiv {A A' B B' : Type u} [CommRing A] [
       (d ⊗ₜ[R, f] x)) (mul_one c).symm).trans (hsm.trans (congrArg (fun z => c • z) h1))
   have hcomp : ∀ z, κb.hom (uu z) = κa.hom z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (congrArg _ (map_zero uu)) ?_
-      exact (map_zero κb.hom).trans (map_zero κa.hom).symm
+    induction z using TensorProduct.inductionOn with
     | tmul c m =>
       refine (hone b g (β c) m).trans ?_
       refine Eq.trans ?_ (hone a g' c m).symm
@@ -491,7 +484,7 @@ theorem isLocallyGood (hG : GoodArrows J Aff Good) {W : D}
     refine ⟨W₁, e, t, ⟨V₀, a₀, hga₀, ?_⟩, rfl⟩
     rw [range_pairBaseChange]
     refine Submodule.subset_span ⟨P.map b.op m, ?_⟩
-    show res a₀ (comp φ (unitPullback φ P) V₀ (P.map b.op m)) =
+    change res a₀ (comp φ (unitPullback φ P) V₀ (P.map b.op m)) =
       res t (comp φ (unitPullback φ P) X.unop m)
     rw [comp_naturality, res_comp, hb]
   rw [generatedSubmodule_unit_eq_top (P := P) φ] at hle
@@ -510,7 +503,7 @@ theorem isLocallyInjective_transpose (hG : GoodArrows J Aff Good)
   let y' : M := y
   let s : M := x' - y'
   have hc : (transpose φ ψ).app (op X.unop) s = 0 := by
-    show ((transpose φ ψ).app (op X.unop)).hom (x' - y') = 0
+    change ((transpose φ ψ).app (op X.unop)).hom (x' - y') = 0
     rw [map_sub]
     exact sub_eq_zero.2 hxy
   refine J.superset_covering ?_ (isLocallyGood (J := J) (Good := Good) φ hG (W := X.unop) s)
@@ -523,7 +516,7 @@ theorem isLocallyInjective_transpose (hG : GoodArrows J Aff Good)
   have hsub : res t s = 0 := hz.symm
   change res t (x' - y') = 0 at hsub
   rw [res_sub] at hsub
-  show res (e ≫ t) x' = res (e ≫ t) y'
+  change res (e ≫ t) x' = res (e ≫ t) y'
   rw [← res_comp, ← res_comp, sub_eq_zero.1 hsub]
 
 /-- **The transpose is locally surjective** for `J` as soon as the base change maps of the good

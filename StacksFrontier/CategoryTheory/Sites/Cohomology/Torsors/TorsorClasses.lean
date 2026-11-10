@@ -65,7 +65,7 @@ theorem Hom.bijective_app_of_nonempty {F F' : PseudoTorsor.{t} G} (e : F.Hom F')
 members of a covering over which the source has sections, hence everywhere. -/
 theorem Hom.isIso_of_isTorsor {F F' : PseudoTorsor.{t} G} (hF : F.IsTorsor) (e : F.Hom F') :
     e.IsIso := by
-  show CategoryTheory.IsIso e.hom
+  change CategoryTheory.IsIso e.hom
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   apply (isIso_iff_bijective _).2

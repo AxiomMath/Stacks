@@ -58,7 +58,7 @@ private lemma exists_open_generic_specializes {Y : Type*} [TopologicalSpace Y]
     (hB.isClosed_biUnion
       (fun Z hZ ↦ isClosed_of_mem_irreducibleComponents Z hZ.1)).isOpen_compl⟩
   refine ⟨V, ?_, ?_⟩
-  · show x ∉ ⋃ Z ∈ B, Z
+  · change x ∉ ⋃ Z ∈ B, Z
     simpa only [Set.mem_iUnion, not_exists] using (fun Z hZ ↦ hZ.2)
   · intro y hy hyg
     by_contra h
@@ -68,7 +68,7 @@ private lemma exists_open_generic_specializes {Y : Type*} [TopologicalSpace Y]
 
 private lemma genericPoint_mem_open {Y : TopCat} (U : Opens Y) (y : U)
     (hy : y.1 ∈ genericPoints Y) : y ∈ genericPoints U := by
-  show closure {y} ∈ irreducibleComponents U
+  change closure {y} ∈ irreducibleComponents U
   rw [U.isOpen.isOpenEmbedding_subtypeVal.isEmbedding.isInducing.closure_eq_preimage_closure_image,
     Set.image_singleton]
   exact preimage_mem_irreducibleComponents hy U.isOpen.isOpenEmbedding_subtypeVal
@@ -100,7 +100,7 @@ private lemma germ_injective_of_weaklyAssociated_specializes (X : Scheme.{u})
     Function.Injective (X.presheaf.germ U x x.2) := by
   let := X.presheaf.algebra_section_stalk x
   let := hU.isLocalization_stalk x
-  show Function.Injective (algebraMap Γ(X, U) (X.presheaf.stalk x))
+  change Function.Injective (algebraMap Γ(X, U) (X.presheaf.stalk x))
   apply IsLocalization.injective (M := (hU.primeIdealOf x).asIdeal.primeCompl)
   intro r hr
   rw [mem_nonZeroDivisors_iff_left]
@@ -113,7 +113,7 @@ private lemma germ_injective_of_weaklyAssociated_specializes (X : Scheme.{u})
   obtain ⟨q, hq⟩ := Ideal.nonempty_minimalPrimes hproper
   let p : PrimeSpectrum Γ(X, U) := ⟨q, hq.1.1⟩
   have hpU : hU.fromSpec p ∈ U := by
-    show hU.fromSpec p ∈ (U : Set X)
+    change hU.fromSpec p ∈ (U : Set X)
     rw [← hU.range_fromSpec]
     exact Set.mem_range_self p
   let y : U := ⟨hU.fromSpec p, hpU⟩
@@ -122,7 +122,7 @@ private lemma germ_injective_of_weaklyAssociated_specializes (X : Scheme.{u})
   have hw : Stacks.Divisors.IsWeaklyAssociatedPoint (SheafOfModules.unit X.ringCatSheaf) y := by
     apply (AlgebraicGeometry.isWeaklyAssociatedPrime_iff_isWeaklyAssociatedPoint
       (SheafOfModules.unit X.ringCatSheaf) U hU y y.2).mp
-    show IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
+    change IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
     rw [hyp]
     exact ⟨z, hq⟩
   have hle : (hU.primeIdealOf y).asIdeal ≤ (hU.primeIdealOf x).asIdeal :=
@@ -167,7 +167,7 @@ lemma regularSectionGerms_eq_nonZeroDivisors_of_weaklyAssociatedPoints_subset_ge
     apply Submonoid.mem_iSup_of_mem U
     apply Submonoid.mem_iSup_of_mem hxU
     refine ⟨t, ?_, hta⟩
-    show t ∈ ⨅ y : U, Submonoid.comap (X.presheaf.germ U y y.2).hom
+    change t ∈ ⨅ y : U, Submonoid.comap (X.presheaf.germ U y y.2).hom
       (nonZeroDivisors (X.presheaf.stalk y))
     rw [Submonoid.mem_iInf]
     intro y

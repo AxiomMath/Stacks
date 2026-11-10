@@ -96,7 +96,7 @@ public theorem BigSite.restrictOpenHom_id (Y : C.category) (V : Y.left.obj.Opens
     C.restrictOpenHom (𝟙 Y) V V e = 𝟙 _ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Scheme.Hom.resLE (𝟙 Y.left.obj) V V e = 𝟙 _
+  change Scheme.Hom.resLE (𝟙 Y.left.obj) V V e = 𝟙 _
   rw [← cancel_mono V.ι, Scheme.Hom.resLE_comp_ι]
   simp
 
@@ -151,7 +151,7 @@ public theorem BigSite.restrictOpenHom_comp_homOfLE {Y Y' : C.category} (g : Y' 
       C.restrictOpenHomOfLE Y' hV' ≫ C.restrictOpenHom g W W' e' := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show g.left.hom.resLE V V' e ≫ Y.left.obj.homOfLE hV =
+  change g.left.hom.resLE V V' e ≫ Y.left.obj.homOfLE hV =
     Y'.left.obj.homOfLE hV' ≫ g.left.hom.resLE W W' e'
   rw [← cancel_mono W.ι, Category.assoc, Scheme.homOfLE_ι, Scheme.Hom.resLE_comp_ι,
     Category.assoc, Scheme.Hom.resLE_comp_ι, Scheme.homOfLE_ι_assoc]

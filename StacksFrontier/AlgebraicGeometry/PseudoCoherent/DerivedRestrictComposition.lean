@@ -99,7 +99,7 @@ theorem mapHomotopyCategoryIso_restrictFunctorIsoPullback_comp {A B C : Scheme.{
         (Functor.mapHomotopyCategoryCompIso (restrictFunctorComp a b).symm
           (ComplexShape.up ℤ)).hom.app K := by
   obtain ⟨P, rfl⟩ := HomotopyCategory.quotient_obj_surjective K
-  simp only [Stacks.Homology.mapHomotopyCategoryIso, NatTrans.mapHomotopyCategory_app,
+  simp only [Stacks.Homology.mapHomotopyCategoryIso,
     Stacks.DerivedPullback.Composition.pullbackOnHomotopyCompIso,
     Functor.mapHomotopyCategoryCompIso, Quotient.natIsoLift, Functor.isoWhiskerRight_hom,
     Functor.isoWhiskerRight_inv]

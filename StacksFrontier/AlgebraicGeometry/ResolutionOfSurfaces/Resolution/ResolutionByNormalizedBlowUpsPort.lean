@@ -193,7 +193,7 @@ private theorem isIntegral_pullback_of_flat_of_isIso_morphismRestrict
     genericPoint_mem_of_nonempty_toScheme V ⟨inv (f ∣_ U) ⟨genericPoint S, hη⟩⟩
   have hdense : Dense (O : Set ↑(pullback f k)) := by
     have heq : O = pullback.fst f k ⁻¹ᵁ V := by
-      show pullback.snd f k ⁻¹ᵁ (k ⁻¹ᵁ U) = pullback.fst f k ⁻¹ᵁ (f ⁻¹ᵁ U)
+      change pullback.snd f k ⁻¹ᵁ (k ⁻¹ᵁ U) = pullback.fst f k ⁻¹ᵁ (f ⁻¹ᵁ U)
       rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, pullback.condition]
     rw [heq]
     exact dense_preimage_of_generalizingMap (pullback.fst f k)

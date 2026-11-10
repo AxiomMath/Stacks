@@ -313,7 +313,7 @@ theorem residueSpecMap_isFiniteOrderThickening (A : ArtinianLocalAlgCat.{u, u, u
     (CommRingCat.ofHom (Deformation.Artin.residueMap A)) ?_
   have hker : RingHom.ker (Deformation.Artin.residueMap A) = IsLocalRing.maximalIdeal A :=
     IsLocalRing.ker_eq_maximalIdeal _ (residueMap_surjective A)
-  show RingHom.ker (Deformation.Artin.residueMap A) ^ (N + 1) = ⊥
+  change RingHom.ker (Deformation.Artin.residueMap A) ^ (N + 1) = ⊥
   rw [hker]
   exact le_bot_iff.mp ((Ideal.pow_le_pow_right (Nat.le_succ N)).trans (le_of_eq hN))
 

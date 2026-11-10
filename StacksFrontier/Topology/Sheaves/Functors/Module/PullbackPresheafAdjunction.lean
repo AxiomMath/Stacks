@@ -189,7 +189,7 @@ theorem exists_unit_rep (U : (Opens X)ᵒᵖ) (r : (pullbackRing f O).obj U)
     rw [show colimit.ι (pbRdiag f O U) c a₀
         = (pbRingIso f O U).ringCatIsoToRingEquiv.symm r from ha]
     exact (pbRingIso f O U).ringCatIsoToRingEquiv.apply_symm_apply r
-  · show (pullbackAb f (underlyingAb O G)).map c.unop.unop.hom
+  · change (pullbackAb f (underlyingAb O G)).map c.unop.unop.hom
         (pullbackAbUnit f (underlyingAb O G) c.unop.unop.left m₀) = m
     rw [← pbAbIso_ι f O G U c m₀]
     rw [show colimit.ι (pbMmod f O G U).presheaf c m₀ = (pbAbIso f O G U).symm.hom m from hm]

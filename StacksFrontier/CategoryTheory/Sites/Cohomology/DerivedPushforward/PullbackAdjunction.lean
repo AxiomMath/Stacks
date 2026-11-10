@@ -139,8 +139,10 @@ abbrev sourceQuasiIso (X : RingedTopos.{v, u, w}) [X.J.HasSheafCompose (forget R
 a functor between the unbounded homotopy categories. It is defined because pullback is additive
 (`AlgebraicGeometry.RingedToposHom.pullbackModules_additive`). -/
 abbrev pullbackMapHomotopy (f : RingedToposHom X Y) :
-    HomotopyCategory (SheafOfModules.{w'} (SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ) ⥤
-      HomotopyCategory (SheafOfModules.{w} (SheafOfModules.Tensor.ringSheaf X.O)) (ComplexShape.up ℤ) :=
+    HomotopyCategory (SheafOfModules.{w'} (SheafOfModules.Tensor.ringSheaf Y.O))
+        (ComplexShape.up ℤ) ⥤
+      HomotopyCategory (SheafOfModules.{w} (SheafOfModules.Tensor.ringSheaf X.O))
+        (ComplexShape.up ℤ) :=
   (f.toModulesHom.pullbackModules).mapHomotopyCategory (ComplexShape.up ℤ)
 
 /-- Degreewise pullback, read as a functor from the unbounded homotopy category of the target to

@@ -150,7 +150,7 @@ lemma freeSheafYoneda_map_mono {S T : C} (a : S ⟶ T) [Mono a] :
       simpa only [shrinkYonedaObjObjEquiv_map_app] using
         congrArg shrinkYonedaObjObjEquiv h
     exact NatTrans.mono_of_mono_app _
-  show Mono ((presheafToSheaf J _).map
+  change Mono ((presheafToSheaf J _).map
     (Functor.whiskerRight (shrinkYoneda.{w}.map a) AddCommGrpCat.free))
   infer_instance
 
@@ -306,7 +306,7 @@ lemma range_pullbackMap (f₁ : A ⟶ Z) {u : W₁ ⟶ Z} {v : W₂ ⟶ Z} (m : 
       (pullback.snd f₁ v).base ⁻¹' Set.range m.base := by
   have h := isPullback_pullbackMap f₁ m hm
   rw [← h.isoPullback_hom_fst]
-  show Set.range ((pullback.fst (pullback.snd f₁ v) m).base ∘ h.isoPullback.hom.base) = _
+  change Set.range ((pullback.fst (pullback.snd f₁ v) m).base ∘ h.isoPullback.hom.base) = _
   have hr : Set.range h.isoPullback.hom.base = Set.univ :=
     (show Function.Surjective h.isoPullback.hom.base from
       (Scheme.homeoOfIso h.isoPullback).surjective).range_eq
@@ -436,10 +436,10 @@ lemma coverSquare_cover (U V : X.Opens) (hUV : U ⊔ V = ⊤) (T : Y.Etale) :
     trivial
   rcases hx with hx | hx
   · refine ⟨WalkingPair.left, ?_⟩
-    show x ∈ Set.range ((relativeOpenProjection f U).app T).left
+    change x ∈ Set.range ((relativeOpenProjection f U).app T).left
     rwa [relativeOpenProjection_range]
   · refine ⟨WalkingPair.right, ?_⟩
-    show x ∈ Set.range ((relativeOpenProjection f V).app T).left
+    change x ∈ Set.range ((relativeOpenProjection f V).app T).left
     rwa [relativeOpenProjection_range]
 
 end Site
@@ -493,7 +493,7 @@ def restrictionOfLE {U V : X.Opens} (h : U ≤ V) :
 lemma restrictionToOpen_comp {U V : X.Opens} (h : U ≤ V) :
     restrictionToOpen.{u, v} f V ≫ restrictionOfLE f h = restrictionToOpen f U := by
   refine NatTrans.ext (funext fun F => Sheaf.hom_ext ?_)
-  show Functor.whiskerRight (NatTrans.op (relativeOpenProjection f V)) F.obj ≫
+  change Functor.whiskerRight (NatTrans.op (relativeOpenProjection f V)) F.obj ≫
       Functor.whiskerRight (NatTrans.op (relativeOpenInclusion f h)) F.obj = _
   rw [← Functor.whiskerRight_comp, ← NatTrans.op_comp, relativeOpenInclusion_projection]
   rfl
@@ -584,7 +584,7 @@ lemma shortExact_on_injectives (hUV : U ⊔ V = ⊤)
       have : Mono (sq.f₁₂ ≫ sq.f₂₄) := by
         have h := congrArg (fun k => k.app T.unop)
           (relativeOpenInclusion_projection f (show U ⊓ V ≤ U from inf_le_left))
-        show Mono ((relativeOpenInclusion f inf_le_left).app T.unop ≫
+        change Mono ((relativeOpenInclusion f inf_le_left).app T.unop ≫
           (relativeOpenProjection f U).app T.unop)
         change (relativeOpenInclusion f _).app T.unop ≫ _ = _ at h
         rw [h]
@@ -720,7 +720,7 @@ theorem cohomologySequence_exact (hUV : U ⊔ V = ⊤) (n : ℕ)
     ((biprodHigherDirectImageIso f U V (n + 1)).app F)
     ((restrictedHigherDirectImageIso f (U ⊓ V) (n + 1)).app F) (h₁ n) (h₂ n) ?_ (h₁ (n + 1))
     (h₂ (n + 1))
-  show CategoryTheory.InjectiveResolution.rightDerivedDelta (toCover₀.{u, v} f U V)
+  change CategoryTheory.InjectiveResolution.rightDerivedDelta (toCover₀.{u, v} f U V)
         (toIntersection₀.{u, v} f U V) (toCover₀_comp_toIntersection₀ f U V)
         (fun I hI => shortExact_on_injectives f U V hUV I hI) (injectiveResolution F) n ≫
       𝟙 _ =
@@ -742,7 +742,7 @@ theorem mono_toCover_zero (hUV : U ⊔ V = ⊤)
       (fun I hI => shortExact_on_injectives f U V hUV I hI) F
   have h₂ : IsIso ((biprodHigherDirectImageIso f U V 0).hom.app F) :=
     inferInstanceAs (IsIso ((biprodHigherDirectImageIso f U V 0).app F).hom)
-  show Mono ((NatTrans.rightDerived (toCover₀.{u, v} f U V) 0).app F ≫
+  change Mono ((NatTrans.rightDerived (toCover₀.{u, v} f U V) 0).app F ≫
     (biprodHigherDirectImageIso f U V 0).hom.app F)
   infer_instance
 

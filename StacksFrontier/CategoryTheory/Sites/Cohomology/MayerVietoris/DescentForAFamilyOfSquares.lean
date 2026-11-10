@@ -513,7 +513,7 @@ private theorem descentSubfunctor_isSheaf :
       (fun {source} restriction hrestriction ↦ witness source restriction hrestriction), ?_⟩
     simp only [DescentWitness.evaluate, hwitness, Option.isSome_some, implies_true,
       dite_true, Option.get_some]
-    show (if h : family'.Compatible then some ((hsheaf cover hcover family' h).choose)
+    change (if h : family'.Compatible then some ((hsheaf cover hcover family' h).choose)
       else none) = some element
     rw [dite_eq_left hcompatible']
     exact congrArg some (hunique _ (hsheaf cover hcover family' hcompatible').choose_spec.1)
@@ -548,7 +548,7 @@ private theorem descentSubfunctor_isPullback (diagram : Square C) (hdiagram : di
             sections firstWitness = some first.val from hfirstWitness,
         show DescentWitness.evaluate (object := diagram.X₃) presheaf hsheaf hsquares
             sections secondWitness = some second.val from hsecondWitness]
-      show (if h : presheaf.map diagram.f₁₂.op first.val =
+      change (if h : presheaf.map diagram.f₁₂.op first.val =
           presheaf.map diagram.f₁₃.op second.val then
         some ((Types.exists_of_isPullback (hsquares diagram hdiagram)
           first.val second.val h).choose) else none) = some element

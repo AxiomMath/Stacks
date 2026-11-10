@@ -295,7 +295,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       ((pulledBackDatum F E).obj i)).hom) (F.sourceFamily.f j) ≫
                       (pulledBackDatumObjIso F E i).hom.left ≫
                       pullback.fst (E.obj (F.familyHom.s₀ i)).hom (F.familyHom.h₀ i) := by
-                  simp [pulledBackDatumSourceMap, pullback.lift_fst]
+                  simp [pulledBackDatumSourceMap]
                 have hSourceDFst : pulledBackDatumSourceMap F D i j ≫
                     pullback.fst ((D.obj (F.familyHom.s₀ i)).hom ≫
                       F.targetFamily.f (F.familyHom.s₀ i))
@@ -304,7 +304,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       ((pulledBackDatum F D).obj i)).hom) (F.sourceFamily.f j) ≫
                       (pulledBackDatumObjIso F D i).hom.left ≫
                       pullback.fst (D.obj (F.familyHom.s₀ i)).hom (F.familyHom.h₀ i) := by
-                  simp [pulledBackDatumSourceMap, pullback.lift_fst]
+                  simp [pulledBackDatumSourceMap]
                 have hqSrcFst : qSrc ≫ pullback.fst
                     ((E.obj (F.familyHom.s₀ i)).hom ≫
                       F.targetFamily.f (F.familyHom.s₀ i))
@@ -313,7 +313,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       F.targetFamily.f (F.familyHom.s₀ i))
                       (F.targetFamily.f (F.familyHom.s₀ j)) ≫
                       (φ.hom (F.familyHom.s₀ i)).left := by
-                  simp [qSrc, pullback.map, pullback.lift_fst]
+                  simp [qSrc, pullback.map]
                 calc
                   (pSrc ≫ pulledBackDatumSourceMap F E i j) ≫
                       pullback.fst ((E.obj (F.familyHom.s₀ i)).hom ≫
@@ -371,7 +371,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                   (pTgt ≫ pulledBackDatumTargetMap F E i j) ≫ _ = pTgt ≫ pullback.fst c.hom
                         ((Over.map (F.sourceFamily.f j)).obj
                           ((pulledBackDatum F E).obj j)).hom ≫ F.familyHom.h₀ i := by
-                    simp [pulledBackDatumTargetMap, pullback.lift_fst,
+                    simp [pulledBackDatumTargetMap,
                       Category.assoc, c]
                   _ = pullback.fst c.hom
                         ((Over.map (F.sourceFamily.f j)).obj
@@ -380,7 +380,6 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       congrArg (fun q ↦ q ≫ F.familyHom.h₀ i) hpTgtFst
                   _ = _ := by
                     simp [qTgt, pulledBackDatumTargetMap, pullback.map,
-                      pullback.lift_fst,
                       Category.assoc, c]
               · have hTargetESnd : pulledBackDatumTargetMap F E i j ≫
                     pullback.snd (F.targetFamily.f (F.familyHom.s₀ i))
@@ -391,7 +390,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       (pulledBackDatumObjIso F E j).hom.left ≫
                       pullback.fst (E.obj (F.familyHom.s₀ j)).hom
                         (F.familyHom.h₀ j) := by
-                  simp [pulledBackDatumTargetMap, pullback.lift_snd]
+                  simp [pulledBackDatumTargetMap]
                 have hTargetDSnd : pulledBackDatumTargetMap F D i j ≫
                     pullback.snd (F.targetFamily.f (F.familyHom.s₀ i))
                       ((D.obj (F.familyHom.s₀ j)).hom ≫
@@ -401,7 +400,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       (pulledBackDatumObjIso F D j).hom.left ≫
                       pullback.fst (D.obj (F.familyHom.s₀ j)).hom
                         (F.familyHom.h₀ j) := by
-                  simp [pulledBackDatumTargetMap, pullback.lift_snd]
+                  simp [pulledBackDatumTargetMap]
                 have hpTgtSnd' : pTgt ≫
                     pullback.snd (F.sourceFamily.f i)
                       (((pulledBackDatum F E).obj j).hom ≫ F.sourceFamily.f j) =
@@ -416,7 +415,7 @@ public noncomputable def pullbackFunctor (F : MorphismOfSchemeFamilies.{u}) :
                       ((D.obj (F.familyHom.s₀ j)).hom ≫
                         F.targetFamily.f (F.familyHom.s₀ j)) ≫
                       (φ.hom (F.familyHom.s₀ j)).left := by
-                  simp [qTgt, pullback.map, pullback.lift_snd]
+                  simp [qTgt, pullback.map]
                 calc
                   (pTgt ≫ pulledBackDatumTargetMap F E i j) ≫
                       pullback.snd (F.targetFamily.f (F.familyHom.s₀ i))

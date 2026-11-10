@@ -200,7 +200,7 @@ theorem additive_sheafHomComplexFlip (Z : RingedSpace.{u, u})
     ((AlgebraicGeometry.RingedSite.sheafHomComplexBifunctor
       (AlgebraicGeometry.RingedSpace.ringedSite Z)).flip.obj F).Additive where
   map_add {K L f g} := by
-    show AlgebraicGeometry.RingedSite.homMap (AlgebraicGeometry.RingedSpace.ringedSite Z)
+    change AlgebraicGeometry.RingedSite.homMap (AlgebraicGeometry.RingedSpace.ringedSite Z)
         (f + g).unop (𝟙 F) =
       AlgebraicGeometry.RingedSite.homMap (AlgebraicGeometry.RingedSpace.ringedSite Z)
           f.unop (𝟙 F) +

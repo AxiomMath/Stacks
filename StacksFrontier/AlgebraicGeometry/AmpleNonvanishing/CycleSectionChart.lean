@@ -15,10 +15,10 @@ needs: the output is a global section `ρ` of `Z^p(H) ⊗ L^{⊗ m}` whose image
 `H.homologyπ p ▷ L^{⊗ m}` — its *class* in `H^p(H) ⊗ L^{⊗ m}` — is nonzero.
 
 This is the route recorded in the "A simplification the source does not take" section of
-`StacksFrontier/AlgebraicGeometry/AmpleNonvanishing/TwistedSectionChart.lean`: extending a section of
-the cycles rather than of `F^p` removes the second application of [Stacks, Tag 01PW] — the global
-annihilator — from the critical path, because a global section of `Z^p ⊗ L^{⊗ m}` is already
-killed by the differential.
+`StacksFrontier/AlgebraicGeometry/AmpleNonvanishing/TwistedSectionChart.lean`: extending a section
+of the cycles rather than of `F^p` removes the second application of [Stacks, Tag 01PW] — the
+global annihilator — from the critical path, because a global section of `Z^p ⊗ L^{⊗ m}` is
+already killed by the differential.
 
 ## Main results
 

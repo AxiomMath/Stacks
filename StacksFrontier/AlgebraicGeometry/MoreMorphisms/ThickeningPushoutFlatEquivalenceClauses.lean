@@ -178,7 +178,7 @@ theorem gluingCounit_app_isIso_of_flat {X X' Y : Scheme.{u}}
       exact g.flat_appLE hV (by dsimp [S]; exact hAff.isAffine_preimage U hU) hSU)
   let fObj : Cobj ⟶ Dobj := MorphismProperty.Under.homMk
     (c.left.appLE U S (by rfl)) (by
-      show w.appLE V U hUV ≫ c.left.appLE U S (by rfl) = g.appLE V S hSU
+      change w.appLE V U hUV ≫ c.left.appLE U S (by rfl) = g.appLE V S hSU
       have hcomp : S ≤ (c.left ≫ w) ⁻¹ᵁ V := by rwa [hhc]
       calc
         w.appLE V U hUV ≫ c.left.appLE U S (by rfl) =

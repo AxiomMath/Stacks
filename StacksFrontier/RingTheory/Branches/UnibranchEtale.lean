@@ -141,7 +141,7 @@ private lemma discrete_of_integral
     [Algebra.IsIntegral A B] : NoNontrivialSpecializationsInFibers A B := by
   intro p q _ _ hpq heq
   by_contra hpqne
-  exact (Ideal.IsIntegral.comap_lt_comap (hpq.lt_of_ne hpqne)).ne heq
+  exact (Ideal.IsIntegral.under_lt_under (hpq.lt_of_ne hpqne)).ne heq
 
 /-- Let `A → B` be a map of domains. Suppose that it is a localization of an étale
 map; or that it is flat and a localization of an unramified, quasi-finite, or integral
@@ -197,7 +197,7 @@ theorem comap_ne_bot_of_localization_or_discrete_fibers
         let e := IsLocalization.orderIsoOfPrime M B
         suffices e ⟨p, hp⟩ = e ⟨q, hq⟩ from congrArg Subtype.val (e.injective this)
         refine Subtype.ext ?_
-        show p.comap (algebraMap T B) = q.comap (algebraMap T B)
+        change p.comap (algebraMap T B) = q.comap (algebraMap T B)
         refine hdT _ _ (Ideal.IsPrime.comap _) (Ideal.IsPrime.comap _) (Ideal.comap_mono hpq) ?_
         rwa [Ideal.comap_comap, Ideal.comap_comap, ← IsScalarTower.algebraMap_eq A T B])
     · have : Module.Flat A B := h.1
@@ -260,7 +260,7 @@ private theorem isDomain_of_isGeometricallyUnibranch_of_normal_tensorProduct
   have hdom : IsDomain (B ⊗[R] C) := (IsNormalRing.of_isLocalRing (hn C hCnormal)).1
   have hinjred : Function.Injective (algebraMap R Rred) := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    show RingHom.ker (Ideal.Quotient.mk (nilradical R)) = ⊥
+    change RingHom.ker (Ideal.Quotient.mk (nilradical R)) = ⊥
     rw [Ideal.mk_ker, nilradical_eq_zero]
     rfl
   have hinjC : Function.Injective (algebraMap R C) := by
@@ -311,10 +311,10 @@ private lemma isLocalization_of_etale_of_exists_fraction
     simpa only [F.commutes] using congrArg F h
   have hker : (RingHom.ker F.toRingHom).comap (algebraMap A S) = ⊥ := by
     ext a
-    show F (algebraMap A S a) = 0 ↔ a = 0
+    change F (algebraMap A S a) = 0 ↔ a = 0
     rw [F.commutes, map_eq_zero_iff _ hinjective]
   have hinj : Function.Injective F := by
-    show Function.Injective F.toRingHom
+    change Function.Injective F.toRingHom
     rw [RingHom.injective_iff_ker_eq_bot]
     by_contra h
     exact comap_ne_bot_of_localization_or_discrete_fibers A S
@@ -357,7 +357,7 @@ theorem exists_etale_isLocalization_of_isGeometricallyUnibranch
     ext x
     exact notMem_maximalIdeal
   have : IsLocalization.AtPrime B q := by
-    show IsLocalization q.primeCompl B
+    change IsLocalization q.primeCompl B
     rw [hmon]
     infer_instance
   have : Algebra.IsUnramifiedAt A q :=
@@ -384,7 +384,7 @@ theorem exists_etale_isLocalization_of_isGeometricallyUnibranch
   have hlift (d : D) : ∃ c : C, algebraMap C B c = algebraMap D B d := by
     obtain ⟨c, hc⟩ := hπ (algebraMap D (Localization.Away g) d)
     refine ⟨e.symm c, ?_⟩
-    show j (π (e (e.symm c))) = _
+    change j (π (e (e.symm c))) = _
     rw [e.apply_symm_apply, hc, hj]
   obtain ⟨x', hfx⟩ := hlift x
   obtain ⟨s', hfs⟩ := hlift s

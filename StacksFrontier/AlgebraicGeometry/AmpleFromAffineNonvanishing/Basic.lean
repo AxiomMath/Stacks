@@ -143,13 +143,13 @@ theorem tmul_notMem_maximalIdeal_smul_top_iff {R M N : Type*} [CommRing R]
   let e : ((M ⊗[R] N) ⧸ P) ≃ (K ⊗[R] M) ⊗[K] (K ⊗[R] N) := e₁.toEquiv.trans e₂.toEquiv
   have he : e (Submodule.Quotient.mk (m ⊗ₜ[R] n)) =
       ((1 : K) ⊗ₜ[R] m) ⊗ₜ[K] ((1 : K) ⊗ₜ[R] n) := by
-    show TensorProduct.AlgebraTensorModule.distribBaseChange R K M N
+    change TensorProduct.AlgebraTensorModule.distribBaseChange R K M N
       (1 ⊗ₜ[R] (m ⊗ₜ[R] n)) = _
     rw [TensorProduct.AlgebraTensorModule.distribBaseChange_tmul]
   have hz : e (Submodule.Quotient.mk (m ⊗ₜ[R] n)) = (0 : (K ⊗[R] M) ⊗[K] (K ⊗[R] N)) ↔
       Submodule.Quotient.mk (m ⊗ₜ[R] n) = (0 : (M ⊗[R] N) ⧸ P) := by
     refine ⟨fun h => e.injective ?_, fun h => by simp [e, h]⟩
-    show e (Submodule.Quotient.mk (m ⊗ₜ[R] n)) = e 0
+    change e (Submodule.Quotient.mk (m ⊗ₜ[R] n)) = e 0
     simpa [e] using h
   have hpure : (((1 : K) ⊗ₜ[R] m) ⊗ₜ[K] ((1 : K) ⊗ₜ[R] n) ≠ 0) ↔
       ((1 : K) ⊗ₜ[R] m ≠ 0) ∧ ((1 : K) ⊗ₜ[R] n ≠ 0) :=
@@ -334,7 +334,7 @@ theorem nonvanishingLocus_finiteTensorSection (n : ℕ) :
   | succ n ih =>
       intro L s
       have h := ih (fun i => L i.succ) (fun i => s i.succ)
-      show nonvanishingLocus
+      change nonvanishingLocus
           (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, X.IsSheaf⟩).obj (L 0)).obj
             (finiteTensor n fun i => L i.succ))
           (tensorSections (L 0) (finiteTensor n fun i => L i.succ) (s 0)
@@ -371,7 +371,7 @@ theorem isAffineOpen_inf_nonvanishingOpen_finiteTensor {X : Scheme.{u}} (n : ℕ
               (isInvertible_finiteTensor n _ (fun i => hL i.succ))
               (finiteTensorSection n (fun i => L i.succ) (fun i => s i.succ)) := by
         refine TopologicalSpace.Opens.ext ?_
-        show (U : Set X) ∩ nonvanishingLocus (finiteTensor (n + 1) L)
+        change (U : Set X) ∩ nonvanishingLocus (finiteTensor (n + 1) L)
             (finiteTensorSection (n + 1) L s) = _
         rw [show nonvanishingLocus (X := X.toRingedSpace) (finiteTensor (n + 1) L)
               (finiteTensorSection (n + 1) L s) =

@@ -260,7 +260,7 @@ theorem quasiIso_mapHomologicalComplex_of_rightAcyclic_terms [PreservesFiniteLim
       Category.comp_id]
   have hiso : IsIso (G.map (q.map f)) := by
     rw [heq]
-    show IsIso (α.app (q.obj K) ≫ RF.map (DerivedCategory.Qh.map (q.map f)) ≫
+    change IsIso (α.app (q.obj K) ≫ RF.map (DerivedCategory.Qh.map (q.map f)) ≫
       inv (α.app (q.obj L)))
     infer_instance
   exact (isIso_Qh_map_iff_quasiIso F f).1 hiso
@@ -447,7 +447,7 @@ private lemma extensionByZeroUnitHomEquiv_add
   let R := Stacks.SheafOfModules.Tensor.ringSheaf X.O
   let adj := SheafOfModules.pullbackPushforwardAdjunction.{u} (F := Over.forget U)
     (𝟙 (R.over U))
-  show (((F.over U).unitHomEquiv
+  change (((F.over U).unitHomEquiv
       (adj.homEquiv (SheafOfModules.unit (R.over U)) F (f + g))).val
         (op (Over.mk (𝟙 U)))) = _
   rw [adj.homAddEquiv_add (SheafOfModules.unit (R.over U)) F f g]
@@ -561,7 +561,7 @@ theorem exists_finsum_single_of_isCompactObject (P : C) (hP : IsCompactObject.{w
     have ht (k : I) : (a k ≫ (HomologicalComplex.eval C (ComplexShape.up ℤ) 0).map
         (Limits.Sigma.ι J k)) ≫ (HomologicalComplex.eval C (ComplexShape.up ℤ) 0).map
           (Limits.Sigma.desc (Pi.single i (𝟙 (J i)))) = if h : k = i then a i else 0 := by
-      rw [Category.assoc, ← Functor.map_comp, Limits.Sigma.ι_desc]
+      rw [Category.assoc, ← Functor.map_comp, Limits.Sigma.ι_comp_desc]
       split_ifs with h
       · subst h
         simp
@@ -570,7 +570,7 @@ theorem exists_finsum_single_of_isCompactObject (P : C) (hP : IsCompactObject.{w
     simp [hi]
   refine ⟨s, fun i ↦ f ≫ Limits.Sigma.desc (Pi.single i (𝟙 (J i))),
     HomologicalComplex.from_single_hom_ext ?_⟩
-  show (HomologicalComplex.eval C (ComplexShape.up ℤ) 0).map
+  change (HomologicalComplex.eval C (ComplexShape.up ℤ) 0).map
     (∑ i ∈ s, (f ≫ Limits.Sigma.desc (Pi.single i (𝟙 (J i)))) ≫ Limits.Sigma.ι J i) =
       (HomologicalComplex.eval C (ComplexShape.up ℤ) 0).map f
   simp only [Functor.map_sum, Functor.map_comp]
@@ -739,7 +739,7 @@ theorem exists_finsum_derived
         Limits.ι_comp_sigmaComparison]
     dsimp only [e, Iso.trans_hom]
     rw [← Category.assoc, hiota]
-    show Limits.Sigma.ι (fun k ↦ DerivedCategory.Q.obj (L k)) i ≫
+    change Limits.Sigma.ι (fun k ↦ DerivedCategory.Q.obj (L k)) i ≫
       Limits.Sigma.map (fun k ↦ (eL k).hom) ≫
         ((coproductIsCoproduct Mfam).coconePointUniqueUpToIso hc).hom = _
     rw [Limits.Sigma.ι_map_assoc]

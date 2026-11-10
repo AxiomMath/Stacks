@@ -227,8 +227,8 @@ theorem hasCountableQcqsEtaleCohomology_derivedTensor_of_isStrictlyPerfect
       HasCountableQcqsEtaleCohomology.of_iso
         (derivedTensorSingleUnitIso B S hS T K i).symm (hK.shift (-i))
 
-/-- **The cohomology clause of Stacks 0CRU for a strictly perfect complex.**  Let `X` be a
-quasi-compact quasi-separated algebraic space and `K` an object of `D(𝒪_X)` whose cohomology
+/-- **The cohomology clause of Stacks 0CRU for a strictly perfect complex.**  Let `X` be an
+algebraic space and `K` an object of `D(𝒪_X)` whose cohomology
 sheaves are quasi-coherent and have countable sets of sections over the affine schemes étale
 over `X`.  Then `H^i(U, (K ⊗^𝐋 P)|_U)` is countable for every quasi-compact quasi-separated `U`
 étale over `X`, every `i`, and every strictly perfect complex `P` of `𝒪_X`-modules.
@@ -238,8 +238,7 @@ The hypothesis on `K` is carried to `K ⊗^𝐋 P` by
 whose base case is
 `AlgebraicGeometry.Space.hasCountableCohomology_derivedGlobalSectionsAb_restrict`. -/
 theorem hasCountableCohomology_derivedTensor_restrict_of_isStrictlyPerfect
-    (hZ : B.Contains (⊤_ Scheme.{u})) (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
+    (hZ : B.Contains (⊤_ Scheme.{u}))
     (T : Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, u, u + 1}
       (smallEtaleRingedSite B S hS X.1 X.2))
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
@@ -258,7 +257,7 @@ theorem hasCountableCohomology_derivedTensor_restrict_of_isStrictlyPerfect
         ((T.tensor.obj K).obj (DerivedCategory.Q.obj P)))) :=
   hasCountableQcqsEtaleCohomology_derivedTensor_of_isStrictlyPerfect B S hS hZ T K
     (fun V hVqc hVqs => hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X
-      hXqc hXqs K hqc hcount V hVqc hVqs) P hP U hUqc hUqs
+      K hqc hcount V hVqc hVqs) P hP U hUqc hUqs
 
 /-- **The cohomology clause of Stacks 0CRU for an object of `D(𝒪_X)` with a global strictly
 perfect model.**  Same statement as
@@ -266,8 +265,7 @@ perfect model.**  Same statement as
 read at an object `E` of `D(𝒪_X)` isomorphic to a strictly perfect complex rather than at the
 complex itself. -/
 theorem hasCountableCohomology_derivedTensor_restrict_of_exists_strictlyPerfectModel
-    (hZ : B.Contains (⊤_ Scheme.{u})) (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
+    (hZ : B.Contains (⊤_ Scheme.{u}))
     (T : Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, u, u + 1}
       (smallEtaleRingedSite B S hS X.1 X.2))
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
@@ -289,7 +287,7 @@ theorem hasCountableCohomology_derivedTensor_restrict_of_exists_strictlyPerfectM
   obtain ⟨P, hP, ⟨e⟩⟩ := hE
   exact HasCountableQcqsEtaleCohomology.of_iso ((T.tensor.obj K).mapIso e)
     (fun V hVqc hVqs => hasCountableCohomology_derivedTensor_restrict_of_isStrictlyPerfect B S hS
-      hZ hXqc hXqs T K hqc hcount P hP V hVqc hVqs) U hUqc hUqs
+      hZ T K hqc hcount P hP V hVqc hVqs) U hUqc hUqs
 
 end Tensor
 

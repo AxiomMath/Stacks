@@ -117,7 +117,7 @@ theorem isExactSequence_of_equivalences
     exact ⟨e₁ w, (hb w).symm⟩
   · ext y
     obtain ⟨z, rfl⟩ := e₀.surjective y
-    show d (c (e₀ z)) = 1
+    change d (c (e₀ z)) = 1
     rw [← ha, ← hb]
     have hz : b (a z) = 1 := DFunLike.congr_fun hcomp z
     rw [hz, map_one]
@@ -131,13 +131,13 @@ theorem isExactSequence_of_equivalences
         e₁.toMonoidHom = (Subgroup.normalClosure (Set.range c)).topologicalClosure := by
       rw [← hn]
       apply SetLike.coe_injective
-      show e₁ '' closure (Subgroup.normalClosure (Set.range a) : Set G₁) =
+      change e₁ '' closure (Subgroup.normalClosure (Set.range a) : Set G₁) =
         closure (e₁ '' (Subgroup.normalClosure (Set.range a) : Set G₁))
       exact e₁.toHomeomorph.image_closure _
     rw [← hcl, ← hker]
     ext y
     obtain ⟨z, rfl⟩ := e₁.surjective y
-    show d (e₁ z) = 1 ↔ ∃ w, b w = 1 ∧ e₁ w = e₁ z
+    change d (e₁ z) = 1 ↔ ∃ w, b w = 1 ∧ e₁ w = e₁ z
     rw [← hb, map_eq_one_iff e₂ e₂.injective]
     exact ⟨fun hz ↦ ⟨z, hz, rfl⟩, fun ⟨w, hw, he⟩ ↦ e₁.injective he ▸ hw⟩
 
@@ -201,9 +201,9 @@ theorem autMulEquivEtaleFundamentalGroup_galoisFunctorData_hom
       etaleFundamentalGroupMap f x (autMulEquivEtaleFundamentalGroup X x σ) := by
   let L := (Functor.whiskeringRight (FiniteEtaleOver Y) FintypeCat.{u} (Type u)).obj
     FintypeCat.incl
-  show Aut.of (L.mapIso (d.hom.toMonoidHom σ).asIso) = _
+  change Aut.of (L.mapIso (d.hom.toMonoidHom σ).asIso) = _
   rw [d.hom_toMonoidHom]
-  show Aut.of (L.mapIso ((finiteEtaleFiberFintypeFunctorBaseChangeIso f x).conjAut
+  change Aut.of (L.mapIso ((finiteEtaleFiberFintypeFunctorBaseChangeIso f x).conjAut
     (((Functor.whiskeringLeft (FiniteEtaleOver Y) (FiniteEtaleOver X) FintypeCat.{u}).obj
       (finiteEtaleBaseChange f)).mapAut (finiteEtaleFiberFintypeFunctor X x) σ)).asIso) = _
   rw [Functor.map_conjAut]

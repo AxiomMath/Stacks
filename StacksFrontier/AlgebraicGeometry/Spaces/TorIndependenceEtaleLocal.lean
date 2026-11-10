@@ -133,7 +133,7 @@ public theorem colimit_ι_comp_etaleLocalRingIsoOfIsEtale {Y X : AlgebraicSpaces
         (Opposite.op ((SmallEtaleNeighborhood.postcomp B S hS φ hφ y).obj N)) := by
   have := SmallEtaleNeighborhood.initial_postcomp B S hS φ hφ y
   rw [etaleLocalRingIsoOfIsEtale]
-  simp only [Iso.trans_hom, HasColimit.isoOfNatIso_ι_hom_assoc,
+  simp only [Iso.trans_hom, HasColimit.ι_isoOfNatIso_hom_assoc,
     Functor.Final.ι_colimitIso_hom, eqToIso.hom, eqToHom_app]
   rfl
 
@@ -250,7 +250,7 @@ private theorem torIndependent_of_ringEquiv
         right_inv := e.right_inv
         map_add' := e.map_add
         map_smul' := fun r a ↦ by
-          show e (r • a) = (eR r) • e a
+          change e (r • a) = (eR r) • e a
           rw [Algebra.smul_def, Algebra.smul_def, e.map_mul]
           exact congrArg (· * e a) (he r) })
   intro i hi
@@ -563,7 +563,7 @@ public theorem torIndependent_of_isEtale_surjective_diagram
       (f : R ⟶ Z) (g : T ⟶ Z) (k₁ : P ⟶ R) (k₂ : P ⟶ T), m ≫ n₁ = k₁ → m ≫ n₂ = k₂ →
       n₁.hom ≫ f.hom = n₂.hom ≫ g.hom → k₂.hom ≫ g.hom = k₁.hom ≫ f.hom := by
     rintro _ _ _ _ _ m n₁ n₂ f g _ _ rfl rfl sq
-    show (m.hom ≫ n₂.hom) ≫ g.hom = (m.hom ≫ n₁.hom) ≫ f.hom
+    change (m.hom ≫ n₂.hom) ≫ g.hom = (m.hom ≫ n₁.hom) ≫ f.hom
     rw [Category.assoc, Category.assoc, sq]
   have hax := hpt u' pX a ubar px x hu'X hu hpx1
   have huw := hpt u' pW uw ubar px wbar hu'W hu hpx2

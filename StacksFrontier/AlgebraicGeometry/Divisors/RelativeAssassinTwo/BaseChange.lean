@@ -100,7 +100,7 @@ private theorem tensor_inl_integral_of_isAlgebraic
       (CommRingCat.ofHom (algebraMap K B))
       (CommRingCat.ofHom (algebraMap A C))
       (CommRingCat.ofHom (algebraMap B C)) := by
-    convert hpo using 1 <;> rfl
+    convert hpo using 1
   have : Algebra.IsPushout K A B C := (CommRingCat.isPushout_iff_isPushout).mp hpo'
   have : Algebra.IsPushout K B A C := (Algebra.IsPushout.comm K A B C).mp ‹_›
   have : Algebra.IsIntegral K B := Algebra.isAlgebraic_iff_isIntegral.mp h

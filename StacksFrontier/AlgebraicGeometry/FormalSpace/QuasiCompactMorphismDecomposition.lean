@@ -80,7 +80,7 @@ coproduct of the base changes of the summands because coproducts of sheaves of t
 universal — `CategoryTheory.Sheaf.exists_isColimit_cofan_pullback_of_comp`. The members of the
 covering family are written as `Sigma.ι ≫ Sigma.desc` rather than as the maps they are equal to,
 so that the fibre products the decomposition produces are the ones the family is indexed by on
-the nose; `Sigma.ι_desc` relates them where a property of a member is needed.
+the nose; `Sigma.ι_comp_desc` relates them where a property of a member is needed.
 
 Representable étaleness of the covering family comes from
 `AlgebraicGeometry.FormalSpace.isRepresentableEtale_yonedaSheafMap`, an open immersion of
@@ -225,7 +225,7 @@ theorem IsQuasiCompact.isQuasiCompactOnSchemeBaseChanges {X Y : FppfSheaf B S hS
     (fun i => pullback.fst p (Sigma.ι F i ≫ Sigma.desc γ)) (fun i => ?_) (fun i => ?_) ?_
   · exact isRepresentableEtale_of_isPullback B S hS
       (IsPullback.of_hasPullback p (Sigma.ι F i ≫ Sigma.desc γ)).flip
-      (by rw [Sigma.ι_desc]; exact hγet i)
+      (by rw [Sigma.ι_comp_desc]; exact hγet i)
   · exact h (V i.down) (hVaff i.down) ((Sigma.ι F i ≫ Sigma.desc γ) ≫ g) _
       (pullback.snd p (Sigma.ι F i ≫ Sigma.desc γ))
       (pullback.fst p (Sigma.ι F i ≫ Sigma.desc γ) ≫ q)
@@ -250,7 +250,7 @@ theorem IsQuasiCompact.isQuasiCompactOnSchemeBaseChanges {X Y : FppfSheaf B S hS
         (Discrete.mk i)
       simp only [Cofan.mk_ι_app] at hcomp
       rw [← Category.assoc, hedef, hcomp, hl₁ i]
-      exact (Sigma.ι_desc (fun i => pullback.fst p (Sigma.ι F i ≫ Sigma.desc γ)) i).symm
+      exact (Sigma.ι_comp_desc (fun i => pullback.fst p (Sigma.ι F i ≫ Sigma.desc γ)) i).symm
     exact isLocallySurjective_of_eq_comp_of_epi B S hS he.symm
 
 /-- **Stacks 0AJB, the equivalence of conditions (2) and (3).** For a morphism of fppf sheaves

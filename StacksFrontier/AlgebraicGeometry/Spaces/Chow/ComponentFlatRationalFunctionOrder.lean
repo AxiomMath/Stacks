@@ -147,7 +147,6 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_eq_mk'_neighbor
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
     [IsAffine U.scheme.left.1] [IsReduced U.scheme.left.1] [IsLocallyNoetherian U.scheme.left.1]
-    (hCof : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (a : Γ(U.scheme.left.1, ⊤)) (b : (Γ(U.scheme.left.1, ⊤))⁰)
     (r : rationalFunctions B S hS hX)
     (hr : rationalFunctionsToTotalFractionRing B S hS hX U.scheme U.toSpace U.etale_toSpace r =
@@ -158,7 +157,7 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_eq_mk'_neighbor
     Z.rationalFunctionsToGenericTotalFractionRing B S hS hX hdec hInt hN r =
       IsLocalization.mk' (Z.genericTotalFractionRing B S hS hX hdec)
         (Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U a) ⟨_, hb⟩ := by
-  rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U hCof r, hr,
+  rw [← Z.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U r, hr,
     PrimeDivisor.neighborhoodTotalFractionRingToGeneric, IsLocalization.map_mk']
 
 /-- **The order of vanishing of a rational function along a prime divisor, as a difference of
@@ -176,7 +175,6 @@ theorem PrimeDivisor.ord_eq_sub_natCast_ord_neighborhoodSections
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
     [IsAffine U.scheme.left.1] [IsReduced U.scheme.left.1] [IsLocallyNoetherian U.scheme.left.1]
-    (hCof : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (a : Γ(U.scheme.left.1, ⊤)) (b : (Γ(U.scheme.left.1, ⊤))⁰)
     (r : rationalFunctions B S hS hX)
     (hr : rationalFunctionsToTotalFractionRing B S hS hX U.scheme U.toSpace U.etale_toSpace r =
@@ -199,9 +197,9 @@ theorem PrimeDivisor.ord_eq_sub_natCast_ord_neighborhoodSections
   have hbnz : Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U
       (b : Γ(U.scheme.left.1, ⊤)) ∈ (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰ :=
     Z.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing B S hS
-      hX hdec U hCof b.2
+      hX hdec U b.2
   have heq := Z.rationalFunctionsToGenericTotalFractionRing_eq_mk'_neighborhoodSections B S hS hX
-    hdec hInt hN U hCof a b r hr hbnz
+    hdec hInt hN U a b r hr hbnz
   have hanz : Z.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdec U a ∈
       (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰ :=
     mem_nonZeroDivisors_of_isUnit_mk' (K := Z.genericTotalFractionRing B S hS hX hdec) _
@@ -228,18 +226,14 @@ integral, and let `Z` be a prime divisor of a decent, locally Noetherian `Y` wit
 `ξ`; `Y` is not assumed integral.  A rational function of `T` is read on the generic chart `V`
 of `Z`, which is flat over `T` by composition, and the resulting fraction of global sections of
 `𝒪_V` is pushed into `Q(𝒪^h_{Y, ξ})` along the map on total rings of fractions induced by the
-canonical map of Stacks 0EMY.  The cofilteredness that map needs is Stacks 0BGV in the form
-`ElementaryEtaleNeighborhood.isCofiltered_of_nonempty`, the generic chart itself witnessing
-nonemptiness. -/
+canonical map of Stacks 0EMY. -/
 def PrimeDivisor.rationalFunctionsToGenericTotalFractionRingOfFlat (f : Y ⟶ T)
     (hf : IsFlat B S hS f) :
     rationalFunctions B S hS hT →+* Z.genericTotalFractionRing B S hS hY hYdec :=
   letI := Z.isLocallyNoetherian_genericChart B S hS hY hYdec hYN
   letI : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hY hYdec) :=
     henselianLocalRing_isLocalRing B S hS Y hY (Z.genericPoint B S hS Y) hYdec
-  (Z.chartTotalFractionRingToGeneric B S hS hY hYdec
-      (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS Y hY
-        (Z.genericPoint B S hS Y) ⟨Z.genericChart B S hS hY hYdec⟩)).comp
+  (Z.chartTotalFractionRingToGeneric B S hS hY hYdec).comp
     (rationalFunctionsToTotalFractionRingOfFlat B S hS hT hintT
       (Z.genericChart B S hS hY hYdec).scheme
       ((Z.genericChart B S hS hY hYdec).toSpace ≫ f)
@@ -311,7 +305,7 @@ reading of `g` on `V` alone.  That is what
 `exists_natCast_ord_sub_eq_finsum_components_mul_sections` needs of them — it takes two global
 sections of one chart and reads them on every component — and it is why this statement takes
 them as arguments rather than producing them. -/
-theorem rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_neighborhoodSections_of_isFlat
+theorem rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_sections_of_isFlat
     (f : Y ⟶ T) (hcVf : IsFlat B S hS (V.toSpace ≫ f)) (g : rationalFunctions B S hS hT)
     (s : Γ(V.scheme.left.1, ⊤)) (t : (Γ(V.scheme.left.1, ⊤))⁰)
     (hst : IsLocalization.mk' (FractionRing Γ(V.scheme.left.1, ⊤)) s t =
@@ -357,8 +351,6 @@ theorem rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_n
     g s t (hnzd t.2) hst
   exact Z'.rationalFunctionsToGenericTotalFractionRing_eq_mk'_neighborhoodSections B S hS
     W.isClosedSubspace.1 W.isIntegralSpace.isDecentSpace W.isIntegralSpace hWN U
-    (ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS W.subspace.toFunctor
-      W.isClosedSubspace.1 (Z'.genericPoint B S hS W.subspace.toFunctor) ⟨U⟩)
     ((j.left.1.appTop).hom s)
     ⟨(j.left.1.appTop).hom (t : Γ(V.scheme.left.1, ⊤)), hnzd t.2⟩ _ hr ht
 
@@ -477,9 +469,6 @@ theorem exists_natCast_ord_sub_eq_finsum_components_mul_ordRationalFunction
     henselianLocalRing_isLocalRing D.site D.base D.base_mem Y hY
       (Z.genericPoint D.site D.base D.base_mem Y) hYdec
   let := Z.isLocallyNoetherian_genericChart D.site D.base D.base_mem hY hYdec hYN
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty D.site D.base D.base_mem
-    Y hY (Z.genericPoint D.site D.base D.base_mem Y)
-    ⟨Z.genericChart D.site D.base D.base_mem hY hYdec⟩
   have hcVf : IsFlat D.site D.base D.base_mem
       ((Z.genericChart D.site D.base D.base_mem hY hYdec).toSpace ≫ f) :=
     isFlat_comp D.site D.base D.base_mem (isAlgebraicSpace_yoneda D.site D.base D.base_mem
@@ -497,7 +486,7 @@ theorem exists_natCast_ord_sub_eq_finsum_components_mul_ordRationalFunction
       (t : Γ((Z.genericChart D.site D.base D.base_mem hY hYdec).scheme.left.1, ⊤)) ∈
       (↥(Z.genericHenselianLocalRing D.site D.base D.base_mem hY hYdec))⁰ :=
     Z.nonZeroDivisors_le_comap_chartSectionsToGenericHenselianLocalRing D.site D.base D.base_mem
-      hY hYdec hCof t.2
+      hY hYdec t.2
   have heqA := Z.rationalFunctionsToGenericTotalFractionRingOfFlat_eq_mk' D.site D.base
     D.base_mem hY hYdec hYN hTg.1 hintT f hf (g : rationalFunctions D.site D.base D.base_mem
       hTg.1) s t hst ht
@@ -523,7 +512,7 @@ theorem exists_natCast_ord_sub_eq_finsum_components_mul_ordRationalFunction
     (Z.genericComponentSubspace D Y hY hYdec i).isClosedSubspace.1
     (Z.genericComponentSubspace D Y hY hYdec i).isIntegralSpace (hWN i) _
     (Zc i) ⟨_, hnzs i⟩ ⟨_, hnzt i⟩ ?_).symm
-  exact rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_neighborhoodSections_of_isFlat
+  exact rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_sections_of_isFlat
     D.site D.base D.base_mem hY hYdec (Z.genericChart D.site D.base D.base_mem hY hYdec)
     hTg.1 hintT f hcVf (g : rationalFunctions D.site D.base D.base_mem hTg.1) s t hst
     (Z.genericComponentSubspace D Y hY hYdec i) (hmem i) (hWN i) (Zc i) (hgen i)

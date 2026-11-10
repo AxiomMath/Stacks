@@ -98,7 +98,7 @@ namespace AlgebraicGeometry
 /-- Every big fppf site contains the terminal scheme `Spec (ULift ℤ)`: its size is `ℵ₀`, which is
 below the cutoff of any big fppf site. -/
 theorem BigFppfSite.contains_integerBase (B : BigFppfSite.{u}) : B.Contains integerBase.{u} := by
-  show integerBase.{u}.size < B.cutoff
+  change integerBase.{u}.size < B.cutoff
   simpa [integerBase, Scheme.size_Spec] using B.aleph0_lt_cutoff
 
 /-- The schemes of the big fppf site of `B`, read as schemes over the terminal scheme: the
@@ -243,7 +243,7 @@ theorem isStronglyCartesian_forgetPolarizationComma {X Y : PolarizedFamily B} (f
       (forgetPolarizationComma B f).right (forgetPolarizationComma B f) := by
   refine (spacesProjection_isStronglyCartesian_iff (forgetPolarizationComma B f)).mpr ?_
   have hp := ((PolarizedFamily.isPullback_totalMapOverIntegers f).map yoneda).flip
-  haveI := hp.hasPullback
+  have := hp.hasPullback
   have he : pullback.lift (yoneda.map X.structureMapOverIntegers)
       (yoneda.map (PolarizedFamily.totalMapOverIntegers f)) hp.w = hp.isoPullback.hom :=
     pullback.hom_ext (by rw [pullback.lift_fst, hp.isoPullback_hom_fst])

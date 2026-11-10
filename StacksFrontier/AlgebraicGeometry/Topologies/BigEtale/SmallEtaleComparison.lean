@@ -269,7 +269,7 @@ public theorem reconstructedPresheafMap_comp (D : BigEtaleSheafData.{u, v} B S h
     have hi := congrArg Iso.inv hterm
     simpa only [Iso.trans_inv, Functor.mapIso_inv, Iso.app_inv] using hi
   have hmap : mgcf ≫ mcg = mδ ≫ mcgf := by
-    show (D.sheaf T'').1.map
+    change (D.sheaf T'').1.map
         ((smallEtaleBaseChange B g.left).map cf.inv).op ≫
         (D.sheaf T'').1.map cg.inv.op =
       (D.sheaf T'').1.map (comp.val.inv.app A).op ≫
@@ -433,7 +433,7 @@ public theorem smallBaseChangeComp_inv_fst
     apply (cancel_mono
       ((smallEtaleBaseChange_compIso B T'' T' T g f).val.hom.app U).hom).mp
     conv_rhs => rw [hh]
-    show (SmallEtale.inclusion B T''.1 T''.property).map
+    change (SmallEtale.inclusion B T''.1 T''.property).map
       ((smallEtaleBaseChange_compIso B T'' T' T g f).val.inv.app U ≫
         (smallEtaleBaseChange_compIso B T'' T' T g f).val.hom.app U) = _
     simp
@@ -633,7 +633,7 @@ public theorem sectionMap_precomp (D : BigEtaleSheafData.{u, v} B S hS)
   rw [← Category.assoc ((D.sheaf T).obj.map a.op)
       ((dataPushforwardMap B S hS D f).hom.app (op U)),
     (dataPushforwardMap B S hS D f).hom.naturality]
-  show (_ ≫ (D.sheaf T').obj.map
+  change (_ ≫ (D.sheaf T').obj.map
     ((smallEtaleBaseChange B f.left).map a).op) ≫ _ = _
   rw [Category.assoc, ← Functor.map_comp, ← op_comp]
   congr 2
@@ -659,7 +659,7 @@ public theorem reconstructedSmallSectionsMap_naturality
       reconstructedSmallSectionsMap B S hS D T V ≫
         (reconstructedPresheaf B S hS D).map
           ((smallEtaleToBigEtaleFunctor B T.left (B.obj S hS) T.hom).map k).op := by
-  show _ = _ ≫ reconstructedPresheafMap B S hS D _
+  change _ = _ ≫ reconstructedPresheafMap B S hS D _
   simp only [Quiver.Hom.unop_op]
   rw [reconstructedPresheafMap_eq_sectionMap,
     reconstructedSmallSectionsMap_eq_sectionMap,
@@ -709,7 +709,7 @@ public theorem restrictionPushforwardMap_comp
   apply Sheaf.hom_ext
   apply NatTrans.ext
   funext U
-  show F.obj.map (bigEtaleBaseChangeProjection B S hS f U.unop).op ≫
+  change F.obj.map (bigEtaleBaseChangeProjection B S hS f U.unop).op ≫
       F.obj.map (bigEtaleBaseChangeProjection B S hS g
         ((smallEtaleBaseChange B f.left).obj U.unop)).op ≫
       F.obj.map ((smallEtaleToBigEtaleFunctor B T''.left (B.obj S hS) T''.hom).map
@@ -747,12 +747,12 @@ public theorem pullback_comp_of_pushforward_comp
   apply (adj.homEquiv _ _).injective
   rw [smallInverseImageCompIso_eq_leftAdjointUniq,
     Adjunction.homEquiv_leftAdjointUniq_hom_app_comp]
-  show adj.homEquiv _ _ ((B.smallInverseImage g.left (Type (max (u + 1) v))).map
+  change adj.homEquiv _ _ ((B.smallInverseImage g.left (Type (max (u + 1) v))).map
     ((adj₁.homEquiv _ _).symm a) ≫
     (adj₂.homEquiv _ _).symm b) = adj₃.homEquiv _ _ ((adj₃.homEquiv _ _).symm c)
   dsimp only [adj]
   rw [Adjunction.homEquiv_ofNatIsoRight_apply]
-  show adj₁.homEquiv _ _ (adj₂.homEquiv _ _
+  change adj₁.homEquiv _ _ (adj₂.homEquiv _ _
     ((B.smallInverseImage g.left (Type (max (u + 1) v))).map
       ((adj₁.homEquiv _ _).symm a) ≫
       (adj₂.homEquiv _ _).symm b)) ≫ e.hom.app H = _
@@ -780,7 +780,7 @@ public theorem restrictionPullbackMap_isIso
       (adj.homEquiv _ _).symm (restrictionPushforwardMap B S hS F f) := by
     apply (adj.homEquiv _ _).injective
     rw [Equiv.apply_symm_apply]
-    show adj.homEquiv _ _
+    change adj.homEquiv _ _
       ((Adjunction.leftAdjointUniq
         (B.smallPullbackAdjunction f.left (Type (max (u + 1) v))) adj).inv.app _ ≫ _) = _
     rw [Adjunction.leftAdjointUniq_inv_app,
@@ -790,16 +790,16 @@ public theorem restrictionPullbackMap_isIso
     refine @isIso_of_reflects_iso _ _ _ _ _ _ _ (sheafToPresheaf _ _) ?_ inferInstance
     apply (NatTrans.isIso_iff_isIso_app _).mpr
     intro U
-    show IsIso (((adj.homEquiv _ _).symm
+    change IsIso (((adj.homEquiv _ _).symm
       (restrictionPushforwardMap B S hS F f)).hom.app U)
     rw [Adjunction.homEquiv_symm_apply]
-    show IsIso ((restrictionPushforwardMap B S hS F f).hom.app
+    change IsIso ((restrictionPushforwardMap B S hS F f).hom.app
       (op ((smallEtalePostcompose B T.left.1 T.left.property
         (SmallEtale.ofEtaleHom B f.left)).obj U.unop)) ≫
       (adj.counit.app ((bigEtaleSheafRestrictionAt B S hS T').obj F)).hom.app U)
     rw [smallEtalePostcomposePushforwardAdjunction_counit_app,
       smallEtalePostcomposeBaseChangeAdjunction_unit_app]
-    show IsIso (F.obj.map _ ≫ F.obj.map _)
+    change IsIso (F.obj.map _ ≫ F.obj.map _)
     simp only [Functor.op_map, Quiver.Hom.unop_op]
     rw [← Functor.map_comp, ← op_comp]
     have : IsIso
@@ -812,7 +812,7 @@ public theorem restrictionPullbackMap_isIso
             ((smallEtalePostcompose B T.left.1 T.left.property
               (SmallEtale.ofEtaleHom B f.left)).obj U.unop)) := by
       refine @isIso_of_reflects_iso _ _ _ _ _ _ _ (Over.forget (B.obj S hS)) ?_ inferInstance
-      show IsIso (pullback.lift (𝟙 _) U.unop.obj.hom _ ≫ pullback.fst _ _)
+      change IsIso (pullback.lift (𝟙 _) U.unop.obj.hom _ ≫ pullback.fst _ _)
       convert IsIso.id (U.unop.obj.left) using 1
       exact pullback.lift_fst _ _ _
     infer_instance
@@ -873,28 +873,28 @@ public theorem reconstructedPresheaf_isSheafFor_bigCover
       Etale ((BigEtaleOver.toScheme B S hS).map (E.f i)) := hcover.2 ⟨i⟩
   let Y (i : E.I₀) : SmallEtale B T.left.1 T.left.property :=
     ⟨Over.mk (E.f i).left, by
-      show Etale (B.inclusion.map (E.f i).left)
+      change Etale (B.inclusion.map (E.f i).left)
       simpa [BigEtaleOver.toScheme] using hEtale i⟩
   let A := smallEtaleTerminal B S hS T
   let q (i : E.I₀) : Y i ⟶ A :=
     ObjectProperty.homMk (Over.homMk (E.f i).left)
   let E' : PreZeroHypercover.{u + 1} A := ⟨E.I₀, Y, q⟩
   have hE' : SmallEtale.IsCovering B T.left.1 T.left.property ⟨A, E'⟩ := by
-    show BigEtaleOver.IsCovering B T.left.1 T.left.property
+    change BigEtaleOver.IsCovering B T.left.1 T.left.property
       ⟨(SmallEtale.inclusion B T.left.1 T.left.property).obj A,
         E'.map (SmallEtale.inclusion B T.left.1 T.left.property)⟩
     let k := SmallEtale.inclusion B T.left.1 T.left.property ⋙
       Over.forget (B.obj T.left.1 T.left.property)
     have hmap : E'.map k = E.map (Over.forget (B.obj S hS)) := by
       ext <;> rfl
-    show B.IsCovering ⟨T.left, E'.map k⟩
+    change B.IsCovering ⟨T.left, E'.map k⟩
     change B.IsCovering ⟨T.left, E.map (Over.forget (B.obj S hS))⟩ at hE
     rw [hmap]
     exact hE
   have hp := (H T).isSheafFor_of_mem_precoverage
     ((SmallEtale.mem_precoverage_iff _ _ _).mpr ⟨E', rfl, hE'⟩)
   have : PreservesLimitsOfShape WalkingCospan (j ⋙ BigEtaleOver.toScheme B S hS) := by
-    show PreservesLimitsOfShape WalkingCospan
+    change PreservesLimitsOfShape WalkingCospan
       (SmallEtale.toScheme B T.left.1 T.left.property)
     exact preservesPullbacks_smallEtaleToScheme B T.left.1 T.left.property
   have : PreservesLimitsOfShape WalkingCospan j := by
@@ -939,7 +939,7 @@ public theorem reconstructedPresheaf_isSheaf_of_small_restrictions
   let Z (i : E.I₀) : BigEtaleOver B S hS := Over.mk (q i ≫ Y.hom)
   let a (i : E.I₀) : Z i ⟶ E.X i := Over.homMk (p i) (by
     have hi : p i ≫ (E.f i).left = q i ≫ f.left := (hpq i).w
-    show p i ≫ (E.X i).hom = q i ≫ Y.hom
+    change p i ≫ (E.X i).hom = q i ≫ Y.hom
     calc p i ≫ (E.X i).hom = p i ≫ (E.f i).left ≫ X.hom :=
           congrArg (fun z => p i ≫ z) (Over.w (E.f i)).symm
       _ = (p i ≫ (E.f i).left) ≫ X.hom := (Category.assoc _ _ _).symm
@@ -1035,7 +1035,7 @@ public theorem reconstructedSmallSectionsMap_transition
       (dataPushforwardMap B S hS D f).hom.app (op U) ≫
         reconstructedSmallSectionsMap B S hS D T'
           ((smallEtaleBaseChange B f.left).obj U) := by
-  show _ ≫ reconstructedPresheafMap B S hS D _ = _
+  change _ ≫ reconstructedPresheafMap B S hS D _ = _
   simp only [Quiver.Hom.unop_op]
   rw [reconstructedSmallSectionsMap_eq_sectionMap,
     reconstructedSmallSectionsMap_eq_sectionMap,
@@ -1094,11 +1094,11 @@ public theorem dataHom_isIso_of_app
   refine ⟨⟨ψ, ?_, ?_⟩⟩
   · apply BigEtaleSheafData.Hom.ext
     intro T
-    show φ.app T ≫ inv (φ.app T) = 𝟙 _
+    change φ.app T ≫ inv (φ.app T) = 𝟙 _
     exact IsIso.hom_inv_id _
   · apply BigEtaleSheafData.Hom.ext
     intro T
-    show inv (φ.app T) ≫ φ.app T = 𝟙 _
+    change inv (φ.app T) ≫ φ.app T = 𝟙 _
     exact IsIso.inv_hom_id _
 
 public theorem sectionMap_hom_naturality
@@ -1154,7 +1154,7 @@ public theorem reconstructedRestrictionMap
   dsimp only [reconstructedPresheafMap, dataPushforwardMap, restrictionData,
     restrictionPullbackMap]
   rw [Equiv.apply_symm_apply]
-  show F.obj.map _ ≫ F.obj.map _ = F.obj.map _
+  change F.obj.map _ ≫ F.obj.map _ = F.obj.map _
   simp only [Functor.op_map, Quiver.Hom.unop_op]
   rw [← Functor.map_comp, ← op_comp]
   apply congrArg F.obj.map
@@ -1163,7 +1163,7 @@ public theorem reconstructedRestrictionMap
   have hw := (smallEtaleBaseChangeTerminalIso B S hS f).inv.hom.w
   change (smallEtaleBaseChangeTerminalIso B S hS f).inv.hom.left ≫
     pullback.snd (𝟙 T.left) f.left = 𝟙 T'.left at hw
-  show (smallEtaleBaseChangeTerminalIso B S hS f).inv.hom.left ≫
+  change (smallEtaleBaseChangeTerminalIso B S hS f).inv.hom.left ≫
     pullback.fst (𝟙 T.left) f.left = 𝟙 _ ≫ f.left ≫ 𝟙 _
   have hp : pullback.fst (𝟙 T.left) f.left =
       pullback.snd (𝟙 T.left) f.left ≫ f.left := by
@@ -1235,7 +1235,7 @@ public theorem characterizeSheafBigEtale_pullback_app
         (((characterizeSheafBigEtale.{u, v} B S hS).functor.obj F).pullback f)).hom.app
           (op U) =
       F.obj.map (bigEtaleBaseChangeProjection B S hS f U).op := by
-  show ((B.smallPullbackAdjunction f.left (Type (max (u + 1) v))).homEquiv _ _
+  change ((B.smallPullbackAdjunction f.left (Type (max (u + 1) v))).homEquiv _ _
     (((B.smallPullbackAdjunction f.left (Type (max (u + 1) v))).homEquiv _ _).symm
       (restrictionPushforwardMap B S hS F f))).hom.app (op U) = _
   rw [Equiv.apply_symm_apply]

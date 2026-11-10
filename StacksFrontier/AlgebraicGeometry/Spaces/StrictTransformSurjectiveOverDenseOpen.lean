@@ -29,7 +29,7 @@ which the points of `U` are dense. A closed set containing a dense set is everyt
 ## Main results
 
 * `AlgebraicGeometry.Space.dense_preimage_subspacePointSet_of_isBlowupAlong`: the points of
-  the blowup lying over a dense open subspace disjoint from the centre are dense.
+  the blowup lying over a dense open subspace are dense.
 * `AlgebraicGeometry.Space.isSurjective_strictTransformSpaceToBlowUp_of_isFinite`: a finite
   strict transform maps onto the blowup, under the hypotheses above.
 * `AlgebraicGeometry.Space.isSurjective_strictTransformSpaceToBlowUp_of_isFiniteLocallyFree`:
@@ -55,9 +55,9 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **The points of a blowup over a dense open subspace disjoint from the centre are dense.**
+/-- **The points of a blowup over a dense open subspace are dense.**
 Let `b : A' ⟶ A` be the blowup of an algebraic space `A` in a closed subspace `Z`, and let
-`U ⊆ A` be an open subspace whose points are dense in `|A|` and disjoint from `|Z|`. Then the
+`U ⊆ A` be an open subspace whose points are dense in `|A|`. Then the
 inverse image of `|U|` under `|b|` is dense in `|A'|`.
 
 The inverse image of `A ∖ Z` is dense by Stacks 083S, and `b` restricts to an isomorphism
@@ -65,8 +65,7 @@ The inverse image of `A ∖ Z` is dense by Stacks 083S, and `b` restricts to an 
 carried to a nonempty open set of `|A ∖ Z|`, hence of `|A|`, which meets `|U|`. -/
 theorem dense_preimage_subspacePointSet_of_isBlowupAlong {A A' : AlgebraicSpaces B S hS}
     (U : OpenSubspaces B S hS A.1) (Z : ClosedSubspaces B S hS A.1) {b : A' ⟶ A}
-    (hb : IsBlowupAlong B S hS Z b) (hU : Dense (subspacePointSet B S hS A.1 U.1))
-    (hUZ : Disjoint (subspacePointSet B S hS A.1 U.1) (subspacePointSet B S hS A.1 Z.1)) :
+    (hb : IsBlowupAlong B S hS Z b) (hU : Dense (subspacePointSet B S hS A.1 U.1)) :
     Dense (pointsMap B S hS A'.1 b.hom ⁻¹' subspacePointSet B S hS A.1 U.1) := by
   set W := openComplementOfClosedSubspace B S hS A Z
   have hW : subspacePointSet B S hS A.1 W.1 = (subspacePointSet B S hS A.1 Z.1)ᶜ :=
@@ -91,7 +90,7 @@ theorem dense_preimage_subspacePointSet_of_isBlowupAlong {A A' : AlgebraicSpaces
   obtain ⟨_, ⟨⟨w, hwQ, rfl⟩, ⟨u, hu⟩⟩⟩ := hU.inter_open_nonempty _
     (isOpenMap_pointsMap_of_isOpenImmersion B S hS W.1.ι W.2.2 _ hQ')
     ⟨_, pointsMap B S hS _ φ y, by
-      show pointsMap B S hS _ (inv φ) (pointsMap B S hS _ φ y) ∈ Q
+      change pointsMap B S hS _ (inv φ) (pointsMap B S hS _ φ y) ∈ Q
       rw [hinv _ _ (IsIso.hom_inv_id φ)]
       exact hyO, rfl⟩
   refine ⟨pointsMap B S hS _ (W.1.preimage b.hom).ι (pointsMap B S hS _ (inv φ) w), hwQ, ?_⟩
@@ -145,16 +144,16 @@ theorem isSurjective_strictTransformSpaceToBlowUp_of_isFinite {A X A' : Algebrai
     have hle := preimage_openComplement_le_strictTransformSubfunctor B S hS f b E
       (isEffectiveCartierDivisor_exceptionalDivisor hb)
     refine ⟨pointsMap B S hS _ (Subfunctor.homOfLe hle) q, ?_⟩
-    show pointsMap B S hS _ (strictTransformSpaceι B S hS f b E.1 ≫ pr₂).hom _ = a'
+    change pointsMap B S hS _ (strictTransformSpaceι B S hS f b E.1 ≫ pr₂).hom _ = a'
     rw [ObjectProperty.FullSubcategory.comp_hom, pointsMap_comp, Function.comp_apply,
       ← Function.comp_apply (f := pointsMap B S hS _ (strictTransformSpaceι B S hS f b E.1).hom),
       ← pointsMap_comp]
-    show pointsMap B S hS _ pr₂.hom
+    change pointsMap B S hS _ pr₂.hom
       (pointsMap B S hS _ (Subfunctor.homOfLe hle ≫ (strictTransformSubfunctor B S hS f b E.1).ι)
         q) = a'
     rw [Subfunctor.homOfLe_ι, hq, hp]
   -- A closed set containing a dense set is everything.
-  have hdense := dense_preimage_subspacePointSet_of_isBlowupAlong B S hS U Z hb hU hUZ
+  have hdense := dense_preimage_subspacePointSet_of_isBlowupAlong B S hS U Z hb hU
   exact Set.range_eq_univ.1 (Set.eq_univ_of_univ_subset
     (hdense.closure_eq ▸ closure_minimal hsub hclosed))
 

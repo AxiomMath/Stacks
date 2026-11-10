@@ -25,9 +25,8 @@ morphisms ([Stacks, Example 0EYF]). This is [Stacks, Tag 0EYG].
 
 The proof of the source is
 `AlgebraicGeometry.exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne`, which
-takes two arguments: purity for regular local rings ([Stacks, Tag 0BMA] (1)), discharged by
-`AlgebraicGeometry.purityAtRegularLocalRings`, and the tame half of [Stacks, Tag 0EYD],
-discharged by `Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`. Its
+takes the tame half of [Stacks, Tag 0EYD] as an argument, discharged by
+`Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`. Its
 conclusion has `A / φA` regular, which is stronger than the requirement of [Stacks, Example 0EYF]
 that `A / φA` be reduced: a regular ring is reduced, as its localizations at maximal ideals are
 regular local rings, hence domains.
@@ -106,7 +105,6 @@ theorem isEtaleLocallyStandardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
   refine IsEtaleLocallyStandardTamelyRamified.of_isRegularRing fun x ↦ ?_
   obtain ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, gU, -, hpb, n, e, he, ι, hι⟩ :=
     exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
-      purityAtRegularLocalRings
       (fun S hS ↦ pulledBackCover_isTamelyRamifiedInCodimensionOne S hS) D hD hstalk f htame x
   exact ⟨A, g, hg, a, hga, φ, hA, hφ, hreg, gU, hpb, n, e, he, ι, hι⟩
 

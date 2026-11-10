@@ -284,7 +284,7 @@ private lemma preservesDiscreteOfOpenCover
       IsPullback (initial.to _) (initial.to _) (c.inj i) (c.inj j) := fun _ _ hij =>
     CoproductDisjoint.isPullback_of_isInitial hc initialIsInitial hij
   let : ∀ i, Mono (c.inj i) := fun i => by
-    show Mono (Sigma.ι X i)
+    change Mono (Sigma.ι X i)
     infer_instance
   have hcover : (Presieve.ofArrows X c.inj).IsSheafFor F := by
     have h := hZ (∐ X) (AlgebraicGeometry.sigmaOpenCover X)
@@ -508,7 +508,7 @@ theorem isVSheaf_iff_zariski_and_standard
       have hloc := localSection_matches f x hx hZ hstd (hU a) (D a) g i q
         (pullback.condition (f := f i) (g := 𝒰.f a)).symm
       have hfac : 𝒱.f a ≫ f i = g ≫ (U a).ι := by
-        show pullback.fst (f i) (𝒰.f a) ≫ f i = pullback.snd (f i) (𝒰.f a) ≫ 𝒰.f a
+        change pullback.fst (f i) (𝒰.f a) ≫ f i = pullback.snd (f i) (𝒰.f a) ≫ 𝒰.f a
         exact pullback.condition
       have hstep : F.map (𝒱.f a).op (F.map (f i).op s) = F.map g.op (F.map (U a).ι.op s) := by
         simp only [← types_comp_apply, ← F.map_comp, ← op_comp, hfac]

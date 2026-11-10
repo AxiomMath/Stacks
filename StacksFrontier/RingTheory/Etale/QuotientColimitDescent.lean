@@ -79,13 +79,12 @@ theorem etale_tensorMap_ofId_iff (A : Type u) [CommRing A] [Algebra R A] :
       (algebraMap A (A ⊗[R] C)).comp
         (Algebra.TensorProduct.rid R R A).toAlgHom.toRingHom := by
     refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a r =>
       simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.map_tmul,
         AlgHom.coe_id, id_eq, Algebra.ofId_apply, RingHom.coe_comp, Function.comp_apply,
         Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
-      show a ⊗ₜ[R] (algebraMap R C r) = (r • a) ⊗ₜ[R] (1 : C)
+      change a ⊗ₜ[R] (algebraMap R C r) = (r • a) ⊗ₜ[R] (1 : C)
       rw [TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   rw [heq]
@@ -101,7 +100,7 @@ theorem exists_fg_le_etale_tensor (hC : Algebra.FinitePresentation R C)
     (h : (algebraMap (R ⧸ K) ((R ⧸ K) ⊗[R] C)).Etale) :
     ∃ J : FGLe K, (algebraMap (R ⧸ J.1) ((R ⧸ J.1) ⊗[R] C)).Etale := by
   have hφ : (Algebra.ofId R C).toRingHom.FinitePresentation := by
-    show (algebraMap R C).FinitePresentation
+    change (algebraMap R C).FinitePresentation
     rwa [RingHom.finitePresentation_algebraMap]
   have : IsFiltered (FGLe K) := inferInstance
   have : PreservesColimitsOfShape (FGLe K) (forget CommRingCat.{u}) :=

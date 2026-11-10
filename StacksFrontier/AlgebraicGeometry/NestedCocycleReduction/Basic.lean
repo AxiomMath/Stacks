@@ -96,8 +96,8 @@ has the shape it has.
   the transition morphism -- elaborate in seconds.
 * The inclusion of opens is always a *variable*, identified with whatever the goal produces by
   `map_val_congr` or `map_comp_val`. Writing a transport of opens into a statement instead --
-  `eqToHom` of the chart compatibility -- does not elaborate at all here, the same obstruction as for
-  the twist index.
+  `eqToHom` of the chart compatibility -- does not elaborate at all here, the same obstruction as
+  for the twist index.
 
 ## What is not done, and why
 

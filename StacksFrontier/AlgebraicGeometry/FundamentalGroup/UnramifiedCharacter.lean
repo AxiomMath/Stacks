@@ -152,12 +152,13 @@ connected scheme `X` locally of finite type over a finite field `k`, a geometric
 `ker(π₁(X, x̄) → π₁(Spec k))`, with `χ(F_y) = u ^ deg y` at the geometric Frobenius element of
 every closed point `y`. It is `π₁(X, x̄) → π₁(Spec k) → ℤ_ℓˣ`, the second map sending the
 Frobenius `Φ` of `k` to `u⁻¹`. -/
-public theorem exists_unramifiedCharacter {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+public theorem exists_unramifiedCharacter {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
     [ConnectedSpace X] (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] (x : GeometricPoint X)
     (ℓ : ℕ) [Fact ℓ.Prime] (u : ℤ_[ℓ]ˣ) :
     ∃ χ : EtaleFundamentalGroup X x →* ℤ_[ℓ]ˣ, Continuous χ ∧
       (∀ g ∈ (etaleFundamentalGroupMap f x).toMonoidHom.ker, χ g = 1) ∧
       ∀ y : closedPoints X, χ (geometricFrobeniusFamily f x y) = u ^ residueDegree f y.1 := by
+  have := Fintype.ofFinite k
   obtain ⟨n, hp, hq⟩ := FiniteField.card k (ringChar k)
   have : Fact (ringChar k).Prime := ⟨hp⟩
   obtain ⟨χ₀, hχc, hχΦ⟩ := exists_continuous_monoidHom_finiteFieldFrobenius (ringChar k) n hq
@@ -167,7 +168,7 @@ public theorem exists_unramifiedCharacter {k : Type u} [Field k] [Fintype k] {X 
   · rw [MonoidHom.comp_apply, MonoidHom.mem_ker.1 hg, map_one]
   · have := finite_residueField f y.1 y.2
     rw [MonoidHom.comp_apply]
-    show χ₀ (etaleFundamentalGroupMap f x (geometricFrobeniusFamily f x y)) = _
+    change χ₀ (etaleFundamentalGroupMap f x (geometricFrobeniusFamily f x y)) = _
     rw [etaleFundamentalGroupMap_geometricFrobeniusFamily (ringChar k) n hq f x y, map_inv,
       map_pow, hχΦ, inv_pow, inv_inv]
 

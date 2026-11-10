@@ -84,7 +84,7 @@ theorem baseIdealSubmodule_le_baseIdealSheaf :
     exact mul_comm ((φ a).1 U : R.obj.obj U) (m : R.obj.obj U)
   choose c hc using hc
   have hf : idealMultipleHom φ O I = Sigma.desc c ≫ P.ι :=
-    Sigma.hom_ext _ _ fun a => by rw [ι_idealMultipleHom, Sigma.ι_desc_assoc, hc]
+    Sigma.hom_ext _ _ fun a => by rw [ι_idealMultipleHom, Sigma.ι_comp_desc_assoc, hc]
   have hw : idealMultipleHom φ O I ≫ cokernel.π P.ι = 0 := by
     rw [hf, Category.assoc, cokernel.condition, comp_zero]
   have hι : idealMultipleι φ O I ≫ cokernel.π P.ι = 0 := by

@@ -106,7 +106,7 @@ theorem tildeOverTop_map_add (R : CommRingCat.{u})
       (tilde.functor R ⋙
         SheafOfModules.overFunctor (structureSheaf (Spec.structureSheaf R))
           (⊤ : Opens (PrimeSpectrum.Top R))).map g := by
-  show (SheafOfModules.overFunctor (structureSheaf (Spec.structureSheaf R))
+  change (SheafOfModules.overFunctor (structureSheaf (Spec.structureSheaf R))
     (⊤ : Opens (PrimeSpectrum.Top R))).map (tilde.map (f + g)) = _
   rw [tilde.map_add]
   ext U x

@@ -301,7 +301,7 @@ theorem faceT_succ_decalT_plain (n : ℕ) (j : Fin (n + 1)) (c : C') (m : D.M n)
       (face A' C' (n + 1) j.succ.castSucc)).top.hom.hom :
         (nerve (A' := A') hκ C' hC (n + 1)).obj →+* (nerve (A' := A') hκ C' hC (n + 2)).obj)
       ((1 : cech A' C' n) ⊗ₜ[A'] c) = ((1 : cech A' C' (n + 1)) ⊗ₜ[A'] c) := by
-    show face A' C' (n + 1) j.succ.castSucc ((1 : cech A' C' n) ⊗ₜ[A'] c) = _
+    change face A' C' (n + 1) j.succ.castSucc ((1 : cech A' C' n) ⊗ₜ[A'] c) = _
     rw [← Fin.succ_castSucc]
     exact face_succ_one_tmul n j.castSucc c
   rw [h1]
@@ -334,7 +334,7 @@ theorem faceT_succ_decalT_last (n : ℕ) (c : C') (m : D.M n) :
       (face A' C' (n + 1) (Fin.last (n + 2)))).top.hom.hom :
         (nerve (A' := A') hκ C' hC (n + 1)).obj →+* (nerve (A' := A') hκ C' hC (n + 2)).obj)
       ((1 : cech A' C' n) ⊗ₜ[A'] c) = ((1 : cech A' C' (n + 1)) ⊗ₜ[A'] c) := by
-    show face A' C' (n + 1) (Fin.last (n + 2)) ((1 : cech A' C' n) ⊗ₜ[A'] c) = _
+    change face A' C' (n + 1) (Fin.last (n + 2)) ((1 : cech A' C' n) ⊗ₜ[A'] c) = _
     rw [← Fin.succ_last]
     exact face_succ_one_tmul n (Fin.last (n + 1)) c
   rw [h1, LinearMap.map_smul]
@@ -423,7 +423,7 @@ theorem codegT_faceT_succ_succ_last (n : ℕ) (m : D.M (n + 1)) :
 omit [Module.FinitePresentation P Ω[P⁄A']] [Module.Flat A' C'] in
 /-- The point at the last vertex of level `0` is `D.ubar`. -/
 theorem w_zero : D.w 0 = D.ubar := by
-  show (redMap I (N := nerve (A' := A') hκ C' hC 0) (N' := nerve (A' := A') hκ C' hC 0)
+  change (redMap I (N := nerve (A' := A') hκ C' hC 0) (N' := nerve (A' := A') hκ C' hC 0)
     (AlgHom.id A' _)).comp D.ubar = D.ubar
   rw [redMap_id]
   rfl
@@ -439,7 +439,7 @@ theorem map_codeg_ρ_zero :
 omit [Module.FinitePresentation P Ω[P⁄A']] [Module.Flat A' C'] in
 /-- At level `0`, the codegeneracy after the face `1` is the identity. -/
 theorem codegT_faceT_one_zero (m : D.M 0) : D.codegT 0 (D.faceT hG 0 1 m) = m := by
-  show D.codegT 0 (D.faceT hG 0 (Fin.last 1) m) = m
+  change D.codegT 0 (D.faceT hG 0 (Fin.last 1) m) = m
   rw [faceT_last]
   simp only [faceTw, codegT, LinearMap.comp_apply, LinearMap.restrictScalars_apply,
     modMapA'_apply]
@@ -467,14 +467,13 @@ theorem codegT_faceT_one_succ (n : ℕ) (m : D.M (n + 1)) :
 
 include hb hsV htV hε₀ hε in
 /-- **The tangent modules along the nerve form a décalage.** -/
-noncomputable def tangentDecalage : Stacks.Decalage.Decalage A' C' D.M where
+noncomputable def tangentDecalage : Stacks.Decalage A' C' D.M where
   face := D.faceT hG
   codeg := D.codegT
   decal := D.decalT
   decal_bijective := D.decalT_bijective hb hsV htV εbar ε₀ hε₀ hε
   face_succ_decal n i x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c m =>
       rw [LinearMap.lTensor_tmul]

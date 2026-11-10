@@ -95,14 +95,14 @@ lemma twist_comp (σ : G) : twist G f a σ ≫ f = f := by simpa using (a (.op �
 /-- The action is multiplicative; the opposite multiplication on `Gᵐᵒᵖ` turns it into a left
 action by composition on the left. -/
 lemma twist_mul (σ τ : G) : twist G f a σ ≫ twist G f a τ = twist G f a (σ * τ) := by
-  show (a (.op σ)).asIso.hom.left ≫ (a (.op τ)).asIso.hom.left =
+  change (a (.op σ)).asIso.hom.left ≫ (a (.op τ)).asIso.hom.left =
     (a (.op (σ * τ))).asIso.hom.left
   rw [← Over.comp_left]
   exact congrArg (fun e : Aut (Over.mk f) ↦ e.asIso.hom.left) ((a.map_mul (.op τ) (.op σ)).symm)
 
 /-- The unit of the group acts trivially. -/
 lemma twist_one : twist G f a 1 = 𝟙 X := by
-  show (a (.op 1)).asIso.hom.left = _
+  change (a (.op 1)).asIso.hom.left = _
   rw [show (MulOpposite.op (1 : G)) = 1 from rfl, map_one]
   rfl
 
@@ -312,7 +312,7 @@ lemma galoisIso_mul (D : modulePullbackPseudofunctor.DescentData (galoisFamily f
       (Scheme.Modules.pullback (twist G f a σ)).mapIso (galoisIso D τ) ≪≫
         (pullbackMulIso G f a σ τ).app (D.obj .unit) := by
   apply Iso.ext
-  show ((Scheme.Modules.pullbackId X).app (D.obj .unit)).inv ≫
+  change ((Scheme.Modules.pullbackId X).app (D.obj .unit)).inv ≫
         D.hom f (𝟙 X) (twist G f a (σ * τ)) (by simp) (twist_comp G f a (σ * τ)) =
       (((Scheme.Modules.pullbackId X).app (D.obj .unit)).inv ≫
           D.hom f (𝟙 X) (twist G f a σ) (by simp) (twist_comp G f a σ)) ≫
@@ -330,7 +330,7 @@ lemma galoisIso_comm {D₁ D₂ : modulePullbackPseudofunctor.DescentData (galoi
     (galoisIso (a := a) D₁ σ).hom ≫
         (Scheme.Modules.pullback (twist G f a σ)).map (ψ.hom .unit) =
       ψ.hom .unit ≫ (galoisIso (a := a) D₂ σ).hom := by
-  show (((Scheme.Modules.pullbackId X).app (D₁.obj .unit)).inv ≫
+  change (((Scheme.Modules.pullbackId X).app (D₁.obj .unit)).inv ≫
         D₁.hom f (𝟙 X) (twist G f a σ) (by simp) (twist_comp G f a σ)) ≫
       (Scheme.Modules.pullback (twist G f a σ)).map (ψ.hom .unit) =
     ψ.hom .unit ≫ ((Scheme.Modules.pullbackId X).app (D₂.obj .unit)).inv ≫

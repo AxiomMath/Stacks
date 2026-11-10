@@ -123,7 +123,7 @@ theorem exists_flat_strata_of_isNoetherian {X S : Scheme.{u}} [IsNoetherian S] (
     rintro _ ⟨y, rfl⟩
     have hy : y = x := Subsingleton.elim _ _
     subst hy
-    show ((Z i').subschemeι.base (s₁.base x)) ∈ ((I i'.succ).support.compl : Set S)
+    change ((Z i').subschemeι.base (s₁.base x)) ∈ ((I i'.succ).support.compl : Set S)
     have h2 : (Z i').subschemeι.base (s₁.base x) = s.base x := by
       rw [← Scheme.Hom.comp_apply, hs₁]
     rw [h2]

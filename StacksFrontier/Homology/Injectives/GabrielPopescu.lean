@@ -167,7 +167,7 @@ lemma coneOfInvertedMorphisms_isLeftDerivedValueAt
   let s₀ : W.Over ⊤ X := MorphismProperty.Over.mk ⊤ (𝟙 X) (MorphismProperty.id_mem W X)
   let v : ∀ s : W.Over ⊤ X, s ⟶ s₀ := fun s =>
     MorphismProperty.Over.homMk (A := s) (B := s₀) s.hom (by
-      show s.hom ≫ 𝟙 X = s.hom
+      change s.hom ≫ 𝟙 X = s.hom
       simp)
   refine ⟨s₀, F.map s₀.hom, ?_, fun s ↦ ?_⟩
   · dsimp [coneOfInvertedMorphisms]
@@ -196,7 +196,7 @@ lemma coconeOfTerminalUnder_isRightDerivedValueAt
         (MorphismProperty.Under.forget W ⊤ X ⋙ Under.forget X ⋙ F)) := by
   refine ⟨t₀, 𝟙 _, (Category.id_comp _).trans (by simp), fun s => ?_⟩
   refine ⟨t₀, ht.from s, ht.from t₀, ?_⟩
-  show F.map (ht.from s).right =
+  change F.map (ht.from s).right =
     F.map (ht.from s).right ≫ 𝟙 _ ≫ F.map (ht.from t₀).right
   simp
 
@@ -362,7 +362,7 @@ theorem exists_derivedGabrielPopescuData (G : C) (hG : IsSeparator G) :
         L.mapDerivedCategoryFactorsh.hom.app N = L.mapDerivedCategoryFactorsh.hom.app t.left ≫
           (L.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map t.hom := by
       simpa using L.mapDerivedCategoryFactorsh.hom.naturality t.hom
-    show _ ≫ L.mapDerivedCategoryFactorsh.hom.app N ≫
+    change _ ≫ L.mapDerivedCategoryFactorsh.hom.app N ≫
       inv ((L.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map t.hom) = _
     rw [reassoc_of% hn, ← Functor.comp_map, IsIso.hom_inv_id, Category.comp_id]
   have hkinj : ∀ {F₁ F₂ : DerivedCategory C ⥤ DerivedCategory C} (τ : F₁ ⟶ F₂),

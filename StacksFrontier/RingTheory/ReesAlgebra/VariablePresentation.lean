@@ -103,8 +103,8 @@ private theorem reesPresentationHom_monomial_one (α : ι →₀ ℕ) :
   | zero => simp [reesPresentationHom]
   | add f g hf hg =>
     have h1 : (monomial (f + g) (1 : MvPolynomial σ R)) = monomial f 1 * monomial g 1 := by
-      rw [monomial_mul, one_mul]
-    rw [h1, map_mul, hf, hg, Polynomial.monomial_mul_monomial, monomial_mul, one_mul,
+      rw [monomial_mul_monomial, one_mul]
+    rw [h1, map_mul, hf, hg, Polynomial.monomial_mul_monomial, monomial_mul_monomial, one_mul,
       map_add, Finsupp.mapDomain_add]
   | single a b =>
     rw [← X_pow_eq_monomial, map_pow, reesPresentationHom, aeval_X, Polynomial.monomial_pow,
@@ -118,7 +118,7 @@ private theorem reesPresentationHom_monomial (u : σ →₀ ℕ) (α : ι →₀
       C (monomial u r) * monomial α 1 := by
     rw [C_mul_monomial, mul_one]
   rw [h, map_mul, reesPresentationHom_monomial_one, reesPresentationHom, aeval_C,
-    Polynomial.algebraMap_eq, Polynomial.C_mul_monomial, monomial_mul, mul_one]
+    Polynomial.algebraMap_eq, Polynomial.C_mul_monomial, monomial_mul_monomial, mul_one]
 
 /-- The Koszul relations lie in the kernel of the presentation map. -/
 private theorem koszulIdeal_le_ker :
@@ -246,7 +246,7 @@ private theorem reesFiberValue_eq (hv : Function.Injective v) (u : σ →₀ ℕ
   classical
   have hex : ∃ p : (ι →₀ ℕ) × (σ →₀ ℕ), p.1.degree = α.degree ∧
       p.2 + Finsupp.mapDomain v p.1 = u + Finsupp.mapDomain v α := ⟨(α, u), rfl, rfl⟩
-  rw [reesFiberValue, dif_pos hex]
+  rw [reesFiberValue, dite_eq_left hex]
   obtain ⟨h1, h2⟩ := hex.choose_spec
   exact Ideal.Quotient.eq.2
     (reesMonomial_sub_reesMonomial_mem v hv α.degree _ α _ u h1 rfl h2)
@@ -262,7 +262,7 @@ private theorem reesSection_monomial (d : ℕ) (z : σ →₀ ℕ) (r : R) :
     reesSection v (Polynomial.monomial d (monomial z r)) = r • reesFiberValue (R := R) v d z := by
   have h1 : (monomial z r : MvPolynomial σ R) = r • (basisMonomials σ R) z := by
     rw [coe_basisMonomials, smul_monomial, smul_eq_mul, mul_one]
-  show (Polynomial.monomial d (monomial z r)).sum
+  change (Polynomial.monomial d (monomial z r)).sum
       (fun n a ↦ (MvPolynomial.basisMonomials σ R).constr R (reesFiberValue v n) a) = _
   rw [Polynomial.sum_monomial_index _ _ (by simp), h1, map_smul, Module.Basis.constr_basis]
 

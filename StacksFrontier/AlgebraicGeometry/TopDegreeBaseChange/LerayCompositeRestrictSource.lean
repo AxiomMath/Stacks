@@ -71,7 +71,9 @@ composites with the derived-functor unit. Each of those collapses, by the charac
 factorizations, to a composite of degreewise units, and the two results are matched by naturality
 of the two model comparisons, naturality of the comparison `Qh ⋙ res ≅ res ⋙ Qh` of
 `CategoryTheory.Functor.mapDerivedCategoryFactorsh`, and the identity of the degreewise
-restrictions, which holds on the nose. `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` is the template for the
+restrictions, which holds on the nose.
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` is the
+template for the
 absolute case one lemma for one lemma.
 
 *Why `glue_two_naturalities` is stated at variables.* Moving the two model comparisons past the

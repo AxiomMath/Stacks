@@ -59,7 +59,7 @@ theorem presentation_legs_jointlyMono {T : Scheme.{u}}
     (Over.w ((Over.post B.inclusion).map P.target)).symm
   let a' : T' ⟶ R' := Over.homMk a rfl
   let b' : T' ⟶ R' := Over.homMk b (by
-    show b ≫ R'.hom = a ≫ R'.hom
+    change b ≫ R'.hom = a ≫ R'.hom
     rw [hR]
     exact ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) ht.symm)).trans
       (Category.assoc _ _ _))

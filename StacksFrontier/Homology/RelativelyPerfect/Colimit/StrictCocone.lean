@@ -309,7 +309,7 @@ lemma limitLeg_objects_eventually_equal [IsFiltered Index]
     exact eq_of_heq (Sigma.mk.inj_iff.mp pair_eq).2
   subst otherObject
   refine ⟨IsFiltered.coeq firstArrow secondArrow, IsFiltered.coeqHom firstArrow secondArrow, ?_⟩
-  show Presentation.mk origin
+  change Presentation.mk origin
       (firstArrow ≫ IsFiltered.coeqHom firstArrow secondArrow) object =
     Presentation.mk origin (secondArrow ≫ IsFiltered.coeqHom firstArrow secondArrow) object
   rw [IsFiltered.coeq_condition]
@@ -459,7 +459,7 @@ lemma nerveLevel_leg_map (degree : ℕ) {source target : Index}
     (nerveLevel degree).map (cone.ι.app target)
         ((nerveLevel degree).map (diagram.map arrow) simplex) =
       (nerveLevel degree).map (cone.ι.app source) simplex := by
-  show ((nerveLevel degree).map (diagram.map arrow) ≫
+  change ((nerveLevel degree).map (diagram.map arrow) ≫
     (nerveLevel degree).map (cone.ι.app target)) simplex = _
   rw [← Functor.map_comp, cone.w arrow]
   rfl
@@ -519,7 +519,7 @@ lemma nerveLevel_two_eventually_equal
       ((nerveLevel 1).map (diagram.map firstArrow)
         (ComposableArrows.mk₁ (second.map' 1 2)))).mp
       (by
-        show (nerveLevel 1).map (cone.ι.app middle) _ = (nerveLevel 1).map (cone.ι.app middle) _
+        change (nerveLevel 1).map (cone.ι.app middle) _ = (nerveLevel 1).map (cone.ι.app middle) _
         rw [nerveLevel_leg_map, nerveLevel_leg_map]
         exact rightEquality)
   change (nerveLevel 1).map (diagram.map firstArrow) _ =
@@ -567,7 +567,7 @@ lemma nerveLevel_two_surjective
       (congrArg (cone.ι.app later).toFunctor.obj middleEq)
       ((cone.ι.app later).toFunctor.map ((diagram.map arrow).toFunctor.map secondModel.hom))
     have equality' := congrArg ComposableArrows.arrowEquiv transport
-    show Arrow.mk second = Arrow.mk ((cone.ι.app later).toFunctor.map secondLater)
+    change Arrow.mk second = Arrow.mk ((cone.ι.app later).toFunctor.map secondLater)
     simpa only [secondLater, Functor.map_comp, eqToHom_map, arrowEquiv_mk₁] using
       (congrArg ComposableArrows.arrowEquiv equality).symm.trans equality'.symm
 
@@ -760,7 +760,7 @@ lemma strictCocone_arrows_surjective
   obtain ⟨later, arrow, model, equality⟩ := descent.surjective stage source target morphism
   refine ⟨later, ComposableArrows.mk₁ model, ?_⟩
   rw [nerveLevel_map_mk₁]
-  show ComposableArrows.mk₁ morphism =
+  change ComposableArrows.mk₁ morphism =
     ComposableArrows.mk₁ ((limitLeg diagram cone later).map model)
   rw [equality]
 
@@ -786,7 +786,7 @@ lemma strictCocone_arrows_eventually_equal_of_objects_equal
     descent.eventually_injective stage source target firstMorphism secondMorphism homEquality
   refine ⟨later, arrow, ?_⟩
   rw [nerveLevel_map_mk₁, nerveLevel_map_mk₁]
-  show ComposableArrows.mk₁ ((push diagram arrow).map firstMorphism) =
+  change ComposableArrows.mk₁ ((push diagram arrow).map firstMorphism) =
     ComposableArrows.mk₁ ((push diagram arrow).map secondMorphism)
   exact congrArg ComposableArrows.mk₁ equality
 

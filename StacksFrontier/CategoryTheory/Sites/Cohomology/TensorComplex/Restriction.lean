@@ -465,8 +465,10 @@ def overSheafTensorBicomplexIso :
       ext q : 1
       exact (sheafTensorOverIso_naturality_left X U (A.d i j) (B.X q)).symm)
 
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the restricted total complex exceeds the default limit
+set_option maxHeartbeats 800000 in
+-- elaborating the total-complex isomorphism over the restriction functor is heavy
 /-- **Restriction to the site over `U` commutes with the total tensor complex**: the
 restriction of `Tot(A ⊗_O B)` is `Tot(A|_U ⊗_{O|_U} B|_U)`.
 

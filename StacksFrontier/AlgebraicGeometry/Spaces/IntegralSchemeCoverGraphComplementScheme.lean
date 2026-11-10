@@ -47,8 +47,9 @@ restated here.
 ## What is and is not proved
 
 Nothing here carries a Stacks attribute and no part of [Stacks, Tag 09YB] is registered. Both
-results are compositions of results already in the library; they are recorded because the inductive step needs the
-summand as an *object of the site* and the composition is not otherwise available in one step.
+results are compositions of results already in the library; they are recorded because the
+inductive step needs the summand as an *object of the site* and the composition is not otherwise
+available in one step.
 
 ## References
 

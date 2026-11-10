@@ -88,7 +88,7 @@ private theorem exists_fac_of_specCone_comp {B : Under R} (g : B ⟶ c.pt) (j : 
     exact hq
   apply eR.inverse.map_injective
   simp only
-  show eR.inverse.map (eR.functor.map qAlgOp.unop) ≫
+  change eR.inverse.map (eR.functor.map qAlgOp.unop) ≫
       eR.inverse.map (c.ι.app j.unop) = eR.inverse.map g
   rw [show eR.inverse.map (eR.functor.map qAlgOp.unop) = qAlgOp.unop by rfl]
   exact congrArg Opposite.unop ((algSpec R).map_injective hAlg)
@@ -122,7 +122,7 @@ theorem exists_overHom_comp_fromSpec_eq {X S : Scheme.{u}} (f : X ⟶ S) {V : S.
       (qU ≫ hU.isoSpec.hom) ≫ Spec.map (f.appLE V U hVU) ≫ hV.fromSpec = qU ≫ U.ι ≫ f := by
         simp [Category.assoc, IsAffineOpen.SpecMap_appLE_fromSpec f hV hU hVU]
       _ = T.hom ≫ hV.fromSpec := by rw [← Category.assoc, hqU, hh]
-  · show (qU ≫ hU.isoSpec.hom) ≫ hU.fromSpec = h
+  · change (qU ≫ hU.isoSpec.hom) ≫ hU.fromSpec = h
     rw [Category.assoc, hU.isoSpec_hom_fromSpec, hqU]
 
 private theorem factorChart
@@ -144,7 +144,7 @@ private theorem factorChart
   let D : Λᵒᵖ ⥤ Over S := algDiagram A ⋙ Over.map hV.fromSpec
   let cL := (Over.map hV.fromSpec).mapCone (specCone A c)
   have hAffine (i : Λᵒᵖ) : IsAffine (D.obj i).left := by
-    show IsAffine (Spec (A.obj i.unop).right)
+    change IsAffine (Spec (A.obj i.unop).right)
     infer_instance
   let gSpec := (algSpec R).map (eR.inverse.map g).op
   let chartSpec := (algSpec R).obj
@@ -159,7 +159,7 @@ private theorem factorChart
       simpa using congrArg Over.Hom.left hgi
     have hchart : chartOver.left ⁻¹ᵁ U = ⊤ := hU.fromSpec_preimage_self
     rw [← Scheme.Hom.comp_preimage, hgiL]
-    show (((Over.map hV.fromSpec).map gSpec).left ≫ chartOver.left) ⁻¹ᵁ U = ⊤
+    change (((Over.map hV.fromSpec).map gSpec).left ≫ chartOver.left) ⁻¹ᵁ U = ⊤
     rw [Scheme.Hom.comp_preimage, hchart]
     simp
   obtain ⟨j, kji, hlateTop⟩ :=
@@ -176,11 +176,11 @@ private theorem factorChart
   have hproj : (cL.π.app j).left ≫ (D.map kji).left = (cL.π.app i).left := by
     simpa [D] using congrArg Over.Hom.left (cL.w kji)
   have hpiLate : ((specCone A c).π.app j).left ≫ lateX = gOver.left := by
-    show (cL.π.app j).left ≫ ((D.map kji).left ≫ gᵢ.left) = gOver.left
+    change (cL.π.app j).left ≫ ((D.map kji).left ≫ gᵢ.left) = gOver.left
     rw [← Category.assoc, hproj]
     exact congrArg Over.Hom.left hgi
   have hgo : gOver.left = gSpec.left ≫ hU.fromSpec := by
-    show ((Over.map hV.fromSpec).map gSpec).left ≫ hU.fromSpec =
+    change ((Over.map hV.fromSpec).map gSpec).left ≫ hU.fromSpec =
       gSpec.left ≫ hU.fromSpec
     rw [Over.map_map_left]
   have hfactorLeft : ((specCone A c).π.app j).left ≫ q.left = gSpec.left := by

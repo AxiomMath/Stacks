@@ -66,7 +66,7 @@ theorem isZero_rightDerived_pushforward_of_affineEtale {X Y : Scheme.{u}} (h : Y
       (((Stacks.Cohomology.SheafifiedHigherDirectImage.pushforwardCohomologyPresheafEvaluationIso
         Ab.{u + 1} (smallEtaleBaseChange h) r ((AffineEtale.Spec X).obj Z)).app G).symm)
   have h0 : P.map map.op ξ = 0 := (AddCommGrpCat.isZero_iff_subsingleton.1 hZ).elim _ _
-  show P.map g.op ξ = P.map g.op 0
+  change P.map g.op ξ = P.map g.op 0
   rw [map_zero, ← fac, op_comp, P.map_comp, CategoryTheory.comp_apply, h0, map_zero]
 
 /-- **Cohomology over an object of a small étale site vanishes when the étale cohomology of its

@@ -118,7 +118,7 @@ private theorem denseYonedaEquiv_symm_naturality {C : Type v} [Category.{u} C] {
     have hh := ConcreteCategory.congr_hom (e.inv_hom_id_app U)
       (show (P ⋙ uliftFunctor.{u + 1, u}).obj U from ULift.up x)
     exact congrArg (fun z : ULift.{u + 1, u} (P.obj U) ↦ z.down) hh
-  show q.hom.app (I.op.obj U) (((denseYonedaEquiv K I Z P e H).symm s).app U x) =
+  change q.hom.app (I.op.obj U) (((denseYonedaEquiv K I Z P e H).symm s).app U x) =
     ((denseYonedaEquiv K I Z P e H').symm (q.hom.app (op Z) s)).app U x
   rw [← hx]
   calc _ = q.hom.app (I.op.obj U) (H.obj.map k.op s) :=
@@ -279,7 +279,7 @@ theorem sectionEquivChartFiberHom_naturality (V : SmallEtale B S hS Y.1)
       sectionEquivChartFiberHom B S hS f V F s ≫ q.hom := by
   refine chartFiber_hom_ext B S hS f V fun U g ↦ ?_
   generalize baseChangeArrowOfChartFiber B S hS f V U g = h
-  show ((sectionEquivChartFiberHom B S hS f V G)
+  change ((sectionEquivChartFiberHom B S hS f V G)
       (((smallEtaleRingedToposHom B S hS f).toToposHom.pushforward.map q).hom.app
         (op V) s)).app (op U) (chartFiberOfBaseChangeArrow B S hS f V U h) =
     q.hom.app (op U) ((sectionEquivChartFiberHom B S hS f V F s).app (op U)
@@ -449,7 +449,7 @@ private theorem sectionEquivSheafOfMono_naturality
         (((smallEtaleRingedToposHom B S hS f).toToposHom.pushforward.map q).hom.app (op V) a) =
       sectionEquivSheafOfMono B S hS f V G a ≫ q := by
   refine sheafOfMono_hom_ext (chartCoordinateMap B S hS f V) _ _ ?_
-  show sheafOfMonoUnit (chartCoordinateMap B S hS f V) ≫
+  change sheafOfMonoUnit (chartCoordinateMap B S hS f V) ≫
       (sectionEquivSheafOfMono B S hS f V H _).hom =
     sheafOfMonoUnit (chartCoordinateMap B S hS f V) ≫
       (sectionEquivSheafOfMono B S hS f V G a).hom ≫ q.hom
@@ -467,7 +467,7 @@ private theorem sectionEquivSheafOfMono_fSharp
           (smallEtaleRingedToposHom B S hS f)).hom.app (op V) b) =
       sheafOfMonoLift (chartCoordinateMap B S hS f V)
         (chartFiberCoordinate B S hS f V b) := by
-  show (sheafOfMonoHomEquiv (chartCoordinateMap B S hS f V) _).symm
+  change (sheafOfMonoHomEquiv (chartCoordinateMap B S hS f V) _).symm
     (sectionEquivChartFiberHom B S hS f V (structureSetSheaf B S hS X) _) = _
   rw [sectionEquivChartFiberHom_fSharp]
   rfl

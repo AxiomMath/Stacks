@@ -223,8 +223,7 @@ theorem crysWedgeRight_tmul (A : Thickening S) (ω ω' : crysDiffSections A)
 theorem crysWedgeRight_smul (A : Thickening S) (ω : crysDiffSections A) (b : crysSheafRing S A)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     crysWedgeRight M A ω (b • z) = b • crysWedgeRight M A ω z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω' s =>
       rw [TensorProduct.smul_tmul', crysWedgeRight_tmul, crysWedgeRight_tmul,
         crysWedgeSections_smul_left, TensorProduct.smul_tmul']
@@ -236,8 +235,7 @@ theorem crysWedgeRight_smul_form (A : Thickening S) (ω : crysDiffSections A)
     (b : crysSheafRing S A)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     crysWedgeRight M A (b • ω) z = b • crysWedgeRight M A ω z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω' s =>
       rw [crysWedgeRight_tmul, crysWedgeRight_tmul, crysWedgeSections_smul_right,
         TensorProduct.smul_tmul']
@@ -247,8 +245,7 @@ theorem crysWedgeRight_smul_form (A : Thickening S) (ω : crysDiffSections A)
 theorem crysWedgeRight_add_form (A : Thickening S) (ω ω' : crysDiffSections A)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     crysWedgeRight M A (ω + ω') z = crysWedgeRight M A ω z + crysWedgeRight M A ω' z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, add_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω'' s =>
       rw [crysWedgeRight_tmul, crysWedgeRight_tmul, crysWedgeRight_tmul,
         crysWedgeSections_add_right, TensorProduct.add_tmul]
@@ -334,8 +331,7 @@ theorem diffAction₂_crysWedgeRight (A : Thickening S) (ω : crysDiffSections A
       crysSheafRingMap (secondOrderThickeningSiteQ₁₂ S A)
           (firstOrderThickeningDiffSection A ω) •
         moduleSiteRestrict M (secondOrderThickeningSiteQ₀₁ S A) (diffAction M A z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω' s =>
       rw [crysWedgeRight_tmul, diffAction₂_tmul, diffAction_tmul, map_smulₛₗ, smul_smul,
         crysSheafRingMap_q₁₂_mul_q₀₁_diffSection, moduleSiteRestrict_q₀₁_p₀]
@@ -354,8 +350,7 @@ theorem diffAction₂_extendedConnectionTensor (A : Thickening S)
       moduleSiteRestrict M (secondOrderThickeningSiteQ₀₁ S A) (diffAction M A z) +
         moduleSiteRestrict M (secondOrderThickeningSiteQ₁₂ S A) (diffAction M A z) -
         moduleSiteRestrict M (secondOrderThickeningSiteQ₀₂ S A) (diffAction M A z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, add_zero, sub_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω t =>
       rw [extendedConnectionTensor_tmul, map_add, diffAction₂_crysWedgeRight,
         diffAction_crystalConnectionTensor,
@@ -559,8 +554,7 @@ theorem secondOrderIdealProjUnit_diffAction₂ (A : Thickening S)
       (SheafOfModules.unit (crystallineStructureSheaf S)).val.obj (op A)) :
     secondOrderIdealProjUnit A
         (diffAction₂ (SheafOfModules.unit (crystallineStructureSheaf S)) A z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul η x => exact secondOrderIdealProjUnit_diffAction₂_tmul A η x
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
 

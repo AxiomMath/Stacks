@@ -77,7 +77,7 @@ theorem specMap_specPointEquiv {R S : Type u} [CommRing R] [CommRing S] (f : R �
 theorem sigmaDesc_apply {ι : Type u} (X : ι → Scheme) {Y : Scheme}
     (f : ∀ i, X i ⟶ Y) (i : ι) (x : X i) :
     (Sigma.desc f).base (Sigma.ι X i x) = (f i).base x := by
-  simpa only [Scheme.Hom.comp_apply] using congrArg (fun g => g x) (Sigma.ι_desc f i)
+  simpa only [Scheme.Hom.comp_apply] using congrArg (fun g => g x) (Sigma.ι_comp_desc f i)
 
 /-- The coordinate ring of `D(f) ∩ V(I)` has injective contraction of primes into `Spec A`. -/
 theorem locallyClosedCoordinateMap_comap_injective (I : Ideal A) (f : A) :
@@ -103,7 +103,7 @@ theorem exists_closedStrataPoint_eq (E : Finset A) (w : closedStrata E) :
   obtain ⟨⟨i, x⟩, hx⟩ := (sigmaMk fun j : {E' : Finset A // E' ⊆ E} =>
     Spec (.of (stratumCoordinateRing E j))).surjective w
   refine ⟨i, (specPointEquiv _).symm x, ?_⟩
-  show (Sigma.ι (fun j : {E' : Finset A // E' ⊆ E} =>
+  change (Sigma.ι (fun j : {E' : Finset A // E' ⊆ E} =>
     Spec (.of (stratumCoordinateRing E j))) i).base x = w
   exact (sigmaMk_mk (fun j : {E' : Finset A // E' ⊆ E} =>
     Spec (.of (stratumCoordinateRing E j))) i x).symm.trans hx
@@ -142,7 +142,7 @@ theorem closedStrataMap_point_formula (E : Finset A) (i : {E' : Finset A // E' �
   rw [← PrimeSpectrum.comap_comp_apply, ← PrimeSpectrum.comap_comp_apply]
   congr 1
   ext a
-  show localizationToCoordinateRing _ _ (algebraMap A (localizationRing _ _) a) = _
+  change localizationToCoordinateRing _ _ (algebraMap A (localizationRing _ _) a) = _
   exact IsLocalization.lift_eq _ _
 
 /-- A point of the stratum indexed by `E'` lands in the clopen piece of `X_E` cut out by the

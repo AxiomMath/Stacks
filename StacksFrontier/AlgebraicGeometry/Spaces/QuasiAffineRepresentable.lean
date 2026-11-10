@@ -67,8 +67,8 @@ proved equivalent *here*. They are proved equivalent in
 `AlgebraicGeometry.Space.isQuasiAffineHom_tfae`, modulo one hypothesis recorded there.
 `AlgebraicGeometry.Space.presheaf_of_isQuasiAffineHom` carries the named
 hypothesis `CategoryTheory.Functor.relativelyRepresentable f`, which is condition (1) minus the
-quasi-affineness clause, so it is not the implication (2) ⇒ (1) of the tag; it is the statement that the
-clause is the only part of (1) which (2) does not already give.
+quasi-affineness clause, so it is not the implication (2) ⇒ (1) of the tag; it is the statement
+that the clause is the only part of (1) which (2) does not already give.
 
 Producing the representability from (2) is not an obstruction: relative 03JH is proved there
 with the affineness of the representing object **dropped**. That affineness holds for affine,
@@ -83,8 +83,9 @@ the instance `AlgebraicGeometry.isQuasiAffineHom_isStableUnderBaseChange`
 `@[stacks 01SO]`), and is supplied by synthesis. The remaining hypothesis is the existing
 `AlgebraicGeometry.Space.IsEffectiveDescentAlongSurjectiveEtale`, Stacks 03I2, which rests on
 the fppf descent of Stacks 02W8.
-Condition (3) is spelled in the tagged statement with an explicit representing object and isomorphism
-rather than with `CategoryTheory.MorphismProperty.presheaf`; the passage between the two forms
+Condition (3) is spelled in the tagged statement with an explicit representing object and
+isomorphism rather than with `CategoryTheory.MorphismProperty.presheaf`; the passage between the
+two forms
 is `AlgebraicGeometry.BigFppfOver.presheaf_inverseImage_yoneda_map_iff`, which needs fibre
 products in `AlgebraicGeometry.BigFppfOver` — those are available by synthesis, from
 `CategoryTheory.Over.instHasPullbacks` together with

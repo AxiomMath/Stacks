@@ -83,7 +83,7 @@ of the variables of `P`. -/
 theorem pushoutPresentation_val (i : Fin n) :
     (pushoutPresentation A' B' P).val i = algebraMap B B' (P.val i) := by
   have : Algebra.IsPushout A A' B B' := Algebra.IsPushout.symm inferInstance
-  show Algebra.IsPushout.equiv A A' B B' (1 ⊗ₜ P.val i) = _
+  change Algebra.IsPushout.equiv A A' B B' (1 ⊗ₜ P.val i) = _
   rw [Algebra.IsPushout.equiv_tmul, map_one, one_mul]
 
 /-- The relations of the base changed presentation are the images of the relations of `P` under
@@ -204,7 +204,7 @@ theorem bijective_f₁_of_isQuasiIso {S : Type*} [CommRing S] {X Y : NaiveCotang
       rw [← NaiveCotangent.chainMap_comm_apply, map_sub, hxx', sub_self, map_zero, map_zero]
     have hk : f.onH₁ ⟨x - x', hd⟩ = 0 := Subtype.ext (by
       rw [NaiveCotangent.onH₁_apply_coe]
-      show f.f₁ (x - x') = 0
+      change f.f₁ (x - x') = 0
       rw [map_sub, hxx', sub_self])
     have := congrArg Subtype.val ((map_eq_zero_iff _ hq.1.1).mp hk)
     exact sub_eq_zero.mp this
@@ -238,7 +238,7 @@ noncomputable def addVariablePresentation : Algebra.Presentation R C (Fin (1 + n
 the values of the variables of `Q`. -/
 theorem addVariablePresentation_val (k : Fin (1 + n)) :
     (addVariablePresentation Q).val k = Sum.elim (fun _ => 1) Q.val (finSumFinEquiv.symm k) := by
-  show ((selfPresentation (fun _ : Fin 1 => (1 : C))).toGenerators.comp Q.toGenerators).val
+  change ((selfPresentation (fun _ : Fin 1 => (1 : C))).toGenerators.comp Q.toGenerators).val
     (finSumFinEquiv.symm k) = _
   rcases finSumFinEquiv.symm k with j | i <;> rfl
 
@@ -258,7 +258,7 @@ theorem localizationPresentation_val (k : Fin (1 + n)) :
     (localizationPresentation C' g Q).val k =
       Sum.elim (fun _ => IsLocalization.Away.invSelf g) (fun i => algebraMap C C' (Q.val i))
         (finOneAddEquiv k) := by
-  show ((Algebra.Presentation.localizationAway C' g).toGenerators.comp Q.toGenerators).val
+  change ((Algebra.Presentation.localizationAway C' g).toGenerators.comp Q.toGenerators).val
     (finOneAddEquiv k) = _
   rcases finOneAddEquiv k with j | i <;> rfl
 
@@ -427,8 +427,7 @@ theorem map_map_eq_map {R₀ R₁ R₂ : Type*} [CommRing R₀] [CommRing R₁] 
     (f : M₀ →ₛₗ[σ] M₂) (g : T₀ →ₛₗ[σ] T₂) (hf : ∀ x, f₂ (f₁ x) = f x) (hg : ∀ t, g₂ (g₁ t) = g t)
     (u : M₀ ⊗[R₀] T₀) :
     TensorProduct.map f₂ g₂ (TensorProduct.map f₁ g₁ u) = TensorProduct.map f g u := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction u using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x t => rw [TensorProduct.map_tmul, TensorProduct.map_tmul, TensorProduct.map_tmul, hf, hg]
 
@@ -556,7 +555,7 @@ variable {A B A' C B' : Type u} [CommRing A] [CommRing B] [CommRing A'] [CommRin
   [Algebra.QuasiFinite A' B']
 
 include g P in
-omit [Algebra.QuasiFinite A' B'] in
+omit [Algebra.Syntomic A' B'] [Algebra.QuasiFinite A' B'] in
 /-- A localization `(A' ⊗_A B)[1/g]` of a pushout of an algebra with a square relative global
 complete intersection presentation gives a good square for the naive cotangent complex. -/
 theorem isGoodSquare_of_isPushout_of_isLocalizationAway :

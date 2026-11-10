@@ -21,8 +21,7 @@ invertible in `A`. This is the main step of the proof of Abhyankar's lemma for a
 
 ## Main results
 
-* `AlgebraicGeometry.Abhyankar.exists_ringEquiv_of_isDomain`: the statement above, granted purity
-  for regular local rings.
+* `AlgebraicGeometry.Abhyankar.exists_ringEquiv_of_isDomain`: the statement above.
 
 ## Implementation notes
 
@@ -30,8 +29,8 @@ The proof follows the source. With `e` a common multiple, invertible in `κ((φ)
 ramification indices of the fraction field of `B` over the discrete valuation ring `A_{(φ)}`, the
 cover becomes unramified in codimension one over `A' = A[x]/(x^e - φ)` (Abhyankar's lemma,
 `AlgebraicGeometry.Abhyankar.isUnramifiedWithRespectTo_of_tensor`), hence has a section over
-`A'_x` (`AlgebraicGeometry.Abhyankar.nonempty_algHom_of_isUnramifiedInCodimensionOne`, which uses
-purity). So `B` embeds into `K[φ^{1/e}]`, and
+`A'_x` (`AlgebraicGeometry.Abhyankar.nonempty_algHom_of_isUnramifiedInCodimensionOne`). So `B`
+embeds into `K[φ^{1/e}]`, and
 `AlgebraicGeometry.Abhyankar.exists_ringEquiv_of_ringHom_K1` identifies it; the exponent is a unit
 by `AlgebraicGeometry.Abhyankar.isUnit_natCast_of_etale` and
 `AlgebraicGeometry.Abhyankar.isUnit_of_isUnit_algebraMap_away`.
@@ -149,7 +148,7 @@ is zero or coprime to `e`. -/
 private theorem ringChar_eq_zero_or_coprime_of_isUnit {A : Type*} [CommRing A] [IsLocalRing A]
     {e : ℕ} (he : IsUnit (e : ResidueField A)) :
     ringChar (A ⧸ maximalIdeal A) = 0 ∨ Nat.Coprime (ringChar (A ⧸ maximalIdeal A)) e := by
-  show ringChar (ResidueField A) = 0 ∨ Nat.Coprime (ringChar (ResidueField A)) e
+  change ringChar (ResidueField A) = 0 ∨ Nat.Coprime (ringChar (ResidueField A)) e
   rcases CharP.char_is_prime_or_zero (ResidueField A) (ringChar (ResidueField A)) with hp | hp
   · right
     rw [Nat.Prime.coprime_iff_not_dvd hp]
@@ -178,7 +177,7 @@ private theorem natCast_notMem_of_dvd_of_isUnit_residueField {A O : Type*} [Comm
   intro h
   have hdO : algebraMap A O d ∈ maximalIdeal O := by
     rw [← Ideal.mem_comap]
-    show _ ∈ (maximalIdeal O).under A
+    change _ ∈ (maximalIdeal O).under A
     rwa [IsLocalization.AtPrime.under_maximalIdeal (S := O) P]
   rw [map_natCast] at hdO
   have : IsUnit (d : ResidueField O) := isUnit_of_dvd_unit (Nat.cast_dvd_cast hde) hue
@@ -206,9 +205,8 @@ private theorem isDiscreteValuationRing_and_irreducible_of_isLocalization_atPrim
 /-- **Abhyankar's lemma over a strictly henselian regular local ring, connected case.** Let `A`
 be a strictly henselian regular local ring, `0 ≠ φ ∈ 𝔪_A` with `A/φA` regular, and `B` a finite
 étale `A_φ`-algebra which is a domain and is tamely ramified over `Spec A` in codimension one.
-Then `B ≅ A[x]/(x^d - φ)_φ` over `A_φ` for some `d ≥ 1` invertible in `A`. The argument `h0BMA` is
-purity for regular local rings ([Stacks, Tag 0BMA] (1)). -/
-theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
+Then `B ≅ A[x]/(x^d - φ)_φ` over `A_φ` for some `d ≥ 1` invertible in `A`. -/
+theorem exists_ringEquiv_of_isDomain
     (A : Type u) [CommRing A] [StrictlyHenselianLocalRing A] [IsRegularLocalRing A]
     (φ : A) (hφ : φ ∈ maximalIdeal A) (hφ0 : φ ≠ 0)
     (hreg : IsRegularLocalRing (A ⧸ Ideal.span {φ}))
@@ -280,7 +278,7 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
   have hBL : ∀ a : A, algebraMap B L (algebraMap _ B (algebraMap A (Localization.Away φ) a)) =
       algebraMap O L (algebraMap A O a) := by
     intro a
-    show _ = algebraMap K L (algebraMap O K (algebraMap A O a))
+    change _ = algebraMap K L (algebraMap O K (algebraMap A O a))
     rw [← IsScalarTower.algebraMap_apply A O K, ← IsScalarTower.algebraMap_apply A K L]
     rfl
   -- `L` is a field factor of the cover at `ξ`, so it is tamely ramified over `O`.
@@ -322,7 +320,7 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
   have : IsDomain A' := IsRegularLocalRing.isDomain A'
   let g : A' := algebraMap A A' φ
   have hg0 : g ≠ 0 := by
-    show algebraMap A A' φ ≠ 0
+    change algebraMap A A' φ ≠ 0
     rw [← root_pow]
     exact pow_ne_zero e (nonZeroDivisors.ne_zero (root_mem_nonZeroDivisors A e hφ0))
   let Cφ := Localization.Away g
@@ -330,7 +328,7 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
   have hκ : ∀ a, algebraMap (Localization.Away φ) Cφ (algebraMap A _ a) =
       algebraMap A' Cφ (algebraMap A A' a) := by
     intro a
-    show Localization.awayMap (algebraMap A A') φ _ = _
+    change Localization.awayMap (algebraMap A A') φ _ = _
     exact IsLocalization.map_eq _ _
   let B' := Cφ ⊗[Localization.Away φ] B
   -- The base change is unramified over `Spec A'` in codimension one.
@@ -351,7 +349,7 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
   have hχ₀A : ∀ a, χ₀ (algebraMap A A' a) = gK1 a := by
     intro a
     rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_eq]
-    show Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
+    change Ideal.Quotient.lift _ _ _ (Ideal.Quotient.mk _ _) = _
     rw [Ideal.Quotient.lift_mk]
     simp
   have hχ₀u : IsUnit (χ₀ g) := by
@@ -377,12 +375,12 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
     let f₁ : Cφ →ₐ[Localization.Away φ] N :=
       { (Algebra.TensorProduct.includeLeftRingHom).comp χ with
         commutes' := fun r ↦ by
-          show χ (algebraMap _ Cφ r) ⊗ₜ (1 : L) = _
+          change χ (algebraMap _ Cφ r) ⊗ₜ (1 : L) = _
           rw [← RingHom.comp_apply, hf₁, Algebra.TensorProduct.algebraMap_apply] }
     let f₂ : B →ₐ[Localization.Away φ] N :=
       { (Algebra.TensorProduct.includeRight.toRingHom).comp (algebraMap B L) with
         commutes' := fun r ↦ by
-          show (1 : K1) ⊗ₜ algebraMap B L (algebraMap _ B r) = _
+          change (1 : K1) ⊗ₜ algebraMap B L (algebraMap _ B r) = _
           rw [← IsScalarTower.algebraMap_apply (Localization.Away φ) B L,
             IsScalarTower.algebraMap_apply (Localization.Away φ) K L,
             Algebra.TensorProduct.algebraMap_apply, hK1R]
@@ -390,12 +388,12 @@ theorem exists_ringEquiv_of_isDomain (h0BMA : PurityAtRegularLocalRings.{u})
             (Algebra.TensorProduct.algebraMap_apply (R := K) (A := K1) _) }
     exact (Algebra.TensorProduct.lift f₁ f₂ (fun _ _ ↦ Commute.all _ _)).toRingHom.domain_nontrivial
   -- Purity: the base change has a section over `A'_φ`, so `B` embeds into `K[φ^{1/e}]`.
-  obtain ⟨σ'⟩ := nonempty_algHom_of_isUnramifiedInCodimensionOne h0BMA A' g hg0 B' hunr
+  obtain ⟨σ'⟩ := nonempty_algHom_of_isUnramifiedInCodimensionOne A' g hg0 B' hunr
   let τ : B →+* K1 := χ.comp (σ'.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom)
   have hτ : ∀ a : A, τ (algebraMap _ B (algebraMap A (Localization.Away φ) a)) =
       algebraMap K K1 (algebraMap A K a) := by
     intro a
-    show χ (σ' ((1 : Cφ) ⊗ₜ algebraMap _ B (algebraMap A (Localization.Away φ) a))) = _
+    change χ (σ' ((1 : Cφ) ⊗ₜ algebraMap _ B (algebraMap A (Localization.Away φ) a))) = _
     rw [← Algebra.TensorProduct.algebraMap_apply',
       IsScalarTower.algebraMap_apply (Localization.Away φ) Cφ B', σ'.commutes,
       Algebra.algebraMap_self, RingHom.id_apply, hχR]

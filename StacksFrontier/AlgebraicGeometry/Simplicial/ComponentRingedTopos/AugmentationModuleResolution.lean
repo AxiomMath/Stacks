@@ -189,9 +189,11 @@ def componentPullbackModule (n : SimplexCategory)
 
 /-- The term `g_{n!}(a_n^*G)` of the resolution of Stacks 0D7C: the lower shriek image of
 Stacks 0D72 of the pullback of `G` to the degree-`n` component. -/
-def resolutionTerm (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)) (n : ℕ) :
+def resolutionTerm (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD))
+    (n : ℕ) :
     SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) :=
-  (componentModuleLowerShriek S ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).obj
+  (componentModuleLowerShriek S
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).obj
     (A.componentPullbackModule ⦋n⦌ G)
 
 /-- An exact complex of sheaves of `O`-modules on the total site resolving `a^*G` by the lower
@@ -199,9 +201,11 @@ shriek images `g_{n!}(a_n^*G)`: a chain complex whose term in degree `n` is `g_{
 whose differentials are the alternating sums of a family of face maps indexed by the simplex
 maps, augmented onto `a^*G`, exact in every positive degree and at the augmentation, the
 augmentation being an epimorphism. -/
-structure ModuleResolution (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)) where
+structure ModuleResolution
+    (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)) where
   /-- The chain complex, with `g_{n!}(a_n^*G)` in degree `n`. -/
-  complex : ChainComplex (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O)) ℕ
+  complex : ChainComplex
+    (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O)) ℕ
   /-- In degree `n` the complex is `g_{n!}(a_n^*G)`. -/
   degreeIso (n : ℕ) : complex.X n ≅ A.resolutionTerm G n
   /-- The map of the complex attached to a simplex map `φ : [m] ⟶ [n]`. -/
@@ -233,26 +237,32 @@ structure ModuleResolution (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tenso
 /-- The pullback of the structure sheaf of the augmentation site along the morphism of ringed
 topoi of the simplicial degree `n` is the structure sheaf of that component: `a_n^*O_D = O_n`. -/
 def componentPullbackModuleUnitIso (n : SimplexCategory) :
-    SheafOfModules.unit (S.componentRingSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) n) ≅
+    SheafOfModules.unit (S.componentRingSheaf
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) n) ≅
       A.componentPullbackModule n
-        (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) :=
+        (SheafOfModules.unit
+          (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) :=
   pullbackModulesObjUnitIso (A.componentRingedHom n).toModulesHom
 
 /-- The pullback of the structure sheaf of the augmentation site along the total morphism of
 ringed topoi is the structure sheaf of the total site: `a^*O_D = O`. -/
 def totalPullbackModuleUnitIso :
     SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf A.O) ≅
-      A.totalPullbackModule (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) :=
+      A.totalPullbackModule (SheafOfModules.unit
+        (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) :=
   pullbackModulesObjUnitIso A.totalRingedHom.toModulesHom
 
 /-- The resolution of the structure sheaf of Stacks 0D9B has `g_{n!}(a_n^*O_D)` in degree `n`:
 its term there is `g_{n!}O_n`, and `a_n^*O_D = O_n`. -/
 def unitResolutionDegreeIso
-    (R : S.SimplicialModuleResolutionActual ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O)) (n : ℕ) :
+    (R : S.SimplicialModuleResolutionActual
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O)) (n : ℕ) :
     R.complex.X n ≅
-      A.resolutionTerm (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) n :=
+      A.resolutionTerm (SheafOfModules.unit
+        (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O)) n :=
   eqToIso (R.lowerShriekDegreeEq n) ≪≫
-    (componentModuleLowerShriek S ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).mapIso
+    (componentModuleLowerShriek S
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).mapIso
       (A.componentPullbackModuleUnitIso ⦋n⦌)
 
 /-- The resolution of Stacks 0D7C for the structure sheaf of the augmentation site as the
@@ -261,7 +271,8 @@ coefficient module. Both pullbacks of the structure sheaf are structure sheaves,
 Stacks 0D9B read through those two identifications. -/
 theorem nonempty_moduleResolution_unit :
     Nonempty (A.ModuleResolution
-      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O))) := by
+      (SheafOfModules.unit
+        (Stacks.SheafOfModules.Tensor.ringSheaf A.augmentationRingedTopos.O))) := by
   obtain ⟨R⟩ := nonempty_simplicialModuleResolution S (Stacks.SheafOfModules.Tensor.ringSheaf A.O)
   have hcomp : R.complex.d 1 0 ≫
       (R.augmentation ≫ A.totalPullbackModuleUnitIso.hom) = 0 := by
@@ -289,26 +300,31 @@ theorem nonempty_moduleResolution_unit :
 
 /-- An isomorphism of coefficient modules carries `a_n^*G` to `a_n^*G'`. -/
 def componentPullbackModuleMapIso (n : SimplexCategory)
-    {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)} (e : G ≅ G') :
+    {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
+    (e : G ≅ G') :
     A.componentPullbackModule n G ≅ A.componentPullbackModule n G' :=
   ((A.componentRingedHom n).toModulesHom.pullbackModules).mapIso e
 
 /-- An isomorphism of coefficient modules carries `a^*G` to `a^*G'`. -/
-def totalPullbackModuleMapIso {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
+def totalPullbackModuleMapIso
+    {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
     (e : G ≅ G') : A.totalPullbackModule G ≅ A.totalPullbackModule G' :=
   (A.totalRingedHom.toModulesHom.pullbackModules).mapIso e
 
 /-- An isomorphism of coefficient modules carries the term `g_{n!}(a_n^*G)` of the resolution to
 the term `g_{n!}(a_n^*G')`. -/
-def resolutionTermMapIso {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)} (e : G ≅ G')
-    (n : ℕ) : A.resolutionTerm G n ≅ A.resolutionTerm G' n :=
-  (componentModuleLowerShriek S ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).mapIso
+def resolutionTermMapIso
+    {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
+    (e : G ≅ G') (n : ℕ) : A.resolutionTerm G n ≅ A.resolutionTerm G' n :=
+  (componentModuleLowerShriek S
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) A.O) ⦋n⦌).mapIso
     (A.componentPullbackModuleMapIso ⦋n⦌ e)
 
 /-- A resolution of `a^*G` is a resolution of `a^*G'` for an isomorphic coefficient module `G'`:
 the complex is unchanged, the identification of its terms and its augmentation being composed
 with the images of the isomorphism. -/
-def ModuleResolution.ofCoefficientIso {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
+def ModuleResolution.ofCoefficientIso
+    {G G' : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := K)) A.OD)}
     (R : A.ModuleResolution G) (e : G ≅ G') : A.ModuleResolution G' where
   complex := R.complex
   degreeIso n := R.degreeIso n ≪≫ A.resolutionTermMapIso e n

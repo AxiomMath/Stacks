@@ -129,7 +129,7 @@ theorem exists_hom_comparisonFunctor_obj_of_isAffineScheme_spacesEtaleAffineVani
   refine ⟨⟨CostructuredArrow.mk (e.hom.hom ≫ V.obj.hom.hom), hA⟩, hW, ⟨?_⟩⟩
   refine ObjectProperty.homMk (Over.homMk e.inv ?_)
   apply ObjectProperty.hom_ext
-  show e.inv.hom ≫ e.hom.hom ≫ V.obj.hom.hom = V.obj.hom.hom
+  change e.inv.hom ≫ e.hom.hom ≫ V.obj.hom.hom = V.obj.hom.hom
   rw [← Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom, e.inv_hom_id]
   rfl
 

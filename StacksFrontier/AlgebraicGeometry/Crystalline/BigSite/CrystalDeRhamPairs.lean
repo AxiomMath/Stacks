@@ -438,8 +438,7 @@ theorem polyModuleMap_eq_crysBaseChange
       ⊗[sectionsDPRing S T'.obj.obj] F.val.obj (op T'.obj)) :
     DeRhamPair.polyModuleMap W (sectionsDPRingMap k.hom.hom) (crystalPairRestrict k) e hfe z =
       crysBaseChange F k.hom (polyPresentationCross k W e hfe z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul q m => rfl
 
@@ -449,8 +448,7 @@ include hee' in
 theorem polyPresentationCross_crossInv
     (w : ringAlong k.hom.hom ⊗[crysSheafRing S T'.obj.obj] F.val.obj (op T'.obj)) :
     polyPresentationCross k W e hfe (polyPresentationCrossInv k W e hfe e' he'e w) = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t m =>
     exact congrArg (· ⊗ₜ[crysSheafRing S T'.obj.obj] m) (hee' (siteRingAlong k.hom.hom t))
@@ -461,11 +459,10 @@ theorem polyPresentationCrossInv_cross
     (z : setIndexedDividedPowerPolynomialAlgebra (sectionsDPRing S T'.obj.obj) W
       ⊗[sectionsDPRing S T'.obj.obj] F.val.obj (op T'.obj)) :
     polyPresentationCrossInv k W e hfe e' he'e (polyPresentationCross k W e hfe z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul q m =>
-    show e' (e q) ⊗ₜ m = q ⊗ₜ m
+    change e' (e q) ⊗ₜ m = q ⊗ₜ m
     rw [he'e]
 
 omit [IsAffine S.S.scheme] in

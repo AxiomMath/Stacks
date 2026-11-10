@@ -109,7 +109,7 @@ theorem homEquiv_uliftConstantSheafIso_inv :
         (AddCommGrpCat.of (ULift.{t} ℤ))).hom = 𝟙 _ := by
     rw [← ObjectProperty.FullSubcategory.comp_hom, Iso.hom_inv_id_app,
       ObjectProperty.FullSubcategory.id_hom]
-  show toSheafify J _ ≫ sheafifyMap J ((Functor.const Cᵒᵖ).map _) ≫
+  change toSheafify J _ ≫ sheafifyMap J ((Functor.const Cᵒᵖ).map _) ≫
     ((constantCommuteCompose J AddCommGrpCat.uliftFunctor.{s, t}).inv.app
       (AddCommGrpCat.of (ULift.{t} ℤ))).hom = _
   refine (toSheafify_naturality_assoc J _ _).symm.trans ?_
@@ -155,7 +155,7 @@ theorem sheafHOneAddEquiv_torsorClass (H : Sheaf J AddCommGrpCat.{t}) (T : Abeli
       fun U y => by
         have h1 := hfib₀ U y.down
         rw [constantUnit_app_one] at h1
-        show ULift.up (S.g.hom.app U y.down) = ULift.up ((toSheafify J ((Functor.const Cᵒᵖ).obj
+        change ULift.up (S.g.hom.app U y.down) = ULift.up ((toSheafify J ((Functor.const Cᵒᵖ).obj
           (AddCommGrpCat.of (ULift.{t} ℤ)))).app U ⟨1⟩) ↔
             ∃ x, ULift.up (i₀.app U (β.app U x).down) = y
         rw [ULift.up_inj, h1]

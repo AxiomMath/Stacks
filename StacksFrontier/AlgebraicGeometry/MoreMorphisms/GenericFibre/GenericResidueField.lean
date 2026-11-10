@@ -111,7 +111,7 @@ theorem stalkAlgebra_eq_germ_appTop {k : Type u} [Field k] {Y : Scheme.{u}}
   have hcat : CommRingCat.ofHom (@algebraMap k ↥((Spec (.of k)).presheaf.stalk (h.base y)) _ _
         (StructureSheaf.stalkAlgebra k (h.base y))) ≫ h.stalkMap y =
       (Scheme.ΓSpecIso (.of k)).inv ≫ h.appTop ≫ Y.presheaf.germ ⊤ y trivial := by
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec (.of k)).presheaf.germ ⊤ (h.base y) trivial) ≫ h.stalkMap y = _
     rw [Category.assoc, Scheme.Hom.germ_stalkMap h ⊤ y trivial]
     rfl

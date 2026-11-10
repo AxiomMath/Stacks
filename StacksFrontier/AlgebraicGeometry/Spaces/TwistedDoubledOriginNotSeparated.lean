@@ -106,7 +106,7 @@ theorem not_isClosedImmersion_puncturedCover_ι :
     rw [← Scheme.Opens.range_ι (U := puncturedCover K)]
     exact (IsClosedImmersion.isClosedEmbedding (puncturedCover K).ι).isClosed_range
   have : PreirreducibleSpace (cover K) := by
-    show PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
+    change PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
   have hdense : Dense ((puncturedCover K : Set (cover K))) := by
     refine (puncturedCover K).isOpen.dense ⟨⟨⊥, inferInstance⟩, ?_⟩
     exact Polynomial.X_ne_zero

@@ -80,7 +80,7 @@ theorem tensorLeftHomEquiv_mate_whiskerRight {X Y₁ Y₂ Y₁' Y₂' Z : C} (p�
     Category.assoc]
   rw [← MonoidalCategory.associator_naturality_middle_assoc,
     ← MonoidalCategory.comp_whiskerRight_assoc]
-  show _ ≫ (p₂.coevaluation' ≫ Y₂ ◁ mate p₁ p₂ g) ▷ X ≫ _ = _
+  change _ ≫ (p₂.coevaluation' ≫ Y₂ ◁ mate p₁ p₂ g) ▷ X ≫ _ = _
   rw [h, MonoidalCategory.comp_whiskerRight_assoc,
     MonoidalCategory.associator_naturality_left_assoc, MonoidalCategory.whisker_exchange]
   rfl
@@ -97,7 +97,7 @@ theorem tensorRightHomEquiv_whiskerLeft_mate {X Y₁ Y₂ Y₁' Y₂' Z : C} (p�
     Category.assoc]
   rw [← MonoidalCategory.associator_inv_naturality_middle_assoc,
     ← MonoidalCategory.whiskerLeft_comp_assoc]
-  show _ ≫ X ◁ (p₁.coevaluation' ≫ g ▷ Y₁') ≫ _ = _
+  change _ ≫ X ◁ (p₁.coevaluation' ≫ g ▷ Y₁') ≫ _ = _
   rw [← h, MonoidalCategory.whiskerLeft_comp_assoc,
     MonoidalCategory.associator_inv_naturality_right_assoc, ← MonoidalCategory.whisker_exchange]
   rfl

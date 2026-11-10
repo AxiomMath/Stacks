@@ -55,7 +55,8 @@ attribute [local implicit_reducible] structureSheafRing TopCat.Sheaf TopCat.Pres
 
 The two abbreviations below are elaborated here, where the standard model is the only
 `HasDerivedCategory` instance in scope, so they carry it. Files that also see the locally small
-global instance of `StacksFrontier.Homology.DerivedCategory.LocallySmall` state their results through
+global instance of `StacksFrontier.Homology.DerivedCategory.LocallySmall` state their results
+through
 them, and so stay at the standard model of everything above without any instance declaration. -/
 
 /-- `D(𝒪)` at the standard model, in the spelling of the derived monoidal structure. -/
@@ -291,7 +292,7 @@ theorem stageLBaseChangeIso_naturality
         dualMate S'.sheaf hK₂' hK₁' (stageKMap f' (G := G') hP₁' hP₂' ((derivedPullback g').map p))
       := by
     rw [← dualMate_comp, ← dualMate_comp, hK']
-  show (derivedPullback g).map (dualMate S.sheaf hK₂ hK₁ (stageKMap f hP₁ hP₂ p)) ≫
+  change (derivedPullback g).map (dualMate S.sheaf hK₂ hK₁ (stageKMap f hP₁ hP₂ p)) ≫
       (Stacks.SheafOfModules.derivedPullbackDerivedDualIso g _ hK₂ hgK₂).hom ≫
         dualMate S'.sheaf hK₂' hgK₂ e₂.inv =
     ((Stacks.SheafOfModules.derivedPullbackDerivedDualIso g _ hK₁ hgK₁).hom ≫

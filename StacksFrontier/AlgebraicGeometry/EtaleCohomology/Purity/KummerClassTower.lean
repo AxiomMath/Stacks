@@ -129,7 +129,7 @@ abbrev purityTowerTarget : ℕᵒᵖ ⥤ EtaleModules.{u, 0} ℤ_[ℓ] U.1 :=
 /-- The levels of the tower `n ↦ R¹ j_*(j⁻¹ Gₙ)` are killed by the powers of `ℓ`. -/
 theorem purityTowerTarget_annihilated (n : ℕ) :
     ℓ ^ (n + 1) • 𝟙 ((purityTowerTarget j G).obj (op n)) = 0 := by
-  show ℓ ^ (n + 1) • 𝟙 (((etaleModuleDirectImage.{u, 0} ℤ_[ℓ] j).rightDerived 1).obj
+  change ℓ ^ (n + 1) • 𝟙 (((etaleModuleDirectImage.{u, 0} ℤ_[ℓ] j).rightDerived 1).obj
     ((etaleModuleRestriction.{u, 0} ℤ_[ℓ] j).obj (towerObj (LAdicSheaf.padicTower B U ℓ G) n))) = 0
   rw [← CategoryTheory.Functor.map_id, ← Functor.map_nsmul, ← CategoryTheory.Functor.map_id,
     ← Functor.map_nsmul, LAdicSheaf.padicTower_annihilated, Functor.map_zero, Functor.map_zero]

@@ -63,7 +63,7 @@ theorem presheaf_etale_iso_comp_of_isEtale {T : BigFppfOver B S hS}
     refine ⟨Functor.relativelyRepresentable.of_isIso yoneda e.hom, fun A D k fst snd hpb => ?_⟩
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
     have : IsIso snd := Functor.FullyFaithful.isIso_of_isIso_map Yoneda.fullyFaithful snd
-    show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
+    change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   exact hg T e.hom he
 

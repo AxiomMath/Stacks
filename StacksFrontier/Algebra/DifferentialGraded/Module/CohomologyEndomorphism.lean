@@ -105,7 +105,7 @@ theorem leftMultiplication_sub (k : ℤ) (a b : A.grading k) :
     N.leftMultiplication k (a - b) =
       N.leftMultiplication k a - N.leftMultiplication k b := by
   refine N.homogeneousMap_ext_of_apply _ _ fun p x => ?_
-  show (N.leftMultiplication k (a - b)).1 x =
+  change (N.leftMultiplication k (a - b)).1 x =
     (N.leftMultiplication k a).1 x - (N.leftMultiplication k b).1 x
   simp only [leftMultiplication_apply, map_sub, Cochain.sub_v]
   rfl
@@ -116,7 +116,7 @@ theorem homogeneousMapDifferential_leftMultiplication (k : ℤ) (a : A.grading k
     homogeneousMapDifferential B (N.leftMultiplication k a) =
       N.leftMultiplication (k + 1) ⟨A.d a, A.d_mem k a a.property⟩ := by
   refine N.homogeneousMap_ext_of_apply _ _ fun p x => ?_
-  show N.rightModule.d ((N.leftMultiplication k a).1 x) -
+  change N.rightModule.d ((N.leftMultiplication k a).1 x) -
     gradedSign R k • (N.leftMultiplication k a).1 (N.rightModule.d x) = _
   rw [leftMultiplication_apply, leftMultiplication_apply, N.leftAction.1.map_d,
     δ_v k (k + 1) rfl _ p (p + (k + 1)) rfl (p + k) (p + 1) (by lia) rfl]
@@ -132,7 +132,7 @@ theorem homogeneousMapDifferential_leftMultiplication (k : ℤ) (a : A.grading k
     subst j
     rw [DifferentialGradedModule.toCochainComplex_d]
     rfl
-  show _ =
+  change _ =
     ((show N.rightModule.grading (p + (k + 1)) from
       N.rightModule.toCochainComplex.d (p + k) (p + (k + 1))
         ((N.leftAction.1.action k a).v p (p + k) rfl x)) : N.rightModule.M) +

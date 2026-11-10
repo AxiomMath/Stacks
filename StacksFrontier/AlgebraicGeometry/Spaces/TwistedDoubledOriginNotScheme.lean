@@ -62,7 +62,7 @@ private theorem agree_near_of_dense {X Y : Scheme.{u}} [IsReduced X] (f g : X �
     (X := Y) (x := f x) (U := ⊤) (show f x ∈ (⊤ : Y.Opens) from trivial)
   let V := f ⁻¹ᵁ A ⊓ g ⁻¹ᵁ A
   have hxV : x ∈ V := ⟨hxA, by
-    show g x ∈ A
+    change g x ∈ A
     rwa [← hx]⟩
   have : IsAffine A := hA
   let W : V.toScheme.Opens := V.ι ⁻¹ᵁ D
@@ -86,7 +86,7 @@ theorem comp_eq_of_dense_of_subsingleton {X Y T : Scheme.{u}} [IsReduced X]
   have hrange : Set.range z ⊆ Set.range V.ι := by
     rintro _ ⟨t', rfl⟩
     rw [Scheme.Opens.range_ι]
-    show z t' ∈ V
+    change z t' ∈ V
     simpa only [Subsingleton.elim t' t] using hv
   let l := IsOpenImmersion.lift V.ι z hrange
   have hl : l ≫ V.ι = z := IsOpenImmersion.lift_fac _ _ _
@@ -160,7 +160,7 @@ theorem quadraticGaloisTwistedDoubledOrigin_not_representable (k K : Type u) [Fi
   have hDmem : B.Contains D.toScheme := Scheme.size_lt_of_isOpenImmersion D.ι hU
   let V' : C := Over.mk (ObjectProperty.homMk (D.ι ≫ U.hom) : B.obj hDmem ⟶ B.obj hS)
   let r : F.obj V' ⟶ relationOverBase k K := Over.homMk coprod.inr (by
-    show coprod.inr ≫ coprod.desc _ _ = D.ι ≫ U.hom
+    change coprod.inr ≫ coprod.desc _ _ = D.ι ≫ U.hom
     exact coprod.inr_desc _ _)
   have hrel := congrArg (fun t => t.app (op V') r)
     (Stacks.Groupoids.sourceMap_toQuotientSheaf (BigFppfOver.topology B S hS) F j)
@@ -194,7 +194,7 @@ theorem quadraticGaloisTwistedDoubledOrigin_not_representable (k K : Type u) [Fi
     apply Polynomial.ringHom_ext <;> simp)
   have hτz : τ ≫ z = z ≫ γ := by
     apply Over.OverMorphism.ext
-    show Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : K))) =
       Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : K))) ≫
       Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom σ.toRingEquiv.toRingHom))
@@ -204,28 +204,28 @@ theorem quadraticGaloisTwistedDoubledOrigin_not_representable (k K : Type u) [Fi
     apply Polynomial.ringHom_ext <;> simp
   have hτc : τ ≫ c = c := by
     apply Over.OverMorphism.ext
-    show Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap k K)) =
       Spec.map (CommRingCat.ofHom (algebraMap k K))
     rw [spec_map_comp_eq_iff]
     ext a
     exact σ.commutes a
   have : PreirreducibleSpace U.left := by
-    show PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
+    change PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
   have : IsReduced U.left := by
-    show IsReduced (Spec (.of (Polynomial K))); infer_instance
+    change IsReduced (Spec (.of (Polynomial K))); infer_instance
   have hD : Dense D.carrier := by
     apply D.isOpen.dense
     refine ⟨⟨⊥, inferInstance⟩, ?_⟩
     exact Polynomial.X_ne_zero
   have : Subsingleton Z.left := by
-    show Subsingleton (PrimeSpectrum K); infer_instance
+    change Subsingleton (PrimeSpectrum K); infer_instance
   let t : Z.left := (default : Spec (.of K))
   have hz : z.left ≫ f.left = z.left ≫ (γ.left ≫ f.left) := by
     apply comp_eq_of_dense_of_subsingleton f.left (γ.left ≫ f.left) D hD hfg z.left t
     have h := congrArg (fun m : Z.left ⟶ U.left => m t) (congrArg Over.Hom.left hτz)
     change z.left (τ.left t) = γ.left (z.left t) at h
-    show f.left (z.left t) = f.left (γ.left (z.left t))
+    change f.left (z.left t) = f.left (γ.left (z.left t))
     congr 1
     simpa only [Subsingleton.elim (τ.left t) t] using h
   have hτzf : τ ≫ z ≫ f = z ≫ f := by

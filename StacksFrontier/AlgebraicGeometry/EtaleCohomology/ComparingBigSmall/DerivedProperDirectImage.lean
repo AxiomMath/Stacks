@@ -397,7 +397,7 @@ public theorem isIso_derivedBaseChangeMap_bounded_app_of_isIso_etaleAbelianDeriv
       ((mateEquiv (B.smallPullbackAdjunction g' AddCommGrpCat.{u + 1})
         (B.smallPullbackAdjunction g AddCommGrpCat.{u + 1})).symm
         (SmallEtale.boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl
-          h.symm)).natTrans).app
+          h.symm))).app
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I))) := by
   let e := SmallEtale.sheafEquiv B X.obj X.property AddCommGrpCat.{u + 1}
   let IM := (e.functor.mapHomologicalComplex (ComplexShape.up ℤ)).obj I
@@ -445,20 +445,20 @@ public theorem isIso_derivedBaseChangeMap_bounded_app_of_isIso_etaleAbelianDeriv
     (etaleAbelianDerivedDirectImageUnit.{u, 0} (B.inclusion.map f))
     (etaleAbelianDerivedDirectImageUnit.{u, 0} (B.inclusion.map f'))
     ((mateEquiv adjUg' adjUg).symm (SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{u + 1}
-      f g g' f' (g' ≫ f) rfl h.symm)).natTrans
+      f g g' f' (g' ≫ f) rfl h.symm))
     (B.smallInverseImage g' AddCommGrpCat.{u + 1}) (B.smallInverseImage g AddCommGrpCat.{u + 1})
     (B.smallPushforward f AddCommGrpCat.{u + 1}) (B.smallPushforward f' AddCommGrpCat.{u + 1})
     RF RF' αF αF'
     ((mateEquiv (B.smallPullbackAdjunction g' AddCommGrpCat.{u + 1})
       (B.smallPullbackAdjunction g AddCommGrpCat.{u + 1})).symm
       (SmallEtale.boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl
-        h.symm)).natTrans
+        h.symm))
     _ _ _ _ _ _ _ _ hcube (hKinj X') IM hIM (hKinj X _ hIM)
   have hθ : etaleAbelianBaseChange.{u, 0} (B.inclusion.map f) (B.inclusion.map g)
       (B.inclusion.map g') (B.inclusion.map f')
       (by rw [← B.inclusion.map_comp, ← B.inclusion.map_comp, h]) =
       ((mateEquiv adjUg' adjUg).symm (SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{u + 1}
-        f g g' f' (g' ≫ f) rfl h.symm)).natTrans := by
+        f g g' f' (g' ≫ f) rfl h.symm)) := by
     rw [etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, 0}
       (B.inclusion.map f) (B.inclusion.map g) (B.inclusion.map g') (B.inclusion.map f') _
       (B.inclusion.map (g' ≫ f)) (B.inclusion.map_comp g' f)
@@ -578,7 +578,7 @@ public theorem isIso_bigSmallEtaleDerivedBaseChange_app_of_forall_isIso
           (B.smallPullbackAdjunction U.hom AddCommGrpCat.{u + 1})).symm
           (SmallEtale.boundedBaseChangeMate B AddCommGrpCat.{u + 1} f U.hom
             ((Over.pullback f).obj U).hom (bigEtaleFibreFst B f U)
-            (((Over.pullback f).obj U).hom ≫ f) rfl pullback.condition)).natTrans).app
+            (((Over.pullback f).obj U).hom ≫ f) rfl pullback.condition))).app
           (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)))) :
     IsIso ((bigSmallEtaleDerivedBaseChange B f RfSmall RfBig αSmall αBig).app
       (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I))) := by
@@ -643,7 +643,7 @@ public theorem isIso_derivedBaseChangeMap_bounded_app_of_cohomologyCommutesWithB
       ((mateEquiv (B.smallPullbackAdjunction g' AddCommGrpCat.{u + 1})
         (B.smallPullbackAdjunction g AddCommGrpCat.{u + 1})).symm
         (SmallEtale.boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl
-          h.symm)).natTrans).app K) := by
+          h.symm))).app K) := by
   refine isIso_app_of_forall_isKInjective_iso _ K fun I hI e ↦ ?_
   refine isIso_derivedBaseChangeMap_bounded_app_of_isIso_etaleAbelianDerivedBaseChange B f g g' f'
     h _ _ _ _ I hI ?_

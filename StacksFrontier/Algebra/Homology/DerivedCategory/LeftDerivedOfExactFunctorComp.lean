@@ -75,7 +75,8 @@ theorem comp_leftDerivedIsoMapDerivedCategory_hom :
         (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom := by
   suffices key : c = NatTrans.hcomp (leftDerivedIsoMapDerivedCategory F LF αF).hom
           (leftDerivedIsoMapDerivedCategory G LG αG).hom ≫
-        (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom ≫ (leftDerivedIsoMapDerivedCategory H LH αH).inv
+        (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom ≫
+          (leftDerivedIsoMapDerivedCategory H LH αH).inv
             by
     rw [key]
     simp

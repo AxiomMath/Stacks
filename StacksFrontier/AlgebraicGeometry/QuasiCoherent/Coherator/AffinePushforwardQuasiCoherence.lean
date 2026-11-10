@@ -90,7 +90,7 @@ public theorem prop_homologyFunctor_obj_singleFunctor_obj [R.CommShift ℤ]
       (R.obj ((DerivedCategory.singleFunctor A n).obj M))) := by
   obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus
     F R β hcomp ((DerivedCategory.Plus.singleFunctor A 0).obj M) 0 (by
-      show ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
+      change ((DerivedCategory.singleFunctor A 0).obj M).IsGE 0
       infer_instance)
   have eshift : R.obj ((DerivedCategory.singleFunctor A n).obj M) ≅
       (R.obj ((DerivedCategory.singleFunctor A 0).obj M))⟦-n⟧ :=

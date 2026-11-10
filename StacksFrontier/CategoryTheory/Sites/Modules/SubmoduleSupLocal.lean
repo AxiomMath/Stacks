@@ -149,7 +149,7 @@ theorem isFiniteType_sup (N₁ N₂ : M.Submodule) (h₁ : N₁.toSheafOfModules
   rw [Fin.sum_univ_add]
   simp only [gen, Fin.append_left, Fin.append_right, hn, ← map_smul, ← map_sum, hd₁, hd₂]
   apply Subtype.ext
-  show M.val.map h.op (a g hg) + M.val.map h.op (b g hg) = M.val.map (h ≫ g).op t.1
+  change M.val.map h.op (a g hg) + M.val.map h.op (b g hg) = M.val.map (h ≫ g).op t.1
   rw [← map_add, hab g hg, op_comp]
   exact (M.val.map_comp_apply g.op h.op t.1).symm
 

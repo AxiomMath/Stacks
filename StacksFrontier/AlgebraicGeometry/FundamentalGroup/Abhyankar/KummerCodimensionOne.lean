@@ -109,7 +109,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
     rw [hζ, comap_span_root]
   have hle : (Ideal.span {φ}).primeCompl ≤ (ζ.asIdeal.primeCompl).comap (algebraMap A C) := by
     intro a ha
-    show algebraMap A C a ∉ ζ.asIdeal
+    change algebraMap A C a ∉ ζ.asIdeal
     rwa [← Ideal.mem_comap, hcomap]
   let : Algebra O O' := (IsLocalization.map O' (algebraMap A C) hle : O →+* O').toAlgebra
   have hOO' : ∀ a, algebraMap O O' (algebraMap A O a) = algebraMap C O' (algebraMap A C a) :=
@@ -159,7 +159,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
         rw [hζ, Ideal.span_singleton_le_iff_mem]
         exact hxmem Q hQ hφQ
       by_contra hne
-      have hlt := Ideal.IsIntegral.comap_lt_comap (R := A) (lt_of_le_of_ne hle' (Ne.symm hne))
+      have hlt := Ideal.IsIntegral.under_lt_under (R := A) (lt_of_le_of_ne hle' (Ne.symm hne))
       simp only [Ideal.under_def] at hlt
       rw [hcomap, ← Ideal.under_def, ← hQo.over] at hlt
       exact lt_irrefl _ hlt
@@ -253,12 +253,12 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
   have hψBA : ∀ a : A, ψB (algebraMap _ B (algebraMap A (Localization.Away φ) a)) =
       algebraMap K'' L'' (algebraMap K K'' (algebraMap O K (algebraMap A O a))) := by
     intro a
-    show ψ ((1 : Cφ) ⊗ₜ algebraMap _ B (algebraMap A (Localization.Away φ) a)) = _
+    change ψ ((1 : Cφ) ⊗ₜ algebraMap _ B (algebraMap A (Localization.Away φ) a)) = _
     rw [← Algebra.TensorProduct.algebraMap_apply',
       IsScalarTower.algebraMap_apply (Localization.Away φ) Cφ (Cφ ⊗[Localization.Away φ] B)]
     have : algebraMap (Localization.Away φ) Cφ (algebraMap A (Localization.Away φ) a) =
         algebraMap C Cφ (algebraMap A C a) := by
-      show Localization.awayMap (algebraMap A C) φ _ = _
+      change Localization.awayMap (algebraMap A C) φ _ = _
       exact IsLocalization.map_eq _ _
     rw [this, hψC, ← hOO', hOK]
   have hfA : Function.Injective fun a : A ↦
@@ -276,7 +276,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
     IsLocalization.isDomain_localization (powers_le_nonZeroDivisors_of_noZeroDivisors hφ0)
   have hψBinj : Function.Injective ψB := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    apply Ideal.eq_bot_of_comap_eq_bot (R := Localization.Away φ)
+    apply Ideal.eq_bot_of_under_eq_bot (R := Localization.Away φ)
     rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap, ← RingHom.ker_eq_comap_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).mp hRinj
   let ψL : L →+* L'' := IsFractionRing.lift hψBinj
@@ -310,8 +310,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
     { t.range.toSubsemiring with algebraMap_mem' := fun f ↦ ⟨1 ⊗ₜ f, htF f⟩ }
   have hψS : ∀ y, ψ y ∈ S := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact S.zero_mem
+    induction y using TensorProduct.inductionOn with
     | tmul c b =>
       have hcb : c ⊗ₜ[Localization.Away φ] b = algebraMap Cφ _ c * (1 ⊗ₜ b) := by
         rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
@@ -322,7 +321,7 @@ theorem isUnramifiedInCodimensionOne_baseChange {A : Type u} [CommRing A] [IsDom
       · rw [← RingHom.comp_apply, hψν, RingHom.comp_apply]
         exact S.algebraMap_mem _
       · refine ⟨algebraMap B L b ⊗ₜ 1, ?_⟩
-        show t _ = _
+        change t _ = _
         rw [htL, IsFractionRing.lift_algebraMap]
         rfl
     | add y z hy hz => rw [map_add]; exact S.add_mem hy hz

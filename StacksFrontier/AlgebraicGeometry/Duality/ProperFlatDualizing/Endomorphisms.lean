@@ -92,6 +92,7 @@ def hasRightDualOfIsPerfect {Z : Scheme.{u}} (K : DerivedCategory Z.Modules)
 variable {X Y : Scheme.{u}} (f : X ⟶ Y) [CompactSpace Y] [QuasiSeparatedSpace Y] [IsProper f]
   [Flat f] [LocallyOfFinitePresentation f]
 
+omit [CompactSpace Y] [QuasiSeparatedSpace Y] in
 /-- For a perfect `E` on `X`, the derived pushforward `Rf_* E^∨` of its dual is perfect on `Y`. -/
 theorem isPerfect_derivedPushforward_dual (E : DerivedCategory X.Modules)
     (hE : Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace) E) :

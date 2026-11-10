@@ -362,7 +362,7 @@ public theorem relativeUnboundedMayerVietoris (X : RingedSpace.{u, u})
         D.unit Z' ≫ DerivedCategory.Q.whiskerLeft (D.functor.map f.op) := by
     intro Z Z' f
     refine NatTrans.ext (funext fun K => ?_)
-    show DerivedCategory.Q.map ((MayerVietoris.sectionsRestrictionComplex.{u, u, u, u}
+    change DerivedCategory.Q.map ((MayerVietoris.sectionsRestrictionComplex.{u, u, u, u}
           (ringedSite X) f).app K) ≫ (D.unit Z).app K =
       (D.unit Z').app K ≫ (D.functor.map f.op).app (DerivedCategory.Q.obj K)
     exact D.unit_restriction f K

@@ -39,7 +39,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (G : Sheaf (BigFppfOver.topology B S hS) (Type u)) {ι : Type u}
   (F : ι → Subfunctor G.obj) (Y : ι → BigFppfOver B S hS)
   (R : ∀ i, (F i).toFunctor.RepresentableBy (Y i))
-  (W : ∀ (i : ι) (T : BigFppfOver B S hS), G.obj.obj (op T) → T.left.obj.Opens)
+  (W : ι → ∀ (T : BigFppfOver B S hS), G.obj.obj (op T) → T.left.obj.Opens)
   (hW : ∀ (i : ι) (T T' : BigFppfOver B S hS) (ξ : G.obj.obj (op T)) (h : T' ⟶ T),
     G.obj.map h.op ξ ∈ (F i).obj (op T') ↔
       ∀ t, (BigFppfOver.toScheme B S hS).map h t ∈ W i T ξ)
@@ -74,7 +74,7 @@ theorem presheaf_subfunctorOpenChart (i : ι) :
   have hlk {Z : BigFppfOver B S hS} (l : Z ⟶ b) :
       ((R i).homEquiv (l ≫ k)).1 = G.obj.map (l ≫ snd).op x := by
     rw [(R i).homEquiv_comp, hk]
-    show G.obj.map l.op (G.obj.map snd.op x) = _
+    change G.obj.map l.op (G.obj.map snd.op x) = _
     rw [← Functor.map_comp_apply, ← op_comp]
   refine ⟨b, yoneda.map k, snd, ?_, ?_⟩
   · have hmono : Mono snd := mono_openSubHom B S hS a O
@@ -83,7 +83,7 @@ theorem presheaf_subfunctorOpenChart (i : ι) :
     apply (Types.isPullback_iff _ _ _ _).2
     refine ⟨?_, ?_, ?_⟩
     · ext l
-      show ((R i).homEquiv (l ≫ k)).1 = ζ.app T' (l ≫ snd)
+      change ((R i).homEquiv (l ≫ k)).1 = ζ.app T' (l ≫ snd)
       exact (hlk l).trans (map_yonedaEquiv ζ (l ≫ snd))
     · intro l l' h
       exact (cancel_mono snd).1 h.2
@@ -100,9 +100,9 @@ theorem presheaf_subfunctorOpenChart (i : ι) :
       refine ⟨l, ?_, hl⟩
       apply (R i).homEquiv.injective
       apply Subtype.ext
-      show ((R i).homEquiv (l ≫ k)).1 = ((R i).homEquiv m).1
+      change ((R i).homEquiv (l ≫ k)).1 = ((R i).homEquiv m).1
       rw [hlk, hl, he']
-  · show _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  · change _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map snd)
     rw [openSubHom_toScheme]
     infer_instance
 
@@ -114,7 +114,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (G : Sheaf (BigFppfOver.topology B S hS) (Type u)) {ι : Type u}
   (F : ι → Subfunctor G.obj) (Yr : ι → BigFppfOver B S hS)
   (R : ∀ i, (F i).toFunctor.RepresentableBy (Yr i))
-  (W : ∀ (i : ι) (T : BigFppfOver B S hS), G.obj.obj (op T) → T.left.obj.Opens)
+  (W : ι → ∀ (T : BigFppfOver B S hS), G.obj.obj (op T) → T.left.obj.Opens)
   (hW : ∀ (i : ι) (T T' : BigFppfOver B S hS) (ξ : G.obj.obj (op T)) (h : T' ⟶ T),
     G.obj.map h.op ξ ∈ (F i).obj (op T') ↔
       ∀ t, (BigFppfOver.toScheme B S hS).map h t ∈ W i T ξ)
@@ -140,7 +140,7 @@ theorem isLocallySurjective_sigmaDesc_subfunctorOpenChart :
   refine ⟨(Sigma.ι (fun i => yoneda.obj (Yr i)) i).app _ ((R i).homEquiv.symm ⟨_, hmem⟩), ?_⟩
   have hc := congrArg (fun n => n.app (op (BigFppfOver.openSubObj B S hS T (W i T x)))
       ((R i).homEquiv.symm ⟨_, hmem⟩))
-    (Sigma.ι_desc (subfunctorOpenChart G F Yr R) i)
+    (Sigma.ι_comp_desc (subfunctorOpenChart G F Yr R) i)
   refine (ConcreteCategory.comp_apply _ _ _).symm.trans (hc.trans ?_)
   exact congrArg Subtype.val ((R i).homEquiv.apply_symm_apply _)
 

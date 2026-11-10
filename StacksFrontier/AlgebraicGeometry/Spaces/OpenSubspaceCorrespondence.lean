@@ -150,7 +150,7 @@ theorem preimage_openSubspaceOfPoints' (f : G ⟶ F) (W : Set (points B S hS F))
     (openSubspaceOfPoints B S hS F W).preimage f =
       openSubspaceOfPoints B S hS G (pointsMap B S hS G f ⁻¹' W) := by
   ext T x
-  show Set.range (pointsMap B S hS (yoneda.obj T.unop) (yonedaEquiv.symm (f.app T x))) ⊆ W ↔
+  change Set.range (pointsMap B S hS (yoneda.obj T.unop) (yonedaEquiv.symm (f.app T x))) ⊆ W ↔
     Set.range (pointsMap B S hS (yoneda.obj T.unop) (yonedaEquiv.symm x)) ⊆
       pointsMap B S hS G f ⁻¹' W
   rw [← yonedaEquiv_symm_naturality_right, pointsMap_comp, Set.range_comp, Set.image_subset_iff]

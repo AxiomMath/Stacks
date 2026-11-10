@@ -126,7 +126,7 @@ theorem mk_comp_sigma : (Ideal.Quotient.mk (sqIdeal C R)).comp (sigma C R) =
     (fstE C R).comp ((fstE C R).pullbackFst (Ideal.Quotient.mk (sqIdeal C R))) := by
   ext ⟨⟨e, r⟩, hx⟩
   have hx' : e.fst = Ideal.Quotient.mk (sqIdeal C R) r := hx
-  show Ideal.Quotient.mk _ (r + ((e.snd : M C R) : R)) = e.fst
+  change Ideal.Quotient.mk _ (r + ((e.snd : M C R) : R)) = e.fst
   rw [hx', map_add, Ideal.Quotient.eq_zero_iff_mem.mpr (e.snd).2, add_zero]
 
 /-! ### Scalar multiplication on the tangent thickening -/
@@ -170,7 +170,7 @@ variable {R} {R' : Type u} [CommRing R'] [Algebra A' R'] (h : R →ₐ[A'] R')
 omit hC in
 /-- An algebra map `R → R'` sends `CR` into `CR'`. -/
 theorem sqIdeal_map_le : (sqIdeal C R).map h ≤ sqIdeal C R' := by
-  show Ideal.map h.toRingHom (Ideal.map (algebraMap A' R) C) ≤ _
+  change Ideal.map h.toRingHom (Ideal.map (algebraMap A' R) C) ≤ _
   rw [sqIdeal, Ideal.map_map]
   exact le_of_eq (congrArg (fun g => Ideal.map g C) h.comp_algebraMap)
 
@@ -261,7 +261,7 @@ theorem pullbackSnd_comp_pMap :
 /-- `pMap h` intertwines the action maps `σ`. -/
 theorem sigma_comp_pMap : (sigma C R').comp (pMap C h) = h.toRingHom.comp (sigma C R) := by
   ext x
-  show h x.1.2 + (((eMap C h x.1.1).snd : M C R') : R') =
+  change h x.1.2 + (((eMap C h x.1.1).snd : M C R') : R') =
     h (x.1.2 + ((x.1.1.snd : M C R) : R))
   rw [snd_eMap, mMap_coe, map_add]
 
@@ -288,7 +288,7 @@ theorem pMap_comp : pMap C (h'.comp h) = (pMap C h').comp (pMap C h) := by
   intro x
   apply Subtype.ext
   apply Prod.ext
-  · show eMap C (h'.comp h) x.1.1 = eMap C h' (eMap C h x.1.1)
+  · change eMap C (h'.comp h) x.1.1 = eMap C h' (eMap C h x.1.1)
     rw [eMap_comp]
     rfl
   · rfl

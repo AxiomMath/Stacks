@@ -473,7 +473,7 @@ public theorem presheaf_map_unit_inverse_apply
     (N.val.presheaf.map ((representedSmallEtaleEquivalence B S hS U).unitIso.hom.app
         ((representedSmallEtaleEquivalence B S hS U).inverse.obj T)).op).hom y = y := by
   rw [representedSmallEtaleEquivalence_unit_app_inverse]
-  show (N.val.presheaf.map
+  change (N.val.presheaf.map
     (𝟙 (op ((representedSmallEtaleEquivalence B S hS U).inverse.obj T)))).hom y = y
   rw [CategoryTheory.Functor.map_id]
   rfl

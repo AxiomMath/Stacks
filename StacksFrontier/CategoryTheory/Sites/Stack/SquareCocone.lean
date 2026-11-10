@@ -305,7 +305,7 @@ theorem IsStackInGroupoids.existsUnique_hom_of_cover (hp : p.IsStackInGroupoids.
     have : g' = g := by
       refine hguniq g' ⟨fibreHom_of_isHomLift_id _ _ hg',
         hg.isIso_of_isHomLift_isIso (𝟙 V) g', fun k => ?_⟩
-      show r k ≫ g' = φ k ≫ (yr k).hom
+      change r k ≫ g' = φ k ≫ (yr k).hom
       have : p.IsHomLift (e k) (yr k).hom := hyr k
       have : p.IsHomLift (𝟙 (V₁ k)) (φ k) := hφ k
       have h₁ : p.IsHomLift (e k) (r k ≫ g') := inferInstance
@@ -457,16 +457,16 @@ theorem IsStackInGroupoids.exists_glue (hp : p.IsStackInGroupoids.{w} J)
       αjk := αjk
       αik := αik
       αij_restr := fun k l m => by
-        show αij k l m ≫ cji k l m = cij k l m ≫ 𝟙 _
+        change αij k l m ≫ cji k l m = cij k l m ≫ 𝟙 _
         rw [eαij, Category.comp_id]
       αjk_restr := fun k l m => by
-        show αjk k l m ≫ ckj k l m = cjk k l m ≫ 𝟙 _
+        change αjk k l m ≫ ckj k l m = cjk k l m ≫ 𝟙 _
         rw [eαjk, Category.comp_id]
       s₁₃ := s₁₃
       hs₁₃₁ := hs₁₃₁
       hs₁₃₂ := hs₁₃₂
       αik_restr := fun k l m => by
-        show αik k l m ≫ cki k l m = cik k l m ≫ 𝟙 _
+        change αik k l m ≫ cki k l m = cik k l m ≫ 𝟙 _
         rw [eαik, Category.comp_id]
       cocycle := hcoc }
   obtain ⟨x, hx, xr, ψ, hψF, hψiso, hov⟩ := hp.effective_descent V₁ e he V₂ π₁ π₂ hV₂ V₃
@@ -1087,7 +1087,7 @@ theorem IsStackInGroupoids.nonempty_cocone_of_baseChange {J : GrothendieckTopolo
   let h₃ : ∀ k l m, P₃ k l m ⟶ Q.Z := fun k l m => s₁₂ k l m ≫ h₂ k l
   have hs₂₃ : ∀ k l m, s₂₃ k l m ≫ h₂ l m = h₃ k l m := fun k l m => by
     have hc : s₁₂ k l m ≫ π₂ k l = s₂₃ k l m ≫ π₁ l m := pullback.condition
-    show s₂₃ k l m ≫ π₁ l m ≫ τ l = s₁₂ k l m ≫ π₁ k l ≫ τ k
+    change s₂₃ k l m ≫ π₁ l m ≫ τ l = s₁₂ k l m ≫ π₁ k l ≫ τ k
     rw [← Category.assoc, ← hc, Category.assoc, hh₂]
   let s₁₃ : ∀ k l m, P₃ k l m ⟶ P₂ k m := fun k l m =>
     pullback.lift (s₁₂ k l m ≫ π₁ k l) (s₂₃ k l m ≫ π₂ l m)

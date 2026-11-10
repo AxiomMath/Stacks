@@ -244,7 +244,7 @@ lemma eq_bot_or_eq_top_or_eq_basicOpen (W : Opens Chain.{u}) :
   · refine Or.inl (Opens.ext (Set.eq_empty_iff_forall_notMem.2 fun x hx => ?_))
     exact absurd ((hmem_iff x).1 hx) (by omega)
   · refine Or.inr (Or.inr ⟨Nat.find hex - 1, Opens.ext (Set.ext fun x => ?_)⟩)
-    show x ∈ W ↔ x.down ≤ Nat.find hex - 1
+    change x ∈ W ↔ x.down ≤ Nat.find hex - 1
     exact (hmem_iff x).trans (by omega)
 
 /-! ### A basis of quasi-compact opens, and the failure of quasi-compactness -/
@@ -637,7 +637,7 @@ lemma three_mul_dyadicPartialSum (n : ℕ) : 3 * dyadicPartialSum n = 4 ^ n - 1 
   induction n with
   | zero => simp [dyadicPartialSum]
   | succ n ih =>
-    show 3 * (dyadicPartialSum n + 4 ^ n) = 4 ^ (n + 1) - 1
+    change 3 * (dyadicPartialSum n + 4 ^ n) = 4 ^ (n + 1) - 1
     rw [mul_add, ih]
     ring
 
@@ -649,7 +649,7 @@ lemma dvd_sub_dyadicPartialSum {m n : ℕ} (h : m ≤ n) :
   | succ n hmn ih =>
     have h4 : (2 : ℤ) ^ m ∣ 4 ^ n :=
       (pow_dvd_pow 2 (by omega)).trans (pow_dvd_pow_of_dvd (by norm_num) n)
-    show (2 : ℤ) ^ m ∣ dyadicPartialSum n + 4 ^ n - dyadicPartialSum m
+    change (2 : ℤ) ^ m ∣ dyadicPartialSum n + 4 ^ n - dyadicPartialSum m
     have hrw : dyadicPartialSum n + 4 ^ n - dyadicPartialSum m =
         dyadicPartialSum n - dyadicPartialSum m + 4 ^ n := by ring
     rw [hrw]
@@ -955,7 +955,7 @@ lemma isFlasque_towerSheaf_of_const {G : AddCommGrpCat.{u}} {A : ℕᵒᵖ ⥤ A
       refine ⟨((towerPresheafMap π).app U) (constTowerSection g U.unop),
         towerSections_ext A fun n => ?_⟩
       have hn : n.1 ≤ k := basicOpen_le_basicOpen_iff.1 (le_of_le_of_eq n.2 hV)
-      show π.app (op n.1) g = t.1 n
+      change π.app (op n.1) g = t.1 n
       rw [← t.2 n ⟨k, le_of_eq hV.symm⟩ hn, ← hg, ← trans_naturality π hn g, trans_const]
 
 /-- **The constant sheaf of an abelian group is flasque on `Chain`**, in its inverse-system
@@ -1025,7 +1025,7 @@ def cotruncTower (n : ℕ) : ℕᵒᵖ ⥤ AddCommGrpCat.{u} where
 /-- In the degrees `≤ n` the system `cotruncTower n` is the zero group. -/
 lemma subsingleton_cotruncTower_obj {n k : ℕ} (h : k ≤ n) :
     Subsingleton ((cotruncTower.{u} n).obj (op k)) := by
-  show Subsingleton (ULift.{u} (ZMod (cotruncMod n k)))
+  change Subsingleton (ULift.{u} (ZMod (cotruncMod n k)))
   rw [cotruncMod_eq_one h]
   infer_instance
 
@@ -1035,7 +1035,7 @@ its sheaf would be zero, the kernel `𝒦ₙ` would be the whole constant sheaf 
 proved for `𝒦ₙ` would be a statement about the wrong sheaf. -/
 lemma not_subsingleton_cotruncTower_obj {n k : ℕ} (h : n < k) :
     ¬ Subsingleton ((cotruncTower.{u} n).obj (op k)) := by
-  show ¬ Subsingleton (ULift.{u} (ZMod (cotruncMod n k)))
+  change ¬ Subsingleton (ULift.{u} (ZMod (cotruncMod n k)))
   rw [cotruncMod_eq_zero h]
   intro hsub
   have h01 : (ULift.up (0 : ZMod 0) : ULift.{u} (ZMod 0)) = ULift.up (1 : ZMod 0) :=
@@ -1113,7 +1113,7 @@ lemma surjective_towerPresheafMap_cotruncProjection_app_top (n : ℕ) :
   intro t
   obtain ⟨z, hz⟩ := surjective_cotruncProjection_app.{u} n (n + 1) (t.1 ⟨n + 1, le_top⟩)
   refine ⟨constTowerSection z ⊤, towerSections_ext _ fun m => ?_⟩
-  show (cotruncProjection.{u} n).app (op m.1) z = t.1 m
+  change (cotruncProjection.{u} n).app (op m.1) z = t.1 m
   rcases le_or_gt m.1 n with hm | hm
   · exact (subsingleton_cotruncTower_obj.{u} hm).elim _ _
   · refine injective_trans_cotruncTower.{u} (Nat.lt_succ_self n) hm ?_
@@ -1282,7 +1282,7 @@ lemma towerSheafMap_kerIncl_comp (n : ℕ) :
   refine CategoryTheory.Sheaf.hom_ext
     (NatTrans.ext (funext fun W => AddCommGrpCat.ext fun s => ?_))
   refine towerSections_ext _ fun p => ?_
-  show (cotruncProjection.{u} n).app (op p.1) ((kerIncl.{u} n).app (op p.1) (s.1 p)) = 0
+  change (cotruncProjection.{u} n).app (op p.1) ((kerIncl.{u} n).app (op p.1) (s.1 p)) = 0
   exact congrArg ULift.up (mem_cotruncKer.1 (s.1 p).down.2)
 
 /-- On sections over every open, the morphism of sheaves induced by `kerIncl n` is injective. -/
@@ -1630,7 +1630,7 @@ lemma isZero_integerExtensionByZero_bot :
       (⊥ : Opens Chain.{u})) := by
   rw [TopCat.Sheaf.isZero_iff_stalkFunctor_obj_isZero]
   intro x
-  show IsZero ((Stacks.Sheaves.ConstantIntegerSubsheaves.integerExtensionByZero chainSpace.{u}
+  change IsZero ((Stacks.Sheaves.ConstantIntegerSubsheaves.integerExtensionByZero chainSpace.{u}
     (⊥ : Opens Chain.{u})).presheaf.stalk x)
   exact TopCat.Presheaf.isZero_stalk_extendByInitialSheafify (X := chainSpace.{u})
     (⊥ : Opens Chain.{u})

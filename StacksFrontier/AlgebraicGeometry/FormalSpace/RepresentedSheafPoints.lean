@@ -35,8 +35,8 @@ ideal it cuts out of `A` lives.
 
 ## Implementation notes
 
-The homeomorphism is the composite of three identifications from the library, taken at the one object `U`:
-the site is subcanonical, so `h_U^#` is the Yoneda embedding of `U` into sheaves of
+The homeomorphism is the composite of three identifications from the library, taken at the one
+object `U`: the site is subcanonical, so `h_U^#` is the Yoneda embedding of `U` into sheaves of
 `Type (u + 1)` by `CategoryTheory.Sheaf.sheafifiedYonedaIsoUliftYoneda'`, whose underlying
 presheaf is the universe lift of `h_U`; the points of a universe lift are the points of the
 presheaf, by `AlgebraicGeometry.Space.pointsHomeomorphPointsULift`; and the points of a
@@ -142,7 +142,7 @@ theorem pointsULiftHomeomorphScheme_pointsMapULift {U' U : BigFppfOver B S hS} (
         (pointsHomeomorphPointsULift.{u + 1} B S hS (yoneda.obj U')).apply_symm_apply y] at h
     rw [h]
     exact (pointsHomeomorphPointsULift.{u + 1} B S hS (yoneda.obj U)).symm_apply_apply _
-  show schemePointsHomeomorph B S hS U
+  change schemePointsHomeomorph B S hS U
       ((pointsHomeomorphPointsULift.{u + 1} B S hS (yoneda.obj U)).symm
         (pointsMapULift.{u + 1} B S hS _ (sheafifiedYonedaPresheafIso B S hS U).hom
           (pointsMapULift.{u + 1} B S hS _

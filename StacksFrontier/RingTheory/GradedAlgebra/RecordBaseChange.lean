@@ -100,8 +100,7 @@ theorem map_rTensor_eq_of_ringHom {I : Ideal A} {I' : Ideal A'} (π : Q →+* P)
     (ρ : Q →+* Q') (ψ : (↥I) →ₗ[k] (↥I')) (hρπ : ∀ y, π' (ρ y) = π y)
     (hρsmul : ∀ (b : ↥I) (y : Q), ((ψ b : A')) • ρ y = ρ ((b : A) • y))
     (ξ : (↥I) ⊗[k] P) : θ' (LinearMap.rTensor P ψ ξ) = ρ (θ ξ) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => rw [map_zero (LinearMap.rTensor P ψ), map_zero θ', map_zero θ, map_zero ρ]
+  induction ξ using TensorProduct.inductionOn with
   | tmul b m =>
       obtain ⟨y, rfl⟩ := hπsurj m
       rw [LinearMap.rTensor_tmul, hθ b y, ← hρπ y, hθ' (ψ b) (ρ y), hρsmul]
@@ -120,8 +119,7 @@ theorem piRight_rTensor (ψ : N →ₗ[k] N') {ι : Type*} [Fintype ι] [Decidab
     (ξ : N ⊗[k] ((i : ι) → Mi i)) (i : ι) :
     TensorProduct.piRight k k N' Mi (LinearMap.rTensor ((i : ι) → Mi i) ψ ξ) i =
       LinearMap.rTensor (Mi i) ψ (TensorProduct.piRight k k N Mi ξ i) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul b p =>
       have hL : TensorProduct.piRight k k N' Mi
           (LinearMap.rTensor ((i : ι) → Mi i) ψ (b ⊗ₜ p)) i = ψ b ⊗ₜ p i := rfl

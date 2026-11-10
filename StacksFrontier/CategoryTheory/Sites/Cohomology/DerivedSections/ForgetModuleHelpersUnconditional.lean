@@ -104,7 +104,7 @@ public lemma tensorSheaf_map_mono_of_shortExact_unconditional
   obtain ⟨g, hg⟩ := _root_.Stacks.Cohomology.ObjectSections.exists_extension_of_isTorsionFree
     J O I S hS hP (adj.homEquiv _ _ i)
   have fac : T.map S.f ≫ (adj.homEquiv _ _).symm g = i := by
-    show (tensorSheafUnconditional J O).map S.f ≫ (adj.homEquiv _ _).symm g = i
+    change (tensorSheafUnconditional J O).map S.f ≫ (adj.homEquiv _ _).symm g = i
     rw [← adj.homEquiv_naturality_left_symm, hg, Equiv.symm_apply_apply]
   have : Mono (T.map S.f ≫ (adj.homEquiv _ _).symm g) := by
     rw [fac]
@@ -157,7 +157,7 @@ public lemma tensorSheaf_map_acyclic_unconditional
   let f' : (((T.mapHomologicalComplex (.up ℤ)).obj K).sc' i (i + 1) (i + 1 + 1)) ⟶ S' :=
     { τ₁ := T.map (K.toCycles i (i + 1)), τ₂ := 𝟙 _, τ₃ := 𝟙 _
       comm₁₂ := by
-        show T.map (K.toCycles i (i + 1)) ≫ T.map (K.iCycles (i + 1)) =
+        change T.map (K.toCycles i (i + 1)) ≫ T.map (K.iCycles (i + 1)) =
           T.map (K.d i (i + 1)) ≫ 𝟙 _
         rw [← T.map_comp, K.toCycles_i, Category.comp_id] }
   have : Epi f'.τ₁ := he
@@ -183,7 +183,7 @@ public lemma torsionFree_biprod_general (F G : Sheaf J AddCommGrpCat.{w})
     have (W : Cᵒᵖ) : Mono (((sheafToPresheaf _ _).map (n • 𝟙 H)).app W) := by
       have := hH W
       rw [AddCommGrpCat.mono_iff_injective]
-      show Function.Injective (fun y : H.obj.obj W => n • y)
+      change Function.Injective (fun y : H.obj.obj W => n • y)
       exact IsSMulRegular.of_ne_zero hn
     exact NatTrans.mono_of_mono_app _
   have := mono_smul F hF
@@ -256,7 +256,7 @@ public lemma toSheaf_precomp_bijective_of_torsionFree_general
     ((tensorSheafAdjunctionUnconditional J O).mapHomotopyCategory (.up ℤ))
   have hiso : IsIso (DerivedCategory.Qh.map (F.map (Q.map q))) := by
     apply Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso _ (.up ℤ))
-    show HomotopyCategory.quasiIso _ (.up ℤ)
+    change HomotopyCategory.quasiIso _ (.up ℤ)
       ((HomotopyCategory.quotient _ (.up ℤ)).map
         (((tensorSheafUnconditional J O).mapHomologicalComplex (.up ℤ)).map q))
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]

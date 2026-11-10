@@ -175,7 +175,6 @@ theorem PrimeDivisor.ordRationalFunction_eq_finsum_branch
   P.ord_eq_finsum_minimalPrimeOrd B S hS Z.closed.1 Z.integral.isDecentSpace Z.integral hNZ
     (Z.baseChangeChart B S hS hX V) y hy f
 
-include hdecZ in
 /-- **(G2) along a branch**: the statement (G2) at the generic point of a branch of `V ×_X Z` at
 `y`, moved to the point of the height-one prime `𝔮` of the branch, gives the reading of the
 branch fraction of `(v s_ξ)|_Z` in `κ(𝒪_{X, x̄})`: `v̄ μ̄⁻¹`. -/
@@ -520,9 +519,9 @@ theorem PrimeDivisor.keyFormula_member_eq_neg_finsum_of_unitRestrictionReading
   Z.keyFormula_member_eq_neg_finsum B S hS hX V hdec hInt hNX hdecZ hNZ hV L hL e hecompat hebij
     N hN' e' hecompat' hebij' P y hdim hy s t a b ha hb f g v₁ v₂ hfv hgv
     (fun p μ hμ => Z.residueFieldMap_branchReading_restrictedGeneratorBranchFraction B S hS hX V
-      hdec hNX hdecZ hNZ hV L hL e hecompat hebij hInt v₁ hG2L y p μ hμ)
+      hdec hNX hNZ hV L hL e hecompat hebij hInt v₁ hG2L y p μ hμ)
     (fun p μ hμ => Z.residueFieldMap_branchReading_restrictedGeneratorBranchFraction B S hS hX V
-      hdec hNX hdecZ hNZ hV N hN' e' hecompat' hebij' hInt v₂ hG2N y p μ hμ)
+      hdec hNX hNZ hV N hN' e' hecompat' hebij' hInt v₂ hG2N y p μ hμ)
 
 end Member
 

@@ -130,7 +130,7 @@ omit [Fact p.Prime] in
 /-- Every object of `ModuleCat (ZMod (p ^ m))` is killed by `p^m`. -/
 theorem pow_nsmul_id_eq_zero (M : ModuleCat.{v} (ZMod (p ^ m))) : (p ^ m) • 𝟙 M = 0 := by
   ext x
-  show p ^ m • x = 0
+  change p ^ m • x = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ m)), ZMod.natCast_self, zero_smul]
 
 end Flat
@@ -147,13 +147,12 @@ theorem surjective_extendRestrictScalarsAdj_unit_app (hf : Function.Surjective f
     Function.Surjective ((ModuleCat.extendRestrictScalarsAdj.{v} f).unit.app M) := by
   let : Module R S := Module.compHom S f
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       obtain ⟨a, rfl⟩ := hf s
       refine ⟨a • m, ?_⟩
       rw [ModuleCat.extendRestrictScalarsAdj_unit_app_apply]
-      show (1 : S) ⊗ₜ[R] (a • m) = f a ⊗ₜ[R] m
+      change (1 : S) ⊗ₜ[R] (a • m) = f a ⊗ₜ[R] m
       rw [← TensorProduct.smul_tmul]
       congr 1
       exact mul_one (f a)
@@ -183,21 +182,21 @@ theorem mem_ker_smul_top_of_extendRestrictScalarsAdj_unit_app_eq_zero
     { toFun := fun s => g s • N.mkQ
       map_add' := fun s t => by
         ext y
-        show g (s + t) • N.mkQ y = g s • N.mkQ y + g t • N.mkQ y
+        change g (s + t) • N.mkQ y = g s • N.mkQ y + g t • N.mkQ y
         rw [← add_smul]
         exact hker (by rw [hfg, map_add, hfg, hfg]) _
       map_smul' := fun r s => by
         ext y
-        show g (r • s) • N.mkQ y = r • (g s • N.mkQ y)
+        change g (r • s) • N.mkQ y = r • (g s • N.mkQ y)
         rw [smul_smul]
         exact hker (by rw [hfg, map_mul, hfg, hsmul]) _ }
   have hb : TensorProduct.lift b ((1 : S) ⊗ₜ[R] m) = N.mkQ m := by
-    show g (1 : S) • N.mkQ m = N.mkQ m
+    change g (1 : S) • N.mkQ m = N.mkQ m
     rw [hker (b := 1) (by rw [hfg, map_one]), one_smul]
   rw [ModuleCat.extendRestrictScalarsAdj_unit_app_apply] at hm
   have : N.mkQ m = 0 := by
     rw [← hb]
-    show TensorProduct.lift b ((1 : S) ⊗ₜ[R,f] m) = 0
+    change TensorProduct.lift b ((1 : S) ⊗ₜ[R,f] m) = 0
     rw [hm]
     exact map_zero (TensorProduct.lift b)
   simpa [N] using this
@@ -261,7 +260,7 @@ theorem isIso_of_surjective_of_ker {M N : ModuleCat.{v} (ZMod (ℓ ^ (n + 1 + 1)
   · obtain ⟨x₁, rfl⟩ := hπ z₁
     obtain ⟨x₂, rfl⟩ := hπ z₂
     rw [hfac, hfac, ← sub_eq_zero, ← map_sub] at hz
-    show (cokernel.π ((ℓ ^ (n + 1)) • 𝟙 M)).hom x₁ = (cokernel.π ((ℓ ^ (n + 1)) • 𝟙 M)).hom x₂
+    change (cokernel.π ((ℓ ^ (n + 1)) • 𝟙 M)).hom x₁ = (cokernel.π ((ℓ ^ (n + 1)) • 𝟙 M)).hom x₂
     rw [← sub_eq_zero, ← map_sub]
     obtain ⟨y, hy⟩ := hk _ hz
     rw [← hy]

@@ -120,10 +120,10 @@ private theorem inheritedTopology_refine {X : s.C} {S : Sieve X}
       R ∈ s.p.inheritedPrecoverage s.base.J.toPrecoverage X ∧ Sieve.generate R ≤ S := by
   let K := s.p.inheritedCoverage s.base.J
   have : Precoverage.HasIsos K.toPrecoverage := by
-    show Precoverage.HasIsos (s.p.inheritedPrecoverage s.base.J.toPrecoverage)
+    change Precoverage.HasIsos (s.p.inheritedPrecoverage s.base.J.toPrecoverage)
     infer_instance
   have : Precoverage.IsStableUnderComposition K.toPrecoverage := by
-    show Precoverage.IsStableUnderComposition
+    change Precoverage.IsStableUnderComposition
       (s.p.inheritedPrecoverage s.base.J.toPrecoverage)
     infer_instance
   have hK : S ∈ K.toGrothendieck X := by
@@ -333,7 +333,7 @@ private theorem replacementChainMap_id_eq_directSumMap
   classical
   apply DirectSum.addHom_ext
   intro x a
-  show ((CategoryHomology.replacementChainMap (𝟭 C) η).f n).hom
+  change ((CategoryHomology.replacementChainMap (𝟭 C) η).f n).hom
       (CategoryHomology.replacementSummand F n x a) = _
   rw [CategoryHomology.replacementChainMap_on_summand]
   simp only [AlgebraicTopology.alternatingFaceMapComplex_obj_X,
@@ -362,7 +362,7 @@ private theorem replacementChainMap_pullback_unit_square
   apply AddCommGrpCat.hom_ext
   apply DirectSum.addHom_ext
   intro i a
-  show (ConcreteCategory.hom
+  change (ConcreteCategory.hom
       ((CategoryHomology.replacementChainMap p tF).f n ≫
         (CategoryHomology.replacementChainMap (𝟭 D) η').f n))
       (CategoryHomology.replacementSummand F n i a) =
@@ -408,7 +408,7 @@ theorem replacementSummand_sum_support (P : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w u
     (∑ i : DFinsupp.support x,
       CategoryHomology.replacementSummand
         ((Functor.Fiber.fiberInclusion (p := s.p) (S := V)).op ⋙ P) n i.1 (x i.1)) = x := by
-  show (∑ i : DFinsupp.support x, DirectSum.of
+  change (∑ i : DFinsupp.support x, DirectSum.of
     (fun y : ComposableArrows (s.p.Fiber V) n =>
       P.obj (.op ((Functor.Fiber.fiberInclusion (p := s.p) (S := V)).obj y.right)))
     i.1 (x i.1)) = x
@@ -497,12 +497,12 @@ private theorem replacementChainMap_pullback_locally_surjective
   rw [replacementChainMap_id_eq_directSumMap.{uC, max w uD vD uC}]
   rw [← hsum]
   simp only [y, map_sum]
-  show (∑ i ∈ Finset.univ, _) = ∑ i ∈ Finset.univ, _
+  change (∑ i ∈ Finset.univ, _) = ∑ i ∈ Finset.univ, _
   apply Finset.sum_congr rfl
   intro i hi
   have hcoeff := Classical.choose_spec (hpre h hh i.1 i.2)
   rw [CategoryHomology.replacementChainMap_on_summand]
-  show DirectSum.map
+  change DirectSum.map
       (fun q : ComposableArrows (s.p.Fiber W) n =>
         (ηW.app (.op q.right)).hom)
       (DirectSum.of
@@ -519,7 +519,7 @@ private theorem replacementChainMap_pullback_locally_surjective
   · subst q
     simp only [DirectSum.map_apply, DirectSum.of_eq_same]
     cases hobj i
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
       (((sheafificationAdjunction s.topology AddCommGrpCat.{max w uD vD uC}).unit.app F).app
         (.op (Y h i.1)))) (a i) =
       (ConcreteCategory.hom
@@ -802,7 +802,7 @@ private theorem chainComplex_homology_zero_is_boundary
     apply S.exact_of_g_is_cokernel
     simpa [S] using K.homologyIsCokernel (i := n + 1) (j := n) (by simp)
   have hmem : (a : S.X₂) ∈ S.g.hom.ker := by
-    show (S.g.hom) a = 0
+    change (S.g.hom) a = 0
     simpa [S] using ha
   obtain ⟨b, hb⟩ :=
     (ShortComplex.ab_exact_iff_ker_le_range (S := S)).mp hS hmem
@@ -862,7 +862,7 @@ private theorem categoryHomologyMap_replacement_apply
     (CategoryHomology.replacementChainMap_homologyMap f t n)
   simp only [ConcreteCategory.comp_apply] at hmap
   apply (AddCommGrpCat.mono_iff_injective I.hom).mp inferInstance
-  show I.hom.hom ((CategoryHomology.categoryHomologyMap f t n).hom
+  change I.hom.hom ((CategoryHomology.categoryHomologyMap f t n).hom
       (I'.inv.hom ((K'.homologyπ n).hom a))) =
     I.hom.hom (I.inv.hom ((K.homologyπ n).hom b))
   calc
@@ -986,7 +986,7 @@ private theorem fiberHomology_unit_locally_surjective
           (((fiberHomologyPresheaf s G n).map (.op h)).hom
             (I_V.inv.hom ((K_V.homologyπ n).hom a))) =
         I_GZ.inv.hom ((K_GZ.homologyπ n).hom aZ) := by
-      show (CategoryHomology.categoryHomologyMap.{uC, uC,
+      change (CategoryHomology.categoryHomologyMap.{uC, uC,
         max w uD vD uC}
           ((Functor.chosenPullbacks s.p).pullbackFunctor k)
           (fiberCartesianRestriction s G k) n).hom
@@ -1017,11 +1017,11 @@ private theorem fiberHomology_unit_locally_surjective
       apply (AddCommGrpCat.mono_iff_injective I_V.hom).mp inferInstance
       simp [I_V, ha]
     refine ⟨I_FZ.inv.hom ((K_FZ.homologyπ n).hom bF), ?_⟩
-    show (φ.app (.op Z)).hom
+    change (φ.app (.op Z)).hom
         (I_FZ.inv.hom ((K_FZ.homologyπ n).hom bF)) =
       ((fiberHomologyPresheaf s G n).map (.op (k ≫ h))).hom z
     rw [hφ, ← hcyc, ← hresH, hz]
-    show ((fiberHomologyPresheaf s G n).map (.op k)).hom
+    change ((fiberHomologyPresheaf s G n).map (.op k)).hom
         (((fiberHomologyPresheaf s G n).map (.op h)).hom z) =
       ((fiberHomologyPresheaf s G n).map (.op (k ≫ h))).hom z
     simp only [CategoryTheory.op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
@@ -1132,12 +1132,12 @@ private theorem fiberHomology_unit_locally_injective
     have hdiff := congrArg (fun r => (ConcreteCategory.hom r) qlift)
       ((uT T).comm (n + 1) n)
     simp only [ConcreteCategory.comp_apply] at hdiff
-    show ((uT T).f n).hom
+    change ((uT T).f n).hom
         (((mF T h).f n).hom ((K_FV.iCycles n).hom cV) -
           ((CategoryHomology.simplicialReplacementComplex
             ((Functor.Fiber.fiberInclusion (p := s.p) (S := T)).op ⋙ F)).d (n + 1) n).hom qlift) = 0
     rw [map_sub, hs, hunitV, ← hdiff, hq', hcomm']
-    show ((mG T h).f n).hom ((K_GV.d (n + 1) n).hom q) -
+    change ((mG T h).f n).hom ((K_GV.d (n + 1) n).hom q) -
       ((mG T h).f n).hom ((K_GV.d (n + 1) n).hom q) = 0
     simp
   let injCover {T : s.base.C} (h : T ⟶ V) (hh : B h) :=
@@ -1190,7 +1190,7 @@ private theorem fiberHomology_unit_locally_injective
       rw [hcyc]
       have ht := congrArg (fun q => (ConcreteCategory.hom q)
           ((mFk.f (n + 1)).hom qlift)) (K_FZ.toCycles_comp_homologyπ (n + 1) n)
-      show (K_FZ.homologyπ n).hom
+      change (K_FZ.homologyπ n).hom
         ((K_FZ.toCycles (n + 1) n).hom ((mFk.f (n + 1)).hom qlift)) = 0
       exact ht
     let I_FZ := CategoryHomology.categoryHomologyReplacementIso.{uC,
@@ -1212,7 +1212,7 @@ private theorem fiberHomology_unit_locally_injective
       rw [← hz]
       rw [fiberHomologyPresheaf_map s F n k,
         fiberHomologyPresheaf_map s F n h]
-      show (CategoryHomology.categoryHomologyMap.{uC, uC,
+      change (CategoryHomology.categoryHomologyMap.{uC, uC,
           max w uD vD uC}
           ((Functor.chosenPullbacks s.p).pullbackFunctor k)
           (fiberCartesianRestriction s F k) n).hom
@@ -1235,7 +1235,7 @@ private theorem fiberHomology_unit_locally_injective
     have hxy : (H.map (.op f)).hom a = (H.map (.op f)).hom b := by
       simpa [z, map_sub, sub_eq_zero] using hzf
     rw [Presheaf.equalizerSieve_apply]
-    show (H.map (.op f)).hom a = (H.map (.op f)).hom b
+    change (H.map (.op f)).hom a = (H.map (.op f)).hom b
     exact hxy
   exact s.base.J.superset_covering hle hB'
 
@@ -1275,7 +1275,7 @@ theorem fiberHomologySheaf_sheafify
     simpa [η, sheafificationAdjunction_unit_app] using
       (s.topology.W_toSheafify F).isLocallyInjective
   let φ := (fiberHomologyPresheafFunctor s n).map η
-  show IsIso ((presheafToSheaf s.base.J AddCommGrpCat.{max w uD vD uC}).map φ)
+  change IsIso ((presheafToSheaf s.base.J AddCommGrpCat.{max w uD vD uC}).map φ)
   exact (Sheaf.isLocallyBijective_iff_isIso
     ((presheafToSheaf s.base.J AddCommGrpCat.{max w uD vD uC}).map φ)).1
       ⟨(Presheaf.isLocallyInjective_presheafToSheaf_map_iff s.base.J φ).2

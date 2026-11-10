@@ -172,7 +172,7 @@ theorem toQuotientSheaf_apply_eq_of_relSieve_mem (J : GrothendieckTopology C)
   intro Y f hf
   rw [← NatTrans.naturality_apply (toQuotientSheaf J F j) f.op a,
     ← NatTrans.naturality_apply (toQuotientSheaf J F j) f.op b]
-  show (toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j)).app (op Y)
+  change (toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j)).app (op Y)
       ((points F U).map f.op a) = _
   simp only [NatTrans.comp_app, ConcreteCategory.comp_apply]
   exact congrArg _ (toQuotientPresheaf_apply_eq_of_rel F j Y hf)

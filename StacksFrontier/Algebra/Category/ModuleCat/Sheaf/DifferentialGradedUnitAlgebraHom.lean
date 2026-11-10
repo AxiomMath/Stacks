@@ -161,12 +161,12 @@ noncomputable def unitHomotopyOfHomotopy
     rw [unitMul_eq, unitMul_eq]
     by_cases hi : i = 0
     · subst hi
-      rw [dif_pos rfl, dif_pos rfl]
+      rw [dite_eq_left rfl, dite_eq_left rfl]
       refine (heq_app_of_eq (fun k => h.hom k (k - 1)) (add_zero n) U
         (heq_castHom M.complex.X _ U _)).trans ?_
       refine HEq.trans ?_ (heq_castHom N.complex.X _ U _).symm
       exact heq_of_eq (homSections_smul (h.hom n (n - 1)) U _ x)
-    · rw [dif_neg hi, dif_neg hi, map_zero]
+    · rw [dite_eq_right hi, dite_eq_right hi, map_zero]
       have : ∀ (a b : ℤ) (e : a = b),
           HEq (0 : (N.complex.X a).val.obj U) (0 : (N.complex.X b).val.obj U) := by
         intro a b e; subst e; rfl

@@ -124,7 +124,7 @@ theorem eval_boundary (V : Opens X) (p : ℕ) (s : CechCochains.Cochain U F p)
   intro t
   simp only [AddMonoidHom.comp_apply, boundary, chainEval, FreeAbelianGroup.lift_apply_of,
     map_sum, map_zsmul, CechCochains.cechD, AddMonoidHom.coe_mk]
-  show (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
+  change (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
     CechCochains.restr F (face U t j).2 (s (face U t j).1)) =
     CechCochains.restr F t.2 (∑ j : Fin (p + 2), (-1 : ℤ) ^ (j : ℕ) •
       CechCochains.restr F (CechCochains.inter_le_omit U t.1 j) (s (t.1 ∘ j.succAbove)))
@@ -152,7 +152,7 @@ theorem eval_projection (V : Opens X) (p : ℕ) (s : CechCochains.Cochain U F p)
   · rw [ite_eq_left ht, map_zsmul, FreeAbelianGroup.lift_apply_of,
       CechCochains.c_apply_injective _ _ _ _ ht, map_zsmul]
     congr 1
-    show CechCochains.restr F _ (s _) = CechCochains.restr F _ (F.map _ (s _))
+    change CechCochains.restr F _ (s _) = CechCochains.restr F _ (F.map _ (s _))
     simp only [CechCochains.restr, ← CategoryTheory.comp_apply, ← F.map_comp]
     rfl
   · rw [ite_eq_right ht, map_zero, CechCochains.c_apply_not_injective _ _ _ _ ht, map_zero]

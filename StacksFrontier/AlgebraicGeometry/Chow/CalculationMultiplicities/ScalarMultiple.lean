@@ -86,9 +86,9 @@ private lemma length_ker_smul_quotient_ker {R : Type u} [CommRing R]
   let f : LinearMap.ker (x • φ) →ₗ[R] LinearMap.ker (LinearMap.lsmul R (LinearMap.range φ) x) :=
     (φ.rangeRestrict.comp (LinearMap.ker (x • φ)).subtype).codRestrict _ (by
       intro m
-      show LinearMap.lsmul R (LinearMap.range φ) x (φ.rangeRestrict m.1) = 0
+      change LinearMap.lsmul R (LinearMap.range φ) x (φ.rangeRestrict m.1) = 0
       apply Subtype.ext
-      show (x • φ) m.1 = 0
+      change (x • φ) m.1 = 0
       exact m.2)
   have hker : LinearMap.ker f = (LinearMap.ker φ).submoduleOf (LinearMap.ker (x • φ)) := by
     ext m
@@ -99,7 +99,7 @@ private lemma length_ker_smul_quotient_ker {R : Type u} [CommRing R]
     have hmx : m ∈ LinearMap.ker (x • φ) := by
       have ht : x • (a.1 : LinearMap.range φ) = 0 := by
         simpa only [LinearMap.lsmul_apply] using (LinearMap.mem_ker.mp a.2)
-      show x • φ m = 0
+      change x • φ m = 0
       rw [hm]
       exact congrArg Subtype.val ht
     exact ⟨⟨m, hmx⟩, Subtype.ext (Subtype.ext hm)⟩
@@ -174,11 +174,11 @@ private lemma length_homology_zero_twoPeriodicComplex_smul_fst {R : Type u} [Com
         Module.length R (LinearMap.ker (LinearMap.lsmul R (LinearMap.range φ) x)) := by
   have hBK : LinearMap.range ψ ≤ LinearMap.ker φ := by
     rintro z ⟨m, rfl⟩
-    show φ (ψ m) = 0
+    change φ (ψ m) = 0
     simpa using LinearMap.congr_fun hφψ m
   have hKKx : LinearMap.ker φ ≤ LinearMap.ker (x • φ) := by
     intro m hm
-    show (x • φ) m = 0
+    change (x • φ) m = 0
     simp [LinearMap.smul_apply, LinearMap.mem_ker.mp hm]
   rw [length_homology_zero_eq_ker_quotient (x • φ) ψ h₁ h₂,
     Module.length_quotient_submoduleOf_eq_add hBK hKKx,
@@ -198,7 +198,7 @@ private lemma length_homology_one_twoPeriodicComplex_smul_fst {R : Type u} [Comm
     ((LinearMap.range φ).subtype.comp (LinearMap.lsmul R (LinearMap.range φ) x))
   have hAL : LinearMap.range φ ≤ LinearMap.ker ψ := by
     rintro z ⟨m, rfl⟩
-    show ψ (φ m) = 0
+    change ψ (φ m) = 0
     simpa using LinearMap.congr_fun hψφ m
   have hXA : X ≤ LinearMap.range φ := by
     rintro z ⟨a, rfl⟩
@@ -208,7 +208,7 @@ private lemma length_homology_one_twoPeriodicComplex_smul_fst {R : Type u} [Comm
     · rintro z ⟨a, rfl⟩
       obtain ⟨m, hm⟩ := a.2
       refine ⟨m, ?_⟩
-      show x • φ m = x • (a : M)
+      change x • φ m = x • (a : M)
       rw [hm]
     · rintro z ⟨m, rfl⟩
       exact ⟨⟨φ m, m, rfl⟩, rfl⟩
@@ -220,7 +220,7 @@ private lemma length_homology_one_twoPeriodicComplex_smul_fst {R : Type u} [Comm
       exact ⟨LinearMap.lsmul R (LinearMap.range φ) x a, ⟨a, rfl⟩, rfl⟩
     · rintro ⟨b, ⟨a, ha⟩, hb⟩
       refine ⟨a, ?_⟩
-      show (LinearMap.range φ).subtype (LinearMap.lsmul R (LinearMap.range φ) x a) = _
+      change (LinearMap.range φ).subtype (LinearMap.lsmul R (LinearMap.range φ) x a) = _
       rw [ha, hb]
   have hXsub : X.submoduleOf (LinearMap.range φ) =
       LinearMap.range (LinearMap.lsmul R (LinearMap.range φ) x) := by
@@ -314,8 +314,8 @@ public lemma periodicLength_smul_snd {R : Type u} [CommRing R] [IsNoetherianRing
   let Cswap := twoPeriodicComplex ψ φ hψφ hφψ
   let C := twoPeriodicComplex φ ψ hφψ hψφ
   let Cx := twoPeriodicComplex φ (x • ψ)
-    (by show φ.comp (x • ψ) = 0; rw [LinearMap.comp_smul, hφψ, smul_zero])
-    (by show (x • ψ).comp φ = 0; rw [LinearMap.smul_comp, hψφ, smul_zero])
+    (by change φ.comp (x • ψ) = 0; rw [LinearMap.comp_smul, hφψ, smul_zero])
+    (by change (x • ψ).comp φ = 0; rw [LinearMap.smul_comp, hψφ, smul_zero])
   have hswap0 : Module.length R (Cswap.homology 0) =
       Module.length R ((twoPeriodicComplex φ ψ hφψ hψφ).homology 1) := by
     rw [length_homology_zero_eq_ker_quotient ψ φ hψφ hφψ,
@@ -333,9 +333,9 @@ public lemma periodicLength_smul_snd {R : Type u} [CommRing R] [IsNoetherianRing
     rw [hswap1]
     exact Module.length_ne_top_iff.mpr hH₀
   have hswapNew := periodicLength_swap φ (x • ψ)
-    (by show φ.comp (x • ψ) = 0; rw [LinearMap.comp_smul, hφψ, smul_zero])
-    (by show (x • ψ).comp φ = 0; rw [LinearMap.smul_comp, hψφ, smul_zero])
-  show periodicLength Cx = periodicLength C + _
+    (by change φ.comp (x • ψ) = 0; rw [LinearMap.comp_smul, hφψ, smul_zero])
+    (by change (x • ψ).comp φ = 0; rw [LinearMap.smul_comp, hψφ, smul_zero])
+  change periodicLength Cx = periodicLength C + _
   rw [hswapNew, periodicLength_swap φ ψ hφψ hψφ,
     periodicLength_smul_fst M ψ φ hψφ hφψ x hfiniteSwap0 hfiniteSwap1 hsupp]
   ring

@@ -80,24 +80,24 @@ private theorem formallySmoothNAdic_of_ulift_test
   have hcomm' : (eQ.toRingHom.comp ψ).comp φ =
       (Ideal.Quotient.mk J').comp (e.toRingHom.comp f) := by
     ext r
-    show eQ (ψ (φ r)) = Ideal.Quotient.mk J' (e (f r))
+    change eQ (ψ (φ r)) = Ideal.Quotient.mk J' (e (f r))
     rw [show ψ (φ r) = Ideal.Quotient.mk J (f r) from RingHom.congr_fun hcomm r]
     exact Ideal.quotientEquiv_mk J J' e rfl (f r)
   have hkill' : ∃ k : ℕ, 1 ≤ k ∧ I ^ k ≤ RingHom.ker (eQ.toRingHom.comp ψ) := by
     obtain ⟨k, hk, hkI⟩ := hkill
     refine ⟨k, hk, fun s hs ↦ ?_⟩
-    show eQ (ψ s) = 0
+    change eQ (ψ s) = 0
     rw [show ψ s = 0 from hkI hs, map_zero]
   obtain ⟨g, hg, hgf⟩ := h (ULift.{v} T) J' hJ'
     (e.toRingHom.comp f) (eQ.toRingHom.comp ψ) hcomm' hkill'
   refine ⟨e.symm.toRingHom.comp g, ?_, ?_⟩
   · ext s
     apply eQ.injective
-    show eQ (Ideal.Quotient.mk J (e.symm (g s))) = eQ (ψ s)
+    change eQ (Ideal.Quotient.mk J (e.symm (g s))) = eQ (ψ s)
     rw [Ideal.quotientEquiv_mk J J' e rfl, e.apply_symm_apply]
     exact RingHom.congr_fun hg s
   · ext r
-    show e.symm (g (φ r)) = f r
+    change e.symm (g (φ r)) = f r
     rw [show g (φ r) = e (f r) from RingHom.congr_fun hgf r, e.symm_apply_apply]
 
 private theorem formallySmoothNAdic_of_targetEquiv
@@ -109,7 +109,7 @@ private theorem formallySmoothNAdic_of_targetEquiv
   have hcomm' : (ψ.comp e.symm.toRingHom).comp (e.toRingHom.comp φ) =
       (Ideal.Quotient.mk J).comp f := by
     ext r
-    show ψ (e.symm (e (φ r))) = Ideal.Quotient.mk J (f r)
+    change ψ (e.symm (e (φ r))) = Ideal.Quotient.mk J (f r)
     rw [e.symm_apply_apply]
     exact RingHom.congr_fun hcomm r
   have hkill' : ∃ k : ℕ, 1 ≤ k ∧
@@ -118,13 +118,13 @@ private theorem formallySmoothNAdic_of_targetEquiv
     refine ⟨k, hk, ?_⟩
     rw [← Ideal.map_pow, Ideal.map_le_iff_le_comap]
     intro s hs
-    show ψ (e.symm (e s)) = 0
+    change ψ (e.symm (e s)) = 0
     rw [e.symm_apply_apply]
     exact hkI hs
   obtain ⟨g, hg, hgf⟩ := h Q J hJ f (ψ.comp e.symm.toRingHom) hcomm' hkill'
   refine ⟨g.comp e.toRingHom, ?_, ?_⟩
   · ext s
-    show Ideal.Quotient.mk J (g (e s)) = ψ s
+    change Ideal.Quotient.mk J (g (e s)) = ψ s
     have hg' : Ideal.Quotient.mk J (g (e s)) = ψ (e.symm (e s)) :=
       RingHom.congr_fun hg (e s)
     simpa only [e.symm_apply_apply] using hg'
@@ -299,7 +299,7 @@ private theorem formallySmoothNAdic_of_sourceEquiv
   obtain ⟨g, hg, hgf⟩ := h Q J hJ (f.comp e.symm.toRingHom) ψ hcomm' hkill
   refine ⟨g, hg, ?_⟩
   ext r
-  show g (φ r) = f r
+  change g (φ r) = f r
   have hr := RingHom.congr_fun hgf (e r)
   change g (φ (e.symm (e r))) = f (e.symm (e r)) at hr
   simpa only [e.symm_apply_apply] using hr
@@ -313,13 +313,13 @@ theorem formallySmoothNAdic_of_equiv_square
     (h : RingHom.FormallySmoothNAdic.{u} ψ J) :
     RingHom.FormallySmoothNAdic.{u} φ I := by
   apply formallySmoothNAdic_of_targetEquiv φ I eS
-  show RingHom.FormallySmoothNAdic (eS.toRingHom.comp φ) (I.map eS.toRingHom)
+  change RingHom.FormallySmoothNAdic (eS.toRingHom.comp φ) (I.map eS.toRingHom)
   rw [hIJ]
   apply formallySmoothNAdic_of_sourceEquiv _ J eR
   convert h using 1
   rw [hcomm]
   ext r
-  show ψ (eR (eR.symm r)) = ψ r
+  change ψ (eR (eR.symm r)) = ψ r
   rw [eR.apply_symm_apply]
 
 private theorem exists_isLocalizationAway_mapIntegralClosure
@@ -349,14 +349,14 @@ private theorem exists_isLocalizationAway_mapIntegralClosure
   refine ⟨s, IsLocalization.away_of_isIdempotentElem_of_mul hs ?_
     (surjective_mapIntegralClosure_of_isArtinianRing f hf)⟩
   intro a b
-  show f.mapIntegralClosure a = f.mapIntegralClosure b ↔ s * a = s * b
+  change f.mapIntegralClosure a = f.mapIntegralClosure b ↔ s * a = s * b
   have hfm (a b : T) : f a = f b ↔ d a m = d b m := by
     let e := Ideal.quotientKerAlgEquivOfSurjective hf
-    show e (Ideal.Quotient.mk (RingHom.ker f) a) =
+    change e (Ideal.Quotient.mk (RingHom.ker f) a) =
       e (Ideal.Quotient.mk (RingHom.ker f) b) ↔ _
     exact e.injective.eq_iff
   rw [Subtype.ext_iff, Subtype.ext_iff]
-  show f (a : T) = f (b : T) ↔ c * (a : T) = c * (b : T)
+  change f (a : T) = f (b : T) ↔ c * (a : T) = c * (b : T)
   rw [hfm, ← d.injective.eq_iff]
   constructor
   · intro h
@@ -374,7 +374,7 @@ theorem isLocalHom_localizationAtPrime_of_isIntegral
     [IsLocalization.AtPrime D p] [IsLocalRing D] : IsLocalHom (algebraMap A D) := by
   apply ((IsLocalRing.local_hom_TFAE (algebraMap A D)).out 5 1).mp
   rw [IsScalarTower.algebraMap_eq A C D, ← Ideal.comap_comap]
-  show ((IsLocalRing.maximalIdeal D).under C).comap (algebraMap A C) = _
+  change ((IsLocalRing.maximalIdeal D).under C).comap (algebraMap A C) = _
   rw [IsLocalization.AtPrime.under_maximalIdeal D p]
   exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) p)
 
@@ -470,12 +470,12 @@ theorem formallySmoothNAdic_tensorProduct_fieldFactor
   let : IsLocalization.Away s F := hs
   have hdiag : α.toRingHom.comp gQ = g := by
     ext a
-    show fQ (gQ a : Q) = (g a : E)
+    change fQ (gQ a : Q) = (g a : E)
     rw [hgQ, hfQK₁, hg]
   let q' : Ideal C := q.comap α.toRingHom
   let : q'.IsMaximal := Ideal.comap_isMaximal_of_surjective α.toRingHom hα
   have hp' : q'.comap (algebraMap A₁ C) = p := by
-    show (q.comap α.toRingHom).comap gQ = p
+    change (q.comap α.toRingHom).comap gQ = p
     rw [Ideal.comap_comap, hdiag, hpq]
   have hwhole := formallySmooth_localizations_after_finite_fraction_field_extension
     A B K L K₁ Q A₁ C (AlgEquiv.refl) (AlgEquiv.refl) (AlgEquiv.refl)
@@ -505,15 +505,15 @@ theorem formallySmoothNAdic_tensorProduct_fieldFactor
   have hcomm : eD.toRingHom.comp φ = ψ := by
     apply IsLocalization.ringHom_ext p.primeCompl
     ext a
-    show eD (φ (algebraMap A₁ R a)) = ψ (algebraMap A₁ R a)
+    change eD (φ (algebraMap A₁ R a)) = ψ (algebraMap A₁ R a)
     rw [hφ, hψ, eD.commutes]
-    show algebraMap F D (α (gQ a)) = algebraMap F D (g a)
+    change algebraMap F D (α (gQ a)) = algebraMap F D (g a)
     exact congrArg (algebraMap F D) (RingHom.congr_fun hdiag a)
   apply formallySmoothNAdic_maximalIdeal_of_ringEquiv ψ eD.symm.toRingEquiv
   convert hφtest using 1
   ext r
   apply eD.injective
-  show eD (eD.symm (ψ r)) = eD (φ r)
+  change eD (eD.symm (ψ r)) = eD (φ r)
   rw [eD.apply_symm_apply]
   exact (RingHom.congr_fun hcomm r).symm
 
@@ -547,20 +547,20 @@ theorem ramificationIdx_maximalIdeal_localizationAtPrime
     exact not_not.mp hr
   let e : R' ≃ₐ[R] R := IsLocalization.algEquiv m.primeCompl R' R
   have hunder : m.under A = p.under A := by
-    show m.comap (algebraMap A R) = p.under A
+    change m.comap (algebraMap A R) = p.under A
     rw [IsScalarTower.algebraMap_eq A C R, ← Ideal.comap_comap]
-    show (m.under C).comap (algebraMap A C) = p.under A
+    change (m.under C).comap (algebraMap A C) = p.under A
     rw [IsLocalization.AtPrime.under_maximalIdeal R p]
   have hmap : (p.under A).map (algebraMap A R') =
       ((p.under A).map (algebraMap A R)).comap e.toRingHom := by
     have hcomp : e.toRingHom.comp (algebraMap A R') = algebraMap A R := by
       ext a
-      show e (algebraMap A R' a) = algebraMap A R a
+      change e (algebraMap A R' a) = algebraMap A R a
       rw [IsScalarTower.algebraMap_apply A R R', e.commutes]
       rfl
     rw [← hcomp, ← Ideal.map_map, Ideal.comap_map_of_bijective e.toRingHom e.bijective]
   rw [Ideal.ramificationIdx_def, Ideal.ramificationIdx_def, hunder]
-  show (Module.length R' (R' ⧸ (p.under A).map (algebraMap A R'))).toNat =
+  change (Module.length R' (R' ⧸ (p.under A).map (algebraMap A R'))).toNat =
     (Module.length R (R ⧸ (p.under A).map (algebraMap A R))).toNat
   rw [Module.length_quotient, Module.length_quotient, hmap,
     Ideal.coheight_comap_of_surjective e.toRingHom e.surjective]
@@ -580,14 +580,14 @@ private theorem isLocalization_comap_of_ringEquiv
   · intro t
     obtain ⟨⟨s, m⟩, hm⟩ := IsLocalization.surj M t
     refine ⟨⟨e.symm s, ⟨e.symm m, ?_⟩⟩, ?_⟩
-    · show e (e.symm (m : S)) ∈ M
+    · change e (e.symm (m : S)) ∈ M
       simpa only [e.apply_symm_apply] using m.2
     · simpa only [hmap, e.apply_symm_apply] using hm
   · intro a b hab
     rw [hmap, hmap] at hab
     obtain ⟨m, hm⟩ := (IsLocalization.eq_iff_exists M T).mp hab
     refine ⟨⟨e.symm m, ?_⟩, ?_⟩
-    · show e (e.symm (m : S)) ∈ M
+    · change e (e.symm (m : S)) ∈ M
       simpa only [e.apply_symm_apply] using m.2
     · apply e.injective
       simpa only [map_mul, e.apply_symm_apply] using hm

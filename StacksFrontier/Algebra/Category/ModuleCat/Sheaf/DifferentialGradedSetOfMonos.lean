@@ -192,7 +192,7 @@ private lemma targetCoproductMap_id
   intro j
   cases j with
   | mk r φ =>
-      simp only [targetCoproductMap, Limits.Sigma.ι_desc, Category.comp_id]
+      simp only [targetCoproductMap, Limits.Sigma.ι_comp_desc, Category.comp_id]
       have hidx : (⟨r, φ ≫ 𝟙 N⟩ : AttachIndex M N) = ⟨r, φ⟩ := by simp
       cases hidx
       rfl
@@ -303,7 +303,7 @@ private noncomputable def attachmentFunctor
     let := attachedHasPushout M₀ M₀' i₀ N
     apply pushout.hom_ext
     · dsimp [attachedMap]
-      simp [pushout.inl_desc]
+      simp
     · apply Limits.Sigma.hom_ext
       intro j
       dsimp [attachedMap]
@@ -351,7 +351,7 @@ private noncomputable def attachmentInclusion :
     let := attachedHasPushout M M' i P
     dsimp [attachmentFunctor, attachedMap, attachedInclusion, attachedObject,
       attachMap, sourceToObject, sourceCoproduct, targetCoproduct]
-    simp [pushout.inl_desc]
+    simp
 
 private lemma attachMap_mono
     (N : (ULiftHom.{max t u} (DifferentialGradedModule.{u, v, max u w t} A)))
@@ -399,7 +399,7 @@ private lemma attachMap_mono
       (MorphismProperty.monomorphisms
         (ULiftHom.{max t u} (DifferentialGradedModule.{u, v, max u w t} A)))
       (AttachIndex M N) := inferInstance
-  show Mono (Limits.Sigma.map fun j : AttachIndex M N => i j.1)
+  change Mono (Limits.Sigma.map fun j : AttachIndex M N => i j.1)
   infer_instance
 
 private lemma attachedInclusion_mono
@@ -459,7 +459,7 @@ private lemma coproductAcyclic
       have hs : ((F i.as).sc' (n - 1) n (n + 1)).Exact :=
         (HomologicalComplex.exactAt_iff' (F i.as) (n - 1) n (n + 1)
           (by simp [CochainComplex.prev]) (by simp [CochainComplex.next])).mp (hF i.as n)
-      show (ShortComplex.mk (E.map S.f) (E.map S.g) _).Exact
+      change (ShortComplex.mk (E.map S.f) (E.map S.g) _).Exact
       simpa [E, S, f, g, D₁, D₂, D₃, F₁, F₂, F₃,
         HomologicalComplex.sc', HomologicalComplex.shortComplexFunctor',
         HomologicalComplex.shortComplexFunctor'_obj_X₁,
@@ -469,9 +469,9 @@ private lemma coproductAcyclic
         HomologicalComplex.shortComplexFunctor'_obj_g] using hs
     have hieq := (ShortComplex.exact_iff_kernel_ι_comp_cokernel_π_zero (S.map E)).mp hi
     have hz : kernel.ι (E.map S.g) ≫ cokernel.π (E.map S.f) = 0 := by
-      show kernel.ι (S.map E).g ≫ cokernel.π (S.map E).f = 0
+      change kernel.ι (S.map E).g ≫ cokernel.π (S.map E).f = 0
       exact hieq
-    show E.map (kernel.ι S.g) ≫ E.map (cokernel.π S.f) = 0
+    change E.map (kernel.ι S.g) ≫ E.map (cokernel.π S.f) = 0
     rw [← kernelComparison_comp_ι S.g E, ← π_comp_cokernelComparison S.f E]
     calc
       (kernelComparison S.g E ≫ kernel.ι (E.map S.g)) ≫
@@ -494,12 +494,12 @@ private lemma coproductAcyclic
   let d₂ := K.d n (n + 1)
   let hf : ∀ i, c₁.ι.app i ≫ d₁ = S.f.app i ≫ c₂.ι.app i := by
     intro i
-    show (ι i.as).f (n - 1) ≫ K.d (n - 1) n =
+    change (ι i.as).f (n - 1) ≫ K.d (n - 1) n =
       (F i.as).d (n - 1) n ≫ (ι i.as).f n
     exact (ι i.as).comm (n - 1) n
   let hg : ∀ i, c₂.ι.app i ≫ d₂ = S.g.app i ≫ c₃.ι.app i := by
     intro i
-    show (ι i.as).f n ≫ K.d n (n + 1) =
+    change (ι i.as).f n ≫ K.d n (n + 1) =
       (F i.as).d n (n + 1) ≫ (ι i.as).f (n + 1)
     exact (ι i.as).comm n (n + 1)
   let T := Limits.colim.mapShortComplex S hc₁ c₂ c₃ d₁ d₂ hf hg
@@ -610,7 +610,7 @@ private lemma differentialGradedModuleCoproductAcyclic
     exact Cocone.ext eComplex (fun j => by
       cases j with
       | mk i =>
-        show (Sigma.ι F i).toHomologicalComplex ≫
+        change (Sigma.ι F i).toHomologicalComplex ≫
           eDGM.hom.toHomologicalComplex = (ι i).toHomologicalComplex
         exact congrArg (fun f => f.toHomologicalComplex)
           (IsColimit.comp_coconePointUniqueUpToIso_hom hcStdDGM hcDGM
@@ -1023,7 +1023,7 @@ noncomputable def functorSetOfMonos {X : AlgebraicGeometry.RingedSite.{u, u, u}}
                     Limits.Sigma.ι (fun k : AttachIndex ML nD => ML k.1) j ≫
                       attachMap ML ML' iL nD := by
                     dsimp [j, iL]
-                    rw [attachMap, Limits.Sigma.ι_desc]
+                    rw [attachMap, Limits.Sigma.ι_comp_desc]
                   rw [← Category.assoc, ← Category.assoc]
                   exact congrArg
                     (fun k => k ≫ pushout.inr (sourceToObject ML nD)

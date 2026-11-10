@@ -186,7 +186,7 @@ theorem hom_ext_of_pullback_map_eq_of_isAffine {T : Scheme.{u}} [IsAffine T] {K 
     exact (HasRingHomProperty.Spec_iff (P := @Flat)).mp this
   have hid : ∀ p : PrimeSpectrum Γ(T, ⊤), T.isoSpec.hom.base (T.isoSpec.inv.base p) = p := by
     intro p
-    show (T.isoSpec.inv ≫ T.isoSpec.hom).base p = p
+    change (T.isoSpec.inv ≫ T.isoSpec.hom).base p = p
     rw [T.isoSpec.inv_hom_id]
     rfl
   have hsurj' : ∀ p : PrimeSpectrum Γ(T, ⊤), ∃ k q, PrimeSpectrum.comap (ρ k).hom q = p := by

@@ -55,7 +55,7 @@ theorem pullbackTerminalSection_constantSectionHom (a : Λ) :
     Stacks.Sheaves.RingedToposModules.pullbackTerminalSection
         (constantRingedToposHom Λ f).toModulesHom (RingedTopos.constantSectionHom J Λ a) =
       RingedTopos.constantSectionHom K Λ a := by
-  show f.inverseImageTerminalIso.inv ≫
+  change f.inverseImageTerminalIso.inv ≫
     (f.inverseImage.map (RingedTopos.constantSectionHom J Λ a) ≫
       (sheafCompose K (forget RingCat.{u})).map
         (constantRingedToposHom Λ f).fSharpInverseImageRing) = _
@@ -103,7 +103,7 @@ def constantPullbackUnitIso :
 theorem _root_.ModuleCat.self_hom_eq_smul_id (φ : ModuleCat.of Λ Λ ⟶ ModuleCat.of Λ Λ) :
     φ = (φ.hom (1 : Λ)) • 𝟙 (ModuleCat.of Λ Λ) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show φ.hom x = φ.hom 1 • x
+  change φ.hom x = φ.hom 1 • x
   rw [smul_eq_mul, mul_comm, ← smul_eq_mul, ← LinearMap.map_smul, smul_eq_mul, mul_one]
 
 /-- **`f^*Λ̲ ≅ Λ̲` is compatible with the action of `Λ`**: it intertwines the two images of every
@@ -123,7 +123,7 @@ theorem constantPullbackUnitIso_naturality (φ : ModuleCat.of Λ Λ ⟶ ModuleCa
       Category.comp_id]
   simp only [constantPullbackUnitIso, Iso.trans_hom, Functor.mapIso_hom, Iso.symm_hom,
     Category.assoc, hD']
-  show (constantRingedToposHom Λ f).toModulesHom.pullbackModules.map
+  change (constantRingedToposHom Λ f).toModulesHom.pullbackModules.map
       ((RingedSite.constantModuleFunctor J Λ).map (a • 𝟙 (ModuleCat.of Λ Λ))) ≫ _ = _
   rw [← Functor.map_comp_assoc, hC, Functor.map_comp_assoc, reassoc_of%
     pullbackModules_map_constantScalar Λ f a]
@@ -139,9 +139,9 @@ def constantKoszulPullbackIso (n : ℕ) :
         (RingedSite.ringKoszulComplex x n) :=
   Functor.mapHomologicalComplexIsoOfSummands (constantPullbackUnitIso Λ f)
     (constantPullbackUnitIso_naturality Λ f) (RingedSite.ringKoszulComplex x n)
-    (fun j => AlternatingCech.Idx r (-j)) (fun j S => RingedSite.ringKoszulCoord x n S)
-    (fun j => Functor.summandsOfIsIsoPiLift (fun S => RingedSite.ringKoszulCoord x n S))
-    (fun j => Functor.sum_comp_summandsOfIsIsoPiLift _)
+    (fun j => AlternatingCech.Idx r (-j)) (fun _ S => RingedSite.ringKoszulCoord x n S)
+    (fun _ => Functor.summandsOfIsIsoPiLift (fun S => RingedSite.ringKoszulCoord x n S))
+    (fun _ => Functor.sum_comp_summandsOfIsIsoPiLift _)
 
 /-- **The pullback of the tower of constant Koszul complexes is the tower of constant Koszul
 complexes**, naturally in the exponent. -/
@@ -149,7 +149,7 @@ def constantKoszulPullbackSystemIso :
     RingedSite.ringKoszulSystem x ⋙ (constantPullbackFunctor Λ f).mapHomologicalComplex _ ≅
       RingedSite.ringKoszulSystem x ⋙
         (RingedSite.constantModuleFunctor K Λ).mapHomologicalComplex _ :=
-  NatIso.ofComponents (fun n => constantKoszulPullbackIso Λ f x n.unop) (fun {a b} h =>
+  NatIso.ofComponents (fun n => constantKoszulPullbackIso Λ f x n.unop) (fun _ =>
     Functor.mapHomologicalComplexIsoOfSummands_hom_naturality (constantPullbackUnitIso Λ f)
       (constantPullbackUnitIso_naturality Λ f) _ _ _ _ _ _ _ _ _ _ _)
 

@@ -134,7 +134,7 @@ back to `x`. -/
 private lemma iso_hom_apply_of_inv_apply {A B : GradedObject ℤ (ModuleCat.{w} R)} (e : A ≅ B)
     {n : ℤ} {x : B n} {z : A n} (h : (e.inv n).hom x = z) : (e.hom n).hom z = x := by
   rw [← h]
-  show ((e.inv ≫ e.hom) n).hom x = x
+  change ((e.inv ≫ e.hom) n).hom x = x
   rw [Iso.inv_hom_id]
   rfl
 
@@ -142,7 +142,7 @@ private lemma iso_hom_apply_of_inv_apply {A B : GradedObject ℤ (ModuleCat.{w} 
 lemma leftUnitor_hom_apply_ιTensorObj (n : ℤ) (h : 0 + n = n) (x : X n) :
     ((λ_ X).hom n).hom ((ιTensorObj (𝟙_ _) X 0 n n h).hom (unitOne ⊗ₜ x)) = x := by
   refine iso_hom_apply_of_inv_apply (λ_ X) ?_
-  show ((Monoidal.leftUnitor X).inv n).hom x = _
+  change ((Monoidal.leftUnitor X).inv n).hom x = _
   rw [leftUnitor_inv_apply]
   rfl
 
@@ -150,7 +150,7 @@ lemma leftUnitor_hom_apply_ιTensorObj (n : ℤ) (h : 0 + n = n) (x : X n) :
 lemma rightUnitor_hom_apply_ιTensorObj (n : ℤ) (h : n + 0 = n) (x : X n) :
     ((ρ_ X).hom n).hom ((ιTensorObj X (𝟙_ _) n 0 n h).hom (x ⊗ₜ unitOne)) = x := by
   refine iso_hom_apply_of_inv_apply (ρ_ X) ?_
-  show ((Monoidal.rightUnitor X).inv n).hom x = _
+  change ((Monoidal.rightUnitor X).inv n).hom x = _
   rw [rightUnitor_inv_apply]
   rfl
 

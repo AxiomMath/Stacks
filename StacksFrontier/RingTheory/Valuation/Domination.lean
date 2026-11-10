@@ -95,12 +95,12 @@ subrings of its fraction field, which is the Stacks predicate `IsValuationRing`.
 @[ega "II 7.1.1" "partial"]
 theorem isValuationRing_of_valuationRing (A : Type*) [CommRing A] [IsDomain A]
     [ValuationRing A] : IsValuationRing A := by
-  show IsMax (LocalSubring.range (algebraMap A (FractionRing A)))
+  change IsMax (LocalSubring.range (algebraMap A (FractionRing A)))
   let w := ValuationRing.valuation A (FractionRing A)
   apply (LocalSubring.isMax_iff).2
   refine ⟨w.valuationSubring, ?_⟩
   apply LocalSubring.toSubring_injective
-  show w.valuationSubring.toSubring = (algebraMap A (FractionRing A)).range
+  change w.valuationSubring.toSubring = (algebraMap A (FractionRing A)).range
   rw [← ValuationRing.range_algebraMap_eq A (FractionRing A)]
   rfl
 

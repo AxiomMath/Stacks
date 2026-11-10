@@ -77,6 +77,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (A : Algebraization c α hX hft)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `IsIso` and limits in presheaf categories on the big fppf site
 /-- The completion `X''_{/|x''|⁻¹T'} ⟶ X'_{/T'}` of `x''` is an isomorphism. -/
 theorem isIso_completionSheafMap_modificationHom :
     IsIso (Space.completionSheafMap B S hS (modificationHom c α A) c.T') := by
@@ -106,6 +107,7 @@ theorem isLocallyOfFiniteType_modificationHom :
   exact A.isLocallyOfFiniteType_Y
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `IsIso` and limits in presheaf categories on the big fppf site
 /-- **Inverting `x''`, by Stacks 0GDR over `X'`.** There is `φ : X' ⟶ X''` with `φ ∘ x'' = 1`
 and `x'' ∘ φ = 1`. -/
 theorem exists_inverse_modificationHom :
@@ -206,7 +208,7 @@ theorem solutionIsoU_comp_ι :
   have hsq := (Space.isPullback_openComplementRestriction B S hS A.h (contractedLocus c α)).w
   simp only [solutionIsoU, Iso.trans_hom, asIso_hom, Category.assoc]
   rw [← hsq]
-  show modificationOpenInv c α A ≫ (Space.openSubspaceOfPointsRestrict B S hS (𝟙 _) _ _
+  change modificationOpenInv c α A ≫ (Space.openSubspaceOfPointsRestrict B S hS (𝟙 _) _ _
     (modificationOpen_subset c α A) ≫ (modificationOpenH c α A).ι) ≫ A.h = _
   rw [Space.openSubspaceOfPointsRestrict_comp_ι, Category.comp_id]
   have h1 : modificationOpenInv c α A ≫ (modificationOpen c α A).ι ≫ modificationHom c α A =
@@ -219,6 +221,7 @@ theorem solutionIsoU_comp_ι :
   rw [← Category.assoc, h2, Category.assoc]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in presheaf categories on the big fppf site (completion sheaf maps)
 /-- Condition (3) for `f = h ∘ φ`. -/
 theorem completionSheafRestrict_solution_comp_a
     (h : c.T' ⊆ Space.pointsMap B S hS c.X' (modificationInv c α A ≫ A.h) ⁻¹' contractedLocus c α) :

@@ -137,7 +137,7 @@ public theorem bijective_residue_localizationNilradical (p : minimalPrimes A) :
       (minimalPrimeMapNilradical_mem A p)).toField
   refine ⟨?_, IsLocalRing.residue_surjective⟩
   rw [RingHom.injective_iff_ker_eq_bot]
-  show RingHom.ker (Ideal.Quotient.mk _) = ⊥
+  change RingHom.ker (Ideal.Quotient.mk _) = ⊥
   rw [Ideal.mk_ker]
   exact IsLocalRing.maximalIdeal_eq_bot
 
@@ -184,9 +184,9 @@ public theorem localizationNilradicalRingEquivResidueField_algebraMap (p : minim
       @algebraMap A (@Ideal.ResidueField A _ p.1 p.2.1.1) _ _ _ a := by
   let : (p : Ideal A).IsPrime := p.2.1.1
   let : (minimalPrimeMapNilradical A p).IsPrime := (minimalPrimeMapNilradical_mem A p).1.1
-  show (residueFieldRingEquivNilradical A p).symm (residueRingEquivNilradical A p _) = _
+  change (residueFieldRingEquivNilradical A p).symm (residueRingEquivNilradical A p _) = _
   rw [RingEquiv.symm_apply_eq]
-  show IsLocalRing.residue (Localization.AtPrime (minimalPrimeMapNilradical A p))
+  change IsLocalRing.residue (Localization.AtPrime (minimalPrimeMapNilradical A p))
         (algebraMap (A ⧸ nilradical A) (Localization.AtPrime (minimalPrimeMapNilradical A p))
           (Ideal.Quotient.mk (nilradical A) a)) =
       Ideal.ResidueField.map (p : Ideal A) (minimalPrimeMapNilradical A p)

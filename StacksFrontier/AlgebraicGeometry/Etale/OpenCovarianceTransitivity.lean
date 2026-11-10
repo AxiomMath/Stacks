@@ -880,7 +880,7 @@ public theorem openCovariancePresheafMap_comp :
         ((openRestrictionCompIso.{u, v} B j k).hom.app G)).app (op W) ≫
       covariancePresheafApp B j (k ≫ f) ((openRestriction.{u, v} B k).obj G) W ≫
       covariancePresheafApp B k f G W := by
-    show ((openFiniteSupportCompIso.{u, v} B j k f).hom.app G).app (op W) ≫
+    change ((openFiniteSupportCompIso.{u, v} B j k f).hom.app G).app (op W) ≫
         covariancePresheafApp B j (k ≫ f) ((openRestriction.{u, v} B k).obj G) W ≫
         covariancePresheafApp B k f G W = _
     rw [openFiniteSupportCompIso_hom_app]

@@ -97,6 +97,7 @@ variable (S' S : A ⥤ B) [S'.Additive] [S.Additive] (e : S' ≅ S)
   (hres : ∀ K : CochainComplex A ℤ, ∃ (I : CochainComplex A ℤ) (f : K ⟶ I),
     I.IsKInjective ∧ QuasiIso f)
 
+omit [EnoughInjectives A] [HasDerivedCategory A] in
 /-- The degreewise actions of `e.inv` and of `e.hom` on the homotopy category, read in the
 derived category, are mutually inverse. -/
 private theorem qh_map_mapHomotopyCategory_inv_hom

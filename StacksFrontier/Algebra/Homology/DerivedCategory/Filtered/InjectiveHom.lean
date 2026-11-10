@@ -533,7 +533,7 @@ private lemma exists_hom_coneFiltered {I : FilteredObject (CochainComplex 𝒜 �
     ∃ φ : coneFiltered α ⟶ I, mappingCone.inr α.hom ≫ φ.hom = β.hom - β'.hom :=
   ⟨FilteredObject.homMk (descConeHom α β β' h) (fun p => descCone α β β' h hh p.unop)
     (fun p => descCone_comp_ι α β β' h hh p.unop), by
-      show mappingCone.inr α.hom ≫ descConeHom α β β' h = β.hom - β'.hom
+      change mappingCone.inr α.hom ≫ descConeHom α β β' h = β.hom - β'.hom
       simp [descConeHom]⟩
 
 /-- **The injectivity half.** Two morphisms `L^• ⟶ I^•` which become filtered homotopic after
@@ -1002,7 +1002,7 @@ private lemma cylι₁_comp_cylπ : cylι₁ M ≫ cylπ M = 𝟙 M :=
 projection of a cylinder, hence a homotopy equivalence. -/
 private lemma filteredQuasiIso_cylπ : CochainComplex.filteredQuasiIso 𝒜 (cylπ M) :=
   filteredQuasiIso_of_natTrans _ fun p => by
-    show QuasiIso (HomologicalComplex.cylinder.π (M.filtration.obj (op p)))
+    change QuasiIso (HomologicalComplex.cylinder.π (M.filtration.obj (op p)))
     rw [show HomologicalComplex.cylinder.π (M.filtration.obj (op p))
         = (HomologicalComplex.cylinder.homotopyEquiv (M.filtration.obj (op p))
           exists_up_rel).hom from rfl]

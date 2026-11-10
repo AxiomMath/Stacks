@@ -54,7 +54,7 @@ theorem isScalarTower_K :
   let : Algebra K B := β.hom.toAlgebra
   let : Algebra R₀ B := (a ≫ α).hom.toAlgebra
   exact IsScalarTower.of_algebraMap_eq (fun r => by
-    show (a ≫ α) r = (c ≫ β) r
+    change (a ≫ α) r = (c ≫ β) r
     rw [h.w])
 
 /-- For the algebra structures given by `a`, `α` and `a ≫ α`, the tower `R₀ → A → B` is a scalar
@@ -121,7 +121,7 @@ theorem pushoutTrace_mul (x : A) (z : B) :
     ({ toFun := fun y => a (ℓ y)
        map_add' := fun y y' => by rw [map_add, map_add]
        map_smul' := fun r y => by
-        show a (ℓ (c r * y)) = a r * a (ℓ y)
+        change a (ℓ (c r * y)) = a r * a (ℓ y)
         rw [hℓ, map_mul] } : K →ₗ[R₀] A))).map_smul x z
 
 /-- `pushoutTrace` is `a ∘ ℓ` on the image of `K`. -/
@@ -155,11 +155,11 @@ theorem pushoutTrace_naturality {A' B' : CommRingCat.{u}} {a' : R₀ ⟶ A'} {α
   have := isScalarTower_A (a := a) (α := α)
   induction z using (algebraIsPushout_of_isPushout h).out.inductionOn with
   | tmul y =>
-    show pushoutTrace h' ℓ hℓ (φ (β y)) = ψ (pushoutTrace h ℓ hℓ (β y))
+    change pushoutTrace h' ℓ hℓ (φ (β y)) = ψ (pushoutTrace h ℓ hℓ (β y))
     rw [pushoutTrace_β, ← ConcreteCategory.comp_apply, hβ, pushoutTrace_β,
       ← ConcreteCategory.comp_apply, ha]
   | smul s n ih =>
-    show pushoutTrace h' ℓ hℓ (φ (α s * n)) = ψ (pushoutTrace h ℓ hℓ (α s * n))
+    change pushoutTrace h' ℓ hℓ (φ (α s * n)) = ψ (pushoutTrace h ℓ hℓ (α s * n))
     rw [map_mul, ← ConcreteCategory.comp_apply, hα, ConcreteCategory.comp_apply,
       pushoutTrace_mul, pushoutTrace_mul, map_mul, ih]
   | add n₁ n₂ h₁ h₂ => rw [map_add, map_add, map_add, h₁, h₂, map_add]

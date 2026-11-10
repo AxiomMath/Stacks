@@ -102,7 +102,7 @@ private theorem hom_ext_of_over_cover
       ((SheafOfModules.toSheaf R).map b).hom.app (Opposite.op W) := by
     ext x
     exact congrArg (fun f => f x) hi
-  show ((SheafOfModules.toSheaf R).map a).hom.app V ≫
+  change ((SheafOfModules.toSheaf R).map a).hom.app V ≫
       ((SheafOfModules.toSheaf R).obj N).obj.map k.op =
     ((SheafOfModules.toSheaf R).map b).hom.app V ≫
       ((SheafOfModules.toSheaf R).obj N).obj.map k.op
@@ -132,7 +132,7 @@ private theorem sectionsMap_over_eq_of_eval_eq
   have hs' : (M.over U).val.map k.op
       (s.eval (Opposite.op (Over.mk (𝟙 U)))) = s.eval T := by
     simpa only [Opposite.op_unop] using PresheafOfModules.sections_property s (f := k.op)
-  show (a.over U).val.app T (s.eval T) = (b.over U).val.app T (s.eval T)
+  change (a.over U).val.app T (s.eval T) = (b.over U).val.app T (s.eval T)
   rw [← hs', PresheafOfModules.naturality_apply (a.over U).val k.op,
     PresheafOfModules.naturality_apply (b.over U).val k.op]
   exact congrArg (fun x => (N.over U).val.map k.op x) h
@@ -331,7 +331,7 @@ private theorem cardinalUniversalMap_component
               (freeOpensYonedaLift (R := R.obj) p.1))
           (U, n) ≫ cardinalUniversalMap M κ t)) = t U n := by
   unfold cardinalUniversalMap
-  rw [Limits.Sigma.ι_desc]
+  rw [Limits.Sigma.ι_comp_desc]
   exact freeOpensYonedaEquiv_sheafificationHomEquiv_symm U (t U n)
 
 private theorem cardinalUniversalMap_component_comp
@@ -392,7 +392,7 @@ private theorem cardinalUniversalMap_epi
       ((congrArg (fun f => freeOpensYonedaEquiv (σ.X i)
         (PresheafOfModules.sheafificationHomEquiv (𝟙 R.obj) f)) hcomp).trans
         (cardinalUniversalMap_component_comp κ t b (σ.X i) n))
-  show (a.over (σ.X i)).val.app (Opposite.op (Over.mk (𝟙 (σ.X i))))
+  change (a.over (σ.X i)).val.app (Opposite.op (Over.mk (𝟙 (σ.X i))))
       (((σ.generators i).s j).eval (Opposite.op (Over.mk (𝟙 (σ.X i))))) =
     (b.over (σ.X i)).val.app (Opposite.op (Over.mk (𝟙 (σ.X i))))
       (((σ.generators i).s j).eval (Opposite.op (Over.mk (𝟙 (σ.X i)))))
@@ -457,7 +457,7 @@ private theorem cardinalGenerated_has_universal_epimorphism
       have hk : ∃ j' : (τ.generators i).I, e i j' = e i j := ⟨j, rfl⟩
       have hchoose : Classical.choose hk = j :=
         (e i).injective (Classical.choose_spec hk)
-      show (if h : ∃ j', e i j' = e i j then
+      change (if h : ∃ j', e i j' = e i j then
           ((τ.generators i).s (Classical.choose h)).eval
             (Opposite.op (Over.mk (𝟙 (τ.X i)))) else 0) = _
       rw [dite_eq_left ⟨j, rfl⟩, hchoose])⟩
@@ -567,7 +567,7 @@ theorem essentiallySmall_presheaf_of_small_cardinal
     map_id := by
       intro U
       ext x
-      show (e U).inv (M.map (𝟙 U) ((e U).hom x)) = x
+      change (e U).inv (M.map (𝟙 U) ((e U).hom x)) = x
       have h := CategoryTheory.congr_fun (M.map_id U) ((e U).hom x)
       change M.map (𝟙 U) ((e U).hom x) = (e U).hom x at h
       rw [h]
@@ -575,7 +575,7 @@ theorem essentiallySmall_presheaf_of_small_cardinal
     map_comp := by
       intro U V W f g
       ext x
-      show (e W).inv (M.map (f ≫ g) ((e U).hom x)) =
+      change (e W).inv (M.map (f ≫ g) ((e U).hom x)) =
         (e W).inv (M.map g ((e V).hom ((e V).inv (M.map f ((e U).hom x)))))
       rw [M.map_comp_apply]
       have h := CategoryTheory.congr_fun (e V).inv_hom_id (M.map f ((e U).hom x))
@@ -585,7 +585,7 @@ theorem essentiallySmall_presheaf_of_small_cardinal
   have ep : P ≅ M := PresheafOfModules.isoMk e (by
     intro U V f
     ext x
-    show (e V).hom ((e V).inv (M.map f ((e U).hom x))) = M.map f ((e U).hom x)
+    change (e V).hom ((e V).inv (M.map f ((e U).hom x))) = M.map f ((e U).hom x)
     exact CategoryTheory.congr_fun (e V).inv_hom_id _)
   exact ⟨P, ObjectProperty.ofObj_apply (fun t : T => t.2.1)
     ⟨fun U => ⟨N U, hN U⟩, P, rfl⟩, ⟨ep.symm⟩⟩
@@ -612,7 +612,7 @@ theorem essentiallySmall_isCardinalGenerated (X : RingedSpace.{v, u})
   let R : Sheaf (Opens.grothendieckTopology X) RingCat.{v} :=
     (sheafCompose (Opens.grothendieckTopology X)
       (forget₂ CommRingCat.{v} RingCat.{v})).obj X.sheaf
-  show ObjectProperty.EssentiallySmall.{max u v}
+  change ObjectProperty.EssentiallySmall.{max u v}
     (fun M : SheafOfModules.{v} R ↦ SheafOfModules.IsCardinalGenerated M κ)
   by_cases h : Small.{v} (Opens X)
   · let := h

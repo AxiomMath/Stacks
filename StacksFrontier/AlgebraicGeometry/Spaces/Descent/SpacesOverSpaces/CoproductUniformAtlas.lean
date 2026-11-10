@@ -111,7 +111,7 @@ public theorem BigFppfOver.exists_size_ge (B : BigFppfSite.{u}) (S : Scheme.{u})
       Spec.map (Scheme.Opens.topIso affine).hom ≫
         (Scheme.Opens.toScheme affine).isoSpec.inv ≫ Scheme.Opens.ι affine
   refine ⟨Over.mk (ObjectProperty.homMk base : B.obj hP ⟶ B.obj hS), ?_⟩
-  show ν ≤ (Spec (CommRingCat.of P)).size
+  change ν ≤ (Spec (CommRingCat.of P)).size
   rw [Scheme.size_Spec]
   exact ((Cardinal.mk_out ν).symm.le.trans
     (Cardinal.mk_le_of_injective (MvPolynomial.X_injective (R := R) (σ := ν.out)))).trans

@@ -87,8 +87,7 @@ theorem directSumRight_symm_lof {R : Type*} [CommSemiring R] {M : Type*} [AddCom
     [(i : ι) → Module R (N i)] (i : ι) (w : M ⊗[R] N i) :
     (directSumRight R R M N).symm (DirectSum.lof R ι (fun j => M ⊗[R] N j) i w)
       = LinearMap.lTensor M (DirectSum.lof R ι N i) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a b => rw [directSumRight_symm_lof_tmul, LinearMap.lTensor_tmul]
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -203,8 +202,7 @@ theorem termTensorEquiv_comm_d (p : ℕ) :
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
   obtain ⟨w, rfl⟩ : ∃ w, LocalizedModule.tensorEquiv M (cechSub f s.1) w = y :=
     ⟨(LocalizedModule.tensorEquiv M (cechSub f s.1)).symm y, by simp⟩
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add]; rw [ha, hb]
   | tmul m x =>
     rw [cechD_lof, map_sum]

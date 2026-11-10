@@ -182,7 +182,8 @@ are independent of one another.
    comparison of exterior algebras all of this runs through is **not** missing from the
    repository: it is `ExteriorAlgebra.exists_algEquiv_baseChange`
    (`StacksFrontier/RingTheory/TensorAlgebra/Localization.lean`), tagged 0C6F (3), and
-   `StacksFrontier/Algebra/Module/Projective/Determinant/Basic.lean` already imports and uses it. The three degreewise statements are
+  `StacksFrontier/Algebra/Module/Projective/Determinant/Basic.lean` already imports and uses it.
+  The three degreewise statements are
    kept in the module-level tree rather than beside `part`, which is where they are consumed,
    because their content involves no sheaf.
 
@@ -303,7 +304,8 @@ are independent of one another.
      `(⋀ⁿ F)|_U` with `⋀ⁿ(F|_U)` but is built from the two universal properties and carries
      neither compatibility, which is why it cannot be used for the annihilator.
 
-     **Transporting `A` instead of building `B` does not work.** `SheafOfModules.GradedAlgebra.IsExteriorAlgebra` is
+    **Transporting `A` instead of building `B` does not work.**
+    `SheafOfModules.GradedAlgebra.IsExteriorAlgebra` is
      `IsUniversal (fun _ κ => SquareZero κ)`, a universal property quantified over *every*
      graded algebra on the site. The restriction of `A.exterior` to `J.over U` therefore does
      not inherit it from `A` by formal nonsense: that would need the direct image along the
@@ -407,7 +409,8 @@ are independent of one another.
 
      The route is the one the private `associatedSheafTensorIso` of
      `StacksFrontier/AlgebraicGeometry/Schemes/ZariskiAndSeparation/AffineTensor.lean` takes for
-     `Spec R`, but it is **not** a statement-only generalisation of it. That file discharges the naturality of the presheaf-level
+    `Spec R`, but it is **not** a statement-only generalisation of it. That file discharges the
+    naturality of the presheaf-level
      comparison by `with_unfolding_all rfl`, and over a general ringed space that is false:
      `TensorProduct.AlgebraTensorModule.distribBaseChange` sends `a ⊗ (m ⊗ n)` to
      `(a ⊗ m) ⊗ (1 ⊗ n)`, so the naturality square commutes only through `map_one` of the
@@ -429,11 +432,13 @@ are independent of one another.
      calls — the per-member hypothesis is a global finite presentation on each member, which is
      exactly what `exists_isFinite_presentation_determinant_over` supplies.
 
-4. *The locality of invertibility.* **This step is done.** Invertibility is `Stacks.SheafOfModules.IsInvertible`, the existence of a tensor
+4. *The locality of invertibility.* **This step is done.** Invertibility is
+   `Stacks.SheafOfModules.IsInvertible`, the existence of a tensor
    inverse (Tag 0B8K (1) ⟺ (2),
    `Stacks.SheafOfModules.isInvertible_iff_exists_tensor_iso_unit`), so concluding from
    invertibility on a cover is a descent problem, and for a general ringed space it is the
-   `Prop` `Stacks.InvertibleLocallyFree.InvertibleIsLocal`. That `Prop` is **proved**, on an arbitrary site by `Stacks.SheafOfModules.invertibleIsLocal`
+  `Prop` `Stacks.InvertibleLocallyFree.InvertibleIsLocal`. That `Prop` is **proved**, on an
+  arbitrary site by `Stacks.SheafOfModules.invertibleIsLocal`
    (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleLocalDual.lean`) and for a ringed
    space by `Stacks.SheafOfModules.invertibleIsLocal_ringedSpace`
    (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleLocalSpace.lean`). The proof is the

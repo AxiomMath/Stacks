@@ -204,7 +204,7 @@ theorem rationallyEquivalent_locallyFiniteCycleSum (sX : X ⟶ D.space) (hX : D.
       ∑ᶠ j : J i, (integralClosedSubspacePushforward D sX hX (W i j) k (c i j)).1 Z := by
     intro i
     simpa using congrArg (fun γ : CycleGroup D sX k => γ.1 Z) (hsum i)
-  show (∑ᶠ i : I, (α i).1 Z) - (∑ᶠ i : I, (β i).1 Z) = _
+  change (∑ᶠ i : I, (α i).1 Z) - (∑ᶠ i : I, (β i).1 Z) = _
   rw [← finsum_sub_distrib hαfin hβfin, cycleFamilySum_apply]
   exact (finsum_congr hterm).trans (Stacks.Chow.finsum_sigma _ hsigfin).symm
 

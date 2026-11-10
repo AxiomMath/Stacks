@@ -158,7 +158,7 @@ theorem stackCoproductProj_isStack : (stackCoproductProj p J hp).IsStack J :=
 theorem stackCoproductι_comp (i : I) :
     stackCoproductι p J hp i ⋙ stackCoproductProj p J hp = p i := by
   have := sigmaProjLift_isFibered p hp
-  show Sigma.incl i ⋙ ULiftHom.up ⋙ ((sigmaProjLift p).toStageThree J ⋙
+  change Sigma.incl i ⋙ ULiftHom.up ⋙ ((sigmaProjLift p).toStageThree J ⋙
     (sigmaProjLift p).stageThreeProj J) = p i
   rw [toStageThree_comp_stageThreeProj]
   rfl
@@ -225,7 +225,7 @@ theorem exists_isEquivalenceOver_stackCoproduct (hq : q.IsFiberedInGroupoids) (h
   have : q.IsFibered := hq.isFibered
   let F' : ULiftHom.{max u₁ w u₂ vb} (Σ i, 𝒳 i) ⥤ 𝒵 := ULiftHom.down ⋙ Sigma.desc F
   have hF'c : F' ⋙ q = sigmaProjLift (fun i => F i ⋙ q) := by
-    show ULiftHom.down ⋙ (Sigma.desc F ⋙ q) = ULiftHom.down ⋙ Sigma.desc (fun i => F i ⋙ q)
+    change ULiftHom.down ⋙ (Sigma.desc F ⋙ q) = ULiftHom.down ⋙ Sigma.desc (fun i => F i ⋙ q)
     rw [sigma_desc_comp]
   have hF'1 : IsFibredOneMorphism (sigmaProjLift (fun i => F i ⋙ q)) q F' :=
     IsFibredOneMorphism.of_isFiberedInGroupoids hq hF'c

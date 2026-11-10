@@ -106,9 +106,9 @@ private theorem modulePseudoCoherentFrom_of_finiteFree
   refine ⟨(CochainComplex.singleFunctor _ 0).obj N, isBoundedFiniteFree_single N 0,
     𝟙 _, ?_, ?_⟩
   · intro i hi
-    show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map (𝟙 _))
+    change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map (𝟙 _))
     infer_instance
-  · show Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map (𝟙 _))
+  · change Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) m).map (𝟙 _))
     infer_instance
 
 /-- The kernel inclusion of an epimorphism is the first map of a short exact sequence. -/
@@ -302,7 +302,7 @@ private theorem resolutionComplex_d [Small.{v} R] (N : ModuleCat.{v} R) (n : ℕ
 private theorem resolutionComplex_exactAt [Small.{v} R] (N : ModuleCat.{v} R) (n : ℕ) :
     (resolutionComplex N).ExactAt (n + 1) := by
   rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)]
-  show (ShortComplex.mk ((resolutionComplex N).d (n + 2) (n + 1))
+  change (ShortComplex.mk ((resolutionComplex N).d (n + 2) (n + 1))
     ((resolutionComplex N).d (n + 1) n) _).Exact
   simp only [resolutionComplex_d]
   exact (exact_comp_mono_iff
@@ -791,7 +791,7 @@ private lemma isIso_homology_truncLT (d i : ℤ) (hi : i < d)
       ((DerivedCategory.TStructure.t.truncLTι d).app X)) := by
   have : Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
       ((DerivedCategory.TStructure.t.truncLTι d).app X)) := by
-    show Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
+    change Epi ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
       ((DerivedCategory.TStructure.t.triangleLTGE d).obj X).mor₁)
     rw [DerivedCategory.HomologySequence.epi_homologyMap_mor₁_iff
       ((DerivedCategory.TStructure.t.triangleLTGE d).obj X)
@@ -799,7 +799,7 @@ private lemma isIso_homology_truncLT (d i : ℤ) (hi : i < d)
     exact (DerivedCategory.isZero_of_isGE _ d i hi).eq_of_tgt _ _
   have : Mono ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
       ((DerivedCategory.TStructure.t.truncLTι d).app X)) := by
-    show Mono ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
+    change Mono ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
       ((DerivedCategory.TStructure.t.triangleLTGE d).obj X).mor₁)
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₁_iff
       ((DerivedCategory.TStructure.t.triangleLTGE d).obj X)
@@ -820,7 +820,7 @@ private lemma isIso_homology_truncGE (d : ℤ)
   have : Mono ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) d).map T.mor₂) := by
     rw [DerivedCategory.HomologySequence.mono_homologyMap_mor₂_iff T hT d]
     exact (DerivedCategory.isZero_of_isLE T.obj₁ (d - 1) d (by omega)).eq_of_src _ _
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) d).map T.mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) d).map T.mor₂)
   exact isIso_of_mono_of_epi _
 
 /-- If `X` vanishes above `d` and its degree-`d` cohomology is `(m - d)`-pseudo-coherent, then

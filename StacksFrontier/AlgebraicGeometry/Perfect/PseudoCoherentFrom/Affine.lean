@@ -144,7 +144,7 @@ public theorem isZero_of_restrictModules (X : RingedSpace.{u, u}) (M : OXMod.{u,
     (hM : ∀ i, IsZero ((restrictModules X (U i)).obj M)) : IsZero M := by
   apply (IsZero.iff_id_eq_zero M).2
   ext V s
-  show s = 0
+  change s = 0
   apply (show TopCat.Presheaf.IsSheaf M.val.presheaf from M.isSheaf).section_ext
     (U := V) (s := s) (t := 0)
   intro x hx
@@ -234,7 +234,7 @@ public theorem isDirectSummandOfFiniteFree_tilde_of_finite_free {A : Type u} [Co
     fun _ => structureModule (Spec (CommRingCat.of A)).toRingedSpace
   let eFree : SheafOfModules.free.{u} (ULift.{u} (Fin n)) ≅
       finiteFree (Spec (CommRingCat.of A)).toRingedSpace n := by
-    show SheafOfModules.free.{u} (ULift.{u} (Fin n)) ≅ ⨁ V₀
+    change SheafOfModules.free.{u} (ULift.{u} (Fin n)) ≅ ⨁ V₀
     exact (biproduct.isoCoproduct U₀).symm ≪≫
       biproduct.whiskerEquiv (f := U₀) (g := V₀) Equiv.ulift (fun _ => Iso.refl _)
   let e : F.obj M ≅ finiteFree (Spec (CommRingCat.of A)).toRingedSpace n :=

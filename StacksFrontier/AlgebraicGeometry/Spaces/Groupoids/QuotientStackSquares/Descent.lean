@@ -361,13 +361,13 @@ private lemma arrowImage_comp (hβ : IsCocycle G X f β)
     G.source.hom G.target.hom).app (Opposite.op T) p
   have hq₀ : (pullback.fst G.source.hom G.target.hom).app (Opposite.op T) q =
       (e y z b).1 := by
-    show ((composableToPullback
+    change ((composableToPullback
       G.source.hom G.target.hom ≫ pullback.fst _ _).app (Opposite.op T)) p = _
     simp only [composableToPullback, pullback.lift_fst]
     rfl
   have hq₁ : (pullback.snd G.source.hom G.target.hom).app (Opposite.op T) q =
       (e x y a).1 := by
-    show ((composableToPullback
+    change ((composableToPullback
       G.source.hom G.target.hom ≫ pullback.snd _ _).app (Opposite.op T)) p = _
     simp only [composableToPullback, pullback.lift_snd]
     rfl
@@ -503,7 +503,7 @@ private lemma cocycleMap_id (hX : X.p.IsFiberedInGroupoids)
     cocycleMap G X f β hX hβ (𝟙 x) = 𝟙 _ := by
   simp only [cocycleMap, presentation_id_base, presentation_id_fiber]
   rw [eqToHom_map]
-  show eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base)
+  change eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base)
     (G.objects.obj.map_id_apply (Opposite.op x.base) x.fiber).symm)) ≫ f.map _ = _
   rw [← eqToHom_map f.toFunctor (congrArg (point G.objects.obj x.base)
     (G.objects.obj.map_id_apply (Opposite.op x.base) x.fiber).symm), ← Functor.map_comp]
@@ -532,12 +532,12 @@ private lemma cocycleMap_comp (hX : X.p.IsFiberedInGroupoids)
     congrArg _ (presentation_comp_fiber G a b)
   rw [hfib, Functor.map_comp (fibreCocycleFunctor G X f β hX hβ x.base),
     Functor.map_comp (fibreCocycleFunctor G X f β hX hβ x.base)]
-  show _ ≫ f.map (pointHom G.objects.obj (a.base ≫ b.base) (y := z.fiber) rfl) = _
+  change _ ≫ f.map (pointHom G.objects.obj (a.base ≫ b.base) (y := z.fiber) rfl) = _
   rw [eqToHom_map]
   refine (Category.assoc _ _ _).trans ?_
   refine (congrArg (fun m => (fibreCocycleFunctor G X f β hX hβ x.base).map a.fiber ≫ m)
     (Category.assoc _ _ _)).trans ?_
-  show _ ≫ _ ≫ eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base)
+  change _ ≫ _ ≫ eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base)
     (G.objects.obj.map_comp_apply b.base.op a.base.op z.fiber).symm)) ≫ f.map _ = _
   rw [← eqToHom_map f.toFunctor (congrArg (point G.objects.obj x.base)
     (G.objects.obj.map_comp_apply b.base.op a.base.op z.fiber).symm), ← Functor.map_comp]
@@ -633,10 +633,10 @@ private lemma cocycleFunctor_map_projectionArrow (hX : X.p.IsFiberedInGroupoids)
     Discrete.eq_of_hom a.fiber
   obtain ⟨_, hb''⟩ := evaluationArrow_eqToHom_of_identity G.toGroupoidInFunctors
     (Opposite.op x.base) b hb'
-  show (fibreCocycleFunctor G X f β hX hβ x.base).map b ≫
+  change (fibreCocycleFunctor G X f β hX hβ x.base).map b ≫
     f.map (pointHom G.objects.obj a.base (y := Discrete.as y.fiber) rfl) = _
   rw [hb'', eqToHom_map]
-  show eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base) ha)) ≫ _ = _
+  change eqToHom (congrArg f.obj (congrArg (point G.objects.obj x.base) ha)) ≫ _ = _
   rw [← eqToHom_map f.toFunctor (congrArg (point G.objects.obj x.base) ha),
     ← Functor.map_comp]
   apply congrArg f.map
@@ -687,7 +687,7 @@ private lemma cocycleFunctor_map_verticalArrow (hX : X.p.IsFiberedInGroupoids)
       (G.objects.obj.map (𝟙 (Opposite.op T)) (G.target.hom.app (Opposite.op T) a)) b).1 = a
       at hb'
     simpa only [q, Equiv.apply_symm_apply] using hb'.symm
-  show (fibreCocycleFunctor G X f β hX hβ T).map b ≫
+  change (fibreCocycleFunctor G X f β hX hβ T).map b ≫
     f.map (pointHom G.objects.obj (𝟙 T)
       (y := G.target.hom.app (Opposite.op T) a) rfl) = _
   rw [hq]
@@ -819,7 +819,7 @@ private lemma projectionBasedComparison_twoArrow (hX : X.p.IsFiberedInGroupoids)
     (cocycleFunctor G X f β hX hβ) η.hom (hp G.source.hom) (hp G.target.hom)
     ((quotientStackTwoArrow G).app x) b hq
   rw [cocycleFunctor_map_verticalArrow G X f β hX hβ _ _ b hb hb'] at hn
-  show (projectionBasedComparison G X f β hX hβ g η hη).hom.app sx ≫ β.app x =
+  change (projectionBasedComparison G X f β hX hβ g η hη).hom.app sx ≫ β.app x =
     g.map ((quotientStackTwoArrow G).app x) ≫
       (projectionBasedComparison G X f β hX hβ g η hη).hom.app tx
   have hα : ∀ m : G.arrows.obj ⟶ G.objects.obj,

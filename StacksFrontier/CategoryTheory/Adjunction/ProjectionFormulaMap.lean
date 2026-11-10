@@ -34,7 +34,8 @@ isomorphism.
   `CategoryTheory.bifunctor_map_comp_both`: a composition in one or in both factors of a
   bifunctor splits.
 * `CategoryTheory.bifunctor_comparison_naturality` (in
-  `StacksFrontier.CategoryTheory.BifunctorProdMap`): naturality of `α`, written one factor at a time.
+  `StacksFrontier.CategoryTheory.BifunctorProdMap`): naturality of `α`, written one factor at a
+  time.
 -/
 
 @[expose] public section

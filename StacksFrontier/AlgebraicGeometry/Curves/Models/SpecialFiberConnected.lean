@@ -159,7 +159,7 @@ private lemma isIso_appTop_fiberToSpecResidueField_genericPoint :
   let e₁ : (Spec (.of S.R)).residueField ξ ≅ CommRingCat.of ξ.asIdeal.ResidueField :=
     Scheme.Spec.residueFieldIso (.of S.R) ξ
   let e₂ : ξ.asIdeal.ResidueField ≃+* S.K := by
-    show (⊥ : Ideal S.R).ResidueField ≃+* S.K
+    change (⊥ : Ideal S.R).ResidueField ≃+* S.K
     exact IsFractionRing.ringEquivOfRingEquiv (RingEquiv.quotientBot S.R)
   let e : (Spec (.of S.R)).residueField ξ ≃+* S.K :=
     e₁.commRingCatIsoToRingEquiv.trans e₂
@@ -167,7 +167,7 @@ private lemma isIso_appTop_fiberToSpecResidueField_genericPoint :
     Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso e).op
   -- the two descriptions `Spec K` and `Spec κ(ξ)` of the generic point agree over `Spec(R)`
   have hq : eSpec.hom ≫ qξ = qK := by
-    show eSpec.hom ≫ (Spec (.of S.R)).fromSpecResidueField ξ = qK
+    change eSpec.hom ≫ (Spec (.of S.R)).fromSpecResidueField ξ = qK
     rw [← Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField (.of S.R) ξ]
     dsimp [eSpec, e, e₁]
     simp only [← Spec.map_comp]
@@ -175,13 +175,13 @@ private lemma isIso_appTop_fiberToSpecResidueField_genericPoint :
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro r
-    show e₂ (e₁.commRingCatIsoToRingEquiv
+    change e₂ (e₁.commRingCatIsoToRingEquiv
       (e₁.inv.hom (algebraMap S.R ξ.asIdeal.ResidueField r))) = _
     have he : e₁.hom.hom (e₁.inv.hom (algebraMap S.R ξ.asIdeal.ResidueField r)) =
         algebraMap S.R ξ.asIdeal.ResidueField r := by simp
-    show e₂ (e₁.hom.hom (e₁.inv.hom (algebraMap S.R ξ.asIdeal.ResidueField r))) = _
+    change e₂ (e₁.hom.hom (e₁.inv.hom (algebraMap S.R ξ.asIdeal.ResidueField r))) = _
     rw [he, ← Ideal.algebraMap_quotient_residueField_mk]
-    show IsFractionRing.ringEquivOfRingEquiv (RingEquiv.quotientBot S.R)
+    change IsFractionRing.ringEquivOfRingEquiv (RingEquiv.quotientBot S.R)
       (algebraMap (S.R ⧸ (⊥ : Ideal S.R)) ξ.asIdeal.ResidueField (Ideal.Quotient.mk ⊥ r)) =
       algebraMap S.R S.K r
     exact (IsFractionRing.ringEquivOfRingEquiv_algebraMap
@@ -201,15 +201,15 @@ private lemma isIso_appTop_fiberToSpecResidueField_genericPoint :
     pullback.map_isIso f qξ f qK (𝟙 S.X) eSpec.inv (𝟙 (Spec (.of S.R))) (by simp) hq'
   let eFiber : pullback f qξ ≅ S.genericFiber := asIso pToGen
   have hbase : eFiber.hom ≫ gK = gξ ≫ eSpec.inv := by
-    show pullback.map f qξ f qK (𝟙 S.X) eSpec.inv (𝟙 (Spec (.of S.R))) (by simp) hq' ≫
+    change pullback.map f qξ f qK (𝟙 S.X) eSpec.inv (𝟙 (Spec (.of S.R))) (by simp) hq' ≫
       pullback.snd f qK = pullback.snd f qξ ≫ eSpec.inv
     dsimp [pullback.map]
     rw [pullback.lift_snd]
   have : IsIso eFiber.hom.appTop := by
-    show IsIso (eFiber.hom.app ⊤)
+    change IsIso (eFiber.hom.app ⊤)
     infer_instance
   have : IsIso S.genericFiberIso.hom.appTop := by
-    show IsIso (S.genericFiberIso.hom.app ⊤)
+    change IsIso (S.genericFiberIso.hom.app ⊤)
     infer_instance
   have hcurve : gK.appTop ≫ S.genericFiberIso.hom.appTop = S.C_to_K.appTop := by
     simpa only [Scheme.Hom.comp_appTop] using congrArg Scheme.Hom.appTop S.genericFiberIso_over_K
@@ -251,7 +251,7 @@ private lemma isIso_appTop_fiberToSpecResidueField_genericPoint :
   have : IsIso ((Scheme.ΓSpecIso (.of S.K)).inv ≫ gK.appTop) := hgenIso
   have : IsIso gK.appTop :=
     IsIso.of_isIso_comp_left ((Scheme.ΓSpecIso (.of S.K)).inv) gK.appTop
-  show IsIso ((Scheme.ΓSpecIso (.of ((Spec (.of S.R)).residueField ξ))).inv ≫ gξ.appTop)
+  change IsIso ((Scheme.ΓSpecIso (.of ((Spec (.of S.R)).residueField ξ))).inv ≫ gξ.appTop)
   rw [← hsections]
   infer_instance
 
@@ -267,7 +267,7 @@ public theorem isIso_c : IsIso S.X_to_R.c := by
 /-- The restriction of `RegularProperModelSituation.isIso_c` to global sections. -/
 private lemma isIso_appTop_X_to_R : IsIso S.X_to_R.appTop := by
   have := S.isIso_c
-  show IsIso (S.X_to_R.c.app (Opposite.op ⊤))
+  change IsIso (S.X_to_R.c.app (Opposite.op ⊤))
   infer_instance
 
 /-- **`Γ(X, 𝒪_X) = R` for a regular proper model.**  The canonical map from the discrete

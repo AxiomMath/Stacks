@@ -69,7 +69,7 @@ private lemma isFinite_of_finite_disjoint_open_cover
   have heq : e.hom ≫ g = Limits.Sigma.desc (fun i ↦ (V i).ι ≫ g) := by
     apply Limits.Sigma.hom_ext
     intro i
-    rw [← Category.assoc, he i, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, he i, Limits.Sigma.ι_comp_desc]
   rw [← e.inv_hom_id_assoc g, heq]
   infer_instance
 
@@ -99,7 +99,7 @@ private lemma isFinite_restrict_of_finite_disjoint_open_cover_except
         exact hbad x
       rw [hempty]
       have : IsEmpty (⊥ : QWs.Opens).toScheme := by
-        show IsEmpty (∅ : Set QWs)
+        change IsEmpty (∅ : Set QWs)
         infer_instance
       infer_instance
     · have hpb := (isPullback_morphismRestrict j (V i)).paste_vert
@@ -147,10 +147,10 @@ private lemma isFinite_pullback_of_restrict_baseChange
   let l : Q ⟶ pullback f W.ι := pullback.lift α β hcomm
   let a : Q ⟶ (f ⁻¹ᵁ W).toScheme := l ≫ (pullbackRestrictIsoRestrict f W).hom
   have haX : a ≫ (f ⁻¹ᵁ W).ι = α := by
-    show (l ≫ (pullbackRestrictIsoRestrict f W).hom) ≫ (f ⁻¹ᵁ W).ι = α
+    change (l ≫ (pullbackRestrictIsoRestrict f W).hom) ≫ (f ⁻¹ᵁ W).ι = α
     rw [Category.assoc, pullbackRestrictIsoRestrict_hom_ι, pullback.lift_fst]
   have haF : a ≫ (f ∣_ W) = β := by
-    show (l ≫ (pullbackRestrictIsoRestrict f W).hom) ≫ (f ∣_ W) = β
+    change (l ≫ (pullbackRestrictIsoRestrict f W).hom) ≫ (f ∣_ W) = β
     rw [Category.assoc, pullbackRestrictIsoRestrict_hom_morphismRestrict, pullback.lift_snd]
   have houter' :
       IsPullback πV (a ≫ (f ⁻¹ᵁ W).ι) (t ≫ W.ι) f := by
@@ -160,7 +160,7 @@ private lemma isFinite_pullback_of_restrict_baseChange
     IsPullback.of_bot (h₁₁ := πV) (h₂₁ := f ∣_ W) (h₃₁ := f)
       (v₁₁ := a) (v₁₂ := t) (v₂₁ := (f ⁻¹ᵁ W).ι) (v₂₂ := W.ι)
       houter' (by rw [haF]) (isPullback_morphismRestrict f W)
-  show IsFinite (pullback.snd (f ∣_ W) t)
+  change IsFinite (pullback.snd (f ∣_ W) t)
   rw [← hpull.flip.isoPullback_inv_snd]
   have : IsFinite πV := hfinite
   infer_instance
@@ -252,7 +252,7 @@ private lemma exists_isOpen_isFinite_restrict_of_isGreatest
   let T : U.scheme.Opens := ⟨Tset, hTopen⟩
   have hTpoint : U.point ∈ T := by
     refine ⟨?_, Set.mem_iInter.mpr fun a ↦ rfl⟩
-    show separableDegreeWeightedFiberSum f w (U.toBase U.point) = d
+    change separableDegreeWeightedFiberSum f w (U.toBase U.point) = d
     rw [U.map_point]
     exact hy
   have hres_zero : part none U.point = 0 := by

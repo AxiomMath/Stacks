@@ -109,7 +109,12 @@ of rings `O` on its total site with `f_{δ¹₁}` and `f_{δ¹₀}` flat, such t
 subcategory of `Mod(O)`: they are not closed under kernels in `Mod(O)`. Here `O` is the
 cosimplicial ring of functions on `Spec ℤ ⊔ (Δ[3] / ∂Δ[3])`; the non-flat transitions are those
 into degree three. -/
-@[stacks 0D7K "the assertion that the category of cartesian O-modules can be abelian without being a Serre subcategory of Mod(O): an example with f_{δ¹₁}, f_{δ¹₀} flat where the cartesian O-modules form an abelian category but are neither a Serre nor a weak Serre subcategory of Mod(O). The source's remark that, when f_{δ²₀} is not flat, there is no reason for the inclusion into Mod(O) to be exact is a heuristic, not an assertion; in this example the non-flat transitions are those into degree three"]
+@[stacks 0D7K "the assertion that the category of cartesian O-modules can be abelian without \
+being a Serre subcategory of Mod(O): an example with f_{δ¹₁}, f_{δ¹₀} flat where the cartesian \
+O-modules form an abelian category but are neither a Serre nor a weak Serre subcategory of \
+Mod(O). The source's remark that, when f_{δ²₀} is not flat, there is no reason for the \
+inclusion into Mod(O) to be exact is a heuristic, not an assertion; in this example the \
+non-flat transitions are those into degree three"]
 theorem exists_abelian_not_isSerreClass :
     ∃ (S : SimplicialSiteSituation.{u}) (O : Sheaf S.totalTopology CommRingCat.{u}),
       (S.transitionRingedToposHom O (SimplexCategory.δ (1 : Fin 2))).IsFlat ∧

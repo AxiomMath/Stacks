@@ -178,17 +178,15 @@ theorem etale_fiber_globalSections
   have hΨinj : Function.Injective Ψ := hinj.comp G.injective
   have hΨ : ∀ (c : p.ResidueField) (a : Γ(Y, ⊤)), Ψ (c ⊗ₜ a) = c ⊗ₜ[R, φ] j a := by
     intro c a
-    show F.map (D.iCycles 0) (c ⊗ₜ[R, φ] L a) = _
+    change F.map (D.iCycles 0) (c ⊗ₜ[R, φ] L a) = _
     rw [ModuleCat.ExtendScalars.map_tmul]
     exact congrArg _ (iCycles_globalSectionsCyclesEquiv U hU a)
   have hkey : ∀ t, fibreCochain φ hsq U hU hUaff (θ t) = Ψ t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero, fibreCochain_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul c a =>
       rw [Algebra.TensorProduct.lift_tmul, hΨ]
-      show fibreCochain φ hsq U hU hUaff (c • gp.appTop a) = _
+      change fibreCochain φ hsq U hU hUaff (c • gp.appTop a) = _
       rw [fibreCochain_smul, fibreCochain_appTop]
       refine (ModuleCat.ExtendScalars.smul_tmul φ c 1 _).trans ?_
       rw [mul_one]

@@ -88,7 +88,7 @@ private theorem adicCompletionTensorMap_bijective_of_pi
       adicCompletionTensorMap_tmul]
     simp only [p, c, LinearEquiv.restrictScalars_apply]
     rw [AdicCompletion.piEquivOfFintype_apply, AdicCompletion.congr_apply]
-    show AdicCompletion.map I (LinearMap.proj j)
+    change AdicCompletion.map I (LinearMap.proj j)
         (AdicCompletion.map I e.toLinearMap
           (AdicCompletion.map I ((TensorProduct.mk A M (ι → A)).flip n) x)) = _
     rw [AdicCompletion.map_comp_apply, AdicCompletion.map_comp_apply]

@@ -173,7 +173,7 @@ theorem exists_descended_thickening
     have h0 : Stacks.CompatibleTuples.limitFst (towerφ P) (towerf P)
         ((b : Stacks.CompatibleTuples.limit (towerφ P) (towerf P)) - t) = 0 := this
     rw [_root_.map_sub, sub_eq_zero] at h0
-    show Stacks.CompatibleTuples.limitFst (towerφ P) (towerf P)
+    change Stacks.CompatibleTuples.limitFst (towerφ P) (towerf P)
       (b : Stacks.CompatibleTuples.limit (towerφ P) (towerf P)) = r₀
     rw [h0, ht]
   have hcomm : ∀ n, (P n).φ.comp gU = (P n).f.comp (gZ n) := by
@@ -226,7 +226,7 @@ theorem false_of_failedLifts [IsLocallyNoetherian S]
   let gS : UaS ⟶ U'S := specAlgSiteHom B S hS iΛ hR₀ hR' gU
   have hgmono : Mono (B.inclusion.map gS.left) := by
     have := IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom gU.toRingHom) hgU
-    show Mono (Spec.map (CommRingCat.ofHom gU.toRingHom))
+    change Mono (Spec.map (CommRingCat.ofHom gU.toRingHom))
     infer_instance
   obtain ⟨F, hF, e, s₀, Z₀, hZ₀, hsmZ, hsec, V, hV, hu₀V, hfac⟩ :=
     exists_smooth_openSubspace_isOpen_of_isVersalAt B S hS 𝒳 hΔ hRS hlim gS hgmono hx hx' κ hκ
@@ -465,7 +465,7 @@ public theorem isOpenVersality_of_isSquareZeroEffective [IsLocallyNoetherian S]
   have hxa : p.obj obj.1 = siteObject B S hS D.mem
       (Spec.map (CommRingCat.ofHom (algebraMap D.chart.ring D.ring)) ≫ iΛ) := by
     refine obj.2.trans (eq_siteObject_of_post B S hS D.mem _ _ ?_)
-    show Over.mk (restrictedSiteAlgebra B S hS p x D.mem D.immersion).toScheme = _
+    change Over.mk (restrictedSiteAlgebra B S hS p x D.mem D.immersion).toScheme = _
     rw [toScheme_restrictedSiteAlgebra, ← D.factorization]
     rfl
   let U' : Over S := Over.mk (Spec.map (CommRingCat.ofHom (algebraMap D.chart.ring D.ring)) ≫ iΛ)

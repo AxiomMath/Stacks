@@ -101,7 +101,7 @@ theorem firstCoprojection_preimage_eq (h : IsLimit (BinaryFan.mk pr₀ pr₁))
   refine preimage_smallSelfProductAmbientDiagonal_injective h ?_
   dsimp only
   rw [diagonal_preimage_smallSelfProductOpen h V]
-  show ((smallSelfProductAmbientDiagonal h).hom ≫ pr₀.hom.targetHom.hom) ⁻¹ᵁ V = V
+  change ((smallSelfProductAmbientDiagonal h).hom ≫ pr₀.hom.targetHom.hom) ⁻¹ᵁ V = V
   rw [ambientDiagonal_comp_fst h]
   rfl
 

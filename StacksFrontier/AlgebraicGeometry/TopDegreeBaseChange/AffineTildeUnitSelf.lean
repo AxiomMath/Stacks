@@ -149,7 +149,7 @@ private lemma restrictFunctorIsoPullback_hom_app_unit_comp_pullbackUnitIso
       (Scheme.Modules.pushforward f).map (Scheme.Modules.restrictUnitIso f).hom =
       Scheme.Modules.unitToPushforwardUnit f := by
     ext U x
-    show (Scheme.Modules.restrictUnitIso f).hom.app (f ⁻¹ᵁ U)
+    change (Scheme.Modules.restrictUnitIso f).hom.app (f ⁻¹ᵁ U)
         (Y.presheaf.map (homOfLE (f.image_preimage_le U)).op x) =
       (Scheme.Modules.unitToPushforwardUnit f).app U x
     exact ((restrictUnitIso_hom_app f (f ⁻¹ᵁ U) _).trans
@@ -207,7 +207,7 @@ private lemma restrictUnitIso_inv_comp_counit (Z : Scheme.{u}) [IsAffine Z] :
         (Stacks.Coherent.affineRestrictionEquivalence Z).counit.app (Scheme.unitModule Z) =
       (Scheme.Modules.restrictUnitIso Z.isoSpec.hom).hom := by
   ext U x
-  show (Scheme.unitModule Z).presheaf.map (eqToHom (show U = (𝟙 Z) ''ᵁ U by simp)).op
+  change (Scheme.unitModule Z).presheaf.map (eqToHom (show U = (𝟙 Z) ''ᵁ U by simp)).op
       ((Scheme.unitModule Z).presheaf.map (eqToHom (show (𝟙 Z) ''ᵁ U =
             (Z.isoSpec.hom ≫ (isAffineOpen_top Z).fromSpec) ''ᵁ U by
               simpa using eq_image_image Z U)).op

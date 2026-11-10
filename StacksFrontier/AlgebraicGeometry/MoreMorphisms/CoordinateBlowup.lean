@@ -443,7 +443,7 @@ public theorem coordinateChart_exceptionalIdeal (i : Fin n) :
     rw [Ideal.mem_comap, Ideal.mem_span_singleton]
     refine ⟨⟨IsLocalization.mk' _ y ⟨X (Sum.inr i), Submonoid.mem_powers _⟩,
       Algebra.subset_adjoin ⟨y, hy, rfl⟩⟩, Subtype.ext ?_⟩
-    show algebraMap _ (Localization.Away _) y =
+    change algebraMap _ (Localization.Away _) y =
       algebraMap _ _ (X (Sum.inr i)) * IsLocalization.mk' _ y _
     simp [IsLocalization.mk'_spec' _ y ⟨X (Sum.inr i), Submonoid.mem_powers _⟩]
   · rw [Ideal.span_le]

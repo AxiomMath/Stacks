@@ -155,9 +155,9 @@ theorem isEtaleSheafOver_inverseImage (X : T.Spaces)
     PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hcomb
   have hmem : Sieve.generate E.presieve₀ ∈ T.bigEtaleTopology X U := by
     rw [GrothendieckTopology.mem_over_iff]
-    show Sieve.overEquiv U (Sieve.ofArrows E.X E.f) ∈ _
+    change Sieve.overEquiv U (Sieve.ofArrows E.X E.f) ∈ _
     rw [Sieve.overEquiv_ofArrows]
-    show Sieve.generate (E.map (Over.forget X)).presieve₀ ∈ _
+    change Sieve.generate (E.map (Over.forget X)).presieve₀ ∈ _
     rw [hpres]
     exact Precoverage.generate_mem_toGrothendieck ((T.mem_precoverage_iff).2 ⟨G, rfl, hG⟩)
   rw [Presieve.isSheafFor_iff_generate]
@@ -302,6 +302,7 @@ instance chartToBig_isContinuous :
     (T.bigEtaleTopology (Space.yonedaSpace T.fppfSite S T.fppf_mem A))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf adjunction over the big étale site is slow
 /-- The direct image along the chart functor `chartToBig T A` has a left adjoint, the sheaf
 pullback built from the left Kan extension. -/
 instance chartToBig_sheafPushforwardContinuous_isRightAdjoint :
@@ -320,6 +321,7 @@ def chartToBigIso :
   NatIso.ofComponents (fun _ ↦ Iso.refl _) (by intros; rfl)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of large-universe presheaves on the big étale site is slow
 /-- Right Kan extensions along the inclusion of schemes over `A` into spaces over `h_A` exist
 pointwise. -/
 instance overSchemeInclusion_hasLimit_bigToSmallEtaleFpqcSheaf

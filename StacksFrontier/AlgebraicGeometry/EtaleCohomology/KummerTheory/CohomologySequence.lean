@@ -78,7 +78,7 @@ variable (X : Scheme.{u}) (n : ℕ)
 /-- The `n`-th power map induces multiplication by `n` on the étale cohomology of `𝐆_m`. -/
 public theorem sheafH_map_powMap (q : ℕ) (x : Sheaf.H.{w} (multiplicativeSheaf.{u, v} X) q) :
     Sheaf.H.map (powMap.{u, v} X n) q x = n • x := by
-  show x.comp (Ext.mk₀ (n • 𝟙 _)) (add_zero q) = n • x
+  change x.comp (Ext.mk₀ (n • 𝟙 _)) (add_zero q) = n • x
   induction n with
   | zero => simp
   | succ m ih => rw [succ_nsmul, Ext.mk₀_add, Ext.comp_add, ih, Ext.comp_mk₀_id, succ_nsmul]

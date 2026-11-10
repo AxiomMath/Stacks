@@ -91,7 +91,7 @@ theorem hom_ext_of_atlas_charts
     ((MorphismProperty.relative_isStableUnderBaseChange _).of_isPullback hs hb) ?_
   have hc : Sieve.generate (Presieve.ofArrows (fun i => pullback r (π i))
       fun i => pullback.fst r (π i)) ∈ BigFppfOver.topology B S hS (hp.pullback s) := by
-    show Sieve.ofArrows _ _ ∈ _
+    change Sieve.ofArrows _ _ ∈ _
     rw [Sieve.ofArrows_eq_pullback_of_isPullback π fun i => IsPullback.of_hasPullback r (π i)]
     exact (BigFppfOver.topology B S hS).pullback_stable r hcover
   refine Space.hom_ext_of_cover B S hS hW _ _ _ hc fun i => ?_
@@ -111,7 +111,7 @@ theorem hom_ext_of_atlas_charts
       (fun k => k.app (Opposite.op (𝒳.val.p.obj y)) (eqToHom hd)) he
     change s.app _ (eqToHom hd ≫ (pullback.fst r (π i) ≫ p)) =
       b.app _ ((eqToHom hd ≫ pullback.snd r (π i)) ≫ π i) at he'
-    show F.map (eqToHom hd ≫ (pullback.fst r (π i) ≫ p)).op
+    change F.map (eqToHom hd ≫ (pullback.fst r (π i) ≫ p)).op
       (sectionOfBasedFunctor q.hom.toFunctor q.hom.w x) =
       b.app _ ((eqToHom hd ≫ pullback.snd r (π i)) ≫ π i)
     exact he'

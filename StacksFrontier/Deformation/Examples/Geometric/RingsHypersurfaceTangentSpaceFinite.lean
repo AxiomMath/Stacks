@@ -227,7 +227,8 @@ lemma pderiv_smul_conormalCokernel_eq_zero (i : Fin n)
       (MvPowerSeries.pderiv (R := k) i f)) • c = 0 := by
   obtain ⟨δ, rfl⟩ := surjective_hypersurfacePullback n f c
   obtain ⟨t, ht⟩ := Algebra.Extension.exists_comp_cotangentComplex_eq_derivation_smul
-    (hypersurfaceExtension n f) f (hypersurfaceExtension_ker n f) (MvPowerSeries.pderiv (R := k) i) δ
+    (hypersurfaceExtension n f) f (hypersurfaceExtension_ker n f)
+    (MvPowerSeries.pderiv (R := k) i) δ
   rw [← map_smul, hypersurfacePullback, pullbackClass_apply, Submodule.Quotient.mk_eq_zero]
   refine LinearMap.mem_range.mpr ⟨t ∘ₗ Algebra.Extension.CotangentSpace.map
     (canonicalHom (hypersurfaceExtension n f)), ?_⟩
@@ -321,19 +322,18 @@ space `T𝓓_P` of the deformation category of `P` of Stacks 0DY1 — with the c
 The tangent space is `Ext¹_P(NL_{P/k}, P)` by the tangent-space clause of Stacks 0DY3, that
 group is the conormal cokernel of the canonical presentation of `P` by Stacks 0GPU, and the
 cokernel is finite dimensional by
-`Deformation.Examples.finiteDimensional_conormalCokernel_hypersurface`. -/
+`Deformation.Examples.finiteDimensional_conormalCokernel_hypersurface`. The source's
+hypotheses that `f` is nonzero and lies in the square of the ideal of the variables are not
+used, so the statement omits them. -/
 @[stacks 0DY5 "part (2)"]
 theorem hypersurface_finiteDimensional_tangentSpace {Λ : Type u} [CommRing Λ] [Algebra Λ k]
-    (hf : f ≠ 0)
-    (hord : f ∈ (Ideal.span (Set.range
-      (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))) ^ 2)
     (hjac : (Ideal.span ({f} ∪ Set.range
       (fun i : Fin n ↦ MvPowerSeries.pderiv (R := k) i f))).radical =
       Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))) :
     letI : Fact (IsPredeformationCategory
         (ringDeformationBasedCategory Λ k (Hypersurface n f)).p) :=
       ⟨(ringDeformationCategory_isDeformationCategory (Hypersurface n f)).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k (Hypersurface n f))
         isCofiberedInGroupoids_ringDeformationProjection))) :=
       ⟨schlessingerConditionS2_ringDeformation Λ k (Hypersurface n f)⟩
@@ -343,7 +343,7 @@ theorem hypersurface_finiteDimensional_tangentSpace {Λ : Type u} [CommRing Λ] 
   let : Fact (IsPredeformationCategory
       (ringDeformationBasedCategory Λ k (Hypersurface n f)).p) :=
     ⟨(ringDeformationCategory_isDeformationCategory (Hypersurface n f)).predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (ringDeformationBasedCategory Λ k (Hypersurface n f))
       isCofiberedInGroupoids_ringDeformationProjection))) :=
     ⟨schlessingerConditionS2_ringDeformation Λ k (Hypersurface n f)⟩

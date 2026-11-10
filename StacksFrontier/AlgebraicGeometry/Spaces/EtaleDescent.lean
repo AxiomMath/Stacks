@@ -141,8 +141,8 @@ private theorem isIso_prodLift_pullback_terminal {C : Type*} [Category C] [HasTe
     [HasBinaryProducts C] {Z : C} (k : Z ⟶ ⊤_ C) [HasPullback k k] :
     IsIso (prod.lift (pullback.fst k k) (pullback.snd k k)) := by
   refine ⟨pullback.lift prod.fst prod.snd (Subsingleton.elim _ _), ?_, ?_⟩
-  · apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
-  · apply prod.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  · apply pullback.hom_ext <;> simp
+  · apply prod.hom_ext <;> simp
 
 /-- The absolute diagonal of the source of a morphism into an algebraic space over `S` is
 representable as soon as the relative diagonal of the morphism is. -/
@@ -155,7 +155,7 @@ theorem relativelyRepresentable_diag_of_diagonal
       (pullback.snd (f ≫ t) (f ≫ t))) := isIso_prodLift_pullback_terminal (f ≫ t)
   have key : diag X = pullback.diagonal f ≫ pullback.mapDesc f f t ≫
       prod.lift (pullback.fst (f ≫ t) (f ≫ t)) (pullback.snd (f ≫ t) (f ≫ t)) := by
-    apply prod.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+    apply prod.hom_ext <;> simp
   exact key ▸ MorphismProperty.comp_mem _ _ _ hd
     (MorphismProperty.comp_mem _ _ _
       (relativelyRepresentable_mapDesc B S hS f f t hY)

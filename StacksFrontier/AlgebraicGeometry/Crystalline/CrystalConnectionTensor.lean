@@ -173,8 +173,7 @@ theorem diffAction_tmul (A : Thickening S) (ω : crysDiffSections A) (s : M.val.
 theorem moduleSiteRestrict_siteι_diffAction (A : Thickening S)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     moduleSiteRestrict M (firstOrderThickeningSiteι S A) (diffAction M A z) = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω s =>
       rw [diffAction_tmul, map_smulₛₗ, crysSheafRingMap_siteι_diffSection, zero_smul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, add_zero]
@@ -184,8 +183,7 @@ theorem diffAction_smul (A : Thickening S) (b : crysSheafRing S A)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     diffAction M A (b • z) =
       crysSheafRingMap (firstOrderThickeningSiteP₀ S A) b • diffAction M A z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω s =>
       rw [TensorProduct.smul_tmul', diffAction_tmul, diffAction_tmul, smul_smul,
         crysSheafRingMap_siteP₀_mul_diffSection]
@@ -195,8 +193,7 @@ theorem diffAction_smul (A : Thickening S) (b : crysSheafRing S A)
 theorem diffSection_smul_diffAction (A : Thickening S) (ω : crysDiffSections A)
     (z : crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A)) :
     firstOrderThickeningDiffSection A ω • diffAction M A z = 0 := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul ω' s =>
       rw [diffAction_tmul, smul_smul, firstOrderThickeningDiffSection_mul, zero_smul]
   | add x y hx hy => rw [map_add, smul_add, hx, hy, add_zero]
@@ -318,8 +315,7 @@ def firstOrderIdealBaseChangeUnit (A : Thickening S) :
       (congrArg (fun x ↦ x ⊗ₜ[crysSheafRing S A] (1 : crysSheafRing S A))
         (crysDiffPart_add A t t')).trans (TensorProduct.add_tmul _ _ _))
   proj_diffAction z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul ω x => exact tmul_crysDiffPart_diffAction_unit A ω x
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   diffAction_proj t ht := by

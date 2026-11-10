@@ -99,13 +99,13 @@ def sigmaProj (n : J) : (∐ M) ⟶ M n := Limits.Sigma.desc (Pi.single n (𝟙 
 @[reassoc (attr := simp)]
 lemma sigma_ι_sigmaProj_self (n : J) :
     Limits.Sigma.ι M n ≫ sigmaProj.{w} O M n = 𝟙 (M n) := by
-  rw [sigmaProj, Limits.Sigma.ι_desc, Pi.single_eq_same]
+  rw [sigmaProj, Limits.Sigma.ι_comp_desc, Pi.single_eq_same]
 
 /-- The projection onto a summand kills the inclusion of a different summand. -/
 @[reassoc]
 lemma sigma_ι_sigmaProj_of_ne {m n : J} (h : m ≠ n) :
     Limits.Sigma.ι M m ≫ sigmaProj.{w} O M n = 0 := by
-  rw [sigmaProj, Limits.Sigma.ι_desc, Pi.single_eq_of_ne h]
+  rw [sigmaProj, Limits.Sigma.ι_comp_desc, Pi.single_eq_of_ne h]
 
 omit [DecidableEq J] in
 /-- A subcomplex of a coproduct containing the image of every summand is the whole coproduct. -/
@@ -119,7 +119,7 @@ theorem mem_of_sigma_ι_mem (N : ComplexSubmodule.{w} (∐ M))
   choose t ht using hfac
   have hid : Limits.Sigma.desc t ≫ N.ι = 𝟙 (∐ M) :=
     Limits.Sigma.hom_ext _ _ (fun n => by
-      rw [← Category.assoc, Limits.Sigma.ι_desc, ht n, Category.comp_id])
+      rw [← Category.assoc, Limits.Sigma.ι_comp_desc, ht n, Category.comp_id])
   have h2 : ((Limits.Sigma.desc t ≫ N.ι).f i).app X x = x :=
     congrArg (fun φ : (∐ M) ⟶ (∐ M) => ((φ.f i).app X) x) hid
   rw [← h2]
@@ -316,9 +316,11 @@ lemma sigma_ι_comp_sigmaMap (φ : ∀ n, A n ⟶ B n) (n : J) :
     Limits.Sigma.ι A n ≫ Limits.Sigma.map φ = φ n ≫ Limits.Sigma.ι B n := by
   simp
 
+omit [DecidableEq J] in
 /-- A coproduct of degreewise monomorphisms of complexes is a monomorphism. -/
 lemma mono_sigmaMap (φ : ∀ n, A n ⟶ B n) (hφ : ∀ (n : J) (i : ℤ), Mono ((φ n).f i)) :
     Mono (Limits.Sigma.map φ) := by
+  classical
   refine HomologicalComplex.mono_of_mono_f _ (fun i => ?_)
   refine PresheafOfModules.mono_of_injective (fun X => ?_)
   rw [injective_iff_map_eq_zero]
@@ -425,7 +427,8 @@ The conclusion is stated at every `κ ≥ κ₀` rather than at `κ₀` alone �
 form, recovered by taking `κ = κ₀` — because the hypothesis and the conclusion both read `≤ κ`,
 so the property is monotone in neither direction and the form at a single cardinal cannot be
 combined with conclusion (1) at one cardinal, as Stacks 0GYZ asserts it is. -/
-@[stacks 0GYZ "part (2) for D(O) in place of QC(O): cartesianness dropped from the source and from the summands"]
+@[stacks 0GYZ "part (2) for D(O) in place of QC(O): cartesianness dropped from the source \
+  and from the summands"]
 theorem exists_factorization_of_sum_of_derivedObjectSize_le :
     ∃ κ₀ : Cardinal.{max u v r w}, ∀ κ : Cardinal.{max u v r w}, κ₀ ≤ κ →
       ∀ (E : DMod.{w} O) (K : ℕ → DMod.{w} O) (α : E ⟶ ∐ K),

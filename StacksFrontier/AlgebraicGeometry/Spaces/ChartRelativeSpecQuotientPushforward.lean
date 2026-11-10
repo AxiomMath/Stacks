@@ -85,7 +85,7 @@ out is the comparison `Γ(chartScheme V, ⊤) ≅ Γ(openChart V ⊤, ⊤)`. -/
 theorem structureSheaf_map_openChartInclusion_top (V : SmallEtale B S hS X.1) :
     (structureSheaf B S hS X.1 X.2).obj.map (openChartInclusion B S hS X.1 V ⊤).op =
       (Scheme.Opens.topIso (⊤ : (chartScheme V).Opens)).inv := by
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     ((SmallEtale.toOver B S hS X.1).map (openChartInclusion B S hS X.1 V ⊤))).op = _
   rw [toScheme_map_toOver_map_openChartInclusion]
   exact appTop_ι_top
@@ -107,7 +107,7 @@ theorem hom_app_comp_chartRelativeSpecSectionsIso (V : SmallEtale B S hS X.1) :
         (chartRelativeSpecToChart B S hS X A hA V)).right =>
       m.hom.app (op (⊤ : (chartScheme V).Opens)))
     (Under.w (chartRelativeSpecPushforwardIso B S hS X A hA V).inv)
-  show A.hom.hom.app (op V) ≫ A.right.obj.map (openChartTopIso B S hS X.1 V).hom.op ≫
+  change A.hom.hom.app (op V) ≫ A.right.obj.map (openChartTopIso B S hS X.1 V).hom.op ≫
       (chartRelativeSpecTopSectionsIso B S hS X A hA V).inv =
     Scheme.Γ.map (chartRelativeSpecToChart B S hS X A hA V).op
   rw [← Category.assoc, ← A.hom.hom.naturality (openChartTopIso B S hS X.1 V).hom.op, ← hchart]
@@ -242,7 +242,7 @@ theorem hom_comp_chartRelativeSpecQuotientRestrictionRingIso :
     rw [← Category.assoc, hom_app_comp_chartRelativeSpecSectionsIso]
     exact Γ_map_comp_smallBaseChangeChartRelativeSpecSectionsMap B S hS X A hA pr₁ pr₂ hsq hsurj
       hV' hV₂ hV'' W.unop (hcon W.unop.obj)
-  show A.hom.hom.app (op W.unop.obj) ≫
+  change A.hom.hom.app (op W.unop.obj) ≫
       ((chartRelativeSpecSectionsIso B S hS X A hA W.unop.obj).hom ≫
         smallBaseChangeChartRelativeSpecSectionsMap B S hS X A hA pr₁ pr₂ hsq hsurj
           hV' hV₂ hV'' W.unop (hcon W.unop.obj)) ≫

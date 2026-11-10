@@ -61,7 +61,7 @@ theorem FieldValuedPoint.selfPoint_map_toSpace {Y : AlgebraicSpaces B S hS}
   cases p
   simp only [FieldValuedPoint.map, FieldValuedPoint.selfPoint, FieldValuedPoint.toSpace]
   congr 1
-  show (yonedaEquiv.symm _).app _ (𝟙 _) = _
+  change (yonedaEquiv.symm _).app _ (𝟙 _) = _
   simp [yonedaEquiv]
 
 /-- The derived-fibre Betti numbers of `K` at a field-valued point `p : Spec(k) ⟶ Y` are those of

@@ -155,7 +155,7 @@ private theorem scalarEnd_mul (S : Scheme.{u}) (s t : Scheme.Γ.obj (Opposite.op
     scalarEnd S s M ≫ scalarEnd S t M = scalarEnd S (s * t) M := by
   ext U x
   let ρ := ((ringSheaf S).obj.map (Limits.isTerminalTop.from U.unop).op).hom
-  show ρ t • (ρ s • x) = ρ (s * t) • x
+  change ρ t • (ρ s • x) = ρ (s * t) • x
   exact (smul_smul (ρ t) (ρ s) x).trans
     (congrArg (fun r => r • x)
       ((map_mul ρ t s).symm.trans (congrArg ρ (mul_comm t s))))
@@ -187,10 +187,10 @@ public noncomputable def scalarIso (S : Scheme.{u}) (a : (Scheme.Γ.obj (Opposit
 
 private theorem scalarEnd_one (S : Scheme.{u}) (M : SheafOfModules (ringSheaf S)) :
     scalarEnd S 1 M = 𝟙 M := by
-  show (terminalSectionToEnd (ringSheaf S) ⊤
+  change (terminalSectionToEnd (ringSheaf S) ⊤
     Limits.isTerminalTop 1).asHom.app M = 𝟙 M
   ext U x
-  show ((ringSheaf S).obj.map
+  change ((ringSheaf S).obj.map
     (Limits.isTerminalTop.from U.unop).op).hom 1 • x = x
   rw [map_one, one_smul]
 
@@ -211,7 +211,7 @@ private theorem unitEnd_eq_scalar (S : Scheme.{u})
     g = scalarEnd S (scalarOfUnitEnd S g) (SheafOfModules.unit (ringSheaf S)) := by
   apply (SheafOfModules.unitHomEquiv (SheafOfModules.unit (ringSheaf S))).injective
   ext U
-  show (SheafOfModules.unitHomEquiv
+  change (SheafOfModules.unitHomEquiv
     (SheafOfModules.unit (ringSheaf S)) g).val U =
     ((((terminalSectionToEnd (ringSheaf S) ⊤
       Limits.isTerminalTop (scalarOfUnitEnd S g)).asHom.app
@@ -220,7 +220,7 @@ private theorem unitEnd_eq_scalar (S : Scheme.{u})
   rw [← (SheafOfModules.unitHomEquiv
     (SheafOfModules.unit (ringSheaf S)) g).property
       (Limits.isTerminalTop.from U.unop).op]
-  show ((ringSheaf S).obj.map
+  change ((ringSheaf S).obj.map
       (Limits.isTerminalTop.from U.unop).op).hom
         ((g.val.app (Opposite.op ⊤)).hom
           (1 : (ringSheaf S).obj.obj (Opposite.op ⊤))) =
@@ -242,7 +242,7 @@ private theorem scalarOfUnitEnd_scalarEnd (S : Scheme.{u})
   let : CommRing ↑(S.presheaf.obj U) := inferInstance
   let : CommRing ↑R := inferInstance
   let : Module ↑R ((SheafOfModules.unit (ringSheaf S)).val.obj U) := by
-    show Module ↑((ringSheaf S).obj.obj U)
+    change Module ↑((ringSheaf S).obj.obj U)
       ((SheafOfModules.unit (ringSheaf S)).val.obj U)
     infer_instance
   let rho : ↑(S.presheaf.obj U) →+* ↑R :=
@@ -253,7 +253,7 @@ private theorem scalarOfUnitEnd_scalarEnd (S : Scheme.{u})
       map_add' := by intro x y; simp }
   let : Module ↑(S.presheaf.obj U) ↑R :=
     Module.compHom (M := ↑R) rho
-  show (S.presheaf.map (Limits.isTerminalTop.from ⊤).op).hom s •
+  change (S.presheaf.map (Limits.isTerminalTop.from ⊤).op).hom s •
     (1 : ↑R) = s
   have hfrom : Limits.isTerminalTop.from (⊤ : TopologicalSpace.Opens S) = 𝟙 _ := by
     apply Limits.isTerminalTop.hom_ext
@@ -261,7 +261,7 @@ private theorem scalarOfUnitEnd_scalarEnd (S : Scheme.{u})
     rw [hfrom]
     simp
   rw [hres]
-  show rho sR * (1 : ↑R) = sR
+  change rho sR * (1 : ↑R) = sR
   simp [rho]
 
 private theorem tensorLeft_map_scalar_unit (S : Scheme.{u})
@@ -305,7 +305,7 @@ private theorem tensorLeft_map_scalar_unit (S : Scheme.{u})
     a.ι.app (N) ≫
       (SheafOfModules.forget (ringSheaf S)).map
         (F.map (scalarEnd S s (N))) at hn
-  show a.ι.app (N) ≫
+  change a.ι.app (N) ≫
       (SheafOfModules.forget (ringSheaf S)).map
         (F.map (scalarEnd S s (N))) =
     a.ι.app (N) ≫
@@ -352,22 +352,16 @@ private theorem tensorLeft_map_scalar_unit (S : Scheme.{u})
     map_smul (TensorProduct.mk _ ↑(L.val.obj U) ↑((N).val.obj U) m) σ r
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      show iota (tmap 0) = zmap (iota 0)
-      have h0 : iota 0 = 0 := map_zero (ConcreteCategory.hom iota)
-      exact (congrArg (fun w => iota w) (map_zero (ConcreteCategory.hom tmap))).trans
-        (h0.trans ((congrArg (fun w => zmap w) h0).trans
-          (map_zero (ConcreteCategory.hom zmap))).symm)
+  induction x using TensorProduct.inductionOn with
   | tmul m r =>
-      show iota (tmap (m ⊗ₜ r)) = zmap (iota (m ⊗ₜ r))
+      change iota (tmap (m ⊗ₜ r)) = zmap (iota (m ⊗ₜ r))
       rw [hmul m r, hs r]
       exact (congrArg (fun w => iota w) (htmul m r)).trans
         ((map_smul (ConcreteCategory.hom iota) σ
             (m ⊗ₜ[↑((S.presheaf ⋙ forget₂ CommRingCat RingCat).obj U)] r)).trans
           (hsF _).symm)
   | add x y hx hy =>
-      show iota (tmap (x + y)) = zmap (iota (x + y))
+      change iota (tmap (x + y)) = zmap (iota (x + y))
       change iota (tmap x) = zmap (iota x) at hx
       change iota (tmap y) = zmap (iota y) at hy
       have e1 : iota (tmap (x + y)) = iota (tmap x) + iota (tmap y) :=
@@ -393,7 +387,7 @@ private theorem tensorProductIso_scalar_second (S : Scheme.{u})
   let F := (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨S.presheaf,
     Presheaf.isSheaf_of_isSheaf_comp _ S.presheaf (forget₂ CommRingCat RingCat)
       (ringSheafCond S)⟩).obj M
-  show F.map (scalarEnd S a.val N) = scalarEnd S a.val (F.obj N)
+  change F.map (scalarEnd S a.val N) = scalarEnd S a.val (F.obj N)
   exact tensorLeft_map_scalar_unit S M N a.val
 
 private theorem tensorProductIso_scalar_first (S : Scheme.{u})
@@ -431,7 +425,7 @@ private theorem tensorProductIso_scalar_first (S : Scheme.{u})
     let g : MV ⟶ MV := (SheafOfModules.forget
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf S.presheaf (ringSheafCond S))).map
         (scalarEnd S a.val M)
-    show (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map
+    change (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map
         (g ⊗ₘ (𝟙 NV)) ≫
         (Stacks.SheafOfModules.TensorSheafification.sheafify S.presheaf (ringSheafCond S)).map (β_
           MV NV).hom =
@@ -460,7 +454,7 @@ private theorem tensorProductIso_trans (S : Scheme.{u})
   let B := tensorProductBifunctor S.presheaf (ringSheafCond S)
   have hp : (e ≪≫ f).prod (e' ≪≫ f') = e.prod e' ≪≫ f.prod f' := by
     ext <;> simp
-  show B.mapIso ((e ≪≫ f).prod (e' ≪≫ f')) =
+  change B.mapIso ((e ≪≫ f).prod (e' ≪≫ f')) =
     B.mapIso (e.prod e') ≪≫ B.mapIso (f.prod f')
   exact (congrArg B.mapIso hp).trans (Functor.mapIso_trans B _ _)
 
@@ -515,7 +509,7 @@ private theorem tensorPowerMap_scalar (S : Scheme.{u})
         (tensorPower S.presheaf (ringSheafCond S) L (n : ℤ)) L (a ^ n) a
       have hnat' := (scalarEnd_comp_comm S (a ^ (n + 1)).val E.hom).symm
       apply Iso.ext
-      show E.inv ≫
+      change E.inv ≫
           (tensorProductIso S.presheaf (ringSheafCond S)
             (tensorPowerMap S (scalarIso S a L) n) (scalarIso S a L)).hom ≫ E.hom =
         scalarEnd S (a ^ (n + 1)).val

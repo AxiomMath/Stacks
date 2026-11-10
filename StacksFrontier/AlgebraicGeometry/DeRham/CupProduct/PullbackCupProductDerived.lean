@@ -110,7 +110,7 @@ theorem deRhamComparisonQ_multiplicative :
   simp only [Functor.comp_map, Functor.prod_map] at h2
   simp only [deRhamComparisonQ]
   rw [reassoc_of% hM, h1, ← reassoc_of% h2, reassoc_of% h0]
-  simp only [Category.assoc, Functor.map_comp]
+  simp only [Functor.map_comp]
   rw [← Functor.map_comp_assoc]
   rfl
 

@@ -99,7 +99,7 @@ theorem isNaturalAction_points_of_smul_eq
       ((Over.post B.inclusion).obj V)) := by
   intro T W f g x
   rw [hsmul, hsmul]
-  show (Over.post B.inclusion).map f.unop ≫ x ≫ (a g).asIso.hom =
+  change (Over.post B.inclusion).map f.unop ≫ x ≫ (a g).asIso.hom =
     ((Over.post B.inclusion).map f.unop ≫ x) ≫ (a g).asIso.hom
   exact (Category.assoc _ _ _).symm
 
@@ -176,7 +176,7 @@ theorem toOrbitQuotient_orbitQuotientToActionQuotient :
         orbitQuotientToActionQuotient B hS V G a hnat hsmul =
       Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
         (actionRelation ((Over.post B.inclusion).obj V) G a) := by
-  show toOrbitPresheaf B S hS G _ hnat ≫ toSheafify _ _ ≫ sheafifyLift _ _ _ = _
+  change toOrbitPresheaf B S hS G _ hnat ≫ toSheafify _ _ ≫ sheafifyLift _ _ _ = _
   rw [toSheafify_sheafifyLift]
   refine NatTrans.ext (funext fun T => ?_)
   apply ConcreteCategory.hom_ext

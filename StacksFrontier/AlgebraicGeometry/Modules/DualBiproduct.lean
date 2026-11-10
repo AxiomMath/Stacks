@@ -64,9 +64,9 @@ public theorem dualMap_add {F G : X.Modules} (f g : F ⟶ G) :
     dualMap (f + g) = dualMap f + dualMap g := by
   refine hom_ext_dualSheaf fun U x W y => ?_
   simp only [dualPairing_dualMap, Scheme.Modules.Hom.add_app]
-  show _ = dualPairing _ (Scheme.Modules.Hom.app (dualMap f) U x
+  change _ = dualPairing _ (Scheme.Modules.Hom.app (dualMap f) U x
       + Scheme.Modules.Hom.app (dualMap g) U x) W y
-  show _ = dualPairing _ (Scheme.Modules.Hom.app (dualMap f) U x) W y
+  change _ = dualPairing _ (Scheme.Modules.Hom.app (dualMap f) U x) W y
       + dualPairing _ (Scheme.Modules.Hom.app (dualMap g) U x) W y
   simp only [dualPairing_dualMap]
   exact map_add _ _ _

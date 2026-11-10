@@ -58,13 +58,13 @@ private theorem etaleOver_isMultiplicative
     (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).IsMultiplicative where
   id_mem U := by
-    show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 U))
+    change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 U))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   comp_mem f g hf hg := by
     change Etale ((BigFppfOver.toScheme B S hS).map f) at hf
     change Etale ((BigFppfOver.toScheme B S hS).map g) at hg
-    show Etale ((BigFppfOver.toScheme B S hS).map (f ≫ g))
+    change Etale ((BigFppfOver.toScheme B S hS).map (f ≫ g))
     rw [CategoryTheory.Functor.map_comp]
     exact Etale.etale_comp _ _
 
@@ -166,9 +166,9 @@ private theorem top_singleton_zariskiCover
   intro T x
   refine ⟨(Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor F).toFunctor) PUnit.unit).app T
     ⟨x, trivial⟩, ?_⟩
-  show (((Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor F).toFunctor) PUnit.unit) ≫
+  change (((Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor F).toFunctor) PUnit.unit) ≫
     Sigma.desc (fun _ : PUnit => (⊤ : Subfunctor F).ι)).app T) ⟨x, trivial⟩ = x
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   rfl
 
 private theorem open_immersion_presheaf_etale
@@ -182,7 +182,7 @@ private theorem open_immersion_presheaf_etale
     (MorphismProperty.inverseImage (@AlgebraicGeometry.IsOpenImmersion.{u} :
       MorphismProperty Scheme.{u}) T)
   change QOpen e at he
-  show yoneda.relativelyRepresentable e ∧
+  change yoneda.relativelyRepresentable e ∧
     (∀ ⦃A C⦄ (g : yoneda.obj A ⟶ G) (fst : yoneda.obj C ⟶ F)
       (snd : C ⟶ A), IsPullback fst (yoneda.map snd) e g → Etale (T.map snd))
   refine ⟨he.1, ?_⟩
@@ -215,8 +215,8 @@ private theorem smooth_implies_smooth_on_top_opens
     refine ⟨PUnit, (fun _ => topPB), ?_, ?_⟩
     · exact top_singleton_zariskiCover B S hS hpb
     · intro j
-      show IsSmooth B S hS (topPB.ι ≫ pullback.snd f topY.ι)
-      show HoldsOnEveryEtaleChart B S hS
+      change IsSmooth B S hS (topPB.ι ≫ pullback.snd f topY.ι)
+      change HoldsOnEveryEtaleChart B S hS
         (@Smooth.{u} : MorphismProperty Scheme.{u})
         (topPB.ι ≫ pullback.snd f topY.ι)
       intro U V a b h ha hb hab
@@ -441,7 +441,7 @@ private theorem isSmooth_of_affine_baseChange
   let c : W ⟶ U := pullback.fst h g
   let k : W ⟶ Z := pullback.snd h g
   have hg : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) T) g := by
-    show Etale g₀
+    change Etale g₀
     infer_instance
   have hbc : Q (yoneda.map g ≫ b) :=
     MorphismProperty.comp_mem Q _ _ (MorphismProperty.relative_map (F := yoneda) hg) hb
@@ -466,7 +466,7 @@ private theorem isSmooth_of_affine_baseChange
     (MorphismProperty.id_mem Q _) (by simp only [Category.comp_id, l, pullback.lift_snd])
   have sq : IsPullback (T.map c) (T.map k) (T.map h) g₀ :=
     (IsPullback.of_hasPullback h g).map T
-  show Smooth (pullback.snd (T.map h) g₀)
+  change Smooth (pullback.snd (T.map h) g₀)
   rw [← sq.isoPullback_inv_snd]
   let : MorphismProperty.RespectsIso (@Smooth.{u} : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
@@ -515,7 +515,7 @@ theorem isSmooth_tfae
     ] := by
   tfae_have 1 ↔ 7 := Iff.rfl
   tfae_have 1 ↔ 2 := by
-    show HoldsOnEveryEtaleChart B S hS (@Smooth.{u}) f ↔ _
+    change HoldsOnEveryEtaleChart B S hS (@Smooth.{u}) f ↔ _
     rw [holdsOnEveryEtaleChart_iff_forall_atPoint B S hS _
       AlgebraicGeometry.Smooth.isEtaleLocalOnSourceAndTarget hX hY f]
     refine forall_congr' fun x => ?_

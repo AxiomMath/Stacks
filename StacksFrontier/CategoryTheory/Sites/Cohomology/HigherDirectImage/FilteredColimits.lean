@@ -104,7 +104,7 @@ private theorem goodCoconeDesc_natural'
   change (coc.ι.app i).app (op V) ≫
     hV.desc (((evaluation Cᵒᵖ A).obj (op V)).mapCocone r) =
     (r.ι.app i).app (op V) at hVfac
-  show (coc.ι.app i).app (op V) ≫ coc.pt.map f.op ≫
+  change (coc.ι.app i).app (op V) ≫ coc.pt.map f.op ≫
     hU.desc (((evaluation Cᵒᵖ A).obj (op U)).mapCocone r) =
     (coc.ι.app i).app (op V) ≫
     hV.desc (((evaluation Cᵒᵖ A).obj (op V)).mapCocone r) ≫ r.pt.map f.op
@@ -178,7 +178,7 @@ private theorem presheafCoconeDesc_existsUnique'
     refine ⟨Sieve.generate (R V), ?_⟩
     obtain ⟨L, Z, f, hf, hgood⟩ := hEnough V
     apply K.superset_covering ?_ hf
-    show Sieve.generate (Presieve.ofArrows Z f) ≤ Sieve.generate (R V)
+    change Sieve.generate (Presieve.ofArrows Z f) ≤ Sieve.generate (R V)
     apply Sieve.generate_mono
     rintro W g ⟨i⟩
     exact hgood i
@@ -239,7 +239,7 @@ private theorem presheafCoconeDesc_existsUnique'
     apply Y.property.hom_ext (S U.unop)
     intro I₀
     obtain ⟨T, k, g, hT, hkg⟩ := I₀.hf
-    show ((c.ι.app i).app U ≫ descAt U.unop) ≫ Y.obj.map I₀.f.op =
+    change ((c.ι.app i).app U ≫ descAt U.unop) ≫ Y.obj.map I₀.f.op =
       (η i).app U ≫ Y.obj.map I₀.f.op
     rw [Category.assoc, descAt_map, family_eq U.unop I₀ hT k g hkg]
     calc
@@ -261,7 +261,7 @@ private theorem presheafCoconeDesc_existsUnique'
       _ = (r.ι.app i).app U ≫ Y.obj.map I₀.f.op := by rw [hkg]
   refine ⟨δ, δ_fac, fun δ' hδ' => ?_⟩
   ext V
-  show δ'.app V = descAt V.unop
+  change δ'.app V = descAt V.unop
   apply Y.property.hom_ext (S V.unop)
   intro I₀
   obtain ⟨T, k, g, hT, hkg⟩ := I₀.hf

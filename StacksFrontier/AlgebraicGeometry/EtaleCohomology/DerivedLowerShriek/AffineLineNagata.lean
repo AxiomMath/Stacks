@@ -65,6 +65,7 @@ section Helpers
 
 variable (B : BigEtaleSite.{u}) {Λ : Type} [CommRing Λ] [IsNoetherianRing Λ]
 
+omit [IsNoetherianRing Λ] in
 /-- **A constructible sheaf is finite type locally constant near a generic point**, on Mathlib's
 small étale site: the transport of
 `exists_isOpenImmersion_isFiniteTypeLocallyConstant_of_isConstructibleModuleSheaf'` (in
@@ -262,7 +263,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_dense_isFinite
       ((DerivedCategory.Plus.homologyFunctor _ q).obj (Triangle.mk a b c).obj₁) := fun q =>
     IsBigSiteConstructibleEtaleModule.of_iso B Λ ((DerivedCategory.Plus.homologyFunctor _ q).mapIso
       ((derivedLowerShriek.{u, 0} _ _ Λ).mapIso e.symm))
-      (isConstructibleEtaleModule_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_isGeometricallyUnibranch
+      (isConstructible_homology_derivedLowerShriek_of_isFiniteTypeLocallyConstant_of_geomUnibranch
         B T hO (o' ≫ f) hfO hdimO (j.restrictOpen o') Λ m hm hΛ h0GKV _ hFO q)
   exact prop_homology_obj₂_of_distTriang_plus (IsBigSiteConstructibleEtaleModule B T Λ) _ hT h₁ h₃ k
 
@@ -362,7 +363,7 @@ theorem exists_isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine
   have : IsSeparated f' := MorphismProperty.of_isPullback sq ‹IsSeparated f›
   have hf' : FinitePresentation f' := FinitePresentation.of_isPullback sq hf
   have hdim' : ∀ s, topologicalKrullDim (f'.fiber s) ≤ 1 := fun s => by
-    show f'.fiberDimension s ≤ 1
+    change f'.fiberDimension s ≤ 1
     rw [Scheme.Hom.fiberDimension_eq_of_isPullback sq]
     exact hdim _
   have : CompactSpace W.toScheme := isCompact_iff_compactSpace.mp (NoetherianSpace.isCompact _)

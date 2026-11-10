@@ -279,7 +279,7 @@ theorem isIso_localCohomologyEndoForgetComparison (hT : IsClosed T) (n : ℕ) :
   have : IsIso (forgetComparison T RH aH RHab aHab) :=
     Stacks.Cohomology.AbelianSupportedCounitForget.isIso_abelianSupportedEndoForgetComparison
       X.toRingedSpace T RHab aHab RH aH hT
-  show IsIso (Stacks.DerivedIndexing.degreewiseForgetComparison
+  change IsIso (Stacks.DerivedIndexing.degreewiseForgetComparison
     (supportedSectionsFunctor X.toRingedSpace T) (abelianSupportedSections T)
     (_root_.SheafOfModules.toSheaf (structureSheafRing X.toRingedSpace)) RH aH RHab aHab
     (forgetComparison T RH aH RHab aHab) Stacks.Cohomology.Localization.enoughKInjectives

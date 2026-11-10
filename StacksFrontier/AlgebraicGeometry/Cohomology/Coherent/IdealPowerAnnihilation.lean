@@ -147,7 +147,7 @@ lemma idealPowerMultiple_eq_bot_iff_pow_le_schemeTheoreticSupport {X : Scheme.{u
     idealPowerMultiple I n F = ⊥ ↔ I ^ n ≤ Scheme.Modules.schemeTheoreticSupport F := by
   rw [idealPowerMultiple_eq_bot_iff, Scheme.IdealSheafData.le_def]
   refine forall_congr' fun U => ?_
-  show _ ↔ I.ideal U ^ n ≤ (Scheme.Modules.schemeTheoreticSupport F).ideal U
+  change _ ↔ I.ideal U ^ n ≤ (Scheme.Modules.schemeTheoreticSupport F).ideal U
   rw [Scheme.Modules.schemeTheoreticSupport_ideal, ← Submodule.annihilator_top,
     Submodule.le_annihilator_iff]
 

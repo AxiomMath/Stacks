@@ -116,8 +116,7 @@ theorem _root_.Stacks.WeilCohomology.codimensionChowGroupCongr_heq {Z : Scheme.{
 /-- A tensor product with a vanishing graded piece of `H^*(X)` on the left is zero. -/
 theorem tensor_eq_zero_of_bounded {i : ℤ} (hi : i < 0 ∨ 2 * (T.dimension X : ℤ) < i) {j : ℤ}
     (t : (T.H X).piece i ⊗[F] (T.H X).piece j) : t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  induction t using TensorProduct.inductionOn with
   | tmul a b => rw [T.bounded X i hi a, TensorProduct.zero_tmul]
   | add a b ha hb => rw [ha, hb, add_zero]
 
@@ -154,7 +153,7 @@ theorem integration_kunnethMap_cup_diagonal :
       TensorProduct.lift (((A.mul ij.1 ij.2).comp LinearMap.id).compl₂ LinearMap.id) with hψ
   have hsum : tr (Stacks.WeilCohomology.kunnethMap A A A (fun _ ↦ LinearMap.id)
       (fun _ ↦ LinearMap.id) x) = ∑ ij ∈ z.support, ψ ij (z ij) := by
-    show tr (DirectSum.toModule F (ℤ × ℤ) _ _ z) = _
+    change tr (DirectSum.toModule F (ℤ × ℤ) _ _ z) = _
     conv_lhs => rw [← DirectSum.sum_support_of z]
     simp only [map_sum, ← DirectSum.lof_eq_of F, DirectSum.toModule_lof]
     rfl
@@ -182,11 +181,11 @@ theorem integration_kunnethMap_cup_diagonal :
       (by rw [← hdec]; rfl)
     have hterm : ∀ j, ψ ((i : ℤ), 2 * (d : ℤ) - i) (e j ⊗ₜ[F] e' j) = gradedSign F i := by
       intro j
-      show A.traceExtension d (T.integration X).toLinearMap _
+      change A.traceExtension d (T.integration X).toLinearMap _
         (A.mul _ _ (e j) (e' j)) = _
       rw [ExternallyGradedAlgebra.traceExtension_of_eq _ _ _ (by omega)]
       have h := h0FGZ j j
-      rw [if_pos rfl, mul_one] at h
+      rw [ite_eq_left rfl, mul_one] at h
       exact h
     rw [hdec, map_sum]
     simp only [hterm, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,

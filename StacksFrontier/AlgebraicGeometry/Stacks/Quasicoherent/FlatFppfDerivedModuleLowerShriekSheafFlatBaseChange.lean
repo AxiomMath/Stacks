@@ -98,7 +98,7 @@ theorem locallyQuasicoherentSheafFlatBaseChange_homology_derivedModuleLowerShrie
         ((derivedModuleLowerShriek B S hS 𝒳).obj ((DerivedCategory.singleFunctor _ 0).obj H))) :=
   locallyQuasicoherentSheafFlatBaseChange_of_affine_presented B E h S hS 𝒳 H hH _
     (fun y V g hU hV =>
-      isLocallyQuasicoherentWithSheafFlatBaseChange_stackModulePresheafPullback_homology_derivedModuleLowerShriek
+      isLocallyQuasicoherentWithSheafFlatBaseChange_pullback_homology_derivedModuleLowerShriek
         B E h S hS 𝒳 H p y V g hU hV)
 
 end AlgebraicGeometry.Stack.FlatFppf

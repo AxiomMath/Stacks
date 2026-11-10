@@ -251,7 +251,7 @@ theorem normal_globalSections (X : Scheme.{u}) [IsIntegral X] [IsNormal X] :
   rw [isIntegrallyClosed_iff (FractionRing Γ(X, ⊤))]
   intro z hz
   have hz' : _root_.IsIntegral Γ(X, ⊤) (φ z) := by
-    show (algebraMap Γ(X, ⊤) X.functionField).IsIntegralElem (φ z)
+    change (algebraMap Γ(X, ⊤) X.functionField).IsIntegralElem (φ z)
     simpa only [show φ.comp (algebraMap Γ(X, ⊤) (FractionRing Γ(X, ⊤))) =
       algebraMap Γ(X, ⊤) X.functionField from by ext a; exact hφ a] using
       RingHom.IsIntegralElem.map hz φ
@@ -378,7 +378,7 @@ public theorem isNormal_iff_exists_iso_coproduct
     rw [Opens.mem_iSup]
     refine ⟨⟨irreducibleComponent x,
       irreducibleComponent_mem_irreducibleComponents x⟩, ?_⟩
-    show x ∈ (α ⟨irreducibleComponent x,
+    change x ∈ (α ⟨irreducibleComponent x,
       irreducibleComponent_mem_irreducibleComponents x⟩).opensRange
     rw [Scheme.Hom.mem_opensRange]
     exact ⟨⟨x, mem_irreducibleComponent⟩, rfl⟩
@@ -408,7 +408,7 @@ public theorem isNormal_iff_exists_iso_coproduct
     intro C
     have : IsNormal (Y C) := hnormalY C
     have : IrreducibleSpace (Y C) := by
-      show IrreducibleSpace (↑(C : Set X))
+      change IrreducibleSpace (↑(C : Set X))
       exact Subtype.irreducibleSpace C.property.1
     exact isIntegral_of_irreducibleSpace_of_isReduced (Y C)
   exact ⟨irreducibleComponents X, Y, hnormalY, hintegralY,

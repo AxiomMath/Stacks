@@ -137,7 +137,7 @@ theorem isLocalizationElem_mul_eq_pow (f : A) {m : ℕ} (f_deg : f ∈ 𝒜 m) (
     Away.isLocalizationElem f_deg hfg = fromZeroRingHom 𝒜 (Submonoid.powers f) g ^ m := by
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.val_pow]
-  show Localization.mk _ _ = _
+  change Localization.mk _ _ = _
   rw [show (fromZeroRingHom 𝒜 (Submonoid.powers f) g).val = Localization.mk (g : A) 1 from rfl,
     Localization.mk_pow, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   exact ⟨1, by push_cast; ring⟩

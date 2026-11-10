@@ -158,7 +158,7 @@ theorem isSmooth_isSurjective_presentationObjectMorphism_of_selfIntersection
     have : 𝒳.val.val.p.IsHomLift (𝟙 ((schemeFibredCategory B S hS W).val.p.obj x))
         (sp.extends_f.1.app x).inv :=
       IsHomLift.lift_id_inv _ _ (sp.extends_f.1.app x)
-    show 𝒳.val.val.p.IsHomLift _ ((sp.extends_f.1.app x).inv ≫
+    change 𝒳.val.val.p.IsHomLift _ ((sp.extends_f.1.app x).inv ≫
       (eqToHom he.symm).app ((quotientStackProjection sp.groupoid).toFunctor.obj
         (sp.sourcePresentation.hom.functor.obj x)))
     rw [eqToHom_app]
@@ -638,7 +638,7 @@ theorem exists_openSubstack_dense_isGerbe (𝒳 : AlgebraicStacks.{u, w} B S hS)
     have hpc : Continuous (AlgebraicStacks.pointsMap B S hS p) :=
       continuous_pointsMap B S hS _ 𝒳.val p.hom.hom
     have hd := hpsurj.denseRange.dense_image hpc hj
-    show Dense (Set.range (AlgebraicStacks.pointsMap B S hS (j ≫ p)))
+    change Dense (Set.range (AlgebraicStacks.pointsMap B S hS (j ≫ p)))
     rw [AlgebraicStacks.pointsMap_comp, Set.range_comp]
     exact hd
   · -- the open substack is a gerbe

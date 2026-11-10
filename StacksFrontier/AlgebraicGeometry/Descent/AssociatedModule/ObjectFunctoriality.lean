@@ -432,7 +432,8 @@ other two.
 
 Those other two are proved and registered, at both topologies, in other modules: at `τ = étale`
 `AlgebraicGeometry.SmallEtale.isQuasicoherentOnSite_smallPushforward`
-(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtalePushforwardCartesian.lean:834`)
+(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtalePushforwardCartesian.lean`,
+line 834)
 and `AlgebraicGeometry.SmallEtale.associatedModuleSmallPushforwardIsoOfQcqs` (`:861`), and at
 `τ = Zariski` `AlgebraicGeometry.SmallZariski.lcIsQuasicoherentOnSite_smallPushforward`
 (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiPushforwardSquare.lean:591`)

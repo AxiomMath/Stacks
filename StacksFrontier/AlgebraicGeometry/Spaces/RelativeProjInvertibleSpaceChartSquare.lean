@@ -221,7 +221,7 @@ theorem inv_canHom_eq {W Z X : Scheme.{u}} (q : W ⟶ Z) (g : Z ⟶ X) (pi : W �
       (Scheme.Modules.pullbackCongr hpi).inv.app F ≫
         (Scheme.Modules.pullbackComp q g).inv.app F := by
   refine (IsIso.eq_inv_of_hom_inv_id ?_).symm
-  show ((Scheme.Modules.pullbackComp q g).hom.app F ≫
+  change ((Scheme.Modules.pullbackComp q g).hom.app F ≫
       (Scheme.Modules.pullbackCongr hpi).hom.app F) ≫
     (Scheme.Modules.pullbackCongr hpi).inv.app F ≫
       (Scheme.Modules.pullbackComp q g).inv.app F = 𝟙 _

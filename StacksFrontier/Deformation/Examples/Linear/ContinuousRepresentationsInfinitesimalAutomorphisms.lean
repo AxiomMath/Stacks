@@ -411,7 +411,7 @@ public theorem finiteDimensional_continuousTangentSpace
       (continuousSpecialFiber (Λ := Λ) V ρ₀ hρ₀))
     let hD := isDeformationCategory_continuousDeformationCategory (Λ := Λ) V ρ₀ hρ₀
     letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-    letI : Fact (Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (Deformation.SchlessingerConditionS2 (Functor.Elements.π
         (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨Deformation.Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
         𝓕 hD⟩

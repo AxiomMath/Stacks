@@ -45,7 +45,7 @@ public theorem geometricallyConnected_iff_baseChange_fieldExtension
         (pullback.snd f (Spec.map (CommRingCat.ofHom (algebraMap k k')))) := by
   let g : Spec (.of k') ⟶ Spec (.of k) :=
     Spec.map (CommRingCat.ofHom (algebraMap k k'))
-  show GeometricallyConnected f ↔ GeometricallyConnected (pullback.snd f g)
+  change GeometricallyConnected f ↔ GeometricallyConnected (pullback.snd f g)
   refine ⟨fun _ ↦ inferInstance, fun h ↦ ⟨?_⟩⟩
   rw [geometrically_iff_of_commRing_of_isClosedUnderIsomorphisms]
   intro K _ _

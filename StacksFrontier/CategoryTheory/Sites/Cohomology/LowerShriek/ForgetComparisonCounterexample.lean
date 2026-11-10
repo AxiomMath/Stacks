@@ -220,7 +220,7 @@ def ringPresheaf : Boolᵒᵖ ⥤ CommRingCat.{0} where
             exact absurd (f.unop.down.down : (true : Bool) ≤ false) (by decide)
           case op.op.op.true.false.true =>
             exact absurd (g.unop.down.down : (true : Bool) ≤ false) (by decide)
-          all_goals first | rfl | (ext x; simp)
+          all_goals rfl
 
 /-- The sheaf of commutative rings `O_D` of the counterexample. -/
 def O : Sheaf K CommRingCat.{0} := ⟨ringPresheaf, Presheaf.isSheaf_bot _⟩
@@ -284,7 +284,7 @@ lemma constructionUnit_app_one (H : Sheaf J AddCommGrpCat.{0}) :
   refine h'.trans ?_
   simp only [Adjunction.comp_unit_app, Functor.lanAdjunction_unit,
     sheafificationAdjunction_unit_app, NatTrans.comp_app, Iso.refl_hom, NatTrans.id_app,
-    Functor.comp_map, Functor.whiskeringLeft_obj_map, Functor.id_obj]
+    Functor.whiskeringLeft_obj_map, Functor.id_obj]
   rfl
 
 /-- **The unit of `g_!^{Ab} ⊣ g^{-1}` is invertible at `one`**: the index category of the left
@@ -347,7 +347,7 @@ lemma isIso_abelianCounit_app (A : Sheaf K AddCommGrpCat.{0})
     simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
       ObjectProperty.FullSubcategory.id_hom, NatTrans.id_app] at h
     have e := IsIso.inv_eq_of_hom_inv_id h
-    show IsIso (((u.sheafPushforwardContinuous AddCommGrpCat.{0} J K).map
+    change IsIso (((u.sheafPushforwardContinuous AddCommGrpCat.{0} J K).map
       (adj.counit.app A)).hom.app (op WalkingCospan.one))
     rw [← e]
     infer_instance
@@ -659,7 +659,7 @@ theorem not_subsingleton_ext_unit :
     σ.hom h' (1 : ℤ)
   apply injSection_ne_zero
   have h2 : cocycle (1 : ℤ) = injSection := by
-    show zmultiplesHom (injPresheaf.obj (op false)) injSection (1 : ℤ) = injSection
+    change zmultiplesHom (injPresheaf.obj (op false)) injSection (1 : ℤ) = injSection
     simp
   rw [← h2]
   exact h0

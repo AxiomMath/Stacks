@@ -49,7 +49,8 @@ is an epimorphism.
 ## Implementation notes
 
 **No coevaluation, and no left dual.**  The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ResolutionPropertyFiniteLocallyFreeDualTwist` record
+`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ResolutionPropertyFiniteLocallyFreeDualTwist`
+record
 the coevaluation `𝒪_Y ⟶ ℬ ⊗ ℬ^∨` of Stacks 0FNY — equivalently, the left-dual property of `ℬ^∨` —
 as the obstruction to the dual twist, on the ground that without it the transposed map cannot be
 formed.  That is not so: the composite displayed above *is* the transposed map, and writing it

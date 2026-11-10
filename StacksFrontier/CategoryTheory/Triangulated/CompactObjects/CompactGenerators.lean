@@ -372,7 +372,7 @@ private lemma forall_sigma_hom_eq_zero_iff {C : Type u} [Category.{v} C] [HasZer
   refine ⟨fun h i g => ?_, fun h g => ?_⟩
   · have hd : (Limits.Sigma.desc fun j => if hj : j = i then eqToHom (congrArg E hj) ≫ g
         else (0 : E j ⟶ L)) = 0 := h _
-    have key := Limits.Sigma.ι_desc
+    have key := Limits.Sigma.ι_comp_desc
       (fun j => if hj : j = i then eqToHom (congrArg E hj) ≫ g else (0 : E j ⟶ L)) i
     rw [hd, comp_zero] at key
     simpa using key.symm
@@ -464,7 +464,7 @@ private lemma isIso_sigmaComparison_preadditiveCoyoneda (K : D) [IsCompactObject
   let α : (DirectSum J fun i => (K ⟶ E i)) ≃+ (K ⟶ ∐ E) := AddEquiv.ofBijective _ hbij
   have hα : ∀ (i : J) (g : K ⟶ E i), α (DirectSum.of _ i g) = g ≫ Limits.Sigma.ι E i := by
     intro i g
-    show (DirectSum.toAddMonoid fun j => Preadditive.rightComp K (Limits.Sigma.ι E j))
+    change (DirectSum.toAddMonoid fun j => Preadditive.rightComp K (Limits.Sigma.ι E j))
       (DirectSum.of _ i g) = _
     rw [DirectSum.toAddMonoid_of]
     rfl
@@ -480,7 +480,7 @@ private lemma isIso_sigmaComparison_preadditiveCoyoneda (K : D) [IsCompactObject
       (sigmaComparison (preadditiveCoyoneda.obj (op K)) E).hom (ι₀ i g)
         = g ≫ Limits.Sigma.ι E i := by
     intro i g
-    show ((Limits.Sigma.ι (fun i => (preadditiveCoyoneda.obj (op K)).obj (E i)) i) ≫
+    change ((Limits.Sigma.ι (fun i => (preadditiveCoyoneda.obj (op K)).obj (E i)) i) ≫
       sigmaComparison (preadditiveCoyoneda.obj (op K)) E).hom g = _
     rw [ι_comp_sigmaComparison]
     rfl

@@ -120,11 +120,11 @@ noncomputable def liftDerivation {A₀ P B₀ : Sheaf J CommRingCat.{max u v w}}
         ((sheafCompose J commRingCatULift.{max u v w, w'}).map ε))).obj
         ((liftTargetModules.{u, v, w, w'} J B₀).obj N)).val
       ((sheafCompose J commRingCatULift.{max u v w, w'}).map b).hom where
-  d {U} := AddMonoidHom.mk' (fun x => ULift.up (d.d x.down))
+  d := AddMonoidHom.mk' (fun x => ULift.up (d.d x.down))
     (fun x y => congrArg ULift.up (d.d.map_add x.down y.down))
-  d_mul {U} x y := congrArg ULift.up (d.d_mul x.down y.down)
-  d_map {U V} g x := congrArg ULift.up (d.d_map g x.down)
-  d_app {U} x := congrArg ULift.up (d.d_app x.down)
+  d_mul x y := congrArg ULift.up (d.d_mul x.down y.down)
+  d_map g x := congrArg ULift.up (d.d_map g x.down)
+  d_app x := congrArg ULift.up (d.d_app x.down)
 
 /-- The lift of a derivation has components `x ↦ ULift.up (d x.down)`. -/
 theorem liftDerivation_d {A₀ P B₀ : Sheaf J CommRingCat.{max u v w}} {b : A₀ ⟶ P}
@@ -156,7 +156,7 @@ theorem span_sectionsCotangentDifferential (U : Cᵒᵖ) (n : ℕ) :
       ((CommAlgCat.cotangentComplex.{max u v w, max u v w} (A.obj.obj U)
         (sectionsAlgebra J f U)).X (-(n : ℤ)) ⧸ N₀))
     (ModuleCat.ofHom N₀.mkQ) 0 (fun p => by
-      show N₀.mkQ _ = 0
+      change N₀.mkQ _ = 0
       exact (Submodule.Quotient.mk_eq_zero N₀).mpr (Submodule.subset_span ⟨p, rfl⟩))
   rw [eq_top_iff]
   intro x _
@@ -212,7 +212,7 @@ theorem exists_sectionsCotangentComplex_linearMap (U : Cᵒᵖ) (n : ℕ) {M : T
     ConcreteCategory.congr_hom
       (CommAlgCat.cotangentComplex_degreeIso.{max u v w, max u v w} (A.obj.obj U) S n).inv_hom_id
       _
-  show M₀.subtype (e (β ((CommAlgCat.cotangentComplex_degreeIso.{max u v w, max u v w}
+  change M₀.subtype (e (β ((CommAlgCat.cotangentComplex_degreeIso.{max u v w, max u v w}
     (A.obj.obj U) S n).hom (sectionsCotangentDifferential' J f U n p)))) = d p
   rw [h₁, show β (CommAlgCat.cotangentTermDifferential.{max u v w, max u v w} (A.obj.obj U) S
       (op ⦋n⦌) p) = d₀ p from CommAlgCat.cotangentTermDesc_differential _ _ _ _ _ _ _ p]
@@ -291,7 +291,7 @@ theorem liftSectionwiseCotangentTermComparison_app_differential (n : ℕ) (U : C
         (ULift.up (sectionsCotangentDifferential' J a U n p)) =
       ULift.up ((universalSheafDerivation J a (op ⦋n⦌)).d
         ((sectionwiseResolutionComparison J a (op ⦋n⦌)).app U p)) := by
-  show ULift.up ((cotangentComplex_degreeIso J a n).hom.val.app U
+  change ULift.up ((cotangentComplex_degreeIso J a n).hom.val.app U
     ((sectionwiseCotangentTermComparison J a (-(n : ℤ))).app U
       (sectionsCotangentDifferential' J a U n p))) = _
   rw [sectionwiseCotangentTermComparison_app_differential]
@@ -328,12 +328,12 @@ theorem bijective_liftDerivation_postcomp (n : ℕ)
     have hd (U : Cᵒᵖ) (p) :
         (χ ≫ φ.val).app U (ULift.up (sectionsCotangentDifferential' J a U n p)) =
         (χ ≫ ψ.val).app U (ULift.up (sectionsCotangentDifferential' J a U n p)) := by
-      show φ.val.app U (χ.app U _) = ψ.val.app U (χ.app U _)
+      change φ.val.app U (χ.app U _) = ψ.val.app U (χ.app U _)
       rw [hgen]
       exact PresheafOfModulesOfCommRing.Derivation.congr_d h (ULift.up (c.app U p))
     apply SheafOfModules.hom_ext
     apply e.injective
-    show χ ≫ φ.val = χ ≫ ψ.val
+    change χ ≫ φ.val = χ ≫ ψ.val
     apply PresheafOfModules.Hom.ext
     funext U
     apply ModuleCat.hom_ext
@@ -448,7 +448,7 @@ theorem bijective_liftDerivation_postcomp (n : ℕ)
       (Functor.whiskerRight c commRingCatULift.{max u v w, w'})
       (W_whiskerRight_commRingCatULift.{u, v, w, w'} J c
         (W_sectionwiseResolutionComparison J a (op ⦋n⦌))) _ _ _ (fun U q => ?_)
-    show (e.symm ψ).app U (ULift.up ((universalSheafDerivation J a (op ⦋n⦌)).d
+    change (e.symm ψ).app U (ULift.up ((universalSheafDerivation J a (op ⦋n⦌)).d
       (c.app U q.down))) = Dd.d (ULift.up (c.app U q.down))
     refine (congrArg ((e.symm ψ).app U) (hgen U q.down).symm).trans ?_
     refine (ConcreteCategory.congr_hom (congrArg (fun k : F.obj P' ⟶ M.val => k.app U) hψ)

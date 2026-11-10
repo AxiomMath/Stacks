@@ -221,7 +221,8 @@ variable {X : AlgebraicGeometry.RingedSite.{u, v, w}}
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).obj M).Additive]
   [∀ (K L : CochainComplex (AlgebraicGeometry.RingedSite.Modules.{u, v, w} X) ℤ),
-    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O)
+    HomologicalComplex.HasMapBifunctor K L
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O)
       (ComplexShape.up ℤ)]
 
 /-- **The derived tensor product of two modules in degree zero is their tensor product in degree
@@ -301,7 +302,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (smallEtaleRingedSite B S hS F hF).O).obj M).Additive]
   [∀ (K L : CochainComplex (Modules.{u, u} B S hS F hF) ℤ),
     HomologicalComplex.HasMapBifunctor K L
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u} (smallEtaleRingedSite B S hS F hF).O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+        (smallEtaleRingedSite B S hS F hF).O)
       (ComplexShape.up ℤ)]
 
 /-- **Stacks 08F5 for two quasi-coherent modules placed in degree zero, the left one K-flat.**

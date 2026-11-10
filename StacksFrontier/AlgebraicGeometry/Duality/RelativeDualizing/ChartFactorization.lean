@@ -108,7 +108,7 @@ public theorem finite_dualizingModule {A : Type u} {B : Type v}
   let : IsScalarTower A F.middle (Module.Dual A F.middle) :=
     IsScalarTower.of_algebraMap_smul fun a g => by
       ext x
-      show g (algebraMap A F.middle a * x) = a • g x
+      change g (algebraMap A F.middle a * x) = a • g x
       rw [← Algebra.smul_def, map_smul]
   have h2 : Module.Finite F.middle (Module.Dual A F.middle) :=
     Module.Finite.of_restrictScalars_finite A _ _

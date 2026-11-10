@@ -137,7 +137,7 @@ theorem chartRealizedSchemeOverMap_comp {U V W : SmallEtale B S hS X.1} (g : V �
     E.chartRealizedSchemeOverMap hS h hV hW ≫ E.chartRealizedSchemeOverMap hS g hU' hV =
       E.chartRealizedSchemeOverMap hS (h ≫ g) hU' hW :=
   BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+    change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
     rw [Functor.map_comp, toScheme_map_chartRealizedSchemeOverMap,
       toScheme_map_chartRealizedSchemeOverMap,
       toScheme_map_chartRealizedSchemeOverMap]
@@ -157,7 +157,7 @@ theorem thickenedChartHom_eq {W : SmallEtale B S hS X.1} (a b : W ⟶ presentati
         E.chartRealizedSchemeOverMap hS (presentationRelationLift P a b) hR hW ≫
           E.chartRealizedSchemeOverMap hS c hU hR := by
     rw [chartRealizedSchemeOverMap_comp, h]
-  show yoneda.map _ ≫ _ = yoneda.map _ ≫ _
+  change yoneda.map _ ≫ _ = yoneda.map _ ≫ _
   rw [key (presentationRelationLift_source P a b), key (presentationRelationLift_target P a b),
     Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc]
   exact congrArg (yoneda.map (E.chartRealizedSchemeOverMap hS (presentationRelationLift P a b)
@@ -168,7 +168,7 @@ theorem chartRealizedSchemeOverMap_id (U : SmallEtale B S hS X.1)
     (hU' : B.Contains (E.chartRealizedScheme U)) :
     E.chartRealizedSchemeOverMap hS (𝟙 U) hU' hU' = 𝟙 _ :=
   BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+    change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
     rw [CategoryTheory.Functor.map_id, toScheme_map_chartRealizedSchemeOverMap]
     exact E.chartRealizedSchemeMap_id U)
 

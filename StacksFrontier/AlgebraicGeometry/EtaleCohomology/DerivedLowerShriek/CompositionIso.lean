@@ -146,8 +146,8 @@ theorem isIso_of_isIso_etaleModuleDerivedInverseImagePlus {Z U X : Scheme.{u}} (
     (hj : IsIso ((etaleModuleDerivedInverseImagePlus.{u, 0} Λ j).map γ)) : IsIso γ := by
   rw [DerivedCategory.Plus.isIso_iff]
   intro q
-  haveI := isIso_etaleModuleInverseImage_map_homology_of_isIso Λ i γ q hi
-  haveI := isIso_etaleModuleInverseImage_map_homology_of_isIso Λ j γ q hj
+  have := isIso_etaleModuleInverseImage_map_homology_of_isIso Λ i γ q hi
+  have := isIso_etaleModuleInverseImage_map_homology_of_isIso Λ j γ q hj
   exact isIso_of_isIso_etaleModuleInverseImage Λ i j hij _
 
 /-- The inverse image along `c` of a derived extension by zero along `j` vanishes when the images
@@ -159,7 +159,8 @@ theorem isZero_etaleModuleDerivedInverseImagePlus_extensionByZero_of_disjoint {W
       ((etaleModuleDerivedExtensionByZero.{u, 0} Λ j).obj K)) := by
   refine isZero_of_forall_isZero_homology_plus _ fun q => ?_
   refine IsZero.of_iso ?_ (etaleModuleDerivedInverseImagePlusHomologyIso Λ c _ q ≪≫
-    (etaleModuleInverseImage.{u, 0} Λ c).mapIso (etaleModuleDerivedExtensionByZeroHomologyIso Λ j K q))
+    (etaleModuleInverseImage.{u, 0} Λ c).mapIso
+      (etaleModuleDerivedExtensionByZeroHomologyIso Λ j K q))
   exact isZero_etaleModuleInverseImage_extensionByZero_of_disjoint Λ c j hcj _
 
 end Homology
@@ -188,7 +189,8 @@ def etaleModuleDerivedExtensionByZeroCompRestrictionIso [IsOpenImmersion j] :
       𝟭 _ :=
   Functor.rightDerivedFunctorPlusCompIsoOfExact (etaleModuleExtensionByZero.{u, 0} Λ j)
       (etaleModuleRestriction.{u, 0} Λ j) _ (Iso.refl _) ≪≫
-    Functor.rightDerivedFunctorPlusIdIsoOf _ (asIso (etaleModuleExtensionByZeroAdj.{u, 0} Λ j).unit).symm
+    Functor.rightDerivedFunctorPlusIdIsoOf _
+      (asIso (etaleModuleExtensionByZeroAdj.{u, 0} Λ j).unit).symm
 
 /-- The unit of `Rj_! ⊣ j^{-1}` on `D⁺` is invertible for an open immersion `j`. -/
 instance isIso_etaleModuleDerivedExtensionByZeroAdj_unit [IsOpenImmersion j] :
@@ -249,7 +251,8 @@ def etaleModuleDerivedExtensionByZeroDirectImageMapOfIsProper :
         etaleModuleDerivedDirectImage.{u, 0} Λ fb :=
   Functor.whiskerRight (etaleModuleDerivedDirectImageIsoRestrictionOfIsProper Λ fb i b f' sq).hom
       (etaleModuleDerivedExtensionByZero.{u, 0} Λ i) ≫
-    Functor.whiskerLeft ((isTorsionPlus.{u, 0} Λ P).ι ⋙ etaleModuleDerivedExtensionByZero.{u, 0} Λ b ⋙
+    Functor.whiskerLeft ((isTorsionPlus.{u, 0} Λ P).ι ⋙
+        etaleModuleDerivedExtensionByZero.{u, 0} Λ b ⋙
         etaleModuleDerivedDirectImage.{u, 0} Λ fb)
       (etaleModuleDerivedExtensionByZeroAdj.{u, 0} Λ i).counit
 

@@ -124,7 +124,7 @@ theorem exists_globalSectionsHom_comp_eq {F G : X.Modules} (p : F ⟶ G) :
       globalSectionsHom F ≫ p = g ≫ globalSectionsHom G := by
   refine ⟨SheafOfModules.freeMap (R := X.ringCatSheaf) (SheafOfModules.sectionsMap p), ?_⟩
   refine (SheafOfModules.freeHomEquiv G).injective (funext fun i => ?_)
-  show SheafOfModules.sectionsMap (globalSectionsHom F ≫ p) (SheafOfModules.freeSection i) =
+  change SheafOfModules.sectionsMap (globalSectionsHom F ≫ p) (SheafOfModules.freeSection i) =
     SheafOfModules.sectionsMap (SheafOfModules.freeMap (R := X.ringCatSheaf)
       (SheafOfModules.sectionsMap p) ≫ globalSectionsHom G) (SheafOfModules.freeSection i)
   refine (SheafOfModules.sectionsMap_comp (globalSectionsHom F) p _).trans ?_
@@ -146,7 +146,7 @@ theorem epi_globalSectionsHom_of_generatingSections {F : X.Modules} (σ : F.Gene
     refine (SheafOfModules.freeHomEquiv F).injective (funext fun i => ?_)
     refine Eq.trans ?_
       (congrFun (Equiv.apply_symm_apply (SheafOfModules.freeHomEquiv F) σ.s) i).symm
-    show SheafOfModules.sectionsMap (SheafOfModules.freeMap (R := X.ringCatSheaf) σ.s ≫
+    change SheafOfModules.sectionsMap (SheafOfModules.freeMap (R := X.ringCatSheaf) σ.s ≫
       globalSectionsHom F) (SheafOfModules.freeSection i) = σ.s i
     refine (SheafOfModules.sectionsMap_comp _ (globalSectionsHom F) _).trans ?_
     refine (congrArg (SheafOfModules.sectionsMap (globalSectionsHom F))
@@ -186,7 +186,7 @@ theorem sectionsMap_eq_zero_of_app_top {F G : X.Modules} (g : F ⟶ G)
   obtain ⟨U⟩ := U
   have hs : s.val (op U) = F.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (s.val (op ⊤)) :=
     (PresheafOfModules.sections_property s (homOfLE (le_top : U ≤ ⊤)).op).symm
-  show g.app U (s.val (op U)) = 0
+  change g.app U (s.val (op U)) = 0
   rw [hs]
   have hn : g.app U (F.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (s.val (op ⊤))) =
       G.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (g.app ⊤ (s.val (op ⊤))) :=
@@ -200,7 +200,7 @@ theorem sectionsMap_eq_zero_of_app_top {F G : X.Modules} (g : F ⟶ G)
 theorem globalSectionsHom_comp_eq_zero_of_app_top {F G : X.Modules} (g : F ⟶ G)
     (h : ∀ t : Γ(F, ⊤), g.app ⊤ t = 0) : globalSectionsHom F ≫ g = 0 := by
   refine (SheafOfModules.freeHomEquiv G).injective (funext fun i => ?_)
-  show SheafOfModules.sectionsMap (globalSectionsHom F ≫ g) (SheafOfModules.freeSection i) =
+  change SheafOfModules.sectionsMap (globalSectionsHom F ≫ g) (SheafOfModules.freeSection i) =
     SheafOfModules.sectionsMap (0 : globalSectionsFree F ⟶ G) (SheafOfModules.freeSection i)
   refine (SheafOfModules.sectionsMap_comp (globalSectionsHom F) g _).trans ?_
   refine (congrArg (SheafOfModules.sectionsMap g)
@@ -618,7 +618,7 @@ theorem exists_mem_genericPoints_subschemeι_mem [NoetherianSpace X]
     have hDc : IsClosed D := isClosed_of_mem_irreducibleComponents D hD
     have hgen := hD.1.isGenericPoint_genericPoint hDc
     have hmem : hD.1.genericPoint ∈ genericPoints (vanishingIdeal T).subscheme := by
-      show closure {hD.1.genericPoint} ∈ irreducibleComponents _
+      change closure {hD.1.genericPoint} ∈ irreducibleComponents _
       rw [hgen.def]
       exact hD
     exact h _ hmem (hDS hgen.mem)
@@ -637,6 +637,7 @@ theorem exists_mem_genericPoints_subschemeι_mem [NoetherianSpace X]
   exact hnd.topologicalKrullDim_nonpos_of_le_one hS'c hdimY
 
 set_option maxHeartbeats 400000 in
+-- the stalk and length computations through the `tensorLeft` equivalence are expensive
 /-- **A map into `ℒ ⊗ 𝒪_T` which dies in a quotient `𝒬` vanishes on the component of a generic
 point `η` of `T` in the support of `𝒬`.** At `η` the stalk of `ℒ ⊗ 𝒪_T` is a line, which `𝒬`
 does not kill, so the image of the map vanishes at `η`; twisted by `ℒ^{-1}` its restriction to

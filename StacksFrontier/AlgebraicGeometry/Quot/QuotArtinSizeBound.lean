@@ -68,7 +68,7 @@ theorem eq_zero_of_app_eq_zero_of_isCoverDense {ι : Type u} (c : ι → SmallEt
         P.map f₁.op (P.map f₂.op (ψ.app (op U) x)) :=
       ConcreteCategory.congr_hom (P.map_comp f₂.op f₁.op) _
     have hzero : ψ.app _ (Q.map f₂.op x) = 0 := h W _
-    show P.map (f₂.op ≫ f₁.op) (ψ.app (op U) x) = P.map (f₂.op ≫ f₁.op) 0
+    change P.map (f₂.op ≫ f₁.op) (ψ.app (op U) x) = P.map (f₂.op ≫ f₁.op) 0
     rw [map_zero, hcomp, hnat, hzero, map_zero]
   apply SheafOfModules.hom_ext
   ext U x
@@ -85,9 +85,9 @@ theorem subobject_le_of_range_subset {ι : Type u} (c : ι → SmallEtale B S hS
   have hz : K.arrow ≫ cokernel.π K'.arrow = 0 := by
     refine eq_zero_of_app_eq_zero_of_isCoverDense c _ fun i x => ?_
     obtain ⟨y, hy⟩ := h i ⟨x, rfl⟩
-    show (cokernel.π K'.arrow).val.app (op (c i)) (K.arrow.val.app (op (c i)) x) = 0
+    change (cokernel.π K'.arrow).val.app (op (c i)) (K.arrow.val.app (op (c i)) x) = 0
     rw [← hy]
-    show (K'.arrow ≫ cokernel.π K'.arrow).val.app (op (c i)) y = 0
+    change (K'.arrow ≫ cokernel.π K'.arrow).val.app (op (c i)) y = 0
     rw [cokernel.condition]
     rfl
   apply Subobject.le_of_factors
@@ -231,11 +231,11 @@ theorem exists_sizeBound_quotOverBase (hFt : SheafOfModules.IsFiniteTypeOnSite F
   obtain ⟨T₀, hT₀⟩ := exists_le_size_of_le_of_lt (hS := hS) ν hSν hν
   refine ⟨T₀, fun U k _ hU hft => ?_⟩
   have haffU : IsAffine ((BigFppfOver.toScheme B S hS).obj U) := by
-    show IsAffine U.left.1
+    change IsAffine U.left.1
     rw [hU]
     infer_instance
   have hne : Nonempty ((BigFppfOver.toScheme B S hS).obj U) := by
-    show Nonempty U.left.1
+    change Nonempty U.left.1
     rw [hU]
     infer_instance
   have : LocallyOfFiniteType (B.inclusion.map U.hom) := hft.1

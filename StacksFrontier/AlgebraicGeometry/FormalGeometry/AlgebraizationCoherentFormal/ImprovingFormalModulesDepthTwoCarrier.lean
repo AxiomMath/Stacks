@@ -248,7 +248,7 @@ theorem exists_proIso_coherentAdicSystem_canonicalImprovedSystem {X : Scheme.{u}
     have hess := isEssentiallyConstantPro_completedFormalSectionsTower V.2 hT' (hTT'.trans hTY)
       G d hdualV hcdV (fun y hy => hcG y.1 hy) (fun y hy => hdG y.1 hy)
     have hβ := isEssentiallyConstantPro_localCohomologyOne_depthOneSections hdual F hT hT' hTY
-      hTT' himm V.2 Mo (hTT'.trans hTY) hRA.1 hRA.2 hess
+      himm V.2 Mo (hTT'.trans hTY) hRA.1 hRA.2 hess
     obtain ⟨c, ⟨i⟩, s, hcs⟩ :=
       isEssentiallyConstantPro_modelQuotientSystem hdual F hT hT' hTY hTT' himm V.2 Mo hβ
     obtain ⟨N, e, σ, hcomp, hk, hck⟩ :=

@@ -217,7 +217,8 @@ theorem mapAlong_descend_eq_zero (V : (SmallEtale B S hS Y.1)ᵒᵖ)
 
 /-- **The difference of two morphisms of extensions, as a `T`-derivation of `𝒪_Y`** with
 values in the ideal `𝒩`. -/
-def mapAlongDerivation : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS b).hom :=
+def mapAlongDerivation :
+    PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS b).hom :=
   @descendedDerivation B S hS Y T b _ _ (isLocallySurjective_ringReduction_smallEtale B S hS b P) N
     (f.quotientDerivation g) (mapAlong_descend_eq_zero B S hS b f g)
 
@@ -256,7 +257,8 @@ theorem mapAlong_hom_app_eq_of_mapAlongDerivation_eq (f₁ f₂ g : MapAlong.{u,
     f₁.hom.hom.app U x = f₂.hom.hom.app U x := by
   have hx : f₁.diff g x = f₂.diff g x :=
     (mapAlongDerivation_d_reduction B S hS b f₁ g x).symm.trans
-      ((congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS b).hom =>
+      ((congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val
+          (structureSharpInverseImage B S hS b).hom =>
         D.d (P.reduction.hom.app U x)) hD).trans (mapAlongDerivation_d_reduction B S hS b f₂ g x))
   exact sub_left_injective ((f₁.incl_diff g x).symm.trans ((congrArg Q.incl hx).trans
     (f₂.incl_diff g x)))
@@ -312,7 +314,8 @@ theorem mapAlongDifferentialsHom_comp {L : Modules.{u, u} B S hS Y.1 Y.2} {ψ : 
   apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   refine Eq.trans ?_ (key _ t).symm
-  have hs := congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS b).hom =>
+  have hs := congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val
+      (structureSharpInverseImage B S hS b).hom =>
     D.d t) (mapAlongDifferentialsHom_spec B S hS b f g)
   simp only at hs ⊢
   rw [← hs]
@@ -336,7 +339,8 @@ theorem comp_mapAlongDifferentialsHom_comp {M' : Modules.{u, u} B S hS Y.1 Y.2} 
   apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   refine Eq.trans ?_ (key _ t).symm
-  have hs := congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val (structureSharpInverseImage B S hS b).hom =>
+  have hs := congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' N.val
+      (structureSharpInverseImage B S hS b).hom =>
     D.d t) (mapAlongDifferentialsHom_spec B S hS b f g)
   simp only at hs ⊢
   exact hs

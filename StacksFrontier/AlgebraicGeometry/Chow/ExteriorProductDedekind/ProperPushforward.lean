@@ -340,7 +340,7 @@ theorem exteriorProductDedekindCycles_properPushforward (a₀ : CycleGroup C sX 
       (n + m - 1) (exteriorProductDedekindCycles C sX (h ≫ g) n m a₀ b₀)).1 z = _ at hmap
     rw [hmap]
     refine finsum_congr fun x ↦ ?_
-    show (properPushforward C (pullback.fst sX (h ≫ g) ≫ sX) (pullback.fst sX g ≫ sX)
+    change (properPushforward C (pullback.fst sX (h ≫ g) ≫ sX) (pullback.fst sX g ≫ sX)
       (bivariantBaseChangeMap sX g h) (bivariantBaseChangeMap_comp_structureMorphism sX sX g h)
       (n + m - 1) (properPushforward C _ _ (dedekindPointFibre sX (h ≫ g) x.1).subschemeι rfl
         (n + m - 1) (a' x))).1 z = _
@@ -365,7 +365,7 @@ theorem exteriorProductDedekindCycles_properPushforward (a₀ : CycleGroup C sX 
   · refine (QuotientAddGroup.eq_zero_iff (N := rationalEquivalences C _ (n + m - 1)) _).1 ?_
     rw [QuotientAddGroup.mk_sub]
     exact sub_eq_zero.2 (hP3 x).symm
-  · show (properPushforward C (pullback.fst sX (h ≫ g) ≫ sX) (pullback.fst sX g ≫ sX)
+  · change (properPushforward C (pullback.fst sX (h ≫ g) ≫ sX) (pullback.fst sX g ≫ sX)
       (bivariantBaseChangeMap sX g h) (bivariantBaseChangeMap_comp_structureMorphism sX sX g h)
       (n + m - 1) (exteriorProductDedekindCycles C sX (h ≫ g) n m a₀ b₀)).1 z -
       (exteriorProductDedekindCycles C sX g n m a₀ (properPushforward C (h ≫ g) g h rfl m b₀)).1 z

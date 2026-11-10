@@ -67,7 +67,7 @@ theorem exists_flat_isNoetherianRing_infinite_residueField (A : Type u) [CommRin
       rwa [← hcomap, Ideal.mem_comap, map_sub, ← IsLocalRing.residue_eq_zero_iff, map_sub,
         sub_eq_zero]
     have hcoeff := (Ideal.mem_map_C_iff.mp hsub) n
-    rw [coeff_sub, coeff_X_pow_self, coeff_X_pow, if_neg hne, sub_zero] at hcoeff
+    rw [coeff_sub, coeff_X_pow_self, coeff_X_pow, ite_eq_right hne, sub_zero] at hcoeff
     exact (maximalIdeal.isMaximal A).ne_top ((Ideal.eq_top_iff_one _).mpr hcoeff)
 
 end IsLocalRing

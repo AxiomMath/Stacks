@@ -66,7 +66,8 @@ theorem isZero_rightDerivedPlus_relativeDifferentialForms (p i : ℤ) (hi : (D.n
     · obtain ⟨m, rfl⟩ := Int.eq_ofNat_of_zero_le hp
       exact Scheme.Hom.isQuasicoherent_relativeDifferentialForms D.f m
   refine AlgebraicGeometry.isZero_of_forall_isZero_stalk _ fun y => ?_
-  exact Stacks.AlgebraicGeometry.TopDegreeBaseChange.isZero_stalk_rightDerivedPlus_of_topologicalKrullDim_fiber_le
+  open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
+  exact isZero_stalk_rightDerivedPlus_of_topologicalKrullDim_fiber_le
     D.f y D.n (D.relativeDimension y (D.fiber_nonempty y)).2.le _ i hi
 
 /-- `R^qf_*Ω^p_{X/S} = 0` for `q > n`: `Rf_*Ω^p_{X/S}` lies in degrees `≤ n`

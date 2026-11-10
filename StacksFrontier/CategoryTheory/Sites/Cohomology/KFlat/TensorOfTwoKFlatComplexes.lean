@@ -49,15 +49,7 @@ open CategoryTheory CategoryTheory.MonoidalCategory CategoryTheory.Limits
 
 universe v u
 
-variable {A : Type u} [Category.{v} A] [Abelian A] [MonoidalCategory A]
-  [(curriedTensor A).Additive]
-  [∀ (X₁ : A), ((curriedTensor A).obj X₁).Additive]
-  [∀ (X₁ X₂ : GradedObject ℤ A), X₁.HasTensor X₂]
-  [∀ (X₁ : A), PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).obj X₁)]
-  [∀ (X₂ : A), PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).flip.obj X₂)]
-  [∀ (X₁ X₂ X₃ X₄ : GradedObject ℤ A), X₁.HasTensor₄ObjExt X₂ X₃ X₄]
-  [∀ (X₁ X₂ X₃ : GradedObject ℤ A), X₁.HasGoodTensor₁₂Tensor X₂ X₃]
-  [∀ (X₁ X₂ X₃ : GradedObject ℤ A), X₁.HasGoodTensorTensor₂₃ X₂ X₃]
+variable {A : Type u} [Category.{v} A] [Abelian A]
 
 namespace CochainComplex.KFlatMonoidal
 
@@ -68,6 +60,14 @@ abbrev Acyclic (K : CochainComplex A ℤ) : Prop := K.Acyclic
 theorem acyclic_iff_exactAt (K : CochainComplex A ℤ) :
     Acyclic K ↔ ∀ n, K.ExactAt n :=
   K.acyclic_iff
+
+variable [MonoidalCategory A] [(curriedTensor A).Additive]
+  [∀ (X₁ : A), ((curriedTensor A).obj X₁).Additive]
+  [∀ (X₁ X₂ : GradedObject ℤ A), X₁.HasTensor X₂]
+  [∀ (X₁ : A), PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).obj X₁)]
+  [∀ (X₂ : A), PreservesColimit (Functor.empty.{0} A) ((curriedTensor A).flip.obj X₂)]
+  [∀ (X₁ X₂ X₃ : GradedObject ℤ A), X₁.HasGoodTensor₁₂Tensor X₂ X₃]
+  [∀ (X₁ X₂ X₃ : GradedObject ℤ A), X₁.HasGoodTensorTensor₂₃ X₂ X₃]
 
 /-- The total complex `Tot(K^• ⊗ L^•)`: the monoidal product of `K` and `L` in
 `CochainComplex A ℤ`, whose degree `n` term is the coproduct `⨁_{p+q=n} K^p ⊗ L^q`, with the

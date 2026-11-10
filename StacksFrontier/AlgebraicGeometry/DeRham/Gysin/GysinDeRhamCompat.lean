@@ -153,7 +153,8 @@ conditional one.  At the chart data of [Stacks, Tag 0G86] all of them but `tgt_c
 discharged in `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDeRhamTarget.lean`, `tgt_cls`
 itself is discharged there too by now, and the tag is registered on
 `Stacks.Gysin.gysinHom_comm_deRham_of_conormalRank` of
-`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDeRhamConormalRank.lean`, under the hypotheses of
+`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDeRhamConormalRank.lean`,
+under the hypotheses of
 [Stacks, Tag 0G86] and no others.
 
 **What the remaining input is, and that it is not the input of [Stacks, Tag 0G86].**  `tgt_cls`
@@ -197,7 +198,8 @@ what is owed is the abelian material listed there.
 [Stacks, Tag 0G86] —
 `Stacks.Gysin.gysinHom_comm_deRham_chartGysinChartData` of
 `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDeRhamTarget.lean` — carries `tgt_cls` and
-nothing else.  `Stacks.Gysin.ClsCommutesWithDeRham` and the abelian reading of the excision, the remaining
+nothing else.  `Stacks.Gysin.ClsCommutesWithDeRham` and the abelian reading of the excision,
+the remaining
 inputs of an unsuffixed 0G87, are both theorems —
 `Stacks.Gysin.chartFractionCommutesWithDeRham` with
 `Stacks.Gysin.clsCommutesWithDeRham_of_excision` of

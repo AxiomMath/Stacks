@@ -256,7 +256,7 @@ theorem isSheaf_ringCat_of_isSheaf_forget (P : Cᵒᵖ ⥤ RingCat.{w})
       (∀ I : cover.Arrow, (y I.f I.hf).hom e = (P.map I.f.op).hom c) → t e = c := by
     intro e c hc
     refine eq_of_isSheaf h cover (fun I ↦ ?_)
-    show (P.map I.f.op).hom _ = (P.map I.f.op).hom _
+    change (P.map I.f.op).hom _ = (P.map I.f.op).hom _
     rw [ht I, hc I]
   have key₂ : ∀ (F : ToType E → ToType E → ToType E)
       (G : ∀ R : RingCat.{w}, ToType R → ToType R → ToType R),
@@ -282,7 +282,7 @@ theorem isSheaf_ringCat_of_isSheaf_forget (P : Cᵒᵖ ⥤ RingCat.{w})
   · intro t' ht'
     refine RingCat.hom_ext (RingHom.ext fun e ↦ ?_)
     refine eq_of_isSheaf h cover (fun I ↦ ?_)
-    show (P.map I.f.op).hom (t'.hom e) = (P.map I.f.op).hom (t e)
+    change (P.map I.f.op).hom (t'.hom e) = (P.map I.f.op).hom (t e)
     rw [ht I]
     exact congrArg (fun φ ↦ RingCat.Hom.hom φ e) (ht' I.f I.hf)
 
@@ -323,7 +323,7 @@ lemma sectionsFunctor_map_binaryOpHom (op) (hop) (X : Cᵒᵖ)
     (a : (sectionsFunctor J X).obj A) (b : (sectionsFunctor J X).obj B) :
     (sectionsFunctor J X).map (binaryOpHom (A := A) (B := B) (E := E) op hop)
       (prodObjMk a b) = op X a b := by
-  show op X ((sectionsFunctor J X).map Limits.prod.fst (prodObjMk a b))
+  change op X ((sectionsFunctor J X).map Limits.prod.fst (prodObjMk a b))
     ((sectionsFunctor J X).map Limits.prod.snd (prodObjMk a b)) = _
   rw [map_fst_prodObjMk, map_snd_prodObjMk]
 

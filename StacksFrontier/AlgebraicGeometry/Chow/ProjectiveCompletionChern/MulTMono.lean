@@ -55,7 +55,7 @@ theorem notMem_supportSet_zeroSchemeOfSection_sectionT (x : X) :
         X.presheaf.map (homOfLE le_top).op (((snd 𝒞).val.app (op ⊤)).hom (sectionT 𝒞)) :=
       PresheafOfModules.naturality_apply (snd 𝒞).val (homOfLE le_top).op (sectionT 𝒞)
     have h2 : ((snd 𝒞).val.app (op ⊤)).hom (sectionT 𝒞) = (1 : Γ(X, ⊤)) := by
-      show ((snd 𝒞).val.app (op ⊤)).hom (((inr 𝒞).val.app (op ⊤)).hom (1 : Γ(X, ⊤))) = _
+      change ((snd 𝒞).val.app (op ⊤)).hom (((inr 𝒞).val.app (op ⊤)).hom (1 : Γ(X, ⊤))) = _
       exact congrArg (fun k : (show X.Modules from SheafOfModules.unit X.ringCatSheaf) ⟶ _ =>
         (k.val.app (op ⊤)).hom (1 : Γ(X, ⊤))) (biprod.inr_snd : inr 𝒞 ≫ snd 𝒞 = 𝟙 _)
     rw [h1, h2, map_one]
@@ -158,7 +158,7 @@ theorem mono_mulT : Mono (mulT 𝒞) := by
     have h1 := TopCat.Presheaf.stalkFunctor_map_germ_apply U ξ hξ
       ((SheafOfModules.toSheaf (space 𝒞).ringCatSheaf).map (mulT 𝒞)).hom a
     refine h1.trans ?_
-    show (twist 𝒞).presheaf.germ U ξ hξ (((mulT 𝒞).val.app (op U)).hom a) = _
+    change (twist 𝒞).presheaf.germ U ξ hξ (((mulT 𝒞).val.app (op U)).hom a) = _
     rw [mulT_app, Scheme.Modules.germ_smul (twist 𝒞) hξ,
       (twist 𝒞).presheaf.germ_res_apply (homOfLE le_top) ξ hξ (coordT 𝒞)]
   intro y₁ y₂ hy

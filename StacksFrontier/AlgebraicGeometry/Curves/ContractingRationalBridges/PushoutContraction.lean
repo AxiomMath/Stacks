@@ -114,7 +114,7 @@ theorem nonempty_intersection_bridge
   have := hC.isIntegral
   have : ConnectedSpace X := connectedSpace_of_isIso_globalSections k (X ↘ Spec (.of k))
   have hcompl : ((C.support : Set X))ᶜ ⊆ ((complementaryCurveIdeal C).support : Set X) := by
-    show ((C.support.compl : X.Opens) : Set X) ⊆ _
+    change ((C.support.compl : X.Opens) : Set X) ⊆ _
     rw [← Scheme.Opens.range_ι]
     exact Scheme.Hom.range_subset_ker_support _
   have hne : ∀ I : X.IdealSheafData, Nonempty I.subscheme → (I.support : Set X).Nonempty :=

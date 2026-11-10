@@ -112,7 +112,7 @@ theorem hom_ext_dual {A B : SheafOfModules.{u} (underlyingRingSheaf O)}
   apply AddCommGrpCat.hom_ext
   apply AddMonoidHom.ext
   intro y
-  show (((SheafOfModules.evaluation (underlyingRingSheaf O) (op U)).map g₁) x).app
+  change (((SheafOfModules.evaluation (underlyingRingSheaf O) (op U)).map g₁) x).app
       (op (Over.mk V.hom)) y =
     (((SheafOfModules.evaluation (underlyingRingSheaf O) (op U)).map g₂) x).app
       (op (Over.mk V.hom)) y
@@ -213,7 +213,7 @@ theorem exists_freeFlatModule_lift (G X Y : SheafOfModules.{u} (underlyingRingSh
     exact hx
   refine ⟨Sigma.desc fun p => (key p).choose, Sigma.hom_ext _ _ fun p => ?_⟩
   exact (Category.assoc _ _ _).symm.trans
-    ((congrArg (· ≫ q) (Sigma.ι_desc _ _)).trans (key p).choose_spec)
+    ((congrArg (· ≫ q) (Sigma.ι_comp_desc _ _)).trans (key p).choose_spec)
 
 /-- For every sheaf `F` of `O`-modules the standard module `J(F) = Fr(F^∨)^∨` is an injective
 `O`-module. -/

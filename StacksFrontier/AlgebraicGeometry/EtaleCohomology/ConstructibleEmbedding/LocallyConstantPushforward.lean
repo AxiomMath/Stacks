@@ -107,7 +107,7 @@ theorem locallyConstantPushforwardMap_comp {X Y Y' Y'' : Scheme.{u}} (f : Y ⟶ 
     locallyConstantPushforwardMap Λ M f f' h hh ≫ locallyConstantPushforwardMap Λ M f' f'' h' hh' =
       locallyConstantPushforwardMap Λ M f f'' (h' ≫ h) (by rw [Category.assoc, hh, hh']) := by
   apply Sheaf.hom_ext
-  show Functor.whiskerRight _ _ ≫ Functor.whiskerRight _ _ = Functor.whiskerRight _ _
+  change Functor.whiskerRight _ _ ≫ Functor.whiskerRight _ _ = Functor.whiskerRight _ _
   rw [← Functor.whiskerRight_comp, ← NatTrans.op_comp, pullbackMapNatTrans_comp]
 
 /-- For a morphism `g : Y' ⟶ Y`, the first projections `W ×_Y Y' ⟶ W` of the base changes of the

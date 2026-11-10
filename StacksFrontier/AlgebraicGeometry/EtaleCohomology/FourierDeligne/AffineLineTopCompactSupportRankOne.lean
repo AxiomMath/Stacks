@@ -155,10 +155,10 @@ theorem nonempty_linearEquiv_compactSupportSheafCohomology_two_constantSheaf_aff
   have hp' : Function.Surjective p' := by
     rintro ⟨y, b, hb, rfl⟩
     refine ⟨Pi.single ⟨b, hb⟩ (ULift.up 1), Subtype.ext ?_⟩
-    show pM.hom (Pi.single ⟨b, hb⟩ (ULift.up 1)) = e.symm b
+    change pM.hom (Pi.single ⟨b, hb⟩ (ULift.up 1)) = e.symm b
     rw [hpM, Finset.sum_eq_single (⟨b, hb⟩ : 𝔪) (fun a _ ha => by rw [Pi.single_eq_of_ne ha,
       smul_zero]) (by simp), Pi.single_eq_same]
-    show ULift.up (b * 1) = ULift.up b
+    change ULift.up (b * 1) = ULift.up b
     rw [mul_one]
   let NM := ModuleCat.of Λ N
   have : Finite NM := inferInstanceAs (Finite N)

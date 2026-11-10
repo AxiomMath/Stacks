@@ -88,7 +88,7 @@ theorem torsorUnitBetween_act_left' (X : RingedSite.{u, v, w})
   have h : Multiplicative.ofAdd (Additive.ofMul (a⁻¹ * torsorUnitBetween' X F U s t)) *
       Multiplicative.ofAdd (Additive.ofMul a) =
       Multiplicative.ofAdd (Additive.ofMul (torsorUnitBetween' X F U s t)) := by
-    show Multiplicative.ofAdd (Additive.ofMul
+    change Multiplicative.ofAdd (Additive.ofMul
       ((a⁻¹ * torsorUnitBetween' X F U s t) * a)) = _
     congr 2
     simp [mul_comm]
@@ -157,7 +157,7 @@ theorem coefficientGenerator_restrict' (X : RingedSite.{u, v, w})
       coefficientGenerator' X F V (F.1.presheaf.map f.op s) := by
   apply Subtype.ext
   funext W t
-  show (torsorUnitBetween' X F _ t (F.1.presheaf.map (W.hom ≫ f).op s)).val =
+  change (torsorUnitBetween' X F _ t (F.1.presheaf.map (W.hom ≫ f).op s)).val =
     (torsorUnitBetween' X F _ t (F.1.presheaf.map W.hom.op (F.1.presheaf.map f.op s))).val
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
 
@@ -177,7 +177,7 @@ theorem coefficientSection_eq_smul_generator' (X : RingedSite.{u, v, w})
   rw [torsorUnitBetween_act'] at he
   have hn := a.property.1 (Over.mk (𝟙 U)) V (Over.homMk V.hom) s
   change a.val V sV = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) at hn
-  show a.val V t = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) * q.val
+  change a.val V t = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) * q.val
   calc
     a.val V t = q.val * ((q⁻¹).val * a.val V t) := by simp
     _ = q.val * a.val V sV := congrArg (q.val * ·) he.symm
@@ -414,7 +414,7 @@ theorem generatorSections_mapIso_bijective'
   · intro t
     refine ⟨generatorSections_mapIso' X e.symm U t, ?_⟩
     apply Subtype.ext
-    show (e.hom.val.app (op U)).hom ((e.inv.val.app (op U)).hom t.val) = t.val
+    change (e.hom.val.app (op U)).hom ((e.inv.val.app (op U)).hom t.val) = t.val
     have hcomp' : e.inv.val.app (op U) ≫ e.hom.val.app (op U) = 𝟙 _ := by
       simpa only [SheafOfModules.comp_val, SheafOfModules.id_val,
         PresheafOfModules.comp_app, PresheafOfModules.id_app] using
@@ -455,7 +455,7 @@ theorem generatorTorsorMapOfIso_restrict'
     show (G.sectionsEquiv U) (generatorTorsorMapOfIso' X e F G U s) =
       generatorSections_mapIso' X e U.unop (F.sectionsEquiv U s) from
       Equiv.apply_symm_apply _ _]
-  show (e.hom.val.app V).hom (F.sectionsEquiv V (F.torsor.1.presheaf.map f s)).val =
+  change (e.hom.val.app V).hom (F.sectionsEquiv V (F.torsor.1.presheaf.map f s)).val =
     N.val.restrictₛₗ f ((e.hom.val.app U).hom (F.sectionsEquiv U s).val)
   rw [F.sectionsEquiv_restrict f s]
   exact PresheafOfModules.naturality_apply e.hom.val f (F.sectionsEquiv U s).val
@@ -530,7 +530,7 @@ theorem generatorTorsor_isIsomorphic_of_iso'
     (F : GeneratorTorsor' X L) (G : GeneratorTorsor' X N) :
     Stacks.Cohomology.Torsors.AbelianTorsor.IsIsomorphic F.torsor G.torsor := by
   refine ⟨generatorTorsorHomOfIso' X e F G, ?_⟩
-  show IsIso (generatorTorsorHomOfIso' X e F G).hom
+  change IsIso (generatorTorsorHomOfIso' X e F G).hom
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   apply (ConcreteCategory.isIso_iff_bijective _).2

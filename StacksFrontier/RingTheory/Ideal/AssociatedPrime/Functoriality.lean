@@ -428,7 +428,8 @@ theorem coeff_eq_zero_of_mem_sqIdeal {k : Type*} [Field k] {f : MvPolynomial ℕ
     rintro rfl
     simpa using hd i
   | zero => simp
-  | add x y _ _ hx hy => rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hx d hd, hy d hd, add_zero]
+  | add x y _ _ hx hy =>
+    rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, hx d hd, hy d hd, add_zero]
   | smul c x _ hx =>
     rw [smul_eq_mul, MvPolynomial.coeff_mul]
     refine Finset.sum_eq_zero fun ⟨u, v⟩ huv => ?_

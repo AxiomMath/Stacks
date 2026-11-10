@@ -76,17 +76,17 @@ theorem algHom_ext_of_isLocallyNilpotent {R S T : Type*} [CommRing R] [CommRing 
   have hsub : (⊤ : Subalgebra R S) ≤
       { carrier := {x | g₁ x - g₂ x ∈ L'}
         mul_mem' := fun {a b} ha hb => by
-          show g₁ (a * b) - g₂ (a * b) ∈ L'
+          change g₁ (a * b) - g₂ (a * b) ∈ L'
           have : g₁ (a * b) - g₂ (a * b) = g₁ a * (g₁ b - g₂ b) + (g₁ a - g₂ a) * g₂ b := by
             rw [map_mul, map_mul]; ring
           rw [this]
           exact L'.add_mem (L'.mul_mem_left _ hb) (L'.mul_mem_right _ ha)
         add_mem' := fun {a b} ha hb => by
-          show g₁ (a + b) - g₂ (a + b) ∈ L'
+          change g₁ (a + b) - g₂ (a + b) ∈ L'
           rw [map_add, map_add, add_sub_add_comm]
           exact L'.add_mem ha hb
         algebraMap_mem' := fun r => by
-          show g₁ (algebraMap R S r) - g₂ (algebraMap R S r) ∈ L'
+          change g₁ (algebraMap R S r) - g₂ (algebraMap R S r) ∈ L'
           rw [AlgHom.commutes, AlgHom.commutes, sub_self]
           exact L'.zero_mem } := by
     rw [← hs, Algebra.adjoin_le_iff]
@@ -124,7 +124,7 @@ theorem algHom_ext_of_etaleCoordinates {Q : Type*} [CommRing Q] [Algebra R Q] (L
   let : Algebra (MvPolynomial (Fin m) R) Q := (MvPolynomial.aeval (g₁ ∘ t')).toRingHom.toAlgebra
   have hcomm (g : B' →ₐ[R] Q) (hgt : ∀ i, g (t' i) = g₁ (t' i)) (q : MvPolynomial (Fin m) R) :
       g (algebraMap (MvPolynomial (Fin m) R) B' q) = algebraMap (MvPolynomial (Fin m) R) Q q := by
-    show g (MvPolynomial.aeval t' q) = MvPolynomial.aeval (g₁ ∘ t') q
+    change g (MvPolynomial.aeval t' q) = MvPolynomial.aeval (g₁ ∘ t') q
     rw [map_aeval_eq]
     exact congrArg (fun w => MvPolynomial.aeval w q) (funext hgt)
   let g₁' : B' →ₐ[MvPolynomial (Fin m) R] Q :=
@@ -153,7 +153,7 @@ theorem exists_algHom_lift_of_etaleCoordinates {Q Q' : Type u} [CommRing Q] [Com
   let f' : Q →ₐ[MvPolynomial (Fin m) R] Q' :=
     { f.toRingHom with
       commutes' := fun q => by
-        show f (MvPolynomial.aeval v q) = MvPolynomial.aeval (g ∘ t') q
+        change f (MvPolynomial.aeval v q) = MvPolynomial.aeval (g ∘ t') q
         rw [map_aeval_eq]
         exact congrArg (fun w => MvPolynomial.aeval w q) (funext hv) }
   let g' : B' →ₐ[MvPolynomial (Fin m) R] Q' :=
@@ -187,18 +187,18 @@ theorem mem_dividedPowerPolynomialIdeal_iff (x : DividedPowerAlgebra C (W →₀
       apply sup_le
       · rw [Ideal.map_le_iff_le_comap]
         intro a ha
-        show dividedPowerPolynomialAugmentation C W (algebraMap C _ a) ∈ C.ideal
+        change dividedPowerPolynomialAugmentation C W (algebraMap C _ a) ∈ C.ideal
         rw [AlgHom.commutes]
         exact ha
       · intro z hz
-        show dividedPowerPolynomialAugmentation C W z ∈ C.ideal
+        change dividedPowerPolynomialAugmentation C W z ∈ C.ideal
         rw [show dividedPowerPolynomialAugmentation C W z = 0 from hz]
         exact C.ideal.zero_mem
     exact hle hx
   · rw [show x = algebraMap C _ (dividedPowerPolynomialAugmentation C W x) +
         (x - algebraMap C _ (dividedPowerPolynomialAugmentation C W x)) by ring]
     refine Submodule.add_mem_sup (Ideal.mem_map_of_mem _ hx) ?_
-    show dividedPowerPolynomialAugmentation C W _ = 0
+    change dividedPowerPolynomialAugmentation C W _ = 0
     rw [map_sub, AlgHom.commutes, Algebra.algebraMap_self, RingHom.id_apply, sub_self]
 
 /-- The augmentation is a retraction of the coefficients. -/
@@ -231,7 +231,7 @@ theorem map_le_etaleChartIdeal (hC₀ : C₀.ideal = A.ideal.map (algebraMap A C
     A.ideal.map (algebraMap A (⨂[A] k, B k)) ≤ etaleChartIdeal C₀ r := by
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show Ideal.Quotient.mk C₀.ideal (piLift r (algebraMap A _ a)) = 0
+  change Ideal.Quotient.mk C₀.ideal (piLift r (algebraMap A _ a)) = 0
   rw [AlgHom.commutes, Ideal.Quotient.eq_zero_iff_mem, hC₀]
   exact Ideal.mem_map_of_mem _ ha
 
@@ -310,7 +310,7 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
     intro k
     refine exists_algHom_lift_of_etaleCoordinates (t k.succ) (ht k.succ) augA haug_surj
       hnilaug (r k.succ) _ (fun i => ?_)
-    show aug (algebraMap C₀ P _ + dividedPowerPolynomialVariable C₀ _) = _
+    change aug (algebraMap C₀ P _ + dividedPowerPolynomialVariable C₀ _) = _
     rw [map_add, dividedPowerPolynomialAugmentation_algebraMap,
       dividedPowerPolynomialAugmentation_variable, add_zero]
   choose ρs hρaug hρt using hρ
@@ -332,14 +332,14 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
   have hΦJ : (etaleChartIdeal C₀ r).map (Φ : (⨂[A] k, B k) →+* P) ≤ P.ideal := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show Φ x ∈ dividedPowerPolynomialIdeal C₀.ideal W
+    change Φ x ∈ dividedPowerPolynomialIdeal C₀.ideal W
     rw [mem_dividedPowerPolynomialIdeal_iff, hΦaug']
     exact Ideal.Quotient.eq_zero_iff_mem.mp hx
   let a : DPMorphism A.dividedPowers P.dividedPowers :=
     (setIndexedDividedPowerPolynomialCoefficientDPMorphism C₀ W).comp (DPMorphism.mk' hC₀dp)
   have hΦa : (Φ : (⨂[A] k, B k) →+* P).comp (algebraMap A (⨂[A] k, B k)) = a.toRingHom := by
     ext z
-    show Φ (algebraMap A _ z) = algebraMap C₀ P (algebraMap A C₀ z)
+    change Φ (algebraMap A _ z) = algebraMap C₀ P (algebraMap A C₀ z)
     rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply]
   let ψ := envLift D P a (Φ : (⨂[A] k, B k) →+* P) hΦJ hΦa
   have hψalg : ∀ x, ψ.toRingHom (D.algebraMap.toRingHom x) = Φ x := fun x =>
@@ -362,17 +362,17 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
   let θ : C₀ →ₐ[A] C₀ :=
     { aug.toRingHom.comp (ψ.toRingHom.comp σ) with
       commutes' := fun z => by
-        show aug (ψ.toRingHom (σ (algebraMap A C₀ z))) = algebraMap A C₀ z
+        change aug (ψ.toRingHom (σ (algebraMap A C₀ z))) = algebraMap A C₀ z
         rw [hψσA, dividedPowerPolynomialAugmentation_algebraMap] }
   have hθ : θ = AlgHom.id A C₀ := by
     refine algHom_ext_of_etaleCoordinates (r 0 ∘ t 0) hr0 C₀.ideal hnilC₀ θ _ (fun i => ?_)
       (fun c => ?_)
-    · show aug (ψ.toRingHom (σ (r 0 (t 0 i)))) = r 0 (t 0 i)
+    · change aug (ψ.toRingHom (σ (r 0 (t 0 i)))) = r 0 (t 0 i)
       rw [hψσt, dividedPowerPolynomialAugmentation_algebraMap]
     · obtain ⟨x, hx⟩ := hsurj c
       have hj := hψI _ (hσ x)
       have hi := hψI _ (hσI _ hx)
-      show aug (ψ.toRingHom (σ c)) - c ∈ C₀.ideal
+      change aug (ψ.toRingHom (σ c)) - c ∈ C₀.ideal
       have hsplit : aug (ψ.toRingHom (σ c)) - c =
           aug (ψ.toRingHom (σ (piLift r x) - D.algebraMap.toRingHom x)) +
             aug (ψ.toRingHom (σ (c - piLift r x))) - (c - piLift r x) := by
@@ -386,11 +386,11 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
     let g₁ : C₀ →ₐ[A] P :=
       { ψ.toRingHom.comp σ with
         commutes' := fun z => by
-          show ψ.toRingHom (σ (algebraMap A C₀ z)) = algebraMap A P z
+          change ψ.toRingHom (σ (algebraMap A C₀ z)) = algebraMap A P z
           rw [hψσA, ← IsScalarTower.algebraMap_apply] }
     have := algHom_ext_of_etaleCoordinates (r 0 ∘ t 0) hr0 (RingHom.ker aug.toRingHom) hnilaug
       g₁ (IsScalarTower.toAlgHom A C₀ P) (fun i => hψσt i) (fun c => by
-        show aug (ψ.toRingHom (σ c) - algebraMap C₀ P c) = 0
+        change aug (ψ.toRingHom (σ c) - algebraMap C₀ P c) = 0
         rw [map_sub, hθ', dividedPowerPolynomialAugmentation_algebraMap, sub_self])
     exact fun c => congrArg (fun f => f c) this
   -- `ψ ∘ φ` is the identity of `C₀⟨τ⟩`
@@ -401,11 +401,11 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
     refine hu.unique ⟨?_, fun w => ?_⟩ ⟨?_, fun w => rfl⟩
     · apply DPMorphism.ext
       funext c
-      show ψ.toRingHom (φ.toRingHom (algebraMap C₀ P c)) = algebraMap C₀ P c
+      change ψ.toRingHom (φ.toRingHom (algebraMap C₀ P c)) = algebraMap C₀ P c
       rw [hφcoeff, hψσ]
-    · show ψ.toRingHom (φ.toRingHom (dividedPowerPolynomialVariable C₀ w)) = _
+    · change ψ.toRingHom (φ.toRingHom (dividedPowerPolynomialVariable C₀ w)) = _
       rw [hφvar, chartTau, map_sub, hψalg, hψσ]
-      show piLift ρ _ - _ = _
+      change piLift ρ _ - _ = _
       rw [piLift_single, hρsucc, hρt, add_sub_cancel_left]
     · apply DPMorphism.ext
       rfl
@@ -414,7 +414,7 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
     refine envelopeHom_ext D D.object _ _ ?_ ?_
     · apply DPMorphism.ext
       funext z
-      show φ.toRingHom (ψ.toRingHom (D.structureMap.toRingHom z)) = D.structureMap.toRingHom z
+      change φ.toRingHom (ψ.toRingHom (D.structureMap.toRingHom z)) = D.structureMap.toRingHom z
       rw [hψstruct, hφcoeff, ← RingHom.comp_apply σ, hσA]
     · let : Algebra A D.object := D.structureMap.toRingHom.toAlgebra
       have hDalg : ∀ z, D.algebraMap.toRingHom (algebraMap A (⨂[A] k, B k) z) =
@@ -424,7 +424,7 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
       let f₁ : (⨂[A] k, B k) →ₐ[A] D.object :=
         { φ.toRingHom.comp (Φ : (⨂[A] k, B k) →+* P) with
           commutes' := fun z => by
-            show φ.toRingHom (Φ (algebraMap A _ z)) = D.structureMap.toRingHom z
+            change φ.toRingHom (Φ (algebraMap A _ z)) = D.structureMap.toRingHom z
             rw [AlgHom.commutes, IsScalarTower.algebraMap_apply A C₀ P, hφcoeff,
               ← RingHom.comp_apply σ, hσA] }
       let f₂ : (⨂[A] k, B k) →ₐ[A] D.object :=
@@ -436,21 +436,21 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
         | zero =>
           refine algHom_ext_of_etaleCoordinates (t 0) (ht 0) D.object.ideal hnilD _ _
             (fun i => ?_) (fun b => ?_)
-          · show φ.toRingHom (Φ (PiTensorProduct.singleAlgHom 0 (t 0 i))) =
+          · change φ.toRingHom (Φ (PiTensorProduct.singleAlgHom 0 (t 0 i))) =
               D.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (t 0 i))
             rw [piLift_single, hρ0, hφcoeff, hσ0]
-          · show φ.toRingHom (Φ (PiTensorProduct.singleAlgHom 0 b)) -
+          · change φ.toRingHom (Φ (PiTensorProduct.singleAlgHom 0 b)) -
               D.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 b) ∈ D.object.ideal
             rw [piLift_single, hρ0, hφcoeff]
             exact hσ_single 0 b
         | succ j =>
           refine algHom_ext_of_etaleCoordinates (t j.succ) (ht j.succ) D.object.ideal hnilD _ _
             (fun i => ?_) (fun b => ?_)
-          · show φ.toRingHom (Φ (PiTensorProduct.singleAlgHom j.succ (t j.succ i))) =
+          · change φ.toRingHom (Φ (PiTensorProduct.singleAlgHom j.succ (t j.succ i))) =
               D.algebraMap.toRingHom (PiTensorProduct.singleAlgHom j.succ (t j.succ i))
             rw [piLift_single, hρsucc, hρt, map_add, hφcoeff, hφvar, chartTau]
             simp
-          · show φ.toRingHom (Φ (PiTensorProduct.singleAlgHom j.succ b)) -
+          · change φ.toRingHom (Φ (PiTensorProduct.singleAlgHom j.succ b)) -
               D.algebraMap.toRingHom (PiTensorProduct.singleAlgHom j.succ b) ∈ D.object.ideal
             rw [piLift_single, hρsucc]
             have hker : ρs j b - algebraMap C₀ P (r j.succ b) ∈ P.ideal := hkeraug _ (by
@@ -460,7 +460,7 @@ theorem exists_dpPolynomial_equiv_chartEnvelope {p : ℕ} (hp : p.Prime)
             rw [map_sub, hφcoeff] at h1
             simpa only [sub_add_sub_cancel] using D.object.ideal.add_mem h1 (hσ_single j.succ b)
       ext x
-      show φ.toRingHom (ψ.toRingHom (D.algebraMap.toRingHom x)) = D.algebraMap.toRingHom x
+      change φ.toRingHom (ψ.toRingHom (D.algebraMap.toRingHom x)) = D.algebraMap.toRingHom x
       rw [hψalg]
       exact congrArg (fun f => f x) hf
   exact ⟨φ, ψ, hφcoeff, hφvar, fun x => congrArg (fun f => f.toRingHom x) hφψ,
@@ -500,6 +500,7 @@ attribute [local instance] interAlgebra
 instance SmoothLift.algebraDividedPowerRing :
     Algebra (baseSectionsRing S) L₀.dividedPowerRing := L₀.algebra
 
+omit [IsAffine S.S.scheme] in
 /-- For a single smooth lift repeated `n + 1` times, the ideal of the closed immersion
 `U ⟶ Y ×_S ⋯ ×_S Y` is the kernel of the multiplication `B ⊗ ⋯ ⊗ B → B → B ⧸ I B`. -/
 theorem tensorIdeal_const :
@@ -514,7 +515,7 @@ theorem tensorIdeal_const :
     rw [tensorMap_single, piLift_single]
     rfl
   ext x
-  show tensorMap _ x = 0 ↔ Ideal.Quotient.mk _ (piLift _ x) = 0
+  change tensorMap _ x = 0 ↔ Ideal.Quotient.mk _ (piLift _ x) = 0
   rw [htm, AlgHom.comp_apply, component_apply]
   refine ⟨fun h => L₀.equiv.symm.injective
     ((restr_const_injective (h.trans (map_zero _).symm)).trans (map_zero _).symm), fun h => ?_⟩
@@ -523,6 +524,7 @@ theorem tensorIdeal_const :
       (piLift (fun _ => AlgHom.id (baseSectionsRing S) L₀.ring) x) = 0 := h
   rw [h', map_zero, map_zero]
 
+omit [IsAffine S.S.scheme] in
 /-- **The envelope of a single lift with étale coordinates is a divided power polynomial
 algebra.** Let `B` be a smooth lift of `U` with global étale coordinates `t_1, …, t_d`
 (`A[t] → B` étale), and let `D` be the divided power envelope of `U` in `Y^{n+1}`, `Y = Spec B`
@@ -563,17 +565,17 @@ theorem exists_dpPolynomial_equiv_envelope_const {p : ℕ} (hp : p.Prime)
   have hσA : σ.comp (algebraMap (baseSectionsRing S) L₀.dividedPowerRing) =
       D.structureMap.toRingHom := by
     ext a
-    show E.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (algebraMap _ L₀.ring a)) =
+    change E.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (algebraMap _ L₀.ring a)) =
       E.structureMap.toRingHom a
     rw [AlgHom.commutes, ← E.algebraMap_comp]
     rfl
   have hσ : ∀ x, σ (piLift r x) - D.algebraMap.toRingHom x ∈ D.object.ideal := by
     intro x
-    show E.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (piLift r x)) -
+    change E.algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (piLift r x)) -
       E.algebraMap.toRingHom x ∈ E.object.ideal
     rw [← map_sub]
     refine D.algebraMap.ideal_comp (Ideal.mem_map_of_mem _ ?_)
-    show Ideal.Quotient.mk _ (piLift r (PiTensorProduct.singleAlgHom 0 (piLift r x) - x)) = 0
+    change Ideal.Quotient.mk _ (piLift r (PiTensorProduct.singleAlgHom 0 (piLift r x) - x)) = 0
     have hs : piLift r (PiTensorProduct.singleAlgHom 0 (piLift r x) - x) = 0 := by
       rw [map_sub]
       exact sub_eq_zero.mpr (piLift_single r 0 (piLift r x : L₀.ring))
@@ -599,6 +601,7 @@ variable {S : GlobalCrystallineSituation.{u}} [IsAffine S.S.scheme] [S.X.IsSepar
 
 attribute [local instance] interAlgebra
 
+omit [IsAffine S.S.scheme] [S.X.IsSeparated] [∀ k, IsAffine (U k)] in
 include hI in
 /-- The extension of the zero divided power ideal of the base to `Γ(U_0 ∩ ⋯ ∩ U_n)` is zero. -/
 theorem map_baseIdeal_inter_eq_bot :
@@ -613,15 +616,16 @@ noncomputable abbrev interDividedPowerRing : DividedPowerRing.{u} :=
     ((baseSectionsRing S).ideal.map (algebraMap (baseSectionsRing S) Γ((inter U).toScheme, ⊤)))
     (DividedPowers.ofEqBot (map_baseIdeal_inter_eq_bot (U := U) hI))
 
+omit [IsAffine S.S.scheme] [S.X.IsSeparated] [∀ k, IsAffine (U k)] in
 include hI in
 /-- Over a base with zero divided power ideal the ideal of `U_0 ∩ ⋯ ∩ U_n` in
 `B_0 ⊗ ⋯ ⊗ B_n` is the kernel of the chart map. -/
 theorem tensorIdeal_eq_etaleChartIdeal :
     tensorIdeal L = etaleChartIdeal (interDividedPowerRing (U := U) hI) (component L) := by
   ext x
-  show tensorMap L x = 0 ↔ Ideal.Quotient.mk _ (piLift (component L) x) = 0
+  change tensorMap L x = 0 ↔ Ideal.Quotient.mk _ (piLift (component L) x) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
-  show _ ↔ _ ∈ (baseSectionsRing S).ideal.map
+  change _ ↔ _ ∈ (baseSectionsRing S).ideal.map
     (algebraMap (baseSectionsRing S) Γ((inter U).toScheme, ⊤))
   rw [map_baseIdeal_inter_eq_bot hI, Ideal.mem_bot]
   rfl
@@ -633,6 +637,7 @@ theorem etale_restr (k : Fin (n + 1)) : (restr U k).Etale := by
   have : Etale (S.X.homOfLE (inter_le U k)) := inferInstance
   exact (HasRingHomProperty.iff_of_isAffine (P := @Etale)).mp this
 
+omit [IsAffine S.S.scheme] in
 include hI in
 /-- Over a base with zero divided power ideal, `Γ(U_0 ∩ ⋯ ∩ U_n)` is étale over `A[t^{(0)}]`
 through the étale coordinates of `B_0 = Γ(U_0)`. -/
@@ -649,7 +654,7 @@ theorem etale_aeval_component_zero {d : ℕ} (t : Fin d → (L 0).ring)
     exact hxy
   have hc : (component L 0).toRingHom = (restr U 0).comp ((L 0).equiv.symm.toRingHom.comp
       (Ideal.Quotient.mk _)) := rfl
-  show ((component L 0).toRingHom.comp
+  change ((component L 0).toRingHom.comp
     (MvPolynomial.aeval (R := baseSectionsRing S) t).toRingHom).Etale
   rw [hc]
   refine RingHom.Etale.stableUnderComposition _ _ ht ?_
@@ -657,6 +662,7 @@ theorem etale_aeval_component_zero {d : ℕ} (t : Fin d → (L 0).ring)
   exact RingHom.Etale.stableUnderComposition _ _ (RingHom.Etale.of_bijective hmk)
     (RingHom.Etale.of_bijective (L 0).equiv.symm.bijective)
 
+omit [IsAffine S.S.scheme] in
 include hI in
 /-- **Over a base with zero divided power ideal, the envelope of `U_0 ∩ ⋯ ∩ U_n` in
 `Y_0 ×_S ⋯ ×_S Y_n` is a divided power polynomial algebra over `Γ(U_0 ∩ ⋯ ∩ U_n)`.** Let the smooth
@@ -701,7 +707,7 @@ theorem exists_dpPolynomial_equiv_envelope_of_ideal_eq_bot {p : ℕ} (hp : p.Pri
       (envelope L).object ⧸ (envelope L).object.ideal :=
     { (envelopeEquiv L).symm.toRingHom with
       commutes' := fun a => by
-        show (envelopeEquiv L).symm (algebraMap _ Γ((inter U).toScheme, ⊤) a) = _
+        change (envelopeEquiv L).symm (algebraMap _ Γ((inter U).toScheme, ⊤) a) = _
         rw [RingEquiv.symm_apply_eq, IsScalarTower.algebraMap_apply (baseSectionsRing S)
           (envelope L).object ((envelope L).object ⧸ (envelope L).object.ideal) a,
           Ideal.Quotient.algebraMap_eq, hEalg', envelopeEquiv_mk_algebraMap, AlgHom.commutes] }
@@ -711,7 +717,7 @@ theorem exists_dpPolynomial_equiv_envelope_of_ideal_eq_bot {p : ℕ} (hp : p.Pri
     Ideal.Quotient.mk_surjective (by rwa [Ideal.Quotient.mkₐ_ker]) g
     (fun i => (envelope L).algebraMap.toRingHom (PiTensorProduct.singleAlgHom 0 (t 0 i)))
     (fun i => by
-      show Ideal.Quotient.mk _ _ = (envelopeEquiv L).symm _
+      change Ideal.Quotient.mk _ _ = (envelopeEquiv L).symm _
       rw [RingEquiv.eq_symm_apply, envelopeEquiv_mk_algebraMap, tensorMap_single]
       rfl)
   have hσmk : ∀ y, Ideal.Quotient.mk _ (σ y) = (envelopeEquiv L).symm y := fun y =>
@@ -725,11 +731,11 @@ theorem exists_dpPolynomial_equiv_envelope_of_ideal_eq_bot {p : ℕ} (hp : p.Pri
   let σ' : C₀ →+* D.object := σ.toRingHom
   have hσA : σ'.comp (algebraMap (baseSectionsRing S) C₀) = D.structureMap.toRingHom := by
     ext a
-    show σ (algebraMap _ Γ((inter U).toScheme, ⊤) a) = _
+    change σ (algebraMap _ Γ((inter U).toScheme, ⊤) a) = _
     exact σ.commutes a
   have hσ : ∀ x, σ' (piLift (component L) x) - D.algebraMap.toRingHom x ∈ D.object.ideal := by
     intro x
-    show σ (piLift (component L) x) - (envelope L).algebraMap.toRingHom x ∈
+    change σ (piLift (component L) x) - (envelope L).algebraMap.toRingHom x ∈
       (envelope L).object.ideal
     rw [← Ideal.Quotient.eq, hσmk, RingEquiv.symm_apply_eq, envelopeEquiv_mk_algebraMap]
     rfl

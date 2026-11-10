@@ -104,7 +104,7 @@ theorem pointAlgMap_comp_algMap {F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
   let := pointAlgebra C S hS e r
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom γ.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom γ.toRingHom) ≫
       Spec.map (CommRingCat.ofHom φ.toRingHom) = h.left.hom
   rw [hβ, ← Spec.map_comp, ← hγ]
   rfl
@@ -158,21 +158,21 @@ theorem mem_range_of_pointsMap_snd_eq (X : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u
   have h1 : r'.class C S hS _ = w.class C S hS _ :=
     FieldValuedPoint.class_eq_class_of_hasCommonExtension C S hS _
       ⟨r', FieldValuedPoint.dominates_refl C S hS _ _, f, rfl⟩
-  show _ = w.class C S hS _
+  change _ = w.class C S hS _
   rw [← h1]
   congr 1
-  show FieldValuedPoint.mk _ _ _ (Ψ.app _ c) = FieldValuedPoint.mk _ _ _ _
+  change FieldValuedPoint.mk _ _ _ (Ψ.app _ c) = FieldValuedPoint.mk _ _ _ _
   congr 1
   apply yonedaEquiv.symm.injective
   rw [yonedaEquiv_symm_map]
-  show yonedaEquiv.symm (Ψ.app _ (yonedaEquiv (yoneda.map c))) = yoneda.map f ≫ t
+  change yonedaEquiv.symm (Ψ.app _ (yonedaEquiv (yoneda.map c))) = yoneda.map f ≫ t
   rw [← yonedaEquiv_comp, Equiv.symm_apply_apply]
   apply prod.hom_ext
   · simp only [Category.assoc, Ψ, prod.lift_fst, ← Functor.map_comp, hc₁]
     simp [t₁, t]
   · have hsnd : yoneda.map f ≫ t ≫ prod.snd = yonedaEquiv.symm r.value := by
       rw [← hf, yonedaEquiv_symm_map]
-      show yoneda.map f ≫ yonedaEquiv.symm w.value ≫ prod.snd = _
+      change yoneda.map f ≫ yonedaEquiv.symm w.value ≫ prod.snd = _
       rw [yonedaEquiv_symm_naturality_right _ (prod.snd : _ ⨯ X ⟶ X) w.value]
       rfl
     have hρ : yoneda.map g ≫ p = yonedaEquiv.symm r.value := by
@@ -200,7 +200,7 @@ theorem exists_algHom_perfectClosureTensor (M : Type u) [Field M] [Algebra k M]
   let F := perfectClosure k Ω
   let : Algebra F M := ((α : Ω →+* M).comp (algebraMap F Ω)).toAlgebra
   have : IsScalarTower k F M := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap k M x = α (algebraMap F Ω (algebraMap k F x))
+    change algebraMap k M x = α (algebraMap F Ω (algebraMap k F x))
     rw [← IsScalarTower.algebraMap_apply, α.commutes]
   have hβF : ∀ x : F, β x = algebraMap F M x :=
     DFunLike.congr_fun (Subsingleton.elim (β.comp (IsScalarTower.toAlgHom k F Ω))

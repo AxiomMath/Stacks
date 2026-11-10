@@ -257,7 +257,7 @@ theorem conormalDifferential_eq_zero_of_isPullback (i : X ⟶ X') (t : S ⟶ S')
           (i.coborderRange.ι ≫ f')) U ((i.coborderRange.ι ≫ f') ⁻¹ᵁ U) le_rfl a
       rw [Scheme.Hom.appLE_eq_app] at h0
       exact h0
-    show ((conormalSheafComparisonIso i).inv ≫ conormalDifferential i f').val.app
+    change ((conormalSheafComparisonIso i).inv ≫ conormalDifferential i f').val.app
         (op (f ⁻¹ᵁ (t ⁻¹ᵁ U)))
         (((modulePullbackPushforwardAdjunction f.toLRSHom.toShHom).homEquiv _ _
             (Stacks.Immersion.immersionConormalSheafMap i t f f'
@@ -356,7 +356,7 @@ theorem isIso_pullbackCotangentComparison (i : X ⟶ X') (t : S ⟶ S') (f : X �
     IsIso (pullbackCotangentComparison i t f f' hw) := by
   have := isIso_relativeDifferentialsMap_id (i ≫ f') f t hw
     ((Category.id_comp (i ≫ f')).trans hw)
-  show IsIso ((Scheme.Modules.pullback (𝟙 X)).map
+  change IsIso ((Scheme.Modules.pullback (𝟙 X)).map
       (Scheme.Hom.cotangentSheafIso (i ≫ f')).inv ≫
     Scheme.Hom.relativeDifferentialsMap (𝟙 X) (i ≫ f') f t
       ((Category.id_comp (i ≫ f')).trans hw))

@@ -113,7 +113,7 @@ theorem ker_desc_eq_iSup_map {A : CommRingCat.{u}} (c : Cocone F) (hc : IsColimi
     rw [← ha]
     exact Submodule.mem_iSup_of_mem j (Ideal.mem_map_of_mem _ (RingHom.mem_ker.mpr hga))
   · refine Ideal.map_le_iff_le_comap.mpr fun a ha => ?_
-    show (c.ι.app j).hom a ∈ RingHom.ker d.hom
+    change (c.ι.app j).hom a ∈ RingHom.ker d.hom
     rw [RingHom.mem_ker, ← RingHom.comp_apply, hfac j]
     exact RingHom.mem_ker.mp ha
 
@@ -128,7 +128,7 @@ theorem ker_eq_map_of_isPushout_of_surjective {A B C E : Type u} [CommRing A] [C
   let Jd : Ideal C := Ideal.map g (RingHom.ker f)
   have hJ : Jd ≤ RingHom.ker k := by
     refine Ideal.map_le_iff_le_comap.mpr fun x hx => ?_
-    show k (g x) = 0
+    change k (g x) = 0
     have heq : h.comp f = k.comp g := by
       simpa using congrArg CommRingCat.Hom.hom sq.w
     rw [← RingHom.comp_apply, ← heq, RingHom.comp_apply]
@@ -144,7 +144,7 @@ theorem ker_eq_map_of_isPushout_of_surjective {A B C E : Type u} [CommRing A] [C
     congrArg CommRingCat.Hom.hom
       (sq.inr_desc (CommRingCat.ofHom l) (CommRingCat.ofHom q) (CommRingCat.hom_ext hl))
   refine le_antisymm (fun x hx => Ideal.Quotient.eq_zero_iff_mem.mp ?_) hJ
-  show q x = 0
+  change q x = 0
   rw [← ht]
   simp [RingHom.mem_ker.mp hx]
 

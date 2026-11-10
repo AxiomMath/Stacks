@@ -261,8 +261,7 @@ theorem bijective_moduleBaseChangeMap_app_of_chartSquare (comm : f' ≫ g = g' �
     (bijective_modulePullbackChartBaseChange_of_isQuasicoherentOnSite B S hS f
       ((modulePushforward B S hS g).obj M) hgM ⟨Z, V, b, hb⟩ hZ hV)).1
     (hL.of_eq_apply fun w => ?_)
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul z x =>
     rw [Function.comp_apply, LinearMap.liftBaseChange_tmul, modulePullbackChartBaseChange_tmul,
       map_smul]
@@ -293,7 +292,7 @@ theorem isIso_moduleBaseChangeMap_app_of_isAffineSpace (sq : IsPullback g' f' f 
   let b : (SmallEtale.toOver B S hS X.1).obj Z ⟶ (SmallEtale.toOver B S hS Y.1).obj V :=
     yoneda.preimage (Z.1.hom ≫ f.hom ≫ e.hom)
   have hb : Z.1.hom ≫ f.hom = yoneda.map b ≫ V.1.hom := by
-    show _ = yoneda.map (yoneda.preimage _) ≫ e.inv
+    change _ = yoneda.map (yoneda.preimage _) ≫ e.inv
     rw [Functor.map_preimage, Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   let U := (smallBaseChange B S hS g hrg).obj V
   let U' := (smallBaseChange B S hS g' hrg').obj Z
@@ -322,11 +321,11 @@ theorem isIso_moduleBaseChangeMap_app_of_isAffineSpace (sq : IsPullback g' f' f 
       (by rw [← Functor.map_comp, ← Functor.map_comp, hat]) (hrg.isPullback V.1.hom)
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj Z)) :=
     hZ
-  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
-  letI : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
-  letI hpres : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
+  let : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
+  let : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
+  let hpres : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
     comp_preservesLimitsOfShape _ _
-  letI : PreservesLimit (cospan c b) (BigFppfOver.toScheme B S hS) :=
+  let : PreservesLimit (cospan c b) (BigFppfOver.toScheme B S hS) :=
     hpres.preservesLimit
   have hpo := isPushout_appTop_of_isPullback
     ((IsPullback.of_map_of_faithful yoneda hpb).map (BigFppfOver.toScheme B S hS))

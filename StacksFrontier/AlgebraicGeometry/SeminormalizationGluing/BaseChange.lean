@@ -128,7 +128,7 @@ theorem isSeminormal_spec_of_isSeminormalRing {R : Type u} [CommRing R]
     (hR : IsSeminormalRing R) : IsSeminormal (Spec (CommRingCat.of R)) := by
   intro x
   refine ⟨⟨⊤, isAffineOpen_top (Spec (CommRingCat.of R))⟩, Set.mem_univ _, ?_⟩
-  show IsSeminormalRing Γ(Spec (CommRingCat.of R), ⊤)
+  change IsSeminormalRing Γ(Spec (CommRingCat.of R), ⊤)
   exact Stacks.RingTheory.Seminormal.IsSeminormalRing.of_ringEquiv
     (Scheme.ΓSpecIso (CommRingCat.of R)).symm.commRingCatIsoToRingEquiv hR
 

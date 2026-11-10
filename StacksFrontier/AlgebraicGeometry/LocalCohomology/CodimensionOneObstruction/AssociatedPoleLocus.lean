@@ -34,8 +34,8 @@ paragraph of [Stacks, Tag 0AWC] needs for a general associated point of a cohere
 
 The relative pole-locus statement is deduced from the absolute one
 (`exists_notMem_forall_le_of_height_le_one`, proved in
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.PoleLocus`) by passing to
-the Noetherian domain `R ⧸ p`; the one-dimensionality hypothesis is stated as
+`StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.PoleLocus`) by
+passing to the Noetherian domain `R ⧸ p`; the one-dimensionality hypothesis is stated as
 `(q.map (Ideal.Quotient.mk p)).height ≤ 1`, which is the Krull dimension of the local ring of the
 closed subscheme `V(p)` at `q`.
 

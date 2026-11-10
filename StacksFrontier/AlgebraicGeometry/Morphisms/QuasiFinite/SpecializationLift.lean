@@ -68,7 +68,7 @@ public theorem residueField_finite_of_quasiFiniteAt {X Y : Scheme.{u}} (f : X �
   let : P.IsMaximal := IsLocalRing.maximalIdeal.isMaximal A
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime P) :=
     Localization.AtPrime.algebraOfLiesOver p P
-  let : Localization.AtPrime.IsLiesOverAlgebra p P := inferInstance
+  let : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime P) := inferInstance
   have hfinite : Module.Finite p.ResidueField P.ResidueField := inferInstance
   let eR : IsLocalRing.ResidueField R ≃+* p.ResidueField :=
     (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
@@ -80,11 +80,11 @@ public theorem residueField_finite_of_quasiFiniteAt {X Y : Scheme.{u}} (f : X �
       eA.toRingHom.comp (IsLocalRing.ResidueField.map φ) := by
     ext z
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
-    show algebraMap p.ResidueField P.ResidueField
+    change algebraMap p.ResidueField P.ResidueField
         (eR (IsLocalRing.residue R r)) =
       eA ((IsLocalRing.ResidueField.map φ) (IsLocalRing.residue R r))
     rw [IsLocalRing.ResidueField.map_residue]
-    show algebraMap p.ResidueField P.ResidueField
+    change algebraMap p.ResidueField P.ResidueField
         (algebraMap R p.ResidueField r) = algebraMap A P.ResidueField (φ r)
     exact Ideal.ResidueField.map_algebraMap p P φ
       (IsLocalRing.maximalIdeal_comap φ).symm r
@@ -93,7 +93,7 @@ public theorem residueField_finite_of_quasiFiniteAt {X Y : Scheme.{u}} (f : X �
     Algebra.finrank_eq_of_equiv_equiv eR eA hcompat
   have hpos : 0 < Module.finrank (IsLocalRing.ResidueField R)
       (IsLocalRing.ResidueField A) := hdim ▸ Module.finrank_pos
-  show Module.Finite (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A)
+  change Module.Finite (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A)
   exact Module.finite_of_finrank_pos hpos
 
 /-- At every point of a locally quasi-finite morphism the residue field extension is finite. -/
@@ -111,7 +111,7 @@ public theorem residueFieldMap_finite_of_surjectiveOnStalks {X Y : Scheme.{u}} (
     Module.Finite (Y.residueField (f x)) (X.residueField x) := by
   let : Algebra (Y.residueField (f x)) (X.residueField x) :=
     (f.residueFieldMap x).hom.toAlgebra
-  show (f.residueFieldMap x).hom.Finite
+  change (f.residueFieldMap x).hom.Finite
   refine RingHom.Finite.of_surjective _ fun z ↦ ?_
   obtain ⟨a, rfl⟩ := X.residue_surjective x z
   obtain ⟨b, hb⟩ := f.stalkMap_surjective x a

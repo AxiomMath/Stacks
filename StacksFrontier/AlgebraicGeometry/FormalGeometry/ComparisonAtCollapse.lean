@@ -137,8 +137,6 @@ public theorem colimitιModuleMap_apply (V : OpensNearVanishing A I a)
       ConcreteCategory.hom (colimit.ι (sectionsNearVanishing A I a F) V) x :=
   rfl
 
-variable [IsNoetherianRing A] [F.IsCoherent] {V : OpensNearVanishing A I a}
-
 /-- **The colimit of the sections near the formal locus is a finite `A`-module** as soon as the
 sections on one neighbourhood at which the comparison is onto are: the colimit inclusion of that
 neighbourhood is an `A`-linear surjection. -/

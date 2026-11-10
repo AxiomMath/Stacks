@@ -108,10 +108,10 @@ theorem exists_isQuasiAffine_preimage_eq_preimage (hL : Stacks.Ample.IsAmple X L
   refine ⟨Stacks.NonvanishingOpen.nonvanishingOpen X (Stacks.Ample.tensorPowModule X L (d : ℤ))
     (e.hom.app ⊤ m₀), ?_,
     Stacks.AmpleQuasiAffineCover.isQuasiAffine_nonvanishingOpen_of_isAmple L hL hd _, ?_⟩
-  · show x ∈ nonvanishingLocus (Stacks.Ample.tensorPowModule X L (d : ℤ)) (e.hom.app ⊤ m₀)
+  · change x ∈ nonvanishingLocus (Stacks.Ample.tensorPowModule X L (d : ℤ)) (e.hom.app ⊤ m₀)
     rwa [hloc]
   · ext y
-    show ρ₁.base y ∈ nonvanishingLocus (Stacks.Ample.tensorPowModule X L (d : ℤ))
+    change ρ₁.base y ∈ nonvanishingLocus (Stacks.Ample.tensorPowModule X L (d : ℤ))
         (e.hom.app ⊤ m₀) ↔
       ρ₂.base y ∈ nonvanishingLocus (Stacks.Ample.tensorPowModule X L (d : ℤ)) (e.hom.app ⊤ m₀)
     rw [hloc, ← mem_nonvanishingLocus_pullbackSectionsHom_iff,

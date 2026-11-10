@@ -35,7 +35,8 @@ Write `c = S.fromSpecStalk y : Spec 𝒪_{S, y} ⟶ S`, `X' = X ×_S Spec 𝒪_{
 `g' = pullback.fst f c : X' ⟶ X`, `f' = pullback.snd f c : X' ⟶ Spec 𝒪_{S, y}`,
 `M = ℒ ^⊗ d` and let `V ⊂ X'` be the closed subscheme cut out by `𝔪 𝒪_{X'}`
 (`Stacks.AmpleFibreNeighbourhood.stalkBaseChangeFibreIdeal`), with closed immersion
-`v = V ⟶ X'`.  Nothing here is new mathematics; all three steps are in the library and the content is
+`v = V ⟶ X'`.  Nothing here is new mathematics; all three steps are in the library and the content
+is
 their composition.
 
 * **Surjectivity on `V`.**
@@ -153,7 +154,7 @@ private theorem bijective_app_of_isIso {X : Scheme.{u}} {M N : X.Modules} (φ : 
 private theorem top_le_comp_preimage {P R Z : Scheme.{u}} (v : P ⟶ R) (g : R ⟶ Z) (U : Z.Opens)
     (hg : (⊤ : R.Opens) ≤ g ⁻¹ᵁ U) : (⊤ : P.Opens) ≤ (v ≫ g) ⁻¹ᵁ U := by
   intro z _
-  show (v ≫ g).base z ∈ U
+  change (v ≫ g).base z ∈ U
   rw [Scheme.Hom.comp_apply]
   exact hg (show v.base z ∈ (⊤ : R.Opens) from trivial)
 
@@ -300,7 +301,8 @@ is ample on the fibre `X_y`.  Then there is a `d₀` such that for every `d ≥ 
 a section `a` of `ℒ ^⊗ d` over `f ⁻¹ᵁ U` restricting to `t`.
 
 This is the lift half of the proof of [Stacks, Tag 0D2N], and it is the composition of three
-facts from the library, laid out in the module docstring: assertion (B) of [Stacks, Tag 0D2M] over the
+facts from the library, laid out in the module docstring: assertion (B) of [Stacks, Tag 0D2M] over
+the
 local base `𝒪_{S, y}`
 (`Stacks.AmpleFibreNeighbourhood.exists_surjective_pullbackGlobalSections_stalkFibre`), the
 descent of a section from `Spec 𝒪_{S, y}` to a neighbourhood of `y`

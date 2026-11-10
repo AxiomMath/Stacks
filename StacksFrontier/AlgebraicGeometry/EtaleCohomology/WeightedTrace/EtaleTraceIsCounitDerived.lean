@@ -419,7 +419,7 @@ public theorem hasWeightedTraceStalksMod_counit
     (M : ModuleSheaf.{u, u + 1, u} B (B.obj X hX) Λ) :
     HasWeightedTraceStalksMod.{u, u + 1, u} B Λ U.obj.hom modPull hpull
       (flatQuasiFiniteWeight (B.inclusion.map U.obj.hom)) M (adjMod.counit.app M) := by
-  show HasWeightedTraceStalks.{u, u + 1} B U.obj.hom _ _ _
+  change HasWeightedTraceStalks.{u, u + 1} B U.obj.hom _ _ _
   rw [hadj M]
   exact hasWeightedTraceStalks_counit B X hX U _
 

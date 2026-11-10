@@ -341,7 +341,7 @@ theorem exists_flatLocalExtension_finitePresentation_of_existsSpreadOut
   let : Module A M := Module.compHom M (algebraMap A T)
   have htAT : IsScalarTower A T M := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have htRA : IsScalarTower R A M := IsScalarTower.of_algebraMap_smul fun r x => by
-    show algebraMap A T (algebraMap R A r) • x = φ r • x
+    change algebraMap A T (algebraMap R A r) • x = φ r • x
     rw [← IsScalarTower.algebraMap_apply R A T]
     rfl
   obtain ⟨N, hNfg, hNloc⟩ :=

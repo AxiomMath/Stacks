@@ -144,7 +144,7 @@ theorem exists_isPerfect_derivedPullback_iso_of_isAffineSpace
             ((globalFunctionsMap B S hS (L.projection hX i.1)).comp (Shrink.ringEquiv _).toRingHom))
           naturality := fun i j h => by
             refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
-            show σ.symm (globalFunctionsMap B S hS (L.projection hX j.1)
+            change σ.symm (globalFunctionsMap B S hS (L.projection hX j.1)
               (Shrink.ringEquiv _ ((Shrink.ringEquiv _).symm (globalFunctionsMap B S hS
                 (L.transition (leOfHom h)) (Shrink.ringEquiv _ x))))) =
               σ.symm (globalFunctionsMap B S hS (L.projection hX i.1) (Shrink.ringEquiv _ x))
@@ -154,12 +154,12 @@ theorem exists_isPerfect_derivedPullback_iso_of_isAffineSpace
       (fun i j hij x => R.map (homOfLE hij) x) (fun i x => c.ι.app i x) :=
     Stacks.IsStagesColimit.ofEquiv _ _ (fun i => (Shrink.ringEquiv _).toEquiv) σ.toEquiv
       (fun i j h s => by
-        show Shrink.ringEquiv _ ((Shrink.ringEquiv _).symm (globalFunctionsMap B S hS
+        change Shrink.ringEquiv _ ((Shrink.ringEquiv _).symm (globalFunctionsMap B S hS
           (L.transition (leOfHom (homOfLE h))) (Shrink.ringEquiv _ s))) = _
         rw [RingEquiv.apply_symm_apply]
         rfl)
       (fun i s => by
-        show σ (σ.symm _) = _
+        change σ (σ.symm _) = _
         rw [RingEquiv.apply_symm_apply]
         rfl) hcol
   obtain ⟨hc⟩ := Stacks.IsStagesColimit.nonempty_isColimit R c hc'
@@ -183,7 +183,7 @@ theorem exists_isPerfect_derivedPullback_iso_of_isAffineSpace
     fun i => L.projection hX i.1
   have hψ : ∀ (i : L.Stages) (x : R.obj i), globalFunctionsMap B S hS (gs i) (ψs i x) =
       ψ₀ (c.ι.app i x) := fun i x => by
-    show _ = σ (σ.symm _)
+    change _ = σ (σ.symm _)
     exact (σ.apply_symm_apply _).symm
   obtain ⟨i, Eᵢ, hEᵢ, eᵢ⟩ := exists_isPerfect_derivedPullback_iso_of_pointTensor B S hS R c hc
     (X := ⟨D.limitCone.pt, hX⟩) ψ₀ (fun i => L.stage i.1) gs ψs hψ E C a b hCa hCb hfin hproj eE

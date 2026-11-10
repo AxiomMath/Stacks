@@ -107,7 +107,7 @@ theorem sectionTensorFreeTerminalEquiv_comp (I : Type (max u v r))
     (g : N ⟶ N') (i : I) :
     sectionTensorFreeTerminalEquiv hZ I N' (φ ≫ g) i =
       g.val.app (op Z) (sectionTensorFreeTerminalEquiv hZ I N φ i) := by
-  show (((sectionTensorSheafAdjunction.{u, v, r, v} O).homEquiv _ N' (φ ≫ g)).hom
+  change (((sectionTensorSheafAdjunction.{u, v, r, v} O).homEquiv _ N' (φ ≫ g)).hom
     (Finsupp.single i 1)).val (op Z) = _
   rw [Adjunction.homEquiv_naturality_right]
   rfl
@@ -179,7 +179,7 @@ theorem freeSectionModuleRelations_comp_cover (M : ModuleCat.{max u r v} (Global
   refine ModuleCat.hom_ext (Finsupp.lhom_ext' fun k => LinearMap.ext fun a => ?_)
   have h : (freeSectionModuleRelations M).hom (Finsupp.single k a) = a • k.down.1 :=
     Finsupp.linearCombination_single _ _ _
-  show (freeSectionModuleCover M).hom ((freeSectionModuleRelations M).hom
+  change (freeSectionModuleCover M).hom ((freeSectionModuleRelations M).hom
     (Finsupp.single k a)) = 0
   rw [h, map_smul, LinearMap.mem_ker.1 k.down.2, smul_zero]
 

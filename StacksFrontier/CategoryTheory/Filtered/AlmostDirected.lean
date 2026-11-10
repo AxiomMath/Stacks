@@ -217,7 +217,7 @@ private theorem colimitDecomposedDesc_naturality (G G' : (Decomposed I) ⥤ Type
     ((ConcreteCategory.hom (η.app ⟨b,x⟩)) g)) ?_
   refine Eq.trans ?_
     (congrArg _ (colimit.ι_desc_apply (colimitDecomposedCocone G) ⟨b,x⟩ g)).symm
-  show equivShrink _
+  change equivShrink _
       (⟨b, colimit.ι (Sigma.incl b ⋙ G') x ((ConcreteCategory.hom (η.app ⟨b,x⟩)) g)⟩
       : Σ c, colimit (Sigma.incl c ⋙ G'))
     = equivShrink _ (⟨((equivShrink (Σ c, colimit (Sigma.incl c ⋙ G))).symm
@@ -285,7 +285,7 @@ lemma componentColimFunctor_preservesLimitsOfShape
     have : PreservesFiniteLimits
         (colim : (ConnectedComponents.Component c ⥤ Type v) ⥤ Type v) :=
       filtered_colim_preservesFiniteLimits_of_types
-    show PreservesLimitsOfShape L
+    change PreservesLimitsOfShape L
       (((Functor.whiskeringLeft (ConnectedComponents.Component c) I (Type v)).obj c.ι) ⋙ colim)
     infer_instance
   exact preservesLimitsOfShape_of_reflects_of_preserves _ E.functor

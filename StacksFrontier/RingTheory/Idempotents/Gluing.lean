@@ -71,7 +71,7 @@ theorem res_res (M : (Idem C)ᵒᵈ ⥤ AddCommGrpCat.{w}) {e f g : Idem C} (hef
 /-- Restriction from `e` to itself is the identity. -/
 theorem res_refl (M : (Idem C)ᵒᵈ ⥤ AddCommGrpCat.{w}) {e : Idem C} (m : M.obj (toDual e)) :
     res M (le_refl e) m = m := by
-  show (M.map (𝟙 (toDual e))) m = m
+  change (M.map (𝟙 (toDual e))) m = m
   rw [M.map_id]
   rfl
 
@@ -421,7 +421,7 @@ theorem bijective_desc_iff_isBijectiveAt (φ : M ⟶ N)
       obtain ⟨e', h, he', m, hm⟩ := hsurj (ofDual j.1) j.2 y
       refine ⟨cM.ι.app ⟨toDual e', he'⟩ m, ?_⟩
       rw [hψa]
-      show cN.ι.app ⟨toDual e', he'⟩ _ = _
+      change cN.ι.app ⟨toDual e', he'⟩ _ = _
       rw [hm]
       exact germ_ι_app_res (e := j) (e' := ⟨toDual e', he'⟩) h y
 

@@ -82,7 +82,7 @@ instance surjectiveOnStalks_fromGenericPointResidueFields :
     (Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) η ≫
       Sigma.desc (fun η : genericPoints X ↦ X.fromSpecResidueField η.1))
   intro η
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   infer_instance
 
 /-- A point of the summand indexed by a generic point `ζ` is sent to `ζ`. -/
@@ -90,7 +90,7 @@ private theorem fromGenericPointResidueFields_ι_apply (ζ : genericPoints X)
     (r : Spec (.of (X.residueField ζ.1))) :
     fromGenericPointResidueFields X
       (Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) ζ r) = ζ.1 := by
-  show (Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) ζ ≫
+  change (Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) ζ ≫
     fromGenericPointResidueFields X) r = ζ.1
   rw [genericPointResidueSpectrum_ι_fromGenericPointResidueFields,
     X.fromSpecResidueField_apply]
@@ -171,7 +171,7 @@ theorem isBirational_normalization
   have hfac : ∀ s : genericPointResidueSpectrum X,
       X.normalization hX (f.toNormalization s) = f s := by
     intro s
-    show (f.toNormalization ≫ f.fromNormalization) s = f s
+    change (f.toNormalization ≫ f.fromNormalization) s = f s
     rw [f.toNormalization_fromNormalization]
   refine isBirational_of_bijOn_of_isIso_stalkMap _ ⟨?_, ?_, ?_⟩ ?_
   · exact fun z hz ↦ normalization_mem_genericPoints X hX hz
@@ -203,7 +203,7 @@ theorem isBirational_normalization
   · intro z hz
     obtain ⟨s, rfl⟩ := hlift z hz
     have : IsReduced (X.normalizationScheme hX) := by
-      show IsReduced f.normalization
+      change IsReduced f.normalization
       infer_instance
     have hfield : IsField ((X.normalizationScheme hX).presheaf.stalk (f.toNormalization s)) :=
       isField_stalk_of_closure_mem_irreducibleComponents _ _ hz

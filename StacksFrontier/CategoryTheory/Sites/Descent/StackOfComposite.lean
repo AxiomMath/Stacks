@@ -724,7 +724,7 @@ lemma componentIso_comm_glued [F.IsPrestack J]
   unfold mor
   rw [locIso_hom, locIso_inv]
   simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]
-  rw [Iso.map_inv_hom_id, Category.comp_id]
+  rw [Iso.inv_hom_id_map, Category.comp_id]
 
 /-- **The pullback of the glued datum along the composite family is the datum it was glued
 from.** Its components are the comparisons `componentIso`, and the compatibility condition is the

@@ -154,7 +154,7 @@ theorem range_spec_map_quotientMk_eq :
         (RingHom.ker (limit.π S.system (op 0)).hom)))) =
       Set.range (baseProjection S.system 0) := by
   rw [range_spec_map_quotient_mk]
-  show _ = Set.range (PrimeSpectrum.comap (limit.π S.system (op 0)).hom)
+  change _ = Set.range (PrimeSpectrum.comap (limit.π S.system (op 0)).hom)
   rw [_root_.range_comap_of_surjective _ _ S.surjective_limit_π_zero]
 
 /-- All the closed subschemes `Xₙ` have the same underlying set in `X`: the points of `X` lying
@@ -282,7 +282,7 @@ theorem exists_le_forall_range_closedImmersion_subset (W₁ : S.X.left.Opens)
   rw [S.range_spec_map_quotientMk_eq, ← S.range_baseProjection_eq n]
   refine ⟨pullback.snd S.X.hom (baseProjection S.system n) p, ?_⟩
   rw [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply]
-  show S.X.hom (S.closedImmersion n p) = S.X.hom (W₁.ι (z t))
+  change S.X.hom (S.closedImmersion n p) = S.X.hom (W₁.ι (z t))
   rw [hzt, ← hln, Scheme.Hom.comp_apply]
 
 /-- On the open `W'` left after removing the non-proper part of the support, the support of `G`
@@ -353,7 +353,7 @@ theorem exists_isOpenImmersion_isProper_forall_mem_range (W₁ : S.X.left.Opens)
   refine ⟨Pc, w, hwo, hwp, fun t ht => ?_⟩
   obtain ⟨s, rfl⟩ : t ∈ Set.range (pullback.fst f q) := by
     rwa [Scheme.Pullback.range_fst]
-  show s ∈ pullback.fst f q ⁻¹' Set.range w
+  change s ∈ pullback.fst f q ⁻¹' Set.range w
   rw [hwr]
   exact ⟨s, rfl⟩
 
@@ -413,7 +413,7 @@ theorem exists_le_isProperOver_supp (W : S.X.left.Opens)
     rw [← Category.assoc, hkf, Category.assoc]
   refine ⟨⟨k.base '' Set.univ, isClosed_image_of_isProperOver _ (W'.ι ≫ S.X.hom) k hfg ⊤ hp⟩,
     ?_, isProperOver_image _ (W'.ι ≫ S.X.hom) k hfg ⊤ hp⟩
-  show k.base '' Set.univ = _
+  change k.base '' Set.univ = _
   rw [Set.image_univ, ← hrk]
 
 end ExistenceSituation

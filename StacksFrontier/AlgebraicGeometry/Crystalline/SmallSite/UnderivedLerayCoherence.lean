@@ -132,6 +132,7 @@ theorem crisBigGlobalSectionsIso_inv_comp_ΓRes
           ((bigDirectImage S).obj H) := rfl
   rw [hinv, Category.assoc, ← h, Iso.inv_hom_id_app_assoc]
 
+omit hf in
 /-- **The Zariski route, read at an object of `Cris(X/S)`.**  Going `Γ(X'_Zar, f_{Zar, *}M) ⟶
 Γ(X_Zar, M) ⟶ Γ(Cris(X/S), ℋ)` for `M = u_{X/S, *}ℋ` and restricting to `A` is restricting a
 section of `f_{Zar, *}M` over the top open — which is a section of `M` over the top open of `X` —
@@ -232,7 +233,7 @@ theorem crisZariskiUnderivedCoherence_aux
   refine (CrystallineThickening.coversTop_ι S').ext
     ((changeBaseDirectImage S S' fS fX hf).obj ((bigDirectImage S).obj H))
     (Sheaf.isLimitConeΓ _) fun A' ↦ ?_
-  show ((zariskiGlobalSections S').map ((crisZariskiCell S S' fS fX hf).app H) ≫
+  change ((zariskiGlobalSections S').map ((crisZariskiCell S S' fS fX hf).app H) ≫
         (zariskiGlobalSectionsDirectImageIso S').hom.app
             ((crisDirectImage S S' fS fX hf).obj H) ≫
           (smallRestrictionGlobalSectionsIso (S := S')).hom.app
@@ -337,7 +338,7 @@ theorem crisZariskiUnderivedCoherence_aux
       ((Category.assoc _ _ _).symm.trans (congrArg (fun z ↦ z ≫ _) hΓ))) ?_
     refine Eq.trans (Category.assoc _ _ _) ?_
     refine Eq.trans (congrArg (fun z ↦ _ ≫ z) hcbδ) ?_
-    exact zariskiRoute_comp_ΓRes S S' fS fX hf H e₂.right.unop
+    exact zariskiRoute_comp_ΓRes S S' fX H e₂.right.unop
 
 /-- **The underived Leray coherence across the square of topoi of [Stacks, Tag 07Q9].**  The two
 routes `Γ(X'_Zar, u_{X'/S', *}f_{cris, *}ℋ) ⟶ Γ(Cris(X/S), ℋ)` agree: one is the comparison for

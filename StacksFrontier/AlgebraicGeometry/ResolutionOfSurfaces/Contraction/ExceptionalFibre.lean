@@ -134,7 +134,7 @@ public theorem exists_smul_Γgerm_pushforward {Z X : Scheme.{u}} (i : Z ⟶ X) [
   let V' : X.Opens := (⟨V, hVo⟩ ⊓ U) ⊓ W
   have hzV : i.base z ∈ V' := by
     refine ⟨⟨?_, hU⟩, hW⟩
-    show z ∈ i.base ⁻¹' V
+    change z ∈ i.base ⁻¹' V
     rw [hVeq]
     exact hW''
   have hle : i ⁻¹ᵁ V' ≤ W' := fun w hw => by

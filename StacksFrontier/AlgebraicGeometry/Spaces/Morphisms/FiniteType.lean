@@ -293,10 +293,10 @@ theorem isLocallyOfFiniteType_of_pullback_fst_of_isAffine (hX : IsAlgebraicSpace
   set Vi : BigFppfOver B S hS := Over.mk (j₀ ≫ V.hom)
   set j : Vi ⟶ V := Over.homMk j₀
   have hj : T.map j = C.f i := by
-    show B.inclusion.map j₀ = C.f i
+    change B.inclusion.map j₀ = C.f i
     rw [B.inclusion.map_preimage]
   have hViAffine : IsAffine (T.obj Vi) := by
-    show IsAffine (C.X i)
+    change IsAffine (C.X i)
     exact Scheme.isAffine_affineCover (T.obj V) i
   have hWsch : B.Contains (Limits.pullback (T.map α) (C.f i)) :=
     Scheme.size_pullback_lt _ _ U.left.property hVi
@@ -309,11 +309,11 @@ theorem isLocallyOfFiniteType_of_pullback_fst_of_isAffine (hX : IsAlgebraicSpace
   set W : BigFppfOver B S hS := Over.mk (pU₀ ≫ U.hom)
   set pU : W ⟶ U := Over.homMk pU₀
   have hαbase : T.map α ≫ B.inclusion.map V.hom = B.inclusion.map U.hom := by
-    show B.inclusion.map α.left ≫ B.inclusion.map V.hom = B.inclusion.map U.hom
+    change B.inclusion.map α.left ≫ B.inclusion.map V.hom = B.inclusion.map U.hom
     rw [← Functor.map_comp, α.w]
   have hOver : pV₀ ≫ Vi.hom = pU₀ ≫ U.hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map pV₀ ≫ B.inclusion.map (j₀ ≫ V.hom) =
+    change B.inclusion.map pV₀ ≫ B.inclusion.map (j₀ ≫ V.hom) =
       B.inclusion.map pU₀ ≫ B.inclusion.map U.hom
     simp only [Functor.map_comp, hpV₀def, hpU₀def, hj₀def, B.inclusion.map_preimage]
     calc pullback.snd (T.map α) (C.f i) ≫ C.f i ≫ B.inclusion.map V.hom
@@ -333,10 +333,10 @@ theorem isLocallyOfFiniteType_of_pullback_fst_of_isAffine (hX : IsAlgebraicSpace
   have _ : AlgebraicGeometry.IsOpenImmersion (C.f i) := C.map_prop i
   have hjOpen : AlgebraicGeometry.IsOpenImmersion (T.map j) := by rw [hj]; infer_instance
   have hpUeq : T.map pU = pullback.fst (T.map α) (C.f i) := by
-    show B.inclusion.map pU₀ = pullback.fst (T.map α) (C.f i)
+    change B.inclusion.map pU₀ = pullback.fst (T.map α) (C.f i)
     rw [B.inclusion.map_preimage]
   have hpVeq : T.map pV = pullback.snd (T.map α) (C.f i) := by
-    show B.inclusion.map pV₀ = pullback.snd (T.map α) (C.f i)
+    change B.inclusion.map pV₀ = pullback.snd (T.map α) (C.f i)
     rw [B.inclusion.map_preimage]
   have hpUOpen : AlgebraicGeometry.IsOpenImmersion (T.map pU) := by
     rw [hpUeq]; infer_instance
@@ -374,7 +374,7 @@ private theorem isLocallyOfFiniteType_of_isIso
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities :=
     ⟨fun U ↦ by
-      show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 U))
+      change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 U))
       rw [CategoryTheory.Functor.map_id]
       infer_instance⟩
   have _ : MorphismProperty.RespectsIso (@AlgebraicGeometry.Etale.{u}) :=

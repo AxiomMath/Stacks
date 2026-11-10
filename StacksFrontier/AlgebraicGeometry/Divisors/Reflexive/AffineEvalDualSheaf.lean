@@ -154,7 +154,7 @@ theorem toDoubleDual_reflexiveHullTildeIso (R : CommRingCat.{u}) [IsNoetherianRi
         (dualSheafTildeIso R (ModuleCat.of R (Module.Dual R M))).hom from rfl,
     ← Category.assoc, ← Iso.eq_comp_inv]
   refine tilde_hom_ext_toOpen (fun m => ?_)
-  show (dualIso (dualSheafTildeIso R M)).inv.val.app (op ⊤)
+  change (dualIso (dualSheafTildeIso R M)).inv.val.app (op ⊤)
       ((toDoubleDual (tilde M)).val.app (op ⊤) ((tilde.toOpen M ⊤).hom m)) =
     (dualSheafTildeIso R (ModuleCat.of R (Module.Dual R M))).inv.val.app (op ⊤)
       ((tilde.map (ModuleCat.ofHom (Module.Dual.eval R M))).val.app (op ⊤)
@@ -170,7 +170,7 @@ theorem toDoubleDual_reflexiveHullTildeIso (R : CommRingCat.{u}) [IsNoetherianRi
   refine Eq.trans (toDoubleDual_dualPairing (tilde M) ((tilde.toOpen M ⊤).hom m) W
     ((dualSheafTildeIso R M).inv.val.app (op W.left) σ)) ?_
   rw [hres]
-  show (evalSectionHom M m).val.app (op W.left)
+  change (evalSectionHom M m).val.app (op W.left)
       ((dualSheafTildeIso R M).inv.val.app (op W.left) σ) = _
   exact congrArg (fun φ : tilde (ModuleCat.of R (Module.Dual R M)) ⟶
       SheafOfModules.unit (Spec R).ringCatSheaf => (φ.val.app (op W.left)).hom σ)

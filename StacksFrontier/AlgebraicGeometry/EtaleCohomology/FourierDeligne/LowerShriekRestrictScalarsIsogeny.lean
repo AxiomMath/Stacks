@@ -139,7 +139,7 @@ theorem exists_isogeny_restrictScalars_inverseImage_lowerShriekHomology
     (etaleModuleInverseImage.{u, 0} Λ₀ jV).mapIso ((etaleModuleRestrictScalars π Y).mapIso β ≪≫
       ((lowerShriekHomologyRestrictScalarsIso π f jf q).app L).symm)
   have hR : ∀ G : EtaleModules.{u, 0} Λ₀ X, R.map (k • 𝟙 G) = k • 𝟙 (R.obj G) := fun G => by
-    show (etaleModuleInverseImage.{u, 0} Λ₀ jV).map
+    change (etaleModuleInverseImage.{u, 0} Λ₀ jV).map
       ((lowerShriekHomology Λ₀ f jf q).map (k • 𝟙 G)) = _
     rw [lowerShriekHomology_map_nsmul_id, CategoryTheory.Functor.map_nsmul,
       CategoryTheory.Functor.map_id]

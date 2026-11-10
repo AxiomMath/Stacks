@@ -122,11 +122,11 @@ theorem properPushforward_congr_iso (C : ChowSituation.{u}) {A B A' B' : Scheme.
   have hmap : (properPushforward C sB sB' j.hom hj k
         (properPushforward C sA sB a ha k c)).1 =
       (properPushforward C sA' sB' a' ha' k' c').1 := by
-    show AlgebraicCycle.map j.hom _ _ (AlgebraicCycle.map a _ _ c.1) = _
+    change AlgebraicCycle.map j.hom _ _ (AlgebraicCycle.map a _ _ c.1) = _
     rw [properPushforward_val_comp C sA sB sB' a j.hom ha hj k c]
     simp only [hij]
     rw [← properPushforward_val_comp C sA sA' sB' i.hom a' hi ha' k c]
-    show AlgebraicCycle.map a' _ _ (properPushforward C sA sA' i.hom hi k c).1 = _
+    change AlgebraicCycle.map a' _ _ (properPushforward C sA sA' i.hom hi k c).1 = _
     rw [hci]
     rfl
   have heval := congrArg (fun z : AlgebraicCycle B' ℤ => z (j.hom y)) hmap
@@ -356,7 +356,7 @@ theorem properPushforwardFamily_compFamily_baseChangeFamily {X Y Y' S : Scheme.{
         (pullback.snd (pullback.snd p (sY.fiberι s)) (inducedFiberMap sY' sY g hg s) ≫
           sY'.fiberToSpecResidueField s) =
       (pullback.snd p g ≫ sY').fiberToSpecResidueField s := by
-    show (compFiberIso (pullback.snd p g) sY' s).inv ≫ (fibreSquareIso sY sY' p g hg s).hom ≫
+    change (compFiberIso (pullback.snd p g) sY' s).inv ≫ (fibreSquareIso sY sY' p g hg s).hom ≫
       pullback.snd (pullback.snd p (sY.fiberι s)) (inducedFiberMap sY' sY g hg s) ≫
         sY'.fiberToSpecResidueField s = _
     rw [← Category.assoc (fibreSquareIso sY sY' p g hg s).hom, fibreSquareIso_hom_snd]

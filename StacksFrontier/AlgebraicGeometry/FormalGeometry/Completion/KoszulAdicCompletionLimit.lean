@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.ExtensionZeroCoherent.SequentialProIsomorphism
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulTopQuotientAdicProIso
+ StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulTopQuotientAdicProIso
 public import StacksCore.Tactic.StacksAttribute
 
 /-!

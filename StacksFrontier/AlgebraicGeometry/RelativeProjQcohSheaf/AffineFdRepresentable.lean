@@ -340,24 +340,30 @@ test scheme, form a natural isomorphism `Mor(−, U_d) ≅ F_d`: the naturality 
 The hypotheses are exactly `IsAffine S`, the quasi-coherence of the homogeneous pieces, and
 `0 < d`; the naturality statements the proof rests on are unconditional. -/
 -- Beyond what this declaration proves, recorded here rather than in the attribute:
---   Hypotheses carried: IsAffine S, quasi-coherence of every homogeneous piece of situationAlgebra B,
---   and 0 < d. NOT the RELATIVE statement: U_d here is the open inside Proj Gamma(S, A) for an affine S,
---   not the degree-d open of the relative Proj of a RelativeProjData; the glueing of these affine-local
---   representations over a cover of the base is ChartDegreeOpenEquiv.ProjDegreeRepresentation.ofCharts,
+--   Hypotheses carried: IsAffine S, quasi-coherence of every homogeneous piece of situationAlgebra
+--   B,
+--   and 0 < d. NOT the RELATIVE statement: U_d here is the open inside Proj Gamma(S, A) for an
+--   affine S,
+--   not the degree-d open of the relative Proj of a RelativeProjData; the glueing of these
+--   affine-local
+--   representations over a cover of the base is
+--   ChartDegreeOpenEquiv.ProjDegreeRepresentation.ofCharts,
 --   so residue (i) of Tag 01NY is proved over an arbitrary base and Tag 01NY itself is
 --   RelativeProjRepresents.F.isRepresentable_relativeProjOfCharts
 @[stacks 01NU "THE TAG, for an AFFINE base: for S affine, A with quasi-coherent homogeneous pieces \
-(Situation 01NN) and d >= 1, the functor F_d of strict equivalence classes of quadruples of Section 01NS is \
+(Situation 01NN) and d >= 1, the functor F_d of strict equivalence classes of quadruples of \
+Section 01NS is \
 REPRESENTABLE by the open U_d of Equation 27.12.0.1 inside Proj Gamma(S, A) a \
-CategoryTheory.Functor.RepresentableBy for Fd.functor, i.e. the bijections Quadruple.fdEquiv together with \
+CategoryTheory.Functor.RepresentableBy for Fd.functor, i.e. the bijections Quadruple.fdEquiv \
+together with \
 their naturality in the test scheme (Quadruple.classifyingHomOfClass_pullback, which rests on the \
 unconditional veroneseSections_pullback)."]
 public def Fd.representableByDegreeOpen [IsAffine S] (hk : 0 < k)
     (hqc : ∀ n : ℤ, ((situationAlgebra B).piece n).IsQuasicoherent) :
     (Fd.functor (situationAlgebra B) (k : ℤ)).RepresentableBy
       (degreeOpen (B.grading (⊤ : S.Opens)) k).toScheme where
-  homEquiv {X} := (Quadruple.fdEquiv hk hqc).symm
-  homEquiv_comp {X X'} g φ :=
+  homEquiv := (Quadruple.fdEquiv hk hqc).symm
+  homEquiv_comp g φ :=
     (Quadruple.fdEquiv hk hqc).injective
       (((Quadruple.fdEquiv hk hqc).apply_symm_apply (g ≫ φ)).trans
         ((congrArg (fun z => g ≫ z)

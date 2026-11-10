@@ -307,7 +307,7 @@ private theorem exists_fac_unramifiedAt {X : Scheme.{u}}
     exact hWp fun w hw => by rw [hg, LinearMap.mem_ker]; exact hc w hw
   have hw₀mem : (g w)⁻¹ • w ∈ pointSubmodule k V p := Submodule.smul_mem _ _ hwW
   have hw₀g : g (((⟨(g w)⁻¹ • w, hw₀mem⟩ : ↥(pointSubmodule k V p)) : V)) = 1 := by
-    show g ((g w)⁻¹ • w) = 1
+    change g ((g w)⁻¹ • w) = 1
     rw [map_smul, smul_eq_mul, inv_mul_cancel₀ hwg]
   have hw₀V : (((⟨(g w)⁻¹ • w, hw₀mem⟩ : ↥(pointSubmodule k V p)) : V))
       ∉ pointSubmodule k V (i.base x) := by
@@ -372,7 +372,7 @@ public theorem exists_isOpen_isFinite_unramifiedAt_projection_restrict
     rw [← hPdim]
     refine IsClosedImmersion.topologicalKrullDim_lt i hX ?_
     rw [hPdim]
-    show ((n : ℕ∞) : WithBot ℕ∞) ≠ ((⊤ : ℕ∞) : WithBot ℕ∞)
+    change ((n : ℕ∞) : WithBot ℕ∞) ≠ ((⊤ : ℕ∞) : WithBot ℕ∞)
     exact fun h => ENat.natCast_ne_top n (WithBot.coe_inj.mp h)
   obtain ⟨g, v₀, hg, hv₀, hv₀g⟩ := exists_dual_ker_pointSubmodule hx'c
   have hNbot := conormal_ne_bot n hV i x hxc hxreg hdim hv₀ hg hv₀g
@@ -424,9 +424,6 @@ private theorem exists_isOpen_isClosedImmersion_projection_restrict_of_isClosed 
   have hVm : Module.finrank k V = m + 2 := by omega
   have hV2 : 2 ≤ Module.finrank k V := by omega
   have hXc : IsClosed (Set.range i.base) := i.isClosedEmbedding.isClosed_range
-  have hXirr : IsIrreducible (Set.range i.base) := by
-    simpa only [Set.image_univ] using (IrreducibleSpace.isIrreducible_univ X).image i.base
-      i.base.hom.continuous.continuousOn
   have hXdim : topologicalKrullDim (Set.range i.base) = topologicalKrullDim X :=
     (IsHomeomorph.topologicalKrullDim_eq _
       i.isClosedEmbedding.isEmbedding.toHomeomorph.isHomeomorph).symm
@@ -434,7 +431,7 @@ private theorem exists_isOpen_isClosedImmersion_projection_restrict_of_isClosed 
     rw [hXdim, ← hdimeq]
     exact_mod_cast (show dX < m by omega)
   obtain ⟨U₀, hU₀open, hU₀ne, hU₀⟩ := exists_isOpen_nonempty_forall_eq_of_isIrreducible k V
-    (i.base x) hx'c hVm hXc hXirr hXdim2
+    (i.base x) hx'c hVm hXc hXdim2
   refine ⟨⟨U₀ ∩ (linearSubspace k V (conormal i x hv₀))ᶜ,
     hU₀open.inter (isClosed_linearSubspace k V _).isOpen_compl⟩, ?_, ?_⟩
   · exact nonempty_inter_compl_linearSubspace hU₀open hU₀ne hNbot

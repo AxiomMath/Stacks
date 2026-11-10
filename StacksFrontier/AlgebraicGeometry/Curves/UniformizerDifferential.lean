@@ -145,7 +145,7 @@ theorem ringKrullDim_stalk_eq_one_of_smoothAt {k : Type u} [Field k]
   have hy : IsClosed ({y} : Set W.toScheme) := by
     convert hx.preimage W.ι.continuous using 1
     ext z
-    show z = y ↔ z.val = x
+    change z = y ↔ z.val = x
     exact Subtype.ext_iff
   have hd := topologicalKrullDimAt_eq_krullDimOfRing_stalk k W.toScheme g y hy
   rw [topologicalKrullDimAt_fiber_eq f x] at hdim
@@ -193,7 +193,7 @@ theorem exists_relativeDifferentialStalk_kaehlerEquiv {k : Type u} [Field k]
     relativeDifferentialsStalkKaehlerEquiv f x
   refine ⟨E₀.trans L.symm, fun U hxU a => ?_⟩
   apply L.injective
-  show L (L.symm (E₀ _)) = _
+  change L (L.symm (E₀ _)) = _
   rw [L.apply_symm_apply]
   exact (relativeDifferentialsStalkKaehlerEquiv_germ_d f x
     (OrderDual.toDual (⟨U, hxU⟩ : OpenNhds x)) a).trans

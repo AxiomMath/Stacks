@@ -242,7 +242,7 @@ theorem finiteEtaleProjection_eq_of_locallyEqual {x a : FiniteEtaleCovers B S hS
   have hs : FiniteEtaleCovers.baseChangeLift B S hS x (k ≫ x.hom) k (𝟙 V)
       (Category.id_comp (k ≫ x.hom)).symm ≫ pullback.fst x.hom (k ≫ x.hom) = k :=
     FiniteEtaleCovers.baseChangeLift_comp_fst _ _ _ _ _ _ _ _
-  show k ≫ F.left = k ≫ G.left
+  change k ≫ F.left = k ≫ G.left
   refine ((congrArg (fun t => t ≫ F.left) hs).symm.trans (Category.assoc _ _ _)).trans ?_
   refine (congrArg (fun t => _ ≫ t) hl).trans ?_
   exact (Category.assoc _ _ _).symm.trans (congrArg (fun t => t ≫ G.left) hs)

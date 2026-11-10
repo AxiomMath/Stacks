@@ -118,7 +118,7 @@ theorem coe_preDecompose (a : A) :
 theorem preDecompose_eq_zero_of_mem (hI : I.IsHomogeneous 𝒜) {a : A} (ha : a ∈ I) :
     preDecompose 𝒜 I a = 0 := by
   refine DFunLike.ext _ _ fun d => Subtype.coe_injective ?_
-  show Ideal.Quotient.mk I (DirectSum.decompose 𝒜 a d : A) = 0
+  change Ideal.Quotient.mk I (DirectSum.decompose 𝒜 a d : A) = 0
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (hI d ha)
 
 /-- The decomposition map of the quotient, obtained from `Stacks.GradedQuotient.preDecompose`

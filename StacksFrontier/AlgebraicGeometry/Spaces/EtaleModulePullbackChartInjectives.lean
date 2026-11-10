@@ -139,11 +139,11 @@ theorem coverPreserving_chartLocalizationInverse :
     have hmap : (E'.map (chartLocalizationInverse B S hS F X)).map
         (toSchemes B S hS (yoneda.obj ((toOver B S hS F).obj X))) =
         E.map (toSchemes B S hS F) := by
-      show E'.map (chartLocalizationInverse B S hS F X ⋙
+      change E'.map (chartLocalizationInverse B S hS F X ⋙
         toSchemes B S hS (yoneda.obj ((toOver B S hS F).obj X))) = _
       cases hΨscheme
       rfl
-    show B.etaleCovering ⟨(toSchemes B S hS (yoneda.obj ((toOver B S hS F).obj X))).obj
+    change B.etaleCovering ⟨(toSchemes B S hS (yoneda.obj ((toOver B S hS F).obj X))).obj
         ((chartLocalizationInverse B S hS F X).obj A),
       (E'.map (chartLocalizationInverse B S hS F X)).map
         (toSchemes B S hS (yoneda.obj ((toOver B S hS F).obj X)))⟩

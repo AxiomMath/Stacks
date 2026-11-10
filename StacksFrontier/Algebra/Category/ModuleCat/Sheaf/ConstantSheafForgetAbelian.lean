@@ -113,7 +113,8 @@ public lemma sheafifyComposeIso_hom_whiskerLeft_smulNatTrans (P : Cᵒᵖ ⥤ Mo
     (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj
       ((presheafToSheaf J (ModuleCat.{w} Λ)).obj P)).property ?_
   rw [sheafComposeIso_hom_fac_assoc, ← toSheafify_naturality_assoc, sheafComposeIso_hom_fac]
-  exact (Functor.whiskerLeft_comp_whiskerRight (toSheafify J P) (ModuleCat.smulNatTrans Λ a).asHom).symm
+  exact (Functor.whiskerLeft_comp_whiskerRight (toSheafify J P)
+    (ModuleCat.smulNatTrans Λ a).asHom).symm
 
 /-- `sheafifyComposeIso_hom_whiskerLeft_smulNatTrans` read through the inverse of the
 comparison. -/

@@ -179,7 +179,7 @@ theorem isAffine_of_topologicalKrullDim_le_one_of_forall_not_isProper (k : Type 
     have hx : x ∈ ⋃₀ irreducibleComponents X := by simp [sUnion_irreducibleComponents]
     obtain ⟨Z, hZ, hxZ⟩ := Set.mem_sUnion.mp hx
     refine Set.mem_iUnion.mpr ⟨e ⟨Z, hZ⟩, ?_⟩
-    show x ∈ Set.range (componentIdealSheafData (e.symm (e ⟨Z, hZ⟩))).subschemeι.base
+    change x ∈ Set.range (componentIdealSheafData (e.symm (e ⟨Z, hZ⟩))).subschemeι.base
     rw [e.symm_apply_apply, range_subschemeι_componentIdealSheafData]
     exact hxZ
   set q : (∐ Y) ⟶ X := Limits.Sigma.desc r with hq

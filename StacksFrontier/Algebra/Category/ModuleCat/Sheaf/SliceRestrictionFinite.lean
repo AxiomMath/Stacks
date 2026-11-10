@@ -178,7 +178,7 @@ slice site to the restriction of the `i`-th basis section. -/
 @[reassoc (attr := simp)]
 lemma ιFree_freeOverIso_hom (x : C) (I : Type u) [Finite I] (i : I) :
     ιFree i ≫ (freeOverIso (Rs := Rs) x I).hom = (overFunctor Rs x).map (ιFree i) := by
-  show ιFree i ≫ (mapFreeIso (overFunctor.{u} Rs x) I (unitOverIso x)).hom = _
+  change ιFree i ≫ (mapFreeIso (overFunctor.{u} Rs x) I (unitOverIso x)).hom = _
   rw [ιFree_mapFreeIso_hom]
   exact Category.id_comp _
 

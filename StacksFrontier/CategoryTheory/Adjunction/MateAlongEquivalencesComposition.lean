@@ -62,7 +62,7 @@ theorem isIso_mateOfRightIso_app_of_mem_essImage (e : R ⋙ G ≅ H ⋙ R') (hG 
       ⟨fun a b hab => by simpa using congrArg (i.inv ≫ ·) hab,
         fun y => ⟨i.inv ≫ y, by simp⟩⟩
     exact hi.comp (hb T)
-  show IsIso θ
+  change IsIso θ
   rw [show θ = i.inv ≫ H.map φ by simp only [φ, hH.map_preimage, Iso.inv_hom_id_assoc]]
   infer_instance
 
@@ -121,7 +121,7 @@ theorem leftAdjointCompIso_hom_app_comp_mateOfRightIso_app
     rw [mateEquiv_mk_mateOfRightIso, mateEquiv_mk_mateOfRightIso, mateEquiv_mk_mateOfRightIso,
       conjugateEquiv_leftAdjointCompIso_hom_eq_inv, conjugateEquiv_leftAdjointCompIso_hom_eq_inv]
     ext M
-    simp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp, TwoSquare.mk,
+    simp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp,
       NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
       Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id]
     rw [← cancel_epi (G₀.map (c.hom.app M)), ← Category.assoc, h, ← G₀.map_comp_assoc,

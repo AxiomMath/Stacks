@@ -155,7 +155,7 @@ private lemma stageToSubset_naturality {X I : Type u} [TopologicalSpace X]
   let bi : (op Vi : (Opens E)ᵒᵖ) ⟶ op ⊤ :=
     (homOfLE (by intro x hx; exact hE i.val x.2)).op
   have hn := η.naturality a
-  show G.map bj (η.app (op (U j.val)) (F.obj.map a s)) =
+  change G.map bj (η.app (op (U j.val)) (F.obj.map a s)) =
     G.map bi (η.app (op (U i.val)) s)
   have hn' : η.app (op (U j.val)) (F.obj.map a s) =
       G.map aE (η.app (op (U i.val)) s) :=
@@ -476,7 +476,7 @@ private lemma pullbackToGerm_stageToSubset {X I : Type u} [TopologicalSpace X]
   have hm : m.app (op W) t = GermPullback.ofSection (g := ConcreteCategory.hom g)
       (W := W) (V := U i.val) (fun z ↦ z.2) s :=
     pullbackToGerm_unit g F (U i.val) s
-  show m.app (op ⊤) (H.presheaf.map a.op t) = _
+  change m.app (op ⊤) (H.presheaf.map a.op t) = _
   rw [hp, hm]
   apply GermPullback.ext
   intro z
@@ -519,7 +519,7 @@ private lemma germPullback_local_section {X : Type u} [TopologicalSpace X]
   refine ⟨A, hxA, F.map (homOfLE hAV).op s, ?_⟩
   intro y hyA
   have hyW : y ∈ W := by
-    show y ∈ (W : Set E)
+    change y ∈ (W : Set E)
     rw [← hB]
     exact hyA.1
   have hyV : y.1 ∈ V := hV ⟨y, hyW⟩
@@ -612,7 +612,7 @@ private lemma exists_stage_germ_agree_on_compact_overlap
       exact openDiagram_limitHomeomorph_proj U hqc hdir E hE i₀ x
     have hxV : x.1 ∈ V := by rw [← hpx]; exact hpB.1
     have hxW : x.1 ∈ W := by rw [← hpx]; exact hpB.2
-    show (D.projFun j p : U i₀).1 ∈ S
+    change (D.projFun j p : U i₀).1 ∈ S
     rw [hpx]
     exact ⟨hxV, hxW, h x hxV hxW⟩
   obtain ⟨m, c, hc⟩ := spectralDiagram_exists_stage_subset_open D j B hBc S₀ hlim
@@ -693,7 +693,7 @@ private lemma germPullback_stage_surjective
       F.presheaf.germ (V x) z.1.1 hzV (s x) :=
     F.presheaf.germ_res_apply (homOfLE inf_le_right) z.1.1 hzA (s x)
   have hsigma := hs x z.1 hzV
-  show (⟨z.1.1, F.presheaf.germ (U m.unop.val) z.1.1 hzA.1 t⟩ :
+  change (⟨z.1.1, F.presheaf.germ (U m.unop.val) z.1.1 hzA.1 t⟩ :
       GermPullback.Germs F.presheaf) = σ.1 z
   rw [hst, hr]
   exact hsigma.symm
@@ -741,7 +741,7 @@ private lemma colimit_sections_eq_of_germ_eq
   have hg := (hk hp).2.2
   change F.presheaf.germ (U i.val) p (hkI hp) s =
     F.presheaf.germ (U j.val) p (hkJ hp) t at hg
-  show F.presheaf.germ (U k) p hp
+  change F.presheaf.germ (U k) p hp
       (F.presheaf.map (homOfLE hkI).op s) =
     F.presheaf.germ (U k) p hp
       (F.presheaf.map (homOfLE hkJ).op t)
@@ -772,7 +772,7 @@ theorem colimit_sections_equiv_sections_iInter
   have hm : Function.Injective m := by
     have : IsIso (pullbackToGerm g F) := Stacks.GermPullbackComparison.pullbackToGerm_isIso g F
     have : IsIso (pullbackToGerm g F).hom := by
-      show IsIso ((TopCat.Sheaf.forget (Type u) (TopCat.of E)).map
+      change IsIso ((TopCat.Sheaf.forget (Type u) (TopCat.of E)).map
         (pullbackToGerm g F))
       infer_instance
     have : IsIso m := NatIso.isIso_app_of_isIso _ _

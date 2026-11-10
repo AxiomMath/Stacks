@@ -138,7 +138,7 @@ private theorem lTensor_subtype_span_injective_of_isH1Regular
         exact ⟨Pi.single k b, he k b⟩
       | zero =>
         intro b
-        show b ⊗ₜ[A] (0 : I) ∈ LinearMap.range e
+        change b ⊗ₜ[A] (0 : I) ∈ LinearMap.range e
         simp
       | add x y hx hy ihx ihy =>
         intro b
@@ -146,12 +146,11 @@ private theorem lTensor_subtype_span_injective_of_isH1Regular
           TensorProduct.tmul_add] using (LinearMap.range e).add_mem (ihx b) (ihy b)
       | smul r x hx ih =>
         intro b
-        show b ⊗ₜ[A] (r • (⟨x, hx⟩ : I)) ∈ LinearMap.range e
+        change b ⊗ₜ[A] (r • (⟨x, hx⟩ : I)) ∈ LinearMap.range e
         rw [← TensorProduct.smul_tmul]
         exact ih (r • b)
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, e.map_zero⟩
+    induction t using TensorProduct.inductionOn with
     | tmul b x => exact hv x b
     | add x y hx hy => exact ⟨hx.choose + hy.choose, by simp [hx.choose_spec, hy.choose_spec]⟩
   let l := I.subtype.lTensor B
@@ -165,7 +164,7 @@ private theorem lTensor_subtype_span_injective_of_isH1Regular
   have hrel : Koszul.relSpan (fun k => algebraMap A B (a k)) ≤ LinearMap.ker e := by
     apply Submodule.span_le.mpr
     rintro _ ⟨⟨i, j⟩, rfl⟩
-    show e (Koszul.trivRel (fun k => algebraMap A B (a k)) i j) = 0
+    change e (Koszul.trivRel (fun k => algebraMap A B (a k)) i j) = 0
     rw [Koszul.trivRel, map_sub, he, he]
     apply sub_eq_zero.mpr
     rw [show algebraMap A B (a i) = a i • (1 : B) by simp [Algebra.smul_def],
@@ -298,7 +297,7 @@ private theorem locallyOfFinitePresentation_of_affineSpace_over
     rw [hπ]
     infer_instance
   have : LocallyOfFiniteType (AffineSpace.over ι S).hom := by
-    show LocallyOfFiniteType (AffineSpace ι S ↘ S)
+    change LocallyOfFiniteType (AffineSpace ι S ↘ S)
     infer_instance
   exact AlgebraicGeometry.locallyOfFinitePresentation_of_comp π (AffineSpace.over ι S).hom
 
@@ -309,7 +308,7 @@ private theorem exists_affine_open_with_preimage_le {Y X : Scheme.{u}}
     ∃ U : X.Opens, IsAffineOpen U ∧ i y ∈ U ∧ i ⁻¹ᵁ U ≤ W := by
   obtain ⟨V, hV, hpre⟩ := i.isClosedEmbedding.isInducing.isOpen_iff.mp W.2
   have hxy : i y ∈ V := by
-    show y ∈ i.base ⁻¹' V
+    change y ∈ i.base ⁻¹' V
     rw [hpre]
     exact hy
   obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUV⟩ :=
@@ -320,7 +319,7 @@ private theorem exists_affine_open_with_preimage_le {Y X : Scheme.{u}}
     i ⁻¹ᵁ U ≤ i ⁻¹ᵁ V' := fun z hz => hUV hz
     _ = W := by
       ext z
-      show z ∈ i.base ⁻¹' V ↔ z ∈ W
+      change z ∈ i.base ⁻¹' V ↔ z ∈ W
       rw [hpre]
       rfl
 
@@ -367,7 +366,7 @@ private theorem regularIdealSheaf_on_open_of_smooth_closed
   let i' : V.toScheme ⟶ X := V.ι ≫ i
   have : IsImmersion i' := inferInstance
   have : Smooth (i' ≫ f) := by
-    show Smooth (V.ι ≫ (i ≫ f))
+    change Smooth (V.ι ≫ (i ≫ f))
     infer_instance
   have hreg := Stacks.AlgebraicGeometry.isRegularImmersion_of_smooth_of_smooth i' f
   have hji : j ≫ U.ι = i' := by
@@ -411,7 +410,7 @@ private theorem span_eq_ker_resLE_appTop_of_ker_app_eq_span {Y X : Scheme.{u}}
     RingHom.ker_comp_of_injective _ (ConcreteCategory.bijective_of_isIso _).1,
     Scheme.Hom.appLE_eq_app, CommRingCat.hom_comp, ← RingHom.comap_ker, hker]
   let e := U.topIso.symm.commRingCatIsoToRingEquiv
-  show Ideal.span (Set.range fun k => e (a k)) =
+  change Ideal.span (Set.range fun k => e (a k)) =
     Ideal.comap e.symm (Ideal.span (Set.range a))
   rw [← Ideal.map_comap_of_equiv e, Ideal.map_span]
   congr 1
@@ -459,7 +458,7 @@ theorem coordinateSubspaceEmbedding_isClosedImmersion (S : Scheme.{u}) (m n : �
   have : (coordinateSubspaceEmbedding S m n).IsOver S := by
     apply (Scheme.Hom.isOver_iff (S := S)).2
     rw [coordinateSubspaceEmbedding]
-    show (AffineSpace.homOfVector
+    change (AffineSpace.homOfVector
         ((AffineSpace.over (ULift (Fin m)) S).hom)
         (fun i : ULift (Fin (m + n)) =>
           Fin.addCases (fun j => AffineSpace.coord S (ULift.up j))
@@ -476,7 +475,7 @@ theorem coordinateSubspaceEmbedding_isClosedImmersion (S : Scheme.{u}) (m n : �
     have hφψ : φ = ψ := by
       apply (AffineSpace.homOverEquiv S).injective
       funext i
-      show (coordinateSubspaceEmbedding S m n ≫ p).appTop
+      change (coordinateSubspaceEmbedding S m n ≫ p).appTop
           (AffineSpace.coord S i) = AffineSpace.coord S i
       rw [Scheme.Hom.comp_appTop]
       simp [p, coordinateSubspaceEmbedding, AffineSpace.reindex_appTop_coord,
@@ -497,7 +496,7 @@ theorem coordinateSubspaceEmbedding_isClosedImmersion (S : Scheme.{u}) (m n : �
     · let : IsAffineHom overTarget := hOT
       exact IsAffineOpen.preimage (f := overTarget) hV
     · have hpre : p ⁻¹ᵁ W = overSource ⁻¹ᵁ V := by
-        show ((AffineSpace.reindex
+        change ((AffineSpace.reindex
           (fun i : ULift (Fin m) => ULift.up (Fin.castAdd n i.down)) S) ≫
             (AffineSpace (ULift (Fin m)) S ↘ S)) ⁻¹ᵁ V =
           (AffineSpace (ULift (Fin (m + n))) S ↘ S) ⁻¹ᵁ V
@@ -559,9 +558,9 @@ private lemma ker_stalkMap_le_ker_of_specTo
     hc.trans (((Category.assoc _ _ _).symm.trans
       (congrArg (fun k => k ≫ Scheme.stalkClosedPointTo q) hm)).trans (Category.assoc _ _ _))
   intro a ha
-  show φ a = 0
+  change φ a = 0
   rw [hc2]
-  show Scheme.stalkClosedPointTo q
+  change Scheme.stalkClosedPointTo q
     ((X.presheaf.stalkCongr (.of_eq hx)).hom ((i.stalkMap x) a)) = 0
   rw [show (i.stalkMap x) a = 0 from ha, map_zero, map_zero]
 
@@ -585,10 +584,10 @@ private lemma coordinateSubspaceEmbedding_ker_stalkMap (S : Scheme.{u}) (m n : �
   have hI : I ≤ RingHom.ker (j.stalkMap b).hom := by
     apply Ideal.span_le.mpr
     rintro _ ⟨k, rfl⟩
-    show j.stalkMap b (X.presheaf.germ ⊤ (j b) (Opens.mem_top _)
+    change j.stalkMap b (X.presheaf.germ ⊤ (j b) (Opens.mem_top _)
       (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))) = 0
     rw [Scheme.Hom.germ_stalkMap_apply]
-    show Y.presheaf.germ ⊤ b (Opens.mem_top _)
+    change Y.presheaf.germ ⊤ b (Opens.mem_top _)
       (j.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))) = 0
     rw [coordinateSubspaceEmbedding_lastCoordinate, map_zero]
   apply le_antisymm _ hI
@@ -605,36 +604,36 @@ private lemma coordinateSubspaceEmbedding_ker_stalkMap (S : Scheme.{u}) (m n : �
     (t ≫ (AffineSpace.over (ULift.{u} (Fin (m + n))) S).hom)
     (fun k => t.appTop (AffineSpace.coord S (ULift.up (Fin.castAdd n k.down))))
   have hq : q ≫ j = Spec.map φ ≫ X.fromSpecStalk (j b) := by
-    show q ≫ j = t
+    change q ≫ j = t
     apply AffineSpace.hom_ext
-    · show (q ≫ coordinateSubspaceEmbedding S m n) ≫
+    · change (q ≫ coordinateSubspaceEmbedding S m n) ≫
         (AffineSpace (ULift.{u} (Fin (m + n))) S ↘ S) = _
       rw [Category.assoc, coordinateSubspaceEmbedding, AffineSpace.homOfVector_over]
-      show q ≫ (AffineSpace (ULift.{u} (Fin m)) S ↘ S) = _
+      change q ≫ (AffineSpace (ULift.{u} (Fin m)) S ↘ S) = _
       exact AffineSpace.homOfVector_over _ _
     · rintro ⟨k⟩
       induction k using Fin.addCases with
       | left k =>
-        show q.appTop (j.appTop (AffineSpace.coord S (ULift.up (Fin.castAdd n k)))) = _
+        change q.appTop (j.appTop (AffineSpace.coord S (ULift.up (Fin.castAdd n k)))) = _
         rw [coordinateSubspaceEmbedding_firstCoordinate]
         exact AffineSpace.homOfVector_appTop_coord _ _ _
       | right k =>
-        show q.appTop (j.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))) = _
+        change q.appTop (j.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))) = _
         rw [coordinateSubspaceEmbedding_lastCoordinate, map_zero]
-        show 0 = t.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))
+        change 0 = t.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))
         have ht : t.appTop = X.presheaf.germ ⊤ (j b) (Opens.mem_top _) ≫ φ ≫
             (Scheme.ΓSpecIso (.of (R ⧸ I))).inv := by
           have hfrom : (X.fromSpecStalk (j b)).appTop =
               X.presheaf.germ ⊤ (j b) (Opens.mem_top _) ≫ (Scheme.ΓSpecIso R).inv := by
             rw [Scheme.fromSpecStalk_appTop]
-            show X.presheaf.germ ⊤ (j b) (Opens.mem_top _) ≫ (Scheme.ΓSpecIso R).inv ≫
+            change X.presheaf.germ ⊤ (j b) (Opens.mem_top _) ≫ (Scheme.ΓSpecIso R).inv ≫
               (Spec R).presheaf.map (𝟙 _) = _
             rw [CategoryTheory.Functor.map_id, Category.comp_id]
-          show (Spec.map φ ≫ X.fromSpecStalk (j b)).appTop = _
+          change (Spec.map φ ≫ X.fromSpecStalk (j b)).appTop = _
           rw [Scheme.Hom.comp_appTop, hfrom, Category.assoc,
             ← Scheme.ΓSpecIso_inv_naturality]
         rw [ht]
-        show 0 = (Scheme.ΓSpecIso (.of (R ⧸ I))).inv (Ideal.Quotient.mk I (a k))
+        change 0 = (Scheme.ΓSpecIso (.of (R ⧸ I))).inv (Ideal.Quotient.mk I (a k))
         rw [(Ideal.Quotient.eq_zero_iff_mem).mpr (Ideal.subset_span (Set.mem_range_self k)),
           map_zero]
   intro s hs
@@ -685,7 +684,7 @@ private lemma flat_stalkMap_of_isPullback_of_isH1Regular
   let : Algebra (A.presheaf.stalk (j (q v))) (U.presheaf.stalk (i v)) :=
     φ.hom.toAlgebra
   have : IsLocalHom (algebraMap (A.presheaf.stalk (j (q v))) (U.presheaf.stalk (i v))) := by
-    show IsLocalHom φ.hom
+    change IsLocalHom φ.hom
     dsimp only [φ, CommRingCat.hom_comp]
     infer_instance
   have hw : (i.stalkMap v).hom.comp (algebraMap _ _) =
@@ -749,7 +748,7 @@ private lemma flat_stalkMap_coordinateChart_of_isH1Regular
     (RegularIdealSheaf.germ_flat ⊤ (isAffineOpen_top U) (i v) (Opens.mem_top _)) _ ha
   convert hh' using 1
   funext k
-  show (π.stalkMap (i v))
+  change (π.stalkMap (i v))
     ((X.presheaf.stalkCongr (.of_eq (show coordinateSubspaceEmbedding S m n (q v) = π (i v)
       from congrArg (fun f => f v) h.w.symm))).hom
       (X.presheaf.germ ⊤ _ (Opens.mem_top _) (AffineSpace.coord S (ULift.up (Fin.natAdd m k))))) = _
@@ -782,7 +781,7 @@ private theorem coordinateChartMap_comp_eq {Y U S : Scheme.{u}} (i : Y ⟶ U)
     | up z =>
       induction z using Fin.addCases with
       | left j =>
-        show i.appTop ((coordinateChartMap p m n g h).appTop
+        change i.appTop ((coordinateChartMap p m n g h).appTop
           (AffineSpace.coord S (ULift.up (Fin.castAdd n j)))) =
           q.appTop ((coordinateSubspaceEmbedding S m n).appTop
             (AffineSpace.coord S (ULift.up (Fin.castAdd n j))))
@@ -790,7 +789,7 @@ private theorem coordinateChartMap_comp_eq {Y U S : Scheme.{u}} (i : Y ⟶ U)
           Fin.addCases_left, coordinateSubspaceEmbedding_firstCoordinate]
         exact hq j
       | right k =>
-        show i.appTop ((coordinateChartMap p m n g h).appTop
+        change i.appTop ((coordinateChartMap p m n g h).appTop
           (AffineSpace.coord S (ULift.up (Fin.natAdd m k)))) =
           q.appTop ((coordinateSubspaceEmbedding S m n).appTop
             (AffineSpace.coord S (ULift.up (Fin.natAdd m k))))
@@ -833,7 +832,7 @@ private theorem coordinateChartMap_isPullback_of_span_eq_ker
       rw [← hker]
       apply Ideal.span_le.mpr
       rintro _ ⟨k, rfl⟩
-      show s.fst.appTop (h k) = 0
+      change s.fst.appTop (h k) = 0
       have he := congrArg
         (fun a => a.appTop (AffineSpace.coord S (ULift.up (Fin.natAdd m k))))
         s.condition
@@ -846,7 +845,7 @@ private theorem coordinateChartMap_isPullback_of_span_eq_ker
   let l := IsClosedImmersion.lift i s.fst hk
   have hl : l ≫ i = s.fst := IsClosedImmersion.lift_fac i s.fst hk
   refine ⟨l, hl, ?_, ?_⟩
-  · show l ≫ q = s.snd
+  · change l ≫ q = s.snd
     apply (cancel_mono (coordinateSubspaceEmbedding S m n)).mp
     rw [Category.assoc, ← hcomm, ← Category.assoc, hl, s.condition]
   · intro a ha _
@@ -885,7 +884,7 @@ private theorem exists_coordinate_diagram_of_ker_app_eq_span
   have hk : Ideal.span (Set.range h) = RingHom.ker j.appTop.hom :=
     span_eq_ker_resLE_appTop_of_ker_app_eq_span i U a hker
   have hh (k) : j.appTop (h k) = 0 := by
-    show h k ∈ RingHom.ker j.appTop.hom
+    change h k ∈ RingHom.ker j.appTop.hom
     rw [← hk]
     exact Ideal.subset_span (Set.mem_range_self k)
   have hbase : ((i ⁻¹ᵁ U).ι ≫ q) ≫
@@ -923,7 +922,7 @@ private theorem etale_fiber_of_isPullback_closedImmersion
   have hres : IsIso (j.residueFieldMap b) := j.isIso_residueFieldMap_of_surjectiveOnStalks b
   have hpb := isPullback_fiberToSpecResidueField_of_isPullback h b
   have hqa : Etale (q.fiberToSpecResidueField b) := by
-    show Etale (pullback.snd q (B.fromSpecResidueField b))
+    change Etale (pullback.snd q (B.fromSpecResidueField b))
     infer_instance
   exact etale_of_isPullback_of_isIso_horiz hpb hpb.isIso_fst_of_isIso hqa inferInstance
 

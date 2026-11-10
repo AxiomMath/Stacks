@@ -224,7 +224,7 @@ theorem coherentChowCharacter_mk (F : Stacks.SheafOfModules.CoherentModules X.ri
         rfl (p : ℤ) (supportedLocalizedChernChar C a isCompact_of_mem_irreducibleComponents
           (singlePushforwardSupportedPerfectGeneral i hY F) p) := by
   have := isNoetherian_of_compactSpace C a
-  show rationalCapFundamentalClassSum C (gysinSystemOfInvertible C) (i ≫ a) a i rfl
+  change rationalCapFundamentalClassSum C (gysinSystemOfInvertible C) (i ≫ a) a i rfl
     (localizedChernCharKMapDirectSum C a isCompact_of_mem_irreducibleComponents
       (coherentToSupportedPerfectHomGeneral i hY (KZero.mk _ F))) = _
   rw [coherentToSupportedPerfectHomGeneral_mk, localizedChernCharKMapDirectSum_cls,

@@ -74,7 +74,8 @@ spectrum `Spec (R ⧸ J)` lie in the site; a site containing every component of 
 not contain the coproduct.
 
 It is, however, strictly weaker than a bound `#R < B.cutoff` on the ring, which implies it by
-`AlgebraicGeometry.FormalSpace.hasLargeSite_of_mk_lt_cutoff`. That bound is a genuine restriction on a weakly admissible
+`AlgebraicGeometry.FormalSpace.hasLargeSite_of_mk_lt_cutoff`. That bound is a genuine restriction on
+a weakly admissible
 ring, so stating the clause with `_hD` rather than with it is a real generalization: let `k` be
 a finite field, let `I` be an index set of cardinality the cutoff, and let `R = k ⊕ k ^ I` be
 the square-zero extension, topologised by the ideals `W_F = {f | f` vanishes on `F}` for the

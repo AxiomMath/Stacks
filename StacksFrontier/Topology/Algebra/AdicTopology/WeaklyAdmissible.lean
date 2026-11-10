@@ -114,7 +114,7 @@ public lemma isClosed_topologicalNilradical {B : Type*} [CommRing B] [Topologica
     IsClosed (topologicalNilradical B : Set B) := by
   rw [← closure_subset_iff_isClosed]
   intro g hg
-  show IsTopologicallyNilpotent g
+  change IsTopologicallyNilpotent g
   rw [isTopologicallyNilpotent_iff_forall_ideal]
   intro J hJ
   obtain ⟨f, hf, h, hh, rfl⟩ := closure_subset_add_right_of_mem_nhds_zero _ hJ hg

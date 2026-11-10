@@ -214,7 +214,7 @@ public theorem exists_distanceToZ_eq_one_lt_of_notSubset_closedSubsetZ
   have hne : η.1.1 ≠ z := fun h => hηnotZ (h ▸ hzZ)
   have hE : IsLocallyClosed ((S.Yι.base ⁻¹' closure ({S.U.ι.base x} : Set S.X)) \
       (S.closedSubsetZ : Set S.Y)) := by
-    rw [Set.diff_eq]
+    rw [Set.sdiff_eq]
     exact hWclosed.isLocallyClosed.inter
       S.closedSubsetZ.isClosed.isOpen_compl.isLocallyClosed
   obtain ⟨r, hrE, hrimm⟩ :=

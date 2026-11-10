@@ -45,7 +45,7 @@ section Restriction
 private theorem comap_iso_inv {R S : CommRingCat.{u}} (e : R ≅ S) (I : Ideal R) :
     I.comap e.inv.hom = I.map e.hom.hom := by
   let e' := e.commRingCatIsoToRingEquiv
-  show I.comap (e'.symm : S →+* R) = I.map (e' : R →+* S)
+  change I.comap (e'.symm : S →+* R) = I.map (e' : R →+* S)
   rw [Ideal.comap_coe, Ideal.comap_symm, Ideal.map_coe]
 
 /-- Extending the ideal spanned by a finite family is the ideal spanned by its images. -/
@@ -71,7 +71,7 @@ theorem ker_ideal_of_open_pullback {Z X Z' X' : Scheme.{u}} (i : Z ⟶ X) (i' : 
     Ideal.map_map]
   congr 1
   refine CommRingCat.hom_ext_iff.mp ?_
-  show X.presheaf.map (homOfLE hWU).op ≫ (b.appIso V.1).hom = b.appLE U.1 V.1 hVU
+  change X.presheaf.map (homOfLE hWU).op ≫ (b.appIso V.1).hom = b.appLE U.1 V.1 hVU
   refine (cancel_mono (b.appIso V.1).inv).mp ?_
   simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Scheme.Hom.appLE_appIso_inv]
 
@@ -135,7 +135,7 @@ theorem exists_open_isPullback_liftCoborder {Y X : Scheme.{u}} (j : Y ⟶ X) [Is
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨y, rfl⟩
     have hyW : j₀ y.val ∈ W := by
-      show y.val ∈ j₀ ⁻¹ᵁ W
+      change y.val ∈ j₀ ⁻¹ᵁ W
       rw [hpre]
       exact y.property
     exact ⟨j₀ y.val, hyW, congrArg (fun k : Y ⟶ X => k y.val) j.liftCoborder_ι⟩
@@ -143,7 +143,7 @@ theorem exists_open_isPullback_liftCoborder {Y X : Scheme.{u}} (j : Y ⟶ X) [Is
   have hj' : j' ≫ W'.ι = V.ι ≫ j := IsOpenImmersion.lift_fac _ _ _
   have hcomm : V.ι ≫ j₀ = j' ≫ b := by
     refine (cancel_mono U.ι).mp ?_
-    show (V.ι ≫ j.liftCoborder) ≫ U.ι = (j' ≫ X.homOfLE hWU) ≫ U.ι
+    change (V.ι ≫ j.liftCoborder) ≫ U.ι = (j' ≫ X.homOfLE hWU) ≫ U.ι
     rw [Category.assoc, j.liftCoborder_ι, Category.assoc, X.homOfLE_ι hWU, hj']
   have H : IsPullback j' V.ι b j₀ := by
     refine IsOpenImmersion.isPullback j' V.ι b j₀ hcomm ?_

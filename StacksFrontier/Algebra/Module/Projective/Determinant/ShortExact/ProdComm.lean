@@ -75,7 +75,7 @@ private theorem map_neg_id_of_mem_fixedDegree
         rw [map_smul, ih, smul_comm]) hx
   rintro _ ⟨m, rfl⟩
   rw [ExteriorAlgebra.map_apply_ιMulti]
-  show ExteriorAlgebra.ιMulti R n (fun i => -m i) = _
+  change ExteriorAlgebra.ιMulti R n (fun i => -m i) = _
   have hneg (n : ℕ) (m : Fin n → M) :
       ExteriorAlgebra.ιMulti R n (fun i => -m i) =
         (-1 : R) ^ n • ExteriorAlgebra.ιMulti R n m := by
@@ -116,7 +116,7 @@ private theorem rankIdempotent_smul_self
     (hx : x ∈ ProjectiveDeterminant.component (R := R) (M := M) n) :
     ProjectiveDeterminant.rankIdempotent (R := R) (M := M) n • x = x := by
   obtain ⟨y, hy, rfl⟩ := Submodule.mem_map.mp hx
-  show (ProjectiveDeterminant.rankIdempotent (R := R) (M := M) n : R) •
+  change (ProjectiveDeterminant.rankIdempotent (R := R) (M := M) n : R) •
     ((ProjectiveDeterminant.rankIdempotent (R := R) (M := M) n : R) • y) =
       (ProjectiveDeterminant.rankIdempotent (R := R) (M := M) n : R) • y
   rw [← mul_smul, (ProjectiveDeterminant.rankIdempotent_spec
@@ -148,7 +148,7 @@ private theorem rankProduct_mul_rankIdempotent_eq_zero
   have hopen : PrimeSpectrum.basicOpen ((e * f) * g) = ⊥ := by
     rw [PrimeSpectrum.basicOpen_mul, PrimeSpectrum.basicOpen_mul]
     apply TopologicalSpace.Opens.ext
-    show ((PrimeSpectrum.basicOpen e : Set (PrimeSpectrum R)) ∩
+    change ((PrimeSpectrum.basicOpen e : Set (PrimeSpectrum R)) ∩
       PrimeSpectrum.basicOpen f) ∩ PrimeSpectrum.basicOpen g = ∅
     rw [← (ProjectiveDeterminant.rankIdempotent_spec
       (R := R) (M := M') i).2,
@@ -201,10 +201,10 @@ private theorem rankProduct_mul_det_neg_id
     (ProjectiveDeterminant.module (R := R) (M := T))).1
   apply LinearMap.ext
   intro z
-  show (e * d) • z = (e * (-1 : R) ^ (i * j)) • z
+  change (e * d) • z = (e * (-1 : R) ^ (i * j)) • z
   apply Subtype.ext
   rcases z with ⟨z, hz⟩
-  show (e * d) • z = (e * (-1 : R) ^ (i * j)) • z
+  change (e * d) • z = (e * (-1 : R) ^ (i * j)) • z
   rw [mul_smul e d, mul_smul e ((-1 : R) ^ (i * j))]
   change z ∈ ⨆ k, ProjectiveDeterminant.component (R := R) (M := T) k at hz
   apply Submodule.iSup_induction
@@ -307,7 +307,7 @@ private theorem koszul_switch
           simpa [map_mul, h₁, h₂, h₃, Algebra.smul_def] using hswap
         dsimp [Q]
         rw [hsign, Nat.mul_comm j i]
-        show (-1 : R) ^ (i * j) • _ = d • _
+        change (-1 : R) ^ (i * j) • _ = d • _
         let q := ExteriorAlgebra.map (LinearMap.inl R M'' M') y *
           ExteriorAlgebra.map (LinearMap.inr R M'' M') x
         have hq : (ei * ej) • q = q := by
@@ -327,11 +327,10 @@ private theorem koszul_switch
         dsimp [Q] at hy hy' ⊢
         simp only [map_add, add_mul, mul_add, smul_add, hy, hy']
     · simp only [P, map_zero, zero_mul, mul_zero, smul_zero, implies_true]
-    · intro x x' hx hx'
-      intro y hy
+    · intro x x' hx hx' y hy
       specialize hx y hy
       specialize hx' y hy
-      show ExteriorAlgebra.map (LinearEquiv.prodComm R M' M'').toLinearMap
+      change ExteriorAlgebra.map (LinearEquiv.prodComm R M' M'').toLinearMap
           (ExteriorAlgebra.map (LinearMap.inl R M' M'') (x + x') *
             ExteriorAlgebra.map (LinearMap.inr R M' M'') y) = _
       simp only [map_add, add_mul, mul_add, smul_add, hx, hx']
@@ -397,8 +396,7 @@ public theorem determinantTensorDeterminantEquiv_prodComm
   let ε : Rˣ := (det_neg_id_isUnit (R := R) (M := TensorProduct R M' M'')).unit
   refine ⟨ε, rfl, ?_⟩
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
       let ha : ProjectiveDeterminant.module (R := R) (M := M') :=
         ⟨a.1, by rw [determinant_submodule_eq_annihilator]; exact a.2⟩

@@ -77,7 +77,7 @@ namespace Stacks.ConstantSheaf
 `ℤ ⟶ ℤ/nℤ`, a left adjoint, followed by the equivalence of `ℤ`-modules with abelian groups. -/
 theorem forget₂_zmod_isLeftAdjoint (n : ℕ) :
     (forget₂ (ModuleCat.{w} (ZMod n)) AddCommGrpCat.{w}).IsLeftAdjoint := by
-  show (ModuleCat.restrictScalars (Int.castRingHom (ZMod n)) ⋙
+  change (ModuleCat.restrictScalars (Int.castRingHom (ZMod n)) ⋙
     forget₂ (ModuleCat ℤ) AddCommGrpCat).IsLeftAdjoint
   infer_instance
 
@@ -125,7 +125,7 @@ theorem exists_constantSheaf_iso_of_constantSheaf_iso_forget {T : C} (hT : IsTer
   let a : A ⟶ M'.obj.obj (op T) := adj.homEquiv A M' φ.hom
   have ha : f₀ ≫ a = 0 := by
     ext x
-    show a (n • x) = 0
+    change a (n • x) = 0
     rw [map_nsmul]
     exact ZModModule.char_nsmul_eq_zero n (show M.obj.obj (op T) from a x)
   let a' : Q ⟶ M'.obj.obj (op T) := cokernel.desc _ a ha

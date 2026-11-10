@@ -310,7 +310,7 @@ private theorem exists_quotientSystem_of_topology_eq (I : Ideal A)
   subst ht
   refine ⟨adicCompletionQuotientSystem B S hS f hA I, fun J ↦ ?_,
     ⟨completionAlongIdealIsoFormalSpectrum B S hS f hA I⟩⟩
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A (AdicCompletion I A))) ≫ f = _
   rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
 

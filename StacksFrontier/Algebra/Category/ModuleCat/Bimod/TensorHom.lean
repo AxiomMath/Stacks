@@ -159,11 +159,9 @@ public noncomputable def tensorHomEquiv {A B : Mon (ModuleCat.{u} R)}
           ModuleCat.ofHom (TensorProduct.lift g.1) := by
     apply ModuleCat.hom_ext
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul ma n =>
-      induction ma using TensorProduct.induction_on with
-      | zero => simp
+      induction ma using TensorProduct.inductionOn with
       | tmul m a => exact g.2.1 m a n
       | add x y hx hy => simpa only [TensorProduct.add_tmul, map_add] using congrArg₂ (· + ·) hx hy
     | add x y hx hy => simpa only [TensorProduct.tmul_add, map_add] using congrArg₂ (· + ·) hx hy
@@ -190,8 +188,7 @@ public noncomputable def tensorHomEquiv {A B : Mon (ModuleCat.{u} R)}
             P.actRight.hom ((q g).hom (π z) ⊗ₜ[R] b)
           rw [h, qπ, qπ]
           clear h
-          induction z using TensorProduct.induction_on with
-          | zero => simp
+          induction z using TensorProduct.inductionOn with
           | tmul m n =>
             change TensorProduct.lift g.1 (m ⊗ₜ[R] N.actRight.hom (n ⊗ₜ[R] b)) =
               P.actRight.hom (TensorProduct.lift g.1 (m ⊗ₜ[R] n) ⊗ₜ[R] b)
@@ -210,8 +207,7 @@ public noncomputable def tensorHomEquiv {A B : Mon (ModuleCat.{u} R)}
               CategoryTheory.Limits.coequalizer.π_desc]
             apply ModuleCat.hom_ext
             ext z
-            induction z using TensorProduct.induction_on with
-            | zero => simp
+            induction z using TensorProduct.inductionOn with
             | tmul m n => rfl
             | add x y hx hy => simp_all; abel))
       map_smul' := by
@@ -223,8 +219,7 @@ public noncomputable def tensorHomEquiv {A B : Mon (ModuleCat.{u} R)}
               Linear.comp_smul, CategoryTheory.Limits.coequalizer.π_desc]
             apply ModuleCat.hom_ext
             ext z
-            induction z using TensorProduct.induction_on with
-            | zero => simp
+            induction z using TensorProduct.inductionOn with
             | tmul m n => rfl
             | add x y hx hy => simp_all)) }
   exact LinearEquiv.ofBijective forward (by
@@ -236,8 +231,7 @@ public noncomputable def tensorHomEquiv {A B : Mon (ModuleCat.{u} R)}
           rw [CategoryTheory.Limits.coequalizer.π_desc]
           apply ModuleCat.hom_ext
           ext z
-          induction z using TensorProduct.induction_on with
-          | zero => simp
+          induction z using TensorProduct.inductionOn with
           | tmul m n => rfl
           | add x y hx hy => simp_all))
     have hright : Function.RightInverse backward forward := by

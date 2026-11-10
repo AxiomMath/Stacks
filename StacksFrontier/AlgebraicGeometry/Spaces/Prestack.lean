@@ -350,7 +350,7 @@ private theorem spacesExplicitPullbackMap_isStronglyCartesian
       (spacesExplicitPullbackMap B S hS A g) := by
   let D := spacesExplicitPullback B S hS A g
   let m := spacesExplicitPullbackMap B S hS A g
-  show (spacesProjection B S hS).IsStronglyCartesian m.right m
+  change (spacesProjection B S hS).IsStronglyCartesian m.right m
   rw [spacesProjection_isStronglyCartesian_iff m]
   let c := pullback.lift D.hom m.left.hom m.w.symm
   have hc : c = 𝟙 D.left.obj := by
@@ -358,7 +358,7 @@ private theorem spacesExplicitPullbackMap_isStronglyCartesian
     · simp [m, c, D, spacesExplicitPullback, spacesExplicitPullbackMap]
     · simp [m, c, D, spacesExplicitPullbackMap, spacesExplicitPullback]
   have hc' : ObjectProperty.homMk c = 𝟙 D.left := ObjectProperty.hom_ext _ hc
-  show IsIso (ObjectProperty.homMk c : D.left ⟶ D.left)
+  change IsIso (ObjectProperty.homMk c : D.left ⟶ D.left)
   rw [hc']
   infer_instance
 
@@ -410,7 +410,7 @@ private lemma spacesFiberHomEquiv_eq_map
   have hleft :
       OverShriek.presheafFunctorToOver.map (spacesFiberHomEquiv B S hS X Y m) =
         (Iso.homCongr (c.app A) (c.app A')).symm φ := by
-    show OverShriek.presheafFunctorToOver.map
+    change OverShriek.presheafFunctorToOver.map
         (FF.preimage ((Iso.homCongr (c.app A) (c.app A')).symm φ)) = _
     exact FF.map_preimage _
   have hright :
@@ -480,7 +480,7 @@ private lemma spacesChosenPullbackPresheafIso_apply_val
         rfl⟩) φ ψ hφ hψ
     exact congrArg (fun k => k.left.hom) hh
   have hfacApp := congrArg (fun k => k.app (op T.left) s.1) hfac
-  show pullback.snd ((yoneda.map f).app (op T.left)) (X0.hom.app (op T.left))
+  change pullback.snd ((yoneda.map f).app (op T.left)) (X0.hom.app (op T.left))
       ((pullbackObjIso (yoneda.map f) X0.hom (op T.left)).hom
         ((spacesFiberOverHom B S hS e.hom).left.app (op T.left) s.1)) =
     (Functor.IsPreFibered.pullbackMap rfl f).left.hom.app (op T.left) s.1
@@ -537,7 +537,7 @@ private lemma spacesChosenPullbackPresheafIso_natural
   apply ConcreteCategory.hom_ext
   intro s
   apply Subtype.ext
-  show ((spacesChosenPullbackPresheafIso B S hS Y f).hom.app T
+  change ((spacesChosenPullbackPresheafIso B S hS Y f).hom.app T
       (((spacesFiberPresheafFunctor B S hS V).map
         (Functor.pullbackFiberHom m f)).app T s)).1 = _
   rw [spacesChosenPullbackPresheafIso_apply_val B S hS Y f T.unop
@@ -562,7 +562,7 @@ private lemma spacesChosenPullbackPresheafIso_natural
           ((Functor.IsPreFibered.pullbackMap X.2 f).left.hom.app
             (op T.unop.left) s.1) := by
     convert hfac' using 1 <;> rfl
-  show (Functor.IsPreFibered.pullbackMap Y.2 f).left.hom.app (op T.unop.left)
+  change (Functor.IsPreFibered.pullbackMap Y.2 f).left.hom.app (op T.unop.left)
       (((Functor.IsCartesian.map (spacesProjection B S hS) f
           (Functor.IsPreFibered.pullbackMap Y.2 f)
           (Functor.IsPreFibered.pullbackMap X.2 f ≫
@@ -635,7 +635,7 @@ private lemma spacesChosenPullbackPresheafIso_comp_named
     simpa [e₂, af] using
       spacesChosenPullbackPresheafIso_apply_val B S hS X f T' u
   have hz : z.1 = ac s.1 := by
-    show ((OverShriek.fiberMap (𝟙 (yoneda.obj W))
+    change ((OverShriek.fiberMap (𝟙 (yoneda.obj W))
       (spacesFiberOverHom B S hS c.hom)).app T s).1 = ac s.1
     rfl
   have hw : (e₃.hom.app T z).1 = agf z.1 := by
@@ -654,7 +654,7 @@ private lemma spacesChosenPullbackPresheafIso_comp_named
       CategoryTheory.comp_apply] at hh
     change af (ag s.1) = agf (ac s.1) at hh
     exact hh
-  show (e₂.hom.app (op T') u).1 =
+  change (e₂.hom.app (op T') u).1 =
     ((Functor.isoWhiskerRight (spacesOverMapCompNamed B S hS f g b h).symm
       (spacesFiberPresheaf B S hS X)).hom.app T (e₃.hom.app T z)).1
   calc

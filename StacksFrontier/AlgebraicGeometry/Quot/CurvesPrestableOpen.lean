@@ -259,7 +259,7 @@ theorem topologicalKrullDim_eq_one_of_mem_irreducibleComponents {X : Type*}
   let Y : Set X := ⋃ W ∈ irreducibleComponents X \ {Z}, W
   have hY : IsClosed Y :=
     ((TopologicalSpace.NoetherianSpace.finite_irreducibleComponents (α := X)).subset
-      Set.diff_subset).isClosed_biUnion
+      Set.sdiff_subset).isClosed_biUnion
         fun W hW => isClosed_of_mem_irreducibleComponents W hW.1
   have hZY : Zᶜ = Y := by
     ext x
@@ -333,7 +333,7 @@ theorem isPrestableCurveFamily_curveFamilyOfSchemeMorphism_iff_of
     with hq
   let : X.Over (Spec (.of k)) := ⟨q⟩
   have : LocallyOfFiniteType (X ↘ Spec (.of k)) := by
-    show LocallyOfFiniteType q
+    change LocallyOfFiniteType q
     infer_instance
   let F := curveFamilyOfSchemeMorphism B hZ g hflat hproper hlfp hqc hsep hqsep hdim
   have hnodal : Space.IsAtWorstNodalOfRelativeDimensionOne B integerBase hZ F.toBase.hom ↔

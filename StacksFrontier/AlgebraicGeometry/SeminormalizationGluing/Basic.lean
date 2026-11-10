@@ -191,7 +191,7 @@ private theorem snAffineDiagramMap_coequifibered (X : Scheme.{u}) :
   let eAlg : (B ⊗[A] N) ≃ₐ[N] N' := AlgEquiv.ofRingEquiv (R := N) (f := e)
     fun n => congrArg (fun f : N →+* N' => f n) he'
   let _ : IsLocalization.Away (algebraMap A N (r : A)) (B ⊗[A] N) := inferInstance
-  show IsLocalization.Away (algebraMap A N (r : A)) N'
+  change IsLocalization.Away (algebraMap A N (r : A)) N'
   exact IsLocalization.isLocalization_of_algEquiv _ eAlg
 
 private noncomputable def snRelativeGluingData (X : Scheme.{u}) :=
@@ -207,7 +207,7 @@ private theorem snRelativeGluingData_local_universalHomeomorphism
     (X : Scheme.{u}) (U : X.AffineZariskiSite) :
     UniversalHomeomorphism ((snRelativeGluingData X).natTrans.app U) := by
   constructor
-  show (topologically @IsHomeomorph).universally
+  change (topologically @IsHomeomorph).universally
     (Spec.map (CommRingCat.ofHom
       (algebraMap Γ(X, U.1) (Algebra.seminormalization Γ(X, U.1)))) ≫ U.2.isoSpec.inv)
   rw [MorphismProperty.cancel_right_of_respectsIso
@@ -218,7 +218,7 @@ private theorem snRelativeGluingData_local_residueFieldIsomorphisms
     (X : Scheme.{u}) (U : X.AffineZariskiSite)
     (z : (snRelativeGluingData X).functor.obj U) :
     IsIso (((snRelativeGluingData X).natTrans.app U).residueFieldMap z) := by
-  show IsIso ((Spec.map (CommRingCat.ofHom
+  change IsIso ((Spec.map (CommRingCat.ofHom
       (algebraMap Γ(X, U.1) (Algebra.seminormalization Γ(X, U.1)))) ≫
         U.2.isoSpec.inv).residueFieldMap z)
   refine isIso_residueFieldMap_comp_of_forall _ _ ?_ (fun _ => inferInstance) z
@@ -289,7 +289,7 @@ private theorem snCandidateMap_comp (A B : Type u) [CommRing A] [CommRing B]
       algebraMap A (Algebra.seminormalization A) := by
   let f := (seminormalizationAlgebraObject_isTerminal A).from
     (⟨CommAlgCat.of A B, hB⟩ : SeminormalizationAlgebraCategory A)
-  show (f.hom.hom.toRingHom).comp (algebraMap A B) =
+  change (f.hom.hom.toRingHom).comp (algebraMap A B) =
     algebraMap A (Algebra.seminormalization A)
   ext a
   exact f.hom.hom.commutes a
@@ -308,14 +308,14 @@ private theorem snCandidateMap_unique (A B : Type u) [CommRing A] [CommRing B]
     { toRingHom := ψ
       commutes' := fun a => by
         have h := congrArg (fun k : A →+* Algebra.seminormalization A => k a) hψ
-        show ψ (algebraMap A B a) = algebraMap A (Algebra.seminormalization A) a
+        change ψ (algebraMap A B a) = algebraMap A (Algebra.seminormalization A) a
         exact h }
   let g : C ⟶ Nobj := ObjectProperty.homMk (CommAlgCat.ofHom eψ)
   have heq := t.hom_ext g (t.from C)
-  show ψ = snCandidateMap A B hB
+  change ψ = snCandidateMap A B hB
   ext b
   have hb := congrArg (fun q => q.hom.hom b) heq
-  show ψ b = (t.from C).hom.hom b
+  change ψ b = (t.from C).hom.hom b
   exact hb
 
 /-! ### Initiality -/
@@ -369,7 +369,7 @@ private theorem snLocalTarget_candidate {X Y : Scheme.{u}} (f : Y ⟶ X)
     infer_instance
   refine ⟨?_, ?_⟩
   · constructor
-    show (topologically @IsHomeomorph).universally
+    change (topologically @IsHomeomorph).universally
       (Spec.map (CommRingCat.ofHom (algebraMap _ _)))
     rw [hφ, hspecEq]
     exact (MorphismProperty.cancel_left_of_respectsIso
@@ -378,7 +378,7 @@ private theorem snLocalTarget_candidate {X Y : Scheme.{u}} (f : Y ⟶ X)
           (P := (topologically @IsHomeomorph).universally) (pullback.snd f U.1.ι)
             U.1.toSpecΓ).mpr hlocal)
   · intro z
-    show IsIso ((Spec.map (CommRingCat.ofHom (algebraMap _ _))).residueFieldMap z)
+    change IsIso ((Spec.map (CommRingCat.ofHom (algebraMap _ _))).residueFieldMap z)
     rw [hφ, hspecEq]
     refine isIso_residueFieldMap_comp_of_forall _ _ (fun _ => inferInstance) ?_ z
     intro w
@@ -422,7 +422,7 @@ private theorem snLocalMap_snd {X Y : Scheme.{u}} (f : Y ⟶ X)
   have hspec : Spec.map (CommRingCat.ofHom φ) =
       Z.isoSpec.inv ≫ (pullback.snd f U.1.ι) ≫ U.1.toSpecΓ :=
     spec_map_snd_appTop_comp_topIso_inv f U
-  show Spec.map (CommRingCat.ofHom ψ) ≫ Z.isoSpec.inv ≫ (pullback.snd f U.1.ι) =
+  change Spec.map (CommRingCat.ofHom ψ) ≫ Z.isoSpec.inv ≫ (pullback.snd f U.1.ι) =
     Spec.map (CommRingCat.ofHom (algebraMap A (Algebra.seminormalization A))) ≫
       U.2.isoSpec.inv
   refine (cancel_mono U.2.isoSpec.hom).mp ?_
@@ -439,7 +439,7 @@ private theorem snLocalMap_snd {X Y : Scheme.{u}} (f : Y ⟶ X)
           (CommRingCat.ofHom (algebraMap A (Algebra.seminormalization A))) := by
           congr 1
           apply CommRingCat.hom_ext
-          show ψ.comp φ = algebraMap A (Algebra.seminormalization A)
+          change ψ.comp φ = algebraMap A (Algebra.seminormalization A)
           rw [← hφ]
           exact hψ
     _ = (Spec.map
@@ -493,7 +493,7 @@ private theorem snLocalMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom :=
       congrArg CommRingCat.Hom.hom hcancel
     rw [hnat]
-    show θ.hom.hom.comp
+    change θ.hom.hom.comp
       ((Spec.map (CommRingCat.ofHom (algebraMap A N))).appTop.hom.comp
         (U.2.isoSpec.inv.appTop.hom.comp U.1.topIso.inv.hom)) = _
     rw [hcancelRing]
@@ -517,7 +517,7 @@ private theorem snLocalMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
           congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id
         rw [RingHom.comp_assoc, hIso, RingHom.comp_id]
   have hψ : ψ.comp φ = algebraMap A N := by
-    show θ.hom.hom.comp (g.appTop.hom.comp
+    change θ.hom.hom.comp (g.appTop.hom.comp
       ((pullback.snd f U.1.ι).appTop.hom.comp U.1.topIso.inv.hom)) = _
     exact hcomp.trans (hnatRing.trans hGammaSpec_map)
   have hψeq := snCandidateMap_unique A B hB ψ hψ
@@ -526,7 +526,7 @@ private theorem snLocalMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
     congr 1
     apply CommRingCat.hom_ext
     exact hψeq
-  show g = Spec.map (CommRingCat.ofHom (snCandidateMap A B hB)) ≫ Z.isoSpec.inv
+  change g = Spec.map (CommRingCat.ofHom (snCandidateMap A B hB)) ≫ Z.isoSpec.inv
   apply (cancel_mono Z.isoSpec.hom).mp
   calc
     g ≫ Z.isoSpec.hom = Spec.map (CommRingCat.ofHom ψ) := by
@@ -596,10 +596,10 @@ private theorem snSchemeMap_over {X Y : Scheme.{u}} (f : Y ⟶ X)
     snSchemeMap f hf ≫ f = (snRelativeGluingData X).toBase := by
   let d := snRelativeGluingData X
   refine colimit.hom_ext fun U => ?_
-  show (colimit.ι d.functor U ≫ colimit.desc d.functor (snSchemeCocone f hf)) ≫ f =
+  change (colimit.ι d.functor U ≫ colimit.desc d.functor (snSchemeCocone f hf)) ≫ f =
       colimit.ι d.functor U ≫ d.toBase
   rw [colimit.ι_desc, d.ι_toBase]
-  show snLocalLift f hf U ≫ f = d.natTrans.app U ≫ U.1.ι
+  change snLocalLift f hf U ≫ f = d.natTrans.app U ≫ U.1.ι
   rw [snLocalLift, Category.assoc, pullback.condition, ← Category.assoc, snLocalMap_snd]
   rfl
 
@@ -620,7 +620,7 @@ private theorem snSchemeMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
       rw [snLocalMap_unique f hf U gU (pullback.lift_snd _ _ _)]
       rfl
     _ = colimit.ι d.functor U ≫ snSchemeMap f hf := by
-      show snLocalLift f hf U =
+      change snLocalLift f hf U =
         colimit.ι d.functor U ≫ colimit.desc d.functor (snSchemeCocone f hf)
       rw [colimit.ι_desc]
       rfl
@@ -639,7 +639,7 @@ private theorem snSchemeOver_isSeminormal (X : Scheme.{u}) :
   let A := Γ(X, U)
   let N := Algebra.seminormalization A
   let _ : IsAffine (d.functor.obj i) := by
-    show IsAffine (Spec (CommRingCat.of N))
+    change IsAffine (Spec (CommRingCat.of N))
     infer_instance
   let V : d.glued.Opens := (d.cover.f i).opensRange
   have hRange : Set.range (d.cover.f i) = Set.range V.ι := by
@@ -648,10 +648,10 @@ private theorem snSchemeOver_isSeminormal (X : Scheme.{u}) :
     IsOpenImmersion.isoOfRangeEq (f := d.cover.f i) (g := V.ι) (H := hmap) hRange
   have hAffineV : IsAffineOpen V := IsAffine.of_isIso e.inv
   have hxV : x ∈ V := by
-    show ∃ z, d.cover.f i z = x
+    change ∃ z, d.cover.f i z = x
     exact ⟨y, by simpa [i] using hy⟩
   refine ⟨⟨V, hAffineV⟩, hxV, ?_⟩
-  show IsSeminormalRing Γ(d.glued, V)
+  change IsSeminormalRing Γ(d.glued, V)
   have himg : e.hom ''ᵁ (⊤ : (d.functor.obj i).Opens) = (⊤ : V.toScheme.Opens) := by
     rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.opensRange_of_isIso]
   let eΓ : Γ(V.toScheme, ⊤) ≃+* N :=
@@ -692,7 +692,8 @@ noncomputable instance hasInitial_seminormalizationCategory (X : Scheme.{u}) :
     HasInitial (SeminormalizationCategory X) :=
   (snOverObject_isInitial X).hasInitial
 
-/-- Tag 0EUS's `seminormalization_initial` assertion, restated with the binder of the tag's statement, to record
+/-- Tag 0EUS's `seminormalization_initial` assertion, restated with the binder of the tag's
+statement, to record
 that nothing is assumed about `X`. -/
 example (X : Scheme.{u}) : HasInitial (SeminormalizationCategory X) :=
   hasInitial_seminormalizationCategory X

@@ -59,7 +59,8 @@ variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
 /-- The torsion-free model `F'` of an ℓ-adic sheaf, `ℓᴺ F` for `N` its torsion bound. -/
 local notation "model" F => LAdicSheaf.torsionFreeModel F (LAdicSheaf.torsionBound F)
 
-omit [IsAlgClosed kbar] [CharP kbar p] in
+omit [IsAlgClosed kbar] [CharP kbar p] [LocallyOfFiniteType f] [QuasiCompact f]
+  [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes above `b`** as soon as the complexes `RΓ_c(X_k̄, F'ₙ)` of the
 levels of the torsion-free model are perfect and the reductions modulo `ℓ` of those levels have
@@ -103,7 +104,7 @@ theorem LAdicSheaf.isZero_rationalGeometricCompactlySupportedCohomology_of_perfe
     (LAdicSheaf.toTorsionFreeModel_comp_fromTorsionFreeModel F (LAdicSheaf.torsionBound F))
     (LAdicSheaf.fromTorsionFreeModel_comp_toTorsionFreeModel F (LAdicSheaf.torsionBound F)) i)
 
-omit [CharP kbar p] in
+omit [CharP kbar p] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes above `2n`** when the base change `X̄_k̄` of the
 compactification has dimension at most `n`, given the perfectness of the complexes
@@ -160,6 +161,7 @@ theorem LAdicSheaf.isPerfect_rationalPointStalkComplex_torsionFreeModel [Finite 
   have := Module.Finite.equiv e.toLinearEquiv
   exact isPerfect_rationalPointStalkComplex_single kbar _ y.1 _
 
+omit [QuasiCompact f] [IsSeparated f] in
 /-- **The trace formula for a `ℚ_ℓ`-sheaf, from the trace formula at finite level.**  Let `F` be an
 ℓ-adic sheaf on a separated scheme `X` of finite type over a finite field `k`, with torsion-free
 model `F'`, and suppose that the complexes `Kₙ = RΓ_c(X_k̄, F'ₙ)` are perfect and satisfy the trace

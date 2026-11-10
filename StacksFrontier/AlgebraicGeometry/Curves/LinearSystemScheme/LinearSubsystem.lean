@@ -136,7 +136,7 @@ theorem nontrivial_of_nonempty_projectiveSpaceOfModule
   rw [HomogeneousIdeal.irrelevant_le]
   intro i hi y hy
   have : SymPow.symmetricPower i k V = ⊥ := by
-    show LinearMap.range (SymmetricAlgebra.ι k V) ^ i = ⊥
+    change LinearMap.range (SymmetricAlgebra.ι k V) ^ i = ⊥
     have h0 : LinearMap.range (SymmetricAlgebra.ι k V) = ⊥ := by
       rw [eq_bot_iff]
       rintro _ ⟨v, rfl⟩
@@ -269,6 +269,7 @@ theorem eq_of_ker_subspaceImmersion_eq
     exact Submodule.zero_mem _
   exact h₁ (hp' ▸ h₂)
 
+omit [IsAlgClosed k] [IsCurve k f] [Smooth f] in
 /-- If a linear system `L ⊆ |D|` has dimension `r`, then `L = 𝐏(V^∨)` for a linear subspace
 `V ⊆ H⁰(X, 𝒪_X(D))` of dimension `r + 1`: `L` is the image of the closed immersion
 `𝐏(V^∨) ⟶ 𝐏(H⁰(X, 𝒪_X(D))^∨)` induced by `V ⊆ H⁰(X, 𝒪_X(D))`, and it is isomorphic to
@@ -325,6 +326,7 @@ def IsLinearSystem.linearSeries {L : (linearSystemScheme k f D).IdealSheafData}
     (hL.exists_eq_projectiveSpace k f D hr).choose
     (hL.exists_eq_projectiveSpace k f D hr).choose_spec.choose
 
+omit [IsAlgClosed k] [Smooth f] in
 /-- The linear series of a linear system `L ⊆ |D|` has invertible sheaf `𝒪_X(D)`, and `L` is
 the image of `𝐏(V^∨) ⟶ |D|` for its space of sections `V`. -/
 theorem IsLinearSystem.linearSeries_spec {L : (linearSystemScheme k f D).IdealSheafData}

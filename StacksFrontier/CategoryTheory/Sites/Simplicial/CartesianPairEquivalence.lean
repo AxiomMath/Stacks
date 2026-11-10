@@ -279,7 +279,7 @@ theorem fiberTransition_pairTotalSheaf (A : CartesianPair S) {m n : SimplexCateg
       (S.transitionMorphism φ).inverseImage.map (S.pairRestrictIso A m).hom ≫
         S.pairTransition A φ ≫ (S.pairRestrictIso A n).inv := by
   have h := S.restrictIso_systemFibreTransition (S.pairSystem A) φ
-  show (S.fiberTransition φ).app (S.systemTotalSheaf (S.pairSystem A)) =
+  change (S.fiberTransition φ).app (S.systemTotalSheaf (S.pairSystem A)) =
     (S.transitionMorphism φ).inverseImage.map (S.restrictIso (S.pairSystem A) m).hom ≫
       S.systemFibreTransition (S.pairSystem A) φ ≫ (S.restrictIso (S.pairSystem A) n).inv
   rw [← Category.assoc, h, Category.assoc, Iso.hom_inv_id, Category.comp_id]

@@ -45,7 +45,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section ShortExact
 
-variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -106,7 +106,7 @@ private theorem natCard_compactSupportSheafCohomology_two_affineLine_of_subsingl
       (Functor.map_isZero (affineLineConstantSheaf k Λ) (ModuleCat.isZero_of_subsingleton M)))
   rw [Nat.card_unique, Nat.card_unique]
 
-variable (k : Type u) [Field k] [Fintype k] (kbar : Type u) [Field kbar] [Algebra k kbar]
+variable (k : Type u) [Field k] [Finite k] (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar] {ℓ : ℕ} [Fact ℓ.Prime]
 
 /-- **`#H²_c(𝔸¹_k̄, M) = #M` for a finite `ℤ/ℓ`-module `M`**, `ℓ` invertible in `k̄`: by induction
@@ -148,7 +148,7 @@ theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine_zmod
         rw [h, Submodule.mem_bot] at this
         exact this)
       have := Submodule.card_eq_card_quotient_mul_card S
-      show Nat.card (M ⧸ S) < Nat.card M
+      change Nat.card (M ⧸ S) < Nat.card M
       have hS1 : 1 < Nat.card S := by
         have : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS0
         exact Finite.one_lt_card
@@ -166,7 +166,7 @@ theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine_zmod
         (by norm_num) N₁)
     have hc' : Nat.card (H.obj (F.obj T.X₂)) =
         Nat.card (H.obj (F.obj N₁)) * Nat.card (H.obj (F.obj N₂)) := hc
-    show Nat.card (H.obj (F.obj T.X₂)) = Nat.card M
+    change Nat.card (H.obj (F.obj T.X₂)) = Nat.card M
     rw [hc', h₁, h₃, Submodule.card_eq_card_quotient_mul_card S, hS, mul_comm]
   · rw [not_nontrivial_iff_subsingleton] at hM
     exact natCard_compactSupportSheafCohomology_two_affineLine_of_subsingleton k kbar j M
@@ -178,10 +178,11 @@ section General
 variable (k : Type u) [Field k] [Fintype k] (Λ : Type) [CommRing Λ] [Finite Λ]
   (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosed kbar]
 
+omit [Fintype k] in
 /-- **`#H²_c(𝔸¹_k̄, M) = #M`** for a finite `Λ`-module `M` killed by a prime `ℓ` invertible in
 `k̄`: restriction of scalars to `ℤ/ℓ`. -/
-theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine_of_prime (ℓ : ℕ)
-    [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : kbar))
+theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine_of_prime [Finite k]
+    (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : kbar))
     (j : CompactificationOf (Over.mk (affineLineStructureMap k)))
     (M : ModuleCat.{u + 1} Λ) [Finite M] (hM : ∀ v : M, ℓ • v = 0) :
     Nat.card ((compactSupportSheafCohomology Λ (affineLineStructureMap k) j kbar 2).obj
@@ -234,7 +235,7 @@ theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine
     have : Finite T.X₃ := inferInstanceAs (Finite (M ⧸ S))
     have hnotsurj : ¬ Function.Surjective f := fun hs => hv₀0 <|
       (Finite.injective_iff_surjective.2 hs) (by
-        show p • v₀ = p • 0
+        change p • v₀ = p • 0
         rw [hpv₀, nsmul_zero])
     obtain ⟨x, hx⟩ : ∃ x, x ∉ S := by
       by_contra h
@@ -256,7 +257,7 @@ theorem natCard_compactSupportSheafCohomology_two_constantSheaf_affineLine
         (by norm_num) T.X₁)
     have hc' : Nat.card (H.obj (F.obj T.X₂)) =
         Nat.card (H.obj (F.obj T.X₁)) * Nat.card (H.obj (F.obj T.X₃)) := hc
-    show Nat.card (H.obj (F.obj T.X₂)) = Nat.card M
+    change Nat.card (H.obj (F.obj T.X₂)) = Nat.card M
     rw [hc', h₁, h₃, Submodule.card_eq_card_quotient_mul_card S, mul_comm]
 
 end General

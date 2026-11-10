@@ -81,7 +81,7 @@ variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 flat object `y` over an affine scheme with an arrow to an object over which `H` has a global
 presentation, and every `p`, the pullback of `H^p(Lg_! H)` along `y : (Sch/U) → 𝒳` lies in
 `LQCoh^fbc`. -/
-theorem isLocallyQuasicoherentWithSheafFlatBaseChange_stackModulePresheafPullback_homology_derivedModuleLowerShriek
+theorem isLocallyQuasicoherentWithSheafFlatBaseChange_pullback_homology_derivedModuleLowerShriek
     (H : flatFppfModules B S hS 𝒳) (p : ℤ) (y V : FlatFppf B S hS 𝒳) (g : y ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj y.obj)))
     (hV : (H.over V).HasGlobalPresentation) :

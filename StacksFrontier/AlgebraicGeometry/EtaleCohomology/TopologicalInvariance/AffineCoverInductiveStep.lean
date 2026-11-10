@@ -269,10 +269,10 @@ theorem exists_affine_etale_coproduct_pullback_iso {n : ℕ}
     inferInstance, hcolA.coconePointUniqueUpToIso hcolB, ?_⟩
   refine hcolA.hom_ext ?_
   rintro ⟨(_ | _)⟩
-  · show a ≫ _ = a ≫ _
+  · change a ≫ _ = a ≫ _
     rw [ha₂, ← Category.assoc]
     exact (congrArg (· ≫ _) hA).trans hs
-  · show b ≫ _ = b ≫ _
+  · change b ≫ _ = b ≫ _
     rw [hb₂, ← he', Iso.inv_hom_id_assoc, ← Category.assoc]
     exact congrArg (· ≫ _) hB
 

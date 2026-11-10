@@ -215,7 +215,7 @@ public theorem exists_gradedDividedPowerPolynomial_map_of_ringHom
   let ι'' : MvPolynomial σ R' →ₐ[R'] A :=
     { ι.toRingHom.comp (MvPolynomial.map q) with
       commutes' := fun r' => by
-        show ι (MvPolynomial.map q (algebraMap R' (MvPolynomial σ R') r')) = algebraMap R' A r'
+        change ι (MvPolynomial.map q (algebraMap R' (MvPolynomial σ R') r')) = algebraMap R' A r'
         rw [MvPolynomial.algebraMap_eq, MvPolynomial.map_C, hsmul, ← MvPolynomial.algebraMap_eq,
           ι.commutes] }
   have hι'' : ∀ p' : MvPolynomial σ R', ι'' p' = ι (MvPolynomial.map q p') := fun _ => rfl

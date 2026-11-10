@@ -205,7 +205,7 @@ public theorem squareZeroExtensionDerivation_liftedRelation
     have hle : I • (⊤ : Submodule R A) ≤
         Submodule.comap ε.toLinearMap ((I.map (algebraMap R S)).restrictScalars R) := by
       refine Submodule.smul_le.mpr fun t ht a _ => ?_
-      show ε (t • a) ∈ I.map (algebraMap R S)
+      change ε (t • a) ∈ I.map (algebraMap R S)
       rw [Algebra.smul_def, map_mul, ε.commutes]
       exact Ideal.mul_mem_right (ε a) _ (Ideal.mem_map_of_mem (algebraMap R S) ht)
     simpa [hεe, I] using hle hdiffJ

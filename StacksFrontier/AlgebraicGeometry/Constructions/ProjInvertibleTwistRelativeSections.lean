@@ -318,12 +318,7 @@ theorem upperRoute_eq_lowerRoute {V : S.Opens} (h : SquareAt π π' g hg ψA ψB
     (z : Γ(An, V) ⊗[Γ(S, V)] Γ(Ln, V)) :
     thetaSections π π' g hg θ V (ψB.val.app (op V) (gammaTensorMap An Ln V z)) =
       lowerRoute π ψA V z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    refine (congrArg (fun w => thetaSections π π' g hg θ V (ψB.val.app (op V) w))
-      (map_zero (gammaTensorMap An Ln V))).trans ?_
-    refine (congrArg (thetaSections π π' g hg θ V) (ψB.val.app (op V)).hom.map_zero).trans ?_
-    exact (thetaSections_zero π π' g hg θ V).trans (map_zero (lowerRoute π ψA V)).symm
+  induction z using TensorProduct.inductionOn with
   | tmul a l => exact h a l
   | add z z' hz hz' =>
     refine (congrArg (fun w => thetaSections π π' g hg θ V (ψB.val.app (op V) w))

@@ -233,7 +233,7 @@ theorem Module.Flat.quotient_of_tensorProduct_flat [I.IsMaximal]
       (T ⧸ I'.map (algebraMap S T)) :=
     IsScalarTower.of_algebraMap_eq fun x => by
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Ideal.Quotient.mk _ (algebraMap A T a) =
+      change Ideal.Quotient.mk _ (algebraMap A T a) =
         Ideal.Quotient.mk _ (algebraMap (A ⊗[R] S) T (algebraMap A (A ⊗[R] S) a))
       exact congrArg (Ideal.Quotient.mk _) (RingHom.congr_fun hleft a).symm
   exact Module.Flat.trans (A ⧸ I.map (algebraMap R A))

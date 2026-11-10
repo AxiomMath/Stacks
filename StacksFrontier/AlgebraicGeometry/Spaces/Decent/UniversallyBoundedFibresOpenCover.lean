@@ -123,7 +123,7 @@ theorem boundsFiberDegrees_of_openCover {X Y : Scheme.{u}} (f : X ⟶ Y) (𝒰 :
   let pi : ∀ i : 𝒱.I₀, 𝒱.X i ⟶ Spec K := fun i ↦ (𝒰.f i ≫ f).fiberToSpecResidueField y
   have hproj : ∀ i : 𝒱.I₀, 𝒱.f i ≫ p = pi i := by
     intro i
-    show pullback.map (𝒰.f i ≫ f) q f q (𝒰.f i) (𝟙 _) (𝟙 _) (by simp) (by simp) ≫
+    change pullback.map (𝒰.f i ≫ f) q f q (𝒰.f i) (𝟙 _) (𝟙 _) (by simp) (by simp) ≫
       pullback.snd f q = pullback.snd (𝒰.f i ≫ f) q
     rw [pullback.map, pullback.lift_snd, Category.comp_id]
   have hrank : ∀ i : 𝒱.I₀, ∃ r : ℕ, r ≤ m i ∧ IsFiniteLocallyFreeOfRank (pi i) r := fun i ↦
@@ -156,7 +156,7 @@ theorem boundsFiberDegrees_of_openCover {X Y : Scheme.{u}} (f : X ⟶ Y) (𝒰 :
       rw [← Scheme.Hom.comp_appTop, hproj i]
     have hring := congrArg CommRingCat.Hom.hom harrow
     have ha := congrFun (congrArg (fun φ : K →+* Γ(𝒱.X i, ⊤) ↦ (φ : K → Γ(𝒱.X i, ⊤))) hring) a
-    show (𝒱.f i).appTop.hom (((Scheme.ΓSpecIso K).inv ≫ p.appTop).hom a * s) =
+    change (𝒱.f i).appTop.hom (((Scheme.ΓSpecIso K).inv ≫ p.appTop).hom a * s) =
       ((Scheme.ΓSpecIso K).inv ≫ (pi i).appTop).hom a * (𝒱.f i).appTop.hom s
     rw [map_mul]
     exact congrArg (· * (𝒱.f i).appTop.hom s) (by simpa using ha)

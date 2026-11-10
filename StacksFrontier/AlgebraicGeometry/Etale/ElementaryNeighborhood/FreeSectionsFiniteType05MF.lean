@@ -381,7 +381,7 @@ private lemma free_sections_image_of_isOpenImmersion_at_open
   let : Module R Γ((Scheme.Modules.pullback j).obj F, U) :=
     Module.compHom _ (α ≫ (j.appIso U).hom).hom
   have : Module.Free R Γ((Scheme.Modules.pullback j).obj F, U) := by
-    show @Module.Free R _ _ _ (Module.compHom _ (α ≫ (j.appIso U).hom).hom)
+    change @Module.Free R _ _ _ (Module.compHom _ (α ≫ (j.appIso U).hom).hom)
     rw [hβ]
     exact hfree
   let : Module R Γ(F, j ''ᵁ U) := Module.compHom _ α.hom
@@ -572,7 +572,7 @@ private lemma exists_lift_localScheme_of_isIso_stalkMap
   · dsimp only [t]
     rw [Category.assoc, ← Scheme.SpecMap_stalkMap_fromSpecStalk r,
       ← Spec.map_comp_assoc]
-    show Spec.map (e.hom ≫ e.inv) ≫ Y.fromSpecStalk (r x) = _
+    change Spec.map (e.hom ≫ e.inv) ≫ Y.fromSpecStalk (r x) = _
     simp
   · exact (Scheme.Hom.comp_apply _ _ _).trans
       ((congrArg (fun z : Spec (X.presheaf.stalk x) => (X.fromSpecStalk x) z)
@@ -636,7 +636,7 @@ private lemma exists_isPullback_of_comp_eq
       rwa [hdV]
     exact h.of_right hdE (IsPullback.of_hasPullback q e)
   refine ⟨D, d, hdPB, ?_⟩
-  show d ≫ pullback.fst q e ≫ V.ι ≫ pullback.fst f b = _
+  change d ≫ pullback.fst q e ≫ V.ι ≫ pullback.fst f b = _
   calc
     _ = ((d ≫ pullback.fst q e) ≫ V.ι) ≫ pullback.fst f b := by
       simp only [Category.assoc]
@@ -718,7 +718,7 @@ private lemma exists_free_sections_of_locallyFinitePresentation
     simp only [Scheme.Hom.comp_apply] at h
     rw [hzZ, hyV, hvX] at h
     exact h.symm
-  · show M.scheme.fromSpecStalk M.point ((j ≫ pullback.snd f g) z₀) = M.point
+  · change M.scheme.fromSpecStalk M.point ((j ≫ pullback.snd f g) z₀) = M.point
     rw [hzL, Scheme.fromSpecStalk_closedPoint]
   · let H := (Scheme.Modules.pullback (pullback.fst f g)).obj F
     let e : (Scheme.Modules.pullback d).obj HZ ≅ (Scheme.Modules.pullback j).obj H :=
@@ -750,14 +750,14 @@ private lemma isFlatOverAt_pushforward_of_finite_singleton_fiber
   have : IsScalarTower A B M := IsScalarTower.of_compHom _ _ _
   have : IsScalarTower A B Q := IsScalarTower.of_compHom _ _ _
   have : Module.Flat A M := by
-    show @Module.Flat A M _ _
+    change @Module.Flat A M _ _
       (Module.compHom _ (g.stalkMap (i x)).hom)
     change @Module.Flat A M _ _ (Module.compHom _ ((i ≫ g).stalkMap x).hom) at hflat
     rwa [Scheme.Hom.stalkMap_comp] at hflat
   obtain ⟨e⟩ := AlgebraicGeometry.stalk_isomorphic_pushforward_of_finite_singleton_fiber
     i x hi F
   let eₗ : M ≃ₗ[B] Q := e.toLinearEquiv
-  show Module.Flat A Q
+  change Module.Flat A Q
   exact Module.Flat.of_linearEquiv (eₗ.restrictScalars A).symm
 
 private lemma isFlatOverAt_pushforward_of_isClosedImmersion
@@ -817,7 +817,7 @@ private lemma free_sections_of_pushforward
     IsScalarTower.of_compHom _ _ _
   have hsource : Module.Free R Γ(G, i ⁻¹ᵁ W) :=
     Module.Free.of_equiv ((pushforwardSectionsLinearEquiv i G W).restrictScalars R).symm
-  show @Module.Free R Γ(G, i ⁻¹ᵁ W) _ _ (Module.compHom _ α.hom)
+  change @Module.Free R Γ(G, i ⁻¹ᵁ W) _ _ (Module.compHom _ α.hom)
   rwa [← hα]
 
 /-- Flatness of `F` over `S` at a point of an open `V` transfers to the pushforward of `F|_V`
@@ -832,7 +832,7 @@ private lemma isFlatOverAt_pushforward_of_comp_eq
   refine isFlatOverAt_pushforward_of_isClosedImmersion i p x _ ?_
   rw [hcomp]
   exact (AlgebraicGeometry.isFlatOverAt_iff_modulePullback_isFlatOverAt V.ι f F x (by
-    show (V.ι.stalkMap x).hom.Flat
+    change (V.ι.stalkMap x).hom.Flat
     exact Flat.stalkMap V.ι x)).mp hflat
 
 /-- When `i ≫ p = v ≫ f` with `v` an open immersion, the base change of `i` to `B` maps to
@@ -855,9 +855,9 @@ private lemma exists_isOpenImmersion_pullback_of_comp_eq {V X A S B : Scheme.{u}
     infer_instance
   have heCfst : eC.hom ≫ pullback.fst (v ≫ f) b = a₀ := by
     dsimp [eC, a₀]
-    simp only [Iso.trans_hom, Category.assoc, pullback.congrHom_hom,
+    simp only [Category.assoc, pullback.congrHom_hom,
       pullback.map, pullback.lift_fst, Category.comp_id]
-    simpa using (pullbackRightPullbackFstIso_hom_fst_assoc p b i (𝟙 V))
+    simp
   have heCfstInv : eC.inv ≫ a₀ = pullback.fst (v ≫ f) b := by
     calc
       eC.inv ≫ a₀ = eC.inv ≫ eC.hom ≫ pullback.fst (v ≫ f) b := by rw [heCfst]
@@ -878,8 +878,8 @@ private lemma exists_isOpenImmersion_pullback_of_comp_eq {V X A S B : Scheme.{u}
   have hkB : (eQ.inv ≫ kQ) ≫ pullback.snd f b =
       pullback.snd i (pullback.fst p b) ≫ pullback.snd p b := by
     dsimp [eQ, eC, eO, kQ]
-    simp [Category.assoc, pullback.congrHom_inv, pullback.map,
-      pullback.lift_snd, pullbackRightPullbackFstIso_inv_snd_snd,
+    simp [Category.assoc, pullback.map,
+      pullbackRightPullbackFstIso_inv_snd_snd,
       pullbackRightPullbackFstIso_hom_snd]
   exact ⟨eQ.inv ≫ kQ, hk, hkX, hkB⟩
 

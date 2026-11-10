@@ -75,10 +75,10 @@ theorem squareZeroInclusion_comp {V W : FGModuleCat.{u} k} (g : V ⟶ W) :
   ext c
   rw [ArtinianLocalAlgCat.comp_hom]
   refine TrivSqZeroExt.ext ?_ ?_
-  · show TrivSqZeroExt.fst (TrivSqZeroExt.map g.hom.hom
+  · change TrivSqZeroExt.fst (TrivSqZeroExt.map g.hom.hom
       (TrivSqZeroExt.inl (ULift.down c) : TrivSqZeroExt k V)) = ULift.down c
     rw [TrivSqZeroExt.fst_map, TrivSqZeroExt.fst_inl]
-  · show TrivSqZeroExt.snd (TrivSqZeroExt.map g.hom.hom
+  · change TrivSqZeroExt.snd (TrivSqZeroExt.map g.hom.hom
       (TrivSqZeroExt.inl (ULift.down c) : TrivSqZeroExt k V)) = (0 : W)
     rw [TrivSqZeroExt.snd_map, TrivSqZeroExt.snd_inl, map_zero]
 

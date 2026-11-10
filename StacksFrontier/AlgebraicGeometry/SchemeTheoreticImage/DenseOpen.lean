@@ -108,7 +108,7 @@ open. -/
 public lemma range_toImage_le (V : X.Opens) :
     Set.range (V.ι.toImage).base ⊆ (V.ι.imageι ⁻¹ᵁ V : (V.ι.image).Opens) := by
   rintro _ ⟨x, rfl⟩
-  show (V.ι.toImage ≫ V.ι.imageι) x ∈ (V : Set X)
+  change (V.ι.toImage ≫ V.ι.imageι) x ∈ (V : Set X)
   rw [V.ι.toImage_imageι]
   exact x.2
 

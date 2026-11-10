@@ -91,7 +91,7 @@ along `g` into postcomposition with `g`. -/
 public theorem extZeroAddEquiv_symm_comp_shift {E Y Z : DerivedCategory C}
     (α : DerivedCategory.Ext E Y 0) (g : Y ⟶ Z) :
     (extZeroAddEquiv E Z).symm (α ≫ g⟦(0 : ℤ)⟧') = (extZeroAddEquiv E Y).symm α ≫ g := by
-  show (α ≫ g⟦(0 : ℤ)⟧') ≫ (shiftFunctorZero' (DerivedCategory C) (0 : ℤ) rfl).hom.app Z =
+  change (α ≫ g⟦(0 : ℤ)⟧') ≫ (shiftFunctorZero' (DerivedCategory C) (0 : ℤ) rfl).hom.app Z =
     (α ≫ (shiftFunctorZero' (DerivedCategory C) (0 : ℤ) rfl).hom.app Y) ≫ g
   rw [Category.assoc, Category.assoc,
     (shiftFunctorZero' (DerivedCategory C) (0 : ℤ) rfl).hom.naturality g]

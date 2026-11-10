@@ -119,11 +119,11 @@ theorem exists_finite_zariski_covering (hp : p.IsFiberedInGroupoids)
       let c := L.map (eqToHom (IsHomLift.domain_eq q (h k) (φ k)))
       obtain ⟨d, rfl⟩ := (inferInstance : Surjective c).surj b
       refine ⟨k, d, ?_⟩
-      show (L.map (q.map (φ k ≫ g k))) d = _
+      change (L.map (q.map (φ k ≫ g k))) d = _
       rw [hmap k, L.map_comp, Scheme.Hom.comp_apply]
       rfl
     · intro k
-      show IsOpenImmersion (L.map (q.map (φ k ≫ g k)))
+      change IsOpenImmersion (L.map (q.map (φ k ≫ g k)))
       rw [hmap k, L.map_comp]
       have := hopen k
       change IsOpenImmersion (L.map (D.f k)) at this
@@ -223,7 +223,7 @@ site**: the full subcategory of the slice `X↑/x` on the objects lying over an 
 affine schemes, with the topology inherited from the slice and the restriction of the structure
 sheaf of the slice. -/
 abbrev zariskiAffineLiftedEtaleSlice : RingedSite.{max v w u t, max v w u t, max v w u t} where
-  C := EtaleSlice (zariskiAffineLiftedToScheme.{u, v, w, t} B S hS p hp) x
+  C := Stacks.EtaleSlice (zariskiAffineLiftedToScheme.{u, v, w, t} B S hS p hp) x
   J := topology (zariskiAffineLiftedToScheme.{u, v, w, t} B S hS p hp)
     (zariskiAffineLiftedSite.{u, v, w, t} B S hS p hp).J x
   O := ⟨(etaleOver (zariskiAffineLiftedToScheme.{u, v, w, t} B S hS p hp) x).ι.op ⋙
@@ -431,7 +431,7 @@ theorem isIso_comparison_of_zariskiEtaleCover
   have : g.u.IsCocontinuous Sm.J (X.over x).J :=
     zariskiAffineLiftedEtaleSlice_isCocontinuous.{u, v, w, t} B S hS p hp x
   let ts : I → Sm.C := fun i => ⟨Over.mk (π i ≫ (Over.mk (𝟙 x)).hom), by
-    show Etale (Lx.map (π i ≫ 𝟙 x))
+    change Etale (Lx.map (π i ≫ 𝟙 x))
     rw [Category.comp_id]
     exact het i⟩
   let q : ∀ i, ts i ⟶ terminal Lx x := fun i => ObjectProperty.homMk (Over.homMk (π i))

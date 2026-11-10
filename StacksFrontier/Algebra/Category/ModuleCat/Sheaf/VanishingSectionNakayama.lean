@@ -118,8 +118,7 @@ inside `I • ⊤`.** Nothing is asked of the first factor. -/
 theorem map_mem_smul_top_of_range_le (I : Ideal R) (f : M →ₗ[R] P) (g : N →ₗ[R] Q)
     (hg : ∀ b, g b ∈ I • (⊤ : Submodule R Q)) (z : M ⊗[R] N) :
     TensorProduct.map f g z ∈ I • (⊤ : Submodule R (P ⊗[R] Q)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
+  induction z using TensorProduct.inductionOn with
   | tmul a b => rw [TensorProduct.map_tmul]; exact tmul_mem_smul_top I (f a) (hg b)
   | add y w hy hw => rw [map_add]; exact Submodule.add_mem _ hy hw
 

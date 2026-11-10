@@ -69,7 +69,7 @@ theorem mem_of_map_mem_range_of_isLocalHom {K : Type*} [Field K] (A : Subring K)
       exact A.zero_mem
     have hχa : algebraMap R' K' (ψ a) = (χ t)⁻¹ := by
       refine (RingHom.congr_fun hcomm a).trans ?_
-      show χ (algebraMap A K a) = _
+      change χ (algebraMap A K a) = _
       rw [ha, map_inv₀]
     have hχt : χ t ≠ 0 := (map_ne_zero χ).mpr ht0
     have hunit : ψ a * r = 1 := by
@@ -153,21 +153,21 @@ theorem exists_liftStruct_fromSpecResidueField_of_dominating
     ext s
     rfl
   have hleft : Spec.map (CommRingCat.ofHom A.subtype) ≫ l = Z.fromSpecResidueField η := by
-    show Spec.map (CommRingCat.ofHom A.subtype) ≫ Spec.map (CommRingCat.ofHom θ) ≫ _ = _
+    change Spec.map (CommRingCat.ofHom A.subtype) ≫ Spec.map (CommRingCat.ofHom θ) ≫ _ = _
     rw [← Category.assoc, ← Spec.map_comp, hθσ, Spec.map_comp, Category.assoc,
       Scheme.SpecMap_stalkSpecializes_fromSpecStalk]
     rfl
   refine ⟨⟨l, hleft, ?_⟩⟩
   refine hom_ext_of_closedPoint_eq_of_specMap_comp_eq (K := Z.residueField η) (l ≫ b) i₂ ?_ ?_
   · have hl : l (closedPoint A) = l' (closedPoint (CommRingCat.of R')) := by
-      show Z.fromSpecStalk _ (Spec.map (CommRingCat.ofHom θ) (closedPoint A)) = _
+      change Z.fromSpecStalk _ (Spec.map (CommRingCat.ofHom θ) (closedPoint A)) = _
       rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
-    show b (l (closedPoint A)) = i₂ (closedPoint A)
+    change b (l (closedPoint A)) = i₂ (closedPoint A)
     rw [hl]
     have h3 := congrArg (fun k => k (closedPoint (CommRingCat.of R'))) h₂
     change b (l' _) = i₂ (Spec.map (CommRingCat.ofHom ψ) _) at h3
     rw [h3, Spec_closedPoint]
-  · show Spec.map (CommRingCat.ofHom A.subtype) ≫ l ≫ b =
+  · change Spec.map (CommRingCat.ofHom A.subtype) ≫ l ≫ b =
       Spec.map (CommRingCat.ofHom A.subtype) ≫ i₂
     rw [← Category.assoc, hleft, sq.w]
     rfl

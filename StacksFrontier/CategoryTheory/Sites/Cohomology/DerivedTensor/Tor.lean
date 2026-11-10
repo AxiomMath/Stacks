@@ -180,7 +180,7 @@ private lemma isIso_homologyMap_mapHomologicalComplex (Φ : A ⥤ B) [Φ.Additiv
   have hzero : ∀ (M : CochainComplex A ℤ) [M.IsStrictlyLE 0],
       ((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) 0).obj M).g = 0 := by
     intro M _
-    show M.d 0 ((ComplexShape.up ℤ).next 0) = 0
+    change M.d 0 ((ComplexShape.up ℤ).next 0) = 0
     exact (CochainComplex.isZero_of_isStrictlyLE M 0 ((ComplexShape.up ℤ).next 0)
       (by rw [CochainComplex.next]; omega)).eq_of_tgt _ _
   have hΦ : ∀ (M : CochainComplex A ℤ) [M.IsStrictlyLE 0], Φ.PreservesLeftHomologyOf
@@ -203,7 +203,8 @@ on degree-`0` cohomology.
 Vanishing in positive degrees makes the degree-`0` short complex of each of `K` and `L` have
 zero second map, so `Φ` preserves its left homology; preservation of left homology carries the
 degree-`0` quasi-isomorphism across. -/
-alias isIso_homologyMap_mapHomologicalComplex_of_isStrictlyLE := isIso_homologyMap_mapHomologicalComplex
+alias isIso_homologyMap_mapHomologicalComplex_of_isStrictlyLE :=
+  isIso_homologyMap_mapHomologicalComplex
 
 /-- The comparison `Φ(M[0]) ≅ (Φ M)[0]` of `HomologicalComplex.singleMapHomologicalComplex` is
 natural in the functor `Φ`. Both sides are the identity of `Φ M` in degree `0`, up to the
@@ -336,13 +337,13 @@ private instance preservesZeroMorphisms_tensorTermwise (P : CochainComplex (Modu
 private lemma kFlat_of_isStrictlyLE_of_isFlat (P : CochainComplex (Modules R) ℤ)
     (hLE : P.IsStrictlyLE 0)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := R) (P.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat R P :=
+    Stacks.SheafOfModules.IsKFlat R P :=
   Stacks.SheafOfModules.kFlat_of_boundedAbove_of_flat.{u, u, u} R P ⟨0, hLE⟩ hflat
 
 /-- A flat `O`-module placed in degree `0` gives a K-flat complex, by Tag 06YQ. -/
 private lemma kFlat_single_of_isFlat {F : Modules R}
     (hF : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := R) F) :
-    Stacks.SheafOfModules.KFlat.KFlat R
+    Stacks.SheafOfModules.IsKFlat R
       ((HomologicalComplex.single (Modules R) (ComplexShape.up ℤ) 0).obj F) := by
   refine kFlat_of_isStrictlyLE_of_isFlat R _ (isStrictlyLE_single F) fun i => ?_
   by_cases hi : i = 0
@@ -363,7 +364,7 @@ invertible in `D(O)`; a K-flat left factor computes it as the total tensor compl
 06YU; and a second factor concentrated in degree `0` makes that total complex the termwise
 one. -/
 private noncomputable def torOneIso (F G : Modules R) (P : CochainComplex (Modules R) ℤ)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat R P)
+    (hP : Stacks.SheafOfModules.IsKFlat R P)
     (q : P ⟶ (HomologicalComplex.single (Modules R) (ComplexShape.up ℤ) 0).obj F)
     [QuasiIso q] :
     tor R 1 F G ≅ ((tensorTermwise R P).obj G).homology (-1) := by

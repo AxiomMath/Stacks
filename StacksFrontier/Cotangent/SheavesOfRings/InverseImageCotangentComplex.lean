@@ -82,12 +82,14 @@ noncomputable def postcompEquiv (e : M ≅ N) :
     PresheafOfModulesOfCommRing.Derivation' M φ ≃ PresheafOfModulesOfCommRing.Derivation' N φ where
   toFun DD := DD.postcomp e.hom
   invFun DD := DD.postcomp e.inv
-  left_inv DD := PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
-    have h : (e.hom ≫ e.inv).app X = 𝟙 (M.obj X) := by rw [e.hom_inv_id]; rfl
-    exact ConcreteCategory.congr_hom h (DD.d x))
-  right_inv DD := PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
-    have h : (e.inv ≫ e.hom).app X = 𝟙 (N.obj X) := by rw [e.inv_hom_id]; rfl
-    exact ConcreteCategory.congr_hom h (DD.d x))
+  left_inv DD :=
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
+      have h : (e.hom ≫ e.inv).app X = 𝟙 (M.obj X) := by rw [e.hom_inv_id]; rfl
+      exact ConcreteCategory.congr_hom h (DD.d x))
+  right_inv DD :=
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun X ↦ AddMonoidHom.ext fun x ↦ by
+      have h : (e.inv ≫ e.hom).app X = 𝟙 (N.obj X) := by rw [e.inv_hom_id]; rfl
+      exact ConcreteCategory.congr_hom h (DD.d x))
 
 /-- The equivalence `postcompEquiv e` sends a derivation to its postcomposition with `e.hom`. -/
 @[simp]
@@ -126,7 +128,8 @@ noncomputable def restrictScalarsDerivationCongr
     (M : SheafOfModules.{w} R) {u u' : (Stacks.forgetCommRingSheaf.{v, u, w} J).obj P ⟶ R}
     (h : u = u') {S : Sheaf J CommRingCat.{w}} (b : S ⟶ P) :
     PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u).obj M).val b.hom ≃
-      PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u').obj M).val b.hom := by
+      PresheafOfModulesOfCommRing.Derivation' ((SheafOfModules.restrictScalars u').obj M).val
+        b.hom := by
   subst h
   exact Equiv.refl _
 

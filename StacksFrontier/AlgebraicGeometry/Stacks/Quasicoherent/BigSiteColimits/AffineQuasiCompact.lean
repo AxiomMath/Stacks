@@ -211,7 +211,7 @@ theorem hasFiniteSubcovering (B : BigFppfSite.{u}) (T : B.Schemes)
         (E.restrictIndex (Subtype.val : {i // i ∈ s} → E.I₀)).presieve₀ :=
       PreZeroHypercover.presieve₀_restrictIndex_equiv
         (E := E.restrictIndex (Subtype.val : {i // i ∈ s} → E.I₀)) s.equivFin.symm
-    show Sieve.generate (Presieve.ofArrows (fun i ↦ E.X (σ i)) (fun i ↦ E.f (σ i))) ∈ _
+    change Sieve.generate (Presieve.ofArrows (fun i ↦ E.X (σ i)) (fun i ↦ E.f (σ i))) ∈ _
     rw [key]
     exact B.precoverage.generate_mem_toGrothendieck ⟨_, rfl, hsub⟩
 

@@ -133,7 +133,8 @@ theorem exists_forall_isZero_rightDerived_globalSections_of_qcqs
   have h₃ : IsZero (((Q ⋙ E).rightDerived q).obj F) :=
     (E.map_isZero hQ).of_iso ((Functor.rightDerivedCompIso Q E q).app F)
   have h₁ := (h₃.of_iso e₂).of_iso e₁.symm
-  rwa [ModuleCat.isZero_iff_subsingleton] at h₁ ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at h₁ ⊢
+  exact h₁
 
 /-- **A uniform vanishing degree for the cohomology over the base of coherent modules**: on a
 quasi-compact and quasi-separated algebraic space over `Spec A` there is `N` with

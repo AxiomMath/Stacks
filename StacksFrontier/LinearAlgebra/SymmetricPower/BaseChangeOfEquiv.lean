@@ -83,8 +83,7 @@ theorem bijective_of_symmetricPower_baseChange {φ : R →+* A}
       mapₛₗ (RingHom.id A) ψ
         (symmetricPowerBaseChange R A M n y : SymmetricAlgebra A (A ⊗[R] M)) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y z hy hz => rw [map_add, map_add, Submodule.coe_add, Submodule.coe_add, map_add, hy, hz]
     | tmul a x =>
       have h1 : a ⊗ₜ[R] x = a • ((1 : A) ⊗ₜ[R] x) := by

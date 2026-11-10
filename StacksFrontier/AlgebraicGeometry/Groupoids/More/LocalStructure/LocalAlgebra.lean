@@ -123,7 +123,7 @@ theorem pairIdeal_eq_sup :
 theorem comp_mem (x : G.identityIdeal) :
     G.comp x ∈ G.identityIdeal.map G.first ⊔ G.identityIdeal.map G.second := by
   rw [← G.pairIdeal_eq_sup]
-  show G.identity (G.rightUnit (G.comp x)) = 0
+  change G.identity (G.rightUnit (G.comp x)) = 0
   rw [← RingHom.comp_apply G.rightUnit G.comp,
     ← RingHom.comp_apply G.identity (G.rightUnit.comp G.comp), G.rightUnit_comp,
     RingHom.comp_id]
@@ -137,11 +137,11 @@ theorem leftUnit_mem_identityIdeal {x : C} (hx : x ∈ G.pairIdeal) :
     rw [G.pairIdeal_eq_sup]
     refine sup_le (Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_)
       (Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_)
-    · show G.identity (G.leftUnit (G.first b)) = 0
+    · change G.identity (G.leftUnit (G.first b)) = 0
       rw [← RingHom.comp_apply G.leftUnit, G.leftUnit_first]
-      show G.identity (G.target (G.identity b)) = 0
+      change G.identity (G.target (G.identity b)) = 0
       rw [show G.identity b = 0 from hb, map_zero, map_zero]
-    · show G.identity (G.leftUnit (G.second b)) = 0
+    · change G.identity (G.leftUnit (G.second b)) = 0
       rw [← RingHom.comp_apply G.leftUnit, G.leftUnit_second]
       exact hb
   exact h hx
@@ -161,7 +161,7 @@ theorem identity_leftUnit_eq_identity_rightUnit (c : C) :
 identities, with the first-coordinate image of its right unit. -/
 theorem sub_first_rightUnit_mem_pairIdeal (c : C) :
     c - G.first (G.rightUnit c) ∈ G.pairIdeal := by
-  show G.identity (G.rightUnit (c - _)) = 0
+  change G.identity (G.rightUnit (c - _)) = 0
   rw [map_sub, map_sub, ← RingHom.comp_apply G.rightUnit G.first, G.rightUnit_first]
   exact sub_self _
 
@@ -191,7 +191,7 @@ theorem mk_pairIdeal_sq_eq_add (c : C) (hc : c ∈ G.pairIdeal) :
     | zero => simp
     | add x y hx hy ihx ihy => simp only [map_add, ihx, ihy]
     | smul a z hz ih =>
-      show q (a * z) = q (G.first (G.rightUnit (a * z)))
+      change q (a * z) = q (G.first (G.rightUnit (a * z)))
       rw [map_mul, map_mul, map_mul, map_mul, ← ih]
       refine sub_eq_zero.mp ?_
       rw [← sub_mul, ← map_sub, ← map_mul]
@@ -209,7 +209,7 @@ theorem mk_pairIdeal_sq_eq_add (c : C) (hc : c ∈ G.pairIdeal) :
     | zero => simp
     | add x y hx hy ihx ihy => simp only [map_add, ihx, ihy]
     | smul a z hz ih =>
-      show q (a * z) = q (G.second (G.leftUnit (a * z)))
+      change q (a * z) = q (G.second (G.leftUnit (a * z)))
       rw [map_mul, map_mul, map_mul, map_mul, ← ih]
       refine sub_eq_zero.mp ?_
       rw [← sub_mul, ← map_sub, ← map_mul]
@@ -219,19 +219,19 @@ theorem mk_pairIdeal_sq_eq_add (c : C) (hc : c ∈ G.pairIdeal) :
         (by rw [G.pairIdeal_eq_sup]; exact Ideal.mem_sup_right hz)
   have hlf : G.identityIdeal.map G.first ≤ RingHom.ker G.leftUnit := by
     refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
-    show G.leftUnit (G.first b) = 0
+    change G.leftUnit (G.first b) = 0
     rw [← RingHom.comp_apply G.leftUnit G.first, G.leftUnit_first]
-    show G.target (G.identity b) = 0
+    change G.target (G.identity b) = 0
     rw [show G.identity b = 0 from hb, map_zero]
   have hrs : G.identityIdeal.map G.second ≤ RingHom.ker G.rightUnit := by
     refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
-    show G.rightUnit (G.second b) = 0
+    change G.rightUnit (G.second b) = 0
     rw [← RingHom.comp_apply G.rightUnit G.second, G.rightUnit_second]
-    show G.source (G.identity b) = 0
+    change G.source (G.identity b) = 0
     rw [show G.identity b = 0 from hb, map_zero]
   rw [G.pairIdeal_eq_sup] at hc
   obtain ⟨a, ha, b, hb, rfl⟩ := Submodule.mem_sup.mp hc
-  show q (a + b) = q (G.first (G.rightUnit (a + b))) + q (G.second (G.leftUnit (a + b)))
+  change q (a + b) = q (G.first (G.rightUnit (a + b))) + q (G.second (G.leftUnit (a + b)))
   simp only [map_add, show G.leftUnit a = 0 from hlf ha, show G.rightUnit b = 0 from hrs hb,
     add_zero, zero_add]
   rw [hf a ha, hs b hb]
@@ -270,10 +270,10 @@ theorem mapCotangent_inverse (x : G.identityIdeal) :
     rw [G.pairIdeal_eq_sup]
     refine sup_le (Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_)
       (Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_)
-    · show G.identity (G.inversePair (G.first b)) = 0
+    · change G.identity (G.inversePair (G.first b)) = 0
       rw [← RingHom.comp_apply G.inversePair G.first, G.inversePair_first]
       exact hb
-    · show G.identity (G.inversePair (G.second b)) = 0
+    · change G.identity (G.inversePair (G.second b)) = 0
       rw [← RingHom.comp_apply G.inversePair G.second, G.inversePair_second,
         ← RingHom.comp_apply G.identity G.inverse, G.identity_inverse]
       exact hb
@@ -296,7 +296,7 @@ theorem mapCotangent_inverse (x : G.identityIdeal) :
   simp only [map_sub, map_add, hc, hf, hs, show G.identity x = 0 from x.property, map_zero,
     zero_sub] at hm'
   rw [← map_neg, Ideal.toCotangent_eq]
-  show G.inverse x - -(x : B) ∈ G.identityIdeal ^ 2
+  change G.inverse x - -(x : B) ∈ G.identityIdeal ^ 2
   simpa only [sub_neg_eq_add, add_comm, neg_neg] using (G.identityIdeal ^ 2).neg_mem hm'
 
 end LocalGroupoidAlgebra

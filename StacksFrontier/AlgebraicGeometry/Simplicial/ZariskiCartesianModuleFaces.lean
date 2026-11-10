@@ -193,7 +193,7 @@ public theorem componentModuleDirectTransition_comp (X : SimplicialObject Scheme
     Scheme.Modules.pushforwardComp_hom_app_app, Scheme.Modules.pushforwardCongr_hom_app_app]
   have e : X.map (φ ≫ ψ) ⁻¹ᵁ W = (X.map φ ≫ X.map ψ) ⁻¹ᵁ W :=
     congrArg (fun k : X.obj n ⟶ X.obj l => k ⁻¹ᵁ W) (X.map_comp φ ψ)
-  show (F.val.presheaf.map ((levelFunctor (zariskiSpace X) n).map (eqToHom e)).op)
+  change (F.val.presheaf.map ((levelFunctor (zariskiSpace X) n).map (eqToHom e)).op)
       ((F.val.presheaf.map (SimplicialSheafSystem.transitionHom (X := zariskiSpace X) φ
           ((Opens.map ((zariskiSpace X).map ψ)).obj W)).op)
         ((F.val.presheaf.map
@@ -206,7 +206,7 @@ public theorem componentModuleDirectTransition_comp (X : SimplicialObject Scheme
             ((Opens.map ((zariskiSpace X).map ψ)).obj W) ≫
           SimplicialSheafSystem.transitionHom (X := zariskiSpace X) ψ W := by
     apply SimplicialOpen.Hom.ext
-    show φ ≫ ψ = (𝟙 n) ≫ φ ≫ ψ
+    change φ ≫ ψ = (𝟙 n) ≫ φ ≫ ψ
     simp
   exact congr($(Stacks.CategoryTheory.presheafMapThreefold F.val.presheaf _ _ _ _ key) x)
 
@@ -223,7 +223,7 @@ public theorem componentModuleDirectTransition_id (X : SimplicialObject Scheme.{
     Scheme.Modules.pushforwardCongr_inv_app_app]
   have e : X.map (𝟙 n) ⁻¹ᵁ W = 𝟙 (X.obj n) ⁻¹ᵁ W :=
     congrArg (fun k : X.obj n ⟶ X.obj n => k ⁻¹ᵁ W) (X.map_id n)
-  show (F.val.presheaf.map ((levelFunctor (zariskiSpace X) n).map (eqToHom e)).op) x =
+  change (F.val.presheaf.map ((levelFunctor (zariskiSpace X) n).map (eqToHom e)).op) x =
     (F.val.presheaf.map
       (SimplicialSheafSystem.transitionHom (X := zariskiSpace X) (𝟙 n) W).op) x
   have key : SimplicialSheafSystem.transitionHom (X := zariskiSpace X) (𝟙 n) W =

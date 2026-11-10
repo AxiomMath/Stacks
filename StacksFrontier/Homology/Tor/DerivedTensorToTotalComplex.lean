@@ -285,7 +285,7 @@ theorem derivedToTensorNatTrans_app_eq_comparison (T : DerivedTensorProduct R)
     (derivedToTensorNatTrans T).app (K, L) = (T.comparison K L hK hL).hom := by
   rw [derivedToTensorNatTrans_app T K L, tensorPairIso_hom_app T K L hK hL]
   dsimp only [modelComparison, Iso.trans_hom, Iso.symm_hom]
-  show ((T.comparison K L hK hL).hom ≫ (rightIso K L hL).inv) ≫ (rightIso K L hL).hom = _
+  change ((T.comparison K L hK hL).hom ≫ (rightIso K L hL).inv) ≫ (rightIso K L hL).hom = _
   rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- **The canonical map at a K-flat right factor is invertible**, for an arbitrary left

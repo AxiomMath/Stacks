@@ -279,7 +279,7 @@ theorem exists_isAffineOpen_mem_and_boundsFiberDegrees {X Y : Scheme.{u}} (f : X
   let _ : Algebra ↑Γ(Y, V) ↑Γ(X, X.basicOpen t) := (f.appLE V (X.basicOpen t) hWV).hom.toAlgebra
   have htower : IsScalarTower ↑Γ(Y, V) ↑Γ(X, U) ↑Γ(X, X.basicOpen t) := by
     refine .of_algebraMap_eq fun a ↦ ?_
-    show (f.appLE V (X.basicOpen t) hWV).hom a = _
+    change (f.appLE V (X.basicOpen t) hWV).hom a = _
     rw [← Scheme.Hom.appLE_map f hUV (homOfLE hWU).op]
     rfl
   have hloc : IsLocalization.Away t ↑Γ(X, X.basicOpen t) := hU.isLocalization_basicOpen t
@@ -295,7 +295,7 @@ theorem exists_isAffineOpen_mem_and_boundsFiberDegrees {X Y : Scheme.{u}} (f : X
     rw [hmap] at hspec
     let P : MorphismProperty Scheme.{u} := fun _ _ g ↦ BoundsFiberDegrees g (n : ℤ)
     have _ : P.RespectsIso := MorphismProperty.IsStableUnderBaseChange.respectsIso (P := P)
-    show P (f.resLE V (X.basicOpen t) hWV)
+    change P (f.resLE V (X.basicOpen t) hWV)
     rw [P.arrow_mk_iso_iff (arrowIsoSpecΓOfIsAffine (f.resLE V (X.basicOpen t) hWV)),
       Scheme.Hom.appTop, Scheme.Hom.resLE_app_top, Spec.map_comp, Spec.map_comp,
       Category.assoc, P.cancel_left_of_respectsIso, P.cancel_right_of_respectsIso]

@@ -46,11 +46,11 @@ theorem torIndependent_appLE_comp_of_isPullback {U V W W' V' : Scheme.{u}} {p : 
     letI : Algebra Γ(W, W₀) Γ(U, U₀) := ((p ≫ q).appLE W₀ U₀ hUW).hom.toAlgebra
     letI : Algebra Γ(W, W₀) Γ(W', W₀') := (s.appLE W₀ W₀' hW').hom.toAlgebra
     Algebra.TorIndependent Γ(W, W₀) Γ(U, U₀) Γ(W', W₀') := by
-  letI : Algebra Γ(W, W₀) Γ(V, V₀) := (q.appLE W₀ V₀ hV).hom.toAlgebra
-  letI : Algebra Γ(V, V₀) Γ(U, U₀) := (p.appLE V₀ U₀ hU).hom.toAlgebra
-  letI : Algebra Γ(W, W₀) Γ(U, U₀) := ((p ≫ q).appLE W₀ U₀ hUW).hom.toAlgebra
-  letI : Algebra Γ(W, W₀) Γ(W', W₀') := (s.appLE W₀ W₀' hW').hom.toAlgebra
-  haveI : IsScalarTower Γ(W, W₀) Γ(V, V₀) Γ(U, U₀) := IsScalarTower.of_algebraMap_eq' <|
+  let : Algebra Γ(W, W₀) Γ(V, V₀) := (q.appLE W₀ V₀ hV).hom.toAlgebra
+  let : Algebra Γ(V, V₀) Γ(U, U₀) := (p.appLE V₀ U₀ hU).hom.toAlgebra
+  let : Algebra Γ(W, W₀) Γ(U, U₀) := ((p ≫ q).appLE W₀ U₀ hUW).hom.toAlgebra
+  let : Algebra Γ(W, W₀) Γ(W', W₀') := (s.appLE W₀ W₀' hW').hom.toAlgebra
+  have : IsScalarTower Γ(W, W₀) Γ(V, V₀) Γ(U, U₀) := IsScalarTower.of_algebraMap_eq' <|
     (congrArg CommRingCat.Hom.hom (Scheme.Hom.appLE_comp_appLE p q W₀ V₀ U₀ hV hU)).symm
   -- the open `V₀ ×_{W₀} W₀'` of the fibre product
   let Y₀ : V'.Opens := π₁ ⁻¹ᵁ V₀ ⊓ π₂ ⁻¹ᵁ W₀'
@@ -69,7 +69,7 @@ theorem torIndependent_appLE_comp_of_isPullback {U V W W' V' : Scheme.{u}} {p : 
   have h₁ : RingTheory.TorIndependence.TorIndependent Γ(W, W₀) Γ(V, V₀) Γ(W', W₀') :=
     (RingTheory.TorIndependence.torIndependent_iff_isZero_tor _ _ _).mpr
       (tq.mp hqs V₀ hV₀ W₀' hW₀' W₀ hW₀ hV hW')
-  letI : Algebra Γ(V, V₀) Γ(V', Y₀) := (π₁.appLE V₀ Y₀ inf_le_left).hom.toAlgebra
+  let : Algebra Γ(V, V₀) Γ(V', Y₀) := (π₁.appLE V₀ Y₀ inf_le_left).hom.toAlgebra
   have h₂' : RingTheory.TorIndependence.TorIndependent Γ(V, V₀) Γ(U, U₀) Γ(V', Y₀) :=
     (RingTheory.TorIndependence.torIndependent_iff_isZero_tor _ _ _).mpr
       (tp.mp hp U₀ hU₀ Y₀ hY₀ V₀ hV₀ hU inf_le_left)

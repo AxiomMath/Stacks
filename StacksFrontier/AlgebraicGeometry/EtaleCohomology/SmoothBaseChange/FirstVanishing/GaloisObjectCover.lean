@@ -160,7 +160,7 @@ theorem isIso_galoisCoverComparison_of_isGalois (A : FiniteEtaleOver X) [IsGaloi
       simp only [inv_inv]
       exact hz
     exact ⟨(Sigma.ι (fun _ : Aut A => A.left) τ⁻¹).base y, by
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc, hy]⟩
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, hy]⟩
   change IsIso (Sigma.desc s)
   rw [isIso_iff_isOpenImmersion_and_surjective]
   exact ⟨isOpenImmersion_sigmaDesc _ s hdisj, ⟨hsurj⟩⟩

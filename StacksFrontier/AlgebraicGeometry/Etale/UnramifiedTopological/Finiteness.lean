@@ -102,7 +102,7 @@ private lemma finite_sections_of_isOpenImmersion_diagonal {T P : Scheme.{u}} (q 
       have hdense : Dense (genericPoints C) := by rw [dense_iff_closure_eq, genericPoints.closure]
       obtain ⟨η, hηW, hη⟩ := hdense.inter_open_nonempty _ hopen ⟨⟨z, hn⟩, hz⟩
       have hηt : pullback.fst q q η.1 ∈ Set.range t.1 := by
-        show (⟨η, hη⟩ : genericPoints C) ∈ code t
+        change (⟨η, hη⟩ : genericPoints C) ∈ code t
         rw [← hst]
         exact hηW.1
       exact η.2 (mem_range_diagonal_of_projections_mem_section q t.1 t.2 η.1 hηt hηW.2)

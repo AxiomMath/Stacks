@@ -143,7 +143,7 @@ theorem kernelMap_comp {T T' T'' : Over (Spec (.of k))} (g : T'' ⟶ T') (g' : T
     (c : kernelAt f σ hσ T) :
     kernelMap f σ hσ (g ≫ g') c = kernelMap f σ hσ g (kernelMap f σ hσ g' c) := by
   apply Subtype.ext
-  show Stacks.Picard.schemePullbackClass (baseChangeMap f (g ≫ g')) c.1 =
+  change Stacks.Picard.schemePullbackClass (baseChangeMap f (g ≫ g')) c.1 =
     Stacks.Picard.schemePullbackClass (baseChangeMap f g)
       (Stacks.Picard.schemePullbackClass (baseChangeMap f g') c.1)
   rw [baseChangeMap_comp, Stacks.Picard.schemePullbackClass_comp]
@@ -182,20 +182,8 @@ theorem eq_add_of_normalize_eq (T : Over (Spec (.of k)))
   rw [← h', sub_add_cancel]
 
 include σ hσ in
-/-- **A degree-`g` divisor `E` with `𝒪(E) ≅ ℒ` is the zero scheme of any generator of `ℒ`.** It
-takes [Stacks, Tag 0A1H] as an argument (`hPerfBC`). -/
+/-- **A degree-`g` divisor `E` with `𝒪(E) ≅ ℒ` is the zero scheme of any generator of `ℒ`.** -/
 theorem eq_zeroScheme_of_isGenerator
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     [IsCurve k f] [Smooth f] [IsProper f] {T : Scheme.{u}} (q : T ⟶ Spec (.of k))
     (E : (pullback f q).IdealSheafData) [Stacks.Divisors.IsEffectiveCartierDivisor E]
     (hE : Stacks.Morphisms.IsFiniteLocallyFreeOfRank (E.subschemeι ≫ pullback.snd f q) (genus f))
@@ -221,7 +209,7 @@ theorem eq_zeroScheme_of_isGenerator
             (Stacks.Divisors.canonicalSection' E)))
     rw [h1]
     rfl
-  have := isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ hPerfBC q L s hs
+  have := isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ q L s hs
   have : Stacks.Morphisms.IsFiniteLocallyFreeOfRank
       ((zeroScheme (pullback f q) L ((L.unitHomEquiv t).eval (op ⊤))).subschemeι ≫
         pullback.snd f q) (genus f) := by
@@ -251,20 +239,8 @@ theorem schemePullbackClass_eq_picardClass_pullback {Y Y' : Scheme.{u}} (g : Y' 
 include σ hσ in
 /-- **A degree-`g` Hilbert family with the class of `ℒ` is the divisor of a generator of `ℒ`**:
 for an invertible `ℒ` on `X_T`, a family `Z` over `T` with `[𝒪(Z)] = [ℒ]` and a generator `s`
-of `ℒ` relative to `f_T`, the ideal of `Z` is the zero scheme of `s`. It takes
-[Stacks, Tag 0A1H] as an argument (`hPerfBC`). -/
+of `ℒ` relative to `f_T`, the ideal of `Z` is the zero scheme of `s`. -/
 theorem familyIdeal_eq_zeroScheme_of_isGenerator
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     [IsCurve k f] [Smooth f] [IsProper f] {T : Over (Spec (.of k))}
     (Z : Stacks.Hilbert.HilbertFamily (Over.mk f) T (genus f)) (R : (pullback f T.hom).Modules)
     [hRa : SheafOfModules.IsInvertible (pullback f T.hom).sheaf.obj
@@ -279,7 +255,7 @@ theorem familyIdeal_eq_zeroScheme_of_isGenerator
   have hZ : Stacks.Divisors.IsEffectiveCartierDivisor (X := pullback f T.hom) Z.ideal :=
     (isRelativeEffectiveCartierDivisor_hilbertFamily f Z).1
   obtain ⟨e⟩ := (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).1 hcls
-  exact eq_zeroScheme_of_isGenerator f σ hσ hPerfBC T.hom Z.ideal Z.isFiniteLocallyFreeOfRank R e
+  exact eq_zeroScheme_of_isGenerator f σ hσ T.hom Z.ideal Z.isFiniteLocallyFreeOfRank R e
     s hs
 
 /-- The Stacks and the `AlgebraicGeometry` notions of invertibility hold for a module that is
@@ -364,7 +340,7 @@ theorem eq_of_familyClass_eq
         ((modulePullback (baseChangeMap f q).toLRSHom.toShHom).obj
           (Stacks.Picard.picardRepresentative (pullback f T.hom).toRingedSpace c).obj)
         ((SheafOfModules.unitHomEquiv _ s).eval (op ⊤)) := fun n hn =>
-    familyIdeal_eq_zeroScheme_of_isGenerator f σ hσ hPerfBC (hH.family n)
+    familyIdeal_eq_zeroScheme_of_isGenerator f σ hσ (hH.family n)
       ((modulePullback (baseChangeMap f q).toLRSHom.toShHom).obj
         (Stacks.Picard.picardRepresentative (pullback f T.hom).toRingedSpace c).obj)
       (Stacks.RingedSpace.modulePullback_isInvertible_of _ _
@@ -417,20 +393,8 @@ theorem eq_of_map_universalClass_eq
     eu _ _ hcl₁ hcl₂)
 
 include σ hσ in
-/-- **The class of the divisor of a generator of `g^*ℒ` is `g^*[ℒ]`.** It takes
-[Stacks, Tag 0A1H] as an argument (`hPerfBC`). -/
+/-- **The class of the divisor of a generator of `g^*ℒ` is `g^*[ℒ]`.** -/
 theorem familyClass_zeroScheme_eq
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     [IsCurve k f] [Smooth f] [IsProper f] {T T' : Over (Spec (.of k))} (g : T' ⟶ T)
     (c : Stacks.Picard.ofScheme (pullback f T.hom))
     [SheafOfModules.IsInvertible (pullback f T'.hom).sheaf.obj
@@ -443,11 +407,11 @@ theorem familyClass_zeroScheme_eq
     (hs : PushforwardGenerator.IsGenerator (pullback.snd f T'.hom).toLRSHom.toShHom _ s) :
     familyClass f (⟨zeroScheme (pullback f T'.hom) _
           ((SheafOfModules.unitHomEquiv _ s).eval (op ⊤)),
-        isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ hPerfBC T'.hom _ s hs⟩ :
+        isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ T'.hom _ s hs⟩ :
         Stacks.Hilbert.HilbertFamily (Over.mk f) T' (genus f)) =
       Stacks.Picard.schemePullbackClass (baseChangeMap f g) c := by
   have hreg := (isEffectiveCartierDivisor_zeroScheme_iff_isRegularSection _ _ _).1
-    (isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator f σ hσ hPerfBC T'.hom _ s hs).1.1
+    (isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator f σ hσ T'.hom _ s hs).1.1
   refine Eq.trans ?_ (schemePullbackClass_eq_picardClass_pullback _ _).symm
   exact (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).2
     ⟨(invertibleSheafIsoZeroSchemeOfIsRegularSection _ _ hreg).symm⟩
@@ -511,13 +475,13 @@ theorem exists_map_universalClass_eq
   obtain ⟨m, hmdef⟩ : ∃ m : ∀ i : 𝒰.I₀, coverObj T 𝒰 i ⟶ H, ∀ i, hH.family (m i) =
       ⟨zeroScheme (pullback f (coverObj T 𝒰 i).hom) _
         ((SheafOfModules.unitHomEquiv _ (s i)).eval (op ⊤)),
-        isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ hPerfBC _ _ (s i) (hs i)⟩ :=
+        isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator f σ hσ _ _ (s i) (hs i)⟩ :=
     ⟨fun i => hH.family.symm _, fun i => Equiv.apply_symm_apply _ _⟩
   have hmcls : ∀ i, familyClass f (hH.family (m i)) =
       Stacks.Picard.schemePullbackClass (baseChangeMap f (coverHom T 𝒰 i)) c.1 := by
     intro i
     rw [hmdef i]
-    exact familyClass_zeroScheme_eq f σ hσ hPerfBC (coverHom T 𝒰 i) c.1 (s i) (hs i)
+    exact familyClass_zeroScheme_eq f σ hσ (coverHom T 𝒰 i) c.1 (s i) (hs i)
   have hcomp : ∀ (i : 𝒰.I₀) {W : Over (Spec (.of k))} (p : W ⟶ coverObj T 𝒰 i),
       familyClass f (hH.family (p ≫ m i)) =
         Stacks.Picard.schemePullbackClass (baseChangeMap f (p ≫ coverHom T 𝒰 i)) c.1 := by

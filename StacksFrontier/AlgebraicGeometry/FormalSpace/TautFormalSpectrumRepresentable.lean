@@ -104,7 +104,7 @@ theorem size_stage_le_of_hasLargeSite (E : QuotientSystem B S hS C)
         ((BigAffineFppf.inclusion B S hS).obj (E.stage K))).size ≤
       (∐ fun J : { J : Ideal C // TopologicalRing.IsWeakIdealOfDefinition J } =>
         Spec (.of (C ⧸ J.1))).size := by
-  show (Spec (.of (C ⧸ K.1))).size ≤ _
+  change (Spec (.of (C ⧸ K.1))).size ≤ _
   exact Scheme.size_le_of_mono_locallyOfFinitePresentation
     (Sigma.ι (fun J : { J : Ideal C // TopologicalRing.IsWeakIdealOfDefinition J } =>
       Spec (.of (C ⧸ J.1))) K)

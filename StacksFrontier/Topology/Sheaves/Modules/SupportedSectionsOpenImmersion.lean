@@ -97,13 +97,13 @@ theorem exists_iso_of_injective_same_range {Y : RingedSpace.{u, u}}
       ((LinearEquiv.ofEq _ _ (Submodule.ext fun s => Set.ext_iff.mp (hab V) s)).trans
         (LinearEquiv.ofInjective (b.val.app V).hom (hb V)).symm)
   have he V s : b.val.app V (e V s) = a.val.app V s := by
-    show ((LinearEquiv.ofInjective (b.val.app V).hom (hb V)) (e V s)).val = _
+    change ((LinearEquiv.ofInjective (b.val.app V).hom (hb V)) (e V s)).val = _
     simp [e]
   let ee : A.val ≅ B.val := PresheafOfModules.isoMk (fun V => (e V).toModuleIso) (by
     intro V W j
     ext s
     apply hb W
-    show b.val.app W (e W (A.val.map j s)) = b.val.app W (B.val.map j (e V s))
+    change b.val.app W (e W (A.val.map j s)) = b.val.app W (B.val.map j (e V s))
     refine (he W (A.val.map j s)).trans ?_
     exact (PresheafOfModules.naturality_apply a.val j s).trans
       ((congrArg (F.val.map j) (he V s)).symm.trans
@@ -191,7 +191,7 @@ theorem locallyEqZero_immRestrict_iff (M : _root_.SheafOfModules.{u} (structureS
     have hle : (immOpensFunctor f).obj ((Opens.map f.hom.base).obj V ⊓ W) ≤ V := by
       rintro z ⟨w, hw, rfl⟩
       exact hw.1
-    show M.val.map ((immOpensFunctor f).map (homOfLE inf_le_right)).op s = 0
+    change M.val.map ((immOpensFunctor f).map (homOfLE inf_le_right)).op s = 0
     exact map_eq_zero_of_eq_comp M _ jV.op (homOfLE hle).op
       (congrArg Quiver.Hom.op (Subsingleton.elim _ _)) s hjV
 

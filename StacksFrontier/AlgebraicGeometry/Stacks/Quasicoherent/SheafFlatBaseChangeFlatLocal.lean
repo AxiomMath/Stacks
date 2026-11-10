@@ -263,7 +263,7 @@ theorem nonempty_hom_homFunctor_objectStackMap_obj (x : 𝒳.val.val.obj) :
   let L := Functor.TwoYoneda.chosenLift 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
     (𝒳.val.val.p.obj x) (Functor.Fiber.mk (a := x) rfl) (Over.mk (𝟙 (𝒳.val.val.p.obj x)))
   have : IsIso (Over.mk (𝟙 (𝒳.val.val.p.obj x))).hom := by
-    show IsIso (𝟙 _)
+    change IsIso (𝟙 _)
     infer_instance
   have := L.isStronglyCartesian
   have : IsIso L.φ :=
@@ -302,7 +302,7 @@ theorem locallyQuasicoherentSheafFlatBaseChangeFppfModules_of_flatLfp_cover_of_a
   have hdown : Sieve.ofArrows (fun j => p.obj (y j)) (fun j => p.map (g j)) ∈
       B.topology.over (B.obj hS) (p.obj x₀) := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.generate (Presieve.ofArrows (fun j => (p.obj (y j)).left)
+    change Sieve.generate (Presieve.ofArrows (fun j => (p.obj (y j)).left)
       (fun j => (p.map (g j)).left)) ∈ B.topology (p.obj x₀).left
     refine Precoverage.generate_mem_toGrothendieck ?_
     rw [bigFppfPrecoverage_eq_comap B, Precoverage.mem_comap_iff, Presieve.map_ofArrows]

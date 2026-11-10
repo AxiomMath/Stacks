@@ -79,7 +79,7 @@ private theorem dense_fiber_preimage_of_nonempty {Y : Scheme.{u}} {Z : Scheme.{u
     exact hy
   refine (preirreducibleSpace_iff_open_dense ↥(h.fiber y)).mp inferInstance
     ((h.fiberι y ⁻¹ᵁ W).isOpen) ⟨z, ?_⟩
-  show h.fiberι y z ∈ W
+  change h.fiberι y z ∈ W
   rw [hz]
   exact mem_of_isGenericPoint_univ hgen W.isOpen hW
 

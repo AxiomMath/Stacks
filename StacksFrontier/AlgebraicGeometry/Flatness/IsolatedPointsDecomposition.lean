@@ -84,7 +84,7 @@ lemma exists_isolated_point_pullback_of_elementary {X S : Scheme.{u}}
       f.fiberι (f x) (e.hom py) = (e.hom ≫ f.fiberι (f x)) py := by simp
       _ = (q.fiberι U.point ≫ pullback.fst f U.toBase) py := by rw [he]
       _ = x := by
-        show pullback.fst f U.toBase (q.fiberι U.point py) = x
+        change pullback.fst f U.toBase (q.fiberι U.point py) = x
         have hpyLift : q.fiberι U.point py = y := by
           simpa [py] using fiberι_cast_asFiber q y hyu
         rw [hpyLift, hyx]
@@ -95,7 +95,7 @@ lemma exists_isolated_point_pullback_of_elementary {X S : Scheme.{u}}
   have hpH : H py = f.asFiber x := hp
   have hset : H ⁻¹' ({f.asFiber x} : Set (f.fiber (f x))) = {py} := by
     ext z
-    show H z = f.asFiber x ↔ z = py
+    change H z = f.asFiber x ↔ z = py
     exact ⟨fun hz => H.injective (hz.trans hpH.symm), fun hz => hz ▸ hpH⟩
   have hpy : IsOpen ({py} : Set _) := hset ▸ hxi.preimage H.continuous
   exact (isIsolatedPoint_cast_asFiber q y hyu).1 hpy
@@ -185,11 +185,11 @@ theorem exists_etaleNeighborhood_finite_opens_of_isolated_fiber_points
           point := N'.point
           toBase := N'.toBase ≫ U.toBase
           map_point := by
-            show U.toBase (N'.toBase N'.point) = s
+            change U.toBase (N'.toBase N'.point) = s
             exact (congrArg U.toBase N'.map_point).trans U.map_point }
       have hW : W.IsElementary := by
         rw [EtaleNeighborhood.isElementary_iff]
-        show IsIso ((N'.toBase ≫ U.toBase).residueFieldMap N'.point)
+        change IsIso ((N'.toBase ≫ U.toBase).residueFieldMap N'.point)
         rw [Scheme.residueFieldMap_comp]
         have hUbase : IsIso (U.toBase.residueFieldMap (N'.toBase N'.point)) := by
           rw [N'.map_point]
@@ -209,7 +209,7 @@ theorem exists_etaleNeighborhood_finite_opens_of_isolated_fiber_points
           point := N'.point
           toBase := N'.toBase ≫ (Ui i).toBase
           map_point := by
-            show (Ui i).toBase (N'.toBase N'.point) = f (xtail i)
+            change (Ui i).toBase (N'.toBase N'.point) = f (xtail i)
             exact (congrArg (Ui i).toBase N'.map_point).trans (Ui i).map_point }
       have htailSpec : ∀ i, IsFiniteNeighborhoodAt f (xtail i) (Wi i) (Vtail i) := by
         intro i
@@ -272,7 +272,7 @@ theorem exists_etaleNeighborhood_finite_opens_of_isolated_fiber_points
         simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
         refine ⟨fun hz => ?_, fun hz => hz ▸ hzeroPoint⟩
         have hzinv : ezero.hom (ezero.inv z) = z := by
-          show (ezero.inv ≫ ezero.hom) z = z
+          change (ezero.inv ≫ ezero.hom) z = z
           rw [ezero.inv_hom_id]
           rfl
         have hzB : (N.openSubscheme.ι ≫ pullback.snd q N.neighborhood.toBase)
@@ -282,7 +282,7 @@ theorem exists_etaleNeighborhood_finite_opens_of_isolated_fiber_points
                 (ezero.hom ≫ Vzero.ι ≫ pullback.snd f W.toBase) (ezero.inv z) := by
                   rw [hzeroProj]
             _ = (Vzero.ι ≫ pullback.snd f W.toBase) z := by
-                  show pullback.snd f W.toBase (Vzero.ι (ezero.hom (ezero.inv z))) =
+                  change pullback.snd f W.toBase (Vzero.ι (ezero.hom (ezero.inv z))) =
                     pullback.snd f W.toBase (Vzero.ι z)
                   rw [hzinv]
             _ = N.neighborhood.point := hz
@@ -296,7 +296,7 @@ theorem exists_etaleNeighborhood_finite_opens_of_isolated_fiber_points
           _ = (N.openSubscheme.ι ≫ pullback.fst q N.neighborhood.toBase ≫
                 pullback.fst f U.toBase) vB := by rw [hzeroFst]
           _ = x 0 := by
-                show pullback.fst f U.toBase
+                change pullback.fst f U.toBase
                   ((N.openSubscheme.ι ≫ pullback.fst q N.neighborhood.toBase) vB) = x 0
                 rw [hBy, hyx]
       have hzeroResidue :
@@ -394,7 +394,7 @@ theorem exists_etaleNeighborhood_decomposition
     ext y
     simp only [TopologicalSpace.Opens.coe_iSup, TopologicalSpace.Opens.coe_top, Set.mem_univ,
       iff_true]
-    show y ∈ ⋃ a : Option (Fin n), ((j a).opensRange : Set Y)
+    change y ∈ ⋃ a : Option (Fin n), ((j a).opensRange : Set Y)
     by_cases hy : y ∈ ⋃ i, (Q i : Set Y)
     · obtain ⟨i, hi⟩ := Set.mem_iUnion.mp hy
       exact Set.mem_iUnion.mpr ⟨some i, by simpa [j, T, Scheme.Opens.opensRange_ι] using hi⟩
@@ -424,7 +424,7 @@ theorem exists_etaleNeighborhood_decomposition
     let z : V k.val := ⟨(v i : Y), hmk⟩
     have hval : (V k.val).ι z = (V i).ι (v i) := rfl
     have hz : ((V k.val).ι ≫ pullback.snd f U.toBase) z = U.point := by
-      show pullback.snd f U.toBase ((V k.val).ι z) = U.point
+      change pullback.snd f U.toBase ((V k.val).ι z) = U.point
       rw [hval]
       exact hvfiber i
     have hzeq : z = v k.val := by
@@ -435,7 +435,7 @@ theorem exists_etaleNeighborhood_decomposition
       calc
         x i = ((V i).ι ≫ pullback.fst f U.toBase) (v i) := (hpoint i).symm
         _ = ((V k.val).ι ≫ pullback.fst f U.toBase) z := by
-              show pullback.fst f U.toBase ((V i).ι (v i)) =
+              change pullback.fst f U.toBase ((V i).ι (v i)) =
                 pullback.fst f U.toBase ((V k.val).ι z)
               rw [hval]
         _ = x k.val := by rw [hzeq, hpoint k.val]
@@ -456,7 +456,7 @@ theorem exists_etaleNeighborhood_decomposition
     have : IsOpenImmersion (Y.homOfLE (hQle i)) := inferInstance
     have : IsFinite ((V i).ι ≫ pullback.snd f U.toBase) := hfinite i
     have : IsClosedImmersion (Y.homOfLE (hQle i)) := hkclosed i
-    show IsFinite ((Q i).ι ≫ pullback.snd f U.toBase)
+    change IsFinite ((Q i).ι ≫ pullback.snd f U.toBase)
     rw [← hkcomp i, Category.assoc]
     infer_instance
   have hUres : IsIso (U.toBase.residueFieldMap U.point) := U.isElementary_iff.mp hU
@@ -489,7 +489,7 @@ theorem exists_etaleNeighborhood_decomposition
       · simpa [ca, cb, Scheme.Pullback.carrierEquiv] using haU.trans hbU.symm
     have hcbY : cb.1.y = U.point := hbU
     have hcbS : cb.1.s = U.toBase U.point := by
-      show f (pullback.fst f U.toBase b) = U.toBase U.point
+      change f (pullback.fst f U.toBase b) = U.toBase U.point
       rw [hbX, hx i, U.map_point]
     refine (Scheme.Pullback.carrierEquiv (f := f) (g := U.toBase)).injective ?_
     rw [Scheme.Pullback.carrierEquiv_eq_iff]
@@ -497,7 +497,7 @@ theorem exists_etaleNeighborhood_decomposition
     exact ⟨hT, Subsingleton.elim _ _⟩
   refine ⟨U, hU, P, j, hopen, hclosedP, hdesc, v', hfinite', fun i => ?_, fun i => ?_,
     fun i => ?_, fun y hy i hyx => ?_⟩
-  · show pullback.fst f U.toBase ((Q i).ι (v' i)) = x i
+  · change pullback.fst f U.toBase ((Q i).ι (v' i)) = x i
     exact hpoint i
   · ext y
     constructor

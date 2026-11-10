@@ -97,7 +97,7 @@ theorem counit_app_modulePullbackChartSection (N : Modules.{u, u} B S hS X.1 X.2
         (modulePullbackChartSection B S hS f ((modulePushforward B S hS f).obj N) d y) =
       modulePushforwardCounitApp B S hS f N d y := by
   rw [← modulePullbackUnitSection_eq_modulePullbackChartSection]
-  show ((modulePullbackAdjunction B S hS f).counit.app N).val.app (op d.U)
+  change ((modulePullbackAdjunction B S hS f).counit.app N).val.app (op d.U)
       (modulePushforwardCounitApp B S hS f _ d
         (((modulePullbackAdjunction B S hS f).unit.app _).val.app (op d.V) y)) = _
   rw [← modulePushforwardCounitApp_map]

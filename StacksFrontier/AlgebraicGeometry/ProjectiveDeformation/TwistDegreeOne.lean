@@ -318,7 +318,7 @@ theorem mulSectionsApp_map (W : X.Opens) {n : ℤ} (c : Γ(tensorPowerModule X L
       (restrictPush L W (n + k)).presheaf.map (homOfLE h).op (mulSectionsApp L W c k V ℓ) := by
   have hU : W.ι ''ᵁ (W.ι ⁻¹ᵁ V') ≤ W.ι ''ᵁ (W.ι ⁻¹ᵁ V) :=
     Scheme.Hom.image_mono _ (W.ι.preimage_mono h)
-  show _ = (tensorPowerModule X L (n + k)).presheaf.map (homOfLE hU).op _
+  change _ = (tensorPowerModule X L (n + k)).presheaf.map (homOfLE hU).op _
   unfold mulSectionsApp
   rw [Stacks.TensorPowerDivision.map_localMul,
     Stacks.AlgebraicGeometry.SectionRingBaseChange.map_map_homOfLE _ _ _
@@ -332,7 +332,7 @@ theorem mulSectionsApp_map (W : X.Opens) {n : ℤ} (c : Γ(tensorPowerModule X L
 theorem existsUnique_mulSection (W : X.Opens) {n : ℤ} (c : Γ(tensorPowerModule X L n, W))
     (k : ℤ) :
     ∃! φ : tensorPowerModule X L k ⟶ restrictPush L W (n + k),
-      ∀ (i : PUnit.{u + 1}) (V : X.Opens) (hV : V ≤ (fun _ : PUnit.{u + 1} => (⊤ : X.Opens)) i),
+      ∀ (i : PUnit.{u + 1}) (V : X.Opens), V ≤ (fun _ : PUnit.{u + 1} => (⊤ : X.Opens)) i →
         φ.app V = AddCommGrpCat.ofHom (AddMonoidHom.mk' (mulSectionsApp L W c k V)
           (mulSectionsApp_add L W c k V)) :=
   Stacks.AlgebraicGeometry.ModuleHomGlue.existsUnique_hom_of_cover_app (ι := PUnit.{u + 1})
@@ -374,7 +374,7 @@ theorem eq_of_mulSection_one_eq (W : X.Opens) {n : ℤ} (a b : Γ(tensorPowerMod
     refine PresheafOfModules.tensorSheaf_hom_ext (Osharp := X.sheaf) fun U ℓ ℓ' => ?_
     change Γ(tensorPowerModule X L 1, U.unop) at ℓ
     change Γ(tensorPowerModule X L (-1), U.unop) at ℓ'
-    show (mulSection L W a (1 + -1)).app U.unop (Stacks.TensorPowerDivision.localMul L ℓ ℓ') =
+    change (mulSection L W a (1 + -1)).app U.unop (Stacks.TensorPowerDivision.localMul L ℓ ℓ') =
       (mulSection L W b (1 + -1)).app U.unop (Stacks.TensorPowerDivision.localMul L ℓ ℓ')
     have h1 := ConcreteCategory.congr_hom (congrArg (fun φ => Scheme.Modules.Hom.app φ U.unop) h) ℓ
     replace h1 := (mulSection_app L W a 1 U.unop ℓ).symm.trans
@@ -618,7 +618,7 @@ theorem psiU_eq_of_unitMul_of_app_one {S X : Scheme.{u}} {A : SheafGradedAlgebra
     (hΘ : TwistSections.UnitMul L r (twistAlgebra A) Θ)
     (hΘ' : TwistSections.UnitMul L r (twistAlgebra A) Θ')
     (h1 : Θ 1 = Θ' 1) [IsIso (Θ 1)]
-    (V : S.Opens) (hV : IsAffineOpen V) (d : ℕ) (hd : 0 < d) (a : Γ(A.piece (d : ℤ), V)) :
+    (V : S.Opens) (d : ℕ) (a : Γ(A.piece (d : ℤ), V)) :
     (Θ d).app (r ⁻¹ᵁ ((relativeProj A).toBase ⁻¹ᵁ V))
         (unitApp r (Otw A d) ((relativeProj A).toBase ⁻¹ᵁ V) (psiU A d V a)) =
       (Θ' d).app (r ⁻¹ᵁ ((relativeProj A).toBase ⁻¹ᵁ V))

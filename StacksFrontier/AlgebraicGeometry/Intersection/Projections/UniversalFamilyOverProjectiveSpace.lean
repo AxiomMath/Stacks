@@ -245,7 +245,7 @@ theorem degreeSection_smul_of_coe_eq_mul (n : ℕ) (z : 𝒮 0) (a b : 𝒮 n)
       z • (⟨(a : S), mem_twistGrading_zero 𝒮 a⟩ :
         twistGrading (S := S) 𝒮 (n : ℤ) 0) :=
     Subtype.ext (show (b : S) = (z : S) • (a : S) by rw [hb, smul_eq_mul])
-  show degreeZeroToGlobalSections 𝒮 (twistGrading (S := S) 𝒮 (n : ℤ))
+  change degreeZeroToGlobalSections 𝒮 (twistGrading (S := S) 𝒮 (n : ℤ))
       ⟨(b : S), mem_twistGrading_zero 𝒮 b⟩ = _
   rw [h]
   exact map_smul (degreeZeroToGlobalSections 𝒮 (twistGrading (S := S) 𝒮 (n : ℤ))) z _
@@ -277,7 +277,7 @@ def degreeSectionLinear (n : ℕ) :
     { toFun := AlgebraicGeometry.ProjectiveSpectrum.Proj.degreeSection (grading k W) n
       map_add' a b := map_add (degreeSectionHom (grading k W) n) a b
       map_smul' c a := by
-        show AlgebraicGeometry.ProjectiveSpectrum.Proj.degreeSection (grading k W) n (c • a) = _
+        change AlgebraicGeometry.ProjectiveSpectrum.Proj.degreeSection (grading k W) n (c • a) = _
         rw [degreeSection_smul, ← smul_twistGlobalSections]
         rfl }
 
@@ -342,10 +342,10 @@ def tensorGlobalSections (F : (projectiveSpaceOfModule k W).Modules) (n : ℤ) :
 sheaf is quasi-coherent by Tag 01MB and the twist is a tensor product with it. -/
 instance isQuasicoherent_twist (F : (projectiveSpaceOfModule k W).Modules)
     [hF : F.IsQuasicoherent] (n : ℤ) : (twistObj k W F n).IsQuasicoherent :=
-  letI h₁ : SheafOfModules.IsQuasicoherent.{u, u, u}
+  letI : SheafOfModules.IsQuasicoherent.{u, u, u}
       (show SheafOfModules.{u} (structureSheaf (structurePresheaf k W)
         (isSheaf_structurePresheaf k W)) from F) := hF
-  letI h₂ : SheafOfModules.IsQuasicoherent.{u, u, u}
+  letI : SheafOfModules.IsQuasicoherent.{u, u, u}
       (show SheafOfModules.{u} (structureSheaf (structurePresheaf k W)
         (isSheaf_structurePresheaf k W)) from twistingSheaf (grading k W) n) :=
     associatedModuleSheaf_isQuasicoherent (grading k W) (twistGrading (grading k W) n)
@@ -419,14 +419,14 @@ def sectionPairing : W →ₗ[k] V →ₗ[k]
   map_add' w w' := by
     refine LinearMap.ext fun v => ?_
     rw [LinearMap.add_apply]
-    show tensorGlobalSections k W (constantModule k W V) ((1 : ℕ) : ℤ)
+    change tensorGlobalSections k W (constantModule k W V) ((1 : ℕ) : ℤ)
         (constantSection k W V v) (twistSection k W (w + w')) = _
     rw [twistSection_add, map_add]
     rfl
   map_smul' c w := by
     refine LinearMap.ext fun v => ?_
     rw [RingHom.id_apply, LinearMap.smul_apply]
-    show tensorGlobalSections k W (constantModule k W V) ((1 : ℕ) : ℤ)
+    change tensorGlobalSections k W (constantModule k W V) ((1 : ℕ) : ℤ)
         (constantSection k W V v) (twistSection k W (c • w)) = _
     rw [twistSection_smul, map_smul]
     exact (smul_eq_scalarSection k W

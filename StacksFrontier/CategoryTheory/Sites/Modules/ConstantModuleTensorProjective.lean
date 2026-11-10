@@ -107,7 +107,7 @@ theorem tensorToHom_comp_homToTensor {Q : ModuleCat.{w} Λ} {n : ℕ} (s : Q →
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro q x
-  show ∑ j, π (Pi.single j 1) ⊗ₜ[Λ] ((pairing Λ (s q) (Pi.single j 1)) • x) = q ⊗ₜ[Λ] x
+  change ∑ j, π (Pi.single j 1) ⊗ₜ[Λ] ((pairing Λ (s q) (Pi.single j 1)) • x) = q ⊗ₜ[Λ] x
   have hq : ∑ j, s q j • π (Pi.single j 1) = q := by
     have h1 := congrArg (fun f => f q) h
     simp only [LinearMap.comp_apply, LinearMap.id_apply] at h1

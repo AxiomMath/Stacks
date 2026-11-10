@@ -197,10 +197,10 @@ theorem C1573.isClosedImmersion_toScheme_lift_of_isSeparated (X : AlgebraicSpace
   have hFl : F.map l₁ = pullback.lift (F.map a) (F.map b) w := by
     apply pullback.hom_ext
     · rw [pullback.lift_fst]
-      show F.map l₁ ≫ F.map prV₁ = _
+      change F.map l₁ ≫ F.map prV₁ = _
       rw [← F.map_comp, hVDsite.lift_fst]
     · rw [pullback.lift_snd]
-      show F.map l₁ ≫ F.map prD₁ = _
+      change F.map l₁ ≫ F.map prD₁ = _
       rw [← F.map_comp, hVDsite.lift_snd]
   rw [← hFl]
   exact hci'
@@ -254,7 +254,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
   set pZ := B.inclusion.map Z.hom with hpZ
   set ι := F.map j₀ with hιdef
   have hι : ι ≫ pZ = pD := by
-    show B.inclusion.map j₀.left ≫ _ = _
+    change B.inclusion.map j₀.left ≫ _ = _
     rw [← Functor.map_comp, Over.w j₀]
   have hrep := hu.rep
   set UV := hrep.pullback φ with hUVdef
@@ -265,7 +265,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
   set q := F.map prD with hq
   have hpq : p ≫ pV = q ≫ pD := by
     rw [hp, hq, hpV, hpD]
-    show B.inclusion.map prV.left ≫ _ = B.inclusion.map prD.left ≫ _
+    change B.inclusion.map prV.left ≫ _ = B.inclusion.map prD.left ≫ _
     rw [← Functor.map_comp, ← Functor.map_comp, Over.w prV, Over.w prD]
   have hgraph : AlgebraicGeometry.IsClosedImmersion
       (Stacks.FlattenedGraph.C1573.graph pV pD p q hpq) :=
@@ -275,7 +275,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
         (BigFppfOver.toScheme B S hS)).presheaf.IsStableUnderBaseChange :=
       MorphismProperty.relative_isStableUnderBaseChange _
     have := (presheaf_yoneda_map_etale_iff B S hS prD).1 (hbc.of_isPullback hUV.flip hφe)
-    show Flat (F.map prD)
+    change Flat (F.map prD)
     infer_instance
   have : AlgebraicGeometry.IsOpenImmersion ι := ‹_›
   have : QuasiCompact ι := ‹_›
@@ -359,10 +359,10 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
       rw [hpq, ← hι, ← hjDb]; simp only [Category.assoc]) := by
     apply pullback.hom_ext
     · rw [pullback.lift_fst]
-      show F.map h ≫ F.map prV' = _
+      change F.map h ≫ F.map prV' = _
       rw [← F.map_comp, hVZsite.lift_fst]
     · rw [pullback.lift_snd]
-      show F.map h ≫ F.map prZ = _
+      change F.map h ≫ F.map prZ = _
       rw [← F.map_comp, hVZsite.lift_snd, F.map_comp, hFj₂]; rfl
   have hker : (F.map k).ker = (F.map h).ker := by
     rw [hFk, hFh]; exact hjcker
@@ -402,7 +402,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
     have : QuasiCompact (jD ≫ AlgebraicGeometry.blowUpToBase K) := by rw [hjDb]; infer_instance
     exact QuasiCompact.of_comp jD (AlgebraicGeometry.blowUpToBase K)
   have hj₂dom : IsSchemeTheoreticallyDominant (F.map j₂) := by
-    show IsSchemeTheoreticallyDominant jD
+    change IsSchemeTheoreticallyDominant jD
     rw [hjD]
     obtain ⟨hcart, -⟩ := Stacks.Blowup.isTerminal_blowUp K
     have hcart' : Stacks.Divisors.IsEffectiveCartierDivisor
@@ -410,10 +410,10 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
     have heq : AlgebraicGeometry.blowUpToBase K ⁻¹ᵁ ι.opensRange =
         (K.comap (AlgebraicGeometry.blowUpToBase K)).support.compl := by
       ext y
-      show AlgebraicGeometry.blowUpToBase K y ∈ ι.opensRange ↔
+      change AlgebraicGeometry.blowUpToBase K y ∈ ι.opensRange ↔
         y ∉ (K.comap (AlgebraicGeometry.blowUpToBase K)).support
       rw [Scheme.IdealSheafData.support_comap]
-      show _ ↔ ¬ AlgebraicGeometry.blowUpToBase K y ∈ K.supportSet
+      change _ ↔ ¬ AlgebraicGeometry.blowUpToBase K y ∈ K.supportSet
       rw [hK]
       simp only [Set.mem_compl_iff, not_not]
       rfl
@@ -472,7 +472,7 @@ theorem C1573.exists_flattenedGraphClosure (X : AlgebraicSpaces B S hS)
     isAlgebraicSpace_pullback B S hS f gZ X.2 (isAlgebraicSpace_yoneda B S hS Z₂) hY
   have hgZsep : IsSeparated B S hS gZ := by
     rw [hgZ, isSeparated_yoneda_map_iff]
-    show _root_.AlgebraicGeometry.IsSeparated (AlgebraicGeometry.blowUpToBase K ≫ pZ)
+    change _root_.AlgebraicGeometry.IsSeparated (AlgebraicGeometry.blowUpToBase K ≫ pZ)
     infer_instance
   have hfstsep : IsSeparated B S hS (pullback.fst f gZ) := by
     have h' := isSeparated_comp B S hS (pullbackSymmetry f gZ).hom (pullback.snd gZ f)

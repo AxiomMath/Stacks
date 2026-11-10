@@ -192,7 +192,7 @@ private noncomputable def quotientHom {i l : I} (u : i ⟶ l) :
 
 private lemma quotientHom_map {i l : I} (u : i ⟶ l) (z : F.obj i) :
     quotientHom hsurj u (F.map u z) = Ideal.Quotient.mk (eventualKernel F i) z := by
-  show Ideal.Quotient.factorₐ R (ker_le_eventualKernel u)
+  change Ideal.Quotient.factorₐ R (ker_le_eventualKernel u)
       ((Ideal.quotientKerAlgEquivOfSurjective (f := (F.map u).hom) (hsurj u)).symm
         ((F.map u).hom z)) = _
   rw [Ideal.quotientKerAlgEquivOfSurjective_symm_apply]
@@ -255,7 +255,7 @@ private noncomputable def quotientCocone (i : I) : Cocone F where
 
 private lemma quotientCocone_app_self (i : I) (y : F.obj i) :
     (quotientCocone hsurj i).ι.app i y = Ideal.Quotient.mk (eventualKernel F i) y := by
-  show quotientHom hsurj (IsFiltered.leftToMax i i)
+  change quotientHom hsurj (IsFiltered.leftToMax i i)
       (F.map (IsFiltered.rightToMax i i) y) = _
   rw [quotientHom_map_eq hsurj (IsFiltered.leftToMax i i) (IsFiltered.rightToMax i i)
     (𝟙 i) (𝟙 i) y]
@@ -268,11 +268,11 @@ theorem eventualKernel_eq_ker (hc : IsColimit c) (i : I) :
     eventualKernel F i = RingHom.ker (c.ι.app i).hom := by
   refine le_antisymm (fun x hx => ?_) (fun x hx => ?_)
   · obtain ⟨j, f, hf⟩ := hx
-    show c.ι.app i x = 0
+    change c.ι.app i x = 0
     rw [← app_map_apply f x, hf, map_zero]
   · have h0 : (quotientCocone hsurj i).ι.app i x = 0 := by
       rw [← hc.fac (quotientCocone hsurj i) i]
-      show hc.desc (quotientCocone hsurj i) (c.ι.app i x) = 0
+      change hc.desc (quotientCocone hsurj i) (c.ι.app i x) = 0
       rw [show c.ι.app i x = 0 from hx, map_zero]
     rw [quotientCocone_app_self] at h0
     exact Ideal.Quotient.eq_zero_iff_mem.1 h0

@@ -158,7 +158,7 @@ theorem exists_baseCovering_le_of_mem_baseOverTopology (τ : SiteKind)
   rw [baseOverTopology, GrothendieckTopology.mem_over_iff] at hR
   obtain ⟨E, hE, hle⟩ := B.exists_baseCovering_le_of_mem_baseTopology τ hR
   refine ⟨⟨E.I₀, fun i => Over.mk (E.f i ≫ U.hom), fun i => Over.homMk (E.f i) rfl⟩, ?_, ?_⟩
-  · show B.baseCovering τ ⟨U.left, _⟩
+  · change B.baseCovering τ ⟨U.left, _⟩
     simpa [PreZeroHypercover.map] using hE
   · rw [Presieve.ofArrows_le_iff]
     intro i

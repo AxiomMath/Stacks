@@ -135,10 +135,10 @@ theorem isPresentedByGlobalSections_restrictedModuleRestrictionAlong_kernel
   have haffV : ∀ V : FlatFppf B S hS 𝒵,
       IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒵.val.val.p.obj V.obj)) →
       IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj V)) := fun V hV ↦ by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj V)))
     rwa [hpobj V]
   have hy₀aff : IsAffine ((p ⋙ BigFppfOver.toScheme B S hS).obj (Fn.obj t)) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj (Fn.obj t)))
     rwa [hpobj t]
   have hflat : ∀ V : FlatFppf B S hS 𝒵,
       IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒵.val.val.p.obj V.obj)) →
@@ -519,7 +519,7 @@ theorem isCoherent_X₂_of_shortExact_qcoh
     rw [top_inf_eq, ← LinearMap.range_eq_map]
     refine le_antisymm (fun x hx ↦ hex x hx) ?_
     rintro _ ⟨x, rfl⟩
-    show ((qcohSectionsAt 𝒳 y).map T.f ≫ (qcohSectionsAt 𝒳 y).map T.g) x = 0
+    change ((qcohSectionsAt 𝒳 y).map T.f ≫ (qcohSectionsAt 𝒳 y).map T.g) x = 0
     rw [← Functor.map_comp, T.zero, Functor.map_zero]
     rfl
   refine ⟨Submodule.fg_of_fg_map_of_fg_inf_ker gL (IsNoetherian.noetherian _) ?_⟩

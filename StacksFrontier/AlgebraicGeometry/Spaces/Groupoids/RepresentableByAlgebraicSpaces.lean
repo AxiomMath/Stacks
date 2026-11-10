@@ -101,7 +101,7 @@ private lemma pbSection_fst {C : Type v} [Category.{w} C] {F G H : Cᵒᵖ ⥤ T
     (f : F ⟶ H) (g : G ⟶ H) (X : Cᵒᵖ) (x : F.obj X) (y : G.obj X)
     (h : f.app X x = g.app X y) :
     (pullback.fst f g).app X (pbSection f g X x y h) = x := by
-  show ConcreteCategory.hom ((pullbackObjIso f g X).inv ≫ (pullback.fst f g).app X)
+  change ConcreteCategory.hom ((pullbackObjIso f g X).inv ≫ (pullback.fst f g).app X)
     (ConcreteCategory.hom (pullback.lift (↾fun _ : PUnit => x) (↾fun _ : PUnit => y)
       (by ext z; exact h)) PUnit.unit) = x
   rw [pullbackObjIso_inv_comp_fst]
@@ -113,7 +113,7 @@ lemma pbSection_snd {C : Type v} [Category.{w} C] {F G H : Cᵒᵖ ⥤ Type u}
     (f : F ⟶ H) (g : G ⟶ H) (X : Cᵒᵖ) (x : F.obj X) (y : G.obj X)
     (h : f.app X x = g.app X y) :
     (pullback.snd f g).app X (pbSection f g X x y h) = y := by
-  show ConcreteCategory.hom ((pullbackObjIso f g X).inv ≫ (pullback.snd f g).app X)
+  change ConcreteCategory.hom ((pullbackObjIso f g X).inv ≫ (pullback.snd f g).app X)
     (ConcreteCategory.hom (pullback.lift (↾fun _ : PUnit => x) (↾fun _ : PUnit => y)
       (by ext z; exact h)) PUnit.unit) = y
   rw [pullbackObjIso_inv_comp_snd]
@@ -176,20 +176,20 @@ theorem isSheaf_of_isRepresentableByAlgebraicSpaces
     (isSheaf_iff_isSheaf_of_type (BigFppfOver.topology B S hS) P).mp (ha X ξ).isSheaf
   have hfiber : ∀ {Y : BigFppfOver B S hS} (f : Y ⟶ X) (hf : R.arrows f),
       ξ.app (op Y) f = a.app (op Y) (x f hf) := fun {Y} f hf => by
-    show (G.map f.op) σ = a.app (op Y) (x f hf)
+    change (G.map f.op) σ = a.app (op Y) (x f hf)
     simpa [xG, Presieve.FamilyOfElements.map] using hσ f hf
   let z : Presieve.FamilyOfElements P R.arrows := fun {Y} f hf =>
     pbSection ξ a (op Y) f (x f hf) (hfiber f hf)
   have hz : z.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ hcomp
-    show (pullback ξ a).map g₁.op
+    change (pullback ξ a).map g₁.op
         (pbSection ξ a (op Y₁) f₁ (x f₁ hf₁) (hfiber f₁ hf₁)) =
       (pullback ξ a).map g₂.op
         (pbSection ξ a (op Y₂) f₂ (x f₂ hf₂) (hfiber f₂ hf₂))
     rw [pbSection_map ξ a g₁.op f₁ (x f₁ hf₁) (hfiber f₁ hf₁),
       pbSection_map ξ a g₂.op f₂ (x f₂ hf₂) (hfiber f₂ hf₂)]
     apply pbSection_ext
-    · show (yoneda.obj X).map g₁.op f₁ = (yoneda.obj X).map g₂.op f₂
+    · change (yoneda.obj X).map g₁.op f₁ = (yoneda.obj X).map g₂.op f₂
       simpa using hcomp
     · exact hx g₁ g₂ hf₁ hf₂ hcomp
   have hPR : Presieve.IsSheafFor P R.arrows := hP.isSheafFor R.arrows (by simpa using hR)

@@ -84,8 +84,8 @@ public abbrev infinitesimalAutomorphismKernel
 @[sga "7 VI 1.1(a)"]
 public theorem categoryOfElements_projection_isCofibered
     {C : Type u} [Category.{v} C] (F : C ⥤ Type w) :
-    IsCofiberedInGroupoids (CategoryOfElements.π F) := by
-  show Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
+    IsCofiberedInGroupoids (Functor.Elements.π F) := by
+  change Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
   constructor
   · intro V U f y hy
     rcases V with ⟨V⟩
@@ -204,7 +204,7 @@ public theorem eq_residueMorphism
       (f.hom a - (residueMorphism A).hom a) = 0 := by
     rw [map_sub, hres, sub_self]
   have hmax : maximalIdeal ↑(residueFieldObject.{u, v, w} Λ k) = ⊥ := by
-    show maximalIdeal (ULift.{v} k) = ⊥
+    change maximalIdeal (ULift.{v} k) = ⊥
     exact maximalIdeal_eq_bot
   have hz : f.hom a - (residueMorphism A).hom a = 0 := by
     simpa [hmax] using (residue_eq_zero_iff _).mp hzero
@@ -261,7 +261,7 @@ public noncomputable abbrev automorphismFunctorOverBase :
 /-- The identity point of the automorphism functor over the residue field. -/
 public noncomputable def identityPoint :
     letI := residueAlgebra (p.obj x)
-    (CategoryOfElements.π (automorphismFunctorOverBase P)).Fiber
+    (Functor.Elements.π (automorphismFunctorOverBase P)).Fiber
       (residueFieldObject.{max v w, v, w} (p.obj x) k) :=
   letI := residueAlgebra (p.obj x)
   ⟨(automorphismFunctorOverBase P).elementsMk (residueFieldObject.{max v w, v, w} (p.obj x) k)
@@ -272,7 +272,7 @@ public noncomputable def identityPoint :
 public noncomputable abbrev localizedAutomorphismFunctorTangent : Type _ :=
   let := residueAlgebra (p.obj x)
   tangentSpaceAtPoint
-    (CategoryOfElements.π (automorphismFunctorOverBase P))
+    (Functor.Elements.π (automorphismFunctorOverBase P))
     (categoryOfElements_projection_isCofibered _) (identityPoint P)
 
 /-- The residue-field object under the base of `x`. -/
@@ -298,7 +298,7 @@ public noncomputable abbrev localizedAutomorphismCategory :
     letI := residueAlgebra (p.obj x)
     BasedCategory (ArtinianLocalAlgCat.{max v w, max v w, w} (p.obj x) k) :=
   BasedCategory.ofFunctor (objectsOverFunctor
-    (CategoryOfElements.π (automorphismFunctorOverBase P)) (identityPoint P).1)
+    (Functor.Elements.π (automorphismFunctorOverBase P)) (identityPoint P).1)
 
 /-- The automorphism attached to the identity point is the identity automorphism. -/
 private theorem identityPoint_snd :
@@ -447,7 +447,7 @@ private theorem exists_localizedAutomorphismFiber
       (artinianDualNumbers.{max v w, w, v} (p.obj x) k) α)
     (y := (identityPoint P).1)
     (residueMorphism (artinianDualNumbers.{max v w, w, v} (p.obj x) k)) hcond), rfl⟩, ?_⟩
-  show (automorphismFunctorOverBase P).map (eqToHom rfl) α = α
+  change (automorphismFunctorOverBase P).map (eqToHom rfl) α = α
   rw [eqToHom_refl]
   exact Functor.map_id_apply _ _ _
 

@@ -262,7 +262,7 @@ theorem coord_app (m : ℤ) (V : (Opens T.carrier)ᵒᵖ) (y : ((laurent L).piec
   have e3 := secHom_app_oneSec ((laurent L).piece m) (pw w m) V
   have e4 := mulHom_tmul (laurent L) m (-m) V
     (((laurent L).piece m).val.restrictₛₗ (topRes T V) (pw w m)) y
-  show (eqToHom (congrArg (laurent L).piece (add_neg_cancel m))).val.app V
+  change (eqToHom (congrArg (laurent L).piece (add_neg_cancel m))).val.app V
     ((mulHom (laurent L) m (-m)).val.app V
       ((secHom ((laurent L).piece m) (pw w m) ▷ (laurent L).piece (-m)).val.app V
         ((λ_ ((laurent L).piece (-m))).inv.val.app V y))) = _
@@ -281,7 +281,7 @@ include hw hw' in
 theorem triv_coord (m : ℤ) : triv w m ≫ coord w m = 𝟙 _ := by
   apply (SheafOfModules.unitHomEquiv _).injective
   ext V
-  show (coord w m).val.app V ((triv w m).val.app V (oneSec T.toRingedSpace V)) =
+  change (coord w m).val.app V ((triv w m).val.app V (oneSec T.toRingedSpace V)) =
     oneSec T.toRingedSpace V
   have e1 := secHom_app_oneSec ((laurent L).piece (-m)) (pw w (-m)) V
   rw [show (triv w m).val.app V (oneSec T.toRingedSpace V) = _ from e1, coord_app]
@@ -308,7 +308,7 @@ include hw hw' in
 /-- **The coordinate followed by the trivialization is the identity.** -/
 theorem coord_triv (m : ℤ) : coord w m ≫ triv w m = 𝟙 _ := by
   ext V y
-  show (triv w m).val.app V ((coord w m).val.app V y) = y
+  change (triv w m).val.app V ((coord w m).val.app V y) = y
   rw [triv_app', coord_app]
   apply DirectSum.of_injective (β := (laurent L).sectionsPiece V) (-m)
   rw [smul_of, smul_one_eval, of_eqToHom (add_neg_cancel m), ← of_mul_of]
@@ -343,7 +343,7 @@ theorem secHom_mul_coord (m i : ℤ) :
   have eL3 := mulHom_tmul (laurent L) i (-(m + i)) V
     (r • ((laurent L).piece i).val.restrictₛₗ (topRes T V) (pw w i)) y
   have eR1 := leftUnitor_hom_tmul (Z := T.toRingedSpace) (B := (laurent L).piece (-(m + i))) V r y
-  show (coord w m).val.app V ((eqToHom (congrArg (laurent L).piece
+  change (coord w m).val.app V ((eqToHom (congrArg (laurent L).piece
       (by ring : i + -(m + i) = -m))).val.app V ((mulHom (laurent L) i (-(m + i))).val.app V
         ((secHom ((laurent L).piece i) (pw w i) ▷ (laurent L).piece (-(m + i))).val.app V
           (tmul T.toRingedSpace (𝟙_ _) _ V r y)))) =
@@ -366,7 +366,7 @@ theorem secHom_tensor_triv (m i : ℤ) :
           eqToHom (congrArg (laurent L).piece (by ring : i + -(m + i) = -m)) = triv w m := by
   apply (SheafOfModules.unitHomEquiv _).injective
   ext V
-  show (eqToHom (congrArg (laurent L).piece (by ring : i + -(m + i) = -m))).val.app V
+  change (eqToHom (congrArg (laurent L).piece (by ring : i + -(m + i) = -m))).val.app V
       ((mulHom (laurent L) i (-(m + i))).val.app V
         ((secHom ((laurent L).piece i) (pw w i) ⊗ₘ triv w (m + i)).val.app V
           ((λ_ (𝟙_ (SheafOfModules.{u} (structureRingSheaf T.toRingedSpace)))).inv.val.app V

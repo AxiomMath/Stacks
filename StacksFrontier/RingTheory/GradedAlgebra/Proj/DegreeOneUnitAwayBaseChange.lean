@@ -60,7 +60,7 @@ theorem isBaseChange_degreeZero (hc : c ∈ 𝒜 (m + 1)) (hb : b ∈ 𝒜 m) (h
               rw [Submodule.coe_smul, RingHom.id_apply, smul_comm] }
         map_add' := fun a a' => LinearMap.ext fun z => add_smul a a' _
         map_smul' := fun r a => LinearMap.ext fun z => by
-          show (r • a) • (z : LocalizedModule.Away (R := A) g M) =
+          change (r • a) • (z : LocalizedModule.Away (R := A) g M) =
             r • (a • (z : LocalizedModule.Away (R := A) g M))
           rw [smul_assoc] } with hφ
   have hφ_tmul : ∀ (a : Localization.Away g) (z : N), φ (a ⊗ₜ z) = a • (z : _) := fun _ _ => rfl

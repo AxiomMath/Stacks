@@ -52,7 +52,7 @@ theorem chernCap_sheafTensor (E : X.Modules) (r : ℕ)
         (((Stacks.SheafOfModules.Tensor.sheafTensor X.sheaf).obj E).obj L)
         (isFiniteLocallyFreeOfRank_sheafTensor E r L) k i α =
       ∑ j : Fin ((i : ℕ) + 1), ((r - i + j : ℕ).choose j : ℤ) •
-        chowGroupCast C sX (by simp only [Fin.val_mk]; omega)
+        chowGroupCast C sX (by simp only; omega)
           (chernCap C r sX E (k - (j : ℤ)) ⟨(i : ℕ) - j, by omega⟩
             (capPow C sX (invCap C sX L) j k (k - (j : ℤ)) (by ring) α)) :=
   let := AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree E r

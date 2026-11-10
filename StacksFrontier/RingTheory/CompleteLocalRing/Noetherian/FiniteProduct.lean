@@ -144,8 +144,7 @@ private lemma finite_isAdicComplete_of_complete
     have hrange : ∀ s : TensorProduct R (AdicCompletion m R) S,
         AdicCompletion.ofTensorProduct m S s ∈ LinearMap.range (AdicCompletion.of m S) := by
       intro s
-      induction s using TensorProduct.induction_on with
-      | zero => simp
+      induction s using TensorProduct.inductionOn with
       | tmul r x =>
           obtain ⟨r0, hr0⟩ := hRb.surjective r
           rw [AdicCompletion.ofTensorProduct_tmul, ← hr0]
@@ -212,7 +211,7 @@ private theorem coiSeq_compat {S : Type*} [CommRing S] (J : Ideal S) {k : ℕ}
   have hlift := (coiSeq J ē hē n).property.lift_of_isNilpotent_ker
     (Ideal.Quotient.factorPow J (Nat.le_succ (n+1))) (ker_nilp J n)
     (fun i => (factorPow_surj J (Nat.le_succ (n+1))) ((coiSeq J ē hē n).val i))
-  show (Ideal.Quotient.factorPow J (Nat.le_succ (n+1))) (hlift.choose i)
+  change (Ideal.Quotient.factorPow J (Nat.le_succ (n+1))) (hlift.choose i)
       = (coiSeq J ē hē n).1 i
   exact congrFun hlift.choose_spec.right i
 
@@ -298,7 +297,7 @@ private theorem coi_lift {S : Type*} [CommRing S] (J : Ideal S) [IsAdicComplete 
       apply haus_eq J
       intro n
       have hi := he i n
-      show (Ideal.Quotient.mk (J^(n+1))) ((e i) * (e i)) = (Ideal.Quotient.mk (J^(n+1))) (e i)
+      change (Ideal.Quotient.mk (J^(n+1))) ((e i) * (e i)) = (Ideal.Quotient.mk (J^(n+1))) (e i)
       calc (Ideal.Quotient.mk (J^(n+1))) ((e i) * (e i))
           = (Ideal.Quotient.mk (J^(n+1))) (e i) * (Ideal.Quotient.mk (J^(n+1))) (e i) := by
             rw [map_mul]
@@ -312,7 +311,7 @@ private theorem coi_lift {S : Type*} [CommRing S] (J : Ideal S) [IsAdicComplete 
       have hj := he j n
       have hortho : ((coiSeq J e1 he1 n).val i) * ((coiSeq J e1 he1 n).val j) = 0 :=
         (coiSeq J e1 he1 n).property.ortho hij
-      show (Ideal.Quotient.mk (J^(n+1))) ((e i) * (e j)) = (Ideal.Quotient.mk (J^(n+1))) 0
+      change (Ideal.Quotient.mk (J^(n+1))) ((e i) * (e j)) = (Ideal.Quotient.mk (J^(n+1))) 0
       rw [map_zero, map_mul, hi, hj, hortho]
     · apply haus_eq J
       intro n
@@ -330,7 +329,7 @@ private theorem coi_lift {S : Type*} [CommRing S] (J : Ideal S) [IsAdicComplete 
     have hh : φ ((Ideal.Quotient.mk (J^1)) (e i)) = φ (e1 i) := by rw [h0]
     rw [hφmk] at hh
     rw [hh]
-    show φ (φ.symm (ē i)) = ē i
+    change φ (φ.symm (ē i)) = ē i
     simp
 
 /-!

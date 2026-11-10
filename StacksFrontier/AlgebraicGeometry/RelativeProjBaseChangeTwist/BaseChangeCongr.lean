@@ -76,11 +76,12 @@ instance isIso_baseChangeCongrHom_app (n : ℤ) : IsIso ((baseChangeCongrHom A A
 
 /-- The inverse of `baseChangeCongrHom` is `Ξ` in every degree. -/
 theorem unitalHomInverse_baseChangeCongrHom_app (n : ℤ) :
-    (unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ) (fun n => inferInstance)).app n =
+    (unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ)
+      (isIso_baseChangeCongrHom_app A A' g Ξ hΞ)).app n =
       Ξ.app n := by
   have := hΞ n
   refine IsIso.inv_eq_of_hom_inv_id ?_
-  show (inv (Ξ.app n) ≫ 𝟙 _) ≫ Ξ.app n = 𝟙 _
+  change (inv (Ξ.app n) ≫ 𝟙 _) ≫ Ξ.app n = 𝟙 _
   rw [Category.comp_id, IsIso.inv_hom_id]
 
 /-- The graded ring maps of sections of the two descriptions of the base change agree. -/
@@ -89,7 +90,7 @@ theorem gradedBaseChange_eq_comp (U : S.AffineZariskiSite) (U' : S'.AffineZarisk
     Stacks.RelativeProj.Situation.gradedBaseChange (s := situation A) (s' := situation A') g Ξ
         U.toOpens U'.toOpens h =
       (chartHom A' U').comp ((congrSectionHom (baseChangeCongrHom A A' g Ξ hΞ)
-        (fun n => inferInstance) U'.toOpens).comp
+        (isIso_baseChangeCongrHom_app A A' g Ξ hΞ) U'.toOpens).comp
           ((sectionBaseChange A g U U' h).comp (chartInv A U))) := by
   refine GradedRingHom.ext fun x => ?_
   induction x using DirectSum.induction_on with
@@ -102,15 +103,18 @@ theorem gradedBaseChange_eq_comp (U : S.AffineZariskiSite) (U' : S'.AffineZarisk
       (vanishesInNegativeDegrees A) A.isQuasicoherent U.toOpens n a
     have e3 := sectionBaseChange_of A g U U' h n a
     have e4 := SheafGradedAlgebraHom.sectionHom_of (SheafGradedAlgebraHom.ofSituationHom
-      (unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ) (fun n => inferInstance))) U'.toOpens
+      (unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ)
+        (isIso_baseChangeCongrHom_app A A' g Ξ hΞ))) U'.toOpens
       (Scheme.Modules.pullbackSection g (A.piece (n : ℤ)) U.toOpens U'.toOpens h a)
     have e5 := situationSectionRingEquiv_of (algebra A') (isCommutative A')
       (vanishesInNegativeDegrees A') A'.isQuasicoherent U'.toOpens n
-      (((unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ) (fun n => inferInstance)).app
+      (((unitalHomInverse (baseChangeCongrHom A A' g Ξ hΞ)
+        (isIso_baseChangeCongrHom_app A A' g Ξ hΞ)).app
         (n : ℤ)).val.app (op U'.toOpens)
           (Scheme.Modules.pullbackSection g (A.piece (n : ℤ)) U.toOpens U'.toOpens h a))
     refine e1.trans (Eq.trans ?_ ((congrArg (chartHom A' U') ((congrArg
-      (congrSectionHom (baseChangeCongrHom A A' g Ξ hΞ) (fun n => inferInstance) U'.toOpens)
+      (congrSectionHom (baseChangeCongrHom A A' g Ξ hΞ) (isIso_baseChangeCongrHom_app A A' g Ξ hΞ)
+        U'.toOpens)
       ((congrArg (sectionBaseChange A g U U' h) e2).trans e3)).trans e4)).trans e5).symm)
     refine congrArg (DirectSum.of _ n) ?_
     exact congrArg (fun f => f.val.app (op U'.toOpens)
@@ -122,7 +126,8 @@ isomorphism induced by `Ξ⁻¹` followed by the base-change morphism of `A`. -/
 theorem presentationIso_hom_relativeProjBaseChange :
     (presentationIso A').hom ≫ Stacks.RelativeProj.Situation.relativeProjBaseChange
         (s := situation A) (s' := situation A') g Ξ (fun m => hΞ m) =
-      (relativeProjCongr (baseChangeCongrHom A A' g Ξ hΞ) (fun n => inferInstance)).hom ≫
+      (relativeProjCongr (baseChangeCongrHom A A' g Ξ hΞ)
+        (isIso_baseChangeCongrHom_app A A' g Ξ hΞ)).hom ≫
         baseChangeHom A g ≫ (presentationIso A).hom := by
   refine (Iso.eq_inv_comp _).1 ?_
   refine (Stacks.RelativeProj.Situation.baseChangeCover (s := situation A) (s' := situation A')
@@ -134,7 +139,7 @@ theorem presentationIso_hom_relativeProjBaseChange :
     (s := situation A) (s' := situation A') g Ξ (fun m => hΞ m) ⟨(W', W), h⟩
   have c1 := relativeProjChart_presentationIso_inv A' U'
   have c2 := chart_comp_relativeProjCongr_hom (baseChangeCongrHom A A' g Ξ hΞ)
-    (fun n => inferInstance) U'.toOpens (isAffineOpen_toOpens U')
+    (isIso_baseChangeCongrHom_app A A' g Ξ hΞ) U'.toOpens (isAffineOpen_toOpens U')
   have c3 := chart_baseChangeHom A g U U' h
   have c4 := chart_presentationIso_hom A U
   have key := (Category.assoc _ _ _).symm.trans ((c1 =≫ _).trans ((Category.assoc _ _ _).trans
@@ -194,7 +199,7 @@ theorem relativeProjCongr_baseChange_square {B₀ : SheafGradedAlgebra S}
   have e2 := relativeProjCongr_comp_hom (A₃ := A.pullback g) ρ hρ
     (Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.baseAlgebraMapHom g Ψ) hgΨ h₁
   have e3 := relativeProjCongr_comp_hom Ψ' hΨ' (baseChangeCongrHom A A' g Ξ hΞ)
-    (fun n => inferInstance) h₂
+    (isIso_baseChangeCongrHom_app A A' g Ξ hΞ) h₂
   have e4 := relativeProjCongr_hom_congr hsq h₁ h₂
   have e5 := presentationIso_hom_relativeProjBaseChange A A' g Ξ hΞ
   refine (whisker_eq _ (((Category.assoc _ _ _).symm.trans (e1 =≫ _)).trans

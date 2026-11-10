@@ -121,7 +121,7 @@ private theorem fst_comp_comp_eq_snd_comp {B₀ B' B'' X₀ : A} (b : B' ⟶ B�
 /-- Let `c : B'' ⟶ B'` be a morphism over `B₀`. The morphisms of base changes of `f₀ : X₀ ⟶ Y₀`
 to `B''` and to `B'` form a cartesian square with the morphisms induced by `c`. -/
 theorem Limits.isPullback_pullback_lift_transition {B₀ B' B'' X₀ Y₀ : A} (b : B' ⟶ B₀)
-    (b' : B'' ⟶ B₀) (c : B'' ⟶ B') (hc : c ≫ b = b') {x : X₀ ⟶ B₀} {y : Y₀ ⟶ B₀}
+    (b' : B'' ⟶ B₀) (c : B'' ⟶ B') {x : X₀ ⟶ B₀} {y : Y₀ ⟶ B₀}
     {f₀ : X₀ ⟶ Y₀} (hf₀ : f₀ ≫ y = x)
     (h : pullback.fst b x ≫ b = (pullback.snd b x ≫ f₀) ≫ y)
     (h' : pullback.fst b' x ≫ b' = (pullback.snd b' x ≫ f₀) ≫ y)
@@ -174,7 +174,7 @@ theorem Limits.exists_isPullback_chart_transition {B₀ B' B'' X₀ Y₀ V₀ W 
   set g' := pullback.lift st' (ba' ≫ v) hw'
   have hX := fst_comp_comp_eq_snd_comp b b' c hc x
   have hY := fst_comp_comp_eq_snd_comp b b' c hc y
-  have T := isPullback_pullback_lift_transition b b' c hc hf₀ h h' hX hY
+  have T := isPullback_pullback_lift_transition b b' c hf₀ h h' hX hY
   have outer := (IsPullback.of_hasPullback g' m').flip.paste_horiz T
   have hcompat : g' ≫ pullback.lift (pullback.fst b' y ≫ c) (pullback.snd b' y) hY = s ≫ g := by
     apply pullback.hom_ext
@@ -503,7 +503,7 @@ theorem exists_isProper_mapAt (D : MorphismDescentSystem B S hS hZ I)
     (yoneda.map (C.siteDiagram.map g)) ha hps hpq
   have hmjsep : IsSeparated B S hS mj :=
     isSeparated_baseChange_of_isPullback (isPullback_pullback_lift_transition (D.base.map j₁.hom)
-      (D.base.map j.hom) (D.base.map g.left) hc hf₀ (hm _) (hm _)
+      (D.base.map j.hom) (D.base.map g.left) hf₀ (hm _) (hm _)
       (fst_comp_comp_eq_snd_comp _ _ _ hc x) (fst_comp_comp_eq_snd_comp _ _ _ hc y)) hsep₁
   have hPj : IsAlgebraicSpace B S hS (pullback (yoneda.map ψ) (yoneda.map (C.siteDiagram.map g))) :=
     isAlgebraicSpace_pullback B S hS _ _ hX' hW hW₁

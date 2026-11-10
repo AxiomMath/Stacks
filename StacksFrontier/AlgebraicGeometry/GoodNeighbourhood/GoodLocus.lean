@@ -78,12 +78,12 @@ theorem smoothOfRelativeDimension_goodLocus :
         obtain ⟨hU, hyU⟩ := TopologicalSpace.Opens.mem_iSup.mp hyU
         refine ⟨⟨U, hU⟩, ⟨G.ι y, hyU⟩, ?_⟩
         apply G.ι.isOpenEmbedding.injective
-        show (T.subscheme.homOfLE (hle ⟨U, hU⟩) ≫ G.ι) _ = _
+        change (T.subscheme.homOfLE (hle ⟨U, hU⟩) ≫ G.ι) _ = _
         rw [Scheme.homOfLE_ι]
         rfl)
   refine IsZariskiLocalAtSource.of_openCover (P := @SmoothOfRelativeDimension.{u} r) 𝒰
     fun U => ?_
-  show SmoothOfRelativeDimension r (T.subscheme.homOfLE (hle U) ≫ G.ι ≫ T.subschemeι ≫ f)
+  change SmoothOfRelativeDimension r (T.subscheme.homOfLE (hle U) ≫ G.ι ≫ T.subschemeι ≫ f)
   rw [← Category.assoc, Scheme.homOfLE_ι]
   exact U.2
 

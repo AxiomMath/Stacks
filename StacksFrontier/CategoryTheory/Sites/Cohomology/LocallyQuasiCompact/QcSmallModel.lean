@@ -201,7 +201,7 @@ theorem mem_smallPretopology_iff_isQcCovering {Y : S.smallSite} (R : Presieve Y)
   · rintro ⟨R', hR', hle⟩
     refine ⟨R'.preZeroHypercover, ?_, ?_⟩
     · refine (S.isCovering_iff_isQcCovering R'.preZeroHypercover).1 ?_
-      show R'.preZeroHypercover.presieve₀ ∈ S.pretopology _
+      change R'.preZeroHypercover.presieve₀ ∈ S.pretopology _
       rwa [Presieve.presieve₀_preZeroHypercover]
     · rwa [Presieve.presieve₀_preZeroHypercover]
   · rintro ⟨E, hE, hle⟩

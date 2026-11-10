@@ -65,6 +65,7 @@ universe t₁ t₂ t₃ t₄ w₁ w₂ w₃ w₄ u
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` in presheaves on the big fppf site over `S` is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_derivedPushoutRepresentedChart :
@@ -275,13 +276,13 @@ private theorem isPushout_chartSquare {X X' Y : AlgebraicSpaces B S hS} (i : X �
     haX'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP
       (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
       (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
-      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.id_comp])
       (by simpa only [Iso.refl_hom, Category.id_comp] using hinl)
   have hbY'' : IsPullback (yoneda.map A.b) A.q (qm ≫ eP.hom) (pushout.inr i f).hom :=
     hbYc.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP
       (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
       (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
-      (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp])
+      (by simp only [Iso.refl_hom, Category.id_comp])
       (by simpa only [Iso.refl_hom, Category.id_comp] using hinr)
   have hback : i.hom ≫ (pushout.inl i f).hom = f.hom ≫ (pushout.inr i f).hom :=
     congrArg (fun φ => φ.hom) (pushout.condition (f := i) (g := f))

@@ -112,7 +112,7 @@ theorem isEmbeddedAssociatedPoint_iff_not_genericPoint (X : Scheme.{u}) [IsLocal
     obtain ⟨Z, hZ, y, hygen, hspec⟩ :=
       exists_generic_component_specializes (⟨x, hxmem⟩ : ↥(SheafOfModules.supp F))
     have hygen' : IsGenericPoint (y : X) (Subtype.val '' Z) := by
-      show closure ({(y : X)} : Set X) = Subtype.val '' Z
+      change closure ({(y : X)} : Set X) = Subtype.val '' Z
       simpa [Set.image_singleton, hygen.def] using
         (hemb.closure_image_eq ({y} : Set ↥(SheafOfModules.supp F)))
     exact ⟨hxass, y,

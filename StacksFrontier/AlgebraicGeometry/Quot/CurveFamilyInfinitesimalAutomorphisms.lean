@@ -132,7 +132,7 @@ theorem RelativeMorphism.restrict_mk_eq_identity_iff (b : T ⟶ Q) (t : T₀ ⟶
     RelativeMorphism.restrict t (⟨b, m, hm⟩ : RelativeMorphism B S hS Z Z Q z z T) =
         RelativeMorphism.identity z (t ≫ b) ↔
       pullback.mapFst t b z ≫ m = pullback.snd (t ≫ b) z := by
-  show RelativeMorphism.mk (t ≫ b)
+  change RelativeMorphism.mk (t ≫ b)
       (pullback.map (t ≫ b) z b z t (𝟙 Z) (𝟙 Q) (by simp) (by simp) ≫ m) _ =
     RelativeMorphism.mk (t ≫ b) (pullback.snd (t ≫ b) z) rfl ↔ _
   refine ⟨fun h => ?_, fun h => RelativeMorphism.mk_eq_mk (by rwa [pullback.map_id_eq_mapFst])⟩
@@ -320,16 +320,16 @@ theorem dualNumberToBase_comp_residueSpecMap :
     dualNumberToBase k ≫ residueSpecMap (residueFieldObject.{u, u, u} k k) =
       (dualNumberSpecIso k).hom ≫
         baseSpecMap (dualNumbersInclusion.{u, u, u} (Λ := k) (k := k)) := by
-  show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
   ext c
-  · show Artin.residueMap (residueFieldObject.{u, u, u} k k) c =
+  · change Artin.residueMap (residueFieldObject.{u, u, u} k k) c =
       TrivSqZeroExt.fst (dualNumbersEquiv.{u, u, u} (Λ := k) (k := k)
         ((dualNumbersInclusion.{u, u, u} (Λ := k) (k := k)).hom c))
     rw [dualNumbersEquiv_fst]
     exact residueFieldObject_residue k k c
-  · show (0 : k) = TrivSqZeroExt.snd (dualNumbersEquiv.{u, u, u} (Λ := k)
+  · change (0 : k) = TrivSqZeroExt.snd (dualNumbersEquiv.{u, u, u} (Λ := k)
       (dualNumbersUp.{u, u, u} (Λ := k) (TrivSqZeroExt.inl (ULift.down c))))
     rw [show dualNumbersEquiv.{u, u, u} (Λ := k)
         (dualNumbersUp.{u, u, u} (Λ := k) (TrivSqZeroExt.inl (ULift.down c))) =
@@ -342,11 +342,11 @@ variable (k) in
 theorem residueSpecMap_artinianDualNumbers :
     residueSpecMap (artinianDualNumbers.{u, u, u} k k) =
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom k k k)) ≫ (dualNumberSpecIso k).hom := by
-  show Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp]
   congr 1
   ext z
-  show TrivSqZeroExt.fst z = TrivSqZeroExt.fst (dualNumbersEquiv.{u, u, u} (Λ := k) (k := k) z)
+  change TrivSqZeroExt.fst z = TrivSqZeroExt.fst (dualNumbersEquiv.{u, u, u} (Λ := k) (k := k) z)
   rw [dualNumbersEquiv_fst]
 
 variable (X : Over (Spec (.of k))) [IsProper X.hom]
@@ -566,7 +566,7 @@ theorem unramified_iff_subsingleton_derivations_of_represents (G : Over (Spec (.
               ((autFunctor F).toFunctor.map (dualNumberClosedPointSiteMap B hZ hk).op s).1 =
             Space.RelativeMorphism.identity _ (𝟙 _) } :=
     Equiv.subtypeEquiv (e₀.trans (ε.app (op (dualNumberSiteObject B hZ hk))).toEquiv) fun α => by
-      show _ ↔ (autFunctorProjection F).app _
+      change _ ↔ (autFunctorProjection F).app _
           (ε.hom.app (op (dualNumberSiteObject B hZ hk)) (e₀ α)) = _ ∧
         H _ ((autFunctor F).toFunctor.map (dualNumberClosedPointSiteMap B hZ hk).op
           (ε.hom.app (op (dualNumberSiteObject B hZ hk)) (e₀ α))).1 = _

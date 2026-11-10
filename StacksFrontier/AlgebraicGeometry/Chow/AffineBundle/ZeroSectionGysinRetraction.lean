@@ -191,7 +191,7 @@ theorem gysinChowOfInvertibleTransported_flatPullbackChowOfRelativeDimension
     rw [h02TR]
     exact heq_flatPullbackChowOfRelativeDimension_chowPushforwardOfIso_inv C
       (Z.subschemeι ≫ sX) sB (Z.subschemeι ≫ π) hv hq (j + 1) α
-  show chowPushforwardOfIso C (Z.subschemeι ≫ sX) sB e.hom he (j + 1)
+  change chowPushforwardOfIso C (Z.subschemeι ≫ sX) sB e.hom he (j + 1)
       (gysinChowOfInvertible C sX (j + 1) L (s.eval (.op ⊤))
         (flatPullbackChowOfRelativeDimension C sX sB π hbase 1 hπ (j + 1) α)) = α
   rw [hmain, chowPushforwardOfIso_congr C (Z.subschemeι ≫ sX) sB e.hom (Z.subschemeι ≫ π)

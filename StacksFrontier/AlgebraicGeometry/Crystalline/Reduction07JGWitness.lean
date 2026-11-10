@@ -136,7 +136,8 @@ rather than as mathematics about the tag.  Three things follow from it and shoul
    and the empty open is not.
 
 3. **The two ring identifications are available over every object, but they discharge no
-   clause of the datum.**  What is true, and proved here, is that `...SmallSite.sectionsDividedPowerRingEquiv` and
+   clause of the datum.**  What is true, and proved here, is that
+   `...SmallSite.sectionsDividedPowerRingEquiv` and
    `...SmallSite.firstOrderSectionsRingEquiv` produce an identification of the section ring of an
    arbitrary `B : CrystallineThickening S` with the divided power ring `Γ(T, 𝒪_T)`, and of the
    section ring of its first-order universal thickening with

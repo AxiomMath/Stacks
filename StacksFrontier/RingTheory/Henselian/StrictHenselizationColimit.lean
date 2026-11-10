@@ -120,7 +120,7 @@ noncomputable abbrev localization : AugmentedEtale R L ⥤ CommAlgCat.{u} R wher
   map f := CommAlgCat.ofHom (Localization.localAlgHom _ _ (map f) (prime_eq_comap f))
   map_id A := CommAlgCat.hom_ext <| IsLocalization.algHom_ext A.prime.primeCompl <|
     AlgHom.ext fun x => by simp [map_id]
-  map_comp {A _ _} f g := CommAlgCat.hom_ext <| AlgHom.coe_ringHom_injective <|
+  map_comp {A _ _} f g := CommAlgCat.hom_ext <| AlgHom.toRingHom_injective <|
     IsLocalization.ringHom_ext A.prime.primeCompl <| RingHom.ext fun x => by
       simp [map_comp, Localization.localRingHom_to_map]
 

@@ -101,7 +101,7 @@ theorem isSite_isCovering : IsSite (IsCovering B S) := by
         PreZeroHypercover.pushforward] using hcomp
     · have hEfin : Finite E.2.I₀ := hE.2
       have hFfin : ∀ i, Finite (F i).2.I₀ := fun i ↦ (hF i).2
-      show Finite (Σ i, (F i).2.I₀)
+      change Finite (Σ i, (F i).2.I₀)
       infer_instance
   · intro E hE V g
     obtain ⟨P, a, b, hpb, hcov⟩ := B.covering_isSite.2.2
@@ -152,7 +152,7 @@ theorem isSite_isCovering : IsSite (IsCovering B S) := by
       ObjectProperty.homMk (ObjectProperty.homMk (Over.homMk (a i) (by
         have hi := (hpb i).w
         change a i ≫ (E.2.f i).hom.hom.left = b i ≫ g.hom.hom.left at hi
-        show a i ≫ (E.2.X i).obj.obj.hom = b i ≫ V.obj.obj.hom
+        change a i ≫ (E.2.X i).obj.obj.hom = b i ≫ V.obj.obj.hom
         rw [← Over.w (E.2.f i).hom.hom, ← Over.w g.hom.hom]
         exact (reassoc_of% hi) _)))
     let q₂ (i : E.2.I₀) : Q i ⟶ V :=
@@ -202,7 +202,7 @@ theorem BigProetaleSite.exists_finite_restrictIndex_covering {T : B.Scheme}
   have hinj : Function.Injective b := fun i j hij ↦
     Subtype.ext <| by rw [← hb i, ← hb j, hij]
   refine ⟨ι, inferInstance, a, ⟨?_, ?_⟩, hEq⟩
-  · show ((E.restrictIndex a).map B.inclusion).presieve₀ ∈ _
+  · change ((E.restrictIndex a).map B.inclusion).presieve₀ ∈ _
     rw [PreZeroHypercover.presieve₀_map, hEq, ← PreZeroHypercover.presieve₀_map]
     exact hE
   · exact (Cardinal.mk_le_of_injective hinj).trans hG.2
@@ -226,7 +226,7 @@ theorem AffineIndEtaleProetale.isWeaklyContractible_of_isWContractible
       ⟨ULift.{u + 1} Empty, fun i ↦ i.down.elim, fun i ↦ i.down.elim⟩
     have hE : AffineIndEtaleProetale.IsCovering B S ⟨Z, E⟩ := by
       refine ⟨⟨?_, ?_⟩, inferInstance⟩
-      · show ((E.map Q).map B.inclusion).presieve₀ ∈ _
+      · change ((E.map Q).map B.inclusion).presieve₀ ∈ _
         apply Scheme.zariskiPrecoverage_le_propQCPrecoverage
         rw [Scheme.zariskiPrecoverage, Scheme.presieve₀_mem_precoverage_iff]
         exact ⟨fun x ↦ (hZ.false x).elim, fun i ↦ i.down.elim⟩
@@ -277,7 +277,7 @@ theorem AffineIndEtaleProetale.isWeaklyContractible_of_isWContractible
     let F : PreZeroHypercover.{u + 1} U :=
       ⟨ULift.{u + 1} (Fin n), fun i ↦ X i.down, fun i ↦ f i.down⟩
     have hF : B.IsProetaleCovering ⟨Q.obj U, F.map Q⟩ := by
-      show ((F.map Q).map B.inclusion).presieve₀ ∈ _
+      change ((F.map Q).map B.inclusion).presieve₀ ∈ _
       apply Scheme.zariskiPrecoverage_le_propQCPrecoverage
       rw [Scheme.zariskiPrecoverage, Scheme.presieve₀_mem_precoverage_iff]
       refine ⟨fun x ↦ ?_, fun i ↦ ?_⟩
@@ -285,9 +285,9 @@ theorem AffineIndEtaleProetale.isWeaklyContractible_of_isWContractible
           (Set.ext_iff.mp hdec.cover x).mpr (Set.mem_univ x)
         obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp hx
         refine ⟨ULift.up i, y, ?_⟩
-        show (B.inclusion.map (Q.map (f i))).base y = x
+        change (B.inclusion.map (Q.map (f i))).base y = x
         rwa [hQf]
-      · show IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
+      · change IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
         rw [hQf]; exact hdec.openImmersion i.down
     have hFQfin : Finite (F.map Q).I₀ := inferInstanceAs (Finite (ULift.{u + 1} (Fin n)))
     obtain ⟨ι, hfin, a, ha, -⟩ := B.exists_finite_restrictIndex_covering (F.map Q) hF
@@ -300,17 +300,17 @@ theorem AffineIndEtaleProetale.isWeaklyContractible_of_isWContractible
       obtain ⟨i, c, hc⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hb
       exact (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨i.down, c, hc⟩
     refine ⟨n, X, f, ?_, hcover, fun i ↦ ?_⟩
-    · show IsClopenDecompositionCover (fun i ↦ (V i).obj)
+    · change IsClopenDecompositionCover (fun i ↦ (V i).obj)
         (fun i ↦ B.inclusion.map (Q.map (f i)))
       simpa only [hQf] using hdec
     · obtain ⟨Z, c₁, c₂, hc₁, hc₂⟩ := href i
       let c : X i ⟶ Z := I.preimage (Over.homMk c₂ (by
         have hw : Q.map c₁ ≫ U.obj.obj.hom = Z.obj.obj.hom := c₁.hom.hom.w
-        show c₂ ≫ Z.obj.obj.hom = g i ≫ U.obj.obj.hom
+        change c₂ ≫ Z.obj.obj.hom = g i ≫ U.obj.obj.hom
         rw [← hw, ← Category.assoc, ← hc₂]))
       have hc : c ≫ c₁ = f i := by
         refine I.map_injective (q.map_injective ?_)
-        show Q.map c ≫ Q.map c₁ = Q.map (f i)
+        change Q.map c ≫ Q.map c₁ = Q.map (f i)
         rw [hQf, show Q.map c = c₂ by
           dsimp only [Q, c, Functor.comp_map]; rw [Functor.map_preimage]; rfl]
         exact hc₂.symm
@@ -334,10 +334,10 @@ theorem exists_affine_indEtale_wContractible_cover_surjective_size_le
   let A := Γ(T.obj, ⊤)
   let κ := T.obj.size
   have hκ : Cardinal.aleph0 ≤ κ := by
-    show Cardinal.aleph0 ≤ T.obj.size
+    change Cardinal.aleph0 ≤ T.obj.size
     rw [Scheme.size_of_isAffine T.obj]; exact le_max_left _ _
   have hA : Cardinal.mk A ≤ κ := by
-    show Cardinal.mk Γ(T.obj, ⊤) ≤ T.obj.size
+    change Cardinal.mk Γ(T.obj, ⊤) ≤ T.obj.size
     rw [Scheme.size_of_isAffine T.obj]; exact le_max_right _ _
   obtain ⟨D, hD, f, hff, hind, hwd, hDmk⟩ :=
     exists_small_faithfullyFlat_ind_etale_wContractible A κ hκ hA
@@ -362,7 +362,7 @@ theorem exists_affine_indEtale_wContractible_cover_surjective_size_le
   have hflat : Flat (Spec.map r) := ((flat_and_surjective_SpecMap_iff r).mpr hff).1
   have hsurj : Surjective (Spec.map r) := ((flat_and_surjective_SpecMap_iff r).mpr hff).2
   have hdiag : Flat (pullback.diagonal (Spec.map r)) := by
-    show Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
+    change Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
     rw [diagonal_SpecMap A D]
     have hm : Flat (Spec.map (CommRingCat.ofHom
         (Algebra.TensorProduct.lmul' A (S := D)).toRingHom)) := by
@@ -374,7 +374,7 @@ theorem exists_affine_indEtale_wContractible_cover_surjective_size_le
   have hqcg : QuasiCompact g₀ := quasiCompact_of_compactSpace _
   have hcov : B.covering ⟨T, PreZeroHypercover.singleton g⟩ := by
     refine ⟨?_, (B.covering_isSite.1 (𝟙 T)).2⟩
-    show ((PreZeroHypercover.singleton g).map B.inclusion).presieve₀ ∈ _
+    change ((PreZeroHypercover.singleton g).map B.inclusion).presieve₀ ∈ _
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_singleton,
       Presieve.map_singleton, hg]
     exact Scheme.Hom.singleton_mem_propQCPrecoverage (inferInstance : WeaklyEtale g₀)
@@ -384,7 +384,7 @@ theorem exists_affine_indEtale_wContractible_cover_surjective_size_le
     isWContractible_of_isWeaklyContractible V.obj hglobal, ?_, by rw [hg]; infer_instance,
     by rw [hg]; infer_instance, hDsize⟩
   rw [hg]
-  show CommRingCat.etale.ind.{u} (Spec.map r ≫ e.inv).appTop
+  change CommRingCat.etale.ind.{u} (Spec.map r ≫ e.inv).appTop
   rw [Scheme.Hom.comp_appTop]
   have hiso : IsIso e.inv.appTop := Functor.map_isIso Scheme.Γ e.inv.op
   exact MorphismProperty.RespectsIso.precomp _ _ _

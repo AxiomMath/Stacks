@@ -32,7 +32,7 @@ variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
 of an irreducible component. -/
 theorem mem_genericPoints (e : X ≃ₜ Y) {x : X} (hx : x ∈ genericPoints X) :
     e x ∈ genericPoints Y := by
-  show closure ({e x} : Set Y) ∈ irreducibleComponents Y
+  change closure ({e x} : Set Y) ∈ irreducibleComponents Y
   rw [← Set.image_singleton, ← e.image_closure]
   exact image_mem_irreducibleComponents_of_isPreirreducible_fiber e e.continuous e.isOpenMap
     (fun _ ↦ (Set.subsingleton_singleton.preimage e.injective).isPreirreducible) e.surjective hx

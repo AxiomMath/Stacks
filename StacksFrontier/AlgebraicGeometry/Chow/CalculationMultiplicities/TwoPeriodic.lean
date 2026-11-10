@@ -110,9 +110,9 @@ public lemma homology_length_eq_ker_quotient {R : Type u} [Ring R]
       (LinearMap.range S.f.hom).comap (LinearMap.ker S.g.hom).subtype := by
     ext x
     exact ⟨fun ⟨y, hy⟩ => ⟨y, congrArg Subtype.val hy⟩, fun ⟨y, hy⟩ => ⟨y, Subtype.ext hy⟩⟩
-  show Module.length R S.homology = _
+  change Module.length R S.homology = _
   rw [S.moduleCatHomologyIso.toLinearEquiv.length_eq]
-  show Module.length R ((LinearMap.ker S.g.hom) ⧸
+  change Module.length R ((LinearMap.ker S.g.hom) ⧸
     LinearMap.range S.moduleCatToCycles) = _
   rw [hquot, h.1, h.2]
   rcases hi with rfl | rfl <;> rfl

@@ -456,7 +456,7 @@ theorem principalDivisorCycle_eq_sub_linePointFibreCycles (C : ChowSituation.{u}
       (linePointCoordinate C.S t) ≠ 0 :=
     fun h0 => hgne (by rw [hgdef, h0, map_zero])
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun ξ => ?_)
-  show A.ord (linePointFunction q t hη1) ξ =
+  change A.ord (linePointFunction q t hη1) ξ =
     (cycleAssociatedToClosedSubscheme C sA
         ((lineSection C.S t).ker.comap q).subschemeι (n - 1)).1 ξ -
       (cycleAssociatedToClosedSubscheme C sA

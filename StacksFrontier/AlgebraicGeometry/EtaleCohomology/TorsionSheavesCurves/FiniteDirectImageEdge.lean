@@ -126,7 +126,7 @@ theorem bijective_edgeMap_zero (G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u 
         Ext.homEquiv₀ := by
     funext x
     obtain ⟨φ, rfl⟩ := Ext.homEquiv₀.symm.surjective x
-    simp only [Function.comp_apply, Equiv.apply_symm_apply, Ext.homEquiv₀_symm_apply]
+    simp only [Function.comp_apply, Ext.homEquiv₀_symm_apply]
     have : Ext.homEquiv₀ (Ext.mk₀ φ) = φ := Ext.homEquiv₀.apply_symm_apply φ
     rw [this, edgeMap_apply, etaleCohomologyRestrictionMap_apply, Ext.mapExactFunctor_mk₀,
       Ext.mk₀_comp_mk₀, Ext.mk₀_comp_mk₀, Adjunction.homEquiv_counit, Category.assoc]

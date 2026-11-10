@@ -104,7 +104,7 @@ theorem grSection_eq_zero_iff (n : ℕ) (V : X.affineOpens) (a : ↥(I.ideal V ^
   rw [grSection_eq_grPieceSectionsMk,
     grPieceSectionsMk_eq_zero_iff I n V (powEquivPower (I.ideal V) n a),
     Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-  show ((powEquivPower (I.ideal V) n a : _) : Γ(X, V.1)) ∈
+  change ((powEquivPower (I.ideal V) n a : _) : Γ(X, V.1)) ∈
     AssociatedGraded.power (M := Γ(X, V.1)) (I.ideal V) (n + 1) ↔ _
   rw [AssociatedGraded.ring_power_eq, coe_powEquivPower]
 

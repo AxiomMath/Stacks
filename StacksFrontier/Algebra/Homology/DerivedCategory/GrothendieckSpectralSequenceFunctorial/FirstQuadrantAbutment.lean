@@ -400,7 +400,7 @@ private theorem spectralObjectImage_antitone {C : Type*} [Category C] [Abelian C
     dsimp [k, η, spectralObjectInclusion]
     rw [← Functor.map_comp]
     congr 1
-  show imageSubobject (η p') ≤ imageSubobject (η p)
+  change imageSubobject (η p') ≤ imageSubobject (η p)
   rw [← hk]
   exact imageSubobject_comp_le _ _
 
@@ -550,7 +550,7 @@ private lemma filteredUncurry_isTop {D C : Type*} [Category D] [Category C] [Abe
     ((filteredUncurry F).obj K).filtration.subobject (op p) = ⊤ := by
   have := (F.filtration.subobject_eq_top_iff _).mp h
   apply (Filtration.subobject_eq_top_iff _ _).mpr
-  show IsIso ((F.filtration.ι.app (op p)).app K)
+  change IsIso ((F.filtration.ι.app (op p)).app K)
   infer_instance
 
 /-- A filtration step that is zero stays zero after evaluation. -/

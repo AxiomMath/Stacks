@@ -366,7 +366,7 @@ theorem exists_algHom_approx_of_localEtaleSolution {L : Type u} [CommRing L] [Is
     ⟨(e.symm : Completion s.prime →+* AdicCompletion (maximalIdeal L) L).comp
       (toCompletion s.prime), by
       intro x
-      show e.symm (toCompletion s.prime (algebraMap L s.carrier x)) = _
+      change e.symm (toCompletion s.prime (algebraMap L s.carrier x)) = _
       rw [← localCompletionComparison_algebraMap s.prime s.comap_prime x, ← hee,
         e.symm_apply_apply]⟩
   refine ⟨ι, fun i => ?_⟩
@@ -472,14 +472,14 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
   set Θ' : R' →ₐ[R] R ⧸ maximalIdeal R ^ K :=
     ⟨e.symm.toRingHom.comp (Ideal.Quotient.mk J'), by
       intro r
-      show e.symm (Ideal.Quotient.mk J' (algebraMap R R' r)) = _
+      change e.symm (Ideal.Quotient.mk J' (algebraMap R R' r)) = _
       rw [hmkJ', ← hqme, e.symm_apply_apply]
       rfl⟩ with hΘ'def
   set Θ : R' →ₐ[R] R ⧸ maximalIdeal R := (Ideal.Quotient.factorₐ R hKle).comp Θ' with hΘdef
   have hΘalg : ∀ r : R, (Θ : R' →+* R ⧸ maximalIdeal R) (algebraMap R R' r)
       = Ideal.Quotient.mk (maximalIdeal R) r := by
     intro r
-    show Θ (algebraMap R R' r) = _
+    change Θ (algebraMap R R' r) = _
     rw [Θ.commutes]
     rfl
   set 𝔪' : Ideal R' := RingHom.ker (Θ : R' →+* R ⧸ maximalIdeal R) with h𝔪'def
@@ -509,7 +509,7 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
     refine ⟨Ideal.Quotient.mk (maximalIdeal R) r, ?_⟩
     rw [hκmk]
     refine (Ideal.Quotient.eq.2 ?_).symm
-    show z - algebraMap R R' r ∈ 𝔪'
+    change z - algebraMap R R' r ∈ 𝔪'
     rw [h𝔪'def, RingHom.mem_ker, map_sub, hΘalg r, hr, sub_self]
   have h𝔪'max : 𝔪'.IsMaximal := by
     refine (Ideal.Quotient.maximal_ideal_iff_isField_quotient 𝔪').mpr ?_
@@ -578,7 +578,7 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
   set ψ' : R' →ₐ[R] ResidueField (AdicCompletion (maximalIdeal R) R) :=
     ⟨κhat.comp (Θ : R' →+* R ⧸ maximalIdeal R), by
       intro r
-      show κhat ((Θ : R' →+* R ⧸ maximalIdeal R) (algebraMap R R' r)) = _
+      change κhat ((Θ : R' →+* R ⧸ maximalIdeal R) (algebraMap R R' r)) = _
       rw [hΘalg r, hκhatmk]
       rfl⟩ with hψ'def
   obtain ⟨ι, hι, -⟩ :=
@@ -627,12 +627,12 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
     · rw [Ideal.Quotient.factor_ker, ← Ideal.map_pow, Ideal.zero_eq_bot,
         Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
     · intro y
-      show Ideal.Quotient.factor hKle (AdicCompletion.evalₐ (maximalIdeal R) K (ι y))
+      change Ideal.Quotient.factor hKle (AdicCompletion.evalₐ (maximalIdeal R) K (ι y))
         = Ideal.Quotient.factor hKle (Θ' y)
       rw [hfactorK (ι y)]
       refine hκhatinj ?_
       rw [hresfac (ι y), hι y]
-      show _ = κhat ((Θ : R' →+* R ⧸ maximalIdeal R) y)
+      change _ = κhat ((Θ : R' →+* R ⧸ maximalIdeal R) y)
       rfl
   -- The solution in `R'` and the congruence.
   set b : Fin n → R' := fun i => στ (bB i) with hbdef
@@ -651,7 +651,7 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
       have := hlift (bB i)
       rw [hσdef] at this
       simpa [hqb i] using this
-    show _ = e.symm (Ideal.Quotient.mk J' (b i))
+    change _ = e.symm (Ideal.Quotient.mk J' (b i))
     rw [← h1, ← hqme, e.symm_apply_apply]
   have hfinal : ∀ i, a i - ι (b i)
       ∈ (maximalIdeal R ^ K).map (algebraMap R (AdicCompletion (maximalIdeal R) R)) := by
@@ -707,7 +707,7 @@ private theorem exists_localEtaleSolution_of_isIndSmoothAdicCompletion
     have hbz : algebraMap R R' y - b i ∈ 𝔪' ^ N := by
       refine hJ'le (Ideal.Quotient.eq.mp ?_)
       rw [hmkJ', hy, ← hqme, hΘ'def]
-      show e (e.symm (Ideal.Quotient.mk J' (b i))) = _
+      change e (e.symm (Ideal.Quotient.mk J' (b i))) = _
       rw [e.apply_symm_apply]
     refine StacksDraft.ArtinApproximation.mem_completionIdeal_of_evalₐ_eq_zero 𝔪' ?_
     rw [map_sub, StacksDraft.ArtinApproximation.evalₐ_localCompletionComparison_mk 𝔪' hcomap N

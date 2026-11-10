@@ -226,7 +226,7 @@ private theorem Pairs.exists_away (A : Pairs R) (g : (A.left.obj : Type u))
   refine ⟨Pairs.ofAug R hEt' aug, Pairs.homOfAlgHom R
     (IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g))
     (AlgHom.ext haug), ?_⟩
-  show IsUnit ((IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g)) g)
+  change IsUnit ((IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g)) g)
   exact IsLocalization.map_units (M := Submonoid.powers g) (Localization.Away g)
     ⟨g, Submonoid.mem_powers g⟩
 
@@ -556,7 +556,7 @@ private theorem Pairs.exists_root (A : Pairs R) (Q : Polynomial (A.left.obj : Ty
     Pairs.homOfAlgHom R (IsScalarTower.toAlgHom R (A.left.obj : Type u) P.Ring)
       (AlgHom.ext fun s => ?_), P.X, ?_, ?_⟩
   · exact (P.lift (A.hom.hom b) hmap).commutes s
-  · show (Q.map (algebraMap (A.left.obj : Type u) P.Ring)).eval P.X = 0
+  · change (Q.map (algebraMap (A.left.obj : Type u) P.Ring)).eval P.X = 0
     rw [Polynomial.eval_map, ← Polynomial.aeval_def, ← hPf]
     exact P.hasMap_X.1
   · exact P.lift_X _ hmap
@@ -604,7 +604,7 @@ private theorem henselianLocalRing_henselization :
     exact (isUnit_iff_aug_ne_zero R _).1 hunit
   obtain ⟨C, u, t, ht0, htb⟩ := Pairs.exists_root R A Q hQ b h0 h1
   refine ⟨stageHom R C t, ?_, ?_⟩
-  · show Polynomial.eval (stageHom R C t) p = 0
+  · change Polynomial.eval (stageHom R C t) p = 0
     rw [← hQmap, ← stageHom_map_polynomial R u Q, eval_map_toRingHom, ht0, map_zero]
   · rw [mem_maximalIdeal_iff_aug_eq_zero, map_sub, aug_stageHom, aug_stageHom, htb, sub_self]
 
@@ -705,7 +705,7 @@ residue field of `Rh` is `κ`. -/
 (1)–(4). `Rh` being a filtered colimit of étale `R`-algebras is `(CommAlgCat.etale R).ind`, i.e.
 `Rh` is ind-étale over `R`; `𝔪 Rh` is `Ideal.map`; and `κ = Rh/𝔪 Rh` is bijectivity of the
 canonical `IsLocalRing.ResidueField.map`. See the module docstring.", sga "4 VIII 4.1"
-  "henselization", ega "IV 18.6.6" "(i), part of (iii)", sga "4 VIII 4.1" "henselization"]
+  "henselization", ega "IV 18.6.6" "(i), part of (iii)"]
 public theorem IsLocalRing.exists_henselization (R : Type u) [CommRing R] [IsLocalRing R] :
     ∃ (Rh : Type u) (_ : CommRing Rh) (_ : Algebra R Rh) (_ : IsLocalRing Rh)
       (_ : IsLocalHom (algebraMap R Rh)),

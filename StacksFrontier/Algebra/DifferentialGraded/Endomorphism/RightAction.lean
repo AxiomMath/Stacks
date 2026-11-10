@@ -456,7 +456,7 @@ theorem Opposite.rightActionCochain_one (O : Opposite R A)
   have h1 : (O.gradingEquiv 0).symm ⟨1, SetLike.one_mem_graded A.grading⟩ =
       ⟨1, SetLike.one_mem_graded O.toDifferentialGradedAlgebra.grading⟩ := by
     refine Subtype.ext ?_
-    show O.equiv.symm (1 : A.A) = 1
+    change O.equiv.symm (1 : A.A) = 1
     rw [← O.map_one, LinearEquiv.symm_apply_apply]
   rw [Opposite.rightActionCochain_apply, h1, act.map_one]
 
@@ -484,7 +484,7 @@ theorem Opposite.rightActionCochain_mul (O : Opposite R A)
           O.toDifferentialGradedAlgebra.grading (n + m)) := by
     refine Subtype.ext (O.equiv.injective ?_)
     rw [Opposite.gradingEquiv_symm_coe, LinearEquiv.apply_symm_apply]
-    show _ = O.equiv (((m * n).negOnePow : ℤ) •
+    change _ = O.equiv (((m * n).negOnePow : ℤ) •
       (((O.gradingEquiv m).symm b : O.toDifferentialGradedAlgebra.A) *
         ((O.gradingEquiv n).symm a : O.toDifferentialGradedAlgebra.A)))
     rw [map_zsmul, O.map_mul_of_mem m n _ _ ((O.gradingEquiv m).symm b).property

@@ -52,7 +52,7 @@ of `i^* ⊣ i_*` alone, and the one that composes it with the restriction along 
 restriction is along an identity, so the comparison is `Functor.map_id_apply`. -/
 theorem pullbackGlobalSections_eq_pullbackGlobalSection (s : Γ(M, ⊤)) :
     pullbackGlobalSections i M s = pullbackGlobalSection i M s := by
-  show ((Scheme.Modules.pullback i).obj M).presheaf.map
+  change ((Scheme.Modules.pullback i).obj M).presheaf.map
       (eqToHom (show i ⁻¹ᵁ (⊤ : Y.Opens) = ⊤ from rfl)).op
       (pullbackGlobalSection i M s) = _
   exact Functor.map_id_apply _ _ _

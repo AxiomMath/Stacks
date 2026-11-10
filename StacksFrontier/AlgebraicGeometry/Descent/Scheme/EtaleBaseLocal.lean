@@ -530,12 +530,12 @@ lemma cocycle (i j k : C.J) : C.t' i j k ≫ C.t' j k i ≫ C.t' k i j = 𝟙 _ 
     refine congrArg Over.Hom.left (BaseChart.eq_of_proj_comp_eq (C.tripleFaithful i j k)
       ((C.chart i).restrict hi) ((C.chart i).restrict hi)
       (e := Over.homMk _ hleft) (e' := 𝟙 _) ?_ ?_)
-    · show ((C.chart i).restrict hi).proj ≫ (((C.chart i).base.left.isoOfEq h₁).inv ≫
+    · change ((C.chart i).restrict hi).proj ≫ (((C.chart i).base.left.isoOfEq h₁).inv ≫
         (C.t' i j k ≫ C.t' j k i ≫ C.t' k i j) ≫
           ((C.chart i).base.left.isoOfEq h₁).hom) = ((C.chart i).restrict hi).proj
       rw [BaseChart.restrict_proj, ← Category.assoc, ← Category.assoc, hcomp, Category.assoc,
         Iso.inv_hom_id, Category.comp_id]
-    · show ((C.chart i).restrict hi).proj ≫ 𝟙 _ = ((C.chart i).restrict hi).proj
+    · change ((C.chart i).restrict hi).proj ≫ 𝟙 _ = ((C.chart i).restrict hi).proj
       rw [Category.comp_id]
   have h4 : (C.t' i j k ≫ C.t' j k i ≫ C.t' k i j) ≫
       ((C.chart i).base.left.isoOfEq h₁).hom = ((C.chart i).base.left.isoOfEq h₁).hom := by

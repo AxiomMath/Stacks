@@ -31,7 +31,8 @@ this identification to pass between the two descriptions.
 
 ## Implementation notes
 
-Both ingredients are in the library and neither is reproved here. [Stacks, Tag 0EL1] is applied with its
+Both ingredients are in the library and neither is reproved here. [Stacks, Tag 0EL1] is applied with
+its
 hypothesis discharged by `ker_adicStageι`, which holds by `Mathlib`'s `ker_subschemeι` and needs
 no chart computation; the inverse image of the structure sheaf is
 `AlgebraicGeometry.pullbackObjUnitIsoUnit`, itself a wrapper of

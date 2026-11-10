@@ -16,7 +16,8 @@ which is an isomorphism in `D(𝒪_U)`, and that this map is compatible with res
 smaller affine opens. The canonical map is `AlgebraicGeometry.Scheme.Hom.affineCotangentComparison`
 of `StacksFrontier.Cotangent.SheavesOfRings.AffineCotangentComparison`, and its compatibility with
 restriction is `AlgebraicGeometry.Scheme.Hom.affineCotangentComparison_restriction` of
-`StacksFrontier.Cotangent.SheavesOfRings.AffineCotangentRestrictionSheaf`. This file proves that it is
+`StacksFrontier.Cotangent.SheavesOfRings.AffineCotangentRestrictionSheaf`. This file proves that
+it is
 an isomorphism in `D(𝒪_U)`, and registers the three assertions together.
 
 ## The proof
@@ -87,9 +88,8 @@ theorem extendScalars_addMonoidHom_ext_of_isLocalization {R S : Type u} [CommRin
         ((congrArg tm e₁).trans (ExtendScalars.smul_tmul φ _ _ m).symm)
     exact (hθ t _).symm.trans ((congrArg θ e₂).trans (hθ c _))
   refine AddMonoidHom.ext fun w => ?_
-  refine TensorProduct.induction_on (R := R) (M := (restrictScalars φ).obj (of S S)) (N := M)
-    (motive := fun w => θ₁ w = θ₂ w) w ?_ ?_ ?_
-  · exact (map_zero θ₁).trans (map_zero θ₂).symm
+  refine TensorProduct.inductionOn (R := R) (M := (restrictScalars φ).obj (of S S)) (N := M)
+    (motive := fun w => θ₁ w = θ₂ w) w ?_ ?_
   · intro s m
     obtain ⟨⟨c, t⟩, hs⟩ := IsLocalization.mk'_surjective T (show S from s)
     have hu : IsUnit (φ t) := IsLocalization.map_units S t

@@ -178,6 +178,14 @@ public def levelScalarChangeUnit (n k : ℕ) (r : ZMod (ℓ ^ (n + 1)) →+* ZMo
   (underlyingLevelFunctor B X ℓ n).map
     ((zmodSheafAdjunction.{u + 1, u + 1, u} (SmallEtale.topology B X.1 X.property) r).unit.app P)
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+  ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+    (SmallEtale.topology B S.1 S.property)
+    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
 /-- That unit kills `ℓᵏ⁺¹`. -/
 public theorem levelScalarChangeUnit_condition (n k : ℕ)
     (r : ZMod (ℓ ^ (n + 1)) →+* ZMod (ℓ ^ (k + 1))) (P : FiniteLevelSheaf.{u, u + 1} B X ℓ n) :
@@ -211,7 +219,7 @@ public theorem levelScalarChangeUnit_naturality (n k : ℕ)
         (underlyingLevelFunctor B X ℓ k).map ((levelScalarChange B X ℓ n k r).map a) =
       (underlyingLevelFunctor B X ℓ n).map a ≫ levelScalarChangeUnit B X ℓ n k r Q := by
   let adj := zmodSheafAdjunction.{u + 1, u + 1, u} (SmallEtale.topology B X.1 X.property) r
-  show (underlyingLevelFunctor B X ℓ n).map (adj.unit.app P) ≫
+  change (underlyingLevelFunctor B X ℓ n).map (adj.unit.app P) ≫
       (underlyingLevelFunctor B X ℓ n).map (((levelScalarChange B X ℓ n k r) ⋙
         sheafCompose (SmallEtale.topology B X.1 X.property)
           (ModuleCat.restrictScalars.{u + 1, 0, 0} r)).map a) =
@@ -219,6 +227,14 @@ public theorem levelScalarChangeUnit_naturality (n k : ℕ)
   rw [← Functor.map_comp, ← Functor.map_comp]
   exact (underlyingLevelFunctor B X ℓ n).congr_map (adj.unit.naturality a).symm
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+  ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+    (SmallEtale.topology B S.1 S.property)
+    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
 /-- A morphism which is an isomorphism on the quotients by `ℓᵏ⁺¹` becomes an isomorphism after
 scalar change to level `k`. -/
 public theorem levelScalarChange_map_isIso (n k : ℕ)
@@ -380,12 +396,20 @@ public theorem epiKernel_has_presentation {F G : LAdicSheaf.{u, u + 1} B X ℓ} 
     apply inverseSystem_map_isIso_of_succ
       (underlyingRawKernelTower B X ℓ f ⋙ scalarCokernelFunctor _ (ℓ ^ (n + 1))) h
     intro k hk
-    show IsIso (scalarCokernelMap (ℓ ^ (n + 1))
+    change IsIso (scalarCokernelMap (ℓ ^ (n + 1))
       ((underlyingRawKernelTower B X ℓ f).map (homOfLE (Nat.le_succ k)).op))
     rw [underlyingRawKernelTower_map_succ]
     exact hJ n k ((hJ' n).trans hk)
 
-omit [Fact ℓ.Prime] [AlgebraicGeometry.IsNoetherian X.1] in
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+  ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+    (SmallEtale.topology B S.1 S.property)
+    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [Fact ℓ.Prime] [AlgebraicGeometry.IsNoetherian X.1] in
 /-- A candidate transition map whose underlying map exhibits the lower level as the quotient by
 `ℓⁿ⁺¹` satisfies the compatibility condition of Tag 03UM. -/
 public theorem reduction_isIso_of_underlying_cokernel (n : ℕ)
@@ -406,14 +430,14 @@ public theorem reduction_isIso_of_underlying_cokernel (n : ℕ)
       (scalarAdjunction_unit_isCokernel B X ℓ n A)
   have ha : q ≫ (underlyingLevelFunctor B X ℓ n).map a = 𝟙 (U.obj A) ≫ U.map t := by
     rw [Category.id_comp]
-    show U.map ((scalarAdjunction B X ℓ n).unit.app A) ≫
+    change U.map ((scalarAdjunction B X ℓ n).unit.app A) ≫
       U.map ((restrictScalarsFunctor B X ℓ n).map a) = U.map t
     rw [← U.map_comp]
     apply U.congr_map
     exact ((scalarAdjunction B X ℓ n).homEquiv_unit A D a).symm.trans
       (FiniteLevelSheaf.scalarReductionMap_comp B X ℓ n A D t)
   have : IsIso (scalarCokernelMap (ℓ ^ (n + 1)) (𝟙 (U.obj A))) := by
-    show IsIso ((scalarCokernelFunctor _ (ℓ ^ (n + 1))).map (𝟙 (U.obj A)))
+    change IsIso ((scalarCokernelFunctor _ (ℓ ^ (n + 1))).map (𝟙 (U.obj A)))
     infer_instance
   have : IsIso ((underlyingLevelFunctor B X ℓ n).map a) :=
     scalarQuotientMap_isIso (ℓ ^ (n + 1)) (𝟙 (U.obj A)) q (U.map t) hq ht hqc htc _ ha

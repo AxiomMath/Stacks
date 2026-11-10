@@ -198,7 +198,9 @@ theorem mono_biproduct_desc_of_injective_on_affine_idealUnitCharts
     (hirr : IrreducibleSpace (points B S hS X.1))
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     (hI : (idealUnitLocus B S hS X I).Nonempty) {r : ℕ}
-    (J : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))).Submodule)
+    (J : (SheafOfModules.unit
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X.1 X.2).O))).Submodule)
     {G : Modules.{u, u} B S hS X.1 X.2}
     (Φ : Fin r → (J.toSheafOfModules ⟶ G))
     (hinj : ∀ W : SmallEtale B S hS X.1, IsAffine (chartScheme W) → I.obj (op W) = ⊤ →
@@ -301,8 +303,9 @@ theorem range_subset_idealUnitLocus_of_eq_top (X : AlgebraicSpaces B S hS)
     (I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule)
     (W : SmallEtale B S hS X.1) (hW : I.obj (op W) = ⊤) :
     Set.range (pointsMap B S hS (yoneda.obj W.obj.left) W.1.hom) ⊆
-      idealUnitLocus B S hS X I :=
-  fun x hx => ⟨W, hW, hx⟩
+      idealUnitLocus B S hS X I := by
+  rintro _ ⟨w, rfl⟩
+  exact ⟨W, hW, w, rfl⟩
 
 end Charts
 
@@ -362,9 +365,11 @@ theorem exists_idealPowModule_hom_val_app_one
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))) ⟶ G),
       ∀ (W : SmallEtale B S hS Y.1) (g : W ⟶ C)
         (h1 : SheafOfModules.unitOf
-            (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)).obj.obj (op W)) ∈
+            (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf
+              (smallEtaleRingedSite B S hS Y.1 Y.2).O)).obj.obj (op W)) ∈
           (idealPowSubmodule I n (SheafOfModules.unit
-            ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)))).obj (op W)),
+            ((Stacks.SheafOfModules.Tensor.ringSheaf
+              (smallEtaleRingedSite B S hS Y.1 Y.2).O)))).obj (op W)),
         Ψ.val.app (op W) ⟨_, h1⟩ = G.val.map g.op s := by
   have : Fact (HasEtaleLocalProperty B S hS Y.1
     (fun V : Scheme.{u} => IsLocallyNoetherian V)) := ⟨hN.2.2⟩
@@ -384,8 +389,9 @@ theorem exists_idealPowModule_hom_val_app_one
   have h3 := congrArg (fun m => m.val.app (op P) ⟨_, h1⟩) h2
   refine h3.trans ?_
   change θ.val.app (op P)
-    (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (idealComplement B S hS Y I).1
-      (idealComplement B S hS Y I).2).O)).obj.obj (op P)) = _
+    (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedSite B S hS (idealComplement B S hS Y I).1
+        (idealComplement B S hS Y I).2).O)).obj.obj (op P)) = _
   refine (SheafOfModules.unitHomEquiv_apply_coe _ θ (op P)).symm.trans ?_
   exact (congrArg (fun z : ((restrictToIdealComplement B S hS Y I).obj G).sections =>
     z.1 (op P)) (Equiv.apply_symm_apply _ σ)).trans (hσ P g)
@@ -491,7 +497,8 @@ theorem exists_mono_biproduct_idealSheaf_cokernel_support_subset
     (G : Modules.{u, u} B S hS Y.1 Y.2) (hG : IsCoherent B S hS Y.1 Y.2 G)
     (hsupp : supportOfSheaf B S hS Y.1 ((SheafOfModules.toSheaf _).obj G) = Set.univ) :
     ∃ (r : ℕ) (J : (SheafOfModules.unit
-        ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).Submodule),
+        ((Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS Y.1 Y.2).O))).Submodule),
       J.toSheafOfModules.IsQuasicoherentOnSite ∧ 0 < r ∧ J ≠ ⊥ ∧
       ∃ ψ : (⨁ fun _ : Fin r => J.toSheafOfModules) ⟶ G,
         Mono ψ ∧ ∃ (Q : Modules.{u, u} B S hS Y.1 Y.2) (q : G ⟶ Q) (hq : ψ ≫ q = 0),
@@ -669,7 +676,8 @@ theorem exists_mono_modulePushforward_idealSum_of_schemeTheoreticSupport
     (coh : IsCoherent B S hS X.1 X.2 F)
     (redIrr : IsReducedIrreducible B S hS (schemeTheoreticSupport B S hS X F)) :
     ∃ hZ : IsClosedSubspace B S hS (schemeTheoreticSupport B S hS X F),
-      ∃ (r : ℕ) (I : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS
+      ∃ (r : ℕ) (I : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS
           (closedSubfunctorSpace B S hS hZ).1 (closedSubfunctorSpace B S hS hZ).2).O))).Submodule),
         I.toSheafOfModules.IsQuasicoherentOnSite ∧ 0 < r ∧ I ≠ ⊥ ∧
         IsCoherent B S hS X.1 X.2 ((modulePushforward B S hS (closedSubfunctorι B S hS hZ)).obj
@@ -685,7 +693,8 @@ theorem exists_mono_modulePushforward_idealSum_of_schemeTheoreticSupport
   have _ := coh
   have hfact : Fact (HasEtaleLocalProperty B S hS X.1
     (fun V : Scheme.{u} => IsLocallyNoetherian V)) := ⟨noeth.2.2⟩
-  have hFft : SheafOfModules.IsFiniteTypeOnSite F := isFiniteTypeOnSite_of_isCoherentOnSite B S hS X F
+  have hFft : SheafOfModules.IsFiniteTypeOnSite F :=
+    isFiniteTypeOnSite_of_isCoherentOnSite B S hS X F
   obtain ⟨hZ, hid⟩ := exists_isClosedSubspace_schemeTheoreticSupport B S hS X F
     coh.toIsQuasicoherentOnSite coh.toIsCoherentOnSite.isFiniteType
   obtain ⟨hZsupp, G, hGq, ⟨eG⟩⟩ := exists_module_on_schemeTheoreticSupport B S hS X F

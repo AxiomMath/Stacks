@@ -88,7 +88,7 @@ public theorem range_eq_integralClosure_of_isNormalRing_tensorProduct
     rw [isLocalization_iff]
     refine ⟨?_, ?_, ?_⟩
     · rintro ⟨_, n, rfl⟩
-      show IsUnit (g ((algebraMap B R fB) ^ n))
+      change IsUnit (g ((algebraMap B R fB) ^ n))
       rw [map_pow]
       exact hufB.pow n
     · intro z
@@ -96,7 +96,7 @@ public theorem range_eq_integralClosure_of_isNormalRing_tensorProduct
         (M := Submonoid.powers fB) (S := FractionRing B) z
       obtain ⟨n, hpow⟩ := (Submonoid.mem_powers_iff d.1 fB).mp d.2
       refine ⟨(algebraMap B R b, ⟨(algebraMap B R fB) ^ n, ⟨n, rfl⟩⟩), ?_⟩
-      show z * g ((algebraMap B R fB) ^ n) = g (algebraMap B R b)
+      change z * g ((algebraMap B R fB) ^ n) = g (algebraMap B R b)
       rw [map_pow, hgfB, ← map_pow, hpow]
       exact hz.trans (hcompat b).symm
     · intro x y hxy
@@ -108,7 +108,7 @@ public theorem range_eq_integralClosure_of_isNormalRing_tensorProduct
       simpa [map_mul] using congrArg g hx
     exact hg (by simpa using hufB.mul_right_eq_zero.mp hm)
   have htotal : IsFractionRing R (FractionRing B) := by
-    show IsLocalization (nonZeroDivisors R) (FractionRing B)
+    change IsLocalization (nonZeroDivisors R) (FractionRing B)
     rw [isLocalization_iff]
     let : IsLocalization (Submonoid.powers (algebraMap B R fB)) (FractionRing B) := hRlocf
     refine ⟨?_, ?_, ?_⟩

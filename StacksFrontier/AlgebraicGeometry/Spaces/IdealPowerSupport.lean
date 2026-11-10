@@ -213,10 +213,7 @@ theorem chartIdeal_le_map_chartRestrict
       (chartSectionIdeal B S hS F hF I W).subtype (sectionsBaseChange I.toSheafOfModules g t) ∈
         Ideal.map (chartRestrict (hF := hF) g) (chartSectionIdeal B S hS F hF I U) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      simp only [map_zero]
-      exact Ideal.zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul b y =>
       have hb : (chartSectionIdeal B S hS F hF I W).subtype
             (sectionsBaseChange I.toSheafOfModules g
@@ -286,8 +283,7 @@ theorem sectionIdeal_pow_smul_top_eq_bot_of_hom_of_isAffine
       chartRestrict (hF := hF) g c • z = 0 := by
     intro c hc z
     obtain ⟨t, rfl⟩ := (hMcart U W hU hW g).2 z
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
       have hcm : (c • m : M.val.obj (op U)) = 0 := by
         exact (ideal_smul_top_eq_bot_iff _).1 hn c hc m
@@ -494,7 +490,7 @@ theorem isLocalization_away_chartRing_basicOpen {U : SmallEtale B S hS F}
         (openChartInclusion B S hS F U ((chartScheme U).basicOpen f)) =
       AlgebraicGeometry.ΓRestrictAlgebra ((chartScheme U).basicOpen f) :=
     congrArg RingHom.toAlgebra hring
-  show @IsLocalization.Away (chartRing B S hS F hF U) _ f _ _
+  change @IsLocalization.Away (chartRing B S hS F hF U) _ f _ _
     (chartAlgebra (hF := hF)
       (openChartInclusion B S hS F U ((chartScheme U).basicOpen f)))
   rw [halg]

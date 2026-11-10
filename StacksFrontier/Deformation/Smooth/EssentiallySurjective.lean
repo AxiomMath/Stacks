@@ -83,7 +83,7 @@ public theorem essSurj_of_isSmooth_of_fiber_essSurj
             ((MulEquiv.isUnit_map (ULift.algEquiv (R := Λ) (A := k)).symm).mp ha))⟩
       residue_comm := fun _ => rfl }
   have hq_surjective : Function.Surjective q.hom := by
-    show Function.Surjective
+    change Function.Surjective
       (fun a : A => (ULift.algEquiv (R := Λ) (A := k)).symm
         (A.residueEquiv (IsLocalRing.residue A a)))
     exact (ULift.algEquiv (R := Λ) (A := k)).symm.surjective.comp
@@ -247,7 +247,7 @@ private lemma completionLiftState_zero
             ((MulEquiv.isUnit_map (ULift.algEquiv (R := Λ) (A := k)).symm).mp ha))⟩
       residue_comm := fun _ => rfl }
   have hr : Function.Surjective r.hom := by
-    show Function.Surjective (fun a : A =>
+    change Function.Surjective (fun a : A =>
       (ULift.algEquiv (R := Λ) (A := k)).symm (A.residueEquiv (IsLocalRing.residue A a)))
     exact (ULift.algEquiv (R := Λ) (A := k)).symm.surjective.comp
       (A.residueEquiv.surjective.comp (IsLocalRing.residue_surjective (R := A)))
@@ -323,7 +323,7 @@ public theorem completionMap_essSurj_of_isSmooth_of_fiber_essSurj
           (eqToHom (completionMap_obj_level φ ξform n).symm)
         refine IsHomLift.of_fac q₀ ((AdicTruncation.functor n).map baseMap)
           (appMap n) hA hB ?_
-        show (AdicTruncation.functor n).map baseMap =
+        change (AdicTruncation.functor n).map baseMap =
           eqToHom hA.symm ≫ q₀.map (appMap n) ≫ eqToHom hB
         dsimp only [appMap]
         calc

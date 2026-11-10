@@ -31,7 +31,7 @@ open scoped BigOperators
 
 namespace AlgebraicGeometry.NumericalType
 
-private lemma nonminus_diagonal_bound (T : NumericalType) (g : ℤ)
+lemma nonminus_diagonal_bound (T : NumericalType) (g : ℤ)
     (hg : 2 ≤ g) (hgenus : genus T = g) (hminimal : IsMinimal T)
     (hn : 1 < T.componentCount) (i : Fin T.componentCount)
     (hi : ¬ IsMinusTwoIndex T i) :
@@ -39,7 +39,7 @@ private lemma nonminus_diagonal_bound (T : NumericalType) (g : ℤ)
   (multiplicity_mul_abs_intersection_self_le
     T g hg hgenus hminimal hn i hi).trans (by omega)
 
-private lemma minus_two_diagonal_doubles_of_neighbor (T : NumericalType)
+lemma minus_two_diagonal_doubles_of_neighbor (T : NumericalType)
     (i j : Fin T.componentCount) (hi : IsMinusTwoIndex T i)
     (hij : 0 < T.intersection i j) (B : ℤ)
     (hbound : T.multiplicity j * |T.intersection j j| ≤ B) :
@@ -49,7 +49,7 @@ private lemma minus_two_diagonal_doubles_of_neighbor (T : NumericalType)
   rw [hai, abs_of_nonpos (by linarith [T.weight_pos i] : -2 * T.weight i ≤ 0)]
   linarith
 
-private lemma minus_two_diagonal_bound_of_nonminus_neighbor (T : NumericalType)
+lemma minus_two_diagonal_bound_of_nonminus_neighbor (T : NumericalType)
     (g : ℤ) (hg : 2 ≤ g) (hgenus : genus T = g) (hminimal : IsMinimal T)
     (hn : 1 < T.componentCount) (i j : Fin T.componentCount)
     (hi : IsMinusTwoIndex T i) (hj : ¬ IsMinusTwoIndex T j)

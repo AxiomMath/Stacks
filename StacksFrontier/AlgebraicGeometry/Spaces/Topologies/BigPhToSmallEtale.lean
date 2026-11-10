@@ -92,8 +92,8 @@ chart is by construction the restriction of `CategoryTheory.Over.pullback f` to 
 
 This is the algebraic-space analogue of the scheme-level
 `AlgebraicGeometry.bigPHSmallEtale_pushforwardCommIso` (**Stacks 0DDX**) in
-`StacksFrontier.AlgebraicGeometry.Topologies.ChangeOfSites.PhToEtaleSquares`; there the étale site is
-*constructed* from the ph one, which is why no compatibility hypothesis appears there. It is also
+`StacksFrontier.AlgebraicGeometry.Topologies.ChangeOfSites.PhToEtaleSquares`; there the étale site
+is *constructed* from the ph one, which is why no compatibility hypothesis appears there. It is also
 the ph analogue of `AlgebraicGeometry.BigFppfSpaceSite.bigFppfSmallEtale_pushforwardCommIso`
 (**Stacks 0DGI**), whose proof it follows step for step, the only change being the covering
 comparison that makes the change-of-topology functor continuous.

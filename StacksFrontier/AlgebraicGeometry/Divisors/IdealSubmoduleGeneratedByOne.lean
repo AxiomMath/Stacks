@@ -279,7 +279,7 @@ theorem isLocallyPrincipal_of_forall_stalk_isPrincipal_of_fg
   let W := X.affineBasicOpen (U := V) a
   have hxW : x ∈ W.1 := by
     refine (X.mem_basicOpen' a ⟨x, hxV⟩).2 ?_
-    show IsUnit (algebraMap Γ(X, V.1) (X.presheaf.stalk x) a)
+    change IsUnit (algebraMap Γ(X, V.1) (X.presheaf.stalk x) a)
     exact IsLocalization.map_units (M := P.primeCompl) _ ⟨a, ha⟩
   let _ : Algebra Γ(X, V.1) Γ(X, W.1) :=
     (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom.toAlgebra

@@ -177,7 +177,7 @@ theorem bijective_pullHom_toSpec_of_injective [CharZero F] (hA : W.PoincareDuali
     rwa [← AlgHom.comp_apply, hsec i, ← AlgHom.comp_apply, hsec i] at this
   · refine ⟨H0.pullHom W (ofOverFieldSection (k := k) q hq (y i) (hy i)) a,
       hinj (funext fun j ↦ ?_)⟩
-    show (H0.pullHom W (ofOverFieldSection (k := k) q hq (y j) (hy j))).comp
+    change (H0.pullHom W (ofOverFieldSection (k := k) q hq (y j) (hy j))).comp
         (H0.pullHom W (ofOverFieldToSpec (k := k) q hq))
         (H0.pullHom W (ofOverFieldSection (k := k) q hq (y i) (hy i)) a) = _
     rw [hsec j, AlgHom.id_apply, hall i j]

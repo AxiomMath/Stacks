@@ -111,7 +111,7 @@ private lemma annihilator_le_linearMap_annihilator
   rw [Module.mem_annihilator] at ha ⊢
   intro f
   ext x
-  show a • f x = 0
+  change a • f x = 0
   rw [← f.map_smul, ha x, map_zero]
 
 private lemma finiteLength_hom_of_finiteLength_torsion
@@ -400,7 +400,7 @@ private lemma matlisBidualQuotientLinearEquiv_evaluation
           (Submodule.torsionBySet A E (I : Set A)) m := by
   let := hM.module
   ext f
-  show ((matlisDualQuotientLinearEquivOverQuotient A I M E hM).symm f) m =
+  change ((matlisDualQuotientLinearEquivOverQuotient A I M E hM).symm f) m =
     (f m).val
   rfl
 
@@ -548,7 +548,7 @@ private lemma matlisDualFiniteLengthHeartFunctor_linear
   apply ObjectProperty.hom_ext
   apply ModuleCat.hom_ext
   ext g
-  show (Linear.leftComp A E (r • f.unop.hom)) g =
+  change (Linear.leftComp A E (r • f.unop.hom)) g =
     r • (Linear.leftComp A E f.unop.hom) g
   simp [Linear.leftComp, CategoryTheory.Linear.smul_comp]
 
@@ -574,7 +574,7 @@ private lemma derivedHomFiniteLengthHeartFunctor_linear
   rw [Functor.map_smul,
     (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).map_id M] at hn
   simp only [CategoryTheory.Linear.smul_comp, Category.id_comp, map_smul] at hn
-  show ((derivedHomFiniteLengthHeartFunctor A K hK).map
+  change ((derivedHomFiniteLengthHeartFunctor A K hK).map
       (r • (𝟙 X))).hom (e x) = r • e x
   exact hn.symm
 
@@ -644,7 +644,7 @@ private lemma finiteLengthRingEquiv_inverse_map_smul
     ModuleCat.restrictScalars, ObjectProperty.lift, Functor.comp_obj, inducedFunctor_obj,
     ModuleCat.RestrictScalars.obj', Functor.comp_map, inducedFunctor_map,
     ModuleCat.RestrictScalars.map', Lean.Elab.WF.paramLet]
-  show (r • f.hom.hom) x = (e.symm (e r) • f.hom.hom) x
+  change (r • f.hom.hom) x = (e.symm (e r) • f.hom.hom) x
   simp
 
 private noncomputable def conjugateIsoIdentity
@@ -693,7 +693,7 @@ private lemma finiteLengthEquivalenceIsoIdentity
   have : G.functor.Linear B := by
     constructor
     intro X Y f r
-    show T.functor.map (F.functor.map (T.inverse.map (r • f))) =
+    change T.functor.map (F.functor.map (T.inverse.map (r • f))) =
       r • T.functor.map (F.functor.map (T.inverse.map f))
     rw [finiteLengthRingEquiv_inverse_map_smul e f r,
       F.functor.map_smul, finiteLengthRingEquiv_functor_map_smul e]
@@ -744,10 +744,10 @@ private lemma derivedHomFiniteLengthHeartIsoMatlis
     constructor
     intro X Y f r
     apply Quiver.Hom.unop_inj
-    show H.map (r • f.op) = r • H.map f.op
+    change H.map (r • f.op) = r • H.map f.op
     exact H.map_smul r f.op
   have : F.functor.Linear A := by
-    show (J ⋙ D).Linear A
+    change (J ⋙ D).Linear A
     infer_instance
   obtain ⟨α⟩ := finiteLengthEquivalenceIsoIdentity A F
   let μ := matlisFiniteLengthOpEvaluationIso A E i hi

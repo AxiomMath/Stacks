@@ -323,7 +323,7 @@ theorem flatness_inclusion_087P
   intro x hx
   refine smul_top_to_ideal_smul I (ISq I (S := S) Sq) Jq hIK ⟨x, hx⟩
     (lTensor_smul_mem I gR htensor ⟨x, hx⟩ ?_)
-  show x ∈ I • (⊤ : Submodule R Sq)
+  change x ∈ I • (⊤ : Submodule R Sq)
   rw [hsmultop]
   exact hJqISq hx
 
@@ -394,7 +394,7 @@ theorem isomorphism_of_flat_surjective_087P
   choose kf hkf using fun (j : S) (hj : j ∈ t) => hkill j (htJ j hj)
   set kf' : S → S := fun j => if h : j ∈ t then (kf j h : S) else 1 with hkf'
   refine ⟨∏ j ∈ t, kf' j, ?_, ?_⟩
-  · show (∏ j ∈ t, kf' j) ∈ q.primeCompl
+  · change (∏ j ∈ t, kf' j) ∈ q.primeCompl
     apply Submonoid.prod_mem
     intro j hj
     rw [hkf']

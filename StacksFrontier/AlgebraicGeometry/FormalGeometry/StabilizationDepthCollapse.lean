@@ -146,7 +146,7 @@ public theorem isZero_localCohomologyModule_atPrime_of_lt_depth
 
 /-- The extended integer attached to an integer is not `⊤`. -/
 private theorem intCast_lt_top (s : ℤ) : ((s : ℤ) : EInt) < ⊤ := by
-  show (WithBot.some (WithTop.some s)) < (WithBot.some (⊤ : WithTop ℤ))
+  change (WithBot.some (WithTop.some s)) < (WithBot.some (⊤ : WithTop ℤ))
   exact WithBot.coe_lt_coe.2 (WithTop.coe_lt_top _)
 
 /-- In `EInt`, `depth + dim > s` whenever the depth is above `s` and the dimension is not `⊥`,
@@ -169,7 +169,7 @@ private theorem lt_enatToEInt_add_krullDimToEInt {dep : ℕ∞} {dm : WithBot �
       | coe a =>
         have hsum : enatToEInt ((a : ℕ) : ℕ∞) + krullDimToEInt (((b : ℕ) : ℕ∞) : WithBot ℕ∞) =
             (((a + b : ℕ) : ℤ) : EInt) := by
-          show ((a : ℤ) : EInt) + ((b : ℤ) : EInt) = _
+          change ((a : ℤ) : EInt) + ((b : ℤ) : EInt) = _
           push_cast
           rfl
         rw [hsum]

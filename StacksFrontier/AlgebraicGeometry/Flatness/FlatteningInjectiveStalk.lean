@@ -122,7 +122,7 @@ theorem stalk_pullbackPushforwardUnit_injective_of_flat
     exact (congrArg (fun z => eMap.hom (pushStalk.hom z)) hunit).trans
       ((congrArg eMap.hom hpush).trans (eData.choose_spec U hxU s))
   refine Function.Injective.of_comp (f := fun z => eMap.hom (pushStalk.hom z)) ?_
-  show Function.Injective (k ≫ eMap).hom
+  change Function.Injective (k ≫ eMap).hom
   rw [hcomp]
   exact faithfullyFlat_tensor_mk_injective φ hff M
 
@@ -215,7 +215,7 @@ theorem appTop_injective_of_stalk_injective_on_weaklyAssociatedPoints
     apply G.unitHomEquiv.injective
     apply PresheafOfModules.sections_ext
     intro U
-    show q.val.app U ((F.unitHomEquiv i).val U) = 0
+    change q.val.app U ((F.unitHomEquiv i).val U) = 0
     rw [hit]
     exact (app_map_restrict q le_top s).trans (by rw [hs]; exact map_zero _)
   have he := congrArg (fun a ↦ (F.unitHomEquiv a).val (Opposite.op ⊤))

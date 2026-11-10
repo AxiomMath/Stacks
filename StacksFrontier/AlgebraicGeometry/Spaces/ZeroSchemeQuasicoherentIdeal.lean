@@ -174,7 +174,7 @@ theorem sectionEvaluationIdealAt_map_le_of_bijective_sectionsBaseChange
         (op V))
       (L.val.obj (op V)) := lV ∘ₗ e.symm.toLinearMap
   have hval : l' (s.eval (op V)) = chartRestrict (hF := X.2) f (l (s.eval (op U))) := by
-    show lV (e.symm (s.eval (op V))) = _
+    change lV (e.symm (s.eval (op V))) = _
     rw [hsymm, LinearMap.liftBaseChange_one_tmul]
     rfl
   refine SetLike.mem_coe.2 (Ideal.mem_comap.2 ?_)

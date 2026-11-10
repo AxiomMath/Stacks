@@ -82,7 +82,7 @@ theorem chartsBounded_const {I : Type u} [Category.{u} I] {D : I ⥤ (BigFppfOve
     refine ⟨max ((2 : Cardinal) ^ (2 : Cardinal) ^ s) s, max_lt (hstrong (hstrong hs)) hs, ?_⟩
     intro j a W e
     have : IsIso (pullback.snd (((Functor.const I).obj F).map a) f₀) := by
-      show IsIso (pullback.snd (𝟙 F) f₀)
+      change IsIso (pullback.snd (𝟙 F) f₀)
       infer_instance
     let e' : yoneda.obj W ≅ yoneda.obj ((BigAffineFppf.inclusion B S hS).obj U₀) :=
       e ≪≫ asIso (pullback.snd (((Functor.const I).obj F).map a) f₀)
@@ -202,10 +202,10 @@ theorem isAffineSpace_of_isThickening_of_terminal {X : AlgebraicSpaces B (⊤_ S
     A.E.isAlgebraicSpace_quotient_obj j
   let π : ∀ j, X.1 ⟶ Q.obj j := fun j => e.hom ≫ limit.π Q j
   have hπw : ∀ {i j : A.Iᵒᵖ} (g : i ⟶ j), π i ≫ Q.map g = π j := fun {i j} g => by
-    show (e.hom ≫ limit.π Q i) ≫ Q.map g = e.hom ≫ limit.π Q j
+    change (e.hom ≫ limit.π Q i) ≫ Q.map g = e.hom ≫ limit.π Q j
     rw [Category.assoc, limit.w]
   have hfπ : ∀ j, A.f ≫ π j = yoneda.map (A.cV.π.app j) ≫ A.E.toQuotient.app j := fun j => by
-    show A.f ≫ e.hom ≫ limit.π Q j = _
+    change A.f ≫ e.hom ≫ limit.π Q j = _
     rw [← Category.assoc, he, EtaleRelationSystem.limitToQuotient_π]
   -- the reductions of the stages, and their inverse images
   let R : ∀ j, Subfunctor (Q.obj j) := fun j =>
@@ -243,11 +243,11 @@ theorem isAffineSpace_of_isThickening_of_terminal {X : AlgebraicSpaces B (⊤_ S
         rw [hRpts j]
         exact Set.subset_univ _)
     intro U x hx
-    show (π j).app U x ∈ (R j).obj U
+    change (π j).app U x ∈ (R j).obj U
     rw [← hπw g]
     have h2 : (Q.map g).app U ((π i).app U x) = (h.app U ⟨(π i).app U x, hx⟩).1 :=
       (ConcreteCategory.congr_hom (congr_app hh U) ⟨(π i).app U x, hx⟩).symm
-    show (Q.map g).app U ((π i).app U x) ∈ (R j).obj U
+    change (Q.map g).app U ((π i).app U x) ∈ (R j).obj U
     rw [h2]
     exact (h.app U _).2
   -- the intersection `W` of the `Zⱼ` lies in `G`, hence is affine
@@ -273,7 +273,7 @@ theorem isAffineSpace_of_isThickening_of_terminal {X : AlgebraicSpaces B (⊤_ S
         ((R j).preimage (A.E.toQuotient.app j)).toFunctor (fun Y : Scheme.{u} => IsReduced Y) := by
       have heq := preimage_reducedClosedSubspace_of_isSmooth B (⊤_ Scheme.{u}) hZ (hQ j) hVj
         (A.E.toQuotient.app j) (isSmooth_of_isEtale B _ hZ (hQ j) hqE) Set.univ isClosed_univ
-      show HasEtaleLocalProperty B (⊤_ Scheme.{u}) hZ
+      change HasEtaleLocalProperty B (⊤_ Scheme.{u}) hZ
         ((reducedClosedSubspace B (⊤_ Scheme.{u}) hZ (Q.obj j) (hQ j) Set.univ
           isClosed_univ).preimage (A.E.toQuotient.app j)).toFunctor _
       rw [heq]

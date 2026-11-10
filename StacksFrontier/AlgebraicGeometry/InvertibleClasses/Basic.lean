@@ -45,7 +45,8 @@ and the two `TensorLeftUniversal` structures have the same two fields `ι` and `
 same types — the monoidal structure on presheaves of modules through which `ι`'s type is written
 is obtained in both files by the same `change`-then-`infer_instance`, so the two field types are
 the same term. Destructuring one witness and rebuilding it is therefore the whole proof, which
-is why `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleCompare.lean` can state it outright. That identification makes the results
+is why `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleCompare.lean` can state it
+outright. That identification makes the results
 stated for either class usable for the other.
 The special case of a tensor power is already done, by the same two lines, as the instance
 `AlgebraicGeometry.Scheme.Modules.isInvertible_tensorPower` of

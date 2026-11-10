@@ -80,7 +80,7 @@ theorem ker_tensorTwist_sup_eq_top
     have hle : Ideal.span (Set.range fun a : A => (g⁻¹ * h) • a - a) ≤ I' := by
       rw [Ideal.span_le]
       rintro _ ⟨a, rfl⟩
-      show g • ((g⁻¹ * h) • a - a) ∈ I
+      change g • ((g⁻¹ * h) • a - a) ∈ I
       rw [smul_sub, ← mul_smul, mul_inv_cancel_left, ← neg_sub]
       exact I.neg_mem (hdiff a)
     rw [hfree _ hc, top_le_iff] at hle
@@ -92,13 +92,15 @@ theorem ker_tensorTwist_sup_eq_top
   rw [eq_top_iff, hcomap]
   exact sup_le le_rfl le_sup_left
 
+omit [Fintype G] in
 /-- For a free action there is `∑ⱼ xⱼ ⊗ yⱼ` with `∑ⱼ xⱼ · (g • yⱼ)` equal to `1` at `g = 1` and
 to `0` elsewhere. -/
-theorem exists_sum_mul_smul_eq_ite
+theorem exists_sum_mul_smul_eq_ite [Finite G]
     (hfree : ∀ g : G, g ≠ 1 → Ideal.span (Set.range fun a : A => g • a - a) = ⊤) :
     ∃ s : Finset (A × A), ∑ p ∈ s, p.1 * p.2 = 1 ∧
       ∀ g : G, g ≠ 1 → ∑ p ∈ s, p.1 * g • p.2 = 0 := by
   classical
+  have := Fintype.ofFinite G
   have hsup : RingHom.ker (tensorTwist (A := A) (1 : G)) ⊔
       ⨅ g ∈ (Finset.univ.erase (1 : G)), RingHom.ker (tensorTwist (A := A) g) = ⊤ :=
     Ideal.sup_iInf_eq_top fun g hg =>
@@ -169,12 +171,12 @@ theorem exists_sum_smul_eq_one
       map_add' := fun a b => Subtype.ext (by simp [tr, smul_add, Finset.sum_add_distrib])
       map_smul' := fun c x => by
         refine Subtype.ext ?_
-        show ∑ g : G, g • ((c : A) * x) = (c : A) * ∑ g : G, g • x
+        change ∑ g : G, g • ((c : A) * x) = (c : A) * ∑ g : G, g • x
         rw [Finset.mul_sum]
         refine Finset.sum_congr rfl fun g _ => ?_
         rw [smul_mul', c.2 g] }
   have hJ' : J = LinearMap.range trL := by
-    show Submodule.span R (Set.range trL) = _
+    change Submodule.span R (Set.range trL) = _
     rw [← LinearMap.coe_range, Submodule.span_eq]
   obtain ⟨t, ht⟩ : ∃ t : A, tr t = 1 := by
     rw [hJ'] at h1

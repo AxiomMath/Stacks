@@ -50,10 +50,10 @@ The comparison is *not* claimed to be an isomorphism, and it is not one for a ge
 sections, and it is cartesian along étale morphisms of charts exactly for the quasi-coherent
 modules — that is the cartesianness of Descent, Proposition 03DX together with the
 identification of the chart restriction with an inverse image, Stacks 03LY.  It is **not**
-Stacks 03M0, which is the characterisation of quasi-coherence itself; see also the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/AlgebraSheafChartCartesian.lean`.  The identification of
-the slice of the small étale site at a chart with the small étale site of the chart
-(Stacks 04M0) which transporting those conditions needs is recorded as missing in the
+Stacks 03M0, which is the characterisation of quasi-coherence itself; see also the implementation
+notes of `StacksFrontier/AlgebraicGeometry/Spaces/AlgebraSheafChartCartesian.lean`.  The
+identification of the slice of the small étale site at a chart with the small étale site of the
+chart (Stacks 04M0) which transporting those conditions needs is recorded as missing in the
 implementation notes of `StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentEtaleChart.lean`.
 For a Zariski open
 `O` of `chartScheme U` and the chart morphism `openChartInclusion U O`, the comparison *is*

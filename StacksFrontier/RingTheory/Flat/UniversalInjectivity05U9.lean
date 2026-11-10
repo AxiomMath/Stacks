@@ -243,7 +243,7 @@ theorem universallyInjectivePoly_iff_mapQSMulTop_of_isNilpotent [Module.Flat R M
     let _ : Module R Q := Module.compHom Q (algebraMap R (R ⧸ I))
     have _ : IsScalarTower R (R ⧸ I) Q :=
       ⟨fun x y z => by
-        show (algebraMap R (R ⧸ I) x * y) • z = algebraMap R (R ⧸ I) x • (y • z)
+        change (algebraMap R (R ⧸ I) x * y) • z = algebraMap R (R ⧸ I) x • (y • z)
         rw [mul_smul]⟩
     exact (injective_rTensor_iff_injective_rTensor_mapQSMulTop I Q f).mp (hf Q)
   · intro hbar

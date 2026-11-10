@@ -128,7 +128,7 @@ theorem ShiftAxiomBIso.shift_shiftedConnecting (S : ShiftAxiomBIso A)
     (S.shiftFunctor 1).mapCocycle (S.shiftedConnecting E) =
       A.compCocycle (S.connectingCocycle E) (S.reshiftIso z).hom := by
   apply Subtype.ext
-  show (S.shiftFunctor 1).map
+  change (S.shiftFunctor 1).map
       (A.comp (by omega : (0 : ℤ) + 0 = 0) (S.unshiftIso x).hom.1
         ((S.shiftFunctor (-1)).map (S.connectingCocycle E).1)) = _
   rw [(S.shiftFunctor 1).map_comp, show (S.shiftFunctor 1).map (S.unshiftIso x).hom.1 =

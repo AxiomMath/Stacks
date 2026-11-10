@@ -149,7 +149,7 @@ theorem exists_comp_exteriorPower_map_blowupChartMapBaseChange [Fintype τ] (a :
   · obtain k | j := v
     · rw [mvPolynomialBasis_apply, blowupChartDividedRetractionValue_inl,
         blowupChartDifferentialRetraction_D_X_inl, blowupChartBaseChangeBasis_apply]
-      show _ = (X (Sum.inr i) * (1 : MvPolynomial (σ ⊕ τ) R))
+      change _ = (X (Sum.inr i) * (1 : MvPolynomial (σ ⊕ τ) R))
         ⊗ₜ[MvPolynomial (σ ⊕ τ) R] D R (MvPolynomial (σ ⊕ τ) R) (X (Sum.inl k))
       rw [mul_one]
     · have hj : j = i := by
@@ -157,7 +157,7 @@ theorem exists_comp_exteriorPower_map_blowupChartMapBaseChange [Fintype τ] (a :
         exact hv (Finset.mem_map_of_mem _ (Finset.mem_erase.2 ⟨hj, Finset.mem_univ j⟩))
       rw [hj, mvPolynomialBasis_apply, blowupChartDividedRetractionValue_inr_self,
         blowupChartDifferentialRetraction_D_X_inr_self, blowupChartBaseChangeBasis_apply]
-      show _ = (X (Sum.inr i) * (1 : MvPolynomial (σ ⊕ τ) R))
+      change _ = (X (Sum.inr i) * (1 : MvPolynomial (σ ⊕ τ) R))
         ⊗ₜ[MvPolynomial (σ ⊕ τ) R] D R (MvPolynomial (σ ⊕ τ) R) (X (Sum.inr i))
       rw [mul_one]
   · rw [Finset.card_map, Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ]

@@ -86,7 +86,7 @@ private theorem card_roots_toFinset_le [DecidableEq K] (p : K[X]) {D : ℕ} (h :
 
 /-- A finite set of points, each lying over a point of `A` and on the zero set of a nonzero
 polynomial of degree at most `D` attached to that point, has at most `#A * D` elements. -/
-theorem card_le_card_mul_of_fibres [DecidableEq K] (A : Finset K) (T : Finset (K × K))
+theorem card_le_card_mul_of_fibres (A : Finset K) (T : Finset (K × K))
     (h : K → K[X]) {D : ℕ} (hA : ∀ P ∈ T, P.1 ∈ A ∧ h P.1 ≠ 0 ∧ (h P.1).IsRoot P.2)
     (hD : ∀ a ∈ A, (h a).natDegree ≤ D) : T.card ≤ A.card * D := by
   classical
@@ -127,11 +127,12 @@ theorem resultant_ne_zero_of_irreducible_of_not_dvd {f g : K[X][Y]} (hf : Irredu
 /-- **A weak Bézout bound.** Let `f, g ∈ K[X][Y]` with `f` irreducible and `f ∤ g`, and suppose
 that `f` and `g` have `Y`-degree at most `D` and coefficients of degree at most `D`. Then any
 finite set of common zeros of `f` and `g` in `K²` has at most `2 D³` elements. -/
-theorem card_le_of_evalEval_eq_zero_of_not_dvd [DecidableEq K] {f g : K[X][Y]}
+theorem card_le_of_evalEval_eq_zero_of_not_dvd {f g : K[X][Y]}
     (hf : Irreducible f) (hfg : ¬ f ∣ g) {D : ℕ} (hfD : ∀ i, (f.coeff i).natDegree ≤ D)
     (hgD : ∀ i, (g.coeff i).natDegree ≤ D) (hfn : f.natDegree ≤ D) (hgn : g.natDegree ≤ D)
     (T : Finset (K × K)) (hT : ∀ P ∈ T, f.evalEval P.1 P.2 = 0 ∧ g.evalEval P.1 P.2 = 0) :
     T.card ≤ 2 * D ^ 3 := by
+  classical
   by_cases h0 : f.natDegree = 0
   · obtain ⟨p, rfl⟩ : ∃ p, f = C p := ⟨_, eq_C_of_natDegree_eq_zero h0⟩
     have hp0 : p ≠ 0 := C_ne_zero.mp hf.ne_zero
@@ -207,13 +208,13 @@ theorem coeff_equivMvPolynomial (f : R[X][Y]) (i j : ℕ) :
       rw [hmon, MvPolynomial.coeff_monomial, coeff_monomial]
       by_cases hn : n = j
       · subst hn
-        rw [if_pos rfl, coeff_monomial]
+        rw [ite_eq_left rfl, coeff_monomial]
         by_cases hm : m = i
         · simp [hm]
-        · rw [if_neg, if_neg hm]
+        · rw [ite_eq_right, ite_eq_right hm]
           intro h
           exact hm (by simpa using congrArg (· 0) h)
-      · rw [if_neg hn, coeff_zero, if_neg]
+      · rw [ite_eq_right hn, coeff_zero, ite_eq_right]
         intro h
         exact hn (by simpa using congrArg (· 1) h)
 
@@ -284,7 +285,7 @@ theorem finite_zeroSet_inter_of_not_dvd {f g : MvPolynomial (Fin 2) K} (hf : Irr
     simp only [Finset.mem_image]
     rintro _ ⟨p, hp, rfl⟩
     have := hT hp
-    simp only [Set.mem_setOf_eq, Z] at this
+    simp only [Set.mem_ofPred_eq, Z] at this
     rw [← eval_equivMvPolynomial, ← eval_equivMvPolynomial]
     simpa [e] using this
   have hfin : Z.Finite := by

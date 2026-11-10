@@ -140,7 +140,7 @@ theorem codimensionCycleClass_codimensionIntersectionProduct (hA1 : 𝔇.Coprodu
     (hA3 : 𝔇.ProjectiveBundleAxiom) (X : (SmoothProjectiveScheme k).FullSubcategory) (i j : ℕ)
     (a : codimensionChowGroup k X.obj.hom i) (b : codimensionChowGroup k X.obj.hom j) :
     h.codimensionCycleClass X (i + j) (codimensionIntersectionProduct k X.obj.hom i j a b) =
-      tateCup 𝔇.finrank_tate (𝔇.cup X) i j (i + j) (by push_cast; ring)
+      tateCup 𝔇.finrank_tate (𝔇.cup X) i j (i + j) (by ring)
         (h.codimensionCycleClass X i a) (h.codimensionCycleClass X j b) := by
   have hprod : codimensionToRationalChow k X.obj.hom ((i + j : ℕ) : ℤ)
       (codimensionIntersectionProduct k X.obj.hom i j a b) =
@@ -152,10 +152,10 @@ theorem codimensionCycleClass_codimensionIntersectionProduct (hA1 : 𝔇.Coprodu
     rwa [codimensionRationalChowEquiv_tmul_of, codimensionRationalChowEquiv_tmul_of,
       codimensionRationalChowEquiv_tmul_of, one_mul, one_smul, one_smul, one_smul] at h1
   rw [codimensionCycleClass_apply, hprod]
-  show h.cycleClassMap X (smoothChowEquiv X.obj.hom (codimensionToRationalChow k X.obj.hom i a) *
+  change h.cycleClassMap X (smoothChowEquiv X.obj.hom (codimensionToRationalChow k X.obj.hom i a) *
     smoothChowEquiv X.obj.hom (codimensionToRationalChow k X.obj.hom j b)) (i + j) = _
   rw [h.cycleClassMap_mul, cupConv, Finset.sum_eq_single ⟨i, by omega⟩]
-  · show tateCup 𝔇.finrank_tate (𝔇.cup X) i ((i + j - i : ℕ) : ℤ) ((i + j : ℕ) : ℤ) _
+  · change tateCup 𝔇.finrank_tate (𝔇.cup X) i ((i + j - i : ℕ) : ℤ) ((i + j : ℕ) : ℤ) _
       (h.codimensionCycleClass X i a) (h.cycleClassMap X (smoothChowEquiv X.obj.hom
         (codimensionToRationalChow k X.obj.hom j b)) (i + j - i)) = _
     have key : ∀ (m : ℕ) (_ : m = j) (hk : (i : ℤ) + (m : ℤ) = ((i + j : ℕ) : ℤ))
@@ -311,7 +311,7 @@ theorem existsUnique_codimensionCycleClass (hA1 : 𝔇.CoproductAxiom) (hA2 : �
           (a : codimensionChowGroup k X.obj.hom i)
         (b : codimensionChowGroup k X.obj.hom j),
         γ X (i + j) (codimensionIntersectionProduct k X.obj.hom i j a b) =
-          tateCup 𝔇.finrank_tate (𝔇.cup X) i j (i + j) (by push_cast; ring) (γ X i a)
+          tateCup 𝔇.finrank_tate (𝔇.cup X) i j (i + j) (by ring) (γ X i a)
             (γ X j b)) ∧
       (∀ X : (SmoothProjectiveScheme k).FullSubcategory, γ X 0 (fundamentalClass X) = 𝔇.unitTw X) ∧
       (∀ {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f : X ⟶ Y) (i : ℕ)

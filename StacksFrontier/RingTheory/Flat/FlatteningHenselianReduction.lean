@@ -72,7 +72,7 @@ theorem Algebra.EssFiniteType.exists_finiteType_isLocalization_atPrime (A : Type
     · have hm' : algebraMap _ B (Ideal.Quotient.mk (RingHom.ker ψ) t') ∈ maximalIdeal B := hm
       rw [hψ', hmk, ht'] at hm'
       exact (mem_maximalIdeal _).mp hm' t.2
-    · show b * ψ' (Ideal.Quotient.mk _ t') = ψ' (Ideal.Quotient.mk _ y')
+    · change b * ψ' (Ideal.Quotient.mk _ t') = ψ' (Ideal.Quotient.mk _ y')
       rwa [hmk, hmk, ht', hy']
   · exact ⟨1, by rw [Ideal.kerLiftAlg_injective ψ h]⟩
 
@@ -105,7 +105,7 @@ theorem Module.exists_finite_isLocalizedModule {C : Type u} [CommRing C] {B : Ty
     obtain ⟨b, hb⟩ := IsLocalization.exist_integer_multiples P Finset.univ c
     choose d hd using fun i => hb i (Finset.mem_univ i)
     refine ⟨⟨Submodule.Quotient.mk (Finsupp.equivFunOnFinite.symm d), b⟩, ?_⟩
-    show (b : C) • y = φ (Finsupp.equivFunOnFinite.symm d)
+    change (b : C) • y = φ (Finsupp.equivFunOnFinite.symm d)
     rw [← hc, Finset.smul_sum, Finsupp.linearCombination_apply, Finsupp.sum_fintype _ _
       (fun i => zero_smul C (m i))]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -187,7 +187,7 @@ theorem Module.FlatAtPointSituation.exists_devissage_isFlatAtPrimesAbove
       simp only [RingHom.comp_apply] at hcomm
       calc ((algebraMap S.A C).comp eR.toRingHom).comp (algebraMap E.R' L) y
           = algebraMap C₀ C (algebraMap S.A C₀ (σ y)) := by
-            show algebraMap S.A C (eR (algebraMap E.R' L y)) = _
+            change algebraMap S.A C (eR (algebraMap E.R' L y)) = _
             rw [heR]
             rfl
         _ = algebraMap E.S' C (algebraMap E.R' E.S' (algebraMap S.A E.R' (σ y))) := by

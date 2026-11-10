@@ -22,7 +22,7 @@ comparison functors `{}^{u'}_{V'} I ⥤ {}^u_{v(V')} I` of the index categories 
 cofinal; `g^{-1} O_D = O_{D'}` and `(g')^{-1} O_C = O_{C'}`; and `g'_! : Ab(C') ⥤ Ab(C)` is
 exact. The conclusion is `Rf'_* ∘ (g')^* = g^* ∘ Rf_*` on the unbounded derived categories.
 
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/BaseChangeOverASquareOfSites.lean`
+`BaseChangeOverASquareOfSites.lean` (in the same directory, `DerivedPushforward`)
 proves that conclusion at four unrelated universes, but with condition (6) read on sheaves of
 *modules* — left exactness of `Stacks.SheafOfModules.lowerShriek` — because that is where it
 applies Stacks 08BJ, and by Stacks 0798 the two lower shrieks differ. This file proves it with

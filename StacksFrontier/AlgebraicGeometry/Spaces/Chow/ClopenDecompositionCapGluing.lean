@@ -517,7 +517,7 @@ def clopenGluedCap {Y : D.Ambient} (g : Y ⟶ X) (hY : D.IsGood (g ≫ sX)) (k :
     chowGroupCanonical.{u + 1} D (g ≫ sX) hY k →+
       chowGroupCanonical.{u + 1} D (g ≫ sX) hY (k - p) :=
   (chowGroupCanonicalDecompositionEquiv (hV.preimage g hY) (k - p)).symm.toAddMonoidHom.comp
-    ((Pi.addMonoidHom fun i =>
+    ((AddMonoidHom.pi fun i =>
       (c i ((V i).fromPreimage g) ((hV.preimage g hY).isGoodPiece i) k).comp
         (Pi.evalAddMonoidHom _ i)).comp
       (chowGroupCanonicalDecompositionEquiv (hV.preimage g hY) k).toAddMonoidHom)
@@ -528,7 +528,7 @@ theorem chowGroupCanonicalPieceRestrict_clopenGluedCap {Y : D.Ambient} (g : Y �
     chowGroupCanonicalPieceRestrict (hV.preimage g hY) i (k - p) (clopenGluedCap hV p c g hY k α) =
       c i ((V i).fromPreimage g) ((hV.preimage g hY).isGoodPiece i) k
         (chowGroupCanonicalPieceRestrict (hV.preimage g hY) i k α) := by
-  show chowGroupCanonicalDecompositionEquiv (hV.preimage g hY) (k - p)
+  change chowGroupCanonicalDecompositionEquiv (hV.preimage g hY) (k - p)
     ((chowGroupCanonicalDecompositionEquiv (hV.preimage g hY) (k - p)).symm _) i = _
   rw [AddEquiv.apply_symm_apply]
   rfl

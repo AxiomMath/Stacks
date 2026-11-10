@@ -64,7 +64,7 @@ public theorem compoundMonoidHom_apply_apply (A : Matrix (Fin n) (Fin n) R)
     (T S : Set.powersetCard (Fin n) k) :
     compoundMonoidHom k A T S =
       (A.submatrix (ofFinEmbEquiv.symm T) (ofFinEmbEquiv.symm S)).det := by
-  show LinearMap.toMatrix _ _ _ T S = _
+  change LinearMap.toMatrix _ _ _ T S = _
   rw [toMatrix_exteriorPower_map, LinearMap.toMatrix_eq_toMatrix', LinearMap.toMatrix'_toLin']
 
 /-- Over a topological ring, the compound matrix `A ↦ ⋀ᵏ A` is continuous. -/
@@ -118,7 +118,7 @@ public theorem charpoly_compoundMonoidHom_map {L : Type*} [Field L] [IsAlgClosed
     (compoundMonoidHom k A).charpoly.map ι =
       (((A.charpoly.map ι).roots.powersetCard k).map
         fun s => Polynomial.X - Polynomial.C s.prod).prod := by
-  show (LinearMap.toMatrix _ _ _).charpoly.map ι = _
+  change (LinearMap.toMatrix _ _ _).charpoly.map ι = _
   rw [LinearMap.charpoly_toMatrix, charpoly_exteriorPower_map_map, Matrix.charpoly_toLin']
 
 variable {Γ : Type*} [Group Γ]

@@ -157,9 +157,8 @@ def conormalKernelLiftSieve {X : C}
         ((conormalSequence.{v, u, w, z} J R A₂ B a₂ φ₂).X₁.val.map k.op) hyc) ?_
       exact ((conormalSequence.{v, u, w, z} J R A₂ B a₂ φ₂).X₁.val.map_comp_apply g.op k.op c).symm
 
-variable [hsh : HasSheafify J AddCommGrpCat.{max w u v z}]
-
-include ha hsh in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+include ha in
 /-- **Local surjectivity of the map on kernels.**  If, for every local section `c` of the conormal
 sheaf of the second presentation killed by the conormal map, the sieve `conormalKernelLiftSieve`
 of `c` is covering, then the map `kernelMapOfFac` from the kernel of the first conormal map to the
@@ -189,10 +188,7 @@ theorem isLocallySurjective_kernelMapOfFac
     have hfy : (conormalSequence.{v, u, w, z} J R A₁ B a₁ φ₁).f.val.app (op Y)
         (conormalClass.{v, u, w, z} J R A₁ B a₁ φ₁ (op Y) y) = 0 :=
       (conormalSequence_f_class.{v, u, w, z} J R A₁ B a₁ φ₁ (op Y) y).trans hyd
-    obtain ⟨k, hk⟩ := @Stacks.SheafOfModules.exists_kernel_section C _ J
-      (Stacks.SheafOfModules.Tensor.ringSheaf B) hsh
-      (conormalSequence.{v, u, w, z} J R A₁ B a₁ φ₁).X₁
-      (conormalSequence.{v, u, w, z} J R A₁ B a₁ φ₁).X₂
+    obtain ⟨k, hk⟩ := Stacks.SheafOfModules.exists_kernel_section
       (conormalSequence.{v, u, w, z} J R A₁ B a₁ φ₁).f (op Y) _ hfy
     refine ⟨k, Stacks.SheafOfModules.injective_app_kernel_ι
       (conormalSequence.{v, u, w, z} J R A₂ B a₂ φ₂).f (op Y) ?_⟩

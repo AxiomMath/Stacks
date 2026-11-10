@@ -114,7 +114,7 @@ theorem hasGenericallySurjectiveBundleFormula_projectiveBundle
           (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank U.2 hrU)
           hrU.isFiniteLocallyFreeOnSite).hom ≫ jU.hom ≫ sT := by
     rw [← Category.assoc, hθ.w, Category.assoc]
-    show _ ≫ (jU.hom ≫ g) ≫ sX = _
+    change _ ≫ (jU.hom ≫ g) ≫ sX = _
     rw [Category.assoc, hgB]
   refine ⟨U.1, _, jU.hom ≫ sT, hU, _, hPU, jU.hom, hj, rfl, ⟨u₀⟩, _, _, hθB, rfl, hθ, ?_⟩
   have eTw := ((modulePullbackCompIsoOfEq D.site D.base D.base_mem
@@ -126,10 +126,7 @@ theorem hasGenericallySurjectiveBundleFormula_projectiveBundle
     projectiveBundleTwistFiberProductIso
       (hE := isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr) (jU ≫ g') E
       hr.isFiniteLocallyFreeOnSite
-  have hprop := @isProper_projectiveBundleProj D.site D.base D.base_mem U
-    ((modulePullback D.site D.base D.base_mem (jU ≫ g')).obj E)
-    (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank U.2 hrU) hrU.isFiniteLocallyFreeOnSite
-  exact BundleFormulaSurjective.of_iso D _ hU _ hPU _ hPU _ rfl _ rfl n _ _ hprop _ _ hprop _ _ _ _
+  exact BundleFormulaSurjective.of_iso D _ hU _ hPU _ hPU _ rfl _ rfl n _ _ _ _ _ _ _ _
     (𝟙 _) (Category.id_comp _) (Category.id_comp _)
     ((modulePullbackIdIso D.site D.base D.base_mem _).app _ ≪≫ eTw.symm) hQ.2
 

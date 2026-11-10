@@ -245,9 +245,9 @@ identification of the base change with the realization of the formal base change
 theorem phBaseChangeArrow_app_comp {b c : SimplexCategoryᵒᵖ} (f : b ⟶ c)
     (y : (etaleSimplicialSite A).totalPseudofunctor.obj ⟨op c⟩) :
     (phBaseChangeArrow f).app ((phComparisonDegree A c).obj y) ≫
-        (phInclusionSquare A c).natTrans.app y =
+        (phInclusionSquare A c).app y =
       (phDegreeInclusion A b).map (phBaseChangeIso f y).hom ≫
-        (phInclusionSquare A b).natTrans.app ((etaleTransition A f).obj y) ≫
+        (phInclusionSquare A b).app ((etaleTransition A f).obj y) ≫
           (phComparisonFunctor A).map
             ((Pseudofunctor.CoGrothendieck.ιNatTrans (etaleSimplicialSite A).totalPseudofunctor
               f).app y) := by

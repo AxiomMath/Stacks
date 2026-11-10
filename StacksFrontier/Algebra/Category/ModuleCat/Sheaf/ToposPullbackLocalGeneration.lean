@@ -177,10 +177,10 @@ theorem pullbackModule_preservesEpimorphisms
       ((SheafOfModules.toSheaf.{w} P.ring).map (P.moduleFunctor.map p)) from by
     let := this
     infer_instance
-  show Presheaf.IsLocallySurjective J
+  change Presheaf.IsLocallySurjective J
     ((SheafOfModules.toSheaf P.ring).map (P.moduleFunctor.map p)).hom
   rw [Presheaf.isLocallySurjective_iff_whisker_forget]
-  show Sheaf.IsLocallySurjective
+  change Sheaf.IsLocallySurjective
     ((P.moduleFunctor ⋙ SheafOfModules.toSheaf P.ring ⋙
       sheafCompose J (forget AddCommGrpCat.{w})).map p)
   have hn := P.moduleIso.hom.naturality p
@@ -545,7 +545,7 @@ theorem linearCombination_zero {C : Type u} [Category.{v} C]
     (s : Fin 0 → (T ⟶ moduleUnderlying M)) :
     linearCombination M a s = terminal.from T ≫ Sheaf.moduleZeroHom _ M := by
   ext U x
-  show combinationValue M (fun i ↦ ringSection R ((a i).hom.app U x))
+  change combinationValue M (fun i ↦ ringSection R ((a i).hom.app U x))
       (fun i ↦ moduleSection M ((s i).hom.app U x)) = (0 : M.val.obj U)
   simp [combinationValue]
 
@@ -567,7 +567,7 @@ theorem linearCombination_succ {C : Type u} [Category.{v} C]
     (linearCombination M (fun i ↦ a i.succ) (fun i ↦ s i.succ)) U x
   rw [lift_moduleSMulHom_app] at h
   refine Eq.trans ?_ h.symm
-  show combinationValue M (fun i ↦ ringSection R ((a i).hom.app U x))
+  change combinationValue M (fun i ↦ ringSection R ((a i).hom.app U x))
       (fun i ↦ moduleSection M ((s i).hom.app U x)) =
     ringSection R ((a 0).hom.app U x) • moduleSection M ((s 0).hom.app U x) +
       combinationValue M (fun i ↦ ringSection R ((a i.succ).hom.app U x))
@@ -630,7 +630,7 @@ theorem prodSectionEquiv_fst {C : Type u} [Category.{v} C]
     (prodSectionEquiv A B U x).1 = (prod.fst : A ⨯ B ⟶ A).hom.app U x := by
   let E := sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U
   have : HasBinaryProduct A B := inferInstance
-  show (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.fst) x = _
+  change (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.fst) x = _
   rw [Types.binaryProductIso_hom_comp_fst, prodComparison_fst]
   rfl
 
@@ -641,7 +641,7 @@ theorem prodSectionEquiv_snd {C : Type u} [Category.{v} C]
     (prodSectionEquiv A B U x).2 = (prod.snd : A ⨯ B ⟶ B).hom.app U x := by
   let E := sheafToPresheaf J (Type w) ⋙ (evaluation Cᵒᵖ (Type w)).obj U
   have : HasBinaryProduct A B := inferInstance
-  show (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.snd) x = _
+  change (prodComparison E A B ≫ (Types.binaryProductIso _ _).hom ≫ ↾Prod.snd) x = _
   rw [Types.binaryProductIso_hom_comp_snd, prodComparison_snd]
   rfl
 
@@ -717,12 +717,12 @@ theorem universalCombination_locallySurjective {C : Type u} [Category.{v} C]
   dsimp only [universalCombination]
   apply prod_section_ext
   · rw [prod_lift_fst_apply]
-    show combinationValue M
+    change combinationValue M
       (fun i ↦ ((prod.fst : Q ⨯ B ⟶ Q).hom.app _ z) i)
       (fun i ↦ ((prod.snd : Q ⨯ B ⟶ B).hom.app _ z).val i) = _
     dsimp only [z]
     rw [prodSectionEquiv_symm_fst, prodSectionEquiv_symm_snd, NatTrans.naturality_apply]
-    show combinationValue M a (fun i ↦ restr M f.op (p.val i)) = restr M f.op x
+    change combinationValue M a (fun i ↦ restr M f.op (p.val i)) = restr M f.op x
     exact ha
   · rw [prod_lift_snd_apply]
     dsimp only [z]
@@ -764,7 +764,7 @@ theorem locallySpans_of_parameterized_surjection
   have hs (i : Fin r) : (s i).hom.app (Opposite.op W) (t.hom.app _ z) =
       restr M g.op (restr M f.op ((s i).hom.app _ p)) := by
     rw [ht]
-    show (s i).hom.app (Opposite.op W) (P.obj.map g.op (P.obj.map f.op p)) =
+    change (s i).hom.app (Opposite.op W) (P.obj.map g.op (P.obj.map f.op p)) =
       M.val.map g.op (M.val.map f.op ((s i).hom.app (Opposite.op U) p))
     rw [NatTrans.naturality_apply, NatTrans.naturality_apply]
     rfl
@@ -807,14 +807,14 @@ theorem pullback_generatingTuple_locallySpans
     (fun i ↦ L.map (prod.fst ≫ tupleProjection _ r i) ≫ P.ringIso.inv)
     (fun i ↦ L.map (generatorProjection M r i) ≫ (P.moduleIso.app M).inv)
     (L.map (prod.snd : Q ⨯ G ⟶ G)) q _ _ p
-  · show L.map (universalCombination M r) ≫
+  · change L.map (universalCombination M r) ≫
       (prodComparison L A G ≫ prod.map (P.moduleIso.app M).inv (𝟙 (L.obj G))) ≫ prod.fst = _
     rw [Category.assoc, prod.map_fst, prodComparison_fst_assoc,
       ← Functor.map_comp_assoc]
     rw [show universalCombination M r ≫ prod.fst = linearCombination M
       (fun i ↦ prod.fst ≫ tupleProjection _ r i)
       (fun i ↦ prod.snd ≫ generatorProjection M r i) from prod.lift_fst _ _]
-    show L.map (linearCombination M
+    change L.map (linearCombination M
       (fun i ↦ prod.fst ≫ tupleProjection _ r i)
       (fun i ↦ prod.snd ≫ generatorProjection M r i)) ≫ (P.moduleIso.app M).inv = _
     rw [map_linearCombination f R P]
@@ -854,7 +854,7 @@ theorem exists_generatingSections_of_locally_spanning_sections
     apply (hN S (hs U.unop x)).isSeparatedFor.ext
     intro V f hf
     obtain ⟨c, hc⟩ := hf
-    show N.val.map f.op (a.val.app U x) = N.val.map f.op (b.val.app U x)
+    change N.val.map f.op (a.val.app U x) = N.val.map f.op (b.val.app U x)
     rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply,
       show (M.val.map f.op) x = restr M f.op x from rfl, ← hc, combinationValue]
     simp only [map_sum, map_smul]
@@ -882,7 +882,7 @@ theorem exists_generatingSections_over_of_locallySpans
   let t (i : Fin r) : (M.over U).sections :=
     PresheafOfModules.sectionsMk (fun V ↦ M.val.map V.unop.hom.op (s i)) (by
       intro V W f
-      show M.val.map f.unop.left.op (M.val.map V.unop.hom.op (s i)) =
+      change M.val.map f.unop.left.op (M.val.map V.unop.hom.op (s i)) =
         M.val.map W.unop.hom.op (s i)
       rw [← PresheafOfModules.map_comp_apply, ← op_comp, Over.w])
   apply exists_generatingSections_of_locally_spanning_sections (M.over U) r t
@@ -911,14 +911,14 @@ theorem freeHom_image_mem_span
   have hq : E.map (M.freeHomEquiv.symm s) ≫ q = 0 := by
     apply (isColimitOfPreserves E (SheafOfModules.isColimitFreeCofan I)).hom_ext
     intro i
-    show E.map (SheafOfModules.ιFree i.as) ≫ E.map (M.freeHomEquiv.symm s) ≫ q = _
+    change E.map (SheafOfModules.ιFree i.as) ≫ E.map (M.freeHomEquiv.symm s) ≫ q = _
     rw [← E.map_comp_assoc (SheafOfModules.ιFree i.as) (M.freeHomEquiv.symm s) q,
       ← SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply, Equiv.apply_symm_apply]
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro a
     change R.obj.obj U at a
-    show S.mkQ ((M.unitHomEquiv.symm (s i.as)).val.app U a) = 0
+    change S.mkQ ((M.unitHomEquiv.symm (s i.as)).val.app U a) = 0
     apply (Submodule.Quotient.mk_eq_zero S).2
     have ha : (M.unitHomEquiv.symm (s i.as)).val.app U a =
         (a • moduleSection M ((s i.as).val U) : M.val.obj U) := rfl
@@ -1089,7 +1089,7 @@ theorem restrictScalars_locallyGeneratedBy_of_isIso
   have hi (b : S.obj.obj (Opposite.op Z)) :
       (φ.hom.app (Opposite.op Z)) ((inv φ).hom.app (Opposite.op Z) b) = b :=
     congrArg (fun q : S ⟶ S ↦ q.hom.app (Opposite.op Z) b) (IsIso.inv_hom_id φ)
-  show combinationValue M
+  change combinationValue M
       (fun i ↦ φ.hom.app (Opposite.op Z) ((inv φ).hom.app (Opposite.op Z) (a i)))
       (fun i ↦ restr M k.op (restr M f.op (s i))) = restr M k.op x
   simpa only [hi] using ha

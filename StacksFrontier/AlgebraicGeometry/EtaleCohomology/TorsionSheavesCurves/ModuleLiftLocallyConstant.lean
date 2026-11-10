@@ -58,7 +58,7 @@ theorem zmod_ringHom_comp_comm [NeZero ℓ] {C : Type*} [Category C] [Preadditiv
     (φ : ZMod ℓ →+* End A) (ψ : ZMod ℓ →+* End B) (e : A ⟶ B) (a : ZMod ℓ) :
     (φ a).asHom ≫ e = e ≫ (ψ a).asHom := by
   rw [← ZMod.natCast_zmod_val a, map_natCast, map_natCast, ← nsmul_one, ← nsmul_one]
-  show (a.val • 𝟙 A) ≫ e = e ≫ (a.val • 𝟙 B)
+  change (a.val • 𝟙 A) ≫ e = e ≫ (a.val • 𝟙 B)
   rw [Preadditive.nsmul_comp, Preadditive.comp_nsmul, Category.id_comp, Category.comp_id]
 
 /-- Sheafification of presheaves of `ZMod ℓ`-modules on the localized small étale sites. -/

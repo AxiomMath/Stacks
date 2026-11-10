@@ -45,7 +45,7 @@ theorem hasFiniteLocalNilpotentSections_specOver {A' : Type u} [CommRing A']
     (hR₀ : IsNilpotent (maximalIdeal R₀)) (R : Type u) [CommRing R] [Algebra A' R]
     [Algebra R₀ R] [Module.Finite R₀ R] (hR : B.Contains (Spec (.of R))) :
     HasFiniteLocalNilpotentSections B S hS (specOver B S hS s₀ R hR) := by
-  show ∃ (R₁ : Type u) (_ : CommRing R₁) (_ : IsLocalRing R₁) (_ : Algebra R₁ Γ(Spec (.of R), ⊤)),
+  change ∃ (R₁ : Type u) (_ : CommRing R₁) (_ : IsLocalRing R₁) (_ : Algebra R₁ Γ(Spec (.of R), ⊤)),
     IsNilpotent (maximalIdeal R₁) ∧ Module.Finite R₁ Γ(Spec (.of R), ⊤)
   let e : R ≃+* Γ(Spec (.of R), ⊤) := (Scheme.ΓSpecIso (.of R)).symm.commRingCatIsoToRingEquiv
   let : Algebra R₀ Γ(Spec (.of R), ⊤) := ((e : R →+* Γ(Spec (.of R), ⊤)).comp

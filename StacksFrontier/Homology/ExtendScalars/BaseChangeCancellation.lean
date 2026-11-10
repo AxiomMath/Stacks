@@ -143,8 +143,7 @@ theorem cancelAddEquiv_symm_naturality {M N : ModuleCat.{u} B} (φ : M ⟶ N) :
       (cancelAddEquiv (R := R) (R' := R') N).symm.toAddMonoidHom.comp
         (tensorMapAddMonoidHom (R := R) (R' := R') φ) := by
   refine AddMonoidHom.ext fun w => ?_
-  induction w using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction w using TensorProduct.inductionOn with
   | tmul m r' => rfl
   | add w w' h h' =>
       exact (map_add _ _ _).trans ((congrArg₂ (· + ·) h h').trans (map_add _ _ _).symm)

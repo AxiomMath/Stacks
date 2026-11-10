@@ -117,7 +117,7 @@ theorem tensorPowι_comp_tensorPowDesc (R : Type u) [CommRing R] (A B : CommAlgC
     refine Fin.cases (inr_comp_tensorPowDesc R A B n g) (fun j => ?_) i
     let L : Quiver.Hom ((CommAlgCat.binaryCofan (tensorPowObj R A n) A).pt) B :=
       tensorPowDesc R A B (n + 1) g
-    show (tensorPowι R A n j ≫ (CommAlgCat.binaryCofan (tensorPowObj R A n) A).inl) ≫ L = _
+    change (tensorPowι R A n j ≫ (CommAlgCat.binaryCofan (tensorPowObj R A n) A).inl) ≫ L = _
     rw [Category.assoc, show (CommAlgCat.binaryCofan (tensorPowObj R A n) A).inl ≫ L =
       tensorPowDesc R A B n (fun k => g k.succ) from inl_comp_tensorPowDesc R A B n g]
     exact ih _ j

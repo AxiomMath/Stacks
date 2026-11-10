@@ -153,7 +153,7 @@ public theorem sectionsBaseChangeEquiv_one_tmul [QuasiCompact f] [QuasiSeparated
     (by simp_rw [← Scheme.Hom.comp_preimage, pullback.condition, Scheme.Hom.comp_preimage,
       ← Scheme.Hom.preimage_inf, inf_eq_right.mpr hVU]) hU hV
     (f.isCompact_preimage hU.isCompact) (f.isQuasiSeparated_preimage hU.isQuasiSeparated)
-  show ((CommRingCat.isPushout_tensorProduct ..).flip.isoPushout ≪≫
+  change ((CommRingCat.isPushout_tensorProduct ..).flip.isoPushout ≪≫
     (pushout.congrHom f.app_eq_appLE rfl ≪≫ @asIso _ _ _ _ _ hiso :)).hom.hom (1 ⊗ₜ b) = _
   rw [show (1 : Γ(Y, V)) ⊗ₜ[Γ(S, U)] b =
     (CommRingCat.ofHom

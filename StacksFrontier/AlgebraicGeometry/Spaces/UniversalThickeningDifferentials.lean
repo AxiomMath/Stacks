@@ -122,7 +122,8 @@ because they, and not the transport, are what closing this properly requires.
 this library has one.  The comparison of Stacks 04CS between the differentials of a morphism of
 schemes on its small Zariski and small étale sites is available in the scheme's own spelling:
 `AlgebraicGeometry.SmallEtale.existsUnique_postcomp_associatedRelativeDifferentialsDerivation`
-of `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDifferentialsCorepresentable.lean`
+of the module
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleDifferentialsCorepresentable`
 proves that `(Ω_{X/Y})^a` with its derivation `d^a` corepresents the derivations, and
 `AlgebraicGeometry.SmallEtale.isIso_differentialsComparison_of_universal` turns that into
 invertibility of `AlgebraicGeometry.SmallEtale.differentialsComparison` at a universal pair.
@@ -377,8 +378,8 @@ noncomputable def pushforwardDerivationRestriction
       (universalThickeningSubSpace B S hS hZ).property) :
     (sheafOfDifferentials B S hS (h' ≫ p) ⟶
         (modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F) →
-      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj ((modulePushforward B S hS
-          (universalThickeningInclusion B S hS hZ)).obj F)).val
+      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj
+          ((modulePushforward B S hS (universalThickeningInclusion B S hS hZ)).obj F)).val
         (structureSharpInverseImage B S hS p).hom :=
   fun x ↦ (pushforwardUniversalDerivation B S hS h' p (h' ≫ p) (𝟙 Y)
       (Category.comp_id (h' ≫ p)).symm).postcomp

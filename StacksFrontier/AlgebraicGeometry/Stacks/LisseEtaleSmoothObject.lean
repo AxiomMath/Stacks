@@ -122,7 +122,7 @@ theorem baseMapOfBasedFunctor_liftBased (U : BigFppfOver B S hS) (x : Over U) :
       (Functor.TwoYoneda.liftBasedEvaluationIso (Over.forget U)
         (Functor.IsFiberedInGroupoids.over_forget U) x.left
         (Functor.Fiber.mk (a := x) rfl))]
-  show eqToHom (rfl : x.left = x.left) ≫ x.hom = x.hom
+  change eqToHom (rfl : x.left = x.left) ≫ x.hom = x.hom
   simp
 
 /-- **Stacks 0787.** An object of the algebraic stack of a scheme `U` over `S` — that is, a scheme

@@ -60,7 +60,7 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
     HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  {X : B.Scheme} [IsNoetherian X.1] {k : Type u} [Field k] [Fintype k]
+  {X : B.Scheme} [IsNoetherian X.1] {k : Type u} [Field k] [Finite k]
   (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 

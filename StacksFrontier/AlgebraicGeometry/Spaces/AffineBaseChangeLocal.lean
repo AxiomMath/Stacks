@@ -196,7 +196,7 @@ theorem isOpenImmersion_cover_disjoint_of_iso_sigma {I : Type u} {Y : I → Sche
     refine ⟨i, y, ?_⟩
     rw [← hc i, Scheme.Hom.comp_apply, hy]
     simp
-  · show Disjoint (Set.range (c i)) (Set.range (c i'))
+  · change Disjoint (Set.range (c i)) (Set.range (c i'))
     rw [Set.disjoint_left]
     rintro _ ⟨y, rfl⟩ ⟨y', hy'⟩
     rw [← hc i, ← hc i', Scheme.Hom.comp_apply, Scheme.Hom.comp_apply] at hy'
@@ -240,7 +240,7 @@ theorem BigFppfOver.exists_coproduct_of_mk_le_aleph0 {σ : Type u}
       Sigma.desc fun a ↦ B.inclusion.map (T' a).hom := B.inclusion.map_preimage _
   have hc : ∀ a, ∃ ψ : T' a ⟶ T, (BigFppfOver.toScheme B S hS).map ψ =
       Sigma.ι (fun a ↦ (BigFppfOver.toScheme B S hS).obj (T' a)) a := fun a ↦
-    BigFppfOver.exists_hom_of_comp_eq B S hS _ (by rw [hTmap, Sigma.ι_desc])
+    BigFppfOver.exists_hom_of_comp_eq B S hS _ (by rw [hTmap, Sigma.ι_comp_desc])
   choose c hcmap using hc
   refine ⟨T, c, Iso.refl _, fun a ↦ by rw [Iso.refl_hom, Category.comp_id, hcmap],
     fun {M} m ↦ ?_⟩
@@ -250,11 +250,11 @@ theorem BigFppfOver.exists_coproduct_of_mk_le_aleph0 {σ : Type u}
       B.inclusion.map M.hom = B.inclusion.map T.hom := by
     rw [hTmap]
     refine Sigma.hom_ext _ _ fun a ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact BigFppfOver.toScheme_map_comp_hom (m a)
   obtain ⟨d, hd⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS _ hφ
   refine ⟨d, fun a ↦ (BigFppfOver.toScheme B S hS).map_injective ?_⟩
-  rw [Functor.map_comp, hd, hcmap a, Sigma.ι_desc]
+  rw [Functor.map_comp, hd, hcmap a, Sigma.ι_comp_desc]
 
 /-- Auxiliary form of `BigFppfOver.existsUnique_lift_of_isOpenImmersion`. -/
 private theorem existsUnique_lift_aux
@@ -525,7 +525,7 @@ theorem BigFppfOver.exists_disjoint_openCover_pullback
   refine ⟨V', p, v', hpimm, hrange, fun x ↦ ?_, fun a b hab ↦ ?_, hv'⟩
   · obtain ⟨a, ha⟩ := hιcov ((BigFppfOver.toScheme B S hS).map v x)
     exact ⟨a, by rw [hrange a]; exact ha⟩
-  · show Disjoint (Set.range ((BigFppfOver.toScheme B S hS).map (p a)))
+  · change Disjoint (Set.range ((BigFppfOver.toScheme B S hS).map (p a)))
       (Set.range ((BigFppfOver.toScheme B S hS).map (p b)))
     rw [hrange a, hrange b]
     exact Disjoint.preimage _ (hιdisj hab)
@@ -642,7 +642,7 @@ theorem isPullback_of_disjoint_openCover
     intro a
     rw [NatTrans.naturality_apply f (p a).op ξ, hfv,
       ← NatTrans.naturality_apply h (p a).op v]
-    show (h.app (Opposite.op (V' a))) (p a ≫ v) = (h.app (Opposite.op (V' a))) (v' a ≫ ι a)
+    change (h.app (Opposite.op (V' a))) (p a ≫ v) = (h.app (Opposite.op (V' a))) (v' a ≫ ι a)
     rw [hv' a]
   have hpb : ∀ a, IsPullback ((r a).app (Opposite.op (V' a)))
       ((yoneda.map (q a)).app (Opposite.op (V' a))) (f.app (Opposite.op (V' a)))
@@ -665,12 +665,12 @@ theorem isPullback_of_disjoint_openCover
       (p a ≫ τ) hsub
     have hρ₁ : (r a).app (Opposite.op (V' a)) ρ = X.map (p a).op ξ := by
       rw [← hR a]
-      show R.app (Opposite.op (V' a)) (ρ ≫ κ a) = _
+      change R.app (Opposite.op (V' a)) (ρ ≫ κ a) = _
       rw [hρ]
-      show R.app (Opposite.op (V' a)) ((yoneda.obj T).map (p a).op τ) = _
+      change R.app (Opposite.op (V' a)) ((yoneda.obj T).map (p a).op τ) = _
       rw [NatTrans.naturality_apply R (p a).op τ, hτ₁]
     have hρ₂ : (yoneda.map (q a)).app (Opposite.op (V' a)) ρ = v' a := by
-      show ρ ≫ q a = v' a
+      change ρ ≫ q a = v' a
       refine (cancel_mono (ι a)).mp ?_
       rw [Category.assoc, ← hP a, ← Category.assoc, hρ, Category.assoc, hτ₂, ← hv' a]
     have hρt : ρ = t a :=
@@ -683,7 +683,7 @@ theorem isPullback_of_disjoint_openCover
   have hτ₁ : R.app (Opposite.op V) τ = ξ := by
     refine BigFppfOver.section_ext_of_disjoint_openCover hX p hpimm hpcov hpdisj fun a ↦ ?_
     rw [← NatTrans.naturality_apply R (p a).op τ]
-    show R.app (Opposite.op (V' a)) (p a ≫ τ) = _
+    change R.app (Opposite.op (V' a)) (p a ≫ τ) = _
     rw [hτ' a]
     have heq := ht₁ a
     rw [← hR a] at heq
@@ -691,12 +691,12 @@ theorem isPullback_of_disjoint_openCover
   have hτ₂ : τ ≫ P = v := by
     refine BigFppfOver.section_ext_of_disjoint_openCover
       (BigFppfOver.isSheaf_of_type_yoneda_obj Z) p hpimm hpcov hpdisj fun a ↦ ?_
-    show p a ≫ τ ≫ P = p a ≫ v
+    change p a ≫ τ ≫ P = p a ≫ v
     rw [← Category.assoc, hτ' a, Category.assoc, hP a, ← Category.assoc, ht₂' a, hv' a]
   refine ⟨τ, ⟨hτ₁, hτ₂⟩, fun τ' hτ' ↦ ?_⟩
   refine BigFppfOver.section_ext_of_disjoint_openCover
     (BigFppfOver.isSheaf_of_type_yoneda_obj T) p hpimm hpcov hpdisj fun a ↦ ?_
-  show p a ≫ τ' = p a ≫ τ
+  change p a ≫ τ' = p a ≫ τ
   rw [key τ' hτ'.1 hτ'.2 a, key τ hτ₁ hτ₂ a]
 
 /-- Let `f : X ⟶ Y` be a morphism of sheaves on the big fppf category over `S` and let

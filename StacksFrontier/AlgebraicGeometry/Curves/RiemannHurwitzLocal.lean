@@ -243,7 +243,7 @@ theorem finrank_sections_subscheme_eq_finsum [IsFinite (R.subschemeι ≫ p)] :
         map_smul' := fun c a ↦ by
           rw [Algebra.smul_def, Algebra.smul_def, map_mul, RingHom.id_apply]
           congr 1
-          show ψ (IsLocalRing.residue O (algebraMap k O c)) =
+          change ψ (IsLocalRing.residue O (algebraMap k O c)) =
             IsLocalRing.residue S (algebraMap k S c)
           exact congrArg (IsLocalRing.residue S) (stalkMap_subschemeι_baseToStalk p R z c)
         invFun := Function.surjInv hψ.2
@@ -267,7 +267,7 @@ theorem isClosed_map_of_isClosed (hx : IsClosed ({x} : Set X)) :
   subst hf
   have := locallyOfFiniteType_of_comp f pY
   have : JacobsonSpace Y := LocallyOfFiniteType.jacobsonSpace pY
-  exact f.closePoints_subset_preimage_closedPoints hx
+  exact f.closedPoints_subset_preimage_closedPoints hx
 
 include hf in
 /-- **The local rings at a closed point of a dominant morphism of smooth curves.** Both are

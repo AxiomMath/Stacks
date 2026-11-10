@@ -55,7 +55,7 @@ private lemma range_snd_le_preimage {C : Type*} [Category C] {X Y : C ⥤ Type u
   obtain ⟨a, rfl⟩ := hy
   have hv : f.app i (s.snd.app i a) = (Z.ι.app i) (s.fst.app i a) := by
     simpa using (congrArg (fun k => k a) (congr_app s.condition i)).symm
-  show f.app i (s.snd.app i a) ∈ Z.obj i
+  change f.app i (s.snd.app i a) ∈ Z.obj i
   rw [hv]
   exact (s.fst.app i a).property
 
@@ -88,7 +88,7 @@ theorem range_eq_preimage_of_isPullback {C : Type*} [Category C] {W X Y Z : C �
     {f : W ⟶ X} {g : W ⟶ Y} {a : X ⟶ Z} {b : Y ⟶ Z} (sq : IsPullback f g a b) :
     Subfunctor.range f = (Subfunctor.range b).preimage a := by
   ext i w
-  show w ∈ Set.range (f.app i) ↔ a.app i w ∈ Set.range (b.app i)
+  change w ∈ Set.range (f.app i) ↔ a.app i w ∈ Set.range (b.app i)
   simpa using congrArg (fun s : Set _ => w ∈ s)
     (Limits.Types.range_fst_of_isPullback (sq.map ((evaluation _ _).obj i)))
 

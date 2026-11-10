@@ -167,7 +167,7 @@ theorem rationalToMeromorphic_eq_of_presentation {X : AlgebraicSpaces B S hS}
     (x : rationalFunctions B S hS X.2) :
     rationalToMeromorphic P hwa hfin x = rationalToMeromorphic P' hwa hfin x := by
   obtain ⟨f, rfl⟩ := Quotient.exists_rep x
-  show meromorphicOfPartial P hwa hfin f = meromorphicOfPartial P' hwa hfin f
+  change meromorphicOfPartial P hwa hfin f = meromorphicOfPartial P' hwa hfin f
   obtain ⟨D⟩ := nonempty_genericChartIn P hfin f.dense_open_domain
   refine (D.isGenericChart.bijective_val_genericChart hwa hfin).injective ?_
   show (meromorphicOfPartial P hwa hfin f).val (op D.chart) =
@@ -244,7 +244,7 @@ theorem existsUnique_ratio_weilDivisorOfSection_eq_add_divRationalFunction
       exact g.mul_inv)
   refine ⟨⟨x, y, hxy, (mul_comm y x).trans hxy⟩, ⟨fun P => ?_, ?_⟩, ?_⟩
   · -- `f · s' = s`, through the comparison built from any presentation
-    show s = (id (rationalToMeromorphic (X := (⟨X, hX⟩ : AlgebraicSpaces B S hS)) P hwa hfin x) :
+    change s = (id (rationalToMeromorphic (X := (⟨X, hX⟩ : AlgebraicSpaces B S hS)) P hwa hfin x) :
       ↥(RingCat.sectionsSubring ((Stacks.SheafOfModules.Tensor.ringSheaf
         (meromorphicRingedSite B S hS X hX).O).obj))) • s'
     rw [rationalToMeromorphic_eq_of_presentation B S hS P P₀ hwa hfin x, hx]

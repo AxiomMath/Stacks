@@ -146,7 +146,7 @@ omit [IsScalarTower A (A ⧸ J) B₀] in
 /-- The restrictions `locBRes` compose. -/
 theorem locBRes_comp {t s u : Finset (Fin r)} (h : t ⊆ s) (h' : s ⊆ u) :
     (locBRes J f B₀ h').comp (locBRes J f B₀ h) = locBRes J f B₀ (h.trans h') := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply IsLocalization.ringHom_ext (Submonoid.powers
     (algebraMap (A ⧸ J) B₀ (Ideal.Quotient.mk J (prodGen f t))))
   ext b
@@ -180,7 +180,7 @@ theorem resE_self (σ : Setup J f B₀) {s : Finset (Fin r)} (hs : s.Nonempty) (
   ext x
   simp only [AlgHom.comp_apply, liftEπ_resE, AlgHom.id_apply]
   have : locBRes J f B₀ h = AlgHom.id A _ := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply IsLocalization.ringHom_ext (Submonoid.powers
       (algebraMap (A ⧸ J) B₀ (Ideal.Quotient.mk J (prodGen f s))))
     ext b
@@ -356,7 +356,7 @@ theorem locC₀Res_algebraMap {t s : Finset (Fin r)} (h : t ⊆ s) (c : C ⧸ J.
 /-- The reductions `redC` commute with the restrictions of localizations of `C` and `C ⧸ JC`. -/
 theorem redC_locCRes {t s : Finset (Fin r)} (h : t ⊆ s) :
     (redC J f C s).comp (locCRes f C h) = (locC₀Res J f C h).comp (redC J f C t) := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply IsLocalization.ringHom_ext (Submonoid.powers (algebraMap A C (prodGen f t)))
   ext c
   simp [locCRes_algebraMap, redC_algebraMap, locC₀Res_algebraMap]
@@ -426,7 +426,7 @@ variable {A : Type u} [CommRing A] {J : Ideal A} {r : ℕ} {f : Fin r → A}
 /-- The comparisons `locBC` commute with the restrictions of localizations of `B₀` and `C ⧸ JC`. -/
 theorem locBC_locBRes {t s : Finset (Fin r)} (h : t ⊆ s) :
     (locBC C s).comp (locBRes J f B₀ h) = (locC₀Res J f C h).comp (locBC C t) := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply IsLocalization.ringHom_ext (Submonoid.powers
     (algebraMap (A ⧸ J) B₀ (Ideal.Quotient.mk J (prodGen f t))))
   ext b

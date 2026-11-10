@@ -164,7 +164,7 @@ theorem bijective_smul_of_covering {V : Over S} (t : Γ((Scheme.Modules.pullback
         pullbackSectionsMap L W.unop.hom t)
       naturality {W W'} f := by
         ext r
-        show f.unop.left.left.appTop r • pullbackSectionsMap L W'.unop.hom t =
+        change f.unop.left.left.appTop r • pullbackSectionsMap L W'.unop.hom t =
           pullbackSectionsMap L f.unop.left ((show Γ(W.unop.left.left, ⊤) from r) •
             pullbackSectionsMap L W.unop.hom t)
         rw [pullbackSectionsMap_smul, ← pullbackSectionsMap_comp_apply, Over.w f.unop] }
@@ -173,7 +173,7 @@ theorem bijective_smul_of_covering {V : Over S} (t : Γ((Scheme.Modules.pullback
     (GrothendieckTopology.overEquiv_symm_mem_over _ _ _ hR) φ (fun W k hk => by
       have hk' : R k.left := (Sieve.overEquiv_symm_iff R k).1 hk
       have hW : W.hom = k.left := by simpa using (Over.w k).symm
-      show Function.Bijective (fun r : Γ(W.left.left, ⊤) => r • pullbackSectionsMap L W.hom t)
+      change Function.Bijective (fun r : Γ(W.left.left, ⊤) => r • pullbackSectionsMap L W.hom t)
       rw [hW]
       exact h k.left hk')
   change Function.Bijective (fun r : Γ(V.left, ⊤) => r • pullbackSectionsMap L (𝟙 V) t) at key
@@ -247,7 +247,7 @@ theorem exists_covering_nonempty_generatorPresheaf (U : S.Etale) :
   have hgen (x : U.left) : Nonempty ((generatorPresheaf L).obj (op (V x))) := by
     obtain ⟨tx⟩ := t x
     have hle : (⊤ : (V x).left.Opens) ≤ (V x).hom ⁻¹ᵁ W x := fun z _ => by
-      show U.hom.base ((U.hom ⁻¹ᵁ W x).ι.base z) ∈ W x
+      change U.hom.base ((U.hom ⁻¹ᵁ W x).ι.base z) ∈ W x
       exact z.2
     have g := Stacks.SheafOfModules.generatorRestrict _ hle
       (pullbackGenerator (V x).hom L hL (W x) tx)

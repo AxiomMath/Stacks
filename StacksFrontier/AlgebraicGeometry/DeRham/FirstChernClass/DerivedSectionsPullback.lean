@@ -171,7 +171,8 @@ theorem plusQIsoOn_eq (Y : Scheme.{u})
         (AbelianSheaf Y.toRingedSpace.carrier)).app L := by
   refine Iso.ext ?_
   ext
-  simp only [plusQIsoOn, Functor.preimageIso_hom, DerivedCategory.Plus.quotientCompQhIso_hom_app_hom, Iso.app_hom]
+  simp only [plusQIsoOn, Functor.preimageIso_hom,
+    DerivedCategory.Plus.quotientCompQhIso_hom_app_hom, Iso.app_hom]
   exact DerivedCategory.Plus.ι.map_preimage _
 
 /-- **The direct image of a complex and the direct image of its homotopy class agree on the
@@ -230,7 +231,7 @@ theorem derivedSectionsPullback_eq
           ((Functor.mapCochainComplexPlusDerivedUnit
             (abelianPushforward.{u, u} f.base)).app K') ≫
         (derivedSectionsPushforwardIso f).inv.app (DerivedCategory.Plus.Q.obj K') := by
-  show _ ≫ (sectionsFunctor X.toRingedSpace.carrier ⊤).rightDerivedFunctorPlus.map
+  change _ ≫ (sectionsFunctor X.toRingedSpace.carrier ⊤).rightDerivedFunctorPlus.map
       (pushforwardToDerived f K') ≫ _ = _
   rw [pushforwardToDerived_eq]
 

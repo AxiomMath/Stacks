@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityAuxiliaryPoints
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityQuotientStackComparison
-public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityComparisonFullness
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityComparisonFullness
 public import
   StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.PresentedFibreArrows
 
@@ -236,7 +235,7 @@ private theorem evaluationArrow_iota (H : GroupoidInAlgebraicSpaces C S hS B)
         ((CoGrothendieck.ι (evaluationGroupoidFunctor H.toGroupoidInFunctors ⋙
           Grpd.forgetToCat).toPseudofunctor' T).map m).fiber).1 =
       (H.toGroupoidInFunctors.evaluationArrowEquiv (op T) a b m).1 := by
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv (op T) _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv (op T) _ _
       (m ≫ ((evaluationGroupoidFunctor H.toGroupoidInFunctors ⋙
         Grpd.forgetToCat).toPseudofunctor'.mapId ⟨op T⟩).inv.toNatTrans.app b)).1 = _
   rw [Functor.toPseudofunctor'_mapId_inv_app]

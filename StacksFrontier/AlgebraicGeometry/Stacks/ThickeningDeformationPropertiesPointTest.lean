@@ -28,7 +28,8 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.WellNighAffine
 Consider the commutative diagram of thickenings of algebraic stacks over `S` of **Stacks 0CJC**:
 `(𝒳 ⊂ 𝒳') ⟶ (𝒴 ⊂ 𝒴')` over a thickening `iB : ℬ ⟶ ℬ'`, with `𝒴' ⟶ ℬ'` locally of finite type,
 `𝒳' ⟶ ℬ'` flat and locally of finite presentation, and the two restricted stacks the base
-changes of the ambient ones. `StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDeformationProperties`
+changes of the ambient ones.
+`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDeformationProperties`
 proves items (1), (6) and (7). This file proves items (4), (5) and (10): `f` is a monomorphism,
 locally quasi-finite, resp. finite, exactly when `f'` is.
 
@@ -243,8 +244,6 @@ theorem isLocallyQuasiFinite_iff_isLocallyQuasiFinite_ambient
     (hcoh : Bicategory.whiskerLeft f PY.iso.hom ≫ Bicategory.whiskerRight hinner.hom iB =
       Bicategory.whiskerRight hrestrict.hom pY' ≫
         Bicategory.whiskerLeft PX.fst houter.hom ≫ PX.iso.hom)
-    (hYft : IsLocallyOfFiniteType B S hS pY')
-    (hXflat : IsFlat B S hS pX')
     (hXfp : IsLocallyOfFinitePresentation B S hS pX') :
     IsLocallyQuasiFinite B S hS f ↔ IsLocallyQuasiFinite B S hS f' := by
   classical

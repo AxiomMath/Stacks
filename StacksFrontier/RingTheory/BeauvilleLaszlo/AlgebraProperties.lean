@@ -151,7 +151,7 @@ theorem quotientPowMap_tensorRight_bijective (f : R) (n : ℕ)
     intro a
     have h1 : (1 : R ⧸ (Ideal.span {f}) ^ n) =
         Ideal.Quotient.mk ((Ideal.span {f}) ^ n) 1 := (map_one _).symm
-    simp only [E, RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv, Ideal.quotEquivOfEq_mk,
+    simp only [E, RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv, Ideal.quotEquivOfEq_mk,
       Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk, h1,
       Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul,
       AlgEquiv.coe_toAlgHom, AlgEquiv.coe_ofBijective,
@@ -187,7 +187,7 @@ theorem quotientMap_map_pow_bijective {S : Type*} [CommRing S] (φ : R →+* S) 
     ext r
     exact Ideal.quotEquivOfEq_mk heq (φ r)
   apply (Function.Bijective.of_comp_iff' (Ideal.quotEquivOfEq heq).bijective q).mp
-  show Function.Bijective ((Ideal.quotEquivOfEq heq).toRingHom.comp q)
+  change Function.Bijective ((Ideal.quotEquivOfEq heq).toRingHom.comp q)
   rwa [hcomp]
 
 /-- The `f`-power torsion of a module over an `R`-algebra `S` is the same submodule whether the
@@ -229,7 +229,7 @@ theorem powerTorsionMap_tensorRight_bijective_iff (f : R) :
       e₂ ∘ (powerTorsionMap (algebraMap R A f) (algebraMap A (A ⊗[R] R'))) ∘ e₁.symm := by
     funext y
     apply Subtype.ext
-    show ((y : A) ⊗ₜ[R] (1 : R') : A ⊗[R] R') = _
+    change ((y : A) ⊗ₜ[R] (1 : R') : A ⊗[R] R') = _
     rfl
   rw [hfun, Equiv.comp_bijective, Equiv.bijective_comp]
 
@@ -484,11 +484,11 @@ theorem finiteType_iff_baseChange_and_awayMap_finiteType
   have hsubψ : Set.range φ ∪ s ⊆ Set.range ψ := by
     rintro x (⟨α, rfl⟩ | hx)
     · refine ⟨MvPolynomial.C α, ?_⟩
-      show ψ₀ (MvPolynomial.C α) = φ α
+      change ψ₀ (MvPolynomial.C α) = φ α
       rw [MvPolynomial.aeval_C]
       rfl
     · refine ⟨MvPolynomial.X ⟨x, hx⟩, ?_⟩
-      show ψ₀ (MvPolynomial.X ⟨x, hx⟩) = x
+      change ψ₀ (MvPolynomial.X ⟨x, hx⟩) = x
       rw [MvPolynomial.aeval_X]
   have hsurj : Function.Surjective ψ :=
     surjective_of_baseChange_and_awayMap_surjective f hglue ψ
@@ -550,7 +550,7 @@ theorem finite_iff_baseChange_and_awayMap_finite (f : R)
   let _ : Algebra (Localization.Away (algebraMap R A f))
       (Localization.Away (φ (algebraMap R A f))) :=
     (Localization.awayMap φ.toRingHom (algebraMap R A f)).toAlgebra
-  show Module.Finite A B ↔ _
+  change Module.Finite A B ↔ _
   rw [finite_iff_tensorRight_and_localizedModule (R' := R') f hquot B,
     Module.Finite.equiv_iff
       (baseChangeAlgEquiv φ (fun _ => rfl) (fun _ => rfl)).toLinearEquiv,
@@ -574,7 +574,7 @@ theorem flat_iff_baseChange_and_awayMap_flat (f : R)
   let _ : Algebra (Localization.Away (algebraMap R A f))
       (Localization.Away (φ (algebraMap R A f))) :=
     (Localization.awayMap φ.toRingHom (algebraMap R A f)).toAlgebra
-  show Module.Flat A B ↔ _
+  change Module.Flat A B ↔ _
   rw [flat_iff_tensorRight_and_localizedModule (R' := R') f hquot hA B,
     Module.Flat.equiv_iff
       (baseChangeAlgEquiv φ (fun _ => rfl) (fun _ => rfl)).toLinearEquiv,
@@ -589,7 +589,7 @@ private lemma flat_tensorMap (φ : A →ₐ[R] B) (hφ : φ.toRingHom.Flat) :
   have _ : Module.Flat A B := hφ
   let _ : Algebra (A ⊗[R] R') (B ⊗[R] R') :=
     (Algebra.TensorProduct.map φ (AlgHom.id R R')).toRingHom.toAlgebra
-  show Module.Flat (A ⊗[R] R') (B ⊗[R] R')
+  change Module.Flat (A ⊗[R] R') (B ⊗[R] R')
   exact Module.Flat.of_linearEquiv
     (baseChangeAlgEquiv φ (fun _ => rfl) (fun _ => rfl)).symm.toLinearEquiv
 
@@ -602,7 +602,7 @@ private lemma finitePresentation_tensorMap (φ : A →ₐ[R] B)
   have _ : Algebra.FinitePresentation A B := hφ
   let _ : Algebra (A ⊗[R] R') (B ⊗[R] R') :=
     (Algebra.TensorProduct.map φ (AlgHom.id R R')).toRingHom.toAlgebra
-  show Algebra.FinitePresentation (A ⊗[R] R') (B ⊗[R] R')
+  change Algebra.FinitePresentation (A ⊗[R] R') (B ⊗[R] R')
   exact Algebra.FinitePresentation.equiv (baseChangeAlgEquiv φ (fun _ => rfl) (fun _ => rfl))
 
 /-- A flat homomorphism of `R`-algebras of finite presentation stays flat and of finite
@@ -676,7 +676,7 @@ private lemma finite_baseChange_ker_of_flat {A P B C : Type*} [CommRing A] [Comm
     have hexC := rTensor_exact C hex hψ
     ext x
     rw [LinearMap.mem_range]
-    show _ ↔ Algebra.TensorProduct.map ψ (AlgHom.id A C) x = 0
+    change _ ↔ Algebra.TensorProduct.map ψ (AlgHom.id A C) x = 0
     have hmap : Algebra.TensorProduct.map ψ (AlgHom.id A C) x = ψ.toLinearMap.rTensor C x := by
       induction x with
       | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -705,7 +705,7 @@ theorem finitePresentation_of_baseChange_and_awayMap (f : R)
   have _ : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
   have _ : Module.Flat A B := hflat
   have hft' : Algebra.FiniteType A B := hft
-  show Algebra.FinitePresentation A B
+  change Algebra.FinitePresentation A B
   obtain ⟨n, ψ, hψ⟩ := Algebra.FiniteType.iff_quotient_mvPolynomial''.mp hft'
   refine ⟨n, ψ, hψ, ?_⟩
   have hquotA := quotientPowMap_tensorRight_bijective_of_pos (A := A) f hquot
@@ -873,7 +873,7 @@ theorem formallyUnramified_awayMap (f : R) [IsLocalization.Away (algebraMap R A 
     Algebra.FormallyUnramified Aₘ Bₘ := by
   have hBₘ : IsLocalization
       ((Submonoid.powers (algebraMap R A f)).map (algebraMap A B)) Bₘ := by
-    show IsLocalization
+    change IsLocalization
       (Algebra.algebraMapSubmonoid B (Submonoid.powers (algebraMap R A f))) Bₘ
     rw [Algebra.algebraMapSubmonoid_powers, ← IsScalarTower.algebraMap_apply]
     infer_instance
@@ -939,7 +939,7 @@ theorem formallyUnramified_of_tensorRight_and_localization (f : R)
     Algebra.FormallyUnramified A B := by
   have hB : IsLocalization.Away (algebraMap R B f)
       (Localization (Algebra.algebraMapSubmonoid B (Submonoid.powers (algebraMap R A f)))) := by
-    show IsLocalization (Submonoid.powers (algebraMap R B f)) _
+    change IsLocalization (Submonoid.powers (algebraMap R B f)) _
     rw [← algebraMapSubmonoid_powers_algebraMap (A := A) (B := B) f]
     infer_instance
   exact formallyUnramified_of_baseChange_and_awayMap (B' := (A ⊗[R] R') ⊗[A] B) f hquot h₁ h₂
@@ -988,7 +988,7 @@ private lemma etale_tensorMap (φ : A →ₐ[R] B) (hφ : φ.toRingHom.Etale) :
   have _ : Algebra.Etale A B := hφ
   let _ : Algebra (A ⊗[R] R') (B ⊗[R] R') :=
     (Algebra.TensorProduct.map φ (AlgHom.id R R')).toRingHom.toAlgebra
-  show Algebra.Etale (A ⊗[R] R') (B ⊗[R] R')
+  change Algebra.Etale (A ⊗[R] R') (B ⊗[R] R')
   exact Algebra.Etale.of_equiv (baseChangeAlgEquiv φ (fun _ => rfl) (fun _ => rfl))
 
 /-- Let `(R → R', f)` be a glueing pair and let the `R`-algebra `A` be glueable for it. A
@@ -1008,7 +1008,7 @@ theorem etale_iff_baseChange_and_awayMap_etale (f : R)
   have _ : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
   have _ : Module.Flat A B := hflat
   have _ : Algebra.FinitePresentation A B := hfp
-  show Algebra.Etale A B
+  change Algebra.Etale A B
   let g := algebraMap R A f
   let Bₘ := Localization.Away (φ g)
   let _ : Algebra (Localization.Away g) Bₘ := (Localization.awayMap φ.toRingHom g).toAlgebra
@@ -1082,7 +1082,7 @@ theorem exists_unique_algHom_of_isGlueableFor (f : R) (hA : IsGlueableFor (S := 
             commutes' := hcomm }, ⟨hg1, hg2⟩, ?_⟩
   intro ψ hψ
   ext c
-  show ψ c = g c
+  change ψ c = g c
   exact hT _ _ (by rw [hψ.1 c, hg1 c]) (by rw [hψ.2 c, hg2 c])
 
 end Fullness

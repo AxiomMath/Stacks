@@ -227,7 +227,7 @@ theorem postcomp_representedAssociatedDifferentialsIso (α : U ⟶ V) :
         (representedAssociatedDifferentialsIso B S hS α).hom.val =
       transportedAssociatedDerivation B S hS α := by
   refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => ?_)
-  show ((((representedModulePushforward B S hS U).map
+  change ((((representedModulePushforward B S hS U).map
       (_root_.AlgebraicGeometry.SmallEtale.differentialsIso (associatedBigEtaleSite B)
         α.left).inv).val.app W)).hom
       (((schemeDifferentialsHom B S hS α).val.app W).hom
@@ -235,7 +235,8 @@ theorem postcomp_representedAssociatedDifferentialsIso (α : U ⟶ V) :
   refine Eq.trans (congrArg (fun y => ((((representedModulePushforward B S hS U).map
       (_root_.AlgebraicGeometry.SmallEtale.differentialsIso (associatedBigEtaleSite B)
         α.left).inv).val.app W)).hom y)
-    (PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)) ?_
+    (PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α)
+      x)) ?_
   exact PresheafOfModulesOfCommRing.Derivation.congr_d
     (_root_.AlgebraicGeometry.SmallEtale.postcomp_differentialsIso_inv (associatedBigEtaleSite B)
       α.left)

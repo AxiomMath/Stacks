@@ -71,7 +71,7 @@ germ at the generic point. -/
 theorem toGenericStalkₗ_germ [IrreducibleSpace X] (F : X.Modules) (x : X) (U : X.Opens)
     (hx : x ∈ U) (hη : genericPoint X ∈ U) (s : Γ(F, U)) :
     toGenericStalkₗ F x (F.presheaf.germ U x hx s) = F.presheaf.germ U (genericPoint X) hη s := by
-  show F.presheaf.stalkSpecializes _ (F.presheaf.germ U x hx s) = _
+  change F.presheaf.stalkSpecializes _ (F.presheaf.germ U x hx s) = _
   exact TopCat.Presheaf.germ_stalkSpecializes_apply ..
 
 /-- On an affine open of an integral scheme the complement of the prime corresponding to the
@@ -85,7 +85,7 @@ theorem primeCompl_genericPoint_eq_nonZeroDivisors [IsIntegral X] {U : X.Opens}
     rw [hU.primeIdealOf_genericPoint, genericPoint_eq_bot_of_affine]
     rfl
   ext a
-  show a ∉ (hU.primeIdealOf ⟨genericPoint X, genericPoint_mem_of_nonempty U⟩).asIdeal ↔
+  change a ∉ (hU.primeIdealOf ⟨genericPoint X, genericPoint_mem_of_nonempty U⟩).asIdeal ↔
     a ∈ nonZeroDivisors Γ(X, U)
   rw [h, Ideal.mem_bot, mem_nonZeroDivisors_iff_ne_zero]
 
@@ -110,7 +110,7 @@ theorem isLocalizedModule_toGenericStalkₗ [IsIntegral X] (F : X.Modules) [F.Is
   let : IsScalarTower Γ(X, U) (X.presheaf.stalk x)
       (F.presheaf.stalk (genericPoint X)) := by
     refine IsScalarTower.of_algebraMap_smul fun r z => ?_
-    show (X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial)).hom
+    change (X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial)).hom
         ((X.presheaf.germ U x hxU).hom r) • z = (X.presheaf.germ U (genericPoint X) hη).hom r • z
     rw [show (X.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial)).hom
         ((X.presheaf.germ U x hxU).hom r) = (X.presheaf.germ U (genericPoint X) hη).hom r from

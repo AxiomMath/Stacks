@@ -79,7 +79,7 @@ public theorem relative_id_etale (T : BigFppfOver B S hS) :
       (BigFppfOver.toScheme B S hS)).relative (uliftYoneda.{w})
         (𝟙 ((uliftYoneda.{w}).obj T)) := by
   refine relative_id_of_isomorphisms B S hS _ (fun _ _ φ _ => ?_) T
-  show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map φ)
+  change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map φ)
   infer_instance
 
 /-- Étaleness after every represented base change is stable under composition. -/

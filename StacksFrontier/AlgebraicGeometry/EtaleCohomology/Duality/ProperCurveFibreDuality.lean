@@ -310,7 +310,7 @@ theorem bijective_tracePairing_fibre_of_nat (hℓ : IsUnit (ℓ : k))
     bijective_flip_dualityPairing_unitSheaf f hℓ t₀ ht₀ (specEndScalar k ℓ)
       specEndScalar_injective hji Q (fun v w => by
         rw [hτ]
-        show specEndScalar k ℓ
+        change specEndScalar k ℓ
           (tracePairing t (fibreUnit (ℓ := ℓ) f) h (extPlus w) (extPlus v)) = _
         congr 1
         rw [tracePairing_apply_of_eq t (fibreUnit (ℓ := ℓ) f) h (extPlus w) (extPlus v)
@@ -358,7 +358,7 @@ theorem bijective_tracePairing_fibre (hℓ : IsUnit (ℓ : k))
       apply specEndScalar_injective
       rw [AddMonoidHom.zero_apply, map_zero]
       refine Eq.trans ?_ hz
-      show specEndScalar k ℓ (((ShiftedHom.mk₀ (0 : ℤ) rfl u).comp ((extPlus z).map Φ)
+      change specEndScalar k ℓ (((ShiftedHom.mk₀ (0 : ℤ) rfl u).comp ((extPlus z).map Φ)
         (add_zero _)).comp t _) = specEndScalar k ℓ ((ShiftedHom.mk₀ (0 : ℤ) rfl u).comp
           (((extPlus z).map Φ).comp t _) (add_zero 0))
       rw [ShiftedHom.comp_assoc _ _ _ (add_zero _) _ (by norm_num)]

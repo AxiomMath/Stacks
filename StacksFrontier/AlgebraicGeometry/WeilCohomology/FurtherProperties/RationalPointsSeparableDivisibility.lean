@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.AlgebraicFieldExtensionFiniteStageDivisibility
+public import StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.AlgebraicFieldExtensionFiniteStageDivisibility
 public import StacksFrontier.AlgebraicGeometry.ClosurePointDimension.Basic
 public import StacksFrontier.AlgebraicGeometry.Curves.GenusCurve.BaseChange
 public import

@@ -118,7 +118,7 @@ private theorem etaleModuleRestrictScalars_mapDerivedCategoryFactors_inv_app
     rw [res.mapDerivedCategoryFactorsh_hom_app J]
     simp only [Y, Category.assoc]
     rfl
-  show res.mapDerivedCategoryFactors.inv.app J =
+  change res.mapDerivedCategoryFactors.inv.app J =
     Y ≫ res.mapDerivedCategoryFactorsh.inv.app Jh ≫ RG.map ν
   rw [← cancel_epi (RG.map ν ≫ res.mapDerivedCategoryFactors.hom.app J),
     ← Category.assoc _ Y, h', Iso.hom_inv_id_app_assoc, Category.assoc, Iso.hom_inv_id_app]

@@ -143,7 +143,7 @@ theorem ker_comp_map_eq_span_of_monic {A : Type u} {K : Type v} {L : Type w} [Co
           Polynomial (MvPolynomial (Fin n) A)) := by
     refine RingHom.ext fun p ↦ ?_
     simp only [RingHom.comp_apply, Polynomial.coe_mapRingHom, RingEquiv.coe_toRingHom,
-      AlgEquiv.coe_ringEquiv, AlgEquiv.toRingEquiv_symm]
+      AlgEquiv.coe_toRingEquiv, AlgEquiv.toRingEquiv_symm]
     rw [← map_finLastEquiv ι n p, AlgEquiv.symm_apply_apply]
   rw [hcomp, MvPolynomial.ker_comp_ringEquiv (finLastEquiv A n).toRingEquiv _ hone]
   simp

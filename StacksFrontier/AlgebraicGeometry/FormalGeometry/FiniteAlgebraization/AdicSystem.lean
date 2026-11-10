@@ -262,15 +262,15 @@ public theorem isIso_of_bijective_appLE {S Y Z : Scheme.{u}} (y : Y ⟶ S) (z : 
   let c' : Over.mk y ⟶ Over.mk z := E.symm (inv (pushforwardAlgebraMap cO))
   have h1 : cO ≫ c' = 𝟙 _ := by
     apply (Stacks.AlgebraPullbackQcoh.overHomEquiv (Over.mk z) (Over.mk z)).injective
-    show pushforwardAlgebraMap (cO ≫ c') = pushforwardAlgebraMap (𝟙 _)
+    change pushforwardAlgebraMap (cO ≫ c') = pushforwardAlgebraMap (𝟙 _)
     rw [pushforwardAlgebraMap_comp, pushforwardAlgebraMap_id]
-    show E (E.symm _) ≫ _ = _
+    change E (E.symm _) ≫ _ = _
     rw [Equiv.apply_symm_apply, IsIso.inv_hom_id]
   have h2 : c' ≫ cO = 𝟙 _ := by
     apply (Stacks.AlgebraPullbackQcoh.overHomEquiv (Over.mk y) (Over.mk y)).injective
-    show pushforwardAlgebraMap (c' ≫ cO) = pushforwardAlgebraMap (𝟙 _)
+    change pushforwardAlgebraMap (c' ≫ cO) = pushforwardAlgebraMap (𝟙 _)
     rw [pushforwardAlgebraMap_comp, pushforwardAlgebraMap_id]
-    show _ ≫ E (E.symm _) = _
+    change _ ≫ E (E.symm _) = _
     rw [Equiv.apply_symm_apply, IsIso.hom_inv_id]
   exact ⟨c'.left, congrArg CommaMorphism.left h1, congrArg CommaMorphism.left h2⟩
 

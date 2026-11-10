@@ -87,7 +87,7 @@ is the injection of that summand into the whole coproduct. -/
 theorem subι_comp_totalι [HasCoproduct f] (s : Finset (Discrete α)) (x : ↥s) :
     subι f s x ≫ totalι f s = Sigma.ι f (x : Discrete α).as := by
   simp only [finiteSubcoproductsCocone_ι_app, subι, totalι]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- `subι_comp_totalι` at a singleton subset, where the summand is `f i` itself. -/
 theorem subι_singleton_comp_totalι [HasCoproduct f] (i : α) :

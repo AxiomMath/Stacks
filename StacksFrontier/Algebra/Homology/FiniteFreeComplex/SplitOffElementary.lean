@@ -196,7 +196,7 @@ lemma combine_toComplex_iso_biprod {R : Type*} [CommRing R] (A B : FreeComplex R
     ext x
     simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.coe_comp,
       Function.comp_apply, LinearEquiv.toModuleIso_hom]
-    show (A.toComplex.d (b+1) b).hom ((splitLEquiv (A.n (b+1)) (B.n (b+1)) x).fst)
+    change (A.toComplex.d (b+1) b).hom ((splitLEquiv (A.n (b+1)) (B.n (b+1)) x).fst)
       = (splitLEquiv (A.n b) (B.n b) ((combine A B).toComplex.d (b+1) b x)).fst
     rw [toComplex_d_succ A b, toComplex_d_succ (combine A B) b]
     exact hmatfst (A.n b) (B.n b) (A.d b) (B.d b) x
@@ -210,7 +210,7 @@ lemma combine_toComplex_iso_biprod {R : Type*} [CommRing R] (A B : FreeComplex R
     ext x
     simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom, LinearMap.coe_comp,
       Function.comp_apply, LinearEquiv.toModuleIso_hom]
-    show (B.toComplex.d (b+1) b).hom ((splitLEquiv (A.n (b+1)) (B.n (b+1)) x).snd)
+    change (B.toComplex.d (b+1) b).hom ((splitLEquiv (A.n (b+1)) (B.n (b+1)) x).snd)
       = (splitLEquiv (A.n b) (B.n b) ((combine A B).toComplex.d (b+1) b x)).snd
     rw [toComplex_d_succ B b, toComplex_d_succ (combine A B) b]
     exact hmatsnd (A.n b) (B.n b) (A.d b) (B.d b) x
@@ -232,7 +232,7 @@ lemma freeComplex_changeOfBasis {R : Type*} [CommRing R] (C D : FreeComplex R)
   have hPe : ∀ s, ((P s).toLinearEquiv' (hP s)).toLinearMap = Matrix.toLin' (P s) := fun s => rfl
   have hfc : ∀ s, (LinearEquiv.funCongrLeft R R (finCongr (hn s))).toLinearMap
       = LinearMap.funLeft R R (finCongr (hn s)) := fun s => rfl
-  show (Matrix.toLin' (D.d t)).comp
+  change (Matrix.toLin' (D.d t)).comp
       (((P (t+1)).toLinearEquiv' (hP (t+1))).trans
         (LinearEquiv.funCongrLeft R R (finCongr (hn (t+1))))).toLinearMap
     = (((P t).toLinearEquiv' (hP t)).trans
@@ -327,7 +327,7 @@ lemma exists_pivot_block_split {R : Type*} [CommRing R] {p q : ℕ}
     simp only [Matrix.mul_apply, Matrix.smul_apply, Matrix.one_apply, Matrix.toBlocks₁₁]
     rw [Fin.sum_univ_one]
     simp only [Matrix.of_apply]
-    show b • (1:R) * v (Sum.inl 0) (Sum.inl 0) = 1
+    change b • (1:R) * v (Sum.inl 0) (Sum.inl 0) = 1
     rw [hentry, smul_eq_mul, mul_one, hba]
   set Lscale : Matrix (Fin 1 ⊕ Fin (p-1)) (Fin 1 ⊕ Fin (p-1)) R
     := fromBlocks (b • (1 : Matrix (Fin 1) (Fin 1) R)) 0 0 1 with hLscaledef
@@ -364,7 +364,7 @@ lemma exists_pivot_block_split {R : Type*} [CommRing R] {p q : ℕ}
             = Pleft * (Pperm * u * Qperm) * Rright by simp only [Matrix.mul_assoc]]
       rw [← hP, ← hR]
       simp only [Matrix.submatrix_mul_equiv]
-    show ((Pleft * Pperm) * u * (Qperm * Rright)).submatrix (⇑eP) (⇑eQ) = _
+    change ((Pleft * Pperm) * u * (Qperm * Rright)).submatrix (⇑eP) (⇑eQ) = _
     rw [hreindex, hLalldef, hLcleardef, hLscaledef, hRcleardef]
     have key := pivot_block_algebra v.toBlocks₁₁ v.toBlocks₁₂ v.toBlocks₂₁ v.toBlocks₂₂ b hba'
     rw [fromBlocks_toBlocks v] at key
@@ -625,7 +625,7 @@ lemma freeComplex_split_data {R : Type*} [CommRing R] (C : FreeComplex R) (i : �
       rw [Matrix.toBlocks₂₂]
       ext a b
       have hEd : (elementaryComplex R i).d (i-1) a b = 1 := by
-        show (if i - 1 = i - 1 then
+        change (if i - 1 = i - 1 then
           (Matrix.of fun (_ : Fin (elemRank i (i-1))) (_ : Fin (elemRank i (i-1+1))) => (1:R))
           else 0) a b = 1
         rw [ite_eq_left rfl]; rfl
@@ -704,7 +704,7 @@ lemma freeComplex_split_data {R : Type*} [CommRing R] (C : FreeComplex R) (i : �
                 E p q = 1 := by
               intro p q
               rw [hEdef]
-              show (if i - 2 + 1 = i - 1 then
+              change (if i - 2 + 1 = i - 1 then
                 (Matrix.of fun (_ : Fin (elemRank i (i-2+1)))
                   (_ : Fin (elemRank i (i-2+1+1))) => (1:R))
                 else 0) p q = 1

@@ -561,7 +561,7 @@ open Stacks.Cohomology.DerivedBaseChange StacksDraft.DerivedStalkAssemblyChase i
 `i' w` along the comparison of `Ri_*` with the degreewise pushforward, and at that stalk formula's
 characterizing equation read backwards.  The leading morphism is the one `lhsChaseGeom`
 produces. -/
-theorem rhsChaseGeom (sq : IsPullback i' g f i)
+theorem rhsChaseGeom
     [AlgebraicGeometry.IsClosedImmersion i] (w : Z') (P : CochainComplex Z.Modules ℤ) :
         (derivedPullback f.toLRSHom.toShHom ⋙
             AlgebraicGeometry.derivedStalkFunctor (i' w)).map

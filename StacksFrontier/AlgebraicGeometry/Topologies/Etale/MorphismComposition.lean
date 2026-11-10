@@ -70,8 +70,7 @@ theorem pullbackComp_hom_app_left_fst_fst :
       (Over.mapComp g h).symm.hom.app ((Over.pullback (g ≫ h)).obj V) ≫
       (Over.mapPullbackAdj (g ≫ h)).counit.app V := by
     simpa [Over.pullbackComp] using hc
-  simpa [Over.mapPullbackAdj_counit_app, Adjunction.comp_counit_app, Over.mapComp,
-    Over.pullbackComp] using congrArg (fun k => k.left) hc'
+  simp [Over.mapPullbackAdj_counit_app, Over.mapComp, Over.pullbackComp]
 
 /-- The inverse form of `CategoryTheory.Over.pullbackComp_hom_app_left_fst_fst`: the
 comparison from a two-step slice pullback to the pullback along the composite carries the

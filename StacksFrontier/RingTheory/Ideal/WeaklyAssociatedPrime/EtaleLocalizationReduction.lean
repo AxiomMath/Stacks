@@ -42,8 +42,8 @@ Since `𝔭` is always weakly associated to `κ(𝔭)`, taking `X = κ(𝔭)` in
 `C` into the fibre condition of the tag, and `Reduction.isWeaklyAssociatedPrime_tensorProduct_iff`
 is the tag itself.
 
-The two middle statements are the local-projective cases already proved:  the first is the fibre clause
-`isAssociatedPrimeStacks_quotient_of_isWeaklyAssociatedPrime_tensorProduct`, the second is
+The two middle statements are the local-projective cases already proved:  the first is the fibre
+clause `isAssociatedPrimeStacks_quotient_of_isWeaklyAssociatedPrime_tensorProduct`, the second is
 `isWeaklyAssociatedPrime_tensorProduct_of_isAssociatedPrimeStacks_closedFibre`, whose maximality
 hypothesis is supplied here by `below` together with `incomparable`.  The base clause is the
 source's own argument:  a witness `z` with `𝔮` minimal over `Ann_S(z)` has nonzero image `z₁` in
@@ -193,8 +193,7 @@ theorem isScalarTower_tensorProduct_left
     [AddCommGroup X] [Module R X] :
     IsScalarTower A B (M ⊗[R] X) := by
   refine IsScalarTower.of_algebraMap_smul fun a x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m y =>
       rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', IsScalarTower.algebraMap_smul]
   | add x y hx hy => rw [smul_add, smul_add, hx, hy]
@@ -301,7 +300,7 @@ theorem smul_injective (D : Reduction R S N p q)
   have hab' : algebraMap S D.S₁ σ • a = algebraMap S D.S₁ σ • b := hab
   have ha : (D.cancel X).symm a = (D.cancel X).symm b := by
     refine h ?_
-    show algebraMap S D.S₁ σ • (D.cancel X).symm a = algebraMap S D.S₁ σ • (D.cancel X).symm b
+    change algebraMap S D.S₁ σ • (D.cancel X).symm a = algebraMap S D.S₁ σ • (D.cancel X).symm b
     rw [← map_smul, ← map_smul, hab']
   simpa using congrArg (D.cancel X) ha
 
@@ -362,7 +361,7 @@ theorem isWeaklyAssociatedPrime_base (D : Reduction R S N p q)
     rw [Submodule.mem_annihilator_span_singleton] at hσn
     refine ⟨n, ?_⟩
     refine D.smul_injective X σ hσ ?_
-    show algebraMap S D.S₁ σ • ((algebraMap R D.R₁ ρ) ^ n • φ z)
+    change algebraMap S D.S₁ σ • ((algebraMap R D.R₁ ρ) ^ n • φ z)
       = algebraMap S D.S₁ σ • (0 : D.N₁ ⊗[R] X)
     rw [smul_zero]
     have hA : ∀ y : D.N₁ ⊗[R] X, algebraMap S D.S₁ σ • y = σ • y := fun y =>

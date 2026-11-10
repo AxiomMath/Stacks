@@ -136,9 +136,9 @@ theorem exists_chartSectionsKernelImage_eventuallyConstant
           (chartSectionsSystem B S hS F hF E' V).obj (op l) =>
         g.hom (eM.symm x))
       (chartSectionsLimitMap_chartSectionsLevel B S hS F hF τ V l)
-    show ((chartSectionsSystemMap B S hS F hF τ V).app (op l)).hom
+    change ((chartSectionsSystemMap B S hS F hF τ V).app (op l)).hom
         ((chartSectionsLevel B S hS F hF E V l).hom (eM.symm x)) = _
-    show _ = (chartSectionsLevel B S hS F hF E' V l).hom
+    change _ = (chartSectionsLevel B S hS F hF E' V l).hom
       (eN.symm (eN ((chartSectionsLimitMap B S hS F hF τ V).hom (eM.symm x))))
     rw [eN.symm_apply_apply]
     exact hw.symm

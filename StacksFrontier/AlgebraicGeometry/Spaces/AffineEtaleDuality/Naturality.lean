@@ -39,7 +39,7 @@ abbrev dcMap {P' P I I' : CochainComplex (ModuleCat.{u} A) ℤ} (f : P' ⟶ P) (
 lemma dcMap_v {P' P I I' : CochainComplex (ModuleCat.{u} A) ℤ} (f : P' ⟶ P) (g : I ⟶ I')
     (n : ℤ) (d : Cochain P I n) (p q : ℤ) (hpq : p + n = q) :
     (((dcMap f g).f n).hom d : Cochain P' I' n).v p q hpq = f.f p ≫ d.v p q hpq ≫ g.f q := by
-  show (((Cochain.ofHom f).comp d (zero_add n)).comp (Cochain.ofHom g) (add_zero n)).v p q hpq = _
+  change (((Cochain.ofHom f).comp d (zero_add n)).comp (Cochain.ofHom g) (add_zero n)).v p q hpq = _
   simp only [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v, Cochain.ofHom_v,
     Category.assoc]
 
@@ -74,7 +74,7 @@ theorem compMap_naturality {P' P I I' : CochainComplex (ModuleCat.{u} A) ℤ}
         (((epsT A B hX).mapHomologicalComplex (ComplexShape.up ℤ)).map f) h := by
   ext n : 1
   refine up_hom_ext (M := (Dc P I).X n) _ _ (fun d => ?_)
-  show (phiN ι' n).val.app (op (top A B hX)) (ULift.up
+  change (phiN ι' n).val.app (op (top A B hX)) (ULift.up
       (((epsT A B hX).map ((dcMap f g).f n)).val.app (op (top A B hX))
         (unitSection A B hX ((Dc P I).X n) d))) =
     ((RingedSite.homMap (Xs A B hX)

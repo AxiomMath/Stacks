@@ -91,7 +91,7 @@ theorem exteriorPowerCongr_map (k : ℕ) (z : ⋀[R]^k M) :
     exteriorPowerCongr k e (exteriorPower.map k ι z) =
       exteriorPower.map k (LinearMap.inl R M R) z := by
   have hc : (e : N →ₗ[R] M × R) ∘ₗ ι = LinearMap.inl R M R := LinearMap.ext fun m => hιe m
-  show exteriorPower.map k (e : N →ₗ[R] M × R) (exteriorPower.map k ι z) = _
+  change exteriorPower.map k (e : N →ₗ[R] M × R) (exteriorPower.map k ι z) = _
   rw [← LinearMap.comp_apply, ← exteriorPower.map_comp, hc]
 
 /-- The splitting `⋀ʳ⁺¹ N ≅ ⋀ʳ⁺¹ M × ⋀ʳ M` carries the image of `⋀ʳ⁺¹ ι` onto the first factor. -/
@@ -118,7 +118,7 @@ theorem exists_map_of_wedgeSnd_eq_zero (r : ℕ) (w : ⋀[R]^(r + 1) N)
 theorem wedgeSnd_ιMulti_snoc (r : ℕ) (v : Fin r → M) (n : N) :
     wedgeSnd e r (exteriorPower.ιMulti R (r + 1) (Fin.snoc (fun i => ι (v i)) n)) =
       (-1 : ℤ) ^ r • (e n).2 • exteriorPower.ιMulti R r v := by
-  show exteriorPower.map r (LinearMap.fst R M R)
+  change exteriorPower.map r (LinearMap.fst R M R)
       (exteriorPower.contraction (LinearMap.snd R M R) r
         (exteriorPower.map (r + 1) (e : N →ₗ[R] M × R)
           (exteriorPower.ιMulti R (r + 1) (Fin.snoc (fun i => ι (v i)) n)))) = _
@@ -323,7 +323,7 @@ theorem exteriorPowerStalkEquiv_stalkMapL_wedge_germ (r : ℕ) (x : ↥X) (U : O
         fun i => A.exteriorGenerator.val.app (op U)
           (Fin.snoc (α := fun _ : Fin (r + 1) => ↑(E.val.obj (op U)))
             (fun j => f.val.app (op U) (s j)) m i) := by
-    show _ = (A.exterior.mul (r : ℤ) 1).app (op U)
+    change _ = (A.exterior.mul (r : ℤ) 1).app (op U)
       (A.exterior.toPresheafGradedAlgebra.homogeneousProd (op U) r fun i =>
         A.exteriorGenerator.val.app (op U)
           (Fin.snoc (α := fun _ : Fin (r + 1) => ↑(E.val.obj (op U)))

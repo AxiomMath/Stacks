@@ -177,7 +177,7 @@ theorem isIndQuasiAffineHom_tfae {X Y : Scheme.{u}} (f : X ⟶ Y) :
         (by simpa [Scheme.Opens.opensRange_ι] using hW₁j)
     have hpre : (U'.ι ≫ f ∣_ (Vj (j x))) ⁻¹ᵁ ((Vj (j x)).ι ⁻¹ᵁ (V.ι ''ᵁ W x)) = ⊤ := by
       refine top_le_iff.mp fun y _ => ?_
-      show ((U'.ι ≫ f ∣_ (Vj (j x))) ≫ (Vj (j x)).ι) y ∈ V.ι ''ᵁ W x
+      change ((U'.ι ≫ f ∣_ (Vj (j x))) ≫ (Vj (j x)).ι) y ∈ V.ι ''ᵁ W x
       rw [Category.assoc, morphismRestrict_ι f (Vj (j x)), ← Category.assoc]
       exact hOP y.property
     have hQAtop : (⊤ : U'.toScheme.Opens).toScheme.IsQuasiAffine := by

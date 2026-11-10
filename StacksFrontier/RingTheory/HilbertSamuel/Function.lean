@@ -39,7 +39,7 @@ public import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.Polynomial.Basic
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Mathlib.RingTheory.Filtration

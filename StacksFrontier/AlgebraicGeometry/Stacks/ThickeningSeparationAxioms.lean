@@ -200,7 +200,8 @@ the converse of clause (1) on top of it; the module
 `StacksFrontier.AlgebraicGeometry.Spaces.ThickeningSchemeRepresentable` has 05ZR only with the
 three hypotheses of Stacks 07VT assumed. The notion
 of an algebraic stack being a scheme needed to state the clause is
-`Stacks.RepresentableMorphism.IsRepresentableCFG` (**Stacks 02Y3**), and `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpace_of_isRepresentableCFG`
+`Stacks.RepresentableMorphism.IsRepresentableCFG` (**Stacks 02Y3**), and
+`AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpace_of_isRepresentableCFG`
 of `StacksFrontier.AlgebraicGeometry.Stacks.DiagonalCriteriaAlgebraicSpaceSources` is the step from
 it to being an algebraic space, so the clause is statable; what is missing is only the two
 geometric inputs. It is in fact stated and proved:
@@ -273,7 +274,7 @@ theorem isClosedImmersion_id (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
   refine _root_.AlgebraicGeometry.presheaf_of_isIso B S hS _ ?_ (𝟙 F) inferInstance
   intro X Y a ha
   have := ha
-  show AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map a)
+  change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map a)
   infer_instance
 
 end AlgebraicGeometry.Space

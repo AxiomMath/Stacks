@@ -113,7 +113,7 @@ theorem nonempty_exactHexagon_of_longExact_int (E₀ E₁ E₂ O₀ O₁ O₂ : 
   have hnat : R.hom ≫ Limits.Sigma.map ue = Limits.Sigma.map (fun i => ue (i + 1)) ≫ R'.hom :=
     sigmaSuccIso_hom_naturality ue
   have w₅ : d₅ ≫ Limits.Sigma.map ue = 0 := by
-    show (Limits.Sigma.map wo ≫ R.hom) ≫ Limits.Sigma.map ue = 0
+    change (Limits.Sigma.map wo ≫ R.hom) ≫ Limits.Sigma.map ue = 0
     rw [Category.assoc, hnat, ← Category.assoc, hz _ _ h₅, zero_comp]
   have ex₄ : (ShortComplex.mk (Limits.Sigma.map vo) d₅ w₄).Exact :=
     ShortComplex.exact_of_iso
@@ -283,7 +283,7 @@ def parityEulerClass (K : DerivedCategory X.Modules) : CoherentKZero X :=
 classes of its even and odd parity sums. -/
 theorem parityEulerClass_eq {K : DerivedCategory X.Modules} (hK : IsLocallyBoundedCoherent K) :
     parityEulerClass K = KZero.mk _ (parityObject K hK 0) - KZero.mk _ (parityObject K hK 1) :=
-  dif_pos hK
+  dite_eq_left hK
 
 /-- Locally bounded coherent cohomology is invariant under isomorphism. -/
 theorem IsLocallyBoundedCoherent.of_iso {K L : DerivedCategory X.Modules} (e : K ≅ L)
@@ -306,7 +306,7 @@ theorem parityEulerClass_congr {K L : DerivedCategory X.Modules} (e : K ≅ L) :
         (Limits.Sigma.mapIso fun i => (DerivedCategory.homologyFunctor X.Modules _).mapIso e))
     rw [hr 0, hr 1]
   · have hL : ¬ IsLocallyBoundedCoherent L := fun hL => hK (hL.of_iso e.symm)
-    rw [parityEulerClass, dif_neg hK, parityEulerClass, dif_neg hL]
+    rw [parityEulerClass, dite_eq_right hK, parityEulerClass, dite_eq_right hL]
 
 /-- **The parity Euler class is additive along distinguished triangles** of objects with locally
 bounded coherent cohomology: `χ(K₂) = χ(K₁) + χ(K₃)` for a distinguished triangle

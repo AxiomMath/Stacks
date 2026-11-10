@@ -86,8 +86,8 @@ public theorem padicComplexFieldExtensionIso_hom_naturality {F G : LAdicSheaf.{u
 
 end Levels
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
-  [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f))
+variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
+  (j : CompactificationOf (Over.mk f))
   (k' : Type u) [Field k'] [Fintype k'] [Algebra k k'] [Module.Finite k k']
   (kbar : Type u) [Field kbar] [Algebra k kbar] [Algebra k' kbar] [IsScalarTower k k' kbar]
   [IsNoetherian X.1] [IsNoetherian (fieldExtensionScheme B X f k').1] (i : ℤ)
@@ -126,6 +126,7 @@ public theorem geometricCompactSupportFieldExtensionIso_hom_naturality [Finite k
   have h := square_paste_twisted hE' hl
   exact map_square_twisted (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} ℤ_[ℓ]) i) h
 
+omit [Fintype k'] in
 /-- **The identification `Hⁱ_c(X_k̄, F) ≅ Hⁱ_c(X'_k̄, g⁻¹F)` is natural in `F`.** -/
 public theorem LAdicSheaf.fieldExtensionCohomologyIso_hom_naturality
     {F G : LAdicSheaf.{u, u + 1} B X ℓ} (φ : F ⟶ G) :
@@ -137,7 +138,7 @@ public theorem LAdicSheaf.fieldExtensionCohomologyIso_hom_naturality
           (compactificationFieldBaseChange f j k') kbar
           (LAdicSheaf.inverseImageMap (fieldExtensionProj B X f k') φ) i := by
   refine limit.hom_ext fun n => ?_
-  show _ ≫ LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ
+  change _ ≫ LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ
       (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar
       (LAdicSheaf.inverseImage (fieldExtensionProj B X f k') G) i n.unop = _ ≫
     LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ

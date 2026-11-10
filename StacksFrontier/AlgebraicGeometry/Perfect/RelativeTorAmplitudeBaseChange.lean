@@ -382,12 +382,12 @@ public theorem derivedPullbackComparison_isIso_of_quasiIso
     (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) q).mpr inferInstance
   have hpqh :
       IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.pullbackOnHomotopy f).map qh) := by
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).map
       (((modulePullback f).mapHomologicalComplex (ComplexShape.up ℤ)).map q))
     exact (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) _).mpr inferInstance
   have hq₁ : IsIso ((DerivedCategory.Qh ⋙
       Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map qh) := by
-    show IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map
+    change IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map
       (DerivedCategory.Qh.map qh))
     infer_instance
   have hn :=

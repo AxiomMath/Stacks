@@ -39,8 +39,8 @@ universe u
 
 namespace AlgebraicGeometry.Scheme.ZariskiRiemann
 
-/-- **Germs at the centers come from the levels** (Travaux de Gabber, Exposé XVIII-A, last remark of §2,
-Steps 0, 1 and 3 of the proof), unconditionally. -/
+/-- **Germs at the centers come from the levels** (Travaux de Gabber, Exposé XVIII-A, last remark
+of §2, Steps 0, 1 and 3 of the proof), unconditionally. -/
 theorem centerLevelStalkCompat : CenterLevelStalkCompat.{u} :=
   centerLevelStalkCompat_of_restriction stalkTransitionStrictHenselizationRestriction
 

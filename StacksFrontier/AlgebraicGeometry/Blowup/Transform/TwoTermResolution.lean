@@ -85,7 +85,7 @@ flat terms, because a finite locally free module is flat
 (`Stacks.Cohomology.TorAmplitude.FlatOpcycles.isFlat_of_isZero`). The same statement exists in
 the tree as the `private` lemma `hasTorAmplitude_single_isFiniteLocallyFree` of
 `StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/`
-`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/FiniteLocallyFreeReplacement.lean`, where it is stated for an arbitrary degree `b` and against
+`FiniteLocallyFreeReplacement.lean`, where it is stated for an arbitrary degree `b` and against
 `DerivedCategory.Q` of the single complex; being `private` it cannot be used from here, and the
 version below is stated at `DerivedCategory.singleFunctor`, which is the spelling the single
 triangle of a short exact sequence is at.

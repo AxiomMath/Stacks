@@ -28,7 +28,7 @@ completion on the open where the last coordinate does not vanish.
 namespace Module.Basis
 
 variable {R P L K : Type*} [CommRing R] [AddCommGroup P] [Module R P] [AddCommGroup L]
-  [Module R L] [AddCommGroup K] [Module R K] {ι : Type*} [Fintype ι]
+  [Module R L] [AddCommGroup K] [Module R K] {ι : Type*} [Finite ι]
 
 /-- **The kernel of a map with `u(f_j) = y_j u(f₀)`.** If `(f_j, f₀)` is a basis of `P`,
 `u(f_j) = y_j u(f₀)`, multiplication by `u(f₀)` is injective on scalars and `κ : K ⟶ P` is
@@ -39,6 +39,7 @@ theorem exists_basis_of_ker (f : Module.Basis (ι ⊕ Unit) R P) (u : P →ₗ[R
     (hinj : ∀ c : R, c • u (f (.inr ())) = 0 → c = 0) :
     ∃ e : Module.Basis ι R K, ∀ j, κ (e j) = y j • f (.inr ()) - f (.inl j) := by
   classical
+  have := Fintype.ofFinite ι
   choose k hk using fun j => hex (y j • f (.inr ()) - f (.inl j)) (by
     rw [map_sub, map_smul, hy, sub_self])
   have hli : LinearIndependent R k := by
@@ -47,8 +48,8 @@ theorem exists_basis_of_ker (f : Module.Basis (ι ⊕ Unit) R P) (u : P →ₗ[R
     intro g hg i
     have h := congrArg (fun p => f.repr p (.inl i)) hg
     simp only [Function.comp_apply, hk, map_sum, map_smul, map_sub, Basis.repr_self,
-      Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.smul_apply, Finsupp.coe_sub,
-      Pi.sub_apply, Finsupp.single_apply, reduceCtorEq, if_false, smul_eq_mul, mul_zero,
+      Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply, Finsupp.coe_sub,
+      Pi.sub_apply, Finsupp.single_apply, reduceCtorEq, ite_false, smul_eq_mul, mul_zero,
       zero_sub, Sum.inl.injEq, map_zero, Finsupp.coe_zero, Pi.zero_apply] at h
     simpa [Finset.sum_ite_eq'] using h
   have hsp : ⊤ ≤ Submodule.span R (Set.range k) := by

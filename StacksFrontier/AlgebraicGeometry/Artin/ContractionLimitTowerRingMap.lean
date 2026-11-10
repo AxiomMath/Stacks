@@ -53,10 +53,10 @@ theorem globalSectionsRingHomSite_id (X : AlgebraicSpaces B S hS) :
   refine RingHom.ext fun a => Subtype.ext (funext fun U => ?_)
   let d : ChartDiagram B S hS X.1 X.1 (𝟙 X : X ⟶ X).hom :=
     ⟨U.unop, U.unop, 𝟙 _, by
-      show U.unop.1.hom ≫ 𝟙 _ = yoneda.map (𝟙 _) ≫ U.unop.1.hom
+      change U.unop.1.hom ≫ 𝟙 _ = yoneda.map (𝟙 _) ≫ U.unop.1.hom
       rw [Category.comp_id, CategoryTheory.Functor.map_id, Category.id_comp]⟩
   refine (globalSectionsRingHomSite_val_chartDiagram B S hS (𝟙 X) a d).trans ?_
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 _)).op).hom (a.1 (op U.unop)) =
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 _)).op).hom (a.1 (op U.unop)) =
     a.1 U
   rw [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -104,7 +104,7 @@ theorem range_fibreInclusion_comp_le (n : ℕ) :
   obtain ⟨t, ht⟩ := exists_adicQuotientObj_map v hII n
   refine ⟨z ≫ t, ?_⟩
   have hz' : z ≫ adicCompletionQuotientObjHom B S hS V' I' n = g'.app T y.1 := hz
-  show z ≫ t ≫ adicCompletionQuotientObjHom B S hS V I n = g.app T (h.app T y.1)
+  change z ≫ t ≫ adicCompletionQuotientObjHom B S hS V I n = g.app T (h.app T y.1)
   refine (congrArg (z ≫ ·) ht).trans ?_
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ v) hz').trans ?_
@@ -145,7 +145,7 @@ theorem fibreTransition_comp_fibreMap {m n : ℕ} (hmn : m ≤ n) :
   refine fibreMap_ext g ?_
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom,
     Category.assoc, Category.assoc, fibreMap_hom_ι]
-  show Subfunctor.homOfLe (fibreThickening_le V' I' (spaceHom V' g') hmn) ≫ _ ≫ h =
+  change Subfunctor.homOfLe (fibreThickening_le V' I' (spaceHom V' g') hmn) ≫ _ ≫ h =
     _ ≫ Subfunctor.homOfLe (fibreThickening_le V I (spaceHom V g) hmn) ≫ _
   rw [Subfunctor.homOfLe_ι_assoc, Subfunctor.homOfLe_ι, fibreMap_hom_ι]
 
@@ -344,7 +344,7 @@ theorem alphaComp_eq_zero {n : ℕ} {y : AdicCompletion I Γ((BigFppfOver.toSche
     (hy : y ∈ (I ^ (n + 1)).map
       (algebraMap _ (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))) :
     alphaComp I g n y = 0 := by
-  show pullbackRingHom B _ _ (powStageRingHom' I n y) = 0
+  change pullbackRingHom B _ _ (powStageRingHom' I n y) = 0
   rw [powStageRingHom'_eq_zero hy, map_zero]
 
 omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] in
@@ -495,7 +495,7 @@ theorem pointsMap_fibreInclusion_comp_mem (hZ : Z' ⊆ pointsMap B S hS _ (yoned
     (n : ℕ) (x : Space.points B S hS (fibreSpace V' I' (spaceHom V' g') (n + 1)).1) :
     pointsMap B S hS _ ((fibreInclusion V' I' (spaceHom V' g') (n + 1)).hom ≫ h) x ∈
       pointsMap B S hS X.1 g ⁻¹' Z := by
-  show pointsMap B S hS _ g (pointsMap B S hS _ _ x) ∈ Z
+  change pointsMap B S hS _ g (pointsMap B S hS _ _ x) ∈ Z
   rw [← Space.pointsMap_comp_apply, Category.assoc, hsq, ← Category.assoc,
     Space.pointsMap_comp_apply, Space.pointsMap_comp_apply]
   exact hZ (pointsMap_fibreInclusion_mem g' hZI' n x)

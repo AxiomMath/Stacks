@@ -85,7 +85,8 @@ Two spellings of the underlying sheaf of sets of `f^{-1}𝒪` occur — `f^{-1}`
 sheaf of sets of `𝒪`, against the underlying sheaf of sets of `f^{-1}𝒪` — and, on the other side,
 two spellings of the underlying sheaf of sets of `f_*𝒪'`; both pairs are definitionally equal
 only at default transparency, so `rewrite` on them builds motives that fail to re-typecheck.
-The transposition never has to rewrite across either spelling: composing `Eq.trans` and `congrArg` forms no motive, and `Equiv.injective` turns the
+The transposition never has to rewrite across either spelling: composing `Eq.trans` and
+`congrArg` forms no motive, and `Equiv.injective` turns the
 goal into an equation between the two adjuncts, which the three naturality lemmas discharge
 directly. No new named isomorphism is needed.
 

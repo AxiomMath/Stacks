@@ -83,7 +83,7 @@ variable {Bc : Type*} [Category Bc] [Preadditive Bc] [HasZeroObject Bc]
 private lemma isZero_stupidTrunc_embeddingUpIntLE_X (L : CochainComplex Bc ℤ) {b q : ℤ}
     (h : b < q) : IsZero ((L.stupidTrunc (embeddingUpIntLE b)).X q) :=
   L.isZero_stupidTrunc_X _ q fun k => by
-    show b - (k : ℤ) ≠ q
+    change b - (k : ℤ) ≠ q
     omega
 
 omit [HasZeroObject Bc] in

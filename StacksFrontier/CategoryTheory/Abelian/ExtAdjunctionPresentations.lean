@@ -55,7 +55,7 @@ target category having enough injectives: the dimension shift of
 `Stacks.ExtAdjunction.extMap_bijective`, with the exactness of `R` replaced by the short
 exactness of the image of each presentation. -/
 lemma extMap_bijective_of_presentations [EnoughInjectives D] (P : D → Prop)
-    (hP : ∀ M, P M → ∃ (S : ShortComplex D) (hS : S.ShortExact) (_ : (S.map R).ShortExact)
+    (hP : ∀ M, P M → ∃ (S : ShortComplex D) (_ : S.ShortExact) (_ : (S.map R).ShortExact)
       (_ : Injective S.X₂) (_ : P S.X₃), S.X₁ = M)
     (A : C) (n : ℕ) : ∀ M, P M →
       Function.Bijective (extMap adj A M n : Ext.{w} A (R.obj M) n → Ext.{w'} (L.obj A) M n) := by

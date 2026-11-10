@@ -89,7 +89,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_of_cycleGroupEquivScheme_m
     exact funext fun j => hsupp (V j) (hV j)
   · refine Subtype.ext (funext fun Z => ?_)
     obtain ⟨x, rfl⟩ := e.symm.surjective Z
-    show (cycleGroupEquivScheme sX s₀ h k α).1 x = _
+    change (cycleGroupEquivScheme sX s₀ h k α).1 x = _
     rw [hg x, cycleFamilySum_apply]
     exact finsum_congr fun j => (hfeq j x).symm
 

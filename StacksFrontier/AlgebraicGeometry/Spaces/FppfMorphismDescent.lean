@@ -85,12 +85,12 @@ theorem exists_sieve_factorization_of_isFppfCovering_yoneda
       X j := Over.mk (V.f j ≫ U.hom)
       f j := Over.homMk (V.f j) }
   have hVbase : V.sieve₀ ∈ B.topology U.left := by
-    show V.sieve₀ ∈ B.precoverage.toGrothendieck U.left
+    change V.sieve₀ ∈ B.precoverage.toGrothendieck U.left
     rw [Precoverage.mem_toGrothendieck_iff]
     have hmem : V.presieve₀ ∈ B.precoverage.coverings U.left := ⟨V, rfl, hV⟩
     simpa [PreZeroHypercover.sieve₀] using Precoverage.Saturate.of U.left V.presieve₀ hmem
   have hVover : Vover.sieve₀ ∈ J U := by
-    show Vover.sieve₀ ∈ B.topology.over (B.obj hS) U
+    change Vover.sieve₀ ∈ B.topology.over (B.obj hS) U
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     simpa [Vover, PreZeroHypercover.sieve₀] using hVbase
   refine ⟨Vover.sieve₀, hVover, ?_⟩
@@ -118,7 +118,7 @@ theorem exists_sieve_factorization_of_isFppfCovering_yoneda
   have hrfac : r ≫ q i = Vover.f j := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage (ref.h₀ jmap) ≫ (q i).left) = B.inclusion.map (V.f j0)
     exact (B.inclusion.map_comp _ _).trans
       ((congrArg (fun t => t ≫ B.inclusion.map (q i).left) hpre).trans hw)
@@ -167,7 +167,7 @@ theorem exists_sieve_factorization_of_isFppfCovering
   refine ⟨R, hR, fun W k hk => ?_⟩
   obtain ⟨i, m, hcomp⟩ := hfac k hk
   refine ⟨i, yoneda.map m ≫ aa i ≫ p₂ i, ?_⟩
-  show (yoneda.map m ≫ aa i ≫ p₂ i) ≫ (fspace i).hom = yoneda.map k ≫ g
+  change (yoneda.map m ≫ aa i ≫ p₂ i) ≫ (fspace i).hom = yoneda.map k ≫ g
   have hpc : p₂ i ≫ (fspace i).hom = p₁ i ≫ g := by
     simpa [p₁, p₂, gspace] using (pullback.condition).symm
   simp only [Category.assoc, hpc]
@@ -208,7 +208,7 @@ private theorem existsUnique_localSection_fppf
         (yoneda.map e₂ ≫ lift W₂ k₂ h₂) ≫ f (idx W₂ k₂ h₂) := by
       rw [Category.assoc, Category.assoc, hliftSpec, hliftSpec, ← Category.assoc,
         ← Category.assoc, ← yoneda.map_comp, ← yoneda.map_comp, hcomm]
-    show Z.map e₁.op (yonedaEquiv (lift W₁ k₁ h₁ ≫ g (idx W₁ k₁ h₁))) =
+    change Z.map e₁.op (yonedaEquiv (lift W₁ k₁ h₁ ≫ g (idx W₁ k₁ h₁))) =
       Z.map e₂.op (yonedaEquiv (lift W₂ k₂ h₂ ≫ g (idx W₂ k₂ h₂)))
     rw [yonedaEquiv_naturality, yonedaEquiv_naturality]
     exact congrArg yonedaEquiv (by simpa only [Category.assoc] using hg _ _ _ _ _ key)
@@ -278,7 +278,7 @@ theorem exists_desc_of_isFppfCovering
         intro T' T q
         apply ConcreteCategory.ext
         ext y
-        show sectionAt T.unop (F.map q y) = Z.map q (sectionAt T'.unop y)
+        change sectionAt T.unop (F.map q y) = Z.map q (sectionAt T'.unop y)
         refine (sectionAt_unique T.unop (F.map q y)
           (Z.map q (sectionAt T'.unop y)) ?_).symm
         intro T'' r i b hb
@@ -290,7 +290,7 @@ theorem exists_desc_of_isFppfCovering
   obtain ⟨T⟩ := T
   apply ConcreteCategory.ext
   ext w
-  show sectionAt T ((f i).app (op T) w) = (g i).app (op T) w
+  change sectionAt T ((f i).app (op T) w) = (g i).app (op T) w
   have hglocal : yonedaEquiv (yonedaEquiv.symm w ≫ g i) = (g i).app (op T) w := by
     simpa using yonedaEquiv_comp (yonedaEquiv.symm w) (g i)
   simpa using (sectionAt_spec T ((f i).app (op T) w) T (𝟙 T) i
@@ -326,7 +326,7 @@ theorem existsUnique_desc_of_isFppfCovering
   obtain ⟨T⟩ := T
   apply ConcreteCategory.ext
   ext y
-  show d₁.app (op T) y = d₂.app (op T) y
+  change d₁.app (op T) y = d₂.app (op T) y
   exact (existsUnique_localSection_fppf B S hS X f hf hZ g hguniv T y).unique
     (fun _ q _ b hb => map_app_eq_yonedaEquiv_comp (hd₁ _) y q b hb)
     (fun _ q _ b hb => map_app_eq_yonedaEquiv_comp (hd₂ _) y q b hb)

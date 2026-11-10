@@ -186,13 +186,11 @@ def baseChangeBimodule : Bimodule B C :=
 /-- Every element of `X ⊗_R Y` is a sum of pure tensors. -/
 theorem gradedTensor_induction {X Y : DifferentialGradedAlgebra.{u, u} R}
     {motive : (X.grading ᵍ⊗[R] Y.grading) → Prop}
-    (zero : motive 0)
     (tmul : ∀ (x : X.A) (y : Y.A), motive ((x ᵍ⊗ₜ[R] y : X.grading ᵍ⊗[R] Y.grading)))
     (add : ∀ z w, motive z → motive w → motive (z + w))
     (z : X.grading ᵍ⊗[R] Y.grading) : motive z := by
   obtain ⟨w, rfl⟩ := (GradedTensorProduct.of R X.grading Y.grading).surjective z
-  induction w using TensorProduct.induction_on with
-  | zero => simpa using zero
+  induction w using TensorProduct.inductionOn with
   | tmul x y => exact tmul x y
   | add z w hz hw => rw [map_add]; exact add _ _ hz hw
 
@@ -201,7 +199,7 @@ theorem zsmul_tmul_left {X Y : DifferentialGradedAlgebra.{u, u} R}
     (n : ℤ) (x : X.A) (y : Y.A) :
     (((n • x) ᵍ⊗ₜ[R] y : X.grading ᵍ⊗[R] Y.grading)) =
       n • ((x ᵍ⊗ₜ[R] y : X.grading ᵍ⊗[R] Y.grading)) := by
-  show (GradedTensorProduct.of R X.grading Y.grading) ((n • x) ⊗ₜ[R] y) =
+  change (GradedTensorProduct.of R X.grading Y.grading) ((n • x) ⊗ₜ[R] y) =
     n • (GradedTensorProduct.of R X.grading Y.grading) (x ⊗ₜ[R] y)
   rw [← Int.cast_smul_eq_zsmul R, ← Int.cast_smul_eq_zsmul R, ← TensorProduct.smul_tmul',
     LinearEquiv.map_smul]
@@ -306,7 +304,6 @@ theorem comparisonBilinear_d (p : ℤ) (x : A.grading ᵍ⊗[R] B.grading)
         (p.negOnePow : ℤ) •
           comparisonBilinear A B C x (tensorProductDifferential B C y) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw =>
     rw [map_add, map_add, map_add, map_add, map_add, hz, hw, smul_add]
     abel
@@ -338,7 +335,6 @@ theorem comparisonBilinear_balance (s : A.grading ᵍ⊗[R] B.grading) (a : B.A)
       comparisonBilinear A B C s
         ((((a ᵍ⊗ₜ[R] (1 : C.A)) : B.grading ᵍ⊗[R] C.grading)) * y) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => rw [map_add, hz, hw, mul_add, map_add]
   | tmul b c =>
     rw [comparisonBilinear_tmul, tmul_one_mul_tmul, comparisonBilinear_tmul, mul_assoc,
@@ -353,7 +349,6 @@ theorem comparisonBilinear_mul_one_tmul (s : A.grading ᵍ⊗[R] B.grading)
         (((1 : (tensorProduct A B).A) ᵍ⊗ₜ[R] c) :
           (tensorProduct A B).grading ᵍ⊗[R] C.grading) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => rw [add_mul, map_add, hz, hw, map_add, add_mul]
   | tmul b c₀ =>
     rw [tmul_mul_one_tmul, comparisonBilinear_tmul, comparisonBilinear_tmul, tmul_mul_one_tmul]
@@ -490,7 +485,6 @@ theorem comparisonInvLinear_mul_one_tmul (z : (tensorProduct A B).grading ᵍ⊗
           (tensorProduct A B).grading ᵍ⊗[R] C.grading)) =
       MulOpposite.op c • comparisonInvLinear A B C z := by
   induction z using gradedTensor_induction with
-  | zero => simp
   | add u v hu hv => simp only [add_mul, map_add, hu, hv, smul_add]
   | tmul s c₀ =>
     rw [tmul_mul_one_tmul (tensorProduct A B) C s c₀ c, comparisonInvLinear_tmul,
@@ -512,7 +506,6 @@ theorem comparisonInvLinear_d (z : (tensorProduct A B).grading ᵍ⊗[R] C.gradi
     comparisonInvLinear A B C (tensorProductDifferential (tensorProduct A B) C z) =
       (plainTensorObj A B C).d (comparisonInvLinear A B C z) := by
   induction z using gradedTensor_induction with
-  | zero => simp
   | add u v hu hv => simp only [map_add, hu, hv]
   | tmul s c =>
     induction s using DirectSum.Decomposition.inductionOn (tensorProduct A B).grading with
@@ -560,7 +553,6 @@ theorem comparisonInvLinear_comparisonBilinear (x : A.grading ᵍ⊗[R] B.gradin
     (y : B.grading ᵍ⊗[R] C.grading) :
     comparisonInvLinear A B C (comparisonBilinear A B C x y) = pureBilinear A B C x y := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => simp only [map_add, hz, hw]
   | tmul b c =>
     rw [comparisonBilinear_tmul, comparisonInvLinear_tmul, pureBilinear_balance,

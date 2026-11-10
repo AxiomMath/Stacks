@@ -343,7 +343,7 @@ theorem exists_isReduction_of_isRepresentableThickening_comp
       (isRepresentableThickeningULift_of_isIso B S hS e.inv) hfstthick
   refine ⟨⟨e.inv ≫ hq.rep.fst a.hom⟩, ?_, hwthick, ?_⟩
   · refine Sheaf.hom_ext ?_
-    show (e.inv ≫ hq.rep.fst a.hom) ≫ q.hom = a.hom
+    change (e.inv ≫ hq.rep.fst a.hom) ≫ q.hom = a.hom
     have hw : hq.rep.fst a.hom ≫ q.hom = e.hom ≫ a.hom := hsq.w
     rw [Category.assoc, hw, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
   · exact isReduction_yonedaSheaf_of_isRepresentableThickening B S hS T _ hTred hwthick

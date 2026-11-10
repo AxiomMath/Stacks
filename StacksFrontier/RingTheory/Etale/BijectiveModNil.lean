@@ -99,7 +99,7 @@ theorem Etale.bijective_algebraMap_of_bijective_quotientMap [Etale E F] (I : Ide
   let g : F →ₐ[E] E ⧸ I :=
     { toRingHom := e.symm.toRingHom.comp (Ideal.Quotient.mk J)
       commutes' := fun a => by
-        show e.symm (Ideal.Quotient.mk J (algebraMap E F a)) = _
+        change e.symm (Ideal.Quotient.mk J (algebraMap E F a)) = _
         rw [← he, RingEquiv.symm_apply_apply]
         rfl }
   obtain ⟨r, hr⟩ := FormallySmooth.exists_lift_of_le_nilradical I hI g
@@ -112,7 +112,7 @@ theorem Etale.bijective_algebraMap_of_bijective_quotientMap [Etale E F] (I : Ide
   have hφ : (Algebra.ofId E F).comp r = AlgHom.id E F := by
     refine FormallyUnramified.ext_of_le_nilradical J (map_le_nilradical_of_le_nilradical hI)
       fun x => ?_
-    show Ideal.Quotient.mk J (algebraMap E F (r x)) = Ideal.Quotient.mk J x
+    change Ideal.Quotient.mk J (algebraMap E F (r x)) = Ideal.Quotient.mk J x
     rw [← he, hr', RingEquiv.apply_symm_apply]
   exact ⟨hinj, fun y => ⟨r y, congrArg (fun q => q y) hφ⟩⟩
 

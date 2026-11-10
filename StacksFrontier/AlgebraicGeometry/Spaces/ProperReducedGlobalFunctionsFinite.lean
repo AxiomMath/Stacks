@@ -126,7 +126,7 @@ theorem injective_globalFunctionsToChart_of_isSurjective (X : AlgebraicSpaces B 
   let Uc : SmallEtale B S hS X.obj := ⟨CostructuredArrow.mk φ, hφet⟩
   apply injective_globalFunctions_val_of_isSurjective B S hS X.obj X.property Uc
     ((presheafSurjective_iff_isSurjective_yoneda B S hS X.obj X.property U φ).1 hφsurj)
-  show s.val (op Uc) = (0 : globalFunctions B S hS X.obj).val (op Uc)
+  change s.val (op Uc) = (0 : globalFunctions B S hS X.obj).val (op Uc)
   obtain ⟨P, α, p, hpb⟩ := hφet.1 ρ
   let pHom : P ⟶ U := Yoneda.fullyFaithful.preimage p
   have hpHom : yoneda.map pHom = p := Yoneda.fullyFaithful.map_preimage p
@@ -146,7 +146,7 @@ theorem injective_globalFunctionsToChart_of_isSurjective (X : AlgebraicSpaces B 
   let jP : CostructuredArrow yoneda X.obj := CostructuredArrow.mk (yoneda.map pHom ≫ φ)
   let gPU : jP ⟶ jU := CostructuredArrow.homMk pHom (by simp [jP, jU])
   let gPV : jP ⟶ jV := CostructuredArrow.homMk α (by
-    show yoneda.map α ≫ ρ = yoneda.map pHom ≫ φ
+    change yoneda.map α ≫ ρ = yoneda.map pHom ≫ φ
     rw [hpHom]
     exact hpb.w.symm)
   have hPU : (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map pHom).op).hom (c.val (op jU)) =
@@ -161,7 +161,7 @@ theorem injective_globalFunctionsToChart_of_isSurjective (X : AlgebraicSpaces B 
     ((BigFppfOver.toScheme B S hS).map pHom)
   rw [← hU]
   refine hinj ?_
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map pHom).op).hom (c.val (op jU)) =
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map pHom).op).hom (c.val (op jU)) =
     ((BigFppfOver.toScheme B S hS).map pHom).appTop.hom 0
   rw [hPU, ← hPV, hV0, map_zero, map_zero]
   rfl
@@ -205,7 +205,7 @@ theorem algebraMap_globalFunctionsToChart (X : AlgebraicSpaces B (Spec (.of R)) 
     globalFunctionsToChart B (Spec (.of R)) hR X ρ
         (algebraMap R (globalFunctions B (Spec (.of R)) hR X.obj) r) =
       @algebraMap R _ _ _ (siteObjSectionsAlgebra R V) r := by
-  show ((globalFunctionsChartEquiv B (Spec (.of R)) hR X).val
+  change ((globalFunctionsChartEquiv B (Spec (.of R)) hR X).val
     (algebraMap R (globalFunctions B (Spec (.of R)) hR X.obj) r)).val
       (op (CostructuredArrow.mk ρ)) = _
   rw [globalFunctionsChartEquiv_algebraMap]
@@ -260,7 +260,7 @@ theorem surjective_structureHom_of_isSurjective {V : BigFppfOver B (Spec (.of R)
   let m : V ⟶ Over.mk (𝟙 (B.obj hR)) := yoneda.preimage k
   have hm : yoneda.map m = k := yoneda.map_preimage _
   have hmV : m.left = V.hom := by simpa using Over.w m
-  show _root_.AlgebraicGeometry.Surjective (B.inclusion.map V.hom)
+  change _root_.AlgebraicGeometry.Surjective (B.inclusion.map V.hom)
   rw [← hmV]
   exact map_of_presheaf_yoneda_map B (Spec (.of R)) hR _ m k hm
     ((presheafSurjective_iff_isSurjective_yoneda B (Spec (.of R)) hR _ hT V k).mpr hk)

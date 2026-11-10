@@ -127,7 +127,7 @@ theorem isSurjective_of_isLocallySurjective {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
   rw [pointsMap_class]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS G
     ⟨_, FieldValuedPoint.dominates_refl B S hS G _, ⟨σ ≫ g, ?_⟩⟩
-  show G.map (σ ≫ g).op q.value = f.app _ (F.map σ.op t)
+  change G.map (σ ≫ g).op q.value = f.app _ (F.map σ.op t)
   rw [NatTrans.naturality_apply f σ.op t, ht, op_comp, G.map_comp, types_comp_apply]
 
 /-- The range of a morphism from a representable presheaf is contained in the open subspace cut

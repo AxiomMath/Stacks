@@ -200,7 +200,7 @@ theorem eq_of_comp_tensorComparisonOfIso_eq {Tens : A ⥤ A} {Tens' : A' ⥤ A'}
     (h : a ≫ tensorComparisonOfIso pf pf' γ Θ X =
       b ≫ tensorComparisonOfIso pf pf' γ Θ X) :
     a = b := by
-  haveI := isIso_tensorComparisonOfIso pf pf' γ Θ X
+  have := isIso_tensorComparisonOfIso pf pf' γ Θ X
   rw [← Category.comp_id a, ← IsIso.hom_inv_id (tensorComparisonOfIso pf pf' γ Θ X),
     ← Category.assoc, h, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
@@ -484,7 +484,7 @@ theorem tensorComparisonCompatibility_iff_tensorBaseChangeMor
     replace h : _ = _ := h
     exact Eq.trans (congrArg (fun z => z ≫ _) hmu) h
   · intro h
-    show _ = _
+    change _ = _
     exact Eq.trans (congrArg (fun z => z ≫ _) hmu.symm) h
 
 include hf hA hR hi in

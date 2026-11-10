@@ -213,7 +213,7 @@ theorem pieceToPullbackAlgebra_mul (i j : ℤ) (V : Opens ↥Z)
         ((algebraPullback g).obj (Stacks.RelativeSpec.gradedAlgebraSheaf X A hc))).compLeft
       (pieceToPullbackAlgebra g A hc i).val).compRight
       (pieceToPullbackAlgebra g A hc j).val) (fun W a b => ?_) V x y
-  show (pieceToPullbackAlgebra g A hc (i + j)).val.app (op (g ⁻¹ᵁ W))
+  change (pieceToPullbackAlgebra g A hc (i + j)).val.app (op (g ⁻¹ᵁ W))
       (((Stacks.RingedSpace.pullbackGradedAlgebra g.toLRSHom.toShHom A).mul i j).app
         (op (g ⁻¹ᵁ W))
         (Stacks.RingedSpace.pullbackUnit g.toLRSHom.toShHom (A.piece i) (op W) a)

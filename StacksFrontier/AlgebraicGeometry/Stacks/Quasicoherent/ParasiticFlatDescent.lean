@@ -131,7 +131,7 @@ theorem isParasitic_of_isFlat_isLfp_jointlySurjective {J : Type v}
     refine Stacks.SheafOfModules.eq_zero_of_locally_eq_zero s hcov ?_
     rintro Y g ⟨Z, h, k, ⟨i⟩, rfl⟩
     have hzero : F.val.map (α i).op s = 0 := (hF (a i) (x i) (hxflat i)).elim _ 0
-    show F.val.map ((α i).op ≫ h.op) s = 0
+    change F.val.map ((α i).op ≫ h.op) s = 0
     rw [PresheafOfModules.map_comp_apply, hzero]
     exact map_zero _
   exact ⟨fun c d => (key c).trans (key d).symm⟩

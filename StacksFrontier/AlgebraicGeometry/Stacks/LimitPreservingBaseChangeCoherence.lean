@@ -193,7 +193,7 @@ lemma splitFiberTwoFibreProductComparisonStage_obj_iso_hom (E : I ⥤ BigFppfOve
   let : 𝒵.val.p.IsFibered := 𝒵.2.isFibered
   let : (BigFppfOver.twoFibreProduct.{u, v, w} B S hS 𝒳 𝒴 𝒵 p q).val.p.IsFibered :=
     (BigFppfOver.twoFibreProduct.{u, v, w} B S hS 𝒳 𝒴 𝒵 p q).2.isFibered
-  show 𝟙 _ ≫ AsSmall.up.map _ ≫ 𝟙 _ = _
+  change 𝟙 _ ≫ AsSmall.up.map _ ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
   rfl
 
@@ -222,7 +222,7 @@ lemma baseChangeFiberPullback_obj_iso_hom (V : BigFppfOver B S hS)
   let : 𝒵.val.p.IsFibered := 𝒵.2.isFibered
   let : (BigFppfOver.twoFibreProduct.{u, v, w} B S hS 𝒳 𝒴 𝒵 p q).val.p.IsFibered :=
     (BigFppfOver.twoFibreProduct.{u, v, w} B S hS 𝒳 𝒴 𝒵 p q).2.isFibered
-  show 𝟙 _ ≫ AsSmall.up.map _ ≫ 𝟙 _ = _
+  change 𝟙 _ ≫ AsSmall.up.map _ ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
   rfl
 

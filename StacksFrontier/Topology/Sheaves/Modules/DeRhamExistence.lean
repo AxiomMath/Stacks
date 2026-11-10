@@ -272,23 +272,28 @@ theorem exactWedgeComparison_app_ιMulti_d (p : ℕ) (U : (Opens X.carrier)ᵒ�
     (c : Fin p → X.sheaf.obj.obj U) :
     (exactWedgeComparison B p).app U
         ((PresheafOfModules.extPowSections.{u, u, u, u} p
-            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) U).symm
+            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
+              U).symm
           (exteriorPower.ιMulti ((X.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj U) p
-            fun i => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i))) =
+            fun i =>
+              (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i))) =
       B.exterior.toPresheafGradedAlgebra.homogeneousProd U p fun i => exactOne B U (c i) := by
   have h1 : PresheafOfModules.extPowSections.{u, u, u, u} p
       (moduleOfDifferentials.{u, u, u} φ).val U
       ((PresheafOfModules.extPowMap.{u, u, u, u} p (toModuleOfDifferentials φ)).app U
         ((PresheafOfModules.extPowSections.{u, u, u, u} p
-            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) U).symm
+            (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
+              U).symm
           (exteriorPower.ιMulti ((X.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj U) p
-            fun i => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i)))) =
+            fun i =>
+              (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i)))) =
       exteriorPower.ιMulti ((X.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj U) p
         fun i => (universalDerivation.{u, u, u} φ).d (c i) := by
     refine Subtype.ext ?_
     refine Eq.trans (PresheafOfModules.extPowMap_app_ιMulti.{u, u, u, u} p
       (toModuleOfDifferentials φ) U
-      (fun i => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i)) _ ?_) ?_
+      (fun i => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i))
+        _ ?_) ?_
     · exact exteriorPower.ιMulti_apply_coe _ p _
     · refine Eq.trans ?_ (exteriorPower.ιMulti_apply_coe _ p _).symm
       exact congrArg (ExteriorAlgebra.ιMulti _ p)
@@ -341,7 +346,8 @@ theorem deRhamDifferentialHom_generator (p : ℕ) (U : (Opens X.carrier)ᵒᵖ)
     ((PresheafOfModules.extPowSections.{u, u, u, u} p
       (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) U).symm
         (b • exteriorPower.ιMulti ((X.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj U) p
-          fun i => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i)))
+          fun i =>
+            (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d (c i)))
   have hA := (congrArg (fun y => b • y) (hpl.trans hz.symm)).trans
     ((PresheafOfModules.app_smul (exactWedgeComparison B p) b _).symm.trans
       (congrArg (fun y => (exactWedgeComparison B p).app U y) (LinearEquiv.map_smul _ b _).symm))

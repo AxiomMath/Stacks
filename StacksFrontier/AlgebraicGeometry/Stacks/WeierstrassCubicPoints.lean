@@ -195,7 +195,7 @@ theorem specPoint_congr_unit {S : Type u} [CommRing S] (κ κ' : coordRingOf W �
 theorem specPoint_projectionOf {S : Type u} [CommRing S] (κ : coordRingOf W →+* S) (hκ) :
     specPoint W κ hκ ≫ projectionOf W =
       Spec.map (CommRingCat.ofHom (κ.comp (algebraMap R (coordRingOf W)))) := by
-  show Proj.fromOfGlobalSections _ _ _ ≫ Proj.toSpecZero (gradingOf W) ≫
+  change Proj.fromOfGlobalSections _ _ _ ≫ Proj.toSpecZero (gradingOf W) ≫
     Spec.map (CommRingCat.ofHom (toGradingZeroOf W)) = _
   rw [Proj.fromOfGlobalSections_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   have : (((Scheme.ΓSpecIso (CommRingCat.of S)).inv.hom.comp κ).comp

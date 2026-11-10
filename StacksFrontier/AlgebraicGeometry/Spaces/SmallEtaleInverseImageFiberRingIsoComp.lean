@@ -189,7 +189,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W Y Z : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over sheaves of commutative rings on the small étale site is deep
 set_option maxHeartbeats 1000000 in
+-- elaborating the composite of the ring-level and set-level inverse-image isomorphisms is slow
 /-- The ring-level composition law in inverse-image form is, on underlying sheaves of sets, the
 geometric one, at every sheaf of commutative rings. -/
 theorem forgetRing_map_compInverseImageRingIso_hom (a : W ⟶ Y) (b : Y ⟶ Z)

@@ -2,8 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Algebraization.PuncturedSpectrumSerreDepthInequalities
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.ExtensionPrincipalLocalTheorem
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AlgebraizationCoherentFormal.ExtensionPrincipalLocalTheorem
 
 /-!
 # Algebraization on the punctured spectrum from Serre's condition on the completed stalks

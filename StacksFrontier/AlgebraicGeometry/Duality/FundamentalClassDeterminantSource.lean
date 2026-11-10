@@ -502,7 +502,7 @@ theorem nonempty_stalk_exteriorPower_self_linearEquiv {M : _root_.SheafOfModules
   have := Stacks.SheafOfModules.isFiniteLocallyFreeOfRank_exteriorPower A n n
   rw [Nat.choose_self] at this
   obtain ⟨e⟩ := nonempty_stalkLinearEquiv_finsupp (A.exteriorPower n) 1 x
-  exact ⟨e.trans (Finsupp.LinearEquiv.finsuppUnique _ _ _)⟩
+  exact ⟨e.trans (Finsupp.uniqueLinearEquiv _ _ 0)⟩
 
 /-- In a negative degree the stalk of the exterior power vanishes. -/
 theorem subsingleton_stalk_exterior_piece_of_neg {n : ℤ} (hn : n < 0) (x : ↥X) :
@@ -551,7 +551,7 @@ theorem bijective_stalkMapL_sheafDeterminantMap_iff [Epi π]
     refine Iff.trans ?_ (bijective_stalkMapL_detSourceMap_iff_exists_trivialization A₁ A₀ AF A₁d
       α π hαπ hS r₁ (r₀ - r₁) x)
     unfold sheafDeterminantMap
-    rw [dif_pos h]
+    rw [dite_eq_left h]
     have hdeg : ((r₀ : ℤ) - r₁) = ((r₀ - r₁ : ℕ) : ℤ) := by omega
     have hpiece : ((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj
           (A₁d.exteriorPower r₁)).obj (A₀.exteriorPower (r₁ + (r₀ - r₁))) =
@@ -581,7 +581,7 @@ end Source
 
 section LocallyRingedSpace
 
-open AlgebraicGeometry RingedSpaceModuleAdjunction
+open _root_.AlgebraicGeometry RingedSpaceModuleAdjunction
 
 variable (Y : AlgebraicGeometry.LocallyRingedSpace.{u})
   {E₁ E₀ F : _root_.SheafOfModules.{u}

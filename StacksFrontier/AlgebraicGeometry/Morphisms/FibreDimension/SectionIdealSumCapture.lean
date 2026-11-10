@@ -120,7 +120,7 @@ private lemma germ_nonzero_of_open_restriction {X : Scheme.{u}}
     X.presheaf.germ ⊤ (U.ι.base x) (by trivial) g ≠ 0 := by
   intro hz
   have hxU : U.ι.base x ∈ U.ι ''ᵁ ⊤ := by
-    show ∃ y : U.toScheme, y ∈ (⊤ : U.toScheme.Opens) ∧
+    change ∃ y : U.toScheme, y ∈ (⊤ : U.toScheme.Opens) ∧
       U.ι.base y = U.ι.base x
     exact ⟨x, trivial, rfl⟩
   have hres : (X.presheaf.germ (U.ι ''ᵁ ⊤) (U.ι.base x) hxU).hom
@@ -138,7 +138,7 @@ private lemma germ_nonzero_of_open_restriction {X : Scheme.{u}}
   have hcomp :
       ((X.presheaf.germ (U.ι ''ᵁ ⊤) (U.ι.base x) hxU ≫
         (U.stalkIso x).inv).hom ((U.ι.appTop).hom g)) = 0 := by
-    show (U.stalkIso x).inv.hom
+    change (U.stalkIso x).inv.hom
       ((X.presheaf.germ (U.ι ''ᵁ ⊤) (U.ι.base x) hxU).hom ((U.ι.appTop).hom g)) = 0
     rw [hres]
     exact map_zero _
@@ -324,7 +324,8 @@ quasi-compact, since the whole space is quasi-compact; so this is also the state
 closed subset with quasi-compact complement is cut out by finitely many functions, which is the
 hypothesis under which [Stacks, Tag 08EK] runs. A caller holding `IsCompact Zᶜ` supplies the
 retrocompactness as `hcompact.isRetrocompact hZ.isOpen_compl`. -/
-public alias exists_fg_ideal_zeroLocus_eq_of_isRetrocompact_compl := exists_fg_ideal_zeroLocus_eq_of_retrocompact_complement
+public alias exists_fg_ideal_zeroLocus_eq_of_isRetrocompact_compl :=
+    exists_fg_ideal_zeroLocus_eq_of_retrocompact_complement
 
 /-- The support of a cyclic module is the zero locus of its annihilator. -/
 private lemma support_span_singleton_eq_zeroLocus_annihilator
@@ -421,7 +422,7 @@ private lemma exists_fg_ideal_with_same_zeroLocus_annihilating
     apply Ideal.span_le.mpr
     intro a ha
     obtain ⟨x, hx, rfl⟩ := ha
-    show algebraMap A B (x ^ e x) ∈
+    change algebraMap A B (x ^ e x) ∈
       (Submodule.span B ({b} : Set B)).annihilator
     rw [Submodule.mem_annihilator_span_singleton]
     have hxkill := he x (hsmem x hx)
@@ -431,7 +432,7 @@ private lemma exists_fg_ideal_with_same_zeroLocus_annihilating
     rw [← Submodule.span_generators I]
     apply Ideal.span_le.mpr
     intro a ha
-    show a ∈ J.radical
+    change a ∈ J.radical
     rw [Ideal.mem_radical_iff]
     refine ⟨e a, ?_⟩
     exact Ideal.subset_span (Set.mem_image_of_mem _ ha)
@@ -486,7 +487,7 @@ private lemma exists_pow_annihilates_of_germ_support_subset
       (homOfLE (X.basicOpen_le (f.appTop.hom a))) x hx b
     change X.presheaf.germ D x hx (b |_ D) =
       X.presheaf.germ ⊤ x (by trivial) b at hcomm
-    show X.presheaf.germ D x hx (b |_ D) =
+    change X.presheaf.germ D x hx (b |_ D) =
       X.presheaf.germ D x hx 0
     rw [hcomm, hgzero, map_zero]
   exact exists_pow_mul_eq_zero_of_res_basicOpen_eq_zero_of_isAffineOpen X
@@ -508,7 +509,7 @@ private lemma generatorMultiplicationMap_ker_le_annihilator {R : Type*} [CommRin
     (a : R) ∈ Submodule.annihilator I := by
   rw [Submodule.mem_annihilator]
   intro x hx
-  show (a : R) * x = 0
+  change (a : R) * x = 0
   rw [← Submodule.span_generators I] at hx
   have hgen : ∀ y ∈ I.generators, y * (a : R) = 0 := by
     intro y hy
@@ -526,7 +527,7 @@ private lemma annihilator_le_generatorMultiplicationMap_ker {R : Type*} [CommRin
     (I : Ideal R) (a : R) (ha : a ∈ Submodule.annihilator I) :
     a ∈ LinearMap.ker (generatorMultiplicationMap I) := by
   rw [Submodule.mem_annihilator] at ha
-  show generatorMultiplicationMap I a = 0
+  change generatorMultiplicationMap I a = 0
   ext y
   have h := ha y.1 (Submodule.FG.generators_mem I y.2)
   simpa [generatorMultiplicationMap, smul_eq_mul, mul_comm] using h
@@ -566,8 +567,7 @@ private lemma generatorMultiplicationMap_baseChange_commute
   classical
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b a =>
       ext i
       simp [generatorMultiplicationMapBaseChange, generatorMultiplicationMap,
@@ -639,7 +639,7 @@ private lemma exists_tensor_annihilator_preimage
   let : Fintype (↑I.generators) := Fintype.ofFinite _
   rw [Submodule.mem_annihilator] at hb
   have hker : b ∈ LinearMap.ker (generatorMultiplicationMapBaseChange I) := by
-    show generatorMultiplicationMapBaseChange I b = 0
+    change generatorMultiplicationMapBaseChange I b = 0
     ext i
     have h := hb (algebraMap A B i.1)
       (Ideal.mem_map_of_mem (algebraMap A B) (Submodule.FG.generators_mem I i.2))
@@ -655,11 +655,10 @@ private lemma exists_tensor_annihilator_preimage
     simp [generatorMultiplicationMapKerBaseChangeEquiv, linearEquivKerOfCommuting, x, xb]
   have hmap : (Submodule.annihilator I).subtype.lTensor B t =
       (LinearMap.ker (generatorMultiplicationMap I)).subtype.lTensor B x := by
-    show (Submodule.annihilator I).subtype.lTensor B
+    change (Submodule.annihilator I).subtype.lTensor B
         ((e.toLinearMap.lTensor B) x) =
       (LinearMap.ker (generatorMultiplicationMap I)).subtype.lTensor B x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c y => simp [e, generatorMultiplicationMapKerEquivAnnihilator]
     | add x y hx hy => simp [hx, hy]
   rw [hmap]
@@ -885,14 +884,14 @@ private lemma exists_submodule_iso_of_mono
         (isSheaf_iff_isSheaf_of_type J _).mp
           (GrothendieckTopology.HasSheafCompose.isSheaf _ N.isSheaf)
       have hP' : Presieve.IsSheaf J P.toSubfunctor.toFunctor := by
-        show Presieve.IsSheaf J (P.toPresheafOfModules.presheaf ⋙ forget AddCommGrpCat.{u})
+        change Presieve.IsSheaf J (P.toPresheafOfModules.presheaf ⋙ forget AddCommGrpCat.{u})
         exact (isSheaf_iff_isSheaf_of_type J _).mp
           (GrothendieckTopology.HasSheafCompose.isSheaf _ hP)
       exact fun {_} => (P.toSubfunctor.isSheaf_iff hN).mp hP' _ }
   let b : M ⟶ Q.toSheafOfModules := ⟨a⟩
   have : IsIso b := by
     apply (isIso_iff_of_reflects_iso b (SheafOfModules.forget R)).mp
-    show IsIso a
+    change IsIso a
     infer_instance
   exact ⟨Q, ⟨asIso b⟩⟩
 
@@ -1192,7 +1191,7 @@ private lemma exists_ideal_sum_on_spec
     congrArg (fun q => Scheme.Modules.Hom.app q ⊤ v) E.inv_hom_id
   refine Eq.trans (congrArg (fun w => Scheme.Modules.Hom.app N.fromTildeΓ ⊤
     (Scheme.Modules.Hom.app (tilde.map m) ⊤ w)) (hE (tilde.toOpen _ ⊤ t))) ?_
-  show Scheme.Modules.Hom.app N.fromTildeΓ ⊤
+  change Scheme.Modules.Hom.app N.fromTildeΓ ⊤
     ((modulesSpecToSheaf.map (tilde.map m)).hom.app (.op ⊤) (tilde.toOpen _ ⊤ t)) = g
   change (modulesSpecToSheaf.map (tilde.map m)).hom.app (.op ⊤) (tilde.toOpen _ ⊤ t) =
     tilde.toOpen _ ⊤ (φ t) at h₁
@@ -1215,7 +1214,7 @@ private lemma restrictGlobalSection_naturality {X Y : Scheme.{u}} (j : X ⟶ Y)
     Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctor j).map φ) ⊤
       (restrictGlobalSection j M s) =
         restrictGlobalSection j N (Scheme.Modules.Hom.app φ ⊤ s) := by
-  show Scheme.Modules.Hom.app φ (j ''ᵁ ⊤)
+  change Scheme.Modules.Hom.app φ (j ''ᵁ ⊤)
     (M.presheaf.map (homOfLE le_top).op s) =
       N.presheaf.map (homOfLE le_top).op (Scheme.Modules.Hom.app φ ⊤ s)
   exact (congrArg (fun q => q s) (Scheme.Modules.Hom.mapPresheaf φ |>.naturality
@@ -1293,7 +1292,7 @@ private lemma exists_ideal_sum_affine (Y : Scheme.{u}) [IsAffine Y] (N : Y.Modul
     toFun := id
     map_add' _ _ := rfl
     map_smul' a b := by
-      show a • b = (Y.isoSpec.hom.appTop.hom ((Scheme.ΓSpecIso R).inv.hom a)) • b
+      change a • b = (Y.isoSpec.hom.appTop.hom ((Scheme.ΓSpecIso R).inv.hom a)) • b
       have he : Y.isoSpec.hom.appTop = (Scheme.ΓSpecIso R).hom := Scheme.toSpecΓ_appTop Y
       rw [he]
       exact congrArg (fun c : R => c • b)
@@ -1309,9 +1308,9 @@ private lemma exists_ideal_sum_affine (Y : Scheme.{u}) [IsAffine Y] (N : Y.Modul
   let ε := (Scheme.Modules.restrictAdjunction Y.isoSpec.hom).counit.app N
   have : IsIso ε := by dsimp [ε]; infer_instance
   refine ⟨F', hF', ψ' ≫ ε, mono_comp' hψ' (IsIso.mono_of_iso ε), t', ?_⟩
-  show Scheme.Modules.Hom.app ε ⊤ (Scheme.Modules.Hom.app ψ' ⊤ t') = g
+  change Scheme.Modules.Hom.app ε ⊤ (Scheme.Modules.Hom.app ψ' ⊤ t') = g
   rw [ht']
-  show N.presheaf.map (eqToHom (Y.isoSpec.hom.preimage_image_eq ⊤).symm).op
+  change N.presheaf.map (eqToHom (Y.isoSpec.hom.preimage_image_eq ⊤).symm).op
     (N.presheaf.map (homOfLE le_top).op g) = g
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   have he : (homOfLE (le_top : Y.isoSpec.hom ⁻¹ᵁ (Y.isoSpec.hom ''ᵁ ⊤) ≤ ⊤)).op ≫
@@ -1425,7 +1424,7 @@ private lemma exists_open_of_affine_injection
         exact a.map_mul c (v k)
       rw [hw, map_smul]
       let m : Γ(Y, ⊤) := φ (w v)
-      show b.symm (p.appTop.hom (a c) * m) =
+      change b.symm (p.appTop.hom (a c) * m) =
         p₀.appTop.hom c * b.symm m
       rw [← hab, map_mul, b.symm_apply_apply]
   }
@@ -1435,13 +1434,13 @@ private lemma exists_open_of_affine_injection
     funext k
     exact Subtype.ext (a.injective (congrArg (fun t => (t k).val) hw))
   let z₀ : Fin r → I₀ := fun k => ⟨a.symm (z k), by
-    show a (a.symm (z k)) ∈ I
+    change a (a.symm (z k)) ∈ I
     simpa only [a.apply_symm_apply] using (z k).property⟩
   have hwz : w z₀ = z := by
     ext k
     exact a.apply_symm_apply (z k)
   have hz₀ : φ₀ z₀ = V.ι.appTop.hom g := by
-    show b.symm (φ (w z₀)) = _
+    change b.symm (φ (w z₀)) = _
     rw [hwz, hz, ← hbg, b.symm_apply_apply]
   have : IsAffine U.toScheme := IsAffine.of_isIso eU.inv
   have : IsAffine V.toScheme := IsAffine.of_isIso eV.inv
@@ -1536,7 +1535,7 @@ public theorem exists_open_injective_ideal_sum_with_section
   let Z₁ : Set U₁.toScheme := U₁.ι.base ⁻¹' Z r.succ
   have hZ₁closed : IsClosed Z₁ := (hclosed r.succ).preimage U₁.ι.continuous
   have hZ₁retro : IsRetrocompact Z₁ᶜ := by
-    show IsRetrocompact (U₁.ι.base ⁻¹' (Z r.succ)ᶜ)
+    change IsRetrocompact (U₁.ι.base ⁻¹' (Z r.succ)ᶜ)
     exact hZretro.preimage_of_isOpenEmbedding U₁.ι.isOpenEmbedding
   let : IsAffine U₁.toScheme := hU₁aff
   obtain ⟨I, hIFG, hIZ⟩ :=
@@ -1596,7 +1595,7 @@ public theorem exists_open_injective_ideal_sum_with_section
       rw [Iso.inv_hom_id]
       rw [← hhom]
       simp only [← Scheme.Hom.comp_appTop, Iso.hom_inv_id, Scheme.Hom.id_appTop]
-    show (U₁.toScheme.isoSpec.inv.appTop ≫
+    change (U₁.toScheme.isoSpec.inv.appTop ≫
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J))).appTop) ≫
         (Scheme.ΓSpecIso (.of (A ⧸ J))).hom = _
     rw [htop]
@@ -1631,7 +1630,7 @@ public theorem exists_open_injective_ideal_sum_with_section
     (((Scheme.ΓSpecIso (.of (A ⧸ J))).inv ≫
       (pullback.snd f₁ q).appTop).hom).toAlgebra
   have hCrank : Module.IsFiniteLocallyFreeOfRank (A ⧸ J) C r.val := by
-    show Module.IsFiniteLocallyFreeOfRank (A ⧸ J)
+    change Module.IsFiniteLocallyFreeOfRank (A ⧸ J)
       ((modulesSpecToSheaf.obj Mq).presheaf.obj (.op ⊤)) r.val
     exact hqmodule
   let Rq : Type u := Γ(Spec (.of (A ⧸ J)), ⊤)
@@ -1661,7 +1660,7 @@ public theorem exists_open_injective_ideal_sum_with_section
           (pullback.snd f₁ q).appTop := by
       calc
         _ = pushout.inr f₁.appTop q.appTop ≫ hpush.isoPushout.inv := by
-          show (CommRingCat.ofHom (algebraMap Rq (B ⊗[A] Rq))) ≫
+          change (CommRingCat.ofHom (algebraMap Rq (B ⊗[A] Rq))) ≫
             (T.isoPushout.hom ≫ hpush.isoPushout.inv) = _
           exact congrArg (· ≫ hpush.isoPushout.inv) T.inr_isoPushout_hom
         _ = (pullback.snd f₁ q).appTop := hpush.inr_isoPushout_inv
@@ -1690,7 +1689,7 @@ public theorem exists_open_injective_ideal_sum_with_section
         simp
       have heRq : eRq.symm (Ideal.Quotient.mk J a) =
           (Scheme.ΓSpecIso (.of (A ⧸ J))).inv.hom (Ideal.Quotient.mk J a) := rfl
-      show eBC ((algebraMap (A ⧸ J) (B ⧸ Ideal.map (algebraMap A B) J))
+      change eBC ((algebraMap (A ⧸ J) (B ⧸ Ideal.map (algebraMap A B) J))
           (Ideal.Quotient.mk J a)) =
         (algebraMap (A ⧸ J) C) (Ideal.Quotient.mk J a)
       rw [show eBC _ = eC
@@ -1699,7 +1698,7 @@ public theorem exists_open_injective_ideal_sum_with_section
             ((algebraMap (A ⧸ J) (B ⧸ Ideal.map (algebraMap A B) J))
               (Ideal.Quotient.mk J a)))) from rfl]
       rw [hmk, hcongr, heRq]
-      show eC ((1 : B) ⊗ₜ[A]
+      change eC ((1 : B) ⊗ₜ[A]
           (Scheme.ΓSpecIso (.of (A ⧸ J))).inv.hom (Ideal.Quotient.mk J a)) =
         (pullback.snd f₁ q).appTop.hom
           ((Scheme.ΓSpecIso (.of (A ⧸ J))).inv.hom (Ideal.Quotient.mk J a))
@@ -1711,7 +1710,7 @@ public theorem exists_open_injective_ideal_sum_with_section
     locallyFreeRank_of_linearEquiv eBCAlg.symm.toLinearEquiv hCrank
   let y₁ : V₁.toScheme := ⟨y, hyV₁⟩
   have hyZ₁ : f₁.base y₁ ∈ Z₁ := by
-    show U₁.ι.base (f₁.base y₁) ∈ Z r.succ
+    change U₁.ι.base (f₁.base y₁) ∈ Z r.succ
     rw [hres]
     exact hsupportZ y hy
   obtain ⟨t, ht⟩ : f₁.base y₁ ∈ Set.range q.base := hqrange.symm ▸ hyZ₁
@@ -1731,13 +1730,13 @@ public theorem exists_open_injective_ideal_sum_with_section
   have hVU₂ : V₂ ≤ f₁ ⁻¹ᵁ U₂ := hV₂.le
   have hyU₂ : f₁.base y₁ ∈ U₂ := by
     rw [← ht]
-    show t ∈ q ⁻¹ᵁ U₂
+    change t ∈ q ⁻¹ᵁ U₂
     rw [show q ⁻¹ᵁ U₂ = (Spec (.of (A ⧸ J))).basicOpen (q.appTop.hom a) from
       Scheme.preimage_basicOpen q a]
     rw [basicOpen_eq_of_affine']
     have hqa := congrArg (fun k : CommRingCat.of A ⟶ CommRingCat.of (A ⧸ J) => k.hom a)
       hq_appTop
-    show t ∈ PrimeSpectrum.basicOpen ((Scheme.ΓSpecIso (.of (A ⧸ J))).hom.hom
+    change t ∈ PrimeSpectrum.basicOpen ((Scheme.ΓSpecIso (.of (A ⧸ J))).hom.hom
       (q.appTop.hom a))
     change (Scheme.ΓSpecIso (.of (A ⧸ J))).hom.hom (q.appTop.hom a) =
       Ideal.Quotient.mk J a at hqa
@@ -1768,7 +1767,7 @@ public theorem exists_open_injective_ideal_sum_with_section
       simp only [K, Ideal.map_map]
       exact congrArg (fun h => J.map h) (IsScalarTower.algebraMap_eq A A₂ B₂).symm]
     refine mem_annihilator_map_of_mul_eq_zero J b₂ fun z hz => ?_
-    show V₂.ι.appTop.hom (algebraMap A B z) * V₂.ι.appTop.hom b = 0
+    change V₂.ι.appTop.hom (algebraMap A B z) * V₂.ι.appTop.hom b = 0
     rw [← map_mul, hJkill z hz, map_zero]
   have hbasis' : Module.Basis (Fin r.val) (Localization.Away (Ideal.Quotient.mk J a))
       (LocalizedModule (.powers (Ideal.Quotient.mk J a))

@@ -31,8 +31,7 @@ of affine h coverings.
   limit over the base of affine h coverings is one of affine ph coverings.
 * `AlgebraicGeometry.isStandardVCovering_limit_tfae_unconditional`: the three conditions are
   equivalent.
-* `AlgebraicGeometry.isStandardVCovering_limit_tfae`: the same equivalence, stated with
-  `AlgebraicGeometry.StandardVCoveringHasPHRefinement` as a hypothesis.
+* `AlgebraicGeometry.isStandardVCovering_limit_tfae`: the same equivalence.
 
 ## References
 
@@ -144,7 +143,7 @@ theorem standardVCovering_of_isVCovering_singleton
   let : ∀ i, IsAffine (P.X i) := by
     intro i
     cases i
-    show IsAffine (pullback f g)
+    change IsAffine (pullback f g)
     let : IsIso (pullback.fst f g) := inferInstance
     exact IsAffine.of_isIso (pullback.fst f g)
   let : IsIso (pullback.fst f g) := inferInstance
@@ -158,7 +157,7 @@ theorem standardVCovering_of_isVCovering_singleton
   let eY : T ≅ Y := Scheme.topIso Y
   let eX (j : P.I₀) : P.X j ≅ X := by
     cases j
-    show pullback f g ≅ X
+    change pullback f g ≅ X
     exact asIso (pullback.fst f g)
   have hfactor (j : P.I₀) : (eX j).hom ≫ f = P.f j ≫ eY.hom := by
     cases j
@@ -234,7 +233,7 @@ theorem isStandardVCovering_of_exists_isPHCovering_limit
   let : IsDirectedOrder I := hdirected
   let : ∀ i, IsAffine (D.obj i) := haffine
   let (i : Iᵒᵖ) : IsAffine (((Functor.const (Iᵒᵖ)).obj Y).obj i) := by
-    show IsAffine Y
+    change IsAffine Y
     infer_instance
   let c : Cone D := Cone.mk X p
   have hStage : ∀ i, IsStandardVCovering (fun _ : Unit ↦ D.obj i) (fun _ ↦ t.app i) := by
@@ -330,19 +329,19 @@ theorem isStandardVCovering_limit_tfae_unconditional
     have hc : IsLimit c := hc₀.whiskerEquivalence eop
     let p : (Functor.const Iᵒᵖ).obj X ⟶ D :=
       { app i := by
-          show X ⟶ Spec (CommRingCat.of (G i.unop.down))
+          change X ⟶ Spec (CommRingCat.of (G i.unop.down))
           exact X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop.down).toRingHom)
         naturality := by
           intro i j α
           have hij : j.unop.down ≤ i.unop.down := (α.unop).le
-          show X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g j.unop.down).toRingHom) =
+          change X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g j.unop.down).toRingHom) =
             (X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop.down).toRingHom)) ≫
               Spec.map (CommRingCat.ofHom (q j.unop.down i.unop.down hij).toRingHom)
           rw [Category.assoc, spec_map_ofHom_comp_eq _ _ _ (hg j.unop.down i.unop.down hij)] }
     let cX : Cone D := Cone.mk X p
     have hcX : IsLimit cX := by
       let eX : c.pt ≅ X := by
-        show Spec (CommRingCat.of A) ≅ X
+        change Spec (CommRingCat.of A) ≅ X
         exact X.isoSpec.symm
       apply hc.ofIsoLimit (Cone.ext (c := c) (c' := cX) eX (by
         intro i
@@ -351,12 +350,12 @@ theorem isStandardVCovering_limit_tfae_unconditional
         rw [Iso.inv_hom_id_assoc]))
     let t : D ⟶ (Functor.const Iᵒᵖ).obj Y :=
       { app i := by
-          show Spec (CommRingCat.of (G i.unop.down)) ⟶ Y
+          change Spec (CommRingCat.of (G i.unop.down)) ⟶ Y
           exact Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down))) ≫ Y.isoSpec.inv
         naturality := by
           intro i j α
           have hij : j.unop.down ≤ i.unop.down := (α.unop).le
-          show Spec.map (CommRingCat.ofHom (q j.unop.down i.unop.down hij).toRingHom) ≫
+          change Spec.map (CommRingCat.ofHom (q j.unop.down i.unop.down hij).toRingHom) ≫
               (Spec.map (CommRingCat.ofHom (algebraMap R (G j.unop.down))) ≫ Y.isoSpec.inv) =
             (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down))) ≫ Y.isoSpec.inv) ≫ 𝟙 Y
           rw [← Category.assoc, spec_map_ofHom_comp_eq _ _ _
@@ -365,7 +364,7 @@ theorem isStandardVCovering_limit_tfae_unconditional
     have hcompat : p ≫ t = (Functor.const Iᵒᵖ).map f := by
       ext i
       dsimp [p, t]
-      show X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop.down).toRingHom) ≫
+      change X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop.down).toRingHom) ≫
           (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down))) ≫ Y.isoSpec.inv) = f
       have hbase := spec_map_ofHom_comp_eq (algebraMap R (G i.unop.down)) (g i.unop.down).toRingHom
         f.appTop.hom fun x ↦ ((g i.unop.down).commutes x).trans
@@ -378,16 +377,16 @@ theorem isStandardVCovering_limit_tfae_unconditional
             Y.isoSpec.inv := by rw [← hbase]; simp only [Category.assoc]
         _ = f := by rw [hnat]; simp
     let (i : Iᵒᵖ) : IsAffine (((Functor.const Iᵒᵖ).obj Y).obj i) := by
-      show IsAffine Y
+      change IsAffine Y
       infer_instance
     let (i : Iᵒᵖ) : IsAffine (D.obj i) := by
-      show IsAffine (Spec (CommRingCat.of (G i.unop.down)))
+      change IsAffine (Spec (CommRingCat.of (G i.unop.down)))
       infer_instance
     have hΓ : IsColimit ((Scheme.Γ ⋙ forget CommRingCat).mapCocone cX.op) := by
       let : PreservesColimitsOfShape (Iᵒᵖ)ᵒᵖ (forget CommRingCat.{u}) :=
         preservesColimitsOfShape_of_equiv eop.op.symm (forget CommRingCat.{u})
       have (i : (Iᵒᵖ)ᵒᵖ) : IsAffine (D.op.obj i).unop := by
-        show IsAffine (D.obj i.unop)
+        change IsAffine (D.obj i.unop)
         infer_instance
       exact isColimitOfPreserves (forget CommRingCat) (isColimitOfPreserves Scheme.Γ hcX.op)
     have hStage : ∀ i, IsHCovering (fun _ : Unit ↦ D.obj i) (fun _ ↦ t.app i) := by
@@ -396,11 +395,11 @@ theorem isStandardVCovering_limit_tfae_unconditional
           (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down)))) :=
         (LocallyOfFinitePresentation.SpecMap_iff
           (CommRingCat.ofHom (algebraMap R (G i.unop.down)))).2 (by
-            show (algebraMap R (G i.unop.down)).FinitePresentation
+            change (algebraMap R (G i.unop.down)).FinitePresentation
             rw [RingHom.finitePresentation_algebraMap]
             exact hFP i.unop.down)
       have hlfp : LocallyOfFinitePresentation (t.app i) := by
-        show LocallyOfFinitePresentation
+        change LocallyOfFinitePresentation
           (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down))) ≫ Y.isoSpec.inv)
         let : LocallyOfFinitePresentation
             (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop.down)))) := hlfpSpec
@@ -417,9 +416,8 @@ theorem isStandardVCovering_limit_tfae_unconditional
 
 /-- A morphism of affine schemes is a standard V covering exactly when it is a directed inverse
 limit over the base of affine ph coverings, and exactly when it is such a limit of affine h
-coverings; stated with the hypothesis `AlgebraicGeometry.StandardVCoveringHasPHRefinement`,
-which is not used. -/
-theorem isStandardVCovering_limit_tfae (H : StandardVCoveringHasPHRefinement.{u})
+coverings. -/
+theorem isStandardVCovering_limit_tfae
     {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y] (f : X ⟶ Y) :
     List.TFAE [
       IsStandardVCovering (fun _ : Unit ↦ X) (fun _ ↦ f),

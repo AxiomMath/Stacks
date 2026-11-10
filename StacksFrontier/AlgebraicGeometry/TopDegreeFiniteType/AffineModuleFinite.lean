@@ -69,7 +69,8 @@ clause of the tag is tagged in
 carries one over a locally Noetherian base in
 `StacksFrontier/AlgebraicGeometry/TopDegreeFiniteType/NoetherianBaseUnconditional.lean`.
 
-**Three declarations of the library are subsumed by the ones below.** `…ProperCohomologyFinite.moduleFinite_cohomology_of_isCoherent` is
+**Three declarations of the library are subsumed by the ones below.**
+`…ProperCohomologyFinite.moduleFinite_cohomology_of_isCoherent` is
 `moduleFinite_cohomology_of_isFiniteType_rightDerived` after
 `…CoherentTFAE.isQuasicoherent_isFiniteType_of_isCoherent`;
 `…ProperCohomologyFinite.isCoherent_of_moduleFinite_cohomology` is

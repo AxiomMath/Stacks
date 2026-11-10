@@ -368,7 +368,7 @@ public theorem codescentCompletedModuleEquiv_apply
     codescentCompletedModuleEquiv X I Fsys F M₀ δ e
         (e ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] m)) =
       completionModuleEquiv X I F (AdicCompletion.of I Γ(F.obj, ⊤) (δ m)) := by
-  show completionModuleEquivₛ X I F (AdicCompletion.congr I δ
+  change completionModuleEquivₛ X I F (AdicCompletion.congr I δ
     (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀
       (e.symm (e ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] m))))) = _
   rw [e.symm_apply_apply, AdicCompletion.ofTensorProductEquivOfFiniteNoetherian_apply,

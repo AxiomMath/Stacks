@@ -60,7 +60,7 @@ multiplication by a section of the structure sheaf, because it is linear. -/
 lemma overSmul_comp (U : Opens X) (r : (structureSheaf Rc).obj.obj (op U)) (u : G ⟶ G₁) :
     overSmul G U r ≫ u.over U = u.over U ≫ overSmul G₁ U r := by
   ext W y
-  show (u.over U).val.app W ((overSmul G U r).val.app W y) =
+  change (u.over U).val.app W ((overSmul G U r).val.app W y) =
     (overSmul G₁ U r).val.app W ((u.over U).val.app W y)
   rw [overSmul_app, overSmul_app]
   exact ((u.over U).val.app W).hom.map_smul _ y
@@ -131,14 +131,14 @@ def postcomp (u : G ⟶ G₁) (H : SheafHom Rc F G) (H' : SheafHom Rc F G₁) : 
 lemma isPostcomp_postcomp (u : G ⟶ G₁) (H : SheafHom Rc F G) (H' : SheafHom Rc F G₁) :
     IsPostcomp Rc u H H' (postcomp u H H') := by
   intro U s
-  show H'.sectionsEquiv U ((H'.sectionsEquiv U).symm (H.sectionsEquiv U s ≫ u.over U)) = _
+  change H'.sectionsEquiv U ((H'.sectionsEquiv U).symm (H.sectionsEquiv U s ≫ u.over U)) = _
   exact (H'.sectionsEquiv U).apply_symm_apply _
 
 /-- The identity induces the identity: postcomposition with `𝟙` on the internal hom of one pair
 of modules is the identity. -/
 lemma postcomp_id (H : SheafHom Rc F G) : postcomp (𝟙 G) H H = 𝟙 H.obj := by
   refine eq_of_isPostcomp (isPostcomp_postcomp (𝟙 G) H H) (fun U s => ?_)
-  show H.sectionsEquiv U s = H.sectionsEquiv U s ≫ SheafOfModules.Hom.over (𝟙 G) U
+  change H.sectionsEquiv U s = H.sectionsEquiv U s ≫ SheafOfModules.Hom.over (𝟙 G) U
   exact (Category.comp_id _).symm.trans (congrArg (_ ≫ ·)
     ((SheafOfModules.overFunctor (structureSheaf Rc) U).map_id G).symm)
 

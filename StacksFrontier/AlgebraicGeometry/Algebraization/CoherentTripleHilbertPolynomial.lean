@@ -90,16 +90,15 @@ by `Stacks.Algebraization.nonempty_preparedExtension`, and the number does not d
 chosen by `Stacks.Algebraization.PreparedExtension.eulerCharacteristic_eq`. -/
 @[stacks 0F24 "the Euler characteristic of the triple itself"]
 public noncomputable def CoherentTriple.eulerCharacteristic {A : Type u} [CommRing A]
-    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ IsLocalRing.maximalIdeal A)
-    (hreg : IsRegular f) (T : CoherentTriple A f) : ℤ :=
-  (nonempty_preparedExtension A f hf hreg T).some.eulerCharacteristic
+    [IsLocalRing A] [IsNoetherianRing A] {f : A} (T : CoherentTriple A f) : ℤ :=
+  (nonempty_preparedExtension A f T).some.eulerCharacteristic
 
 /-- **Every prepared extension computes the Euler characteristic of its triple.** -/
 public theorem CoherentTriple.eulerCharacteristic_eq_of_preparedExtension {A : Type u}
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A}
-    (hf : f ∈ IsLocalRing.maximalIdeal A) (hreg : IsRegular f) (T : CoherentTriple A f)
+    (hf : f ∈ IsLocalRing.maximalIdeal A) (T : CoherentTriple A f)
     (P : PreparedExtension A f T) :
-    T.eulerCharacteristic hf hreg = P.eulerCharacteristic :=
+    T.eulerCharacteristic = P.eulerCharacteristic :=
   PreparedExtension.eulerCharacteristic_eq A f hf T _ P
 
 /-! ### Transport along a morphism of coherent triples -/
@@ -138,12 +137,12 @@ public theorem PreparedExtension.closedFibreMap_ofHom {A : Type u} [CommRing A] 
 morphism of coherent triples whose two components are isomorphisms preserves it. -/
 public theorem CoherentTriple.eulerCharacteristic_eq_of_hom {A : Type u} [CommRing A]
     [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ IsLocalRing.maximalIdeal A)
-    (hreg : IsRegular f) {T S : CoherentTriple A f} (φ : CoherentTriple.Hom T S)
+    {T S : CoherentTriple A f} (φ : CoherentTriple.Hom T S)
     [IsIso φ.onPunctured] [IsIso φ.onClosedFibre] :
-    T.eulerCharacteristic hf hreg = S.eulerCharacteristic hf hreg := by
-  obtain ⟨P⟩ := nonempty_preparedExtension A f hf hreg T
-  rw [T.eulerCharacteristic_eq_of_preparedExtension hf hreg P,
-    S.eulerCharacteristic_eq_of_preparedExtension hf hreg (P.ofHom φ)]
+    T.eulerCharacteristic = S.eulerCharacteristic := by
+  obtain ⟨P⟩ := nonempty_preparedExtension A f T
+  rw [T.eulerCharacteristic_eq_of_preparedExtension hf P,
+    S.eulerCharacteristic_eq_of_preparedExtension hf (P.ofHom φ)]
   have hmap := PreparedExtension.closedFibreMap_ofHom φ P
   have ek : kernel (P.ofHom φ).closedFibreMap ≅ kernel P.closedFibreMap :=
     kernelIsoOfEq hmap ≪≫ kernelCompMono P.closedFibreMap _
@@ -157,16 +156,15 @@ coherent triple is additive along a short exact sequence of coherent triples. -/
 @[stacks 0F26 "additivity for the Euler characteristics of the triples themselves"]
 public theorem CoherentTriple.eulerCharacteristic_add_of_shortExact {A : Type u} [CommRing A]
     [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ IsLocalRing.maximalIdeal A)
-    (hreg : IsRegular f) {T S R : CoherentTriple A f} {φ : CoherentTriple.Hom T S}
+    {T S R : CoherentTriple A f} {φ : CoherentTriple.Hom T S}
     {ψ : CoherentTriple.Hom S R} (hse : CoherentTriple.ShortExact φ ψ) :
-    S.eulerCharacteristic hf hreg =
-      T.eulerCharacteristic hf hreg + R.eulerCharacteristic hf hreg := by
-  obtain ⟨P⟩ := nonempty_preparedExtension A f hf hreg T
-  obtain ⟨Q⟩ := nonempty_preparedExtension A f hf hreg S
-  obtain ⟨N⟩ := nonempty_preparedExtension A f hf hreg R
-  rw [T.eulerCharacteristic_eq_of_preparedExtension hf hreg P,
-    S.eulerCharacteristic_eq_of_preparedExtension hf hreg Q,
-    R.eulerCharacteristic_eq_of_preparedExtension hf hreg N]
+    S.eulerCharacteristic = T.eulerCharacteristic + R.eulerCharacteristic := by
+  obtain ⟨P⟩ := nonempty_preparedExtension A f T
+  obtain ⟨Q⟩ := nonempty_preparedExtension A f S
+  obtain ⟨N⟩ := nonempty_preparedExtension A f R
+  rw [T.eulerCharacteristic_eq_of_preparedExtension hf P,
+    S.eulerCharacteristic_eq_of_preparedExtension hf Q,
+    R.eulerCharacteristic_eq_of_preparedExtension hf N]
   exact Stacks.Algebraization.eulerCharacteristic_add_of_shortExact A f hf hse P Q N
 
 /-! ### Invertible coherent triples -/
@@ -240,18 +238,18 @@ most `d`. Then the Euler characteristics of the family are given at every intege
 polynomial of degree at most `d + 1`. -/
 public theorem exists_polynomial_eulerCharacteristic_of_shortExact_succ {A : Type u} [CommRing A]
     [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ IsLocalRing.maximalIdeal A)
-    (hreg : IsRegular f) (twist quot : ℤ → CoherentTriple A f)
+    (twist quot : ℤ → CoherentTriple A f)
     (φ : ∀ n : ℤ, CoherentTriple.Hom (twist n) (twist (n + 1)))
     (ψ : ∀ n : ℤ, CoherentTriple.Hom (twist (n + 1)) (quot n))
     (hse : ∀ n : ℤ, CoherentTriple.ShortExact (φ n) (ψ n))
     {d : ℕ} {Q : Polynomial ℚ} (hQ : Q.natDegree ≤ d)
-    (hquot : ∀ n : ℤ, (((quot n).eulerCharacteristic hf hreg : ℤ) : ℚ) = Q.eval (n : ℚ)) :
+    (hquot : ∀ n : ℤ, (((quot n).eulerCharacteristic : ℤ) : ℚ) = Q.eval (n : ℚ)) :
     ∃ P : Polynomial ℚ, P.natDegree ≤ d + 1 ∧
-      ∀ n : ℤ, (((twist n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) := by
+      ∀ n : ℤ, (((twist n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) := by
   refine exists_polynomial_natDegree_le_of_forall_sub_eq hQ fun n => ?_
-  have h := CoherentTriple.eulerCharacteristic_add_of_shortExact hf hreg (hse n)
-  have h' : (twist (n + 1)).eulerCharacteristic hf hreg - (twist n).eulerCharacteristic hf hreg
-      = (quot n).eulerCharacteristic hf hreg := by omega
+  have h := CoherentTriple.eulerCharacteristic_add_of_shortExact hf (hse n)
+  have h' : (twist (n + 1)).eulerCharacteristic - (twist n).eulerCharacteristic
+      = (quot n).eulerCharacteristic := by omega
   rw [← hquot n, ← h']
   push_cast
   ring

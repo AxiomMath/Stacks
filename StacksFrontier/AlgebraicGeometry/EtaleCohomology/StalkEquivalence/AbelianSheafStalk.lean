@@ -294,7 +294,7 @@ theorem mul_mapCommGrp_pullCommGrp {C : Type*} [Category* C]
     MonObj.mul (X := (F.mapCommGrp.obj (Sites.AbelianSheaf.pullCommGrp hF X)).X) =
       MonObj.mul (X := F.obj X) := by
   let : GrpObj X := hF.grpObj X
-  show Functor.LaxMonoidal.μ F X X ≫ F.map
+  change Functor.LaxMonoidal.μ F X X ≫ F.map
       (hF.preimage (Functor.OplaxMonoidal.δ F X X ≫ MonObj.mul (X := F.obj X))) =
     MonObj.mul (X := F.obj X)
   rw [hF.map_preimage]
@@ -451,7 +451,7 @@ theorem natIsoForget_map_zero
     {X Y : C} : F.map (0 : X ⟶ Y) = 0 := by
   ext x
   apply (ConcreteCategory.bijective_of_isIso (α.hom.app Y)).1
-  show α.hom.app Y ((F.map (0 : X ⟶ Y)).hom x) = α.hom.app Y (0 : F.obj Y)
+  change α.hom.app Y ((F.map (0 : X ⟶ Y)).hom x) = α.hom.app Y (0 : F.obj Y)
   rw [natIsoForget_apply α (0 : X ⟶ Y) x, H.map_zero, natIsoForget_zero α]
   rfl
 
@@ -541,7 +541,7 @@ def abelianEtaleStalkGerm
     (U : (geometricPointFiber B S hS s).Elements)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)) :
     (abelianEtaleStalkFunctor.{u, v} B S hS s).obj F :=
-  ConcreteCategory.hom (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  ConcreteCategory.hom (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (sheafToPresheaf _ _).obj F) (op U)) t
 
 /-- **The underlying set of the abelian stalk is the stalk of the underlying sheaf of
@@ -553,7 +553,7 @@ def abelianEtaleStalkForgetIso :
         CategoryTheory.forget AddCommGrpCat.{max u v} :=
   Functor.isoWhiskerLeft
     (sheafToPresheaf _ _ ⋙ (Functor.whiskeringLeft _ _ _).obj
-      (CategoryOfElements.π (geometricPointFiber B S hS s)).op)
+      (Functor.Elements.π (geometricPointFiber B S hS s)).op)
     (preservesColimitNatIso (CategoryTheory.forget AddCommGrpCat.{max u v})).symm
 
 /-- The comparison of stalks carries the germ of a section to its germ. -/
@@ -568,7 +568,7 @@ theorem abelianEtaleStalkForgetIso_germ
       abelianEtaleStalkGerm.{u, v} B S hS s F U t :=
   ConcreteCategory.congr_hom
     (ι_preservesColimitIso_inv (CategoryTheory.forget AddCommGrpCat.{max u v})
-      ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) (op U)) t
+      ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) (op U)) t
 
 end Stalk
 
@@ -608,7 +608,8 @@ theorem abelianEquivalenceOfGSetEquivalence_rho_apply
         (((abelianEquivalenceOfGSetEquivalence J e).functor.obj F).obj.obj.ρ σ).asHom x =
       ConcreteCategory.hom
         ((e.functor.obj
-          ((sheafCompose J (CategoryTheory.forget AddCommGrpCat.{w})).obj F)).obj.obj.ρ σ).asHom x :=
+          ((sheafCompose J (CategoryTheory.forget AddCommGrpCat.{w})).obj F)).obj.obj.ρ σ).asHom
+          x :=
   rfl
 
 end GenericTransport

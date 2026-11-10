@@ -199,7 +199,7 @@ public theorem exists_consecutiveChart_notMem (p : Ideal (sectionRing L)) (hpp :
   let x₀ : ProjectiveSpectrum (grading L) := ⟨P, hpp.homogeneousCore, hrel⟩
   let x : X := (inv (projHomOfIsAmple L hL)).base x₀
   have hx : (projHomOfIsAmple L hL).base x = x₀ := by
-    show (inv (projHomOfIsAmple L hL) ≫ projHomOfIsAmple L hL).base x₀ = x₀
+    change (inv (projHomOfIsAmple L hL) ≫ projHomOfIsAmple L hL).base x₀ = x₀
     rw [IsIso.inv_hom_id]
     rfl
   obtain ⟨_, ⟨ch, rfl⟩, hxch, -⟩ := (Opens.isBasis_iff_nbhd.mp (isBasis_consecutiveChart L hL))

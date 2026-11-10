@@ -187,7 +187,7 @@ theorem exists_finite_cover_iso_of_isGerbeOver (V : Subfunctor Y)
     (xa xb : algebraicSpaceStack.{u, w} B S hS U.toFunctor hU.1 ⟶ 𝒳)
     (ea : xa ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS hU.1 hY (U.ι ≫ p))
     (eb : xb ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS hU.1 hY (U.ι ≫ p)) :
-    ∃ (Y'' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hY'' : IsAlgebraicSpace B S hS Y'') (g : Y'' ⟶ Y'),
+    ∃ (Y'' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u), IsAlgebraicSpace B S hS Y'' ∧ ∃ (g : Y'' ⟶ Y'),
       Space.IsFinite B S hS g ∧ Space.IsSurjective B S hS g ∧
       ∃ (J : Type u) (O : J → Subfunctor Y'') (hO : ∀ j, Space.IsOpenSubspace B S hS (O j))
         (hOV : ∀ j, O j ≤ V'.preimage g),

@@ -56,7 +56,7 @@ theorem exists_eq_smul_id_specFieldOver_unit
   obtain ⟨r, hr⟩ := surjective_specFieldOver_globalScalar k (e ψ)
   refine ⟨r, e.injective ?_⟩
   rw [map_smul, ← hr]
-  show _ = ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change _ = ((Scheme.ΓSpecIso (.of k)).inv ≫
     (specFieldOver k).hom.appLE ⊤ ⊤ (by simp)).hom r * (1 : Γ((specFieldOver k).left, ⊤))
   exact (mul_one _).symm
 

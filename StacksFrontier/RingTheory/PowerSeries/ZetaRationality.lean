@@ -117,7 +117,7 @@ theorem coeff_logDerivative_one_sub_C_mul_X (a : R) (m : ℕ) :
 private theorem coeff_logDerivative_prod_one_sub_C_mul_X {r : ℕ} (a : Fin r → R) {k : ℕ}
     (hk : k ≠ 0) : coeff k (logDerivative (∏ i, (1 - C (a i) * X))) = -∑ i, a i ^ k := by
   rw [logDerivative_finsetProd _ _ fun i _ => by simp, map_sum]
-  simp only [coeff_logDerivative_one_sub_C_mul_X, if_neg hk, Finset.sum_neg_distrib]
+  simp only [coeff_logDerivative_one_sub_C_mul_X, ite_eq_right hk, Finset.sum_neg_distrib]
 
 /-- The logarithmic derivative of a power. -/
 theorem logDerivative_pow {u : R⟦X⟧} (hu : constantCoeff u = 1) (n : ℕ) :
@@ -224,7 +224,7 @@ theorem sum_zetaNumCoeff (Q : ℤ) (g : ℕ → ℤ) (D : ℕ) :
     · simp
       ring
     · have h1 : 1 ≤ D := hD
-      simp only [h1, show 1 ≤ D + 1 by omega, show 2 ≤ D + 1 by omega, if_true,
+      simp only [h1, show 1 ≤ D + 1 by omega, show 2 ≤ D + 1 by omega, ite_true,
         Nat.add_sub_cancel, show D + 1 - 2 = D - 1 by omega]
       ring
 
@@ -248,7 +248,7 @@ theorem sum_zetaNumCoeff_mul_pow (Q : ℤ) (g : ℕ → ℤ) (D : ℕ) :
     · simp
       ring
     · have h1 : 1 ≤ D := hD
-      simp only [h1, show 1 ≤ D + 1 by omega, show 2 ≤ D + 1 by omega, if_true,
+      simp only [h1, show 1 ≤ D + 1 by omega, show 2 ≤ D + 1 by omega, ite_true,
         Nat.add_sub_cancel, show D + 1 - 2 = D - 1 by omega]
       ring
 
@@ -265,7 +265,7 @@ theorem coe_trunc_of_coeff_eq_zero {R : Type*} [CommRing R] {F : R⟦X⟧} {M : 
 theorem eval_one_trunc {R : Type*} [CommRing R] (F : R⟦X⟧) (M : ℕ) :
     (trunc (M + 1) F).eval 1 = ∑ n ∈ range (M + 1), coeff n F := by
   rw [Polynomial.eval_eq_sum_range' (natDegree_trunc_lt F M)]
-  exact Finset.sum_congr rfl fun n hn => by rw [coeff_trunc, if_pos (Finset.mem_range.1 hn),
+  exact Finset.sum_congr rfl fun n hn => by rw [coeff_trunc, ite_eq_left (Finset.mem_range.1 hn),
     one_pow, mul_one]
 
 /-- **Eventual vanishing of the coefficients of the numerator.** If from `E0` on the coefficients
@@ -278,7 +278,8 @@ theorem zetaNumCoeff_eventually (q Q h K : ℤ) (E0 : ℕ) (g : ℕ → ℤ) (hq
       (q - 1) * (g (E0 + 1) - Q * g E0) = h * (Q - 1) := by
   refine ⟨fun n hn => ?_, ?_⟩
   · refine (mul_right_injective₀ hq) ?_
-    simp only [zetaNumCoeff, if_pos (by omega : 1 ≤ n), if_pos (by omega : 2 ≤ n), mul_zero]
+    simp only [zetaNumCoeff, ite_eq_left (by omega : 1 ≤ n), ite_eq_left (by omega : 2 ≤ n),
+      mul_zero]
     have h0 := hg n (by omega)
     have h1 := hg (n - 1) (by omega)
     have h2 := hg (n - 2) (by omega)
@@ -318,14 +319,14 @@ theorem exists_zetaNumerator (q : ℕ) (hq : 2 ≤ q) (γ h : ℕ) (A : ℕ → 
       obtain rfl : γ = 0 := by omega
       have h0 := hR 0 (by omega)
       have h1 := hR 1 (by omega)
-      simp only [if_pos (le_refl 1), if_neg (by omega : ¬ 2 ≤ 1), Nat.sub_self, mul_zero,
+      simp only [ite_eq_left (le_refl 1), ite_eq_right (by omega : ¬ 2 ≤ 1), Nat.sub_self, mul_zero,
         add_zero]
       simp only [g, Nat.sub_zero, zero_add, pow_one] at h0 h1 ⊢
       linear_combination h1 - ((q : ℤ) + 1) * h0
     · have h0 := hR n (by omega)
       have h1 := hR (n - 1) (by omega)
       have h2 := hR (n - 2) (by omega)
-      simp only [if_pos (by omega : 1 ≤ n), if_pos hn2]
+      simp only [ite_eq_left (by omega : 1 ≤ n), ite_eq_left hn2]
       rw [show n + 1 - γ = (n - 2 + 1 - γ) + 2 by omega, pow_add] at h0
       rw [show n - 1 + 1 - γ = (n - 2 + 1 - γ) + 1 by omega, pow_add] at h1
       simp only [g] at h0 h1 h2 ⊢
@@ -337,18 +338,18 @@ theorem exists_zetaNumerator (q : ℕ) (hq : 2 ≤ q) (γ h : ℕ) (A : ℕ → 
     rcases Nat.eq_zero_or_pos γ with rfl | hγ
     · have h0 := hR 0 (by omega)
       simp only [hA0, Nat.cast_one, zero_add, Nat.sub_zero, pow_one, mul_one] at h0
-      simp only [if_neg (show ¬ 1 ≤ 0 by omega), mul_zero, sub_zero, g, hA0, Nat.cast_one,
+      simp only [ite_eq_right (show ¬ 1 ≤ 0 by omega), mul_zero, sub_zero, g, hA0, Nat.cast_one,
         zero_add, pow_one, pow_zero, sub_self]
       linear_combination h0
     · have h0 := hR (2 * γ) (by omega)
       have h1 := hR (2 * γ - 1) (by omega)
-      rw [if_pos (by omega : 1 ≤ 2 * γ), show 2 * γ + 1 - γ = γ + 1 by omega] at *
+      rw [ite_eq_left (by omega : 1 ≤ 2 * γ), show 2 * γ + 1 - γ = γ + 1 by omega] at *
       rw [show 2 * γ - 1 + 1 - γ = γ by omega] at h1
       simp only [g] at h0 h1 ⊢
       linear_combination h0 - c * h1
   refine ⟨trunc (2 * γ + 1) F, ?_, ?_, coe_trunc_of_coeff_eq_zero hvan, ?_, ?_⟩
   · exact Nat.lt_succ_iff.1 (natDegree_trunc_lt F (2 * γ))
-  · rw [coeff_trunc, if_pos (by omega), coeff_zetaNum]
+  · rw [coeff_trunc, ite_eq_left (by omega), coeff_zetaNum]
     simp [zetaNumCoeff, g, hA0]
   · rw [eval_one_trunc,
       Finset.sum_congr rfl fun n _ => (coeff_zetaNum (q : ℤ) g n : coeff n F = _),
@@ -358,7 +359,7 @@ theorem exists_zetaNumerator (q : ℕ) (hq : 2 ≤ q) (γ h : ℕ) (A : ℕ → 
   · have hcoeff : ∀ n ∈ range (2 * γ + 1),
         (trunc (2 * γ + 1) F).coeff n * (q : ℤ) ^ (2 * γ - n) =
           zetaNumCoeff q g n * (q : ℤ) ^ (2 * γ - n) := fun n hn => by
-      rw [coeff_trunc, if_pos (Finset.mem_range.1 hn), coeff_zetaNum]
+      rw [coeff_trunc, ite_eq_left (Finset.mem_range.1 hn), coeff_zetaNum]
     rw [Finset.sum_congr rfl hcoeff, sum_zetaNumCoeff_mul_pow]
     refine (mul_right_injective₀ hq1) ?_
     linear_combination hend 1
@@ -407,7 +408,7 @@ theorem exists_num_of_tail (q : ℤ) (hq : 2 ≤ q) (δ γ : ℕ) (hδ : 0 < δ)
     (coeff_zetaNum (q ^ δ) g n).trans (hvan n hn)
   refine ⟨trunc (E0 + 2) F, ?_, coe_trunc_of_coeff_eq_zero hvan'⟩
   rw [eval_one_trunc, Finset.sum_congr rfl fun n _ => (coeff_zetaNum (q ^ δ) g n : coeff n F = _),
-    sum_zetaNumCoeff, if_pos (by omega), Nat.add_sub_cancel]
+    sum_zetaNumCoeff, ite_eq_left (by omega), Nat.add_sub_cancel]
   intro h0
   rw [h0, mul_zero] at hval
   have hQ : q ^ δ - 1 ≠ 0 := by
@@ -479,7 +480,7 @@ theorem period_eq_one (q : ℤ) (hq : 2 ≤ q) (γ : ℕ) (A A' : ℕ → ℤ) (
   have hcancel := congrArg (Polynomial.eval 1) (mul_left_cancel₀ hne1 hfac)
   simp only [Polynomial.eval_mul, Polynomial.eval_pow, Polynomial.eval_sub, Polynomial.eval_one,
     Polynomial.eval_X, sub_self, zero_pow (Nat.succ_ne_zero d), zero_mul,
-    Polynomial.eval_finset_sum, one_pow, Finset.sum_const, Finset.card_range,
+    Polynomial.eval_finsetSum, one_pow, Finset.sum_const, Finset.card_range,
     Polynomial.eval_C, mul_one, nsmul_eq_mul] at hcancel
   have hQ' : Q' - 1 ≠ 0 := by
     have : q ≤ Q' := le_trans (le_self_pow₀ (by omega) (by omega : d + 2 ≠ 0))
@@ -507,8 +508,8 @@ theorem coeff_logDerivative_map_numerator {K : Type*} [CommRing K] (ι : ℤ →
     rw [← coeff_zero_eq_constantCoeff_apply, coeff_map, coeff_mk, hA0, map_one]
   rw [hP, map_mul, map_mul, h1, h2, logDerivative_mul (by rw [map_mul, c1, c2, one_mul]) c3,
     logDerivative_mul c1 c2, logDerivative_map ι hA, map_add, map_add,
-    coeff_logDerivative_one_sub_C_mul_X, coeff_logDerivative_one_sub_C_mul_X, if_neg hk,
-    if_neg hk, coeff_map, one_pow]
+    coeff_logDerivative_one_sub_C_mul_X, coeff_logDerivative_one_sub_C_mul_X, ite_eq_right hk,
+    ite_eq_right hk, coeff_map, one_pow]
   ring
 
 /-- The value of `T ^ D P(1/T)` at `Q`, for a product of `r ≤ D` reciprocal linear factors. -/

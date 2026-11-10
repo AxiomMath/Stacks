@@ -107,7 +107,7 @@ theorem exists_affine_isSurjective_of_isQuasiCompactStack (𝒯 : AlgebraicStack
     intro y
     have hnat := pointsHomeomorphScheme_naturality B S hS k y
     rw [AlgebraicStacks.pointsMap_comp]
-    show AlgebraicStacks.pointsMap B S hS a₁ (AlgebraicStacks.pointsMap B S hS kk y) =
+    change AlgebraicStacks.pointsMap B S hS a₁ (AlgebraicStacks.pointsMap B S hS kk y) =
       AlgebraicStacks.pointsMap B S hS a₁
         (φ.symm (((BigFppfOver.toScheme B S hS).map k).base
           (pointsHomeomorphScheme B S hS A y)))

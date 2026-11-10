@@ -141,7 +141,7 @@ lemma map_endoColimitι_comp_endoColimitCompIso_hom (n : ℕ) :
       ((IsColimit.precomposeHomEquiv (endoSequenceCompIso φ T)
         (colimit.cocone (endoSequence (T.map φ)))).symm (colimit.isColimit _)) n
   refine h.trans ?_
-  show (endoSequenceCompIso φ T).hom.app n ≫ endoColimitι (T.map φ) n = _
+  change (endoSequenceCompIso φ T).hom.app n ≫ endoColimitι (T.map φ) n = _
   rw [show (endoSequenceCompIso φ T).hom.app n = 𝟙 (T.obj R) from endoSequenceComp_app φ T n]
   exact Category.id_comp _
 

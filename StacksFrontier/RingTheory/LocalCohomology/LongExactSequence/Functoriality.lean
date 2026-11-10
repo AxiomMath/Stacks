@@ -155,7 +155,7 @@ theorem cechTermMap_eq_cechTermLinearMap {M N : ModuleCat.{max u v} R} (g : M �
     cechTermMap f (0 : M ⟶ N) p = 0 := by
   rw [cechTermMap_eq_cechTermLinearMap, ModuleCat.hom_zero]
   refine LinearMap.ext fun x => DFinsupp.ext fun s => ?_
-  show localizedModuleMap (Cech.cechSub f s.1)
+  change localizedModuleMap (Cech.cechSub f s.1)
     (0 : (M : Type (max u v)) →ₗ[R] (N : Type (max u v))) (x s) = 0
   rw [localizedModuleMap, map_zero]
   rfl
@@ -226,18 +226,18 @@ theorem shortExact_map_cechTerm (hS : S.ShortExact) (p : ℕ) :
   have hex : Function.Exact S.f.hom S.g.hom :=
     (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact S).1 hS.exact
   refine ModuleCat.shortComplex_shortExact _ ?_ ?_ ?_
-  · show Function.Exact (cechTermMap f S.f p) (cechTermMap f S.g p)
+  · change Function.Exact (cechTermMap f S.f p) (cechTermMap f S.g p)
     rw [cechTermMap_eq_cechTermLinearMap, cechTermMap_eq_cechTermLinearMap]
     exact exact_lmap _ _ fun s =>
       IsLocalizedModule.map_exact (Cech.cechSub f s.1)
         (LocalizedModule.mkLinearMap (Cech.cechSub f s.1) S.X₁)
         (LocalizedModule.mkLinearMap (Cech.cechSub f s.1) S.X₂)
         (LocalizedModule.mkLinearMap (Cech.cechSub f s.1) S.X₃) S.f.hom S.g.hom hex
-  · show Function.Injective (cechTermMap f S.f p)
+  · change Function.Injective (cechTermMap f S.f p)
     rw [cechTermMap_eq_cechTermLinearMap]
     exact (DirectSum.lmap_injective _).2 fun s =>
       IsLocalizedModule.map_injective (Cech.cechSub f s.1) _ _ _ hS.injective_f
-  · show Function.Surjective (cechTermMap f S.g p)
+  · change Function.Surjective (cechTermMap f S.g p)
     rw [cechTermMap_eq_cechTermLinearMap]
     exact (DirectSum.lmap_surjective _).2 fun s =>
       IsLocalizedModule.map_surjective (Cech.cechSub f s.1) _ _ _ hS.surjective_g

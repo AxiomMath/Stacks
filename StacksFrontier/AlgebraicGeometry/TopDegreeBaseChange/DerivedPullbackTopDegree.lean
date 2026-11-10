@@ -554,7 +554,8 @@ theorem isIso_homologyFunctor_map_derivedPullbackComparison_app
           (ComplexShape.up ℤ)).map s))) _
 
 /-- **The canonical map `Lf^*(M[-d]) ⟶ (f^* M)[-d]`.** This is Tag 0EX3's own
-`derivedToOrdinaryPullback`, which the statement writes in degree zero, in degree `d`: the derived-pullback
+`derivedToOrdinaryPullback`, which the statement writes in degree zero, in degree `d`: the
+derived-pullback
 comparison of `Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullbackComparison` at the
   single complex on `M`, read through
 the identifications of the single functors with their homotopy-category and derived-category
@@ -631,7 +632,8 @@ def derivedPullbackTopDegreeIsoPullback
   derivedPullbackTopDegreeIsoSingle f K d hK ≪≫ homologyDerivedPullbackSingleIso f _ d
 
 /-- **Pullback of the top higher direct image, at the scheme-level spelling of the 0EX3
-situation.** This is the `topDirectImagePullbackIso` of the statement `0EX3__top_direct_image_base_change`
+situation.** This is the `topDirectImagePullbackIso` of the statement
+`0EX3__top_direct_image_base_change`
 with **one hypothesis the statement does not have**: that `Rf'_*(F'[0])` has no cohomology above
 `d`. The statement derives that from conclusion (a) of the tag; here it is assumed, so the
 declaration does not carry the statement's name and carries no tag.

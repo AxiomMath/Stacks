@@ -101,7 +101,7 @@ theorem smallerBaseFormalSpectrumIso_ι (D : QuotientSystem B V hV A)
           ((BigAffineFppf.inclusion B V hV).obj (D.diagram.obj J)) ≫
         formalSpectrumInclusion (smallerBaseQuotientSystem B V S hV hS g D) J := by
   simp only [smallerBaseFormalSpectrumIso]
-  exact (ι_preservesColimitIso_hom_assoc _ _ J _).trans (HasColimit.isoOfNatIso_ι_hom _ J)
+  exact (ι_preservesColimitIso_hom_assoc _ _ J _).trans (HasColimit.ι_isoOfNatIso_hom _ J)
 
 /-- The comparison `AlgebraicGeometry.FormalSpace.smallerBaseFormalSpectrumIso` is compatible with
 the maps of formal spectra. -/

@@ -187,7 +187,7 @@ theorem toOverComparison_counitIso_inv_app_comp (Z : SheafOverFormalCoproduct J 
         Over.Hom.left ((sheafFunctorToOver J K).map ((sheafEquivalence J K).unitInv.app Z)) =
       𝟙 ((Over.forget (formalCoproductSheafification J K)).obj
         ((sheafEquivalence J K).functor.obj Z)) := by
-  show 𝟙 _ ≫ (Over.forget (formalCoproductSheafification J K)).map
+  change 𝟙 _ ≫ (Over.forget (formalCoproductSheafification J K)).map
         ((sheafEquivalence J K).counitIso.inv.app ((sheafEquivalence J K).functor.obj Z)) ≫
       (Over.forget (formalCoproductSheafification J K)).map
         ((sheafEquivalence J K).functor.map ((sheafEquivalence J K).unitInv.app Z)) = _
@@ -284,7 +284,7 @@ theorem componentShriekSigmaCompAdjunction_counit_app (X : Sheaf J (Type u)) :
   have hL : (componentShriekSigmaIso J K).hom.app ((componentwiseRestriction J K).obj X) ≫
         (sheafFunctorToOverForgetAdjunction J K).counit.app X =
       (componentShriekSigmaAdjunction J K).counit.app X := by
-    show (componentShriekSigmaIso J K).hom.app ((componentwiseRestriction J K).obj X) ≫
+    change (componentShriekSigmaIso J K).hom.app ((componentwiseRestriction J K).obj X) ≫
         (componentShriekSigmaIso J K).inv.app ((componentwiseRestriction J K).obj X) ≫
           (componentShriekSigmaAdjunction J K).counit.app X = _
     rw [← Category.assoc, Iso.hom_inv_id_app, Category.id_comp]
@@ -496,7 +496,7 @@ theorem componentShriekSigmaAdjunction_homEquiv_sheafFunctorToOver_hom
     ((whisker_eq _
           ((eq_whisker (componentShriekSigmaIso_hom_app J K W) _).trans
             (Category.id_comp _))).trans
-      (Limits.Sigma.ι_desc
+      (Limits.Sigma.ι_comp_desc
         (fun j => ((OverShriek.sheafFunctorToOver (U := K.obj j) J).obj (W j)).hom ≫
           formalCoproductSheafificationι J K j) i))) ?_
   rw [Adjunction.homEquiv_naturality_right,
@@ -670,7 +670,7 @@ theorem relocalizationForgetPushforwardIso'_hom_app_hom_app (Z : Sheaf J (Type u
           (componentwiseTopology J N) (Type u)).hom.app Z).hom.app (op ⟨i, A⟩) =
       𝟙 (Z.obj.obj (op A.left)) := by
   rw [relocalizationForgetPushforwardIso'_eq]
-  show Z.obj.map ((eqToHom (componentOverMap_comp_componentOverForget f).symm).app
+  change Z.obj.map ((eqToHom (componentOverMap_comp_componentOverForget f).symm).app
       (⟨i, A⟩ : ComponentOver M)).op = 𝟙 (Z.obj.obj (op A.left))
   rw [eqToHom_app, eqToHom_op, eqToHom_map]
   exact eqToHom_refl _ _
@@ -702,7 +702,7 @@ theorem componentOverMap_tautologicalSection
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext ?_)
   rintro ⟨⟨i, A⟩⟩
-  show (tautologicalSection J N W).hom.app (op ((componentOverMap f).obj ⟨i, A⟩)) ≫
+  change (tautologicalSection J N W).hom.app (op ((componentOverMap f).obj ⟨i, A⟩)) ≫
         ((relocalizationForgetPushforwardIso' J f (componentwiseTopology J M)
           (componentwiseTopology J N) (Type u)).hom.app
             (formalCoproductSheafification J N)).hom.app (op ⟨i, A⟩) =
@@ -719,7 +719,7 @@ theorem componentOverMap_tautologicalSection
         (((sheafificationAdjunction J (Type u)).unit.app
           ((FormalCoproduct.yoneda (C := C)).obj N)).app (op A.left))
         (congrArg (fun m => m A.hom)
-          (NatTrans.congr_app (Sigma.ι_desc (fun j => yoneda.map (f.φ j) ≫
+          (NatTrans.congr_app (Sigma.ι_comp_desc (fun j => yoneda.map (f.φ j) ≫
             Sigma.ι (fun j : N.I => yoneda.obj (N.obj j)) (f.f j)) i) (op A.left))).symm).trans
     (congrArg
       (fun m => m ((Limits.Sigma.ι (fun j : M.I => yoneda.obj (M.obj j)) i).app

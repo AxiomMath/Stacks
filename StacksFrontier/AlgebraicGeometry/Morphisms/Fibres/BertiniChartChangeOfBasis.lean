@@ -107,7 +107,7 @@ theorem linearSubst_comp {ρ σ τ : Type*} [Fintype ρ] [Fintype σ] (b : Matri
     (c : Matrix σ τ A) :
     (linearSubst b).comp (linearSubst c) = linearSubst (b * c) := by
   refine MvPolynomial.algHom_ext fun j ↦ ?_
-  show linearSubst b (linearSubst c (X j)) = linearSubst (b * c) (X j)
+  change linearSubst b (linearSubst c (X j)) = linearSubst (b * c) (X j)
   rw [linearSubst_X c j, linearSubst_X (b * c) j, linearSubst_sum_C_mul_X]
   simp only [Matrix.mul_apply]
 
@@ -180,7 +180,7 @@ theorem quotientLinearSubstEquiv_symm_mk {ρ σ : Type*} [Fintype ρ] [Fintype �
       Ideal.Quotient.mk _ (linearSubst c p) := by
   refine (quotientLinearSubstEquiv f b c hbc hcb).injective ?_
   rw [AlgEquiv.apply_symm_apply]
-  show (Ideal.Quotient.mk _ p : MvPolynomial ρ A ⧸ _) =
+  change (Ideal.Quotient.mk _ p : MvPolynomial ρ A ⧸ _) =
     Ideal.Quotient.mk _ (linearSubst b (linearSubst c p))
   rw [linearSubst_linearSubst b c hbc p]
 
@@ -220,7 +220,7 @@ theorem universalDivisorChartMap_linearSubstChartAlgebra (p : MvPolynomial ρ A)
     universalDivisorChartMap A Ω (fun i => ∑ j, b i j * f j) p =
       universalDivisorChartMap A Ω f (linearSubst c p) := by
   let := linearSubstChartAlgebra A Ω f b c hbc hcb
-  show algebraMap (MvPolynomial σ A ⧸ Ideal.span {universalLinearForm f}) Ω
+  change algebraMap (MvPolynomial σ A ⧸ Ideal.span {universalLinearForm f}) Ω
       ((quotientLinearSubstEquiv f b c hbc hcb).toRingEquiv.symm (Ideal.Quotient.mk _ p)) = _
   rw [show (quotientLinearSubstEquiv f b c hbc hcb).toRingEquiv.symm (Ideal.Quotient.mk _ p) =
       Ideal.Quotient.mk _ (linearSubst c p) from

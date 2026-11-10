@@ -314,7 +314,7 @@ public theorem exists_pointBlowupChain_comp_eq_pointBlowUpToBase {A B : Scheme.{
     simpa [genericPoints_eq_singleton, Set.bijOn_singleton] using hbg.bijOn
   have hdense : Dense ((g ⁻¹ᵁ Vc : B.Opens) : Set B) := by
     refine (g ⁻¹ᵁ Vc : B.Opens).2.dense ⟨genericPoint B, ?_⟩
-    show g (genericPoint B) ∈ Vc
+    change g (genericPoint B) ∈ Vc
     rw [hgen]
     exact genericPoint_notMem_supportSet _
       (vanishingIdeal_singleton_ne_bot hA.topologicalKrullDim_eq a ha)
@@ -325,7 +325,7 @@ public theorem exists_pointBlowupChain_comp_eq_pointBlowUpToBase {A B : Scheme.{
         (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι }
   have : fpm.IsOver A := by
     refine ⟨?_⟩
-    show ((g ∣_ Vc) ≫ (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
+    change ((g ∣_ Vc) ≫ (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
       (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι) ≫ pointBlowUpToBase ha = (g ⁻¹ᵁ Vc).ι ≫ g
     have key : (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
         (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι ≫ pointBlowUpToBase ha = Vc.ι := by
@@ -355,7 +355,7 @@ public theorem blowUpToBase_subschemeι_pointExceptionalCurve {W : Scheme.{u}} {
   have hmem : ((pointExceptionalCurve hw).subschemeι z) ∈
       (((Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W)).comap
         (pointBlowUpToBase hw)).support : Set (pointBlowUp hw)) := by
-    show ((pointExceptionalCurve hw).subschemeι z) ∈
+    change ((pointExceptionalCurve hw).subschemeι z) ∈
       ((pointExceptionalCurve hw).support : Set (pointBlowUp hw))
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨z, rfl⟩

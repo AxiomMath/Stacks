@@ -178,7 +178,7 @@ lemma isHomLift_auto_hom (hX : X ⋙ p𝒳 = p𝒰) (sep : SeparationData p𝒰 
     isHomLift_map p𝒰 p𝒳 X hX (𝟙 R.base) _ h₂
   have := h₁
   have := h₃
-  show p𝒳.IsHomLift (𝟙 R.base) (R.iso.hom ≫ X.map (sep R).1.inv)
+  change p𝒳.IsHomLift (𝟙 R.base) (R.iso.hom ≫ X.map (sep R).1.inv)
   infer_instance
 
 /-- The `X`-image of the first end of an object of the self-intersection lies over its base
@@ -275,7 +275,7 @@ instance faithful_toInertiaBase : (toInertiaBase p𝒰 p𝒳 X hX sep thin).Fait
 
 /-- The arrow of the self-intersection built from a morphism of the base change of the
 inertia. -/
-def preimage (hX : X ⋙ p𝒳 = p𝒰) (sep : SeparationData p𝒰 p𝒳 X)
+def preimage (sep : SeparationData p𝒰 p𝒳 X)
     {R T : Relation p𝒰 p𝒳 X} (k : R.base ⟶ T.base) (m : R.x ⟶ T.x)
     (hm : p𝒰.IsHomLift k m)
     (hcomm : X.map m ≫ T.iso.hom ≫ X.map (sep T).1.inv
@@ -301,7 +301,7 @@ instance full_toInertiaBase : (toInertiaBase p𝒰 p𝒳 X hX sep thin).Full whe
     have e1 : h.a.hom ≫ 𝟙 (X.obj T.x) = h.a.hom := Category.comp_id _
     have e2 : 𝟙 (X.obj R.x) ≫ X.map m = X.map m := Category.id_comp _
     have hah : h.a.hom = X.map m := e1.symm.trans (hw.trans e2)
-    refine ⟨preimage hX sep h.hbase m h.hb ?_, ?_⟩
+    refine ⟨preimage sep h.hbase m h.hb ?_, ?_⟩
     · rw [← hah]
       exact h.a.comm
     · refine TwoFibreProductOver.Hom.ext' ?_ rfl
@@ -346,7 +346,7 @@ of the comparison is the automorphism of `P` conjugated by the comparison isomor
 lemma auto_ofInertiaBase (P : InertiaBase p𝒰 p𝒳 X) :
     (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).asIso.hom
       = P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom := by
-  show (P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom)
+  change (P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom)
       ≫ X.map (sep (ofInertiaBase P)).1.inv
     = P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom
   rw [sep_ofInertiaBase_inv sep thin P, X.map_id, Category.comp_id]

@@ -355,6 +355,7 @@ public theorem forgetModuleSheaf_map_fShriekMod_map {M N : ModuleSheaf.{u, v, r}
   rfl
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the large `moduleLift_comp_counit` application and its universe-annotated arguments
 /-- **The weighted traces compose, at `Λ`-coefficients.** -/
 public theorem weightedTraceMod_comp (M : ModuleSheaf.{u, v, r} B Z Λ) :
     weightedTraceMod.{u, v, r} B Λ (f ≫ g) (isWeighting_comp B f g hw_f hw_g) M =
@@ -408,6 +409,7 @@ variable (B : BigEtaleSite.{u}) (Λ : Type r) [Ring Λ] {X Y Z : B.Scheme} (f : 
   [HasDerivedCategory.{t} (ModuleSheaf.{u, v, r} B Z Λ)]
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the long composite of derived functors and `mapDerivedCategoryCompToIdComp_eq`
 /-- **Stacks 0GL3.** Let `f : X ⟶ Y` and `g : Y ⟶ Z` be locally quasi-finite morphisms, `w_f` a
 weighting of `f` and `w_g` a weighting of `g`, and `Λ` a ring. For `K` in `D(Z_étale, Λ)` the
 composite

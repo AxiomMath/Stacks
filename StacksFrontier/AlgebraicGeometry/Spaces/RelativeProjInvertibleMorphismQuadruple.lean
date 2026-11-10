@@ -108,7 +108,7 @@ def clauseTwoClass {W : Scheme.{u}} (q : W ⟶ T) {k : ℕ} (hk : 0 < k)
 /-- The class of clause (2) lies over `q ≫ f`. -/
 theorem clauseTwoClass_fst {W : Scheme.{u}} (q : W ⟶ T) {k : ℕ} (hk : 0 < k)
     [Epi ((ψ.pullback q).app (k : ℤ))] : (clauseTwoClass ψ q hk).1 = q ≫ f := by
-  show W.topIso.inv ≫ (⊤ : W.Opens).ι ≫ q ≫ f = _
+  change W.topIso.inv ≫ (⊤ : W.Opens).ι ≫ q ≫ f = _
   rw [Scheme.toIso_inv_ι_assoc]
 
 /-- The pullback along `g : W' ⟶ W` of the class of clause (2) lies over `g ≫ q ≫ f`. -/
@@ -203,7 +203,7 @@ theorem quadrupleSpaceEquiv_invertibleMorphism_val
   rw [← hs'1, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   have hpt : ρ.quadrupleSpaceEquiv hc hX W ((ρ.projToQuadrupleSpace hc hX f).app (op W) s') =
       ρ.limPointEquiv hX W (ρ.projPoint f (hc Z f) s') := by
-    show ρ.quadrupleSpaceEquiv hc hX W (ρ.relativeProjFunctorEquivQuadruple hc hX W
+    change ρ.quadrupleSpaceEquiv hc hX W (ρ.relativeProjFunctorEquivQuadruple hc hX W
       ((ρ.projToFunctor hc f).app (op W) s')) = _
     rw [quadrupleSpaceEquiv_relativeProjFunctorEquivQuadruple,
       relativeProjFunctorEquiv_projToFunctor]
@@ -220,7 +220,7 @@ theorem quadrupleSpaceEquiv_invertibleMorphism_val
       ((BigFppfOver.toScheme B S hS).map v)) (homEquiv_classifyingMorphism _ _)).trans ?_
     exact F.pullback_comp _ _ _
   refine Sigma.ext ?_ ?_
-  · show yoneda.map v ≫ yoneda.map (s' ≫ projHom Â f (hc Z f)) ≫ f = _
+  · change yoneda.map v ≫ yoneda.map (s' ≫ projHom Â f (hc Z f)) ≫ f = _
     simp only [hs'2, Functor.map_comp, Category.assoc]
   · exact ρ.fibreOfF_heq f rfl rfl (homEquiv_val_fst _ _ _ _ _)
       ((pullback_clauseTwoClass_fst ψ _ _ hk).trans
@@ -241,7 +241,7 @@ theorem quadrupleSpaceEquivF_invertibleMorphism
         ρ.fibreOfF f w (yoneda.map w ≫ f) rfl
           (clauseTwoClass ψ ((BigFppfOver.toScheme B S hS).map w) hk)
           ((clauseTwoClass_fst ψ _ hk).trans (Category.comp_id _))⟩ := by
-  show (ρ.quadrupleSpaceEquiv hc hX W _).val W hW (𝟙 W) = _
+  change (ρ.quadrupleSpaceEquiv hc hX W _).val W hW (𝟙 W) = _
   rw [ρ.quadrupleSpaceEquiv_invertibleMorphism_val hc hX ψ w hk W hW (𝟙 W)]
   have key : ∀ (t : W ⟶ Z) (_ : t = w)
       (ζ : F ((GradedAlgebraPoints.ofQuasicoherentFamily Â).algebra Z f)
@@ -287,7 +287,8 @@ along `v` of the quadruple `(k, w, (w^*ℒ)^{⊗ k}, ψ^{(k)}|_W)`, transported 
 `(w ∘ v)^*(f^*𝒜)` to the algebra `(f ∘ w ∘ v)^*𝒜` along the comparison of the restriction datum
 of the situation. -/
 @[stacks 0D2Z "variant: clause (2)(b) read on the functor of \
-quadruples of Tag 084A at every quasi-compact W' -> W; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+quadruples of Tag 084A at every quasi-compact W' -> W; the tag is \
+AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem quadrupleSpaceEquiv_invertibleMorphism_val
     {W : BigFppfOver s.site s.base s.containsBase} (w : W ⟶ X) {k : ℕ} (hk : 0 < k)
     [Epi ((ψ.pullback ((BigFppfOver.toScheme s.site s.base s.containsBase).map w)).app (k : ℤ))]

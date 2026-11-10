@@ -209,7 +209,7 @@ def IsAffineIndEtaleOverEtale : ObjectProperty X.ProEt := fun V ↦
 lemma isAffineIndEtaleOverEtale_etaleToProetale_obj (U₀ : X.Etale) [IsAffine U₀.left] :
     IsAffineIndEtaleOverEtale X (X.etaleToProetale.obj U₀) :=
   ⟨inferInstanceAs (IsAffine U₀.left), U₀, 𝟙 _, inferInstance, by
-    show MorphismProperty.ind.{u} CommRingCat.etale (Scheme.Hom.appTop (𝟙 U₀.left))
+    change MorphismProperty.ind.{u} CommRingCat.etale (Scheme.Hom.appTop (𝟙 U₀.left))
     rw [Scheme.Hom.id_appTop]
     exact indEtale_of_isIso _⟩
 
@@ -220,7 +220,7 @@ lemma IsAffineIndEtaleOverEtale.of_hom {U V : X.ProEt} (hU : IsAffineIndEtaleOve
     IsAffineIndEtaleOverEtale X V := by
   obtain ⟨-, U₀, g, hU₀, hg⟩ := hU
   refine ⟨inferInstance, U₀, f ≫ g, hU₀, ?_⟩
-  show MorphismProperty.ind.{u} CommRingCat.etale (f.left ≫ g.left).appTop
+  change MorphismProperty.ind.{u} CommRingCat.etale (f.left ≫ g.left).appTop
   rw [Scheme.Hom.comp_appTop]
   exact CommRingCat.ind_etale_comp _ _ hg hf
 
@@ -240,11 +240,11 @@ theorem IsAffineIndEtaleOverEtale.exists_isLimit {V : X.ProEt}
   let Ub : A ⥤ X.Etale := MorphismProperty.Over.systemOver (@Etale) U₀ D d hd
   let πU : (Functor.const A).obj V ⟶ Ub ⋙ X.etaleToProetale :=
     { app a := MorphismProperty.Over.homMk (p.app a) (by
-          show p.app a ≫ d.app a ≫ U₀.hom = V.hom
+          change p.app a ≫ d.app a ≫ U₀.hom = V.hom
           exact ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ U₀.hom) (hpd a))).trans
             (MorphismProperty.Over.w g)) trivial
       naturality {a b} f := MorphismProperty.Over.Hom.ext (by
-          show 𝟙 _ ≫ p.app b = p.app a ≫ D.map f
+          change 𝟙 _ ≫ p.app b = p.app a ≫ D.map f
           simpa using p.naturality f) }
   exact ⟨A, inferInstance, inferInstance, Ub, πU, hDa, ⟨hc⟩⟩
 
@@ -278,7 +278,7 @@ theorem generate_isAffineIndEtaleOverEtale_mem (V : X.ProEt) :
   let ι (k : 𝒰.I₀) : W k ⟶ V := MorphismProperty.Over.homMk (𝒰.f k) rfl trivial
   have hT : Sieve.generate (Presieve.ofArrows W ι) ∈ Scheme.ProEt.topology X V := by
     refine Precoverage.generate_mem_toGrothendieck ?_
-    show Presieve.map (Scheme.ProEt.forget X ⋙ Over.forget X) (Presieve.ofArrows W ι) ∈
+    change Presieve.map (Scheme.ProEt.forget X ⋙ Over.forget X) (Presieve.ofArrows W ι) ∈
       Scheme.proetalePrecoverage _
     rw [Presieve.map_ofArrows]
     have : MorphismProperty.ContainsIdentities (@WeaklyEtale : MorphismProperty Scheme.{u}) :=
@@ -295,7 +295,7 @@ theorem generate_isAffineIndEtaleOverEtale_mem (V : X.ProEt) :
   let h : (W ⟨i, j⟩).left ⟶ X.affineCover.X i :=
     (pullback V.hom (X.affineCover.f i)).affineCover.f j ≫ pullback.snd _ _
   have hh : h ≫ X.affineCover.f i = (W ⟨i, j⟩).hom := by
-    show _ = ((pullback V.hom (X.affineCover.f i)).affineCover.f j ≫ pullback.fst _ _) ≫ V.hom
+    change _ = ((pullback V.hom (X.affineCover.f i)).affineCover.f j ≫ pullback.fst _ _) ≫ V.hom
     simp only [h, Category.assoc, pullback.condition]
     rfl
   have hhwe : WeaklyEtale h := by
@@ -313,7 +313,7 @@ theorem generate_isAffineIndEtaleOverEtale_mem (V : X.ProEt) :
     have : Etale (X.affineCover.f i) := inferInstance
     refine ⟨hW'a, Scheme.Etale.mk (X.affineCover.f i),
       MorphismProperty.Over.homMk (q ≫ h) (by
-        show (q ≫ h) ≫ X.affineCover.f i = q ≫ (W ⟨i, j⟩).hom
+        change (q ≫ h) ≫ X.affineCover.f i = q ≫ (W ⟨i, j⟩).hom
         rw [Category.assoc, hh]) trivial, hXi, hind⟩
   refine (Scheme.ProEt.topology X).superset_covering ?_ (?_ : Sieve.generate
     (Presieve.singleton qo) ∈ Scheme.ProEt.topology X (W ⟨i, j⟩))
@@ -367,7 +367,7 @@ theorem exists_cofilteredSystem_of_indEtale {U : X.ProEt} (E : PreZeroHypercover
     fun k ↦ Functor.whiskerLeft (Pi.eval Ak k) (cM k), fun k j ↦ ?_,
     ⟨isLimitConstCone Λ U.left⟩, fun k ↦ ⟨?_⟩, fun k j ↦ hDa k (j k), fun k j ↦ hde k (j k)⟩
   · refine MorphismProperty.Over.Hom.ext ?_
-    show (pk k).app (j k) ≫ (d k).app (j k) = (E.f k).left ≫ 𝟙 U.left
+    change (pk k).app (j k) ≫ (d k).app (j k) = (E.f k).left ≫ 𝟙 U.left
     rw [hpd, Category.comp_id]
   · exact (Functor.Initial.isLimitWhiskerEquiv (Pi.eval Ak k)
       (Cone.mk (E.X k).left (pk k))).symm (hlim k).some
@@ -596,7 +596,7 @@ theorem exists_isLimit_baseChange_of_isPullback {U : X.ProEt} {A : Type u} [Smal
     (baseChangeDiagram D b₀ (Y k)) (baseChangeStructureMap D b₀ (Y k)) (hd k)
   let met (k : E.I₀) : Met k ⟶ Over.forget b₀ ⋙ Ub :=
     { app a := MorphismProperty.Over.homMk (pullback.fst (D.map a.hom) (w' k)) (by
-        show pullback.fst (D.map a.hom) (w' k) ≫ (Ub.obj a.left).hom =
+        change pullback.fst (D.map a.hom) (w' k) ≫ (Ub.obj a.left).hom =
           (pullback.snd (D.map a.hom) (w' k) ≫ w' k) ≫ (Ub.obj b₀).hom
         have h₁ : pullback.fst (D.map a.hom) (w' k) ≫ D.map a.hom =
             pullback.snd (D.map a.hom) (w' k) ≫ w' k := pullback.condition
@@ -641,7 +641,7 @@ theorem exists_isLimit_baseChange_of_isPullback {U : X.ProEt} {A : Type u} [Smal
       (Cone.ext (iso k).symm fun a ↦ (Iso.inv_hom_id_assoc (iso k) _).symm)
   · have : IsAffine (Y k).left := inferInstanceAs (IsAffine (W k))
     exact isAffine_baseChangeDiagram_obj D b₀ (Y k) a
-  · show Etale (pullback.fst (D.map a.hom) (w' k))
+  · change Etale (pullback.fst (D.map a.hom) (w' k))
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback (D.map a.hom) (w' k)).flip inferInstance
   · have hf : D.map f.left ≫ D.map a'.hom = D.map a.hom := by rw [← D.map_comp, Over.w f]
@@ -789,7 +789,7 @@ theorem subsingleton_ext_proetaleInverseImage_of_injective
       AddCommGrpCat.{max (u + 1) v}).obj (uliftYoneda.{max (u + 1) v}.obj V ⋙
         AddCommGrpCat.free)) (L.obj I) p) := by
   refine subsingleton_ext_of_cechCohomology_isZero.{w, v, u, u, u + 1} (Scheme.ProEt.topology X)
-    (setOf (IsAffineIndEtaleOverEtale X))
+    (Set.ofPred (IsAffineIndEtaleOverEtale X))
     (fun U ↦ {E | Finite E.1.I₀ ∧ IsAffineIndEtaleOverEtale X U ∧ ∀ k, IsAffine (E.1.X k).left ∧
       MorphismProperty.ind.{u} CommRingCat.etale (E.1.f k).left.appTop})
     (fun _ _ _ _ ↦ inferInstance) ?_ ?_ (L.obj I) ?_ V hV p hp

@@ -86,7 +86,7 @@ theorem lqcohSheafFbcFppfModules_fppfInternalHom (F G : fppfModules B S hS 𝒳)
         have : Etale ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)) := hφ
         infer_instance)
   exact ⟨hL, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS _ _ _
-    hL fun φ hz hx hφ => hT φ hz hx hφ⟩
+    fun φ hz hx hφ => hT φ hz hx hφ⟩
 
 namespace AlgebraicStacks
 

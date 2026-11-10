@@ -143,7 +143,7 @@ theorem restrictScalars_frobeniusTwist_complex :
       (etaleModuleInverseImageRestrictScalars ρ (fieldBaseChangeProj Y kbar)).hom.app
           (N.obj.X n) := rfl
   rw [e] at h
-  show (etaleModuleRestrictScalars ρ (fieldBaseChange Y kbar)).map
+  change (etaleModuleRestrictScalars ρ (fieldBaseChange Y kbar)).map
       ((frobeniusBaseChangeTwist.{u, 0} Λ' Y kbar p q hcard).app (N.obj.X n)) ≫
       (etaleModuleDirectImage.{u, 0} Λ (geometricFrobeniusBaseChange Y kbar p q hcard)).map
           ((etaleModuleInverseImageRestrictScalars ρ (fieldBaseChangeProj Y kbar)).inv.app
@@ -579,8 +579,7 @@ theorem restrictScalars_canonicalCompactSupportFrobeniusGroup (i : ℤ) :
   have hc := restrictScalars_canonicalCompactSupportFrobenius ρ f j kbar p q hcard K
   have hH := congrArg (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map hc
   simp only [Functor.map_comp] at hH
-  simp only [compactSupportFrobeniusCohomologyGroupRestrictScalarsIso, Iso.trans_hom,
-    Iso.symm_hom, Iso.app_inv, Functor.mapIso_hom, Category.assoc]
+  simp only [compactSupportFrobeniusCohomologyGroupRestrictScalarsIso]
   exact ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hn)).trans
     ((Category.assoc _ _ _).trans (whisker_eq _ hH))
 

@@ -391,7 +391,7 @@ structure sheaves. -/
 theorem representableRelocalizationRingedMorphism_fSharpInverseImage :
     (representableRelocalizationRingedMorphism X f).fSharpInverseImage =
       (representableRelocalizationStructureSheafIso X f).hom := by
-  show ((commRingImageAdjunction (representableRelocalizationToposMorphism X f)).homEquiv
+  change ((commRingImageAdjunction (representableRelocalizationToposMorphism X f)).homEquiv
       _ _).symm ((commRingImageAdjunction
         (representableRelocalizationToposMorphism X f)).homEquiv _ _
           (representableRelocalizationStructureSheafIso X f).hom) = _
@@ -457,7 +457,8 @@ theorem comp_representableLocalizationRingedMorphism_relocalization_fSharpInvers
 localization of `(Sh(C)/h_U^#, O_{h_U^#})` at the object `h_V^#/h_U^#`, read through the
 identification of the localization at `h_V^#/h_U^#` with `Sh(C/V)`, *is* the relocalization of
 the ringed site along `f : V ⟶ U`, read through the identification of Stacks 04J3 at `U`. -/
-@[stacks 04J5 "the diagrams of 04IY and 04J4 agree via the identifications of 04J3, as a 2-isomorphism of morphisms of ringed topoi"]
+@[stacks 04J5 "the diagrams of 04IY and 04J4 agree via the identifications of 04J3, as a \
+2-isomorphism of morphisms of ringed topoi"]
 noncomputable def representableRelocalizationTwoIso :
     TwoIso (A := ringedTopos (X.over V)) (B := representableLocalizedRingedTopos X U)
       (AlgebraicGeometry.RingedToposHom.comp (X := ringedTopos (X.over V))
@@ -491,7 +492,8 @@ noncomputable def representableRelocalizationTwoIso :
 morphism `h_f^# : h_V^# ⟶ h_U^#` of representable sheaves, read through the identifications of
 Stacks 04J3 at `U` and the identification of the localization at `h_V^#/h_U^#` with `Sh(C/V)`,
 *is* the relocalization triangle of Stacks 04IY along `f : V ⟶ U`. -/
-@[stacks 04J5 "the triangle of 04J4 at a representable is the triangle of 04IY, via the identifications of 04J3"]
+@[stacks 04J5 "the triangle of 04J4 at a representable is the triangle of 04IY, via the \
+identifications of 04J3"]
 noncomputable def representableRelocalizationTriangleCompare :
     TwoIso (A := ringedTopos (X.over V)) (B := ringedTopos X)
       (AlgebraicGeometry.RingedToposHom.comp (X := ringedTopos (X.over V))

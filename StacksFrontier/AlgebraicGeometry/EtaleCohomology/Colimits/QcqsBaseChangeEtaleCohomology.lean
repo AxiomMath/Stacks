@@ -307,12 +307,12 @@ constructor and proof step of it — `canonicalCohomologyDiagram`, `canonicalCoh
 homological helpers `isIso_homologyMap_map_of_rightAcyclic`,
 `isColimit_mapCocone_homologyFunctor`, `liftFromResolution`, `quasiIso_single₀_of_monoCokernel`,
 `exactAt_succ_of_monoCokernel` — is `private` to
-`StacksFrontier/CategoryTheory/Sites/InverseSystem/CohomologyOfColimitOfFiniteSites.lean`, so a `Γ` mirror in a downstream file would have to
-re-derive it. Only the *statement* vocabulary (`CohomologyCocone`, `IsCohomologyMap`,
-`cohomologyCongr`, `IsColimitPresentation`, `systemColimitSheaf`) is public, and `CohomologyCocone`
-itself is tied to an object: its `objIso` field names
-`sheafSections (D.J A.left) _ |>.obj (op ((D.u A.hom).obj X))`, so a `Γ` version is a new
-structure, not an instance of that one.
+`StacksFrontier/CategoryTheory/Sites/InverseSystem/CohomologyOfColimitOfFiniteSites.lean`, so a `Γ`
+mirror in a downstream file would have to re-derive it. Only the *statement* vocabulary
+(`CohomologyCocone`, `IsCohomologyMap`, `cohomologyCongr`, `IsColimitPresentation`,
+`systemColimitSheaf`) is public, and `CohomologyCocone` itself is tied to an object: its `objIso`
+field names `sheafSections (D.J A.left) _ |>.obj (op ((D.u A.hom).obj X))`, so a `Γ` version is a
+new structure, not an instance of that one.
 
 ### `CechComplexExactPos` is not a covering-set consequence
 
@@ -465,14 +465,14 @@ projection `Y_i ⟶ Z_i` is the base change of `X ⟶ T`, and `Z_i` is affine. Q
 what the covering input of the Cech step asks for.
 -/
 
-omit [Nonempty I] [IsDirected I (· ≤ ·)] [IsAffine T] in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [IsAffine T] [∀ i, IsAffine (Z.obj i).left] in
 /-- **The projection `Y_i = Z_i ×_T X ⟶ Z_i` is quasi-compact** when `X ⟶ T` is, being its base
 change. -/
 theorem quasiCompact_baseChange_fst [QuasiCompact X.hom] (i : Iᵒᵖ) :
     QuasiCompact (Limits.pullback.fst (Z.obj i).hom X.hom) :=
   inferInstance
 
-omit [Nonempty I] [IsDirected I (· ≤ ·)] [IsAffine T] in
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [IsAffine T] [∀ i, IsAffine (Z.obj i).left] in
 /-- **The projection `Y_i = Z_i ×_T X ⟶ Z_i` is quasi-separated** when `X ⟶ T` is, being its base
 change. -/
 theorem quasiSeparated_baseChange_fst [QuasiSeparated X.hom] (i : Iᵒᵖ) :
@@ -488,6 +488,7 @@ instance compactSpace_baseChange_obj [QuasiCompact X.hom] (i : Iᵒᵖ) :
   haveI : CompactSpace ((Z.obj i).left : Scheme.{u}) := inferInstance
   @QuasiCompact.compactSpace_of_compactSpace _ _ _ (quasiCompact_baseChange_fst T X Z i) _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [IsAffine T] in
 /-- **The covering input of the carried descent, at this system.** Every level `Y_i` of the system
 of base changes is covered by finitely many objects of its own small affine etale site: it is a
 quasi-compact scheme by `compactSpace_baseChange_obj`, so

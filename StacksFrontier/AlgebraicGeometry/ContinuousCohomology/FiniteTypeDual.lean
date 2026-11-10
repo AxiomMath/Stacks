@@ -98,7 +98,7 @@ lemma dual_characterRepresentation [Module R M] {N : Type*} [AddCommGroup N] [Mo
     CharacterModule.dualMulOpposite f (characterRepresentation σ g c) =
       characterRepresentation ρ g (CharacterModule.dualMulOpposite f c) :=
   DFunLike.ext _ _ fun m ↦ by
-    show c (σ g⁻¹ (f m)) = c (f (ρ g⁻¹ m))
+    change c (σ g⁻¹ (f m)) = c (f (ρ g⁻¹ m))
     rw [hf]
 
 /-- The dual of an equivariant map is equivariant for the contragredient actions. -/
@@ -108,7 +108,7 @@ lemma dual_characterRepresentationOfMulOpposite [Module Rᵐᵒᵖ M] {N : Type*
     CharacterModule.dualOfMulOpposite f (characterRepresentationOfMulOpposite σ g c) =
       characterRepresentationOfMulOpposite ρ g (CharacterModule.dualOfMulOpposite f c) :=
   DFunLike.ext _ _ fun m ↦ by
-    show c (σ g⁻¹ (f m)) = c (f (ρ g⁻¹ m))
+    change c (σ g⁻¹ (f m)) = c (f (ρ g⁻¹ m))
     rw [hf]
 
 /-- Evaluation into the double character module is equivariant. -/
@@ -118,7 +118,7 @@ lemma evalMulOpposite_characterRepresentation [Module R M] (ρ : Representation 
       characterRepresentationOfMulOpposite (characterRepresentation ρ) g
         (CharacterModule.evalMulOpposite R M m) :=
   DFunLike.ext _ _ fun c ↦ by
-    show c (ρ g m) = c (ρ g⁻¹⁻¹ m)
+    change c (ρ g m) = c (ρ g⁻¹⁻¹ m)
     rw [inv_inv]
 
 /-- Evaluation into the double character module is equivariant. -/
@@ -128,7 +128,7 @@ lemma evalOfMulOpposite_characterRepresentation [Module Rᵐᵒᵖ M] (ρ : Repr
       characterRepresentation (characterRepresentationOfMulOpposite ρ) g
         (CharacterModule.evalOfMulOpposite R M m) :=
   DFunLike.ext _ _ fun c ↦ by
-    show c (ρ g m) = c (ρ g⁻¹⁻¹ m)
+    change c (ρ g m) = c (ρ g⁻¹⁻¹ m)
     rw [inv_inv]
 
 end Representation
@@ -145,13 +145,13 @@ lemma isOpen_stabilizer_character {G : Type v} [Group G] [TopologicalSpace G]
     { carrier := {g | τ g c = c}
       one_mem' := hτ1 c
       mul_mem' := fun {a b} ha hb ↦ by
-        show τ (a * b) c = c
+        change τ (a * b) c = c
         change τ a c = c at ha
         change τ b c = c at hb
         rw [hτmul, hb, ha]
       inv_mem' := fun {a} ha ↦ by
         change τ a c = c at ha
-        show τ a⁻¹ c = c
+        change τ a⁻¹ c = c
         conv_lhs => rw [← ha]
         rw [← hτmul, inv_mul_cancel, hτ1] }
   exact Subgroup.isOpen_mono (show H ≤ S from fun g hg ↦ hH g hg c) hHopen

@@ -118,7 +118,7 @@ theorem sliceDirectTransition_app_over (F : SheafOfModules.{u} O) :
 /-- The adjunct of the right-hand side of `sliceTransitionModules_app_over`. -/
 theorem homEquiv_beckChevalleyA_comp (F : SheafOfModules.{u} O) :
     (slicePullbackAdj C O φ Q).homEquiv _ _
-        ((beckChevalleyA C O φ Q).natTrans.app
+        ((beckChevalleyA C O φ Q).app
             (((situation C).componentModuleRestriction O n).obj F) ≫
           (SheafOfModules.overFunctor ((situation C).componentRingSheaf O m)
             ((transitionFunctorA C φ).obj Q)).map (transitionA C O φ F)) =
@@ -145,7 +145,7 @@ transition, read through the Beck–Chevalley comparison.** -/
 theorem sliceTransitionModules_app_over (F : SheafOfModules.{u} O) :
     (sliceTransitionModules C O φ Q).app
         (F.over ((SimplicialSiteSituation.componentFunctor (situation C) n).obj Q)) =
-      (beckChevalleyA C O φ Q).natTrans.app (((situation C).componentModuleRestriction O n).obj F) ≫
+      (beckChevalleyA C O φ Q).app (((situation C).componentModuleRestriction O n).obj F) ≫
         (SheafOfModules.overFunctor ((situation C).componentRingSheaf O m)
           ((transitionFunctorA C φ).obj Q)).map (transitionA C O φ F) := by
   have h2 : (slicePullbackAdj C O φ Q).homEquiv _ _ ((sliceTransitionModules C O φ Q).app

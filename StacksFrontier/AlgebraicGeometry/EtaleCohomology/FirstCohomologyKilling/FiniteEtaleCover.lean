@@ -218,7 +218,7 @@ private theorem exists_bijective_comp_unit_app_forget {X Y : Scheme.{u}} (i : Y 
     Y.smallEtaleTopology (forget AddCommGrpCat.{u + 1}) F
   have hc : IsIso c := by
     have : IsIso ((coefficientPullbackTwoSquare (smallEtaleBaseChange i) X.smallEtaleTopology
-        Y.smallEtaleTopology (forget AddCommGrpCat.{u + 1})).natTrans.app F) :=
+        Y.smallEtaleTopology (forget AddCommGrpCat.{u + 1})).app F) :=
       inferInstance
     rwa [coefficientPullbackTwoSquare_app] at this
   have hc' : IsIso (c.hom.app (op ((smallEtaleBaseChange i).obj U))) := by
@@ -448,16 +448,16 @@ followed by `Rf'` of an isomorphism. -/
 private lemma ext_comp_mk₀_map_unit_eq_zero {Lf : 𝒜 ⥤ ℬ} {Rf : ℬ ⥤ 𝒜} {Lf' : 𝒜' ⥤ ℬ'}
     {Rf' : ℬ' ⥤ 𝒜'} {Lg : 𝒜 ⥤ 𝒜'} {Lg' : ℬ ⥤ ℬ'} {Lc : 𝒜 ⥤ ℬ'} (adjf : Lf ⊣ Rf)
     (adjf' : Lf' ⊣ Rf') (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc)
-    (hiso : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans)
+    (hiso : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef))
     (A₀ : 𝒜) {T : 𝒜'} {q : ℕ} (x : Ext.{w} T (Lg.obj A₀) q)
     (hx : x.comp (Ext.mk₀ (adjf'.unit.app (Lg.obj A₀))) (add_zero q) = 0) :
     x.comp (Ext.mk₀ (Lg.map (adjf.unit.app A₀))) (add_zero q) = 0 := by
   refine (Stacks.ExtAdjunction.comp_mk₀_eq_zero_iff_of_isIso
-    ((Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans.app (Lf.obj A₀)) _).1 ?_
+    ((Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).app (Lf.obj A₀)) _).1 ?_
   have key : Lg.map (adjf.unit.app A₀) ≫
-      (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans.app (Lf.obj A₀) =
+      (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).app (Lf.obj A₀) =
       adjf'.unit.app (Lg.obj A₀) ≫ Rf'.map
-        ((Stacks.CategoryTheory.BaseChange.pullbackComparison eg ef).natTrans.app A₀) :=
+        ((Stacks.CategoryTheory.BaseChange.pullbackComparison eg ef).app A₀) :=
     unit_mateEquiv adjf adjf' (Stacks.CategoryTheory.BaseChange.pullbackComparison eg ef) A₀
   rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, key, ← Ext.mk₀_comp_mk₀,
     ← Ext.comp_assoc_of_third_deg_zero, hx, Ext.zero_comp]

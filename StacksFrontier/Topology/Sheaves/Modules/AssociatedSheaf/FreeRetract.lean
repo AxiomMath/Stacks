@@ -117,7 +117,7 @@ under the corresponding inclusion. -/
 lemma freeSection_val_top (i : I) :
     (SheafOfModules.freeSection (R := structureSheafRing X) (I := I) i).val (op ⊤) =
       freeUnitTop X i := by
-  show (SheafOfModules.ιFree (R := structureSheafRing X) (I := I) i ≫
+  change (SheafOfModules.ιFree (R := structureSheafRing X) (I := I) i ≫
       𝟙 (SheafOfModules.free I)).val.app (op ⊤)
       (1 : (structureSheafRing X).obj.obj (op ⊤)) = _
   rw [Category.comp_id]

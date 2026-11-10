@@ -335,7 +335,7 @@ private theorem homOfComp_comp {P Q T : BigFppfOver B S hS} (p : P ⟶ T) (q : Q
     (hv : v ≫ (BigFppfOver.toScheme B S hS).map q = (BigFppfOver.toScheme B S hS).map p) :
     homOfComp B S hS p q v hv ≫ q = p :=
   BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map (homOfComp B S hS p q v hv ≫ q) = _
+    change (BigFppfOver.toScheme B S hS).map (homOfComp B S hS p q v hv ≫ q) = _
     rw [Functor.map_comp, toScheme_map_homOfComp, hv])
 
 open TensorProduct in
@@ -385,7 +385,7 @@ theorem exists_isAffineSpace_pullback_of_isFlat_of_mono {X : (BigFppfOver B S hS
   have hsite : ∀ (Z : BigFppfOver B S hS) (E : Type u) [CommRing E]
       (e : (BigFppfOver.toScheme B S hS).obj Z ≅ Spec (.of E)), B.Contains (Spec (.of E)) := by
     intro Z E _ e
-    show (Spec (.of E)).size < B.cutoff
+    change (Spec (.of E)).size < B.cutoff
     rw [← Scheme.size_congr e]
     exact Z.left.2
   have hT₀ : B.Contains (Spec (.of Bt)) := hsite T Bt eT
@@ -409,7 +409,7 @@ theorem exists_isAffineSpace_pullback_of_isFlat_of_mono {X : (BigFppfOver B S hS
   have htensor : ∀ (E : Type u) [CommRing E] [Algebra Bt E], B.Contains (Spec (.of E)) →
       B.Contains (Spec (.of (Ct ⊗[Bt] E))) := by
     intro E _ _ hE
-    show (Spec (.of (Ct ⊗[Bt] E))).size < B.cutoff
+    change (Spec (.of (Ct ⊗[Bt] E))).size < B.cutoff
     rw [← Scheme.size_congr (pullbackSpecIso Bt Ct E)]
     exact Scheme.size_pullback_lt _ _ hU₀ hE
   have hW : B.Contains (Spec (.of (Ct ⊗[Bt] Dg))) := htensor Dg hV
@@ -449,7 +449,7 @@ theorem exists_isAffineSpace_pullback_of_isFlat_of_mono {X : (BigFppfOver B S hS
     exact ψr.comp_algebraMap
   have hvι : (BigFppfOver.toScheme B S hS).map (v ≫ ι) =
       Spec.map (CommRingCat.ofHom (algebraMap Bt Dg)) ≫ eT.inv := by
-    show Spec.map (CommRingCat.ofHom (algebraMap Bg Dg)) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap Bg Dg)) ≫
       (Spec.map (CommRingCat.ofHom (algebraMap Bt Bg)) ≫ eT.inv) = _
     rw [← Category.assoc, hSpecT]
   have hπE : ∀ (E : Type u) [CommRing E] [Algebra Bt E] [Algebra Ct E] [IsScalarTower Bt Ct E],
@@ -532,7 +532,7 @@ theorem exists_isAffineSpace_pullback_of_isFlat_of_mono {X : (BigFppfOver B S hS
     exact inferInstanceAs (IsIso (Spec.map (CommRingCat.ofHom Θ.toRingHom)))
   have hθV : θ ≫ wV = rG ≫ ψ := by
     apply BigFppfOver.map_toScheme_injective B S hS
-    show (BigFppfOver.toScheme B S hS).map (θ ≫ wV) = (BigFppfOver.toScheme B S hS).map (rG ≫ ψ)
+    change (BigFppfOver.toScheme B S hS).map (θ ≫ wV) = (BigFppfOver.toScheme B S hS).map (rG ≫ ψ)
     rw [Functor.map_comp, Functor.map_comp, hθs, hwVs, hrGs, hψs]
     have e : Spec.map (CommRingCat.ofHom Θ.toRingHom) ≫
         Spec.map (CommRingCat.ofHom incRD.toRingHom) =
@@ -561,7 +561,7 @@ theorem exists_isAffineSpace_pullback_of_isFlat_of_mono {X : (BigFppfOver B S hS
     refine ⟨y, ?_⟩
     have hπs' : πs = eU.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap Bt Ct)) ≫ eT.inv := by
       rw [← hπs, Iso.hom_inv_id_assoc]
-    show (Spec.map (CommRingCat.ofHom (algebraMap Bt Bg)) ≫ eT.inv) y = πs y₀
+    change (Spec.map (CommRingCat.ofHom (algebraMap Bt Bg)) ≫ eT.inv) y = πs y₀
     rw [hπs']
     simp only [Scheme.Hom.comp_apply]
     exact congrArg eT.inv hy

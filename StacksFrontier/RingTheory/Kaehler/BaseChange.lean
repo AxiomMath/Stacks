@@ -194,7 +194,6 @@ injection: that is at once its injectivity and the splitting. See the module doc
   ega "0 20.7.3" "discrete case, necessity",
   ega "0 20.7.2" "sufficiency",
   sga "1 II 4.3" "(i) inj., affine case",
-  ega "0 20.5.7" "(ii), sufficiency",
   sga "1 II 4.4" "special case",
   sga "6 VIII 2.6" "partial"]
 public theorem KaehlerDifferential.exists_retraction_mapBaseChange (R : Type*) [CommRing R]

@@ -42,7 +42,8 @@ modules on `X_{T_i}`. The two morphisms share their base map, so their composite
 `δ` over `T ⟶ T_i` agree exactly when the inverse images of their module isomorphisms to `X_T`
 agree; Stacks 07V7 for the system of base changes above `i`
 (`AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_isLimit`, at the hypotheses of
-`StacksFrontier/AlgebraicGeometry/Quot/CoherentStackStageSystem.lean`) then produces the later stage.
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStackStageSystem.lean`) then produces the later
+stage.
 
 The comparisons of inverse images in the composition of `Coh_{X/Y}` contain `eqToIso` factors
 which the kernel does not unfold in reasonable time, so every statement about a composite is
@@ -211,13 +212,13 @@ theorem descentEq_coherent :
   let k₀ : Over i := Over.mk (𝟙 i)
   let u : (D.stageTestSystem E g).obj k₀ ⟶ A.T :=
     CostructuredArrow.homMk (incl.map (E.map (𝟙 i)) ≫ eqToHom hA.symm) (by
-      show _ = (schemeSpaceFunctor B S hS).map (incl.map (E.map (𝟙 i))) ≫ g
+      change _ = (schemeSpaceFunctor B S hS).map (incl.map (E.map (𝟙 i))) ≫ g
       exact (schemeSpaceFunctor B S hS).map_comp_assoc _ _ _)
   let v : A₀.T ≅ (D.stageTestCone E c g).pt := CostructuredArrow.isoMk (eqToIso hA₀) (by
     have hw := δ.base.w
     change (schemeSpaceFunctor B S hS).map δ.base.left ≫ A.T.hom = A₀.T.hom at hw
     rw [hδb] at hw
-    show (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
+    change (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
       ((schemeSpaceFunctor B S hS).map (incl.map (c.π.app i)) ≫ g) = A₀.T.hom
     rw [← hw]
     simp only [g, Functor.map_comp, Category.assoc]
@@ -225,7 +226,7 @@ theorem descentEq_coherent :
   have hdec : δ.base = v.hom ≫ ((D.stageTestCone E c g).π.app k₀ ≫ u) := by
     apply CostructuredArrow.hom_ext
     rw [hδb]
-    show _ = eqToHom hA₀ ≫ (incl.map (c.π.app i) ≫ incl.map (E.map (𝟙 i)) ≫ eqToHom hA.symm)
+    change _ = eqToHom hA₀ ≫ (incl.map (c.π.app i) ≫ incl.map (E.map (𝟙 i)) ≫ eqToHom hA.symm)
     simp [E.map_id]
   -- the stage and limit spaces of Stacks 07V7 for the system of base changes above `i`
   let uS : stageAlgebraicSpace B S hS (D.stageSpaceSystem E g)
@@ -238,7 +239,7 @@ theorem descentEq_coherent :
       (D.space (D.stageTestCone E c g).pt).2 k₀ ≫ uS := by
     rw [hdec]
     apply ObjectProperty.hom_ext
-    show (baseChangeMap D.f _).hom = (baseChangeMap D.f v.hom).hom ≫
+    change (baseChangeMap D.f _).hom = (baseChangeMap D.f v.hom).hom ≫
       (baseChangeMap D.f ((D.stageTestCone E c g).π.app k₀)).hom ≫ (baseChangeMap D.f u).hom
     rw [baseChangeMap_comp D.f v.hom ((D.stageTestCone E c g).π.app k₀ ≫ u),
       baseChangeMap_comp D.f ((D.stageTestCone E c g).π.app k₀) u]
@@ -268,7 +269,7 @@ theorem descentEq_coherent :
   have hwι : D.relativeMap dx.base = ι ≫ stageTransition B S hS (D.stageSpaceSystem E g)
       (D.isAlgebraicSpace_stageSpaceSystem E g) e ≫ uS := by
     apply ObjectProperty.hom_ext
-    show (baseChangeMap D.f w).hom = 𝟙 _ ≫
+    change (baseChangeMap D.f w).hom = 𝟙 _ ≫
       (baseChangeMap D.f ((D.stageTestSystem E g).map e)).hom ≫ (baseChangeMap D.f u).hom
     rw [baseChangeMap_comp D.f ((D.stageTestSystem E g).map e) u, Category.id_comp]
     rfl
@@ -279,9 +280,9 @@ theorem descentEq_coherent :
   refine ⟨j.left, j.hom, ⟨D.pullbackObject' hst A w, rfl⟩, dx, ?_,
     D.comp_eq_of_map_fibre_eq dx φ φ' hw⟩
   refine IsHomLift.of_fac' p _ _ rfl hA ?_
-  show w.left = _
+  change w.left = _
   have hej : e.left = j.hom := by simpa [k₀] using Over.w e
-  show incl.map (E.map e.left) ≫ (incl.map (E.map (𝟙 i)) ≫ eqToHom hA.symm) = _
+  change incl.map (E.map e.left) ≫ (incl.map (E.map (𝟙 i)) ≫ eqToHom hA.symm) = _
   have h1 : incl.map (E.map (𝟙 i)) = 𝟙 _ := by
     simp only [CategoryTheory.Functor.map_id]
   rw [hej, h1]

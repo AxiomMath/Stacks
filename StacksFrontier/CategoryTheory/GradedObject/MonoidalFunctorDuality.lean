@@ -95,7 +95,7 @@ def gradedCounit : G.obj (𝟙_ D) 0 →ₗ[F] F :=
 theorem gradedCounit_gradedOne : G.gradedCounit (gradedOne G) = 1 := by
   have h := congr($(Monoidal.ε_η (F := G)) 0)
   simp only [categoryOfGradedObjects_comp, categoryOfGradedObjects_id] at h
-  show ((tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).hom)
+  change ((tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).hom)
       ((OplaxMonoidal.η G 0) ((LaxMonoidal.ε G 0)
         ((tensorUnit₀ (I := ℤ) (C := ModuleCat.{w} F)).inv (1 : F)))) = 1
   rw [← ConcreteCategory.comp_apply (LaxMonoidal.ε G 0), h, ModuleCat.id_apply,
@@ -121,8 +121,7 @@ lemma surjective_ιTensorObj_of_isZero (V W : GradedObject ℤ (ModuleCat.{w} F)
     exact ⟨_, rfl⟩
   · have : Subsingleton (W a₂) := (ModuleCat.isZero_iff_subsingleton.1 (hW a₂ has))
     have : comps V W n y ⟨(a₁, a₂), ha⟩ = 0 := by
-      induction (comps V W n y ⟨(a₁, a₂), ha⟩) using TensorProduct.induction_on with
-      | zero => rfl
+      induction (comps V W n y ⟨(a₁, a₂), ha⟩) using TensorProduct.inductionOn with
       | tmul x z => rw [Subsingleton.elim z 0, TensorProduct.tmul_zero]
       | add x z hx hz => rw [hx, hz, add_zero]
     rw [this, map_zero]

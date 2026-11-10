@@ -74,7 +74,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_sheaf_ThickenedBaseP
   hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf T (Type u))
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
-  {X D D': AlgebraicSpaces B S hS} (f : X ⟶ D) (i : D ⟶ D')
+  {X D D' : AlgebraicSpaces B S hS} (f : X ⟶ D) (i : D ⟶ D')
 
 /-- **The base ring of the composite**: `(f ≫ i)⁻¹𝒪_{D'} ≅ f⁻¹𝒜` for a sheaf of rings `𝒜` on `D`
 identified with `i⁻¹𝒪_{D'}`. -/
@@ -97,7 +97,7 @@ theorem thickenedBaseIso_hom_comp {𝒜 : Sheaf (SmallEtale.topology B S hS D.1)
       inverseImageBaseMap B S hS (f ≫ i) := by
   have hr' : e.inv ≫ r = (smallEtaleRingedToposHom B S hS i).fSharpInverseImage := by
     rw [← hr, Iso.inv_hom_id_assoc]
-  show (((smallEtaleRingedToposHom_compInverseImageRingIso B S hS f i).inv.app _) ≫
+  change (((smallEtaleRingedToposHom_compInverseImageRingIso B S hS f i).inv.app _) ≫
       (smallEtaleInverseImageRing B S hS f).map e.inv) ≫ _ = _
   rw [Category.assoc, ← Category.assoc ((smallEtaleInverseImageRing B S hS f).map e.inv),
     ← Functor.map_comp, hr', ← smallEtaleRingedToposHom_compInverseImageRingIso_fSharpInverseImage,
@@ -121,7 +121,7 @@ theorem isLocallySurjective_inverseImage_map {𝒜 𝒜' : Sheaf (SmallEtale.top
   set ψ := (sheafCompose (SmallEtale.topology B S hS X.1) (forget CommRingCat.{u})).map
     ((smallEtaleInverseImageRing B S hS f).map r)
   have : Epi ψ := by
-    show Epi ((sheafCompose (SmallEtale.topology B S hS X.1) (forget CommRingCat.{u})).map
+    change Epi ((sheafCompose (SmallEtale.topology B S hS X.1) (forget CommRingCat.{u})).map
       (Stacks.Sheaves.ToposPullback.pullbackCommRingSheafMap _
         (smallEtaleRingedToposHom B S hS f).toToposHom.inverseImage r))
     rw [e]

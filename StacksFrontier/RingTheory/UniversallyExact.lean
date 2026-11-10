@@ -169,8 +169,7 @@ private lemma rTensor_injective_congr {M N Q Q' : Type*} [AddCommGroup M] [Modul
   set eN := TensorProduct.congr (LinearEquiv.refl R N) e with hEN
   have key : ∀ t, f.rTensor Q' (eM t) = eN (f.rTensor Q t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x q => simp [hEM, hEN]
     | add x y hx hy => simp [hx, hy]
   intro s₁ s₂ hs
@@ -253,8 +252,7 @@ private lemma exists_fg_le_of_mem_range_lTensor (N : Type w) [AddCommGroup N] [M
     (hω : ω ∈ LinearMap.range (lTensor N K.subtype)) :
     ∃ K' : Submodule R Q, K' ≤ K ∧ K'.FG ∧ ω ∈ LinearMap.range (lTensor N K'.subtype) := by
   obtain ⟨ω, rfl⟩ := hω
-  induction ω using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, bot_le, Submodule.fg_bot, by simp⟩
+  induction ω using TensorProduct.inductionOn with
   | tmul u k =>
       refine ⟨Submodule.span R {(k : Q)}, ?_, Submodule.fg_span_singleton _,
         ⟨u ⊗ₜ ⟨(k : Q), Submodule.mem_span_singleton_self _⟩, by simp⟩⟩
@@ -272,8 +270,7 @@ private lemma exists_fg_le_of_mem_range_lTensor (N : Type w) [AddCommGroup N] [M
 private lemma comm_lTensor {N P Q : Type*} [AddCommGroup N] [Module R N] [AddCommGroup P]
     [Module R P] [AddCommGroup Q] [Module R Q] (g : P →ₗ[R] Q) (t : N ⊗[R] P) :
     TensorProduct.comm R N Q (lTensor N g t) = g.rTensor N (TensorProduct.comm R N P t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul u p => simp
   | add t₁ t₂ h₁ h₂ => simp [h₁, h₂]
 

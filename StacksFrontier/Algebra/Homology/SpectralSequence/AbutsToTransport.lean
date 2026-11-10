@@ -130,9 +130,9 @@ theorem AbutsTo.of_iso {r₀ : ℤ} {E : CohomologicalSpectralSequence C r₀} {
     fun n _ _ hpq => (Subobject.map (e n).hom).monotone (hF n hpq), fun n => ?_, fun p q => ?_⟩
   · obtain ⟨a, b, hab, ha, hb⟩ := hbounds n
     refine ⟨a, b, hab, ?_, ?_⟩
-    · show (Subobject.map (e n).hom).obj (F n a) = ⊤
+    · change (Subobject.map (e n).hom).obj (F n a) = ⊤
       rw [ha, Subobject.map_top, Subobject.mk_eq_top_of_isIso]
-    · show (Subobject.map (e n).hom).obj (F n b) = ⊥
+    · change (Subobject.map (e n).hom).obj (F n b) = ⊥
       rw [hb, Subobject.map_bot]
   · exact ⟨(hgr p q).some ≪≫
       (Abelian.Subobject.cokernelOfLEMapIso (e (p + q)).hom (hF (p + q) (by omega))).symm⟩

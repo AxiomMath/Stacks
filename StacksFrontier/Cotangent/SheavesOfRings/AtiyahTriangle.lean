@@ -211,6 +211,8 @@ abbrev simplicialCoefficients (F : SheafOfModules.{u} (targetRing J (B := B))) :
 
 /-! ### The short exact sequence of simplicial `P_•`-modules -/
 
+omit [Stacks.Sites.PreservesCoveringPullbacks
+    (Stacks.SimplicialModules.projectionTopology C J) (projection C)] in
 /-- The inclusion `Ω_{𝒫/π^{-1}𝒜} ⊗_𝒫 ℱ ⟶ P¹_{𝒫/π^{-1}𝒜}(ℱ)` followed by the projection
 `P¹_{𝒫/π^{-1}𝒜}(ℱ) ⟶ ℱ` vanishes. -/
 theorem simplicialPrincipalParts_inclusion_comp_projection
@@ -225,6 +227,8 @@ def simplicialPrincipalPartsShortComplex (F : SheafOfModules.{u} (targetRing J (
     ShortComplex (moduleSheaves.{u, u, u, u} (simplicialResolution J f)) :=
   ShortComplex.mk _ _ (simplicialPrincipalParts_inclusion_comp_projection J f F)
 
+omit [Stacks.Sites.PreservesCoveringPullbacks
+    (Stacks.SimplicialModules.projectionTopology C J) (projection C)] in
 /-- **Stacks 09DG, as a sequence of simplicial `P_•`-modules.** The sequence of first principal
 parts of the standard resolution is short exact on `Δ × C`; restricted to the fibre over a
 simplicial degree `n` it is the sequence of Tag 09DG for the ring map `𝒜 ⟶ P_n`. -/
@@ -267,18 +271,24 @@ theorem resolutionAtiyahTriangle_distinguished (F : SheafOfModules.{u} (targetRi
   (resolutionLowerShriek J f).map_distinguished _
     (simplicialPrincipalPartsShortComplex_shortExact J f F).singleTriangle_distinguished
 
+omit [Stacks.Sites.PreservesCoveringPullbacks
+    (Stacks.SimplicialModules.projectionTopology C J) (projection C)] in
 /-- The sections of the coefficient module over `(n, U)` are the sections of `ℱ` over `U`. -/
 theorem simplicialCoefficients_sections (F : SheafOfModules.{u} (targetRing J (B := B)))
     (n : SimplexCategory) (U : Cᵒᵖ) :
     ((simplicialCoefficients J f F).val.obj (Opposite.op (n, U.unop)) : Type u) =
       (F.val.obj U : Type u) := rfl
 
+omit [Stacks.Sites.PreservesCoveringPullbacks
+    (Stacks.SimplicialModules.projectionTopology C J) (projection C)] in
 /-- The third term of the sequence of principal parts is the coefficient module, sectionwise. -/
 theorem simplicialPrincipalPartsShortComplex_X₃_sections
     (F : SheafOfModules.{u} (targetRing J (B := B))) (n : SimplexCategory) (U : Cᵒᵖ) :
     ((simplicialPrincipalPartsShortComplex J f F).X₃.val.obj (Opposite.op (n, U.unop)) :
       Type u) = (F.val.obj U : Type u) := rfl
 
+omit [Stacks.Sites.PreservesCoveringPullbacks
+    (Stacks.SimplicialModules.projectionTopology C J) (projection C)] in
 /-- The first term of the sequence of principal parts is the sheaf of relative differentials of `𝒫`
 over `π^{-1}𝒜` on `Δ × C`, tensored with the coefficient module. -/
 theorem simplicialPrincipalPartsShortComplex_X₁ (F : SheafOfModules.{u} (targetRing J (B := B))) :

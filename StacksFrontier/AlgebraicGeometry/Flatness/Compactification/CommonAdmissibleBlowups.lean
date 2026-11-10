@@ -181,7 +181,7 @@ theorem exists_graphImage_isIso_pullbackSnd {S U X₁ X₂ : Scheme.{u}} (fU : U
         (by simp only [Category.assoc, pullback.condition]) =
         (pullback.lift u₁ u₂ hgraph).imageι := by
       apply pullback.hom_ext <;>
-        simp [pullback.lift_fst, pullback.lift_snd]
+        simp
     rw [hc]
     infer_instance
   · rw [← Category.assoc, Scheme.Hom.toImage_imageι, hgfst]

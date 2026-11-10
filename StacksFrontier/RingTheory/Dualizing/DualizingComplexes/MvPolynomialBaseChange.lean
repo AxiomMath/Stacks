@@ -36,7 +36,8 @@ obtained from uniqueness of left adjoints, so what has to be checked by hand eac
 compatibility of the ring maps, which is `MvPolynomial.finSuccEquiv_comp_C_eq_C`.
 
 Several ingredients are `private` in
-`StacksFrontier/RingTheory/Dualizing/DualizingComplexes/PolynomialBaseChange.lean` and are reached by
+`StacksFrontier/RingTheory/Dualizing/DualizingComplexes/PolynomialBaseChange.lean` and are reached
+by
 `import all` rather than re-proved, in the same way as
 `StacksFrontier/RingTheory/Dualizing/LocalizationAwayDualizing.lean` and
 `StacksFrontier/RingTheory/Dualizing/NormalizedShift.lean`:

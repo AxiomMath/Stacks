@@ -9,7 +9,9 @@ public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEta
 Let `a : X ⟶ Y` be a morphism of schemes of a big étale site and let `r` be the underlying
 morphism of schemes.  Restriction along the inclusion of the small Zariski site,
 `AlgebraicGeometry.SmallEtale.restrictModule`, is the right adjoint of the associated-module
-functor of Stacks 03DU (4); `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleMorphismBaseChange.lean` shows that the
+functor of Stacks 03DU (4);
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleMorphismBaseChange.lean` shows
+that the
 *left* adjoints commute with base change, `(r^*𝓕)^a ≅ ε_a^*(𝓕^a)`.  This file is the statement
 for the right adjoints:
 

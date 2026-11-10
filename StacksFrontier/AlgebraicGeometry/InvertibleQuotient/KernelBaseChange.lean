@@ -257,7 +257,7 @@ theorem mono_modulePullback_map_kernel_ι_of_isSplitEpi_stalk
   set SY := AlgebraicGeometry.SheafOfModules.stalkFunctor (structureSheafRing Y) (f.hom.base x)
     with hSY
   set BC := stalkBaseChange f x with hBC
-  show Mono (BC.map (SY.map (kernel.ι q)))
+  change Mono (BC.map (SY.map (kernel.ι q)))
   rw [← kernelComparison_comp_ι q SY, BC.map_comp]
   have : PreservesLimit (parallelPair (SY.map q) 0) BC :=
     Stacks.preservesLimit_parallelPair_zero_of_isSplitEpi BC (SY.map q)

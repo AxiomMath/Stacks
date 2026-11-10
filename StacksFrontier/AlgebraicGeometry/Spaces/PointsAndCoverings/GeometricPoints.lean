@@ -218,7 +218,7 @@ theorem exists_scheme_refinement (B : BigFppfSite.{u})
       etale_toBase := isEtale_comp B S hS hatlas_isEtale U.etale_toBase
       point := pointV
       point_comp := by
-        show U.toBase.app (Opposite.op P) (atlas.app (Opposite.op P) pointV) = _
+        change U.toBase.app (Opposite.op P) (atlas.app (Opposite.op P) pointV) = _
         rw [hpointV]
         exact U.point_comp }
   refine ⟨U', ⟨?_, ?_⟩⟩

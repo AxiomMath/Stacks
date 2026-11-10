@@ -966,7 +966,7 @@ def relativeComplexOrdinaryProjectionFormulaIso [QuasiCompact f] [QuasiSeparated
     refine ⟨b, (CochainComplex.isStrictlyLE_iff F b).2 fun i hi => ?_⟩
     by_contra h
     exact absurd (hb h) (by omega)
-  have hkflat : Stacks.SheafOfModules.KFlat.KFlat (inverseImageBase f).sheaf F :=
+  have hkflat : Stacks.SheafOfModules.KFlat (inverseImageBase f).sheaf F :=
     Stacks.SheafOfModules.kFlat_of_boundedAbove_of_flat (R := (inverseImageBase f).sheaf) F
       hbdd hflat
   haveI : PreservesFiniteLimits
@@ -1066,7 +1066,7 @@ def relativeComplexOrdinaryProjectionFormulaIsoOfIsLocallyBounded [QuasiCompact 
             ((CochainComplex.singleFunctor (Modules (inverseImageBase f)) 0).obj
               ((RingedSpaceModuleAdjunction.modulePullback
                 (inverseImageBaseProjection f)).obj G)))) :=
-  have hkflat : Stacks.SheafOfModules.KFlat.KFlat (inverseImageBase f).sheaf F :=
+  have hkflat : Stacks.SheafOfModules.KFlat (inverseImageBase f).sheaf F :=
     Stacks.Cohomology.LocallyBoundedKFlat.kFlat_of_isLocallyBounded_of_flat
       (inverseImageBase f) F hF hflat
   haveI : PreservesFiniteLimits

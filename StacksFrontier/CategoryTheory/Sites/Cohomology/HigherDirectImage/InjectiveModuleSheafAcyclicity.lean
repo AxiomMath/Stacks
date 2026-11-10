@@ -96,7 +96,7 @@ theorem ext_eq_zero_of_injective_toSheaf (V : C) (n : ℕ)
   Stacks.Cohomology.ObjectSections.ext_eq_zero_of_isTorsionFree K R I _
     (ModuleSheafCohomology.isTorsionFree_sheafify K
       (uliftYoneda.{max u₁ t}.obj V ⋙ AddCommGrpCat.free) (fun point => by
-        show Module.IsTorsionFree ℤ
+        change Module.IsTorsionFree ℤ
           (FreeAbelianGroup (ULift.{max u₁ t} (point.unop ⟶ V)))
         exact Module.Flat.isTorsionFree)) n e
 

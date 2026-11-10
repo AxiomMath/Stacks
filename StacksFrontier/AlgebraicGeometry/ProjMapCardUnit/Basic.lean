@@ -325,8 +325,8 @@ theorem twistMap_comp_pullbackTwistUnit (ψ : 𝒜 →+*ᵍ ℬ) :
         (structureSheafHom (mapHom 𝒜 ℬ ψ).toLRSHom.toShHom) ≫ k)
       (restrictTwistUnit_comp_restrictFunctorIsoPullback 𝒜 ℬ ψ)))
 
-/-- **Tag 01MY, the graded-algebra unit, on the canonical bundle.** The Stacks statement's spelling of
-`twistMap_comp_pullbackTwistUnit`: the morphism and the twist maps are the fields of
+/-- **Tag 01MY, the graded-algebra unit, on the canonical bundle.** The Stacks statement's
+spelling of `twistMap_comp_pullbackTwistUnit`: the morphism and the twist maps are the fields of
 `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData`. -/
 @[stacks 01MY "graded-algebra unit"]
 theorem projMapData_preserves_unit (ψ : 𝒜 →+*ᵍ ℬ) :

@@ -56,7 +56,8 @@ public theorem representationLAdicSheafInverseImageIso_hom_act (o : O) :
     (representationLAdicSheafInverseImageIso B f y ρ hρ).hom ≫
         ((representationCoefficientSheaf B Y y
           (ρ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
-          (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous) μ (fun o _ => hμ o _)).act o).asHom =
+          (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous) μ
+          (fun o _ => hμ o _)).act o).asHom =
       ((LAdicSheaf.CoefficientSheaf.inverseImage f
           (representationCoefficientSheaf B X (y.map f.hom) ρ hρ μ hμ)).act o).asHom ≫
         (representationLAdicSheafInverseImageIso B f y ρ hρ).hom :=

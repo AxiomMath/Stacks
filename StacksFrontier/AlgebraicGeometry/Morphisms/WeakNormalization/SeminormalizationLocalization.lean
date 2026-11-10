@@ -116,7 +116,7 @@ private theorem special_element_mem_relativeSeminormalization
     { toRingHom := X.val.toRingHom
       commutes' := by
         intro a
-        show X.val (fAX a) = algebraMap A B a
+        change X.val (fAX a) = algebraMap A B a
         simp [fAX] }
   have : UniversalHomeomorphism
       (Scheme.Spec.map (CommRingCat.ofHom fAX).op) := hcomp
@@ -126,7 +126,7 @@ private theorem special_element_mem_relativeSeminormalization
 private theorem residueFieldMap_isIso_of_stalkMap_isIso
     {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X)
     (h : IsIso (f.stalkMap x)) : IsIso (f.residueFieldMap x) := by
-  show IsIso (CommRingCat.ofHom (IsLocalRing.ResidueField.map (f.stalkMap x).hom))
+  change IsIso (CommRingCat.ofHom (IsLocalRing.ResidueField.map (f.stalkMap x).hom))
   let e := asIso (f.stalkMap x)
   let er := RingEquiv.ofBijective e.hom.hom (ConcreteCategory.bijective_of_isIso e.hom)
   have hmap : IsLocalRing.ResidueField.map (f.stalkMap x).hom =
@@ -150,7 +150,7 @@ private theorem localized_stalkMap_isIso
     apply e.injective
     simp [e.commutes]
   have hmap : i.inv ≫ qL = qT := by
-    show Scheme.Spec.map (e.toRingEquiv.toCommRingCatIso.inv.op) ≫
+    change Scheme.Spec.map (e.toRingEquiv.toCommRingCatIso.inv.op) ≫
       Scheme.Spec.map ((CommRingCat.ofHom (algebraMap A (Localization S))).op) =
       Scheme.Spec.map ((CommRingCat.ofHom (algebraMap A T)).op)
     rw [← Scheme.Spec.map_comp]
@@ -159,9 +159,9 @@ private theorem localized_stalkMap_isIso
   have hcomp : IsIso ((i.inv ≫ qL).stalkMap x) := by
     rw [Scheme.Hom.stalkMap_comp]
     exact IsIso.comp_isIso'
-      (AlgebraicGeometry.isIso_SpecMap_stakMap_localization
+      (AlgebraicGeometry.isIso_specMap_stalkMap_localization
         (CommRingCat.of A) S (i.inv x)) inferInstance
-  show IsIso (qT.stalkMap x)
+  change IsIso (qT.stalkMap x)
   rw [← hmap]
   exact hcomp
 
@@ -223,7 +223,7 @@ private theorem localized_square_cube_numerator_contradiction
   let RE := Localization (T.map E.toSubring.subtype)
   have hmon : T.map E.toSubring.subtype = SB := by
     ext z
-    show (∃ t ∈ T, E.toSubring.subtype t = z) ↔
+    change (∃ t ∈ T, E.toSubring.subtype t = z) ↔
       ∃ s ∈ S, algebraMap A B s = z
     constructor
     · rintro ⟨t, ⟨s, hs, rfl⟩, rfl⟩
@@ -245,9 +245,9 @@ private theorem localized_square_cube_numerator_contradiction
         (algebraMap E (Localization T) a) = algebraMap B (Localization SB) ((a : E) : B) := by
       simp [localizedSubalgebraRingMap, T, SB, IsLocalization.map_eq]
     have hright : cE (algebraMap E (Localization T) a) = algebraMap B RE ((a : E) : B) := by
-      show cE (algebraMap E (Localization T) a) = algebraMap B RE (E.val a)
+      change cE (algebraMap E (Localization T) a) = algebraMap B RE (E.val a)
       exact IsLocalization.map_eq T.le_comap_map (a : E)
-    show e (localizedSubalgebraRingMap S E (Localization SB)
+    change e (localizedSubalgebraRingMap S E (Localization SB)
         (algebraMap E (Localization T) a)) = cE (algebraMap E (Localization T) a)
     rw [hleft, e.commutes, hright]
   have hrange := mem_range_equiv_iff e.toRingEquiv _ _ hcomp
@@ -328,7 +328,7 @@ private theorem localizedBaseMap_universalHomeomorphism
     IsScalarTower.of_algebraMap_eq' hcomp.symm
   have hloc : IsLocalization (Algebra.algebraMapSubmonoid C S)
       (Localization (S.map (algebraMap A C))) := by
-    show IsLocalization (S.map (algebraMap A C)) _
+    change IsLocalization (S.map (algebraMap A C)) _
     infer_instance
   have hp : Algebra.IsPushout A C Aₛ (Localization (S.map (algebraMap A C))) :=
     Algebra.isPushout_of_isLocalization S Aₛ C
@@ -373,7 +373,7 @@ private theorem localizedBaseMap_residueFieldMap_isIso
   have hmap : qC ≫ q = g ≫ qA := by
     rw [← Scheme.Spec.map_comp, ← Scheme.Spec.map_comp]
     exact congrArg Scheme.Spec.map (congrArg Quiver.Hom.op hcat)
-  show (∀ x, IsIso ((Scheme.Spec.map (CommRingCat.ofHom f).op).residueFieldMap x))
+  change (∀ x, IsIso ((Scheme.Spec.map (CommRingCat.ofHom f).op).residueFieldMap x))
   intro x
   have hleft : IsIso ((qC ≫ q).residueFieldMap x) := by
     rw [Scheme.residueFieldMap_comp]
@@ -400,7 +400,7 @@ private theorem universalHomeomorphism_cancel_right
   let G := Scheme.Spec.map (CommRingCat.ofHom g).op
   let H := Scheme.Spec.map (CommRingCat.ofHom (g.comp f)).op
   have hGF : G ≫ F = H := by
-    show Scheme.Spec.map (CommRingCat.ofHom g).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom g).op ≫
       Scheme.Spec.map (CommRingCat.ofHom f).op = _
     rw [← Scheme.Spec.map_comp]
     congr 1
@@ -420,7 +420,7 @@ private theorem universalHomeomorphism_cancel_right
         Scheme.Spec.obj (Opposite.op (CommRingCat.of D)) => φ ≫ G) := by
     intro K hK φ ψ hφψ
     apply hfields K
-    show φ ≫ H = ψ ≫ H
+    change φ ≫ H = ψ ≫ H
     rw [← hGF]
     change φ ≫ G = ψ ≫ G at hφψ
     simpa [Category.assoc] using congrArg (fun q => q ≫ F) hφψ
@@ -463,7 +463,7 @@ private theorem localized_subalgebra_range_iff_fraction
       _ = f (IsLocalization.mk' (Localization SC) b t) := by rw [ht]
       _ = IsLocalization.mk' Bₛ (b : B)
           ⟨algebraMap A B s, Submonoid.mem_map.mpr ⟨s, hs, rfl⟩⟩ := by
-            show (IsLocalization.map (M := SC) (S := Localization SC)
+            change (IsLocalization.map (M := SC) (S := Localization SC)
               (T := SB) Bₛ E.val hSC)
               (IsLocalization.mk' (Localization SC) b t) = _
             rw [IsLocalization.map_mk']
@@ -472,7 +472,7 @@ private theorem localized_subalgebra_range_iff_fraction
   · rintro ⟨b, hb, s, rfl⟩
     refine ⟨IsLocalization.mk' (Localization SC) ⟨b, hb⟩
       ⟨algebraMap A E s.1, Submonoid.mem_map.mpr ⟨s.1, s.2, rfl⟩⟩, ?_⟩
-    show (IsLocalization.map (M := SC) (S := Localization SC)
+    change (IsLocalization.map (M := SC) (S := Localization SC)
       (T := SB) Bₛ E.val hSC)
       (IsLocalization.mk' (Localization SC) ⟨b, hb⟩
         ⟨algebraMap A E s.1, Submonoid.mem_map.mpr ⟨s.1, s.2, rfl⟩⟩) = _
@@ -550,9 +550,9 @@ public theorem mem_relativeSeminormalization_localization_iff
     let SC := S.map (algebraMap A E)
     let fEB : E →+* B := E.val.toRingHom
     have hSC := map_le_comap_subalgebra_val S E
-    show Function.Injective (IsLocalization.map Bₛ fEB hSC)
+    change Function.Injective (IsLocalization.map Bₛ fEB hSC)
     have htargetLoc : IsLocalization (SC.map fEB) Bₛ := by
-      show IsLocalization ((S.map (algebraMap A E)).map E.val) Bₛ
+      change IsLocalization ((S.map (algebraMap A E)).map E.val) Bₛ
       rw [hmon]
       infer_instance
     exact @IsLocalization.map_injective_of_injective
@@ -561,7 +561,7 @@ public theorem mem_relativeSeminormalization_localization_iff
   let : Algebra CLoc D := gD.toAlgebra
   have hCDbase : gD.comp f = algebraMap Aₛ D := by
     ext a
-    show cB (f a) = algebraMap Aₛ Bₛ a
+    change cB (f a) = algebraMap Aₛ Bₛ a
     exact DFunLike.congr_fun hbase a
   let : IsScalarTower Aₛ CLoc D :=
     IsScalarTower.of_algebraMap_eq' hCDbase.symm
@@ -569,7 +569,7 @@ public theorem mem_relativeSeminormalization_localization_iff
       CommRingCat.ofHom (algebraMap Aₛ D) := CommRingCat.hom_ext_iff.mpr hCDbase
   have hmap :
       Scheme.Spec.map (CommRingCat.ofHom gD).op ≫ qLoc = qD := by
-    show Scheme.Spec.map (CommRingCat.ofHom gD).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom gD).op ≫
       Scheme.Spec.map (CommRingCat.ofHom f).op =
       Scheme.Spec.map (CommRingCat.ofHom (algebraMap Aₛ D)).op
     rw [← Scheme.Spec.map_comp]
@@ -603,7 +603,7 @@ public theorem mem_relativeSeminormalization_localization_iff
     exact IsIso.of_isIso_comp_left (qLoc.residueFieldMap (qCD z))
       (qCD.residueFieldMap z)
   have hcB' : Function.Injective (algebraMap CLoc D) := by
-    show Function.Injective gD
+    change Function.Injective gD
     intro x y hxy
     apply hcB
     exact congrArg D.val hxy
@@ -615,7 +615,7 @@ public theorem mem_relativeSeminormalization_localization_iff
     { toRingHom := D.val.toRingHom
       commutes' := by
         intro z
-        show ((gD z : D) : Bₛ) = cB z
+        change ((gD z : D) : Bₛ) = cB z
         rfl }
   let P : Subalgebra CLoc D :=
     Subalgebra.comap j (⊥ : Subalgebra CLoc Bₛ)
@@ -645,7 +645,7 @@ public theorem mem_relativeSeminormalization_localization_iff
               rfl
             have hprev' := hprev
             rw [← hidx] at hprev'
-            show b jt ∈ P
+            change b jt ∈ P
             exact hprev'
           have h2 := hpre (hstep i).1
           have h3 := hpre (hstep i).2
@@ -656,10 +656,10 @@ public theorem mem_relativeSeminormalization_localization_iff
             change j (b i ^ 3) ∈ (⊥ : Subalgebra CLoc Bₛ) at h3
             simpa [map_pow] using h3
           have hr2 : (j (b i)) ^ 2 ∈ Set.range cB := by
-            show (j (b i)) ^ 2 ∈ Set.range (algebraMap CLoc Bₛ)
+            change (j (b i)) ^ 2 ∈ Set.range (algebraMap CLoc Bₛ)
             exact Algebra.mem_bot.mp h2'
           have hr3 : (j (b i)) ^ 3 ∈ Set.range cB := by
-            show (j (b i)) ^ 3 ∈ Set.range (algebraMap CLoc Bₛ)
+            change (j (b i)) ^ 3 ∈ Set.range (algebraMap CLoc Bₛ)
             exact Algebra.mem_bot.mp h3'
           have hmem := localized_relativeSeminormalization_range_square_cube_closed
             S (Bₛ := Bₛ) hdom (j (b i)) hr2 hr3
@@ -678,8 +678,8 @@ public theorem mem_relativeSeminormalization_localization_iff
       exact hgen i
     have hdP : d ∈ P := hpre (hsubset (by simp))
     have hdbot : j d ∈ (⊥ : Subalgebra CLoc Bₛ) := hdP
-    show y ∈ Set.range cB
-    show j d ∈ Set.range (algebraMap CLoc Bₛ)
+    change y ∈ Set.range cB
+    change j d ∈ Set.range (algebraMap CLoc Bₛ)
     exact Algebra.mem_bot.mp hdbot
   have heq : x ∈ D ↔ x ∈ Set.range cB :=
     ⟨hrev x, by rintro ⟨z, rfl⟩; exact hmax z⟩

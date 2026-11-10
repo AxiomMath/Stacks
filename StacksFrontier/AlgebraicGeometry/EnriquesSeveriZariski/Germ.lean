@@ -55,7 +55,7 @@ theorem isClosed_germSupport (F : X.Modules) (t : Γ(F, ⊤)) : IsClosed (germSu
       {x : X | x ∈ (⊤ : X.Opens) ∧ ∀ hx : x ∈ (⊤ : X.Opens),
         (ConcreteCategory.hom (F.presheaf.germ ⊤ x hx)) t = 0} := by
     ext y
-    simp only [Set.mem_compl_iff, germSupport, Set.mem_setOf_eq, not_not]
+    simp only [Set.mem_compl_iff, germSupport, Set.mem_ofPred_eq, not_not]
     exact ⟨fun h => ⟨Opens.mem_top y, fun _ => h⟩, fun h => h.2 (Opens.mem_top y)⟩
   rw [hset]
   exact isOpen_germ_eq_zero F ⊤ t

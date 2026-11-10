@@ -76,7 +76,7 @@ theorem cocone_ι_app_zero_app (D : X.Opens) (a : Γ(X, D)) :
       (sectionIsomorphismOpen X F s).ι.app D a := by
   rw [reflexivePowerSystemPushforwardCocone_ι_app_eq_unit_comp,
     restrictReflexivePowerUnitIso_zero_hom]
-  show ((sectionIsomorphismOpen X F s).ι.appIso
+  change ((sectionIsomorphismOpen X F s).ι.appIso
       ((sectionIsomorphismOpen X F s).ι ⁻¹ᵁ D)).hom.hom
       ((X.presheaf.map
         (homOfLE ((sectionIsomorphismOpen X F s).ι.image_preimage_le D)).op).hom a) =
@@ -152,7 +152,7 @@ theorem cocone_ι_app_app_eq_zero (hF : IsReflexive F) (hU : genericPoint X ∈
           (homOfLE ((sectionIsomorphismOpen X F s).ι.image_preimage_le W)).op η))
       (restrictReflexivePowerUnitIso F s n).hom_inv_id
     refine hback.symm.trans ?_
-    show ((restrictReflexivePowerUnitIso F s n).inv.val.app
+    change ((restrictReflexivePowerUnitIso F s n).inv.val.app
       (op ((sectionIsomorphismOpen X F s).ι ⁻¹ᵁ W))).hom
         (((restrictReflexivePowerUnitIso F s n).hom.val.app
           (op ((sectionIsomorphismOpen X F s).ι ⁻¹ᵁ W))).hom _) = 0

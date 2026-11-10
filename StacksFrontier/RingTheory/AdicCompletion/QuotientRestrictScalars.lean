@@ -94,7 +94,7 @@ theorem bijective_adicQuotientRestrictScalarsHom (j : ℕ) (hj : RingHom.ker h �
       rw [Ideal.map_pow, h𝔟]
       simpa using hx
     obtain ⟨y, hy, hyr⟩ := (Ideal.mem_map_iff_of_surjective h hh).1 hx'
-    show (Submodule.Quotient.mk r : R ⧸ (𝔞 ^ j • ⊤ : Submodule R R)) = 0
+    change (Submodule.Quotient.mk r : R ⧸ (𝔞 ^ j • ⊤ : Submodule R R)) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     have hker : r - y ∈ 𝔞 ^ j := hj (by rw [RingHom.mem_ker, map_sub, hyr, sub_self])
     simpa using (𝔞 ^ j).add_mem hker hy

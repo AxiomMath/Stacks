@@ -190,7 +190,7 @@ theorem isIso_modulePullbackEtaleTargetComparison :
   refine ⟨v, hv', ?_⟩
   refine (bijective_comp_modulePullbackEtaleTargetComparison B S hS a p hp hrep M
     ((modulePullback B S hS (a ≫ p)).obj M)).1 ?_
-  show modulePullbackEtaleTargetComparison B S hS a p hp M ≫ v ≫
+  change modulePullbackEtaleTargetComparison B S hS a p hp M ≫ v ≫
       modulePullbackEtaleTargetComparison B S hS a p hp M =
     modulePullbackEtaleTargetComparison B S hS a p hp M ≫ 𝟙 _
   rw [← Category.assoc, hv', Category.id_comp, Category.comp_id]
@@ -222,10 +222,7 @@ theorem modulePullbackEtaleTargetComparison_baseChange
         modulePullbackChartBaseChange B S hS (a ≫ p) M (e.postcompTarget B S hS a p hp) z := by
   let _ := chartDiagramAlgebra B S hS a e
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    exact (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul b s =>
     refine Eq.trans ?_ (modulePullbackChartBaseChange_tmul B S hS (a ≫ p) M
       (e.postcompTarget B S hS a p hp) b s).symm

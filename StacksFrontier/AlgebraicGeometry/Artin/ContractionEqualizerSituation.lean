@@ -136,7 +136,7 @@ theorem isLocallyOfFiniteType_of_relative {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
   have hfst : pullback.fst ξ f.hom =
       hsq.isoPullback.inv ≫ uliftYoneda.{u + 1}.map (hf.rep.snd ξ) := by
     rw [Iso.eq_inv_comp, IsPullback.isoPullback_hom_fst]
-  show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+  change Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
   rw [hfst]
   exact Space.holdsOnEveryEtaleChartULift_precomp B S hS _ _ _
     (Space.isLocallyOfFiniteTypeULift_uliftYoneda_map B S hS _ (hf.property_snd ξ))
@@ -154,6 +154,7 @@ variable {c : ContractionSituation B S hS} {V : BigFppfOver B S hS}
     (d : ContractionEqualizer c V)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of fppf sheaves exceeds the default limit
 /-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
 local instance hasPullbacks_fppfSheaf_ContractionEqualizerSituation :
     HasPullbacks (FppfSheaf B S hS) := inferInstance
@@ -351,7 +352,7 @@ theorem isAdicMorphism_EW :
       d.EWToXhatPullback ≫ pullback.fst _ _ ≫ d.t₁.xhat := by
     rw [EWToXhatPullback_fst_assoc]
     exact congrArg (equalizer.ι d.xhat₁ d.xhat₂ ≫ ·) d.xhat₁_eq
-  show Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS
+  change Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS
     (equalizer.ι d.xhat₁ d.xhat₂ ≫ d.xhat₁).hom
   rw [heq]
   exact Space.isRepresentableByAlgebraicSpacesULift_comp B S hS _ _ hφ

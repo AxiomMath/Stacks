@@ -78,7 +78,7 @@ theorem DiscreteUniquenessAlong.discreteExistenceAlong_relativeDiagonal {h : �
   let D := ValuativeSquare.toValuativeDiagram B S hS
     (ValuativeSquare.ofDominatingExtension B S hS q e)
   obtain ⟨m⟩ := (hf (diagonalBaseDiagram B S hS D) hq (e.k ≫ u) (by
-        show e.k ≫ q.x = _
+        change e.k ≫ q.x = _
         rw [hu]
         rfl)).2
     (diagonalDottedArrowFst B S hS D) (diagonalDottedArrowSnd B S hS D)

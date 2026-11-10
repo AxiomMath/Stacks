@@ -299,7 +299,7 @@ theorem isIso_map_Q_map_of_isStrictlyLE (hA : HasExactCountableDirectSums A) :
     IsIso (Φ.map (DerivedCategory.Q.map f)) := by
   have hτ := isIso_map_Q_map_colimMap Φ hA (truncTowerMap f b) (fun m => by
     obtain ⟨k, hk⟩ : ∃ k : ℕ, -((m : ℤ) - (b + 1)) = b + 1 - k := ⟨m, by ring⟩
-    show IsIso (Φ.map (DerivedCategory.Q.map
+    change IsIso (Φ.map (DerivedCategory.Q.map
       (stupidTruncMap f (embeddingUpIntGE (-((m : ℤ) - (b + 1)))))))
     rw [hk]
     exact isIso_map_Q_map_stupidTruncMap Φ f h k)

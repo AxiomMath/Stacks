@@ -99,7 +99,7 @@ theorem isUnit_algebraMap_moduleEnd (M : X.Modules) {U V : X.Opens} (h : V ≤ U
   have key : ∀ (c : Γ(X, U)) (z : Γ(M, V)),
       (↑v⁻¹ : Γ(X, V)) • (c • z) = c • ((↑v⁻¹ : Γ(X, V)) • z) := by
     intro c z
-    show (↑v⁻¹ : Γ(X, V)) • ((X.presheaf.map (homOfLE h).op c) • z) =
+    change (↑v⁻¹ : Γ(X, V)) • ((X.presheaf.map (homOfLE h).op c) • z) =
       (X.presheaf.map (homOfLE h).op c) • ((↑v⁻¹ : Γ(X, V)) • z)
     rw [smul_smul, smul_smul, mul_comm]
   refine ⟨⟨algebraMap Γ(X, U) (Module.End Γ(X, U) Γ(M, V)) r,
@@ -107,10 +107,10 @@ theorem isUnit_algebraMap_moduleEnd (M : X.Modules) {U V : X.Opens} (h : V ≤ U
       map_add' := fun z w ↦ smul_add _ _ _
       map_smul' := key }, ?_, ?_⟩, rfl⟩
   · refine LinearMap.ext fun z ↦ ?_
-    show (X.presheaf.map (homOfLE h).op r) • ((↑v⁻¹ : Γ(X, V)) • z) = z
+    change (X.presheaf.map (homOfLE h).op r) • ((↑v⁻¹ : Γ(X, V)) • z) = z
     rw [← hv, smul_smul, Units.mul_inv, one_smul]
   · refine LinearMap.ext fun z ↦ ?_
-    show (↑v⁻¹ : Γ(X, V)) • ((X.presheaf.map (homOfLE h).op r) • z) = z
+    change (↑v⁻¹ : Γ(X, V)) • ((X.presheaf.map (homOfLE h).op r) • z) = z
     rw [← hv, smul_smul, Units.inv_mul, one_smul]
 
 /-- **Affine case, surjectivity.** For `U` an affine open, `f : Γ(X, U)` and `W = X.basicOpen f`,
@@ -287,7 +287,7 @@ theorem exists_eq_pow_smul_of_isCompact_of_isQuasiSeparated (M : X.Modules) [M.I
   -- The `v i` are a compatible family, so they glue.
   have hcompat : TopCat.Presheaf.IsCompatible M.presheaf (fun i : s ↦ (i : X.Opens)) v := by
     intro i j
-    show M.presheaf.map (homOfLE (hQi i j)).op (v i) =
+    change M.presheaf.map (homOfLE (hQi i j)).op (v i) =
       M.presheaf.map (homOfLE (hQj i j)).op (v j)
     rw [hv i _ (hQi i j), hv j _ (hQj i j),
       presheaf_map_map (hQi i j) (hle i) (hQU i j) f,
@@ -304,7 +304,7 @@ theorem exists_eq_pow_smul_of_isCompact_of_isQuasiSeparated (M : X.Modules) [M.I
     rw [hcov] at hpU
     obtain ⟨i, hi⟩ := Opens.mem_iSup.mp hpU
     exact Opens.mem_iSup.mpr ⟨i, hi, hp⟩
-  · show M.presheaf.map (homOfLE (hPb i)).op
+  · change M.presheaf.map (homOfLE (hPb i)).op
         (M.presheaf.map (homOfLE (X.basicOpen_le f)).op gl) =
       M.presheaf.map (homOfLE (hPb i)).op
         ((X.presheaf.map (homOfLE (X.basicOpen_le f)).op f) ^ (m + N) • x)
@@ -336,7 +336,7 @@ theorem isLocalizedModule_restrictₗ_of_qcqs (M : X.Modules) [M.IsQuasicoherent
     obtain ⟨k, yy, e⟩ :=
       exists_eq_pow_smul_of_isCompact_of_isQuasiSeparated M hS hS' a z
     refine ⟨k, yy, ?_⟩
-    show X.presheaf.map (homOfLE hVS).op (a ^ k) • z = _
+    change X.presheaf.map (homOfLE hVS).op (a ^ k) • z = _
     rw [map_pow]
     exact e.symm
   · intro z₁ z₂ hz

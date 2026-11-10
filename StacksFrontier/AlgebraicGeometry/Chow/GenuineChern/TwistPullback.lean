@@ -69,7 +69,7 @@ theorem map_map_homOfLE (N : X.Modules) {V W Z : X.Opens} (h₁ : V ≤ W) (h₂
     (s : Γ(N, Z)) :
     N.val.map (homOfLE h₁).op (N.val.map (homOfLE h₂).op s) =
       N.val.map (homOfLE (h₁.trans h₂)).op s := by
-  show N.presheaf.map (homOfLE h₁).op (N.presheaf.map (homOfLE h₂).op s) =
+  change N.presheaf.map (homOfLE h₁).op (N.presheaf.map (homOfLE h₂).op s) =
     N.presheaf.map (homOfLE (h₁.trans h₂)).op s
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
@@ -77,7 +77,7 @@ theorem map_map_homOfLE (N : X.Modules) {V W Z : X.Opens} (h₁ : V ≤ W) (h₂
 /-- Restricting along `V ≤ W` and then to `⊤ ≤ V` is restricting to `⊤ ≤ W`. -/
 theorem resTop_map (N : X.Modules) {V W : X.Opens} (h : ⊤ ≤ V) (h' : V ≤ W) (s : Γ(N, W)) :
     resTop N h (N.val.map (homOfLE h').op s) = resTop N (h.trans h') s := by
-  show N.presheaf.map (homOfLE h).op (N.presheaf.map (homOfLE h').op s) =
+  change N.presheaf.map (homOfLE h).op (N.presheaf.map (homOfLE h').op s) =
     N.presheaf.map (homOfLE (h.trans h')).op s
   rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
   rfl
@@ -101,7 +101,7 @@ theorem resTop_injective (N : X.Modules) {V : X.Opens} (h : ⊤ ≤ V) :
   obtain rfl : V = ⊤ := top_le_iff.mp h
   intro a b hab
   have e : ∀ c : Γ(N, ⊤), resTop N h c = c := fun c => by
-    show N.val.map (homOfLE h).op c = c
+    change N.val.map (homOfLE h).op c = c
     rw [show homOfLE h = 𝟙 _ from rfl, op_id, PresheafOfModules.map_id]
     rfl
   rwa [e, e] at hab
@@ -130,7 +130,7 @@ theorem restrictFunctorIsoPullback_inv_unitSection (c : X ⟶ Y) [IsOpenImmersio
         ((Scheme.Modules.restrictFunctorIsoPullback c).inv.app M) =
       (Scheme.Modules.restrictAdjunction c).unit.app M := by
     rw [← h, Category.assoc, ← Functor.map_comp]
-    show _ ≫ (Scheme.Modules.pushforward c).map
+    change _ ≫ (Scheme.Modules.pushforward c).map
       (((Scheme.Modules.restrictFunctorIsoPullback c).hom ≫
         (Scheme.Modules.restrictFunctorIsoPullback c).inv).app M) = _
     rw [Iso.hom_inv_id]
@@ -427,7 +427,7 @@ private theorem top_le_chart_preimage_toBase (E : X.Modules) (hqc : IsQuasicoher
     (U : X.Opens) (hU : IsAffineOpen U) :
     ⊤ ≤ (relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU ⁻¹ᵁ
       ((relativeProj (schemeSheafGradedAlgebra E hqc)).toBase ⁻¹ᵁ U) := fun y _ => by
-  show (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
+  change (relativeProj (schemeSheafGradedAlgebra E hqc)).toBase
     ((relativeProj (schemeSheafGradedAlgebra E hqc)).chart U hU y) ∈ U
   rw [Stacks.AlgebraicGeometry.RelativeProjMapDomain.toBase_chart_apply]
   exact (projInclusionToOpen _ U hU y).2

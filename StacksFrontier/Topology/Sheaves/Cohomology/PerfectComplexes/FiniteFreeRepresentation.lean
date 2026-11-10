@@ -152,7 +152,7 @@ theorem isFiniteLocallyFree_of_iso {M N : OXMod.{u, u} X} (e : M ≅ N)
             _root_.SheafOfModules.LocalGeneratorsData.{u} M), ?_, ?_⟩
   · constructor
     intro i
-    show IsIso (generatingSectionsComp (q.generators i) (e.inv.over (q.X i))).π
+    change IsIso (generatingSectionsComp (q.generators i) (e.inv.over (q.X i))).π
     have hiso : IsIso (q.generators i).π := hq.isIso i
     have hover : IsIso (e.inv.over (q.X i)) := inferInstance
     exact isIso_of_hom_eq
@@ -239,7 +239,7 @@ theorem exists_free_iso_over_of_bounded (P : CochainComplex (OXMod.{u, u} X) ℤ
   · have hcoe :
         ((⨅ j : J, V j : Opens X.carrier) : Set X.carrier) = ⋂ j : J, (V j : Set _) := by
       simp only [Opens.coe_iInf]
-    show x ∈ ((⨅ j : J, V j : Opens X.carrier) : Set X.carrier)
+    change x ∈ ((⨅ j : J, V j : Opens X.carrier) : Set X.carrier)
     rw [hcoe]
     exact Set.mem_iInter.mpr hV
   · by_cases hj : j ∈ S

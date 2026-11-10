@@ -115,7 +115,7 @@ theorem preservesEpimorphisms : Q.PreservesEpimorphisms where
     refine (PreservesCokernel.iso (i ⋙ r) (Q.map f)) ≪≫
       cokernel.mapIso _ _ (asIso (r.map (adj.counit.app F)))
         (asIso (r.map (adj.counit.app F'))) ?_
-    show r.map (i.map (Q.map f)) ≫ r.map (adj.counit.app F') =
+    change r.map (i.map (Q.map f)) ≫ r.map (adj.counit.app F') =
       r.map (adj.counit.app F) ≫ r.map f
     exact (r.map_comp _ _).symm.trans ((congrArg r.map (adj.counit_naturality f)).trans
       (r.map_comp _ _))
@@ -197,7 +197,7 @@ theorem map_adjunctionOfEquivalence_counit_app (F : 𝒜) :
       (homEquivOfEquivalence i r Φ e h _ F).symm (𝟙 _) := by
     simp [adjunctionOfEquivalence]
   rw [h1]
-  show (Equiv.ofBijective _ (h _ F)) ((Equiv.ofBijective _ (h _ F)).symm _) = _
+  change (Equiv.ofBijective _ (h _ F)) ((Equiv.ofBijective _ (h _ F)).symm _) = _
   rw [Equiv.apply_symm_apply, Adjunction.homEquiv_counit]
   simp
 

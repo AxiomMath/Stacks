@@ -260,7 +260,7 @@ public theorem smallEtaleRingStructureSharp_eq_restrictStructureMap :
         (BigEtaleOver.structureSheaf B S.obj S.property)
         (bigEtaleRingStructureSharp B T S f)
         (smallEtaleBaseChange_comp_inclusion B f).symm := by
-  show smallEtaleRingStructureSharp B T S f =
+  change smallEtaleRingStructureSharp B T S f =
     ((SmallEtale.inclusion B S.obj S.property).sheafPushforwardContinuous RingCat.{u}
         (SmallEtale.topology B S.obj S.property)
         (BigEtaleOver.topology B S.obj S.property)).map

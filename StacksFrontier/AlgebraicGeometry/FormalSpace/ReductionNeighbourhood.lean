@@ -191,7 +191,7 @@ theorem eq_bot_of_le_ker_of_mem {R : Sieve T} (hR : R ∈ BigFppfOver.topology B
   let m := siteSubschemeι T J
   have : Mono (Y.map m) := by
     apply (sheafToPresheaf JT (Type (u + 1))).mono_of_mono_map
-    show Mono (uliftYoneda.{u + 1}.map m)
+    change Mono (uliftYoneda.{u + 1}.map m)
     infer_instance
   have hs : Presheaf.IsLocallySurjective JT (uliftYoneda.{u + 1}.map m) := by
     constructor
@@ -199,7 +199,7 @@ theorem eq_bot_of_le_ker_of_mem {R : Sieve T} (hR : R ∈ BigFppfOver.topology B
     refine JT.superset_covering ?_ (JT.pullback_stable h.down hR)
     intro W f hf
     refine ⟨ULift.up (siteSubschemeLift (f ≫ h.down) (hJ _ hf)), ?_⟩
-    show ULift.up (siteSubschemeLift (f ≫ h.down) (hJ _ hf) ≫ m) = ULift.up (f ≫ h.down)
+    change ULift.up (siteSubschemeLift (f ≫ h.down) (hJ _ hf) ≫ m) = ULift.up (f ≫ h.down)
     rw [siteSubschemeLift_ι]
   have : Sheaf.IsLocallySurjective (Y.map m) := hs
   have : Epi (Y.map m) := inferInstance
@@ -238,9 +238,9 @@ theorem isPullback_subfunctorι_of_forall {C : Type*} [Category C] {F U V : C �
     obtain ⟨z, hz⟩ := h T y hy
     refine ⟨z, ?_, hz⟩
     apply Subtype.ext
-    show (l ≫ G.ι).app T z = x.1
+    change (l ≫ G.ι).app T z = x.1
     rw [hl]
-    show c.app T (r.app T z) = x.1
+    change c.app T (r.app T z) = x.1
     rw [hz]
     exact hxy.symm
 

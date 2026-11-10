@@ -221,7 +221,7 @@ private theorem quasiCompact_of_represents_picardEqualizer_of_isom
     obtain ⟨li, hli⟩ := (hj (wi ≫ g)).1 ((hEi wi).1 hwi)
     refine ⟨Wi, li, hWc, ?_, fun e he => ?_⟩
     · rintro _ ⟨w', rfl⟩
-      show ((BigFppfOver.toScheme B S hS).map li ≫ (BigFppfOver.toScheme B S hS).map j) w' ∈
+      change ((BigFppfOver.toScheme B S hS).map li ≫ (BigFppfOver.toScheme B S hS).map j) w' ∈
         (Uo : Set _)
       rw [← Functor.map_comp, hli, Functor.map_comp, Functor.map_comp, ← hurange]
       exact ⟨_, rfl⟩
@@ -493,7 +493,7 @@ theorem isQuasiSeparated_of_represents_of_isAffineAlgebraicSpaceOver_isomFunctor
   have he : ∀ (T U : s.SchemesOver) (g : T ⟶ U) (ξ : s.picardFunctor.obj (Opposite.op U)),
       (e T (s.picardFunctor.map g.op ξ)).val = H.1.map g.left.op (e U ξ).val := by
     intro T U g ξ
-    show (c.inv.app (Opposite.op T) (s.picardFunctor.map g.op ξ)).down.1 = _
+    change (c.inv.app (Opposite.op T) (s.picardFunctor.map g.op ξ)).down.1 = _
     rw [NatTrans.naturality_apply]
     rfl
   exact s.isQuasiCompact_diagonal_of_represents_of_isom

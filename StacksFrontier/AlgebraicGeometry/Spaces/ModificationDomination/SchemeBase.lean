@@ -184,7 +184,7 @@ theorem exists_isAdmissibleBlowup_dominating_of_qcqs_scheme (W : BigFppfOver B S
   refine ⟨schemeSpace (blowUpObj W K), schemeSpaceMap (blowUpObjHom W K),
     ⟨closedSubspaceOfIdeal W K, isFinitePresentation_closedSubspaceOfIdeal W K hKfp,
       by
-        show Disjoint (subspacePointSet B S hS (yoneda.obj W) U)
+        change Disjoint (subspacePointSet B S hS (yoneda.obj W) U)
           (subspacePointSet B S hS (yoneda.obj W) (closedSubspaceOfIdeal W K).1)
         rw [hZpts]
         exact disjoint_compl_right, hbl⟩, hqc, hdense, ?_⟩

@@ -513,11 +513,11 @@ lemma model_interchange_natural (m n : interchangeModels X)
   have hsf : s ≫ f = t := by
     rw [hsdef, htdef]
     ext
-    · show DerivedCategory.Q.map (qa ≫ sa) ≫ f.1 = DerivedCategory.Q.map (qa ≫ ga)
+    · change DerivedCategory.Q.map (qa ≫ sa) ≫ f.1 = DerivedCategory.Q.map (qa ≫ ga)
       simp only [ha, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
-    · show DerivedCategory.Q.map (𝟙 m.2.1.1) ≫ f.2.1 = DerivedCategory.Q.map ti
+    · change DerivedCategory.Q.map (𝟙 m.2.1.1) ≫ f.2.1 = DerivedCategory.Q.map ti
       simp only [hti, CategoryTheory.Functor.map_id, Category.id_comp]
-    · show f.2.2.unop ≫ DerivedCategory.Q.map sc = DerivedCategory.Q.map gc
+    · change f.2.2.unop ≫ DerivedCategory.Q.map sc = DerivedCategory.Q.map gc
       simp only [hcf, Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   have hs : (tensorIntoHomFunctor X).map s ≫ modelInterchange X m =
       modelInterchange X p ≫ (homOfTensorFunctor X).map s :=

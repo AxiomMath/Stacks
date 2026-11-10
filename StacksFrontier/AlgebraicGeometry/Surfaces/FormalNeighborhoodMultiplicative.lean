@@ -77,7 +77,7 @@ public theorem mul_eq_zero_of_appTop_inclusion_eq_zero (I J K : X.IdealSheafData
   obtain ⟨y, hy⟩ := K.subschemeι_app_surjective U (res v)
   have hxyK : x * y ∈ K.ideal U :=
     hmul U (Ideal.mul_mem_mul (mem I hIK u x hx hu) (mem J hJK v y hy hv))
-  show res (u * v) = res 0
+  change res (u * v) = res 0
   rw [map_zero, map_mul, ← hx, ← hy, ← map_mul]
   exact RingHom.mem_ker.mp ((ker_subschemeι_app K U).ge hxyK)
 

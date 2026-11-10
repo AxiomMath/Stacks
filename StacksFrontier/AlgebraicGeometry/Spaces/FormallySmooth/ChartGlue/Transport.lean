@@ -120,7 +120,7 @@ theorem existsUnique_transport (h : Φ.pt C w₁ = Φ.pt C w₂) (δ : DerAlong 
   obtain ⟨W, ⟨hW₁, hW₂⟩, hWu⟩ := Φ.existsUnique_lift (trivExtFst hN) (trivExtFst_surjective hN)
     (trivExtFst_ker_sq hN) (Φ.derPt hN δ) w₂ (h.symm.trans (Φ.map_trivExtFst_derPt δ).symm)
   refine ⟨DerAlong.ofLift W hW₁, ?_, fun δ' hδ' ↦ ?_⟩
-  · show Φ.pt (trivExtObj hN) (DerAlong.ofLift W hW₁).liftHom = _
+  · change Φ.pt (trivExtObj hN) (DerAlong.ofLift W hW₁).liftHom = _
     rw [DerAlong.liftHom_ofLift]
     exact hW₂
   · apply DerAlong.liftHom_injective
@@ -307,7 +307,7 @@ theorem transportFun_reduce {D : P.FullSubcategory} (f : C ⟶ D) [Module D.obj 
     Φ.transportFun hN h δ r = Φ.transportFun hD h' δ' r := by
   let : Algebra C.obj D.obj := (f.hom.hom : C.obj →+* D.obj).toAlgebra
   have : IsScalarTower C.obj D.obj N := ⟨fun c d n ↦ by
-    show (f.hom.hom c * d) • n = c • (d • n)
+    change (f.hom.hom c * d) • n = c • (d • n)
     rw [mul_smul, hsmul]⟩
   have hf : ∀ c, algebraMap C.obj D.obj c = f.hom.hom c := fun _ ↦ rfl
   have h'' : Φ.pt D (f.hom.hom.comp w₁) = Φ.pt D (f.hom.hom.comp w₂) := by

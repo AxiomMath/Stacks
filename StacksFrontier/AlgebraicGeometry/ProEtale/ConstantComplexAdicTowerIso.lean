@@ -183,7 +183,7 @@ theorem exists_quasiIso_rowAdicTower_le (n : ℕ)
       (HomologicalComplex.quasiIso_map_iff_of_preservesHomology _ (restrictScalars J (e n))).2
         (quasiIso_rowComplexMap_of_kFlat (C := C) (J := J) u' hU hPS
           ((constantAdicQuotientTower J (S n) (𝔞.map (e n)) (ModuleCat.of (S n) (S n))).obj (op j)))
-    show QuasiIso ((εY j hj).hom ≫ R.map (τ.app (op j)) ≫ (εX j hj).inv)
+    change QuasiIso ((εY j hj).hom ≫ R.map (τ.app (op j)) ≫ (εX j hj).inv)
     infer_instance
   · exact comp_conj_eq_conj_comp _ (hεY i j hij hjn) (hεX i j hij hjn)
       (τ.naturality (homOfLE hij).op)
@@ -251,7 +251,7 @@ theorem quasiIso_of_quasiIso_reduction_rowAdicTower (n : ℕ)
     simpa using ((rowAdicTowerCone J 𝔞 cM).naturality (homOfLE h1n).op).symm
   have hψ' : ψ = qA.map f₁ := by
     apply (bijective_rowAdicTowerCone_comp (C := C) (J := J) hT 𝔞 M P (le_refl 1)).1
-    show qA.map _ ≫ ψ = qA.map _ ≫ qA.map f₁
+    change qA.map _ ≫ ψ = qA.map _ ≫ qA.map f₁
     calc _ = qA.map ((rowAdicTowerCone J 𝔞 cM).app (op (n + 1))) ≫
           qA.map ((rowAdicTower J 𝔞 cM).map (homOfLE h1n).op) ≫ ψ := by
           rw [← hcone, qA.map_comp, Category.assoc]
@@ -309,7 +309,7 @@ theorem exists_natTrans_rowAdicTower_quasiIso
     refine ⟨fun j hj => q.map (g j (hj.trans n.le_succ)), fun j hj => ?_, fun i j hij hjn => ?_⟩
     · rw [HomotopyCategory.quotient_map_mem_quasiIso_iff, HomologicalComplex.mem_quasiIso_iff]
       exact hg j _
-    · show q.map _ ≫ q.map _ = q.map _ ≫ q.map _
+    · change q.map _ ≫ q.map _ = q.map _ ≫ q.map _
       rw [← q.map_comp, ← q.map_comp, hgc i j hij (hjn.trans n.le_succ)]
   · exact isMittagLeffler_coyoneda_rowAdicTower_constantSheaf (C := C) (J := J) hT hW 𝔞 M a b hM
   · obtain rfl : j = 0 := Nat.lt_one_iff.1 hj

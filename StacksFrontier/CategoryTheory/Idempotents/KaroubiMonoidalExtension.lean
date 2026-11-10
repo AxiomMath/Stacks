@@ -146,7 +146,7 @@ theorem mapFunctor_eq_functorExtension₂ (F : A ⥤ B) :
 /-- The image under `F` of a morphism intertwining two idempotents intertwines their images. -/
 theorem comm_map (F : A ⥤ B) {P Q : Karoubi A} {g : P.X ⟶ Q.X} (h : P.p ≫ g = g ≫ Q.p) :
     ((mapFunctor F).obj P).p ≫ F.map g = F.map g ≫ ((mapFunctor F).obj Q).p := by
-  show F.map P.p ≫ F.map g = F.map g ≫ F.map Q.p
+  change F.map P.p ≫ F.map g = F.map g ≫ F.map Q.p
   rw [← F.map_comp, h, F.map_comp]
 
 /-- `mapFunctor F` sends the morphism of formal direct factors induced by an intertwining
@@ -155,7 +155,7 @@ theorem mapFunctor_map_ofComm (F : A ⥤ B) {P Q : Karoubi A} (g : P.X ⟶ Q.X)
     (h : P.p ≫ g = g ≫ Q.p) :
     (mapFunctor F).map (ofComm g h) = ofComm (F.map g) (comm_map F h) := by
   apply Karoubi.hom_ext
-  show F.map (P.p ≫ g) = F.map P.p ≫ F.map g
+  change F.map (P.p ≫ g) = F.map P.p ≫ F.map g
   rw [F.map_comp]
 
 /-- `mapFunctor F` extends `F`: on the formal direct factors cut out by identities it is `F`, up
@@ -172,7 +172,7 @@ variable [MonoidalCategory A] [MonoidalCategory B] (F : A ⥤ B) [F.Monoidal]
 theorem comm_mapε :
     (𝟙_ (Karoubi B)).p ≫ LaxMonoidal.ε F =
       LaxMonoidal.ε F ≫ ((mapFunctor F).obj (𝟙_ (Karoubi A))).p := by
-  show 𝟙 (𝟙_ B) ≫ LaxMonoidal.ε F = LaxMonoidal.ε F ≫ F.map (𝟙 (𝟙_ A))
+  change 𝟙 (𝟙_ B) ≫ LaxMonoidal.ε F = LaxMonoidal.ε F ≫ F.map (𝟙 (𝟙_ A))
   rw [id_comp, F.map_id, comp_id]
 
 /-- The tensor comparison morphism of `F` intertwines the tensor products of the idempotents;
@@ -180,7 +180,7 @@ this is the naturality of `LaxMonoidal.μ F`, applied to the idempotents. -/
 theorem comm_mapμ (P Q : Karoubi A) :
     ((mapFunctor F).obj P ⊗ (mapFunctor F).obj Q).p ≫ LaxMonoidal.μ F P.X Q.X =
       LaxMonoidal.μ F P.X Q.X ≫ ((mapFunctor F).obj (P ⊗ Q)).p := by
-  show (F.map P.p ⊗ₘ F.map Q.p) ≫ LaxMonoidal.μ F P.X Q.X =
+  change (F.map P.p ⊗ₘ F.map Q.p) ≫ LaxMonoidal.μ F P.X Q.X =
     LaxMonoidal.μ F P.X Q.X ≫ F.map (P.p ⊗ₘ Q.p)
   exact LaxMonoidal.μ_natural F P.p Q.p
 

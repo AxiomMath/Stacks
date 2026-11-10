@@ -174,7 +174,7 @@ private lemma compIso_refl_inv_app {V₁ V₂ V₃ : Type*} [Category* V₁] [Ca
     (F : V₁ ⥤ V₂) (G : V₂ ⥤ V₃) [F.Additive] [G.Additive] {ι : Type*} (c : ComplexShape ι)
     (K : HomotopyCategory V₁ c) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) c).inv.app K = 𝟙 _ := by
-  show (HomotopyCategory.quotient V₃ c).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient V₃ c).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 variable (X : RingedSpace.{u, u}) (Z : Set X.carrier)
@@ -520,12 +520,12 @@ private lemma abelianEndoUnit_isIso_at_underlying_kInjective (hZ : IsClosed Z)
     exact isIso_Qh_map_quotient_map ((A.mapHomologicalComplex (ComplexShape.up ℤ)).map q)
   have hqD : IsIso (DerivedCategory.Qh.map (Q.map q)) := isIso_Qh_map_quotient_map q
   have hqR : IsIso ((DerivedCategory.Qh ⋙ RHab).map (Q.map q)) := by
-    show IsIso (RHab.map (DerivedCategory.Qh.map (Q.map q)))
+    change IsIso (RHab.map (DerivedCategory.Qh.map (Q.map q)))
     infer_instance
   have hcomp : IsIso (aHab.app (Q.obj M) ≫ (DerivedCategory.Qh ⋙ RHab).map (Q.map q)) := by
     rw [← aHab.naturality (Q.map q)]
     infer_instance
-  show IsIso (aHab.app (Q.obj M))
+  change IsIso (aHab.app (Q.obj M))
   exact IsIso.of_isIso_comp_right _ ((DerivedCategory.Qh ⋙ RHab).map (Q.map q))
 
 /-- The comparison unit `abelianSupportedEndoForgetUnit` is invertible at a K-injective complex

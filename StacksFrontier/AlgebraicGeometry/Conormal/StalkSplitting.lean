@@ -193,7 +193,7 @@ private abbrev imPre (V U : W.Opens) : W.Opens := V.ι ''ᵁ (V.ι ⁻¹ᵁ U)
 private theorem imPre_le (V U : W.Opens) : imPre V U ≤ U := Scheme.Hom.image_preimage_le V.ι U
 
 private theorem mem_imPre {V U : W.Opens} {w : W} (hV : w ∈ V) (hU : w ∈ U) : w ∈ imPre V U := by
-  show w ∈ V.ι ''ᵁ (V.ι ⁻¹ᵁ U)
+  change w ∈ V.ι ''ᵁ (V.ι ⁻¹ᵁ U)
   rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι]
   exact ⟨hV, hU⟩
 
@@ -411,7 +411,7 @@ private theorem exists_stalkLinearMap_retraction (ψ : A ⟶ B) (w : W) (V : W.O
     exact ConcreteCategory.congr_hom (ψ.mapPresheaf.naturality (homOfLE (imPre_le V U)).op) s
   have hcomp : ∀ t : Γ(A, imPre V U), rApp V r U (ψ.app (imPre V U) t) = t := fun t => by
     rw [← ConcreteCategory.comp_apply, hid, ConcreteCategory.id_apply]
-  show restrictRetractionHom V w hw r
+  change restrictRetractionHom V w hw r
     (stalkHom ψ w (TopCat.Presheaf.germ (C := Ab.{u}) A.presheaf U w hU s)) = _
   rw [stalkHom_germ, restrictRetractionHom_germ, ← hnatψ, hcomp,
     TopCat.Presheaf.germ_res_apply A.presheaf (homOfLE (imPre_le V U)) w (mem_imPre hw hU)]

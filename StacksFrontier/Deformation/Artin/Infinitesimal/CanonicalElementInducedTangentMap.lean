@@ -756,7 +756,7 @@ public theorem canonicalTangentMap_eq_familyTangentMap [IsLocallyNoetherian S]
         (residue_locallyOfFiniteType Λ A k S toS baseMap baseFactorization hpt)
         (residue_quasiCompact Λ k S baseMap)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
     let M : SiteModule k B := ⟨ModuleCat.of k k, hkk⟩
@@ -787,7 +787,7 @@ public theorem canonicalTangentMap_eq_familyTangentMap [IsLocallyNoetherian S]
   intro x₀ D 𝓕 hD M L
   let : p.IsFibered := hp.isFibered
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
     ⟨schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
   obtain ⟨e₀, he₀⟩ := tangentSpace_deformationCategory_linearEquiv B S hS baseMap

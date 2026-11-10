@@ -154,6 +154,7 @@ def sectionsTensorSheafUnitIso (F : Modules.{u, u} B S hS X.1 X.2) :
       AddCommGrpCat.{u + 1}).counit.app ((moduleToAbelianSheaf B S hS X).obj F))
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the composite with the right derived functors of étale `Γ` is slow
 /-- The functor `N ↦ H^p(X, ℱ ⊗_A N)` is additive. -/
 instance cohomologySectionsTensor_additive (F : Modules.{u, u} B S hS X.1 X.2) (p : ℕ) :
     (sectionsTensorSheaf B S hS X φ F ⋙

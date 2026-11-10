@@ -140,7 +140,7 @@ theorem applyHomSectionOver_contractionSection (j : ULift.{u} (Fin r)) (U V : Op
     RingedSite.applyHomSectionOver (ringedSite Rc) (endHom Rc K) U V i 1 p q hpq
         (contractionSection Rc K j U) x =
       (K.coordKoszulD j (show -q + 1 = -p by omega)).val.app (op V) x := by
-  show (((endHom Rc K).sectionsEquiv U 1 (contractionSection Rc K j U)).v p q hpq).val.app
+  change (((endHom Rc K).sectionsEquiv U 1 (contractionSection Rc K j U)).v p q hpq).val.app
       (op (Over.mk i)) x = _
   rw [sectionsEquiv_contractionSection]
   rfl
@@ -213,7 +213,7 @@ theorem contractionMor_comp_d (j : ULift.{u} (Fin r)) :
     contractionMor Rc K j ≫ (endComplex Rc (cochain Rc K)).d 1 2 = 0 := by
   refine ((endComplex Rc (cochain Rc K)).X 2).unitHomEquiv.injective ?_
   refine PresheafOfModules.sections_ext _ _ fun U => ?_
-  show ((endComplex Rc (cochain Rc K)).d 1 2).val.app U
+  change ((endComplex Rc (cochain Rc K)).d 1 2).val.app U
     ((contractionMor Rc K j).val.app U (1 : ((Tensor.ringSheaf (ringedSite Rc).O)).obj.obj U)) = _
   rw [contractionMor_val_app_one, d_contractionSection]
   rfl

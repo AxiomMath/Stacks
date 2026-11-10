@@ -91,12 +91,12 @@ factorisation, and `stalkOverBaseIso` is what pins the two spellings against eac
 The three exactness facts for the two restrictions of scalars appearing in `stalkOverBase` are
 seated as `local instance`s, for the reason recorded in the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Perfect.ScalarRestrictionStalk`: Mathlib's instances are not found
-once `StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryComparisons` is in the import
-closure, and naming them weakens nothing.
+once `StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryComparisons` is in the
+import closure, and naming them weakens nothing.
 
 Everything is read at `CategoryTheory.HasDerivedCategory.standard`, as in
-`StacksFrontier.AlgebraicGeometry.Perfect.RelativeTorDimensionStalkBridge`, because that is the model
-the stalkwise criterion of Stacks 09U9 is stated at.
+`StacksFrontier.AlgebraicGeometry.Perfect.RelativeTorDimensionStalkBridge`, because that is the
+model the stalkwise criterion of Stacks 09U9 is stated at.
 
 ## References
 
@@ -175,7 +175,8 @@ map of `f`. The `RingCat`-valued stalk ring of `𝒪_X` is first identified with
 `𝒪_{X, x}` by `SemilinearStalk.commStalkRingEquiv`, and the result is then read over
 `𝒪_{S, f x}`.
 
-**Its descent to the derived categories cannot presently be formed.** `CategoryTheory.Functor.mapDerivedCategory` asks for the three exactness instances, and
+**Its descent to the derived categories cannot presently be formed.**
+`CategoryTheory.Functor.mapDerivedCategory` asks for the three exactness instances, and
 instance search does not find them for this composite: the second factor,
 `ModuleCat.restrictScalars (SemilinearStalk.commStalkRingEquiv X.presheaf x).symm.toRingHom`,
 carries the `NonAssocSemiring` of the target stalk ring through `CommRing.toCommSemiring`, whereas

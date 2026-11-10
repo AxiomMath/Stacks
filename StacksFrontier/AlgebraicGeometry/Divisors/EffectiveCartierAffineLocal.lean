@@ -231,7 +231,7 @@ theorem ker_app_eq_span_res {U : X.Opens} (hU : IsAffineOpen U) {f : Γ(X, U)}
             ((X.presheaf.map (homOfLE hVU).op).hom f)
           = (X.presheaf.map (homOfLE (hWU y)).op).hom f := by
         rw [← CommRingCat.comp_apply, ← X.presheaf.map_comp]; congr 2
-      show (X.presheaf.map (homOfLE (hgle y)).op).hom s
+      change (X.presheaf.map (homOfLE (hgle y)).op).hom s
           = (X.presheaf.map (homOfLE (hgle y)).op).hom
             ((X.presheaf.map (homOfLE hVU).op).hom f * d)
       rw [map_mul, hfres, hd y]
@@ -408,7 +408,7 @@ theorem ideal_eq_quotient_of_chart (U : X.Opens) (hU : IsAffineOpen U) (K : Idea
       e'.hom ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K)) := by
     dsimp [e', I']
     rw [← Scheme.IdealSheafData.comapIso_hom_fst]
-    show (I.comapIso j).hom ≫ (pullback.fst j I.subschemeι ≫ hU.isoSpec.hom) =
+    change (I.comapIso j).hom ≫ (pullback.fst j I.subschemeι ≫ hU.isoSpec.hom) =
       (I.comapIso j).hom ≫ ((pullbackSymmetry j I.subschemeι).hom ≫ e.hom ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K)))
     apply (cancel_epi (I.comapIso j).hom).2
@@ -416,7 +416,7 @@ theorem ideal_eq_quotient_of_chart (U : X.Opens) (hU : IsAffineOpen U) (K : Idea
     exact congrArg (fun k => (pullbackSymmetry j I.subschemeι).hom ≫ k) he
   have hm : I'.map hU.isoSpec.hom =
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K))).ker := by
-    show (I'.subschemeι ≫ hU.isoSpec.hom).ker = _
+    change (I'.subschemeι ≫ hU.isoSpec.hom).ker = _
     rw [hcomm, Scheme.Hom.ker_comp_of_isIso e'.hom]
   let _ : IsAffine U'.1.toScheme := hU
   have hleft : (I'.map hU.isoSpec.hom).ideal ⟨⊤, isAffineOpen_top _⟩ =
@@ -439,7 +439,7 @@ theorem ideal_eq_quotient_of_chart (U : X.Opens) (hU : IsAffineOpen U) (K : Idea
             (RingHom.ker_equiv_comp _ gammaQ.commRingCatIsoToRingEquiv).symm
       _ = RingHom.ker (q.hom.comp gammaA.hom.hom) := by rw [hnat']
       _ = Ideal.comap gammaA.hom.hom K := by
-        show Ideal.comap gammaA.hom.hom (RingHom.ker q.hom) = _
+        change Ideal.comap gammaA.hom.hom (RingHom.ker q.hom) = _
         simp [q]
   have htop : (I'.map hU.isoSpec.hom).ideal ⟨⊤, isAffineOpen_top _⟩ =
       Ideal.comap gammaA.hom.hom K := by
@@ -450,7 +450,7 @@ theorem ideal_eq_quotient_of_chart (U : X.Opens) (hU : IsAffineOpen U) (K : Idea
       Ideal.comap gammaA.hom.hom K :=
     hleft.symm.trans htop
   have hA : Γ(U'.1, ⊤) = Γ(X, U'.1) := by
-    show Γ(X, U'.1.ι ''ᵁ (⊤ : U'.1.toScheme.Opens)) = Γ(X, U'.1)
+    change Γ(X, U'.1.ι ''ᵁ (⊤ : U'.1.toScheme.Opens)) = Γ(X, U'.1)
     rw [Scheme.Opens.ι_image_top]
   have hbase := ideal_comap_top_heq I U'
   have hB : Γ(X, U'.1.ι ''ᵁ (⊤ : U'.1.toScheme.Opens)) = Γ(X, U'.1) := by
@@ -458,7 +458,7 @@ theorem ideal_eq_quotient_of_chart (U : X.Opens) (hU : IsAffineOpen U) (K : Idea
   have hcomp : HEq (CommRingCat.Hom.hom (Scheme.Hom.appTop hU.isoSpec.hom))
       (CommRingCat.Hom.hom gammaA.hom) := by
     have htopIso : U'.1.topIso.inv = eqToHom hB.symm := by
-      show X.presheaf.map (eqToHom U'.1.ι_image_top).op = eqToHom hB.symm
+      change X.presheaf.map (eqToHom U'.1.ι_image_top).op = eqToHom hB.symm
       rw [eqToHom_op, eqToHom_map]
     apply commRingCatHom_heq rfl hB
     rw [IsAffineOpen.isoSpec_hom_appTop, htopIso]
@@ -495,7 +495,7 @@ theorem exists_quotient_chart_of_ideal_span (U : X.Opens) (hU : IsAffineOpen U) 
     apply qEquiv.injective
     simp [qEquiv, qIso, Ideal.quotientEquivAlgOfEq_mk]
   refine ⟨e0 ≪≫ asIso (Spec.map qIso.inv), ?_⟩
-  show g = (e0.hom ≫ Spec.map qIso.inv) ≫
+  change g = (e0.hom ≫ Spec.map qIso.inv) ≫
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {f})))
   rw [Category.assoc, ← Spec.map_comp, hquot]
   exact he0

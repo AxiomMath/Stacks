@@ -80,7 +80,7 @@ theorem isRationallyEquivalentToZeroWithin_zero (C : ChowSituation.{u}) {X : Sch
   refine ⟨PEmpty.{u + 1}, (fun j ↦ nomatch j), (fun j ↦ nomatch j), (fun j ↦ nomatch j),
     (fun _ ↦ ⟨Set.univ, Filter.univ_mem, Set.toFinite _⟩), (fun j ↦ nomatch j),
     (fun j ↦ nomatch j), fun x ↦ ?_⟩
-  show (0 : AlgebraicCycle X ℤ) x = _
+  change (0 : AlgebraicCycle X ℤ) x = _
   simp [principalDivisorFamilyCoefficient, finsum_of_isEmpty]
 
 /-- Enlarging the carrier preserves rational equivalence to zero within it. -/

@@ -86,7 +86,7 @@ omit [DecidableEq I] in
 theorem prF_apply_of_le (i : I) (p : ℤ) (h : 0 ≤ p + -(n i : ℤ)) (x : MX gR n p) :
     prF gR n i p x = (intXIso gR (p + -(n i : ℤ)).toNat (by omega)).inv
       (x i ⟨(p + -(n i : ℤ)).toNat, by omega⟩) := by
-  simp only [prF, dif_pos h, LinearMap.comp_apply, LinearMap.proj_apply]
+  simp only [prF, dite_eq_left h, LinearMap.comp_apply, LinearMap.proj_apply]
 
 /-- Projecting to the summand `i` after including into it is the identity. -/
 theorem prF_injF_self (i : I) (p : ℤ) (x : (intComplex gR).X (p + -(n i : ℤ))) :
@@ -103,7 +103,7 @@ theorem prF_injF_ne {i j : I} (h : j ≠ i) (p : ℤ) (x : (intComplex gR).X (p 
   by_cases hp : 0 ≤ p + -(n j : ℤ)
   · rw [prF_apply_of_le gR n j p hp, injF_apply_ne gR n h]
     exact map_zero _
-  · simp only [prF, dif_neg hp, LinearMap.zero_apply]
+  · simp only [prF, dite_eq_right hp, LinearMap.zero_apply]
 
 /-- In each degree, `x = ∑_i injF i p (prF i p x)`. -/
 theorem sum_injF_prF [Fintype I] (p : ℤ) (x : MX gR n p) :
@@ -135,7 +135,7 @@ omit [DecidableEq I] in
 /-- For `p - n_i < 0`, the projection `prF i p` is zero. -/
 theorem prF_apply_of_lt (i : I) (p : ℤ) (h : p + -(n i : ℤ) < 0) (x : MX gR n p) :
     prF gR n i p x = 0 := by
-  simp only [prF, dif_neg (not_le.2 h), LinearMap.zero_apply]
+  simp only [prF, dite_eq_right (not_le.2 h), LinearMap.zero_apply]
 
 /-- In nonnegative degree `c`, the differential of `intComplex` is the de Rham differential
 `d : Ω^c_{A/R} → Ω^{c+1}_{A/R}`. -/
@@ -159,7 +159,7 @@ theorem dTo_injF (i : I) (p : ℤ) (x : (intComplex gR).X (p + -(n i : ℤ))) :
   · subst hji
     rcases b with _ | c
     · have := subsingleton_intComplex_X gR (p + -(n j : ℤ)) (by push_cast at hb; omega)
-      show dAt gR n _ j 0 _ = _
+      change dAt gR n _ j 0 _ = _
       rw [dAt_zero, Subsingleton.elim x 0]
       simp
     · rw [dAt_succ, injF_apply_self, injF_apply_self, negOnePow_smul_eq, map_zsmul,
@@ -167,7 +167,7 @@ theorem dTo_injF (i : I) (p : ℤ) (x : (intComplex gR).X (p + -(n i : ℤ))) :
       exact congrArg _ (Iso.inv_hom_id_apply _ _).symm
   · rw [injF_apply_ne gR n hji]
     rcases b with _ | c
-    · show dAt gR n _ j 0 _ = _
+    · change dAt gR n _ j 0 _ = _
       rw [dAt_zero]
       rfl
     · rw [dAt_succ, injF_apply_ne gR n hji]
@@ -239,7 +239,7 @@ identity of `⨁_i Ω^•_{A/R}[-n_i]`. -/
 theorem sum_pr_inj [Fintype I] : ∑ i, pr gR n i ≫ inj gR n i = 𝟙 (complex gR n) := by
   ext p : 1
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show ((HomologicalComplex.eval _ _ p).map (∑ i, pr gR n i ≫ inj gR n i)).hom x = x
+  change ((HomologicalComplex.eval _ _ p).map (∑ i, pr gR n i ≫ inj gR n i)).hom x = x
   rw [Functor.map_sum]
   simp only [ModuleCat.hom_sum, LinearMap.sum_apply, HomologicalComplex.eval_map]
   exact sum_injF_prF gR n p x

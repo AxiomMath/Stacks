@@ -221,7 +221,7 @@ theorem topologicalKrullDim_le_two_of_isModel (hX : IsModel c p e) :
   have : IsIntegral X := isIntegral_of_isModel c p e hX
   have : LocallyOfFiniteType p := hX.2.1
   have hR : topologicalKrullDim (Spec (.of R)) = 1 := by
-    show topologicalKrullDim (PrimeSpectrum R) = 1
+    change topologicalKrullDim (PrimeSpectrum R) = 1
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
       IsDiscreteValuationRing.ringKrullDim_eq_one]
   have hsup : (⨆ ξ : genericPoints X, residueFieldTranscendenceDegree p ξ.1) ≤ 1 := by
@@ -304,12 +304,12 @@ theorem topologicalKrullDim_eq_two_of_isModel (hX : IsModel c p e)
     constructor
     · rintro ⟨t, rfl⟩
       have := t.isPrime
-      show Ideal.comap (algebraMap R K) t.asIdeal = ⊥
+      change Ideal.comap (algebraMap R K) t.asIdeal = ⊥
       rw [Ideal.eq_bot_of_prime t.asIdeal]
       exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)
     · intro hs
       refine ⟨⟨⊥, Ideal.isPrime_bot⟩, PrimeSpectrum.ext ?_⟩
-      show Ideal.comap (algebraMap R K) ⊥ = s.asIdeal
+      change Ideal.comap (algebraMap R K) ⊥ = s.asIdeal
       rw [hs]
       exact Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)
   have hη0 : ringKrullDim (X.presheaf.stalk (genericPoint X)) = 0 :=
@@ -392,7 +392,7 @@ theorem exists_isResolution_of_isModel {C X : Scheme.{u}} (c : C ⟶ Spec (.of K
     have : IsOpenImmersion i₀ := genericFiberSpec_isOpenImmersion
     have hrange : j.opensRange = ⊤ := by
       refine top_unique fun x _ => ?_
-      show x ∈ Set.range j
+      change x ∈ Set.range j
       rw [Scheme.Pullback.range_fst]
       exact hk x
     have : IsIso j := isIso_of_isOpenImmersion_of_opensRange_eq_top j hrange

@@ -367,9 +367,9 @@ theorem universallyInjective_iff_injective_of_projective
       apply LinearMap.ext
       intro n
       apply Prod.ext
-      · show f (t (s n)) = f n
+      · change f (t (s n)) = f n
         rw [hs n]
-      · show s n - s (t (s n)) = 0
+      · change s n - s (t (s n)) = 0
         rw [hs n]
         simp
     have hginj : Function.Injective (g.rTensor Q) :=
@@ -615,11 +615,11 @@ private theorem squareZero_isAutoAssociated (k : Type u) [Field k] :
     ext r
     simp only [Submodule.mem_annihilator_span_singleton, smul_eq_mul, mul_one,
       Ideal.mem_bot]
-  show ∃ s : S k,
+  change ∃ s : S k,
     IsLocalRing.maximalIdeal (S k) ∈ (S k ∙ s).annihilator.minimalPrimes
   refine ⟨1, ?_⟩
   rw [ha, ← Ideal.radical_minimalPrimes]
-  show IsLocalRing.maximalIdeal (S k) ∈ (nilradical (S k)).minimalPrimes
+  change IsLocalRing.maximalIdeal (S k) ∈ (nilradical (S k)).minimalPrimes
   rw [hm, Ideal.minimalPrimes_eq_subsingleton_self]
   rfl
 
@@ -678,7 +678,7 @@ private theorem triangularShift_not_split {R : Type*} [CommRing R]
   obtain ⟨n, hn⟩ := Infinite.exists_notMem_finset (p (e 0)).support
   have hcoord : (p (e 0)) n = 0 := Finsupp.notMem_support_iff.mp hn
   have hzero : (∑ i ∈ Finset.range n, (∏ j ∈ Finset.range i, x j) • e i) n = 0 := by
-    show (Finsupp.lapply n : (ℕ →₀ R) →ₗ[R] R)
+    change (Finsupp.lapply n : (ℕ →₀ R) →ₗ[R] R)
       (∑ i ∈ Finset.range n, (∏ j ∈ Finset.range i, x j) • e i) = 0
     rw [map_sum]
     apply Finset.sum_eq_zero
@@ -767,8 +767,7 @@ private theorem triangularShift_rTensor_eq_id {R : Type*} [CommRing R]
     (triangularShift R x).rTensor Q = LinearMap.id := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => simp [ha, hb]
   | tmul a q =>
       induction a using Finsupp.induction_linear with
@@ -804,7 +803,7 @@ private theorem split_of_projective_cokernel {R M N : Type*} [CommRing R]
       apply (Submodule.Quotient.mk_eq_zero (LinearMap.range f)).mp
       have hsy := LinearMap.congr_fun hs (q y)
       simp only [LinearMap.comp_apply, LinearMap.id_apply] at hsy
-      show q (v y) = 0
+      change q (v y) = 0
       dsimp only [v]
       simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.comp_apply, map_sub]
       rw [hsy]
@@ -817,10 +816,10 @@ private theorem split_of_projective_cokernel {R M N : Type*} [CommRing R]
   have hq : q (f a) = 0 := (Submodule.Quotient.mk_eq_zero _).mpr ⟨a, rfl⟩
   have ht : t (f a) = f.rangeRestrict a := by
     apply Subtype.ext
-    show v (f a) = f a
+    change v (f a) = f a
     dsimp only [v]
     simp [hq]
-  show e.symm (t (f a)) = a
+  change e.symm (t (f a)) = a
   rw [ht]
   exact e.left_inv a
 
@@ -883,10 +882,10 @@ theorem exists_universallyInjective_nonSplit_freeModule_endomorphism
     let := (aug k).toRingHom.toAlgebra
     have hx : ∀ i (q : k), x i • q = 0 := by
       intro i q
-      show (aug k) (x i) * q = 0
+      change (aug k) (x i) * q = 0
       rw [aug_mk]
       simp
-    show Function.Bijective ((triangularShift (S k) x).rTensor k)
+    change Function.Bijective ((triangularShift (S k) x).rTensor k)
     rw [triangularShift_rTensor_eq_id x hx]
     exact Function.bijective_id
   · exact triangularShift_not_surjective x ν
@@ -908,7 +907,7 @@ private theorem injective_dualMap_of_injective
     apply b.equivFun.injective
     have hx := LinearMap.toMatrix_mulVec_repr b b φ (b.equivFun.symm x)
     have hy := LinearMap.toMatrix_mulVec_repr b b φ (b.equivFun.symm y)
-    show ⇑(b.repr (φ (b.equivFun.symm x))) = ⇑(b.repr (φ (b.equivFun.symm y)))
+    change ⇑(b.repr (φ (b.equivFun.symm x))) = ⇑(b.repr (φ (b.equivFun.symm y)))
     rw [← hx, ← hy, show ⇑(b.repr (b.equivFun.symm x)) = x from b.equivFun.apply_symm_apply x,
       show ⇑(b.repr (b.equivFun.symm y)) = y from b.equivFun.apply_symm_apply y]
     exact hxy
@@ -922,11 +921,11 @@ private theorem injective_dualMap_of_injective
   have hf := LinearMap.toMatrix_mulVec_repr b.dualBasis b.dualBasis φ.dualMap f
   have hg := LinearMap.toMatrix_mulVec_repr b.dualBasis b.dualBasis φ.dualMap g
   have hmatrix : LinearMap.toMatrix b.dualBasis b.dualBasis φ.dualMap = A.transpose := by
-    show LinearMap.toMatrix b.dualBasis b.dualBasis (Module.Dual.transpose φ) =
+    change LinearMap.toMatrix b.dualBasis b.dualBasis (Module.Dual.transpose φ) =
       (LinearMap.toMatrix b b φ).transpose
     exact LinearMap.toMatrix_transpose φ
   rw [hmatrix] at hf hg
-  show A.transpose.mulVec ⇑(b.dualBasis.repr f) =
+  change A.transpose.mulVec ⇑(b.dualBasis.repr f) =
     A.transpose.mulVec ⇑(b.dualBasis.repr g)
   rw [hf, hg]
   exact congr_arg (fun h : Module.Dual R M => ⇑(b.dualBasis.repr h)) hfg
@@ -943,7 +942,7 @@ theorem subsingleton_dual_quotient_range_of_injective
   apply LinearMap.dualMap_injective_of_surjective (Submodule.mkQ_surjective _)
   apply injective_dualMap_of_injective φ hφ
   ext x
-  show f (Submodule.Quotient.mk (φ x)) = g (Submodule.Quotient.mk (φ x))
+  change f (Submodule.Quotient.mk (φ x)) = g (Submodule.Quotient.mk (φ x))
   have hx : Submodule.Quotient.mk (φ x) = (0 : M ⧸ LinearMap.range φ) :=
     (Submodule.Quotient.mk_eq_zero _).mpr ⟨x, rfl⟩
   rw [hx, map_zero, map_zero]

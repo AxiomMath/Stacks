@@ -52,8 +52,8 @@ an affine scheme. Both are now proved, in
 
 **What this file contributes, and where the remainder is proved.** The implementation notes of
 `StacksFrontier/AlgebraicGeometry/DerivedQCoh/Inclusion.lean` and of
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/AffineRightAdjoint.lean` record that the
-remainder of Stacks 06Z0 "rests on unbounded affine vanishing, [Stacks, Tag 08D4]", which is
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/AffineRightAdjoint.lean` record that
+the remainder of Stacks 06Z0 "rests on unbounded affine vanishing, [Stacks, Tag 08D4]", which is
 correct for the route the source takes. What this file adds is the reduction: the whole remainder
 — the `RΓ(X, -)` edge of the triangle included, since two edges of a triangle of functors
 determine the third — is the single statement

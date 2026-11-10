@@ -153,13 +153,13 @@ theorem bijective_sum_app_of_isColimit_cofan {n : ℕ} {E N : SheafOfModules.{u}
     · exact fun h => absurd (Finset.mem_univ j) h
   refine Function.bijective_iff_has_inverse.2
     ⟨fun z i => (π i).val.app X z, fun y => funext fun i => ?_, fun z => ?_⟩
-  · show (π i).val.app X (∑ j, (p j).val.app X (y j)) = y i
+  · change (π i).val.app X (∑ j, (p j).val.app X (y j)) = y i
     rw [map_sum, Finset.sum_eq_single i]
     · exact congrFun (congrArg (fun φ : E ⟶ E => fun w => (φ.val.app X) w) (hfac1 i)) (y i)
     · intro j _ hji
       exact congrFun (congrArg (fun φ : E ⟶ E => fun w => (φ.val.app X) w) (hfac0 i j hji)) (y j)
     · exact fun h => absurd (Finset.mem_univ i) h
-  · show ∑ i, (p i).val.app X ((π i).val.app X z) = z
+  · change ∑ i, (p i).val.app X ((π i).val.app X z) = z
     have h := app_sum Finset.univ (fun i => π i ≫ p i) X z
     rw [htot] at h
     exact h.symm
@@ -182,7 +182,7 @@ theorem bijective_app_cofanDesc_iff {n : ℕ} {N M : SheafOfModules.{u} S}
       (fun y : Fin n → ToType (S.obj.obj X) => ∑ i, (p i).val.app X (toUnit X (y i))) =
       fun y : Fin n → ToType (S.obj.obj X) => ∑ i, y i • (q i).val.app X (unitOne X) := by
     funext y
-    show (Cofan.IsColimit.desc hN q).val.app X (∑ i, (p i).val.app X (toUnit X (y i))) = _
+    change (Cofan.IsColimit.desc hN q).val.app X (∑ i, (p i).val.app X (toUnit X (y i))) = _
     rw [map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     have hqi := comp_cofanDesc p hN q i
@@ -293,7 +293,7 @@ theorem chartRestrictBasis_apply (H : Modules.{u, u} B S hS F hF)
   let := chartAlgebra (hF := hF) f
   let := chartSectionsModule H f
   have := chartSections_isScalarTower H f
-  show sectionsBaseChange H f ((b.baseChange (chartRing B S hS F hF V)) i) = _
+  change sectionsBaseChange H f ((b.baseChange (chartRing B S hS F hF V)) i) = _
   rw [Module.Basis.baseChange_apply]
   exact chartBaseChange_one_tmul H f (b i)
 
@@ -322,7 +322,7 @@ theorem exists_isColimitCofanUnit_of_basis (H : Modules.{u, u} B S hS F hF)
   let sect : Fin s → (H.over W).sections := fun i =>
     PresheafOfModules.sectionsMk (fun T => H.val.map (T.unop.hom).op (b i)) (by
       intro T T' g
-      show H.val.map (g.unop.left).op (H.val.map (T.unop.hom).op (b i)) =
+      change H.val.map (g.unop.left).op (H.val.map (T.unop.hom).op (b i)) =
         H.val.map (T'.unop.hom).op (b i)
       rw [← PresheafOfModules.map_comp_apply, ← op_comp, Over.w g.unop])
   let q : ∀ _ : Fin s, SheafOfModules.unit (R.over W) ⟶ H.over W :=

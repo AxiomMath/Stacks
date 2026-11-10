@@ -162,7 +162,7 @@ theorem exists_sections_eval_eq_smul_of_affineCover
     intro i j V hVi hVj
     refine (Stacks.SheafOfModules.bijective_smul_eval_of_le_nonvanishingOpen
       (X := Y.toRingedSpace) Mpow[N] (σ i) V (le_trans hVi (le_of_eq (hT i)))).injective ?_
-    show (res[hVi, g i j] * res[hVj, g j i₀]) • (σ i).eval (op V) = _
+    change (res[hVi, g i j] * res[hVj, g j i₀]) • (σ i).eval (op V) = _
     rw [mul_comm, mul_smul, hgres i j V hVi, hgres j i₀ V hVj, hgres i i₀ V hVi]
   -- `c` restricted to the overlap, and the affine extension of it over `T i`
   have hle : ∀ i : ι, Y.basicOpen (g i i₀) ≤ T i₀ := fun i => by
@@ -259,7 +259,7 @@ theorem exists_sections_eval_eq_smul_of_affineCover
     rw [hWg i, sectionMul'_eval, hpow i i₀ V hV E', sectionMulOver_smul_left]
   have hcompat : TopCat.Presheaf.IsCompatible Mpow[(N * E' + N * E)].val.presheaf T Ug := by
     intro i j
-    show Mpow[(N * E' + N * E)].val.map (homOfLE (hIi i j)).op (Ug i)
+    change Mpow[(N * E' + N * E)].val.map (homOfLE (hIi i j)).op (Ug i)
       = Mpow[(N * E' + N * E)].val.map (homOfLE (hIj i j)).op (Ug j)
     rw [hures i _ (hIi i j), hures j _ (hIj i j), hWres i j _ (hIi i j),
       hWfac i _ (hIi i j)]
@@ -277,7 +277,7 @@ theorem exists_sections_eval_eq_smul_of_affineCover
         nonvanishingLocus_sectionPow' M (σ i₀) E' hE'1,
         nonvanishingLocus_sectionPow' M (σ i₀) E hE1, Set.inter_self]
     intro x hx
-    show x ∈ Stacks.SheafOfModules.nonvanishingLocus Mpow[(N * E' + N * E)] _
+    change x ∈ Stacks.SheafOfModules.nonvanishingLocus Mpow[(N * E' + N * E)] _
     rw [hloc]
     exact (hT i₀ ▸ hx : x ∈ NV[N, σ i₀])
   · have hcover : T i₀ ≤ ⨆ i, Y.basicOpen (g i i₀) := by

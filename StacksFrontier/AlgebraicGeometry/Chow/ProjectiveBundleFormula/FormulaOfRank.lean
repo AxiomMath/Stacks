@@ -106,7 +106,7 @@ theorem projectiveBundleFormulaMap_succ (k : ℤ)
           (relativeDimension_bundleProj E n) (invCap C (bundleProj E ≫ sX) (bundleTwist E)) k
           β) := by
   rw [projectiveBundleFormulaMap_apply]
-  simp only [bundleMap, AddMonoidHom.finset_sum_apply, AddMonoidHom.coe_comp, Function.comp_apply,
+  simp only [bundleMap, AddMonoidHom.finsetSum_apply, AddMonoidHom.coe_comp, Function.comp_apply,
     Pi.evalAddMonoidHom_apply, map_sum]
   exact Finset.sum_congr rfl fun i _ ↦ projectiveBundleFormulaTerm_succ E C sX n k i (β i)
 

@@ -67,7 +67,7 @@ theorem rootEval_map {U V : X.Etale} (g : V ⟶ U) (v : (Scheme.pointSmallEtale 
     rootEval s N ((Scheme.pointSmallEtale s).fiber.map g v) z =
       rootEval s N v ((rootsOfUnityModule.{u, 0} X N).obj.map g.op z) := by
   rw [rootEval, rootEval, rootSectionValue_map]
-  show (Scheme.ΓSpecIso (.of Ω)).hom.hom ((fiberLift s v ≫ g.left).appTop.hom
+  change (Scheme.ΓSpecIso (.of Ω)).hom.hom ((fiberLift s v ≫ g.left).appTop.hom
     (rootSectionValue N z)) = _
   rw [Scheme.Hom.comp_appTop]
   rfl
@@ -164,7 +164,7 @@ theorem exists_nsmul_eq_germ_sliceRootSection {V : X.Etale}
     conv_lhs => rw [h1]
     exact sliceRootSection_nsmul.{u, 0} W κW hζ _ t.down.val 1
   refine ⟨t.down.val, ?_⟩
-  show Φ.toPresheafFiber U (Φ.fiber.map g (Φ.fiber.map f' y)) M.obj z =
+  change Φ.toPresheafFiber U (Φ.fiber.map g (Φ.fiber.map f' y)) M.obj z =
     t.down.val • Φ.toPresheafFiber V (Φ.fiber.map h (Φ.fiber.map f' y)) M.obj rV
   rw [toPresheafFiber_fiber_map Φ M.obj g, toPresheafFiber_fiber_map Φ M.obj f',
     toPresheafFiber_fiber_map Φ M.obj h, toPresheafFiber_fiber_map Φ M.obj f', hres, hsec,
@@ -203,7 +203,7 @@ theorem rootEval_hom_app (f : Scheme.pointSmallEtale s ⟶ Scheme.pointSmallEtal
     (z : ToType ((rootsOfUnityModule.{u, 0} X N).obj.obj (op U))) :
     rootEval s N (f.hom.app U u) z = φ (rootEval s N u z) := by
   rw [rootEval, rootEval, hf, Scheme.Hom.comp_appTop]
-  show ((fiberLift s u).appTop ≫ (Spec.map (CommRingCat.ofHom φ)).appTop ≫
+  change ((fiberLift s u).appTop ≫ (Spec.map (CommRingCat.ofHom φ)).appTop ≫
     (Scheme.ΓSpecIso (.of Ω)).hom).hom (rootSectionValue N z) = _
   rw [Scheme.ΓSpecIso_naturality]
   rfl

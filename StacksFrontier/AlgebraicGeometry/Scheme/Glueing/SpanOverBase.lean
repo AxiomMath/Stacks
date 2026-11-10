@@ -360,7 +360,7 @@ theorem preimage_opensRange_ι₁_desc
       refine ⟨k₁ v, ?_⟩
       rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, glue_condition k₁ k₂]
   · rintro ⟨a, rfl⟩
-    show _ ∈ (ι₁ j₁ j₂).opensRange
+    change _ ∈ (ι₁ j₁ j₂).opensRange
     refine ⟨c₁ a, ?_⟩
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, ι₁_desc]
 
@@ -386,7 +386,7 @@ theorem preimage_opensRange_ι₂_desc
       rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, ← glue_condition k₁ k₂]
     · exact ⟨b, rfl⟩
   · rintro ⟨b, rfl⟩
-    show _ ∈ (ι₂ j₁ j₂).opensRange
+    change _ ∈ (ι₂ j₁ j₂).opensRange
     refine ⟨c₂ b, ?_⟩
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, ι₂_desc]
 

@@ -684,7 +684,7 @@ theorem nonempty_map_conormalSequenceOfImmersion_splitting_of_isPullback (i : Z 
     (asIso (sheafOfDifferentialsMap B S hS a (i ≫ b) (i' ≫ φ ≫ b) (𝟙 Bb) hpath')) ?_ ?_
   · exact conormalMapOfImmersions_comp_conormalSequenceFirstMapOfImmersion B S hS i i' a φ hi
       hi' hsq b
-  · show ((squarePullbackCompIso B S hS i' i a φ hsq).hom.app (sheafOfDifferentials B S hS b) ≫
+  · change ((squarePullbackCompIso B S hS i' i a φ hsq).hom.app (sheafOfDifferentials B S hS b) ≫
         (modulePullback B S hS i').map (pullbackDifferentialsMap B S hS φ b)) ≫
           pullbackDifferentialsMap B S hS i' (φ ≫ b) =
       (modulePullback B S hS a).map (pullbackDifferentialsMap B S hS i b) ≫

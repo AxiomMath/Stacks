@@ -247,7 +247,7 @@ theorem homOverBase_fac (hp : p.IsFiberedInGroupoids)
     (m : G.obj (Over.mk (𝟙 U)) ⟶ H.obj (Over.mk (𝟙 V))) (hm : p.IsHomLift r m) :
     (homOverBase p r hp m hm).app (Over.mk (𝟙 U)) ≫
         H.map (Over.mkIdTerminal.from (unitOver r)) = m := by
-  show (homOfUnitHom p hp (H := BasedFunctor.comp (BasedFunctor.overMap r) H)
+  change (homOfUnitHom p hp (H := BasedFunctor.comp (BasedFunctor.overMap r) H)
       (unitHomOverBase p r hp m hm) (isHomLift_unitHomOverBase p r hp m hm)).app
       (Over.mk (𝟙 U)) ≫ H.map (Over.mkIdTerminal.from (unitOver r)) = m
   rw [homOfUnitHom_app_unit, unitHomOverBase_fac]
@@ -299,7 +299,7 @@ theorem exists_factorisation_of_unitHom {T : Type u₃} [Category.{v₃} T]
   have heq : γ ≫ BasedCategory.whiskerRight δ f =
       BasedCategory.whiskerLeft (BasedFunctor.overMap r) β := by
     refine hom_ext_of_app_unit q hq _ _ ?_
-    show γ.app (Over.mk (𝟙 U)) ≫ f.map (δ.app (Over.mk (𝟙 U))) = β.app (unitOver r)
+    change γ.app (Over.mk (𝟙 U)) ≫ f.map (δ.app (Over.mk (𝟙 U))) = β.app (unitOver r)
     have hfA : q.IsHomLift r (f.map (A.map (Over.mkIdTerminal.from (unitOver r)))) :=
       f.preserves_isHomLift _ _
     have hcart := hq.isStronglyCartesian_homLift r

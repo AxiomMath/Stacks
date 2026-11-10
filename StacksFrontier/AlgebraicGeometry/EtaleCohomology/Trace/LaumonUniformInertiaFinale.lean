@@ -130,7 +130,7 @@ theorem fiberRingHom_algebraMap_genericPoint {g : R}
           ((Spec (.of R)).residueField (genericPoint (Spec (.of R)))) Ω) := by
     apply Spec.map_injective
     rw [Spec.map_preimage]
-    show Spec.map (CommRingCat.ofHom (algebraMap
+    change Spec.map (CommRingCat.ofHom (algebraMap
         ((Spec (.of R)).residueField (genericPoint (Spec (.of R)))) Ω)) ≫
           (Spec (.of R)).fromSpecResidueField (genericPoint (Spec (.of R))) =
       Spec.map (CommRingCat.ofHom (algebraMap R

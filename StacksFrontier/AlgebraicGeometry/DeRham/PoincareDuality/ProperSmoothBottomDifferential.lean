@@ -76,7 +76,7 @@ theorem deRhamComplex_d_zero_app_preimage_eq_zero_of_formallyUnramified {X S : S
       (φ.hom.app U).hom (α r) = algebraMap Γ(S, W) Γ(X, f ⁻¹ᵁ W) r := by
     have htriangle : baseUnit ≫ (TopCat.Sheaf.pushforward CommRingCat f.base).map φ =
         structureMap := by
-      show baseAdjunction.homEquiv S.sheaf X.sheaf φ = structureMap
+      change baseAdjunction.homEquiv S.sheaf X.sheaf φ = structureMap
       exact (baseAdjunction.homEquiv S.sheaf X.sheaf).apply_symm_apply structureMap
     exact congrArg (fun morphism => (morphism.hom.app (op W)).hom r) htriangle
   let : Algebra Γ(S, W) (A.obj.obj U) := α.toAlgebra
@@ -92,7 +92,7 @@ theorem deRhamComplex_d_zero_app_preimage_eq_zero_of_formallyUnramified {X S : S
       SheafOfModules.exactOne B U (B.exteriorPieceZeroIsoUnit.hom.val.app U ω) :=
     eq_of_heq (SheafOfModules.deRhamComplex_degreeZero_apply B D U ω)
   rw [hvalue]
-  show (B.exteriorGenerator.val.app U)
+  change (B.exteriorGenerator.val.app U)
     (universal.d (B.exteriorPieceZeroIsoUnit.hom.val.app U ω)) = 0
   exact (congrArg (fun z => (B.exteriorGenerator.val.app U) z) (huniversal _)).trans (map_zero _)
 

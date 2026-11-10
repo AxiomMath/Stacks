@@ -86,7 +86,7 @@ omit [Flat f] [LocallyOfFinitePresentation f] [SmoothOfRelativeDimension 1 f] in
 /-- The component of `e` at `T` is injective. -/
 theorem e_hom_app_injective (T : Over S) : Function.Injective (e.hom.app (op T)).hom := by
   refine Function.LeftInverse.injective (g := (e.inv.app (op T)).hom) fun a => ?_
-  show (e.hom.app (op T) ≫ e.inv.app (op T)).hom a = a
+  change (e.hom.app (op T) ≫ e.inv.app (op T)).hom a = a
   rw [Iso.hom_inv_id_app]
   rfl
 
@@ -104,6 +104,7 @@ variable (θ : Stacks.Picard.ofScheme X) {d : ℕ}
   (hθ : ∀ s : S, relativeInvertibleDegreeHomAt f hdim s θ = d)
   {H : Over S} (hH : Stacks.Hilbert.RepresentsHilbertFunctorOfRank (Over.mk f) H d)
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- **`m ≫ γ = v` read on classes**: the normalised Abel class of the family classified by `m`
 is the pullback of the universal class along `v`, and conversely. -/
 theorem comp_abelMorphism_eq_iff {T : Over S} (m : T ⟶ H) (v : T ⟶ A.X) :
@@ -147,6 +148,7 @@ theorem schemePullbackClass_bcMap_abelTranslatedClass {T : Over S} (w : T ⟶ A.
   rw [abelTranslatedClass, Stacks.Picard.schemePullbackClass_add,
     Stacks.Picard.schemePullbackClass_comp, bcMap_fst]
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- **A family whose class is pulled back from the translated universal class along `w` is
 classified by a morphism lying over `w`.** -/
 theorem family_symm_comp_abelMorphism_of_abelClass_eq {T : Over S} (w : T ⟶ A.X)
@@ -159,6 +161,7 @@ theorem family_symm_comp_abelMorphism_of_abelClass_eq {T : Over S} (w : T ⟶ A.
   exact normalize_eq_self f σ hσ T _
     (schemePullbackClass_bcSection_bcMap_abelUniversalClass f hdim σ hσ A e w)
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- **The class of the family classified by a morphism lying over `w`** is pulled back from the
 translated universal class along `w`, up to a class pulled back from the base. -/
 theorem exists_abelClass_add_eq_of_comp_abelMorphism {T : Over S} (m : T ⟶ H) (w : T ⟶ A.X)

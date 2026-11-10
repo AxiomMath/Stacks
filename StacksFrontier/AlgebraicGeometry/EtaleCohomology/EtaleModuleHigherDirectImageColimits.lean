@@ -133,7 +133,7 @@ theorem nonempty_rightDerived_sheafSections_comp_forget₂_iso (q : ℕ) (W : X.
   let Z := (Stacks.Cohomology.FreeYonedaUnivLE.freeYoneda.{max (u + 1) r} J).obj W
   have hZ : ∀ V, Module.IsTorsionFree ℤ (Z.obj.obj V) :=
     ModuleSheafCohomology.isTorsionFree_sheafify.{u + 1, u, max (u + 1) r} J _ fun V ↦ by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max (u + 1) r} (V.unop ⟶ W)))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max (u + 1) r} (V.unop ⟶ W)))
       exact Module.Flat.isTorsionFree
   -- The corepresenting object `Λ ⊗_ℤ ℤ_W` of `H^0(W, -)` on sheaves of `Λ`-modules.
   let adj := Stacks.Cohomology.ModuleSheaf.sheafExtendScalarsFromIntAdj.{u + 1, r, u, u + 1} J Λ
@@ -224,9 +224,9 @@ theorem preservesColimitsOfShape_rightDerived_etaleModuleDirectImage
     have : QuasiSeparatedSpace ((𝟭 Scheme.{u}).obj (W k).left) :=
       inferInstanceAs (QuasiSeparatedSpace (W k).left)
     refine ⟨?_, ?_⟩
-    · show CompactSpace (Limits.pullback (W k).hom f : Scheme.{u})
+    · change CompactSpace (Limits.pullback (W k).hom f : Scheme.{u})
       exact QuasiCompact.compactSpace_of_compactSpace (Limits.pullback.fst (W k).hom f)
-    · show QuasiSeparatedSpace (Limits.pullback (W k).hom f : Scheme.{u})
+    · change QuasiSeparatedSpace (Limits.pullback (W k).hom f : Scheme.{u})
       exact quasiSeparatedSpace_of_quasiSeparated (Limits.pullback.fst (W k).hom f)
   exact preservesColimit_rightDerived_sheafSections_etaleModules_of_qcqs Λ X q _ hq F
 

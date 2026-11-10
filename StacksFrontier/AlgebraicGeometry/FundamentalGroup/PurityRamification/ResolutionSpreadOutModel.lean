@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.ResolutionSpreadOutProjective
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.ResolutionSpreadOutRegular
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.StalkResolution
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.PuncturedSpectrumModification
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.PuncturedSpectrumModification
 public import StacksFrontier.AlgebraicGeometry.SchemeJTwoLocal.JTwoTFAE
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -138,7 +137,7 @@ theorem exists_spreadOut_resolution_stalk {A : Type u} [CommRing A] (hA : IsExce
   let V : X.Opens := ⟨(closure {x})ᶜ, isClosed_closure.isOpen_compl⟩
   have hV : IsIso (pullback.snd g ((X.fromSpecStalk x) ⁻¹ᵁ V).ι) := by
     have hcl : IsLocalRing.closedPoint (X.presheaf.stalk x) ∉ (X.fromSpecStalk x) ⁻¹ᵁ V := by
-      show X.fromSpecStalk x (IsLocalRing.closedPoint _) ∉ V
+      change X.fromSpecStalk x (IsLocalRing.closedPoint _) ∉ V
       rw [Scheme.fromSpecStalk_closedPoint]
       exact fun h => h (subset_closure rfl)
     have := isIso_morphismRestrict_of_isModification _ hdim.le g hres.1 _ hcl

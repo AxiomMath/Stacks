@@ -241,6 +241,8 @@ def derivedLowerShriekAdjunction :
       (SmallModel.lowerShriekModules_acyclic_of_essentiallySmall J K f
         (liftedStructureSheaf.{w} K O)))
 
+omit [K.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{max r w} RingCat.{max r w})] in
 /-- **`g^* Lg_! = id`** for modules with sections in `max r w`, for a fully faithful functor of
 sites: the unit of `Lg_! ⊣ g^*` is invertible. It is the transport of the unit over the raised
 structure sheaf, which is invertible by `isIso_totalLeftDerivedLowerShriekAdjunction_unit` and

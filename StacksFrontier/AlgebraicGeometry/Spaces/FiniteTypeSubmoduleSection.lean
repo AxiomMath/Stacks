@@ -78,7 +78,7 @@ theorem exists_sieve_mem_of_finiteTypeGermExhaustion (hX : FiniteTypeGermExhaust
     exists_map_mem_of_toPresheafFiber_mem_submoduleGermSet B S hS K w s hK
   refine ⟨V', ψ, ⟨⟨K, hKq, hKf⟩, hmem⟩, (BigFppfOver.toScheme B S hS).map p'.1 z', ?_⟩
   rw [← hz', ← show (etaleSitePoint B S hS X.1 x X.2).fiber.map ψ p' = p from hp']
-  show _ = (BigFppfOver.toScheme B S hS).map (p'.1 ≫ (SmallEtale.toOver B S hS X.1).map ψ) z'
+  change _ = (BigFppfOver.toScheme B S hS).map (p'.1 ≫ (SmallEtale.toOver B S hS X.1).map ψ) z'
   rw [Functor.map_comp]
   rfl
 

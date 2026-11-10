@@ -117,7 +117,7 @@ public theorem reachComparison_comp_snd (i : ι) :
 public theorem reachComparison_comp_reachMap (i : ι) :
     reachComparison G gV incl hincl i ≫ restrictionReachMap G gV =
       restrictionReachMap G (g i) := by
-  show reachComparison G gV incl hincl i ≫ pullback.snd gV G.target ≫ G.source = _
+  change reachComparison G gV incl hincl i ≫ pullback.snd gV G.target ≫ G.source = _
   rw [← Category.assoc, reachComparison_comp_snd]
 
 /-- The comparison morphism is a base change of `incl i`: the square whose top edge is the
@@ -279,7 +279,7 @@ public noncomputable abbrev sigmaOver : Over S :=
 
 /-- The `i`-th inclusion into the disjoint union. -/
 public noncomputable def sigmaOverIncl (i : ι) : U i ⟶ sigmaOver U :=
-  Over.homMk (Sigma.ι (fun i => (U i).left) i) (Sigma.ι_desc _ _)
+  Over.homMk (Sigma.ι (fun i => (U i).left) i) (Sigma.ι_comp_desc _ _)
 
 /-- The inclusions into the disjoint union are the coproduct inclusions of the underlying
 schemes, hence open immersions. -/
@@ -300,14 +300,14 @@ scheme of a groupoid scheme: the `∐ᵢ gᵢ` of Step 3 of the proof of **Stack
 public noncomputable def sigmaOverDesc : sigmaOver U ⟶ G.objects :=
   Over.homMk (Sigma.desc fun i => (g i).left) (by
     refine Sigma.hom_ext _ _ fun i => ?_
-    simp only [sigmaOver, Over.mk_hom, ← Category.assoc, Sigma.ι_desc]
+    simp only [sigmaOver, Over.mk_hom, ← Category.assoc, Sigma.ι_comp_desc]
     exact (g i).w)
 
 /-- The assembled morphism restricts along the `i`-th inclusion to `gᵢ`. -/
 public theorem sigmaOverIncl_comp_sigmaOverDesc (i : ι) :
     sigmaOverIncl U i ≫ sigmaOverDesc U g = g i := by
   refine Over.OverMorphism.ext ?_
-  simp only [Over.comp_left, sigmaOverIncl, sigmaOverDesc, Over.homMk_left, Sigma.ι_desc]
+  simp only [Over.comp_left, sigmaOverIncl, sigmaOverDesc, Over.homMk_left, Sigma.ι_comp_desc]
 
 end Coproduct
 

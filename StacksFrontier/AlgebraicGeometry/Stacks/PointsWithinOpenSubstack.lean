@@ -76,7 +76,7 @@ theorem prop_algebraicSpaceMap_congr
     (ObjectProperty.isoMk _ ((OverShriek.relocalizePresheafFunctor U.hom).mapIso i))
     (Iso.refl _) ?_)
   apply ObjectProperty.hom_ext
-  show (OverShriek.relocalizePresheafFunctor U.hom).map i.hom ≫
+  change (OverShriek.relocalizePresheafFunctor U.hom).map i.hom ≫
     OverShriek.relocalizeToYoneda U.hom F' = _ ≫ 𝟙 _
   exact (relocalizeToYoneda_naturality B U.left.1 S U.left.2 hS U.hom i.hom).trans
     (Category.comp_id _).symm
@@ -136,7 +136,7 @@ theorem isOpenImmersion_algebraicSpaceMap_of_isOpenSubspace (U : BigFppfOver B S
   have := Space.openImmersion_isLocalAtTarget_fpqc.{u, u} B S hS
   refine (prop_algebraicSpaceMap_iff B S hS (Space.openImmersionProperty B S hS) U
     G.toFunctor hG.1).mpr ?_
-  show Space.IsOpenImmersion B S hS (OverShriek.relocalizeToYoneda U.hom G.toFunctor)
+  change Space.IsOpenImmersion B S hS (OverShriek.relocalizeToYoneda U.hom G.toFunctor)
   have _ := isIso_relocalizeToYoneda_yonedaId B U.left.1 S U.left.2 hS U.hom
   rw [← relocalizeToYoneda_eq_map_toYonedaId B U.left.1 S U.left.2 hS U.hom G.toFunctor]
   refine (MorphismProperty.cancel_right_of_respectsIso _ _ _).mpr ?_

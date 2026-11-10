@@ -114,7 +114,7 @@ theorem bijective_modulesStalkFunctor_map_of_pullback (g : Y' ⟶ Y) {M N : Y.Mo
     Module.FaithfullyFlat.of_flat_of_isLocalHom
   exact (Module.FaithfullyFlat.lTensor_bijective_iff_bijective (Y.presheaf.stalk (g y'))
     (Y'.presheaf.stalk y') ((Stacks.ModuleSkyscraper.modulesStalkFunctor Y (g y')).map φ).hom).1
-    (by rwa [← LinearMap.baseChange_eq_ltensor])
+    (by rwa [← LinearMap.baseChange_eq_lTensor])
 
 end Stalkwise
 

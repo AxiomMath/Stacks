@@ -96,7 +96,7 @@ variable {X Y Z : Scheme.{u}} (iY : Y ⟶ X) [IsClosedImmersion iY] (iZY : Z ⟶
 theorem affineBaseChangeMap_id (U : X.affineOpens) :
     affineBaseChangeMap (𝟙 X) (U := U) (U' := U) (fun _ hx => hx) = RingHom.id Γ(X, U.1) := by
   ext x
-  simp only [affineBaseChangeMap, Scheme.Hom.appLE, Scheme.Hom.id_app, Category.id_comp]
+  simp only [affineBaseChangeMap, Scheme.Hom.appLE, Scheme.Hom.id_app]
   exact congrArg (fun k => CommRingCat.Hom.hom k x) (X.presheaf.map_id (op U.1))
 
 /-- **The change of centre on the charts is the base-change comparison along the identity**:
@@ -499,7 +499,7 @@ theorem conormalDegreeOneIncl_mem_normalConeChartZeroSectionIdeal (U : X.affineO
     (by simpa only [pow_one] using a.2)
   let z : AssociatedGraded.gradedRing (iY.ker.ideal U) :=
     DirectSum.of (fun k => AssociatedGraded.piece (M := Γ(X, U.1)) (iY.ker.ideal U) k) 1
-      (AssociatedGraded.mk (iY.ker.ideal U) 1 ⟨a.1, by simpa using ha'⟩)
+      (AssociatedGraded.mk (iY.ker.ideal U) 1 ⟨a.1, by simp⟩)
   have e1 := exceptionalChartSectionsEquiv_conormalEquiv iY U z
   simp only [z, AssociatedGraded.gradedRingMapOfRingHom_of, AssociatedGraded.pieceMapOfRingHom_mk,
     RingHom.id_apply] at e1
@@ -708,9 +708,9 @@ theorem normalConeCompMap_toBase :
   have h3 := vectorBundleMap_left_comp Z a
   refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) ((Category.assoc _ _ _).trans
     (congrArg (_ ≫ ·) h1))).trans ?_)
-  show _ ≫ _ ≫ vectorBundleToBase Y _ = vectorBundleToBase Z _ ≫ iZY
+  change _ ≫ _ ≫ vectorBundleToBase Y _ = vectorBundleToBase Z _ ≫ iZY
   refine (congrArg (_ ≫ ·) h2).trans ?_
-  show _ ≫ vectorBundleToBase Z _ ≫ iZY = _
+  change _ ≫ vectorBundleToBase Z _ ≫ iZY = _
   exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ iZY) h3)
 
 include hreg in

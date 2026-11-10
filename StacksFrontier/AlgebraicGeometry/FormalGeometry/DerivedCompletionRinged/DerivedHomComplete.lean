@@ -111,7 +111,7 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
 /-- The structure sheaf of the slice site over `U` is a sheaf of commutative rings. -/
 theorem isMulCommutative_ringSheaf_over (V : (Over U)ᵒᵖ) :
     IsMulCommutative ((((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over U).obj.obj V) := by
-  show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+  change IsMulCommutative (X.O.obj.obj (op V.unop.left))
   infer_instance
 
 attribute [local instance] isMulCommutative_ringSheaf_over

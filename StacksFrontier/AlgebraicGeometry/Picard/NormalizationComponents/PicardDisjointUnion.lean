@@ -217,12 +217,12 @@ theorem surjective_schemePullbackClass_pi_of_pairwise_disjoint {ι : Type*} [Fin
     · exact Or.inr (Opens.mem_iSup.mpr ⟨⟨j, hji⟩, hj⟩)
   choose y hyU hyV using fun i => exists_schemePullbackClass_eq_and_eq_zero (hV i) (hcov i) (x i)
   refine ⟨∑ i, y i, funext fun j => ?_⟩
-  show schemePullbackClassHom (U j).ι (∑ i, y i) = x j
+  change schemePullbackClassHom (U j).ι (∑ i, y i) = x j
   rw [map_sum, Finset.sum_eq_single j]
   · exact hyU j
   · intro i _ hij
     have hle : U j ≤ ⨆ k : {k // k ≠ i}, U k := le_iSup (fun k : {k // k ≠ i} => U k) ⟨j, hij.symm⟩
-    show schemePullbackClass (U j).ι (y i) = 0
+    change schemePullbackClass (U j).ι (y i) = 0
     rw [schemePullbackClass_ι_of_le hle, hyV i]
     exact map_zero (schemePullbackClassHom (Y.homOfLE hle))
   · exact absurd (Finset.mem_univ j)
@@ -263,7 +263,7 @@ theorem bijective_zmodTorsionRestrictPi_picard {Y : Scheme.{u}} {ι : Type*} [Fi
     refine AddSubgroup.torsionBy.nsmul_iff.mpr (hb.1 ?_)
     funext i
     have hi : schemePullbackClassHom (U i).ι x = z i := congrFun hx i
-    show schemePullbackClassHom (U i).ι (ℓ • x) = schemePullbackClassHom (U i).ι 0
+    change schemePullbackClassHom (U i).ι (ℓ • x) = schemePullbackClassHom (U i).ι 0
     rw [map_nsmul, hi, map_zero]
     exact AddSubgroup.torsionBy.nsmul_iff.mp (z i).2
   exact ⟨⟨x, hxt⟩, funext fun i => Subtype.ext (congrFun hx i)⟩

@@ -124,7 +124,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
     rw [← hmapmax, ← Ideal.map_pow, Ideal.comap_map_eq_self_of_faithfullyFlat]
   have hpmA : (p : A) ∈ IsLocalRing.maximalIdeal A ^ m := by
     rw [← hcomap]
-    show algebraMap A B (p : A) ∈ IsLocalRing.maximalIdeal B ^ m
+    change algebraMap A B (p : A) ∈ IsLocalRing.maximalIdeal B ^ m
     simpa only [map_natCast] using hpmB
   obtain ⟨ξ, z, a, hz, hPz, hau, ha⟩ :=
     exists_unit_of_isLeast_extensionLevelNumerator P π hπ n hnpos
@@ -169,13 +169,13 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
     intro x
     have hdiff : algebraMap A B (τ x) - σ (ρ x) ∈ IsLocalRing.maximalIdeal B := by
       rw [← IsLocalRing.residue_eq_zero_iff, map_sub, hσ]
-      show IsLocalRing.residue B (algebraMap A B (τ x)) - ρ x = 0
+      change IsLocalRing.residue B (algebraMap A B (τ x)) - ρ x = 0
       rw [← IsLocalRing.ResidueField.map_residue, hτ]
       exact sub_self (ρ x)
     have hdiffQ := map_nonunit qB _ hdiff
-    show qAB (τbar x) - σbar (ρ x) ∈ IsLocalRing.maximalIdeal QB
+    change qAB (τbar x) - σbar (ρ x) ∈ IsLocalRing.maximalIdeal QB
     rw [← hτbar, ← hσbar]
-    show qB (algebraMap A B (τ x)) - qB (σ (ρ x)) ∈ IsLocalRing.maximalIdeal QB
+    change qB (algebraMap A B (τ x)) - qB (σ (ρ x)) ∈ IsLocalRing.maximalIdeal QB
     simpa only [map_sub] using hdiffQ
   obtain ⟨cfs, b, hab⟩ := exists_eq_sum_pow_add_pow_mul π hπ.maximalIdeal_eq σ hσ a m
   have hLaurent : ξ =
@@ -217,7 +217,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
     obtain ⟨aA, haA⟩ := hdescend hcfs
     have hadiff : a - algebraMap A B aA ∈ IsLocalRing.maximalIdeal B ^ m :=
       Ideal.Quotient.eq_zero_iff_mem.mp (by
-        show qB (a - algebraMap A B aA) = 0
+        change qB (a - algebraMap A B aA) = 0
         rw [map_sub, haA, sub_self])
     have hresA : IsLocalRing.residue B a = ρ (IsLocalRing.residue A aA) := by
       have hzero := (IsLocalRing.residue_eq_zero_iff _).mpr
@@ -256,7 +256,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
       have hadiff : π ^ m ∣ a - algebraMap A B aA := by
         rw [← Ideal.mem_span_singleton, ← Ideal.span_singleton_pow, ← hπ.maximalIdeal_eq,
           ← Ideal.Quotient.eq_zero_iff_mem]
-        show qB (a - algebraMap A B aA) = 0
+        change qB (a - algebraMap A B aA) = 0
         rw [map_sub, haA, sub_self]
       obtain ⟨b₁, hb₁⟩ := hadiff
       have hξA : algebraMap B L π ^ n * ξ - algebraMap B L (algebraMap A B aA) =
@@ -331,7 +331,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
       linear_combination -ha'
     have hker : ∀ a : B, qB a = 0 ↔ π ^ m ∣ a := by
       intro a
-      show Ideal.Quotient.mk _ a = 0 ↔ _
+      change Ideal.Quotient.mk _ a = 0 ↔ _
       rw [Ideal.Quotient.eq_zero_iff_mem, hπ.maximalIdeal_eq,
         Ideal.span_singleton_pow, Ideal.mem_span_singleton]
     obtain ⟨ξ', z', H, H₀, hz', hPz', hHd, hH, hH₀zero, hnone, hξ'⟩ :=
@@ -450,9 +450,9 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
         have htBval : (tB : L ⊗[K] K₁) = (1 : L) ⊗ₜ[K] t := heB tA
         have htBpow : tB ^ q = algebraMap B B₁ π := by
           apply Subtype.val_injective
-          show (tB : L ⊗[K] K₁) ^ q = algebraMap B (L ⊗[K] K₁) π
+          change (tB : L ⊗[K] K₁) ^ q = algebraMap B (L ⊗[K] K₁) π
           rw [htBval]
-          show ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L ⊗[K] K₁) t) ^ q = _
+          change ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L ⊗[K] K₁) t) ^ q = _
           rw [← map_pow (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L ⊗[K] K₁), ht]
           simp only [π, IsScalarTower.algebraMap_apply A K K₁,
             AlgHom.commutes, ← IsScalarTower.algebraMap_apply A K (L ⊗[K] K₁),
@@ -473,7 +473,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
             Ideal.mem_span_singleton]
         let ψ : QB →+* Q₁ := Ideal.Quotient.lift _ (q₁.comp (algebraMap B B₁)) (by
           intro b hb
-          show q₁ (algebraMap B B₁ b) = 0
+          change q₁ (algebraMap B B₁ b) = 0
           apply (hker₁ _).mpr
           have hdiv : π ^ m ∣ b := by
             rwa [hπ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton] at hb
@@ -490,9 +490,9 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
             intro b hb
             exact (IsLocalRing.residue_eq_zero_iff b).mpr ((Ideal.pow_le_self hmq.ne') hb))
         have hσ₁ (x : IsLocalRing.ResidueField B) : er (r₁ (σ₁ x)) = x := by
-          show er (r₁ (ψ (σbar x))) = x
+          change er (r₁ (ψ (σbar x))) = x
           rw [← hσbar x, hψ]
-          show er (IsLocalRing.residue B₁ (algebraMap B B₁ (σ x))) = x
+          change er (IsLocalRing.residue B₁ (algebraMap B B₁ (σ x))) = x
           rw [herB, hσ]
         let P₁ := P.map (algebraMap B B₁)
         let f₁ := (algebraMap B B₁).comp f
@@ -507,10 +507,10 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
         have heval₁ : Polynomial.aeval (z' ⊗ₜ[K] (1 : K₁)) P₁ =
             algebraMap (L ⊗[K] K₁) (M ⊗[K] K₁) (ξ' ⊗ₜ[K] (1 : K₁)) := by
           rw [Polynomial.aeval_map_algebraMap]
-          show Polynomial.eval₂ ((Algebra.TensorProduct.includeLeftRingHom : M →+* M ⊗[K] K₁).comp
+          change Polynomial.eval₂ ((Algebra.TensorProduct.includeLeftRingHom : M →+* M ⊗[K] K₁).comp
             (algebraMap B M)) (z' ⊗ₜ[K] (1 : K₁)) P = _
           rw [eval₂_tensor_includeLeft]
-          show Polynomial.aeval z' P ⊗ₜ[K] (1 : K₁) = _
+          change Polynomial.aeval z' P ⊗ₜ[K] (1 : K₁) = _
           rw [hPz']
           exact (hι ξ' 1).symm
         obtain ⟨G, hG, hGd⟩ := exists_map_eq_natDegree_le (R := B₁) (S := Q₁) q₁
@@ -700,7 +700,7 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
           rw [← hmapmax', ← Ideal.map_pow, Ideal.comap_map_eq_self_of_faithfullyFlat]
         have hpmA' : (p : A') ∈ IsLocalRing.maximalIdeal A' ^ m := by
           rw [← hcomap']
-          show algebraMap A' B (p : A') ∈ IsLocalRing.maximalIdeal B ^ m
+          change algebraMap A' B (p : A') ∈ IsLocalRing.maximalIdeal B ^ m
           simpa only [map_natCast] using hpmB
         let QA' := A' ⧸ IsLocalRing.maximalIdeal A' ^ m
         let : Nontrivial QA' := Ideal.Quotient.nontrivial_iff.mpr
@@ -721,13 +721,13 @@ theorem exists_totallyRamified_isWeakSolution_or_extensionLevel_le_or_finiteSupp
           have hdiff : algebraMap A' B (τ' x) - σ (ρ' x) ∈
               IsLocalRing.maximalIdeal B := by
             rw [← IsLocalRing.residue_eq_zero_iff, map_sub, hσ]
-            show IsLocalRing.residue B (algebraMap A' B (τ' x)) - ρ' x = 0
+            change IsLocalRing.residue B (algebraMap A' B (τ' x)) - ρ' x = 0
             rw [← IsLocalRing.ResidueField.map_residue, hτ']
             exact sub_self (ρ' x)
           have hdiffQ := map_nonunit qB _ hdiff
-          show qA'B (τbar' x) - σbar (ρ' x) ∈ IsLocalRing.maximalIdeal QB
+          change qA'B (τbar' x) - σbar (ρ' x) ∈ IsLocalRing.maximalIdeal QB
           rw [← hτbar', ← hσbar]
-          show qB (algebraMap A' B (τ' x)) - qB (σ (ρ' x)) ∈
+          change qB (algebraMap A' B (τ' x)) - qB (σ (ρ' x)) ∈
             IsLocalRing.maximalIdeal QB
           simpa only [map_sub] using hdiffQ
         have hπA'L : algebraMap A' L πA' ≠ 0 := by

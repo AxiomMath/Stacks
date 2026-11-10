@@ -172,12 +172,12 @@ private lemma closedFiber_chart_covers {X S : Scheme.{u}} (f : X ⟶ S) (s : S)
   intro x
   let z := baseChangeFiberMap f a t x
   have hat : a t = s := by
-    show U.toBase (U.scheme.fromSpecStalk U.point t) = s
+    change U.toBase (U.scheme.fromSpecStalk U.point t) = s
     rw [Scheme.fromSpecStalk_closedPoint, U.map_point]
   obtain ⟨y₀, hy₀, hgy₀⟩ : f.fiberι (a t) z ∈ g ''
       (p ⁻¹' {IsLocalRing.closedPoint (U.scheme.presheaf.stalk U.point)}) := by
     rw [← hcover]
-    show f (f.fiberι (a t) z) = s
+    change f (f.fiberι (a t) z) = s
     exact (Set.mem_singleton_iff.mp (f.fiberHomeo (a t) z).2).trans hat
   have hy₀' : p y₀ = t := hy₀
   let y : p.fiber t := (p.fiberHomeo t).symm ⟨y₀, hy₀'⟩
@@ -286,7 +286,7 @@ private lemma isUniversallyPureAlong_of_canonical_baseChange (P : PrePureSituati
       X_T := D.X_T, toX := j, toT := D.toT, isPullback := hjpb
       xi := D.xi, xi_liesOver := D.xi_liesOver }
   refine hp E inferInstance (EtaleNeighborhood.isElementary_self D.T D.t) ⟨?_, hD.2⟩
-  show D.xi ∈ Stacks.Divisors.relativeAssassin D.toT ((Scheme.Modules.pullback j).obj Q.F)
+  change D.xi ∈ Stacks.Divisors.relativeAssassin D.toT ((Scheme.Modules.pullback j).obj Q.F)
   have e : (Scheme.Modules.pullback j).obj Q.F ≅ D.pulledBack P :=
     pullbackPullbackIso (pullback.lift_fst _ _ _) P.F
   rw [relativeAssassin_eq_of_moduleIso _ e]
@@ -382,7 +382,7 @@ private lemma isUniversallyPureAlong_of_etale_cover_of_relativeAssassin_subset
       inferInstance inferInstance hpB ?_⟩
   intro x hx
   have hx' := hcover (relativeAssassin_pullback_subset_preimage f b F hx)
-  show x ∈ Set.range eB
+  change x ∈ Set.range eB
   dsimp only [eB]
   rw [Scheme.Pullback.range_map]
   exact ⟨hx', ⟨pullback.snd f b x, rfl⟩⟩
@@ -454,7 +454,7 @@ public theorem isUniversallyPureAlong_of_isPureAlong
     rwa [heT] at hcomp
   have : LocallyOfFiniteType q := hpLFT
   have hfreePush : Module.Free (R := R) Γ((Scheme.Modules.pushforward q).obj F', ⊤) := by
-    show Module.Free (R := R) Γ(F', ⊤)
+    change Module.Free (R := R) Γ(F', ⊤)
     exact hfree
   let : Module.Free (R := R) Γ((Scheme.Modules.pushforward q).obj F', ⊤) := hfreePush
   have : ((Scheme.Modules.pushforward q).obj F').IsQuasicoherent := inferInstance
@@ -479,7 +479,7 @@ public theorem isUniversallyPureAlong_of_isPureAlong
         mapsToChosenPoint := D.mapsToChosenPoint, X_T := D.X_T, toX := D.toX
         toT := D.toT, isPullback := D.isPullback, xi := D.xi
         xi_liesOver := D.xi_liesOver } ⟨?_, hD.2⟩
-    show D.xi ∈ Stacks.Divisors.relativeAssassin D.toT
+    change D.xi ∈ Stacks.Divisors.relativeAssassin D.toT
       ((Scheme.Modules.pullback D.toX).obj F')
     rw [← relativeAssassin_eq_of_moduleIso D.toT
       ((Scheme.Modules.pullback D.toX).mapIso hFTChartIso)]
@@ -497,14 +497,14 @@ public theorem isUniversallyPureAlong_of_isPureAlong
     intro x
     let z := n (fT.fiberι t x)
     have hzf : (pullback.snd f (aU ≫ U.toBase)) z = t := by
-      show (n ≫ pullback.snd f (aU ≫ U.toBase)) (fT.fiberι t x) = t
+      change (n ≫ pullback.snd f (aU ≫ U.toBase)) (fT.fiberι t x) = t
       rw [hnf]
       exact (fT.fiberHomeo t x).2
     let zf := ((pullback.snd f (aU ≫ U.toBase)).fiberHomeo t).symm ⟨z, hzf⟩
     obtain ⟨y, hy⟩ := closedFiber_chart_covers f s U X' q g hcomm hfiber zf
     refine ⟨q.fiberι t y, ?_⟩
     apply (ConcreteCategory.bijective_of_isIso n.base).1
-    show (eT ≫ n) (q.fiberι t y) = z
+    change (eT ≫ n) (q.fiberι t y) = z
     rw [heTn]
     calc
       _ = (pullback.snd f (aU ≫ U.toBase)).fiberι t zf := hy

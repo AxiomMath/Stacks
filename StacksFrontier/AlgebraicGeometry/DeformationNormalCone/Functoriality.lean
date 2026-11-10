@@ -44,7 +44,7 @@ theorem idealKernel_ι_comp_eq_zero_of_le {X : Scheme.{u}} {P Q : X.IdealSheafDa
   have hx := congrArg (fun φ => φ.val.app U x)
     (kernel.condition (SheafOfModules.unitToPushforwardObjUnit P.subschemeι.toRingCatSheafHom))
   simp only at hx
-  show (Q.subschemeι.app U.unop).hom
+  change (Q.subschemeι.app U.unop).hom
       ((kernel.ι (SheafOfModules.unitToPushforwardObjUnit
         P.subschemeι.toRingCatSheafHom)).val.app U x) = 0
   change (P.subschemeι.app U.unop).hom
@@ -348,7 +348,7 @@ theorem deformationMap_appLE_chartIncl (W : U.affineOpens) (k : ℤ)
             W.1 x))
       (ungradedAlgebraSheafIsoGradedAlgebraSheaf U (extReesGradedAlgebra J)
         (extReesGradedAlgebra_mul_comm J)).hom_inv_id
-  show ((universalAlgebraMap (extReesSituation J')).right.app (op (h ⁻¹ᵁ W.1))).hom
+  change ((universalAlgebraMap (extReesSituation J')).right.app (op (h ⁻¹ᵁ W.1))).hom
       (((ungradedAlgebraSheafIsoGradedAlgebraSheaf U' (extReesGradedAlgebra J')
         (extReesGradedAlgebra_mul_comm J')).hom.right.hom.app (op (h ⁻¹ᵁ W.1))).hom
         (((deformationUngradedHom h J J' hJ).right.hom.app (op W.1)).hom
@@ -475,7 +475,7 @@ theorem extReesPullback_surjective [IsClosedImmersion h] (hJ' : J' = J.comap h)
     ((reesPieceAffineEquiv J (k.toNat : ℤ) (Int.natCast_nonneg _) W).symm
       ⟨a, by rw [Int.toNat_natCast]; exact ha⟩)
   rw [AddEquiv.apply_symm_apply] at h1
-  show (h.app W.1).hom (reesPieceAmbient J (k.toNat : ℤ) W.1 _) = _
+  change (h.app W.1).hom (reesPieceAmbient J (k.toNat : ℤ) W.1 _) = _
   rw [← h1]
   exact hax
 
@@ -490,7 +490,7 @@ theorem isClosedImmersion_deformationMap [IsClosedImmersion h] (hJ' : J' = J.com
       ⟨h ⁻¹ᵁ W.1, W.2.preimage h⟩)
   · have hW' : IsAffineOpen (h ⁻¹ᵁ W.1) := W.2.preimage h
     have := isIso_universalAlgebraMap_app (extReesSituation J') ⟨h ⁻¹ᵁ W.1, hW'⟩
-    show Function.Surjective ((deformationAlgebraHom h J J' hJ).right.hom.app (op W.1)).hom
+    change Function.Surjective ((deformationAlgebraHom h J J' hJ).right.hom.app (op W.1)).hom
     have hU := ConcreteCategory.bijective_of_isIso
       ((universalAlgebraMap (extReesSituation J')).right.app (op (h ⁻¹ᵁ W.1)))
     have he' := bijective_algebraSheafIso_app (ungradedAlgebraSheafIsoGradedAlgebraSheaf U'

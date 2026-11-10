@@ -70,7 +70,7 @@ underlying presheaf morphism of the summand inclusion at `i`. -/
 @[simp]
 theorem ι_sigmaPresheafComparison (i : I) :
     Sigma.ι (fun i ↦ (G i).obj) i ≫ sigmaPresheafComparison G = (Sigma.ι G i).hom :=
-  Sigma.ι_desc _ i
+  Sigma.ι_comp_desc _ i
 
 variable {F : Sheaf J A}
 

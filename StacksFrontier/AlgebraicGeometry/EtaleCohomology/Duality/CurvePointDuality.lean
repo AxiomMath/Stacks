@@ -116,7 +116,7 @@ theorem subsingleton_ext_unitSheaf_of_isAffine_of_curve {k : Type u} [Field k] [
       isTorsion := by
         intro U x
         refine ⟨⊤, T.smallEtaleTopology.top_mem U, fun V h _ => ⟨ℓ, hp.pos, ?_⟩⟩
-        show ℓ • (K.obj.map h.op x : K.obj.obj (Opposite.op V)) = 0
+        change ℓ • (K.obj.map h.op x : K.obj.obj (Opposite.op V)) = 0
         rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul] }
   have h : Subsingleton (Sheaf.H.{u + 1} ((etaleModuleUnderlyingAbelian T (ZMod ℓ)).obj K) q) :=
     S.isAffineVanishingAboveDegreeOne ‹IsAffine T› q hq
@@ -341,7 +341,7 @@ private theorem exists_trace_comp_ne_zero_point (hℓ : IsUnit (ℓ : k))
   have hxw : (Ext.mk₀ (eY.inv ≫ S.g ≫ e₃'.hom)).comp ((Ext.mk₀ e₃'.inv).comp x₃ (zero_add 2))
       (zero_add 2) = z := by
     rw [← hx₂, ← hx₃]
-    show (Ext.mk₀ (eY.inv ≫ S.g ≫ e₃'.hom)).comp ((Ext.mk₀ e₃'.inv).comp x₃ (zero_add 2))
+    change (Ext.mk₀ (eY.inv ≫ S.g ≫ e₃'.hom)).comp ((Ext.mk₀ e₃'.inv).comp x₃ (zero_add 2))
       (zero_add 2) = (Ext.mk₀ eY.inv).comp ((Ext.mk₀ S.g).comp x₃ (zero_add 2)) (zero_add 2)
     rw [Ext.mk₀_comp_mk₀_assoc, Ext.mk₀_comp_mk₀_assoc, Category.assoc, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]

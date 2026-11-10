@@ -116,7 +116,7 @@ public def truncationSucc {S : Scheme.{u}} (A : FormalBase S) (n : ℕ) :
 @[reassoc (attr := simp)]
 public theorem truncationSucc_toS {S : Scheme.{u}} (A : FormalBase S) (n : ℕ) :
     A.truncationSucc n ≫ A.truncationToS (n + 1) = A.truncationToS n := by
-  show adicThickeningSucc A.R (maximalIdeal A.R) n ≫
+  change adicThickeningSucc A.R (maximalIdeal A.R) n ≫
       (adicThickeningι A.R (maximalIdeal A.R) (n + 1) ≫ A.toS) =
     adicThickeningι A.R (maximalIdeal A.R) n ≫ A.toS
   rw [← Category.assoc, adicThickeningSucc_ι]
@@ -428,7 +428,7 @@ public def IsLocalBaseMap {x y : CompleteLocalObjectsFull B S hS p}
 /-- The identity induces the identity of complete local bases. -/
 public theorem baseMap_id (x : CompleteLocalObjectsFull B S hS p) :
     baseMap B S hS p (𝟙 x) = 𝟙 _ := by
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
     (eqToHom (chosenBase_eq B S hS p x).symm ≫
       p.map (𝟙 x.1) ≫ eqToHom (chosenBase_eq B S hS p x)) = 𝟙 _
   simp
@@ -438,7 +438,7 @@ public theorem baseMap_comp {x y z : CompleteLocalObjectsFull B S hS p}
     (f : x ⟶ y) (g : y ⟶ z) :
     baseMap B S hS p (f ≫ g) =
       baseMap B S hS p f ≫ baseMap B S hS p g := by
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
       (eqToHom (chosenBase_eq B S hS p x).symm ≫
         p.map (f.1 ≫ g.1) ≫ eqToHom (chosenBase_eq B S hS p z)) =
     (BigFppfOver.toScheme B S hS).map
@@ -614,7 +614,7 @@ public theorem restrictionToBase_succ (A : FormalBase S)
   apply ObjectProperty.hom_ext
   dsimp only [restrictionToBase, truncationOverSucc,
     truncationOver, baseOver, Over.homMk, ObjectProperty.homMk]
-  show adicThickeningSucc A.R (maximalIdeal A.R) n ≫
+  change adicThickeningSucc A.R (maximalIdeal A.R) n ≫
       adicThickeningι A.R (maximalIdeal A.R) (n + 1) =
     adicThickeningι A.R (maximalIdeal A.R) n
   rw [adicThickeningSucc_ι]
@@ -806,14 +806,14 @@ public theorem restrictionBaseMap_id (x : CompleteLocalObjectsFull B S hS p)
         rw [baseMap_id]
         rfl) n = 𝟙 _ := by
   let hid : IsLocalBaseMap B S hS p (𝟙 x) := by
-    show baseMap B S hS p (𝟙 x) (closedPoint _) = _
+    change baseMap B S hS p (𝟙 x) (closedPoint _) = _
     rw [baseMap_id]
     rfl
   let : IsLocalHom (baseRingMap B S hS p (𝟙 x)) :=
     baseRingMap_isLocal B S hS p (𝟙 x) hid
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
       (restrictionBaseMap B S hS p (𝟙 x) hid n) = _
   rw [restrictionBaseMap_toScheme]
   simp only [baseRingMap_id, localQuotientMap_id, CommRingCat.ofHom_id, Spec.map_id]
@@ -852,7 +852,7 @@ public theorem restrictionBaseMap_comp
             exact (localBaseMaps B S hS p).comp_mem f g hf hg) n)
   rw [restrictionBaseMap_toScheme, restrictionBaseMap_toScheme,
     restrictionBaseMap_toScheme]
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (localQuotientMap (baseRingMap B S hS p f) n)) ≫
       Spec.map (CommRingCat.ofHom
         (localQuotientMap (baseRingMap B S hS p g) n)) =
@@ -896,7 +896,7 @@ public theorem restrictionBaseMap_succ
       ← RingHom.comp_assoc, htx, ← localQuotientMap_comp_mk fm n,
       ← hty, ← RingHom.comp_assoc]
   refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
-  show Spec.map (CommRingCat.ofHom tx) ≫
+  change Spec.map (CommRingCat.ofHom tx) ≫
       Spec.map (CommRingCat.ofHom qSucc) =
     Spec.map (CommRingCat.ofHom q) ≫ Spec.map (CommRingCat.ofHom ty)
   rw [← Spec.map_comp, ← Spec.map_comp]
@@ -924,7 +924,7 @@ public theorem restrictionBaseMap_comm
   let Ay := chosenBase B S hS p y
   let fm := baseRingMap B S hS p f
   let : IsLocalHom fm := baseRingMap_isLocal B S hS p f hf
-  show (BigFppfOver.toScheme B S hS).map
+  change (BigFppfOver.toScheme B S hS).map
       (restrictionBaseMap B S hS p f hf n) ≫
       (BigFppfOver.toScheme B S hS).map
         (restrictionToBase B S hS (chosenBase B S hS p y)
@@ -941,7 +941,7 @@ public theorem restrictionBaseMap_comm
           eqToHom (chosenBase_eq B S hS p y))
   rw [restrictionBaseMap_toScheme, restrictionToBase_toScheme,
     restrictionToBase_toScheme]
-  show Spec.map (CommRingCat.ofHom (localQuotientMap fm n)) ≫
+  change Spec.map (CommRingCat.ofHom (localQuotientMap fm n)) ≫
       adicThickeningι Ay.R (maximalIdeal Ay.R) n =
     adicThickeningι Ax.R (maximalIdeal Ax.R) n ≫
       baseMap B S hS p f

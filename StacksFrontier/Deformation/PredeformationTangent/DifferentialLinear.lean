@@ -171,23 +171,23 @@ theorem differential_isLinearMap
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2𝓕 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hS2𝓖 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (φ : BasedFunctor 𝓕 𝓖) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
     IsLinearMap k (differential h𝓕.cofibered h𝓖.cofibered φ) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
   let P := artinianLocalOver Λ k
   let hP := squareZeroExtension_mem_artinianLocalOver Λ k
   let q := squareZeroExtensionRestriction Λ k P hP

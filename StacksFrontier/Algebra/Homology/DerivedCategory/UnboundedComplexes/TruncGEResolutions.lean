@@ -392,7 +392,7 @@ private lemma exists_ladder_isoClosure (P : ObjectProperty A) [P.ContainsZero]
   · obtain ⟨C, hC, e', he'⟩ := hQ5 n (-i)
     refine ⟨C.unop, isoClosure_unop_of_op_isoClosure P hC,
       e'.symm.unop ≪≫ biprodUnopIso ((Q n).X (-i)) C, ?_⟩
-    show ((biprodUnopIso ((Q n).X (-i)) C).inv ≫ e'.hom.unop) ≫ ((G n).f (-i)).unop
+    change ((biprodUnopIso ((Q n).X (-i)) C).inv ≫ e'.hom.unop) ≫ ((G n).f (-i)).unop
       = biprod.fst
     rw [Category.assoc, ← unop_comp, he']
     exact biprodUnopIso_inv_unop_inl _ _
@@ -442,15 +442,15 @@ private lemma exists_ladder_of_isoClosure (P : ObjectProperty A) (K : CochainCom
     exact CochainComplex.isStrictlyGE_of_iso (ρ n) _
   · obtain ⟨C, hC, ε, hε⟩ := hker n i
     obtain ⟨C', hC', ⟨δ⟩⟩ := hC
-    show ∃ (D : A) (_ : P D) (ee : Z (n + 1) i ≅ Z n i ⊞ D),
+    change ∃ (D : A) (_ : P D) (ee : Z (n + 1) i ≅ Z n i ⊞ D),
       ee.inv ≫ ((ρ (n + 1)).inv ≫ g n ≫ (ρ n).hom).f i = biprod.fst
     refine ⟨C', hC', (e (n + 1) i).symm ≪≫ ε ≪≫ biprod.mapIso (e n i) δ, ?_⟩
-    show ((biprod.map (e n i).inv δ.inv ≫ ε.inv) ≫ (e (n + 1) i).hom) ≫
+    change ((biprod.map (e n i).inv δ.inv ≫ ε.inv) ≫ (e (n + 1) i).hom) ≫
         (e (n + 1) i).inv ≫ (g n).f i ≫ (e n i).hom = biprod.fst
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [← Category.assoc ε.inv, hε, biprod.map_fst_assoc]
     simp
-  · show K.πTruncGE (-((n + 1 : ℕ) : ℤ)) ≫ (f (n + 1) ≫ (ρ (n + 1)).hom) ≫
+  · change K.πTruncGE (-((n + 1 : ℕ) : ℤ)) ≫ (f (n + 1) ≫ (ρ (n + 1)).hom) ≫
       ((ρ (n + 1)).inv ≫ g n ≫ (ρ n).hom) = K.πTruncGE (-(n : ℤ)) ≫ f n ≫ (ρ n).hom
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [← Category.assoc (f (n + 1)) (g n), ← Category.assoc (K.πTruncGE _) (f (n + 1) ≫ g n),

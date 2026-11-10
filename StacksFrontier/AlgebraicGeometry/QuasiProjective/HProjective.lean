@@ -69,8 +69,9 @@ quasi-compact quasi-separated base, is
 `StacksFrontier.AlgebraicGeometry.LocallyProjectiveHProjective.Sym`, and the equivalence is
 `Stacks.LocallyProjectiveHProjective.isLocallyProjective_iff_isLocallyProjectiveMorphism` there.
 The converse needs neither a surjection `𝒪_U^{n+1} ↠ ℰ` nor a homomorphism of sheaf symmetric
-algebras produced from a homomorphism of modules (which the library does not construct). The chart of `ℙ(ℰ)` over an affine open `V`
-of the base is the *absolute* `Proj` of the graded ring of sections of `Sym(ℰ)` over `V`, and is
+algebras produced from a homomorphism of modules (which the library does not construct). The chart
+of `ℙ(ℰ)` over an affine open `V` of the base is the *absolute* `Proj` of the graded ring of
+sections of `Sym(ℰ)` over `V`, and is
 the inverse image of `V`, so the surjection used is the one of graded rings
 `Γ(X, V)[T₀, …, Tₙ] ↠ Γ(V, Sym(ℰ))` coming from generators of the degree-one part, and the closed
 immersion is Tag 01N0's.
@@ -203,10 +204,10 @@ noncomputable def projectiveSpaceOverCongr (n : ℕ) {Y Z : Scheme.{u}} (e : Y �
   inv := pullback.lift (pullback.fst _ _ ≫ e.inv) (pullback.snd _ _) (terminal.hom_ext _ _)
   hom_inv_id := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp
   inv_hom_id := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp
 
 /-- The identification of projective spaces over isomorphic bases intertwines their structure
 morphisms with the isomorphism of the bases. -/

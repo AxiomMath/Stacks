@@ -94,7 +94,7 @@ unique lift of the second projection. -/
 theorem exists_excisionDiagLift :
     ∃ b : pullback (h ≫ f) f ⟶ Y, b ≫ h = pullback.snd (h ≫ f) f ∧
       graphSection B S hS f h ≫ b = 𝟙 Y := by
-  have hdiag := diagPreimage_comp_fst_eq_snd B S hS f hV hW hf hsep (graphKappa B S hS f h)
+  have hdiag := diagPreimage_comp_fst_eq_snd B S hS f hV hW hf (graphKappa B S hS f h)
   simp only [graphKappa_fst, graphKappa_snd] at hdiag
   obtain ⟨b, hb₁, hb₂⟩ := excisionGlue_exists B S hS f h hV hW hY T W₀ hT hcompl hf hsep hiso
     (graphKappa B S hS f h) (isAlgebraicSpace_pullback B S hS (h ≫ f) f hY hV hW)
@@ -110,7 +110,7 @@ theorem exists_excisionDiagLift :
   have hrange : Subfunctor.range (graphSection B S hS f h) ≤
       (diagOpen B S hS f).preimage (graphKappa B S hS f h) := by
     rw [← Subfunctor.image_le_iff, ← Subfunctor.range_comp, hkappa,
-      diagOpen_eq_range B S hS f hV hW hf hsep]
+      diagOpen_eq_range B S hS f hV hW hf]
     exact Subfunctor.range_comp_le _ _
   have hlift : Subfunctor.lift (graphSection B S hS f h) hrange ≫
       ((diagOpen B S hS f).preimage (graphKappa B S hS f h)).ι = graphSection B S hS f h :=
@@ -178,6 +178,7 @@ theorem restrict_excisionUnitPair_base {A : (BigFppfOver B S hS)ᵒᵖ}
   simp only [RelativeMorphism.restrict_base, excisionPairOf_base, Category.assoc]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the presheaf pullbacks in `pullback.lift`/`pullback.map` below is slow
 /-- **The evaluation of the restriction of the canonical pair at `φ` is `φ`.** -/
 theorem pairEval_restrict_excisionUnitPair {A : (BigFppfOver B S hS)ᵒᵖ}
     (φ : yoneda.obj A.unop ⟶ Y)
@@ -192,7 +193,7 @@ theorem pairEval_restrict_excisionUnitPair {A : (BigFppfOver B S hS)ᵒᵖ}
       pullback.map (φ ≫ (h ≫ f)) f (h ≫ f) f φ (𝟙 V) (𝟙 W) (by simp) (by simp) =
         φ ≫ graphSection B S hS f h := by
     refine pullback.hom_ext ?_ ?_ <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp
   rw [pairEval]
   simp only [restrict_excisionPairOf_morphism]
   simpa [graphSection_comp_excisionDiagLift] using

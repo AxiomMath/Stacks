@@ -40,7 +40,7 @@ universe u v
 /-- The residue field of a local ring has length one. -/
 private theorem length_quotient_maximalIdeal_eq_one (R : Type*) [CommRing R] [IsLocalRing R] :
     Module.length R (R ⧸ maximalIdeal R) = 1 := by
-  show Module.length R (ResidueField R) = 1
+  change Module.length R (ResidueField R) = 1
   rw [Module.length_eq_of_surjective (M := ResidueField R) (residue_surjective (R := R))]
   simp
 

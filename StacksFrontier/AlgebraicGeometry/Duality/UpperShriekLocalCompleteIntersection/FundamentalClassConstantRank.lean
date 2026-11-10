@@ -168,7 +168,7 @@ theorem isIso_stalkMap_fundamentalClass_iff (x : X.left) :
   refine (isIso_stalkMap_iff_isIso_stalkAb x _).trans (Iff.trans ?_
     ((isIso_stalkMap_iff_isIso_stalkAb x (fundamentalClassMap U i g d c)).symm.trans
       ((isIso_stalkMap_fundamentalClassMap_iff_smoothAt U i g d c x).trans hsm)))
-  show IsIso (F.map (fundamentalClass f U i g hf j d c hi)) ↔
+  change IsIso (F.map (fundamentalClass f U i g hf j d c hi)) ↔
     IsIso (F.map (fundamentalClassMap U i g d c))
   unfold fundamentalClass
   rw [F.map_comp, F.map_comp, isIso_comp_left_iff, isIso_comp_right_iff]

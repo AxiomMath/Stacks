@@ -106,7 +106,7 @@ theorem tag_00MZ (R : Type*) [CommRing R] [IsLocalRing R]
     rw [LinearMap.mem_ker] at hw
     obtain ⟨v, rfl⟩ := lift w
     rw [Matrix.mulVecLin_apply] at hw
-    show _ ∈ LinearMap.range ((reduceMat x n φ (j + 1 + 1)).mulVecLin)
+    change _ ∈ LinearMap.range ((reduceMat x n φ (j + 1 + 1)).mulVecLin)
     have hwc : (fun b => mk ((φ (j + 1) *ᵥ v) b)) = 0 := by
       rw [show reduceMat x n φ (j + 1) = (φ (j + 1)).map mk from rfl] at hw
       rw [map_mulVec (φ (j + 1)) v] at hw
@@ -137,7 +137,7 @@ theorem tag_00MZ (R : Type*) [CommRing R] [IsLocalRing R]
     rw [LinearMap.mem_range]
     refine ⟨(fun a => mk (t a)), ?_⟩
     rw [Matrix.mulVecLin_apply]
-    show (reduceMat x n φ (j + 1 + 1)).mulVec (fun a => mk (t a)) = _
+    change (reduceMat x n φ (j + 1 + 1)).mulVec (fun a => mk (t a)) = _
     rw [show reduceMat x n φ (j + 1 + 1) = (φ (j + 1 + 1)).map mk from rfl]
     rw [map_mulVec (φ (j + 1 + 1)) t, ht]
     funext a
@@ -149,7 +149,7 @@ theorem tag_00MZ (R : Type*) [CommRing R] [IsLocalRing R]
       exact ⟨u a, rfl⟩
     rw [this, sub_zero]
   · rw [LinearMap.range_le_ker_iff]
-    show (reduceMat x n φ (j + 1)).mulVecLin ∘ₗ (reduceMat x n φ (j + 1 + 1)).mulVecLin = 0
+    change (reduceMat x n φ (j + 1)).mulVecLin ∘ₗ (reduceMat x n φ (j + 1 + 1)).mulVecLin = 0
     rw [← Matrix.mulVecLin_mul]
     rw [reduceMat_mul_eq_zero x n φ (hcomplex (j + 1)), Matrix.mulVecLin_zero]
 

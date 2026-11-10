@@ -310,7 +310,7 @@ theorem ι_reesShift (i n : ℕ) (b : ↥(reesGrading I i)) :
       idealMultipleMap φ F (I ^ (i + n)) (reesCoeff I b)
         (mul_mem_pow_of_le I le_rfl (reesCoeff_mem I b)) ≫
         Sigma.ι (fun n => idealMultiple φ F (I ^ n)) (i + n) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- A multiplication map into a summand of `⨁ₙ Iⁿ F` depends only on the function and on the
 degree of the summand. -/
@@ -334,7 +334,8 @@ theorem reesShift_zero (i : ℕ) : reesShift φ F I i 0 = 0 := by
   refine Sigma.hom_ext _ _ fun n => ?_
   rw [comp_zero, ι_reesShift]
   rw [idealMultipleMap_congr φ F _ (show reesCoeff I (0 : ↥(reesGrading I i)) = 0 by
-    rw [reesCoeff, LinearEquiv.map_zero]; rfl) _ (fun b _ => by rw [mul_zero]; exact Submodule.zero_mem _),
+    rw [reesCoeff, LinearEquiv.map_zero]; rfl) _
+    (fun b _ => by rw [mul_zero]; exact Submodule.zero_mem _),
     idealMultipleMap_zero, zero_comp]
 
 /-- `reesShift` as an additive map in the homogeneous element. -/
@@ -392,7 +393,7 @@ theorem reesAction_algebraMap (a : A) :
   have hb : reesCoeff I b = a := by
     rw [reesCoeff, coe_reesGradingEquivPow_symm]
     simp [b]
-  show reesActionHom φ F I (DirectSum.decompose (reesGrading I) (b : reesAlgebra I)) = _
+  change reesActionHom φ F I (DirectSum.decompose (reesGrading I) (b : reesAlgebra I)) = _
   rw [DirectSum.decompose_coe, reesActionHom_of]
   congr 1
   refine Sigma.hom_ext _ _ fun n => ?_
@@ -706,7 +707,7 @@ theorem exists_cohomologyIdealPower_bounds_of_isReesFinite
     rintro _ ⟨a, ha, w, rfl⟩
     have hJK : I ^ n * I ^ (N - n - c) ≤ I ^ (N - c) := by
       rw [← pow_add, show n + (N - n - c) = N - c by omega]
-    show cohomologyIdealPowerTr φ F I p hnN _ ∈ T
+    change cohomologyIdealPowerTr φ F I p hnN _ ∈ T
     rw [cohomologyIdealPowerTr_smul φ F I p hnN _ (show n ≤ (N - c) + c by omega)]
     refine cohomologyIdealPowerSmul_mem_of_mem_mul φ F I p _ hJK T w (fun g hg e he => ?_)
       (show a ∈ _ from by rw [← pow_add, show n + (N - n - c) = N - c by omega]; exact ha)

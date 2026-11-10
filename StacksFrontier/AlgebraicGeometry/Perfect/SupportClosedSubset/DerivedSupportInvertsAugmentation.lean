@@ -139,11 +139,11 @@ public theorem nonempty_rightDerived_obj_single_iso
   have hunit : IsIso (G.rightDerivedFunctorPlusUnith.app J) := by
     let α' := (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
       DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
-    haveI : IsIso (α'.app J) := hacyclic
+    have : IsIso (α'.app J) := hacyclic
     let φ := ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
       DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).rightDerivedDesc α'
       (HomotopyCategory.Plus.quasiIso A) G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
-    haveI : IsIso φ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ α' _ _ _).1
+    have : IsIso φ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ α' _ _ _).1
       inferInstance
     rw [← Functor.rightDerived_fac_app _ α' (HomotopyCategory.Plus.quasiIso A)
       G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith J]
@@ -232,7 +232,7 @@ public theorem equationsOpen_eq_basicOpen_prod {p : ℕ}
       rw [equationsOpen, Stacks.Cohomology.AffineVanishing.iInf_fin_succ_eq]
       let st : CechCochains.OrdIndex (I := Fin c) p :=
         ⟨fun k => s.1 k.succ, s.2.comp Fin.strictMono_succ⟩
-      show X.basicOpen (f (s.1 0)) ⊓ equationsOpen f p st = _
+      change X.basicOpen (f (s.1 0)) ⊓ equationsOpen f p st = _
       rw [ih st]
       simp [st, Fin.prod_univ_succ, Scheme.basicOpen_mul]
 

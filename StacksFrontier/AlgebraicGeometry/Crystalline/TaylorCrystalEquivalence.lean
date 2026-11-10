@@ -38,7 +38,8 @@ dropped from that route.
 **The first factor**, which is what this module adds.
 `Crystalline.forgetToFirstOrderCrystal` forgets the tower of levels `M_e` and the composite
 coordinate operators `θ_K` and keeps the four items they prove.  It is full and faithful on the
-nose, the morphisms of its source being by definition those of the images.  What this module proves is
+nose, the morphisms of its source being by definition those of the images.  What this module proves
+is
 that it is **essentially surjective**: that the tower and the operators can be rebuilt from the
 four items, which is exactly what the proof of the tag has to do when it runs the construction of
 Tag 07JG backwards out of a pair.  Both are rebuilt in
@@ -104,12 +105,14 @@ imposes no finiteness anywhere.  It is not a reading of the hypotheses of Tag 07
 `Crystalline.TaylorCrystal` asks for a `Module.Basis ι D Ω` on the differentials `d x_i` and the
 `Ω_D` of [Stacks, Tag 07J9] — the `p`-adic completion of the free module on the `d x_i` — has the
 differentials for an algebraic basis exactly when the coordinates are finitely many.  What this
-shows is that the *model* carries the condition, not that the tag does: with infinitely many coordinates the source's own
+shows is that the *model* carries the condition, not that the tag does: with infinitely many
+coordinates the source's own
 `∑ f_i d x_i` is a convergent series rather than a finite combination, so `Ω_D` is not free and
 `Crystalline.TaylorCrystal` — whose comparison datum is valued in the **uncompleted**
 `(D ⊕ Ω) ⊗_D M` — is not the right model of the pair there.
 
-The finiteness is in consequence not removable on this route: essential surjectivity of `Crystalline.firstOrderCrystalsToPairs` runs on the
+The finiteness is in consequence not removable on this route: essential surjectivity of
+`Crystalline.firstOrderCrystalsToPairs` runs on the
 factorisation of the connection of a pair through the uncompleted `M ⊗_D Ω`, and
 `Crystalline.not_isPrecomplete_finsupp_of_forall_pow_ne_zero` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedTensorFreeFinite.lean` shows that `ℕ →₀ R` is

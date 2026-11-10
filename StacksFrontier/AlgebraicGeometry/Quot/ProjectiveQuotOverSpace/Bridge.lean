@@ -149,13 +149,14 @@ def qcohQuotientEquiv :
     (isQuasicoherentOnSite_baseChangeModule T) (Iso.refl _)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the `Subobject` and `cokernel` API on sheaves of modules is deep
 /-- The correspondence `qcohQuotientEquiv` sends a submodule `K` of `F_T` to
 `readingSubobject E T K`. -/
 theorem qcohQuotientEquiv_apply_coe
     (K : {K : Subobject (D.baseChangeModule T) // (cokernel K.arrow).IsQuasicoherentOnSite}) :
     (qcohQuotientEquiv E T K).1 = readingSubobject E T K.1 := by
   change kernelSubobject _ = kernelSubobject _
-  congr 1 <;> exact Category.id_comp _
+  congr 1
 
 /-- **The conditions of Stacks 09TR are read on `ℙⁿ_T`.**  For a submodule `K` of `F_T` with
 quasi-coherent quotient, the quotient is of finite presentation, flat over `T` and with support
@@ -213,8 +214,8 @@ def qcohQuotientEquivRestrict (S : Set (Subobject (D.baseChangeModule T)))
     (S' : Set (Subobject ((reading E T).obj (D.baseChangeModule T))))
     (hS : ∀ K ∈ S, (cokernel K.arrow).IsQuasicoherentOnSite)
     (hS' : ∀ K' ∈ S', SheafOfModules.IsQuasicoherent (cokernel K'.arrow))
-    (h : ∀ K (hK : (cokernel K.arrow).IsQuasicoherentOnSite),
-      K ∈ S ↔ readingSubobject E T K ∈ S') : S ≃ S' where
+    (h : ∀ K, (cokernel K.arrow).IsQuasicoherentOnSite →
+      (K ∈ S ↔ readingSubobject E T K ∈ S')) : S ≃ S' where
   toFun K := ⟨readingSubobject E T K.1, (h K.1 (hS _ K.2)).1 K.2⟩
   invFun K' := ⟨((qcohQuotientEquiv E T).symm ⟨K'.1, hS' _ K'.2⟩).1, by
     set K := (qcohQuotientEquiv E T).symm ⟨K'.1, hS' _ K'.2⟩
@@ -240,7 +241,7 @@ def properlySupportedQuotientsEquiv :
         IsFlatFamily (n := n) (T := (𝒯).obj T.left) (cokernel K.arrow)} :=
   qcohQuotientEquivRestrict E T _ {K | IsFlatFamily (n := n) (T := (𝒯).obj T.left)
       (cokernel K.arrow)}
-    (fun K hK => hK.1.1.1) (fun K' hK' => isQuasicoherent_of_isFlatFamily T hK')
+    (fun _ hK => hK.1.1.1) (fun _ hK' => isQuasicoherent_of_isFlatFamily T hK')
     (fun K hK => mem_properlySupportedQuotients_iff E T K hK)
 
 /-- The correspondence `properlySupportedQuotientsEquiv` sends a submodule `K` of `F_T` to
@@ -260,7 +261,7 @@ def hilbertQuotientsEquiv (P : Polynomial ℚ) :
   qcohQuotientEquivRestrict E T _ {K | IsFlatFamily (n := n) (T := (𝒯).obj T.left)
       (cokernel K.arrow) ∧ HasFibreHilbertPolynomial (n := n) (T := (𝒯).obj T.left) P
         (cokernel K.arrow)}
-    (fun K hK => hK.1.1.1.1) (fun K' hK' => isQuasicoherent_of_isFlatFamily T hK'.1)
+    (fun _ hK => hK.1.1.1.1) (fun _ hK' => isQuasicoherent_of_isFlatFamily T hK'.1)
     (fun K hK => mem_hilbertQuotients_iff E T P K hK)
 
 /-- The correspondence `hilbertQuotientsEquiv` sends a submodule `K` of `F_T` to

@@ -729,7 +729,7 @@ This is the whole of what is peculiar to `c = 0`, and it is why that case is not
 lemma fracTermTop_abelian_zero (g : Fin 0 → Γ(X, ⊤)) (hψ : u ≫ ψ = w) :
     abHom u ≫ (abelianSheaf X).map (fracTermTop g F) ≫ termAb g ψ 0 =
       abHom w ≫ (abelianSheaf X).map (fracTermTop g G) := by
-  show abHom u ≫ (abelianSheaf X).map (𝟙 F) ≫ abHom ψ =
+  change abHom u ≫ (abelianSheaf X).map (𝟙 F) ≫ abHom ψ =
     abHom w ≫ (abelianSheaf X).map (𝟙 G)
   rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id, Category.id_comp,
     Category.comp_id, ← hψ]
@@ -758,7 +758,7 @@ private lemma comp_eq_of_smul_empty (g : Fin 0 → Γ(X, ⊤))
       sectionsHom ψ V (v • sectionsHom u V y) = v • sectionsHom w V y) :
     u ≫ ψ = w := by
   refine NatTrans.ext (funext fun U => AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_))
-  show sectionsHom ψ U.unop (sectionsHom u U.unop x) = sectionsHom w U.unop x
+  change sectionsHom ψ U.unop (sectionsHom u U.unop x) = sectionsHom w U.unop x
   have hone : X.presheaf.map (homOfLE (show U.unop ≤ ⊤ from le_top)).op (∏ j, g j) *
       (1 : Γ(X, U.unop)) = 1 := by
     rw [Fin.prod_univ_zero, mul_one]

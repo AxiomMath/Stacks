@@ -165,9 +165,9 @@ theorem compare_inv_baseMap (W : S'.Opens) (j : Γ(S', W)) :
         (compare P).hom_inv_id).trans (CategoryTheory.Functor.map_id _ _)))).trans
           (Category.comp_id _)))
   refine Eq.trans ?_ (congr($(h).hom.app (op W) j))
-  show _ = ((compare P).inv.hom.app _).hom (((baseComorphism P).hom.app (op W)).hom j)
+  change _ = ((compare P).inv.hom.app _).hom (((baseComorphism P).hom.app (op W)).hom j)
   rw [baseComorphism_app]
-  show _ = ((compare P).inv.hom.app _).hom ((P.baseMap.hom.app _).hom
+  change _ = ((compare P).inv.hom.app _).hom ((P.baseMap.hom.app _).hom
     (((idIso f (thickenedBaseRing t f)).inv.hom.app _).hom _))
   exact congrArg (fun z => ((compare P).inv.hom.app _).hom ((P.baseMap.hom.app _).hom z))
     (idIso_inv_app_apply f _ _ _).symm
@@ -204,14 +204,14 @@ theorem isIso_immersionConormalSheafMap_real :
     (compare P).hom (compare_hom_comp_reduction P)
   have h1 : ψ ≫ ψ' = 𝟙 _ := SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun m => P.incl_injective (by
-      show (P.kernelInclusion.val.app U).hom ((ψ'.val.app U).hom ((ψ.val.app U).hom m)) =
+      change (P.kernelInclusion.val.app U).hom ((ψ'.val.app U).hom ((ψ.val.app U).hom m)) =
         (P.kernelInclusion.val.app U).hom m
       rw [hψ', hψ]
       exact congr($((compare P).inv_hom_id).hom.app U _))))
   have h2 : ψ' ≫ ψ = 𝟙 _ := SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun m =>
       kernelSection_injective _ (real_ker_sq P) _ U.unop (by
-      show ((realKernel P).val.app U).hom ((ψ.val.app U).hom ((ψ'.val.app U).hom m)) =
+      change ((realKernel P).val.app U).hom ((ψ.val.app U).hom ((ψ'.val.app U).hom m)) =
         ((realKernel P).val.app U).hom m
       rw [hψ, hψ']
       exact congr($((compare P).hom_inv_id).hom.app U _))))

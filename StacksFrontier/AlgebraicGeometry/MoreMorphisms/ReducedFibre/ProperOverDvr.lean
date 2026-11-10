@@ -243,7 +243,7 @@ private theorem uniformizer_avoids_minimalPrime_chart
     · exact htop
   have hηClosed : f (e η) = IsLocalRing.closedPoint (CommRingCat.of R) := by
     have heval : f (e η) = PrimeSpectrum.comap φ η := by
-      show (e ≫ f) η = _
+      change (e ≫ f) η = _
       rw [he]
       rfl
     rw [heval, hbaseTop]
@@ -386,7 +386,7 @@ theorem isReduced_quotient_localization_of_isReduced_fiber
   let qbar : PrimeSpectrum (y.asIdeal.Fiber A) := α ⟨q, hq'⟩
   have hunder : Ideal.comap Algebra.TensorProduct.includeRight.toRingHom qbar.asIdeal =
       q.asIdeal := by
-    show (α.invFun qbar).1.asIdeal = q.asIdeal
+    change (α.invFun qbar).1.asIdeal = q.asIdeal
     simpa [qbar, α, PrimeSpectrum.preimageEquivFiber] using
       congrArg (fun z : {r // PrimeSpectrum.comap (algebraMap R A) r = y} => z.1.asIdeal)
         (α.left_inv ⟨q, hq'⟩)
@@ -514,7 +514,7 @@ private theorem isOpenImmersion_genericPoint_residueField
   let : Algebra (↑R) K := alg
   let algMapη : (↑R) →+* K := @algebraMap (↑R) K _ _ alg
   have : IsFractionRing (↑R) K := by
-    show IsFractionRing (↑R) ((⊥ : Ideal (↑R)).ResidueField)
+    change IsFractionRing (↑R) ((⊥ : Ideal (↑R)).ResidueField)
     infer_instance
   have : IsLocalization.Away π (Localization.Away π) := inferInstance
   have hN : ∀ z : nonZeroDivisors (↑R), ∃ m : (↑R), m * z.1 ∈ Submonoid.powers π := by

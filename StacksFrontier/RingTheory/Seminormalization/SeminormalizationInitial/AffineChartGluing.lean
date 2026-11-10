@@ -169,7 +169,7 @@ public theorem affineSubintegralFactorization_hom_unique
     have h₂ := congrArg (fun q => q.hom c) hψ
     exact h₁.trans h₂.symm
   apply SubintegralFactorization.Hom.ext
-  show m.hom = Scheme.Spec.map (CommRingCat.ofHom ψ.toRingHom).op
+  change m.hom = Scheme.Spec.map (CommRingCat.ofHom ψ.toRingHom).op
   have hgm : Scheme.Spec.map g.op = m.hom := by
     simpa [g, Spec.map] using Spec.map_preimage m.hom
   rw [← hgm]
@@ -239,7 +239,7 @@ public theorem affineSemiNormalization_fac
   dsimp [affineSemiNormalizationFromSource, affineSemiNormalizationToBase,
     affineSemiNormalizationAlgebra]
   rw [Category.assoc, ← Spec.map_comp_assoc]
-  show (f ⁻¹ᵁ U).toSpecΓ ≫ AlgebraicGeometry.Spec.map (f.app U) ≫
+  change (f ⁻¹ᵁ U).toSpecΓ ≫ AlgebraicGeometry.Spec.map (f.app U) ≫
       hU.isoSpec.inv = _
   rw [← Category.assoc, Scheme.Opens.toSpecΓ_naturality f U]
   simp [hU.toSpecΓ_isoSpec_inv]
@@ -328,7 +328,7 @@ public noncomputable def relativeSeminormalization_localization_algHom
   intro a
   apply Subtype.ext
   simp only [RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe,
-    MonoidHom.coe_coe, RingHom.codRestrict_apply, RingHom.coe_comp, RingHom.coe_coe,
+    MonoidHom.coe_ofClass, RingHom.codRestrict_apply, RingHom.coe_comp, RingHom.coe_coe,
     Subalgebra.coe_val, Function.comp_apply, SubalgebraClass.coe_algebraMap,
     Subalgebra.coe_algebraMap, Eₛ, E, φ]
   rw [← IsScalarTower.algebraMap_apply A B Bₛ a]
@@ -475,7 +475,7 @@ public theorem relativeSeminormalization_localization_isLocalization
         (relativeSeminormalization_localization_algHom_val
           A B Aₛ Bₛ S hdom hdomₛ x).symm
       _ = (Eₛ.val.toRingHom.comp φ) (algebraMap E (Localization T) x) := by
-        show Eₛ.val (j x) = Eₛ.val (φ (algebraMap E (Localization T) x))
+        change Eₛ.val (j x) = Eₛ.val (φ (algebraMap E (Localization T) x))
         exact congrArg Eₛ.val (hφBase x).symm
   have hqinj : Function.Injective q :=
     IsLocalization.map_injective_of_injective T (Localization T)
@@ -497,11 +497,11 @@ public theorem relativeSeminormalization_localization_isLocalization
     let y : Localization T := IsLocalization.mk' (Localization T) ⟨b, hb⟩ t
     refine ⟨y, ?_⟩
     apply Subtype.val_injective
-    show (Eₛ.val.toRingHom.comp φ) y = x.1
+    change (Eₛ.val.toRingHom.comp φ) y = x.1
     rw [← hq]
     calc
       q y = IsLocalization.mk' Bₛ b tB := by
-        show IsLocalization.map Bₛ E.val.toRingHom T.le_comap_map
+        change IsLocalization.map Bₛ E.val.toRingHom T.le_comap_map
           (IsLocalization.mk' (Localization T) ⟨b, hb⟩ t) = _
         rw [IsLocalization.map_mk']
         rfl

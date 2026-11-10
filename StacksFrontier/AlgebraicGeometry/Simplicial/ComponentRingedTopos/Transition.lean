@@ -165,7 +165,7 @@ theorem fiberTransitionCommRing_forget {m n : SimplexCategory} (φ : m ⟶ n) :
   rw [fiberTransitionCommRing, CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp,
     CategoryTheory.Functor.map_comp]
   simp only [hrestrict, hcomp, htransition, componentStructureSheafIso_hom_forget]
-  show 𝟙 _ ≫ 𝟙 _ ≫ (S.fiberTransition φ).app
+  change 𝟙 _ ≫ 𝟙 _ ≫ (S.fiberTransition φ).app
         ((sheafCompose S.totalTopology (forget CommRingCat.{u})).obj O) ≫ 𝟙 _ =
       (S.fiberTransition φ).app ((sheafCompose S.totalTopology (forget CommRingCat.{u})).obj O)
   rw [Category.id_comp, Category.id_comp, Category.comp_id]

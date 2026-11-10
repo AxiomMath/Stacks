@@ -174,13 +174,13 @@ theorem existsUnique_lift_of_formallyEtale {F G : (BigFppfOver B S hS)ᵒᵖ ⥤
   subst e e'
   let : Algebra A k := (residueMap A).toAlgebra
   have : IsScalarTower Λ A k := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap Λ k r = A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A r))
+    change algebraMap Λ k r = A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A r))
     rw [← IsLocalRing.ResidueField.algebraMap_eq, ← IsScalarTower.algebraMap_apply,
       AlgEquiv.commutes]
   have hii : i = Space.specOverHom B S hS iΛ hA hk (IsScalarTower.toAlgHom Λ A k) := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Space.toScheme_map_specOverHom]
-    show ((Over.post B.inclusion).map i).left = Spec.map (CommRingCat.ofHom (residueMap A))
+    change ((Over.post B.inclusion).map i).left = Spec.map (CommRingCat.ofHom (residueMap A))
     rw [← hi]
     rfl
   subst hii
@@ -191,7 +191,7 @@ theorem existsUnique_lift_of_formallyEtale {F G : (BigFppfOver B S hS)ᵒᵖ ⥤
     exact ⟨r', by change residueMap A r' = c; simp [residueMap, hr]⟩
   have hker : RingHom.ker (algebraMap A k) = IsLocalRing.maximalIdeal A := by
     ext r
-    show residueMap A r = 0 ↔ _
+    change residueMap A r = 0 ↔ _
     simp [residueMap, IsLocalRing.residue_eq_zero_iff]
   obtain ⟨n, hn⟩ : IsNilpotent (IsLocalRing.maximalIdeal A) := by
     rw [← IsLocalRing.jacobson_eq_maximalIdeal (⊥ : Ideal A) bot_ne_top]
@@ -246,7 +246,7 @@ theorem exists_map_eq_of_formallyEtale (ha : Space.FormallyEtale a)
       (T' := y.point.left) iΛ a ha y.algebra hw₀ y.base y.arrow.left y.arrow_base
       w₀.hom (a.app (op y.point.left) y.point.hom) hy
     have h₁ : (yoneda.obj W).map y.arrow.left.op (f ≫ x.point.hom) = w₀.hom := by
-      show y.arrow.left ≫ f ≫ x.point.hom = w₀.hom
+      change y.arrow.left ≫ f ≫ x.point.hom = w₀.hom
       rw [← Category.assoc, hif]
       exact Over.w x.arrow
     have h₂ : a.app (op y.point.left) (f ≫ x.point.hom) =
@@ -292,7 +292,7 @@ theorem exists_deformationObject_of_formallyEtale (ha : Space.FormallyEtale a)
       ((transport_obj_eq B hS (Over.forget W) p𝒲 K hK w₀).trans hw₀).symm)).symm := by
     apply (Over.post B.inclusion).map_injective
     rw [eqToHom_map, Functor.map_inv, Functor.map_inv]
-    show inv ((p𝒲 ⋙ Over.post B.inclusion).map ψ) = _
+    change inv ((p𝒲 ⋙ Over.post B.inclusion).map ψ) = _
     simp only [hψ, inv_eqToHom]
   have hi : eqToHom (congrArg Over.left hw₀).symm ≫ ((Over.post B.inclusion).map i).left ≫
       eqToHom (congrArg Over.left c.base) =
@@ -327,11 +327,11 @@ theorem exists_deformationObject_of_formallyEtale (ha : Space.FormallyEtale a)
     (Functor.congr_obj hK d.point).symm, ?_, ?_⟩
   · apply StacksRepresentableCFG.pfaithful hset
     rw [Functor.map_comp, Functor.map_comp, hψ'map, map_map_eq_of_comp_eq_forget hK]
-    show p𝒲.map c.arrow ≫ _ = p𝒲.map ψ ≫ _ ≫ (eqToHom hwK.symm ≫
+    change p𝒲.map c.arrow ≫ _ = p𝒲.map ψ ≫ _ ≫ (eqToHom hwK.symm ≫
       p𝒲.map (inv ψ ≫ c.arrow)) ≫ _
     rw [Functor.map_comp, Functor.map_inv]
     simp
-  · show (Over.post B.inclusion).map (p𝒲.map ψ') = _
+  · change (Over.post B.inclusion).map (p𝒲.map ψ') = _
     rw [hψ'map, eqToHom_map]
 
 /-- **Stacks 0DSB, the étale chart step.** Let `𝒲` be a category fibred in groupoids over the big

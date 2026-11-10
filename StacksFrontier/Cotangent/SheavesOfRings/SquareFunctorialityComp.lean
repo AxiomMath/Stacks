@@ -169,7 +169,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
 same underlying sheaf of sets, and the comparison `Under.mapComp` is the identity on it. -/
 lemma forgetAlgebraSheaf_map_mapComp_hom_app (a : A ⟶ A') (a' : A' ⟶ A'') (Z : Under A'') :
     (forgetAlgebraSheaf.{v, u, w} J A).map ((Under.mapComp a a').hom.app Z) = 𝟙 _ := by
-  show (sheafForget J).map ((Under.mapComp a a').hom.app Z).right = _
+  change (sheafForget J).map ((Under.mapComp a a').hom.app Z).right = _
   rw [Under.mapComp_hom_app_right]
   exact (sheafForget J).map_id _
 

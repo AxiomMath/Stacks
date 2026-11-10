@@ -110,16 +110,15 @@ def σJ : extJ C J ≃+ extJ D J where
   map_add' x y := by ext; simp
 
 omit [Module (C ⧸ extJ C J) (extJ C J)] [IsScalarTower C (C ⧸ extJ C J) (extJ C J)] in
-include hσ hinv hJ in
+include hJ in
 /-- If `J ^ 2 = ⊥`, the `C`-module `C ⊗[B] J D` is annihilated by `J C`. -/
 lemma isTorsionBySet_C_tensor :
     Module.IsTorsionBySet C (C ⊗[B] extJ D J) (extJ C J) := by
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => exact smul_zero _
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => rw [smul_add, ha, hb, add_zero]
   | tmul c w =>
-    show ((y : C) * c) ⊗ₜ w = 0
+    change ((y : C) * c) ⊗ₜ w = 0
     have key : ∀ z ∈ extJ C J, z ⊗ₜ[B] w = 0 := by
       intro z hz
       induction hz using Submodule.span_induction with
@@ -152,7 +151,7 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
   let : Module A₀ (extJ D J) := Module.compHom _ (algebraMap A₀ (B ⧸ J))
   have : IsScalarTower A₀ (B ⧸ J) (extJ D J) :=
     ⟨fun a b w => by rw [Algebra.smul_def, mul_smul]; rfl⟩
-  have hTN := isTorsionBySet_C_tensor s J σ hσ hJ hinv
+  have hTN := isTorsionBySet_C_tensor (C := C) J (D := D) hJ
   let : Module (C ⧸ extJ C J) (C ⊗[B] extJ D J) := hTN.module
   have : IsScalarTower C (C ⧸ extJ C J) (C ⊗[B] extJ D J) := hTN.isScalarTower
   let : Module (B ⧸ J) (C ⊗[B] extJ D J) :=
@@ -163,7 +162,7 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
     fun c n => Module.IsTorsionBySet.mk_smul hTN c n
   have : IsScalarTower B (B ⧸ J) (C ⊗[B] extJ D J) := ⟨fun b β n => by
     obtain ⟨b', rfl⟩ := Ideal.Quotient.mk_surjective β
-    show (algebraMap (B ⧸ J) (C ⧸ extJ C J) (b • Ideal.Quotient.mk J b')) • n =
+    change (algebraMap (B ⧸ J) (C ⧸ extJ C J) (b • Ideal.Quotient.mk J b')) • n =
       b • (algebraMap (B ⧸ J) (C ⧸ extJ C J) (Ideal.Quotient.mk J b') • n)
     rw [show b • Ideal.Quotient.mk J b' = Ideal.Quotient.mk J (b * b') from rfl, t₀_mk, t₀_mk,
       hmkN, hmkN, map_mul, mul_smul, algebraMap_smul]⟩
@@ -171,7 +170,7 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
   have : IsScalarTower A₀ (C ⧸ extJ C J) (C ⊗[B] extJ D J) :=
     ⟨fun a y n => by rw [Algebra.smul_def, mul_smul]; rfl⟩
   have : IsScalarTower A₀ (B ⧸ J) (C ⊗[B] extJ D J) := ⟨fun a β n => by
-    show algebraMap (B ⧸ J) (C ⧸ extJ C J) (a • β) • n =
+    change algebraMap (B ⧸ J) (C ⧸ extJ C J) (a • β) • n =
       algebraMap A₀ (C ⧸ extJ C J) a • algebraMap (B ⧸ J) (C ⧸ extJ C J) β • n
     rw [Algebra.smul_def, map_mul, mul_smul, ← IsScalarTower.algebraMap_apply]⟩
   let ℓ : extJ D J →ₗ[B ⧸ J] C ⊗[B] extJ D J :=
@@ -187,11 +186,10 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
     have hid : ∀ z : C ⊗[B] extJ D J,
         LinearMap.liftBaseChange C (ℓ.restrictScalars B) z = z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul c w =>
         rw [LinearMap.liftBaseChange_tmul]
-        show c • ((1 : C) ⊗ₜ[B] w) = c ⊗ₜ w
+        change c • ((1 : C) ⊗ₜ[B] w) = c ⊗ₜ w
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       | add a b ha hb => rw [map_add, ha, hb]
     rwa [hid, hid] at hxy
@@ -200,7 +198,7 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
     let : Module P (C ⊗[B] extJ D J) := Module.compHom _ σP
     have : IsScalarTower A₀ P (C ⊗[B] extJ D J) := ⟨fun a b n => by
       rw [Algebra.smul_def]
-      show σP (algebraMap A₀ P a * b) • n = a • (σP b • n)
+      change σP (algebraMap A₀ P a * b) • n = a • (σP b • n)
       rw [map_mul, mul_smul, hP, ← IsScalarTower.algebraMap_apply, algebraMap_smul]⟩
     let ℓA : extJ D J →ₗ[A₀] C ⊗[B] extJ D J :=
       { toFun := ℓ
@@ -211,7 +209,7 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
   have hξ : Function.Injective ξ :=
     injective_pushout_comparison (cmpPEquiv J σP hP hbij)
       (fun _ _ => rfl) κ' hκ' ξ (fun b w => by
-        show _ = _ • ((1 : C ⧸ extJ C J) • ℓ w)
+        change _ = _ • ((1 : C ⧸ extJ C J) • ℓ w)
         rw [one_smul]
         rfl)
   let incl := LinearMap.lTensor C ((extJ D J).subtype.restrictScalars B)
@@ -228,11 +226,11 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
           rw [← algebraMap_smul (C ⧸ extJ C J) a z, IsScalarTower.algebraMap_apply A₀ (B ⧸ J),
             ← hb, t₀_mk, mk_smul_extJ, algebraMap_smul]
         have h2 : ∀ w : extJ D J, (a • w : extJ D J) = b • w := fun w => by
-          show algebraMap A₀ (B ⧸ J) a • w = _
+          change algebraMap A₀ (B ⧸ J) a • w = _
           rw [← hb, mk_smul_of_tower]
         rw [RingHom.id_apply, h1, h2]
         ext
-        show σ ((algebraMap B C b • z : extJ C J) : C) = ((b • σJ s J σ hσ hinv z : extJ D J) : D)
+        change σ ((algebraMap B C b • z : extJ C J) : C) = ((b • σJ s J σ hσ hinv z : extJ D J) : D)
         rw [Submodule.coe_smul_of_tower, Submodule.coe_smul_of_tower, Algebra.smul_def,
           Algebra.smul_def, Algebra.algebraMap_self, RingHom.id_apply, ← hz, map_mul, hσ]
         rfl }
@@ -242,9 +240,9 @@ lemma exists_injective_triple [Module.Flat B C] {P : Type*} [CommRing P] [Algebr
   · exact hincl.comp (hξ.comp (LinearEquiv.lTensor P σA).injective)
   · intro y z c hc
     have h : ξ (y ⊗ₜ σA z) = c ⊗ₜ σA z := by
-      show σP y • ((1 : C) ⊗ₜ[B] σA z) = _
+      change σP y • ((1 : C) ⊗ₜ[B] σA z) = _
       rw [← hc, hmkN, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-    show incl (ξ (y ⊗ₜ σA z)) = _
+    change incl (ξ (y ⊗ₜ σA z)) = _
     rw [h]
     rfl
 
@@ -268,26 +266,26 @@ variable {A₀ : Type u} [CommRing A₀] [Algebra A₀ (B ⧸ J)] [Algebra A₀ 
 /-- The comparison `α : B₀ ⊗[A₀] J ≅ J C`, as an equivalence. -/
 noncomputable abbrev αE : (B ⧸ J) ⊗[A₀] J ≃ₗ[A₀] extJ C J :=
   LinearEquiv.ofBijective (α s J hinv hcomp)
-    (α_bijective (s := s) (J := J) (hJ := hJ) (hinv := hinv) (hcomp := hcomp) hbij)
+    (α_bijective (s := s) (J := J) (hinv := hinv) (hcomp := hcomp) hbij)
 
 /-- The coaction of the descent datum on `J`: restriction along `s`, read through `α`. -/
 noncomputable def coaction : J →ₗ[B ⧸ J] (B ⧸ J) ⊗[A₀] J where
-  toFun n := (αE s J hJ hinv hcomp hbij).symm
+  toFun n := (αE s J hinv hcomp hbij).symm
     (sJ (s := s) (J := J) (hJ := hJ) (hinv := hinv) (hcomp := hcomp) n)
   map_add' x y := by simp
   map_smul' β n := by
-    apply (αE s J hJ hinv hcomp hbij).injective
+    apply (αE s J hinv hcomp hbij).injective
     rw [LinearEquiv.apply_symm_apply, RingHom.id_apply]
-    change _ = α s J hinv hcomp (β • (αE s J hJ hinv hcomp hbij).symm _)
+    change _ = α s J hinv hcomp (β • (αE s J hinv hcomp hbij).symm _)
     rw [α_smul, sJ_smul]
     congr 1
-    exact ((αE s J hJ hinv hcomp hbij).apply_symm_apply _).symm
+    exact ((αE s J hinv hcomp hbij).apply_symm_apply _).symm
 
 /-- `α` sends the coaction of `n` to `sJ n`. -/
 lemma α_coaction (n : J) :
     α s J hinv hcomp (coaction s J hJ hinv hcomp hbij n) =
       sJ (s := s) (J := J) (hJ := hJ) (hinv := hinv) (hcomp := hcomp) n :=
-  (αE s J hJ hinv hcomp hbij).apply_symm_apply _
+  (αE s J hinv hcomp hbij).apply_symm_apply _
 
 omit [Module.Flat B C] in
 /-- The unit `e : C → B` of the groupoid restricted to `J C → J`, a retraction of `sJ`. -/
@@ -320,8 +318,7 @@ lemma counit_coaction (e : C →+* B) (hes : ∀ b, e (s b) = b)
     (α s J hinv hcomp) (sJ (s := s) (J := J) (hJ := hJ) (hinv := hinv) (hcomp := hcomp))
     (fun n => (α_coaction s J hJ hinv hcomp hbij n).symm) (unitRestrict (A₀ := A₀) J e het)
     (fun n => Subtype.ext (by simp [hes])) (fun x => ?_) n
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul β j =>
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective β
     rw [Module.Descent.counit_tmul, mk_smul_of_tower, α_tmul]
@@ -345,7 +342,7 @@ lemma coassoc (n : J) :
       TensorProduct.AlgebraTensorModule.lTensor (B ⧸ J) (B ⧸ J)
         (TensorProduct.mk A₀ (B ⧸ J) J 1) (coaction s J hJ hinv hcomp hbij n) := by
   obtain ⟨ι, hι, hιf⟩ := exists_injective_triple s J σ hσ hJ hinv hcomp (s₀ s J hinv) hcomp hbij
-  let L := LinearEquiv.lTensor (B ⧸ J) (αE s J hJ hinv hcomp hbij)
+  let L := LinearEquiv.lTensor (B ⧸ J) (αE s J hinv hcomp hbij)
   have hL : ∀ y : B ⧸ J, ∀ x : (B ⧸ J) ⊗[A₀] J,
       L (y ⊗ₜ x) = y ⊗ₜ α s J hinv hcomp x := fun _ _ => rfl
   have hF : ∀ x : (B ⧸ J) ⊗[A₀] J,
@@ -353,8 +350,7 @@ lemma coassoc (n : J) :
         ((coaction s J hJ hinv hcomp hbij).restrictScalars A₀) x)) =
         ((α s J hinv hcomp x : extJ C J) : C) ⊗ₜ[B] (1 : D) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y j =>
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
       rw [TensorProduct.AlgebraTensorModule.lTensor_tmul, LinearMap.restrictScalars_apply, hL,
@@ -367,8 +363,7 @@ lemma coassoc (n : J) :
       ι (L (TensorProduct.AlgebraTensorModule.lTensor (B ⧸ J) (B ⧸ J)
         (TensorProduct.mk A₀ (B ⧸ J) J 1) x)) = m ((α s J hinv hcomp x : extJ C J) : C) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y j =>
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
       rw [TensorProduct.AlgebraTensorModule.lTensor_tmul, TensorProduct.mk_apply, hL,
@@ -401,8 +396,8 @@ lemma mem_descended_iff (e : C →+* B) (hes : ∀ b, e (s b) = b)
     rw [α_coaction, sJ_apply, α_tmul, map_one, one_smul, tJ_apply] at h'
     exact h'
   · intro h
-    apply (αE s J hJ hinv hcomp hbij).injective
-    show α s J hinv hcomp (coaction s J hJ hinv hcomp hbij n) = α s J hinv hcomp (1 ⊗ₜ n)
+    apply (αE s J hinv hcomp hbij).injective
+    change α s J hinv hcomp (coaction s J hJ hinv hcomp hbij n) = α s J hinv hcomp (1 ⊗ₜ n)
     rw [α_coaction, α_tmul, map_one, one_smul]
     ext
     rw [sJ_apply, tJ_apply, h]
@@ -425,11 +420,11 @@ lemma exists_sub_mem_eqLocus [Module.FaithfullyFlat A₀ (B ⧸ J)] (e : C →+*
   obtain ⟨ι, hι, hιf⟩ := exists_injective_triple s J σ hσ hJ hinv hcomp (s₀ s J hinv) hcomp hbij
   set x : extJ C J := ⟨s b - algebraMap B C b, hb⟩
   let L : (B ⧸ J) ⊗[A₀] ((B ⧸ J) ⊗[A₀] J₀) ≃ₗ[A₀] extJ C J :=
-    (LinearEquiv.lTensor (B ⧸ J) (β.restrictScalars A₀)).trans (αE s J hJ hinv hcomp hbij)
+    (LinearEquiv.lTensor (B ⧸ J) (β.restrictScalars A₀)).trans (αE s J hinv hcomp hbij)
   have hL : ∀ (y₁ y₂ : B) (i : J₀),
       (L (Ideal.Quotient.mk J y₁ ⊗ₜ (Ideal.Quotient.mk J y₂ ⊗ₜ i)) : C) =
         s y₁ * algebraMap B C (y₂ * (i : B)) := fun y₁ y₂ i => by
-    show ((α s J hinv hcomp (Ideal.Quotient.mk J y₁ ⊗ₜ β (Ideal.Quotient.mk J y₂ ⊗ₜ i)) :
+    change ((α s J hinv hcomp (Ideal.Quotient.mk J y₁ ⊗ₜ β (Ideal.Quotient.mk J y₂ ⊗ₜ i)) :
       extJ C J) : C) = _
     rw [hβ, α_tmul, s₀_mk, mk_smul_extJ, Submodule.coe_smul_of_tower, tJ_apply,
       mk_smul_of_tower, smul_eq_mul]
@@ -446,12 +441,10 @@ lemma exists_sub_mem_eqLocus [Module.FaithfullyFlat A₀ (B ⧸ J)] (e : C →+*
   have hcoc : ∀ w, Φ (Module.Descent.amitsurDiff₁ A₀ (B ⧸ J) J₀ w) =
       (q - m.toAddMonoidHom + p) ((L w : extJ C J) : C) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => simp only [map_add, hw, hw', Submodule.coe_add]
     | tmul y₁ w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' => simp only [TensorProduct.tmul_add, map_add, hw, hw', Submodule.coe_add]
       | tmul y₂ i =>
         obtain ⟨b₁, rfl⟩ := Ideal.Quotient.mk_surjective y₁
@@ -474,7 +467,7 @@ lemma exists_sub_mem_eqLocus [Module.FaithfullyFlat A₀ (B ⧸ J)] (e : C →+*
         rw [h3, map_one, one_mul]
         simp only [q, p, AddMonoidHom.add_apply, AddMonoidHom.sub_apply,
           RingHom.toAddMonoidHom_eq_coe,
-          AddMonoidHom.coe_coe, RingHom.coe_comp, Function.comp_apply, AlgHom.toRingHom_eq_coe,
+          AddMonoidHom.coe_ofClass, RingHom.coe_comp, Function.comp_apply, AlgHom.toRingHom_eq_coe,
           RingHom.coe_coe, Algebra.TensorProduct.includeRight_apply,
           Algebra.TensorProduct.includeLeft_apply, hmw]
   have hy : Module.Descent.amitsurDiff₁ A₀ (B ⧸ J) J₀ y = 0 := by
@@ -485,17 +478,17 @@ lemma exists_sub_mem_eqLocus [Module.FaithfullyFlat A₀ (B ⧸ J)] (e : C →+*
       rw [hσ]
       exact Algebra.TensorProduct.tmul_one_eq_one_tmul b
     simp only [q, p, x, AddMonoidHom.add_apply, AddMonoidHom.sub_apply,
-      RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, RingHom.coe_comp, Function.comp_apply,
-      AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.includeRight_apply,
-      Algebra.TensorProduct.includeLeft_apply, map_sub, hms, hmt', hpt]
+      RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, RingHom.coe_comp,
+      Function.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
+      Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.includeLeft_apply,
+      map_sub, hms, hmt', hpt]
     abel
   obtain ⟨z, hz⟩ := Module.Descent.exists_amitsurDiff₀_eq A₀ (B ⧸ J) J₀ hy
   have hcob : ∀ z : (B ⧸ J) ⊗[A₀] J₀,
       ((L (Module.Descent.amitsurDiff₀ A₀ (B ⧸ J) J₀ z) : extJ C J) : C) =
         s ((β z : J) : B) - algebraMap B C ((β z : J) : B) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       simp only [map_add, Submodule.coe_add, hz, hz']
       ring

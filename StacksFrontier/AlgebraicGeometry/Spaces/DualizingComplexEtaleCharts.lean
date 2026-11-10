@@ -50,10 +50,12 @@ dualizing complex on `X` by these equivalent conditions.
 categories (`AlgebraicGeometry.Space.representedChartDerivedRestriction`); the small étale site of
 `h_U` is that of the scheme of `U`, and `ε^*` is
 `AlgebraicGeometry.Space.representedDerivedAssociatedModule`. Both are in
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedAssociatedModuleEtalePullback.lean`, together with
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedAssociatedModuleEtalePullback.lean`,
+together with
 the two facts the proof uses about them: `ε^*` commutes with étale pullback
 (`AlgebraicGeometry.Space.representedDerivedAssociatedModulePullbackIso`), and, by Stacks 071Q,
-every object with quasi-coherent cohomology is `ε^*` of one (`exists_representedDerivedAssociatedModule_iso`)
+every object with quasi-coherent cohomology is `ε^*` of one
+(`exists_representedDerivedAssociatedModule_iso`)
 while `ε^*` reflects isomorphisms there (`nonempty_iso_of_representedDerivedAssociatedModule_iso`).
 
 **The proof of 0E4Y.** Given a surjective étale chart `φ : h_U ⟶ X` with `K|_U ≅ ε^*ω_U` and an

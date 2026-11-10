@@ -126,7 +126,7 @@ theorem iSup_tupleOpen_single (hn : 0 < n) :
     (⊤ : (coordinateBlowup R m n).Opens) ≤ ⨆ j : Fin n, (tupleOpen R m n (single n j)).1 := by
   rw [← iSup_chart R m n hn]
   refine iSup_mono fun j => ?_
-  show chart R m n j ≤ (coordinateBlowup R m n).basicOpen (tupleRatio R m n (single n j))
+  change chart R m n j ≤ (coordinateBlowup R m n).basicOpen (tupleRatio R m n (single n j))
   rw [← iInf_chart]
   exact le_iInf fun k => by rw [Fin.fin_one_eq_zero k]; rfl
 
@@ -139,7 +139,7 @@ theorem res_top_injective (hn : 0 < n) (i : ℕ) :
     (fun j : Fin n => (tupleOpen R m n (single n j)).1) ⊤
     (fun j : Fin n => homOfLE le_top) (iSup_tupleOpen_single R m n hn) μ μ' fun j => ?_
   refine res_tuple_injective R m n hn i (single n j) ?_
-  show res _ _ (res _ _ μ) = res _ _ (res _ _ μ')
+  change res _ _ (res _ _ μ) = res _ _ (res _ _ μ')
   rw [Stacks.Cohomology.Basis.res_res, Stacks.Cohomology.Basis.res_res]
   exact h
 
@@ -182,7 +182,7 @@ theorem bijective_globalTwist (hn : 0 < n) (i : ℕ) (hi : i < n) :
   refine ⟨fun a a' haa' =>
       polyLaurent_injective R m n (AddMonoidAlgebra.coeffAddEquiv.injective ?_),
     fun μ => ?_⟩
-  · show (polyLaurent R m n a).coeff = (polyLaurent R m n a').coeff
+  · change (polyLaurent R m n a).coeff = (polyLaurent R m n a').coeff
     rw [← puncturedValueAb_globalTwist R m n hn i, ← puncturedValueAb_globalTwist R m n hn i, haa']
   · obtain ⟨a, ha⟩ := exists_polyLaurent_eq R m n _ (nonneg_of_forall_mem_supported R m n hi
       (fun j => puncturedValueAb_res_top_mem R m n hn i j μ))

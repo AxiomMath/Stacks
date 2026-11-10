@@ -48,7 +48,7 @@ variable {S : Type*} [CommRing S]
 /-- The image of `SymmetricAlgebra.ι` lies in `Sym¹ N`. -/
 theorem ι_mem_symmetricPower_one (v : N) :
     SymmetricAlgebra.ι S N v ∈ symmetricPower 1 S N := by
-  show _ ∈ (LinearMap.range (SymmetricAlgebra.ι S N)) ^ 1
+  change _ ∈ (LinearMap.range (SymmetricAlgebra.ι S N)) ^ 1
   rw [pow_one]
   exact LinearMap.mem_range_self _ v
 
@@ -86,7 +86,7 @@ private theorem symMulMap_id_surjective_aux (k : ℕ) :
   intro y
   have hle : symmetricPower (k + 1) S E ≤
       (LinearMap.range (symMulMap k (LinearMap.id : E →ₗ[S] E))).map (Submodule.subtype _) := by
-    show (LinearMap.range (SymmetricAlgebra.ι S E)) ^ (k + 1) ≤ _
+    change (LinearMap.range (SymmetricAlgebra.ι S E)) ^ (k + 1) ≤ _
     rw [pow_succ', Submodule.mul_le]
     rintro _ ⟨a, rfl⟩ n hn
     exact ⟨symMulMap k LinearMap.id (a ⊗ₜ ⟨n, hn⟩), LinearMap.mem_range_self _ _, rfl⟩
@@ -101,7 +101,7 @@ theorem sqMul_id_surjective : Function.Surjective (sqMul (LinearMap.id : E →�
 theorem sqMul_comp_lTensor (h : E →ₗ[S] N) :
     sqMul h ∘ₗ LinearMap.lTensor E h = symMap (1 + 1) h ∘ₗ sqMul LinearMap.id := by
   refine TensorProduct.ext' fun e e' => Subtype.ext ?_
-  show SymmetricAlgebra.ι S N (h e) * SymmetricAlgebra.ι S N (h e') =
+  change SymmetricAlgebra.ι S N (h e) * SymmetricAlgebra.ι S N (h e') =
     symAlgMap h (SymmetricAlgebra.ι S E e * SymmetricAlgebra.ι S E e')
   rw [map_mul, symAlgMap_ι, symAlgMap_ι]
 
@@ -120,7 +120,7 @@ theorem sqMul_id_comp_lTensor_retraction (f : E →ₗ[S] F) (r : F →ₗ[S] E)
     (hrf : r ∘ₗ f = LinearMap.id) :
     sqMul LinearMap.id ∘ₗ LinearMap.lTensor E r = symMap (1 + 1) r ∘ₗ sqMul f := by
   refine TensorProduct.ext' fun e v => Subtype.ext ?_
-  show SymmetricAlgebra.ι S E e * SymmetricAlgebra.ι S E (r v) =
+  change SymmetricAlgebra.ι S E e * SymmetricAlgebra.ι S E (r v) =
     symAlgMap r (SymmetricAlgebra.ι S F (f e) * SymmetricAlgebra.ι S F v)
   rw [map_mul, symAlgMap_ι, symAlgMap_ι, apply_eq_of_comp_eq_id hrf]
 
@@ -164,7 +164,7 @@ theorem detect_sqMul (f : E →ₗ[S] F) (r : F →ₗ[S] E) (g : F →ₗ[S] G)
         LinearMap.lTensor E g := by
     refine TensorProduct.ext' fun e v => ?_
     have hg : g (f e) = 0 := by rw [← LinearMap.comp_apply g f, hgf, LinearMap.zero_apply]
-    show detect r g (SymmetricAlgebra.ι S F (f e) * SymmetricAlgebra.ι S F v) =
+    change detect r g (SymmetricAlgebra.ι S F (f e) * SymmetricAlgebra.ι S F v) =
       TrivSqZeroExt.inr e ⊗ₜ TrivSqZeroExt.inr (g v)
     rw [map_mul, detect_ι, detect_ι, apply_eq_of_comp_eq_id hrf, hg,
       TrivSqZeroExt.inr_zero, TensorProduct.tmul_zero, add_zero, mul_add,
@@ -225,10 +225,10 @@ theorem exists_lTensor_eq_of_sqMul_eq_zero (f : E →ₗ[S] F) (g : F →ₗ[S] 
   obtain ⟨s₀, hs₀⟩ := Module.projective_lifting_property g LinearMap.id hg
   let s : G →ₗ[S] F := s₀ - f ∘ₗ r ∘ₗ s₀
   have hgs : ∀ c, g (s c) = c := fun c => by
-    show g (s₀ c - f (r (s₀ c))) = c
+    change g (s₀ c - f (r (s₀ c))) = c
     rw [map_sub, hfg.apply_apply_eq_zero, sub_zero, apply_eq_of_comp_eq_id hs₀]
   have hrs : ∀ c, r (s c) = 0 := fun c => by
-    show r (s₀ c - f (r (s₀ c))) = 0
+    change r (s₀ c - f (r (s₀ c))) = 0
     rw [map_sub, hrfe, sub_self]
   have hsplit : f ∘ₗ r + s ∘ₗ g = LinearMap.id := by
     refine LinearMap.ext fun v => ?_
@@ -238,7 +238,7 @@ theorem exists_lTensor_eq_of_sqMul_eq_zero (f : E →ₗ[S] F) (g : F →ₗ[S] 
       have := congrArg r he
       rwa [hrfe, map_sub, map_sub, hrfe, hrs, sub_self, sub_zero] at this
     rw [he0, map_zero] at he
-    show f (r v) + s (g v) = v
+    change f (r v) + s (g v) = v
     rw [eq_comm, ← sub_eq_zero, ← sub_sub]
     exact he.symm
   have hw : sqMul LinearMap.id (LinearMap.lTensor E r z) = 0 := by
@@ -276,7 +276,7 @@ theorem symMulMap_comp_lTensor_symMap (k : ℕ) (h : E →ₗ[S] N) :
     symMulMap k h ∘ₗ LinearMap.lTensor E (symMap k h) =
       symMap (k + 1) h ∘ₗ symMulMap k LinearMap.id := by
   refine TensorProduct.ext' fun e y => Subtype.ext ?_
-  show SymmetricAlgebra.ι S N (h e) * symAlgMap h (y : SymmetricAlgebra S E) =
+  change SymmetricAlgebra.ι S N (h e) * symAlgMap h (y : SymmetricAlgebra S E) =
     symAlgMap h (SymmetricAlgebra.ι S E e * (y : SymmetricAlgebra S E))
   rw [map_mul, symAlgMap_ι]
 

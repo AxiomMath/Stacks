@@ -216,7 +216,7 @@ theorem BivariantClass.idRule_mulId {p q : ℤ}
   refine h1.trans ?_
   have hff : (𝟙 X ≫ 𝟙 X) ≫ sX = sX :=
     comp_comp_structureMorphism_eq (Category.id_comp sX) (Category.id_comp sX)
-  show pullbackSndPush C sX hff g (k - (p + q))
+  change pullbackSndPush C sX hff g (k - (p + q))
       (chowGroupDegreeEquiv C (pullback.fst (𝟙 X ≫ 𝟙 X) g ≫ sX) (by ring : k - q - p = k - (p + q))
         (properChowPushforward C (pullback.fst (𝟙 X) (pullback.fst (𝟙 X) g) ≫ sX)
           (pullback.fst (𝟙 X ≫ 𝟙 X) g ≫ sX)

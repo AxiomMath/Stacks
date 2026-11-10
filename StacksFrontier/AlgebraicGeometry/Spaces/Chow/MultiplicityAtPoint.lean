@@ -151,11 +151,11 @@ private theorem isNoetherianRing_etaleLocalRing_of_hasEtaleLocalProperty
   obtain ⟨U, f, hSurj, hEtale, hUloc⟩ := hNloc
   obtain ⟨⟨V, hVU⟩⟩ := exists_pointed_smallEtaleNeighborhood B S hS F hF x f hSurj hEtale
   have hV : (bigEtaleSiteOfFppfSite B).Contains (chartScheme V.chart) := by
-    show ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left).size < B.cutoff
+    change ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left).size < B.cutoff
     rw [hVU]
     exact U.left.property
   have hVnoeth : IsLocallyNoetherian (chartScheme V.chart) := by
-    show IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left)
+    change IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left)
     rw [hVU]
     exact hUloc
   let R := (chartScheme V.chart).presheaf.stalk

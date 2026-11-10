@@ -200,7 +200,7 @@ private theorem map_toOver_mem_baseOverTopology {X : SmallEtale B S hS F} (R : P
         ((SmallEtale.toOver B S hS F).obj X) := by
   obtain ⟨E, rfl, hE⟩ := hR
   rw [GrothendieckTopology.mem_toPrecoverage_iff, GrothendieckTopology.mem_over_iff]
-  show (Sieve.generate (E.presieve₀.map (SmallEtale.toOver B S hS F))).functorPushforward
+  change (Sieve.generate (E.presieve₀.map (SmallEtale.toOver B S hS F))).functorPushforward
     (Over.forget (B.obj hS)) ∈ _
   rw [← Sieve.generate_map_eq_functorPushforward, ← presieve_map_comp]
   exact Precoverage.Saturate.of _ _
@@ -543,7 +543,7 @@ theorem inverseImage_structureSheaf_eq (hp : p.IsFiberedInGroupoids)
         (FibredSite.structureSheaf B S hS p hp .etale) = structureSheaf B S hS F hF := by
   let _ := restrictionFunctor_isContinuous B S hS F p hp e
   apply ObjectProperty.FullSubcategory.ext
-  show (restrictionFunctor B S hS F p e ⋙ p).op ⋙
+  change (restrictionFunctor B S hS F p e ⋙ p).op ⋙
       (BigFppfOver.toScheme B S hS).op ⋙ Scheme.Γ =
     (SmallEtale.toOver B S hS F ⋙ BigFppfOver.toScheme B S hS).op ⋙ Scheme.Γ
   rw [restrictionFunctor_comp]
@@ -655,12 +655,12 @@ private theorem singleton_etale_mem {V W : B.Schemes} (f : V ⟶ W)
   refine ⟨PreZeroHypercover.singleton f, (PreZeroHypercover.presieve₀_singleton f).symm, ?_⟩
   constructor
   · constructor
-    · show (PreZeroHypercover.singleton f).presieve₀.map B.inclusion ∈
+    · change (PreZeroHypercover.singleton f).presieve₀.map B.inclusion ∈
         Scheme.fppfPrecoverage _
       rw [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton]
       exact Scheme.Hom.singleton_mem_fppfPrecoverage _
     · exact ((B.isSite).1 (𝟙 W)).2
-  · show ((PreZeroHypercover.singleton f).map B.inclusion).presieve₀ ∈
+  · change ((PreZeroHypercover.singleton f).map B.inclusion).presieve₀ ∈
       Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_singleton,
       Presieve.map_singleton]
@@ -715,7 +715,7 @@ theorem exists_restrictionFunctor_coversTop_singleton (hF : IsAlgebraicSpace B S
     · have hb : Sieve.generate (Presieve.singleton b.left) ∈
           (BigFppfOver.baseOverTopology B S hS .etale) V.left := by
         rw [GrothendieckTopology.mem_over_iff]
-        show (Sieve.generate (Presieve.singleton b.left)).functorPushforward
+        change (Sieve.generate (Presieve.singleton b.left)).functorPushforward
           (Over.forget (B.obj hS)) ∈ _
         rw [← Sieve.generate_map_eq_functorPushforward, Presieve.map_singleton]
         let : Etale (B.inclusion.map b.left.left) := he.property_snd V.hom

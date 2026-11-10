@@ -187,7 +187,7 @@ theorem geometricGenus_le_finSepDegree_mul_genus_toSpecΓ_of_irreducible
     geometricGenus k g ≤ Field.finSepDegree k Γ(X, ⊤) * genus X.toSpecΓ := by
   let : Field Γ(X, ⊤) := (isField_of_universallyClosed k g).toField
   let : Algebra k Γ(X, ⊤) := ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop).hom.toAlgebra
-  show geometricGenus k g ≤ Field.finSepDegree k Γ(X, ⊤) * genus X.toSpecΓ
+  change geometricGenus k g ≤ Field.finSepDegree k Γ(X, ⊤) * genus X.toSpecΓ
   rw [finSepDegree_globalSections_eq_one k g, one_mul, genus_toSpecΓ_eq_genus k g]
   exact geometricGenus_le_genus_of_irreducible k g hirr hred hdim
 

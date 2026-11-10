@@ -194,8 +194,7 @@ a single `n`. -/
 public theorem exists_lTensor_mkLin_eq (u : M ⊗[ℬ 0] Away ℬ f) :
     ∃ (n : ℕ) (v : M ⊗[ℬ 0] piece₀ ℬ (n • d)),
       LinearMap.lTensor M (mkLin ℬ hf n) v = u := by
-  induction u using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, map_zero _⟩
+  induction u using TensorProduct.inductionOn with
   | tmul m z =>
       obtain ⟨n, x, hx⟩ := mkLin_jointly_surjective ℬ hf z
       exact ⟨n, m ⊗ₜ x, by rw [LinearMap.lTensor_tmul, hx]⟩

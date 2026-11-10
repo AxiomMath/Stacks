@@ -235,6 +235,7 @@ theorem existsUnique_chowCohomologyRestriction_eq_of_naturality
     fun e he ↦ huniq e ((chowCohomologyRestriction_eq_iff_bivariantRestriction_eq C G sX g p hgys
       e d).1 he)⟩
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType g] in
 /-- The two projections of `Y ×_X Y` present the same structure morphism of `Y ×_X Y` over the
 base. -/
 theorem selfPullbackSnd_comp_structureMorphism_eq :

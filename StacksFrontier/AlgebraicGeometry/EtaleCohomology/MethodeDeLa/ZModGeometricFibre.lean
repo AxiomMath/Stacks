@@ -309,7 +309,8 @@ theorem card_zmodGeometricFibre_constant_and_smul [NeZero ℓ]
   obtain ⟨hcard, htriv⟩ := card_finiteEtaleFiber_trivialCover_and_smul x (ULift.{u} (ZMod ℓ))
   refine ⟨by rw [Nat.card_congr e, hcard, Nat.card_ulift, Nat.card_zmod], fun σ a ↦ ?_⟩
   apply e.injective
-  have hn := congrArg (fun f ↦ f (zmodGeometricFibreEquiv ℓ B X x K a)) (σ.asIso.hom.naturality φ.hom)
+  have hn := congrArg (fun f ↦ f (zmodGeometricFibreEquiv ℓ B X x K a))
+    (σ.asIso.hom.naturality φ.hom)
   simp only [types_comp_apply] at hn
   change (finiteEtaleFiberFunctor x).map φ.hom (zmodGeometricFibreEquiv ℓ B X x K _) =
     (finiteEtaleFiberFunctor x).map φ.hom (zmodGeometricFibreEquiv ℓ B X x K a)

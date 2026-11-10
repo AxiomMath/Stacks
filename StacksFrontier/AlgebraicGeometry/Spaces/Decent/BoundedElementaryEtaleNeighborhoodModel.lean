@@ -295,7 +295,7 @@ private theorem exists_boundedIndex_hom (E : ElementaryEtaleNeighborhood B S hS 
     have hja : (BigFppfOver.toScheme B S hS).map j = cover.f (cover.idx E.point) :=
       B.inclusion.map_preimage _
     refine ⟨W, j, ?_, ?_, c₀, ?_⟩
-    · show IsAffine (Spec (cover.X (cover.idx E.point)))
+    · change IsAffine (Spec (cover.X (cover.idx E.point)))
       infer_instance
     · rw [hja]
       exact cover.map_prop (cover.idx E.point)
@@ -349,12 +349,12 @@ private theorem exists_boundedIndex_hom (E : ElementaryEtaleNeighborhood B S hS 
           ((BigFppfOver.toScheme B S hS).obj X₀).isoSpec.inv := by
     have hnat := Scheme.toSpecΓ_naturality ((BigFppfOver.toScheme B S hS).map g)
     rw [← Category.assoc]
-    show (BigFppfOver.toScheme B S hS).map g =
+    change (BigFppfOver.toScheme B S hS).map g =
       (((BigFppfOver.toScheme B S hS).obj W).toSpecΓ ≫
         Spec.map (((BigFppfOver.toScheme B S hS).map g).appTop)) ≫
           ((BigFppfOver.toScheme B S hS).obj X₀).isoSpec.inv
     rw [← hnat, Category.assoc]
-    show (BigFppfOver.toScheme B S hS).map g =
+    change (BigFppfOver.toScheme B S hS).map g =
       (BigFppfOver.toScheme B S hS).map g ≫
         (((BigFppfOver.toScheme B S hS).obj X₀).isoSpec.hom ≫
           ((BigFppfOver.toScheme B S hS).obj X₀).isoSpec.inv)
@@ -376,7 +376,7 @@ private theorem exists_boundedIndex_hom (E : ElementaryEtaleNeighborhood B S hS 
   let ι : presObj B S hS X₀ T ⟶ W :=
     Over.homMk aIota (by
       apply ObjectProperty.hom_ext
-      show B.inclusion.map aIota ≫ W.hom.1 =
+      change B.inclusion.map aIota ≫ W.hom.1 =
         B.inclusion.map (B.inclusion.preimage
           (X := B.obj (contains_spec_presRing B S hS X₀ T))
           (Y := X₀.left) (presSpecHom B S hS X₀ T)) ≫ X₀.hom.1
@@ -392,7 +392,7 @@ private theorem exists_boundedIndex_hom (E : ElementaryEtaleNeighborhood B S hS 
   have hIotaG : ι ≫ g = presHom B S hS X₀ T := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show B.inclusion.map aIota ≫ B.inclusion.map g.left =
+    change B.inclusion.map aIota ≫ B.inclusion.map g.left =
       B.inclusion.map (B.inclusion.preimage
         (X := B.obj (contains_spec_presRing B S hS X₀ T))
         (Y := X₀.left) (presSpecHom B S hS X₀ T))
@@ -407,16 +407,16 @@ private theorem exists_boundedIndex_hom (E : ElementaryEtaleNeighborhood B S hS 
   let pt : (presObj B S hS X₀ T).left.1 :=
     (BigFppfOver.toScheme B S hS).map (inv ι) w₀
   have hkpt : (BigFppfOver.toScheme B S hS).map k pt = E.point := by
-    show (BigFppfOver.toScheme B S hS).map (ι ≫ j) pt = E.point
+    change (BigFppfOver.toScheme B S hS).map (ι ≫ j) pt = E.point
     rw [Functor.map_comp, Scheme.Hom.comp_apply]
-    show (BigFppfOver.toScheme B S hS).map j
+    change (BigFppfOver.toScheme B S hS).map j
       ((BigFppfOver.toScheme B S hS).map ι
         ((BigFppfOver.toScheme B S hS).map (inv ι) w₀)) = E.point
     rw [hinvapp w₀]
     exact hw₀
   have hkpt' : k.left.1 pt = E.point := hkpt
   have htoSpace : presToSpace B S hS X₀ eX T = yoneda.map k ≫ E.toSpace := by
-    show yoneda.map (presHom B S hS X₀ T) ≫ eX.inv = yoneda.map (ι ≫ j) ≫ E.toSpace
+    change yoneda.map (presHom B S hS X₀ T) ≫ eX.inv = yoneda.map (ι ≫ j) ≫ E.toSpace
     rw [← hIotaG, Functor.map_comp, Functor.map_comp, hg]
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id]
   have hkOpen : _root_.AlgebraicGeometry.IsOpenImmersion
@@ -509,7 +509,7 @@ private theorem exists_bounded_initial_affine_model (B : BigFppfSite.{u}) (S : S
     inferInstance, inferInstance⟩
   · exact mk_boundedIndex_lt B S hS X₀ eX x
   · exact size_boundedModel_le B S hS hX X₀ eX x i
-  · show IsAffine (Spec (presRing B S hS X₀ i.1.1))
+  · change IsAffine (Spec (presRing B S hS X₀ i.1.1))
     infer_instance
 
 /-- **A cofiltered initial model with explicit cardinal bounds, over an affine base.** For a

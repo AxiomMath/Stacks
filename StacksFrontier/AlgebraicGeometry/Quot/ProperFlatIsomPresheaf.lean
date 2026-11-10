@@ -200,10 +200,10 @@ theorem isomSection_naturality {b c : Over U} (h : b ⟶ c)
       (isomFibre x y).map h.op (isomSection x y c m) := by
   refine Subtype.ext (Subtype.ext ((relHomSections x y b.left).injective ?_))
   rw [relHomSections_isomSection]
-  show relativeSection x y b
+  change relativeSection x y b
       (Functor.morRestrict (cartesianProperFlatProjection B S hS) x y h m.val) = _
   rw [relativeSection_restrict]
-  show _ = relHomSections x y b.left ((relHom x y).map h.left.op (isomSection x y c m).val.val)
+  change _ = relHomSections x y b.left ((relHom x y).map h.left.op (isomSection x y c m).val.val)
   rw [Space.relativeHomSections_map, relHomSections_isomSection]
 
 /-- **The comparison isomorphism of Stacks 045G (2) for the proper flat families.** The
@@ -234,14 +234,14 @@ scheme `U` of the site and two objects `x`, `y` of the fibre over `U`, the isomo
 `Isom(x, y)` of Stacks 02ZB is an algebraic space over `U`.
 
 The two objects of the fibre are finitely presented, flat and proper families over `U`, so the
-relative morphism functor `Mor_U(Z, X)` is an algebraic space by Stacks 0D1C — this is where
-Stacks 0D01 enters, as the hypothesis `hilb`, and where Stacks 05XD enters, discharged by
+relative morphism functor `Mor_U(Z, X)` is an algebraic space by Stacks 0D1C, with no
+hypothesis left — this is where Stacks 05XD enters, discharged by
 `AlgebraicGeometry.Space.hasIsomorphismLocus` — and the subfunctor `Isom_U(Z, X)` of relative
 isomorphisms is an open subspace of it by Stacks 0DPP, hence an algebraic space over `S`. Reading
 it over `U` is `AlgebraicGeometry.isAlgebraicSpace_iteratedSliceFiber`, the value on an object of
 the quasi-inverse of the equivalence of Stacks 04SG, and the comparison with `Isom(x, y)` is
 `AlgebraicGeometry.ProperFlatFibre.isomPresheafIso`. -/
-theorem isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack (hilb : HasHilbertModels B S hS) :
+theorem isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack :
     Stack.IsAlgebraicSpaceIsomPresheaf B S hS (properFlatSpacesStack B S hS) := by
   intro U x y
   have hx := ProperFlatFibre.str_properties x
@@ -261,14 +261,13 @@ theorem isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack (hilb : HasHilbertMod
     Functor.isoWhiskerLeft (Over.iteratedSliceBackward U).op
       (ProperFlatFibre.isomPresheafIso x y) ≪≫ (Functor.associator _ _ _).symm
 
-/-- **Stacks 0D1F on the single input Stacks 0D01.** The diagonal
+/-- **Stacks 0D1F.** The diagonal
 
 ```text
   Spaces'_{fp, flat, proper} ⟶ Spaces'_{fp, flat, proper} × Spaces'_{fp, flat, proper}
 ```
 
-is representable by algebraic spaces as soon as the Hilbert functors of Stacks 0D01 are algebraic
-spaces.
+is representable by algebraic spaces.
 
 This is criterion (2) of Stacks 045G, `AlgebraicGeometry.Stack
 .hasRepresentableDiagonal_iff_isAlgebraicSpaceIsomPresheaf`, applied to
@@ -277,13 +276,13 @@ This is criterion (2) of Stacks 045G, `AlgebraicGeometry.Stack
 Stacks 05XD hypothesis and the `Isom`-comparison hypothesis `hcmp`: the first is proved, and the
 second is what the comparison of this file supplies.
 
-It carries **no** Stacks tag: `hilb` is a hypothesis the source of Stacks 0D1F does not have. -/
-theorem hasRepresentableDiagonal_properFlatSpacesStack_of_hilb
-    (hilb : HasHilbertModels B S hS) :
+It takes no hypothesis: the algebraicity of the Hilbert functors of Stacks 0D01 is no longer
+needed by `AlgebraicGeometry.Space.isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack`. -/
+theorem hasRepresentableDiagonal_properFlatSpacesStack_of_hilb :
     Stack.HasRepresentableDiagonal B S hS (properFlatSpacesStack B S hS) :=
   (Stack.hasRepresentableDiagonal_iff_isAlgebraicSpaceIsomPresheaf B S hS
     (properFlatSpacesStack B S hS)).2
-    (isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack B S hS hilb)
+    (isAlgebraicSpaceIsomPresheaf_properFlatSpacesStack B S hS)
 
 end AlgebraicGeometry.Space
 

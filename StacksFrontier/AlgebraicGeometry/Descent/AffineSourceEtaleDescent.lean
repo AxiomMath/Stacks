@@ -126,7 +126,7 @@ theorem BigFppfOver.exists_affine_surjective_etale_refinement
       Sigma.desc fun U : {U // U ∈ t} =>
         (BigFppfOver.toScheme B S hS).map (u U.1) ≫ Q := by
     refine Sigma.hom_ext _ _ fun U => ?_
-    rw [← Category.assoc, he U, Sigma.ι_desc, Functor.map_comp, ← Category.assoc,
+    rw [← Category.assoc, he U, Sigma.ι_comp_desc, Functor.map_comp, ← Category.assoc,
       ← Functor.map_comp, hp U]
   have hrange : ∀ U : {U // U ∈ t},
       Q.base '' (U.1.1 : Set ((BigFppfOver.toScheme B S hS).obj c)) ⊆

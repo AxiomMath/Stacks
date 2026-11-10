@@ -276,7 +276,7 @@ private theorem cyclic_span_equiv_principal_quotient {R : Type*} [CommRing R]
   let : Module.FinitePresentation R (R ⧸ I) :=
     Module.FinitePresentation.of_equiv e.symm
   have hfg : I.FG := by
-    show Submodule.FG I
+    change Submodule.FG I
     simpa using Module.FinitePresentation.fg_ker (I.mkQ : R →ₗ[R] R ⧸ I) I.mkQ_surjective
   obtain ⟨f, hf⟩ := (IsBezout.isPrincipal_of_FG I hfg).1
   exact ⟨f, ⟨e.symm ≪≫ₗ Submodule.quotEquivOfEq I (Ideal.span {f}) hf⟩⟩
@@ -306,14 +306,14 @@ private theorem quotient_span_generators {R : Type*} [CommRing R]
     · subst k
       have hz : q (x i) = 0 :=
         (Submodule.Quotient.mk_eq_zero A).mpr (Submodule.mem_span_singleton_self _)
-      show q (x i) ∈ Submodule.span R (Set.range y)
+      change q (x i) ∈ Submodule.span R (Set.range y)
       rw [hz]
       exact (Submodule.span R (Set.range y)).zero_mem
     · let j : Fin n := (finSuccAboveEquiv i).symm ⟨k, hki⟩
       have hj : (finSuccAboveEquiv i j).val = k := by
         simp [j]
       have : q (x k) = y j := by simp [y, hj]
-      show q (x k) ∈ Submodule.span R (Set.range y)
+      change q (x k) ∈ Submodule.span R (Set.range y)
       rw [this]
       exact Submodule.subset_span ⟨j, rfl⟩
   exact top_unique (hall ▸ hle)
@@ -419,7 +419,7 @@ private lemma localized_pointwise_smul {R : Type u} [CommRing R]
     (N : Submodule R B) (f : R) :
     (f • N).localized S = (algebraMap R (Localization S) f) • N.localized S := by
   rw [← Submodule.ideal_span_singleton_smul]
-  show (Ideal.span {f} • N).localized' (Localization S) S
+  change (Ideal.span {f} • N).localized' (Localization S) S
       (LocalizedModule.mkLinearMap S B) =
     (algebraMap R (Localization S) f) • N.localized S
   rw [Submodule.localized'_smul, Submodule.localized'_span]
@@ -444,12 +444,12 @@ private lemma localized_pure {R : Type u} [CommRing R]
       (IsLocalization.mk'_mul_mk'_eq_one (S := Localization S) (1 : S) s)
   simp only [mul_smul, Submodule.smul_eq_self_of_isUnit hs]
   rw [← localized_pointwise_smul S N r, hN r]
-  show (N ⊓ r • (⊤ : Submodule R B)).localized' (Localization S) S
+  change (N ⊓ r • (⊤ : Submodule R B)).localized' (Localization S) S
       (LocalizedModule.mkLinearMap S B) = _
   rw [Submodule.localized'_inf]
-  show N.localized S ⊓ (r • (⊤ : Submodule R B)).localized S = _
+  change N.localized S ⊓ (r • (⊤ : Submodule R B)).localized S = _
   rw [localized_pointwise_smul]
-  show N.localized S ⊓ (algebraMap R (Localization S)) r •
+  change N.localized S ⊓ (algebraMap R (Localization S)) r •
       (⊤ : Submodule R B).localized' (Localization S) S
         (LocalizedModule.mkLinearMap S B) = _
   rw [Submodule.localized'_top]
@@ -537,7 +537,7 @@ private lemma localized_compRight {R : Type u} [CommRing R]
     simp only [g₁, g₂, LinearMap.comp_apply, LinearMap.restrictScalars_apply,
       LocalizedModule.mkLinearMap_apply, LocalizedModule.map_mk, F,
       LinearMap.compRight_apply]
-    show (Module.FinitePresentation.linearEquivMapExtendScalars S)
+    change (Module.FinitePresentation.linearEquivMapExtendScalars S)
         ((LocalizedModule.mkLinearMap S (M →ₗ[R] C)) (β.comp φ)) =
       (LocalizedModule.map S β).comp
         ((Module.FinitePresentation.linearEquivMapExtendScalars S)
@@ -588,7 +588,7 @@ private lemma directSum_subtypeDomain_leftInverse
   let q : (⨁ j : {j // j ∈ s}, D j.1) →ₗ[R] ⨁ j, D j :=
     DirectSum.toModule R {j // j ∈ s} (⨁ j, D j)
       (fun j => DirectSum.lof R I D j.1)
-  show q (e z) = z
+  change q (e z) = z
   conv_rhs => rw [← DirectSum.sum_support_of z]
   nth_rewrite 1 [← DirectSum.sum_support_of z]
   simp only [map_sum]
@@ -599,7 +599,7 @@ private lemma directSum_subtypeDomain_leftInverse
       (DirectSum.lof R {j // j ∈ s} (fun j => D j.1) ⟨j, hjs⟩) (z j) := by
     apply DirectSum.ext
     intro k
-    show ((DirectSum.of D j) (z j)) k.1 =
+    change ((DirectSum.of D j) (z j)) k.1 =
       ((DirectSum.of (fun j : {j // j ∈ s} => D j.1) ⟨j, hjs⟩) (z j)) k
     by_cases h : j = k.1
     · subst h
@@ -642,7 +642,7 @@ private lemma finite_summand_of_summand_directSum
       exact hjg (DFinsupp.mem_support_iff.mpr h)
     exact LinearMap.congr_fun hz m
   refine ⟨s, e.comp i, p.comp q, LinearMap.ext fun m => ?_⟩
-  show p (q (e (i m))) = m
+  change p (q (e (i m))) = m
   rw [directSum_subtypeDomain_leftInverse D s (i m) (hsupp m)]
   exact LinearMap.congr_fun hpi m
 
@@ -674,6 +674,6 @@ theorem finitePresentation_summand_fin_directSum_quotient_span_singleton
     DirectSum.lequivCongrLeft R e
   refine ⟨Fintype.card (↑s : Type (max u v)), g,
     E.toLinearMap.comp i', p'.comp E.symm.toLinearMap, LinearMap.ext fun m => ?_⟩
-  show p' (E.symm (E (i' m))) = m
+  change p' (E.symm (E (i' m))) = m
   rw [LinearEquiv.symm_apply_apply]
   exact LinearMap.congr_fun hpi' m

@@ -57,7 +57,7 @@ theorem exists_pow_mul_eq_zero_stabilizes [IsNoetherianRing R] (I : Ideal R) :
   obtain ⟨c, hc⟩ := (monotone_stabilizes_iff_noetherian.mpr inferInstance) K
   refine ⟨c, fun k a ha b hb => ?_⟩
   have hak : a ∈ K (max c k) := by
-    show a ∈ (I ^ max c k : Submodule R R).annihilator
+    change a ∈ (I ^ max c k : Submodule R R).annihilator
     rw [mem_annihilator_pow_iff]
     exact fun b' hb' => ha b' (Ideal.pow_le_pow_right (le_max_right c k) hb')
   rw [← hc (max c k) (le_max_left c k)] at hak

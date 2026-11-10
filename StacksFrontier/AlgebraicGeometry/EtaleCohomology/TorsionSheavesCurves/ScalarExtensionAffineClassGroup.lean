@@ -119,7 +119,7 @@ theorem exists_scalarExtensionClosedPoint_eq_of_notMem_range
   rw [range_scalarExtensionMap, Set.mem_preimage] at hy'
   have hη : j.base (genericPoint X) = genericPoint Y :=
     ((tfae_isDominant_of_isIntegral j).out 1 2).mp
-      (isDominant_of_isOpenImmersion_of_isCurve (j ≫ q) q j)
+      (isDominant_of_isOpenImmersion_of_isCurve j)
   have hne : (scalarExtensionFst k k' q).base y'.1 ≠ genericPoint Y := fun h =>
     hy' ⟨genericPoint X, hη.trans h.symm⟩
   let y : closedPoints Y :=
@@ -146,7 +146,7 @@ theorem closedPointDivisorRestriction_mapDomain_scalarExtensionClosedPoint
       Finsupp.mapDomain_apply_of_injective (injective_scalarExtensionClosedPoint q k'),
       Finsupp.mapDomain_apply_of_injective (injective_scalarExtensionClosedPoint (j ≫ q) k'),
       closedPointDivisorRestriction_apply]
-  · rw [Finsupp.mapDomain_notin_range _ _ hx', Finsupp.mapDomain_notin_range]
+  · rw [Finsupp.mapDomain_of_notMem_range _ _ hx', Finsupp.mapDomain_of_notMem_range]
     rintro ⟨y, hy⟩
     have hmem : (scalarExtensionClosedPoint q k' y).1 ∈
         Set.range (scalarExtensionMap q j k').base := by
@@ -206,7 +206,7 @@ theorem ker_closedPointClassGroupRestriction_scalarExtension :
   · rintro ⟨y, hy, rfl⟩
     refine ⟨scalarExtensionClosedPoint q k' y, ?_,
       (curveClassGroupScalarExtensionMap_single q k' y).symm⟩
-    show (scalarExtensionClosedPoint q k' y).1 ∉ _
+    change (scalarExtensionClosedPoint q k' y).1 ∉ _
     rwa [scalarExtensionClosedPoint_mem_range_iff]
 
 /-- **`Cl(X) → Cl(X_{k'})` is injective and surjective on `ℓ`-torsion** for an open subcurve `X` of

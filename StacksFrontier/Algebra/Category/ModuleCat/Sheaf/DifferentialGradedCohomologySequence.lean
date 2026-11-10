@@ -46,8 +46,10 @@ The short exactness of the underlying sequence is proved degreewise, through
 `toCochainComplex A ⋙ HomologicalComplex.eval _ _ n` on the nose; it is additive and exact
 because forgetting the differential is both a left and a right adjoint
 (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedForgetColimits.lean` and
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedForgetRightAdjoint.lean`), and taking a homogeneous component commutes with limits and
-colimits (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedDegreeLimits.lean` and `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleAbelian.lean`).
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedForgetRightAdjoint.lean`), and taking a
+homogeneous component commutes with limits and colimits
+(`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedDegreeLimits.lean` and
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleAbelian.lean`).
 
 The forgetful functor is `SheafOfModules.toCochainComplex` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedForgetRightAdjoint.lean`, which forgets the
@@ -59,8 +61,8 @@ abelian structures on differential graded and on graded modules are
 Both `HasSheafify J AddCommGrpCat.{m}` and `J.WEqualsLocallyBijective AddCommGrpCat.{m}` are
 hypotheses: over an arbitrary site they are what make `SheafOfModules.{m} R` abelian, and hence
 what makes "short exact" meaningful for differential graded modules. The source states the
-tagged results for a ringed site, where they come free from essential smallness, so nothing is weakened by
-naming them.
+tagged results for a ringed site, where they come free from essential smallness, so nothing is
+weakened by naming them.
 
 The base is an arbitrary sheaf of rings on an arbitrary site rather than the structure sheaf of
 a ringed site, and the universes of the site, the ring, the algebra pieces and the module pieces
@@ -140,7 +142,7 @@ theorem toCochainComplex_shortExact
     (S.map (toCochainComplex.{t, a, m} A)).ShortExact := by
   apply HomologicalComplex.shortExact_of_degreewise_shortExact
   intro n
-  show (S.map (pieceComp.{t, a, m} A n)).ShortExact
+  change (S.map (pieceComp.{t, a, m} A n)).ShortExact
   have := (GradedModule.pieceFunctor_preservesLimitsOfSize.{t, a, m}
     (A := A.toGradedAlgebra) n).preservesFiniteLimits
   have := (GradedModule.pieceFunctor_preservesColimitsOfSize'.{t, a, m}

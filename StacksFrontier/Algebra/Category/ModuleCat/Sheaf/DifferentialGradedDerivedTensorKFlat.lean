@@ -154,7 +154,7 @@ end KFlat
 section LeftKFlat
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] [HasWeakSheafify J (Type m)]
+  [J.HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{m}] [HasSheafify J AddCommGrpCat.{m}]
   {Osharp : Sheaf J CommRingCat.{t}} {A : DifferentialGradedAlgebra.{t, m} (toRingCat J Osharp)}
 

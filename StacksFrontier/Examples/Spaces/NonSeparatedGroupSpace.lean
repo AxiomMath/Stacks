@@ -92,7 +92,7 @@ integers. -/
 theorem sectionsModZ_mk_add_intCast (R : CommRingCat.{u}) (x : R) (n : ℤ) :
     (sectionsModZProjection.app R).hom (x + (n : R)) =
       (sectionsModZProjection.app R).hom x := by
-  show (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : R))) (x + (n : R)) =
+  change (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : R))) (x + (n : R)) =
     (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : R))) x
   have hz : (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : R))) (n : R) = 0 :=
     (QuotientAddGroup.eq_zero_iff _).mpr ⟨n, by simp⟩
@@ -209,7 +209,7 @@ theorem affineLine_homOfVector_add_intCast
     cases i
     simp only [Over.comp_left, Over.homMk_left, Scheme.Hom.comp_appTop,
       CommRingCat.comp_apply, AffineSpace.homOfVector_appTop_coord]
-    show x + (n : Γ(T.left, ⊤)) =
+    change x + (n : Γ(T.left, ⊤)) =
       (AffineSpace.homOfVector T.hom (fun _ : PUnit.{u + 1} => x)).appTop
         (((AffineLineTranslation.translationAction k
           (Multiplicative.ofAdd n)).asIso.hom.left).appTop
@@ -227,7 +227,7 @@ theorem actionRelation_ι_source {S : Scheme.{u}} (U : Over S) (G : Type w) [Gro
     Sigma.ι (fun _ : G => U) g ≫ (Space.actionRelation U G a).source = 𝟙 U := by
   dsimp only [Space.actionRelation, Stacks.Groupoids.PreRelation.source]
   rw [prod.lift_snd]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- The target map of the graph relation of a group action is `a g` on the copy of `g`. -/
 theorem actionRelation_ι_target {S : Scheme.{u}} (U : Over S) (G : Type w) [Group G]
@@ -235,7 +235,7 @@ theorem actionRelation_ι_target {S : Scheme.{u}} (U : Over S) (G : Type w) [Gro
     Sigma.ι (fun _ : G => U) g ≫ (Space.actionRelation U G a).target = (a g).asIso.hom := by
   dsimp only [Space.actionRelation, Stacks.Groupoids.PreRelation.target]
   rw [prod.lift_fst]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- The quotient sheaf of the graph relation of a group action identifies a point of the
 acted-on object with its translate by any group element. -/
@@ -268,7 +268,7 @@ theorem sieve_mem_of_fppf
   have hD : IsFppfCovering ⟨V.left, E.map (Over.forget (B.obj hS))⟩ := by
     rwa [IsFppfCovering, Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map]
   apply (B.topology.mem_over_iff E.sieve₀).mpr
-  show Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
   exact B.generate_mem_topology_of_isFppfCovering _ hD
 
@@ -305,10 +305,10 @@ theorem coproduct_sieve_mem
           _ = e.hom (Sigma.ι (fun i => T.obj (X i)) i₀ x) := Scheme.Hom.comp_apply _ _ _
           _ = e.hom t := congrArg e.hom hx
       refine ⟨ULift.up (equivShrink I i), ?_⟩
-      show ∃ y, T.map (j ((equivShrink I).symm (equivShrink I i))) y = _
+      change ∃ y, T.map (j ((equivShrink I).symm (equivShrink I i))) y = _
       exact key _ (Equiv.symm_apply_apply _ _)
     · intro i
-      show Flat (T.map (j _)) ∧ LocallyOfFinitePresentation (T.map (j _))
+      change Flat (T.map (j _)) ∧ LocallyOfFinitePresentation (T.map (j _))
       rw [← he]
       constructor <;> infer_instance
   have hEq : E.sieve₀ = Sieve.ofArrows X j := by
@@ -375,7 +375,7 @@ theorem actionRelation_coequalizes_of_invariant
     apply coproduct_sieve_mem B S hS _ _ ι
       (PreservesCoproduct.iso (Over.forget S) (fun _ : G => U)).symm
     intro g
-    show Sigma.ι (fun _ : G => U.left) g ≫
+    change Sigma.ι (fun _ : G => U.left) g ≫
       (PreservesCoproduct.iso (Over.forget S) (fun _ : G => U)).inv = (F.map (ι g)).left
     rw [hι, PreservesCoproduct.inv_hom]
     exact ι_comp_sigmaComparison (Over.forget S) (fun _ : G => U) g
@@ -389,7 +389,7 @@ theorem actionRelation_coequalizes_of_invariant
   have ht := ConcreteCategory.congr_hom (t.naturality (ι g).op) (𝟙 (F.obj W))
   apply hs.symm.trans
   apply Eq.trans _ ht
-  show f.app (Opposite.op V) ((F.map (ι g) ≫ 𝟙 _) ≫ j.source) =
+  change f.app (Opposite.op V) ((F.map (ι g) ≫ 𝟙 _) ≫ j.source) =
     f.app (Opposite.op V) ((F.map (ι g) ≫ 𝟙 _) ≫ j.target)
   rw [Category.comp_id, hι]
   exact (congrArg (f.app (Opposite.op V)) (actionRelation_ι_source U G a g)).trans
@@ -483,7 +483,7 @@ theorem lineSectionsIso_inv_lineToTranslationQuotient_add_intCast
   let F := Over.post (X := B.obj hS) B.inclusion
   let q := lineToTranslationQuotient k B hS
   let x' : Γ((F.obj T.unop).left, ⊤) := x
-  show q.app T (Over.homMk (AffineSpace.homOfVector (F.obj T.unop).hom
+  change q.app T (Over.homMk (AffineSpace.homOfVector (F.obj T.unop).hom
       (fun _ : PUnit.{u + 1} => x' + (n : Γ((F.obj T.unop).left, ⊤))))
         (AffineSpace.homOfVector_over _ _)) =
     q.app T (Over.homMk (AffineSpace.homOfVector (F.obj T.unop).hom
@@ -518,7 +518,7 @@ theorem lineToSectionsModZSheaf_comp_sectionsModZSheafToTranslationQuotient :
       (Over.post (X := B.obj hS) B.inclusion) (lineRelation k)).property
   refine (congrArg (fun m => ((lineSectionsIso k B hS).hom ≫
     presheafModZProjection (sectionsPresheaf k B hS)) ≫ m) h).trans ?_
-  show (lineSectionsIso k B hS).hom ≫ (lineSectionsIso k B hS).inv ≫
+  change (lineSectionsIso k B hS).hom ≫ (lineSectionsIso k B hS).inv ≫
     lineToTranslationQuotient k B hS = lineToTranslationQuotient k B hS
   rw [Iso.hom_inv_id_assoc]
 
@@ -541,7 +541,7 @@ theorem lineToSectionsModZSheaf_translate
       AffineSpace.coord (Spec (.of k)) PUnit.unit +
         ((g.toAdd : ℤ) : Γ(AffineSpace PUnit.{u + 1} (Spec (.of k)), ⊤)) :=
     translationAction_apply k g.toAdd
-  show (toSheafify J P).app T
+  change (toSheafify J P).app T
       ((sectionsModZProjection.app (R.obj T)).hom
         ((x ≫ (translationAction k g).asIso.hom).left.appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit))) =
@@ -747,7 +747,7 @@ private theorem isLocallyOfFiniteType_of_iso_translationQuotient
     (Space.yonedaMkIdTerminal B (Spec (.of k)) hS).hom_ext _ _, ?_⟩
   · exact (Space.presheaf_yoneda_map_iff B (Spec (.of k)) hS inferInstance _).mpr
       (by change Etale (𝟙 _); infer_instance)
-  · show LocallyOfFiniteType ((affineLine k).hom)
+  · change LocallyOfFiniteType ((affineLine k).hom)
     exact (inferInstance : LocallyOfFiniteType
       ((AffineSpace PUnit.{u + 1} (Spec (.of k))) ↘ Spec (.of k)))
 

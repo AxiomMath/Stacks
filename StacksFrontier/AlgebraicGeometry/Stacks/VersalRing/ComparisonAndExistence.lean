@@ -641,7 +641,7 @@ theorem exists_isVersalRingAt_of_deformationCategory
       ∃ hp : Deformation.IsDeformationCategory C.projection,
         letI : Fact (Deformation.IsPredeformationCategory
             (BasedCategory.ofFunctor C.projection).p) := ⟨hp.predeformation⟩
-        letI : Fact (Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+        letI : Fact (Deformation.SchlessingerConditionS2 (Functor.Elements.π
             (Deformation.isomorphismClasses (BasedCategory.ofFunctor C.projection)
               hp.predeformation.cofibered))) :=
           ⟨Deformation.schlessingerConditionS2_of_isIsomorphismClasses

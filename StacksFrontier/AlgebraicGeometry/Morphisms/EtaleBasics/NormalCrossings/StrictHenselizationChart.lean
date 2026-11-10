@@ -253,7 +253,7 @@ public theorem exists_etale_chart_forall_normal_factorization
     AlgebraicGeometry.Etale.etale_comp (f := Spec.map φ) ι
   set qS : (Spec (CommRingCat.of B) : Scheme.{u}) := ⟨qi, hqip⟩ with hqS
   have hgq : gmor qS = p := by
-    show ι ((Spec.map φ) qS) = p
+    change ι ((Spec.map φ) qS) = p
     rw [show (Spec.map φ) qS = 𝔭 from PrimeSpectrum.ext hqover]
     exact hιp
   -- The ideal of the inverse image of `D` on the chart.
@@ -323,15 +323,15 @@ public theorem exists_etale_chart_forall_normal_factorization
     CommRingCat.ofHom (algebraMap (X.presheaf.stalk p : Type u) Λ) with hψ'
   have hring : (φ ≫ β) ≫ ψ = γ ≫ ψ' := by
     refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
-    show (algebraMap ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) Λ)
+    change (algebraMap ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) Λ)
         (β.hom ((algebraMap (R : Type u) B) x))
       = (algebraMap (X.presheaf.stalk p : Type u) Λ) (γ.hom x)
     rw [hγ]
-    show (algebraMap ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) Λ)
+    change (algebraMap ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u) Λ)
         ((algebraMap B ((Spec (CommRingCat.of B)).presheaf.stalk qS : Type u))
           ((algebraMap (R : Type u) B) x)) = _
     rw [← RingHom.comp_apply, hcompBSΛ]
-    show h ((algebraMap (R : Type u) B) x) = _
+    change h ((algebraMap (R : Type u) B) x) = _
     rw [h.commutes x]
     exact IsScalarTower.algebraMap_apply (R : Type u) (X.presheaf.stalk p : Type u) Λ x
   have hglue : Spec.map ψ ≫ (Spec (CommRingCat.of B)).fromSpecStalk qS ≫ gmor

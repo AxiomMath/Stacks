@@ -373,27 +373,27 @@ theorem away_product_unit_splits
   let V := mφ uvf.unit
   let G := mψ huag.unit
   have hφaf : (A : B) = algebraMap R B af := by
-    show φ (huaf.unit : Localization.Away f) = _
+    change φ (huaf.unit : Localization.Away f) = _
     simp [φ, Localization.awayLift]
   have hφv : (V : B) = algebraMap R B (v : R) := by
-    show φ (uvf.unit : Localization.Away f) = _
+    change φ (uvf.unit : Localization.Away f) = _
     simp [φ, Localization.awayLift]
   have hψag : (G : B) = algebraMap R B ag := by
-    show ψ (huag.unit : Localization.Away g) = _
+    change ψ (huag.unit : Localization.Away g) = _
     simp [ψ, Localization.awayLift]
   have hφpow : mφ hfPow.unit = ufB.unit ^ s.2 := by
     apply Units.ext
-    show φ (hfPow.unit : Localization.Away f) = _
+    change φ (hfPow.unit : Localization.Away f) = _
     simp [φ, Localization.awayLift, map_pow]
   have hψpow : mψ hgPow.unit = ugB.unit ^ s.2 := by
     apply Units.ext
-    show ψ (hgPow.unit : Localization.Away g) = _
+    change ψ (hgPow.unit : Localization.Away g) = _
     simp [ψ, Localization.awayLift, map_pow]
   have hφuf : mφ uf = A * V * (ufB.unit ^ s.2)⁻¹ := by
-    show mφ (huaf.unit * uvf.unit * hfPow.unit⁻¹) = _
+    change mφ (huaf.unit * uvf.unit * hfPow.unit⁻¹) = _
     rw [map_mul, map_mul, map_inv, hφpow]
   have hψug : mψ ug = G * (ugB.unit ^ s.2)⁻¹ := by
-    show mψ (huag.unit * hgPow.unit⁻¹) = _
+    change mψ (huag.unit * hgPow.unit⁻¹) = _
     rw [map_mul, map_inv, hψpow]
   have hunit_eq : (mφ uf * mψ ug) * (ufB.unit * ugB.unit) ^ s.2 = A * G * V := by
     rw [hφuf, hψug, mul_pow]
@@ -535,7 +535,7 @@ theorem localization_units_split
   rw [heφ, heψ] at huv
   change ea (φ (ef.symm (u : Localization.Away f))) *
     ea (ψ (eg.symm (v : Localization.Away g))) = ea (w : A) at huv
-  show ea (φ (ef.symm (u : Localization.Away f)) *
+  change ea (φ (ef.symm (u : Localization.Away f)) *
     ψ (eg.symm (v : Localization.Away g))) = ea (w : A)
   rw [map_mul]
   exact huv
@@ -571,7 +571,7 @@ theorem algebraMap_bijective_two_basicOpens
         (congrArg (O.map i.op) hab)
   · intro s
     have hs : φ (O.map i.op s) = ψ (O.map j.op s) := by
-      show (O.map i.op ≫ O.map k.op) s = (O.map j.op ≫ O.map l.op) s
+      change (O.map i.op ≫ O.map k.op) s = (O.map j.op ≫ O.map l.op) s
       rw [← Functor.map_comp, ← Functor.map_comp]
       rfl
     obtain ⟨a, ha, hb⟩ := localization_intersection f g hf hg hdisj φ ψ
@@ -794,7 +794,7 @@ theorem functions_bijective_of_basis
       ((Scheme.Modules.pushforward W.ι).obj (E.restrict W.ι)).isSheaf⟩
   let ψ : F ⟶ G := ⟨η.mapPresheaf⟩
   have hp : IsIso ψ := TopCat.Sheaf.isIso_iff_isIso_basis hB (fun i => by
-    show IsIso (η.app (B i))
+    change IsIso (η.app (B i))
     rw [Scheme.Modules.restrictAdjunction_unit_app_app]
     exact (ConcreteCategory.isIso_iff_bijective _).mpr (h i))
   have he : IsIso η := (isIso_iff_of_reflects_iso η (Scheme.Modules.toPresheaf X)).mp

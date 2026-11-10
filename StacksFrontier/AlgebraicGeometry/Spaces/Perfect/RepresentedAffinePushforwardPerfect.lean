@@ -265,6 +265,8 @@ theorem exists_iso_representedAffineDerivedSections_derivedPushforward
         DerivedCategory.Q.mapIso e₃ ≪≫ (Φ.mapDerivedCategoryFactors.app _).symm) ≪≫
     (asIso ((representedAffineDerivedAdjunction B S hS U).unit.app _)).symm⟩
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj U')] in
 /-- A perfect morphism of representable algebraic spaces has perfect underlying morphism of
 schemes: the identity charts of the two representables form a commuting square of étale charts. -/
 theorem perfect_toScheme_map_of_isPerfect

@@ -264,7 +264,7 @@ rank `n`. -/
 theorem preimage_rankLocus_definingIdealOfHom (hi : IsKoszulRegularImmersion i) (n : ℤ) :
     i ⁻¹ᵁ (rankLocus (Y := Y.toRingedSpace) (definingIdealOfHom i) n) = normalRankLocus i hi n := by
   ext x
-  show i x ∈ rankLocus (Y := Y.toRingedSpace) (definingIdealOfHom i) n ↔
+  change i x ∈ rankLocus (Y := Y.toRingedSpace) (definingIdealOfHom i) n ↔
     x ∈ normalRankLocus i hi n
   rw [mem_normalRankLocus, normalRank_eq_localGeneratorCount i hi x]
   have hyS := (mem_idealQuotientSupport_definingIdealOfHom_iff i (i x)).mpr

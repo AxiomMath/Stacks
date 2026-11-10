@@ -223,11 +223,7 @@ theorem PStalkMulLE.whiskerLeft (A : PresheafOfModulesOfCommRing.{u} X.presheaf)
     PStalkMulLE (PresheafOfModules.tensorHom (𝟙 A) φ) x r := by
   intro w
   obtain ⟨U, hxU, t, rfl⟩ := exists_pgerm_eq (PresheafOfModules.tensorObj A P) w
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact ⟨0, ((congrArg (pstalkHom (PresheafOfModules.tensorHom (𝟙 A) φ) x)
-      (map_zero (pgerm (PresheafOfModules.tensorObj A P) U x hxU))).trans
-        (map_zero _)).trans (smul_zero r).symm⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a p =>
     obtain ⟨z, hz⟩ := exists_pgerm_tmul_eq_smul A Q hxU r a (φ.app (op U) p)
       (by
@@ -257,12 +253,7 @@ theorem PStalkMulGE.whiskerLeft (A : PresheafOfModulesOfCommRing.{u} X.presheaf)
     exact ⟨w, hw⟩
   intro z
   obtain ⟨U, hxU, t, rfl⟩ := exists_pgerm_eq (PresheafOfModules.tensorObj A Q) z
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have e : r • pgerm (PresheafOfModules.tensorObj A Q) U x hxU 0 = 0 :=
-      (congrArg (r • ·) (map_zero (pgerm (PresheafOfModules.tensorObj A Q) U x hxU))).trans
-        (smul_zero r)
-    exact e ▸ zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul a q => exact smul_pgerm_tmul_mem_range A φ x hxU r a q h'
   | add t t' ht ht' =>
     have e : r • pgerm (PresheafOfModules.tensorObj A Q) U x hxU (t + t') =
@@ -592,7 +583,7 @@ theorem exists_smul_Γgerm_unitOne (x : X)
   refine ⟨(X.presheaf.germ U x hx).hom (show Γ(X, U) from t), ?_⟩
   have ht : t = (show Γ(X, U) from t) •
       (unitModule X).presheaf.map (homOfLE (le_top : U ≤ ⊤)).op (unitOne X) := by
-    show t = (show Γ(X, U) from t) * X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op 1
+    change t = (show Γ(X, U) from t) * X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op 1
     rw [map_one, mul_one]
   rw [← TopCat.Presheaf.Γgerm_res_apply (i := homOfLE (le_top : U ≤ ⊤)) _ x hx,
     ← Stacks.ModuleStalk.germ_smul, ← ht]
@@ -612,7 +603,7 @@ theorem exists_smul_Γgerm_globalSection_id (x : X)
         (((unitModule X).presheaf.Γgerm x).hom (unitOne X)) := by
     have hg0 : globalSection X (𝟙_ X.Modules) (𝟙 (𝟙_ X.Modules)) =
         (unitComparison X).inv.app ⊤ (unitOne X) := by
-      show schemeGlobalSectionsAddEquiv X _ _ = _
+      change schemeGlobalSectionsAddEquiv X _ _ = _
       rw [schemeGlobalSectionsAddEquiv_apply, Category.comp_id]
     rw [mapFun_Γgerm, hg0]
   refine ⟨c, ?_⟩

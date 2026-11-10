@@ -191,7 +191,7 @@ theorem derivedAdjunction_unit_comp_compIso_inv
       (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical f g))
     (derivedAdjunction (f ≫ g)) M
   rw [← h, Category.assoc]
-  show _ ≫ (derivedPushforwardCompIso f g).hom.app _ ≫
+  change _ ≫ (derivedPushforwardCompIso f g).hom.app _ ≫
     (derivedPushforwardCompIso f g).inv.app _ = _
   rw [Iso.hom_inv_id_app, Category.comp_id]
   simp [Adjunction.ofNatIsoLeft_unit, Adjunction.comp_unit_app]
@@ -430,9 +430,9 @@ theorem lerayIso_inv_comp
           ((lerayIso χ f' f'' j wj).inv.app Y) := by
   have h := lerayHom_comp ψ χ f f' f'' i j wi wj Y
   rw [← Iso.app_inv, Iso.inv_comp_eq, Iso.app_hom]
-  show _ = (lerayHom (χ.comp ψ) f f'' (j ≫ i) (comp_w ψ χ f f' f'' i j wi wj)).app Y ≫ _
+  change _ = (lerayHom (χ.comp ψ) f f'' (j ≫ i) (comp_w ψ χ f f' f'' i j wi wj)).app Y ≫ _
   rw [reassoc_of% h]
-  show _ = _ ≫ (ModuleCat.restrictScalars ψ).mapDerivedCategory.map
+  change _ = _ ≫ (ModuleCat.restrictScalars ψ).mapDerivedCategory.map
       ((lerayIso χ f' f'' j wj).hom.app Y) ≫ (lerayIso ψ f f' i wi).hom.app _ ≫
     (lerayIso ψ f f' i wi).inv.app _ ≫ _
   rw [Iso.hom_inv_id_app_assoc, ← Functor.map_comp, Iso.hom_inv_id_app]

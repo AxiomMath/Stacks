@@ -117,12 +117,10 @@ theorem bijective_tensorMap (hsq : ∀ t, β (a t) = b (α t))
     rw [hP, α.apply_symm_apply]
   refine Function.bijective_iff_has_inverse.mpr
     ⟨tensorMap b a α.symm β.symm hsq' hB hA hP', fun z => ?_, fun z => ?_⟩
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | tmul c x => simp
     | add z w hz hw => rw [map_add, map_add, hz, hw]
-  · induction z using TensorProduct.induction_on with
-    | zero => simp
+  · induction z using TensorProduct.inductionOn with
     | tmul d x => simp
     | add z w hz hw => rw [map_add, map_add, hz, hw]
 
@@ -161,11 +159,7 @@ theorem bijective_restrictionBaseChange_restrictScalars (ψ : R ⟶ R')
   have hcomp : ∀ z, (restrictionBaseChange (R := R') M g).hom (u z)
       = (restrictionBaseChange (R := R) NM g).hom z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (congrArg _ (map_zero u)) ?_
-      exact (map_zero (restrictionBaseChange (R := R') M g).hom).trans
-        (map_zero (restrictionBaseChange (R := R) NM g).hom).symm
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       exact (restrictionBaseChange_tmul M g ((ψ.app Y).hom c) x).trans
         (restrictionBaseChange_tmul NM g c x).symm

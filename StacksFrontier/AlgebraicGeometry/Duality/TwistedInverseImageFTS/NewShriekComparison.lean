@@ -84,7 +84,6 @@ def stdComplexRestrictIso (𝒦 : NormalizedOnOpens (UpperShriek.ofCompactificat
         𝒦.complex)) ≪≫
     (UpperShriekDuality.pullModelConj V.ι).app _
 
-include hpe in
 /-- The normalized complex is dualizing at the standard model. -/
 theorem isDualizing_stdComplex
     (hωS : haveI := hp.base_noetherian; IsDualizingComplex ωS.obj.obj)
@@ -134,7 +133,7 @@ def upperShriekStdIsoFNewShriek
       (plusCoh Y).ι ⋙ fNewShriekStd f (stdComplex c 𝒦X) (stdComplex c 𝒦Y) :=
   haveI := hq.source_noetherian
   haveI := hp.source_noetherian
-  let hK := isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y
+  let hK := isDualizing_stdComplex c hωS 𝒦Y
   upperShriekStdIsoFNewShriekOfIso (ftsHomSelf hf) (c f hf) hK
     ((comparison X).inverse.mapIso
       ((ObjectProperty.ι _).mapIso ((upperShriek (ftsHomSelf hf) (c f hf)).mapIso
@@ -154,15 +153,15 @@ theorem coherentDuality_spec_stdComplex
     haveI := hp.source_noetherian
     cohStd X (stdComplex c 𝒦) ∧
     (∀ M : Std X, cohStd X M → cohStd X ((dualInto (stdComplex c 𝒦)).obj (op M))) ∧
-    (coherentDuality X (isDualizing_stdComplex c (Category.id_comp p) hωS 𝒦)).IsEquivalence ∧
-    IsIso (coherentBiduality X (isDualizing_stdComplex c (Category.id_comp p) hωS 𝒦)) ∧
+    (coherentDuality X (isDualizing_stdComplex c hωS 𝒦)).IsEquivalence ∧
+    IsIso (coherentBiduality X (isDualizing_stdComplex c hωS 𝒦)) ∧
     (∀ M : Std X, cohStd X M →
       (plusCoh X M ↔ minusCoh X ((dualInto (stdComplex c 𝒦)).obj (op M))) ∧
         (minusCoh X M ↔ plusCoh X ((dualInto (stdComplex c 𝒦)).obj (op M)))) ∧
     (boundedCoherentDuality X
-      (isDualizing_stdComplex c (Category.id_comp p) hωS 𝒦)).IsEquivalence := by
+      (isDualizing_stdComplex c hωS 𝒦)).IsEquivalence := by
   have := hp.source_noetherian
-  have hK := isDualizing_stdComplex c (Category.id_comp p) hωS 𝒦
+  have hK := isDualizing_stdComplex c hωS 𝒦
   obtain ⟨h1, -, h3, h4, h5⟩ := coherentDuality_spec X hK
   exact ⟨h1, fun M hM i => isCoherent_homology_derivedSheafHom_of_isDualizingComplex hK hM i,
     h3, h4, fun M hM => plusCoh_iff_minusCoh_dual hK M hM, h5.2⟩

@@ -113,7 +113,7 @@ variable (i : Fin n) {G : AlgebraicSpaces B S hS} (a : G ⟶ D.space)
   (e : AlgebraicSpaces.fiberProduct B S hS w (D.restrictionFst i a) ≅ X')
   (he : e.hom ≫ bl = ObjectProperty.homMk (pullback.snd w.hom (D.restrictionFst i a).hom))
 
-include he in
+include e in
 /-- **The glued blowing up satisfies the conditions of Stacks 0BB1 and is decent.** -/
 theorem hasLocallyFiniteIrreducibleComponents_and_isDecentSpace_of_restriction
     (hGdec : IsDecentSpace B S hS G.obj)
@@ -196,7 +196,7 @@ theorem exists_iso_fiberProduct_normalizationHom_comp
   refine ⟨ObjectProperty.isoMk _ (iso1 ≪≫ asIso m' ≪≫ eQ.symm), ?_⟩
   apply ObjectProperty.hom_ext
   have hsnd : e.hom.hom ≫ bl.hom = (D.gluedSnd i a w).hom := congrArg (fun k => k.hom) he
-  show (iso1.hom ≫ m' ≫ eQ.inv) ≫ q.hom ≫ (D.restrictionHom i a).hom =
+  change (iso1.hom ≫ m' ≫ eQ.inv) ≫ q.hom ≫ (D.restrictionHom i a).hom =
     pullback.snd (NW.hom ≫ w.hom ≫ a.hom) (D.toSpaceHom i).hom
   rw [hqeq]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
@@ -264,7 +264,7 @@ theorem exists_isNormalizedBlowupAtClosedPoint_lift
   have hwbl := D.isBlowupAlong_of_isBlowupAlong_restriction i a ht htu e he ha hbl' hw
   have hX'fin := N.hasLocallyFiniteIrreducibleComponents X'.property
   obtain ⟨hWfin, hWdec⟩ := D.hasLocallyFiniteIrreducibleComponents_and_isDecentSpace_of_restriction
-    i a ht htu e he hGdec hGfin hX'fin hw hwbl
+    i a ht htu e hGdec hGfin hX'fin hw hwbl
   obtain ⟨NW⟩ := nonempty_normalizationData B S hS W.property hWfin
   have hb := isNormalizedBlowupAtClosedPoint_comp hGdec hGfin
     (isBlowupAtClosedPoint_of_isBlowupAlong hwbl) NW
@@ -279,7 +279,7 @@ theorem exists_isNormalizedBlowupAtClosedPoint_lift
           ⟨p, hp⟩
         rw [D.range_pointsMap_ι_openAwayFromPoints] at hmem
         exact hmem ⟨i, rfl⟩
-    show IsIso (pullback.snd ((normalizationHom NW ≫ w).hom ≫ a.hom) _)
+    change IsIso (pullback.snd ((normalizationHom NW ≫ w).hom ≫ a.hom) _)
     rw [← he₀]
     infer_instance
   · exact D.exists_iso_fiberProduct_normalizationHom_comp i a e he hX'fin NW N eQ hqeq

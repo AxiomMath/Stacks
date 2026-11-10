@@ -159,7 +159,7 @@ theorem isCompleteIntersection_stalk_iff_isCompleteIntersectionRing
     apply IsScalarTower.of_algebraMap_eq
     intro z
     simp only [RingHom.algebraMap_toAlgebra]
-    show (X.presheaf.germ ⊤ x (by simp))
+    change (X.presheaf.germ ⊤ x (by simp))
         (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop).hom z) =
       (X.presheaf.germ U.1 x hxU)
         ((f.appTop ≫ X.presheaf.map (homOfLE le_top).op)
@@ -172,7 +172,7 @@ theorem isCompleteIntersection_stalk_iff_isCompleteIntersectionRing
   let _ : Algebra k Γ(Spec (.of k), ⊤) :=
     (CommRingCat.ofHom (RingHom.id k) ≫ (Scheme.ΓSpecIso (.of k)).inv).hom.toAlgebra
   have hbij : Function.Bijective (algebraMap k Γ(Spec (.of k), ⊤)) := by
-    show Function.Bijective
+    change Function.Bijective
       (((Scheme.ΓSpecIso (.of k)).inv).hom.comp (RingHom.id k))
     exact (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of k)).inv).comp
       Function.bijective_id
@@ -180,7 +180,7 @@ theorem isCompleteIntersection_stalk_iff_isCompleteIntersectionRing
     apply IsScalarTower.of_algebraMap_eq
     intro z
     simp only [RingHom.algebraMap_toAlgebra]
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom z =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom z =
       (f.appLE ⊤ U.1 (by simp)).hom
         ((CommRingCat.ofHom (RingHom.id k) ≫ (Scheme.ΓSpecIso (.of k)).inv).hom z)
     simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply]

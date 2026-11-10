@@ -26,10 +26,9 @@ three statements without it and attaches the tag.
 
 ## Implementation notes
 
-Each proof is the corresponding conditional statement applied to
-`AlgebraicGeometry.LimitDescent.hasFinitePresentationModels`; no other change is made, so the
-hypotheses and conclusions are those of
-`StacksFrontier.AlgebraicGeometry.Limits.FlatImageSystem` with `hmod` deleted.
+Each proof is the corresponding statement of
+`StacksFrontier.AlgebraicGeometry.Limits.FlatImageSystem`, which no longer carries `hmod`, so the
+hypotheses and conclusions are those statements'.
 
 ## References
 
@@ -47,7 +46,7 @@ namespace AlgebraicGeometry
 
 namespace LimitNoetherianSituation
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)] [FinallySmall.{u} I]
+variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
 
 /-- **Stacks Project, Tag 0CNT, eventual flatness.**
 
@@ -67,7 +66,7 @@ public theorem eventually_flat_morphismAt
     ∃ (i₃ : I) (_ : i₀ ≤ i₃),
       ∀ (j : Over (op i₀)), i₃ ≤ unop j.left → Flat (F.maps.app j) :=
   eventually_flat_morphismAt_of_hasFinitePresentationModels
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 /-- **Stacks Project, Tag 0CNT, cartesian transition squares.**
 
@@ -92,7 +91,7 @@ public theorem eventually_isPullback_morphismAt
             ((Over.map ((homOfLE hY).op) ⋙ GoodDiagram.imageSystem GY).map a)
             (F.maps.app k) :=
   eventually_isPullback_morphismAt_of_hasFinitePresentationModels
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 /-- **Stacks Project, Tag 0CNT, cartesian limit square.**
 
@@ -116,14 +115,14 @@ public theorem eventually_isPullback_limit_morphismAt
           ((GoodDiagram.imageCone GY).π.app ((Over.map ((homOfLE hY).op)).obj j))
           (F.maps.app j) :=
   eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 end LimitNoetherianSituation
 
 namespace LimitNoetherianSituation
 
-/-! The statements of Tag 0CNT for an index carrying no smallness hypothesis. The registered
-statements above, at a finally small index, are their specialisations. -/
+/-! The statements of Tag 0CNT for an index carrying no smallness hypothesis, under the primed
+names. The registered statements above carry no smallness hypothesis either. -/
 
 variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
 
@@ -144,7 +143,7 @@ public theorem eventually_flat_morphismAt'
     ∃ (i₃ : I) (_ : i₀ ≤ i₃),
       ∀ (j : Over (op i₀)), i₃ ≤ unop j.left → Flat (F.maps.app j) :=
   eventually_flat_morphismAt_of_hasFinitePresentationModels'
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 /-- **Stacks Project, Tag 0CNT, cartesian transition squares, with no smallness hypothesis on the
 index.**
@@ -169,7 +168,7 @@ public theorem eventually_isPullback_morphismAt'
             ((Over.map ((homOfLE hY).op) ⋙ GoodDiagram.imageSystem GY).map a)
             (F.maps.app k) :=
   eventually_isPullback_morphismAt_of_hasFinitePresentationModels'
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 /-- **Stacks Project, Tag 0CNT, cartesian limit square, with no smallness hypothesis on the
 index.**
@@ -193,7 +192,7 @@ public theorem eventually_isPullback_limit_morphismAt'
           ((GoodDiagram.imageCone GY).π.app ((Over.map ((homOfLE hY).op)).obj j))
           (F.maps.app j) :=
   eventually_isPullback_limit_morphismAt_of_hasFinitePresentationModels'
-    LimitDescent.hasFinitePresentationModels D f hf hfp GX GY i₀ hX hY F
+    D f hf hfp GX GY i₀ hX hY F
 
 end LimitNoetherianSituation
 

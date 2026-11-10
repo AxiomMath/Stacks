@@ -343,7 +343,7 @@ theorem bijective_smul_of_pairing_eq_one (hLp : Presheaf.IsSheaf J Lp.presheaf)
     set ψ' := (PresheafOfModules.toPresheaf
       (TensorSheafification.structureRingPresheaf O)).map ψ
     have he : ψ'.app (op U) (y ⊗ₜ t) = ψ'.app (op U) (x ⊗ₜ t) := by
-      show pairingMap ψ U ((pairingMap ψ U (x ⊗ₜ t) • s) ⊗ₜ t) = pairingMap ψ U (x ⊗ₜ t)
+      change pairingMap ψ U ((pairingMap ψ U (x ⊗ₜ t) • s) ⊗ₜ t) = pairingMap ψ U (x ⊗ₜ t)
       rw [pairingMap_smul_tmul, hst, mul_one]
     have hS : Presheaf.equalizerSieve (F := (Lp ⊗ Np).presheaf) (y ⊗ₜ t) (x ⊗ₜ t) ∈ J U :=
       Presheaf.equalizerSieve_mem J ψ' _ _ he
@@ -521,7 +521,7 @@ theorem isFiniteLocallyFreeOfRank_one_of_isInvertible' (X : RingedSite.{u, v, w}
   refine ⟨fun _ ↦ e.inv, ⟨Limits.Cofan.IsColimit.mk _ (fun s ↦ e.hom ≫ s.inj 0) ?_ ?_⟩⟩
   · intro s j
     fin_cases j
-    show e.inv ≫ e.hom ≫ s.inj 0 = s.inj 0
+    change e.inv ≫ e.hom ≫ s.inj 0 = s.inj 0
     rw [Iso.inv_hom_id_assoc]
   · intro s m hm
     have h0 : e.inv ≫ m = s.inj 0 := hm 0

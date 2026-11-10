@@ -85,7 +85,7 @@ public theorem hasFlatRepresentative_extendScalars {A B : Type u} [CommRing A] [
   · intro n
     let : Algebra A B := f.toAlgebra
     have : Module.Flat A (E.X n) := hflat n
-    show Module.Flat B (B ⊗[A] (E.X n))
+    change Module.Flat B (B ⊗[A] (E.X n))
     infer_instance
   · have := hGE
     infer_instance

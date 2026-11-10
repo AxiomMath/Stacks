@@ -220,7 +220,7 @@ lemma coversTop_over_subtype {C : Type u} [Category.{v} C] (J : GrothendieckTopo
   obtain ⟨A, l, mm, hA, hql⟩ := hfac q.left hq
   rw [Sieve.mem_ofObjects_iff]
   refine ⟨⟨Over.mk (mm ≫ Z.hom), hA⟩, ⟨Over.homMk l ?_⟩⟩
-  show l ≫ mm ≫ Z.hom = Y.hom
+  change l ≫ mm ≫ Z.hom = Y.hom
   rw [← Category.assoc, ← hql]
   exact Over.w q
 
@@ -498,7 +498,7 @@ theorem exists_generators_relations_of_isCartesian (M : Modules.{u, m} B S hS F 
   let A' : Over U := Over.mk (mm ≫ W.hom)
   let mA : A' ⟶ W := Over.homMk mm
   let lA : Z ⟶ A' := Over.homMk l (by
-    show l ≫ mm ≫ W.hom = Z.hom
+    change l ≫ mm ≫ W.hom = Z.hom
     rw [← Category.assoc, ← hleft]
     exact Over.w q)
   let _ := chartRing_commRing B S hS F hF A'.left
@@ -543,7 +543,7 @@ theorem exists_generators_relations_of_isCartesian (M : Modules.{u, m} B S hS F 
     exact Category.assoc _ _ _
   have hc' : chartRestrict (hF := hF) mA.left (t.val i)
       = ∑ j, c j * chartRestrict (hF := hF) φ (g j i) := hc i
-  show ∑ j, chartRestrict (hF := hF) lA.left (c j) *
+  change ∑ j, chartRestrict (hF := hF) lA.left (c j) *
     chartRestrict (hF := hF) (q ≫ f).left (g j i) = chartRestrict (hF := hF) q.left (t.val i)
   have hcomp : ∀ {X Y Z : (smallEtaleRingedSite B S hS F hF).C} {a : Y ⟶ X} {b : Z ⟶ Y}
       {e : Z ⟶ X} (h : e = b ≫ a) (x : chartRing B S hS F hF X), chartRestrict (hF := hF) e x

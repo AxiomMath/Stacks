@@ -171,7 +171,7 @@ theorem rightDerivedExtensionObjIso_inv_map_hom
   have := isIso_rightDerivedExtensionUnit_app T hI'
   have hnat := (rightDerivedExtensionUnit T).naturality ((HomotopyCategory.quotient A).map ψ)
   simp only [Functor.comp_map] at hnat
-  show (rightDerivedExtensionUnit T).app ((HomotopyCategory.quotient A).obj I) ≫
+  change (rightDerivedExtensionUnit T).app ((HomotopyCategory.quotient A).obj I) ≫
     (rightDerivedExtension T).map _ ≫ _ = _
   rw [← Category.assoc, ← hnat, Category.assoc]
   simp [rightDerivedExtensionObjIso]
@@ -269,7 +269,7 @@ theorem rigidRightDerivedExtension_map_of_isDGInjective
       eqToHom (rigidRightDerivedExtension_obj_of_isDGInjective T hI) ≫
         T.map ((HomotopyCategory.quotient A).map ψ) ≫
           eqToHom (rigidRightDerivedExtension_obj_of_isDGInjective T hI').symm := by
-  show (rigidRightDerivedExtensionObjIso T _).inv ≫ (rightDerivedExtension T).map _ ≫
+  change (rigidRightDerivedExtensionObjIso T _).inv ≫ (rightDerivedExtension T).map _ ≫
     (rigidRightDerivedExtensionObjIso T _).hom = _
   rw [rigidRightDerivedExtensionObjIso_of_isDGInjective T hI,
     rigidRightDerivedExtensionObjIso_of_isDGInjective T hI']

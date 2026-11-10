@@ -65,15 +65,15 @@ theorem bijective_restrict_of_bijective (n : ℤ) :
   refine ⟨fun x y h ↦ Subtype.ext (hbij.1 (congrArg Subtype.val h)), fun c ↦ ?_⟩
   obtain ⟨m, hm⟩ := hbij.2 c
   refine ⟨DirectSum.decompose 𝒜 m n, Subtype.ext ?_⟩
-  show φ (DirectSum.decompose 𝒜 m n) = c
+  change φ (DirectSum.decompose 𝒜 m n) = c
   have hsum : φ m = ∑ i ∈ (DirectSum.decompose 𝒜 m).support, φ (DirectSum.decompose 𝒜 m i) := by
     conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 m]
     rw [map_sum]
   have hmem : φ m ∈ 𝒞 n := hm ▸ c.2
   have hc : (DirectSum.decompose 𝒞 (φ m) n : P) = φ m := DirectSum.decompose_of_mem_same 𝒞 hmem
   have key : (DirectSum.decompose 𝒞 (φ m) n : P) = φ (DirectSum.decompose 𝒜 m n) := by
-    rw [hsum, DirectSum.decompose_sum, DFinsupp.finset_sum_apply,
-      AddSubmonoidClass.coe_finset_sum]
+    rw [hsum, DirectSum.decompose_sum, DFinsupp.finsetSum_apply,
+      AddSubmonoidClass.coe_finsetSum]
     by_cases hn : n ∈ (DirectSum.decompose 𝒜 m).support
     · rw [Finset.sum_eq_single n (fun i _ hin ↦ by
         rw [DirectSum.decompose_of_mem_ne 𝒞 (hφ i _ (DirectSum.decompose 𝒜 m i).2) hin])
@@ -165,7 +165,6 @@ theorem corrFunctorμIso_hom_apply (X Y : DegreeZero ℚ (CorrespondenceCategory
   kunnethIso_hom_apply _ _ _ _ _ _ p q n h a b
 
 omit [CharZero F] in
-include hB hC in
 /-- `F ≅ H^*(Spec k)` respects the gradings (Stacks 0FHE). -/
 theorem algebraMap_mem_grade_point (n : ℤ) (c : F)
     (hc : c ∈ concentratedGrading (R := F) F 0 n) :
@@ -183,7 +182,7 @@ def corrFunctorεIso :
   letI := concentratedDecomposition (R := F) F 0
   isoTensorUnitConcentrated.symm ≪≫
     gradedIsoOfBijective (concentratedGrading (R := F) F 0) (W.grade (point k))
-      (Algebra.linearMap F (W.H (point k))) (algebraMap_mem_grade_point hA hB hC)
+      (Algebra.linearMap F (W.H (point k))) (algebraMap_mem_grade_point (W := W))
       (algebraMap_point_bijective hB.kunnethIsomorphism hC.point)
 
 /-! ### The functor on graphs and on tensor products -/
@@ -228,7 +227,7 @@ theorem val_tensorHom {X₁ Y₁ X₂ Y₂ : DegreeZero ℚ (CorrespondenceCateg
     (X₁ := GradedCompositionData.Obj.mk X₁.as) (Y₁ := GradedCompositionData.Obj.mk Y₁.as)
     (X₂ := GradedCompositionData.Obj.mk X₂.as) (Y₂ := GradedCompositionData.Obj.mk Y₂.as) _ _)
   rw [← DirectSum.lof_eq_of ℚ, ← DirectSum.lof_eq_of ℚ]
-  show DegreeZero.val f ⊗ₘ DegreeZero.val g = ChowMotiveCat.homOf 0 _ ⊗ₘ ChowMotiveCat.homOf 0 _
+  change DegreeZero.val f ⊗ₘ DegreeZero.val g = ChowMotiveCat.homOf 0 _ ⊗ₘ ChowMotiveCat.homOf 0 _
   rw [← val_eq_homOf, ← val_eq_homOf]
 
 /-- The tensor law, for the tensor product of correspondences of the category of
@@ -482,9 +481,9 @@ theorem corrFunctorεIso_hom_unitOne :
         ((GradedObject.singleObjApplyIsoOfEq 0 (𝟙_ (ModuleCat.{w} F)) 0 rfl).inv.hom 1) = 1 := by
       rw [← ModuleCat.comp_apply, Iso.inv_hom_id, ModuleCat.id_apply]
     simp only [isoTensorUnitConcentrated, unitOne, tensorUnit₀, GradedObject.singleObjApplyIso,
-      GradedObject.isoMk, dif_pos]
+      GradedObject.isoMk, dite_eq_left]
     exact e
-  show Algebra.linearMap F (W.H (point k))
+  change Algebra.linearMap F (W.H (point k))
     (((isoTensorUnitConcentrated (R := F)).inv 0).hom unitOne : F) = 1
   rw [h, Algebra.linearMap_apply, map_one]
 

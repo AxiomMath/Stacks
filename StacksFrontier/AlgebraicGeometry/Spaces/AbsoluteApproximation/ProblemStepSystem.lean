@@ -101,6 +101,7 @@ noncomputable def nbhdTailToBase :
 noncomputable abbrev problemStepIndex : Q.indexTypeᵒᵖ ⥤ (Tail k)ᵒᵈ :=
   opToDual Q.indexType ⋙ Q.index.monotone.dual.functor
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- Each scheme `V_j` of the approximation `Q` lies in the big fppf site `B`. -/
 lemma contains_problemStepAmbient (j : Q.indexTypeᵒᵖ) :
     B.Contains ((opToDual Q.indexType ⋙ Q.ambient).obj j) := by

@@ -233,7 +233,7 @@ theorem assembleGlueingData_isEquivalence :
     have hright : (finitePresentationBaseChange d₀).map u = φ.hom.right none :=
       congrArg (fun k ↦ k.hom.right) hu
     refine ⟨ObjectProperty.homMk ⟨u, fun j ↦ φ.hom.right (some j), funext fun j ↦ ?_⟩, ?_⟩
-    · show (finitePresentationBaseChange (a (some j))).map
+    · change (finitePresentationBaseChange (a (some j))).map
           ((finitePresentationBaseChange cUW).map u) ≫ Z'.obj.hom j =
         Z.obj.hom j ≫
           (finitePresentationBaseChange (b (some j))).map (φ.hom.right (some j))
@@ -259,7 +259,7 @@ theorem assembleGlueingData_isEquivalence :
         Z.obj.hom (some j)⟩, ?_⟩, ⟨?_⟩⟩
     · refine (isIso_pi_iff _).mpr fun j ↦ ?_
       have : IsIso κ₁.hom := inferInstance
-      show IsIso ((finitePresentationBaseChange (a (some j))).map κ.hom.hom.left ≫
+      change IsIso ((finitePresentationBaseChange (a (some j))).map κ.hom.hom.left ≫
         Z.obj.hom (some j))
       exact IsIso.comp_isIso' (CategoryTheory.Functor.map_isIso _ _)
         ((isIso_pi_iff _).mp Z.property (some j))
@@ -268,12 +268,12 @@ theorem assembleGlueingData_isEquivalence :
         (funext fun i ↦ ?_))
       cases i with
       | none =>
-        show (finitePresentationBaseChange (a none)).map κ.hom.hom.left ≫ Z.obj.hom none =
+        change (finitePresentationBaseChange (a none)).map κ.hom.hom.left ≫ Z.obj.hom none =
           (finitePresentationPullbackSquareIso h₀).hom.app XW ≫
             (finitePresentationBaseChange (b none)).map κ.hom.hom.right
         exact κ.hom.hom.w
       | some j =>
-        show (finitePresentationBaseChange (a (some j))).map κ.hom.hom.left ≫
+        change (finitePresentationBaseChange (a (some j))).map κ.hom.hom.left ≫
             Z.obj.hom (some j) =
           ((finitePresentationBaseChange (a (some j))).map κ.hom.hom.left ≫
             Z.obj.hom (some j)) ≫

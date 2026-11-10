@@ -149,7 +149,7 @@ theorem exists_prodFst_eq (A V : SmallEtale B S hS X.1) (x : chartScheme A) (z :
       (BigFppfOver.toScheme B S hS).map (A.property.rep.fst' V.obj.hom) := rfl
   rw [e1]
   refine (pointsToScheme_pointsMap_yoneda B S hS _ pw).symm.trans ?_
-  show pointsToScheme B S hS a (pointsMap B S hS Zp.1 fst.hom pw) = x
+  change pointsToScheme B S hS a (pointsMap B S hS Zp.1 fst.hom pw) = x
   rw [hpa]
   exact (pointsEquivScheme B S hS a).apply_symm_apply x
 
@@ -284,7 +284,7 @@ theorem exists_coversTop_finite_near_over {K : Type w} {V : K → SmallEtale B S
   · obtain ⟨k, y, hy⟩ := exists_openChart_point_of_notMem B S hS X hV T hTcl x hx
     obtain ⟨w, hw⟩ := exists_prodFst_eq B S hS X (Vc k) (Vc k) y y rfl
     refine ⟨Sum.inr ⟨k, Vc k⟩, w, hout k (Vc k), ?_⟩
-    show chartSchemeToPoints B S hS X.1 (SmallEtale.prodObj B S hS X.1 (Vc k) (Vc k)) w = x
+    change chartSchemeToPoints B S hS X.1 (SmallEtale.prodObj B S hS X.1 (Vc k) (Vc k)) w = x
     rw [← chartSchemeToPoints_map B S hS X.1 (SmallEtale.prodFst B S hS X.1 (Vc k) (Vc k)), hw, hy]
 
 end AlgebraicGeometry.Space

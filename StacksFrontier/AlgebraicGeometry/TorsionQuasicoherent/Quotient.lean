@@ -155,7 +155,7 @@ private lemma exists_stalkFn_torsionIncl_eq (x : X) {m : F.presheaf.stalk x}
     · rw [← germ_smul F y hy a _, has, map_zero]
   refine ⟨(torsionModule F).presheaf.germ W x hxW (mk F _ htors), ?_⟩
   rw [stalkFn_germ]
-  show F.presheaf.germ W x hxW (F.presheaf.map (homOfLE hWU).op s) = m
+  change F.presheaf.germ W x hxW (F.presheaf.map (homOfLE hWU).op s) = m
   rw [F.presheaf.germ_res_apply]
   exact hs
 

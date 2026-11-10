@@ -157,7 +157,8 @@ private theorem smul_idealAction_app_eq_zero
     (G' : SheafOfModules.{u} (structureSheafRing X')) (V : Opens X')
     (r : (structureSheafRing X').obj.obj (op V))
     (hr : ((structureSheafHom i).hom.app (op V)).hom r = 0)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (G'))).val.obj (op V)) :
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj
+      ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (G'))).val.obj (op V)) :
     r • ((idealAction i G').val.app (op V)).hom t = 0 := by
   obtain ⟨S, hS, hsum⟩ := Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
     X' (AlgebraicGeometry.SheafOfModules.idealSheaf i) G' V t
@@ -215,19 +216,28 @@ private theorem idealAction_image_eq_zero
     idealAction i (Abelian.image (idealAction i G')) = 0 := by
   let I : SheafOfModules.{u} (structureSheafRing X') :=
     AlgebraicGeometry.SheafOfModules.idealSheaf i
-  have hcomp : idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫ idealAction i G' = 0 := by
+  have hcomp : idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+      ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫ idealAction i G' = 0 := by
     refine tensorSheaf_hom_ext fun V a t => ?_
-    have hzero : ((0 : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))))) ⟶ G').val.app (op V)).hom
-        (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
+    have hzero : ((0 : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+        ((X')).IsSheaf⟩).obj (I)).obj (((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))))) ⟶ G').val.app (op V)).hom
+        (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+          ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
           (a ⊗ₜ[X'.presheaf.obj (op V)] t)) = 0 := rfl
-    have hsplit : ((idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫ idealAction i G').val.app (op V)).hom
-        (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
+    have hsplit : ((idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+        ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫ idealAction i G').val.app (op V)).hom
+        (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+          ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
           (a ⊗ₜ[X'.presheaf.obj (op V)] t)) =
         ((idealAction i G').val.app (op V)).hom
-          (((idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G')))).val.app (op V)).hom
-            (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
+          (((idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+            ((X')).IsSheaf⟩).obj (I)).obj (G')))).val.app (op V)).hom
+            (toTensorSheafSection X' I ((((Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) (op V)
               (a ⊗ₜ[X'.presheaf.obj (op V)] t))) := rfl
-    rw [hzero, hsplit, idealAction_app_tmul i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) V a t, _root_.map_smul]
+    rw [hzero, hsplit, idealAction_app_tmul i ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) V a t, _root_.map_smul]
     have hker : ((structureSheafHom i).hom.app (op V)).hom
         (((idealSheafι i).val.app (op V)).hom a) = 0 :=
       congrArg
@@ -236,7 +246,8 @@ private theorem idealAction_image_eq_zero
           (k.val.app (op V)).hom a)
         (kernel.condition (SheafOfModules.unitToPushforwardObjUnit (structureSheafHom i)))
     exact smul_idealAction_app_eq_zero i hsq G' V _ hker t
-  have hzero : idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫
+  have hzero : idealAction i ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X')).presheaf,
+      ((X')).IsSheaf⟩).obj (I)).obj (G'))) ≫
       Abelian.factorThruImage (idealAction i G') = 0 :=
     zero_of_comp_mono (Abelian.image.ι (idealAction i G'))
       (by rw [Category.assoc, Abelian.image.fac]; exact hcomp)

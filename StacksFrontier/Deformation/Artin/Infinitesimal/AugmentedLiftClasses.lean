@@ -144,7 +144,7 @@ public theorem map_comp {D E F : AugmentedSiteRing A B S hS toS hA}
     (f : Hom D E) (g : Hom E F) (z : classes p x hx D) :
     map p x hx hp (g ≫ f) z = map p x hx hp g (map p x hx hp f z) := by
   let := underPost_isFibered p hp x
-  show (Under.post p).isoClassPresheaf.map ((underMap p x hx g) ≫
+  change (Under.post p).isoClassPresheaf.map ((underMap p x hx g) ≫
     (underMap p x hx f)).op z = _
   exact ConcreteCategory.congr_hom
     ((Under.post p).isoClassPresheaf.map_comp (underMap p x hx f).op
@@ -154,7 +154,7 @@ public theorem map_comp {D E F : AugmentedSiteRing A B S hS toS hA}
 public theorem map_id (D : AugmentedSiteRing A B S hS toS hA)
     (z : classes p x hx D) : map p x hx hp (𝟙 D.under) z = z := by
   let := underPost_isFibered p hp x
-  show (Under.post p).isoClassPresheaf.map (𝟙 _) z = z
+  change (Under.post p).isoClassPresheaf.map (𝟙 _) z = z
   simp
 
 /-- Pullback along an isomorphism of augmented rings is a bijection of lift classes. -/
@@ -267,7 +267,7 @@ public theorem pair_bijective (hp : p.IsFiberedInGroupoids)
     intro t
     refine ⟨Functor.IsoFiber.ext (he₁ t).1 ?_, Functor.IsoFiber.ext (he₁ t).2 (he₃ t).2⟩
     refine (he₃ t).1.trans (heq_of_eq ?_)
-    show ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
+    change ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
         t.obj.hom =
       ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
         𝟙 _ ≫ t.obj.hom
@@ -403,7 +403,7 @@ public theorem map_comp {R : AugmentedSiteRing A B S hS toS hA} (hp : p.IsFibere
     {D E F : BasedSiteRing A B S hS toS hA R}
     (g : RingMap E F) (f : RingMap D E) (z : classes p x hx D) :
     map p x hx hp (g.comp f) z = map p x hx hp g (map p x hx hp f z) := by
-  show AugmentedSiteRing.map p x hx hp _ z = _
+  change AugmentedSiteRing.map p x hx hp _ z = _
   rw [RingMap.toHom_comp, AugmentedSiteRing.map_comp]
 
 /-- The base ring `R` itself, as an augmented ring under `R`. -/
@@ -550,7 +550,7 @@ public theorem map_id (R : AugmentedSiteRing A B S hS toS hA) (hp : p.IsFiberedI
     map p x hx hp (RingMap.id R D) z = z := by
   have h : (RingMap.id R D).toHom = 𝟙 D.toAffine.under :=
     AugmentedSiteRing.hom_ext (Spec.map_id _)
-  show AugmentedSiteRing.map p x hx hp _ z = z
+  change AugmentedSiteRing.map p x hx hp _ z = z
   rw [h, AugmentedSiteRing.map_id]
 
 /-- The inverse of a ring map under `R` whose underlying map is a ring isomorphism. -/

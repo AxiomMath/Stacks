@@ -121,7 +121,7 @@ theorem isPrincipalDivisorCycleOfGood_zsmul_canonicalDivisorCycleAt_sub
   refine ⟨((g ^ a : (rationalFunctions D.site D.base D.base_mem hY.1)ˣ) :
     rationalFunctions D.site D.base D.base_mem hY.1), (g ^ a).isUnit, ?_⟩
   funext W
-  show a • ((canonicalDivisorCycle D sY hY hint M hM τ hτ hk).1 W -
+  change a • ((canonicalDivisorCycle D sY hY hint M hM τ hτ hk).1 W -
       (canonicalDivisorCycle D sY hY hint M hM τ' hτ' hk).1 W) = _
   by_cases hcod : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 W) = 1
@@ -131,14 +131,14 @@ theorem isPrincipalDivisorCycleOfGood_zsmul_canonicalDivisorCycleAt_sub
         divisorCycleCoefficients_of_codimension_eq_one D sY hY _ M τ' _ hcod]
     unfold divisorCoefficients
     rw [hg, add_sub_cancel_left]
-    simp only [principalDivisorCycleCoefficients, dif_pos hcod]
+    simp only [principalDivisorCycleCoefficients, dite_eq_left hcod]
     have hz := congrFun (E.ord_zpow g a) (W.toPrimeDivisor D.site D.base D.base_mem hY.1 hcod)
     exact hz.symm
   · rw [show (canonicalDivisorCycle D sY hY hint M hM τ hτ hk).1 W = 0 from
         divisorCycleCoefficients_of_codimension_ne_one D sY hY _ M τ _ hcod,
       show (canonicalDivisorCycle D sY hY hint M hM τ' hτ' hk).1 W = 0 from
         divisorCycleCoefficients_of_codimension_ne_one D sY hY _ M τ' _ hcod]
-    simp only [principalDivisorCycleCoefficients, dif_neg hcod, sub_self, smul_zero]
+    simp only [principalDivisorCycleCoefficients, dite_eq_right hcod, sub_self, smul_zero]
 
 /-- **Stacks 0EPV at the canonical embeddings of Stacks 0ENK.**  For invertible `ℒ`, `𝒩` with
 regular meromorphic sections `s`, `t` and any regular meromorphic section `u` of `ℒ ⊗ 𝒩`, every

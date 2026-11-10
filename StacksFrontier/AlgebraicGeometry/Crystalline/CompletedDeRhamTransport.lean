@@ -83,11 +83,10 @@ public theorem isoValues_bwd_fwd (i : ℕ) (z : CompletedTensor p D (Om i) M) :
     (TensorProduct.map muInv (psiInv i))
     (map_pAdicIdeal_le p (e : D →+* D')) (map_pAdicIdeal_le p (e.symm : D' →+* D)) ?_ z
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [TensorProduct.map_tmul, TensorProduct.map_tmul]
-    show muInv (mu m) ⊗ₜ[D] psiInv i (psi i ω) = m ⊗ₜ[D] ω
+    change muInv (mu m) ⊗ₜ[D] psiInv i (psi i ω) = m ⊗ₜ[D] ω
     rw [hmu, hpsi]
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 
@@ -145,7 +144,7 @@ public theorem isSquareZero_comparison
   intro i
   refine AddMonoidHom.ext fun y => ?_
   obtain ⟨x, rfl⟩ := surjective_isoValuesFwd p e mu muInv psi psiInv hmu' hpsi' i y
-  show differential p D' Om' wedge' deRham' M' nabla' hleib' (i + 1)
+  change differential p D' Om' wedge' deRham' M' nabla' hleib' (i + 1)
       (differential p D' Om' wedge' deRham' M' nabla' hleib' i
         (isoValuesFwd p e mu psi i x)) = 0
   rw [differential_comparisonValues p D D' (e : D →+* D') M M' mu Om Om' psi wedge wedge'
@@ -230,7 +229,7 @@ completed tensor products of `M` and `M'` with the one-forms. -/
     (hmu' : ∀ m' : M', mu (muInv m') = m') (hdm : ∀ f : D, psi 1 (dm f) = dm' (e f)) (m : M) :
     transportConnection p e mu muInv psi dm dm' nabla hmu' hdm (mu m) =
       isoValuesFwd p e mu psi 1 (nabla m) := by
-  show isoValuesFwd p e mu psi 1 (nabla (muInv (mu m))) = _
+  change isoValuesFwd p e mu psi 1 (nabla (muInv (mu m))) = _
   rw [hmu]
 
 end TransportConnection

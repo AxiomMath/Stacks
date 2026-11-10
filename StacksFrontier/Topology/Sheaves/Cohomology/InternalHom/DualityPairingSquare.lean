@@ -59,7 +59,8 @@ namespace Stacks.SheafOfModules
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
-attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
+attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive
+  Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
   Stacks.Topology.SheafTensorAdditiveOnOpens.hasMapBifunctorSheafTensor
 
 -- The ring sheaf of `ringedSite Rc` is `Stacks.SheafOfModules.Tensor.ringSheaf Rc`, which pairs
@@ -111,9 +112,10 @@ with `E` perfect (Tag 08CM). The diagram
 `Hom_X(E, K) × H⁰(X, E)        ⟶       H⁰(X, K)`
 
 commutes: for `ξ ∈ H⁰(X, K ⊗^L E^∨)` and `η ∈ H⁰(X, E)`, the class of the tensor product of
-the morphisms out of `O_X` that `ξ` and `η` name, followed by the map induced on `H⁰` by `ε : E^∨ ⊗^L E ⟶ O_X` (Example 0FPC) is the morphism
-`E ⟶ K` attached to `ξ` by the identification `H⁰(X, K ⊗^L E^∨) = Hom_{D(O_X)}(E, K)` of
-Lemma 08DQ (`Stacks.SheafOfModules.derivedTensorDualGlobalSectionsMap`), evaluated on `η`.
+the morphisms out of `O_X` that `ξ` and `η` name, followed by the map induced on `H⁰` by
+`ε : E^∨ ⊗^L E ⟶ O_X` (Example 0FPC) is the morphism `E ⟶ K` attached to `ξ` by the identification
+`H⁰(X, K ⊗^L E^∨) = Hom_{D(O_X)}(E, K)` of Lemma 08DQ
+(`Stacks.SheafOfModules.derivedTensorDualGlobalSectionsMap`), evaluated on `η`.
 
 A class of `H⁰(X, Z)` is identified with a morphism `O_X ⟶ Z` by
 `AlgebraicGeometry.RingedSite.derivedStructureSheafGlobalSectionsEquiv`; the top arrow is

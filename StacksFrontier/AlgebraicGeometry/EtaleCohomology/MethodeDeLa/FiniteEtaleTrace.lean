@@ -245,7 +245,7 @@ theorem splitTrace_eq (U : S.Etale) {q q' : U.left ⟶ S} (h : Stacks.Etale.IsSp
       downward_closed := by
         rintro W W' k ⟨e, he⟩ l
         refine ⟨e, fun i ↦ ?_⟩
-        show l.left ≫ k.left ≫ h.sheet i = l.left ≫ k.left ≫ h'.sheet (e i)
+        change l.left ≫ k.left ≫ h.sheet i = l.left ≫ k.left ≫ h'.sheet (e i)
         rw [he i] }
   have hM : M ∈ smallEtaleTopology S U := by
     rw [mem_smallEtaleTopology_iff]
@@ -253,7 +253,7 @@ theorem splitTrace_eq (U : S.Etale) {q q' : U.left ⟶ S} (h : Stacks.Etale.IsSp
     obtain ⟨O, e, hwO, he⟩ := exists_open_sheet_equiv g U h h' (hq.symm.trans hq') w
     let V : S.Etale := MorphismProperty.Over.mk ⊤ (O.ι ≫ U.hom) (by infer_instance)
     refine ⟨V, MorphismProperty.Over.homMk O.ι rfl, ⟨e, he⟩, ?_⟩
-    show w ∈ Set.range O.ι
+    change w ∈ Set.range O.ι
     rw [Scheme.Opens.range_ι]
     exact hwO
   ext s
@@ -348,7 +348,7 @@ theorem unit_comp_finiteEtaleTrace_of_natCard {d : ℕ}
   congr 1
   ext X t
   obtain ⟨⟨U, ⟨h⟩⟩⟩ := X
-  show (finiteEtaleTrace g G).hom.app (op U)
+  change (finiteEtaleTrace g G).hom.app (op U)
     (G.obj.map (baseChangeComposeπ g U).op t) = (d • 𝟙 G).hom.app (op U) t
   rw [finiteEtaleTrace_app g G U h]
   refine (splitTrace_unit g G U h rfl t).trans ?_

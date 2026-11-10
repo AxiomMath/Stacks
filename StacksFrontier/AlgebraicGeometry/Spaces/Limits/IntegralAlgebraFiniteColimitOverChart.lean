@@ -207,7 +207,7 @@ theorem exists_hom_forall_bijective [IsFiltered K] (hc : IsColimit (Cocone.mk _ 
       exact (ConcreteCategory.congr_hom (congrArg (fun g => g.val.app (op U)) h3)
         (zw w'')).trans (hzw w'')
     have hmk : GenQuot.mk (n j') (op U) w = 0 := Ideal.Quotient.eq_zero_iff_mem.2 (hle hw0)
-    show (GenQuot.unit (n j')).app (op U) (GenQuot.mk (n j') (op U) w) = 0
+    change (GenQuot.unit (n j')).app (op U) (GenQuot.mk (n j') (op U) w) = 0
     rw [hmk, map_zero]
   · obtain ⟨a, ha⟩ := hsurj y
     exact ⟨_, (hfac a).trans ha⟩

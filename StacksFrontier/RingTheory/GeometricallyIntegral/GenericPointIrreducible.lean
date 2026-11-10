@@ -101,13 +101,13 @@ theorem isGeometricallyIrreducible_iff_of_isLocalization (k A L : Type u) [Field
   let : Algebra A (L ⊗[k] k') := Algebra.TensorProduct.leftAlgebra
   let : IsScalarTower A (A ⊗[k] k') (L ⊗[k] k') := IsScalarTower.of_algebraMap_eq' (by
     ext x
-    show (algebraMap A L x) ⊗ₜ[k] (1 : k') = ψ (x ⊗ₜ[k] (1 : k'))
+    change (algebraMap A L x) ⊗ₜ[k] (1 : k') = ψ (x ⊗ₜ[k] (1 : k'))
     simp [ψ])
   have hcomm : (algebraMap (A ⊗[k] k') (L ⊗[k] k')).comp
       Algebra.TensorProduct.includeRight.toRingHom =
       Algebra.TensorProduct.includeRight.toRingHom := by
     ext x
-    show ψ ((1 : A) ⊗ₜ[k] x) = (1 : L) ⊗ₜ[k] x
+    change ψ ((1 : A) ⊗ₜ[k] x) = (1 : L) ⊗ₜ[k] x
     simp [ψ]
   have : IsLocalization (Algebra.algebraMapSubmonoid (A ⊗[k] k') M) (L ⊗[k] k') :=
     IsLocalization.tensorProduct_tensorProduct k k' M L hcomm
@@ -216,7 +216,7 @@ theorem isGeometricallyIrreducible_quotient_span_X_sq (k : Type u) [Field k] :
       nilradical (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ 2}) := by
     rw [Ideal.map_le_iff_le_comap, Ideal.span_le, Set.singleton_subset_iff]
     refine ⟨2, ?_⟩
-    show (Ideal.Quotient.mk _ (Polynomial.X : Polynomial k)) ^ 2 = 0
+    change (Ideal.Quotient.mk _ (Polynomial.X : Polynomial k)) ^ 2 = 0
     rw [← map_pow]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self _)
   rw [isGeometricallyIrreducible_iff_quotient_of_le_nilradical k _ _ hnil]

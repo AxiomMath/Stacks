@@ -126,7 +126,7 @@ private theorem exists_memFiberSupport_dimFacts (hinit : P.upperPrime.comap st.t
     IsScalarTower.of_algebraMap_eq fun x => (st.toA₀.commutes x).symm
   have : IsScalarTower S st.A st.M :=
     ⟨fun x y m => by
-      show (st.toA₀ x * y) • m = st.toA₀ x • y • m
+      change (st.toA₀ x * y) • m = st.toA₀ x • y • m
       rw [mul_smul]⟩
   have huniq : ∀ p' : PrimeSpectrum st.A,
       PrimeSpectrum.comap (algebraMap st.B st.A) p' = ⟨P.lowerPrime, P.lowerPrime_isPrime⟩ →

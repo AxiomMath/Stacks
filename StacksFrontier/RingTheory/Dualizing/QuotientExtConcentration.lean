@@ -139,7 +139,7 @@ theorem eq_of_nontrivial_ext_of_isCohenMacaulayAtMaximalIdeal
   have hj' : Nontrivial (DerivedCategory.Ext X (K⟦-m⟧) (j + m)) := by
     let s := (shiftFunctorAdd' (DerivedCategory (ModuleCat.{u} R)) (-m) (j + m) j
       (by omega)).app K
-    show Nontrivial (X ⟶ (K⟦-m⟧)⟦j + m⟧)
+    change Nontrivial (X ⟶ (K⟦-m⟧)⟦j + m⟧)
     exact (Iso.homCongr (Iso.refl X) s).nontrivial_congr.mp hj
   have h3 := ((isCohenMacaulay_iff_ext_concentrated.{u, 0} (M := M) (K⟦-m⟧) hm).out 1 3).mp hM
   have hcond : 0 ≤ -(j + m) ∧
@@ -192,7 +192,7 @@ theorem localizedModule_quotient_depth_supportDim (S : Type u) [CommRing S] (I :
   have : IsScalarTower S SP CQ := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     ext x
-    show algebraMap S CQ x = Localization.localRingHom P Q (Ideal.Quotient.mk I) hPdef
+    change algebraMap S CQ x = Localization.localRingHom P Q (Ideal.Quotient.mk I) hPdef
       (algebraMap S SP x)
     rw [Localization.localRingHom_to_map]
     rfl
@@ -325,7 +325,7 @@ theorem subsingleton_ext_quotient_of_ne (S : Type u) [CommRing S] [IsNoetherianR
       (Localization.AtPrime (Q.comap (Ideal.Quotient.mk I)))
       ((ModuleCat.localizedModuleFunctor.{u}
         (Q.comap (Ideal.Quotient.mk I)).primeCompl).obj (ModuleCat.of S (S ⧸ I))) := by
-    show (Module.depth _ _ _ : WithBot ℕ∞) = _
+    change (Module.depth _ _ _ : WithBot ℕ∞) = _
     rw [hsupp', Module.depth_eq_depth_of_linearEquiv _ eM, hdepth, hdQ]
     exact hCM Q
   have hdR : ringKrullDim (Localization.AtPrime (Q.comap (Ideal.Quotient.mk I))) =

@@ -84,9 +84,7 @@ public theorem fun_eq_of_tmul {A : Type u} [CommRing A] (E M : ModuleCat.{u} A) 
     (hF : ∀ z z', F (z + z') = F z + F z')
     (hT : ∀ z z', T (z + z') = T z + T z')
     (h : ∀ (x : E) (m : M), F (x ⊗ₜ[A] m) = T (x ⊗ₜ[A] m)) (z : E ⊗[A] M) : F z = T z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact (map_zero (AddMonoidHom.mk' F hF)).trans (map_zero (AddMonoidHom.mk' T hT)).symm
+  induction z using TensorProduct.inductionOn with
   | tmul x m => exact h x m
   | add z z' hz hz' => rw [hF, hT, hz, hz']
 
@@ -140,12 +138,8 @@ public theorem bijective_extendScalarsTranspose_tmul {A D E F : Type u} [CommRin
         (b ⊗ₜ[D] c : E ⊗[D] F) • (show N from v.hom m))
     (hbij : Function.Bijective T) :
     Function.Bijective (extendScalarsTranspose g v).hom := by
-  have hzero : T 0 = 0 := map_zero (AddMonoidHom.mk' T hadd)
   refine bijective_extendScalarsTranspose g v T hadd (fun x m => ?_) hbij
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      exact (congrArg T (TensorProduct.zero_tmul _ m)).trans
-        (hzero.trans (zero_smul (E ⊗[D] F) _).symm)
+  induction x using TensorProduct.inductionOn with
   | tmul b c => exact hT b c m
   | add x x' hx hx' =>
       exact (congrArg T (TensorProduct.add_tmul (R := A)
@@ -195,8 +189,7 @@ public theorem bijective_extendScalarsTranspose_of_rearrange
   intro N v Ξ hadd hbij hΞ
   have hlin : ∀ (a : A) (x : (M : Type u) ⊗[R'] C), e (a • x) = a • e x := by
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul m c => rw [TensorProduct.smul_tmul', he]
     | add x x' hx hx' => rw [smul_add, map_add, map_add, hx, hx', smul_add]
   let Φ : ((B ⊗[Rp] C) ⊗[A ⊗[R] R'] (M : Type u)) ≃+ B ⊗[A] G :=
@@ -795,7 +788,7 @@ public theorem exists_localRingsSourceCornerEquiv
           ((affineDerivedSections ch.incU).obj K) n : Type u)
         (ToType (S'.presheaf.stalk (f' (ch.incU' y))))).toAddEquiv.trans
       (ch.homologyBaseChangeLocalizedIso y K n).symm.toLinearEquiv.toAddEquiv, fun x c => ?_⟩
-    show (ch.homologyBaseChangeLocalizedIso y K n).symm.toLinearEquiv
+    change (ch.homologyBaseChangeLocalizedIso y K n).symm.toLinearEquiv
       (TensorProduct.comm ch.R'
         (RingTheory.TorIndependence.baseChangeCohomologyCatGeneral (R := ch.R) (R' := ch.R')
           ((affineDerivedSections ch.incU).obj K) n : Type u)

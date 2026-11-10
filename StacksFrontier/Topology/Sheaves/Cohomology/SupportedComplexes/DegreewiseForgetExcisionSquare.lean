@@ -527,6 +527,7 @@ variable {A : Type uA} [Category.{vA} A] [Abelian A] [EnoughInjectives A]
 
 /-! #### The two corners that occur in two shapes -/
 
+omit [EnoughInjectives A] [EnoughInjectives B'] in
 /-- **The excised corner in its two shapes.**  `Rⁿ Ṡ` read after `L` and `Φ'` can be reached
 either by pulling `Φ'` out of the cohomology and then `L` out of the object in degree `0`, or the
 other way round; the two routes agree by `singleHomologyPull_comm`. -/
@@ -539,6 +540,7 @@ theorem excisionCorner_shape :
     Functor.whiskerLeft_comp, ← Category.assoc, singleHomologyPull_comm, Category.assoc]
   rfl
 
+omit [EnoughInjectives A] [EnoughInjectives B'] in
 /-- **The forgotten corner in its two shapes**, the same statement on the other side of the
 square. -/
 theorem forgetCorner_shape :
@@ -550,6 +552,7 @@ theorem forgetCorner_shape :
 
 /-! #### The six legs -/
 
+omit [EnoughInjectives B'] in
 /-- **The excision leg**: the degree-`n` cohomology of the derived excision for `S`, read through
 the two corners, is the classical excision whiskered with `Φ'`. -/
 theorem degreewiseExcisionLeg
@@ -566,6 +569,7 @@ theorem degreewiseExcisionLeg
   rw [← Category.assoc, singleHomologyPullOuter_naturality, Category.assoc,
     ← Functor.whiskerRight_comp, hme, Functor.whiskerRight_comp, Category.assoc]
 
+omit [EnoughInjectives A] in
 /-- **The forgetful leg on the open part**: the degree-`n` cohomology of [Stacks, Tag 0G74]
 part (2) on `U`, read through the two corners, is the degree-`n` forgetful comparison whiskered
 with `L`. -/
@@ -583,6 +587,7 @@ theorem degreewiseOpenForgetLeg
     degreewiseForgetComparison_fac S' T' Φ' RS' αS' RT' αT' φ' hA' hB' n,
     Functor.whiskerLeft_comp, Category.assoc]
 
+omit [EnoughInjectives A] [EnoughInjectives A'] [EnoughInjectives B] in
 /-- **The crossing leg on the open part**: the degree-`n` cohomology of the derived crossing,
 read through the two corners, is the underived crossing whiskered with `Rⁿ Ṡ'`. -/
 theorem degreewiseOpenCrossLeg
@@ -611,6 +616,7 @@ theorem degreewiseOpenCrossLeg
       (Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived T' RT' αT'
         hB' n).hom)
 
+omit [EnoughInjectives A'] [EnoughInjectives B] [EnoughInjectives B'] in
 /-- **The crossing leg on the ambient part**: the degree-`n` cohomology of the derived crossing
 after `RS`, read through the two corners, is the underived crossing after `Rⁿ S`. -/
 theorem degreewiseCrossLeg
@@ -641,6 +647,7 @@ theorem degreewiseCrossLeg
       (Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived S RS αS hA n).hom
       c.hom).symm
 
+omit [EnoughInjectives B'] in
 /-- **The forgetful leg on the ambient part**: the degree-`n` cohomology of [Stacks, Tag 0G74]
 part (2) on `X`, read through the two corners, is the degree-`n` forgetful comparison whiskered
 with `M`. -/
@@ -658,6 +665,7 @@ theorem degreewiseForgetLeg
     degreewiseForgetComparison_fac S T Φ RS αS RT αT φ hA hB n,
     Functor.whiskerRight_comp, Category.assoc]
 
+omit [EnoughInjectives A] in
 /-- **The abelian excision leg**: the degree-`n` cohomology of the derived excision for `Ṡ`,
 read through the two corners, is the classical abelian excision after `Φ`. -/
 theorem degreewiseAbelianExcisionLeg

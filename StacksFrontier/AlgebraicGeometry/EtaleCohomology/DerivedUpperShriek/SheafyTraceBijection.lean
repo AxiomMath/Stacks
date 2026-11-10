@@ -59,19 +59,12 @@ product of `f̄` and `Rf̄_*` of the projection isomorphism of `j`, which is the
 open CategoryTheory Opposite
 open Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi
 
-namespace Stacks.EtaleCohomology.DerivedUpperShriek.CompactificationData
-
-universe v₁ u₁ v₂ u₂ v₃ u₃
-
-variable {DU : Type u₁} [Category.{v₁} DU] {DX : Type u₂} [Category.{v₂} DX]
-  {DY : Type u₃} [Category.{v₃} DY] (data : CompactificationData DU DX DY)
-  {upperShriek : DY ⥤ DU} (adj : data.derivedLowerShriek ⊣ upperShriek)
-  {pullback : DY ⥤ DU} (pullbackAdj : pullback ⊣ data.derivedPushforward)
+namespace Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction
 
 /-! ### Two formal identities for a tensor–internal-Hom adjunction -/
 
 /-- The tensor–internal-Hom bijection is precomposition of the evaluation with `h ⊗ 1`. -/
-theorem _root_.Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction.homEquiv_eq_evaluation
+theorem homEquiv_eq_evaluation
     {C : Type*} [Category C] {T : C ⥤ C ⥤ C} {H : Cᵒᵖ ⥤ C ⥤ C} (D : TensorHomAdjunction T H)
     {A B M : C} (h : A ⟶ (H.obj (op B)).obj M) :
     D.homEquiv A B M h = (T.map h).app B ≫ D.toTensorHomBijection.evaluation B M := by
@@ -81,7 +74,7 @@ theorem _root_.Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.Tenso
 
 /-- The coevaluation `A ⟶ RHom(B, A ⊗ B)` composed with `RHom(B, h)` is the morphism
 corresponding to `h : A ⊗ B ⟶ M`. -/
-theorem _root_.Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction.homEquiv_symm_eq_coevaluation
+theorem homEquiv_symm_eq_coevaluation
     {C : Type*} [Category C] {T : C ⥤ C ⥤ C} {H : Cᵒᵖ ⥤ C ⥤ C} (D : TensorHomAdjunction T H)
     {A B M : C} (h : (T.obj A).obj B ⟶ M) :
     (D.homEquiv A B M).symm h =
@@ -89,6 +82,17 @@ theorem _root_.Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.Tenso
   apply (D.homEquiv A B M).injective
   rw [D.homEquiv_naturality_target, Equiv.apply_symm_apply, Equiv.apply_symm_apply,
     Category.id_comp]
+
+end Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.TensorHomAdjunction
+
+namespace Stacks.EtaleCohomology.DerivedUpperShriek.CompactificationData
+
+universe v₁ u₁ v₂ u₂ v₃ u₃
+
+variable {DU : Type u₁} [Category.{v₁} DU] {DX : Type u₂} [Category.{v₂} DX]
+  {DY : Type u₃} [Category.{v₃} DY] (data : CompactificationData DU DX DY)
+  {upperShriek : DY ⥤ DU} (adj : data.derivedLowerShriek ⊣ upperShriek)
+  {pullback : DY ⥤ DU} (pullbackAdj : pullback ⊣ data.derivedPushforward)
 
 /-! ### The projection map read off `α` -/
 

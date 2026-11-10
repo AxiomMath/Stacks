@@ -395,7 +395,6 @@ end Triple
 section Chain
 
 variable (k : Type u) [Field k] (G : GysinSystem (fieldChowSituation k))
-  (hfp : FlatPullbackDescends (fieldChowSituation k))
   (hpp : ProperPushforwardDescends (fieldChowSituation k))
   {X Y Z W : Scheme.{u}} (sX : X ⟶ (fieldChowSituation k).S) [LocallyOfFiniteType sX]
   (a : Y ⟶ X) [LocallyOfFiniteType a] (b : Z ⟶ X) [LocallyOfFiniteType b]
@@ -418,7 +417,8 @@ Chow classes, nor the associator, and so it is not the conclusion of Stacks 0FC1
 
 The only carrier of Stacks 0FBY in this repository is the fundamental-class special case,
 `Stacks.Chow.commutesExteriorProductCapAt_fundamentalChowClass` of
-`StacksFrontier.AlgebraicGeometry.Chow.ExteriorProductCapCommuting`, whose own key records that it is
+`StacksFrontier.AlgebraicGeometry.Chow.ExteriorProductCapCommuting`, whose own key records that it
+is
 "NOT for a general `α ∈ CH_n(X)`": its first factor is the fundamental class of an integral scheme
 flat over the base. The class the first step below needs there is the exterior product `α × β`,
 which is not of that shape, and the carried case is in the second variable besides. The general
@@ -624,7 +624,6 @@ def DiagonalGysinCommuteOnTripleProduct : Prop :=
                           (n + m + l))
                         x))))))))
 
-include hfp in
 /-- **Stacks Project, Tag 0FC1.** Associativity of the intersection product of Stacks 0FC0: for
 `X` a scheme over a field `k` whose diagonal carries a Gysin class `Δ^!` of degree `d`, and `Y`,
 `Z`, `W` locally of finite type over `X`,
@@ -662,7 +661,7 @@ theorem isAssociativeIntersectionProduct
   intro A B C
   simp only [intersectionProductReassoc, intersectionProduct, diagonalGysinProduct,
     AddMonoidHom.coe_comp, Function.comp_apply]
-  rw [hfirst _ C, hsecond A _, ← chowExteriorProduct_assoc k hfp (a ≫ sX) (b ≫ sX) (g ≫ sX)
+  rw [hfirst _ C, hsecond A _, ← chowExteriorProduct_assoc k (a ≫ sX) (b ≫ sX) (g ≫ sX)
     n m l A B C]
   exact hcommute _
 

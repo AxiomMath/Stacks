@@ -143,10 +143,10 @@ theorem twistedSMul_eq_of_equivariant_of_evalOne (sm : R → (G → M) → (G �
     sm r f = twistedSMul G R M r f := by
   funext σ
   have h₁ : sm r f σ = translate G M σ (sm r f) 1 := by
-    show sm r f σ = sm r f (1 * σ)
+    change sm r f σ = sm r f (1 * σ)
     rw [one_mul]
   have h₂ : translate G M σ f 1 = f σ := by
-    show f (1 * σ) = f σ
+    change f (1 * σ) = f σ
     rw [one_mul]
   rw [h₁, hequiv σ r f, heval (σ • r) (translate G M σ f), h₂]
   rfl
@@ -240,7 +240,7 @@ translation of the argument (Stacks 05V9) and `p_*M` is a module over `𝒪`, so
 theorem translate_realSMul (g : G) (r : R) (f : G → M) :
     translate G M g (realSMul G R M r f) = realSMul G R M (g • r) (translate G M g f) :=
   funext fun σ => by
-    show ((stalkRingEquiv G R).symm r).1 (σ * g) • f (σ * g) =
+    change ((stalkRingEquiv G R).symm r).1 (σ * g) • f (σ * g) =
       ((stalkRingEquiv G R).symm (g • r)).1 σ • f (σ * g)
     rw [coe_stalkRingEquiv_symm_apply, coe_stalkRingEquiv_symm_apply, mul_smul]
 

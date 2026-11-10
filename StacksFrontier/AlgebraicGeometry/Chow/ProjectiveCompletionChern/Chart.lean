@@ -101,7 +101,7 @@ theorem chart_preimage_openT :
     rw [Scheme.IdealSheafData.support_comap]
     exact Iff.rfl
   rw [SetLike.mem_coe, h1, hcomap]
-  show x ∉ (AlgebraicGeometry.zeroScheme _ _ _).support ↔ _
+  change x ∉ (AlgebraicGeometry.zeroScheme _ _ _).support ↔ _
   rw [← SetLike.mem_coe, hsupp, Set.mem_compl_iff, not_not, SetLike.mem_coe]
 
 end Stacks.Chow.ProjectiveCompletion

@@ -478,7 +478,7 @@ alias cocycles := Zc
 alias coboundaries := Bc
 
 @[deprecated (since := "2026-09-27")]
-alias Cohomology := Hcohom
+alias CohomologyModule := Hcohom
 
 @[deprecated (since := "2026-09-27")]
 alias etaCocycles := Zeta

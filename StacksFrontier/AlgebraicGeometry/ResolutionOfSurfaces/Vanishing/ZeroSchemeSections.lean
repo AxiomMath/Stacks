@@ -189,7 +189,7 @@ lemma algebraMap_germ (W : X.Opens) (x : X) (hx : x ∈ W) (t : Γ(X, W)) :
     algebraMap (X.presheaf.stalk x) X.functionField (X.presheaf.germ W x hx t) =
       X.presheaf.germ W (genericPoint X) ((genericPoint_spec X).specializes trivial |>.mem_open
         W.isOpen hx) t := by
-  show X.presheaf.stalkSpecializes _ (X.presheaf.germ W x hx t) = _
+  change X.presheaf.stalkSpecializes _ (X.presheaf.germ W x hx t) = _
   exact TopCat.Presheaf.germ_stalkSpecializes_apply X.presheaf hx _ t
 
 /-- The germ of `c` at the generic point is its image in the function field. -/

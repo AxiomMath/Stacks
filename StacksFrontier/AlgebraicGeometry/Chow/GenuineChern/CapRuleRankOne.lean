@@ -51,7 +51,7 @@ theorem chernCap_one_eq_invCap (L : X.Modules)
       (fun j : Fin (0 + 1) ↦ chowGroupCast C sX (by rw [Fin.val_succ, Fin.val_eq_zero j]; simp) x)
   have hc : IsBundleChernCapFamily L 0 C sX k α c := by
     refine ⟨chowGroupCast_chowGroupCast C sX _ _ α, ?_⟩
-    show ∑ i : Fin (0 + 1 + 1), (-1 : ℤ) ^ i.val • projectiveBundleChernTerm C sX
+    change ∑ i : Fin (0 + 1 + 1), (-1 : ℤ) ^ i.val • projectiveBundleChernTerm C sX
       (bundleProj L ≫ sX) (bundleProj L) rfl (0 + 1) (relativeDimension_bundleProj L 0)
       (fun k ↦ flatPullbackFactorsThroughRationalEquivalence_general C _ sX _ rfl _ _ k)
       (bundleTwistCap L C sX) k i.val (Nat.lt_succ_iff.mp i.isLt) (c ⟨0 + 1 - i.val, by omega⟩) = 0
@@ -68,7 +68,7 @@ theorem chernCap_one_eq_invCap (L : X.Modules)
       (relativeDimension_bundleProj L 0) hfacπ (by simp : k - ((0 + 1 - 0 : ℕ) : ℤ) = k - 1)
       (y := x) (chowGroupCast_heq C sX _ x)).trans ?_
     refine HEq.symm ?_
-    show firstChernClassCapChow C _ (bundleProj L ≫ sX) (bundleTwist L) _ ≍ _
+    change firstChernClassCapChow C _ (bundleProj L ≫ sX) (bundleTwist L) _ ≍ _
     rw [← firstChernClassCapChow_congr C (bundleProj L ≫ sX) _ (bundleTwistIsoOfRankOne L)]
     refine (capOnChow_heq C (bundleProj L ≫ sX)
       (invCap C (bundleProj L ≫ sX) ((Scheme.Modules.pullback (bundleProj L)).obj L))

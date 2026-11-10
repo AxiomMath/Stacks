@@ -161,9 +161,9 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
     { directed A B := by
         obtain ⟨C, hAC, hBC⟩ := exists_ge_ge (fromSmallObj A) (fromSmallObj B)
         refine ⟨toSmallObj C, ?_, ?_⟩
-        · show (fromSmallObj A).1 ≤ (fromSmallObj (toSmallObj C)).1
+        · change (fromSmallObj A).1 ≤ (fromSmallObj (toSmallObj C)).1
           exact le_trans hAC (leOfHom (unitHom C))
-        · show (fromSmallObj B).1 ≤ (fromSmallObj (toSmallObj C)).1
+        · change (fromSmallObj B).1 ≤ (fromSmallObj (toSmallObj C)).1
           exact le_trans hBC (leOfHom (unitHom C)) }
   have : IsFiltered K := inferInstance
   let toI : K ⥤ I :=
@@ -228,7 +228,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
   have hsup' : Subobject.mk cOver.pt.hom = ⨆ A : K, Subobject.mk (Fmono.obj A).arrow := by
     calc
       Subobject.mk cOver.pt.hom = ⊤ := by
-        show Subobject.mk (𝟙 F) = ⊤
+        change Subobject.mk (𝟙 F) = ⊤
         exact (Subobject.top_eq_id F).symm
       _ = ⨆ A : K, imgK A := hsupK.symm
       _ = ⨆ A : K, Subobject.mk (Fmono.obj A).arrow := by
@@ -259,8 +259,8 @@ theorem exists_finiteTypeQuasicoherentSubobject_epi_comp_of_qcqs {X : Scheme.{u}
   have hIso : IsIso (imageSubobject (S.obj.arrow ≫ f)).arrow :=
     (Subobject.isIso_iff_mk_eq_top (imageSubobject (S.obj.arrow ≫ f)).arrow).2 (by
       simpa [img] using hTopImage)
-  have hepi₁ : Epi (factorThruImageSubobject (S.obj.arrow ≫ f)) := by
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  have hepi₁ : Epi (factorThruImageSubobject (S.obj.arrow ≫ f)) :=
+    inferInstance
   have hepi : Epi (factorThruImageSubobject (S.obj.arrow ≫ f) ≫
       (imageSubobject (S.obj.arrow ≫ f)).arrow) := epi_comp' hepi₁ (IsIso.epi_of_iso _)
   rwa [imageSubobject_arrow_comp] at hepi

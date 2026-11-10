@@ -114,7 +114,7 @@ theorem unit_comp_moduleTrace_app_of_cover
       (adjE.right_triangle_components F)) (F'.obj.map (g i).op u)
     have e3 : F.obj.map (e i).inv.op (F'.obj.map (g i).op u) = t := by
       rw [hu]
-      show (F.obj.map (adjS.counit.app Q).op ≫ F.obj.map (L.map (g i)).op ≫
+      change (F.obj.map (adjS.counit.app Q).op ≫ F.obj.map (L.map (g i)).op ≫
         F.obj.map (e i).inv.op) t = t
       rw [← F.obj.map_comp, ← F.obj.map_comp, ← op_comp, ← op_comp, Category.assoc,
         hsite i]
@@ -127,7 +127,7 @@ theorem unit_comp_moduleTrace_app_of_cover
     conv_lhs => rw [← hsum]
     exact ConcreteCategory.congr_hom (congrArg (fun k => k.hom.app (op Q))
       ((moduleExtensionByZeroIsoPushforward B T.1 T.property U Λ).hom_inv_id_app F')) _
-  show (adjE.counit.app F).hom.app (op Q)
+  change (adjE.counit.app F).hom.app (op Q)
     (((moduleExtensionByZeroIsoPushforward B T.1 T.property U Λ).inv.app F').hom.app
       (op Q) u) = _
   rw [hinv, map_sum, Finset.sum_congr rfl (fun i _ ↦ hterm i), Finset.sum_const,
@@ -195,7 +195,7 @@ theorem moduleTrace_app_eq_sum_of_cover
     conv_lhs => rw [← hsum]
     exact ConcreteCategory.congr_hom (congrArg (fun k => k.hom.app (op Q))
       ((moduleExtensionByZeroIsoPushforward B T.1 T.property U Λ).hom_inv_id_app F')) _
-  show (adjE.counit.app F).hom.app (op Q)
+  change (adjE.counit.app F).hom.app (op Q)
     (((moduleExtensionByZeroIsoPushforward B T.1 T.property U Λ).inv.app F').hom.app
       (op Q) s) = _
   rw [hinv, map_sum, Finset.sum_congr rfl fun i _ ↦ hterm i]
@@ -240,7 +240,7 @@ theorem eq_moduleTrace_app_of_sum
     exists_smallEtaleArrows_cover_natCard B T.1 T.property (SmallEtale.ofEtaleHom B f) V.unop x
   have := Fintype.ofFinite ι
   refine ⟨Q, q, ?_, hx⟩
-  show F.obj.map q.op (τ.hom.app V t) = F.obj.map q.op (τ'.hom.app V t)
+  change F.obj.map q.op (τ.hom.app V t) = F.obj.map q.op (τ'.hom.app V t)
   have n₁ := ConcreteCategory.congr_hom (τ.hom.naturality q.op) t
   have n₂ := ConcreteCategory.congr_hom (τ'.hom.naturality q.op) t
   simp only [ConcreteCategory.comp_apply] at n₁ n₂
@@ -282,7 +282,7 @@ theorem unit_comp_moduleTrace_eq_nsmul (d : ℕ)
     exists_smallEtaleArrows_cover_natCard B T.1 T.property (SmallEtale.ofEtaleHom B f) V.unop x
   have := Fintype.ofFinite ι
   refine ⟨Q, q, ?_, hx⟩
-  show F.obj.map q.op (φ.hom.app V t) = F.obj.map q.op ((d • 𝟙 F).hom.app V t)
+  change F.obj.map q.op (φ.hom.app V t) = F.obj.map q.op ((d • 𝟙 F).hom.app V t)
   have n₁ := ConcreteCategory.congr_hom (φ.hom.naturality q.op) t
   have n₂ := ConcreteCategory.congr_hom ((d • 𝟙 F).hom.naturality q.op) t
   simp only [ConcreteCategory.comp_apply] at n₁ n₂

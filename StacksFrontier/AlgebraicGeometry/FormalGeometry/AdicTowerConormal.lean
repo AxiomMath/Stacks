@@ -209,7 +209,7 @@ lemma chartIdeal_succ_eq_comap (k : ℕ) (V : (Xn (k + 1)).affineOpens) :
     Stacks.Conormal.chartIdeal (incl t (k + 1)) V =
       (Stacks.Conormal.chartIdeal (incl t k) ⟨t k ⁻¹ᵁ V.1, V.2.preimage _⟩).comap
         ((t k).app V.1).hom := by
-  show RingHom.ker (((incl t k).app (t k ⁻¹ᵁ V.1)).hom.comp ((t k).app V.1).hom) = _
+  change RingHom.ker (((incl t k).app (t k ⁻¹ᵁ V.1)).hom.comp ((t k).app V.1).hom) = _
   exact (RingHom.comap_ker _ _).symm
 
 include hcart in
@@ -312,7 +312,7 @@ lemma baseSectionHom_comp_specMap {R : CommRingCat.{u}} {Y : Scheme.{u}} (g : Y 
     apply (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso R).hom).1
     refine hn.trans ?_
     simp
-  show Y.presheaf.map _ (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫ (Spec.map φ).appTop ≫
+  change Y.presheaf.map _ (((Scheme.ΓSpecIso (CommRingCat.of A)).inv ≫ (Spec.map φ).appTop ≫
     g.appTop).hom x) = _
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply, hx]
 

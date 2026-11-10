@@ -123,7 +123,7 @@ public theorem bigAffineFppf_isSite (B : AlgebraicGeometry.BigFppfSite.{u})
     exact singleton_mem_fppfPrecoverage_of_isIso f⟩
   refine ⟨?_, ?_, ?_⟩
   · intro U V f hf
-    show B.IsCovering ⟨K.obj U, (PreZeroHypercover.singleton f).map K⟩ ∧ _
+    change B.IsCovering ⟨K.obj U, (PreZeroHypercover.singleton f).map K⟩ ∧ _
     refine ⟨?_, ?_⟩
     · have heq : (PreZeroHypercover.singleton f).map K =
           PreZeroHypercover.singleton (K.map f) :=
@@ -144,7 +144,7 @@ public theorem bigAffineFppf_isSite (B : AlgebraicGeometry.BigFppfSite.{u})
         AlgebraicGeometry.BigAffineFppf.IsStandardFppfCovering B S hS E at hE
     change (∀ i, B.IsCovering ⟨K.obj (F i).1, (F i).2.map K⟩ ∧
         AlgebraicGeometry.BigAffineFppf.IsStandardFppfCovering B S hS (F i)) at hF
-    show B.IsCovering ⟨K.obj E.1,
+    change B.IsCovering ⟨K.obj E.1,
         (E.2.bind fun i => (F i).2.pushforward (eqToHom (h i))).map K⟩ ∧ _
     have hstdE := hE.2
     have hQE : (E.2.map G).presieve₀ ∈ Scheme.fppfPrecoverage (G.obj E.1) :=
@@ -259,7 +259,7 @@ public theorem bigAffineFppf_isSite (B : AlgebraicGeometry.BigFppfSite.{u})
     refine ⟨Qobj, p₁, p₂, ?_, ?_⟩
     · intro i
       apply IsPullback.of_map_of_faithful K
-      show IsPullback (π₁ i) (π₂ i) (K.map (E.2.f i)) (K.map g)
+      change IsPullback (π₁ i) (π₂ i) (K.map (E.2.f i)) (K.map g)
       exact hpb i
     · have hFPbase (i : E.2.I₀) : AlgebraicGeometry.FinitePresentation
           (B.inclusion.map (π₂ i)) :=
@@ -273,7 +273,7 @@ public theorem bigAffineFppf_isSite (B : AlgebraicGeometry.BigFppfSite.{u})
         hstdE.finite_index V.property hPaff hFPbase hQbase
       let E' : PreZeroHypercover V := ⟨E.2.I₀, Qobj, p₂⟩
       constructor
-      · show B.IsCovering ⟨K.obj V, E'.map K⟩
+      · change B.IsCovering ⟨K.obj V, E'.map K⟩
         convert hcov using 1
         congr 1
       · simpa [AlgebraicGeometry.BigAffineFppf.IsStandardFppfCovering,

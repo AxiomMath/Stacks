@@ -131,7 +131,7 @@ theorem length_eq_trdeg_sub_of_maximalSpecializationChain
   have htel := nat_value_at_last_eq_length_add_nat_value_at_head
     (natTrdeg k X f) c hstep
   rw [hhead, hlast] at htel
-  show c.length = natTrdeg k X f x - natTrdeg k X f x'
+  change c.length = natTrdeg k X f x - natTrdeg k X f x'
   omega
 
 end AlgebraicGeometry

@@ -148,7 +148,7 @@ theorem exists_gen_of_iso_splitObj {G : Mod Y.O} (s : GlobalSection Y) (hs : s *
         ringSec c.1 • (G.val.map g.op t : G.val.obj (op W)) := by
   let p := smulHom s (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
   have hp : p ≫ p = p := by
-    show smulHom s _ ≫ smulHom s _ = smulHom s _
+    change smulHom s _ ≫ smulHom s _ = smulHom s _
     rw [smulHom_comp, hs]
   let π : SheafOfModules.unit _ ⟶ splitObj p := splitπ hp
   let ι : splitObj p ⟶ SheafOfModules.unit _ := splitι p
@@ -189,9 +189,9 @@ theorem exists_gen_of_iso_splitObj {G : Mod Y.O} (s : GlobalSection Y) (hs : s *
   · let x' := ψ.hom.val.app (op W) x
     refine ⟨⟨ofUnitSec (ι.val.app (op W) x'), congrArg ofUnitSec (hιs x')⟩, ?_⟩
     refine (key _).trans ?_
-    show ψ.inv.val.app (op W) (π.val.app (op W) (ι.val.app (op W) x')) = x
+    change ψ.inv.val.app (op W) (π.val.app (op W) (ι.val.app (op W) x')) = x
     rw [hπι]
-    show (ψ.hom ≫ ψ.inv).val.app (op W) x = x
+    change (ψ.hom ≫ ψ.inv).val.app (op W) x = x
     rw [Iso.hom_inv_id]
     rfl
 

@@ -68,8 +68,7 @@ theorem nlCanonicalMap_comp_nlGensMap {ι ι' : Type} (P : Algebra.Generators A 
           ((Algebra.Extension.Cotangent.map h').liftBaseChange B' z) =
         (Algebra.Extension.Cotangent.map (hc.comp h')).liftBaseChange B' z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul b x => simp [Algebra.Extension.Cotangent.map_comp]
   have k₀ : ∀ z : B' ⊗[B] P.toExtension.CotangentSpace,
@@ -77,8 +76,7 @@ theorem nlCanonicalMap_comp_nlGensMap {ι ι' : Type} (P : Algebra.Generators A 
           ((Algebra.Extension.CotangentSpace.map h').liftBaseChange B' z) =
         (Algebra.Extension.CotangentSpace.map (hc.comp h')).liftBaseChange B' z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul b x => simp [Algebra.Extension.CotangentSpace.map_comp]
   exact ChainMap.ext (LinearMap.ext k₁) (LinearMap.ext k₀)
@@ -103,12 +101,10 @@ theorem nlBaseChangeMap_comp_baseChange_nlGensMap {ι ι' : Type} (P : Algebra.G
           (TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B''
             P.toExtension.Cotangent z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
     | tmul c w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, map_add, map_add, hx, hy]
       | tmul b x =>
         simp [Algebra.Extension.Cotangent.map_comp]
@@ -119,12 +115,10 @@ theorem nlBaseChangeMap_comp_baseChange_nlGensMap {ι ι' : Type} (P : Algebra.G
           (TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B''
             P.toExtension.CotangentSpace z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
     | tmul c w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, map_add, map_add, hx, hy]
       | tmul b x =>
         simp [Algebra.Extension.CotangentSpace.map_comp]
@@ -239,7 +233,7 @@ theorem bcSpanP_surjective : (toHom (bcSpanP (B'' := B'') Q T')).IsDegreewiseSur
       (LinearMap.fst_surjective (R := B') (M := B' ⊗[B] Q.Cotangent) (M₂ := T'.X₁))
       ((TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.Cotangent).symm z)
     refine ⟨w, ?_⟩
-    show TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.Cotangent
+    change TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.Cotangent
       (LinearMap.baseChange B'' (LinearMap.fst B' _ T'.X₁) w) = z
     rw [hw]
     exact LinearEquiv.apply_symm_apply _ z
@@ -248,7 +242,7 @@ theorem bcSpanP_surjective : (toHom (bcSpanP (B'' := B'') Q T')).IsDegreewiseSur
       (LinearMap.fst_surjective (R := B') (M := B' ⊗[B] Q.CotangentSpace) (M₂ := T'.X₁))
       ((TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.CotangentSpace).symm z)
     refine ⟨w, ?_⟩
-    show TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.CotangentSpace
+    change TensorProduct.AlgebraTensorModule.cancelBaseChange B B' B'' B'' Q.CotangentSpace
       (LinearMap.baseChange B'' (LinearMap.fst B' _ T'.X₁) w) = z
     rw [hw]
     exact LinearEquiv.apply_symm_apply _ z
@@ -344,7 +338,7 @@ theorem detEquiv_span_baseChange {φ' : ChainMap (nlExtensionBaseChange Q B') T'
         (TwoTermComplex.lineBaseChange B'' (spanTwoTerm T₁ T').d (1 ⊗ₜ Ep.symm u)) =
       TwoTermComplex.lineBaseChange B'' Q.cotangentComplex (1 ⊗ₜ φP) := by
     refine (LinearEquiv.congr_fun hEp₃ _).trans ?_
-    show TwoTermComplex.detEquiv (toHom c) hcs hcq (TwoTermComplex.detEquiv
+    change TwoTermComplex.detEquiv (toHom c) hcs hcq (TwoTermComplex.detEquiv
       ((toHom (spanP T₁ T')).baseChange B'') hpbs (toHom_isQuasiIso hspanPbc)
         (TwoTermComplex.lineBaseChange B'' (spanTwoTerm T₁ T').d (1 ⊗ₜ Ep.symm u))) = _
     rw [← hc2p', hEc]
@@ -373,8 +367,7 @@ private theorem baseChange_linearEquiv_ext {B B' M N : Type u} [CommRing B] [Com
     [Algebra B B'] [AddCommGroup M] [Module B M] [AddCommGroup N] [Module B' N]
     (f g : B' ⊗[B] M ≃ₗ[B'] N) (h : ∀ x : M, f (1 ⊗ₜ x) = g (1 ⊗ₜ x)) : f = g := by
   refine LinearEquiv.ext fun w => ?_
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   | tmul b x =>
     have hb : (b ⊗ₜ[B] x : B' ⊗[B] M) = b • ((1 : B') ⊗ₜ[B] x) := by
@@ -435,7 +428,7 @@ theorem detNLBaseChangeOfIsIso_comp
     (nlMap_isHomotopyEquiv_and_isQuasiIso (by simpa using Function.bijective_id)
       (by simpa using Function.bijective_id) P' _ _).2
   have hφ'g : Homotopic (nlc.comp φ') g₁ := by
-    show Homotopic ((nlCanonicalMap A' B' P').comp (nlGensMap P P')) g₁
+    change Homotopic ((nlCanonicalMap A' B' P').comp (nlGensMap P P')) g₁
     rw [nlCanonicalMap_comp_nlGensMap]
     exact homotopic_nlExtensionBaseChangeMap _ _
   have hφ' : IsQuasiIso φ' :=
@@ -501,10 +494,10 @@ theorem detNLBaseChangeOfIsIso_comp
   have hh'' : Homotopic q₂ (φ''.comp p₃) := by
     have : φ''.comp p₃ = (φ'.baseChange B'').comp ((spanP T₁ T').baseChange B'') := by
       refine ChainMap.ext (LinearMap.ext fun z => ?_) (LinearMap.ext fun z => ?_)
-      · show (φ'.baseChange B'').f₁ (cinv.f₁ (c.f₁ (((spanP T₁ T').baseChange B'').f₁ z))) =
+      · change (φ'.baseChange B'').f₁ (cinv.f₁ (c.f₁ (((spanP T₁ T').baseChange B'').f₁ z))) =
           (φ'.baseChange B'').f₁ (((spanP T₁ T').baseChange B'').f₁ z)
         exact congrArg _ (LinearEquiv.symm_apply_apply _ _)
-      · show (φ'.baseChange B'').f₀ (cinv.f₀ (c.f₀ (((spanP T₁ T').baseChange B'').f₀ z))) =
+      · change (φ'.baseChange B'').f₀ (cinv.f₀ (c.f₀ (((spanP T₁ T').baseChange B'').f₀ z))) =
           (φ'.baseChange B'').f₀ (((spanP T₁ T').baseChange B'').f₀ z)
         exact congrArg _ (LinearEquiv.symm_apply_apply _ _)
     rw [this]

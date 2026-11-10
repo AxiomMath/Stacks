@@ -42,7 +42,7 @@ theorem isGrothendieckAbelian_of_essentiallySmall_of_hasSheafify
     IsGrothendieckAbelian.{v} (Sheaf J A) := by
   set K := (equivSmallModel C).inverse.inducedTopology J
   have : ((equivSmallModel C).functor.sheafPushforwardContinuous A J K).IsEquivalence := by
-    show (((equivSmallModel C).sheafCongr J K A).inverse).IsEquivalence
+    change (((equivSmallModel C).sheafCongr J K A).inverse).IsEquivalence
     infer_instance
   have : HasSheafify K A :=
     Functor.IsDenseSubsite.hasSheafify_of_isEquivalence J K (equivSmallModel C).functor

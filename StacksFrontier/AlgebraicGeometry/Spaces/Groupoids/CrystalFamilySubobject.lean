@@ -160,7 +160,7 @@ theorem mem_range_familySubobject_arrow_app (i : D.I) (U : (D.X i).Opens) (s : �
     s ∈ Set.range ((M.familySubobject T hc i).arrow.app U) := by
   refine ⟨(Subobject.underlyingIso (M.familySubmoduleHom T hc i)).inv.app U
     (M.familyMkSection T hc i s hs), ?_⟩
-  show (Subobject.mk (M.familySubmoduleHom T hc i)).arrow.app U
+  change (Subobject.mk (M.familySubmoduleHom T hc i)).arrow.app U
       ((Subobject.underlyingIso (M.familySubmoduleHom T hc i)).inv.app U
         (M.familyMkSection T hc i s hs)) = s
   rw [← ConcreteCategory.comp_apply, ← Scheme.Modules.Hom.comp_app,

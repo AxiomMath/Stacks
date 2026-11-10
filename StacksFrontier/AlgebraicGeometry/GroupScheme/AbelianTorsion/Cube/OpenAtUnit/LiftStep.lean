@@ -65,7 +65,7 @@ theorem baseSectionHom_comp {F : Scheme.{u}} (j : F ⟶ X) (U : X.Opens) :
 the global function on `X` given by `a` along `g`. -/
 theorem baseTop_comp {F : Scheme.{u}} (j : F ⟶ X) (a : R) :
     baseTop (j ≫ g) a = j.appTop (baseTop g a) := by
-  show ((Scheme.ΓSpecIso (.of R)).inv ≫ (j ≫ g).appTop).hom a = _
+  change ((Scheme.ΓSpecIso (.of R)).inv ≫ (j ≫ g).appTop).hom a = _
   rw [Scheme.Hom.comp_appTop]
   rfl
 

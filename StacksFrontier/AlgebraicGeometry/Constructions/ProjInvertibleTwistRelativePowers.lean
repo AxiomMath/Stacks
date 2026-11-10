@@ -84,7 +84,7 @@ theorem trivializesPower_succ {V : S.Opens} {x : (tp L 1).val.obj (op V)} {d : �
         (TensorPower.coherentMulIso S.sheaf.obj S.ringCatSheaf.property L (d : ℤ) 1).symm ≪≫
       TensorGenerator.tensorTrivialIso S.sheaf.obj S.ringCatSheaf.property V
         (tp L (d : ℤ)) (tp L 1) e1 ≪≫ ed, ?_⟩
-  show (reix L (succ_cast d)).hom.val.app (op V)
+  change (reix L (succ_cast d)).hom.val.app (op V)
       ((TensorPower.coherentMulIso S.sheaf.obj S.ringCatSheaf.property L (d : ℤ) 1).hom.val.app
         (op V)
         (((TensorGenerator.tensorTrivialIso S.sheaf.obj S.ringCatSheaf.property V

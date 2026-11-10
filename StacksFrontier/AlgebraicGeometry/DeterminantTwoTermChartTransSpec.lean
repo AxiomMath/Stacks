@@ -139,15 +139,14 @@ private theorem natComp {𝒜 ℬ 𝒞 𝒟 : Type*} [Category 𝒜] [Category �
 
 /-- Two `B`-linear maps out of `B ⊗[R] N` agreeing on the elements `1 ⊗ₜ m` are equal. The
 source and target are variable *types* rather than objects of `ModuleCat`: running
-`TensorProduct.induction_on` on an element of `↑((ModuleCat.extendScalars χ).obj M)` rewrites the
+`TensorProduct.inductionOn` on an element of `↑((ModuleCat.extendScalars χ).obj M)` rewrites the
 type into a spelling at which the goal is no longer type-correct under `implicit`
 transparency. -/
 private theorem baseChangeHom_ext {R B N P : Type u} [CommRing R] [CommRing B] [Algebra R B]
     [AddCommGroup N] [Module R N] [AddCommGroup P] [Module B P] (F G : (B ⊗[R] N) →ₗ[B] P)
     (h : ∀ m : N, F ((1 : B) ⊗ₜ[R] m) = G ((1 : B) ⊗ₜ[R] m)) : F = G := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂]
   | tmul b m => rw [TensorProduct.tmul_eq_smul_one_tmul b m, map_smul, map_smul, h m]
 

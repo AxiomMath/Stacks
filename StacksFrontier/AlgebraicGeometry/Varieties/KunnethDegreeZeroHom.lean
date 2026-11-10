@@ -345,7 +345,7 @@ theorem homLinearEquivDegreeZeroSections_apply_equiv (N N' : DerivedCategory X.l
         (derivedSheafHomGlobalSectionsEquivScheme k X N N' w) =
       (homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N')).hom.hom
         ((homologyZeroForgetIso X.hom (derivedSheafHomObj k X N N')).inv w) := by
-  show (homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N')).hom.hom
+  change (homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N')).hom.hom
       ((homologyZeroForgetIso X.hom (derivedSheafHomObj k X N N')).inv
         ((derivedSheafHomGlobalSectionsEquivScheme k X N N').symm
           (derivedSheafHomGlobalSectionsEquivScheme k X N N' w))) = _
@@ -370,7 +370,7 @@ theorem homLinearEquivDegreeZeroSections_comp (N N' N'' : DerivedCategory X.left
   apply (homLinearEquivDegreeZeroSections k X N N'').symm.injective
   rw [LinearEquiv.symm_apply_apply]
   set g := (sheafHomOutOf k X N).map χ
-  show φ ≫ χ = derivedSheafHomGlobalSectionsEquivScheme k X N N''
+  change φ ≫ χ = derivedSheafHomGlobalSectionsEquivScheme k X N N''
     ((homologyZeroForgetIso X.hom (derivedSheafHomObj k X N N'')).hom
       ((homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N'')).inv.hom
         (((gammaRestrict k).map
@@ -446,7 +446,7 @@ theorem degreeZeroClassAddEquiv_symm_homLinearEquivDegreeZeroSections
       structureSheafGlobalSectionsEquivScheme k X (derivedSheafHomObj k X N N')
         ((derivedSheafHomGlobalSectionsEquivScheme k X N N').symm φ) := by
   let : Linear k X.left.Modules := modulesLinear k X
-  show structureSheafGlobalSectionsEquivScheme k X (derivedSheafHomObj k X N N')
+  change structureSheafGlobalSectionsEquivScheme k X (derivedSheafHomObj k X N N')
       ((homologyZeroForgetIso X.hom (derivedSheafHomObj k X N N')).hom
         ((homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N')).inv.hom
           ((homologyZeroGlobalSectionsOverIso k X (derivedSheafHomObj k X N N')).hom.hom

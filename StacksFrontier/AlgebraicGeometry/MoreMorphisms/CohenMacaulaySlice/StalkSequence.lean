@@ -99,7 +99,7 @@ theorem isRegular_and_flatQuotients_of_isRegular_quotient_stalk (f : X ⟶ S)
   let : Algebra R A := (f.stalkMap x).hom.toAlgebra
   have : IsScalarTower R A A := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsLocalHom (algebraMap R A) := by
-    show IsLocalHom (f.stalkMap x).hom
+    change IsLocalHom (f.stalkMap x).hom
     infer_instance
   have : Module.Flat R A := hflat
   have hsmul : I • (⊤ : Submodule A A) = (I : Submodule A A) :=

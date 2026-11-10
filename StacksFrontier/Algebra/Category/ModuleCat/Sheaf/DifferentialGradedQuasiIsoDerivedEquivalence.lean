@@ -115,7 +115,7 @@ theorem idPullbackFunctorIso_hom_app (M : DifferentialGradedModule.{u, u, u} A) 
 theorem extensionRestrictionAdjunction_unit_app (M : DifferentialGradedModule.{u, u, u} A) :
     (extensionRestrictionAdjunction φ hφ (extensionData φ hφ)).unit.app M =
       extensionUnit φ hφ (extensionData φ hφ) M := by
-  show extensionUnit φ hφ (extensionData φ hφ) M ≫ (restriction φ hφ).map (𝟙 _) = _
+  change extensionUnit φ hφ (extensionData φ hφ) M ≫ (restriction φ hφ).map (𝟙 _) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 /-- Extension of scalars along `φ`, written as the functor `ℳ ↦ f^*ℳ ⊗_A B` for the identity
@@ -129,7 +129,7 @@ def extensionAdjunction :
 /-- The unit of `extensionAdjunction` is `x ↦ x ⊗ 1`. -/
 theorem extensionAdjunction_unit_app (M : DifferentialGradedModule.{u, u, u} A) :
     (extensionAdjunction φ hφ).unit.app M = extensionUnit φ hφ (extensionData φ hφ) M := by
-  show (extensionRestrictionAdjunction φ hφ (extensionData φ hφ)).unit.app M ≫
+  change (extensionRestrictionAdjunction φ hφ (extensionData φ hφ)).unit.app M ≫
     (restriction φ hφ).map (𝟙 _ ≫ (extensionData φ hφ).functor.map (𝟙 M)) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id, CategoryTheory.Functor.map_id]
   exact (Category.comp_id _).trans (extensionRestrictionAdjunction_unit_app φ hφ M)

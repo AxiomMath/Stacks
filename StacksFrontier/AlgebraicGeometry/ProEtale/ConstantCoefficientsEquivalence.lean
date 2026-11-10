@@ -117,7 +117,7 @@ theorem isSheaf_modulePresheafOverConstantCoefficients
     (F : Sheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) r w} Λ)) :
     Presheaf.IsSheaf (Scheme.ProEt.topology X)
       ((modulePresheafOverConstantCoefficientsFunctor.{u, r, w} X Λ).obj F).presheaf := by
-  show Presheaf.IsSheaf (Scheme.ProEt.topology X)
+  change Presheaf.IsSheaf (Scheme.ProEt.topology X)
     (F.obj ⋙ forget₂ (ModuleCat.{max (u + 1) r w} Λ) AddCommGrpCat.{max (u + 1) r w})
   exact GrothendieckTopology.HasSheafCompose.isSheaf F.obj F.property
 

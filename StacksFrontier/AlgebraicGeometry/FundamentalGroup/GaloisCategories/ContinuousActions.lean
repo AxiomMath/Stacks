@@ -75,7 +75,7 @@ public lemma action_continuous_of_orbits
     {G : Type v} [Monoid G] [TopologicalSpace G] (X : Action FintypeCat.{u} G)
     (h : ∀ x : X.V, Continuous (fun g : G ↦ (X.ρ g).asHom.hom x)) : X.IsContinuous := by
   rw [Action.isContinuous_def]
-  show Continuous (fun p : G × X.V ↦ (X.ρ p.1).asHom.hom p.2)
+  change Continuous (fun p : G × X.V ↦ (X.ρ p.1).asHom.hom p.2)
   exact continuous_prod_of_discrete_right.mpr h
 
 /-- An action admitting an injective morphism to a continuous action is continuous. -/

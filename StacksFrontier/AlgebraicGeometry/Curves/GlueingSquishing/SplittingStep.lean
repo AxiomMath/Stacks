@@ -113,7 +113,7 @@ theorem isIso_of_isAffineHom_of_isIso_app {X Y : Scheme.{u}} (q : X ⟶ Y) [IsAf
     have : IsAffine ((q ⁻¹ᵁ V : X.Opens) : Scheme.{u}) := hV.preimage q
     have happ : IsIso (q.app V) := h V hV hVU
     have hsec : V.topIso.hom ≫ q.app V ≫ (q ⁻¹ᵁ V).topIso.inv = Scheme.Hom.appTop (q ∣_ V) := by
-      show _ = (q ∣_ V).app ⊤
+      change _ = (q ∣_ V).app ⊤
       rw [← Scheme.Hom.resLE_eq_morphismRestrict, Scheme.Hom.resLE_app_top,
         Scheme.Hom.appLE_eq_app]
     have hcomp : IsIso (V.topIso.hom ≫ q.app V ≫ (q ⁻¹ᵁ V).topIso.inv) := inferInstance
@@ -346,9 +346,9 @@ theorem exists_split_of_algebraHom {S : Scheme.{u}} {W' W : Over S} (f : W' ⟶ 
       (relativeSpecToBase A) hfac, hqU, hp,
     mono_hom_pushforwardAlgebra_toIntermediate f.left A ψ hψ, hpU,
     fun V hle s hs => mem_range_appLE_toIntermediate f.left A ψ V hle s hs⟩
-  · show toIntermediate f.left A ψ ≫ relativeSpecToBase A ≫ W.hom = W'.hom
+  · change toIntermediate f.left A ψ ≫ relativeSpecToBase A ≫ W.hom = W'.hom
     rw [← Category.assoc, hfac, Over.w]
-  · show toIntermediate f.left A ψ ≫ relativeSpecToBase A = f.left
+  · change toIntermediate f.left A ψ ≫ relativeSpecToBase A = f.left
     exact hfac
 
 /-- **The splitting step of [Stacks, Tag 0C1L], read against the hypotheses of the lemma.** An

@@ -55,7 +55,7 @@ variable {R : Type u} [CommRing R]
 /-- Tensoring with a fixed complex on the right carries `r • 𝟙` to `r • 𝟙`. -/
 theorem trightCochain_map_smul_id (G X : CochainComplex (ModuleCat.{max u v} R) ℤ) (r : R) :
     (TrightCochain G).map (r • 𝟙 X) = r • 𝟙 _ := by
-  show HomologicalComplex.mapBifunctorMap (r • 𝟙 X) (𝟙 G) (curriedTensor _)
+  change HomologicalComplex.mapBifunctorMap (r • 𝟙 X) (𝟙 G) (curriedTensor _)
     (ComplexShape.up ℤ) = r • 𝟙 (HomologicalComplex.mapBifunctor X G (curriedTensor _)
       (ComplexShape.up ℤ))
   ext n : 1
@@ -82,10 +82,10 @@ theorem tright_comp_Qh_map_smul_id (K : CochainComplex (ModuleCat.{max u v} R) �
       (ComplexShape.up ℤ)).obj Y') =
       (HomotopyCategory.quotient (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).map
         (r • 𝟙 Y') := by simp
-  show (Tright K ⋙ DerivedCategory.Qh).map (r • 𝟙 ((HomotopyCategory.quotient
+  change (Tright K ⋙ DerivedCategory.Qh).map (r • 𝟙 ((HomotopyCategory.quotient
     (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).obj Y')) = _
   rw [hY]
-  show DerivedCategory.Qh.map ((HomotopyCategory.quotient (ModuleCat.{max u v} R)
+  change DerivedCategory.Qh.map ((HomotopyCategory.quotient (ModuleCat.{max u v} R)
     (ComplexShape.up ℤ)).map ((TrightCochain K).map (r • 𝟙 Y'))) = _
   rw [trightCochain_map_smul_id]
   simp

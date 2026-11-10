@@ -110,7 +110,7 @@ theorem elementSmulMap_mem (x : N) : elementSmulMap (R := R) (S := S) x ∈ diff
 theorem derivation_mem (σ : Derivation R S N) :
     (σ.toLinearMap : S →ₗ[R] N) ∈ diff1Submodule := by
   intro g s h
-  show σ (g * (s * h)) - g • σ (s * h) = s • (σ (g * h) - g • σ h)
+  change σ (g * (s * h)) - g • σ (s * h) = s • (σ (g * h) - g • σ h)
   rw [σ.leibniz g (s*h), σ.leibniz s h, σ.leibniz g h]
   simp only [smul_add, smul_sub, smul_smul]
   rw [mul_comm s g]; abel
@@ -277,7 +277,7 @@ theorem principalPartsEquiv_naturality {N' : Type*} [AddCommGroup N'] [Module S 
       LinearEquiv.coe_mk, LinearMap.coprod_inr, LinearMap.coe_smulRight, Module.End.one_apply,
       one_smul, LinearMap.coe_comp, LinearMap.coe_inr, Function.comp_apply, LinearMap.coprod_apply,
       map_zero, zero_add]
-    show (diff1Map f D).val 1 = f (D.val 1)
+    change (diff1Map f D).val 1 = f (D.val 1)
     rw [diff1Map_apply]
 
 /-!
@@ -313,7 +313,7 @@ theorem deRham_isDiffOpOfOrder_one (i : ℕ)
     (hChar : ∀ b : Fin (i+1) → B, d (deRhamGen i b) = deRhamTop i b) :
     IsDiffOpLE A B 1 d := by
   refine ⟨hAlin, fun g => ?_⟩
-  show ∀ (h : B) (m : ⋀[B]^i (Ω[B⁄A])), diffOpComm g d (h • m) = h • diffOpComm g d m
+  change ∀ (h : B) (m : ⋀[B]^i (Ω[B⁄A])), diffOpComm g d (h • m) = h • diffOpComm g d m
   intro h m
   simp only [diffOpComm_apply]
   set P : (⋀[B]^i (Ω[B⁄A])) → Prop :=
@@ -349,7 +349,7 @@ theorem deRham_isDiffOpOfOrder_one (i : ℕ)
               + t • d (s • (exteriorPower.ιMulti B i) w) := by
         intro s t
         rw [hF, hF, hF, Derivation.leibniz]
-        show (exteriorPower.ιMulti B (i+1)).toMultilinearMap _ = _
+        change (exteriorPower.ιMulti B (i+1)).toMultilinearMap _ = _
         rw [MultilinearMap.cons_add, MultilinearMap.cons_smul, MultilinearMap.cons_smul]
         rfl
       rw [smul_smul, smul_smul, smul_smul, smul_smul, show g * h * c = g * (h * c) by ring,

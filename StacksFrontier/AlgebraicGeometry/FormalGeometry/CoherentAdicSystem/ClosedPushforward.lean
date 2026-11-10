@@ -230,7 +230,7 @@ public theorem isCoherentAdicSystem_pushforward_of_isClosedImmersion [IsLocallyN
   · have _ : (G.obj (op (n + 1))).IsQuasicoherent := hG.isQuasicoherent (n + 1)
     refine ⟨pushforwardIdealPowerQuotientIso i I (n + 1) (G.obj (op (n + 1))) ≪≫
       (Scheme.Modules.pushforward i).mapIso (hG.quotientIso n), ?_⟩
-    show cokernel.π (C := X.Modules) _ ≫
+    change cokernel.π (C := X.Modules) _ ≫
       (pushforwardIdealPowerQuotientIso i I (n + 1) (G.obj (op (n + 1)))).hom ≫
         (Scheme.Modules.pushforward i).map (hG.quotientIso n).hom = _
     rw [← Category.assoc, pushforwardIdealPowerQuotientIso_π, ← Functor.map_comp,

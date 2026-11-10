@@ -199,7 +199,7 @@ private lemma mem_deg0_of_mem_span {R : Type*} [CommRing R] {x : Submonoid A}
     · have := hℳ j i a y ha hy
       rwa [show ((j : ℤ) + i) = ((j + i : ℕ) : ℤ) by
           push_cast; ring] at this
-    · show ψ r • LocalizedModule.mk y g = _
+    · change ψ r • LocalizedModule.mk y g = _
       rw [hr, LocalizedModule.mk_smul_mk]
 
 end Graded

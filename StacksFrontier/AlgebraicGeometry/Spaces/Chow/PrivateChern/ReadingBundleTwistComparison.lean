@@ -323,7 +323,7 @@ theorem exists_iso_readingBundleSpaceMap_quotient {T : BigFppfOver B S hS}
   have hepi : Epi ((Iso.refl _).inv ≫ readingBundleQuotient E hfree ψ hv) := by
     refine epi_of_epi_representedZariski_map (isQuasicoherentOnSite_readingBundleTwist E hfree ψ)
       _ ?_
-    show Epi ((readingFunctor (readingBundleSite E hfree ψ)).map _)
+    change Epi ((readingFunctor (readingBundleSite E hfree ψ)).map _)
     rw [readingFunctor_map_inv_comp_readingBundleQuotient E hfree ψ hv]
     exact epi_comp' (epi_comp' (epi_inv_of_iso _)
       (Stacks.RelativeProj.epi_tautologicalDatumUniv _)) (epi_inv_of_iso _)

@@ -37,6 +37,7 @@ variable (Λ : Type u) [Ring Λ] {G H : Type v} [Group G] [TopologicalSpace G]
   [T2Space H] (π : G →ₜ* H) (hs : Function.Surjective π)
   (M : FiniteTypeContinuousModule.{u, v, w} Λ G) (hM : ∀ g, π g = 1 → M.obj.obj.obj.ρ g = 1)
 
+omit [IsTopologicalGroup G] [CompactSpace G] [IsTopologicalGroup H] [T2Space H] in
 include hM in
 /-- Elements of `G` with the same image under `π` act in the same way on `M`. -/
 theorem finiteTypeContinuousModuleRepresentation_eq_of_eq {a b : G} (h : π a = π b) :
@@ -44,7 +45,7 @@ theorem finiteTypeContinuousModuleRepresentation_eq_of_eq {a b : G} (h : π a = 
       finiteTypeContinuousModuleRepresentation Λ G M b := by
   have h1 : π (b⁻¹ * a) = 1 := by rw [map_mul, map_inv, h, inv_mul_cancel]
   have h2 : finiteTypeContinuousModuleRepresentation Λ G M (b⁻¹ * a) = 1 := by
-    show (M.obj.obj.obj.ρ _).asHom.hom = 1
+    change (M.obj.obj.obj.ρ _).asHom.hom = 1
     rw [hM _ h1]
     rfl
   rw [← mul_inv_cancel_left b a, map_mul, h2, mul_one]
@@ -60,6 +61,7 @@ def finiteTypeContinuousModuleDescentRepresentation : Representation Λ H M.obj.
     exact finiteTypeContinuousModuleRepresentation_eq_of_eq Λ π M hM (by
       rw [map_mul, Function.surjInv_eq hs, Function.surjInv_eq hs, Function.surjInv_eq hs])
 
+omit [IsTopologicalGroup G] [CompactSpace G] [IsTopologicalGroup H] [T2Space H] in
 /-- The descended representation of `H` at `π g` acts on `M` as `g` does. -/
 theorem finiteTypeContinuousModuleDescentRepresentation_apply (g : G) (v : M.obj.obj.obj.V) :
     finiteTypeContinuousModuleDescentRepresentation Λ π hs M hM (π g) v =
@@ -67,6 +69,7 @@ theorem finiteTypeContinuousModuleDescentRepresentation_apply (g : G) (v : M.obj
   congrArg (fun φ : Module.End Λ M.obj.obj.obj.V => φ v)
     (finiteTypeContinuousModuleRepresentation_eq_of_eq Λ π M hM (Function.surjInv_eq hs (π g)))
 
+omit [IsTopologicalGroup G] in
 include hs hM in
 /-- The action of `H` on `M` through `finiteTypeContinuousModuleDescentRepresentation` is
 continuous. -/
@@ -80,7 +83,7 @@ theorem isContinuous_finiteTypeContinuousModuleDescentRepresentation :
     have : π ⁻¹' {h : H | finiteTypeContinuousModuleDescentRepresentation Λ π hs M hM h v = v} =
         {g : G | (M.obj.obj.obj.ρ g).asHom v = v} := by
       ext g
-      simp only [Set.mem_preimage, Set.mem_setOf_eq,
+      simp only [Set.mem_preimage, Set.mem_ofPred_eq,
         finiteTypeContinuousModuleDescentRepresentation_apply]
     rw [this]
     exact isOpen_stabilizer Λ G M.obj v

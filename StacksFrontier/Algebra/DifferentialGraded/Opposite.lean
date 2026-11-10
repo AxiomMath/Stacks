@@ -85,7 +85,7 @@ private noncomputable def extendLinear (M : Type w) [AddCommGroup M] [Module R M
 private lemma extendLinear_apply (M : Type w) [AddCommGroup M] [Module R M]
     (f : ∀ n, A.grading n →ₗ[R] M) (n : ℤ) (a : A.grading n) :
     extendLinear R A M f a = f n a := by
-  show (DFinsupp.lsum R f) (DirectSum.decomposeLinearEquiv A.grading a) = _
+  change (DFinsupp.lsum R f) (DirectSum.decomposeLinearEquiv A.grading a) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe]
   exact DFinsupp.lsum_single R f n a
 

@@ -163,7 +163,7 @@ theorem unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom_app (e : F ⋙ G ≅ H
   simp only [Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso, Iso.trans_hom,
     Iso.symm_hom, NatTrans.comp_app]
   rw [reassoc_of% h1]
-  show _ ≫ _ ≫ (rightDerivedFunctorPlusComp F G).app _ = _
+  change _ ≫ _ ≫ (rightDerivedFunctorPlusComp F G).app _ = _
   rw [rightDerivedFunctorPlusComp_fac_app F G K, ← Functor.map_comp_assoc]
   congr 2
   simp [Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso]

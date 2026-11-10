@@ -265,8 +265,9 @@ private theorem compactSpace_of_isProper_of_isNoetherian {X Y : Scheme.{u}} (g :
     [hY : IsNoetherian Y] : CompactSpace X := by
   obtain ⟨-, huc, -⟩ := (isProper_iff g).mp ‹_›
   -- `QuasiCompact` follows from `UniversallyClosed` by the priority-900 instance of
-  -- Mathlib's `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/UniversallyClosed.lean`; it is bound here rather than left to
-  -- search, which does not reach through the chain at this project's instance-search depth.
+  -- Mathlib's `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/UniversallyClosed.lean`; it is
+  -- bound here rather than left to search, which does not reach through the chain at this
+  -- project's instance-search depth.
   have hqc : QuasiCompact g := inferInstance
   exact @QuasiCompact.compactSpace_of_compactSpace _ _ g hqc hY.toCompactSpace
 

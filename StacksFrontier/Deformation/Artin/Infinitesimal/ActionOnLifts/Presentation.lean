@@ -84,8 +84,9 @@ argument, `Deformation.Artin.map_add_of_interchange`.
 ## File layout
 
 This is the first of three files, re-exported together by
-`StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts`. It contains the torsor presented by its
-difference map, deformation situations in the site, the lift classes, and the presentations
+`StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts`. It contains the torsor
+presented by its difference map, deformation situations in the site, the lift classes, and
+the presentations
 `Deformation.Artin.AffineDeformation` and `Deformation.Artin.BasedRing` up to
 `Deformation.Artin.BasedRing.pair_bijective`. The square-zero extensions, the difference map
 and the action of `T_x(I)` follow in
@@ -203,7 +204,7 @@ public theorem isSiteModule_kernel {A' : Type u} [CommRing A']
     [Module A (RingHom.ker q)] : IsSiteModule A B (ModuleCat.of A (RingHom.ker q)) := by
   let : Module Aᵐᵒᵖ (RingHom.ker q) := oppositeModule A (ModuleCat.of A (RingHom.ker q))
   let : IsCentralScalar A (RingHom.ker q) := centralScalar A (ModuleCat.of A (RingHom.ker q))
-  show (Spec (.of (TrivSqZeroExt A (RingHom.ker q)))).size < B.cutoff
+  change (Spec (.of (TrivSqZeroExt A (RingHom.ker q)))).size < B.cutoff
   refine Scheme.size_Spec_lt_of_mk_le_max B.aleph0_lt_cutoff
     B.cutoff_isStrongPrelimit hA' ?_
   have hmk : Cardinal.mk (TrivSqZeroExt A (RingHom.ker q)) =
@@ -261,7 +262,7 @@ private theorem specContainsOfCardinalBound
     (hQ : B.Contains (Spec (.of Q)))
     (hbound : Cardinal.mk R ≤ max Cardinal.aleph0 (Cardinal.mk Q)) :
     B.Contains (Spec (.of R)) := by
-  show (Spec (.of R)).size < B.cutoff
+  change (Spec (.of R)).size < B.cutoff
   exact Scheme.size_Spec_lt_of_mk_le_max (R := Q) B.aleph0_lt_cutoff
     B.cutoff_isStrongPrelimit hQ hbound
 
@@ -476,7 +477,7 @@ private lemma map_comp {D E F : AffineDeformation A B S hS toS hA}
     (f : Hom D E) (g : Hom E F) (z : classes p x hx D) :
     map p x hx hp (g ≫ f) z = map p x hx hp g (map p x hx hp f z) := by
   let := underPost_isFibered p hp x
-  show (Under.post p).isoClassPresheaf.map ((underMap p x hx g) ≫
+  change (Under.post p).isoClassPresheaf.map ((underMap p x hx g) ≫
     (underMap p x hx f)).op z = _
   exact ConcreteCategory.congr_hom
     ((Under.post p).isoClassPresheaf.map_comp (underMap p x hx f).op
@@ -485,7 +486,7 @@ private lemma map_comp {D E F : AffineDeformation A B S hS toS hA}
 private lemma map_id (D : AffineDeformation A B S hS toS hA)
     (z : classes p x hx D) : map p x hx hp (𝟙 D.under) z = z := by
   let := underPost_isFibered p hp x
-  show (Under.post p).isoClassPresheaf.map (𝟙 _) z = z
+  change (Under.post p).isoClassPresheaf.map (𝟙 _) z = z
   simp
 
 private def mapEquiv {D E : AffineDeformation A B S hS toS hA}
@@ -590,7 +591,7 @@ private lemma pair_bijective (hp : p.IsFiberedInGroupoids)
     intro t
     refine ⟨Functor.IsoFiber.ext (he₁ t).1 ?_, Functor.IsoFiber.ext (he₁ t).2 (he₃ t).2⟩
     refine (he₃ t).1.trans (heq_of_eq ?_)
-    show ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
+    change ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
         t.obj.hom =
       ((c.pullbackFunctorCompIso D.arrow i.right).symm.app t.obj.left).hom ≫
         𝟙 _ ≫ t.obj.hom
@@ -705,7 +706,7 @@ private lemma map_comp {R : AffineDeformation A B S hS toS hA} (hp : p.IsFibered
     {D E F : BasedRing A B S hS toS hA R}
     (g : RingMap E F) (f : RingMap D E) (z : classes p x hx D) :
     map p x hx hp (g.comp f) z = map p x hx hp g (map p x hx hp f z) := by
-  show AffineDeformation.map p x hx hp _ z = _
+  change AffineDeformation.map p x hx hp _ z = _
   rw [RingMap.toHom_comp, AffineDeformation.map_comp]
 
 private def original (R : AffineDeformation A B S hS toS hA) :

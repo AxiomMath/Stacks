@@ -76,7 +76,7 @@ public theorem adicTruncation_maximalIdeal_pow
   let : Nontrivial (R ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr hI.ne
   let : IsLocalRing (R ⧸ I) :=
     IsLocalRing.of_surjective' q Ideal.Quotient.mk_surjective
-  show maximalIdeal (R ⧸ I) ^ (n + 1) = ⊥
+  change maximalIdeal (R ⧸ I) ^ (n + 1) = ⊥
   rw [← IsLocalRing.map_maximalIdeal_of_surjective q Ideal.Quotient.mk_surjective,
     ← Ideal.map_pow, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
 
@@ -135,7 +135,7 @@ private theorem sourceBaseMap_quotient
         (X.level n).2.hom := by
   have hs : (coyonedaIsoAdicCompletion R).hom.app X.base (sourceBaseMap X) =
       sourceAdicSection X := by
-    show ((coyonedaIsoAdicCompletion R).inv.app X.base ≫
+    change ((coyonedaIsoAdicCompletion R).inv.app X.base ≫
       (coyonedaIsoAdicCompletion R).hom.app X.base) (sourceAdicSection X) =
         sourceAdicSection X
     rw [(coyonedaIsoAdicCompletion R).inv_hom_id_app X.base]
@@ -184,7 +184,7 @@ public theorem nonempty_hom_completionMap_obj
             (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base n)) =
           (artinianToComplete.map (eqToHom (sourceLevelEq X₀ n))).hom.comp
             αn.2.hom := by
-      show ((artinianToComplete.map (eqToHom (sourceLevelEq X₀ n))).hom).comp
+      change ((artinianToComplete.map (eqToHom (sourceLevelEq X₀ n))).hom).comp
           ((M.factor αn).hom.comp
             ((t n).hom.comp (Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal ξ.base n)))) = _
       rw [htq, (M.factor_spec αn).2.2]
@@ -239,7 +239,7 @@ public theorem nonempty_hom_completionMap_obj
       ξ.transition n ≫ app₀ n =
           transitionTo ξ hlowUp ≫
             M.pointInclusion (X₀.level n) := by
-              show ξ.transition n ≫ transitionTo ξ (hlevel n) ≫
+              change ξ.transition n ≫ transitionTo ξ (hlevel n) ≫
                 M.pointInclusion (X₀.level n) = _
               rw [← Category.assoc, hstep n, transitionTo_comp ξ (hlevel n) (Nat.le_succ n)]
       _ = transitionTo ξ hm ≫
@@ -252,7 +252,7 @@ public theorem nonempty_hom_completionMap_obj
                 M.toBasedFunctor.map (X₀.transition n)) :=
           congrArg (fun t => transitionTo ξ hm ≫ t) hcomm.symm
       _ = app₀ (n + 1) ≫ M.toBasedFunctor.map (X₀.transition n) := by
-              show _ = (transitionTo ξ (hlevel (n + 1)) ≫
+              change _ = (transitionTo ξ (hlevel (n + 1)) ≫
                 M.pointInclusion (X₀.level (n + 1))) ≫
                   M.toBasedFunctor.map (X₀.transition n)
               rw [← hhigh]
@@ -311,7 +311,8 @@ public theorem nonempty_hom_of_isVersal (hp : IsPredeformationCategory p)
   let M := associatedMorphism hp.cofibered ξ push
   let φ := M.toBasedFunctor
   let K := residueFieldObject Λ k
-  let α : (restrictedCoyoneda ξ.base).Elements := (restrictedCoyoneda ξ.base).elementsMk K (residuePoint ξ.base)
+  let α : (restrictedCoyoneda ξ.base).Elements :=
+    (restrictedCoyoneda ξ.base).elementsMk K (residuePoint ξ.base)
   let sourceProjection := Functor.Elements.π (restrictedCoyoneda ξ.base)
   let x : sourceProjection.Fiber K := ⟨α, rfl⟩
   have h₀ : (fiberFunctor φ K).EssSurj := by

@@ -232,11 +232,11 @@ private lemma restrictedModuleSection_restrict {X : Scheme.{u}} {c : ℕ}
   let JW := CechCochains.inter (fun j => W ⊓ X.basicOpen (f j)) q.1
   let JV := CechCochains.inter (fun j => V ⊓ X.basicOpen (f j)) q.1
   let eW : Γ(F, IW) ≃+ Γ(F, JW) := by
-    show Γ(F, i ''ᵁ (i ⁻¹ᵁ W)) ≃+ Γ(F, CechCochains.inter
+    change Γ(F, i ''ᵁ (i ⁻¹ᵁ W)) ≃+ Γ(F, CechCochains.inter
       (fun j => W ⊓ X.basicOpen (f j)) q.1)
     rw [← hW]
   let eV : Γ(F, IV) ≃+ Γ(F, JV) := by
-    show Γ(F, i ''ᵁ (i ⁻¹ᵁ V)) ≃+ Γ(F, CechCochains.inter
+    change Γ(F, i ''ᵁ (i ⁻¹ᵁ V)) ≃+ Γ(F, CechCochains.inter
       (fun j => V ⊓ X.basicOpen (f j)) q.1)
     rw [← hV]
   let av : Γ(F, IV) := (F.restrictAppIso i (i ⁻¹ᵁ V)).hom
@@ -251,7 +251,7 @@ private lemma restrictedModuleSection_restrict {X : Scheme.{u}} {c : ℕ}
     simpa [eV, IV, JV] using rw_addEquiv_eqToHom_apply F hV a
   have heW (a : Γ(F, IW)) : eW a = (F.presheaf.map (eqToHom hW.symm).op) a := by
     simpa [eW, IW, JW] using rw_addEquiv_eqToHom_apply F hW a
-  show (F.presheaf.map (homOfLE (cech_inter_mono f p q hWV)).op)
+  change (F.presheaf.map (homOfLE (cech_inter_mono f p q hWV)).op)
       (restrictedModuleSection f F p q V z) =
     restrictedModuleSection f F p q W
       ((restrictedModule f F p q).presheaf.map (homOfLE hWV).op z)
@@ -271,7 +271,7 @@ private lemma sectionsIso_restrict {X : Scheme.{u}} {c : ℕ}
   let ψ := ((data f F).termIso p).hom ≫ Pi.π _ q
   have hnat := section_map_natural ψ hWV x
   rw [Data.sectionsIso_compat, Data.sectionsIso_compat]
-  show (F.presheaf.map (homOfLE (cech_inter_mono f p q hWV)).op)
+  change (F.presheaf.map (homOfLE (cech_inter_mono f p q hWV)).op)
       (restrictedModuleSection f F p q V (ψ.app V x)) =
     restrictedModuleSection f F p q W
       (ψ.app W (((data f F).complex.X (p + 1)).presheaf.map (homOfLE hWV).op x))
@@ -418,7 +418,7 @@ private lemma smul_face_boundaryCochain {X : Scheme.{u}} {n : ℕ} (f : Fin (n +
   rw [Scheme.Modules.map_smul, Scheme.Modules.map_smul] at h
   rw [prod_res_eq_mul_face f W i hTi, mul_smul]
   congr 1
-  show _ • (((-1 : ℤ) ^ (i : ℕ)) •
+  change _ • (((-1 : ℤ) ^ (i : ℕ)) •
     F.presheaf.map (homOfLE hTi).op (boundaryCochain f F W a (faceOrdIndex n i))) = _
   rw [hz, map_zsmul, sign_smul_sign]
   simpa [← F.presheaf.map_comp_apply, ← op_comp, homOfLE_comp] using h
@@ -446,11 +446,11 @@ private lemma exists_boundary_succ {X : Scheme.{u}} {n : ℕ} (f : Fin (n + 2) �
   rw [(data f F).differential_succ n W, AddEquiv.apply_symm_apply, map_sub]
   funext q
   obtain rfl := topOrdIndex_unique q
-  show _ = (data f F).sectionsIso (n + 1) W x (topOrdIndex n) -
+  change _ = (data f F).sectionsIso (n + 1) W x (topOrdIndex n) -
     (data f F).sectionsIso (n + 1) W y (topOrdIndex n)
   apply hu.smul_left_cancel.mp
   rw [hxy]
-  show _ • (∑ i : Fin (n + 2), ((-1 : ℤ) ^ (i : ℕ)) •
+  change _ • (∑ i : Fin (n + 2), ((-1 : ℤ) ^ (i : ℕ)) •
     CechCochains.restr (Scheme.Modules.presheaf F)
       (CechCochains.inter_le_omit (fun k => W ⊓ X.basicOpen (f k)) (topOrdIndex n).1 i)
       (boundaryCochain f F W a ⟨(topOrdIndex n).1 ∘ i.succAbove,

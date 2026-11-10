@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Blowup.RegularSurfaceBlowupGlobal
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
 
 /-!
 # Regularity, dimension and integrality along a chain of blowups at closed points

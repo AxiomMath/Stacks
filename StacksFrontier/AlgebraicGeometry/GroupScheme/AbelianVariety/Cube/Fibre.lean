@@ -101,7 +101,7 @@ include hzk hzV in
 theorem range_jz_le : Set.range (jz z hzk) ⊆ Set.range (PV V).ι := by
   rw [Scheme.Opens.range_ι]
   rintro _ ⟨x, rfl⟩
-  show (jz z hzk ≫ r A) x ∈ V
+  change (jz z hzk ≫ r A) x ∈ V
   rw [jz_r, Scheme.Hom.comp_apply]
   have : (A ⊗ A).hom x ∈ z ⁻¹ᵁ V := by rw [hzV]; trivial
   exact this
@@ -167,7 +167,7 @@ theorem evz_algebraMap (c : k) :
     evz z hzV ((Stacks.Cech.baseRingHom A.hom V).hom c) = c := by
   simp only [evz, RingHom.comp_apply]
   rw [Stacks.Cech.baseRingHom_eq_appLE A.hom V (Stacks.AffineProduct.le_preimage_top _ _)]
-  show (Scheme.ΓSpecIso (.of k)).hom ((z.appLE V ⊤ _) (A.hom.appLE ⊤ V _
+  change (Scheme.ΓSpecIso (.of k)).hom ((z.appLE V ⊤ _) (A.hom.appLE ⊤ V _
     ((Scheme.ΓSpecIso (.of k)).inv c))) = c
   rw [appLE_comp, appLE_congr hzk, id_appLE_self, Iso.inv_hom_id_apply]
 

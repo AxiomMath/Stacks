@@ -130,7 +130,7 @@ theorem isFlatOverAt_restrict_iff {W X S : Scheme.{u}} (j : W ⟶ X) [IsOpenImme
     Module.compHom _ (f.stalkMap (j w)).hom
   have hsmul (a : S.presheaf.stalk (f (j w))) (m : G.presheaf.stalk w) :
       restrictStalkMap j F w (a • m) = a • restrictStalkMap j F w m := by
-    show restrictStalkMap j F w (((j ≫ f).stalkMap w).hom a • m) =
+    change restrictStalkMap j F w (((j ≫ f).stalkMap w).hom a • m) =
       (f.stalkMap (j w)).hom a • restrictStalkMap j F w m
     rw [Scheme.Hom.stalkMap_comp]
     exact restrictStalkMap_smul j F w ((f.stalkMap (j w)).hom a) m
@@ -142,7 +142,7 @@ theorem isFlatOverAt_restrict_iff {W X S : Scheme.{u}} (j : W ⟶ X) [IsOpenImme
         map_add' := (restrictStalkMap j F w).hom.map_add
         map_smul' := hsmul }
       (ConcreteCategory.bijective_of_isIso (restrictStalkMap j F w))
-  show Module.Flat (S.presheaf.stalk (f (j w))) (G.presheaf.stalk w) ↔
+  change Module.Flat (S.presheaf.stalk (f (j w))) (G.presheaf.stalk w) ↔
     Module.Flat (S.presheaf.stalk (f (j w))) (F.presheaf.stalk (j w))
   exact Module.Flat.equiv_iff e
 

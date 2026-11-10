@@ -114,7 +114,7 @@ theorem exists_represented_coproduct
       ObjectProperty.homMk (Sigma.desc (fun i => (V i).hom.hom)))
   let f : ∀ i, V i ⟶ U := fun i => Over.homMk
     (ObjectProperty.homMk (Sigma.ι W i))
-    (ObjectProperty.hom_ext _ (Sigma.ι_desc (fun i => (V i).hom.hom) i))
+    (ObjectProperty.hom_ext _ (Sigma.ι_comp_desc (fun i => (V i).hom.hom) i))
   let J := BigFppfOver.topology B S hS
   let H := Sheaf.sheafifiedYoneda J
   have (i : I) : Mono (f i) :=

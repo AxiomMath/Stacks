@@ -67,7 +67,7 @@ theorem mono_fieldMorphism_canonicalSiteFieldPoint (U : BigFppfOver B S hS)
   rw [fieldMorphism_yoneda]
   have : Mono ((BigFppfOver.toScheme B S hS).map
       (canonicalSiteFieldPoint B S hS U a).siteHom) := by
-    show Mono (B.inclusion.map ((canonicalSiteFieldPoint B S hS U a).siteHom B S hS).left)
+    change Mono (B.inclusion.map ((canonicalSiteFieldPoint B S hS U a).siteHom B S hS).left)
     have h₁ : B.inclusion.map ((canonicalSiteFieldPoint B S hS U a).siteHom B S hS).left =
         ((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField a :=
       map_siteFieldPointOfSchemeMap_value_left B S hS _ _ _

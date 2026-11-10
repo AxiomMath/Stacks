@@ -179,23 +179,25 @@ private theorem isStrictlyGE_globalSections_directImage
 
 section RegularDescent
 
-variable {k : Type u} [Field k] [Fintype k] [PerfectField k] {U : Scheme.{u}} {H : Type} [Group H]
-  [Fintype H] {pU : U ⟶ Spec (.of k)} [IsCurve k pU] [Smooth pU]
+variable {k : Type u} [Field k] [PerfectField k] {U : Scheme.{u}} {H : Type} [Group H]
+  [Finite H] {pU : U ⟶ Spec (.of k)} [IsCurve k pU] [Smooth pU]
   (J : CompactificationOf (Over.mk pU))
   (G : EtaleGaloisCovering U H) [IsFinite (G.cover.hom : G.cover.left ⟶ U)]
-  [ConnectedSpace G.cover.left] [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
+  [ConnectedSpace ((𝟭 Scheme).obj G.cover.left)]
   (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar] (ℓ n : ℕ) [Fact ℓ.Prime]
 
 /-- **`RΓ_c(U_k̄, D(A[H]))` read over `A = ℤ/ℓⁿ` is perfect**: it is `RΓ_c(V_k̄, ℤ/ℓⁿ)` for the
 covering `V`, computed on a smooth projective compactification of `V`. -/
 theorem isPerfect_compactSupportFrobeniusCohomology_restrictScalars_regularDescentSheaf
-    (hn : 1 ≤ n) : StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj
+    [Finite k] (hn : 1 ≤ n) :
+    StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj
       (compactSupportFrobeniusCohomology.{u, 0} (ZMod (ℓ ^ n)) pU J kbar
         ((etaleModuleRestrictScalars (MonoidAlgebra.singleOneRingHom (R := ZMod (ℓ ^ n)) (M := H))
           U).mapCochainComplexPlus.obj
             ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
               (G.regularDescentSheaf (A := ZMod (ℓ ^ n))))))) := by
   have : NeZero n := ⟨by omega⟩
+  have := Fintype.ofFinite H
   have : IsProper (Over.mk J.toBase).hom := inferInstanceAs (IsProper J.toBase)
   obtain ⟨C⟩ := nonempty_coverCompactification k pU (Over.mk J.toBase).hom J.immersion
     (show J.immersion ≫ (Over.mk J.toBase).hom = pU from Over.w J.obj.hom)
@@ -224,7 +226,7 @@ theorem isPerfect_compactSupportFrobeniusCohomology_restrictScalars_regularDesce
 /-- **The injective model `J = Γ(Spec k̄, g_* T)` of `RΓ_c(U_k̄, D(A[H]))` is perfect over
 `A[H]`**: its terms are injective, its cohomology is finite and vanishes above degree `2`, and its
 `3`-cocycles from cyclic modules are coboundaries. -/
-theorem isPerfect_regularDescentModel (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] [CharP k p]
+theorem isPerfect_regularDescentModel [Fintype k] (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] [CharP k p]
     (hcard : Fintype.card k = p ^ q)
     (Rs : CompactSupportTwistResolution J kbar p q hcard
       (G.regularDescentSheaf (A := ZMod (ℓ ^ n)))) :
@@ -256,7 +258,8 @@ theorem isPerfect_regularDescentModel (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] 
     have h := (isZero_homology_map_homFunctor_of_two_lt J kbar p q hcard hD Rs
       (regularModuleU.{u} (MonoidAlgebra (ZMod (ℓ ^ n)) H)) i hi).of_iso
         (homologyHomFunctorRegularIso (A := ZMod (ℓ ^ n)) Jc i).symm
-    rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at h ⊢
+    exact h
   have hf : ∀ i, Module.Finite (MonoidAlgebra (ZMod (ℓ ^ n)) H) (Jc.homology i) := fun i => by
     apply module_finite_of_restrictScalars (A := ZMod (ℓ ^ n))
     obtain ⟨E, -⟩ := exists_compactSupportHomModel J kbar _ q hcard
@@ -305,11 +308,13 @@ theorem isPerfect_regularDescentModel (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] 
 
 /-- **(I1) `RΓ_c(U_k̄, D(A[H]))` is perfect over `A[H]`**, `A = ℤ/ℓⁿ`, for a connected finite
 étale Galois covering of a smooth curve over a finite field. -/
-theorem isPerfect_compactSupportFrobeniusCohomology_regularDescentSheaf (hn : 1 ≤ n) :
+theorem isPerfect_compactSupportFrobeniusCohomology_regularDescentSheaf [Finite k]
+    (hn : 1 ≤ n) :
     StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj
       (compactSupportFrobeniusCohomology.{u, 0} (MonoidAlgebra (ZMod (ℓ ^ n)) H) pU J kbar
         ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
           (G.regularDescentSheaf (A := ZMod (ℓ ^ n)))))) := by
+  have := Fintype.ofFinite k
   obtain ⟨q, hp, hcard⟩ := FiniteField.card k (ringChar k)
   have : Fact (ringChar k).Prime := ⟨hp⟩
   obtain ⟨Rs⟩ := CompactSupportTwistResolution.nonempty J kbar (ringChar k) q hcard
@@ -342,7 +347,7 @@ include hX hρ hΦ in
 `X`, finite over `A[H]`, with `A` acting centrally through `Λ`, such that `Hom_{A[H]}(X, -)`
 carries finite projective modules to finite projective modules. -/
 theorem isPerfect_compactSupportFrobeniusCohomology_etaleModuleHom_regularDescentSheaf
-    (hn : 1 ≤ n) :
+    [Finite k] (hn : 1 ≤ n) :
     StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj
       (compactSupportFrobeniusCohomology.{u, 0} Λ pU J kbar
         ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
@@ -353,6 +358,7 @@ theorem isPerfect_compactSupportFrobeniusCohomology_etaleModuleHom_regularDescen
   have : Finite (MonoidAlgebra (ZMod (ℓ ^ n)) H) := Module.finite_of_finite (ZMod (ℓ ^ n))
   have : IsNoetherianRing (MonoidAlgebra (ZMod (ℓ ^ n)) H) :=
     isNoetherian_of_finite (MonoidAlgebra (ZMod (ℓ ^ n)) H) (MonoidAlgebra (ZMod (ℓ ^ n)) H)
+  have := Fintype.ofFinite k
   obtain ⟨q, hp, hcard⟩ := FiniteField.card k (ringChar k)
   have : Fact (ringChar k).Prime := ⟨hp⟩
   obtain ⟨Rs⟩ := CompactSupportTwistResolution.nonempty J kbar (ringChar k) q hcard
@@ -381,7 +387,7 @@ include hX hρ in
 /-- **(I2b) Step 7 of [Stacks, Tag 03UG]**: for `Φ = Hom_{A[H]}(X, -)`,
 `Tr_Λ(π_U^* | RΓ_c(U_k̄, Hom_{A[H]}(X, D(A[H])))) = Φ♮(Tr_{A[H]}(π_U^* | RΓ_c(U_k̄, D(A[H]))))`. -/
 theorem perfectDerivedTrace_canonicalCompactSupportFrobenius_etaleModuleHom_regularDescentSheaf
-    (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q) :
+    [Fintype k] (hn : 1 ≤ n) (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q) :
     perfectDerivedTrace Λ
       ⟨_, isPerfect_compactSupportFrobeniusCohomology_etaleModuleHom_regularDescentSheaf
         J G kbar ℓ n X hX ρ hρ hΦ hn⟩ (DerivedCategory.Plus.ι.map

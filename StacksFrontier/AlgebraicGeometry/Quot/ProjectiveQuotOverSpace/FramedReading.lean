@@ -69,6 +69,7 @@ open ProjectiveQuot
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasKernels X.Modules` through the abelian structure on modules is deep
 /-- Kernels in modules over a scheme, found once (instance search times out on the composites
 below). -/
 local instance hasKernels_schemeModules_FramedReading (X : Scheme.{u}) : HasKernels X.Modules :=
@@ -169,7 +170,7 @@ theorem kernelSubobject_eq_inv_comp_of_comp {C : Type*} [Category* C] [Abelian C
     kernelSubobject M = kernelSubobject (inv c ≫ N) := by
   have L : ∀ {Z : C} (f : X ⟶ Z), (Subobject.map c).obj (kernelSubobject (c ≫ f)) =
       kernelSubobject f := fun f => by
-    show (Subobject.map c).obj (Subobject.mk (kernel.ι (c ≫ f))) = Subobject.mk (kernel.ι f)
+    change (Subobject.map c).obj (Subobject.mk (kernel.ι (c ≫ f))) = Subobject.mk (kernel.ι f)
     rw [Subobject.map_mk]
     exact Subobject.mk_eq_mk_of_comm _ _ (kernelIsIsoComp c f) (by simp)
   rw [← L M, h, ← L (inv c ≫ N)]

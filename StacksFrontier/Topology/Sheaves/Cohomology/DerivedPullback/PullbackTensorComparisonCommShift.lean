@@ -78,7 +78,7 @@ theorem derivedPullbackTensorIso_hom_app_kFlatQY (M₁ M₂ :
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).FullSubcategory) :
     (derivedPullbackTensorIso f).hom.app ((kFlatQY (Y := Y)).obj M₁, (kFlatQY (Y := Y)).obj M₂) =
       (modelsComparison f).hom.app (M₁, M₂) := by
-  show (Localization.liftNatTrans (kFlatQPair (Y := Y)) (kFlatQuasiIsoPair (Y := Y)) _ _
+  change (Localization.liftNatTrans (kFlatQPair (Y := Y)) (kFlatQuasiIsoPair (Y := Y)) _ _
     (pullbackOfTensor f) (tensorOfPullbacks f) (modelsComparison f).hom).app
       ((kFlatQPair (Y := Y)).obj (M₁, M₂)) = _
   rw [Localization.liftNatTrans_app]
@@ -97,7 +97,7 @@ theorem whiskerLeft_bifunctorComparisonFlip_eq (M₂ :
         (Functor.curry.map (modelsComparison f).hom).flipApp M₂ ≫
           ((Functor.CommShift₂.flipIso (curryModelsTensorOfPullbacksIso f)).app M₂).inv := by
   ext M₁
-  show (derivedPullbackTensorIso f).hom.app ((kFlatQY (Y := Y)).obj M₁,
+  change (derivedPullbackTensorIso f).hom.app ((kFlatQY (Y := Y)).obj M₁,
     (kFlatQY (Y := Y)).obj M₂) = _
   rw [derivedPullbackTensorIso_hom_app_kFlatQY]
   exact eq_id_comp_comp_id _

@@ -233,7 +233,7 @@ public theorem SmallEtale.isWeakSerreClass_isConstructibleModuleSheaf :
     (Stacks.ConstantSheaf.isFiniteTypeLocallyConstant_zero.{u, u + 1, max (u + 1) w, r}
       (SmallEtale.topology B X.obj X.property) Λ)⟩, ?_⟩
   intro S hS h₀ h₁ h₃ h₄
-  show IsConstructibleModuleSheaf B X Λ (S.obj' 2)
+  change IsConstructibleModuleSheaf B X Λ (S.obj' 2)
   intro V
   obtain ⟨s, hs⟩ := exists_stratification_isStratifiedSheaf_forall B X
     (isFiniteTypeLocallyConstantSmallEtaleSheaf.{max (u + 1) w, u, r} B Λ) hPIso hPImm

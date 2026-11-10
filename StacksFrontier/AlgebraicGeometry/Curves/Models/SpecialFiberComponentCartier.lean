@@ -434,7 +434,7 @@ public theorem specialFiberIdeal_eq_prod :
       obtain ⟨Z, hZ, hyZ⟩ := exists_mem_irreducibleComponents_subset_of_isIrreducible
         ({y} : Set S.specialFiber) isIrreducible_singleton
       refine ⟨⟨Z, hZ⟩, ?_⟩
-      show S.specialFiberι.base y ∈
+      change S.specialFiberι.base y ∈
         (((S.specialFiberComponentIdeal ⟨Z, hZ⟩).support : Closeds S.X) : Set S.X)
       rw [S.coe_support_specialFiberComponentIdeal]
       exact ⟨y, hyZ rfl, rfl⟩)

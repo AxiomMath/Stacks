@@ -209,7 +209,7 @@ public theorem moduleFinite_total (hft : Stacks.Coherent.IsFiniteTypeOnAffine F)
         ↑(AddSubgroup.comap g P.toAddSubgroup) := by
       rintro t ⟨s, hs, m, a, h, rfl⟩
       subst h
-      show (F.toLeftGradedModuleOfComm hc).incl (s.1 + m) (F.smul s.1 m (op U.1) s.2 a) ∈ P
+      change (F.toLeftGradedModuleOfComm hc).incl (s.1 + m) (F.smul s.1 m (op U.1) s.2 a) ∈ P
       rw [← F.incl_smul_incl_right hc s.1 m (op U.1) s.2 a]
       exact P.smul_mem _ (hgen s hs)
     exact (AddSubgroup.closure_le _).2 hsub (hgens n ▸ AddSubgroup.mem_top x)

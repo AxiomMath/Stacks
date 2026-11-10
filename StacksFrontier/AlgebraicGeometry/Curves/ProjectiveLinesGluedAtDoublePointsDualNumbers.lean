@@ -283,7 +283,7 @@ theorem isPushout_gluedCurveDualNumbers :
               pullback.fst w.hom (pushoutInr s) := (Category.assoc _ _ _).symm
     · let sndY : pullback w.hom (pushoutInr s) ⟶ projectiveLine k :=
         pullback.snd w.hom (pushoutInr s)
-      show (eZ.hom ≫ jj) ≫ sndY = (doublePointsDualNumbersToProjectiveLine k pts ≫ eY.hom) ≫ sndY
+      change (eZ.hom ≫ jj) ≫ sndY = (doublePointsDualNumbersToProjectiveLine k pts ≫ eY.hom) ≫ sndY
       let hh : d.Z' ⟶ doublePointsScheme k pts := d.h
       have hjg' : jj ≫ sndY = hh ≫ doublePointsToProjectiveLine k pts := hjg
       have hZh' : eZ.hom ≫ hh = doublePointsDualNumbersProjection k pts := hZh
@@ -401,7 +401,8 @@ def gluedCurveDualNumbersAut :
 
 /-- The automorphism is the translation `t ↦ t + ε` on both copies of `ℙ¹_{k[ε]}`. -/
 theorem gluedCurveDualNumbersComponent_comp_aut (b : Bool) :
-    gluedCurveDualNumbersComponent k pts hpts b ≫ (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
+    gluedCurveDualNumbersComponent k pts hpts b ≫
+        (gluedCurveDualNumbersAut k pts hpts).asIso.hom.left =
       projectiveLineTranslation DualNumber.eps DualNumber.eps_mul_eps ≫
         gluedCurveDualNumbersComponent k pts hpts b :=
   gluedCurveDualNumbersComponent_comp_translation k pts hpts (two_eq_zero_dualNumber k)

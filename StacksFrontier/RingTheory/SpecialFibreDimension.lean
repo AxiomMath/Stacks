@@ -70,7 +70,7 @@ private theorem isAlgebraic_of_away_map_finite
   let _ : Algebra Ag Cg := (IsLocalization.Away.map Ag Cg (algebraMap A C) g).toAlgebra
   have : Module.Finite Ag Cg := hfin
   have htow : IsScalarTower A Ag Cg := IsScalarTower.of_algebraMap_eq fun a => by
-    show (algebraMap A Cg) a =
+    change (algebraMap A Cg) a =
       (IsLocalization.Away.map Ag Cg (algebraMap A C) g) ((algebraMap A Ag) a)
     simp only [IsLocalization.Away.map, IsLocalization.map_eq]
     exact IsScalarTower.algebraMap_apply A C Cg a
@@ -175,7 +175,7 @@ theorem _root_.ringKrullDim_quotient_map_maximalIdeal_add_one_le
     set q : Ideal C := Ideal.comap (Ideal.Quotient.mk J) qb.asIdeal with hqdef
     have hqp : q.IsPrime := Ideal.comap_isPrime _ _
     have hJq : J ≤ q := fun x hx => by
-      show Ideal.Quotient.mk J x ∈ qb.asIdeal
+      change Ideal.Quotient.mk J x ∈ qb.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
       exact Ideal.zero_mem _
     have hmapq : q.map (Ideal.Quotient.mk J) = qb.asIdeal :=
@@ -218,7 +218,7 @@ theorem _root_.ringKrullDim_quotient_map_maximalIdeal_add_one_le
       rw [← h0]
       exact Ideal.map_le_iff_le_comap.mp hJp
     have hs'last : s'.last = (⟨q, hqp⟩ : PrimeSpectrum C) := by
-      show ((s.last : ↑(PrimeSpectrum.zeroLocus (J : Set C))) : PrimeSpectrum C) = _
+      change ((s.last : ↑(PrimeSpectrum.zeroLocus (J : Set C))) : PrimeSpectrum C) = _
       rw [hslast]
     calc ((n : ℕ∞) + 1)
         = (((s'.cons ⟨p, hpp⟩ hplt).length : ℕ) : ℕ∞) := by

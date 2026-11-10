@@ -185,7 +185,7 @@ theorem ofTensorModule_leftAction_apply (N : DifferentialGradedModule (tensorAlg
     DifferentialGradedModule.totalizeCochain_apply B M m p (K.action m a) x]
   have hv := LeftModule.leftAction_apply A L M.toCochainComplex i m p a xL
   rw [hx] at hv
-  show ((K.action m a).v p (p + m) rfl x).val = _
+  change ((K.action m a).v p (p + m) rfl x).val = _
   rw [hv, hi', hinv]
   rw [map_zsmul_unit, h.hom.map_smul, hh]
   rfl

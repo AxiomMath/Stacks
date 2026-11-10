@@ -116,7 +116,7 @@ theorem exists_comp_openPreimageChartι {U W : SmallEtale B S hS Y} (f : W ⟶ U
     exact (CostructuredArrow.w f.hom).symm
   let l := hV.rep.lift (Subfunctor.lift W.1.hom hW) f.hom.left hi
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk l ?_), ?_⟩
-  · show yoneda.map l ≫ yoneda.map (hV.rep.snd U.1.hom) ≫ U.1.hom = W.1.hom
+  · change yoneda.map l ≫ yoneda.map (hV.rep.snd U.1.hom) ≫ U.1.hom = W.1.hom
     rw [← Category.assoc, ← Functor.map_comp, hV.rep.lift_snd]
     exact CostructuredArrow.w f.hom
   · exact ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ (hV.rep.lift_snd _ _ _))
@@ -249,7 +249,7 @@ theorem isSeparatedOn_and_gluesOn_of_factor (G : AlgebraSheaf.{u, u} B S hS Y.1 
       (fun W (k : W ⟶ U' U) => R U (k ≫ ι U)) := fun U =>
     (Presieve.isSheafFor_iff_generate _).2 (isSheaf_typePresheaf G _ (hcov U))
   refine ⟨fun U s t h => (hbij U).1 ((hsh U).isSeparatedFor.ext fun W k hk => ?_), ?_⟩
-  · show (G.right.obj.map k.op).hom ((G.right.obj.map (ι U).op).hom s) =
+  · change (G.right.obj.map k.op).hom ((G.right.obj.map (ι U).op).hom s) =
       (G.right.obj.map k.op).hom ((G.right.obj.map (ι U).op).hom t)
     rw [AlgebraSheaf.map_map_apply, AlgebraSheaf.map_map_apply]
     exact h (k ≫ ι U) hk

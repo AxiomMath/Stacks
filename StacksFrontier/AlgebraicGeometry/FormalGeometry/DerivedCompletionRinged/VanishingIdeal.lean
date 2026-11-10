@@ -49,15 +49,16 @@ for the vanishing of `R𝑆heafHom_𝒪(𝒪_f, K)` by [Stacks, Tag 0997] withou
 `AlgebraicGeometry.RingedSite.awayModule`, and that this agrees with the source's condition
 `T(K, f) = 0` is now proved: it is
 `AlgebraicGeometry.RingedSite.memVanishingIdeal_iff_isDerivedCompleteAt` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/VanishingFromComplete.lean`,
+`VanishingFromComplete.lean` (in this file's directory,
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/`),
 the equivalence of conditions (1) and (3) of [Stacks, Tag 0997]. That file imports this one, so
 the equivalence is not available to the proofs below.
 
 Closure under multiplication is proved for the right-orthogonality condition (2) rather than
 for `MemVanishingIdeal` itself. The reason is the same gap: the source deduces
 `R𝑆heafHom_𝒪(𝒪_{gf}, K) = 0` from `R𝑆heafHom_𝒪(𝒪_f, K) = 0` by observing that `𝒪_{gf}` is an
-`𝒪_f`-module and invoking (1) ⇒ (2) of [Stacks, Tag 0997], which is not available here. Condition (2),
-on the other hand, propagates along the transition map `𝒪_{f_S} ⟶ 𝒪_{f_T}` of
+`𝒪_f`-module and invoking (1) ⇒ (2) of [Stacks, Tag 0997], which is not available here. Condition
+(2), on the other hand, propagates along the transition map `𝒪_{f_S} ⟶ 𝒪_{f_T}` of
 `AlgebraicGeometry.RingedSite.existsUnique_awayTransition` by pure functoriality: restriction
 of scalars along `𝒪 ⟶ 𝒪_{f_T}` is restriction along `𝒪 ⟶ 𝒪_{f_S}` of restriction along
 `𝒪_{f_S} ⟶ 𝒪_{f_T}`. On complexes that composition is an equality of functors, so the
@@ -195,7 +196,7 @@ theorem globalSectionVal_mulGlobalSection
     (g h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})) (U : X.Cᵒᵖ) :
     globalSectionVal (mulGlobalSection X g h) U =
       globalSectionVal g U * globalSectionVal h U := by
-  show globalSectionVal (prodGlobalSection ![g, h] {0, 1}) U = _
+  change globalSectionVal (prodGlobalSection ![g, h] {0, 1}) U = _
   rw [globalSectionVal_prodGlobalSection]
   simp
 

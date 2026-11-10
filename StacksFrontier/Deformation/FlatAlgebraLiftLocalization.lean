@@ -184,7 +184,7 @@ private theorem exists_ringEquiv_tensorLocalization
       (IsLocalization.algEquiv (Algebra.algebraMapSubmonoid B T')
         (B ⊗[P'] Q') C).toRingEquiv), fun p => ?_⟩
   rw [RingEquiv.trans_apply, RingEquiv.trans_apply]
-  simp only [AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul,
+  simp only [AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul,
     Algebra.TensorProduct.cancelBaseChange_tmul]
   rw [Algebra.smul_def, mul_one]
   exact (IsLocalization.algEquiv (Algebra.algebraMapSubmonoid B T')

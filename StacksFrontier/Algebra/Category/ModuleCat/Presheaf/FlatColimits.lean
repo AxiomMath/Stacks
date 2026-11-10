@@ -231,6 +231,7 @@ private noncomputable def tensorCoproductIsColimit {O : Cᵒᵖ ⥤ CommRingCat.
   exact hKX.ofIsoColimit (Cocone.ext (Iso.refl _) fun _ => rfl)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for `tensorRight` and coproducts of presheaves of modules is heavy
 /-- **Stacks 03EU, direct sums.** A coproduct of flat presheaves of modules is flat. -/
 @[stacks 03EU "part (1), direct sums"]
 lemma isFlat_coproduct {O : Cᵒᵖ ⥤ CommRingCat.{w}} {ι : Type z}

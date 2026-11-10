@@ -220,7 +220,7 @@ lemma app_eq_of_isLocallyInjective (β : BilinearMap M N P) {X : Cᵒᵖ} (m m' 
     (hm : α.app X m = α.app X m') (y : N.obj X) : β.app X m y = β.app X m' y := by
   refine hP _ _ (Presheaf.equalizerSieve_mem J ((toPresheaf _).map α) m m' hm) _ _ ?_
   intro Y f hf
-  show P.map f.op _ = P.map f.op _
+  change P.map f.op _ = P.map f.op _
   rw [β.naturality f.op, β.naturality f.op, show M.map f.op m = M.map f.op m' from hf]
 
 end Separated
@@ -263,7 +263,7 @@ lemma existsUnique_extendOfFactors (β : BilinearMap M N P) (hfac : Factors α �
       (P := P.presheaf ⋙ forget AddCommGrpCat.{w₃}) (R := S.arrows)
       (fun Y f hf => β.app (op Y) (m Y f hf) (N.map f.op b)) := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ fac
-    show P.map g₁.op (β.app (op Y₁) (m Y₁ f₁ h₁) (N.map f₁.op b)) =
+    change P.map g₁.op (β.app (op Y₁) (m Y₁ f₁ h₁) (N.map f₁.op b)) =
       P.map g₂.op (β.app (op Y₂) (m Y₂ f₂ h₂) (N.map f₂.op b))
     have e₁ := β.naturality g₁.op (m Y₁ f₁ h₁) (N.map f₁.op b)
     have e₂ := β.naturality g₂.op (m Y₂ f₂ h₂) (N.map f₂.op b)

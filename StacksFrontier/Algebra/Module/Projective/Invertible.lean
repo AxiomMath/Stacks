@@ -95,7 +95,7 @@ public theorem dual_baseChange_isLocalized {R : Type u} [CommRing R]
   have h : IsLocalizedModule S (IsLocalizedModule.mapExtendScalars S jM jR A) := inferInstance
   convert h using 1
   ext f m
-  show f m • (1 : A) = ((IsLocalizedModule.map S jM jR) f) (jM m)
+  change f m • (1 : A) = ((IsLocalizedModule.map S jM jR) f) (jM m)
   rw [IsLocalizedModule.map_apply]
   exact (Algebra.algebraMap_eq_smul_one (f m)).symm
 
@@ -177,8 +177,7 @@ public theorem invertible_of_finite_projective_rankAtStalk_one {R : Type u} [Com
     apply IsLocalizedModule.linearMap_ext S jT jR
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul f m =>
       simp only [LinearMap.comp_apply, IsLocalizedModule.map_apply]
       simpa [jT, jR, e, contractLeft_apply] using

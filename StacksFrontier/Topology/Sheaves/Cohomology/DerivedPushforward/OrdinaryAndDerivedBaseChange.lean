@@ -98,7 +98,7 @@ theorem mateEquiv_derivedPullbackComparison :
     mateEquiv (homotopyPullbackPushforwardAdjunction f) (derivedAdjunction f)
         (TwoSquare.mk _ _ _ _ (derivedPullbackComparison f)) =
       TwoSquare.mk _ _ _ _ (derivedPushforwardUnit f) := by
-  refine TwoSquare.ext _ _ fun K => ?_
+  refine NatTrans.ext (funext fun K => ?_)
   refine ((derivedAdjunction f).homEquiv _ _).symm.injective ?_
   simp only [Adjunction.homEquiv_counit]
   exact (mateEquiv_counit (homotopyPullbackPushforwardAdjunction f) (derivedAdjunction f)

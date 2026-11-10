@@ -189,7 +189,7 @@ theorem isStableCurveFamily_ofIsPullback_of_isStableContraction {Z Y : CurveFami
   let vGK : GK ⟶ Q.siteObject := homOfScheme (pullback.snd ((𝒯).map tG) gK)
   let jGK : GK ⟶ G := homOfScheme (pullback.fst ((𝒯).map tG) gK)
   have H : IsPullback ((𝒯).map jGK) ((𝒯).map vGK) ((𝒯).map tG) ((𝒯).map qv) := by
-    show IsPullback (pullback.fst ((𝒯).map tG) gK) (pullback.snd ((𝒯).map tG) gK)
+    change IsPullback (pullback.fst ((𝒯).map tG) gK) (pullback.snd ((𝒯).map tG) gK)
       ((𝒯).map tG) t
     rw [← hgK]
     exact IsPullback.of_hasPullback _ _

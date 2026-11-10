@@ -87,7 +87,7 @@ private theorem quotientToPoints_isLocallyInjective {S : Scheme.{u}} {C : Type v
     simpa [p, pullback.lift_fst] using congrArg (· ≫ pullback.fst f f) hr'
   have hsource : r ≫ j.source = F.map g ≫ y := by
     simpa [p, pullback.lift_snd] using congrArg (· ≫ pullback.snd f f) hr'
-  show (quotientPresheaf F j).map g.op a = (quotientPresheaf F j).map g.op b
+  change (quotientPresheaf F j).map g.op a = (quotientPresheaf F j).map g.op b
   rw [← hx, ← hy, ← NatTrans.naturality_apply π g.op x,
     ← NatTrans.naturality_apply π g.op y]
   calc
@@ -125,7 +125,7 @@ theorem quotientSheaf_isRepresentedBy_of_locallySurjective
   let ff := F.op.whiskerLeft (yoneda.map f)
   have hdesc : sourceMap F j ≫ ff = targetMap F j ≫ ff := by
     ext X r
-    show r ≫ j.source ≫ f = r ≫ j.target ≫ f
+    change r ≫ j.source ≫ f = r ≫ j.target ≫ f
     exact congrArg (fun k => r ≫ k) hf.symm
   have : Presheaf.IsLocallySurjective J ff := hU
   have : Presheaf.IsLocallySurjective J θ :=
@@ -143,7 +143,7 @@ theorem quotientSheaf_isRepresentedBy_of_locallySurjective
   obtain ⟨g, hg, _⟩ := Presheaf.existsUnique_hom_of_isLocallyBijective J θ η Q.property
   let inv : A ⟶ Q := ⟨g⟩
   have hqgFac : toQuotientSheaf J F j ≫ (q ≫ inv).hom = toQuotientSheaf J F j := by
-    show (toQuotientSheaf J F j ≫ q.hom) ≫ g = π ≫ η
+    change (toQuotientSheaf J F j ≫ q.hom) ≫ g = π ≫ η
     rw [hq, ← hg, ← Category.assoc]
     exact congrArg (· ≫ g) (toQuotientPresheaf_quotientToPoints F j f hf).symm
   have hqg : q.hom ≫ g = 𝟙 Q.obj := by

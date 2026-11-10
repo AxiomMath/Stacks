@@ -140,7 +140,7 @@ theorem exists_section_extension_of_isSmooth {F : (BigFppfOver B Y hY)ᵒᵖ ⥤
     induction pt using Quot.ind with
     | mk q =>
       rw [pointsMap_comp, Function.comp_apply]
-      show pointsMap B Y hY (yoneda.obj T₀) ι
+      change pointsMap B Y hY (yoneda.obj T₀) ι
         ((FieldValuedPoint.map B Y hY (yoneda.obj T) (yoneda.map j) q).class B Y hY _) ∈ _
       rw [hVs, schemePoint_map_yoneda]
       exact hWVs (show (V.map j).base (schemePoint B Y hY T q) ∈ W from
@@ -171,7 +171,7 @@ theorem exists_section_extension_of_isSmooth {F : (BigFppfOver B Y hY)ᵒᵖ ⥤
   let c₀ := hpb.lift (V.map b) (V.map a) hw
   let c : T₁ ⟶ T := Over.homMk (ObjectProperty.homMk c₀ : T₁.left ⟶ B.obj hWc) (by
     apply ObjectProperty.hom_ext
-    show c₀ ≫ W.ι ≫ ρ = B.inclusion.map T₁.hom
+    change c₀ ≫ W.ι ≫ ρ = B.inclusion.map T₁.hom
     rw [← Category.assoc, hpb.lift_snd]
     exact (B.inclusion.map_comp _ _).symm.trans (congrArg B.inclusion.map (Over.w a)))
   have hca : c ≫ j = a :=
@@ -320,7 +320,7 @@ lemma exists_hom_of_map_eq_sectionOf (e : BaseChangeEquivalence B S hS 𝒳 U V 
     rfl
   let m : t ⟶ ⟨D, ⟨z⟩⟩ := elementsHom F t ⟨D, ⟨z⟩⟩ (eqToHom ht ≫ f) h'
   refine ⟨e.unitIso.hom.app Q ≫ e.inv.functor.map m, ?_⟩
-  show (e.unitIso.hom.app Q).a ≫ (e.inv.functor.map m).a = _
+  change (e.unitIso.hom.app Q).a ≫ (e.inv.functor.map m).a = _
   rw [unit_app_a, inv_map_a]
   simp [m]
 
@@ -428,7 +428,7 @@ abbrev yonedaSlice : AlgebraicGeometry.BigFppfOver B V.left.1 V.left.2 ⥤ 𝒳.
 
 /-- The 2-Yoneda morphism of `ξ` lies over the slice functor. -/
 lemma yonedaSlice_comp : yonedaSlice hξ ⋙ 𝒳.val.p = Over.map V.hom := by
-  show Over.iteratedSliceBackward V ⋙
+  change Over.iteratedSliceBackward V ⋙
     ((Functor.TwoYoneda.liftBased 𝒳.val.p 𝒳.isFiberedInGroupoids V ⟨ξ, hξ⟩).toFunctor ⋙
       𝒳.val.p) = _
   rw [show (Functor.TwoYoneda.liftBased 𝒳.val.p 𝒳.isFiberedInGroupoids V ⟨ξ, hξ⟩).toFunctor ⋙
@@ -464,7 +464,7 @@ abbrev siteOverOf {z : 𝒳.val.obj} (d' : z ⟶ ξ) :
 /-- The object of the site of `V` underlying an arrow `z ⟶ ξ` has the base of `z` as image. -/
 lemma map_siteOverOf {z : 𝒳.val.obj} (d' : z ⟶ ξ) :
     (Over.map V.hom).obj (siteOverOf hξ d') = 𝒳.val.p.obj z := by
-  show Over.mk ((𝒳.val.p.map d' ≫ eqToHom hξ).left ≫ V.hom) = Over.mk (𝒳.val.p.obj z).hom
+  change Over.mk ((𝒳.val.p.map d' ≫ eqToHom hξ).left ≫ V.hom) = Over.mk (𝒳.val.p.obj z).hom
   congr 1
   exact Over.w (𝒳.val.p.map d' ≫ eqToHom hξ)
 
@@ -610,7 +610,7 @@ lemma objOfArrows_x {z : 𝒳.val.obj} (d : z ⟶ x) (d' : z ⟶ ξ) :
 @[reassoc]
 lemma toYonedaSlice_toFirst {z : 𝒳.val.obj} (d : z ⟶ x) (d' : z ⟶ ξ) :
     toYonedaSlice hξ d' ≫ toFirst (objOfArrows hx hξ d d') = d := by
-  show toYonedaSlice hξ d' ≫ (inv (toYonedaSlice hξ d') ≫ toLift hx hξ d d') ≫
+  change toYonedaSlice hξ d' ≫ (inv (toYonedaSlice hξ d') ≫ toLift hx hξ d d') ≫
     liftArrow hx (overOf hx hξ d d') = d
   simp
 
@@ -649,6 +649,7 @@ lemma cancel_of_mono {a b c : 𝒳.val.obj} (φ : a ⟶ b)
     (Functor.map_comp _ _ _).symm).unique ⟨hp, h⟩ ⟨rfl, rfl⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for a terminal presheaf on the big fppf site exceeds the default budget
 /-- Terminal presheaves on a big fppf site over a scheme (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasTerminal_presheaf_baseChangeRetraction
@@ -719,7 +720,7 @@ theorem exists_localRetraction_of_isVersalAt [IsLocallyNoetherian S]
   let Q₀ := objOfArrows (𝒳 := 𝒳) (rfl : p.obj x = U) (rfl : p.obj ξ = U') (𝟙 x) r
   let s₀ : F.obj (op Q₀.x) := sectionOf e Q₀
   have hrV : VS.map (p.map r) = B.inclusion.map Q₀.x.hom := by
-    show B.inclusion.map (p.map r).left = B.inclusion.map (p.map r ≫ eqToHom rfl).left
+    change B.inclusion.map (p.map r).left = B.inclusion.map (p.map r ≫ eqToHom rfl).left
     simp
   have hT₀ : Stacks.Thickenings.IsFirstOrderThickening (B.inclusion.map Q₀.x.hom) := by
     rw [← hrV]
@@ -748,12 +749,12 @@ theorem exists_localRetraction_of_isVersalAt [IsLocallyNoetherian S]
       _).mpr ?_
     have hbase : q₀.toBase = (VS.obj (p.obj x)).fromSpecResidueField u₀ ≫
         B.inclusion.map Q₀.x.hom := by
-      show B.inclusion.map (B.inclusion.preimage _ ≫ Q₀.x.hom) = _
+      change B.inclusion.map (B.inclusion.preimage _ ≫ Q₀.x.hom) = _
       rw [B.inclusion.map_comp, B.inclusion.map_preimage]
       rfl
     have hfin : IsFinite (B.inclusion.map Q₀.x.hom) :=
       ((AlgebraicGeometry.IsClosedImmersion.iff_isFinite_and_mono _).mp hT₀.1).1
-    show LocallyOfFiniteType q₀.toBase
+    change LocallyOfFiniteType q₀.toBase
     rw [hbase]
     exact MorphismProperty.comp_mem @LocallyOfFiniteType _ _ hu₀.1
       ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType _).mp hfin).2
@@ -784,7 +785,7 @@ theorem exists_localRetraction_of_isVersalAt [IsLocallyNoetherian S]
     simp only [Q₀, objOfArrows, overOf, Over.mk_hom]
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
     simp only [Over.comp_left, Over.eqToHom_left]
-    show B.inclusion.map (𝟙 U.left ≫ 𝟙 U.left) u₀ = u₀
+    change B.inclusion.map (𝟙 U.left ≫ 𝟙 U.left) u₀ = u₀
     simp
   have hsm := isSmoothAt_baseChange_of_isVersalAt B S hS 𝒳 hΔ hΔlft hRS U U' x rfl u₀ hu₀ y hy
     F hF e z₀ hz₀ hzu hvers
@@ -809,12 +810,12 @@ theorem exists_localRetraction_of_isVersalAt [IsLocallyNoetherian S]
   let T₁ := siteOverOf (𝒳 := 𝒳) (rfl : p.obj ξ = U') (s' ≫ cw)
   let θ := toYonedaSlice (𝒳 := 𝒳) (rfl : p.obj ξ = U') (s' ≫ cw)
   let b : T₁ ⟶ T' := Over.homMk (p.map s' ≫ eqToHom hyT').left (by
-    show _ = (p.map (s' ≫ cw) ≫ eqToHom rfl).left
+    change _ = (p.map (s' ≫ cw) ≫ eqToHom rfl).left
     rw [Functor.map_comp, map_toSecond_eq]
     simp only [Over.iteratedSliceBackward, Over.comp_left, Over.eqToHom_left, Over.homMk_left,
       eqToHom_refl, Category.comp_id, Category.assoc, Over.mk_hom])
   let a : T₁ ⟶ Q₀.x := Over.homMk (p.map t').left (by
-    show (p.map t').left ≫ (p.map r ≫ eqToHom rfl).left = (p.map (s' ≫ cw) ≫ eqToHom rfl).left
+    change (p.map t').left ≫ (p.map r ≫ eqToHom rfl).left = (p.map (s' ≫ cw) ≫ eqToHom rfl).left
     rw [← hts, Functor.map_comp]
     simp)
   have hab := hSE T₁ a b
@@ -827,7 +828,7 @@ theorem exists_localRetraction_of_isVersalAt [IsLocallyNoetherian S]
   have hB : t' = θ ≫ y.map a ≫ toFirstOf e s₀ := by
     apply cancel_of_mono B S hS 𝒳 r hmono_r
     rw [Category.assoc, Category.assoc, toFirstOf_sectionOf, toFirst_objOfArrows_id_comp]
-    show _ = θ ≫ (y.map a ≫ toSecond (𝒳 := 𝒳) (rfl : p.obj ξ = U') Q₀.x)
+    change _ = θ ≫ (y.map a ≫ toSecond (𝒳 := 𝒳) (rfl : p.obj ξ = U') Q₀.x)
     rw [map_toSecond, toYonedaSlice_toSecond, hts]
   rw [hA, Category.assoc, map_toFirstOf, ← hab, ← map_toFirstOf, hB]
 

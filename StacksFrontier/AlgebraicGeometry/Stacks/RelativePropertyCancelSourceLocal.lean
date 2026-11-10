@@ -246,7 +246,7 @@ private lemma presheafMapOfFunctor_comp
   ext U x
   let a : (presheafOfCategories (F ⋙ typeToCat)).obj :=
     ⟨U.unop, Discrete.mk x⟩
-  show elementValue (K.obj (H.obj a)) _ =
+  change elementValue (K.obj (H.obj a)) _ =
     (presheafMapOfFunctor K hK).app U (elementValue (H.obj a) (Functor.congr_obj hH a))
   exact (presheafMapOfFunctor_app_elementValue K hK (H.obj a)
     (Functor.congr_obj hH a)).symm
@@ -543,12 +543,12 @@ private lemma presheafMapOfFunctorOver_of_equivalence_apply
   have hm : (p ⋙ K).IsHomLift (𝟙 (K.obj (p.obj a))) (e.unitIso.inv.app a) := by
     apply IsHomLift.of_fac' (p ⋙ K) _ _
       (congrArg K.obj (IsHomLift.domain_eq p (𝟙 (p.obj a)) (e.unitIso.inv.app a))) rfl
-    show K.map (p.map (e.unitIso.inv.app a)) = _
+    change K.map (p.map (e.unitIso.inv.app a)) = _
     rw [IsHomLift.fac' p (𝟙 (p.obj a)) (e.unitIso.inv.app a)]
     simp [eqToHom_map]
   have := Functor.isHomLift_map_of_comp_eq hT (𝟙 (K.obj (p.obj a))) (e.unitIso.inv.app a)
   have he := element_eq (e.hom.functor.obj a) (Functor.congr_obj e.hom.w a)
-  show elementValue (T.obj (e.inv.functor.obj
+  change elementValue (T.obj (e.inv.functor.obj
     ⟨p.obj a, Discrete.mk (elementValue (e.hom.functor.obj a)
       (Functor.congr_obj e.hom.w a))⟩)) _ = _
   have hb : (T.obj (e.inv.functor.obj (e.hom.functor.obj a))).base = K.obj (p.obj a) :=
@@ -568,7 +568,7 @@ private lemma faithful_of_represented
   apply presheaf_hom_ext F
   have hf := Functor.congr_hom e.hom.w f
   have hg := Functor.congr_hom e.hom.w g
-  show (e.hom.functor.map f).base = _
+  change (e.hom.functor.map f).base = _
   rw [h] at hf
   exact hf.trans hg.symm
 
@@ -641,7 +641,7 @@ private lemma representedFibreMap_injective (d : D) :
     simp)
   have hm : (TwoFibreProductOver.fst K pA pB y M).IsHomLift (𝟙 d) m := by
     apply IsHomLift.of_fac' _ _ _ ha hb
-    show k = _
+    change k = _
     simp [k]
   have := Functor.isHomLift_map_of_comp_eq eH.hom.w (𝟙 d) m
   have hh := elementValue_eq_of_vertical
@@ -680,7 +680,7 @@ private lemma representedFibreMap_condition
   let a := eH.inv.functor.obj ⟨d, Discrete.mk x⟩
   have ha : a.x = d := Functor.congr_obj eH.inv.w _
   have hya : pA.obj a.y = K.obj d := a.hy.trans (a.hx.symm.trans (congrArg K.obj ha))
-  show q.app _ (elementValue (eA.hom.functor.obj a.y) _) = _
+  change q.app _ (elementValue (eA.hom.functor.obj a.y) _) = _
   rw [representedFibreMap_hq_transport pA pB M hM eA eB q hq a.y (K.obj d) hya]
   let k : d ⟶ a.x := eqToHom ha.symm
   have hk : K.IsHomLift (𝟙 (K.obj d)) k := by
@@ -764,7 +764,7 @@ private lemma relocalize_equivalence_compatible
         ((Functor.congr_obj eB'.hom.w _).trans
           (congrArg ((Over.map f).obj) (Functor.congr_obj hM a))) := by
   dsimp only
-  show ((OverShriek.relocalizePresheafFunctor f).map q).app _
+  change ((OverShriek.relocalizePresheafFunctor f).map q).app _
       (elementValue ((PresheafOfCategories.relocalizeToElements f F).obj
         (eA.hom.functor.obj a)) _) =
     elementValue ((PresheafOfCategories.relocalizeToElements f G).obj
@@ -803,7 +803,7 @@ private lemma relocalize_isPullback
     change W ⟶ V at ψ
     change ψ ≫ f = φ at hs
     subst φ
-    show q.app _ (OverShriek.relocalizeDescend f r rfl s) = _
+    change q.app _ (OverShriek.relocalizeDescend f r rfl s) = _
     rw [OverShriek.relocalizeDescend_self]
     exact hc (Over.mk ψ) s
   · intro x y h
@@ -829,7 +829,7 @@ private lemma relocalize_isPullback
     subst φ
     obtain ⟨z, hz⟩ := he (Over.mk ψ) x hk
     refine ⟨⟨⟨ψ, z⟩, rfl⟩, ?_, rfl⟩
-    show OverShriek.relocalizeDescend f r rfl z = x
+    change OverShriek.relocalizeDescend f r rfl z = x
     rw [OverShriek.relocalizeDescend_self]
     exact hz
 
@@ -842,7 +842,7 @@ private lemma isSurjective_iso_comp
   obtain ⟨x, hx⟩ := hf y
   refine ⟨AlgebraicGeometry.Space.pointsMap B S hS X e.inv x, ?_⟩
   rw [AlgebraicGeometry.Space.pointsMap_comp]
-  show AlgebraicGeometry.Space.pointsMap B S hS X f
+  change AlgebraicGeometry.Space.pointsMap B S hS X f
     ((AlgebraicGeometry.Space.pointsMap B S hS X' e.hom ∘
       AlgebraicGeometry.Space.pointsMap B S hS X e.inv) x) = y
   rw [← AlgebraicGeometry.Space.pointsMap_comp, e.inv_hom_id,

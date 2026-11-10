@@ -133,7 +133,7 @@ theorem RingHom.FinitePresentation.quotientMap_of_comp_eq {A' B' A B : Type*} [C
   have hconj : Ideal.quotientMap K φ' hJK = eB.symm.toRingHom.comp (φ.comp eA.toRingHom) := by
     ext a
     apply eB.injective
-    show eB (Ideal.quotientMap K φ' hJK (Ideal.Quotient.mk J a)) =
+    change eB (Ideal.quotientMap K φ' hJK (Ideal.Quotient.mk J a)) =
       eB (eB.symm (φ (eA (Ideal.Quotient.mk J a))))
     rw [Ideal.quotientMap_mk, heB, heA, RingEquiv.apply_symm_apply]
     exact (RingHom.congr_fun hsq a).symm
@@ -167,11 +167,11 @@ theorem ker_fg_of_flat_squareZero {R A B ι : Type*} [CommRing R] [CommRing A] [
   have hcomm : (Ideal.Quotient.mk K).comp p.toRingHom = p₀.toRingHom.comp qP := by
     apply MvPolynomial.ringHom_ext
     · intro a
-      show Ideal.Quotient.mk K (p (C a)) = p₀ (qP (C a))
+      change Ideal.Quotient.mk K (p (C a)) = p₀ (qP (C a))
       rw [MvPolynomial.map_C, MvPolynomial.aeval_C, ← MvPolynomial.algebraMap_eq, p.commutes]
       exact (Ideal.Quotient.algebraMap_quotient_map_quotient a).symm
     · intro i
-      show Ideal.Quotient.mk K (p (X i)) = p₀ (qP (X i))
+      change Ideal.Quotient.mk K (p (X i)) = p₀ (qP (X i))
       rw [MvPolynomial.map_X, MvPolynomial.aeval_X]
   have hp₀ : Function.Surjective p₀ := by
     intro b
@@ -217,7 +217,7 @@ theorem algebraMap_finitePresentation_of_flat_squareZero
   have hf₀ : Ideal.quotientMap K (algebraMap A B) Ideal.le_comap_map =
       algebraMap (A ⧸ J) (B ⧸ K) := by
     ext a
-    show Ideal.Quotient.mk K (algebraMap A B a) =
+    change Ideal.Quotient.mk K (algebraMap A B a) =
       algebraMap (A ⧸ J) (B ⧸ K) (Ideal.Quotient.mk J a)
     exact (Ideal.Quotient.algebraMap_quotient_map_quotient a).symm
   have hfp₀ : (algebraMap (A ⧸ J) (B ⧸ K)).FinitePresentation := by rwa [← hf₀]
@@ -266,7 +266,7 @@ private theorem appLE_finitePresentation_of_firstOrder
   have _ : IsClosedImmersion iY := hIY.1
   have hVU : iX ⁻¹ᵁ V' ≤ f ⁻¹ᵁ (iY ⁻¹ᵁ U') := by
     intro x hx
-    show iY (f x) ∈ U'
+    change iY (f x) ∈ U'
     have hpoint : f' (iX x) = iY (f x) := by
       simpa [Scheme.Hom.comp_apply] using (congrArg (fun g : X ⟶ Y' => g x) hcomm).symm
     rw [← hpoint]
@@ -298,7 +298,7 @@ private theorem appLE_finitePresentation_of_firstOrder
   have hK : K = CX.sourceIdeal := by
     dsimp [J, K]
     rw [Ideal.map_map]
-    show Ideal.map (φ'.comp α) I = CX.sourceIdeal
+    change Ideal.map (φ'.comp α) I = CX.sourceIdeal
     rw [← hcompMap]
   have hquot : (Ideal.quotientMap K φ' Ideal.le_comap_map).FinitePresentation :=
     .quotientMap_of_comp_eq (f.appLE _ _ hVU).hom (iY.app U').hom (iX.app V').hom
@@ -332,7 +332,7 @@ private theorem locallyOfFinitePresentation_of_firstOrder
   have hbase (x : X') : pY' (f' x) = pX' x := by
     simpa [Scheme.Hom.comp_apply] using congrArg (fun g : X' ⟶ S' => g x) hfpX'
   have hxU : f' x' ∈ pY' ⁻¹ᵁ (W' : S'.Opens) := by
-    show pY' (f' x') ∈ W'
+    change pY' (f' x') ∈ W'
     rwa [hbase x']
   obtain ⟨_, ⟨U', hU', rfl⟩, hxU', hUW⟩ :=
     Y'.isBasis_affineOpens.exists_subset_of_mem_open hxU

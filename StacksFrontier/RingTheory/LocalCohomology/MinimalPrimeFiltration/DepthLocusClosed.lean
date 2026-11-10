@@ -54,7 +54,7 @@ closed set is the union of the `d + 1` zero loci `V(J_k)`.
 
 The statement is about a ring.  [Stacks, Tag 0EI3] is about a scheme, and gluing these
 affine-local closed sets into a closed subset of `X` contained in `T` is not done here; see the
-module documentation of `StacksFrontier/AlgebraicGeometry/LocalCohomology/ImprovingCoherentModules/SpecializationStableExistence.lean` under
+module documentation of `SpecializationStableExistence.lean` under
 `StacksFrontier/AlgebraicGeometry/LocalCohomology/ImprovingCoherentModules/`.
 
 No `@[stacks]` attribute is placed: Tag 0EFC is

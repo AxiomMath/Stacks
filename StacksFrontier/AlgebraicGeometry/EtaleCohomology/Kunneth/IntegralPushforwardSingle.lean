@@ -41,7 +41,9 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `derivedPullback` (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`) is stated for the standard model of the derived category.
+-- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
+-- AdjunctionForRingedTopoi.lean:394`)
+-- is stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
 variable (m : ℕ) {Z X : Scheme.{u}}

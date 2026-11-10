@@ -127,7 +127,7 @@ private theorem pi_field_point_descends
   let gP' : (Π i, Ai i) →ₐ[kR] kR := ej.symm.toAlgHom.comp (Pi.evalAlgHom kR Ai j₀)
   refine ⟨gP', ?_⟩
   intro x
-  show algebraMap kR kS (ej.symm (x j₀)) = gP x
+  change algebraMap kR kS (ej.symm (x j₀)) = gP x
   have hfac : gP x = gP (Pi.single j₀ (x j₀)) := by
     have hmul : x * Pi.single j₀ 1 = Pi.single j₀ (x j₀) := by
       ext k
@@ -354,7 +354,7 @@ private theorem etale_kR_point_lifts
   set resAlg : R →ₐ[R] IsLocalRing.ResidueField R := Algebra.ofId R _ with hresAlg
   have hkey : resAlg.comp sf = gf := by
     apply pres.hom_ext
-    show resAlg (sf pres.x) = gf pres.x
+    change resAlg (sf pres.x) = gf pres.x
     have hsfx : sf pres.x = a := by
       rw [hsf]; change lifta (pres.equivRing pres.x) = a
       rw [pres.equivRing_x, hlifta, StandardEtalePair.lift_X]
@@ -363,7 +363,7 @@ private theorem etale_kR_point_lifts
   show IsLocalRing.residue R (s x) = g x
   have h1 : IsLocalRing.residue R (s x) = resAlg (s x) := rfl
   rw [h1, hsdef]
-  show resAlg (sf (algebraMap A (Localization.Away f) x)) = g x
+  change resAlg (sf (algebraMap A (Localization.Away f) x)) = g x
   have hc := AlgHom.congr_fun hkey (algebraMap A (Localization.Away f) x)
   simp only [AlgHom.comp_apply] at hc
   rw [hc, hgfdef, liftAwayHom_comp]
@@ -454,7 +454,7 @@ theorem surjOn_solutions_of_etale
   have hcong : ∀ i, (fun i => φ (r i)) i - s i ∈ IsLocalRing.maximalIdeal S := by
     intro i
     rw [← Ideal.Quotient.eq_zero_iff_mem]
-    show (IsLocalRing.residue S) (φ (r i) - s i) = 0
+    change (IsLocalRing.residue S) (φ (r i) - s i) = 0
     rw [map_sub]
     have e1 : (IsLocalRing.residue S) (φ (r i)) = sbar i := by
       have : (IsLocalRing.residue S) (φ (r i))
@@ -462,7 +462,7 @@ theorem surjOn_solutions_of_etale
         rw [IsLocalRing.ResidueField.map_residue]
       rw [this, hr_match i, hrbar_match i]
     rw [e1]
-    show sbar i - (IsLocalRing.residue S) (s i) = 0
+    change sbar i - (IsLocalRing.residue S) (s i) = 0
     rw [hsbar_def]
     simp
   exact eq_of_sub_mem_maximalIdeal_of_etale_map φ n P (fun i => φ (r i)) s hφr_sol hs hcong

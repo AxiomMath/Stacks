@@ -90,12 +90,12 @@ private theorem exists_algHom_lift_to_separableClosure
     ⟨fun x y h => (IsScalarTower.toAlgHom K L Ω).injective (congrArg Subtype.val h), hlmap_surj⟩
   let f' : E →ₐ[K] M := f.codRestrict M.toSubalgebra (by
     intro x
-    show f x ∈ M
+    change f x ∈ M
     rw [mem_separableClosure_iff]
     exact IsSeparable.map f f.injective (Algebra.IsSeparable.isSeparable K x))
   refine ⟨e.symm.toAlgHom.comp f', ?_⟩
   ext x
-  show (IsScalarTower.toAlgHom K L Ω) (e.symm (f' x)) = f x
+  change (IsScalarTower.toAlgHom K L Ω) (e.symm (f' x)) = f x
   exact congrArg Subtype.val (e.apply_symm_apply (f' x))
 
 /-- The `K`-algebra map `E i →ₐ[K] F` induced by `φ` through `Pi.single i`, given that `φ`
@@ -145,7 +145,7 @@ private theorem algHom_prod_field_factor
   have hφe : φ e ≠ 0 := fun h =>
     (hker ▸ heval : e ∉ RingHom.ker φ.toRingHom) (RingHom.mem_ker.mpr h)
   have heidem : e * e = e := by
-    show Pi.single i (1 : E i) * Pi.single i 1 = Pi.single i 1
+    change Pi.single i (1 : E i) * Pi.single i 1 = Pi.single i 1
     rw [← Pi.single_mul, mul_one]
   have hφe_one : φ e = 1 :=
     mul_left_cancel₀ hφe (by rw [← map_mul, heidem, mul_one])
@@ -176,7 +176,7 @@ public theorem sigmaSpec_comp_spec_algebraMap
       Sigma.desc (fun i ↦ Spec.map (CommRingCat.ofHom (algebraMap K (E i)))) := by
   apply Sigma.hom_ext
   intro i
-  rw [← Category.assoc, ι_sigmaSpec, ← Spec.map_comp, ← CommRingCat.ofHom_comp, Sigma.ι_desc,
+  rw [← Category.assoc, ι_sigmaSpec, ← Spec.map_comp, ← CommRingCat.ofHom_comp, Sigma.ι_comp_desc,
     Spec.map_inj]
   apply ConcreteCategory.ext
   ext x
@@ -243,7 +243,7 @@ private theorem finite_index_of_finite_points
   have hp (i : I) : p i ≫ f = Spec.map (CommRingCat.ofHom (algebraMap K L)) := by
     dsimp only [p]
     rw [← he]
-    simp only [Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+    simp only [Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Spec.map_inj]
     apply ConcreteCategory.ext
     ext x

@@ -99,7 +99,7 @@ theorem dense_preimage_fiberι_of_surjective {T V : Scheme.{u}} (p : X ⟶ V) (t
   have hys : t (q y) = s := by rw [← hpt, hy]; exact x.2
   let φ : (q : Y → T) ⁻¹' {q y} → (p : X → V) ⁻¹' {s} := fun y' =>
     ⟨ν y'.1, by
-      show p (ν y'.1) = s
+      change p (ν y'.1) = s
       rw [hpt, show q y'.1 = q y from y'.2, hys]⟩
   rw [← show φ ⟨y, rfl⟩ = x from Subtype.ext hy]
   exact map_mem_closure ((ν.continuous.comp continuous_subtype_val).subtype_mk _)

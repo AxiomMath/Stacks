@@ -94,7 +94,7 @@ public theorem mapHomotopyCategoryOfComp_trans (F : A₁ ⥤ A₄) [F.Additive] 
         (Functor.associator G Q Γ).inv ≫ Functor.whiskerRight e.hom Γ)
           (ComplexShape.up ℤ)).app J.as :=
     HomologicalComplex.hom_ext _ _ fun i => by
-      show σ.app (J.as.X i) ≫ τ.app (G.obj (J.as.X i)) ≫ Γ.map (e.hom.app (J.as.X i)) =
+      change σ.app (J.as.X i) ≫ τ.app (G.obj (J.as.X i)) ≫ Γ.map (e.hom.app (J.as.X i)) =
         σ.app (J.as.X i) ≫ τ.app (G.obj (J.as.X i)) ≫
           𝟙 (Γ.obj (Q.obj (G.obj (J.as.X i)))) ≫ Γ.map (e.hom.app (J.as.X i))
       simp

@@ -285,8 +285,8 @@ theorem finite_submodule_of_finite [Finite M] : Finite (Submodule A M) :=
 
 /-- A finite module has finitely many simple subquotients `W / W'`. -/
 instance instFiniteSimpleSubquotientIndex [Finite M] : Finite (SimpleSubquotientIndex A M) := by
-  haveI := finite_submodule_of_finite A M
-  haveI : ∀ W : Submodule A M, Finite (Submodule A W) := fun W => finite_submodule_of_finite A W
+  have := finite_submodule_of_finite A M
+  have : ∀ W : Submodule A M, Finite (Submodule A W) := fun W => finite_submodule_of_finite A W
   unfold SimpleSubquotientIndex
   infer_instance
 

@@ -63,7 +63,8 @@ degree `n` — Stacks 0DH1 asserts that for `K` in the unbounded derived categor
 ## Implementation notes
 
 This file treats case (B) of Stacks 09WE. Case (A) is
-`StacksFrontier/CategoryTheory/Sites/Simplicial/RingedToposMorphismContinuousDerivedPushforward.lean`,
+`StacksFrontier/CategoryTheory/Sites/Simplicial/
+RingedToposMorphismContinuousDerivedPushforward.lean`,
 which runs the same argument.
 
 ### The equality of the source is an isomorphism of functors

@@ -154,8 +154,7 @@ theorem rationalChowHomology_linearMap_ext {N : Type*} [AddCommGroup N] [Module 
   induction x using DirectSum.induction_on with
   | zero => rw [map_zero, map_zero]
   | of k t =>
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul q α => exact h k q α
     | add t t' ht ht' => rw [map_add, map_add, map_add, ht, ht']
   | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -187,8 +186,7 @@ def rationalChowCapComponent (p k : ℤ) :
     (AddMonoidHom.mk' (fun c => (chowCohomologyCap C G sX p c k).toIntLinearMap.baseChange ℚ)
       fun c d => by
         refine LinearMap.ext fun t => ?_
-        induction t using TensorProduct.induction_on with
-        | zero => simp only [map_zero]
+        induction t using TensorProduct.inductionOn with
         | tmul q α =>
           simp only [LinearMap.add_apply, LinearMap.baseChange_tmul,
             AddMonoidHom.coe_toIntLinearMap, ← TensorProduct.tmul_add, chowCohomologyCap_add_apply]
@@ -243,8 +241,7 @@ theorem rationalChowCap_lof_eq_zero (p : ℤ) (c : rationalChowCohomologyCompone
     rationalChowCap C G sX p c (DirectSum.lof ℚ ℤ (fun j : ℤ => ℚ ⊗[ℤ] chowGroup C sX j) k t) =
       0 := by
   have hz : ∀ z : ℚ ⊗[ℤ] chowGroup C sX (k - p), z = 0 := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul q y => rw [chowGroup_eq_zero C sX hk y, TensorProduct.tmul_zero]
     | add a b ha hb => rw [ha, hb, add_zero]
   rw [rationalChowCap_lof, hz (rationalChowCapComponent C G sX p k c t), map_zero]
@@ -273,8 +270,7 @@ theorem rationalChowCap_rationalFundamentalClass [IsNoetherian X] (p : ℤ)
     (c : rationalChowCohomologyComponent C G sX p) :
     rationalChowCap C G sX p c (rationalFundamentalClass C sX) =
       rationalCapFundamentalClass C G sX sX (𝟙 X) (Category.id_comp sX) p c := by
-  induction c using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, LinearMap.zero_apply]
+  induction c using TensorProduct.inductionOn with
   | tmul r c =>
     rw [rationalCapFundamentalClass_tmul, rationalFundamentalClass_eq, map_sum]
     refine Finset.sum_congr rfl fun n _ => ?_
@@ -625,12 +621,10 @@ theorem commute_chernCharacterCap (a b : VectorBundleKZero X) :
 /-- **The operators `ch(α) ∩ -` and `ch(β) ∩ -` commute**, for all `α, β ∈ K_0(Vect(X)) ⊗ 𝐐`. -/
 theorem commute_rationalChernCharacterCap (x y : ℚ ⊗[ℤ] VectorBundleKZero X) :
     Commute (rationalChernCharacterCap C sX x) (rationalChernCharacterCap C sX y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Commute.zero_left _
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add]; exact hx.add_left hx'
   | tmul r a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Commute.zero_right _
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [map_add]; exact hy.add_right hy'
     | tmul r' b =>
       rw [rationalChernCharacterCap_tmul, rationalChernCharacterCap_tmul]
@@ -692,8 +686,7 @@ theorem chernCharacterCap_classOf_of_iso_unit :
   rw [LinearMap.comp_apply, LinearMap.comp_apply, Module.End.one_apply, chernCharacterCap_lof,
     Finset.sum_eq_single 0 (fun p _ hp' => by rw [hp p hp', map_zero, LinearMap.zero_apply])
       (fun h => absurd (Finset.mem_range.2 (Nat.succ_pos _)) h), h0]
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, map_add, ht, ht']
   | tmul q α =>
     rw [DirectSum.lof_eq_of, rationalChowCap_of_tmul, one_mul]

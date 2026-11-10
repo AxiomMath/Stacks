@@ -195,7 +195,7 @@ def kerCoord (T : SchemesOver ((schemeSpaceFunctor B S hS).obj c))
 theorem freePointEquiv_zero (T : BigFppfOver B S hS) (n : ℕ) :
     freePointEquiv T n 0 = 0 := by
   funext j
-  show unitEndValueHom T ((0 : unitT T ⟶ freeObj (unitT T) n) ≫ biproduct.π _ j) = 0
+  change unitEndValueHom T ((0 : unitT T ⟶ freeObj (unitT T) n) ≫ biproduct.π _ j) = 0
   rw [zero_comp, map_zero]
 
 /-- The matrix of a matrix of functions pulled back to a test scheme. -/
@@ -241,7 +241,7 @@ theorem kerCoord_apply (T : SchemesOver ((schemeSpaceFunctor B S hS).obj c))
           (toposModulePullbackData_isCoherent B S hS)
         _ _ _ T α).1 (biproduct.π (fun _ : Fin r => unitT c) j)) := by
   unfold unitCoord
-  show unitEndValueHom T.left (_ ≫ biproduct.π (fun _ : Fin r => unitT T.left) j) = _
+  change unitEndValueHom T.left (_ ≫ biproduct.π (fun _ : Fin r => unitT T.left) j) = _
   have hπ := Functor.freeObjIso_hom_π ((toposModulePullbackData B S hS).pull
     ((schemesOverCone ((schemeSpaceFunctor B S hS).obj c)).leg T))
     (modulePullbackUnitIsoS ((schemesOverCone ((schemeSpaceFunctor B S hS).obj c)).leg T)) r j
@@ -284,7 +284,7 @@ theorem kerCoord_surjective (T : SchemesOver ((schemeSpaceFunctor B S hS).obj c)
   · rw [Category.assoc, Category.assoc, hmat, ← Category.assoc β, hβ, zero_comp, comp_zero]
   · unfold kerCoord
     rw [Equiv.apply_symm_apply]
-    show freePointEquiv T.left r (e.inv ≫ (e.hom ≫ β ≫ F.inv) ≫ F.hom) = v
+    change freePointEquiv T.left r (e.inv ≫ (e.hom ≫ β ≫ F.inv) ≫ F.hom) = v
     rw [Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id, Iso.inv_hom_id_assoc,
       Equiv.apply_symm_apply]
 

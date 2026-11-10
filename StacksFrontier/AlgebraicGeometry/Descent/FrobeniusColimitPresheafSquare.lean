@@ -180,6 +180,9 @@ lemma restrictScalars_frobeniusRingPresheafι_comp_restrictScalars_id (n : ℕ) 
         PresheafOfModules.restrictScalars (𝟙 X.ringSheafOnOpens.obj) :=
   (restrictScalars_frobeniusRingPresheafι_comp X p hX n).trans (Functor.comp_id _).symm
 
+set_option maxHeartbeats 400000 in
+-- Checking this statement with its proof replaced by `sorry` (drake's fast mode) exceeds the
+-- kernel's default budget: `(kernel) deterministic timeout`. 400000 is enough.
 /-- **The leg of the cocone of Stacks Tag 0EXB is, on the underlying abelian sheaves and through
 `Stacks.SheafOfModules.pullbackCompToSheafIso`, the sheafification of the objectwise base change
 along the stage-`n + j` coprojection.** -/

@@ -54,7 +54,7 @@ theorem presheafToSheaf_map_eq_zero_of_isBasis {P Q : (Opens Y)ᵒᵖ ⥤ AddCom
       obtain ⟨V, hVB, hxV, hVW⟩ := Opens.isBasis_iff_nbhd.mp h hx
       refine ⟨V, homOfLE hVW, ?_, hxV⟩
       have hV : ψ.app (op V) = 0 := hVB
-      show (sheafify J Q).map (homOfLE hVW ≫ g).op ((sheafifyMap J ψ).app (op U) y) =
+      change (sheafify J Q).map (homOfLE hVW ≫ g).op ((sheafifyMap J ψ).app (op U) y) =
         (sheafify J Q).map (homOfLE hVW ≫ g).op 0
       rw [map_zero, ← NatTrans.naturality_apply (sheafifyMap J ψ), op_comp,
         (sheafify J P).map_comp, ConcreteCategory.comp_apply, ← ht,
@@ -109,7 +109,7 @@ theorem higherDirectImage_map_eq_zero_of_isBasis (f : X ⟶ Y) {F G : X.Sheaf Ad
     (h : Opens.IsBasis {V : Opens Y | (cohomologyOver ((Opens.map f).obj V) p).map φ = 0}) :
     (higherDirectImage f p).map φ = 0 := by
   have : EnoughInjectives (Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{v}) := by
-    show EnoughInjectives (X.Sheaf AddCommGrpCat.{v})
+    change EnoughInjectives (X.Sheaf AddCommGrpCat.{v})
     infer_instance
   exact sheafPushforwardContinuous_rightDerived_map_eq_zero_of_isBasis f φ p h
 

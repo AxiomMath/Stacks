@@ -114,7 +114,7 @@ theorem cycle_eq_finsum_pointCycle (k : ℤ) (α : CycleGroup C sX k) (y : X) :
   · rw [finsum_eq_single _ (⟨y, hy⟩ : {t : X // α.1 t ≠ 0})]
     · simp [pointCycle_apply]
     · intro t ht
-      rw [pointCycle_apply, if_neg]
+      rw [pointCycle_apply, ite_eq_right]
       · simp
       · intro h
         exact ht (Subtype.ext h.symm)
@@ -131,7 +131,7 @@ theorem cycleGroupRestrict_pointCycle {U : Scheme.{u}} (sU : U ⟶ C.S) [Locally
   rw [cycleGroupRestrict_apply, pointCycle_apply, pointCycle_apply]
   by_cases h : y = x
   · subst h; simp
-  · rw [if_neg h, if_neg fun h' ↦ h (j.isOpenEmbedding.injective h')]
+  · rw [ite_eq_right h, ite_eq_right fun h' ↦ h (j.isOpenEmbedding.injective h')]
 
 /-- Proper pushforward along a closed immersion carries the prime cycle of a point to the prime
 cycle of its image. -/
@@ -147,8 +147,8 @@ theorem properPushforward_pointCycle {Z : Scheme.{u}} (sZ : Z ⟶ C.S) [LocallyO
     rw [properPushforward_apply_image_of_isClosedImmersion, pointCycle_apply, pointCycle_apply]
     by_cases h : y = z
     · subst h; simp
-    · rw [if_neg h, if_neg fun h' ↦ h (i.isClosedEmbedding.injective h')]
-  · rw [properPushforward_apply_of_notMem_range C sZ sX i hi k _ hy, pointCycle_apply, if_neg]
+    · rw [ite_eq_right h, ite_eq_right fun h' ↦ h (i.isClosedEmbedding.injective h')]
+  · rw [properPushforward_apply_of_notMem_range C sZ sX i hi k _ hy, pointCycle_apply, ite_eq_right]
     rintro rfl
     exact hy ⟨z, rfl⟩
 
@@ -168,7 +168,7 @@ theorem IsRationallyEquivalentToZeroWithin.neg {α : CycleGroup C sX k}
     IsRationallyEquivalentToZeroWithin C sX k (-α) T := by
   obtain ⟨J, W, hW, hDim, hLocal, hsub, g, hg⟩ := h
   refine ⟨J, W, hW, hDim, hLocal, hsub, fun j ↦ (g j)⁻¹, fun x ↦ ?_⟩
-  show -α.1 x = principalDivisorFamilyCoefficient C sX W hW (fun j ↦ (g j)⁻¹) x
+  change -α.1 x = principalDivisorFamilyCoefficient C sX W hW (fun j ↦ (g j)⁻¹) x
   rw [hg x, principalDivisorFamilyCoefficient, ← finsum_neg_distrib]
   refine finsum_congr fun j ↦ ?_
   rw [principalDivisorPushforward_inv]
@@ -188,7 +188,7 @@ theorem IsRationallyEquivalentToZeroWithin.add {α β : CycleGroup C sX k}
       · simpa [hb] using hβ) (α := α + β) (fun x ↦ ?_)
   · exact h.mono (by simp)
   · rw [finsum_eq_sum_of_fintype]
-    show α.1 x + β.1 x = _
+    change α.1 x + β.1 x = _
     rw [show (Finset.univ : Finset (ULift.{u} Bool)) = {⟨true⟩, ⟨false⟩} by
       ext ⟨_ | _⟩ <;> simp, Finset.sum_pair (by simp)]
     simp
@@ -301,14 +301,14 @@ theorem exists_isRationallyEquivalentToZero_sub_flatPullback [QuasiCompact f]
         α.1 j.1 * (pointCycle C sX (k + (r : ℤ)) j.1 (hx j)).1 x -
           α.1 j.1 * (β j).1 (f.base x) * flatPullbackWeight C sX f (k + (r : ℤ)) x := by
     intro j
-    show α.1 j.1 * ((pointCycle C sX (k + (r : ℤ)) j.1 (hx j)).1 x -
+    change α.1 j.1 * ((pointCycle C sX (k + (r : ℤ)) j.1 (hx j)).1 x -
       (flatPullback C sX sY f hbase r hf k (β j)).1 x) = _
     rw [flatPullback_apply]
     ring
   rw [finsum_congr hval, finsum_sub_distrib hfinA hfinB]
-  show α.1 x - (flatPullback C sX sY f hbase r hf k ⟨B, hBmem⟩).1 x = _
+  change α.1 x - (flatPullback C sX sY f hbase r hf k ⟨B, hBmem⟩).1 x = _
   rw [flatPullback_apply]
-  show α.1 x - (∑ᶠ j, α.1 j.1 * (β j).1 (f.base x)) *
+  change α.1 x - (∑ᶠ j, α.1 j.1 * (β j).1 (f.base x)) *
     flatPullbackWeight C sX f (k + (r : ℤ)) x = _
   rw [finsum_mul, ← cycle_eq_finsum_pointCycle C sX _ α x]
 
@@ -397,7 +397,7 @@ theorem hasGenericDecomposition_of_isOpenImmersion_square (C : ChowSituation.{u}
   have hratV : RationallyEquivalent C (V.ι ≫ sA) (k + (r : ℤ))
       (cycleGroupOpensRestrict C sA V (k + (r : ℤ)) c)
       (cycleGroupOpensRestrict C sA V (k + (r : ℤ)) 0) := by
-    show _ - _ ∈ _
+    change _ - _ ∈ _
     rw [map_zero, sub_zero, hres, hcres]
     exact cycleGroupRestrict_mem_rationalEquivalences C sA' (V.ι ≫ sA) mA.isoOpensRange.inv
       he (k + (r : ℤ)) hrat
@@ -531,7 +531,7 @@ theorem isGoodPoint_of_genericDecompositionHolds (C : ChowSituation.{u}) (r : �
       (pointCycle C _ (k + (r : ℤ)) xt hxt' -
         flatPullback C _ _ (comapRestrict Z f) hbaseZ r hfZ k (β + β'')) := by
     rw [map_add]
-    show _ ∈ rationalEquivalences _ _ _
+    change _ ∈ rationalEquivalences _ _ _
     convert add_mem hrat hβ'' using 1
     abel
   have hpush := properPushforward_isRationallyEquivalentToZeroWithin_of_isClosedImmersion C

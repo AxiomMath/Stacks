@@ -330,7 +330,7 @@ public theorem isFlasque_of_forall_exists_sectionOverTop (M : X.Modules)
     refine ⟨(M.val.map (homOfLE (le_top : V.unop ≤ ⊤)).op).hom t, ?_⟩
     have hcomp : (homOfLE (le_top : W.unop ≤ ⊤)).op =
         (homOfLE (le_top : V.unop ≤ ⊤)).op ≫ i.unop.op := Subsingleton.elim _ _
-    show (M.val.map i.unop.op).hom
+    change (M.val.map i.unop.op).hom
       ((M.val.map (homOfLE (le_top : V.unop ≤ ⊤)).op).hom t) = s
     rw [← PresheafOfModules.map_comp_apply M.val
       (homOfLE (le_top : V.unop ≤ ⊤)).op i.unop.op t, ← hcomp, ht]

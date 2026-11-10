@@ -149,7 +149,8 @@ theorem baseChangeAcyclic_affineLiftedSite :
 
 section Unit
 
--- The instance priorities of `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/SubsiteQuasiCoherentEquivalence.lean`.
+-- The instance priorities of `SubsiteQuasiCoherentEquivalence.lean`, in
+-- `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`.
 attribute [local instance 1500] HasDerivedCategory.standard
 attribute [local instance 2000]
   Stacks.ModulesOnACategory.QuasiCoherentEquivalence.derivedPresheafCategory

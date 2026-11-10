@@ -521,7 +521,7 @@ theorem map_componentPresheafSummand_comp_compatibility {n m : SimplexCategory} 
           (abelianComponentBarSheafificationIso S F n m).hom =
       componentSheafSummand S F φ := by
   apply (sheafToPresheaf (S.componentTopology m) Ab.{u}).map_injective
-  show toSheafify (S.componentTopology m) ((S.componentFunctor m).op ⋙ F.obj) ≫
+  change toSheafify (S.componentTopology m) ((S.componentFunctor m).op ⋙ F.obj) ≫
       sheafifyMap (S.componentTopology m) (componentPresheafSummand S F φ) ≫
         (((S.componentFunctor m).pushforwardContinuousSheafificationCompatibility
             Ab.{u} (S.componentTopology m) S.totalTopology).hom.app
@@ -610,7 +610,7 @@ theorem presheafInclusion_comp_map {n m : SimplexCategory} (φ : n ⟶ m)
           (Opposite.op n)).map w.op =
       F.obj.map w.op ≫ (componentPresheafSummand S F φ).app (Opposite.op U) := by
   rw [componentPresheafSummand_app]
-  show Sigma.ι _ (eqToHom (degreeFunctor_leftOp_obj_op_componentFunctor_obj S n V).symm) ≫
+  change Sigma.ι _ (eqToHom (degreeFunctor_leftOp_obj_op_componentFunctor_obj S n V).symm) ≫
       copowerMap (fun α => α ≫ ((degreeFunctor S).leftOp).map w.op) (F.obj.map w.op) = _
   rw [ι_copowerMap, hw]
   rfl

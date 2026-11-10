@@ -84,7 +84,7 @@ theorem corrEquivCorrespondence_firstTriangle_composition :
             (graphMorphism X.obj.hom X.obj.hom (𝟙 _) (Category.id_comp _)) (counitDiagonal X)
             (graphMorphism_id_prodBase X) (counitDiagonal_prodBase X))
           (((d + 0 : ℕ) : ℤ) - (0 + -d)))) := by
-  show corrEquivCorrespondence k _ _ (relativeDimension_unitTensor X hX)
+  change corrEquivCorrespondence k _ _ (relativeDimension_unitTensor X hX)
       (relativeDimension_tensorUnitRight X hX) ((d : ℤ) + 0 + 0 + (0 + -(d : ℤ)))
       (comp k (𝟙_ ((SmoothProjectiveScheme k).FullSubcategory) ⊗ X).obj.hom (X ⊗ (X ⊗ X)).obj.hom
         (X ⊗ 𝟙_ ((SmoothProjectiveScheme k).FullSubcategory)).obj.hom

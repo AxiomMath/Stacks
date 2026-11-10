@@ -359,7 +359,7 @@ theorem functorPushforward_functorPullback_ι_eq {U : StrictTotal X} (R : Sieve 
             ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) hτ.symm).trans
               (Functor.map_comp _ _ _).symm)))))
     refine ⟨W', g', e.inv, ?_, ?_⟩
-    · show R ((CoGrothendieck.ι _ U.base).map g')
+    · change R ((CoGrothendieck.ι _ U.base).map g')
       rw [hι]
       exact R.downward_closed hs τ
     · rw [hg', Iso.inv_hom_id_assoc]

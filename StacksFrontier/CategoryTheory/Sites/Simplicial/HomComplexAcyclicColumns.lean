@@ -78,7 +78,7 @@ theorem acyclic_of_acyclic_coyonedaComplex (Y : CochainComplex C ℤ)
   refine ⟨fun hk => ?_, ?_⟩
   · exact (ShortComplex.ab_exact_iff _).mp hT k hk
   · rintro ⟨k', rfl⟩
-    show (k' ≫ Y.d (n - 1) n) ≫ Y.d n (n + 1) = 0
+    change (k' ≫ Y.d (n - 1) n) ≫ Y.d n (n + 1) = 0
     rw [Category.assoc, Y.d_comp_d, Limits.comp_zero]
 
 /-- **The Hom complex into an acyclic K-injective complex is acyclic.** -/

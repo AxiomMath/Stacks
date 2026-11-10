@@ -75,7 +75,7 @@ private theorem isUnit_of_mod_quotient_id {R : Type u} [CommRing R] (I : Ideal R
           Matrix.det ((Ideal.Quotient.mk I).mapMatrix (LinearMap.toMatrix b b f)) := by
         rw [← LinearMap.det_toMatrix b f, RingHom.map_det]
       _ = 1 := by
-        show ((LinearMap.toMatrix b b f).map (Ideal.Quotient.mk I)).det = 1
+        change ((LinearMap.toMatrix b b f).map (Ideal.Quotient.mk I)).det = 1
         rw [hm, Matrix.det_one]
   have hx : LinearMap.det f - 1 ∈ I := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
@@ -126,7 +126,7 @@ theorem exists_isStablyFree_lift
   have hpj : pQ.comp jQ = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    show bN.equivFun (LinearMap.snd q E N
+    change bN.equivFun (LinearMap.snd q E N
       (bF.equivFun.symm (bF.equivFun (LinearMap.inr q E N (bN.equivFun.symm x))))) = x
     rw [bF.equivFun.symm_apply_apply]
     simp only [LinearMap.snd_apply, LinearMap.inr_apply]
@@ -142,7 +142,7 @@ theorem exists_isStablyFree_lift
   have hcomp : qMapN.comp h = qMapN := by
     apply LinearMap.ext
     intro x
-    show qMapN (φ (ψ x)) = qMapN x
+    change qMapN (φ (ψ x)) = qMapN x
     calc
       qMapN (φ (ψ x)) = pR (qMapF (ψ x)) := congrArg (fun f => f (ψ x)) hφ
       _ = pR (jR (qMapN x)) := congrArg pR (congrArg (fun f => f x) hψ)
@@ -171,25 +171,25 @@ theorem exists_isStablyFree_lift
   let P := LinearMap.ker φ
   let liftKer : (ι → R) →ₗ[R] P :=
     { toFun := fun x => ⟨x - ψ' (φ x), by
-        show φ (x - ψ' (φ x)) = 0
+        change φ (x - ψ' (φ x)) = 0
         rw [map_sub, hsection]
         simp
       ⟩
       map_add' := by
         intro x y
         apply Subtype.ext
-        show x + y - ψ' (φ (x + y)) = (x - ψ' (φ x)) + (y - ψ' (φ y))
+        change x + y - ψ' (φ (x + y)) = (x - ψ' (φ x)) + (y - ψ' (φ y))
         rw [map_add, map_add]
         abel
       map_smul' := by
         intro r x
         apply Subtype.ext
-        show r • x - ψ' (φ (r • x)) = r • (x - ψ' (φ x))
+        change r • x - ψ' (φ (r • x)) = r • (x - ψ' (φ x))
         rw [map_smul, map_smul]
         rw [smul_sub] }
   have hliftKer_val : ∀ p : P, liftKer p.val = p := fun p => by
     apply Subtype.ext
-    show p.val - ψ' (φ p.val) = p.val
+    change p.val - ψ' (φ p.val) = p.val
     rw [p.property]
     simp
   have hsurjLiftKer : Function.Surjective liftKer := fun p => ⟨p.val, hliftKer_val p⟩
@@ -201,14 +201,14 @@ theorem exists_isStablyFree_lift
     intro z
     apply Prod.ext
     · apply Subtype.ext
-      show z.1.val + ψ' z.2 - ψ' (φ (z.1.val + ψ' z.2)) = z.1.val
+      change z.1.val + ψ' z.2 - ψ' (φ (z.1.val + ψ' z.2)) = z.1.val
       rw [map_add, z.1.property, zero_add, hsection]
       simp
-    · show φ (z.1.val + ψ' z.2) = z.2
+    · change φ (z.1.val + ψ' z.2) = z.2
       rw [map_add, z.1.property, zero_add, hsection]
   have hgf : ∀ x, f (g x) = x := by
     intro x
-    show (liftKer x).val + ψ' (φ x) = x
+    change (liftKer x).val + ψ' (φ x) = x
     simp [liftKer, sub_add_cancel]
   let eSplit : (P × (κ → R)) ≃ₗ[R] (ι → R) :=
     LinearEquiv.ofBijective f
@@ -221,16 +221,16 @@ theorem exists_isStablyFree_lift
     { toFun := fun x => (bF.equivFun.symm (qMapF x.val)).1
       map_add' := by
         intro x y
-        show (bF.equivFun.symm (qMapF (x.val + y.val))).1 =
+        change (bF.equivFun.symm (qMapF (x.val + y.val))).1 =
           (bF.equivFun.symm (qMapF x.val)).1 + (bF.equivFun.symm (qMapF y.val)).1
         rw [map_add, map_add]
         rfl
       map_smul' := by
         intro r x
-        show (bF.equivFun.symm (qMapF (r • x.val))).1 =
+        change (bF.equivFun.symm (qMapF (r • x.val))).1 =
           Ideal.Quotient.mk I r • (bF.equivFun.symm (qMapF x.val)).1
         rw [qMapF.map_smul]
-        show (bF.equivFun.symm
+        change (bF.equivFun.symm
           ((Ideal.Quotient.mk I r) • qMapF x.val)).1 = _
         rw [bF.equivFun.symm.map_smulₛₗ]
         rfl }
@@ -238,7 +238,7 @@ theorem exists_isStablyFree_lift
   have hJle : J ≤ fP.ker := by
     rw [Submodule.smul_le]
     intro r hr x hx
-    show fP (r • x) = 0
+    change fP (r • x) = 0
     rw [fP.map_smulₛₗ]
     have hrq : Ideal.Quotient.mk I r = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hr
     simp [hrq]
@@ -257,7 +257,7 @@ theorem exists_isStablyFree_lift
     have hwE : w.1 = 0 := hx
     have hwN : w.2 = 0 := by
       have hn : bN.equivFun w.2 = 0 := by
-        show bN.equivFun ((LinearMap.snd q E N) (bF.equivFun.symm (qMapF x.val))) = 0
+        change bN.equivFun ((LinearMap.snd q E N) (bF.equivFun.symm (qMapF x.val))) = 0
         exact hvp
       apply bN.equivFun.injective
       simpa using hn
@@ -265,7 +265,7 @@ theorem exists_isStablyFree_lift
       apply bF.equivFun.symm.injective
       have hw : w = 0 := by
         ext <;> assumption
-      show w = bF.equivFun.symm 0
+      change w = bF.equivFun.symm 0
       simpa using hw
     have hcoords : ∀ i, x.val i ∈ I := by
       intro i
@@ -306,9 +306,9 @@ theorem exists_isStablyFree_lift
       rw [hqψ' (φ x), hqφ]
       simp
     refine ⟨liftKer x, ?_⟩
-    show (bF.equivFun.symm (qMapF (liftKer x).val)).1 = e
+    change (bF.equivFun.symm (qMapF (liftKer x).val)).1 = e
     have hqLift : qMapF (liftKer x).val = v := by
-      show qMapF (x - ψ' (φ x)) = v
+      change qMapF (x - ψ' (φ x)) = v
       rw [map_sub, hqcorr, sub_zero, hx]
     rw [hqLift]
     simp [v]
@@ -326,7 +326,7 @@ theorem exists_isStablyFree_lift
     have hinj : Function.Injective fbar := by
       intro x y hxy
       have hx : x - y ∈ fbarSem.ker := by
-        show fbarSem (x - y) = 0
+        change fbarSem (x - y) = 0
         change fbarSem x = fbarSem y at hxy
         rw [map_sub, hxy, sub_self]
       have hbot : x - y ∈ (⊥ : Submodule R (P ⧸ J)) := hkerBar ▸ hx
@@ -335,7 +335,7 @@ theorem exists_isStablyFree_lift
       intro e
       obtain ⟨x, hx⟩ := hsurj e
       refine ⟨J.mkQ x, ?_⟩
-      show J.liftQ fP hJle (Submodule.Quotient.mk x) = e
+      change J.liftQ fP hJle (Submodule.Quotient.mk x) = e
       rw [Submodule.liftQ_apply]
       exact hx
     exact ⟨LinearEquiv.ofBijective fbar ⟨hinj, hsurjbar⟩⟩

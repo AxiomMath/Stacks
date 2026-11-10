@@ -141,7 +141,7 @@ private theorem coeffGradedHom_symm_comp {R S : Type u} [CommRing R] [CommRing S
     (coeffGradedHom S 1 e.symm.toRingHom).comp (coeffGradedHom R 1 e.toRingHom) =
       GradedRingHom.id _ :=
   GradedRingHom.ext fun F => by
-    show MvPolynomial.map _ (MvPolynomial.map _ F) = F
+    change MvPolynomial.map _ (MvPolynomial.map _ F) = F
     rw [MvPolynomial.map_map]
     simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.symm_comp]
     exact MvPolynomial.map_id F
@@ -190,7 +190,7 @@ theorem coeffProjIso_hom_projToSpecCoeff :
     AlgebraicGeometry.Proj.map_toSpecZero_assoc, ← Spec.map_comp]
   refine congrArg (fun φ => Proj.toSpecZero _ ≫ Spec.map φ) ?_
   refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
-  show MvPolynomial.map (coeffEquiv k).toRingHom
+  change MvPolynomial.map (coeffEquiv k).toRingHom
       ((GradedRing.projZeroRingHom' (polyGrading k 1) (MvPolynomial.C r) : polyGrading k 1 0) :
         MvPolynomial (Fin (1 + 1)) k) =
     ((GradedRing.projZeroRingHom' (polyGrading ↥(siteRing (Spec (CommRingCat.of k)) (op ⊤)) 1)
@@ -490,7 +490,7 @@ theorem mem_basicOpen_X_one_of_mem_support {x : projectiveLineProj k}
   obtain ⟨w, hw⟩ := X_one_dvd_sub_C_mul_X_zero_pow hhom
   have hc : (dehomogenize k ((minpolyForm pb : ProjectiveLine.grading k (deg pb • 1)) :
       MvPolynomial (Fin 2) k)).coeff (deg pb) = 1 := by
-    show (dehomogenize k ((minpoly k pb.gen).homogenize (deg pb))).coeff (deg pb) = 1
+    change (dehomogenize k ((minpoly k pb.gen).homogenize (deg pb))).coeff (deg pb) = 1
     rw [dehomogenize_homogenize le_rfl]
     exact minpoly.monic pb.isIntegral_gen
   rw [hc, map_one, one_mul] at hw
@@ -564,7 +564,7 @@ def pointSchemeIso : (pointScheme pb).subscheme ≅ Spec (CommRingCat.of K) :=
 theorem chartDehom_fromZeroRingHom (a : ProjectiveLine.grading k 0) :
     chartDehom (HomogeneousLocalization.fromZeroRingHom _ _ a) = dehomogenize k a := by
   rw [chartDehom, RingHom.comp_apply, HomogeneousLocalization.algebraMap_apply]
-  show IsLocalization.Away.lift _ _ (Localization.mk (a : MvPolynomial (Fin 2) k) 1) = _
+  change IsLocalization.Away.lift _ _ (Localization.mk (a : MvPolynomial (Fin 2) k) 1) = _
   rw [Localization.mk_one_eq_algebraMap, IsLocalization.Away.lift_eq]
   rfl
 
@@ -575,9 +575,9 @@ theorem quotEquiv_mk_constant (r : k) :
         ((GradedRing.projZeroRingHom' (polyGrading k 1)).comp
           (algebraMap k (MvPolynomial (Fin (1 + 1)) k)) r)))) = algebraMap k K r := by
   rw [quotEquiv_mk, sectionsEval, RingHom.comp_apply]
-  show chartEval pb ((chartSectionsEquiv k).symm (chartSectionsEquiv k _)) = _
+  change chartEval pb ((chartSectionsEquiv k).symm (chartSectionsEquiv k _)) = _
   rw [RingEquiv.symm_apply_apply, chartEval, RingHom.comp_apply, chartDehom_fromZeroRingHom]
-  show Polynomial.aeval pb.gen (dehomogenize k ((GradedRing.projZeroRingHom' (polyGrading k 1)
+  change Polynomial.aeval pb.gen (dehomogenize k ((GradedRing.projZeroRingHom' (polyGrading k 1)
     (MvPolynomial.C r) : polyGrading k 1 0) : MvPolynomial (Fin (1 + 1)) k)) = _
   rw [projZero_C]
   simp
@@ -590,7 +590,7 @@ theorem pointSchemeIso_hom_comp :
     ← Category.assoc, Scheme.IdealSheafData.subschemeCover_map_subschemeι,
     Scheme.IdealSheafData.glueDataObjι_ι,
     ← SpecMap_awayToSection_awayι _ (X_mem_one k 1 1) one_pos]
-  show Spec.map (CommRingCat.ofHom (quotEquiv pb).symm.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (quotEquiv pb).symm.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap k K)) =
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk ((pointScheme pb).ideal (chart k 1)))) ≫
       Spec.map (Proj.awayToSection (ProjectiveLine.grading k) (MvPolynomial.X 1)) ≫
@@ -602,7 +602,7 @@ theorem pointSchemeIso_hom_comp :
     ← Spec.map_comp, ← Spec.map_comp, ← Spec.map_comp]
   refine congrArg Spec.map (CommRingCat.hom_ext (RingHom.ext fun r => ?_))
   apply (quotEquiv pb).injective
-  show quotEquiv pb ((quotEquiv pb).symm (algebraMap k K r)) = _
+  change quotEquiv pb ((quotEquiv pb).symm (algebraMap k K r)) = _
   rw [RingEquiv.apply_symm_apply]
   exact (quotEquiv_mk_constant pb r).symm
 
@@ -654,7 +654,7 @@ theorem picardClassOf_pullback_twistingSheaf (m : ℤ) :
         (Stacks.Chow.isInvertible_bundleTwist (freeRankTwo k)) := by
   rw [picardClassOf_pullback_eq_schemePullbackClass _ _ inferInstance
     (isInvertible_twistingSheaf_projectiveLineProj k m)]
-  show Stacks.Picard.schemePullbackClassHom (bundleIsoProjectiveLine k).hom
+  change Stacks.Picard.schemePullbackClassHom (bundleIsoProjectiveLine k).hom
     (twistingSheafPicardClass k m) = _
   rw [twistingSheafPicardClass_eq_zsmul, map_zsmul, Stacks.Picard.schemePullbackClassHom,
     Stacks.Picard.pullbackClassHom_apply]

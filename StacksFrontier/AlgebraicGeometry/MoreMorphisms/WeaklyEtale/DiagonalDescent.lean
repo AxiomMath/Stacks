@@ -47,13 +47,13 @@ theorem flat_diagonal_of_surjective_flat {X Y Z : Scheme.{u}}
       (pullback.snd g (f ≫ g) ≫ f) (by
         simpa [Category.assoc] using pullback.condition (f := g) (g := f ≫ g))
   have ha₁ : a ≫ pullback.fst g (f ≫ g) = pullback.fst (f ≫ g) (f ≫ g) ≫ f := by
-    simp [a, pullback.lift_fst]
+    simp [a]
   have ha₂ : a ≫ pullback.snd g (f ≫ g) = pullback.snd (f ≫ g) (f ≫ g) := by
-    simp [a, pullback.lift_snd]
+    simp [a]
   have hb₁ : b ≫ pullback.fst g g = pullback.fst g (f ≫ g) := by
-    simp [b, pullback.lift_fst]
+    simp [b]
   have hb₂ : b ≫ pullback.snd g g = pullback.snd g (f ≫ g) ≫ f := by
-    simp [b, pullback.lift_snd]
+    simp [b]
   let liftA := fun s : PullbackCone f (pullback.fst g (f ≫ g)) =>
     pullback.lift (f := f ≫ g) (g := f ≫ g) s.fst (s.snd ≫ pullback.snd g (f ≫ g))
       (by simp [reassoc_of% s.condition, pullback.condition])

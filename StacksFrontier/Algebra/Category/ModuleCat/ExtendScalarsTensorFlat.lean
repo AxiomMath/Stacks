@@ -52,9 +52,9 @@ theorem injective_extendScalars_comp_tensorLeft_map
   let : Algebra R A := φ.toAlgebra
   let : Module R M := Module.compHom M φ
   have : IsScalarTower R A M := ⟨fun r a m => by
-    show (φ r * a) • m = φ r • (a • m)
+    change (φ r * a) • m = φ r • (a • m)
     rw [mul_smul]⟩
-  show Function.Injective (⇑(TensorProduct.AlgebraTensorModule.lTensor A M
+  change Function.Injective (⇑(TensorProduct.AlgebraTensorModule.lTensor A M
     (TensorProduct.AlgebraTensorModule.lTensor A A f.hom)))
   have hnat := TensorProduct.AlgebraTensorModule.lTensor_comp_cancelBaseChange R A A (M := M) f.hom
   have hinj : Function.Injective (TensorProduct.AlgebraTensorModule.lTensor A M f.hom) :=

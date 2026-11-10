@@ -424,11 +424,11 @@ theorem exists_distTriang_towerCotangent_of_injective
     (DerivedCategory.Q.mapIso (sheafifiedSectionwiseBaseChangedCotangentComplexIso J g h))
     (DerivedCategory.Q.mapIso (sheafifiedSectionwiseCotangentModuleComplexIso J (g ≫ h))) d₃
     _ _ ?_ ?_
-  · show DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
+  · change DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
       (sectionwiseTowerBaseChangeComplexMap J g h)) = _
     rw [h₁, Functor.map_comp, Functor.map_comp]
     rfl
-  · show DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
+  · change DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
       (sectionwiseFundamentalShortComplex J g h).g) = _
     have hπ : (sheafifyTowerComplex J D).map (sectionwiseFundamentalShortComplex J g h).g ≫
           (sheafifyTowerComplex J D).map (sectionwiseFundamentalCokernelMap J g h) =

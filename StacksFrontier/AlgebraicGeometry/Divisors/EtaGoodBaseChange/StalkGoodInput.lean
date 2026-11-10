@@ -209,10 +209,10 @@ theorem quasiIso_comp_pullbackEtaMap_of_forall_stalk_good
     (hreglX : IsLocallyGeneratedByRegular X (pullbackIdealIncl f I ι))
     (P : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf)) ℤ)
     (p : P ⟶ etaObj Y I ι F hF) (hp : QuasiIso p)
-    (hgood : ∀ z : X, ∃ (a : ringStalk Y (f.hom.base z))
-        (ha : GeneratesStalkIdeal Y ι (f.hom.base z) a)
-        (hb : GeneratesStalkIdeal X (pullbackIdealIncl f I ι) z (commStalkGermMap f z a))
-        (C : BoundedComplex (ringStalk Y (f.hom.base z)))
+    (hgood : ∀ z : X, ∃ (a : ringStalk Y (f.hom.base z)),
+        GeneratesStalkIdeal Y ι (f.hom.base z) a ∧
+        GeneratesStalkIdeal X (pullbackIdealIncl f I ι) z (commStalkGermMap f z a) ∧
+        ∃ (C : BoundedComplex (ringStalk Y (f.hom.base z)))
         (ψ : C.toCochainComplex ⟶ stalkComplex Y (f.hom.base z) F),
         (∀ i : ℤ, (idealI C a i).IsPrincipal) ∧ QuasiIso ψ ∧
           CochainComplex.KFlat.{u, u} (stalkComplex Y (f.hom.base z) F) ∧

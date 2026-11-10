@@ -8,7 +8,8 @@ import all StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex.Sheafif
 /-!
 # Linearity of the tensor functor and the tensor-Hom adjunction
 
-Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the overview).
+Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the
+overview).
 This file proves that the sheafified tensor complex is linear over the base ring, packages it as
 a differential graded functor, constructs the tensor-Hom adjunction with the representable
 functor `Hom(K, -)`, and proves the main results: `tensorWithComplexDG`,
@@ -71,8 +72,7 @@ private lemma tensorDegree_add_ext
   | zero => simp
   | add z z' hz hz' => simp only [map_add]; rw [hz, hz']
   | of pq z =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add]; rw [hz, hz']
     | tmul y x => exact hfg pq.1.1 pq.1.2 pq.2 x y
 

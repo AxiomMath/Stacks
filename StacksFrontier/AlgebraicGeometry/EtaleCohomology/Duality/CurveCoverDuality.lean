@@ -273,7 +273,7 @@ theorem isDualityPerfect_extensionByZero_directImage_of_relSeries (hℓ : IsUnit
   let t₀ : Ext ΛTb ΛTb 2 →+ ZMod ℓ := t''.comp eexc.symm.toAddMonoidHom
   have ht₀ : Ext.compTrace (show 2 + 0 = 2 from rfl) (Ext.mk₀ cT) t₀ = t'' := by
     ext z
-    show t'' (eexc.symm (eexc z)) = t'' z
+    change t'' (eexc.symm (eexc z)) = t'' z
     rw [AddEquiv.symm_apply_apply]
   -- `t₀` is injective
   have ht₀inj : Function.Injective t₀ := by
@@ -306,7 +306,7 @@ theorem isDualityPerfect_extensionByZero_directImage_of_relSeries (hℓ : IsUnit
       rw [← NatTrans.comp_app, IsIso.hom_inv_id, NatTrans.id_app]
     have hx₁ : x₁.comp Γ (add_zero 2) = z := by
       rw [← hx₃, ← hx₂]
-      show (x₂.comp (Ext.mk₀ εE) (add_zero 2)).comp
+      change (x₂.comp (Ext.mk₀ εE) (add_zero 2)).comp
           (Ext.mk₀ ((inv (extensionByZeroDirectImageNatTrans (ZMod ℓ) V.ι C.j π C.fb sq)).app _ ≫
             g ≫ (etaleModuleExtensionByZeroAdj.{u, 0} (ZMod ℓ) V.ι).counit.app ΛY)) (add_zero 2) =
         (x₂.comp (Ext.mk₀ g) (add_zero 2)).comp (Ext.mk₀ ((etaleModuleExtensionByZeroAdj.{u, 0}

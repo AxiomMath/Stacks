@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
+StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
 
 /-!
 # The gluing isomorphism over the double fibre product

@@ -195,6 +195,7 @@ instance quasiIsomorphismsRepHasRightCalculusOfFractionsOver :
   rw [← acyclic_trW_eq_quasiIsomorphisms]
   infer_instance
 
+omit [ScalarSections.{u, v, w, t, s, o} X R] in
 /-- Every object of `K(Mod_(E, d))` receives a quasi-isomorphism from an object orthogonal on the
 left to the acyclic modules. -/
 theorem exists_quasiIso_leftOrthogonal_acyclic_repOver

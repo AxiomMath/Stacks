@@ -33,7 +33,8 @@ underlying family of algebraic spaces is a covering of the topology in question,
 `StacksFrontier.AlgebraicGeometry.Spaces.CoveringComparisonSheafCondition`; no chosen big site for
 the finer topology is involved. The fpqc clause,
 `AlgebraicGeometry.BigEtaleSpaceSite.inverseImage_isSheafFor_of_isFpqcCovering`
-(`StacksFrontier.AlgebraicGeometry.Spaces.Topologies.BigFppfToSmallEtaleSheaf`), is Cases I–III of the
+(`StacksFrontier.AlgebraicGeometry.Spaces.Topologies.BigFppfToSmallEtaleSheaf`), is Cases I–III of
+the
 Stacks proof: étale
 descent (`AlgebraicGeometry.BigEtaleSpaceSite.isEtaleSheafOver_inverseImage`) and descent for
 finite affine fpqc coverings of affine schemes

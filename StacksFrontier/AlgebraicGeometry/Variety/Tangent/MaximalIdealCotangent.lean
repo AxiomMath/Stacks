@@ -220,7 +220,7 @@ theorem dottedTangentArrowEquivDualRelativeCotangentSpace_apply_germ
         (relativeCotangentSpaceEquivDifferentialFiber f x hsep
           (Submodule.Quotient.mk ⟨(X.presheaf.germ U x hx).hom a, ha⟩)) := rfl
   rw [hdual, relativeCotangentSpaceEquivDifferentialFiber_apply_germ f x hsep U hx a ha]
-  show (1 : X.residueField x) • tangentSpaceEquivCotangentSpace f x θ
+  change (1 : X.residueField x) • tangentSpaceEquivCotangentSpace f x θ
     (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
       (Scheme.Hom.relativeDifferentials f).val.presheaf U x hx
       ((Scheme.Hom.universalRelativeDerivation f).d a)) = _

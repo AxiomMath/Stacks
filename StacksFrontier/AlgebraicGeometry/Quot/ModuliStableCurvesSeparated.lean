@@ -225,7 +225,7 @@ theorem isSeparated_moduliStableCurvesOfGenus_of (g : ℕ) (_hg : 2 ≤ g)
     have h₂ := huniq (𝟙 _) ⟨IsHomLift.id hξR, by rw [Category.id_comp, Category.comp_id]⟩
     apply ObjectProperty.hom_ext
     apply E.map_injective
-    show E.map t.hom =
+    change E.map t.hom =
       E.map (𝟙 ξ.obj)
     exact h₁.trans (h₂.symm.trans
       (E.map_id ξ.obj).symm)
@@ -250,7 +250,7 @@ theorem isSeparated_moduliStableCurvesOfGenus_of (g : ℕ) (_hg : 2 ≤ g)
       rwa [hmt]
     · apply ObjectProperty.hom_ext
       apply E.map_injective
-      show E.map (c.hom ≫ t₁) =
+      change E.map (c.hom ≫ t₁) =
         E.map (s.hom ≫ c'.hom)
       rwa [Functor.map_comp, Functor.map_comp, hmt]
 

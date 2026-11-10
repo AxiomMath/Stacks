@@ -160,7 +160,7 @@ theorem exists_zsmul_picardClass_eq_picardClass [IsNormal X] (L : X.Modules)
         weilDivisorClassGroup X) :=
     (weilDivisorClassOfPicardClass_picardClass X L).trans
       (weilDivisorClassOfInvertibleSheaf_eq X L _ hs)
-  show weilDivisorClassOfPicardClass X (n • Stacks.Divisors.picardClass E) =
+  change weilDivisorClassOfPicardClass X (n • Stacks.Divisors.picardClass E) =
     weilDivisorClassOfPicardClass X
       (Stacks.SheafOfModules.picardClass X.presheaf (structureIsSheaf X.toRingedSpace) L hL)
   rw [h1, h2, h3,

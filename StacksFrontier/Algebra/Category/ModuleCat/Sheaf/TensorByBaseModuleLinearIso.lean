@@ -132,7 +132,7 @@ theorem isLocallyInjective_of_injective_app
   equalizerSieve_mem {X} x y h := by
     refine J.superset_covering ?_ (hcov X.unop)
     rintro Z g ⟨W, i, f, hW, rfl⟩
-    show F.map (i ≫ f).op x = F.map (i ≫ f).op y
+    change F.map (i ≫ f).op x = F.map (i ≫ f).op y
     rw [op_comp, F.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
     refine congrArg (F.map i.op) (hinj W hW ?_)
     rw [NatTrans.naturality_apply φ, NatTrans.naturality_apply φ, h]
@@ -193,7 +193,7 @@ theorem presheafMult_app_apply (a : O.obj (op U₀)) (N : PMod O) (X : Cᵒᵖ) 
 theorem presheafMult_comp (a : O.obj (op U₀)) {N N' : PMod O} (f : N ⟶ N') :
     presheafMult hU₀ O a N ≫ f = f ≫ presheafMult hU₀ O a N' := by
   refine PresheafOfModules.hom_ext fun X => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show (f.app X).hom ((O.map (hU₀.from X.unop).op a) • x)
+  change (f.app X).hom ((O.map (hU₀.from X.unop).op a) • x)
     = (O.map (hU₀.from X.unop).op a) • (f.app X).hom x
   exact (f.app X).hom.map_smul _ x
 
@@ -230,7 +230,7 @@ theorem tensorByBaseModulePresheaf_map_app_tmul {M N : ModuleCat.{w} R} (ψ : M 
       = s ⊗ₜ[O.obj.obj X] (b ⊗ₜ[(constantRingPresheaf (C := C) R).obj X]
           (((constantModulePresheaf (C := C) R).map ψ).app X).hom m) := by
   let := ((coefficientMap R hU₀ (O := O.obj) α).app X).hom.toAlgebra
-  show (𝓕.val.obj X ◁ ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
+  change (𝓕.val.obj X ◁ ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
       ((constantModulePresheaf (C := C) R).map ψ)).app X).hom _ = _
   exact congrArg (fun y => s ⊗ₜ[O.obj.obj X] y) (cofHom_app_tmul _ _ X b m)
 
@@ -242,7 +242,7 @@ theorem tensorLeft_map_presheafMult (F : PMod O.obj) (a : O.obj.obj (op U₀)) (
       = presheafMult hU₀ O.obj a ((tensorLeft F).obj N) := by
   refine PresheafOfModules.hom_ext fun X => ?_
   refine ModuleCat.hom_ext (TensorProduct.ext' fun s t => ?_)
-  show s ⊗ₜ[O.obj.obj X] ((O.obj.map (hU₀.from X.unop).op a) • t)
+  change s ⊗ₜ[O.obj.obj X] ((O.obj.map (hU₀.from X.unop).op a) • t)
     = (O.obj.map (hU₀.from X.unop).op a) • (s ⊗ₜ[O.obj.obj X] t)
   exact TensorProduct.tmul_smul _ s t
 
@@ -271,17 +271,17 @@ theorem changeOfRings_constantModulePresheaf_map_smul_id (N : ModuleCat.{w} R) (
         ((1 : O.obj.obj X) ⊗ₜ[(constantRingPresheaf (C := C) R).obj X] x)
       = (1 : O.obj.obj X) ⊗ₜ[(constantRingPresheaf (C := C) R).obj X] (r' • x) := by
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, hc, TensorProduct.smul_tmul]
-  show (unitApp (coefficientMap R hU₀ (O := O.obj) α)
+  change (unitApp (coefficientMap R hU₀ (O := O.obj) α)
       ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
         ((constantModulePresheaf (C := C) R).map (r • 𝟙 N))) X).hom x
     = (unitApp (coefficientMap R hU₀ (O := O.obj) α)
       (presheafMult hU₀ O.obj (α r) _) X).hom x
   rw [unitApp_apply, unitApp_apply]
-  show _ = (O.obj.map (hU₀.from X.unop).op (α r)) •
+  change _ = (O.obj.map (hU₀.from X.unop).op (α r)) •
       ((1 : O.obj.obj X) ⊗ₜ[(constantRingPresheaf (C := C) R).obj X] x)
   rw [h1]
   refine (cofHom_app_tmul _ _ X 1 x).trans (congrArg _ ?_)
-  show (r • 𝟙 N).hom x = r' • x
+  change (r • 𝟙 N).hom x = r' • x
   rw [ModuleCat.hom_smul]
   rfl
 
@@ -291,7 +291,7 @@ multiplication by the image of that scalar. -/
 theorem tensorByBaseModulePresheaf_map_smul_id (N : ModuleCat.{w} R) (r : R) :
     (tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).map (r • 𝟙 N)
       = presheafMult hU₀ O.obj (α r) ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj N) := by
-  show (tensorLeft 𝓕.val).map ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
+  change (tensorLeft 𝓕.val).map ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
       ((constantModulePresheaf (C := C) R).map (r • 𝟙 N))) = _
   rw [changeOfRings_constantModulePresheaf_map_smul_id, tensorLeft_map_presheafMult]
   rfl
@@ -334,7 +334,7 @@ theorem sheafify_map_presheafMult (a : O.obj.obj (op U₀)) (N : PMod O.obj) :
     (sheafify J O).map (presheafMult hU₀ O.obj a N)
       = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).asHom.app
         ((sheafify J O).obj N) := by
-  show (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
+  change (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
       (presheafMult hU₀ O.obj a N)
     = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).asHom.app
       ((PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).obj N)
@@ -353,9 +353,9 @@ a scalar acts by multiplication by its image, a section of `O` over the terminal
 def linearOfCoefficientMap : Linear R (SheafOfModules.{w} (ringSheaf J O)) :=
   Stacks.SheafOfModules.linearOfTerminalSection (ringSheaf J O) R U₀ hU₀ α
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **`𝓕 ⊗_R (-)` is `R`-linear.** -/
-@[instance_reducible]
-def tensorByBaseModule_linear :
+theorem tensorByBaseModule_linear :
     letI := linearOfCoefficientMap R hU₀ J O α
     Functor.Linear R (tensorByBaseModule R hU₀ J O 𝓕 α) := by
   let := linearOfCoefficientMap R hU₀ J O α
@@ -384,7 +384,7 @@ theorem isIso_sheafificationHomEquiv_symm (M : ModuleCat.{w} R)
     (J.W_iff _).mp (J.W_of_isLocallyBijective _)
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf.{w} (ringSheaf J O)),
     PresheafOfModules.toSheaf_map_sheafificationHomEquiv_symm]
-  show IsIso ((presheafToSheaf J AddCommGrpCat.{w}).map
+  change IsIso ((presheafToSheaf J AddCommGrpCat.{w}).map
       ((PresheafOfModules.toPresheaf (ringSheaf J O).obj).map Φ) ≫
     (sheafificationAdjunction J AddCommGrpCat.{w}).counit.app
       ((SheafOfModules.toSheaf (ringSheaf J O)).obj G))

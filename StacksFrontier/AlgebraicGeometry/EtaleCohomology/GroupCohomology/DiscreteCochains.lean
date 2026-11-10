@@ -93,10 +93,10 @@ theorem exists_openSubgroup_forall_mul_right_eq₂ [CompactSpace H] [TotallyDisc
     ∃ N : OpenSubgroup H, ∀ x y n m : H, n ∈ N → m ∈ N → f (x * n, y * m) = f (x, y) := by
   obtain ⟨M, hM⟩ := exists_openSubgroup_forall_mul_right_eq (H := H × H) hf
   have hinl : Continuous (MonoidHom.inl H H) := by
-    show Continuous fun h : H ↦ ((h, 1) : H × H)
+    change Continuous fun h : H ↦ ((h, 1) : H × H)
     fun_prop
   have hinr : Continuous (MonoidHom.inr H H) := by
-    show Continuous fun h : H ↦ ((1, h) : H × H)
+    change Continuous fun h : H ↦ ((1, h) : H × H)
     fun_prop
   refine ⟨M.comap (MonoidHom.inl H H) hinl ⊓
     M.comap (MonoidHom.inr H H) hinr, fun x y n m hn hm ↦ ?_⟩
@@ -205,8 +205,8 @@ private theorem isLocallyConstant_smul_comp_aux [IsTopologicalGroup G]
     (hx {x z₀}).inter (((h (x z₀)).preimage (by fun_prop)).preimage hf), ⟨rfl, by simp⟩,
     fun z hz ↦ ?_⟩
   obtain ⟨hz1, hz2⟩ := hz
-  simp only [Set.mem_setOf_eq] at hz1
-  simp only [Set.mem_preimage, Set.mem_setOf_eq] at hz2
+  simp only [Set.mem_ofPred_eq] at hz1
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq] at hz2
   rw [hz1]
   calc f z • x z₀ = (f z₀ * ((f z₀)⁻¹ * f z)) • x z₀ := by rw [mul_inv_cancel_left]
     _ = f z₀ • (((f z₀)⁻¹ * f z) • x z₀) := mul_smul _ _ _

@@ -254,7 +254,7 @@ theorem isPrincipalDivisorCycle_zsmul_canonicalDivisorCycleAt_sub
     D.site D.base D.base_mem hY.1 (isDecentSpace_of_isGood D sY hY) hintY hNY M hM τ τ' hτ hτ'
   refine ⟨hY, hintY, g ^ a, ?_⟩
   funext W
-  show a • ((canonicalDivisorCycle D sY hY hintY M hM τ hτ hk).1 W -
+  change a • ((canonicalDivisorCycle D sY hY hintY M hM τ hτ hk).1 W -
       (canonicalDivisorCycle D sY hY hintY M hM τ' hτ' hk).1 W) = _
   by_cases hcod : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 W) = 1
@@ -304,7 +304,8 @@ c_1(N) ∩ div_L(s) = ∑ ord_{B_i}(f_i) (Z_i → X)_* div_{N|Z_i}(t_i|Z_i), wit
 canonical choices (the cap product, the divisors and the ratios s = f_i s_i are constructed, not \
 carried) and for an arbitrary regular meromorphic section of N|Z_i in place of t_i|Z_i; the \
 second identity is the same statement with (L, s) and (N, t) exchanged. Claims (1)-(2) of the \
-section are canonicalDivisorCycle_apply_eq_zero_of_notMem, canonicalDivisorCycle_apply_primeDivisor \
+section are canonicalDivisorCycle_apply_eq_zero_of_notMem, \
+canonicalDivisorCycle_apply_primeDivisor \
 and orderOfVanishingSection_canonical_eq_ord"]
 theorem canonicalFirstChernCap_canonicalDivisorCycleAt
     (N : Modules.{u, u} D.site D.base D.base_mem X hX.1)

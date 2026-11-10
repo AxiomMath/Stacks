@@ -77,8 +77,8 @@ proved in this development — the map of [Stacks, Tag 0B53] is constructed here
 invertibility statement for it is — so it appears as the hypothesis `h08EU`. Likewise the
 quasi-coherence of `Lf^*M ⊗^L_{𝒪_X} L`, which is [Stacks, Tag 08DX] part (1) and is what makes
 the third line of the chain a statement about `D_QCoh`, appears as the hypothesis `hten`: the
-form of that tag in the library is stated at `Stacks.SheafOfModules.derivedTensor`, whereas the relative
-cup product from which the trace map is built lands in
+form of that tag in the library is stated at `Stacks.SheafOfModules.derivedTensor`, whereas the
+relative cup product from which the trace map is built lands in
 `Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor`, and the two tensor products are
 not definitionally equal; see the implementation notes of
 `StacksFrontier/AlgebraicGeometry/Duality/SheafyTrace.lean`.

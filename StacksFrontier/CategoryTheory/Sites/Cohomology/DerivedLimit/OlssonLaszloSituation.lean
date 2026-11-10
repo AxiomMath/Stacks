@@ -354,7 +354,7 @@ theorem sheafification_eval_isZero
   -- Phrase the carrier as that of the underlying abelian-group presheaf, which is the shape in
   -- which the sheaf condition below is available, so that no section has to be transported
   -- between the two spellings of it.
-  show Subsingleton (ToType (S.val.presheaf.obj (.op V)))
+  change Subsingleton (ToType (S.val.presheaf.obj (.op V)))
   apply subsingleton_of_forall_eq 0
   intro s
   let T := Presheaf.imageSieve η s
@@ -373,7 +373,7 @@ theorem sheafification_eval_isZero
   have hi : S.val.presheaf.map (𝒰.f i).op s = 0 := by
     rw [← ht, Subsingleton.elim t 0]
     exact map_zero _
-  show S.val.presheaf.map g.op s = S.val.presheaf.map g.op 0
+  change S.val.presheaf.map g.op s = S.val.presheaf.map g.op 0
   rw [← hab, op_comp, Functor.map_comp, ConcreteCategory.comp_apply,
     ConcreteCategory.comp_apply, hi]
   simp only [map_zero]

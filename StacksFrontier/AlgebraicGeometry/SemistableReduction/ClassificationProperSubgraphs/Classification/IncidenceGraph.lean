@@ -96,7 +96,7 @@ private lemma minusTwoGraph_connected (T : NumericalType)
       rcases Finset.mem_filter.mp ha with ⟨_, ⟨haI, hreach⟩⟩
       exact hreach
     have hadj : (minusTwoGraph T I).Adj ⟨a, hsub ha⟩ ⟨b, hb⟩ := by
-      show a ≠ b ∧ T.intersection a b ≠ 0
+      change a ≠ b ∧ T.intersection a b ≠ 0
       exact ⟨hne, hab⟩
     have hreachb := hreach.trans hadj.reachable
     have hbJ : b ∈ J := Finset.mem_filter.mpr ⟨hb, ⟨hb, hreachb⟩⟩
@@ -395,7 +395,7 @@ private lemma quadraticForm_neg_of_supported_proper_finset
   have hsymm : A.IsSymm := by
     apply Matrix.IsSymm.ext_iff.mpr
     intro i j
-    show (T.intersection j i : ℚ) = (T.intersection i j : ℚ)
+    change (T.intersection j i : ℚ) = (T.intersection i j : ℚ)
     exact_mod_cast T.intersection_symm j i
   have hoff : ∀ i j, i ≠ j → 0 ≤ A i j := by
     intro i j hij
@@ -407,7 +407,7 @@ private lemma quadraticForm_neg_of_supported_proper_finset
     exact_mod_cast T.multiplicity_pos i
   have hAm : A *ᵥ m = 0 := by
     ext i
-    show (∑ j, (T.intersection i j : ℚ) * (T.multiplicity j : ℚ)) = 0
+    change (∑ j, (T.intersection i j : ℚ) * (T.multiplicity j : ℚ)) = 0
     exact_mod_cast T.intersection_mul_multiplicity i
   have hconn : ∀ J : Set (Fin T.componentCount), J.Nonempty → J ≠ Set.univ →
       ¬ ∀ i ∈ J, ∀ j ∉ J, A i j = 0 := by

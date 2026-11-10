@@ -174,7 +174,6 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
   {F : C ⥤ D} [F.IsContinuous J K] {G : D ⥤ E} [G.IsContinuous K L]
   {H : E ⥤ Z} [H.IsContinuous L M]
   [(F ⋙ G).IsContinuous J L] [(G ⋙ H).IsContinuous K M]
-  [(F ⋙ G ⋙ H).IsContinuous J M] [((F ⋙ G) ⋙ H).IsContinuous J M]
   (φ : R ⟶ (F.sheafPushforwardContinuous RingCat.{u} J K).obj S)
   (ψ : S ⟶ (G.sheafPushforwardContinuous RingCat.{u} K L).obj T)
   (θ : T ⟶ (H.sheafPushforwardContinuous RingCat.{u} L M).obj W)
@@ -191,7 +190,7 @@ theorem pushforwardComp_assoc :
 /-- **Rebracketing the head of a composite that begins with a composition comparison of three
 direct images.**  One direction of
 `Stacks.SheafOfModules.pushforwardComp_assoc` under a composite. -/
-theorem pushforwardComp_assoc_trans
+theorem pushforwardComp_assoc_trans [((F ⋙ G) ⋙ H).IsContinuous J M]
     {Y : _root_.SheafOfModules.{v} W ⥤ _root_.SheafOfModules.{v} R}
     {β : _root_.SheafOfModules.pushforward.{v}
         (_root_.SheafOfModules.comparisonComp
@@ -207,7 +206,7 @@ theorem pushforwardComp_assoc_trans
   (congrArg (fun z => z ≪≫ β) (pushforwardComp_assoc.{v} φ ψ θ)).trans h
 
 /-- **The other direction of the rebracketing.** -/
-theorem pushforwardComp_assoc_trans'
+theorem pushforwardComp_assoc_trans' [(F ⋙ G ⋙ H).IsContinuous J M]
     {Y : _root_.SheafOfModules.{v} W ⥤ _root_.SheafOfModules.{v} R}
     {β : _root_.SheafOfModules.pushforward.{v}
         (_root_.SheafOfModules.comparisonComp φ
@@ -222,7 +221,7 @@ theorem pushforwardComp_assoc_trans'
       X :=
   (congrArg (fun z => z ≪≫ β) (pushforwardComp_assoc.{v} φ ψ θ).symm).trans h
 
-omit [(G ⋙ H).IsContinuous K M] [(F ⋙ G ⋙ H).IsContinuous J M] in
+omit [(G ⋙ H).IsContinuous K M] in
 /-- **Reading a threefold composite of direct images in the two bracketings is the identity.**
 The inverse of the composition comparison of the last two direct images, whiskered on the right
 with the first, followed by the composition comparison of the first two whiskered on the left
@@ -240,7 +239,7 @@ theorem isoWhiskerRight_pushforwardComp_symm_trans_isoWhiskerLeft
       e := by
   exact iso_eq_of_forall_apply fun _ _ _ => rfl
 
-omit [(F ⋙ G).IsContinuous J L] [(F ⋙ G ⋙ H).IsContinuous J M] in
+omit [(F ⋙ G).IsContinuous J L] in
 /-- **The same interchange with the two whiskerings on the other sides.**  The inverse of the
 composition comparison of the first two direct images, whiskered on the left with the last,
 followed by the composition comparison of the last two whiskered on the right with the first,

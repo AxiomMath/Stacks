@@ -37,8 +37,8 @@ targets.  Stacks 0E23 is then equivalent — under Tor independence — to the s
 `DerivedStalkBaseChangeEq`: that the derived stalk of the base change map, read through those two
 chains, *is* the comparison of Stacks 0661.
 
-Nothing in this file carries the tag of Stacks 0E23.  What is proved here is the reduction of it to one
-equality of morphisms, together with the two inputs that equality needs in order to be stated at
+Nothing in this file carries the tag of Stacks 0E23.  What is proved here is the reduction of it to
+one equality of morphisms, together with the two inputs that equality needs in order to be stated at
 all.  Stacks 0E23 itself is proved without that equality, as
 `Stacks.Cohomology.ClosedImmersionBaseChange.derivedBaseChangeSquareAsIso` in
 `ClosedImmersionBaseChangeTorIndependent.lean`, in this directory.
@@ -246,7 +246,7 @@ and the passage from the unit square to the counit square being
 `AlgebraicGeometry.derivedStalkPushforwardUnitSquare_of_kFlat`.
 
 *That unit square is now proved*, in
-`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/DerivedStalkPushforwardUnitSquare.lean`:
+`StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.DerivedStalkPushforwardUnitSquare`:
 `AlgebraicGeometry.derivedStalkPushforwardUnitSquareAt_all` holds at every object of `D(𝒪_X)`,
 so the counit half
 `AlgebraicGeometry.extendScalars_map_derivedStalkPushforward_comp_counit_of_schemes` and the mate

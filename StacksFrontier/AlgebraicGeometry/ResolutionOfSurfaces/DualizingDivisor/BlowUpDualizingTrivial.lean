@@ -3,8 +3,7 @@ module
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkEpiMono
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleTorsionFree
 public import StacksFrontier.AlgebraicGeometry.RegularSequence.ExtVanishingAffine
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.DualizingQuotientBlowUp
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.DualizingQuotientBlowUp
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedDualizingConstruction
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedDualizingProjective
 
@@ -81,12 +80,12 @@ theorem isIso_of_epi_of_isDualizingModule {X : Scheme.{u}} [IsLocallyNoetherian 
         (Scheme.Modules.presheaf (SheafOfModules.unit X.ringCatSheaf)) y
       apply hz
       refine (stalkLinearMap_germ (SheafOfModules.unit X.ringCatSheaf) ω ψ U x hxU r).trans ?_
-      show ω.presheaf.germ U x hxU (Scheme.Modules.Hom.app ψ U r) = 0
+      change ω.presheaf.germ U x hxU (Scheme.Modules.Hom.app ψ U r) = 0
       rw [hgerm x U hxU r, h0, smul_zero]
     refine Stacks.RegularSequence.mono_of_injective_app ψ fun U => ?_
     refine (injective_iff_map_eq_zero (Scheme.Modules.Hom.app ψ U).hom).2 fun r hr => ?_
     refine TopCat.Presheaf.section_ext X.sheaf U r 0 fun x hx => ?_
-    show X.presheaf.germ U x hx r = X.presheaf.germ U x hx 0
+    change X.presheaf.germ U x hx r = X.presheaf.germ U x hx 0
     let := Stacks.ModuleStalkSpecialization.stalkModule ω x
     have := hω.isTorsionFree_stalk x
     have h0 : X.presheaf.germ U x hx r • ω.presheaf.germ ⊤ x trivial t = 0 := by

@@ -182,7 +182,7 @@ theorem isLocallySurjective_sigmaDesc_of_range_eq_openSubspaceOfPoints
   obtain ⟨t, ht⟩ := hmem
   refine ⟨(Sigma.ι (fun i => yoneda.obj (W i)) i).app (Opposite.op (d i)) t, ?_⟩
   have h0 : (Sigma.ι (fun i => yoneda.obj (W i)) i ≫ Sigma.desc k).app
-      (Opposite.op (d i)) t = (k i).app (Opposite.op (d i)) t := by rw [Sigma.ι_desc]
+      (Opposite.op (d i)) t = (k i).app (Opposite.op (d i)) t := by rw [Sigma.ι_comp_desc]
   simpa only [NatTrans.comp_app, types_comp_apply] using h0.trans ht
 
 /-! ### The two properties of a chart which is a base change of a surjective étale morphism -/

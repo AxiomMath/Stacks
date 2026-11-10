@@ -81,7 +81,7 @@ theorem isPullback_totalSpaceIso :
   have : IsIso (schemeSpaceMap (𝟙 x.base)) :=
     inferInstanceAs (IsIso ((schemeSpaceFunctor B integerBase hZ).map (𝟙 _)))
   refine IsPullback.of_horiz_isIso ⟨ObjectProperty.hom_ext _ ?_⟩
-  show (CurveFamily.totalSiteIso hx).hom ≫ x.toBase.hom =
+  change (CurveFamily.totalSiteIso hx).hom ≫ x.toBase.hom =
     yoneda.map (CurveFamily.totalSiteToBase hx) ≫ yoneda.map (𝟙 _)
   rw [CategoryTheory.Functor.map_id, CurveFamily.yoneda_map_totalSiteToBase]
   exact (Category.comp_id _).symm
@@ -100,7 +100,7 @@ theorem totalSpaceIso_hom_totalMap :
     (totalSpaceIso hx).hom ≫ φ.totalMap =
       schemeSpaceMap (CurveFamily.totalSiteMap hx' hx φ) ≫ (totalSpaceIso hx').hom :=
   ObjectProperty.hom_ext _ (by
-    show (CurveFamily.totalSiteIso hx).hom ≫ φ.totalMap.hom =
+    change (CurveFamily.totalSiteIso hx).hom ≫ φ.totalMap.hom =
       yoneda.map (CurveFamily.totalSiteMap hx' hx φ) ≫ (CurveFamily.totalSiteIso hx').hom
     simp only [CurveFamily.yoneda_map_totalSiteMap, Category.assoc, Iso.inv_hom_id,
       Category.comp_id])
@@ -332,7 +332,7 @@ theorem isPullback_chart0 :
     ((schemeSpaceFunctor B integerBase hZ).mapIso (levIso0 e hb)).symm (Iso.refl _)
     (by simp) (by rw [Iso.refl_hom, Category.id_comp]; rfl) (by simp) ?_
   rw [← levIso0_hom_φ e hb]
-  show (schemeSpaceFunctor B integerBase hZ).map φ ≫ 𝟙 _ =
+  change (schemeSpaceFunctor B integerBase hZ).map φ ≫ 𝟙 _ =
     (schemeSpaceFunctor B integerBase hZ).map (levIso0 e hb).inv ≫
       (schemeSpaceFunctor B integerBase hZ).map ((levIso0 e hb).hom ≫ φ)
   rw [← Functor.map_comp, Iso.inv_hom_id_assoc, Category.comp_id]
@@ -547,7 +547,7 @@ theorem exists_isGood_schemeLev_zero (haff : ∀ n, IsAffine ((𝒯).obj (lev κ
       (Spec.map (CommRingCat.ofHom g)) := by
     refine IsPullback.of_horiz_isIso ⟨?_⟩
     have h := chartIso_hom_hom e hpbZ hb hrep
-    show (𝒯).map (chartIso e hpbZ hb hrep).hom ≫ (𝒯).map (CurveFamily.totalSiteToBase (hrep 0)) ≫
+    change (𝒯).map (chartIso e hpbZ hb hrep).hom ≫ (𝒯).map (CurveFamily.totalSiteToBase (hrep 0)) ≫
       ((𝒯).obj (lev κ e 0).base).toSpecΓ = ((𝒯).map qZ ≫ ((𝒯).obj U).toSpecΓ) ≫
         Spec.map ((𝒯).map ε.inv).appTop
     rw [← Category.assoc, ← Functor.map_comp, h, Functor.map_comp, Category.assoc,
@@ -645,7 +645,7 @@ theorem exists_limit_chart (he : Etale ((𝒯).map e)) (hQ : IsAffine ((𝒯).ob
     · have h1 : CommRingCat.ofHom (limitRingHom hW t ht e) ≫
           CommRingCat.ofHom (towerLimitProj (ringT hW t ht e) n) =
             ((𝒯).map (levA κ e n)).appTop := rfl
-      show Spec.map _ ≫ Spec.map _ ≫ _ = _
+      change Spec.map _ ≫ Spec.map _ ≫ _ = _
       rw [← Category.assoc, ← Spec.map_comp, h1, Scheme.isoSpec_inv_naturality]
       rfl
   have hWQ := isEtaleLimitTower_lev hW t ht e he hQ
@@ -680,13 +680,13 @@ theorem exists_limit_chart (he : Etale ((𝒯).map e)) (hQ : IsAffine ((𝒯).ob
         rw [Iso.refl_hom, Category.comp_id, CurveFamilyScheme.totalSpaceIso_hom_toBase] }
   refine ⟨Ŷ, rfl, j, fun n => ?_, fun n w hw hfac => ?_⟩
   · refine IsHomLift.of_fac' _ _ _ (lev_base κ e n) rfl ?_
-    show levA κ e n = _
+    change levA κ e n = _
     rw [levA]
     congr 1
   · have := hw
     rw [levT_uniq hW t ht e n w hfac]
     refine CurveFamily.Hom.ext (levT_baseMap_levA hW t ht e n) ?_
-    show (levT hW t ht e n).totalMap ≫ (CurveFamilyScheme.totalSpaceIso (hrep (n + 1))).inv ≫
+    change (levT hW t ht e n).totalMap ≫ (CurveFamilyScheme.totalSpaceIso (hrep (n + 1))).inv ≫
         schemeSpaceMap (CurveFamily.homOfScheme (jE (n + 1)) :
           CurveFamily.totalSite (hrep (n + 1)) ⟶ T) =
       (CurveFamilyScheme.totalSpaceIso (hrep n)).inv ≫

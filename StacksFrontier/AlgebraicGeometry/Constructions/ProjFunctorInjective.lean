@@ -28,8 +28,8 @@ Surjectivity is proved in the sibling
 `StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorSurjective.lean`; see the implementation
 notes for what the two files together do and do not cover, and the module docstrings of
 `StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorQuasiCompact.lean` and
-`StacksFrontier/AlgebraicGeometry/OrderedOpenCover.lean` for the two reductions of the source's proof
-that the argument uses.
+`StacksFrontier/AlgebraicGeometry/OrderedOpenCover.lean` for the two reductions of the source's
+proof that the argument uses.
 
 ## Main definitions
 
@@ -83,8 +83,8 @@ the weight transitions, and so needs no functor. The functor itself —
 divisibility, in
 `StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorColimit.lean`, and its extension
 `Stacks.AlgebraicGeometry.ProjTripleDegreeFunctor.F` to a non-quasi-compact `Y`, in
-`StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorRepresentable.lean` — consumes the theorem
-below, as `Fcolim.classifyingMorphism_injective`, to obtain the bijection
+`StacksFrontier/AlgebraicGeometry/Constructions/ProjFunctorRepresentable.lean` — consumes the
+theorem below, as `Fcolim.classifyingMorphism_injective`, to obtain the bijection
 `F(Y) ≃ Mor(Y, X)` of [Stacks, Tag 01NC] as a single `Equiv` and the
 `CategoryTheory.Functor.RepresentableBy` datum `F.representableBy`.
 

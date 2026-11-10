@@ -69,6 +69,7 @@ def pullbackCommRingSheafMapOfNatTrans (θ : Φ ⟶ Φ') (O : Sheaf K CommRingCa
   (fullyFaithfulForgetCommRingSheaf J).preimage
     (pullbackRingSheafMapOfNatTrans J (Stacks.SheafOfModules.Tensor.ringSheaf O) θ)
 
+omit [J.HasSheafCompose (forget RingCat)] [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The morphism induced by a natural transformation is that transformation on underlying sheaves
 of sets. -/
 theorem forget_map_pullbackCommRingSheafMapOfNatTrans (θ : Φ ⟶ Φ')
@@ -144,6 +145,8 @@ def squareCommRingSheafMap :
     (pullbackCommRingSheafComp JX' JX L' (GX.sheafPushforwardContinuous (Type w) JX JX') O).inv ≫
     (restrictionCommRingIso.{w} JX JX' GX (pullbackCommRingSheaf JX' L' O)).hom
 
+omit [JX'.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [JY'.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The transported morphism is `θ` on sections. -/
 theorem squareCommRingSheafMap_apply (U : CXᵒᵖ)
     (x : ((sheafCompose JX (forget CommRingCat.{w})).obj (pullbackCommRingSheaf JX L
@@ -159,7 +162,7 @@ theorem squareCommRingSheafMap_apply (U : CXᵒᵖ)
   have hd' : (sheafCompose JX (forget CommRingCat.{w})).map
       (pullbackCommRingSheafComp JX' JX L' (GX.sheafPushforwardContinuous (Type w) JX JX') O).inv =
         𝟙 _ :=
-    (Category.comp_id _).symm.trans ((congrArg (_ ≫ ·) hd.symm).trans (Iso.map_inv_hom_id _ _))
+    (Category.comp_id _).symm.trans ((congrArg (_ ≫ ·) hd.symm).trans (Iso.inv_hom_id_map _ _))
   have hall : (sheafCompose JX (forget CommRingCat.{w})).map
       (squareCommRingSheafMap JX JY JX' JY' GX GY L L' θ O) =
         (sheafCompose JX (forget CommRingCat.{w})).map
@@ -170,6 +173,8 @@ theorem squareCommRingSheafMap_apply (U : CXᵒᵖ)
   exact congrArg (fun m => m.hom.app U x)
     (hall.trans (forget_map_pullbackCommRingSheafMapOfNatTrans JX θ O))
 
+omit [JX'.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [JY'.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The transported morphism is `θ` on underlying sheaves of sets. -/
 theorem forget_map_squareCommRingSheafMap :
     (sheafCompose JX (forget CommRingCat.{w})).map

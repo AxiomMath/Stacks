@@ -102,8 +102,8 @@ these universes.
 
 *No `@[stacks]` attribute.* [Stacks, Tag 073E] is a statement about abelian sheaves, registered on
 exactly that statement in
-`StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleCohomologyFilteredColimits`; the module reading is
-not an enumerated part of the tag.
+`StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleCohomologyFilteredColimits`; the module reading
+is not an enumerated part of the tag.
 
 ## References
 

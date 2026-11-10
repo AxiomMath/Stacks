@@ -85,7 +85,7 @@ lemma shiftIndex_mul_right {x w : G} (hw : w ∈ W) :
   unfold shiftIndex
   congr 1
   ext j
-  simp only [Set.mem_setOf_eq, ← mul_assoc]
+  simp only [Set.mem_ofPred_eq, ← mul_assoc]
   exact Subgroup.mul_mem_cancel_right W hw
 
 /-- For `W` normal, `shiftIndex W σ` is invariant under left translation by `W`. -/
@@ -94,7 +94,7 @@ lemma shiftIndex_mul_left [hW : W.Normal] {x w : G} (hw : w ∈ W) :
   unfold shiftIndex
   congr 1
   ext j
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [show σ ^ j * (w * x) = (σ ^ j * w * (σ ^ j)⁻¹) * (σ ^ j * x) by group]
   exact Subgroup.mul_mem_cancel_left W (hW.conj_mem w hw _)
 
@@ -280,7 +280,8 @@ lemma coindShiftSub_apply (σ : G) (f : CoindRes N M) (x : G) :
 /-- The constant functions `x ↦ x • m`, the image of `M` in `Coind_N^G M`. -/
 def coindConstFun (m : M.obj.obj.V) : CoindRes N M :=
   ⟨fun x ↦ (M.obj.obj.ρ x).asHom.hom m, fun h x ↦ by
-      change (M.obj.obj.ρ ((h : G) * x)).asHom.hom m = (M.obj.obj.ρ h).asHom.hom ((M.obj.obj.ρ x).asHom.hom m)
+      change (M.obj.obj.ρ ((h : G) * x)).asHom.hom m =
+        (M.obj.obj.ρ h).asHom.hom ((M.obj.obj.ρ x).asHom.hom m)
       rw [ρ_mul_apply],
     Subgroup.isOpen_mono (H₁ := elementStabilizer G M m)
       (fun g hg x ↦ by
@@ -303,23 +304,27 @@ def coindConst :
          change (M.obj.obj.ρ x).asHom.hom 0 = 0
          exact map_zero _)
        map_add' := fun a b ↦ Subtype.ext (funext fun x ↦ by
-         change (M.obj.obj.ρ x).asHom.hom (a + b) = (M.obj.obj.ρ x).asHom.hom a + (M.obj.obj.ρ x).asHom.hom b
+         change (M.obj.obj.ρ x).asHom.hom (a + b) =
+           (M.obj.obj.ρ x).asHom.hom a + (M.obj.obj.ρ x).asHom.hom b
          exact map_add _ _ _) },
       fun g m ↦ Subtype.ext (funext fun x ↦ by
-        change (M.obj.obj.ρ x).asHom.hom ((M.obj.obj.ρ g).asHom.hom m) = (M.obj.obj.ρ (x * g)).asHom.hom m
+        change (M.obj.obj.ρ x).asHom.hom ((M.obj.obj.ρ g).asHom.hom m) =
+          (M.obj.obj.ρ (x * g)).asHom.hom m
         rw [ρ_mul_apply])⟩
 
 omit hN [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindConst N` applied to `m` at `x` is `x • m`. -/
 lemma coindConst_apply (m : M.obj.obj.V) (x : G) :
-    coindVal ((coindConst N).hom.hom.hom.hom m : CoindRes N M) x = (M.obj.obj.ρ x).asHom.hom m := rfl
+    coindVal ((coindConst N).hom.hom.hom.hom m : CoindRes N M) x =
+      (M.obj.obj.ρ x).asHom.hom m := rfl
 
 omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `f ↦ σ • f(σ⁻¹ · -) - f` vanishes on the image of `coindConst N`. -/
 lemma coindShiftSub_coindConst (σ : G) (m : M.obj.obj.V) :
     (coindShiftSub N σ).hom.hom.hom.hom ((coindConst N).hom.hom.hom.hom m) = 0 :=
   Subtype.ext (funext fun x ↦ by
-    change (M.obj.obj.ρ σ).asHom.hom ((M.obj.obj.ρ (σ⁻¹ * x)).asHom.hom m) - (M.obj.obj.ρ x).asHom.hom m = 0
+    change (M.obj.obj.ρ σ).asHom.hom ((M.obj.obj.ρ (σ⁻¹ * x)).asHom.hom m) -
+      (M.obj.obj.ρ x).asHom.hom m = 0
     rw [← ρ_mul_apply, mul_inv_cancel_left, sub_self])
 
 /-- The short complex `M → Coind_N^G M → Coind_N^G M`, the first map being `m ↦ (x ↦ x • m)`

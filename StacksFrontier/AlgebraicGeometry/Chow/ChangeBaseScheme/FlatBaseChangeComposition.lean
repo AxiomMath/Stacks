@@ -152,7 +152,7 @@ theorem baseChangeCyclePullbackSquare_cycleAssociatedToClosedSubscheme
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
   rw [baseChangeCyclePullbackSquare_apply_isoPullback B f sq k _ y,
     baseChangeCyclePullback_cycleAssociatedToClosedSubscheme B f ι k hW]
-  show closedSubschemeCycleCoeff B.baseChange (pullback.snd f B.g)
+  change closedSubschemeCycleCoeff B.baseChange (pullback.snd f B.g)
       (pullback.snd ι (pullback.fst f B.g)) (k + B.c) (sq.isoPullback.hom.base y) =
     closedSubschemeCycleCoeff B.baseChange q (pullback.snd ι p) (k + B.c) y
   rw [closedSubschemeCycleCoeff_of_isIso_ambient B.baseChange q (pullback.snd f B.g)
@@ -348,7 +348,7 @@ theorem baseChangeChowPullbackSquare_mk (B : FlatBaseChangeSituation.{u}) {X Y :
         (QuotientAddGroup.mk' (rationalEquivalences B.base f k) z) =
       QuotientAddGroup.mk' (rationalEquivalences B.baseChange q (k + B.c))
         (baseChangeCyclePullbackSquare B f sq k z) := by
-  show chowPushforwardOfIso B.baseChange (pullback.snd f B.g) q sq.isoPullback.inv
+  change chowPushforwardOfIso B.baseChange (pullback.snd f B.g) q sq.isoPullback.inv
       (isoPullback_inv_comp_snd B f sq) (k + B.c)
     (baseChangeChowPullback B f k
       (QuotientAddGroup.mk' (rationalEquivalences B.base f k) z)) = _

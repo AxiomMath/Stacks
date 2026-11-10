@@ -11,13 +11,13 @@ Fix a global crystalline situation `(p, (S, I, γ), X)`.  The first assertion of
 nonempty limits; the source reads it off [Stacks, Tag 07IG], whose input is that `CRIS(X/S)` has
 all finite nonempty limits, the first clause of [Stacks, Tag 07I9].
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BigComparison.lean` proves the comparison for
-a shape `J` of which `CRIS(X/S)` has limits — the inclusion creates them, so `Cris(X/S)` has them
-too and the inclusion preserves them — and carries the existence in `CRIS(X/S)` as the instance
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BigComparison.lean` proves the comparison
+for a shape `J` of which `CRIS(X/S)` has limits — the inclusion creates them, so `Cris(X/S)` has
+them too and the inclusion preserves them — and carries the existence in `CRIS(X/S)` as the instance
 argument `HasLimitsOfShape J (Thickening S)`.  That existence is a theorem of this tree,
 `Crystalline.GlobalCrystallineSituation.hasNonemptyFiniteLimits_thickening` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/BinaryProductInstance.lean`, which is the first
-clause of [Stacks, Tag 07I9] in full: `CRIS(X/S)` has every finite nonempty limit, the binary
+`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/BinaryProductInstance.lean`, which is the
+first clause of [Stacks, Tag 07I9] in full: `CRIS(X/S)` has every finite nonempty limit, the binary
 products being glued from the affine product patches of a pair and the fibre products being built
 from the fibre products of divided power schemes.  `BigComparison.lean` cannot use it, because the
 affine layer the glued product rests on imports the small site; this module, downstream of both,

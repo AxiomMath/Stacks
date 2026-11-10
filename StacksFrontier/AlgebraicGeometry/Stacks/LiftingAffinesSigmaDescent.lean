@@ -81,7 +81,7 @@ omit hV in
 /-- The coproduct object is representable. -/
 theorem isRepresentable_sigmaRep (hV : IsColimit (Cofan.mk V c)) :
     (sigmaRep N nN iN c hV).obj.left.obj.IsRepresentable := by
-  show (yoneda.obj V).IsRepresentable
+  change (yoneda.obj V).IsRepresentable
   infer_instance
 
 end AlgebraicGeometry.Space.SpacesEtale
@@ -165,7 +165,7 @@ theorem isEffective_of_sigma (nN : L → BigFppfOver B S hS)
   refine ⟨Space.pointsMap B S hS _ (Space.SpacesEtale.sigmaRepι N nN iN cN hVN l).hom.left.hom q,
     ?_⟩
   rw [← Space.pointsMap_comp_apply]
-  show Space.pointsMap B S hS _
+  change Space.pointsMap B S hS _
     (Space.SpacesEtale.sigmaRepι N nN iN cN hVN l ≫ d).hom.left.hom q = p
   rw [hd l]
   exact hq

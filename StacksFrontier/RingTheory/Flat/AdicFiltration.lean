@@ -242,8 +242,7 @@ private theorem lTensor_range_subtype_le_pow_smul_top {R : Type*} [CommRing R] {
       rw [TensorProduct.tmul_add]
       exact Submodule.add_mem _ hy hz
   rintro _ ⟨z, rfl⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m x => simpa using key m _ (hsub (hN x.2))
   | add u v hu hv => rw [map_add]; exact Submodule.add_mem _ hu hv
 
@@ -317,7 +316,7 @@ private theorem lTensor_subtype_injective_of_isLocalizedModule {R S : Type*} [Co
     exists_mem_primeCompl_smul_eq_zero (I.map (algebraMap R S)) q hq ?_
   simp only [krullIntersection, Submodule.mem_iInf]
   intro n
-  show z ∈ Submodule.restrictScalars R
+  change z ∈ Submodule.restrictScalars R
     ((I.map (algebraMap R S)) ^ n • (⊤ : Submodule S (M ⊗[R] ↥I)))
   rw [← Ideal.map_pow, Ideal.smul_restrictScalars, Submodule.restrictScalars_top]
   exact mem_pow_smul_top_of_lTensor_subtype_eq_zero I hflat n hz

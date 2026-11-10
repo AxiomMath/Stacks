@@ -312,7 +312,7 @@ public lemma derives_cellularLocalizerMorphism (F : A ⥤ B) [F.Additive]
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map α) := by
     rw [hαeq]
     exact (MorphismProperty.arrow_mk_iso_iff _ (Arrow.isoMk eS eT (by
-      show eS.hom ≫ eS.inv ≫ (cellular P).ι.map f ≫ eT.hom
+      change eS.hom ≫ eS.inv ≫ (cellular P).ι.map f ≫ eT.hom
         = (cellular P).ι.map f ≫ eT.hom
       simp))).1 hf
   have hqα : QuasiIso α := (HomotopyCategory.quotient_map_mem_quasiIso_iff α).1 hquot
@@ -329,7 +329,7 @@ public lemma derives_cellularLocalizerMorphism (F : A ⥤ B) [F.Additive]
     refine (MorphismProperty.arrow_mk_iso_iff _ (Arrow.isoMk
       ((F.mapHomotopyCategory (ComplexShape.up ℤ)).mapIso eS)
       ((F.mapHomotopyCategory (ComplexShape.up ℤ)).mapIso eT) ?_)).2 hFquot
-    show (F.mapHomotopyCategory (ComplexShape.up ℤ)).map eS.hom ≫
+    change (F.mapHomotopyCategory (ComplexShape.up ℤ)).map eS.hom ≫
         (F.mapHomotopyCategory (ComplexShape.up ℤ)).map
           (eS.inv ≫ (cellular P).ι.map f ≫ eT.hom)
       = (F.mapHomotopyCategory (ComplexShape.up ℤ)).map ((cellular P).ι.map f) ≫

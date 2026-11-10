@@ -65,9 +65,9 @@ theorem exists_closedImmersion_compl_range_affineLine (K : Type u) [Field K] {V 
   refine ⟨Spec (.of (K[X] ⧸ I)), Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)),
     IsClosedImmersion.spec_of_surjective _ Ideal.Quotient.mk_surjective, inferInstance, ?_, ?_⟩
   · rw [← Spec.map_comp, IsFinite.SpecMap_iff]
-    show (algebraMap K (K[X] ⧸ I)).Finite
+    change (algebraMap K (K[X] ⧸ I)).Finite
     exact RingHom.finite_algebraMap.2 inferInstance
-  · show Set.range jV.base = (Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)))ᶜ
+  · change Set.range jV.base = (Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)))ᶜ
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective,
       Ideal.mk_ker, hZ, compl_compl]
     rfl

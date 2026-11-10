@@ -45,7 +45,7 @@ abbrev inverseImageCoefficientMateApp (L : EtaleModules.{u, 0} R Y) :
       (sheafCompose Y'.smallEtaleTopology Gf).obj ((etaleModuleInverseImage.{u, 0} R g).obj L) :=
   (sheafComposeCoefficientMate (smallEtaleBaseChange g) Y.smallEtaleTopology Y'.smallEtaleTopology
     (etaleModuleInverseImageAdj.{u, 0} R g) (etaleModuleInverseImageAdj.{u, 0} S g)
-    Gf).natTrans.app L
+    Gf).app L
 
 /-- `Γ` applied to the unit of `g^{-1} ⊣ g_*` is the unit at `Γ L` followed by direct
 image of the inverse-image comparison. -/

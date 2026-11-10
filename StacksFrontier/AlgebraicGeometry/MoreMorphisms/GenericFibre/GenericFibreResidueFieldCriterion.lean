@@ -133,7 +133,7 @@ theorem isoSpec_genericPoint (Y : Scheme.{u}) [IsAffine Y] [IsIntegral Y] :
 of functions. -/
 theorem comp_isoSpec_genericPoint_eq (hgen : f (genericPoint X) = genericPoint Y) :
     (f ≫ Y.isoSpec.hom) (genericPoint X) = genericPoint (Spec Γ(Y, ⊤)) := by
-  show Y.isoSpec.hom.base (f.base (genericPoint X)) = _
+  change Y.isoSpec.hom.base (f.base (genericPoint X)) = _
   rw [hgen, isoSpec_genericPoint]
 
 /-- **The generic fibre over an integral affine base is geometrically irreducible exactly when

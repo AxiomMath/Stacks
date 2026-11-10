@@ -111,7 +111,7 @@ theorem isFiniteType_algebraPullback_obj {Z Y : Scheme.{u}} (g : Z ⟶ Y) (𝒜 
       pullback.snd (relativeSpecToBase 𝒜) g =
       relativeSpecToBase ((algebraPullback g).obj 𝒜) :=
     Over.w (relativeSpecBaseChangeIso g 𝒜).inv
-  show LocallyOfFiniteType (relativeSpecToBase ((algebraPullback g).obj 𝒜))
+  change LocallyOfFiniteType (relativeSpecToBase ((algebraPullback g).obj 𝒜))
   rw [← hw]
   infer_instance
 

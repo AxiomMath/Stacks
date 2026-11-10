@@ -240,7 +240,7 @@ theorem derivedCategoryB_supportedModules_derivedPushforward
       (asIso (αf.app ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I))).symm ≪≫
       (DerivedCategory.quotientCompQhIso _).app _
   intro n
-  show supportOfSheaf B S hS X.1 _ ⊆ T
+  change supportOfSheaf B S hS X.1 _ ⊆ T
   rw [supportOfSheaf_homologyFunctor_eq B S hS eR]
   refine supportOfSheaf_homology_modulePushforward_subset B S hS f T hT I hI (fun m => ?_) n
   have h := hE m

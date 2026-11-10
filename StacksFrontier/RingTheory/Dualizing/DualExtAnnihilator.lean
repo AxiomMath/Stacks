@@ -132,7 +132,7 @@ private theorem annihilator_eq_linearDual_of_injectiveResidue
     let q : R ⧸ J →ₗ[R] IsLocalRing.ResidueField R :=
       Submodule.liftQ J (Algebra.linearMap R (IsLocalRing.ResidueField R)) (by
         intro a ha
-        show algebraMap R (IsLocalRing.ResidueField R) a = 0
+        change algebraMap R (IsLocalRing.ResidueField R) a = 0
         rw [IsLocalRing.ResidueField.algebraMap_eq]
         exact (IsLocalRing.residue_eq_zero_iff a).2 (hJ ha))
     let g : LinearMap.range f →ₗ[R] E :=
@@ -146,12 +146,12 @@ private theorem annihilator_eq_linearDual_of_injectiveResidue
       exact f.quotKerEquivRange_symm_apply_image 1
         (show f 1 ∈ LinearMap.range f from ⟨1, rfl⟩)
     have hq1 : q ((LinearMap.ker f).mkQ 1) = 1 := by
-      show Submodule.liftQ J (Algebra.linearMap R (IsLocalRing.ResidueField R)) _
+      change Submodule.liftQ J (Algebra.linearMap R (IsLocalRing.ResidueField R)) _
         (Submodule.Quotient.mk 1) = 1
       rw [Submodule.liftQ_apply]
       simp
     have hg1 : g z = ι (ULift.up (1 : IsLocalRing.ResidueField R)) := by
-      show ι (ULift.moduleEquiv.symm (q (f.quotKerEquivRange.symm z))) = _
+      change ι (ULift.moduleEquiv.symm (q (f.quotKerEquivRange.symm z))) = _
       rw [hquot, hq1]
       simp
     have hne : ι (ULift.up (1 : IsLocalRing.ResidueField R)) ≠ 0 := fun h =>

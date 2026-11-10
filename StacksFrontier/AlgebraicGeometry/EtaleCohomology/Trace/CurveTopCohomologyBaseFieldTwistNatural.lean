@@ -32,7 +32,7 @@ namespace Stacks.EtaleCohomology
 attribute [local instance] HasDerivedCategory.standard
 
 variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
-  [LocallyOfFiniteType g] [QuasiCompact g] [IsSeparated g] [IsProper g]
+  [IsProper g]
   (kbar : Type u) [Field kbar] [Algebra k kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime]
   [CharP k p] (hcard : Fintype.card k = p ^ q)
   [IsAlgClosed kbar] [IsCurve k g]

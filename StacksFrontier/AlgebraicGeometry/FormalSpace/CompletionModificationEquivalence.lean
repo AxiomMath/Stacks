@@ -168,7 +168,7 @@ theorem existsUnique_completionOverFunctor_map_comp_eq_of_isProper
   have h₂ := comp_eq_id_of_map_eq_comp_inv bij₂₂.1 e₂ e₁ hψ' hφ'
   refine ⟨φ, ⟨by rw [hφ', Category.assoc, Iso.inv_hom_id, Category.comp_id], ⟨ψ, h₁, h₂⟩⟩,
     fun φ' hφ'' ↦ bij₁₂.1 ?_⟩
-  show (Space.completionOverFunctor B S hS T).map φ' =
+  change (Space.completionOverFunctor B S hS T).map φ' =
     (Space.completionOverFunctor B S hS T).map φ
   rw [hφ', ← hφ''.1, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 

@@ -242,7 +242,8 @@ theorem derivedToOrdinaryPullbackSingle_squareLeft (w : g' ≫ f = f' ≫ g)
     rw [← (DerivedCategory.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X')) d).map_comp,
       Iso.inv_hom_id_app, CategoryTheory.Functor.map_id]
-  exact Stacks.SingleComparison.squareChainIso _ _ _ _ _ _ _ _ _ _ _ _ _
+  exact Stacks.AlgebraicGeometry.TopDegreeBaseChange.SingleComparison.squareChainIso
+    _ _ _ _ _ _ _ _ _ _ _ _ _
     (derivedToOrdinaryPullbackSingle_comp f' g d M)
     (derivedToOrdinaryPullbackSingle_comp g' f d M)
     (derivedToOrdinaryPullbackSingle_congrLeft g' f' f g w M d)

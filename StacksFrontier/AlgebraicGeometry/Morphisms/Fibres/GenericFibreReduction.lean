@@ -50,7 +50,7 @@ private theorem prime_stalk_eq_closedPoint {Y : Scheme} {η : Y}
     p = IsLocalRing.closedPoint (Y.presheaf.stalk η) := by
   let p' : Spec (Y.presheaf.stalk η) := ⟨p.asIdeal, p.2⟩
   apply (Y.fromSpecStalk η).isEmbedding.injective
-  show (Y.fromSpecStalk η) p' = (Y.fromSpecStalk η) _
+  change (Y.fromSpecStalk η) p' = (Y.fromSpecStalk η) _
   have hp : (Y.fromSpecStalk η) p' ⤳ η := by
     have hrange : (Y.fromSpecStalk η) p' ∈ Set.range (Y.fromSpecStalk η) := ⟨p', rfl⟩
     rwa [Scheme.range_fromSpecStalk] at hrange
@@ -149,10 +149,10 @@ theorem comap_nilradical_fiberι {X Y : Scheme.{u}} (f : X ⟶ Y)
     pullback.lift_snd _ _ _
   have hzF : zToT ≫ tToF = pullback.fst (f.fiberι η) redι := by
     apply pullback.hom_ext
-    · show (zToT ≫ tToF) ≫ f.fiberι η = pullback.fst _ _ ≫ f.fiberι η
+    · change (zToT ≫ tToF) ≫ f.fiberι η = pullback.fst _ _ ≫ f.fiberι η
       simp [htF₁, reassoc_of% hzT₁, pullback.condition]
     · apply (cancel_mono q).1
-      show (zToT ≫ tToF) ≫ f.fiberToSpecResidueField η ≫ q =
+      change (zToT ≫ tToF) ≫ f.fiberToSpecResidueField η ≫ q =
         (pullback.fst _ _ ≫ f.fiberToSpecResidueField η) ≫ q
       simp [reassoc_of% htF₂, hℓ, hzT₂]
   have hZ : IsReduced (pullback (f.fiberι η) X.nilradical.subschemeι) := by
@@ -162,9 +162,9 @@ theorem comap_nilradical_fiberι {X Y : Scheme.{u}} (f : X ⟶ Y)
       · simp [hzT₁, htZ₂]
       · simp [hzT₂, reassoc_of% htZ₁, reassoc_of% htF₂, hℓ]
     · apply pullback.hom_ext
-      · show zToT ≫ tToZ ≫ pullback.fst (f.fiberι η) redι = 𝟙 _ ≫ pullback.fst (f.fiberι η) redι
+      · change zToT ≫ tToZ ≫ pullback.fst (f.fiberι η) redι = 𝟙 _ ≫ pullback.fst (f.fiberι η) redι
         rw [htZ₁, hzF, Category.id_comp]
-      · show zToT ≫ tToZ ≫ pullback.snd (f.fiberι η) redι = 𝟙 _ ≫ pullback.snd (f.fiberι η) redι
+      · change zToT ≫ tToZ ≫ pullback.snd (f.fiberι η) redι = 𝟙 _ ≫ pullback.snd (f.fiberι η) redι
         rw [htZ₂, hzT₁, Category.id_comp]
   let i := pullback.fst (f.fiberι η) X.nilradical.subschemeι
   have hker : i.ker = X.nilradical.comap (f.fiberι η) := by

@@ -198,7 +198,7 @@ theorem nonempty_exceptionalDualizingModule_iso_dualizingSheafOverField
     (modelHomologyFunctorIso hLSE hstdE 1).app (DlsE.obj M)
   let eAdj := e0A9X.app
     ⟨singleQuasiCoherent ωX hq 0, ⟨0, fun m hm => by
-      show IsZero ((DerivedCategory.homologyFunctor (blowUpScheme S.A).Modules m).obj
+      change IsZero ((DerivedCategory.homologyFunctor (blowUpScheme S.A).Modules m).obj
         ((DerivedCategory.singleFunctor (blowUpScheme S.A).Modules 0).obj ωX))
       exact DerivedCategory.isZero_of_isGE _ 0 m hm⟩⟩
   let e₁ : HstdE.obj (DstdE.obj ((@DerivedCategory.singleFunctor _ _ _ hstdX 0).obj ωX)) ≅

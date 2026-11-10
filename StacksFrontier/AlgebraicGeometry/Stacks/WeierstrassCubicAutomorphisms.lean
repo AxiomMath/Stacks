@@ -62,7 +62,7 @@ theorem smul_basis_eq_eval₂ (W : WeierstrassCurve R) (p q : Polynomial R) :
     p • (1 : W.toAffine.CoordinateRing) + q • WeierstrassCurve.Affine.CoordinateRing.mk W.toAffine
       Polynomial.X =
         p.eval₂ (algebraMap R _) (affX W) + q.eval₂ (algebraMap R _) (affX W) * affY W := by
-  show _ + q • affY W = _
+  change _ + q • affY W = _
   rw [← smul_one_mul q, smul_one_eq_eval₂, smul_one_eq_eval₂]
 
 /-- The coefficients of `r + s x + t y` in `R[x, y]/(f)` are determined by it. -/
@@ -235,7 +235,7 @@ theorem chartYZ_mem_nonZeroDivisors (W : WeierstrassCurve R) :
     refine Finsupp.ext fun i => ?_
     have hi := congrArg (· i) h
     simp only [Finsupp.smul_apply, smul_eq_mul, Finsupp.coe_zero, Pi.zero_apply] at hi
-    exact (mem_nonZeroDivisors_iff_left.mp Polynomial.X_mem_nonzeroDivisors) _ hi
+    exact (mem_nonZeroDivisors_iff_left.mp Polynomial.X_mem_nonZeroDivisors) _ hi
   exact (chartYPowerBasis W).basis.repr.map_eq_zero_iff.mp h0
 
 /-- **An endomorphism of the plane cubic which is the identity on the chart `D₊(z)` and on the
@@ -414,17 +414,17 @@ theorem smul_eq_of_zChartHom (γ : WeierstrassCurve.VariableChange R)
         affineChartHom_algebraMap, zChartHom_algebraMap F hz hF]
     · fin_cases i
       · simp only [RingHom.comp_apply]
-        show zChartHom F hz (affineChartHom W (coordOf W 0)) = _
+        change zChartHom F hz (affineChartHom W (coordOf W 0)) = _
         rw [show affineChartHom W (coordOf W 0) = affX W by simp [affineChartHom, coordLift_mk],
           hx]
         simp [substOf, affineChartHom, coordLift_mk, algebraMap_coordinateRing, affX]
       · simp only [RingHom.comp_apply]
-        show zChartHom F hz (affineChartHom W (coordOf W 1)) = _
+        change zChartHom F hz (affineChartHom W (coordOf W 1)) = _
         rw [show affineChartHom W (coordOf W 1) = affY W by simp [affineChartHom, coordLift_mk],
           hy]
         simp [substOf, affineChartHom, coordLift_mk, algebraMap_coordinateRing, affX, affY]
       · simp only [RingHom.comp_apply]
-        show zChartHom F hz (affineChartHom W (coordOf W 2)) = _
+        change zChartHom F hz (affineChartHom W (coordOf W 2)) = _
         rw [affineChartHom_coordOf_two, map_one]
         simp [substOf, affineChartHom, coordLift_mk]
   have h := congr($hcomp (cubicOf W))
@@ -488,13 +488,13 @@ theorem exists_unique_variableChange (C C' : WeierstrassCurve R)
         (changeChartHom γ C) (changeChartHom_coordOf_two γ C)]
       congr 3
       refine AdjoinRoot.ringHom_ext (Polynomial.ringHom_ext (fun a => ?_) ?_) ?_
-      · show zChartHom F hz (algebraMap R _ a) =
+      · change zChartHom F hz (algebraMap R _ a) =
           chartZLift _ (changeChartHom_coordOf_two γ C) (algebraMap R _ a)
         rw [zChartHom_algebraMap F hz hF, chartZLift_algebraMap _ (changeChartHom_coordOf_two γ C),
           changeChartHom_algebraMap]
-      · show zChartHom F hz (affX C) = chartZLift _ (changeChartHom_coordOf_two γ C) (affX C)
+      · change zChartHom F hz (affX C) = chartZLift _ (changeChartHom_coordOf_two γ C) (affX C)
         rw [hx, chartZLift_affX, changeChartHom_coordOf_zero]
-      · show zChartHom F hz (affY C) = chartZLift _ (changeChartHom_coordOf_two γ C) (affY C)
+      · change zChartHom F hz (affY C) = chartZLift _ (changeChartHom_coordOf_two γ C) (affY C)
         rw [hy, chartZLift_affY, changeChartHom_coordOf_one]
     · rw [hz, zeroOf_changeMap]
   exact ⟨γ, ⟨hγ, hex⟩, fun γ' ⟨h', hα'⟩ => variableChange_unique h' hγ F hz hα' hex⟩

@@ -122,7 +122,7 @@ theorem sectionTransition_strHom {S S' : Scheme.{u}} [IsAffine S] [IsAffine S']
     (ψ : Stacks.AlgebraicGeometry.RelativeProjMapDomain.SheafGradedAlgebraHom (A.pullback g) A')
     (r : Γ(S, ⊤)) :
     sectionTransition ψ (A.strHom ⊤ r) = A'.strHom ⊤ (g.appLE ⊤ ⊤ (top_le_preimage_top g) r) := by
-  show ψ.sectionHom ⊤ (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A
+  change ψ.sectionHom ⊤ (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A
     g (topSite S) (topSite S') (top_le_preimage_top g) (A.strHom ⊤ r)) = _
   rw [sectionBaseChange_strHom]
   exact Stacks.AlgebraicGeometry.ProjBundleSurjection.sectionHom_strHom ψ ⊤ _
@@ -278,8 +278,7 @@ theorem bijective_baseChangeMap (n d : ℕ)
   let E := LinearEquiv.lTensor Γ(Spec (T.R.obj (op n)), ⊤) e
   have key : ∀ t, (T.sectionTower d₀ hd₀).baseChangeMap n d (E t) = G t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (congrArg _ (map_zero E)).trans ((map_zero _).trans (map_zero G).symm)
+    induction t using TensorProduct.inductionOn with
     | tmul r a =>
       have hρ : (T.sectionTower d₀ hd₀).trPiece n d (e a) =
           e' ((ψ.app (d : ℤ)).app ⊤ (Scheme.Modules.pullbackSection g _ ⊤ ⊤
@@ -350,7 +349,7 @@ theorem isAdmissible_sectionTower
           Module.Projective Γ(Spec (T.R.obj (op n)), ⊤) Γ((T.alg d₀ hd₀ n).piece (d : ℤ), ⊤) by
         obtain ⟨h1, h2⟩ := h
         let := (T.alg d₀ hd₀ n).sectionRingAlgebra ⊤
-        show Module.Finite Γ(Spec (T.R.obj (op n)), ⊤) (GradedRing.toSubmodules
+        change Module.Finite Γ(Spec (T.R.obj (op n)), ⊤) (GradedRing.toSubmodules
             ((T.alg d₀ hd₀ n).grading ⊤) ((T.alg d₀ hd₀ n).strHom_mem ⊤) d) ∧
           Module.Projective Γ(Spec (T.R.obj (op n)), ⊤) (GradedRing.toSubmodules
             ((T.alg d₀ hd₀ n).grading ⊤) ((T.alg d₀ hd₀ n).strHom_mem ⊤) d)

@@ -172,7 +172,7 @@ theorem normSpaceMap_pullback_fst_comp_normQuotientMap
     NormalizationGluing.etale_toScheme_map_pr₁ B S hS w pr₁ pr₂ hsq hwet
   have gRR : ∀ η : genericPoints ((BigFppfOver.toScheme B S hS).obj (Limits.pullback j j)),
       (BigFppfOver.toScheme B S hS).map
-          (NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk) η.1 ∈
+          (NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq w' j k hjk) η.1 ∈
         genericPoints ((BigFppfOver.toScheme B S hS).obj R) :=
     mem_genericPoints_of_comp_etale B S hS _ pr₁ fun η => by
       rw [NormalizationGluing.relRefine_comp_pr₁]
@@ -183,10 +183,10 @@ theorem normSpaceMap_pullback_fst_comp_normQuotientMap
           genericPoints ((BigFppfOver.toScheme B S hS).obj V))
       (q : R ⟶ U) (r : normSpace B S hS R hR ⟶ normSpace B S hS U hU),
       r ≫ normSpaceProj B S hS U hU = normSpaceProj B S hS R hR ≫ q →
-      NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk ≫ q = p ≫ k →
+      NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq w' j k hjk ≫ q = p ≫ k →
       normSpaceMap B S hS hV hVV p hp ≫ normSpaceMap B S hS hU hV k hk =
         normSpaceMap B S hS hR hVV
-          (NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk) gRR ≫ r :=
+          (NormalizationGluing.relRefine B S hS w pr₁ pr₂ hsq w' j k hjk) gRR ≫ r :=
     fun p hp q r hr hq => by
     refine normSpace_hom_ext B S hS hU hVV (p ≫ k)
       (mem_genericPoints_toScheme_map_comp B S hS _ k hp hk) ?_ ?_
@@ -196,9 +196,9 @@ theorem normSpaceMap_pullback_fst_comp_normQuotientMap
         hq]
   rw [← Category.assoc, ← Category.assoc, ← Functor.map_comp, ← Functor.map_comp,
     e _ hf _ _ (normRelFst_comp_normSpaceProj B S hS w pr₁ pr₂ hsq hwet hU hR)
-      (NormalizationGluing.relRefine_comp_pr₁ B S hS w pr₁ pr₂ hsq hwet w' j k hjk),
+      (NormalizationGluing.relRefine_comp_pr₁ B S hS w pr₁ pr₂ hsq w' j k hjk),
     e _ hs _ _ (normRelSnd_comp_normSpaceProj B S hS w pr₁ pr₂ hsq hwet hU hR)
-      (NormalizationGluing.relRefine_comp_pr₂ B S hS w pr₁ pr₂ hsq hwet w' j k hjk),
+      (NormalizationGluing.relRefine_comp_pr₂ B S hS w pr₁ pr₂ hsq w' j k hjk),
     Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc,
     (isPullback_normQuotientMap_self B S hS w pr₁ pr₂ hsq hwet hU hR hR₂).w]
 
@@ -318,13 +318,13 @@ theorem isIso_of_isIso_pullback_snd {N M : BigFppfOver B S hS}
   have _ : (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Surjective.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities := ⟨fun Z => by
-    show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
+    change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
     rw [CategoryTheory.Functor.map_id]
     infer_instance⟩
   have _ : (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities := ⟨fun Z => by
-    show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
+    change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
     rw [CategoryTheory.Functor.map_id]
     infer_instance⟩
   have _ : (MorphismProperty.inverseImage

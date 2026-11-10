@@ -189,7 +189,7 @@ theorem det_lmul_mul {R A : Type u}
   rw [show Algebra.lmul R A (a * b) =
       (Algebra.lmul R A b).comp (Algebra.lmul R A a) by
     ext x
-    show a * b * x = b * (a * x)
+    change a * b * x = b * (a * x)
     ring]
   simpa [mul_comm] using
     (ProjectiveDeterminant.det_comp (Algebra.lmul R A a) (Algebra.lmul R A b))
@@ -201,7 +201,7 @@ theorem det_lmul_one {R A : Type u}
     ProjectiveDeterminant.det (Algebra.lmul R A 1) = 1 := by
   have hmul : (Algebra.lmul R A 1 : A →ₗ[R] A) = LinearMap.id := by
     ext x
-    show (1 : A) * x = x
+    change (1 : A) * x = x
     simp
   rw [hmul, det_id]
 
@@ -249,7 +249,7 @@ theorem projectiveNorm_algebraMap_of_rankAtStalk
   have hmul : (Algebra.lmul R A (algebraMap R A r) : A →ₗ[R] A) =
       r • (LinearMap.id : A →ₗ[R] A) := by
     ext x
-    show algebraMap R A r * x = r • x
+    change algebraMap R A r * x = r • x
     simp [Algebra.smul_def]
   rw [projectiveNorm_apply, hmul]
   exact ProjectiveDeterminant.det_smul_id_of_rankAtStalk hRank r
@@ -267,11 +267,10 @@ theorem projectiveNorm_baseChange {B : Type u} [CommRing B] [Algebra R B]
         (Algebra.lmul R B b).baseChange A := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
         simp only [LinearMap.baseChange_tmul]
-        show ((1 : A) ⊗ₜ[R] b) * (a ⊗ₜ[R] x) = a ⊗ₜ[R] (b * x)
+        change ((1 : A) ⊗ₜ[R] b) * (a ⊗ₜ[R] x) = a ⊗ₜ[R] (b * x)
         rw [Algebra.TensorProduct.tmul_mul_tmul]
         simp
     | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -288,7 +287,7 @@ theorem projectiveNorm_algEquiv {B : Type u} [CommRing B] [Algebra R B]
       e.toLinearEquiv.toLinearMap.comp
         ((Algebra.lmul R A a).comp e.toLinearEquiv.symm.toLinearMap) := by
     ext b
-    show e a * b = e (a * e.symm b)
+    change e a * b = e (a * e.symm b)
     rw [map_mul, e.apply_symm_apply]
   rw [projectiveNorm_apply, projectiveNorm_apply, hm]
   exact ProjectiveDeterminant.det_conj e.toLinearEquiv (Algebra.lmul R A a)
@@ -336,9 +335,9 @@ theorem projectiveNorm_eq_zero_of_field_hom
   let μ : K ⊗[R] A →ₐ[K] L :=
     Algebra.TensorProduct.lift (Algebra.ofId K L) k' (fun _ _ => Commute.all _ _)
   have hμ : μ (1 ⊗ₜ[R] a) = 0 := by simp [μ, ha, k']
-  show algebraMap R K (projectiveNorm R a) = 0
+  change algebraMap R K (projectiveNorm R a) = 0
   rw [← projectiveNorm_baseChange (R := R) (A := K), projectiveNorm_eq_norm_of_free]
-  show LinearMap.det (Algebra.lmul K (K ⊗[R] A) (1 ⊗ₜ[R] a)) = 0
+  change LinearMap.det (Algebra.lmul K (K ⊗[R] A) (1 ⊗ₜ[R] a)) = 0
   apply LinearMap.det_eq_zero_iff_ker_ne_bot.mpr
   intro hker
   have hinj := LinearMap.ker_eq_bot.mp hker

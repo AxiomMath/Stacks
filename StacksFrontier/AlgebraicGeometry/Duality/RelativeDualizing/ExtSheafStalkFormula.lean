@@ -134,8 +134,8 @@ theorem isStalkwiseDualExt_extSheafOf (F : X.Modules)
     (hstalk : ∀ (x : X) (i : ℤ),
       Nonempty ((extSheafOf F K i).presheaf.stalk x ≃ₗ[X.presheaf.stalk x]
         Dualizing.moduleExtInto (F.presheaf.stalk x)
-          ((derivedStalkOfComplex x (DerivedCategory.Q.objPreimage K))⟦
-            -associatedShiftFunction K x⟧)
+          ((derivedStalkOfComplex x
+            (DerivedCategory.Q.objPreimage K))⟦-associatedShiftFunction K x⟧)
           (associatedShiftFunction K x - i))) :
     IsStalkwiseDualExt F K (associatedShiftFunction K) (extSheafOf F K) := by
   refine ⟨hK, fun x => ?_⟩

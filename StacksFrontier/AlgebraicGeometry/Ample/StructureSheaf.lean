@@ -133,7 +133,7 @@ theorem mem_nonvanishingLocus_unit_iff
     x ∈ nonvanishingLocus (SheafOfModules.unit (structureSheafRing X)) s ↔
       IsUnit (ringGerm X x ⊤ (Opens.mem_top x) (s.eval (op ⊤))) := by
   rw [← IsLocalRing.notMem_maximalIdeal]
-  show (grpGerm X (SheafOfModules.unit (structureSheafRing X)).val x ⊤ (Opens.mem_top x)
+  change (grpGerm X (SheafOfModules.unit (structureSheafRing X)).val x ⊤ (Opens.mem_top x)
       (s.eval (op ⊤)) ∉ _) ↔ _
   refine not_congr ⟨fun h => ?_, fun h => ?_⟩
   · have h2 := map_mem_smul_top (IsLocalRing.maximalIdeal (ringStalk X x))
@@ -169,7 +169,7 @@ theorem nonvanishingLocus_sectionsMap {L M : SheafOfModules.{u} (structureSheafR
     (e : L ≅ M) (s : L.sections) :
     nonvanishingLocus M (SheafOfModules.sectionsMap e.hom s) = nonvanishingLocus L s := by
   ext x
-  show (grpGerm X M.val x ⊤ (Opens.mem_top x)
+  change (grpGerm X M.val x ⊤ (Opens.mem_top x)
       ((SheafOfModules.sectionsMap e.hom s).eval (op ⊤)) ∉ _) ↔ (_ ∉ _)
   refine not_congr ?_
   rw [show (SheafOfModules.sectionsMap e.hom s).eval (op ⊤)

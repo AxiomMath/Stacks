@@ -103,7 +103,7 @@ theorem isLocallySurjective_freeAlgebraSheafMap (e : E₁ ⟶ E₂)
       rintro V g ⟨s, hs⟩
       refine ⟨(freeAlgebraSheafVariable J A E₁).app (op V) s, ?_⟩
       refine (congrArg (fun k => k.app (op V) s) (freeAlgebraSheafVariable_comp_map J A e)).trans ?_
-      show (freeAlgebraSheafVariable J A E₂).app (op V) (e.app (op V) s) = _
+      change (freeAlgebraSheafVariable J A E₂).app (op V) (e.app (op V) s) = _
       rw [hs, NatTrans.naturality_apply (freeAlgebraSheafVariable J A E₂) g.op t]
       rfl
   exact ⟨fun {U} x => imageSieve_mem_of_locally J f x (Presheaf.imageSieve_mem J η x)

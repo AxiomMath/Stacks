@@ -154,12 +154,12 @@ adjunctions. -/
 theorem homotopyPushforwardComparisonSquare_eq_conjugateEquiv :
     (mateEquiv (homotopyPullbackPushforwardAdjunction g')
           (homotopyPullbackPushforwardAdjunction g)
-          (homotopyBaseChangeSquare g' f' f g sq)).natTrans =
+          (homotopyBaseChangeSquare g' f' f g sq)) =
       conjugateEquiv ((homotopyPullbackPushforwardAdjunction f).comp
           (homotopyPullbackPushforwardAdjunction g'))
         ((homotopyPullbackPushforwardAdjunction g).comp
           (homotopyPullbackPushforwardAdjunction f'))
-        (homotopyPullbackSquare g' f' f g sq).natTrans :=
+        (homotopyPullbackSquare g' f' f g sq) :=
   iterated_mateEquiv_conjugateEquiv (homotopyPullbackPushforwardAdjunction f)
     (homotopyPullbackPushforwardAdjunction f') (homotopyPullbackPushforwardAdjunction g)
     (homotopyPullbackPushforwardAdjunction g') (homotopyPullbackSquare g' f' f g sq)

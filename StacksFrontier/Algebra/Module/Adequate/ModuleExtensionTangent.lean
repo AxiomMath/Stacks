@@ -125,8 +125,7 @@ noncomputable def pairTensorFst (X : AlgebraModulePair.{max u v} A) :
 lemma pairTensorFst_pairTensorInr (X : AlgebraModulePair.{max u v} A)
     (t : TensorProduct A X.module M) :
     pairTensorFst A M X (pairTensorInr A M X t) = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul n m =>
     rw [pairTensorInr, pairTensorFst, LinearMap.rTensor_tmul, LinearMap.rTensor_tmul]
     exact TensorProduct.zero_tmul _ _
@@ -145,8 +144,7 @@ lemma pairTensorInr_pairTensorSnd_add (X : AlgebraModulePair.{max u v} A)
     (x : TensorProduct A (TrivSqZeroExt X.algebra X.module) M) :
     pairTensorInr A M X (pairTensorSnd A M X x) +
       LinearMap.rTensor (M : Type w) (pairInl A X) (pairTensorFst A M X x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero, add_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul y m =>
     rw [pairTensorSnd, pairTensorInr, pairTensorFst, LinearMap.rTensor_tmul,
       LinearMap.rTensor_tmul, LinearMap.rTensor_tmul, LinearMap.rTensor_tmul,
@@ -176,8 +174,7 @@ lemma pairTensorInr_smul (X : AlgebraModulePair.{max u v} A) (b : X.algebra)
     (t : TensorProduct A X.module M) :
     pairTensorInr A M X (b • t) =
       (TrivSqZeroExt.inl b : TrivSqZeroExt X.algebra X.module) • pairTensorInr A M X t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul n m =>
     rw [TensorProduct.smul_tmul', pairTensorInr, LinearMap.rTensor_tmul,
       LinearMap.rTensor_tmul, TensorProduct.smul_tmul']
@@ -254,7 +251,7 @@ theorem hasRightExactTangentFunctor_moduleExtension :
     exact hy
   obtain ⟨s, hs⟩ := (hrexact t).mp hzero
   refine ⟨moduleExtensionTangentEquiv A M (fixed.obj S.X₁) s, ?_⟩
-  show ConcreteCategory.hom ((tangentFunctorAt A F B).map S.f) _ = y
+  change ConcreteCategory.hom ((tangentFunctorAt A F B).map S.f) _ = y
   rw [key S.f s, hs, ht]
 
 /-- The extension-of-scalars functor `B ↦ B ⊗[A] M`, packaged as a right exact tangent

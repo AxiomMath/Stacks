@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.Derived
-public import
-StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.ModuleCoefficientUniverse
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.ModuleCoefficientUniverse
 public import StacksFrontier.Algebra.Homology.DerivedCategory.CompositionComparisonCoherence
 public import StacksFrontier.Algebra.Homology.DerivedCategory.BoundedBelowTransformationDevissage
 public import StacksFrontier.Algebra.Homology.DerivedCategory.BaseChangeBoundedBelow
@@ -158,8 +157,9 @@ lemma isIso_rightDerivedFunctorPlusComp_app_single_univ (M : EtaleModules.{u, r}
   let Xs := (HomotopyCategory.Plus.singleFunctor (EtaleModules.{u, r} Λ X) 0).obj M
   have hF : IsIso (F.rightDerivedFunctorPlusUnith.app Xs) :=
     (rightAcyclic_iff_isIso_unith_app_derivedCoefUniv F M).1 (rightAcyclic_of_exact F M)
-  have hK : IsIso ((etaleModuleExtensionByZero.{u, r} Λ k.immersion).rightDerivedFunctorPlusUnith.app
-      Xs) := (rightAcyclic_iff_isIso_unith_app_derivedCoefUniv _ M).1 (rightAcyclic_of_exact _ M)
+  have hK : IsIso
+      ((etaleModuleExtensionByZero.{u, r} Λ k.immersion).rightDerivedFunctorPlusUnith.app Xs) :=
+    (rightAcyclic_iff_isIso_unith_app_derivedCoefUniv _ M).1 (rightAcyclic_of_exact _ M)
   have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Xs) := by
     have w := rightDerivedFunctorPlusNatIso_hom_fac_app (refinementIsoUniv Λ g) Xs
     exact IsIso.of_isIso_fac_left w.symm

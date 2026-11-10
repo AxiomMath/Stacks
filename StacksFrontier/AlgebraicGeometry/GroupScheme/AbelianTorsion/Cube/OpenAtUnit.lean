@@ -54,7 +54,7 @@ theorem mem_range_truncationBase_ker {R : Type u} [CommRing R]
     refine Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective ?_
     rw [Ideal.mk_ker, pow_one]
   · apply PrimeSpectrum.ext
-    show Ideal.comap (Ideal.Quotient.mk _) (Ideal.map (Ideal.Quotient.mk _) _) =
+    change Ideal.comap (Ideal.Quotient.mk _) (Ideal.map (Ideal.Quotient.mk _) _) =
       Ideal.comap φ₀.hom (IsLocalRing.maximalIdeal k)
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
       IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
@@ -80,7 +80,7 @@ theorem openAtUnitStatement : OpenAtUnitStatement A := by
     rintro _ ⟨y, rfl⟩
     have hy : y = IsLocalRing.closedPoint k := Subsingleton.elim (α := PrimeSpectrum k) _ _
     subst hy
-    show _ ∈ Set.range hU.fromSpec.base
+    change _ ∈ Set.range hU.fromSpec.base
     rwa [hU.range_fromSpec]
   let e' : Spec (.of k) ⟶ Spec (.of Γ(A.left, U)) := IsOpenImmersion.lift σ e hrange
   have he' : e' ≫ σ = unitPt A := IsOpenImmersion.lift_fac σ e hrange
@@ -139,7 +139,7 @@ theorem openAtUnitStatement : OpenAtUnitStatement A := by
       (Stacks.Coherent.baseSectionHom _ ((faces i).j ≫ f) U.1).Flat ∧
         Module.Flat Γ((faces i).F, U.1) Γ((faces i).G', U.1) := fun i U => by
     have : Flat ((faces i).j ≫ f) := by
-      show Flat (j i ≫ f)
+      change Flat (j i ≫ f)
       rw [cubeFace_base]
       infer_instance
     exact ⟨flat_baseSectionHom _ U, flat_sections_of_isInvertible
@@ -160,7 +160,7 @@ theorem openAtUnitStatement : OpenAtUnitStatement A := by
       (α.hom.app ⊤ t₀) := by
     intro y
     have h1 : α.hom.app ⊤ t₀ = τ.inv.app ⊤ (1 : Γ((A ⊗ A).left, ⊤)) := by
-      show (α.inv ≫ α.hom).app ⊤ _ = _
+      change (α.inv ≫ α.hom).app ⊤ _ = _
       rw [Iso.inv_hom_id]
       rfl
     have h2 := Stacks.Ample.nonvanishingLocus_congr τ.symm
@@ -177,7 +177,7 @@ theorem openAtUnitStatement : OpenAtUnitStatement A := by
     exact mem_range_truncationBase_ker φ₀
   obtain ⟨U', hxU', htriv⟩ := exists_isTrivial_of_lifts f m NP s hsker t₀ ht₀ hlift x hx
   refine ⟨σ ''ᵁ U', ⟨x, hxU', ?_⟩, isTrivial_pullback_fst_image (cubeProj₃ A).left σ N U' ?_⟩
-  · show (e' ≫ σ).base _ = _
+  · change (e' ≫ σ).base _ = _
     rw [he']
   · exact nonempty_modulePullback_comp_iso_unit ρ N (pullback.fst f U'.ι) htriv
 

@@ -100,7 +100,7 @@ differential. -/
 lemma cochainMap_cechD (a : F ⟶ G) (p : ℕ) (s : Cochain U F p) :
     cochainMap U a (p + 1) (cechD U F p s) = cechD U G p (cochainMap U a p s) := by
   funext i
-  show a.app (op (inter U i)) (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change a.app (op (inter U i)) (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
       restr F (inter_le_omit U i j) (s (i ∘ j.succAbove))) =
     ∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
       restr G (inter_le_omit U i j) (a.app _ (s (i ∘ j.succAbove)))
@@ -113,9 +113,9 @@ condition. -/
 lemma cochainMap_isAlternating (a : F ⟶ G) (p : ℕ) {s : Cochain U F p}
     (hs : IsAlternating U F s) : IsAlternating U G (cochainMap U a p s) := by
   refine ⟨fun i hi ↦ ?_, fun i j k hjk ↦ ?_⟩
-  · show a.app (op (inter U i)) (s i) = 0
+  · change a.app (op (inter U i)) (s i) = 0
     rw [hs.1 i hi, map_zero]
-  · show a.app (op (inter U (i ∘ Equiv.swap j k))) (s (i ∘ Equiv.swap j k)) = _
+  · change a.app (op (inter U (i ∘ Equiv.swap j k))) (s (i ∘ Equiv.swap j k)) = _
     rw [hs.2 i j k hjk, map_neg]
     congr 1
     exact ConcreteCategory.congr_hom (a.naturality _) (s i)

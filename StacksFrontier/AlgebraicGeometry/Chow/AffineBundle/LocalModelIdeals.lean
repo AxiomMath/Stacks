@@ -101,8 +101,8 @@ theorem coord_zero_mul_basis (n : ℤ) :
     show n.toNat + 1 - (-n).toNat = (n + 1).toNat from by omega,
     show (-n).toNat - (n.toNat + 1) = (-(n + 1)).toNat from by omega]
   rcases le_or_gt 0 n with h | h
-  · rw [if_pos h, show min (n.toNat + 1) ((-n).toNat) = 0 from by omega, pow_zero]
-  · rw [if_neg (not_le.mpr h), show min (n.toNat + 1) ((-n).toNat) = 1 from by omega, pow_one]
+  · rw [ite_eq_left h, show min (n.toNat + 1) ((-n).toNat) = 0 from by omega, pow_zero]
+  · rw [ite_eq_right (not_le.mpr h), show min (n.toNat + 1) ((-n).toNat) = 1 from by omega, pow_one]
 
 /-- **Multiplication by the second coordinate shifts the basis down by one**, picking up a factor
 `f` exactly on the positive indices. -/
@@ -115,8 +115,8 @@ theorem coord_one_mul_basis (n : ℤ) :
     show n.toNat - ((-n).toNat + 1) = (n - 1).toNat from by omega,
     show (-n).toNat + 1 - n.toNat = (-(n - 1)).toNat from by omega]
   rcases le_or_gt n 0 with h | h
-  · rw [if_pos h, show min (n.toNat) ((-n).toNat + 1) = 0 from by omega, pow_zero]
-  · rw [if_neg (not_le.mpr h), show min (n.toNat) ((-n).toNat + 1) = 1 from by omega, pow_one]
+  · rw [ite_eq_left h, show min (n.toNat) ((-n).toNat + 1) = 0 from by omega, pow_zero]
+  · rw [ite_eq_right (not_le.mpr h), show min (n.toNat) ((-n).toNat + 1) = 1 from by omega, pow_one]
 
 /-- A coefficient of `z * x` is `c` times a coefficient of `x` once this holds on the basis. -/
 private theorem coeff_mul_of_basis (z : LocalModel B f) (n s : ℤ) (c : B)
@@ -135,11 +135,11 @@ theorem coeff_coord_zero_mul (n : ℤ) (x : LocalModel B f) :
   rw [coord_zero_mul_basis, map_smul, coeff_basis, coeff_basis, smul_eq_mul]
   by_cases hm : n = m + 1
   · subst hm
-    rw [if_pos rfl, if_pos (show m + 1 - 1 = m from by omega), mul_one, mul_one]
+    rw [ite_eq_left rfl, ite_eq_left (show m + 1 - 1 = m from by omega), mul_one, mul_one]
     rcases le_or_gt 0 m with h | h
-    · rw [if_pos h, if_pos (show (0 : ℤ) < m + 1 from by omega)]
-    · rw [if_neg (not_le.mpr h), if_neg (show ¬ (0 : ℤ) < m + 1 from by omega)]
-  · rw [if_neg hm, if_neg (show ¬ n - 1 = m from by omega), mul_zero, mul_zero]
+    · rw [ite_eq_left h, ite_eq_left (show (0 : ℤ) < m + 1 from by omega)]
+    · rw [ite_eq_right (not_le.mpr h), ite_eq_right (show ¬ (0 : ℤ) < m + 1 from by omega)]
+  · rw [ite_eq_right hm, ite_eq_right (show ¬ n - 1 = m from by omega), mul_zero, mul_zero]
 
 /-- **The coefficients of `z₂x`**: the coefficient of index `n` is the coefficient of index
 `n + 1` of `x`, times `f` when `n ≥ 0`. -/
@@ -149,11 +149,11 @@ theorem coeff_coord_one_mul (n : ℤ) (x : LocalModel B f) :
   rw [coord_one_mul_basis, map_smul, coeff_basis, coeff_basis, smul_eq_mul]
   by_cases hm : n = m - 1
   · subst hm
-    rw [if_pos rfl, if_pos (show m - 1 + 1 = m from by omega), mul_one, mul_one]
+    rw [ite_eq_left rfl, ite_eq_left (show m - 1 + 1 = m from by omega), mul_one, mul_one]
     rcases le_or_gt m 0 with h | h
-    · rw [if_pos h, if_pos (show m - 1 < (0 : ℤ) from by omega)]
-    · rw [if_neg (not_le.mpr h), if_neg (show ¬ m - 1 < (0 : ℤ) from by omega)]
-  · rw [if_neg hm, if_neg (show ¬ n + 1 = m from by omega), mul_zero, mul_zero]
+    · rw [ite_eq_left h, ite_eq_left (show m - 1 < (0 : ℤ) from by omega)]
+    · rw [ite_eq_right (not_le.mpr h), ite_eq_right (show ¬ m - 1 < (0 : ℤ) from by omega)]
+  · rw [ite_eq_right hm, ite_eq_right (show ¬ n + 1 = m from by omega), mul_zero, mul_zero]
 
 /-- The coefficient of index `n` of `a` is the value at `n` of the shifted preimage. -/
 private theorem coeff_mapDomain_of_eq (g : ℤ → ℤ) (hg : Function.Injective g) (a : LocalModel B f)
@@ -186,16 +186,16 @@ theorem span_coord_zero_inf_span_coord_one :
         coeff_mapDomain_of_eq B f _ (sub_left_injective (b := 1)) b (m := n + 1) (by simp),
         coeff_mapDomain_of_eq B f _ (add_left_injective 1) a (m := n - 1) (by simp)]
       by_cases hn : 0 < n
-      · rw [if_pos hn, if_neg (not_not_intro hn), if_pos hn, add_zero]
-      · rw [if_neg hn, if_pos hn, if_neg hn, zero_add]
+      · rw [ite_eq_left hn, ite_eq_right (not_not_intro hn), ite_eq_left hn, add_zero]
+      · rw [ite_eq_right hn, ite_eq_left hn, ite_eq_right hn, zero_add]
     refine Ideal.mem_span_singleton'.mpr ⟨y, ?_⟩
     refine (equivFinsupp B f).symm.injective ?_
     ext n
     rw [← coeff_apply, ← coeff_apply, coord_zero_mul_coord_one, mul_comm,
       ← Algebra.smul_def, map_smul, smul_eq_mul, hcoeff]
     by_cases hn : 0 < n
-    · rw [if_pos hn, ← hb, coeff_coord_one_mul, if_neg (by omega : ¬ n < (0 : ℤ))]
-    · rw [if_neg hn, ← ha, coeff_coord_zero_mul, if_neg hn]
+    · rw [ite_eq_left hn, ← hb, coeff_coord_one_mul, ite_eq_right (by omega : ¬ n < (0 : ℤ))]
+    · rw [ite_eq_right hn, ← ha, coeff_coord_zero_mul, ite_eq_right hn]
   · rw [Ideal.span_le, Set.singleton_subset_iff]
     exact ⟨Ideal.mem_span_singleton'.mpr ⟨coord B f 1, by ring⟩,
       Ideal.mem_span_singleton'.mpr ⟨coord B f 0, by ring⟩⟩

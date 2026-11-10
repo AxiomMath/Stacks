@@ -56,7 +56,7 @@ end Localization
 
 section DirectSum
 
-variable {R : Type*} [CommRing R] {ι : Type*} [DecidableEq ι] [Fintype ι]
+variable {R : Type*} [CommRing R] {ι : Type*} [Finite ι]
   {X : ι → Type*} [∀ i, AddCommGroup (X i)] [∀ i, Module R (X i)]
 
 /-- Membership in `J` times the whole of a finite direct sum is a componentwise condition. -/
@@ -66,7 +66,9 @@ theorem mem_smul_top_directSum (J : Ideal R) (x : DirectSum ι X) :
   refine ⟨fun hx t => ?_, fun hx => ?_⟩
   · exact Submodule.mem_comap.1
       (Submodule.smul_top_le_comap_smul_top J (DirectSum.component R ι X t) hx)
-  · rw [← DirectSum.sum_univ_of x]
+  · classical
+    have := Fintype.ofFinite ι
+    rw [← DirectSum.sum_univ_of x]
     refine Submodule.sum_mem _ fun t _ => ?_
     exact Submodule.mem_comap.1
       (Submodule.smul_top_le_comap_smul_top J (DirectSum.lof R ι X t) (hx t))
@@ -104,7 +106,7 @@ theorem ker_cechModMap_mkQ (M : ModuleCat.{max u v} R) (J : Ideal R) (s : Finset
     induction x using LocalizedModule.induction_on with
     | h m b =>
       have h0 : (ModuleCat.ofHom (Submodule.mkQ (J • (⊤ : Submodule R M)))) (a • m) = 0 := by
-        show Submodule.mkQ (J • (⊤ : Submodule R M)) (a • m) = 0
+        change Submodule.mkQ (J • (⊤ : Submodule R M)) (a • m) = 0
         rw [← LinearMap.mem_ker, Submodule.ker_mkQ]
         exact Submodule.smul_mem_smul ha Submodule.mem_top
       rw [LocalizedModule.smul'_mk, cechModMap_mk, h0, LocalizedModule.zero_mk]

@@ -110,7 +110,7 @@ theorem isHomLift_fiberPointHom {V U : BigFppfOver B S hS}
     (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)).IsHomLift ε
       (fiberPointHom x (Over.mk ε)) :=
   CategoryTheory.IsHomLift.of_fac' _ ε (fiberPointHom x (Over.mk ε)) rfl x.2 (by
-    show (Over.mk ε).hom ≫ eqToHom x.2.symm = eqToHom rfl ≫ ε ≫ eqToHom x.2.symm
+    change (Over.mk ε).hom ≫ eqToHom x.2.symm = eqToHom rfl ≫ ε ≫ eqToHom x.2.symm
     simp)
 
 /-- The morphism of `ℋ_d` out of the base change of `x` along `ε` is cartesian over `ε`. -/

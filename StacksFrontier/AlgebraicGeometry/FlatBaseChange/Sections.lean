@@ -133,7 +133,7 @@ theorem module_finite_baseModule_iff {R : CommRingCat.{u}} (V : (Spec R).Opens)
       ee (r • x) = (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv r • ee x := by
     intro r x
     rw [Algebra.smul_def]
-    show V.topIso.hom.hom (e1 ((V.ι.appLE ⊤ ⊤ (le_preimage_top V.ι ⊤)).hom r • x)) =
+    change V.topIso.hom.hom (e1 ((V.ι.appLE ⊤ ⊤ (le_preimage_top V.ι ⊤)).hom r • x)) =
       algebraMap (ToType R) Γ(Spec R, V) ((Scheme.ΓSpecIso R).hom.hom r) *
         V.topIso.hom.hom (e1 x)
     rw [map_smul, smul_eq_mul, map_mul, topIso_hom_appLE_top_apply]

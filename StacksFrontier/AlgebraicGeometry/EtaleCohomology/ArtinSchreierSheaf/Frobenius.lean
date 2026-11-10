@@ -72,7 +72,7 @@ public theorem smul_eq_of_arithmeticFrobenius [ConnectedSpace (Spec (.of A))]
   have hk : ∀ a : k, algebraMap k (AlgebraicClosure ((Spec (.of A)).residueField y)) a =
       algebraMap ((Spec (.of A)).residueField y) (AlgebraicClosure ((Spec (.of A)).residueField y))
         (algebraMap k ((Spec (.of A)).residueField y) a) := fun a => by
-    show (fiberRingHom p).hom (algebraMap k (Ring k g) a) = _
+    change (fiberRingHom p).hom (algebraMap k (Ring k g) a) = _
     rw [IsScalarTower.algebraMap_apply k A (Ring k g), fiberRingHom_algebraMap_geometricPointAt]
     rfl
   have hσp : fiberRingHom (σ • p) = fiberRingHom p ≫
@@ -87,12 +87,12 @@ public theorem smul_eq_of_arithmeticFrobenius [ConnectedSpace (Spec (.of A))]
   refine AdjoinRoot.ringHom_ext ?_ ?_
   · ext x
     exact (fiberRingHom_algebraMap _ p x).trans (fiberRingHom_algebraMap p _ x)
-  · show fiberRoot _ = fiberRoot _
+  · change fiberRoot _ = fiberRoot _
     rw [fiberRoot, hσp, fiberRoot, fiberRingHom_map_coverTranslate]
-    show (residueGeometricFrobenius _ y).symm (fiberRoot p) =
+    change (residueGeometricFrobenius _ y).symm (fiberRoot p) =
       (fiberRingHom p).hom (translate k g _ (AdjoinRoot.root (poly k g)))
     rw [residueGeometricFrobenius_symm_apply, translate_root, map_add]
-    show fiberRoot p ^ Nat.card ((Spec (.of A)).residueField y) =
+    change fiberRoot p ^ Nat.card ((Spec (.of A)).residueField y) =
       fiberRoot p + algebraMap k (AlgebraicClosure ((Spec (.of A)).residueField y)) _
     rw [Module.natCard_eq_pow_finrank (K := k), Nat.card_eq_fintype_card,
       pow_card_pow_of_pow_card_eq k (fiberRoot_pow_card p), hk,

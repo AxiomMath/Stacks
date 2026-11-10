@@ -59,7 +59,8 @@ closed immersion into `𝒳` carrying its point to `x`, so **Stacks 0DRY**
 
 The reverse inequality is the source's equation **Stacks 0DS0**, and Stacks 0DRZ itself is
 `AlgebraicGeometry.Stack.dimensionAtPoint_eq_sSup_irreducibleComponents` in
-`StacksFrontier/AlgebraicGeometry/Stacks/DimensionIrreducibleComponentsSupremum.lean`, which combines
+`StacksFrontier/AlgebraicGeometry/Stacks/DimensionIrreducibleComponentsSupremum.lean`, which
+combines
 the inequality above with `AlgebraicGeometry.Stack.mem_componentDimensionsAt_of_isSmooth_chart`.
 
 ## References

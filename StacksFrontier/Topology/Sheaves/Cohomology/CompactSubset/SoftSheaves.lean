@@ -83,8 +83,8 @@ instance, is imported **privately**: it must not be re-exported. Everything down
 reaches it otherwise, and `Stacks.SheafOfModules.coefficientSheafification` then competes with the
 pinned sheafification instances in parts of the library that fix their universes by unification —
 `StacksFrontier/AlgebraicGeometry/Curves/VanishingResults/GlobalSectionsGeneration.lean` is one, and
-`StacksFrontier/AlgebraicGeometry/Thickenings/SquareZeroExtension.lean` already disables the instance
-by hand for the same reason.
+`StacksFrontier/AlgebraicGeometry/Thickenings/SquareZeroExtension.lean` already disables the
+instance by hand for the same reason.
 
 Two steps are not available in the pinned spelling Mathlib offers them in, because
 `TopCat.Sheaf.isLocallySurjective_iff_epi`, `TopCat.Presheaf.isLocallySurjective_iff` and

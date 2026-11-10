@@ -45,7 +45,7 @@ theorem C1573.openComplementOfClosedSubspace_val (X : AlgebraicSpaces B S hS)
     B S hS X Z) (a₂ := ⟨openComplement B S hS Z.1,
       isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2⟩) (by
     refine TopologicalSpace.Opens.ext ?_
-    show subspacePointSet B S hS X.1 (openComplementOfClosedSubspace B S hS X Z).1 =
+    change subspacePointSet B S hS X.1 (openComplementOfClosedSubspace B S hS X Z).1 =
       Set.range (pointsMap B S hS (openComplement B S hS Z.1).toFunctor
         (openComplement B S hS Z.1).ι)
     rw [subspacePointSet_openComplement, range_pointsMap_ι_openComplement])
@@ -65,14 +65,14 @@ theorem C1573.isIso_fromPreimage_iso_comp {X' X'' X : (BigFppfOver B S hS)ᵒᵖ
   let k' : (V.preimage g).toFunctor ⟶ (V.preimage (φ ≫ g)).toFunctor :=
     Subfunctor.lift ((V.preimage g).ι ≫ inv φ) (by
       rintro U _ ⟨x, rfl⟩
-      show (inv φ ≫ φ ≫ g).app U x.1 ∈ V.obj U
+      change (inv φ ≫ φ ≫ g).app U x.1 ∈ V.obj U
       rw [IsIso.inv_hom_id_assoc]
       exact x.2)
   have hk : IsIso k := by
     refine ⟨⟨k', ?_, ?_⟩⟩ <;> ext U x <;> refine Subtype.ext ?_
-    · show (φ ≫ inv φ).app U x.1 = x.1
+    · change (φ ≫ inv φ).app U x.1 = x.1
       simp
-    · show (inv φ ≫ φ).app U x.1 = x.1
+    · change (inv φ ≫ φ).app U x.1 = x.1
       simp
   have hfac : V.fromPreimage (φ ≫ g) = k ≫ V.fromPreimage g := by
     ext U x

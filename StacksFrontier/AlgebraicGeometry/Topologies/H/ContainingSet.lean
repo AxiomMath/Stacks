@@ -57,7 +57,7 @@ private theorem isHCovering_map_pushforward_eqToHom {κ : Cardinal.{u}}
   obtain rfl : U = T := e
   change IsHCovering (E.map (schemeBelowInclusion κ)).X (E.map (schemeBelowInclusion κ)).f at hc
   exact hc.of_iso (fun _ ↦ Iso.refl _) (fun i ↦ by
-    show 𝟙 _ ≫ (schemeBelowInclusion κ).map (E.f i) =
+    change 𝟙 _ ≫ (schemeBelowInclusion κ).map (E.f i) =
       (schemeBelowInclusion κ).map (E.f i ≫ 𝟙 U)
     simp)
 

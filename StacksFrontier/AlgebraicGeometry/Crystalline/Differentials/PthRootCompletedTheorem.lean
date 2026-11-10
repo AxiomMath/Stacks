@@ -483,8 +483,7 @@ end Target
 section SquareZero
 
 variable (A : Type u) [CommRing A] (B : DividedPowerRing.{u}) [Algebra A (B : Type u)] (p : ℕ)
-  (lam : (B : Type u)) (hp : p ≠ 0) [Nontrivial (XiAlg B)] [Fact p.Prime]
-  [Algebra (IntegersAtPrime p) (B : Type u)] (M : Type u) [AddCommGroup M] [Module (B : Type u) M]
+  (lam : (B : Type u)) (hp : p ≠ 0) (M : Type u) [AddCommGroup M] [Module (B : Type u) M]
   (nabla : CompletedConnection p (B : Type u) (completedDividedPowerForms p A B.dividedPowers 1)
     (completedDividedPowerDifferentialOnRing p A B.dividedPowers) M)
   (hint : IsCompletedIntegrable p A (B : Type u) B.dividedPowers M nabla)
@@ -577,6 +576,7 @@ variable [Fact p.Prime] [Algebra (IntegersAtPrime p) A] [Nontrivial (XiAlg B)]
   [Algebra (IntegersAtPrime p) (B : Type u)]
   (hint : IsCompletedIntegrable p A (B : Type u) B.dividedPowers M nabla)
 
+omit [Nontrivial (XiAlg B)] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The transfer `M ⊗̂_{B'} Ω^•_{B'} ≅ M ⊗̂_B Ω^•_{D'}` commutes with the differentials. -/
 theorem genuineTransferEquiv_differential (q : ℕ) (y : primeCompletedTerm A B p lam hp M q) :
     genuineCompletedDifferential A B p lam hp hpnil M nabla q
@@ -585,6 +585,7 @@ theorem genuineTransferEquiv_differential (q : ℕ) (y : primeCompletedTerm A B 
         (primeCompletedDifferential A B p lam hp M nabla q y) :=
   genuineTransfer_differential A B p lam hp hpnil M nabla q y
 
+omit [Nontrivial (XiAlg B)] [Algebra (IntegersAtPrime p) (B : Type u)] in
 include hint in
 /-- **The target complex `M ⊗̂_B Ω^•_{D'}` is a complex.** -/
 theorem isSquareZero_genuineCompleted :
@@ -600,6 +601,7 @@ theorem isSquareZero_genuineCompleted :
     (genuineTransferEquiv_differential A B p lam hp hpnil M nabla)
     (isSquareZero_primeCompleted A B p lam hp M nabla hint)
 
+omit [Nontrivial (XiAlg B)] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The transfer carries the comparison map along `B → B'` to the one along `B → D'`. -/
 theorem genuineTransferEquiv_symm_comparison (q : ℕ) (x : baseCompletedTerm A B p M q) :
     (genuineTransferEquiv A B p lam hp hpnil M q).symm
@@ -678,6 +680,7 @@ theorem genuineHomotopy_succ (q : ℕ) (y : genuineCompletedTerm A B p lam hp hp
     (completedHomotopy_succ A B p lam hp M nabla hint S S') q y).trans
     (congrArg (p • y - ·) (genuineTransfer_comparison A B p lam hp hpnil M (q + 1) _))
 
+omit [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The homotopy vanishes on the image of `c_M^•`. -/
 theorem genuineHomotopy_comparison (q : ℕ) (x : baseCompletedTerm A B p M (q + 1)) :
     genuineHomotopy A B p lam hp hpnil M q

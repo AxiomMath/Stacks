@@ -75,20 +75,20 @@ theorem map_op_eq {V W : Opens X} (i j : V ⟶ W) : F.map i.op = F.map j.op := b
 /-- Restricting from `V` to `W` and then to `Z` is restricting from `V` to `Z`. -/
 theorem restrict_restrict {V W Z : Opens X} (h₁ : W ≤ V) (h₂ : Z ≤ W) (x : F.obj (op V)) :
     restrict F h₂ (restrict F h₁ x) = restrict F (h₂.trans h₁) x := by
-  show (F.map (homOfLE h₁).op ≫ F.map (homOfLE h₂).op).hom x = _
+  change (F.map (homOfLE h₁).op ≫ F.map (homOfLE h₂).op).hom x = _
   rw [← F.map_comp, ← op_comp]
   rfl
 
 /-- Restricting a section of `F` over `V` to `V` itself is the identity. -/
 theorem restrict_self {V : Opens X} (h : V ≤ V) (x : F.obj (op V)) : restrict F h x = x := by
-  show (F.map (homOfLE h).op).hom x = x
+  change (F.map (homOfLE h).op).hom x = x
   rw [map_op_eq F (homOfLE h) (𝟙 V), op_id, F.map_id, ModuleCat.id_apply]
 
 /-- Restricting the face map `cres U F φ t x` to `V ≤ U_t` is restricting `x` to `V`. -/
 theorem restrict_cres {m n : ℕ} (φ : Fin m → Fin n) (t : Fin n → ι) {V : Opens X}
     (h : V ≤ inter U t) (x : F.obj (op (inter U (t ∘ φ)))) :
     restrict F h (cres U F φ t x) = restrict F (h.trans (leOfHom (interMap U t φ))) x := by
-  show (F.map (interMap U t φ).op ≫ F.map (homOfLE h).op).hom x = _
+  change (F.map (interMap U t φ).op ≫ F.map (homOfLE h).op).hom x = _
   rw [← F.map_comp, ← op_comp]
   exact congrArg (fun g : V ⟶ inter U (t ∘ φ) => (F.map g.op).hom x) (Subsingleton.elim _ _)
 
@@ -362,7 +362,7 @@ theorem kFlat_cechTot [Finite ι] {R : Type w} [CommRing R]
   · intro n hn
     refine ModuleCat.hom_ext (LinearMap.ext fun (x : TotX U P n) => ?_)
     funext ⟨⟨p, a⟩, hpa⟩
-    show CochainSorting.sort U (P.X a) p (x ⟨(p, a), hpa⟩) = 0
+    change CochainSorting.sort U (P.X a) p (x ⟨(p, a), hpa⟩) = 0
     by_cases hp : Nat.card ι ≤ p
     · exact CochainSorting.sort_eq_zero U _ p hp _
     · exact funext fun t => (hb a (by omega) t).allEq _ _

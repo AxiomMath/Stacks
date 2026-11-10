@@ -201,7 +201,7 @@ theorem surjective_towerSectionsMap_of_proZero (hker : IsProZeroKer dx ψ)
   have hval (n : ℕ) : ψ n (towerMapLE X dx (hthr n) (pre (thr n))) = y.1 n :=
     map_towerMapLE_eq dx dy ψ hψ y (hthr n) _ (hpreψ _)
   refine ⟨⟨fun n ↦ towerMapLE X dx (hthr n) (pre (thr n)), fun n ↦ ?_⟩, ?_⟩
-  · show dx n (towerMapLE X dx (hthr (n + 1)) (pre (thr (n + 1)))) =
+  · change dx n (towerMapLE X dx (hthr (n + 1)) (pre (thr (n + 1)))) =
       towerMapLE X dx (hthr n) (pre (thr n))
     have hnM : thr n ≤ max (thr n) (thr (n + 1)) := le_max_left _ _
     have hsM : thr (n + 1) ≤ max (thr n) (thr (n + 1)) := le_max_right _ _

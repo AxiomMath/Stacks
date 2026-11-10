@@ -52,7 +52,7 @@ theorem IsLocallyProjectiveSpace.smoothOfRelativeDimension {H P : Scheme.{u}} {f
   have hrel := hbundle.relativeDimension
   refine Stacks.Smooth.smoothOfRelativeDimension_of_fiberDimensionAt_eq f m fun x => ?_
   have hFT : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-    show LocallyOfFiniteType (pullback.snd f (P.fromSpecResidueField (f x)))
+    change LocallyOfFiniteType (pullback.snd f (P.fromSpecResidueField (f x)))
     infer_instance
   obtain ⟨heq, hdim⟩ := hrel (f x) ⟨f.asFiber x⟩
   exact AlgebraicGeometry.topologicalKrullDimAt_eq_of_equidimensional (P.residueField (f x))

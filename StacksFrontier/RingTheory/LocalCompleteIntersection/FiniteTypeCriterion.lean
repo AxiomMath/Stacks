@@ -68,7 +68,7 @@ private theorem polynomial_atPrime_goodFactorization
   let Q : Ideal P := q.comap π
   let hAQ : p = Q.comap (algebraMap A P) := by
     ext a
-    show f a ∈ q ↔ π (algebraMap A P a) ∈ q
+    change f a ∈ q ↔ π (algebraMap A P a) ∈ q
     rw [← DFunLike.congr_fun hπbase a]
     simp only [RingHom.comp_apply, P]
   let h : Localization.AtPrime p →+* Localization.AtPrime q :=
@@ -89,7 +89,7 @@ private theorem polynomial_atPrime_goodFactorization
     obtain ⟨x, rfl⟩ := hπ b
     obtain ⟨t, ht⟩ := hπ s.1
     have htQ : t ∉ Q := by
-      show π t ∉ q
+      change π t ∉ q
       rw [ht]
       exact s.2
     refine ⟨IsLocalization.mk' (Localization.AtPrime Q) x
@@ -130,7 +130,7 @@ private theorem kernel_localized_polynomial_presentation
     ext x
     obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective Q.primeCompl x
     simp [g', g'', Localization.localRingHom_mk', IsLocalization.map_mk']
-  show RingHom.ker g' =
+  change RingHom.ker g' =
     (RingHom.ker π).map (algebraMap P (Localization.AtPrime Q))
   rw [heq]
   exact IsLocalization.ker_map (Q := Localization.AtPrime q) π hcompl
@@ -206,7 +206,7 @@ private theorem regular_sequence_localize_away_of_atPrime_mul
     intro m
     obtain ⟨r, ⟨k, rfl⟩, hr⟩ := hsub m
     refine ⟨g ^ k, ⟨k, rfl⟩, ?_⟩
-    show g ^ k • m = 0
+    change g ^ k • m = 0
     rw [show g = g₀ * a by simp [g, mul_comm], mul_pow, mul_smul,
       smul_comm (g₀ ^ k) (a ^ k) m, hr, smul_zero]
   have htop :
@@ -478,7 +478,7 @@ public theorem isLocalCompleteIntersection_iff_forall_isCompleteIntersectionHom
     let h := Localization.localRingHom p q f rfl
     let f' := Localization.localRingHom p Q (algebraMap A P) (by
       ext a
-      show f a ∈ q ↔ π (algebraMap A P a) ∈ q
+      change f a ∈ q ↔ π (algebraMap A P a) ∈ q
       rw [← DFunLike.congr_fun hbase a]
       rfl)
     let g' := Localization.localRingHom Q q π.toRingHom rfl
@@ -506,7 +506,7 @@ public theorem isLocalCompleteIntersection_iff_forall_isCompleteIntersectionHom
       let h := Localization.localRingHom p q f rfl
       let f' := Localization.localRingHom p Q (algebraMap A P) (by
         ext a
-        show f a ∈ q ↔ π (algebraMap A P a) ∈ q
+        change f a ∈ q ↔ π (algebraMap A P a) ∈ q
         rw [← DFunLike.congr_fun hbase a]
         rfl)
       let g' := Localization.localRingHom Q q π.toRingHom rfl

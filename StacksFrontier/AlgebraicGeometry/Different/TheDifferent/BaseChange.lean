@@ -150,7 +150,7 @@ theorem cokerSpanIdeal_traceElement_baseChange (F : FiniteOpenFactorization.{u, 
   refine (cokerSpanIdeal_congr (LinearEquiv.ofBijective
     (dualizingModule.baseChangeLinearMap F A₁)
     (dualizingModule.baseChangeLinearMap_bijective F A₁)) ?_).symm
-  show dualizingModule.baseChangeLinearMap F A₁
+  change dualizingModule.baseChangeLinearMap F A₁
     (1 ⊗ₜ[B] dualizingModule.traceElement F) = _
   rw [dualizingModule.baseChangeLinearMap_one_tmul]
   exact eq_traceElement_of_isTraceElement (FiniteOpenFactorization.baseChange F A₁)
@@ -370,14 +370,14 @@ theorem ker_eq_map_of_isPushout {A B C D : CommRingCat.{u}} {f : A ⟶ B} {g : A
   have hle : J ≤ RingHom.ker inr.hom := by
     rw [hJ, Ideal.map_le_iff_le_comap]
     intro a ha
-    show inr.hom (g.hom a) = 0
+    change inr.hom (g.hom a) = 0
     rw [show inr.hom (g.hom a) = inl.hom (f.hom a) from
       congrArg (fun b : A ⟶ D ↦ b.hom a) h.w.symm, show f.hom a = 0 from ha, map_zero]
   refine le_antisymm (fun c hc ↦ ?_) hle
   set q := Ideal.Quotient.mk J with hq
   set b : B →+* C ⧸ J := (RingHom.liftOfSurjective f.hom hf) ⟨q.comp g.hom, by
     intro a ha
-    show q (g.hom a) = 0
+    change q (g.hom a) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem _ ha)⟩ with hb
   have hbw : f ≫ CommRingCat.ofHom b = g ≫ CommRingCat.ofHom q := by
     refine CommRingCat.hom_ext ?_
@@ -388,7 +388,7 @@ theorem ker_eq_map_of_isPushout {A B C D : CommRingCat.{u}} {f : A ⟶ B} {g : A
   have hdc : d.hom (inr.hom c) = q c :=
     congrArg (fun a : C ⟶ CommRingCat.of (C ⧸ J) ↦ a.hom c) hd
   refine Ideal.Quotient.eq_zero_iff_mem.mp ?_
-  show q c = 0
+  change q c = 0
   rw [← hdc, show inr.hom c = 0 from hc, map_zero]
 
 /-- The ideals of the inverse image of an ideal sheaf on an affine chart of the source lying
@@ -400,7 +400,7 @@ theorem ideal_comap_affine {X Y : Scheme.{u}} (I : Y.IdealSheafData) (p : X ⟶ 
   have hW : pullback.fst p j ⁻¹ᵁ W.1 =
       pullback.snd p j ⁻¹ᵁ (j ⁻¹ᵁ V.1) ⊓ pullback.fst p j ⁻¹ᵁ W.1 := by
     refine le_antisymm (le_inf (fun z hz ↦ ?_) le_rfl) inf_le_right
-    show j ((pullback.snd p j) z) ∈ V.1
+    change j ((pullback.snd p j) z) ∈ V.1
     rw [← show p ((pullback.fst p j) z) = j ((pullback.snd p j) z) from
       congrArg (fun a : pullback p j ⟶ Y ↦ a z) (pullback.condition (f := p) (g := j))]
     exact hWV hz
@@ -427,7 +427,7 @@ theorem mem_support_iff_primeIdealOf {Y : Scheme.{u}} (I : Y.IdealSheafData)
     y ∈ I.support ↔
       V.2.primeIdealOf ⟨y, hy⟩ ∈ PrimeSpectrum.zeroLocus (I.ideal V : Set Γ(Y, V.1)) := by
   rw [Scheme.IdealSheafData.mem_support_iff_of_mem hy, ← V.2.fromSpec_preimage_zeroLocus]
-  show y ∈ Y.zeroLocus (U := V.1) (I.ideal V : Set Γ(Y, V.1)) ↔
+  change y ∈ Y.zeroLocus (U := V.1) (I.ideal V : Set Γ(Y, V.1)) ↔
     V.2.fromSpec (V.2.primeIdealOf ⟨y, hy⟩) ∈
       Y.zeroLocus (U := V.1) (I.ideal V : Set Γ(Y, V.1))
   rw [V.2.fromSpec_primeIdealOf]
@@ -450,7 +450,7 @@ theorem exists_affine_pullback_chart {X X' Y : Scheme.{u}} (f : Y ⟶ X) (g : X'
   obtain ⟨U, hzU, -⟩ := exists_affine_subset (f ((pullback.fst f g) z)) ⊤ trivial
   obtain ⟨V, hzV, hV⟩ := exists_affine_subset ((pullback.fst f g) z) (f ⁻¹ᵁ U.1) hzU
   have hzU' : (pullback.snd f g) z ∈ g ⁻¹ᵁ U.1 := by
-    show g ((pullback.snd f g) z) ∈ U.1
+    change g ((pullback.snd f g) z) ∈ U.1
     rw [← show f ((pullback.fst f g) z) = g ((pullback.snd f g) z) from
       congrArg (fun a : pullback f g ⟶ X ↦ a z) (pullback.condition (f := f) (g := g))]
     exact hzU
@@ -562,7 +562,7 @@ theorem differentIdealSheaf_support_comap (ω : RelativeDualizingModuleData f)
       ((differentIdealSheaf ω τ).comap (pullback.fst f g)).support := by
   ext z
   obtain ⟨U, V, U', hV, hU', W, hW, hz⟩ := exists_affine_pullback_chart f g z
-  show z ∈ (differentIdealSheaf ω' τ').support ↔
+  change z ∈ (differentIdealSheaf ω' τ').support ↔
     z ∈ ((differentIdealSheaf ω τ).comap (pullback.fst f g)).support
   rw [mem_support_iff_primeIdealOf _ W z hz, mem_support_iff_primeIdealOf _ W z hz,
     ideal_comap_affine _ _ V W (hW.le.trans inf_le_left),
@@ -634,7 +634,7 @@ theorem exists_bijectiveClosedImmersion_of_ker {Y Y' R R' : Scheme.{u}} (p : Y' 
   refine ⟨k, hk, inferInstance, (pullback.lift k i' hk).isClosedEmbedding.injective, fun z ↦ ?_⟩
   have hz : (pullback.snd i p) z ∈ (i'.ker.support : Set Y') := by
     rw [hsupp, Scheme.IdealSheafData.support_comap]
-    show p ((pullback.snd i p) z) ∈ i.ker.support
+    change p ((pullback.snd i p) z) ∈ i.ker.support
     rw [show p ((pullback.snd i p) z) = i ((pullback.fst i p) z) from
       congrArg (fun a : pullback i p ⟶ Y ↦ a z) (pullback.condition (f := i) (g := p)).symm]
     exact i.range_subset_ker_support (Set.mem_range_self _)

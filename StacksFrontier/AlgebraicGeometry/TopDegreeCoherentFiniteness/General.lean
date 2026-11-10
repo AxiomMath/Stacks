@@ -73,7 +73,7 @@ theorem eq_zero_of_one_eq_add {a b : ℕ∞} (h : 1 = a + b) (ha : a ≠ 0) : b 
   have : (2 : ℕ∞) ≤ 1 := by
     rw [h]
     calc (2 : ℕ∞) = 1 + 1 := by norm_num
-      _ ≤ a + b := add_le_add (ENat.one_le_iff_ne_zero.mpr ha) (ENat.one_le_iff_ne_zero.mpr hb)
+      _ ≤ a + b := add_le_add (Order.one_le_iff_ne_zero.mpr ha) (Order.one_le_iff_ne_zero.mpr hb)
   exact absurd this (by decide)
 
 /-- The quotient of the structure sheaf of an integral scheme by a nonzero quasi-coherent ideal
@@ -110,7 +110,7 @@ theorem finiteDimensional_of_sigma_const (k : Type u) [Field k] {X : Scheme.{u}}
     (h : FiniteDimensional k (cohomologyOverField k f (∐ fun _ : Fin r => I) n)) :
     FiniteDimensional k (cohomologyOverField k f I n) := by
   have hsplit : Sigma.ι (fun _ : Fin r => I) j ≫ Sigma.desc (fun _ : Fin r => 𝟙 I) = 𝟙 I :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   have hinj :
       Function.Injective (cohomologyOverFieldMap k f (Sigma.ι (fun _ : Fin r => I) j) n) := by
     intro a b hab
@@ -134,7 +134,7 @@ theorem topologicalKrullDim_supp_le_of_notMem {Z : Scheme.{u}} [IsIntegral Z] {e
     topologicalKrullDim (SheafOfModules.supp M) ≤ (e : WithBot ℕ∞) := by
   have hfin : topologicalKrullDim Z ≠ ⊤ := fun h => by
     rw [h] at hdim
-    exact absurd hdim (not_le.mpr (WithBot.coe_lt_coe.mpr (ENat.coe_lt_top (e + 1))))
+    exact absurd hdim (not_le.mpr (WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top (e + 1))))
   exact ENat.WithBot.lt_add_one_iff.mp
     (by exact_mod_cast (topologicalKrullDim_supp_lt_of_notMem hfin M hM).trans_le hdim)
 

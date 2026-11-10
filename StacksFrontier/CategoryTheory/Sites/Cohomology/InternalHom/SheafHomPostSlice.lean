@@ -296,7 +296,7 @@ theorem postSliceSheafHomComplexIso_natural
   apply sheafHomSection_ext_v (sheafHomComplex Y ((postSlicePushComplex Φ φ).obj A')
     ((postSlicePushComplex Φ φ).obj B')) V.unop n
   intro p q hpq
-  show (AddCommGrpCat.Hom.hom
+  change (AddCommGrpCat.Hom.hom
       (((sheafHomComplex Y ((postSlicePushComplex Φ φ).obj A')
         ((postSlicePushComplex Φ φ).obj B')).sectionsIso V.unop).hom.f n)
       (AddCommGrpCat.Hom.hom
@@ -420,7 +420,7 @@ theorem postSliceSourceComparison_natural
       (postSliceSourceComparison Φ φ A' B').hom =
     (postSliceSourceComparison Φ φ A B).hom ≫
       DerivedCategory.Q.map ((postSlicePushComplex Φ φ).map (homMap X f g)) := by
-  show (SheafOfModules.pushforward.{u} φ).mapDerivedCategory.map
+  change (SheafOfModules.pushforward.{u} φ).mapDerivedCategory.map
       (((derivedSheafHomBifunctor X).map (DerivedCategory.Q.map f).op).app
           (DerivedCategory.Q.obj B) ≫
         ((derivedSheafHomBifunctor X).obj (op (DerivedCategory.Q.obj A'))).map

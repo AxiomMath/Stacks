@@ -149,8 +149,7 @@ private lemma pullbackComp_fst
       pullback.fst ((Over.pullback g).obj W).hom f ≫
         pullback.fst W.hom g =
         pullback.fst W.hom (f ≫ g) := by
-  simp [Over.pullbackComp, Over.pullback, Category.assoc, pullback.lift_fst,
-    pullback.lift_fst_assoc, Category.id_comp, Category.comp_id]
+  simp [Over.pullbackComp, Over.pullback, Category.assoc, Category.id_comp, Category.comp_id]
 
 private lemma pullback_eqToHom_fst
     {C : Type*} [Category C] [HasPullbacks C]
@@ -340,7 +339,7 @@ theorem exists_familyHom_after_baseChange
         ((Over.pullback (D.map e)).obj (X k))).left =
       ((Over.pullback (c.π.app j)).obj
         (Over.mk ((E.pullback₂ (D.map e)).f k))).left := by
-    show pullback (pullback.snd (E.f k) (D.map e)) (c.π.app j) =
+    change pullback (pullback.snd (E.f k) (D.map e)) (c.π.app j) =
       pullback ((E.pullback₂ (D.map e)).f k) (c.π.app j)
     rw [PreZeroHypercover.pullback₂_f]
     rfl

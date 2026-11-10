@@ -155,7 +155,7 @@ theorem mem_nonvanishingLocus_pullbackSectionHom {X Y : Scheme.{u}} (f : Y ⟶ X
       (pullbackSectionHom f M ⊤ ⊤ h s) := by
   have hsec : pullbackSectionHom f M ⊤ ⊤ h s =
       Stacks.NonvanishingPullback.pullbackGlobalSection f M s := by
-    show ((Scheme.Modules.pullback f).obj M).presheaf.map
+    change ((Scheme.Modules.pullback f).obj M).presheaf.map
         (eqToHom (show f ⁻¹ᵁ (⊤ : X.Opens) = ⊤ from rfl)).op
         (Stacks.NonvanishingPullback.pullbackGlobalSection f M s) = _
     exact Functor.map_id_apply _ _ _

@@ -233,7 +233,7 @@ theorem gysinHomomorphism_properPushforward_subschemeι
         (properPushforward C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) p
           (Stacks.Divisors.zeroScheme X L s).subschemeι rfl (k + 1) α) =
       firstChernClassCap C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) k chernD α := by
-  show QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
+  change QuotientAddGroup.mk ((gysinRule C p k L s chern).extendCycleGroup
     (properPushforward C _ p (Stacks.Divisors.zeroScheme X L s).subschemeι rfl (k + 1) α)) = _
   rw [gysinRule_extendCycleGroup_properPushforward_subschemeι C p k L s chern chernD hcomp α]
   rfl

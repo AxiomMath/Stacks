@@ -55,7 +55,7 @@ theorem annihilator_sections_pullback_of_flat {X Y : Scheme.{u}} (f : Y ⟶ X) [
   have : Module.Finite R Γ(F, U.1) := moduleFinite_sections_on_affine F U.1 U.2
   let T := (ModuleCat.restrictScalars (algebraMap R S)).obj (ModuleCat.of S S)
   have : IsScalarTower R S T := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
-  show Module.annihilator S Γ((Scheme.Modules.pullback f).obj F, V.1) =
+  change Module.annihilator S Γ((Scheme.Modules.pullback f).obj F, V.1) =
     Ideal.map (algebraMap R S) (Module.annihilator R Γ(F, U.1))
   calc
     _ = Module.annihilator S ((ModuleCat.extendScalars (algebraMap R S)).obj (.of R Γ(F, U.1))) :=

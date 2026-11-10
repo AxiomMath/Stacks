@@ -233,11 +233,11 @@ theorem isIso_of_isIso_right
       _ = C.hom := by simp [Category.assoc]
   · apply MorphismProperty.Under.Hom.ext
     ext x
-    show (f.right ≫ inv f.right) x = x
+    change (f.right ≫ inv f.right) x = x
     exact congrArg (fun k : C.right ⟶ C.right => k x) (IsIso.hom_inv_id f.right)
   · apply MorphismProperty.Under.Hom.ext
     ext x
-    show (inv f.right ≫ f.right) x = x
+    change (inv f.right ≫ f.right) x = x
     exact congrArg (fun k : D.right ⟶ D.right => k x) (IsIso.inv_hom_id f.right)
 
 /-- A morphism of flat algebras over a ring fibre product is an isomorphism as soon as both of
@@ -326,7 +326,7 @@ theorem isIso_of_isIso_baseChange_of_isPullback
     (IsPushout.of_hasPushout D.hom e.hom).isIso_inl_of_isIso
   have hnat : pushout.inl C.hom e.hom ≫ (F₀.map f).right =
       f.right ≫ pushout.inl D.hom e.hom := by
-    show pushout.inl C.hom e.hom ≫ pushout.desc (f.right ≫ pushout.inl D.hom e.hom)
+    change pushout.inl C.hom e.hom ≫ pushout.desc (f.right ≫ pushout.inl D.hom e.hom)
       (pushout.inr D.hom e.hom) _ = f.right ≫ pushout.inl D.hom e.hom
     exact pushout.inl_desc _ _ _
   have hcomp' : IsIso (f.right ≫ pushout.inl D.hom e.hom) := by
@@ -382,7 +382,7 @@ theorem isIso_sectionsPushoutMap_of_isIso_pullback
               exact hSV))
     let fObj : cObj ⟶ dObj :=
       MorphismProperty.Under.homMk (c.appLE U S (by rfl)) (by
-        show w.appLE V U hUV ≫ c.appLE U S (by rfl) = g.appLE V S _
+        change w.appLE V U hUV ≫ c.appLE U S (by rfl) = g.appLE V S _
         cases hc
         exact Scheme.Hom.appLE_comp_appLE c w V U S hUV (by rfl))
     IsIso ((MorphismProperty.Under.pushout CommRingCat.flat ⊤
@@ -398,10 +398,10 @@ theorem isIso_sectionsPushoutMap_of_isIso_pullback
   let sourceOpen : (pullback g j).Opens := q ⁻¹ᵁ targetOpen
   have hqFst : q ≫ pullback.fst w j = pullback.fst g j ≫ c := by
     dsimp [q]
-    simp [Over.pullback, pullback.lift_fst]
+    simp [Over.pullback]
   have hqSnd : q ≫ pullback.snd w j = pullback.snd g j := by
     dsimp [q]
-    simp [Over.pullback, pullback.lift_snd]
+    simp [Over.pullback]
   have hTargetEq : targetOpen =
       (pullback.fst w j) ⁻¹ᵁ U ⊓ (pullback.snd w j) ⁻¹ᵁ VZ :=
     (le_inf le_rfl (preimage_fst_le_preimage_snd w j hUV)).antisymm inf_le_left

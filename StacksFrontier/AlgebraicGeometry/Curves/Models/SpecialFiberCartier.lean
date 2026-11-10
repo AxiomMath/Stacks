@@ -69,7 +69,7 @@ public theorem isEffectiveCartierDivisor_specialFiber
     f.appLE (⊤ : (Spec (.of R)).Opens) U (by simp)
   let _ : Algebra R Γ(X, U) := φ.hom.toAlgebra
   have hj : hU.fromSpec ≫ f = Spec.map (CommRingCat.ofHom (algebraMap R Γ(X, U))) := by
-    show hU.fromSpec ≫ f = Spec.map φ
+    change hU.fromSpec ≫ f = Spec.map φ
     dsimp [φ]
     rw [Spec.map_comp]
     simpa [Scheme.isoSpec_Spec_inv, IsAffineOpen.fromSpec_top] using
@@ -85,7 +85,7 @@ public theorem isEffectiveCartierDivisor_specialFiber
   have hg : g = eSpec.hom ≫ q := by
     have hmap : algebraMap R k = E.toAlgHom.toRingHom.comp (Ideal.Quotient.mk J) :=
       RingHom.ext fun r ↦ (E.commutes r).symm
-    show Spec.map (CommRingCat.ofHom (algebraMap R k)) = _
+    change Spec.map (CommRingCat.ofHom (algebraMap R k)) = _
     rw [show eSpec.hom = Spec.map (CommRingCat.ofHom E.toAlgHom.toRingHom) by
       simp [eSpec, Functor.mapIso_hom, Iso.op_hom, Scheme.Spec_map], ← Spec.map_comp,
       ← CommRingCat.ofHom_comp]
@@ -103,7 +103,7 @@ public theorem isEffectiveCartierDivisor_specialFiber
       dsimp [pbMap, pullback.map]
       rw [pullback.lift_fst]
       simp
-    show pIso.symm.hom ≫ pbMap ≫ pullback.fst f q = I.subschemeι
+    change pIso.symm.hom ≫ pbMap ≫ pullback.fst f q = I.subschemeι
     rw [hpmap, ← Scheme.Hom.toImage_imageι (f := pullback.fst f g)]
     simp [pIso, I]
   refine ⟨U, hU, hxU, algebraMap R Γ(X, U) π,

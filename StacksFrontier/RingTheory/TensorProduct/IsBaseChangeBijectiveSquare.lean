@@ -36,8 +36,7 @@ theorem IsBaseChange.of_bijective_algebraMap {R S M : Type*} [CommRing R] [CommR
   · intro x y hxy
     have key : ∀ z : S ⊗[R] M, z = 1 ⊗ₜ φ z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul s m =>
           obtain ⟨r, rfl⟩ := hRS.2 s
           simp [φ, TensorProduct.smul_tmul', Algebra.algebraMap_eq_smul_one]
@@ -64,8 +63,7 @@ theorem IsBaseChange.of_bijective_square {R₂ R₁ Γ₂ Γ₁ M N : Type*} [Co
   let e2 := ((IsBaseChange.of_bijective_algebraMap (M := M) h₂).comp hf).equiv
   have he : ∀ (r : R₁) (z : R₁ ⊗[R₂] M), e2 (e1 (r • z)) = r • e2 (e1 z) := by
     intro r z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s m =>
         rw [TensorProduct.smul_tmul']
         change e2 (algebraMap R₁ Γ₁ (r * s) ⊗ₜ m) = r • e2 (algebraMap R₁ Γ₁ s ⊗ₜ m)

@@ -155,7 +155,7 @@ public theorem supportedSectionsPullback_transition {P Q : SmallEtale B S hS} (k
   apply AddMonoidHom.ext
   intro s
   apply Subtype.ext
-  show F.obj.map _ (supportedSectionsMap B S hS F Q T T₂ hT hT₂ h hc s).val =
+  change F.obj.map _ (supportedSectionsMap B S hS F Q T T₂ hT hT₂ h hc s).val =
     (supportedSectionsMap B S hS F P T' T₂' hT' hT₂' h' hc'
       (supportedSectionsPullback B S hS F k T hT T' hT' hTT' s)).val
   rw [supportedSectionsMap_apply, supportedSectionsMap_apply, supportedSectionsPullback_val]
@@ -407,7 +407,7 @@ public theorem compChartApp_generator (W : SmallEtale B Z.obj Z.property)
   have he : E = compChartSupport B g sq hsq W T := Subtype.ext hE
   subst he
   simp only [finiteSupportPushforwardGenerator, compChartApp]
-  show colimit.ι _ T ≫ colimit.desc _ (compChartCocone B g sq hsq F W) = _
+  change colimit.ι _ T ≫ colimit.desc _ (compChartCocone B g sq hsq F W) = _
   rw [colimit.ι_desc]
   rfl
 
@@ -462,7 +462,7 @@ public theorem compChartApp_naturality {W W' : SmallEtale B Z.obj Z.property} (�
         (compChartSupport_coe B g sq hsq W T)) ≫ AddCommGrpCat.ofHom dE.sectionsMap := by
     refine ConcreteCategory.hom_ext _ _ fun a => Subtype.ext ?_
     have h1 := congrArg Subtype.val (DFunLike.congr_fun hcov a)
-    show (supportedSectionsPullback B X.obj X.property F (compChartInclusion B g sq hsq W')
+    change (supportedSectionsPullback B X.obj X.property F (compChartInclusion B g sq hsq W')
         _ _ _ _ hE' (covarianceSectionMap B jX (f ≫ g) F W' dT.support dD.support hD''
           (dT.sectionsMap a))).val =
       (dE.sectionsMap (supportedSectionsPullback B X.obj X.property F
@@ -473,7 +473,7 @@ public theorem compChartApp_naturality {W W' : SmallEtale B Z.obj Z.property} (�
     change _ = (covarianceSectionMap B jX (f ≫ g) F W' dT.support dD.support hD''
       (dT.sectionsMap a)).val at h1
     rw [← h1]
-    show F.obj.map _ (dD.sectionsMap (covarianceSectionMap B jX (f ≫ g) F W T D
+    change F.obj.map _ (dD.sectionsMap (covarianceSectionMap B jX (f ≫ g) F W T D
       (imageFiniteSupport_coe B jX (f ≫ g) W T) a)).val = _
     rw [dD.sectionsMap_apply]
     exact supportedSectionsPullback_square B X.obj X.property F

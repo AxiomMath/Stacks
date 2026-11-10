@@ -109,7 +109,7 @@ public theorem isLocalCompleteIntersection_iff_forall_koszulAt
     IsLocalCompleteIntersection B S hS f ↔
       ∀ x : points B S hS X, KoszulAt B S hS f x := by
   have hP := isEtaleLocalOnSourceAndTarget_isLocalCompleteIntersectionMorphism hsrc
-  show HoldsOnEveryEtaleChart B S hS
+  change HoldsOnEveryEtaleChart B S hS
     (@_root_.AlgebraicGeometry.IsLocalCompleteIntersectionMorphism.{u} :
       MorphismProperty Scheme.{u}) f ↔ _
   rw [holdsOnEveryEtaleChart_iff_forall_atPoint B S hS _ hP hX hY f]
@@ -121,6 +121,7 @@ public theorem isLocalCompleteIntersection_iff_forall_koszulAt
 /-! ### The base-change assertion of Stacks 06CA, carried as a hypothesis -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the statement synthesizes pullbacks of presheaves on the big fppf site
 /-- **The base-change assertion of Stacks 06CA.** For a commutative triangle of algebraic
 spaces over `S` given by `f : X ⟶ Y`, `p : X ⟶ Z` and `q : Y ⟶ Z` with `f ≫ q = p`, with `p`
 and `q` both flat and locally of finite presentation, the formation of the Koszul locus of `f`

@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.SpectrumFiniteTypeVar
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.TypeTransferVariants
 
 /-!
-# Variants of the results of `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeCharacterization`
+# Variants of `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeCharacterization`
 
 The declarations below extend the results of
 `StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeCharacterization`. A primed name `X'` is a
@@ -120,7 +120,7 @@ theorem formalSpectrumMap_finiteType_tfae_countablyWeaklyAdmissible {A C : Type 
             TopologicalRing.IsTopologicallyOfFiniteType g.toRingHom] := by
   have hWAdm : RingHom.IsTaut g.toRingHom →
       TopologicalRing.IsCountablyWeaklyAdmissible C := fun htaut ↦
-    ⟨hC, RingHom.isCountablyGenerated_nhds_zero_of_isTaut g.toRingHom g.continuous htaut hAcount⟩
+    ⟨hC, RingHom.isCountablyGenerated_nhds_zero_of_isTaut g.toRingHom htaut hAcount⟩
   tfae_have 1 → 3 := fun h ↦ by
     have htaut : RingHom.IsTaut g.toRingHom :=
       isTaut_of_isRepresentableByAlgebraicSpaces_formalSpectrumMap B S hS hA hC D E g h.1
@@ -135,7 +135,7 @@ theorem formalSpectrumMap_finiteType_tfae_countablyWeaklyAdmissible {A C : Type 
       g.toRingHom hA.1 h.2⟩
   tfae_have 4 → 3 := fun h ↦
     ⟨h.1, TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType'
-      g.toRingHom g.continuous h.2.1 h.2.2⟩
+      g.toRingHom h.2.1 h.2.2⟩
   tfae_finish
 
 end AlgebraicGeometry.FormalSpace

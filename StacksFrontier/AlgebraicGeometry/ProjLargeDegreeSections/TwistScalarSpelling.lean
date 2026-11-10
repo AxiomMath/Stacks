@@ -96,7 +96,7 @@ public theorem smul_eq_mkOne_mul (P : Submonoid S) (c : S) (v : LocalizedModule 
   induction v using LocalizedModule.induction_on with
   | _ m t =>
     rw [LocalizedModule.smul'_mk]
-    show Localization.mk (c • m) t = Localization.mk c (1 : P) * Localization.mk m t
+    change Localization.mk (c • m) t = Localization.mk c (1 : P) * Localization.mk m t
     rw [Localization.mk_mul, smul_eq_mul, one_mul]
 
 /-! ### The two gradings, and the two sheaves -/
@@ -136,7 +136,7 @@ public theorem homogeneousScalarGlobalSections_eq_twistScalarSheafMap (i : ℕ) 
     homogeneousScalarGlobalSections 𝒮 (integerGrading (S := S) 𝒮) i n a s =
       ((twistScalarSheafMap 𝒮 i n ((i : ℤ) + n) rfl a).val.app (op ⊤)).hom s := by
   refine Subtype.ext (funext fun x => ?_)
-  show (a : S) • s.1 x =
+  change (a : S) • s.1 x =
     LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S (a : S)) (s.1 x)
   exact (smul_eq_mkOne_mul _ (a : S) (s.1 x)).trans

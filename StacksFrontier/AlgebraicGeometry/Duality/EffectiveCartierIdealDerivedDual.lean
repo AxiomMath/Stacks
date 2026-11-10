@@ -53,8 +53,8 @@ re-ascribed, with no transport.
 
 ## Implementation notes
 
-The ideal sequence is stated in the library as the existence of a zero composite making the sequence short
-exact, so the short complex is formed with `Exists.choose` of that statement and its short
+The ideal sequence is stated in the library as the existence of a zero composite making the sequence
+short exact, so the short complex is formed with `Exists.choose` of that statement and its short
 exactness is the corresponding `Exists.choose_spec`; the arrows themselves — the kernel
 inclusion and the unit `𝒪_X ⟶ i_* 𝒪_D` — are the named ones and are not chosen.
 

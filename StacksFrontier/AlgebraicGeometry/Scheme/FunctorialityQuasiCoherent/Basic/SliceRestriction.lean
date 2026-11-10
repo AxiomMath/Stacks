@@ -101,7 +101,7 @@ intertwining the two restriction maps. Post- and pre-composing the localization 
 it is the affine engine of that statement. The
 general quasi-coherent case additionally requires the (currently Mathlib-absent) bridge
 `IsQuasicoherent M → IsIso M.fromTildeΓ`. -/
-private theorem isLocalizedModule_restrict_of_isIso_fromTildeΓ {R : CommRingCat.{u}}
+theorem isLocalizedModule_restrict_of_isIso_fromTildeΓ {R : CommRingCat.{u}}
     (M : (Spec R).Modules) [IsIso M.fromTildeΓ] (f : R) :
     IsLocalizedModule (Submonoid.powers f)
       ((modulesSpecToSheaf.obj M).presheaf.map
@@ -226,7 +226,7 @@ converse engine
 `isLocalizedModule_restrict_of_isIso_fromTildeΓ`, the per-basic-open localization hypothesis is
 *equivalent* to `IsIso M.fromTildeΓ`. Mathlib has no `IsQuasicoherent → IsIso
 fromTildeΓ` bridge. -/
-private theorem isIso_fromTildeΓ_of_isLocalizedModule_restrict {R : CommRingCat.{u}}
+theorem isIso_fromTildeΓ_of_isLocalizedModule_restrict {R : CommRingCat.{u}}
     (M : (Spec R).Modules)
     (H : ∀ f : R, IsLocalizedModule (Submonoid.powers f)
       ((modulesSpecToSheaf.obj M).presheaf.map
@@ -250,7 +250,7 @@ private theorem isIso_fromTildeΓ_of_isLocalizedModule_restrict {R : CommRingCat
           (homOfLE (le_top : PrimeSpectrum.basicOpen f ≤ ⊤)).op).hom := by
       have e := congrArg ModuleCat.Hom.hom hcompose
       rwa [ModuleCat.hom_comp] at e
-    show Function.Bijective (⇑comp.hom)
+    change Function.Bijective (⇑comp.hom)
     exact bijective_comp_of_localizations (Submonoid.powers f)
       (inferInstance : IsLocalizedModule _ (tilde.toOpen N (PrimeSpectrum.basicOpen f)).hom)
       (H f) h1
@@ -411,7 +411,6 @@ private instance overEquivalence_functor_isCocontinuous :
       obtain ⟨z', hz'V, hz'eq⟩ := (hz : (z : X) ∈ (W : Set X))
       exact (Subtype.val_injective hz'eq) ▸ hz'V
     convert S.downward_closed hSh (homOfLE hdomle) using 1
-    all_goals apply Subsingleton.elim
 
 /-- The inverse of `Opens.overEquivalence U` is cocontinuous (cover-lifting) from the
 Grothendieck topology of the open subspace `↥U` to the `U`-slice of the ambient Grothendieck

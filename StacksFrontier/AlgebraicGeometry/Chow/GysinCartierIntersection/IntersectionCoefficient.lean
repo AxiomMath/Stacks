@@ -96,7 +96,7 @@ private theorem stalk_reducedPointClosure_fromSpecStalk {X : Scheme.{u}} (z : X)
   have hpre : (hAff.fromSpec : AlgebraicGeometry.Spec (.of Γ(X, U)) ⟶ X) ⁻¹'
       ({X.fromSpecStalk z q} : Set X) = ({p'} : Set (PrimeSpectrum Γ(X, U))) := by
     ext w
-    show hAff.fromSpec w = X.fromSpecStalk z q ↔ w = p'
+    change hAff.fromSpec w = X.fromSpecStalk z q ↔ w = p'
     rw [hy]
     exact ⟨fun hw => hAff.fromSpec.isOpenEmbedding.injective hw, fun hw => by rw [hw]⟩
   have hcl : (hAff.fromSpec : AlgebraicGeometry.Spec (.of Γ(X, U)) ⟶ X) ⁻¹'
@@ -211,7 +211,7 @@ private lemma isLocalizedModule_comp
     obtain ⟨⟨m, s⟩, hms⟩ := IsLocalizedModule.surj S f n
     have hms' : (s : R) • n = f m := hms
     refine ⟨⟨(s₀ : R) • m, ⟨(s : R) * r, mul_mem (hST s.2) hrT⟩⟩, ?_⟩
-    show ((s : R) * r) • p = g (f ((s₀ : R) • m))
+    change ((s : R) * r) • p = g (f ((s₀ : R) • m))
     have hg : ∀ (c : R) (w : N), g (c • w) = c • g w := fun c w =>
       LinearMap.map_smul_of_tower g c w
     rw [mul_smul, smul_eq_smul_smul_of_mul_eq hrs p, hnt', map_smul, hg, ← hms', hg]
@@ -279,7 +279,7 @@ lemma length_eq_of_localized_at_prime
       rw [← IsScalarTower.algebraMap_smul B (s : R) (ea a • φ n), smul_smul, mul_comm, hea,
         IsScalarTower.algebraMap_smul]
     refine hinj s ?_
-    show (s : R) • φ (a • n) = (s : R) • (ea a • φ n)
+    change (s : R) • φ (a • n) = (s : R) • (ea a • φ n)
     rw [h2, ← map_smul, h1, map_smul]
   exact length_eq_of_ringEquiv_semilinear ea.toRingEquiv φ.toAddEquiv hcompat
 
@@ -421,7 +421,7 @@ theorem intersectionCycleCoeff_eq_length_quotient_sup
       ((Module.length (X.presheaf.stalk (D.subschemeι x))
         (X.presheaf.stalk (D.subschemeι x) ⧸
           (Ideal.span {a} ⊔ q.asIdeal))).toNat : ℤ) := by
-  show closedSubschemeCycleCoeff C (D.subschemeι ≫ p)
+  change closedSubschemeCycleCoeff C (D.subschemeι ≫ p)
     ((reducedPointClosure (X.fromSpecStalk (D.subschemeι x) q)).comap
       D.subschemeι).subschemeι k x = _
   rw [closedSubschemeCycleCoeff_reducedPointClosure_comap_eq_length C
@@ -566,7 +566,7 @@ lemma isSMulRegular_quotient_ker {A B : Type u} [CommRing A] [CommRing B]
   have hmn' : a • m = a • n := hmn
   apply ψ.injective
   refine h ?_
-  show φ a * ψ m = φ a * ψ n
+  change φ a * ψ m = φ a * ψ n
   rw [← hsmul, ← hsmul, hmn']
 
 lemma ne_closedPoint_of_minimal_support_quotient {R : Type*} [CommRing R]
@@ -625,7 +625,7 @@ lemma length_quotient_stalk_fromSpecStalk_eq_length_localized
   have hT : (hU.primeIdealOf ⟨X.fromSpecStalk z q, hyU⟩).asIdeal.primeCompl =
       q.asIdeal.primeCompl.comap (algebraMap Γ(X, U) (X.presheaf.stalk z)) := by
     ext r
-    show r ∉ (hU.primeIdealOf ⟨X.fromSpecStalk z q, hyU⟩).asIdeal ↔
+    change r ∉ (hU.primeIdealOf ⟨X.fromSpecStalk z q, hyU⟩).asIdeal ↔
       algebraMap Γ(X, U) (X.presheaf.stalk z) r ∉ q.asIdeal
     rw [hpy]
     rfl
@@ -721,7 +721,7 @@ lemma exists_genericPoint_comap_symm {X : Scheme.{u}} (Z D : X.IdealSheafData)
     (subschemeι_comap_mem_support Z D x)
   have hz₁F : z₁ ∈ ((D.comap Z.subschemeι).support : Set Z.subscheme) := by
     rw [Scheme.IdealSheafData.support_comap]
-    show Z.subschemeι z₁ ∈ (D.support : Set X)
+    change Z.subschemeι z₁ ∈ (D.support : Set X)
     rw [hz₁]
     exact subschemeι_mem_support D _
   obtain ⟨ξ₀, hξ₀⟩ := exists_subschemeι_eq_of_mem_support _ hz₁F

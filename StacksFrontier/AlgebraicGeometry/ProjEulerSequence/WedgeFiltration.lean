@@ -83,12 +83,12 @@ factor. -/
 theorem prodRightEquiv_map_inl (p : ℕ) (u : ⋀[S]^(p + 1) M) :
     prodRightEquiv S M p (map (p + 1) (LinearMap.inl S M S) u) = (u, 0) := by
   refine Prod.ext ?_ ?_
-  · show map (p + 1) (LinearMap.fst S M S) (map (p + 1) (LinearMap.inl S M S) u) = u
+  · change map (p + 1) (LinearMap.fst S M S) (map (p + 1) (LinearMap.inl S M S) u) = u
     rw [← LinearMap.comp_apply, ← map_comp, LinearMap.fst_comp_inl, map_id, LinearMap.id_apply]
   · have h : contraction (LinearMap.snd S M S) p (map (p + 1) (LinearMap.inl S M S) u) = 0 := by
       rw [← LinearMap.comp_apply, contraction_comp_map _ _ (LinearMap.snd_comp_inl S M S) p,
         LinearMap.zero_apply]
-    show map p (LinearMap.fst S M S)
+    change map p (LinearMap.fst S M S)
       (contraction (LinearMap.snd S M S) p (map (p + 1) (LinearMap.inl S M S) u)) = 0
     rw [h, map_zero]
 

@@ -388,7 +388,7 @@ public def squareZeroExtBaseMap (M : ModuleCat.{u} A) : Λ →+* squareZeroExt M
 public theorem squareZeroExtBaseMap_spec (M : ModuleCat.{u} A) :
     (squareZeroExtProj M).comp (squareZeroExtBaseMap M) = algebraMap Λ A := by
   refine RingHom.ext fun r => ?_
-  show (TrivSqZeroExt.inl (algebraMap Λ A r) : squareZeroExt M).fst = algebraMap Λ A r
+  change (TrivSqZeroExt.inl (algebraMap Λ A r) : squareZeroExt M).fst = algebraMap Λ A r
   rw [TrivSqZeroExt.fst_inl]
 
 /-- The map `Λ ⟶ C` of the proof of 07YY, the structure map of the presentation followed by
@@ -401,7 +401,7 @@ public def cotangentPushoutBaseMap (E : Algebra.Extension.{u} Λ A) :
 public theorem cotangentPushoutBaseMap_spec (E : Algebra.Extension.{u} Λ A) :
     (cotangentPushoutProj E).comp (cotangentPushoutBaseMap E) = algebraMap Λ A := by
   refine RingHom.ext fun r => ?_
-  show (cotangentPushoutMap E (algebraMap Λ E.Ring r)).fst = algebraMap Λ A r
+  change (cotangentPushoutMap E (algebraMap Λ E.Ring r)).fst = algebraMap Λ A r
   rw [cotangentPushoutMap_algebraMap, TrivSqZeroExt.fst_inl]
 
 /-- The map `Λ ⟶ P/J²` of the proof of 07YY, the structure map of the presentation followed
@@ -652,7 +652,7 @@ public theorem arrow_comp_thickeningOverBaseRetraction (A' : Type u) [CommRing A
         thickeningOverBaseRetraction B S hS toS hA A' q hq hA' g hg affineOpen hfact s hsg =
       𝟙 (algebraOver A B S hS toS hA) := by
   ext
-  show Spec.map (CommRingCat.ofHom q) ≫ Spec.map (CommRingCat.ofHom s) =
+  change Spec.map (CommRingCat.ofHom q) ≫ Spec.map (CommRingCat.ofHom s) =
     𝟙 (Spec (.of A))
   rw [← Spec.map_comp]
   have h : CommRingCat.ofHom s ≫ CommRingCat.ofHom q = 𝟙 (CommRingCat.of A) := by

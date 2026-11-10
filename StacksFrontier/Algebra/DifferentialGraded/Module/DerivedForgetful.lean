@@ -157,7 +157,7 @@ theorem isIso_iff_isIso_derivedForget_map {X Y : derivedCategory' A} (φ : X ⟶
     intro g hg
     rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
     refine (NatIso.isIso_map_iff (forgetHomotopyToDerivedCategoryIso A) g).mp ?_
-    show IsIso ((forgetHomotopyToDerivedCategory A).map
+    change IsIso ((forgetHomotopyToDerivedCategory A).map
       ((toHomotopyCategory.{u, u, u} A).map g))
     rw [hg]
     exact (NatIso.isIso_map_iff (derivedForgetFactorization A) α.f).mp hUf

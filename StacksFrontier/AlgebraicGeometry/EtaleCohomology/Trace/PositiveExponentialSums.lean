@@ -107,12 +107,12 @@ public theorem norm_le_of_eventually_re_sum_pow_sub_sum_pow_nonneg {ι κ : Type
           (fun n : ℕ => if ‖b k‖ < ρ then (‖b k‖ / ρ) ^ n else 0) atTop (𝓝 0) := by
         intro k _
         by_cases hk : ‖b k‖ < ρ
-        · simp only [hk, if_true]
+        · simp only [hk, ite_true]
           exact tendsto_pow_atTop_nhds_zero_of_lt_one (div_nonneg (norm_nonneg _) hρ.le)
             ((div_lt_one hρ).2 hk)
-        · simp only [hk, if_false]
+        · simp only [hk, ite_false]
           exact tendsto_const_nhds
-      simpa using tendsto_finset_sum _ hterm
+      simpa using tendsto_finsetSum _ hterm
     simpa using h1.add h2
   obtain ⟨N₀, hN₀⟩ := eventually_atTop.1
     ((hc.eventually (eventually_lt_nhds (half_pos one_pos : (0 : ℝ) < 1 / 2))).and h)
@@ -141,17 +141,17 @@ public theorem norm_le_of_eventually_re_sum_pow_sub_sum_pow_nonneg {ι κ : Type
   let e : κ → ℝ := fun k => -(b k ^ n).re - ρ ^ n * if ‖b k‖ < ρ then (‖b k‖ / ρ) ^ n else 0
   have he : ∀ k, e k ≤ 0 := fun k => by
     by_cases hk : ‖b k‖ < ρ
-    · simp only [e, hk, if_true, div_pow, mul_div_cancel₀ _ hρn.ne']
+    · simp only [e, hk, ite_true, div_pow, mul_div_cancel₀ _ hρn.ne']
       have := neg_abs_le (b k ^ n).re
       have h2 := Complex.abs_re_le_norm (b k ^ n)
       rw [norm_pow] at h2
       linarith
     · have hkρ : ‖b k‖ = ρ := le_antisymm (hk₀ k) (not_lt.1 hk)
-      simp only [e, hk, if_false, mul_zero, sub_zero]
+      simp only [e, hk, ite_false, mul_zero, sub_zero]
       linarith [hT k hkρ]
   have hek₀ : e k₀ < -(ρ ^ n / 2) := by
     have hk₀' : ¬ ‖b k₀‖ < ρ := lt_irrefl _
-    simp only [e, hk₀', if_false, mul_zero, sub_zero]
+    simp only [e, hk₀', ite_false, mul_zero, sub_zero]
     linarith [hT k₀ rfl]
   have hsume : ∑ k, e k ≤ e k₀ := by
     have := Finset.single_le_sum (f := fun k => -e k) (fun k _ => neg_nonneg.2 (he k))

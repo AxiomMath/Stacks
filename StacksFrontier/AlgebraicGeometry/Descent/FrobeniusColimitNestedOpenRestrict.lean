@@ -186,7 +186,7 @@ theorem homOfLE_ringSheafOnOpensHom_comp_natTrans :
           (Opens.grothendieckTopology (X : TopCat))).map U.ι.ringSheafOnOpensHom := by
   apply Sheaf.hom_ext
   ext A : 2
-  show (Scheme.Hom.ringSheafOnOpensHom (X.homOfLE h)).hom.app A ≫
+  change (Scheme.Hom.ringSheafOnOpensHom (X.homOfLE h)).hom.app A ≫
       U.toScheme.ringSheafOnOpens.obj.map ((nestedOpenSiteIso X h).inv.app A.unop).op =
     (Scheme.Hom.ringSheafOnOpensHom U.ι).hom.app
       (op ((TopCat.Presheaf.imF (V : Opens (X : TopCat))).obj A.unop))

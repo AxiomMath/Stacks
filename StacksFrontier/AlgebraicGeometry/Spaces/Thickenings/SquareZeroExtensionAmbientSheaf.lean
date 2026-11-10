@@ -70,7 +70,7 @@ theorem thickeningΓIso_naturality {W₁ W₂ : SmallEtale B S hS X.1} (h : W₁
 theorem thickeningΓIso_hom_comp_appTop (W : SmallEtale B S hS X.1) :
     (thickeningΓIso E W).hom ≫ (chartImmersion B S hS E W).appTop = E.π.hom.app (op W) := by
   ext a
-  show (Scheme.restrictFunctorΓ (X := chartScheme W)).hom.app (op ⊤)
+  change (Scheme.restrictFunctorΓ (X := chartScheme W)).hom.app (op ⊤)
       (E.π.hom.app (op (openChart B S hS X.1 W ⊤))
         (E.A.obj.map (openChartInclusion B S hS X.1 W ⊤).op a)) = _
   have h1 := ConcreteCategory.congr_hom
@@ -244,7 +244,7 @@ theorem ambientSheafHom_comp_π :
   let := isContinuous_smallBaseChange B S hS i (ambRep i hi)
   refine Sheaf.hom_ext ((Functor.IsCoverDense.restrictHomEquivHom
     (G := (ChartFactorable (E := E) (C := C) (hcU := hcU) (hcR := hcR)).ι)).symm.injective ?_)
-  show Functor.whiskerLeft _ ((ambientSheafHom i hi).hom ≫ _) = Functor.whiskerLeft _ _
+  change Functor.whiskerLeft _ ((ambientSheafHom i hi).hom ≫ _) = Functor.whiskerLeft _ _
   rw [Functor.whiskerLeft_comp, whiskerLeft_ambientSheafHom]
   ext V : 2
   exact ambientChartRingHom_comp_π i hi V.unop.1 V.unop.2.some

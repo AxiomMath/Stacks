@@ -271,7 +271,7 @@ lemma pushforwardStalkHom_moduleStalkComparison (N : SheafOfModules.{w}
   have h := stalkModuleMap_moduleStalkComparison f.toToposHom
       (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) Φ Ψ e
     ((pushforwardModules f).obj N) x
-  show (Stacks.sheafModuleFiber Φ
+  change (Stacks.sheafModuleFiber Φ
       (inverseImageRingSheaf f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))).map
       _ (stalkModuleMap f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) Φ Ψ e
         ((pushforwardModules f).obj N) _) = _
@@ -329,6 +329,7 @@ lemma toRingFiber_stalkRingMap (r : Stacks.ringFiber Ψ Y.O.obj) :
     (congrArg (stalkRingEquiv f.toToposHom
         (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) Φ Ψ e) h₁.symm)
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The canonical map of stalks of a direct image is semilinear** over the map of stalk rings
 `𝒪'_Ψ ⟶ 𝒪_Φ` of Stacks 05V5. -/
 lemma pushforwardStalkHom_smul (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -823,7 +824,8 @@ def pushforwardStalkPiHom (N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.
     map_add' := fun z z' => funext fun i => (pushforwardStalkHom f (Φ i) Ψ (e i) N).map_add z z'
     map_smul' := fun r z => funext fun i => pushforwardStalkHom_smul f (Φ i) Ψ (e i) N r z }
 
-omit [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [Fintype ι] [DecidableEq ι] in
 /-- On underlying stalks of sheaves of sets, the components of `pushforwardStalkPiHom` are the
 maps `MorphismOfTopoi.pushforwardFiberMap` at the points `Φ i`. -/
@@ -839,7 +841,9 @@ lemma pushforwardStalkPiHom_moduleStalkComparison (N : SheafOfModules.{w}
           (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N) x) :=
   funext fun i => pushforwardStalkHom_moduleStalkComparison f (Φ i) Ψ (e i) N x
 
-omit [Fintype ι] [DecidableEq ι] in
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [Fintype ι] [DecidableEq ι] in
 /-- **The stalk of a direct image of modules is the product of the stalks**, as soon as this
 holds for sheaves of sets. -/
 lemma bijective_pushforwardStalkPiHom
@@ -914,15 +918,18 @@ lemma stalkBaseChangeEquiv_one_tmul (i : ι) (G : SheafOfModules.{w}
       pullbackStalkHom f (Φ i) Ψ (e i) G g :=
   stalkFunctorIso_inv_app_one_tmul f (Φ i) Ψ (e i) G g
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- **The stalk at `Ψ` of the canonical map `G ⊗ f_*F ⟶ f_*(f^*G ⊗ F)` is an isomorphism**
 as soon as the stalk at `Ψ` of a direct image of sheaves of sets is the product of the stalks at
 finitely many points `Φ i` of the source, each identified with `Ψ` along `f`. -/
-theorem isIso_sheafModuleFiberOfCommRing_map_pushforwardTensorMap
+theorem isIso_sheafModuleFiberOfCommRing_map_pushforwardTensorMap [Finite ι]
     (h : ∀ M : Sheaf X.J (Type w), Function.Bijective
       (fun z i => (f.toToposHom.pushforwardFiberMap (Φ i) Ψ (e i)).app M z))
     (G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     IsIso ((Stacks.sheafModuleFiberOfCommRing Ψ Y.O).map (pushforwardTensorMap f G F)) := by
+  classical
+  have := Fintype.ofFinite ι
   let := fun i => stalkAlgebra f Ψ Φ e i
   let := fun i => stalkModuleOfStalkRingMap f Ψ Φ e i F
   let := fun i => stalkModuleOfStalkRingMap f Ψ Φ e i ((f.pullbackModules).obj G)
@@ -945,8 +952,7 @@ theorem isIso_sheafModuleFiberOfCommRing_map_pushforwardTensorMap
             (TY.symm x)) i)) =
       Θ (LinearEquiv.lTensor ((Stacks.sheafModuleFiberOfCommRing Ψ Y.O).obj G) ψF x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => funext i; simp only [map_zero, Pi.zero_apply]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       funext i
       have hx' := congrFun hx i
@@ -1012,8 +1018,6 @@ theorem isIso_pushforwardTensorMap_of_isConservativeFamilyOfPoints
   refine Stacks.isIso_of_isIso_sheafModuleFiber (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) hP _
     fun Ψ => ?_
   obtain ⟨ι, _, Φ, e, hΦ⟩ := h Ψ.obj Ψ.property
-  classical
-  have := Fintype.ofFinite ι
   have hi := isIso_sheafModuleFiberOfCommRing_map_pushforwardTensorMap f Ψ.obj Φ e hΦ G F
   rw [ConcreteCategory.isIso_iff_bijective] at hi ⊢
   exact hi

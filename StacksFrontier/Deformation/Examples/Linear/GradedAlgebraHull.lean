@@ -133,7 +133,7 @@ public theorem schlessingerConditionS2_deformationProjection :
 /-- **Stacks 06I0.** The functor of isomorphism classes of deformations of a graded algebra
 satisfies Schlessinger's condition (S2). -/
 public theorem schlessingerConditionS2_isomorphismClasses :
-    SchlessingerConditionS2 (CategoryOfElements.π (Deformation.isomorphismClasses
+    SchlessingerConditionS2 (Functor.Elements.π (Deformation.isomorphismClasses
       (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
       (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered)) :=
   schlessingerConditionS2_of_isIsomorphismClasses _
@@ -157,7 +157,7 @@ public theorem exists_hull_isomorphismClasses_gradedAlgebra (hΛ : IsClassical �
       letI : Fact (IsPredeformationCategory.{u, w, w}
           (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading)).p) :=
         ⟨isPredeformationCategory_deformationProjection (Λ := Λ) P grading⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+      letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
           (Deformation.isomorphismClasses
             (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
             (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered))) :=
@@ -165,7 +165,7 @@ public theorem exists_hull_isomorphismClasses_gradedAlgebra (hΛ : IsClassical �
       FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k (Deformation.isomorphismClasses
         (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
         (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered))) :
-    ∃ ξ : FormalObject (CategoryOfElements.π (Deformation.isomorphismClasses
+    ∃ ξ : FormalObject (Functor.Elements.π (Deformation.isomorphismClasses
         (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
         (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered)),
       IsVersal (categoryOfElements_projection_isCofibered (Deformation.isomorphismClasses
@@ -182,7 +182,7 @@ public theorem exists_hull_isomorphismClasses_gradedAlgebra (hΛ : IsClassical �
   let : Fact (IsPredeformationCategory.{u, w, w}
       (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading)).p) :=
     ⟨isPredeformationCategory_deformationProjection (Λ := Λ) P grading⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (Deformation.isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (Deformation.isomorphismClasses
       (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
       (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered))) :=
     ⟨schlessingerConditionS2_isomorphismClasses (Λ := Λ) P grading⟩
@@ -218,7 +218,7 @@ through the comparison of the two tangent-space models. -/
 @[stacks 0ET3 "Def_P of 0D3L: finite-dimensional graded pieces define it, not an extra hypothesis"]
 public theorem exists_hull_isomorphismClasses_gradedAlgebra_of_finiteType
     [Algebra.FiniteType k P] (hΛ : IsClassical Λ k) :
-    ∃ ξ : FormalObject (CategoryOfElements.π (Deformation.isomorphismClasses
+    ∃ ξ : FormalObject (Functor.Elements.π (Deformation.isomorphismClasses
         (BasedCategory.ofFunctor (deformationProjection (Λ := Λ) P grading))
         (isPredeformationCategory_deformationProjection (Λ := Λ) P grading).cofibered)),
       IsVersal (categoryOfElements_projection_isCofibered (Deformation.isomorphismClasses

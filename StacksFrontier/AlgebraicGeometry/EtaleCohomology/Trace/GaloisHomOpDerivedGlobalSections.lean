@@ -228,6 +228,7 @@ lemma galoisHomOpSingleExtensionByZeroOverXIso_comm (F : EtaleModules.{u, 0} Λ 
     homOpSingleExtensionByZeroOverXIso_hom_comm, Functor.map_comp, Category.assoc]
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the componentwise isomorphism of Galois global sections and its `simp` check
 /-- **`Γ^Gal(Ȳ, ℋom^•_ℤ((i_! F)[0], M)) ≅ Γ^Gal(Y, ℋom_ℤ(F, i⁻¹ M))`**, as complexes of
 discrete Galois `Λᵐᵒᵖ`-modules. -/
 def galoisHomOpSingleExtensionByZeroOverIso (F : EtaleModules.{u, 0} Λ Y.left)
@@ -245,8 +246,7 @@ def galoisHomOpSingleExtensionByZeroOverIso (F : EtaleModules.{u, 0} Λ Y.left)
       (galoisGlobalSectionsMapDirectImageIso Λᵐᵒᵖ i kbar).app _)
     (by
       rintro p _ rfl
-      simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom,
-        Functor.mapHomologicalComplex_obj_d, homOpComplex_d]
+      simp only [Functor.mapHomologicalComplex_obj_d, homOpComplex_d]
       exact galoisHomOpSingleExtensionByZeroOverXIso_comm Λ kbar i F M p)
 
 /-- The degree-`p` component of `galoisHomOpSingleExtensionByZeroOverIso`: `Γ^Gal(Ȳ, -)` of

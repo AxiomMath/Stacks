@@ -126,6 +126,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for limits of presheaves on the big fppf site times out
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_presheaf_ImpurityAffineLimitDescent
@@ -133,6 +134,7 @@ local instance (priority := high) hasLimitsOfShape_presheaf_ImpurityAffineLimitD
     HasLimitsOfShape J ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for pullbacks of presheaves on the big fppf site times out
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ImpurityAffineLimitDescent :
@@ -1068,7 +1070,7 @@ theorem exists_isImpurity_stageDiagram (hD : D.IsImpurity) :
         (fun i ↦ A.isQuasiCompactSpace_closureFibre κ η hci i)
         (fun i ↦ A.nonempty_points_closureFibre κ η hκ hrange hmem i)
       intro i j a
-      show Mono (A.closureFibreMap κ η a)
+      change Mono (A.closureFibreMap κ η a)
       let : Mono (A.closureFibreToFibre κ η i) := mono_of_isClosedImmersion B S hS _
         (A.isClosedImmersion_closureFibreToFibre κ η hci i)
       exact mono_of_mono_fac (A.closureFibreMap_comp_toFibre κ η a)

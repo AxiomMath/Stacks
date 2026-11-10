@@ -92,7 +92,7 @@ theorem isTorsionVanishingBound_opens_spec_of_fractionFieldVanishingBound
     obtain ⟨a, b, -, hb, hab⟩ := exists_height_coheight_eq_of_ringKrullDim_eq hd
       (x : PrimeSpectrum A)
     simp only [c]
-    rw [hb, ENat.toNat_coe]
+    rw [hb, ENat.toNat_natCast]
     exact isTorsionVanishingBound_residueField_spec_of_upTo hn0 (h.upTo d) hn x hb (by omega)
   have hsup : (⨆ (x : Spec (.of A)) (_ : x ∉ U),
       (c x + 2 * ringKrullDim ((Spec (.of A)).presheaf.stalk x))) ≤
@@ -108,7 +108,7 @@ theorem isTorsionVanishingBound_opens_spec_of_fractionFieldVanishingBound
       rw [ringKrullDim_stalk_spec (CommRingCat.of A) x]
       exact congrArg (fun t : ℕ∞ => (t : WithBot ℕ∞)) h1
     simp only [c]
-    rw [hb, ENat.toNat_coe, hstalk]
+    rw [hb, ENat.toNat_natCast, hstalk]
     exact_mod_cast (by omega : 2 * b - 1 + 2 * a ≤ 2 * d)
   exact isZero_rightDerived_opensSupport_of_genericPointSupportKilling
     (genericPointSupportKilling_of_localInputs

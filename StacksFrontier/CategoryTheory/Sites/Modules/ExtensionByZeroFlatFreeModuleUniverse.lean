@@ -124,9 +124,7 @@ open Stacks.Sites.ExtensionByZero.FreeModuleUniverse
 
 section Flat
 
-variable (X : RingedSite.{u, v, max v a}) (U : X.C) [UnivLE.{v, a}]
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
+variable (X : RingedSite.{u, v, max v a}) (U : X.C)
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{max v a}]
   [HasWeakSheafify X.J AddCommGrpCat.{max v a}]
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{max v a}]
@@ -167,8 +165,6 @@ noncomputable def sliceExtension :
 
 /-! ### Each of the three is exact -/
 
-omit [UnivLE.{v, a}] [X.J.HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})] in
 /-- **Restriction to the slice over `U` is exact** (Stacks 04IX), at the module universe
 `max v a`. The strong sheafification both halves need is derived from `HasWeakSheafify` and
 `GrothendieckTopology.WEqualsLocallyBijective`, which are hypotheses already. -/
@@ -181,9 +177,7 @@ theorem sliceRestriction_exact : exactFunctor _ _ (sliceRestriction X U) := by
   exact ⟨Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteLimits U,
     Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteColimits U⟩
 
-omit [UnivLE.{v, a}] [X.J.HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [X.J.WEqualsLocallyBijective AddCommGrpCat.{max v a}]
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{max v a}]
   [HasWeakSheafify X.J AddCommGrpCat.{max v a}] in
 /-- **Tensoring on the left with a flat sheaf of modules on the slice is exact.** Flatness is
 exactness of tensoring on the *right*, and the two agree by
@@ -195,8 +189,6 @@ theorem sliceTensorLeft_exact
   ObjectProperty.IsClosedUnderIsomorphisms.of_iso
     (tensorLeftIsoSheafTensorRight (X.J.over U) (X.O.over U) G).symm hG
 
-omit [UnivLE.{v, a}] [X.J.HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})] in
 /-- **Extension by zero is exact** (Stacks 03DJ), at the module universe `max v a`: this is
 `Stacks.Sites.ExtensionByZero.FreeModuleUniverse.extensionByZero_exact`, read at the
 semireducible name. -/
@@ -252,7 +244,7 @@ noncomputable def tensorLeftExtendByZeroHom
         ((extendByZero.{max v a} X U).obj G) ⟶
       sliceRestriction X U ⋙ sliceTensorLeft X U G ⋙ sliceExtension X U where
   app F := (tensorLeftExtendByZeroIsoApp X U G F).hom
-  naturality _ _ α := tensorLeftExtendByZeroIso_naturality X U G α
+  naturality _ _ α := tensorLeftExtendByZeroIso_naturality.{a, v, u} X U G α
 
 /-- The components of `tensorLeftExtendByZeroHom` are the components of
 `tensorLeftExtendByZeroIsoApp`, by definition.
@@ -296,8 +288,6 @@ noncomputable def tensorLeftExtendByZeroIso
 
 /-! ### Extension by zero preserves flatness -/
 
-omit [UnivLE.{v, a}] [X.J.HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{max v a} RingCat.{max v a})] in
 /-- **The composite of the three exact functors is exact.** Each factor is exact — by
 Stacks 04IX, by the flatness of `G`, and by Stacks 03DJ — and exactness is preserved by
 composition.

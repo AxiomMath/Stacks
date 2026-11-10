@@ -117,7 +117,7 @@ theorem infLift_comp_sV {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : 
     {ℓ : P →ₐ[A'] C'.obj} (hℓ : e.q.hom.hom.comp ℓ = w) {E : Q →ₗ[A'] C'.obj}
     (hE : E ∈ K2 e v sV tV) : (infLift b hb sV tV hv hℓ hE).comp sV = ℓ := by
   ext x
-  show infBase b hb hv hℓ (sV x) + E (sV x) = ℓ x
+  change infBase b hb hv hℓ (sV x) + E (sV x) = ℓ x
   rw [K2_sV sV tV hE, add_zero, ← AlgHom.comp_apply, infBase_comp_sV b hb sV hsV]
 
 include htV in
@@ -126,7 +126,7 @@ theorem infLift_comp_tV {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : 
     {ℓ : P →ₐ[A'] C'.obj} (hℓ : e.q.hom.hom.comp ℓ = w) {E : Q →ₗ[A'] C'.obj}
     (hE : E ∈ K2 e v sV tV) : (infLift b hb sV tV hv hℓ hE).comp tV = ℓ := by
   ext x
-  show infBase b hb hv hℓ (tV x) + E (tV x) = ℓ x
+  change infBase b hb hv hℓ (tV x) + E (tV x) = ℓ x
   rw [K2_tV sV tV hE, add_zero, ← AlgHom.comp_apply, infBase_comp_tV b hb tV htV]
 
 include hsV in
@@ -148,7 +148,7 @@ theorem map_infOf {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : b.app 
     {ℓ : P →ₐ[A'] C'.obj} (hℓ : e.q.hom.hom.comp ℓ = w) {E : Q →ₗ[A'] C'.obj}
     (hE : E ∈ K2 e v sV tV) : G.arr.map e.q (infOf b hb sV tV hv hℓ hE) = G.idt w := by
   rw [infOf, b.natural]
-  show b.app C (e.q.hom.hom.comp (addLift E hE.1.1 _ _)) = _
+  change b.app C (e.q.hom.hom.comp (addLift E hE.1.1 _ _)) = _
   rw [addLift_reduce, hv]
 
 /-- The infinitesimal automorphism of the zero derivation is the identity of `ℓ`. -/
@@ -219,7 +219,7 @@ private theorem comp_fib3Proj_red (hκ : Cardinal.aleph0 < κ) {v : Q →ₐ[A']
     {H : Q →ₐ[A'] (fib3 e hκ).obj} (hH : (fib3Sq e hκ).q.hom.hom.comp H = v) (k : Fin 3) :
     e.q.hom.hom.comp ((fib3Proj e hκ k).hom.hom.comp H) = v := by
   rw [← AlgHom.comp_assoc]
-  show ((fib3Proj e hκ k) ≫ e.q).hom.hom.comp H = v
+  change ((fib3Proj e hκ k) ≫ e.q).hom.hom.comp H = v
   rw [fib3Proj_red, hH]
 
 /-- A lift of `v` whose chart image is `infOf E` is the lift `vt + E`. -/
@@ -305,18 +305,18 @@ theorem comp_infOf (hκ : Cardinal.aleph0 < κ) {w : P →ₐ[A'] C.obj} {v : Q 
     have e₀ : (H x).1.1 = vt x := AlgHom.congr_fun hH₀ x
     have e₁ : (H x).1.2.1 = f₁ x := AlgHom.congr_fun hH₁ x
     have e₂ : (H x).1.2.2 = f₂ x := AlgHom.congr_fun hH₂ x
-    show (H x).1.1 + 1 * ((H x).1.2.1 - (H x).1.1) + 1 * ((H x).1.2.2 - (H x).1.1) =
+    change (H x).1.1 + 1 * ((H x).1.2.1 - (H x).1.1) + 1 * ((H x).1.2.2 - (H x).1.1) =
       vt x + (E₁ + E₂) x
     rw [e₀, e₁, e₂]
-    show vt x + 1 * (vt x + E₁ x - vt x) + 1 * (vt x + E₂ x - vt x) = vt x + (E₁ x + E₂ x)
+    change vt x + 1 * (vt x + E₁ x - vt x) + 1 * (vt x + E₂ x - vt x) = vt x + (E₁ x + E₂ x)
     ring
   have hσ₁ : σ.hom.hom.comp L₁ = f₁ := by
     ext x
-    show vt x + 1 * (f₁ x - vt x) + 1 * (vt x - vt x) = f₁ x
+    change vt x + 1 * (f₁ x - vt x) + 1 * (vt x - vt x) = f₁ x
     ring
   have hσ₂ : σ.hom.hom.comp L₂ = f₂ := by
     ext x
-    show vt x + 1 * (vt x - vt x) + 1 * (f₂ x - vt x) = f₂ x
+    change vt x + 1 * (vt x - vt x) + 1 * (f₂ x - vt x) = f₂ x
     ring
   have key : G.arr.map σ Gc = G.comp (infOf b hb sV tV hv hℓ hE₁) (infOf b hb sV tV hv hℓ hE₂)
       (by rw [src_infOf b hb sV tV hsV, tgt_infOf b hb sV tV htV]) := by
@@ -359,7 +359,7 @@ theorem map_sigma_eq_infOf (hκ : Cardinal.aleph0 < κ) {w : P →ₐ[A'] C.obj}
     AlgHom.congr_fun hH₁ x
   have e₂ : (H x).1.2.2 = infBase b hb hv hℓ x + E₂ x :=
     AlgHom.congr_fun hH₂ x
-  show (H x).1.1 + c₁ * ((H x).1.2.1 - (H x).1.1) + c₂ * ((H x).1.2.2 - (H x).1.1) =
+  change (H x).1.1 + c₁ * ((H x).1.2.1 - (H x).1.1) + c₂ * ((H x).1.2.2 - (H x).1.1) =
     infBase b hb hv hℓ x + (c₁ • E₁ + c₂ • E₂) x
   rw [e₀, e₁, e₂, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.smul_apply, smul_eq_mul,
     smul_eq_mul]
@@ -502,7 +502,7 @@ theorem conjK_add_smul (hκ : Cardinal.aleph0 < κ) {E₁ E₂ : Q →ₗ[A'] C'
   have hσL : (fib3Sigma e hκ c₁ c₂).hom.hom.comp L = infLift b hb sV tV hv hℓ
       (add_mem (Submodule.smul_mem _ c₁ hE₁) (Submodule.smul_mem _ c₂ hE₂)) := by
     ext x
-    show vt x + c₁ * ((vt x + E₁ x) - vt x) + c₂ * ((vt x + E₂ x) - vt x) =
+    change vt x + c₁ * ((vt x + E₁ x) - vt x) + c₂ * ((vt x + E₂ x) - vt x) =
       vt x + (c₁ • E₁ + c₂ • E₂) x
     rw [LinearMap.add_apply, LinearMap.smul_apply, LinearMap.smul_apply, smul_eq_mul, smul_eq_mul]
     ring
@@ -670,10 +670,10 @@ theorem postcomp_mem_K2 {v : Q →ₐ[A'] C.obj} {v₂ : Q →ₐ[A'] D.obj}
     postcomp φ E ∈ K2 e₂ v₂ sV tV := by
   refine ⟨⟨mem_Der_postcomp φ hv₂ hE.1.1, LinearMap.mem_ker.mpr ?_⟩, LinearMap.mem_ker.mpr ?_⟩
   · ext x
-    show φ.top.hom.hom (E (sV x)) = 0
+    change φ.top.hom.hom (E (sV x)) = 0
     rw [K2_sV sV tV hE, map_zero]
   · ext x
-    show φ.top.hom.hom (E (tV x)) = 0
+    change φ.top.hom.hom (E (tV x)) = 0
     rw [K2_tV sV tV hE, map_zero]
 
 /-- **The map of `K₂` induced by a map of thickenings**, `A'`-linear. -/
@@ -711,7 +711,7 @@ theorem map_top_infOf {w : P →ₐ[A'] C.obj} {v : Q →ₐ[A'] C.obj} (hv : b.
   rw [infOf, b.natural]
   refine congrArg (b.app D') (AlgHom.ext fun x ↦ ?_)
   have h := congrArg (fun f : Q →ₐ[A'] D'.obj ↦ f x) (infBase_map b hb φ hv hℓ hv₂ hvv hℓ₂)
-  show φ.top.hom.hom (infBase b hb hv hℓ x + E x) = infBase b hb hv₂ hℓ₂ x + φ.top.hom.hom (E x)
+  change φ.top.hom.hom (infBase b hb hv hℓ x + E x) = infBase b hb hv₂ hℓ₂ x + φ.top.hom.hom (E x)
   rw [map_add]
   exact congrArg (· + φ.top.hom.hom (E x)) h
 

@@ -93,7 +93,7 @@ theorem flat_commRingStructurePresheaf_map_comp_structureSharp (ha : Flat (E.inc
       Scheme.Γ.map (op (E.inclusion.map (pullback.fst V.obj.hom a))) ≫
         Scheme.Γ.map ((SmallEtale.toScheme E X.obj X.property).map k).op :=
     Functor.map_comp _ _ _
-  show ((Scheme.Γ.map (op (E.inclusion.map (pullback.fst V.obj.hom a))) ≫
+  change ((Scheme.Γ.map (op (E.inclusion.map (pullback.fst V.obj.hom a))) ≫
     Scheme.Γ.map ((SmallEtale.toScheme E X.obj X.property).map k).op).hom).Flat
   rw [← heq]
   exact HasRingHomProperty.appTop (P := @Flat) m hm
@@ -132,7 +132,7 @@ theorem generate_flat_mem_topology (ha : Flat (E.inclusion.map a))
   refine ⟨_, lift, q ≫ g₁, ⟨CostructuredArrow.mk (q ≫ k₂ ≫ FF.map m₃).op,
     CostructuredArrow.homMk m.op ?_, ?_⟩, by rw [Category.assoc]⟩
   · apply Quiver.Hom.unop_inj
-    show (q ≫ k₂ ≫ FF.map m₃) ≫ FF.map m = (q ≫ g₁) ≫ h
+    change (q ≫ k₂ ≫ FF.map m₃) ≫ FF.map m = (q ≫ g₁) ≫ h
     rw [Category.assoc, Category.assoc, ← FF.map_comp, Category.assoc]
     exact congrArg (q ≫ ·) hk₂.symm
   · exact flat_commRingStructurePresheaf_map_comp_structureSharp E a ha W₀.property Vj.property

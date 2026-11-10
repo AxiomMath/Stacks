@@ -132,8 +132,7 @@ private lemma productRestrictionUnit_extension_bijective (n : ℕ) (A : Fin n �
       (moduleExtension.{max u v w, v} R M)).app
         (Opposite.op (Opposite.op B))) = e := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero e).symm
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       funext i
       rfl
@@ -174,7 +173,7 @@ private lemma productRestrictionUnit_kernel_bijective (n : ℕ) (A : Fin n → T
       apply hG
       funext i
       rw [productRestrictionUnit_natural, map_zero]
-      show f.app (Xi i) ((productRestrictionUnit n A F).app X z i) = 0
+      change f.app (Xi i) ((productRestrictionUnit n A F).app X z i) = 0
       rw [congrFun hz i]
       exact congrArg (fun q => q.app (Xi i) (y i)) (kernel.condition f)
     obtain ⟨x, hx⟩ := (kernelApp_exact f X z).mp hzero
@@ -251,10 +250,7 @@ private noncomputable def factorEvalIso (n : ℕ) (A : Fin n → Type u)
   -- scalar structure of `B` itself.
   have hinv (x : TensorProduct R (B : Type (max u v)) (A i)) :
       f x ⊗ₜ[R] (1 : A i) = x := by
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      change t 0 ⊗ₜ[R] (1 : A i) = 0
-      rw [map_zero, TensorProduct.zero_tmul]
+    induction x using TensorProduct.inductionOn with
     | tmul b a =>
       change t (b ⊗ₜ[R] a) ⊗ₜ[R] (1 : A i) = _
       have he : t (b ⊗ₜ[R] a) = Mul.mul (α := B) b (algebraMap (A i) B a) :=
@@ -292,10 +288,9 @@ private lemma factorEvalIso_natural (n : ℕ) (A : Fin n → Type u)
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b a =>
-    show (factorEvalIso n A i C).hom (f.hom b ⊗ₜ[∀ j, A j] a) =
+    change (factorEvalIso n A i C).hom (f.hom b ⊗ₜ[∀ j, A j] a) =
       f.hom ((factorEvalIso n A i B).hom (b ⊗ₜ[∀ j, A j] a))
     exact (factorEvalIso_hom_tmul n A i C (f.hom b) a).trans
       (((congrArg (fun c : C => f.hom b * c) (f.hom.commutes a).symm).trans
@@ -310,7 +305,7 @@ private lemma factorEval_subsingleton (n : ℕ) (A : Fin n → Type u)
     Subsingleton (factorAlg n A ((evalAlgFunctor n A i).obj B) j) := by
   let : Algebra (∀ j, A j) B := Algebra.compHom B (Pi.evalRingHom A i)
   apply subsingleton_of_zero_eq_one
-  show (0 : TensorProduct (∀ j, A j) (B : Type (max u v)) (A j)) =
+  change (0 : TensorProduct (∀ j, A j) (B : Type (max u v)) (A j)) =
     (1 : B) ⊗ₜ[∀ j, A j] (1 : A j)
   have ht := TensorProduct.smul_tmul (R := ∀ j, A j) (Pi.single i (1 : A i)) (1 : B) (1 : A j)
   simp only [Algebra.smul_def] at ht
@@ -365,7 +360,7 @@ private lemma productRestrictionCounitApp_naturality (n : ℕ) (A : Fin n → Ty
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show (G i).map (factorEvalIso n A i Y.unop.unop).hom.op.op
+  change (G i).map (factorEvalIso n A i Y.unop.unop).hom.op.op
     ((G i).map (factorAlgMap n A _ _ ((evalAlgFunctor n A i).map f.unop.unop) i).op.op
       (x i)) =
     (G i).map f ((G i).map (factorEvalIso n A i X.unop.unop).hom.op.op (x i))

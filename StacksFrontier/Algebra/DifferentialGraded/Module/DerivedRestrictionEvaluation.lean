@@ -103,7 +103,7 @@ theorem quasiIsomorphisms_Q_map_toHomotopyCategory_map_evaluation_eq_id (φ : A.
     (N : DifferentialGradedModule B) :
     (quasiIsomorphisms' A).Q.map
         ((toHomotopyCategory A).map ((evaluationAtOne φ).evaluation N)) = 𝟙 _ := by
-  show (quasiIsomorphisms' A).Q.map
+  change (quasiIsomorphisms' A).Q.map
       ((toHomotopyCategory A).map (𝟙 (restrictScalars φ N))) = 𝟙 _
   rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
 

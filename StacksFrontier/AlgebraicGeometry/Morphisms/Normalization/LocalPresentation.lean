@@ -198,7 +198,7 @@ theorem exists_iso_pullback_normalization_fromSpecStalk (x : X) :
   let : IsScalarTower Γ(X, U) (minimalPrimes.enumResidueFieldProduct σ)
       (minimalPrimes.residueFieldProduct (X.presheaf.stalk x)) := by
     refine IsScalarTower.of_algebraMap_eq fun r => funext fun q => ?_
-    show algebraMap Γ(X, U) (Ideal.ResidueField (q : Ideal (X.presheaf.stalk x))) r = _
+    change algebraMap Γ(X, U) (Ideal.ResidueField (q : Ideal (X.presheaf.stalk x))) r = _
     rw [IsScalarTower.algebraMap_apply Γ(X, U) (X.presheaf.stalk x)
       (Ideal.ResidueField (q : Ideal (X.presheaf.stalk x)))]
     exact (Ideal.ResidueField.map_algebraMap (σ (u q)) (q : Ideal (X.presheaf.stalk x))
@@ -254,7 +254,7 @@ theorem exists_iso_pullback_normalization_fromSpecStalk (x : X) :
   have hiso1 : iso1.hom ≫ Spec.map (CommRingCat.ofHom
         (algebraMap Γ(X, U) (integralClosure Γ(X, U) (minimalPrimes.enumResidueFieldProduct σ)))) =
       (f.fromNormalization ∣_ U) ≫ hU.isoSpec.hom := by
-    show ((relativeNormalizationPreimageIso f U hU).hom ≫
+    change ((relativeNormalizationPreimageIso f U hU).hom ≫
         Spec.map eIC.toRingEquiv.toCommRingCatIso.symm.hom) ≫ Spec.map (CommRingCat.ofHom
           (algebraMap Γ(X, U)
             (integralClosure Γ(X, U) (minimalPrimes.enumResidueFieldProduct σ)))) = _

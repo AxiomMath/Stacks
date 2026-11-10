@@ -48,7 +48,7 @@ theorem isZero_rightDerived_pushforward_of_isAffineHom_of_dim_le_one (k : Type u
   have : IsAffine ((AffineEtale.Spec X).obj Z).left :=
     (inferInstance : IsAffine (Spec Z.left.unop))
   have : IsAffine W.left := by
-    show IsAffine (pullback ((AffineEtale.Spec X).obj Z).hom h)
+    change IsAffine (pullback ((AffineEtale.Spec X).obj Z).hom h)
     have : IsAffineHom (pullback.fst ((AffineEtale.Spec X).obj Z).hom h) :=
       MorphismProperty.of_isPullback (IsPullback.of_hasPullback _ h).flip ‹IsAffineHom h›
     have : IsAffine ((𝟭 Scheme).obj ((AffineEtale.Spec X).obj Z).left) :=

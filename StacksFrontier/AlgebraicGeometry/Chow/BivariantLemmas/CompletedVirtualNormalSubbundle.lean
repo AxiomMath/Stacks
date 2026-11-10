@@ -212,7 +212,7 @@ theorem bivariantConnectedComponentRestriction_topChernTotalClass_heq
         (Scheme.Modules.rankOnConnectedComponent Eb a) (Fin.last _) := by
   have := isFiniteLocallyFreeOfRank_pullback_ι_of_le_rankLocus Eb _ _
     (Scheme.Modules.connectedComponentOpens_le_rankStratum Eb a)
-  rw [bivariantConnectedComponentRestriction_topChernTotalClass, if_pos rfl]
+  rw [bivariantConnectedComponentRestriction_topChernTotalClass, ite_eq_left rfl]
   refine (bivariantPieceRestriction_heq_of_index C sZ sZ (𝟙 Z) (Category.id_comp sZ) _
     Z.connectedComponentOpens Z.connectedComponentOpens
     (Scheme.Hom.connectedComponentsMap_id Z) _ (opens_le_preimage_id _) a

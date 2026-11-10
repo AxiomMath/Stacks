@@ -58,7 +58,7 @@ variable {R : Type u} [CommRing R]
 terms are flat sheaves of modules, their sections being flat modules. -/
 theorem kFlat_pointModules_of_flat (K : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ)
     [K.IsStrictlyLE b] (hK : ∀ i, Module.Flat R (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat (pointRingedTopos (CommRingCat.of R)).O
+    Stacks.SheafOfModules.IsKFlat (pointRingedTopos (CommRingCat.of R)).O
       (((baseRingPointModulesEquiv (R := R)).inverse.mapHomologicalComplex
         (ComplexShape.up ℤ)).obj K) := by
   refine Stacks.SheafOfModules.kFlat_of_boundedAbove_of_flat _ _ ⟨b, ?_⟩
@@ -220,7 +220,7 @@ abbrev pointDerivedTensor :=
 complex**, naturally in the other factor (Stacks 06YU). -/
 def pointDerivedTensorQIso
     (L : CochainComplex (pointRingedTopos (CommRingCat.of R)).Modules ℤ)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat (pointRingedTopos (CommRingCat.of R)).O L) :
+    (hL : Stacks.SheafOfModules.IsKFlat (pointRingedTopos (CommRingCat.of R)).O L) :
     (Stacks.SheafOfModules.Tensor.tensorComplex (pointRingedTopos (CommRingCat.of R)).O).obj L ⋙
         DerivedCategory.Q ≅
       DerivedCategory.Q ⋙ (pointDerivedTensor (R := R)).obj (DerivedCategory.Q.obj L) :=

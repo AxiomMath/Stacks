@@ -156,7 +156,7 @@ public theorem relDifferential_val (i n : ℕ) (x : CompletedTensor p D (Om i) M
 public theorem relDifferential_of_tmul (i : ℕ) (m : M) (ω : Om i) :
     relDifferential p D Om drel M i (toCompletedTensor p D (Om i) M (m ⊗ₜ[D] ω)) =
       toCompletedTensor p D (Om (i + 1)) M (m ⊗ₜ[D] drel i ω) := by
-  show AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (drel i))
+  change AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (drel i))
       (AdicCompletion.of (pAdicIdeal (A := D) p) (M ⊗[D] Om i) (m ⊗ₜ[D] ω)) = _
   rw [AdicCompletion.map_of, LinearMap.lTensor_tmul]
 
@@ -167,7 +167,7 @@ public theorem relDifferential_relDifferential
     (hdrel : ∀ i : ℕ, (drel (i + 1)).comp (drel i) = 0) (i : ℕ)
     (x : CompletedTensor p D (Om i) M) :
     relDifferential p D Om drel M (i + 1) (relDifferential p D Om drel M i x) = 0 := by
-  show AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (drel (i + 1)))
+  change AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (drel (i + 1)))
       (AdicCompletion.map (pAdicIdeal (A := D) p) (LinearMap.lTensor M (drel i)) x) = 0
   rw [AdicCompletion.map_comp_apply, ← LinearMap.lTensor_comp, hdrel i, LinearMap.lTensor_zero,
     AdicCompletion.map_zero]
@@ -216,8 +216,7 @@ public theorem rawDifferential_eq_lTensor_add
     rawDifferential p D Om wedge deRham M nabla hleib i y =
       toCompletedTensor p D (Om (i + 1)) M (LinearMap.lTensor M (drel i) y) +
         rawDifferential p D Om wedge dbase M nabla hleibBase i y := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero, add_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [rawDifferential_tmul, rawDifferential_tmul, LinearMap.lTensor_tmul, hsplit i ω,
       TensorProduct.tmul_add, map_add]
@@ -250,7 +249,7 @@ public theorem relDifferential_add_differential_eq
   have hbase : (differential p D Om wedge dbase M nabla hleibBase i x).val n =
       (rawDifferential p D Om wedge dbase M nabla hleibBase i y).val n := by
     rw [differential_val, hxy, levelDifferential_mk]
-  show (relDifferential p D Om drel M i x +
+  change (relDifferential p D Om drel M i x +
       differential p D Om wedge dbase M nabla hleibBase i x).val n = _
   rw [AdicCompletion.val_add_apply, hrel, hbase,
     rawDifferential_eq_lTensor_add p D Om wedge deRham drel dbase M nabla hleib hleibBase hsplit
@@ -365,7 +364,7 @@ public theorem isSquareZero_base_of_cross
     IsSquareZero p D Om wedge dbase M nabla hleibBase := by
   intro i
   refine AddMonoidHom.ext fun x ↦ ?_
-  show differential p D Om wedge dbase M nabla hleibBase (i + 1)
+  change differential p D Om wedge dbase M nabla hleibBase (i + 1)
     (differential p D Om wedge dbase M nabla hleibBase i x) = 0
   have h := cross_add_base_sq_eq_zero p D Om wedge deRham drel dbase M nabla hleib hleibBase
     hsplit hdrel hsq i x

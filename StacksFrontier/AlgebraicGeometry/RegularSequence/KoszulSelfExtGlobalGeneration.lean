@@ -176,7 +176,7 @@ theorem sliceIdealOfSections_eq_idealOfHom (hJ : IsGeneratedByOn X J U f) :
   · have hxJ : x ∈ (generatedIdealOn X U f).obj (op W.unop.left) := by
       rw [← hJ W.unop.left (leOfHom W.unop.hom)]
       exact mem_of_mem_presheafRangeSubmodule_overFunctor_ι U J W x hx
-    show x ∈ (localClosure (_root_.SheafOfModules.unit (sliceRingSheaf U))
+    change x ∈ (localClosure (_root_.SheafOfModules.unit (sliceRingSheaf U))
       (spanSections (_root_.SheafOfModules.unit (sliceRingSheaf U)).val
         (sliceSections U f))).obj W
     rw [mem_localClosure_obj, GrothendieckTopology.mem_over_iff,

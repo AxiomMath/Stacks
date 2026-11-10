@@ -81,7 +81,8 @@ clause (b) of [Stacks, Tag 0E7K], recorded as open in `DirectImageStructureSheaf
 The induced morphism on the fibres over `s` is written `pullback.snd f (q.fiberι s)`: its
 target is `Y_s = q.fiber s`, and its source `X ×_Y Y_s` is `X_s`, the fibre of `X ⟶ S` over `s`.
 This is the spelling in which the base-change hypothesis `hbc` is already stated, so no transport
-is needed; the `Stacks.Flatness.fiberHom f q s` of `StacksFrontier/AlgebraicGeometry/Morphisms/Flat/FibrewiseFiber.lean` is the same morphism
+is needed; the `Stacks.Flatness.fiberHom f q s` of
+`StacksFrontier/AlgebraicGeometry/Morphisms/Flat/FibrewiseFiber.lean` is the same morphism
 presented as a lift into a fibre product.
 
 The open is the complement of `SheafOfModules.supp (R¹f_*𝒪_X)`, which is closed because of the

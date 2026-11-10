@@ -60,8 +60,8 @@ else is required of it.
 
 *Why not depth.* The statement `Hom_R(𝔪, R) = R` is the vanishing of `Ext⁰_R(κ, R)` and of
 `Ext¹_R(κ, R)`, so `depth R ≥ 2` would give it; that route is not taken here, and should not be
-taken in this library as it stands. `Module.depth` is referenced only from the per-tag statement files
-and from `StacksFrontier/RingTheory/Serre/Criterion.lean`, and the library carries *two
+taken in this library as it stands. `Module.depth` is referenced only from the per-tag statement
+files and from `StacksFrontier/RingTheory/Serre/Criterion.lean`, and the library carries *two
 incompatible definitions* of it which cannot be imported together: the implementation notes of
 `StacksFrontier/RingTheory/Serre/Defs.lean` record that neither pair of Serre predicates "can be
 restated in terms of the other until the two depths are merged". Normality together with the

@@ -10,8 +10,7 @@ Let `X` be a separated scheme of finite type over a finite field `k` and `F` an 
 `X`, with torsion-free model `F'`, for a prime `ℓ ≠ p = char k`. The levels `F'ₙ` are
 constructible flat sheaves of `ℤ/ℓⁿ⁺¹`-modules, so the complexes `F'ₙ[0]` lie in
 `D_ctf(X, ℤ/ℓⁿ⁺¹)` and the trace formula of [Stacks, Tag 03V3]
-(`perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_`
-`properDirectImageCtfInput`)
+(`perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput`)
 applies: `Kₙ = RΓ_c(X_k̄, F'ₙ)` is perfect (item (1) of the proof of [Stacks, Tag 03V2]) and
 `Tr(π_X^* | Kₙ) = ∑_{x ∈ X(k)} Tr(π_x | (F'ₙ)_x̄)` (item (3)), in the shape consumed by
 `Stacks.EtaleCohomology.LAdicSheaf.traceFormula_of_levelTraceFormula`.
@@ -104,7 +103,7 @@ theorem LAdicSheaf.isPerfect_compactSupportFrobeniusCohomology_levelComplex
         (LAdicSheaf.levelComplex B X ℓ (model F) n))) := by
   let : Fintype (rationalPoints f) := @Fintype.ofFinite _ (finite_rationalPoints f)
   exact
-    (perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+    (perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput
     (kbar := kbar) (p := p) (q := q) (hcard := hcard)
     (natCard_zmod_pow_ne_zero_of_ne_char ℓ p hℓp n) (hctf n) f j _ X.property
     (LAdicSheaf.isCtf_levelComplex_torsionFreeModel B X ℓ F n)).choose_spec.choose
@@ -128,7 +127,7 @@ theorem LAdicSheaf.levelTraceFormula [Algebra.IsAlgebraic k kbar] (hℓp : ℓ �
           (DerivedCategory.Q.map (rationalPointStalkFrobenius.{u, 0} (ZMod (ℓ ^ (n + 1))) kbar p
             q hcard y.1 (LAdicSheaf.levelComplex B X ℓ (model F) n)))) := by
   obtain ⟨hKs, hperf, htr⟩ :=
-    perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+    perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput
       (kbar := kbar) (p := p) (q := q) (hcard := hcard)
       (natCard_zmod_pow_ne_zero_of_ne_char ℓ p hℓp n) (hctf n) f j _ X.property
       (LAdicSheaf.isCtf_levelComplex_torsionFreeModel B X ℓ F n)

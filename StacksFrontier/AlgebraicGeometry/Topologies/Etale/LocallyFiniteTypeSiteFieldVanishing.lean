@@ -58,7 +58,7 @@ private lemma topologicalKrullDim_eq_zero_of_iso {S : Scheme.{u}} (k : Type u) [
   have hhomeo : IsHomeomorph e.hom.base :=
     (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso e)).isHomeomorph
   rw [hhomeo.topologicalKrullDim_eq]
-  show topologicalKrullDim (PrimeSpectrum k) = 0
+  change topologicalKrullDim (PrimeSpectrum k) = 0
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_field]
 
 /-- Over a base of dimension zero, every local ring of `X` has dimension at most `(d - 1) / 2`,
@@ -69,7 +69,7 @@ private lemma _root_.AlgebraicGeometry.Scheme.Hom.ringKrullDim_stalk_le_of_etale
     ringKrullDim (X.presheaf.stalk x) ≤ ((d - 1) / 2 : ℕ) := by
   have hbound : (1 : WithBot ℕ∞) + 2 * ringKrullDim (X.presheaf.stalk x) ≤ d := by
     rw [← hd]
-    show _ ≤ 1 + 2 * topologicalKrullDim S + _
+    change _ ≤ 1 + 2 * topologicalKrullDim S + _
     rw [hS, mul_zero, add_zero]
     refine add_le_add le_rfl
       ((le_add_of_nonneg_left ?_).trans (le_sup_of_le_right (le_iSup_of_le x le_rfl)))
@@ -90,7 +90,7 @@ private lemma _root_.AlgebraicGeometry.Scheme.Hom.ringKrullDim_stalk_le_of_etale
       induction a using ENat.recTopCoe with
       | top =>
         rw [hx, ← WithBot.coe_natCast] at hrd
-        exact absurd (top_le_iff.1 (WithBot.coe_le_coe.1 hrd)) (ENat.coe_ne_top d)
+        exact absurd (top_le_iff.1 (WithBot.coe_le_coe.1 hrd)) (ENat.natCast_ne_top d)
       | coe r => exact ⟨r, rfl⟩
   rw [hr] at hbound ⊢
   have : 1 + 2 * r ≤ d := by exact_mod_cast hbound
@@ -130,7 +130,7 @@ theorem subsingleton_H_of_etale_of_field {S : Scheme.{u}} (k : Type u) [Field k]
   have hd1 : 1 ≤ d := by
     have h1 : (1 : WithBot ℕ∞) ≤ d := by
       rw [← hd]
-      show _ ≤ 1 + 2 * topologicalKrullDim S + _
+      change _ ≤ 1 + 2 * topologicalKrullDim S + _
       rw [hdimS, mul_zero, add_zero]
       exact le_add_of_nonneg_right le_sup_left
     exact_mod_cast h1

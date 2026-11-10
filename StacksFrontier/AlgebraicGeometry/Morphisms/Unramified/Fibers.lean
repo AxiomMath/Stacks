@@ -102,21 +102,21 @@ private theorem unramified_coproduct_spectra_finite_separable
       refine ⟨fun x ↦ ?_, fun _ ↦ inferInstance⟩
       obtain ⟨⟨i, y⟩, hy⟩ := (sigmaMk g).surjective x
       refine ⟨i, ?_⟩
-      show x ∈ Set.range (Sigma.ι g i)
+      change x ∈ Set.range (Sigma.ι g i)
       exact ⟨y, by simpa only [sigmaMk_mk] using hy⟩ }
   apply (unramified_iff_locallyOfFiniteType_and_formallyUnramified _).mpr
   constructor
   · rw [IsZariskiLocalAtSource.iff_of_openCover
       (P := (@LocallyOfFiniteType : MorphismProperty Scheme.{u})) 𝒰]
     intro i
-    show LocallyOfFiniteType (Sigma.ι g i ≫ Sigma.desc _)
-    rw [Sigma.ι_desc, HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
+    change LocallyOfFiniteType (Sigma.ι g i ≫ Sigma.desc _)
+    rw [Sigma.ι_comp_desc, HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
     exact (RingHom.finiteType_algebraMap).mpr inferInstance
   · rw [IsZariskiLocalAtSource.iff_of_openCover
       (P := (@FormallyUnramified : MorphismProperty Scheme.{u})) 𝒰]
     intro i
-    show FormallyUnramified (Sigma.ι g i ≫ Sigma.desc _)
-    rw [Sigma.ι_desc, HasRingHomProperty.Spec_iff (P := @FormallyUnramified)]
+    change FormallyUnramified (Sigma.ι g i ≫ Sigma.desc _)
+    rw [Sigma.ι_comp_desc, HasRingHomProperty.Spec_iff (P := @FormallyUnramified)]
     exact (RingHom.formallyUnramified_algebraMap).mpr
       (Algebra.FormallyUnramified.of_isSeparable k (K i))
 
@@ -137,7 +137,7 @@ private theorem isField_sections_singleton
   have : Subsingleton (Spec Γ(X, U)) :=
     ⟨fun a b ↦ hU.fromSpec.isOpenEmbedding.injective ((h a).trans (h b).symm)⟩
   have hs : Subsingleton (PrimeSpectrum Γ(X, U)) := by
-    show Subsingleton (Spec Γ(X, U))
+    change Subsingleton (Spec Γ(X, U))
     infer_instance
   exact PrimeSpectrum.subsingleton_iff_isField_of_isReduced.mp hs
 
@@ -182,7 +182,7 @@ private theorem fromSpec_comp_to_field
       Spec.map (CommRingCat.ofHom (algebraMap k Γ(X, U))) := by
   let : Algebra k Γ(X, U) :=
     (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U le_top).hom).toAlgebra
-  show hU.fromSpec ≫ f =
+  change hU.fromSpec ≫ f =
     Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U le_top)
   simpa only [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv,
     ← Spec.map_comp] using
@@ -206,7 +206,7 @@ public theorem unramified_iff_iso_coproduct_spectra_finite_separable
     let : LocallyQuasiFinite f := inferInstance
     let s : Spec (.of k) := IsLocalRing.closedPoint k
     have : Subsingleton (Spec (.of k)) := by
-      show Subsingleton (PrimeSpectrum k)
+      change Subsingleton (PrimeSpectrum k)
       infer_instance
     have hs : f ⁻¹' {s} = (Set.univ : Set X) := by
       ext x
@@ -246,11 +246,11 @@ public theorem unramified_iff_iso_coproduct_spectra_finite_separable
     refine ⟨X, K, hK, hAlg, hFin, hSep, e, ?_⟩
     rw [← cancel_epi e.inv]
     rw [← Category.assoc, e.inv_hom_id, Category.id_comp]
-    show Sigma.desc (fun i ↦ Spec.map
+    change Sigma.desc (fun i ↦ Spec.map
       (CommRingCat.ofHom (algebraMap k (K i)))) = Sigma.desc g ≫ f
     apply Sigma.hom_ext
     intro i
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact (fromSpec_comp_to_field k f (U i) (hU i)).symm
   · rintro ⟨I, K, hK, hAlg, hFin, hSep, e, he⟩
     let (i : I) : Field (K i) := hK i
@@ -278,7 +278,7 @@ public theorem Unramified.exists_iso_fiber_coproduct_spectra_finite_separable
         Spec.map (CommRingCat.ofHom (algebraMap (S.residueField s) (K i)))) =
         f.fiberToSpecResidueField s := by
   have hfiber : Unramified (f.fiberToSpecResidueField s) := by
-    show Unramified (pullback.snd f (S.fromSpecResidueField s))
+    change Unramified (pullback.snd f (S.fromSpecResidueField s))
     exact unramified_isStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback f (S.fromSpecResidueField s)) inferInstance
   exact (unramified_iff_iso_coproduct_spectra_finite_separable

@@ -144,7 +144,7 @@ theorem subsingleton_hom_twist_shift [HasDerivedCategory.{w} (Mods k n)] (d e j 
     refine subsingleton_hom_twist_shift_of_isZero k n d e j ?_
     have h := Stacks.ProjectiveSpace.Cohomology.isZero_twistCohomology k n (e - d) j
       (by exact_mod_cast hj)
-    rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at h ⊢; assumption
 
 /-- **`Hom(𝒪(d), 𝒪(e)[j])` vanishes for `-n ≤ e - d`, except for `j = 0 ≤ e - d`.** -/
 theorem subsingleton_hom_twist_shift_of_le [HasDerivedCategory.{w} (Mods k n)] (d e j : ℤ)
@@ -158,7 +158,7 @@ theorem subsingleton_hom_twist_shift_of_le [HasDerivedCategory.{w} (Mods k n)] (
         (by
           rw [Stacks.ProjectiveSpace.Cohomology.negativeTwistPart_eq_bot_of_le k n (e - d) hde]
           exact ModuleCat.isZero_of_subsingleton _)
-    rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at h ⊢; assumption
   · exact subsingleton_hom_twist_shift k n d e j (by omega)
 
 end Stacks.AlgebraicGeometry.TwistExt

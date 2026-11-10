@@ -157,7 +157,7 @@ theorem sq_mem_relations_of_mem_span_X {g : polynomial p}
   rcases hX i with rfl | rfl <;> rcases hX j with rfl | rfl
   · exact Ideal.subset_span (by simp [polynomialX, pow_two])
   · exact Ideal.subset_span (by simp [polynomialX, polynomialY])
-  · show MvPolynomial.X 1 * MvPolynomial.X 0 ∈ relations p
+  · change MvPolynomial.X 1 * MvPolynomial.X 0 ∈ relations p
     rw [mul_comm]; exact Ideal.subset_span (by simp [polynomialX, polynomialY])
   · exact Ideal.subset_span (by simp [polynomialY, pow_two])
 
@@ -293,7 +293,7 @@ theorem map_relations_le (B : Thickening (situation p)) [IsAffine B.thickening.s
       SchemeThickening.sectionsIdeal B.thickening := by
   obtain ⟨h0, hx, hz, hy⟩ := coordinate_relations (p := p)
   refine Ideal.map_le_iff_le_comap.mpr ?_
-  show Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
+  change Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
     polynomialX p * polynomialY p, polynomialY p ^ 2} : Set (polynomial p)) ≤ _
   rw [Ideal.span_le]
   rintro z hz'
@@ -371,15 +371,15 @@ theorem tauAt_map {B B' : Thickening (situation p)} [IsAffine B.thickening.sourc
     have h := DFunLike.congr_fun (envelopeLift_comp_structureMap B') r
     change toSections (envelopeLift B') ((envelope p).structureMap r) =
       toSections (baseToSections p B') r at h
-    show f.targetHom.hom.appTop.hom
+    change f.targetHom.hom.appTop.hom
         (toSections (envelopeLift B') ((envelope p).structureMap r)) =
       toSections (baseToSections p B) r
     rw [h, toSections_baseToSections, toSections_baseToSections,
       Stacks.Thickenings.appTop_comp_apply]
-    show ((f.targetHom ≫ B'.toBase).hom).appTop.hom _ = _
+    change ((f.targetHom ≫ B'.toBase).hom).appTop.hom _ = _
     rw [f.base_naturality]
   · intro i
-    show B.thickening.immersion.appTop.hom
+    change B.thickening.immersion.appTop.hom
         (f.targetHom.hom.appTop.hom (toSections (envelopeLift B') (envelopeCoord (envelope p) i)))
       = _
     rw [envelopeLift_coord, Stacks.Thickenings.appTop_comm_of_comm f.immersion_naturality,

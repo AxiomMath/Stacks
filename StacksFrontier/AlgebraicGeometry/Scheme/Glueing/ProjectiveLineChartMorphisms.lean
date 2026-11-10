@@ -236,24 +236,24 @@ theorem preimage_range_projectiveLineXChart (hq : X ∣ q) :
       have e : (projectiveLineXChart R).base w = (projectiveLineYChart R).base
           ((Spec.map (CommRingCat.ofHom (eval₂RingHom (C.comp f) q))).base y) := by
         rw [hw]
-        show (projectiveLineYChart S ≫ projectiveLineHom f p q h).base y = _
+        change (projectiveLineYChart S ≫ projectiveLineHom f p q h).base y = _
         rw [projectiveLineYChart_comp_projectiveLineHom]
         rfl
       obtain ⟨v, -, hv⟩ := (projectiveLineXChart_base_eq_projectiveLineYChart_base_iff R _ _).1 e
       refine absurd ?_ ((mem_range_projectiveLineOverlapYInclusion_iff R _).1 ⟨v, hv⟩)
-      show eval₂RingHom (C.comp f) q X ∈ y.asIdeal
+      change eval₂RingHom (C.comp f) q X ∈ y.asIdeal
       obtain ⟨r, rfl⟩ := hq
       rw [coe_eval₂RingHom, eval₂_X]
       exact y.asIdeal.mul_mem_right _ hy
     · obtain ⟨w, hw⟩ := (mem_range_projectiveLineOverlapYInclusion_iff S y).2 hy
       refine ⟨(projectiveLinePuncturedChart S).base w, ?_⟩
       rw [← hw]
-      show (projectiveLinePuncturedChart S ≫ projectiveLineXChart S).base w =
+      change (projectiveLinePuncturedChart S ≫ projectiveLineXChart S).base w =
         (projectiveLineOverlapYInclusion S ≫ projectiveLineYChart S).base w
       rw [(isPullback_projectiveLineCharts S).w]
   · rintro _ ⟨y, rfl⟩
     refine ⟨(Spec.map (CommRingCat.ofHom (eval₂RingHom (C.comp f) p))).base y, ?_⟩
-    show _ = (projectiveLineXChart S ≫ projectiveLineHom f p q h).base y
+    change _ = (projectiveLineXChart S ≫ projectiveLineHom f p q h).base y
     rw [projectiveLineXChart_comp_projectiveLineHom]
     rfl
 
@@ -271,24 +271,24 @@ theorem preimage_range_projectiveLineYChart (hp : X ∣ p) :
           ((Spec.map (CommRingCat.ofHom (eval₂RingHom (C.comp f) p))).base y) =
             (projectiveLineYChart R).base w := by
         rw [hw]
-        show _ = (projectiveLineXChart S ≫ projectiveLineHom f p q h).base y
+        change _ = (projectiveLineXChart S ≫ projectiveLineHom f p q h).base y
         rw [projectiveLineXChart_comp_projectiveLineHom]
         rfl
       obtain ⟨v, hv, -⟩ := (projectiveLineXChart_base_eq_projectiveLineYChart_base_iff R _ _).1 e
       refine absurd ?_ ((mem_range_projectiveLinePuncturedChart_iff R _).1 ⟨v, hv⟩)
-      show eval₂RingHom (C.comp f) p X ∈ y.asIdeal
+      change eval₂RingHom (C.comp f) p X ∈ y.asIdeal
       obtain ⟨r, rfl⟩ := hp
       rw [coe_eval₂RingHom, eval₂_X]
       exact y.asIdeal.mul_mem_right _ hy
     · obtain ⟨w, hw⟩ := (mem_range_projectiveLinePuncturedChart_iff S y).2 hy
       refine ⟨(projectiveLineOverlapYInclusion S).base w, ?_⟩
       rw [← hw]
-      show (projectiveLineOverlapYInclusion S ≫ projectiveLineYChart S).base w =
+      change (projectiveLineOverlapYInclusion S ≫ projectiveLineYChart S).base w =
         (projectiveLinePuncturedChart S ≫ projectiveLineXChart S).base w
       rw [(isPullback_projectiveLineCharts S).w]
   · rintro _ ⟨y, rfl⟩
     refine ⟨(Spec.map (CommRingCat.ofHom (eval₂RingHom (C.comp f) q))).base y, ?_⟩
-    show _ = (projectiveLineYChart S ≫ projectiveLineHom f p q h).base y
+    change _ = (projectiveLineYChart S ≫ projectiveLineHom f p q h).base y
     rw [projectiveLineYChart_comp_projectiveLineHom]
     rfl
 

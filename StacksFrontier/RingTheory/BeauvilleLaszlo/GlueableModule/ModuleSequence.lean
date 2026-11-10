@@ -370,13 +370,13 @@ private theorem tensorProduct_mod_power_injective
   let e : (R ⧸ I) ≃ₐ[R] (S ⧸ J) := AlgEquiv.ofBijective
     { __ := quotientPowMap f n (algebraMap R S)
       commutes' := fun r ↦ by
-        show Ideal.Quotient.mk J (algebraMap R S r) = _
+        change Ideal.Quotient.mk J (algebraMap R S r) = _
         exact Ideal.Quotient.mk_algebraMap R J r } h
   let k : S →ₗ[R] R ⧸ I := e.symm.toLinearMap.comp (Ideal.Quotient.mkₐ R J).toLinearMap
   have hkone : k 1 = 1 := by simp [k]
   have hpow : (Ideal.Quotient.mk I) (f ^ n) = 0 := by
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
-    show f ^ n ∈ (Ideal.span {f}) ^ n
+    change f ^ n ∈ (Ideal.span {f}) ^ n
     rw [Ideal.span_singleton_pow]
     exact Ideal.subset_span (Set.mem_singleton _)
   have hz : ∀ y : TensorProduct R M (R ⧸ I), f ^ n • y = 0 := by
@@ -393,9 +393,9 @@ private theorem tensorProduct_mod_power_injective
   have he : Function.Exact (f ^ n • (LinearMap.id : R →ₗ[R] R))
       (Algebra.linearMap R (R ⧸ I)) := by
     intro r
-    show Ideal.Quotient.mk I r = 0 ↔ ∃ a : R, f ^ n * a = r
+    change Ideal.Quotient.mk I r = 0 ↔ ∃ a : R, f ^ n * a = r
     rw [Ideal.Quotient.eq_zero_iff_mem]
-    show r ∈ (Ideal.span {f}) ^ n ↔ _
+    change r ∈ (Ideal.span {f}) ^ n ↔ _
     rw [Ideal.span_singleton_pow, Ideal.mem_span_singleton]
     exact exists_congr (fun a ↦ eq_comm)
   obtain ⟨y, hy⟩ := (lTensor_exact M he Ideal.Quotient.mk_surjective _).mp hm
@@ -548,7 +548,7 @@ private theorem localization_square_exactness
           obtain ⟨a₂, hna₂⟩ := hna
           have hy : z.2 = v a₂ := by
             apply hvinj n
-            show f ^ n • z.2 = f ^ n • v a₂
+            change f ^ n • z.2 = f ^ n • v a₂
             rw [← hv', hna₂, map_smul]
           have hbtors : ∃ k : ℕ, f ^ k • (z.1 - u a₂) = 0 := by
             refine ⟨n, ?_⟩
@@ -559,7 +559,7 @@ private theorem localization_square_exactness
           · simp [map_add, hua₃]
           · simp [hy, (hvzero _).2 ha₃]
         · rintro ⟨a, rfl⟩
-          show p (u a) - q (v a) = 0
+          change p (u a) - q (v a) = 0
           rw [← LinearMap.comp_apply, hcomm, LinearMap.comp_apply, sub_self]
 
 private theorem ulift_exact_iff {A B C : Type*} [Zero C] (a : A → B) (b : B → C) :
@@ -584,7 +584,7 @@ private theorem module_sequence_mono_iff
     Mono (beauvilleLaszloModuleSequence (S := S) M f).f ↔
       Function.Injective (tensorProductPowerTorsionMap (S := S) M f) := by
   rw [AddCommGrpCat.mono_iff_injective]
-  show Function.Injective (ULift.map (toTensorBaseChanges (S := S) M f)) ↔ _
+  change Function.Injective (ULift.map (toTensorBaseChanges (S := S) M f)) ↔ _
   rw [ULift.map_injective]
   let l := (TensorProduct.mk R M (Localization.Away f)).flip 1
   let : IsLocalizedModule.Away f l := isLocalizedModule_tensor_away M f
@@ -596,7 +596,7 @@ private theorem module_sequence_mono_iff
     apply hi
     apply Prod.ext
     · exact congrArg Subtype.val hxy
-    · show l x = l y
+    · change l x = l y
       rw [(hl _).mpr x.property, (hl _).mpr y.property]
   · intro hi x y hxy
     have hv : l (x - y) = 0 := by
@@ -604,7 +604,7 @@ private theorem module_sequence_mono_iff
       exact sub_eq_zero.mpr (congrArg Prod.snd hxy)
     have ht : tensorProductPowerTorsionMap (S := S) M f ⟨x - y, (hl _).mp hv⟩ = 0 := by
       apply Subtype.ext
-      show (x - y) ⊗ₜ[R] (1 : S) = 0
+      change (x - y) ⊗ₜ[R] (1 : S) = 0
       rw [TensorProduct.sub_tmul]
       exact sub_eq_zero.mpr (congrArg Prod.fst hxy)
     have hh := congrArg Subtype.val (hi (ht.trans (map_zero _).symm))
@@ -682,10 +682,10 @@ private theorem module_sequence_exact_epi_of_ring
       have heax := LinearMap.congr_fun hea x
       simpa only [LinearMap.comp_apply, LinearEquiv.coe_coe, hx, e.apply_symm_apply] using heax.symm
     · rintro ⟨m, rfl⟩
-      show tensorAwayDifference M f (toTensorBaseChanges M f m) = 0
+      change tensorAwayDifference M f (toTensorBaseChanges M f m) = 0
       simp [toTensorBaseChanges, tensorAwayDifference]
   · rw [AddCommGrpCat.epi_iff_surjective]
-    show Function.Surjective (ULift.map (tensorAwayDifference (S := S) M f))
+    change Function.Surjective (ULift.map (tensorAwayDifference (S := S) M f))
     rw [ULift.map_surjective]
     intro z
     obtain ⟨x, hx⟩ := hbt z

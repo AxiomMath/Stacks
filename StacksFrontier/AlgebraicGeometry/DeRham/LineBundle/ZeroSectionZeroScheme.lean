@@ -130,14 +130,14 @@ theorem Situation.pullbackGlobalSections_tautologicalSection_eq_zero_iff {Y : Sc
       (D.totalSpaceHomEquiv Y f).2 = 0 := by
   have hei : (Scheme.Modules.pullback f).map D.pullbackDuality.hom ≫
       (Scheme.Modules.pullback f).map D.pullbackDuality.inv = 𝟙 _ :=
-    Iso.map_hom_inv_id _ _
+    Iso.hom_inv_id_map _ _
   have hei' : (Scheme.Modules.pullback f).map
         (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor D.totalSpace.sheaf.obj
           D.totalSpace.ringCatSheaf.property D.pullbackInverse).hom ≫
       (Scheme.Modules.pullback f).map
         (Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor D.totalSpace.sheaf.obj
           D.totalSpace.ringCatSheaf.property D.pullbackInverse).inv = 𝟙 _ :=
-    Iso.map_hom_inv_id _ _
+    Iso.hom_inv_id_map _ _
   have hdual : (Scheme.Modules.pullback f).map D.tautologicalSectionHom = 0 ↔
       (Scheme.Modules.pullback f).map D.tautologicalFunctional = 0 := by
     refine Iff.trans ?_ (pullback_map_tensorRight_map_eq_zero_iff f D.pullbackInverse

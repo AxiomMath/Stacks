@@ -58,7 +58,7 @@ theorem pullbackPoint_eq_of_proj_eq_of_residueFieldMap_isIso {X Y Z : Scheme.{u}
   refine Scheme.Pullback.carrierEquiv_eq_iff.mpr ⟨Scheme.Pullback.Triplet.ext hfst hsnd, ?_⟩
   set T : Scheme.Pullback.Triplet f g := Scheme.Pullback.Triplet.ofPoint b
   have : IsIso (f.residueFieldMap T.x) := by
-    show IsIso (f.residueFieldMap ((pullback.fst f g).base b))
+    change IsIso (f.residueFieldMap ((pullback.fst f g).base b))
     rwa [← hfst]
   have : IsIso T.tensorInr := pushout_inr_iso_of_left_iso _ _
   have : Subsingleton (Spec (CommRingCat.of (Y.residueField T.y))) :=
@@ -255,10 +255,10 @@ theorem envelopeFibreCycle_fst_pushforward (C : ChowSituation.{u}) {X Y : Scheme
     z₀ hfstres
   have hdeg := residueDegree_eq_one_of_residueFieldMap_isIso (pullback.fst f f) z₀ hfstres
   have hcoeff : (envelopeFibreCycle C sX f hcd k c).1 z₀ = c.1 y := by
-    show envelopeFibreCycleCoeff f hcd c.1 z₀ = c.1 y
+    change envelopeFibreCycleCoeff f hcd c.1 z₀ = c.1 y
     rw [envelopeFibreCycleCoeff_of_eq f hcd c.1 (by rw [hz₀snd, hz₀fst]), hz₀fst]
   rw [Finset.sum_singleton, hφ]
-  show (envelopeFibreCycle C sX f hcd k c).1 z₀ * _ = c.1 y
+  change (envelopeFibreCycle C sX f hcd k c).1 z₀ * _ = c.1 y
   rw [ite_eq_left hdim, hdeg, hcoeff, Nat.cast_one, mul_one]
 
 /-- A `k`-cycle on `Y` supported on chosen preimages whose pushforward to `X` vanishes is zero. -/
@@ -271,7 +271,7 @@ theorem cycle_eq_zero_of_forall_envelopePointLift (C : ChowSituation.{u}) {X Y :
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro y
-  show c.1 y = 0
+  change c.1 y = 0
   by_contra hcy
   have hy := hsel y hcy
   have hcoeff := congrArg (fun d : CycleGroup C sX k ↦ d.1 (f.base y)) hpush
@@ -298,7 +298,7 @@ theorem cycle_eq_zero_of_forall_envelopePointLift (C : ChowSituation.{u}) {X Y :
   rw [hy] at hdim hdeg
   have hvalue : φ (envelopePointLift f hcd (f.base y)) = c.1 y := by
     rw [hφ, hy]
-    show c.1 y * _ = c.1 y
+    change c.1 y * _ = c.1 y
     rw [ite_eq_left hdim, hdeg, Nat.cast_one, mul_one]
   rw [finsum_mem_eq_sum_of_inter_support_eq φ hsupp, Finset.sum_singleton, hvalue] at hcoeff
   exact hcy hcoeff

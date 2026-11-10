@@ -138,7 +138,7 @@ private lemma root_relation {A : Type u} {K : Type v} [CommRing A] [Field K] [Al
       algebraMap A (eisensteinExt (K := K) π n q) π +
         algebraMap A (eisensteinExt (K := K) π n q) (π ^ (n + q - 1)) *
           AdjoinRoot.root (eisensteinPolyK π n q : K[X]) := by
-  show (AdjoinRoot.root (eisensteinPolyK π n q : K[X])) ^ q =
+  change (AdjoinRoot.root (eisensteinPolyK π n q : K[X])) ^ q =
     AdjoinRoot.of (eisensteinPolyK π n q : K[X]) (algebraMap A K π) +
       AdjoinRoot.of (eisensteinPolyK π n q : K[X])
         (algebraMap A K (π ^ (n + q - 1))) *
@@ -312,7 +312,7 @@ private lemma integralClosure_eq_adjoin {A : Type u} {K : Type v} [CommRing A] [
             rw [Algebra.smul_def] at ha
             rw [show g = Polynomial.C (algebraMap A K (b : A)) * f from rfl, coeff_C_mul, ha]
         obtain ⟨gA, hgA⟩ := hlift
-        show (aeval α) g ∈ Algebra.adjoin A {α}
+        change (aeval α) g ∈ Algebra.adjoin A {α}
         rw [← hgA, Polynomial.coe_mapRingHom, Polynomial.aeval_map_algebraMap]
         exact aeval_mem_adjoin_singleton A _
       have key : (π ^ m : A) • z = ((u⁻¹ : Aˣ) : A) • ((b : A) • z) := by
@@ -383,7 +383,7 @@ private lemma integralClosure_dvr_and_irreducible_root {A : Type u} {K : Type v}
     rw [Ideal.mem_span_singleton]
     refine ⟨t, ?_⟩
     apply Subtype.ext
-    show (z : L) - (algebraMap A L) (f.coeff 0) = α * (aeval α) g
+    change (z : L) - (algebraMap A L) (f.coeff 0) = α * (aeval α) g
     rw [← hf]
     calc
       (aeval α) f - (algebraMap A L) (f.coeff 0) =

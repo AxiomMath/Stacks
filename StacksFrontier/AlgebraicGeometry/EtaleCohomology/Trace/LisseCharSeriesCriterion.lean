@@ -88,7 +88,7 @@ theorem perfectDerivedCharSeries_mul_lFunctionOfFiniteProjectiveStalks_eq_one [Q
   refine mul_lFunctionOfFiniteProjectiveStalks_eq_one B X Λ F f hfin hproj _ fun N => ?_
   obtain ⟨R, _, Φ, _, O, eO, r, b, Q, hQ, g, e, he, H, gP, htr, hloc⟩ := hdata N
   refine ⟨closedPointsDegreeLE f N, fun x hx => ?_, fun j hj => ?_⟩
-  · simpa only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq] using hx
+  · simpa only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq] using hx
   · rw [coeff_perfectDerivedCharSeries_eq_prod Φ eO b Q hQ g H K hK fK e he
       (closedPointsDegreeLE f N) (fun x => residueDegree f x.1)
       (fun x _ => residueDegree_pos f x.1 x.2) gP htr j hj]

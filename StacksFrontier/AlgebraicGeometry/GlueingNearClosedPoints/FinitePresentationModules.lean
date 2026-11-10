@@ -487,7 +487,7 @@ noncomputable def puncturedCover (hs : IsClosed ({s} : Set S))
       · intro hx
         obtain rfl | hxs := eq_or_ne x s
         · refine ⟨true, IsLocalRing.closedPoint _, ?_, Scheme.fromSpecStalk_closedPoint⟩
-          simp only [opens, localOpen, if_pos (show x ∈ W from hx)]
+          simp only [opens, localOpen, ite_eq_left (show x ∈ W from hx)]
           trivial
         · exact ⟨false, ⟨x, hxs⟩, hx, rfl⟩
   exact cover.ofQuasiCompactCover

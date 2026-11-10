@@ -77,7 +77,7 @@ private theorem exists_extension_of_cotangentMap
   let : Module k N := Module.compHom N (algebraMap k B)
   let : IsScalarTower k P.Ring N := IsScalarTower.of_algebraMap_smul (by
     intro a n
-    show f (algebraMap k P.Ring a) • n = (algebraMap k B a) • n
+    change f (algebraMap k P.Ring a) • n = (algebraMap k B a) • n
     exact congrArg (fun b : B ↦ b • n)
       (IsScalarTower.algebraMap_apply k P.Ring B a).symm)
   let : IsScalarTower P.Ring B N :=
@@ -93,7 +93,7 @@ private theorem exists_extension_of_cotangentMap
   let lI : P.ker →ₗ[P.Ring] N :=
     (l.restrictScalars P.Ring).comp Algebra.Extension.Cotangent.mk
   have hI (i : P.Ring) (hi : i ∈ P.ker) (n : N) : i • n = 0 := by
-    show f i • n = 0
+    change f i • n = 0
     rw [show f i = 0 from hi, zero_smul]
   have hIop (i : P.Ring) (hi : i ∈ P.ker) (n : N) :
       MulOpposite.op i • n = 0 := hI i hi n
@@ -106,9 +106,9 @@ private theorem exists_extension_of_cotangentMap
     { toRingHom := q
       commutes' := by
         intro a
-        show q (Ideal.Quotient.mk J (algebraMap k (TrivSqZeroExt P.Ring N) a)) =
+        change q (Ideal.Quotient.mk J (algebraMap k (TrivSqZeroExt P.Ring N) a)) =
           algebraMap k B a
-        show f ((algebraMap k (TrivSqZeroExt P.Ring N) a).fst) = _
+        change f ((algebraMap k (TrivSqZeroExt P.Ring N) a).fst) = _
         rw [show (algebraMap k (TrivSqZeroExt P.Ring N) a).fst =
           algebraMap k P.Ring a from rfl]
         exact (IsScalarTower.algebraMap_apply k P.Ring B a).symm }
@@ -122,7 +122,7 @@ private theorem exists_extension_of_cotangentMap
       map_add' := eA.map_add
       map_smul' := by
         intro b n
-        show eA (b • n) = eA (b • eA.symm (eA n))
+        change eA (b • n) = eA (b • eA.symm (eA n))
         rw [eA.symm_apply_apply] }
   let X : (algebraExtensionProblem k B N).CompatibleExtension := by
     dsimp only [algebraExtensionProblem]
@@ -142,7 +142,7 @@ private theorem exists_extension_of_cotangentMap
         map_I := by
           intro i
           have hi : (i : k) = 0 := i.2
-          show (e (0 : N) : C) = algebraMap k C i
+          change (e (0 : N) : C) = algebraMap k C i
           simp [hi] }
   let : Algebra k X.B' := X.algebraA'B'
   let fX : P.Ring →ₐ[k] X.B' :=
@@ -150,10 +150,10 @@ private theorem exists_extension_of_cotangentMap
       commutes' := fun _ ↦ rfl }
   refine ⟨X, fX, fun _ ↦ rfl, ?_⟩
   intro p
-  show Ideal.Quotient.mk J (TrivSqZeroExt.inr (lI p)) =
+  change Ideal.Quotient.mk J (TrivSqZeroExt.inr (lI p)) =
     Ideal.Quotient.mk J (TrivSqZeroExt.inl (p : P.Ring))
   apply Ideal.Quotient.eq.mpr
-  show TrivSqZeroExt.inr (lI p) - TrivSqZeroExt.inl (p : P.Ring) ∈ J
+  change TrivSqZeroExt.inr (lI p) - TrivSqZeroExt.inl (p : P.Ring) ∈ J
   refine ⟨-p, ?_⟩
   apply TrivSqZeroExt.ext
   · simp
@@ -219,7 +219,7 @@ private theorem isLocalizedExtension_of_iso_right
   · intro c
     exact (DFunLike.congr_fun e.toB_comm (f c)).trans (hfq c)
   · intro n
-    show e.toAlgEquiv (f (X.kernelEquiv n)) = _
+    change e.toAlgEquiv (f (X.kernelEquiv n)) = _
     rw [hfn, e.kernelEquiv_comm]
 
 /-- Two localizations of the same extension are isomorphic. -/
@@ -248,13 +248,13 @@ private theorem isomorphic_of_isLocalizedExtension
   let e : Y.B' ≃ₐ[k] Z.B' :=
     { eR.toRingEquiv with
       commutes' a := by
-        show eR (algebraMap k Y.B' a) = algebraMap k Z.B' a
+        change eR (algebraMap k Y.B' a) = algebraMap k Z.B' a
         rw [← f.commutes, hef, g.commutes] }
   have heq : Z.toB.comp e.toAlgHom = Y.toB := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply IsLocalization.ringHom_ext T
     ext c
-    show Z.toB (eR (f c)) = Y.toB (f c)
+    change Z.toB (eR (f c)) = Y.toB (f c)
     rw [hef, hgq, hfq]
   refine ⟨⟨e, heq, ?_⟩⟩
   exact map_kernelEquiv_of_localized k B S N X Y Z f.toRingHom g.toRingHom eR.toRingEquiv.toRingHom
@@ -267,7 +267,7 @@ private theorem isUnit_of_map_of_ker_sq_zero
     (r : R) (hr : IsUnit (f r)) : IsUnit r := by
   obtain ⟨a, ha⟩ := hf (↑hr.unit⁻¹)
   have hmem : r * a - 1 ∈ RingHom.ker f := by
-    show f (r * a - 1) = 0
+    change f (r * a - 1) = 0
     rw [map_sub, map_mul, map_one, ha, hr.mul_val_inv, sub_self]
   have hnil : IsNilpotent (r * a - 1) := by
     refine ⟨2, ?_⟩
@@ -314,10 +314,10 @@ private theorem isLocalizedExtension_of_compatibleAlgHom
         rw [← a.commutes c]
         exact (hga _).trans (f.commutes c) }
   have hgq : Y.toB.comp g = Z.toB := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply IsLocalization.ringHom_ext T
     ext c
-    show Y.toB (gR (a c)) = Z.toB (a c)
+    change Y.toB (gR (a c)) = Z.toB (a c)
     rw [hga, hfq, haq]
   have hgn (n : LocalizedModule S N) :
       g (Z.kernelEquiv n) = (Y.kernelEquiv n : Y.B') :=
@@ -353,11 +353,11 @@ private theorem isomorphic_of_common_localization
   let g' : P.Ring →ₐ[k] Y.B' := a'.comp f'
   have hg (p : P.Ring) : Y.toB (g p) =
       algebraMap B (Localization S) (algebraMap P.Ring B p) := by
-    show Y.toB (a (f p)) = _
+    change Y.toB (a (f p)) = _
     rw [haq, hf]
   have hg' (p : P.Ring) : Y.toB (g' p) =
       algebraMap B (Localization S) (algebraMap P.Ring B p) := by
-    show Y.toB (a' (f' p)) = _
+    change Y.toB (a' (f' p)) = _
     rw [haq', hf']
   have hlg (p : P.ker) :
       (Y.kernelEquiv (j (l (Algebra.Extension.Cotangent.mk p))) : Y.B') = g p :=
@@ -371,11 +371,10 @@ private theorem isomorphic_of_common_localization
     obtain ⟨p, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective x
     apply Y.kernelEquiv.injective
     apply Subtype.ext
-    show (Y.kernelEquiv (j (l (Algebra.Extension.Cotangent.mk p) -
+    change (Y.kernelEquiv (j (l (Algebra.Extension.Cotangent.mk p) -
       l' (Algebra.Extension.Cotangent.mk p))) : Y.B') =
         (Y.kernelEquiv (t (1 ⊗ₜ[P.Ring] KaehlerDifferential.D k P.Ring p)) : Y.B')
     rw [map_sub, coe_kernelEquiv_sub, hlg p, hlg' p, ht p]
-
   have heq : precompCokernelMap P.cotangentComplex j (Submodule.Quotient.mk l) =
       precompCokernelMap P.cotangentComplex j (Submodule.Quotient.mk l') := by
     simp only [precompCokernelMap_mk]

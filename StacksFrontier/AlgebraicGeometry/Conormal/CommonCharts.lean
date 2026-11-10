@@ -193,7 +193,7 @@ theorem exists_commonChart_of_charts (U : ConormalChart j) (U' : ConormalChart j
   obtain ⟨V, hV, hVU⟩ := exists_chart_basicOpen j U f
   obtain ⟨V', hV', hV'U'⟩ := exists_chart_basicOpen j' U' g
   refine ⟨⟨V, V', hV.trans (hfg.trans hV'.symm)⟩, ?_, hVU, hV'U'⟩
-  show x ∈ j ⁻¹ᵁ V.1.1
+  change x ∈ j ⁻¹ᵁ V.1.1
   rw [hV]
   exact hxf
 

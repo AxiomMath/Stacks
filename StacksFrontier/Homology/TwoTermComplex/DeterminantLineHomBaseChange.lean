@@ -47,7 +47,7 @@ namespace TwoTermComplex
 
 universe u v₁ v₀
 
-variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A] [Module.Flat R A]
+variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A]
 variable {K₁ : Type u} [AddCommGroup K₁] [Module R K₁] [Module.Finite R K₁]
   [Module.Projective R K₁]
 variable {K₀ : Type u} [AddCommGroup K₀] [Module R K₀] [Module.Finite R K₀]

@@ -520,7 +520,7 @@ theorem isSeparated_of_isSeparatedOver_classifyingAlgebraicStack
         (classifyingAlgebraicStack.{u, w} G hG) (Space.properProperty C S hS)).mpr hsep)
   have hiso : IsIso ((GroupoidInAlgebraicSpaces.objectPairsTarget
       (trivialActionGroupoid G)).hom ≫ (trivialActionGroupoid G).objectsToBase.hom) := by
-    show IsIso (pullback.fst (𝟙 (Space.terminalSpace C S hS).obj)
+    change IsIso (pullback.fst (𝟙 (Space.terminalSpace C S hS).obj)
       (𝟙 (Space.terminalSpace C S hS).obj) ≫ 𝟙 (Space.terminalSpace C S hS).obj)
     infer_instance
   have hR : Space.IsSeparated C S hS (trivialActionGroupoid G).arrowsToBase.hom := by
@@ -587,7 +587,7 @@ theorem classifyingAtlas_comp_classifyingMap_fppf (φ : G₁ ⟶ G₂) :
       (classifyingAtlasCompIsoHom.{u, w} h₁ h₂ φ)).2 hflat,
     (AlgebraicStacks.isLocallyOfFinitePresentation_iff_of_twoIso C S hS _ _
       (classifyingAtlasCompIsoHom.{u, w} h₁ h₂ φ)).2 hlfp⟩
-  show Function.Surjective (AlgebraicStacks.pointsMap C S hS _)
+  change Function.Surjective (AlgebraicStacks.pointsMap C S hS _)
   rw [AlgebraicStacks.pointsMap_eq_of_hom₂ C S hS (classifyingAtlasCompIso.{u, w} h₁ h₂ φ).hom]
   exact hsurj
 

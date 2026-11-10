@@ -224,7 +224,7 @@ theorem essSurj_mapCorners [c.Full] [c.Faithful] (hF' : F' ⋙ p𝒮' = p𝒳')
     let ψ' : c.obj (F.obj x) ≅ c.obj (G.obj y) :=
       α.app x ≪≫ F'.mapIso i ≪≫ Q.iso ≪≫ G'.mapIso j.symm ≪≫ (β.app y).symm
     have hψ' : p𝒮'.IsHomLift (𝟙 Q.base) ψ'.hom := by
-      show p𝒮'.IsHomLift (𝟙 Q.base)
+      change p𝒮'.IsHomLift (𝟙 Q.base)
         (α.hom.app x ≫ F'.map i.hom ≫ Q.iso.hom ≫ G'.map j.inv ≫ β.inv.app y)
       have hQ := Q.vertical
       have h₁ : p𝒮'.IsHomLift (𝟙 Q.base) (α.hom.app x) := by
@@ -245,7 +245,7 @@ theorem essSurj_mapCorners [c.Full] [c.Faithful] (hF' : F' ⋙ p𝒮' = p𝒳')
     let P : TwoFibreProductOver p𝒳 p𝒴 p𝒮 F G :=
       { base := Q.base, x := x, y := y, hx := hxU, hy := hyU, iso := ψ, vertical := hψ }
     refine ⟨P, ⟨isoMkVertical (U := Q.base) i j hi hj ?_⟩⟩
-    show F'.map i.hom ≫ Q.iso.hom =
+    change F'.map i.hom ≫ Q.iso.hom =
       (α.inv.app x ≫ c.map ψ.hom ≫ β.hom.app y) ≫ G'.map j.hom
     rw [hcψ]
     simp [ψ']

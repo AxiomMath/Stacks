@@ -152,7 +152,7 @@ theorem exists_chartStalkMap_eq_of_cover (V : SmallEtale B S hS Y.1) {U : SmallE
     refine ⟨chartOpenRestriction B S hS X.1 U O', chartOpenRestrictionHom B S hS X.1 U O',
       ⟨i, ?_⟩, ⟨z, hi⟩, ?_⟩
     · rintro _ ⟨w, rfl⟩
-      show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map
+      change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map
         (chartOpenRestrictionHom B S hS X.1 U O') ≫ c.1)).base w ∈ O i
       rw [Functor.map_comp, Scheme.Hom.comp_apply, hk]
       exact w.2
@@ -165,11 +165,11 @@ theorem exists_chartStalkMap_eq_of_cover (V : SmallEtale B S hS Y.1) {U : SmallE
   refine ⟨i, (sitePt x).toPresheafFiber W y'
     (chartFiber B S hS f (chartOpenRestriction B S hS Y.1 V (O i))).toFunctor
     (chartFiberLiftToOpen f V (O i) c' hi'), ?_⟩
-  show ((sitePt x).toPresheafFiber W y' _ ≫ (sitePt x).presheafFiber.map (chartFiberMap f
+  change ((sitePt x).toPresheafFiber W y' _ ≫ (sitePt x).presheafFiber.map (chartFiberMap f
     (chartOpenRestrictionHom B S hS Y.1 V (O i)))) (chartFiberLiftToOpen f V (O i) c' hi') = _
   rw [GrothendieckTopology.Point.toPresheafFiber_naturality, types_comp_apply,
     chartFiberMap_chartFiberLiftToOpen]
-  show ((chartFiber B S hS f V).toFunctor.map k.op ≫ (sitePt x).toPresheafFiber W y' _) c = _
+  change ((chartFiber B S hS f V).toFunctor.map k.op ≫ (sitePt x).toPresheafFiber W y' _) c = _
   rw [GrothendieckTopology.Point.toPresheafFiber_w, hy']
 
 /-! ### Fibre products of charts -/
@@ -222,22 +222,22 @@ theorem exists_chartStalk_prod (V V' : SmallEtale B S hS Y.1) (t : chartStalk f 
     (chartFiber B S hS f (SmallEtale.prodObj B S hS Y.1 V V')).toFunctor (chartFiberPair f V V'
     ((chartFiber B S hS f V).toFunctor.map a.1.op c)
     ((chartFiber B S hS f V').toFunctor.map b.1.op c')), ?_, ?_⟩
-  · show ((sitePt x).toPresheafFiber m.1 m.2
+  · change ((sitePt x).toPresheafFiber m.1 m.2
       (chartFiber B S hS f (SmallEtale.prodObj B S hS Y.1 V V')).toFunctor ≫
         (sitePt x).presheafFiber.map (chartFiberMap f (SmallEtale.prodFst B S hS Y.1 V V')))
       (chartFiberPair f V V' _ _) = _
     rw [GrothendieckTopology.Point.toPresheafFiber_naturality, types_comp_apply,
       chartFiberMap_prodFst_chartFiberPair]
-    show ((chartFiber B S hS f V).toFunctor.map a.1.op ≫
+    change ((chartFiber B S hS f V).toFunctor.map a.1.op ≫
       (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V).toFunctor) c = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, a.2]
-  · show ((sitePt x).toPresheafFiber m.1 m.2
+  · change ((sitePt x).toPresheafFiber m.1 m.2
       (chartFiber B S hS f (SmallEtale.prodObj B S hS Y.1 V V')).toFunctor ≫
         (sitePt x).presheafFiber.map (chartFiberMap f (SmallEtale.prodSnd B S hS Y.1 V V')))
       (chartFiberPair f V V' _ _) = _
     rw [GrothendieckTopology.Point.toPresheafFiber_naturality, types_comp_apply,
       chartFiberMap_prodSnd_chartFiberPair]
-    show ((chartFiber B S hS f V').toFunctor.map b.1.op ≫
+    change ((chartFiber B S hS f V').toFunctor.map b.1.op ≫
       (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V').toFunctor) c' = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, b.2]
 
@@ -316,12 +316,12 @@ theorem exists_rep_of_chartStalkMap_eq {V V' P : SmallEtale B S hS Y.1} (j : V �
   let d₂ := (chartFiber B S hS f V').toFunctor.map b.1.op c₂
   have hd₁ : (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V).toFunctor d₁ =
       (sitePt x).toPresheafFiber U₁ y₁ (chartFiber B S hS f V).toFunctor c₁ := by
-    show ((chartFiber B S hS f V).toFunctor.map a.1.op ≫
+    change ((chartFiber B S hS f V).toFunctor.map a.1.op ≫
       (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V).toFunctor) c₁ = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, a.2]
   have hd₂ : (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V').toFunctor d₂ =
       (sitePt x).toPresheafFiber U₂ y₂ (chartFiber B S hS f V').toFunctor c₂ := by
-    show ((chartFiber B S hS f V').toFunctor.map b.1.op ≫
+    change ((chartFiber B S hS f V').toFunctor.map b.1.op ≫
       (sitePt x).toPresheafFiber m.1 m.2 (chartFiber B S hS f V').toFunctor) c₂ = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, b.2]
   rw [← hd₁, ← hd₂] at h ⊢
@@ -339,15 +339,15 @@ theorem exists_rep_of_chartStalkMap_eq {V V' P : SmallEtale B S hS Y.1} (j : V �
   obtain ⟨U, k, y, hy, hk⟩ := (GrothendieckTopology.Point.toPresheafFiber_eq_iff' _ _ _ _ _).1 h'
   refine ⟨U, y, (chartFiber B S hS f V).toFunctor.map k.op d₁,
     (chartFiber B S hS f V').toFunctor.map k.op d₂, ?_, ?_, ?_⟩
-  · show ((chartFiber B S hS f V).toFunctor.map k.op ≫
+  · change ((chartFiber B S hS f V).toFunctor.map k.op ≫
       (sitePt x).toPresheafFiber U y (chartFiber B S hS f V).toFunctor) d₁ = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, hy]
-  · show ((chartFiber B S hS f V').toFunctor.map k.op ≫
+  · change ((chartFiber B S hS f V').toFunctor.map k.op ≫
       (sitePt x).toPresheafFiber U y (chartFiber B S hS f V').toFunctor) d₂ = _
     rw [GrothendieckTopology.Point.toPresheafFiber_w, hy]
   · have := congrArg Subtype.val hk
     change k.hom.left ≫ (d₁.1 ≫ j.hom.left) = k.hom.left ≫ (d₂.1 ≫ j'.hom.left) at this
-    show (k.hom.left ≫ d₁.1) ≫ j.hom.left = (k.hom.left ≫ d₂.1) ≫ j'.hom.left
+    change (k.hom.left ≫ d₁.1) ≫ j.hom.left = (k.hom.left ≫ d₂.1) ≫ j'.hom.left
     rwa [Category.assoc, Category.assoc]
 
 end AlgebraicGeometry.Space

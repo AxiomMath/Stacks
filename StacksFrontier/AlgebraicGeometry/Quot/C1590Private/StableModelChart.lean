@@ -197,7 +197,7 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
   let b₀ : XA.base ⟶ Y.base := 𝟙 Y.base
   have : IsIso b₀ := inferInstanceAs (IsIso (𝟙 Y.base))
   have hb₀ : XA.toBase ≫ schemeSpaceMap b₀ = pA := by
-    show pA ≫ schemeSpaceMap (𝟙 Y.base) = pA
+    change pA ≫ schemeSpaceMap (𝟙 Y.base) = pA
     rw [schemeSpaceMap_id_eq_id, Category.comp_id]
   have hc : h ≫ Y.toBase = XA.toBase ≫ schemeSpaceMap b₀ := by
     rw [hb₀, hh]
@@ -218,22 +218,22 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
   let O : (T.obj U).Opens := N₃ ⊓ T.map φ ⁻¹ᵁ N₂ ⊓ T.map φ ⁻¹ᵁ N₁
   have huO : u₁ ∈ O := by
     refine TopologicalSpace.Opens.mem_inf.2 ⟨TopologicalSpace.Opens.mem_inf.2 ⟨hu₃, ?_⟩, ?_⟩
-    · show T.map φ u₁ ∈ N₂
+    · change T.map φ u₁ ∈ N₂
       rwa [hu₁]
-    · show T.map φ u₁ ∈ N₁
+    · change T.map φ u₁ ∈ N₁
       rwa [hu₁]
   have hNO : B.Contains O.toScheme := B.contains_of_mono O.ι U.left.2
   let ι := BigFppfOver.siteMapOver B integerBase hZ U hNO O.ι
   let U' := BigFppfOver.siteObjectOver B integerBase hZ U hNO O.ι
   have hO : ∀ x : T.obj U', T.map ι x ∈ O := fun x => by
-    show O.ι x ∈ (O : Set (T.obj U))
+    change O.ι x ∈ (O : Set (T.obj U))
     rw [← Scheme.Opens.range_ι]
     exact ⟨x, rfl⟩
   let φ' : U' ⟶ Y.base := ι ≫ φ
   have : Etale (T.map φ) := hφ
   have : Etale (T.map t) := ht
   have : Etale (T.map (φ' ≫ t)) := by
-    show Etale (O.ι ≫ T.map φ ≫ T.map t)
+    change Etale (O.ι ≫ T.map φ ≫ T.map t)
     infer_instance
   have hrange : ∀ {M : (T.obj Y.base).Opens},
       (∀ x : T.obj U, x ∈ O → T.map φ x ∈ M) → Set.range (T.map φ') ⊆ M := by
@@ -279,7 +279,7 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
       exact hrange (fun y hy => (TopologicalSpace.Opens.mem_inf.1 hy).2) ⟨_, rfl⟩
     · rw [schemeSpaceMap_comp]
       exact hD.paste_horiz sqY'
-    · show IsPullback (iA' ≫ schemeSpaceMap jX ≫ pX₀) (a' ≫ p') (h ≫ Y.toBase)
+    · change IsPullback (iA' ≫ schemeSpaceMap jX ≫ pX₀) (a' ≫ p') (h ≫ Y.toBase)
         (schemeSpaceMap (v ≫ φ'))
       rw [schemeSpaceMap_comp, hh]
       have hA' : IsPullback iA' (a' ≫ p') (schemeSpaceMap qX') (schemeSpaceMap v) := by
@@ -288,7 +288,7 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
     · have e : schemeSpaceMap f' ≫ schemeSpaceMap jY ≫ pY = schemeSpaceMap jX ≫ pX₀ ≫ h := by
         rw [← Category.assoc, ← schemeSpaceMap_comp, hjf, schemeSpaceMap_comp, Category.assoc,
           hfc₀]
-      show a' ≫ iD' ≫ schemeSpaceMap jY ≫ pY = (iA' ≫ schemeSpaceMap jX ≫ pX₀) ≫ h
+      change a' ≫ iD' ≫ schemeSpaceMap jY ≫ pY = (iA' ≫ schemeSpaceMap jX ≫ pX₀) ≫ h
       rw [← Category.assoc, hcomm, Category.assoc, e, Category.assoc, Category.assoc]
   -- the two families over the chart
   let X' := curveFamilyOfIsPullback X (φ' ≫ t) _ _ sqX'
@@ -305,7 +305,7 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
   have : IsIso b' := inferInstanceAs (IsIso (𝟙 U'))
   let c' : X'.total ⟶ Y'.total := schemeSpaceMap f'
   have hcomp : c' ≫ Y'.toBase = X'.toBase ≫ schemeSpaceMap b' := by
-    show schemeSpaceMap f' ≫ schemeSpaceMap qY' = schemeSpaceMap qX' ≫ schemeSpaceMap (𝟙 U')
+    change schemeSpaceMap f' ≫ schemeSpaceMap qY' = schemeSpaceMap qX' ≫ schemeSpaceMap (𝟙 U')
     rw [schemeSpaceMap_id_eq_id, Category.comp_id, hfq]
   -- condition (2) on the chart
   have h2₀ : IsFibrewiseStableContraction B hZ (schemeSpaceMap f') (schemeSpaceMap qY') := by
@@ -327,9 +327,9 @@ theorem exists_isStableModel_of_fibresStableContractionsAt
         hY'.1 b' c' hcomp h2).2
       universallyAcyclic := h1
       fibrewiseStable := h2 }⟩
-  · show Etale (T.map (φ' ≫ t))
+  · change Etale (T.map (φ' ≫ t))
     infer_instance
-  · show (O.ι ≫ T.map φ ≫ T.map t) x = T.map t u
+  · change (O.ι ≫ T.map φ ≫ T.map t) x = T.map t u
     rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hx, hu₁]
 
 end AlgebraicGeometry.C1590Private

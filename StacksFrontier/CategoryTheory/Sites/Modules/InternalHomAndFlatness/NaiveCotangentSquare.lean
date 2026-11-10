@@ -205,7 +205,7 @@ private theorem naiveCotangentComplex_d_zero (k : ℤ) :
   have : HasZeroObject
       (_root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (canonicalConormalSequence.{v, u, w, z} J A B a).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d 0 k = 0
   exact HomologicalComplex.double_d_eq_zero₀ _ _ 0 k (by decide)
@@ -268,7 +268,7 @@ theorem naiveCotangentConormalMapOfSquare_comm :
           (canonicalConormalSequence.{v, u, w, z} J A' B' a').f ≫
         (_root_.SheafOfModules.restrictScalars.{max w u v z} (underlyingRingHomOfSite β)).map
           (eqToHom (naiveCotangentComplex_X_zero.{v, u, w, z} J A' B' a').symm) := by
-    show _ ≫ (_root_.SheafOfModules.restrictScalars.{max w u v z}
+    change _ ≫ (_root_.SheafOfModules.restrictScalars.{max w u v z}
         (underlyingRingHomOfSite β)).map
           ((naiveCotangentComplex.{v, u, w, z} J A' B' a').d (-1) 0) = _
     rw [naiveCotangentComplex_d_negOne_zero, Functor.map_comp, Functor.map_comp,
@@ -299,7 +299,7 @@ theorem naiveCotangentTensorMapOfSquare_comp_d (k : ℤ) :
       (((_root_.SheafOfModules.restrictScalars.{max w u v z}
           (underlyingRingHomOfSite β)).mapHomologicalComplex (ComplexShape.up ℤ)).obj
         (naiveCotangentComplex.{v, u, w, z} J A' B' a')).d 0 k = 0 := by
-  show _ ≫ (_root_.SheafOfModules.restrictScalars.{max w u v z}
+  change _ ≫ (_root_.SheafOfModules.restrictScalars.{max w u v z}
       (underlyingRingHomOfSite β)).map
         ((naiveCotangentComplex.{v, u, w, z} J A' B' a').d 0 k) = _
   rw [naiveCotangentComplex_d_zero, Functor.map_zero, Limits.comp_zero]

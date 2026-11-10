@@ -37,7 +37,8 @@ degrees that already occur, and raises the lcm of the degrees from `L` to `d`.
 * `Stacks.Veronese.finite_veroneseSubring_of_lcm_dvd`,
   `Stacks.Veronese.finite_veroneseSubmodule_of_lcm_dvd`,
   `Stacks.Veronese.isNoetherianRing_veroneseSubring_of_lcm_dvd`: the three finiteness statements
-  of `StacksFrontier/RingTheory/GradedAlgebra/VeroneseFiniteness.lean` at any positive multiple of the lcm of the generator degrees.
+  of `StacksFrontier/RingTheory/GradedAlgebra/VeroneseFiniteness.lean` at any positive multiple
+  of the lcm of the generator degrees.
 * `Stacks.AlgebraicGeometry.ProjCoherentII.exists_reductionDegree`: **the degree.** For a
   Noetherian graded ring there are homogeneous generators and a positive `d`, divisible by the
   lcm of their degrees, such that `A⁽ᵈ⁾` is generated in degree one, the degree-`d` standard

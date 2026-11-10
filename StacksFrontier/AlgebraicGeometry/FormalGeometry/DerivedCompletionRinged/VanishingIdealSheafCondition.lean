@@ -155,7 +155,7 @@ theorem overFunctor_map_terminalSectionToEnd {C : Type u} [Category.{v} C]
       refine (terminalSection_over_val (R.over U) W (R.obj.map W.hom.op f) T).trans
         (Eq.trans ?_ (terminalSection_over_val R U f
           (op ((Over.forget W).obj (unop T)))).symm)
-      show R.obj.map ((unop T).hom.left).op (R.obj.map W.hom.op f) =
+      change R.obj.map ((unop T).hom.left).op (R.obj.map W.hom.op f) =
         R.obj.map ((unop T).left.hom).op f
       rw [← RingCat.comp_apply, ← R.obj.map_comp, ← op_comp, Over.w])
     M
@@ -311,7 +311,7 @@ theorem IsDerivedCompleteAtSection.of_sieve {U : X.C}
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) W).mapDerivedCategory := fun W ↦
     Stacks.Cohomology.Localization.preservesProducts_mapDerivedCategory_overFunctor
       (X.J.over U) ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) W
-  show IsIso (oneSubSmulShift
+  change IsIso (oneSubSmulShift
     ((SheafOfModules.overFunctor.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj K)
     (overTerminalRingHom X U f))

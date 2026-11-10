@@ -118,11 +118,11 @@ private def extendStage (A : Type u) [CommRing A]
   }
   · rw [AdjoinRoot.algebraMap_eq' A]
     exact hstep.1.comp S.injective
-  · haveI : Module.Finite S.B g := hstep.2.1
-    haveI : Module.Finite A S.B := S.finite
+  · have : Module.Finite S.B g := hstep.2.1
+    have : Module.Finite A S.B := S.finite
     exact Module.Finite.trans (R := A) S.B g
-  · haveI : Module.Free S.B g := hstep.2.2.1
-    haveI : Module.Free A S.B := S.free
+  · have : Module.Free S.B g := hstep.2.2.1
+    have : Module.Free A S.B := S.free
     exact Module.Free.trans (R := A) (S := S.B) (M := g)
 
 /-- Polynomials for which adjoining a root preserves the base ring. -/
@@ -200,7 +200,7 @@ private theorem finiteTensorLift_single (A : Type u) [CommRing A]
       (PiTensorProduct.singleAlgHom (R := A) (A := C) i) = φ i := by
   apply AlgHom.ext
   intro x
-  show (finiteTensorLift A C T φ)
+  change (finiteTensorLift A C T φ)
     (PiTensorProduct.tprod A (MonoidHom.mulSingle C i x)) = φ i x
   simp only [finiteTensorLift, PiTensorProduct.liftAlgHom, AlgHom.ofLinearMap_apply,
     PiTensorProduct.lift.tprod, MultilinearMap.compLinearMap_apply,
@@ -268,7 +268,7 @@ private theorem simultaneousFiniteStage_basis_apply (A : Type u) [CommRing A]
     simultaneousFiniteStage_basis A s e =
       PiTensorProduct.tprod A (fun i : s => (AdjoinRoot.root i.1.1) ^ (e i).val) := by
   classical
-  show (Basis.piTensorProduct
+  change (Basis.piTensorProduct
     (fun i : s => AdjoinRoot.powerBasisAux' i.1.property.1)) e = _
   rw [Basis.piTensorProduct_apply]
   congr 1
@@ -519,7 +519,7 @@ private theorem commAlg_forget_preserves_filtered
     (A : Type u) [CommRing A] {J : Type u} [SmallCategory J] [IsFiltered J]
     (F : J ⥤ CommAlgCat.{u} A) : PreservesColimit F (forget (CommAlgCat.{u} A)) := by
   let : IsConnected J := IsFiltered.isConnected _
-  show PreservesColimit F
+  change PreservesColimit F
     ((commAlgCatEquivUnder (CommRingCat.of A)).functor ⋙
       Under.forget (CommRingCat.of A) ⋙ forget CommRingCat.{u})
   have : PreservesColimit F (commAlgCatEquivUnder (CommRingCat.of A)).functor :=
@@ -596,7 +596,7 @@ private theorem simultaneousRootAlgebra_basisVector_stage
         ((simultaneousRootDiagram A |>.map α).hom
           (simultaneousFiniteStage_basis A u (globalMonomialToFinite A g))) := by
         congr 1
-        show simultaneousFiniteStage_basis A s e =
+        change simultaneousFiniteStage_basis A s e =
           simultaneousFiniteStage_map A u s hu
             (simultaneousFiniteStage_basis A u (globalMonomialToFinite A g))
         rw [simultaneousFiniteStage_map_basis A u s hu, he]
@@ -630,7 +630,7 @@ private theorem simultaneousRootAlgebra_basisVector_at_stage
           (simultaneousFiniteStage_extendIndex A e.1.support s
             (globalMonomialToFinite A e))) := by
       congr 1
-      show simultaneousFiniteStage_map A e.1.support s h
+      change simultaneousFiniteStage_map A e.1.support s h
           (simultaneousFiniteStage_basis A e.1.support (globalMonomialToFinite A e)) = _
       exact simultaneousFiniteStage_map_basis A e.1.support s h (globalMonomialToFinite A e)
 
@@ -673,7 +673,7 @@ private theorem simultaneousRootAlgebra_basisVector_independent
   let idx (e : S) : ∀ j : s, Fin j.1.1.natDegree :=
     simultaneousFiniteStage_extendIndex A e.1.1.support s (globalMonomialToFinite A e.1)
   have hrec (e : S) : finiteMonomialToGlobal A s (idx e) = e.1 := by
-    show finiteMonomialToGlobal A s
+    change finiteMonomialToGlobal A s
         (simultaneousFiniteStage_extendIndex A e.1.1.support s
           (globalMonomialToFinite A e.1)) = e.1
     rw [finiteMonomialToGlobal_extend A e.1.1.support s (hsub e)]
@@ -697,7 +697,7 @@ private theorem simultaneousRootAlgebra_basisVector_independent
     exact hsum'
   have hsum_stage : (∑ e : S, g e.1 • b (idx e)) = 0 := by
     apply simultaneousRootAlgebra_stage_injective A s
-    show φ (∑ e : S, g e.1 • b (idx e)) = φ 0
+    change φ (∑ e : S, g e.1 • b (idx e)) = φ 0
     simpa only [map_zero] using hsum_col
   have hcoeff := (linearIndependent_iff'.mp hli) Finset.univ
     (fun e : S => g e.1) (by simpa using hsum_stage) ⟨i, hi⟩ (Finset.mem_univ _)
@@ -785,7 +785,7 @@ private theorem simultaneousRootAlgebra_basisVector_zero
       (globalMonomialToFinite R (zeroRootMonomial R)) = 1 := by
     rw [simultaneousFiniteStage_basis_apply, PiTensorProduct.one_def]
     congr 1
-  show (colimit.ι (simultaneousRootDiagram R) (zeroRootMonomial R).1.support).hom
+  change (colimit.ι (simultaneousRootDiagram R) (zeroRootMonomial R).1.support).hom
       (simultaneousFiniteStage_basis R (zeroRootMonomial R).1.support
         (globalMonomialToFinite R (zeroRootMonomial R))) = 1
   rw [hstage]
@@ -824,7 +824,7 @@ private theorem rootIterateBasis_step (A : Type u) [CommRing A]
       (simultaneousRootAlgebra (rootIterate A n)))
   let : IsScalarTower A (rootIterate A n) (rootIterate A (n + 1)) :=
     IsScalarTower.of_algebraMap_eq (fun _ => rfl)
-  show algebraMap (rootIterate A n) (simultaneousRootAlgebra (rootIterate A n))
+  change algebraMap (rootIterate A n) (simultaneousRootAlgebra (rootIterate A n))
       (rootIterateBasis A n i) = _
   simp only [rootIterateBasis, rootIterateBasisStepIndex,
     Algebra.algebraMap_eq_smul_one]
@@ -833,7 +833,7 @@ private theorem rootIterateBasis_step (A : Type u) [CommRing A]
     Module.Basis.mk
       (simultaneousRootAlgebra_basisVector_independent (rootIterate A n))
       (simultaneousRootAlgebra_basisVector_span (rootIterate A n)).ge
-  show (rootIterateBasis A n i) • 1 =
+  change (rootIterateBasis A n i) • 1 =
     ((rootIterateBasis A n).smulTower b) (i, zeroRootMonomial (rootIterate A n))
   rw [Module.Basis.smulTower_apply]
   dsimp only [Prod.fst, Prod.snd]
@@ -1051,7 +1051,7 @@ private theorem rootIterateBaseMap_eq (A : Type u) [CommRing A] (n : ℕ) :
   induction n with
   | zero => rfl
   | succ n ih =>
-    show (rootIterateStep A n).hom.comp (rootIterateBaseMap A n) =
+    change (rootIterateStep A n).hom.comp (rootIterateBaseMap A n) =
       (Functor.OfSequence.map (rootIterateStep A) 0 (n + 1) _).hom
     rw [Functor.OfSequence.map_comp (rootIterateStep A) 0 n (n + 1)
       (Nat.zero_le n) (Nat.le_succ n), Functor.OfSequence.map_le_succ, ih]
@@ -1166,11 +1166,11 @@ private theorem finiteRootStage_descends
       finiteTensor_tprod_eq_prod_single R (fun i : s => AdjoinRoot i.1.1), map_prod]
     apply Finset.prod_congr rfl
     intro i _
-    show ((finiteTensorLift C (fun i : s => AdjoinRoot (q i)) T ψ).comp
+    change ((finiteTensorLift C (fun i : s => AdjoinRoot (q i)) T ψ).comp
       (PiTensorProduct.singleAlgHom (R := C) (A := fun i : s => AdjoinRoot (q i)) i))
         (AdjoinRoot.root (q i) ^ (j i).val) = _
     rw [finiteTensorLift_single, map_pow]
-    show (AdjoinRoot.liftAlgHom (q i) (Algebra.ofId C T)
+    change (AdjoinRoot.liftAlgHom (q i) (Algebra.ofId C T)
       (ρ i (AdjoinRoot.root i.1.1)) (hroot i) (AdjoinRoot.root (q i))) ^ (j i).val = _
     erw [AdjoinRoot.liftAlgHom_root]
     rw [← map_pow]
@@ -1271,7 +1271,7 @@ private theorem simultaneousFiniteStage_locallyFiniteFree
     obtain ⟨z, hz⟩ := hb e
     change φ z = b e at hz
     refine ⟨(⟨b.repr x e, hcoord e⟩ : C) • z, ?_⟩
-    show φ ((⟨b.repr x e, hcoord e⟩ : C) • z) = _
+    change φ ((⟨b.repr x e, hcoord e⟩ : C) • z) = _
     rw [map_smul, hz]
     rfl
   rw [← b.sum_repr x]
@@ -1344,10 +1344,10 @@ private theorem locallyFiniteFree_filteredColimit
     obtain ⟨t, ht⟩ := hgen D
     obtain ⟨E, hEf, hEfree, hE⟩ := hR (s ∪ t)
     refine ⟨⟨E, hEf, hEfree⟩, ?_, ?_⟩
-    · show C.1.toSubmodule ≤ E.toSubmodule
+    · change C.1.toSubmodule ≤ E.toSubmodule
       rw [← hs]
       exact Submodule.span_le.mpr (fun x hx => hE (Finset.mem_union_left _ hx))
-    · show D.1.toSubmodule ≤ E.toSubmodule
+    · change D.1.toSubmodule ≤ E.toSubmodule
       rw [← ht]
       exact Submodule.span_le.mpr (fun x hx => hE (Finset.mem_union_right _ hx))⟩
   let F : J ⥤ CommAlgCat.{u} A := {

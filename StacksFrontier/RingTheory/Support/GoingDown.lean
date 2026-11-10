@@ -182,7 +182,7 @@ theorem exists_prime_mem_support_comap_eq
       refine ⟨fun b c m => ?_⟩
       induction c using Quotient.inductionOn' with
       | _ c =>
-        show (Ideal.Quotient.mk I (b * c)) • m = b • (Ideal.Quotient.mk I c) • m
+        change (Ideal.Quotient.mk I (b * c)) • m = b • (Ideal.Quotient.mk I c) • m
         rw [tor.mk_smul, tor.mk_smul, mul_smul]
     have hACM : IsScalarTower A C M := by
       refine ⟨fun a c m => ?_⟩
@@ -245,12 +245,10 @@ theorem flat_R_baseChange
       LinearMap.lTensor B (TensorProduct.AlgebraTensorModule.lTensor S N g)
           ((TensorProduct.AlgebraTensorModule.assoc R S B B N P) x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, map_add, map_add, ha, hb]
     | tmul bn p =>
-      induction bn using TensorProduct.induction_on with
-      | zero => simp
+      induction bn using TensorProduct.inductionOn with
       | add a b ha hb =>
         rw [TensorProduct.add_tmul, map_add, map_add, map_add, map_add, ha, hb]
       | tmul b n =>
@@ -292,7 +290,7 @@ theorem goingDown_support [Module.Finite S N] [Module.Flat R N]
   have : IsScalarTower R A B := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show (algebraMap R B) x = φAB ((algebraMap R A) x)
+    change (algebraMap R B) x = φAB ((algebraMap R A) x)
     rw [Localization.localRingHom_to_map, IsScalarTower.algebraMap_apply R S B]
   -- The induced map `A = R_{p'} → S_{q'} = B` is local.
   have : IsLocalHom (algebraMap A B) := inferInstanceAs (IsLocalHom φAB)
@@ -300,7 +298,7 @@ theorem goingDown_support [Module.Finite S N] [Module.Flat R N]
   let modAM : Module A M := Module.compHom M φAB
   have : IsScalarTower A B M := by
     refine ⟨fun a b m => ?_⟩
-    show (φAB a * b) • m = a • (b • m)
+    change (φAB a * b) • m = a • (b • m)
     rw [mul_smul]
     rfl
   -- `M` is finite over `B`: localization of the finite `S`-module `N`
@@ -317,7 +315,7 @@ theorem goingDown_support [Module.Finite S N] [Module.Flat R N]
     have : IsScalarTower R A M := by
       apply IsScalarTower.of_algebraMap_smul
       intro r x
-      show φAB (algebraMap R A r) • x = r • x
+      change φAB (algebraMap R A r) • x = r • x
       rw [Localization.localRingHom_to_map, ← IsScalarTower.algebraMap_apply R S B,
           IsScalarTower.algebraMap_smul]
     have hflatR : Module.Flat R M := by
@@ -332,9 +330,9 @@ theorem goingDown_support [Module.Finite S N] [Module.Flat R N]
   -- `p ≤ p'` corresponds to the prime `r := p R_{p'}` of `A = R_{p'}` lying over `p`.
   -- (Image of `p` under `Spec(R_{p'}) ≃ {primes ≤ p'}`, `IsLocalization.AtPrime.orderIsoOfPrime`.)
   obtain ⟨r, hr⟩ : ∃ r : PrimeSpectrum A, PrimeSpectrum.comap (algebraMap R A) r = p := by
-    show p ∈ Set.range (PrimeSpectrum.comap (algebraMap R A))
+    change p ∈ Set.range (PrimeSpectrum.comap (algebraMap R A))
     rw [PrimeSpectrum.localization_comap_range _ p'.asIdeal.primeCompl]
-    show Disjoint (p'.asIdeal.primeCompl : Set R) p.asIdeal
+    change Disjoint (p'.asIdeal.primeCompl : Set R) p.asIdeal
     rw [Set.disjoint_left]
     intro x hx hxp
     exact hx (hpp' hxp)
@@ -384,6 +382,6 @@ theorem generalizingMap_suppMap [Module.Finite S N] [Module.Flat R N] :
   obtain ⟨q, hqle, hqsupp, hqcomap⟩ :=
     goingDown_support (R := R) (S := S) (N := N) b (suppMap a) a.val hb a.property rfl
   refine ⟨⟨q, hqsupp⟩, ?_, hqcomap⟩
-  show (⟨q, hqsupp⟩ : SuppOfModule S N) ⤳ a
+  change (⟨q, hqsupp⟩ : SuppOfModule S N) ⤳ a
   rw [subtype_specializes_iff]
   exact (PrimeSpectrum.le_iff_specializes _ _).mp hqle

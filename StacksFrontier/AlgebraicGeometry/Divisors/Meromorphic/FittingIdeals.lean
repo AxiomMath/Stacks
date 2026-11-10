@@ -171,7 +171,7 @@ theorem fittingIdeal_ideal {X : Scheme.{u}} (F : X.Modules)
   let J : X.IdealSheafData :=
     { ideal := A
       map_ideal_basicOpen := hmap }
-  show (Scheme.IdealSheafData.ofIdeals J.ideal).ideal U = _
+  change (Scheme.IdealSheafData.ofIdeals J.ideal).ideal U = _
   rw [Scheme.IdealSheafData.ofIdeals_ideal J]
   exact dite_eq_left ‹Module.Finite Γ(X, U.1) Γ(F, U.1)›
 
@@ -217,7 +217,7 @@ theorem fittingIdeal_comap {X Y : Scheme.{u}} (f : X ⟶ Y)
     exact TopologicalSpace.Opens.mem_iSup.mpr
       ⟨⟨⟨U, hU⟩, ⟨V, hV⟩, hVU⟩, hxV⟩
   · rintro ⟨U, V, hVU⟩
-    show ((fittingIdeal F k).comap f).ideal V = (fittingIdeal G k).ideal V
+    change ((fittingIdeal F k).comap f).ideal V = (fittingIdeal G k).ideal V
     rw [Stacks.IdealSheaf.ideal_comap_appLE (fittingIdeal F k) f U V hVU]
     have : Module.Finite Γ(Y, U.1) Γ(F, U.1) := moduleFinite_sections_on_affine F U.1 U.2
     have : Module.Finite Γ(X, V.1) Γ(G, V.1) := moduleFinite_sections_on_affine G V.1 V.2
@@ -262,7 +262,7 @@ lemma fittingIdeal_isFiniteType {X : Scheme.{u}} (F : X.Modules)
     finitePresentation_sections_on_affine F U
   have : F.IsFiniteType := SheafOfModules.instIsFiniteTypeOfIsFinitePresentation F
   have : F.IsQuasicoherent := SheafOfModules.instIsQuasicoherentOfIsFinitePresentation F
-  show ((fittingIdeal F (r : ℤ)).ideal U).FG
+  change ((fittingIdeal F (r : ℤ)).ideal U).FG
   rw [fittingIdeal_ideal]
   exact (fittingIdeal_basic_properties.{u, u, u, u} (R := Γ(X, U.1))
     (M := Γ(F, U.1))).2.2.2.1 inferInstance r

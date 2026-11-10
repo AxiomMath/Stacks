@@ -156,7 +156,7 @@ theorem globalSectionHom_map {X : Scheme.{u}}
     ((etaleΓIso.{u, v} X).hom.naturality (globalSectionHom F s))
   simp only [types_comp_apply] at hn
   refine hn.trans ?_
-  show F.obj.map (terminal.from (terminal X.Etale)).op _ = _
+  change F.obj.map (terminal.from (terminal X.Etale)).op _ = _
   rw [show terminal.from (terminal X.Etale) = 𝟙 _ from terminal.hom_ext _ _, op_id,
     F.obj.map_id, types_id_apply]
 
@@ -212,7 +212,7 @@ public theorem bijective_etaleGlobalPullback_of_iso {T S : Scheme.{u}} (f : T �
     Function.Bijective (etaleGlobalPullback.{u, v} f F) := by
   have h : (globalSectionsSmallEtaleInverseImageComparison.{u, v} f).val = φ.hom :=
     globalSectionsNatTrans_ext.{u, v} f _ _
-  show Function.Bijective ((globalSectionsSmallEtaleInverseImageComparison.{u, v} f).val.app F)
+  change Function.Bijective ((globalSectionsSmallEtaleInverseImageComparison.{u, v} f).val.app F)
   rw [h]
   exact ConcreteCategory.bijective_of_isIso (φ.hom.app F)
 
@@ -280,7 +280,7 @@ theorem specMap_algebraMap_comp_residueFieldPoint :
         s.residueField)) ≫ residueFieldPoint ↥(etaleLocalRing B S hS s) =
       geometricPointToStrictHenselization B S hS s := by
   have := structureSheafStalkToGeometricField_isLocalHom B S hS s
-  show Spec.map (CommRingCat.ofHom (algebraMap _ s.residueField)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap _ s.residueField)) ≫
       Spec.map (CommRingCat.ofHom (IsLocalRing.residue ↥(etaleLocalRing B S hS s))) = _
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   exact congrArg (fun φ => Spec.map (CommRingCat.ofHom φ))

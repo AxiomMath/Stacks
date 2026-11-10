@@ -267,7 +267,7 @@ theorem integralComponentAt_comp (y : Y) :
     integralComponentAt (i y) = (integralComponentAt y).map i := by
   rw [integralComponentAt, integralComponentAt, Scheme.IdealSheafData.map_vanishingIdeal]
   refine congrArg Scheme.IdealSheafData.vanishingIdeal (Closeds.ext ?_)
-  show closure ({i y} : Set X) = closure (i '' closure ({y} : Set Y))
+  change closure ({i y} : Set X) = closure (i '' closure ({y} : Set Y))
   rw [← Set.image_singleton, i.isClosedEmbedding.closure_image_eq]
   exact ((i.isClosedEmbedding.isClosedMap _ isClosed_closure).closure_eq).symm
 
@@ -316,12 +316,12 @@ theorem exists_iso_comap_sup (T D : Y.IdealSheafData) (g : Z ⟶ Y) [IsClosedImm
   have haD : aD ≫ D.subschemeι = K.subschemeι := IsClosedImmersion.lift_fac _ _ _
   let aV : K.subscheme ⟶ Z := aT ≫ e.hom
   have haV : aV ≫ g = K.subschemeι := by
-    show (aT ≫ e.hom) ≫ g = K.subschemeι
+    change (aT ≫ e.hom) ≫ g = K.subschemeι
     rw [Category.assoc, ← he, Iso.hom_inv_id_assoc, haT]
   let a : K.subscheme ⟶ F.subscheme :=
     Limits.pullback.lift aV aD (by rw [haV, haD]) ≫ (D.comapIso g).inv
   have haa : a ≫ F.subschemeι = aV := by
-    show (Limits.pullback.lift aV aD _ ≫ (D.comapIso g).inv) ≫ F.subschemeι = aV
+    change (Limits.pullback.lift aV aD _ ≫ (D.comapIso g).inv) ≫ F.subschemeι = aV
     rw [Category.assoc, Scheme.IdealSheafData.comapIso_inv_subschemeι, Limits.pullback.lift_fst]
   have hTle : T ≤ Scheme.Hom.ker (F.subschemeι ≫ g) := by
     calc T = Scheme.Hom.ker T.subschemeι := T.ker_subschemeι.symm
@@ -446,7 +446,7 @@ theorem pullbackSection_topComponent_ne_zero (j : topComponents C p i k)
     ((Scheme.Modules.pullback i).obj L) s g).mp h0
   set z := genericPoint (topComponentSubscheme C p i k j).subscheme with hz
   have himg : i (g z) = i (topComponentPoint C p i k j).1 := by
-    show (g ≫ i) z = _
+    change (g ≫ i) z = _
     rw [hgi]
     exact genericPointOf_topComponentSubscheme C p i k j
   have hgz : g z = (topComponentPoint C p i k j).1 := i.isClosedEmbedding.injective himg
@@ -642,7 +642,7 @@ theorem principalDivisorPushforward_zpow (V : X.IdealSheafData) [IsIntegral V.su
     rfl
   rw [← properPushforward_principalCycleAt C p k V hDim, ←
     properPushforward_principalCycleAt C p k V hDim]
-  show (properPushforward C (V.subschemeι ≫ p) p V.subschemeι rfl k
+  change (properPushforward C (V.subschemeι ≫ p) p V.subschemeι rfl k
       (principalCycleAt C p k V hDim (e _))).1 x = _
   have hz : ∀ z : V.subscheme,
       (principalCycleAt C p k V hDim (e ((g ^ n : (rationalFunctions V.subscheme)ˣ) :
@@ -650,7 +650,7 @@ theorem principalDivisorPushforward_zpow (V : X.IdealSheafData) [IsIntegral V.su
         n * (principalCycleAt C p k V hDim (e (g : rationalFunctions V.subscheme)) :
           AlgebraicCycle V.subscheme ℤ) z := by
     intro z
-    show (principalCycle V.subscheme _) z = n * (principalCycle V.subscheme _) z
+    change (principalCycle V.subscheme _) z = n * (principalCycle V.subscheme _) z
     rw [principalCycle_apply, principalCycle_apply, hval n]
     exact ord_zpow z gu n
   rw [properPushforward_apply, properPushforward_apply]
@@ -931,7 +931,7 @@ theorem firstChernClassCapOfInvertible_closedSubscheme_eq_zeroScheme
   rw [cycleGroup_sub_apply, hβ,
     cycleAssociatedToZeroScheme_apply_eq_finsum C p i k L s hY hD hs x,
     ← finsum_sub_distrib (hfin _ hcompzero) (hfin _ hzerozero)]
-  show _ = ∑ᶠ j : topComponents C p i k, principalDivisorPushforward C p
+  change _ = ∑ᶠ j : topComponents C p i k, principalDivisorPushforward C p
     (topComponentSubscheme C p i k j) (isIntegral_topComponentSubscheme C p i k j)
     (g j ^ componentMultiplicity i (topComponentPoint C p i k j)) x
   refine finsum_congr fun j => ?_

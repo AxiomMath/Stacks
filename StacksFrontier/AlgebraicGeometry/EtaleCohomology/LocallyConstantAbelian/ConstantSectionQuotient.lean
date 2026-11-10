@@ -87,7 +87,7 @@ lemma injective_constantQuotientSection (T : C) (B : Ab.{w}) :
   induction y using QuotientAddGroup.induction_on with
   | H b =>
   have h' : a - b ∈ constantSheafUnitKernel J T B := by
-    show ((CategoryTheory.toSheafify J ((Functor.const Cᵒᵖ).obj B)).app (op T)).hom (a - b) = 0
+    change ((CategoryTheory.toSheafify J ((Functor.const Cᵒᵖ).obj B)).app (op T)).hom (a - b) = 0
     rw [map_sub, sub_eq_zero]
     exact h
   exact QuotientAddGroup.eq_iff_sub_mem.mpr h'
@@ -133,7 +133,7 @@ lemma constantSheafUnitKernel_le_ker (S : Sheaf J Ab.{w})
   have hb' : ((constantSheafAdj J Ab.{w} hT).unit.app B) b = 0 := by
     rw [constantSheafAdj_unit_app J Ab.{w} hT B]
     exact hb
-  show k b = 0
+  change k b = 0
   rw [ConcreteCategory.congr_hom hk b, ConcreteCategory.comp_apply, hb', map_zero]
 
 include hT in

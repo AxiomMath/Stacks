@@ -121,7 +121,7 @@ theorem etale_natCast_zpow_id_left_of_isUnit (n : ℕ) (hn : IsUnit (n : k)) :
   let p : (Spec (.of k) : Scheme) := IsLocalRing.closedPoint k
   let e : A.left := (η[A]).left p
   have hFe : F e = e := by
-    show ((η[A]).left ≫ F) p = _
+    change ((η[A]).left ≫ F) p = _
     rw [← Over.comp_left, unit_comp_zpow]
   have hEe : EtaleAt F e := by
     have hu := hunr e
@@ -139,7 +139,7 @@ theorem etale_natCast_zpow_id_left_of_isUnit (n : ℕ) (hn : IsUnit (n : k)) :
     have hCM :=
       (IsRegularLocalRing.isRegular_and_isRegularLocalRing_quotient_and_isMaximalCohenMacaulay
         (A.left.presheaf.stalk e)).2
-    show Module.Flat _ _
+    change Module.Flat _ _
     refine Module.Flat.of_isMaximalCohenMacaulay_of_ringKrullDim_eq_add hCM ?_
     have hmap' : (maximalIdeal (A.left.presheaf.stalk (F e))).map
         (algebraMap (A.left.presheaf.stalk (F e)) (A.left.presheaf.stalk e)) =
@@ -160,7 +160,7 @@ theorem etale_natCast_zpow_id_left_of_isUnit (n : ℕ) (hn : IsUnit (n : k)) :
     have hcomm : F ≫ t'.hom.left = t.hom.left ≫ F := by
       rw [← Over.comp_left, ← Over.comp_left, mulRight_hom_comp_zpow]
     have hte : t.hom.left e = x := by
-      show ((η[A]).left ≫ t.hom.left) p = x
+      change ((η[A]).left ≫ t.hom.left) p = x
       rw [← Over.comp_left, unit_comp_mulRight_hom]
       exact pointOfClosedPoint_apply A.hom x hx p
     exact hte ▸ etaleAt_of_isIso_square t.hom.left t'.hom.left hcomm hEe

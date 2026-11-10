@@ -78,13 +78,13 @@ public theorem bigFppfOver_openCoverData (B : BigFppfSite.{u}) (S : Scheme.{u})
   let a : ∀ i, W i ⟶ T := fun i => Over.homMk (V.f i) (by simp [W])
   refine ⟨V.I₀, W, a, fun i => (β i).down, ?_, fun i y => ?_⟩
   · rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.generate V.presieve₀ ∈ B.precoverage.toGrothendieck T.left
+    change Sieve.generate V.presieve₀ ∈ B.precoverage.toGrothendieck T.left
     exact B.precoverage.generate_mem_toGrothendieck ⟨V, rfl, hV⟩
   · have heval : (B.inclusion.map (V.f i)) y = O.f (β i) ((e i).hom y) :=
       (congrArg (fun f => f y) (he i)).symm
-    show B.inclusion.map (V.f i) y ∈ _
+    change B.inclusion.map (V.f i) y ∈ _
     rw [heval]
-    show ((e i).hom y).val ∈ U (β i).down
+    change ((e i).hom y).val ∈ U (β i).down
     simpa using ((e i).hom y).property
 
 /-- Every open cover of the scheme underlying an object of the big fppf site of `S` is refined
@@ -117,7 +117,7 @@ public theorem bigFppfOver_zariski_openCoverData (B : BigFppfSite.{u}) (S : Sche
     rw [hpush]
     exact O.mem_grothendieckTopology
   · intro i y
-    show y.1 ∈ U i.down
+    change y.1 ∈ U i.down
     simpa using y.2
 
 /-- Locally constant `G`-valued maps form a sheaf on the big fppf site of `S`. -/

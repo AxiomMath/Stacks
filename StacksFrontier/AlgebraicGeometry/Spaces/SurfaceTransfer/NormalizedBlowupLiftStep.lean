@@ -41,6 +41,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_NormalizedBlowupLiftStep :
@@ -74,7 +75,7 @@ theorem exists_iso_pullback_comp_of_isNormalizationOfBlowupAtClosedPoint
   refine ⟨(pullbackRightPullbackFstIso f.hom a g.hom).symm ≪≫
     pullbackSymmetry _ _ ≪≫ asIso (pullback.fst φ.hom g.hom), ?_⟩
   simp only [Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc]
-  show _ ≫ _ ≫ pullback.fst (pullback.fst f.hom a) g.hom ≫ pullback.snd f.hom a = _
+  change _ ≫ _ ≫ pullback.fst (pullback.fst f.hom a) g.hom ≫ pullback.snd f.hom a = _
   rw [pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_snd]
 
 /-- **At the centre a normalized blowing up base changes to the normalized blowup of the scheme
@@ -125,7 +126,7 @@ theorem exists_iso_pullback_comp_normalizedBlowUpScheme
     · simp
     · simp
     · simp
-    · show pullback.fst f.hom a ≫ 𝟙 _ = φ.hom ≫ φ.inv ≫ pullback.fst f.hom a
+    · change pullback.fst f.hom a ≫ 𝟙 _ = φ.hom ≫ φ.inv ≫ pullback.fst f.hom a
       simp
   let ε := (IsPullback.of_hasPullback φ'.hom g.hom).isoIsPullback _ _ hsq₂.flip
   let e₀' : pullback φ'.hom g.hom ≅ yoneda.obj N := (ObjectProperty.ι _).mapIso e₀

@@ -208,7 +208,7 @@ theorem isIso_homology_derivedUnit_app_singleFunctor_obj
         ((CochainComplex.singleFunctor
           (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) 0).obj N)).f n) := by
     intro n
-    show IsIso (f.pullbackPushforwardAdjunctionTopos.unit.app
+    change IsIso (f.pullbackPushforwardAdjunctionTopos.unit.app
       (((CochainComplex.singleFunctor
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) 0).obj N).X n))
     by_cases hn : n = 0

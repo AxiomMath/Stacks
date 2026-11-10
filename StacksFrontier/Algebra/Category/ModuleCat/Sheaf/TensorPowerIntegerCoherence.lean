@@ -120,6 +120,7 @@ theorem coherentMulIso_one_right
   (tensorPowerCoherence O hO L).mul_one_right n
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the statement: a long composite of tensor-product isomorphisms of sheaves
 /-- Multiplication of powers is associative for the canonical tensor associator. -/
 theorem coherentMulIso_assoc
     (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO))

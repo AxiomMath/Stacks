@@ -167,15 +167,15 @@ theorem exists_linearEquiv_traceCandidate_of_isPushout
       invFun := fun z ↦ e (ε'.symm (eR z))
       map_add' := fun x y ↦ by simp
       map_smul' := fun b x ↦ by
-        show eR.symm (ε' (e.symm (b * x))) = b • eR.symm (ε' (e.symm x))
+        change eR.symm (ε' (e.symm (b * x))) = b • eR.symm (ε' (e.symm x))
         rw [map_mul, ← smul_eq_mul, map_smul, map_smul]
         exact congrArg (fun c : B₀ ↦ c • eR.symm (ε' (e.symm x))) (e.apply_symm_apply b)
       left_inv := fun b ↦ by simp
       right_inv := fun z ↦ by simp }
   refine ⟨ε₀, ?_⟩
-  show eR.symm (ε' (e.symm _)) = _
+  change eR.symm (ε' (e.symm _)) = _
   rw [he, LinearEquiv.symm_apply_eq, heR]
-  show ε' (localizedCompleteIntersectionMap R A₀ n h f (jacobianDet n h f)) = _
+  change ε' (localizedCompleteIntersectionMap R A₀ n h f (jacobianDet n h f)) = _
   rw [localizedCompleteIntersectionMap_jacobianDet]
   exact hε'
 
@@ -199,7 +199,7 @@ theorem exists_presentation_monic_relations (A C : Type*) [CommRing A] [CommRing
     fun i ↦ Polynomial.aeval (MvPolynomial.X i) (p i)
   have hg (i) : g i ∈ P₀.ker := by
     rw [P₀.ker_eq_ker_aeval_val, RingHom.mem_ker]
-    show MvPolynomial.aeval P₀.val (Polynomial.aeval (MvPolynomial.X i) (p i)) = 0
+    change MvPolynomial.aeval P₀.val (Polynomial.aeval (MvPolynomial.X i) (p i)) = 0
     rw [← Polynomial.aeval_algHom_apply, MvPolynomial.aeval_X]
     exact hp i
   refine ⟨_, _,
@@ -344,9 +344,9 @@ theorem exists_subring_models (A : Type u) [CommRing A] (n : ℕ) (h : MvPolynom
     ⟨IsBaseChange.of_equiv (eC.toLinearEquiv) fun _ ↦ rfl⟩
   refine ⟨R₀, hR₀fin, h₀, f₀, inferInstance, inferInstance, hpushB, T₀, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, hpushC, ?_⟩
-  show e (localizedCompleteIntersectionMap R₀ A n h₀ f₀ (jacobianDet n h₀ f₀)) = _
+  change e (localizedCompleteIntersectionMap R₀ A n h₀ f₀ (jacobianDet n h₀ f₀)) = _
   rw [localizedCompleteIntersectionMap_jacobianDet]
-  show eB (localizedCompleteIntersectionCongr hh₀ (funext hf₀) _) = _
+  change eB (localizedCompleteIntersectionCongr hh₀ (funext hf₀) _) = _
   congr 1
   have hf' : (fun i ↦ MvPolynomial.map (algebraMap R₀ A) (f₀ i)) = f := funext hf₀
   subst hh₀ hf'
@@ -437,7 +437,7 @@ theorem exists_stage_finiteOpenFactorization {A : Type u} [CommRing A] (R₀ : S
   let ψ : T₀ →ₐ[R₀] Ring R₀ S₀ i₂ := (ringMap R₀ S₀ h12).comp ψ₁
   have hψ (t : T₀) : algebraMap (Ring R₀ S₀ i₂) B (ψ t) =
       algebraMap F.middle B (algebraMap T₀ F.middle t) := by
-    show ringToRing R₀ S₀ i₂ (ringMap R₀ S₀ h12 (ψ₁ t)) = _
+    change ringToRing R₀ S₀ i₂ (ringMap R₀ S₀ h12 (ψ₁ t)) = _
     rw [ring_cocone]
     exact DFunLike.congr_fun hψ₁ t
   let γ' (t : ι) : Ring R₀ T₀ i₂ := ringMap R₀ T₀ (hjc t) (γ t)

@@ -97,7 +97,7 @@ private theorem derivationDualNumberAlgHom_preservesGrading_iff
       ∀ d x, x ∈ grading d → D x ∈ grading d := by
   refine ⟨fun hf d x hx => ?_, fun h d z hz => ?_⟩
   · have hz : TrivSqZeroExt.inl x ∈ dualNumberGrading grading d := by
-      show x ∈ grading d ∧ 0 ∈ grading d
+      change x ∈ grading d ∧ 0 ∈ grading d
       exact ⟨hx, (grading d).zero_mem⟩
     have h := hf d (TrivSqZeroExt.inl x) hz
     change (derivationDualNumberAlgHom D (TrivSqZeroExt.inl x)).fst ∈ grading d ∧
@@ -153,12 +153,12 @@ private theorem tensorDualNumberCoordinates
   let aa : M ≃ₐ[R] P :=
     { a with
       commutes' := fun r => by
-        show a (algebraMap R M r) = algebraMap k P (b r)
+        change a (algebraMap R M r) = algebraMap k P (b r)
         simpa [Algebra.smul_def] using ha r 1 }
   let cc : S →ₐ[R] DualNumber P :=
     { (dualNumberRingHom (algebraMap k P)).comp c.toRingHom with
       commutes' := fun r => by
-        show dualNumberRingHom (algebraMap k P) (c (algebraMap R S r)) = _
+        change dualNumberRingHom (algebraMap k P) (c (algebraMap R S r)) = _
         rw [hc]
         ext <;> simp [dualNumberRingHom, TrivSqZeroExt.algebraMap_eq_inl']
         rfl }
@@ -191,12 +191,12 @@ private theorem tensorDualNumberCoordinates
         h' (h ((Algebra.TensorProduct.includeLeft : S →ₐ[R] TensorProduct R S M) s)) = _
       rw [show h ((Algebra.TensorProduct.includeLeft : S →ₐ[R] TensorProduct R S M) s) =
           cc s by simp [h]]
-      show h' (dualNumberRingHom (algebraMap k P) (c s)) =
+      change h' (dualNumberRingHom (algebraMap k P) (c s)) =
         (Algebra.TensorProduct.includeLeft : S →ₐ[R] TensorProduct R S M) s
       have hs := eq_map_add_map_mul_symm_eps (algebraMap R S) b c hc s
       dsimp only [h']
       rw [DualNumber.lift_apply_apply, dualNumberRingHom_fst, dualNumberRingHom_snd]
-      show j (algebraMap k P (c s).fst) +
+      change j (algebraMap k P (c s).fst) +
         j (algebraMap k P (c s).snd) * t' = _
       have hj (r : k) : j (algebraMap k P r) =
           (Algebra.TensorProduct.includeLeft : S →ₐ[R] TensorProduct R S M)
@@ -204,7 +204,7 @@ private theorem tensorDualNumberCoordinates
         calc
           j (algebraMap k P r) = j (algebraMap R P (b.symm r)) := by
             congr 1
-            show algebraMap k P r = algebraMap k P (b (b.symm r))
+            change algebraMap k P r = algebraMap k P (b (b.symm r))
             rw [b.apply_symm_apply]
           _ = algebraMap R (TensorProduct R S M) (b.symm r) := j.commutes _
           _ = (Algebra.TensorProduct.includeLeft : S →ₐ[R] TensorProduct R S M)
@@ -219,7 +219,7 @@ private theorem tensorDualNumberCoordinates
       simp [h, h', j]
   refine ⟨AlgEquiv.toRingEquiv (AlgEquiv.ofAlgHom h h' (AlgHom.ext h_right) h_left), ?_⟩
   intro s x
-  show h (s ⊗ₜ[R] x) = _
+  change h (s ⊗ₜ[R] x) = _
   simp [h, cc, aa]
 
 /-! ### Bijectivity of a base change over a field -/
@@ -289,7 +289,7 @@ namespace ProjectiveGradedAlgebra
 private theorem isField_residueFieldObject
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k] :
     IsField (residueFieldObject.{u, w, w} Λ k) := by
-  show IsField (ULift.{w} k)
+  change IsField (ULift.{w} k)
   exact MulEquiv.isField (Field.toIsField k) (ULift.ringEquiv : ULift.{w, w} k ≃+* k)
 
 /-! ### Dual-number coordinates for a lift of a graded algebra -/
@@ -401,7 +401,7 @@ private theorem gradedHom_coordinates
   let E := (morphismPushoutEquiv f).symm.toRingEquiv.trans T
   have hE (s : Y.base) (x : X.carrier) : E (s • f.map x) =
       dualNumberRingHom (algebraMap k P) (c s) * TrivSqZeroExt.inl (a x) := by
-    show T ((morphismPushoutEquiv f).symm (s • f.map x)) = _
+    change T ((morphismPushoutEquiv f).symm (s • f.map x)) = _
     rw [← morphismPushoutEquiv_tmul, AlgEquiv.symm_apply_apply]
     exact hT s x
   have hEf (x : X.carrier) : E (f.map x) = TrivSqZeroExt.inl (a x) := by
@@ -418,8 +418,7 @@ private theorem gradedHom_coordinates
         (T (((X.grading d).subtype.baseChange Y.base) z)).fst ∈ grading d ∧
         (T (((X.grading d).subtype.baseChange Y.base) z)).snd ∈ grading d := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add p q hp hq =>
           simpa only [map_add, TrivSqZeroExt.fst_add, TrivSqZeroExt.snd_add] using
             And.intro ((grading d).add_mem hp.1 hq.1) ((grading d).add_mem hp.2 hq.2)
@@ -431,7 +430,7 @@ private theorem gradedHom_coordinates
           simpa [dualNumberRingHom, DualNumber.snd_mul, ← Algebra.smul_def] using
             And.intro ((grading d).smul_mem (c s).fst hx)
               ((grading d).smul_mem (c s).snd hx)
-    show (T ((morphismPushoutEquiv f).symm y)).fst ∈ grading d ∧
+    change (T ((morphismPushoutEquiv f).symm y)).fst ∈ grading d ∧
       (T ((morphismPushoutEquiv f).symm y)).snd ∈ grading d
     simpa only [hz] using hcoords z
   · let t : Y.base := c.symm DualNumber.eps
@@ -560,11 +559,10 @@ private theorem gradedHom_coordinates_reduction
     conv_lhs => rw [he]
     rw [map_add, map_mul, hbase, hbase, hqt, mul_zero, add_zero, b.apply_symm_apply]
   let : Algebra X.base Y.base := f.base.hom.toAlgebra
-  show ∀ y, (E y).fst = qp y
+  change ∀ y, (E y).fst = qp y
   intro y
   obtain ⟨z, rfl⟩ := (morphismPushoutEquiv f).surjective y
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, TrivSqZeroExt.fst_add, hz, hz']
   | tmul s x =>
       have hqs (s : Y.base) (y : Y.carrier) : qp (s • y) = qb s • qp y :=
@@ -618,12 +616,12 @@ private theorem coordinates_of_lift
     have hh' : i.left.base ≫ eqToHom hbε = eqToHom hb₀ ≫ g := hh
     have hh'' := congrArg (fun f : x₀.1.left.base ⟶ Aε => f.hom r) hh'
     change (eqToHom hbε).hom (i.left.base.hom r) = g.hom ((eqToHom hb₀).hom r) at hh''
-    show bε ((eqToHom hbε).hom (i.left.base.hom r)) = _
+    change bε ((eqToHom hbε).hom (i.left.base.hom r)) = _
     rw [hh'']
     exact AlgHom.congr_fun hg ((eqToHom hb₀).hom r)
   let c := C.trans (dualNumberRingEquiv (B.symm.trans b))
   have hc (r : x₀.1.left.base) : c (i.left.base.hom r) = TrivSqZeroExt.inl (b r) := by
-    show dualNumberRingEquiv (B.symm.trans b) (C (i.left.base.hom r)) = _
+    change dualNumberRingEquiv (B.symm.trans b) (C (i.left.base.hom r)) = _
     rw [hC]
     ext <;> simp [dualNumberRingEquiv, dualNumberRingHom]
   obtain ⟨E, hf, hs, hm⟩ := gradedHom_coordinates P grading i.left x₀.1.hom
@@ -748,7 +746,7 @@ private theorem exists_coordinateDerivationAut_eq
   have hbase (s : x.1.left.base) : fr (dualNumberRingHom (algebraMap k P) (c s)) =
       dualNumberRingHom (algebraMap k P) (c s) := by
     rw [← map_algebraMap_of_map_smul E _ hs]
-    show E (a.asIso.hom.val.left.map (E.symm (E (algebraMap _ _ s)))) = _
+    change E (a.asIso.hom.val.left.map (E.symm (E (algebraMap _ _ s)))) = _
     rw [E.symm_apply_apply, gradedFiberAut_map_algebraMap x a]
   let f : DualNumber P →ₐ[k] DualNumber P :=
     { fr with
@@ -758,13 +756,13 @@ private theorem exists_coordinateDerivationAut_eq
   have heps : f DualNumber.eps = DualNumber.eps := by
     have hh' : dualNumberRingHom (algebraMap k P) (c (c.symm DualNumber.eps)) =
         DualNumber.eps := by ext <;> simp [dualNumberRingHom]
-    show fr DualNumber.eps = DualNumber.eps
+    change fr DualNumber.eps = DualNumber.eps
     simpa only [hh'] using hbase (c.symm DualNumber.eps)
   have hared (y : x.1.left.carrier) :
       x.1.hom.map (a.asIso.hom.val.left.map y) = x.1.hom.map y :=
     RingHom.congr_fun (congrArg ProjectiveGradedAlgebra.Hom.map a.asIso.hom.val.w) y
   have hred (p : P) : (f (TrivSqZeroExt.inl p)).fst = p := by
-    show (E (a.asIso.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).fst = p
+    change (E (a.asIso.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).fst = p
     rw [hr, hared, ← hr, E.apply_symm_apply]
     rfl
   let D := derivationOfDualNumberAlgHom f hred
@@ -774,7 +772,7 @@ private theorem exists_coordinateDerivationAut_eq
     apply (derivationDualNumberAlgHom_preservesGrading_iff grading D).mp
     intro d z hz
     rw [hD]
-    show (E (a.asIso.hom.val.left.map (E.symm z))).fst ∈ grading d ∧
+    change (E (a.asIso.hom.val.left.map (E.symm z))).fst ∈ grading d ∧
       (E (a.asIso.hom.val.left.map (E.symm z))).snd ∈ grading d
     apply (hm d _).mp
     apply a.asIso.hom.val.left.map_mem
@@ -782,10 +780,10 @@ private theorem exists_coordinateDerivationAut_eq
     change z.fst ∈ grading d ∧ z.snd ∈ grading d at hz
     simpa only [E.apply_symm_apply] using hz
   refine ⟨⟨D, hdegree⟩, gradedFiberAut_ext fun y => E.injective ?_⟩
-  show E ((coordinateDerivationAut P grading x E c hs hm hr
+  change E ((coordinateDerivationAut P grading x E c hs hm hr
     ⟨D, hdegree⟩).asIso.hom.val.left.map y) = _
   rw [coordinateDerivationAut_apply, hD]
-  show E (a.asIso.hom.val.left.map (E.symm (E y))) = _
+  change E (a.asIso.hom.val.left.map (E.symm (E y))) = _
   rw [E.symm_apply_apply]
 
 /-- In dual-number coordinates, the automorphisms of a lift over the identity which fix the

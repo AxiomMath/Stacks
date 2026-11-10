@@ -699,7 +699,7 @@ theorem exists_affineLimitPresentation_of_basis (P : PrePureSituation.{u, u} B S
     ∃ A : AffineLimitPresentation (P.specStalkDiagram V a v hv t' xi hxi),
       ∀ i, IsQuasiFiniteAt B S hS (A.base i) (A.stagePoint i) := by
   refine ⟨specStalkAffineLimitPresentationOfBasis P V a v hv t' xi hxi Q hbound hQ, fun i ↦ ?_⟩
-  show IsQuasiFiniteAt B S hS
+  change IsQuasiFiniteAt B S hS
     (yoneda.map (affineNhdsStageHom B S hS V (pointsToScheme B S hS V v) (Q.ι.obj i)) ≫ a) _
   exact isQuasiFiniteAt_of_isLocallyQuasiFinite B S hS
     (isAlgebraicSpace_yoneda B S hS _)

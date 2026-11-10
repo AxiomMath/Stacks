@@ -194,7 +194,7 @@ private theorem finite_irreducibleComponents_baseChange_algebraicClosure
         have hZsUnion : Z ⊆ ⋃₀ (sSet : Set (Set Xₛ)) := by
           intro x hx
           have hxT : x ∈ p.base ⁻¹' (Tcomp : Set X) := by
-            show p.base x ∈ p.base '' W
+            change p.base x ∈ p.base '' W
             rw [← hZT']
             exact ⟨x, hx, rfl⟩
           rw [hdecomp'] at hxT
@@ -312,7 +312,7 @@ theorem fg_units_quotient_of_integrallyClosed (k : Type u) [Field k] (X : Scheme
     obtain ⟨y, hy⟩ : ∃ y : Y ⟨C, hC⟩, (g ⟨C, hC⟩) y = z :=
       Set.mem_range.mp ((range_reducedComponentι C hC).symm ▸ hzC)
     refine ⟨⟨C, hC⟩, y, ?_⟩
-    show q ((g ⟨C, hC⟩) y) = x
+    change q ((g ⟨C, hC⟩) y) = x
     rw [hy]
     exact hz
   have hsub : H₀ ≤ F.ker := by
@@ -323,7 +323,7 @@ theorem fg_units_quotient_of_integrallyClosed (k : Type u) [Field k] (X : Scheme
     have hunit : Units.map (ρ i).toMonoidHom (Units.map φ.toMonoidHom a) =
         Units.map (φᵢ i).toMonoidHom (Units.map (algebraMap k K).toMonoidHom a) :=
       Units.ext (congrArg (fun h : k →+* Γ(Y i, ⊤) => h a.val) (hcomm i))
-    show (QuotientGroup.mk' (Hᵢ i))
+    change (QuotientGroup.mk' (Hᵢ i))
       (Units.map (ρ i).toMonoidHom (Units.map φ.toMonoidHom a)) = 1
     rw [hunit]
     exact (QuotientGroup.eq_one_iff _).2

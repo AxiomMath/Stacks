@@ -80,7 +80,7 @@ def situation : WeightedPolynomialSituation.{u} where
 
 /-- The variable `z` is weighted homogeneous of degree three. -/
 theorem z_mem_naturalGrading : (situation k).z ∈ (situation k).naturalGrading 3 := by
-  show MvPolynomial.IsWeightedHomogeneous (situation k).naturalWeight (MvPolynomial.X 2) 3
+  change MvPolynomial.IsWeightedHomogeneous (situation k).naturalWeight (MvPolynomial.X 2) 3
   simpa [WeightedPolynomialSituation.naturalWeight] using
     (MvPolynomial.isWeightedHomogeneous_X (situation k).k (situation k).naturalWeight 2)
 

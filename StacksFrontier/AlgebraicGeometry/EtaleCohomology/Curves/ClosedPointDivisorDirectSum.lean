@@ -59,7 +59,7 @@ theorem ι_comp_closedPointSkyscraperProj (x y : closedPoints X) :
       if h : y = x then
         eqToHom (congrArg (fun z : closedPoints X =>
           (closedPointSkyscraper.{u, v} X z).obj) h) else 0 :=
-  Sigma.ι_desc _ y
+  Sigma.ι_comp_desc _ y
 
 /-- **A finitely supported family of sections of the skyscrapers whose assembled section of the
 coproduct of the underlying presheaves vanishes is zero.** -/

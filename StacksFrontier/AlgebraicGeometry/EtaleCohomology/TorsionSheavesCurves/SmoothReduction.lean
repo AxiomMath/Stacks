@@ -108,7 +108,7 @@ theorem exists_integral_isCompl_cover (X : Scheme.{u}) [IsNoetherian X] [IsNorma
     inferInstance
   let Z : ι → X.Opens := fun i ↦ (Sigma.ι Y i ≫ e.inv).opensRange
   have hdisj : Pairwise fun i j ↦ Disjoint (Z i) (Z j) := fun i j hij ↦ by
-    show Disjoint (Z i) (Z j)
+    change Disjoint (Z i) (Z j)
     rw [disjoint_iff]
     ext x
     simp only [TopologicalSpace.Opens.coe_inf, Set.mem_inter_iff, SetLike.mem_coe,

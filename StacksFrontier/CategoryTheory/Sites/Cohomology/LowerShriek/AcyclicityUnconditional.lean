@@ -71,7 +71,8 @@ There is **no hypothesis here beyond the source's**. The structure sheaf is an a
 `Sheaf K RingCat`, as in Stacks 07AC, and not a sheaf of commutative rings as in
 `AlgebraicGeometry.RingedSite`; this is possible because the Čech half of Stacks 0D6X,
 `Stacks.CechSite.injective_moduleCechCohomology_isZero`, is stated for arbitrary rings. The
-commutativity a Čech argument naively uses is *not* a packaging artefact: the Čech argument fed the commutative
+commutativity a Čech argument naively uses is *not* a packaging artefact: the Čech argument fed the
+commutative
 structure presheaf to a tensor construction whose objectwise exactness went through Mathlib's
 `ModuleCat.extendScalars`, which is stated for commutative rings. Removing it needed a genuine
 replacement, `Stacks.CechSite.extendScalarsGrp`, sound because `ℤ` is central in every ring and
@@ -116,6 +117,11 @@ variable {C : Type w} [SmallCategory C] (J : GrothendieckTopology C)
   [EnoughInjectives (SheafOfModules.{w} (inverseImageRing J K u O))]
   [EnoughInjectives (SheafOfModules.{w} O)]
 
+omit [u.IsCocontinuous J K] [HasSheafify K AddCommGrpCat.{w}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [(SheafOfModules.pushforward.{w} (F := u) (idRingMap J K u O)).IsRightAdjoint]
+  [EnoughInjectives (SheafOfModules.{w} (inverseImageRing J K u O))]
+  [EnoughInjectives (SheafOfModules.{w} O)] in
 /-- **Stacks 0D6X in the form the reduction consumes.** For an injective `O_D`-module `I`, every
 `Ext`-class of positive degree from `j_{V!}O_V` to `g^*I` in sheaves of `O_C`-modules vanishes.
 
@@ -136,6 +142,7 @@ theorem subsingleton_ext_extensionByZeroUnit_restriction (V : C)
     ((restrictionModules J K u O).obj I) n ?_ e
   exact AddCommGrpCat.isZero_iff_subsingleton.mpr hvan
 
+omit [u.IsCocontinuous J K] in
 /-- **The acyclicity statement of Stacks 07AC for sheaves of modules holds.** Lower shriek
 carries every bounded above acyclic complex whose terms are direct sums of the extensions by
 zero `j_{V!}O_V` to an acyclic complex.

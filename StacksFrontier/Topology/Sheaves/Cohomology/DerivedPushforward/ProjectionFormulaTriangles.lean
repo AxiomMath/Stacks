@@ -148,10 +148,10 @@ theorem isIso_app_shifts_triangle {C D : Type*} [Category* C] [Category* D]
         ∀ n : ℤ, IsIso (α.app (T.obj₂⟦n⟧))) ∧
       ((∀ n : ℤ, IsIso (α.app (T.obj₂⟦n⟧))) → (∀ n : ℤ, IsIso (α.app (T.obj₃⟦n⟧))) →
         ∀ n : ℤ, IsIso (α.app (T.obj₁⟦n⟧))) := by
-  letI := hFs
-  letI := hGs
-  letI := hFt
-  letI := hGt
+  let := hFs
+  let := hGs
+  let := hFt
+  let := hGt
   have third (S : Triangle C) (hS : S ∈ distinguishedTriangles)
       (h₁ : ∀ n : ℤ, IsIso (α.app (S.obj₁⟦n⟧)))
       (h₂ : ∀ n : ℤ, IsIso (α.app (S.obj₂⟦n⟧))) (n : ℤ) :

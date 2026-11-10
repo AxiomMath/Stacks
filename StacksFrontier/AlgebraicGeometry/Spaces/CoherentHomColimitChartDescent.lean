@@ -65,8 +65,8 @@ morphism itself; the inverse is then cancelled at the level of morphisms by
 
 **No `@[stacks 07UM]` attribute is placed here.**  Tag 07UM asserts that the canonical map is
 bijective; the injectivity clause lives in
-`StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitInjective.lean`, and the attribute belongs
-on the covering set of both clauses, which is
+`StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitInjective.lean`, and the attribute
+belongs on the covering set of both clauses, which is
 `StacksFrontier/AlgebraicGeometry/Spaces/CoherentHomColimitBijective.lean`.
 
 ## References

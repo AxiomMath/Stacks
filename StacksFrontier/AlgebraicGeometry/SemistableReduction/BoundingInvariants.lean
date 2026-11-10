@@ -223,13 +223,13 @@ public lemma multiplicity_mul_intersection_le_genus
 
 /-! ### Component genera -/
 
-/-- A non-minus-two component of a minimal numerical type of genus at least two
-has genus strictly less than that of the numerical type. -/
+/-- Every component of a minimal numerical type of genus at least two with more
+than one component has genus strictly less than that of the numerical type. -/
 @[stacks 0C9V "component_genus_lt"]
 public lemma componentGenus_lt_genus
     (T : NumericalType) (g : ℤ) (hg : 2 ≤ g) (hgenus : genus T = g)
     (hminimal : IsMinimal T) (hn : 1 < T.componentCount)
-    (j : Fin T.componentCount) (hj : ¬ IsMinusTwoIndex T j) :
+    (j : Fin T.componentCount) :
     T.componentGenus j < g := by
   have hm : (1 : ℚ) ≤ T.multiplicity j := by
     exact_mod_cast (show 1 ≤ T.multiplicity j by

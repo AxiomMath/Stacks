@@ -47,9 +47,10 @@ variable (Λ : Type r) [Ring Λ]
 /-- In a finite biproduct whose other summands vanish, the inclusion of one summand is an
 isomorphism. -/
 theorem isIso_biproduct_ι_of_isZero_of_ne {C : Type*} [Category C] [Preadditive C]
-    [HasFiniteBiproducts C] {ι : Type} [Fintype ι] [DecidableEq ι] (f : ι → C) (b : ι)
+    [HasFiniteBiproducts C] {ι : Type} [Finite ι] (f : ι → C) (b : ι)
     (h : ∀ a, a ≠ b → IsZero (f a)) :
     IsIso (biproduct.ι f b) := by
+  classical
   refine ⟨⟨biproduct.π f b, biproduct.ι_π_self f b, ?_⟩⟩
   refine biproduct.hom_ext _ _ fun a => ?_
   by_cases hab : a = b
@@ -61,7 +62,7 @@ theorem isIso_biproduct_ι_of_isZero_of_ne {C : Type*} [Category C] [Preadditive
 vanish is zero: maps out of it correspond, by adjunction, to maps out of the direct sum into a
 direct image, which are determined by their (vanishing) components. -/
 theorem isZero_etaleModuleInverseImage_biproduct {T X : Scheme.{u}} (g : T ⟶ X)
-    {ι : Type} [Fintype ι] (D : ι → EtaleModules.{u, r} Λ X)
+    {ι : Type} [Finite ι] (D : ι → EtaleModules.{u, r} Λ X)
     (hD : ∀ a, IsZero ((etaleModuleInverseImage.{u, r} Λ g).obj (D a))) :
     IsZero ((etaleModuleInverseImage.{u, r} Λ g).obj (⨁ D)) := by
   rw [IsZero.iff_id_eq_zero]
@@ -75,12 +76,13 @@ immersion and `jₐ : Uₐ ⟶ X` finitely many open immersions with pairwise di
 union is the image of `j`. For every sheaf `𝒦` of `Λ`-modules on `V_étale`, the sum of the
 counits `jₐ! jₐ⁻¹ (j_! 𝒦) ⟶ j_! 𝒦` is an isomorphism `⨁ₐ jₐ! jₐ⁻¹ (j_! 𝒦) ≅ j_! 𝒦`. -/
 theorem isIso_biproductDesc_counit_etaleModuleExtensionByZero {X V : Scheme.{u}}
-    {ι : Type} [Fintype ι] [DecidableEq ι] {U : ι → Scheme.{u}} (j : ∀ a, U a ⟶ X)
+    {ι : Type} [Finite ι] {U : ι → Scheme.{u}} (j : ∀ a, U a ⟶ X)
     [∀ a, IsOpenImmersion (j a)] (jV : V ⟶ X) [IsOpenImmersion jV]
     (hdisj : Pairwise fun a b => Disjoint (Set.range (j a).base) (Set.range (j b).base))
     (hcov : ⋃ a, Set.range (j a).base = Set.range jV.base) (K : EtaleModules.{u, r} Λ V) :
     IsIso (biproduct.desc fun a => (etaleModuleExtensionByZeroAdj.{u, r} Λ (j a)).counit.app
       ((etaleModuleExtensionByZero.{u, r} Λ jV).obj K)) := by
+  classical
   set H := (etaleModuleExtensionByZero.{u, r} Λ jV).obj K
   set D := fun a => (etaleModuleExtensionByZero.{u, r} Λ (j a)).obj
     ((etaleModuleRestriction.{u, r} Λ (j a)).obj H)
@@ -100,11 +102,11 @@ theorem isIso_biproductDesc_counit_etaleModuleExtensionByZero {X V : Scheme.{u}}
       obtain ⟨a, ha⟩ := Set.mem_iUnion.1 hx
       exact ⟨.inl ⟨a⟩, ha⟩
     · refine ⟨.inr ⟨x, hx⟩, ?_⟩
-      show x ∈ Set.range (X.fromSpecResidueField x).base
+      change x ∈ Set.range (X.fromSpecResidueField x).base
       rw [Scheme.range_fromSpecResidueField]
       rfl
   rintro (⟨⟨b⟩⟩ | ⟨x, hx⟩)
-  · show IsIso ((etaleModuleInverseImage.{u, r} Λ (j b)).map φ)
+  · change IsIso ((etaleModuleInverseImage.{u, r} Λ (j b)).map φ)
     refine (NatIso.isIso_map_iff (etaleModuleInverseImageRestrictionIso.{u, r} Λ (j b)) φ).mpr ?_
     set R := etaleModuleRestriction.{u, r} Λ (j b)
     have hzero : ∀ a, a ≠ b → IsZero (R.obj (D a)) := fun a hab =>
@@ -132,7 +134,7 @@ theorem isIso_biproductDesc_counit_etaleModuleExtensionByZero {X V : Scheme.{u}}
     have hcounit := isIso_etaleModuleRestriction_map_counit.{u, r} Λ (j b) H
     rw [← hcomp] at hcounit
     exact IsIso.of_isIso_comp_left (R.map (biproduct.ι D b)) _
-  · show IsIso ((etaleModuleInverseImage.{u, r} Λ (X.fromSpecResidueField x)).map φ)
+  · change IsIso ((etaleModuleInverseImage.{u, r} Λ (X.fromSpecResidueField x)).map φ)
     have hrange : Set.range (X.fromSpecResidueField x).base = {x} :=
       Scheme.range_fromSpecResidueField x
     have hV : Disjoint (Set.range (X.fromSpecResidueField x).base) (Set.range jV.base) := by

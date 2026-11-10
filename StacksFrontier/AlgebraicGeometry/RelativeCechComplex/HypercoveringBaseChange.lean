@@ -169,6 +169,7 @@ theorem iota_obj_eq_qcohModule
   rfl
 
 set_option maxHeartbeats 2000000 in
+-- the statement and its `rw` proof involve a large composite of functors on qcoh modules
 /-- The coefficient presheaf of [Stacks, Tag 01XL] at a quasi-coherent module, as the value of
 the functor of `Stacks.AlgebraicGeometry.CechPushforwardComplex.relativeCechPresheaf_eq`. -/
 theorem relativeCechPresheaf_obj_eq_aux (k : Y ⟶ Z)

@@ -198,7 +198,7 @@ theorem nonempty_fiber_residue_algEquiv_right {A : Type u} {B : Type v} [CommRin
     { Φ_A.toRingHom with
       commutes' := by
         intro b
-        show φ1 1 * φ2 b = _
+        change φ1 1 * φ2 b = _
         rw [map_one, one_mul]
         rfl }
   set R : Subring (q:Ideal B).ResidueField := Φ_A.toRingHom.range
@@ -247,7 +247,7 @@ theorem nonempty_tensor_residue_algEquiv
   let ec : (S ⊗[R] p.ResidueField) ≃ₐ[S] C :=
     { (Algebra.TensorProduct.comm R S p.ResidueField).toRingEquiv with
       commutes' := fun s => by
-        show (Algebra.TensorProduct.comm R S p.ResidueField) (s ⊗ₜ[R] 1) = 1 ⊗ₜ[R] s
+        change (Algebra.TensorProduct.comm R S p.ResidueField) (s ⊗ₜ[R] 1) = 1 ⊗ₜ[R] s
         simp }
   let ek : ∀ q : p.primesOver S,
       (C ⧸ (e q).asIdeal) ≃ₐ[S] (q : Ideal S).ResidueField := fun q => by

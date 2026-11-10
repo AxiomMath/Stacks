@@ -559,7 +559,8 @@ The named inputs are, besides the forms data:
   [Stacks, Tag 07JN] rather than an arbitrary one.  Quantifying over a datum without that field
   would not be this tag: the field's absence made the hypothesis satisfiable over the empty open
   of `X`, where a zero complex would "compute" a nonzero cohomology.  The module `M` of the pair
-  is `lim_e Γ(T_e, ℱ_{T_e})`, a module over the completed envelope `D`.  The sections are not taken over one
+  is `lim_e Γ(T_e, ℱ_{T_e})`, a module over the completed envelope `D`.
+  The sections are not taken over one
   object: that would make the complex below the complex of a pair over one level `D_e`.
 * `hleib`, the Leibniz rule for the de Rham differential of the forms.
 * `h07IT`, the implication (1) ⟹ (2) of [Stacks, Tag 07IT], carried so that the hypothesis on

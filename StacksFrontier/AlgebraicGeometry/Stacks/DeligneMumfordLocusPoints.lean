@@ -216,7 +216,7 @@ theorem automorphismLocus_of_hom {x x' : 𝒳.val.val.obj} (hx : automorphismLoc
   let h : c ⟶ c₀ := Over.homMk (p.map φ).left (by simp [c, c₀])
   have key : (siteTerminalSpace B S hS (p.obj x)).map h.op (terminal.from c₀) = terminal.from c :=
     terminalIsTerminal.hom_ext _ _
-  show terminal.from c ∈ (W (p.obj x) x₀).obj (Opposite.op c)
+  change terminal.from c ∈ (W (p.obj x) x₀).obj (Opposite.op c)
   rw [← key]
   exact (W (p.obj x) x₀).map h.op hx
 
@@ -237,7 +237,7 @@ theorem isOpenImmersion_hom_of_isOpenImmersion_toScheme_map {X : Scheme.{u}} {hX
   have : IsIso t.hom.left.hom := inferInstanceAs (IsIso ((ObjectProperty.ι _).map t.hom.left))
   have : _root_.AlgebraicGeometry.IsOpenImmersion f.left.hom := hf
   rw [hV, ht]
-  show _root_.AlgebraicGeometry.IsOpenImmersion (f.left.hom ≫ t.hom.left.hom)
+  change _root_.AlgebraicGeometry.IsOpenImmersion (f.left.hom ≫ t.hom.left.hom)
   infer_instance
 
 include hWmem hWopen in
@@ -278,7 +278,7 @@ theorem exists_isOpenImmersion_forall_nonempty_hom_iff_automorphismLocus
   have hl : (Over.mk (p.map φ ≫ eqToHom x₀.2).left : BigFppfOver B U.left.1 U.left.2) = T := by
     have h := Functor.congr_hom hy (Functor.toMkId U T)
     simp only [Functor.comp_map] at h
-    show Over.mk (p.map (y.map (Functor.toMkId U T)) ≫ eqToHom x₀.2).left = T
+    change Over.mk (p.map (y.map (Functor.toMkId U T)) ≫ eqToHom x₀.2).left = T
     rw [h, Functor.overMap_map_toMkId]
     have aux : ∀ {A : BigFppfOver B S hS} (e : A = (Over.map U.hom).obj T),
         (Over.mk (eqToHom e ≫ Functor.structHom U T).left : BigFppfOver B U.left.1 U.left.2) =

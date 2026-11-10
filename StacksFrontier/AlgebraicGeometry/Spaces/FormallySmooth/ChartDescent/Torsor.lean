@@ -128,7 +128,7 @@ def vaddHom (href : q.comp ref = c) (D : sqDer J ref) (ℓ : Lifts q c) : P →�
 theorem vaddHom_reduce (href : q.comp ref = c) (D : sqDer J ref) (ℓ : Lifts q c) :
     q.comp (vaddHom hJ h2 href D ℓ) = c := by
   ext x
-  show q (ℓ.1 x + (D : P →ₗ[A'] R) x) = c x
+  change q (ℓ.1 x + (D : P →ₗ[A'] R) x) = c x
   have hD : q ((D : P →ₗ[A'] R) x) = 0 := (hJ _).1 (sqDer_mem D x)
   rw [map_add, hD, add_zero]
   exact Lifts.reduce_apply ℓ x

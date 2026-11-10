@@ -81,7 +81,7 @@ def specLinearForm : Γ(Spec (.of k'), ⊤) →+ Γ(Spec (.of k), ⊤) :=
 on `Spec k`. -/
 theorem specLinearForm_ΓSpecIso_inv (c : k') :
     specLinearForm ℓ ((Scheme.ΓSpecIso (.of k')).inv c) = (Scheme.ΓSpecIso (.of k)).inv (ℓ c) := by
-  show (Scheme.ΓSpecIso (.of k)).inv (ℓ ((Scheme.ΓSpecIso (.of k')).hom
+  change (Scheme.ΓSpecIso (.of k)).inv (ℓ ((Scheme.ΓSpecIso (.of k')).hom
     ((Scheme.ΓSpecIso (.of k')).inv c))) = _
   rw [← CommRingCat.comp_apply (Scheme.ΓSpecIso (.of k')).inv, Iso.inv_hom_id]
   rfl
@@ -93,7 +93,7 @@ theorem specLinearForm_mul (r : Γ(Spec (.of k), ⊤)) (y : Γ(Spec (.of k'), �
   have h := congrArg (fun φ => φ.hom r) (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom
     (algebraMap k k')))
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h
-  show (Scheme.ΓSpecIso (.of k)).inv (ℓ ((Scheme.ΓSpecIso (.of k')).hom
+  change (Scheme.ΓSpecIso (.of k)).inv (ℓ ((Scheme.ΓSpecIso (.of k')).hom
       ((specExt k k').appTop r * y))) =
     r * (Scheme.ΓSpecIso (.of k)).inv (ℓ ((Scheme.ΓSpecIso (.of k')).hom y))
   rw [map_mul, h, ← Algebra.smul_def, ℓ.map_smul, smul_eq_mul, map_mul]
@@ -189,7 +189,7 @@ theorem additiveDirectImageComparison_comp_smul_comp_scalarExtensionTrace (c : k
         (pullback.snd V.hom (scalarExtensionFst k k' f)).appTop
           (baseScalarSection k' (scalarExtensionSnd (k' := k') f) c)))
   refine h1.trans ?_
-  show ofSection.{u, u + 1} (CommRingCat.pushoutTrace hpo (specLinearForm ℓ)
+  change ofSection.{u, u + 1} (CommRingCat.pushoutTrace hpo (specLinearForm ℓ)
       (specLinearForm_mul ℓ) ((pullback.fst V.hom (scalarExtensionFst k k' f)).appTop x *
         (pullback.snd V.hom (scalarExtensionFst k k' f)).appTop
           (baseScalarSection k' (scalarExtensionSnd (k' := k') f) c))) =

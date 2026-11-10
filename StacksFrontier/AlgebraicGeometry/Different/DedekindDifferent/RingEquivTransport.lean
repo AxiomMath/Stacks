@@ -74,7 +74,7 @@ theorem genericFiberHom_tmul (eA : A ≃+* A') (eB : B ≃+* B')
     (h : ∀ a, algebraMap A' B' (eA a) = eB (algebraMap A B a)) (b : B) (k : FractionRing A) :
     genericFiberHom eA eB h (b ⊗ₜ k) =
       eB b ⊗ₜ (IsFractionRing.ringEquivOfRingEquiv eA : FractionRing A ≃+* FractionRing A') k := by
-  show (algebraMap B' (B' ⊗[A'] FractionRing A') (eB b)) *
+  change (algebraMap B' (B' ⊗[A'] FractionRing A') (eB b)) *
       Algebra.TensorProduct.includeRight (IsFractionRing.ringEquivOfRingEquiv eA k) = _
   simp [Algebra.TensorProduct.tmul_mul_tmul]
 
@@ -100,8 +100,7 @@ def genericFiberEquiv (eA : A ≃+* A') (eB : B ≃+* B')
     (genericFiberHom eA.symm eB.symm (algebraMap_symm_eq eA eB h))
     (by
       refine RingHom.ext fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b k =>
         rw [RingHom.comp_apply, genericFiberHom_tmul, genericFiberHom_tmul,
           RingEquiv.apply_symm_apply, RingHom.id_apply]
@@ -112,8 +111,7 @@ def genericFiberEquiv (eA : A ≃+* A') (eB : B ≃+* B')
         rw [map_add, map_add, hx, hy])
     (by
       refine RingHom.ext fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b k =>
         rw [RingHom.comp_apply, genericFiberHom_tmul, genericFiberHom_tmul,
           RingEquiv.symm_apply_apply, RingHom.id_apply]
@@ -135,7 +133,7 @@ theorem genericFiberEquiv_algebraMap (eA : A ≃+* A') (eB : B ≃+* B')
     (h : ∀ a, algebraMap A' B' (eA a) = eB (algebraMap A B a)) (b : B) :
     genericFiberEquiv eA eB h (algebraMap B (B ⊗[A] FractionRing A) b) =
       algebraMap B' (B' ⊗[A'] FractionRing A') (eB b) := by
-  show genericFiberEquiv eA eB h (b ⊗ₜ 1) = eB b ⊗ₜ 1
+  change genericFiberEquiv eA eB h (b ⊗ₜ 1) = eB b ⊗ₜ 1
   rw [genericFiberEquiv_tmul, map_one]
 
 /-- The isomorphism of generic fibres is compatible with the maps from the total quotient
@@ -161,8 +159,7 @@ theorem genericFiberEquiv_comp_algebraMap (eA : A ≃+* A') (eB : B ≃+* B')
 
 /-- **Transport of the Dedekind setup** along compatible ring isomorphisms `A ≃ A'` and
 `B ≃ B'`. -/
-@[instance_reducible]
-def ofRingEquiv (setup : DedekindDifferentSetup A B) (eA : A ≃+* A') (eB : B ≃+* B')
+theorem ofRingEquiv (setup : DedekindDifferentSetup A B) (eA : A ≃+* A') (eB : B ≃+* B')
     (h : ∀ a, algebraMap A' B' (eA a) = eB (algebraMap A B a)) :
     DedekindDifferentSetup A' B' := by
   let := setup.isNoetherianRing
@@ -265,7 +262,7 @@ theorem trace_ofRingEquiv (setup : DedekindDifferentSetup A B) (eA : A ≃+* A')
     ← finiteProjectiveTrace_conj_linearEquiv eLK.toLinearEquiv]
   refine (finiteProjectiveTrace_congr_ringEquiv (C := B' ⊗[A'] FractionRing A') eK
     (fun _ => rfl) _ _ fun c => ?_).symm
-  show eL (x * eL.symm c) = eL x * c
+  change eL (x * eL.symm c) = eL x * c
   rw [map_mul, RingEquiv.apply_symm_apply]
 
 /-- An element of the fraction ring of `A` comes from `A` exactly when its image under the
@@ -330,7 +327,7 @@ theorem dedekindDifferentIdeal_ofRingEquiv (setup : DedekindDifferentSetup A B)
   rw [show (dedekindDifferentIdeal setup).map eB =
       (dedekindDifferentIdeal setup).map (eB : B →+* B') from rfl,
     Ideal.map_comap_of_equiv, Ideal.mem_comap]
-  show algebraMap B' (B' ⊗[A'] FractionRing A') b' ∈
+  change algebraMap B' (B' ⊗[A'] FractionRing A') b' ∈
       (setup.ofRingEquiv eA eB h).dedekindDifferent ↔
     algebraMap B (B ⊗[A] FractionRing A) (eB.symm b') ∈ setup.dedekindDifferent
   rw [← genericFiberEquiv_mem_dedekindDifferent_ofRingEquiv_iff setup eA eB h,

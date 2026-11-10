@@ -51,7 +51,7 @@ theorem alternatingCechModuleComplexMap_globalSmul_apply (F : X.Modules) (a : A)
     (alternatingCechModuleComplexMap f U (globalSmul ((globalRingHom f).hom a) F)).f n s =
       a • s := by
   refine Subtype.ext (funext fun i => ?_)
-  show (globalSmul _ F).app (CechCochains.inter U i) (s.1 i) =
+  change (globalSmul _ F).app (CechCochains.inter U i) (s.1 i) =
     (baseRingHom f (CechCochains.inter U i)).hom a • s.1 i
   rw [globalSmul_app]
   rfl
@@ -129,7 +129,7 @@ theorem formsBaseChangeHom_comp_globalSmul (p : ℤ) (c : A) :
       globalSmul ((globalRingHom f).hom c) (f.relativeDifferentialForms p) ≫
         Stacks.Gysin.formsBaseChangeHom g f f' (Spec.map (CommRingCat.ofHom φ)) hsq.w p := by
   ext V t
-  show (globalSmul ((globalRingHom f').hom (φ c)) (f'.relativeDifferentialForms p)).app
+  change (globalSmul ((globalRingHom f').hom (φ c)) (f'.relativeDifferentialForms p)).app
       (g ⁻¹ᵁ V)
       ((Stacks.Gysin.formsBaseChangeHom g f f' (Spec.map (CommRingCat.ofHom φ)) hsq.w p).app V t) =
     (Stacks.Gysin.formsBaseChangeHom g f f' (Spec.map (CommRingCat.ofHom φ)) hsq.w p).app V
@@ -198,7 +198,7 @@ theorem exists_one_tmul_eq_of_extendScalars_d_eq_zero {R : Type u} [CommRing R]
     Ideal.Quotient.mk_surjective
     (M := ModuleCat.of R (LinearMap.ker (K.d (q + 1) (q + 1 + 1)).hom)) t
   refine ⟨y'.1, y'.2, ?_⟩
-  show _ = w'
+  change _ = w'
   rw [← ht, ← hy']
   rfl
 
@@ -207,7 +207,7 @@ end Cocycles
 section Generator
 
 variable {A : Type u} [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
-  [IsProper f] {I : Type u} [Fintype I] [LinearOrder I] (U : I → X.Opens)
+  [IsProper f] {I : Type u} [Finite I] [LinearOrder I] (U : I → X.Opens)
   (hU : (⊤ : X.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i))
 
 attribute [local instance] Scheme.Hom.isQuasicoherent_relativeDifferentialForms
@@ -247,6 +247,7 @@ theorem exists_sub_smul_eq_d_of_forall_closedFibre (p q : ℕ)
       (alternatingCechModuleComplex f U (f.relativeDifferentialForms (p : ℤ))).d q (q + 1) v =
         y - a • z := by
   classical
+  have := Fintype.ofFinite I
   let K := alternatingCechModuleComplex f U (f.relativeDifferentialForms (p : ℤ))
   set haff : ∀ (r : ℕ) (s : Fin (r + 1) → I), IsAffineOpen (⨅ k, U (s k)) :=
     fun _ s => inter_isAffineOpen f U hUaff s

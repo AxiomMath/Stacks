@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ChangeOfRings.UpperShriek
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CoefficientChange.LowerShriekExtendScalarsHeldInputs
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CoefficientChange.LowerShriekExtendScalarsHeldInputs
 public import StacksFrontier.AlgebraicGeometry.NagataCompactification.Basic
 import StacksCore.Tactic.StacksAttribute
 

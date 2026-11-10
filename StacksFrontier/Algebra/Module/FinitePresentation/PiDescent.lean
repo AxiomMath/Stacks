@@ -97,7 +97,7 @@ theorem of_forall_bijective_liftBaseChange_pi (A : Type*) [CommRing A] (M : Type
   have hfp := pi_of_forall Bi Ni
   have : IsScalarTower A (∀ i, Bi i) (∀ i, Ni i) := by
     refine ⟨fun a t n => funext fun i => ?_⟩
-    show (a • t) i • n i = a • (t i • n i)
+    change (a • t) i • n i = a • (t i • n i)
     rw [Pi.smul_apply, Algebra.smul_def, mul_smul, algebraMap_smul]
   let f : M →ₗ[A] ∀ i, Ni i := LinearMap.pi ρ
   obtain ⟨E, hE⟩ := Module.BaseChange.exists_piAddEquiv A M Bi Ni
@@ -108,7 +108,7 @@ theorem of_forall_bijective_liftBaseChange_pi (A : Type*) [CommRing A] (M : Type
     | tmul b m =>
       refine funext fun i => ?_
       rw [LinearMap.liftBaseChange_tmul, hE]
-      show b i • ρ i m = (ρ i).liftBaseChange (Bi i) (b i ⊗ₜ[A] m)
+      change b i • ρ i m = (ρ i).liftBaseChange (Bi i) (b i ⊗ₜ[A] m)
       rw [LinearMap.liftBaseChange_tmul]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   have hbij : Function.Bijective (f.liftBaseChange (∀ i, Bi i)) := by
@@ -117,7 +117,7 @@ theorem of_forall_bijective_liftBaseChange_pi (A : Type*) [CommRing A] (M : Type
     exact E.bijective
   have hbc : IsBaseChange (∀ i, Bi i) f :=
     IsBaseChange.of_equiv (LinearEquiv.ofBijective _ hbij) fun m => by
-      show f.liftBaseChange (∀ i, Bi i) (1 ⊗ₜ m) = f m
+      change f.liftBaseChange (∀ i, Bi i) (1 ⊗ₜ m) = f m
       rw [LinearMap.liftBaseChange_tmul, one_smul]
   exact Module.FinitePresentation.of_isBaseChange_of_faithfullyFlat f hbc
 

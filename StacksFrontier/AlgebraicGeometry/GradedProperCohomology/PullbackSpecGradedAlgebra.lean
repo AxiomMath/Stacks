@@ -136,7 +136,7 @@ theorem pullbackSection_add {Z Y : Scheme.{u}} (g : Z ⟶ Y) (N : Y.Modules) (U 
     Scheme.Modules.pullbackSection g N U V hV (a + a') =
       Scheme.Modules.pullbackSection g N U V hV a +
         Scheme.Modules.pullbackSection g N U V hV a' := by
-  show (((Scheme.Modules.pullback g).obj N).val.map (homOfLE hV).op).hom
+  change (((Scheme.Modules.pullback g).obj N).val.map (homOfLE hV).op).hom
       ((((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app N).val.app (op U)).hom
         (a + a')) = _
   rw [map_add]

@@ -78,7 +78,7 @@ theorem exists_pow_le_tensorIso_of_surjective_stalk_off
     exact effectiveCartierMultiplicity_pow hD Z hZ k
   rw [effectiveCartierMultiplicity, Nat.cast_inj] at hmul
   rw [← hmul]
-  refine ENat.toNat_le_of_le_coe ?_
+  refine ENat.toNat_le_of_le_natCast ?_
   exact (length_quotient_stalk_morphismZeroScheme_le σ Z.genericPoint).trans hlen
 
 end AlgebraicGeometry

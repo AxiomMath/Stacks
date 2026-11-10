@@ -167,7 +167,7 @@ theorem inverseImage_underlyingConstantSheafIso_inv_comp_twist (E : ModuleCat.{u
       ((etaleModuleRestrictScalars (Int.castRingHom Λ) Y).map
         (constantSelfMapTwist Λ E s)))).trans ?_
   rw [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app]
-  show _ ≫ _ ≫ ((forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map
+  change _ ≫ _ ≫ ((forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map
       ((constantSelfMapTwist Λ E s).hom.app (op (etaleSiteTerminal Y))) ≫
     (underlyingConstantSheafIso Y E e).hom.hom.app
       (op ((smallEtaleBaseChange s).obj (etaleSiteTerminal Y)))) = _
@@ -261,7 +261,7 @@ theorem curveConstantModuleTrace_integralSelfMapCohomologyEndo_of_twist (s : C �
           (etaleModuleCohomologyAddEquivSheafH C _ 2 y)) := by
     rw [sheafHAddEquivOfIso_apply, sheafHAddEquivOfIso_apply, hBR]
     exact hmap.symm
-  show curveConstantModuleTraceAddEquiv q Λ hn _ E _ =
+  change curveConstantModuleTraceAddEquiv q Λ hn _ E _ =
     curveConstantModuleTraceAddEquiv q Λ hn hζ E y
   simp only [curveConstantModuleTraceAddEquiv, AddEquiv.trans_apply]
   rw [hpull]

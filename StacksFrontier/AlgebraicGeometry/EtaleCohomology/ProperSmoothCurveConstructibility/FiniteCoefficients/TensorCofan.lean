@@ -87,7 +87,7 @@ def isColimitTensorCofan [Module ℤ L] [Module ℤ M] (hM : ∀ m : M, ℓ • 
         simp only [AddMonoidHom.mk'_apply, AddMonoidHom.add_apply, map_add]
         exact Finsupp.sum_add_index' (fun _ ↦ by simp) fun i k k' ↦
           val_add_nsmul ℓ (htors _ (s.inj i).hom m) k k')
-  refine mkCofanColimit _
+  refine Cofan.IsColimit.mk _
     (fun s ↦ AddCommGrpCat.ofHom (TensorProduct.liftAddHom (B s) fun c x m ↦ by
       rw [map_zsmul, AddMonoidHom.coe_smul, Pi.smul_apply, map_zsmul]))
     (fun s i ↦ ?_) (fun s φ hφ ↦ ?_)
@@ -95,8 +95,7 @@ def isColimitTensorCofan [Module ℤ L] [Module ℤ M] (hM : ∀ m : M, ℓ • 
     change (κ (e i)).sum (fun j k ↦ k.val • (s.inj j).hom m) = (s.inj i).hom m
     rw [hκ, Finsupp.sum_single_index (by simp), ZMod.val_one, one_nsmul]
   · ext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add] at ha hb ⊢; rw [ha, hb]
     | tmul x m =>
       obtain ⟨y, hy⟩ := hspan x
@@ -134,7 +133,7 @@ def isColimitZModBasisCofan (b : Module.Basis ι (ZMod ℓ) V) :
     IsColimit (zmodBasisCofan b) := by
   have hval : ∀ (k : ZMod ℓ) (v : V), k.val • v = k • v := fun k v ↦ by
     rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_zmod_val]
-  refine mkCofanColimit _
+  refine Cofan.IsColimit.mk _
     (fun s ↦ AddCommGrpCat.ofHom ((Finsupp.liftAddHom fun i ↦
       (s.inj i).hom.comp (AddEquiv.ulift (α := ZMod ℓ)).symm.toAddMonoidHom).comp
         b.repr.toLinearMap.toAddMonoidHom)) (fun s i ↦ ?_) (fun s m hm ↦ ?_)
@@ -198,7 +197,7 @@ def quotientCoord : Λ →+ (quotientBasisIndex Λ ℓ →₀ ZMod ℓ) :=
 /-- The coordinates of `quotientBasisLift Λ ℓ i` are those of the `i`-th basis vector. -/
 theorem quotientCoord_quotientBasisLift (i : quotientBasisIndex Λ ℓ) :
     quotientCoord Λ ℓ (quotientBasisLift Λ ℓ i) = Finsupp.single i 1 := by
-  show (quotientBasis Λ ℓ).repr (Ideal.Quotient.mk _ (quotientBasisLift Λ ℓ i)) = _
+  change (quotientBasis Λ ℓ).repr (Ideal.Quotient.mk _ (quotientBasisLift Λ ℓ i)) = _
   rw [mk_quotientBasisLift, Module.Basis.repr_self]
 
 /-- Every `x : Λ` is, modulo `ℓΛ`, the combination of the lifts `quotientBasisLift Λ ℓ i` with

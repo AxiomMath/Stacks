@@ -98,7 +98,7 @@ theorem nbh_isCofiltered [HasTerminal C] [HasPullbacks C]
   have : IsCofiltered (StructuredArrow PUnit.{w + 1} u) := RepresentablyFlat.cofiltered _
   -- transport cofilteredness along `u.Elements ≌ StructuredArrow PUnit u`.
   exact (IsCofiltered.iff_of_equivalence
-    (CategoryOfElements.structuredArrowEquivalence u)).mpr inferInstance
+    (Functor.Elements.structuredArrowEquivalence u)).mpr inferInstance
 
 /-- Statement 2 (Consequence, tag `00YB`): under the hypotheses, the stalk
 functor on sheaves commutes with finite limits, i.e. it is left exact. -/
@@ -115,7 +115,7 @@ theorem sheafStalkFunctor_preservesFiniteLimits
     filtered_colim_preservesFiniteLimits_of_types
   -- Restriction along `(CategoryOfElements.π u).op` preserves finite limits (pointwise limits).
   have : PreservesFiniteLimits
-      ((Functor.whiskeringLeft u.Elementsᵒᵖ Cᵒᵖ (Type w)).obj (CategoryOfElements.π u).op) :=
+      ((Functor.whiskeringLeft u.Elementsᵒᵖ Cᵒᵖ (Type w)).obj (Functor.Elements.π u).op) :=
     inferInstance
   -- Hence the stalk functor on presheaves preserves finite limits.
   have : PreservesFiniteLimits (CategoryTheory.elementColimit u (Type w)) :=

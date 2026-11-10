@@ -265,22 +265,22 @@ private theorem extend_core
     { toFun := fun t => ⟨DK (t : L), hstab t⟩
       map_add' := fun t s => by
         apply Subtype.ext
-        show DK ((t : L) + (s : L)) =
+        change DK ((t : L) + (s : L)) =
           DK (t : L) + DK (s : L)
         exact map_add _ _ _
       map_smul' := fun c t => by
         apply Subtype.ext
-        show DK (c • (t : L)) = c • DK (t : L)
+        change DK (c • (t : L)) = c • DK (t : L)
         rw [smul_eq_algebraMap_mul (A := A), smul_eq_algebraMap_mul (A := A), DK.leibniz, hDKk]
         simp only [smul_eq_mul, mul_zero, add_zero]
       map_one_eq_zero' := by
         apply Subtype.ext
-        show DK ((1 : ↥(integralClosure A L)) : L) =
+        change DK ((1 : ↥(integralClosure A L)) : L) =
           ((0 : ↥(integralClosure A L)) : L)
         rw [Subalgebra.coe_one, Subalgebra.coe_zero, DK.map_one_eq_zero]
       leibniz' := fun t s => by
         apply Subtype.ext
-        show DK ((t : L) * (s : L)) =
+        change DK ((t : L) * (s : L)) =
           (t : L) * DK (s : L) +
             (s : L) * DK (t : L)
         rw [DK.leibniz]

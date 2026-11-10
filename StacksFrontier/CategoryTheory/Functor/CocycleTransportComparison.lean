@@ -60,8 +60,8 @@ theorem comp_inv_app_eq_of_comparison {c₀ : D₀ ⥤ E₀} {c₁ : D₁ ⥤ E�
   have hQ₂ := hom_app_eq_of_comparison h₂
   rw [← cancel_mono (Q₂.hom.app (c₀.obj K))]
   simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
-  rw [hQ, hQ₂, ← Iso.app_hom T₂ K, ← Iso.app_inv T₂ K, Iso.map_hom_inv_id_assoc,
-    Iso.hom_inv_id_app_assoc, ← Iso.app_hom P₂ K, ← Iso.app_inv P₂ K, Iso.map_inv_hom_id_assoc]
+  rw [hQ, hQ₂, ← Iso.app_hom T₂ K, ← Iso.app_inv T₂ K, Iso.hom_inv_id_map_assoc,
+    Iso.hom_inv_id_app_assoc, ← Iso.app_hom P₂ K, ← Iso.app_inv P₂ K, Iso.inv_hom_id_map_assoc]
 
 /-- **Transport of the cocycle condition forward along comparison functors.** Let
 `c_k : D_k ⥤ E_k` intertwine `F_i : D₀ ⥤ D₁`, `F'_j : D₁ ⥤ D₂` with `G_i`, `G'_j` through `T_i`,

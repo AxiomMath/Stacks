@@ -200,7 +200,7 @@ private theorem homOfIso_isHomLift {x y : CartesianProperFlatSpaces B S hS}
     (he : e.hom ≫ structureMap y h = commaHomAsSpaceMap x.obj.obj) :
     (cartesianProperFlatProjection B S hS).IsHomLift (𝟙 x.obj.obj.right) (homOfIso h e he) :=
   IsHomLift.of_fac' _ _ _ rfl h (by
-    show eqToHom h.symm = _
+    change eqToHom h.symm = _
     rw [Category.id_comp]
     exact (eqToHom_trans _ _).symm)
 
@@ -244,7 +244,7 @@ theorem isProper_of_isPullback_of_isThickeningHom {X X' Y Y' : AlgebraicSpaces B
   let T := Space.CartesianLocallyFiniteTypeMorphismOfThickenings.ofIsThickeningHom hi hj hsq
     hf.2.1.1 hft'
   refine T.isProper_iff.1 ?_
-  show Space.IsProper B S hS (hi.isoRange.inv ≫ f.hom ≫ hj.isoRange.hom)
+  change Space.IsProper B S hS (hi.isoRange.inv ≫ f.hom ≫ hj.isoRange.hom)
   exact Space.isProper_comp B S hS T.sourceThickening.1.1 X.property T.targetThickening.1.1 _ _
     (Space.isProper_of_isIso B S hS hi.isoRange.inv)
     (Space.isProper_comp B S hS X.property Y.property T.targetThickening.1.1 _ _ hf
@@ -339,7 +339,7 @@ theorem exists_glue_cartesianProperFlatSpaces_of_isHomLift
     (AlgebraicSpaces.isPullback_hom B S hS hglW)
   refine ⟨a₀, rfl, μ, ν, CategoryTheory.IsHomLift.map _ μ, CategoryTheory.IsHomLift.map _ ν,
     hom_ext hG.w.symm ?_⟩
-  show u.hom.hom.right ≫ b = v.hom.hom.right ≫ a
+  change u.hom.hom.right ≫ b = v.hom.hom.right ≫ a
   rw [hfu, hiv]
   exact w.symm
 

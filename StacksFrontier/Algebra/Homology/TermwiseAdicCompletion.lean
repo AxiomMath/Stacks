@@ -63,7 +63,7 @@ def moduleCatFunctor : ModuleCat.{v} A ⥤ ModuleCat.{v} A where
     simp [AdicCompletion.map_id]
   map_comp f g := by
     ext x
-    simp [AdicCompletion.map_comp_apply]
+    simp
 
 /-- The completion of a linear map `f` acts on `M^∧` as `AdicCompletion.map I f`. -/
 @[simp]
@@ -154,7 +154,7 @@ theorem exists_cyclesMap_eq_of_surjective_cyclesMap_toTermwiseAdicCompletion
     rfl
   have hiCycles {L L' : CochainComplex (ModuleCat.{v} A) ℤ} (φ : L ⟶ L') (a : L.cycles 1) :
       (L'.iCycles 1).hom ((cyclesMap φ 1).hom a) = (φ.f 1).hom ((L.iCycles 1).hom a) := by
-    show ((cyclesMap φ 1) ≫ L'.iCycles 1).hom a = (L.iCycles 1 ≫ φ.f 1).hom a
+    change ((cyclesMap φ 1) ≫ L'.iCycles 1).hom a = (L.iCycles 1 ≫ φ.f 1).hom a
     rw [cyclesMap_i]
   have hinj (L : CochainComplex (ModuleCat.{v} A) ℤ) :
       Function.Injective (L.iCycles 1).hom :=
@@ -169,23 +169,23 @@ theorem exists_cyclesMap_eq_of_surjective_cyclesMap_toTermwiseAdicCompletion
   -- their classes form an element of the completion of `K¹`
   let x : AdicCompletion I (K.X 1) :=
     ⟨fun n => Submodule.Quotient.mk (y n), fun {m n} hmn => by
-      show Submodule.Quotient.mk (y n) = Submodule.Quotient.mk (y m)
+      change Submodule.Quotient.mk (y n) = Submodule.Quotient.mk (y m)
       refine (hmem m 1 (y n) (y m)).1 ?_
       rw [← hπf m n hmn, hy, hy, ← hiCycles, hz]⟩
   -- it is a cocycle of the termwise completion
   have hdx : ((termwiseAdicCompletion I K).d 1 2).hom x = 0 := by
     refine AdicCompletion.ext fun n => ?_
-    show (AdicCompletion.map I (K.d 1 2).hom x).val n = 0
+    change (AdicCompletion.map I (K.d 1 2).hom x).val n = 0
     rw [AdicCompletion.map_val_apply]
-    show Submodule.Quotient.mk ((K.d 1 2).hom (y n)) = 0
+    change Submodule.Quotient.mk ((K.d 1 2).hom (y n)) = 0
     rw [← Submodule.Quotient.mk_zero]
     refine (hmem n 2 _ 0).1 ?_
     rw [map_zero]
-    show ((K.d 1 2 ≫ (π n).f 2)).hom (y n) = 0
+    change ((K.d 1 2 ≫ (π n).f 2)).hom (y n) = 0
     rw [← (π n).comm 1 2]
-    show ((T.obj (op n)).d 1 2).hom (((π n).f 1).hom (y n)) = 0
+    change ((T.obj (op n)).d 1 2).hom (((π n).f 1).hom (y n)) = 0
     rw [hy]
-    show ((T.obj (op n)).iCycles 1 ≫ (T.obj (op n)).d 1 2).hom (z n) = 0
+    change ((T.obj (op n)).iCycles 1 ≫ (T.obj (op n)).d 1 2).hom (z n) = 0
     rw [iCycles_d]
     rfl
   obtain ⟨c, hc⟩ := exists_iCycles_eq (termwiseAdicCompletion I K) 1 x

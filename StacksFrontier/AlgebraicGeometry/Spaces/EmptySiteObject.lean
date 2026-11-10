@@ -62,7 +62,8 @@ To be accurate about why they are unused rather than leaving a reader to guess: 
 above is *not* the route by which Stacks 07SR is being proved in this development, and it is
 not on the critical path of anything. Stacks 07SR goes through the schematic locus
 (`StacksFrontier/AlgebraicGeometry/Spaces/SchematicLocusPreimage.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/Limits/OpenSubspaceCoveringLimit.lean`), and the cardinality question around it
+`StacksFrontier/AlgebraicGeometry/Spaces/Limits/OpenSubspaceCoveringLimit.lean`), and the
+cardinality question around it
 turns on Stacks 07SQ, not on Stacks 0CP4. These three declarations are banked against a
 cardinality-free 0CP4 and nothing nearer.
 

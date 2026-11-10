@@ -136,7 +136,7 @@ theorem liftsAtResiduePoint_iff_isVersal_of_realizing
     exact ⟨α, (Category.comp_id _).trans hα⟩
   · intro A α β h
     apply CompleteLocalAlgCat.Hom.ext
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     have h' := (Category.comp_id _).symm.trans (h.trans (Category.comp_id _))
     exact congrArg CommRingCat.Hom.hom (Spec.map_injective h')
 
@@ -241,7 +241,7 @@ theorem isVersal_stalk_ofPredeformation_of_realization [IsLocallyNoetherian S]
       ((p ⋙ Over.post B.inclusion).map (R.r n)).left ≫ eqToHom (congrArg Over.left qY) =
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base n))) := by
     intro n
-    show eqToHom _ ≫ (p.map (R.r n)).left.hom ≫ eqToHom _ = _
+    change eqToHom _ ≫ (p.map (R.r n)).left.hom ≫ eqToHom _ = _
     rw [R.map_eq n, bigFppfOver_left_hom_eqToHom]
     exact eqToHom_comp_comp_eqToHom_of_heq _ _ _ _ _ _
       (adicThickeningι_heq_specMap_truncation ξ.base n)
@@ -309,7 +309,7 @@ theorem isVersal_stalk_ofPredeformation_of_realization [IsLocallyNoetherian S]
       (Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base)) ≫ iΛ)).hom =
       Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s) (ResidueField ξ.base))) ≫
         S.fromSpecStalk s := by
-    show _ ≫ (completeLocalAlgFormalBase iΛ hfinite ξ.base).toS = _
+    change _ ≫ (completeLocalAlgFormalBase iΛ hfinite ξ.base).toS = _
     rw [← hΛ]
     exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ S.fromSpecStalk s) hres₁)
   obtain ⟨g, hg⟩ := exists_ringHom_comp_fromSpecStalk_of_isOpenImmersion iΛ

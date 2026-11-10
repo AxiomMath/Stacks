@@ -226,7 +226,7 @@ theorem pointsMap_congr_of_obj_eq {𝒳 : BasedCategory.{v, t} (BigFppfOver C S 
   funext p
   induction p using Quotient.inductionOn with
   | h p =>
-    show pointClass C S hS 𝒴 h𝒴 (fieldValuedPointMap C S hS 𝒳 F p) =
+    change pointClass C S hS 𝒴 h𝒴 (fieldValuedPointMap C S hS 𝒳 F p) =
       pointClass C S hS 𝒴 h𝒴 (fieldValuedPointMap C S hS 𝒳 G p)
     congr 1
     cases p

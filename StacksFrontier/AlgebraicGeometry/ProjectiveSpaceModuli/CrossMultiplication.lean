@@ -158,7 +158,7 @@ theorem tensorSectionsAt_eq_of_tensorSection_eq {U : X.Opens} {m m' : Γ(L, U)}
   set e := Stacks.SectionTensorFormula.tensorSheafIsoTensorObj X.presheaf
     (Stacks.SectionTensorFormula.schemeSheafCondition X) L L'
   have key : ∀ z, e.inv.val.app (op U) (e.hom.val.app (op U) z) = z := fun z => by
-    show ((e.hom ≫ e.inv).val.app (op U)) z = z
+    change ((e.hom ≫ e.inv).val.app (op U)) z = z
     rw [e.hom_inv_id]
     rfl
   exact (key _).symm.trans ((congrArg (e.inv.val.app (op U)) h).trans (key _))
@@ -225,7 +225,7 @@ theorem nvCover_le_of_crossMultiplies [Stacks.Ample.IsInvertibleModule X L']
     {s : ι → Γ(L, ⊤)} {s' : ι → Γ(L', ⊤)} (h : CrossMultiplies s s')
     (hs' : GeneratesStalks s') (i : ι) : nvCover s i ≤ nvCover s' i := by
   intro x hx
-  show x ∈ Stacks.NonvanishingOpen.nonvanishingOpen X L' (s' i)
+  change x ∈ Stacks.NonvanishingOpen.nonvanishingOpen X L' (s' i)
   rw [Stacks.NonvanishingOpen.mem_nonvanishingOpen, Stacks.Ample.mem_nonvanishingLocus_iff]
   intro hmem
   obtain ⟨w, hw⟩ := Stacks.SectionProduct.exists_notMem_maximalSmul L' x

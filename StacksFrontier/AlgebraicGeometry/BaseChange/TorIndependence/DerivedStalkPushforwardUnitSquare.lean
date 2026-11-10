@@ -291,6 +291,7 @@ section QhPassage
 
 variable {Z X : Scheme.{u}} (i : Z ⟶ X) [AlgebraicGeometry.IsClosedImmersion i]
 
+omit [AlgebraicGeometry.IsClosedImmersion i] in
 /-- The unfolding of `pullbackComparisonOnComplex`. -/
 theorem pullbackComparisonOnComplex_eq_of_schemes (P : CochainComplex X.Modules ℤ) :
     pullbackComparisonOnComplex i P =
@@ -305,6 +306,7 @@ theorem pullbackComparisonOnComplex_eq_of_schemes (P : CochainComplex X.Modules 
     (StacksDraft.DerivedStalkUnitSquareChase.comp_eq_id_comp _ _ _ _
       (CategoryTheory.Functor.map_id _ _))
 
+omit [AlgebraicGeometry.IsClosedImmersion i] in
 /-- The unit of `Li^* ⊣ Ri_*` at `Qh` of a K-flat object, with the pullback comparison
 cancelled against the inverse that K-flatness supplies. -/
 theorem unit_app_Qh_comp_map_derivedPullbackComparison_of_isKFlat

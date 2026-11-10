@@ -112,7 +112,7 @@ private theorem hom_eq_of_heq_app {Z : RingedSpace.{u, u}}
 components: the composition isomorphisms of direct images have identity components. -/
 theorem mateEquiv_moduleBaseChangeSquare_app (M : SheafOfModules.{u} (structureSheafRing X')) :
     (mateEquiv (modulePullbackPushforwardAdjunction g') (modulePullbackPushforwardAdjunction g)
-      (moduleBaseChangeSquare g' f' f g sq)).natTrans.app M =
+      (moduleBaseChangeSquare g' f' f g sq)).app M =
       eqToHom (congrArg (fun k => (modulePushforward k).obj M) sq) := by
   refine (congrArg (fun t => NatTrans.app t M)
     (mateEquiv_moduleBaseChangeSquare g' f' f g sq)).trans ?_
@@ -149,7 +149,7 @@ theorem mateEquiv_moduleBaseChangeSquare_app_relative (F : Modules X.toRingedSpa
 theorem moduleBaseChangeSquare_app_relative (F : Modules X.toRingedSpace) :
     (moduleBaseChangeSquare p.toLRSHom.toShHom (toInverseImageBase (p ≫ a)) (toInverseImageBase a)
       (relativeInverseImageProjection p a)
-      (toInverseImageBase_comp_relativeInverseImageProjection p a).symm).natTrans.app F =
+      (toInverseImageBase_comp_relativeInverseImageProjection p a).symm).app F =
       relativeInverseImageToPullback p a F := by
   apply ((_root_.pullbackPushforwardAdjunction (relativeInverseImageProjection p a)).homEquiv
     _ _).injective
@@ -179,7 +179,7 @@ theorem underivedBaseChangeSquare_app_quotient_relative
         ((NatTrans.mapHomologicalComplex
           (moduleBaseChangeSquare p.toLRSHom.toShHom (toInverseImageBase (p ≫ a))
             (toInverseImageBase a) (relativeInverseImageProjection p a)
-            (toInverseImageBase_comp_relativeInverseImageProjection p a).symm).natTrans
+            (toInverseImageBase_comp_relativeInverseImageProjection p a).symm)
           (ComplexShape.up ℤ)).app K) :=
   underivedBaseChangeSquare_app_quotient p.toLRSHom.toShHom (toInverseImageBase (p ≫ a))
     (toInverseImageBase a) (relativeInverseImageProjection p a)
@@ -192,7 +192,7 @@ theorem mapHomologicalComplex_moduleBaseChangeSquare_app_f_relative
     ((NatTrans.mapHomologicalComplex
       (moduleBaseChangeSquare p.toLRSHom.toShHom (toInverseImageBase (p ≫ a))
         (toInverseImageBase a) (relativeInverseImageProjection p a)
-        (toInverseImageBase_comp_relativeInverseImageProjection p a).symm).natTrans
+        (toInverseImageBase_comp_relativeInverseImageProjection p a).symm)
       (ComplexShape.up ℤ)).app K).f n =
       relativeInverseImageToPullback p a (K.X n) :=
   moduleBaseChangeSquare_app_relative p a (K.X n)
@@ -210,7 +210,7 @@ open AlgebraicGeometry.FiniteOrderDifferentialOperatorCategory
 theorem moduleBaseChangeSquare_app_relativeOfFactors (F : Modules X'.toRingedSpace) :
     (moduleBaseChangeSquare p.toLRSHom.toShHom (toInverseImageBase g) (toInverseImageBase c)
       (relativeInverseImageProjectionOfFactors p c g hg)
-      (toInverseImageBase_comp_relativeInverseImageProjectionOfFactors p c g hg).symm).natTrans.app
+      (toInverseImageBase_comp_relativeInverseImageProjectionOfFactors p c g hg).symm).app
         F =
       relativeInverseImageToPullbackOfFactors p c g hg F := by
   subst hg
@@ -223,7 +223,7 @@ theorem mapHomologicalComplex_moduleBaseChangeSquare_app_f_relativeOfFactors
     ((NatTrans.mapHomologicalComplex
       (moduleBaseChangeSquare p.toLRSHom.toShHom (toInverseImageBase g) (toInverseImageBase c)
         (relativeInverseImageProjectionOfFactors p c g hg)
-        (toInverseImageBase_comp_relativeInverseImageProjectionOfFactors p c g hg).symm).natTrans
+        (toInverseImageBase_comp_relativeInverseImageProjectionOfFactors p c g hg).symm)
       (ComplexShape.up ℤ)).app K).f n =
       relativeInverseImageToPullbackOfFactors p c g hg (K.X n) :=
   moduleBaseChangeSquare_app_relativeOfFactors p c g hg (K.X n)
@@ -252,7 +252,7 @@ theorem moduleBaseChangeSquare_app_sndRelative (G : Modules Y.toRingedSpace) :
     (moduleBaseChangeSquare (pullback.snd a b).toLRSHom.toShHom
       (toInverseImageBase (pullback.fst a b ≫ a)) (toInverseImageBase b)
       (sndRelativeInverseImageProjection a b)
-      (toInverseImageBase_comp_sndRelativeInverseImageProjection a b).symm).natTrans.app G =
+      (toInverseImageBase_comp_sndRelativeInverseImageProjection a b).symm).app G =
       sndRelativeInverseImageToPullback a b G := by
   unfold sndRelativeInverseImageToPullback sndRelativeInverseImageProjection
   exact moduleBaseChangeSquare_app_relativeOfFactors _ _ _ _ G
@@ -265,7 +265,7 @@ theorem mapHomologicalComplex_moduleBaseChangeSquare_app_f_sndRelative
       (moduleBaseChangeSquare (pullback.snd a b).toLRSHom.toShHom
         (toInverseImageBase (pullback.fst a b ≫ a)) (toInverseImageBase b)
         (sndRelativeInverseImageProjection a b)
-        (toInverseImageBase_comp_sndRelativeInverseImageProjection a b).symm).natTrans
+        (toInverseImageBase_comp_sndRelativeInverseImageProjection a b).symm)
       (ComplexShape.up ℤ)).app K).f n =
       sndRelativeInverseImageToPullback a b (K.X n) := by
   rw [NatTrans.mapHomologicalComplex_app_f]

@@ -40,7 +40,7 @@ variable (S : MorphismSituation.{u₀, u₁, u₂, v₀, v₁, v₂, max w u₀ 
 attribute [local instance] HasDerivedCategory.standard
 
 add_to_stacks 08PC "part (3), abelian sheaves: existence of Lg_!^Ab"
-  Stacks.Sites.FibredCategory.MorphismSituation.hasPointwiseLeftDerivedFunctor_abelianLowerShriekOnHomotopy
+  hasPointwiseLeftDerivedFunctor_abelianLowerShriekOnHomotopy
 
 /-- **Stacks 08PC part (3) for abelian sheaves, the adjunction.** The unbounded left derived
 lower-shriek functor `Lg_!^{Ab} : D(Ab(C')) ⥤ D(Ab(C))` is left adjoint to `g^{-1}` on the

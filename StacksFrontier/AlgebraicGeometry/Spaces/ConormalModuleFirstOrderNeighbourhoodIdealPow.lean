@@ -181,7 +181,7 @@ theorem apply_eq_zero_of_mem_idealPow_two (I : (SheafOfModules.unit R).Submodule
     refine (mem_submoduleImage_iff I _ (⟨a • m, hm'⟩ : I.toSheafOfModules.val.obj U)).2 ?_
     have hsm : (⟨a • m, hm'⟩ : I.toSheafOfModules.val.obj U) =
         a • (⟨m, hm⟩ : I.toSheafOfModules.val.obj U) := rfl
-    show θ.val.app U ⟨a • m, hm'⟩ = 0
+    change θ.val.app U ⟨a • m, hm'⟩ = 0
     rw [hsm]
     exact ((θ.val.app U).hom.map_smul a _).trans (hann U a ha _)
   exact (mem_submoduleImage_iff I _ x).1 (hle V hx)

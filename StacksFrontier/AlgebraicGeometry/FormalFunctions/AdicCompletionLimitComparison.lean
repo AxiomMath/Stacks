@@ -155,7 +155,7 @@ public lemma smul_id_idealPowerQuotient_eq_zero [F.IsQuasicoherent] (n : ℕ) {�
   intro U
   apply ModuleCat.hom_ext
   ext s
-  show AlgebraicGeometry.baseRingToSections A (Over.mk f) U α • s = 0
+  change AlgebraicGeometry.baseRingToSections A (Over.mk f) U α • s = 0
   exact smul_sections_idealPowerQuotient_eq_zero A f I F n U.unop
     ((X.presheaf.map (homOfLE (le_top (a := U.unop))).op).hom (baseRingHom A f α))
     (fun V hVU => res_baseRingHom_mem_baseIdealSheaf_pow A f I n hα U.unop V hVU) s
@@ -180,7 +180,7 @@ public lemma smul_cohomologyOverBase_eq_zero [F.IsQuasicoherent] (p n : ℕ) {α
   rw [Functor.map_smul, CategoryTheory.Functor.map_id] at hz
   have hy := LinearMap.congr_fun (ModuleCat.hom_ext_iff.1 hz) y
   have hbridge : algebraMap A Γ(X, ⊤) α = baseRingHom A f α := by
-    show (X.presheaf.map (homOfLE (le_top (a := (⊤ : X.Opens)))).op).hom (baseRingHom A f α) =
+    change (X.presheaf.map (homOfLE (le_top (a := (⊤ : X.Opens)))).op).hom (baseRingHom A f α) =
       baseRingHom A f α
     rw [show (homOfLE (le_top (a := (⊤ : X.Opens)))).op = 𝟙 (op (⊤ : X.Opens)) from rfl,
       CategoryTheory.Functor.map_id]

@@ -182,8 +182,7 @@ public theorem baseChangeValues_valuesMap (f : M →ₗ[D] N) (z : CompletedTens
           (baseChangeTensor p D D' M Omega Omega' psi w) =
         baseChangeTensor p D D' N Omega Omega' psi
           (TensorProduct.map f (LinearMap.id (R := D) (M := Omega)) w) := by
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul m omega =>
       change TensorProduct.map (baseChangeModuleMap p D D' M N f) LinearMap.id
           (baseChangeInclusion p D D' M m ⊗ₜ[D'] psi omega) = _
@@ -218,8 +217,7 @@ public theorem rawBaseChange_baseChangeModuleMap (f : M →ₗ[D] N)
       valuesMap p D' Omega' (baseChangeCarrier p D D' M) (baseChangeCarrier p D D' N)
         (baseChangeModuleMap p D D' M N f)
         (rawBaseChange p D D' M Omega Omega' d' psi nablaM hadd' hleib' hpsi y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b' m =>
     rw [LinearMap.baseChange_tmul, rawBaseChange_tmul, rawBaseChange_tmul, _root_.map_add,
       _root_.map_smul, hf m, ← baseChangeValues_valuesMap, correction_apply, correction_apply,

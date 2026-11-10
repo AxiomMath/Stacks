@@ -169,12 +169,12 @@ public lemma shiftExtend_succ {t : ℕ} (m : Fin t → ℤ) (r : Fin t) :
     shiftExtend m (r.val + 1) = m r := by
   have hr := r.isLt
   simp only [shiftExtend, Nat.add_sub_cancel]
-  rw [dif_pos ⟨by omega, hr⟩]
+  rw [dite_eq_left ⟨by omega, hr⟩]
 
 public lemma shiftExtend_of_le {t : ℕ} (m : Fin t → ℤ) {j : ℕ} (hj : t + 1 ≤ j) :
     shiftExtend m j = 0 := by
   simp only [shiftExtend]
-  rw [dif_neg (by omega)]
+  rw [dite_eq_right (by omega)]
 
 /-- A sequence satisfying the three-term recurrence `2 Mⱼ₊₁ = Mⱼ + Mⱼ₊₂` on `[a, b]` is an
 arithmetic progression on `[a, b + 2]`; the paired form carrying two consecutive values, which
@@ -332,11 +332,11 @@ public lemma intersection_ne_zero_iff_of_erase_leaf {t : ℕ} (T : NumericalType
   · by_cases hrs : r = s
     · subst hrs
       exact ⟨fun _ => Or.inr rfl, fun _ => hself _⟩
-    · rw [hcfg.2.2.2.1 r s, if_neg hrs]
+    · rw [hcfg.2.2.2.1 r s, ite_eq_right hrs]
       by_cases hE : d.Edge r s
-      · rw [if_pos hE]
+      · rw [ite_eq_left hE]
         exact ⟨fun _ => Or.inl hE, fun _ => (mul_pos (lt_max_of_lt_left (hwfpos r)) hwpos).ne'⟩
-      · rw [if_neg hE]
+      · rw [ite_eq_right hE]
         exact ⟨fun h => absurd rfl h, fun h => h.elim (absurd · hE) (absurd · hrs)⟩
   · refine ⟨fun h => hvinj ((hleaf (v r) (hvl r) h).trans hr₀.symm), fun h => ?_⟩
     subst h

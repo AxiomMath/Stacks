@@ -38,7 +38,7 @@ theorem exists_sheafH_one_etaleConstantSheaf_dvd_of_nsmul_eq_zero (hg : 1 ≤ ge
       ∀ m : ℕ, m • z = 0 → ℓ ^ j ∣ m := by
   have hn : IsUnit ((ℓ ^ j : ℕ) : k) := by exact_mod_cast hℓ.pow j
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have hdim : topologicalKrullDim C ≤ 1 := (IsCurve.topologicalKrullDim_eq_one (f := f)).le
   have hX := isUnit_natCast_globalSections C (ℓ ^ j) f hn
   have hsurj := surjective_sheafH_map_powMap_zero.{u + 1, u, 0} C (n := ℓ ^ j)

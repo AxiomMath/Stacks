@@ -117,7 +117,7 @@ private lemma pureInjective_of_retract
     · rintro x ⟨y, rfl⟩
       rw [LinearMap.mem_ker]
       ext z
-      show y (g (f z)) = 0
+      change y (g (f z)) = 0
       simpa using congrArg y (DFunLike.congr_fun hgf z)
     · intro x hx
       have hxP : LinearMap.lcomp A P f (j.comp x) = 0 := by
@@ -202,18 +202,18 @@ private lemma pureInjective_range_of_splitSequence
       map_add' := by
         intro x y
         apply Subtype.ext
-        show (x + y) - f (r (x + y)) =
+        change (x + y) - f (r (x + y)) =
           (x - f (r x)) + (y - f (r y))
         simp only [map_add]
         abel_nf
       map_smul' := by
         intro a x
         apply Subtype.ext
-        show a • x - f (r (a • x)) = a • (x - f (r x))
+        change a • x - f (r (a • x)) = a • (x - f (r x))
         simp only [map_smul, smul_sub] }
   have hpj : p.comp j = LinearMap.id := by
     ext x
-    show x - f (r x) = x
+    change x - f (r x) = x
     simp [LinearMap.mem_ker.mp x.property]
   have hker : Module.PureInjective A (LinearMap.ker r) :=
     pureInjective_of_retract hI j p hpj
@@ -242,7 +242,7 @@ private lemma rangeSubtype_universallyInjective_of_tensorExact
   obtain ⟨w, hw⟩ := (hbase₁ Q z).mp hgz
   have hqf : q.comp f = 0 := by
     ext x
-    show g (f x) = 0
+    change g (f x) = 0
     exact (hexfg (f x)).mpr ⟨x, rfl⟩
   have hqz : LinearMap.rTensor Q q z = 0 := by
     rw [← hw, ← LinearMap.rTensor_comp_apply, hqf, LinearMap.rTensor_zero, LinearMap.zero_apply]
@@ -308,7 +308,7 @@ private lemma compRight_exact_of_lift
     ext m
     exact congrArg Subtype.val (DFunLike.congr_fun hψ m)
   · rintro ⟨y, rfl⟩
-    show h.comp (g.comp y) = 0
+    change h.comp (g.comp y) = 0
     rw [← LinearMap.comp_assoc, LinearMap.range_le_ker_iff.mp hgh.le]
     simp
 
@@ -355,7 +355,7 @@ private lemma homComplex_exactAt_of_exact
     simpa only [show (n + 1) + 1 = n + 2 by omega] using hMap₂'
   apply (C.exactAt_iff' n (n + 1) (n + 2) (by simp) (by simp)).2
   apply ModuleCat.shortComplex_exact
-  show Function.Exact (C.d n (n + 1)).hom (C.d (n + 1) (n + 2)).hom
+  change Function.Exact (C.d n (n + 1)).hom (C.d (n + 1) (n + 2)).hom
   rw [hMap₁, hMap₂]
   exact hExact
 
@@ -390,7 +390,7 @@ public theorem pureExt_isZero_of_pureInjective
   obtain ⟨augmentation, hI⟩ : ∃ augmentation : N →ₗ[A] I.X 0,
       Module.PureInjectiveResolution.IsPureInjectiveResolution I augmentation :=
     Classical.choose_spec hExists
-  show CategoryTheory.Limits.IsZero ((Module.homComplex M I).homology i)
+  change CategoryTheory.Limits.IsZero ((Module.homComplex M I).homology i)
   cases i with
   | zero => omega
   | succ n =>
@@ -548,10 +548,10 @@ private lemma hom_exact_of_pureInjective
     obtain ⟨χ, hχ⟩ := hExt ψ
     have hχ' : χ.comp (LinearMap.range g).subtype = ψ := hχ
     refine ⟨χ, ?_⟩
-    show χ.comp g = φ
+    change χ.comp g = φ
     rw [← hψ', ← hχ', LinearMap.comp_assoc, hdecomp]
   · rintro ⟨χ, rfl⟩
-    show (χ.comp g).comp f = 0
+    change (χ.comp g).comp f = 0
     rw [LinearMap.comp_assoc, hgf]
     simp
 
@@ -590,7 +590,7 @@ public theorem homComplexOfChain_exactAt_of_pureInjective
     simpa only [show (n + 1) + 1 = n + 2 by omega] using hMap₂'
   apply (C.exactAt_iff' n (n + 1) (n + 2) (by simp) (by simp)).2
   apply ModuleCat.shortComplex_exact
-  show Function.Exact (C.d n (n + 1)).hom (C.d (n + 1) (n + 2)).hom
+  change Function.Exact (C.d n (n + 1)).hom (C.d (n + 1) (n + 2)).hom
   rw [hMap₁, hMap₂]
   exact hExact
 
@@ -613,7 +613,7 @@ public theorem homComplexOfChain_augmentation_exact
       exact LinearMap.mem_ker.mpr (DFunLike.congr_fun hφ x)
     refine ⟨((LinearMap.ker ε).liftQ φ hle).comp
       (ε.quotKerEquivOfSurjective hε).symm.toLinearMap, ?_⟩
-    show (((LinearMap.ker ε).liftQ φ hle).comp
+    change (((LinearMap.ker ε).liftQ φ hle).comp
       (ε.quotKerEquivOfSurjective hε).symm.toLinearMap).comp ε = φ
     ext x
     have hx : (ε.quotKerEquivOfSurjective hε).symm (ε x) = (LinearMap.ker ε).mkQ x :=
@@ -621,7 +621,7 @@ public theorem homComplexOfChain_augmentation_exact
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, hx]
     exact DFunLike.congr_fun (Submodule.liftQ_mkQ (LinearMap.ker ε) φ hle) x
   · rintro ⟨χ, rfl⟩
-    show (χ.comp ε).comp d = 0
+    change (χ.comp ε).comp d = 0
     rw [LinearMap.comp_assoc, LinearMap.range_le_ker_iff.mp hex.le]
     simp
 

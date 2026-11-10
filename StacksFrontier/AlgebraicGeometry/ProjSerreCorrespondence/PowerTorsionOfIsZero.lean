@@ -68,6 +68,7 @@ variable {S : Type u} {M : Type v} {σ : Type w} {τ : Type t}
   [SetLike τ M] [AddSubgroupClass τ M] (𝒨 : ℤ → τ) [DirectSum.Decomposition 𝒨]
   [SetLike.GradedSMul 𝒜 𝒨]
 
+omit [DirectSum.Decomposition 𝒨] in
 /-- **A zero associated sheaf has trivial sections over every open.** -/
 theorem subsingleton_moduleSections_of_isZero
     (hzero : Limits.IsZero (associatedModuleSheaf 𝒜 𝒨))

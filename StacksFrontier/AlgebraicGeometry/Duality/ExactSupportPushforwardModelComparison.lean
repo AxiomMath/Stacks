@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.ClosedImmersionTraceSheafHom
 public import
-  StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
+ StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
 
 /-!
 # The two models of Tag 0A77 agree, and the trace in the bifunctor model

@@ -155,9 +155,9 @@ theorem hasCoherentWitnessOnIntegralSubspaces_hasFiniteGlobalCohomologyOver
         ((modulePushforward B S hS p).obj M)
       have h2 := moduleSupportSet_modulePushforward_representedModuleOf_eq_univ B S hS V p hρs
         Ld σ
-      show supportOfSheaf B S hS X.1 _ = _
+      change supportOfSheaf B S hS X.1 _ = _
       rw [h1]
-      show pointsMap B S hS Z.toFunctor Z.ι '' (moduleSupportSet B S hS Zs
+      change pointsMap B S hS Z.toFunctor Z.ι '' (moduleSupportSet B S hS Zs
         ((modulePushforward B S hS p).obj M)) = _
       rw [h2, Set.image_univ]
     rw [schemeTheoreticSupport_eq_reducedClosedSubspace B S hS X _ hGc _ hT hann hsupp, ← hZeq]

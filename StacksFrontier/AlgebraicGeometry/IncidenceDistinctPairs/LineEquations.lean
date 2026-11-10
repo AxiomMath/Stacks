@@ -155,7 +155,7 @@ public theorem le_of_forall_minorCombination_mem {f g : Module.Dual k V} (hf : f
 
 /-- **Two points whose degree-one equations are the kernels of two functionals with different
 kernels are distinct**, since the equations of a point determine it when they are a hyperplane. -/
-public theorem ne_of_pointSubmodule_eq_ker {f g : Module.Dual k V} (hf : f ≠ 0) (hg : g ≠ 0)
+public theorem ne_of_pointSubmodule_eq_ker {f g : Module.Dual k V}
     {p₀ p₁ : projectiveSpaceOfModule k V} (hp₀ : pointSubmodule k V p₀ = LinearMap.ker f)
     (hp₁ : pointSubmodule k V p₁ = LinearMap.ker g)
     (hne : LinearMap.ker f ≠ LinearMap.ker g) : p₀ ≠ p₁ := by

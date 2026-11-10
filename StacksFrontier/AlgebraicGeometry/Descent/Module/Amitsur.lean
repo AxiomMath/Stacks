@@ -70,7 +70,7 @@ private lemma augmentation_condition {C : Type u} [Category.{v} C] [Preadditive 
     X.hom.app (.mk 0) ≫ ((alternatingCofaceMapComplex C).obj X.right).d 0 1 = 0 := by
   rw [show ((alternatingCofaceMapComplex C).obj X.right).d 0 1 =
       AlternatingCofaceMapComplex.objD X.right 0 by
-    show (CochainComplex.of _ _ (AlternatingCofaceMapComplex.d_squared X.right)).d
+    change (CochainComplex.of _ _ (AlternatingCofaceMapComplex.d_squared X.right)).d
       0 (0 + 1) = _
     exact CochainComplex.of_d (fun n : ℕ ↦ X.right.obj (.mk n))
       (AlternatingCofaceMapComplex.objD X.right) 0]
@@ -189,7 +189,7 @@ theorem amitsurExtendedCochainComplex_acyclic_of_section
     rw [← 𝒜.map_comp, ← 𝒜.map_id]
     refine homotopic_alternatingCofaceMapComplex_map (Relation.EqvGen.rel _ _
       ⟨fun n α => F.map (H n α), fun ⦃n m⦄ g α => ?_, fun n => ?_, fun n => ?_⟩)
-    · show F.map (f.cechConerve.map g) ≫ F.map (H m α) =
+    · change F.map (f.cechConerve.map g) ≫ F.map (H m α) =
         F.map (H n ((SSet.stdSimplex.obj (SimplexCategory.mk 1)).map g.op α)) ≫
           F.map (f.cechConerve.map g)
       rw [← F.map_comp, Hnat g α, F.map_comp]
@@ -224,7 +224,7 @@ theorem amitsurExtendedCochainComplex_acyclic_of_section
     rintro (_ | _ | n)
     · rw [HomologicalComplex.exactAt_iff' _ 0 0 1 (by simp) (by simp),
         ShortComplex.moduleCat_exact_iff]
-      show ∀ x : Y, (e ≫ p.f 0) x = 0 → ∃ y : Y, (0 : Y ⟶ Y) y = x
+      change ∀ x : Y, (e ≫ p.f 0) x = 0 → ∃ y : Y, (0 : Y ⟶ Y) y = x
       intro x hx
       have hz : q.f 0 ((e ≫ p.f 0) x) = e x := by
         simpa using congrArg (fun g : Y ⟶ V.X 0 => g x) hcomp
@@ -233,7 +233,7 @@ theorem amitsurExtendedCochainComplex_acyclic_of_section
       exact ⟨0, by simp [hx0]⟩
     · rw [HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp),
         ShortComplex.moduleCat_exact_iff]
-      show ∀ x : U.X 0, (U.d 0 1) x = 0 → ∃ y : Y, (e ≫ p.f 0) y = x
+      change ∀ x : U.X 0, (U.d 0 1) x = 0 → ∃ y : Y, (e ≫ p.f 0) y = x
       intro x hx
       have hc : (q ≫ p).f 0 = U.d 0 1 ≫ H.hom 1 0 + 𝟙 (U.X 0) := by
         rw [H.comm 0, dNext_eq H.hom (by simp : (ComplexShape.up ℕ).Rel 0 1)]

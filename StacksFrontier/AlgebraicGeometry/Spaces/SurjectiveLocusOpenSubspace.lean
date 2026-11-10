@@ -236,7 +236,7 @@ theorem isSurjectiveAt_iff_isZero_modulePullback_cokernelModule (T : D.SchemesOv
   have hpc : PreservesColimitsOfSize.{0, 0}
       (modulePullback B S hS (D.baseChangeProjection T)) :=
     hadj.leftAdjoint_preservesColimits
-  show Epi ((modulePullback B S hS (D.baseChangeProjection T)).map D.u) ↔ _
+  change Epi ((modulePullback B S hS (D.baseChangeProjection T)).map D.u) ↔ _
   rw [Preadditive.epi_iff_isZero_cokernel]
   exact ⟨fun h => h.of_iso
       (PreservesCokernel.iso (modulePullback B S hS (D.baseChangeProjection T)) D.u),

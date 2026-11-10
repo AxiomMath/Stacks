@@ -68,7 +68,7 @@ theorem exists_leftInverse_of_isLocalRing [Module.Projective A N] {r : ℕ}
     rw [← Ideal.Quotient.eq]
     have h1 : q (ρ (φ (Pi.single i 1))) = g (φ (Pi.single i 1)) := LinearMap.congr_fun hρ _
     have h2 : g (φ (Pi.single i 1)) = Pi.single i 1 := by
-      show ρb (πN (φ (Pi.single i 1))) = _
+      change ρb (πN (φ (Pi.single i 1))) = _
       rw [← hφb]
       have : (fun k => Ideal.Quotient.mk m ((Pi.single i 1 : Fin r → A) k)) =
           (Pi.single i 1 : Fin r → κ) := by

@@ -80,7 +80,7 @@ theorem Functor.IsStack.exists_small_fullSubcategory [LocallySmall.{u} 𝒮] [Es
     have : p.IsStronglyCartesian α.hom φ := inferInstance
     have : IsIso φ := Functor.IsStronglyCartesian.isIso_of_base_isIso p α.hom φ
     refine ⟨obj i, ⟨i⟩, e ≪≫ (asIso φ).symm, ?_⟩
-    show p.IsHomLift (𝟙 (p.obj X)) (e.hom ≫ _root_.CategoryTheory.inv φ)
+    change p.IsHomLift (𝟙 (p.obj X)) (e.hom ≫ _root_.CategoryTheory.inv φ)
     have : p.IsHomLift α.hom e.hom := Functor.IsHomLift.map e.hom
     have : p.IsHomLift (_root_.CategoryTheory.inv α.hom)
       (_root_.CategoryTheory.inv φ) := inferInstance

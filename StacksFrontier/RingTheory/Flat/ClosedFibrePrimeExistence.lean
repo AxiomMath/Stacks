@@ -86,7 +86,7 @@ theorem exists_isPrime_closedFiber :
     ∃ q : Ideal (B ⊗[A] R), q.IsPrime ∧ closedFibreIdeal A B R ≤ q := by
   have htower : ∀ a : A, algebraMap A (residueFibre A B R) a =
       algebraMap (ResidueField A) (residueFibre A B R) (residue A a) := fun a ↦ by
-    show (Algebra.TensorProduct.includeLeft (R := ResidueField A) (A := ResidueField B)
+    change (Algebra.TensorProduct.includeLeft (R := ResidueField A) (A := ResidueField B)
       (B := ResidueField R) (S := ResidueField A)) (algebraMap A (ResidueField B) a) = _
     rw [IsScalarTower.algebraMap_apply A (ResidueField A) (ResidueField B)]
     exact Algebra.TensorProduct.includeLeft.commutes (residue A a)
@@ -110,11 +110,11 @@ theorem exists_isPrime_closedFiber :
   -- The two generators of the closed-fibre ideal die under the lift.
   have hgr : ∀ r : R, Algebra.TensorProduct.lift f g hcomm
       (Algebra.TensorProduct.includeRight r) = g r := fun r ↦ by
-    show Algebra.TensorProduct.lift f g hcomm ((1 : B) ⊗ₜ[A] r) = g r
+    change Algebra.TensorProduct.lift f g hcomm ((1 : B) ⊗ₜ[A] r) = g r
     rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
   have hfb : ∀ b : B, Algebra.TensorProduct.lift f g hcomm
       (Algebra.TensorProduct.includeLeftRingHom b) = f b := fun b ↦ by
-    show Algebra.TensorProduct.lift f g hcomm (b ⊗ₜ[A] (1 : R)) = f b
+    change Algebra.TensorProduct.lift f g hcomm (b ⊗ₜ[A] (1 : R)) = f b
     rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
   have hker : closedFibreIdeal A B R ≤
       RingHom.ker (Algebra.TensorProduct.lift f g hcomm).toRingHom := by

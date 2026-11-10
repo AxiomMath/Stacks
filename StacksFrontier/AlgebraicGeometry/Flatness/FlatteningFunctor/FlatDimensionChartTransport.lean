@@ -113,12 +113,12 @@ theorem isFlat_of_forall_etaleChart_of_relation {R : Scheme.{u}} (p₁ p₂ : R 
     obtain ⟨j, w, r, hwr, rfl⟩ := hcov x hx hxT
     obtain ⟨z, -, hz⟩ := Scheme.Pullback.exists_preimage_pullback w r hwr
     refine ⟨j, z, ?_⟩
-    show p₂ (pullback.snd (h j) p₁ z) = p₂ r
+    change p₂ (pullback.snd (h j) p₁ z) = p₂ r
     rw [hz]
   · -- the chart `kⱼ` is the étale chart `Wⱼ ×_X R ⟶ Wⱼ` of the chart `hⱼ`
     let C := D.etaleChart (h j)
     have hf : pullback.fst (h j) p₁ ≫ C.f = k j ≫ D.f := by
-      show pullback.fst (h j) p₁ ≫ h j ≫ D.f = (pullback.snd (h j) p₁ ≫ p₂) ≫ D.f
+      change pullback.fst (h j) p₁ ≫ h j ≫ D.f = (pullback.snd (h j) p₁ ≫ p₂) ≫ D.f
       rw [pullback.condition_assoc, hp, Category.assoc]
     let eF : (Scheme.Modules.pullback (pullback.fst (h j) p₁)).obj C.F ≅
         (Scheme.Modules.pullback (k j)).obj D.F :=

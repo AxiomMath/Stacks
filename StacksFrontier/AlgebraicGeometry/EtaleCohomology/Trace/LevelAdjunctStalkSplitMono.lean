@@ -52,10 +52,10 @@ public theorem levelAdjunctStalkMap_comp_apply (F : LAdicSheaf.{u, u + 1} B Y �
     (w : finiteLevelStalk B Y ℓ F s n) :
     (levelAdjunctStalkMap f s F F'' (χ ≫ θ) n).hom w =
       (colim.map (Functor.whiskerLeft
-          ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+          ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
           ((levelPushforward f n).map (θ.app n)).hom)).hom
         ((levelAdjunctStalkMap f s F F' χ n).hom w) := by
-  let π := (CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op
+  let π := (Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op
   have e : ((levelAdjunction f n).homEquiv _ _) ((χ ≫ θ).app n) =
       ((levelAdjunction f n).homEquiv _ _) (χ.app n) ≫ (levelPushforward f n).map (θ.app n) :=
     Adjunction.homEquiv_naturality_right _ _ _
@@ -84,7 +84,7 @@ public theorem levelUnitStalkMap_eq_zero_of_levelAdjunctStalkMap_eq_zero
   refine (levelAdjunctStalkMap_comp_apply f s F χ χ' n w).trans ?_
   rw [hw]
   exact map_zero (colim.map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op)
+    ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op)
     ((levelPushforward f n).map (χ'.app n)).hom)).hom
 
 end Stacks.EtaleCohomology

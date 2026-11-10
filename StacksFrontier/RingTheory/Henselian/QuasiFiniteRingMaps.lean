@@ -602,8 +602,7 @@ theorem _root_.Algebra.TensorProduct.productMap_rightAlgebra_surjective (R A B :
   let : IsScalarTower R B (A ⊗[R] B) := Algebra.TensorProduct.right_isScalarTower
   intro t
   refine ⟨Algebra.TensorProduct.comm R A B t, ?_⟩
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul r b =>
     rw [Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.productMap_apply_tmul]
     change ((1 : A) ⊗ₜ[R] b) * (r ⊗ₜ[R] (1 : B)) = _
@@ -663,8 +662,7 @@ theorem isIntegral_of_forall_finset
         t ∈ (Algebra.TensorProduct.map (AlgHom.id Rsh Rsh) φ).range := by
     classical
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨∅, fun _ _ _ _ _ => zero_mem _⟩
+    induction t using TensorProduct.inductionOn with
     | tmul r b =>
       refine ⟨{b}, fun S' _ _ φ h => ?_⟩
       obtain ⟨b', hb'⟩ := h (Finset.mem_coe.mpr (Finset.mem_singleton_self b))
@@ -820,8 +818,7 @@ theorem forall_finset_of_isPushout {A B C D : Type u} [CommRing A] [CommRing B] 
       (φ : S' →ₐ[A] B), (G : Set B) ⊆ Set.range φ → d ∈ Set.range (ψ S' φ) := by
     intro d
     obtain ⟨t, rfl⟩ := (Algebra.IsPushout.equiv A B C D).surjective d
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨∅, fun S' _ _ φ _ => ⟨0, by simp⟩⟩
+    induction t using TensorProduct.inductionOn with
     | tmul b c =>
       refine ⟨{b}, fun S' _ _ φ h => ?_⟩
       obtain ⟨b', hb'⟩ := h (Finset.mem_coe.mpr (Finset.mem_singleton_self b))
@@ -1089,8 +1086,7 @@ theorem bijective_tensorProduct_lift_of_isIntegral_of_isPurelyInseparable
     rw [hdres, hπ, hcC]
   have hdc : ∀ x : E, d (c x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y z =>
       have : y ⊗ₜ[Ash] z = algebraMap Csh E y * jB z := by
         change y ⊗ₜ[Ash] z = (y ⊗ₜ[Ash] (1 : Bsh)) * ((1 : Csh) ⊗ₜ[Ash] z)
@@ -1103,8 +1099,7 @@ theorem bijective_tensorProduct_lift_of_isIntegral_of_isPurelyInseparable
       (IsScalarTower.toAlgHom Ash Csh Dsh) (fun _ _ => .all _ _) w =
         c (Algebra.TensorProduct.comm Ash Bsh Csh w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul y z =>
       simp only [Algebra.TensorProduct.lift_tmul, Algebra.TensorProduct.comm_tmul, c,
         IsScalarTower.coe_toAlgHom']
@@ -1151,8 +1146,7 @@ theorem bijective_tensorProduct_lift_of_quasiFiniteAt
       (IsScalarTower.toAlgHom A B D) (IsScalarTower.toAlgHom A C D)) := by
     have : ∀ w, Algebra.TensorProduct.productMap (IsScalarTower.toAlgHom A B D)
         (IsScalarTower.toAlgHom A C D) w = Algebra.IsPushout.equiv A B C D w := fun w => by
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul x y =>
         rw [Algebra.TensorProduct.productMap_apply_tmul, Algebra.IsPushout.equiv_tmul]
         rfl
@@ -1305,8 +1299,7 @@ theorem bijective_tensorProduct_lift_of_ind_quasiFinite_localization
     have hrF : ∀ x : D, residue Dsh (algebraMap D Dsh x) ∈ F := by
       intro x
       obtain ⟨t, rfl⟩ := (Algebra.IsPushout.equiv A B C D).surjective x
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul b c =>
         rw [Algebra.IsPushout.equiv_tmul, map_mul, map_mul]
         refine mul_mem (IntermediateField.subset_adjoin _ _ ⟨algebraMap B Bsh b, ?_⟩) ?_

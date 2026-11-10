@@ -139,8 +139,8 @@ presentation `V ⟶ 𝒴`, a surjective étale presentation `U ⟶ 𝒳 ×_𝒴 
 `V' ⟶ 𝒵 ×_𝒴 V`, and its top horizontal morphism is the base change of `U ⟶ V` along
 `V' ⟶ V`. -/
 @[stacks 0CII "for the canonical 2-fibre product square of Stacks 003Q, which is the shape the
-  library version of Stacks 050F is stated at, and with the substantial direction of Stacks 06N3 as the
-  explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2,
+  library version of Stacks 050F is stated at, and with the substantial direction of Stacks 06N3 as
+  the explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2,
   06G3, is absent from the library); it enters only through Stacks 0CIA, which supplies the
   surjective etale presentation the source's argument chooses"]
 theorem hasEtaleSmoothLocalProperty_baseChange

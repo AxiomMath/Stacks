@@ -322,8 +322,9 @@ add_to_sga "4 V 8.1.12" "more general"
   CategoryTheory.Functor.sheafInducedTopologyEquivOfIsCoverDense
 add_to_sga "4 V 8.2.2" "special case" CategoryTheory.Limits.instIsLeftAdjointFunctorColim
 add_to_sga "4 V 8.2.2" "special case" CategoryTheory.Sheaf.instHasColimitsOfShape
+open CategoryTheory.Sheaf in
 add_to_sga "4 V 8.2.2" "special case"
-  CategoryTheory.Sheaf.instHasExactColimitsOfShapeOfHasFiniteLimitsOfPreservesColimitsOfShapeFunctorOppositeSheafToPresheaf
+instHasExactColimitsOfShapeOfHasFiniteLimitsOfPreservesColimitsOfShapeFunctorOppositeSheafToPresheaf
 add_to_sga "4 V 8.2.4" "special case" TensorProduct.directLimitLeft
 add_to_sga "4 V 8.2.4" "special case" TensorProduct.directLimitRight
 add_to_sga "4 V 8.2.11" "special case" Module.Flat.exists_factorization_of_finitePresentation
@@ -496,8 +497,9 @@ add_to_sga "4 VI 6.6" "clause (a), special case" CategoryTheory.IsCofiltered.ove
 add_to_sga "4 VI 7.1.3" "partial" CategoryTheory.Functor.IsFibered.pullbackPullbackIso
 add_to_sga "4 VI 7.1.7" "special case" CategoryTheory.conjugateEquiv
 add_to_sga "4 VI 7.3.2" "partial" CategoryTheory.Arrow
+open CategoryTheory.Functor.sheafPullbackConstruction in
 add_to_sga "4 VI 7.4.13.4" "more general"
-  CategoryTheory.Functor.sheafPullbackConstruction.instIsRightAdjointSheafSheafPushforwardContinuousOfHasWeakSheafify
+  instIsRightAdjointSheafSheafPushforwardContinuousOfHasWeakSheafify
 add_to_sga "4 VI 7.4.13.4"
   CategoryTheory.Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
 add_to_sga "4 VI 7.4.13.5" "special case" CategoryTheory.Functor.isTerminal
@@ -517,8 +519,9 @@ add_to_sga "4 VI 9.0" "special case"
 add_to_sga "4 VII 1.1" AlgebraicGeometry.Scheme
 add_to_sga "4 VII 1.1" AlgebraicGeometry.Scheme.instCategory
 add_to_sga "4 VII 1.2" "more general" AlgebraicGeometry.Etale.instHasOfPostcompPropertyScheme
+open AlgebraicGeometry.Etale in
 add_to_sga "4 VII 1.2" "more general"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+  instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
 add_to_sga "4 VII 1.2" "more general" AlgebraicGeometry.Etale.of_comp
 add_to_sga "4 VII 1.2" AlgebraicGeometry.Scheme.Cover.mkOfCovers
 add_to_sga "4 VII 1.2" AlgebraicGeometry.Scheme.Etale
@@ -543,8 +546,9 @@ add_to_sga "4 VII 1.4" "special case" Algebra.Etale.baseChange
 add_to_sga "4 VII 1.4" "partial" AlgebraicGeometry.Etale.instFstScheme
 add_to_sga "4 VII 1.4" "special case" AlgebraicGeometry.Etale.instMorphismRestrict
 add_to_sga "4 VII 1.4" "special case" AlgebraicGeometry.Etale.instResLE
+open AlgebraicGeometry.Scheme in
 add_to_sga "4 VII 1.4" "partial"
-  AlgebraicGeometry.Scheme.instIsStableUnderBaseChangePrecoverageOfIsJointlySurjectivePreservingOfIsStableUnderBaseChange
+  instIsStableUnderBaseChangePrecoverageOfIsJointlySurjectivePreservingOfIsStableUnderBaseChange
 add_to_sga "4 VII 1.6" AlgebraicGeometry.Scheme.Etale.mk
 add_to_sga "4 VII 1.7" "partial" AlgebraicGeometry.Scheme.AffineEtale.instEssentiallySmall
 add_to_sga "4 VII 1.7" "partial"
@@ -559,10 +563,12 @@ add_to_sga "4 VII 3.1" "special case"
 add_to_sga "4 VII 3.1" "special case"
   AlgebraicGeometry.Scheme.AffineEtale.instIsOneHypercoverDenseEtaleSpecTopologySmallEtaleTopology
 add_to_sga "4 VII 3.1" "special case" AlgebraicGeometry.Scheme.AffineEtale.sheafEquiv
+open AlgebraicGeometry.Scheme in
 add_to_sga "4 VII 3.1" "special case"
-  AlgebraicGeometry.Scheme.instIsEquivalenceSheafEtaleSmallEtaleTopologyAffineEtaleTopologySheafPushforwardContinuousSpec
+  instIsEquivalenceSheafEtaleSmallEtaleTopologyAffineEtaleTopologySheafPushforwardContinuousSpec
+open AlgebraicGeometry.Scheme in
 add_to_sga "4 VII 3.1" "special case"
-  AlgebraicGeometry.Scheme.instIsEquivalenceSheafEtaleSmallEtaleTopologyAffineEtaleTopologySheafPushforwardContinuousSpec_1
+  instIsEquivalenceSheafEtaleSmallEtaleTopologyAffineEtaleTopologySheafPushforwardContinuousSpec_1
 add_to_sga "4 VII 4.0" "partial" AlgebraicGeometry.Scheme.instPreservesFiniteLimitsEtaleOverForget
 add_to_sga "4 VII 4.2" AlgebraicGeometry.Scheme.fpqcPrecoverage
 add_to_sga "4 VII 4.2" AlgebraicGeometry.Scheme.fpqcTopology
@@ -613,12 +619,14 @@ add_to_sga "4 VIII 3.4" "more general" AlgebraicGeometry.Scheme.pointSmallEtale
 add_to_sga "4 VIII 3.5" AlgebraicGeometry.Scheme.isConservativeFamilyOfPoints_pointSmallEtale'
 add_to_sga "4 VIII 3.5" "more general" AlgebraicGeometry.Scheme.isConservative_pointSmallEtale
 add_to_sga "4 VIII 3.5" CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints
+open AlgebraicGeometry.Scheme in
 add_to_sga "4 VIII 3.9" "more general"
-  AlgebraicGeometry.Scheme.instIsCofilteredElementsEtaleCompOverForgetObjOppositeFunctorTypeCoyonedaOpMk
+  instIsCofilteredElementsEtaleCompOverForgetObjOppositeFunctorTypeCoyonedaOpMk
 add_to_sga "4 VIII 3.9" "more general"
   CategoryTheory.GrothendieckTopology.Point.instIsIsoMapFunctorOppositePresheafFiberToSheafify
+open CategoryTheory.GrothendieckTopology.Point in
 add_to_sga "4 VIII 3.9" "more general"
-  CategoryTheory.GrothendieckTopology.Point.instLiftingFunctorOppositeSheafPresheafToSheafWPresheafFiberSheafFiber
+  instLiftingFunctorOppositeSheafPresheafToSheafWPresheafFiberSheafFiber
 add_to_sga "4 VIII 3.9" "more general"
   CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiberIso
 add_to_sga "4 VIII 3.11" AlgebraicGeometry.Scheme.fromSpecResidueField

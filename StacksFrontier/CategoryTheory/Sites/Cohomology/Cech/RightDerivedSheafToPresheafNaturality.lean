@@ -10,7 +10,8 @@ Let `(C, J)` be a small site. [Stacks, Tag 03AY] states that the inclusion
 `i = sheafToPresheaf J AddCommGrpCat` of abelian sheaves into abelian presheaves is left exact,
 and that its right derived functors are the cohomology presheaves, `Rᵖ i = H̲ᵖ`. The left
 exactness and the *objectwise* half of the second assertion are proved in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Cech.RightDerivedSheafToPresheaf`, which records that
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Cech.RightDerivedSheafToPresheaf`,
+which records that
   the naturality in the
 sheaf is left unproved. This file supplies that naturality, so that the identification is one of
 functors `Ab(C) ⥤ PAb(C)`, which is how Tag 03AZ (the Čech-to-cohomology spectral sequence)

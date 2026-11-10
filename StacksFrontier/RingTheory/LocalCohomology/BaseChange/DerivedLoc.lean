@@ -121,7 +121,7 @@ lemma locUnit_bijective (a : A) (M : ModuleCat.{max u w} A)
 /-- The localization unit is an isomorphism on a module localized away from `a`. -/
 lemma locUnit_obj_isIso (a : A) (M : ModuleCat.{max u w} A) :
     IsIso ((locUnit.{u, w} a).app ((locFunctor.{u, w} a).obj M)) := by
-  show IsIso (ModuleCat.ofHom
+  change IsIso (ModuleCat.ofHom
     (LocalizedModule.mkLinearMap (Submonoid.powers a) (locObj a M)))
   exact (ConcreteCategory.isIso_iff_bijective _).2 <| locUnit_bijective a (locObj a M)
     (IsLocalizedModule.map_units (LocalizedModule.mkLinearMap (Submonoid.powers a) M))
@@ -217,7 +217,7 @@ lemma derivedPowerTorsion_iff_loc (I : Ideal A) (hI : I.FG) (s : Finset A)
     Dualizing.derivedPowerTorsionProperty A I hI X ↔
       ∀ a ∈ s, IsZero ((derivedLoc.{u, w} a).obj X) := by
   subst hs
-  show (∀ i, IsIPowerTorsion A
+  change (∀ i, IsIPowerTorsion A
     ((DerivedCategory.homologyFunctor (ModuleCat.{max u w} A) i).obj X)
       (Ideal.span (s : Set A))) ↔ _
   exact ⟨fun h a ha => (derivedLoc_isZero_iff a X).2 fun i =>

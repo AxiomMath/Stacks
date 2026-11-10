@@ -142,7 +142,7 @@ theorem residueFieldDegreeAt_pos (hY : IsAlgebraicSpace B S hS Y)
   let _ := residueFieldAlgebra B S hS hY hDX hDY f x
   let _ : Module.Finite (residueField B S hS Y hDY (pointsMap B S hS X f x))
       (residueField B S hS X hDX x) := hfin
-  show 0 < Module.finrank (residueField B S hS Y hDY (pointsMap B S hS X f x))
+  change 0 < Module.finrank (residueField B S hS Y hDY (pointsMap B S hS X f x))
     (residueField B S hS X hDX x)
   exact Module.finrank_pos
 
@@ -168,10 +168,10 @@ private theorem residueFieldHom_comp (hY : IsAlgebraicSpace B S hS Y)
     (p.class B S hS X)).unique
       (residueFieldHom_spec B S hS X Z hZ hDX hDZ (f ≫ g) (p.class B S hS X))
       ⟨mf ≫ mg, ?_, ?_⟩
-  · show B.inclusion.map (mf.left ≫ mg.left) = _
+  · change B.inclusion.map (mf.left ≫ mg.left) = _
     rw [Functor.map_comp, hmfSpec, hmgSpec, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
     rfl
-  · show yoneda.map (mf ≫ mg) ≫
+  · change yoneda.map (mf ≫ mg) ≫
       residueFieldMorphism B S hS Z hDZ
         (pointsMap B S hS Y g (pointsMap B S hS X f (p.class B S hS X))) = _
     rw [Functor.map_comp, Category.assoc, hmgSq, ← Category.assoc, hmfSq, Category.assoc]

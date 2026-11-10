@@ -70,7 +70,8 @@ affine base `Spec (𝒜 0)` that sequence degenerates, because the higher cohomo
 quasi-coherent sheaf on an affine scheme vanishes
 (`Stacks.Cohomology.AffineOpen.isZero_hgroup_of_isAffine`) and the higher direct images here are
 quasi-coherent (`Stacks.AlgebraicGeometry.Tag01XJQcohInduction.higherDirectImage_isQuasicoherent`,
-an instance) — but **that degeneration is absent** from the library, in both available forms: the Leray collapse
+an instance) — but **that degeneration is absent** from the library, in both available forms: the
+Leray collapse
 `Stacks.LeraySections.schemeCohomologyIsoOfVanishingHigherDirectImages` demands that *all*
 positive higher direct images vanish, which is what one is trying to prove, and the
 affine-morphism collapse `Stacks.AffineCohomologyPushforward.cohomologyPushforwardIso` demands

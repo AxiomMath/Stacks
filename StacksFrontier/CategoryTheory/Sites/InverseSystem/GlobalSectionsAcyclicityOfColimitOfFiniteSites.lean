@@ -35,7 +35,8 @@ about the colimit site beyond what that statement already needs enters.
 
 Condition (2) is **not** proved here and is carried as a named hypothesis `hcech`. It is a `def` in
 the library, not an unformalised assertion, and it is true; what is missing is a proof of it for
-`𝒢`. Its two producers in the library do not apply: `Stacks.Cohomology.cechComplexExactPos_of_injective`
+`𝒢`. Its two producers in the library do not apply:
+`Stacks.Cohomology.cechComplexExactPos_of_injective`
 needs `𝒢` itself injective, which a colimit of pullbacks is not, and
 `Stacks.Cohomology.DerivedLowerShriek.cechComplexExactPos_inverseImage` is for a single inverse
 image of an injective sheaf of modules, not for a colimit of such.
@@ -173,7 +174,7 @@ theorem isZero_rightDerivedΓ_of_isTotallyAcyclic {C : Type u} [SmallCategory C]
       (ColimitsOfCohomology.freeAbelianSheafTerminalIsoConstantSheaf J).symm p
       (fun a => (hF (⊤_ (Sheaf J (Type u))) p hp).elim a 0)
   have hExt : IsZero ((Sheaf.functorH J p).obj F) := by
-    show IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
+    change IsZero (AddCommGrpCat.of (Abelian.Ext.{u}
       ((constantSheaf J Ab.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))) F p))
     have : Subsingleton (Abelian.Ext.{u}
         ((constantSheaf J Ab.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))) F p) :=
@@ -261,7 +262,8 @@ include hobj hhom hhom_inj hK hF hG hcech in
 Condition (1) is `vanishesOnObjects_of_pointwise_injective_presentation`, which needs nothing
 beyond the system data. Condition (2), `hcech`, is carried: it is the predicate
 `Stacks.Cohomology.CechComplexExactPos`, a `def` in the library, and this file does not prove it
-for `G`. Its producers in the library do not apply — `Stacks.Cohomology.cechComplexExactPos_of_injective`
+for `G`. Its producers in the library do not apply —
+`Stacks.Cohomology.cechComplexExactPos_of_injective`
 needs `G` injective, and `Stacks.Cohomology.DerivedLowerShriek.cechComplexExactPos_inverseImage` is
 for a single inverse image of an injective sheaf of modules. See the module documentation. -/
 public theorem isTotallyAcyclic_of_pointwise_injective :

@@ -239,7 +239,7 @@ private lemma hasPullback_of_isLevelwise {P B C : DiagramOpen X}
   have hc : p₁ ≫ (⟨𝟙 _, gle⟩ : (⟨Bd, Bo⟩ : DiagramOpen X) ⟶
       (⟨Bd, Co⟩ : DiagramOpen X)) = p₂ ≫ f := by
     apply Hom.ext
-    show f.base ≫ 𝟙 _ = 𝟙 _ ≫ f.base
+    change f.base ≫ 𝟙 _ = 𝟙 _ ≫ f.base
     simp
   let c : PullbackCone (⟨𝟙 _, gle⟩ : (⟨Bd, Bo⟩ : DiagramOpen X) ⟶
       (⟨Bd, Co⟩ : DiagramOpen X)) f := PullbackCone.mk p₁ p₂ hc
@@ -252,10 +252,10 @@ private lemma hasPullback_of_isLevelwise {P B C : DiagramOpen X}
       simpa [q, Functor.map_comp_apply] using Hom.le s.fst hx⟩⟩
   · apply Hom.ext
     have q : s.fst.base ≫ 𝟙 _ = s.snd.base ≫ f.base := congrArg Hom.base s.condition
-    show s.snd.base ≫ f.base = s.fst.base
+    change s.snd.base ≫ f.base = s.fst.base
     simpa using q.symm
   · apply Hom.ext
-    show s.snd.base ≫ 𝟙 _ = s.snd.base
+    change s.snd.base ≫ 𝟙 _ = s.snd.base
     simp
   · apply Hom.ext
     have q : m.base ≫ 𝟙 _ = s.snd.base := congrArg Hom.base hm₂
@@ -291,7 +291,7 @@ private lemma isLevelwise_of_isPullback [IsoRigid A] {P Y Z S : DiagramOpen X}
   have hab : a ≫ g = b ≫ (⟨𝟙 _, fle⟩ : (⟨Zd, Zo⟩ : DiagramOpen X) ⟶
       (⟨Zd, So⟩ : DiagramOpen X)) := by
     apply Hom.ext
-    show 𝟙 _ ≫ g.base = g.base ≫ 𝟙 _
+    change 𝟙 _ ≫ g.base = g.base ≫ 𝟙 _
     simp
   let l : Q ⟶ P := h.lift a b hab
   have hl₁ : l ≫ p₁ = a := h.lift_fst a b hab
@@ -303,13 +303,13 @@ private lemma isLevelwise_of_isPullback [IsoRigid A] {P Y Z S : DiagramOpen X}
     (by
       apply Hom.ext
       have q : l.base ≫ p₁.base = 𝟙 _ := congrArg Hom.base hl₁
-      show (p₁.base ≫ l.base) ≫ p₁.base = 𝟙 _ ≫ p₁.base
+      change (p₁.base ≫ l.base) ≫ p₁.base = 𝟙 _ ≫ p₁.base
       rw [Category.assoc, q, Category.comp_id, Category.id_comp])
     (by
       apply Hom.ext
       have hs : p₁.base ≫ g.base = p₂.base ≫ 𝟙 _ := congrArg Hom.base h.w
       have hl : l.base ≫ p₂.base = g.base := congrArg Hom.base hl₂
-      show (p₁.base ≫ l.base) ≫ p₂.base = 𝟙 _ ≫ p₂.base
+      change (p₁.base ≫ l.base) ≫ p₂.base = 𝟙 _ ≫ p₂.base
       rw [Category.assoc, hl, hs, Category.comp_id, Category.id_comp])
   exact isLevelwise_of_base_inv p₁ l.base (congrArg Hom.base hrl) (congrArg Hom.base hl₁)
 

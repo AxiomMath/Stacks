@@ -110,7 +110,7 @@ theorem mapDerivedCategoryCompIsoh_hom_app_Qh (e : r₂ ⋙ r₁ ≅ r)
             r.mapDerivedCategoryFactorsh.inv.app J := by
   let := mapDerivedCategoryCompLiftingh r₂ r₁
   rw [mapDerivedCategoryCompIsoh, Localization.liftNatIso_hom, Localization.liftNatTrans_app]
-  show (mapDerivedCategoryCompFactorsh r₂ r₁).hom.app J ≫
+  change (mapDerivedCategoryCompFactorsh r₂ r₁).hom.app J ≫
     DerivedCategory.Qh.map ((Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)).hom.app J) ≫
       r.mapDerivedCategoryFactorsh.inv.app J = _
   rw [mapDerivedCategoryCompFactorsh_hom_app, Category.assoc]
@@ -145,7 +145,7 @@ theorem mapDerivedCategoryPlusCompIsoh_compatible (e : r₂ ⋙ r₁ ≅ r)
   apply DerivedCategory.Plus.ι.map_injective
   simp only [Functor.map_comp]
   rw [ι_map_mapDerivedCategoryPlusCompIsoh_hom_app]
-  show r₁.mapDerivedCategoryFactorsh.inv.app ((r₂.mapHomotopyCategory _).obj L.obj) ≫
+  change r₁.mapDerivedCategoryFactorsh.inv.app ((r₂.mapHomotopyCategory _).obj L.obj) ≫
       r₁.mapDerivedCategory.map (r₂.mapDerivedCategoryFactorsh.inv.app L.obj) ≫
         (mapDerivedCategoryCompIsoh e).hom.app (DerivedCategory.Qh.obj L.obj) =
     DerivedCategory.Qh.map ((NatTrans.mapHomotopyCategory e.hom (ComplexShape.up ℤ)).app L.obj) ≫

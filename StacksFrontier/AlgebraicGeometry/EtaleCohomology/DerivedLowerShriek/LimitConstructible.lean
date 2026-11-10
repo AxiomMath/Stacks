@@ -31,7 +31,8 @@ enters as the hypothesis `h09YU`, and Stacks 0GKV as `h0GKV`, until they land.
 ## Main results
 
 * `AlgebraicGeometry.BigEtaleSite.contains_terminal`.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_of_limit`.
+* `isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_of_limit`, in the namespace
+  `Stacks.EtaleCohomology`.
 -/
 
 @[expose] public noncomputable section
@@ -45,12 +46,14 @@ namespace AlgebraicGeometry
 
 /-- A big étale site contains the terminal scheme: it is the spectrum of `ℤ`, of size `ℵ₀`, and
 the cutoff of a big étale site is uncountable. -/
-theorem BigEtaleSite.contains_terminal (B : BigEtaleSite.{u}) : B.Contains (⊤_ AlgebraicGeometry.Scheme.{u}) := by
+theorem BigEtaleSite.contains_terminal (B : BigEtaleSite.{u}) :
+    B.Contains (⊤_ AlgebraicGeometry.Scheme.{u}) := by
   have htop : (⊤_ AlgebraicGeometry.Scheme.{u}).size = Cardinal.aleph0 := by
     let e : (⊤_ AlgebraicGeometry.Scheme.{u}) ≅ Spec (.of (ULift.{u} ℤ)) :=
       terminalIsTerminal.uniqueUpToIso specULiftZIsTerminal
     calc
-      (⊤_ AlgebraicGeometry.Scheme.{u}).size = (Spec (.of (ULift.{u} ℤ))).size := Scheme.size_congr e
+      (⊤_ AlgebraicGeometry.Scheme.{u}).size = (Spec (.of (ULift.{u} ℤ))).size :=
+        Scheme.size_congr e
       _ = max Cardinal.aleph0 (Cardinal.mk (ULift.{u} ℤ)) := Scheme.size_Spec _
       _ = Cardinal.aleph0 := by simp
   change (⊤_ AlgebraicGeometry.Scheme.{u}).size < B.cutoff
@@ -72,8 +75,9 @@ abbrev FinsetAbove := {t : Finset R // s₀ ⊆ t}
 
 instance : Nonempty (FinsetAbove R s₀) := ⟨⟨s₀, le_rfl⟩⟩
 
-instance [DecidableEq R] : IsDirected (FinsetAbove R s₀) (· ≤ ·) :=
-  ⟨fun a b => ⟨⟨a.1 ∪ b.1, a.2.trans Finset.subset_union_left⟩,
+instance instIsDirectedFinsetAboveLeOfDecidableEq : IsDirected (FinsetAbove R s₀) (· ≤ ·) := by
+  classical
+  exact ⟨fun a b => ⟨⟨a.1 ∪ b.1, a.2.trans Finset.subset_union_left⟩,
     Finset.subset_union_left, Finset.subset_union_right⟩⟩
 
 /-- The finite subsets containing `s₀`, as objects over `s₀` in `(Finset R)ᵒᵖ`. -/
@@ -151,10 +155,12 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_stage
     [QuasiSeparatedSpace Y.obj] (j : CompactificationOf (Over.mk f))
     (h09YU : SmallEtaleStagesEssSurj B (ModuleCat.{u + 1} Λ) DX cX hX
       (fun Z => IsConstructibleModuleSheaf B Z Λ))
-    (F : EtaleModules.{u, 0} Λ cX.pt) (hF : IsBigSiteConstructibleEtaleModule B (B.obj cX.pt hX) Λ F)
+    (F : EtaleModules.{u, 0} Λ cX.pt)
+    (hF : IsBigSiteConstructibleEtaleModule B (B.obj cX.pt hX) Λ F)
     (k : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
-      ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
+      ((derivedLowerShriek.{u, 0} f j Λ).obj
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
   obtain ⟨p, Fp, hFp, ⟨e⟩⟩ := h09YU ((etaleModulesToSmallEtale B (B.obj cX.pt hX) Λ).obj F) hF
   let Xp := DX.obj (op p)
   let Yp := DY.obj (op p)

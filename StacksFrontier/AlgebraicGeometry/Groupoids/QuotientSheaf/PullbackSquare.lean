@@ -134,7 +134,7 @@ theorem isPullback_toQuotientPresheaf (F : C ⥤ Over S) {R U R' U' : Over S}
         · refine Eq.trans ?_ hb
           exact (toQuotientPresheaf_apply_eq_iff_related F j hj T (a ≫ j.target) b).2
             ⟨a, rfl, by simp [a, hcart.lift_snd]⟩
-        · show ff.app (op T) (a ≫ j.target) = y
+        · change ff.app (op T) (a ≫ j.target) = y
           have htarget : (a ≫ j.target) ≫ f = y := by
             calc
               (a ≫ j.target) ≫ f = a ≫ r ≫ j'.target := by rw [Category.assoc, ← ht]
@@ -146,9 +146,9 @@ theorem isPullback_toQuotientPresheaf (F : C ⥤ Over S) {R U R' U' : Over S}
     exact (IsLimit.equivOfNatIsoOfIso (cospanCompIso ((evaluation Cᵒᵖ (Type u)).obj T') m q')
       (((evaluation Cᵒᵖ (Type u)).obj T').mapCone c) ct
       (WalkingCospan.ext (Iso.refl _) (by
-        show q.app T' = 𝟙 _ ≫ q.app T'
+        change q.app T' = 𝟙 _ ≫ q.app T'
         simp) (by
-        show ff.app T' = 𝟙 _ ≫ ff.app T'
+        change ff.app T' = 𝟙 _ ≫ ff.app T'
         simp))).symm hct
   exact IsPullback.of_isLimit hc
 
@@ -187,7 +187,7 @@ theorem isPullback_toQuotientSheaf (J : GrothendieckTopology C) [HasSheafify J (
   apply IsPullback.of_iso hpresheaf' (isoSheafify J hU).symm (Iso.refl _)
     (isoSheafify J hU').symm (Iso.refl _)
   · exact hsq hU q
-  · show sheafifyMap J ff ≫ (isoSheafify J hU').symm.hom = (isoSheafify J hU).symm.hom ≫ ff
+  · change sheafifyMap J ff ≫ (isoSheafify J hU').symm.hom = (isoSheafify J hU).symm.hom ≫ ff
     rw [← Category.comp_id (sheafifyMap J ff), hsq hU ff]
     simp only [Category.assoc, (hUnit hU').2, Category.comp_id]
   · rfl

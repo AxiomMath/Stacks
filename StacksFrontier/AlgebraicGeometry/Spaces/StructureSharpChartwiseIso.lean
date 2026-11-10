@@ -157,7 +157,7 @@ theorem hasEnoughObjects_isNormalIntegralAffineChart (Y : AlgebraicSpaces B S hS
   rw [SmallEtale.mem_topology_iff_exists_mem_range]
   intro x
   refine ⟨E.X x, E.f x, Sieve.ofArrows_mk _ _ x, ?_⟩
-  show x ∈ Set.range (B.inclusion.map (fa x))
+  change x ∈ Set.range (B.inclusion.map (fa x))
   rw [hmapfa x]
   exact ⟨⟨x, haW x⟩, rfl⟩
 
@@ -194,7 +194,7 @@ theorem isIso_fSharp_of_forall_bijective_globalFunctions (f : X ⟶ Y)
   have hψ : Function.Bijective ψ := h V hV ψ fun c => by
     ext r
     exact directImageSectionsToGlobalFunctions_algebraMap B S hS f V c r
-  show Function.Bijective σ
+  change Function.Bijective σ
   refine ⟨Function.Injective.of_comp (f := directImageSectionsToGlobalFunctions B S hS f V)
     hψ.injective, fun a => ?_⟩
   obtain ⟨r, hr⟩ := hψ.surjective (directImageSectionsToGlobalFunctions B S hS f V a)

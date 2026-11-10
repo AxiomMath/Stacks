@@ -72,6 +72,7 @@ namespace AlgebraicGeometry.Space.ProperFlatStein
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on a big fppf site over a scheme (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ProperFlatSteinPieces {B : BigFppfSite.{u}} {S' : Scheme.{u}}

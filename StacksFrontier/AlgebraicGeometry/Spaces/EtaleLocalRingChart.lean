@@ -300,7 +300,7 @@ theorem commonToChart_initial
   let j' : ((commonToChart V E hV).obj U).left.chart.obj.left ⟶
       W.left.chart.obj.left := Over.homMk (ObjectProperty.homMk j) (by
         apply ObjectProperty.hom_ext
-        show j ≫ _ = (j ≫ f) ≫ _
+        change j ≫ _ = (j ≫ f) ≫ _
         rw [Category.assoc]
         congr 1
         exact (congrArg B.inclusion.map (Over.w W.hom.hom.hom.left)).symm)
@@ -364,7 +364,7 @@ abbrev schemeSections
     (V : SmallEtaleNeighborhood x)
     (E : BigEtaleSite.{u}) (hV : E.Contains (neighborhoodChartScheme V)) :
     (schemeNeighborhoods V E hV)ᵒᵖ ⥤ CommRingCat.{u} :=
-  (CategoryOfElements.π (geometricPointFiber E (neighborhoodChartScheme V) hV
+  (Functor.Elements.π (geometricPointFiber E (neighborhoodChartScheme V) hV
     (chartGeometricPoint V))).op ⋙
     (_root_.AlgebraicGeometry.SmallEtale.toScheme E (neighborhoodChartScheme V) hV).op ⋙ Scheme.Γ
 
@@ -377,7 +377,7 @@ abbrev schemeGerm
     (schemeSections V E hV).obj U →+*
       _root_.AlgebraicGeometry.etaleLocalRing E (neighborhoodChartScheme V) hV
         (chartGeometricPoint V) :=
-  (colimit.ι ((CategoryOfElements.π (geometricPointFiber E
+  (colimit.ι ((Functor.Elements.π (geometricPointFiber E
       (neighborhoodChartScheme V) hV (chartGeometricPoint V))).op ⋙
       (_root_.AlgebraicGeometry.SmallEtale.structureSheaf E
         (neighborhoodChartScheme V) hV).obj) U).hom
@@ -392,7 +392,7 @@ lemma schemeGerm_naturality
       schemeGerm V E hV U := by
   ext a
   exact congrArg (fun g ↦ g.hom a) (colimit.w
-    ((CategoryOfElements.π (geometricPointFiber E
+    ((Functor.Elements.π (geometricPointFiber E
       (neighborhoodChartScheme V) hV (chartGeometricPoint V))).op ⋙
       (_root_.AlgebraicGeometry.SmallEtale.structureSheaf E (neighborhoodChartScheme V) hV).obj) f)
 
@@ -403,7 +403,7 @@ theorem schemeGerms_isColimit
     (E : BigEtaleSite.{u}) (hV : E.Contains (neighborhoodChartScheme V)) :
     (CommRingCat.coconeTypesOfRingHoms (schemeSections V E hV) (schemeGerm V E hV)
       (fun f ↦ schemeGerm_naturality V E hV f)).IsColimit := by
-  let D := (CategoryOfElements.π (geometricPointFiber E
+  let D := (Functor.Elements.π (geometricPointFiber E
     (neighborhoodChartScheme V) hV (chartGeometricPoint V))).op ⋙
       (_root_.AlgebraicGeometry.SmallEtale.structureSheaf E (neighborhoodChartScheme V) hV).obj
   have : PreservesColimit D (forget RingCat.{u}) :=
@@ -488,7 +488,7 @@ lemma chartRefinement_germ
   let j' : Z.left.chart.obj.left ⟶ W.chart.obj.left :=
     Over.homMk (ObjectProperty.homMk (𝟙 (neighborhoodChartScheme W))) (by
       apply ObjectProperty.hom_ext
-      show 𝟙 _ ≫ _ = neighborhoodChartMap f ≫ _
+      change 𝟙 _ ≫ _ = neighborhoodChartMap f ≫ _
       rw [Category.id_comp]
       exact (congrArg B.inclusion.map (Over.w f.hom.hom.left)).symm)
   have hjf : j' ≫ f.hom.hom.left = Z.hom.hom.hom.left := by
@@ -573,7 +573,7 @@ lemma etaleLocalRingEquivChart_nonempty
             (E.inclusion.map U.unop.1.obj.hom)),
         e (etaleLocalRingGerm B S hS F x (Opposite.op W) a) =
           (colimit.ι
-            ((CategoryOfElements.π
+            ((Functor.Elements.π
               (geometricPointFiber E (neighborhoodChartScheme V) hV
                 (chartGeometricPoint V))).op ⋙
               (_root_.AlgebraicGeometry.SmallEtale.structureSheaf E
@@ -626,7 +626,7 @@ noncomputable def etaleLocalRingEquivChart
             (E.inclusion.map U.unop.1.obj.hom)),
         e (etaleLocalRingGerm B S hS F x (Opposite.op W) a) =
           (colimit.ι
-            ((CategoryOfElements.π
+            ((Functor.Elements.π
               (geometricPointFiber E (neighborhoodChartScheme V) hV
                 (chartGeometricPoint V))).op ⋙
               (_root_.AlgebraicGeometry.SmallEtale.structureSheaf E
@@ -682,7 +682,7 @@ theorem strictHenselizationEquivEtaleLocalRing_germ
   let e := etaleLocalRingEquivChart hF V E hV
   let c := etaleLocalRing_strictHenselization_canonical E
     (neighborhoodChartScheme V) hV (chartGeometricPoint V) T
-  show (c.val.trans e.val.symm)
+  change (c.val.trans e.val.symm)
     (algebraMap _ T.strictHenselization
       ((neighborhoodChartScheme V).presheaf.germ ⊤
         ((chartGeometricPoint V).hom

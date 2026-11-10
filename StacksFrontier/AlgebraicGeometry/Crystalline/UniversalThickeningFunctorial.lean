@@ -155,7 +155,7 @@ public abbrev ambientDPApp (g : A ⟶ B) (W : B.thickening.target.scheme.Opens)
 public theorem ambientDPApp_add (g : A ⟶ B) (W : B.thickening.target.scheme.Opens)
     (x y : Γ(B.thickening.target.scheme, W)) :
     ambientDPApp g W (x + y) = ambientDPApp g W x + ambientDPApp g W y := by
-  show objSheafApp A _ ((ambientHom g).app W (x + y)) = _
+  change objSheafApp A _ ((ambientHom g).app W (x + y)) = _
   rw [map_add]
   exact sheafApp_add _ _ _ _ _ _
 
@@ -165,7 +165,7 @@ public theorem ambientDPApp_mul (g : A ⟶ B) (W : B.thickening.target.scheme.Op
     ambientDPApp g W (x * y) =
       (ambientHom g).app W x • ambientDPApp g W y +
         (ambientHom g).app W y • ambientDPApp g W x := by
-  show objSheafApp A _ ((ambientHom g).app W (x * y)) = _
+  change objSheafApp A _ ((ambientHom g).app W (x * y)) = _
   rw [map_mul]
   exact sheafApp_mul _ _ _ _ _ _
 
@@ -189,7 +189,7 @@ public theorem ambientDPApp_dpow (g : A ⟶ B) (W : B.thickening.target.scheme.O
       A.thickening.target.ideal.obj (op (ambientHom g ⁻¹ᵁ W)) :=
     mem_ideal_of_isDPMorphism (g.targetHom.compatible W) hx
   set dB := B.thickening.target.dividedPowers.dividedPowers (op W) with hdB
-  show objSheafApp A _ ((ambientHom g).app W (dB.dpow (n + 1) x)) = _
+  change objSheafApp A _ ((ambientHom g).app W (dB.dpow (n + 1) x)) = _
   rw [← g.targetHom.dpow_comp W x hx, ← g.targetHom.dpow_comp W x hx]
   exact sheafApp_dpow A.thickening.target S.S.scheme A.toBase.hom
     (ambientHom g ⁻¹ᵁ W) n ((ambientHom g).app W x) hx'
@@ -201,7 +201,7 @@ public theorem ambientDPApp_naturality (g : A ⟶ B)
     (objDPDifferentials A).presheaf.map ((Opens.map (ambientHom g).base).map i).op
         (ambientDPApp g W x) =
       ambientDPApp g W' (B.thickening.target.scheme.presheaf.map i.op x) := by
-  show (objDPDifferentials A).presheaf.map ((Opens.map (ambientHom g).base).map i).op
+  change (objDPDifferentials A).presheaf.map ((Opens.map (ambientHom g).base).map i).op
       (objSheafApp A _ ((ambientHom g).app W x)) = _
   rw [sheafApp_naturality A.thickening.target S.S.scheme A.toBase.hom
     ((Opens.map (ambientHom g).base).map i) ((ambientHom g).app W x), ambientHom_app_map]

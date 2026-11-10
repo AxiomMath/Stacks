@@ -310,7 +310,7 @@ public theorem isAdequate_of_coveringPullback (F : SheafOfModules.{u} B.structur
     obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp (hsurj ▸ Set.mem_univ x)
     obtain ⟨j, z, hz⟩ := Set.mem_iUnion.mp ((hsurj' i) ▸ Set.mem_univ y)
     exact Set.mem_iUnion.mpr ⟨⟨i, j⟩, z, by
-      show (g i) ((fj i j) z) = x
+      change (g i) ((fj i j) z) = x
       rw [hz, hy]⟩
   · rintro ⟨i, j⟩
     refine ⟨(hmem i j).1, ?_⟩

@@ -332,7 +332,7 @@ theorem isEffectiveCartierDivisor_of_flat_universallyOpen_pointwise {Y : Scheme.
   obtain ⟨A₀, hA₀, hyA₀, -⟩ := exists_isAffineOpen_mem_and_subset
     (show y ∈ (⊤ : Y.Opens) from trivial)
   have hwq : w ∈ q ⁻¹ᵁ A₀ := by
-    show q.base w ∈ A₀
+    change q.base w ∈ A₀
     rw [hw]; exact hyA₀
   obtain ⟨A', hA', hwA', hA'le, f₁, hf₁, hgen₁⟩ :=
     exists_basicOpen_isRegular_span_of_isEffectiveCartierDivisor (I.comap q) hI w
@@ -356,14 +356,14 @@ theorem isEffectiveCartierDivisor_of_flat_universallyOpen_pointwise {Y : Scheme.
       (q.appLE (Y.basicOpen g) (W.basicOpen (q.appLE A₀ A' hA'le g)) hle'').hom) := by
     intro P
     have hPz : hV₀.primeIdealOf (hV₀.isoSpec.inv P) = P := by
-      show hV₀.isoSpec.hom (hV₀.isoSpec.inv P) = P
+      change hV₀.isoSpec.hom (hV₀.isoSpec.inv P) = P
       exact congrArg (fun k : Spec Γ(Y, Y.basicOpen g) ⟶ Spec Γ(Y, Y.basicOpen g) => k P)
         hV₀.isoSpec.inv_hom_id
     obtain ⟨x, hxA', hqx⟩ := (hgle (hV₀.isoSpec.inv P).2).2
     have hxA'' : x ∈ W.basicOpen (q.appLE A₀ A' hA'le g) := by
       rw [hA''eq]
       exact ⟨hxA', by
-        show q.base x ∈ Y.basicOpen g
+        change q.base x ∈ Y.basicOpen g
         rw [hqx]
         exact (hV₀.isoSpec.inv P).2⟩
     refine ⟨hA''.primeIdealOf ⟨x, hxA''⟩, ?_⟩
@@ -476,7 +476,7 @@ theorem Subfunctor.range_snd_eq_preimage_range_of_isPullback {C : Type*} [Catego
   ext U x
   have hU : IsPullback (fst.app U) (snd.app U) (f.app U) (g.app U) :=
     ((evaluation C (Type u)).obj U).map_isPullback hP
-  show x ∈ Set.range (snd.app U) ↔ g.app U x ∈ Set.range (f.app U)
+  change x ∈ Set.range (snd.app U) ↔ g.app U x ∈ Set.range (f.app U)
   rw [CategoryTheory.Limits.Types.range_snd_of_isPullback hU]
   simp only [Set.mem_preimage]
 
@@ -490,7 +490,7 @@ theorem Limits.isIso_cofan_inj_of_unique {C : Type*} [Category C] {M N : C}
   refine ⟨Limits.Cofan.IsColimit.desc hc (fun _ => 𝟙 M), hd, ?_⟩
   refine Limits.Cofan.IsColimit.hom_ext hc _ _ fun i => ?_
   obtain rfl : i = default := Subsingleton.elim _ _
-  show ι default ≫ _ ≫ _ = ι default ≫ _
+  change ι default ≫ _ ≫ _ = ι default ≫ _
   rw [← Category.assoc, hd, Category.id_comp, Category.comp_id]
 
 end CategoryTheory

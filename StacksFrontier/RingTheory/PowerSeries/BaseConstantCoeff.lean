@@ -199,9 +199,9 @@ theorem nonempty_ringEquiv_constantCoeffInBase_of_isPullback_data
   · rintro ⟨f, c, hc⟩
     refine ⟨⟨(c, Θ.symm f), ?_⟩, Subtype.ext ?_⟩
     · refine RingHom.mem_eqLocus.mpr ?_
-      show algebraMap k K c = g (Θ.symm f)
+      change algebraMap k K c = g (Θ.symm f)
       rw [← hΘ, Θ.apply_symm_apply, hc]
-    · show Θ (Θ.symm f) = f
+    · change Θ (Θ.symm f) = f
       exact Θ.apply_symm_apply f
 
 /-- **The power series with constant coefficient in the base depend only on the base algebra up to
@@ -264,10 +264,10 @@ theorem _root_.IsLocalRing.exists_residueFieldRingEquiv_of_surjective
     ⟨RingHom.injective _, fun x => ?_⟩, fun a => ?_⟩
   · obtain ⟨a, ha⟩ := hr x
     exact ⟨IsLocalRing.residue A a, by
-      show IsLocalRing.ResidueField.lift r (IsLocalRing.residue A a) = x
+      change IsLocalRing.ResidueField.lift r (IsLocalRing.residue A a) = x
       rw [IsLocalRing.ResidueField.lift_residue_apply]
       exact ha⟩
-  · show IsLocalRing.ResidueField.lift r (IsLocalRing.residue A a) = r a
+  · change IsLocalRing.ResidueField.lift r (IsLocalRing.residue A a) = r a
     rw [IsLocalRing.ResidueField.lift_residue_apply]
 
 /-- **A complete regular local algebra of dimension one over a field is the power series ring in
@@ -299,7 +299,7 @@ theorem exists_ringEquiv_powerSeries_of_isRegularLocalRing
     intro x
     obtain ⟨a, ha⟩ := φ.surjective (PowerSeries.C x)
     refine ⟨a, ?_⟩
-    show constantCoeff (φ a) = x
+    change constantCoeff (φ a) = x
     rw [ha, constantCoeff_C]
   obtain ⟨θ', hθ'⟩ := IsLocalRing.exists_residueFieldRingEquiv_of_surjective
     ((constantCoeff (R := IsLocalRing.ResidueField A)).comp φ.toRingHom) hsurj

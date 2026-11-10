@@ -131,10 +131,10 @@ theorem exists_arrow_of_presented_iso
     simpa only [p, q, Category.assoc, prod.lift_fst] using
       congrArg (fun k => k ≫ prod.fst) (pullback.condition (f := q) (g := p)).symm
   refine ⟨(pullback.snd q p).app (op T) a.1, ?_, ?_⟩
-  · show (pullback.snd q p ≫ G.source.hom).app (op T) a.1 = x
+  · change (pullback.snd q p ≫ G.source.hom).app (op T) a.1 = x
     rw [hs, NatTrans.comp_app_apply, ha]
     exact yonedaEquiv.apply_symm_apply x
-  · show (pullback.snd q p ≫ G.target.hom).app (op T) a.1 = y
+  · change (pullback.snd q p ≫ G.target.hom).app (op T) a.1 = y
     rw [ht, NatTrans.comp_app_apply, ha]
     exact yonedaEquiv.apply_symm_apply y
 
@@ -168,10 +168,10 @@ theorem isLocallySurjective_saturation_of_local_presented_iso
     simpa only [yonedaEquiv_comp_apply, α, β, Equiv.apply_symm_apply] using ht.symm
   let q := pullback.lift α β hw
   refine ⟨yonedaEquiv q, ?_⟩
-  show ((pullback.snd g.hom G.target.hom ≫ G.source.hom).app (op V))
+  change ((pullback.snd g.hom G.target.hom ≫ G.source.hom).app (op V))
     (yonedaEquiv q) = G.objects.obj.map b.op x
   rw [← yonedaEquiv_comp_apply]
-  show yonedaEquiv (pullback.lift α β hw ≫
+  change yonedaEquiv (pullback.lift α β hw ≫
     pullback.snd g.hom G.target.hom ≫ G.source.hom) = _
   rw [pullback.lift_snd_assoc, yonedaEquiv_comp_apply]
   simpa only [β, Equiv.apply_symm_apply] using hs
@@ -271,7 +271,7 @@ theorem isLocallySurjective_yoneda_map_of_fppf
   let E : PreZeroHypercover.{u + 1} W := PreZeroHypercover.singleton b
   have hE : (E.map (BigFppfOver.toScheme C S hS)).presieve₀ ∈
       Scheme.fppfPrecoverage (C.inclusion.obj W.left) := by
-    show (PreZeroHypercover.singleton (C.inclusion.map b.left)).presieve₀ ∈ _
+    change (PreZeroHypercover.singleton (C.inclusion.map b.left)).presieve₀ ∈ _
     simpa only [PreZeroHypercover.presieve₀_singleton] using
       (C.inclusion.map b.left).singleton_mem_fppfPrecoverage
   have hcover := sieve_mem_of_fppf C S hS E hE

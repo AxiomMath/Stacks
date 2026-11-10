@@ -163,7 +163,7 @@ theorem chowExteriorProduct_fundamentalChowClass {X Y : Scheme.{u}}
           fundamentalChowClass (fieldChowSituation k) sY e) =
       fundamentalChowClass (fieldChowSituation k) (pullback.fst sX sY ≫ sX) ((d : ℤ) + e) := by
   rw [fundamentalChowClass, fundamentalChowClass, fundamentalChowClass]
-  show QuotientAddGroup.mk _ = QuotientAddGroup.mk _
+  change QuotientAddGroup.mk _ = QuotientAddGroup.mk _
   rw [fundamentalCycle, fundamentalCycle, fundamentalCycle,
     Intersection.exteriorProduct_cycleAssociatedToClosedSubscheme k sX sY (𝟙 X) (𝟙 Y) sX sY
       (Category.id_comp sX) (Category.id_comp sY)

@@ -171,7 +171,7 @@ public theorem isLocallyInjective_of_injective_etaleStalkMap [UnivLE.{u, v}] (α
   let p : Φ.fiber.obj V := geometricPointOfEtalePointLift B X hX V x
   have hgerm : Φ.toPresheafFiber V p F.obj a₁ = Φ.toPresheafFiber V p F.obj a₂ := by
     refine h s ?_
-    show (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
+    change (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
       (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₂)
     rw [Φ.toPresheafFiber_naturality_apply α.hom, Φ.toPresheafFiber_naturality_apply α.hom]
     exact congrArg (Φ.toPresheafFiber V p G.obj) ha

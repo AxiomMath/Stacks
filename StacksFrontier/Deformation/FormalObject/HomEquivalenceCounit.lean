@@ -523,14 +523,14 @@ public theorem counitHom_naturality {Y Y' : G} (u : Y ⟶ Y') :
     have h3 : (ψ.map u).base =
         eqToHom (ψ.w_obj Y) ≫ q.map u ≫ eqToHom (ψ.w_obj Y').symm :=
       Functor.congr_hom ψ.w u
-    show ((completionMap ((completionHomInverse p q hp).obj ψ)).map
+    change ((completionMap ((completionHomInverse p q hp).obj ψ)).map
           ((completionUnit q hq).functor.map u)).base ≫
         eqToHom (counitSource_base p q hp hq ψ Y') =
       eqToHom (counitSource_base p q hp hq ψ Y) ≫ (ψ.map u).base
     rw [h1, h2, h3]
     simp only [Category.assoc, eqToHom_trans, eqToHom_trans_assoc]
   · intro n
-    show ((completionMap ((completionHomInverse p q hp).obj ψ)).map
+    change ((completionMap ((completionHomInverse p q hp).obj ψ)).map
           ((completionUnit q hq).functor.map u)).app n ≫
         (eqToHom (counitSource_level p q hp hq ψ Y' n) ≫ levelHom p q hp hq ψ Y' n) =
       (eqToHom (counitSource_level p q hp hq ψ Y n) ≫ levelHom p q hp hq ψ Y n) ≫
@@ -558,7 +558,7 @@ public theorem counitHom_isHomLift (Y : G) :
       ((completionUnit q hq).functor.obj Y)).trans
       (Functor.congr_obj (completionUnit q hq).comp_projection Y))
     (ψ.w_obj Y) ?_
-  show (counitHom p q hp hq ψ Y).base = _
+  change (counitHom p q hp hq ψ Y).base = _
   simp only [Category.id_comp, eqToHom_trans]
   rfl
 

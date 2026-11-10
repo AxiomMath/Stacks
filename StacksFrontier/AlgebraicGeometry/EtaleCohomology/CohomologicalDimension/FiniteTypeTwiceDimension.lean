@@ -173,7 +173,7 @@ theorem exists_isAffineOpen_isAffineHom_genericPoints (X : Scheme.{u}) [IsNoethe
       exact this ⟨ξ, ⟨hξη, hξ⟩, hyξ⟩
   have hdisj : (genericPoints X).Pairwise (Disjoint on A) := by
     intro η hη η' hη' hne
-    show Disjoint (A η) (A η')
+    change Disjoint (A η) (A η')
     rw [disjoint_iff, ← SetLike.coe_set_eq]
     ext y
     simp only [TopologicalSpace.Opens.coe_inf, Set.mem_inter_iff, TopologicalSpace.Opens.coe_bot,
@@ -281,7 +281,7 @@ theorem subsingleton_H_of_smallEtaleSupport_subset_of_finiteTypeBound (K : Type 
       refine iSup_le fun z => ?_
       have htr := trdeg_residueField_of_surjectiveOnStalks K f i₀ z.1
       have hz : i₀ z.1 ∈ E := hWE (hrange ▸ ⟨z.1, rfl⟩)
-      simp only [E, Scheme.trdegLESet, Set.mem_setOf_eq] at hz
+      simp only [E, Scheme.trdegLESet, Set.mem_ofPred_eq] at hz
       rw [htr] at hz
       exact_mod_cast Cardinal.toENat_le_natCast.2 hz
     have h2 : Subsingleton (Sheaf.H.{u + 1, u + 1} ((smallEtalePushforwardAb i₀).obj H) b) :=
@@ -384,7 +384,7 @@ theorem exists_mem_trdegLESet_of_notMem (K : Type u) [Field K] {X : Scheme.{u}}
   rw [ht] at hxn
   have htn : t < n := by exact_mod_cast hxn
   refine ⟨n - 1, by omega, ?_⟩
-  simp only [Scheme.trdegLESet, Set.mem_setOf_eq]
+  simp only [Scheme.trdegLESet, Set.mem_ofPred_eq]
   rw [ht]
   exact_mod_cast (by omega : t ≤ n - 1)
 
@@ -451,8 +451,8 @@ private theorem subsingleton_H_directImage_ι_of_forall_lt (K : Type u) [Field K
     intro y hy
     have h := smallEtaleSupport_rightDerived_etaleAbelianDirectImage_subset K (j ≫ f) f j rfl
       n G hG hsuppG q hy
-    simp only [Set.mem_setOf_eq] at h
-    simp only [Scheme.trdegLESet, Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq] at h
+    simp only [Scheme.trdegLESet, Set.mem_ofPred_eq]
     have hle := le_trans le_self_add h
     obtain ⟨t, ht⟩ := Cardinal.lt_aleph0.1 (hle.trans_lt Cardinal.natCast_lt_aleph0)
     rw [ht] at h ⊢

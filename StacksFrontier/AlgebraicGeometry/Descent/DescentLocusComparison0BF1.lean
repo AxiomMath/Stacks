@@ -89,7 +89,7 @@ theorem bijective_baseRingHom_of_isIso {B : Type u} [CommRing B] {Y : Scheme.{u}
   have h2 : Function.Bijective (h.appTop).hom :=
     ConcreteCategory.bijective_of_isIso ((structureSheafHom h.toLRSHom.toShHom).hom.app (op ⊤))
   have h4 : (Stacks.Cech.baseRingHom h ⊤).hom = (Stacks.Cech.globalRingHom h).hom := by
-    show (Stacks.Cech.globalRingHom h ≫ Y.presheaf.map (homOfLE le_top).op).hom = _
+    change (Stacks.Cech.globalRingHom h ≫ Y.presheaf.map (homOfLE le_top).op).hom = _
     rw [show (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op = 𝟙 _ from rfl,
       CategoryTheory.Functor.map_id, Category.comp_id]
   rw [h4]
@@ -381,7 +381,7 @@ theorem exists_open_descendsFromBase_iff {X X' S : Scheme.{u}} (f : X ⟶ S) (f'
   · obtain ⟨ξ⟩ : Nonempty (Spec (S.residueField s)) := inferInstance
     refine ⟨m.base ξ, ?_, ?_⟩
     · rw [hD, ← hχ₀]
-      show G ∉ Ideal.comap χ₀ (ξ : PrimeSpectrum (S.residueField s)).asIdeal
+      change G ∉ Ideal.comap χ₀ (ξ : PrimeSpectrum (S.residueField s)).asIdeal
       rw [Ideal.mem_comap]
       exact fun h => ξ.isPrime.ne_top
         (Ideal.eq_top_of_isUnit_mem _ h (isUnit_iff_ne_zero.2 hG))
@@ -402,7 +402,7 @@ theorem exists_open_descendsFromBase_iff {X X' S : Scheme.{u}} (f : X ⟶ S) (f'
       Category.assoc, toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
   have hφTG : IsUnit (φT G) := by
     refine isUnit_of_basicOpen_eq_top _ ?_
-    show T.basicOpen (gT.appTop ((Scheme.ΓSpecIso (.of A)).inv G)) = ⊤
+    change T.basicOpen (gT.appTop ((Scheme.ΓSpecIso (.of A)).inv G)) = ⊤
     rw [← Scheme.preimage_basicOpen_top]
     exact eq_top_iff.2 fun t _ => hgD t
   -- `L'` descends along `g`, so the `c_k` vanish on `T`

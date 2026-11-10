@@ -219,7 +219,7 @@ theorem dFunctorCompRGamma_hom_app_Q (Y : Dᵒᵖ)
   let ev' := PresheafOfModules.evaluation.{max u v r u' v' r' t} O' Y
   let ev := PresheafOfModules.evaluation.{max u v r u' v' r' t} O (e.inverse.op.obj Y)
   let ρ := (T.modEquiv.{max u v r u' v' r' t} Y).functor
-  show (mapDerivedCategoryCompIso F ev').inv.app (DerivedCategory.Q.obj P) ≫
+  change (mapDerivedCategoryCompIso F ev').inv.app (DerivedCategory.Q.obj P) ≫
     (mapDerivedCategoryCompIso ev ρ).hom.app (DerivedCategory.Q.obj P) = _
   rw [Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_app_Q,
     Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_hom_app_Q]
@@ -277,7 +277,7 @@ private theorem dRestrictSquare_hom_app_Q {U' V' : Dᵒᵖ} (a' : V' ⟶ U')
   let ρU := (T.modEquiv.{max u v r u' v' r' t} U').functor
   let rs' := ModuleCat.restrictScalars.{max u v r u' v' r' t} (O'.map a').hom
   let rs := ModuleCat.restrictScalars.{max u v r u' v' r' t} (O.map (e.inverse.op.map a')).hom
-  show (mapDerivedCategoryCompIso ρU rs').inv.app (DerivedCategory.Q.obj Y) ≫
+  change (mapDerivedCategoryCompIso ρU rs').inv.app (DerivedCategory.Q.obj Y) ≫
     (mapDerivedCategoryIsoOfNatIso _ _
       (T.restrictScalarsSquare.{max u v r u' v' r' t} a')).hom.app
       (DerivedCategory.Q.obj Y) ≫

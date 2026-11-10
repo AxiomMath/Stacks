@@ -154,7 +154,7 @@ theorem surjective_resH_succ_of_surjective (k : Type u) [Field k] (n : ℕ)
     show ψ _ = _
     have hmor : mulSection k (n + 1) F σ' m ≫ P.resH (m + 1)
         = P.resH m ≫ mulSection k n P.G σ m := by
-      show mulSection k (n + 1) F σ' m ≫
+      change mulSection k (n + 1) F σ' m ≫
           projectiveHZeroMap k (n + 1) (P.res (m + 1)) ≫ (P.compare (m + 1)).inv
         = (projectiveHZeroMap k (n + 1) (P.res m) ≫ (P.compare m).inv) ≫
             mulSection k n P.G σ m

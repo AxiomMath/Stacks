@@ -93,7 +93,7 @@ theorem IsRationallyEquivalentToZeroWithinCanonical.firstChernCap {k : ℤ}
       (integralClosedSubspacePushforward D sX hX (W j) (k + 1) (c j)))
     (fun j => subspacePointSet D.site D.base D.base_mem X (W j).subspace) hWfin
     (fun j =>
-      isRationallyEquivalentToZeroWithinCanonical_firstChernCapCycleMap_integralClosedSubspacePushforward
+isRationallyEquivalentToZeroWithinCanonical_firstChernCapCycleMap_integralClosedSubspacePushforward
         D sX hX k N hN (W j) (c j) (hdim j) (hprin j))
     (fun Z => firstChernCapCycleMap_cycleFamilySum_apply D sX hX k _ W hWfin c Z)).mono
     (Set.iUnion_subset hsub)

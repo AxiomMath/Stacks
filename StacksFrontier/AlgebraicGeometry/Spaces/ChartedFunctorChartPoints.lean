@@ -195,7 +195,7 @@ theorem exists_isChartPoint_of_etale (hX : IsAlgebraicSpace B S hS X) (hp : IsSm
     rw [Category.assoc]
     exact specAlgOfHom_comp T₁ v₁)
   have hm₁ES : Etale (Spec.map (ringHomOf T' m₁)) ∧ Surjective (Spec.map (ringHomOf T' m₁)) := by
-    show Etale (G.map (specOverMap T' m₁)) ∧ Surjective (G.map (specOverMap T' m₁))
+    change Etale (G.map (specOverMap T' m₁)) ∧ Surjective (G.map (specOverMap T' m₁))
     rw [hm₁, G.map_comp]
     exact ⟨inferInstance, inferInstance⟩
   -- the chart point over `A₁`
@@ -209,9 +209,9 @@ theorem exists_isChartPoint_of_etale (hX : IsAlgebraicSpace B S hS X) (hp : IsSm
     exact specAlgOfHom_comp T₁ v₁)
   have hpt : (chartTrans U₀ q a₀ haq).app A₁ ρ₁ = (chartedFunctor T' X p).map m₁ x := by
     apply Subtype.ext
-    show a₀.app _ (chartHom U₀ q ρ₁) = X.map (specOverMap T' m₁).op x.1
+    change a₀.app _ (chartHom U₀ q ρ₁) = X.map (specOverMap T' m₁).op x.1
     rw [hρ₁, hm₁]
-    show a₀.app _ (ι₁ ≫ g) = _
+    change a₀.app _ (ι₁ ≫ g) = _
     have : a₀.app _ (ι₁ ≫ g) = X.map ι₁.op (a₀.app _ g) := NatTrans.naturality_apply a₀ ι₁.op g
     rw [this, hga, ← Functor.map_comp_apply, ← op_comp]
   -- lift the étale algebra `A₁` over `Γ(T') ⧸ J` to an étale algebra over `Γ(T')`

@@ -194,7 +194,7 @@ theorem HasConstituentsIn.quotient_powSMulRange
         obtain ⟨x, rfl⟩ := mem_powSMulRange.1 hy
         rw [LinearMap.mem_ker]
         refine Subtype.ext ?_
-        show R.mkQ ((ℓ ^ k) • (ℓ ^ 1 • x)) = 0
+        change R.mkQ ((ℓ ^ k) • (ℓ ^ 1 • x)) = 0
         rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
         refine (mem_powSMulRange (A := A) (ℓ := ℓ) (k := k + 1)).2 ⟨x, ?_⟩
         rw [smul_smul, ← pow_add]
@@ -229,7 +229,7 @@ theorem HasConstituentsIn.quotient_lattice (h : HasConstituentsIn A 𝓜 (L ⧸ 
     refine mem_powSMulRange.2 ⟨⟨ℓ ^ n • y, hn (mem_powSMulRange.2 ⟨y, rfl⟩)⟩, ?_⟩
     rw [Submodule.subtype_apply] at hy
     ext
-    show ℓ ^ 1 • (ℓ ^ n • y) = (x : L)
+    change ℓ ^ 1 • (ℓ ^ n • y) = (x : L)
     rw [← hy, smul_smul, ← pow_add, add_comm]
   exact h₁.of_surjective_of_le_ker _ (powSMulRange A ℓ M₂ 1).mkQ
     (by rwa [Submodule.ker_mkQ]) (Submodule.mkQ_surjective _)

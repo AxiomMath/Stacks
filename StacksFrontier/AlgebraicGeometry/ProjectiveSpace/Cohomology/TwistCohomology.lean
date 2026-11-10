@@ -56,10 +56,11 @@ localization `R[T₀, …, Tₙ][1/f]`, by
 ## What is not done
 
 The passage from the Čech cohomology of the standard cover to the sheaf cohomology of `ℙⁿ_R` —
-[Stacks, Tag 01XD] together with [Stacks, Tags 01FJ and 01FM], all three available in the library — and the
-identification of the terms of the geometric Čech complex with the graded pieces of the algebraic
-one via [Stacks, Tag 01M6], are not performed here, so no `@[stacks 01XT]` attribute is attached.
-What this file supplies is the graded vanishing statement that the comparison would transport.
+[Stacks, Tag 01XD] together with [Stacks, Tags 01FJ and 01FM], all three available in the library —
+and the identification of the terms of the geometric Čech complex with the graded pieces of the
+algebraic one via [Stacks, Tag 01M6], are not performed here, so no `@[stacks 01XT]` attribute is
+attached. What this file supplies is the graded vanishing statement that the comparison would
+transport.
 
 ## References
 

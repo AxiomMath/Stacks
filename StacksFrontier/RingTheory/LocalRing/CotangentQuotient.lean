@@ -179,7 +179,7 @@ theorem mapCotangent_residueField_smul (r : ResidueField A) (x : CotangentSpace 
   obtain ⟨s, rfl⟩ := residue_surjective r
   set F := Ideal.mapCotangent (maximalIdeal A) (maximalIdeal B) (Algebra.ofId A B)
     (le_of_eq (maximalIdeal_comap (algebraMap A B)).symm) with hF
-  show F (s • x) = algebraMap A B s • F x
+  change F (s • x) = algebraMap A B s • F x
   rw [map_smul, IsScalarTower.algebraMap_smul]
 
 /-- A surjective local homomorphism with kernel inside `𝔪 ^ 2` preserves the rank of the
@@ -271,7 +271,7 @@ theorem span_image_symm_cotangentSpaceEquiv_eq_top
   have himg : Submodule.span A (Set.range fun i =>
       (cotangentSpaceEquivOfKerLeSq hsurj hker).symm (v i)) = ⊤ := by
     rw [Set.range_comp' (cotangentSpaceEquivOfKerLeSq hsurj hker).symm v]
-    show Submodule.span A
+    change Submodule.span A
         (((cotangentSpaceEquivOfKerLeSq hsurj hker).symm :
           CotangentSpace B →ₗ[A] CotangentSpace A) '' Set.range v) = ⊤
     rw [← Submodule.map_span, hA, Submodule.map_top, LinearMap.range_eq_top]

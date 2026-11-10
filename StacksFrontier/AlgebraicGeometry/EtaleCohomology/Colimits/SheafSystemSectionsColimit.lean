@@ -336,7 +336,7 @@ theorem EtaleSheafSystem.exists_pushforwardLeg_apply_eq {i₀ : Iᵒᵖ} (V₀ :
   have hmor' : C.hom.app V₀ ≫ M = ε.hom ≫ c3 := hmor
   have ht' : Gj.obj.map c3.op ψt = y₃ := ht
   have hy₃ : Gj.obj.map ε.hom.op y₃ = y₂ := by
-    show Gj.obj.map ε.hom.op (Gj.obj.map ε.inv.op y₂) = y₂
+    change Gj.obj.map ε.hom.op (Gj.obj.map ε.inv.op y₂) = y₂
     rw [presheaf_map_map_apply, Iso.hom_inv_id, op_id, CategoryTheory.Functor.map_id,
       ConcreteCategory.id_apply]
   calc _ = 𝓖.obj.map (C.hom.app V₀).op ((ι k).hom.app _ (Gk.obj.map M.op
@@ -354,6 +354,7 @@ theorem EtaleSheafSystem.exists_pushforwardLeg_apply_eq {i₀ : Iᵒᵖ} (V₀ :
     _ = s :=
         (hιn _ ε.hom y₃).symm.trans ((congrArg ((ι (Opposite.op j)).hom.app (op V)) hy₃).trans hy₂)
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] [∀ {i j : Iᵒᵖ} (f : i ⟶ j), IsAffineHom (D.map f)] in
 include hι in
 /-- The legs `f_{k i₀,*}F_k ⟶ f_{i₀,*}𝓖` are compatible with the transition maps. -/
 lemma EtaleSheafSystem.pushforwardTransition_comp_pushforwardLeg {l k i₀ : Iᵒᵖ} (b : l ⟶ k)
@@ -388,7 +389,7 @@ theorem EtaleSheafSystem.exists_pushforwardTransition_apply_eq_zero {i₀ : Iᵒ
   have hz' : smallEtalePullbackAbUnitApp (c.π.app l) (F.obj l) _ z = 0 := by
     refine Eq.trans ?_ ((congrArg (Gl.obj.map ε.inv.op)
       ((F.pushforwardUnit_app_apply c (b ≫ a) V₀ z).symm.trans hz)).trans (map_zero _))
-    show _ = Gl.obj.map ε.inv.op (Gl.obj.map ε.hom.op _)
+    change _ = Gl.obj.map ε.inv.op (Gl.obj.map ε.hom.op _)
     rw [presheaf_map_map_apply, Iso.inv_hom_id, op_id, CategoryTheory.Functor.map_id,
       ConcreteCategory.id_apply]
   have : CompactSpace ((smallEtaleBaseChange (D.map (b ≫ a))).obj V₀).left :=

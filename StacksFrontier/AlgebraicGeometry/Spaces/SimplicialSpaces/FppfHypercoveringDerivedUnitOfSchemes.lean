@@ -48,6 +48,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {A : SimplicialObject.Augmented (AlgebraicSpaces B S hS)}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site times out otherwise
 /-- Small discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance (priority := high)

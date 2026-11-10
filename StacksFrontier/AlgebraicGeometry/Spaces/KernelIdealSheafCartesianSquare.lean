@@ -308,7 +308,7 @@ theorem range_le_immersionAmbientPreimageSubfunctor (sq : IsPullback i f g i') :
   have hw : (i ≫ g).hom = (f ≫ i').hom := congrArg (fun k => k.hom) sq.w
   have h1 : g.hom.app T (i.hom.app T z) = i'.hom.app T (f.hom.app T z) :=
     congrArg (fun k : Z.1 ⟶ X'.1 => k.app T z) hw
-  show g.hom.app T (i.hom.app T z) ∈
+  change g.hom.app T (i.hom.app T z) ∈
     (boundaryComplement B S hS X'.1 (Set.range (pointsMap B S hS Z'.1 i'.hom))).obj T
   rw [h1]
   exact range_le_boundaryComplement B S hS X'.2 Z'.2 i'.hom hi' T ⟨f.hom.app T z, rfl⟩

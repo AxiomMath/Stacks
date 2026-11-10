@@ -264,12 +264,12 @@ theorem isColimitPresentation_of_isColimit {F : EtaleSheafSystem D AddCommGrpCat
     · have hy' : ∀ i : I, (systemKaroubiCocone F 𝒢 ι hι).ι.app i ≫
           (show (systemKaroubiCocone F 𝒢 ι hι).pt ⟶ (systemKaroubiCocone F H τ hτ).pt from
             { f := y, comm := by
-                show 𝟙 𝒢 ≫ y ≫ 𝟙 H = y
+                change 𝟙 𝒢 ≫ y ≫ 𝟙 H = y
                 rw [Category.id_comp, Category.comp_id] }) =
             (systemKaroubiCocone F H τ hτ).ι.app i := by
         intro i
         refine Karoubi.hom_ext _ _ ?_
-        show ι (Opposite.op i) ≫ y = τ (Opposite.op i)
+        change ι (Opposite.op i) ≫ y = τ (Opposite.op i)
         exact hy (Opposite.op i)
       exact congrArg Karoubi.Hom.f (h.uniq (systemKaroubiCocone F H τ hτ) _ hy')
 
@@ -319,7 +319,7 @@ def systemKaroubiDiagramMap {F G : EtaleSheafSystem D AddCommGrpCat.{u + 1}}
     { f := (etaleAbelianInverseImage.{u, u + 1} (conePi c (Opposite.op i))).map
         (φ (Opposite.op i)) ≫ systemDiagramIdem G (Opposite.op i)
       comm := systemDiagramIdem_comp_map_comp_systemDiagramIdem φ hφ (Opposite.op i) }
-  naturality {i j} α :=
+  naturality _ _ α :=
     Karoubi.hom_ext _ _ (systemDiagramMap_comp_map_comp_systemDiagramIdem φ hφ α.op)
 
 /-- The underlying map of the component of `systemKaroubiDiagramMap φ hφ` at `i` is the inverse
@@ -404,7 +404,7 @@ theorem mono_of_pointwise_mono [IsDirected I (· ≤ ·)] [Nonempty I] [UnivLE.{
         (systemKaroubiCocone G 𝒢G ιG hG.compatible).ι.app i := by
     intro i
     refine Karoubi.hom_ext _ _ ?_
-    show ιF (Opposite.op i) ≫ χ =
+    change ιF (Opposite.op i) ≫ χ =
       ((etaleAbelianInverseImage.{u, u + 1} (conePi c (Opposite.op i))).map (φ (Opposite.op i)) ≫
         systemDiagramIdem G (Opposite.op i)) ≫ ιG (Opposite.op i)
     rw [hχ (Opposite.op i), Category.assoc,

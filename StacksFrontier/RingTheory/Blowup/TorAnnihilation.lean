@@ -110,7 +110,7 @@ public theorem range_pres {n : ℕ} (b : Fin n → A) (I : Ideal A)
         IsLocalization.mk' S (b j) ⟨a, Submonoid.mem_powers a⟩) :=
     (Algebra.adjoin_range_eq_range_aeval A _).symm
   rw [hgen]
-  show Algebra.adjoin A _ = Algebra.adjoin A _
+  change Algebra.adjoin A _ = Algebra.adjoin A _
   refine le_antisymm (Algebra.adjoin_le ?_) (Algebra.adjoin_le ?_)
   · rintro z ⟨j, rfl⟩
     refine Algebra.subset_adjoin ⟨b j, ?_, rfl⟩

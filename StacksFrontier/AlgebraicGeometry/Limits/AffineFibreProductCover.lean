@@ -50,7 +50,7 @@ theorem isAffine_openCoverOfBase_bind_openCoverOfLeftRight
   have := h𝒰 i
   have := h𝒱 i j
   have := h𝒲 i k
-  show IsAffine (pullback ((𝒱 i).f j ≫ pullback.snd f (𝒰.f i))
+  change IsAffine (pullback ((𝒱 i).f j ≫ pullback.snd f (𝒰.f i))
     ((𝒲 i).f k ≫ pullback.snd g (𝒰.f i)))
   infer_instance
 

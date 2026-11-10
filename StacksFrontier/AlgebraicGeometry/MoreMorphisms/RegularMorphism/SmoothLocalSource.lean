@@ -113,7 +113,7 @@ private theorem isGeometricallyRegular_fiber_iff_of_smoothZeroHypercover {X Y : 
   refine (isGeometricallyRegular_iff_of_smoothZeroHypercover
     (f.fiberToSpecResidueField y) (𝒰.pullback₁ (f.fiberι y))).trans
     (forall_congr' fun i => ?_)
-  show IsGeometricallyRegular (pullback.fst (pullback.fst f (Y.fromSpecResidueField y))
+  change IsGeometricallyRegular (pullback.fst (pullback.fst f (Y.fromSpecResidueField y))
       (𝒰.f i) ≫ pullback.snd f (Y.fromSpecResidueField y)) ↔
     IsGeometricallyRegular (pullback.snd (𝒰.f i ≫ f) (Y.fromSpecResidueField y))
   exact isGeometricallyRegular_iff_of_isoOver

@@ -106,7 +106,7 @@ private theorem locallyOfFiniteType_finiteTypeCoproduct {ι : Type u}
     (U : ι → BigFppfOver B S hS) (hι : Cardinal.mk ι < B.cutoff)
     (hU : ∀ i, Deformation.Artin.IsFiniteTypeOver B S hS (U i)) :
     LocallyOfFiniteType (B.inclusion.map (finiteTypeCoproduct B S hS U hι hU).hom) := by
-  show LocallyOfFiniteType (Sigma.desc fun i => B.inclusion.map (U i).hom)
+  change LocallyOfFiniteType (Sigma.desc fun i => B.inclusion.map (U i).hom)
   let : IsZariskiLocalAtSource @LocallyOfFiniteType.{u} :=
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @LocallyOfFiniteType)
   exact IsZariskiLocalAtSource.sigmaDesc (P := @LocallyOfFiniteType) fun i => (hU i).1

@@ -129,7 +129,7 @@ private theorem comap_eq_maximalIdeal_of_isMaximal {B : Type u} [CommRing B] [Al
 theorem card_normalizationDvrFamily_index :
     Nat.card (normalizationDvrFamily A F
       (ringKrullDim_eq_one_of_isDiscreteValuationRing A)).Index = 1 := by
-  show Nat.card (MaximalSpectrum ↥(integralClosure A F)) = 1
+  change Nat.card (MaximalSpectrum ↥(integralClosure A F)) = 1
   have hbij := bijective_algebraMap_integralClosure A F
   have hsub : Subsingleton (MaximalSpectrum ↥(integralClosure A F)) := by
     refine ⟨fun v w ↦ MaximalSpectrum.ext (Ideal.comap_injective_of_surjective _ hbij.2 ?_)⟩
@@ -152,7 +152,7 @@ theorem bijective_algebraMap_normalizationDvrFamily
       ((normalizationDvrFamily A F
         (ringKrullDim_eq_one_of_isDiscreteValuationRing A)).algebraBase m)) := by
   have : m.asIdeal.IsMaximal := m.isMaximal
-  show Function.Bijective (algebraMap A (Localization.AtPrime m.asIdeal))
+  change Function.Bijective (algebraMap A (Localization.AtPrime m.asIdeal))
   have hbij := bijective_algebraMap_integralClosure A F
   have hunits : m.asIdeal.primeCompl ≤ IsUnit.submonoid ↥(integralClosure A F) := by
     intro s hs

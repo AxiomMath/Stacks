@@ -20,8 +20,8 @@ Stacks Project, let `f : X' ⟶ X` be proper over `S`, let `L` be an invertible 
 This file proves the rational equivalence of the two cycles underlying those classes, with no
 hypothesis beyond the properness of `f` and the commutativity of `f` over `S`. The tag itself is
 carried by `Stacks.Chow.gysinHomomorphismOfInvertible_properPushforward_of_gysinCompatible` in
-`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforwardInvertible`, which is this result read
-on Chow groups.
+`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforwardInvertible`, which is this result
+read on Chow groups.
 
 ## Main results
 

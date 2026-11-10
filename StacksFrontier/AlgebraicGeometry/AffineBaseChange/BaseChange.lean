@@ -101,7 +101,7 @@ lemma baseChangeNatTrans_restrictSquare :
 
 /-- The three factors of `restrictMate`. -/
 lemma restrictMate_app (M : X.Modules) :
-    (restrictMate f V).natTrans.app M =
+    (restrictMate f V).app M =
       (Scheme.Modules.restrictFunctor V.ι).map ((Scheme.Modules.pushforward f).map
           ((Scheme.Modules.restrictAdjunction (f ⁻¹ᵁ V).ι).unit.app M)) ≫
         (Scheme.Modules.restrictFunctor V.ι).map
@@ -145,7 +145,7 @@ theorem isIso_unit_restrictPushforward (M : X.Modules) :
 
 /-- `restrictMate` is invertible at every module. -/
 theorem isIso_restrictMate_app (M : X.Modules) :
-    IsIso ((restrictMate f V).natTrans.app M) := by
+    IsIso ((restrictMate f V).app M) := by
   rw [restrictMate_app]
   have : IsIso ((Scheme.Modules.restrictFunctor V.ι).map ((Scheme.Modules.pushforward f).map
       ((Scheme.Modules.restrictAdjunction (f ⁻¹ᵁ V).ι).unit.app M))) :=
@@ -158,7 +158,7 @@ lemma baseChangeNatTrans_restrictSquare_app (M : X.Modules) :
       (Adjunction.leftAdjointUniq (Scheme.Modules.pullbackPushforwardAdjunction V.ι)
           (Scheme.Modules.restrictAdjunction V.ι)).hom.app
           ((Scheme.Modules.pushforward f).obj M) ≫
-        (restrictMate f V).natTrans.app M ≫
+        (restrictMate f V).app M ≫
         (Scheme.Modules.pushforward (f ∣_ V)).map
           ((Adjunction.leftAdjointUniq (Scheme.Modules.restrictAdjunction (f ⁻¹ᵁ V).ι)
             (Scheme.Modules.pullbackPushforwardAdjunction (f ⁻¹ᵁ V).ι)).hom.app M) := by

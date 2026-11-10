@@ -130,7 +130,7 @@ theorem isLocallySurjective_constantToCharacterTwistOver (h : IsTorsorObject act
   obtain ⟨n, hn⟩ := hfam g.left hg
   refine ⟨ULift.up n, ?_⟩
   rw [constantToCharacterTwistOver_app]
-  show _ = (characterTwistPresheaf W act χ).map g.left.op x
+  change _ = (characterTwistPresheaf W act χ).map g.left.op x
   rw [hn, Over.w g]
 
 /-! ### The twist is constant on the localized site -/

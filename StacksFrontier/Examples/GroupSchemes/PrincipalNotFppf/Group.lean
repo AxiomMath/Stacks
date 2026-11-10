@@ -281,7 +281,7 @@ noncomputable def charMonoidHom : CharGroup →* Alg ⊗[ℚ] Alg where
 /-- The character sends the `i`-th generator to `xᵢ ⊗ xᵢ⁻¹`. -/
 @[simp] theorem charMonoidHom_gen (i : ℕ) :
     charMonoidHom (gen i) = (shearUnit i : Alg ⊗[ℚ] Alg) := by
-  show ((Additive.toMul (charAddHom (DirectSum.of (fun j : ℕ => ZMod (j + 2)) i 1)) :
+  change ((Additive.toMul (charAddHom (DirectSum.of (fun j : ℕ => ZMod (j + 2)) i 1)) :
     (Alg ⊗[ℚ] Alg)ˣ) : Alg ⊗[ℚ] Alg) = _
   rw [charAddHom_of]
   rfl
@@ -347,7 +347,7 @@ theorem unshear_shear_tmul_one (a : Alg) :
     unshear (shear (a ⊗ₜ[ℚ] (1 : Alg))) = a ⊗ₜ[ℚ] (1 : Alg) := by
   have key : (unshear.comp shear).comp inclLeft = inclLeft := by
     refine algHom_ext (B := Alg ⊗[ℚ] Alg) fun i => ?_
-    show unshear (shear (root i ⊗ₜ[ℚ] (1 : Alg))) = root i ⊗ₜ[ℚ] (1 : Alg)
+    change unshear (shear (root i ⊗ₜ[ℚ] (1 : Alg))) = root i ⊗ₜ[ℚ] (1 : Alg)
     rw [shear_tmul_one, coaction_root, tmul_eq_tmul_one_mul_one_tmul, map_mul, unshear_tmul_one,
       unshear_one_tmul, charHom_single, shearUnit_mul]
   exact AlgHom.congr_fun key a
@@ -357,7 +357,7 @@ theorem shear_unshear_tmul_one (c : Coord) :
     shear (unshear (c ⊗ₜ[ℚ] (1 : Alg))) = c ⊗ₜ[ℚ] (1 : Alg) := by
   have key : (shear.comp unshear).comp inclLeftCoord = inclLeftCoord := by
     refine coord_algHom_ext (B := Coord ⊗[ℚ] Alg) fun i => ?_
-    show shear (unshear (MonoidAlgebra.single (gen i) (1 : ℚ) ⊗ₜ[ℚ] (1 : Alg))) =
+    change shear (unshear (MonoidAlgebra.single (gen i) (1 : ℚ) ⊗ₜ[ℚ] (1 : Alg))) =
       MonoidAlgebra.single (gen i) (1 : ℚ) ⊗ₜ[ℚ] (1 : Alg)
     rw [unshear_tmul_one, charHom_single]
     have hu : IsUnit ((1 : Coord) ⊗ₜ[ℚ] root i) := by
@@ -376,7 +376,7 @@ theorem unshear_comp_shear : unshear.comp shear = AlgHom.id ℚ (Alg ⊗[ℚ] Al
   · intro a
     exact unshear_shear_tmul_one a
   · intro b
-    show unshear (shear ((1 : Alg) ⊗ₜ[ℚ] b)) = (1 : Alg) ⊗ₜ[ℚ] b
+    change unshear (shear ((1 : Alg) ⊗ₜ[ℚ] b)) = (1 : Alg) ⊗ₜ[ℚ] b
     rw [shear_one_tmul, unshear_one_tmul]
 
 /-- The inverse shear map is a right inverse of the shear map. -/
@@ -385,7 +385,7 @@ theorem shear_comp_unshear : shear.comp unshear = AlgHom.id ℚ (Coord ⊗[ℚ] 
   · intro c
     exact shear_unshear_tmul_one c
   · intro b
-    show shear (unshear ((1 : Coord) ⊗ₜ[ℚ] b)) = (1 : Coord) ⊗ₜ[ℚ] b
+    change shear (unshear ((1 : Coord) ⊗ₜ[ℚ] b)) = (1 : Coord) ⊗ₜ[ℚ] b
     rw [unshear_one_tmul, shear_one_tmul]
 
 /-- The shear map is an isomorphism of `ℚ`-algebras: the action of the group scheme on the

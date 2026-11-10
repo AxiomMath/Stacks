@@ -608,7 +608,8 @@ theorem symmetricPiece_eq_zero_of_neg_sheafifiedSymmetricAlgebra (n : ℤ) (hn :
 
 /-- Sheaves of modules on `toRingCat J Osharp` have `ℕ`-indexed coproducts, from the presheaf
 case; instance search alone exhausts its budget here. -/
-noncomputable instance : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+noncomputable instance :
+    HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
   @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
     _ _ _ (toRingCat J Osharp) _ _ _ _ (PresheafOfModules.hasColimitsOfShape _ _)
 

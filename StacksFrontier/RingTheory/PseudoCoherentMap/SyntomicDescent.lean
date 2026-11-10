@@ -224,7 +224,7 @@ private theorem _root_.Algebra.PseudoCoherent.localizationAway_quotient
   have hflatPTf : Module.Flat P Tf := Module.Flat.trans P T Tf
   let : Algebra Pf Tf := (IsLocalization.Away.map Pf Tf (algebraMap P T) f).toAlgebra
   have htw : IsScalarTower P Pf Tf := IsScalarTower.of_algebraMap_eq fun x => by
-    show _ = IsLocalization.Away.map Pf Tf (algebraMap P T) f (algebraMap P Pf x)
+    change _ = IsLocalization.Away.map Pf Tf (algebraMap P T) f (algebraMap P Pf x)
     rw [IsLocalization.Away.map, IsLocalization.map_eq]
     exact IsScalarTower.algebraMap_apply P T Tf x
   have hflatPfTf : Module.Flat Pf Tf :=
@@ -277,7 +277,7 @@ private theorem _root_.Algebra.PseudoCoherent.localizationAway_quotient
   have htwR : IsScalarTower R (P ⧸ I) (Pf ⧸ I.map (algebraMap P Pf)) :=
     IsScalarTower.of_algebraMap_eq fun r => by
       rw [IsScalarTower.algebraMap_apply R P (P ⧸ I)]
-      show _ = Ideal.Quotient.mk _ (algebraMap P Pf (algebraMap R P r))
+      change _ = Ideal.Quotient.mk _ (algebraMap P Pf (algebraMap R P r))
       rw [← IsScalarTower.algebraMap_apply R P Pf]
       rfl
   refine hquot.equiv
@@ -327,7 +327,7 @@ theorem _root_.Algebra.PseudoCoherent.of_syntomic_faithfullyFlat
   have : IsScalarTower (P ⧸ I) A A' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower R (P ⧸ I) A' := by
     refine IsScalarTower.of_algebraMap_eq (R := R) (S := P ⧸ I) (A := A') fun r => ?_
-    show algebraMap R A' r = algebraMap A A' (e (algebraMap R (P ⧸ I) r))
+    change algebraMap R A' r = algebraMap A A' (e (algebraMap R (P ⧸ I) r))
     rw [e.commutes, ← IsScalarTower.algebraMap_apply R A A']
   let : Algebra P A' := ((algebraMap (P ⧸ I) A').comp (algebraMap P (P ⧸ I))).toAlgebra
   have : IsScalarTower P (P ⧸ I) A' :=

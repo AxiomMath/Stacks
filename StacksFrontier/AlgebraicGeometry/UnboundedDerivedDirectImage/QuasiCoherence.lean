@@ -93,7 +93,8 @@ namespace AlgebraicGeometry
 universe u
 
 -- Every imported statement used here is baked at `CategoryTheory.HasDerivedCategory.standard`,
--- and the locally small model of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` arrives
+-- and the locally small model of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`
+-- arrives
 -- with the imports as a competing instance of the same priority; raising the priority of the
 -- standard model is what puts the two sides of every comparison below in one category.
 attribute [local instance 2000] HasDerivedCategory.standard
@@ -159,7 +160,7 @@ theorem isQuasicoherent_homology_derivedPushforward_single_zero (M : X.Modules)
       (derivedPushforwardModules f) (derivedPushforwardModulesUnit f)
       (derivedPushforwardModules_isRightDerivedFunctor f) I hI)
     ((DerivedCategory.Plus.singleFunctor X.Modules 0).obj M) 0 (by
-      show ((DerivedCategory.singleFunctor X.Modules 0).obj M).IsGE 0
+      change ((DerivedCategory.singleFunctor X.Modules 0).obj M).IsGE 0
       infer_instance)
   exact isQuasicoherent_of_iso S _ _ ((DerivedCategory.homologyFunctor S.Modules i).mapIso e).symm
     (Stacks.AlgebraicGeometry.HigherDirectImageQcoh.isQuasicoherent_higherDirectImage f M i)

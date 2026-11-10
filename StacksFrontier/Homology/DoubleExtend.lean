@@ -208,7 +208,7 @@ public theorem quasiIso_double_of_quasiIso_double [CategoryWithHomology C]
       (doubleExtendIso f e hi₀₁ hne).hom ≫ extendMap φ e := by
     apply from_double_hom_ext (f := f) (hi₀₁ := e.rel hi₀₁)
     · rw [comp_f, comp_f, extendMap_f φ e (i := i₀) rfl]
-      show ψ.f (e.f i₀) ≫ (doubleExtendHom g e hi₀₁ hne).f (e.f i₀) =
+      change ψ.f (e.f i₀) ≫ (doubleExtendHom g e hi₀₁ hne).f (e.f i₀) =
         (doubleExtendHom f e hi₀₁ hne).f (e.f i₀) ≫ _
       rw [doubleExtendHom_f₀, doubleExtendHom_f₀]
       rw [← cancel_epi (doubleXIso₀ f (e.rel hi₀₁)).inv]
@@ -216,7 +216,7 @@ public theorem quasiIso_double_of_quasiIso_double [CategoryWithHomology C]
       slice_lhs 1 3 => rw [h₀]
       simp
     · rw [comp_f, comp_f, extendMap_f φ e (i := i₁) rfl]
-      show ψ.f (e.f i₁) ≫ (doubleExtendHom g e hi₀₁ hne).f (e.f i₁) =
+      change ψ.f (e.f i₁) ≫ (doubleExtendHom g e hi₀₁ hne).f (e.f i₁) =
         (doubleExtendHom f e hi₀₁ hne).f (e.f i₁) ≫ _
       rw [doubleExtendHom_f₁, doubleExtendHom_f₁]
       rw [← cancel_epi (doubleXIso₁ f (e.rel hi₀₁) (e.ne_f hne)).inv]

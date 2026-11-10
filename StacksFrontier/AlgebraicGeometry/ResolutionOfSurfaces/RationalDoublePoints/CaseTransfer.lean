@@ -54,11 +54,11 @@ theorem RationalDoublePointSituation.isCaseOne_or_isCaseTwo
     (S.finrank_gradedPiece_eq_two_mul_add_one 2)
 
 variable {A A' : Type*} [CommRing A] [IsLocalRing A] [CommRing A'] [IsLocalRing A']
-  (φ : A →+* A') [IsLocalHom φ]
+  (φ : A →+* A')
 
 /-- The isomorphism of residue fields induced by a local homomorphism which is surjective on
 residue fields. -/
-theorem exists_residueField_ringEquiv_of_isLocalHom
+theorem exists_residueField_ringEquiv_of_isLocalHom [IsLocalHom φ]
     (hsurj : Function.Surjective ((Ideal.Quotient.mk (maximalIdeal A')).comp φ)) :
     ∃ ι : ResidueField A ≃+* ResidueField A', ∀ r, ι (residue A r) = residue A' (φ r) := by
   refine ⟨RingEquiv.ofBijective (ResidueField.map φ) ⟨(ResidueField.map φ).injective,
@@ -98,7 +98,7 @@ private theorem map_upper_unit_rel (hmap : Ideal.map φ (maximalIdeal A) = maxim
 
 /-- A good coordinate is transported along a local homomorphism surjective on residue fields and
 mapping `𝔪_A` onto `𝔪_{A'}`. -/
-theorem IsGoodCoordinate.map
+theorem IsGoodCoordinate.map [IsLocalHom φ]
     (hsurj : Function.Surjective ((Ideal.Quotient.mk (maximalIdeal A')).comp φ))
     (hmap : Ideal.map φ (maximalIdeal A) = maximalIdeal A') {g : A} (h : IsGoodCoordinate A g) :
     IsGoodCoordinate A' (φ g) := by
@@ -113,7 +113,7 @@ theorem IsGoodCoordinate.map
 
 /-- Case I is transported along a local homomorphism surjective on residue fields and mapping
 `𝔪_A` onto `𝔪_{A'}`. -/
-theorem IsCaseOne.map
+theorem IsCaseOne.map [IsLocalHom φ]
     (hsurj : Function.Surjective ((Ideal.Quotient.mk (maximalIdeal A')).comp φ))
     (hmap : Ideal.map φ (maximalIdeal A) = maximalIdeal A') (h : IsCaseOne A) :
     IsCaseOne A' := by

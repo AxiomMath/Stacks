@@ -47,7 +47,7 @@ theorem exists_isOpen_isIrreducible_of_mem_genericPoints {Z : Type*} [Topologica
   have hC : C ∈ irreducibleComponents Z := hη
   let O := (⋃₀ (irreducibleComponents Z \ {C}))ᶜ
   have hO : IsOpen O := (Set.Finite.isClosed_sUnion
-    (NoetherianSpace.finite_irreducibleComponents (α := Z)).diff
+    (NoetherianSpace.finite_irreducibleComponents (α := Z)).sdiff
     fun t ht => isClosed_of_mem_irreducibleComponents t ht.1).isOpen_compl
   have hηO : η ∈ O := by
     rintro ⟨C', ⟨hC', hne⟩, hηC'⟩

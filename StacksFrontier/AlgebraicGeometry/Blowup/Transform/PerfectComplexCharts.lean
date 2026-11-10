@@ -87,7 +87,7 @@ theorem exists_free_baseChange_away (p : Ideal R) [p.IsPrime] (M : Type u) [AddC
   let e := IsLocalization.algEquiv (Submonoid.powers r) (Localization.Away r) S
   let : Algebra (Localization.Away r) S := e.toAlgHom.toRingHom.toAlgebra
   have : IsScalarTower R (Localization.Away r) S := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap R S a = e (algebraMap R (Localization.Away r) a)
+    change algebraMap R S a = e (algebraMap R (Localization.Away r) a)
     simp
   exact free_baseChange_of_free_baseChange (S := Localization.Away r) M
 
@@ -132,7 +132,7 @@ theorem exists_basicOpen_free_baseChange {V : X.Opens} (hV : IsAffineOpen V) {x 
           (X.presheaf.map (homOfLE hle).op).hom.toAlgebra
         have : IsScalarTower Γ(X, V) Γ(X, X.basicOpen h) Γ(X, X.basicOpen (g * r)) :=
           IsScalarTower.of_algebraMap_eq fun a => by
-            show (X.presheaf.map _).hom a = (X.presheaf.map _).hom ((X.presheaf.map _).hom a)
+            change (X.presheaf.map _).hom a = (X.presheaf.map _).hom ((X.presheaf.map _).hom a)
             rw [← CommRingCat.comp_apply, ← Functor.map_comp]
             rfl
         exact Module.free_baseChange_of_free_baseChange (S := Γ(X, X.basicOpen h)) (M m)

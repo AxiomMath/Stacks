@@ -163,15 +163,15 @@ theorem isPushout_restrictions_of_flat (hj₂ : IsThickening j₂) [IsAffineHom 
   have hkw : pushout.desc e₂ e₁ hk ≫ Z.hom = ((gluingFunctor j₂ j₁ hj₂).obj V).hom := by
     refine (IsPushout.of_hasPushout
       (pullback.fst V.obj.right.hom j₂) (gluingSourceMap j₂ j₁ V)).hom_ext ?_ ?_
-    · show (pushout.inl _ _ ≫ pushout.desc e₂ e₁ hk) ≫ Z.hom =
+    · change (pushout.inl _ _ ≫ pushout.desc e₂ e₁ hk) ≫ Z.hom =
         pushout.inl _ _ ≫ (gluingPushoutData j₂ j₁ V).hom
       rw [pushout.inl_desc, gluingPushoutData_inl]
-      show e₂ ≫ w ≫ hpo.isoPushout.hom = w₂ ≫ pushout.inl j₂ j₁
+      change e₂ ≫ w ≫ hpo.isoPushout.hom = w₂ ≫ pushout.inl j₂ j₁
       rw [← Category.assoc, he₂.w, Category.assoc, hpo.inl_isoPushout_hom]
-    · show (pushout.inr _ _ ≫ pushout.desc e₂ e₁ hk) ≫ Z.hom =
+    · change (pushout.inr _ _ ≫ pushout.desc e₂ e₁ hk) ≫ Z.hom =
         pushout.inr _ _ ≫ (gluingPushoutData j₂ j₁ V).hom
       rw [pushout.inr_desc, gluingPushoutData_inr]
-      show e₁ ≫ w ≫ hpo.isoPushout.hom = w₁ ≫ pushout.inr j₂ j₁
+      change e₁ ≫ w ≫ hpo.isoPushout.hom = w₁ ≫ pushout.inr j₂ j₁
       rw [← Category.assoc, he₁.w, Category.assoc, hpo.inr_isoPushout_hom]
   let k : (gluingFunctor j₂ j₁ hj₂).obj V ⟶ Z := Over.homMk (pushout.desc e₂ e₁ hk) hkw
   have hpair : IsIso (gluingToPair j₂ j₁ hj₂ k) := by
@@ -188,11 +188,11 @@ theorem isPushout_restrictions_of_flat (hj₂ : IsThickening j₂) [IsAffineHom 
       · exact (gluingToPair_right_comp_snd j₂ j₁ hj₂ k).trans
           he₂'.isoPullback_hom_snd.symm
     have : IsIso ((Over.forget S₁).map (gluingToPair j₂ j₁ hj₂ k).hom.left) := by
-      show IsIso ((gluingToPair j₂ j₁ hj₂ k).hom.left.left)
+      change IsIso ((gluingToPair j₂ j₁ hj₂ k).hom.left.left)
       rw [hl]
       exact he₁'.isoPullback.isIso_hom
     have : IsIso ((Over.forget S₂).map (gluingToPair j₂ j₁ hj₂ k).hom.right) := by
-      show IsIso ((gluingToPair j₂ j₁ hj₂ k).hom.right.left)
+      change IsIso ((gluingToPair j₂ j₁ hj₂ k).hom.right.left)
       rw [hr]
       exact he₂'.isoPullback.isIso_hom
     have : IsIso ((gluingToPair j₂ j₁ hj₂ k).hom.left) :=
@@ -205,7 +205,7 @@ theorem isPushout_restrictions_of_flat (hj₂ : IsThickening j₂) [IsAffineHom 
     have : IsIso (gluingToPair j₂ j₁ hj₂ k).hom := hec ▸ ec.isIso_hom
     exact (ObjectProperty.isIso_hom_iff _).mp inferInstance
   have hZflat : Flat Z.hom := by
-    show Flat (w ≫ hpo.isoPushout.hom)
+    change Flat (w ≫ hpo.isoPushout.hom)
     infer_instance
   have : IsIso k := isIso_of_isIso_gluingToPair j₂ j₁ hj₂ k hZflat hpair
   have hkiso : IsIso k.left :=

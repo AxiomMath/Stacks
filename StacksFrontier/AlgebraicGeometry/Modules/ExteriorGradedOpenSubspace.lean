@@ -8,8 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece
 
 Let `X` be a ringed space, `U ⊆ X` open, `0 ⟶ T.X₁ ⟶ T.X₂ ⟶ T.X₃ ⟶ 0` a short exact sequence of
 sheaves of `𝒪_X`-modules and `AF₁`, `AG₃`, `A₂` bundles of tensor, exterior and symmetric
-algebras of its three terms. `StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece` builds, for
-a total degree `n = k + 1 + m`,
+algebras of its three terms. `StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece` builds,
+for a total degree `n = k + 1 + m`,
 
 * `SheafOfModules.exteriorGradedHom`, the canonical morphism
   `⋀^kT.X₁ ⊗ ⋀^{1+m}T.X₂ ⟶ ⋀ⁿT.X₂/F^{k+1}⋀ⁿT.X₂`, and
@@ -437,11 +437,11 @@ theorem epi_tensorSheafBifunctorMap_openSubspaceRestriction_relComplex (hS : T.E
               ((openSubspaceRestriction U).obj (AF₁.exteriorPower k),
                 (openSubspaceRestriction U).obj
                   (AG₃.exterior.piece ((m + 1 : ℕ) : ℤ))))) :=
-  have _hrel : Epi (Stacks.SheafOfModules.TopWedge.relComplex A₂ AG₃ T.f T.g T.zero m).g :=
+  have : Epi (Stacks.SheafOfModules.TopWedge.relComplex A₂ AG₃ T.f T.g T.zero m).g :=
     epi_relComplex_g AG₃ A₂ hS hepi m
   @Stacks.SheafOfModules.TensorEncodings.epi_tensorSheafBifunctor_map _ _
     (Opens.grothendieckTopology (restrictToOpen X U).carrier) _ _ _
-    (restrictToOpen X U).sheaf _ _ _ _ _
+    (restrictToOpen X U).sheaf _ _ _ _
     ((openSubspaceRestriction U).map (𝟙 (AF₁.exteriorPower k)))
     ((openSubspaceRestriction U).map
       (Stacks.SheafOfModules.TopWedge.relComplex A₂ AG₃ T.f T.g T.zero m).g)

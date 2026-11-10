@@ -195,7 +195,7 @@ theorem openChartGlobalSectionsIso_inv_comp (A : SmallEtale B S hS F)
   have e' : openChartGlobalSectionsIso A O = O.topIso := rfl
   have e'' : openChartGlobalSectionsIso A O' = O'.topIso := rfl
   rw [e, e', e'', Scheme.homOfLE_appTop, Scheme.Opens.topIso_inv, Scheme.Opens.topIso_inv]
-  show (chartScheme A).presheaf.map (eqToHom O'.ι_image_top).op ≫
+  change (chartScheme A).presheaf.map (eqToHom O'.ι_image_top).op ≫
       (chartScheme A).presheaf.map
         (homOfLE ((chartScheme A).ι_image_homOfLE_le_ι_image h ⊤)).op =
     (chartScheme A).presheaf.map (homOfLE h).op ≫
@@ -420,7 +420,7 @@ theorem surjective_rationalToMeromorphic :
   have hcompat : TopCat.Presheaf.IsCompatible (schematicChartScheme P).sheaf.1
       (fun V : (schematicChartScheme P).affineOpens => Of V) sf := by
     intro V V'
-    show ((schematicChartScheme P).presheaf.map (homOfLE inf_le_left).op).hom (sf V) =
+    change ((schematicChartScheme P).presheaf.map (homOfLE inf_le_left).op).hom (sf V) =
       ((schematicChartScheme P).presheaf.map (homOfLE inf_le_right).op).hom (sf V')
     exact (schematicSection P (Of V ⊓ Of V')).injective
       (injective_toMeromorphicFunctionSheaf_app B S hS X hwa hfin

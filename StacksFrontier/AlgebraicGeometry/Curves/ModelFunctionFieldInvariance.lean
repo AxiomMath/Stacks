@@ -271,7 +271,7 @@ public theorem exists_isPurelyInseparable_isGeometricallyNormal_normalization_re
         pullback.snd sX (spectrumMap k k')) =
       (pullback (spectrumMap k k') sX).nilradical.subschemeι ≫
         pullback.fst (spectrumMap k k') sX := by
-    show Scheme.reductionMap' (pullbackSymmetry (spectrumMap k k') sX).hom ≫
+    change Scheme.reductionMap' (pullbackSymmetry (spectrumMap k k') sX).hom ≫
       ((pullback sX (spectrumMap k k')).nilradical.subschemeι ≫
         pullback.snd sX (spectrumMap k k')) = _
     rw [Scheme.reductionMap'_comp_subschemeι_assoc, pullbackSymmetry_hom_comp_snd]

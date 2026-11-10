@@ -69,7 +69,7 @@ private theorem contains_spec_tensorProduct (𝔅 : BigFppfSite.{u})
     {R A C : Type u} [CommRing R] [CommRing A] [CommRing C] [Algebra R A] [Algebra R C]
     (hA : 𝔅.Contains (Spec (.of A))) (hC : 𝔅.Contains (Spec (.of C))) :
     𝔅.Contains (Spec (.of (A ⊗[R] C))) := by
-  show (Spec (.of (A ⊗[R] C))).size < 𝔅.cutoff
+  change (Spec (.of (A ⊗[R] C))).size < 𝔅.cutoff
   rw [← Scheme.size_congr (AlgebraicGeometry.pullbackSpecIso R A C)]
   exact Scheme.size_pullback_lt _ _ hA hC
 
@@ -90,7 +90,7 @@ private theorem surjective_quotientMk_coe {R : Type u} [CommRing R] [UniformSpac
   intro y
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective y
   have hU : {z : UniformSpace.Completion R | z - x ∈ I} ∈ nhds x := by
-    show (fun z : UniformSpace.Completion R => z - x) ⁻¹' (I : Set _) ∈ nhds x
+    change (fun z : UniformSpace.Completion R => z - x) ⁻¹' (I : Set _) ∈ nhds x
     exact (continuous_id.sub continuous_const).continuousAt.preimage_mem_nhds
       (by simpa using hI.mem_nhds (Ideal.zero_mem I))
   obtain ⟨r, hr⟩ := (UniformSpace.Completion.denseRange_coe (α := R)).mem_nhds hU
@@ -110,7 +110,7 @@ private theorem tensorProductSubmodule_includeLeft_mem {I : Ideal A} {J : Ideal 
     (ha : a ∈ I) :
     (Algebra.TensorProduct.includeLeft (R := R) (S := R) (B := C) a : A ⊗[R] C) ∈
       TopologicalRing.tensorProductSubmodule (I.restrictScalars R) (J.restrictScalars R) := by
-  show (Algebra.TensorProduct.includeLeft (R := R) (S := R) a : A ⊗[R] C) ∈
+  change (Algebra.TensorProduct.includeLeft (R := R) (S := R) a : A ⊗[R] C) ∈
     LinearMap.range (TensorProduct.map (I.restrictScalars R).subtype
       (LinearMap.id : C →ₗ[R] C)) ⊔ _
   refine Submodule.mem_sup.mpr ⟨TensorProduct.map (I.restrictScalars R).subtype
@@ -124,7 +124,7 @@ private theorem tensorProductSubmodule_includeRight_mem {I : Ideal A} {J : Ideal
     (hc : c ∈ J) :
     (Algebra.TensorProduct.includeRight (R := R) (A := A) c : A ⊗[R] C) ∈
       TopologicalRing.tensorProductSubmodule (I.restrictScalars R) (J.restrictScalars R) := by
-  show (Algebra.TensorProduct.includeRight c : A ⊗[R] C) ∈
+  change (Algebra.TensorProduct.includeRight c : A ⊗[R] C) ∈
     _ ⊔ LinearMap.range (TensorProduct.map (LinearMap.id : A →ₗ[R] A)
       (J.restrictScalars R).subtype)
   refine Submodule.mem_sup.mpr ⟨0, ⟨0, by simp⟩,
@@ -152,7 +152,7 @@ private theorem exists_tensorQuotientAlgHom {Q : Type u} [CommRing Q] [Algebra R
     Algebra.TensorProduct.map_surjective (f := Ideal.Quotient.mkₐ R I)
       (g := Ideal.Quotient.mkₐ R J) hmkI hmkJ
   have hker : RingHom.ker q.toRingHom ≤ RingHom.ker ψ.toRingHom := by
-    show RingHom.ker (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ R I)
+    change RingHom.ker (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ R I)
       (Ideal.Quotient.mkₐ R J)) ≤ RingHom.ker ψ
     have hkerI : RingHom.ker (Ideal.Quotient.mkₐ R I) = I := by
       ext a; exact Ideal.Quotient.eq_zero_iff_mem
@@ -163,14 +163,14 @@ private theorem exists_tensorQuotientAlgHom {Q : Type u} [CommRing Q] [Algebra R
     refine sup_le ?_ ?_
     · rw [Ideal.map_le_iff_le_comap]
       intro a ha
-      show ψ (Algebra.TensorProduct.includeLeft a) = 0
+      change ψ (Algebra.TensorProduct.includeLeft a) = 0
       calc ψ (Algebra.TensorProduct.includeLeft a)
           = f a := congrArg (fun k : A →ₐ[R] Q => k a)
             (Algebra.TensorProduct.lift_comp_includeLeft f g (fun _ _ => Commute.all _ _))
         _ = 0 := hI a ha
     · rw [Ideal.map_le_iff_le_comap]
       intro c hc
-      show ψ (Algebra.TensorProduct.includeRight c) = 0
+      change ψ (Algebra.TensorProduct.includeRight c) = 0
       calc ψ (Algebra.TensorProduct.includeRight c)
           = g c := congrArg (fun k : C →ₐ[R] Q => k c)
             (Algebra.TensorProduct.lift_comp_includeRight' f g (fun _ _ => Commute.all _ _))
@@ -193,13 +193,11 @@ private theorem map_tensorProductSubmodule_mem {Q : Type u} [CommRing Q]
   clear hz
   refine (map_add ψ x y) ▸ K.add_mem ?_ ?_
   · obtain ⟨w, rfl⟩ := hx
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul a c => exact hmul a c ▸ K.mul_mem_right _ (hP a a.2)
     | add x y hx hy => simpa only [map_add] using K.add_mem hx hy
   · obtain ⟨w, rfl⟩ := hy
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul a c => exact hmul a c ▸ K.mul_mem_left _ (hO c c.2)
     | add x y hx hy => simpa only [map_add] using K.add_mem hx hy
 
@@ -321,7 +319,6 @@ spectrum. -/
 private theorem continuousHom_injective_formalSpectrumMap {D : QuotientSystem 𝔅 S hS A}
     {E : QuotientSystem 𝔅 S hS C} (hA : TopologicalRing.IsWeaklyAdmissible A)
     (hC : TopologicalRing.IsWeaklyAdmissible C)
-    (hD : IsAffineFormalAlgebraicSpace 𝔅 S hS (formalSpectrum D))
     {u v : ContinuousHom D E} (h : formalSpectrumMap hA u = formalSpectrumMap hA v) : u = v :=
   (existsUnique_continuousHom_formalSpectrumMap_eq hA hC
     (formalSpectrumMap hA v)).unique h rfl
@@ -332,11 +329,10 @@ private theorem comp_eq_of_formalSpectrumMap_comp_eq [IsTopologicalRing T] [IsLi
     {D : QuotientSystem 𝔅 S hS A} {E : QuotientSystem 𝔅 S hS C} {F : QuotientSystem 𝔅 S hS T}
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (hT : TopologicalRing.IsWeaklyAdmissible T)
-    (hD : IsAffineFormalAlgebraicSpace 𝔅 S hS (formalSpectrum D))
     (w : ContinuousHom D E) (d : ContinuousHom E F) (m : ContinuousHom D F)
     (h : formalSpectrumMap hC d ≫ formalSpectrumMap hA w = formalSpectrumMap hA m) :
     ContinuousHom.comp hC hA d w = m :=
-  continuousHom_injective_formalSpectrumMap hA hT hD
+  continuousHom_injective_formalSpectrumMap hA hT
     ((formalSpectrumMap_comp hA hC w d _ rfl).symm.trans h)
 
 end ContinuousHoms
@@ -426,11 +422,11 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
     (UniformSpace.Completion.coeRingHom : (A ⊗[C] B) →+* T).comp
       ((Algebra.TensorProduct.includeRight : B →ₐ[C] A ⊗[C] B).toRingHom)
   have haToTcont : Continuous aToT := by
-    show Continuous (fun a : A => ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T))
+    change Continuous (fun a : A => ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[C] B)).comp
       (TopologicalRing.continuous_tmul_const (R := C) (M := A) (N := B) (1 : B))
   have hbToTcont : Continuous bToT := by
-    show Continuous (fun b : B => (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T))
+    change Continuous (fun b : B => (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[C] B)).comp
       (TopologicalRing.continuous_const_tmul (R := C) (M := A) (N := B) (1 : A))
   have hbase : aToT.comp (algebraMap C A) = bToT.comp (algebraMap C B) := by
@@ -442,7 +438,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   let bToTAlg : B →ₐ[C] T :=
     { toRingHom := bToT
       commutes' := fun c => by
-        show bToT (algebraMap C B c) = cToT c
+        change bToT (algebraMap C B c) = cToT c
         exact congrArg (fun φ : C →+* T => φ c) hbase.symm }
   let coeT : (A ⊗[C] B) →+* T := UniformSpace.Completion.coeRingHom
   have hmul_include (a : A) (b : B) : aToT a * bToT b = coeT (a ⊗ₜ[C] b) := by
@@ -459,7 +455,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   let coeTAlg : (A ⊗[C] B) →ₐ[C] T :=
     { toRingHom := coeT
       commutes' := fun c => by
-        show coeT (algebraMap C (A ⊗[C] B) c) = cToT c
+        change coeT (algebraMap C (A ⊗[C] B) c) = cToT c
         simp [coeT, aToT, cToT, Algebra.TensorProduct.algebraMap_apply] }
   let I₀ : Ideal A := hA.1.choose
   have hI₀ : TopologicalRing.IsWeakIdealOfDefinition I₀ := hA.1.choose_spec
@@ -494,13 +490,12 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
     have hψeq : (Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)).toRingHom =
         (Ideal.Quotient.mk L.1).comp coeT := by
       refine RingHom.ext fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul a b =>
-          show Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)
+          change Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)
             (a ⊗ₜ[C] b) = _
           rw [Algebra.TensorProduct.lift_tmul]
-          show Ideal.Quotient.mk L.1 (aToT a) * Ideal.Quotient.mk L.1 (bToT b) =
+          change Ideal.Quotient.mk L.1 (aToT a) * Ideal.Quotient.mk L.1 (bToT b) =
             Ideal.Quotient.mk L.1 (coeT (a ⊗ₜ[C] b))
           rw [← map_mul]
           exact congrArg (Ideal.Quotient.mk L.1) (hmul_include a b)
@@ -510,23 +505,23 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
       intro z
       obtain ⟨x, hx⟩ := surjective_quotientMk_coe (R := A ⊗[C] B) L.2.1 z
       refine ⟨(x : A ⊗[C] B), ?_⟩
-      show (Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)).toRingHom x = _
+      change (Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)).toRingHom x = _
       rw [hψeq]
       exact hx
     have hIzero : ∀ a ∈ (pair L).1, fQ a = 0 := by
       intro a ha
-      show Ideal.Quotient.mk L.1 (aToT a) = 0
+      change Ideal.Quotient.mk L.1 (aToT a) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (pair_le L (tensorProductSubmodule_includeLeft_mem
         (R := C) (I := (pair L).1) (J := (pair L).2) ha))
     have hJzero : ∀ b ∈ (pair L).2, gQ b = 0 := by
       intro b hb
-      show Ideal.Quotient.mk L.1 (bToT b) = 0
+      change Ideal.Quotient.mk L.1 (bToT b) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (pair_le L (tensorProductSubmodule_includeRight_mem
         (R := C) (I := (pair L).1) (J := (pair L).2) hb))
     obtain ⟨φ, hfactor, hφ⟩ := exists_tensorQuotientAlgHom fQ gQ hIzero hJzero hψ
     refine ⟨φ, hfactor.trans ?_, hφ⟩
     refine AlgHom.ext fun z => ?_
-    show (Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)).toRingHom z = _
+    change (Algebra.TensorProduct.lift fQ gQ (fun _ _ => Commute.all _ _)).toRingHom z = _
     rw [hψeq]
     rfl
   let stageA : ∀ L : { I : Ideal T // TopologicalRing.IsWeakIdealOfDefinition I },
@@ -557,8 +552,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
       (hI : (pair L).1 ≤ (pair M).1) (hJ : (pair L).2 ≤ (pair M).2) :
       (stageTransition L M hI hJ).comp (quotientMk L) = quotientMk M := by
     refine AlgHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
         simp [stageTransition, quotientMk, Algebra.TensorProduct.map_tmul,
           Ideal.Quotient.factor_mk]
@@ -651,7 +645,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
     ContinuousHom.ofStages DA DT aToT haToTcont (by
       intro L
       refine ⟨stageA L, inf_le_right, ?_⟩
-      show _ = overS L
+      change _ = overS L
       dsimp only [overS]
       rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
       exact congrArg (fun k => Spec.map (CommRingCat.ofHom k) ≫ DA.overS (stageA L))
@@ -693,7 +687,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   obtain ⟨bR, hbR, -⟩ := existsUnique_continuousHom_formalSpectrumMap_eq hB hR
     (eR.inv ≫ pullback.snd f g ≫ eY.hom)
   have hcaR : ContinuousHom.comp hA hC aR cToA = ContinuousHom.comp hB hC bR cToB := by
-    refine continuousHom_injective_formalSpectrumMap hC hR hDCaff ?_
+    refine continuousHom_injective_formalSpectrumMap hC hR ?_
     rw [← formalSpectrumMap_comp hC hA cToA aR (ContinuousHom.comp hA hC aR cToA) rfl,
       ← formalSpectrumMap_comp hC hB cToB bR (ContinuousHom.comp hB hC bR cToB) rfl,
       haR, hbR, hf, hg]
@@ -703,7 +697,7 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   let bAlg : B →ₐ[C] R :=
     { toRingHom := bR.toRingHom
       commutes' := fun c => by
-        show (ContinuousHom.comp hB hC bR cToB).toRingHom c =
+        change (ContinuousHom.comp hB hC bR cToB).toRingHom c =
           (ContinuousHom.comp hA hC aR cToA).toRingHom c
         rw [hcaR] }
   have hl : Continuous (Algebra.TensorProduct.lift aAlg bAlg (fun _ _ => Commute.all _ _)) :=
@@ -717,16 +711,16 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   have htR : Continuous tR := UniformSpace.Completion.continuous_extension
   have hta : tR.comp aToT = aR.toRingHom := by
     ext a
-    show tR ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T) = _
+    change tR ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T) = _
     rw [UniformSpace.Completion.extensionHom_coe]
-    show aAlg a * bAlg 1 = _
+    change aAlg a * bAlg 1 = _
     rw [map_one, mul_one]
     rfl
   have htb : tR.comp bToT = bR.toRingHom := by
     ext b
-    show tR (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T) = _
+    change tR (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T) = _
     rw [UniformSpace.Completion.extensionHom_coe]
-    show aAlg 1 * bAlg b = _
+    change aAlg 1 * bAlg b = _
     rw [map_one, one_mul]
     rfl
   let tHom : ContinuousHom DT DR := ContinuousHom.ofComp' hA aHom aR tR htR hta.symm
@@ -752,13 +746,13 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   obtain ⟨d, hd, -⟩ :=
     existsUnique_continuousHom_formalSpectrumMap_eq hR hTweak (p ≫ eR.hom)
   have hda : d.toRingHom.comp aR.toRingHom = aToT :=
-    congrArg ContinuousHom.toRingHom <| comp_eq_of_formalSpectrumMap_comp_eq hA hR hTweak hDAaff
+    congrArg ContinuousHom.toRingHom <| comp_eq_of_formalSpectrumMap_comp_eq hA hR hTweak
       aR d aHom (by
         rw [hd, haR]
         simp only [p, Category.assoc, Iso.hom_inv_id_assoc, pullback.lift_fst_assoc,
           Iso.inv_hom_id, Category.comp_id])
   have hdb : d.toRingHom.comp bR.toRingHom = bToT :=
-    congrArg ContinuousHom.toRingHom <| comp_eq_of_formalSpectrumMap_comp_eq hB hR hTweak hDBaff
+    congrArg ContinuousHom.toRingHom <| comp_eq_of_formalSpectrumMap_comp_eq hB hR hTweak
       bR d bHom (by
         rw [hd, hbR]
         simp only [p, Category.assoc, Iso.hom_inv_id_assoc, pullback.lift_snd_assoc,
@@ -766,26 +760,25 @@ theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfShe
   have hdt : d.toRingHom.comp tR = RingHom.id T := by
     refine RingHom.ext fun x => ?_
     refine UniformSpace.Completion.induction_on x ?_ ?_
-    · haveI : T2Space T := hTweak.2.2
+    · have : T2Space T := hTweak.2.2
       exact isClosed_eq (d.continuous.comp htR) continuous_id
     · intro z
-      show d.toRingHom (tR (z : T)) = _
+      change d.toRingHom (tR (z : T)) = _
       rw [UniformSpace.Completion.extensionHom_coe]
-      induction z using TensorProduct.induction_on with
-      | zero => simp [UniformSpace.Completion.coe_zero]
+      induction z using TensorProduct.inductionOn with
       | tmul a b =>
-          show d.toRingHom (Algebra.TensorProduct.lift aAlg bAlg
+          change d.toRingHom (Algebra.TensorProduct.lift aAlg bAlg
             (fun _ _ => Commute.all _ _) (a ⊗ₜ[C] b)) = _
           rw [Algebra.TensorProduct.lift_tmul, map_mul]
           have ha : d.toRingHom (aR.toRingHom a) = aToT a := RingHom.congr_fun hda a
           have hb : d.toRingHom (bR.toRingHom b) = bToT b := RingHom.congr_fun hdb b
-          show d.toRingHom (aR.toRingHom a) * d.toRingHom (bR.toRingHom b) = _
+          change d.toRingHom (aR.toRingHom a) * d.toRingHom (bR.toRingHom b) = _
           rw [ha, hb, hmul_include]
           rfl
       | add z w hz hw =>
           simpa only [UniformSpace.Completion.coe_add, map_add] using congrArg₂ (· + ·) hz hw
   have hpq : p ≫ q = 𝟙 _ := by
-    show p ≫ eR.hom ≫ formalSpectrumMap hTweak tHom = _
+    change p ≫ eR.hom ≫ formalSpectrumMap hTweak tHom = _
     rw [← Category.assoc, ← hd, formalSpectrumMap_comp hTweak hR tHom d
       (ContinuousHom.comp hR hTweak d tHom) rfl]
     exact formalSpectrumMap_id hTweak (ContinuousHom.comp hR hTweak d tHom) hdt
@@ -804,7 +797,6 @@ theorem exists_continuousHom_formalSpectrumMap_eq {X Y Z : FppfSheaf 𝔅 S hS}
     (hC : TopologicalRing.IsWeaklyAdmissible C)
     {DA : QuotientSystem 𝔅 S hS A} {DB : QuotientSystem 𝔅 S hS B}
     {DC : QuotientSystem 𝔅 S hS C}
-    (hDCaff : IsAffineFormalAlgebraicSpace 𝔅 S hS (formalSpectrum DC))
     (eX : X ≅ formalSpectrum DA) (eY : Y ≅ formalSpectrum DB) (eZ : Z ≅ formalSpectrum DC)
     (f : X ⟶ Z) (g : Y ⟶ Z) :
     ∃ (cToA : ContinuousHom DC DA) (cToB : ContinuousHom DC DB),

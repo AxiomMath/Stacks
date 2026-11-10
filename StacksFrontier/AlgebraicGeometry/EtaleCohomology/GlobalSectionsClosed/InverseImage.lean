@@ -106,7 +106,7 @@ public def isTerminalOfIsIsoHom {X : Scheme.{u}} (A : X.Etale) [IsIso A.hom] :
   -- Do NOT name `MorphismProperty.Over.homMk` in a simp set: that mints the equation lemma
   -- `CategoryTheory.MorphismProperty.Over.homMk.eq_1` in MATHLIB's namespace, declared by THIS
   -- module, and two modules each minting it are mutually unimportable under the module system.
-  show m.left = B.hom ≫ inv A.hom
+  change m.left = B.hom ≫ inv A.hom
   rw [← hw, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
 /-- Base change along `i : Z ⟶ X` carries a final object of the small étale site of `X` to a

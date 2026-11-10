@@ -131,15 +131,15 @@ private theorem exists_affineOpenFamily_cover (T : BigFppfOver B S hS) :
       (show B.inclusion.obj (Ai i) ⟶ B.inclusion.obj T₀ from U.f i)
   let V : I → BigFppfOver B S hS := fun i => Over.mk (mi i ≫ T.hom)
   let q : ∀ i, V i ⟶ T := fun i => by
-    show Over.mk (mi i ≫ T.hom) ⟶ T
+    change Over.mk (mi i ≫ T.hom) ⟶ T
     exact Over.homMk (mi i)
   refine ⟨I, V, q, ?_, ?_, ?_⟩
   · intro i
-    show IsAffine (U.X i)
+    change IsAffine (U.X i)
     dsimp [U]
     exact isAffine_Spec _
   · intro i
-    show _root_.AlgebraicGeometry.IsOpenImmersion (B.inclusion.map (mi i))
+    change _root_.AlgebraicGeometry.IsOpenImmersion (B.inclusion.map (mi i))
     rw [show B.inclusion.map (mi i) = U.f i from
       B.inclusion.map_preimage
         (show B.inclusion.obj (Ai i) ⟶ B.inclusion.obj T₀ from U.f i)]
@@ -156,7 +156,7 @@ private theorem exists_affineOpenFamily_cover (T : BigFppfOver B S hS) :
         (show B.inclusion.obj (W.X j) ⟶ B.inclusion.obj (Ai (β j)) from e.hom), ?_⟩
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
-      show B.inclusion.map (W.f j) = e.hom ≫ U.f (β j)
+      change B.inclusion.map (W.f j) = e.hom ≫ U.f (β j)
       exact he.symm
     rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     simpa [V, q, T₀] using hbase
@@ -195,7 +195,7 @@ theorem exists_point_factor_of_cover {T : BigFppfOver B S hS} {I : Type u}
   obtain ⟨W, g, z, hg, hz⟩ := exists_point_lift_of_sieve_mem B S hS hcover y
   obtain ⟨i, k, hk⟩ := (Sieve.mem_ofArrows_iff V f g).mp hg
   refine ⟨i, (BigFppfOver.toScheme B S hS).map k z, ?_⟩
-  show ((BigFppfOver.toScheme B S hS).map k ≫ (BigFppfOver.toScheme B S hS).map (f i)) z = y
+  change ((BigFppfOver.toScheme B S hS).map k ≫ (BigFppfOver.toScheme B S hS).map (f i)) z = y
   rw [← Functor.map_comp, hk.symm]
   exact hz
 
@@ -222,7 +222,7 @@ private theorem ofArrows_comp_cover (J : GrothendieckTopology C) {I : Type u} [S
   apply J.superset_covering ?_ (J.pullback_stable g (hW i))
   intro Z k hk
   obtain ⟨j, l, hl⟩ := (Sieve.mem_ofArrows_iff (W i) (q i) (k ≫ g)).mp hk
-  show R (k ≫ (g ≫ p i))
+  change R (k ≫ (g ≫ p i))
   refine (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨⟨i, j⟩, l, ?_⟩
   simpa only [Category.assoc] using congrArg (fun f => f ≫ p i) hl
 
@@ -238,7 +238,7 @@ private theorem exists_summand_of_presheaf_sigma_section {I : Type u} [Small.{u}
   have hz : e.hom s = ⟨i, t⟩ := Sigma.eta (e.hom s)
   refine ⟨i, t, ?_⟩
   have hι : e.hom ((Sigma.ι F i).app (Opposite.op W) t) = ⟨i, t⟩ := by
-    show (((Sigma.ι F i).app (Opposite.op W) ≫ (sigmaObjIso F _).hom) ≫
+    change (((Sigma.ι F i).app (Opposite.op W) ≫ (sigmaObjIso F _).hom) ≫
       (CategoryTheory.Limits.Types.coproductIso _).hom) t = ⟨i, t⟩
     rw [ι_comp_sigmaObjIso_hom, CategoryTheory.Limits.Types.coproductIso_ι_comp_hom]
     rfl
@@ -272,7 +272,7 @@ private theorem locallySurjective_sigma_yoneda_of_cover (J : GrothendieckTopolog
     apply Sigma.hom_ext
     intro i
     dsimp only [e]
-    simp only [Sigma.ι_mapIso_hom_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+    simp only [Sigma.ι_mapIso_hom_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
     exact (shrinkYonedaIsoYoneda.hom.naturality (f i)).symm
   let : Presheaf.IsLocallySurjective J
       (Sigma.desc (fun i => shrinkYoneda.map (f i))) := hsmall
@@ -320,7 +320,7 @@ private theorem locallySurjective_sigma_refinement (J : GrothendieckTopology C) 
           (Sigma.ι (fun j => yoneda.obj (V i j)) j).app (Opposite.op W) =
         (yoneda.map (q i j)).app (Opposite.op W) := by
       funext v
-      show ri.app (Opposite.op W)
+      change ri.app (Opposite.op W)
           ((Sigma.ι (fun j => yoneda.obj (V i j)) j).app (Opposite.op W) v) =
         (yoneda.map (q i j)).app (Opposite.op W) v
       have hh := congrArg (fun a => a.app (Opposite.op W) v) hriComp
@@ -339,7 +339,7 @@ private theorem locallySurjective_sigma_refinement (J : GrothendieckTopology C) 
         (Sigma.ι F i).app (Opposite.op W) ∘
           (yoneda.map (q i j)).app (Opposite.op W) := by
       funext v
-      show r.app (Opposite.op W) ((Sigma.ι G ⟨i, j⟩).app (Opposite.op W) v) =
+      change r.app (Opposite.op W) ((Sigma.ι G ⟨i, j⟩).app (Opposite.op W) v) =
         (Sigma.ι F i).app (Opposite.op W) ((yoneda.map (q i j)).app (Opposite.op W) v)
       have hh := congrArg (fun a => a.app (Opposite.op W) v) hrComp
       simpa only [NatTrans.comp_app, CategoryTheory.comp_apply] using hh
@@ -395,7 +395,7 @@ theorem pullback_family_sieve_cover {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   have hvalue : (b i).app (Opposite.op W) ti = (a.app (Opposite.op W)) g := by
     rw [← hti] at ht
     change ((Sigma.ι F i ≫ f).app (Opposite.op W) ti) = _ at ht
-    rw [Sigma.ι_desc] at ht
+    rw [Sigma.ι_comp_desc] at ht
     simpa [s] using ht.trans (NatTrans.naturality_apply a g.op (𝟙 U)).symm
   have hcompat : yoneda.map g ≫ a = yoneda.map m ≫ b i := by
     apply yonedaEquiv.injective
@@ -436,7 +436,7 @@ private theorem presheaf_etale_yoneda_map_comp (B : BigFppfSite.{u}) (S : Scheme
     MorphismProperty.relative_isStableUnderComposition Pe
   refine MorphismProperty.comp_mem _ _ _ ?_ hφ
   apply (MorphismProperty.relative_map_iff (P := Pe)).2
-  show Etale ((BigFppfOver.toScheme B S hS).map q)
+  change Etale ((BigFppfOver.toScheme B S hS).map q)
   let := hq
   infer_instance
 
@@ -577,7 +577,7 @@ theorem exists_etaleCover_finite_fibre_iff_forall_affine_etale (B : BigFppfSite.
       let z' := (pointsEquivScheme B S hS (W k)).symm z
       have hEq : pointMapU k z' = y := by
         refine injective_pointsToScheme B S hS U ?_
-        show pointsToScheme B S hS U
+        change pointsToScheme B S hS U
             (pointsMap B S hS (yoneda.obj (W k)) (yoneda.map (g k)) z') =
           pointsToScheme B S hS U y
         rw [pointsToScheme_pointsMap_yoneda, pointsToScheme_symm_apply]
@@ -607,7 +607,7 @@ theorem exists_etaleCover_finite_fibre_iff_forall_affine_etale (B : BigFppfSite.
     let : Presheaf.IsLocallySurjective J a := haLocal
     have hcomp : Presheaf.IsLocallySurjective J
         (Sigma.desc (fun i => yoneda.map (q i)) ≫ a) := inferInstance
-    show Presheaf.IsLocallySurjective J (Sigma.desc (fun i => yoneda.map (q i) ≫ a))
+    change Presheaf.IsLocallySurjective J (Sigma.desc (fun i => yoneda.map (q i) ≫ a))
     convert hcomp using 1
     apply Sigma.hom_ext
     intro i

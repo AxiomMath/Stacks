@@ -77,7 +77,8 @@ universe u
 namespace Stacks.EtaleCohomology.OpenImmersionProductSquare
 
 -- `Stacks.EtaleCohomology.smallEtaleDerivedBaseChangeAb`
--- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/BaseChangeCondition.lean:220`)
+-- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/BaseChangeHigher/`
+-- `BaseChangeCondition.lean:220`)
 -- and `Stacks.EtaleCohomology.smallEtaleDerivedGlobalSections`
 -- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedEtale.lean:196`) are formed for the
 -- standard model of the derived categories.
@@ -134,7 +135,7 @@ theorem isIso_higherBaseChangeMapAb_of_isProper_of_isSepClosed
   have hφ : IsIso (DerivedCategory.Plus.ι.map (baseChangeMap sX sU sY j hj 𝓕)) := by
     refine (isIso_iff_forall_isIso_hypercohomology_of_closedPointSupport K
       (pullback.snd sY sX ≫ sX) _ fun z m hz => ?_).2 (hK K X U Y sX sU sY j hj n hn 𝓕 h𝓕)
-    show IsIso ((smallEtaleStalkAb z.hom).map
+    change IsIso ((smallEtaleStalkAb z.hom).map
       ((DerivedCategory.Plus.homologyFunctor _ m).map (baseChangeMap sX sU sY j hj 𝓕)))
     rcases le_or_gt 0 m with hm | hm
     · obtain ⟨k, rfl⟩ := Int.eq_ofNat_of_zero_le hm

@@ -141,7 +141,7 @@ private theorem sectionEquiv_supportStageToCompletion_comp_inclusion (K : Suppor
   let x : C.toFunctor.obj (op U) :=
     ⟨ULift.up (supportStageToAffine B S hS hA f I K),
       supportStage_hasImageIn B S hS hA f I K⟩
-  show ((BigFppfOver.topology B S hS).sheafifyMap C.ι).app (op U)
+  change ((BigFppfOver.topology B S hS).sheafifyMap C.ι).app (op U)
       ((GrothendieckTopology.toSheafify (BigFppfOver.topology B S hS) C.toFunctor).app
         (op U) x) =
     (GrothendieckTopology.toSheafify (BigFppfOver.topology B S hS)
@@ -156,7 +156,7 @@ private theorem sectionEquiv_supportStageToCompletion_comp_inclusion (K : Suppor
     _ = ((C.ι ≫ ηX).app (op U)) x := by
       have hη := congrArg (fun η => η.app (op U))
         (GrothendieckTopology.toSheafify_naturality (BigFppfOver.topology B S hS) C.ι).symm
-      simpa [ηC, ηX, φ, C, x] using congrArg (fun g => g x) hη
+      simp [ηC, ηX, φ, C, x]
     _ = _ := by rfl
 
 /-- The morphism `Spec (A ⧸ K) ⟶ Spec A` of a quotient stage of the completion of `Spec A`
@@ -164,7 +164,7 @@ along `V(I)` is a closed immersion of schemes. -/
 private theorem isClosedImmersion_supportStageToAffine (K : SupportIdeal I) :
     _root_.AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B S hS).map (supportStageToAffine B S hS hA f I K)) := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K.1)))
   exact _root_.AlgebraicGeometry.IsClosedImmersion.spec_of_surjective _
     Ideal.Quotient.mk_surjective

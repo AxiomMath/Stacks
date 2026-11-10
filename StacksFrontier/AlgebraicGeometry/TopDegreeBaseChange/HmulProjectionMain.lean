@@ -143,7 +143,7 @@ theorem mulUpstairs (a : Γ(Y'', W)) (c : Γ((f'' ⁻¹ᵁ W : Scheme), ⊤))
           (map_comp_square (ModuleCat.restrictScalars
               (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                 (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom)
-            (sectionScalar_comp_restrictPullbackRightDerivedPlusIso_inv (h := h) (h' := h')
+            (sectionScalar_comp_restrictPullbackRightDerivedPlusIso_inv (h' := h')
               (preimage_le_preimage_of_isPullback hsq hWV) F' S.d
               ((Scheme.Opens.topIso W).symm.commRingCatIsoToRingEquiv a) c hc)))))
 

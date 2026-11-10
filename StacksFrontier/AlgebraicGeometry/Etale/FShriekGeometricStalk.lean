@@ -154,7 +154,7 @@ theorem geometricFibreLift_naturality
           ((geometricFibreToNeighborhood_snd B f y hy N).trans
             (geometricFibreToNeighborhood_snd B f y hy M).symm))
   apply baseChangeObj_hom_ext
-  show (geometricFibreLift B f y hy N).hom.left ≫
+  change (geometricFibreLift B f y hy N).hom.left ≫
       ((smallEtaleBaseChange B (geometricFibreProj B f y hy)).map
         ((smallEtaleBaseChange B f).map α.1)).hom.left ≫ baseChangeObjProjection B _ _ = _
   rwa [baseChangeObjProjection_naturality, ← Category.assoc, geometricFibreLift_proj,
@@ -269,7 +269,7 @@ theorem mem_zeroOpen_geometricFibreRestriction_iff
       (geometricFibreObj B f y hy).property t).1.base default = z := ht
   have hw : w.1.base default =
       (B.inclusion.map (geometricFibreToNeighborhood B f y hy N)).base z := by
-    show (t.hom ≫ B.inclusion.map (geometricFibreToNeighborhood B f y hy N)).base default = _
+    change (t.hom ≫ B.inclusion.map (geometricFibreToNeighborhood B f y hy N)).base default = _
     rw [Scheme.Hom.comp_base, TopCat.comp_app, ht]
   have key : etaleGerm B (geometricFibreObj B f y hy).obj (geometricFibreObj B f y hy).property t
         (geometricFibreSheaf B f y hy F).obj _ (finalLift B _ _ t)
@@ -341,7 +341,7 @@ def fShriekStalkToPushforwardStalk :
     etaleStalk B Y.obj Y.property y (properSupportSheaf B f F).obj ⟶
       etaleStalk B Y.obj Y.property y (pushforwardPresheaf B f F) :=
   colim.map (Functor.whiskerLeft
-    (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property y)).op
+    (Functor.Elements.π (geometricPointFiber B Y.obj Y.property y)).op
     (properSupportSheafInclusion B f F).hom)
 
 /-- On the colimit injection at an étale neighbourhood `(V, v̄)`, the stalk of `f_!F ⟶ f_*F` is
@@ -471,7 +471,7 @@ theorem fShriekStalkToCompactSections_injective :
   rw [← etaleGerm_openObjectLift B Y.obj Y.property y _ W q U hv]
   have hres : (properSupportSheaf B f F).obj.map (openObjectι B Y.obj Y.property W U).op a = 0 := by
     apply Subtype.ext
-    show F.obj.map ((smallEtaleBaseChange B f).map (openObjectι B Y.obj Y.property W U)).op s = 0
+    change F.obj.map ((smallEtaleBaseChange B f).map (openObjectι B Y.obj Y.property W U)).op s = 0
     rw [map_eq_zero_iff_range_subset_zeroOpen, range_baseChangeObjMap, openObjectι_range]
     intro x hx
     by_contra hxZ

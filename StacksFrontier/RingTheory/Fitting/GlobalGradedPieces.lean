@@ -301,7 +301,7 @@ theorem localized_comap_subtype (q : Submonoid R) (N P : Submodule R M) :
     refine ⟨⟨((c : R) * (s' : R)) • m, hmemP⟩, N.smul_mem _ hm, c * s' * s, ?_⟩
     rw [IsLocalizedModule.mk'_eq_iff]
     apply Subtype.ext
-    show (LocalizedModule.mkLinearMap q M) (((c : R) * (s' : R)) • m) = _
+    change (LocalizedModule.mkLinearMap q M) (((c : R) * (s' : R)) • m) = _
     rw [map_smul, hs]
     simp [Submonoid.smul_def, mul_smul]
 
@@ -366,7 +366,7 @@ theorem fittingIdeal_pi_quotient_span_singleton (r : ℕ) (a : R) (k : ℕ) :
     rw [fittingIdeal_eq_of_linearEquiv
         (subsingletonEquiv ((Fin r → R) ⧸ (1 : Matrix (Fin r) (Fin r) R).columnSpan)
           (Fin 0 → R)) k,
-      fittingIdeal_fin_eq_bot_or_top 0 (k : ℤ), if_neg (by push_cast; omega)]
+      fittingIdeal_fin_eq_bot_or_top 0 (k : ℤ), ite_eq_right (by push_cast; omega)]
   rw [← fittingIdeal_eq_of_linearEquiv (Stacks.ScaledPresentation.quotSmulEquivFree r a) k, hcol,
     fittingIdeal_quotient_span_smul 1 a k, hfitone, Ideal.mul_top]
 
@@ -407,7 +407,7 @@ theorem isTorsionBy_gradedQuot_decr (e : ℕ → R) (n i : ℕ) :
   have hco : ((e (i + 1) • x : ↥(decr M e n (i + 1))) : M) = e (i + 1) • (x : M) := rfl
   rw [hco]
   rcases le_or_gt (i + 1) n with hi | hi
-  · show divisorProd e n (i + 2) • (e (i + 1) • (x : M)) = 0
+  · change divisorProd e n (i + 2) • (e (i + 1) • (x : M)) = 0
     rw [smul_smul, mul_comm (divisorProd e n (i + 2)) (e (i + 1)), ← divisorProd_succ e hi, hx]
   · have hone : divisorProd e n (i + 1) = 1 := divisorProd_of_lt e (by omega)
     rw [hone, one_smul] at hx
@@ -550,7 +550,7 @@ theorem isFiniteLocallyFreeOfRank_of_fittingIdeal_eq_pow [Module.Finite R G]
   have hpred : fittingIdeal (R := R ⧸ Ideal.span {a}) (M := G) ((r : ℤ) - 1) = ⊥ := by
     rcases Nat.eq_zero_or_pos r with hr | hr
     · rw [hr]
-      rw [fittingIdeal, if_pos (by omega)]
+      rw [fittingIdeal, ite_eq_left (by omega)]
     · obtain ⟨s, rfl⟩ : ∃ s, r = s + 1 := ⟨r - 1, by omega⟩
       rw [show ((s + 1 : ℕ) : ℤ) - 1 = (s : ℤ) from by omega,
         fittingIdeal_quotient_eq_map hT s, hfit s,

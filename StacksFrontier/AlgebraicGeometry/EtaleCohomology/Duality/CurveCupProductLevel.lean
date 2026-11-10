@@ -194,6 +194,7 @@ theorem natCard_ext_two_restrict {N m : ℕ} [NeZero N] (hm : m ∣ N) (hmk : Is
   (Nat.card_congr (Equiv.ofBijective _ (extMap_bijective X hm (unitSheaf m) 2))).symm.trans
     (Stacks.Kummer.natCard_ext_two_constantModuleSheaf_of_smoothProperCurve f hmk hdiv)
 
+omit [IsProper f] in
 include f in
 /-- `H³(X, ℤ/m) = 0`, read as `Ext³_{ℤ/N}(ℤ/N_X, ℤ/m_X)` for `m ∣ N`. -/
 theorem subsingleton_ext_three_restrict {N m : ℕ} [NeZero N] (hm : m ∣ N)
@@ -265,7 +266,7 @@ theorem injective_two_and_surjective_one {N d e : ℕ} [NeZero N] (hde : d * e =
   refine ⟨hinj, fun y => ?_⟩
   have hδ : y.comp hS.extClass (rfl : 1 + 1 = 2) = 0 := by
     apply hinj
-    show (y.comp hS.extClass rfl).comp (Ext.mk₀ S.f) (add_zero 2) =
+    change (y.comp hS.extClass rfl).comp (Ext.mk₀ S.f) (add_zero 2) =
       (0 : Ext (unitSheaf (X := X) N) S.X₁ 2).comp (Ext.mk₀ S.f) (add_zero 2)
     rw [Ext.zero_comp, Ext.comp_assoc_of_third_deg_zero, hS.extClass_comp, Ext.comp_zero]
   exact Ext.covariant_sequence_exact₃ _ hS y rfl hδ
@@ -385,7 +386,7 @@ theorem exists_comp_ne_zero_of_ne_zero (hℓ : IsUnit (ℓ : k))
   have hne : y.comp (ℓ ^ j • a) (rfl : 1 + 1 = 2) ≠ 0 := by
     rw [← hb', ← Ext.comp_assoc_of_third_deg_zero]
     refine fun h0 => hne₂ (hinj ?_)
-    show _ = Ext.comp 0 _ _
+    change _ = Ext.comp 0 _ _
     rwa [Ext.zero_comp]
   refine ⟨y, fun h0 => hne ?_⟩
   rw [comp_nsmul]

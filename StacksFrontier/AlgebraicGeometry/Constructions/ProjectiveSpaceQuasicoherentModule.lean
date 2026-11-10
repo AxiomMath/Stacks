@@ -311,7 +311,7 @@ theorem homogeneousMul_add_app {e : ℕ} {a b : S} (ha : a ∈ 𝒮 e) (hb : b �
         ((homogeneousMul 𝒮 hb d k hk).val.app (op U)).hom s := by
   apply Subtype.ext
   funext x
-  show (LocalizedModule.map _ (mulLinearMap (a + b))) (s.1 x) =
+  change (LocalizedModule.map _ (mulLinearMap (a + b))) (s.1 x) =
     (LocalizedModule.map _ (mulLinearMap a)) (s.1 x) +
       (LocalizedModule.map _ (mulLinearMap b)) (s.1 x)
   rw [mulLinearMap_add, map_add, LinearMap.add_apply]
@@ -322,7 +322,7 @@ theorem homogeneousMul_zero_app {e : ℕ} (h0 : (0 : S) ∈ 𝒮 e) (d k : ℤ) 
     ((homogeneousMul 𝒮 h0 d k hk).val.app (op U)).hom s = 0 := by
   apply Subtype.ext
   funext x
-  show (LocalizedModule.map _ (mulLinearMap (0 : S))) (s.1 x) = 0
+  change (LocalizedModule.map _ (mulLinearMap (0 : S))) (s.1 x) = 0
   rw [mulLinearMap_zero, map_zero, LinearMap.zero_apply]
 
 /-! ### Multiplication on the twists of a sheaf of modules -/

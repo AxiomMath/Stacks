@@ -516,7 +516,7 @@ private lemma isIso_triangle_front_of_biprod_desc {C : Type u} [Category C] [Pre
   let T' := Pretriangulated.binaryBiproductTriangle A Z
   let q : A ⊞ B ⟶ A ⊞ Z := biprod.lift biprod.fst d
   have hq : IsIso q := by
-    show IsIso (biprod.lift biprod.fst d)
+    change IsIso (biprod.lift biprod.fst d)
     rw [hd]
     let r : A ⊞ Z ⟶ A ⊞ B :=
       biprod.desc (biprod.lift (𝟙 A) (a ≫ inv b)) ((-(inv b)) ≫ biprod.inr)
@@ -535,19 +535,19 @@ private lemma isIso_triangle_front_of_biprod_desc {C : Type u} [Category C] [Pre
   have hfd : f ≫ d = 0 := comp_distTriang_mor_zero₁₂ T hT
   let φ : T ⟶ T' := Triangle.homMk T T' (T.mor₁ ≫ biprod.fst) q (𝟙 _)
     (by
-      show f ≫ q = (f ≫ biprod.fst) ≫ biprod.inl
+      change f ≫ q = (f ≫ biprod.fst) ≫ biprod.inl
       apply biprod.hom_ext
       · simp [q]
       · simp [q, hfd])
     (by
-      show d ≫ 𝟙 Z = q ≫ biprod.snd
+      change d ≫ 𝟙 Z = q ≫ biprod.snd
       simpa only [Category.comp_id] using hqSnd.symm)
     (by
-      show δ ≫ (f ≫ biprod.fst)⟦(1 : ℤ)⟧' = 𝟙 Z ≫ 0
+      change δ ≫ (f ≫ biprod.fst)⟦(1 : ℤ)⟧' = 𝟙 Z ≫ 0
       simp [hz])
   exact Pretriangulated.isIso₁_of_isIso₂₃ φ hT
     (Pretriangulated.binaryBiproductTriangle_distinguished A Z) hq (by
-      show IsIso (𝟙 Z)
+      change IsIso (𝟙 Z)
       infer_instance)
 
 private lemma isIso_triangle_snd_of_biprod_desc {C : Type u} [Category C] [Preadditive C]
@@ -597,7 +597,7 @@ private lemma restrictedPushforwardRestrictionMap_isIso {X U V W : RingedSpace.{
     exact IsIso.of_isIso_comp_right ((derivedRestrict iV).map η)
       (adj.counit.app ((derivedRestrict iV).obj B))
   have hη' : IsIso ((derivedRestrict iV ⋙ derivedPush iU).map η) := by
-    show IsIso ((derivedPush iU).map ((derivedRestrict iV).map η))
+    change IsIso ((derivedPush iU).map ((derivedRestrict iV).map η))
     infer_instance
   have hnat := α.hom.naturality η
   have hnat' : ((RV ⋙ derivedRestrict jU).map η) ≫
@@ -610,7 +610,7 @@ private lemma restrictedPushforwardRestrictionMap_isIso {X U V W : RingedSpace.{
     rw [← hnat'] at hcomp
     exact IsIso.of_isIso_comp_right ((RV ⋙ derivedRestrict jU).map η)
       (α.hom.app ((derivedPush iV).obj ((derivedRestrict iV).obj B)))
-  show IsIso ((derivedRestrict jU).map (RV.map η ≫
+  change IsIso ((derivedRestrict jU).map (RV.map η ≫
     (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforwardCompIso iV jV).hom.app
       ((derivedRestrict iV).obj B)))
   rw [Functor.map_comp]
@@ -1007,12 +1007,12 @@ private theorem exists_glueingFibre {X U V W : RingedSpace.{u, u}} (jU : U ⟶ X
         (by dsimp [TV']; exact Category.comp_id _)
         (by unfold TV'; simp)
   have hdU : mU.inv ≫ TU.mor₂ = biprod.desc (LU.map aU) (-(LU.map aV)) := by
-    show mU.inv ≫ LU.map d = _
+    change mU.inv ≫ LU.map d = _
     simpa [mU, d, glueingDifference, aU, aV] using
       biprod.mapBiprod_inv_map_desc (F := LU) ((derivedPush jU).obj A)
         ((derivedPush jV).obj B) aU (-aV)
   have hdV : mV.inv ≫ TV.mor₂ = biprod.desc (LV.map aU) (-(LV.map aV)) := by
-    show mV.inv ≫ LV.map d = _
+    change mV.inv ≫ LV.map d = _
     simpa [mV, d, glueingDifference, aU, aV] using
       biprod.mapBiprod_inv_map_desc (F := LV) ((derivedPush jU).obj A)
         ((derivedPush jV).obj B) aU (-aV)
@@ -1242,7 +1242,7 @@ theorem isZero_of_restrict_isZero {X U V : RingedSpace.{u, u}} (jU : U ⟶ X) (j
     IsZero K := by
   have hUV : immImage jU ⊔ immImage jV = ⊤ := by
     ext x
-    show x ∈ Set.range jU.hom.base ∪ Set.range jV.hom.base ↔ x ∈ Set.univ
+    change x ∈ Set.range jU.hom.base ∪ Set.range jV.hom.base ↔ x ∈ Set.univ
     simpa using congrArg (fun s : Set X.carrier => x ∈ s) cover
   obtain ⟨rU, rV, dU, dV, δ, hTri⟩ :=
     unboundedRelativeMayerVietoris (𝟙 X) (immImage jU) (immImage jV) hUV
@@ -1491,7 +1491,7 @@ theorem eq_zero_of_restrict_eq_zero {X U V W : RingedSpace.{u, u}} (jU : U ⟶ X
       exact comp_factorisation_unit_eq_zero jV φ ι _ hsnd hV
   obtain ⟨g, hg⟩ := Pretriangulated.Triangle.coyoneda_exact₁ _ hT ((φ ≫ ι)⟦(1 : ℤ)⟧')
     (by
-      show (φ ≫ ι)⟦(1 : ℤ)⟧' ≫ f₀⟦(1 : ℤ)⟧' = 0
+      change (φ ≫ ι)⟦(1 : ℤ)⟧' ≫ f₀⟦(1 : ℤ)⟧' = 0
       rw [← Functor.map_comp, h0, Functor.map_zero])
   have hg0 : g = 0 := by
     rw [← ((derivedAdjunction (iV ≫ jV)).homEquiv _ _).apply_symm_apply g,
@@ -1499,7 +1499,7 @@ theorem eq_zero_of_restrict_eq_zero {X U V W : RingedSpace.{u, u}} (jU : U ⟶ X
       Adjunction.homEquiv_unit, Functor.map_zero, comp_zero]
   have hψ : (φ ≫ ι)⟦(1 : ℤ)⟧' = 0 := by
     rw [hg]
-    show g ≫ δ = 0
+    change g ≫ δ = 0
     rw [hg0, zero_comp]
   have hψ' : φ ≫ ι = 0 :=
     (shiftFunctor (DerivedModules X) (1 : ℤ)).map_injective (by rw [hψ, Functor.map_zero])

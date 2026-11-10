@@ -333,7 +333,7 @@ public lemma sheafPullbackIso_unit (F : Sheaf J A) (U : Cᵒᵖ) :
   trans ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous a A J K).unit.app
     F).hom.app U
   · exact h
-  show ((sheafToPresheaf J A).map
+  change ((sheafToPresheaf J A).map
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous a A J K).unit.app F)).app U = _
   delta Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
   rw [Adjunction.map_restrictFullyFaithful_unit_app]
@@ -442,7 +442,7 @@ public lemma le_inverseImage_of_hom (S : Scheme.{u}) (T : Over S)
   intro x hx
   have h := congrArg (fun q : (Scheme.Opens.toScheme (X := T.left) V) ⟶ S => q ⟨x, hx⟩) (Over.w f)
   change (Scheme.Opens.ι (X := S) U) (f.left ⟨x, hx⟩) = T.hom x at h
-  show T.hom x ∈ U
+  change T.hom x ∈ U
   rw [← h]
   exact (f.left ⟨x, hx⟩).property
 
@@ -480,7 +480,7 @@ public theorem relativeOpensSquare_exact (S : Scheme.{u}) (T : Over S) :
       (Iso.refl _) ?_⟩⟩
     exact Quiver.Hom.unop_inj (over_hom_ext_restrictFunctor _ _)⟩
   have : K.IsEquivalence := {}
-  show K.Final
+  change K.Final
   infer_instance
 
 attribute [local instance] relativeOpensSquare_exact
@@ -679,7 +679,7 @@ public lemma extensionRestrictionIso_naturality_app (S : Scheme.{u}) {T T' : Ove
   refine Eq.trans ?_ (Eq.symm ((Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ _) (extensionRestrictionIso_unit S T' F U)).trans (Category.assoc _ _ _))))
   congr 1
-  show _ = (extension S F).obj.map _ ≫ (extension S F).obj.map _
+  change _ = (extension S F).obj.map _ ≫ (extension S F).obj.map _
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
   exact Quiver.Hom.unop_inj (over_hom_ext_restrictFunctor _ _)
@@ -700,7 +700,7 @@ public lemma extensionRestrictionIso_naturality (S : Scheme.{u}) {T T' : Over S}
     (Opens.grothendieckTopology S) (Opens.grothendieckTopology T.left)
   apply (adj.homEquiv _ _).injective
   rw [Adjunction.homEquiv_naturality_right, Adjunction.homEquiv_naturality_right]
-  show _ = adj.homEquiv _ _ (inverseImageSheafMap S g F) ≫ _
+  change _ = adj.homEquiv _ _ (inverseImageSheafMap S g F) ≫ _
   dsimp only [inverseImageSheafMap]
   rw [Equiv.apply_symm_apply, Adjunction.homEquiv_unit]
   apply Sheaf.hom_ext
@@ -809,7 +809,7 @@ public theorem extension_sections_naturality
     (Iso.eq_comp_inv eT').2 <| by
       rw [Category.assoc, ← hn]
       exact eT.inv_hom_id_assoc _
-  show (P.obj.map (relativeOpensTopIso S T).hom.op ≫ eT.inv ≫ qT.inv) ≫
+  change (P.obj.map (relativeOpensTopIso S T).hom.op ≫ eT.inv ≫ qT.inv) ≫
       (qT.hom ≫ m ≫ qT'.inv) =
     P.obj.map g.op ≫ P.obj.map (relativeOpensTopIso S T').hom.op ≫ eT'.inv ≫ qT'.inv
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
@@ -820,7 +820,7 @@ public theorem extension_sections_naturality
   have hgeom : (relativeOpensTransition S g).app ⊤ ≫ (relativeOpensTopIso S T).hom =
       (relativeOpensTopIso S T').hom ≫ g := by
     apply Over.OverMorphism.ext
-    show (g.left.resLE ⊤ _ (map_forgetToTop_obj_le_preimage g.left ⊤)) ≫
+    change (g.left.resLE ⊤ _ (map_forgetToTop_obj_le_preimage g.left ⊤)) ≫
         (Scheme.Opens.ι (X := T.left) ⊤) =
       (Scheme.Opens.ι (X := T'.left) ⊤) ≫ g.left
     exact g.left.resLE_comp_ι (map_forgetToTop_obj_le_preimage g.left ⊤)

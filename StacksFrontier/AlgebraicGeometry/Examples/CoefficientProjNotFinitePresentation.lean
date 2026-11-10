@@ -112,7 +112,7 @@ theorem chartEval_mk (hKj : ∀ k : ℕ, K (Finsupp.single j k) ≤ I) (n : ℕ)
     chartEval K j I hKj (Away.mk (projGrading K) (mkX_mem_one K j) n b hb) =
       quotientEval K j I hKj b := by
   rw [chartEval, RingHom.comp_apply]
-  show Localization.awayLift _ _ _ (Away.mk (projGrading K) (mkX_mem_one K j) n b hb).val = _
+  change Localization.awayLift _ _ _ (Away.mk (projGrading K) (mkX_mem_one K j) n b hb).val = _
   rw [Away.val_mk, Localization.awayLift_mk (quotientEval K j I hKj).toRingHom (mkX K j) b 1
     (by rw [mul_one]; exact quotientEval_mkX K j I hKj) n, one_pow, mul_one]
   rfl
@@ -160,13 +160,13 @@ theorem chartHom_eq :
           (MvPolynomial.rename ((finSuccAboveEquiv j : Fin m ≃ _) ·) :
             MvPolynomial (Fin m) R →ₐ[R] MvPolynomial {x : Fin (m + 1) // x ≠ j} R).toRingHom) := by
   refine MvPolynomial.ringHom_ext (fun r => ?_) (fun k => ?_)
-  · show chartHom K j (C r) = Away.map (quotientMkGraded K) (X j)
+  · change chartHom K j (C r) = Away.map (quotientMkGraded K) (X j)
       (Stacks.SymmetricAway.toChart j (MvPolynomial.rename _ (C r)))
     rw [MvPolynomial.algHom_C, algebraMap_chart_eq, rename_C, Stacks.SymmetricAway.toChart_C,
       Stacks.SymmetricAway.algebraMap_eq_mkChart]
     simp only [Stacks.SymmetricAway.mkChart, Away.map_mk]
     rfl
-  · show chartHom K j (X k) = Away.map (quotientMkGraded K) (X j)
+  · change chartHom K j (X k) = Away.map (quotientMkGraded K) (X j)
       (Stacks.SymmetricAway.toChart j (MvPolynomial.rename _ (X k)))
     rw [chartHom_X, rename_X, Stacks.SymmetricAway.toChart_X]
     simp only [Stacks.SymmetricAway.mkChart, Away.map_mk]
@@ -195,10 +195,10 @@ theorem chartEval_comp_chartHom (hKj : ∀ k : ℕ, K (Finsupp.single j k) ≤ I
     (chartEval K j I hKj).comp (chartHom K j).toRingHom =
       (Ideal.Quotient.mk I).comp (evalZero (m := m) (R := R)).toRingHom := by
   refine MvPolynomial.ringHom_ext (fun r => ?_) (fun k => ?_)
-  · show chartEval K j I hKj (chartHom K j (C r)) = Ideal.Quotient.mk I (evalZero (C r))
+  · change chartEval K j I hKj (chartHom K j (C r)) = Ideal.Quotient.mk I (evalZero (C r))
     rw [MvPolynomial.algHom_C, algebraMap_chart_eq, chartEval_mk, evalZero, aeval_C]
     simp [AlgHom.commutes, Ideal.Quotient.algebraMap_eq]
-  · show chartEval K j I hKj (chartHom K j (X k)) = Ideal.Quotient.mk I (evalZero (X k))
+  · change chartEval K j I hKj (chartHom K j (X k)) = Ideal.Quotient.mk I (evalZero (X k))
     rw [chartHom_X, chartEval_mk, evalZero, aeval_X, map_zero, mkX, quotientEval_mk,
       evalAway_X, ite_eq_right (Fin.succAbove_ne j k)]
 

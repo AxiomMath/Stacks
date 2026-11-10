@@ -113,7 +113,7 @@ theorem order_conj (e : M ≃ₗ[S] N) (e' : M' ≃ₗ[S] N') :
   induction k with
   | zero =>
     intro D hD g n
-    show e' (D (e.symm (g • n))) = g • e' (D (e.symm n))
+    change e' (D (e.symm (g • n))) = g • e' (D (e.symm n))
     rw [map_smul, hD g, map_smul]
   | succ k ih =>
     intro D hD g

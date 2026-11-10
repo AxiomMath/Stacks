@@ -73,7 +73,8 @@ The limit construction is stated for an arbitrary diagram, not only for a kernel
 finite products of the category are an instance of it as well: there the required preservation is
 free, an additive functor preserving finite products.  It is the exact dual of
 `AlgebraicGeometry.Space.QuasicoherentModule.colimitTransition` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/QuasicoherentColimits.lean`, whose shape universes
+`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/QuasicoherentColimits.lean`, whose shape
+universes
 are those of the schemes and so does not cover the two-object shape of a cokernel; the cokernel is
 therefore built here directly on a cofork, which is also what makes the forgetful functor's
 preservation of it immediate.

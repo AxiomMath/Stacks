@@ -176,13 +176,13 @@ private noncomputable def transportModules_unitIso
           toFun := id
           map_add' := fun _ _ => rfl
           map_smul' := fun a element => by
-            show a • element = e A ((e A).symm a) • element
+            change a • element = e A ((e A).symm a) • element
             rw [RingEquiv.apply_symm_apply] }
         inv := ModuleCat.ofHom (X := (G.obj M).val.obj A) (Y := M.val.obj A) {
           toFun := id
           map_add' := fun _ _ => rfl
           map_smul' := fun a element => by
-            show e A ((e A).symm a) • (show M.val.obj A from element) =
+            change e A ((e A).symm a) • (show M.val.obj A from element) =
               a • (show M.val.obj A from element)
             rw [RingEquiv.apply_symm_apply] } }
     · intro A B f; ext element; rfl
@@ -260,7 +260,7 @@ private theorem hasPresentation_map
     refine Cofan.IsColimit.mk _ (fun cone => Cofan.IsColimit.desc hc
       (fun i => unitIso.hom ≫ cone.inj i)) ?_ ?_
     · intro cone i
-      show (unitIso.inv ≫ F.map (maps i)) ≫ _ = _
+      change (unitIso.inv ≫ F.map (maps i)) ≫ _ = _
       have hfac := Cofan.IsColimit.fac hc
         (fun i => unitIso.hom ≫ cone.inj i) i
       dsimp at hfac
@@ -430,7 +430,7 @@ private theorem extendScalars_map_exact_lifted
     (T.map (ModuleCat.extendScalars.{r, r, max r m} f)).Exact := by
   algebraize [f]
   rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
-  show Function.Exact (LinearMap.lTensor S T.f.hom) (LinearMap.lTensor S T.g.hom)
+  change Function.Exact (LinearMap.lTensor S T.f.hom) (LinearMap.lTensor S T.g.hom)
   let : Module.Flat R S := hf
   exact Module.Flat.lTensor_exact S hT
 

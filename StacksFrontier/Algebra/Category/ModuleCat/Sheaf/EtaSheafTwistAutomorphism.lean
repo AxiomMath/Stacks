@@ -119,10 +119,10 @@ theorem termHom_symm_termHom (θ : EtaTwist X I ι F) (n : ℤ) :
     θ.termHom n ≫ θ.symm.termHom n = 𝟙 _ := by
   refine pullback.hom_ext ?_ ?_
   · rw [Category.assoc, termHom_fst, ← Category.assoc, termHom_fst, Category.assoc]
-    show etaFst X I ι F n ≫ (θ.cur n).hom ≫ (θ.cur n).inv = _
+    change etaFst X I ι F n ≫ (θ.cur n).hom ≫ (θ.cur n).inv = _
     rw [Iso.hom_inv_id, Category.comp_id, Category.id_comp]
   · rw [Category.assoc, termHom_snd, ← Category.assoc, termHom_snd, Category.assoc]
-    show etaSnd X I ι F n ≫ (θ.cur (n + 1)).hom ≫ (θ.cur (n + 1)).inv = _
+    change etaSnd X I ι F n ≫ (θ.cur (n + 1)).hom ≫ (θ.cur (n + 1)).inv = _
     rw [Iso.hom_inv_id, Category.comp_id, Category.id_comp]
 
 /-- The inverse of the inverse twist is the original twist. -/
@@ -141,11 +141,11 @@ theorem termHom_comm (θ : EtaTwist X I ι F) (n : ℤ) :
   refine pullback.hom_ext ?_ ?_
   · rw [Category.assoc, (etaDifferentialData X I ι F hF).d_fst n, termHom_snd,
       Category.assoc]
-    show _ = (etaDifferentialData X I ι F hF).d n ≫
+    change _ = (etaDifferentialData X I ι F hF).d n ≫
       (θ.termHom (n + 1) ≫ etaFst X I ι F (n + 1))
     rw [termHom_fst, ← Category.assoc, (etaDifferentialData X I ι F hF).d_fst n]
   · rw [Category.assoc]
-    show θ.termHom n ≫ ((etaDifferentialData X I ι F hF).d n ≫ etaSnd X I ι F (n + 1)) =
+    change θ.termHom n ≫ ((etaDifferentialData X I ι F hF).d n ≫ etaSnd X I ι F (n + 1)) =
       (etaDifferentialData X I ι F hF).d n ≫ (θ.termHom (n + 1) ≫ etaSnd X I ι F (n + 1))
     rw [etaDifferentialData_d_comp_etaSnd X I ι F hF n, comp_zero, termHom_snd,
       ← Category.assoc, etaDifferentialData_d_comp_etaSnd X I ι F hF n, zero_comp]
@@ -201,10 +201,10 @@ theorem eq_comp_iso_hom (θ : EtaTwist X I ι F)
   refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
   rw [HomologicalComplex.comp_f]
   refine pullback.hom_ext ?_ ?_
-  · show a.f n ≫ etaFst X I ι F n = (b.f n ≫ θ.termHom n) ≫ etaFst X I ι F n
+  · change a.f n ≫ etaFst X I ι F n = (b.f n ≫ θ.termHom n) ≫ etaFst X I ι F n
     exact (hfst n).trans ((congrArg (fun k => b.f n ≫ k) (θ.termHom_fst n).symm).trans
       (Category.assoc _ _ _).symm)
-  · show a.f n ≫ etaSnd X I ι F n = (b.f n ≫ θ.termHom n) ≫ etaSnd X I ι F n
+  · change a.f n ≫ etaSnd X I ι F n = (b.f n ≫ θ.termHom n) ≫ etaSnd X I ι F n
     exact (hsnd n).trans ((congrArg (fun k => b.f n ≫ k) (θ.termHom_snd n).symm).trans
       (Category.assoc _ _ _).symm)
 

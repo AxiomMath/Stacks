@@ -13,7 +13,6 @@ public import StacksCore.Tactic.StacksAttribute
 @[expose] public noncomputable section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 /-!
 # The derived tensor product with a fixed object, above the ring universe
@@ -57,6 +56,8 @@ open CategoryTheory.MonoidalCategory
 variable {R : Type u} [CommRing R]
   [HasDerivedCategory.{w} (ModuleCat.{max u v} R)]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 /-- The derived tensor product with `M`, computed by a K-flat resolution of a representative of
 `M`. -/
 @[stacks 064M, sga "4 XVII 4.1.7" "(i), modules over ring"]
@@ -74,6 +75,8 @@ public noncomputable def derivedTensorProduct
         (CochainComplex.KFlat.kFlat_tright_preserves_quasiIso K hK f hf))
     DerivedCategory.Qh
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 /-- The derived tensor product commutes with the shift functors. -/
 @[stacks 064M]
 public noncomputable instance derivedTensorProduct_commShift
@@ -95,6 +98,8 @@ public noncomputable instance derivedTensorProduct_commShift
     (Tright K ⋙ DerivedCategory.Qh)
     (Localization.lift (Tright K ⋙ DerivedCategory.Qh) h DerivedCategory.Qh)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 /-- The derived tensor product is an exact functor of triangulated categories. -/
 @[stacks 064M]
 public noncomputable instance derivedTensorProduct_isTriangulated
@@ -118,6 +123,8 @@ public noncomputable instance derivedTensorProduct_isTriangulated
     (Tright K ⋙ DerivedCategory.Qh)
     (Localization.lift (Tright K ⋙ DerivedCategory.Qh) h DerivedCategory.Qh)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 /-- The natural transformation `Tright K ⟶ Tright K'` induced by a morphism `a : K ⟶ K'`. -/
 public noncomputable def trightMap
     {K K' : CochainComplex (ModuleCat.{max u v} R) ℤ} (a : K ⟶ K') :
@@ -131,6 +138,8 @@ public noncomputable def trightMap
     exact (HomotopyCategory.quotient (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).congr_map
       (((curriedTensor (ModuleCat.{max u v} R)).map₂CochainComplex.flip.map a).naturality f)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 omit [HasDerivedCategory.{w} (ModuleCat.{max u v} R)] in
 private lemma trightMap_app
     {K K' : CochainComplex (ModuleCat.{max u v} R) ℤ} (a : K ⟶ K')
@@ -140,6 +149,8 @@ private lemma trightMap_app
       (HomotopyCategory.quotient (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).map
         ((TleftCochain L).map a) := rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 /-- The isomorphism in the derived category induced by a quasi-isomorphism of complexes. -/
 private noncomputable def qhIsoOfQuasiIso
     {K L : CochainComplex (ModuleCat.{max u v} R) ℤ} (f : K ⟶ L) (hf : QuasiIso f) :
@@ -152,6 +163,8 @@ private noncomputable def qhIsoOfQuasiIso
     ((HomotopyCategory.quotient (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).map f)
     ((HomotopyCategory.quotient_map_mem_quasiIso_iff f).2 hf)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 private noncomputable def trightIsoOfQuasiIso
     {K K' : CochainComplex (ModuleCat.{max u v} R) ℤ} (a : K ⟶ K') [QuasiIso a]
     (hK : K.KFlat) (hK' : K'.KFlat) :
@@ -165,8 +178,10 @@ private noncomputable def trightIsoOfQuasiIso
           DerivedCategory.Qh.map ((Tright K').map f)
       rw [← Functor.map_comp, ← Functor.map_comp, (trightMap a).naturality])
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 private lemma exists_kFlat_common_source
-    (K K' : CochainComplex (ModuleCat.{max u v} R) ℤ) (hK : K.KFlat) (hK' : K'.KFlat)
+    (K K' : CochainComplex (ModuleCat.{max u v} R) ℤ)
     (e : (DerivedCategory.Qh (C := ModuleCat.{max u v} R)).obj
         ((HomotopyCategory.quotient (ModuleCat.{max u v} R) (ComplexShape.up ℤ)).obj K) ≅
       (DerivedCategory.Qh (C := ModuleCat.{max u v} R)).obj
@@ -198,6 +213,8 @@ private lemma exists_kFlat_common_source
   · exact key s (by rw [hs]; exact φ.hs)
   · exact key g (by rw [hg]; exact hf)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly file-wide: instance search over `ModuleCat.{max u v} R` and its derived category
 set_option maxHeartbeats 16000000 in
 -- The comparison of the two resolutions is expensive to elaborate.
 /-- A K-flat resolution of any representative of `M` computes the derived tensor product.
@@ -237,7 +254,7 @@ public theorem derivedTensorProduct_iso_lift_of_kFlat_resolution
       (CochainComplex.KFlat.kFlat_tright_preserves_quasiIso L hL g hg)
   let i₀ := qhIsoOfQuasiIso f₀ hf₀ ≪≫ DerivedCategory.Qh.objObjPreimageIso M
   let i := qhIsoOfQuasiIso f ‹_› ≪≫ _eP
-  obtain ⟨A, a, b, hA, _, _⟩ := exists_kFlat_common_source K₀ K hK₀ hK (i₀ ≪≫ i.symm)
+  obtain ⟨A, a, b, hA, _, _⟩ := exists_kFlat_common_source K₀ K (i₀ ≪≫ i.symm)
   let β : Tright K₀ ⋙ DerivedCategory.Qh ≅ Tright K ⋙ DerivedCategory.Qh :=
     (trightIsoOfQuasiIso a hA hK₀).symm ≪≫ trightIsoOfQuasiIso b hA hK
   constructor

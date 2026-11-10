@@ -70,7 +70,7 @@ variable {C : Type u} [Category.{v} C] [LocallySmall.{w} C]
 neighbourhoods of a point is additive: on underlying presheaves it is precomposition. -/
 instance additive_pushforward_pi (Φ : J.Point.{w}) (R : Cᵒᵖ ⥤ RingCat.{w}) :
     (PresheafOfModules.pushforward.{w}
-      (F := CategoryOfElements.π Φ.fiber) (R := R) (𝟙 _)).Additive where
+      (F := Functor.Elements.π Φ.fiber) (R := R) (𝟙 _)).Additive where
   map_add := by intros; rfl
 
 /-- The colimit-module functor is additive, being a left adjoint of the constant-presheaf
@@ -83,7 +83,8 @@ instance additive_colimitFunctor (Φ : J.Point.{w}) (R : Cᵒᵖ ⥤ RingCat.{w}
   Adjunction.left_adjoint_additive (PresheafOfModules.colimitAdjunction _)
 
 /-- A composite of additive functors is additive. `Mathlib/CategoryTheory/Preadditive/
-StacksCore/CategoryTheory/Preadditive/AdditiveFunctor.lean` carries the converse directions — additivity of a factor deduced from
+StacksCore/CategoryTheory/Preadditive/AdditiveFunctor.lean` carries the converse directions —
+additivity of a factor deduced from
 additivity of the composite — but not this one, in any form, so the composites below cannot
 be closed by `infer_instance` without it. -/
 instance additive_comp {C₁ C₂ C₃ : Type*} [Category C₁] [Category C₂] [Category C₃]

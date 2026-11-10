@@ -64,7 +64,7 @@ private lemma isProper_subschemeι_comp_comp {X Y S : Scheme.{u}}
 private lemma range_vanishingIdeal_subschemeι_comp {X Y : Scheme.{u}} (f : X ⟶ Y) (Z : Closeds X) :
     Set.range ((Scheme.IdealSheafData.vanishingIdeal Z).subschemeι ≫ f).base =
       f.base '' (Z : Set X) := by
-  show Set.range (f.base ∘ (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι.base) = _
+  change Set.range (f.base ∘ (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι.base) = _
   rw [Set.range_comp, Scheme.IdealSheafData.range_subschemeι,
     Scheme.IdealSheafData.coe_support_vanishingIdeal]
 
@@ -112,9 +112,9 @@ theorem isProperOver_preimage {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S)
   let K : X.IdealSheafData := J.comap f
   have hKsupport : K.support = Z.preimage f.continuous := by
     apply SetLike.coe_injective
-    show ((J.comap f).support : Set X) = (Z.preimage f.continuous : Set X)
+    change ((J.comap f).support : Set X) = (Z.preimage f.continuous : Set X)
     rw [Scheme.IdealSheafData.support_comap]
-    show f ⁻¹' (J.support : Set Y) = f ⁻¹' (Z : Set Y)
+    change f ⁻¹' (J.support : Set Y) = f ⁻¹' (Z : Set Y)
     simp [J, Scheme.IdealSheafData.coe_support_vanishingIdeal]
   have hKtoZ : IsProper ((J.comapIso f).hom ≫ pullback.snd f i) := by
     apply (MorphismProperty.cancel_left_of_respectsIso (P := @IsProper)

@@ -79,7 +79,7 @@ theorem exists_algHom_lift_of_locallyNilpotent {R A B : Type*} [CommRing R] [Com
   have hKI' : RingHom.ker f ≤ RingHom.ker ((Ideal.Quotient.mkₐ R I').comp φ) := by
     rw [← hs, Ideal.span_le]
     intro x hx
-    show Ideal.Quotient.mk I' (φ x) = 0
+    change Ideal.Quotient.mk I' (φ x) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨x, hx, rfl⟩)
   let ψ : A →ₐ[R] B ⧸ I' :=
     (Ideal.Quotient.liftₐ (RingHom.ker f) ((Ideal.Quotient.mkₐ R I').comp φ)
@@ -88,7 +88,7 @@ theorem exists_algHom_lift_of_locallyNilpotent {R A B : Type*} [CommRing R] [Com
   have hψ : ∀ x, ψ (f x) = Ideal.Quotient.mk I' (φ x) := fun x ↦ by
     have : f x = (Ideal.quotientKerAlgEquivOfSurjective hf)
         (Ideal.Quotient.mk (RingHom.ker f) x) := rfl
-    show Ideal.Quotient.liftₐ (R₁ := R) (RingHom.ker f)
+    change Ideal.Quotient.liftₐ (R₁ := R) (RingHom.ker f)
       ((Ideal.Quotient.mkₐ R I').comp φ) (fun x hx ↦ RingHom.mem_ker.mp (hKI' hx))
       ((Ideal.quotientKerAlgEquivOfSurjective hf).symm (f x)) = _
     rw [this, AlgEquiv.symm_apply_apply]
@@ -124,7 +124,7 @@ theorem nonempty_hom_thickening
   let ψ : L.ring →ₐ[baseSectionsRing S] Q.ring ⧸ Q.ring.ideal :=
     { toRingHom := Q.toQuotient.comp (L.equiv.symm.toRingHom.comp (Ideal.Quotient.mk _))
       commutes' := fun a ↦ by
-        show Q.toQuotient (L.equiv.symm (Ideal.Quotient.mk _ (algebraMap _ L.ring a))) = _
+        change Q.toQuotient (L.equiv.symm (Ideal.Quotient.mk _ (algebraMap _ L.ring a))) = _
         rw [← L.equiv_sourceToBase a, RingEquiv.symm_apply_apply, hC]
         rfl }
   obtain ⟨h, hh⟩ := exists_algHom_lift_of_locallyNilpotent Q.ring.ideal
@@ -144,11 +144,11 @@ theorem nonempty_hom_thickening
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (L.equiv c)
   have h1 := AlgHom.congr_fun hh b
   simp only [AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk] at h1
-  show DividedPowerRing.quotientRingHom (DividedPowers.DPMorphism.mk' hDP) (L.equiv c) = _
+  change DividedPowerRing.quotientRingHom (DividedPowers.DPMorphism.mk' hDP) (L.equiv c) = _
   rw [← hb]
-  show Ideal.Quotient.mk Q.ring.ideal (h b) = _
+  change Ideal.Quotient.mk Q.ring.ideal (h b) = _
   rw [h1]
-  show Q.toQuotient (L.equiv.symm (Ideal.Quotient.mk _ b)) = _
+  change Q.toQuotient (L.equiv.symm (Ideal.Quotient.mk _ b)) = _
   rw [hb]
   exact congrArg Q.toQuotient (L.equiv.symm_apply_apply (c : Γ(U, ⊤)))
 

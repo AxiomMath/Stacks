@@ -235,7 +235,7 @@ private theorem homotopyCoproductDesc_fac
     (i : ι) :
     (HomotopyCategory.quotient A).map (Sigma.ι (fun i => (K i).as) i) ≫
       homotopyCoproductDesc A K P inj = inj i := by
-  rw [homotopyCoproductDesc, ← Functor.map_comp, Sigma.ι_desc]
+  rw [homotopyCoproductDesc, ← Functor.map_comp, Sigma.ι_comp_desc]
   exact Functor.map_preimage _ _
 
 private noncomputable def quotientCofanIsColimit

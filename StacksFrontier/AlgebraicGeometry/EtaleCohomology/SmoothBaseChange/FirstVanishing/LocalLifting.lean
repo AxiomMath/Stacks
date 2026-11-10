@@ -87,13 +87,13 @@ theorem exists_lift_of_restrictedBoundaryClass {W' : Y.Etale} (r : W' ⟶ W)
     hs.trans (congrArg _ (restrictedSection_app_one c))
   let j : W' ⟶ (smallEtaleCompose W.hom).obj E :=
     MorphismProperty.Over.homMk (𝟙 W'.left) (by
-      show 𝟙 W'.left ≫ (r.left ≫ W.hom) = W'.hom
+      change 𝟙 W'.left ≫ (r.left ≫ W.hom) = W'.hom
       rw [Category.id_comp, MorphismProperty.Over.w r])
   refine ⟨S.X₂.obj.map j.op s, ?_⟩
   refine (NatTrans.naturality_apply S.g.hom j.op s).trans ?_
-  show S.X₃.obj.map j.op (S.g.hom.app _ s) = _
+  change S.X₃.obj.map j.op (S.g.hom.app _ s) = _
   rw [hs']
-  show (S.X₃.obj.map _ ≫ S.X₃.obj.map _ ≫ S.X₃.obj.map j.op) c = _
+  change (S.X₃.obj.map _ ≫ S.X₃.obj.map _ ≫ S.X₃.obj.map j.op) c = _
   rw [← Functor.map_comp, ← Functor.map_comp, ← op_comp, ← op_comp]
   congr 3
 

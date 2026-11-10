@@ -111,7 +111,7 @@ public theorem quotientStalkEquivStalkPullbackSndOfSpan_comp_mk :
     hU.isLocalization_stalk (⟨pullback.snd gL t z, hz⟩ : U)
   refine IsLocalization.ringHom_ext
     (hU.primeIdealOf (⟨pullback.snd gL t z, hz⟩ : U)).asIdeal.primeCompl (RingHom.ext fun c => ?_)
-  show quotientStalkEquivStalkPullbackSndOfSpan t hU gL hW hsurj hker hz
+  change quotientStalkEquivStalkPullbackSndOfSpan t hU gL hW hsurj hker hz
       (Ideal.Quotient.mk _ (X.presheaf.germ U (pullback.snd gL t z) hz c)) =
     (pullback.snd gL t).stalkMap z (X.presheaf.germ U (pullback.snd gL t z) hz c)
   rw [quotientStalkEquivStalkPullbackSndOfSpan_mk_germ,

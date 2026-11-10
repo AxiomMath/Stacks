@@ -55,8 +55,7 @@ theorem flat_tensor_equalizer_bijective
   have hcomm (h : A →ₐ[R] B) (x : A ⊗[R] S) :
       commB ((Algebra.TensorProduct.map h (AlgHom.id R S)) x) =
         (Algebra.TensorProduct.map (AlgHom.id S S) h) (commA x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a s => simp [commA, commB]
     | add x y hx hy => simp [hx, hy]
   have hcommf (x : A ⊗[R] S) : commB (fbase x) = fflip (commA x) := hcomm f x
@@ -66,7 +65,7 @@ theorem flat_tensor_equalizer_bijective
   let q : eFlip →+* eBase := RingHom.codRestrict
     (commA.symm.toRingHom.comp eFlip.val) eBase (by
       intro y
-      show fbase (commA.symm y) = gbase (commA.symm y)
+      change fbase (commA.symm y) = gbase (commA.symm y)
       apply commB.injective
       calc
         commB (fbase (commA.symm y)) = fflip y := by simpa using hcommf (commA.symm y)
@@ -76,7 +75,7 @@ theorem flat_tensor_equalizer_bijective
     refine ⟨fun x y h => Subtype.val_injective (commA.symm.injective (congrArg Subtype.val h)),
       fun z => ?_⟩
     refine ⟨⟨commA z, ?_⟩, ?_⟩
-    · show fflip (commA z) = gflip (commA z)
+    · change fflip (commA z) = gflip (commA z)
       calc
         fflip (commA z) = commB (fbase z) := (hcommf z).symm
         _ = commB (gbase z) := congrArg commB z.2
@@ -176,10 +175,10 @@ private theorem objectRingCoord_canonicalMap {S : Scheme.{u}} {G : GroupoidSchem
     objectRingCoord G'
       (G'.canonicalMapToInvariantFunctions x : Γ(G'.groupoid.objects.left, ⊤)) =
     Algebra.TensorProduct.includeRight x := by
-  show objectRingCoord G' ((Scheme.ΓSpecIso (.of C')).inv.hom x |> fun y =>
+  change objectRingCoord G' ((Scheme.ΓSpecIso (.of C')).inv.hom x |> fun y =>
     (Scheme.Hom.appTop G'.groupoid.objects.hom).hom y) = _
   rw [← G'.objectsIso_over]
-  show objectRingCoord G' ((Scheme.Hom.appTop G'.objectsIso.hom).hom
+  change objectRingCoord G' ((Scheme.Hom.appTop G'.objectsIso.hom).hom
     ((Scheme.Hom.appTop (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight : C' →ₐ[invariantRing G]
         objectRingBaseChange G C').toRingHom))).hom
@@ -241,7 +240,7 @@ theorem canonicalMapToInvariantFunctions_bijective_of_flat
   let invCoord : G'.invariantFunctions →+* E := RingHom.codRestrict
     (objCoord.toRingHom.comp (G'.invariantFunctions.subtype)) E (by
       intro x
-      show fbase (objCoord x.1) = gbase (objCoord x.1)
+      change fbase (objCoord x.1) = gbase (objCoord x.1)
       calc
         fbase (objCoord x.1) = arrCoord (sourceMap G'.groupoid x.1) := (hsrc x.1).symm
         _ = arrCoord (targetMap G'.groupoid x.1) := congrArg arrCoord x.2
@@ -254,7 +253,7 @@ theorem canonicalMapToInvariantFunctions_bijective_of_flat
       exact congrArg Subtype.val h
     · intro z
       let x : G'.invariantFunctions := ⟨objCoord.symm z, by
-        show sourceMap G'.groupoid (objCoord.symm z) =
+        change sourceMap G'.groupoid (objCoord.symm z) =
           targetMap G'.groupoid (objCoord.symm z)
         apply arrCoord.injective
         calc

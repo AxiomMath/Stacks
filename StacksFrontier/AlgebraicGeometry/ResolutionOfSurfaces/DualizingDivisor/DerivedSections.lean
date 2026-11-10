@@ -84,7 +84,7 @@ theorem isZero_rightDerived_globalSectionsOver_of_one_lt (hdim : ringKrullDim A 
       X' := X
       g := 𝟙 X
       modification' := by
-        show IsModification (𝟙 X ≫ f)
+        change IsModification (𝟙 X ≫ f)
         rw [Category.id_comp]
         exact hf
       normal := inferInstanceAs (IsNormal X) }

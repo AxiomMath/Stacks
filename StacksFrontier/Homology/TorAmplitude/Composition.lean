@@ -29,9 +29,9 @@ a complex of `B`-modules with Tor amplitude `[a, b]` over `B` has Tor amplitude 
 Neither carries a `@[stacks]` attribute. Both quantify over the certificate, where their sources
 state the result at the canonical derived tensoring, so neither exhibits its source's claim on its
 own. The tagged endpoints are in `StacksFrontier.Homology.TorAmplitude.CompositionCanonical`, stated
-at the canonical certificate of `StacksFrontier.Homology.TorAmplitude.CanonicalCertificate` — and for
-066K over the source's three independent universes. The theorems here are what those endpoints are
-proved from.
+at the canonical certificate of `StacksFrontier.Homology.TorAmplitude.CanonicalCertificate` — and
+for 066K over the source's three independent universes. The theorems here are what those endpoints
+are proved from.
 
 ## Implementation notes
 
@@ -491,19 +491,19 @@ private lemma flat_tensor_bicomplex_support (B : Type u) [CommRing B]
   have hzero (p : ℤ) (hp : IsZero (E.X p)) : IsZero (Z.X p) := by
     apply isZero_complex_of_zero_components
     intro q
-    show IsZero ((E.X p) ⊗ (W.X q))
+    change IsZero ((E.X p) ⊗ (W.X q))
     exact Functor.map_isZero ((curriedTensor (ModuleCat.{u} B)).flip.obj (W.X q)) hp
   have hrow (p : ℤ) : CochainComplex.IsGE (Z.X p) c ∧ CochainComplex.IsLE (Z.X p) d := by
     have : Module.Flat B (E.X p) := hflat p
     let F := tensorLeft (E.X p)
     have hF : F.PreservesHomology := Functor.preservesHomologyOfExact F
     constructor
-    · show CochainComplex.IsGE ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj W) c
+    · change CochainComplex.IsGE ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj W) c
       rw [CochainComplex.isGE_iff]
       intro i hi
       rw [HomologicalComplex.exactAt_iff]
       exact (W.exactAt_of_isGE c i hi).map F
-    · show CochainComplex.IsLE ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj W) d
+    · change CochainComplex.IsLE ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj W) d
       rw [CochainComplex.isLE_iff]
       intro i hi
       rw [HomologicalComplex.exactAt_iff]

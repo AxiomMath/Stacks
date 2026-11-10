@@ -74,12 +74,12 @@ private theorem pathRelation_locallyOfFiniteType (P : PathConstruction j)
     refine isLocallyOfFiniteType_of_isColimit_cofan_over site S hS P.firstInclusion
       P.firstIsCoproduct f fun i ↦ ?_
     fin_cases i <;> dsimp only
-    · show IsLocallyOfFiniteType site S hS (P.firstInclusion 0 ≫ f).left.hom
+    · change IsLocallyOfFiniteType site S hS (P.firstInclusion 0 ≫ f).left.hom
       rwa [h0]
-    · show IsLocallyOfFiniteType site S hS (P.firstInclusion 1 ≫ f).left.hom
+    · change IsLocallyOfFiniteType site S hS (P.firstInclusion 1 ≫ f).left.hom
       rw [h1]
       exact hid U
-    · show IsLocallyOfFiniteType site S hS (P.firstInclusion 2 ≫ f).left.hom
+    · change IsLocallyOfFiniteType site S hS (P.firstInclusion 2 ≫ f).left.hom
       rwa [h2]
   have hzero :
       IsLocallyOfFiniteType site S hS (P.pathRelation 0).source.left.hom ∧

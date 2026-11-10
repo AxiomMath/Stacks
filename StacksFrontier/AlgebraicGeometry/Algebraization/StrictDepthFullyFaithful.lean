@@ -69,7 +69,8 @@ Conditions (1), (2) and (3) of the source are the hypotheses verbatim, as they a
 
 In the two presentations `X.Modules` and `SheafOfModules X.ringCatSheaf` of one category the
 rewrite motives of this subtree are ill-typed at `implicit` transparency, as in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFunctor/NeighbourhoodHoms.lean`, so the identities are chained with
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFunctor/NeighbourhoodHoms.lean`, so the
+identities are chained with
 `Eq.trans`/`congrArg` rather than rewritten.
 
 ## References

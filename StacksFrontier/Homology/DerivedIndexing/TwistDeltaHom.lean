@@ -61,7 +61,7 @@ omit [Abelian A'] [P.Additive] in
 lemma twistDerivedEndo_naturality (n : ℤ) {X Y : A'} (f : X ⟶ Y) :
     (F.rightDerivedPlus n).map (P.map f) ≫ twistDerivedEndo G F Θ P τ n Y =
       twistDerivedEndo G F Θ P τ n X ≫ (F.rightDerivedPlus n).map (P.map f) := by
-  show (DerivedCategory.Plus.homologyFunctor B n).map (F.rightDerivedFunctorPlus.map
+  change (DerivedCategory.Plus.homologyFunctor B n).map (F.rightDerivedFunctorPlus.map
       ((DerivedCategory.Plus.singleFunctor A 0).map (P.map f))) ≫
       (DerivedCategory.Plus.homologyFunctor B n).map (derivedPairMap G F F Θ (τ.app Y)) =
     (DerivedCategory.Plus.homologyFunctor B n).map (derivedPairMap G F F Θ (τ.app X)) ≫

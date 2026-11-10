@@ -111,7 +111,7 @@ theorem isStableUnderBaseChange_openImmersions :
     (openImmersionOver B S hS).IsStableUnderBaseChange where
   of_isPullback {_ _ _ _ _ _ _ g'} sq hg := by
     have _ := preservesLimitsOfShape_walkingCospan_toScheme B S hS
-    show _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map g')
+    change _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map g')
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (sq.map (BigFppfOver.toScheme B S hS)) hg
 
@@ -168,14 +168,14 @@ theorem sheafify_iSup_range_yoneda_map_openObjHom (U : BigFppfOver B S hS) :
       (BigFppfOver.topology B S hS) = ⊤ := by
   rw [eq_top_iff]
   intro W t _
-  show (⨆ V : ((BigFppfOver.toScheme B S hS).obj U).affineOpens,
+  change (⨆ V : ((BigFppfOver.toScheme B S hS).obj U).affineOpens,
       Subfunctor.range (yoneda.map (openObjHom B S hS U V.1))).sieveOfSection t ∈
     BigFppfOver.topology B S hS (unop W)
   refine (BigFppfOver.topology B S hS).superset_covering ?_
     ((BigFppfOver.topology B S hS).pullback_stable t
       (sieve_ofArrows_openObjHom_mem_topology B S hS U))
   rintro Z g ⟨_, a, _, ⟨V⟩, hfac⟩
-  show (yoneda.obj U).map g.op t ∈ _
+  change (yoneda.obj U).map g.op t ∈ _
   rw [Subfunctor.iSup_obj]
   exact Set.mem_iUnion.2 ⟨V, a, hfac⟩
 

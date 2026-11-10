@@ -62,8 +62,8 @@ No `@[stacks]` attribute is attached to anything here.  Neither statement is a c
 a declaration that assumes what the tag asserts.
 
 **Why the affine specialization is not stated.**  Instantiating the Zariski binder by Stacks 06Z0
-needs `StacksFrontier/AlgebraicGeometry/DerivedQCoh/ComparisonAffine.lean` imported, and importing it
-makes the binders below fail to elaborate: the `Abelian` instance of
+needs `StacksFrontier/AlgebraicGeometry/DerivedQCoh/ComparisonAffine.lean` imported, and importing
+it makes the binders below fail to elaborate: the `Abelian` instance of
 `SheafOfModules.{u} (structureSheaf B S hS)`, which the closure properties of `qcohOnSite` are
 stated over, is then synthesized from a candidate that forces the module universe to be at least
 the universe `u + 1` of the objects of the small étale site, and the resulting universe constraint
@@ -112,14 +112,14 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 section Comparison
 
-variable [(qcohOnSite B S hS).IsClosedUnderKernels]
-  [(qcohOnSite B S hS).IsClosedUnderCokernels]
-  [(qcohOnSite B S hS).IsClosedUnderExtensions]
-  [PreservesFiniteLimits (associatedModuleOfSheaf B S hS)]
-  [HasDerivedCategory.{w} (SheafOfModules.{u} S.ringCatSheaf)]
+variable [HasDerivedCategory.{w} (SheafOfModules.{u} S.ringCatSheaf)]
   [HasDerivedCategory.{w} (SheafOfModules.{u} (structureSheaf B S hS))]
   [HasDerivedCategory.{w} (SheafOfModules.isQuasicoherent S.ringCatSheaf).FullSubcategory]
   [HasDerivedCategory.{w} (qcohOnSite B S hS).FullSubcategory]
+  [(qcohOnSite B S hS).IsClosedUnderKernels]
+  [(qcohOnSite B S hS).IsClosedUnderCokernels]
+  [(qcohOnSite B S hS).IsClosedUnderExtensions]
+  [PreservesFiniteLimits (associatedModuleOfSheaf B S hS)]
 
 section Zariski
 
@@ -127,7 +127,9 @@ variable
   [(Stacks.AlgebraicGeometry.QuasicoherentDerived.derivedQuasicoherentComparison.{w}
     S).IsEquivalence]
 
-omit [(qcohOnSite B S hS).IsClosedUnderExtensions]
+omit [(qcohOnSite B S hS).IsClosedUnderKernels]
+  [(qcohOnSite B S hS).IsClosedUnderCokernels]
+  [(qcohOnSite B S hS).IsClosedUnderExtensions]
   [PreservesFiniteLimits (associatedModuleOfSheaf B S hS)] in
 /-- **Stacks 071Q implies the small étale half of the Stacks 06VT comparison**, over the Zariski
 half of that comparison.
@@ -152,7 +154,9 @@ theorem isEquivalence_derivedQcohOnSiteComparison_of_isEquivalence_derivedAssoci
     (associatedModuleDerivedQcoh.{w} B S hS (quasicoherentIsEssImageAssociatedModule B S hS))
     (derivedQcohOnSiteComparison.{w} B S hS)
 
-omit [(qcohOnSite B S hS).IsClosedUnderExtensions]
+omit [(qcohOnSite B S hS).IsClosedUnderKernels]
+  [(qcohOnSite B S hS).IsClosedUnderCokernels]
+  [(qcohOnSite B S hS).IsClosedUnderExtensions]
   [PreservesFiniteLimits (associatedModuleOfSheaf B S hS)] in
 /-- **The small étale half of the Stacks 06VT comparison and Stacks 071Q are interderivable**,
 over the Zariski half of that comparison.

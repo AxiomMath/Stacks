@@ -140,7 +140,7 @@ theorem smul_eq_zero_of_mem (I : Ideal A) (n : ℕ) {a : A} (ha : a ∈ I)
   | _ z =>
     rw [← Submodule.Quotient.mk_smul]
     refine (Submodule.Quotient.mk_eq_zero _).2 ?_
-    show a • (z : M) ∈ power (M := M) I (n + 1)
+    change a • (z : M) ∈ power (M := M) I (n + 1)
     have h : a • (z : M) ∈ power (M := M) I (1 + n) :=
       smul_mem_power I (by simpa using ha) z.property
     rwa [Nat.add_comm 1 n] at h
@@ -192,7 +192,7 @@ theorem homogeneousSMul_add_left (I : Ideal A) {i j : ℕ}
       induction m using Quotient.inductionOn with
       | _ m =>
         refine (Submodule.Quotient.eq _).2 ?_
-        show ((a : A) + (b : A)) • (m : M) -
+        change ((a : A) + (b : A)) • (m : M) -
           ((a : A) • (m : M) + (b : A) • (m : M)) ∈ power (M := M) I (i + j + 1)
         simp [add_smul]
 
@@ -202,7 +202,7 @@ theorem homogeneousSMul_zero_right (I : Ideal A) {i j : ℕ}
     homogeneousSMul I a (0 : piece (M := M) I j) = 0 := by
   induction a using Quotient.inductionOn with
   | _ a =>
-    show homogeneousSMul I (mk I i a) (mk I j 0) = 0
+    change homogeneousSMul I (mk I i a) (mk I j 0) = 0
     rw [homogeneousSMul_mk]
     apply (Submodule.Quotient.mk_eq_zero _).2
     simp
@@ -213,7 +213,7 @@ theorem homogeneousSMul_zero_left (I : Ideal A) {i j : ℕ}
     homogeneousSMul I (0 : piece (M := A) I i) m = 0 := by
   induction m using Quotient.inductionOn with
   | _ m =>
-    show homogeneousSMul I (mk I i 0) (mk I j m) = 0
+    change homogeneousSMul I (mk I i 0) (mk I j m) = 0
     rw [homogeneousSMul_mk]
     apply (Submodule.Quotient.mk_eq_zero _).2
     simp
@@ -230,7 +230,7 @@ theorem homogeneousSMul_add_right (I : Ideal A) {i j : ℕ}
       induction m₂ using Quotient.inductionOn with
       | _ m₂ =>
         refine (Submodule.Quotient.eq _).2 ?_
-        show (a : A) • ((m₁ : M) + (m₂ : M)) -
+        change (a : A) • ((m₁ : M) + (m₂ : M)) -
           ((a : A) • (m₁ : M) + (a : A) • (m₂ : M)) ∈ power (M := M) I (i + j + 1)
         simp [smul_add]
 

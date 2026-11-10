@@ -203,7 +203,7 @@ lemma uliftUnitHom_uliftUnitSection {M : _root_.SheafOfModules.{max u t} R}
     (f : uliftUnit.{t} R ⟶ M) : uliftUnitHom (uliftUnitSection f) = f := by
   refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun X => ?_)
   ext (x : ULift.{t} (R.obj.obj X))
-  show x.down • f.val.app X (ULift.up (1 : R.obj.obj X)) = f.val.app X x
+  change x.down • f.val.app X (ULift.up (1 : R.obj.obj X)) = f.val.app X x
   refine (map_smul (f.val.app X).hom x.down (ULift.up (1 : R.obj.obj X))).symm.trans ?_
   exact congrArg (f.val.app X) (congrArg ULift.up (mul_one x.down))
 
@@ -405,7 +405,7 @@ theorem isIso_submodule_ι_of_isLocallySurjective_of_epi
     (Presheaf.imageSieve_mem J
       ((PresheafOfModules.toPresheaf R.obj).map P.ι.val) (U := X) x)
   obtain ⟨m, hm⟩ := hg
-  show (((PresheafOfModules.toPresheaf R.obj).obj M.val).map g.op) x ∈ P.obj (op Y)
+  change (((PresheafOfModules.toPresheaf R.obj).obj M.val).map g.op) x ∈ P.obj (op Y)
   rw [← hm]
   exact m.2
 
@@ -498,7 +498,7 @@ theorem mono_moduleULift_map {M N : _root_.SheafOfModules.{v} R} (φ : M ⟶ N) 
 /-- If `a ≫ b = 0`, then `b` kills every value of `a`. -/
 lemma val_app_apply_eq_zero {A B D : _root_.SheafOfModules.{v} R} (a : A ⟶ B) (b : B ⟶ D)
     (h : a ≫ b = 0) (X : Cᵒᵖ) (x : A.val.obj X) : b.val.app X (a.val.app X x) = 0 := by
-  show (a ≫ b).val.app X x = 0
+  change (a ≫ b).val.app X x = 0
   rw [h]
   rfl
 
@@ -509,7 +509,7 @@ theorem eq_zero_of_locally_eq_zero {M : _root_.SheafOfModules.{v} R} {X : Cᵒ�
     (h : ∀ ⦃Y : C⦄ (g : Y ⟶ X.unop), S g → M.val.map g.op s = 0) : s = 0 := by
   refine (isSheaf_forgetPresheaf M S hS).isSeparatedFor.ext (t₁ := s) (t₂ := 0)
     fun Y g hg => ?_
-  show M.val.map g.op s = M.val.map g.op 0
+  change M.val.map g.op s = M.val.map g.op 0
   rw [h g hg, map_zero]
 
 /-- A morphism out of `G` that kills `f : F ⟶ G` kills the local closure of the range of `f`. -/

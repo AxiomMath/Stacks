@@ -188,7 +188,7 @@ theorem etaleSmoothLocalOnSourceAndTarget_tfae
   tfae_have 1 → 3 := by
     intro hf
     refine ⟨Y, X, 𝟙 Y, (pullbackIdIso B S hS f).hom, hb, he, ?_, ?_⟩
-    · show Function.Surjective (pointsMap B S hS X.1 _)
+    · change Function.Surjective (pointsMap B S hS X.1 _)
       rw [pullbackIdIso_hom_fst B S hS f]
       exact (pointsMap_id ..).symm ▸ Function.surjective_id
     · rwa [pullbackIdIso_hom_snd]

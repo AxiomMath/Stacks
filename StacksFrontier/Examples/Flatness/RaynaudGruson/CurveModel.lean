@@ -116,7 +116,7 @@ private lemma aToCurve_zA (n : PNat) : aToCurve k (zA k n) = 0 := by
 
 private lemma aToCurve_baseToA (a : baseRing k) :
     aToCurve k (baseToA k a) = baseToCurve k a := by
-  show aToCurve k (Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.C a)) = _
+  change aToCurve k (Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.C a)) = _
   rw [aToCurve_mk]
   simp
 
@@ -185,7 +185,7 @@ private lemma ringCToCurve_algebraMap (c : cQuotient k) :
 
 private lemma ringCToCurve_aToC (a : ringA k) :
     ringCToCurve k (aToC k a) = aToCurve k a := by
-  show ringCToCurve k (algebraMap (cQuotient k) (ringC k)
+  change ringCToCurve k (algebraMap (cQuotient k) (ringC k)
     (Ideal.Quotient.mk (cRelationIdeal k) (MvPolynomial.C a))) = _
   rw [ringCToCurve_algebraMap, cQuotientToCurve_mk]
   simp
@@ -303,7 +303,7 @@ private lemma curvePolyToFraction_comp_planeToCurve (n : PNat) :
   · fin_cases i
     · simp [planeToCurve, curveEval]
     · simp only [RingHom.comp_apply, planeToCurve, curveEval, MvPolynomial.eval₂Hom_X']
-      show curvePolyToFraction k n (-(cX k * cV k ^ 2) - cV k) =
+      change curvePolyToFraction k n (-(cX k * cV k ^ 2) - cV k) =
         algebraMap (Polynomial k) (FractionRing (Polynomial k))
           (-(Polynomial.X ^ (n : ℕ)) - Polynomial.X ^ (2 * (n : ℕ) + 1))
       simp only [map_sub, map_neg, map_mul, map_pow, curvePolyToFraction_cX,
@@ -389,7 +389,7 @@ private lemma curveToFraction_comp_ringCToCurve (n : PNat) :
       rw [rationalCurveC_aToC_baseToA_algebraMap, ringCToCurve_aToC, aToCurve_baseToA,
         baseToCurve_algebraMap, curveToFraction_algebraMap, curvePolyToFraction_planeToCurve]
     exact RingHom.congr_fun hb a
-  · show curveToFraction k n (ringCToCurve k (zCIndex k i)) = rationalCurveC k n (zCIndex k i)
+  · change curveToFraction k n (ringCToCurve k (zCIndex k i)) = rationalCurveC k n (zCIndex k i)
     rw [ringCToCurve_zCIndex, rationalCurveC_zCIndex, map_zero]
   · rw [RingHom.comp_apply, ringCToCurve_zC, curveToFraction_algebraMap, curvePolyToFraction_cV,
       rationalCurveC_zC_eq, curvePoint]

@@ -129,7 +129,7 @@ public theorem tensorCongrUnitalHom_comp (L L' : T.Modules) (e : L ≅ L') :
     (tensorCongrUnitalHom TA L L' e).comp (tensorCongrUnitalHom TA L' L e.symm) =
       SheafOfModules.GradedAlgebra.UnitalHom.id _ := by
   refine (TA T L).tensorHom_ext ?_
-  show (TA T L).tensorGenerator ≫
+  change (TA T L).tensorGenerator ≫
       (tensorCongrUnitalHom TA L L' e).app 1 ≫ (tensorCongrUnitalHom TA L' L e.symm).app 1 =
     (TA T L).tensorGenerator ≫ 𝟙 _
   refine Eq.trans (Category.assoc _ _ _).symm ?_

@@ -177,7 +177,7 @@ theorem forget_localizationInverseImageIso_hom_app (G : X.Topos) :
       (localizationShriekAdjunction X F).counit.app G := by
   refine Eq.trans (Adjunction.rightAdjointUniq_hom_app_counit
     (Stacks.Topos.Localized.forgetAdjunction F.obj X.J F.property) (forgetAdjToOver F) G) ?_
-  show (Stacks.Topos.Localized.forgetAdjunction F.obj X.J F.property).counit.app G =
+  change (Stacks.Topos.Localized.forgetAdjunction F.obj X.J F.property).counit.app G =
       (Over.forget F).map ((localizationEquivalence X F).functor.map
           ((localizationEquivalence X F).unit.app
             ((localizationMorphism X F).toToposHom.inverseImage.obj G))) ≫
@@ -276,7 +276,7 @@ theorem counit_app_val_app_fibers_hom_unit (G : X.Topos) (Y : CostructuredArrow 
           ((localizationEquivalence X F).unitIso.app
             ((X.localizationMorphism F).toToposHom.inverseImage.obj G))) v
   refine (F.property.app_fibers_inv_comp_unitInv G Y _).symm.trans ?_
-  show ((localizationEquivalence X F).unitInv.app
+  change ((localizationEquivalence X F).unitInv.app
         ((X.localizationMorphism F).toToposHom.inverseImage.obj G)).hom.app (op Y)
       (((localizationEquivalence_fibers X F).inv.app
             ((localizationEquivalence X F).functor.obj

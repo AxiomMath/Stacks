@@ -182,11 +182,11 @@ theorem exists_open_over_of_points {Q : ObjectProperty (CurveFamily B hZ)}
       cases U
       rfl
     change (curvesProjectionOver B hZ).map (y.map t) = _ at hm
-    show (curvesProjectionOver B hZ).map (y.map t) ≫ eqToHom ((hb T₀).trans h₂) = _
+    change (curvesProjectionOver B hZ).map (y.map t) ≫ eqToHom ((hb T₀).trans h₂) = _
     rw [hm, ← hcanon, Category.assoc, Category.assoc]
     exact congrArg (fun k => eqToHom (hb T) ≫ (Over.map U.hom).map t ≫ k) (eqToHom_trans _ _)
   rw [hWchar T t]
-  show (∃ s : yoneda.obj (y.obj T).base ⟶ W.toFunctor, s ≫ W.ι = yoneda.map a.baseMap) ↔ _
+  change (∃ s : yoneda.obj (y.obj T).base ⟶ W.toFunctor, s ≫ W.ι = yoneda.map a.baseMap) ↔ _
   have hgen : ∀ {U' V' A : BigFppfOver B integerBase hZ} (W' : Subfunctor (yoneda.obj U'))
       (j' : V' ⟶ U') (e' : yoneda.obj V' ≅ W'.toFunctor) (_he' : e'.hom ≫ W'.ι = yoneda.map j')
       (a' : A ⟶ U'),
@@ -210,7 +210,7 @@ theorem exists_open_over_of_points {Q : ObjectProperty (CurveFamily B hZ)}
     refine ⟨Over.homMk (eqToHom (congrArg Comma.left (hb T)).symm ≫ k.left) ?_⟩
     have hk' := congrArg (fun m => (m ≫ β.hom).left) hk
     simp only [Over.comp_left] at hk'
-    show (eqToHom _ ≫ k.left) ≫ (j ≫ β.hom).left = T.hom
+    change (eqToHom _ ≫ k.left) ≫ (j ≫ β.hom).left = T.hom
     rw [Over.comp_left, Category.assoc, ← Category.assoc k.left, hk', hc, Over.eqToHom_left]
     simp
   · rintro ⟨k⟩
@@ -221,7 +221,7 @@ theorem exists_open_over_of_points {Q : ObjectProperty (CurveFamily B hZ)}
     refine ⟨l, (cancel_mono β.hom).mp (Over.OverMorphism.ext ?_)⟩
     simp only [Over.comp_left]
     rw [hc, Over.eqToHom_left]
-    show (eqToHom _ ≫ k.left) ≫ j.left ≫ β.hom.left = _
+    change (eqToHom _ ≫ k.left) ≫ j.left ≫ β.hom.left = _
     have hkw : k.left ≫ j.left ≫ β.hom.left = T.hom :=
       (Over.w k : k.left ≫ (j ≫ β.hom).left = T.hom)
     rw [Category.assoc, hkw]

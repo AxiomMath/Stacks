@@ -146,15 +146,15 @@ theorem smul_id_val_app_unitSection (S : Scheme.{u}) (r : ZMod N) :
           (ModuleCat.of (ZMod N) (ULift.{u + 1} (ZMod N)))) (ULift.up r) := by
   rw [← ZMod.natCast_zmod_val r, Nat.cast_smul_eq_nsmul]
   have h1 : (r.val • 𝟙 (unitSheaf (X := S) N)).hom = r.val • 𝟙 _ := by
-    show (sheafToPresheaf _ _).map (r.val • 𝟙 (unitSheaf (X := S) N)) = _
+    change (sheafToPresheaf _ _).map (r.val • 𝟙 (unitSheaf (X := S) N)) = _
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     rfl
   rw [h1, NatTrans.app_nsmul, NatTrans.id_app]
-  show r.val • unitSection S = _
+  change r.val • unitSection S = _
   rw [unitSection, ← map_nsmul]
   congr 1
   apply ULift.ext
-  show r.val • (1 : ZMod N) = ((r.val : ℕ) : ZMod N)
+  change r.val • (1 : ZMod N) = ((r.val : ℕ) : ZMod N)
   rw [nsmul_eq_mul, mul_one]
 
 /-- **On an irreducible scheme every endomorphism of `Λ_S = ℤ/N` is a scalar.** -/
@@ -323,7 +323,7 @@ theorem IsLocalPurityClass.exists_glue {O₁ O₂ : T.Opens} [IrreducibleSpace (
   have h₂' : IsLocalPurityClass i O₂ a₂' := fun H =>
     (isGoodAt_comp_mk₀_iff P a₂ _ _ (fun q => bijective_comp_mk₀_smul_id r hr q)).2 (h₂ H)
   refine IsLocalPurityClass.glue i h₁ h₂' ?_
-  show (Ext.mk₀ (P.map κ₁)).comp a₁ (zero_add c) =
+  change (Ext.mk₀ (P.map κ₁)).comp a₁ (zero_add c) =
     (Ext.mk₀ (P.map κ₂)).comp ((Ext.mk₀ (P.map (r • 𝟙 (localUnit (N := N) O₂)))).comp a₂
       (zero_add c)) (zero_add c)
   rw [hrb, Ext.mk₀_comp_mk₀_assoc, Ext.mk₀_comp_mk₀_assoc, ← P.map_comp, ← P.map_comp,

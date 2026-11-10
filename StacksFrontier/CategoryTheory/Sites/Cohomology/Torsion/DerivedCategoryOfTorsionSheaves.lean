@@ -130,14 +130,14 @@ private lemma exists_divisible_complex_replacement {A : Type*} [Category A] [Abe
       simp
     have h₁ : Mono (n • 𝟙 (S'.X₁.X (-i+1))) := by
       have := hQ (-(-i+1))
-      show Mono ((n • 𝟙 ((cokernel f).X (-(-i+1)))).op)
+      change Mono ((n • 𝟙 ((cokernel f).X (-(-i+1)))).op)
       infer_instance
     have h₂ : Mono (n • 𝟙 (S'.X₂.X (-i))) := by
       have := hD (-(-i)) n hn
-      show Mono ((n • 𝟙 (D.X (-(-i)))).op)
+      change Mono ((n • 𝟙 (D.X (-(-i)))).op)
       infer_instance
     have := mono_nsmul_mappingCone S'.f (-i) n
-    show Epi ((n • 𝟙 (M.X (-i))).unop)
+    change Epi ((n • 𝟙 (M.X (-i))).unop)
     infer_instance
 
 section LocalizedReplacements
@@ -213,7 +213,7 @@ private lemma localized_homMap_surjective_of_replacements
   apply (cancel_mono (M.map c)).mp
   rw [← Φ.homMap_map L M s, ← Φ.homMap_comp,
     MorphismProperty.LeftFraction.map_comp_map_s, Φ.homMap_map]
-  show M.map (F.map f) ≫ M.map c = _
+  change M.map (F.map f) ≫ M.map c = _
   rw [← M.map_comp, hf, Φ.homMap_map, Category.assoc, ← M.map_comp, hs]
   simp only [M.map_comp, ← Category.assoc,
     MorphismProperty.LeftFraction.map_comp_map_s]
@@ -251,7 +251,7 @@ private lemma localized_full_faithful_of_replacements
     intro X Y f g hfg
     apply sub_eq_zero.mp
     apply localized_homMap_eq_zero_of_replacements W V L M F hW hR
-    show Φ.homMap L M _ = 0
+    change Φ.homMap L M _ = 0
     rw [Φ.homMap_apply L M G e, G.map_sub, hfg, sub_self]
     simp
 
@@ -317,11 +317,11 @@ private def locallyTorsionSubfunctor (F : Sheaf J AddCommGrpCat.{w}) :
 omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem locallyTorsion_zero (F : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ) :
     (0 : F.obj.obj U) ∈ (locallyTorsionSubfunctor J F).obj U := by
-  show (pointwiseTorsionSubfunctor J F).sieveOfSection 0 ∈ J U.unop
+  change (pointwiseTorsionSubfunctor J F).sieveOfSection 0 ∈ J U.unop
   apply J.superset_covering _ (J.top_mem U.unop)
   intro V i hi
   refine ⟨1, by omega, ?_⟩
-  show 1 • (F.obj.map i.op).hom' (0 : F.obj.obj U) = 0
+  change 1 • (F.obj.map i.op).hom' (0 : F.obj.obj U) = 0
   rw [(F.obj.map i.op).hom'.map_zero]
   exact one_nsmul (0 : F.obj.obj (op V))
 
@@ -330,7 +330,7 @@ private theorem locallyTorsion_add (F : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ)
     (x y : F.obj.obj U) (hx : x ∈ (locallyTorsionSubfunctor J F).obj U)
     (hy : y ∈ (locallyTorsionSubfunctor J F).obj U) :
     x + y ∈ (locallyTorsionSubfunctor J F).obj U := by
-  show (pointwiseTorsionSubfunctor J F).sieveOfSection (x + y) ∈ J U.unop
+  change (pointwiseTorsionSubfunctor J F).sieveOfSection (x + y) ∈ J U.unop
   change (pointwiseTorsionSubfunctor J F).sieveOfSection x ∈ J U.unop at hx
   change (pointwiseTorsionSubfunctor J F).sieveOfSection y ∈ J U.unop at hy
   apply J.superset_covering _ (J.intersection_covering hx hy)
@@ -339,7 +339,7 @@ private theorem locallyTorsion_add (F : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ)
   change n • (F.obj.map i.op).hom' x = 0 at hnx
   change m • (F.obj.map i.op).hom' y = 0 at hmy
   refine ⟨n * m, Nat.mul_pos hn hm, ?_⟩
-  show (n * m) • (F.obj.map i.op).hom' (x + y) = 0
+  change (n * m) • (F.obj.map i.op).hom' (x + y) = 0
   rw [(F.obj.map i.op).hom'.map_add]
   have hnx' : (n * m) • (F.obj.map i.op).hom' x = 0 := by
     rw [Nat.mul_comm n m, ← smul_smul, hnx, nsmul_zero]
@@ -351,14 +351,14 @@ omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem locallyTorsion_neg (F : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ)
     (x : F.obj.obj U) (hx : x ∈ (locallyTorsionSubfunctor J F).obj U) :
     -x ∈ (locallyTorsionSubfunctor J F).obj U := by
-  show (pointwiseTorsionSubfunctor J F).sieveOfSection (-x) ∈ J U.unop
+  change (pointwiseTorsionSubfunctor J F).sieveOfSection (-x) ∈ J U.unop
   change (pointwiseTorsionSubfunctor J F).sieveOfSection x ∈ J U.unop at hx
   apply J.superset_covering _ hx
   intro V i hi
   obtain ⟨n, hn, hnx⟩ := hi
   change n • (F.obj.map i.op).hom' x = 0 at hnx
   refine ⟨n, hn, ?_⟩
-  show n • (F.obj.map i.op).hom' (-x) = 0
+  change n • (F.obj.map i.op).hom' (-x) = 0
   rw [(F.obj.map i.op).hom'.map_neg, neg_nsmul, hnx, neg_zero]
 
 private def locallyTorsionSubgroup (F : Sheaf J AddCommGrpCat.{w}) (U : Cᵒᵖ) :
@@ -393,7 +393,7 @@ private theorem torsionSubfunctorPresheaf_isSheaf (F : Sheaf J AddCommGrpCat.{w}
     Presheaf.IsSheaf J (torsionSubfunctorPresheaf J F) := by
   apply Presheaf.isSheaf_of_isSheaf_comp J (s := forget AddCommGrpCat.{w})
   rw [isSheaf_iff_isSheaf_of_type]
-  show Presieve.IsSheaf J (locallyTorsionSubfunctor J F).toFunctor
+  change Presieve.IsSheaf J (locallyTorsionSubfunctor J F).toFunctor
   apply Subfunctor.sheafify_isSheaf
   rw [← isSheaf_iff_isSheaf_of_type]
   exact GrothendieckTopology.HasSheafCompose.isSheaf F.obj F.2
@@ -410,7 +410,7 @@ omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem torsionSubsheafι_mono (F : Sheaf J AddCommGrpCat.{w}) :
     Mono (torsionSubsheafι J F) := by
   apply (sheafToPresheaf J AddCommGrpCat.{w}).mono_of_mono_map
-  show Mono (torsionSubfunctorPresheafι J F)
+  change Mono (torsionSubfunctorPresheafι J F)
   have (U : Cᵒᵖ) : Mono ((torsionSubfunctorPresheafι J F).app U) :=
     (AddCommGrpCat.mono_iff_injective _).mpr Subtype.val_injective
   exact NatTrans.mono_of_mono_app _
@@ -445,6 +445,7 @@ private theorem torsionSubsheafLift_fac {G F : Sheaf J AddCommGrpCat.{w}}
   ext U x
   rfl
 
+omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem torsionSubsheafLift_unique {G F : Sheaf J AddCommGrpCat.{w}}
     (hG : torsionSheafProperty J G) (f : G ⟶ F) (g : G ⟶ torsionSubsheaf J F)
     (hg : g ≫ torsionSubsheafι J F = f) : g = torsionSubsheafLift J hG f := by
@@ -492,6 +493,7 @@ private noncomputable def torsionSubsheafAdjunction :
       homEquiv_naturality_left_symm := fun _ _ => rfl
       homEquiv_naturality_right := fun _ _ => rfl }
 
+omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem torsionSubsheafFunctor_additive :
     (torsionSubsheafFunctor J).Additive :=
   (torsionSubsheafAdjunction J).right_adjoint_additive
@@ -500,16 +502,17 @@ attribute [local instance] torsionSubsheafFunctor_additive
 
 private noncomputable def torsionSubcomplex (K : CochainComplex
     (Sheaf J AddCommGrpCat.{w}) ℤ) : CochainComplex (TorsionSheaf J) ℤ :=
-  (torsionSubsheafFunctor J).mapHomologicalComplex (ComplexShape.up ℤ) |>.obj K
+  (torsionSubsheafFunctor.{w} J).mapHomologicalComplex (ComplexShape.up ℤ) |>.obj K
 
 private noncomputable def torsionSubcomplexInclusion
     (K : CochainComplex (Sheaf J AddCommGrpCat.{w}) ℤ) :
     (((torsionSheafProperty J).ι.mapHomologicalComplex (ComplexShape.up ℤ)).obj
       (torsionSubcomplex J K)) ⟶ K :=
   (Functor.mapHomologicalComplexCompIso (Iso.refl _) (ComplexShape.up ℤ)).hom.app K ≫
-    (NatTrans.mapHomologicalComplex (torsionSubsheafAdjunction J).counit
+    (NatTrans.mapHomologicalComplex (torsionSubsheafAdjunction.{v, u, w} J).counit
       (ComplexShape.up ℤ)).app K
 
+omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem torsionSubsheafAdjunction_counit_app (F : Sheaf J AddCommGrpCat.{w}) :
     (torsionSubsheafAdjunction J).counit.app F = torsionSubsheafι J F :=
   rfl
@@ -546,7 +549,7 @@ private theorem exists_local_kernel_lift {S : ShortComplex (Sheaf J AddCommGrpCa
     intSectionHom (E.obj S.X₂) (n • S.X₂.obj.map f.op x)
   have ha : a ≫ E.map S.g = 0 := by
     ext z
-    show (S.g.hom.app (op V))
+    change (S.g.hom.app (op V))
       ((ULift.down z : ℤ) • (n • S.X₂.obj.map f.op x)) = 0
     rw [_root_.map_zsmul, _root_.map_nsmul, NatTrans.naturality_apply S.g.hom f.op x, hn]
     simp
@@ -673,7 +676,7 @@ private lemma section_eq_zero_of_locally_zero (F : Sheaf J AddCommGrpCat.{w})
       (F := forget AddCommGrpCat.{w}))
   apply (hF.isSeparated _ hR).ext
   intro V f hf
-  show F.obj.map f.op x = F.obj.map f.op 0
+  change F.obj.map f.op x = F.obj.map f.op 0
   exact (hx V f hf).trans (map_zero _).symm
 
 omit [HasSheafify J AddCommGrpCat.{w}] in
@@ -681,13 +684,13 @@ private lemma locallyTorsion_of_nsmul (F : Sheaf J AddCommGrpCat.{w})
     (U : Cᵒᵖ) (x : F.obj.obj U) (n : ℕ) (hn : 0 < n)
     (hx : n • x ∈ (locallyTorsionSubfunctor J F).obj U) :
     x ∈ (locallyTorsionSubfunctor J F).obj U := by
-  show (pointwiseTorsionSubfunctor J F).sieveOfSection x ∈ J U.unop
+  change (pointwiseTorsionSubfunctor J F).sieveOfSection x ∈ J U.unop
   apply J.superset_covering _ hx
   intro V f hf
   obtain ⟨m, hm, hmx⟩ := hf
   refine ⟨m * n, Nat.mul_pos hm hn, ?_⟩
   change m • (F.obj.map f.op) (n • x) = 0 at hmx
-  show (m * n) • F.obj.map f.op x = 0
+  change (m * n) • F.obj.map f.op x = 0
   simpa only [_root_.map_nsmul, smul_smul] using hmx
 
 private lemma section_cokernel_torsion_eq_zero_iff
@@ -725,7 +728,7 @@ private lemma section_cokernel_torsion_nsmul_injective
   apply (section_cokernel_torsion_eq_zero_iff J F V y).mpr
   apply locallyTorsion_of_nsmul J F (op V) y n hn
   apply (section_cokernel_torsion_eq_zero_iff J F V (n • y)).mp
-  show q.hom.app (op V) (n • y) = 0
+  change q.hom.app (op V) (n • y) = 0
   rw [_root_.map_nsmul, hy, ← _root_.map_nsmul, hx, map_zero]
 
 omit [HasSheafify J AddCommGrpCat.{w}] in
@@ -735,7 +738,7 @@ private lemma isZero_of_torsion_of_nsmul_injective
       Function.Injective (fun x : F.obj.obj (op U) => n • x)) : IsZero F := by
   rw [IsZero.iff_id_eq_zero]
   ext U x
-  show x = 0
+  change x = 0
   obtain ⟨R, hR, hx⟩ := hF U.unop x
   apply section_eq_zero_of_locally_zero J F U.unop x R hR
   intro V f hf
@@ -785,7 +788,7 @@ private lemma torsionSubcomplexInclusion_quasiIso_of_divisible
     QuasiIso (torsionSubcomplexInclusion J K) := by
   let f := torsionSubcomplexInclusion J K
   have hf : Mono f := HomologicalComplex.mono_of_mono_f f (fun i => by
-    show Mono ((torsionSubsheafAdjunction J).counit.app (K.X i))
+    change Mono ((torsionSubsheafAdjunction.{v, u, w} J).counit.app (K.X i))
     rw [torsionSubsheafAdjunction_counit_app]
     exact torsionSubsheafι_mono J (K.X i))
   let Q := cokernel f
@@ -803,14 +806,14 @@ private lemma torsionSubcomplexInclusion_quasiIso_of_divisible
   refine (mono_nsmul_id_iff J _ n).mp ?_ (op U)
   have (j : ℤ) : IsIso ((n • 𝟙 Q).f j) := by
     let E := HomologicalComplex.eval (Sheaf J AddCommGrpCat.{w}) (ComplexShape.up ℤ) j
-    show IsIso (E.map (n • 𝟙 Q))
+    change IsIso (E.map (n • 𝟙 Q))
     rw [E.map_nsmul, E.map_id]
     let e := PreservesCokernel.iso E f
     change Q.X j ≅ cokernel (torsionSubsheafι J (K.X j)) at e
     have := hdiv j n hn
     have := isIso_nsmul_cokernel_torsionSubsheafι J (K.X j) n hn
     have hi : IsIso (e.hom ≫ (n • 𝟙 _) ≫ e.inv) := inferInstance
-    show IsIso (n • 𝟙 (Q.X j))
+    change IsIso (n • 𝟙 (Q.X j))
     simpa only [Preadditive.comp_nsmul, Preadditive.nsmul_comp,
       Category.id_comp, Category.comp_id, Iso.hom_inv_id] using hi
   have : IsIso (n • 𝟙 Q) := HomologicalComplex.Hom.isIso_of_components _
@@ -855,7 +858,7 @@ private theorem reducedCharacterFunctor_preservesZeroMorphisms :
     apply Subtype.ext
     funext χ
     change B →+ AddCircle (1 : ℚ) at χ
-    show x.val (χ.comp (0 : A →+ B)) = 0
+    change x.val (χ.comp (0 : A →+ B)) = 0
     exact (congrArg x.val (AddMonoidHom.comp_zero χ)).trans x.property
 
 attribute [local instance] reducedCharacterFunctor_preservesZeroMorphisms
@@ -883,12 +886,12 @@ private lemma reducedCharacterFunctor_epi_nsmul (A : AddCommGrpCat.{w})
   change reducedCharacterGroup A at x
   let y : reducedCharacterGroup A :=
     ⟨fun χ => if χ = 0 then 0 else DivisibleBy.div (x.val χ) n, by
-      show (if (0 : CharacterModule A) = 0 then 0 else _) = 0
+      change (if (0 : CharacterModule A) = 0 then 0 else _) = 0
       simp only [ite_true]⟩
   refine ⟨y, ?_⟩
   apply Subtype.ext
   funext χ
-  show n • (if χ = 0 then 0 else DivisibleBy.div (x.val χ) n) = x.val χ
+  change n • (if χ = 0 then 0 else DivisibleBy.div (x.val χ) n) = x.val χ
   split_ifs with hχ
   · subst χ
     simpa only [nsmul_zero] using x.property.symm
@@ -903,7 +906,7 @@ private theorem divisiblePresheafFunctor_preservesZeroMorphisms :
   map_zero P Q := by
     apply NatTrans.ext
     funext U
-    show reducedCharacterFunctor.map (0 : P.obj U ⟶ Q.obj U) = 0
+    change reducedCharacterFunctor.map (0 : P.obj U ⟶ Q.obj U) = 0
     exact reducedCharacterFunctor.map_zero _ _
 
 attribute [local instance] divisiblePresheafFunctor_preservesZeroMorphisms
@@ -939,7 +942,7 @@ private def divisibleSheafInclusion : 𝟭 (Sheaf J AddCommGrpCat.{w}) ⟶
 private lemma divisibleSheafInclusion_mono (F : Sheaf J AddCommGrpCat.{w}) :
     Mono ((divisibleSheafInclusion J).app F) := by
   have := divisiblePresheafInclusion_mono F.obj
-  show Mono ((asIso (sheafificationAdjunction J AddCommGrpCat.{w}).counit).inv.app F ≫
+  change Mono ((asIso (sheafificationAdjunction J AddCommGrpCat.{w}).counit).inv.app F ≫
     (presheafToSheaf J AddCommGrpCat.{w}).map (divisiblePresheafInclusion.app F.obj))
   infer_instance
 
@@ -999,7 +1002,7 @@ private lemma inclusionMapHomotopy_quasiIso_iff
   obtain ⟨X⟩ := X
   obtain ⟨Y⟩ := Y
   obtain ⟨f, rfl⟩ := (HomotopyCategory.quotient _ _).map_surjective f
-  show HomotopyCategory.quasiIso (TorsionSheaf J) (ComplexShape.up ℤ)
+  change HomotopyCategory.quasiIso (TorsionSheaf J) (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient (TorsionSheaf J) (ComplexShape.up ℤ)).map f) ↔
     HomotopyCategory.quasiIso (Sheaf J AddCommGrpCat.{w}) (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient (Sheaf J AddCommGrpCat.{w}) (ComplexShape.up ℤ)).map
@@ -1065,7 +1068,7 @@ private lemma inclusionMapDerived_full_faithful :
       (torsionSheafProperty J).ι.mapDerivedCategory.Faithful := by
   let F := (torsionSheafProperty J).ι
   let c := ComplexShape.up ℤ
-  let adj := (torsionSubsheafAdjunction J).mapHomotopyCategory c
+  let adj := (torsionSubsheafAdjunction.{v, u, w} J).mapHomotopyCategory c
   have : (HomotopyCategory.quasiIso (Sheaf J AddCommGrpCat.{w}) c).HasTwoOutOfThreeProperty :=
     homotopyCategory_quasiIso_hasTwoOutOfThreeProperty
   apply localized_full_faithful_of_replacements
@@ -1084,12 +1087,12 @@ private lemma inclusionMapDerived_full_faithful :
   obtain ⟨I, f, hf, hc⟩ := exists_torsionComplex_comparison J Z hZ
   let Ih := (HomotopyCategory.quotient _ c).obj I
   refine ⟨Ih, (HomotopyCategory.quotient _ c).map f,
-    ((torsionSubsheafFunctor J).mapHomotopyCategory c).obj Ih,
+    ((torsionSubsheafFunctor.{w} J).mapHomotopyCategory c).obj Ih,
     adj.counit.app Ih, (HomotopyCategory.quotient_map_mem_quasiIso_iff f).mpr hf, ?_,
     fun X => (adj.homEquiv X Ih).symm.bijective⟩
   have heq : adj.counit.app Ih =
       (HomotopyCategory.quotient _ c).map (torsionSubcomplexInclusion J I) := by
-    show (HomotopyCategory.quotient _ c).map _ =
+    change (HomotopyCategory.quotient _ c).map _ =
       (HomotopyCategory.quotient _ c).map _
     congr 1
   rw [heq]

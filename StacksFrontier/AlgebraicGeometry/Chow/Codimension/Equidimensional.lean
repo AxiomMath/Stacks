@@ -90,7 +90,7 @@ generic point of the part of that subset lying in the open subset. -/
 private theorem isGenericPoint_val_preimage {α : Type*} [TopologicalSpace α] (U : Opens α)
     {Z : Set α} {ξ : α} (hξ : IsGenericPoint ξ Z) (hξU : ξ ∈ U) :
     IsGenericPoint (⟨ξ, hξU⟩ : U) (Subtype.val ⁻¹' Z) := by
-  show closure ({(⟨ξ, hξU⟩ : U)} : Set U) = Subtype.val ⁻¹' Z
+  change closure ({(⟨ξ, hξU⟩ : U)} : Set U) = Subtype.val ⁻¹' Z
   ext z
   rw [closure_subtype]
   simp [Set.image_singleton, hξ.def]

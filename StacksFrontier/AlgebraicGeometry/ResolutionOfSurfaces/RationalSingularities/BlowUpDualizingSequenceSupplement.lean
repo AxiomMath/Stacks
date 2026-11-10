@@ -23,8 +23,8 @@ public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSing
 /-!
 # Further results on `BlowUpDualizingSequence`
 
-Results about the objects of
-`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.BlowUpDualizingSequence`
+Results about the objects of the module `BlowUpDualizingSequence` (in
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities`)
 that need imports beyond those of that module.
 
 ## Main results

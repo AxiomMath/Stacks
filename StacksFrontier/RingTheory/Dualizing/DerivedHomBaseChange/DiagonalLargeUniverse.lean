@@ -131,7 +131,7 @@ theorem transportHomEquiv_functor_map (W : DerivedCategory (ModuleCat.{v} S))
       e.unitIso.inv.app W ≫ ψ := by
     rw [Adjunction.homEquiv_counit]
     simp
-  show (DerivedHomAdjunction.transportHomEquiv d e (e.functor.obj W) L M) (e.functor.map ψ) = _
+  change (DerivedHomAdjunction.transportHomEquiv d e (e.functor.obj W) L M) (e.functor.map ψ) = _
   simp only [DerivedHomAdjunction.transportHomEquiv, AddEquiv.trans_apply,
     Adjunction.homAddEquiv_symm_apply, hinner, d.homEquiv_naturality_left,
     Adjunction.homEquiv_counit]

@@ -70,7 +70,7 @@ def twistedInverseImageObjIsoPullbackTensorOfFlat [IsProper f] [Flat f]
           (DerivedPushforward.derivedStructureSheaf Y)) :=
   haveI := hq.source_noetherian
   haveI := hp.source_noetherian
-  haveI hf := isShriekable_of_isProper hp hq (f := f)
+  haveI hf := isShriekable_of_isProper hq (f := f)
   haveI := locallyOfFinitePresentation_left
     (ftsHomOf f hf.separatedFiniteType (isSeparatedFiniteType_id Y) (Category.comp_id f))
   haveI : Flat (ftsHomOf f hf.separatedFiniteType (isSeparatedFiniteType_id Y)
@@ -107,7 +107,7 @@ def isoPullbackTensorOfFlatNagata
           ((twistedInverseImage f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).obj
             (DerivedPushforward.derivedStructureSheaf Y)) :=
   (twistedInverseImageObjIsoNagata hpe hωS 𝒦X 𝒦Y).symm ≪≫
-    twistedInverseImageObjIsoPullbackTensorOfFlat hp hq 𝒦Y.complex
+    twistedInverseImageObjIsoPullbackTensorOfFlat hq 𝒦Y.complex
 
 end NormalizedOnOpens
 

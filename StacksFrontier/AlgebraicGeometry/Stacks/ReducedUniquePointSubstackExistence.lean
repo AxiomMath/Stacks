@@ -67,7 +67,8 @@ stack are *not* proved: they are carried as the universally quantified hypothesi
 ## Implementation notes
 
 The carried hypothesis is quantified over *every* algebraic stack over `S`, every field
-spectrum and every 1-morphism, so it does not restrict which objects the tagged statements cover; what
+spectrum and every 1-morphism, so it does not restrict which objects the tagged statements cover;
+what
 they restrict is nothing, and the objects quantified over in the conclusions are exactly the
 objects Stacks 06MR speaks about. `HasFullyFaithfulFinitePresentationPresentations` is the
 conjunction of **Stacks 04T4 (1)**, **(4)**, **(5)** and **(6)** with **Stacks 06FI**. That
@@ -253,7 +254,7 @@ theorem hasLocallyOfFinitePresentationFlatFieldSpectrumCover_of_isEquivalenceFun
       (Space.isSmoothLocalOnSourceAndTarget_locallyOfFinitePresentation B S hS)
       (schemeStack.{u, w} B S hS F.base).property 𝒲.property (g ≫ e).hom).2
       (key _ hlfpRel)
-  · show Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
+  · change Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
     rw [AlgebraicStacks.pointsMap_comp B S hS g e]
     exact Function.Surjective.comp (isSurjective_of_isEquivalenceFunctor B S hS e he) hsurj
   · exact (AlgebraicStacks.isFlat_iff_hasPropertyOnSomeSmoothDiagram B S hS (g ≫ e)).2
@@ -272,7 +273,7 @@ theorem isEquivalence_toEssImageBased_of_full_of_faithful
     (hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full)
     (hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful) :
     Functor.IsEquivalence (AlgebraicStacks.toEssImageBased i).toFunctor := by
-  show Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
+  change Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
   have _hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full := hfull
   have _hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful := hfaithful
   have : (CatFiberedInGroupoids.homFunctor i.hom).toEssImage.Full :=
@@ -291,7 +292,8 @@ reduced with a singleton space of points, that is, which satisfies condition (1)
 condition (2) of **Stacks 06MP**.
 
 The subcategory is the essential image of the fully faithful 1-morphism supplied by the carried
-`AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations` out of the surjective flat cover,
+`AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations` out of the surjective flat
+cover,
 locally of finite type, by the spectrum of a field that condition (3) of **Stacks 06MN** supplies
 (`AlgebraicGeometry.Stack.tfae_isReducedWithUniquePoint`). It is closed under
 isomorphism; the source factors through it by an equivalence of categories, hence by an equivalence

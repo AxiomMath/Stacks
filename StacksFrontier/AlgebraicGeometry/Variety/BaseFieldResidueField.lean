@@ -61,7 +61,7 @@ private lemma bijective_ΓSpecIso_inv_germ (k : Type u) [Field k] (s : Spec (.of
     Function.Bijective
       ((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).presheaf.germ ⊤ s h).hom := by
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     infer_instance
   obtain rfl : s = closedPoint (CommRingCat.of k) := Subsingleton.elim _ _
   rw [ΓSpecIso_inv_germ_closedPoint]

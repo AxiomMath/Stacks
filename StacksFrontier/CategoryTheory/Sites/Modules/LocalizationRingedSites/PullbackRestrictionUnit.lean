@@ -46,6 +46,10 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
   [HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The retyping formula for the localization unit, read on underlying sheaves. -/
 theorem map_localizationExtendRestrictAdjunction_unit_app
     (M : SheafOfModules.{u} (commRingSheaf (X.over U).ringedTopos.J
@@ -63,6 +67,7 @@ theorem map_localizationExtendRestrictAdjunction_unit_app
     (X.localizationExtendRestrictAdjunction_unit_app U M)).trans
       ((localizationModuleForgetInverse X U).map_comp _ _)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The unit of Stacks 03CZ for the localization morphism of the modules development, on
 underlying sheaves of sets, followed by the comparison of Stacks 04IX for that same morphism, is
 the identity: the comparison is the inverse transpose of the inverse-image identification of

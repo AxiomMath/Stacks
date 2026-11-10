@@ -171,7 +171,7 @@ theorem comparisonSheafHom_comp_yoneda_elt
   refine Sheaf.hom_ext_sections fun U s => ?_
   rw [(sectionsFunctor (SmallEtale.topology B X.obj X.property) U).map_comp_apply,
     comparisonSheafHom_app_apply, Sheaf.sectionsFunctor_map_apply]
-  show ((SmallEtale.toScheme B X.obj X.property).map
+  change ((SmallEtale.toScheme B X.obj X.property).map
         (comparisonChartHom B g f hf V U s)).appTop.hom
       ((SmallEtale.baseChangeProj B f V).appTop.hom t) = _
   have h2 := toScheme_map_comparisonChartHom_comp_baseChangeProj B g f hf V U s

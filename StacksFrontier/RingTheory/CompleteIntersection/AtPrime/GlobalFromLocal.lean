@@ -272,7 +272,7 @@ private theorem exists_fin_span_eq {A : Type*} [CommRing A] [IsNoetherianRing A]
   rw [← hspan]
   refine le_antisymm (Ideal.span_le.2 ?_) (Ideal.span_le.2 ?_)
   · rintro _ ⟨i, rfl⟩
-    show t.toList.getD (i : ℕ) 0 ∈ _
+    change t.toList.getD (i : ℕ) 0 ∈ _
     by_cases h : (i : ℕ) < t.toList.length
     · refine Ideal.subset_span ?_
       rw [List.getD_eq_getElem _ 0 h]

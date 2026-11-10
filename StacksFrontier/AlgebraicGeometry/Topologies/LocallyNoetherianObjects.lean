@@ -129,7 +129,7 @@ private theorem preservesCospans_forget_comp_schemeBelowInclusion (B : BigSite.{
   have : (schemeSizeBelow (cutoff τ B)).IsClosedUnderLimitsOfShape WalkingCospan := by
     apply ObjectProperty.IsClosedUnderLimitsOfShape.mk'
     rintro _ ⟨F, hF⟩
-    show (limit F).size < cutoff τ B
+    change (limit F).size < cutoff τ B
     rw [Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan F))]
     exact Scheme.size_pullback_lt _ _ (hF .left) (hF .right)
   comp_preservesLimitsOfShape _ _

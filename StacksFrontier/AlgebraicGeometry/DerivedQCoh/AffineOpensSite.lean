@@ -105,7 +105,8 @@ about `D_QCoh(𝒪_X)`: of the comparisons (1) ≃ (2) ≃ (3) ≃ (4) of [Stack
 derived categories in
 `StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensDerivedComparison.lean` — and the step
 (3) ≃ (4), which is where the family below lives, in
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticComparison.lean`. The family below is
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticComparison.lean`. The family below
+is
 carried across that chain to `D_QCoh(𝒪_X)`, and [Stacks, Tag 0A9E] deduced from it, in
 `StacksFrontier/AlgebraicGeometry/DerivedQCoh/AffineOpensChaoticQuasicoherentEquality.lean`.
 
@@ -131,7 +132,7 @@ themselves.
   for an arbitrary coarsening as
   `Stacks.Cohomology.CompareTopologies.derivedPullbackEquivalenceImageOfLE` and in the chaotic
   shape as `derivedPullbackEquivalenceImageOfBot`, both in
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/CoarseningDerivedEquivalence.lean`.
+`StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/CoarseningDerivedEquivalence.lean`.
 
 Instantiating the chaotic case **here** asked for three things, all of them now supplied: the
 vanishing of `H^p_Zar(U, F)` for `p > 0`, `U` an affine open and `F` quasi-coherent **on the

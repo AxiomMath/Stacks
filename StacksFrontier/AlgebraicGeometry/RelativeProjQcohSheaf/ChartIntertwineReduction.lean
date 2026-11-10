@@ -100,9 +100,9 @@ No tag is carried.
 This file belongs to the route to property (1) of [Stacks, Tag 01O7] through the
 isomorphism `α : h^*𝒪(d) ≅ L`, and the remarks in this section concern that route only.
 The comparison `ℳ̃_T ≅ h^*ℳ̃` of property (1) of [Stacks, Tag 01O7] is built by another route,
-in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this file:
-on a chart datum (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.ChartDatum.iso`) the
-degreewise maps send `x ⊗ l` to `g^*(x / c^m) · (l · w^m)`, their balancing relations are
+in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this
+file: on a chart datum (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.ChartDatum.iso`)
+the degreewise maps send `x ⊗ l` to `g^*(x / c^m) · (l · w^m)`, their balancing relations are
 verified directly (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.bmap_balanced`), and the
 inverse is written down.
 
@@ -349,7 +349,6 @@ variable {S : Scheme.{u}} [IsAffine S] {A : SheafGradedAlgebra S} (𝔐 : SheafG
   (d : ℕ) {Y : Scheme.{u}}
   (φ : Y ⟶ (AlgebraicGeometry.Proj.degreeOpen (A.grading (⊤ : S.Opens)) d).toScheme)
   {L : SheafOfModules.{u} (structureRingSheaf Y.toRingedSpace)}
-  [Stacks.Ample.IsInvertibleModule Y L]
   [Stacks.SheafOfModules.IsInvertible Y.toRingedSpace.presheaf (isSheafStruct Y) L]
 
 /-- **The multiplication `(h^*ℳ̃ ⊗ L^{⊗ n}) ⊗ L^{⊗ i} ⟶ h^*ℳ̃ ⊗ L^{⊗ (n+i)}`** of the Laurent

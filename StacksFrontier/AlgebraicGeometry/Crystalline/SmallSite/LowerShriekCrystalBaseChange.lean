@@ -210,7 +210,7 @@ lemma tauToSheaf_app_tmul (W : B.thickening.target.scheme.Opens)
     (germ_eq_smul_germ_one _ _ _ _ _).trans (congrArg (_ • ·)
       (germ_one_eq_map_unit (CrystallineThickening.ι S) (crisCommRing S)
         (tauIdx τ W) (upSection F s)))
-  show sheafifyAt F _ (modelToPullbackAt F _ (germ (CrystallineThickening.ι S) (crisCommRing S)
+  change sheafifyAt F _ (modelToPullbackAt F _ (germ (CrystallineThickening.ι S) (crisCommRing S)
     (ulModel F) (CostructuredArrow.mk (tauIdx τ W)) ((ambientRingIso W).hom.hom t)
       (upSection F s))) = _
   refine (congrArg (fun z ↦ sheafifyAt F _ (modelToPullbackAt F _ z)) h2).trans ?_
@@ -238,7 +238,7 @@ variable (F : SheafOfModules.{u} (structureSheaf S)) {B : Thickening S}
 lemma sectionsRingHom_top (a : (crisCommRing S).obj (op ((CrystallineThickening.ι S).obj A))) :
     (Stacks.AlgebraicGeometry.BaseChangePresheaf.sectionsRingHom (tauRing τ) ⊤).hom a =
       (tauRing τ).hom a := by
-  show (B.thickening.target.scheme.presheaf.map (homOfLE le_top).op).hom ((tauRing τ).hom a) = _
+  change (B.thickening.target.scheme.presheaf.map (homOfLE le_top).op).hom ((tauRing τ).hom a) = _
   rw [show (homOfLE le_top : (⊤ : B.thickening.target.scheme.Opens) ⟶ ⊤) = 𝟙 ⊤ from
     Subsingleton.elim _ _, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -353,8 +353,7 @@ private theorem addMonoidHom_ext_tmul {A B : Type u} [CommRing A] [CommRing B] (
     (H : ∀ (b : B) (m : M), g (Stacks.PullbackModel.tmul f b m) =
       h (Stacks.PullbackModel.tmul f b m)) : g = h := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero g).trans (map_zero h).symm
+  induction z using TensorProduct.inductionOn with
   | tmul t s => exact H t s
   | add z z' hz hz' => exact (map_add g z z').trans ((congrArg₂ (· + ·) hz hz').trans
       (map_add h z z').symm)
@@ -383,7 +382,7 @@ lemma restrict_lowerShriekBaseChange
     (AddEquiv.ulift.symm.toAddMonoidHom.comp (baseChangeToPresheafTop F τ))
   refine DFunLike.congr_fun (addMonoidHom_ext_tmul (tauRing τ).hom (g := K₁) (h := K₂)
     fun t s ↦ ?_) z
-  show ((moduleLowerShriek S).obj ((moduleULift S).obj F)).val.restrictₛₗ
+  change ((moduleLowerShriek S).obj ((moduleULift S).obj F)).val.restrictₛₗ
       (B.restrictOpenHom ⊤).op ((show crysSheafRing S B from t) •
         lowerShriekRestrict ((moduleULift S).obj F) τ (upSection F s)) =
     (tauToSheaf F τ).app (op ⊤) (ULift.up (Stacks.PullbackModel.tmul

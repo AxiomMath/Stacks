@@ -256,7 +256,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 /-- `n` times a morphism of abelian sheaves acts on sections as `n` times. -/
 public lemma zsmul_app_apply {F G : Sheaf J AddCommGrpCat.{t}} (φ : F ⟶ G) (n : ℤ) (X : Cᵒᵖ)
     (x : ToType (F.obj.obj X)) : (n • φ).hom.app X x = n • (φ.hom.app X x) := by
-  show (n • φ.hom).app X x = _
+  change (n • φ.hom).app X x = _
   rw [NatTrans.app_zsmul]
   rfl
 

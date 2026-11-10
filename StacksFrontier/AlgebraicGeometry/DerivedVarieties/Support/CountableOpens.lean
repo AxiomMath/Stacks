@@ -126,7 +126,7 @@ private lemma countable_both
         (Γ(Y.left, ⊤) →ₐ[Γ(Spec (.of R), ⊤)] Γ((↑U : Scheme.{u}), ⊤)) := fun f =>
     { (f.left ≫ V.ι).appTop.hom with
       commutes' := fun r => by
-        show (Y.hom.appTop ≫ (f.left ≫ V.ι).appTop).hom r =
+        change (Y.hom.appTop ≫ (f.left ≫ V.ι).appTop).hom r =
           (U.ι ≫ X.hom).appTop.hom r
         rw [← Scheme.Hom.comp_appTop]
         have hw : (f.left ≫ V.ι) ≫ Y.hom = U.ι ≫ X.hom := by

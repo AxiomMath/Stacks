@@ -130,7 +130,7 @@ theorem modulePullback_map_globalSmul
         (SmallEtale.topology B S hS X.1)
         (Stacks.Sheaves.RingedToposModules.fSharpCommRing F) _ _) _ _
       (fun M => scalarRestriction_map_globalSmul B S hS f (relativeScalars B S hS f s) M) N
-  show (Stacks.Sheaves.RingedToposModules.extendScalarsFSharp F).map
+  change (Stacks.Sheaves.RingedToposModules.extendScalarsFSharp F).map
       ((Stacks.Sheaves.RingedToposModules.inverseImageModules
         (smallEtaleRingedToposHom B S hS f).toToposHom
         (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS Y).O)).map

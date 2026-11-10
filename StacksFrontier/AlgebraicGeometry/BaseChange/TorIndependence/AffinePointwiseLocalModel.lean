@@ -49,12 +49,12 @@ theorem exists_mul_mem_comap_of_isUnit {C D B : Type u} [CommRing C] [CommRing D
   have hv' : algebraMap C B (σ x) = v := hv.symm
   have h1 : algebraMap C B (σ x * c) = algebraMap C B s := by
     rw [map_mul]
-    show _ * algebraMap C B (c, s).1 = _
+    change _ * algebraMap C B (c, s).1 = _
     rw [← hc, hv', ← mul_assoc, Units.mul_inv, one_mul]
   obtain ⟨s', hs'⟩ := IsLocalization.exists_of_eq (M := S) h1
   obtain ⟨m, hm⟩ := hσ (s' * c)
   refine ⟨m, ?_⟩
-  show σ (m * x) ∈ S
+  change σ (m * x) ∈ S
   rw [map_mul, hm, mul_assoc, mul_comm c, hs']
   exact S.mul_mem s'.2 s.2
 
@@ -144,7 +144,7 @@ augmentation of `w`. -/
 theorem augmentation_baseChangeAugmentation (w : F.X 0) :
     augmentation _ (baseChangeAugmentation (R₀₁ := R₀₁) (R'₁ := R'₁) F ε) ((1 : R₀₁) ⊗ₜ[R₀] w) =
       algebraMap R' R'₁ (augmentation F ε w) := by
-  show (baseChangeAugmentationMap (R₀ := R₀) (R₀₁ := R₀₁) (R' := R') (R'₁ := R'₁)).hom
+  change (baseChangeAugmentationMap (R₀ := R₀) (R₀₁ := R₀₁) (R' := R') (R'₁ := R'₁)).hom
     ((1 : R₀₁) ⊗ₜ[R₀] augmentation F ε w) = _
   rw [baseChangeAugmentationMap_tmul, one_smul]
 
@@ -180,7 +180,7 @@ theorem isLocalizedModule_algebraMap_comap (hσ : Function.Surjective (algebraMa
       invFun := fun x => x
       map_add' := fun _ _ => rfl
       map_smul' := fun r x => by
-        show (algebraMap R₀ R' r) • (show R'₁ from x) = r • (show R'₁ from x)
+        change (algebraMap R₀ R' r) • (show R'₁ from x) = r • (show R'₁ from x)
         rw [algebraMap_smul]
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
@@ -206,7 +206,7 @@ theorem isIso_baseChangeAugmentationMap (V : Submonoid R₀) [IsLocalization V R
       hb.equiv.toLinearMap := by
     refine TensorProduct.AlgebraTensorModule.ext fun a r => ?_
     exact (baseChangeAugmentationMap_tmul a r).trans (IsBaseChange.equiv_tmul hb a r).symm
-  show Function.Bijective (baseChangeAugmentationMap (R₀ := R₀) (R₀₁ := R₀₁) (R' := R')
+  change Function.Bijective (baseChangeAugmentationMap (R₀ := R₀) (R₀₁ := R₀₁) (R' := R')
     (R'₁ := R'₁)).hom
   rw [this]
   exact hb.equiv.bijective
@@ -265,7 +265,7 @@ theorem isIso_local_iff_isLocalizedModule_modelKappa (U : Submonoid R) [IsLocali
     intro u
     rw [IsScalarTower.algebraMap_apply R R₀ R₀₁]
     refine IsLocalization.map_units R₀₁ (⟨algebraMap R R₀ u, ?_⟩ : Zs)
-    show IsUnit (algebraMap R' R'₁ (algebraMap R₀ R' (algebraMap R R₀ u)))
+    change IsUnit (algebraMap R' R'₁ (algebraMap R₀ R' (algebraMap R R₀ u)))
     rw [← IsScalarTower.algebraMap_apply R R₀ R', ← IsScalarTower.algebraMap_apply R R' R'₁,
       IsScalarTower.algebraMap_apply R R₁ R'₁]
     exact (IsLocalization.map_units R₁ u).map _
@@ -293,13 +293,13 @@ theorem isIso_local_iff_isLocalizedModule_modelKappa (U : Submonoid R) [IsLocali
     obtain ⟨x, rfl⟩ := hsurj r
     obtain ⟨t, ht⟩ := hsurj v
     have htZ : t ∈ Zs := by
-      show IsUnit (algebraMap R' R'₁ (algebraMap R₀ R' t))
+      change IsUnit (algebraMap R' R'₁ (algebraMap R₀ R' t))
       rw [ht]
       exact IsLocalization.map_units R'₁ v
     refine ⟨IsLocalization.mk' R₀₁ x (⟨t, htZ⟩ : Zs), ?_⟩
-    show IsLocalization.lift (M := Zs) (g := σ) hZsU (IsLocalization.mk' R₀₁ x _) = y
+    change IsLocalization.lift (M := Zs) (g := σ) hZsU (IsLocalization.mk' R₀₁ x _) = y
     refine (IsLocalization.lift_mk'_spec (M := Zs) (g := σ) hZsU _ _ _).2 ?_
-    show algebraMap R' R'₁ (algebraMap R₀ R' x) = algebraMap R' R'₁ (algebraMap R₀ R' t) * y
+    change algebraMap R' R'₁ (algebraMap R₀ R' x) = algebraMap R' R'₁ (algebraMap R₀ R' t) * y
     rw [ht, mul_comm, hy]
   have hZs : IsLocalizedModule Zs (IsScalarTower.toAlgHom R₀ R' R'₁).toLinearMap := by
     have h1 := isLocalizedModule_algebraMap_comap (R₀ := R₀) (R' := R') (R'₁ := R'₁) hsurj V

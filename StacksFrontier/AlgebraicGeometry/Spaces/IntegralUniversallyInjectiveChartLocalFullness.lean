@@ -269,22 +269,22 @@ theorem exists_isIso_smallBaseChange_map_of_isInducing
       𝟙 ((smallBaseChange B S hS f hrep).obj Wc) := by
     rw [Functor.map_comp]
     refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ (hrep.hom_ext ?_ ?_))
-    · show yoneda.map ((ρ ≫ π) ≫ ψ) ≫ hrep.fst oChart =
+    · change yoneda.map ((ρ ≫ π) ≫ ψ) ≫ hrep.fst oChart =
         yoneda.map (𝟙 (hrep.pullback oChart)) ≫ hrep.fst oChart
       rw [Functor.map_comp, Category.assoc, hψfst, hαw, CategoryTheory.Functor.map_id,
         Category.id_comp]
-    · show ((ρ ≫ π) ≫ ψ) ≫ hrep.snd oChart =
+    · change ((ρ ≫ π) ≫ ψ) ≫ hrep.snd oChart =
         𝟙 (hrep.pullback oChart) ≫ hrep.snd oChart
       rw [Category.assoc, hψsnd, hασ, Category.id_comp]
   have htwo : ψc ≫ (smallBaseChange B S hS f hrep).map (kO ≫ kU) =
       𝟙 ((smallBaseChange B S hS f hrep).obj U) := by
     rw [Functor.map_comp]
     refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ (hrep.hom_ext ?_ ?_))
-    · show yoneda.map (ψ ≫ ρ ≫ π) ≫ hrep.fst U.1.hom =
+    · change yoneda.map (ψ ≫ ρ ≫ π) ≫ hrep.fst U.1.hom =
         yoneda.map (𝟙 (hrep.pullback U.1.hom)) ≫ hrep.fst U.1.hom
       rw [Functor.map_comp, Category.assoc, hαw, hψfst, CategoryTheory.Functor.map_id,
         Category.id_comp]
-    · show (ψ ≫ ρ ≫ π) ≫ hrep.snd U.1.hom =
+    · change (ψ ≫ ρ ≫ π) ≫ hrep.snd U.1.hom =
         𝟙 (hrep.pullback U.1.hom) ≫ hrep.snd U.1.hom
       rw [Category.assoc, hαsnd, ← Category.assoc, hψsnd, ← Category.assoc, hσ, hγfst,
         Category.id_comp]
@@ -292,14 +292,14 @@ theorem exists_isIso_smallBaseChange_map_of_isInducing
       (smallBaseChange B S hS f hrep).map (kO ≫ kU) ≫ φ := by
     rw [Functor.map_comp, Functor.map_comp]
     refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ (hrep.hom_ext ?_ ?_))
-    · show yoneda.map (ρ ≫ π') ≫ hrep.fst U'.1.hom =
+    · change yoneda.map (ρ ≫ π') ≫ hrep.fst U'.1.hom =
         yoneda.map ((ρ ≫ π) ≫ ϕ) ≫ hrep.fst U'.1.hom
       have hL : yoneda.map (ρ ≫ π') ≫ hrep.fst U'.1.hom = hrep.fst oChart := by
         rw [Functor.map_comp, Category.assoc, hπ'w, hρw]
       have hR : yoneda.map ((ρ ≫ π) ≫ ϕ) ≫ hrep.fst U'.1.hom = hrep.fst oChart := by
         rw [Functor.map_comp, Category.assoc, hφw, hαw]
       rw [hL, hR]
-    · show (ρ ≫ π') ≫ hrep.snd U'.1.hom = ((ρ ≫ π) ≫ ϕ) ≫ hrep.snd U'.1.hom
+    · change (ρ ≫ π') ≫ hrep.snd U'.1.hom = ((ρ ≫ π) ≫ ϕ) ≫ hrep.snd U'.1.hom
       have hL : (ρ ≫ π') ≫ hrep.snd U'.1.hom = hrep.snd oChart ≫ ιO ≫ prU' := by
         rw [Category.assoc, hπ'snd, ← Category.assoc, hρsnd, Category.assoc]
       have hR : ((ρ ≫ π) ≫ ϕ) ≫ hrep.snd U'.1.hom = hrep.snd oChart ≫ ιO ≫ prU' := by

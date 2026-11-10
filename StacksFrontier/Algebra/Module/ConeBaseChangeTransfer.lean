@@ -9,8 +9,8 @@ Let `C₀ ⟶ C₁ ⟶ C₂` and `D₀ ⟶ D₁` be complexes of `R`-modules wit
 two terms, and let `K` be an `R`-algebra. Suppose `C'ᵢ`, `D'ᵢ` are `K`-modules with maps
 `θ : Cᵢ ⟶ C'ᵢ`, `θ : Dᵢ ⟶ D'ᵢ` exhibiting them as base changes to `K`, compatible with primed
 differentials and maps. Then the conditions `SurjZero`, `InjOne` of
-`StacksFrontier/Algebra/Module/FlatComplexNakayama.lean`, injectivity of the cone differential and of
-`d₀` after base change to `K` follow from the corresponding conditions on the primed complexes.
+`StacksFrontier/Algebra/Module/FlatComplexNakayama.lean`, injectivity of the cone differential and
+of `d₀` after base change to `K` follow from the corresponding conditions on the primed complexes.
 
 This is how a computation on a fibre is turned into a statement about the base change of a
 complex to a residue field.
@@ -39,8 +39,7 @@ theorem equiv_comp_baseChange {M N M' N' : Type u} [AddCommGroup M] [AddCommGrou
     {θ : M →ₗ[R] M'} {θ' : N →ₗ[R] N'} (hθ : IsBaseChange K θ) (hθ' : IsBaseChange K θ')
     (f : M →ₗ[R] N) (f' : M' →ₗ[K] N') (hf : (f'.restrictScalars R) ∘ₗ θ = θ' ∘ₗ f)
     (x : K ⊗[R] M) : hθ'.equiv (f.baseChange K x) = f' (hθ.equiv x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     rw [LinearMap.baseChange_tmul, IsBaseChange.equiv_tmul, IsBaseChange.equiv_tmul, map_smul]
     congr 1

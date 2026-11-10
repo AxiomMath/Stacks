@@ -82,7 +82,7 @@ theorem picardClass_picardRepresentative
     (x : Stacks.SheafOfModules.PicardGroup X.sheaf.obj X.ringCatSheaf.property) :
     Stacks.SheafOfModules.picardClass X.sheaf.obj X.ringCatSheaf.property
         (picardRepresentative X x).obj (picardRepresentative X x).property = x := by
-  show (Stacks.SheafOfModules.picardClassEquiv X.sheaf.obj X.ringCatSheaf.property)
+  change (Stacks.SheafOfModules.picardClassEquiv X.sheaf.obj X.ringCatSheaf.property)
       (toSkeleton ((fromSkeleton
         (Stacks.SheafOfModules.InvertibleModules X.sheaf.obj X.ringCatSheaf.property)).obj
           ((Stacks.SheafOfModules.picardClassEquiv X.sheaf.obj

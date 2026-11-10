@@ -380,7 +380,7 @@ theorem smallEtaleBaseChangeAb_paste :
     mateEquiv_smallEtaleBaseChangeAb, mateEquiv_smallEtaleBaseChangeAb,
     mateEquiv_smallEtaleBaseChangeAb, ← smallEtalePushforwardAbComp'_rfl v₂ v₁,
     ← smallEtalePushforwardAbComp'_rfl u₂ u₁]
-  refine TwoSquare.ext _ _ fun 𝓖 => ?_
+  refine NatTrans.ext (funext fun 𝓖 => ?_)
   simpa using smallEtaleSquarePushforwardIso_paste_app g₀ g₁ g₂ u₁ u₂ v₁ v₂ w₁ w₂ 𝓖
 
 include w₁ w₂ in

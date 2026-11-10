@@ -87,10 +87,10 @@ theorem isRepresentable_hilbPresheaf_of_affineOpens
   have hin : InImage (χ U') ((hilbPresheaf X d).map g.op ⟨s, W⟩) := by
     have h1 : InImage (pushMap (openInclusion X U) d)
         ((hilbPresheaf X d).map g.op ⟨s, W⟩) := by
-      show InImage (pushMap (openInclusion X U) d)
+      change InImage (pushMap (openInclusion X U) d)
         (⟨g ≫ s, W'⟩ : (hilbPresheaf X d).obj (op (Spec (T.residueField t))))
       rw [inImage_pushMap_iff]
-      show ∀ z, _ ∈ (U.ι).opensRange
+      change ∀ z, _ ∈ (U.ι).opensRange
       rw [Scheme.Opens.opensRange_ι]
       exact hsupp
     obtain ⟨q, hq⟩ := h1
@@ -98,7 +98,7 @@ theorem isRepresentable_hilbPresheaf_of_affineOpens
       ((hilbPresheaf (openOver X U'.1) d).reprW.hom.app (op (Spec (T.residueField t))))).mp
         inferInstance).2 q
     refine ⟨c, ?_⟩
-    show (pushMap (openInclusion X U) d).app _
+    change (pushMap (openInclusion X U) d).app _
       ((hilbPresheaf (openOver X U'.1) d).reprW.hom.app _ c) = _
     rw [hc]
     exact hq

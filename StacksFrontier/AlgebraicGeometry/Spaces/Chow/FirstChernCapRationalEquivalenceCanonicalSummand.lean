@@ -220,11 +220,11 @@ theorem IsRationallyEquivalentToZeroWithinCanonical.add
       Sum.elim (fun j => (integralClosedSubspacePushforward D sX hX (W j) k (c j)).1 Z)
         (fun l => (integralClosedSubspacePushforward D sX hX (U l) k (e l)).1 Z) :=
     funext fun s => by cases s <;> rfl
-  show (α + β).1 Z = _
+  change (α + β).1 Z = _
   rw [cycleFamilySum_apply, hsplit, Stacks.Chow.finsum_sum_elim _ _
       (finite_support_cycleFamilyCoeff D sX hX W hWfin k c Z)
       (finite_support_cycleFamilyCoeff D sX hX U hUfin k e Z), hWsum, hUsum]
-  show (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX U hUfin k e).1 Z = _
+  change (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX U hUfin k e).1 Z = _
   rw [cycleFamilySum_apply, cycleFamilySum_apply]
 
 end Add

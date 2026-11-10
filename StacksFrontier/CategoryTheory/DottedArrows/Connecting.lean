@@ -95,7 +95,7 @@ theorem exists_hom_beta_app_image (a b : DottedArrow x j f y γ) (z : S.val.obj)
     (pasting_app_eq a b z)) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
   refine Eq.trans (congrArg (fun t => b.β.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫ t)
-    (Iso.map_hom_inv_id eα f.hom.toFunctor)) ?_
+    (Iso.hom_inv_id_map eα f.hom.toFunctor)) ?_
   exact Category.comp_id _
 
 /-- **A connecting morphism transports along an isomorphism of the base.** Conjugating by the
@@ -124,7 +124,7 @@ theorem exists_hom_beta_app_of_iso (a b : DottedArrow x j f y γ) {w z : T.val.o
     (beta_naturality b e.inv).symm) ?_
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (congrArg (fun t => t ≫ b.β.hom.toNatTrans.app w)
-    (Iso.map_hom_inv_id e y.hom.toFunctor)) ?_
+    (Iso.hom_inv_id_map e y.hom.toFunctor)) ?_
   exact Category.id_comp _
 
 /-- **A connecting morphism between two dotted arrows lies over an identity.** Its image under

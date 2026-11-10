@@ -189,7 +189,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
   obtain ⟨s₀, hs₀⟩ := (bijective_spacePointMap_representing B S hS (yoneda.obj U₀) 𝒱 eU).2 w₀
   let e₀ := Space.pointsEquivScheme B S hS U₀ s₀
   have he₀ : e₀ ∈ E := by
-    show AlgebraicStacks.pointsMap B S hS a (sp𝒱 _) = x
+    change AlgebraicStacks.pointsMap B S hS a (sp𝒱 _) = x
     rw [Equiv.symm_apply_apply]
     exact (congrArg _ hs₀).trans hw₀
   -- an affine open neighbourhood, Noetherian
@@ -199,7 +199,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
   have : IsNoetherianRing R := hNoeth.component_noetherian ⟨W, hW⟩
   let E' : Set (PrimeSpectrum R) := {q | hW.fromSpec.base q ∈ E}
   have hE' : E'.Nonempty := ⟨hW.primeIdealOf ⟨e₀, he₀W⟩, by
-    show hW.fromSpec.base _ ∈ E
+    change hW.fromSpec.base _ ∈ E
     rwa [hW.fromSpec_primeIdealOf]⟩
   obtain ⟨p, hpE, hpmin⟩ := exists_mem_forall_le_imp_eq E' hE'
   -- the closure of the chosen point, and its generic point
@@ -210,7 +210,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
   have : LocallyOfFinitePresentation πA :=
     (LocallyOfFinitePresentation.SpecMap_iff _).2
       (RingHom.FinitePresentation.of_surjective _ Ideal.Quotient.mk_surjective (by
-        show (RingHom.ker (Ideal.Quotient.mk p.asIdeal)).FG
+        change (RingHom.ker (Ideal.Quotient.mk p.asIdeal)).FG
         rw [Ideal.mk_ker]
         exact IsNoetherian.noetherian _))
   let g : Spec (.of K) ⟶ Spec (.of A) := Spec.map (CommRingCat.ofHom (algebraMap A K))
@@ -260,12 +260,12 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
   let pt : Spec (.of K) := ⟨⊥, Ideal.isPrime_bot⟩
   have hpt : πA.base (g.base pt) = p := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (Ideal.Quotient.mk p.asIdeal) (Ideal.comap (algebraMap A K) ⊥) = p.asIdeal
+    change Ideal.comap (Ideal.Quotient.mk p.asIdeal) (Ideal.comap (algebraMap A K) ⊥) = p.asIdeal
     rw [Ideal.comap_bot_of_injective _ (IsFractionRing.injective A K), ← RingHom.ker_eq_comap_bot,
       Ideal.mk_ker]
   have hmemE : (BigFppfOver.toScheme B S hS).map jsite pt ∈ E := by
     rw [hjs']
-    show hW.fromSpec.base (πA.base (g.base pt)) ∈ E
+    change hW.fromSpec.base (πA.base (g.base pt)) ∈ E
     rwa [hpt]
   let s_q := (Space.pointsEquivScheme B S hS F.base).symm pt
   let q₀ := spacePointMap B S hS (yoneda.obj F.base) 𝒰
@@ -275,7 +275,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
     have h1 := pointsMap_yoneda_map_pointsEquivScheme_symm B S hS jsite pt
     rw [(subsingleton_points_fieldSpectrumStack.{u, w} B S hS F).elim q q₀,
       AlgebraicStacks.pointsMap_comp]
-    show AlgebraicStacks.pointsMap B S hS a (Stack.pointsMap B S hS 𝒰.val 𝒰.property 𝒱.property
+    change AlgebraicStacks.pointsMap B S hS a (Stack.pointsMap B S hS 𝒰.val 𝒰.property 𝒱.property
       j'.hom q₀) = x
     rwa [← spacePointMap_representing_naturality B S hS (yoneda.obj F.base) (yoneda.obj U₀) 𝒰 𝒱
       eU' eU j' s_q, representingMap_schemeFibredCategoryMap, h1]
@@ -285,7 +285,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
     intro t
     rw [show sp𝒱 (Space.pointsMap B S hS Fsp ψ t) = _ from
       spacePointMap_representing_naturality B S hS Fsp (yoneda.obj U₀) A₁.pt 𝒱 eF eU A₁.snd t]
-    show Stack.pointsMap B S hS 𝒱.val 𝒱.property 𝒳.val.property a.hom.hom
+    change Stack.pointsMap B S hS 𝒱.val 𝒱.property 𝒳.val.property a.hom.hom
       (Stack.pointsMap B S hS A₁.pt.val A₁.pt.property 𝒱.property A₁.snd.hom _) = x
     rw [Stack.pointsMap_comp B S hS A₁.pt.val A₁.pt.property 𝒱.property 𝒳.val.property
         A₁.snd.hom a.hom.hom,
@@ -301,7 +301,7 @@ theorem exists_isResidualGerbeAt_of_isLocallyNoetherianStack (𝒳 : AlgebraicSt
     intro V r gV hgr v z hvz
     apply hmin z
     rw [← hvz]
-    show AlgebraicStacks.pointsMap B S hS a (sp𝒱 ((Space.pointsEquivScheme B S hS U₀).symm
+    change AlgebraicStacks.pointsMap B S hS a (sp𝒱 ((Space.pointsEquivScheme B S hS U₀).symm
       ((BigFppfOver.toScheme B S hS).map r v))) = x
     let z₀ := (Space.pointsEquivScheme B S hS V).symm v
     have h2 : Space.pointsMap B S hS Fsp ψ (Space.pointsMap B S hS _ gV z₀) =

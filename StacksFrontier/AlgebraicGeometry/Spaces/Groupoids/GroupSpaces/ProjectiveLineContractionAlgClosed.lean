@@ -121,7 +121,7 @@ theorem exists_coordinateProjection_ne_univ_of_not_forall_finite (m : ℕ)
       (projectiveLinePower K B hK (Fin m))
       (isAlgebraicSpace_projectiveLinePowerFin K B hK m) C hCclosed hCirr.2)
     ⟨lx, hlx⟩ hy M
-  letI : DecidablePred fun i : Fin m =>
+  let : DecidablePred fun i : Fin m =>
       x ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i =
         y ≫ Pi.π (fun _ : Fin m => projectiveLineFunctor K B hK) i :=
     fun _ => Classical.propDecidable _
@@ -209,7 +209,7 @@ theorem exists_subsetProjection_ne_of_not_forall_finite {n : ℕ} (I : Finset (F
       refine ⟨pointsMap B (Spec (CommRingCat.of K)) hK (projectiveLinePower K B hK I)
         (Pi.map' (fun i : Fin m => e.symm i)
           (fun _ => 𝟙 (projectiveLineFunctor K B hK))) p, ?_, ?_⟩
-      · show pointsMap B (Spec (CommRingCat.of K)) hK _ _ _ = w
+      · change pointsMap B (Spec (CommRingCat.of K)) hK _ _ _ = w
         rw [pointsMap_comp B (Spec (CommRingCat.of K)) hK _ _ g, Function.comp_apply,
           ← Function.comp_apply (f := pointsMap B (Spec (CommRingCat.of K)) hK
             (projectiveLinePower K B hK (Fin m))

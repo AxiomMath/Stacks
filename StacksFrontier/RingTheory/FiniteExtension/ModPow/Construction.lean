@@ -379,7 +379,7 @@ lemma bSubalg_finite (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alge
           refine Submodule.span_induction ?_ ?_ ?_ ?_ hxM
           · rintro y ⟨a, a', ha, rfl⟩
             refine ⟨a, ?_⟩
-            show Ideal.Quotient.mk (Ideal.span {f ^ n}) (arep a)
+            change Ideal.Quotient.mk (Ideal.span {f ^ n}) (arep a)
                 = Ideal.Quotient.mk (Ideal.span {f ^ n}) a'
             rw [Ideal.Quotient.eq]
             have hz : algebraMap A' A (arep a - a') = 0 := by
@@ -418,7 +418,7 @@ lemma bSubalg_finite (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alge
         = Submodule.restrictScalars B' J := by
       apply le_antisymm
       · rintro x ⟨b, hbN, rfl⟩
-        show (Ideal.span {g ^ n} : Ideal B').mkQ b ∈ J
+        change (Ideal.span {g ^ n} : Ideal B').mkQ b ∈ J
         exact (hNcomap b).mp hbN
       · intro x hx
         have hxJ : x ∈ J := hx
@@ -453,7 +453,7 @@ lemma bSubalg_finite (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alge
       map_add' := by
         rintro ⟨b₁, hb₁⟩ ⟨b₂, hb₂⟩
         apply Subtype.ext
-        show ginv * Gm (b₁ + b₂) = (ginv * Gm b₁) + (ginv * Gm b₂)
+        change ginv * Gm (b₁ + b₂) = (ginv * Gm b₁) + (ginv * Gm b₂)
         rw [map_add]; ring
       map_smul' := by
         rintro r ⟨b, hb⟩
@@ -466,7 +466,7 @@ lemma bSubalg_finite (A' : Type u) (A : Type v) [CommRing A'] [CommRing A] [Alge
     obtain ⟨b, hbeq, hbN⟩ := hx
     refine ⟨⟨b, hbN⟩, ?_⟩
     apply Subtype.ext
-    show ginv * Gm b = x
+    change ginv * Gm b = x
     have hbeq' : Gm b = G ^ t * x := by rw [← hGmdef, ← hGdef] at hbeq; exact hbeq
     rw [hbeq', ← mul_assoc, mul_comm ginv (G ^ t), hGt, one_mul]
   have hNfin : Module.Finite B' ↥N := Module.Finite.iff_fg.mpr hNFG

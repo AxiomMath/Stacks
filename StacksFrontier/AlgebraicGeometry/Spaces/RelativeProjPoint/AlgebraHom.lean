@@ -231,7 +231,7 @@ theorem pointComparison_comp_pointAlgebraHom_app {T T' : BigFppfOver B S hS} (τ
         (pointComparison A₂ τ f f' hf).app n := by
   set adj := Stacks.RingedSpace.pullbackAdjunction
     (ringedSpaceHom ((BigFppfOver.toScheme B S hS).map τ))
-  show (adj.homEquiv _ _).symm ((pointRestriction A₁ τ f f' hf).app n) ≫ _ =
+  change (adj.homEquiv _ _).symm ((pointRestriction A₁ τ f f' hf).app n) ≫ _ =
     _ ≫ (adj.homEquiv _ _).symm ((pointRestriction A₂ τ f f' hf).app n)
   exact (adj.homEquiv_naturality_right_symm _ _).symm.trans
     ((congrArg (adj.homEquiv _ _).symm
@@ -310,7 +310,7 @@ theorem smallPresentationMap_comp {D : GradedAlgebra.{t, a} R}
       (smallPresentationMap.{t, a, w} g).comp (smallPresentationMap.{t, a, w} h) := by
   refine UnitalHom.ext fun n => ?_
   ext U x
-  show (smallPieceEquiv D n U).symm ((h.app n).val.app U ((g.app n).val.app U
+  change (smallPieceEquiv D n U).symm ((h.app n).val.app U ((g.app n).val.app U
       (smallPieceEquiv A n U x))) =
     (smallPieceEquiv D n U).symm ((h.app n).val.app U (smallPieceEquiv B n U
       ((smallPieceEquiv B n U).symm ((g.app n).val.app U (smallPieceEquiv A n U x)))))

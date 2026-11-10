@@ -131,7 +131,7 @@ theorem isFlatOverAt_pushforward_finite_iff {Z Y S : Scheme.{u}} (i : Z ⟶ Y) [
   let : Module R Mz := Module.compHom _ ((i ≫ q).stalkMap z).hom
   let : Module R My := Module.compHom _ α
   let : IsScalarTower R A Mz := IsScalarTower.of_algebraMap_smul fun r m ↦ by
-    show β (α r) • m = ((i ≫ q).stalkMap z).hom r • m
+    change β (α r) • m = ((i ≫ q).stalkMap z).hom r • m
     rw [Scheme.Hom.stalkMap_comp]
     rfl
   let : IsScalarTower R A My := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
@@ -140,7 +140,7 @@ theorem isFlatOverAt_pushforward_finite_iff {Z Y S : Scheme.{u}} (i : Z ⟶ Y) [
     rw [← IsScalarTower.algebraMap_smul (R := R) (A := A) (M := My) r (g m),
       ← IsScalarTower.algebraMap_smul (R := R) (A := A) (M := Mz) r m]
     exact g.map_smul _ _⟩
-  show Module.Flat R Mz ↔ Module.Flat R My
+  change Module.Flat R Mz ↔ Module.Flat R My
   exact Module.Flat.equiv_iff (e.toLinearEquiv.restrictScalars R)
 
 /-- Let `i : V ⟶ A` be a closed immersion, let `pr : P ⟶ A` be any morphism, and let the square
@@ -204,7 +204,7 @@ theorem exists_closedImmersion_affineSpace_of_locallyOfFiniteType {X S : Scheme.
   · have hc : ψ.toRingHom.comp (algebraMap Γ(S, U.1) (MvPolynomial (Fin n) Γ(S, U.1))) =
         (f.appLE U.1 V.1 hVU).hom := by
       ext r
-      show ψ (algebraMap Γ(S, U.1) (MvPolynomial (Fin n) Γ(S, U.1)) r) =
+      change ψ (algebraMap Γ(S, U.1) (MvPolynomial (Fin n) Γ(S, U.1)) r) =
         algebraMap Γ(S, U.1) Γ(X, V.1) r
       rw [ψ.commutes r]
     calc (hV.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom ψ.toRingHom)) ≫

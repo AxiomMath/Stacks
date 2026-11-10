@@ -195,7 +195,7 @@ private theorem groupoidPreRelation_rel_of_arrow
     simpa [yonedaEquiv_comp, hrdef] using h
   have hbase : r ≫ G.arrowsToBase.hom = b := by
     rw [← congrArg (fun f : G.arrows ⟶ B => f.hom) G.target_over]
-    show r ≫ G.target.hom ≫ G.objectsToBase.hom = b
+    change r ≫ G.target.hom ≫ G.objectsToBase.hom = b
     rw [← Category.assoc, key _ _ ht]
     exact x.2
   exact ⟨⟨r, hbase⟩, by simpa using key _ _ ht, by simpa using key _ _ hs⟩

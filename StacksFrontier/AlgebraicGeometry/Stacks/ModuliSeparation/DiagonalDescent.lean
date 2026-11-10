@@ -205,17 +205,17 @@ theorem relativeDiagonal_comp_comparisonCospanRight (f : 𝒳 ⟶ 𝒴) (h : �
       (Functor.congr_obj f.hom.hom.w x).symm rfl rfl HEq.rfl
   refine CategoryTheory.Functor.ext hobj fun x y φ => ?_
   refine TwoFibreProductOver.Hom.ext' ?_ ?_
-  · show f.hom.hom.toFunctor.map φ =
+  · change f.hom.hom.toFunctor.map φ =
       (eqToHom (hobj x)).a ≫ f.hom.hom.toFunctor.map φ ≫ (eqToHom (hobj y).symm).a
     rw [TwoFibreProductOver.fibreEqToHom_a (hobj x),
       TwoFibreProductOver.fibreEqToHom_a (hobj y).symm]
-    show _ = 𝟙 _ ≫ _ ≫ 𝟙 _
+    change _ = 𝟙 _ ≫ _ ≫ 𝟙 _
     simp
-  · show f.hom.hom.toFunctor.map φ =
+  · change f.hom.hom.toFunctor.map φ =
       (eqToHom (hobj x)).b ≫ f.hom.hom.toFunctor.map φ ≫ (eqToHom (hobj y).symm).b
     rw [TwoFibreProductOver.fibreEqToHom_b (hobj x),
       TwoFibreProductOver.fibreEqToHom_b (hobj y).symm]
-    show _ = 𝟙 _ ≫ _ ≫ 𝟙 _
+    change _ = 𝟙 _ ≫ _ ≫ 𝟙 _
     simp
 
 end Product

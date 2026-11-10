@@ -152,11 +152,11 @@ lemma exponentImage_injective_of_canonical {d e : Fin 3 →₀ ℕ}
     simpa [exponentImage, Finsupp.add_apply, Finsupp.single_apply] using this
   ext i
   fin_cases i
-  · show d 0 = e 0
+  · change d 0 = e 0
     rcases hd with hd | hd <;> rcases he with he | he <;> omega
-  · show d 1 = e 1
+  · change d 1 = e 1
     omega
-  · show d 2 = e 2
+  · change d 2 = e 2
     rcases hd with hd | hd <;> rcases he with he | he <;> omega
 
 /-- The toric map sends the monomial with exponent vector `d` to the monomial with exponent
@@ -191,7 +191,7 @@ lemma quotient_monomial_normal (k : Type u) [CommRing k] (d : Fin 3 →₀ ℕ) 
   rw [monomial_fin3_eq, monomial_fin3_eq]
   simp only [map_mul, map_pow]
   rw [normalizedExponent_apply0, normalizedExponent_apply1, normalizedExponent_apply2]
-  show Cc * U ^ d 0 * V ^ d 1 * W ^ d 2 =
+  change Cc * U ^ d 0 * V ^ d 1 * W ^ d 2 =
     Cc * U ^ (d 0 - m) * V ^ (d 1 + 3 * m) * W ^ (d 2 - m)
   have hU : U ^ d 0 = U ^ (d 0 - m) * U ^ m := by rw [← pow_add, Nat.sub_add_cancel hm0]
   have hW : W ^ d 2 = W ^ (d 2 - m) * W ^ m := by rw [← pow_add, Nat.sub_add_cancel hm2]
@@ -342,7 +342,7 @@ lemma val_u (E : WeightedPolynomialSituation) :
   simpa [pow_one] using
     (HomogeneousLocalization.Away.val_mk E.naturalGrading (f := E.z) 1
       (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2) (E.x ^ 3) (by
-        show MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x ^ 3)
+        change MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x ^ 3)
           (1 • E.naturalWeight 2)
         simpa [WeightedPolynomialSituation.naturalWeight, WeightedPolynomialSituation.x] using
           (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 0).pow 3))
@@ -355,7 +355,7 @@ lemma val_v (E : WeightedPolynomialSituation) :
   simpa [pow_one] using
     (HomogeneousLocalization.Away.val_mk E.naturalGrading (f := E.z) 1
       (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2) (E.x * E.y) (by
-        show MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x * E.y)
+        change MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.x * E.y)
           (1 • E.naturalWeight 2)
         simpa [WeightedPolynomialSituation.naturalWeight, WeightedPolynomialSituation.x,
           WeightedPolynomialSituation.y] using
@@ -370,7 +370,7 @@ lemma val_w (E : WeightedPolynomialSituation) :
   unfold WeightedPolynomialSituation.w
   exact HomogeneousLocalization.Away.val_mk E.naturalGrading (f := E.z) 2
     (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2) (E.y ^ 3) (by
-      show MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.y ^ 3)
+      change MvPolynomial.IsWeightedHomogeneous E.naturalWeight (E.y ^ 3)
         (2 • E.naturalWeight 2)
       simpa [WeightedPolynomialSituation.naturalWeight, WeightedPolynomialSituation.y] using
         (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 1).pow 3)
@@ -404,21 +404,21 @@ lemma evalAtZOneLocalization_mk (E : WeightedPolynomialSituation) (a : E.S) (n :
 /-- Evaluation at `z = 1` sends `u` to `X₀³`. -/
 lemma specialize_u (E : WeightedPolynomialSituation) :
     specialize E E.u = MvPolynomial.X 0 ^ 3 := by
-  show evalAtZOneLocalization E (HomogeneousLocalization.val E.u) = _
+  change evalAtZOneLocalization E (HomogeneousLocalization.val E.u) = _
   rw [val_u]
   convert evalAtZOneLocalization_mk E (E.x ^ 3) 1 using 1 <;> simp [evalAtZOne]
 
 /-- Evaluation at `z = 1` sends `v` to `X₀X₁`. -/
 lemma specialize_v (E : WeightedPolynomialSituation) :
     specialize E E.v = MvPolynomial.X 0 * MvPolynomial.X 1 := by
-  show evalAtZOneLocalization E (HomogeneousLocalization.val E.v) = _
+  change evalAtZOneLocalization E (HomogeneousLocalization.val E.v) = _
   rw [val_v]
   convert evalAtZOneLocalization_mk E (E.x * E.y) 1 using 1 <;> simp [evalAtZOne]
 
 /-- Evaluation at `z = 1` sends `w` to `X₁³`. -/
 lemma specialize_w (E : WeightedPolynomialSituation) :
     specialize E E.w = MvPolynomial.X 1 ^ 3 := by
-  show evalAtZOneLocalization E (HomogeneousLocalization.val E.w) = _
+  change evalAtZOneLocalization E (HomogeneousLocalization.val E.w) = _
   rw [val_w]
   convert evalAtZOneLocalization_mk E (E.y ^ 3) 2 using 1
   simp [evalAtZOne]
@@ -427,7 +427,7 @@ lemma specialize_w (E : WeightedPolynomialSituation) :
 lemma cubic_relation_maps_to_zero (E : WeightedPolynomialSituation) :
     presentationMap E (MvPolynomial.X 0 * MvPolynomial.X 2 - MvPolynomial.X 1 ^ 3) = 0 := by
   simp only [map_sub, map_mul, map_pow, presentationMap_X]
-  show E.u * E.w - E.v ^ 3 = 0
+  change E.u * E.w - E.v ^ 3 = 0
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.val_sub, HomogeneousLocalization.val_mul,
     HomogeneousLocalization.val_pow, val_u, val_v, val_w, Localization.mk_mul,
@@ -436,7 +436,7 @@ lemma cubic_relation_maps_to_zero (E : WeightedPolynomialSituation) :
         ⟨E.z ^ 2, Submonoid.pow_mem _ (Submonoid.mem_powers E.z) 2⟩ =
       (⟨E.z, Submonoid.mem_powers E.z⟩ : Submonoid.powers E.z) ^ 3 := by
     apply Subtype.ext
-    show E.z * E.z ^ 2 = E.z ^ 3
+    change E.z * E.z ^ 2 = E.z ^ 3
     ring
   have hn : E.x ^ 3 * E.y ^ 3 = (E.x * E.y) ^ 3 := by ring
   rw [hd, hn, sub_self]
@@ -549,15 +549,15 @@ lemma specialize_presentationMap (E : WeightedPolynomialSituation)
       (toricMap E.k).toRingHom := by
     apply MvPolynomial.ringHom_ext
     · intro c
-      show specialize E (presentationMap E (MvPolynomial.C c)) =
+      change specialize E (presentationMap E (MvPolynomial.C c)) =
         toricMap E.k (MvPolynomial.C c)
       simp only [presentationMap, toricMap, MvPolynomial.aeval_C]
-      show specialize E (algebraMap E.k E.R c) = MvPolynomial.C c
+      change specialize E (algebraMap E.k E.R c) = MvPolynomial.C c
       unfold specialize
-      show evalAtZOneLocalization E
+      change evalAtZOneLocalization E
         (HomogeneousLocalization.val (algebraMap E.k E.R c)) = MvPolynomial.C c
       simp only [evalAtZOneLocalization]
-      show Localization.awayLift (evalAtZOne E).toRingHom E.z
+      change Localization.awayLift (evalAtZOne E).toRingHom E.z
           (isUnit_iff_exists_inv.mpr ⟨1, by simp [evalAtZOne]⟩)
           (Localization.mk (MvPolynomial.C c) 1) = MvPolynomial.C c
       rw [Localization.mk_one_eq_algebraMap]
@@ -573,7 +573,7 @@ lemma specialize_degreeZeroRingMap (E : WeightedPolynomialSituation)
     (q : MvPolynomial (Fin 3) E.k ⧸ cubicRelationIdeal E.k) :
     specialize E (degreeZeroRingMap E q) = toricMapQuotient E.k q := by
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective q
-  show specialize E (presentationMap E p) = _
+  change specialize E (presentationMap E p) = _
   rw [specialize_presentationMap E p, toricMapQuotient_mk]
 
 /-- The map `k[X₀, X₁, X₂] / (X₀X₂ - X₁³) → S₍z₎` is injective. -/
@@ -591,7 +591,7 @@ lemma specialize_mk (E : WeightedPolynomialSituation) (n : ℕ) (p : E.S)
     specialize E (HomogeneousLocalization.Away.mk E.naturalGrading (f := E.z)
       (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2) n p hp) =
       evalAtZOne E p := by
-  show evalAtZOneLocalization E
+  change evalAtZOneLocalization E
     (HomogeneousLocalization.val
       (HomogeneousLocalization.Away.mk E.naturalGrading (f := E.z)
         (MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight 2) n p hp)) = _
@@ -633,7 +633,7 @@ lemma degreeZeroRingMap_surjective (E : WeightedPolynomialSituation) :
           (MvPolynomial.mem_weightedHomogeneousSubmodule _ _ _ _).2
             (MvPolynomial.isWeightedHomogeneous_C E.naturalWeight c)
         let c₀ : B := ⟨MvPolynomial.C c, hc⟩
-        show (c₀ : E.S) ∈ _
+        change (c₀ : E.S) ∈ _
         exact (Algebra.adjoin B
           (Set.range (MvPolynomial.X : Fin 3 → E.S))).algebraMap_mem c₀
     | add p q hp hq => exact (Algebra.adjoin B _).add_mem hp hq
@@ -718,7 +718,7 @@ public noncomputable def degreeZeroRingEquiv (E : WeightedPolynomialSituation) :
 public theorem degreeZeroRingEquiv_mk_X (E : WeightedPolynomialSituation) (i : Fin 3) :
     degreeZeroRingEquiv E (Ideal.Quotient.mk (cubicRelationIdeal E.k) (MvPolynomial.X i)) =
       ![E.u, E.v, E.w] i := by
-  show degreeZeroRingMap E
+  change degreeZeroRingMap E
     (Ideal.Quotient.mk (cubicRelationIdeal E.k) (MvPolynomial.X i)) = _
   rw [degreeZeroRingMap_quotient_mk]
   exact presentationMap_X E i

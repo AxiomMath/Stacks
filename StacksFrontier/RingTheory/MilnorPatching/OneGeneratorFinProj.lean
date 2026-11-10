@@ -230,7 +230,7 @@ theorem extensionOfScalarsToPullback_iso_hom_one_tmul
       ((extendScalarsComp.{u, u, u, u} toB BtoA).hom.app M
         ((1 : R₃) ⊗ₜ[R₀, BtoA.comp toB] x)) = (1 : R₃) ⊗ₜ[R₀, BtoA.comp toB] x :=
     ((extendScalarsComp.{u, u, u, u} toB BtoA).app M).toLinearEquiv.symm_apply_apply _
-  show ((extendScalarsComp.{u, u, u, u} toB BtoA).inv.app M ≫
+  change ((extendScalarsComp.{u, u, u, u} toB BtoA).inv.app M ≫
       (eqToIso (congrArg ModuleCat.extendScalars comm)).hom.app M ≫
       (extendScalarsComp.{u, u, u, u} toA' A'toA).hom.app M)
       ((extendScalarsComp.{u, u, u, u} toB BtoA).hom.app M

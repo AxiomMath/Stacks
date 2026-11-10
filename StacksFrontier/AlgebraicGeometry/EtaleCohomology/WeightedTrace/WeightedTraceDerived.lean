@@ -417,7 +417,7 @@ public theorem forgetModTrace_conjugate (M : ModuleSheaf.{u, v, r} B Y Λ)
         (fShriekFunctor.{u, max v r} B f).map (hpull.hom.app M) ≫
         forgetModTrace.{u, v, r} B Λ f modPull hpull M τ =
       (forgetModuleSheaf.{u, v, r} B Y Λ).map τ := by
-  show (fShriekModForgetIso.{u, v, r} B Λ f).hom.app (modPull.obj M) ≫
+  change (fShriekModForgetIso.{u, v, r} B Λ f).hom.app (modPull.obj M) ≫
       (fShriekFunctor.{u, max v r} B f).map (hpull.hom.app M) ≫
       ((fShriekFunctor.{u, max v r} B f).map (hpull.inv.app M) ≫
         (fShriekModForgetIso.{u, v, r} B Λ f).inv.app (modPull.obj M) ≫
@@ -856,11 +856,11 @@ public theorem fiberStalksMap_comp_eq_id (s : GeometricPoint Y.obj)
   refine fiberStalks_hom_ext.{u, u + 1} B f s fun x z => ?_
   have h1 := fiberStalksMap_fiberStalkOf.{u, u + 1} B f s a x z
   have h2 := fiberStalksMap_fiberStalkOf.{u, u + 1} B f s b x
-    ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    ((colim.map (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op a.hom)) z)
   have h3 := etaleStalk_map_comp_eq_id B X.obj X.property
     (x.toGeometricPoint B f s) a b hab z
-  show (fiberStalksMap.{u, u + 1} B f s b)
+  change (fiberStalksMap.{u, u + 1} B f s b)
       ((fiberStalksMap.{u, u + 1} B f s a)
         (fiberStalkOf.{u, u + 1} B f s G₁ x z)) =
     fiberStalkOf.{u, u + 1} B f s G₁ x z
@@ -907,14 +907,14 @@ public theorem hasWeightedTraceStalks_of_iso (w : X.obj → ℤ)
     (fun m => (ConcreteCategory.hom m)
       ((fShriekStalkIso.{u, u + 1} B f s ((abPullback.{u, u + 1} B f).obj G₁)).inv
         (fiberStalkOf.{u, u + 1} B f s ((abPullback.{u, u + 1} B f).obj G₁) x
-          ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          ((colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op
             ((abPullback.{u, u + 1} B f).map α.inv).hom)) z))))
     ((etaleStalkPresheafFunctor B Y.obj Y.property s AddCommGrpCat.{u + 1}).map_comp
       τ.hom α.hom.hom)
   refine hrest.trans ((ConcreteCategory.comp_apply _ _ _).trans ?_)
   have hτ := hasWeightedTraceStalks_fiberStalkOf.{u, u + 1} B f w G₁ h s x
-    ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    ((colim.map (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op
       ((abPullback.{u, u + 1} B f).map α.inv).hom)) z)
   refine (congrArg (fun m => (ConcreteCategory.hom
@@ -924,7 +924,7 @@ public theorem hasWeightedTraceStalks_of_iso (w : X.obj → ℤ)
   refine congrArg (fun m => w (x.1 default) • m) ?_
   have hnat := ConcreteCategory.congr_hom
     (fiberPointPullbackStalkIso_natural.{u, u + 1} B f s α.hom x)
-    ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    ((colim.map (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op
       ((abPullback.{u, u + 1} B f).map α.inv).hom)) z)
   have hcancel := etaleStalk_map_comp_eq_id B X.obj X.property

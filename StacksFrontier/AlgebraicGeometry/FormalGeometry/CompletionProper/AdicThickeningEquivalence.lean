@@ -131,10 +131,9 @@ end Generic
 section Adic
 
 variable (A : Type u) [CommRing A] (I : Ideal A) {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
-  [IsLocallyNoetherian X] [LocallyOfFiniteType f]
+  [IsLocallyNoetherian X]
   (P Q : AlgebraicGeometry.SheafOfModules.CoherentModules X.ringCatSheaf)
 
-omit [LocallyOfFiniteType f] in
 /-- The inverse of `AlgebraicGeometry.adicThickeningCompletionHomEquiv` written out: the direct
 image of the morphism on the thickening, conjugated by the unwinding at both ends. -/
 public theorem adicThickeningCompletionHomEquiv_symm_apply (n : ℕ)

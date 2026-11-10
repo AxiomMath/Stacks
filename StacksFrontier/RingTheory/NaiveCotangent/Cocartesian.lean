@@ -112,7 +112,7 @@ private lemma tensorCotangentHom_injective_of_flat_quotient
     ext x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     symm
-    show (∃ y, I.cotangentToQuotientSquare y = Ideal.Quotient.mk (I ^ 2) x) ↔
+    change (∃ y, I.cotangentToQuotientSquare y = Ideal.Quotient.mk (I ^ 2) x) ↔
       Ideal.Quotient.mk I x = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
     refine ⟨fun ⟨y, hy⟩ => ?_, fun hx => ⟨I.toCotangent ⟨x, hx⟩, rfl⟩⟩
@@ -189,7 +189,7 @@ private lemma cotangent_generators_liftBaseChange_injective_of_flat_target
   let g := P.baseChangeToBaseChange T
   have hgf : g.comp f = .id _ := by
     ext x
-    show (MvPolynomial.algebraTensorAlgEquiv R T).symm
+    change (MvPolynomial.algebraTensorAlgEquiv R T).symm
       (MvPolynomial.algebraTensorAlgEquiv R T x) = x
     exact (MvPolynomial.algebraTensorAlgEquiv R T).symm_apply_apply x
   have hf : Function.Injective (Algebra.Extension.Cotangent.map f) := by
@@ -249,7 +249,7 @@ lemma cotangent_intrinsic_baseChange_cycle_injective_of_flat
     have hc : Algebra.Extension.Cotangent.map q ∘ₗ f =
         (Algebra.Extension.Cotangent.map (q.comp b)).liftBaseChange S' := by
       rw [LinearMap.liftBaseChange_comp, ← Algebra.Extension.Cotangent.map_comp]
-    show (Algebra.Extension.Cotangent.map q ∘ₗ f) x = 0
+    change (Algebra.Extension.Cotangent.map q ∘ₗ f) x = 0
     rw [hc, ← cotangent_maps_agree_on_tensored_cycles h (q.comp b) x hx]
     exact hfx
   exact cotangent_generators_liftBaseChange_injective_of_flat_target P
@@ -274,7 +274,7 @@ private lemma fromExtendScalars_one_tmul
     (g : X ⟶ (ModuleCat.restrictScalars f).obj Y) (x : X) :
     (ModuleCat.ExtendRestrictScalarsAdj.HomEquiv.fromExtendScalars f g)
       ((1 : S) ⊗ₜ[R,f] x) = g x := by
-  show (1 : S) • g x = g x
+  change (1 : S) • g x = g x
   exact one_smul S (g x)
 
 /-- Two additive maps out of an extension of scalars agreeing on pure tensors are equal. -/
@@ -283,8 +283,7 @@ private lemma extendScalars_addMonoidHom_apply_eq
     {N : Type*} [AddCommGroup N] (φ ψ : (ModuleCat.extendScalars f).obj X →+ N)
     (h : ∀ (s : S) (x : X), φ (s ⊗ₜ[R,f] x) = ψ (s ⊗ₜ[R,f] x))
     (x : (ModuleCat.extendScalars f).obj X) : φ x = ψ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul s x => exact h s x
 
@@ -354,7 +353,7 @@ private lemma quasiIso_of_cycle_boundaries
       intro x
       have h := ConcreteCategory.congr_hom f.comm₂₃ x.val
       change T.g (f.τ₂ x.val) = f.τ₃ (S.g x.val) at h
-      show T.g (f.τ₂ x.val) = 0
+      change T.g (f.τ₂ x.val) = 0
       rw [h, show S.g x.val = 0 from x.property, map_zero])
   have hc : LinearMap.range S.moduleCatToCycles ≤
       (LinearMap.range T.moduleCatToCycles).comap c := by
@@ -372,7 +371,7 @@ private lemma quasiIso_of_cycle_boundaries
       exact Subtype.ext (ConcreteCategory.congr_hom f.comm₁₂ x).symm
     commπ := by ext x; rfl }
   rw [data.quasiIso_iff, ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective q
+  change Function.Bijective q
   refine ⟨(injective_iff_map_eq_zero q).mpr fun x hx => ?_, fun y => ?_⟩
   · obtain ⟨x, rfl⟩ := (LinearMap.range S.moduleCatToCycles).mkQ_surjective x
     change (LinearMap.range T.moduleCatToCycles).mkQ (c x) = 0 at hx
@@ -383,12 +382,12 @@ private lemma quasiIso_of_cycle_boundaries
   · obtain ⟨y, rfl⟩ := (LinearMap.range T.moduleCatToCycles).mkQ_surjective y
     obtain ⟨x, hx, z, hz⟩ := hsurj y.val y.property
     refine ⟨(LinearMap.range S.moduleCatToCycles).mkQ ⟨x, hx⟩, ?_⟩
-    show (LinearMap.range T.moduleCatToCycles).mkQ (c ⟨x, hx⟩) =
+    change (LinearMap.range T.moduleCatToCycles).mkQ (c ⟨x, hx⟩) =
       (LinearMap.range T.moduleCatToCycles).mkQ y
     rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq]
     refine ⟨-z, ?_⟩
     apply Subtype.ext
-    show T.f (-z) = f.τ₂ x - y.val
+    change T.f (-z) = f.τ₂ x - y.val
     rw [map_neg, hz]
     abel
 
@@ -412,14 +411,14 @@ private lemma quasiIso_of_twoTerm
     · intro x hx hfx
       change f.f (-1) x ∈ LinearMap.range (L.d (-2) (-1)).hom at hfx
       rw [hez, ModuleCat.hom_zero, LinearMap.range_zero, Submodule.mem_bot] at hfx
-      show x ∈ LinearMap.range (K.d (-2) (-1)).hom
+      change x ∈ LinearMap.range (K.d (-2) (-1)).hom
       rw [hi₁ x hx hfx]
       exact Submodule.zero_mem _
     · intro y hy
       change L.X (-1) at y
       obtain ⟨x, hx, hfx⟩ := hs₁ y hy
       refine ⟨x, hx, ?_⟩
-      show y - f.f (-1) x ∈ LinearMap.range (L.d (-2) (-1)).hom
+      change y - f.f (-1) x ∈ LinearMap.range (L.d (-2) (-1)).hom
       rw [hfx, sub_self]
       exact Submodule.zero_mem _
   · by_cases hi' : i = 0
@@ -431,7 +430,7 @@ private lemma quasiIso_of_twoTerm
       · intro y _
         obtain ⟨x, hx⟩ := hs₀ y
         refine ⟨x, ?_, hx⟩
-        show K.d 0 1 x = 0
+        change K.d 0 1 x = 0
         rw [hdz]
         rfl
     · exact (quasiIsoAt_iff_exactAt f i ((K.sc i).exact_of_isZero_X₂ (hK i hi hi'))).2
@@ -509,7 +508,7 @@ private lemma quasiIso_map_double_of_equiv
     (fun i hi hi' => HomologicalComplex.isZero_double_X d' hd i hi hi') ?_ ?_ ?_ ?_
     hi₁ hs₁ hi₀ hs₀
   · intro x
-    show e₀ ((F.map (HomologicalComplex.doubleXIso₁ d hd hne).hom)
+    change e₀ ((F.map (HomologicalComplex.doubleXIso₁ d hd hne).hom)
       ((F.map ((HomologicalComplex.double d hd).d (-1) 0)) x)) =
         δ (e₁ ((F.map (HomologicalComplex.doubleXIso₀ d hd).hom) x))
     have hc : F.map ((HomologicalComplex.double d hd).d (-1) 0) ≫
@@ -520,20 +519,20 @@ private lemma quasiIso_map_double_of_equiv
     rw [← ModuleCat.comp_apply, hc, ModuleCat.comp_apply]
     exact hδ _
   · intro x
-    show e₀' ((HomologicalComplex.doubleXIso₁ d' hd hne).hom
+    change e₀' ((HomologicalComplex.doubleXIso₁ d' hd hne).hom
       ((HomologicalComplex.double d' hd).d (-1) 0 x)) =
         δ' (e₁' ((HomologicalComplex.doubleXIso₀ d' hd).hom x))
     rw [HomologicalComplex.double_d d' hd hne]
     simp only [ModuleCat.comp_apply, Iso.inv_hom_id_apply]
     exact hδ' _
   · intro x
-    show e₁' ((HomologicalComplex.doubleXIso₀ d' hd).hom (g.f (-1) x)) =
+    change e₁' ((HomologicalComplex.doubleXIso₀ d' hd).hom (g.f (-1) x)) =
       φ₁ (e₁ ((F.map (HomologicalComplex.doubleXIso₀ d hd).hom) x))
     rw [hg₁]
     simp only [ModuleCat.comp_apply, Iso.inv_hom_id_apply]
     exact hφ₁ _
   · intro x
-    show e₀' ((HomologicalComplex.doubleXIso₁ d' hd hne).hom (g.f 0 x)) =
+    change e₀' ((HomologicalComplex.doubleXIso₁ d' hd hne).hom (g.f 0 x)) =
       φ₀ (e₀ ((F.map (HomologicalComplex.doubleXIso₁ d hd hne).hom) x))
     rw [hg₀]
     simp only [ModuleCat.comp_apply, Iso.inv_hom_id_apply]
@@ -569,7 +568,7 @@ private lemma exists_double_shortExact
   refine ⟨i, p, hip, HomologicalComplex.shortExact_of_degreewise_shortExact _ ?_⟩
   intro n
   let S := (ShortComplex.mk i p hip).map (HomologicalComplex.eval (ModuleCat R) _ n)
-  show S.ShortExact
+  change S.ShortExact
   have hm : Mono S.f := by
     by_cases hn : n = 0
     · subst n; exact inferInstanceAs (Mono (i.f 0))
@@ -807,7 +806,7 @@ private lemma extendScalarsULiftAddEquiv_tmul.{u₁, u₂, u₃} (B : Type u₁)
     (x : ModuleCat.of (ULift.{max u₁ u₂ u₃} B) (ULift.{max u₁ u₂ u₃} M)) :
     extendScalarsULiftAddEquiv B B' M
         (a ⊗ₜ[ULift.{max u₁ u₂ u₃} B,(algebraMap B B').ulift] x) = a.down ⊗ₜ[B] x.down := by
-  show ((AlgebraTensorModule.uliftEquiv.{u₁, u₂, u₂, u₃, max u₁ u₂ u₃, max u₁ u₂ u₃,
+  change ((AlgebraTensorModule.uliftEquiv.{u₁, u₂, u₂, u₃, max u₁ u₂ u₃, max u₁ u₂ u₃,
         max u₁ u₂ u₃, max u₁ u₂ u₃} B B' B' M).symm (a ⊗ₜ x)).down = _
   rfl
 
@@ -959,10 +958,10 @@ public theorem naiveCotangentComplex_quasiIso_baseChange_of_flat
   have hsquare : E.map d ≫ f₀ = f₁ ≫ d' := by
     apply ModuleCat.ExtendScalars.hom_ext
     intro x
-    show f₀ ((E.map d) _) = d' (f₁ _)
+    change f₀ ((E.map d) _) = d' (f₁ _)
     simp only [E, ModuleCat.ExtendScalars.map_tmul, f₀, f₁,
       fromExtendScalars_one_tmul]
-    show (1 : ULift.{max uA uB uC} B') • ULift.up (Algebra.Extension.CotangentSpace.map h
+    change (1 : ULift.{max uA uB uC} B') • ULift.up (Algebra.Extension.CotangentSpace.map h
       (P.toExtension.cotangentComplex x.down)) =
       ULift.up (P'.toExtension.cotangentComplex (Algebra.Extension.Cotangent.map h x.down))
     rw [one_smul]
@@ -993,7 +992,7 @@ public theorem naiveCotangentComplex_quasiIso_baseChange_of_flat
       (dn.toAddMonoidHom.comp e₁.toAddMonoidHom)
       (fun a x => by
         simp only [AddMonoidHom.comp_apply, AddMonoidHom.mk'_apply,
-          AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+          AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
         erw [ModuleCat.ExtendScalars.map_tmul, extendScalarsULiftAddEquiv_tmul]) x
   have hfn₁ (x : E.obj X₁) : e₁' (f₁ x) = fn₁ (e₁ x) :=
     extendScalars_addMonoidHom_apply_eq _

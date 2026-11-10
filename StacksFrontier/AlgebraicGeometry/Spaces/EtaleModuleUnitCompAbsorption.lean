@@ -6,9 +6,9 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.EtaleModulePullbackCompUni
 # The absorption of the fourth factor, and the inner unit on a section
 
 Let `h : D ⟶ A` and `g : A ⟶ C` be étale morphisms of algebraic spaces over a scheme `S` of a big
-fppf site `B`.  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleModulePullbackCompUnit.lean` decomposes
-the unit of `AlgebraicGeometry.Space.etaleModulePullbackCompAdjunction` into four factors and
-reads three of them; what its "What is not done" section records as owed is the **absorption of
+fppf site `B`.  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleModulePullbackCompUnit.lean`
+decomposes the unit of `AlgebraicGeometry.Space.etaleModulePullbackCompAdjunction` into four factors
+and reads three of them; what its "What is not done" section records as owed is the **absorption of
 the fourth factor** and the join of the two halves of the reading on a section.  Both are proved
 here.
 
@@ -159,44 +159,76 @@ theorem innerUnit_target_eq_unit_target :
         modulePushforward B S hS (h ≫ g)).obj M :=
   rfl
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- The direct image along `h ≫ g` of the comparison of iterated restrictions is the identity,
 read at the **endomorphism** hom type of the iterated spelling.  Reading it there is what lets
 the absorption be a syntactic match rather than a crossing of two spellings. -/
-def modulePushforward_map_etaleModulePullbackComp_hom_app_atEndo :=
-  Stacks.eq_atType
-    (α := ((modulePushforward B S hS (h ≫ g)).obj
-          ((etaleModulePullback.{u, u} B S hS h hh).obj
-            ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ⟶
-        (modulePushforward B S hS (h ≫ g)).obj
-          ((etaleModulePullback.{u, u} B S hS h hh).obj
-            ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
-    (modulePushforward_map_etaleModulePullbackComp_hom_app B S hS h g hh hg hhg M)
+theorem modulePushforward_map_etaleModulePullbackComp_hom_app_atEndo :
+    type_of% (Stacks.eq_atType
+      (α := ((modulePushforward B S hS (h ≫ g)).obj
+            ((etaleModulePullback.{u, u} B S hS h hh).obj
+              ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ⟶
+          (modulePushforward B S hS (h ≫ g)).obj
+            ((etaleModulePullback.{u, u} B S hS h hh).obj
+              ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+      (modulePushforward_map_etaleModulePullbackComp_hom_app B S hS h g hh hg hhg M)) :=
+  (Stacks.eq_atType
+     (α := ((modulePushforward B S hS (h ≫ g)).obj
+           ((etaleModulePullback.{u, u} B S hS h hh).obj
+             ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ⟶
+         (modulePushforward B S hS (h ≫ g)).obj
+           ((etaleModulePullback.{u, u} B S hS h hh).obj
+             ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+     (modulePushforward_map_etaleModulePullbackComp_hom_app B S hS h g hh hg hhg M) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- The inner unit followed by the direct image of the comparison of iterated restrictions, with
 that factor rewritten to the identity of the iterated spelling. -/
-def innerUnit_comp_modulePushforward_map_atEndo :=
-  Stacks.comp_congr_right
-    ((((etaleModulePullbackAdjunction B S hS g hg).comp
-        (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
-          (modulePushforwardCompIso B S hS h g)).unit.app M)
-    (modulePushforward_map_etaleModulePullbackComp_hom_app_atEndo B S hS h g hh hg hhg M)
+theorem innerUnit_comp_modulePushforward_map_atEndo :
+    type_of% (Stacks.comp_congr_right
+      ((((etaleModulePullbackAdjunction B S hS g hg).comp
+          (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+            (modulePushforwardCompIso B S hS h g)).unit.app M)
+      (modulePushforward_map_etaleModulePullbackComp_hom_app_atEndo B S hS h g hh hg hhg M)) :=
+  (Stacks.comp_congr_right
+     ((((etaleModulePullbackAdjunction B S hS g hg).comp
+         (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+           (modulePushforwardCompIso B S hS h g)).unit.app M)
+     (modulePushforward_map_etaleModulePullbackComp_hom_app_atEndo B S hS h g hh hg hhg M) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- **The absorption of the fourth factor.**  The inner unit of the composite adjunction,
 followed by the direct image along `h ≫ g` of the comparison of iterated restrictions, is the
 inner unit itself. -/
-def innerUnit_comp_modulePushforward_map_eq_self :=
-  (innerUnit_comp_modulePushforward_map_atEndo B S hS h g hh hg hhg M).trans
-    (CategoryTheory.Category.comp_id
-      ((((etaleModulePullbackAdjunction B S hS g hg).comp
-          (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
-            (modulePushforwardCompIso B S hS h g)).unit.app M))
+theorem innerUnit_comp_modulePushforward_map_eq_self :
+    type_of% ((innerUnit_comp_modulePushforward_map_atEndo B S hS h g hh hg hhg M).trans
+      (CategoryTheory.Category.comp_id
+        ((((etaleModulePullbackAdjunction B S hS g hg).comp
+            (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+              (modulePushforwardCompIso B S hS h g)).unit.app M))) :=
+  ((innerUnit_comp_modulePushforward_map_atEndo B S hS h g hh hg hhg M).trans
+     (CategoryTheory.Category.comp_id
+       ((((etaleModulePullbackAdjunction B S hS g hg).comp
+           (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+             (modulePushforwardCompIso B S hS h g)).unit.app M)) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- **The unit of `etaleModulePullbackCompAdjunction` at a module is the inner unit at that
 module.**  The four-factor decomposition of the composite unit, with the fourth factor
 absorbed. -/
-def etaleModulePullbackCompAdjunction_unit_app_eq_inner :=
-  (etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M).trans
-    (innerUnit_comp_modulePushforward_map_eq_self B S hS h g hh hg hhg M)
+theorem etaleModulePullbackCompAdjunction_unit_app_eq_inner :
+    type_of% ((etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M).trans
+      (innerUnit_comp_modulePushforward_map_eq_self B S hS h g hh hg hhg M)) :=
+  ((etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M).trans
+     (innerUnit_comp_modulePushforward_map_eq_self B S hS h g hh hg hhg M) :)
 
 /-! ### The inner unit on a section -/
 
@@ -205,24 +237,39 @@ variable (W : (SmallEtale B S hS C.1)ᵒᵖ)
 /-- The inner unit on a section, decomposed into its three factors in one step.  This is the join
 of `innerUnitVal₁₂` with `innerUnitVal₃₄` that the predecessor file records as unavailable: the
 threefold decomposition on variables replaces the two-step one through the middle object. -/
-def innerUnitVal₁₂₃ (s : M.val.obj W) :=
-  (innerUnitStep₁ B S hS h g hh hg M W s).trans
-    (modulesHom_comp_comp_val_app_apply
-      ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
-      ((modulePushforward B S hS g).map
-        ((etaleModulePullbackAdjunction B S hS h hh).unit.app
-          ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
-      ((modulePushforwardCompIso B S hS h g).hom.app
-        ((etaleModulePullback.{u, u} B S hS h hh).obj
-          ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s)
+theorem innerUnitVal₁₂₃ (s : M.val.obj W) :
+    type_of% ((innerUnitStep₁ B S hS h g hh hg M W s).trans
+      (modulesHom_comp_comp_val_app_apply
+        ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
+        ((modulePushforward B S hS g).map
+          ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+            ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+        ((modulePushforwardCompIso B S hS h g).hom.app
+          ((etaleModulePullback.{u, u} B S hS h hh).obj
+            ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s)) :=
+  ((innerUnitStep₁ B S hS h g hh hg M W s).trans
+     (modulesHom_comp_comp_val_app_apply
+       ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
+       ((modulePushforward B S hS g).map
+         ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+           ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+       ((modulePushforwardCompIso B S hS h g).hom.app
+         ((etaleModulePullback.{u, u} B S hS h hh).obj
+           ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- **The inner unit on a section is the unit of étale restriction along `h ≫ g` on that
 section.**  The threefold decomposition, then the comparison of the two direct images read as an
 iterated restriction of sheaves of sets, then the composition law of Stacks 03LQ. -/
-def innerUnitVal (s : M.val.obj W) :=
-  (innerUnitVal₁₂₃ B S hS h g hh hg M W s).trans
-    ((modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _).trans
-      (innerUnitVal₅₆ B S hS h g hh hg hhg M W s))
+theorem innerUnitVal (s : M.val.obj W) :
+    type_of% ((innerUnitVal₁₂₃ B S hS h g hh hg M W s).trans
+      ((modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _).trans
+        (innerUnitVal₅₆ B S hS h g hh hg hhg M W s))) :=
+  ((innerUnitVal₁₂₃ B S hS h g hh hg M W s).trans
+     ((modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _).trans
+       (innerUnitVal₅₆ B S hS h g hh hg hhg M W s)) :)
 
 /-- The unit of étale restriction along `h ≫ g`, read at the hom type whose target is spelled as
 the iterated restriction followed by the direct image.  Ascribing it this way is affordable; the

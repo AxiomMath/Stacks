@@ -108,7 +108,7 @@ public theorem exists_moduleExtension_iso_of_injective {A : Type u} [CommRing A]
     refine ⟨ModuleCat.of A g.hom.range, ModuleCat.ofHom g.hom.range.subtype,
       ModuleCat.ofHom g.hom.rangeRestrict, by ext; rfl, ?_⟩
     ext x
-    show g.hom (x : M) = (x : M)
+    change g.hom (x : M) = (x : M)
     obtain ⟨y, hy⟩ := x.property
     rw [← hy]
     exact LinearMap.congr_fun (congrArg ModuleCat.Hom.hom hgg) y
@@ -124,7 +124,7 @@ public theorem exists_moduleExtension_iso_of_injective {A : Type u} [CommRing A]
   let b : F ⟶ Y := i ≫ ObjectProperty.homMk Q
   have hab : a ≫ b = 𝟙 Y := by
     apply ObjectProperty.hom_ext
-    show (J ≫ r.hom) ≫ (i.hom ≫ Q) = 𝟙 Y.obj
+    change (J ≫ r.hom) ≫ (i.hom ≫ Q) = 𝟙 Y.obj
     calc
       (J ≫ r.hom) ≫ (i.hom ≫ Q) = J ≫ (r.hom ≫ i.hom) ≫ Q := by simp [Category.assoc]
       _ = J ≫ e₀ ≫ Q := rfl
@@ -133,7 +133,7 @@ public theorem exists_moduleExtension_iso_of_injective {A : Type u} [CommRing A]
       _ = 𝟙 Y.obj := by rw [hJQ, Category.id_comp]
   have hba : b ≫ a = 𝟙 F := by
     apply ObjectProperty.hom_ext
-    show (i.hom ≫ Q) ≫ (J ≫ r.hom) = 𝟙 F.obj
+    change (i.hom ≫ Q) ≫ (J ≫ r.hom) = 𝟙 F.obj
     calc
       (i.hom ≫ Q) ≫ (J ≫ r.hom) = i.hom ≫ (Q ≫ J) ≫ r.hom := by simp [Category.assoc]
       _ = i.hom ≫ e₀ ≫ r.hom := by rw [hQJ]
@@ -229,10 +229,10 @@ public theorem injective_moduleExtension_of_pureInjective {A : Type u} [CommRing
     (m ≫ (moduleExtensionFunctor.{max u v w, v} A).map (ModuleCat.ofHom r))
   have hsplit : j ≫ s = 𝟙 EI := by
     apply ObjectProperty.hom_ext
-    show ((adequate.{u, v, max u v w} A).ι.map j ≫
+    change ((adequate.{u, v, max u v w} A).ι.map j ≫
       m ≫ (moduleExtensionFunctor.{max u v w, v} A).map (ModuleCat.ofHom r)) = 𝟙 EI.obj
     rw [← Category.assoc]
-    show k ≫ (moduleExtensionFunctor.{max u v w, v} A).map (ModuleCat.ofHom r) = 𝟙 EI.obj
+    change k ≫ (moduleExtensionFunctor.{max u v w, v} A).map (ModuleCat.ofHom r) = 𝟙 EI.obj
     rw [hkφ, ← Functor.map_comp, show φ ≫ ModuleCat.ofHom r = 𝟙 I from ModuleCat.hom_ext hr]
     exact (moduleExtensionFunctor.{max u v w, v} A).map_id I
   refine ⟨pushout.inl f g ≫ s, ?_⟩

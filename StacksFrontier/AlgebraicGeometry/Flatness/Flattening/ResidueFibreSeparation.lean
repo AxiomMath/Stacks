@@ -187,7 +187,7 @@ theorem iInf_span_eq_bot_of_indEtale
       have hq'p : q'.IsPrime := Ideal.comap_isPrime _ _
       have hqq' : q ≤ q' := by
         intro y hy
-        show Ideal.Quotient.mk q y ∈ P.asIdeal
+        change Ideal.Quotient.mk q y ∈ P.asIdeal
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hy]
         exact P.asIdeal.zero_mem
       have hq'under : q'.under R = ⊥ := by
@@ -407,7 +407,7 @@ theorem iInf_smul_top_eq_bot_of_isPushout
       TensorProduct.AlgebraTensorModule.cancelBaseChange B C (Localization.AtPrime P)
         (Localization.AtPrime P) N (ι n) = (1 : Localization.AtPrime P) ⊗ₜ n := by
     intro n
-    show TensorProduct.AlgebraTensorModule.cancelBaseChange B C (Localization.AtPrime P)
+    change TensorProduct.AlgebraTensorModule.cancelBaseChange B C (Localization.AtPrime P)
       (Localization.AtPrime P) N (1 ⊗ₜ (1 ⊗ₜ n)) = _
     rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
     simp
@@ -415,7 +415,7 @@ theorem iInf_smul_top_eq_bot_of_isPushout
     intro x y hxy
     apply Module.FaithfullyFlat.tensorProduct_mk_injective
       (A := B) (B := Localization.AtPrime P) N
-    show (1 : Localization.AtPrime P) ⊗ₜ x = (1 : Localization.AtPrime P) ⊗ₜ y
+    change (1 : Localization.AtPrime P) ⊗ₜ x = (1 : Localization.AtPrime P) ⊗ₜ y
     rw [← hcancel x, ← hcancel y, hxy]
   have hpull : ∀ (c : C) (n : N),
       (1 : Localization.AtPrime P) ⊗ₜ[C] (c ⊗ₜ[B] n) =
@@ -426,7 +426,7 @@ theorem iInf_smul_top_eq_bot_of_isPushout
       ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
   have hsmul : ∀ (a : A) (n : N), ι (a • n) = (algebraMap A Ah a) • ι n := by
     intro a n
-    show (1 : Localization.AtPrime P) ⊗ₜ[C] ((1 : C) ⊗ₜ[B] (a • n)) =
+    change (1 : Localization.AtPrime P) ⊗ₜ[C] ((1 : C) ⊗ₜ[B] (a • n)) =
       (algebraMap A Ah a) • ((1 : Localization.AtPrime P) ⊗ₜ[C] ((1 : C) ⊗ₜ[B] n))
     rw [show a • n = (algebraMap A B a) • n from (IsScalarTower.algebraMap_smul B a n).symm,
       ← TensorProduct.smul_tmul, Algebra.smul_def (R := B) (A := C), mul_one,

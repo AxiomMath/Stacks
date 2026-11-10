@@ -306,27 +306,27 @@ theorem periodicDeterminant_upperBlockEndomorphism
       ((upperBlockRangeEquiv W hW) (W.mulVecLin ((Pi.basisFun k (Fin a)) i)) : M) =
         (W.col i, 0) := by
     apply Prod.ext
-    · show W.mulVec ((Pi.basisFun k (Fin a)) i) = W.col i
+    · change W.mulVec ((Pi.basisFun k (Fin a)) i) = W.col i
       simp [Pi.basisFun]
     · rfl
   have hleftTop (i : Fin a) : leftFamily (e (Sum.inl i)) = (U.col i, 0) := by
-    show Fin.append (fun j => (x.1 j : M)) yLift _ = _
+    change Fin.append (fun j => (x.1 j : M)) yLift _ = _
     rw [hleftIndex, Fin.append_left]
     simp only [x, bU, Module.Basis.map_apply, LinearEquiv.trans_apply]
     exact hrange U hU i
   have hleftBottom (i : Fin a) :
       leftFamily (e (Sum.inr i)) = (0, (Pi.basisFun k (Fin a)) i) := by
-    show Fin.append (fun j => (x.1 j : M)) yLift _ = _
+    change Fin.append (fun j => (x.1 j : M)) yLift _ = _
     rw [hleftBottomIndex, Fin.append_right]
     simp [yLift]
   have hrightTop (i : Fin a) : rightFamily (e (Sum.inl i)) = (V.col i, 0) := by
-    show Fin.append (fun j => (y.1 j : M)) xLift _ = _
+    change Fin.append (fun j => (y.1 j : M)) xLift _ = _
     rw [hrightTopIndex, Fin.append_left]
     simp only [y, bV, Module.Basis.map_apply, LinearEquiv.trans_apply]
     exact hrange V hV i
   have hrightBottom (i : Fin a) :
       rightFamily (e (Sum.inr i)) = (0, (Pi.basisFun k (Fin a)) i) := by
-    show Fin.append (fun j => (y.1 j : M)) xLift _ = _
+    change Fin.append (fun j => (y.1 j : M)) xLift _ = _
     rw [hrightBottomIndex, Fin.append_right]
     simp [xLift]
   have hbM_fst (z : M) (i : Fin a) :

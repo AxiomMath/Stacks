@@ -71,7 +71,7 @@ private theorem constPowerMap_matching_prop_pos
   let PZ : SimplicialObject D := ((SimplicialObject.const D).obj Z).power U
   let PY : SimplicialObject D := ((SimplicialObject.const D).obj Y).power U
   let b : PZ ⟶ PY := constPowerMap u U
-  show P
+  change P
       (pullback.lift
         (f := (((SimplicialObject.coskAdj n).unit.app PY).app
           (Opposite.op (SimplexCategory.mk (n + 1)))))
@@ -240,7 +240,7 @@ theorem isHypercovering_refinementByCovering (J : Pretopology C)
     constSimplexPowerMap.{w} u k
   let zero := Opposite.op (SimplexCategory.mk 0)
   let : Unique ((simplexPowerIndex.{w} k).obj (SimplexCategory.mk 0)) := by
-    show Unique (ULift (SimplexCategory.mk k ⟶ SimplexCategory.mk 0))
+    change Unique (ULift (SimplexCategory.mk k ⟶ SimplexCategory.mk 0))
     infer_instance
   let eZ : (∏ᶜ fun _ : (simplexPowerIndex.{w} k).obj (SimplexCategory.mk 0) => Z) ≅ Z :=
     CategoryTheory.Limits.productUniqueIso _
@@ -252,7 +252,7 @@ theorem isHypercovering_refinementByCovering (J : Pretopology C)
   let eYfull : (constSimplexPower.{w} (K.obj (Opposite.op (SimplexCategory.mk k))) k).obj zero ≅
       K.obj (Opposite.op (SimplexCategory.mk k)) := eY
   have hpow0 : b.app zero ≫ eYfull.hom = eZfull.hom ≫ u := by
-    show CategoryTheory.Limits.Pi.map (fun _ => u) ≫ eY.hom = eZ.hom ≫ u
+    change CategoryTheory.Limits.Pi.map (fun _ => u) ≫ eY.hom = eZ.hom ≫ u
     exact piMap_comp_productUniqueIso_hom u
   have hb0 : IsCoveringOver J (b.app zero) := by
     rw [← isCoveringOver_comp_iso_iff J (b.app zero) eYfull, hpow0]

@@ -225,7 +225,7 @@ public theorem isAbsolutelyWeaklyNormalRing_of_isTerminal
       {Polynomial.X ^ p - Polynomial.C x,
         Polynomial.C (p : R.1) * Polynomial.X - Polynomial.C y}
     have hB : IsAbsoluteWeakNormalizationCandidate A (CommAlgCat.of A B) := by
-      show UniversalHomeomorphism
+      change UniversalHomeomorphism
         (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op)
       have hRB : UniversalHomeomorphism
           (Scheme.Spec.map (CommRingCat.ofHom (algebraMap R.1 B)).op) := by
@@ -251,7 +251,7 @@ public theorem isIso_lift_to_absoluteWeakNormalization_iff_isAbsolutelyWeaklyNor
   let T := absoluteWeakNormalizationCategoryObject_isTerminal A
   let X : AbsoluteWeakNormalizationCategory A := ⟨CommAlgCat.of A B, huniv⟩
   let f := T.from X
-  show IsIso f ↔ IsAbsolutelyWeaklyNormalRing B
+  change IsIso f ↔ IsAbsolutelyWeaklyNormalRing B
   constructor
   · intro hf
     let : IsIso f := hf

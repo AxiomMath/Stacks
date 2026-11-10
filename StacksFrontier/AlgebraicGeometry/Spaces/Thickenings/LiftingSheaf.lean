@@ -543,7 +543,8 @@ available at a thickening of arbitrary order because base change of charts exhib
 étale site of `X'` as a dense subsite of that of `X`,
 `AlgebraicGeometry.Space.thickeningChartBaseChange_isDenseSubsite`.  The equation as the source
 states it — base change as an equivalence of the two *sites* — is not used and is not available
-at arbitrary order; `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/SpacesEtaleEquivalence.lean`
+at arbitrary order;
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/SpacesEtaleEquivalence.lean`
 records what of it is proved. -/
 noncomputable def liftActionSheafChart (hG : IsThickening C S hS X' G) (q : Y ⟶ B)
     (a : IsThickening.space C S hS hG ⟶ Y) :
@@ -565,6 +566,7 @@ theorem liftActionSheafChart_val_obj (hG : IsThickening C S hS X' G) (q : Y ⟶ 
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf pushforward along the comparison functor is heavy
 /-- **The acting sheaf of Stacks 061D, read on the spaces-étale site of the ambient space.**
 For a thickening `X ⊂ X'` of algebraic spaces and `a : X ⟶ Y` over `B`, the sheaf
 `SheafHom_{𝒪_X}(a^*Ω_{Y/B}, 𝒞_{X/X'})` transported to a sheaf of abelian groups on the
@@ -589,6 +591,7 @@ noncomputable def liftActionSheafAmbient (hG : IsThickening C S hS X' G) (q : Y 
     (liftActionSheafChart C S hS hG q a)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the sheaf pushforward along the comparison functor is heavy
 /-- The restriction of `AlgebraicGeometry.Space.liftActionSheafAmbient` to the small étale site
 of scheme charts of `X'` is `AlgebraicGeometry.Space.liftActionSheafChart`, so the sections of
 the acting sheaf at a chart are computed by

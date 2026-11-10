@@ -99,7 +99,7 @@ theorem toSheafify_tensorProductLeftUnitor
         (adj.homEquiv P M).symm (tensorPresheafLeftUnitor O hO M) := by
       let _ : MonoidalCategory (PresheafOfModules
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) := by
-        show MonoidalCategory (PresheafOfModules
+        change MonoidalCategory (PresheafOfModules
           (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
         infer_instance
       dsimp [adj, Stacks.SheafOfModules.Invertible.tensorProductLeftUnitor,
@@ -125,7 +125,7 @@ theorem tensorPresheafLeftUnitor_toSheafify_tmul (U : C) (r s : O.obj (op U)) :
   let _ : CommRing (O.obj (op U)) := inferInstance
   let _ : MonoidalCategory (PresheafOfModules
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) := by
-    show MonoidalCategory (PresheafOfModules
+    change MonoidalCategory (PresheafOfModules
       (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
     infer_instance
   let _ : Module (O.obj (op U)) (O.obj (op U)) := inferInstance
@@ -136,7 +136,7 @@ theorem tensorPresheafLeftUnitor_toSheafify_tmul (U : C) (r s : O.obj (op U)) :
       (SheafOfModules.unit
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))).app (op U)
       (r ⊗ₜ[O.obj (op U)] s) = r * s := by
-    show (TensorProduct.lid (O.obj (op U)) (O.obj (op U)) (r ⊗ₜ[O.obj (op U)] s)) = r * s
+    change (TensorProduct.lid (O.obj (op U)) (O.obj (op U)) (r ⊗ₜ[O.obj (op U)] s)) = r * s
     simp
   exact h.trans hmul
 
@@ -344,7 +344,7 @@ theorem bijective_smul_toTensorSheafSection (U : Opens X.carrier)
     refine ((e.hom.val.app (op (Over.mk (𝟙 U)))).hom.map_smul r
       (1 : (structureSheafOver X U).obj.obj (op (Over.mk (𝟙 U))))).symm.trans ?_
     refine congrArg (e.hom.val.app (op (Over.mk (𝟙 U)))).hom ?_
-    show r * 1 = r
+    change r * 1 = r
     exact mul_one r
   rw [hfun]
   exact hbij
@@ -410,7 +410,7 @@ theorem tensorGeneratorTorsorApp_val (U : Opens X.carrier)
       toTensorSheafSection X L N (op U)
         (((generatorTorsor X L).sectionsEquiv U x).val ⊗ₜ
           ((generatorTorsor X N).sectionsEquiv U y).val) := by
-  show (((generatorTorsor X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
+  change (((generatorTorsor X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
       ((X)).IsSheaf⟩).obj (L)).obj (N)))).sectionsEquiv U)
     (((generatorTorsor X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf,
         ((X)).IsSheaf⟩).obj (L)).obj (N)))).sectionsEquiv U).symm

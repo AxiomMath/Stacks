@@ -134,7 +134,7 @@ public theorem span_germTop_eq_top_of_affineLocal (M : X.Modules) {ι : Type u}
     induction hy using Submodule.span_induction with
     | mem y hy =>
         obtain ⟨i, rfl⟩ := hy
-        show TopCat.Presheaf.germ M.val.presheaf W x hxW
+        change TopCat.Presheaf.germ M.val.presheaf W x hxW
           (M.val.presheaf.map (homOfLE (le_top : W ≤ ⊤)).op (s i)) ∈ _
         rw [TopCat.Presheaf.germ_res_apply M.val.presheaf (homOfLE (le_top : W ≤ ⊤)) x hxW (s i)]
         exact Submodule.subset_span ⟨i, rfl⟩

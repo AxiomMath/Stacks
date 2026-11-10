@@ -66,14 +66,14 @@ theorem isIso_smallEtaleProjectionFormulaMapSnd_of_iso (f : X ⟶ Y)
       (Stacks.SheafOfModules.singleUnitComplex (smallEtaleRingedTopos B S hS Y).O q)) :
     IsIso (smallEtaleProjectionFormulaMapSnd f K E) := by
   let L := smallEtaleDerivedModulePullback B S hS f
-  haveI : ((smallEtaleDerivedTensor B S hS Y).obj K).IsEquivalence :=
+  have : ((smallEtaleDerivedTensor B S hS Y).obj K).IsEquivalence :=
     (smallEtaleDerivedTensorProduct B S hS Y).isEquivalence_tensor_obj_of_iso q e
-  haveI : ((smallEtaleDerivedTensor B S hS X).obj (L.obj K)).IsEquivalence :=
+  have : ((smallEtaleDerivedTensor B S hS X).obj (L.obj K)).IsEquivalence :=
     (smallEtaleDerivedTensorProduct B S hS X).isEquivalence_tensor_obj_of_iso q
       (L.mapIso e ≪≫ Stacks.Cohomology.DerivedPullbackOfToposHom.derivedPullbackSingleUnitIso
         (smallEtaleRingedToposHom B S hS f) q)
-  haveI := isEquivalence_curry_uncurry_obj (smallEtaleDerivedTensor B S hS Y) K
-  haveI := isEquivalence_curry_uncurry_obj (smallEtaleDerivedTensor B S hS X) (L.obj K)
+  have := isEquivalence_curry_uncurry_obj (smallEtaleDerivedTensor B S hS Y) K
+  have := isEquivalence_curry_uncurry_obj (smallEtaleDerivedTensor B S hS X) (L.obj K)
   exact Stacks.ProjectionFormula.isIso_adjunctionTensorMapSnd_of_isEquivalence
     (smallEtaleDerivedModuleAdjunction B S hS f)
     (Functor.uncurry.obj (smallEtaleDerivedTensor B S hS Y))
@@ -97,7 +97,7 @@ def smallEtaleProjectionFormulaSndNatTrans (f : X ⟶ Y)
       (Functor.uncurry.obj (smallEtaleDerivedTensor B S hS Y))
       (Functor.uncurry.obj (smallEtaleDerivedTensor B S hS X))
       (smallEtaleDerivedPullbackTensorIso f).hom k (𝟙 E)
-    simp only [Functor.uncurry_obj_map, CategoryTheory.Functor.map_id, NatTrans.id_app,
+    simp only [Functor.uncurry_obj_map, CategoryTheory.Functor.map_id,
       Category.comp_id] at h
     exact h
 
@@ -117,39 +117,40 @@ theorem isIso_smallEtaleProjectionFormulaMapSnd_of_isAffineSpace (f : X ⟶ Y)
   let DY := DerivedCategory (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y))
   let DX := DerivedCategory (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X))
   let ι : P.FullSubcategory ⥤ DY := P.ι
-  letI : ι.CommShift ℤ := (inferInstance : P.ι.CommShift ℤ)
-  letI : ι.IsTriangulated := (inferInstance : P.ι.IsTriangulated)
+  let : ι.CommShift ℤ := (inferInstance : P.ι.CommShift ℤ)
+  let : ι.IsTriangulated := (inferInstance : P.ι.IsTriangulated)
   let L : DY ⥤ DX := smallEtaleDerivedModulePullback B S hS f
   let R : DX ⥤ DY := derivedModulePushforward B S hS f
-  letI : R.CommShift ℤ := derivedModulePushforward_commShift B S hS f
-  letI : R.IsTriangulated := derivedModulePushforward_isTriangulated B S hS f
+  let : R.CommShift ℤ := derivedModulePushforward_commShift B S hS f
+  let : R.IsTriangulated := derivedModulePushforward_isTriangulated B S hS f
   have hcl : ∀ I : Type u, P.IsClosedUnderColimitsOfShape (Discrete I) :=
     isClosedUnderColimitsOfShape_qcohDerived B S hS Y
-  haveI : HasCoproducts.{u} P.FullSubcategory := fun I => by
+  have : HasCoproducts.{u} P.FullSubcategory := fun I => by
     have := hcl I
     infer_instance
-  haveI : LocallySmall.{u} P.FullSubcategory := inferInstance
+  have : LocallySmall.{u} P.FullSubcategory := inferInstance
   let TY := smallEtaleDerivedTensorProduct B S hS Y
   let TX := smallEtaleDerivedTensorProduct B S hS X
   let T₁ : DY ⥤ DY := (smallEtaleDerivedTensor B S hS Y).flip.obj (R.obj E)
   let T₂ : DX ⥤ DX := (smallEtaleDerivedTensor B S hS X).flip.obj E
-  letI : T₁.CommShift ℤ := TY.commShift_left _
-  letI : T₁.IsTriangulated := TY.exact_left _
-  letI : T₂.CommShift ℤ := TX.commShift_left _
-  letI : T₂.IsTriangulated := TX.exact_left _
+  let : T₁.CommShift ℤ := TY.commShift_left _
+  let : T₁.IsTriangulated := TY.exact_left _
+  let : T₂.CommShift ℤ := TX.commShift_left _
+  let : T₂.IsTriangulated := TX.exact_left _
   let τ : ι ⋙ T₁ ⟶ ι ⋙ L ⋙ T₂ ⋙ R :=
     Functor.whiskerLeft P.ι (smallEtaleProjectionFormulaSndNatTrans f E)
   have hι : ∀ I : Type u, PreservesColimitsOfShape (Discrete I) ι := fun I => by
     have := hcl I
     exact (inferInstance : PreservesColimitsOfShape (Discrete I) P.ι)
-  haveI : ∀ I : Type u, PreservesColimitsOfShape (Discrete I) (ι ⋙ T₁) :=
+  have : ∀ I : Type u, PreservesColimitsOfShape (Discrete I) (ι ⋙ T₁) :=
     fun I => by
       have : PreservesColimitsOfShape (Discrete I) T₁ :=
         Stacks.SheafOfModules.DerivedTensorProduct.preservesColimitsOfShape_tensor_flip_obj TY _ I
       infer_instance
-  haveI : ∀ I : Type u, PreservesColimitsOfShape (Discrete I) (ι ⋙ L ⋙ T₂ ⋙ R) := fun I => by
+  have : ∀ I : Type u, PreservesColimitsOfShape (Discrete I) (ι ⋙ L ⋙ T₂ ⋙ R) := fun I => by
     have : PreservesColimitsOfShape (Discrete I) L :=
-      (smallEtaleDerivedModuleAdjunction B S hS f).leftAdjoint_preservesColimits.preservesColimitsOfShape
+      (smallEtaleDerivedModuleAdjunction B S hS f).leftAdjoint_preservesColimits
+        |>.preservesColimitsOfShape
     have : PreservesColimitsOfShape (Discrete I) T₂ :=
       Stacks.SheafOfModules.DerivedTensorProduct.preservesColimitsOfShape_tensor_flip_obj TX _ I
     let G : P.FullSubcategory ⥤ DX := ι ⋙ L ⋙ T₂
@@ -175,17 +176,18 @@ theorem isIso_smallEtaleProjectionFormulaMapSnd_of_isAffineSpace (f : X ⟶ Y)
         (Stacks.SheafOfModules.singleUnitComplex (smallEtaleRingedTopos B S hS Y).O (-n)) :=
       ((QcohDerived B S hS Y).ι.commShiftIso n).app _ ≪≫ structureDerivedShiftIso Y n
     exact isIso_smallEtaleProjectionFormulaMapSnd_of_iso f E (-n) e
-  exact StacksDraft.CompactDevissage.isIso_app_of_isCompactlyGenerated_of_forall_shift_of_locallySmall
-    τ (fun _ : PUnit.{u + 1} => unitQuasicoherent Y.2) (fun _ => hc)
-    (fun Z hZ => hg Z (by
-      have : ObjectProperty.ofObj (fun _ : PUnit.{u + 1} => unitQuasicoherent Y.2) =
-          ObjectProperty.singleton (unitQuasicoherent Y.2) := by
-        ext Z
-        rw [ObjectProperty.ofObj_iff, ObjectProperty.singleton_iff]
-        exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨PUnit.unit, h⟩⟩
-      rwa [← this]))
-    (fun _ n => hb n)
-    ⟨K, hK⟩
+  exact
+    StacksDraft.CompactDevissage.isIso_app_of_isCompactlyGenerated_of_forall_shift_of_locallySmall
+      τ (fun _ : PUnit.{u + 1} => unitQuasicoherent Y.2) (fun _ => hc)
+      (fun Z hZ => hg Z (by
+        have : ObjectProperty.ofObj (fun _ : PUnit.{u + 1} => unitQuasicoherent Y.2) =
+            ObjectProperty.singleton (unitQuasicoherent Y.2) := by
+          ext Z
+          rw [ObjectProperty.ofObj_iff, ObjectProperty.singleton_iff]
+          exact ⟨fun ⟨_, h⟩ => h, fun h => ⟨PUnit.unit, h⟩⟩
+        rwa [← this]))
+      (fun _ n => hb n)
+      ⟨K, hK⟩
 
 end Affine
 

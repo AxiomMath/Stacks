@@ -413,13 +413,13 @@ theorem isIso_ιTotal_of_isZero_ne {A : Type*} [Category* A] [Preadditive A]
       obtain rfl := hq
       obtain rfl : p' = p := by change p' + q = n at h'; omega
       rfl) else 0), ?_, ?_⟩
-  · rw [HomologicalComplex₂.ι_totalDesc, dif_pos rfl, eqToHom_refl]
+  · rw [HomologicalComplex₂.ι_totalDesc, dite_eq_left rfl, eqToHom_refl]
   · refine HomologicalComplex₂.total.hom_ext (up ℤ) (fun p' q h' => ?_)
     rw [HomologicalComplex₂.ι_totalDesc_assoc, Category.comp_id]
     by_cases hq : q = a
     · subst hq
       obtain rfl : p' = p := by change p' + q = n at h'; omega
-      rw [dif_pos rfl, eqToHom_refl, Category.id_comp]
+      rw [dite_eq_left rfl, eqToHom_refl, Category.id_comp]
     · exact (hB p' q hq).eq_of_src _ _
 
 /-- The inclusion of the Čech cochains of `ℱ` into the total Čech complex of `ℱ[-a]` in total
@@ -577,8 +577,8 @@ theorem exists_refinement_cechD_eq_of_cechCocycleClassAt_eq_zero
     (c : CechCochains.Cochain U (abSections F) (q + 1))
     (hc : CechCochains.cechD U (abSections F) (q + 1) c = 0)
     (h0 : cechCocycleClassAt U hU F a c hc = 0) :
-    ∃ (J : Type u) (V : J → Opens X) (hV : ⊤ = ⨆ j, V j) (r : J → I) (hr : ∀ j, V j ≤ U (r j))
-      (t : CechCochains.Cochain V (abSections F) q),
+    ∃ (J : Type u) (V : J → Opens X), (⊤ = ⨆ j, V j) ∧
+      ∃ (r : J → I) (hr : ∀ j, V j ≤ U (r j)) (t : CechCochains.Cochain V (abSections F) q),
       CechCochains.refinementMap U V r hr (abSections F) (q + 1) c =
         CechCochains.cechD V (abSections F) q t := by
   have hi : (up ℤ).prev (((q + 1 : ℕ) : ℤ) + a) = (q : ℤ) + a := by
@@ -601,8 +601,9 @@ theorem exists_refinement_eq_zero_of_cechCocycleClassAt_eq_zero
     (c : CechCochains.Cochain U (abSections F) 0)
     (hc : CechCochains.cechD U (abSections F) 0 c = 0)
     (h0 : cechCocycleClassAt U hU F a c hc = 0) :
-    ∃ (J : Type u) (V : J → Opens X) (hV : ⊤ = ⨆ j, V j) (r : J → I) (hr : ∀ j, V j ≤ U (r j)),
-      CechCochains.refinementMap U V r hr (abSections F) 0 c = 0 := by
+    ∃ (J : Type u) (V : J → Opens X), (⊤ = ⨆ j, V j) ∧
+      ∃ (r : J → I) (hr : ∀ j, V j ≤ U (r j)),
+        CechCochains.refinementMap U V r hr (abSections F) 0 c = 0 := by
   have hi : (up ℤ).prev (((0 : ℕ) : ℤ) + a) = a - 1 := by
     rw [CochainComplex.prev]; push_cast; ring
   obtain ⟨J, V, hV, r, hr, A', π, hπ, x₁, hx₁⟩ :=
@@ -652,7 +653,7 @@ theorem unitTensor_tensorModulesMap {M N : ModuleCat.{u} (SectionRing (ringSheaf
         (f (1 : SectionRing (ringSheaf O) ⊤) ⊗ₜ[SectionRing (ringSheaf O) ⊤]
           g (1 : SectionRing (ringSheaf O) ⊤)) := by
   refine ModuleCat.hom_ext (LinearMap.ext_ring ?_)
-  simp [unitTensor, toMor, Stacks.Cech.CupProduct.tensorModulesMap, TensorProduct.map_tmul]
+  simp [unitTensor, toMor, Stacks.Cech.CupProduct.tensorModulesMap]
   rfl
 
 /-- A bilinear map of presheaves of modules commutes with restriction, written with `res`. -/
@@ -778,7 +779,7 @@ theorem unitTensor_cechAlexanderWhitney_singlePairingAt (b : ℤ)
       (SectionRing (ringSheaf O) ⊤) (bilinearPairing β) (singleXIsoAt O H (a + b) (a + b) rfl).inv,
     Stacks.Cech.LinearCupProduct.tensorModulesMap_comp_assoc,
     Stacks.Cech.LinearCupProduct.tensorModulesMap_comp_assoc]
-  simp only [Category.assoc, Category.comp_id, Category.id_comp,
+  simp only [Category.assoc, Category.comp_id, 
     cechCochainsMap_singleXIsoAt_inv_hom]
   rw [← Category.assoc, ← Category.assoc,
     ← unitTensor_tensorModulesMap_sliceMor_cechAlexanderWhitney U hU β c d]

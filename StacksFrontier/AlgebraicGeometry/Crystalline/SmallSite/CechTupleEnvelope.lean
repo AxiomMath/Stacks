@@ -26,7 +26,8 @@ nilpotent in `C_α` by
 intersection being affine.
 
 The second is the surjective presentation of `C_α` over that base, which is
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CechTuplePresentation.lean`, read as a map of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CechTuplePresentation.lean`,
+read as a map of
 `A`-algebras.
 
 ## Main definitions
@@ -71,7 +72,8 @@ The transitions are produced by `Crystalline.envelopeIdealMap`, which reads the 
 property of the envelope ([Stacks, Tag 07H8], `Crystalline.DividedPowerEnvelope.homEquiv`) with
 the envelope of *another* ideal in *another* ring as its target.  That the property allows this is
 the content of
-`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeFunctoriality.lean`: it is stated for a divided
+`StacksFrontier/AlgebraicGeometry/Crystalline/EnvelopeFunctoriality.lean`:
+it is stated for a divided
 power ring `A`, a ring `B` and an ideal `J ⊆ B`, and never mentions an affine crystalline
 situation, so the restriction to one situation was only in the wrappers
 `Crystalline.polynomialEnvelopeMap` and `Crystalline.completedEnvelope_isCoproduct`
@@ -134,7 +136,7 @@ def interSituation [Scheme.IsSeparated S.X] (c : CechCovering S Λ) {n : ℕ}
   algebraC := (baseToSections S (c.inter α)).toAlgebra
   ideal_map_eq_bot := by
     refine Ideal.map_eq_bot_iff_le_ker _ |>.mpr fun s hs ↦ ?_
-    show sectionsRestrict (le_top : c.inter α ≤ ⊤) (baseSectionsToSections S s) = 0
+    change sectionsRestrict (le_top : c.inter α ≤ ⊤) (baseSectionsToSections S s) = 0
     rw [baseSectionsToSections_eq_zero_of_mem S s hs, map_zero]
   prime_nilpotent := by
     have h := isNilpotent_prime_sections_of_isAffineOpen S (c.inter α) (c.isAffineOpen_inter α)
@@ -236,7 +238,7 @@ theorem CechPresentation.tupleRename_comp_algebraMap {m n : SimplexCategory} (φ
         (MvPolynomial (P.tupleIndex α) ↥(interSituation c α).A) := by
   apply RingHom.ext
   intro r
-  simp only [RingHom.comp_apply, MvPolynomial.algebraMap_eq]
+  simp only [MvPolynomial.algebraMap_eq]
   exact P.tupleRename_C φ α r
 
 /-- **The transition morphism `D_{α ∘ φ} ⟶ D_α` of [Stacks, Tag 07MM]**, on the uncompleted
@@ -297,7 +299,7 @@ theorem CechPresentation.tupleEnvelopeMap_id (n : SimplexCategory) (α : Fin (n.
     funext z
     rfl
   · intro x
-    show (P.tupleDividedPowerEnvelope hP α).algebraMap.toRingHom x =
+    change (P.tupleDividedPowerEnvelope hP α).algebraMap.toRingHom x =
       (P.tupleDividedPowerEnvelope hP α).algebraMap.toRingHom (P.tupleRename (𝟙 n) α x)
     rw [RingHom.congr_fun (P.tupleRename_id n α) x]
     rfl

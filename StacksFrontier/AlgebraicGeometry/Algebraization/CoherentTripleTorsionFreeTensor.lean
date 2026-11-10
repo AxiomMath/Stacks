@@ -220,7 +220,7 @@ public theorem mono_smulSnakeInput_L₃_f {X : Scheme.{u}} (F P₁ P₂ : X.Modu
     (smulSnakeInput (tensorModulesMap X (𝟙 F) m) c).h₃τ₂
     (isColimitCokernelCoforkTensor X F P₁ c) (isColimitCokernelCoforkTensor X F P₂ c)
     (smulSnakeInput (tensorModulesMap X (𝟙 F) m) c).v₂₃.comm₁₂.symm ?_ hmono
-  show tensorModulesMap X (𝟙 F) m ≫
+  change tensorModulesMap X (𝟙 F) m ≫
       tensorModulesMap X (cokernel.π (smulPowHom F c 1)) (𝟙 P₂) =
     tensorModulesMap X (cokernel.π (smulPowHom F c 1)) (𝟙 P₁) ≫
       tensorModulesMap X (𝟙 (cokernel (smulPowHom F c 1))) m

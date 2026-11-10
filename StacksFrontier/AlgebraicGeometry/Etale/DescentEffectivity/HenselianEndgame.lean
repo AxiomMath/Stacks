@@ -93,7 +93,7 @@ theorem exists_isIso_of_isFinite_of_henselianPair
   have hmap : ((finiteEtaleBaseChange y).map (F.preimageIso Ψ).hom).left = ψ :=
     congrArg (fun k ↦ k.left) (F.map_preimage Ψ.hom)
   refine ⟨(F.preimageIso Ψ).hom.left, ?_, MorphismProperty.Over.w _, ?_, ?_⟩
-  · show IsIso ((MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ X ⋙
+  · change IsIso ((MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ X ⋙
       CategoryTheory.Over.forget X).map (F.preimageIso Ψ).hom)
     infer_instance
   · exact (key (F.preimageIso Ψ).hom).trans
@@ -226,7 +226,7 @@ theorem proj_invariant_of_isOpenCover {U : Scheme.{u}} {ι : Type u}
       (TopologicalSpace.IsOpenCover.mk (by
         rw [← Scheme.Hom.preimage_iSup, hcov.iSup_eq_top, Scheme.Hom.preimage_top])))
     _ _ fun (i : ι) ↦ ?_
-  show (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ W i).ι ≫ _ =
+  change (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ W i).ι ≫ _ =
     (pullback.fst (D.over.hom ≫ f) f ⁻¹ᵁ W i).ι ≫ _
   rw [← openSourcePart_comp_homSourceMap (W i) (hinv i), Category.assoc, Category.assoc,
     homSourceMap_comp_invariant (W i) (hinv i) (Q i) (c i) ρ (hρ i)]

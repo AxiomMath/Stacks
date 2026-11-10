@@ -56,8 +56,7 @@ noncomputable def pairTensorMap {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶
   toFun := TensorProduct.map (pairLinearA g) LinearMap.id
   map_add' := map_add _
   map_smul' c t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x n =>
       rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
         TensorProduct.smul_tmul']
@@ -84,8 +83,7 @@ lemma symPairMap_algebraMap {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶ Y) 
 /-- `ψ_N` on a morphism of pairs sends the generator `ι t` to `ι (g ⊗ N) t`. -/
 lemma symPairMap_ι {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶ Y) (t : X.module ⊗[A] N) :
     symPairMap N g (SymmetricAlgebra.ι _ _ t) = SymmetricAlgebra.ι _ _ (pairTensorMap N g t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x n => exact symLift_ι (D := symPairObj N Y) _ _ _
   | add s t hs ht => rw [map_add, map_add, hs, ht, map_add, map_add]
 
@@ -232,8 +230,7 @@ private theorem tensor_smul_left_induction {A S S' P M Q : Type*} [CommSemiring 
     [Module A M] [AddCommMonoid Q] [Module A Q] [DistribSMul S' Q] (F : P ⊗[A] M →ₗ[A] Q) (a : S)
     (a' : S') (h : ∀ (p : P) (m : M), F ((a • p) ⊗ₜ[A] m) = a' • F (p ⊗ₜ[A] m))
     (t : P ⊗[A] M) : F (a • t) = a' • F t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [smul_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul p m => rw [TensorProduct.smul_tmul']; exact h p m
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add]
 
@@ -256,8 +253,7 @@ lemma symPairWeightOne_rTensor_naturality {M' : Type*} [AddCommGroup M'] [Module
         (TensorProduct.map (symPairMap N g).toLinearMap (LinearMap.id (M := M')) t) =
       TensorProduct.map (symPairMap N g).toLinearMap LinearMap.id
         ((symPairWeightOne N X).rTensor M' t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     simp only [TensorProduct.map_tmul, LinearMap.rTensor_tmul, AlgHom.toLinearMap_apply,
       LinearMap.id_apply, symPairWeightOne_naturality]
@@ -359,8 +355,7 @@ lemma pairsWeightOneInMap_outMap (X : AlgebraModulePair.{max u v} A)
           A).rTensor (N ⊗[A] M) (pairReassoc N M X.module (y ⊗ₜ m))) =
         SymmetricAlgebra.ι X.algebra (X.module ⊗[A] N) y ⊗ₜ m := by
     intro y m
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul x n =>
       rw [pairReassoc_tmul, LinearMap.rTensor_tmul, pairsWeightOneInMap_tmul,
         LinearMap.restrictScalars_apply, symmetricLinearPart_ι, pairReassoc_symm_tmul,
@@ -368,8 +363,7 @@ lemma pairsWeightOneInMap_outMap (X : AlgebraModulePair.{max u v} A)
       simp
     | add y y' hy hy' => rw [TensorProduct.add_tmul, map_add, map_add, map_add, hy, hy',
         map_add, TensorProduct.add_tmul]
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [pairsWeightOneOutMap_tmul, key, LinearMap.rTensor_tmul]
     rfl
@@ -387,8 +381,7 @@ lemma pairsOutAux_smul (X : AlgebraModulePair.{max u v} A) (c : X.algebra) (y : 
     pairsOutAux N M X (c • y) m =
       algebraMap X.algebra (SymmetricAlgebra X.algebra (X.module ⊗[A] unitPairModule.{v} A)) c •
         pairsOutAux N M X y m := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp [pairsOutAux]
+  induction y using TensorProduct.inductionOn with
   | tmul x n =>
     simp only [pairsOutAux, TensorProduct.smul_tmul', pairReassoc_tmul, LinearMap.rTensor_tmul,
       LinearMap.restrictScalars_apply, smul_eq_mul]
@@ -405,8 +398,7 @@ lemma pairsOutAux_naturality {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶ Y)
     pairsOutAux N M Y (pairTensorMap N g y) m =
       TensorProduct.map (symPairMap (unitPairModule.{v} A) g).toLinearMap LinearMap.id
         (pairsOutAux N M X y m) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [pairsOutAux, map_zero, TensorProduct.zero_tmul]
+  induction y using TensorProduct.inductionOn with
   | tmul x n =>
     simp only [pairsOutAux, pairTensorMap_tmul, pairReassoc_tmul, LinearMap.rTensor_tmul,
       LinearMap.restrictScalars_apply, TensorProduct.map_tmul, AlgHom.toLinearMap_apply,
@@ -433,8 +425,7 @@ lemma pairsWeightOneOutMap_naturality {X Y : AlgebraModulePair.{max u v} A} (g :
     pairsWeightOneOutMap N M Y (TensorProduct.map (symPairMap N g).toLinearMap LinearMap.id t) =
       TensorProduct.map (symPairMap (unitPairModule.{v} A) g).toLinearMap LinearMap.id
         (pairsWeightOneOutMap N M X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [TensorProduct.map_tmul, pairsWeightOneOutMap_tmul, pairsWeightOneOutMap_tmul]
     simp only [AlgHom.toLinearMap_apply, LinearMap.id_apply, symmetricLinearPart_symPairMap]
@@ -489,11 +480,9 @@ lemma pairsInAux_smul (X : AlgebraModulePair.{max u v} A) (c : X.algebra) (z) (y
     pairsInAux N M X (c • z) y =
       algebraMap X.algebra (SymmetricAlgebra X.algebra (X.module ⊗[A] N)) c •
         pairsInAux N M X z y := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, pairsInAux_zero_left, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [pairsInAux_zero_right, pairsInAux_zero_right, smul_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul n m =>
       rw [TensorProduct.smul_tmul', pairsInAux_tmul_tmul, pairsInAux_tmul_tmul,
         TensorProduct.smul_tmul', smul_comm, ← TensorProduct.smul_tmul', LinearMap.map_smul]
@@ -506,11 +495,9 @@ lemma pairsInAux_naturality {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶ Y)
     (z : X.module ⊗[A] unitPairModule.{v} A) (y : N ⊗[A] M) :
     pairsInAux N M Y (pairTensorMap (unitPairModule.{v} A) g z) y =
       TensorProduct.map (symPairMap N g).toLinearMap LinearMap.id (pairsInAux N M X z y) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, pairsInAux_zero_left, pairsInAux_zero_left, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [pairsInAux_zero_right, pairsInAux_zero_right, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul n m =>
       rw [pairTensorMap_tmul, pairsInAux_tmul_tmul, pairsInAux_tmul_tmul, TensorProduct.map_tmul,
         AlgHom.toLinearMap_apply, symPairMap_ι, pairTensorMap_tmul, LinearMap.id_apply]
@@ -540,8 +527,7 @@ lemma pairsWeightOneInMap_naturality {X Y : AlgebraModulePair.{max u v} A} (g : 
         (TensorProduct.map (symPairMap (unitPairModule.{v} A) g).toLinearMap LinearMap.id t) =
       TensorProduct.map (symPairMap N g).toLinearMap LinearMap.id
         (pairsWeightOneInMap N M X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s y =>
     rw [TensorProduct.map_tmul, pairsWeightOneInMap_tmul, pairsWeightOneInMap_tmul]
     simp only [AlgHom.toLinearMap_apply, LinearMap.id_apply, symmetricLinearPart_symPairMap]

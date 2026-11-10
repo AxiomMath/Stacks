@@ -197,7 +197,7 @@ theorem restrictNeighborhoodModelι_mem
     (hUV : U ≤ V) (hsV : s ∈ V) (hVX : V ≤ X.neighborhood.V) :
     FinitePresentationNeighborhoodModel.restrictionMorphisms
       (restrictNeighborhoodModelι X V hUV hsV hVX) := by
-  show IsPullback (pullback.fst X.hom (S.homOfLE hVX))
+  change IsPullback (pullback.fst X.hom (S.homOfLE hVX))
     (pullback.snd X.hom (S.homOfLE hVX)) X.hom (S.homOfLE hVX)
   exact IsPullback.of_isLimit (c := PullbackCone.mk
     (pullback.fst X.hom (S.homOfLE hVX))
@@ -221,10 +221,10 @@ theorem restrictionMorphisms_hasRightCalculusOfFractions
       toContainsIdentities := ⟨?_⟩
       toIsStableUnderComposition := ⟨?_⟩ }
     · intro X
-      show IsPullback (𝟙 X.source) X.hom X.hom (S.homOfLE le_rfl)
+      change IsPullback (𝟙 X.source) X.hom X.hom (S.homOfLE le_rfl)
       simpa using (IsPullback.of_id_fst (f := X.hom))
     · intro X Y Z f g hf hg
-      show IsPullback (f.left ≫ g.left) X.hom Z.hom
+      change IsPullback (f.left ≫ g.left) X.hom Z.hom
         (S.homOfLE (f.base_le.trans g.base_le))
       have h₁ : IsPullback f.left X.hom Y.hom (S.homOfLE f.base_le) := hf
       have h₂ : IsPullback g.left Y.hom Z.hom (S.homOfLE g.base_le) := hg
@@ -273,7 +273,7 @@ theorem restrictionMorphisms_hasRightCalculusOfFractions
     let q : FinitePresentationNeighborhoodModel.Hom P Y :=
       ⟨inf_le_right, qleft, hw.lift_snd u v huv⟩
     have hcomm : p.left ≫ f.left = q.left ≫ w.left := by
-      show pullback.fst X.hom (S.homOfLE inf_le_left) ≫ f.left =
+      change pullback.fst X.hom (S.homOfLE inf_le_left) ≫ f.left =
         qleft ≫ w.left
       exact (hw.lift_fst u v huv).symm
     exact ⟨⟨p, hp, q⟩, FinitePresentationNeighborhoodModel.Hom.ext _ _ hcomm⟩
@@ -329,13 +329,13 @@ theorem localization_morphism_has_neighborhood_representative
     Z.neighborhood.le_V Z.neighborhood.mem_V f.base_le
   let f' : FinitePresentationNeighborhoodModel.Hom Z Y' := by
     refine ⟨le_rfl, pullback.lift f.left Z.hom f.w, ?_⟩
-    show pullback.lift f.left Z.hom f.w ≫ Y'.hom =
+    change pullback.lift f.left Z.hom f.w ≫ Y'.hom =
         Z.hom ≫ S.homOfLE (le_rfl : Z.neighborhood.V ≤ Z.neighborhood.V)
     dsimp [Y', restrictNeighborhoodModel]
     rw [pullback.lift_snd]
     simp
   have hf_left : f'.left ≫ r.left = f.left := by
-    show pullback.lift f.left Z.hom f.w ≫
+    change pullback.lift f.left Z.hom f.w ≫
       pullback.fst Y.hom (S.homOfLE f.base_le) = f.left
     exact pullback.lift_fst f.left Z.hom f.w
   refine ⟨Z, w, hw, f, Y', r, hr, f', rfl, hf_left, ?_⟩
@@ -415,11 +415,11 @@ private lemma conjugate_eq_of_commutative_squares
 /-! ### Spreading a compatible pair of morphisms out to a neighbourhood -/
 
 /-- Compatible maps between the restrictions of two finite étale covers to `U` and to the local
-scheme at a point `x ∉ U` come from a map defined over an open neighbourhood `V` of `U ∪ {x}`,
+scheme at a point `x` come from a map defined over an open neighbourhood `V` of `U ∪ {x}`,
 out of a model that the morphism `w` exhibits as the base change of the first cover to `V`. -/
 lemma spread_finiteEtale_hom_from_gluingData
     (S : Scheme.{u}) (U : S.Opens) (x : S)
-    (hx : x ∉ U) (hU : IsRetrocompact (U : Set S))
+    (hU : IsRetrocompact (U : Set S))
     (Y Z : FiniteEtaleOver S)
     (fU : (finiteEtaleBaseChange U.ι).obj Y ⟶ (finiteEtaleBaseChange U.ι).obj Z)
     (fA : (finiteEtaleBaseChange (S.fromSpecStalk x)).obj Y ⟶
@@ -441,7 +441,7 @@ lemma spread_finiteEtale_hom_from_gluingData
   let W := FinitePresentationNeighborhoodModel.restrictionMorphisms
     (S := S) (U := U) (s := x)
   let Q := W.Q
-  obtain ⟨e, a, b, hc⟩ := glueingEquivalenceNearPoint S U x hx hU
+  obtain ⟨e, a, b, hc⟩ := glueingEquivalenceNearPoint S U x hU
   let MY := neighborhoodModelOfFiniteEtale U x Y
   let MZ := neighborhoodModelOfFiniteEtale U x Z
   let DY := (Q ⋙ e.functor).obj MY
@@ -476,7 +476,7 @@ lemma spread_finiteEtale_hom_from_gluingData
       (restrictOpenToPuncturedLocal S U x).map fOpen ≫ DZ.1.hom =
         DY.1.hom ≫ (restrictLocalToPuncturedLocal S U x).map fLocal := by
     apply ObjectProperty.hom_ext
-    show (Over.pullback (S.fromSpecStalk x ∣_ U)).map
+    change (Over.pullback (S.fromSpecStalk x ∣_ U)).map
         (aY.hom ≫ fUo ≫ aZ.inv) ≫ DZ.1.hom.hom =
       DY.1.hom.hom ≫ (Over.pullback ((S.fromSpecStalk x ⁻¹ᵁ U).ι)).map
         (bY.hom ≫ fAo ≫ bZ.inv)
@@ -524,7 +524,7 @@ lemma spread_finiteEtale_hom_from_gluingData
   let f' := N.map f ≫ (i Z).hom
   refine ⟨M.neighborhood.V, M.neighborhood.le_V, M.neighborhood.mem_V,
     N.obj M, M.hom, w', f', ?_, ?_⟩
-  · show IsPullback w.left M.hom Y.hom M.neighborhood.V.ι
+  · change IsPullback w.left M.hom Y.hom M.neighborhood.V.ι
     apply hw.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) S.topIso
     · simp
     · simp
@@ -649,7 +649,7 @@ lemma extension_of_cartesian_model
     have hfw : f.left ≫ Z.hom = T.hom := f.w
     have hww : w.left ≫ Y.hom = T.hom := w.w
     rw [Category.assoc, hfw, ← hww, ← Category.assoc]
-    show (hw.isoPullback.inv ≫ w.left) ≫ Y.hom = _
+    change (hw.isoPullback.inv ≫ w.left) ≫ Y.hom = _
     rw [hw.isoPullback_inv_fst, pullback.condition]
   refine ⟨t, ht, ?_⟩
   let l := openPullbackMap Y.hom hUV ≫ e.inv
@@ -674,7 +674,7 @@ lemma extension_of_cartesian_model
   have hleft : wU ≫ fUl = fUT := congrArg (fun q => q.left) heq
   have hfst : fUT ≫ pullback.fst Z.hom U.ι = pullback.fst T.hom U.ι ≫ f.left :=
     pullback.lift_fst _ _ _
-  show l ≫ f.left = fUl ≫ pullback.fst Z.hom U.ι
+  change l ≫ f.left = fUl ≫ pullback.fst Z.hom U.ι
   calc
     l ≫ f.left = (j ≫ pullback.fst T.hom U.ι) ≫ f.left := by rw [hjfst]
     _ = j ≫ (fUT ≫ pullback.fst Z.hom U.ι) := by rw [hfst, Category.assoc]
@@ -692,7 +692,7 @@ open `W` containing both `V` and `x`.
 The morphism over `V` is carried by its underlying map `Y ×_X V ⟶ Z`, and the extension
 restricts to it along `AlgebraicGeometry.openPullbackMap`. -/
 theorem exists_opens_extension_of_connected_puncturedSpectrum
-    {X : Scheme.{u}} (V : X.Opens) (hV : IsRetrocompact (V : Set X)) (x : X) (hx : x ∉ V)
+    {X : Scheme.{u}} (V : X.Opens) (hV : IsRetrocompact (V : Set X)) (x : X)
     (hpunct : (X.fromSpecStalk x) ⁻¹ᵁ V = puncturedSpectrum (X.presheaf.stalk x))
     (hconn : IsConnectedPuncturedStrictHenselization (X.presheaf.stalk x))
     (Y Z : FiniteEtaleOver X)
@@ -706,7 +706,7 @@ theorem exists_opens_extension_of_connected_puncturedSpectrum
     exact nonempty_fullyFaithful_puncturedSpectrum_of_connected (X.presheaf.stalk x) hconn
   obtain ⟨fA, hc⟩ := compatible_local_extension X V x hff Y Z fV
   obtain ⟨W, hVW, hxW, T, p, w, f, hw, heq⟩ :=
-    spread_finiteEtale_hom_from_gluingData X V x hx hV Y Z fV fA hc
+    spread_finiteEtale_hom_from_gluingData X V x hV Y Z fV fA hc
   exact ⟨W, hVW, hxW, extension_of_cartesian_model hVW Y Z fV T p w f hw heq⟩
 
 /-! ### The theorem -/
@@ -748,11 +748,11 @@ theorem fullyFaithful_finiteEtaleBaseChange_of_dense_of_noetherianSpace
           MorphismProperty.Over.homMk tv htvsnd
         obtain ⟨W, hVW, hxW, tW, htW, hextW⟩ :=
           exists_opens_extension_of_connected_puncturedSpectrum V
-            (noetherianSpace_isRetrocompact X _) x hx hpunct
+            (noetherianSpace_isRetrocompact X _) x hpunct
             (hconn x (fun hxU => hx (hUV hxU))) Y Z fV
         refine ⟨W, lt_of_le_of_ne hVW (fun h => hx (h ▸ hxW)), hUV.trans hVW, tW, htW, ?_⟩
         rw [← openPullbackMap_comp Y.hom hUV hVW, Category.assoc, hextW]
-        show openPullbackMap Y.hom hUV ≫ tv ≫ pullback.fst Z.hom V.ι =
+        change openPullbackMap Y.hom hUV ≫ tv ≫ pullback.fst Z.hom V.ι =
           fUl ≫ pullback.fst Z.hom U.ι
         rwa [htvfst]
     obtain ⟨hUt, t, ht, hext⟩ := htop
@@ -775,12 +775,12 @@ theorem fullyFaithful_finiteEtaleBaseChange_of_dense_of_noetherianSpace
     refine ⟨g, ?_⟩
     apply MorphismProperty.Over.Hom.ext
     apply pullback.hom_ext
-    · show (F.map g).left ≫ pullback.fst Z.hom U.ι = fUl ≫ pullback.fst Z.hom U.ι
+    · change (F.map g).left ≫ pullback.fst Z.hom U.ι = fUl ≫ pullback.fst Z.hom U.ι
       rw [hgfst]
-      show pullback.fst Y.hom U.ι ≫ inv (pullback.fst Y.hom (⊤ : X.Opens).ι) ≫ t =
+      change pullback.fst Y.hom U.ι ≫ inv (pullback.fst Y.hom (⊤ : X.Opens).ι) ≫ t =
         fUl ≫ pullback.fst Z.hom U.ι
       rwa [← Category.assoc, hinvfst]
-    · show (F.map g).left ≫ pullback.snd Z.hom U.ι = fUl ≫ pullback.snd Z.hom U.ι
+    · change (F.map g).left ≫ pullback.snd Z.hom U.ι = fUl ≫ pullback.snd Z.hom U.ι
       rw [hgsnd, hfUl]
   exact ⟨Functor.FullyFaithful.ofFullyFaithful F⟩
 

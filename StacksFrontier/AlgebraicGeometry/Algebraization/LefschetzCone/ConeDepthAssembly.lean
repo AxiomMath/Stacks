@@ -106,7 +106,7 @@ theorem three_le_depthOfStalkOnOpen_coneFunctor_add_distanceToZ {k : Type u} [Fi
   have hfp : sectionElt L s ∈ p := by
     have hz : (coneSituation L s).Yι.base z ∈ Set.range (coneSituation L s).Yι.base := ⟨z, rfl⟩
     rw [Stacks.Algebraization.range_Yι_base] at hz
-    show sectionElt L s ∈ ((coneSituation L s).U.ι.base y).asIdeal
+    change sectionElt L s ∈ ((coneSituation L s).U.ι.base y).asIdeal
     rw [show (coneSituation L s).U.ι.base y = (coneSituation L s).Yι.base z from hyz]
     exact (PrimeSpectrum.mem_zeroLocus _ _).1 hz (Ideal.mem_span_singleton_self _)
   -- its homogeneous core `𝔭*`, a point `x` of `X`
@@ -121,7 +121,7 @@ theorem three_le_depthOfStalkOnOpen_coneFunctor_add_distanceToZ {k : Type u} [Fi
   let x₀ : ProjectiveSpectrum (grading L) := ⟨P, hPprime, hrel⟩
   let x : X := (inv (projHomOfIsAmple L hL)).base x₀
   have hx : (projHomOfIsAmple L hL).base x = x₀ := by
-    show (inv (projHomOfIsAmple L hL) ≫ projHomOfIsAmple L hL).base x₀ = x₀
+    change (inv (projHomOfIsAmple L hL) ≫ projHomOfIsAmple L hL).base x₀ = x₀
     rw [IsIso.inv_hom_id]
     rfl
   -- a chart `X_g` of consecutive degrees around `x`
@@ -249,7 +249,7 @@ theorem three_le_depthOfStalkOnOpen_coneFunctor_add_distanceToZ {k : Type u} [Fi
     (fun he0 => ?_)
   · by_cases hgen : P.toIdeal = p
     · exact Or.inl hgen
-    · rw [if_neg hgen] at hcmp
+    · rw [ite_eq_right hgen] at hcmp
       exact Or.inr hcmp
   · exact le_self_add.trans hcmp
   · rw [hgen, he] at hBq'

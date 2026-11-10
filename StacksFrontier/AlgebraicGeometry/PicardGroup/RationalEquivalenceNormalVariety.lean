@@ -192,7 +192,7 @@ theorem isIntegral_fiber_fst (k : Type u) [Field k] {X : Scheme.{u}}
       ((sectionOfPoint f p hp).base x) = x := congr($(sectionOfPoint_fst f p hp).base x)
   have hne : Nonempty ((Limits.pullback.fst f (openAffineSpaceOver k U)).fiber x) :=
     hx ▸ ⟨(Limits.pullback.fst f (openAffineSpaceOver k U)).asFiber _⟩
-  haveI : AlgebraicGeometry.IsIntegral (Limits.pullback (openAffineSpaceOver k U)
+  have : AlgebraicGeometry.IsIntegral (Limits.pullback (openAffineSpaceOver k U)
       (X.fromSpecResidueField x ≫ f)) :=
     isIntegral_pullback_openAffineSpace ↥(X.residueField x) U
       (X.fromSpecResidueField x ≫ f)
@@ -269,13 +269,13 @@ theorem nonempty_iso_pullback_sectionOfPoint_of_finite (k : Type u) [Field k] {X
     Nonempty ((Scheme.Modules.pullback (sectionOfPoint f p hp)).obj L ≅
       (Scheme.Modules.pullback (sectionOfPoint f q hq)).obj L) := by
   refine nonempty_iso_pullback_sectionOfPoint k f U p q hp hq L fun hgen => ?_
-  haveI : LocallyOfFiniteType (openAffineSpaceOver k U) := by
+  have : LocallyOfFiniteType (openAffineSpaceOver k U) := by
     unfold openAffineSpaceOver; infer_instance
-  haveI : Flat (openAffineSpaceOver k U) := by
+  have : Flat (openAffineSpaceOver k U) := by
     unfold openAffineSpaceOver
-    haveI := AlgebraicGeometry.flat_affineSpace n (Spec (.of k))
+    have := AlgebraicGeometry.flat_affineSpace n (Spec (.of k))
     infer_instance
-  haveI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
+  have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
   exact Stacks.InvertiblePullback.exists_isInvertible_pullback_iso_of_isTrivial_genericFiber_of_flat
     (Limits.pullback.fst f (openAffineSpaceOver k U)) L hL
     (isIntegral_fiber_fst k f U p hp) (Or.inr inferInstance) hgen

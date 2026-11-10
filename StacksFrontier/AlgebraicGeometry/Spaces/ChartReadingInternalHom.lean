@@ -515,7 +515,7 @@ theorem isQuasicoherentOnSite_of_chartReading_comp (j : Y ⟶ X) (A C : Modules.
     (fun T => (e T).trans (factorFormAddEquiv B S hS T j A C).symm) (fun {T' T} f s => ?_)
     (fun T r s => ?_)
   · apply (factorFormAddEquiv B S hS T' j A C).injective
-    show QuasiCoherentDescent.factorForm B S hS _ j _ rfl
+    change QuasiCoherentDescent.factorForm B S hS _ j _ rfl
         ((factorFormAddEquiv B S hS T' j A C).symm (e T' (F.val.map f.op s))) =
       QuasiCoherentDescent.factorForm B S hS _ j _ rfl
         (QuasiCoherentDescent.restrictForm B S hS (chartMap B S hS Y f) (chartToSpace B S hS Y T)

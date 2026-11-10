@@ -57,20 +57,20 @@ theorem exists_lift_of_smooth_of_henselianPair
     ((t.comp fB).restrictScalars R).comp Algebra.TensorProduct.includeRight
   refine ⟨f', ?_⟩
   ext s
-  show Ideal.Quotient.mk I (t (fB (1 ⊗ₜ[R] s))) = f s
+  change Ideal.Quotient.mk I (t (fB (1 ⊗ₜ[R] s))) = f s
   rw [show fB (1 ⊗ₜ[R] s) = fB (Algebra.TensorProduct.includeRight s) by rfl]
   have ht' := DFunLike.congr_fun ht (fB (Algebra.TensorProduct.includeRight s))
   change Ideal.Quotient.mk I (t (fB (Algebra.TensorProduct.includeRight s))) =
     sigma (fB (Algebra.TensorProduct.includeRight s)) at ht'
-  show Ideal.Quotient.mk I (t (fB (Algebra.TensorProduct.includeRight s))) = f s
+  change Ideal.Quotient.mk I (t (fB (Algebra.TensorProduct.includeRight s))) = f s
   rw [ht']
-  show e.symm (Ideal.Quotient.mk J (fB (Algebra.TensorProduct.includeRight s))) = f s
+  change e.symm (Ideal.Quotient.mk J (fB (Algebra.TensorProduct.includeRight s))) = f s
   apply e.injective
   rw [e.apply_symm_apply]
-  show Ideal.Quotient.mk J (fB (Algebra.TensorProduct.includeRight s)) = qₐ (f s)
+  change Ideal.Quotient.mk J (fB (Algebra.TensorProduct.includeRight s)) = qₐ (f s)
   have hfBs := DFunLike.congr_fun hfB (Algebra.TensorProduct.includeRight s)
   have hg : g (Algebra.TensorProduct.includeRight s) = f s := by
-    show (1 : A ⧸ I) * f s = f s
+    change (1 : A ⧸ I) * f s = f s
     simp
   rw [← hg]
   exact hfBs.symm

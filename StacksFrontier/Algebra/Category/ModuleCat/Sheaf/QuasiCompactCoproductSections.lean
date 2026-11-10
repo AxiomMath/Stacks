@@ -73,7 +73,7 @@ theorem isQuasiCompactObject_of_isCompact (U : Opens X) (hU : IsCompact (U : Set
       exact Set.mem_iUnion.mpr ⟨i, g.le hxV⟩)
   refine ⟨𝒰.restrictIndex (fun i : F => i.1),
     ⟨fun i => i.1, fun _ => 𝟙 _, fun _ => Category.id_comp _⟩, ?_, ?_⟩
-  · show ∀ x ∈ U, ∃ (V : Opens X) (f : V ⟶ U),
+  · change ∀ x ∈ U, ∃ (V : Opens X) (f : V ⟶ U),
       (𝒰.restrictIndex (fun i : F => i.1)).sieve₀ f ∧ x ∈ V
     intro x hx
     obtain ⟨i, hiF, hxi⟩ := Set.mem_iUnion₂.mp (hF hx)
@@ -97,7 +97,7 @@ theorem preservesCoproducts_evaluation_of_isCompact
   have : PreservesColimitsOfShape (Discrete I) AddCommGrpCat.uliftFunctor.{v, w} :=
     ⟨inferInstance⟩
   have : PreservesColimitsOfShape (Discrete I) (F ⋙ G) := by
-    show PreservesColimitsOfShape (Discrete I)
+    change PreservesColimitsOfShape (Discrete I)
       ((_root_.SheafOfModules.toSheaf.{w} R ⋙
         (sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{w}).obj (op U)) ⋙
           AddCommGrpCat.uliftFunctor.{v, w})

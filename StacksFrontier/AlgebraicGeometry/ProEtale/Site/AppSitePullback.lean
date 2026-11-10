@@ -110,7 +110,7 @@ private theorem isAffine_and_exists_iso_pushout_appTop {X SU SU' SW L : Scheme.{
   have hcomp : e.hom ≫ hL =
       Spec.map (pushout.inr a.appTop b.appTop) ≫ SU'.isoSpec.inv ≫ b ≫ sW := by
     rw [← hρ]
-    show (h2.isoPullback.hom ≫ hpb.isoPullback.inv) ≫ ρ ≫ b ≫ sW = _
+    change (h2.isoPullback.hom ≫ hpb.isoPullback.inv) ≫ ρ ≫ b ≫ sW = _
     rw [Category.assoc, ← Category.assoc hpb.isoPullback.inv ρ, hpb.isoPullback_inv_snd,
       ← Category.assoc, h2.isoPullback_hom_snd, Category.assoc]
   have key : hL.appTop ≫ e.hom.appTop =
@@ -127,7 +127,7 @@ private theorem isAffine_and_exists_iso_pushout_appTop {X SU SU' SW L : Scheme.{
   · rw [Category.assoc, ← Category.assoc _ _ e.inv.appTop, (Scheme.ΓSpecIso _).hom_inv_id,
       Category.id_comp, ← Scheme.Hom.comp_appTop, e.inv_hom_id]
     rfl
-  · show ((b ≫ sW).appTop ≫ pushout.inr a.appTop b.appTop) ≫
+  · change ((b ≫ sW).appTop ≫ pushout.inr a.appTop b.appTop) ≫
       (Scheme.ΓSpecIso _).inv ≫ e.inv.appTop = hL.appTop
     rw [Category.assoc, ← Category.assoc (pushout.inr a.appTop b.appTop), ← Category.assoc,
       ← key, Category.assoc, ← Scheme.Hom.comp_appTop, e.inv_hom_id]

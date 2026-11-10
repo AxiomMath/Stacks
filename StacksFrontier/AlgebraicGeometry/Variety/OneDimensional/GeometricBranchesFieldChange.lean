@@ -333,7 +333,7 @@ private theorem tensorMap_pow_mem_range
     toRingEquiv := (Algebra.TensorProduct.comm L m B).toRingEquiv
     commutes' := by
       intro x
-      show (Algebra.TensorProduct.comm L m B) (x ⊗ₜ[L] 1) = 1 ⊗ₜ[L] x
+      change (Algebra.TensorProduct.comm L m B) (x ⊗ₜ[L] 1) = 1 ⊗ₜ[L] x
       rw [Algebra.TensorProduct.comm_tmul] }
   let ι : B →ₐ[L] C := IsScalarTower.toAlgHom L B C
   have hmap :
@@ -357,7 +357,7 @@ private theorem tensorMap_pow_mem_range
         (AlgHom.id k l)) c = e.symm (e₂.symm (algebraMap B C c)) :=
           congrArg (fun f => f c) hmap
     _ = a ^ (ringExpChar L) ^ n := by
-      show e.symm (e₂.symm (c ⊗ₜ[L] (1 : m))) = a ^ (ringExpChar L) ^ n
+      change e.symm (e₂.symm (c ⊗ₜ[L] (1 : m))) = a ^ (ringExpChar L) ^ n
       simpa [q] using hh
 
 
@@ -391,7 +391,7 @@ private theorem universallyInjective_specMap_of_pow_mem_range
     ψ₁ b ^ (ringExpChar k) ^ n = ψ₁ (b ^ (ringExpChar k) ^ n) := by simp
     _ = ψ₁ (f a) := by rw [ha]
     _ = ψ₂ (f a) := by
-      show ψ₁.hom (f.toRingHom a) = ψ₂.hom (f.toRingHom a)
+      change ψ₁.hom (f.toRingHom a) = ψ₂.hom (f.toRingHom a)
       simpa only [RingHom.comp_apply] using
         congrArg (fun h : A →+* T => h a) hψ'
     _ = ψ₂ (b ^ (ringExpChar k) ^ n) := by rw [ha]
@@ -457,7 +457,7 @@ private theorem isPurelyInseparable_residueField_of_residueFieldMap
     have hmaps := residueFieldMap_congr
       (hlocal.symm ▸ (Spec.map (CommRingCat.ofHom β.toRingHom)).prop p)
       ((Spec.map (CommRingCat.ofHom β.toRingHom)).prop p) hlocal
-    show IsLocalRing.ResidueField.map
+    change IsLocalRing.ResidueField.map
         (CommRingCat.Hom.hom ((Spec.map (CommRingCat.ofHom β.toRingHom)).stalkMap p)) = _
     have hcomp :
         IsLocalRing.ResidueField.map
@@ -646,7 +646,7 @@ private theorem finite_residueField_of_quasiFiniteAt
   let : Algebra R K := (Y.residue (f x)).hom.toAlgebra
   let : IsScalarTower R K L := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (f.residueFieldMap x).hom ((Y.residue (f x)).hom a) =
+    change (f.residueFieldMap x).hom ((Y.residue (f x)).hom a) =
       (X.residue x).hom (φ a)
     have h := congrArg (fun g : CommRingCat.Hom R L => g.hom a)
       (Scheme.residue_residueFieldMap (f := f) x)
@@ -720,7 +720,7 @@ private theorem fiberSepDegree_comp {X Y Z : Scheme.{u}}
     (((Z.residueFieldCongr x.2).inv ≫ (f ≫ g).residueFieldMap x.1).hom).toAlgebra
   let : IsScalarTower (Z.residueField z) (Y.residueField (f x.1))
       (X.residueField x.1) := IsScalarTower.of_algebraMap_eq fun a => by
-    show (((Z.residueFieldCongr x.2).inv ≫ (f ≫ g).residueFieldMap x.1).hom) a =
+    change (((Z.residueFieldCongr x.2).inv ≫ (f ≫ g).residueFieldMap x.1).hom) a =
       (f.residueFieldMap x.1).hom
         ((((Z.residueFieldCongr x.2).inv ≫ g.residueFieldMap (f x.1)).hom) a)
     have h : (Z.residueFieldCongr x.2).inv ≫ (f ≫ g).residueFieldMap x.1 =
@@ -1114,7 +1114,7 @@ public theorem numberOfGeometricBranches_baseChange_fieldExtension
       fiberDegreeCard (pullback.snd νX (pullback.fst OX.hom g)) yY := by
     rw [← he]
     exact (fiberDegreeCard_comp e.hom φ inferInstance e.hom.homeomorph.bijective yY).symm
-  show Cardinal.toENat (fiberDegreeCard νX x) = Cardinal.toENat (fiberDegreeCard νY yY)
+  change Cardinal.toENat (fiberDegreeCard νX x) = Cardinal.toENat (fiberDegreeCard νY yY)
   rw [hcards, hcards', ← fiberDegreeCard_pullback]
   congr 2
   exact hy.symm

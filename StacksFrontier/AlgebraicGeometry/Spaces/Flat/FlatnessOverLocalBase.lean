@@ -141,7 +141,7 @@ theorem finite_relativeWeaklyAssociatedPoints_inter_preimage_singleton
   rw [relativeWeaklyAssociatedPoints_eq_relativeAssassin]
   have : IsLocallyNoetherian (q.fiber v) := by
     have hft : LocallyOfFiniteType (q.fiberToSpecResidueField v) := by
-      show LocallyOfFiniteType (Limits.pullback.snd q (V.fromSpecResidueField v))
+      change LocallyOfFiniteType (Limits.pullback.snd q (V.fromSpecResidueField v))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian (q.fiberToSpecResidueField v)
   have : ((Scheme.Modules.pullback (q.fiberι v)).obj N).IsQuasicoherent := inferInstance
@@ -215,7 +215,7 @@ theorem finite_chartFibre_of_isRelativeWeaklyAssociatedPoint {X Y : AlgebraicSpa
   intro w hw
   have hw' : chartSchemeToPoints B S hS X.1 d.U w = x' := hw
   refine Set.mem_biUnion (x := chartDiagramSchemeMap B S hS f d w) ?_ ⟨?_, rfl⟩
-  · show chartSchemeToPoints B S hS Y.1 d.V ((BigFppfOver.toScheme B S hS).map d.g w) = t
+  · change chartSchemeToPoints B S hS Y.1 d.V ((BigFppfOver.toScheme B S hS).map d.g w) = t
     rw [chartSchemeToPoints_chartDiagram, hw']
   · exact mem_relativeWeaklyAssociatedPoints_chartDiagram B S hS f F hF d w (hw' ▸ hx')
 
@@ -265,7 +265,7 @@ theorem isFlatOverAtPoint_of_specializes_of_isRelativeWeaklyAssociatedPoint
     refine (hfin.image (pointsEquivScheme B S hS d.U.obj.left).symm).subset ?_
     intro p hp
     refine ⟨pointsEquivScheme B S hS d.U.obj.left p, ?_, Equiv.symm_apply_apply _ p⟩
-    show chartSchemeToPoints B S hS X.1 d.U _ = x'
+    change chartSchemeToPoints B S hS X.1 d.U _ = x'
     rw [chartSchemeToPoints_eq_pointsMap_pointsEquivScheme_symm]
     exact ((pointsEquivScheme B S hS d.U.obj.left).symm_apply_apply p).symm ▸ hp
   obtain ⟨p', hp'spec, hp'img⟩ := exists_specializes_of_finite_chartFibre B S hS X.1 hspec

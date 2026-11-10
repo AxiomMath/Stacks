@@ -18,7 +18,7 @@ finite purely inseparable extension `K/k` for which the nonsingular projective m
 ## Main results
 
 * `AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel`: Tag 0BY4(2)
-  for a proper `X`, granted `h09NZ`.
+  for a proper `X`, with the model `AlgebraicGeometry.normalizationModel`.
 * `AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel'`: Tag 0BY4(2)
   for a proper `X`, with nothing carried.
 
@@ -37,20 +37,15 @@ the normalization of a scheme with that of its reduction. The resulting isomorph
 normalizations over `Spec K` carries geometric normality across, and a geometrically normal
 proper curve is smooth.
 
-Two hypotheses are named rather than discharged. The hypothesis `h09NZ` is [Stacks, Tag 09NZ],
-carried unchanged from the library's Tag 0A26 through Tag 0BY4(1). Properness of `X` is assumed:
-the source deduces the general case from the projective one by replacing `X` by a nonsingular
-projective model, which uses Theorem 0BY1, and that theorem is not in the library.
-
-**`h09NZ` need not be carried**, and the primed
+One hypothesis is named rather than discharged. Properness of `X` is assumed: the source deduces
+the general case from the projective one by replacing `X` by a nonsingular projective model,
+which uses Theorem 0BY1, and that theorem is not in the library; that reduction is carried out in
+`AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel_of_isCurve`.
+Neither statement assumes [Stacks, Tag 09NZ]. The primed
 `exists_isPurelyInseparable_smooth_nonsingularProjectiveModel'`, which is where Tag 0BY4(2) is
-registered, does not assume it: the model is `AlgebraicGeometry.normalizationModel'`, the
-unconditional model of Tag 0BY4(1), whose projectivity is the step "a proper curve is projective"
-applied to a normalization — integral of dimension one, where [Stacks, Tag 0A25] holds outright
-from [Stacks, Tag 09ND]. Properness of `X` is still assumed there; that reduction is
-carried out in
-`AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel_of_isCurve`. The
-unprimed statement, which carries `h09NZ`, is kept unchanged.
+registered, uses the model `AlgebraicGeometry.normalizationModel'`, whose projectivity is the step
+"a proper curve is projective" applied to a normalization — integral of dimension one, where
+[Stacks, Tag 0A25] holds outright from [Stacks, Tag 09ND].
 
 ## References
 
@@ -145,11 +140,8 @@ private theorem isGeometricallyNormal_normalizationOverField_reducedBaseChange
 
 /-- **Stacks Project, Tag 0BY4, part (2).** Let `k` be a field and let `X` be a proper
 geometrically irreducible curve over `k`. There is a finite purely inseparable extension `K/k`
-for which `(X_K)_red` has a smooth nonsingular projective model.
-
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ], carried unchanged from Tag 0A26. -/
+for which `(X_K)_red` has a smooth nonsingular projective model. -/
 public theorem exists_isPurelyInseparable_smooth_nonsingularProjectiveModel
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (k : Type u) [Field k] {X : Scheme.{u}} (sX : X ⟶ Spec (.of k))
     [IsCurve k sX] [GeometricallyIrreducible sX] [IsProper sX] :
     ∃ (K : Type u) (_ : Field K) (_ : Algebra k K) (_ : Module.Finite k K)
@@ -160,12 +152,12 @@ public theorem exists_isPurelyInseparable_smooth_nonsingularProjectiveModel
   obtain ⟨k', _, _, hfin, hpi, hgn⟩ :=
     exists_isPurelyInseparable_isGeometricallyNormal_normalization k sX
   refine ⟨k', inferInstance, inferInstance, hfin, hpi, ?_⟩
-  refine ⟨normalizationModel h09NZ k' (reducedBaseChangeStructureMap k k' sX), ?_⟩
+  refine ⟨normalizationModel k' (reducedBaseChangeStructureMap k k' sX), ?_⟩
   have hCm : IsCurve k'
-      (normalizationModel h09NZ k' (reducedBaseChangeStructureMap k k' sX)).structureMap :=
-    (normalizationModel h09NZ k' (reducedBaseChangeStructureMap k k' sX)).isCurve
+      (normalizationModel k' (reducedBaseChangeStructureMap k k' sX)).structureMap :=
+    (normalizationModel k' (reducedBaseChangeStructureMap k k' sX)).isCurve
   have hPm : IsProper
-      (normalizationModel h09NZ k' (reducedBaseChangeStructureMap k k' sX)).structureMap :=
+      (normalizationModel k' (reducedBaseChangeStructureMap k k' sX)).structureMap :=
     isProper_normalizationOverField_comp k' (reducedBaseChangeStructureMap k k' sX)
   exact smooth_of_isGeometricallyNormal_of_isCurve k' _
     (isGeometricallyNormal_normalizationOverField_reducedBaseChange k k' sX hgn)
@@ -175,8 +167,7 @@ geometrically irreducible curve over `k`. There is a finite purely inseparable e
 for which `(X_K)_red` has a smooth nonsingular projective model.
 
 Nothing is carried; `X` is assumed proper. This is
-`AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel` with the
-hypothesis `h09NZ` dropped, the model being the unconditional
+`AlgebraicGeometry.exists_isPurelyInseparable_smooth_nonsingularProjectiveModel` with the model
 `AlgebraicGeometry.normalizationModel'`. -/
 @[stacks 0BY4 "part (2) for a proper `X`, with nothing carried: Tag 09NZ is not assumed, because \
 the model is the normalization of `(X_K)_red`, integral of dimension one, where Tag 0A25 holds \

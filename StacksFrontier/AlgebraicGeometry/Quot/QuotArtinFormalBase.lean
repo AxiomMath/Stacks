@@ -172,13 +172,13 @@ theorem truncationIso_spec {i j : ℕ} (f : i ⟶ j) :
   simp only [Functor.const_obj_map, Functor.comp_map] at h₁
   have h₂ : A.ringCone.π.app (op i) = A.ringCone.π.app (op j) ≫ A.ringSystem.map f.op := by
     simp
-  show (BigFppfOver.toScheme B S hS).map ((truncationDiagram B S hS A contains).map f) ≫
+  change (BigFppfOver.toScheme B S hS).map ((truncationDiagram B S hS A contains).map f) ≫
       adicThickeningι A.R (maximalIdeal A.R) j =
     Scheme.Spec.map (CommRingCat.ofHom (A.ringSystem.map f.op).hom.toRingHom).op ≫ ι'
   refine h₁.trans ?_
-  show Spec.map (CommRingCat.ofHom (A.ringCone.π.app (op i)).hom.toRingHom) = _
+  change Spec.map (CommRingCat.ofHom (A.ringCone.π.app (op i)).hom.toRingHom) = _
   rw [h₂]
-  show Spec.map (CommRingCat.ofHom (A.ringCone.π.app (op j)).hom.toRingHom ≫
+  change Spec.map (CommRingCat.ofHom (A.ringCone.π.app (op j)).hom.toRingHom ≫
     CommRingCat.ofHom (A.ringSystem.map f.op).hom.toRingHom) = _
   rw [Spec.map_comp]
   rfl

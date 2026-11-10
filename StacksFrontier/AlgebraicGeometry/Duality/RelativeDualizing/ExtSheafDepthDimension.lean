@@ -182,7 +182,7 @@ theorem exists_nontrivial_extSheaf_stalk_iff_depth_add_le (F : X.Modules)
         (((j - δ x).toNat : ℕ) : ℕ∞) := by
       rw [hdepth]
       exact iInf_le_of_le (j - δ x).toNat (iInf_le _ hk')
-    obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.coe_ne_top _) hle)
+    obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp (ne_top_of_le_ne_top (ENat.natCast_ne_top _) hle)
     refine ⟨m, hm.symm, ?_⟩
     rw [← hm] at hle
     have hmk : m ≤ (j - δ x).toNat := by exact_mod_cast hle

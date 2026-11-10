@@ -224,11 +224,11 @@ theorem isAffine_affineBase :
 
 /-- The affine line `𝔸¹_S`, as an object of the big fppf site over `S`. -/
 abbrev affineLineTotal : BigFppfOver B S hS :=
-  BigFppfOver.affineSpace B S hS 1 (affineBase B S hS) (isAffine_affineBase B S hS)
+  BigFppfOver.affineSpace B S hS 1 (affineBase B S hS)
 
 /-- The structure morphism `𝔸¹_S ⟶ S`, as a morphism of the big fppf site over `S`. -/
 abbrev affineLineProj : affineLineTotal B S hS ⟶ affineBase B S hS :=
-  BigFppfOver.affineSpaceProj B S hS 1 (affineBase B S hS) (isAffine_affineBase B S hS)
+  BigFppfOver.affineSpaceProj B S hS 1 (affineBase B S hS)
 
 /-- The algebraic space `Y = h_S`. -/
 abbrev affineBaseSpace : AlgebraicSpaces B S hS :=
@@ -264,13 +264,15 @@ theorem isAffineSpace_affineBaseSpace : IsAffineSpace B S hS (affineBaseSpace B 
 /-- The algebraic space `X = h_{𝔸¹_S}` is representable by an affine scheme. -/
 theorem isAffineSpace_affineLineAlgebraicSpace :
     IsAffineSpace B S hS (affineLineAlgebraicSpace B S hS).1 :=
-  ⟨affineLineTotal B S hS, BigFppfOver.isAffine_affineSpace B S hS 1 _ _, ⟨Iso.refl _⟩⟩
+  ⟨affineLineTotal B S hS, BigFppfOver.isAffine_affineSpace B S hS 1 _ (isAffine_affineBase B S hS),
+    ⟨Iso.refl _⟩⟩
 
 /-- The structure morphism of the affine line is an affine morphism of algebraic spaces. -/
 theorem isAffineHom_affineLineMap : IsAffineHom B S hS (affineLineMap B S hS).hom :=
   isAffineHom_of_isAffineSpace B S hS _ (isAffineSpace_affineLineAlgebraicSpace B S hS)
     (isAffineSpace_affineBaseSpace B S hS)
 
+omit [IsAffine S] in
 /-- The structure morphism `f : X ⟶ Y` of the affine line is representable. -/
 theorem relativelyRepresentable_affineLineMap :
     yoneda.relativelyRepresentable (affineLineMap B S hS).hom :=
@@ -290,6 +292,7 @@ def affineLinePullbackIso :
   Yoneda.fullyFaithful.preimageIso (asIso ((relativelyRepresentable_affineLineMap B S hS).fst
     (affineBaseChart B S hS).1.hom))
 
+omit [IsAffine S] in
 /-- Under that identification the projection `X ×_Y V₀ ⟶ V₀` is the structure morphism. -/
 theorem affineLinePullbackIso_hom_comp_proj :
     (affineLinePullbackIso B S hS).hom ≫ affineLineProj B S hS =
@@ -314,6 +317,7 @@ def affineLineChartRingEquiv :
   (asIso ((BigFppfOver.toScheme B S hS).map
     (affineLinePullbackIso B S hS).hom).appTop).symm.commRingCatIsoToRingEquiv
 
+omit [IsAffine S] in
 /-- The isomorphism `affineLineChartRingEquiv` sends the pullback of `r ∈ Γ(S, 𝒪)` along the
 projection `X ×_Y V₀ ⟶ V₀` to its pullback along the structure morphism `𝔸¹_S ⟶ S`. -/
 theorem affineLineChartRingEquiv_apply_snd (r : Γ(S, ⊤)) :
@@ -352,6 +356,7 @@ def affineLineDirectImageSectionsRingEquiv :
       (affineBaseChart B S hS)).commRingCatIsoToRingEquiv.trans
     (affineLineChartRingEquiv B S hS)
 
+omit [IsAffine S] in
 /-- That identification carries the structure map of `f_*𝒪_X` to the structure morphism of
 `𝔸¹_S` (Stacks 03G8, part (2)). -/
 theorem affineLineDirectImageSectionsRingEquiv_algebraMap (r : Γ(S, ⊤)) :

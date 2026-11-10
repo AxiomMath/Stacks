@@ -399,7 +399,7 @@ theorem exists_compatible_geometricRepresentative (hX : IsAlgebraicSpace D.site 
     by_cases h : ∃ y, pointsMap D.site D.base D.base_mem Y.toFunctor Y.ι y = x
     · obtain ⟨y, rfl⟩ := h
       rw [hinj.extend_apply]
-      show pointsMap D.site D.base D.base_mem Y.toFunctor Y.ι (γY y).image = _
+      change pointsMap D.site D.base D.base_mem Y.toFunctor Y.ι (γY y).image = _
       rw [hγY y]
     · rw [Function.extend_apply' _ _ _ h]
       exact hγ0 x

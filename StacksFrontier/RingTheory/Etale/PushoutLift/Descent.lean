@@ -77,15 +77,14 @@ lemma includeLeftSubRight_mk_eq_zero_of_mem {B Γ : Type*} [CommRing B] [CommRin
       (fun x x' => by ext y; simp [TensorProduct.add_tmul])
   let ρ : Γ ⊗[B] Γ →+ (Γ ⧸ K.map (algebraMap B Γ)) ⊗[B ⧸ K] (Γ ⧸ K.map (algebraMap B Γ)) :=
     TensorProduct.liftAddHom f (fun b x y => by
-      show q (b • x) ⊗ₜ q y = q x ⊗ₜ q (b • y)
+      change q (b • x) ⊗ₜ q y = q x ⊗ₜ q (b • y)
       rw [hq, hq, TensorProduct.smul_tmul])
   have hρk : ∀ k ∈ K, ∀ w : Γ ⊗[B] Γ, ρ (k • w) = 0 := by
     intro k hk w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul x y =>
       rw [TensorProduct.smul_tmul']
-      show q (k • x) ⊗ₜ q y = 0
+      change q (k • x) ⊗ₜ q y = 0
       rw [hq, Ideal.Quotient.eq_zero_iff_mem.mpr hk, zero_smul, TensorProduct.zero_tmul]
     | add w w' h h' => rw [smul_add, map_add, h, h', add_zero]
   have hρ : ∀ w ∈ K • (⊤ : Submodule B (Γ ⊗[B] Γ)), ρ w = 0 := fun w hw =>
@@ -126,8 +125,7 @@ noncomputable def cmpAlgHom : Γ ⊗[B] Γ →ₐ[Γ] Δ :=
 omit [Algebra.Etale Γ Δ] [Module.FaithfullyFlat B Γ] in
 /-- The underlying function of `cmpAlgHom` is `cmp`. -/
 lemma cmpAlgHom_apply (z : Γ ⊗[B] Γ) : cmpAlgHom s hB z = cmp s B hB z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add z w hz hw => rw [map_add, map_add, hz, hw]
 
@@ -218,9 +216,9 @@ theorem reductionRingHom_surjective (hK : (J.map (algebraMap A Γ)) =
   obtain ⟨γ, hγ⟩ := hΓ₀ y
   have hγΔ : algebraMap Γ Δ γ - s γ ∈ (K.map (algebraMap B Γ)).map (algebraMap Γ Δ) := by
     rw [← hK, ← hψker, RingHom.mem_ker, map_sub]
-    show ψ (algebraMap Γ Δ γ) - ψ (s γ) = 0
+    change ψ (algebraMap Γ Δ γ) - ψ (s γ) = 0
     rw [hsψ, AlgHom.commutes]
-    show algebraMap Γ Γ₀ γ ⊗ₜ[B₀] (1 : Γ₀) - 1 ⊗ₜ algebraMap Γ Γ₀ γ = 0
+    change algebraMap Γ Γ₀ γ ⊗ₜ[B₀] (1 : Γ₀) - 1 ⊗ₜ algebraMap Γ Γ₀ γ = 0
     rw [hγ]
     simp only [y, Algebra.algebraMap_eq_smul_one β, TensorProduct.smul_tmul, sub_self]
   obtain ⟨z, hz, hzδ⟩ := exists_cmp_eq_of_mem s hB hbij K hγΔ
@@ -235,7 +233,7 @@ theorem reductionRingHom_surjective (hK : (J.map (algebraMap A Γ)) =
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective r
   refine ⟨b, FaithfulSMul.algebraMap_injective B₀ Γ₀ ?_⟩
   rw [algebraMap_reductionRingHom]
-  show algebraMap Γ Γ₀ (algebraMap B Γ b) = y
+  change algebraMap Γ Γ₀ (algebraMap B Γ b) = y
   rw [← hγ, ← sub_eq_zero, ← map_sub, ← RingHom.mem_ker, hΓ₀ker, hK, ← Ideal.Quotient.eq]
   exact hr
 
@@ -269,7 +267,7 @@ theorem exists_thickening (heff : IsEffective s) :
     { reductionRingHom ψ s hsψ hB with
       commutes' := fun a => by
         apply FaithfulSMul.algebraMap_injective B₀ Γ₀
-        show algebraMap B₀ Γ₀ (reductionRingHom ψ s hsψ hB (algebraMap A B a)) = _
+        change algebraMap B₀ Γ₀ (reductionRingHom ψ s hsψ hB (algebraMap A B a)) = _
         rw [algebraMap_reductionRingHom, htow, ← IsScalarTower.algebraMap_apply,
           IsScalarTower.algebraMap_apply A B₀ Γ₀] }
   have hπ : ∀ b, algebraMap B₀ Γ₀ (π b) = algebraMap Γ Γ₀ (algebraMap B Γ b) :=

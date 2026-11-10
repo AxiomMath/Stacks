@@ -73,8 +73,8 @@ presentation does the work that flat base change would otherwise be needed for.
   adapter.**  Restricting a combination of tautological generators acts on the coefficients
   through `Finsupp.mapRange`
   (`SheafOfModules.restrict_linearCombination_tautGen`), whereas the identification hypotheses of
-  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.CechAmitsur` are stated with
-  `LinearMap.rTensor` against `Module.Descent.finsuppBaseChange`; these two lemmas are the
+  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.CechAmitsur` are stated
+  with `LinearMap.rTensor` against `Module.Descent.finsuppBaseChange`; these two lemmas are the
   translation, for the augmentation and for an arbitrary algebra map respectively.
 
 ## Implementation notes
@@ -233,7 +233,7 @@ lemma baseChangeEquivOfPresentation_one_tmul
     (hexW : ∀ p, bW p = 0 → p ∈ LinearMap.range aW) (n : NT) :
     baseChangeEquivOfPresentation aT bT aW bW rQ rP rN hsqa hsqb hQ hP hbT hbW hzero hexW
         ((1 : B) ⊗ₜ[A] n) = rN n := by
-  show rN.liftBaseChange B ((1 : B) ⊗ₜ[A] n) = rN n
+  change rN.liftBaseChange B ((1 : B) ⊗ₜ[A] n) = rN n
   rw [LinearMap.liftBaseChange_tmul, one_smul]
 
 /-- **The equivalence for the presented module and the one for the presenting coproduct

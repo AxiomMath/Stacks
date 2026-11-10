@@ -135,12 +135,13 @@ theorem trans_w {T T' : Idx.{u}} (f : T ⟶ T') :
   rw [← Spec.map_comp]
   exact congrArg Spec.map (ofHom_stageMap_comp bigField.{u} T.2 (leOfHom f)).symm
 
-/-- The object of the diagram at the stage `T` is the spectrum of the stage ring over the base stage. -/
+/-- The object of the diagram at the stage `T` is the spectrum of the stage ring over the base
+stage. -/
 theorem schemesOverBase_obj (T : Idx.{u}) :
     (schemesOverBase collapse.{u}).obj T = op (Over.mk (Spec.map (stageHom T))) := rfl
 
-/-- The transition of the diagram at `f` is the morphism of affine schemes over the base stage induced by
-the inclusion of stage rings. -/
+/-- The transition of the diagram at `f` is the morphism of affine schemes over the base stage
+induced by the inclusion of stage rings. -/
 theorem schemesOverBase_map {T T' : Idx.{u}} (f : T ⟶ T') :
     (schemesOverBase collapse.{u}).map f =
       (overHom (Spec.map (stageHom T)) (transHom f) (Spec.map (stageHom T'))
@@ -188,7 +189,8 @@ instance isQuasicoherent_structSheaf_collapse :
 abbrev cardPresheaf : PullbackSectionsPresheaf (Spec baseRing.{u}) (structSheaf baseRing.{u}) :=
   quasiCoherentPresheaf (Spec baseRing.{u}) (structSheaf baseRing.{u})
 
-/-- The identification of the value of the presheaf at the stage `T` with the global sections there. -/
+/-- The identification of the value of the presheaf at the stage `T` with the global
+sections there. -/
 abbrev cardObjIso (T : Idx.{u}) :
     cardPresheaf.{u}.functor.obj (op (Over.mk (Spec.map (stageHom T)))) ≅
       Γ((Scheme.Modules.pullback (Spec.map (stageHom T))).obj (structSheaf baseRing.{u}), ⊤) :=
@@ -257,8 +259,8 @@ theorem not_isZero_colimit_pullbackSectionsDiagram :
 /-- **The contradiction.**  For the descent situation `Stacks.LimitSectionsCounterexample.collapse`
   and the
 structure sheaf of its base stage, the canonical map out of the filtered colimit of the stagewise
-sections is *not* an isomorphism: the conclusion of Tag 01Z0 forces that colimit to be a zero object,
-and the identification says it is the colimit of the stage rings, which is not. -/
+sections is *not* an isomorphism: the conclusion of Tag 01Z0 forces that colimit to be a zero
+object, and the identification says it is the colimit of the stage rings, which is not. -/
 theorem not_isIso_colimitDesc :
     ¬ IsIso (colimit.desc (pullbackSectionsDiagram collapse.{u} (structSheaf baseRing.{u}))
       (pullbackSectionsLimitCocone collapse.{u} (structSheaf baseRing.{u}))) :=

@@ -150,7 +150,7 @@ theorem modelTermAdd_tmul (c : B₀) (x : X) (w : B₀ ⊗[R₀] R') :
     modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X ((c ⊗ₜ[A] x) ⊗ₜ[B₀] w) =
       (modelUnitAddHom (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) w *
         modelRingMap R A R' A' R₀ c) ⊗ₜ[A] x := by
-  show modelUnitAddHom (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) w •
+  change modelUnitAddHom (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) w •
     ((modelRingMap R A R' A' R₀ c) ⊗ₜ[A] x) = _
   rw [TensorProduct.smul_tmul', smul_eq_mul]
 

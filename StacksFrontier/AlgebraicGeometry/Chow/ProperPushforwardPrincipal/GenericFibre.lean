@@ -284,7 +284,7 @@ theorem genericFibreDegreeVanishes : GenericFibreDegreeVanishes.{u} := by
         (hres (genericPoint W)).2, hgenι]
   have hrelc : relativeDimension (fieldChowSituation (T.residueField η)).dimensionFunction c
       (genericPoint W) = 1 := by
-    show (fieldChowSituation (T.residueField η)).dimensionFunction (c.base (genericPoint W)) +
+    change (fieldChowSituation (T.residueField η)).dimensionFunction (c.base (genericPoint W)) +
       (Cardinal.toNat (residueTrdeg c (genericPoint W)) : ℤ) = 1
     rw [fieldChowSituation_dimensionFunction_eq_zero, hrc, hr]
     norm_num

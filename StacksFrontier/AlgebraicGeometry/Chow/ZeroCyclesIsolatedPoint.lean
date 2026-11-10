@@ -244,7 +244,7 @@ theorem exists_isOpenImmersion_pieces_of_stalk_eq_maximalIdeal [IsNoetherian X] 
     I.isReduced_opens_singleton_subscheme a h' U₁ fun z hz ↦ hz
   have hrange₁ : Set.range (U₁.ι ≫ I.subschemeι).base = ({x} : Set X) := by
     rw [himg]
-    show I.subschemeι.base '' ({a} : Set I.subscheme) = _
+    change I.subschemeι.base '' ({a} : Set I.subscheme) = _
     rw [Set.image_singleton, ha]
   have := hci U₁ hclopen.1
   have := hci U₂ hclopen.2.isClosed_compl
@@ -256,8 +256,8 @@ theorem exists_isOpenImmersion_pieces_of_stalk_eq_maximalIdeal [IsNoetherian X] 
     rw [Scheme.Hom.support_ker, hrange₁]
     simp
   · rw [himg]
-    show I.subschemeι.base '' ({a}ᶜ : Set I.subscheme) = _
-    rw [← Set.range_diff_image I.subschemeι.isClosedEmbedding.injective, Set.image_singleton, ha,
+    change I.subschemeι.base '' ({a}ᶜ : Set I.subscheme) = _
+    rw [← Set.range_sdiff_image I.subschemeι.isClosedEmbedding.injective, Set.image_singleton, ha,
       IdealSheafData.range_subschemeι]
   · rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     exact disjoint_compl_right

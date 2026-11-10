@@ -208,7 +208,7 @@ public theorem chartCocone_comp
   have key : (dualizingExtSystem (chartVertexTower S M f) ω i).map (homOfLE h) ≫
       (dualizingExtFunctor ω i).map (chartVertexProj S M f n).op =
         (dualizingExtFunctor ω i).map (chartVertexProj S M f m).op := by
-    show (dualizingExtFunctor ω i).map ((chartVertexTower S M f).map (homOfLE h).op).op ≫
+    change (dualizingExtFunctor ω i).map ((chartVertexTower S M f).map (homOfLE h).op).op ≫
       (dualizingExtFunctor ω i).map (chartVertexProj S M f n).op = _
     rw [← Functor.map_comp, ← op_comp]
     congr 2

@@ -318,7 +318,7 @@ theorem cap_fundamentalChowClass_eq_zero_of_cap_opens {G : GysinSystem C} {p : �
     have _ : Flat g₀ :=
       ((MorphismProperty.hasOfPostcompProperty_iff_le_diagonal (P := @Flat)
         (Q := @IsOpenImmersion)).mpr (fun _ _ f _ ↦ by
-          show Flat (pullback.diagonal f); infer_instance)).of_postcomp g₀ V.ι
+          change Flat (pullback.diagonal f); infer_instance)).of_postcomp g₀ V.ι
         inferInstance inferInstance
     have _ : LocallyOfFiniteType (g₀ ≫ V.ι) := by rw [hg₀]; infer_instance
     have _ : LocallyOfFiniteType g₀ := locallyOfFiniteType_of_comp g₀ V.ι
@@ -436,7 +436,7 @@ theorem exists_cycle_mem_range_bivariantCapOpenFundamentalClass (q : ℤ) {J : T
       rw [hδ j, hδ0]
       omega
     rw [e] at h
-    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_desc_assoc _ _ _).symm h
+    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_comp_desc_assoc _ _ _).symm h
   set ξ := flatPullbackBivariantClassOfInvertible C (Sigma.desc v ≫ sX) (𝟙 C.S)
     (Sigma.desc v ≫ sX) (Category.comp_id _) r hr with hξdef
   have hξ : bivariantCapOpenFundamentalClass C (gysinSystemOfInvertible C) (Sigma.desc v ≫ sX) V

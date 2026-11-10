@@ -135,7 +135,7 @@ public theorem specialFiberAffineOpenIso_hom_fst
         Spec.map (CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom) := by
     simpa [← Spec.map_comp, ← CommRingCat.ofHom_comp] using
       congrArg (fun φ ↦ Spec.map (CommRingCat.ofHom φ)) hring
-  show (pullback.congrHom hj rfl).hom ≫
+  change (pullback.congrHom hj rfl).hom ≫
     (pullbackSpecIso R A (R ⧸ Ideal.span ({π} : Set R))).hom ≫
       Spec.map (quotSpanEquivTensorQuotSpan (R := R) (A := A) π).toCommRingCatIso.hom.op.unop ≫
         Spec.map (CommRingCat.ofHom

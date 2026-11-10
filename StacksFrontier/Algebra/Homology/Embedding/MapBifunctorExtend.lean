@@ -87,6 +87,7 @@ def component (n : ℕ) (i j : ℤ) (_ : i + j = (n : ℤ)) :
       ιMapBifunctor K L F (up ℕ) i.toNat j.toNat n (by dsimp; omega)
   else 0
 
+omit [HasZeroObject D] in
 /-- On a summand whose indices are natural numbers the component is the inclusion of the summand
 of the same bidegree. -/
 lemma component_natCast (n p q : ℕ) (h : (p : ℤ) + (q : ℤ) = (n : ℤ)) :
@@ -94,13 +95,14 @@ lemma component_natCast (n p q : ℕ) (h : (p : ℤ) + (q : ℤ) = (n : ℤ)) :
       (F.map (K.extendXIso embeddingUpNat (i' := (p : ℤ)) (i := p) (by simp)).hom).app _ ≫
         (F.obj (K.X p)).map (L.extendXIso embeddingUpNat (i' := (q : ℤ)) (i := q) (by simp)).hom ≫
         ιMapBifunctor K L F (up ℕ) p q n (by dsimp; omega) := by
-  rw [component, dif_pos ⟨Int.natCast_nonneg p, Int.natCast_nonneg q⟩]
+  rw [component, dite_eq_left ⟨Int.natCast_nonneg p, Int.natCast_nonneg q⟩]
   rfl
 
+omit [HasZeroObject D] in
 /-- On a summand with a negative index the component is zero. -/
 lemma component_neg (n : ℕ) (i j : ℤ) (h : i + j = (n : ℤ)) (h' : ¬ (0 ≤ i ∧ 0 ≤ j)) :
     component F K L n i j h = 0 :=
-  dif_neg h'
+  dite_eq_right h'
 
 variable [HasMapBifunctor (K.extend embeddingUpNat) (L.extend embeddingUpNat) F (up ℤ)]
 
@@ -111,6 +113,7 @@ def restrictionf (n : ℕ) :
       (mapBifunctor K L F (up ℕ)).X n :=
   mapBifunctorDesc (fun i j hij => component F K L n i j hij)
 
+omit [HasZeroObject D] in
 /-- On the summand `F(K^i, L^j)` the comparison `restrictionf` in degree `n` is `component`. -/
 @[reassoc (attr := simp)]
 lemma ι_restrictionf (n : ℕ) (i j : ℤ) (hij : i + j = (n : ℤ)) :
@@ -122,7 +125,7 @@ lemma ι_restrictionf (n : ℕ) (i j : ℤ) (hij : i + j = (n : ℤ)) :
 /-- The Koszul sign `(-1)^p` of [Stacks, Tag 012Z] read in `ℤ` is the one read in `ℕ`. -/
 lemma ε_up_ℤ_natCast (p : ℕ) : (up ℤ).ε (p : ℤ) = (up ℕ).ε p := by
   rw [ε_up_ℤ]
-  show Int.negOnePow (p : ℤ) = (-1 : ℤˣ) ^ p
+  change Int.negOnePow (p : ℤ) = (-1 : ℤˣ) ^ p
   ext
   rw [Int.coe_negOnePow_natCast]
   push_cast
@@ -173,7 +176,7 @@ def restrictionHom :
       · congr 1
         rw [extend_d_eq L embeddingUpNat (i := q) (j := q + 1) (by simp) (by simp)]
         simp only [Functor.map_comp, Category.assoc, NatTrans.naturality_assoc,
-          Iso.map_inv_hom_id_assoc]
+          Iso.inv_hom_id_map_assoc]
     · rw [ι_restrictionf_assoc, component_neg F K L m i j hij h, zero_comp]
       exact ((isZero_summand F K L i j (by omega)).eq_of_src _ _).symm
 
@@ -256,7 +259,7 @@ theorem mapBifunctorExtendHom_naturality (f : K ⟶ K') (g : L ⟶ L') :
         extendMap_f _ embeddingUpNat (i := q) (i' := (q : ℤ)) (by simp),
         extendMap_f _ embeddingUpNat (i := m) (i' := (m : ℤ)) (by simp)]
       simp only [Functor.map_comp, NatTrans.comp_app, Category.assoc, Iso.inv_hom_id_assoc,
-        Iso.map_inv_hom_id_app_assoc, Iso.map_inv_hom_id_assoc, ι_mapBifunctorMap_assoc,
+        Iso.map_inv_hom_id_app_assoc, Iso.inv_hom_id_map_assoc, ι_mapBifunctorMap_assoc,
         NatTrans.naturality_assoc]
     · rw [ι_mapBifunctorExtendHom_f_eq_zero_assoc F K L _ i j hij (by omega), zero_comp,
         ι_mapBifunctorMap_assoc, ι_mapBifunctorExtendHom_f_eq_zero F K' L' _ i j hij (by omega),

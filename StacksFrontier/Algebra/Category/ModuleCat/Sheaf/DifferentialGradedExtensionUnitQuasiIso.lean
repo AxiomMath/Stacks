@@ -261,7 +261,7 @@ theorem quasiIso_extensionUnit_of_isKFlat {P : DifferentialGradedModule.{u, u, u
   intro i U x
   let Bl := (φ.toBimodule hφ).toLeftDifferentialGradedModule
   let q : TensorIndex i := ⟨(0, i), zero_add i⟩
-  show HEq ((RelativeTensor.opSwap P Bl.opRight i).val.app U
+  change HEq ((RelativeTensor.opSwap P Bl.opRight i).val.app U
       ((RelativeTensor.gradedTensorMapRight (RelativeTensor.gMap (opRegularHom φ hφ))
         (RelativeTensor.gN P.opLeft) i).val.app U
           (RelativeTensor.tmul (RelativeTensor.gP (regularModule A.op))

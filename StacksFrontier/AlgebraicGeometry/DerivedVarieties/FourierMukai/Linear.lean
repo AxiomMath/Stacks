@@ -238,7 +238,7 @@ theorem perfectFourierMukaiOver_linear :
   let : Linear R B.left.Modules := modulesLinear R B
   have := fourierMukai_linear R A B M
   exact ⟨fun {E E'} φ r => (ObjectProperty.ι _).map_injective (by
-    show (fourierMukai A.hom B.hom M).map ((ObjectProperty.ι _).map (r • φ)) =
+    change (fourierMukai A.hom B.hom M).map ((ObjectProperty.ι _).map (r • φ)) =
       (ObjectProperty.ι _).map (r • (perfectFourierMukaiOver R A B hM).map φ)
     rw [Functor.map_smul, Functor.map_smul, Functor.map_smul]
     rfl)⟩

@@ -80,7 +80,7 @@ theorem exists_properPushforward_fundamentalCycle_eq_of_mem_clopenPoints (n : �
       relativeDimension C.dimensionFunction sX (j.1 : X) = n := fun j ↦
     (mem_cyclesOfDimension_iff_forall_point C sX n b.1).1 b.2 _ j.1.2
   have hιg : ∀ j, Sigma.ι Z j ≫ g ≫ sX = v j ≫ sX := fun j ↦ by
-    rw [hgdef, Sigma.ι_desc_assoc]
+    rw [hgdef, Sigma.ι_comp_desc_assoc]
   have hdimη : ∀ j, relativeDimension C.dimensionFunction (Sigma.ι Z j ≫ g ≫ sX)
       (genericPoint (Z j)) = n := fun j ↦ by
     rw [hιg, relativeDimension_comp_closedImmersion, hvgen, hdimx]
@@ -139,7 +139,7 @@ theorem exists_properPushforward_fundamentalCycle_eq_of_mem_clopenPoints (n : �
         obtain ⟨j', z', rfl⟩ := exists_mem_range_sigmaι Z w
         exact hdimle j' z')
       (fun x ↦ relativeDimension_comp_isOpenImmersion _ _ _ x) z
-    show (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z j z) = _
+    change (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z j z) = _
     rw [fundamentalCycle, ← h1]
     exact fundamentalCycle_apply_of_isIntegral C (Sigma.ι Z j ≫ g ≫ sX)
       (hdimZ j) z
@@ -165,12 +165,12 @@ theorem exists_properPushforward_fundamentalCycle_eq_of_mem_clopenPoints (n : �
   set F : (∐ Z : Scheme.{u}) → ℤ :=
     fun w ↦ (fundamentalCycle C (g ≫ sX) n).1 w with hF
   have hgη : ∀ j, g.base (Sigma.ι Z j (genericPoint (Z j))) = (j.1 : X) := fun j ↦ by
-    rw [← hvgen, ← Scheme.Hom.comp_apply, hgdef, Sigma.ι_desc]
+    rw [← hvgen, ← Scheme.Hom.comp_apply, hgdef, Sigma.ι_comp_desc]
   by_cases hy : b.1 y = 0
   · rw [hy]
     refine finsum_mem_eq_zero_of_forall_eq_zero fun w hw ↦ ?_
     obtain ⟨j, z, rfl⟩ := exists_mem_range_sigmaι Z w
-    show (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z j z) = 0
+    change (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z j z) = 0
     rw [hfund]
     split_ifs with hz
     · subst hz
@@ -210,8 +210,8 @@ theorem exists_properPushforward_fundamentalCycle_eq_of_mem_clopenPoints (n : �
       ← Set.image_univ, finsum_mem_image he_inj.injOn]
     have hone : ∀ i, F (e i) = 1 := fun i ↦ by
       rw [hF]
-      show (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z ⟨y', i⟩ _) = 1
-      rw [hfund, if_pos rfl]
+      change (fundamentalCycle C (g ≫ sX) n).1 (Sigma.ι Z ⟨y', i⟩ _) = 1
+      rw [hfund, ite_eq_left rfl]
     simp only [hone]
     rw [finsum_mem_univ, finsum_eq_sum_of_fintype, Finset.sum_const, Finset.card_univ,
       Fintype.card_fin, nsmul_eq_mul, mul_one]
@@ -350,7 +350,7 @@ theorem properFlatPullbackClass_cap_fundamentalChowClass :
         rw [relativeDimension_id,
           hC.dimensionFunction_eq_zero_of_mem_clopenPoints (ι_mem_clopenPoints w)]
   rw [properFlatPullbackClass_cap]
-  show properChowPushforward C _ _ _ _ _ _ (chowGroupDegreeEquiv C _ _ (flatPullbackChow C _ _
+  change properChowPushforward C _ _ _ _ _ _ (chowGroupDegreeEquiv C _ _ (flatPullbackChow C _ _
     _ _ r _ 0 _ (fundamentalChowClass C ((clopenPoints C).ι ≫ 𝟙 C.S) 0))) = _
   rw [flatPullbackChow_fundamentalChowClass C _ _ _ _ r _ 0 _ hdimD,
     chowGroupDegreeEquiv_fundamentalChowClass]

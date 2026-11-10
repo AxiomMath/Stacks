@@ -3,7 +3,7 @@ module
 public import
     StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.ChartModuleTensorNaturality
 public import
-    StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.PullbackTensorTransportCoherence
+  StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjTwistDescent.PullbackTensorTransportCoherence
 
 /-!
 # The tensor identification of Stacks 03DX (2) on a representable is monoidal

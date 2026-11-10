@@ -59,8 +59,8 @@ public theorem ext_mapExactFunctor_of_isoId {C : Type u} [Category.{v} C] [Abeli
       { τ₁ := β.hom.app S.X₁
         τ₂ := β.hom.app S.X₂
         τ₃ := β.hom.app S.X₃
-        comm₁₂ := by simpa using (β.hom.naturality S.f).symm
-        comm₂₃ := by simpa using (β.hom.naturality S.g).symm }
+        comm₁₂ := by simp
+        comm₂₃ := by simp }
     calc
       (Ext.mk₀ (β.inv.app A)).comp
             (((y.comp hS.extClass rfl).mapExactFunctor E).comp

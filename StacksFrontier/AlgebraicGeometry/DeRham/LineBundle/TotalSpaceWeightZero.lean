@@ -105,7 +105,7 @@ attribute [local instance] Situation.AffineChart.algebraRA algebraRB algebraAB
 /-- The algebra structures on `Γ(S, V)`, `Γ(X, U)` and `Γ(𝕃, π⁻¹U)` form a scalar tower. -/
 theorem isScalarTower : IsScalarTower c.R c.A c.B :=
   IsScalarTower.of_algebraMap_eq fun r => by
-    show (D.totalToBase.appLE c.V.1 _ c.preimage_le).hom r =
+    change (D.totalToBase.appLE c.V.1 _ c.preimage_le).hom r =
       (D.totalSpaceToBase.app c.U.1).hom ((D.f.appLE c.V.1 c.U.1 c.le).hom r)
     rw [Scheme.Hom.app_eq_appLE, ← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE]
 
@@ -300,7 +300,7 @@ theorem formsLK_symm_mem_of_mem {p n : ℕ} {x : ⋀[c.B]^p Ω[c.B⁄c.R]}
   | smul r y _ hy =>
       rw [← algebraMap_smul c.B r y, LinearEquiv.map_smul,
         IsScalarTower.algebraMap_apply c.R c.A c.B r]
-      show D.ofForms p c.U.1 ((D.totalSpaceToBase.app c.U.1).hom (algebraMap c.R c.A r) •
+      change D.ofForms p c.U.1 ((D.totalSpaceToBase.app c.U.1).hom (algebraMap c.R c.A r) •
         (c.formsLK p).symm y) ∈ _
       rw [D.ofForms_smul]
       exact Submodule.smul_mem _ _ hy

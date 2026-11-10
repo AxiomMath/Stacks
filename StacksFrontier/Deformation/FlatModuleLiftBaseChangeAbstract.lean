@@ -193,7 +193,7 @@ theorem nonempty_linearEquiv_of_semilinear
     (h : Nonempty (W ≃ₗ[S] Y)) : Nonempty (W₀ ≃ₗ[S₀] Y₀) := by
   obtain ⟨f⟩ := h
   refine ⟨{ u.symm.trans (f.toAddEquiv.trans v) with map_smul' := fun s₀ w₀ => ?_ }⟩
-  show v (f (u.symm (s₀ • w₀))) = s₀ • v (f (u.symm w₀))
+  change v (f (u.symm (s₀ • w₀))) = s₀ • v (f (u.symm w₀))
   rw [semilinear_symm eS u hu, f.map_smul, hv, eS.apply_symm_apply]
 
 /-- `Deformation.nonempty_linearEquiv_of_semilinear` read as an equivalence. -/
@@ -232,15 +232,13 @@ def tensorEquivOfRingEquiv (eR : R ≃+* R₀) (eS : S ≃+* S₀)
     (fun r₀ x₀ => semilinear_symm eR fX hfX r₀ x₀)
   map_add' _ _ := map_add _ _ _
   left_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul s x =>
         rw [tensorMapOfRingEquiv_tmul, tensorMapOfRingEquiv_tmul, eS.symm_apply_apply,
           fX.symm_apply_apply]
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   right_inv w₀ := by
-    induction w₀ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w₀ using TensorProduct.inductionOn with
     | tmul s₀ x₀ =>
         rw [tensorMapOfRingEquiv_tmul, tensorMapOfRingEquiv_tmul, eS.apply_symm_apply,
           fX.apply_symm_apply]
@@ -253,10 +251,9 @@ theorem tensorEquivOfRingEquiv_smul (eR : R ≃+* R₀) (eS : S ≃+* S₀)
     (s : S) (w : S ⊗[R] X) :
     tensorEquivOfRingEquiv eR eS hcomm fX hfX (s • w) =
       eS s • tensorEquivOfRingEquiv eR eS hcomm fX hfX w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul t x =>
-      show tensorMapOfRingEquiv eR eS hcomm fX hfX (s • (t ⊗ₜ[R] x)) =
+      change tensorMapOfRingEquiv eR eS hcomm fX hfX (s • (t ⊗ₜ[R] x)) =
         eS s • tensorMapOfRingEquiv eR eS hcomm fX hfX (t ⊗ₜ[R] x)
       rw [TensorProduct.smul_tmul', tensorMapOfRingEquiv_tmul, tensorMapOfRingEquiv_tmul,
         smul_eq_mul, map_mul, ← smul_eq_mul, TensorProduct.smul_tmul']
@@ -319,7 +316,7 @@ theorem tensorBaseChangeAlgebra_tmul (x : P') (a : A) :
     algebraMap (TensorProduct A' P' A) (TensorProduct A' Q' A) (x ⊗ₜ[A'] a) =
       (algebraMap P' Q' x) ⊗ₜ[A'] a := by
   let := tensorBaseChangeAlgebra A' A P' Q'
-  show Algebra.TensorProduct.map (IsScalarTower.toAlgHom A' P' Q') (AlgHom.id A' A)
+  change Algebra.TensorProduct.map (IsScalarTower.toAlgHom A' P' Q') (AlgHom.id A' A)
     (x ⊗ₜ[A'] a) = _
   rw [Algebra.TensorProduct.map_tmul]
   rfl
@@ -350,8 +347,7 @@ def linearEquivTensorBaseChangeTop :
       φ (algebraMap (TensorProduct A' P' A) ((TensorProduct A' P' A) ⊗[P'] Q') y) =
         algebraMap (TensorProduct A' P' A) (TensorProduct A' Q' A) y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y z hy hz => rw [map_add, map_add, map_add, hy, hz]
     | tmul x a =>
         have h1 : algebraMap (TensorProduct A' P' A) ((TensorProduct A' P' A) ⊗[P'] Q')
@@ -432,7 +428,7 @@ theorem ulift_up_semilinear
         (ULift.moduleEquiv (R := TensorProduct A' P' A) (M := M)).symm.toAddEquiv m := by
   set e := ringEquivTensorBaseChange A' A P' P hsurjA hsurjP hkerP
   have hp : p • m = e p • m := by rw [hsmul, e.symm_apply_apply]
-  show (ULift.moduleEquiv (R := TensorProduct A' P' A) (M := M)).symm (p • m) =
+  change (ULift.moduleEquiv (R := TensorProduct A' P' A) (M := M)).symm (p • m) =
     e p • (ULift.moduleEquiv (R := TensorProduct A' P' A) (M := M)).symm m
   rw [hp, LinearEquiv.map_smul]
 
@@ -447,7 +443,7 @@ private theorem isScalarTower_base_tensorBaseChange
   let : Algebra (TensorProduct A' P' A) P :=
     algebraTensorBaseChange A' A P' P hsurjA hsurjP hkerP
   refine isScalarTower_base_of_smul_algebraMap (T := P) (fun a => ?_) hsmul
-  show (ringEquivTensorBaseChange A' A P' P hsurjA hsurjP hkerP).symm
+  change (ringEquivTensorBaseChange A' A P' P hsurjA hsurjP hkerP).symm
     (algebraMap A (TensorProduct A' P' A) a) = algebraMap A P a
   rw [← ringEquivTensorBaseChange_algebraMap_base A' A P' P hsurjA hsurjP hkerP a,
     RingEquiv.symm_apply_apply]
@@ -584,7 +580,7 @@ theorem ringEquivLocalizationTensorBaseChange_algebraMap_away (g : P')
       (g := algebraMap P' P) (T := Submonoid.powers (algebraMap P' P g))
       (Q := Localization.Away (algebraMap P' P g))
       (Submonoid.powers_le.mpr (Submonoid.mem_powers _))) x
-  show eg (algebraMap (Localization.Away g) (Localization.Away (algebraMap P' P g))
+  change eg (algebraMap (Localization.Away g) (Localization.Away (algebraMap P' P g))
       (algebraMap P' (Localization.Away g) x)) = _
   rw [hl, heg, ringEquivLocalizationTensorBaseChange_algebraMap,
     ringEquivTensorBaseChange_algebraMap, tensorBaseChangeAlgebra_algebraMap]
@@ -638,7 +634,7 @@ private theorem nonempty_extendScalars_iso_of_localization (g : P')
       (M := TensorProduct (TensorProduct A' P' A)
         (TensorProduct A' (Localization.Away g) A) (ULift.{u} M))).symm.toAddEquiv)
     (fun s y => ?_)).mp hLiso
-  show (ULift.moduleEquiv (R := TensorProduct A' (Localization.Away g) A)
+  change (ULift.moduleEquiv (R := TensorProduct A' (Localization.Away g) A)
     (M := TensorProduct (TensorProduct A' P' A)
       (TensorProduct A' (Localization.Away g) A) (ULift.{u} M))).symm (t (s • y)) = _
   rw [hts]
@@ -928,8 +924,8 @@ theorem flatModuleLiftBaseChangeStatementAt_of_sq_zero (A' A : Type u) [CommRing
     (hsurjA : Function.Surjective (algebraMap A' A))
     (hzeroA : RingHom.ker (algebraMap A' A) ^ 2 = ⊥) :
     FlatModuleLiftBaseChangeStatementAt.{u} A' A := by
-  intro P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro _hsurjA _hnilA hsurjP hkerP hsurjQ hkerQ _ _ _ _ J' hquot M _ _ _ _ _ _ N _ _ hMN hloc
+  intro P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _hsurjA _hnilA hsurjP hkerP
+    hsurjQ hkerQ _ _ _ _ J' hquot M _ _ _ _ _ _ N _ _ hMN hloc
   have : IsScalarTower A' A Q := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
     rw [IsScalarTower.algebraMap_apply A P Q, ← IsScalarTower.algebraMap_apply A' A P,

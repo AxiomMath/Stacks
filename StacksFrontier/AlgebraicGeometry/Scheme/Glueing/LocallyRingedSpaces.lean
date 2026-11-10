@@ -74,12 +74,12 @@ lemma range_pullback_fst_of_right
   have h := PreservesPullback.iso_hom_fst F f g
   let G := PresheafedSpace.forget CommRingCat
   have h' := PreservesPullback.iso_hom_fst G (F.map f) (F.map g)
-  show Set.range (F.map (pullback.fst f g)).base =
+  change Set.range (F.map (pullback.fst f g)).base =
     (F.map f).base ⁻¹' Set.range (F.map g).base
   have hsurj {A B : TopCat.{u}} (p : A ⟶ B) [Epi p] : Function.Surjective p :=
     (TopCat.epi_iff_surjective p).mp inferInstance
   rw [← h, PresheafedSpace.comp_base, TopCat.coe_comp, (hsurj _).range_comp]
-  show Set.range (G.map (pullback.fst (F.map f) (F.map g))) =
+  change Set.range (G.map (pullback.fst (F.map f) (F.map g))) =
     G.map (F.map f) ⁻¹' Set.range (G.map (F.map g))
   rw [← h', TopCat.coe_comp, (hsurj _).range_comp, TopCat.pullback_fst_range]
   ext x
@@ -187,7 +187,7 @@ theorem hom_pullbackCharts_preimage_overlap (D : LocallyRingedSpace.GlueData.{u}
         (pullback.fst (pullback.fst g (D.ι i))
           (pullback.fst g (D.ι j))).base := by
   rw [range_overlap, range_pullback_fst_of_right, range_pullback_fst_of_right]
-  show (fun x ↦ (D.ι i).base ((pullback.snd g (D.ι i)).base x)) ⁻¹'
+  change (fun x ↦ (D.ι i).base ((pullback.snd g (D.ι i)).base x)) ⁻¹'
       Set.range (D.ι j).base =
     (fun x ↦ g.base ((pullback.fst g (D.ι i)).base x)) ⁻¹'
       Set.range (D.ι j).base

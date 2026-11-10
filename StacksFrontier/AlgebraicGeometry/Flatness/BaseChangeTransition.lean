@@ -72,9 +72,8 @@ public theorem transition_isPullback (g : T' ⟶ T) :
     ((pullbackLeftPullbackSndIso f T.hom g.left ≪≫ pullback.congrHom rfl g.w).symm) ?_ ?_
   · exact pullback.lift_snd _ _ _
   · refine pullback.hom_ext ?_ ?_ <;>
-      simp [transition, pullback.map, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_snd_assoc]
-  · simp [pullback.map, pullback.lift_snd]
+      simp [transition, pullback.map]
+  · simp [pullback.map]
 
 /-- The transition morphism of base changes induced by a *flat* morphism of schemes over the
 base is flat, being a base change of it. -/

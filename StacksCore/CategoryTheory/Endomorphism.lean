@@ -36,6 +36,6 @@ noncomputable def algEquivEnd (R : Type*) [CommSemiring R] [CategoryTheory.Linea
   __ := hF.ringEquivEnd X
   commutes' r := by
     ext
-    simp [Algebra.algebraMap_eq_smul_one, mulEquivEnd]
+    simp [Algebra.algebraMap_eq_smul_one]
 
 end CategoryTheory.Functor.FullyFaithful

@@ -272,7 +272,7 @@ theorem isHomogeneous_rankFunctionClass (f : ℕ → ℤ) :
 /-- **The class of `f` is central**: on each piece `X_r` it is an integer multiple of `1`. -/
 theorem commute_rankFunctionClass (f : ℕ → ℤ) (c : TotalChowClass C sX) :
     Commute (rankFunctionClass C sX E f) c := by
-  show _ * _ = _ * _
+  change _ * _ = _ * _
   refine eq_of_res_rankLocus_eq C sX E fun r ↦ ?_
   rw [map_mul, map_mul, res_rankFunctionClass_rankLocus, zsmul_eq_mul, mul_one]
   exact (Int.cast_commute _ _).eq
@@ -336,7 +336,7 @@ theorem rankTotalClass_apply_zero
   refine eq_rankBivariantClass_of_rankLocusRestriction_eq C _ sX E _ _ _ hgysin fun r ↦ ?_
   refine (rankLocusRestriction_eq_res C sX E (rankTotalClass C sX E) 0 r).trans ?_
   rw [rankTotalClass, rankFunctionClass, TotalChowClass.res_glue]
-  show (r : ℤ) • (1 : TotalChowClass C ((rankLocus E r).ι ≫ sX)) 0 = _
+  change (r : ℤ) • (1 : TotalChowClass C ((rankLocus E r).ι ≫ sX)) 0 = _
   rw [one_apply_zero_eq_chowCohomologyOne]
 
 end RankClass
@@ -361,7 +361,7 @@ theorem commute_homComponent_totalChernClassOfModule (E F : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} F] (i j : ℕ) :
     Commute (TotalChowClass.homComponent i (totalChernClassOfModule C sX E))
       (TotalChowClass.homComponent j (totalChernClassOfModule C sX F)) := by
-  show _ * _ = _ * _
+  change _ * _ = _ * _
   refine TotalChowClass.eq_of_res_eq_of_rank E F fun V a b ha hb ↦ ?_
   have := ha
   have := hb
@@ -526,7 +526,7 @@ theorem res_chernPolynomialClass_of_rank {Y' : Scheme.{u}} {sY' : Y' ⟶ C.S}
   refine commEval_congr _ _ (fun o ↦ ?_) P
   rcases o with _ | i
   · exact res_rankFunctionClass_of_rank C sX E h hs s _
-  · show TotalChowClass.res h hs (TotalChowClass.homComponent i _) = _
+  · change TotalChowClass.res h hs (TotalChowClass.homComponent i _) = _
     rw [TotalChowClass.res_homComponent, res_totalChernClassOfModule_of_rank C sX E h hs s]
     rfl
 

@@ -92,6 +92,7 @@ theorem psi_chg (i j : Fin k) (hij : i ≤ j) (t : Finset (Fin k)) (hi : i ∈ t
   · rw [chg_self]
   · rw [C.chg_of_lt hlt, psi_γc]
 
+omit hW in
 /-- Chart changes commute with the restriction maps `resW`. -/
 theorem chg_resW (i j : Fin k) (hij : i ≤ j) {t t' : Finset (Fin k)} (h : t ⊆ t') (hi : i ∈ t)
     (hj : j ∈ t) (v) :
@@ -101,6 +102,7 @@ theorem chg_resW (i j : Fin k) (hij : i ≤ j) {t t' : Finset (Fin k)} (h : t �
   · rw [chg_self, chg_self]
   · rw [C.chg_of_lt hlt, C.chg_of_lt hlt, γc_resW]
 
+omit hW in
 /-- For a compatible choice of charts, the chart changes `γc` satisfy the cocycle condition on
 every `t`. -/
 theorem γc_comp_γc (hC : C.Compatible) {i j l : Fin k} (hij : i < j) (hjl : j < l)
@@ -121,6 +123,7 @@ theorem γc_comp_γc (hC : C.Compatible) {i j l : Fin k} (hij : i < j) (hjl : j 
       exact AlgHom.congr_fun (hC.2 i j l hij hjl) _
   exact AlgHom.congr_fun key v
 
+omit hW in
 /-- For a compatible choice of charts, the chart changes `γc` commute with the maps `φc` to
 `Hl f H t`. -/
 theorem φc_comp_γc (hC : C.Compatible) {i j : Fin k} (hij : i < j) (t : Finset (Fin k))
@@ -136,6 +139,7 @@ theorem φc_comp_γc (hC : C.Compatible) {i j : Fin k} (hij : i < j) (t : Finset
       exact AlgHom.congr_fun (hC.1 i j hij) _
   exact AlgHom.congr_fun key v
 
+omit hW in
 /-- For a compatible choice of charts, the chart changes `chg` satisfy the cocycle condition
 `chg i j ∘ chg j l = chg i l` for `i ≤ j ≤ l`. -/
 theorem chg_chg (hC : C.Compatible) {i j l : Fin k} (hij : i ≤ j) (hjl : j ≤ l)
@@ -148,6 +152,7 @@ theorem chg_chg (hC : C.Compatible) {i j l : Fin k} (hij : i ≤ j) (hjl : j ≤
   rw [C.chg_of_lt hij', C.chg_of_lt hjl', C.chg_of_lt (hij'.trans hjl'),
     C.γc_comp_γc hC hij' hjl']
 
+omit hW in
 /-- For a compatible choice of charts, the chart changes `chg` commute with the maps `φc` to
 `Hl f H t`. -/
 theorem φc_chg (hC : C.Compatible) {i j : Fin k} (hij : i ≤ j) (t : Finset (Fin k)) (hi : i ∈ t)
@@ -189,7 +194,7 @@ noncomputable def Ld (s : Finset (Fin k)) : NilLift R N (Sl f S s) :=
 omit [∀ i, Module.Flat R (W i).carrier] in
 /-- Over a nonempty `s`, the lift `Ld W hNS s` is the chart at the smallest index of `s`. -/
 theorem Ld_eq (s : Finset (Fin k)) (hs : s.Nonempty) :
-    Ld W hNS s = Wc N f S W (s.min' hs) s (s.min'_mem hs) := dif_pos hs
+    Ld W hNS s = Wc N f S W (s.min' hs) s (s.min'_mem hs) := dite_eq_left hs
 
 /-- The identification of the lift over a nonempty `s` with the chart at its smallest index. -/
 noncomputable def eqv (s : Finset (Fin k)) (hs : s.Nonempty) :

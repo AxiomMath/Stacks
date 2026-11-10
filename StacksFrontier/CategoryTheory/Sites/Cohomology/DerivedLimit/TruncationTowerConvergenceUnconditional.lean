@@ -75,11 +75,13 @@ section Unconditional
 
 variable {C : Type u} [instC : Category.{v} C] {J : GrothendieckTopology C}
 
+set_option linter.checkUnivs false in
 /-- Sheafification of abelian presheaves on an arbitrary site, in the module universe
 `max u v r w` of the statement below. -/
 theorem hasSheafifyMax : HasSheafify J AddCommGrpCat.{max u v r w} :=
   SiteModules.site_hasSheafify_addCommGrp.{u, v, max r w}
 
+set_option linter.checkUnivs false in
 /-- Sheafification of abelian presheaves inverts exactly the locally bijective maps, in the
 module universe `max u v r w` of the statement below. -/
 theorem wEqualsLocallyBijectiveMax :

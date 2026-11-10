@@ -225,7 +225,7 @@ theorem relKerMap_comp (hP : P.IsCoherent) (κ : ConeTo π a₀) {M M₁ M₂ : 
         (by rw [← Category.assoc, h, Category.assoc, h₁, Category.assoc]) := by
   ext i α
   refine Subtype.ext ?_
-  show (P.pull (κ.leg i.unop)).map w₁ ≫ ((P.pull (κ.leg i.unop)).map w ≫ α.1 ≫
+  change (P.pull (κ.leg i.unop)).map w₁ ≫ ((P.pull (κ.leg i.unop)).map w ≫ α.1 ≫
       (P.pull (κ.leg i.unop)).map u) ≫ (P.pull (κ.leg i.unop)).map u₁ =
     (P.pull (κ.leg i.unop)).map (w₁ ≫ w) ≫ α.1 ≫ (P.pull (κ.leg i.unop)).map (u ≫ u₁)
   simp only [Functor.map_comp, Category.assoc]
@@ -236,7 +236,7 @@ theorem relKerMap_id (hP : P.IsCoherent) (κ : ConeTo π a₀) (M : D a₀) {N N
     P.relKerMap hP κ (𝟙 M) φ φ (𝟙 N) (𝟙 N') (by simp) = 𝟙 _ := by
   ext i α
   refine Subtype.ext ?_
-  show (P.pull (κ.leg i.unop)).map (𝟙 M) ≫ α.1 ≫ (P.pull (κ.leg i.unop)).map (𝟙 N) = α.1
+  change (P.pull (κ.leg i.unop)).map (𝟙 M) ≫ α.1 ≫ (P.pull (κ.leg i.unop)).map (𝟙 N) = α.1
   simp
 
 /-- **The relative kernel functor is invariant under an isomorphism of squares.** -/
@@ -290,7 +290,7 @@ theorem transportHom_comp_map_eq_zero {C : Type*} [Category* C] {D₁ : Type*} [
     (α : G.obj M ⟶ G.obj N) (hα : α ≫ G.map φ = 0) :
     Functor.transportHom e α ≫ F.map φ = 0 := by
   rw [← Functor.conjHom_comp_map]
-  show Functor.transportHom e (α ≫ G.map φ) = 0
+  change Functor.transportHom e (α ≫ G.map φ) = 0
   rw [hα]
   exact Functor.conjHom_zero_of_preservesZeroMorphisms _
 
@@ -392,7 +392,7 @@ theorem transportHom_mem {Y' : AlgebraicSpaces B S hS} (k : Y' ⟶ X) (M : topos
       (((toposModulePullbackData B S hS).pull k).map φ) = 0) :
     Functor.transportHom u α ≫ ((toposModulePullbackData B S hS).pull (T.hom ≫ k)).map φ = 0 := by
   rw [← Functor.conjHom_comp_map]
-  show Functor.transportHom u (α ≫ ((toposModulePullbackData B S hS).pull T.hom).map
+  change Functor.transportHom u (α ≫ ((toposModulePullbackData B S hS).pull T.hom).map
       (((toposModulePullbackData B S hS).pull k).map φ)) = 0
   rw [hα]
   exact Functor.conjHom_zero_of_preservesZeroMorphisms _

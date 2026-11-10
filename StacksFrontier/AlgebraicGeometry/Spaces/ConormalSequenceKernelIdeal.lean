@@ -309,7 +309,8 @@ theorem kernelIdealSheafPullbackShortComplex_exact (hc : IsClosedImmersion B S h
   have hq := epi_kernelIdealSheafPushforwardMap B S hS i c hc
   have h₁ : ((kernelIdealSheafShortComplex B S hS i c).map (modulePullback B S hS c)).Exact :=
     exact_map_modulePullback B S hS c _ (kernelIdealSheafShortComplex_exact B S hS i c) hq
-  have hcounit : IsIso ((modulePullbackAdjunction B S hS c).counit.app (kerIdealOneModule B S hS i)) :=
+  have hcounit :
+      IsIso ((modulePullbackAdjunction B S hS c).counit.app (kerIdealOneModule B S hS i)) :=
     isIso_modulePullbackAdjunction_counit B S hS c hc _
   have : (modulePullback B S hS c).PreservesEpimorphisms :=
     preservesEpimorphisms_modulePullback B S hS c

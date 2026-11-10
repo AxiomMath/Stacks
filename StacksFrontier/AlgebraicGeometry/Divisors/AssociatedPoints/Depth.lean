@@ -128,7 +128,7 @@ private lemma affineGerm_map {X : Scheme.{u}} {F G : X.Modules} (f : F ⟶ G) (U
     letI : Module Γ(X, U) Γ(G, U) := (G.val.obj (op U)).isModule
     affineGerm G U x hx ((affineSectionsMapLinear f U).toFun s) =
       (schemeStalkLinearMap f x).toFun (affineGerm F U x hx s) := by
-  show G.presheaf.germ U x hx (ConcreteCategory.hom (f.val.app (op U)) s) =
+  change G.presheaf.germ U x hx (ConcreteCategory.hom (f.val.app (op U)) s) =
     (schemeStalkLinearMap f x).toFun (F.presheaf.germ U x hx s)
   rw [schemeStalkLinearMap_germ]
 
@@ -198,14 +198,14 @@ private lemma localized_section_map_bijective_of_stalk_map_bijective {X : Scheme
       map_add' := (schemeStalkLinearMap f x).map_add
       map_smul' := by
         intro r z
-        show (schemeStalkLinearMap f x).toFun ((X.presheaf.germ U x hx).hom r • z) =
+        change (schemeStalkLinearMap f x).toFun ((X.presheaf.germ U x hx).hom r • z) =
           (X.presheaf.germ U x hx).hom r • (schemeStalkLinearMap f x).toFun z
         exact (schemeStalkLinearMap f x).map_smul ((X.presheaf.germ U x hx).hom r) z }
   have hjk : eG.toLinearMap ∘ₗ locfR = stalkf ∘ₗ eF.toLinearMap := by
     refine IsLocalizedModule.ext p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl M)
       (map_unit := affineGerm_map_units G U hU x hx) ?_
     ext m
-    show eG (locf ((LocalizedModule.mkLinearMap p.primeCompl M) m)) =
+    change eG (locf ((LocalizedModule.mkLinearMap p.primeCompl M) m)) =
       stalkf (eF ((LocalizedModule.mkLinearMap p.primeCompl M) m))
     dsimp [eG, eF]
     have hmap : locf ((LocalizedModule.mkLinearMap p.primeCompl M) m) =
@@ -260,10 +260,10 @@ private lemma affine_depth_two_iff_localized {X : Scheme.{u}} [IsLocallyNoetheri
   let : IsScalarTower S T N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have hcomp (r : R) : algebraMap S T (algebraMap R S r) = algebraMap R T r := e.commutes r
   let : IsScalarTower R S T := IsScalarTower.of_algebraMap_smul fun r t => by
-    show algebraMap S T (algebraMap R S r) * t = algebraMap R T r * t
+    change algebraMap S T (algebraMap R S r) * t = algebraMap R T r * t
     rw [hcomp]
   let : IsScalarTower R S N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show algebraMap S T (algebraMap R S r) • n = algebraMap R T r • n
+    change algebraMap S T (algebraMap R S r) • n = algebraMap R T r • n
     rw [hcomp]
   have hlocM : IsLocalizedModule p.primeCompl (affineGerm F U x hx) :=
     affineGerm_isLocalized F U hU x hx
@@ -281,7 +281,7 @@ private lemma affine_depth_two_iff_localized {X : Scheme.{u}} [IsLocallyNoetheri
   have hdepthST := Module.depth_eq_depth_map_algebraMap e.surjective
     (IsLocalRing.maximalIdeal S) N
   rw [hmax] at hdepthST
-  show (2 : ℕ∞) ≤ Module.depth T (IsLocalRing.maximalIdeal T) N ↔
+  change (2 : ℕ∞) ≤ Module.depth T (IsLocalRing.maximalIdeal T) N ↔
     (2 : ℕ∞) ≤ Module.depth S (IsLocalRing.maximalIdeal S) (LocalizedModule p.primeCompl M)
   rw [← hdepthST, ← hdepthM]
 
@@ -311,7 +311,7 @@ private lemma bijective_localized_or_depth_two_of_affine {X : Scheme.{u}}
   let qs : PrimeSpectrum Γ(X, U) := ⟨q, hq⟩
   let y : X := hU.fromSpec qs
   have hyU : y ∈ U := by
-    show hU.fromSpec qs ∈ (U : Set X)
+    change hU.fromSpec qs ∈ (U : Set X)
     rw [← hU.range_fromSpec]
     exact ⟨qs, rfl⟩
   have hyq : hU.primeIdealOf ⟨y, hyU⟩ = qs := by
@@ -365,7 +365,7 @@ private theorem isIso_of_bijective_schemeStalkLinearMap {X : Scheme.{u}} {F G : 
     simpa [fs] using hstalkIso x
   have hfs : IsIso fs := TopCat.Presheaf.isIso_of_stalkFunctor_map_iso fs
   have hmap : IsIso f.mapPresheaf := by
-    show IsIso ((TopCat.Sheaf.forget AddCommGrpCat.{u} X).map fs)
+    change IsIso ((TopCat.Sheaf.forget AddCommGrpCat.{u} X).map fs)
     infer_instance
   exact (isIso_iff_of_reflects_iso f (Scheme.Modules.toPresheaf X)).mp (by
     simpa only [Scheme.Modules.toPresheaf_map, Scheme.Modules.toPresheaf_obj] using hmap)

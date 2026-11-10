@@ -76,13 +76,13 @@ theorem exists_smooth_etale_lift_mvPolynomial {A A₀ R : Type u} [CommRing A] [
   have : IsScalarTower A P C := .of_algebraMap_eq fun _ ↦ rfl
   have : Algebra.Smooth A P := {}
   have hAR : ∀ a : A, algebraMap P R (MvPolynomial.C a) = algebraMap A R a := fun a ↦ by
-    show algebraMap P₀ R (π (MvPolynomial.C a)) = _
+    change algebraMap P₀ R (π (MvPolynomial.C a)) = _
     rw [MvPolynomial.map_C, ← MvPolynomial.algebraMap_eq,
       ← IsScalarTower.algebraMap_apply A₀ P₀ R, ← IsScalarTower.algebraMap_apply A A₀ R]
   let ψA : C →ₐ[A] R :=
     { (ψ : C →+* R) with
       commutes' := fun a ↦ by
-        show ψ (algebraMap P C (MvPolynomial.C a)) = _
+        change ψ (algebraMap P C (MvPolynomial.C a)) = _
         rw [ψ.commutes, hAR] }
   refine ⟨C, inferInstance, inferInstance, Algebra.Smooth.comp A P C,
     fun i ↦ algebraMap P C (MvPolynomial.X i), ?_, ψA, hψ, ?_⟩
@@ -94,7 +94,7 @@ theorem exists_smooth_etale_lift_mvPolynomial {A A₀ R : Type u} [CommRing A] [
       · simp
     rw [h]
     exact RingHom.etale_algebraMap.2 hC
-  · show RingHom.ker (ψ : C →+* R) = _
+  · change RingHom.ker (ψ : C →+* R) = _
     rw [hker]
     have hπker : RingHom.ker (algebraMap P P₀) =
         (RingHom.ker (algebraMap A A₀)).map (MvPolynomial.C : A →+* P) :=
@@ -202,7 +202,7 @@ theorem exists_smoothLift_etaleCoordinates [IsAffine S.S.scheme] (hsm : Smooth S
         algebraMap Γ(W.toScheme, ⊤) (Localization.Away f) (algebraMap A₀ Γ(W.toScheme, ⊤) a) := by
       rw [← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply,
         ← IsScalarTower.algebraMap_apply]
-    show e (algebraMap (MvPolynomial (Fin n) A₀) (Localization.Away f) (MvPolynomial.C a)) = _
+    change e (algebraMap (MvPolynomial (Fin n) A₀) (Localization.Away f) (MvPolynomial.C a)) = _
     rw [h₁, AlgEquiv.commutes]
     simp only [j, Category.assoc, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
       RingHom.coe_comp, Function.comp_apply]

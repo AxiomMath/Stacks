@@ -139,8 +139,7 @@ private theorem lTensor_injective_of_localization_base
   let eN := IsLocalization.moduleTensorEquiv S A B N
   have hc : ∀ t, eN (f.lTensor B t) = (f.restrictScalars R).lTensor B (eM t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   exact fun x y hxy => eM.injective (h (by rw [← hc, ← hc, hxy]))
@@ -188,7 +187,7 @@ private theorem exists_affineBlowupChart_preimage (x : blowUp I) :
     rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]
     rfl
   rw [← hz]
-  show (Stacks.AlgebraicGeometry.AffineBlowupLift.chartToBlowUp I U a)
+  change (Stacks.AlgebraicGeometry.AffineBlowupLift.chartToBlowUp I U a)
     ((affineBlowupStandardOpenIso I U a).hom
       ((affineBlowupStandardOpenIso I U a).inv z)) = _
   rw [hcancel]
@@ -228,7 +227,7 @@ private theorem chart_germ {X Y : Scheme.{u}} (f : Y ⟶ X) {U : X.Opens}
     X.presheaf.germ U (f (j y)) hy ≫ f.stalkMap (j y) ≫ j.stalkMap y =
       α ≫ StructureSheaf.toStalk S y := by
   rw [← Scheme.Hom.stalkMap_comp]
-  show X.presheaf.germ U ((j ≫ f) y) hy ≫ (j ≫ f).stalkMap y = _
+  change X.presheaf.germ U ((j ≫ f) y) hy ≫ (j ≫ f).stalkMap y = _
   change (j ≫ f) y ∈ U at hy
   revert hy
   rw [hj]
@@ -272,7 +271,7 @@ private theorem lTensor_stalk_injective_of_chart
   let T := (Spec S).presheaf.stalk y
   have : y.asIdeal.IsPrime := y.isPrime
   have hx : f (j y) ∈ U := by
-    show (j ≫ f) y ∈ U
+    change (j ≫ f) y ∈ U
     rw [hj]
     have hm : hU.fromSpec (Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U) S)) y) ∈
       hU.fromSpec.opensRange := ⟨_, rfl⟩
@@ -295,7 +294,7 @@ private theorem lTensor_stalk_injective_of_chart
     apply IsScalarTower.of_algebraMap_eq'
     ext r
     apply e.injective
-    show (j.stalkMap y) ((f.stalkMap (j y)) (X.presheaf.germ U (f (j y)) hx r)) =
+    change (j.stalkMap y) ((f.stalkMap (j y)) (X.presheaf.germ U (f (j y)) hx r)) =
       e (e.symm ((algebraMap S T) (algebraMap R S r)))
     rw [e.apply_symm_apply]
     exact congrArg (fun k => k r)
@@ -337,7 +336,7 @@ private theorem stalkMapAdd_germ' {Z : RingedSpace.{u, u}}
     (V : Opens Z.carrier) (hz : z ∈ V) (s : M.val.obj (op V)) :
     OXModule.stalkMapAdd M N φ z (TopCat.Presheaf.germ M.val.presheaf V z hz s) =
       TopCat.Presheaf.germ N.val.presheaf V z hz (φ.val.app (op V) s) := by
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} z).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} z).map
       ((PresheafOfModules.toPresheaf _).map φ.val)
       (TopCat.Presheaf.germ M.val.presheaf V z hz s) = _
   exact TopCat.Presheaf.stalkFunctor_map_germ_apply V z hz
@@ -356,7 +355,7 @@ private theorem stalkMapLinear_germ {Z : RingedSpace.{u, u}}
     (V : Opens Z.carrier) (hz : z ∈ V) (s : M.val.obj (op V)) :
     stalkMapLinear φ z (TopCat.Presheaf.germ M.val.presheaf V z hz s) =
       TopCat.Presheaf.germ N.val.presheaf V z hz (φ.val.app (op V) s) := by
-  show OXModule.stalkMapAdd M N φ z (TopCat.Presheaf.germ M.val.presheaf V z hz s) = _
+  change OXModule.stalkMapAdd M N φ z (TopCat.Presheaf.germ M.val.presheaf V z hz s) = _
   exact stalkMapAdd_germ' φ z V hz s
 
 /-- **Injectivity of a map identified with a base change.** Let `eM` and `eN` identify two
@@ -373,8 +372,7 @@ private theorem injective_of_one_tmul {A B M N M' N' : Type*} [CommSemiring A] [
     Function.Injective ψ := by
   have hF : ∀ t, eN (ψ (eM.symm t)) = σ.baseChange B t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
       rw [TensorProduct.tmul_eq_smul_one_tmul b m]
       simp only [map_smul, hkey, LinearMap.baseChange_tmul]
@@ -382,7 +380,7 @@ private theorem injective_of_one_tmul {A B M N M' N' : Type*} [CommSemiring A] [
   intro a b hab
   apply eM.injective
   apply hinj
-  show σ.baseChange B (eM a) = σ.baseChange B (eM b)
+  change σ.baseChange B (eM a) = σ.baseChange B (eM b)
   rw [← hF (eM a), ← hF (eM b), eM.symm_apply_apply, eM.symm_apply_apply, hab]
 
 /-- **A pullback of modules is injective on a stalk as soon as the base change of the stalk map
@@ -588,12 +586,12 @@ private theorem isIso_derivedPullbackComparison_of_quasiIso
     (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) q).mpr inferInstance
   have hq : IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.pullbackOnHomotopy
       f).map qh) := by
-    show IsIso ((HomotopyCategory.quotient _ (.up ℤ) ⋙ DerivedCategory.Qh).map
+    change IsIso ((HomotopyCategory.quotient _ (.up ℤ) ⋙ DerivedCategory.Qh).map
       (((modulePullback f).mapHomologicalComplex (.up ℤ)).map q))
     exact (NatIso.isIso_map_iff (DerivedCategory.quotientCompQhIso _) _).mpr inferInstance
   have hq₁ : IsIso ((DerivedCategory.Qh ⋙
       Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map qh) := by
-    show IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map
+    change IsIso ((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).map
       (DerivedCategory.Qh.map qh))
     infer_instance
   have hn := (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullbackComparison

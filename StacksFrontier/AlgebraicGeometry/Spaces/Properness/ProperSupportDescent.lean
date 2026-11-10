@@ -102,7 +102,7 @@ theorem hasProperSupport_of_isPullback_of_mem_fppf {X' X Y' Y : AlgebraicSpaces 
     IsPullback.of_map_of_faithful (ObjectProperty.ι _)
       ((Subfunctor.isPullback_preimage g'.hom Z).paste_vert
         (AlgebraicSpaces.isPullback_hom B S hS sq))
-  show properProperty B S hS (ObjectProperty.homMk (Z.ι ≫ f.hom) : ZA ⟶ Y)
+  change properProperty B S hS (ObjectProperty.homMk (Z.ι ≫ f.hom) : ZA ⟶ Y)
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (P := properProperty B S hS) (K := Topology.fppf.precoverage.{u, v} B S hS) hcov ?_
   rintro U _ _ ⟨⟩

@@ -99,9 +99,9 @@ theorem isPushout_opens_ι_of_sup_eq_top {S : Scheme.{u}} {U V : S.Opens} (h : U
     intro x y
     cases x <;> cases y
     · exact congrArg (· ≫ s.inr) (fst_eq_snd_of_mono_eq V.ι)
-    · show pullback.fst V.ι U.ι ≫ s.inr = pullback.snd V.ι U.ι ≫ s.inl
+    · change pullback.fst V.ι U.ι ≫ s.inr = pullback.snd V.ι U.ι ≫ s.inl
       exact pullback_ι_ι_comp_eq_of_homOfLE_comp_eq_flip s.condition
-    · show pullback.fst U.ι V.ι ≫ s.inl = pullback.snd U.ι V.ι ≫ s.inr
+    · change pullback.fst U.ι V.ι ≫ s.inl = pullback.snd U.ι V.ι ≫ s.inr
       exact pullback_ι_ι_comp_eq_of_homOfLE_comp_eq s.condition
     · exact congrArg (· ≫ s.inl) (fst_eq_snd_of_mono_eq U.ι)
   · exact fun s ↦ 𝒰.ι_glueMorphisms _ _ true

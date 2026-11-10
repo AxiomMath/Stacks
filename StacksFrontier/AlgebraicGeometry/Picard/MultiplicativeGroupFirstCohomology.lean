@@ -163,7 +163,7 @@ public theorem baseH1UnitsAddEquivSchemePicardGroup_symm_classOf (τ : SiteKind)
   rw [← Stacks.Picard.BaseSites.baseH1UnitsAddEquivPicardGroup_symm_classOf B X hX τ
     ((BigFppfOver.baseAssociatedModule B X hX τ).obj L)
     (BigFppfOver.isInvertible_baseAssociatedModule B X hX τ L hL)]
-  show (Stacks.Picard.BaseSites.baseH1UnitsAddEquivPicardGroup B X hX τ).symm
+  change (Stacks.Picard.BaseSites.baseH1UnitsAddEquivPicardGroup B X hX τ).symm
       ((BigFppfOver.basePicardAddEquiv B X hX τ) _) = _
   rw [BigFppfOver.basePicardAddEquiv_classOf B X hX τ L hL]
 

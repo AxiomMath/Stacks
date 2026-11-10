@@ -33,6 +33,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (Λ : Type) [Ring Λ] [Fintype Λ]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- **`Γ(X_k̄, ℱ_ρ|_{X_k̄}) ≅ M` is natural in `ρ`**, in the pullback form: for a morphism
 `φ : ρ ⟶ ρ'` of representations trivial on `π₁(X_k̄)`, it carries `Γ(X_k̄, pr^{-1} ℱ_φ)` to the
 underlying linear map of `φ`. -/
@@ -66,6 +67,7 @@ theorem geometricGlobalSectionsTrivialEquivPullback_naturality
       φ.hom.hom.hom.hom.hom (geometricGlobalSectionsTrivialEquivPullback B X f kbar Λ y ρ hρ z) :=
   geometricGlobalSectionsTrivialEquiv_naturality B X f kbar Λ y φ hρ hρ' z
 
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- `AlgebraicGeometry.geometricGlobalSectionsTrivialEquivPullback_naturality` as an equation of
 linear maps. -/
 theorem geometricGlobalSectionsTrivialEquivPullback_comp_naturality

@@ -59,8 +59,7 @@ theorem isIso_blowUpToBase_morphismRestrict (ℐ : Y.IdealSheafData) {U : Y.Open
     (isIso_blowUp_restrict_compl_support ℐ)
 
 /-- **The inverse image of a dense open disjoint from the centre is dense in the blowup.** -/
-theorem dense_preimage_blowUpToBase (ℐ : Y.IdealSheafData) {U : Y.Opens} (hU : Dense (U : Set Y))
-    (h : Disjoint (U : Set Y) (ℐ.support : Set Y)) :
+theorem dense_preimage_blowUpToBase (ℐ : Y.IdealSheafData) {U : Y.Opens} (hU : Dense (U : Set Y)) :
     Dense ((blowUpToBase ℐ ⁻¹ᵁ U : (blowUp ℐ).Opens) : Set (blowUp ℐ)) := by
   let b := blowUpToBase ℐ
   let D := exceptionalIdeal ℐ
@@ -79,7 +78,7 @@ theorem dense_preimage_blowUpToBase (ℐ : Y.IdealSheafData) {U : Y.Opens} (hU :
   have : IsIso (b ∣_ V) := isIso_blowUp_restrict_compl_support ℐ
   have hOV : (D.support.compl : Set (blowUp ℐ)) = b ⁻¹' (V : Set Y) := by
     ext y
-    show y ∉ ((ℐ.comap b).support : Set _) ↔ _
+    change y ∉ ((ℐ.comap b).support : Set _) ↔ _
     rw [Scheme.IdealSheafData.support_comap]
     rfl
   rw [dense_iff_inter_open]
@@ -94,7 +93,7 @@ theorem dense_preimage_blowUpToBase (ℐ : Y.IdealSheafData) {U : Y.Opens} (hU :
     ⟨b x, ⟨b x, hxV⟩, ⟨⟨x, hxV⟩, hxG, Subtype.ext (morphismRestrict_base_coe b V ⟨x, hxV⟩)⟩, rfl⟩
   obtain ⟨_, ⟨w, hwG, rfl⟩, rfl⟩ := hyG
   refine ⟨w.1, hwG, ?_⟩
-  show b w.1 ∈ (U : Set Y)
+  change b w.1 ∈ (U : Set Y)
   have : V.ι.base (e w) = b w.1 := morphismRestrict_base_coe b V w
   rwa [← this]
 
@@ -164,7 +163,7 @@ theorem surjective_strictTransformToBlowUp (f : X ⟶ Y) [IsProper f] [Surjectiv
     intro y hy
     obtain ⟨x, hx⟩ := hsurj.surj ⟨y, hy⟩
     exact ⟨x.1, (morphismRestrict_base_coe _ _ x).symm.trans (congrArg Subtype.val hx)⟩
-  exact ⟨fun y ↦ closure_minimal hsub hclosed (dense_preimage_blowUpToBase ℐ hU h y)⟩
+  exact ⟨fun y ↦ closure_minimal hsub hclosed (dense_preimage_blowUpToBase ℐ hU y)⟩
 
 /-- **The strict transform of a proper morphism with geometrically connected fibres, if flat and
 of finite presentation, has geometrically connected fibres** (Stacks Tag 0BUI): the number of
@@ -207,7 +206,7 @@ theorem geometricallyConnected_strictTransformToBlowUp (f : X ⟶ Y) [IsProper f
     (geometricallyConnected_iff_numGeometricConnectedComponents_eq_one f' y).mpr ?_
   have hle : numGeometricConnectedComponents f' y ≤ 1 := by
     by_contra hlt
-    obtain ⟨z, hz, hzU⟩ := (dense_preimage_blowUpToBase ℐ hU h).inter_open_nonempty _ hopen
+    obtain ⟨z, hz, hzU⟩ := (dense_preimage_blowUpToBase ℐ hU).inter_open_nonempty _ hopen
       ⟨y, lt_of_not_ge hlt⟩
     exact (hz : 1 < numGeometricConnectedComponents f' z).ne' (hU1 z hzU)
   -- at least one: the geometric fibre is nonempty
@@ -223,7 +222,7 @@ theorem geometricallyConnected_strictTransformToBlowUp (f : X ⟶ Y) [IsProper f
       ⟨ConnectedComponents.mk z⟩
     intro h0
     exact (ENat.card_eq_zero_iff_empty _).mp h0 |>.false (Classical.arbitrary _)
-  exact le_antisymm hle (ENat.one_le_iff_ne_zero.mpr hne)
+  exact le_antisymm hle (Order.one_le_iff_ne_zero.mpr hne)
 
 end AlgebraicGeometry
 

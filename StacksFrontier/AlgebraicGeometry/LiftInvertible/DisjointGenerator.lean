@@ -180,7 +180,7 @@ theorem nonempty_generatorSections_of_pairwise_disjoint {ι : Type*} (U : ι →
     obtain ⟨r, hr⟩ := exists_map_eq_of_pairwise_disjoint_sheaf FR P V hPV hPcover hPdisj c
     have hr' : ∀ i, (_root_.structureSheaf X.sheaf).obj.map (homOfLE (hPV i)).op r = c i := hr
     refine ⟨r, FL.eq_of_locally_eq' P V (fun i => homOfLE (hPV i)) hPcover _ m fun i => ?_⟩
-    show L.val.restrictₛₗ (homOfLE (hPV i)).op (r • L.val.restrictₛₗ (homOfLE hV).op s) =
+    change L.val.restrictₛₗ (homOfLE (hPV i)).op (r • L.val.restrictₛₗ (homOfLE hV).op s) =
       L.val.restrictₛₗ (homOfLE (hPV i)).op m
     rw [hmul i r, hr' i, hcmem i]
 

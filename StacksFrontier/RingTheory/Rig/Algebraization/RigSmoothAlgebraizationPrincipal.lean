@@ -370,7 +370,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_of_isRigSmooth_principa
             rw [Matrix.one_apply, Matrix.one_apply]
             split_ifs <;> simp
           rw [h1]
-          show _ - h (E₀ i j) - _ = -(h (E₀ i j) - _)
+          change _ - h (E₀ i j) - _ = -(h (E₀ i j) - _)
           ring
         rw [this, neg_mem_iff, hKmap]
         exact hE₀c i j

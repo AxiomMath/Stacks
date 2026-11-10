@@ -44,12 +44,13 @@ public theorem charpoly_submatrix_eq_charpoly_toSquareBlock {R : Type*} [CommRin
   rw [this, charpoly_reindex]
 
 /-- An enumeration of the coordinates satisfying a predicate. -/
-public theorem exists_injective_forall_iff_exists {m : ℕ} (P : Fin m → Prop) [DecidablePred P] :
-    ∃ (n : ℕ) (e : Fin n → Fin m), Function.Injective e ∧ ∀ i, P i ↔ ∃ j, e j = i :=
-  ⟨Fintype.card {i // P i}, fun j => ((Fintype.equivFin {i // P i}).symm j).1,
-    fun j j' h => (Fintype.equivFin {i // P i}).symm.injective (Subtype.ext h),
-    fun i => ⟨fun h => ⟨Fintype.equivFin {i // P i} ⟨i, h⟩, by simp⟩,
-      fun ⟨j, hj⟩ => hj ▸ ((Fintype.equivFin {i // P i}).symm j).2⟩⟩
+public theorem exists_injective_forall_iff_exists {m : ℕ} (P : Fin m → Prop) :
+    ∃ (n : ℕ) (e : Fin n → Fin m), Function.Injective e ∧ ∀ i, P i ↔ ∃ j, e j = i := by
+  classical
+  exact ⟨Fintype.card {i // P i}, fun j => ((Fintype.equivFin {i // P i}).symm j).1,
+      fun j j' h => (Fintype.equivFin {i // P i}).symm.injective (Subtype.ext h),
+      fun i => ⟨fun h => ⟨Fintype.equivFin {i // P i} ⟨i, h⟩, by simp⟩,
+        fun ⟨j, hj⟩ => hj ▸ ((Fintype.equivFin {i // P i}).symm j).2⟩⟩
 
 /-- The block of a graded upper-triangular matrix from coordinates of lower grade to coordinates
 of higher grade vanishes. -/
@@ -226,7 +227,6 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n)
 

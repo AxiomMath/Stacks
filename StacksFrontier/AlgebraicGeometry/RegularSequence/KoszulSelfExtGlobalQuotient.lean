@@ -89,6 +89,7 @@ instance isLocallySurjective_sliceQuotientHom :
 
 variable {r : ℕ} (f : Fin r → X.presheaf.obj (op U))
 
+omit [HasWeakSheafify ((Opens.grothendieckTopology X.carrier).over U) CommRingCat.{u}] in
 /-- The kernel of the restricted quotient map over a slice object is the ideal the `fᵢ` generate
 there. -/
 theorem ker_sliceQuotientHom (hJ : IsGeneratedByOn X J U f) (V : (Over U)ᵒᵖ) :

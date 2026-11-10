@@ -91,9 +91,9 @@ private lemma quasiIso_τ₁_of_shortExact {C : Type*} [Category* C] [Abelian C]
   refine isIso₁_of_isIso₂₃ (DerivedCategory.triangleOfSES.map hS hT φ)
     (DerivedCategory.triangleOfSES_distinguished hS)
     (DerivedCategory.triangleOfSES_distinguished hT) ?_ ?_
-  · show IsIso (DerivedCategory.Q.map φ.τ₂)
+  · change IsIso (DerivedCategory.Q.map φ.τ₂)
     infer_instance
-  · show IsIso (DerivedCategory.Q.map φ.τ₃)
+  · change IsIso (DerivedCategory.Q.map φ.τ₃)
     infer_instance
 
 /-- A morphism of complexes on which two additive functors act by quasi-isomorphisms acts by a
@@ -155,7 +155,7 @@ private lemma quasiIso_map_iff_of_derivedUnit {C D : Type*} [Category* C] [Categ
     [IsIso (α.app ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj J))] :
     QuasiIso ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map q) ↔
       IsIso (α.app ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj I)) := by
-  show HomologicalComplex.quasiIso D (ComplexShape.up ℤ) _ ↔ _
+  change HomologicalComplex.quasiIso D (ComplexShape.up ℤ) _ ↔ _
   rw [← HomotopyCategory.quotient_map_mem_quasiIso_iff, ← DerivedCategory.isIso_Qh_map_iff,
     ← F.mapHomotopyCategory_map q]
   have : IsIso (DerivedCategory.Qh.map
@@ -364,7 +364,7 @@ private lemma abelianSectionsUnit_isIso_of_moduleSectionsUnit_isIso {Y : TopCat.
       ((homotopySectionsOnOpen O U).totalRightDerivedUnit DerivedCategory.Qh
         (HomotopyCategory.quasiIso (SheafOfModules.{u} O) (ComplexShape.up ℤ)))
       (HomotopyCategory.quasiIso (SheafOfModules.{u} O) (ComplexShape.up ℤ))]
-    show IsIso (_ ≫ (sectionsForgetComparison O U).app (DerivedCategory.Qh.obj K))
+    change IsIso (_ ≫ (sectionsForgetComparison O U).app (DerivedCategory.Qh.obj K))
     infer_instance
   dsimp only [sectionsForgetUnit, NatTrans.comp_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app] at h

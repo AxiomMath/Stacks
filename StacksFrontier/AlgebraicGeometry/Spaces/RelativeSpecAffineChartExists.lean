@@ -147,12 +147,12 @@ theorem chartPsi_restrict {U U' : SmallEtale B S hS X.1} [IsAffine (chartScheme 
   have := chartPsi_unique B S hS A hA v β hβ κ e (c' ≫ ν.hom.left) w
     ((chartPsi B S hS A hA v β hβ (ν ≫ κ) e c' w').comp (A.right.obj.map ν.op).hom)
     (fun b => by
-      show chartPsi B S hS A hA v β hβ (ν ≫ κ) e c' w'
+      change chartPsi B S hS A hA v β hβ (ν ≫ κ) e c' w'
         (A.right.obj.map ν.op (A.algebraMap (op U) b)) = _
       rw [A.algebraMap_natural, chartPsi_algebraMap]
       rfl)
     (fun a => by
-      show chartPsi B S hS A hA v β hβ (ν ≫ κ) e c' w'
+      change chartPsi B S hS A hA v β hβ (ν ≫ κ) e c' w'
         (A.right.obj.map ν.op (A.right.obj.map κ.op a)) = _
       rw [← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp, chartPsi_map])
   exact (RingHom.congr_fun this s).symm
@@ -168,12 +168,12 @@ theorem chartPsi_pullback {U : SmallEtale B S hS X.1} [IsAffine (chartScheme U)]
   have := chartPsi_unique B S hS A hA v β hβ κ (g ≫ e) (g ≫ c) w'
     (((BigFppfOver.toScheme B S hS).map g).appTop.hom.comp (chartPsi B S hS A hA v β hβ κ e c w))
     (fun b => by
-      show ((BigFppfOver.toScheme B S hS).map g).appTop
+      change ((BigFppfOver.toScheme B S hS).map g).appTop
         (chartPsi B S hS A hA v β hβ κ e c w (A.algebraMap (op U) b)) = _
       rw [chartPsi_algebraMap]
       rfl)
     (fun a => by
-      show ((BigFppfOver.toScheme B S hS).map g).appTop
+      change ((BigFppfOver.toScheme B S hS).map g).appTop
         (chartPsi B S hS A hA v β hβ κ e c w (A.right.obj.map κ.op a)) = _
       rw [chartPsi_map]
       rfl)
@@ -245,7 +245,7 @@ theorem FibreDatum.w {W : SmallEtale B S hS X.1} {T'' : BigFppfOver B S hS}
     (d : FibreDatum B S hS v x hxv W k) :
     d.c ≫ (d.μ ≫ SmallEtale.prodFst B S hS X.1 V W).hom.left =
       (k ≫ (relativelyRepresentable_specPointOver B S hS T x).fst' W.obj.hom) ≫ v := by
-  show d.c ≫ d.μ.hom.left ≫ _ = _
+  change d.c ≫ d.μ.hom.left ≫ _ = _
   rw [← Category.assoc, ← d.hc, Category.assoc, pairChartMap_fst, Category.assoc]
 
 /-- **The local value** of a section `s ∈ 𝒜(W)` at a datum: the local ring map at the affine chart,
@@ -316,7 +316,7 @@ theorem FibreDatum.val_eq {W : SmallEtale B S hS X.1} {T'' : BigFppfOver B S hS}
   have hP := (IsPullback.of_hasPullback d₁.μ d₂.μ).map (SmallEtale.toOver B S hS X.1)
   have hcc : d₁.c ≫ (SmallEtale.toOver B S hS X.1).map d₁.μ =
       d₂.c ≫ (SmallEtale.toOver B S hS X.1).map d₂.μ := by
-    show d₁.c ≫ d₁.μ.hom.left = d₂.c ≫ d₂.μ.hom.left
+    change d₁.c ≫ d₁.μ.hom.left = d₂.c ≫ d₂.μ.hom.left
     rw [← d₁.hc, ← d₂.hc]
   let ℓ := hP.lift d₁.c d₂.c hcc
   obtain ⟨R, hR, hRf⟩ := exists_covering_affineChart_factor B S hS (Limits.pullback d₁.μ d₂.μ) ℓ
@@ -392,7 +392,7 @@ theorem fibreFamily_compatible (W : SmallEtale B S hS X.1) (s : A.right.obj.obj 
     (fibreFamily B S hS A hA v β hβ x hxv W s).Compatible := by
   rw [Presieve.compatible_iff_sieveCompatible]
   intro Y Z k g hk
-  show _ = ((BigFppfOver.toScheme B S hS).map g).appTop
+  change _ = ((BigFppfOver.toScheme B S hS).map g).appTop
     ((fibreSieveDatum B S hS v x hxv W hk).val B S hS A hA v β hβ x hxv s)
   rw [FibreDatum.appTop_val]
   exact FibreDatum.val_eq B S hS A hA v β hβ x hxv _ _ s
@@ -417,7 +417,7 @@ theorem appTop_fibreGlue (W : SmallEtale B S hS X.1) {T'' : BigFppfOver B S hS}
       (fibreFamily_compatible B S hS A hA v β hβ x hxv W s) (g ≫ k) hg
   rw [d.appTop_val]
   refine Eq.trans ?_ ((hamal.trans (FibreDatum.val_eq B S hS A hA v β hβ x hxv _ _ s)))
-  show _ = ((BigFppfOver.toScheme B S hS).map (g ≫ k)).appTop _
+  change _ = ((BigFppfOver.toScheme B S hS).map (g ≫ k)).appTop _
   rw [Functor.map_comp, Scheme.Hom.comp_appTop]
   rfl
 
@@ -564,7 +564,7 @@ theorem appTop_fibreHom_fibreGlue {W' W : SmallEtale B S hS X.1} (w : W' ⟶ W)
     ← Scheme.Hom.comp_appTop, ← Functor.map_comp,
     appTop_fibreGlue B S hS A hA v β hβ x hxv W _ d]
   have := d'.hU
-  show chartPsi B S hS A hA v β hβ ((d'.μ ≫ pairChartHom B S hS w) ≫
+  change chartPsi B S hS A hA v β hβ ((d'.μ ≫ pairChartHom B S hS w) ≫
       SmallEtale.prodFst B S hS X.1 V W) _ d'.c _
       (A.right.obj.map ((d'.μ ≫ pairChartHom B S hS w) ≫ SmallEtale.prodSnd B S hS X.1 V W).op s) =
     chartPsi B S hS A hA v β hβ (d'.μ ≫ SmallEtale.prodFst B S hS X.1 V W') _ d'.c _
@@ -590,12 +590,12 @@ theorem fibreGlue_algebraMap (W : SmallEtale B S hS X.1)
   let d := fibreSieveDatum B S hS v x hxv W hk
   have := d.hU
   rw [appTop_fibreGlue B S hS A hA v β hβ x hxv W k d]
-  show chartPsi B S hS A hA v β hβ _ _ d.c _
+  change chartPsi B S hS A hA v β hβ _ _ d.c _
       (A.right.obj.map (d.μ ≫ SmallEtale.prodSnd B S hS X.1 V W).op (A.algebraMap (op W) r)) = _
   rw [A.algebraMap_natural, chartPsi_algebraMap]
   have : d.c ≫ (d.μ ≫ SmallEtale.prodSnd B S hS X.1 V W).hom.left =
       k ≫ (relativelyRepresentable_specPointOver B S hS T x).snd W.obj.hom := by
-    show d.c ≫ d.μ.hom.left ≫ _ = _
+    change d.c ≫ d.μ.hom.left ≫ _ = _
     rw [← Category.assoc, ← d.hc, Category.assoc, pairChartMap_snd]
   exact congrArg (fun m => ((BigFppfOver.toScheme B S hS).map m).appTop r) this
 
@@ -672,18 +672,18 @@ theorem chartEval_chartExtension :
         refine pairChart_hom_ext B S hS V ?_ ?_
         · rw [Category.assoc, pairChartMap_fst, ← Category.assoc, chartGraph_fst',
             Category.id_comp, Category.assoc]
-          show v = v ≫ (pairChartDiag B S hS ≫ SmallEtale.prodFst B S hS X.1 V V).hom.left
+          change v = v ≫ (pairChartDiag B S hS ≫ SmallEtale.prodFst B S hS X.1 V V).hom.left
           rw [pairChartDiag_fst]
           rfl
         · rw [Category.assoc, pairChartMap_snd, chartGraph_snd, Category.assoc]
-          show v = v ≫ (pairChartDiag B S hS ≫ SmallEtale.prodSnd B S hS X.1 V V).hom.left
+          change v = v ≫ (pairChartDiag B S hS ≫ SmallEtale.prodSnd B S hS X.1 V V).hom.left
           rw [pairChartDiag_snd]
           rfl }
-  show ((BigFppfOver.toScheme B S hS).map (chartGraph B S hS V v x hxv)).appTop
+  change ((BigFppfOver.toScheme B S hS).map (chartGraph B S hS V v x hxv)).appTop
       ((pointSectionsIso B S hS T x V).hom ((pointSectionsIso B S hS T x V).inv
         (fibreGlue B S hS A hA v β hβ x hxv V s))) = β s
   rw [Iso.inv_hom_id_apply, appTop_fibreGlue B S hS A hA v β hβ x hxv V _ d]
-  show chartPsi B S hS A hA v β hβ
+  change chartPsi B S hS A hA v β hβ
       (pairChartDiag B S hS ≫ SmallEtale.prodFst B S hS X.1 V V) _ v _
       (A.right.obj.map (pairChartDiag B S hS ≫ SmallEtale.prodSnd B S hS X.1 V V).op s) = β s
   rw [RingHom.congr_fun (chartPsi_congr B S hS A hA v β hβ (pairChartDiag_fst B S hS)

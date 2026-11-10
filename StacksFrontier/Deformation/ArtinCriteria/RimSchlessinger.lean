@@ -704,7 +704,7 @@ private lemma squareComparison_iso_fac
     generalize g ≫ j = l at h ⊢
     subst l
     simp
-  show Functor.Fiber.fiberInclusion.map
+  change Functor.Fiber.fiberInclusion.map
     ((c.objCompIso f i a).inv ≫
       (eqToIso (congrArg c.pullbackFunctor h)).hom.app a ≫
       (c.objCompIso g j a).hom) ≫ _ = _
@@ -919,7 +919,7 @@ private theorem fiberToPullback_isEquivalence
     have hψ : (TwoFibreProductOver.structureFunctor p𝒜 pℬ p𝒟 F G).IsHomLift (𝟙 U) ψ := by
       refine IsHomLift.of_fac' (TwoFibreProductOver.structureFunctor p𝒜 pℬ p𝒟 F G)
         (𝟙 U) ψ P.2 Q.2 ?_
-      show eqToHom hP ≫ eqToHom hQ.symm =
+      change eqToHom hP ≫ eqToHom hQ.symm =
         eqToHom P.2 ≫ 𝟙 U ≫ eqToHom Q.2.symm
       have hp : hP = P.2 := Subsingleton.elim _ _
       have hq : hQ = Q.2 := Subsingleton.elim _ _
@@ -1068,15 +1068,15 @@ private theorem pullbackInterchange_isEquivalence :
       inverse := pullbackInterchangeInverse α₀ β₀ α₁ β₁
       unitIso := NatIso.ofComponents (fun T => eqToIso (by rfl)) (by
         intro T U m
-        show m ≫ 𝟙 _ = 𝟙 _ ≫ m
+        change m ≫ 𝟙 _ = 𝟙 _ ≫ m
         simp only [Category.id_comp, Category.comp_id])
       counitIso := NatIso.ofComponents (fun T => eqToIso (by rfl)) (by
         intro T U m
-        show m ≫ 𝟙 _ = 𝟙 _ ≫ m
+        change m ≫ 𝟙 _ = 𝟙 _ ≫ m
         simp only [Category.id_comp, Category.comp_id])
       functor_unitIso_comp := by
         intro T
-        show (pullbackInterchange α₀ β₀ α₁ β₁).map (𝟙 T) ≫ 𝟙 _ = 𝟙 _
+        change (pullbackInterchange α₀ β₀ α₁ β₁).map (𝟙 T) ≫ 𝟙 _ = 𝟙 _
         rw [CategoryTheory.Functor.map_id, Category.id_comp] }
   exact E.isEquivalence_functor
 

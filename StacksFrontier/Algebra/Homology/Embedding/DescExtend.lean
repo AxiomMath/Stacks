@@ -55,7 +55,7 @@ lemma f_eq {i' : ι'} {i : ι} (hi : e.f i = i') :
     f e φ i' = (K.extendXIso e hi).hom ≫ φ.f i ≫ (L.restrictionXIso e hi).hom := by
   have hi' : ∃ k, e.f k = i' := ⟨i, hi⟩
   obtain rfl : hi'.choose = i := e.injective_f (by rw [hi'.choose_spec, hi])
-  exact dif_pos hi'
+  exact dite_eq_left hi'
 
 /-- The maps `f e φ` commute with the differentials. -/
 lemma comm [e.IsTruncGE] (i' j' : ι') :

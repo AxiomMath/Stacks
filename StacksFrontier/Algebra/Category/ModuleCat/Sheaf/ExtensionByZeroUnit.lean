@@ -193,7 +193,7 @@ lemma extensionByZeroUnitPresheafDesc_app_single (U : C)
     (a : ULift.{max u₁ v₁ w t} (X.unop ⟶ U)) (r : R.obj X) :
     (extensionByZeroUnitPresheafDesc.{u₁, v₁, w, t} U M s).app X (Finsupp.single a r) =
       r • M.map a.down.op s := by
-  show Finsupp.linearCombination (R.obj X)
+  change Finsupp.linearCombination (R.obj X)
       (fun h : ULift.{max u₁ v₁ w t} (X.unop ⟶ U) => M.map h.down.op s)
       (Finsupp.single a r) = _
   exact Finsupp.linearCombination_single

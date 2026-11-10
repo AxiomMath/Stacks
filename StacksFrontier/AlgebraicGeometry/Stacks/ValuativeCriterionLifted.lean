@@ -369,7 +369,7 @@ theorem nonempty_dottedArrow_liftedRepresentable_of_fiberObj
        isHomLift' := fun w => β.isHomLift' (ULiftHom.objDown.{u + 1, v} w) }⟩
   refine ⟨{ a := a, α := αd, β := βd, compat := ?_ }⟩
   refine CatFiberedInGroupoids.hom₂_ext_app fun w => ?_
-  show γ.hom.app w = β.app ((Over.map r).obj (ULiftHom.objDown.{u + 1, v} w)) ≫ 𝟙 _ ≫
+  change γ.hom.app w = β.app ((Over.map r).obj (ULiftHom.objDown.{u + 1, v} w)) ≫ 𝟙 _ ≫
     f.hom.map (α.app (ULiftHom.objDown.{u + 1, v} w))
   exact (he (ULiftHom.objDown.{u + 1, v} w)).trans
     (congrArg (fun t => β.app ((Over.map r).obj (ULiftHom.objDown.{u + 1, v} w)) ≫ t)
@@ -509,11 +509,11 @@ theorem LiftedValuativeSquare.trivial_commute :
         liftedRepresentableMap.{u, v} B S hS (q.trivialSpecialOver B S hS) =
       liftedRepresentableMap.{u, v} B S hS (q.trivialGenericOver B S hS) ≫ q.j := by
   refine Bicategory.InducedBicategory.hom_ext (BasedCategory.BasedFunctor.ext' ?_)
-  show liftedOverMap.{u, v} B S hS (q.trivialGenericMap B S hS) ⋙
+  change liftedOverMap.{u, v} B S hS (q.trivialGenericMap B S hS) ⋙
       liftedOverMap.{u, v} B S hS (q.trivialSpecialOver B S hS) =
     liftedOverMap.{u, v} B S hS (q.trivialGenericOver B S hS) ⋙ q.j.hom.toFunctor
   rw [q.j_canonical]
-  show ULiftHom.down ⋙ (Over.map (q.trivialGenericMap B S hS) ⋙
+  change ULiftHom.down ⋙ (Over.map (q.trivialGenericMap B S hS) ⋙
       Over.map (q.trivialSpecialOver B S hS)) ⋙ ULiftHom.up =
     ULiftHom.down ⋙ (Over.map (q.trivialGenericOver B S hS) ⋙ Over.map q.genericMap) ⋙
       ULiftHom.up
@@ -528,7 +528,7 @@ theorem LiftedValuativeSquare.isLocalHom_trivialRingMap : IsLocalHom q.trivialRi
 theorem LiftedValuativeSquare.trivialSpecialOver_left :
     (B.inclusion).map (q.trivialSpecialOver B S hS).left =
       Spec.map (CommRingCat.ofHom q.trivialRingMap) := by
-  show B.inclusion.map (𝟙 (B.obj q.ring_mem)) = _
+  change B.inclusion.map (𝟙 (B.obj q.ring_mem)) = _
   rw [CategoryTheory.Functor.map_id, q.trivialRingMap_eq, CommRingCat.ofHom_id, Spec.map_id]
   rfl
 
@@ -544,7 +544,7 @@ theorem LiftedValuativeSquare.trivialGenericMap_left :
 theorem LiftedValuativeSquare.trivialGenericOver_left :
     (B.inclusion).map (q.trivialGenericOver B S hS).left =
       Spec.map (CommRingCat.ofHom (RingHom.id q.K)) := by
-  show B.inclusion.map (𝟙 (B.obj q.field_mem)) = _
+  change B.inclusion.map (𝟙 (B.obj q.field_mem)) = _
   rw [CategoryTheory.Functor.map_id, CommRingCat.ofHom_id, Spec.map_id]
   rfl
 

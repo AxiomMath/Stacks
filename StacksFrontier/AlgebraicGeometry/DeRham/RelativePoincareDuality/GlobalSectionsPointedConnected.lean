@@ -44,7 +44,7 @@ theorem eq_one_of_ringEquiv_pi_isField {R : Type*} [CommRing R] [Nontrivial R] {
   let i₀ : Fin n := ⟨0, h1⟩
   let i₁ : Fin n := ⟨1, by omega⟩
   have hi : IsIdempotentElem (e.symm (Pi.single i₀ 1)) := by
-    show e.symm _ * e.symm _ = e.symm _
+    change e.symm _ * e.symm _ = e.symm _
     rw [← map_mul, ← Pi.single_mul, one_mul]
   have hne : i₁ ≠ i₀ := by simp [i₁, i₀, Fin.ext_iff]
   rcases hidem _ hi with h | h
@@ -67,7 +67,7 @@ theorem finrank_globalSections_eq_one_of_section (k : Type u) [Field k] {Z : Sch
   let ev : Γ(Z, ⊤) →ₐ[k] k :=
     { toRingHom := (σ.appTop ≫ (Scheme.ΓSpecIso (.of k)).hom).hom
       commutes' := fun r => by
-        show ((Scheme.ΓSpecIso (.of k)).inv ≫ h.appTop ≫ σ.appTop ≫
+        change ((Scheme.ΓSpecIso (.of k)).inv ≫ h.appTop ≫ σ.appTop ≫
           (Scheme.ΓSpecIso (.of k)).hom).hom r = r
         rw [← Category.assoc h.appTop, ← Scheme.Hom.comp_appTop, hσ]
         simp }

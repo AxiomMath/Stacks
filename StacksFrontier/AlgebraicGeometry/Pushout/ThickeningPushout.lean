@@ -240,7 +240,7 @@ theorem isThickening_pushout_inr_of_isAffine (i : X ⟶ X') (f : X ⟶ Y)
   have : Surjective (Spec.map (affinePushoutRingToTarget i f)) := by
     refine ⟨?_⟩
     rw [← Set.range_eq_univ]
-    show Set.range (PrimeSpectrum.comap (affinePushoutRingToTarget i f).hom) = Set.univ
+    change Set.range (PrimeSpectrum.comap (affinePushoutRingToTarget i f).hom) = Set.univ
     rw [range_comap_of_surjective _ _ hfst, PrimeSpectrum.zeroLocus_eq_univ_iff]
     exact fun a ha ↦ mem_nilradical.mpr (isNilpotent_of_mem_ker_pullbackFst _ _
       (fun _ hb ↦ hi.isNilpotent_of_mem_ker_appTop hb) ha)

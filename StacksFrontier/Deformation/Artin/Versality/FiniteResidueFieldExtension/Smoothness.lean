@@ -239,7 +239,7 @@ private theorem isSmooth_induced_of_deformation_lifting
   let C := predeformationCategory i qY y₀ hy₀
   let D := predeformationCategory i qZ (F.obj y₀)
     (imageBasePoint i qY qZ F hF y₀ hy₀)
-  show ∀ ⦃B A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ l⦄ (f : B ⟶ A),
+  change ∀ ⦃B A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ l⦄ (f : B ⟶ A),
     Function.Surjective f.hom → ∀ (y : D.carrier) (z : C.carrier)
       (g : y ⟶ G.toFunctor.obj z), D.projection.IsHomLift f g →
       ∃ (z' : C.carrier) (h : z' ⟶ z) (α : G.toFunctor.obj z' ⟶ y),
@@ -341,7 +341,7 @@ private theorem isSmooth_induced_of_deformation_lifting
 
 
 private theorem isSmooth_slice_of_deformation_lifting
-    (hp : p.IsFiberedInGroupoids) (c : p.ChoiceOfPullbacks)
+    (c : p.ChoiceOfPullbacks)
     (G : InducedPredeformationFunctor iΛ
       (Over.forget (p.obj x) ⋙ Over.post B.inclusion) (p ⋙ Over.post B.inclusion)
       (c.sliceFunctor (⟨x, rfl⟩ : p.Fiber (p.obj x)))
@@ -426,7 +426,7 @@ private theorem isSmooth_slice_of_deformation_lifting
           Functor.ChoiceOfPullbacks.sliceFunctor_obj, eqToHom_refl, Category.id_comp, Over.post_map,
           ObjectProperty.ι_map, Over.eqToHom_left, ObjectProperty.eqToHom_hom, Over.homMk_left,
           eqToHom_trans, ArtinianLocalAlgCat.id_hom, AlgHom.toRingHom_eq_coe]
-        show 𝟙 _ = Spec.map (𝟙 _)
+        change 𝟙 _ = Spec.map (𝟙 _)
         simp }
   let t : a.point.left ⟶ p.obj b.point := eqToHom ha.symm ≫ p.map g.arrow
   have ht : t ≫ z.hom = a.point.hom := by
@@ -441,7 +441,7 @@ private theorem isSmooth_slice_of_deformation_lifting
       arrow := Over.homMk t ht
       triangle := by
         apply Over.OverMorphism.ext
-        show a.arrow.left ≫ t = r
+        change a.arrow.left ≫ t = r
         have hm := IsHomLift.fac' p a.arrow.left (F.map a.arrow)
         have htri := congrArg p.map g.triangle
         change p.map (F.map a.arrow ≫ g.arrow) = p.map b.arrow at htri
@@ -452,7 +452,7 @@ private theorem isSmooth_slice_of_deformation_lifting
         simpa [t, Functor.comp_map, Over.comp_left, Over.eqToHom_left,
           eqToHom_map, Category.assoc, eqToHom_trans_assoc] using g.arrow_base }
   refine ⟨b', hm, am, rfl, by simp [hm], by rfl, ?_⟩
-  show F.map hm.arrow = g.arrow ≫ α
+  change F.map hm.arrow = g.arrow ≫ α
   let : p.IsHomLift t (F.map hm.arrow) :=
     c.sliceFunctor_map_isHomLift (⟨x, rfl⟩ : p.Fiber (p.obj x)) hm.arrow
   have hgt : p.IsHomLift t g.arrow :=
@@ -538,7 +538,7 @@ private theorem deformation_lifting_of_isSmooth_slice
   exact c.sliceFunctor_map_fac _ _
 
 private theorem isSmooth_slice_of_isSmooth_stalk
-    (hp : p.IsFiberedInGroupoids) (c : p.ChoiceOfPullbacks)
+    (c : p.ChoiceOfPullbacks)
     (s : S) [Algebra (S.presheaf.stalk s) l]
     (iR : Spec (.of (S.presheaf.stalk s : Type u)) ⟶ S) (hiR : iR = S.fromSpecStalk s)
     (hpoint : Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s) l)) ≫ iR =
@@ -557,7 +557,7 @@ private theorem isSmooth_slice_of_isSmooth_stalk
         (Over.forget (p.obj x) ⋙ Over.post B.inclusion) (p ⋙ Over.post B.inclusion)
         (c.sliceFunctor (⟨x, rfl⟩ : p.Fiber (p.obj x)))
         (sliceFunctor_comp_post B S hS p c x) uₗ₀ huₗ₀).toBasedFunctor := by
-  apply isSmooth_slice_of_deformation_lifting B S hS p x iΛ uₗ₀ huₗ₀ hp c
+  apply isSmooth_slice_of_deformation_lifting B S hS p x iΛ uₗ₀ huₗ₀ c
   intro a b g hg
   let gl := Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s) l)) ≫ iR
   have hglR : Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk s) l)) ≫
@@ -647,7 +647,7 @@ private theorem predeformation_hom_of_pointHom
                 Spec (.of A)) h).symm := by
           intro A D h
           cases h
-          show Spec.map (𝟙 _) = 𝟙 _
+          change Spec.map (𝟙 _) = 𝟙 _
           simp
         rw [hh]
         simp }
@@ -760,7 +760,7 @@ private theorem deformationProjection_map
     simp [M, Deformation.changeOfFieldsBasedFunctor,
       CategoryTheory.Limits.CategoricalPullback.map_obj_iso_hom]
   unfold Site.deformationProjection
-  show (Site.comparisonProjection T a.snd).comp
+  change (Site.comparisonProjection T a.snd).comp
     (eqToHom (D.object_projection (G.toFunctor.obj a.fst)).symm ≫
       (M.obj a).iso.hom).hom.toRingHom = _
   rw [hh]
@@ -786,8 +786,6 @@ private theorem basedIso_changeOfFieldFunctor_baseTarget
     (uκ uₗ : Over (p.obj x))
     (huκ : (Over.forget (p.obj x) ⋙ Over.post B.inclusion).obj uκ =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap T.Λ T.k)) ≫ iT))
-    (huₗ : (Over.forget (p.obj x) ⋙ Over.post B.inclusion).obj uₗ =
-      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap T.Λ T.l)) ≫ iT))
     (δ : uₗ ⟶ uκ)
     (hxκ : (p ⋙ Over.post B.inclusion).obj
         ((c.sliceFunctor (⟨x, rfl⟩ : p.Fiber (p.obj x))).obj uκ) =
@@ -919,7 +917,7 @@ private theorem basedIso_changeOfFieldFunctor_base
   exact eqToHom_comp_left_eq (congrArg Over.left bK) (congrArg Over.left bH)
     (basedIso_changeOfFieldFunctor_baseSource B S hS p x T iT c uκ uₗ huκ huₗ δ hxₗ
       Gₗ Es a bH)
-    (basedIso_changeOfFieldFunctor_baseTarget B S hS p x T iT c uκ uₗ huκ huₗ δ hxκ hxₗ
+    (basedIso_changeOfFieldFunctor_baseTarget B S hS p x T iT c uκ uₗ huκ δ hxκ hxₗ
       Gκs Et a bK)
 
 
@@ -990,7 +988,7 @@ private theorem basedIso_changeOfFieldFunctor
       (BasedCategory.ofFunctor
         (predeformationCategory iT q (F.obj uₗ) hxₗ).projection) :=
     ⟨Et.toFunctor, Et.projection_comm⟩
-  show Nonempty (Esb.comp Gₗ.toBasedFunctor ≅
+  change Nonempty (Esb.comp Gₗ.toBasedFunctor ≅
     (Deformation.changeOfFieldsBasedFunctor T Gκs.toBasedFunctor).comp Etb)
   let Cs := predeformationCategory iT
     (Over.forget (p.obj x) ⋙ Over.post B.inclusion) uκ huκ
@@ -1043,7 +1041,7 @@ private theorem basedIso_changeOfFieldFunctor
               (Dt.objects (Gₗ.toFunctor.obj (Es.toFunctor.obj a))).point from
             (Gₗ.object_point (Es.toFunctor.obj a)).symm) :=
       Gₗ.object_arrow (Es.toFunctor.obj a)
-    show (Dt.objects (Et.toFunctor.obj (M.obj a))).arrow ≫
+    change (Dt.objects (Et.toFunctor.obj (M.obj a))).arrow ≫
         (Et.restriction (M.obj a) ≫
           eqToHom (show (Ct.objects (M.obj a).fst).point =
               F.obj (Cs.objects a.fst).point from Gκs.object_point a.fst) ≫
@@ -1064,7 +1062,7 @@ private theorem basedIso_changeOfFieldFunctor
     exact c.sliceFunctor_map_fac _ δ
   · intro a b f
     have hm := Gₗ.morphism_arrow (Es.toFunctor.map f)
-    show (Dt.morphisms (Gₗ.toFunctor.obj (Es.toFunctor.obj a))
+    change (Dt.morphisms (Gₗ.toFunctor.obj (Es.toFunctor.obj a))
           (Gₗ.toFunctor.obj (Es.toFunctor.obj b))
           (Gₗ.toFunctor.map (Es.toFunctor.map f))).arrow ≫
         (eqToHom (Gₗ.object_point (Es.toFunctor.obj a)) ≫
@@ -1088,7 +1086,7 @@ private theorem basedIso_changeOfFieldFunctor
           eqToHom (show F.obj (Cs.objects a.fst).point =
             (Ct.objects (M.obj a).fst).point from (Gκs.object_point a.fst).symm) :=
       Gκs.morphism_arrow f.fst
-    show (Dt.morphisms (Et.toFunctor.obj (M.obj a)) (Et.toFunctor.obj (M.obj b))
+    change (Dt.morphisms (Et.toFunctor.obj (M.obj a)) (Et.toFunctor.obj (M.obj b))
           (Et.toFunctor.map (M.map f))).arrow ≫
         (Et.restriction (M.obj a) ≫
           eqToHom (show (Ct.objects (M.obj a).fst).point =
@@ -1214,11 +1212,7 @@ private theorem isSmooth_slice_of_isSmooth_residueField [IsLocallyNoetherian S]
           (Over.forget (p.obj x) ⋙ Over.post B.inclusion) uₗ huₗ).projection) :=
     ⟨Es.toFunctor, Es.projection_comm⟩
   let : Esb.toFunctor.IsEquivalence := hEs
-  apply Deformation.isSmooth_of_essSurj_comp
-    (Deformation.changeOfFieldsProjection_isCofiberedInGroupoids T _
-      (predeformationCategory_isPredeformationCategory B hS iT
-        (Over.forget (p.obj x)) uκ huκ hps).cofibered)
-    Esb Gₗ.toBasedFunctor
+  apply Deformation.isSmooth_of_essSurj_comp Esb Gₗ.toBasedFunctor
   suffices e : Esb.comp Gₗ.toBasedFunctor ≅
       (Deformation.changeOfFieldsBasedFunctor T Gκs.toBasedFunctor).comp Etb from
     isSmooth_of_basedIso e hComposite
@@ -1287,7 +1281,7 @@ public theorem isSmooth_mapPredeformationCategory_of_isVersalAt
     (Over.forget (p.obj x) ⋙ Over.post B.inclusion) q F
     (sliceFunctor_comp_post B S hS p p.chosenPullbacks x) uκ huκ
   have hGκs : Deformation.IsSmooth Gκs.toBasedFunctor := by
-    apply isSmooth_slice_of_deformation_lifting B S hS p x iR uκ huκ hp
+    apply isSmooth_slice_of_deformation_lifting B S hS p x iR uκ huκ
       p.chosenPullbacks Gκs
     intro a b g hg
     let ma := mapDeformationObject S
@@ -1306,7 +1300,7 @@ public theorem isSmooth_mapPredeformationCategory_of_isVersalAt
         rw [q.map_comp, Over.comp_left, ← hab]
         simp [Category.assoc]
       _ = U.left.fromSpecResidueField u₀ := by
-        show eqToHom (congrArg Over.left hxκ).symm ≫
+        change eqToHom (congrArg Over.left hxκ).symm ≫
           (q.map (F.map a.arrow ≫ p.chosenPullbacks.map a.point.hom ⟨x, rfl⟩)).left = _
         rw [p.chosenPullbacks.sliceFunctor_map_fac]
         simpa only [eqToHom_refl, Category.comp_id] using haκ
@@ -1336,7 +1330,7 @@ public theorem isSmooth_mapPredeformationCategory_of_isVersalAt
       (residueFieldPoint_comp_hom B S hS p x iΛ uₗ₀ huₗ₀ u₀ hfieldPoint).symm)
     (by
       rw [← Category.assoc]
-      show fieldPointMap B S hS p x iΛ uₗ₀ huₗ₀ =
+      change fieldPointMap B S hS p x iΛ uₗ₀ huₗ₀ =
         Spec.map (CommRingCat.ofHom (algebraMap k l)) ≫
           fieldPointMap B S hS p x iR uκ huκ
       rw [residueFieldSlicePoint_fieldPointMap B S hS p x iR u₀ hκ huκ]
@@ -1355,10 +1349,10 @@ public theorem isSmooth_mapPredeformationCategory_of_isVersalAt
       (residueFieldBasePoint U u₀)
     change Spec.map (CommRingCat.ofHom (algebraMap R l)) ≫ iR = _ at he
     rw [he]
-    show (residueFieldBasePoint U u₀)
+    change (residueFieldBasePoint U u₀)
       (Spec.map (CommRingCat.ofHom (algebraMap k l)) (IsLocalRing.closedPoint l)) = _
     rw [hc]
-  exact isSmooth_slice_of_isSmooth_stalk B S hS p x iΛ uₗ₀ huₗ₀ hp
+  exact isSmooth_slice_of_isSmooth_stalk B S hS p x iΛ uₗ₀ huₗ₀
     p.chosenPullbacks (basePoint U u₀) iR rfl hlR hclosed huₗR hGₗ
 
 end Deformation.Artin

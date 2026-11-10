@@ -191,7 +191,7 @@ noncomputable def equivBaseChange : S ⊗[R] d.descended ≃ₗ[S] N :=
 @[simp]
 lemma equivBaseChange_tmul (s : S) (m : d.descended) :
     d.equivBaseChange (s ⊗ₜ[R] m) = s • (m : N) := by
-  show counit R S N ((LinearMap.tensorEqLocus S S (d.coaction.restrictScalars R)
+  change counit R S N ((LinearMap.tensorEqLocus S S (d.coaction.restrictScalars R)
       (TensorProduct.mk R S N 1) (s ⊗ₜ[R] m) : S ⊗[R] N)) = s • (m : N)
   rw [LinearMap.tensorEqLocus_coe]
   rfl

@@ -152,7 +152,7 @@ underlying scheme. -/
 theorem smallEtaleBaseChange_obj_mem_qcqsEtaleObjects (V : Y.Etale) [IsAffine V.left] :
     (smallEtaleBaseChange f).obj V ∈ qcqsEtaleObjects X := by
   let g : V.left ⟶ Y := V.hom
-  show CompactSpace (Limits.pullback g f : Scheme.{u}) ∧
+  change CompactSpace (Limits.pullback g f : Scheme.{u}) ∧
     QuasiSeparatedSpace (Limits.pullback g f : Scheme.{u})
   exact ⟨inferInstance, quasiSeparatedSpace_of_quasiSeparated (Limits.pullback.fst g f)⟩
 

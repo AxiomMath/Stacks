@@ -4,8 +4,7 @@ public import
   StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineCechSheafCondition
 public import
   StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineEssentialSurjectivity
-public import
-  StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineIteratedSlicePresentation
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.BigSiteColimits.AffineIteratedSlicePresentation
 
 /-!
 # The span at the affine objects over a member of a covering family

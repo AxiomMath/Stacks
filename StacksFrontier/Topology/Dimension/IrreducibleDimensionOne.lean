@@ -66,7 +66,7 @@ theorem denseRange_of_nontrivial_of_topologicalKrullDim_eq_one
     [IrreducibleSpace X] [IrreducibleSpace Y] [JacobsonSpace Y] [T0Space Y]
     (f : X → Y) (hf : Continuous f) (hn : (Set.range f).Nontrivial)
     (hdim : topologicalKrullDim Y = 1) : DenseRange f := by
-  show Dense (Set.range f)
+  change Dense (Set.range f)
   rw [dense_iff_closure_eq]
   by_contra h
   let Z : IrreducibleCloseds Y := ⟨closure (Set.range f), by
@@ -95,7 +95,7 @@ theorem closed_irreducible_subset_eq_of_dim_one
     (f := e) Topology.IsInducing.subtypeVal
   let q := l.map j hj
   have hqA : (q.last : Set B) ⊆ A := by
-    show closure (e '' (l.last : Set A)) ⊆ A
+    change closure (e '' (l.last : Set A)) ⊆ A
     refine closure_minimal ?_ hAclosed
     rintro b ⟨a, _, rfl⟩
     exact a.2

@@ -268,8 +268,7 @@ theorem tensorActAdd_tmul (c : C) (a : A) (x : M₀) :
 /-- Multiplying the first argument of `tensorActAdd` by `1 ⊗ a` is acting on the second by `a`. -/
 theorem tensorActAdd_mul (a : A) (t : C ⊗[R] A) (x : M₀) :
     tensorActAdd e (((1 : C) ⊗ₜ[R] a) * t) x = tensorActAdd e t (e a • x) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [mul_zero, map_zero, AddMonoidHom.zero_apply]
+  induction t using TensorProduct.inductionOn with
   | tmul c b =>
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, tensorActAdd_tmul, tensorActAdd_tmul,
       map_mul, mul_comm, mul_smul]
@@ -303,14 +302,13 @@ theorem injective_tensorToModule : Function.Injective (tensorToModule e d ℓ' h
     (tensorRetractionAux e d ν hν).comp (inv τ).hom.toAddMonoidHom
   have hκ : ∀ z, κ (tensorToModule e d ℓ' hR ι z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact map_zero _
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       have h1 : (inv τ) (ℓ' c • semilinearX d ι (show M₀ from x)) =
           ℓ' c ⊗ₜ[S₀, d] (show M₀ from x) :=
         (congrArg (inv τ) (hτ (ℓ' c) x).symm).trans (CategoryTheory.IsIso.hom_inv_id_apply τ _)
       refine (congrArg (tensorRetractionAux e d ν hν) h1).trans ?_
-      show tensorActAdd e (ν (ℓ' c)) (show M₀ from x) = _
+      change tensorActAdd e (ν (ℓ' c)) (show M₀ from x) = _
       rw [hν']
       exact (tensorActAdd_tmul e c 1 x).trans (congrArg (fun y => c ⊗ₜ[R] y)
         ((congrArg (fun t : S₀ => t • (show M₀ from x)) (map_one e)).trans (one_smul _ _)))
@@ -327,14 +325,12 @@ theorem bijective_tensorToModule (ν : S ≃+* C ⊗[R] A) (hν' : ∀ c, ν (�
   refine ⟨injective_tensorToModule e d ℓ' hR ι ν.toRingHom hν' hν, ?_⟩
   intro y
   obtain ⟨z, rfl⟩ : ∃ z, τ z = y := ⟨(inv τ) y, CategoryTheory.IsIso.inv_hom_id_apply τ y⟩
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, (map_zero _).trans (map_zero τ.hom).symm⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s x =>
     have key : ∀ t : C ⊗[R] A, ∃ w, tensorToModule e d ℓ' hR ι w =
         ν.symm t • semilinearX d ι x := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => exact ⟨0, by rw [map_zero, map_zero, zero_smul]⟩
+      induction t using TensorProduct.inductionOn with
       | tmul c a =>
         refine ⟨c ⊗ₜ[R] (show restrictModule R A (restrictAlong e M₀) from e a • x), ?_⟩
         have hs : ν.symm (c ⊗ₜ[R] a) = ℓ' c * d (e a) := by
@@ -404,7 +400,7 @@ noncomputable abbrev degOneMul : A ⊗[R] A →+* (cechRing R A).obj (op (op ⦋
 /-- `degOneMul (a ⊗ b) = ℓ₀(a) ℓ₁(b)`. -/
 theorem degOneMul_tmul (a b : A) :
     degOneMul R A (a ⊗ₜ[R] b) = coproj R A 1 0 a * coproj R A 1 1 b := by
-  show (degOneEquiv R A).symm _ = _
+  change (degOneEquiv R A).symm _ = _
   rw [RingEquiv.symm_apply_eq, map_mul, degOneEquiv_coproj_zero, degOneEquiv_coproj_one,
     Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
@@ -434,8 +430,7 @@ theorem degTwoFirstTwo_tmul (a b : A) :
 /-- `degTwoToTensor (degTwoFirstTwo c) = c ⊗ 1`. -/
 theorem degTwoToTensor_degTwoFirstTwo (c : A ⊗[R] A) :
     degTwoToTensor R A (degTwoFirstTwo R A c) = c ⊗ₜ[R] 1 := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul a b =>
     rw [degTwoFirstTwo_tmul, map_mul, degTwoToTensor_coproj, degTwoToTensor_coproj]
     simp
@@ -516,9 +511,9 @@ theorem bijective_psiOne : Function.Bijective (psiOne R A M) := by
     (M.map (cof₀ 1))
     ((degOneEquiv R A).trans (Algebra.TensorProduct.comm R A A).toRingEquiv)
     (fun c => ?_) (fun a => ?_)).comp (TensorProduct.comm R _ A).bijective
-  · show Algebra.TensorProduct.comm R A A (degOneEquiv R A (coproj R A 1 1 c)) = _
+  · change Algebra.TensorProduct.comm R A A (degOneEquiv R A (coproj R A 1 1 c)) = _
     rw [degOneEquiv_coproj_one, Algebra.TensorProduct.comm_tmul]
-  · show Algebra.TensorProduct.comm R A A (degOneEquiv R A _) = _
+  · change Algebra.TensorProduct.comm R A A (degOneEquiv R A _) = _
     rw [cechRing_map_coprojEquiv]
     exact (congrArg _ (degOneEquiv_coproj_zero R A a)).trans
       (Algebra.TensorProduct.comm_tmul (R := R) (A := A) (B := A) a 1)
@@ -539,12 +534,10 @@ private theorem map_smul_of_tmul_smul_tmul {P Q S Y : Type*} [AddCommMonoid P] [
     (h : ∀ (a b : A) (p : P) (q : Q),
       f ((a ⊗ₜ[R] b) • p ⊗ₜ[R] q) = σ (a ⊗ₜ[R] b) • f (p ⊗ₜ[R] q))
     (t : A ⊗[R] A) (z : P ⊗[R] Q) : f (t • z) = σ t • f z := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [zero_smul, map_zero, map_zero, zero_smul]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [add_smul, map_add, ht, ht', map_add, add_smul]
   | tmul a b =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [smul_add, map_add, hz, hz', map_add, smul_add]
     | tmul p q => exact h a b p q
 
@@ -553,7 +546,7 @@ theorem psiZero_smul (t : A ⊗[R] A) (z : A ⊗[R] restrictModule R A (degZeroM
     psiZero R A M (t • z) = degOneMul R A t • psiZero R A M z := by
   refine map_smul_of_tmul_smul_tmul R A (degOneMul R A) (psiZero R A M) (fun a b c y => ?_) t z
   rw [targetTensor_smul_tmul, psiZero_tmul, psiZero_tmul, degOneMul_tmul]
-  show coproj R A 1 0 (a * c) • M.map (cof₀ 0) (coprojEquiv R A b • (toDegZero R A M y)) =
+  change coproj R A 1 0 (a * c) • M.map (cof₀ 0) (coprojEquiv R A b • (toDegZero R A M y)) =
     (coproj R A 1 0 a * coproj R A 1 1 b) • coproj R A 1 0 c • M.map (cof₀ 0) (toDegZero R A M y)
   have h1 : (SimplexCategory.δ (n := 0) 0).toOrderHom 0 = 1 := rfl
   rw [map_cof₀_smul, h1, map_mul, smul_smul, smul_smul]
@@ -565,7 +558,7 @@ theorem psiOne_smul (t : A ⊗[R] A) (z : restrictModule R A (degZeroModule R A 
     psiOne R A M (t • z) = degOneMul R A t • psiOne R A M z := by
   refine map_smul_of_tmul_smul_tmul R A (degOneMul R A) (psiOne R A M) (fun a b y c => ?_) t z
   rw [sourceTensor_smul_tmul, psiOne_tmul, psiOne_tmul, degOneMul_tmul]
-  show coproj R A 1 1 (b * c) • M.map (cof₀ 1) (coprojEquiv R A a • (toDegZero R A M y)) =
+  change coproj R A 1 1 (b * c) • M.map (cof₀ 1) (coprojEquiv R A a • (toDegZero R A M y)) =
     (coproj R A 1 0 a * coproj R A 1 1 b) • coproj R A 1 1 c • M.map (cof₀ 1) (toDegZero R A M y)
   have h1 : (SimplexCategory.δ (n := 0) 1).toOrderHom 0 = 0 := rfl
   rw [map_cof₀_smul, h1, map_mul, smul_smul, smul_smul]
@@ -664,8 +657,7 @@ theorem map_cof₁_smul_map_cof₀ (j : Fin 3) (i i' : Fin 2) (k : Fin 3)
 theorem psiTwo_assoc_symm (a : A) (w : A ⊗[R] restrictModule R A (degZeroModule R A M)) :
     psiTwo R A M ((TensorProduct.assoc R A A _).symm (a ⊗ₜ[R] w)) =
       coproj R A 2 0 a • M.map (cof₁ 0) (psiZero R A M w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero, map_zero, map_zero, smul_zero]; rfl
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
     rw [TensorProduct.tmul_add, map_add, map_add, hw, hw', map_add, map_add, smul_add]
     rfl
@@ -678,8 +670,7 @@ theorem psiTwo_assoc_symm (a : A) (w : A ⊗[R] restrictModule R A (degZeroModul
 theorem psiTwo_rightComm (a : A) (w : A ⊗[R] restrictModule R A (degZeroModule R A M)) :
     psiTwo R A M ((TensorProduct.rightComm R A _ A) (w ⊗ₜ[R] a)) =
       coproj R A 2 1 a • M.map (cof₁ 1) (psiZero R A M w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero, map_zero, map_zero, smul_zero]; rfl
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
     rw [TensorProduct.add_tmul, map_add, map_add, hw, hw', map_add, map_add, smul_add]
     rfl
@@ -693,8 +684,7 @@ theorem psiTwo_transition12 (hM : cartesianModules (cechRing R A) M)
     (w : A ⊗[R] restrictModule R A (degZeroModule R A M)) (b : A) :
     psiTwo R A M (transition12 R A (degZeroModule R A M) (cartesianTransition R A hM) (w ⊗ₜ[R] b)) =
       coproj R A 2 2 b • M.map (cof₁ 2) (psiZero R A M w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero, map_zero, map_zero, smul_zero]; rfl
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
     rw [TensorProduct.add_tmul, map_add, map_add, hw, hw', map_add, map_add, smul_add]
     rfl
@@ -714,8 +704,7 @@ theorem psiTwo_transition02 (hM : cartesianModules (cechRing R A) M)
     (y : restrictModule R A (degZeroModule R A M) ⊗[R] A) (b : A) :
     psiTwo R A M (transition02 R A (degZeroModule R A M) (cartesianTransition R A hM) (y ⊗ₜ[R] b)) =
       coproj R A 2 2 b • M.map (cof₁ 2) (psiOne R A M y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero, map_zero, map_zero, smul_zero]; rfl
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' =>
     rw [TensorProduct.add_tmul, map_add, map_add, hy, hy', map_add, map_add, smul_add]
     rfl
@@ -751,8 +740,7 @@ noncomputable abbrev degZeroHom : degZeroModule R A M ⟶ degZeroModule R A M' :
 theorem psiZero_naturality (w : A ⊗[R] restrictModule R A (degZeroModule R A M)) :
     psiZero R A M' ((restrictHom R A (degZeroHom R A φ)).lTensor A w) =
       φ.app (op (op ⦋1⦌)) (psiZero R A M w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => rw [map_add, map_add, hw, hw', map_add, map_add]
   | tmul a y =>
     rw [LinearMap.lTensor_tmul, psiZero_tmul, psiZero_tmul]
@@ -764,8 +752,7 @@ theorem psiZero_naturality (w : A ⊗[R] restrictModule R A (degZeroModule R A M
 theorem psiOne_naturality (z : restrictModule R A (degZeroModule R A M) ⊗[R] A) :
     psiOne R A M' ((restrictHom R A (degZeroHom R A φ)).rTensor A z) =
       φ.app (op (op ⦋1⦌)) (psiOne R A M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add, map_add]
   | tmul y b =>
     rw [LinearMap.rTensor_tmul, psiOne_tmul, psiOne_tmul]
@@ -792,12 +779,10 @@ noncomputable def lTensorTarget {N N' : ModuleCat.{max u w} A} (g : N ⟶ N') :
   map_add' := map_add _
   map_smul' t z := by
     change (restrictHom R A g).lTensor A (t • z) = t • (restrictHom R A g).lTensor A z
-    induction t using TensorProduct.induction_on with
-    | zero => rw [zero_smul, map_zero, zero_smul]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => rw [add_smul, map_add, ht, ht', add_smul]
     | tmul a b =>
-      induction z using TensorProduct.induction_on with
-      | zero => rw [smul_zero, map_zero, smul_zero]
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => rw [smul_add, map_add, hz, hz', map_add, smul_add]
       | tmul c y =>
         rw [targetTensor_smul_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -837,7 +822,7 @@ theorem degOneHomOfDescent_psiZero (hM : cartesianModules (cechRing R A) M)
     (w : A ⊗[R] restrictModule R A (degZeroModule R A M)) :
     degOneHomOfDescent hM g (psiZero R A M w) =
       psiZero R A M' ((restrictHom R A g).lTensor A w) := by
-  show psiZero R A M' ((restrictHom R A g).lTensor A ((psiZeroEquiv R A hM).symm
+  change psiZero R A M' ((restrictHom R A g).lTensor A ((psiZeroEquiv R A hM).symm
     ((psiZeroEquiv R A hM) w))) = _
   rw [LinearEquiv.symm_apply_apply]
 
@@ -998,12 +983,11 @@ theorem bijective_cechGenerator_zero (N : ModuleCat.{max u w} A) :
   constructor
   · refine Function.LeftInverse.injective (g := cechDegreeZeroRetraction N) fun x => ?_
     rw [cechGenerator_eq_tmul]
-    show legZeroInv (1 : (cechCosimplicialAlgebra R A).obj ⦋0⦌) • (x : N) = x
+    change legZeroInv (1 : (cechCosimplicialAlgebra R A).obj ⦋0⦌) • (x : N) = x
     rw [legZeroInv, map_one]
     exact one_smul _ _
   · intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction z using TensorProduct.inductionOn with
     | tmul s y =>
       refine ⟨(legZeroInv (scalarElt s) • liftedDown y : N), ?_⟩
       have hs : cechLeg R A ⦋0⦌ 0 (cechLegZeroEquiv.symm (scalarElt s)) = scalarElt s :=
@@ -1084,8 +1068,7 @@ theorem transitionGen_diag (n : SimplexCategory) (i : Fin (n.len + 1))
     (z : A ⊗[R] restrictModule R A D.module) :
     transitionGen D n i i z = cechGenerator R A D.module n i
       (TensorProduct.lift (restrictedScalarAction R A D.module).toLinearMap z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => rw [map_add, hz, hz', map_add, map_add]
   | tmul a y =>
     rw [transitionGen_tmul, TensorProduct.lift.tmul]
@@ -1103,12 +1086,11 @@ theorem transitionGen_smul_right (n : SimplexCategory) (i j : Fin (n.len + 1)) (
     (w : A ⊗[R] restrictModule R A D.module) :
     transitionGen D n i j (((1 : A) ⊗ₜ[R] b) • w) =
       cechLeg R A n j (ULift.up b) • transitionGen D n i j w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => rw [smul_add, map_add, hw, hw', map_add, smul_add]
   | tmul c y =>
     rw [targetTensor_smul_tmul, one_mul, transitionGen_tmul, transitionGen_tmul]
-    show _ • cechGenerator R A D.module n j (b • y) = _
+    change _ • cechGenerator R A D.module n j (b • y) = _
     rw [cechGenerator_smul, smul_comm]
 
 
@@ -1147,8 +1129,7 @@ noncomputable def descentPsi (w : A ⊗[R] restrictModule R A D.module) :
 theorem psiZero_descentUnit (w : A ⊗[R] restrictModule R A D.module) :
     psiZero R A (descentModule D) ((restrictHom R A (descentUnitHom D)).lTensor A w) =
       descentPsi D w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, descentPsi, map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => rw [map_add, map_add, hw, hw', descentPsi, descentPsi, descentPsi,
       map_add, map_add]
   | tmul a y =>
@@ -1163,8 +1144,7 @@ theorem psiZero_descentUnit (w : A ⊗[R] restrictModule R A D.module) :
 theorem psiOne_descentUnit (z : restrictModule R A D.module ⊗[R] A) :
     psiOne R A (descentModule D) ((restrictHom R A (descentUnitHom D)).rTensor A z) =
       descentPsi D (D.transition z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, descentPsi, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add, descentPsi, descentPsi, descentPsi,
       map_add, map_add]
   | tmul y b =>
@@ -1214,7 +1194,7 @@ theorem descentUnit_naturality {D E : DescentData.{u, u, max u w} R A} (g : D �
     g ≫ descentUnit E = descentUnit D ≫ (cartesianDescentDataFunctor.{u, w} R A).map
       ((descentCartesianModuleFunctor.{u, u, max u w} R A).map g) := by
   refine DescentData.Hom.ext (ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
-  show castDeg E ⦋0⦌ (cechGenerator R A E.module ⦋0⦌ 0 (g.hom x)) =
+  change castDeg E ⦋0⦌ (cechGenerator R A E.module ⦋0⦌ 0 (g.hom x)) =
     ((descentCosimplicialModuleFunctor.{u, u, max u w} R A).map g).app (op (op ⦋0⦌))
       (castDeg D ⦋0⦌ (cechGenerator R A D.module ⦋0⦌ 0 x))
   refine Eq.trans ?_ (ConcreteCategory.congr_hom (castDeg_naturality g ⦋0⦌) _).symm

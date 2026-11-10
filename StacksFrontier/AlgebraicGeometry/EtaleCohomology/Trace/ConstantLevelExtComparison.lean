@@ -190,11 +190,11 @@ theorem function_exact_unitReductionLinearMap :
   · intro hy
     obtain ⟨z, hz⟩ := (hker y.down).1 (congrArg ULift.down hy)
     refine ⟨ULift.up z, ULift.ext ?_⟩
-    show d • z = y.down
+    change d • z = y.down
     rw [hz, nsmul_eq_mul]
   · rintro ⟨x, rfl⟩
     refine ULift.ext ?_
-    show ρ (d • x.down) = 0
+    change ρ (d • x.down) = 0
     exact (hker _).2 ⟨x.down, nsmul_eq_mul _ _⟩
 
 include hker in
@@ -202,7 +202,7 @@ include hker in
 theorem nsmul_id_restrictScalars_eq_zero (G : EtaleModules.{u, 0} Λ' Y) :
     d • 𝟙 ((etaleModuleRestrictScalars ρ Y).obj G) = 0 := by
   ext U x
-  show d • (show G.obj.obj U from x) = 0
+  change d • (show G.obj.obj U from x) = 0
   rw [← Nat.cast_smul_eq_nsmul Λ', ← map_natCast ρ, (hker _).2 ⟨1, (mul_one _).symm⟩, zero_smul]
 
 /-- The constant sheaf functor on the small étale site of `Y` is a left adjoint. -/
@@ -242,7 +242,7 @@ theorem bijective_unitReduction_comp_map (G : EtaleModules.{u, 0} Λ' Y) :
     obtain ⟨x, hx⟩ := hρ y.down
     exact ⟨ULift.up x, ULift.ext hx⟩
   have hepiC : Epi (Sm.map C).g := by
-    show Epi (C.map Sm.g)
+    change Epi (C.map Sm.g)
     infer_instance
   let e := ((etaleModuleRestrictScalarsConstantIso ρ Y).app (ModuleCat.of Λ' (ULift.{u + 1} Λ')))
   have hu : Epi (unitReduction ρ Y) := by
@@ -251,13 +251,13 @@ theorem bijective_unitReduction_comp_map (G : EtaleModules.{u, 0} Λ' Y) :
   refine ⟨fun f f' h => (etaleModuleRestrictScalars ρ Y).map_injective
     ((cancel_epi (unitReduction ρ Y)).1 h), fun g => ?_⟩
   have hg : (Sm.map C).f ≫ g = 0 := by
-    show C.map (d • 𝟙 _) ≫ g = 0
+    change C.map (d • 𝟙 _) ≫ g = 0
     rw [C.map_nsmul, C.map_id]
     exact nsmul_id_comp_eq_zero_aux d g (nsmul_id_restrictScalars_eq_zero Y d hker _)
   obtain ⟨k, hk⟩ := CokernelCofork.IsColimit.desc' (hSm.map C).gIsCokernel g hg
   obtain ⟨f, hf⟩ := (etaleModuleRestrictScalars ρ Y).map_surjective (e.hom ≫ k)
   refine ⟨f, ?_⟩
-  show (C.map (unitReductionLinearMap ρ) ≫ e.inv) ≫ (etaleModuleRestrictScalars ρ Y).map f = g
+  change (C.map (unitReductionLinearMap ρ) ≫ e.inv) ≫ (etaleModuleRestrictScalars ρ Y).map f = g
   rw [hf, Category.assoc, e.inv_hom_id_assoc]
   exact hk
 
@@ -415,6 +415,7 @@ theorem extMapAlong_extMapAlong {C₀ C₁ C₂ : Type*} [Category C₀] [Catego
   rw [key, ← hu, ← Ext.mk₀_comp_mk₀, ← Ext.mk₀_comp_mk₀]
   simp only [Ext.comp_assoc_of_second_deg_zero, Ext.comp_assoc_of_third_deg_zero]
 
+omit [QuasiCompact f] in
 /-- **The transitions of `Hⁱ(X_k̄, ℤ_ℓ)` on `Ext` over `ℤ_ℓ`**: through
 `extConstantAddEquivCompactSupportCohomology` and `constantLevelInverseImageIso`, the transition
 from level `n + 1` to level `n` is composition with the transition of the levels of `ℤ_ℓ`,
@@ -581,6 +582,7 @@ theorem LAdicSheaf.extMapAlong_unitReduction_constantLevelCohomologyAddEquiv (i 
     (extRestrictScalarsMap_bijective (fieldBaseChange (Over.mk f) kbar) (ℓ ^ (m + 1))
       (ZMod.ringHom_surjective _) (toZModPow_eq_zero_iff (ℓ := ℓ) m) _ i)) _
 
+omit [QuasiCompact f] in
 /-- **The transition square of `Hⁱ(X_k̄, ℤ_ℓ)` on `Ext`**: through
 `LAdicSheaf.constantLevelCohomologyAddEquiv`, the transition from level `n + 1` to level `n`
 followed by the change of level `Ext^i_{ℤ/ℓⁿ⁺¹}(ℤ/ℓⁿ⁺¹, ℤ/ℓⁿ⁺¹) ⟶ Ext^i_{ℤ/ℓⁿ⁺²}(ℤ/ℓⁿ⁺², ℤ/ℓⁿ⁺¹)`

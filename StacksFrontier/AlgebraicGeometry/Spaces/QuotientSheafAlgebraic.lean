@@ -142,7 +142,7 @@ of properties of `R ⟶ U` which the fppf descent of Stacks 02W8 consumes in the
 private theorem surjective_of_section {X Y : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ X)
     (h : g ≫ f = 𝟙 Y) : AlgebraicGeometry.Surjective f := by
   refine ⟨fun y ↦ ⟨g.base y, ?_⟩⟩
-  show (g ≫ f).base y = y
+  change (g ≫ f).base y = y
   rw [h]
   rfl
 
@@ -286,7 +286,7 @@ theorem exists_isPullback_quotientChart
       (pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫ j.source.left))
       (by
         apply ObjectProperty.hom_ext
-        show (pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫
+        change (pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫
             j.source.left) ≫ ((Over.post B.inclusion).obj U).hom =
           pullback.snd j.target.left ((Over.post B.inclusion).map x).left ≫
             ((Over.post B.inclusion).obj c).hom
@@ -300,15 +300,15 @@ theorem exists_isPullback_quotientChart
   set rho : (Over.post B.inclusion).obj d ⟶ R :=
     Over.homMk (pullback.fst j.target.left ((Over.post B.inclusion).map x).left)
       (by
-        show pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫ R.hom =
+        change pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫ R.hom =
           pullback.snd j.target.left ((Over.post B.inclusion).map x).left ≫
             ((Over.post B.inclusion).obj c).hom
         rw [← hjt, ← Category.assoc, pullback.condition, Category.assoc, hx]) with hrho
   have hrhot : rho ≫ j.target = (Over.post B.inclusion).map (p₂ ≫ x) := by
     ext
-    show pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫ j.target.left =
+    change pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫ j.target.left =
       ((Over.post B.inclusion).map p₂ ≫ (Over.post B.inclusion).map x).left
-    show _ = (BigFppfOver.toScheme B S hS).map p₂ ≫
+    change _ = (BigFppfOver.toScheme B S hS).map p₂ ≫
       ((Over.post B.inclusion).map x).left
     rw [hp₂map, pullback.condition]
     rfl
@@ -357,12 +357,12 @@ theorem exists_isPullback_quotientChart
       (pullback.lift r.left ((Over.post B.inclusion).map b).left hr1') ?_, ?_, ?_⟩
     · exact (pullback.lift_snd_assoc _ _ _ _).trans (Over.w ((Over.post B.inclusion).map b))
     · apply BigFppfOver.map_toScheme_injective B S hS
-      show pullback.lift r.left ((Over.post B.inclusion).map b).left hr1' ≫
+      change pullback.lift r.left ((Over.post B.inclusion).map b).left hr1' ≫
           (pullback.fst j.target.left ((Over.post B.inclusion).map x).left ≫
             j.source.left) = ((Over.post B.inclusion).map a).left
       exact (pullback.lift_fst_assoc _ _ _ _).trans hr2'
     · apply BigFppfOver.map_toScheme_injective B S hS
-      show pullback.lift r.left ((Over.post B.inclusion).map b).left hr1' ≫
+      change pullback.lift r.left ((Over.post B.inclusion).map b).left hr1' ≫
           pullback.snd j.target.left ((Over.post B.inclusion).map x).left =
         ((Over.post B.inclusion).map b).left
       exact pullback.lift_snd _ _ _
@@ -387,7 +387,7 @@ theorem exists_isPullback_quotientChart
                 naturality := ?_ }, ?_, ?_⟩
       · intro T T' k
         ext w
-        show lf (unop T') _ _ _ = k.unop ≫ lf (unop T) _ _ _
+        change lf (unop T') _ _ _ = k.unop ≫ lf (unop T) _ _ _
         refine hjm _ _ ?_ ?_
         · rw [hlf1, Category.assoc, hlf1]
           exact ConcreteCategory.congr_hom (s.fst.naturality k) w
@@ -402,15 +402,15 @@ theorem exists_isPullback_quotientChart
     refine hjm _ _ ?_ ?_
     · exact ConcreteCategory.congr_hom (NatTrans.congr_app h1 T) w
     · exact ConcreteCategory.congr_hom (NatTrans.congr_app h2 T) w
-  · show AlgebraicGeometry.Surjective
+  · change AlgebraicGeometry.Surjective
       (pullback.snd j.target.left ((Over.post B.inclusion).map x).left)
     infer_instance
-  · show Etale (pullback.snd j.target.left ((Over.post B.inclusion).map x).left)
+  · change Etale (pullback.snd j.target.left ((Over.post B.inclusion).map x).left)
     infer_instance
-  · show LocallyQuasiFinite
+  · change LocallyQuasiFinite
       (pullback.snd j.target.left ((Over.post B.inclusion).map x).left)
     infer_instance
-  · show LocallyOfFiniteType
+  · change LocallyOfFiniteType
       (pullback.snd j.target.left ((Over.post B.inclusion).map x).left)
     infer_instance
 
@@ -493,25 +493,25 @@ theorem exists_isPullback_diag_quotientSheaf
   set rho : (Over.post B.inclusion).obj d ⟶ R :=
     Over.homMk (pullback.fst j.left xy.left)
       (by
-        show pullback.fst j.left xy.left ≫ R.hom =
+        change pullback.fst j.left xy.left ≫ R.hom =
           pullback.snd j.left xy.left ≫ ((Over.post B.inclusion).obj a).hom
         rw [← hjw, ← Category.assoc, pullback.condition, Category.assoc, hxyw]) with hrho
   have hrhoj : rho ≫ j = (Over.post B.inclusion).map p ≫ xy := by
     refine Over.OverMorphism.ext ?_
-    show pullback.fst j.left xy.left ≫ j.left =
+    change pullback.fst j.left xy.left ≫ j.left =
       ((Over.post B.inclusion).map p ≫ xy).left
-    show _ = (BigFppfOver.toScheme B S hS).map p ≫ xy.left
+    change _ = (BigFppfOver.toScheme B S hS).map p ≫ xy.left
     rw [hpmap, pullback.condition]
     rfl
   have hrhot : rho ≫ j.target = (Over.post B.inclusion).map (p ≫ x) := by
-    show rho ≫ j ≫ prod.fst = _
+    change rho ≫ j ≫ prod.fst = _
     rw [← Category.assoc, hrhoj, Category.assoc]
-    show (Over.post B.inclusion).map p ≫ xy.target = _
+    change (Over.post B.inclusion).map p ≫ xy.target = _
     rw [hxyt, ← Functor.map_comp]
   have hrhos : rho ≫ j.source = (Over.post B.inclusion).map (p ≫ y) := by
-    show rho ≫ j ≫ prod.snd = _
+    change rho ≫ j ≫ prod.snd = _
     rw [← Category.assoc, hrhoj, Category.assoc]
-    show (Over.post B.inclusion).map p ≫ xy.source = _
+    change (Over.post B.inclusion).map p ≫ xy.source = _
     rw [hxys, ← Functor.map_comp]
   have heq : yoneda.map (p ≫ x) ≫ ch = yoneda.map (p ≫ y) ≫ ch :=
     yoneda_map_comp_eq_of_app_eq ch
@@ -519,7 +519,7 @@ theorem exists_isPullback_diag_quotientSheaf
         U j ⟨rho, hrhot, hrhos⟩)
   have hmp : Mono ((BigFppfOver.toScheme B S hS).map p) := by
     have : Mono j.left := inferInstance
-    show Mono (pullback.snd j.left xy.left)
+    change Mono (pullback.snd j.left xy.left)
     infer_instance
   have hmonop : Mono p := (BigFppfOver.toScheme B S hS).mono_of_mono_map hmp
   have hker2 : ∀ (T : BigFppfOver B S hS) (g : T ⟶ a),
@@ -532,10 +532,10 @@ theorem exists_isPullback_diag_quotientSheaf
     have hrj : r ≫ j = (Over.post B.inclusion).map g ≫ xy := by
       refine prod.hom_ext ?_ ?_
       · rw [Category.assoc, Category.assoc]
-        show r ≫ j.target = (Over.post B.inclusion).map g ≫ xy.target
+        change r ≫ j.target = (Over.post B.inclusion).map g ≫ xy.target
         rw [hr1, hxyt, ← Functor.map_comp]
       · rw [Category.assoc, Category.assoc]
-        show r ≫ j.source = (Over.post B.inclusion).map g ≫ xy.source
+        change r ≫ j.source = (Over.post B.inclusion).map g ≫ xy.source
         rw [hr2, hxys, ← Functor.map_comp]
     have hrj' : r.left ≫ j.left = ((Over.post B.inclusion).map g).left ≫ xy.left :=
       congrArg Over.Hom.left hrj
@@ -544,7 +544,7 @@ theorem exists_isPullback_diag_quotientSheaf
       (pullback.lift r.left ((Over.post B.inclusion).map g).left hrj') ?_, ?_⟩
     · exact (pullback.lift_snd_assoc _ _ _ _).trans (Over.w ((Over.post B.inclusion).map g))
     · apply BigFppfOver.map_toScheme_injective B S hS
-      show pullback.lift r.left ((Over.post B.inclusion).map g).left hrj' ≫
+      change pullback.lift r.left ((Over.post B.inclusion).map g).left hrj' ≫
           pullback.snd j.left xy.left = ((Over.post B.inclusion).map g).left
       exact pullback.lift_snd _ _ _
   have hsep : AlgebraicGeometry.IsSeparated j.left := isSeparated_isEtaleEquivalenceRelation j
@@ -582,7 +582,7 @@ theorem exists_isPullback_diag_quotientSheaf
           naturality := by
             intro T T' k
             ext w
-            show lf2 (unop T') _ _ = k.unop ≫ lf2 (unop T) _ _
+            change lf2 (unop T') _ _ = k.unop ≫ lf2 (unop T) _ _
             refine (cancel_mono p).mp ?_
             rw [hlf2, Category.assoc, hlf2]
             exact ConcreteCategory.congr_hom (s.snd.naturality k) w } with hl
@@ -597,14 +597,14 @@ theorem exists_isPullback_diag_quotientSheaf
         _ = s.fst := hc1.symm
     exact isPullback_of_exists_lift hcomm hlift fun m m' _ h2 =>
       (cancel_mono (yoneda.map p)).mp h2
-  · show AlgebraicGeometry.IsSeparated (pullback.snd j.left xy.left)
+  · change AlgebraicGeometry.IsSeparated (pullback.snd j.left xy.left)
     infer_instance
-  · show LocallyQuasiFinite (pullback.snd j.left xy.left)
+  · change LocallyQuasiFinite (pullback.snd j.left xy.left)
     infer_instance
-  · show LocallyOfFiniteType (pullback.snd j.left xy.left)
+  · change LocallyOfFiniteType (pullback.snd j.left xy.left)
     infer_instance
   · intro P hP hPj
-    show P (pullback.snd j.left xy.left)
+    change P (pullback.snd j.left xy.left)
     exact hP.of_isPullback (IsPullback.of_hasPullback j.left xy.left) hPj
 
 /-! ### The residue: effective fppf descent

@@ -98,10 +98,9 @@ noncomputable def pullbackCompPostIso
       intro Z Z' g
       apply Over.OverMorphism.ext
       apply Limits.pullback.hom_ext
-      · simp [Over.pullback, Over.post, Category.assoc, ← Functor.map_comp,
-          Limits.pullback.lift_fst]
+      · simp [Over.pullback, Over.post, Category.assoc, ← Functor.map_comp]
       · simp [Over.pullback, Over.post, Category.assoc,
-          Limits.pullbackComparison_comp_snd, Limits.pullback.lift_snd])
+          Limits.pullbackComparison_comp_snd])
 
 end CategoryTheory.Over
 
@@ -265,7 +264,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
     dsimp [εy]
     infer_instance
   let : IsIso εy.left := by
-    show IsIso ((Over.forget ((p ⋙ Over.forget (B.obj hS)).obj y)).map εy)
+    change IsIso ((Over.forget ((p ⋙ Over.forget (B.obj hS)).obj y)).map εy)
     infer_instance
   let q := p ⋙ Over.forget (B.obj hS)
   let qx := Over.post (X := x) q
@@ -303,7 +302,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
   have hcommLeftMap' :
       B.inclusion.map (Over.Hom.left
         (hcomm.hom.app (qx.inv.obj (jx.obj (bc.obj W))))) = eqToHom hcommObjEq := by
-    show (Over.Hom.left (hcomm.hom.app (qx.inv.obj (jx.obj (bc.obj W))))).hom =
+    change (Over.Hom.left (hcomm.hom.app (qx.inv.obj (jx.obj (bc.obj W))))).hom =
       eqToHom hcommObjEq
     rw [hcommLeft]
     cases hcommObjEq
@@ -379,7 +378,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
   have hqyCancelUnderlying :
       (Over.Hom.left (qy.asEquivalence.counitIso.inv.app (jy.obj W))).hom ≫
         (Over.Hom.left ey).hom = 𝟙 _ := by
-    simpa using congrArg (fun g => g.hom) hqyCancelLeft
+    simp
   have hqxStepMap := congrArg B.inclusion.map hqxStep
   have hYobj : (Yfun ⋙ qy).obj W =
       (qy.asEquivalence.inverse ⋙ qy.asEquivalence.functor).obj (jy.obj W) := rfl
@@ -419,7 +418,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
         B.inclusion.map (pullback.fst (jy.obj W).hom fpb) ≫
         B.inclusion.map (Over.Hom.left
           (qy.asEquivalence.counitIso.inv.app (jy.obj W))) := by
-    show (Over.Hom.left (hbeta.app W)).hom =
+    change (Over.Hom.left (hbeta.app W)).hom =
       (Over.Hom.left (hcomm.hom.app (qx.inv.obj (jx.obj (bc.obj W))))).hom ≫
         (Over.Hom.left ν).hom ≫
         (Over.Hom.left ((Over.map fpb).map (hbase.hom.app W))).hom ≫
@@ -453,7 +452,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
     have hfirst :
         B.inclusion.map (Over.Hom.left (hbeta.app W)) ≫ B.inclusion.map ey.left = middle := by
       rw [hbetaMapDecomp, hcommLeftMap', Over.map_map_left]
-      convert hsuffix using 1 <;> (try simp only [Category.assoc]) <;> rfl
+      convert hsuffix using 1 <;> (try simp only [Category.assoc]); rfl
     have hsecond : middle =
         B.inclusion.map ex.left ≫
           (B.inclusion.map (Over.Hom.left (hbase.hom.app W)) ≫
@@ -467,7 +466,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
   have hproj_factor :
       B.inclusion.map (Over.Hom.left (p.map f')) ≫ B.inclusion.map ey.left =
         B.inclusion.map ex.left ≫ E.inclusion.map (pullback.fst W.obj.hom a) := by
-    show (Over.Hom.left (p.map f')).hom ≫ B.inclusion.map ey.left =
+    change (Over.Hom.left (p.map f')).hom ≫ B.inclusion.map ey.left =
       (Over.Hom.left ex).hom ≫ (pullback.fst W.obj.hom a).hom
     exact hprojLocal
   let qyff := Functor.FullyFaithful.ofFullyFaithful qy
@@ -480,7 +479,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
         (B.inclusion.map (Over.Hom.left (hbase.hom.app W)) ≫
           B.inclusion.map (pullback.fst (jy.obj W).hom fpb)) =
         B.inclusion.map ex.left ≫ E.inclusion.map (pullback.fst W.obj.hom a) := by
-    show (Over.Hom.left ex).hom ≫
+    change (Over.Hom.left ex).hom ≫
         ((Over.Hom.left (hbase.hom.app W)).hom ≫ (pullback.fst (jy.obj W).hom fpb).hom) =
       (Over.Hom.left ex).hom ≫ (pullback.fst W.obj.hom a).hom
     rw [hbaseProjectionHom]
@@ -492,7 +491,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
     apply (cancel_mono (B.inclusion.map ey.left)).mp
     exact hbeta_factor.trans hprojectionAfterEx |>.trans (by
       rw [← hproj_factor, hcandidateMap])
-  show F.map (((Over.forget y).map (qyff.preimage (hbeta.app W))).op) = F.map f'.op
+  change F.map (((Over.forget y).map (qyff.preimage (hbeta.app W))).op) = F.map f'.op
   rw [hα]
   rfl
 
@@ -544,7 +543,7 @@ lemma coverPreserving_toGrothendieck_of_generators {C D : Type*} [Category C] [C
         let hpb := (IsPullback.of_hasPullback g f).map G
         let l := hpb.lift k t (by simpa using e.symm)
         refine ⟨pullback g f, pullback.snd g f, l, ?_, ?_⟩
-        · show S (pullback.snd g f ≫ f)
+        · change S (pullback.snd g f ≫ f)
           rw [← pullback.condition]
           exact S.downward_closed hg (pullback.fst g f)
         · exact (hpb.lift_snd _ _ _).symm) (K.pullback_stable (G.map f) ih)
@@ -557,7 +556,7 @@ lemma coverPreserving_toGrothendieck_of_generators {C D : Type*} [Category C] [C
       intro W q hq
       have hq' := (Sieve.functorPushforward_pullback_le G g R) (q ≫ k) hq
       change (R.functorPushforward G) ((q ≫ k) ≫ G.map g) at hq'
-      show (R.functorPushforward G) (q ≫ t)
+      change (R.functorPushforward G) (q ≫ t)
       rw [e]
       simpa only [Category.assoc] using hq'
 
@@ -598,10 +597,10 @@ private theorem isContinuous_overPost_cutoff (U : Scheme.{u}) (hU : E.Contains U
         C₀.2.map (schemeBelowInclusion E.cutoff) := by
       ext <;> simp [C₀, I, schemeBelowInclusion, PreZeroHypercover.map]
     have hW : IsEtaleCovering W := by
-      show ((C₀.2.map I).map (schemeBelowInclusion B.cutoff)).presieve₀ ∈
+      change ((C₀.2.map I).map (schemeBelowInclusion B.cutoff)).presieve₀ ∈
         Scheme.etalePrecoverage ((schemeBelowInclusion B.cutoff).obj (I.obj X.left))
       rw [hmap]
-      show (C₀.2.map (schemeBelowInclusion E.cutoff)).presieve₀ ∈
+      change (C₀.2.map (schemeBelowInclusion E.cutoff)).presieve₀ ∈
         Scheme.etalePrecoverage ((schemeBelowInclusion E.cutoff).obj X.left)
       exact BigEtaleSite.IsCovering.etale hC₀
     obtain ⟨W', hW', hComb⟩ := etaleCovering_has_representative B W hW
@@ -626,7 +625,7 @@ private theorem isContinuous_overPost_cutoff (U : Scheme.{u}) (hU : E.Contains U
         ← Sieve.arrows_generate_map_eq_functorPushforward]
     rw [hsrc]
     rw [PreZeroHypercover.presieve₀_map, Sieve.generate_map_eq_functorPushforward] at hbase
-    show Sieve.functorPushforward I (Sieve.generate C₀.2.presieve₀) ∈
+    change Sieve.functorPushforward I (Sieve.generate C₀.2.presieve₀) ∈
       etaleTopology B (I.obj X.left)
     exact hbase
   let : G.IsRightAdjoint := by infer_instance
@@ -655,7 +654,7 @@ theorem restrictToSmallEtale_isSheaf {𝒳 : Type v} [Category.{w} 𝒳]
   let : (Over.post I).IsContinuous (BigEtaleOver.topology E U hU) K :=
     isContinuous_overPost_cutoff B E h U hU
   let : (smallEtaleInclusion B E h U hU).IsContinuous J K := by
-    show (SmallEtale.inclusion E U hU ⋙ Over.post I).IsContinuous J K
+    change (SmallEtale.inclusion E U hU ⋙ Over.post I).IsContinuous J K
     exact Functor.isContinuous_comp _ _ J (BigEtaleOver.topology E U hU) K
   let q := p ⋙ Over.forget (B.obj hS)
   let e := Over.post (X := x) q
@@ -690,7 +689,7 @@ theorem restrictToSmallEtale_isSheaf {𝒳 : Type v} [Category.{w} 𝒳]
     rw [hEq]
     exact (Functor.le_inducedTopology_iff).1 le_rfl
   let : e.inv.IsContinuous K L := by
-    show eEquiv.inverse.IsContinuous K L
+    change eEquiv.inverse.IsContinuous K L
     exact hInvCont
   let : (Over.forget x).IsContinuous L (associatedTopology B S hS p (etaleTopology B)) :=
     inferInstance
@@ -699,7 +698,7 @@ theorem restrictToSmallEtale_isSheaf {𝒳 : Type v} [Category.{w} 𝒳]
     have h₁ := Functor.isContinuous_comp (smallEtaleInclusion B E h U hU) e.inv J K L
     exact Functor.isContinuous_comp (smallEtaleInclusion B E h U hU ⋙ e.inv)
       (Over.forget x) J L (associatedTopology B S hS p (etaleTopology B))
-  show Presheaf.IsSheaf J
+  change Presheaf.IsSheaf J
     ((smallEtaleInclusion B E h U hU).op ⋙
       (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).inv.op ⋙
       (Over.forget x).op ⋙ F.obj)

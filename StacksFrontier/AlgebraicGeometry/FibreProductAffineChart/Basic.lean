@@ -295,7 +295,7 @@ the chart to `Spec` of the algebra map `Γ(X, U) ⟶ Γ(X, U) ⊗_{Γ(S, W)} Γ(
 theorem specIso_inv_fst : (c.specIso hl hr).inv ≫
     pullback.fst (Spec.map c.leftHom) (Spec.map c.rightHom) =
       Spec.map (ofHom (algebraMap Γ(X, c.left) (Γ(X, c.left) ⊗[Γ(S, c.base)] Γ(Y, c.right)))) := by
-  show ((pullbackSpecIso _ _ _).inv ≫ (pullback.congrHom _ _).inv) ≫ _ = _
+  change ((pullbackSpecIso _ _ _).inv ≫ (pullback.congrHom _ _).inv) ≫ _ = _
   rw [Category.assoc, pullback.congrHom_inv, pullback.lift_fst, Category.comp_id,
     pullbackSpecIso_inv_fst']
 
@@ -306,7 +306,7 @@ theorem specIso_inv_snd : (c.specIso hl hr).inv ≫
     pullback.snd (Spec.map c.leftHom) (Spec.map c.rightHom) =
       Spec.map (ofHom (R := Γ(Y, c.right)) (S := Γ(X, c.left) ⊗[Γ(S, c.base)] Γ(Y, c.right))
         (toRingHom Algebra.TensorProduct.includeRight)) := by
-  show ((pullbackSpecIso _ _ _).inv ≫ (pullback.congrHom _ _).inv) ≫ _ = _
+  change ((pullbackSpecIso _ _ _).inv ≫ (pullback.congrHom _ _).inv) ≫ _ = _
   rw [Category.assoc, pullback.congrHom_inv, pullback.lift_snd, Category.comp_id,
     pullbackSpecIso_inv_snd]
 

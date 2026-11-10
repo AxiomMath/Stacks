@@ -172,7 +172,7 @@ private theorem isIso_iff_bijective_tmul_one {Rr Ss : Type u} [CommRing Rr] [Com
   have : IsIso (adj.unit.app M) := inferInstance
   rw [← isIso_iff_of_reflects_iso α (ModuleCat.restrictScalars e.toRingHom),
     ← isIso_comp_left_iff (adj.unit.app M)]
-  show IsIso (adj.unit.app M ≫ (ModuleCat.restrictScalars e.toRingHom).map α) ↔ _
+  change IsIso (adj.unit.app M ≫ (ModuleCat.restrictScalars e.toRingHom).map α) ↔ _
   exact ConcreteCategory.isIso_iff_bijective _
 
 /-- A morphism of modules is invertible exactly when all of its localizations at primes, by
@@ -219,7 +219,7 @@ public theorem isIso_ringDerivedBaseChangeComparison_iff [Algebra.IsPushout R A 
       ((ModuleCat.extendRestrictScalarsAdj e.toRingHom).homEquiv H H' b).hom m) =
       fun m : H => e'.hom.hom (α.hom m) :=
     funext fun m => ringCohomologyComparison_tmul_one (R := R) (R' := R') K K' φ n m
-  show IsIso α ↔ IsIso b
+  change IsIso α ↔ IsIso b
   refine Iff.trans ?_ (isIso_iff_bijective_tmul_one e b).symm
   rw [hval]
   have he' : Function.Bijective e'.hom.hom :=

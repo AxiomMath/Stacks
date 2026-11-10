@@ -193,7 +193,7 @@ theorem idealPowSubmodule_unit_le_annihilatorIdealSheaf
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))) ≤
       annihilatorIdealSheaf B S hS X M := by
   refine idealPowSubmodule_le K n fun Y b hb z W g t => ?_
-  show ((Stacks.SheafOfModules.Tensor.ringSheaf
+  change ((Stacks.SheafOfModules.Tensor.ringSheaf
     (smallEtaleRingedSite B S hS X.1 X.2).O).obj.map g).hom
       (b * (show (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj Y from z)) • t = 0
@@ -264,7 +264,7 @@ theorem exists_comp_eq_ι_of_le_idealSmul {E G : Modules.{u, u} B S hS X.1 X.2} 
       SheafOfModules.Submodule.ker (cokernel.π (C := Modules.{u, u} B S hS X.1 X.2) j) := by
     refine Stacks.SheafOfModules.sheafifySubmodule_le
       (Stacks.Sites.presheafIdealSmul_le I fun V a ha m _ => ?_)
-    show (cokernel.π (C := Modules.{u, u} B S hS X.1 X.2) j).val.app V (a • m) = 0
+    change (cokernel.π (C := Modules.{u, u} B S hS X.1 X.2) j).val.app V (a • m) = 0
     exact (((cokernel.π (C := Modules.{u, u} B S hS X.1 X.2) j).val.app V).hom.map_smul
       a m).trans (smul_eq_zero_of_mem_annihilatorIdealAt B S hS X _ V a
         (SheafOfModules.Submodule.le_iff.1 hI V ha) _)

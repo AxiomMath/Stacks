@@ -267,7 +267,7 @@ theorem innerComposite_negTwo (P' : Presentation A' B' X' T')
   apply relationQuotientToFree_injective P'
   rw [LichtenbaumSchlessingerChoice.relationQuotientToFree_relation,
     LichtenbaumSchlessingerRelativeChoice.relationQuotientToFree_relation]
-  show lsBiderivation.{u', max u v, w} P' _ = lsBiderivation.{u', max u v, w} P' _
+  change lsBiderivation.{u', max u v, w} P' _ = lsBiderivation.{u', max u v, w} P' _
   rw [faceSumTwo_squareMap]
 
 /-- `innerComposite A B P'` is given by the formulas of the relative choice

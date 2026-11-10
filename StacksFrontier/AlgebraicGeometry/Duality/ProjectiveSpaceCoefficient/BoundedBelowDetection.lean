@@ -189,7 +189,7 @@ theorem exists_hom_twist_ne_zero (F : (P R n).Modules) [F.IsQuasicoherent] (hF :
     have h1 : (e.hom ≫ e.inv).val.app (op ⊤) = 𝟙 _ := by rw [e.hom_inv_id]; rfl
     have h2 := congrArg (fun f => f.hom τ) h1
     refine hτ (h2.symm.trans ?_)
-    show (e.inv.val.app (op ⊤)).hom τ' = 0
+    change (e.inv.val.app (op ⊤)).hom τ' = 0
     rw [h0, map_zero]
   let U : (P R n).Modules := SheafOfModules.unit (P R n).ringCatSheaf
   let h : U ⟶ A := Stacks.Cohomology.LeftDualPerfect.unitHomOfTop A τ'
@@ -197,7 +197,7 @@ theorem exists_hom_twist_ne_zero (F : (P R n).Modules) [F.IsQuasicoherent] (hF :
     intro h0
     have h1 := Stacks.Cohomology.LeftDualPerfect.unitHomOfTop_app_top A τ'
     refine hτ' (h1.symm.trans ?_)
-    show (h.val.app (op ⊤)).hom (1 : (P R n).ringCatSheaf.obj.obj (op ⊤)) = 0
+    change (h.val.app (op ⊤)).hom (1 : (P R n).ringCatSheaf.obj.obj (op ⊤)) = 0
     have h2 : h.val.app (op ⊤) = 0 := by rw [h0]; rfl
     rw [h2]; rfl
   let Tw := tensorRightModules (P R n) (O R n p)

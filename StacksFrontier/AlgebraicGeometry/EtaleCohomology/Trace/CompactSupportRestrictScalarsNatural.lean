@@ -126,9 +126,9 @@ theorem etaleModuleInverseImageRestrictScalars_naturality {X Y : Scheme.{u}} (f 
     ((smallEtaleBaseChange f).sheafAdjunctionContinuous (ModuleCat.{u + 1} Λ)
       Y.smallEtaleTopology X.smallEtaleTopology)
     (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange f) Y.smallEtaleTopology
-      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
     (coefficientPushforwardTwoSquare (smallEtaleBaseChange f) Y.smallEtaleTopology
-      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
     (fun c => (coefficientSheafPullbackTwoSquare_unit (smallEtaleBaseChange f) Y.smallEtaleTopology
       X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ) c).symm.trans
         (Category.comp_id _).symm)
@@ -153,9 +153,9 @@ theorem etaleModuleExtensionByZeroRestrictScalars_naturality {U X : Scheme.{u}} 
       (Scheme.Etale.smallEtaleCompose j) (ModuleCat.{u + 1} Λ) U.smallEtaleTopology
       X.smallEtaleTopology)
     (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
-      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
     (coefficientPushforwardTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
-      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+      X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
     (fun c => (Stacks.Sites.coefficientPullbackTwoSquare_unit (Scheme.Etale.smallEtaleCompose j)
       U.smallEtaleTopology X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ) c).trans
         (Category.comp_id _).symm)

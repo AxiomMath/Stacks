@@ -138,7 +138,7 @@ theorem annihilatedByKer_of_forall_exists_affineOpen [QuasiCompact i] (M : X.Mod
   have hz := hV ((X.presheaf.map g).hom a)
     (by rwa [i.ker_apply, RingHom.mem_ker]) ((M.val.map g).hom m)
   refine ⟨(V : X.Opens), hVU, hxV, ?_⟩
-  show (M.val.map g).hom (a • m) = (M.val.map g).hom 0
+  change (M.val.map g).hom (a • m) = (M.val.map g).hom 0
   rw [map_zero]
   exact (M.val.map_smul g a m).trans hz
 

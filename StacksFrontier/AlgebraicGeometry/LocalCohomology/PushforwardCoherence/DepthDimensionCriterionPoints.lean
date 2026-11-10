@@ -1,8 +1,7 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.CoherentModuleAffineTransport
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.CoherentModuleAffineTransport
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.DepthDimensionCriterionZeroLocus
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.TildeStalkPrime
 public import StacksFrontier.RingTheory.DimensionFormula

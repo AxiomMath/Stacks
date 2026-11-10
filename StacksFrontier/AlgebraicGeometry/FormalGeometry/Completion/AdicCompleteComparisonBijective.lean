@@ -137,7 +137,7 @@ public theorem bijective_of_bijective_mapQPow (f : T →ₗ[A] M)
   · intro t t' htt
     refine (IsHausdorff.eq_iff_smodEq (I := I)).2 fun n => ?_
     refine (hbij n).1 ?_
-    show mapQPow I n f (Submodule.Quotient.mk t) = mapQPow I n f (Submodule.Quotient.mk t')
+    change mapQPow I n f (Submodule.Quotient.mk t) = mapQPow I n f (Submodule.Quotient.mk t')
     rw [mapQPow_mk, mapQPow_mk, htt]
   · intro y
     have hstep : ∀ n : ℕ, ∃ t : T, f t ≡ y [SMOD I ^ n • (⊤ : Submodule A M)] := fun n => by
@@ -400,7 +400,7 @@ omit [IsNoetherianRing A] [Module.Finite A M] in
 /-- The canonical extension restricts along the completion map to the original map. -/
 @[simp] public theorem adicCompletionExtend_of (a : M →ₗ[A] T) (m : M) :
     adicCompletionExtend I a (AdicCompletion.of I M m) = a m := by
-  show (AdicCompletion.ofLinearEquiv I T).symm (AdicCompletion.map I a
+  change (AdicCompletion.ofLinearEquiv I T).symm (AdicCompletion.map I a
     (AdicCompletion.of I M m)) = a m
   rw [AdicCompletion.map_of, AdicCompletion.ofLinearEquiv_symm_of]
 

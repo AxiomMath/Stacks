@@ -296,7 +296,7 @@ private theorem homology_epi_iff_postcomp_surjective
   have : U.IsEquivalence :=
     (ModuleCat.restrictScalarsEquivalenceOfRingEquiv
       (ULift.ringEquiv : ULift.{u} A ≃+* A).symm).isEquivalence_functor
-  show Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
+  change Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
     (U.mapDerivedCategory.map ((StacksDraft.DerivedHom.derivedHomAdjunction
       (R := ULift.{u} A)).hom.map
       (X := (Opposite.op (E.functor.obj X), E.functor.obj Y))
@@ -484,7 +484,7 @@ theorem diagonal_endomorphism_eq_smul_id
   let a₀ : A := a
   have h := k.hom.map_smul (a₀ ⊗ₜ[R] (1 : A)) (1 : A)
   change @Eq A (k (μ (a₀ ⊗ₜ[R] 1) * (1 : A))) (μ (a₀ ⊗ₜ[R] 1) * b) at h
-  show @Eq A (k a₀) (μ (b ⊗ₜ[R] 1) * a₀)
+  change @Eq A (k a₀) (μ (b ⊗ₜ[R] 1) * a₀)
   simpa [μ, mul_comm] using h
 
 private theorem span_singleton_comp_le

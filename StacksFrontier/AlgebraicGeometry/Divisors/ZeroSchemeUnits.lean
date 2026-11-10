@@ -85,7 +85,7 @@ theorem zeroScheme_congr_iso {L L' : X.Modules}
   rw [← homApp_map]
   refine le_antisymm (span_eval_le_span_eval _ _ fun φ => ⟨φ ∘ₗ homAppLinear e.hom U.1, rfl⟩)
     (span_eval_le_span_eval _ _ fun φ => ⟨φ ∘ₗ homAppLinear e.inv U.1, ?_⟩)
-  show _ = φ (e.inv.app U.1 (e.hom.app U.1 _))
+  change _ = φ (e.inv.app U.1 (e.hom.app U.1 _))
   congr 1
   have h := congrArg (fun g => (Scheme.Modules.Hom.app g U.1).hom
     (L.presheaf.map (homOfLE (le_top : U.1 ≤ ⊤)).op s)) e.hom_inv_id

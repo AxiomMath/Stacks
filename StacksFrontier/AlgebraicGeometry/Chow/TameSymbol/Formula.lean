@@ -72,7 +72,7 @@ one: contraction of primes along an integral ring map is strictly monotone. -/
 theorem krullDimLE_one_of_isIntegral (R : Type*) (S : Type*) [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.IsIntegral R S] [Ring.KrullDimLE 1 R] : Ring.KrullDimLE 1 S :=
   Ring.krullDimLE_iff.mpr ((Order.krullDim_le_of_strictMono
-    (PrimeSpectrum.comap (algebraMap R S)) fun _ _ h ↦ Ideal.IsIntegral.comap_lt_comap h).trans
+    (PrimeSpectrum.comap (algebraMap R S)) fun _ _ h ↦ Ideal.IsIntegral.under_lt_under h).trans
       (Ring.krullDimLE_iff.mp ‹_›))
 
 /-- The constant symbol `1` is a tame symbol on a local ring in which every nonzerodivisor is a
@@ -102,7 +102,7 @@ noncomputable def regularTameSymbolOfKrullDimLEOne (R : Type*) [CommRing R] [IsN
         | coe n =>
           rw [h] at hlt
           have hn : n < 1 := WithBot.coe_lt_coe.mp hlt
-          rw [ENat.lt_one_iff_eq_zero.mp hn]
+          rw [Order.lt_one_iff.mp hn]
           rfl
       have : Ring.KrullDimLE 0 R := Ring.krullDimLE_iff.mpr (by exact_mod_cast hle)
       have : IsArtinianRing R := IsNoetherianRing.isArtinianRing_of_krullDimLE_zero

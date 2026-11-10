@@ -194,9 +194,9 @@ lemma restrictTmul_mul_left (b : B) (a : A) (m : ↑N) :
 lemma restrict_induction_on
     {motive : ↑((ModuleCat.restrictScalars f).obj ((extendScalars.{u₂} f).obj N)) → Prop}
     (x : ↑((ModuleCat.restrictScalars f).obj ((extendScalars.{u₂} f).obj N)))
-    (zero : motive 0) (pure : ∀ (b : B) (m : ↑N), motive (restrictTmul f b m))
+    (pure : ∀ (b : B) (m : ↑N), motive (restrictTmul f b m))
     (add : ∀ u v, motive u → motive v → motive (u + v)) : motive x :=
-  induction_on f (motive := motive) x zero pure add
+  induction_on f (motive := motive) x pure add
 
 /-- A `σ`-semilinear map read as an `A`-linear map between the restrictions of scalars, when
 `σ ∘ f₁ = f₂`. -/
@@ -217,10 +217,9 @@ lemma restrictExtend_hom_ext {P : ModuleCat.{u₂} A}
     {x y : (ModuleCat.restrictScalars f).obj ((extendScalars.{u₂} f).obj N) ⟶ P}
     (H : ∀ (b : B) (m : ↑N), x (restrictTmul f b m) = y (restrictTmul f b m)) : x = y := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-  refine restrict_induction_on f (motive := fun z => x z = y z) z ?_ H ?_
-  · rw [map_zero, map_zero]
-  · intro u v hu hv
-    rw [map_add, map_add, hu, hv]
+  refine restrict_induction_on f (motive := fun z => x z = y z) z H ?_
+  intro u v hu hv
+  rw [map_add, map_add, hu, hv]
 
 end Restrict
 
@@ -446,8 +445,7 @@ lemma descAddHom_smul (a : A) (x : BaseChange γ ↑M) :
     descAddHom β hβ γ hγ M hc s (γ a • x) = a • descAddHom β hβ γ hγ M hc s x := by
   refine induction_on γ
     (motive := fun x => descAddHom β hβ γ hγ M hc s (γ a • x) =
-      a • descAddHom β hβ γ hγ M hc s x) x ?_ ?_ ?_
-  · rw [smul_zero, map_zero, smul_zero]
+      a • descAddHom β hβ γ hγ M hc s x) x ?_ ?_
   · intro b m
     rw [Stacks.NoncommChangeOfRings.smul_tmul, descAddHom_tmul, descAddHom_tmul]
     exact descPairing_smul β hβ γ hγ M hc s a b m

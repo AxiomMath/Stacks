@@ -607,7 +607,7 @@ def isColimit_cohomologyCocone_of_injective (c : Cone S.E) (hc : IsLimit c)
     (D : CohomologyCocone ((Over.forget i) ⋙ S.E) (c.whisker (Over.forget i))
       (S.stageOpenCone c i U) (n + 1)) :
     IsColimit D.cocone :=
-  S.isColimit_cohomologyCocone_of_injective_system c hc i U hU n hinj
+  S.isColimit_cohomologyCocone_of_injective_system c i U n hinj
     (S.isZero_H'_succ_conePoint_of_injective c hc hcol hinj i U hU n) D
 
 /-- **The quasi-compact-open clause of Stacks 0A37 for a system of injective sheaves, in the form

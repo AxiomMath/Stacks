@@ -48,7 +48,7 @@ theorem ker_le_nilradical_localization_map {S T : Type u} [CommRing S] [CommRing
   obtain ⟨N, hN⟩ := hk hr
   replace hN : (m * r) ^ N = 0 := hN
   refine ⟨N, Ideal.mem_bot.2 ?_⟩
-  show (IsLocalization.mk' (Localization M) r s) ^ N = 0
+  change (IsLocalization.mk' (Localization M) r s) ^ N = 0
   have h1 : (algebraMap S (Localization M) (m * r)) ^ N = 0 := by
     rw [← map_pow, hN, map_zero]
   have hu : IsUnit (algebraMap S (Localization M) m) := IsLocalization.map_units _ ⟨m, hm⟩
@@ -76,7 +76,7 @@ theorem mem_closedPoints_of_locallyOfFiniteType {k : Type u} [Field k] {Y X : Sc
     (c : Y ⟶ X) [LocallyOfFiniteType c] (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f]
     (y : closedPoints Y) : c.base y.1 ∈ closedPoints X := by
   have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
-  exact c.closePoints_subset_preimage_closedPoints y.2
+  exact c.closedPoints_subset_preimage_closedPoints y.2
 
 /-- **The good open over a smooth affine family of curves.**  Let `Spec S` be a surjective closed
 subscheme of an open `Spec T₀` of `Z`, and `g : Spec S ⟶ W = 𝔸ⁿ_k` affine and smooth of relative
@@ -162,7 +162,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_smoothAffineFamily
   have : LocallyOfFiniteType (B.inclusion.map c₀) :=
     inferInstanceAs (LocallyOfFiniteType (Spec.map (CommRingCat.ofHom φ) ≫ o))
   have hgc : B.inclusion.map g₀ ≫ fW = B.inclusion.map c₀ ≫ fZ := by
-    show Spec.map _ ≫ Spec.map _ = (Spec.map _ ≫ o) ≫ fZ
+    change Spec.map _ ≫ Spec.map _ = (Spec.map _ ≫ o) ≫ fZ
     rw [hψk, Category.assoc]
   have hc₀ : ∀ y : closedPoints U₀.1, (B.inclusion.map c₀).base y.1 ∈ closedPoints Z.1 :=
     mem_closedPoints_of_locallyOfFiniteType (B.inclusion.map c₀) fZ
@@ -238,7 +238,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_smoothAffineFamily
     IsOpenImmersion.of_comp _ (B.inclusion.map jV₂)
   let fV' : V'.1 ⟶ Spec (.of k) := Spec.map (CommRingCat.ofHom (algebraMap k (Localization.Away h)))
   have hfV' : jW ≫ fW = fV' := by
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, ← IsScalarTower.algebraMap_eq]
   have : LocallyOfFiniteType fV' := by rw [← hfV']; infer_instance
   have : QuasiCompact fV' := inferInstanceAs (QuasiCompact (Spec.map _))
@@ -344,7 +344,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_smoothAffineFamily
     surjective_specMap_base_of_ker_le_nilradical (CommRingCat.ofHom φ') hφ's hφ'k
   have hcomp : jU ≫ c₀ = iT ≫ jT := by
     apply B.inclusion.map_injective
-    show Spec.map _ ≫ Spec.map _ ≫ o = Spec.map _ ≫ Spec.map _ ≫ o
+    change Spec.map _ ≫ Spec.map _ ≫ o = Spec.map _ ≫ Spec.map _ ≫ o
     rw [← Category.assoc, ← Category.assoc, ← Spec.map_comp, ← Spec.map_comp,
       ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp, IsLocalization.map_comp]
   have heq₂ : B.inclusion.map g' ≫ fV' = B.inclusion.map iT ≫ B.inclusion.map jT ≫ fZ := by
@@ -353,7 +353,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_smoothAffineFamily
   -- a point of `U'`
   obtain ⟨u, hu⟩ := hx₃
   have hu' : u ∈ (PrimeSpectrum.basicOpen (ψ h) : Set (PrimeSpectrum S)) := by
-    show ψ h ∉ u.asIdeal
+    change ψ h ∉ u.asIdeal
     intro hmem
     apply (show h ∉ (x : PrimeSpectrum (MvPolynomial (Fin n) k)).asIdeal from hxh)
     rw [← hu]
@@ -495,7 +495,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_weightBoundInDimension
         (algebraMap (MvPolynomial (Fin n) k) (Localization.Away f)))) := by
       rw [HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension 1)]
       refine RingHom.locally_of RingHom.isStandardSmoothOfRelativeDimension_respectsIso _ ?_
-      show RingHom.IsStandardSmoothOfRelativeDimension 1
+      change RingHom.IsStandardSmoothOfRelativeDimension 1
         (algebraMap (MvPolynomial (Fin n) k) (Localization.Away f))
       rw [RingHom.isStandardSmoothOfRelativeDimension_algebraMap]
       simpa using Algebra.IsStandardSmoothOfRelativeDimension.trans 1 0 (MvPolynomial (Fin n) k)
@@ -503,7 +503,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_weightBoundInDimension
     have hkQ : (algebraMap (MvPolynomial (Fin n) k) (Localization.Away f)).comp
         (algebraMap k (MvPolynomial (Fin n) k)) = algebraMap k (Localization.Away f) := by
       ext c
-      show algebraMap (MvPolynomial (Fin (n + 1)) k) (Localization.Away f)
+      change algebraMap (MvPolynomial (Fin (n + 1)) k) (Localization.Away f)
           ((MvPolynomial.finSuccEquiv k n).symm (Polynomial.C (algebraMap k _ c))) = _
       rw [← Polynomial.algebraMap_apply, AlgEquiv.commutes,
         ← IsScalarTower.algebraMap_apply]
@@ -530,7 +530,7 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_weightBoundInDimension
         Category.assoc, ← hφ0, ← Spec.map_comp, ← Spec.map_comp]
       congr 1
       ext c
-      show algebraMap k _ c = φ (algebraMap R (Localization.Away b) (φ0.hom c))
+      change algebraMap k _ c = φ (algebraMap R (Localization.Away b) (φ0.hom c))
       rw [IsLocalization.map_eq, IsScalarTower.algebraMap_apply k (R ⧸ nilradical R)
         (Localization.Away (Ideal.Quotient.mk (nilradical R) b))]
       rfl

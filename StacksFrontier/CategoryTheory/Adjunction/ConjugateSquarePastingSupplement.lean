@@ -65,7 +65,7 @@ theorem conjugateIsoEquiv_assoc_refl {A : Type u₂} {B : Type u₃} [Category.{
     conjugateIsoEquiv (adj₀₁.comp (adj₁₂.comp adj₂₃)) ((adj₀₁.comp adj₁₂).comp adj₂₃)
       (Iso.refl _) = Iso.refl _ := by
   apply Iso.ext
-  show conjugateEquiv _ _ (𝟙 _) = 𝟙 _
+  change conjugateEquiv _ _ (𝟙 _) = 𝟙 _
   have e : (𝟙 (L₀₁ ⋙ L₁₂ ⋙ L₂₃)) = (Functor.associator L₀₁ L₁₂ L₂₃).hom := by
     ext
     simp

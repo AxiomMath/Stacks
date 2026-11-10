@@ -102,7 +102,7 @@ theorem component_lof_of_eq {i n : ℤ} (h : i = n) (a : A.piece i) :
 /-- For `i ≠ n`, the degree-`n` component of `a ∈ A^i` is zero. -/
 theorem component_lof_of_ne {i n : ℤ} (h : i ≠ n) (a : A.piece i) :
     component R ℤ A.piece n (lof R ℤ A.piece i a) = 0 := by
-  rw [component.of, dif_neg h]
+  rw [component.of, dite_eq_right h]
 
 /-- A homogeneous element of degree `n` of `⨁_n A^n` is its degree-`n` component. -/
 theorem lof_component_of_mem {n : ℤ} {x : ⨁ n, A.piece n} (hx : x ∈ A.grade n) :

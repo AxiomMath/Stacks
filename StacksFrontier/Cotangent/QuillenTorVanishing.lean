@@ -113,7 +113,7 @@ theorem tor_map_variableIdeal_pow_succ_eq_zero
         (koszulTensorContract A E q n)) hz).trans (map_zero _)
       refine Eq.trans ?_ h
       rw [h2, add_zero]
-  show (((MonoidalCategory.tensoringLeft
+  change (((MonoidalCategory.tensoringLeft
       (ModuleCat.{max u v} (MvPolynomial E A))).obj M).leftDerived i).map
     (ModuleCat.ofHom (Submodule.inclusion hle)) = 0
   rw [Functor.leftDerived_map_eq

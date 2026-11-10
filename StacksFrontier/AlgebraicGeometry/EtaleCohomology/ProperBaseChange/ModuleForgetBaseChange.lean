@@ -97,7 +97,7 @@ def etaleModuleForgetInverseImageIso :
       Y.smallEtaleTopology).symm ≪≫
     asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange g) X.smallEtaleTopology
       Y.smallEtaleTopology
-      (forget₂ (ModuleCat.{max (u + 1) w} Λ) AddCommGrpCat.{max (u + 1) w})).natTrans
+      (forget₂ (ModuleCat.{max (u + 1) w} Λ) AddCommGrpCat.{max (u + 1) w}))
 
 /-- **The comparison matches the units**: `U` applied to the unit of `g^{-1} ⊣ g_*` on modules is
 the unit of `g^{-1} ⊣ g_*` on abelian sheaves followed by `g_*` of the comparison. -/
@@ -146,7 +146,7 @@ direct image of the counit is the identity. -/
 theorem mateEquiv_etaleModuleForgetInverseImageIso {X Y : Scheme.{u}} (g : Y ⟶ X) :
     (mateEquiv (etaleModuleInverseImageAdj.{u, w} Λ g)
       (etaleAbelianInverseImageDirectImageAdj.{u, w} g)
-      (TwoSquare.mk _ _ _ _ (etaleModuleForgetInverseImageIso Λ g).hom)).natTrans =
+      (TwoSquare.mk _ _ _ _ (etaleModuleForgetInverseImageIso Λ g).hom)) =
       𝟙 (etaleModuleDirectImage.{u, w} Λ g ⋙ etaleModuleForgetAb.{u, w} Λ X) := by
   ext N : 2
   have hu := etaleModuleForgetInverseImageIso_unit' Λ g
@@ -155,7 +155,7 @@ theorem mateEquiv_etaleModuleForgetInverseImageIso {X Y : Scheme.{u}} (g : Y ⟶
   simp only [mateEquiv_apply, NatTrans.comp_app, Functor.comp_obj,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.rightUnitor_inv_app,
     Functor.leftUnitor_hom_app, Category.id_comp, NatTrans.id_app]
-  show (etaleAbelianInverseImageDirectImageAdj.{u, w} g).unit.app
+  change (etaleAbelianInverseImageDirectImageAdj.{u, w} g).unit.app
         ((etaleModuleForgetAb.{u, w} Λ X).obj ((etaleModuleDirectImage.{u, w} Λ g).obj N)) ≫
       (etaleAbelianDirectImage.{u, w} g).map
         ((etaleModuleForgetInverseImageIso Λ g).hom.app
@@ -175,9 +175,9 @@ theorem mateEquiv_etaleModuleForgetInverseImageIso' {X Y : Scheme.{u}} (g : Y �
       (TwoSquare.mk _ _ _ _ (etaleModuleForgetInverseImageIso Λ g).hom) =
       TwoSquare.mk (etaleModuleDirectImage.{u, w} Λ g) (etaleModuleForgetAb.{u, w} Λ Y)
         (etaleModuleForgetAb.{u, w} Λ X) (etaleAbelianDirectImage.{u, w} g) (𝟙 _) :=
-  TwoSquare.ext _ _ fun N => by
-    have := congrArg (fun t => t.app N) (mateEquiv_etaleModuleForgetInverseImageIso Λ g)
-    exact this
+  NatTrans.ext (funext fun N => by
+    have := congrArg (fun t => NatTrans.app t N) (mateEquiv_etaleModuleForgetInverseImageIso Λ g)
+    exact this)
 
 variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (f' : X' ⟶ Y') (g : Y' ⟶ Y) (g' : X' ⟶ X)
   (h : g' ≫ f = f' ≫ g)
@@ -215,11 +215,11 @@ theorem etaleModuleForgetInverseImageIso_comp_map_etaleModuleBaseChange
       (etaleAbelianDirectImageCompIso'.{u, w} f' g (f' ≫ g) rfl).inv)) (by
         rw [mateEquiv_etaleModuleForgetInverseImageIso',
           mateEquiv_etaleModuleForgetInverseImageIso']
-        refine TwoSquare.ext _ _ fun M => ?_
+        refine NatTrans.ext (funext fun M => ?_)
         refine Sheaf.hom_ext ?_
         refine NatTrans.ext (funext fun U => ?_)
         rfl)
-  have h0 := congrArg (fun t => t.natTrans.app M) hcube
+  have h0 := congrArg (fun t => NatTrans.app t M) hcube
   simp only [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom,
     NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,

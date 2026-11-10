@@ -182,7 +182,7 @@ theorem exists_tuplePresheaf_iso_cechTower (r : ℕ) :
     have hcomp := congrArg (fun φ => φ.app y ((inv FP).app y x))
       (componentPresheafMap_comp z fst (CatFiberedInGroupoids.homFunctor e.hom))
     simp only [NatTrans.comp_app_apply] at hcomp
-    show (componentPresheafMap z (fst ⋙ CatFiberedInGroupoids.homFunctor e.hom)).app y
+    change (componentPresheafMap z (fst ⋙ CatFiberedInGroupoids.homFunctor e.hom)).app y
       ((inv FP).app y x) = _
     rw [hcomp, hfst]
     rfl
@@ -291,7 +291,7 @@ lemma prop_atlasObj_of_isSmooth {D : BigFppfOver B S hS}
       ((CatFiberedInGroupoids.homFunctor a.hom).map (Over.homMk z₀.hom (Category.comp_id _) :
         z₀ ⟶ Over.mk (𝟙 U₀)))
     have := hsm
-    show Smooth ((BigFppfOver.toScheme B S hS).map _)
+    change Smooth ((BigFppfOver.toScheme B S hS).map _)
     rw [h]
     simp only [Functor.map_comp]
     infer_instance

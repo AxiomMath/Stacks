@@ -156,7 +156,7 @@ theorem underIdeal_isMaximal (P : TameSymbolPreparation a B) (Q : Ideal (A' ⊗[
     have h : (underIdeal Q).comap (algebraMap A B) =
         (Q.comap (algebraMap A' (A' ⊗[A] B))).comap (algebraMap A A') := by
       ext x
-      show Algebra.TensorProduct.includeRight (algebraMap A B x) ∈ Q ↔ _
+      change Algebra.TensorProduct.includeRight (algebraMap A B x) ∈ Q ↔ _
       rw [includeRight_algebraMap]
       rfl
     rw [h, hA']
@@ -213,8 +213,7 @@ omit [IsLocalRing A] [IsLocalRing A'] [IsLocalHom (algebraMap A A')] in
 theorem baseChange_linearMap_apply (x : A' ⊗[A] A) :
     (LinearMap.baseChange A' (Algebra.linearMap A B)) x =
       algebraMap A' (A' ⊗[A] B) ((TensorProduct.rid A A') x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t a =>
     simp only [LinearMap.baseChange_tmul, Algebra.linearMap_apply, TensorProduct.rid_tmul,
       Algebra.smul_def, Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self_apply]

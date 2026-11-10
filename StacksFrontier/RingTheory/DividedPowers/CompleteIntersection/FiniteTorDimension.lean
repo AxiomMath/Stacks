@@ -58,7 +58,7 @@ public lemma finiteTorDimension_of_hasProjectiveDimensionLE
         (((Tor_iso_Tor' R (p + 1)).app M).app N)
   | succ n ih =>
       have hP : CategoryTheory.Projective (Tor_iso_Tor'.syzygySC R M).X₂ := by
-        show CategoryTheory.Projective (CategoryTheory.Projective.over M)
+        change CategoryTheory.Projective (CategoryTheory.Projective.over M)
         infer_instance
       have hK' : HasProjectiveDimensionLE (Tor_iso_Tor'.syzygy R M) n :=
         ((Tor_iso_Tor'.syzygySC_shortExact R M).hasProjectiveDimensionLT_X₃_iff n hP).mp h

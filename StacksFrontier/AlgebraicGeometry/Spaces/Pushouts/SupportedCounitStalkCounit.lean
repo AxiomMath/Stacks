@@ -75,7 +75,7 @@ theorem counit_app_eq_conjugateIso {L₁ L₂ : C ⥤ D} {R₁ R₂ : D ⥤ C} (
     adj₁.counit.app d = L₁.map (e.hom.app d) ≫
       ((conjugateIsoEquiv adj₂ adj₁).symm e.symm).hom.app (R₂.obj d) ≫ adj₂.counit.app d := by
   have h := conjugateEquiv_counit_symm adj₂ adj₁ e.inv d
-  show _ = _ ≫ ((conjugateEquiv adj₂ adj₁).symm e.inv).app (R₂.obj d) ≫ adj₂.counit.app d
+  change _ = _ ≫ ((conjugateEquiv adj₂ adj₁).symm e.inv).app (R₂.obj d) ≫ adj₂.counit.app d
   rw [← h, ← Functor.map_comp_assoc, Iso.hom_inv_id_app, Functor.map_id, Category.id_comp]
 
 end CategoryTheory.Adjunction

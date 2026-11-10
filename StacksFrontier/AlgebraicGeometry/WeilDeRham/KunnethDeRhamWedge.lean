@@ -102,7 +102,7 @@ theorem pullbackFormsOfEq_eq (h : inverseImageBase f' ⟶ inverseImageBase f)
         DerivedCategory.Q.map (pullbackFormsChainOfEq g' f' f g w h e) := by
   let := @HasDerivedCategory.standard.{u, u + 1}
   subst e
-  show deRhamPullbackComparisonQ g' f' f g w = _ ≫ DerivedCategory.Q.map
+  change deRhamPullbackComparisonQ g' f' f g w = _ ≫ DerivedCategory.Q.map
     (deRhamPullbackInt g' f' f g w)
   rw [deRhamPullbackComparisonQ, deRhamBaseChangeComparison, pullbackComplexComparison]
   have hnat := (DerivedCategory.quotientCompQhIso _).hom.naturality (deRhamPullbackInt g' f' f g w)

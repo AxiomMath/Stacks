@@ -160,7 +160,7 @@ theorem subschemeι_integralComponentIso (f : W ⟶ X) [IsClosedImmersion f] (z 
     (t : (integralComponentAt z).subscheme) :
     (integralComponentAt (f.base z)).subschemeι ((integralComponentIso f z).hom.base t) =
       f.base ((integralComponentAt z).subschemeι t) := by
-  show (integralComponentMap f z ≫ (integralComponentAt (f.base z)).subschemeι).base t = _
+  change (integralComponentMap f z ≫ (integralComponentAt (f.base z)).subschemeι).base t = _
   rw [integralComponentMap_subschemeι]
   rfl
 

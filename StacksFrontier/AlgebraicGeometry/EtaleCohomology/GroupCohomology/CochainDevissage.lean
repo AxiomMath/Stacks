@@ -65,7 +65,7 @@ theorem exists_isLocallyConstant_extend (U : OpenSubgroup G) {α : Type v} [Zero
     refine ⟨W ∩ (U : Set G), hWopen.inter U.isOpen', ⟨hxW, hx⟩, fun g hg ↦ ?_⟩
     have hgU : g ∈ U := hg.2
     have hmemV : (⟨g, hgU⟩ : U) ∈ V := by rw [← hWV]; exact hg.1
-    simp only [dif_pos hgU, dif_pos hx]
+    simp only [dite_eq_left hgU, dite_eq_left hx]
     exact hV _ hmemV
   · refine ⟨(U : Set G)ᶜ, U.isClosed.isOpen_compl, hx, fun g hg ↦ ?_⟩
     simp only [Set.mem_compl_iff, SetLike.mem_coe] at hg
@@ -105,19 +105,19 @@ private theorem exists_transversal (U : OpenSubgroup G) :
     · have hg : g ∈ U := by
         have := QuotientGroup.eq.1 (h.trans (by rw [he]))
         simpa using this
-      rw [if_pos h, inv_one, mul_one]
+      rw [ite_eq_left h, inv_one, mul_one]
       exact hg
     · have hout : (QuotientGroup.mk (Quotient.out
           (QuotientGroup.mk g⁻¹ : G ⧸ U.toSubgroup)) : G ⧸ U.toSubgroup) =
           QuotientGroup.mk g⁻¹ := Quotient.out_eq _
       have hmem := U.toSubgroup.inv_mem (QuotientGroup.eq.1 hout)
-      rw [if_neg h, inv_inv]
+      rw [ite_eq_right h, inv_inv]
       simpa using hmem
   · intro i
     dsimp only
     by_cases h : i = e
-    · rw [h, if_pos (rfl : e = e), inv_one]
-    · rw [if_neg h, inv_inv]
+    · rw [h, ite_eq_left (rfl : e = e), inv_one]
+    · rw [ite_eq_right h, inv_inv]
       exact Quotient.out_eq _
   · intro w hw g
     dsimp only

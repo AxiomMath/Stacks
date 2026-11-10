@@ -67,8 +67,8 @@ transferring depth along an isomorphism of pairs (ring, module).
 
 Three facts about `Module.depth` (Stacks 00LI) that Mathlib does not state, for lack of the
 definition, are proved here as private lemmas; the first two also occur in the companion
-statements Stacks 0FCC and 0BK4. They are: a weakly regular sequence in `I` has length at most `depth_I(M)`;
-a nonzero `I`-depth produces a nonzerodivisor in `I`; and `n + 1 ≤ depth_I(M)` implies
+statements Stacks 0FCC and 0BK4. They are: a weakly regular sequence in `I` has length at most
+`depth_I(M)`; a nonzero `I`-depth produces a nonzerodivisor in `I`; and `n + 1 ≤ depth_I(M)` implies
 `n ≤ depth_I(M/xM)` for `x ∈ I` a nonzerodivisor on `M`, the inequality form of Stacks 090R.
 
 ## References
@@ -184,7 +184,7 @@ private theorem depth_eq_zero_of_isAssociatedPrime (hq : IsAssociatedPrime q N) 
   have hk : a ^ k • m = 0 := by simpa using Submodule.mem_colon_singleton.mp hk0
   have hzero : g m = 0 := by
     refine hareg.pow k ?_
-    show (algebraMap S Sₘ a) ^ k • g m = (algebraMap S Sₘ a) ^ k • (0 : Nₘ)
+    change (algebraMap S Sₘ a) ^ k • g m = (algebraMap S Sₘ a) ^ k • (0 : Nₘ)
     rw [smul_zero, ← map_pow, algebraMap_smul, ← map_smul, hk, map_zero]
   obtain ⟨t, ht⟩ := (IsLocalizedModule.eq_zero_iff q.primeCompl g).mp hzero
   exact t.2 (hcol (Submodule.mem_colon_singleton.mpr (Submodule.mem_bot S |>.mpr ht)))
@@ -334,7 +334,7 @@ public theorem solution
         depth (Sₘ P) (IsLocalRing.maximalIdeal (Sₘ P)) (Nₘ P) := by
   have inst : ∀ P : MaximalSpectrum S, IsLocalRing (Sₘ P) := fun P =>
     IsLocalization.AtPrime.isLocalRing (Sₘ P) P.asIdeal
-  show depth R (maximalIdeal R) N
+  change depth R (maximalIdeal R) N
       = ⨅ P : MaximalSpectrum S, depth (Sₘ P) (maximalIdeal (Sₘ P)) (Nₘ P)
   have : Module.Finite R N := Module.Finite.trans S N
   refine le_antisymm (le_iInf fun P => ?_) (ENat.forall_natCast_le_iff_le.mp fun n hn => ?_)

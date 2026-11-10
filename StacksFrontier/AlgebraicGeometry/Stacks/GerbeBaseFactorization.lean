@@ -62,7 +62,7 @@ theorem exists_isGerbeOver_algebraicSpaceStack {𝒲 : AlgebraicStacks.{u, w} B 
   let F : 𝒲.val.val ⥤ᵇ (algebraicSpaceStack.{u, w} B S hS V hV).val.val :=
     BasedFunctor.comp g.hom.hom ⟨E.hom.functor, E.hom.w⟩
   refine ⟨V, hV, Bicategory.InducedBicategory.mkHom (Bicategory.InducedBicategory.mkHom F), ?_⟩
-  show CategoryTheory.IsGerbeOver (BigFppfOver.topology B S hS)
+  change CategoryTheory.IsGerbeOver (BigFppfOver.topology B S hS)
     (algebraicSpaceStack.{u, w} B S hS V hV).val.val.p
     (CatFiberedInGroupoids.homFunctor g.hom ⋙ E.hom.functor)
   refine CategoryTheory.IsGerbeOver.comp ?_
@@ -118,7 +118,7 @@ theorem nonempty_iso_of_forall_sectionOfObj_eq {𝒲 : AlgebraicStacks.{u, w} B 
     have hcl : Functor.isoClassMk qY (Functor.Fiber.mk hk) =
         Functor.isoClassMk qY (Functor.Fiber.mk hh) := by
       apply (eY.app (op (p.obj x))).toEquiv.injective
-      show ULift.up (PresheafOfCategories.sectionOfObj
+      change ULift.up (PresheafOfCategories.sectionOfObj
           (StacksRepresentableCFG.EquivalenceOver.refl qY) _ hk) =
         ULift.up (PresheafOfCategories.sectionOfObj
           (StacksRepresentableCFG.EquivalenceOver.refl qY) _ hh)

@@ -52,7 +52,8 @@ sense of Stacks Tag 01VM.
 algebra is the surjectivity on the sections over each affine open of the base, which is what
 `Stacks.Tag01VMRelativeVeryAmple.eventuallySurjectiveOnAffineSections_canonicalSymHom` provides
 for the canonical map; the third assertion of Tag 07ZK is restated here over that hypothesis, as
-its first two are in `StacksFrontier.AlgebraicGeometry.RelativeVeryAmpleTwist.CanonicalSymSurjective`.
+its first two are in
+`StacksFrontier.AlgebraicGeometry.RelativeVeryAmpleTwist.CanonicalSymSurjective`.
 
 **Invertibility is not an instance.** Generation in degree one is an explicit hypothesis of
 `Stacks.Tag07ZRVeryAmple.isInvertibleModule_twistOne`, so the invertibility needed to state

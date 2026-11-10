@@ -126,7 +126,7 @@ theorem projectiveBundleChartOfHom_comp_mapOfSplitEpi {V : SmallEtale B S hS X.1
   have h₂ := congrArg yoneda.map
     ((projectiveBundleChartFamilyHomOfSplitEpi E E' u σ hσ hfree hfree').siteMap_siteApp m)
   rw [Functor.map_comp, Functor.map_comp] at h₂
-  show yoneda.map ((projectiveBundleChartFamily E' hfree').siteMap m) ≫
+  change yoneda.map ((projectiveBundleChartFamily E' hfree').siteMap m) ≫
       projectiveBundleChart E' hfree' ≫
         (projectiveBundleMapOfSplitEpi E E' u σ hσ hfree hfree').hom =
     yoneda.map ((projectiveBundleChartFamilyHomOfSplitEpi E E' u σ hσ hfree hfree').siteApp V) ≫

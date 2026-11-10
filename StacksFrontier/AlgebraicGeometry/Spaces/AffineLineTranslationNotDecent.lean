@@ -206,12 +206,12 @@ theorem actionRelation_rel_of_smul (U : Over S) (G : Type) [Group G] (a : G →*
   refine ⟨y ≫ Sigma.ι (fun _ : G ↦ U) g, ?_, ?_⟩
   · rw [Category.assoc, show (actionRelation U G a).target = actionRelationTarget U G a from
       prod.lift_fst _ _]
-    show y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
-    rw [Sigma.ι_desc]
+    change y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
+    rw [Sigma.ι_comp_desc]
   · rw [Category.assoc, show (actionRelation U G a).source = actionRelationSource U G from
       prod.lift_snd _ _]
-    show y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun _ : G ↦ 𝟙 U) = _
-    rw [Sigma.ι_desc, Category.comp_id]
+    change y ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun _ : G ↦ 𝟙 U) = _
+    rw [Sigma.ι_comp_desc, Category.comp_id]
 
 /-- Two points of a scheme over `S` with a one-point source which are related by the graph
 relation of a group action differ by the action of a group element: the morphism into the
@@ -254,11 +254,11 @@ theorem exists_smul_eq_of_actionRelation_rel (U : Over S) (G : Type) [Group G]
   refine ⟨g, ?_⟩
   have hy : y = c := by
     rw [← hrs, ← hcr, Category.assoc]
-    show c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun _ : G ↦ 𝟙 U) = c
-    rw [Sigma.ι_desc, Category.comp_id]
+    change c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun _ : G ↦ 𝟙 U) = c
+    rw [Sigma.ι_comp_desc, Category.comp_id]
   rw [← hrt, ← hcr, Category.assoc, hy]
-  show c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
-  rw [Sigma.ι_desc]
+  change c ≫ Sigma.ι (fun _ : G ↦ U) g ≫ Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
+  rw [Sigma.ι_comp_desc]
 
 /-- A monomorphic field-valued representative separates the morphisms into the object of the
 site it is defined on: two of them restricting its section to the same section agree. -/
@@ -337,7 +337,7 @@ theorem exists_finiteType_lift_quotientChart (B : BigFppfSite.{u}) (S : Scheme.{
         (quotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion) j).obj.map s.op
           p.value := by
   have : Unique ((BigFppfOver.toScheme B S hS).obj (p.siteObject B S hS _)) := by
-    show Unique (Spec (.of p.carrier))
+    change Unique (Spec (.of p.carrier))
     infer_instance
   obtain ⟨c, q, ℓ, hlfp, ⟨y₀, -⟩, hℓ⟩ :=
     exists_lift_quotientChart B S hS V j (p.siteObject B S hS _) p.value default
@@ -355,11 +355,11 @@ theorem exists_finiteType_lift_quotientChart (B : BigFppfSite.{u}) (S : Scheme.{
   let wM : (Over.mk (⟨Spec.map (CommRingCat.ofHom φ) ≫ p.toBase⟩ : B.obj hM ⟶ B.obj hS) :
       BigFppfOver B S hS) ⟶ c := Over.homMk (⟨w⟩ : B.obj hM ⟶ c.left) (by
     apply ObjectProperty.hom_ext
-    show w ≫ B.inclusion.map c.hom = Spec.map (CommRingCat.ofHom φ) ≫ p.toBase
+    change w ≫ B.inclusion.map c.hom = Spec.map (CommRingCat.ofHom φ) ≫ p.toBase
     rw [← hqw, ← Category.assoc, hwcomm])
   refine ⟨M, hMf, φ, hM, wM ≫ q, wM ≫ ℓ, hφft, hwcomm, ?_⟩
   let X := (quotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion) j).obj
-  show (quotientChart (BigFppfOver.topology B S hS) (Over.post B.inclusion) V j).app _
+  change (quotientChart (BigFppfOver.topology B S hS) (Over.post B.inclusion) V j).app _
     (wM ≫ ℓ) = X.map (wM ≫ q).op p.value
   rw [app_comp_eq_map_app, hℓ, op_comp, Functor.map_comp_apply]
 
@@ -614,7 +614,7 @@ theorem false_of_lift_eq_comp_genericPointMap (k : Type u) [Field k] [CharZero k
     charZero_of_injective_algebraMap (R := k) (A := p.carrier)
       (algebraMap k p.carrier).injective
   exact hφ.add_one_ne (ι ≫ eaC).hom (ι ≫ ebC).hom hcommutes z (by
-    show ebC.hom (ι.hom z) + 1 = eaC.hom (ι.hom z)
+    change ebC.hom (ι.hom z) + 1 = eaC.hom (ι.hom z)
     rw [hcoord, hlaurent])
 
 /-- **Stacks 02Z7, part 3.** The generic point of the quotient `X = 𝔸¹_k/ℤ` has *no*
@@ -682,7 +682,7 @@ theorem not_hasMonomorphicFieldRepresentative_genericQuotientPoint (k : Type u) 
     Over.homMk (⟨ca⟩ : B.obj hN ⟶ B.obj rr.contained) (by apply ObjectProperty.hom_ext; rfl)
   let cbN : Nobj ⟶ Mobj := Over.homMk (⟨cb⟩ : B.obj hN ⟶ B.obj hM) (by
     apply ObjectProperty.hom_ext
-    show cb ≫ Spec.map (CommRingCat.ofHom φ) ≫ p.toBase = ca ≫ rr.toBase
+    change cb ≫ Spec.map (CommRingCat.ofHom φ) ≫ p.toBase = ca ≫ rr.toBase
     rw [← hσbase, ← hsMscheme, ← Category.assoc, ← hcab, Category.assoc])
   have hcbsM : cbN ≫ sM = caN ≫ σ := by
     refine BigFppfOver.hom_ext ?_
@@ -693,12 +693,12 @@ theorem not_hasMonomorphicFieldRepresentative_genericQuotientPoint (k : Type u) 
   have hNeq : chart.app (op Nobj) (cbN ≫ ℓM) = chart.app (op Nobj) ((caN ≫ τ) ≫ gpm) := by
     have h2 : chart.app (op Nobj) ((caN ≫ τ) ≫ gpm) = X.map (caN ≫ σ).op p.value := by
       rw [app_comp_eq_map_app chart (caN ≫ τ) gpm]
-      show X.map (caN ≫ τ).op generic.value = _
+      change X.map (caN ≫ τ).op generic.value = _
       rw [op_comp, Functor.map_comp_apply, hτ, ← hσ, op_comp, Functor.map_comp_apply]
     rw [hliftN, h2, hcbsM]
   -- The lift factors through the generic point, up to an integer translation.
   have : Unique ((Over.post B.inclusion).obj Nobj).left := by
-    show Unique (Spec (.of N))
+    change Unique (Spec (.of N))
     infer_instance
   obtain ⟨ν, hν⟩ := exists_comp_genericPointMap_of_quotientChart_eq k B hS hU (cbN ≫ ℓM)
     ((caN ≫ τ) ≫ gpm) (F.map (caN ≫ τ)) (by

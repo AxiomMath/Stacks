@@ -67,7 +67,7 @@ public lemma restrictionLinearMap_comp {X : Scheme.{u}} (M : X.Modules)
     {U V W : X.Opens} (i : U ⟶ V) (j : V ⟶ W) (s : Γ(M, W)) :
     restrictionLinearMap M i (restrictionLinearMap M j s) =
       restrictionLinearMap M (i ≫ j) s := by
-  show ((M.presheaf.map j.op) ≫ (M.presheaf.map i.op)).hom s =
+  change ((M.presheaf.map j.op) ≫ (M.presheaf.map i.op)).hom s =
     (M.presheaf.map (i ≫ j).op).hom s
   rw [show (i ≫ j).op = j.op ≫ i.op from Subsingleton.elim _ _, ← M.presheaf.map_comp]
 
@@ -136,7 +136,7 @@ public theorem localizedDualizingModuleMap_eq_of_eq_id
         exact hinj heq }
   have hcomparison (x : dualizingModule F) :
       comparison (r₁ x) = r₂ (dualizingModuleEquiv F F x) := by
-    show cB (r₁ x) = r₂ (dualizingModuleEquiv F F x)
+    change cB (r₁ x) = r₂ (dualizingModuleEquiv F F x)
     rw [dualizingModuleEquiv_refl]
     exact hcB x
   have hcomparison_id : ∀ m : dualizingModule G, comparison m = m := by

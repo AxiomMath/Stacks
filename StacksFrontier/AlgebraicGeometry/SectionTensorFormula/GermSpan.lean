@@ -190,8 +190,7 @@ lemma mem_range_germ_tensorSectionLinear (F G : X.Modules) [IsInvertibleModule X
     (w : TensorProduct Γ(X, U) Γ(F, U) Γ(G, U)) :
     ((F ⊗ G).presheaf.germ U x hxU).hom (tensorSectionLinear F G U w)
       ∈ LinearMap.range (Stacks.ModuleStalk.map (mulSec F G n) x) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul m q => exact mem_range_germ_tensorSection F G n hx U hxU m q
   | add w w' hw hw' =>
       rw [map_add, map_add]

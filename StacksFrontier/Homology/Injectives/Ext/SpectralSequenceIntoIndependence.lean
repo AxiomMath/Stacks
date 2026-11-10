@@ -275,7 +275,7 @@ lemma quasiIso_resolutionConeFst_natTrans_app
   have h₂ := quasiIso_extIntoResolution_natTrans_app.{w', w} M (K := L) p
   have h₃ : QuasiIso (f.natTrans.app (op p) ≫
       (extIntoResolution.{w', w} M L).natTrans.app (op p)) := inferInstance
-  show QuasiIso (biprod.inl ≫
+  change QuasiIso (biprod.inl ≫
     CochainComplex.mappingCone.inr ((resolutionSumMap.{w', w} M f).natTrans.app (op p)))
   rw [resolutionSumMap_natTrans_app]
   exact quasiIso_biprod_inl_comp_mappingCone_inr _ _
@@ -284,7 +284,7 @@ lemma quasiIso_resolutionConeFst_natTrans_app
 lemma quasiIso_resolutionConeSnd_natTrans_app (p : ℤ) :
     QuasiIso ((resolutionConeSnd.{w', w} M f).natTrans.app (op p)) := by
   have h₁ := quasiIso_extIntoResolution_natTrans_app.{w', w} M (K := K) p
-  show QuasiIso (biprod.inr ≫
+  change QuasiIso (biprod.inr ≫
     CochainComplex.mappingCone.inr ((resolutionSumMap.{w', w} M f).natTrans.app (op p)))
   rw [resolutionSumMap_natTrans_app]
   exact quasiIso_biprod_inr_comp_mappingCone_inr _ _
@@ -308,7 +308,7 @@ private lemma quasiIso_natTrans_app_comp_extIntoResolution {X : CochainComplex.F
     QuasiIso ((a ≫ extIntoResolution.{w', w} M (resolutionCone.{w', w} M f)).natTrans.app
       (op p)) := by
   have := quasiIso_extIntoResolution_natTrans_app.{w', w} M (K := resolutionCone.{w', w} M f) p
-  show QuasiIso (a.natTrans.app (op p) ≫ _)
+  change QuasiIso (a.natTrans.app (op p) ≫ _)
   infer_instance
 
 /-- **The comparison of chosen filtered K-injective resolutions, first leg.**  It is a

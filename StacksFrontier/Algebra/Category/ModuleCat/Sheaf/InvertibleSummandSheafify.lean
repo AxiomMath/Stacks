@@ -19,8 +19,8 @@ proves that statement.
 
 The ingredients that are purely algebraic — the fact that a universal map into a sheaf of modules
 is locally surjective, and the splitting produced by a dual basis for the tensor pairing — are in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleLocalSummand.lean`. What this file adds is
-the local *injectivity* of the universal map, the comparison of a tensor product of presheaves of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleLocalSummand.lean`. What this file adds
+is the local *injectivity* of the universal map, the comparison of a tensor product of presheaves of
 modules with the tensor product of its restrictions to a slice site, and the assembly.
 
 ## Main definitions

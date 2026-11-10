@@ -317,7 +317,7 @@ theorem bijective_homComparison (M : ModuleCat.{y} R) [Module.FinitePresentation
   have hαinj : Function.Injective α.hom :=
     (presentationHomPi_injective hψ (N : Type x)).comp e.symm.injective
   have hrange : LinearMap.range α.hom = LinearMap.ker β.hom := by
-    show LinearMap.range (presentationHomPi ψ (N : Type x) ∘ₗ e.symm.toLinearMap) = _
+    change LinearMap.range (presentationHomPi ψ (N : Type x) ∘ₗ e.symm.toLinearMap) = _
     rw [LinearMap.range_comp_of_range_eq_top _ e.symm.range]
     exact range_presentationHomPi hψ hexact (N : Type x)
   have hker := range_constantSections_map_eq_ker_of_injective J U α β hαinj hrange
@@ -328,7 +328,7 @@ theorem bijective_homComparison (M : ModuleCat.{y} R) [Module.FinitePresentation
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro b
-    show presentationRelPi a (N : Type x) (Pi.single i b) j = _
+    change presentationRelPi a (N : Type x) (Pi.single i b) j = _
     rw [presentationRelPi_apply]
     simp [Pi.single_apply, Finset.sum_ite_eq']
   -- the splitting of the sections of the constant sheaves on the finite powers
@@ -348,7 +348,7 @@ theorem bijective_homComparison (M : ModuleCat.{y} R) [Module.FinitePresentation
     have hmor : ModuleCat.ofHom (LinearMap.lcomp R (N : Type x) e.symm.toLinearMap
         (evalHom (M : Type y) (N : Type x) (ψ (Pi.single i 1)))) = α ≫ piProj N i := by
       ext t
-      show (e.symm t) (ψ (Pi.single i 1)) = presentationHomPi ψ (N : Type x) (e.symm t) i
+      change (e.symm t) (ψ (Pi.single i 1)) = presentationHomPi ψ (N : Type x) (e.symm t) i
       rw [presentationHomPi_apply]
     rw [presentationHomPi_apply, constantSectionsPiEquiv_apply,
       (homComparison J M N E e U).2 s (ψ (Pi.single i 1)), hmor,

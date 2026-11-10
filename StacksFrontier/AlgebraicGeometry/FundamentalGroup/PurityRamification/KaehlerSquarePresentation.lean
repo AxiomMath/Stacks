@@ -130,7 +130,7 @@ theorem formallyUnramified_of_extension {R : Type u} {B : Type v} [CommRing R]
     Module.notMem_support_iff'.mpr fun m => by
       obtain ⟨r, hr, hrm⟩ := hall m
       exact ⟨r, hr, hrm⟩
-  rw [Module.mem_support_iff_of_finite, SetLike.not_le_iff_exists] at hns
+  rw [Module.mem_support_iff_of_finite, IsConcreteLE.not_le_iff_exists] at hns
   obtain ⟨s, hs, hsq⟩ := hns
   exact ⟨s, hsq, Module.mem_annihilator.mp hs⟩
 

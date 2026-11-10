@@ -267,7 +267,7 @@ theorem exists_affineOpen_nonZeroDivisors_sheafMultiplicity_denominatorQuotients
     DenominatorStalk.exists_affineOpen_length_denominatorQuotientStalk_eq hL hs hF hSupp ξ
   obtain ⟨hfin, ha', hb', hdim1, hemb, hsupp, -⟩ :=
     StalkLocalSituation.lengthFormula_hypotheses C f F hdim hF hSupp
-      (denominatorBadLocus_isClosed X L s hL hs)
+      (denominatorBadLocus_isClosed X L s hL)
       (denominatorBadLocus_isNowhereDense X L s hL hs) hVaff hξV hξ hδ ha hb
   refine ⟨V, hξV, hVaff, a, b, ha', hb', ?_⟩
   have : Module.Finite (X.presheaf.stalk ξ) (F.presheaf.stalk ξ) := hfin
@@ -344,7 +344,7 @@ theorem exists_affineOpen_sheafMultiplicity_sub_eq_finsum_componentOrd
       hdim _hX hF hSupp hL hs hξ hδ
   refine ⟨V, hξV, hVaff, a, b, hid.trans ?_⟩
   exact finsum_minimalPrimes_eq_finsum_componentOrd C f hdim
-    (denominatorBadLocus_isClosed X L s hL hs)
+    (denominatorBadLocus_isClosed X L s hL)
     (denominatorBadLocus_isNowhereDense X L s hL hs) hξ hδ (sheafMultiplicity F) hξV ha hb
 
 end Stacks.Chow

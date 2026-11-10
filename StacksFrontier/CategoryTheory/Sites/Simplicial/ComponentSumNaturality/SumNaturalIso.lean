@@ -108,7 +108,7 @@ theorem lanObjObjIsoColimit_naturality_presheaf {C D : Type u} [SmallCategory C]
     (Functor.Final.colimitIso (structuredArrowOpEquivalence L V).functor
       (CostructuredArrow.proj L.op (op V) ⋙ Q))
     (by rw [Functor.Final.colimitIso_hom, Functor.Final.colimitIso_hom]; exact hC.symm)
-  show (L.op.lan.map β).app (op V) ≫
+  change (L.op.lan.map β).app (op V) ≫
       ((L.op.leftKanExtensionObjIsoColimit Q (op V)).hom ≫
         (Functor.Final.colimitIso (structuredArrowOpEquivalence L V).functor
           (CostructuredArrow.proj L.op (op V) ⋙ Q)).inv) =
@@ -219,10 +219,10 @@ theorem sigmaDesc_sumInclusionApp [HasColimitsOfShape (Discrete (n ⟶ m)) A]
     (Limits.Sigma.desc fun ψ : n ⟶ m => sumInclusionApp ψ P W) =
       (lanObjObjSumIso (W := W) P).hom := by
   refine Limits.Sigma.hom_ext _ _ fun ψ => ?_
-  refine (Limits.Sigma.ι_desc _ ψ).trans
+  refine (Limits.Sigma.ι_comp_desc _ ψ).trans
     (Eq.symm ((Limits.Sigma.ι_mapIso_hom_assoc _ ψ _).trans ?_))
   exact congrArg (fun z => (lanObjObjIsoColimit (Cs.underlying.map ψ).toFunctor P W).hom ≫ z)
-    (Limits.Sigma.ι_desc_assoc _ ψ _)
+    (Limits.Sigma.ι_comp_desc_assoc _ ψ _)
 
 /-- **The sum formula of Stacks 09WG (6), as a natural isomorphism.** The morphism induced out of
 the coproduct over the simplex maps `ψ : n ⟶ m` by the comparison maps

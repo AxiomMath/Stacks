@@ -336,7 +336,7 @@ theorem exists_adjoinRing_model
   let ε₀ : X₀ ≅ pullback (limit.π C.diagram i) Xi.hom :=
     (Over.forget _).mapIso eX ≪≫ pullbackSymmetry Xi.hom (limit.π C.diagram i)
   have hε₀ : ε₀.hom ≫ pullback.fst (limit.π C.diagram i) Xi.hom = p ≫ eL.inv := by
-    show (eX.hom.left ≫ (pullbackSymmetry Xi.hom (limit.π C.diagram i)).hom) ≫
+    change (eX.hom.left ≫ (pullbackSymmetry Xi.hom (limit.π C.diagram i)).hom) ≫
       pullback.fst (limit.π C.diagram i) Xi.hom = p ≫ eL.inv
     rw [Category.assoc, pullbackSymmetry_hom_comp_fst]
     exact Over.w eX.hom

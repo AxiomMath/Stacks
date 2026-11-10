@@ -75,7 +75,7 @@ theorem trivializingSection_eq_pow_smul {g : S} (hf : f ∈ 𝒮 d) (hg : g ∈ 
   funext x
   have hn : ((n : ℤ)).toNat = n := by omega
   have hn' : (-(n : ℤ)).toNat = 0 := by omega
-  show trivializingFun 𝒮 (n : ℤ) hWf x =
+  change trivializingFun 𝒮 (n : ℤ) hWf x =
     HomogeneousLocalization.val ((c ^ n).1 x) * trivializingFun 𝒮 (n : ℤ) hWg x
   have hcn : HomogeneousLocalization.val ((c ^ n).1 x) =
       (Localization.mk f ⟨g, hWg x.2⟩) ^ n := by

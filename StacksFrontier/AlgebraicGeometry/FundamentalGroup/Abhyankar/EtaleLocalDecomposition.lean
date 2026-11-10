@@ -16,8 +16,7 @@ invertible in `D`, such that `D_φ ⊗_{R_φ} B ≅ ∏ᵢ D[x]/(x^{eᵢ} - φ)_
 
 ## Main results
 
-* `AlgebraicGeometry.Abhyankar.exists_etale_kummerAway_algEquiv`: the statement above, granted
-  purity for regular local rings.
+* `AlgebraicGeometry.Abhyankar.exists_etale_kummerAway_algEquiv`: the statement above.
 
 ## References
 
@@ -98,9 +97,8 @@ assume that `R_p` and `R_p/φ` are regular local rings and that, if the strict h
 `R` at `p` is a regular local ring in which `φ ≠ 0`, the base change of `B` to `Λ` is tamely
 ramified over `Spec Λ` in codimension one. Then there are
 an étale `R`-algebra `D` with a prime `q` over `p` and integers `eᵢ ≥ 1` invertible in `D` with
-`∏ᵢ D[x]/(x^{eᵢ} - φ)_φ ≅ D_φ ⊗_{R_φ} B` over `D`. The argument `h0BMA` is purity for regular local
-rings ([Stacks, Tag 0BMA] (1)). -/
-theorem exists_etale_kummerAway_algEquiv (h0BMA : PurityAtRegularLocalRings.{u})
+`∏ᵢ D[x]/(x^{eᵢ} - φ)_φ ≅ D_φ ⊗_{R_φ} B` over `D`. -/
+theorem exists_etale_kummerAway_algEquiv
     {R : Type u} [CommRing R] [IsNoetherianRing R] (φ : R) (hφ : φ ∈ nonZeroDivisors R)
     (p : Ideal R) [p.IsPrime]
     (hreg : φ ∈ p → IsRegularLocalRing (Localization.AtPrime p) ∧
@@ -146,7 +144,7 @@ theorem exists_etale_kummerAway_algEquiv (h0BMA : PurityAtRegularLocalRings.{u})
         have hreg' : IsSMulRegular Λ φ := Module.Flat.isSMulRegular_of_nonZeroDivisors hφ
         apply one_ne_zero (α := Λ)
         apply hreg'
-        show φ • (1 : Λ) = φ • (0 : Λ)
+        change φ • (1 : Λ) = φ • (0 : Λ)
         rw [smul_zero, Algebra.smul_def, h, zero_mul]
       have hI : Ideal.span {algebraMap R (Localization.AtPrime p) φ} ≤
           maximalIdeal (Localization.AtPrime p) :=
@@ -159,7 +157,7 @@ theorem exists_etale_kummerAway_algEquiv (h0BMA : PurityAtRegularLocalRings.{u})
         rw [Ideal.map_span, Set.image_singleton, ← IsScalarTower.algebraMap_apply]
       have hq' : IsRegularLocalRing (Λ ⧸ Ideal.span {algebraMap R Λ φ}) :=
         IsRegularLocalRing.of_ringEquiv (Ideal.quotEquivOfEq hmap)
-      obtain ⟨n, e, he, σ, hσ⟩ := exists_ringEquiv_pi_of_isRegularLocalRing h0BMA Λ
+      obtain ⟨n, e, he, σ, hσ⟩ := exists_ringEquiv_pi_of_isRegularLocalRing Λ
         (algebraMap R Λ φ) hφm hφ0 hq'
         (Localization.Away (algebraMap R Λ φ) ⊗[Localization.Away φ] B) (htame hφp hΛreg hφ0)
       exact ⟨n, e, he, ⟨algEquivOfRingEquivKummerAway σ hσ⟩⟩

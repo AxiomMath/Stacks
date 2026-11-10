@@ -73,7 +73,8 @@ homology vanishes, and an object with an invertible zero endomorphism is zero.
 
 *The on-image half.*  Nothing in this file is tagged.  The invertibility of the derived stalk
 of the base change map at the points of `Z'`, and with it Stacks 0E23, is proved in
-`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/ClosedImmersionBaseChangeTorIndependent.lean`
+the file `ClosedImmersionBaseChangeTorIndependent.lean` of the directory
+`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/`
 (`Stacks.Cohomology.ClosedImmersionBaseChange.derivedBaseChangeSquareAsIso`).  The off-image half
 does not use Tor independence.
 

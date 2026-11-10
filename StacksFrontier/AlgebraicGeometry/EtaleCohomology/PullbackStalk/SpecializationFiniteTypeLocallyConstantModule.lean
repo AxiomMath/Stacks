@@ -153,7 +153,7 @@ public theorem bijective_moduleConstantGerm (s : GeometricPoint S)
     have hgy : Φ.fiber.map (g ≫ k) y = x := by
       rw [Φ.fiber.map_comp, CategoryTheory.comp_apply, hy]
       exact hk
-    show Φ.toPresheafFiber U x P (ψ.app (op (Over.mk (𝟙 U))) e) = z
+    change Φ.toPresheafFiber U x P (ψ.app (op (Over.mk (𝟙 U))) e) = z
     rw [← hgy, ← Φ.toPresheafFiber_w_apply (g ≫ k) y P, hval,
       Φ.toPresheafFiber_w_apply g y P, hy]
     exact hz

@@ -73,7 +73,7 @@ def etaleModuleConstantComplexZModIso (ℓ n : ℕ) :
     (constantSheaf (Spec (.of kbar)).smallEtaleTopology (ModuleCat.{u + 1} (ZMod (ℓ ^ n))))).app
       (ModuleCat.of (ZMod (ℓ ^ n)) (ULift.{u + 1} (ZMod (ℓ ^ n))))
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [IsCurve k pU] [Smooth pU] [IsFinite f] [Etale f] in
 include hjU in
 /-- **Steps 8 and 9 of [Stacks, Tag 03UG] for a Galois cover, with `Λ = ℤ/ℓⁿ`**: the Frobenius of
 `RΓ(Y_k̄, j_!(f_* j'^{-1} Λ_{V̄}))` composed with the deck transformation `a` has trace zero,

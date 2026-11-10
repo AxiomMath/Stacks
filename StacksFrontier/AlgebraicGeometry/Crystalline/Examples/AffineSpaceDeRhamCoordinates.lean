@@ -77,7 +77,7 @@ public theorem eq_zero_of_pow_nsmul_eq_zero (v : ℕ) {a : T.D} (h : (T.p ^ v) �
     Nat.cast_pow] at h1
   have hxe : x ∈ T.levelFiltration e := T.mem_levelFiltration_of_pow_mul_mem e v h1
   rw [← AdicCompletion.transitionMap_comp_eval_apply _ _ (Nat.le_add_right e v) a, ← hx]
-  show (T.levelFiltration e).mkQ x = 0
+  change (T.levelFiltration e).mkQ x = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact hxe
 
@@ -186,17 +186,17 @@ public theorem formsOneEquiv_deRhamDifferential_zero (omega : T.forms 0) :
       (fun _ : Fin 0 ↦ dividedPowerDifferential (A := T.A) T.completedDividedPowers b) =
       omega := by
     refine T.formsZeroEquiv.injective ?_
-    show exteriorPower.zeroEquiv T.D T.differentials
+    change exteriorPower.zeroEquiv T.D T.differentials
       (b • exteriorPower.ιMulti T.D 0
         (fun _ : Fin 0 ↦ dividedPowerDifferential (A := T.A) T.completedDividedPowers b)) = b
     rw [map_smul, exteriorPower.zeroEquiv_ιMulti, smul_eq_mul, mul_one]
   have hgen := (dividedPowerDeRhamComplex (A := T.A)
     T.completedDividedPowers).differential_generator 0 (fun _ : Fin 1 ↦ b)
   rw [hzero] at hgen
-  show T.formsOneEquiv ((dividedPowerDeRhamComplex (A := T.A)
+  change T.formsOneEquiv ((dividedPowerDeRhamComplex (A := T.A)
     T.completedDividedPowers).differential 0 omega) = T.differential b
   rw [hgen]
-  show exteriorPower.oneEquiv T.D T.differentials
+  change exteriorPower.oneEquiv T.D T.differentials
     (exteriorPower.ιMulti T.D 1
       (fun _ : Fin 1 ↦ dividedPowerDifferential (A := T.A) T.completedDividedPowers b)) =
     T.differential b
@@ -227,7 +227,7 @@ public def completedFormsZeroEquiv : T.completedForms 0 ≃ₗ[T.A] T.D :=
 public theorem of_completedFormsZeroEquiv (xi : T.completedForms 0) :
     AdicCompletion.of T.baseIdeal T.D (T.completedFormsZeroEquiv xi) =
       AdicCompletion.map T.baseIdeal (T.formsZeroMap) xi := by
-  show AdicCompletion.of T.baseIdeal T.D ((AdicCompletion.ofLinearEquiv T.baseIdeal T.D).symm
+  change AdicCompletion.of T.baseIdeal T.D ((AdicCompletion.ofLinearEquiv T.baseIdeal T.D).symm
     (AdicCompletion.congr T.baseIdeal (T.formsZeroEquiv.restrictScalars T.A) xi)) = _
   rw [AdicCompletion.of_ofLinearEquiv_symm]
   rfl
@@ -247,7 +247,7 @@ private theorem apply_of_eq_of_of_eq_map {R M N : Type*} [CommRing R] [AddCommGr
     (h : ∀ xi, AdicCompletion.of I N (g xi) = AdicCompletion.map I f xi) (m : M) :
     g (AdicCompletion.of I M m) = f m := by
   refine (AdicCompletion.ofLinearEquiv I N).injective ?_
-  show AdicCompletion.of I N _ = AdicCompletion.of I N _
+  change AdicCompletion.of I N _ = AdicCompletion.of I N _
   rw [h, AdicCompletion.map_of]
 
 /-- The identification `Ω^0_D = D` agrees with `Ω^0_{D/A,δ} = D` on the dense image. -/
@@ -267,7 +267,7 @@ public def completedFormsOneFunctional (k : Fin T.r) : T.completedForms 1 →ₗ
 public theorem of_completedFormsOneFunctional (k : Fin T.r) (eta : T.completedForms 1) :
     AdicCompletion.of T.baseIdeal T.D (T.completedFormsOneFunctional k eta) =
       AdicCompletion.map T.baseIdeal (T.formsOneFunctional k) eta := by
-  show AdicCompletion.of T.baseIdeal T.D ((AdicCompletion.ofLinearEquiv T.baseIdeal T.D).symm
+  change AdicCompletion.of T.baseIdeal T.D ((AdicCompletion.ofLinearEquiv T.baseIdeal T.D).symm
     (AdicCompletion.map T.baseIdeal (T.formsOneFunctional k) eta)) = _
   rw [AdicCompletion.of_ofLinearEquiv_symm]
 
@@ -294,7 +294,7 @@ public theorem formsOneFunctional_comp_deRhamDifferential_zero (k : Fin T.r) :
     (T.formsOneFunctional k) ∘ₗ (T.deRhamDifferential 0) =
       (T.pderivHom k) ∘ₗ (T.formsZeroMap) := by
   refine LinearMap.ext fun omega ↦ ?_
-  show T.coordinateFunctional k (T.formsOneEquiv (T.deRhamDifferential 0 omega)) =
+  change T.coordinateFunctional k (T.formsOneEquiv (T.deRhamDifferential 0 omega)) =
     T.pderivHom k (T.formsZeroEquiv omega)
   rw [T.formsOneEquiv_deRhamDifferential_zero, T.coordinateFunctional_differential]
   rfl
@@ -307,16 +307,16 @@ public theorem completedFormsOneFunctional_completedDifferential (k : Fin T.r)
     T.completedFormsOneFunctional k (T.completedDifferential 0 xi) =
       T.pderiv k (T.completedFormsZeroEquiv xi) := by
   revert xi
-  show ∀ xi : AdicCompletion T.baseIdeal (T.forms 0),
+  change ∀ xi : AdicCompletion T.baseIdeal (T.forms 0),
     T.completedFormsOneFunctional k (T.completedDifferential 0 xi) =
       T.pderiv k (T.completedFormsZeroEquiv xi)
   intro xi
   refine (AdicCompletion.ofLinearEquiv T.baseIdeal T.D).injective ?_
-  show AdicCompletion.of T.baseIdeal T.D
+  change AdicCompletion.of T.baseIdeal T.D
       (T.completedFormsOneFunctional k (T.completedDifferential 0 xi)) =
     AdicCompletion.of T.baseIdeal T.D (T.pderiv k (T.completedFormsZeroEquiv xi))
   rw [T.of_completedFormsOneFunctional, T.of_pderiv, T.of_completedFormsZeroEquiv']
-  show AdicCompletion.map T.baseIdeal (T.formsOneFunctional k)
+  change AdicCompletion.map T.baseIdeal (T.formsOneFunctional k)
       (AdicCompletion.map T.baseIdeal (T.deRhamDifferential 0) xi) =
     AdicCompletion.map T.baseIdeal (T.pderivHom k)
       (AdicCompletion.map T.baseIdeal T.formsZeroMap xi)

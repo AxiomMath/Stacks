@@ -87,8 +87,8 @@ small étale ringed topos of an algebraic space makes every definitional unfoldi
 
   That factorisation *is* available:
   `AlgebraicGeometry.Space.moduleSheafFunctor_map_modulePullbackAdjunction_unit_app` of
-  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleModulePullbackUnitStepTwo.lean` says that the unit of
-  `AlgebraicGeometry.Space.modulePullbackAdjunction` is, on underlying sheaves of sets, the
+  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleModulePullbackUnitStepTwo.lean` says that the unit
+  of `AlgebraicGeometry.Space.modulePullbackAdjunction` is, on underlying sheaves of sets, the
   transpose of `pullbackScalarUnit` along the adjunction of small étale topoi of Stacks 03G2,
   part (3); it is the transported form of
   `Stacks.Sheaves.GradedAlgebraEssentiallySmall.moduleSheafFunctor_map_modulesPullbackUnit`, and

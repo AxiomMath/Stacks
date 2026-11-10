@@ -195,7 +195,7 @@ noncomputable instance coextSMul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (
 /-- The unit of `O'(X)` acts trivially on the section group. -/
 theorem coext_one (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (ψ : coextSec φ F X) : (1 : O'.obj X) • ψ = ψ := by
-  show rightMulEndo φ X.unop 1 ≫ ψ = ψ
+  change rightMulEndo φ X.unop 1 ≫ ψ = ψ
   rw [show rightMulEndo φ X.unop (1 : O'.obj X) = 𝟙 _ from ?_, Category.id_comp]
   ext V b
   exact rightMulComp_one φ X.unop V b
@@ -203,7 +203,7 @@ theorem coext_one (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
 /-- Scaling by a product is scaling by each factor in turn. -/
 theorem coext_mul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (a b : O'.obj X) (ψ : coextSec φ F X) : (a * b) • ψ = a • b • ψ := by
-  show rightMulEndo φ X.unop (a * b) ≫ ψ = rightMulEndo φ X.unop a ≫ rightMulEndo φ X.unop b ≫ ψ
+  change rightMulEndo φ X.unop (a * b) ≫ ψ = rightMulEndo φ X.unop a ≫ rightMulEndo φ X.unop b ≫ ψ
   rw [show rightMulEndo φ X.unop (a * b) = rightMulEndo φ X.unop a ≫ rightMulEndo φ X.unop b from
       ?_,
     Category.assoc]
@@ -213,20 +213,20 @@ theorem coext_mul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
 /-- Scaling the zero section gives zero. -/
 theorem coext_smul_zero (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (a : O'.obj X) : a • (0 : coextSec φ F X) = 0 := by
-  show rightMulEndo φ X.unop a ≫ 0 = 0
+  change rightMulEndo φ X.unop a ≫ 0 = 0
   exact Limits.comp_zero
 
 /-- The action of `O'(X)` on the section group distributes over addition of sections. -/
 theorem coext_smul_add (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (a : O'.obj X) (x y : coextSec φ F X) : a • (x + y) = a • x + a • y := by
-  show rightMulEndo φ X.unop a ≫ (x + y) =
+  change rightMulEndo φ X.unop a ≫ (x + y) =
     rightMulEndo φ X.unop a ≫ x + rightMulEndo φ X.unop a ≫ y
   rw [Preadditive.comp_add]
 
 /-- The action of `O'(X)` on the section group distributes over addition of scalars. -/
 theorem coext_add_smul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (a b : O'.obj X) (x : coextSec φ F X) : (a + b) • x = a • x + b • x := by
-  show rightMulEndo φ X.unop (a + b) ≫ x =
+  change rightMulEndo φ X.unop (a + b) ≫ x =
     rightMulEndo φ X.unop a ≫ x + rightMulEndo φ X.unop b ≫ x
   rw [show rightMulEndo φ X.unop (a + b) = rightMulEndo φ X.unop a + rightMulEndo φ X.unop b from
       ?_,
@@ -237,7 +237,7 @@ theorem coext_add_smul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒ�
 /-- The zero of `O'(X)` acts as zero on the section group. -/
 theorem coext_zero_smul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (x : coextSec φ F X) : (0 : O'.obj X) • x = 0 := by
-  show rightMulEndo φ X.unop 0 ≫ x = 0
+  change rightMulEndo φ X.unop 0 ≫ x = 0
   rw [show rightMulEndo φ X.unop (0 : O'.obj X) = 0 from ?_, Limits.zero_comp]
   ext V z
   exact rightMulComp_zero φ X.unop V z
@@ -347,7 +347,7 @@ private theorem pom_hom_heq_of_fun_heq {D : Type u} [Category.{u} D] {R : Dᵒ�
 /-- The structure map of `(Over.map g).op.obj V`, as a morphism in `Cᵒᵖ`. -/
 private theorem over_map_hom_op {X Y : Cᵒᵖ} (f : X ⟶ Y) (V : (Over Y.unop)ᵒᵖ) :
     ((Over.map f.unop).op.obj V).unop.hom.op = f ≫ V.unop.hom.op := by
-  show (V.unop.hom ≫ f.unop).op = f ≫ V.unop.hom.op
+  change (V.unop.hom ≫ f.unop).op = f ≫ V.unop.hom.op
   rw [op_comp]
   rfl
 
@@ -375,7 +375,7 @@ theorem coextRestrFun_smul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) {X Y : 
     (m : (O'.obj X : Type _)) (x : coextSec φ F X) :
     coextRestrFun φ F f (m • x) = (RingCat.Hom.hom (O'.map f)) m • coextRestrFun φ F f x := by
   simp only [coextRestrFun]
-  show (overRestrictIso Y.unop X.unop f.unop (O'asOModule φ)).inv ≫
+  change (overRestrictIso Y.unop X.unop f.unop (O'asOModule φ)).inv ≫
       (overRestrictFunctor Y.unop X.unop f.unop).map (rightMulEndo φ X.unop m ≫ x) ≫
         (overRestrictIso Y.unop X.unop f.unop F).hom =
     rightMulEndo φ Y.unop ((RingCat.Hom.hom (O'.map f)) m) ≫
@@ -430,7 +430,7 @@ theorem coextMap_id (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ) 
         (by rw [O'.map_id]; rfl)).inv.app (coextObjModule φ F X) := by
   ext ψ
   simp only [coextMap, coextRestrSemilinear, ModuleCat.semilinearMapAddEquiv]
-  show coextRestrFun φ F (𝟙 X) ψ = ψ
+  change coextRestrFun φ F (𝟙 X) ψ = ψ
   exact coextRestrFun_id φ F X ψ
 
 /-- The restriction maps of `SheafHom_O(O', F)` are compatible with composition, up to the
@@ -445,7 +445,7 @@ theorem coextMap_comp (φ : O ⟶ O') (F : PresheafOfModules.{u} O) {X Y Z : C�
               (coextObjModule φ F Z) := by
   ext ψ
   simp only [coextMap, coextRestrSemilinear, ModuleCat.semilinearMapAddEquiv]
-  show coextRestrFun φ F (f ≫ g) ψ = coextRestrFun φ F g (coextRestrFun φ F f ψ)
+  change coextRestrFun φ F (f ≫ g) ψ = coextRestrFun φ F g (coextRestrFun φ F f ψ)
   simp only [coextRestrFun]
   rw [Functor.map_comp, Functor.map_comp]
   simp only [overRestrictIso, eqToIso.inv, eqToIso.hom, eqToHom_map]
@@ -469,7 +469,7 @@ theorem coextMap_comp (φ : O ⟶ O') (F : PresheafOfModules.{u} O) {X Y Z : C�
     · rfl
     · refine congr_arg_heq (fun (W : (Over X.unop)ᵒᵖ) => ⇑(ModuleCat.Hom.hom (ψ.app W))) ?_
       refine congrArg Opposite.op (congrArg Over.mk ?_)
-      show (Opposite.unop V).hom ≫ (f ≫ g).unop = ((Opposite.unop V).hom ≫ g.unop) ≫ f.unop
+      change (Opposite.unop V).hom ≫ (f ≫ g).unop = ((Opposite.unop V).hom ≫ g.unop) ≫ f.unop
       rw [unop_comp, Category.assoc]
   · rw [overRestrict_objEq Y.unop X.unop f.unop F, overRestrict_objEq Z.unop Y.unop g.unop F,
       overRestrict_objEq Z.unop X.unop (f ≫ g).unop F]
@@ -557,7 +557,7 @@ theorem coextFunMapFun_add (φ : O ⟶ O') {F G : PresheafOfModules.{u} O} (η :
 theorem coextFunMapFun_smul (φ : O ⟶ O') {F G : PresheafOfModules.{u} O} (η : F ⟶ G) (X : Cᵒᵖ)
     (a : (O'.obj X : Type _)) (x : coextSec φ F X) :
     coextFunMapFun φ η X (a • x) = a • coextFunMapFun φ η X x := by
-  show (rightMulEndo φ X.unop a ≫ x) ≫ _ = rightMulEndo φ X.unop a ≫ (x ≫ _)
+  change (rightMulEndo φ X.unop a ≫ x) ≫ _ = rightMulEndo φ X.unop a ≫ (x ≫ _)
   rw [Category.assoc]
 
 /-- The sectionwise action of the functor on `η`, as an `O'(X)`-linear map. -/
@@ -587,7 +587,7 @@ theorem coextFunMap_naturality (φ : O ⟶ O') {F G : PresheafOfModules.{u} O} (
           (ModuleCat.ofHom (coextFunMapLinear φ η Y)) =
       ModuleCat.ofHom (coextFunMapLinear φ η X) ≫ (coextObj φ G).map f := by
   ext ψ
-  show coextFunMapFun φ η Y (coextRestrFun φ F f ψ)
+  change coextFunMapFun φ η Y (coextRestrFun φ F f ψ)
     = coextRestrFun φ G f (coextFunMapFun φ η X ψ)
   exact coextFunMapFun_restr φ η f ψ
 
@@ -660,7 +660,7 @@ theorem fwdSecApp_naturality_apply (φ : O ⟶ O') (G : PresheafOfModules.{u} O'
     (a' : (O'.obj (Opposite.op A.unop.left) : Type _)) :
     (fwdSecApp φ G F α X g B) ((O'.map f.unop.left.op) a')
       = (F.map f.unop.left.op) ((fwdSecApp φ G F α X g A) a') := by
-  show (α.app (Opposite.op (Opposite.unop B).left)).hom
+  change (α.app (Opposite.op (Opposite.unop B).left)).hom
         (((O'.map f.unop.left.op).hom a') • (G.map (Opposite.unop B).hom.op) g)
       = (F.map f.unop.left.op).hom
         ((α.app (Opposite.op (Opposite.unop A).left)).hom
@@ -710,7 +710,7 @@ theorem fwdSec_smul (φ : O ⟶ O') (G : PresheafOfModules.{u} O') (F : Presheaf
     (V : (Over X.unop)ᵒᵖ) (r : (((Over.forget X.unop).op ⋙ O).obj V : Type _))
     (m : ((restrictToOver X.unop (O'asOModule φ)).obj V : Type _)) :
     (fwdSecApp φ G F α X g V) (r • m) = r • (fwdSecApp φ G F α X g V) m := by
-  show (α.app (Opposite.op V.unop.left)).hom
+  change (α.app (Opposite.op V.unop.left)).hom
         ((show (O'.obj (Opposite.op V.unop.left) : Type _) from r • m) •
           (G.map V.unop.hom.op) g)
       = r • (α.app (Opposite.op V.unop.left)).hom
@@ -764,7 +764,7 @@ theorem fwdLinear_smul (φ : O ⟶ O') (G : PresheafOfModules.{u} O') (F : Presh
     (α : (PresheafOfModules.restrictScalars φ).obj G ⟶ F) (X : Cᵒᵖ) (a : (O'.obj X : Type _))
     (g : (G.obj X : Type _)) :
     fwdSec φ G F α X (a • g) = a • fwdSec φ G F α X g := by
-  show fwdSec φ G F α X (a • g) = rightMulEndo φ X.unop a ≫ fwdSec φ G F α X g
+  change fwdSec φ G F α X (a • g) = rightMulEndo φ X.unop a ≫ fwdSec φ G F α X g
   ext V a'
   exact fwdSecApp_smul φ G F α X a g V a'
 
@@ -798,7 +798,7 @@ theorem fwd_naturality (φ : O ⟶ O') (G : PresheafOfModules.{u} O') (F : Presh
         (ModuleCat.ofHom (fwdAppLinear φ G F α Y)) =
       ModuleCat.ofHom (fwdAppLinear φ G F α X) ≫ (coextObj φ F).map f := by
   ext g
-  show fwdSec φ G F α Y ((ConcreteCategory.hom (G.map f)) g)
+  change fwdSec φ G F α Y ((ConcreteCategory.hom (G.map f)) g)
       = coextRestrFun φ F f (fwdSec φ G F α X g)
   exact (overRestrict_conj_eq (M := O'asOModule φ) f.unop _ _ fun V =>
     heq_of_eq (funext fun a' => fwdSecApp_restr φ G F α f g V a')).symm
@@ -826,16 +826,16 @@ noncomputable def invSecVal (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : C
 theorem invSecVal_smul (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : Cᵒᵖ)
     (a' : (O'.obj X : Type _)) (ψ : coextSec φ F X) :
     invSecVal φ F X (a' • ψ) = (ψ.app (Opposite.op (Over.mk (𝟙 X.unop)))) a' := by
-  show ((rightMulEndo φ X.unop a' ≫ ψ).app (Opposite.op (Over.mk (𝟙 X.unop))))
+  change ((rightMulEndo φ X.unop a' ≫ ψ).app (Opposite.op (Over.mk (𝟙 X.unop))))
       (1 : (O'.obj (Opposite.op X.unop) : Type _))
     = (ψ.app (Opposite.op (Over.mk (𝟙 X.unop)))) a'
   rw [PresheafOfModules.comp_app]
   have hval : ((rightMulEndo φ X.unop a').app (Opposite.op (Over.mk (𝟙 X.unop))))
       (1 : (O'.obj (Opposite.op X.unop) : Type _)) = a' := by
-    show (rightMulComp φ X.unop a' (Opposite.op (Over.mk (𝟙 X.unop))))
+    change (rightMulComp φ X.unop a' (Opposite.op (Over.mk (𝟙 X.unop))))
         (1 : (O'.obj (Opposite.op X.unop) : Type _)) = a'
     rw [rightMulComp_apply]
-    show (1 : (O'.obj (Opposite.op X.unop) : Type _)) * (O'.map ((𝟙 X.unop).op)).hom a' = a'
+    change (1 : (O'.obj (Opposite.op X.unop) : Type _)) * (O'.map ((𝟙 X.unop).op)).hom a' = a'
     rw [op_id, O'.map_id, one_mul]
     rfl
   exact (ModuleCat.comp_apply _ _ _).trans
@@ -850,7 +850,7 @@ theorem invSecVal_smul_left (φ : O ⟶ O') (F : PresheafOfModules.{u} O) (X : C
   have hsm := (ψ.app (Opposite.op (Over.mk (𝟙 X.unop)))).hom.map_smul r
     (1 : (O'.obj (Opposite.op X.unop) : Type _))
   refine (congrArg (ConcreteCategory.hom (ψ.app (Opposite.op (Over.mk (𝟙 X.unop))))) ?_).trans hsm
-  show RingCat.Hom.hom (φ.app X) r
+  change RingCat.Hom.hom (φ.app X) r
       = (RingCat.Hom.hom (φ.app X) r) * (1 : (O'.obj (Opposite.op X.unop) : Type _))
   rw [mul_one]
 
@@ -887,7 +887,7 @@ theorem invSec_naturality (φ : O ⟶ O') (G : PresheafOfModules.{u} O') (F : Pr
         invSecPresheafApp φ G F β X ≫ F.presheaf.map f := by
   intro X Y f
   ext g
-  show invSecVal φ F Y ((β.app Y) ((ConcreteCategory.hom (G.map f)) g))
+  change invSecVal φ F Y ((β.app Y) ((ConcreteCategory.hom (G.map f)) g))
       = (ConcreteCategory.hom (F.map f)) (invSecVal φ F X ((β.app X) g))
   set ψ : coextSec φ F X := (β.app X) g with hψ
   have hii : (β.app Y) ((ConcreteCategory.hom (G.map f)) g)
@@ -922,7 +922,7 @@ theorem invSec_smul (φ : O ⟶ O') (G : PresheafOfModules.{u} O') (F : Presheaf
     (β : G ⟶ coextObj φ F) (X : Cᵒᵖ) (r : (O.obj X : Type _)) (g : (G.obj X : Type _)) :
     (invSecPresheafApp φ G F β X) ((RingCat.Hom.hom (φ.app X) r) • g) =
       r • (invSecPresheafApp φ G F β X) g := by
-  show invSecVal φ F X ((β.app X) ((RingCat.Hom.hom (φ.app X) r) • g))
+  change invSecVal φ F X ((β.app X) ((RingCat.Hom.hom (φ.app X) r) • g))
       = r • invSecVal φ F X ((β.app X) g)
   have h1 : invSecVal φ F X ((β.app X) ((RingCat.Hom.hom (φ.app X) r) • g))
       = (((β.app X) g).app (Opposite.op (Over.mk (𝟙 X.unop))))
@@ -953,7 +953,7 @@ theorem fwdSecApp_one (φ : O ⟶ O') (G : PresheafOfModules.{u} O')
   have hid : (ConcreteCategory.hom (G.map (𝟙 X.unop).op)) g = g := by
     rw [show (𝟙 X.unop).op = 𝟙 X from rfl, G.map_id]
     rfl
-  show (ConcreteCategory.hom (α.app (Opposite.op X.unop)))
+  change (ConcreteCategory.hom (α.app (Opposite.op X.unop)))
       ((1 : (O'.obj (Opposite.op X.unop) : Type _)) •
         (show (G.obj (Opposite.op X.unop) : Type _) from
           (ConcreteCategory.hom (G.map (𝟙 X.unop).op)) g))
@@ -966,8 +966,8 @@ theorem homEquiv_left_inv (φ : O ⟶ O') (G : PresheafOfModules.{u} O')
     (α : (PresheafOfModules.restrictScalars φ).obj G ⟶ F) :
     homEquivInverse φ G F (homEquivForward φ G F α) = α := by
   ext X g
-  show invSecVal φ F X ((homEquivForward φ G F α).app X g) = (ModuleCat.Hom.hom (α.app X)) g
-  show (ConcreteCategory.hom
+  change invSecVal φ F X ((homEquivForward φ G F α).app X g) = (ModuleCat.Hom.hom (α.app X)) g
+  change (ConcreteCategory.hom
       (fwdSecApp φ G F α X g (Opposite.op (Over.mk (𝟙 X.unop)))))
         (1 : (O'.obj (Opposite.op X.unop) : Type _))
       = (ModuleCat.Hom.hom (α.app X)) g
@@ -1009,7 +1009,7 @@ theorem homEquiv_right_inv (φ : O ⟶ O') (G : PresheafOfModules.{u} O')
     (F : PresheafOfModules.{u} O) (β : G ⟶ coextObj φ F) :
     homEquivForward φ G F (homEquivInverse φ G F β) = β := by
   ext X g
-  show fwdSec φ G F (homEquivInverse φ G F β) X g = β.app X g
+  change fwdSec φ G F (homEquivInverse φ G F β) X g = β.app X g
   ext V a'
   exact fwdSec_invSec_app φ G F β X g V a'
 
@@ -1030,7 +1030,7 @@ theorem homEquiv_naturality_left_symm (φ : O ⟶ O') {G' G : PresheafOfModules.
     homEquivInverse φ G' F (γ ≫ β) =
       (PresheafOfModules.restrictScalars φ).map γ ≫ homEquivInverse φ G F β := by
   ext X g
-  show invSecVal φ F X ((γ ≫ β).app X g)
+  change invSecVal φ F X ((γ ≫ β).app X g)
       = invSecVal φ F X ((β.app X) ((γ.app X) g))
   rw [PresheafOfModules.comp_app]
   rfl
@@ -1042,7 +1042,7 @@ theorem homEquiv_naturality_right (φ : O ⟶ O') {G : PresheafOfModules.{u} O'}
     homEquivForward φ G F' (α ≫ η) =
       homEquivForward φ G F α ≫ (coextendScalars φ).map η := by
   ext X g
-  show fwdSec φ G F' (α ≫ η) X g
+  change fwdSec φ G F' (α ≫ η) X g
       = fwdSec φ G F α X g ≫ (PresheafOfModules.pushforward₀ (Over.forget X.unop) O).map η
   ext V a'
   simp only [fwdSec, fwdSecPresheaf, fwdSecApp, PresheafOfModules.comp_app,

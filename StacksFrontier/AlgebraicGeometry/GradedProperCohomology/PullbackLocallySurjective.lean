@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Constructions.DirectSumQuasiCompactSections
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleHigherDirectImageVanishing
 public import StacksFrontier.AlgebraicGeometry.GradedProperCohomology.PullbackBaseAlgebra
 
 /-!
@@ -68,19 +67,18 @@ universe u
 namespace ModuleCat.ExtendScalars
 
 /-- **A property of the elements of an extension of scalars which holds of the tensors `1 ⊗ m`
-and is closed under zero, addition and scalar multiples holds everywhere.** This is
-`TensorProduct.induction_on` for `ModuleCat.extendScalars`, stated for a general extension of
+and is closed under addition and scalar multiples holds everywhere.** This is
+`TensorProduct.inductionOn` for `ModuleCat.extendScalars`, stated for a general extension of
 scalars: a tensor `s ⊗ m` is `s • (1 ⊗ m)` by `ModuleCat.ExtendScalars.smul_tmul`, and in the
 general setting `mul_one` fires on the scalar ring itself rather than on a type whose
 multiplication has been reached through a restriction of scalars. -/
 public theorem forall_of_one_tmul {R S : Type u} [CommRing R] [CommRing S] (φ : R →+* S)
     {M : ModuleCat.{u} R} (P : ((ModuleCat.extendScalars φ).obj M) → Prop)
-    (h0 : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
+    (hadd : ∀ x y, P x → P y → P (x + y))
     (hsmul : ∀ (s : S) (x), P x → P (s • x))
     (hone : ∀ m : M, P ((1 : S) ⊗ₜ[R, φ] m)) : ∀ x, P x := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact h0
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       have key : ∀ s' : S, P (s' ⊗ₜ[R, φ] m) := by
         intro s'
@@ -159,7 +157,7 @@ theorem mem_psiImage_secIncl_top {k : ℕ} (b : ↥(𝒜 k)) :
     (show ↥(AlgebraSheaf.sections (pushforwardAlgebra (algebraSpecToBase A B)) ⊤) from
       (Scheme.ΓSpecIso (.of B)).inv.hom (b : B)), ?_⟩
   refine Eq.trans (HomogeneousSections.basePullbackHom_app_unit D S f hsc _) ?_
-  show HomogeneousSections.secRingHom D S (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))
+  change HomogeneousSections.secRingHom D S (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))
       ((Scheme.ΓSpecIso (.of B)).hom.hom
         ((Scheme.ΓSpecIso (.of B)).inv.hom (b : B))) = _
   rw [Iso.inv_hom_id_apply (Scheme.ΓSpecIso (.of B)) (b : B)]
@@ -173,7 +171,7 @@ theorem mem_psiImage_secIncl (V : X.Opens) {k : ℕ} (b : ↥(𝒜 k)) :
     (le_top : V ≤ f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens))
     (mem_psiImage_secIncl_top 𝒜 f D S hsc b)
   refine ⟨u, hu.trans ?_⟩
-  show ConcreteCategory.hom (D.sheaf.right.obj.map (homOfLE _).op)
+  change ConcreteCategory.hom (D.sheaf.right.obj.map (homOfLE _).op)
       (D.alg.ungradedIncl (k : ℤ)
         ((S.sec b).eval (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens))))) = _
   refine Eq.trans (D.alg.ungradedIncl_naturality (homOfLE
@@ -295,7 +293,7 @@ theorem mem_psiImage_ungradedIncl_natDegree {V : X.Opens} (hV : IsAffineOpen V) 
     refine mem_psiImage_congr 𝒜 f _ _ _ ?_
       (mem_psiImage_secIncl 𝒜 f (pullbackGradedQcoh 𝒜 f) (pullbackHomogeneousSections 𝒜 f)
         (isStructureCompatible_pullbackGradedQcoh 𝒜 f) V b)
-    show (pullbackGradedAlg 𝒜 f).ungradedIncl (k : ℤ)
+    change (pullbackGradedAlg 𝒜 f).ungradedIncl (k : ℤ)
         (((pullbackHomogeneousSections 𝒜 f).sec b).eval (op V)) = _
     refine congrArg ((pullbackGradedAlg 𝒜 f).ungradedIncl (k : ℤ)) ?_
     refine Eq.trans (pullbackSections_eval f ((specGradedAlg 𝒜).piece (k : ℤ))
@@ -312,8 +310,7 @@ theorem mem_psiImage_ungradedIncl_natDegree {V : X.Opens} (hV : IsAffineOpen V) 
     (fun z => (pullbackGradedAlg 𝒜 f).ungradedIncl (k : ℤ)
       ((affinePullbackSectionsBaseChangeIso f ((specGradedAlg 𝒜).piece (k : ℤ))
         (isAffineOpen_top (Spec (.of A))) hV le_top).hom z) ∈ pullbackPsiImage 𝒜 f V)
-    ?_ ?_ ?_ ?_ t
-  · exact mem_psiImage_ungradedIncl_of_eq_zero 𝒜 f _ _ _ (k : ℤ) (map_zero _)
+    ?_ ?_ ?_ t
   · intro z z' hz hz'
     refine mem_psiImage_congr 𝒜 f _ _ _ ?_ ((pullbackPsiImage 𝒜 f V).add_mem hz hz')
     refine Eq.trans

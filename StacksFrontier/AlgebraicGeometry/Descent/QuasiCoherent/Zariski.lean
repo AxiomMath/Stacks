@@ -78,7 +78,8 @@ pushforward rather than `AlgebraicGeometry.Scheme.Modules.restrictFunctor`;
 (`StacksFrontier/Topology/Sheaves/Glueing/MapGluing.lean`, tagged `@[stacks 04TN]`) proves it for
 sheaves of types on a space in exactly the `⨆ i, U i = ⊤` shape used here; and
 `StacksFrontier/Topology/Sheaves/Glueing/Sheaf.lean` and
-`StacksFrontier/Topology/Sheaves/Glueing/AlgebraicStructure.lean` (Stacks 00AL and 00AM) glue sheaves
+`StacksFrontier/Topology/Sheaves/Glueing/AlgebraicStructure.lean` (Stacks 00AL and 00AM) glue
+sheaves
 of types, of abelian groups and of modules over a *fixed* ring from cover data, but not modules over
 a structure sheaf.
 

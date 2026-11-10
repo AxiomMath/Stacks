@@ -101,7 +101,7 @@ theorem normalizationQuotientEquiv_mk (m : MaximalSpectrum ↥(integralClosure A
     (x : ↥(integralClosure A F)) :
     normalizationQuotientEquiv A F hA m (Ideal.Quotient.mk _ x) =
       residue _ (algebraMap _ (Localization.AtPrime m.asIdeal) x) := by
-  show algebraMap (↥(integralClosure A F) ⧸ m.asIdeal) m.asIdeal.ResidueField
+  change algebraMap (↥(integralClosure A F) ⧸ m.asIdeal) m.asIdeal.ResidueField
     (Ideal.Quotient.mk _ x) = _
   rw [Ideal.algebraMap_quotient_residueField_mk,
     IsScalarTower.algebraMap_apply ↥(integralClosure A F) (Localization.AtPrime m.asIdeal)
@@ -171,7 +171,7 @@ theorem mem_closure_normalizationGenerators (s : ↥(integralClosure A F)) (hs :
       normalizationOrdHom_apply]
     simp_rw [map_zpow, toAdd_zpow, normalizationOrdHom_apply, t,
       normalizationOrd_normalizationUniformizerUnit, smul_eq_mul, mul_ite, mul_one, mul_zero]
-    rw [Finset.sum_ite_eq Finset.univ m', if_pos (Finset.mem_univ m')]
+    rw [Finset.sum_ite_eq Finset.univ m', ite_eq_left (Finset.mem_univ m')]
     ring
   have hyinv : ∀ m', normalizationOrd A F hA m' y⁻¹ = 0 := by
     intro m'
@@ -190,12 +190,12 @@ theorem mem_closure_normalizationGenerators (s : ↥(integralClosure A F)) (hs :
     have hprod : ((∏ m, normalizationUniformizer A F hA m ^
         (normalizationOrd A F hA m x).toNat : ↥(integralClosure A F)) : F) =
         ((∏ m, (t m) ^ (normalizationOrd A F hA m x) : Fˣ) : F) := by
-      rw [SubmonoidClass.coe_finset_prod, Units.coe_prod]
+      rw [SubmonoidClass.coe_finsetProd, Units.coe_prod]
       refine Finset.prod_congr rfl fun m _ ↦ ?_
       rw [SubmonoidClass.coe_pow, ← hn m, zpow_natCast, Units.val_pow_eq_pow_val]
       rfl
     rw [Subalgebra.coe_mul, hprod]
-    show (x : F) = ((x * ∏ m, (t m) ^ (-normalizationOrd A F hA m x) : Fˣ) : F) * _
+    change (x : F) = ((x * ∏ m, (t m) ^ (-normalizationOrd A F hA m x) : Fˣ) : F) * _
     rw [← Units.val_mul, mul_assoc, ← Finset.prod_mul_distrib]
     simp only [← zpow_add, neg_add_cancel, zpow_zero, Finset.prod_const_one, mul_one]
   rw [hsw]

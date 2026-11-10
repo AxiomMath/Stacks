@@ -45,8 +45,8 @@ Part (1)(b) at an arbitrary point is carried in
 `StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FibreCyclePointSectionPushforward`, which
 reads the same cycle on `X` through the fibre at that point.
 
-Part (2) at an arbitrary pair is carried in
-`StacksFrontier.AlgebraicGeometry.Intersection.TorFormula.FibreCyclePointSectionRationalEquivalence`,
+Part (2) at an arbitrary pair is carried in the sibling module
+`TorFormula.FibreCyclePointSectionRationalEquivalence`,
 not by moving the pair to `(0, ∞)` — Tag 0B2U is still not invoked anywhere — but by exhibiting
 the difference of the two fibre cycles as the pushforward of the principal divisor of
 `(z - t) / (z - t')`, which Tag 02RW admits for an arbitrary rational function. Part (3), the

@@ -119,7 +119,7 @@ lemma isModulePseudoCoherent_of_ker_eq_span
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro a
-    show q (r * a) = 0
+    change q (r * a) = 0
     simp [hqr]
   let T := ShortComplex.mk α β hab
   have : Mono α := (ModuleCat.mono_iff_injective α).mpr hr.left
@@ -397,8 +397,7 @@ private noncomputable def localizationExtendRestrictScalarsIso
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s m =>
       change localizationBaseChangeEquiv (S := S) (A := A) (B := B) r N (s ⊗ₜ[R] φ m) =
         ((ModuleCat.extendScalars (algebraMap A B)).map φ)
@@ -441,7 +440,7 @@ private lemma isPseudoCoherentFrom_localization_restrictScalars
         Module.Finite S (G.obj M) ∧ Module.Free S (G.obj M) := by
     intro M _ _
     let : Algebra R S := ((algebraMap S S).comp (algebraMap R S)).toAlgebra
-    show Module.Finite S (S ⊗[R] M) ∧ Module.Free S (S ⊗[R] M)
+    change Module.Finite S (S ⊗[R] M) ∧ Module.Free S (S ⊗[R] M)
     exact ⟨inferInstance, inferInstance⟩
   have h := (exactFunctor_preserves_pseudoCoherent G hGfree
     (F.mapDerivedCategory.obj K)).1 m hK
@@ -470,14 +469,14 @@ private lemma isRelativelyPseudoCoherentFrom_localizationTarget
   have : IsScalarTower P A Ag := IsScalarTower.of_algebraMap_eq' rfl
   obtain ⟨g', hg'⟩ := hα g
   have : IsLocalization.Away (algebraMap P A g') Ag := by
-    show IsLocalization.Away (α g') Ag
+    change IsLocalization.Away (α g') Ag
     rw [hg']
     infer_instance
   let Pg := Localization.Away g'
   have : IsScalarTower R P Pg := inferInstance
   have : IsLocalization ((Submonoid.powers g').map α.toRingHom) Ag := by
     rw [Submonoid.map_powers]
-    show IsLocalization.Away (algebraMap P A g') Ag
+    change IsLocalization.Away (algebraMap P A g') Ag
     infer_instance
   let β₀ : Pg →+* Ag :=
     IsLocalization.map Ag α.toRingHom (Submonoid.powers g').le_comap_map
@@ -486,10 +485,10 @@ private lemma isRelativelyPseudoCoherentFrom_localizationTarget
   let β : Pg →ₐ[R] Ag :=
     { β₀ with
       commutes' := fun r => by
-        show β₀ (algebraMap P Pg (algebraMap R P r)) = algebraMap R Ag r
+        change β₀ (algebraMap P Pg (algebraMap R P r)) = algebraMap R Ag r
         dsimp only [β₀]
         rw [IsLocalization.map_eq]
-        show algebraMap A Ag (α (algebraMap R P r)) = algebraMap R Ag r
+        change algebraMap A Ag (α (algebraMap R P r)) = algebraMap R Ag r
         rw [α.commutes, ← IsScalarTower.algebraMap_apply R A Ag] }
   let : Algebra Pg Ag := β.toRingHom.toAlgebra
   have : IsScalarTower P Pg Ag :=

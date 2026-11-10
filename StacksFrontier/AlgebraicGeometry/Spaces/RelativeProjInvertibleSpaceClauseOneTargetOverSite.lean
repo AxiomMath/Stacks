@@ -80,6 +80,7 @@ theorem representedSpaceMap_chartSection_comp_fibreHom_overSite :
         (locusOpen_locusPoint w))).trans (representedSpaceMap_id s.site s.base s.containsBase W))
 
 set_option maxHeartbeats 0 in
+-- elaborating the `type_of%` statement, a large application with many named arguments
 /-- **The target square of clause (1) of [Stacks, Tag 0D2Z] at a scheme point `w` of `U(ψ)`,
 over the site of `s`, from its slots**:
 `AlgebraicGeometry.Space.comp_comp_eq_map_of_target_squares` at `Φ = modulePullback s.site …` and

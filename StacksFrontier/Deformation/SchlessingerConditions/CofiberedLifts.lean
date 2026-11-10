@@ -97,7 +97,7 @@ theorem exists_factor_of_isHomLift_comp (hp : IsCofiberedInGroupoids p)
   have hmop : p.op.IsHomLift (g.op ≫ f.op) m.op := by
     have heq : f ≫ g = p.map m := IsHomLift.eq_of_isHomLift p (f ≫ g) m
     have hmap : p.op.map m.op = g.op ≫ f.op := by
-      show (p.map m).op = g.op ≫ f.op
+      change (p.map m).op = g.op ≫ f.op
       rw [← heq, op_comp]
     exact hmap ▸ IsHomLift.map p.op m.op
   let _ : p.op.IsHomLift (g.op ≫ f.op) m.op := hmop
@@ -135,7 +135,7 @@ theorem exists_isHomLift_of_iso (hp : IsCofiberedInGroupoids p)
   have hm : p.IsHomLift e.inv m := by
     have hmap := IsHomLift.eq_of_isHomLift p.op e.inv.op qop
     have hmap' : p.map m = e.inv := by
-      show (p.op.map qop).unop = e.inv
+      change (p.op.map qop).unop = e.inv
       exact congrArg Quiver.Hom.unop hmap.symm
     exact hmap' ▸ IsHomLift.map p m
   have hl : p.IsHomLift e.hom (inv m) := by
@@ -174,7 +174,7 @@ theorem existsUnique_factor_of_isHomLift (hp : IsCofiberedInGroupoids p)
     (h : p.map φ ≫ f = p.map ψ) :
     ∃! χ : b ⟶ c, p.map χ = f ∧ φ ≫ χ = ψ := by
   have hop : f.op ≫ p.op.map φ.op = p.op.map ψ.op := by
-    show (p.map φ ≫ f).op = (p.map ψ).op
+    change (p.map φ ≫ f).op = (p.map ψ).op
     exact congrArg Opposite.op h
   obtain ⟨χop, hχ, hχuniq⟩ := hp.unique_lift φ.op ψ.op f.op hop
   refine ⟨χop.unop, ?_, ?_⟩
@@ -187,9 +187,9 @@ theorem existsUnique_factor_of_isHomLift (hp : IsCofiberedInGroupoids p)
   · intro χ hχ'
     have hEq : χ.op = χop := hχuniq χ.op (by
       refine ⟨?_, ?_⟩
-      · show (p.map χ).op = f.op
+      · change (p.map χ).op = f.op
         exact congrArg Opposite.op hχ'.1
-      · show χ.op ≫ φ.op = ψ.op
+      · change χ.op ≫ φ.op = ψ.op
         exact congrArg Quiver.Hom.op hχ'.2)
     cases hEq
     rfl

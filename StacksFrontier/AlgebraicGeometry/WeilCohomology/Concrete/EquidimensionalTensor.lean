@@ -200,11 +200,9 @@ theorem correspondenceEquivOfIso_tensorBlock (hΔ : Δ.IsoInvariant) {d d' e e' 
       tensorBlock k sA sA' sB sB' Δ hA hA' hB hB' r r'
         (correspondenceEquivOfIso _ sA sB sA₀ sB₀ φA φB hφA hφB e r c)
         (correspondenceEquivOfIso _ sA' sB' sA₀' sB₀' φA' φB' hφA' hφB' e' r' c') := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
-    induction c' using TensorProduct.induction_on with
-    | zero => simp
+    induction c' using TensorProduct.inductionOn with
     | tmul q' c' =>
       rw [tensorBlock_tmul, correspondenceEquivOfIso_tmul, correspondenceEquivOfIso_tmul,
         correspondenceEquivOfIso_tmul, tensorBlock_tmul,
@@ -262,8 +260,7 @@ theorem correspondenceEquivOfIso_tensorBlockInclusion (d d' e e' : ℕ) (r : ℤ
       simp only [tensorBlockHom, Category.assoc, Limits.pullback.lift_fst,
         Limits.pullback.lift_fst_assoc, Limits.pullback.lift_snd,
         Limits.pullback.lift_snd_assoc, partProdHom_ι]
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul q c =>
     rw [tensorBlockInclusion_tmul, correspondenceEquivOfIso_tmul, correspondenceEquivOfIso_tmul]
     congr 1

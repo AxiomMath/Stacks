@@ -94,7 +94,7 @@ private theorem enatToEInt_le_one {n : ℕ∞} (hn : n ≤ 1) :
   | top => exact absurd hn (by simp)
   | coe k =>
     have hk : k ≤ 1 := by exact_mod_cast hn
-    show ((k : ℤ) : EInt) ≤ ((1 : ℤ) : EInt)
+    change ((k : ℤ) : EInt) ≤ ((1 : ℤ) : EInt)
     exact WithBotTop.coe_le_coe.mpr (by omega)
 
 /-! ### Chains in the closure of a point -/
@@ -135,9 +135,9 @@ public theorem distanceToZ_le_height (S : AlgebraizationSituation.{u}) [IsLocalR
     IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
   set m : S.Y := (closedPoint (S.A ⧸ S.I) : PrimeSpectrum (S.A ⧸ S.I))
   have hmZ : m ∈ (S.closedSubsetZ : Set S.Y) := by
-    show S.a.map (Ideal.Quotient.mk S.I) ≤ (closedPoint (S.A ⧸ S.I)).asIdeal
+    change S.a.map (Ideal.Quotient.mk S.I) ≤ (closedPoint (S.A ⧸ S.I)).asIdeal
     rw [Ideal.map_le_iff_le_comap]
-    show S.a ≤ (maximalIdeal (S.A ⧸ S.I)).comap (Ideal.Quotient.mk S.I)
+    change S.a ≤ (maximalIdeal (S.A ⧸ S.I)).comap (Ideal.Quotient.mk S.I)
     rw [IsLocalRing.maximalIdeal_comap (Ideal.Quotient.mk S.I), ha]
   have hmz : m ∈ closure ({z} : Set S.Y) :=
     specializes_iff_mem_closure.mp

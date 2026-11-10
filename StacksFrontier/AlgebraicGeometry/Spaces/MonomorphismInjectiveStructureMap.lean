@@ -132,10 +132,9 @@ private theorem rTensor_injective_of_trivSqZeroExt
   have hx (z : R ⊗[R] Q) :
       ((Algebra.linearMap R A).rTensor Q) z =
         (1 : A) ⊗ₜ[R] ((TensorProduct.lid R Q) z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r q =>
-      show (algebraMap R A r) ⊗ₜ[R] q = (1 : A) ⊗ₜ[R] (r • q)
+      change (algebraMap R A r) ⊗ₜ[R] q = (1 : A) ⊗ₜ[R] (r • q)
       rw [TensorProduct.tmul_smul]
       congr 1
       exact Algebra.algebraMap_eq_smul_one r
@@ -392,7 +391,7 @@ private theorem universallyInjective_appTop_of_mono_globalSections_baseChange
       (Iso.refl _) (Iso.refl _) (G.obj U).isoSpec (G.obj V).isoSpec
     · simp [a]
     · simp [c]
-    · show k ≫ (G.obj V).isoSpec.hom = _
+    · change k ≫ (G.obj V).isoSpec.hom = _
       simp [k]
     · exact (ΓSpec.adjunction.unit_naturality (G.map b)).symm
   have hm : Mono (Scheme.Γ.map (sq.flip.isoPullback.inv ≫ a).op) := by
@@ -639,7 +638,7 @@ private theorem isFpqcCovering_yoneda_map_of_flat_surjective
       exact (G.map (pullback.fst h b)).singleton_mem_fpqcPrecoverage
     · intro j
       refine ⟨PUnit.unit, yoneda.map (pullback.snd h b), ?_⟩
-      show yoneda.map (pullback.snd h b) ≫ yoneda.map b =
+      change yoneda.map (pullback.snd h b) ≫ yoneda.map b =
         yoneda.map (pullback.fst h b) ≫ g
       rw [← hg, ← Functor.map_comp, ← Functor.map_comp, pullback.condition]
 
@@ -661,7 +660,7 @@ private theorem mono_hom_of_mono
   have hab : a ≫ f = b ≫ f := by
     apply ObjectProperty.hom_ext
     apply yonedaEquiv.injective
-    show yonedaEquiv (a.hom ≫ f.hom) = yonedaEquiv (b.hom ≫ f.hom)
+    change yonedaEquiv (a.hom ≫ f.hom) = yonedaEquiv (b.hom ≫ f.hom)
     rw [yonedaEquiv_comp, yonedaEquiv_comp, hxa, hxb]
     exact hxy
   rw [← hxa, ← hxb, (cancel_mono f).1 hab]
@@ -687,7 +686,7 @@ private theorem isIso_of_mono_of_surjective_affine_sections
     rw [NatTrans.isIso_iff_isIso_app]
     intro T
     apply (CategoryTheory.isIso_iff_bijective _).mpr
-    show Function.Bijective (f.hom.app (.op (A.obj T.unop)))
+    change Function.Bijective (f.hom.app (.op (A.obj T.unop)))
     exact ⟨(CategoryTheory.mono_iff_injective _).mp inferInstance, h T.unop⟩
   have : IsIso f.hom := (sheafToPresheaf J (Type u)).map_isIso φ
   exact (ObjectProperty.isIso_hom_iff f).mp this
@@ -747,7 +746,7 @@ public theorem isIso_of_mono_of_forall_baseChange_mono_fSharp
   have : IsIso p := isIso_of_mono_of_fpqc_factorization B S hS p
     (fun _ : PUnit.{u + 1} => schemeSpace U)
     (fun _ => ObjectProperty.homMk a) (by
-      show Space.IsFpqcCovering B S hS (fun _ : PUnit.{u + 1} => a ≫ p.hom)
+      change Space.IsFpqcCovering B S hS (fun _ : PUnit.{u + 1} => a ≫ p.hom)
       rwa [hab])
   let q : Z ⟶ X := ObjectProperty.homMk (pullback.snd g.hom f.hom)
   refine ⟨yonedaEquiv ((inv p ≫ q).hom), ?_⟩
@@ -758,7 +757,7 @@ public theorem isIso_of_mono_of_forall_baseChange_mono_fSharp
     rw [hpq]
     simp
   refine (yonedaEquiv_comp (inv p ≫ q).hom f.hom).symm.trans ?_
-  show yonedaEquiv (((inv p ≫ q) ≫ f).hom) = y
+  change yonedaEquiv (((inv p ≫ q) ≫ f).hom) = y
   rw [Category.assoc, hlift]
   exact Equiv.apply_symm_apply _ _
 

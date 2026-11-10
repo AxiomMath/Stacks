@@ -121,13 +121,13 @@ private theorem exists_mvRatFunc_map_to_localRing
       apply hy
       apply hψinj
       simpa using hzero
-    show ralg (φp y.1) ≠ 0
+    change ralg (φp y.1) ≠ 0
     rw [hval y.1]
     exact hne
   let f : MvRatFunc ι K →+* A := IsLocalization.lift hunit
   have hconst : f.comp (algebraMap K (MvRatFunc ι K)) = algebraMap K A := by
     ext k
-    show f (algebraMap K (MvRatFunc ι K) k) = _
+    change f (algebraMap K (MvRatFunc ι K) k) = _
     rw [show algebraMap K (MvRatFunc ι K) k =
       algebraMap (MvPolynomial ι K) (MvRatFunc ι K) (MvPolynomial.C k) by rfl]
     rw [IsLocalization.lift_eq hunit]
@@ -151,12 +151,12 @@ private theorem exists_mvRatFunc_map_to_localRing
           χ.toRingHom.comp (algebraMap (MvPolynomial ι K) (MvRatFunc ι K)) := by
       apply RingHom.ext
       intro p
-      show IsLocalRing.residue A (f (algebraMap (MvPolynomial ι K) (MvRatFunc ι K) p)) =
+      change IsLocalRing.residue A (f (algebraMap (MvPolynomial ι K) (MvRatFunc ι K) p)) =
         χ (algebraMap (MvPolynomial ι K) (MvRatFunc ι K) p)
       rw [IsLocalization.lift_eq hunit]
-      show ralg (φp p) = _
+      change ralg (φp p) = _
       rw [hval]
-      show (MvPolynomial.aeval x) p =
+      change (MvPolynomial.aeval x) p =
         (IntermediateField.val H) (e (algebraMap (MvPolynomial ι K)
           (MvRatFunc ι K) p))
       exact (hx.1.aevalEquivField_algebraMap_apply_coe p).symm
@@ -289,7 +289,7 @@ private theorem isFilteredColimit_of_subalgebra_dim_le
       refine ⟨C, g, h', ?_, ?_, h φ.range hfg⟩
       · ext z
         rfl
-      · show (algebraMap k φ.range).FiniteType
+      · change (algebraMap k φ.range).FiniteType
         exact RingHom.finiteType_algebraMap.mpr hft
     · exact RingHom.FinitePresentation.of_finiteType.mp hB.1
   obtain ⟨J, _, _, pres, hp⟩ := hind
@@ -415,14 +415,14 @@ private theorem toENat_trdeg_henselization_le_topologicalKrullDimAt
   let : Algebra K B := (((Scheme.ΓSpecIso (.of K)).inv ≫
     f.appLE ⊤ V (by simp)).hom).toAlgebra
   have : Algebra.FiniteType K B := by
-    show (((Scheme.ΓSpecIso (.of K)).inv ≫ f.appLE ⊤ V (by simp)).hom).FiniteType
+    change (((Scheme.ΓSpecIso (.of K)).inv ≫ f.appLE ⊤ V (by simp)).hom).FiniteType
     exact RingHom.FiniteType.comp
       (f.finiteType_appLE (isAffineOpen_top _) hV _)
       (RingHom.FiniteType.of_surjective _
         (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of K)).inv).2)
   have : IsScalarTower K B A := by
     apply IsScalarTower.of_algebraMap_eq'
-    show (((Scheme.ΓSpecIso (.of K)).inv ≫ f.appTop ≫
+    change (((Scheme.ΓSpecIso (.of K)).inv ≫ f.appTop ≫
       X.presheaf.germ ⊤ x (by simp)).hom) =
       (((Scheme.ΓSpecIso (.of K)).inv ≫ f.appLE ⊤ V (by simp) ≫
       X.presheaf.germ V x hxV).hom)
@@ -432,7 +432,7 @@ private theorem toENat_trdeg_henselization_le_topologicalKrullDimAt
   let : Algebra B R := ((algebraMap A R).comp (algebraMap B A)).toAlgebra
   let : IsScalarTower B A R := .of_algebraMap_eq' rfl
   let : IsScalarTower K B R := .of_algebraMap_eq fun k => by
-    show algebraMap A R (algebraMap K A k) =
+    change algebraMap A R (algebraMap K A k) =
       algebraMap A R (algebraMap B A (algebraMap K B k))
     rw [IsScalarTower.algebraMap_apply K B A]
   let q := (hV.primeIdealOf ⟨x, hxV⟩).asIdeal
@@ -538,16 +538,16 @@ private theorem sepClosure_is_ind_etale (F E : Type u) [Field F] [Field E]
   let eEU : E ≃+* U := ε.trans rU.symm
   have hbase (x : F) : algebraMap (IsLocalRing.ResidueField F) E
       (IsLocalRing.residue F x) = algebraMap F E x := by
-    show algebraMap F E (eκ (IsLocalRing.residue F x)) = _
+    change algebraMap F E (eκ (IsLocalRing.residue F x)) = _
     have hh : eκ.symm x = IsLocalRing.residue F x := rfl
     rw [← hh, eκ.apply_symm_apply]
   let eAlg : E ≃ₐ[F] U := AlgEquiv.ofRingEquiv (f := eEU) (by
     intro x
     apply rU.injective
-    show rU (rU.symm (ε (algebraMap F E x))) =
+    change rU (rU.symm (ε (algebraMap F E x))) =
       rU (algebraMap F U x)
     rw [RingEquiv.apply_symm_apply, ← hbase x]
-    show ε (algebraMap (IsLocalRing.ResidueField F) E (IsLocalRing.residue F x)) =
+    change ε (algebraMap (IsLocalRing.ResidueField F) E (IsLocalRing.residue F x)) =
       IsLocalRing.residue U (algebraMap F U x)
     exact hε x)
   have hUind := (CommAlgCat.etale F).ind.prop_of_iso
@@ -607,7 +607,7 @@ theorem exists_strictHenselization_map_of_finiteType
         _ = (Scheme.ΓSpecIso (.of K)).inv ≫ f.appTop ≫ X.Γevaluation x := by
               rw [Scheme.Γevaluation_naturality]
         _ = _ := by simp [Scheme.Γevaluation, Scheme.evaluation]
-    show CommRingCat.Hom.hom
+    change CommRingCat.Hom.hom
         ((Scheme.ΓSpecIso (.of K)).inv ≫
           (Spec (.of K)).presheaf.germ ⊤ (f x) trivial ≫
           (Spec (.of K)).residue (f x) ≫ f.residueFieldMap x) =
@@ -645,14 +645,14 @@ theorem exists_strictHenselization_map_of_finiteType
       (IsLocalRing.residue Rsh).comp (algebraMap F Rsh) := by
     apply RingHom.ext
     intro z
-    show εL (g (eEκ.symm (IsLocalRing.residue E (algebraMap F E z)))) =
+    change εL (g (eEκ.symm (IsLocalRing.residue E (algebraMap F E z)))) =
       IsLocalRing.residue Rsh (algebraMap F Rsh z)
     have hz : eEκ.symm (IsLocalRing.residue E (algebraMap F E z)) =
         algebraMap F E z := by
-      show eEκ.symm (eEκ (algebraMap F E z)) = _
+      change eEκ.symm (eEκ (algebraMap F E z)) = _
       exact eEκ.symm_apply_apply _
     rw [hz, g.commutes]
-    show εL (algebraMap (ResidueField A) L (χ z)) =
+    change εL (algebraMap (ResidueField A) L (χ z)) =
       IsLocalRing.residue Rsh (algebraMap A Rsh (φ z))
     have hresz := DFunLike.congr_fun hres z
     change IsLocalRing.residue A (φ z) = χ z at hresz
@@ -674,13 +674,13 @@ theorem exists_strictHenselization_map_of_finiteType
       _ = εL.toRingHom.comp g.toRingHom := by
         apply RingHom.ext
         intro y
-        show εL (g (eEκ.symm (eEκ y))) = εL (g y)
+        change εL (g (eEκ.symm (eEκ y))) = εL (g y)
         rw [eEκ.symm_apply_apply]
   let : Algebra E (IsLocalRing.ResidueField Rsh) :=
     ((IsLocalRing.residue Rsh).comp eF.toRingHom).toAlgebra
   have hpure : IsPurelyInseparable E (IsLocalRing.ResidueField Rsh) :=
     (RingHom.isPurelyInseparable_algebraMap_iff).mp (by
-      show ((IsLocalRing.residue Rsh).comp eF.toRingHom).IsPurelyInseparable
+      change ((IsLocalRing.residue Rsh).comp eF.toRingHom).IsPurelyInseparable
       rw [hresMap]
       apply RingHom.IsPurelyInseparable.comp
       · let : Algebra E L := g.toRingHom.toAlgebra
@@ -689,7 +689,7 @@ theorem exists_strictHenselization_map_of_finiteType
   let : IsScalarTower K F E := .of_algebraMap_eq' rfl
   have hKFA : algebraMap K A = (algebraMap F A).comp (algebraMap K F) := by
     ext k
-    show algebraMap K A k = φ (algebraMap K F k)
+    change algebraMap K A k = φ (algebraMap K F k)
     exact (φ.commutes k).symm
   let : IsScalarTower K F A := .of_algebraMap_eq' hKFA
   have hKFR : algebraMap K Rsh = (algebraMap F Rsh).comp (algebraMap K F) := by

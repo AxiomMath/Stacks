@@ -103,6 +103,7 @@ variable {X Y : RingedTopos.{u, u, u}}
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (f : RingedToposSiteHom X Y)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **An exact direct image computes its derived direct image**: the canonical map from the
 degreewise direct image to `Rf_*` is invertible at every complex. A K-injective resolution
 `M ⟶ I` is carried by the exact `f_*` to a quasi-isomorphism, and the canonical map is
@@ -174,7 +175,7 @@ theorem isIso_derivedAdjunction_unit_app_of_isIso_unit
       (fun h ↦ pullbackInvertsQuasiIso_isKFlat f h)).unit.app (DerivedCategory.Qh.obj P) ≫
       (derivedPushforward f).map ((derivedPullbackComparison f).app P)) := by
     rw [hfac]; infer_instance
-  show IsIso ((derivedPullbackPushforwardAdjunctionOfKFlat f hmos
+  change IsIso ((derivedPullbackPushforwardAdjunctionOfKFlat f hmos
       (fun h ↦ pullbackInvertsQuasiIso_isKFlat f h)).unit.app (DerivedCategory.Qh.obj P))
   exact IsIso.of_isIso_comp_right _
     ((derivedPushforward f).map ((derivedPullbackComparison f).app P))

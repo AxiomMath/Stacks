@@ -286,7 +286,7 @@ private lemma truncGE_preservesCoproducts
       let η : H ⟶ T.truncGE a ⋙ H :=
         (Functor.leftUnitor H).inv ≫ Functor.whiskerRight (T.truncGEπ a) H
       have hη (E : DerivedCategory A) : IsIso (η.app E) := by
-        show IsIso (𝟙 _ ≫ H.map ((T.truncGEπ a).app E))
+        change IsIso (𝟙 _ ≫ H.map ((T.truncGEπ a).app E))
         rw [Category.id_comp]
         apply isIso_homology_map_truncGE_of_isZero (𝟭 (DerivedCategory A)) E a n
         · exact ((T.truncLE (a - 1)).obj E).isZero_of_isLE (a - 1) n (by omega)
@@ -353,7 +353,7 @@ theorem preservesColimitsOfShape_ι_comp_of_bounded_of_uniform_bound
       have : PreservesColimit (K ⋙ T) F := by
         have := hbounded (fun i => T.obj (K.obj ⟨i⟩)) a
           (fun i => by
-            show ((DerivedCategory.TStructure.t.truncGE a).obj
+            change ((DerivedCategory.TStructure.t.truncGE a).obj
               (K.obj ⟨i⟩).obj).IsGE a
             infer_instance)
         exact preservesColimit_of_iso_diagram

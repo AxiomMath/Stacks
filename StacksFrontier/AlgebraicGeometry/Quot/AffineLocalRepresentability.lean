@@ -103,12 +103,14 @@ def IsAffineFinitePresentationRepresentedOver (R : (SchemesOver Y)ᵒᵖ ⥤ Typ
 attribute [local instance] preservesLimitsOfShape_walkingCospan_toScheme
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_affineLocalRepresentability :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for small products of presheaves on the big fppf site
 /-- Small products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasProducts_presheaf_affineLocalRepresentability (J : Type) :

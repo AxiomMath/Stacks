@@ -81,7 +81,7 @@ public theorem isTaut_iff_hasBasis_isWeakIdealOfDefinition
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
-    (hA : TopologicalRing.IsWeaklyAdmissible A) (hB : TopologicalRing.IsWeaklyAdmissible B) :
+    (hA : TopologicalRing.IsWeaklyAdmissible A) :
     RingHom.IsTaut φ ↔
       (∀ I : Ideal A, TopologicalRing.IsWeakIdealOfDefinition I →
         TopologicalRing.IsWeakIdealOfDefinition (Ideal.closure (I.map φ))) ∧
@@ -121,7 +121,7 @@ private lemma isGroupComplete_of_completeSpace {A : Type*} [AddCommGroup A]
   refine ⟨inferInstance, ?_⟩
   intro F hF
   have hC : Cauchy F := by
-    show F.NeBot ∧ F ×ˢ F ≤
+    change F.NeBot ∧ F ×ˢ F ≤
       comap (fun p : A × A => p.2 + (-p.1)) (nhds (0 : A))
     have ht : Tendsto (fun p : A × A => p.2 + (-p.1)) (F ×ˢ F) (nhds (0 : A)) := by
       simpa [IsGroupCauchy, sub_eq_add_neg] using hF.2
@@ -179,7 +179,7 @@ private lemma openMap_of_taut_dense {A B : Type*} [CommRing A] [TopologicalSpace
     (hdense : DenseRange φ) : IsOpenMap φ := by
   have hgroup : IsGroupComplete A := isGroupComplete_of_completeSpace hA
   have hlin : IsLinearlyTopologized A := by
-    show (nhds (0 : A)).HasBasis
+    change (nhds (0 : A)).HasBasis
       (fun U : AddSubgroup A => IsOpen (U : Set A)) (fun U => (U : Set A))
     refine IsLinearTopology.hasBasis_open_ideal.to_hasBasis ?_ ?_
     · intro I hI
@@ -214,7 +214,7 @@ private lemma firstCountable_of_countable_nhds {A : Type*} [AddGroup A]
     inferInstance
   rw [Homeomorph.map_nhds_eq] at hmap
   have hpoint : Homeomorph.addLeft a (0 : A) = a := by
-    show a + 0 = a
+    change a + 0 = a
     exact add_zero a
   rw [hpoint] at hmap
   exact hmap
@@ -388,7 +388,7 @@ public lemma closure_map_closure {B C : Type*}
   simp only [Ideal.coe_closure]
   apply le_antisymm
   · apply closure_minimal ?_ isClosed_closure
-    show (Ideal.closure K).map ψ ≤ Ideal.closure (K.map ψ)
+    change (Ideal.closure K).map ψ ≤ Ideal.closure (K.map ψ)
     apply Ideal.map_le_iff_le_comap.mpr
     intro b hb
     exact map_mem_closure hψ hb (fun _ hx => Ideal.mem_map_of_mem ψ hx)
@@ -401,7 +401,7 @@ public lemma isTaut_comp {A B C : Type*}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
     [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
-    (φ : A →+* B) (ψ : B →+* C) (hφ : Continuous φ) (hψ : Continuous ψ)
+    (φ : A →+* B) (ψ : B →+* C) (hψ : Continuous ψ)
     (hφ_taut : RingHom.IsTaut φ) (hψ_taut : RingHom.IsTaut ψ) :
     RingHom.IsTaut (ψ.comp φ) := by
   constructor
@@ -467,7 +467,7 @@ fundamental system of open ideals if the source does. -/
 public lemma isCountablyGenerated_nhds_zero_of_isTaut
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
-    [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
+    [IsLinearTopology B B] (φ : A →+* B)
     (hφ_taut : RingHom.IsTaut φ) (hA : (nhds (0 : A)).IsCountablyGenerated) :
     (nhds (0 : B)).IsCountablyGenerated := by
   let := hA
@@ -512,10 +512,10 @@ private lemma closure_map_pow_le {A : Type u} {B : Type v} [CommRing A] [CommRin
   | succ n ih =>
     rw [pow_succ]
     refine Ideal.mul_le.mpr fun x hx y hy ↦ ?_
-    show x * y ∈ closure ((I ^ (n + 1)).map φ : Set B)
+    change x * y ∈ closure ((I ^ (n + 1)).map φ : Set B)
     exact map_mem_closure₂ continuous_mul (ih hx) hy
       (fun a ha b hb ↦ by
-        show a * b ∈ (I ^ (n + 1)).map φ
+        change a * b ∈ (I ^ (n + 1)).map φ
         rw [pow_succ, Ideal.map_mul]
         exact Ideal.mul_mem_mul ha hb)
 
@@ -524,7 +524,7 @@ rings. -/
 @[stacks 0GX8]
 public lemma isPreAdmissible_of_isTaut {A : Type u} {B : Type v} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsLinearTopology A A] [CommRing B] [TopologicalSpace B]
-    [IsTopologicalRing B] [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
+    [IsTopologicalRing B] [IsLinearTopology B B] (φ : A →+* B)
     (hφ_taut : RingHom.IsTaut φ) (hA : TopologicalRing.IsPreAdmissible A) :
     TopologicalRing.IsPreAdmissible B :=
   by

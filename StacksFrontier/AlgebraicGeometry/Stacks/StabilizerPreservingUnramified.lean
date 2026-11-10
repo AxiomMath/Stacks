@@ -150,7 +150,7 @@ theorem inertiaPullbackComparison_isEquivalenceOver_of_isRepresentable
   have _ : IsIso α := Functor.isIso_of_fiber_isGroupoid
     (𝒳.val.isFiberedInGroupoids.fiber_isGroupoid _) α hα
   refine ⟨Aut.of (asIso α), ?_, hFα⟩
-  show pX.map α = _
+  change pX.map α = _
   rw [IsHomLift.fac' pX (𝟙 (pX.obj x)) α]
   simp
 

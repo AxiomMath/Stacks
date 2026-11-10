@@ -289,7 +289,7 @@ theorem isEffective_of_isFpqcCovering
     refine (BigFppfOver.topology B S hS).superset_covering (fun W g hg => ?_) hcov
     obtain ⟨l, a, rfl⟩ := Functor.exists_factorization_of_ofArrows hg
     refine (Sieve.mem_ofArrows_iff _ _ _).2 ⟨l, a ≫ eqToHom (heP l).symm, ?_⟩
-    show a ≫ f l = (a ≫ eqToHom (heP l).symm) ≫ eqToHom (heP l) ≫ f l
+    change a ≫ f l = (a ≫ eqToHom (heP l).symm) ≫ eqToHom (heP l) ≫ f l
     simp
   have hfpqc' : IsFpqcCovering B S hS fun l => ((schemeSpaceFunctor B S hS).map (Δ.fP l)).hom := by
     have key : ∀ (W : L → BigFppfOver B S hS) (e : ∀ l, W l = V l),
@@ -303,7 +303,7 @@ theorem isEffective_of_isFpqcCovering
   refine SieveDescentDatum.isEffective_of_pairCocone f D.isFiberedInGroupoids_siteProjection E
     ⟨A, hA⟩ ζ (fun l => ?_) hζc
   refine IsHomLift.of_fac' (p := coherentSiteProjection D.categoryData) _ _ (heP l) hA ?_
-  show (ζ l).base.left = _
+  change (ζ l).base.left = _
   rw [hζb l]
   exact Category.assoc _ _ _
 

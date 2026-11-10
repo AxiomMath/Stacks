@@ -54,7 +54,7 @@ theorem exists_mem_pow_smul_top_of_forall_affineOpens [IsNoetherianRing A] [IsPr
   let y' : (AlgebraicGeometry.moduleGlobalSections Y).obj G := y
   let x : ((AlgebraicGeometry.moduleGlobalSections Y).rightDerived 0).obj G := (e.app G).inv y'
   have hex : (e.app G).hom.hom x = y' := by
-    show ((e.app G).inv ≫ (e.app G).hom).hom y' = y'
+    change ((e.app G).inv ≫ (e.app G).hom).hom y' = y'
     rw [Iso.inv_hom_id]
     rfl
   have hx : (((AlgebraicGeometry.moduleGlobalSections Y).rightDerived 0).map
@@ -63,7 +63,7 @@ theorem exists_mem_pow_smul_top_of_forall_affineOpens [IsNoetherianRing A] [IsPr
     rw [map_zero]
     have hnat := congrArg (fun φ => φ.hom x) (e.hom.naturality (cokernel.π (C := Y.Modules) P.ι))
     refine hnat.trans ?_
-    show ((AlgebraicGeometry.moduleGlobalSections Y).map (cokernel.π (C := Y.Modules) P.ι)).hom
+    change ((AlgebraicGeometry.moduleGlobalSections Y).map (cokernel.π (C := Y.Modules) P.ι)).hom
       ((e.app G).hom.hom x) = 0
     rw [hex]
     exact (cokernel_π_app_eq_zero_iff G P ⊤ y).2 hmem

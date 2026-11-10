@@ -214,7 +214,8 @@ theorem derivedSheafHomPullbackComparisonAtStandardModel_adjoint
   MixedTranspose.homComparison_adjoint _ _ _ _ _ _ _ _ _ E F
 
 /-- The right-hand side of Stacks 08JP written with `ε^*` at the standard model is the
-right-hand side `derivedSheafHomOfAssociatedModule`: the internal Hom of the small étale ringed site is functorial, and the two models
+right-hand side `derivedSheafHomOfAssociatedModule`: the internal Hom of the small étale ringed
+site is functorial, and the two models
 compute `ε^*` at `E` and at `F` isomorphically. -/
 def derivedSheafHomOfAssociatedModuleModelIso
     (E F : DerivedCategory (SheafOfModules.{u} S.ringCatSheaf)) :

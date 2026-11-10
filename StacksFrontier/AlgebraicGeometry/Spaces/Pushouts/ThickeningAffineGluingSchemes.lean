@@ -55,6 +55,7 @@ attribute [local instance] AlgebraicGeometry.preservesPullbacks_bigFppfOverToSch
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ThickeningAffineGluingSchemes :
@@ -66,6 +67,7 @@ local instance (priority := high) hasPullback_presheaf_ThickeningAffineGluingSch
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Small products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_ThickeningAffineGluingSchemes (J : Type) :
@@ -190,7 +192,7 @@ theorem isRepresentable_of_isPushout_of_isThickeningHom
     have h := congrArg (fun φ => φ.hom) hg₀
     simp only [schemeSpaceMap_hom, ObjectProperty.FullSubcategory.comp_hom] at h
     rw [h]
-    show U.1.reprW.hom ≫ σ.hom = (U.1.reprW.hom ≫ σ.hom ≫ V.1.reprW.inv) ≫ V.1.reprW.hom
+    change U.1.reprW.hom ≫ σ.hom = (U.1.reprW.hom ≫ σ.hom ≫ V.1.reprW.inv) ≫ V.1.reprW.hom
     simp
   have key := (isAffineHom_tfae_of_isAlgebraicSpace B S hS (yoneda.map g₀)
     (schemeSpace U.1.reprX).property (schemeSpace V.1.reprX).property).out 2 1

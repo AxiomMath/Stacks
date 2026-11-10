@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Free
 public import Mathlib.Algebra.Homology.HomotopyCategory.MappingCone
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ULiftUnit
 
 @[expose] public section

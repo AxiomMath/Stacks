@@ -144,7 +144,7 @@ theorem isIso_of_surjective_injective_precomp {C : Type*} [Category C] {P Q W₀
   obtain ⟨u, hu' : h ≫ u = e₀.inv⟩ := H₀ e₀.inv
   refine ⟨u ≫ e₀.hom, by rw [← Category.assoc, hu', Iso.inv_hom_id], ?_⟩
   refine (cancel_mono e₁.inv).mp (H₁ ?_)
-  show h ≫ ((u ≫ e₀.hom) ≫ h) ≫ e₁.inv = h ≫ (𝟙 Q) ≫ e₁.inv
+  change h ≫ ((u ≫ e₀.hom) ≫ h) ≫ e₁.inv = h ≫ (𝟙 Q) ≫ e₁.inv
   simp only [Category.assoc, Category.id_comp]
   rw [← Category.assoc h, hu', Iso.inv_hom_id_assoc]
 
@@ -245,7 +245,7 @@ theorem algebraEquiv_baseChangeAlgebraHom_comp [IsAffineHom X.hom] (Z : Over T)
     algebraEquiv g X Z (baseChangeAlgebraHom g X ≫ pushforwardAlgebraMap v) =
       overPullbackEquiv g X Z v := by
   rw [overPullbackEquiv_apply]
-  show (overHomEquiv ((Over.map g).obj Z) X).symm
+  change (overHomEquiv ((Over.map g).obj Z) X).symm
       ((algebraPullbackPushforwardAdjunction g).homEquiv (pushforwardAlgebra X.hom)
         (pushforwardAlgebra Z.hom)
         (baseChangeAlgebraHom g X ≫ pushforwardAlgebraMap v)) = _
@@ -305,7 +305,7 @@ the counit of `CategoryTheory.Over.mapPullbackAdj`. -/
 theorem baseChangeProjection_naturality {X Y : Over S} (v : Y ⟶ X) :
     (Over.map g).map ((Over.pullback g).map v) ≫ baseChangeProjection g X
       = baseChangeProjection g Y ≫ v :=
-  Over.OverMorphism.ext (by simp [baseChangeProjection, pullback.lift_fst])
+  Over.OverMorphism.ext (by simp [baseChangeProjection])
 
 /-- **The base-change morphism of algebra sheaves is natural in the scheme over `S`.** -/
 theorem baseChangeAlgebraHom_naturality {X Y : Over S} (v : Y ⟶ X) :

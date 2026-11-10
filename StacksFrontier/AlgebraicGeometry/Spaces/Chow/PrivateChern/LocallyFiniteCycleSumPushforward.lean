@@ -88,7 +88,7 @@ theorem properCyclePushforward_locallyFiniteCycleSum (k : ℤ)
           (T i) (α i) (hαT i)) := by
   classical
   refine Subtype.ext (funext fun Z' => ?_)
-  show properCyclePushforwardCoeff D sX hX sY hY f
+  change properCyclePushforwardCoeff D sX hX sY hY f
       (locallyFiniteCycleSumCoeff D sX k α) Z' =
     ∑ᶠ i : I, properCyclePushforwardCoeff D sX hX sY hY f (α i).1 Z'
   set ξ := Z'.ambientGenericPoint D.site D.base D.base_mem

@@ -73,7 +73,7 @@ theorem generatesStalks_of_span_eq_top (b : Fin (n + 1) → Γ(T, ⊤))
     intro i
     by_contra hi
     refine hx i ?_
-    show x ∈ Stacks.Ample.nonvanishingLocus (Stacks.Ample.unitModule T) (b i)
+    change x ∈ Stacks.Ample.nonvanishingLocus (Stacks.Ample.unitModule T) (b i)
     rw [nonvanishingLocus_unitModule]
     exact (T.mem_basicOpen_top (b i) x).2 ((IsLocalRing.mem_maximalIdeal _).not.1 hi |> not_not.1)
   have h1 : (1 : Γ(T, ⊤)) ∈ Ideal.span (Set.range b) := hb ▸ Submodule.mem_top
@@ -120,7 +120,7 @@ theorem isomorphic_unitTuple_iff (b b' : Fin (n + 1) → Γ(T, ⊤))
       β.inv.app ⊤ (show Γ(Stacks.Ample.unitModule T, ⊤) from (1 : Γ(T, ⊤)))
     have h2 : (show Γ(T, ⊤) from
         β.inv.app ⊤ (show Γ(Stacks.Ample.unitModule T, ⊤) from w)) = 1 := by
-      show ((β.hom ≫ β.inv).app ⊤) _ = _
+      change ((β.hom ≫ β.inv).app ⊤) _ = _
       rw [β.hom_inv_id]
       rfl
     have h1 : w * w' = 1 := (app_top_unitModule_eq β.inv w).symm.trans h2
@@ -196,7 +196,7 @@ theorem isIso_unitHomEquiv_symm_sectionsOfTop {X : Scheme.{u}} (M : X.Modules)
     funext fun r => (Scheme.Modules.unitHomEquiv_symm_app_apply M
       (Stacks.Divisors.sectionsOfTop M s) A.unop r).trans
         (by rw [Stacks.Divisors.sectionsOfTop_eval_top])
-  show Function.Bijective
+  change Function.Bijective
     (⇑((M.unitHomEquiv.symm (Stacks.Divisors.sectionsOfTop M s)).val.app A).hom :
       Γ(X, A.unop) → Γ(M, A.unop))
   rw [hfun]
@@ -225,11 +225,11 @@ theorem exists_isAffineOpen_comp_eq_homOfCoords (g : T ⟶ projectiveSpaceAtUniv
       (show Γ(Stacks.Ample.unitModule W, ⊤) from (1 : Γ(W, ⊤))) = s' i := by
     refine (Scheme.Modules.unitHomEquiv_symm_app_apply M' _ ⊤ 1).trans ?_
     rw [one_smul, Stacks.Divisors.sectionsOfTop_eval_top]
-    show M'.presheaf.map (𝟙 _) _ = _
+    change M'.presheaf.map (𝟙 _) _ = _
     rw [M'.presheaf.map_id]
     rfl
   have hbi : b i = 1 := by
-    show Scheme.Modules.Hom.app β.hom ⊤ (s' i) = _
+    change Scheme.Modules.Hom.app β.hom ⊤ (s' i) = _
     rw [← hφ1]
     have h1 : φ ≫ β.hom = 𝟙 _ := (@asIso _ _ _ _ φ hφ).hom_inv_id
     exact congr($(congrArg (fun ψ => Scheme.Modules.Hom.app ψ ⊤) h1)

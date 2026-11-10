@@ -93,14 +93,14 @@ private lemma ker_ι_exceptional_compl_eq_bot {S : Scheme.{u}} (I : S.IdealSheaf
       (exceptionalIdeal I).support.isClosed.isOpen_compl⟩ : (blowUp I).Opens)).ker = ⊥ := by
   let p : pullback (𝟙 S) (blowUpToBase I) ⟶ blowUp I := pullback.snd (𝟙 S) (blowUpToBase I)
   have : IsIso p := by
-    show IsIso (pullback.snd (𝟙 S) (show blowUp I ⟶ S from blowUpToBase I))
+    change IsIso (pullback.snd (𝟙 S) (show blowUp I ⟶ S from blowUpToBase I))
     infer_instance
   let U : (blowUp I).Opens :=
     ⟨(exceptionalIdeal I).supportᶜ, (exceptionalIdeal I).support.isClosed.isOpen_compl⟩
   have hI := strictTransformIdeal_eq_bot_of_flat_at_exceptional (𝟙 S) I
     (fun x _ => (Flat.iff_flat_stalkMap (𝟙 S)).mp inferInstance x)
   have hker : (p ⁻¹ᵁ U).ι.ker = ⊥ := (strictTransform_ideal_eq_ker (𝟙 S) I).symm.trans hI
-  show U.ι.ker = ⊥
+  change U.ι.ker = ⊥
   calc
     U.ι.ker = ((p ∣_ U) ≫ U.ι).ker := (Scheme.Hom.ker_comp_of_isIso _ _).symm
     _ = ((p ⁻¹ᵁ U).ι ≫ p).ker := by rw [morphismRestrict_ι]
@@ -152,7 +152,7 @@ private lemma isIso_morphismRestrict_strictTransformToBlowUp_of_lift
       (p ⁻¹ᵁ U).ι.ker := by
     rw [hUeq]
     exact strictTransform_ideal_eq_ker f I
-  show IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ p) ∣_ W)
   rw [hJ]
   exact isIso_morphismRestrict_ker_subschemeι_comp_of_section p U W j hj hkerW
@@ -276,15 +276,15 @@ theorem exists_isAdmissibleBlowup_strictTransform_isIso_near_closure
     exact disjoint_compl_right
   have hab : (a ≫ b₂) ≫ b₁ = b := by rw [Category.assoc, ha]
   refine ⟨I, hI, hdisj, W', ?_, ?_⟩
-  · show closure (b.base ⁻¹' T) ⊆ (W' : Set _)
+  · change closure (b.base ⁻¹' T) ⊆ (W' : Set _)
     rw [← hab]
     exact fun x hx => hTK ((a ≫ b₂).continuous.closure_preimage_subset _ hx)
   · let U := b ⁻¹ᵁ V
     have hU : (U : Set (blowUp I)) = ((exceptionalIdeal I).support : Set (blowUp I))ᶜ := by
       ext x
-      show b x ∈ V ↔ x ∉ (I.comap b).support
+      change b x ∈ V ↔ x ∉ (I.comap b).support
       rw [Scheme.IdealSheafData.support_comap]
-      show b x ∈ V ↔ b x ∉ (I.support : Set Y)
+      change b x ∈ V ↔ b x ∉ (I.support : Set Y)
       rw [hIV]
       simp
     have : IsProper b :=

@@ -187,7 +187,7 @@ private lemma pullbackTriplet_tensor_subsingleton
     exact CommRingCat.isPushout_tensorProduct k L K
   let h₀ := (IsPushout.of_hasPushout f₀ g₀).isColimit
   let e : CommRingCat.of (L ⊗[k] K) ≅ T.tensor := by
-    show CommRingCat.of (L ⊗[k] K) ≅ pushout f₀ g₀
+    change CommRingCat.of (L ⊗[k] K) ≅ pushout f₀ g₀
     exact h₀.coconePointUniqueUpToIso hpush.isColimit |>.symm
   exact subsingleton_primeSpectrum_of_ringEquiv e.commRingCatIsoToRingEquiv hTensor
 
@@ -221,10 +221,10 @@ private lemma ulift_quasiFinite_and_finitePresentation
     RingHom.FinitePresentation.of_bijective eB.symm.bijective
   have hfp' : RingHom.FinitePresentation f' := hBfp.comp (hfp.comp hAfp)
   refine ⟨?_, ?_⟩
-  · show Algebra.QuasiFinite A' B'
+  · change Algebra.QuasiFinite A' B'
     rw [← RingHom.quasiFinite_algebraMap, ← hmap]
     exact hqf'
-  · show Algebra.FinitePresentation A' B'
+  · change Algebra.FinitePresentation A' B'
     rw [← RingHom.finitePresentation_algebraMap, ← hmap]
     exact hfp'
 
@@ -433,7 +433,7 @@ private lemma split_reduced_pullback_point_product_homeomorph_snd
   let a : ↑((pullback f g).nilradical.subscheme) := hred t
   let b : ↑C := he a
   let z : Σ _ : Fin m, X.nilradical.subscheme := hcoprod.symm b
-  show hnilX.symm z.2 = p.1.2
+  change hnilX.symm z.2 = p.1.2
   have hq : e.hom ≫ (Sigma.desc (fun _ : Fin m ↦ 𝟙 X.nilradical.subscheme) ≫
       X.nilradical.subschemeι) =
       (pullback f g).nilradical.subschemeι ≫ pullback.snd f g := by
@@ -449,10 +449,10 @@ private lemma split_reduced_pullback_point_product_homeomorph_snd
         (fun _ : Fin m ↦ X.nilradical.subscheme) i x
     rw [← hcoprod.apply_symm_apply b, hz]
     rcases z with ⟨i, x⟩
-    show ((Sigma.ι (fun _ : Fin m ↦ X.nilradical.subscheme) i ≫
+    change ((Sigma.ι (fun _ : Fin m ↦ X.nilradical.subscheme) i ≫
       Sigma.desc (fun _ : Fin m ↦ 𝟙 X.nilradical.subscheme) ≫
       X.nilradical.subschemeι).base x) = X.nilradical.subschemeι x
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     simp
   have hq'' :
       X.nilradical.subschemeι (z.2) =
@@ -462,7 +462,7 @@ private lemma split_reduced_pullback_point_product_homeomorph_snd
         (Sigma.desc (fun _ : Fin m ↦ 𝟙 X.nilradical.subscheme) ≫
           X.nilradical.subschemeι).base b := hqpoint.symm
       _ = (pullback.snd f g).base t := by
-            show ((e.hom ≫ Sigma.desc (fun _ : Fin m ↦ 𝟙 X.nilradical.subscheme) ≫
+            change ((e.hom ≫ Sigma.desc (fun _ : Fin m ↦ 𝟙 X.nilradical.subscheme) ≫
               X.nilradical.subschemeι).base a) = _
             simpa [a, hred, nilradicalSubschemeHomeomorph_subschemeι] using hq'
       _ = p.1.2 := by
@@ -521,7 +521,7 @@ private lemma extremallyDisconnected_preimage_of_split
         apply Sigma.ext
         · rfl
         · exact heq_of_eq (he p).symm
-      show (e.symm ⟨(e p).1, σ x⟩).1.1 = y
+      change (e.symm ⟨(e p).1, σ x⟩).1.1 = y
       rw [hp, e.symm_apply_apply]
   exact extremallyDisconnected_of_homeo
     (IsHomeomorph.homeomorph F (isHomeomorph_iff_continuous_bijective.mpr ⟨hF, hbij⟩))

@@ -155,7 +155,8 @@ def fibrewiseModExtensionByZeroUnitIso (W : SimplexCategory × C) :
 
 variable [HasColimitsOfShape SimplexCategoryᵒᵖ (SheafOfModules.{w} O)]
 
-omit [(SheafOfModules.pushforward.{w} (F := projection C)
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
+  [(SheafOfModules.pushforward.{w} (F := projection C)
     (idRingMap (projectionTopology C J) J (projection C) O)).IsRightAdjoint]
   [HasColimitsOfShape SimplexCategoryᵒᵖ (SheafOfModules.{w} O)] in
 /-- **The Moore complex of the fibrewise reading of a direct sum of extensions by zero of the
@@ -188,7 +189,8 @@ theorem isZero_homology_alternatingFaceMapComplex_fibrewiseMod_succ
       ChaoticSite.SimplexValued.isZero_homology_alternatingFaceMapComplex_freeSimplicial_succ
         _ _ n) k
 
-omit [(SheafOfModules.pushforward.{w} (F := projection C)
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
+  [(SheafOfModules.pushforward.{w} (F := projection C)
     (idRingMap (projectionTopology C J) J (projection C) O)).IsRightAdjoint] in
 /-- **The Moore augmentation of the fibrewise reading of a direct sum of extensions by zero of
 the structure sheaf is a quasi-isomorphism.** This is the hypothesis `haug` of

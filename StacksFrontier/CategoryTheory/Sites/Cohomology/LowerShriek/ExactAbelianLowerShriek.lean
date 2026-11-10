@@ -98,6 +98,7 @@ variable {MC : Type u₁} [Category.{v} MC] [Abelian MC] [HasExt.{v} MC] [Enough
   {AD : Type u₄} [Category.{v} AD] [Abelian AD] [HasExt.{v} AD] [EnoughInjectives AD]
   {F : MC ⥤ MD} {G : MD ⥤ MC}
 
+omit [Abelian MD] [EnoughInjectives MD] in
 /-- **`Ext`-acyclicity for an adjunction from a corepresentation.** Let `F ⊣ G` be an
 adjunction between abelian categories, let `ΦC` and `ΦD` be exact functors to further abelian
 categories, and let `G` lie over an exact functor `Gab` with an exact left adjoint `L`, in the
@@ -134,7 +135,7 @@ theorem extAcyclic_of_corepresentation (adj : F ⊣ G)
     e₃.symm).addCommGroupIsoToAddEquiv.subsingleton_congr.mpr
       ⟨fun a b => by rw [hLX I m a, hLX I m b]⟩
 
-omit [HasExt.{v} AC] [HasExt.{v} AD] [EnoughInjectives AD] in
+omit [HasExt.{v} AC] [HasExt.{v} AD] [EnoughInjectives AD] [Abelian MD] [EnoughInjectives MD] in
 /-- The `Ext`-acyclic class of an adjunction is closed under binary direct sums. -/
 theorem extAcyclic_biprod (adj : F ⊣ G) {X Y : MC} (hX : adj.extAcyclic X)
     (hY : adj.extAcyclic Y) : adj.extAcyclic (X ⊞ Y) :=
@@ -162,7 +163,7 @@ theorem epi_of_corepresentation (Φ : M ⥤ A) [Φ.Faithful] {P : M} {X : A}
   have key : ∀ k : N ⟶ Z, eP.inv.app Z (x ≫ Φ.map k) = (eP.inv.app N) x ≫ k := fun k =>
     ConcreteCategory.congr_hom (eP.inv.naturality k) x
   apply (eP.app Z).symm.addCommGroupIsoToAddEquiv.injective
-  show eP.inv.app Z (x ≫ Φ.map f) = eP.inv.app Z (x ≫ Φ.map g)
+  change eP.inv.app Z (x ≫ Φ.map f) = eP.inv.app Z (x ≫ Φ.map g)
   rw [key, key, h]
 
 end Abstract
@@ -189,10 +190,11 @@ lemma isTorsionFree_of_mono_zsmul {F : Sheaf J Ab.{w}}
   right
   have := h n hn
   refine (AddCommGrpCat.mono_iff_injective ((n • 𝟙 F).hom.app U)).mp inferInstance ?_
-  show (n • 𝟙 F).hom.app U x = (n • 𝟙 F).hom.app U 0
+  change (n • 𝟙 F).hom.app U x = (n • 𝟙 F).hom.app U 0
   rw [map_zero]
   exact hx
 
+omit [HasSheafify J Ab.{w}] in
 /-- Multiplication by a nonzero integer is a monomorphism of a sectionwise torsion-free abelian
 sheaf. -/
 lemma mono_zsmul_of_isTorsionFree {F : Sheaf J Ab.{w}}
@@ -205,6 +207,7 @@ lemma mono_zsmul_of_isTorsionFree {F : Sheaf J Ab.{w}}
   have : Mono (n • 𝟙 F).hom := NatTrans.mono_of_mono_app _
   exact (sheafToPresheaf J Ab.{w}).mono_of_mono_map this
 
+omit [HasSheafify J Ab.{w}] in
 /-- An additive functor of abelian sheaves preserving monomorphisms preserves sectionwise
 torsion-freeness. -/
 lemma isTorsionFree_map {D : Type u} [Category.{v} D] {K : GrothendieckTopology D}
@@ -271,7 +274,7 @@ instance (F : Sheaf J Ab.{w}) : Epi (freeSectionsSheafπ J F) := by
 lemma freeSectionsSheaf_isTorsionFree (F : Sheaf J Ab.{w}) (U : Cᵒᵖ) :
     Module.IsTorsionFree ℤ ((freeSectionsSheaf J F).obj.obj U) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J (freeSectionsPresheaf J F) (fun V => by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup (F.obj.obj V))
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup (F.obj.obj V))
     exact Module.Flat.isTorsionFree) U
 
 end FreeSections
@@ -376,7 +379,9 @@ variable {B : Type*} [Category B] [Abelian B] [HasDerivedCategory B] [HasColimit
   (H : SheafOfModules.{max u v r t} O ⥤ B) [H.Additive] [PreservesFiniteLimits H]
   [PreservesFiniteColimits H] (eF : F' ≅ F ⋙ H)
 
-include adj e adjab eF in
+omit [HasDerivedCategory B] [HasColimitsOfShape ℕ B] [HasExactColimitsOfShape ℕ B]
+  [PreservesFiniteColimits F'] [PreservesColimitsOfShape ℕ F'] in
+include adj eF in
 /-- The acyclicity input of Stacks 0794 for any functor `F'` which is `F` followed by an exact
 functor: `F'` carries a bounded above acyclic complex with `Ext`-acyclic terms to an acyclic
 complex. -/
@@ -423,7 +428,7 @@ theorem hasPointwiseLeftDerivedFunctor :
   obtain ⟨_, _, _⟩ := hasExt_and_hasExactColimitsOfShape_nat.{t, r, v, u} J R
   exact Functor.hasPointwiseLeftDerivedFunctor_of_acyclic_mapHomologicalComplex F' adj.extAcyclic
     (fun _ _ => adj.extAcyclic_biprod) (exists_epi_extAcyclic.{t, r, v, u} adj Gab e adjab)
-    (fun a Lc hLc hP hac => map_acyclic.{t, r, v, u} adj Gab e adjab F' H eF a Lc hLc hP hac)
+    (fun a Lc hLc hP hac => map_acyclic.{t, r, v, u} adj F' H eF a Lc hLc hP hac)
 
 include adj e adjab eF in
 /-- **The left derived functor of `hasPointwiseLeftDerivedFunctor` is absolute**: whatever
@@ -443,7 +448,7 @@ theorem isLeftDerivedFunctor_comp
   obtain ⟨_, _, _⟩ := hasExt_and_hasExactColimitsOfShape_nat.{t, r, v, u} J R
   exact Functor.isLeftDerivedFunctor_comp_of_acyclic_mapHomologicalComplex F' adj.extAcyclic
     (fun _ _ => adj.extAcyclic_biprod) (exists_epi_extAcyclic.{t, r, v, u} adj Gab e adjab)
-    (fun a Lc hLc hP hac => map_acyclic.{t, r, v, u} adj Gab e adjab F' H eF a Lc hLc hP hac)
+    (fun a Lc hLc hP hac => map_acyclic.{t, r, v, u} adj F' H eF a Lc hLc hP hac)
     DerivedCategory.Qh LF α G'
 
 end LowerShriek

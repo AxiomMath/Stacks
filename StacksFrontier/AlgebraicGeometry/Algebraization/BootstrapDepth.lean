@@ -213,7 +213,7 @@ public theorem depth_localized_gt_of_no_intermediate_prime
             Ideal.map_le_iff_le_comap]
           exact hunder.ge
         have hm'le_r' : m' ≤ r' := by
-          show (maximalIdeal Aq).map (algebraMap Aq A') ≤ r'
+          change (maximalIdeal Aq).map (algebraMap Aq A') ≤ r'
           rw [Ideal.map_le_iff_le_comap]
           exact hmax_le_rAq
         exact Set.mem_singleton_iff.mpr (hm'max.eq_of_le hr'prime.ne_top hm'le_r').symm
@@ -235,7 +235,7 @@ public theorem depth_localized_gt_of_no_intermediate_prime
   let L := Localization.AtPrime p2
   let J := pAq.map (algebraMap Aq L)
   have hp2underA : p2.under S.A = p.asIdeal := by
-    show (p2.comap (algebraMap Aq A')).comap (algebraMap S.A Aq) = p.asIdeal
+    change (p2.comap (algebraMap Aq A')).comap (algebraMap S.A Aq) = p.asIdeal
     rw [hp2over]
     simpa [pAq] using (Ideal.under_map_of_isLocalizationAtPrime q0.asIdeal hp_le_q0)
   have : Ideal.LiesOver p2 p.asIdeal := ⟨hp2underA.symm⟩
@@ -267,13 +267,13 @@ public theorem depth_localized_gt_of_no_intermediate_prime
     have hsmall : IsBaseChange A' (AdicCompletion.of Iq M₀) :=
       IsBaseChange.of_equiv (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian Iq M₀)
         (by intro x
-            show (AdicCompletion.ofTensorProduct Iq M₀) (1 ⊗ₜ[Aq] x) = _
+            change (AdicCompletion.ofTensorProduct Iq M₀) (1 ⊗ₜ[Aq] x) = _
             rw [AdicCompletion.ofTensorProduct_tmul, one_smul])
     exact (IsBaseChange.iff_of_equiv_comm eM (AdicCompletion.congr Iq eM)
       (by
         apply LinearMap.ext
         intro x
-        show (AdicCompletion.of Iq Mq) (eM x) =
+        change (AdicCompletion.of Iq Mq) (eM x) =
           (AdicCompletion.congr Iq eM) ((AdicCompletion.of Iq M₀) x)
         exact (AdicCompletion.map_of Iq eM.toLinearMap x).symm)).mp hsmall
   let : IsScalarTower Aq A' M' := IsScalarTower.of_algebraMap_smul (fun a x => rfl)
@@ -284,7 +284,7 @@ public theorem depth_localized_gt_of_no_intermediate_prime
   let : IsScalarTower S.A Aq (LocalizedModule p2.primeCompl M') :=
     IsScalarTower.of_algebraMap_smul (R := S.A) (A := Aq)
       (M := LocalizedModule p2.primeCompl M') (fun a x => by
-        show (algebraMap S.A Aq a) • x = a • x
+        change (algebraMap S.A Aq a) • x = a • x
         rfl)
   let : IsScalarTower Aq L (LocalizedModule p2.primeCompl M') :=
     isScalarTower_of_tower_of_tower (S := A')

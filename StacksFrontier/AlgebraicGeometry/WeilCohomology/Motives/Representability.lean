@@ -616,7 +616,7 @@ theorem chowGroupMap_val (i : ℤ) {M N : D.Obj} (f : M ⟶ N) (α : ↥(M.as.ch
 /-- The degree `n - (-i)` of morphisms `𝟙(-i) → (X, p, n)` is `i + n`. -/
 theorem unitTwist_twist_sub (M : D.Obj) (i : ℤ) :
     M.as.twist - (D.unitTwistMotive i).twist = i + M.as.twist := by
-  show M.as.twist - -i = i + M.as.twist
+  change M.as.twist - -i = i + M.as.twist
   omega
 
 /-- The functor `CH^i(-)` on the category of Chow motives is represented by the `(-i)`-twist of

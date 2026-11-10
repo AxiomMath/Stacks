@@ -365,7 +365,7 @@ theorem extension_of_isElementaryDistinguishedSquare_of_le (hZ : B.Contains (⊤
     have hmem : t.1 ∈ V₁.obj (op (x.val.siteObject B S hS W.1)) := by
       have h := t.2
       change fV.app _ t.1 = x.val.value at h
-      show fV.app _ t.1 ∈ U''.obj _
+      change fV.app _ t.1 ∈ U''.obj _
       rw [h]
       exact hu
     let t₁ : GeometricPointLift B S hS ι₁.hom (liftGeometricPoint B S hS f t) :=
@@ -465,7 +465,7 @@ theorem extensionProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains (�
     have hmem : t₁.1 ∈ U₀.obj (op (x.val.siteObject B S hS W.1)) := by
       have h := t₁.2
       change Uo.ι.app _ t₁.1 = x.val.value at h
-      show Uo.ι.app _ t₁.1 ∈ U'.obj _
+      change Uo.ι.app _ t₁.1 ∈ U'.obj _
       rw [h]
       exact hx₂
     let p : GeometricPointLift B S hS k₀.hom (liftGeometricPoint B S hS j t₁) := ⟨⟨t₁.1, hmem⟩, rfl⟩
@@ -513,11 +513,11 @@ theorem extensionProperty_of_isElementaryDistinguishedSquare (hZ : B.Contains (�
       have hinj := pointsMap_injective_of_mono B S hS (U''.ι)
       rcases hz with ⟨w, hw⟩ | ⟨w, hw⟩
       · refine Or.inl ⟨w, hinj ((pointsMap_comp_apply B S hS aUo.hom U''.ι w).symm.trans ?_)⟩
-        show pointsMap B S hS Uo.toFunctor (Subfunctor.homOfLe hUoU'' ≫ U''.ι) w = _
+        change pointsMap B S hS Uo.toFunctor (Subfunctor.homOfLe hUoU'' ≫ U''.ι) w = _
         rw [Subfunctor.homOfLe_ι]
         exact hw
       · refine Or.inr ⟨w, hinj ((pointsMap_comp_apply B S hS aU'.hom U''.ι w).symm.trans ?_)⟩
-        show pointsMap B S hS U'.toFunctor (Subfunctor.homOfLe hU'U'' ≫ U''.ι) w = _
+        change pointsMap B S hS U'.toFunctor (Subfunctor.homOfLe hU'U'' ≫ U''.ι) w = _
         rw [Subfunctor.homOfLe_ι]
         exact hw
     · have h1 :

@@ -125,12 +125,12 @@ theorem property_pullbackSquare_over_hom {S' X' : Scheme.{u}} {a : X ⟶ S} {a' 
     Q (pullbackSquareDatum P D).over.hom := by
   have : Q.RespectsIso := MorphismProperty.IsStableUnderBaseChange.respectsIso
   have hpb : Q ((Over.pullback p).obj D.over).hom := by
-    show Q (pullback.snd D.over.hom p)
+    change Q (pullback.snd D.over.hom p)
     exact MorphismProperty.pullback_snd _ _ hQ
   have hcomm : (P.objIso D).hom.left ≫ ((Over.pullback p).obj D.over).hom =
       (pullbackSquareDatum P D).over.hom := (P.objIso D).hom.w
   have : IsIso (P.objIso D).hom.left := by
-    show IsIso ((Over.forget X').map (P.objIso D).hom)
+    change IsIso ((Over.forget X').map (P.objIso D).hom)
     infer_instance
   rw [← hcomm]
   exact (Q.cancel_left_of_respectsIso _ _).mpr hpb

@@ -256,16 +256,16 @@ theorem injective_appLE_complementChart
           rw [← LaurentPolynomial.T_add, neg_add_cancel, LaurentPolynomial.T_zero, mul_one]
       _ = LaurentPolynomial.T 1 := by rw [← mul_assoc, h2, one_mul]
   have K2 : ∀ a, ψ ((π'.appLE W'.1 B' hB'W').hom a) = snd.hom a := fun a => by
-    show LaurentPolynomial.eval₂ snd.hom hx.unit (θ' ((π'.appLE W'.1 B' hB'W').hom a)) = _
+    change LaurentPolynomial.eval₂ snd.hom hx.unit (θ' ((π'.appLE W'.1 B' hB'W').hom a)) = _
     rw [hθ'C, LaurentPolynomial.eval₂_C]
   have K1 : ∀ y, ψ ((φ.appLE B B' hφB).hom y) = fst.hom y := by
     have hext : (ψ.comp (φ.appLE B B' hφB).hom).comp θ.symm.toRingHom =
         fst.hom.comp θ.symm.toRingHom := by
       refine laurent_ringHom_ext (fun a => ?_) ?_
-      · show ψ ((φ.appLE B B' hφB).hom (θ.symm (LaurentPolynomial.C a))) =
+      · change ψ ((φ.appLE B B' hφB).hom (θ.symm (LaurentPolynomial.C a))) =
           fst.hom (θ.symm (LaurentPolynomial.C a))
         rw [hθC' a, E3 a, E5 a, K2]
-      · show LaurentPolynomial.eval₂ snd.hom hx.unit
+      · change LaurentPolynomial.eval₂ snd.hom hx.unit
             (θ' ((φ.appLE B B' hφB).hom (θ.symm (LaurentPolynomial.T 1)))) =
           fst.hom (θ.symm (LaurentPolynomial.T 1))
         rw [hTT, LaurentPolynomial.eval₂_T, zpow_one, IsUnit.unit_spec]
@@ -366,7 +366,7 @@ theorem iSup_complementChart :
     (show pullback.snd _ h z' ∈ (h ⁻¹ᵁ W.1 : U'.Opens) from hz) (h ⁻¹ᵁ W.1).isOpen
   refine TopologicalSpace.Opens.mem_iSup.2 ⟨⟨W, ⟨⟨V, hV⟩, hVle⟩⟩, ?_⟩
   refine ⟨?_, hxV⟩
-  show pullback.fst _ h z' ∈ (deformationSpace J).basicOpen (paramChartOf J W.1)
+  change pullback.fst _ h z' ∈ (deformationSpace J).basicOpen (paramChartOf J W.1)
   rw [← complementOpen_inf_preimage]
   exact ⟨hz', hW⟩
 

@@ -352,7 +352,7 @@ theorem exists_isFlatteningBlowup_of_isAffineSpace {A X : AlgebraicSpaces B S hS
     Yoneda.fullyFaithful.preimage (v ≫ f.hom ≫ e.inv)
   have hpv : yoneda.map p = v ≫ f.hom ≫ e.inv := Yoneda.fullyFaithful.map_preimage _
   have hp : cV.obj.hom ≫ f.hom = yoneda.map p ≫ e.hom := by
-    show v ≫ f.hom = _
+    change v ≫ f.hom = _
     rw [hpv]
     simp
   let d₀ : ChartDiagram B S hS X.1 A.1 f.hom :=
@@ -417,7 +417,7 @@ theorem exists_isFlatteningBlowup_of_isAffineSpace {A X : AlgebraicSpaces B S hS
     have hyU' : pointsEquivScheme B S hS T (pointsMap B S hS _ e.inv y) ∈
         chartOpenOfOpenSubspace B S hS U.1 U.2 cWA := by
       rw [mem_chartOpenOfOpenSubspace_iff]
-      show pointsMap B S hS _ e.hom ((pointsEquivScheme B S hS T).symm
+      change pointsMap B S hS _ e.hom ((pointsEquivScheme B S hS T).symm
         (pointsEquivScheme B S hS T (pointsMap B S hS _ e.inv y))) ∈ _
       rw [Equiv.symm_apply_apply, hinv]
       exact hyU
@@ -505,12 +505,12 @@ theorem exists_isFlatteningBlowup_of_isAffineSpace {A X : AlgebraicSpaces B S hS
       exact (pointsToScheme_pointsMap_yoneda B S hS _ _).trans
         (congrArg _ ((pointsEquivScheme B S hS cT.obj.left).apply_symm_apply t))
     rw [exceptionalPreimageSet_eq_preimage, Set.mem_preimage, range_pointsMap_preimage_ι]
-    show _ ↔ pointsMap B S hS _ b.hom (pointsMap B S hS _ (strictTransformPullbackToBlowUp
+    change _ ↔ pointsMap B S hS _ b.hom (pointsMap B S hS _ (strictTransformPullbackToBlowUp
         B S hS f b).hom (pointOfEtaleChart B S hS cT t)) ∈ subspacePointSet B S hS A.1 Z.1
     rw [hmemZ, hpt, Equiv.apply_symm_apply]
     have hsupp : ((exceptionalIdeal I).support : Set (AlgebraicGeometry.blowUp I)) =
         AlgebraicGeometry.blowUpToBase I ⁻¹' I.support := by
-      show ((I.comap (AlgebraicGeometry.blowUpToBase I)).support :
+      change ((I.comap (AlgebraicGeometry.blowUpToBase I)).support :
         Set (AlgebraicGeometry.blowUp I)) = _
       rw [Scheme.IdealSheafData.support_comap]
       rfl

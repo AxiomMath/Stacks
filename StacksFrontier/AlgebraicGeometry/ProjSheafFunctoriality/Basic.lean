@@ -268,7 +268,7 @@ theorem associatedModuleSheafMap_standardOpen (φ : M →ₗ[S] N)
     apply Subtype.ext
     funext x
     have hs : ProjectiveSpectrum.Proj.degreeZeroToSection 𝒮 𝒨 f a = s := eM.symm_apply_apply s
-    show ProjectiveSpectrum.Proj.moduleToFiber (M := N) 𝒮 f x
+    change ProjectiveSpectrum.Proj.moduleToFiber (M := N) 𝒮 f x
         (LocalizedModule.map (Submonoid.powers f) φ a.1) =
       LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ (s.1 x)
     rw [← hs]

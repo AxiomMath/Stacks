@@ -200,7 +200,7 @@ public theorem stageDirectSumMap_coe (S : Finset J) :
       ((finiteVariableStage δ ι T S).subtype.toAddMonoidHom).comp
         (DirectSum.coeAddMonoidHom (stageGrade δ ι T S)) := by
   refine DirectSum.addHom_ext fun m y => ?_
-  show DirectSum.coeAddMonoidHom Cᵢ (stageDirectSumMap δ ι T S
+  change DirectSum.coeAddMonoidHom Cᵢ (stageDirectSumMap δ ι T S
       (DirectSum.of (fun m => ↥(stageGrade δ ι T S m)) m y)) =
     ((DirectSum.coeAddMonoidHom (stageGrade δ ι T S)
       (DirectSum.of (fun m => ↥(stageGrade δ ι T S m)) m y) :
@@ -308,7 +308,7 @@ public theorem mem_positiveEvenPart_stageGrade_iff [IsHomogeneousVariableFamily 
     by_cases hm : ∃ k : ℕ, m = 2 * (k + 1)
     · obtain ⟨k, hk⟩ := hm
       refine Submodule.mem_iSup_of_mem k ?_
-      show gradedPart Cᵢ (x : C) m ∈ Cᵢ (2 * (k + 1))
+      change gradedPart Cᵢ (x : C) m ∈ Cᵢ (2 * (k + 1))
       rw [← hk]
       exact gradedPart_mem Cᵢ _ m
     · rw [show (⟨gradedPart Cᵢ (x : C) m, hmemS m⟩ : finiteVariableStage δ ι T S) = 0 from

@@ -153,7 +153,7 @@ theorem isSheafFor_singleton_of_isFormalAlgebraicSpace {X : FppfSheaf B S hS}
   obtain ⟨a, ha, -⟩ := (Presieve.isSheafFor_arrows_iff _ _).1
       ((Presieve.isSheafFor_iff_generate _).2 (hXsheaf _ hcov))
       (fun i ↦ Sheaf.sectionEquiv JT (x i.down)) fun i j Z gi gj hij ↦ hsep (gi ≫ wi i) (by
-        show X.obj.map _ (X.obj.map gi.op (Sheaf.sectionEquiv JT (x i.down))) =
+        change X.obj.map _ (X.obj.map gi.op (Sheaf.sectionEquiv JT (x i.down))) =
           X.obj.map _ (X.obj.map gj.op (Sheaf.sectionEquiv JT (x j.down)))
         rw [← Sheaf.sectionEquiv_map_comp JT gi, ← Sheaf.sectionEquiv_map_comp JT gj,
           ← Sheaf.sectionEquiv_map_comp JT, ← Sheaf.sectionEquiv_map_comp JT,
@@ -167,7 +167,7 @@ theorem isSheafFor_singleton_of_isFormalAlgebraicSpace {X : FppfSheaf B S hS}
     have hk : k = ℓ ≫ pullback.snd f (wi i) := (pullback.lift_snd _ _ _).symm
     have hg' : g = ℓ ≫ pullback.fst f (wi i) := (pullback.lift_fst _ _ _).symm
     rw [← Functor.map_comp_apply, ← op_comp, hgf, op_comp, Functor.map_comp_apply, ha i]
-    show X.obj.map k.op (Sheaf.sectionEquiv JT (x i.down)) = X.obj.map g.op s
+    change X.obj.map k.op (Sheaf.sectionEquiv JT (x i.down)) = X.obj.map g.op s
     rw [← hcs, ← Sheaf.sectionEquiv_map_comp JT, ← Sheaf.sectionEquiv_map_comp JT, hk, hg',
       yo.map_comp, yo.map_comp, Category.assoc, Category.assoc, hx i.down]
   exact ⟨a, hfa, fun z hz ↦ hinj (hz.trans hfa.symm)⟩

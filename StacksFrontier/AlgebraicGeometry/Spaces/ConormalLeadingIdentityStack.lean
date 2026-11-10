@@ -14,9 +14,9 @@ the generality of the clause.
 the clause to one naturality statement, its `hnat`; the reduction of that statement to the closed
 case stacks four squares, and
 `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleImmersionNaturalityAssembly.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/ConormalSchemesRectangleIdentity.lean` land the forward step,
-the two stacks and the schemes-side rectangle identity.  This file is the **backward** step and the
-clause.
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalSchemesRectangleIdentity.lean` land the forward
+step, the two stacks and the schemes-side rectangle identity.  This file is the **backward** step
+and the clause.
 
 ## Main results
 
@@ -573,7 +573,8 @@ The functor the step is taken along is the inverse image along the rectangle's l
 transport's composition law at a **leading** identity — is
 `AlgebraicGeometry.Space.representedAssociatedModulePullbackIso_comp_id_left`.  That law is stated
 at `representedSpaceMap (𝟙 R)` and consumed here at `representedSpaceMap (𝟙 R) ≫ 𝟙`; the junction
-between the two is under `AlgebraicGeometry.Space.modulePullback` and is **`rfl` and free**.  What is not affordable is the same junction on the *outer* argument of
+between the two is under `AlgebraicGeometry.Space.modulePullback` and is **`rfl` and free**.  What
+is not affordable is the same junction on the *outer* argument of
 `AlgebraicGeometry.Space.modulePullbackCompIso`, and this assembly never asks for it: the
 comparison is read at `representedSpaceMap (𝟙 R)` on every side. -/
 theorem conormalMapOfImmersions_naturality_of_immersions (hsq : j ≫ a = b ≫ j') :

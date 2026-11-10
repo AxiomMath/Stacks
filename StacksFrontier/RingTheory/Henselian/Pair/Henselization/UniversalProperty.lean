@@ -92,8 +92,8 @@ private theorem exists_augmented_ind_map {E : Type u} [CommRing E] [Algebra R E]
   rw [← hy]
   have hfac := ConcreteCategory.congr_hom (pres.isColimit.fac c j) y
   have hfac' : τ ((pres.ι.app j).hom y) = stageHom R I (obj j) y := by
-    convert hfac using 1 <;> rfl
-  show aug R I (τ ((pres.ι.app j).hom y)) = δ ((pres.ι.app j).hom y)
+    convert hfac using 1; rfl
+  change aug R I (τ ((pres.ι.app j).hom y)) = δ ((pres.ι.app j).hom y)
   rw [hfac', aug_stageHom]
   rfl
 
@@ -114,12 +114,12 @@ private theorem unique_augmented_hom
     have hm : f (stageHom R I A z) - g (stageHom R I A z) ∈
         I.map (algebraMap R (henselization R I : Type u)) := by
       rw [← ker_aug R I, RingHom.mem_ker]
-      show aug R I (f (stageHom R I A z) - g (stageHom R I A z)) = 0
+      change aug R I (f (stageHom R I A z) - g (stageHom R I A z)) = 0
       rw [map_sub]
       apply sub_eq_zero.mpr
       simpa only [map_sub, AlgHom.comp_apply] using hz
     apply sub_eq_zero.mp
-    show Ideal.Quotient.mk _ (f (stageHom R I A z)) -
+    change Ideal.Quotient.mk _ (f (stageHom R I A z)) -
       Ideal.Quotient.mk _ (g (stageHom R I A z)) = 0
     rw [← map_sub]
     exact (Ideal.Quotient.eq_zero_iff_mem).2 hm
@@ -157,7 +157,7 @@ public theorem henselianPair_henselization :
       (I.map (algebraMap R (henselization R I : Type u))) := by
   let H := (henselization R I : Type u)
   let J : Ideal H := I.map (algebraMap R H)
-  show HenselianPair H J
+  change HenselianPair H J
   apply ((henselianPair_tfae.{u, u} H J).out 2 1).mp
   intro E _ hAlgE hEtE σ
   let : Algebra R E :=
@@ -189,7 +189,7 @@ public theorem henselianPair_henselization :
   apply quotientAug_injective R I
   have hx := AlgHom.congr_fun hτ x
   change aug R I (τ x) = quotientAug R I (σ x) at hx
-  show quotientAug R I (Ideal.Quotient.mk J (τ' x)) = quotientAug R I (σ x)
+  change quotientAug R I (Ideal.Quotient.mk J (τ' x)) = quotientAug R I (σ x)
   rw [quotientAug_mk]
   exact hx
 
@@ -200,7 +200,7 @@ private theorem stage_eq_iff {A C : Pairs R I}
       ∃ (D : Pairs R I) (f : A ⟶ D) (g : C ⟶ D),
         Pairs.map R I f y = Pairs.map R I g z := by
   let : PreservesFilteredColimits (forget (CommAlgCat.{u} R)) := by
-    show PreservesFilteredColimits
+    change PreservesFilteredColimits
       ((commAlgCatEquivUnder (CommRingCat.of R)).functor ⋙
         Under.forget (CommRingCat.of R) ⋙ forget CommRingCat)
     infer_instance
@@ -316,7 +316,7 @@ private theorem toHenselian_unique {B : Type v} [CommRing B] [Algebra R B]
   have heq := unique_etale_map_of_quotient R J hB.1
     (g.comp (stageHom R I A))
     (Pairs.map_to_henselian R I J hB hIJ A) (hg.trans ht.symm)
-  show g (stageHom R I A y) = mapFun R I J hB hIJ (stageHom R I A y)
+  change g (stageHom R I A y) = mapFun R I J hB hIJ (stageHom R I A y)
   rw [mapFun_stage]
   exact AlgHom.congr_fun heq y
 
@@ -445,7 +445,7 @@ theorem exists_henselization (A : Type u) [CommRing A] (I : Ideal A) :
   refine ⟨g, ⟨hgcomp, ?_⟩, ?_⟩
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show g (algebraMap A (henselization A I : Type u) a) ∈ J
+    change g (algebraMap A (henselization A I : Type u) a) ∈ J
     rw [← RingHom.comp_apply, hgcomp]
     exact hIJ ha
   · intro g' hg'
@@ -453,10 +453,10 @@ theorem exists_henselization (A : Type u) [CommRing A] (I : Ideal A) :
       { g' with
         commutes' := fun a => by
           have h := congrArg (fun φ : A →+* B => φ a) hg'.1
-          convert h using 1 <;> rfl }
+          convert h using 1 }
     have h := toHenselian_unique A I J hB hIJ gAlg
     have h' := congrArg AlgHom.toRingHom h
-    show g' = g
+    change g' = g
     exact h'
 
 end

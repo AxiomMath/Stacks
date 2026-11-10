@@ -149,7 +149,7 @@ variable (T : DerivedTensorProduct R)
 complex `K` of `𝒪`-modules, the comparison `Q(K) ⊗^𝐋_𝒪 Q(L) ≅ Q(Tot(K ⊗_𝒪 L))` is natural in
 `L`, by the field `comparisonLeft_naturality` at the identity of `K`. -/
 def comparisonLeftFac (K : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (hK : Stacks.SheafOfModules.KFlat R K) :
     DerivedCategory.Q ⋙ T.tensor.obj (DerivedCategory.Q.obj K) ≅
       (Stacks.SheafOfModules.Tensor.tensorComplex R).obj K ⋙ DerivedCategory.Q :=
   NatIso.ofComponents (fun L => T.comparisonLeft K L hK) (fun {L L'} g => by
@@ -165,7 +165,7 @@ with `Tot(K ⊗_𝒪 -)` followed by `Q`; both factors preserve direct sums, and
 surjective, so the property descends. -/
 theorem preservesColimitsOfShape_discrete_tensor_obj_Q (I : Type u)
     (K : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (hK : Stacks.SheafOfModules.KFlat R K) :
     PreservesColimitsOfShape (Discrete I) (T.tensor.obj (DerivedCategory.Q.obj K)) := by
   have hten := preservesColimitsOfShape_discrete_tensorComplex_obj R I K
   have hQ : PreservesColimitsOfShape (Discrete I) (DerivedCategory.Q (C := Modules R)) :=

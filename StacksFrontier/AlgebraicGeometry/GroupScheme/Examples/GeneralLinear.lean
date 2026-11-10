@@ -102,7 +102,7 @@ matrix. -/
 lemma localizedPolynomial_det_eval {n : ℕ} {A : Type u} [CommRing A]
     (f : MvPolynomial (Fin n × Fin n) (ULift.{u} ℤ) →+* A) :
     f (generalLinearDeterminant.{u} n) = (Matrix.of fun i j => f (MvPolynomial.X (i, j))).det := by
-  show f (Matrix.det (Matrix.mvPolynomialX (Fin n) (Fin n) (ULift.{u} ℤ))) = _
+  change f (Matrix.det (Matrix.mvPolynomialX (Fin n) (Fin n) (ULift.{u} ℤ))) = _
   rw [RingHom.map_det]
   congr 1
 
@@ -469,7 +469,7 @@ theorem exists_multiplicationRingHom (n : ℕ) :
             Algebra.TensorProduct.includeRight.toRingHom) := by
     rw [← schemeHomRingHomEquiv_pullbackSpecIso_inv_fst,
       ← schemeHomRingHomEquiv_pullbackSpecIso_inv_snd]
-    show α.homEquiv' (k ≫ μ[Over.mk (generalLinearStructureMorphism.{u} n)]) =
+    change α.homEquiv' (k ≫ μ[Over.mk (generalLinearStructureMorphism.{u} n)]) =
       α.homEquiv' (k ≫ fst (Over.mk (generalLinearStructureMorphism.{u} n))
           (Over.mk (generalLinearStructureMorphism.{u} n))) *
         α.homEquiv' (k ≫ snd (Over.mk (generalLinearStructureMorphism.{u} n))
@@ -681,7 +681,7 @@ theorem baseChangeGroupPointsIso_hom_app (n : ℕ) (S : Scheme.{u})
     (generalLinearOverRepresentableBy n)
   let q := CategoryTheory.Over.pullbackPointsMulEquiv (T := T.unop)
     (b := specULiftZIsTerminal.from S) (h := generalLinearStructureMorphism.{u} n) f
-  show ((e.hom.app (Opposite.op ((Over.map
+  change ((e.hom.app (Opposite.op ((Over.map
       (specULiftZIsTerminal.from S)).obj T.unop)) q).val i j) = _
   dsimp [e, yonedaGrpObjIsoOfRepresentableBy, generalLinearOverRepresentableBy,
     generalLinearRepresentableBy, generalLinearGroupFunctor]

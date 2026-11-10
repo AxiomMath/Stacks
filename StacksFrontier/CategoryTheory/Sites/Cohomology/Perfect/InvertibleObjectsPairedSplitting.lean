@@ -113,13 +113,13 @@ private theorem actsAsOne_of_paired (n : ℤ) (F : Mod X.O)
   refine mod_eq_of_locally_eq _ (hK U) _ _ fun W g hg => ?_
   obtain ⟨V, a, b, ⟨A⟩, rfl⟩ := hg
   rw [F.val.map_smul]
-  show ringSec (X.O.obj.map (a ≫ b).op (((pairedIdempotents hK).e n).val (op U))) • _ = _
+  change ringSec (X.O.obj.map (a ≫ b).op (((pairedIdempotents hK).e n).val (op U))) • _ = _
   rw [((pairedIdempotents hK).e n).map_val, pairedIdempotents_val_map hK n A a]
   exact h A a _
 
 /-- `e_n` acts as the identity on `H^{-n}(K')`. -/
 theorem actsAsOne_neg (n : ℤ) : (pairedIdempotents hK).ActsAsOne n (K'.homology (-n)) :=
-  actsAsOne_of_paired hK n _ fun _ _ A a m => (A.smul' n (-n) a m).trans (if_pos rfl)
+  actsAsOne_of_paired hK n _ fun _ _ A a m => (A.smul' n (-n) a m).trans (ite_eq_left rfl)
 
 /-- **A left factor of an invertible tensor product is invertible.** -/
 theorem isInvertibleModule_left_of_tensorObj {S : Sheaf X.J CommRingCat.{u}}

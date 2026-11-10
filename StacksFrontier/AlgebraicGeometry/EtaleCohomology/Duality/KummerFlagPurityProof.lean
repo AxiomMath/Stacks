@@ -212,7 +212,7 @@ private theorem range_eq_singleton_of_isPullback_reindex_origin {d : ℕ} {U T :
   rw [Stacks.Cohomology.ClosedImmersionBaseChange.range_eq_preimage_range_of_isPullback sq,
     range_goodNeighbourhoodOrigin]
   ext x
-  simp only [Set.mem_preimage, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [← hy x]
   constructor
   · intro h m
@@ -256,7 +256,7 @@ private theorem exists_mem_range_functionDatum_j_of_ne {d : ℕ} {U : Scheme.{u}
       (functionDatum (ψ.appTop (AffineSpace.coord (Spec (.of K)) ⟨m⟩))).j.base := by
   obtain ⟨m, hm⟩ := not_forall_not.1 (mt (hy x).1 hx)
   refine ⟨m, ?_⟩
-  show x ∈ Set.range (U.basicOpen _).ι
+  change x ∈ Set.range (U.basicOpen _).ι
   rw [Scheme.Opens.range_ι]
   exact hm
 
@@ -279,12 +279,12 @@ private theorem nonempty_flagSheaf_stdDatum_iso (N d : ℕ) :
         goodNeighbourhoodOrigin_appTop_coord, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
         Purity.origin_appTop_coordinate, map_zero]
   · rw [range_goodNeighbourhoodOrigin] at hx
-    simp only [Set.mem_setOf_eq, not_forall, not_not] at hx
+    simp only [Set.mem_ofPred_eq, not_forall, not_not] at hx
     obtain ⟨⟨j⟩, hj⟩ := hx
     refine ⟨j.rev, ?_⟩
-    show x ∈ Set.range (Scheme.Opens.ι _)
+    change x ∈ Set.range (Scheme.Opens.ι _)
     rw [Scheme.Opens.range_ι]
-    show x ∈ (𝔸(ULift.{u} (Fin d); Spec (.of K))).basicOpen
+    change x ∈ (𝔸(ULift.{u} (Fin d); Spec (.of K))).basicOpen
       ((coordProj K ⟨j.rev.rev⟩).appTop (Purity.coordinate K))
     rw [coordProj_appTop_coordinate, Fin.rev_rev]
     exact hj
@@ -359,7 +359,7 @@ private theorem exists_kummerFlagClass_functionDatum_eq_transport {U : Scheme.{u
       exact (comp_origin_appTop_coordinate K _).symm
   have hf : ∀ m : Fin d, ψ'.appTop (stdFun K d m) =
       ψ.appTop (AffineSpace.coord (Spec (.of K)) ⟨m⟩) := fun m => by
-    show ψ'.appTop ((coordProj K ⟨m.rev⟩).appTop (Purity.coordinate K)) = _
+    change ψ'.appTop ((coordProj K ⟨m.rev⟩).appTop (Purity.coordinate K)) = _
     rw [coordProj_appTop_coordinate, hRcoord]
   let gW : ∀ m : Fin d, Spec (.of (Γ(U, ⊤) ⧸ Ideal.span
       {ψ.appTop (AffineSpace.coord (Spec (.of K)) ⟨m⟩)})) ⟶ stdW K d m :=

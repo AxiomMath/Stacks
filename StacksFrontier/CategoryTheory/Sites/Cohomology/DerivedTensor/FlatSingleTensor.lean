@@ -144,7 +144,7 @@ functor `Q(K) ⊗^L_R -` precomposed with `DerivedCategory.Q` is the ordinary to
 `Tot(K ⊗_R -)` followed by `Q`; this is `DerivedTensorProduct.comparisonLeft` read as a natural
 isomorphism, its naturality field at the identity of `K`. -/
 def comparisonLeftNatIso (K : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (hK : Stacks.SheafOfModules.KFlat R K) :
     DerivedCategory.Q ⋙ T.tensor.obj (DerivedCategory.Q.obj K) ≅
       (tensorComplex R).obj K ⋙ DerivedCategory.Q :=
   NatIso.ofComponents (fun L => T.comparisonLeft K L hK) (fun {_ _} g => by
@@ -182,7 +182,7 @@ theorem preservesFiniteColimits_sheafTensorObj :
 /-- The complex `M[0]` of a flat module is K-flat, in the spelling the comparisons of a
 `DerivedTensorProduct` consume. -/
 theorem kFlat_single :
-    Stacks.SheafOfModules.KFlat.KFlat R
+    Stacks.SheafOfModules.KFlat R
       ((CochainComplex.singleFunctor (Modules R) 0).obj M) :=
   Stacks.SheafOfModules.KFlatResolution.kFlat_single_of_isFlat R M hM 0
 

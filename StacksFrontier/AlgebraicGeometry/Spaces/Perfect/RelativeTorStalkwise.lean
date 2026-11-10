@@ -91,7 +91,7 @@ lemma restrictScalarsStalkRingHom_ringStalkGerm (U : C) (ξ : Ψ.fiber.obj U)
       Ψ.toPresheafFiber U ξ (Stacks.SheafOfModules.Tensor.ringSheaf O₁).obj a :=
     ringStalkComparison_ringStalkGerm Ψ O₁ U ξ a
   have h₂ := ConcreteCategory.congr_hom (Ψ.toPresheafFiber_naturality ψ.hom U ξ) a
-  show (commRingSheafFiberIso Ψ O₂).hom.hom ((Ψ.presheafFiber.map ψ.hom).hom
+  change (commRingSheafFiberIso Ψ O₂).hom.hom ((Ψ.presheafFiber.map ψ.hom).hom
     ((commRingSheafFiberIso Ψ O₁).inv.hom (ringStalkGerm Ψ O₁ U ξ a))) = _
   rw [h₁]
   exact (congrArg (commRingSheafFiberIso Ψ O₂).hom.hom h₂).trans
@@ -132,7 +132,7 @@ lemma restrictScalarsStalkAddIso_hom_germ
     (restrictScalarsStalkAddIso Ψ ψ M).hom
         (moduleStalkGerm Ψ O₁ ((SheafOfModules.restrictScalars ψ).obj M) U ξ t) =
       moduleStalkGerm Ψ O₂ M U ξ t := by
-  show (AlgebraicGeometry.RingedSite.moduleStalkRestrictScalarsForget₂Iso Ψ O₂
+  change (AlgebraicGeometry.RingedSite.moduleStalkRestrictScalarsForget₂Iso Ψ O₂
       (restrictScalarsStalkRingHom Ψ ψ) M).inv ((Ψ.presheafFiber.map
         (restrictScalarsPresheafIso ψ M).hom) (Ψ.toPresheafFiber U ξ
           ((SheafOfModules.restrictScalars ψ).obj M).val.presheaf t)) = _

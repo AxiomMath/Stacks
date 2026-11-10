@@ -65,8 +65,8 @@ The fork is given in coordinates only: the product `(𝒪_S)^n`, the two maps
 `CategoryTheory.Limits.Fork` are **not** constructed here, so nothing here lets the
 `preservesFiniteLimits` field of a morphism of topoi act on `h_V`.  See the "What is missing"
 section of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineCase.lean` for where that
-sits in the proof of Stacks 04I6.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineCase.lean` for where
+that sits in the proof of Stacks 04I6.
 
 ## References
 
@@ -227,7 +227,7 @@ be formed.  Naturality is `Stacks.EtaleCohomology.solutionsMap_coe`: a morphism 
 solution coordinatewise, which is exactly the assertion that each coordinate is natural. -/
 def solutionCoord (i : Fin n) :
     solutionPresheaf B S hS P ⟶ (structureTypeSheaf B S hS).obj where
-  app U := TypeCat.ofHom fun a => a.1 i
+  app _ := TypeCat.ofHom fun a => a.1 i
   naturality _ _ _ := rfl
 
 /-- The component at `U` of `solutionCoord P i` sends a solution `a` to its `i`-th coordinate. -/

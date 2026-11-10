@@ -147,7 +147,7 @@ theorem moduleDual_map_op_smul_id (M : ModuleCat.{u} R) (a : R) :
     (moduleDual R).map (a • 𝟙 M).op = a • 𝟙 ((moduleDual R).obj (op M)) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun (φ : Module.Dual R M) =>
     LinearMap.ext fun (m : M) => ?_)
-  show φ (a • m) = a • φ m
+  change φ (a • m) = a • φ m
   exact map_smul φ a m
 
 /-- The finite free module `R^{⊕r}`. -/
@@ -269,8 +269,8 @@ theorem IsANCModule.exists_finFree_factorization {A : Type u} [CommRing A] {I : 
   obtain ⟨s, hs⟩ := π.exists_rightInverse_of_surjective (LinearMap.range_eq_top.2 hπ)
   refine ⟨r, ModuleCat.ofHom (s ∘ₗ α₀), ModuleCat.ofHom (β₀ ∘ₗ π), ?_⟩
   refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show β₀ (π (s (α₀ m))) = (a • 𝟙 M).hom m
-  show β₀ (π (s (α₀ m))) = a • m
+  change β₀ (π (s (α₀ m))) = (a • 𝟙 M).hom m
+  change β₀ (π (s (α₀ m))) = a • m
   rw [show π (s (α₀ m)) = α₀ m from LinearMap.congr_fun hs (α₀ m)]
   exact (LinearMap.congr_fun hαβ m).symm
 
@@ -344,7 +344,7 @@ theorem isIso_can_finFree (r : ℕ) :
 theorem map_source_smul_id (M : ModuleCat.{u} R) (a : R) :
     (moduleDual R ⋙ P.pull).map (a • 𝟙 M).op =
       a • 𝟙 ((moduleDual R ⋙ P.pull).obj (op M)) := by
-  show P.pull.map ((moduleDual R).map (a • 𝟙 M).op) = _
+  change P.pull.map ((moduleDual R).map (a • 𝟙 M).op) = _
   rw [moduleDual_map_op_smul_id, P.pull_smul_id]
   rfl
 
@@ -353,7 +353,7 @@ theorem map_source_smul_id (M : ModuleCat.{u} R) (a : R) :
 theorem map_target_smul_id (M : ModuleCat.{u} R) (a : R) :
     (P.pull.op ⋙ P.dual).map (a • 𝟙 M).op =
       a • 𝟙 ((P.pull.op ⋙ P.dual).obj (op M)) := by
-  show P.dual.map (P.pull.map (a • 𝟙 M)).op = _
+  change P.dual.map (P.pull.map (a • 𝟙 M)).op = _
   rw [P.pull_smul_id, P.dual_smul_id]
   rfl
 

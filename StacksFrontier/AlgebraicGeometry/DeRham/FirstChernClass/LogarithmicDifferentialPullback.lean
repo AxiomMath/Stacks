@@ -40,7 +40,8 @@ Hodge-filtered first Chern classes of Stacks Tags 0FLE and 0FME are built.
   followed by `d log` on `X'` is `d log` on `X` followed by the degree-one component of the
   canonical map of de Rham complexes
   `AlgebraicGeometry.Scheme.Hom.deRhamAbelianPushforwardMap`.
-* `AlgebraicGeometry.Scheme.Hom.unitsComplexPushforwardMapPlus_logarithmicDifferentialComplexMapPlus`:
+* `AlgebraicGeometry.Scheme.Hom`.
+  `unitsComplexPushforwardMapPlus_logarithmicDifferentialComplexMapPlus`:
   **the same square on bounded-below complexes** — `d log : 𝒪_X^*[-1] ⟶ Ω^•_{X/S}` commutes with
   the two pullback maps of the square. This is the form Tag 0FMD's de Rham square consumes,
   through the functoriality
@@ -144,7 +145,7 @@ theorem logarithmicDifferentialAbelianSheafHom_deRham_naturality :
   ext U s
   obtain ⟨V⟩ := U
   obtain ⟨u, rfl⟩ : ∃ u : (X.sheaf.obj.obj (op V))ˣ, Additive.ofMul u = s := ⟨s, rfl⟩
-  show (SheafOfModules.logarithmicDifferentialAbelianSheafHom (deRhamAlgebras p')
+  change (SheafOfModules.logarithmicDifferentialAbelianSheafHom (deRhamAlgebras p')
       (SheafOfModules.deRhamDifferential (deRhamAlgebras p'))).hom.app (op (f ⁻¹ᵁ V))
       ((unitsPushforwardMap f).hom.app (op V) (Additive.ofMul u)) =
     ((deRhamFormsPushforwardHom f p p' g hcomm).app 1).val.app (op V)

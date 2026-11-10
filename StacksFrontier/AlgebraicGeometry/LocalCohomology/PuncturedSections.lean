@@ -124,7 +124,7 @@ theorem tilde_map_app_basicOpen_injective {M N : ModuleCat.{u} R} (φ : M ⟶ N)
       (tilde.toOpen N (PrimeSpectrum.basicOpen r)).hom ?_
     rw [IsLocalizedModule.map_comp]
     exact congr(ModuleCat.Hom.hom $(tilde.toOpen_map_app φ (PrimeSpectrum.basicOpen r)))
-  show Function.Injective ((modulesSpecToSheaf.map (tilde.map φ)).1.app
+  change Function.Injective ((modulesSpecToSheaf.map (tilde.map φ)).1.app
     (op (PrimeSpectrum.basicOpen r))).hom
   rw [key]
   exact IsLocalizedModule.map_injective _ _ _ _ hφ

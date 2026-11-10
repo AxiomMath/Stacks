@@ -522,10 +522,10 @@ private theorem coneShortComplex_map_shortExact (g : K ⟶ L) :
     rintro ⟨a, rfl⟩
     rfl
   · rw [ModuleCat.mono_iff_injective]
-    show Function.Injective ((coneIncl g).gradedMap n)
+    change Function.Injective ((coneIncl g).gradedMap n)
     exact fun x y hxy => Subtype.ext ((Prod.mk.injEq _ _ _ _).mp (congrArg Subtype.val hxy)).1
   · rw [ModuleCat.epi_iff_surjective]
-    show Function.Surjective ((coneProj g).gradedMap n)
+    change Function.Surjective ((coneProj g).gradedMap n)
     intro z
     refine ⟨⟨((0 : L.M), (z : (shift K 1).grading n).val),
       (coneGrading_mem n _).mpr ⟨(L.grading n).zero_mem,
@@ -549,7 +549,7 @@ private theorem exact_map_rotate_coneTriangle (g : K ⟶ L)
   have hLES := HomologicalComplex.HomologySequence.composableArrows₅_exact hS 0 1 (by simp)
   have hF : ((coneShortComplex A g).map (forgetToCochainComplex.{u, v, w} A ⋙
       HomologicalComplex.homologyFunctor (ModuleCat.{w} R) (ComplexShape.up ℤ) 0)).Exact := by
-    show ((HomologicalComplex.HomologySequence.composableArrows₅ hS 0 1 (by simp)).sc
+    change ((HomologicalComplex.HomologySequence.composableArrows₅ hS 0 1 (by simp)).sc
       hLES.toIsComplex 0 (by omega)).Exact
     exact hLES.exact 0
   have isoH : toHomotopyCategory.{u, v, w} A ⋙ degreeZeroCohomologyLift.{u, v, w} A ≅
@@ -587,7 +587,7 @@ theorem homologicalKernel_eq_acyclic :
   ext X
   cases X with
   | mk M =>
-    show (∀ i : ℤ, IsZero ((degreeZeroCohomologyLift.{u, v, w} A).obj
+    change (∀ i : ℤ, IsZero ((degreeZeroCohomologyLift.{u, v, w} A).obj
       (((toHomotopyCategory A).obj M)⟦i⟧))) ↔ M.toCochainComplex.Acyclic
     rw [acyclic_iff_cohomologyLift A M]
     exact forall_congr' (degreeZero_shift_isZero_iff A M)
@@ -638,7 +638,7 @@ theorem acyclic_trW_eq_quasiIsomorphisms :
     | mk N =>
       induction f using Quot.inductionOn with
       | _ g =>
-        show (degreeZeroCohomologyLift.{u, v, w} A).homologicalKernel.trW
+        change (degreeZeroCohomologyLift.{u, v, w} A).homologicalKernel.trW
             ((toHomotopyCategory A).map g) ↔
           quasiIsomorphisms A ((toHomotopyCategory A).map g)
         rw [quasiIsomorphisms_map_iff,

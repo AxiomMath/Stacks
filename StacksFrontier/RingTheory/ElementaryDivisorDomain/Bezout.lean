@@ -273,8 +273,8 @@ private theorem quotient_torsion (R : Type*) [CommRing R] [IsDomain R] (f : R) (
   refine ⟨⟨f, mem_nonZeroDivisors_of_ne_zero hf⟩, ?_⟩
   induction x using Quotient.inductionOn' with
   | h a =>
-    show f • (Ideal.Quotient.mk _ a) = 0
-    show (Ideal.Quotient.mk _ f) * (Ideal.Quotient.mk _ a) = 0
+    change f • (Ideal.Quotient.mk _ a) = 0
+    change (Ideal.Quotient.mk _ f) * (Ideal.Quotient.mk _ a) = 0
     have hmem : f ∈ Ideal.span ({f} : Set R) := Ideal.subset_span (by simp)
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hmem, zero_mul]
 
@@ -332,7 +332,7 @@ private theorem from_to_if_freeCoordinates_zero (R : Type*) [CommRing R] [IsDoma
   classical
   apply DirectSum.ext_component R
   intro j
-  show fromTorsion R (f j) (toTorsion R (f j) (d j)) = d j
+  change fromTorsion R (f j) (toTorsion R (f j) (d j)) = d j
   by_cases h : f j = 0
   · have hz : freePart R (f j) (d j) = 0 := by
       have hh := congrArg (fun x : Fin n → R => x j) hd
@@ -347,7 +347,7 @@ private theorem freeCoordinates_torsion_zero (R : Type*) [CommRing R] [IsDomain 
     (hd : d ∈ Submodule.torsion R _) : freeCoordinates R n f d = 0 := by
   classical
   funext j
-  show freePart R (f j) (d j) = 0
+  change freePart R (f j) (d j) = 0
   exact torsion_map_to_ring_zero R
     ((freePart R (f j)).comp (DirectSum.component R (Fin n)
       (fun j => R ⧸ Ideal.span {f j}) j)) hd
@@ -410,7 +410,7 @@ private theorem split_retract (R : Type*) [CommRing R] [IsDomain R]
     exact torsion_of_map R p (torsion_of_map R c (hB z)))
   refine ⟨inferInstance, inferInstance, ⟨e⟩, it, pt, ?_⟩
   refine LinearMap.ext fun x => Subtype.ext ?_
-  show p (c (b (i x.1))) = x.1
+  change p (c (b (i x.1))) = x.1
   rw [hbc (i x.1) ((hq _).mpr (torsion_of_map R i x.2))]
   exact LinearMap.congr_fun hip x.1
 

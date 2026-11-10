@@ -187,18 +187,18 @@ theorem IsStagesColimit.of_distTriang
     (g₃ := Preadditive.leftComp _ T'.mor₂) (g₄ := Preadditive.leftComp _ T'.mor₁)
     ht₁ ht₂ ht₃ ht₄ hι₁ hι₂ hι₃ hι₄ htt₂ htt₃ ?_ ?_ ?_ ?_ ?_ ?_ h₁ h₂ h₃ h₄ h₅
   · intro i a
-    show (T i).mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (T i).mor₁ ≫ a = 0
+    change (T i).mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (T i).mor₁ ≫ a = 0
     rw [← Category.assoc, comp_distTriang_mor_zero₃₁ _ (hT i), zero_comp]
   · exact fun i a ha => exists_comp_eq_of_comp_eq_zero (rot_of_distTriang _ (hT i)) a ha
   · exact fun i a ha => exists_comp_eq_of_comp_eq_zero (hT i) a ha
   · intro x
-    show T'.mor₁ ≫ T'.mor₂ ≫ x = 0
+    change T'.mor₁ ≫ T'.mor₂ ≫ x = 0
     rw [← Category.assoc, comp_distTriang_mor_zero₁₂ _ hT', zero_comp]
   · intro x hx
     obtain ⟨b, hb⟩ := Triangle.yoneda_exact₂ _ (rot_of_distTriang _ (rot_of_distTriang _ hT'))
       x hx
     refine ⟨-b, ?_⟩
-    show (shiftFunctor 𝒟 (1 : ℤ)).map T'.mor₁ ≫ (-b) = x
+    change (shiftFunctor 𝒟 (1 : ℤ)).map T'.mor₁ ≫ (-b) = x
     rw [hb]
     exact (Preadditive.comp_neg _ _).trans (Preadditive.neg_comp _ _).symm
   · exact fun x hx => exists_comp_eq_of_comp_eq_zero (rot_of_distTriang _ hT') x hx

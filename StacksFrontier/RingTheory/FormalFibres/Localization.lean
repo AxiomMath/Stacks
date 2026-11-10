@@ -97,7 +97,7 @@ public lemma holds_of_equiv
     apply ULift.ext
     exact (congrArg (fun t : A →+* D => t (e.symm c.down)) h).trans
       (by simp)
-  show P (RingHom.ulift.{max u v w, max u v w x} g)
+  change P (RingHom.ulift.{max u v w, max u v w x} g)
   rw [← heq]
   exact hh
 
@@ -192,7 +192,7 @@ private lemma fibersHave_of_isLocalization
   let f : p.asIdeal.ResidueField →ₐ[R] q.asIdeal.ResidueField :=
     { Ideal.ResidueField.map p.asIdeal q.asIdeal (algebraMap R T) rfl with
       commutes' := fun r => by
-        show Ideal.ResidueField.map p.asIdeal q.asIdeal (algebraMap R T) rfl
+        change Ideal.ResidueField.map p.asIdeal q.asIdeal (algebraMap R T) rfl
           (algebraMap R p.asIdeal.ResidueField r) = algebraMap R q.asIdeal.ResidueField r
         rw [Ideal.ResidueField.map_algebraMap, ← IsScalarTower.algebraMap_apply] }
   let e := AlgEquiv.ofBijective f
@@ -453,7 +453,7 @@ public theorem completion_maximal_bridge
     exact ker_evalOneₐ_le_of_map_le I q hIq
   have hp_eq : p = qbar.comap (Ideal.Quotient.mk I) := by
     ext a
-    show algebraMap A (AdicCompletion I A) a ∈ q ↔ Ideal.Quotient.mk I a ∈ qbar
+    change algebraMap A (AdicCompletion I A) a ∈ q ↔ Ideal.Quotient.mk I a ∈ qbar
     rw [← hq_comap]
     exact Iff.rfl
   have hp : p.IsMaximal := by
@@ -502,7 +502,7 @@ public theorem localized_completion_bridge
   have hker := ker_evalOneₐ_le_of_map_le I q
     ((Ideal.map_mono (completion_maximal_bridge I q).2.1).trans
       (completion_maximal_bridge I q).2.2.le)
-  show Function.Surjective
+  change Function.Surjective
     (Ideal.ResidueField.map p q (algebraMap A (AdicCompletion I A)) rfl)
   intro y
   obtain ⟨b, rfl⟩ := q.algebraMap_residueField_surjective y
@@ -510,7 +510,7 @@ public theorem localized_completion_bridge
   refine ⟨algebraMap A p.ResidueField a, ?_⟩
   rw [Ideal.ResidueField.map_algebraMap]
   have hmem : b - algebraMap A (AdicCompletion I A) a ∈ q := hker (by
-    show (AdicCompletion.evalOneₐ I) (b - algebraMap A (AdicCompletion I A) a) = 0
+    change (AdicCompletion.evalOneₐ I) (b - algebraMap A (AdicCompletion I A) a) = 0
     rw [map_sub, evalOneₐ_algebraMap, ha, sub_self])
   have hs := (Ideal.algebraMap_residueField_eq_zero).2 hmem
   rw [map_sub] at hs

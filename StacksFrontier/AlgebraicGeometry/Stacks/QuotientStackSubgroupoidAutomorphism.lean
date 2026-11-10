@@ -49,7 +49,8 @@ theorem bijective_verticalAutMap_iff_of_iso (F F' : X ⥤ Y) (hF : F ⋙ pY = pX
     apply Subtype.ext
     apply Aut.ext
     apply Iso.ext
-    show F'.map (α : Aut a).asIso.hom = (ι.app a).inv ≫ F.map (α : Aut a).asIso.hom ≫ (ι.app a).hom
+    change F'.map (α : Aut a).asIso.hom =
+      (ι.app a).inv ≫ F.map (α : Aut a).asIso.hom ≫ (ι.app a).hom
     rw [Iso.app_inv, Iso.app_hom, ι.hom.naturality, ← Category.assoc, ← NatTrans.comp_app,
       ι.inv_hom_id, NatTrans.id_app, Category.id_comp]
   rw [key]
@@ -116,7 +117,7 @@ theorem inducesIsomorphismAt_of_quotientStackMap_realization
   have hcomp : (E.toFunctor ⋙ (quotientStackMap Φ).toFunctor ⋙ F.toFunctor) ⋙ 𝒳.val.val.p =
       𝒰.val.val.p := by
     rw [Functor.assoc, hΦF, E.w]
-  show Function.Bijective (Functor.verticalAutMap (CatFiberedInGroupoids.homFunctor f.hom)
+  change Function.Bijective (Functor.verticalAutMap (CatFiberedInGroupoids.homFunctor f.hom)
     (CatFiberedInGroupoids.homFunctor_comp_p f.hom) b.1)
   rw [Functor.bijective_verticalAutMap_iff_of_iso _ _ _ hcomp ι b.1]
   refine Functor.bijective_verticalAutMap_comp E.toFunctor

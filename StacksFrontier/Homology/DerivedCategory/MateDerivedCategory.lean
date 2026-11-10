@@ -69,11 +69,9 @@ recorded on the image of `DerivedCategory.Q`:
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_app_Q` and
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_hom_app_Q`.
 
-A 2-square is a natural transformation between composites, but `CategoryTheory.TwoSquare` is a
-plain definition rather than an abbreviation: a term whose type is spelled `TwoSquare T L R B` is
-not matched by a lemma about a term of type `T ⋙ R ⟶ L ⋙ B` at reducible transparency, so `simp`
-will not rewrite a whiskering of it.  Where such a rewrite is wanted the transformation is named
-through `CategoryTheory.TwoSquare.natTrans`, which is an abbreviation and so does reduce.
+A 2-square is a natural transformation between composites: `CategoryTheory.TwoSquare` is an
+abbreviation for `T ⋙ R ⟶ L ⋙ B`, so a 2-square is passed directly wherever a natural
+transformation between the composites is expected.
 
 Nothing here is a result of the Stacks project: it is the compatibility of the mates
 correspondence with passing to derived categories.
@@ -105,7 +103,7 @@ def TwoSquare.mapHomologicalComplex {T : A ⥤ B} {L : A ⥤ C} {R : B ⥤ D} {B
     {ι : Type*} (c : ComplexShape ι) :
     TwoSquare (T.mapHomologicalComplex c) (L.mapHomologicalComplex c)
       (R.mapHomologicalComplex c) (Bo.mapHomologicalComplex c) :=
-  TwoSquare.mk _ _ _ _ (NatTrans.mapHomologicalComplex α.natTrans c)
+  TwoSquare.mk _ _ _ _ (NatTrans.mapHomologicalComplex α c)
 
 /-- The component of the degreewise 2-square at a complex `K`, in degree `i`, is the component
 of the original 2-square at the object `K.X i`. -/
@@ -160,7 +158,7 @@ def TwoSquare.mapDerivedCategory {T : A ⥤ B} {L : A ⥤ C} {R : B ⥤ D} {Bo :
     TwoSquare T.mapDerivedCategory L.mapDerivedCategory R.mapDerivedCategory
       Bo.mapDerivedCategory :=
   TwoSquare.mk _ _ _ _
-    ((mapDerivedCategoryCompIso T R).inv ≫ NatTrans.mapDerivedCategory α.natTrans ≫
+    ((mapDerivedCategoryCompIso T R).inv ≫ NatTrans.mapDerivedCategory α ≫
       (mapDerivedCategoryCompIso L Bo).hom)
 
 /-- The chase that remains once the three comparisons have been computed on the image of the
@@ -197,9 +195,9 @@ theorem TwoSquare.mapDerivedCategory_app_Q {T : A ⥤ B} {L : A ⥤ C} {R : B �
         Bo.mapDerivedCategoryFactors.inv.app
           ((L.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ≫
         Bo.mapDerivedCategory.map (L.mapDerivedCategoryFactors.inv.app K) := by
-  show R.mapDerivedCategoryFactors.inv.app _ ≫
+  change R.mapDerivedCategoryFactors.inv.app _ ≫
       R.mapDerivedCategory.map (T.mapDerivedCategoryFactors.inv.app K) ≫
-      ((mapDerivedCategoryCompIso T R).inv ≫ NatTrans.mapDerivedCategory α.natTrans ≫
+      ((mapDerivedCategoryCompIso T R).inv ≫ NatTrans.mapDerivedCategory α ≫
         (mapDerivedCategoryCompIso L Bo).hom).app (DerivedCategory.Q.obj K) = _
   rw [NatTrans.comp_app, NatTrans.comp_app, mapDerivedCategoryCompIso_inv_app_Q,
     NatTrans.mapDerivedCategory_app_Q,

@@ -266,7 +266,7 @@ theorem exists_opens_isRegularImmersion_comp_of_factors (i : Z ⟶ Y) (j : Y ⟶
     (hj : ∃ V : Y.Opens, i.base z ∈ V ∧ IsRegularImmersion (V.ι ≫ j)) :
     ∃ U : Z.Opens, z ∈ U ∧ IsRegularImmersion (U.ι ≫ (i ≫ j)) := by
   refine exists_opens_isRegularImmersion_of_mem_regularStalkLocus (i ≫ j) z ?_
-  show ∃ ts : List (X.presheaf.stalk ((i ≫ j).base z)),
+  change ∃ ts : List (X.presheaf.stalk ((i ≫ j).base z)),
     IsRegular (X.presheaf.stalk ((i ≫ j).base z)) ts ∧
       Ideal.ofList ts = RingHom.ker ((i ≫ j).stalkMap z).hom
   rw [stalkMap_comp_hom]

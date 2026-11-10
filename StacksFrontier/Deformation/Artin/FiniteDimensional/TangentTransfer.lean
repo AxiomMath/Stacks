@@ -102,13 +102,13 @@ theorem finiteDimensional_tangentSpaceArtinian_of_tangentModuleAt
       (FGModuleCat.of k (ULift.{w} k)))) :
     letI : Fact (IsPredeformationCategory.{u, w, w} (BasedCategory.ofFunctor 𝓕.p).p) :=
       ⟨h𝓕.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor 𝓕.p) h𝓕.predeformation.cofibered))) :=
       ⟨tangentConditionS2.{u, w, w} h𝓕⟩
     FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
       (isomorphismClasses (BasedCategory.ofFunctor 𝓕.p) h𝓕.predeformation.cofibered)) := by
   let : Fact (IsPredeformationCategory.{u, w, w} 𝓕.p) := ⟨h𝓕.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨tangentConditionS2.{u, w, w} h𝓕⟩
   exact (associatedTangentSpaceCarrierLinearEquiv.{u, w, w} 𝓕 h𝓕.predeformation
     (tangentConditionS2.{u, w, w} h𝓕)).finiteDimensional
@@ -118,13 +118,13 @@ finite-dimensional exactly when its tangent module at the rank-one module `k` is
 theorem finiteDimensional_artinianTangentSpace_iff_tangentModuleAt
     (h𝓕 : IsDeformationCategory.{u, w, w} 𝓕.p) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨tangentConditionS2.{u, w, w} h𝓕⟩
     FiniteDimensional k (artinianTangentSpace Λ k
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)) ↔
       FiniteDimensional k ↥(tangentModuleAt.{u, w, w} 𝓕 h𝓕 (FGModuleCat.of k k)) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨tangentConditionS2.{u, w, w} h𝓕⟩
   let e := associatedTangentSpaceCarrierLinearEquivUnlifted 𝓕 h𝓕.predeformation
     (tangentConditionS2.{u, w, w} h𝓕)

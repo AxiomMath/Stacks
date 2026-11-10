@@ -302,7 +302,7 @@ lemma inducedFunctor_comp_mapOfComp (hp : p.IsFiberedInGroupoids) (U : 𝒞) :
   refine CategoryTheory.Functor.ext (fun x => rfl) (fun x y ν => ?_)
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   apply Fiber.hom_ext
-  show ((CoGrothendieck.ι _ U).map ν).fiber.app (Over.mk (𝟙 U)) ≫
+  change ((CoGrothendieck.ι _ U).map ν).fiber.app (Over.mk (𝟙 U)) ≫
       sliceEv p y ((Over.map ((CoGrothendieck.ι _ U).map ν).base).obj (Over.mk (𝟙 U)))
     = ν.app (Over.mk (𝟙 U))
   erw [BasedFunctor.comp_app]

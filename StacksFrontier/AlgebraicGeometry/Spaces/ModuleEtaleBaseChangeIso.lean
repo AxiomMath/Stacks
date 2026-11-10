@@ -153,6 +153,8 @@ theorem modulePushforwardPushforwardSetSheafHom'_eq (N : Modules.{u, u} B S hS X
       ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).obj N))
 
 set_option maxHeartbeats 1000000 in
+-- the statement composes several module and set-sheaf direct images, whose elaboration and
+-- the `rw` steps through them are heavy
 /-- The comparison of the two composite direct images of modules around a commutative square,
 read on underlying sheaves of sets one factor at a time, is the comparison of the two composite
 direct images of sheaves of sets (Stacks 03G2, part (3)). -/
@@ -194,7 +196,7 @@ theorem moduleSheafFunctor_map_modulePushforwardSquare_twoSquare (w : i ≫ f = 
           (smallToposMorphismTypeU_comp B S hS f' g).inv) :
           TwoSquare (smallEtaleDirectImage B S hS i) (smallToposMorphismTypeU B S hS f').pushforward
             (smallToposMorphismTypeU B S hS f).pushforward
-            (smallEtaleDirectImage B S hS g)).natTrans.app
+            (smallEtaleDirectImage B S hS g)).app
             ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).obj N) :=
   moduleSheafFunctor_map_modulePushforwardSquare_comp B S hS i f' f g w N
 
@@ -216,14 +218,14 @@ theorem isIso_moduleSheafFunctor_map_mateEquiv_symm_of_twoSquare
         (Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y)).map (c.app N) ≫
           modulePushforwardPushforwardSetSheafHom B S hS f' g N =
         modulePushforwardPushforwardSetSheafHom' B S hS i f N ≫
-          θ.natTrans.app ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).obj N))
+          θ.app ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).obj N))
     (h : IsIso ((mateEquiv (smallEtaleSetRestrictionAdjunction B S hS i hi)
-      (smallEtaleSetRestrictionAdjunction B S hS g hg)).symm θ).natTrans)
+      (smallEtaleSetRestrictionAdjunction B S hS g hg)).symm θ))
     (K : Modules.{u, u} B S hS X.1 X.2) :
     IsIso ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS Y')).map
       (((mateEquiv (etaleModulePullbackAdjunction B S hS i hi)
         (etaleModulePullbackAdjunction B S hS g hg)).symm
-        (TwoSquare.mk _ _ _ _ (a ≫ b ≫ c))).natTrans.app K)) :=
+        (TwoSquare.mk _ _ _ _ (a ≫ b ≫ c))).app K)) :=
   Stacks.CategoryTheory.isIso_map_mateEquiv_symm_app_of_comp₃
     (etaleModulePullbackAdjunction B S hS i hi) (etaleModulePullbackAdjunction B S hS g hg)
     (smallEtaleSetRestrictionAdjunction B S hS i hi)
@@ -254,7 +256,7 @@ theorem isIso_moduleSheafFunctor_map_etaleModuleBaseChangeMate_app (sq : IsPullb
         (etaleModulePullbackAdjunction B S hS g hg)).symm
         (TwoSquare.mk _ _ _ _ ((modulePushforwardCompIso B S hS i f).hom ≫
           eqToHom (congrArg (fun k : X' ⟶ Y => modulePushforward B S hS k) sq.w) ≫
-          (modulePushforwardCompIso B S hS f' g).inv))).natTrans.app K)) :=
+          (modulePushforwardCompIso B S hS f' g).inv))).app K)) :=
   isIso_moduleSheafFunctor_map_mateEquiv_symm_of_twoSquare B S hS i f' f g hg hrep
     (isEtale_of_isPullback B S hS f' i g f sq.flip hg)
     (MorphismProperty.IsStableUnderBaseChange.of_isPullback

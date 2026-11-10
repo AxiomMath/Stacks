@@ -156,7 +156,7 @@ theorem ofShiftDownHom_mul
       ((GradedModule.ofDifferentialGraded K).smul (n + 1) i U x y) :=
     (castHom_apply (GradedModule.ofDifferentialGraded K).piece (add_right_comm n 1 i) U _).symm
   rw [hcast]
-  show homSections (ofShiftDownHom Φ (n + i)) U _ =
+  change homSections (ofShiftDownHom Φ (n + i)) U _ =
     (N.mul n i).app U (homSections (ofShiftDownHom Φ n) U x) y
   refine Eq.trans (ofShiftDownHom_homSections Φ (n + i) U _) ?_
   refine Eq.trans (congrArg
@@ -257,7 +257,7 @@ theorem ofShiftDownHom_toShiftDownHom (α : ∀ n : ℤ, K.complex.X (n + 1) ⟶
           (add_right_comm n 1 i) ((K.mul (n + 1) i).app U x y))
         = (N.mul n i).app U ((α n).val.app U x) y) (n : ℤ) :
     ofShiftDownHom (toShiftDownHom α hα) n = α n := by
-  show (eqToHom (congrArg K.complex.X (degEqSubOneSucc (n + 1))) ≫ α ((n + 1) - 1)) ≫
+  change (eqToHom (congrArg K.complex.X (degEqSubOneSucc (n + 1))) ≫ α ((n + 1) - 1)) ≫
     eqToHom (congrArg N.complex.X (degSuccSubOne n)) = α n
   rw [Category.assoc]
   exact eqToHom_comp_shift (degSuccSubOne n) α _ _
@@ -273,7 +273,7 @@ theorem toShiftDownHom_ofShiftDownHom
         = (N.mul n i).app U ((ofShiftDownHom Φ n).val.app U x) y) :
     toShiftDownHom (ofShiftDownHom Φ) hα = Φ :=
   GradedModule.Hom.ext fun j => by
-    show eqToHom (congrArg K.complex.X (degEqSubOneSucc j)) ≫
+    change eqToHom (congrArg K.complex.X (degEqSubOneSucc j)) ≫
         Φ.app ((j - 1) + 1) ≫ eqToHom (congrArg N.complex.X (degSuccSubOne (j - 1))) = Φ.app j
     exact eqToHom_comp_piece (degEqSubOneSucc j).symm (fun m => Φ.app m) _ _
 

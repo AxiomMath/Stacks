@@ -133,7 +133,7 @@ theorem smallEtalePushforwardCompIso_inv_app_hom_app {Y T S' : Scheme.{u}} (e : 
 /-- `smallEtaleSetBaseChangeTwoCell` as a composite of natural transformations. -/
 theorem smallEtaleSetBaseChangeTwoCell_natTrans {Y T X' S' : Scheme.{u}} (e : Y ⟶ T) (h : Y ⟶ X')
     (g : T ⟶ S') (f : X' ⟶ S') (w : e ≫ g = h ≫ f) :
-    (smallEtaleSetBaseChangeTwoCell.{v, u} e h g f w).natTrans =
+    smallEtaleSetBaseChangeTwoCell.{v, u} e h g f w =
       (smallEtalePushforwardCompIso.{u, v} e g).hom ≫
         (eqToIso (congrArg (fun k : Y ⟶ S' ↦
           (Stacks.EtaleCohomology.smallEtaleBaseChange k).sheafPushforwardContinuous

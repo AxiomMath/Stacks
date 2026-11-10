@@ -89,7 +89,7 @@ theorem preimage_puncturedOpen {S : Scheme.{u}} {s : S} (hs : IsClosed ({s} : Se
       ⟨{IsLocalRing.closedPoint (S.presheaf.stalk s)}ᶜ,
         (IsLocalRing.isClosed_singleton_closedPoint _).isOpen_compl⟩ := by
   ext p
-  show S.fromSpecStalk s p ∈ ({s} : Set S)ᶜ ↔
+  change S.fromSpecStalk s p ∈ ({s} : Set S)ᶜ ↔
     p ∈ ({IsLocalRing.closedPoint (S.presheaf.stalk s)}ᶜ :
       Set (Spec (S.presheaf.stalk s)))
   simp only [Set.mem_compl_iff, Set.mem_singleton_iff]
@@ -126,11 +126,11 @@ theorem isFinitePresentationAway_pullback {S T : Scheme.{u}} (g : T ⟶ S) (U : 
   · have : LocallyOfFinitePresentation X.hom := hX.1.1
     have : QuasiCompact X.hom := hX.1.2.1
     have : QuasiSeparated X.hom := hX.1.2.2
-    show FinitePresentation (pullback.snd X.hom g)
+    change FinitePresentation (pullback.snd X.hom g)
     exact ⟨inferInstance, inferInstance, inferInstance⟩
   · have : IsIso ((Over.pullback U.ι).obj X).hom := hX.2
     have hB : IsIso ((Over.pullback (g ∣_ U)).obj ((Over.pullback U.ι).obj X)).hom := by
-      show IsIso (pullback.snd ((Over.pullback U.ι).obj X).hom (g ∣_ U))
+      change IsIso (pullback.snd ((Over.pullback U.ι).obj X).hom (g ∣_ U))
       infer_instance
     let iso₁ : (Over.pullback ((g ∣_ U) ≫ U.ι)).obj X ≅
         (Over.pullback (g ∣_ U)).obj ((Over.pullback U.ι).obj X) :=
@@ -234,10 +234,10 @@ private theorem localAwayProjection_essSurj (S : Scheme.{u}) (U : S.Opens) (s : 
   let A := (restrictOpenToPuncturedLocal S U s).obj O
   let B := (restrictLocalToPuncturedLocal S U s).obj X.obj
   have hId : IsIso O.obj.hom := by
-    show IsIso (𝟙 U.toScheme)
+    change IsIso (𝟙 U.toScheme)
     infer_instance
   have : IsIso A.obj.hom := by
-    show IsIso (pullback.snd O.obj.hom ((S.fromSpecStalk s) ∣_ U))
+    change IsIso (pullback.snd O.obj.hom ((S.fromSpecStalk s) ∣_ U))
     infer_instance
   have : IsIso B.obj.hom := X.property
   let e : A ≅ B := (isFinitePresentationOver (puncturedLocalScheme S U s)).isoMk

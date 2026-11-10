@@ -188,10 +188,7 @@ theorem isSurjectiveComparison_tensorModules (hM : IsSurjectiveComparison M)
   set J := Opens.grothendieckTopology A.obj.thickening.target.scheme
   set cM := (PresheafOfModules.toPresheaf (ringRestriction A)).map (moduleComparison M g)
   set cN := (PresheafOfModules.toPresheaf (ringRestriction A)).map (moduleComparison N g)
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact J.superset_covering (fun _ _ _ ↦ ⟨0, (map_zero _).trans (map_zero _).symm⟩)
-        (J.top_mem V)
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
       refine J.superset_covering ?_ (J.intersection_covering
         (Presheaf.imageSieve_mem J cM m) (Presheaf.imageSieve_mem J cN n))

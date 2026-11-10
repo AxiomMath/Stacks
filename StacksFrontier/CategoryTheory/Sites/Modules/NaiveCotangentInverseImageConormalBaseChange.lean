@@ -1051,7 +1051,8 @@ lemma inverseImageConormalIso_inv_comp_naiveCotangentConormalMapOfBase :
   have e6 := naiveCotangentConormalMapOfBase_inverseImagePresentationConormalIso J K f a a' φ hf
   exact e6
 
-omit [K.HasSheafCompose (forget₂ CommRingCat.{max u' v' w'} RingCat.{max u' v' w'})] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{max u' v' w'} RingCat.{max u' v' w'})] in
 /-- The degree `-1` comparison `inverseImageNaiveCotangentNegOneIso` is the composite of
 `inverseImageConormalIso` for the canonical presentation with
 `inverseImagePresentationConormalIso`. -/

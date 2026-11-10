@@ -58,8 +58,7 @@ private theorem tensorProduct_funext {R M N P F G : Type*} [CommSemiring R] [Add
     [FunLike G (M ⊗[R] N) P] [AddMonoidHomClass F (M ⊗[R] N) P] [AddMonoidHomClass G (M ⊗[R] N) P]
     (f : F) (g : G) (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) : (f : M ⊗[R] N → P) = g := by
   funext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add z z' hz hz' => simp only [map_add, hz, hz']
 
@@ -124,7 +123,7 @@ theorem fppfStructurePresheaf_map_pointRingHom_of_comp (r : R) :
   have key : e.hom.op ≫ ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)).op =
       (Spec.map (CommRingCat.ofHom g)).op ≫ ey.hom.op := by
     rw [← op_comp, ← op_comp, hφ]
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)).op)
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map φ)).op)
       ((Scheme.Γ.map e.hom.op) ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r)) =
     (Scheme.Γ.map ey.hom.op) ((Scheme.ΓSpecIso (CommRingCat.of T)).inv (g r))
   refine (ConcreteCategory.comp_apply (Scheme.Γ.map e.hom.op)

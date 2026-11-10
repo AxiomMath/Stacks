@@ -104,14 +104,14 @@ variable {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Category* C₁] [Category* C�
 private theorem hComp_natTrans_app {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B : C₃ ⥤ C₄}
     {T' : C₂ ⥤ C₅} {R' : C₅ ⥤ C₆} {B' : C₄ ⥤ C₆}
     (w : TwoSquare T L R B) (w' : TwoSquare T' R R' B') (c : C₁) :
-    (w ≫ₕ w').natTrans.app c = w'.natTrans.app (T.obj c) ≫ B'.map (w.natTrans.app c) := by
+    (w ≫ₕ w').app c = w'.app (T.obj c) ≫ B'.map (w.app c) := by
   simp [TwoSquare.hComp]
 
 /-- A horizontal pasting of two invertible 2-squares is invertible. -/
 private theorem isIso_hComp_natTrans {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B : C₃ ⥤ C₄}
     {T' : C₂ ⥤ C₅} {R' : C₅ ⥤ C₆} {B' : C₄ ⥤ C₆}
     (w : TwoSquare T L R B) (w' : TwoSquare T' R R' B')
-    [IsIso w.natTrans] [IsIso w'.natTrans] : IsIso (w ≫ₕ w').natTrans := by
+    [IsIso w] [IsIso w'] : IsIso (w ≫ₕ w') := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   rw [hComp_natTrans_app]
@@ -121,9 +121,9 @@ private theorem isIso_hComp_natTrans {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R 
 an invertible 2-square. -/
 private theorem isIso_whiskerTop_whiskerBottom_natTrans {T T' : C₁ ⥤ C₂} {L : C₁ ⥤ C₃}
     {R : C₂ ⥤ C₄} {B B' : C₃ ⥤ C₄} (w : TwoSquare T' L R B) (φ : T ⟶ T') (ψ : B ⟶ B')
-    [IsIso w.natTrans] [IsIso φ] [IsIso ψ] :
-    IsIso ((w.whiskerTop φ).whiskerBottom ψ).natTrans := by
-  show IsIso ((Functor.whiskerRight φ R ≫ w.natTrans) ≫ Functor.whiskerLeft L ψ)
+    [IsIso w] [IsIso φ] [IsIso ψ] :
+    IsIso ((w.whiskerTop φ).whiskerBottom ψ) := by
+  change IsIso ((Functor.whiskerRight φ R ≫ w) ≫ Functor.whiskerLeft L ψ)
   infer_instance
 
 end Pasting
@@ -142,7 +142,7 @@ private theorem mateEquiv_whiskerTop_whiskerBottom (adj₁ : L₁ ⊣ R₁) (adj
     {G G' : C ⥤ E} {H H' : D ⥤ F} (α : TwoSquare G L₁ L₂ H) (φ : G' ⟶ G) (ψ : H ⟶ H') :
     mateEquiv adj₁ adj₂ ((α.whiskerTop φ).whiskerBottom ψ) =
       ((mateEquiv adj₁ adj₂ α).whiskerRight φ).whiskerLeft ψ := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
 
@@ -192,12 +192,12 @@ invertible and the mate of `β'` is invertible, then so is the mate of `β`, pro
 functor `ΦF` at the lower right corner reflects isomorphisms.  It is not required to be an
 equivalence, nor are the other three `Φ` required to be anything at all. -/
 public theorem isIso_mateEquiv_symm_of_reflectsIsomorphisms [ΦF.ReflectsIsomorphisms]
-    [IsIso τ₁.natTrans] [IsIso τ₂.natTrans] [IsIso σG] [IsIso σH]
-    [IsIso ((mateEquiv adj₁' adj₂').symm β').natTrans]
+    [IsIso τ₁] [IsIso τ₂] [IsIso σG] [IsIso σH]
+    [IsIso ((mateEquiv adj₁' adj₂').symm β')]
     (h : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂) :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
-  have : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans :=
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
+  have : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') :=
     isIso_hComp_natTrans _ _
   have hr := isIso_whiskerTop_whiskerBottom_natTrans
     (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') σG σH
@@ -205,10 +205,10 @@ public theorem isIso_mateEquiv_symm_of_reflectsIsomorphisms [ΦF.ReflectsIsomorp
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   have := hr
-  have hcomp : IsIso (((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans.app c) := inferInstance
+  have hcomp : IsIso (((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).app c) := inferInstance
   rw [hComp_natTrans_app] at hcomp
-  have : IsIso (ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c)) :=
-    IsIso.of_isIso_comp_left (τ₂.natTrans.app (G.obj c)) _
+  have : IsIso (ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c)) :=
+    IsIso.of_isIso_comp_left (τ₂.app (G.obj c)) _
   exact isIso_of_reflects_iso _ ΦF
 
 end Cube
@@ -250,7 +250,7 @@ public theorem mateEquiv_symm_eq_whiskerLeft_whiskerRight :
     ((conjugateEquiv adjL' adjL).symm (𝟙 R₁))
     (((mateEquiv adjL adjM).symm β).whiskerRight
       ((conjugateEquiv adjM adjM').symm (𝟙 R₂))), h1, Equiv.apply_symm_apply]
-  refine (TwoSquare.ext _ _ fun d => ?_).symm
+  refine (NatTrans.ext (funext fun d => ?_)).symm
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom]
 
 /-- **Invertibility of a mate does not depend on which left adjoints the two adjunctions use.**
@@ -258,12 +258,12 @@ The two mates differ by whiskering with the canonical comparisons of the left ad
 `mateEquiv_symm_eq_whiskerLeft_whiskerRight`, and those are isomorphisms because the identity of
 a right adjoint is one. -/
 public theorem isIso_mateEquiv_symm_of_isIso_mateEquiv_symm
-    (hβ : IsIso ((mateEquiv adjL adjM).symm β).natTrans) :
-    IsIso ((mateEquiv adjL' adjM').symm β).natTrans := by
+    (hβ : IsIso ((mateEquiv adjL adjM).symm β)) :
+    IsIso ((mateEquiv adjL' adjM').symm β) := by
   have := hβ
   rw [mateEquiv_symm_eq_whiskerLeft_whiskerRight adjL adjL' adjM adjM' β]
-  show IsIso ((Functor.whiskerLeft G ((conjugateEquiv adjM adjM').symm (𝟙 R₂)) ≫
-    ((mateEquiv adjL adjM).symm β).natTrans) ≫
+  change IsIso ((Functor.whiskerLeft G ((conjugateEquiv adjM adjM').symm (𝟙 R₂)) ≫
+    ((mateEquiv adjL adjM).symm β)) ≫
       Functor.whiskerRight ((conjugateEquiv adjL' adjL).symm (𝟙 R₁)) H)
   infer_instance
 

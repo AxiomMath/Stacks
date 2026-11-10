@@ -202,7 +202,7 @@ public lemma exists_pow_smul_eq_restrict {X : Scheme.{u}} (F : X.Modules) [F.IsQ
   have h1 : (a ^ k) • s = restrictₗ F (X.basicOpen_le a) m := by rwa [hk]
   have h2 : (a ^ k) • s =
       (X.presheaf.map (homOfLE (X.basicOpen_le a)).op a) ^ k • s := by
-    show (X.presheaf.map (homOfLE (X.basicOpen_le a)).op (a ^ k)) • s = _
+    change (X.presheaf.map (homOfLE (X.basicOpen_le a)).op (a ^ k)) • s = _
     rw [map_pow]
   exact h1.symm.trans h2
 
@@ -393,7 +393,7 @@ public lemma exists_pow_smul_extends_on_affine {X : Scheme.{u}} (I : X.IdealShea
     refine (IsLocalizedModule.smul_inj (restrictₗ F (X.basicOpen_le (a j)))
       (⟨a j ^ k, (Submonoid.mem_powers_iff _ _).mpr ⟨k, rfl⟩⟩ : Submonoid.powers (a j))
       x y).mp ?_
-    show (X.presheaf.map (homOfLE (X.basicOpen_le (a j))).op (a j ^ k)) • x =
+    change (X.presheaf.map (homOfLE (X.basicOpen_le (a j))).op (a j ^ k)) • x =
       (X.presheaf.map (homOfLE (X.basicOpen_le (a j))).op (a j ^ k)) • y
     rwa [map_pow]
   have h1 := congrArg (F.presheaf.map (homOfLE (X.basicOpen_le (a j))).op) (hrel i j)

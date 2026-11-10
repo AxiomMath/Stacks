@@ -117,7 +117,7 @@ theorem exists_mem_isQuasiRegularImmersion_of_isRegular_germ {Z : Scheme.{u}}
       (Z.presheaf.map (homOfLE (le_top : W ≤ ⊤)).op).hom =
       ((Z.basicOpen g).ι.appTop).hom := by
     funext y
-    show (Z.presheaf.map (homOfLE hle).op).hom
+    change (Z.presheaf.map (homOfLE hle).op).hom
       ((Z.presheaf.map (homOfLE (le_top : W ≤ ⊤)).op).hom y) = _
     rw [← CommRingCat.comp_apply, ← Z.presheaf.map_comp]
     rfl

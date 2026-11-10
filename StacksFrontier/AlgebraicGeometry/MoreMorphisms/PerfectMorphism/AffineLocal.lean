@@ -120,7 +120,7 @@ public noncomputable def homologyIsoOfQuasiIso {R : Type u} [CommRing R]
 
 private lemma projResComplexProjective {R : Type u} [CommRing R]
     (M : ModuleCat.{u} R) (i : ℤ) : Projective ((FaithfullyFlat.projResComplex M).X i) := by
-  show Projective
+  change Projective
     (((CategoryTheory.ProjectiveResolution.of M).complex.extend
       ComplexShape.embeddingDownNat).X i)
   infer_instance
@@ -136,7 +136,7 @@ public theorem projResComplex_kFlat (R : Type u) [CommRing R] (M : ModuleCat.{u}
 private lemma projResComplexQuasiIso {R : Type u} [CommRing R]
     (M : ModuleCat.{u} R) :
     QuasiIso ((CategoryTheory.ProjectiveResolution.of M).π') := by
-  show QuasiIso
+  change QuasiIso
     (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of M).π
       ComplexShape.embeddingDownNat ≫ _)
   have hπ : QuasiIso (CategoryTheory.ProjectiveResolution.of M).π :=
@@ -344,7 +344,7 @@ private theorem hasTorAmplitudeCanonical_single_of_0DJF
       (DerivedCategory.Q.obj ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M)) a b := by
   let P := FaithfullyFlat.projResComplex M
   have hPle : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((CategoryTheory.ProjectiveResolution.of M).complex.extend
         ComplexShape.embeddingDownNat) 0
     infer_instance

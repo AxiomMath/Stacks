@@ -119,7 +119,7 @@ lemma compositionSection_applyOver (U V : X.C) (i : V ⟶ U) (p q n r s t : ℤ)
         (compositionSection X U p q n hn β γ) x =
       applyHomSectionOver X (sheafHomComplex X L M) U V i p s t hst β
         (applyHomSectionOver X (sheafHomComplex X K L) U V i q r s hrs γ x) := by
-  show (((sheafHomComplex X K M).sectionsEquiv U n
+  change (((sheafHomComplex X K M).sectionsEquiv U n
       (compositionSection X U p q n hn β γ)).v r t (by omega)).val.app (op (Over.mk i)) x = _
   rw [compositionSection_cochain, compositionCochain,
     Cochain.comp_v _ _ (show q + p = n by omega) r s t hrs hst]

@@ -48,9 +48,9 @@ standing between them.
 
 The presentation of `a` is passed as data in the split shape rather than substituted, for the
 reason recorded in
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorBaseChangeScalarLift`: a consumer may
-hold the value of the transpose of the inverse component of [stacks 0E1W] in more than one shape,
-and all of them agree on the prefix and on the tail.
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorBaseChangeScalarLift`: a consumer
+may hold the value of the transpose of the inverse component of [stacks 0E1W] in more than one
+shape, and all of them agree on the prefix and on the tail.
 
 The absorption is `StacksDraft.DerivedHom.DerivedHomAdjunction.comp_homEquiv_symm_comp_hom_map`,
 at the adjunction underlying `StacksDraft.DerivedHom.DerivedInternalHom.Model.adjunction`, which

@@ -180,7 +180,7 @@ private lemma homotopyEquivalences_le_torsionFreeQuasiIso {I : SheafOfModules.{u
     exact ((torsionFreeHomotopy X ι).mapIso (@asIso _ _ _ _ _ h1)).isIso_hom
   have h3 := (HomologicalComplex.isIso_quotient_map_iff_homotopyEquivalences
     ((torsionFreeComplex X ι).map f)).1 h2
-  show QuasiIso ((torsionFreeComplex X ι).map f)
+  change QuasiIso ((torsionFreeComplex X ι).map f)
   exact _root_.homotopyEquivalences_le_quasiIso _ _ _ h3
 
 /-- **The derived category is the localization of complexes of `I`-torsion-free modules.**
@@ -219,14 +219,14 @@ public lemma isLocalization_torsionFreeHomotopy {I : SheafOfModules.{u} Oₓ} (�
     dsimp only [a]
     refine (HomotopyCategory.quasiIso _ _).comp_mem _ _ ?_
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff q).2 hq)
-    show W (𝟙 _)
+    change W (𝟙 _)
     exact W.id_mem _
   have hΦ :=
     (P.isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLocalizedEquivalence
       W hW).2.2
   let _ : Φ.IsLocalizedEquivalence := hΦ inferInstance
   let _ : (P.ι ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι) := by
-    show (Φ.functor ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι)
+    change (Φ.functor ⋙ DerivedCategory.Qh).IsLocalization (W.inverseImage P.ι)
     exact CategoryTheory.LocalizerMorphism.IsLocalizedEquivalence.isLocalization
       Φ DerivedCategory.Qh
   let E : HomotopyCategory (TorsionFreeModule X ι) (ComplexShape.up ℤ) ≌ P.FullSubcategory :=
@@ -246,7 +246,7 @@ public lemma isLocalization_torsionFreeHomotopy {I : SheafOfModules.{u} Oₓ} (�
       exact (W.arrow_mk_iso_iff
         (((Functor.mapArrowFunctor _ _).mapIso J).app (Arrow.mk g))).2 hg
     · intro Y Z g hg
-      show IsIso (DerivedCategory.Qh.map (Iot.map g))
+      change IsIso (DerivedCategory.Qh.map (Iot.map g))
       exact Localization.inverts DerivedCategory.Qh W _ hg
     · exact CategoryTheory.Functor.isoWhiskerRight J DerivedCategory.Qh
   exact hLoc
@@ -267,7 +267,7 @@ public lemma hasLeftCalculusOfFractions_torsionFreeHomotopyQuasiIso
       (MorphismProperty.isomorphisms (DerivedCategory (SheafOfModules.{u} Oₓ))).inverseImage
         (torsionFreeHomotopy X ι ⋙ DerivedCategory.Qh) := by
     ext source target morphism
-    show HomotopyCategory.quasiIso (SheafOfModules.{u} Oₓ) (ComplexShape.up ℤ)
+    change HomotopyCategory.quasiIso (SheafOfModules.{u} Oₓ) (ComplexShape.up ℤ)
         ((torsionFreeHomotopy X ι).map morphism) ↔
       IsIso (DerivedCategory.Qh.map ((torsionFreeHomotopy X ι).map morphism))
     exact (DerivedCategory.isIso_Qh_map_iff _).symm
@@ -292,7 +292,7 @@ public lemma isLocalization_torsionFreeToDerived {I : SheafOfModules.{u} Oₓ} (
     · rw [← MorphismProperty.IsInvertedBy.iff_of_iso _ (torsionFreeFactors X ι)]
       intro Y Z f hf
       have hq : QuasiIso ((torsionFreeComplex X ι).map f) := hf
-      show IsIso (DerivedCategory.Q.map ((torsionFreeComplex X ι).map f))
+      change IsIso (DerivedCategory.Q.map ((torsionFreeComplex X ι).map f))
       infer_instance
     · intro Y Z f hf
       obtain ⟨g, rfl⟩ := (HomotopyCategory.quotient (TorsionFreeModule X ι)
@@ -323,7 +323,7 @@ public lemma etaFunctor_inverts (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) 
       (torsionFreeComplex_torsionFree X ι Y) (torsionFreeComplex_torsionFree X ι Z)) :=
     quasiIso_etaMap X I ι ((torsionFreeComplex X ι).map f)
       (torsionFreeComplex_torsionFree X ι Y) (torsionFreeComplex_torsionFree X ι Z) hq
-  show IsIso (DerivedCategory.Q.map ((etaFunctor X I ι).map f))
+  change IsIso (DerivedCategory.Q.map ((etaFunctor X I ι).map f))
   have h' : QuasiIso ((etaFunctor X I ι).map f) := h
   infer_instance
 

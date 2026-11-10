@@ -264,7 +264,7 @@ private theorem map_mem_range_stalk_supportedImageMap_of_proj_eq_zero (y : X) {n
     rw [← LinearMap.mem_ker, ker_stalk_map F y h]
     exact hi
   refine ⟨w - i, ?_, ?_⟩
-  · show (S.map τ).hom (w - i) = 0
+  · change (S.map τ).hom (w - i) = 0
     rw [map_sub, hiw, sub_self]
   · rw [map_sub, hi0, sub_zero]
 
@@ -282,7 +282,7 @@ theorem isIso_improvedQuotientMap (n : ℕ) {m m' : ℕ} (hnm : n ≤ m) (h : m 
   let τ := fun k => toDepthOneQuotient X T hT (F.obj.obj (op k))
   have hpsurj : ∀ k, Function.Surjective (S.map (improvedQuotientProj F T hT n k)).hom :=
     fun k => surjective_stalk_of_epi y _
-  show Function.Bijective (S.map (improvedQuotientMap F T hT n h)).hom
+  change Function.Bijective (S.map (improvedQuotientMap F T hT n h)).hom
   constructor
   · rw [← LinearMap.ker_eq_bot, eq_bot_iff]
     intro z hz
@@ -531,7 +531,7 @@ private theorem idealPowerMultiple_kernel_eq_bot_of_fac {n k : ℕ} (h : n ≤ k
   intro U r hr x
   let K := kernel g
   refine TopCat.Presheaf.section_ext ⟨K.presheaf, K.isSheaf⟩ U.1 _ 0 fun y hy => ?_
-  show (K.presheaf.germ U.1 y hy).hom (r • x) = (K.presheaf.germ U.1 y hy).hom 0
+  change (K.presheaf.germ U.1 y hy).hom (r • x) = (K.presheaf.germ U.1 y hy).hom 0
   rw [map_zero, germ_smul y U.1 hy r x]
   let S := modulesStalkFunctor X y
   have hinj : Function.Injective (S.map (kernel.ι g)).hom :=

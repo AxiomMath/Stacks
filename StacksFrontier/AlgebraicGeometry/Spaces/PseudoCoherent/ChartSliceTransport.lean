@@ -67,7 +67,7 @@ theorem chartSliceRingMap_counit (U : SmallEtale B S hS X.1) :
           (chartSliceRingMap B S hS X U).hom := by
   apply NatTrans.ext
   funext V
-  show ((structureRingSheaf B S hS X).over U).obj.map
+  change ((structureRingSheaf B S hS X).over U).obj.map
       ((SmallEtale.chartLocalizationEquivalence B S hS X.1 U).counit.app V.unop).op =
     ((structureRingSheaf B S hS X).over U).obj.map
         ((SmallEtale.chartLocalizationEquivalence B S hS X.1 U).counit.app V.unop).op ≫ 𝟙 _
@@ -89,7 +89,7 @@ theorem chartSliceRingMap_unit (U : SmallEtale B S hS X.1) :
           (chartSpace B S hS X U).2).O).obj := by
   apply NatTrans.ext
   funext V
-  show ((structureRingSheaf B S hS X).over U).obj.map
+  change ((structureRingSheaf B S hS X).over U).obj.map
         ((SmallEtale.chartLocalizationEquivalence B S hS X.1 U).counit.app
           ((SmallEtale.chartLocalizationEquivalence B S hS X.1 U).functor.obj V.unop)).op ≫
       ((structureRingSheaf B S hS X).over U).obj.map
@@ -105,7 +105,7 @@ equivalence on regular functions. -/
 theorem isIso_chartSliceRingMapInverse (U : SmallEtale B S hS X.1) :
     IsIso (chartSliceRingMapInverse B S hS X U) := by
   rw [← ObjectProperty.isIso_hom_iff]
-  show IsIso (Functor.whiskerRight
+  change IsIso (Functor.whiskerRight
     (NatTrans.op (SmallEtale.chartLocalizationEquivalence B S hS X.1 U).counit)
     ((structureRingSheaf B S hS X).over U).obj)
   infer_instance

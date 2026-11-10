@@ -26,9 +26,9 @@ and, as an example, `H^q_étale(X, A) = H^q_ph(X, A)` for a torsion abelian grou
 The three isomorphisms are `AlgebraicGeometry.phCohomologyComparisonIso`,
 `AlgebraicGeometry.phCohomologyComparisonPlusIso` and
 `AlgebraicGeometry.phCohomologyConstantComparisonIso` with their two proper base change inputs
-proved; these are the generic comparisons of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.FineTopologyCohomologyComparison`
-(`AlgebraicGeometry.cohomologyFineComparisonIso`,
+proved; these are the generic comparisons of the file
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ComparingBigSmall/`
+`FineTopologyCohomologyComparison.lean` (`AlgebraicGeometry.cohomologyFineComparisonIso`,
 `AlgebraicGeometry.derivedGlobalSectionsFineComparisonIso`,
 `AlgebraicGeometry.cohomologyConstantFineComparisonIso`) in the comparison situation of the ph and
 étale topologies, `AlgebraicGeometry.phEtaleTorsionComparison` (Stacks 0F0I), whose proper base

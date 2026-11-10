@@ -142,16 +142,16 @@ theorem tensorProductBraiding_naturality_bifunctorMap
   let : MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         := by
-    show MonoidalCategory
+    change MonoidalCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
     infer_instance
   let : BraidedCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)
         := by
-    show BraidedCategory
+    change BraidedCategory
       (PresheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O))
     infer_instance
-  show (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (u.val ⊗ₘ v.val) ≫
+  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (u.val ⊗ₘ v.val) ≫
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (β_ A'.val Bb'.val).hom =
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (β_ A.val Bb.val).hom ≫
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (v.val ⊗ₘ u.val)

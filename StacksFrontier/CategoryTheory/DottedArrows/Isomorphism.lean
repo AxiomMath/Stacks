@@ -118,7 +118,7 @@ theorem nonempty_iso_of_forall_hom_isHomLift [f.hom.toFunctor.Faithful]
     funext z
     refine f.hom.toFunctor.map_injective ?_
     refine (cancel_epi (a.β.hom.toNatTrans.app (j.hom.toFunctor.obj z))).mp ?_
-    show a.β.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫
+    change a.β.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫
         f.hom.toFunctor.map (a.α.hom.toNatTrans.app z) =
       a.β.hom.toNatTrans.app (j.hom.toFunctor.obj z) ≫
         f.hom.toFunctor.map (θ (j.hom.toFunctor.obj z) ≫ b.α.hom.toNatTrans.app z)

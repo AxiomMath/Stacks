@@ -138,7 +138,7 @@ theorem homStructureSheafDegreeIso_hom
             ((structureSheafComplex X).X (n - q))) i ≫
           (coprodIsoOfSingleSupport (fun q : ℤ => internalHomSheaf X (E.X (-q))
             ((structureSheafComplex X).X (n - q))) n hvan).hom) :=
-    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc]
+    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_comp_desc]
   have hkey : (strictlyPerfectHomDegreeIso X E (structureSheafComplex X) hE n).hom ≫
       (coprodIsoOfSingleSupport (fun q : ℤ => internalHomSheaf X (E.X (-q))
         ((structureSheafComplex X).X (n - q))) n hvan).hom =

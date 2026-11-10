@@ -198,7 +198,7 @@ theorem rationalChowCap_one_zero (C : ChowSituation.{u}) {Y : Scheme.{u}} (sY : 
   rw [rationalChowCap_of_tmul, one_mul, Module.End.one_apply]
   refine of_tmul_eq_of_tmul_of_heq C sY (by simp) q ?_
   refine (chowCohomologyCap_heq_idRule_ofGysinSystem C _ sY _ _ n α).trans ?_
-  show (1 : TotalChowClass C sY).op (𝟙 Y) n 0 _ ≍ α
+  change (1 : TotalChowClass C sY).op (𝟙 Y) n 0 _ ≍ α
   rw [TotalChowClass.op_one, gradedCap_one_apply_zero]
   exact (gradedDegreeCast_heq _ _).trans (chowGroupCongr_heq C _ n α)
 
@@ -302,7 +302,7 @@ theorem capCompatible_homComponent_totalChern (i : ℕ) :
   simp only [TotalChowClass.homComponent_apply]
   by_cases hp : p = i
   · subst hp
-    simp only [if_true]
+    simp only [ite_true]
     by_cases hpr : p ≤ r
     · refine rationalChowHomology_linearMap_ext _ _ fun n q α => ?_
       simp only [LinearMap.comp_apply]
@@ -312,7 +312,7 @@ theorem capCompatible_homComponent_totalChern (i : ℕ) :
       exact chowBaseChange_chowCohomologyCap_totalChern k k' sX E r ⟨p, Nat.lt_succ_of_le hpr⟩ n α
     · rw [totalChern_apply_of_lt _ _ _ _ (by omega), totalChern_apply_of_lt _ _ _ _ (by omega)]
       simp only [TensorProduct.tmul_zero, map_zero, LinearMap.comp_zero, LinearMap.zero_comp]
-  · simp only [if_neg hp, TensorProduct.tmul_zero, map_zero, LinearMap.comp_zero,
+  · simp only [ite_eq_right hp, TensorProduct.tmul_zero, map_zero, LinearMap.comp_zero,
       LinearMap.zero_comp]
 
 /-! ### Power sums and the Chern character of a module of constant rank -/
@@ -387,7 +387,7 @@ theorem capCompatible_powerSumTotal (p : ℕ) :
         ((Scheme.Modules.pullback (pullback.fst sX (B₀).g)).obj E) r p) := by
   have := AlgebraicGeometry.isFiniteLocallyFreeOfRank_pullback (pullback.fst sX (B₀).g) E r
   rcases eq_or_ne p 0 with rfl | hp
-  · simp only [powerSumTotal, if_true]
+  · simp only [powerSumTotal, ite_true]
     have h : CapCompatible k k' sX ((r : TotalChowClass _ sX × TotalChowClass _ _).1)
         ((r : TotalChowClass _ sX × TotalChowClass _ _).2) :=
       natCast_mem (capCompatibleSubring k k' sX) r
@@ -406,7 +406,7 @@ theorem capCompatible_powerSumTotal (p : ℕ) :
       rw [map_powerSumEval]
       rfl
     have hmem := chernPairRing_le_capCompatibleSubring k k' sX E r (powerSumEval a p).2
-    simp only [powerSumTotal, if_neg hp, ← h1, ← h2]
+    simp only [powerSumTotal, ite_eq_right hp, ← h1, ← h2]
     exact hmem
 
 /-- Capping commutes with `g^*` for a rational multiple of a compatible class. -/
@@ -550,7 +550,7 @@ theorem rationalChowBaseChange_chernCharacterCap_rationalProperChowPushforward
         (VectorBundleKZero.classOf _
           ((Scheme.Modules.pullback (pullback.fst sX (B₀).g)).obj E)) := by
     refine Eq.trans ?_ (VectorBundleKZero.pullback_eq_pullbackRingHom _ _).symm
-    show _ = VectorBundleKZero.pullbackRingHom (baseChangeMorphism B₀ sX V.ι) _
+    change _ = VectorBundleKZero.pullbackRingHom (baseChangeMorphism B₀ sX V.ι) _
     rw [← VectorBundleKZero.pullbackRingHom_classOf (pullback.fst sX (B₀).g) E hE,
       ← VectorBundleKZero.pullbackRingHom_classOf (pullback.fst (V.ι ≫ sX) (B₀).g) _
         (VectorBundleKZero.isFiniteLocallyFree_pullback V.ι E hE),
@@ -623,7 +623,7 @@ theorem rationalChowBaseChange_chernCharacterCap [CompactSpace X]
   have hφψ : φ = ψ := VectorBundleKZero.addHom_ext fun M hM => by
     have := (Stacks.FiniteLocallyFree.isFiniteLocallyFree_iff_algebraicGeometry M).mp hM
     refine LinearMap.ext fun t => ?_
-    show rationalChowBaseChange k k' sX (chernCharacterCap _ sX _ t) =
+    change rationalChowBaseChange k k' sX (chernCharacterCap _ sX _ t) =
       chernCharacterCap _ _ (VectorBundleKZero.pullback _ _) (rationalChowBaseChange k k' sX t)
     rw [VectorBundleKZero.pullback_classOf]
     exact rationalChowBaseChange_chernCharacterCap_classOf k k' sX M t
@@ -845,8 +845,7 @@ theorem rationalChowBaseChange_rationalChernCharacterCap [IsNoetherian X]
       rationalChernCharacterCap (fieldChowSituation k') (pullback.snd sX (B₀).g)
         ((VectorBundleKZero.pullback (pullback.fst sX (B₀).g)).toIntLinearMap.baseChange ℚ a)
         (rationalFundamentalClass (fieldChowSituation k') (pullback.snd sX (B₀).g)) := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction a using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul q α =>
     rw [LinearMap.baseChange_tmul, rationalChernCharacterCap_tmul,
@@ -873,8 +872,8 @@ theorem chowGroupRestrict_dimPart_chowCodimTotal_of_ne {i : ℕ} {n : ℤ} {e : 
     chowGroupRestrict (fieldChowSituation K) sZ (partBase sZ e) (dimPart sZ e).ι rfl n
       (chowCodimTotal K sZ i n α) = 0 := by
   rw [← chowGroupDimPartEquiv_apply K sZ n _ ⟨e⟩]
-  show chowGroupDimPartEquiv K sZ n ((chowGroupDimPartEquiv K sZ n).symm _) ⟨e⟩ = 0
-  rw [AddEquiv.apply_symm_apply, dif_neg h]
+  change chowGroupDimPartEquiv K sZ n ((chowGroupDimPartEquiv K sZ n).symm _) ⟨e⟩ = 0
+  rw [AddEquiv.apply_symm_apply, dite_eq_right h]
 
 /-- **`(chowCodimPart γ i)_{(n)} = γ_n`** for a family `γ` whose class `γ_n` vanishes on the parts
 `Z_e` with `e - i ≠ n`. -/
@@ -884,13 +883,13 @@ theorem chowCodimTotal_chowCodimPart_of_restrict_eq_zero
       (dimPart sZ e).ι rfl n (γ n) = 0) :
     chowCodimTotal K sZ i n (chowCodimPart K sZ γ i) = γ n := by
   refine (chowGroupDimPartEquiv K sZ n).injective (funext fun d' ↦ ?_)
-  show chowGroupDimPartEquiv K sZ n ((chowGroupDimPartEquiv K sZ n).symm _) d' = _
+  change chowGroupDimPartEquiv K sZ n ((chowGroupDimPartEquiv K sZ n).symm _) d' = _
   rw [AddEquiv.apply_symm_apply, chowGroupDimPartEquiv_apply]
   by_cases h : (d'.down : ℤ) - i = n
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     subst h
     rfl
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     exact (hγ d'.down h).symm
 
 /-- **The class in `CH_*(Z) ⊗ 𝐐` of `α ∈ CH^i(Z)`** is `∑_d 1 ⊗ α_{(d-i)}`, over any finite set
@@ -1101,12 +1100,12 @@ theorem codimensionChowBaseChange_chowCodimPart {X : Scheme.{u}}
         (fun n => chowBaseChange k k' sX n (Q n)) i := by
   rw [codimensionChowBaseChange_apply]
   funext e
-  show chowGroupRestrict _ _ _ _ _ _ _ = chowGroupRestrict _ _ _ _ _ _ _
+  change chowGroupRestrict _ _ _ _ _ _ _ = chowGroupRestrict _ _ _ _ _ _ _
   rw [← sub_eq_zero, ← map_sub, ← map_sub]
   refine chowGroupRestrict_dimPart_chowBaseChange_eq_zero k k' sX ?_
   rw [map_sub, sub_eq_zero, ← chowGroupDimPartEquiv_apply k sX _ _ ⟨e⟩]
-  show chowGroupDimPartEquiv k sX _ ((chowGroupDimPartEquiv k sX _).symm _) ⟨e⟩ = _
-  rw [AddEquiv.apply_symm_apply, dif_pos rfl]
+  change chowGroupDimPartEquiv k sX _ ((chowGroupDimPartEquiv k sX _).symm _) ⟨e⟩ = _
+  rw [AddEquiv.apply_symm_apply, dite_eq_left rfl]
   rfl
 
 /-- **`g^*[Δ] = [Δ_{k'}]`**: for `δ : X ⟶ P` in the category of smooth projective schemes over
@@ -1126,7 +1125,7 @@ theorem chowCodimBaseChange_diagonalChowClass {X P : (SmoothProjectiveScheme k).
   have : IsProper (show (pullback X.obj.hom (fieldExtensionBaseChangeSituation k k').g :
       Scheme.{u}) ⟶ pullback P.obj.hom (fieldExtensionBaseChangeSituation k k').g from
         (toScheme k').map ((fieldBaseChange k k').map δ)) := hP
-  show codimensionChowBaseChange k k' P.obj.hom d (chowCodimPart k P.obj.hom
+  change codimensionChowBaseChange k k' P.obj.hom d (chowCodimPart k P.obj.hom
       (fun n => properChowPushforward (fieldChowSituation k) X.obj.hom P.obj.hom
         ((toScheme k).map δ) (w δ) n (properPushforwardDescends _ _ _ _ _ _)
         (chowCodimTotal k X.obj.hom 0 n (chowCodimFundamental k X.obj.hom))) d) =
@@ -1189,7 +1188,7 @@ theorem codimensionChowBaseChange_closedSubschemeClass {X Z : Scheme.{u}}
   funext e'
   by_cases he : e' = e
   · subst he
-    show chowGroupRestrict _ _ _ _ _ _ (chowBaseChange k k' sX _ _) =
+    change chowGroupRestrict _ _ _ _ _ _ (chowBaseChange k k' sX _ _) =
       chowGroupRestrict _ _ _ _ _ _ _
     rw [chowBaseChange_mk_cycleAssociatedToClosedSubscheme sX i _ hZ]
   · have := Stacks.WeilCohomology.isEmpty_dimPart_of_ne _ hX' he

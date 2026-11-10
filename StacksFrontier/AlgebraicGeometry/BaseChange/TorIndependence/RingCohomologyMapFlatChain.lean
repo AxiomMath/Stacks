@@ -50,7 +50,7 @@ theorem smul_id_whiskerRight (s : S) (X Y : CochainComplex (ModuleCat.{u} S) ℤ
       (curriedTensor (ModuleCat.{u} S)) (ComplexShape.up ℤ) := rfl
   rw [e, HomologicalComplex.ι_mapBifunctorMap]
   simp only [HomologicalComplex.smul_f_apply, HomologicalComplex.id_f,
-    CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
+    CategoryTheory.Functor.map_id, Category.id_comp]
   change ((s • 𝟙 (X.X i)) ▷ Y.X j) ≫ _ = _
   rw [MonoidalLinear.smul_whiskerRight, id_whiskerRight, Linear.smul_comp, Category.id_comp,
     Linear.comp_smul]
@@ -96,7 +96,8 @@ theorem projectionMap_naturality {L L' : CochainComplex (ModuleCat.{u} S) ℤ} (
     (K : CochainComplex (ModuleCat.{u} R) ℤ) :
     ((CochainComplex.restrictScalarsLarge.{u, u, u} φ).map v ▷ K) ≫ projectionMap φ L' K =
       projectionMap φ L K ≫
-        (CochainComplex.restrictScalarsLarge.{u, u, u} φ).map (v ▷ (mapCochainComplex φ).obj K) := by
+        (CochainComplex.restrictScalarsLarge.{u, u, u} φ).map
+          (v ▷ (mapCochainComplex φ).obj K) := by
   have h := restrictScalarsLaxTensor_naturality φ v (𝟙 ((mapCochainComplex φ).obj K))
   rw [CategoryTheory.Functor.map_id] at h
   have e : ((CochainComplex.restrictScalarsLarge.{u, u, u} φ).map v ▷ K) ≫
@@ -121,7 +122,8 @@ theorem whiskerRight_unit_comp_projectionMap (P E : CochainComplex (ModuleCat.{u
     rw [← tensorHom_id, tensorHom_comp_tensorHom, Category.comp_id, Category.id_comp]
   have e2 : ((mapCochainComplex φ).map (adj.unit.app P) ⊗ₘ
         (mapCochainComplex φ).map (adj.unit.app E)) ≫
-      (adj.counit.app ((mapCochainComplex φ).obj P) ⊗ₘ adj.counit.app ((mapCochainComplex φ).obj E)) =
+      (adj.counit.app ((mapCochainComplex φ).obj P) ⊗ₘ
+        adj.counit.app ((mapCochainComplex φ).obj E)) =
       𝟙 _ := by
     rw [tensorHom_comp_tensorHom]
     exact (congrArg₂ (· ⊗ₘ ·) (adj.left_triangle_components P)
@@ -145,10 +147,11 @@ variable {A A₁ : Type u} [CommRing A] [CommRing A₁] [Algebra A A₁]
 theorem isBaseChangeOfActions_extendScalars_unit (M : ModuleCat.{u} A) :
     IsBaseChangeOfActions (Module.toAddMonoidEnd A M)
       (Module.toAddMonoidEnd A₁ ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₁)).obj M))
-      ((ModuleCat.extendRestrictScalarsAdj.{u, u, u} (algebraMap A A₁)).unit.app M).hom.toAddMonoidHom := by
-  letI iA : Module A ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₁)).obj M) :=
+      ((ModuleCat.extendRestrictScalarsAdj.{u, u, u} (algebraMap A A₁)).unit.app
+        M).hom.toAddMonoidHom := by
+  let iA : Module A ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₁)).obj M) :=
     Module.compHom _ (algebraMap A A₁)
-  haveI iT : IsScalarTower A A₁ ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₁)).obj M) :=
+  have iT : IsScalarTower A A₁ ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₁)).obj M) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   refine isBaseChangeOfActions_of_isBaseChange (instN := iA) (instT := iT)
     (fun _ _ => rfl) (fun _ _ => rfl)
@@ -179,10 +182,12 @@ theorem isBaseChangeOfActions_homologyMap_unit_whiskerRight
       (functorAction (A := A) (tensorRight E ⋙
         HomologicalComplex.homologyFunctor (ModuleCat.{u} A) (ComplexShape.up ℤ) n) P)
       (functorAction (A := A₁) (CochainComplex.restrictScalarsLarge.{u, u, u} (algebraMap A A₁) ⋙
-          tensorRight E ⋙ HomologicalComplex.homologyFunctor (ModuleCat.{u} A) (ComplexShape.up ℤ) n)
+          tensorRight E ⋙
+            HomologicalComplex.homologyFunctor (ModuleCat.{u} A) (ComplexShape.up ℤ) n)
         ((mapCochainComplex (algebraMap A A₁)).obj P))
       ((HomologicalComplex.homologyFunctor (ModuleCat.{u} A) (ComplexShape.up ℤ) n).map
-        ((extendRestrictScalarsComplexAdj (algebraMap A A₁)).unit.app P ▷ E)).hom.toAddMonoidHom := by
+        ((extendRestrictScalarsComplexAdj (algebraMap A A₁)).unit.app
+          P ▷ E)).hom.toAddMonoidHom := by
   let a := algebraMap A A₁
   let adj := extendRestrictScalarsComplexAdj a
   let restr := CochainComplex.restrictScalarsLarge.{u, u, u} a
@@ -193,11 +198,11 @@ theorem isBaseChangeOfActions_homologyMap_unit_whiskerRight
   let μ := extendScalarsMonoidalIso a P E
   let Φ : restr.obj (ext.obj P) ⊗ E ⟶ restr.obj (ext.obj C) :=
     projectionMap a (ext.obj P) E ≫ restr.map μ.hom
-  haveI : IsIso Φ := inferInstance
+  have : IsIso Φ := inferInstance
   have hf' : a.Flat := RingHom.flat_algebraMap_iff.mpr inferInstance
-  letI : PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} a) :=
+  let : PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} a) :=
     ModuleCat.extendScalars_preservesFiniteLimits_of_flat _ hf'
-  letI : PreservesFiniteColimits (ModuleCat.extendScalars.{u, u, u} a) :=
+  let : PreservesFiniteColimits (ModuleCat.extendScalars.{u, u, u} a) :=
     ModuleCat.extendScalars_preservesFiniteColimits _
   let res := ModuleCat.restrictScalars.{u} a
   let es := ModuleCat.extendScalars.{u, u, u} a
@@ -220,7 +225,8 @@ theorem isBaseChangeOfActions_homologyMap_unit_whiskerRight
     HomologicalComplex.hom_ext _ _ fun _ => rfl
   have hF : H.map (adj.unit.app C) ≫ eH = mAdj.unit.app (H.obj C) := by
     rw [hu, heH]
-    refine (Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
+    refine
+      (Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
       (𝟭 (ModuleCat.{u} A)) es res mAdj.unit (ComplexShape.up ℤ) n C).trans ?_
     refine (congrArg (fun t => t ≫ mAdj.unit.app (C.homology n))
       (CategoryTheory.ShortComplex.mapHomologyIso_id_hom (C.sc n))).trans (Category.id_comp _)
@@ -253,7 +259,8 @@ theorem isBaseChangeOfActions_homologyMap_unit_whiskerRight
       exact (eI.app C).hom.map_smul y _
     rw [hΨ, ← Category.assoc, ← H.map_comp, c1, H.map_comp, Category.assoc, c2, Category.assoc]
   refine IsBaseChangeOfActions.of_equiv (AddEquiv.refl _) Ψi.symm.toLinearEquiv.toAddEquiv
-    (fun x m => ?_) (fun y z => ?_) (fun m => ?_) (isBaseChangeOfActions_extendScalars_unit (H.obj C))
+    (fun x m => ?_) (fun y z => ?_) (fun m => ?_)
+    (isBaseChangeOfActions_extendScalars_unit (H.obj C))
   · change x • m = (H.map ((tensorRight E).map (x • 𝟙 P))).hom m
     change x • m = (H.map ((x • 𝟙 P) ▷ E)).hom m
     rw [smul_id_whiskerRight, homologyMap_smul_id]

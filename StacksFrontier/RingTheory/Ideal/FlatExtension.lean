@@ -67,8 +67,7 @@ noncomputable def toRing (u : M →ₗ[R] R) : S ⊗[R] M →ₗ[S] S :=
 /-- The value of the canonical map lies in the extension of the image ideal of `u`. -/
 theorem toRing_mem (u : M →ₗ[R] R) (x : S ⊗[R] M) :
     toRing (S := S) u x ∈ Ideal.map (algebraMap R S) (LinearMap.range u) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       rw [toRing_tmul]
       exact Ideal.mul_mem_left _ _
@@ -94,7 +93,7 @@ theorem injective_toRing [Module.Flat R S] (u : M →ₗ[R] R)
     (hu : Function.Injective u) : Function.Injective (toRing (S := S) u) := by
   have h1 : Function.Injective (LinearMap.baseChange S (M := M) (N := R) u) := by
     have h := Module.Flat.lTensor_preserves_injective_linearMap (M := S) u hu
-    rwa [← LinearMap.baseChange_eq_ltensor] at h
+    rwa [← LinearMap.baseChange_eq_lTensor] at h
   exact (TensorProduct.AlgebraTensorModule.rid R S S).injective.comp h1
 
 /-- **The base change of an ideal along a flat ring map is its extension**, `S ⊗_R I ≅ I S`:

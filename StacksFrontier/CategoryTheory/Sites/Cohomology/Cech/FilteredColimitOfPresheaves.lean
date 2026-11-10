@@ -67,7 +67,7 @@ theorem exactAt_cechComplex_of_forall_exists [Finite E.I₀] [IsDirected Λ (· 
       (ψ (hk i)).app _ (y i), (productAddEquiv (cochainFactor E P p)).injective
         (funext fun i ↦ ?_)⟩
     refine (cechComplexFunctor_map_f_π_apply E (φ m) p i _).trans ?_
-    show (φ m).app _ ((productAddEquiv (cochainFactor E (Pk m) p))
+    change (φ m).app _ ((productAddEquiv (cochainFactor E (Pk m) p))
       ((productAddEquiv (cochainFactor E (Pk m) p)).symm fun i ↦ (ψ (hk i)).app _ (y i)) i) = _
     rw [AddEquiv.apply_symm_apply, ← ConcreteCategory.comp_apply, ← NatTrans.comp_app, hψ, hy]
   · intro k y hy

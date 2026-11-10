@@ -352,7 +352,7 @@ private theorem Conv.trans_stageToLim_eq_coord_restrict {s₂ : Over j} (k l : K
     Conv.stageToLim_naturality_sbs B S hS D hconv hQcL hD hAffine (T := (SmallEtale.prodObj B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l))) (SmallEtale.prodFst B S hS
         (stageAlgebraicSpace B S hS D hD j).1 (W k) (W l)) s₂
-  show (he k).coord _ _ a = (he k).coord _ _ a
+  change (he k).coord _ _ a = (he k).coord _ _ a
   rw [Conv.res_stageToLim_prodSnd B S hS D hconv hQcL hD hAffine W E k l b, e3]
 
 /-- The coordinates of the frames of `E`, restricted to the base changes of a later stage, are the
@@ -427,6 +427,7 @@ private theorem Conv.stage_lift_limit (s₂ : Over j) (V : SmallEtale B S hS
       hconv hQcL hD hAffine s₂.left)
     (stageProdIsLimit B S hS D hD hAffine s₂ (W k) (W l))) h h').2⟩
 
+omit [DecidableEq K] in
 variable (W d x) in
 private theorem Conv.stageGlueModule_hcoord
     (E : Modules.{u, u} B S hS (convLimitSpace B S hS D hconv hQcL hD hAffine).1
@@ -521,7 +522,7 @@ private theorem Conv.nonempty_iso_stageGlueModule (hW : PointsCover W)
 omit [Fintype K] [DecidableEq K] in
 include hZ hQc hQs in
 /-- **A module with frames on the base changes of finitely many charts descends to a stage.** -/
-private theorem Conv.exists_stage_model_of_frames [Finite K]
+public theorem Conv.exists_stage_model_of_frames [Finite K]
     (hWqc : ∀ k, IsQuasiCompactSpace B S hS (yoneda.obj (W k).obj.left))
     (hWqs : ∀ k, IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj (W k).obj.left))
     (hW : PointsCover W)

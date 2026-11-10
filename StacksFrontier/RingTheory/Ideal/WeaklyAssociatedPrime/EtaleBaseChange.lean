@@ -69,7 +69,7 @@ private theorem isWeaklyAssociatedPoint_spec_iff {A : CommRingCat.{u}} (F : (Spe
   let hU := isAffineOpen_top (Spec A)
   have hp : (hU.primeIdealOf ⟨x, Set.mem_univ _⟩).asIdeal = x.asIdeal.map ρ.toRingHom := by
     rw [IsAffineOpen.primeIdealOf, hU.isoSpec_hom, Scheme.Opens.toSpecΓ_top]
-    show ((Spec A).isoSpec.hom x).asIdeal = x.asIdeal.map ρ.toRingHom
+    change ((Spec A).isoSpec.hom x).asIdeal = x.asIdeal.map ρ.toRingHom
     rw [Scheme.isoSpec_Spec_hom]
     exact Ideal.comap_symm (f := ρ)
   rw [← isWeaklyAssociatedPrime_iff_isWeaklyAssociatedPoint F ⊤ hU x (Set.mem_univ _), hp]

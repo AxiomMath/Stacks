@@ -175,14 +175,15 @@ variable {X Y : RingedTopos.{u, u, u}}
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
 /-! ### The map from an arbitrary pair of derived tensor products -/
@@ -213,7 +214,8 @@ def projectionFormulaMapOfComparison (hmos : f.u.IsMorphismOfSites Y.J X.J)
 /-- The projection-formula map of an arbitrary comparison is natural in both arguments. -/
 theorem projectionFormulaMapOfComparison_naturality
     {E E' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
-    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))} (φ : E ⟶ E') (k : K ⟶ K') :
+    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))}
+    (φ : E ⟶ E') (k : K ⟶ K') :
     ((TD.tensor.map ((derivedPushforward f).map φ)).app K ≫
           (TD.tensor.obj ((derivedPushforward f).obj E')).map k) ≫
         projectionFormulaMapOfComparison f hmos TD TC α E' K' =
@@ -269,7 +271,8 @@ def projectionFormulaMap (hmos : f.u.IsMorphismOfSites Y.J X.J)
 /-- Equation 21.50.0.1 is natural in `E` and in `K` jointly. -/
 theorem projectionFormulaMap_naturality
     {E E' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
-    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))} (φ : E ⟶ E') (k : K ⟶ K') :
+    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))}
+    (φ : E ⟶ E') (k : K ⟶ K') :
     (((derivedTensorProductFunctor Y.O).map ((derivedPushforward f).map φ)).app K ≫
           ((derivedTensorProductFunctor Y.O).obj ((derivedPushforward f).obj E')).map k) ≫
         projectionFormulaMap f hmos E' K' =
@@ -284,7 +287,8 @@ theorem projectionFormulaMap_naturality
 /-- **Naturality of Equation 21.50.0.1 in the complex on the source**, `E ∈ D(O_C)`. -/
 @[stacks 0B56 "naturality in the source complex"]
 theorem projectionFormulaMap_naturality_source
-    {E E' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))} (φ : E ⟶ E')
+    {E E' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+    (φ : E ⟶ E')
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :
     ((derivedTensorProductFunctor Y.O).map ((derivedPushforward f).map φ)).app K ≫
         projectionFormulaMap f hmos E' K =
@@ -297,7 +301,8 @@ theorem projectionFormulaMap_naturality_source
 @[stacks 0B56 "naturality in the target complex"]
 theorem projectionFormulaMap_naturality_target
     (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
-    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))} (k : K ⟶ K') :
+    {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))}
+    (k : K ⟶ K') :
     ((derivedTensorProductFunctor Y.O).obj ((derivedPushforward f).obj E)).map k ≫
         projectionFormulaMap f hmos E K' =
       projectionFormulaMap f hmos E K ≫
@@ -483,31 +488,37 @@ variable {X' X Y' Y : RingedTopos.{u, u, u}}
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj M).Additive]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X'.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X'.O) (ComplexShape.up ℤ)]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y'.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y'.O) (ComplexShape.up ℤ)]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
-    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)
-      (ComplexShape.up ℤ)]
+    HomologicalComplex.HasMapBifunctor A B
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
   (f : RingedToposSiteHom X Y) (g' : RingedToposSiteHom X' X)
   (f' : RingedToposSiteHom X' Y') (g : RingedToposSiteHom Y' Y)
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy g').HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy f').HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy g).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy (g.comp f')).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   [(pullbackOnHomotopy (f.comp g')).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
   (hmosf : f.u.IsMorphismOfSites Y.J X.J) (hmosg' : g'.u.IsMorphismOfSites X.J X'.J)
   (hmosf' : f'.u.IsMorphismOfSites Y'.J X'.J) (hmosg : g.u.IsMorphismOfSites Y.J Y'.J)
   (h : g.comp f' = f.comp g')

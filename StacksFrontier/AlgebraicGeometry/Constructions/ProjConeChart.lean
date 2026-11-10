@@ -97,7 +97,7 @@ theorem ι_appLE_top {X : Scheme.{u}} (U : X.Opens) :
 theorem appLE_top_top {X Y : Scheme.{u}} (g : X ⟶ Y) (e : (⊤ : X.Opens) ≤ g ⁻¹ᵁ ⊤) :
     g.appLE ⊤ ⊤ e = g.appTop := by
   have h : X.presheaf.map (homOfLE e).op = CategoryStruct.id Γ(X, ⊤) := by
-    show X.presheaf.map (CategoryStruct.id (Opposite.op (⊤ : X.Opens))) = _
+    change X.presheaf.map (CategoryStruct.id (Opposite.op (⊤ : X.Opens))) = _
     exact X.presheaf.map_id _
   rw [Scheme.Hom.appLE, h]
   exact Category.comp_id _

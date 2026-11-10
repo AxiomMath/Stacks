@@ -236,7 +236,7 @@ theorem isLocallySurjective (f : MapAlong φ P Q)
     obtain ⟨m, hm⟩ := hφ (op V) n
     refine ⟨x - P.incl m, ?_⟩
     rw [map_sub, f.kernel_comm (op V) m]
-    show _ - Q.incl (φ.val.app (op V) m) = _
+    change _ - Q.incl (φ.val.app (op V) m) = _
     rw [hm, hn, sub_sub_cancel]
 
 end MapAlong

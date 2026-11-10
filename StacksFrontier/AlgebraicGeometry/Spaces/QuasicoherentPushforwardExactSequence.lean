@@ -18,8 +18,8 @@ quasi-coherence under kernels.
 
 That last appeal is Stacks 03M1, clause (3), and it is now available on the small étale site of
 an algebraic space without any hypothesis: it follows from Descent, Proposition 03DX (2), which
-is formalized as `AlgebraicGeometry.Space.isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`.  This
-file records that, and feeds it to the affine-base reduction of
+is formalized as `AlgebraicGeometry.Space.isQuasicoherentOnSite_iff_isCartesianOnAffineCharts`.
+This file records that, and feeds it to the affine-base reduction of
 `StacksFrontier.AlgebraicGeometry.Spaces.HigherPushforwardQuasicoherentReduction`, so that the whole
 residue of Stacks 03M9 becomes the exact sequence of Stacks 03M8 with quasi-coherent outer terms.
 

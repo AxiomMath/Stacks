@@ -78,7 +78,7 @@ theorem exists_lift_of_isColimit_cofan {D : Type u} [Category.{v} D] {I : Type w
     ∃ l : F ⟶ P, l ≫ b = g := by
   choose k hk using fun i ↦ hb (ν i ≫ g)
   refine ⟨Cofan.IsColimit.desc hF k, Cofan.IsColimit.hom_ext hF _ _ fun i ↦ ?_⟩
-  show (Cofan.mk F ν).inj i ≫ _ ≫ b = _
+  change (Cofan.mk F ν).inj i ≫ _ ≫ b = _
   rw [← Category.assoc, Cofan.IsColimit.fac hF k i, hk i]
   rfl
 
@@ -175,7 +175,7 @@ lemma surjective_sectionsMap_of_surjective_app {M N : PresheafOfModules.{w} R} (
   intro t
   obtain ⟨x, hx⟩ := hf (t.val (op Z))
   refine ⟨M.sectionsOfIsTerminal hZ x, sections_ext _ _ fun Y ↦ ?_⟩
-  show Hom.app f Y (M.overTerminal hZ x Y) = t.val Y
+  change Hom.app f Y (M.overTerminal hZ x Y) = t.val Y
   rw [overTerminal, naturality_apply, hx, sections_property]
 
 /-- A morphism of presheaves of modules surjective on global sections is surjective on sections

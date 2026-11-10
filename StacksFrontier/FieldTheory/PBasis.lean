@@ -132,7 +132,7 @@ theorem monomialFamily_zero {I : Type*} (x : I → M) {p : ℕ} (hp : 0 < p) :
 @[simp]
 theorem monomialFamily_single {I : Type*} (x : I → M) {p : ℕ} (hp : 1 < p) (i : I) :
     monomialFamily x p (BoundedExp.single hp i) = x i := by
-  show monomialPow x (Finsupp.single i 1) = x i
+  change monomialPow x (Finsupp.single i 1) = x i
   rw [monomialPow_single, pow_one]
 
 end CommMonoid
@@ -224,10 +224,10 @@ theorem derivation_eq_zero_of_mem_compositumFrobenius
     simp only [Set.mem_union] at hx
     rcases hx with hx | hx
     · obtain ⟨r, rfl⟩ := hx
-      show D (algebraMap k K r) = 0
+      change D (algebraMap k K r) = 0
       rw [Derivation.map_algebraMap]
     · obtain ⟨b, rfl⟩ := hx
-      show D (b ^ p) = 0
+      change D (b ^ p) = 0
       rw [Derivation.leibniz_pow]
       have : (p : ℕ) • (b ^ (p - 1) • D b) = ((p : K)) • (b ^ (p - 1) • D b) := by
         rw [Nat.cast_smul_eq_nsmul]
@@ -344,7 +344,7 @@ theorem pIndependent_of_linearIndependent_differentials
       have hsm : (l E) • (monomialFamily x p) E = (l E : K) * (monomialFamily x p) E :=
         smul_eq_mul ((l E):K) ((monomialFamily x p) E)
       rw [hsm, Derivation.leibniz, hr, smul_zero, add_zero]
-      show ((l E):K) • θ (monomialPow x E.1) = _
+      change ((l E):K) • θ (monomialPow x E.1) = _
       rw [deriv_monomial θ i hθ E.1, smul_smul, mul_comm]
       rfl
     rw [hRHS]
@@ -353,7 +353,7 @@ theorem pIndependent_of_linearIndependent_differentials
     · apply Finsupp.sum_congr
       intro E _
       rw [Finsupp.sum_single_index]
-      · show ((E.1 i : (compositumFrobenius k K p)) * l E) • (monomialFamily x p) (shiftExp i E)
+      · change ((E.1 i : (compositumFrobenius k K p)) * l E) • (monomialFamily x p) (shiftExp i E)
           = _
         rw [show ((E.1 i : (compositumFrobenius k K p)) * l E) • (monomialFamily x p) (shiftExp i E)
               = (((E.1 i : (compositumFrobenius k K p)) * l E : (compositumFrobenius k K p)) : K)
@@ -429,7 +429,7 @@ theorem pIndependent_of_linearIndependent_differentials
     obtain ⟨g, hg⟩ := LinearMap.exists_extend g0
     refine ⟨(KaehlerDifferential.linearMapEquivDerivation k K) g, ?_⟩
     intro j
-    show g (v j) = _
+    change g (v j) = _
     have hmem : v j ∈ Submodule.span K (Set.range v) := Submodule.subset_span ⟨j, rfl⟩
     have heq : g (v j) = g0 ⟨v j, hmem⟩ := LinearMap.congr_fun hg ⟨v j, hmem⟩
     rw [heq]
@@ -594,7 +594,7 @@ private theorem constr_apply_monomialPow {I : Type*} (x : I → K) (p : ℕ)
   set θ : K →ₗ[R] K := hx.basis.constr R bval with hθ
   have hbasis : ∀ E : BoundedExp I p, θ (monomialFamily x p E) = bval E := fun E => by
     rw [hθ, ← hx.basis_apply E, Module.Basis.constr_basis]
-  show θ (monomialPow x G) = (G i₀ : K) * monomialPow x (G - Finsupp.single i₀ 1)
+  change θ (monomialPow x G) = (G i₀ : K) * monomialPow x (G - Finsupp.single i₀ 1)
   obtain ⟨q, ⟨r, hrbound⟩, hdecomp, hGsmul⟩ :=
     exists_monomialPow_eq_smul (k := k) x p hp.out.pos G
   rw [hGsmul, map_smul, hbasis ⟨r, hrbound⟩]
@@ -603,9 +603,9 @@ private theorem constr_apply_monomialPow {I : Type*} (x : I → K) (p : ℕ)
       congrArg (fun (f : I →₀ ℕ) => f i₀) hdecomp
   have hcast : (G i₀ : K) = (r i₀ : K) := by
     rw [hGi]; push_cast; rw [CharP.cast_eq_zero K p]; ring
-  show (monomialPow x q) ^ p • bval ⟨r, hrbound⟩ = _
+  change (monomialPow x q) ^ p • bval ⟨r, hrbound⟩ = _
   rw [hcast]
-  show (monomialPow x q) ^ p • ((r i₀ : K) * monomialPow x (r - Finsupp.single i₀ 1))
+  change (monomialPow x q) ^ p • ((r i₀ : K) * monomialPow x (r - Finsupp.single i₀ 1))
       = (r i₀ : K) * monomialPow x (G - Finsupp.single i₀ 1)
   rcases Nat.eq_zero_or_pos (r i₀) with h0 | hpos
   · rw [h0]; simp
@@ -702,7 +702,7 @@ private theorem linearIndependent_differentials_of_pBasis {I : Type*} (x : I →
         apply Subfield.subset_closure; left; exact ⟨c, rfl⟩
       have h1 : c • v = (⟨(algebraMap k K) c, hc⟩ : R) • v := by rw [Algebra.smul_def]; rfl
       rw [h1, map_smul]
-      show (⟨(algebraMap k K) c, hc⟩ : R) • θ v = c • θ v
+      change (⟨(algebraMap k K) c, hc⟩ : R) • θ v = c • θ v
       have h2 : (⟨(algebraMap k K) c, hc⟩ : R) • θ v = (algebraMap k K c) * θ v := rfl
       rw [h2, Algebra.smul_def]
     with hθk
@@ -710,10 +710,10 @@ private theorem linearIndependent_differentials_of_pBasis {I : Type*} (x : I →
     refine ⟨Derivation.mk' θk ?_, ?_⟩
     · intro a b'
       rw [hθkapp, hθkapp, hθkapp]
-      show θ (a * b') = a • θ b' + b' • θ a
+      change θ (a * b') = a • θ b' + b' • θ a
       rw [hLeib]
     · intro j
-      show θk (x j) = if j = i₀ then 1 else 0
+      change θk (x j) = if j = i₀ then 1 else 0
       rw [hθkapp]
       have hxj : x j = monomialPow x (Finsupp.single j 1) := by
         rw [monomialPow_single, pow_one]
@@ -773,7 +773,7 @@ theorem pBasis_differentials_basis
   set T := Submodule.span K (Set.range (fun i => D (x i))) with hT
   have hmon : ∀ E : BoundedExp I p, D (monomialFamily x p E) ∈ T := by
     intro E
-    show D (monomialPow x E.1) ∈ T
+    change D (monomialPow x E.1) ∈ T
     rw [monomialPow, Finsupp.prod]
     induction E.1.support using Finset.induction with
     | empty => simp
@@ -893,7 +893,7 @@ theorem linearIndependent_pow_of_pow_mem_of_notMem (p : ℕ) [hp : Fact (Nat.Pri
     Polynomial.monic_X_pow_sub_C a hp.out.ne_zero
   have hroot : (Polynomial.aeval y) ((Polynomial.X : Polynomial ↥Mf) ^ p - Polynomial.C a) = 0 := by
     simp only [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C, ha]
-    show y ^ p - y ^ p = 0
+    change y ^ p - y ^ p = 0
     ring
   have hmin : minpoly Mf y = (Polynomial.X : Polynomial ↥Mf) ^ p - Polynomial.C a :=
     (minpoly.eq_of_irreducible_of_monic hirr hroot hmonic).symm
@@ -1000,7 +1000,7 @@ private lemma linearIndependent_mul_of_subfield_le {K : Type*} [Field K]
     linearIndependent_smul hb' hc
   have heq : (fun q : ιb × ιc => b q.1 • c q.2) = (fun q : ιb × ιc => (b q.1 : K) * c q.2) := by
     funext q
-    show (b q.1 : K) • c q.2 = _
+    change (b q.1 : K) • c q.2 = _
     rw [smul_eq_mul]
   rwa [heq] at hsmul
 
@@ -1083,7 +1083,7 @@ theorem insert_pIndependent_reindex (p : ℕ) [hp : Fact (Nat.Prime p)] [CharP K
       = (fun q : BoundedExp ↥S p × Fin p => (b q.1 : K) * (fun e : Fin p => y ^ (e:ℕ)) q.2) ∘ be'
         := by
     funext E
-    show monomialPow (Subtype.val : ↥J → K) E.1 = _
+    change monomialPow (Subtype.val : ↥J → K) E.1 = _
     set F : Option ↥S →₀ ℕ := Finsupp.equivMapDomain ej E.1 with hF
     have hreindex : monomialPow (Subtype.val : ↥J → K) E.1
         = F.prod (fun o e => ((ej.symm o : ↥J) : K) ^ e) := by
@@ -1107,15 +1107,15 @@ theorem insert_pIndependent_reindex (p : ℕ) [hp : Fact (Nat.Prime p)] [CharP K
       intro s _
       rw [hsval s]
     rw [hsecond]
-    show _ = (b (be' E).1 : K) * (fun e : Fin p => y ^ (e:ℕ)) (be' E).2
+    change _ = (b (be' E).1 : K) * (fun e : Fin p => y ^ (e:ℕ)) (be' E).2
     have hG : (be' E).1 = (⟨Finsupp.some F, by
         intro s; rw [Finsupp.some_apply]; exact E.2 (ej.symm (some s))⟩ : BoundedExp ↥S p) := rfl
     have he : ((be' E).2 : ℕ) = F none := rfl
     rw [hG]
-    show y ^ F none * monomialPow (Subtype.val : ↥S → K) (Finsupp.some F)
+    change y ^ F none * monomialPow (Subtype.val : ↥S → K) (Finsupp.some F)
       = monomialPow (Subtype.val : ↥S → K) (Finsupp.some F) * y ^ ((be' E).2 : ℕ)
     rw [he, mul_comm]
-  show LinearIndependent R (monomialFamily (Subtype.val : ↥J → K) p)
+  change LinearIndependent R (monomialFamily (Subtype.val : ↥J → K) p)
   rw [hfam]
   exact (linearIndependent_equiv be').mpr hmul
 
@@ -1211,7 +1211,7 @@ theorem monomialFamily_eq_monomialPow_comp (T : Set K) (p : ℕ) (hp0 : 0 < p) :
       = (fun F : ↥(boundedExpOn T p) => monomialPow (id : K → K) (F : K →₀ ℕ)) ∘
         (boundedExpEquivBoundedExpOn T p hp0) := by
   funext E
-  show monomialPow (Subtype.val : ↥T → K) E.1
+  change monomialPow (Subtype.val : ↥T → K) E.1
       = monomialPow (id : K → K) (Finsupp.embDomain (Function.Embedding.subtype (· ∈ T)) E.1)
   unfold monomialPow
   rw [Finsupp.prod_embDomain]
@@ -1253,7 +1253,7 @@ theorem monomialFamily_eq_comp_ofInjective {I : Type*} {x : I → K} (p : ℕ)
       (boundedExpCongr p (Equiv.ofInjective x hinj)) := by
   let e : I ≃ ↥(Set.range x) := Equiv.ofInjective x hinj
   funext E
-  show monomialPow x E.1
+  change monomialPow x E.1
     = monomialPow (Subtype.val : ↥(Set.range x) → K) (Finsupp.equivMapDomain e E.1)
   rw [monomialPow, monomialPow, Finsupp.prod_equivMapDomain e E.1 (fun j n => ((j : K)) ^ n)]
   exact Finsupp.prod_congr fun i _ => by rw [Equiv.ofInjective_apply x hinj i]

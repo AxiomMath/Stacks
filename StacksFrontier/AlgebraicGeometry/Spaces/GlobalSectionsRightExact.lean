@@ -85,8 +85,7 @@ theorem CommRingCat.exists_eq_sum_mul_of_isPushout {A B C D : CommRingCat.{u}} {
     (ConcreteCategory.congr_hom h.w x)
   have : Algebra.IsPushout A B C D := CommRingCat.isPushout_iff_isPushout.1 h
   obtain ⟨z, rfl⟩ := (Algebra.IsPushout.equiv A B C D).surjective d
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, Fin.elim0, Fin.elim0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     refine ⟨1, fun _ => x, fun _ => y, ?_⟩
     rw [Algebra.IsPushout.equiv_tmul, Fin.sum_univ_one]
@@ -137,7 +136,7 @@ theorem CommRingCat.injective_inr_of_isPushout {A B C D : CommRingCat.{u}} {f : 
       Algebra.IsPushout.equiv A B C D (f₁.rTensor C ((TensorProduct.lid A C).symm c₀)) := by
     intro c₀
     rw [TensorProduct.lid_symm_apply, LinearMap.rTensor_tmul, Algebra.IsPushout.equiv_tmul]
-    show inr c₀ = inl (f 1) * inr c₀
+    change inr c₀ = inl (f 1) * inr c₀
     rw [map_one, map_one, one_mul]
   rw [key c, key c'] at hcc'
   exact (TensorProduct.lid A C).symm.injective (hrT ((Algebra.IsPushout.equiv A B C D).injective
@@ -251,7 +250,7 @@ theorem exists_eq_sum_smul_of_surjective_sectionsMap {X : AlgebraicSpaces B S hS
   have hg : g ≫ cokernel.π ψ = 0 := by
     apply (cokernel ψ).unitHomEquiv.injective
     refine hU₀.sections_ext (moduleSetSheaf B S hS X (cokernel ψ)) (fun _ => ?_)
-    show (cokernel.π ψ).val.app (op U₀) (g.val.app (op U₀) (1 : R.obj.obj (op U₀))) = 0
+    change (cokernel.π ψ).val.app (op U₀) (g.val.app (op U₀) (1 : R.obj.obj (op U₀))) = 0
     rw [show g.val.app (op U₀) (1 : R.obj.obj (op U₀)) = _ from
       (sections_eval_eq_val_app_one B S hS t _).symm, ht]
     have hx : (∑ i, r i • PresheafOfModules.sections.eval (s i) (op U₀)) =
@@ -263,7 +262,7 @@ theorem exists_eq_sum_smul_of_surjective_sectionsMap {X : AlgebraicSpaces B S hS
       rw [← hι i]
       rfl
     rw [hx]
-    show (ψ ≫ cokernel.π ψ).val.app (op U₀) _ = 0
+    change (ψ ≫ cokernel.π ψ).val.app (op U₀) _ = 0
     rw [cokernel.condition]
     rfl
   have hP := isQuasicoherentOnSite_biproduct_unit B S hS X n
@@ -321,7 +320,7 @@ theorem exists_eq_sum_mul_of_surjective_sectionsMap {X : AlgebraicSpaces B S hS}
           (PresheafOfModules.sections.eval (vec v) V) =
         PresheafOfModules.sections.eval (v i) V := by
     intro v i V
-    show ((biproduct.lift fun i => (SheafOfModules.unit R).unitHomEquiv.symm (v i)) ≫
+    change ((biproduct.lift fun i => (SheafOfModules.unit R).unitHomEquiv.symm (v i)) ≫
       biproduct.π (fun _ : Fin n => SheafOfModules.unit R) i).val.app V (1 : R.obj.obj V) = _
     rw [biproduct.lift_π, unitHomEquiv_symm_val_app B S hS (v i) V 1, one_smul]
   have hext : ∀ (V : (SmallEtale B S hS X.1)ᵒᵖ) (μ ν : M.val.obj V),
@@ -356,7 +355,7 @@ theorem exists_eq_sum_mul_of_surjective_sectionsMap {X : AlgebraicSpaces B S hS}
   simp only at hV
   rw [map_sum] at hV
   refine (hcomp x i V).symm.trans (hV.trans ?_)
-  show _ = globalFunctionsChartRestriction B S hS X V.unop
+  change _ = globalFunctionsChartRestriction B S hS X V.unop
     (∑ j, a i j * (show globalFunctions B S hS X.1 from c j))
   rw [map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
@@ -380,7 +379,7 @@ theorem pullbackToGlobalFunctions_comp_schemeSpaceMap (X : AlgebraicSpaces B S h
       pullbackToGlobalFunctions B S hS X W f
         (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map q).op x) := by
   refine Subtype.ext (funext fun j => ?_)
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (j.unop.1.hom ≫ (f ≫ schemeSpaceMap q).hom))).op x =
     Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (yoneda.preimage (j.unop.1.hom ≫ f.hom))).op
       (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map q).op x)
@@ -456,12 +455,12 @@ theorem exists_eq_sum_mul_of_isAffineHom {X X' : AlgebraicSpaces B S hS}
   apply Subtype.ext
   funext Y
   refine (hc Y).trans (Eq.symm ?_)
-  show globalFunctionsChartRestriction B S hS X' ((smallBaseChange B S hS pr hrep).obj Y.unop)
+  change globalFunctionsChartRestriction B S hS X' ((smallBaseChange B S hS pr hrep).obj Y.unop)
     (∑ i, pullbackToGlobalFunctions B S hS X' V (pr ≫ p) (d i) * μ i) = _
   rw [map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [map_mul]
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (yoneda.preimage (hrep.fst Y.unop.1.hom ≫ (pr ≫ p).hom))).op (d i) * _ = _
   rw [← hcomp, ← hd i]
   rfl

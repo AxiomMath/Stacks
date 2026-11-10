@@ -103,7 +103,8 @@ private theorem finiteCoproductTerminal_iff_trivialAction {C : Type u} [Category
       have hh : F.map (f' i) a = F.map (f' i) b := by
         calc
           F.map (f' i) a = σ.asIso.hom.app X (F.map (f' i) a) := (htriv σ (F.map (f' i) a)).symm
-          _ = F.map (f' i) (σ.asIso.hom.app (A' i) a) := NatTrans.naturality_apply σ.asIso.hom (f' i) a
+          _ = F.map (f' i) (σ.asIso.hom.app (A' i) a) :=
+            NatTrans.naturality_apply σ.asIso.hom (f' i) a
           _ = F.map (f' i) b := by rw [hσapp]
       exact hinj hh⟩
     obtain ⟨a⟩ : Nonempty ((F.obj (A' i)).obj) := inferInstance
@@ -145,7 +146,8 @@ private theorem h1 (X : C) (s : Aut F') (x : F.obj X) :
   have hsrc : (ConcreteCategory.hom (src.ρ s).asHom) x =
       (ConcreteCategory.hom ((d.hom.toMonoidHom s).asIso.hom.app X)) x := rfl
   have htgt (y : F'.obj (H.obj X)) :
-      (ConcreteCategory.hom (((H ⋙ PreGaloisCategory.functorToContAction F').obj X).obj.ρ s).asHom) y =
+      (ConcreteCategory.hom
+        (((H ⋙ PreGaloisCategory.functorToContAction F').obj X).obj.ρ s).asHom) y =
       (ConcreteCategory.hom (s.asIso.hom.app (H.obj X))) y := rfl
   have hc₁ := FintypeCat.comp_apply (src.ρ s).asHom (d.actionIso.hom.app X).hom.hom x
   have hc₂ := FintypeCat.comp_apply (d.actionIso.hom.app X).hom.hom
@@ -160,7 +162,8 @@ omit [GaloisCategory C] [PreGaloisCategory.FiberFunctor F] [GaloisCategory C']
 private theorem hcomp (X : C) (s : Aut F'') (x : F.obj X) :
     (ConcreteCategory.hom (d'.actionIso.hom.app (H.obj X)).hom.hom)
       ((ConcreteCategory.hom (d.actionIso.hom.app X).hom.hom)
-        ((ConcreteCategory.hom ((d.hom.toMonoidHom.comp d'.hom.toMonoidHom s).asIso.hom.app X)) x)) =
+        ((ConcreteCategory.hom
+          ((d.hom.toMonoidHom.comp d'.hom.toMonoidHom s).asIso.hom.app X)) x)) =
     (ConcreteCategory.hom (s.asIso.hom.app (H'.obj (H.obj X))))
       ((ConcreteCategory.hom (d'.actionIso.hom.app (H.obj X)).hom.hom)
         ((ConcreteCategory.hom (d.actionIso.hom.app X).hom.hom) x)) :=
@@ -233,7 +236,7 @@ public theorem comp_hom_eq_one_iff_forall_isFiniteCoproductOfTerminal
     have htriv :=
       (finiteCoproductTerminal_iff_trivialAction F'' ((H ⋙ H').obj X)).mp (hall X)
     have hrel := hcomp F F' F'' H H' t t' d d' X σ x
-    show ConcreteCategory.hom
+    change ConcreteCategory.hom
         (((d.hom.toMonoidHom.comp d'.hom.toMonoidHom) σ).asIso.hom.app X) x = x
     apply hinj1
     apply hinj2

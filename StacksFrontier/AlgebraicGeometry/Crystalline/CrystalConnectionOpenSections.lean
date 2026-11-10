@@ -250,7 +250,7 @@ theorem crystalConnectionOpen_naturality {W W' : A.thickening.target.scheme.Open
   have e₁ : (firstOrderThickeningObject S A).restrictOpenLE h ≫ firstOrderRestrictP₁ A W =
       firstOrderRestrictP₁ A W' ≫ A.restrictOpenLE h :=
     Thickening.restrictOpenLE_restrictOpenMap (firstOrderThickeningSiteP₁ S A) h
-  show moduleSiteRestrict M ((firstOrderThickeningObject S A).restrictOpenLE h)
+  change moduleSiteRestrict M ((firstOrderThickeningObject S A).restrictOpenLE h)
         ((moduleSiteRestrict M (firstOrderRestrictP₁ A W) s :
             M.val.obj (op ((firstOrderThickeningObject S A).restrictOpen W))) -
           moduleSiteRestrict M (firstOrderRestrictP₀ A W) s) =

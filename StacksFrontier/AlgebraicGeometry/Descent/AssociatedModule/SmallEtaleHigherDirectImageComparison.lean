@@ -188,7 +188,7 @@ def counitHigherDirectImageIso (n : ℕ) :
             ((associatedModule B X.obj X.property).obj 𝓕.obj)))
         (isIso_counit B Y.obj Y.property _ (hM 𝓕 n)
           (isQuasicoherent_restrictModule B Y.obj Y.property _ (hM 𝓕 n))))
-    (fun g ↦ (associatedModuleAdjunction B Y.obj Y.property).counit.naturality _)
+    (fun _ ↦ (associatedModuleAdjunction B Y.obj Y.property).counit.naturality _)
 
 /-- **The étale comparison of [Stacks, Tag 071N], given quasi-coherence of the higher direct
 images.**  If every `R ^q (ε_a)_*(𝓕ᵃ)` is quasi-coherent on `Y_étale`, then

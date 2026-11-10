@@ -68,7 +68,7 @@ theorem pow_succ_inf_span_image_le
   | succ d ih =>
     intro hd
     have hx := ih (by omega)
-    rw [hJ, Jid_pow_eq_span, Ideal.span_mul_span'] at hx
+    rw [hJ, Jid_pow_eq_span, Ideal.span_mul_span] at hx
     obtain ⟨n, c, g, hsum⟩ := (Submodule.mem_span_set' (R := A)).mp hx
     have hg : ∀ t, ∃ i ∈ S, ∃ e : Fin r →₀ ℕ, qrMdeg e = d ∧
         (g t : A) = fpow f (e + Finsupp.single i 1) := by
@@ -102,7 +102,7 @@ theorem pow_succ_inf_span_image_le
     rw [hsplit, pow_succ, ← mul_assoc]
     refine Ideal.mul_mem_mul ?_ (hfib' e')
     rw [← ht₀]
-    show fpow f (e t₀ + Finsupp.single (i t₀) 1) ∈ _
+    change fpow f (e t₀ + Finsupp.single (i t₀) 1) ∈ _
     rw [fpow_add_single]
     have h2 : fpow f (e t₀) ∈ Jid f ^ d := he t₀ ▸ fpow_mem f (e t₀)
     exact Ideal.mul_mem_mul (Ideal.subset_span ⟨i t₀, hi t₀, rfl⟩) h2
@@ -278,7 +278,7 @@ theorem mem_infinityChartResidualIdeal_iff (h : I' ≤ I)
       rw [infinityChartResidualIdeal, Ideal.span_le]
       rintro _ ⟨⟨a, ha⟩, rfl⟩
       rw [SetLike.mem_coe, Ideal.mem_comap]
-      show (infinityChartMk I 1 (C a) (C_mem_infinityChartIdeal_pow_one (h ha)) :
+      change (infinityChartMk I 1 (C a) (C_mem_infinityChartIdeal_pow_one (h ha)) :
         Localization.Away (X : A[X])) ∈ _
       rw [infinityChartMk_val, Localization.mk_eq_mk', IsLocalization.mk'_eq_mul_mk'_one]
       exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ ha))

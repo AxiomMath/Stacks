@@ -270,6 +270,7 @@ def cechCosimplicialIso :
     rfl)
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance search for the Čech cohomology of the coinduced presheaf on the pro-étale site
 include hX in
 /-- **The positive-degree Čech cohomology of the coinduced sheaf along a finite affine covering
 vanishes**, for a pro-discrete module. -/
@@ -325,6 +326,7 @@ lemma exists_finiteAffineCoverings_le (U : (base K).ProEt) (hU : IsAffine U.left
   · rw [hs]
     exact hle
 
+set_option linter.checkUnivs false in
 variable (K) in
 /-- Abelian presheaves on the pro-étale site of `Spec K` admit sheafification, in the
 coefficient universe of the completed sheaves. -/
@@ -332,6 +334,7 @@ theorem hasSheafify_galois :
     HasSheafify (Scheme.ProEt.topology (base K)) AddCommGrpCat.{max (u + 1) r w} :=
   ProEtale.hasSheafify_proetale.{u, max r w} _
 
+set_option linter.checkUnivs false in
 variable (K) in
 /-- Abelian sheaves on the pro-étale site of `Spec K` have enough injectives. -/
 theorem enoughInjectives_galois :

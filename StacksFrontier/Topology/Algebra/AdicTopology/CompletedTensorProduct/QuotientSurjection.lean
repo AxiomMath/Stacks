@@ -65,10 +65,6 @@ private theorem ker_comp_of_injective {X Y Z : Type*} [CommRing X] [CommRing Y] 
   simp only [RingHom.mem_ker, RingHom.comp_apply]
   exact ⟨fun h => hg (by rw [h, map_zero]), fun h => by rw [h, map_zero]⟩
 
-variable [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-  [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R]
-  [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
-
 /-- **The kernel of `id ⊗ π` is the extension of `ker π`, for an arbitrary surjection.**
 Tag 0AMZ's `TopologicalRing.ker_tensorProduct_map_quotientMk` is the case of a quotient map; a
 general surjective `π : R ↠ C` is its own quotient map followed by an isomorphism, and

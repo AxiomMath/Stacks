@@ -65,7 +65,7 @@ theorem exists_overCovering_refining_sieve
   rw [BigFppfOver.topology, GrothendieckTopology.mem_over_iff] at hR
   obtain ⟨E, hE, hle⟩ := exists_covering_refining_sieve B hR
   refine ⟨⟨E.I₀, fun i ↦ Over.mk (E.f i ≫ U.hom), fun i ↦ Over.homMk (E.f i) rfl⟩, ?_, ?_⟩
-  · show B.IsCovering ⟨U.left, _⟩
+  · change B.IsCovering ⟨U.left, _⟩
     simpa [PreZeroHypercover.map] using hE
   · rw [Presieve.ofArrows_le_iff]
     intro i
@@ -82,7 +82,7 @@ private theorem singleton_mem_topology_over_of_fppf
   have hbase : Sieve.generate (Presieve.singleton f.left) ∈ B.topology U.left := by
     have hfp : IsFppfCovering
         (⟨U.left, PreZeroHypercover.singleton f.left⟩ : Covering B.Schemes) := by
-      show (PreZeroHypercover.singleton f.left).presieve₀ ∈
+      change (PreZeroHypercover.singleton f.left).presieve₀ ∈
         Scheme.fppfPrecoverage.comap B.inclusion U.left
       rw [Precoverage.mem_comap_iff, PreZeroHypercover.presieve₀_singleton,
         Presieve.map_singleton]
@@ -237,7 +237,7 @@ private theorem openCover_sieve_mem_zariskiTopology_over
       B.zariskiTopology.over (B.obj hS) U := by
   let E := boundedOpenCover B U.left O
   have hZ : IsZariskiCovering (⟨U.left, E⟩ : Covering B.Schemes) := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPrecoverage _
     simpa [E, boundedOpenCover, PreZeroHypercover.map] using O.mem₀
   obtain ⟨⟨T', E'⟩, hE', hCE⟩ := B.zariskiCovering_has_representative ⟨U.left, E⟩ hZ
   obtain ⟨hbase, hfamily⟩ := hCE
@@ -555,7 +555,7 @@ private theorem map_descended_eq_of_comp_eq
   obtain ⟨Y, k, b, hb, hkb⟩ := hg
   cases hb
   change k ≫ imageOpen a = g ≫ p at hkb
-  show F.map g.op (F.map p.op (G.ι.app _ descended)) = F.map g.op (F.map q.op (x f hf))
+  change F.map g.op (F.map p.op (G.ι.app _ descended)) = F.map g.op (F.map q.op (x f hf))
   calc F.map g.op (F.map p.op (G.ι.app _ descended)) =
         F.map (g ≫ p).op (G.ι.app _ descended) := by
         simp only [op_comp, Functor.map_comp, types_comp_apply]
@@ -638,7 +638,7 @@ private theorem existsUnique_amalgamation_of_image_sections
     obtain ⟨Y, k, f, hf, hkf⟩ := hg
     cases hf
     change k ≫ imageOpen b = g ≫ q at hkf
-    show F.map g.op (F.map p.op (d a)) = F.map g.op (F.map q.op (d b))
+    change F.map g.op (F.map p.op (d a)) = F.map g.op (F.map q.op (d b))
     calc F.map g.op (F.map p.op (d a)) = F.map (g ≫ p).op (d a) := by simp
       _ = F.map k.op (x (π b) (hmem b)) :=
           hmatch a (π b) (hmem b) (g ≫ p) k (by
@@ -717,7 +717,7 @@ theorem isSheaf_of_locallySurjective_representable_subfunctors
     E'.I₀ E'.X (fun a ↦ openSubobject B S hS U (W a)) E'.f
     (fun a ↦ openSubobjectInclusion B S hS U (W a)) imageOpen imageOpen_comp hOmem hImageCover
     hmem label descended fun a ↦ ?_
-  show (G (label a)).ι.app _
+  change (G (label a)).ι.app _
     ((G (label a)).toFunctor.map (imageOpen a).op (descended a)) = _
   rw [hdesc a]
   exact hlocal a

@@ -84,7 +84,7 @@ public theorem universallyInjective_of_flat_of_separated_of_genericPoints_injOn
     have : IsIso ((Y.residueFieldCongr Tη.hy).inv ≫ f.residueFieldMap Tη.y) :=
       inferInstance
     have : IsIso Tη.tensorInl := by
-      show IsIso (pushout.inl _ _)
+      change IsIso (pushout.inl _ _)
       exact (IsPushout.of_hasPushout _ _).isIso_inl_of_isIso
     have : IsIso (Spec.map Tη.tensorInl) :=
       (isIso_SpecMap_iff).2 (ConcreteCategory.bijective_of_isIso Tη.tensorInl)
@@ -94,12 +94,12 @@ public theorem universallyInjective_of_flat_of_separated_of_genericPoints_injOn
     let cd := Scheme.Pullback.carrierEquiv (f := f) (g := f) (pullback.diagonal f x)
     have hfirst : cη.1 = cd.1 := by
       apply Scheme.Pullback.Triplet.ext
-      · show (pullback.fst f f η) = pullback.fst f f (pullback.diagonal f x)
+      · change (pullback.fst f f η) = pullback.fst f f (pullback.diagonal f x)
         rw [← Scheme.Hom.comp_apply, pullback.diagonal_fst]
         rfl
-      · show (pullback.snd f f η) = pullback.snd f f (pullback.diagonal f x)
+      · change (pullback.snd f f η) = pullback.snd f f (pullback.diagonal f x)
         rw [← Scheme.Hom.comp_apply, pullback.diagonal_snd]
-        show y = x
+        change y = x
         exact hxy'.symm
     have hcar : cη = cd := Scheme.Pullback.carrierEquiv_eq_iff.mpr
       ⟨hfirst, (hfirst ▸ hSpecSub : Subsingleton (Spec cd.1.tensor)).elim _ _⟩

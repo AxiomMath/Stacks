@@ -156,7 +156,7 @@ private theorem sheafPushforwardOver_preservesColimits
       Opens.map j ⋙ V.overEquivalence.inverse := by
     refine NatIso.ofComponents (fun W ↦ Over.isoMk (eqToIso ?_))
     ext z
-    show (∃ y : U, y ∈ W ∧ y.val = i.hom z) ↔
+    change (∃ y : U, y ∈ W ∧ y.val = i.hom z) ↔
       (∃ t : V, j.hom t ∈ W ∧ t.val = z)
     constructor
     · rintro ⟨y, hy, h⟩

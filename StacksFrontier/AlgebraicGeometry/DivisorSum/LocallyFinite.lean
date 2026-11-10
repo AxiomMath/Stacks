@@ -93,7 +93,7 @@ theorem finsetProd_ideal_le_of_le {ι : Type*} (D : ι → X.IdealSheafData) {n 
     (∏ i ∈ s, D i ^ m i).ideal U ≤ (∏ i ∈ s, D i ^ n i).ideal U := by
   rw [Scheme.IdealSheafData.ideal_finsetProd_eq_prod,
     Scheme.IdealSheafData.ideal_finsetProd_eq_prod]
-  refine Finset.prod_le_prod' fun i _ => ?_
+  refine Finset.prod_le_prod fun i _ => ?_
   simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply]
   exact Ideal.pow_le_pow_right (h i)
 
@@ -253,7 +253,7 @@ theorem ideal_le_of_forall_exists_basicOpen {J K : X.IdealSheafData} (U : X.affi
     Submodule.comap (LinearMap.toSpanSingleton Γ(X, U.1) Γ(X, U.1) x) (K.ideal U)
   have hmemC : ∀ c : Γ(X, U.1), c ∈ C ↔ c * x ∈ K.ideal U := by
     intro c
-    show c • x ∈ K.ideal U ↔ c * x ∈ K.ideal U
+    change c • x ∈ K.ideal U ↔ c * x ∈ K.ideal U
     rw [smul_eq_mul]
   have hrad : ∀ g ∈ s, g ∈ C.radical := by
     intro g hg
@@ -282,7 +282,7 @@ theorem ideal_le_of_forall_exists_basicOpen {J K : X.IdealSheafData} (U : X.affi
     refine ⟨n, (hmemC _).mpr ?_⟩
     have hgn : g ^ n * x = (c : Γ(X, U.1)) * (p.1 : Γ(X, U.1)) := by
       rw [hn]
-      show ((c : Γ(X, U.1)) * (p.2 : Γ(X, U.1))) * x = _
+      change ((c : Γ(X, U.1)) * (p.2 : Γ(X, U.1))) * x = _
       linear_combination hc
     rw [hgn]
     exact Ideal.mul_mem_left _ _ p.1.2

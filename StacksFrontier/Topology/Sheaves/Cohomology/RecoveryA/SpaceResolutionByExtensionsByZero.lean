@@ -194,7 +194,7 @@ private lemma quasiIso_colimit_comparison
     refine hHc.hom_ext fun n => ?_
     rw [IsColimit.comp_coconePointUniqueUpToIso_hom]
     exact (H.map_comp _ _).symm
-  show IsIso (H.map α)
+  change IsIso (H.map α)
   rw [heq]
   infer_instance
 
@@ -312,30 +312,30 @@ private lemma nonempty_resolution_of_ladder
   refine ⟨{
     system := Functor.ofSequence g'
     toTruncation := fun n => by
-      show Q' n ⟶ G.truncLE ((n : ℤ) + 1)
+      change Q' n ⟶ G.truncLE ((n : ℤ) + 1)
       simpa [Nat.cast_add] using f' n
     truncationTransition := fun n => by simpa [Nat.cast_add] using truncLESucc G n
     truncationTransition_ι := fun n => by simpa [Nat.cast_add] using truncLESucc_ι G n
     square := fun n => by
       rw [Functor.ofSequence_map_homOfLE_succ]
-      show g' n ≫ f' (n + 1) = f' n ≫ truncLESucc G n
+      change g' n ≫ f' (n + 1) = f' n ≫ truncLESucc G n
       exact hcomm n
     quasiIso := fun n => by
-      show QuasiIso (f' n)
+      change QuasiIso (f' n)
       simpa [f'] using hf (n + 1)
     epi_f := fun n i => by
-      show Epi ((f' n).f i)
+      change Epi ((f' n).f i)
       simpa [f'] using hepi (n + 1) i
     boundedAbove := fun n => by
-      show ∃ a : ℤ, (Q' n).IsStrictlyLE a
+      change ∃ a : ℤ, (Q' n).IsStrictlyLE a
       exact ⟨((n + 1 : ℕ) : ℤ), by simpa [Q'] using hle (n + 1)⟩
     term_isSum := fun n i => by
-      show IsSumOfExtensionByZeroStructureSheaves O ((Q' n).X i)
+      change IsSumOfExtensionByZeroStructureSheaves O ((Q' n).X i)
       simpa [Q'] using hQ (n + 1) i
     transition_splitMono := fun n i => by
       obtain ⟨C, -, e, he⟩ := hsplit (n + 1) i
       rw [Functor.ofSequence_map_homOfLE_succ]
-      show IsSplitMono ((g' n).f i)
+      change IsSplitMono ((g' n).f i)
       exact ⟨⟨e.hom ≫ biprod.fst, by rw [reassoc_of% he, biprod.inl_fst]⟩⟩
     transition_cokernel_isSum := fun n i => by
       rw [Functor.ofSequence_map_homOfLE_succ]

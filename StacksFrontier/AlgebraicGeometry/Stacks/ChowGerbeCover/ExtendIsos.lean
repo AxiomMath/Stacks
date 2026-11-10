@@ -116,9 +116,9 @@ theorem IsAdmissibleBlowup.range_subset_image_range_preimage {X X' : AlgebraicSp
   have hUC : U ≤ C := by
     rw [← (openSubspacesOrderIso B S hS X.1 X.2).le_iff_le]
     intro x hx
-    show x ∈ (openSubspacesOrderIso B S hS X.1 X.2 C).1
+    change x ∈ (openSubspacesOrderIso B S hS X.1 X.2 C).1
     rw [openSubspacesOrderIso_apply]
-    show x ∈ subspacePointSet B S hS X.1 C.1
+    change x ∈ subspacePointSet B S hS X.1 C.1
     rw [hC, subspacePointSet_openComplement]
     exact hdisj.subset_compl_right hx
   have := isIso_fromPreimage_openComplement hbl

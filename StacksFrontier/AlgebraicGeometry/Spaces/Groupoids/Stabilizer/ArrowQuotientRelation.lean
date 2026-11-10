@@ -507,16 +507,16 @@ theorem isPreEquivalenceRelation_arrowStabilizerQuotientPreRelation
         arrowStabilizerQuotientSource G = 𝟙 G.objects.obj := by
       rw [Category.assoc, toArrowStabilizerQuotient_comp_source, identityArrow_hom_comp_source]
     refine ⟨⟨x.1 ≫ (identityArrow G).hom ≫ toArrowStabilizerQuotient G, ?_⟩, ?_, ?_⟩
-    · show x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
+    · change x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
         arrowStabilizerQuotientTarget G ≫ G.objectsToBase.hom = b
       rw [← Category.assoc ((identityArrow G).hom ≫ toArrowStabilizerQuotient G), h1,
         Category.id_comp]
       exact x.2
-    · show x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
+    · change x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
         (arrowStabilizerQuotientPreRelation G).target.left = x.1
       rw [htgt, h1]
       exact Category.comp_id _
-    · show x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
+    · change x.1 ≫ ((identityArrow G).hom ≫ toArrowStabilizerQuotient G) ≫
         (arrowStabilizerQuotientPreRelation G).source.left = x.1
       rw [hsrc, h2]
       exact Category.comp_id _
@@ -525,15 +525,15 @@ theorem isPreEquivalenceRelation_arrowStabilizerQuotientPreRelation
     rw [htgt] at hrt
     rw [hsrc] at hrs
     refine ⟨⟨r.1 ≫ (arrowStabilizerQuotientInverse G).hom, ?_⟩, ?_, ?_⟩
-    · show (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
+    · change (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
         arrowStabilizerQuotientTarget G ≫ G.objectsToBase.hom = b
       rw [Category.assoc, ← Category.assoc ((arrowStabilizerQuotientInverse G).hom),
         arrowStabilizerQuotientInverse_comp_target, ← Category.assoc, hrs]
       exact y.2
-    · show (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
+    · change (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
         (arrowStabilizerQuotientPreRelation G).target.left = y.1
       rw [htgt, Category.assoc, arrowStabilizerQuotientInverse_comp_target, hrs]
-    · show (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
+    · change (r.1 ≫ (arrowStabilizerQuotientInverse G).hom) ≫
         (arrowStabilizerQuotientPreRelation G).source.left = x.1
       rw [hsrc, Category.assoc, arrowStabilizerQuotientInverse_comp_source, hrt]
   · -- Transitivity: lift both points to the arrow space, compose, and glue.
@@ -544,12 +544,12 @@ theorem isPreEquivalenceRelation_arrowStabilizerQuotientPreRelation
     obtain ⟨w, hwt, hws⟩ := exists_hom_arrowStabilizerQuotient_comp G x.1 y.1 z.1 r₁.1 r₂.1
       hr₁t hr₁s hr₂t hr₂s
     refine ⟨⟨w, ?_⟩, ?_, ?_⟩
-    · show w ≫ arrowStabilizerQuotientTarget G ≫ G.objectsToBase.hom = b
+    · change w ≫ arrowStabilizerQuotientTarget G ≫ G.objectsToBase.hom = b
       rw [← Category.assoc, hwt]
       exact x.2
-    · show w ≫ (arrowStabilizerQuotientPreRelation G).target.left = x.1
+    · change w ≫ (arrowStabilizerQuotientPreRelation G).target.left = x.1
       rwa [htgt]
-    · show w ≫ (arrowStabilizerQuotientPreRelation G).source.left = z.1
+    · change w ≫ (arrowStabilizerQuotientPreRelation G).source.left = z.1
       rwa [hsrc]
 
 /-- **The quotient `R' = R/S` of the arrow space by the stabilizer action is an equivalence

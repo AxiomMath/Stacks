@@ -194,7 +194,7 @@ theorem idealAction_app_tmul
         (adj.unit.app N.val).app (op U) (((λ_ N.val).hom.app (op U)).hom t) := fun t =>
     (congrArg (fun α : _ ⟶ _ => (PresheafOfModules.Hom.app α (op U)).hom t)
       (adj.unit.naturality (λ_ N.val).hom)).symm
-  show ((adj.counit.app N).val.app (op U)).hom
+  change ((adj.counit.app N).val.app (op U)).hom
       ((((sheafifyFunctor X').map (λ_ N.val).hom).val.app (op U)).hom
         (((((Functor.uncurry.obj
             (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -339,7 +339,7 @@ theorem idealAction_eq_zero_of_essImage (hi : IsThickening i)
     idealAction i N = 0 := by
   have hann := (closedQuotientOfIsThickening i hi).modulePushforward_essImage_iff N |>.1 hN
   refine tensorSheaf_hom_ext fun V a n => ?_
-  show ((idealAction i N).val.app (op V)).hom
+  change ((idealAction i N).val.app (op V)).hom
     (toTensorSheafSection X' (AlgebraicGeometry.SheafOfModules.idealSheaf i) N (op V)
       (a ⊗ₜ[X'.presheaf.obj (op V)] n)) = 0
   refine (idealAction_app_tmul i N V a n).trans ?_

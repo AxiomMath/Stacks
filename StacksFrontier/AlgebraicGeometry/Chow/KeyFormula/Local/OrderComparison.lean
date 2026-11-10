@@ -89,7 +89,7 @@ theorem ord_algebraMap_eq_ringOrd {ξ : X} (hco : coheight ξ = 1)
     X.ord (algebraMap (X.presheaf.stalk ξ) X.functionField b) ξ = n := by
   have : Ring.KrullDimLE 1 (X.presheaf.stalk ξ) := krullDimLE_one_stalk_of_coheight_eq_one hco
   rw [Scheme.ord_eq_iff hco (algebraMap_functionField_ne_zero hb)]
-  show (Ring.ordFrac (X.presheaf.stalk ξ)) _ = _
+  change (Ring.ordFrac (X.presheaf.stalk ξ)) _ = _
   rw [Ring.ordFrac_eq_ord _ hb,
     Ring.ordMonoidWithZeroHom_eq_coe _ (mem_nonZeroDivisors_of_ne_zero hb) hn]
 

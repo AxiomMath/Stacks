@@ -87,7 +87,7 @@ private theorem projBasicOpen_add_le_sup {R : Type*} [CommRing R] {σ : Type*} [
     [AddSubgroupClass σ R] (A : ℕ → σ) [GradedRing A] (a b : R) :
     Proj.basicOpen A (a + b) ≤ Proj.basicOpen A a ⊔ Proj.basicOpen A b := by
   intro x hx
-  show x ∈ (Proj.basicOpen A a : Set (Proj A)) ∪ (Proj.basicOpen A b : Set (Proj A))
+  change x ∈ (Proj.basicOpen A a : Set (Proj A)) ∪ (Proj.basicOpen A b : Set (Proj A))
   by_cases ha : a ∈ x.asHomogeneousIdeal
   · by_cases hb : b ∈ x.asHomogeneousIdeal
     · exact absurd (add_mem ha hb) ((Proj.mem_basicOpen A (a + b) x).1 hx)
@@ -109,7 +109,7 @@ degree-one elements. -/
 private theorem reesDegOne_add {R : Type u} [CommRing R] (I : Ideal R) (a b : I) :
     reesDegOne I (a + b).2 = reesDegOne I a.2 + reesDegOne I b.2 :=
   Subtype.ext (by
-    show monomial 1 ((a : R) + (b : R)) = monomial 1 (a : R) + monomial 1 (b : R)
+    change monomial 1 ((a : R) + (b : R)) = monomial 1 (a : R) + monomial 1 (b : R)
     rw [map_add])
 
 /-- If the product of two sections of the ideal is nilpotent, so is the product of the two
@@ -119,7 +119,7 @@ private theorem isNilpotent_reesDegOne_mul {R : Type u} [CommRing R] (I : Ideal 
     IsNilpotent (reesDegOne I a.2 * reesDegOne I b.2) := by
   obtain ⟨n, hn⟩ := hab
   refine ⟨n + 1, Subtype.ext ?_⟩
-  show (monomial 1 (a : R) * monomial 1 (b : R)) ^ (n + 1) = 0
+  change (monomial 1 (a : R) * monomial 1 (b : R)) ^ (n + 1) = 0
   rw [monomial_mul_monomial, monomial_pow, pow_succ, hn, zero_mul, map_zero]
 
 /-! ### The affine charts of a blowup, as opens of the blowup -/
@@ -406,7 +406,7 @@ private theorem chartOpen_eq_bot_of_eq_zero (ℐ : X.IdealSheafData) (W : X.affi
     (a : ℐ.ideal W) (ha : (a : Γ(X, W.1)) = 0) : chartOpen ℐ W a = ⊥ := by
   have hz : reesDegOne (ℐ.ideal W) a.2 = 0 := by
     refine Subtype.ext ?_
-    show monomial 1 (a : Γ(X, W.1)) = 0
+    change monomial 1 (a : Γ(X, W.1)) = 0
     rw [ha, map_zero]
   rw [chartOpen, hz, Proj.basicOpen_zero]
   exact Opens.ext (by simp)

@@ -134,13 +134,13 @@ theorem isIso_mateEquiv_of_properSurjective
     (w₁ : P.p₁ ≫ h ≫ f = (P.p₂ ≫ f') ≫ g) (w₂ : j ≫ XX.p ≫ f = (QQ.p ≫ f') ≫ g)
     (hout₁ : IsIso (mateEquiv (spacesEtalePseudofunctorAdjunction B S hS (h ≫ f))
       (spacesEtalePseudofunctorAdjunction B S hS (P.p₂ ≫ f'))
-      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w₁)).natTrans)
+      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w₁)))
     (hout₂ : IsIso (mateEquiv (spacesEtalePseudofunctorAdjunction B S hS (XX.p ≫ f))
       (spacesEtalePseudofunctorAdjunction B S hS (QQ.p ≫ f'))
-      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w₂)).natTrans) :
+      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w₂))) :
     IsIso (mateEquiv (spacesEtalePseudofunctorAdjunction B S hS f)
       (spacesEtalePseudofunctorAdjunction B S hS f')
-      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w)).natTrans := by
+      (Pseudofunctor.commSqTwoSquare (spacesEtalePseudofunctor B S hS) w)) := by
   have hp' : IsProper B S hS P.p₂.hom := isProper_of_isPullback_of_isProper B S hS P.isPullback hp
   have hs' : IsSurjective B S hS P.p₂.hom := isSurjective_of_isPullback B S hS P.isPullback hs
   let Rf : (spacesEtalePseudofunctor B S hS).obj (.mk (op X)) ⥤

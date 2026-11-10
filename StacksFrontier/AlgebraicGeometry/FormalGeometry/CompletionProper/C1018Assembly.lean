@@ -657,7 +657,7 @@ This is what the annihilation half of Stacks 088B needs of `ι`, and all that
 order to keep it. -/
 public instance isIso_adicBaseChangeCompletedComparison :
     IsIso (adicBaseChangeCompletedComparison B J π 𝓕) := by
-  haveI := isNoetherian_adicBaseChange B J π
+  have := isNoetherian_adicBaseChange B J π
   unfold adicBaseChangeCompletedComparison
   infer_instance
 

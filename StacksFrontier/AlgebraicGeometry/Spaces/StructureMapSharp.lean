@@ -272,7 +272,7 @@ theorem chartBaseChangeMap_map (f : X ⟶ Y) {V₁ V₂ : SmallEtale B S hS Y.1}
       (spacesBaseChange B S hS f).projection.app ((comparisonFunctor B S hS Y).obj V₁) ≫
         (SpacesEtale.toSpaces B S hS Y).map ((comparisonFunctor B S hS Y).map m) :=
     (spacesBaseChange B S hS f).projection.naturality _
-  show (((SpacesEtale.toSpaces B S hS X).map
+  change (((SpacesEtale.toSpaces B S hS X).map
       (j.hom.unop ≫ (spacesBaseChange B S hS f).functor.map
         ((comparisonFunctor B S hS Y).map m)) ≫ _)).hom = _
   rw [Functor.map_comp, Category.assoc, hn]
@@ -380,7 +380,7 @@ theorem chartProjection_app_apply (f : X ⟶ Y) (V : SmallEtale B S hS Y.1)
         (structureSetSheaf B S hS X)).hom =
       (comparisonFunctor B S hS X).op.ranCounit.app (structureSetSheaf B S hS X).obj := by
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit]
-  show (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
+  change (((comparisonFunctor B S hS X).sheafAdjunctionCocontinuous (Type u)
         (SmallEtale.topology B S hS X.1) (SpacesEtale.topology B S hS X)).counit.app
         (structureSetSheaf B S hS X)).hom.app j.right
       (((comparisonFunctor B S hS X).op.ran.obj (structureSetSheaf B S hS X).obj).map j.hom a) = _

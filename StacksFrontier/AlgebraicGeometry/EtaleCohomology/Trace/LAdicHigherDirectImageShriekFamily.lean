@@ -6,12 +6,13 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilIIDimen
 /-!
 # The family `Rʳ g_! G` of the induction step of Weil II
 
-The propositions of `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilIIDimensionStepInputs`
-are stated for a family `R g j G r` of ℓ-adic sheaves in the role of `Rʳ g_! G`
+The propositions of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.WeilIIDimensionStepInputs` are stated for a
+family `R g j G r` of ℓ-adic sheaves in the role of `Rʳ g_! G`
 (`Stacks.EtaleCohomology.LAdicSheaf.HigherDirectImageFamily`). This file names the family given by
 the ℓ-adic sheaf `Rʳ g_! G` of the stable images of the tower `n ↦ Rʳ g_! G'ₙ`
-(`Stacks.EtaleCohomology.LAdicSheaf.higherDirectImageShriek`), so that every input of the
-induction step of [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH) is proved for one term.
+(`Stacks.EtaleCohomology.LAdicSheaf.higherDirectImageShriek`), so that every input of the induction
+step of [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH) is proved for one term.
 
 ## Main definitions
 

@@ -89,7 +89,10 @@ variable (F G : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
 /-- Acting by `s ^ e` on a homogeneous element of the graded Hom module is, under the
 internal-Hom comparison, acting by `s ^ e` on the corresponding twisted section. -/
 private theorem gradedHomComparison_pow_smul (s : L.sections) (e n : ℕ)
-    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))) :
+    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ))))) :
     gradedHomComparison X L F G
         (homogeneousSection X L s ^ e • (DirectSum.of _ (n : ℤ) f : gradedHom X L F G)) =
       DirectSum.of _ ((e : ℤ) + (n : ℤ))
@@ -111,7 +114,10 @@ private theorem gradedHomComparison_pow_smul (s : L.sections) (e n : ℕ)
 /-- A power of `s` kills a homogeneous element of the graded Hom module exactly when it kills
 the corresponding twisted section of the internal Hom sheaf. -/
 private theorem homogeneous_pow_smul_eq_zero_iff (s : L.sections) (e n : ℕ)
-    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))) :
+    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ))))) :
     homogeneousSection X L s ^ e • (DirectSum.of _ (n : ℤ) f : gradedHom X L F G) = 0 ↔
       sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L
         (sheafHomSpace X.toRingedSpace F G) e (n : ℤ) (sectionPower X L s e)
@@ -132,11 +138,17 @@ private theorem homogeneous_pow_smul_eq_zero_iff (s : L.sections) (e n : ℕ)
 /-- The local annihilation condition on a twisted global section `t` of `ℋom(ℱ, 𝒢) ⊗ L^{⊗ n}`:
 near every point of `X` some power of a local equation for `s` kills the restriction of `t`. -/
 abbrev IsLocallyKilledByPowers (s : L.sections) (n : ℕ)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)))) : Prop :=
   ∀ x : X, ∃ (e : ℕ) (U : Opens X.toRingedSpace) (r : (sectionSiteRing X).obj (op U))
       (l : L.val.obj (op U)), x ∈ U ∧ s.eval (op U) = r • l ∧
-    r ^ e • ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    r ^ e • ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
         (terminal.from U).op t = 0
 
 /-- **The transport of a local annihilation statement into the graded Hom module.** On a
@@ -144,7 +156,10 @@ quasi-compact scheme, if near every point some power of a local equation for `s`
 restriction of the twisted section attached to `f`, then a single power of `s` annihilates the
 homogeneous element `f` of `⨁_n Hom(ℱ, 𝒢 ⊗ L^{⊗ n})`. -/
 theorem exists_pow_smul_eq_zero_of_locally [CompactSpace X] (s : L.sections) (n : ℕ)
-    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)))))
+    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ)))))
     (hlocal : IsLocallyKilledByPowers X L F G s n
       (homToTwistedSection X L F G (n : ℤ) f)) :
     ∃ e : ℕ, homogeneousSection X L s ^ e •
@@ -164,14 +179,23 @@ theorem exists_pow_smul_eq_zero_of_locally [CompactSpace X] (s : L.sections) (n 
 the zero morphism on `X_s`, then the twisted section attached to `f` already restricts to zero
 on `X_s`. -/
 theorem homToTwistedSection_restrict_eq_zero (s : L.sections) (n : ℕ)
-    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)))))
+    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ)))))
     (hf : homLocalizationMap X L F G s (homFraction X L F G s n f) = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
         (terminal.from (nonvanishingOpen L s)).op
         (homToTwistedSection X L F G (n : ℤ) f) = 0 := by
   obtain ⟨be, hbe⟩ := exists_tensorBasisAt X L (sheafHomSpace X.toRingedSpace F G) s n
   obtain ⟨t, ht⟩ := be.surjective
-    (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
         (terminal.from (nonvanishingOpen L s)).op (homToTwistedSection X L F G (n : ℤ) f))
   have hdiv := ht.symm.trans (hbe t)
   have ht0 : t = 0 :=
@@ -182,7 +206,9 @@ theorem homToTwistedSection_restrict_eq_zero (s : L.sections) (n : ℕ)
   refine hdiv.trans ?_
   rw [ht0]
   exact (congrArg ((TensorSheafification.toSheafify (sectionSiteRing X) (sectionSiteSheaf X)
-    ((PresheafOfModules.tensorObj (O := (sectionSiteRing X)) ((sheafHomSpace X.toRingedSpace F G).val) ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    ((PresheafOfModules.tensorObj (O := (sectionSiteRing X))
+        ((sheafHomSpace X.toRingedSpace F G).val)
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
         (n : ℤ)).val)))).app (op (nonvanishingOpen L s))).hom
     (TensorProduct.zero_tmul _ _)).trans (map_zero _)
 
@@ -195,8 +221,14 @@ attribute [local instance] gradedHomAwayModule
 the twisted section attached to `f` is locally annihilated by powers of local equations
 for `s`. -/
 private theorem homFraction_eq_zero_of_map_eq_zero [CompactSpace X] (s : L.sections) (n : ℕ)
-    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)))))
-    (hloc : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ)))))
+    (hloc : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
           (terminal.from (nonvanishingOpen L s)).op
           (homToTwistedSection X L F G (n : ℤ) f) = 0 →
       IsLocallyKilledByPowers X L F G s n (homToTwistedSection X L F G (n : ℤ) f))
@@ -213,8 +245,14 @@ quasi-compact scheme, the map `(⨁_n Hom(ℱ, 𝒢 ⊗ L^{⊗ n}))_{(s)} ⟶ Ho
 𝒢|_{X_s})` is injective as soon as a twisted section of `ℋom(ℱ, 𝒢) ⊗ L^{⊗ n}` vanishing on `X_s`
 is annihilated near every point by a power of a local equation for `s`. -/
 theorem homLocalizationMap_injective_of_locally [CompactSpace X] (s : L.sections)
-    (hloc : ∀ (n : ℕ) (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))),
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    (hloc : ∀ (n : ℕ) (f : F ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (G)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ))))),
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+          Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+          ((sectionSiteSheaf X))⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj
+          ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
           (terminal.from (nonvanishingOpen L s)).op
           (homToTwistedSection X L F G (n : ℤ) f) = 0 →
       IsLocallyKilledByPowers X L F G s n (homToTwistedSection X L F G (n : ℤ) f)) :

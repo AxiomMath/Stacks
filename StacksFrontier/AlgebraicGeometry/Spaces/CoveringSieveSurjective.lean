@@ -79,7 +79,7 @@ theorem presheaf_surjective_of_isLocallySurjective
       (BigFppfOver.toScheme B S hS)) :=
     MorphismProperty.RespectsIso.inverseImage _ _
   refine MorphismProperty.relative_of_snd hrep fun V ξ => ?_
-  show _root_.AlgebraicGeometry.Surjective
+  change _root_.AlgebraicGeometry.Surjective
     ((BigFppfOver.toScheme B S hS).map (hrep.snd ξ))
   refine (surjective_iff _).2 fun y => ?_
   obtain ⟨W, h, ⟨t, ht⟩, z, hz⟩ := BigFppfOver.exists_mem_range_of_mem_topology B S hS

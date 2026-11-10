@@ -215,8 +215,8 @@ theorem isLocallySurjective_coproductDesc_of_isFppfCovering
   let fi (i : I) : Xsheaf i ⟶ Fsheaf :=
     (Sheaf.homEquiv (X := Xsheaf i) (Y := Fsheaf)).symm (f i)
   let d : G ⟶ Fsheaf := hG.desc (Cofan.mk Fsheaf fi)
-  show Sheaf.IsLocallySurjective d
-  show Presheaf.IsLocallySurjective J d.hom
+  change Sheaf.IsLocallySurjective d
+  change Presheaf.IsLocallySurjective J d.hom
   refine ⟨?_⟩
   intro U ξ
   let g : yoneda.obj U ⟶ F := yonedaEquiv.symm ξ
@@ -245,7 +245,7 @@ theorem isLocallySurjective_coproductDesc_of_isFppfCovering
       calc
         yoneda.map (q i) = aa i ≫ p₁ i := (hproj i).symm
         _ = a i ≫ pullback.fst g (f i) := by
-          show a i ≫ pullback.fst gspace.hom (fspace i).hom = _
+          change a i ≫ pullback.fst gspace.hom (fspace i).hom = _
           rfl
     rw [heq]
     exact hT
@@ -261,12 +261,12 @@ theorem isLocallySurjective_coproductDesc_of_isFppfCovering
       X j := Over.mk (V.f j ≫ U.hom)
       f j := Over.homMk (V.f j) }
   have hVbase : V.sieve₀ ∈ B.topology U.left := by
-    show V.sieve₀ ∈ B.precoverage.toGrothendieck U.left
+    change V.sieve₀ ∈ B.precoverage.toGrothendieck U.left
     rw [Precoverage.mem_toGrothendieck_iff]
     have hmem : V.presieve₀ ∈ B.precoverage.coverings U.left := ⟨V, rfl, hV⟩
     simpa [PreZeroHypercover.sieve₀] using Precoverage.Saturate.of U.left V.presieve₀ hmem
   have hVover : Vover.sieve₀ ∈ J U := by
-    show Vover.sieve₀ ∈ B.topology.over (B.obj hS) U
+    change Vover.sieve₀ ∈ B.topology.over (B.obj hS) U
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     simpa [Vover, PreZeroHypercover.sieve₀] using hVbase
   apply J.superset_covering ?_ hVover
@@ -292,14 +292,14 @@ theorem isLocallySurjective_coproductDesc_of_isFppfCovering
   let r : Vover.X j ⟶ T i := Over.homMk (B.inclusion.preimage (ref.h₀ jmap)) hrbase
   have hrfac : r ≫ q i = Vover.f j := by
     refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage (ref.h₀ jmap) ≫ (q i).left) = B.inclusion.map (V.f j0)
     exact (B.inclusion.map_comp _ _).trans
       ((congrArg (fun t => t ≫ B.inclusion.map (q i).left) hpre).trans hw)
   have hcomp : (l ≫ r) ≫ q i = k := by rw [Category.assoc, hrfac, hl.symm]
   let η : yoneda.obj W ⟶ X i := yoneda.map (l ≫ r) ≫ aa i ≫ p₂ i
   have hη : η ≫ f i = yoneda.map k ≫ g := by
-    show (yoneda.map (l ≫ r) ≫ aa i ≫ p₂ i) ≫ (fspace i).hom = yoneda.map k ≫ g
+    change (yoneda.map (l ≫ r) ≫ aa i ≫ p₂ i) ≫ (fspace i).hom = yoneda.map k ≫ g
     have hpc : p₂ i ≫ (fspace i).hom = p₁ i ≫ g := by
       simpa [p₁, p₂, gspace] using (pullback.condition).symm
     simp only [Category.assoc, hpc]
@@ -315,7 +315,7 @@ theorem isLocallySurjective_coproductDesc_of_isFppfCovering
   have hdesc := hG.fac (Cofan.mk Fsheaf fi) ⟨i⟩
   have hdesc' := congrArg
     (fun m : Xsheaf i ⟶ Fsheaf => m.hom.app (Opposite.op W) z) hdesc
-  show d.hom.app (Opposite.op W) y = _
+  change d.hom.app (Opposite.op W) y = _
   simpa [y] using hdesc'.trans hsection'
 
 /-- A surjective, flat morphism of algebraic spaces over `S` which is locally of finite
@@ -349,7 +349,7 @@ theorem isLocallySurjective_of_surjective_flat_locallyOfFinitePresentation
     refine hcolim.hom_ext fun i => ?_
     simpa using hcolim.fac (Cofan.mk Ysheaf (fun _ : PUnit.{1} => fsheaf)) i
   have hfsheaf : fsheaf.hom = f := by
-    show Sheaf.homEquiv (X := Xsheaf) (Y := Ysheaf) fsheaf = f
+    change Sheaf.homEquiv (X := Xsheaf) (Y := Ysheaf) fsheaf = f
     simp [fsheaf]
   change Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
     (hcolim.desc (Cofan.mk Ysheaf (fun _ : PUnit.{1} => fsheaf))).hom at hloc

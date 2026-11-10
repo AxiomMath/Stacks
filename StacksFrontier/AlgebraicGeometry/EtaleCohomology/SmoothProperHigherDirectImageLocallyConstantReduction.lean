@@ -172,6 +172,7 @@ theorem isTorsionPlus_singleFunctor_obj {X : Scheme.{u}} (F : EtaleModules.{u, 0
   · exact isTorsionEtaleModule_of_isZero Λ X
       (DerivedCategory.Plus.isZero_homologyFunctor_singleFunctor_obj F hi)
 
+omit [IsNoetherianRing Λ] in
 /-- **Proper base change for the higher direct images of a torsion sheaf of `Λ`-modules**
 ([Stacks, Tag 095T] with coefficients in `Λ`). For a cartesian square `f' ≫ g = g' ≫ f` with `f`
 proper and a torsion sheaf `F` of `Λ`-modules on `X_étale`,

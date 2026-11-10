@@ -18,8 +18,8 @@ import StacksCore.Tactic.StacksAttribute
 # Further results on `ProperSmoothFormsPerfectBaseChange`
 
 Results about the objects of the module
-`StacksFrontier.AlgebraicGeometry.DeRham.ProperSmoothFormsPerfectBaseChange` that need imports beyond
-those of that module.
+`StacksFrontier.AlgebraicGeometry.DeRham.ProperSmoothFormsPerfectBaseChange` that need imports
+beyond those of that module.
 -/
 
 @[expose] public noncomputable section

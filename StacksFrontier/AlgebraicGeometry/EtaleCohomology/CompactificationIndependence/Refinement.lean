@@ -360,7 +360,7 @@ theorem etaleModuleRefinementComparison_comp (F : EtaleModules.{u, r} Λ X) :
   congr 1
   have hc := smallEtalePushforwardComp'_inv_app_cocycle j g h k hjk.symm gh hgh l hkl.symm
     hjl.symm (ModuleCat.{max (u + 1) r} Λ) F
-  show (etaleModuleDirectImageComp.{u, r} Λ j gh l hjl.symm).inv.app F =
+  change (etaleModuleDirectImageComp.{u, r} Λ j gh l hjl.symm).inv.app F =
     (etaleModuleDirectImageComp.{u, r} Λ k h l hkl.symm).inv.app F ≫
       (etaleModuleDirectImage.{u, r} Λ h).map
         ((etaleModuleDirectImageComp.{u, r} Λ j g k hjk.symm).inv.app F) ≫

@@ -188,7 +188,7 @@ in it is membership in the corresponding homogeneous piece of `S`. -/
 theorem mem_twistGrading_iff {t i : ℤ} (hi : (0 : ℤ) ≤ i + t) (f : reesAlgebra I) :
     f ∈ twistGrading (S := reesAlgebra I) (reesGrading I) t i ↔
       f ∈ reesGrading I (i + t).toNat := by
-  show f ∈ integerGrading (reesGrading I) (i + t) ↔ _
+  change f ∈ integerGrading (reesGrading I) (i + t) ↔ _
   rw [show integerGrading (S := reesAlgebra I) (reesGrading I) (i + t) =
       homogeneousSubmodule (S := reesAlgebra I) (reesGrading I) (i + t).toNat from by
     simp [integerGrading, hi]]
@@ -215,7 +215,7 @@ theorem coeff_zero_eq_zero_of_mem_reesTruncation {f : reesAlgebra I}
   | zero => simp
   | add x y _ _ hx hy => rw [AddMemClass.coe_add, coeff_add, hx, hy, add_zero]
   | smul c x _ hx =>
-    show ((c : A[X]) * (x : A[X])).coeff 0 = 0
+    change ((c : A[X]) * (x : A[X])).coeff 0 = 0
     rw [mul_coeff_zero, hx, mul_zero]
 
 /-- **`divX` as an `S`-linear map `S₊ →ₗ[S] S`.** This is the family of inclusions
@@ -378,7 +378,7 @@ theorem reesShift_truncationSection (q : ℕ) (x : (I ^ (q + 1) : Ideal A)) :
       (reesGradingEquivPow I q ⟨(x : A), Ideal.pow_le_pow_right (Nat.le_succ q) x.2⟩ :
         reesAlgebra I) := by
   apply Subtype.ext
-  show divX (monomial (q + 1) (x : A)) = monomial q (x : A)
+  change divX (monomial (q + 1) (x : A)) = monomial q (x : A)
   exact divX_monomial_succ q (x : A)
 
 end Stacks.Blowup

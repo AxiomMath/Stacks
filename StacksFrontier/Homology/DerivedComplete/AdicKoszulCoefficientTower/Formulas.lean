@@ -579,7 +579,7 @@ private theorem truncatedSummand_isZero (p j : ℤ) (M : ModuleCat.{v} A) (h : j
     IsZero (truncatedSummand (some p) j M) := by
   apply HomologicalComplex.isZero_stupidTrunc_X
   intro i
-  show p + (i : ℤ) ≠ j
+  change p + (i : ℤ) ≠ j
   omega
 
 private theorem truncatedSummand_projection_section (p : Option ℤ) (j : ℤ)
@@ -675,7 +675,7 @@ private theorem coefficientKoszulTransitionTerm_comp {r : ℕ} (f : Fin r → A)
     coefficientKoszulTransitionTerm f k n K t =
       coefficientKoszulTransitionTerm f k m K t ≫ coefficientKoszulTransitionTerm f m n K t := by
   refine pi_hom_ext fun x S ↦ ?_
-  show (∏ i ∈ S, f i ^ (k - n)) • x S =
+  change (∏ i ∈ S, f i ^ (k - n)) • x S =
     (∏ i ∈ S, f i ^ (m - n)) • ((∏ i ∈ S, f i ^ (k - m)) • x S)
   rw [smul_smul, ← Finset.prod_mul_distrib]
   congr 1

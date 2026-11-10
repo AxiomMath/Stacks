@@ -57,7 +57,7 @@ theorem contraction_ne_bot_of_algebraic
   have _ := hinj
   obtain ⟨b, hbJ, hb0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hJ
   have hbL : IsAlgebraic K (algebraMap B L b) := Algebra.IsAlgebraic.isAlgebraic _
-  exact Ideal.comap_ne_bot_of_algebraic_mem hb0 hbJ
+  exact Ideal.under_ne_bot_of_algebraic_mem hb0 hbJ
     ((isAlgebraic_algebraMap_iff (IsFractionRing.injective B L)).mp
       ((IsFractionRing.isAlgebraic_iff A K L).mpr hbL))
 
@@ -76,4 +76,4 @@ theorem PrimeSpectrum.not_dense_image_comap_of_isAlgebraic {A B : Type*} [CommRi
     PrimeSpectrum.zeroLocus_eq_univ_iff, nilradical_eq_zero, Submodule.zero_eq_bot,
     SetLike.coe_subset_coe, le_bot_iff]
   obtain ⟨b, hbJ, hb0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hJ
-  exact Ideal.comap_ne_bot_of_algebraic_mem hb0 hbJ (Algebra.IsAlgebraic.isAlgebraic b)
+  exact Ideal.under_ne_bot_of_algebraic_mem hb0 hbJ (Algebra.IsAlgebraic.isAlgebraic b)

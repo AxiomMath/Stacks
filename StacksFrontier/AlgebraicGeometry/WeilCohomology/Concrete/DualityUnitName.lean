@@ -181,7 +181,7 @@ theorem tensorInt_closedSubscheme_of_isIntegral {d d' e e' : ℕ} (hX : Relative
     have hpt : (pullback.snd (tensorPr₂₄ sX sX' sY sY') a').base
         ((pullback.snd i₁ i₂).base ζ) = (pullback.snd qA qA').base (φ.hom.base ζ) := by
       rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, hφ]
-      show _ = (tensorIntersectionHom sX sX' sY sY' a a' hqA hqA' ≫ pullback.snd qA qA').base ζ
+      change _ = (tensorIntersectionHom sX sX' sY sY' a a' hqA hqA' ≫ pullback.snd qA qA').base ζ
       rw [tensorIntersectionHom, pullback.lift_snd]
     have hζ' : relativeDimension (fieldChowSituation k).dimensionFunction
         (pullback.snd qA qA' ≫ qA') (φ.hom.base ζ) = (e : ℤ) - r + ((e' : ℤ) - r') := by
@@ -244,7 +244,7 @@ theorem pointDiagonal_snd :
 
 theorem pointDiagonal_prodBase :
     pointDiagonal k sX ≫ prodBase (𝟙 (fieldChowSituation k).S) (prodBase sX sX) = sX := by
-  show pointDiagonal k sX ≫ pullback.fst _ _ ≫ 𝟙 _ = sX
+  change pointDiagonal k sX ≫ pullback.fst _ _ ≫ 𝟙 _ = sX
   rw [← Category.assoc, pointDiagonal_fst, Category.comp_id]
 
 variable {k sX sY} in
@@ -261,7 +261,7 @@ theorem pointLift_snd {V : Scheme.{u}} (i : V ⟶ Limits.pullback sX sY) :
 variable {k sX sY} in
 theorem pointLift_prodBase {V : Scheme.{u}} (i : V ⟶ Limits.pullback sX sY) :
     pointLift i ≫ prodBase (𝟙 (fieldChowSituation k).S) (prodBase sX sY) = i ≫ prodBase sX sY := by
-  show pointLift i ≫ pullback.fst _ _ ≫ 𝟙 _ = _
+  change pointLift i ≫ pullback.fst _ _ ≫ 𝟙 _ = _
   rw [pointLift, pullback.lift_fst_assoc, Category.comp_id]
 
 variable {k sX sY} in
@@ -495,7 +495,7 @@ theorem chowGroupEquivPullbackUnitLeft_mk [LocallyOfFiniteType sX] [LocallyOfFin
           (prodBase sX sY) i n)) =
       QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme (fieldChowSituation k)
         (prodBase (𝟙 (fieldChowSituation k).S) (prodBase sX sY)) (pointLift i) n) := by
-  show chowPushforwardOfIso (fieldChowSituation k) _ _ _ _ n
+  change chowPushforwardOfIso (fieldChowSituation k) _ _ _ _ n
       (QuotientAddGroup.mk' _ (cycleAssociatedToClosedSubscheme (fieldChowSituation k)
         (prodBase sX sY) i n)) = _
   rw [chowPushforwardOfIso_mk,
@@ -561,6 +561,7 @@ theorem compositionInt_pointDiagonal_tensorInt {d e : ℕ} (hX : RelativeDimensi
           chowGroupEquivPullbackUnitLeft_mk])
     exact DFunLike.congr_fun h α
 
+omit [IsProper sX] [IsProper sY] in
 /-- Transport of the tautological point correspondence along an equality of degrees. -/
 theorem correspondenceCongr_pointCorrespondenceEquiv {e r m n n' : ℤ} (hn : n = n')
     (h : e - r = m - n) (h' : e - r = m - n')
@@ -568,8 +569,7 @@ theorem correspondenceCongr_pointCorrespondenceEquiv {e r m n n' : ℤ} (hn : n 
     correspondenceCongr k (𝟙 (fieldChowSituation k).S) (prodBase sX sY) hn
         (pointCorrespondenceEquiv k sX sY h c) = pointCorrespondenceEquiv k sX sY h' c := by
   subst hn
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q α => rw [pointCorrespondenceEquiv_tmul, correspondenceCongr_tmul]; rfl
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -592,8 +592,7 @@ theorem composition_pointDiagonal_tensorBlock {d e : ℕ} (hX : RelativeDimensio
             (graphMorphism sX sX (𝟙 X) (Category.id_comp sX)) ((d : ℤ) - 0))) c) =
       pointCorrespondenceEquiv k sX sY
         (show (e : ℤ) - r = ((d + e : ℕ) : ℤ) - (d + (0 + r)) by push_cast; ring) c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q α =>
     rw [tensorBlock_tmul, composition_tmul, pointCorrespondenceEquiv_tmul,
       compositionInt_pointDiagonal_tensorInt k sX sY hX hY hXX hXY r α, one_mul, one_mul]
@@ -642,7 +641,7 @@ theorem corrEquivCorrespondence_corrFromPointEquiv_lof [IsProper sZ] (n : ℤ) (
   have := isIso_dimPart_self_ι (𝟙 (fieldChowSituation k).S) (relativeDimension_identity _)
   rw [corrFromPointEquiv_lof, corrEquivCorrespondence_lof_lof]
   simp only [correspondenceFromPointEquivOfIso, LinearEquiv.trans_apply]
-  show q ⊗ₜ[ℤ] chowPushforwardOfIso _ _ _ _ _ _ (chowPushforwardOfIso _ _ _ (inv _) _ _
+  change q ⊗ₜ[ℤ] chowPushforwardOfIso _ _ _ _ _ _ (chowPushforwardOfIso _ _ _ (inv _) _ _
     (chowPushforwardOfIso _ _ _ (inv _) _ _ β)) = q ⊗ₜ[ℤ] chowPushforwardOfIso _ _ _ (inv _) _ _
       (chowPushforwardOfIso _ _ _ _ _ _ β)
   rw [chowPushforwardOfIso_comp_apply, chowPushforwardOfIso_comp_apply,
@@ -696,10 +695,7 @@ theorem corrEquivCorrespondence_corrFromPointEquiv_rationalCodimensionToCodimCho
             ((chowGroupToCodimension (prodBase sX sY) (e - r) n).toIntLinearMap.baseChange ℚ
               c))) =
       pointCorrespondenceEquiv k sX sY h c := by
-  induction c using TensorProduct.induction_on with
-  | zero =>
-    rw [LinearMap.map_zero, LinearMap.map_zero, LinearEquiv.map_zero, LinearEquiv.map_zero,
-      LinearEquiv.map_zero]
+  induction c using TensorProduct.inductionOn with
   | tmul q α =>
     rw [LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap,
       corrEquivCorrespondence_corrFromPointEquiv_chowGroupToCodimension k (prodBase sX sY) hXY n

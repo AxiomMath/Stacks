@@ -244,7 +244,7 @@ public theorem extendsAtArtinianBase_of_exists_extends
   have hid : Spec.map (CommRingCat.ofHom (residueMap (fieldArtinianObj R k))) =
       𝟙 ((Over.mk (Spec.map (CommRingCat.ofHom
         (algebraMap R (fieldArtinianObj R k))) ≫ iR) : Over S).left) := by
-    show Spec.map (𝟙 (CommRingCat.of k)) = _
+    change Spec.map (𝟙 (CommRingCat.of k)) = _
     exact Spec.map_id _
   have hone := congrArg
     (fun t => t ≫ schemeMap (p ⋙ Over.post B.inclusion) hy hxS a) hid.symm

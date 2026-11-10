@@ -64,7 +64,7 @@ variable {X Y : Scheme.{u}}
 private theorem pullbackGlobalSections_eq_unit_app (g : X ⟶ Y) (F : Y.Modules) (s : Γ(F, ⊤)) :
     pullbackGlobalSections g F s =
       ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F).app ⊤ s := by
-  show ((Scheme.Modules.pullback g).obj F).presheaf.map (𝟙 (op (⊤ : X.Opens)))
+  change ((Scheme.Modules.pullback g).obj F).presheaf.map (𝟙 (op (⊤ : X.Opens)))
       (((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F).app (⊤ : Y.Opens) s) = _
   exact Functor.map_id_apply _ _ _
 

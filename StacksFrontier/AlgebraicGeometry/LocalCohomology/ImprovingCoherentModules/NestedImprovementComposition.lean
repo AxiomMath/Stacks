@@ -68,7 +68,7 @@ public theorem isNestedImprovement_depthOneQuotient_comp (X : Scheme.{u}) [IsNoe
     have : IsIso (S.map (toDepthOneQuotient X T hT F)) := hq.2.2.1 x hx
     have : IsIso (S.map ψ) :=
       isIso_stalkAb_of_isIso_stalkMap ψ x (hψ.2.1 x fun hx' => hx (hTT' hx'))
-    show IsIso (S.map (toDepthOneQuotient X T hT F ≫ ψ))
+    change IsIso (S.map (toDepthOneQuotient X T hT F ≫ ψ))
     rw [Functor.map_comp]
     infer_instance
   · -- on `T` outside `T'` the first step is surjective and the second keeps the depth bound
@@ -79,7 +79,7 @@ public theorem isNestedImprovement_depthOneQuotient_comp (X : Scheme.{u}) [IsNoe
       have : Epi (S.map (toDepthOneQuotient X T hT F)) :=
         epi_stalkAb_of_epi (toDepthOneQuotient X T hT F) x
       have : IsIso (S.map ψ) := isIso_stalkAb_of_isIso_stalkMap ψ x hiso
-      show Epi (S.map (toDepthOneQuotient X T hT F ≫ ψ))
+      change Epi (S.map (toDepthOneQuotient X T hT F ≫ ψ))
       rw [Functor.map_comp]
       exact epi_comp _ _
     · rw [← depth_stalk_eq_of_isIso_stalkMap ψ x hiso]

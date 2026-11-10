@@ -88,8 +88,6 @@ theorem isHigherDirectImageColimit_succ [∀ i, Injective (G.obj i)]
       (systemPullback DX Ab.{u + 1} a).map (α j) ≫ G.map a = F.map a ≫ α i)
     (hβ : ∀ {i j : Iᵒᵖ} (a : i ⟶ j),
       (systemPullback DX Ab.{u + 1} a).map (β j) ≫ Q.map a = G.map a ≫ β i)
-    (hιG : ∀ {i j : Iᵒᵖ} (a : i ⟶ j), (conePullbackComp cX a).hom.app (G.obj j) ≫ ιG j =
-      (smallEtalePullbackAb (cX.π.app i)).map (G.map a) ≫ ιG i)
     (hvan : IsZero (((smallEtalePushforwardAb (limitMorphism γ cX cS hcS)).rightDerived
       (p + 1)).obj 𝓖))
     (hG : IsHigherDirectImageColimit γ p cX cS hcS 𝓖 G ιG)
@@ -117,8 +115,6 @@ theorem isHigherDirectImageColimit_succ [∀ i, Injective (G.obj i)]
     (projectionMap γ cX cS hcS (p + 1) 𝓕 F ιF)
     (isHigherDirectImageColimit_iff_isSystemColimit.mp hG)
     (isHigherDirectImageColimit_iff_isSystemColimit.mp hQ)
-    (fun a => (Category.assoc _ _ _).trans
-      (projectionMap_cocone γ p cX cS hcS 𝓖 G ιG a (hιG a)))
     (((smallEtalePushforwardAb (limitMorphism γ cX cS hcS)).rightDerived p).map v)
     ((Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
       (smallEtalePushforwardAb (limitMorphism γ cX cS hcS))).δ hlim p)

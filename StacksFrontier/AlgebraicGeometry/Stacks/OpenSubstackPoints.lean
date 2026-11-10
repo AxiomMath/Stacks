@@ -377,7 +377,7 @@ theorem exists_isOpenImmersion_forall_nonempty_hom_iff
         pointClass B S hS 𝒳.val.val 𝒳.val.property
           (fieldValuedPointMap B S hS _ Y q) := by
     intro q
-    show pointsMap B S hS _ _ 𝒳.val.property Y ((pointsHomeomorphScheme B S hS U).symm
+    change pointsMap B S hS _ _ 𝒳.val.property Y ((pointsHomeomorphScheme B S hS U).symm
       (schemePoint B S hS U _)) = _
     rw [← pointsHomeomorphScheme_eq_schemePoint, Homeomorph.symm_apply_apply]
     rfl
@@ -402,7 +402,7 @@ theorem exists_isOpenImmersion_forall_nonempty_hom_iff
         (pointClass B S hS _ (schemeFibredCategory B S hS U).property qU)) ∈ W := by
       refine hk ⟨(BigFppfOver.toScheme B S hS).map m (q.isSpec.inv
         (IsLocalRing.closedPoint q.carrier)), ?_⟩
-      show _ = (BigFppfOver.toScheme B S hS).map (𝟙 _ ≫ (m ≫ g)) _
+      change _ = (BigFppfOver.toScheme B S hS).map (𝟙 _ ≫ (m ≫ g)) _
       rw [Category.id_comp, Functor.map_comp]
       rfl
     rw [hφp] at hmem
@@ -432,10 +432,10 @@ theorem exists_isOpenImmersion_forall_nonempty_hom_iff
         «over» := rfl }
     have hpt : schemePoint B S hS U
         (pointClass B S hS _ (schemeFibredCategory B S hS U).property qU) = T.hom.hom t := by
-      show (BigFppfOver.toScheme B S hS).map (𝟙 _ ≫ (r ≫ g)) _ = _
+      change (BigFppfOver.toScheme B S hS).map (𝟙 _ ≫ (r ≫ g)) _ = _
       rw [Category.id_comp, Functor.map_comp]
       exact congrArg T.hom.hom (T.left.1.fromSpecResidueField_apply t _)
-    show φ (T.hom.hom t) ∈ W
+    change φ (T.hom.hom t) ∈ W
     rw [← hpt, hφp]
     let β : (Over.mk (r ≫ g) : Over U) ⟶ Over.mk g := Over.homMk r
     exact hT _ ⟨Y.map β⟩

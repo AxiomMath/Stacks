@@ -133,15 +133,15 @@ attribute [local instance] algebraBaseChangeTower
 /-- `A₁` reaches `R ⊗[A] B` through `A₁ ⊗[A] B`. -/
 theorem isScalarTower_baseChangeTower_left : IsScalarTower A₁ (A₁ ⊗[A] B) (R ⊗[A] B) := by
   refine IsScalarTower.of_algebraMap_eq fun x => ?_
-  show _ = baseChangeTowerAlgHom A A₁ R B (algebraMap A₁ (A₁ ⊗[A] B) x)
+  change _ = baseChangeTowerAlgHom A A₁ R B (algebraMap A₁ (A₁ ⊗[A] B) x)
   rw [Algebra.TensorProduct.algebraMap_apply]
-  show _ = (algebraMap A₁ R x) ⊗ₜ[A] (1 : B)
+  change _ = (algebraMap A₁ R x) ⊗ₜ[A] (1 : B)
   rw [← Algebra.TensorProduct.algebraMap_apply]
 
 /-- `B` reaches `R ⊗[A] B` through `A₁ ⊗[A] B`. -/
 theorem isScalarTower_baseChangeTower_right : IsScalarTower B (A₁ ⊗[A] B) (R ⊗[A] B) := by
   refine IsScalarTower.of_algebraMap_eq fun x => ?_
-  show _ = baseChangeTowerAlgHom A A₁ R B ((1 : A₁) ⊗ₜ[A] x)
+  change _ = baseChangeTowerAlgHom A A₁ R B ((1 : A₁) ⊗ₜ[A] x)
   simp [baseChangeTowerAlgHom, RingHom.algebraMap_toAlgebra]
 
 attribute [local instance] isScalarTower_baseChangeTower_left isScalarTower_baseChangeTower_right
@@ -209,11 +209,10 @@ theorem quotientSpreadoutEquiv_one_tmul (m : C₁ ⊗[D] N₀) :
   have h2 : ∀ z : C₁ ⊗[D] N₀, (AlgebraTensorModule.cancelBaseChange D C₁ C C N₀)
       ((1 : C) ⊗ₜ[C₁] z) = AlgebraTensorModule.rTensor D N₀ (Algebra.linearMap C₁ C) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
     | tmul c n => simp [Algebra.smul_def]
-  show (AlgebraTensorModule.cancelBaseChange D C₁ C C N₀)
+  change (AlgebraTensorModule.cancelBaseChange D C₁ C C N₀)
     ((Algebra.IsPushout.cancelBaseChange A₁ (A₁ ⧸ I) C₁ C (C₁ ⊗[D] N₀)).symm (1 ⊗ₜ[A₁] m)) = _
   rw [h1, h2]
 
@@ -236,7 +235,7 @@ theorem surjective_rTensor_algebraMap :
     exact hm
   · ext m
     rw [LinearMap.mem_ker]
-    show (AlgebraTensorModule.rTensor D N₀ (Algebra.linearMap C₁ C)) m = 0 ↔ _
+    change (AlgebraTensorModule.rTensor D N₀ (Algebra.linearMap C₁ C)) m = 0 ↔ _
     rw [← quotientSpreadoutEquiv_one_tmul A₁ I D C₁ C N₀ m, ← he, e.map_eq_zero_iff,
       ← (Submodule.Quotient.mk_eq_zero (I • (⊤ : Submodule A₁ (C₁ ⊗[D] N₀)))),
       ← TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul (R := A₁) I m, ← hk,
@@ -376,7 +375,7 @@ theorem nonempty_pureSpreadout_baseChange_quotient_aux
   obtain ⟨u', hu', rfl⟩ := hu2
   have hy' : algebraMap X.B ((A₁ ⧸ I) ⊗[X.A] X.B) u' • y ∈
       IsLocalRing.maximalIdeal (A₁ ⧸ I) • (⊤ : Submodule (A₁ ⧸ I) (C ⊗[X.B] N₀)) := hy
-  show y ∈ IsLocalRing.maximalIdeal (A₁ ⧸ I) • (⊤ : Submodule (A₁ ⧸ I) (C ⊗[X.B] N₀))
+  change y ∈ IsLocalRing.maximalIdeal (A₁ ⧸ I) • (⊤ : Submodule (A₁ ⧸ I) (C ⊗[X.B] N₀))
   refine (PureSpreadout.mem_maximalIdeal_smul_top_quotient_iff I y).mpr (hfib u' hu' y ?_)
   rw [← IsScalarTower.algebraMap_smul ((A₁ ⧸ I) ⊗[X.A] X.B) u' y]
   exact (PureSpreadout.mem_maximalIdeal_smul_top_quotient_iff I _).mp hy'
@@ -422,8 +421,7 @@ theorem nonempty_pureSpreadout_baseChange_quotient
   have _tAC : IsScalarTower A₁ ((A₁ ⧸ I) ⊗[X.A] X.B)
       (((A₁ ⧸ I) ⊗[X.A] X.B) ⊗[A₁ ⊗[X.A] X.B] C₁) := by
     refine ⟨fun x y z => ?_⟩
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb => simp only [smul_add, ha, hb]
     | tmul b c => simp only [TensorProduct.smul_tmul', smul_assoc]
   have _tARC : IsScalarTower A₁ (A₁ ⧸ I) (((A₁ ⧸ I) ⊗[X.A] X.B) ⊗[A₁ ⊗[X.A] X.B] C₁) :=
@@ -574,7 +572,7 @@ theorem universallyInjective_of_flat_of_fibres
     map_add' := fun _ _ => rfl
     map_smul' := by
       intro r n
-      show (algebraMap B₀ B (algebraMap R B₀ r)) • n.down = r • n.down
+      change (algebraMap B₀ B (algebraMap R B₀ r)) • n.down = r • n.down
       rw [← IsScalarTower.algebraMap_apply R B₀ B, IsScalarTower.algebraMap_smul] }
   let eM : M' ≃ₗ[R] M := ULift.moduleEquiv
   let : Module.Flat R X.N := Module.Flat.of_linearEquiv eN
@@ -582,7 +580,7 @@ theorem universallyInjective_of_flat_of_fibres
   let f' := eM.symm.toLinearMap ∘ₗ f ∘ₗ eN.toLinearMap
   have hf' : ∀ (p : Ideal R) [p.IsPrime], Function.Injective (f'.rTensor p.ResidueField) := by
     intro p hp
-    show Function.Injective (((eM.symm.toLinearMap ∘ₗ f) ∘ₗ eN.toLinearMap).rTensor _)
+    change Function.Injective (((eM.symm.toLinearMap ∘ₗ f) ∘ₗ eN.toLinearMap).rTensor _)
     rw [LinearMap.rTensor_comp, LinearMap.rTensor_comp]
     exact (eM.symm.rTensor _).injective.comp ((hf p).comp (eN.rTensor _).injective)
   have h := universallyInjective_of_rTensor_residueField_injective X f' hf'

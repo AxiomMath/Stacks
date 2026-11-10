@@ -139,7 +139,7 @@ theorem isFpqcCovering_yoneda_map_of_mem_fpqcPrecoverage {ι : Type (u + 1)} [Fi
   · rw [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
     exact Precoverage.mem_coverings_of_isPullback (fun i ↦ G.map (b i)) hmem (G.map h)
       (fun i ↦ G.map (pullback.fst h (b i))) (fun i ↦ G.map (pullback.snd h (b i))) sq
-  · show yoneda.map (pullback.snd h (b i)) ≫ yoneda.map (b i) =
+  · change yoneda.map (pullback.snd h (b i)) ≫ yoneda.map (b i) =
       yoneda.map (pullback.fst h (b i)) ≫ g
     rw [← hg, ← Functor.map_comp, ← Functor.map_comp, pullback.condition]
 
@@ -210,7 +210,7 @@ theorem mem_fpqcPrecoverage_completionAwayCover (ht : Ideal.span (Set.range t) =
       ⟨ULift.{u + 1} (Option (Fin k)),
         fun j ↦ (BigFppfOver.toScheme B S hS).obj (completionAwayCoverObj I hA s t j.down),
         fun j ↦ (BigFppfOver.toScheme B S hS).map (completionAwayCoverHom I hA s t j.down)⟩
-    show E.presieve₀ ∈ _
+    change E.presieve₀ ∈ _
     rw [Scheme.presieve₀_mem_qcPrecoverage_iff]
     refine ⟨fun {U} hU ↦ .of_finite_of_isSpectralMap (fun j ↦ ?_) (fun x _ ↦ hsurj x) U.2
       hU.isCompact⟩
@@ -272,7 +272,7 @@ def completionLift (h : Function.Bijective (adicCompletionMap φ I (I.map φ) le
 theorem completionLift_comp (h : Function.Bijective (adicCompletionMap φ I (I.map φ) le_rfl)) :
     (completionLift φ I h).comp φ = algebraMap A (AdicCompletion I A) := by
   refine RingHom.ext fun a ↦ (RingEquiv.ofBijective _ h).injective ?_
-  show (RingEquiv.ofBijective _ h) ((RingEquiv.ofBijective _ h).symm
+  change (RingEquiv.ofBijective _ h) ((RingEquiv.ofBijective _ h).symm
     (algebraMap R (AdicCompletion (I.map φ) R) (φ a))) = _
   rw [RingEquiv.apply_symm_apply, RingEquiv.ofBijective_apply]
   exact (RingHom.congr_fun (adicCompletionMap_comp_algebraMap φ I (I.map φ) le_rfl) a).symm
@@ -297,7 +297,7 @@ theorem completionAwayCoverLift_comp {k : ℕ} (t : Fin k → A)
       completionAwayCoverHom I hA s t none := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (completionLift φ I h)) ≫ Spec.map (CommRingCat.ofHom φ) =
+  change Spec.map (CommRingCat.ofHom (completionLift φ I h)) ≫ Spec.map (CommRingCat.ofHom φ) =
     Spec.map (CommRingCat.ofHom (algebraMap A (AdicCompletion I A)))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, completionLift_comp]
 

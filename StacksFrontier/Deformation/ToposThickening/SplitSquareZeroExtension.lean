@@ -148,7 +148,8 @@ def splitSqZeroExtHomApp (U : Cᵒᵖ) :
         rw [splitIdealVal_add, map_add]
         abel }
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The map `splitSqZeroExtHomApp` sends `(a, m)` to `s(a) + m`. -/
 theorem splitSqZeroExtHomApp_apply (U : Cᵒᵖ)
     (x : (sqZeroExtSheafAnySite O₀ (splitIdeal s r)).obj.obj U) :
@@ -183,7 +184,8 @@ def splitSqZeroExtInvApp (U : Cᵒᵖ) :
       rw [map_sub, split_app_apply s r hsr, sub_self]))
 
 include hsr in
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- If `s ≫ r = 𝟙`, the map `O₀[I] ⟶ A`, `(a, m) ↦ s(a) + m`, is bijective over each object. -/
 theorem splitSqZeroExtHomApp_bijective (U : Cᵒᵖ) :
     Function.Bijective (splitSqZeroExtHomApp s r hsq U).hom := by
@@ -198,7 +200,7 @@ theorem splitSqZeroExtHomApp_bijective (U : Cᵒᵖ) :
         (split_app_apply s r hsr _ _) (splitIdealVal_mem s r _)]
       abel
   · intro a
-    show s.hom.app U (r.hom.app U a) + (a - s.hom.app U (r.hom.app U a)) = a
+    change s.hom.app U (r.hom.app U a) + (a - s.hom.app U (r.hom.app U a)) = a
     abel
 
 /-- **A split square-zero extension is trivial**: `(a, m) ↦ s(a) + m` is an isomorphism
@@ -214,7 +216,8 @@ def splitSqZeroExtIso : sqZeroExtSheafAnySite O₀ (splitIdeal s r) ≅ A :=
     isIso_of_reflects_iso _ (sheafToPresheaf J CommRingCat.{u})
   asIso (splitSqZeroExtHom s r hsq)
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The isomorphism `O₀[I] ≅ A` sends `(a, m)` to `s(a) + m`. -/
 @[simp]
 theorem splitSqZeroExtIso_hom_app_apply (U : Cᵒᵖ)
@@ -223,12 +226,13 @@ theorem splitSqZeroExtIso_hom_app_apply (U : Cᵒᵖ)
       s.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
         splitIdealVal s r (sqZeroExtSndAnySite (M := (splitIdeal s r).val) x) := rfl
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The isomorphism `O₀[I] ≅ A` is compatible with the projections to `O₀`. -/
 theorem splitSqZeroExtIso_hom_comp :
     (splitSqZeroExtIso s r hsr hsq).hom ≫ r = sqZeroExtSheafAnySiteProj (splitIdeal s r) := by
   ext U x
-  show r.hom.app U (s.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
+  change r.hom.app U (s.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
     splitIdealVal s r (sqZeroExtSndAnySite (M := (splitIdeal s r).val) x)) = _
   rw [map_add_eq_of_map_eq_zero _ (map_add _) (split_app_apply s r hsr _ _)
         (splitIdealVal_mem s r _)]

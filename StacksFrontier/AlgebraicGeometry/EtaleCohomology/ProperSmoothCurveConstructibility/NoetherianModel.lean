@@ -178,7 +178,7 @@ theorem exists_isPullback_stage_of_isProper_of_smooth {I : Type u} [Category.{u}
   refine ⟨k', hk', Ak.left, Bk.left, Gk.left, Ψ.inv.left ≫ pullback.fst Bk.hom (c.π.app k'),
     Φ.inv.left ≫ pullback.fst Ak.hom (c.π.app k'), Bk.hom, inferInstance, (hall k' a).2.1,
     (hall k' a).1, (hall k' a).2.2, isPullback_of_overPullback_iso (c.π.app k') Gk f Φ Ψ ?_⟩
-  show ((limitIso D c w A').hom ≫ (limitIso D c e A).hom ≫ eX.inv) ≫ fo =
+  change ((limitIso D c w A').hom ≫ (limitIso D c e A).hom ≫ eX.inv) ≫ fo =
     (Over.pullback (c.π.app k')).map Gk ≫
       (limitIso D c w B').hom ≫ (limitIso D c e B).hom ≫ eS.inv
   rw [Category.assoc, Category.assoc, ← reassoc_of% N1, ← reassoc_of% hG]

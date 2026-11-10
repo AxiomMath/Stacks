@@ -256,7 +256,7 @@ private theorem exists_jet_of_orderLE (k : ℕ) {E : M →ₗ[R] N}
     fun a b t m => (hact _ _).trans (diagonalEnd_tmul_tmul a b t m)
   have : IsScalarTower S (S ⊗[R] S) (S ⊗[R] M) :=
     ⟨fun s q z => by
-      show diagonalEnd (s • q) z = s • diagonalEnd q z
+      change diagonalEnd (s • q) z = s • diagonalEnd q z
       rw [Algebra.smul_def, map_mul, Module.End.mul_apply, diagonalEnd_algebraMap]⟩
   obtain ⟨α, hα, -⟩ := existsUnique_comp_eq
     (LinearMap.isUniversalDifferentialOperatorOfOrderLE_mkQ_comp_mk_one
@@ -277,11 +277,11 @@ private theorem exists_jet_of_orderLE (k : ℕ) {E : M →ₗ[R] N}
   let w : (S ⊗[R] S) →ₗ[S] (M →ₗ[R] N) :=
     { toFun := fun q => β.restrictScalars R ∘ₗ diagonalEnd q ∘ₗ TensorProduct.mk R S M 1
       map_add' := fun q q' => LinearMap.ext fun m => by
-        show β (diagonalEnd (q + q') ((1 : S) ⊗ₜ[R] m)) =
+        change β (diagonalEnd (q + q') ((1 : S) ⊗ₜ[R] m)) =
           β (diagonalEnd q ((1 : S) ⊗ₜ[R] m)) + β (diagonalEnd q' ((1 : S) ⊗ₜ[R] m))
         rw [map_add, LinearMap.add_apply, map_add]
       map_smul' := fun s q => LinearMap.ext fun m => by
-        show β (diagonalEnd (s • q) ((1 : S) ⊗ₜ[R] m)) = s • β (diagonalEnd q ((1 : S) ⊗ₜ[R] m))
+        change β (diagonalEnd (s • q) ((1 : S) ⊗ₜ[R] m)) = s • β (diagonalEnd q ((1 : S) ⊗ₜ[R] m))
         rw [Algebra.smul_def, map_mul, Module.End.mul_apply, diagonalEnd_algebraMap, map_smul] }
   have hwapp : ∀ (q : S ⊗[R] S) (m : M), w q m = β (diagonalEnd q ((1 : S) ⊗ₜ[R] m)) :=
     fun _ _ => rfl
@@ -296,10 +296,10 @@ private theorem exists_jet_of_orderLE (k : ℕ) {E : M →ₗ[R] N}
     obtain ⟨q₀, rfl⟩ :=
       Ideal.Quotient.mk_surjective (I := KaehlerDifferential.ideal R S ^ (k + 1)) q
     rw [rho_apply, ← map_mul]
-    show w (q₀ * ((1 : S) ⊗ₜ[R] s)) m = w q₀ (s • m)
+    change w (q₀ * ((1 : S) ⊗ₜ[R] s)) m = w q₀ (s • m)
     rw [hwapp, hwapp, map_mul, Module.End.mul_apply, diagonalEnd_tmul_tmul, one_mul]
   · intro m
-    show w 1 m = E m
+    change w 1 m = E m
     rw [hwapp, map_one]
     exact hβ1 m
 
@@ -521,23 +521,23 @@ private lemma orderLE_zero_of_commSMul_algebraMap [Algebra.FormallyUnramified S 
         map_add' := by
           intro a b
           ext y
-          show commSMul F (a + b) y = commSMul F a y + commSMul F b y
+          change commSMul F (a + b) y = commSMul F a y + commSMul F b y
           simp only [commSMul_apply, add_smul, map_add]
           abel
         map_smul' := by
           intro c a
           ext y
-          show commSMul F (c • a) y = c • commSMul F a y
+          change commSMul F (c • a) y = c • commSMul F a y
           rw [Algebra.smul_def, hleib, h0 c]
           simp [algebraMap_smul]
         map_one_eq_zero' := by
           ext y
-          show commSMul F 1 y = 0
+          change commSMul F 1 y = 0
           simp [commSMul_apply]
         leibniz' := by
           intro a b
           ext y
-          show commSMul F (a * b) y = _
+          change commSMul F (a * b) y = _
           rw [hleib a b y]
           rfl }
     intro s' y
@@ -565,7 +565,7 @@ private lemma eq_zero_of_orderLE_of_comp_eq_zero [Algebra.FormallyUnramified S S
     have hz : toLinearMapOfOrderZero hF = 0 := by
       refine LinearMap.ext_on hspan ?_
       rintro y ⟨m, rfl⟩
-      show F (f m) = 0
+      change F (f m) = 0
       exact h0 m
     ext y
     have := congrArg (fun φ : M' →ₗ[S'] N => φ y) hz
@@ -619,7 +619,7 @@ private theorem exists_extension_of_jet [Algebra.FormallyEtale S S'] {f : M →�
     induction hx using Submodule.span_induction with
     | mem y hy =>
       obtain ⟨q, rfl⟩ := hy
-      show u' (φ q * φ (rho R S k s)) m = u' (φ q) (s • m)
+      change u' (φ q * φ (rho R S k s)) m = u' (φ q) (s • m)
       rw [← map_mul φ, hlift, hlift]
       exact hu q s m
     | zero => simp
@@ -629,7 +629,7 @@ private theorem exists_extension_of_jet [Algebra.FormallyEtale S S'] {f : M →�
       have h1 : u' (c • a * φ (rho R S k s)) = c • u' (a * φ (rho R S k s)) := by
         rw [smul_mul_assoc, map_smul]
       rw [h1, map_smul u' c a]
-      show c • (u' (a * φ (rho R S k s))) m = c • (u' a) (s • m)
+      change c • (u' (a * φ (rho R S k s))) m = c • (u' a) (s • m)
       rw [ha]
   have hvbal : ∀ (q : S' ⊗[R] S') (s : S) (m : M),
       v (q * ((1 : S') ⊗ₜ[R] algebraMap S S' s)) m = v q (s • m) := by
@@ -730,7 +730,7 @@ theorem isBaseChange_of_formallyEtale [Algebra.FormallyEtale S S'] (k : ℕ)
         ((LinearMap.id : (S' ⊗[S] P) →ₗ[S'] (S' ⊗[S] P)).restrictScalars S) ∘ₗ
           TensorProduct.mk S S' P 1 := by
       refine eq_of_comp_eq hD fun m => ?_
-      show θ (η ((1 : S') ⊗ₜ[S] D m)) = (1 : S') ⊗ₜ[S] D m
+      change θ (η ((1 : S') ⊗ₜ[S] D m)) = (1 : S') ⊗ₜ[S] D m
       rw [hη1 (D m), hg m, ← hDt' m, hθ (f m)]
     exact (LinearMap.liftBaseChangeEquiv S').symm.injective
       (LinearMap.ext fun p => LinearMap.congr_fun hres p)

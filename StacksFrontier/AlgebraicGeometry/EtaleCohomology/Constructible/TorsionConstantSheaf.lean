@@ -35,7 +35,7 @@ public theorem torsionSheafProperty_constantSheaf_of_isAddTorsion
     torsionSheafProperty J ((constantSheaf J AddCommGrpCat.{w}).obj E) := by
   refine torsionSheafProperty_sheafify J ((Functor.const Cᵒᵖ).obj E) fun U y => ?_
   refine ⟨⊤, J.top_mem U, fun V g _ => ⟨addOrderOf (y : E), (hE (y : E)).addOrderOf_pos, ?_⟩⟩
-  show addOrderOf (y : E) • y = 0
+  change addOrderOf (y : E) • y = 0
   exact addOrderOf_nsmul_eq_zero _
 
 end Stacks.Torsion

@@ -133,20 +133,20 @@ theorem vanishesTwo_trivialMod_of_charP {K Ω : Type*} [Field K] [Field Ω] [Alg
       have hnat : (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p a) =
           (((TrivialMod.addEquivZMod p a).val : ℕ) : Ω) := by
         rw [ZMod.castHom_apply, ← ZMod.natCast_val]
-      show (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p (g • a)) =
+      change (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p (g • a)) =
         g • (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p a)
       rw [TrivialMod.smul_eq, hnat]
-      show (((TrivialMod.addEquivZMod p a).val : ℕ) : Ω) =
+      change (((TrivialMod.addEquivZMod p a).val : ℕ) : Ω) =
         g (((TrivialMod.addEquivZMod p a).val : ℕ) : Ω)
       rw [map_natCast]
     · intro a
-      show ((ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p a)) ^ p -
+      change ((ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p a)) ^ p -
         (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p a) = 0
       rw [← map_pow, ZMod.pow_card, sub_self]
     · intro x hx
       obtain ⟨k, hk⟩ := exists_nsmul_eq_one_of_artinSchreier_eq_zero p x hx
       refine ⟨(TrivialMod.addEquivZMod p).symm (k : ZMod p), ?_⟩
-      show (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p
+      change (ZMod.castHom (dvd_refl p) Ω) (TrivialMod.addEquivZMod p
         ((TrivialMod.addEquivZMod p).symm (k : ZMod p))) = x
       rw [AddEquiv.apply_symm_apply, map_natCast, hk, nsmul_eq_mul, mul_one]
   intro F hFlc hFcoc
@@ -170,7 +170,7 @@ variable {K Ω : Type u} [Field K] [Field Ω] [Algebra K Ω] [IsGalois K Ω]
 not equal to its characteristic, and it may be taken to be a unit. -/
 theorem exists_isPrimitiveRoot_units [IsSepClosed Ω] (p : ℕ) (hp : p.Prime) [NeZero (p : Ω)] :
     ∃ ζ : Ωˣ, IsPrimitiveRoot ζ p := by
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω p
   exact ⟨(hζ.isUnit hp.ne_zero).unit, hζ.isUnit_unit hp.ne_zero⟩
 
 variable {p : ℕ} [NeZero p] {ζ : Ωˣ} (hζ : IsPrimitiveRoot ζ p)

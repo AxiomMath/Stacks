@@ -247,7 +247,7 @@ private theorem exists_approximated_presentation'
     rw [IsScalarTower.algebraMap_apply A R P, hcR]
     rfl
   have hIRH : IH = I.map (algebraMap A H) := by
-    show (I.map (MvPolynomial.C : A →+* R)).map (algebraMap R H) = _
+    change (I.map (MvPolynomial.C : A →+* R)).map (algebraMap R H) = _
     rw [Ideal.map_map]
     congr 1
   obtain ⟨gen', rel', hrelZero, hgenClose, hrelClose, JH, ⟨ePQ⟩⟩ :=

@@ -120,7 +120,7 @@ private noncomputable def OverMapRep.lift {U : C} (g : U ⟶ Y) (f : X ⟶ Y)
 private noncomputable def OverMapRep.toSlice {U : C} (g : U ⟶ Y) (f : X ⟶ Y) :
     OverMapRep U g f ⥤ Over (OverMapRep.sliceBase U g f) where
   obj P := Over.mk (Over.homMk (P.lift g f) (by
-    simp [OverMapRep.lift, OverMapRep.sliceBase, pullback.lift_snd]))
+    simp [OverMapRep.lift, OverMapRep.sliceBase]))
   map {P Q} φ := Over.homMk φ.a (by
     apply Over.OverMorphism.ext
     change φ.a.left ≫ pullback.lift (Q.iso.hom.left ≫ Q.y.hom) Q.x.hom (Q.cone g f) =
@@ -151,7 +151,7 @@ private theorem OverMapRep.toSlice_over {U : C} (g : U ⟶ Y) (f : X ⟶ Y) :
   refine CategoryTheory.Functor.ext (fun P => ?_) ?_
   · rfl
   · intro P Q φ
-    show φ.a = eqToHom rfl ≫ φ.a ≫ eqToHom rfl
+    change φ.a = eqToHom rfl ≫ φ.a ≫ eqToHom rfl
     simp
 
 private noncomputable def OverMapRep.fromSlice {U : C} (g : U ⟶ Y) (f : X ⟶ Y)
@@ -228,7 +228,7 @@ private theorem OverMapRep.toSlice_full {U : C} (g : U ⟶ Y) (f : X ⟶ Y) :
         _ = P.y.hom := by simp)
   have hbase : eqToHom P.hy.symm ≫ b.left ≫ eqToHom Q.hy =
       eqToHom P.hx.symm ≫ a.left ≫ eqToHom Q.hx := by
-    show eqToHom P.hy.symm ≫
+    change eqToHom P.hy.symm ≫
       (P.iso.inv.left ≫ a.left ≫ Q.iso.hom.left) ≫ eqToHom Q.hy = _
     rw [OverMapRep.iso_inv_left g f P, OverMapRep.iso_left g f Q]
     simp [Category.assoc]
@@ -244,7 +244,7 @@ private theorem OverMapRep.to_from_hom {U : C} (g : U ⟶ Y) (f : X ⟶ Y)
     ((OverMapRep.toSlice g f).obj (OverMapRep.fromSlice g f Z)).hom = Z.hom := by
   apply Over.OverMorphism.ext
   apply pullback.hom_ext
-  · simp [OverMapRep.toSlice, OverMapRep.fromSlice, OverMapRep.lift, pullback.lift_fst]
+  · simp [OverMapRep.toSlice, OverMapRep.fromSlice, OverMapRep.lift]
   · simpa [OverMapRep.toSlice, OverMapRep.fromSlice, OverMapRep.lift, pullback.lift_snd,
       OverMapRep.sliceBase] using (Over.w Z.hom).symm
 
@@ -258,7 +258,7 @@ private theorem OverMapRep.verticalPreimages {U : C} (g : U ⟶ Y) (f : X ⟶ Y)
       Z.left := rfl
   let α : Z ≅ (OverMapRep.toSlice g f).obj (OverMapRep.fromSlice g f Z) :=
     Over.isoMk (eqToIso hleft.symm) (hw := by
-      show eqToHom (rfl : Z.left = Z.left) ≫ _ = _
+      change eqToHom (rfl : Z.left = Z.left) ≫ _ = _
       rw [eqToHom_refl]
       exact (Category.id_comp _).trans (OverMapRep.to_from_hom g f Z))
   refine ⟨OverMapRep.fromSlice g f Z, rfl, α, ?_⟩

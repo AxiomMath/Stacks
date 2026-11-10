@@ -86,7 +86,7 @@ theorem coGrothendieck_ι_map_comp (S : 𝒮) {a b : F.obj ⟨op S⟩} (f : a �
   have key := CoGrothendieck.Hom.congr (Category.id_comp g)
   simp only [CoGrothendieck.categoryStruct_comp_fiber, CoGrothendieck.categoryStruct_id_fiber,
     CoGrothendieck.categoryStruct_id_base] at key
-  show (f ≫ (F.mapId ⟨op S⟩).inv.toNatTrans.app b) ≫
+  change (f ≫ (F.mapId ⟨op S⟩).inv.toNatTrans.app b) ≫
       (F.map (𝟙 S).op.toLoc).toFunctor.map g.fiber ≫
         (F.mapComp g.base.op.toLoc (𝟙 S).op.toLoc).inv.toNatTrans.app Y.fiber = _
   exact (Category.assoc _ _ _).trans
@@ -118,7 +118,7 @@ theorem summandInclusion_comp_structuredArrowMap (ψ : n ⟶ m) (f : W' ⟶ W) :
   refine CategoryTheory.Functor.ext hobj ?_
   intro x y k
   refine StructuredArrow.hom_ext _ _ ?_
-  show k.right = (eqToHom (hobj x)).right ≫ k.right ≫ (eqToHom (hobj y).symm).right
+  change k.right = (eqToHom (hobj x)).right ≫ k.right ≫ (eqToHom (hobj y).symm).right
   erw [StructuredArrow.eqToHom_right, StructuredArrow.eqToHom_right, Category.id_comp,
     Category.comp_id]
 

@@ -221,7 +221,7 @@ private theorem targetSourceOpenIso_snd {S : Scheme.{u}} (G : GroupoidScheme S)
     (U : G.objects.left.Opens) :
     (targetSourceOpenIso G U).hom ≫ pullback.snd G.source.left U.ι =
       pullback.snd G.target.left U.ι := by
-  show pullback.lift (pullback.fst G.target.left U.ι ≫ G.inverse.left)
+  change pullback.lift (pullback.fst G.target.left U.ι ≫ G.inverse.left)
     (pullback.snd G.target.left U.ι) _ ≫ pullback.snd G.source.left U.ι = _
   exact pullback.lift_snd _ _ _
 
@@ -285,22 +285,22 @@ theorem restriction_arrows_iso_source_open {S : Scheme.{u}} (G : GroupoidScheme 
         simp [Category.assoc]
       _ = (pullback.fst tpre spre).left ≫ tpre.left := by rw [hpaFst, htp']
   have harrEnd : (pullback.fst tpre spre).left ≫ tpre.left = arr := by
-    show (pullback.fst tpre spre).left ≫ tpre.left =
+    change (pullback.fst tpre spre).left ≫ tpre.left =
       (pullback.fst tpre spre ≫ pullback.snd g G.target).left
     rw [Over.comp_left]
   have harrFac : ePB.hom ≫ canonicalArr = arr := harrMid.trans harrEnd
   have htrangeCan : Set.range canT = G.target.left ⁻¹ᵁ U := by
-    show Set.range (pullback.snd g.left G.target.left) = G.target.left ⁻¹ᵁ U
+    change Set.range (pullback.snd g.left G.target.left) = G.target.left ⁻¹ᵁ U
     rw [IsOpenImmersion.range_pullbackSnd, hgRange]
   have hsrangeCan : Set.range canS = G.source.left ⁻¹ᵁ U := by
-    show Set.range (pullback.fst G.source.left g.left) = G.source.left ⁻¹ᵁ U
+    change Set.range (pullback.fst G.source.left g.left) = G.source.left ⁻¹ᵁ U
     rw [IsOpenImmersion.range_pullbackFst]
     simp only [hgRange]
   have hrange : Set.range arr = Set.range (pullback.fst G.source.left U.ι) := by
     calc
       Set.range arr = Set.range canonicalArr := by
         rw [← harrFac]
-        show Set.range (canonicalArr ∘ ePB.hom) = Set.range canonicalArr
+        change Set.range (canonicalArr ∘ ePB.hom) = Set.range canonicalArr
         exact ePB.hom.surjective.range_comp canonicalArr
       _ = Set.range canT ∩ Set.range canS :=
         IsOpenImmersion.range_pullback_to_base_of_left canT canS

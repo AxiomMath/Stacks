@@ -81,7 +81,7 @@ public theorem isScalarTower_compHom (R A B M : Type*) [CommSemiring R] [CommSem
   let : Module A M := Module.compHom M φ.toRingHom
   let : Module R M := Module.compHom M (algebraMap R B)
   refine ⟨fun x a m => ?_⟩
-  show φ (x • a) • m = algebraMap R B x • (φ a • m)
+  change φ (x • a) • m = algebraMap R B x • (φ a • m)
   rw [Algebra.smul_def, map_mul, φ.commutes, mul_smul]
 
 /-- **The tail recursion of a dévissage, in module-theoretic form.** Let `0 → Gᵢ → Pᵢ → Pᵢ₊₁ → 0`

@@ -146,7 +146,7 @@ theorem modulePushforward_map_globalSmul (f : X ⟶ Y)
   refine (Functor.natTrans_app_map_apply (moduleChartProjection B S hS f V.unop j)
     ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).map (globalSmul _ a M)) x).trans ?_
   refine Eq.trans ?_ (moduleChartProjectionApp_smul B S hS f M V.unop j (b.1 V) x).symm
-  show a.1 j.right • moduleChartProjectionApp B S hS f M V.unop j x = _
+  change a.1 j.right • moduleChartProjectionApp B S hS f M V.unop j x = _
   rw [h V.unop j]
 
 /-- **The identification `Γ(Y, f_*𝓜) = Γ(X, 𝓜)` is linear over pulled-back functions**: it

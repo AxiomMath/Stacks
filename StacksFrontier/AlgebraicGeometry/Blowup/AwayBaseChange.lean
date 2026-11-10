@@ -188,7 +188,7 @@ theorem algebraMap_eq_fromZeroRingHom_tmulOne (s : S) :
       fromZeroRingHom (grading 𝒜 S) (Submonoid.powers ((1 : S) ⊗ₜ[R] a)) (tmulOne 𝒜 S s) := by
   rw [HomogeneousLocalization.algebraMap_base_apply]
   refine congrArg _ (Subtype.ext ?_)
-  show algebraMap S (S ⊗[R] A) s = s ⊗ₜ[R] (1 : A)
+  change algebraMap S (S ⊗[R] A) s = s ⊗ₜ[R] (1 : A)
   simp [Algebra.TensorProduct.algebraMap_apply]
 
 /-- The degree-zero scalar attached to `1` is `1`. -/
@@ -407,12 +407,12 @@ theorem isPushout_awayMap :
   · simp
   · rw [Iso.refl_hom, Category.id_comp]
     refine CommRingCat.hom_ext (RingHom.ext fun s ↦ ?_)
-    show awayBaseChange 𝒜 S (s ⊗ₜ[R] 1) = _
+    change awayBaseChange 𝒜 S (s ⊗ₜ[R] 1) = _
     rw [awayBaseChange_tmul, map_one, mul_one]
     exact (algebraMap_eq_fromZeroRingHom_tmulOne 𝒜 S s).symm
   · rw [Iso.refl_hom, Category.id_comp]
     refine CommRingCat.hom_ext (RingHom.ext fun z ↦ ?_)
-    show awayBaseChange 𝒜 S (1 ⊗ₜ[R] z) = _
+    change awayBaseChange 𝒜 S (1 ⊗ₜ[R] z) = _
     rw [awayBaseChange_tmul, tmulOne_one, map_one, one_mul]
     rfl
 

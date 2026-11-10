@@ -207,7 +207,7 @@ theorem gysinHomomorphismOfInvertible_flatPullback_divisor
           ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ sX) sY
           ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p)
           (by rw [Category.assoc, hbase]) r hq (k + 1) α) := by
-  show QuotientAddGroup.mk ((gysinRule C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
+  change QuotientAddGroup.mk ((gysinRule C sX (k + 1 + (r : ℤ)) L (s.eval (.op ⊤))
     (firstChernComponentClass C sX (k + 1 + (r : ℤ)) L)).extendCycleGroup _) = _
   rw [gysinRule_extendCycleGroup_flatPullback C sX sY p hbase r hp k L s hD hq hcast α]
 

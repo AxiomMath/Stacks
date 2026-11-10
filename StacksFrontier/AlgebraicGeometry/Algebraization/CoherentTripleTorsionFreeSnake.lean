@@ -18,11 +18,11 @@ the mechanism.
 
 `Stacks.Algebraization.IsFTorsionFree` is a condition on the *sections over every open*, and for
 a sheaf cokernel those are not the quotient of the sections, so the module-level snake input
-`Module.linearMapSnakeInput` cannot be applied to it directly. Turning `IsFTorsionFree` into the vanishing of a kernel
-is nevertheless short: multiplication by `f` *is* a morphism of sheaves of modules
-(`Stacks.AlgebraicGeometry.PrincipalIdealExtension.smulPowHom`, which is a natural transformation
-of the identity functor evaluated at the module), a morphism of sheaves of modules is a
-monomorphism exactly when it is injective on sections over every open
+`Module.linearMapSnakeInput` cannot be applied to it directly. Turning `IsFTorsionFree` into the
+vanishing of a kernel is nevertheless short: multiplication by `f` *is* a morphism of sheaves of
+modules (`Stacks.AlgebraicGeometry.PrincipalIdealExtension.smulPowHom`, which is a natural
+transformation of the identity functor evaluated at the module), a morphism of sheaves of modules is
+a monomorphism exactly when it is injective on sections over every open
 (`PresheafOfModules.mono_iff_surjective` in one direction, `SheafOfModules.forget`'s preservation
 of monomorphisms in the other), and `IsSMulRegular` on sections is that injectivity. So
 `Stacks.Algebraization.isFTorsionFree_iff_mono_smulPowHom` below holds, and the clause becomes a

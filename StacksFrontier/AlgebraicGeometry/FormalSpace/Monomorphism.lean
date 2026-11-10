@@ -286,7 +286,7 @@ theorem mono_tfae' {X Y : FppfSheaf B S hS} (f : X ⟶ Y) :
       fun _ _ _ _ sq ↦ Mono.of_isPullback B S hS sq hf⟩
     have hfac : (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Y) PUnit.unit).hom ≫
         (Sigma.desc (fun _ : PUnit.{u + 2} ↦ (𝟙 Y : Y ⟶ Y))).hom = 𝟙 Y.obj := by
-      rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+      rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
       rfl
     exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hfac
   tfae_have 4 → 1 := mono_of_hasMonoLocallySurjectiveFamily B S hS

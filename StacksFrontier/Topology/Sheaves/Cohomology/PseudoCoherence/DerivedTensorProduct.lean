@@ -342,8 +342,8 @@ Tag 06YU, and its target the class of `Tot(𝒜 ⊗ ℬ)|_W` by
 private theorem localApproximationData_of_approximations {U V W : Opens X.carrier}
     (hWU : W ≤ U) (hWV : W ≤ V)
     (A B : CochainComplex (KFlatDerivedPullback.Modules X) ℤ)
-    (hAk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf A)
-    (hBk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf B)
+    (hAk : Stacks.SheafOfModules.KFlat X.sheaf A)
+    (hBk : Stacks.SheafOfModules.KFlat X.sheaf B)
     (n m a b : ℤ) (hna : n ≤ a)
     (hA : RestrictedIsLE X A W a) (hB : RestrictedIsLE X B W b)
     (P₁ : CochainComplex (OXMod.{u, u} (X.restrict U.isOpenEmbedding)) ℤ)
@@ -395,8 +395,8 @@ perfect approximation of each; on the intersection
 on `𝒜|_W` and `ℬ|_W` coming from the bounds on the terms of `𝒜` and `ℬ`. -/
 private theorem localApproximationData
     (A B : CochainComplex (KFlatDerivedPullback.Modules X) ℤ)
-    (hAk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf A)
-    (hBk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf B)
+    (hAk : Stacks.SheafOfModules.KFlat X.sheaf A)
+    (hBk : Stacks.SheafOfModules.KFlat X.sheaf B)
     (n m a b : ℤ) (hna : n ≤ a)
     (hALE : A.IsStrictlyLE a) (hBLE : B.IsStrictlyLE b)
     (hApc : IsPseudoCoherentComplexFrom (X := X) A n)
@@ -424,8 +424,8 @@ thresholds `n = min (q - b) a` and `m = min (q - a) b` give
 `AlgebraicGeometry.RingedSpace.LocalApproximationData.mono` raises its degree to `q`. -/
 private theorem localApproximationData_of_isPseudoCoherentComplex
     (A B : CochainComplex (KFlatDerivedPullback.Modules X) ℤ)
-    (hAk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf A)
-    (hBk : Stacks.SheafOfModules.KFlat.KFlat X.sheaf B)
+    (hAk : Stacks.SheafOfModules.KFlat X.sheaf A)
+    (hBk : Stacks.SheafOfModules.KFlat X.sheaf B)
     (hApc : IsPseudoCoherentComplex (X := X) A) (hBpc : IsPseudoCoherentComplex (X := X) B)
     (q : ℤ) :
     ∀ x : X.carrier, ∃ U : Opens X.carrier, x ∈ U ∧ LocalApproximationData X A B q U := by

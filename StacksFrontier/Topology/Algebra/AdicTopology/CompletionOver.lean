@@ -223,7 +223,7 @@ public theorem isOpen_ker_projection {B : Type u} {A : Type v} [CommRing B] [Com
   let (K : WeakIdealOfDefinitionIndex B) : TopologicalSpace (A ⧸ extendedIdeal f K) := ⊥
   let (K : WeakIdealOfDefinitionIndex B) : DiscreteTopology (A ⧸ extendedIdeal f K) :=
     discreteTopology_bot _
-  show IsOpen ((fun x : CompletionOver f => x.1 J) ⁻¹' {0})
+  change IsOpen ((fun x : CompletionOver f => x.1 J) ⁻¹' {0})
   exact (isOpen_discrete ({0} : Set (A ⧸ extendedIdeal f J))).preimage
     ((continuous_apply J).comp continuous_subtype_val)
 
@@ -239,12 +239,12 @@ public theorem ker_projection_eq_closure {B : Type u} {A : Type v} [CommRing B] 
       (isOpen_ker_projection f J)
   have hmap : J.1.map (canonicalMap f) ≤ RingHom.ker (projection f J) := by
     refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
-    show projection f J (canonicalMap f b) = 0
+    change projection f J (canonicalMap f b) = 0
     rw [projection_canonicalMap]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f hb)
   apply le_antisymm
   · intro x hx
-    show x ∈ closure (J.1.map (canonicalMap f) : Set (CompletionOver f))
+    change x ∈ closure (J.1.map (canonicalMap f) : Set (CompletionOver f))
     apply mem_closure_iff.mpr
     intro U hU hxU
     obtain ⟨V, hV, hVU⟩ := isOpen_induced_iff.mp hU
@@ -350,7 +350,7 @@ omit [IsTopologicalRing B] [IsLinearTopology B B] in
 private theorem completionOver_isClosed_in_product (f : B →+* A) :
     IsClosed (CompletionOver f : Set
       (∀ J : WeakIdealOfDefinitionIndex B, A ⧸ extendedIdeal f J)) := by
-  show IsClosed {x : ∀ J : WeakIdealOfDefinitionIndex B, A ⧸ extendedIdeal f J |
+  change IsClosed {x : ∀ J : WeakIdealOfDefinitionIndex B, A ⧸ extendedIdeal f J |
     ∀ (J K : WeakIdealOfDefinitionIndex B) (h : (J.1 : Ideal B) ≤ K.1),
       transitionMap f h (x J) = x K}
   simp only [Set.ofPred_forall]
@@ -370,7 +370,7 @@ private theorem completionOver_completeSpace_aux (f : B →+* A) :
       ((uniformContinuous_subtype_val.comp uniformContinuous_fst).prodMk
        (uniformContinuous_subtype_val.comp uniformContinuous_snd))).subtype_mk
       (fun p : CompletionOver f × CompletionOver f => sub_mem p.1.property p.2.property)
-    convert h using 1 <;> rfl⟩
+    convert h using 1; rfl⟩
   have huniform : IsTopologicalAddGroup.rightUniformSpace (CompletionOver f) =
       (inferInstance : UniformSpace (CompletionOver f)) :=
     IsUniformAddGroup.rightUniformSpace_eq
@@ -479,7 +479,7 @@ theorem ker_projection_mono {B : Type u} {A : Type v}
   RingHom.ker (projection f J) ≤ RingHom.ker (projection f K) := by
   intro x hx
   change x.1 J = 0 at hx
-  show x.1 K = 0
+  change x.1 K = 0
   simp [← x.2 J K h, hx]
 
 private def cylinderSet {B : Type u} {A : Type v} [CommRing B] [CommRing A]
@@ -549,7 +549,7 @@ public lemma completionOver_isCountablyGenerated_nhds_zero
     (hBcount : (nhds (0 : B)).IsCountablyGenerated) :
     (nhds (0 : CompletionOver f)).IsCountablyGenerated :=
   isCountablyGenerated_nhds_zero_of_isTaut (CompletionOver.canonicalMap f)
-    (continuous_canonicalMap f) (isTaut_canonicalMap f hB.1) hBcount
+    (isTaut_canonicalMap f hB.1) hBcount
 
 end
 
@@ -574,7 +574,7 @@ public theorem completionOver_isCountablyAdmissible
   rcases hB with ⟨hBweak, hBadm, hBcount⟩
   exact ⟨completionOver_isWeaklyAdmissible f hBweak,
     ⟨isPreAdmissible_of_isTaut (CompletionOver.canonicalMap f)
-      (continuous_canonicalMap f) (isTaut_canonicalMap f hBweak.1) hBadm.1,
+      (isTaut_canonicalMap f hBweak.1) hBadm.1,
       ⟨inferInstance, inferInstance⟩⟩,
     completionOver_isCountablyGenerated_nhds_zero f hBweak hBcount⟩
 
@@ -613,7 +613,7 @@ public theorem completionOver_exists_fg_isAdic
     (hB_adicStar : ∃ I : Ideal B, I.FG ∧ _root_.IsAdic I) :
     ∃ J : Ideal (CompletionOver f), J.FG ∧ _root_.IsAdic J :=
   RingHom.exists_fg_ideal_isAdic_of_isTaut (CompletionOver.canonicalMap f)
-    (TopologicalRing.continuous_canonicalMap f) (TopologicalRing.isTaut_canonicalMap f hB.1)
+    (TopologicalRing.isTaut_canonicalMap f hB.1)
     hB_adicStar
 
 end

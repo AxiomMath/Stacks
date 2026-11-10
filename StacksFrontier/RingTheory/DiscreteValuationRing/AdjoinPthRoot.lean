@@ -118,13 +118,13 @@ omit [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A K] in
 /-- `alpha` is integral over `A`, being a root of the monic `x^p - a`. -/
 theorem alpha_isIntegral : IsIntegral A (alpha (A := A) (K := K) p a) := by
   refine ⟨Polynomial.X ^ p - Polynomial.C a, poly_monic p a, ?_⟩
-  show Polynomial.aeval (alpha (A := A) (K := K) p a)
+  change Polynomial.aeval (alpha (A := A) (K := K) p a)
       (Polynomial.X ^ p - Polynomial.C a) = 0
   rw [← Polynomial.aeval_map_algebraMap K (alpha (A := A) (K := K) p a)
     (Polynomial.X ^ p - Polynomial.C a)]
   simp only [Polynomial.map_sub, Polynomial.map_pow, Polynomial.map_X,
     Polynomial.map_C]
-  show Polynomial.aeval (alpha (A := A) (K := K) p a)
+  change Polynomial.aeval (alpha (A := A) (K := K) p a)
       (polyK (A := A) (K := K) p a) = 0
   exact aeval_alpha p a
 
@@ -218,7 +218,7 @@ omit [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A K] in
 /-- `B = A[alpha]` is a finite `A`-module. -/
 theorem ringExt_module_finite :
     Module.Finite A (ringExt (A := A) (K := K) p a) := by
-  show Module.Finite A (Algebra.adjoin A {alpha (A := A) (K := K) p a})
+  change Module.Finite A (Algebra.adjoin A {alpha (A := A) (K := K) p a})
   exact Module.Finite.iff_fg.mpr (alpha_isIntegral p a).fg_adjoin_singleton
 
 /-- `K[a^{1/p}]` is the fraction field of `B = A[alpha]`. -/
@@ -256,7 +256,7 @@ theorem ringExt_isFractionRing (hirr : Irreducible (polyK (A := A) (K := K) p a)
   have hd0 : algebraMap A (FieldExt (A := A) (K := K) p a) (d : A) ≠ 0 := fun h =>
     (nonZeroDivisors.coe_ne_zero d)
       (algebraMap_fieldExt_injective p a hirr (by rw [h, map_zero]))
-  show z = (algebraMap A (FieldExt (A := A) (K := K) p a) (d : A) * z) /
+  change z = (algebraMap A (FieldExt (A := A) (K := K) p a) (d : A) * z) /
       (algebraMap A (FieldExt (A := A) (K := K) p a) (d : A))
   rw [mul_comm, mul_div_assoc, div_self hd0, mul_one]
 
@@ -470,7 +470,7 @@ theorem statement2_integralClosure
     rintro x hx
     simp only [Set.mem_singleton_iff] at hx
     subst hx
-    show IsIntegral A (alpha (A := A) (K := K) p a)
+    change IsIntegral A (alpha (A := A) (K := K) p a)
     exact alpha_isIntegral p a
 
 /-- The ring `A[a^{1/p}] = A[alpha]` is a discrete valuation ring, and the extension

@@ -227,7 +227,7 @@ theorem tensorFormsAmbientIso_inv_smul_restrict {V : A.obj.thickening.target.sch
     obtain ⟨p⟩ := p
     change F.val.obj (op (A.restrictOpen V₁)) ⊗[crysFormRing S (A.restrictOpen V₁)]
       (crysDifferentialForms S i).obj (op (A.restrictOpen V₁)) at p
-    show (tensorFormsAmbientIso F c).inv.app (op V₁) (ULift.up (sectionRingEquiv A V₁ (br V₁ h₁) •
+    change (tensorFormsAmbientIso F c).inv.app (op V₁) (ULift.up (sectionRingEquiv A V₁ (br V₁ h₁) •
         (show (ambientTensor F N).val.obj (op V₁) from
           (tensorFormsAmbientUnit F c).app (op V₁) p))) =
       (show tensorFormsModSec F i (A.restrictOpen V₁) from br V₁ h₁ •

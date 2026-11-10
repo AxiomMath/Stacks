@@ -74,7 +74,7 @@ def sliceTransitionNatTrans :
     sliceTransition C φ Q ⋙ sliceInclusionAt C φ Q ⟶ sliceInclusion C Q where
   app Y := Over.homMk ((transitionNatTransA C φ).app Y.left)
     ((transitionNatTransA C φ).naturality Y.hom).symm
-  naturality Y Y' g :=
+  naturality _ _ g :=
     Over.OverMorphism.ext ((transitionNatTransA C φ).naturality g.left)
 
 /-- The localized transition followed by the inclusion of the slice at `u_φ(Q)` is continuous

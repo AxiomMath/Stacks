@@ -185,12 +185,12 @@ theorem opensEquivalence_isDenseSubsite {α β : Type u}
   constructor
   · intro h x hx
     have hx' : H x ∈ e.functor.obj U := by
-      show H.symm (H x) ∈ U
+      change H.symm (H x) ∈ U
       simpa using hx
     obtain ⟨V, f, hf, hxV⟩ := h (H x) hx'
     rw [Sieve.mem_functorPushforward_functor] at hf
     refine ⟨e.inverse.obj V, e.inverse.map f ≫ e.unitIso.inv.app U, hf, ?_⟩
-    show H x ∈ V
+    change H x ∈ V
     exact hxV
   · intro h x hx
     have hx' : H.symm x ∈ U := by
@@ -200,7 +200,7 @@ theorem opensEquivalence_isDenseSubsite {α β : Type u}
     refine ⟨e.functor.obj V, e.functor.map f, ?_, ?_⟩
     · rw [Sieve.mem_functorPushforward_functor]
       simpa [e] using hf
-    · show H.symm x ∈ V
+    · change H.symm x ∈ V
       exact hxV
 
 /-- An open subspace `V` of an open subspace `U` of `X` is homeomorphic to the open subspace of

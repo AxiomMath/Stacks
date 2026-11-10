@@ -43,8 +43,9 @@ a limit of schemes being the colimit of the `Pic`s
 
 * *The reduction to a finite Galois stage* —
   `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageContinuity.lean` and
-  `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean`. Every class of `Pic(X_{k'})` descends to a finite subextension by
-  Tag 0B8W (2) (`Stacks.Picard.exists_finiteSubextension_schemePullbackClass_eq`), and a
+  `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean`. Every class of
+  `Pic(X_{k'})` descends to a finite subextension by Tag 0B8W (2)
+  (`Stacks.Picard.exists_finiteSubextension_schemePullbackClass_eq`), and a
   `Gal(k'/k)`-fixed class descends to a finite *Galois* subextension and is fixed there
   (`Stacks.Picard.exists_finiteGaloisSubextension_galoisFixed`). No eventual-injectivity
   statement is needed: the transition maps are honestly injective, which is Tag 0CC5 at the
@@ -58,8 +59,9 @@ a limit of schemes being the colimit of the `Pic`s
   of `ℒ` to the induced `E`-rational point, the structure morphism `X_E ⟶ Spec E` has invariant
   structure sheaf, so an isomorphism of invertible modules on `X_E` is determined by its
   restriction to the point, and the family normalised against the trivialisation is a cocycle
-  (`Stacks.Picard.twistNormalizedIso_mul` of `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/NormalizedPullback.lean`). The resulting Galois
-  descent datum is effective by Tag 0CDR in invertible form,
+  (`Stacks.Picard.twistNormalizedIso_mul` of
+  `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/NormalizedPullback.lean`). The resulting
+  Galois descent datum is effective by Tag 0CDR in invertible form,
   `Stacks.Descent.exists_isInvertible_pullback_iso_of_galoisDescentData_baseChange` of
   `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/InvertibleDescent.lean`.
 

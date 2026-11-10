@@ -340,7 +340,8 @@ computing `RF`.
 Situation 05S8 nothing else is assumed — `F` exact between triangulated categories and `W` a
 saturated multiplicative system compatible with the triangulated structure are used by the
 results *about* computing objects (through filteredness of `X/W`, resp. cofilteredness of
-`W/X`), not by the definition, exactly as in the statement of Tag 05S9. (2) The base is the source's:
+`W/X`), not by the definition, exactly as in the statement of Tag 05S9.
+(2) The base is the source's:
 the index category is the source's `X/S`, resp. `S/X` — morphisms of `𝒟` lying in `W` out of,
 resp. into, `X`, with arbitrary morphisms of `𝒟` under, resp. over, `X` between them — the
 diagram takes its values in `𝒟'` through `F`, and "defined at" is the source's essential

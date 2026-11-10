@@ -185,8 +185,8 @@ theorem isPseudoCoherentOnLimit_coheratorObj_of_forall_isDerivedLimit
 /-- In Situation 0DIK let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ) = DQ_X(L)` be the object of
 [Stacks, Tag 0DIL], for a coherator `adj : ι ⊣ DQ_X` and a derived limit `L = R lim_{D(𝒪_X)} Kₙ`
 of the tower `(Rjₙ,* Kₙ)`. Then `K` is pseudo-coherent on `X`. -/
-@[stacks 0DIN "K = R lim_{D_QCoh} K_n = DQ_X(R lim_{D(O_X)} K_n) is pseudo-coherent on X, for every \
-  choice of coherator and of derived limit; nothing is granted or assumed"]
+@[stacks 0DIN "K = R lim_{D_QCoh} K_n = DQ_X(R lim_{D(O_X)} K_n) is pseudo-coherent on X, for \
+  every choice of coherator and of derived limit; nothing is granted or assumed"]
 theorem isPseudoCoherentOnLimit_coheratorObj
     (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase

@@ -102,7 +102,7 @@ theorem topologicalKrullDimAt_fiber_chartBundleToChart (V : SmallEtale B S hS X.
   set s := chartBundleToChart E V u
   obtain ⟨he, hd⟩ := hrel s ⟨(chartBundleToChart E V).asFiber u⟩
   have : LocallyOfFiniteType ((chartBundleToChart E V).fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (Limits.pullback.snd (chartBundleToChart E V) ((chartScheme V).fromSpecResidueField s))
     infer_instance
   exact @topologicalKrullDimAt_eq_of_equidimensional _ _ _

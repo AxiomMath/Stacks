@@ -295,14 +295,14 @@ stage `j`. -/
 theorem fillOld_single_of_lt (hS : IsStacksSystem aug unit J tr) (hann : Annihilated J M)
     {i j : I} (g : GenAt M i) (hb : g.1.base < j) (c : Λ ⧸ J i) :
     fillOld hS hann j (Finsupp.single g c) = 0 := by
-  rw [fillOld, Finsupp.lsum_single, dif_pos hb, LinearMap.zero_apply]
+  rw [fillOld, Finsupp.lsum_single, dite_eq_left hb, LinearMap.zero_apply]
 
 /-- A generator whose base is at or above `j` contributes `fillSpan` of its coefficient to the
 old part of the stage `j`. -/
 theorem fillOld_single_of_le (hS : IsStacksSystem aug unit J tr) (hann : Annihilated J M)
     {i j : I} (g : GenAt M i) (hb : ¬ g.1.base < j) (c : Λ ⧸ J i) :
     fillOld hS hann j (Finsupp.single g c) = fillSpan hS hann g (not_lt.mp hb) c := by
-  rw [fillOld, Finsupp.lsum_single, dif_neg hb]
+  rw [fillOld, Finsupp.lsum_single, dite_eq_right hb]
 
 /-- A generator whose base is strictly below `j` is sent to the same generator of the stage `j`,
 with its coefficient reduced. -/
@@ -310,7 +310,7 @@ theorem fillNew_single_of_lt (hS : IsStacksSystem aug unit J tr) {i j : I} (hji 
     (g : GenAt M i) (hb : g.1.base < j) (c : Λ ⧸ J i) :
     fillNew hS hji (Finsupp.single g c)
       = Finsupp.single (⟨g.1, hb⟩ : GenAt M j) (fillCoeff hS hji c) := by
-  rw [fillNew, Finsupp.lsum_single, dif_pos hb]
+  rw [fillNew, Finsupp.lsum_single, dite_eq_left hb]
   rfl
 
 /-- A generator whose base is at or above `j` contributes nothing to the new generators of the
@@ -318,7 +318,7 @@ stage `j`. -/
 theorem fillNew_single_of_le (hS : IsStacksSystem aug unit J tr) {i j : I} (hji : j ≤ i)
     (g : GenAt M i) (hb : ¬ g.1.base < j) (c : Λ ⧸ J i) :
     fillNew hS hji (Finsupp.single g c) = 0 := by
-  rw [fillNew, Finsupp.lsum_single, dif_neg hb, LinearMap.zero_apply]
+  rw [fillNew, Finsupp.lsum_single, dite_eq_right hb, LinearMap.zero_apply]
 
 /-- The transition map of the filled system: the given transition on the old part, the
 generators with base below `j` kept, and those with base at or above `j` replaced by the image
@@ -597,11 +597,11 @@ def constTr (K : Type u) [Field K] {I : Type u} [LinearOrder I] {i j : I} (_hji 
 
 /-- The transition `constTr` between distinct stages is zero. -/
 theorem constTr_eq_zero (K : Type u) [Field K] {I : Type u} [LinearOrder I] {i j : I}
-    (hji : j ≤ i) (h : j < i) : constTr K hji = 0 := if_pos h
+    (hji : j ≤ i) (h : j < i) : constTr K hji = 0 := ite_eq_left h
 
 /-- The transition `constTr` along `j ≤ i` with `¬ j < i` is the identity. -/
 theorem constTr_eq_id (K : Type u) [Field K] {I : Type u} [LinearOrder I] {i j : I}
-    (hji : j ≤ i) (h : ¬ j < i) : constTr K hji = LinearMap.id := if_neg h
+    (hji : j ≤ i) (h : ¬ j < i) : constTr K hji = LinearMap.id := ite_eq_right h
 
 /-- The transition `constTr` along `i ≤ i` fixes every element. -/
 theorem constTr_self (K : Type u) [Field K] {I : Type u} [LinearOrder I] {i : I} (c : K) :

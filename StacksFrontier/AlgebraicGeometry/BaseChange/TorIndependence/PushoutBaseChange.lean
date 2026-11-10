@@ -62,8 +62,7 @@ theorem baseChangeFunctor_hom_ext {X : ModuleCat.{u} C} {M : ModuleCat.{u} D}
     {φ ψ : (baseChangeFunctor C D).obj X ⟶ M}
     (h : ∀ (d : D) (x : X), φ.hom (d ⊗ₜ[C] x) = ψ.hom (d ⊗ₜ[C] x)) : φ = ψ := by
   ext t
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero φ.hom).trans (map_zero ψ.hom).symm
+  induction t using TensorProduct.inductionOn with
   | tmul d x => exact h d x
   | add t t' ht ht' =>
     exact (map_add φ.hom _ _).trans ((congrArg₂ (· + ·) ht ht').trans (map_add ψ.hom _ _).symm)
@@ -94,12 +93,7 @@ theorem baseChangeToExtendScalars_add (X : ModuleCat.{u} C) (t t' : D ⊗[C] X) 
 /-- `baseChangeToExtendScalars` commutes with the action of `D`. -/
 theorem baseChangeToExtendScalars_smul (X : ModuleCat.{u} C) (d : D) (t : D ⊗[C] X) :
     baseChangeToExtendScalars C D X (d • t) = d • baseChangeToExtendScalars C D X t := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [smul_zero]
-    exact (map_zero (TensorProduct.congr (algebraRestrictLinearEquiv C D)
-      (LinearEquiv.refl C X))).trans
-        (smul_zero (A := (ModuleCat.extendScalars (algebraMap C D)).obj X) d).symm
+  induction t using TensorProduct.inductionOn with
   | tmul d' x =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     exact (ModuleCat.ExtendScalars.smul_tmul (algebraMap C D) d d' x).symm
@@ -158,11 +152,9 @@ def baseChangeSwap : (A ⊗[R] R₀) ⊗[A] X ≃ₗ[R₀] R₀ ⊗[R] X :=
   { baseChangeSwapAddEquiv X with
     map_smul' := fun r t => by
       change baseChangeSwapAddEquiv X (r • t) = r • baseChangeSwapAddEquiv X t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul b x =>
-        induction b using TensorProduct.induction_on with
-        | zero => simp
+        induction b using TensorProduct.inductionOn with
         | tmul a r' =>
           have h : r • (a ⊗ₜ[R] r') = a ⊗ₜ[R] (r * r') := by
             rw [Algebra.smul_def, Algebra.TensorProduct.right_algebraMap_apply,
@@ -179,10 +171,9 @@ theorem baseChangeSwap_naturality {X' : Type u} [AddCommGroup X'] [Module A X'] 
     [IsScalarTower R A X'] (φ : X →ₗ[A] X') (c : A ⊗[R] R₀) (x : X) :
     baseChangeSwap (R := R) (A := A) (R₀ := R₀) X' (c ⊗ₜ[A] φ x) =
       LinearMap.lTensor R₀ (φ.restrictScalars R) (baseChangeSwap X (c ⊗ₜ[A] x)) := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction c using TensorProduct.inductionOn with
   | tmul a r =>
-    show r ⊗ₜ[R] (a • φ x) = r ⊗ₜ[R] φ (a • x)
+    change r ⊗ₜ[R] (a • φ x) = r ⊗ₜ[R] φ (a • x)
     rw [map_smul]
   | add c c' hc hc' => simp only [TensorProduct.add_tmul, map_add, hc, hc']
 
@@ -218,7 +209,7 @@ theorem tensorBaseChangeAddEquiv_tmul (a : A) (r : R₀) (x : X) (b : B₀) (w :
 /-- `tensorBaseChangeAddEquiv` is `R₀`-linear, `R₀` acting on the source through `B₀`. -/
 theorem tensorBaseChangeAddEquiv_smul (r : R₀) (t : (B₀ ⊗[A] X) ⊗[B₀] (B₀ ⊗[R₀] W)) :
     tensorBaseChangeAddEquiv X W (algebraMap R₀ B₀ r • t) = r • tensorBaseChangeAddEquiv X W t := by
-  show (LinearEquiv.rTensor W _) ((TensorProduct.AlgebraTensorModule.cancelBaseChange R₀ B₀ B₀
+  change (LinearEquiv.rTensor W _) ((TensorProduct.AlgebraTensorModule.cancelBaseChange R₀ B₀ B₀
       (B₀ ⊗[A] X) W) (algebraMap R₀ B₀ r • t)) = r • (LinearEquiv.rTensor W _)
         ((TensorProduct.AlgebraTensorModule.cancelBaseChange R₀ B₀ B₀ (B₀ ⊗[A] X) W) t)
   rw [map_smul, algebraMap_smul, map_smul]
@@ -247,7 +238,6 @@ theorem tensorBaseChange_hom_ext {X : ModuleCat.{u} A} {W : ModuleCat.{u} R₀}
       φ.hom (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] (b ⊗ₜ[R₀] w)) =
         ψ.hom (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] (b ⊗ₜ[R₀] w))) : φ = ψ := by
   ext t
-  have hz := (map_zero φ.hom).trans (map_zero ψ.hom).symm
   have ha : ∀ s s', φ.hom s = ψ.hom s → φ.hom s' = ψ.hom s' → φ.hom (s + s') = ψ.hom (s + s') :=
     fun s s' hs hs' => (map_add φ.hom _ _).trans
       ((congrArg₂ (· + ·) hs hs').trans (map_add ψ.hom _ _).symm)
@@ -255,24 +245,18 @@ theorem tensorBaseChange_hom_ext {X : ModuleCat.{u} A} {W : ModuleCat.{u} R₀}
     intro s s' e h'
     rw [e]
     exact h'
-  induction t using TensorProduct.induction_on with
-  | zero => exact hz
+  induction t using TensorProduct.inductionOn with
   | add s s' hs hs' => exact ha s s' hs hs'
   | tmul m n =>
-    induction m using TensorProduct.induction_on with
-    | zero => exact hc _ _ (TensorProduct.zero_tmul _ n) hz
+    induction m using TensorProduct.inductionOn with
     | add m m' hm hm' => exact hc _ _ (TensorProduct.add_tmul m m' n) (ha _ _ hm hm')
     | tmul c x =>
-      induction c using TensorProduct.induction_on with
-      | zero =>
-        exact hc _ _ ((congrArg (fun m : (baseChangeFunctor A B₀).obj X => m ⊗ₜ[B₀] n)
-          (TensorProduct.zero_tmul _ x)).trans (TensorProduct.zero_tmul _ n)) hz
+      induction c using TensorProduct.inductionOn with
       | add c c' hc' hc'' =>
         exact hc _ _ ((congrArg (fun m : (baseChangeFunctor A B₀).obj X => m ⊗ₜ[B₀] n)
           (TensorProduct.add_tmul c c' x)).trans (TensorProduct.add_tmul _ _ n)) (ha _ _ hc' hc'')
       | tmul a r =>
-        induction n using TensorProduct.induction_on with
-        | zero => exact hc _ _ (TensorProduct.tmul_zero _ _) hz
+        induction n using TensorProduct.inductionOn with
         | add n n' hn hn' => exact hc _ _ (TensorProduct.tmul_add _ n n') (ha _ _ hn hn')
         | tmul b w => exact h a r x b w
 
@@ -313,7 +297,7 @@ theorem modelBifunctorIso_naturality_left {X X' : ModuleCat.{u} A} (f : X ⟶ X'
         ((ModuleCat.restrictScalars (algebraMap R A) ⋙ baseChangeFunctor R R₀).map f)).app
           ((𝟭 (ModuleCat.{u} R₀)).obj W) := by
   refine tensorBaseChange_hom_ext fun a r x b w => ?_
-  show baseChangeSwap (R := R) (A := A) (R₀ := R₀)
+  change baseChangeSwap (R := R) (A := A) (R₀ := R₀)
       ((ModuleCat.restrictScalars (algebraMap R A)).obj X') (b • ((a ⊗ₜ[R] r) ⊗ₜ[A] f x)) ⊗ₜ[R₀] w =
     (LinearMap.lTensor R₀ ((ModuleCat.restrictScalars (algebraMap R A)).map f).hom
       (baseChangeSwap (R := R) (A := A) (R₀ := R₀)
@@ -321,12 +305,7 @@ theorem modelBifunctorIso_naturality_left {X X' : ModuleCat.{u} A} (f : X ⟶ X'
   rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul']
   congr 1
   generalize b • (a ⊗ₜ[R] r) = c
-  induction c using TensorProduct.induction_on with
-  | zero =>
-    rw [TensorProduct.zero_tmul, TensorProduct.zero_tmul]
-    refine (map_zero (baseChangeSwap (R := R) (A := A) (R₀ := R₀) _)).trans ?_
-    exact ((congrArg (LinearMap.lTensor R₀ _)
-      (map_zero (baseChangeSwap (R := R) (A := A) (R₀ := R₀) _))).trans (map_zero _)).symm
+  induction c using TensorProduct.inductionOn with
   | tmul a' r' =>
     exact congrArg (fun y : (ModuleCat.restrictScalars (algebraMap R A)).obj X' => r' ⊗ₜ[R] y)
       (map_smul f.hom a' x).symm

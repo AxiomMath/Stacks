@@ -44,14 +44,16 @@ contains any algebra: the compatibility of [Stacks, Tag 01CD] with the transitio
 The `pullbackCongr` half — naturality of the Tag 01CD comparison in the *morphism* rather than in
 the module — and the `pullbackComp` half, which is proved at the
 `Stacks.RingedSpace.pullbackFunctor` and monoidal-`⊗` spellings by
-`Stacks.PullbackCompMonoidal.comparison_tensor`, are both proved at the `AlgebraicGeometry.Scheme.Modules.pullback` and
+`Stacks.PullbackCompMonoidal.comparison_tensor`, are both proved at the
+`AlgebraicGeometry.Scheme.Modules.pullback` and
 `Stacks.SheafOfModules.Tensor.sheafTensor` spellings this development uses, in
 `StacksFrontier/AlgebraicGeometry/TwistMultTransport/Structural.lean`:
 `Stacks.AlgebraicGeometry.TwistMultTransport.comparison_pullbackComp_hom` and
 `comparison_pullbackCongr_hom`, together with `comparison_pullbackId` for the third structural
 factor. They are proved there for the transport of Tag 01MY's multiplication identity along Tag
-01NO's six-factor comparison; the `pullbackCongr` half is two lines, by `subst`, after which `pullbackCongr` is
-`CategoryTheory.eqToIso` of a reflexivity proof and every component is the identity.
+01NO's six-factor comparison; the `pullbackCongr` half is two lines, by `subst`, after which
+`pullbackCongr` is `CategoryTheory.eqToIso` of a reflexivity proof and every component is the
+identity.
 
 So nothing of Tag 01CD is reproved here. What this file does is name the two halves at the
 spellings of the adic files, paste them, and identify the completion's transition with the
@@ -109,8 +111,9 @@ are the two steps whose unification, left implicit, is what overruns.
 quotients by the powers of `ℐ`, which live on `X`; and
 `AlgebraicGeometry.adicThickeningCompletionFunctor`
 sends it to the system of its restrictions to the adic thickenings, which live on the `Xₙ`. The
-object-level bridge `AlgebraicGeometry.adicThickeningCompletionPushforwardIso` is available, with its
-normalization and its naturality; the identification of the hom-sets is what carries a compatible family of units from one picture to the other.
+object-level bridge `AlgebraicGeometry.adicThickeningCompletionPushforwardIso` is available, with
+its normalization and its naturality; the identification of the hom-sets is what carries a
+compatible family of units from one picture to the other.
 
 * `AlgebraicGeometry.adicThickeningCompletionHomEquiv` — **the identification, degreewise.** Two
   inputs: the object-level bridge, and [Stacks, Tag 08KS] in the form
@@ -420,7 +423,7 @@ public theorem adicThickeningCompletionHomEquiv_completionFunctor_map (n : ℕ)
     adicThickeningCompletionHomEquiv A I f n F G
         (((completionFunctor X (baseIdealSheaf A I f)).map φ).hom.app (op n)) =
       (Scheme.Modules.pullback (pullback.fst f (adicThickeningι A I n))).map φ.hom := by
-  show (Stacks.ClosedImmersion.fullyFaithfulPushforward
+  change (Stacks.ClosedImmersion.fullyFaithfulPushforward
       (pullback.fst f (adicThickeningι A I n))).homEquiv.symm
       ((adicThickeningCompletionPushforwardIso A I f F n).homCongr
         (adicThickeningCompletionPushforwardIso A I f G n)

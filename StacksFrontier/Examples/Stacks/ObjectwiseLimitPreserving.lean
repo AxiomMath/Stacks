@@ -195,7 +195,7 @@ private lemma not_exists_pi_section_of_separating_sections
   obtain ⟨a, V, f, g, hfg, hne⟩ := h i
   apply hne
   rw [← ht a]
-  show (F.map (c.π.app i).op ≫ F.map f.op) (t a) =
+  change (F.map (c.π.app i).op ≫ F.map f.op) (t a) =
     (F.map (c.π.app i).op ≫ F.map g.op) (t a)
   rw [← F.map_comp, ← F.map_comp, ← op_comp, ← op_comp, hfg]
 
@@ -345,7 +345,7 @@ private lemma factor_through_stage_with_projection
       (Functor.IsPreFibered.pullbackMap yi.2 si) (c.π.app k)
     dsimp only [ηs, ηk]
     simp only [Category.assoc, Functor.toPullbackFiber_fac, Functor.pullbackFiberProj_fac]
-    show G.map δk ≫ G.map d = G.map δ
+    change G.map δk ≫ G.map d = G.map δ
     rw [← G.map_comp, Functor.IsStronglyCartesian.fac]
   refine ⟨k, s, t, xk, d, δk, γk, ?_, ?_, hδk, ?_, ?_⟩
   · simpa [si] using (inferInstance : pX.IsHomLift si d)
@@ -403,7 +403,7 @@ private theorem isLimitPreservingOnObjects_of_connected_fibers
   · exact (Functor.chosenPullbacks 𝒳.val.p).isStronglyCartesian f x'
   · exact e.hom.2
   · exact Functor.map_isIso _ e.hom
-  · show (𝟭 (AlgebraicGeometry.BigFppfOver B S hS)).IsStronglyCartesian
+  · change (𝟭 (AlgebraicGeometry.BigFppfOver B S hS)).IsStronglyCartesian
       (F.map (D.map (𝟙 i))) γ'
     have : (𝟭 (AlgebraicGeometry.BigFppfOver B S hS)).IsHomLift
         (F.map (D.map (𝟙 i))) γ' := by
@@ -417,7 +417,7 @@ private theorem isLimitPreservingOnObjects_of_connected_fibers
         (eqToHom p₁ ≫ g ≫ eqToHom p₂) ≫ eqToHom p₃ =
           (eqToHom p₄ ≫ 𝟙 M ≫ eqToHom p₅) ≫ eqToHom p₆ ≫ g ≫ eqToHom p₇ := by
       simp
-    show 𝒳.val.p.map δ ≫ γ' = 𝒳.val.p.map β ≫ γ
+    change 𝒳.val.p.map δ ≫ γ' = 𝒳.val.p.map β ≫ γ
     have hδ := IsHomLift.fac' 𝒳.val.p f δ
     have hβ := IsHomLift.fac' 𝒳.val.p (𝟙 (F.obj c.pt)) β
     have hγ' := IsHomLift.fac'
@@ -481,7 +481,7 @@ private lemma booleanPowerEvaluation_eq_at (R : CommRingCat.{u}) (b b' : ℕ →
         colimit.desc (booleanPowerDiagram R) (booleanPowerEvaluation R b') := by
   simp only [colimit.ι_desc]
   ext a
-  show a (fun i : Fin n => b i) = a (fun i : Fin n => b' i)
+  change a (fun i : Fin n => b i) = a (fun i : Fin n => b' i)
   congr 1
   funext i
   exact h i i.isLt
@@ -499,7 +499,7 @@ open Cardinal in
 /-- The Boolean power `(Fin n → Bool) → R` has cardinality at most `max ℵ₀ #R`. -/
 private lemma cardinal_booleanPowerDiagram_le (R : CommRingCat.{u}) (n : ℕ) :
     #((booleanPowerDiagram R).obj n) ≤ max ℵ₀ #R := by
-  show #((Fin n → Bool) → R) ≤ _
+  change #((Fin n → Bool) → R) ≤ _
   rw [mk_arrow, mk_fintype (Fin n → Bool)]
   simpa only [lift_uzero, lift_natCast] using (power_nat_le_max (c := #R)
     (n := Fintype.card (Fin n → Bool))).trans_eq (max_comm _ _)
@@ -528,7 +528,7 @@ private lemma contains_spec_of_card_le (B : AlgebraicGeometry.BigFppfSite.{u})
     {R R' : CommRingCat.{u}} (hR : B.Contains (Spec R))
     (h : Cardinal.mk R' ≤ max Cardinal.aleph0 (Cardinal.mk R)) :
     B.Contains (Spec R') := by
-  show (Spec R').size < B.cutoff
+  change (Spec R').size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (h.trans_lt ((Scheme.size_Spec R) ▸ hR))
 
@@ -540,7 +540,6 @@ private lemma booleanPowerLimitCone_mem
   contains_spec_of_card_le B hR (cardinal_booleanPowerColimit_le R)
 attribute [local implicit_reducible] booleanPowerCoordinate booleanPowerDiagram
     booleanPowerEvaluation booleanPowerLimitCone in
-
 /-- The diagonal ring map from `R` into its Boolean power `(Fin n → Bool) → R`, sending `a` to
 the function constant at `a`. -/
 private def booleanPowerUnit (R : CommRingCat.{u}) (n : ℕ) :
@@ -685,7 +684,7 @@ private lemma booleanPowerAffineEvaluation_eq_at
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Scheme.Spec.map _ ≫ Scheme.Spec.map _ =
+  change Scheme.Spec.map _ ≫ Scheme.Spec.map _ =
     Scheme.Spec.map _ ≫ Scheme.Spec.map _
   rw [← Scheme.Spec.map_comp, ← Scheme.Spec.map_comp, ← op_comp, ← op_comp,
     booleanPowerEvaluation_eq_at R b b' n h]
@@ -742,7 +741,7 @@ private lemma booleanPowerSection_evaluation
         (booleanPowerSection R n) =
       (Scheme.ΓSpecIso R).inv (if b n then 1 else 0) := by
   let e := colimit.desc (booleanPowerDiagram R) (booleanPowerEvaluation R b)
-  show (Spec.map e).appTop
+  change (Spec.map e).appTop
     ((Scheme.ΓSpecIso (colimit (booleanPowerDiagram R))).inv
       (booleanPowerCoordinate R n (fun b : Bool => if b then 1 else 0))) = _
   have he := congrArg (fun g : colimit (booleanPowerDiagram R) ⟶ Γ(Spec R, ⊤) =>
@@ -780,7 +779,7 @@ private lemma not_exists_booleanPowerAffine_pi_section
   let e₀ := inc.map (booleanPowerAffineEvaluation B S hS R hR f (fun _ => false))
   let e₁ := inc.map (booleanPowerAffineEvaluation B S hS R hR f b)
   refine ⟨i.unop, inc.obj (affineSpecOver B S hS R hR f), e₀, e₁, ?_, ?_⟩
-  · show inc.map _ ≫ inc.map _ = inc.map _ ≫ inc.map _
+  · change inc.map _ ≫ inc.map _ = inc.map _ ≫ inc.map _
     rw [← inc.map_comp, ← inc.map_comp]
     congr 1
     apply booleanPowerAffineEvaluation_eq_at
@@ -813,6 +812,7 @@ private lemma sheaf_mono_app_injective
   exact (AddCommGrpCat.mono_iff_injective _).mp inferInstance
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the countable product of sheaves and its limits is heavy
 /-- Every sequence of sections of `H` over `U` is the family of components of a single section
 of the countable product `∏ᶜ fun _ : ℕ => H` over `U`. -/
 private lemma exists_product_sheaf_section
@@ -1195,8 +1195,8 @@ private lemma additivePresheafGroup_mul_apply
     rw [Functor.map_mul, MonObj.comp_mul, ha, hb]
     rfl
   rw [hfg]
-  show (a.app V + b.app V) (FreeAbelianGroup.of x) = _
-  show a.app V (FreeAbelianGroup.of x) + b.app V (FreeAbelianGroup.of x) = _
+  change (a.app V + b.app V) (FreeAbelianGroup.of x) = _
+  change a.app V (FreeAbelianGroup.of x) + b.app V (FreeAbelianGroup.of x) = _
   exact congrArg₂ (· + ·)
     (FreeAbelianGroup.lift_apply_of (fun s => (f.app V s : A.obj V)) x)
     (FreeAbelianGroup.lift_apply_of (fun s => (g.app V s : A.obj V)) x)
@@ -1238,7 +1238,7 @@ private lemma sheafGroupSectionMulEquiv_apply
       (ClassifyingTorsors.pullbackGroup (sheafGroupOver H) U b).X) :
     sheafGroupSectionMulEquiv H U b W f =
       Multiplicative.ofAdd (yonedaEquiv (f.left ≫ pullback.fst (sheafGroupOver H).X.hom b)) := by
-  simp only [sheafGroupSectionMulEquiv, MulEquiv.trans_apply,
+  simp only [sheafGroupSectionMulEquiv,
     pullbackHomMulEquiv, adjunctionHomMulEquiv, overTerminalHomMulEquiv,
     additivePresheafGroupYonedaEquiv,
     Over.mapPullbackAdj, Adjunction.mkOfHomEquiv_homEquiv]
@@ -1259,7 +1259,7 @@ private lemma sheafGroupSectionMulEquiv_naturality
       Multiplicative.ofAdd (H.obj.map f.left.op
         (sheafGroupSectionMulEquiv H U b W' a).toAdd) := by
   rw [sheafGroupSectionMulEquiv_apply, sheafGroupSectionMulEquiv_apply]
-  show yonedaEquiv (F := H.obj ⋙ forget AddCommGrpCat)
+  change yonedaEquiv (F := H.obj ⋙ forget AddCommGrpCat)
     ((yoneda.map f.left ≫ a.left) ≫ pullback.fst (sheafGroupOver H).X.hom b) =
     H.obj.map f.left.op (yonedaEquiv (a.left ≫ pullback.fst (sheafGroupOver H).X.hom b))
   exact (congrArg (fun t => yonedaEquiv (F := H.obj ⋙ forget AddCommGrpCat) t)
@@ -1378,10 +1378,6 @@ private def localizedPseudoTorsor
       naturality := by
         intro W W' f g s
         apply (se W'.unop).injective
-        change se W'.unop (P.map f ((se W.unop).symm
-          ((ce W.unop).symm g • se W.unop s))) =
-            se W'.unop ((se W'.unop).symm
-              ((ce W'.unop).symm _ • se W'.unop (P.map f s)))
         rw [Equiv.apply_symm_apply]
         have hn (s : P.obj W) :
             (Over.post yoneda).map f.unop ≫ se W.unop s =
@@ -1531,7 +1527,7 @@ private lemma abelianSheafTorsors_locallySmall
   let C := AlgebraicGeometry.BigFppfOver B S hS
   let := essentiallySmall_bigFppfOver B S hS
   let : LocallySmall.{u} (Cᵒᵖ ⥤ Type u) := locallySmall_functor_of_essentiallySmall.{u} (C := Cᵒᵖ)
-  show LocallySmall.{u}
+  change LocallySmall.{u}
     (ClassifyingTorsors.Torsor.{u} (sheafGroupOver H))
   refine ⟨fun T T' => ?_⟩
   apply small_of_injective.{u} (f := fun φ : T ⟶ T' => (φ.f, φ.g))
@@ -1557,13 +1553,13 @@ private lemma isFiberedInGroupoids_shrinkHoms
     have : p.IsHomLift f φ := hφ
     have hy : p.obj y = V := IsHomLift.domain_eq p f φ
     apply IsHomLift.of_fac' (F ⋙ p) f φ' hy hx
-    show p.map (F.map φ') = _
+    change p.map (F.map φ') = _
     rw [show F.map φ' = φ from F.map_preimage φ]
     exact IsHomLift.fac' p f φ
   · intro x y z φ ψ f hf
     obtain ⟨χ, hχ, huniq⟩ := hp.unique_lift (F.map φ) (F.map ψ) f hf
     refine ⟨F.preimage χ, ⟨?_, ?_⟩, ?_⟩
-    · show p.map (F.map (F.preimage χ)) = f
+    · change p.map (F.map (F.preimage χ)) = f
       simpa only [F.map_preimage] using hχ.1
     · apply F.map_injective
       simpa only [F.map_comp, F.map_preimage] using hχ.2
@@ -1587,7 +1583,7 @@ private lemma shrinkHoms_functor_comp_inverse
   have h : (ShrinkHoms.functor.{u} X ⋙ ShrinkHoms.inverse.{u} X).map f = f :=
     (equivShrink (x ⟶ y)).symm_apply_apply f
   rw [h]
-  show f = eqToHom (rfl : x = x) ≫ f ≫ eqToHom (rfl : y = y)
+  change f = eqToHom (rfl : x = x) ≫ f ≫ eqToHom (rfl : y = y)
   simp
 
 /-- The category of `H`-torsors with its hom types replaced by small models, fibred in
@@ -1624,7 +1620,7 @@ private lemma smallAbelianSheafTorsorsEquivalence_comp
         (smallAbelianSheafTorsors B S hS H).val.p =
       (abelianSheafTorsors B S hS H).val.p := by
   let := abelianSheafTorsors_locallySmall B S hS H
-  show ShrinkHoms.functor.{u} _ ⋙ (ShrinkHoms.inverse.{u} _ ⋙ _) = _
+  change ShrinkHoms.functor.{u} _ ⋙ (ShrinkHoms.inverse.{u} _ ⋙ _) = _
   rw [← Functor.assoc, shrinkHoms_functor_comp_inverse, Functor.id_comp]
 
 /-- Its inverse lies over the site too: followed by the structure functor of the category of
@@ -1802,8 +1798,8 @@ private lemma shrinkHoms_stack
     fun a b g => (equivShrink (up.obj a ⟶ up.obj b)).apply_symm_apply g
   have hq : q.IsFiberedInGroupoids := isFiberedInGroupoids_shrinkHoms p hp.isFiberedInGroupoids
   refine ⟨hq, ?_, ?_⟩
-  · intro U first second hfirst hsecond I V f hf Vij pr₁ pr₂ hVij xr yr xrij yrij
-    intro arrows harrows hisos hcompat
+  · intro U first second hfirst hsecond I V f hf Vij pr₁ pr₂ hVij xr yr xrij yrij arrows harrows
+      hisos hcompat
     have mapped := hp.isom_isSheaf (up.obj first) (up.obj second) hfirst hsecond
       V f hf Vij pr₁ pr₂ hVij
       (fun index => restrictionMap q p up rfl _ _ _ (xr index))
@@ -1897,7 +1893,7 @@ private lemma shrinkHoms_stack
     refine ⟨down.obj point, ?_,
       (fun index => restrictionMap p q down hdown _ _ _ (res index)),
       (fun index => down.map (arrows index)), ?_, ?_, ?_⟩
-    · show p.obj (up.obj (down.obj point)) = U
+    · change p.obj (up.obj (down.obj point)) = U
       exact hpoint
     · intro index
       let := hbases index
@@ -1987,13 +1983,13 @@ private lemma abelianSheafTorsors_fiber_connected
       comp_b := by change yoneda.map (𝟙 U) ≫ b = b; simp
       g := g.left
       isPullback := IsPullback.of_horiz_isIso ⟨by
-        show g.left ≫ F'.hom = F.hom ≫ yoneda.map (𝟙 U)
+        change g.left ≫ F'.hom = F.hom ≫ yoneda.map (𝟙 U)
         rw [CategoryTheory.Functor.map_id, Category.comp_id]
         exact Over.w g⟩
       smul_comp := by
         have he : ClassifyingTorsors.actionBaseChange (T := T) (T' := T') (𝟙 U)
             (by change yoneda.map (𝟙 U) ≫ b = b; simp) g.left (by
-              show F.hom ≫ yoneda.map (𝟙 U) = g.left ≫ F'.hom
+              change F.hom ≫ yoneda.map (𝟙 U) = g.left ≫ F'.hom
               rw [CategoryTheory.Functor.map_id, Category.comp_id]
               exact (Over.w g).symm) =
             (T.group ◁ g).left := by
@@ -2002,11 +1998,12 @@ private lemma abelianSheafTorsors_fiber_connected
             have hg : ClassifyingTorsors.groupBaseChange (T := T) (T' := T')
                 (𝟙 U) (by change yoneda.map (𝟙 U) ≫ b = b; simp) = 𝟙 T.group.left := by
               apply pullback.hom_ext <;>
-                simp [ClassifyingTorsors.groupBaseChange, T, T', pullback.map]
+                simp only [ClassifyingTorsors.groupBaseChange, pullback.map, Category.comp_id,
+                  CategoryTheory.Functor.map_id, pullback.lift_fst_snd, Category.id_comp, T, T']
               all_goals exact (Category.id_comp _).symm
             refine (_ ≫= hg).trans ?_
             exact (Category.comp_id _).trans (Over.whiskerLeft_left_fst (R := T.group) g).symm
-          · show ClassifyingTorsors.actionBaseChange _ _ _ _ ≫ _ =
+          · change ClassifyingTorsors.actionBaseChange _ _ _ _ ≫ _ =
               (T.group ◁ g).left ≫ pullback.snd T.group.hom F'.hom
             rw [ClassifyingTorsors.actionBaseChange_snd, Over.whiskerLeft_left_snd]
             rfl
@@ -2054,7 +2051,7 @@ private lemma regularTranslation_isIso {C : Type u} [Category.{v} C]
   intro Z
   have h (f : Z ⟶ G) : f ≫ regularTranslation G s = f * (toUnit Z ≫ s) := by
     simp [regularTranslation, MonObj.comp_mul]
-  show Function.Bijective (fun f : Z ⟶ G => f ≫ regularTranslation G s)
+  change Function.Bijective (fun f : Z ⟶ G => f ≫ regularTranslation G s)
   simp_rw [h]
   exact (Group.mulRight_bijective _)
 /-- Right translation of `G` by a point is a morphism for the regular left action of `G` on
@@ -2065,7 +2062,7 @@ private lemma regularTranslation_isModHom {C : Type u} [Category.{v} C]
     IsModHom G (regularTranslation G s) := by
   let : ModObj G G := .regular G
   constructor
-  show μ[G] ≫ regularTranslation G s = G ◁ regularTranslation G s ≫ μ[G]
+  change μ[G] ≫ regularTranslation G s = G ◁ regularTranslation G s ≫ μ[G]
   rw [MonObj.mul_eq_mul, MonObj.comp_mul]
   simp [regularTranslation, MonObj.comp_mul, mul_assoc]
 /-- The endomorphism of a torsor `T` over the identity of `T.U` given by an equivariant
@@ -2079,10 +2076,10 @@ private def torsorEndHom
   g := g.left
   isPullback := by
     have : IsIso g.left := (Over.forget _).map_isIso g
-    exact IsPullback.of_horiz_isIso ⟨by simpa using Over.w g⟩
+    exact IsPullback.of_horiz_isIso ⟨by simp⟩
   smul_comp := by
     have he : ClassifyingTorsors.actionBaseChange (T := T) (T' := T) (𝟙 T.U)
-        (by simp) g.left (by simpa using (Over.w g).symm) = (T.group ◁ g).left := by
+        (by simp) g.left (by simp) = (T.group ◁ g).left := by
       apply pullback.hom_ext
       · change _ = (T.group ◁ g).left ≫ pullback.fst T.group.hom T.F.hom
         rw [ClassifyingTorsors.actionBaseChange_fst, Over.whiskerLeft_left_fst,
@@ -2132,14 +2129,15 @@ private lemma torsorSectionMap_smul
     (z : 𝟙_ (Over (yoneda.obj T.U)) ⟶ T.F) :
     torsorSectionMap f (a • z) = groupSectionMap f a • torsorSectionMap f z := by
   apply Over.OverMorphism.ext
-  show (lift a z).left ≫ (γ[T.group,T.F]).left ≫ f.g =
+  change (lift a z).left ≫ (γ[T.group,T.F]).left ≫ f.g =
     (lift (groupSectionMap f a) (torsorSectionMap f z)).left ≫ (γ[T'.group,T'.F]).left
   rw [f.smul_comp]
   refine (Category.assoc _ _ _).symm.trans ?_
   congr 1
   apply pullback.hom_ext <;>
-    simp [groupSectionMap, torsorSectionMap, ClassifyingTorsors.Torsor.group,
-      ClassifyingTorsors.pullbackGroup]
+    simp only [Over.tensorUnit_left, ClassifyingTorsors.Torsor.group,
+      ClassifyingTorsors.pullbackGroup, Over.tensorObj_left, Over.lift_left, groupSectionMap,
+      Over.mk_left, torsorSectionMap, Over.homMk_left]
   all_goals first
     | exact (Category.assoc _ _ _).trans
         ((_ ≫= ClassifyingTorsors.actionBaseChange_fst ..).trans
@@ -2165,7 +2163,10 @@ private def unitGroupSectionMulEquiv
     { toFun := fun a => ce (e.inv ≫ a)
       invFun := fun a => e.hom ≫ ce.symm a
       left_inv := by intro a; simp
-      right_inv := by intro a; simp; exact ce.apply_symm_apply a
+      right_inv := by
+        intro a
+        simp only [Over.mk_left, Over.mk_hom, Iso.inv_hom_id_assoc]
+        exact ce.apply_symm_apply a
       map_mul' := by intro a b; rw [MonObj.comp_mul, map_mul]; rfl }
 
 attribute [local implicit_reducible] ClassifyingTorsors.pullbackGroup sheafGroupOver
@@ -2250,7 +2251,7 @@ private lemma regularTorsorTranslation_coordinate
     simp only [map_mul]
     exact mul_comm _ _
   have hz : z' ≫ regularTranslation T.group a = a • z' := by
-    show z' ≫ regularTranslation T.group a = a * z'
+    change z' ≫ regularTranslation T.group a = a * z'
     rw [regularTranslation, MonObj.comp_mul, Category.comp_id]
     have hunit : z' ≫ toUnit T.group = 𝟙 _ := toUnit_unique _ _
     rw [← Category.assoc, hunit, Category.id_comp]
@@ -2275,7 +2276,8 @@ private lemma regularTorsorTranslation_coordinate
   dsimp only [torsorSectionMap, Over.homMk_left, Over.comp_left,
     Multiplicative.toAdd, Multiplicative.ofAdd] at he''
   dsimp only [regularTorsorTranslation, torsorEndHom, groupCoordinate]
-  convert he'' using 1 <;> rfl
+  convert he'' using 1
+  rfl
 
 attribute [local implicit_reducible] CategoryTheory.ShrinkHoms.functor
     CategoryTheory.ShrinkHoms.inverse groupCoordinate regularTorsorTranslation sheafGroupOver
@@ -2313,7 +2315,8 @@ private lemma section_descends_of_translation_factors
     have he := congrArg
       (fun q : yoneda.obj U ⟶ T.F.left => yonedaEquiv (q ≫ f.g ≫ pr')) hz₀.symm
     dsimp only [groupCoordinate]
-    convert he using 1 <;> rfl
+    convert he using 1
+    rfl
   refine ⟨tb - td, ?_⟩
   dsimp only [tb, td]
   rw [map_sub, hmap b, hmap d]
@@ -2392,7 +2395,7 @@ private lemma sheaf_sections_descend_of_full_comparison
       exact Functor.congr_hom (smallAbelianSheafTorsorsEquivalence_functor_inverse B S hS H) τ
     change δk ≫ gk = g at hfac
     rw [← E.inverse.map_comp, hfac]
-    show E.inverse.map (E.functor.map τ ≫ δ) = _
+    change E.inverse.map (E.functor.map τ ≫ δ) = _
     rw [E.inverse.map_comp, hτ]
     rfl
   obtain ⟨r, hr⟩ := section_descends_of_translation_factors H c.pt (D.obj i) s δ' T a b d' had hab
@@ -2405,7 +2408,7 @@ private lemma sheaf_sections_descend_of_full_comparison
     change a.f = eqToHom _ ≫ c.π.app k ≫ eqToHom _ at h
     exact h.trans ((eqToHom_refl _ _ =≫ _).trans (Category.id_comp _))
   refine ⟨k, H.obj.map (eqToHom hT.symm).op r, ?_⟩
-  show (H.obj.map (eqToHom hT.symm).op ≫ H.obj.map (c.π.app k).op) r = s
+  change (H.obj.map (eqToHom hT.symm).op ≫ H.obj.map (c.π.app k).op) r = s
   rw [← H.obj.map_comp, ← op_comp, ← ha]
   exact hr
 

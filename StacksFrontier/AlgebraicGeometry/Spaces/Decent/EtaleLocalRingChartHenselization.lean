@@ -114,11 +114,11 @@ theorem exists_isLocalHom_comp_of_isSepClosure
     [IsHenselization A' κA' A'sh] :
     ∃ ψ : Ash →+* A'sh,
       IsLocalHom ψ ∧ ψ.comp (algebraMap A Ash) = (algebraMap A' A'sh).comp θ := by
-  letI : Algebra A A'sh := ((algebraMap A' A'sh).comp θ).toAlgebra
-  letI : Algebra (ResidueField A) κA' :=
+  let : Algebra A A'sh := ((algebraMap A' A'sh).comp θ).toAlgebra
+  let : Algebra (ResidueField A) κA' :=
     ((algebraMap (ResidueField A') κA').comp (ResidueField.map θ)).toAlgebra
-  haveI : IsSepClosed κA' := IsSepClosure.sep_closed (ResidueField A')
-  haveI : HenselianLocalRing A'sh :=
+  have : IsSepClosed κA' := IsSepClosure.sep_closed (ResidueField A')
+  have : HenselianLocalRing A'sh :=
     IsHenselization.henselian (R := A') (L := κA') (Rh := A'sh)
   obtain ⟨eA, heA⟩ :=
     IsHenselization.exists_residueFieldEquiv (R := A) (L := κA) (Rh := Ash)
@@ -198,13 +198,13 @@ theorem exists_algebra_isHenselization_etaleLocalRing_chart {x : GeometricPoint 
         (etaleLocalRing B S hS X x : Type (u + 1)) _
         (isLocalRing_etaleLocalRing B S hS X hX x) alg := by
   subst hp
-  letI : IsLocalRing (etaleLocalRing B S hS X x : Type (u + 1)) :=
+  let : IsLocalRing (etaleLocalRing B S hS X x : Type (u + 1)) :=
     isLocalRing_etaleLocalRing B S hS X hX x
-  letI algE : Algebra ↥(chartLocalRing B S hS X V)
+  let algE : Algebra ↥(chartLocalRing B S hS X V)
       (etaleLocalRing B S hS X x : Type (u + 1)) :=
     (chartLocalRingToEtaleLocalRing B S hS X hX V).toAlgebra
   refine ⟨algE, ?_⟩
-  letI : IsHenselization ↥(chartLocalRing B S hS X V)
+  let : IsHenselization ↥(chartLocalRing B S hS X V)
       (separableClosure (ResidueField ↥(chartLocalRing B S hS X V))
         (chartGeometricPoint V).residueField)
       (etaleLocalRing B S hS X x : Type (u + 1)) :=
@@ -225,11 +225,11 @@ theorem strictlyHenselianLocalRing_etaleLocalRing (x : GeometricPoint B S hS X) 
   have : Nonempty (SmallEtaleNeighborhood x) := IsCofiltered.nonempty
   let V : SmallEtaleNeighborhood x := Classical.arbitrary _
   let R := ((chartScheme V.chart).presheaf.stalk (chartPoint B S hS X V) : Type u)
-  letI : IsLocalRing (etaleLocalRing B S hS X x : Type (u + 1)) :=
+  let : IsLocalRing (etaleLocalRing B S hS X x : Type (u + 1)) :=
     isLocalRing_etaleLocalRing B S hS X hX x
   obtain ⟨alg, hV⟩ := exists_algebra_isHenselization_etaleLocalRing_chart B S hS X hX V
     (chartPoint B S hS X V) rfl (SeparableClosure (ResidueField R))
-  letI := alg
+  let := alg
   have hH : HenselianLocalRing (etaleLocalRing B S hS X x : Type (u + 1)) :=
     IsHenselization.henselian (R := R) (L := SeparableClosure (ResidueField R))
   obtain ⟨e, -⟩ := IsHenselization.exists_residueFieldEquiv (R := R)

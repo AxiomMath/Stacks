@@ -176,7 +176,7 @@ theorem isKInjective_openRestrict
   have hs : EssentiallySmall.{u} (Over (base 𝒮 S hS)) :=
     (BigSite.ofAmbient 𝒮 S hS).essentiallySmall_category
   have hs' : EssentiallySmall.{u} (Over (Over.mk (ambientHom 𝒮 hS hT g))) := by
-    show EssentiallySmall.{u} (CostructuredArrow (𝟭 _) _)
+    change EssentiallySmall.{u} (CostructuredArrow (𝟭 _) _)
     infer_instance
   exact Stacks.Cohomology.Localization.isKInjective_restriction_overMap_of_essentiallySmall
     (siteTopology τ 𝒮) (ambientHom 𝒮 hS hT g) (BigSite.ofAmbient 𝒮 S hS).topology

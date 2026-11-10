@@ -216,13 +216,7 @@ def pullbackComparison :
   alpha_compatibility i m := by
     dsimp only [canonicalDatum] at m ⊢
     change S ⊗[R] pullbackSections S N P Q a b at m
-    induction m using TensorProduct.induction_on with
-    | zero =>
-      change (pullbackDatum S f N P Q a b ha hb).alpha i (LocalizedModule.mkLinearMap _ _
-          (pullbackGenericMap S N P Q a b 0)) = TensorProduct.map LinearMap.id _
-        (canonicalAlpha S f (pullbackModule S N P Q a b) i (LocalizedModule.mkLinearMap _ _ 0))
-      simp only [map_zero]
-      exact (congrArg _ (map_zero _)).trans (map_zero _)
+    induction m using TensorProduct.inductionOn with
     | tmul s x =>
       have hg : pullbackGenericMap S N P Q a b (s ⊗ₜ[R] x) =
           s • pullbackGenericMap S N P Q a b ((1 : S) ⊗ₜ[R] x) := by
@@ -338,7 +332,7 @@ theorem pullbackToSections_bijective (hN : CechSeparated f N) (hN' : CechGlueing
         (Submonoid.powers (algebraMap R S (f i))) (LocalizedModule.mkLinearMap _ Q)).1
           ((transportAlpha S f (canonicalDatum S f N) Q a ha i).injective hi').symm
       refine ⟨k, ?_⟩
-      show (algebraMap R S (f i)) ^ k • _ = 0
+      change (algebraMap R S (f i)) ^ k • _ = 0
       rw [smul_sub]
       exact sub_eq_zero.2 hc
     refine ⟨⟨(n, p), hab⟩, ?_⟩
@@ -488,7 +482,7 @@ theorem canonicalLocalMap_comp {M M' M'' : ModuleCat.{w} R} (g : M ⟶ M') (h : 
     canonicalLocalMap f (g ≫ h) i x = canonicalLocalMap f h i (canonicalLocalMap f g i x) := by
   induction x using LocalizedModule.induction_on with
   | h m c =>
-    show LocalizedModule.map _ (h.hom.comp g.hom) (LocalizedModule.mk m c) =
+    change LocalizedModule.map _ (h.hom.comp g.hom) (LocalizedModule.mk m c) =
       LocalizedModule.map _ h.hom (LocalizedModule.map _ g.hom (LocalizedModule.mk m c))
     simp only [LocalizedModule.map_mk, LinearMap.comp_apply]
 
@@ -508,10 +502,9 @@ theorem pullbackLift_bijective (hN : CechSeparated f N) (hN' : CechGlueing f N)
   · have hcomp : (pullbackGenericMap S N P Q a b) ∘ (AlgebraTensorModule.lTensor S S w.hom) =
         h.hom := by
       funext z
-      induction z using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero h.hom).symm
+      induction z using TensorProduct.inductionOn with
       | tmul s m =>
-        show s • h.hom ((1 : S) ⊗ₜ[R] m) = h.hom (s ⊗ₜ[R] m)
+        change s • h.hom ((1 : S) ⊗ₜ[R] m) = h.hom (s ⊗ₜ[R] m)
         rw [← map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       | add x y hx hy =>
         simp only [Function.comp_apply, map_add] at hx hy ⊢

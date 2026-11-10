@@ -95,7 +95,7 @@ comparison morphism. -/
 theorem isIso_comma_map_hom (X : Comma L R) (hX : IsIso X.hom) :
     IsIso ((Comma.map α β).obj X).hom := by
   have : IsIso X.hom := hX
-  show IsIso (α.app X.left ≫ F.map X.hom ≫ β.app X.right)
+  change IsIso (α.app X.left ≫ F.map X.hom ≫ β.app X.right)
   infer_instance
 
 /-- `CategoryTheory.Comma.map` along natural isomorphisms reflects invertibility of the
@@ -140,7 +140,7 @@ theorem pullbackComp_hom_app_left_fst {C : Type*} [Category C] [HasPullbacks C] 
     ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g))
     (Over.mapComp f g).inv X
   have hh := congrArg (fun k ↦ k.left) h
-  simpa [Over.pullbackComp, conjugateIsoEquiv, Adjunction.comp_counit] using hh
+  simp [Over.pullbackComp, conjugateIsoEquiv]
 
 /-- The inverse comparison isomorphism identifying iterated base change with base change along
 a composite commutes with the projections to the object being pulled back. -/
@@ -177,7 +177,7 @@ theorem finitePresentationBaseChange_map_hom_left_fst {T W : Scheme.{u}} (p : W 
     {X Y : FinitePresentationOver T} (φ : X ⟶ Y) :
     ((finitePresentationBaseChange p).map φ).hom.left ≫ pullback.fst Y.obj.hom p =
       pullback.fst X.obj.hom p ≫ φ.hom.left := by
-  simp [finitePresentationBaseChange, Over.pullback, pullback.lift_fst]
+  simp [finitePresentationBaseChange, Over.pullback]
 
 /-- Composing the two underlying morphisms of an isomorphism of schemes of finite presentation
 over `W` in the other order gives the identity. -/

@@ -137,7 +137,7 @@ public theorem epi_of_forall_exists_surjective_app_affineOpen {X : Scheme.{u}} {
     exact hy
   refine ⟨X.basicOpen a, hbW, hxa,
     (↑v⁻¹ : Γ(X, X.basicOpen a)) • M.presheaf.map (homOfLE haU).op s₀, ?_⟩
-  show φ.app (X.basicOpen a) ((↑v⁻¹ : Γ(X, X.basicOpen a)) •
+  change φ.app (X.basicOpen a) ((↑v⁻¹ : Γ(X, X.basicOpen a)) •
     M.presheaf.map (homOfLE haU).op s₀) = N.presheaf.map (homOfLE hbW).op t
   rw [Scheme.Modules.Hom.app_smul, ← key, smul_smul, Units.inv_mul, one_smul]
 

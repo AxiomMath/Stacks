@@ -157,7 +157,7 @@ private lemma ker_eq_smul_top_of_quotient_baseChange
     [IsScalarTower A (A ⧸ I) N] (f : M →ₗ[A] N) (hf : IsBaseChange (A ⧸ I) f) :
     LinearMap.ker f = I • (⊤ : Submodule A M) := by
   ext m
-  show f m = 0 ↔ m ∈ I • (⊤ : Submodule A M)
+  change f m = 0 ↔ m ∈ I • (⊤ : Submodule A M)
   have ht : f m = 0 ↔ (1 : A ⧸ I) ⊗ₜ[A] m = 0 := by
     rw [← hf.equiv.map_eq_zero_iff, hf.equiv_tmul, one_smul]
   rw [ht, ← (TensorProduct.quotTensorEquivQuotSMul M I).map_eq_zero_iff]
@@ -200,12 +200,12 @@ private lemma free_sections_of_open_restriction (R : CommRingCat.{u})
         (ConcreteCategory.bijective_of_isIso e.hom) with
       map_add' := fun x y => map_add (ConcreteCategory.hom e.hom) x y
       map_smul' := fun r x => by
-        show (ConcreteCategory.hom e.hom) (r • x) = _
+        change (ConcreteCategory.hom e.hom) (r • x) = _
         calc
           (ConcreteCategory.hom e.hom) (r • x) =
               (j.appIso ⊤).hom (φ.hom r) •
                 (ConcreteCategory.hom e.hom) x := by
-                  show (M.restrictAppIso j ⊤).inv (r • x) = _
+                  change (M.restrictAppIso j ⊤).inv (r • x) = _
                   exact Scheme.Modules.smul_restrictAppIso_inv_apply j M ⊤
                     (φ.hom r) x
           _ = ψ.hom r • (ConcreteCategory.hom e.hom) x := by rw [hφ r] }
@@ -228,7 +228,7 @@ private lemma free_sections_of_opens_eq (R : CommRingCat.{u})
         (ConcreteCategory.bijective_of_isIso m.hom) with
       map_add' := fun x y => map_add (ConcreteCategory.hom m.hom) x y
       map_smul' := fun r x => by
-        show (ConcreteCategory.hom m.hom) (r • x) = _
+        change (ConcreteCategory.hom m.hom) (r • x) = _
         calc
           (ConcreteCategory.hom m.hom) (r • x) =
               (P.presheaf.map (eqToHom hVW).op (φ.hom r)) •
@@ -455,7 +455,7 @@ private theorem exists_filteredColimit_localized
   have hmod (i : LocalizedIndex T) : (inferInstance : Module A M) = (F.obj i).isModule := by
     apply Module.ext'
     intro a x
-    show a • x = algebraMap A R a • x
+    change a • x = algebraMap A R a • x
     exact (IsScalarTower.algebraMap_smul (R := A) (A := R) a x).symm
   refine ⟨LocalizedIndex T, inferInstance, localizedIndexFiltered T, F, c, ?_, ?_, ⟨hc⟩, ?_⟩
   · intro i
@@ -465,7 +465,7 @@ private theorem exists_filteredColimit_localized
     cases hmod i
     cases hmod j
     exact hred f.1
-  · show Nonempty (((ModuleCat.restrictScalars (algebraMap A R)).obj
+  · change Nonempty (((ModuleCat.restrictScalars (algebraMap A R)).obj
       (ModuleCat.of R (LocalizedModule T M))) ≅ ModuleCat.of A (LocalizedModule T M))
     let e : ((ModuleCat.restrictScalars (algebraMap A R)).obj
         (ModuleCat.of R (LocalizedModule T M))) ≃ₗ[A] LocalizedModule T M :=
@@ -528,7 +528,7 @@ private lemma stalkIso_restrict_smul
       (W.presheaf.germ ⊤ w (by simp)) (j.appTop r) • t m := by
     exact (OXModule.stalkLinearMap H (F.restrict j) e.hom w).map_smul
       ((W.presheaf.germ ⊤ w (by simp)) (j.appTop r)) m
-  show restrictStalkMap j F w (t ((W.presheaf.germ ⊤ w (by simp))
+  change restrictStalkMap j F w (t ((W.presheaf.germ ⊤ w (by simp))
     (j.appTop r) • m)) = (X.presheaf.germ ⊤ (j w) (by simp)) r •
       restrictStalkMap j F w (t m)
   rw [he]
@@ -558,7 +558,7 @@ private lemma smul_injective_pullback_iso {Y X : Scheme.{u}} (i : Y ⟶ X) [IsIs
       i.appTop r • m) := by
   have htop : i ''ᵁ (⊤ : Y.Opens) = ⊤ := by
     ext x
-    show (∃ y, y ∈ (⊤ : Y.Opens) ∧ i y = x) ↔ True
+    change (∃ y, y ∈ (⊤ : Y.Opens) ∧ i y = x) ↔ True
     exact ⟨fun _ => trivial, fun _ => ⟨(inv i) x, trivial, by
       have hh := congrArg (fun f : X ⟶ X => f.base x) (IsIso.inv_hom_id i)
       exact hh⟩⟩
@@ -597,7 +597,7 @@ private lemma residue_closedPoint_comparison (A : CommRingCat.{u}) [IsLocalRing 
           (ResidueField.mapEquiv
             (stalkClosedPointIso A).commRingCatIsoToRingEquiv).toRingHom := by
     ext a
-    show residue (A : Type u) a =
+    change residue (A : Type u) a =
       (ResidueField.mapEquiv (stalkClosedPointIso A).commRingCatIsoToRingEquiv)
         (residue _ ((stalkClosedPointIso A).inv a))
     rw [ResidueField.mapEquiv_apply, ResidueField.map_residue]
@@ -615,7 +615,7 @@ private lemma residue_closedPoint_comparison (A : CommRingCat.{u}) [IsLocalRing 
     Category.assoc]
   rfl
 
-private lemma reduction_injective_of_fiber_smul_injective
+lemma reduction_injective_of_fiber_smul_injective
     {A C : CommRingCat.{u}} [IsLocalRing A]
     (f : Spec C ⟶ Spec A) (H : (Spec C).Modules) [H.IsQuasicoherent]
     (r : Γ(Spec C, ⊤))
@@ -637,7 +637,7 @@ private lemma reduction_injective_of_fiber_smul_injective
   let eκ := (ResidueField.mapEquiv (stalkClosedPointIso A).commRingCatIsoToRingEquiv)
   let i := Spec.map (CommRingCat.ofHom eκ.toRingHom)
   have hisoI : IsIso i := by
-    show IsIso (Spec.map eκ.toCommRingCatIso.hom)
+    change IsIso (Spec.map eκ.toCommRingCatIso.hom)
     infer_instance
   have hi : i ≫ (Spec A).fromSpecResidueField (closedPoint A) =
       Spec.map (CommRingCat.ofHom (residue A)) := residue_closedPoint_comparison A
@@ -666,7 +666,7 @@ private lemma reduction_injective_of_fiber_smul_injective
               (Spec.map (CommRingCat.ofHom (algebraMap (A : Type u) (C : Type u))))).hom :
             _ ⟶ pullback f (Spec.map (CommRingCat.ofHom (residue (A : Type u))))) ≫ t)
       hbfst).trans ?_
-    show (pullbackSpecIso (A : Type u) ((A : Type u) ⧸ maximalIdeal (A : Type u))
+    change (pullbackSpecIso (A : Type u) ((A : Type u) ⧸ maximalIdeal (A : Type u))
           (C : Type u)).inv ≫
         (pullbackSymmetry
               (Spec.map (CommRingCat.ofHom
@@ -689,7 +689,7 @@ private lemma reduction_injective_of_fiber_smul_injective
       ((f.fiberι (closedPoint A)).appTop r) hinj
     have hscalar : E.hom.appTop ((f.fiberι (closedPoint A)).appTop r) =
         (Spec.map σ).appTop r := by
-      show ((f.fiberι (closedPoint A)).appTop ≫ E.hom.appTop) r = _
+      change ((f.fiberι (closedPoint A)).appTop ≫ E.hom.appTop) r = _
       rw [← Scheme.Hom.comp_appTop, hE]
     rw [hscalar] at he
     intro m n h
@@ -707,7 +707,7 @@ private lemma reduction_injective_of_fiber_smul_injective
   let : IsScalarTower A C T := IsScalarTower.of_compHom A C T
   let : IsScalarTower A D T := by
     refine ⟨fun a d m => ?_⟩
-    show (a • d) • m = σ (φ a) • (d • m)
+    change (a • d) • m = σ (φ a) • (d • m)
     calc
       (a • d) • m = (algebraMap A D a * d) • m :=
         congrArg (fun t : D => t • m) (Algebra.smul_def a d)
@@ -722,7 +722,7 @@ private lemma reduction_injective_of_fiber_smul_injective
   let : IsScalarTower A (A ⧸ maximalIdeal A) T := by
     apply IsScalarTower.of_algebraMap_smul
     intro a m
-    show algebraMap (A ⧸ maximalIdeal A) D (algebraMap A (A ⧸ maximalIdeal A) a) • m =
+    change algebraMap (A ⧸ maximalIdeal A) D (algebraMap A (A ⧸ maximalIdeal A) a) • m =
       σ (φ a) • m
     rw [← IsScalarTower.algebraMap_apply A (A ⧸ maximalIdeal A) D,
       IsScalarTower.algebraMap_apply A C D]
@@ -731,7 +731,7 @@ private lemma reduction_injective_of_fiber_smul_injective
     apply IsScalarTower.of_algebraMap_smul
     intro a m
     rw [Scheme.Modules.smul_Spec_def]
-    show ((Scheme.ΓSpecIso C).inv (φ a)) • m =
+    change ((Scheme.ΓSpecIso C).inv (φ a)) • m =
       ((Scheme.ΓSpecIso A).inv ≫ (Spec.map φ).appTop) a • m
     rw [← Scheme.ΓSpecIso_inv_naturality φ]
     rfl
@@ -745,9 +745,9 @@ private lemma reduction_injective_of_fiber_smul_injective
   intro m hm
   rw [← hker] at hm ⊢
   change l (r • m) = 0 at hm
-  show l m = 0
+  change l m = 0
   apply hinjK
-  show (Spec.map σ).appTop r • l m = (Spec.map σ).appTop r • (0 : T)
+  change (Spec.map σ).appTop r • l m = (Spec.map σ).appTop r • (0 : T)
   rw [smul_zero]
   have hr : r = (Scheme.ΓSpecIso C).inv ((Scheme.ΓSpecIso C).hom r) :=
     (ConcreteCategory.congr_hom (Scheme.ΓSpecIso C).hom_inv_id r).symm

@@ -126,12 +126,12 @@ def classOfPullback (f : Y ⟶ X) (M : X.Modules) : VectorBundleKZero Y :=
 theorem classOfPullback_of_isFiniteLocallyFree (f : Y ⟶ X) (M : X.Modules)
     (hM : IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     classOfPullback f M = classOf Y ((Scheme.Modules.pullback f).obj M) := by
-  simp only [classOfPullback, hM, if_true]
+  simp only [classOfPullback, hM, ite_true]
 
 /-- The additive map `f^* : K₀(Vect(X)) → K₀(Vect(Y))`. -/
 def pullbackAddHom (f : Y ⟶ X) : VectorBundleKZero X →+ VectorBundleKZero Y :=
   liftAddHom (classOfPullback f)
-    (fun M hM => by simp only [classOfPullback, hM, if_false])
+    (fun M hM => by simp only [classOfPullback, hM, ite_false])
     (fun {E F G} a b w hE hF hG hmono hepi hex => by
       rw [classOfPullback_of_isFiniteLocallyFree f F hF,
         classOfPullback_of_isFiniteLocallyFree f E hE,

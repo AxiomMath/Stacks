@@ -142,7 +142,7 @@ theorem bijective_algebraMap_of_formallyEtale_of_bijective_quotientMap
         (Ideal.Quotient.mk (a.map (algebraMap R S))) with
       commutes' := by
         intro r
-        show φ.symm (Ideal.Quotient.mk (a.map (algebraMap R S)) (algebraMap R S r)) = _
+        change φ.symm (Ideal.Quotient.mk (a.map (algebraMap R S)) (algebraMap R S r)) = _
         rw [← hφ r, φ.symm_apply_apply]
         rfl }
   obtain ⟨g, hg⟩ := Algebra.FormallySmooth.exists_lift (R := R) (A := S) a ha g₀
@@ -151,7 +151,7 @@ theorem bijective_algebraMap_of_formallyEtale_of_bijective_quotientMap
     refine Algebra.FormallyUnramified.ext (a.map (algebraMap R S)) hb fun s => ?_
     have e1 : Ideal.Quotient.mk a (g s) =
         φ.symm (Ideal.Quotient.mk (a.map (algebraMap R S)) s) := AlgHom.congr_fun hg s
-    show Ideal.Quotient.mk (a.map (algebraMap R S)) (algebraMap R S (g s)) = _
+    change Ideal.Quotient.mk (a.map (algebraMap R S)) (algebraMap R S (g s)) = _
     rw [← hφ (g s), e1, φ.apply_symm_apply]
     rfl
   exact ⟨Function.LeftInverse.injective h1, fun s => ⟨g s, AlgHom.congr_fun h2 s⟩⟩
@@ -221,7 +221,7 @@ theorem exists_finiteType_etale_lift_of_isNilpotent
       exact IsScalarTower.algebraMap_apply A B₀ (C ⧸ J.map (algebraMap A C)) a
   refine ⟨C, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, e, hC, fun b => ?_⟩
-  show algebraMap B₀ (C ⧸ J.map (algebraMap A C)) (φ.symm _) = _
+  change algebraMap B₀ (C ⧸ J.map (algebraMap A C)) (φ.symm _) = _
   rw [← hφ, φ.apply_symm_apply]
   rfl
 
@@ -335,7 +335,7 @@ theorem bijective_quotientMap_of_thickening [Algebra.Etale T S]
     rw [Ideal.map_map, Ideal.map_map]
     congr 1
     ext a
-    show Ideal.Quotient.mk IS (algebraMap T S (algebraMap A T a)) =
+    change Ideal.Quotient.mk IS (algebraMap T S (algebraMap A T a)) =
       Ideal.Quotient.mk IS (algebraMap A S a)
     rw [IsScalarTower.algebraMap_apply A T S]
   have hJT :
@@ -388,7 +388,7 @@ theorem bijective_quotientMap_of_thickening [Algebra.Etale T S]
     refine ⟨Ideal.Quotient.mk _ (Ideal.Quotient.mk IT t), ?_⟩
     rw [Ideal.quotientMap_mk, Ideal.Quotient.eq] at hx₀
     rw [Ideal.quotientMap_mk, Ideal.Quotient.eq]
-    show Ideal.Quotient.mk IS (algebraMap T S t) - Ideal.Quotient.mk IS u ∈ _
+    change Ideal.Quotient.mk IS (algebraMap T S t) - Ideal.Quotient.mk IS u ∈ _
     rw [← map_sub, hmemS]
     rw [← hcomp, ← map_sub, hIS₀] at hx₀
     rw [hIS, sup_comm]
@@ -434,7 +434,7 @@ theorem exists_etale_lift_of_sq_eq_bot
   have hflat : Module.Flat B₀ (C ⧸ J.map (algebraMap A C)) := inferInstance
   have hspan : Ideal.span (Set.range (SquareZero.genB J f B₀)) = I.map (algebraMap A B₀) := by
     rw [← hf]
-    show Ideal.span _ = Ideal.map _ (Ideal.span _)
+    change Ideal.span _ = Ideal.map _ (Ideal.span _)
     rw [Ideal.map_span, ← Set.range_comp]
     congr 1
     ext k
@@ -500,7 +500,7 @@ theorem exists_etale_lift_of_sq_eq_bot'
   let : Algebra (A ⧸ J) B₀ := ((algebraMap A₀ B₀).comp (algebraMap (A ⧸ J) A₀)).toAlgebra
   have : IsScalarTower (A ⧸ J) A₀ B₀ := .of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower A (A ⧸ J) B₀ := .of_algebraMap_eq fun a ↦ by
-    show algebraMap A B₀ a = algebraMap A₀ B₀ (eA (Ideal.Quotient.mk J a))
+    change algebraMap A B₀ a = algebraMap A₀ B₀ (eA (Ideal.Quotient.mk J a))
     rw [heA, ← IsScalarTower.algebraMap_apply]
   have : Algebra.Etale (A ⧸ J) A₀ := .of_equiv (AlgEquiv.ofRingEquiv (f := eA) fun _ ↦ rfl)
   have hB₀' : ∀ a ∈ I, Algebra.Etale (A ⧸ J) (Localization.Away (algebraMap A B₀ a)) := by
@@ -590,7 +590,7 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
     let J' : Ideal A' := J.map (Ideal.Quotient.mk K)
     let I' : Ideal A' := I.map (Ideal.Quotient.mk K)
     have hJ' : J' ^ (n + 1) = ⊥ := by
-      show (J.map (Ideal.Quotient.mk K)) ^ (n + 1) = ⊥
+      change (J.map (Ideal.Quotient.mk K)) ^ (n + 1) = ⊥
       rw [← Ideal.map_pow, ← hK, Ideal.map_quotient_self]
     let C' := C ⧸ K.map (algebraMap A C)
     have : Algebra.FiniteType A C' :=
@@ -602,12 +602,12 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
     have hA'₀ : Function.Surjective (algebraMap A' A₀) :=
       Ideal.Quotient.lift_surjective_of_surjective _ _ hA₀
     have hkerA'₀ : RingHom.ker (algebraMap A' A₀) = J' := by
-      show RingHom.ker (Ideal.Quotient.lift K (algebraMap A A₀) hKA₀) = _
+      change RingHom.ker (Ideal.Quotient.lift K (algebraMap A A₀) hKA₀) = _
       rw [Ideal.ker_quotient_lift, hkerA₀]
     let : Algebra A' B₀ := ((algebraMap A₀ B₀).comp (algebraMap A' A₀)).toAlgebra
     have : IsScalarTower A' A₀ B₀ := .of_algebraMap_eq fun _ ↦ rfl
     have hA'B₀ : ∀ a, algebraMap A' B₀ (Ideal.Quotient.mk K a) = algebraMap A B₀ a := fun a ↦ by
-      show algebraMap A₀ B₀ (algebraMap A A₀ a) = _
+      change algebraMap A₀ B₀ (algebraMap A A₀ a) = _
       rw [← IsScalarTower.algebraMap_apply]
     have : IsScalarTower A A' B₀ := .of_algebraMap_eq fun a ↦ (hA'B₀ a).symm
     have : Algebra.FiniteType A' B₀ := .of_restrictScalars_finiteType A A' B₀
@@ -620,12 +620,12 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
       { πC'₀ with
         commutes' := fun a ↦ by
           obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-          show πC (algebraMap A C a) = algebraMap B₀ C₀ (algebraMap A' B₀ (Ideal.Quotient.mk K a))
+          change πC (algebraMap A C a) = algebraMap B₀ C₀ (algebraMap A' B₀ (Ideal.Quotient.mk K a))
           rw [AlgHom.commutes, hA'B₀, ← IsScalarTower.algebraMap_apply] }
     have hπC' : Function.Surjective πC' :=
       Ideal.Quotient.lift_surjective_of_surjective _ _ hπC
     have hkerC' : RingHom.ker (πC' : C' →+* C₀) = J'.map (algebraMap A' C') := by
-      show RingHom.ker πC'₀ = _
+      change RingHom.ker πC'₀ = _
       rw [Ideal.ker_quotient_lift, hkerC, Ideal.map_map, Ideal.map_map]
       rfl
     have hC' : ∀ a ∈ I', Algebra.Etale A' (Localization.Away (algebraMap A' C' a)) := by
@@ -641,7 +641,7 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
       rw [hA'B₀]
       exact hB₀ a₀ ha₀
     have hIB : I'.map (algebraMap A' B₀) = I.map (algebraMap A B₀) := by
-      show (I.map (Ideal.Quotient.mk K)).map _ = _
+      change (I.map (Ideal.Quotient.mk K)).map _ = _
       rw [Ideal.map_map]
       congr 1
       ext a
@@ -667,7 +667,7 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
     have hB'I : ∀ a ∈ I, Algebra.Etale A' (Localization.Away (algebraMap A B' a)) := fun a ha ↦
       hEtB' _ (Ideal.mem_map_of_mem _ ha)
     have hIB' : I'.map (algebraMap A' B') = I.map (algebraMap A B') := by
-      show (I.map (Ideal.Quotient.mk K)).map _ = _
+      change (I.map (Ideal.Quotient.mk K)).map _ = _
       rw [Ideal.map_map, ← Ideal.Quotient.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
     have hmodB'' : Function.Bijective (Ideal.quotientMap
         ((I.map (algebraMap A B')).map (algebraMap B' C')) (algebraMap B' C')
@@ -680,18 +680,18 @@ theorem exists_etale_lift_of_pow_eq_bot (n : ℕ)
     refine ⟨B, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
       inferInstance, (πB'.restrictScalars A).comp πB, hπB'.comp hπB, ?_, fun b ↦ ?_, hEtB, hmodB⟩
     · have h1 : RingHom.ker (πB'.restrictScalars A : B' →+* B₀) = J.map (algebraMap A B') := by
-        show RingHom.ker (πB' : B' →+* B₀) = _
+        change RingHom.ker (πB' : B' →+* B₀) = _
         rw [hkerB', Ideal.map_map, ← Ideal.Quotient.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
       have h2 : J.map (algebraMap A B') = (J.map (algebraMap A B)).map (πB : B →+* B') := by
         rw [Ideal.map_map]
         congr 1
         ext a
         exact (πB.commutes a).symm
-      show RingHom.ker ((πB'.restrictScalars A : B' →+* B₀).comp (πB : B →+* B')) = _
+      change RingHom.ker ((πB'.restrictScalars A : B' →+* B₀).comp (πB : B →+* B')) = _
       rw [← RingHom.comap_ker, h1, h2, Ideal.comap_map_of_surjective (πB : B →+* B') hπB,
         ← RingHom.ker_eq_comap_bot, hkerB]
       exact sup_eq_left.mpr (Ideal.map_mono hKJ)
-    · show algebraMap B₀ C₀ (πB' (πB b)) = πC (algebraMap B C b)
+    · change algebraMap B₀ C₀ (πB' (πB b)) = πC (algebraMap B C b)
       rw [hcompB', hcompB]
       rfl
 

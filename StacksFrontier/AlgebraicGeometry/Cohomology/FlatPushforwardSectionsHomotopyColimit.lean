@@ -110,7 +110,7 @@ theorem _root_.CategoryTheory.Pretriangulated.IsHomotopyColimitWith.map_comp_cop
   obtain ⟨p, q, hT, hc⟩ := h
   have h1 := congrArg (fun φ => Limits.Sigma.ι F.obj n ≫ φ) (comp_distTriang_mor_zero₁₂ _ hT)
   simp only [Triangle.mk_obj₁, Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero] at h1
-  rw [← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, sub_eq_zero,
+  rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp, sub_eq_zero,
     Category.assoc] at h1
   rw [← hc n, ← hc (n + 1), h1]
 

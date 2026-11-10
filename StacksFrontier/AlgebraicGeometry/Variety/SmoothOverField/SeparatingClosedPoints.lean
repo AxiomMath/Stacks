@@ -105,7 +105,7 @@ theorem exists_separableClosedPoints_injective_Γevaluation {k : Type u} [Field 
   choose x hxU hxb hxc hxfs using hpt
   refine ⟨MaximalSpectrum A, inferInstance, x, fun m => ⟨hxU m, hxc m, hxfs m⟩,
     fun s t hst => φ.injective (funext fun m => ?_)⟩
-  show Ideal.Quotient.mk m.asIdeal s = Ideal.Quotient.mk m.asIdeal t
+  change Ideal.Quotient.mk m.asIdeal s = Ideal.Quotient.mk m.asIdeal t
   rw [Ideal.Quotient.eq]
   refine hker m (x m) (hxb m) _ ?_
   rw [map_sub, sub_eq_zero]

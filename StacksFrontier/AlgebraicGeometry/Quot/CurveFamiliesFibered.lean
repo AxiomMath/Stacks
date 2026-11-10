@@ -128,6 +128,7 @@ universe u
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for limits of presheaves on the big fppf site is a deep search
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_presheaf_CurveFamiliesFibered
@@ -147,6 +148,7 @@ local instance (priority := high) hasLimitsOfShapeDiscrete_presheaf_CurveFamilie
   HasLimitsOfSize.has_limits_of_shape.{0, 0} _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for pullbacks of presheaves on the big fppf site is a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_CurveFamiliesFibered

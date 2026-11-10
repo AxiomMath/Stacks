@@ -6,8 +6,8 @@ public import StacksFrontier.CategoryTheory.Sites.Modules.FlatMorphisms.RingedSi
 /-! # Flatness on a ringed topos (`04JB`)
 
 Everything the statement of Tag 04JB involves except the ringed-*topoi* flatness predicate is
-already in the library, in `StacksFrontier/CategoryTheory/Sites/Modules/FlatMorphisms/RingedSites.lean`, under
-restated names:
+already in the library, in
+`StacksFrontier/CategoryTheory/Sites/Modules/FlatMorphisms/RingedSites.lean`, under restated names:
 
 | name used here | library declaration |
 |---|---|

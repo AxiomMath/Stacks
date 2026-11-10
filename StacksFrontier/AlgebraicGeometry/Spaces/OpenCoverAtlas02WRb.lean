@@ -118,14 +118,14 @@ theorem sheafify_iSup_range_subfamily
       (fun j => (hc (ii j)).property_snd a) hJ
   rw [eq_top_iff]
   intro T t _
-  show (⨆ j, Subfunctor.range (c (ii j))).sieveOfSection t ∈
+  change (⨆ j, Subfunctor.range (c (ii j))).sieveOfSection t ∈
     BigFppfOver.topology B S hS (unop T)
   refine (BigFppfOver.topology B S hS).transitive (Presheaf.imageSieve_mem _ a t) _ ?_
   rintro Z f ⟨s, hs⟩
   refine (BigFppfOver.topology B S hS).superset_covering ?_
     ((BigFppfOver.topology B S hS).pullback_stable s hVcov)
   rintro Y₀ e ⟨W₀, h, _, ⟨j⟩, hfac⟩
-  show G.map (e ≫ f).op t ∈ (⨆ j, Subfunctor.range (c (ii j))).obj (op Y₀)
+  change G.map (e ≫ f).op t ∈ (⨆ j, Subfunctor.range (c (ii j))).obj (op Y₀)
   rw [Subfunctor.iSup_obj]
   refine Set.mem_iUnion.2 ⟨j, yonedaEquiv (yoneda.map h ≫ (hc (ii j)).rep.fst a), ?_⟩
   have key : yonedaEquiv (yoneda.map h ≫ (hc (ii j)).rep.fst a ≫ c (ii j)) =

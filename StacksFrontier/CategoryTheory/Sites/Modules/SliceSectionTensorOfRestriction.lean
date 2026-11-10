@@ -215,15 +215,11 @@ def tensorEquiv (U : Over W₀) : globalTensor O P W₀ U ≃+ localTensor O P W
   toFun := toLocalTensor O P W₀ U
   invFun := ofLocalTensor O P W₀ U
   left_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul s m => rfl
     | add a b ha hb => rw [map_add, map_add, ha, hb]
   right_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg (toLocalTensor O P W₀ U) (map_zero (ofLocalTensor O P W₀ U))).trans
-        (map_zero _)
+    induction t using TensorProduct.inductionOn with
     | tmul s m => rfl
     | add a b ha hb =>
       exact (congrArg (toLocalTensor O P W₀ U) (map_add (ofLocalTensor O P W₀ U) a b)).trans
@@ -322,8 +318,7 @@ theorem sliceTheta_apply_val (m : globalModule O P W₀) (U : Over W₀) :
 private theorem tensor_addMonoidHom_apply_eq {R M N A : Type*} [CommSemiring R] [AddCommMonoid M]
     [AddCommMonoid N] [Module R M] [Module R N] [AddCommMonoid A] (f g : M ⊗[R] N →+ A)
     (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) (t : M ⊗[R] N) : f t = g t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add a b ha hb => rw [map_add, map_add, ha, hb]
 

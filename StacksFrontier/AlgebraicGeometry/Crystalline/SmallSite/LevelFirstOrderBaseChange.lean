@@ -11,8 +11,8 @@ Two of the five unconstructed fields of
 `Θ_e : (D ⊕ Ω) ⊗_D M ⟶ Γ(T'_e, ℱ)`,  `b ⊗ m ↦ ψ_e(b) · p₀^* m`,
 
 and its value on a pure tensor.  The map itself needs only the ring map `ψ_e` of the level, which
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelThickeningRingHom.lean` constructs; what
-the datum of [Stacks, Lemma 60.17.3, Tag 07JG] runs on is that it is **bijective**, because the
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelThickeningRingHom.lean` constructs;
+what the datum of [Stacks, Lemma 60.17.3, Tag 07JG] runs on is that it is **bijective**, because the
 comparison map of a crystal at the level is the restriction `p₁^* s` read back through it.
 
 This module proves that bijectivity, from two inputs, and the first of them is the identification
@@ -262,7 +262,7 @@ def levelBaseChangeAux (F : QuasiCoherentCrystal S) (e : ℕ) :
       fun m m' ↦ by rw [L.levelSectionsP₀_add, smul_add])
     fun b b' ↦ by
       refine AddMonoidHom.ext fun m ↦ ?_
-      show R.thickeningRingHom e (b + b') • L.levelSectionsP₀ F e m =
+      change R.thickeningRingHom e (b + b') • L.levelSectionsP₀ F e m =
         R.thickeningRingHom e b • L.levelSectionsP₀ F e m +
           R.thickeningRingHom e b' • L.levelSectionsP₀ F e m
       rw [map_add, add_smul]
@@ -300,8 +300,7 @@ theorem levelBaseChange_eq (F : QuasiCoherentCrystal S) (e : ℕ)
     (z : firstOrderExtension D Omega ⊗[(D : Type u)] L.levelSections F e) :
     R.levelBaseChange F e z =
       L.levelExtensionSectionsMap F e (R.levelRingTensorMap F e z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       exact (crysExtensionSectionsMap_tmul F.obj (L.levelSystem.obj e)
         (R.thickeningRingHom e b) m).symm

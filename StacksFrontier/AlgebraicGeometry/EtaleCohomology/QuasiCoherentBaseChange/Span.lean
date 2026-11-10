@@ -91,13 +91,13 @@ theorem spans_succ (S : ShortComplex X.Modules) [S.X₁.IsQuasicoherent] [S.X₂
   let δ : Sheaf.H.{w} (etaleSheaf ((Scheme.Modules.pullback g).obj S.X₃)) q →+
       Sheaf.H.{w} (etaleSheaf ((Scheme.Modules.pullback g).obj S.X₁)) (q + 1) :=
     hS'.extClass.postcomp _ (rfl : q + 1 = q + 1)
-  show δ z ∈ _
+  change δ z ∈ _
   refine (AddSubgroup.closure_le
     (K := (AddSubgroup.closure (scaledImage g c S.X₁ (q + 1))).comap δ)).2 ?_ (h z)
   rintro _ ⟨a, x, rfl⟩
   refine AddSubgroup.subset_closure ⟨a, x.comp hS.extClass rfl, ?_⟩
   rw [restriction_comp_extClass g S hS hS' q (q + 1) rfl x]
-  show ((restriction g S.X₃ q x).comp (Ext.mk₀ (etaleScalar _ (c a))) (add_zero q)).comp
+  change ((restriction g S.X₃ q x).comp (Ext.mk₀ (etaleScalar _ (c a))) (add_zero q)).comp
       hS'.extClass rfl = _
   exact (Ext.comp_assoc_of_second_deg_zero _ _ _ _).trans
     ((congrArg (fun z => (restriction g S.X₃ q x).comp z rfl)

@@ -160,7 +160,7 @@ theorem weaklyEtale_tfae {X S : Scheme.{u}} (f : X ⟶ S) :
       apply IsZariskiLocalAtSource.of_openCover (P := @WeaklyEtale)
         (𝒰 := Scheme.Opens.iSupOpenCover U)
       intro i
-      show WeaklyEtale ((X.homOfLE (le_iSup U i)) ≫ g)
+      change WeaklyEtale ((X.homOfLE (le_iSup U i)) ≫ g)
       rw [show X.homOfLE (le_iSup U i) ≫ g =
         f.resLE (V j) (U i) ((le_iSup U i).trans hU.le) by
           rw [← cancel_mono (V j).ι]

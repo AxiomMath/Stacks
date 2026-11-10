@@ -185,7 +185,7 @@ variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C) {U V : C} (
 theorem overMapPullbackIso_hom_app (Z : Sheaf J (Type u)) :
     (overMapPullbackIso J g).hom.app Z = 𝟙 ((J.overPullback (Type u) U).obj Z) := by
   apply Sheaf.hom_ext
-  show Functor.whiskerRight (NatTrans.op (𝟙 (Over.map g ⋙ Over.forget V)))
+  change Functor.whiskerRight (NatTrans.op (𝟙 (Over.map g ⋙ Over.forget V)))
       ((sheafToPresheaf J (Type u)).obj Z) = 𝟙 (((J.overPullback (Type u) U).obj Z).obj)
   rw [NatTrans.op_id, Functor.whiskerRight_id']
   rfl

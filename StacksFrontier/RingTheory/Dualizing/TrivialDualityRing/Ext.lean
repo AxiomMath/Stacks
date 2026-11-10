@@ -175,7 +175,7 @@ private lemma chainMap_from_single_eq_zero
       apply (cancel_mono (L.iCycles q)).1
       rw [L.liftCycles_i, Category.assoc, HomologicalComplex.cyclesMap_i]
       dsimp only [a]
-      simp [eP, CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+      simp [eP, CochainComplex.singleFunctor]
     rw [he, Category.assoc, ← HomologicalComplex.homologyπ_naturality, hg]
     simp
   let S := ShortComplex.mk (L.toCycles (q - 1) q) (L.homologyπ q)
@@ -185,7 +185,7 @@ private lemma chainMap_from_single_eq_zero
   let t : P ⟶ L.X (q - 1) := hS.liftFromProjective z hz
   have ht : t ≫ L.d (q - 1) q = a := by
     rw [← L.toCycles_i (q - 1) q, ← Category.assoc]
-    show (hS.liftFromProjective z hz ≫ S.f) ≫ L.iCycles q = _
+    change (hS.liftFromProjective z hz ≫ S.f) ≫ L.iCycles q = _
     rw [ShortComplex.Exact.liftFromProjective_comp]
     exact L.liftCycles_i _ _ _ _
   rw [HomotopyCategory.quotient_map_eq_zero_iff]
@@ -213,7 +213,7 @@ private lemma derivedSingleHomologyMap_injective
     (hg : (DerivedCategory.homologyFunctor C q).map g = 0) : g = 0 := by
   let S := (CochainComplex.singleFunctor C q).obj P
   have hProj (n : ℤ) : CategoryTheory.Projective (S.X n) := by
-    show CategoryTheory.Projective (((HomologicalComplex.single C (.up ℤ) q).obj P).X n)
+    change CategoryTheory.Projective (((HomologicalComplex.single C (.up ℤ) q).obj P).X n)
     infer_instance
   let : S.IsKProjective := CochainComplex.isKProjective_of_projective S q
   let L := (DerivedCategory.Q (C := C)).objPreimage X
@@ -230,7 +230,7 @@ private lemma derivedSingleHomologyMap_injective
     simp only [← Category.assoc]
     rw [← e.hom.naturality φ]
     simp only [Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
-    show DerivedCategory.Qh.map (Q.map φ) = t
+    change DerivedCategory.Qh.map (Q.map φ) = t
     rw [hφ, hh]
   have hφH : HomologicalComplex.homologyMap φ q = 0 := by
     apply (cancel_epi ((DerivedCategory.homologyFunctorFactors C q).hom.app S)).1
@@ -340,7 +340,7 @@ private lemma freeHom_ext
   obtain ⟨b⟩ := y
   have hy : (ULift.up b : ULift.{v} B) = b • (ULift.up 1 : ULift.{v} B) := by
     apply ULift.ext
-    show b = b * 1
+    change b = b * 1
     simp
   rw [hy]
   simpa only [map_smul] using congrArg (fun z => b • z) heq
@@ -693,7 +693,7 @@ private theorem coextendSingleUnit_eq_derivedAdjunctionUnit
         { f := fun n => adj₀.unit.app (T.X n)
           comm' := by
             intro i j hij
-            show adj₀.unit.app (T.X i) ≫ F₀.map (G₀.map (T.d i j)) =
+            change adj₀.unit.app (T.X i) ≫ F₀.map (G₀.map (T.d i j)) =
               T.d i j ≫ adj₀.unit.app (T.X j)
             simpa only [Functor.comp_map, Functor.id_map] using
               (adj₀.unit.naturality (T.d i j)).symm }
@@ -721,11 +721,11 @@ private theorem coextendSingleUnit_eq_derivedAdjunctionUnit
         refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
         by_cases hn : n = q
         · subst n
-          show adj₀.unit.app (T.X q) ≫ F₀.map (mG.f q) =
+          change adj₀.unit.app (T.X q) ≫ F₀.map (mG.f q) =
             ((CochainComplex.singleFunctor (ModuleCat.{max v u} B) q).map η).f q ≫
               (mF.inv.app M).f q
           dsimp only [mG, mF, M, T]
-          simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+          simp only [CochainComplex.singleFunctor]
           rw [HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
             HomologicalComplex.singleMapHomologicalComplex_inv_app_self,
             HomologicalComplex.single_map_f_self]
@@ -835,7 +835,7 @@ private theorem coextendSingleUnit_eq_derivedAdjunctionUnit
         (ModuleCat.{max v u} A) q ⋙ DerivedCategory.Q).obj M))) = 𝟙 _ := by simp
     refine Eq.trans (b := mid) ?_ ?_
     · simp only [mid, Functor.id_obj, Functor.comp_obj,
-        CochainComplex.singleFunctor, CochainComplex.singleFunctors,
+        CochainComplex.singleFunctor,
         Category.assoc]
       exact Eq.trans (Category.assoc _ _ _) hjoined
     · dsimp only [mid]
@@ -891,7 +891,7 @@ private theorem extToHomology_naturality {K L : DerivedCategory (ModuleCat.{max 
   let e := (DerivedCategory.singleFunctors (ModuleCat.{max v u} A)).shiftIso q 0 q (by simp)
   let shiftFF := Functor.FullyFaithful.ofFullyFaithful
     (shiftFunctor (DerivedCategory (ModuleCat.{max v u} A)) q)
-  show (ModuleCat.restrictScalars f).map
+  change (ModuleCat.restrictScalars f).map
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} B) q).map
         (RF.map (shiftFF.preimage (e.hom.app M ≫ (h ≫ (shiftFunctor _ q).map k))))) _ = _
   have hg : shiftFF.preimage (e.hom.app M ≫ (h ≫ (shiftFunctor _ q).map k)) =
@@ -974,7 +974,7 @@ theorem homologyExtComparison_nonempty
             extToHomologyLinearMap] using hxy
         · obtain ⟨x, hx⟩ := (extHomologyAddEquiv f RF α K q).surjective y
           exact ⟨x, by
-            show extToHomology f RF α K q x = y
+            change extToHomology f RF α K q x = y
             rw [← extHomologyAddEquiv_eq_extToHomology f RF α K q x]
             simpa [ModuleCat.restrictScalars, ModuleCat.RestrictScalars.obj'] using hx⟩)
   refine ⟨{
@@ -986,10 +986,10 @@ theorem homologyExtComparison_nonempty
     let y : ((ModuleCat.restrictScalars f).obj
         ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} B) q).obj (RF.obj L))) :=
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} B) q).map (RF.map g)) x
-    show (e L q) ((e L q).symm y) =
+    change (e L q) ((e L q).symm y) =
       (e L q) ((e K q).symm x ≫ (shiftFunctor _ q).map g)
     rw [(e L q).apply_symm_apply]
-    show y = extToHomology f RF α L q
+    change y = extToHomology f RF α L q
       ((e K q).symm x ≫ (shiftFunctor _ q).map g)
     rw [extToHomology_naturality]
     rw [show extToHomology f RF α K q ((e K q).symm x) = x from (e K q).apply_symm_apply x]
@@ -1002,11 +1002,11 @@ theorem homologyExtComparison_nonempty
         ((coextendSingleUnit f RF α _ q)
           (((ModuleCat.restrictCoextendScalarsAdj.{v, u, u} f).unit.app
             (ModuleCat.of B (ULift.{v} B))) (ULift.up 1)))
-    show (e K q) ((e K q).symm y) = (e K q)
+    change (e K q) ((e K q).symm y) = (e K q)
       ((((DerivedCategory.singleFunctors (ModuleCat.{max v u} A)).shiftIso q 0 q
         (by simp)).inv.app _) ≫ (shiftFunctor _ q).map g)
     rw [(e K q).apply_symm_apply]
-    show y = extToHomology f RF α K q
+    change y = extToHomology f RF α K q
       ((((DerivedCategory.singleFunctors (ModuleCat.{max v u} A)).shiftIso q 0 q
         (by simp)).inv.app _) ≫ (shiftFunctor _ q).map g)
     exact (extToHomology_unit f RF α K q g).symm

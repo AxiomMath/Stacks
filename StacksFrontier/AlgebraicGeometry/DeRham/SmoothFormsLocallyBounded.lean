@@ -178,7 +178,7 @@ theorem isLocallyBounded_deRhamCochainComplex [Smooth f] :
   rcases lt_or_ge i 0 with hneg | hpos
   · exact Stacks.SheafOfModules.OnSpace.isZero_over_of_isZero (inverseImageBase f)
       (HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat i
-        (fun n => by simpa using (hneg.trans_le (Int.ofNat_zero_le n)).ne')) U
+        (fun n => by simpa using (hneg.trans_le (Int.natCast_nonneg n)).ne')) U
   · obtain ⟨n, rfl⟩ : ∃ n : ℕ, i = (n : ℤ) := ⟨i.toNat, by omega⟩
     have hn : N < n := by
       by_contra hcon

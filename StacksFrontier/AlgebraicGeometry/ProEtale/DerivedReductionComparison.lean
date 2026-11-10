@@ -96,7 +96,7 @@ theorem isIso_comparison_app_of_resolving (P : CochainComplex A ℤ → Prop)
       exact Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso _ _) _
         ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2
           ((HomologicalComplex.mem_quasiIso_iff _).2 (hF g hX hY hg')))
-    show IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory _).map s))
+    change IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory _).map s))
     exact hg ▸ key
   have := hasPointwiseLeftDerivedFunctor_of_resolutions W PH hres Uh hUh
   let Gt := Uh.totalLeftDerived DerivedCategory.Qh W
@@ -320,7 +320,7 @@ theorem exists_quasiIso_isKFlatCoefficientComplex
   refine ⟨aC.asEquivalence.inverse.obj M, aC.preimage (ε.hom ≫ m),
     CochainComplex.KFlatBifunctor.KFlat.of_iso _ hM ε.symm, ?_⟩
   rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology _ a]
-  show QuasiIso (aC.map (aC.preimage (ε.hom ≫ m)))
+  change QuasiIso (aC.map (aC.preimage (ε.hom ≫ m)))
   rw [Functor.map_preimage]
   infer_instance
 

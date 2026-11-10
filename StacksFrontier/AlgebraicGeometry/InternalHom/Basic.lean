@@ -181,14 +181,14 @@ theorem ihom_isEquivalence : (ihom A).IsEquivalence :=
 internal hom adjunction is an isomorphism. -/
 theorem isIso_ev_app (X : D) : IsIso ((ihom.ev A).app X) := by
   have := ihom_isEquivalence A
-  show IsIso ((ihom.adjunction A).counit.app X)
+  change IsIso ((ihom.adjunction A).counit.app X)
   infer_instance
 
 /-- If tensoring on the left by `A` is an equivalence, every component of the coevaluation of the
 internal hom adjunction is an isomorphism. -/
 theorem isIso_coev_app (X : D) : IsIso ((ihom.coev A).app X) := by
   have := ihom_isEquivalence A
-  show IsIso ((ihom.adjunction A).unit.app X)
+  change IsIso ((ihom.adjunction A).unit.app X)
   infer_instance
 
 /-- The evaluation `A ⊗ dual A ⟶ 𝟙_ D` read as an isomorphism, when tensoring on the left by `A`

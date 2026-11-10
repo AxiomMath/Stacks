@@ -144,7 +144,7 @@ theorem isFractionRing_stalkToAdjoin :
   refine IsFractionRing.of_field _ _ fun z ↦ ?_
   obtain ⟨r, r', hrr'⟩ := (IntermediateField.mem_adjoin_simple_iff k (z : Ω)).mp z.2
   refine ⟨algebraMap k[X] _ r, algebraMap k[X] _ r', Subtype.ext ?_⟩
-  show (z : Ω) = (stalkToAdjoin hu (algebraMap k[X] _ r) : Ω) /
+  change (z : Ω) = (stalkToAdjoin hu (algebraMap k[X] _ r) : Ω) /
     (stalkToAdjoin hu (algebraMap k[X] _ r') : Ω)
   rw [stalkToAdjoin_algebraMap, stalkToAdjoin_algebraMap, coe_polyToAdjoin, coe_polyToAdjoin, hrr']
 
@@ -273,7 +273,7 @@ theorem isIntegral_of_mem_localizationSubalgebra {O : Type*} [CommRing O] [IsLoc
   have heq : algebraMap (Algebra.adjoin F {s}) K'' a / algebraMap (Algebra.adjoin F {s}) K'' b =
       (a : K'') * (d : K'') * (1 + algebraMap O K'' π * (-(c : K'')))⁻¹ := by
     rw [← hy]
-    show (a : K'') / (b : K'') = _
+    change (a : K'') / (b : K'') = _
     field_simp
   rw [heq]
   refine ((hD a).mul (hD d)).mul (isIntegral_inv_one_add_mul hπ ?_)
@@ -469,6 +469,7 @@ theorem isUnramifiedAt_of_formallyUnramified_localAtGen {F K'' N : Type*} [Field
   exact isUnramifiedAt_of_isLocalization_integralClosure (Rf := localAtGen hs) _ hM P hdisj
 
 set_option maxHeartbeats 1600000 in
+-- long proof through towers of intermediate fields, integral closures and localizations
 /-- **Abhyankar's lemma at a Kummer level**, in the form used for `𝐆_m`. Let `O` be a discrete
 valuation ring with uniformizer `π`, fraction field `K ⊆ Ω` and a tame field factor `L ⊆ Ω`
 whose ramification indices divide `e`, invertible in the finite field `k ⊆ O`. Let `K'' ⊆ Ω`
@@ -542,7 +543,7 @@ theorem isUnramifiedAt_of_abhyankar {k Ω : Type u} [Field k] [Finite k] [Field 
     have h2 : (evalZero hs).toRingHom.comp (algebraMap k (Algebra.adjoin F {s})) =
         algebraMap k F :=
       RingHom.ext fun c ↦ (evalZero hs).commutes (algebraMap k F c)
-    show (evalZero hs).toRingHom (eval₂ (algebraMap k _) (adjoinGen F s ^ e) r) = _
+    change (evalZero hs).toRingHom (eval₂ (algebraMap k _) (adjoinGen F s ^ e) r) = _
     rw [h1, h2, map_pow, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, evalZero_adjoinGen,
       zero_pow he0, eval₂_at_zero]
   have hmemO : ∀ x : O, algebraMap O K'' x ∈ (localAtGen hs) := by
@@ -558,7 +559,7 @@ theorem isUnramifiedAt_of_abhyankar {k Ω : Type u} [Field k] [Finite k] [Field 
     refine ⟨h₀ r, h₀ r', hr'P, ?_⟩
     rw [IsFractionRing.mk'_eq_div]
     refine (eq_div_iff hr'0).mpr (Subtype.ext ?_)
-    show ((algebraMap O K x : K) : Ω) * ((h₀ r' : K'') : Ω) = ((h₀ r : K'') : Ω)
+    change ((algebraMap O K x : K) : Ω) * ((h₀ r' : K'') : Ω) = ((h₀ r : K'') : Ω)
     exact (congrArg (((algebraMap O K x : K) : Ω) * ·) (hcoe r')).trans (hx.trans (hcoe r).symm)
   have hkO'' : (algebraMap O K'').comp ιk = algebraMap k K'' :=
     RingHom.ext fun c ↦ Subtype.ext (hιk c)
@@ -673,6 +674,7 @@ theorem ringChar_residue_originPoint :
 variable [Finite k]
 
 set_option maxHeartbeats 1600000 in
+-- long proof through towers of intermediate fields, integral closures and localizations
 /-- **Abhyankar's lemma at the boundary point `(x)`.** For a finite unramified cover of
 `𝐆_{m,k}` tame at `(x)` and a point of it over `x ↦ u`, there is `E₀` prime to `q` such that at
 every Kummer level `s^e = u` with `E₀ ∣ e` and `q ∤ e`, the integral closure of `F[s]` in
@@ -713,7 +715,7 @@ theorem exists_forall_isUnramifiedAt_of_tame (φ : Ring k →+* C) (hfin : φ.Fi
   let ψL : C →+* L := ψ.codRestrict L fun c ↦ IntermediateField.subset_adjoin K _ ⟨c, rfl⟩
   have hψL : ∀ r : k[X], ψL (φ (algebraMap k[X] (Ring k) r)) =
       algebraMap O L (algebraMap k[X] O r) := fun r ↦ Subtype.ext (by
-    show ψ (φ _) = ((algebraMap O K (algebraMap k[X] O r) : K) : Ω)
+    change ψ (φ _) = ((algebraMap O K (algebraMap k[X] O r) : K) : Ω)
     rw [hOK, hψ, coe_polyToAdjoin])
   have hgen : Algebra.adjoin K (Set.range ψL) = ⊤ := by
     have hrange : Set.range ψL = Subtype.val ⁻¹' Set.range ψ := by

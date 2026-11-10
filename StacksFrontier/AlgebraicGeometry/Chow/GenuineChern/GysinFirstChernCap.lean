@@ -57,7 +57,7 @@ theorem properChowPushforward_gysinChowOfInvertible (M : X.Modules)
       firstChernClassCapChow C k p M β := by
   induction β using QuotientAddGroup.induction_on with
   | H b =>
-    show properChowPushforward C ((Stacks.Divisors.zeroScheme X M t).subschemeι ≫ p) p
+    change properChowPushforward C ((Stacks.Divisors.zeroScheme X M t).subschemeι ≫ p) p
         (Stacks.Divisors.zeroScheme X M t).subschemeι rfl k hfac
         (gysinHomomorphismOfInvertible C p k M t b) = firstChernClassCapOfInvertible C p k M b
     exact properChowPushforward_gysinHomomorphismOfInvertible C p k M t b
@@ -102,7 +102,7 @@ theorem gysinChowOfInvertible_firstChernClassCapChow (α : chowGroup C p (k + 1 
       L s k j hj (properPushforwardFactorsThroughRationalEquivalence C _ _ _ _ _)
       (properPushforwardFactorsThroughRationalEquivalence C _ _ _ _ _)]
   have h0B73 := gysinChowOfInvertible_comm C p k L N s 0 e he α
-  show properChowPushforward C (ZE.subschemeι ≫ E.subschemeι ≫ p) (D.subschemeι ≫ p) j hjp k _
+  change properChowPushforward C (ZE.subschemeι ≫ E.subschemeι ≫ p) (D.subschemeι ≫ p) j hjp k _
       (gysinChowOfInvertible C (E.subschemeι ≫ p) k _ _
         (gysinChowOfInvertible C p (k + 1) N 0 α)) = _
   rw [← h0B73, chowPushforwardOfIso, ← properChowPushforward_comp_apply C

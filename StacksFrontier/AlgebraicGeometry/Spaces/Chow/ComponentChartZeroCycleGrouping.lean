@@ -397,7 +397,7 @@ theorem cycleAssociatedToClosedSubscheme_sup_eq_finsum_components_of_isReduced
     · simp only [hxW, finsum_false]
       exact cycle_sup_apply_eq_zero_of_notMem_support C f _ D k (by
         rwa [Scheme.IdealSheafData.coe_support_vanishingIdeal])
-  show _ = ∑ᶠ W, F W
+  change _ = ∑ᶠ W, F W
   rw [hLHS, AlgebraicGeometry.natCast_length_quotient_span_sup_eq_finsum_minimalPrimes_of_isReduced
     b I hItop hred hbreg hdim hfin', hrestrict]
   refine (finsum_eq_of_bijective
@@ -606,7 +606,7 @@ theorem cycleAssociatedToClosedSubscheme_componentChart_sup_eq_finsum
     exact W.2
   have hvA : v ∈ (closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1 Z.subspace
       Z.isClosedSubspace V).ker.support := by
-    show v ∈ (_ : Set (chartScheme V))
+    change v ∈ (_ : Set (chartScheme V))
     rwa [hAsupp]
   obtain ⟨t, ht⟩ := exists_closedSubspaceBaseChangeChartProj_eq D.site D.base D.base_mem
     hX.1 Z.subspace Z.isClosedSubspace V v hvZ
@@ -645,7 +645,7 @@ theorem cycleAssociatedToClosedSubscheme_componentChart_sup_eq_finsum
         (closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1 Z.subspace
           Z.isClosedSubspace V).ker v ≤ q'.asIdeal := by
       refine (Stacks.Chow.stalk_le_iff_mem_support_fromSpecStalk _ v q').mpr ?_
-      show _ ∈ (_ : Set (chartScheme V))
+      change _ ∈ (_ : Set (chartScheme V))
       rw [hAsupp, hq']
       exact hTclosed.closure_subset_iff.2 hEsub (hw ▸ subset_closure rfl)
     have hq'q : q' ≤ q := by

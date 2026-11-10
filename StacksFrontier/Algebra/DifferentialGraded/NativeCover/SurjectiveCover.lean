@@ -173,7 +173,7 @@ theorem isInternal_gradingP :
       _ = ⊥ := by
             rw [inf_comm ((PXend PM).grading i), inf_comm ((PYend PM).grading i),
               hXle, hYle, Submodule.prod_bot]
-  · show (⨆ n, ((PXend PM).grading n).prod ((PYend PM).grading n)) = ⊤
+  · change (⨆ n, ((PXend PM).grading n).prod ((PYend PM).grading n)) = ⊤
     rw [hprod, hX2, hY2, Submodule.prod_top]
 
 /-- The differential of `P₁` raises degree by one. The interesting part is
@@ -196,12 +196,12 @@ contributions `d_Y(s) + s` followed by `d_Y` plus the carried `d_X s` cancel. -/
 theorem dP_comp_dP (st : Carrier PM) : dP PM (dP PM st) = 0 := by
   rw [dP_apply, dP_apply]
   refine Prod.ext ((PXend PM).d_comp_d st.1) ?_
-  · show (PYend PM).d ((PYend PM).d st.2 + st.1) + (PXend PM).d st.1 = 0
+  · change (PYend PM).d ((PYend PM).d st.2 + st.1) + (PXend PM).d st.1 = 0
     rw [map_add, (PYend PM).d_comp_d st.2, zero_add]
     -- remaining: (PYend).d st.1 + (PXend).d st.1 = 0
     refine DirectSum.ext (fun j => ?_)
     rw [DirectSum.add_apply, DirectSum.zero_apply]
-    show (ShiftSum.diffDiag R A dA (Idx PM) (kY PM) st.1) j
+    change (ShiftSum.diffDiag R A dA (Idx PM) (kY PM) st.1) j
         + (ShiftSum.diffDiag R A dA (Idx PM) (kX PM) st.1) j = 0
     rw [ShiftSum.diffDiag_apply, ShiftSum.diffDiag_apply]
     have hsign : ((-1 : R) ^ (kY PM j).natAbs) = -((-1 : R) ^ (kX PM j).natAbs) := by
@@ -223,11 +223,11 @@ theorem leibnizP (n : ℤ) (st : Carrier PM) (hst : st ∈ gradingP PM n) (a : A
   obtain ⟨hX, hY⟩ := hst
   rw [smulP_apply, dP_apply, dP_apply, smulP_apply, smulP_apply]
   apply Prod.ext
-  · show (PXend PM).d (ShiftSum.rsmul R A (Idx PM) st.1 a)
+  · change (PXend PM).d (ShiftSum.rsmul R A (Idx PM) st.1 a)
         = ShiftSum.rsmul R A (Idx PM) ((PXend PM).d st.1) a
           + ((-1 : R) ^ n.natAbs) • ShiftSum.rsmul R A (Idx PM) st.1 (dA.d a)
     exact (PXend PM).leibniz n st.1 hX a
-  · show (PYend PM).d (ShiftSum.rsmul R A (Idx PM) st.2 a) + ShiftSum.rsmul R A (Idx PM) st.1 a
+  · change (PYend PM).d (ShiftSum.rsmul R A (Idx PM) st.2 a) + ShiftSum.rsmul R A (Idx PM) st.1 a
         = ShiftSum.rsmul R A (Idx PM) ((PYend PM).d st.2 + st.1) a
           + ((-1 : R) ^ n.natAbs) • ShiftSum.rsmul R A (Idx PM) st.2 (dA.d a)
     have hL : (PYend PM).d (ShiftSum.rsmul R A (Idx PM) st.2 a)
@@ -239,7 +239,7 @@ theorem leibnizP (n : ℤ) (st : Carrier PM) (hst : st ∈ gradingP PM n) (a : A
           + ShiftSum.rsmul R A (Idx PM) st.1 a := by
       rw [map_add]; rfl
     rw [hadd]
-    show (PYend PM).d (ShiftSum.rsmul R A (Idx PM) st.2 a) + ShiftSum.rsmul R A (Idx PM) st.1 a
+    change (PYend PM).d (ShiftSum.rsmul R A (Idx PM) st.2 a) + ShiftSum.rsmul R A (Idx PM) st.1 a
         = ShiftSum.rsmul R A (Idx PM) ((PYend PM).d st.2) a
           + ShiftSum.rsmul R A (Idx PM) st.1 a
           + ((-1 : R) ^ n.natAbs) • ShiftSum.rsmul R A (Idx PM) st.2 (dA.d a)
@@ -495,10 +495,10 @@ theorem coverHom_surjective : (coverHom PM).Surjective := by
     PM.isInternal.submodule_iSup_eq_top
   rw [← hsup, iSup_le_iff]
   intro n
-  rw [SetLike.le_def]
+  rw [IsConcreteLE.le_iff]
   intro m hm
   refine ⟨(DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, hm⟩⟩ 1, 0), ?_⟩
-  show coverHomX PM (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, hm⟩⟩ 1) + coverHomY PM 0 = m
+  change coverHomX PM (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, hm⟩⟩ 1) + coverHomY PM 0 = m
   rw [coverHomX_lof, map_zero, add_zero]
   show PM.smul (elt PM ⟨n, ⟨m, hm⟩⟩) 1 = m
   rw [PM.smul_one]
@@ -514,7 +514,7 @@ theorem admissibleSES_cover :
       toFun := LinearMap.inr R _ _
       map_smul' := by
         intro t a
-        show smulP PM (0, t) a = (0, ShiftSum.rsmul R A (Idx PM) t a)
+        change smulP PM (0, t) a = (0, ShiftSum.rsmul R A (Idx PM) t a)
         rw [smulP_apply]
         simp
       map_grade := by
@@ -522,21 +522,21 @@ theorem admissibleSES_cover :
         exact ⟨Submodule.zero_mem _, ht⟩
       map_d := by
         intro t
-        show (0, (PYend PM).d t) = dP PM (0, t)
+        change (0, (PYend PM).d t) = dP PM (0, t)
         rw [dP_apply]
         simp }
     p := {
       toFun := LinearMap.fst R _ _
       map_smul' := by
         intro st a
-        show (smulP PM st a).1 = ShiftSum.rsmul R A (Idx PM) st.1 a
+        change (smulP PM st a).1 = ShiftSum.rsmul R A (Idx PM) st.1 a
         rw [smulP_apply]
       map_grade := by
         intro n st hst
         exact hst.1
       map_d := by
         intro st
-        show (dP PM st).1 = (PXend PM).d st.1
+        change (dP PM st).1 = (PXend PM).d st.1
         rw [dP_apply] }
     i_inj := by
       intro t₁ t₂ h
@@ -550,12 +550,12 @@ theorem admissibleSES_cover :
       intro st
       constructor
       · rintro ⟨t, rfl⟩
-        show (0 : DirectSum (Idx PM) (fun _ => A)) = 0
+        change (0 : DirectSum (Idx PM) (fun _ => A)) = 0
         rfl
       · intro hst
         refine ⟨st.2, ?_⟩
         have h0 : st.1 = 0 := hst
-        show (0, st.2) = st
+        change (0, st.2) = st
         rw [← h0]
     splitEquiv := LinearEquiv.prodComm R _ _
     splitEquiv_smul := by

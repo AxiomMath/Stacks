@@ -251,10 +251,10 @@ theorem conormalSequence_comp_zero (i : Z ⟶ Y) (j : Y ⟶ X) [IsImmersion i] [
       refine Eq.trans (congrArg p.1.isoZY.inv.hom ?_)
         (affineConormalIsoCotangent_inv_zero i (j ⁻¹ᵁ p.1.V) p.1.hW p.1.idealZY p.1.eI p.1.heI)
       rw [Ideal.toCotangent_eq_zero]
-      show (j.app p.1.V).hom (k : Γ(X, p.1.V)) ∈ p.1.idealZY ^ 2
+      change (j.app p.1.V).hom (k : Γ(X, p.1.V)) ∈ p.1.idealZY ^ 2
       rw [RingHom.mem_ker.mp k.2]
       exact Submodule.zero_mem _
-    show (conormalSheaf i.liftCoborder.toLRSHom.toShHom).val.map (homOfLE (hBT p)).op
+    change (conormalSheaf i.liftCoborder.toLRSHom.toShHom).val.map (homOfLE (hBT p)).op
       ((conormalSequenceRightMap i j).val.app (op (i ⁻¹ᵁ O))
         (((modulePullbackPushforwardAdjunction i.toLRSHom.toShHom).homEquiv _ _
           (conormalLeftMap i j)).val.app (op O) s)) = 0

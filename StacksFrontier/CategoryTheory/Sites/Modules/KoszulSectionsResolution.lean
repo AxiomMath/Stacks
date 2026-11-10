@@ -86,7 +86,7 @@ def freeYonedaTrace (U : C) : yoneda.obj U ⋙ AddCommGrpCat.free ⟶ constantIn
 @[simp]
 theorem presheafDual_freeYonedaTrace_of (U : C) (V : Cᵒᵖ) (φ : V.unop ⟶ U) :
     presheafDual (freeYonedaTrace U) V (FreeAbelianGroup.of φ) = 1 := by
-  show (ULift.moduleEquiv (R := ℤ) (M := ℤ))
+  change (ULift.moduleEquiv (R := ℤ) (M := ℤ))
       (FreeAbelianGroup.lift (fun _ => (ULift.up 1 : ULift.{u} ℤ)) (FreeAbelianGroup.of φ)) = 1
   rw [FreeAbelianGroup.lift_apply_of]
   rfl
@@ -248,7 +248,7 @@ abbrev koszulSections : SheafOfModules.{u} R ⥤ CochainComplex AddCommGrpCat.{m
 is precomposition with the Koszul differential `Q_{p+1} ⟶ Q_p`. -/
 theorem koszulSections_obj_d (M : SheafOfModules.{u} R) (p : ℕ) :
     ((koszulSections R U).obj M).d p (p + 1) = (koszulSectionsDiff R U p).app M := by
-  show ((koszulSectionsComplex R U).d p (p + 1)).app M = _
+  change ((koszulSectionsComplex R U).d p (p + 1)).app M = _
   unfold koszulSectionsComplex
   exact congrArg (fun k => NatTrans.app k M) (CochainComplex.of_d _ _ p)
 
@@ -300,7 +300,7 @@ theorem exists_exact_koszulPresheafComplex_d (m : ℕ) :
   · refine ⟨constantInt.{u} C, presheafKoszulAugmentation (freeYonedaTrace U),
       koszulPresheafComplex_d_comp_augmentation U, ?_, ?_⟩
     · intro V
-      show Module.IsTorsionFree ℤ (ULift.{u} ℤ)
+      change Module.IsTorsionFree ℤ (ULift.{u} ℤ)
       exact Module.Flat.isTorsionFree
     · refine (ShortComplex.exact_iff_of_iso ?_).1
         (presheafKoszulAugmentation_freeYonedaTrace_exact U)
@@ -310,7 +310,7 @@ theorem exists_exact_koszulPresheafComplex_d (m : ℕ) :
   · refine ⟨(koszulPresheafComplex U).X k, (koszulPresheafComplex U).d (k + 1) k,
       (koszulPresheafComplex U).d_comp_d _ _ _, ?_, ?_⟩
     · intro V
-      show Module.IsTorsionFree ℤ
+      change Module.IsTorsionFree ℤ
         ((presheafExteriorPower (yoneda.obj U ⋙ AddCommGrpCat.free) (k + 1)).obj V)
       infer_instance
     · exact exact_koszulPresheafComplex_d_comp_d U k
@@ -357,9 +357,9 @@ theorem koszulSections_exactAt_of_injective [HasSheafify J AddCommGrpCat.{u}]
         comm₂₃ := by simp }).1 hex
   obtain ⟨y, hy⟩ := exists_comp_eq_of_isTorsionFree R I _ hexι hN x'
   refine ⟨y, ?_⟩
-  show ((koszulSections R U).obj I).d m (m + 1) y = x
+  change ((koszulSections R U).obj I).d m (m + 1) y = x
   rw [koszulSections_obj_d]
-  show k ≫ y = x
+  change k ≫ y = x
   rw [← image.fac k, assoc, show image.ι k ≫ y = x' from hy, hx'π]
 
 /-! ### The augmentation by global sections -/
@@ -429,7 +429,7 @@ theorem koszulSectionsAugmentation_comp_d (M : SheafOfModules.{u} R) :
     (koszulSectionsAugmentation R U).app M ≫ ((koszulSections R U).obj M).d 0 1 = 0 := by
   rw [koszulSections_obj_d]
   ext (s : constantInt.{u} C ⟶ (underlyingPresheaf R).obj M)
-  show ((koszulPresheafComplex U).d 1 0 ≫ presheafKoszulAugmentation (freeYonedaTrace U)) ≫ s
+  change ((koszulPresheafComplex U).d 1 0 ≫ presheafKoszulAugmentation (freeYonedaTrace U)) ≫ s
     = 0
   rw [koszulPresheafComplex_d_comp_augmentation, zero_comp]
 
@@ -448,10 +448,10 @@ theorem isLocallySurjective_presheafKoszulAugmentation
     let M := (yoneda.obj U ⋙ AddCommGrpCat.free).obj (op W)
     let y : M := x.down • (FreeAbelianGroup.of a : FreeAbelianGroup (W ⟶ U))
     refine ⟨(exteriorPower.oneEquiv ℤ M).symm y, ?_⟩
-    show (freeYonedaTrace U).app (op W) ((exteriorPower.oneEquiv ℤ M)
+    change (freeYonedaTrace U).app (op W) ((exteriorPower.oneEquiv ℤ M)
       ((exteriorPower.oneEquiv ℤ M).symm y)) = x
     rw [LinearEquiv.apply_symm_apply]
-    show FreeAbelianGroup.lift (fun _ => (ULift.up 1 : ULift.{u} ℤ))
+    change FreeAbelianGroup.lift (fun _ => (ULift.up 1 : ULift.{u} ℤ))
       (x.down • (FreeAbelianGroup.of a : FreeAbelianGroup (W ⟶ U))) = x
     rw [map_zsmul, FreeAbelianGroup.lift_apply_of]
     ext

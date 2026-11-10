@@ -16,7 +16,8 @@ ringed-topos unit at the transported complex.
 
 ## Main results
 
-* `Stacks.EtaleCohomology.map_etaleModuleDerivedDirectImageUnboundedUnit_comp_etaleDerivedPushforwardIso`.
+* `map_etaleModuleDerivedDirectImageUnboundedUnit_comp_etaleDerivedPushforwardIso`, in the
+  namespace `Stacks.EtaleCohomology`.
 -/
 
 @[expose] public noncomputable section
@@ -67,13 +68,13 @@ theorem map_etaleModuleDerivedDirectImageUnboundedUnit_comp_etaleDerivedPushforw
     exact congrArg (etaleDerivedEquivalence.{u, r} Λ Y).functor.map h
   simp only [etaleDerivedPushforwardIso, Iso.trans_hom, Functor.isoWhiskerRight_hom,
     Functor.isoWhiskerLeft_hom, NatTrans.comp_app, Functor.whiskerRight_app,
-    Functor.whiskerLeft_app, Functor.rightUnitor_hom_app, Category.comp_id]
+    Functor.whiskerLeft_app, Functor.rightUnitor_hom_app]
   rw [reassoc_of% h']
   simp only [etaleDerivedPushforwardComparisonUnit, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.map_comp, Category.assoc]
   congr 1
   simp only [Functor.comp_obj, Functor.comp_map, Equivalence.fun_inv_map, Category.assoc,
-    Iso.inv_hom_id_app, Category.comp_id, Iso.inv_hom_id_app_assoc]
+    Category.comp_id, Iso.inv_hom_id_app_assoc]
 
 /-- **The étale unit of `Rf_*` at a complex `M`, read through the equivalences, is the
 ringed-topos unit at any complex `I` isomorphic to the transported complex**, up to the
@@ -101,7 +102,7 @@ theorem map_etaleModuleDerivedDirectImageUnboundedUnit_eq
     (etaleRingedDerivedPushforwardUnit.{u, r} Λ f).naturality γ.hom
   rw [← Iso.cancel_iso_hom_right _ _
     ((etaleDerivedPushforwardIso.{u, r} Λ f).app (DerivedCategory.Q.obj M)), Iso.app_hom, h]
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id, Functor.map_comp]
+  simp only [Category.assoc, Iso.inv_hom_id_app, Functor.map_comp]
   rw [← Category.assoc ((etaleRingedPushforwardOnHomotopy.{u, r} Λ f).map γ.hom), hn]
   simp [← Functor.map_comp_assoc]
 

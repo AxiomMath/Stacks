@@ -85,10 +85,10 @@ private lemma isZero_stalk_closedComplementPushforward
 private lemma closedComplementPushforward_restrict_isZero
     (F : TopCat.Sheaf AddCommGrpCat.{u} (TopCat.of (Set.compl (U : Set X)))) :
     IsZero ((Opens.sheafRestrict U).obj ((closedComplementPushforward U).obj F)) := by
-  show IsZero (show TopCat.Sheaf AddCommGrpCat.{u} ((Opens.toTopCat X).obj U) from _)
+  change IsZero (show TopCat.Sheaf AddCommGrpCat.{u} ((Opens.toTopCat X).obj U) from _)
   rw [TopCat.Sheaf.isZero_iff_stalkFunctor_obj_isZero]
   intro x
-  show IsZero (TopCat.Presheaf.stalk
+  change IsZero (TopCat.Presheaf.stalk
     ((TopCat.Presheaf.imF U).op ⋙ ((closedComplementPushforward U).obj F).presheaf) x)
   exact (isZero_stalk_closedComplementPushforward U F (U.inclusion' x) x.property).of_iso
     (TopCat.Presheaf.stalkRestrictIso U ((closedComplementPushforward U).obj F).presheaf x)
@@ -164,7 +164,7 @@ private lemma isIso_stalk_unit_of_isInducing (f : X ⟶ Y)
   let pu : F.presheaf ⟶ (TopCat.Presheaf.pushforward AddCommGrpCat.{u} f).obj P :=
     (TopCat.Presheaf.pullbackPushforwardAdjunction AddCommGrpCat.{u} f).unit.app F.presheaf
   let ts : P ⟶ Q := toSheafify (Opens.grothendieckTopology X) P
-  show IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (f x)).map u)
+  change IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (f x)).map u)
   have heSheaf : IsIso ((TopCat.Sheaf.pullbackIso AddCommGrpCat.{u} f).hom.app F) :=
     ((TopCat.Sheaf.pullbackIso AddCommGrpCat.{u} f).app F).isIso_hom
   have he : IsIso e := (ObjectProperty.isIso_hom_iff _).mpr heSheaf
@@ -243,7 +243,7 @@ theorem canonicalComplementSequence_shortExact
   let S := ((canonicalComplementSequence U).obj F).map
     (TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x)
-  show S.ShortExact
+  change S.ShortExact
   by_cases hx : x ∈ U
   · have hiso : IsIso S.f := isIso_stalk_extendByInitial_counit_app U F x hx
     have hz : IsZero S.X₃ :=

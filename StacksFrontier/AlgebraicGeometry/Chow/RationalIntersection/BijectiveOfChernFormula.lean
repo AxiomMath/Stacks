@@ -385,7 +385,7 @@ theorem hasFundamentalDegreePart_of_isIso (k : ℤ)
       rw [hpush, S.localizedPowerSum_cap_chowPush h 0 (𝟙 S.X) m]
       have h1 : perfectPowerSumComponent S.base (S.i ≫ S.a) hEZ 0 =
           (1 : TotalChowClass S.base (S.i ≫ S.a)) 0 := by
-        show perfectPowerSum S.base _ hEZ 0 0 = _
+        change perfectPowerSum S.base _ hEZ 0 0 = _
         rw [perfectPowerSum_zero_eq_ofLocallyConstant S.base _ hEZ
           (RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback _ _ S.perfect), hrank,
           TotalChowClass.ofLocallyConstant_const, Int.cast_one]

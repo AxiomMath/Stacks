@@ -95,7 +95,7 @@ scheme of `I` has `I` as the kernel of its map on global sections. -/
 theorem ker_appTop_subschemeι_ofIdealTop [IsAffine X] (I : Ideal Γ(X, ⊤)) :
     RingHom.ker (Scheme.IdealSheafData.ofIdealTop I).subschemeι.appTop.hom = I := by
   have h := (Scheme.IdealSheafData.ofIdealTop I).ker_subschemeι_app ⟨⊤, isAffineOpen_top X⟩
-  show RingHom.ker ((Scheme.IdealSheafData.ofIdealTop I).subschemeι.app ⊤).hom = I
+  change RingHom.ker ((Scheme.IdealSheafData.ofIdealTop I).subschemeι.app ⊤).hom = I
   simpa [Scheme.IdealSheafData.ofIdealTop_ideal] using h
 
 /-- **The zero scheme of a finitely generated ideal is locally of finite presentation.**  On an
@@ -163,7 +163,7 @@ theorem flat_stalkMap_subschemeι_comp_of_flat_quotient {S : Scheme.{u}} [IsAffi
   refine flat_comp_of_flat_quotient _ _
     ((Scheme.IdealSheafData.ofIdealTop
       (Ideal.ofList a)).subschemeι.stalkMap_surjective ⟨x, hx⟩) _ ?_ hf
-  show Ideal.ofList (a.map (X.presheaf.germ ⊤ x trivial)) =
+  change Ideal.ofList (a.map (X.presheaf.germ ⊤ x trivial)) =
     RingHom.ker ((Scheme.IdealSheafData.ofIdealTop (Ideal.ofList a)).subschemeι.stalkMap
       (⟨x, hx⟩ : (Scheme.IdealSheafData.ofIdealTop (Ideal.ofList a)).subscheme)).hom
   rw [ker_stalkMap_subschemeι_ofIdealTop (Ideal.ofList a) x hx, Ideal.map_ofList]

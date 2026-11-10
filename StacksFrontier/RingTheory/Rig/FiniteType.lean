@@ -215,11 +215,11 @@ private lemma quotientMap_finiteType_iff_of_closure_eq
   have he (x : A ⧸ I) : e (algebraMap (A ⧸ I) (B ⧸ I.map φ) x) =
       algebraMap (A ⧸ I) (B ⧸ Ideal.closure (I.map φ)) x := by
     refine Quotient.inductionOn x fun a => ?_
-    show e (q₁ (Ideal.Quotient.mk I a)) = q₂ (Ideal.Quotient.mk I a)
+    change e (q₁ (Ideal.Quotient.mk I a)) = q₂ (Ideal.Quotient.mk I a)
     simp [e, q₁, q₂, Ideal.quotientMap_mk]
   let eAlg : (B ⧸ I.map φ) ≃ₐ[A ⧸ I] (B ⧸ Ideal.closure (I.map φ)) :=
     AlgEquiv.ofRingEquiv he
-  show Algebra.FiniteType (A ⧸ I) (B ⧸ I.map φ) ↔
+  change Algebra.FiniteType (A ⧸ I) (B ⧸ I.map φ) ↔
     Algebra.FiniteType (A ⧸ I) (B ⧸ Ideal.closure (I.map φ))
   exact ⟨fun h => h.equiv eAlg, fun h => h.equiv eAlg.symm⟩
 
@@ -292,7 +292,7 @@ private theorem restrictedPolynomialTopology_eq_adic
     TopologicalRing.restrictedPolynomialTopology R σ = J.adicTopology := by
   let P := MvPolynomial σ R
   let J := I.map (MvPolynomial.C : R →+* P)
-  show (TopologicalRing.restrictedPolynomialTopology R σ :
+  change (TopologicalRing.restrictedPolynomialTopology R σ :
       TopologicalSpace P) = (J.adicTopology : TopologicalSpace P)
   have hpowopen (n : ℕ) : IsOpen ((I ^ n : Ideal R) : Set R) := (isAdic_iff.mp hIadic).1 n
   have hmap (n : ℕ) : (I ^ n).map (MvPolynomial.C : R →+* P) = J ^ n := by
@@ -529,18 +529,18 @@ private theorem polynomialCompletionPkgTopology_eq
     continuous_toFun := by
       apply continuous_pi
       intro n
-      show Continuous (fun x : Q₁ => eQ n (x n))
+      change Continuous (fun x : Q₁ => eQ n (x n))
       exact (continuous_of_discreteTopology).comp (continuous_apply n)
     continuous_invFun := by
       apply continuous_pi
       intro n
-      show Continuous (fun x : Q₂ => (eQ n).symm (x n))
+      change Continuous (fun x : Q₂ => (eQ n).symm (x n))
       exact (continuous_of_discreteTopology).comp (continuous_apply n) }
   have hval : @Topology.IsInducing C Q₁ tPkg Pi.topologicalSpace Subtype.val := ⟨rfl⟩
   let f : C → Q₂ := fun x n => AdicCompletion.evalₐ J n x
   have hf : (F ∘ (Subtype.val : C → Q₁)) = f := by
     funext x n
-    show eQ n (x.val n) = AdicCompletion.evalₐ J n x
+    change eQ n (x.val n) = AdicCompletion.evalₐ J n x
     rfl
   have hcomp : @Topology.IsInducing C Q₂ tPkg Pi.topologicalSpace
       (F ∘ (Subtype.val : C → Q₁)) := FH.isInducing.comp hval
@@ -582,7 +582,7 @@ private theorem transport_closed_quotient_presentation_forward
   let L : Ideal Y := Ideal.map E.toRingHom K
   have hLset : (L : Set Y) = H '' (K : Set X) := by
     ext y
-    show y ∈ Ideal.map E.toRingHom K ↔ y ∈ H '' (K : Set X)
+    change y ∈ Ideal.map E.toRingHom K ↔ y ∈ H '' (K : Set X)
     rw [Ideal.mem_map_iff_of_surjective E.toRingHom E.surjective]
     constructor
     · rintro ⟨x, hx, rfl⟩
@@ -596,7 +596,7 @@ private theorem transport_closed_quotient_presentation_forward
     Homeomorph.Quotient.congr H (fun x y => by
       rw [Submodule.quotientRel_def, Submodule.quotientRel_def]
       rw [hHE x, hHE y]
-      show x - y ∈ K ↔ E x - E y ∈ L
+      change x - y ∈ K ↔ E x - E y ∈ L
       rw [← map_sub, Ideal.mem_map_iff_of_surjective E.toRingHom E.surjective]
       constructor
       · exact fun hx => ⟨x - y, hx, rfl⟩
@@ -606,7 +606,7 @@ private theorem transport_closed_quotient_presentation_forward
   let q : (X ⧸ K) ≃+* (Y ⧸ L) := Ideal.quotientEquiv K L E rfl
   have hHq : Hq.toEquiv = q.toEquiv := by
     refine Equiv.ext fun x => Quotient.inductionOn x fun x => ?_
-    show Ideal.Quotient.mk L (H x) = Ideal.Quotient.mk L (E x)
+    change Ideal.Quotient.mk L (H x) = Ideal.Quotient.mk L (E x)
     exact congrArg (Ideal.Quotient.mk L) (hHE x)
   let e' : (Y ⧸ L) ≃+* B := q.symm.trans e
   have hqInv : (q.symm : Y ⧸ L → X ⧸ K) = Hq.symm := by
@@ -615,21 +615,21 @@ private theorem transport_closed_quotient_presentation_forward
   have hqFun : (q : X ⧸ K → Y ⧸ L) = Hq :=
     congrArg Equiv.toFun hHq.symm
   refine ⟨L, hL, e', ?_, ?_, ?_⟩
-  · show Continuous ((e : X ⧸ K → B) ∘ (q.symm : Y ⧸ L → X ⧸ K))
+  · change Continuous ((e : X ⧸ K → B) ∘ (q.symm : Y ⧸ L → X ⧸ K))
     rw [hqInv]
     exact he.comp Hq.symm.continuous
-  · show Continuous ((q : X ⧸ K → Y ⧸ L) ∘ (e.symm : B → X ⧸ K))
+  · change Continuous ((q : X ⧸ K → Y ⧸ L) ∘ (e.symm : B → X ⧸ K))
     rw [hqFun]
     exact Hq.continuous.comp hes
   · ext a
     have hfa : E.toRingHom (f a) = g a := RingHom.congr_fun hfg a
     have hqmk : q.symm (Ideal.Quotient.mk L (E.toRingHom (f a))) =
         Ideal.Quotient.mk K (f a) := by
-      show (K.quotientEquiv L E rfl).symm
+      change (K.quotientEquiv L E rfl).symm
         (Ideal.Quotient.mk L (E.toRingHom (f a))) = _
       rw [Ideal.quotientEquiv_symm_mk K L E rfl]
       simp
-    show e (q.symm (Ideal.Quotient.mk L (g a))) = φ a
+    change e (q.symm (Ideal.Quotient.mk L (g a))) = φ a
     rw [← hfa, hqmk]
     exact congrArg (fun k : A →+* B => k a) hcomp
 
@@ -716,7 +716,7 @@ private theorem restrictedPresentation_iff_completed_of_ideal
   ega "I 10.13.4",
   ega "I 10.13.1" "affine case",
   ega "0 7.5.5" "(a) <=> (c)"]
-public theorem adicFiniteType_tfae (φ : A →+* B) (hφ : Continuous φ)
+public theorem adicFiniteType_tfae (φ : A →+* B)
     (hA : TopologicalRing.IsAdic A) (hB : TopologicalRing.IsAdic B)
     (hAfg : ∃ I : Ideal A, TopologicalRing.IsIdealOfDefinition I ∧ I.FG)
     (hBfg : ∃ J : Ideal B, TopologicalRing.IsIdealOfDefinition J ∧ J.FG) :
@@ -742,8 +742,8 @@ public theorem adicFiniteType_tfae (φ : A →+* B) (hφ : Continuous φ)
   have hBweak := weaklyAdmissible_of_isAdicRing hB
   have hAcount := countablyGenerated_nhds_of_isAdicRing hA
   have hANU := TopologicalRing.finiteType_tfae'
-    (B := A) (A := B) φ hφ hAweak hBweak hAcount
-  tfae_have 1 ↔ 2 := and_congr (RingHom.isAdic_iff_isTaut φ hφ hAfgadic) Iff.rfl
+    (B := A) (A := B) φ hAweak hBweak hAcount
+  tfae_have 1 ↔ 2 := and_congr (RingHom.isAdic_iff_isTaut φ hAfgadic) Iff.rfl
   tfae_have 2 ↔ 7 := hANU.out 3 4
   tfae_have 7 ↔ 8 :=
     restrictedPresentation_iff_completed_of_ideal φ IA hIA hIAadic hA
@@ -756,11 +756,11 @@ public theorem adicFiniteType_tfae (φ : A →+* B) (hφ : Continuous φ)
     exact (hANU.out 1 3).mp
       ((TopologicalRing.finiteTypeModuloEveryWeakIdeal_iff_exists_idealOfDefinition
         φ ⟨IA, hIA⟩).mpr
-        ⟨RingHom.isTaut_of_isAdic φ hφ hadic, J, hJ,
+        ⟨RingHom.isTaut_of_isAdic φ hadic, J, hJ,
           (quotientMap_finiteType_iff_of_closure_eq φ J hJclosure).mp hJft⟩)
   tfae_have 2 → 6 := by
     intro htautFT I hI
-    have hadic := (RingHom.isAdic_iff_isTaut φ hφ hAfgadic).mpr htautFT.1
+    have hadic := (RingHom.isAdic_iff_isTaut φ hAfgadic).mpr htautFT.1
     have hmap := mappedIdealOfDefinition_isAdic hA φ hadic I hI
     have hweak := (hANU.out 1 3).mpr htautFT
     refine ⟨hmap, isAdicComplete_of_isAdic_and_complete (I.map φ) hmap hB.2.2 hB.2.1, ?_⟩

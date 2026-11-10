@@ -181,7 +181,7 @@ public lemma proj_image_compl_range_sec :
     refine ⟨z, fun hz => hyV ?_, ?_⟩
     · obtain ⟨y', hy'⟩ := (mem_range_sec_iff Y V W z).1 hz
       exact mem_of_chart_true_eq_chart_false Y V hy'.symm
-    · show (doubleSectionCover Y V).proj ((doubleSectionCover Y V).chart true y) = y
+    · change (doubleSectionCover Y V).proj ((doubleSectionCover Y V).chart true y) = y
       rw [← Scheme.Hom.comp_apply, (doubleSectionCover Y V).chart_comp_proj]
       rfl
 
@@ -270,7 +270,7 @@ public noncomputable def planeBasicOpenY : (Spec (.of (MvPolynomial (Fin 2) k)))
 public theorem dense_planeBasicOpenXY :
     Dense (planeBasicOpenXY k : Set (Spec (.of (MvPolynomial (Fin 2) k)))) := by
   refine (planeBasicOpenXY k).2.dense ⟨⟨⊥, Ideal.isPrime_bot⟩, ?_⟩
-  show MvPolynomial.X 0 * MvPolynomial.X 1 ∉ (⊥ : Ideal (MvPolynomial (Fin 2) k))
+  change MvPolynomial.X 0 * MvPolynomial.X 1 ∉ (⊥ : Ideal (MvPolynomial (Fin 2) k))
   rw [Ideal.mem_bot]
   exact mul_ne_zero (MvPolynomial.X_ne_zero 0) (MvPolynomial.X_ne_zero 1)
 
@@ -291,19 +291,19 @@ public theorem not_isClosed_planeBasicOpenY_sdiff :
   let m : PrimeSpectrum (↑(CommRingCat.of (MvPolynomial (Fin 2) k))) :=
     ⟨RingHom.ker ε, RingHom.ker_isPrime ε⟩
   have hpY : p ∈ (planeBasicOpenY k : Set (Spec (.of (MvPolynomial (Fin 2) k)))) := by
-    show MvPolynomial.X 1 ∉ RingHom.ker φ
+    change MvPolynomial.X 1 ∉ RingHom.ker φ
     simp [φ]
   have hpXY : p ∉ (planeBasicOpenXY k : Set (Spec (.of (MvPolynomial (Fin 2) k)))) := by
-    show ¬ (MvPolynomial.X 0 * MvPolynomial.X 1 ∉ RingHom.ker φ)
+    change ¬ (MvPolynomial.X 0 * MvPolynomial.X 1 ∉ RingHom.ker φ)
     simp [φ]
   have hmY : m ∉ (planeBasicOpenY k : Set (Spec (.of (MvPolynomial (Fin 2) k)))) := by
-    show ¬ (MvPolynomial.X 1 ∉ RingHom.ker ε)
+    change ¬ (MvPolynomial.X 1 ∉ RingHom.ker ε)
     simp [ε]
   have hpm : m ∈ closure ({p} : Set (Spec (.of (MvPolynomial (Fin 2) k)))) := by
-    show m ∈ closure ({p} : Set (PrimeSpectrum (↑(CommRingCat.of (MvPolynomial (Fin 2) k)))))
+    change m ∈ closure ({p} : Set (PrimeSpectrum (↑(CommRingCat.of (MvPolynomial (Fin 2) k)))))
     rw [← PrimeSpectrum.le_iff_mem_closure]
     intro q hq
-    show ε q = 0
+    change ε q = 0
     rw [← hcomp, RingHom.comp_apply, RingHom.mem_ker.1 hq, map_zero]
   intro hcl
   have hp : p ∈ (planeBasicOpenY k : Set (Spec (.of (MvPolynomial (Fin 2) k)))) \

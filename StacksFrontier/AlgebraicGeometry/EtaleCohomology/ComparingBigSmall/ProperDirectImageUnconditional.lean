@@ -81,7 +81,7 @@ alias bigEtaleRestrictionPullbackSquareGeneral := bigEtaleRestrictionPullbackSqu
 /-- The comparison of inverse images `bigEtaleRestrictionPullbackSquareGeneral` is an
 isomorphism. -/
 public instance isIso_bigEtaleRestrictionPullbackSquare_general :
-    IsIso (bigEtaleRestrictionPullbackSquareGeneral B A S U adjS).natTrans :=
+    IsIso (bigEtaleRestrictionPullbackSquareGeneral B A S U adjS) :=
   isIso_bigEtaleRestrictionPullbackSquare B A S U adjS
 
 end Restriction

@@ -110,7 +110,7 @@ theorem rightDerivedPlusIsoExt_conj_edge (σ : Ψ ⋙ Γ ⟶ Γ)
       ((U.map (r.hom.app N)).hom ((c.hom.app N).hom z)) = (e.inv.app N).hom z := by
     intro z
     rw [hιhom]
-    show (c.hom.app N ≫ U.map (r.hom.app N) ≫ U.map (r.inv.app N) ≫ c.inv.app N ≫
+    change (c.hom.app N ≫ U.map (r.hom.app N) ≫ U.map (r.inv.app N) ≫ c.inv.app N ≫
       e.inv.app N).hom z = (e.inv.app N).hom z
     simp only [← Functor.map_comp_assoc, Iso.hom_inv_id_app]
     rw [CategoryTheory.Functor.map_id, Category.id_comp, Iso.hom_inv_id_app_assoc]

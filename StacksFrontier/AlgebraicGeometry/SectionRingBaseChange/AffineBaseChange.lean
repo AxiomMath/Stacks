@@ -267,9 +267,9 @@ theorem isBaseChange_lmap_tailMapLinearTop [IsAffine T] [IsAffine T']
     (hiso : ∀ n : ℤ, IsIso ((tailPullbackHom q g g' h w M M' ε e he).app n)) :
     letI : Algebra Γ(T, ⊤) Γ(T', ⊤) := (h.appLE ⊤ ⊤ hV).hom.toAlgebra
     letI : ∀ n, Module Γ(T, ⊤) ((tailAlgebra g' M' e he).sectionPieces ⊤ n) :=
-      fun n => Module.compHom _ (h.appLE ⊤ ⊤ hV).hom
+      fun _ => Module.compHom _ (h.appLE ⊤ ⊤ hV).hom
     haveI : ∀ n, IsScalarTower Γ(T, ⊤) Γ(T', ⊤) ((tailAlgebra g' M' e he).sectionPieces ⊤ n) :=
-      fun n => IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+      fun _ => IsScalarTower.of_algebraMap_smul fun _ _ => rfl
     IsBaseChange Γ(T', ⊤) (DirectSum.lmap fun n => tailMapLinearTop q g g' h w M M' ε e he hV n) :=
   let : Algebra Γ(T, ⊤) Γ(T', ⊤) := (h.appLE ⊤ ⊤ hV).hom.toAlgebra
   let : ∀ n, Module Γ(T, ⊤) ((tailAlgebra g' M' e he).sectionPieces ⊤ n) :=
@@ -282,7 +282,7 @@ theorem isBaseChange_lmap_tailMapLinearTop [IsAffine T] [IsAffine T']
 theorem lmap_tailMapLinearTop_apply (hV : (⊤ : T'.Opens) ≤ h ⁻¹ᵁ ⊤)
     (x : (tailAlgebra g M e he).sectionRing ⊤) :
     letI : ∀ n, Module Γ(T, ⊤) ((tailAlgebra g' M' e he).sectionPieces ⊤ n) :=
-      fun n => Module.compHom _ (h.appLE ⊤ ⊤ hV).hom
+      fun _ => Module.compHom _ (h.appLE ⊤ ⊤ hV).hom
     DirectSum.lmap (fun n => tailMapLinearTop q g g' h w M M' ε e he hV n) x =
       squareRingHom q g g' h w M M' ε e e he he le_rfl ⊤ ⊤ hV x := by
   let : ∀ n, Module Γ(T, ⊤) ((tailAlgebra g' M' e he).sectionPieces ⊤ n) :=

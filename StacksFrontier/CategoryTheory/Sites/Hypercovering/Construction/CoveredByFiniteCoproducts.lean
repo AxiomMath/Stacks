@@ -83,7 +83,7 @@ theorem exists_singleton_hypercovering_of_finite (B : Set C) {X : C} [FinitaryEx
     fun n ↦ ?_⟩
   have hfinI : Finite (K.obj (op ⦋n⦌)).I := (hfin n).1
   refine ⟨PUnit.unit, fun j ↦ Subsingleton.elim (α := PUnit.{w + 1}) j PUnit.unit, ?_, ?_⟩
-  · show ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
+  · change ((∐ (K.obj (op ⦋n⦌)).obj : Over X)).left ∈ B
     exact sum_mem (K.obj (op ⦋n⦌)) (hfin n).2
   · refine singleton_mem_toPretopology_of_factorsThrough T (K.obj (op ⦋0⦌)) hK.1 _ (fun i ↦ ?_)
     let F := K.map (SimplexCategory.const ⦋n⦌ ⦋0⦌ 0).op

@@ -76,14 +76,14 @@ theorem eq_of_isSeparatedFor_of_isPullback {W : BigFppfOver B S hS} {R : Sieve W
     a = b := by
   rw [isSheaf_iff_isSheaf_of_type] at hE
   ext T x
-  show a.app T x = b.app T x
+  change a.app T x = b.app T x
   let t : T.unop ⟶ W := p.app T x
   refine (hE _ ((BigFppfOver.topology B S hS).pullback_stable t hR)).isSeparatedFor.ext ?_
   intro T' h hh
   obtain ⟨P', r, π, hpb, hab⟩ := hab (h ≫ t) hh
   have hpbT := hpb.map ((evaluation _ _).obj (op T'))
   obtain ⟨y, hy₁, hy₂⟩ := Types.exists_of_isPullback hpbT (P.map h.op x) (𝟙 T') (by
-    show p.app (op T') (P.map h.op x) = 𝟙 T' ≫ h ≫ t
+    change p.app (op T') (P.map h.op x) = 𝟙 T' ≫ h ≫ t
     rw [NatTrans.naturality_apply]
     simp [t])
   have hab' := congrArg (fun m => m.app (op T') y) hab
@@ -489,7 +489,7 @@ theorem isSheaf_homPresheaf :
   have htY : t.toRelY = ⟨bY, mY, cY⟩ := rfl
   refine ⟨equivShrink _ t, fun W' g hg => ?_, fun t' ht' => ?_⟩
   · apply (equivShrink (glueSections D G W')).symm.injective
-    show (equivShrink (glueSections D G W')).symm (equivShrink (glueSections D G W')
+    change (equivShrink (glueSections D G W')).symm (equivShrink (glueSections D G W')
       (((equivShrink (glueSections D G W)).symm (equivShrink _ t)).restrict g)) = _
     rw [Equiv.symm_apply_apply, Equiv.symm_apply_apply]
     exact glueSections.eq_of_toRel

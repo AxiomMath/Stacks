@@ -205,7 +205,7 @@ theorem exists_contraction_of_ample_chart {X S V' : Scheme.{u}} [IsNoetherian X]
     {e : projectiveLineProj k ≅ D.subscheme} (hE : D.IsExceptionalCurveOfFirstKind k e) (s : S)
     (hs : ∀ x ∈ (D.support : Set X), f.base x = s) (L : X.Modules)
     [Stacks.Ample.IsInvertibleModule X L] (hL : Stacks.RelativeAmple.IsRelativelyAmple f L)
-    (U : S.Opens) (hU : IsAffineOpen U) (hsU : s ∈ U) (c : (f ⁻¹ᵁ U).toScheme ⟶ V')
+    (U : S.Opens) (hsU : s ∈ U) (c : (f ⁻¹ᵁ U).toScheme ⟶ V')
     (hc : IsContractionOfExceptionalCurve (D.comap (f ⁻¹ᵁ U).ι) c) (gV : V' ⟶ S)
     [LocallyOfFiniteType gV] (hgV : c ≫ gV = (f ⁻¹ᵁ U).ι ≫ f) (n : ℤ) (N : V'.Modules)
     [Stacks.Ample.IsInvertibleModule V' N] (hN : Scheme.Modules.IsAmple V' N)
@@ -285,11 +285,11 @@ theorem exists_contraction_of_ample_chart {X S V' : Scheme.{u}} [IsNoetherian X]
       (Scheme.Modules.pullback c).obj N) := by
     refine nonempty_iso_of_cls_eq ?_
     rw [← schemePullbackClass_cls, ← schemePullbackClass_cls, hNcl, hMcls]
-    show Stacks.Picard.schemePullbackClassHom (f ⁻¹ᵁ U).ι
+    change Stacks.Picard.schemePullbackClassHom (f ⁻¹ᵁ U).ι
         (cls L + n • Stacks.Divisors.picardClass D) =
       cls LY + n • Stacks.Divisors.picardClass (D.comap (f ⁻¹ᵁ U).ι)
     rw [map_add, map_zsmul]
-    show Stacks.Picard.schemePullbackClass (f ⁻¹ᵁ U).ι (cls L) +
+    change Stacks.Picard.schemePullbackClass (f ⁻¹ᵁ U).ι (cls L) +
         n • Stacks.Picard.schemePullbackClass (f ⁻¹ᵁ U).ι (Stacks.Divisors.picardClass D) = _
     rw [schemePullbackClass_cls, Scheme.IdealSheafData.schemePullbackClass_picardClass]
   obtain ⟨hL'inv, ⟨eJ⟩, ⟨eK⟩⟩ := exists_pushforward_restrict_isos b (f ⁻¹ᵁ U) W₀ c j kk
@@ -302,9 +302,9 @@ theorem exists_contraction_of_ample_chart {X S V' : Scheme.{u}} [IsNoetherian X]
   have hgU : (g ⁻¹ᵁ U : Set X') = Set.range j.base := by
     ext y
     obtain ⟨x, rfl⟩ := b.surjective y
-    show g.base (b.base x) ∈ U ↔ b.base x ∈ (j.opensRange : Set X')
+    change g.base (b.base x) ∈ U ↔ b.base x ∈ (j.opensRange : Set X')
     rw [← Scheme.Hom.comp_apply, hg]
-    show x ∈ (f ⁻¹ᵁ U) ↔ x ∈ b ⁻¹ᵁ j.opensRange
+    change x ∈ (f ⁻¹ᵁ U) ↔ x ∈ b ⁻¹ᵁ j.opensRange
     rw [hpreJ]
   have hampU : Stacks.Ample.IsAmple (g ⁻¹ᵁ U).toScheme
       (Stacks.AmpleLocallyClosed.pullbackModule (g ⁻¹ᵁ U).ι L') := by
@@ -352,7 +352,7 @@ theorem exists_contraction_of_ample_chart {X S V' : Scheme.{u}} [IsNoetherian X]
         exact hw'
       · rintro ⟨hx, hxW⟩
         refine ⟨⟨x, hxW⟩, ⟨?_, ⟨⟨x, hxW⟩, rfl⟩⟩, rfl⟩
-        show g.base (kk.base ⟨x, hxW⟩) ∈ V
+        change g.base (kk.base ⟨x, hxW⟩) ∈ V
         exact (hgk ⟨x, hxW⟩).symm ▸ hx
     have := Scheme.Modules.isInvertibleModule_pullback_obj Of.ι L
     have := Scheme.Modules.isInvertibleModule_pullback_obj p' L
@@ -372,10 +372,10 @@ theorem exists_contraction_of_ample_chart {X S V' : Scheme.{u}} [IsNoetherian X]
         (Scheme.Modules.pullback W₀.ι).obj L) := by
       refine nonempty_iso_of_cls_eq ?_
       rw [← schemePullbackClass_cls, ← schemePullbackClass_cls, hMcls]
-      show Stacks.Picard.schemePullbackClassHom _
+      change Stacks.Picard.schemePullbackClassHom _
           (cls L + n • Stacks.Divisors.picardClass D) = _
       rw [map_add, map_zsmul]
-      show Stacks.Picard.schemePullbackClass _ (cls L) +
+      change Stacks.Picard.schemePullbackClass _ (cls L) +
           n • Stacks.Picard.schemePullbackClass _ (Stacks.Divisors.picardClass D) = _
       rw [Scheme.IdealSheafData.schemePullbackClass_picardClass]
       have : Stacks.Divisors.IsEffectiveCartierDivisor (D.comap W₀.ι) :=
@@ -459,7 +459,7 @@ theorem exists_isContractionOfExceptionalCurve_isProjective {X S : Scheme.{u}} [
     simp only [fY, Category.assoc, Iso.hom_inv_id_assoc, morphismRestrict_ι]
     rfl
   obtain ⟨X', b, g, L', hL'inv, hb, hg, -, hgprop, hampU, R, hR, hampR⟩ :=
-    exists_contraction_of_ample_chart f hE s hs L hLamp U hU hsU c hc
+    exists_contraction_of_ample_chart f hE s hs L hLamp U hsU c hc
       (fV ≫ hU.isoSpec.inv ≫ Scheme.Opens.ι U) hgV n N (hNamp N hNcl) hNcl
   have : Surjective b := ⟨surjective_of_isContractionOfExceptionalCurve D k e b hb⟩
   have : IsProper g := hgprop inferInstance

@@ -111,7 +111,7 @@ theorem extensionActionMap_comp_of_hom (hi : FirstOrderThickening i)
       apply ModuleCat.MonoidalCategory.tensor_ext
       intro a x
       rfl
-    show (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
+    change (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
       (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
         ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
     rw [h]
@@ -305,7 +305,7 @@ theorem boundary_underlyingExtensionClass_of_pushout (hS : S.IsComplex) (π : Tr
           (reshapeHom i S.lower.O₂ S.lower.fSharp₂)).obj K₂ ⟶
           (S.lower.restrictedExtension E₁).Z.left =>
         m.val.app U y) hu
-    show u.val.app U (u₂.val.app U (E₃.f.val.app U z)) =
+    change u.val.app U (u₂.val.app U (E₃.f.val.app U z)) =
       E₁.f.val.app U (k₂₁.val.app U y)
     rwa [h2]
   have hχg : χ ≫ (structureRestrict S.thirdHom).map
@@ -322,7 +322,7 @@ theorem boundary_underlyingExtensionClass_of_pushout (hS : S.IsComplex) (π : Tr
       congrArg (fun m : E₂.Z.left ⟶ (structureRestrict
           (reshapeHom i S.lower.O₂ S.lower.fSharp₂)).obj F =>
         m.val.app U (u₂.val.app U z)) hug
-    show E₁.g.val.app U (u.val.app U (u₂.val.app U z)) = E₃.g.val.app U z
+    change E₁.g.val.app U (u.val.app U (u₂.val.app U z)) = E₃.g.val.app U z
     rwa [h1]
   exact S.boundary_underlyingExtensionClass hS π F K₁ K₂ K₃
     (extensionActionMap S.lower.first E₁).1 c₂ c₃ k₃₂ k₂₁ hk hK hc₂₁ hc₃₂ E₂ hE₂ E₁ rfl

@@ -123,7 +123,7 @@ lemma fiberMapOfComp_asFiber (f : X ⟶ Y) (g : Y ⟶ S) (x : X) :
     fiberMapOfComp f g ((f ≫ g) x) ((f ≫ g).asFiber x) = g.asFiber (f x) := by
   apply (g.fiberι _).isEmbedding.injective
   rw [← Scheme.Hom.comp_apply, fiberMapOfComp_fiberι]
-  show f ((f ≫ g).fiberι _ ((f ≫ g).asFiber x)) = g.fiberι _ (g.asFiber (f x))
+  change f ((f ≫ g).fiberι _ ((f ≫ g).asFiber x)) = g.fiberι _ (g.asFiber (f x))
   rw [Scheme.Hom.fiberι_asFiber, Scheme.Hom.fiberι_asFiber]
 
 /-- If the first factor of a composition is locally of finite type, then so is the induced
@@ -139,7 +139,7 @@ lemma isInducing_fiberMapOfComp {C : Scheme.{u}} (i : C ⟶ X) [IsPreimmersion i
   apply (f.fiberι y).isEmbedding.isInducing.of_comp_iff.mp
   have hcomp : Topology.IsInducing (fun z : (i ≫ f).fiber y => ((i ≫ f).fiberι y ≫ i) z) :=
     i.isEmbedding.isInducing.comp ((i ≫ f).fiberι y).isEmbedding.isInducing
-  show Topology.IsInducing fun z => (f.fiberι y) (fiberMapOfComp i f y z)
+  change Topology.IsInducing fun z => (f.fiberι y) (fiberMapOfComp i f y z)
   convert hcomp using 1
   ext z
   exact congrArg (fun m : ((i ≫ f).fiber y ⟶ X) => m z) (fiberMapOfComp_fiberι i f y)

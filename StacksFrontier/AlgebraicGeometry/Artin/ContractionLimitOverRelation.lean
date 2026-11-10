@@ -146,18 +146,18 @@ theorem exists_trans_overSiteHom {N R : Over ((BigFppfOver.toScheme B S hS).obj 
   have hφ₂ : φ ≫ (pullback.snd tR sR).left = Tf.map (pullback.snd tR' sR') := hPS.lift_snd _ _ _
   let comp' : pullback tR' sR' ⟶ overSiteObj R hR :=
     BigFppfOver.homMk B S hS hR _ (φ ≫ comp.left) (by
-      show (φ ≫ comp.left) ≫ R.hom ≫ B.inclusion.map V.hom = _
+      change (φ ≫ comp.left) ≫ R.hom ≫ B.inclusion.map V.hom = _
       rw [Category.assoc, ← Category.assoc comp.left, Over.w comp, ← Over.w (pullback.fst tR sR),
         ← Category.assoc, ← Category.assoc, hφ₁]
       exact (Category.assoc _ _ _).trans ((B.inclusion.map_comp _ _).symm.trans
         (congrArg B.inclusion.map (Over.w (pullback.fst tR' sR')))))
   refine ⟨comp', ?_, ?_⟩
   · apply BigFppfOver.map_toScheme_injective B S hS
-    show (φ ≫ comp.left) ≫ sR.left = Tf.map (pullback.fst tR' sR') ≫ sR.left
+    change (φ ≫ comp.left) ≫ sR.left = Tf.map (pullback.fst tR' sR') ≫ sR.left
     rw [Category.assoc, ← Over.comp_left, hcomp₁, Over.comp_left, ← Category.assoc, hφ₁]
     rfl
   · apply BigFppfOver.map_toScheme_injective B S hS
-    show (φ ≫ comp.left) ≫ tR.left = Tf.map (pullback.snd tR' sR') ≫ tR.left
+    change (φ ≫ comp.left) ≫ tR.left = Tf.map (pullback.snd tR' sR') ≫ tR.left
     rw [Category.assoc, ← Over.comp_left, hcomp₂, Over.comp_left, ← Category.assoc, hφ₂]
     rfl
 

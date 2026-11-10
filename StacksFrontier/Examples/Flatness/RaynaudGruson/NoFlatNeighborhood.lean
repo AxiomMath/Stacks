@@ -229,9 +229,6 @@ theorem aToB_away_not_finitePresentation : ∀ g ∉ idealQB k,
   obtain ⟨h, hh, hflatAway⟩ :=
     Module.exists_away_flat_of_flat_atPrime (R := ringA k) (S := Localization.Away g)
       (N := Localization.Away g) pG hflatAt
-  letI : Algebra (ringA k) (Localization.Away h) :=
-    ((algebraMap (Localization.Away g) (Localization.Away h)).comp
-      ((algebraMap (ringB k) (Localization.Away g)).comp (aToB k))).toAlgebra
   let fAway : Localization.Away g →ₗ[Localization.Away g] Localization.Away h :=
     Algebra.linearMap (Localization.Away g) (Localization.Away h)
   have hfAway : IsLocalizedModule (Submonoid.powers h) fAway :=

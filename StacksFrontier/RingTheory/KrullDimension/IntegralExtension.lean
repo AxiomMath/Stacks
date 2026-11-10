@@ -143,7 +143,7 @@ private theorem ringKrullDim_le_of_isIntegral (R S : Type*) [CommRing R] [CommRi
     [Algebra R S] [Algebra.IsIntegral R S] :
     ringKrullDim S ≤ ringKrullDim R :=
   Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap R S))
-    fun _ _ h ↦ Ideal.IsIntegral.comap_lt_comap h
+    fun _ _ h ↦ Ideal.IsIntegral.under_lt_under h
 
 /-- An injective integral extension preserves Krull dimension: `dim(R) = dim(S)`, by the two
 inequalities `ringKrullDim_le_of_comap_surjective` and `ringKrullDim_le_of_isIntegral`. -/
@@ -211,7 +211,7 @@ statement is not vacuous nor a tautology.
 dimension. -/
 @[stacks 00OK "The source's ring inclusion `R ⊆ S` is stated as an `R`-algebra `S` with
 `algebraMap R S` injective, spelled `FaithfulSMul R S`; see the module docstring.", ega "0 16.1.5"
-  "ρ injective case", ega "0 16.1.5" "ρ injective case", ega "IV 5.4.3" "more general"]
+  "ρ injective case", ega "IV 5.4.3" "more general"]
 public theorem Algebra.IsIntegral.ringKrullDim_eq (R S : Type*) [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.IsIntegral R S] [FaithfulSMul R S] :
     ringKrullDim R = ringKrullDim S := by apply Stacks.KrullDimension.IntegralExtension.solution

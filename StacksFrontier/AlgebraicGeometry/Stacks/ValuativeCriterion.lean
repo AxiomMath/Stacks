@@ -150,8 +150,7 @@ theorem lower_compat
     comp_assocInv x F G γ, assocInv_comp j₁ b₁ G (α₁ ▷ G)] at h₁
   simp only [Category.assoc]
   repeat first
-    | rw [assocInv_comp] | rw [assocHom_comp] | rw [comp_assocInv] | rw [comp_assocHom]
-    | rw [assocInv_comp'] | rw [assocHom_comp'] | rw [comp_assocInv'] | rw [comp_assocHom']
+    | rw [assocInv_comp] | rw [assocHom_comp] | rw [comp_assocInv]
   refine hom₂_ext_app fun A => ?_
   have hc := fun B => congrArg (fun t : (j₁ ≫ a₁ ≫ y) ⟶ _ => t.hom.toNatTrans.app B) h₁
   have hn := β₁.hom.toNatTrans.naturality (c₂.hom.toNatTrans.app A)

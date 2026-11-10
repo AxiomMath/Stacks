@@ -129,7 +129,7 @@ private lemma idSnd2 (K L : (kFlatComplexes (curriedTensor D)).FullSubcategory) 
         ((Functor.const J : D ⥤ (J ⥤ D)).mapHomologicalComplex (ComplexShape.up ℤ)))
         (fun K => kFlat_constMapHomologicalComplex K.obj K.property)).inv.app L = 𝟙 _ := rfl
   exact idComp5 (by rfl)
-      (by rfl) (by first | rfl | (simp [h2]; try rfl))
+      (by rfl) (by simp [h2])
       (by rfl) (by rfl)
 
 omit [HasColimitsOfSize.{0, 0} D] in
@@ -184,7 +184,7 @@ private lemma idSnd3 (K L : (kFlatComplexes (curriedTensor D)).FullSubcategory) 
         ((Functor.const J : D ⥤ (J ⥤ D)).mapHomologicalComplex (ComplexShape.up ℤ)))
         (fun K => kFlat_constMapHomologicalComplex K.obj K.property)).hom.app L = 𝟙 _ := rfl
   exact idComp4 (by rfl)
-      (by first | rfl | (simp [h1]; try rfl)) (by rfl)
+      (by simp [h1]; try rfl) (by rfl)
       (by rfl)
 
 omit [HasColimitsOfSize.{0, 0} D] in
@@ -261,6 +261,7 @@ private lemma idSnd6 (K L : (kFlatComplexes (curriedTensor D)).FullSubcategory) 
   let := derivedMonoidal_tensorCommShift (J ⥤ D) hresJD
   rfl
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **The tensorator, whiskered to the K-flat complexes and read in the second variable, IS the
 reassociated chain**: componentwise this is
@@ -404,6 +405,7 @@ private theorem keySnd (K : (kFlatComplexes (curriedTensor D)).FullSubcategory) 
     (congrArg ((Functor.const J : D ⥤ (J ⥤ D)).mapDerivedCategory).map (congrArg Iso.inv hiso))
     (Functor.mu_constMapDerivedCategory_eq hresD hresJD K.property L.property)
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- The second-variable half. -/
 theorem commShift_muNatTransSnd_constMapDerivedCategory_kFlat
@@ -449,6 +451,7 @@ theorem commShift_muNatTransSnd_constMapDerivedCategory_kFlat
   exact NatTrans.commShift_of_eq (keySnd hresD hresJD K)
 
 
+omit [HasColimitsOfSize.{0, 0} D] in
 include hresD hresJD in
 /-- **The tensorator of the derived constant diagram commutes with the shift.**  By
 `CategoryTheory.Functor.LaxMonoidal.CommShift.of_essSurj` the condition may be tested after

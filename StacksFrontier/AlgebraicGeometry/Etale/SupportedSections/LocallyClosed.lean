@@ -56,7 +56,7 @@ private theorem supportedSectionsEquiv_selectedBranch_restrict
     cut_supportedSection_exists B S hS F U U' φ Z' i hφ s.val s.property
   let fw : Src → Tgt := fun s => ⟨(Classical.choose (fwData s)),
     (Classical.choose_spec (fwData s)).1⟩
-  show F.obj.map
+  change F.obj.map
       (openObjectι B S hS U'
         (selectedBranchOpen φs hφ (i ≫ φs) i rfl)).op (fw s).val =
     F.obj.map
@@ -451,7 +451,7 @@ public theorem supportOpen_antitone (W : SmallEtale B S hS)
     · exact Set.subset_inter subset_closure h
   intro x hx
   change x ∈ coborder Z' at hx
-  show x ∈ coborder Z
+  change x ∈ coborder Z
   rw [mem_coborder_iff_imp] at hx ⊢
   intro hxZ
   have hxZ' := hx (closure_mono h hxZ)
@@ -532,7 +532,7 @@ public theorem supportedSectionsMap_comp (W : SmallEtale B S hS)
   apply AddMonoidHom.ext
   intro s
   apply Subtype.ext
-  show (supportedSectionsMap B S hS F W Z₂ Z₃ h₂ h₃ h₂₃ hc₂₃
+  change (supportedSectionsMap B S hS F W Z₂ Z₃ h₂ h₃ h₂₃ hc₂₃
     (supportedSectionsMap B S hS F W Z₁ Z₂ h₁ h₂ h₁₂ hc₁₂ s)).val = _
   simp only [supportedSectionsMap_apply]
   exact map_openObjectHomOfLE_map_openObjectHomOfLE B S hS F W _ _ _
@@ -565,9 +565,9 @@ public theorem supportedSectionsMap_naturality (φ : F ⟶ G)
   apply AddMonoidHom.ext
   intro s
   apply Subtype.ext
-  show φ.hom.app _ (supportedSectionsMap B S hS F W Z Z' hZ hZ' h hc s).val = _
+  change φ.hom.app _ (supportedSectionsMap B S hS F W Z Z' hZ hZ' h hc s).val = _
   rw [supportedSectionsMap_apply]
-  show φ.hom.app _ (F.obj.map _ s.val) =
+  change φ.hom.app _ (F.obj.map _ s.val) =
     (supportedSectionsMap B S hS G W Z Z' hZ hZ' h hc
       (supportedSectionsSheafMap B S hS φ W Z hZ s)).val
   rw [supportedSectionsMap_apply]

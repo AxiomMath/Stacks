@@ -96,7 +96,7 @@ private lemma finite_coproduct_of_isZero {ι : Type} (F : ι → ModuleCat.{max 
     apply Sigma.hom_ext
     intro j
     by_cases hj : j ∈ s
-    · simpa only [f, Category.assoc, Sigma.ι_desc_assoc] using
+    · simpa only [f, Category.assoc, Sigma.ι_comp_desc_assoc] using
         congrArg (fun k => Sigma.ι G ⟨j, hj⟩ ≫ k) heq
     · exact (hs j hj).eq_of_src _ _
   exact Module.Finite.of_surjective f.hom ((ModuleCat.epi_iff_surjective f).mp inferInstance)
@@ -128,9 +128,9 @@ private lemma tensor_finiteFree (P Q : CochainComplex (ModuleCat.{max u v} R) �
   have : ∀ j, Module.Free R (F j) := fun j => by
     have := (hP.finiteFree j.1.1).2
     have := (hQ.finiteFree j.1.2).2
-    show Module.Free R (TensorProduct R (P.X j.1.1) (Q.X j.1.2))
+    change Module.Free R (TensorProduct R (P.X j.1.1) (Q.X j.1.2))
     infer_instance
-  show Module.Finite R (∐ F : ModuleCat R) ∧ Module.Free R (∐ F : ModuleCat R)
+  change Module.Finite R (∐ F : ModuleCat R) ∧ Module.Free R (∐ F : ModuleCat R)
   refine ⟨?_, Module.Free.of_equiv (ModuleCat.coprodIsoDirectSum F).symm.toLinearEquiv⟩
   let s : Finset {pq : ℤ × ℤ // pq.1 + pq.2 = i} :=
     (Finset.Icc (i - b) a).map
@@ -339,7 +339,7 @@ private lemma tensor_map_approximation (cert : KFlatPairComparison derivedTensor
   have : Mono ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) i).map S.mor₁) :=
     (DerivedCategory.HomologySequence.mono_homologyMap_mor₁_iff
       S hS (i - 1) i (by omega)).mpr ((hz (i - 1) (by omega)).eq_zero_of_src _)
-  show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) i).map S.mor₁)
+  change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) i).map S.mor₁)
   exact isIso_of_mono_of_epi _
 
 /-! ### Stacks 0DJE -/

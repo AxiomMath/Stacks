@@ -316,7 +316,7 @@ def thickeningSectionsMod (n q : ℕ) :
 theorem thickeningSectionsMod_apply (n q : ℕ) (x : (I ^ q : Ideal A)) :
     thickeningSectionsMod I n q x =
       blowupΓmodToH0 I (thickeningTwist I n q) (thickeningSections I n q x) := by
-  show blowupHmodMap I 0 (thickeningTwistProj I n q)
+  change blowupHmodMap I 0 (thickeningTwistProj I n q)
       (blowupΓmodToH0 I (blowupTwist I q) (ambientSections I q x)) = _
   rw [← blowupΓmodToH0_naturality]
   rfl

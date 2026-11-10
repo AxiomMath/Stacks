@@ -75,12 +75,14 @@ namespace AlgebraicGeometry.Artin
 
 attribute [local instance] Space.pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of fppf sheaves times out at the default budget
 /-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
 search for them times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ContractionEtaleWitnessDescent
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_ContractionEtaleWitnessDescent
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -88,12 +90,15 @@ local instance (priority := high) hasLimit_cospan_sheaf_ContractionEtaleWitnessD
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out at the default
+-- budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasPullbacks_presheaf_ContractionEtaleWitnessDescent
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_presheaf_ContractionEtaleWitnessDescent
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -372,7 +377,7 @@ theorem exists_hom (hV : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj 
       (Space.completionOverFunctor B S hS Z).obj (Over.mk w.p) ≅
         Over.mk (Limits.pullback.fst xhat c.g) := fun w =>
     Over.isoMk w.isPullback_xhat'.isoPullback (by
-      show _ ≫ Limits.pullback.fst xhat c.g = Space.completionSheafMap B S hS w.p Z
+      change _ ≫ Limits.pullback.fst xhat c.g = Space.completionSheafMap B S hS w.p Z
       rw [IsPullback.isoPullback_hom_fst]
       exact Space.completionSheafRestrict_self B S hS w.p Z _)
   have hU : ∀ w : DilatationWitness c V Z xhat, IsIso
@@ -469,7 +474,7 @@ theorem nonempty_dilatationWitness (c : ContractionSituation B S hS) {V : BigFpp
   · refine (IsPullback.of_hasPullback c.g xhat).flip.of_iso
       ((Over.forget _).mapIso e.symm) (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
     · exact (Category.comp_id _).trans he.symm
-    · show _ ≫ 𝟙 _ = e.inv.left ≫ e.hom.left ≫ _
+    · change _ ≫ 𝟙 _ = e.inv.left ≫ e.hom.left ≫ _
       rw [Category.comp_id, ← Category.assoc, hei, Category.id_comp]
     · simp
     · simp
@@ -630,7 +635,7 @@ theorem DilatationWitness.eq_of_overlap {V₁ V₂ O : BigFppfOver B S hS} (f₁
             (Space.pointsMap B S hS (yoneda.obj O) (yoneda.map o₂) ⁻¹'
               (Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map f₂) ⁻¹' Z)) := by
         rw [← hZ₁₂]; exact hx
-      show Space.pointsMap B S hS _ (D.pullback f₂).p (Space.pointsMap B S hS _ r x) ∈
+      change Space.pointsMap B S hS _ (D.pullback f₂).p (Space.pointsMap B S hS _ r x) ∈
         Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map f₂) ⁻¹' Z
       rw [← e1]
       exact hx'

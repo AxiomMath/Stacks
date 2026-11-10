@@ -182,7 +182,7 @@ public theorem invertibleCurveDegree_curveTwistSheaf_add (a b : ℤ) :
     (ResidueField S.A) (exceptionalDivisorToCentre (Stacks.Blowup.residuePoint S.A))
     (le_of_eq (topologicalKrullDim_exceptionalDivisor_residuePoint S.A S.dimension_two))
     (curveTwistSheaf S.A a) (curveTwistSheaf S.A b) 1 1
-  simp only [Nat.mul_one, Nat.cast_one, one_mul] at hraw
+  simp only [Nat.cast_one, one_mul] at hraw
   have : Stacks.Ample.IsInvertibleModule (exceptionalCurve S.A)
       (Stacks.RelativeVeryAmple.tensorModules (exceptionalCurve S.A)
         (curveTwistSheaf S.A a) (curveTwistSheaf S.A b)) :=
@@ -300,6 +300,7 @@ public theorem finrank_cotangentSpace_eq_three_of_finrank_cohomologyOverField_ne
 
 /-! ### The two readings of the embedding dimension -/
 
+omit [IsProper (exceptionalDivisorToCentre (Stacks.Blowup.residuePoint S.A))] in
 /-- **`dim_κ(𝔪ⁿ/𝔪ⁿ⁺¹) = 2n + 1` for every `n` is equivalent to `dim_κ(𝔪/𝔪²) = 3`.**
 
 The graded dimensions are `n · (dim_κ(𝔪/𝔪²) − 1) + 1` unconditionally

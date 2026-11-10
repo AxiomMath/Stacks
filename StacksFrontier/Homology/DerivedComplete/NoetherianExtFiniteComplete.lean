@@ -141,7 +141,7 @@ private theorem hausdorff_of_complete_cover {A : Type u} [CommRing A] [IsNoether
     refine ⟨?_, fun hx => ⟨AdicCompletion.of I q.ker ⟨e.symm x, hx⟩, ?_⟩⟩
     · rintro ⟨y, rfl⟩
       obtain ⟨z, rfl⟩ := AdicCompletion.of_surjective I q.ker y
-      show q (e.symm (AdicCompletion.map I q.ker.subtype (AdicCompletion.of I q.ker z))) = 0
+      change q (e.symm (AdicCompletion.map I q.ker.subtype (AdicCompletion.of I q.ker z))) = 0
       simp [AdicCompletion.map_of, e]
     · rw [AdicCompletion.map_of]
       exact e.apply_symm_apply x
@@ -206,7 +206,7 @@ private theorem surjective_of_derivedComplete_of_surjective_mod
     change (I • (⊤ : Submodule A M)).mkQ (q n) = _ at hn
     have hd : m - q n ∈ I • (⊤ : Submodule A M) := by
       apply (Submodule.Quotient.mk_eq_zero _).mp
-      show (I • (⊤ : Submodule A M)).mkQ (m - q n) = 0
+      change (I • (⊤ : Submodule A M)).mkQ (m - q n) = 0
       rw [map_sub, hn, sub_self]
     have hm : q.range.mkQ (m - q n) ∈
         (I • (⊤ : Submodule A M)).map q.range.mkQ := ⟨m - q n, hd, rfl⟩
@@ -278,7 +278,7 @@ private theorem exists_complete_cover (A : Type u) [CommRing A] [IsNoetherianRin
     have hcat : (ε.app F).inv ≫ H.map (adj.unit.app (s.obj F)) ≫
         H.map qD.hom ≫ (ε.app M).hom = ModuleCat.ofHom g := by
       rw [← Functor.map_comp_assoc, h, hn, Iso.inv_hom_id_assoc]
-    show ((ε.app F).inv ≫ H.map (adj.unit.app (s.obj F)) ≫ c'.hom ≫
+    change ((ε.app F).inv ≫ H.map (adj.unit.app (s.obj F)) ≫ c'.hom ≫
       c'.inv ≫ H.map qD.hom ≫ (ε.app M).hom).hom = g
     simpa only [Iso.hom_inv_id_assoc, ModuleCat.hom_ofHom] using congrArg ModuleCat.Hom.hom hcat
   have hNc : IsAdicComplete I N := AdicCompletion.isAdicComplete I.fg_of_isNoetherianRing

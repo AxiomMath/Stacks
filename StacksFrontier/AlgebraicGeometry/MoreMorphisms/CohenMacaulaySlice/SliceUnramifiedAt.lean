@@ -120,7 +120,7 @@ theorem unramifiedAt_comp_of_ofList_eq_maximalIdeal_fiberStalk
           X.residueField (ι z) →+* Z.residueField z).comp
         (algebraMap (S.residueField (f (ι z))) (X.residueField (ι z))) := by
     ext c
-    show ((ι ≫ f).residueFieldMap z).hom c =
+    change ((ι ≫ f).residueFieldMap z).hom c =
       (ι.residueFieldMap z).hom ((f.residueFieldMap (ι z)).hom c)
     rw [Scheme.residueFieldMap_comp]
     rfl
@@ -160,7 +160,7 @@ theorem ofList_eq_maximalIdeal_fiberStalk_of_ofList_eq_maximalIdeal (f : X ⟶ S
       (List.ofFn h).map (stalkEquivFiberStalk f x hfield).toRingHom := by
     rw [List.map_ofFn]
     refine congrArg List.ofFn (funext fun k => ?_)
-    show ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom ((f.fiberι_asFiber x).symm ▸ h k) =
+    change ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom ((f.fiberι_asFiber x).symm ▸ h k) =
       stalkEquivFiberStalk f x hfield (h k)
     rw [stalkEquivFiberStalk_apply]
     exact congrArg ((f.fiberι (f x)).stalkMap (f.asFiber x)).hom

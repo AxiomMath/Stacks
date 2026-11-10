@@ -61,7 +61,7 @@ transfer of finite type across it is
 That transfer is what makes the theorem above worth stating over an arbitrary `𝓟`: a graded
 `𝓑`-module enters the induction as a graded `𝓟`-module with literally the same pieces, so the
 conclusion needs no transport back. The two steps are taken in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProjectiveEquivalenceAuxPresentation.lean`.
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProjectiveEquivalenceAuxPresentation`.
 
 ## Implementation notes
 
@@ -245,7 +245,7 @@ For the associated graded algebra of an ideal sheaf `hP` is
 `Stacks.Coherent.hasAssociatedGradedTwistVanishing_of_devissage`. The dévissage itself is not
 available at that algebra — its pieces are not free — so the hypothesis is discharged after
 restricting scalars to an auxiliary graded algebra, in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProjectiveEquivalenceAuxPresentation.lean`.
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProjectiveEquivalenceAuxPresentation`.
 -/
 public theorem exists_isZero_Hgroup_piece_tensorPowModule_of_devissage
     (A : Type u) [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}}

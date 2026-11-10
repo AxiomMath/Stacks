@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomEvaluationRestriction
+StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomEvaluationRestriction
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorHomAdjunction
 public import StacksFrontier.CategoryTheory.Sites.Modules.LocalizationRingedSites.TensorTransport
 
@@ -104,7 +104,6 @@ universe u
 section SecondVariable
 
 variable {C : Type u} [Category.{u} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
   (O : Sheaf J CommRingCat.{u})
 
@@ -179,12 +178,6 @@ end SecondVariable
 section Sections
 
 variable (X : RingedSite.{u, u, u}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [X.J.HasSheafCompose (forget RingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget RingCat.{u})]
-  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})]
   [HasWeakSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
@@ -202,13 +195,13 @@ unit is the correspondence at the identity. -/
 theorem sheafTensorHomEquiv_tensorRestrictionComparison :
     sheafTensorHomEquiv (X.O.over U) (A.over U) (F.over U)
         ((((sheafTensor X.O).obj A).obj F).over U)
-        ((tensorRestrictionComparison X U F).natTrans.app A) =
+        ((tensorRestrictionComparison X U F).app A) =
       (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
           ((sheafTensorRightHomAdjunction X.O F).unit.app A) ≫
         (internalHomRestrictionNatIso X U F).hom.app (((sheafTensor X.O).obj A).obj F) :=
   ((sheafTensorRightHomAdjunction.{u, u} (X.O.over U) (F.over U)).homEquiv_unit
       (A.over U) ((((sheafTensor X.O).obj A).obj F).over U)
-      ((tensorRestrictionComparison X U F).natTrans.app A)).trans
+      ((tensorRestrictionComparison X U F).app A)).trans
     (unit_mateEquiv_symm (sheafTensorRightHomAdjunction.{u, u} X.O F)
       (sheafTensorRightHomAdjunction.{u, u} (X.O.over U) (F.over U))
       (TwoSquare.mk _ _ _ _ (internalHomRestrictionNatIso X U F).hom) A).symm
@@ -247,7 +240,7 @@ theorem sheafTensorHomEquiv_tensorRestrictionComparison_val_app_apply_app (V : O
     (x : (A.over U).val.obj (op V)) (y : (F.over U).val.obj (op V)) :
     ((((Stacks.SheafOfModules.InternalHom.sheafTensorHomEquiv (X.O.over U) (A.over U)
             (F.over U) ((((sheafTensor X.O).obj A).obj F).over U)
-            ((tensorRestrictionComparison X U F).natTrans.app A)).val.app (op V)).hom x).app
+            ((tensorRestrictionComparison X U F).app A)).val.app (op V)).hom x).app
           (op (Over.mk (𝟙 V)))).hom y =
       ((_root_.PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf X.O)
@@ -275,7 +268,7 @@ object of `(C/U)/V` is the identity object of `C/V`, and the unit of Stacks 03EO
 definitional. -/
 theorem tensorRestrictionComparison_natTrans_app_val_app_unit_tmul (V : Over U)
     (x : (A.over U).val.obj (op V)) (y : (F.over U).val.obj (op V)) :
-    ((tensorRestrictionComparison X U F).natTrans.app A).val.app (op V)
+    ((tensorRestrictionComparison X U F).app A).val.app (op V)
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -287,7 +280,7 @@ theorem tensorRestrictionComparison_natTrans_app_val_app_unit_tmul (V : Over U)
           (A.val ⊗ F.val)).app (op V.left)
         (x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.left)] y) := by
   exact (sheafTensorHomEquiv_apply_app_id (X.O.over U) (A.over U) (F.over U) _
-    ((tensorRestrictionComparison X U F).natTrans.app A) V x y).symm.trans
+    ((tensorRestrictionComparison X U F).app A) V x y).symm.trans
     (sheafTensorHomEquiv_tensorRestrictionComparison_val_app_apply_app X U F A V x y)
 
 /-- **A transport of the two tensor factors followed by the mate of Stacks 0E8H, on a pure
@@ -304,7 +297,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul
     (a : A'.val.obj (op V)) (b : F'.val.obj (op V)) :
     ((((sheafTensor (X.O.over U)).map φ).app F' ≫
             ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ) ≫
-          (tensorRestrictionComparison X U F).natTrans.app A).val.app (op V)
+          (tensorRestrictionComparison X U F).app A).val.app (op V)
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -321,9 +314,9 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul
     (φ.val.app (op V) a) b
   have s3 := tensorRestrictionComparison_natTrans_app_val_app_unit_tmul X U F A V
     (φ.val.app (op V) a) (ψ.val.app (op V) b)
-  exact (congrArg (fun z ↦ ((tensorRestrictionComparison X U F).natTrans.app A).val.app (op V)
+  exact (congrArg (fun z ↦ ((tensorRestrictionComparison X U F).app A).val.app (op V)
       ((((sheafTensor (X.O.over U)).obj (A.over U)).map ψ).val.app (op V) z)) s1).trans
-    ((congrArg (fun z ↦ ((tensorRestrictionComparison X U F).natTrans.app A).val.app (op V) z)
+    ((congrArg (fun z ↦ ((tensorRestrictionComparison X U F).app A).val.app (op V) z)
       s2).trans s3)
 
 /-- `transport_comp_tensorRestrictionComparison_val_app_unit_tmul` with the object of the slice
@@ -334,7 +327,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_op
     (a : A'.val.obj V) (b : F'.val.obj V) :
     ((((sheafTensor (X.O.over U)).map φ).app F' ≫
             ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ) ≫
-          (tensorRestrictionComparison X U F).natTrans.app A).val.app V
+          (tensorRestrictionComparison X U F).app A).val.app V
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -366,7 +359,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_of_eq
     (hT : T = ((sheafTensor (X.O.over U)).map φ).app F' ≫
       ((sheafTensor (X.O.over U)).obj (A.over U)).map ψ)
     (V : (Over U)ᵒᵖ) (a : A'.val.obj V) (b : F'.val.obj V) :
-    (T ≫ (tensorRestrictionComparison X U F).natTrans.app A).val.app V
+    (T ≫ (tensorRestrictionComparison X U F).app A).val.app V
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -378,7 +371,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_of_eq
           (A.val ⊗ F.val)).app (op V.unop.left)
         (φ.val.app V a ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat.{u} RingCat.{u}).obj (op V.unop.left)]
           ψ.val.app V b) :=
-  (congrArg (fun m ↦ (m ≫ (tensorRestrictionComparison X U F).natTrans.app A).val.app V
+  (congrArg (fun m ↦ (m ≫ (tensorRestrictionComparison X U F).app A).val.app V
       (((_root_.PresheafOfModules.sheafificationAdjunction
             (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
             (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -420,7 +413,8 @@ writing it out; what is avoided is ever asking the kernel to identify the two sp
 `..._tensorTransportComp` below is the mate's pure-tensor formula in that form.
 
 The two halves are declared with the transport in
-`StacksFrontier/CategoryTheory/Sites/Modules/LocalizationRingedSites/TensorTransport.lean`, not here,
+`StacksFrontier/CategoryTheory/Sites/Modules/LocalizationRingedSites/TensorTransport.lean`, not
+here,
 so that the transport's body and this file's statements are applications of the same two
 constants.
 -/
@@ -443,7 +437,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_of_eq_comp
     (hT : T = Stacks.SheafOfModules.tensorTransportFirst X U A φ F' ≫
       Stacks.SheafOfModules.tensorTransportSecond X U A F ψ)
     (V : (Over U)ᵒᵖ) (a : A'.val.obj V) (b : F'.val.obj V) :
-    (T ≫ (tensorRestrictionComparison X U F).natTrans.app A).val.app V
+    (T ≫ (tensorRestrictionComparison X U F).app A).val.app V
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app
@@ -473,7 +467,7 @@ theorem transport_comp_tensorRestrictionComparison_val_app_unit_tmul_tensorTrans
     (V : (Over U)ᵒᵖ) (a : A'.val.obj V) (b : F'.val.obj V) :
     ((Stacks.SheafOfModules.tensorTransportFirst X U A φ F' ≫
             Stacks.SheafOfModules.tensorTransportSecond X U A F ψ) ≫
-          (tensorRestrictionComparison X U F).natTrans.app A).val.app V
+          (tensorRestrictionComparison X U F).app A).val.app V
         (((_root_.PresheafOfModules.sheafificationAdjunction
               (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U))
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (X.O.over U)).obj)).unit.app

@@ -87,10 +87,10 @@ theorem isEquivalenceRelation_map_of_jointlyMono₂_of_isLimit (G : C ⥤ D)
       isLimit := hc
       t := G.map e.t
       transitivity₁ := by
-        show G.map e.t ≫ G.map p₁ = G.map e.c.fst ≫ G.map p₁
+        change G.map e.t ≫ G.map p₁ = G.map e.c.fst ≫ G.map p₁
         rw [← G.map_comp, ← G.map_comp, e.transitivity₁]
       transitivity₂ := by
-        show G.map e.t ≫ G.map p₂ = G.map e.c.snd ≫ G.map p₂
+        change G.map e.t ≫ G.map p₂ = G.map e.c.snd ≫ G.map p₂
         rw [← G.map_comp, ← G.map_comp, e.transitivity₂] }
 
 end CategoryTheory

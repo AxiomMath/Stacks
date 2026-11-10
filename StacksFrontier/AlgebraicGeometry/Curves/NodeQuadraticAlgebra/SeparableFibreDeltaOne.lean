@@ -179,15 +179,15 @@ private theorem sepDegree_eq_two_of_subsingleton (A : Type u) [CommRing A] [IsLo
       commutes' := by
         intro r
         obtain ⟨a, rfl⟩ := residue_surjective r
-        show Ideal.quotientEquiv m₀'.asIdeal m₀.asIdeal eC.toRingEquiv hmap
+        change Ideal.quotientEquiv m₀'.asIdeal m₀.asIdeal eC.toRingEquiv hmap
             (Ideal.quotientMap m₀'.asIdeal
               (algebraMap A ↥(integralClosure A (FractionRing (A ⧸ nilradical A))))
               (le_of_eq (hcon m₀')) (Ideal.Quotient.mk (maximalIdeal A) a)) = _
         rw [Ideal.quotientMap_mk]
-        show Ideal.Quotient.mk m₀.asIdeal
+        change Ideal.Quotient.mk m₀.asIdeal
             (eC (algebraMap A ↥(integralClosure A (FractionRing (A ⧸ nilradical A))) a)) = _
         rw [eC.commutes]
-        show _ = Ideal.quotientMap m₀.asIdeal
+        change _ = Ideal.quotientMap m₀.asIdeal
           (algebraMap A ↥(integralClosure A (FractionRing A))) (le_of_eq hcontract)
           (Ideal.Quotient.mk (maximalIdeal A) a)
         rw [Ideal.quotientMap_mk] }

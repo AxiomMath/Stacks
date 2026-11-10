@@ -55,7 +55,7 @@ theorem globalSections_of_eq_ker_jE {I : XR.IdealSheafData} (hI : I = jE.ker)
     ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appTop).hom.toAlgebra
   have hψ : ∀ c : k, ψ (algebraMap k Γ(jE.ker.subscheme, ⊤) c) = algebraMap k κ c := by
     intro c
-    show (Stacks.ProjectiveSpace.Cohomology.coeffRingEquivGlobalSections κ 1).symm
+    change (Stacks.ProjectiveSpace.Cohomology.coeffRingEquivGlobalSections κ 1).symm
       (i.hom.appTop (algebraMap k Γ(jE.ker.subscheme, ⊤) c)) = _
     rw [RingEquiv.symm_apply_eq]
     exact congrArg (fun f : CommRingCat.of k ⟶ Γ(P1 κ, ⊤) => f.hom c) key

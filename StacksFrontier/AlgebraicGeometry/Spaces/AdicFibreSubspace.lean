@@ -134,7 +134,7 @@ theorem range_le_adicFibreSubspace (P : AlgebraicSpaces B (Spec (.of A)) hS)
     (g : yoneda.obj T ⟶ P.1) (t : T ⟶ adicThickeningObject A I B hS hSn n) :
     Subfunctor.range g ≤ (adicFibreSubspace A I B hS hSn P f n).1 := by
   rintro W _ ⟨h, rfl⟩
-  show (f.app W (g.app W h)) ∈ Set.range ((yoneda.map (adicThickeningMap A I B hS hSn n)).app W)
+  change (f.app W (g.app W h)) ∈ Set.range ((yoneda.map (adicThickeningMap A I B hS hSn n)).app W)
   exact ⟨h ≫ t, eq_of_hom_baseObject A B hS _ _⟩
 
 /-- The ring map from `A` to the global functions of an object of the site over `Spec A`. -/
@@ -185,7 +185,7 @@ theorem le_ker_appTop_adicFibreSubspace_snd (P : AlgebraicSpaces B (Spec (.of A)
   set Z := adicFibreSubspace A I B hS hSn P f n
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show ((𝒯).map (Z.2.2.rep.snd U.1.hom)).appTop.hom (baseFunctionsHom A B hS U.1.left a) = 0
+  change ((𝒯).map (Z.2.2.rep.snd U.1.hom)).appTop.hom (baseFunctionsHom A B hS U.1.left a) = 0
   have hmem : (Z.2.2.rep.fst U.1.hom ≫ Z.1.ι ≫ f).app (op (Z.2.2.rep.pullback U.1.hom))
       (𝟙 _) ∈ Set.range ((yoneda.map (adicThickeningMap A I B hS hSn n)).app
         (op (Z.2.2.rep.pullback U.1.hom))) :=
@@ -216,7 +216,7 @@ theorem definingIdealSheaf_adicFibreSubspace (P : AlgebraicSpaces B (Spec (.of A
   rw [definingIdealSheaf_obj, definingIdealAt_eq_ker]
   refine le_antisymm (fun x hx => ?_) (fun x hx => ?_)
   · have := ker_appTop_adicFibreSubspace_snd_le A I B hS hSn P f n U hx
-    show x ∈ chartIdeal B _ hS P (C1573.baseIdealSubmodule P.1 P.2 (I ^ (n + 1))) U
+    change x ∈ chartIdeal B _ hS P (C1573.baseIdealSubmodule P.1 P.2 (I ^ (n + 1))) U
     rw [h₁]
     exact this
   · change x ∈ chartIdeal B _ hS P (C1573.baseIdealSubmodule P.1 P.2 (I ^ (n + 1))) U at hx
@@ -262,7 +262,7 @@ theorem eq_top_of_forall_adicFibreSubspace_le [IsNoetherianRing A] [IsAdicComple
           (idealQuotientπ (baseRingHom A B hS X.1 X.2) (SheafOfModules.unit _) (I ^ (n + 1))) :=
         Stacks.SheafOfModules.ImageSubsheaf.imageSubmodule_le _ fun U m =>
           (SheafOfModules.Submodule.mem_ker _ U _).2 (by
-            show ((idealMultipleι (baseRingHom A B hS X.1 X.2) (SheafOfModules.unit _)
+            change ((idealMultipleι (baseRingHom A B hS X.1 X.2) (SheafOfModules.unit _)
               (I ^ (n + 1)) ≫ idealQuotientπ (baseRingHom A B hS X.1 X.2)
                 (SheafOfModules.unit _) (I ^ (n + 1))).val.app U) m = 0
             rw [cokernel.condition]
@@ -280,7 +280,7 @@ theorem eq_top_of_forall_adicFibreSubspace_le [IsNoetherianRing A] [IsAdicComple
     refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun n => ?_))
     refine (cancel_epi (cokernel.π (idealPowerMultiple B _ hS X.1 X.2
       (C1573.baseIdealSubmodule X.1 X.2 I) (n.unop + 1) 𝒦.toSheafOfModules).ι)).1 ?_
-    show _ ≫ idealPowerQuotientMapOfHom B _ hS X.1 X.2 _ (n.unop + 1) 𝒦.ι =
+    change _ ≫ idealPowerQuotientMapOfHom B _ hS X.1 X.2 _ (n.unop + 1) 𝒦.ι =
       _ ≫ idealPowerQuotientMapOfHom B _ hS X.1 X.2 _ (n.unop + 1) 0
     rw [π_comp_idealPowerQuotientMapOfHom, π_comp_idealPowerQuotientMapOfHom, hπ, zero_comp]
   -- the supports

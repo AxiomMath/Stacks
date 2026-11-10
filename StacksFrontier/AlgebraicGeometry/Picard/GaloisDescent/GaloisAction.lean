@@ -58,12 +58,15 @@ Tag 0CDT is proved from it in
 `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/Injectivity.lean`; Tag 0CDR is
 `StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherent/GaloisFieldExtension.lean`, as an
 equivalence of categories of quasi-coherent modules for a finite extension, read on invertible
-modules in `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/InvertibleDescent.lean`; Tag 0B8W is in
+modules in `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/InvertibleDescent.lean`; Tag 0B8W
+is in
 `StacksFrontier/AlgebraicGeometry/ModuleLimits/`; and Tag 02KH is carried in degree `0` over an
 affine base.  The surjectivity half is
 `Stacks.Picard.surjOn_schemePullbackClass_galoisFixedClasses`: the reduction to a finite Galois
-stage is `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean` and the descent at that stage, with the
-cocycle normalised at the rational point, is `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageDescent.lean`.  The
+stage is `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean` and the
+descent at that stage, with the
+cocycle normalised at the rational point, is
+`StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageDescent.lean`.  The
 whole identification is `Stacks.Picard.bijOn_schemePullbackClass_galoisFixedClasses` of
 `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/PicardGaloisInvariants.lean`.
 

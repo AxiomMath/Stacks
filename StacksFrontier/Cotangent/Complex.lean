@@ -201,7 +201,7 @@ theorem cotangentPush_D (A : Type u) [CommRing A]
   have : IsScalarTower A P Q :=
     IsScalarTower.of_algebraMap_eq (fun a => (g.hom.commutes a).symm)
   have : IsScalarTower P Q B := IsScalarTower.of_algebraMap_eq' hg.symm
-  show (1 : B) ⊗ₜ[Q] (KaehlerDifferential.map A A P Q (KaehlerDifferential.D A P p)) = _
+  change (1 : B) ⊗ₜ[Q] (KaehlerDifferential.map A A P Q (KaehlerDifferential.D A P p)) = _
   rw [KaehlerDifferential.map_D]
   rfl
 
@@ -365,7 +365,7 @@ theorem cotangentComplex_d (A : Type u) [CommRing A]
         AlgebraicTopology.AlternatingFaceMapComplex.objD
           (cotangentSimplicialModule A B).object n ≫
       (cotangentComplex_degreeIso A B n).inv := by
-  show (((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{max u v} B)).obj
+  change (((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{max u v} B)).obj
     (cotangentSimplicialModule A B).object).extend
       (ComplexShape.embeddingUpIntLE 0)).d _ _ = _
   rw [HomologicalComplex.extend_d_eq (i := n + 1) (j := n)

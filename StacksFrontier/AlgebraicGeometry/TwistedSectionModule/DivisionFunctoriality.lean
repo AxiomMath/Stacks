@@ -115,7 +115,7 @@ theorem mapTwistPow_naturality (φ : F ⟶ F') (m : ℕ) :
   induction m with
   | zero => exact (Category.comp_id (G.map φ)).trans (Category.id_comp (G.map φ)).symm
   | succ m ih =>
-      show G.map (twistPowMap L φ m ▷ L) ≫ (Functor.OplaxMonoidal.δ G (twistPow F' L m) L ≫
+      change G.map (twistPowMap L φ m ▷ L) ≫ (Functor.OplaxMonoidal.δ G (twistPow F' L m) L ≫
           mapTwistPow G F' L m ▷ G.obj L) =
         (Functor.OplaxMonoidal.δ G (twistPow F L m) L ≫ mapTwistPow G F L m ▷ G.obj L) ≫
           twistPowMap (G.obj L) (G.map φ) m ▷ G.obj L
@@ -131,7 +131,7 @@ theorem mapTwistSections_twistSectionsMap (φ : F ⟶ F') {m : ℕ} (t : twistSe
   simp only [Category.assoc]
   rw [mapTwistPow_naturality]
 
-variable [Preadditive C] [(tensorRight L).Additive] [Preadditive D] [G.Additive]
+variable [Preadditive C] [Preadditive D] [G.Additive]
   [(tensorRight (G.obj L)).Additive]
 
 /-- **The divisions obtained through `G` are natural in the twisted module.** This is what the

@@ -230,7 +230,7 @@ theorem BigSite.isIso_derivedZariskiAdjunction_unit_iff_qh
   have hq : IsIso
       (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map s)) :=
     (DerivedCategory.isIso_Qh_map_iff _).2 ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 hs)
-  show IsIso
+  change IsIso
     ((Stacks.Cohomology.DerivedPushforward.derivedPullbackPushforwardAdjunction f d).unit.app
       (DerivedCategory.Qh.obj M)) ↔ _
   have key : DerivedCategory.Qh.map

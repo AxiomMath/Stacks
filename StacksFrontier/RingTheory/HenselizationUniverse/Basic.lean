@@ -205,7 +205,7 @@ theorem exists_isHenselization_of_indEtale
   let := φ.toAlgebra
   refine ⟨φ.toAlgebra, ⟨IsHenselization.henselian (R := A) (L := L), hi, e, fun b => ?_⟩,
     fun hs => ?_⟩
-  · show e (e.symm (ResidueField.map (algebraMap B C) (residue B b))) = _
+  · change e (e.symm (ResidueField.map (algebraMap B C) (residue B b))) = _
     rw [e.apply_symm_apply, ResidueField.map_residue]
   · let := hs
     let : Algebra (ResidueField A) (ResidueField B) :=
@@ -214,7 +214,7 @@ theorem exists_isHenselization_of_indEtale
       refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a => ?_)
       obtain ⟨a, rfl⟩ := residue_surjective a
       apply e.injective
-      show e (algebraMap (ResidueField A) L (residue A a)) =
+      change e (algebraMap (ResidueField A) L (residue A a)) =
         e (e.symm (ResidueField.map (algebraMap B C)
           (ResidueField.map (algebraMap A B) (residue A a))))
       rw [he, e.apply_symm_apply, map_map_residue_of_tower]

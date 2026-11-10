@@ -174,7 +174,7 @@ theorem tensorObjIso_naturality
     (f : M ⟶ M') (g : N ⟶ N') :
     (f ⊗ₘ g) ≫ (tensorObjIso O hO M' N').hom =
       (tensorObjIso O hO M N).hom ≫ sheafifyTensorHom O hO f g := by
-  show (f ⊗ₘ g) ≫
+  change (f ⊗ₘ g) ≫
       (((sheafifyValIso O hO M').inv ⊗ₘ (sheafifyValIso O hO N').inv) ≫
         (sheafifyTensorIso O hO M'.val N'.val).hom) =
     (((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
@@ -189,6 +189,7 @@ theorem tensorObjIso_naturality
         (localIso (J := J) O) (sheafifyUnitIso O hO)) f.val g.val)
 
 set_option maxHeartbeats 1000000 in
+-- the coherence proof unfolds the sheaf tensor product and the localized monoidal structure
 /-- The comparison carries the localized associator to the fixed associativity constraint of the
 sheaf tensor product. -/
 theorem tensorObjIso_associativity
@@ -238,14 +239,14 @@ theorem tensorObjIso_leftUnitor
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO (SheafOfModules.unit _) M).hom ≫
       (Invertible.tensorProductLeftUnitor O hO M).hom = (λ_ M).hom := by
-  show ((sheafifyUnitIso O hO).inv ⊗ₘ (sheafifyValIso O hO M).inv) ≫
+  change ((sheafifyUnitIso O hO).inv ⊗ₘ (sheafifyValIso O hO M).inv) ≫
     Functor.LaxMonoidal.μ (sheafifyFunctor O hO) (𝟙_ _) M.val ≫
     (sheafifyFunctor O hO).map (λ_ M.val).hom ≫
     (sheafifyValIso O hO M).hom = _
   rw [tensorHom_def', Category.assoc]
-  show _ ≫ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ▷ _ ≫ _ ≫ _ ≫ _ = _
+  change _ ≫ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ▷ _ ≫ _ ≫ _ ≫ _ = _
   rw [← Functor.LaxMonoidal.left_unitality_assoc]
-  show 𝟙_ (SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) ◁
+  change 𝟙_ (SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) ◁
     (sheafifyValIso O hO M).inv ≫ _ = _
   rw [leftUnitor_naturality_assoc (sheafifyValIso O hO M).inv]
   rw [Iso.inv_hom_id, Category.comp_id]
@@ -255,14 +256,14 @@ theorem tensorObjIso_rightUnitor
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO M (SheafOfModules.unit _)).hom ≫
       (Invertible.tensorProductRightUnitor O hO M).hom = (ρ_ M).hom := by
-  show ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyUnitIso O hO).inv) ≫
+  change ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyUnitIso O hO).inv) ≫
     Functor.LaxMonoidal.μ (sheafifyFunctor O hO) M.val (𝟙_ _) ≫
     (sheafifyFunctor O hO).map (ρ_ M.val).hom ≫
     (sheafifyValIso O hO M).hom = _
   rw [tensorHom_def, Category.assoc]
-  show _ ≫ _ ◁ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ≫ _ ≫ _ ≫ _ = _
+  change _ ≫ _ ◁ Functor.LaxMonoidal.ε (sheafifyFunctor O hO) ≫ _ ≫ _ ≫ _ = _
   rw [← Functor.LaxMonoidal.right_unitality_assoc]
-  show (sheafifyValIso O hO M).inv ▷
+  change (sheafifyValIso O hO M).inv ▷
     𝟙_ (SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) ≫ _ = _
   rw [rightUnitor_naturality_assoc (sheafifyValIso O hO M).inv]
   rw [Iso.inv_hom_id, Category.comp_id]
@@ -272,7 +273,7 @@ theorem tensorObjIso_braiding
     (M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) :
     (tensorObjIso O hO M N).hom ≫ (Invertible.tensorProductBraiding O hO M N).hom =
       (β_ M N).hom ≫ (tensorObjIso O hO N M).hom := by
-  show ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
+  change ((sheafifyValIso O hO M).inv ⊗ₘ (sheafifyValIso O hO N).inv) ≫
       Functor.LaxMonoidal.μ (sheafifyFunctor O hO) M.val N.val ≫
       (sheafifyFunctor O hO).map (β_ M.val N.val).hom = _
   rw [Functor.LaxBraided.braided (F := sheafifyFunctor O hO) M.val N.val]
@@ -312,7 +313,7 @@ theorem tensorProductAssociator_eq_comparison
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
           M).obj N)) P)).mpr
     ((Category.assoc _ _ _).trans (tensorObjIso_associativity O hO M N P))).trans ?_
-  show ((tensorObjIso O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+  change ((tensorObjIso O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
           M).obj N)) P).inv ≫ (tensorObjIso O hO M N).inv ▷ P) ≫
       (α_ M N P).hom ≫ M ◁ (tensorObjIso O hO N P).hom ≫
@@ -338,7 +339,7 @@ theorem tensorProductLeftUnitor_eq_comparison
             Iso.refl M)) ≪≫ λ_ M).hom := by
   refine ((Iso.eq_inv_comp (tensorObjIso O hO (SheafOfModules.unit _) M)).mpr
     (tensorObjIso_leftUnitor O hO M)).trans ?_
-  show _ = ((tensorObjIso O hO (SheafOfModules.unit _) M).inv ≫
+  change _ = ((tensorObjIso O hO (SheafOfModules.unit _) M).inv ≫
     (𝟙 (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) ⊗ₘ 𝟙 M)) ≫ (λ_ M).hom
   rw [id_tensorHom_id, Category.comp_id (tensorObjIso O hO (SheafOfModules.unit _) M).inv]
 
@@ -353,7 +354,7 @@ theorem tensorProductRightUnitor_eq_comparison
         ρ_ M).hom := by
   refine ((Iso.eq_inv_comp (tensorObjIso O hO M (SheafOfModules.unit _))).mpr
     (tensorObjIso_rightUnitor O hO M)).trans ?_
-  show _ = ((tensorObjIso O hO M (SheafOfModules.unit _)).inv ≫
+  change _ = ((tensorObjIso O hO M (SheafOfModules.unit _)).inv ≫
     (𝟙 M ⊗ₘ 𝟙 (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)))) ≫ (ρ_ M).hom
   rw [id_tensorHom_id, Category.comp_id (tensorObjIso O hO M (SheafOfModules.unit _)).inv]
 

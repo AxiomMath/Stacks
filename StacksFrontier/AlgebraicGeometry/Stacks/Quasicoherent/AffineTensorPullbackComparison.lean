@@ -68,9 +68,7 @@ def extendScalarsAlgebraMapEquiv {R : Type u} {C : Type u} [CommRing R] [CommRin
     map_smul' := by
       intro s x
       change eR (s • x) = s • eR x
-      induction x using TensorProduct.induction_on with
-      | zero =>
-        exact (congrArg eR (smul_zero s)).trans (eR.map_zero.trans (by rw [map_zero, smul_zero]))
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         exact (congrArg eR (smul_add s x y)).trans ((map_add eR _ _).trans
           ((congrArg₂ (· + ·) hx hy).trans (by rw [map_add, smul_add])))
@@ -155,7 +153,7 @@ theorem flat_selfFibreRingHom (hfl : IsFlat B S hS g) (hU : IsAffineOver B S hS 
   have h2 := @HasRingHomProperty.appTop @Flat RingHom.Flat _ _ _ _ hε hsrc hx
   rw [selfFibreRingHom_eq]
   refine RingHom.Flat.comp (RingHom.Flat.of_bijective h1) ?_
-  show RingHom.Flat (((Functor.whiskerRight (NatTrans.op (affineAdjunction g hg).counit)
+  change RingHom.Flat (((Functor.whiskerRight (NatTrans.op (affineAdjunction g hg).counit)
     (AlgebraicStacks.fppfStructureSheaf B S hS 𝒳).obj ≫ eqToHom _).app
       (op (g.hom.hom.toFunctor.obj (siteTop.{u, w} U)))).hom)
   rw [NatTrans.comp_app, CommRingCat.hom_comp]
@@ -218,7 +216,7 @@ theorem affineTensorFunctorGlobalSectionsIso_hom_app_directImageSMul
   have hnat := congrArg (fun φ => φ.hom z)
     ((directImageSMul g hg F c).naturality ((tildeCounitIso.{u, w} U hU).inv.app N))
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, Functor.comp_map] at hnat
-  show ((affineTensorFunctorIso g hg F).hom.app
+  change ((affineTensorFunctorIso g hg F).hom.app
       ((quasicoherentGlobalSections.{u, w} U).obj N)).hom
       ((F.map ((affineQuasicoherentPushforward g hg).map
         ((tildeCounitIso.{u, w} U hU).inv.app N))).hom
@@ -288,8 +286,7 @@ theorem pullbackTensorComparison_app_apply (M : quasicoherentModules B S hS 𝒳
     (z : (ModuleCat.extendScalars (algebraMap R (affineTensorAlgebra g hg F))).obj (F.obj M)) :
     ((pullbackTensorComparison g hg F hU).app M).hom z =
       (pullbackTensorFactorization g hg F hU M).hom z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul c m =>
     refine (pullbackTensorComparison_app_tmul g hg F hU M c m).trans ?_
     refine Eq.trans ?_ (congrArg (fun y => ((affineTensorFunctorGlobalSectionsIso g hg F hU).hom.app
@@ -375,7 +372,7 @@ theorem _root_.AlgebraicGeometry.Scheme.ΓSpecIso_symm_trans_mapIso_eqToIso_isoS
   cases h
   refine Eq.trans ?_ (eqToHom_refl (CommRingCat.of Γ(T, ⊤)) rfl).symm
   ext a
-  show (T.toSpecΓ.appTop).hom ((Scheme.ΓSpecIso (CommRingCat.of Γ(T, ⊤))).inv.hom a) = a
+  change (T.toSpecΓ.appTop).hom ((Scheme.ΓSpecIso (CommRingCat.of Γ(T, ⊤))).inv.hom a) = a
   rw [Scheme.toSpecΓ_appTop]
   exact congrArg (fun f => CommRingCat.Hom.hom f a) (Scheme.ΓSpecIso Γ(T, ⊤)).inv_hom_id
 

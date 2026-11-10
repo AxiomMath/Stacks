@@ -170,7 +170,7 @@ theorem quotientW_eq_inverseImage :
     quotientW 𝓟₁ 𝓛₁ =
       (quotientW 𝓟₂ 𝓛₂).inverseImage (mapDerivedCategoryLift F 𝓛₁ 𝓛₂ hF) := by
   ext X Y f
-  show (derivedInter 𝓟₁ 𝓛₁).trW ((derivedCategoryB 𝓛₁).ι.map f) ↔
+  change (derivedInter 𝓟₁ 𝓛₁).trW ((derivedCategoryB 𝓛₁).ι.map f) ↔
     (derivedInter 𝓟₂ 𝓛₂).trW (F.mapDerivedCategory.map ((derivedCategoryB 𝓛₁).ι.map f))
   constructor
   · rintro ⟨Z, g, h, hT, hZ⟩

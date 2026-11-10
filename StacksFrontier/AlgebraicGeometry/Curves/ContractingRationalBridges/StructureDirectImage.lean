@@ -125,7 +125,7 @@ theorem isIso_toRingCatSheafHom_toSpecΓ {Z : Scheme.{u}}
     fun a => ?_
   have : IsIso (Z.toSpecΓ.app (PrimeSpectrum.basicOpen a)) :=
     isIso_ΓSpec_adjunction_unit_app_basicOpen a
-  show IsIso ((forget₂ CommRingCat RingCat).map
+  change IsIso ((forget₂ CommRingCat RingCat).map
     (Z.toSpecΓ.c.app (op (PrimeSpectrum.basicOpen a))))
   infer_instance
 
@@ -168,7 +168,7 @@ theorem structureSheafToPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g :
 theorem isIso_structureSheafToPushforward_of_isIso {Z X : Scheme.{u}} (e : Z ⟶ X) [IsIso e] :
     IsIso (structureSheafToPushforward e) := by
   refine Scheme.Modules.Hom.isIso_iff_isIso_app.mpr fun U => ?_
-  show IsIso ((forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat).map (e.app U))
+  change IsIso ((forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat).map (e.app U))
   infer_instance
 
 /-- A morphism between the vertices of two pullback squares which is compatible with
@@ -234,7 +234,7 @@ theorem pushedForwardStructureSheafToComposite_comp_pushforwardCongr_app {Z Y P 
   rw [Scheme.Modules.Hom.comp_app, pushedForwardStructureSheafToComposite_app,
     Scheme.Modules.pushforwardCongr_hom_app_app]
   congr 1
-  show (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat).map
+  change (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat).map
     (Z.presheaf.map (eqToHom _).op) = _
   simp only [eqToHom_op, eqToHom_map]
   rfl
@@ -279,7 +279,7 @@ theorem pushoutModuleSquare_isPullback
     have htransport : G.map
         (eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) e)) = eqToHom eΓ.symm := by
       simp only [eqToHom_map]
-    show IsPullback
+    change IsPullback
       ((F.map (structureSheafToPushforward a)).app (op U.unop))
       ((F.map (structureSheafToPushforward b)).app (op U.unop))
       ((F.map (pushedForwardStructureSheafToComposite i a)).app (op U.unop))
@@ -300,7 +300,7 @@ theorem pushoutModuleSquare_isPullback
         (G.map (i.app (a ⁻¹ᵁ U.unop))) (G.map (j.app (b ⁻¹ᵁ U.unop)) ≫ eqToHom eΓ) :=
       hU'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) (eqToIso eΓ) rfl rfl
         (by
-          show (G.map (i.app (a ⁻¹ᵁ U.unop)) ≫
+          change (G.map (i.app (a ⁻¹ᵁ U.unop)) ≫
             G.map (eqToHom (congrArg (fun V : Z.Opens ↦ Γ(Z, V)) e))) ≫
               eqToHom eΓ = G.map (i.app _)
           rw [htransport]

@@ -118,7 +118,7 @@ theorem ker_lTensor_eq_range_lTensor_ker_subtype
         (LinearMap.lTensor P φ.ker.subtype) = 0 := by
       rw [← LinearMap.lTensor_comp, hzero, LinearMap.lTensor_zero]
     rw [LinearMap.mem_ker]
-    show ((LinearMap.lTensor P φ).comp (LinearMap.lTensor P φ.ker.subtype)) y = 0
+    change ((LinearMap.lTensor P φ).comp (LinearMap.lTensor P φ.ker.subtype)) y = 0
     exact congrArg (fun q ↦ q y) hzTensor
 
 end Module.Flat
@@ -138,7 +138,7 @@ private theorem ker_tensorProduct_map_of_flat
       (RingHom.ker φ).map
         (Algebra.TensorProduct.includeRight : A →ₐ[R] P ⊗[R] A) := by
   rw [← Submodule.restrictScalars_inj R]
-  show LinearMap.ker (LinearMap.lTensor P φ.toLinearMap) = _
+  change LinearMap.ker (LinearMap.lTensor P φ.toLinearMap) = _
   rw [Ideal.map_includeRight_eq, Module.Flat.ker_lTensor_eq_range_lTensor_ker_subtype]
   rfl
 
@@ -197,7 +197,7 @@ theorem ker_eq_map_of_isPushout_of_flat
       simp [ψ]
   have hker : RingHom.ker φ' = (RingHom.ker ψ).comap eA.hom.hom := by
     ext x
-    show φ' x = 0 ↔ ψ (eA.hom x) = 0
+    change φ' x = 0 ↔ ψ (eA.hom x) = 0
     have hx := congrArg (fun k : CommRingCat.of A' ⟶ _ ↦ k x) hw
     change eB.hom (φ' x) = ψ (eA.hom x) at hx
     rw [← hx]
@@ -206,7 +206,7 @@ theorem ker_eq_map_of_isPushout_of_flat
   have hcomp := congrArg CommRingCat.Hom.hom heAa
   change eA.hom.hom.comp a =
     (Algebra.TensorProduct.includeRight : A →ₐ[R] P ⊗[R] A).toRingHom at hcomp
-  show ((RingHom.ker φ).map
+  change ((RingHom.ker φ).map
     (Algebra.TensorProduct.includeRight : A →ₐ[R] P ⊗[R] A).toRingHom).comap _ = _
   rw [← hcomp, ← Ideal.map_map]
   exact Ideal.comap_map_of_bijective _ (ConcreteCategory.bijective_of_isIso eA.hom)

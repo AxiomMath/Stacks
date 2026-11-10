@@ -336,7 +336,8 @@ def restrictStalkSemilinear (V : X.Opens) (F : X.Modules) (x : V.toScheme) :
   have h := ConcreteCategory.congr_hom
     (Scheme.Modules.smul_restrictAppIso_hom V.ι F (W₁ ⊓ W₂) a') s'
   change ((F.restrict V.ι).smul a').asHom s' = (F.smul a').asHom s'
-  change ((F.restrict V.ι).smul a').asHom s' = (F.smul ((V.ι.appIso (W₁ ⊓ W₂)).inv a')).asHom s' at h
+  change ((F.restrict V.ι).smul a').asHom s' =
+    (F.smul ((V.ι.appIso (W₁ ⊓ W₂)).inv a')).asHom s' at h
   have ha : (V.ι.appIso (W₁ ⊓ W₂)).inv a' = a' := by
     rw [Scheme.Opens.ι_appIso]
     exact CommRingCat.id_apply _ _

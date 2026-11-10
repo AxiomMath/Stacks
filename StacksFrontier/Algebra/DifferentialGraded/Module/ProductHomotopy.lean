@@ -137,7 +137,7 @@ theorem exists_productLift {T : DifferentialGradedModule A} (c : ℤ) (φ : ∀ 
     refine eq_of_proj_eq π hsep fun i => ?_
     rw [(hex (op a • x)).choose_spec i, (π i).map_smul, (hex x).choose_spec i, hsmulA i a x]
   · intro n x hx
-    show (hex x).choose ∈ P.grading (n + c)
+    change (hex x).choose ∈ P.grading (n + c)
     obtain ⟨y, hymem, hy⟩ := hlift (n + c) (fun i => φ i x) (fun i => hgr i n x hx)
     rw [show (hex x).choose = y from
       eq_of_proj_eq π hsep fun i => by rw [(hex x).choose_spec i, hy i]]
@@ -171,7 +171,7 @@ theorem exists_homLift {T : DifferentialGradedModule A} (φ : ∀ i, T ⟶ Q i) 
     exists_gradedHomLift_aux π hsep hlift fun i => (φ i).toGradedHom
   refine ⟨{ ψ with map_d := ?_ }, hπ⟩
   refine LinearMap.ext fun x => eq_of_proj_eq π hsep fun i => ?_
-  show (π i).toFun (ψ.toFun (T.d x)) = (π i).toFun (P.d (ψ.toFun x))
+  change (π i).toFun (ψ.toFun (T.d x)) = (π i).toFun (P.d (ψ.toFun x))
   rw [hπ i (T.d x), ← LinearMap.comp_apply, (φ i).map_d, LinearMap.comp_apply,
     ← hπ i x, ← LinearMap.comp_apply, ← (π i).map_d, LinearMap.comp_apply]
 
@@ -227,7 +227,7 @@ theorem rightOrthogonal_acyclic_of_product (π : ∀ i, P ⟶ Q i)
   refine eq_of_proj_eq π hsep fun i => ?_
   have hi := (h i).homotopy_eq x
   simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero, Hom.comp_toFun_apply] at hi
-  show (π i).toFun (f.toFun x - (0 : N ⟶ P).toFun x)
+  change (π i).toFun (f.toFun x - (0 : N ⟶ P).toFun x)
     = (π i).toFun (P.d (H x) + H (N.d x))
   simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero, map_add]
   rw [show (π i).toFun (P.d (H x)) = (Q i).d ((π i).toFun (H x)) from

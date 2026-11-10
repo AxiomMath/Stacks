@@ -107,7 +107,7 @@ theorem sqzSliceIso_hom_comp (M : SiteModule D B) :
       squareZeroRetraction D B S hS toSD hD M ≫ s := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom D M.obj)) ≫ toSD₀ =
+  change 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom D M.obj)) ≫ toSD₀ =
     (squareZeroRetraction D B S hS toSD hD M).left.hom ≫ s.left.hom
   rw [hs, Category.id_comp]
   rfl
@@ -118,7 +118,7 @@ theorem algSliceIso_hom_comp :
         (algebraOver D B (Spec (.of A)) hA toSD₀ hD)).hom = s := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show 𝟙 _ ≫ toSD₀ = s.left.hom
+  change 𝟙 _ ≫ toSD₀ = s.left.hom
   rw [hs, Category.id_comp]
   rfl
 
@@ -194,7 +194,7 @@ theorem algSliceIso_hom_comp_squareZeroArrow (M : SiteModule D B) :
       squareZeroArrow D B S hS toSD hD M ≫ (sqzSliceIso toSD₀ s hs M).hom := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom D D M.obj).toRingHom) =
+  change 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom D D M.obj).toRingHom) =
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom D D M.obj).toRingHom) ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
 
@@ -279,7 +279,7 @@ theorem exists_infIsomSec_eq (M : SiteModule D B)
   have h1 : θ₁ = 𝟙 x' := (cartesianCmpEnd_injective p hp (fiberPt p hx) φ' _ _ _ _ _ hres).symm
   have hw : td.1.hom ≫ θ' = td.1.hom := by rw [← hθ₁, h1, Category.id_comp]
   refine ⟨underFiberHomMk p hx' (squareZeroArrow D B S hS toSD hD M) θ' hθ' hw, ?_⟩
-  show cartesianCmpEnd p hp (fiberPt p hx) c _ _ _ θ' = g
+  change cartesianCmpEnd p hp (fiberPt p hx) c _ _ _ θ' = g
   exact cartesianCmpEnd_cartesianCmpEndInv p hp (fiberPt p hx) c _ _ _ g
 
 /-- **`Inf_{x'}(M)` is the set of sections of `Mor(x, x)` over `Spec D[M]` restricting to the
@@ -350,7 +350,7 @@ theorem morRestrict_infIsomSec
     θ₂.1.right hθ
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show 𝟙 _ ≫ H₀.left.hom = h.left.hom ≫ 𝟙 _
+  change 𝟙 _ ≫ H₀.left.hom = h.left.hom ≫ 𝟙 _
   rw [hh, Category.id_comp, Category.comp_id]
 
 end InfIsom

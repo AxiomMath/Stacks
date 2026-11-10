@@ -42,7 +42,8 @@ over the residue field, not that the residue field is algebraically closed. The
 classification `Stacks.Curves.nonempty_algEquiv_multicross_iff` requires `[IsAlgClosed k]`, so
 the file also proves the split version over an arbitrary field
 (`Stacks.Curves.nonempty_algEquiv_multicross_of_isotropic`). Algebraic closedness is used in the
-proof of that classification at exactly one point — to produce a root of the dehomogenized quadratic — so the
+proof of that classification at exactly one point — to produce a root of the dehomogenized quadratic
+— so the
 hypothesis replacing it is that the form has a nontrivial zero `(u, v) ≠ (0, 0)`, which is the
 coordinate-free form of "`q` splits over `k`"; in characteristic `2` nondegeneracy reads `b ≠ 0`
 and the same two cases work, exactly as for the algebraically closed version.
@@ -412,7 +413,7 @@ theorem isCoatom_range_algebraMap_multicross :
         PowerSeries.constantCoeff (firstBranchIdem k 1) := he 0 1
     simp [firstBranchIdem] at h01
   · intro P hP
-    obtain ⟨x, hxP, hxN⟩ := SetLike.exists_of_lt hP
+    obtain ⟨x, hxP, hxN⟩ := IsConcreteLE.exists_of_lt hP
     rw [mem_range_algebraMap_multicross_iff, mem_multicross] at hxN
     have hc : PowerSeries.constantCoeff (x 0) - PowerSeries.constantCoeff (x 1) ≠ 0 := by
       intro h0

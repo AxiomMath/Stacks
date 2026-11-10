@@ -112,15 +112,15 @@ theorem isZero_stalkFunctor_homology_of_locally_exactAt
     let fWU : W ⟶ U := homOfLE hWV ≫ fVU
     have ht : S.g.hom.app (op W) (S.X₂.obj.map fWU.op t) = 0 := by
       rw [← ConcreteCategory.comp_apply, S.g.hom.naturality]
-      show S.X₃.obj.map fWU.op (S.g.hom.app (op U) t) = 0
+      change S.X₃.obj.map fWU.op (S.g.hom.app (op U) t) = 0
       dsimp [fWU]
       rw [Functor.map_comp]
-      show S.X₃.obj.map (homOfLE hWV).op
+      change S.X₃.obj.map (homOfLE hWV).op
         (S.X₃.obj.map fVU.op (S.g.hom.app (op U) t)) = 0
       simpa using congrArg (fun a => S.X₃.obj.map (homOfLE hWV).op a) he
     obtain ⟨v, hv⟩ := hS W hW _ ht
     refine ⟨TopCat.Presheaf.germ S.X₁.obj W x hxW v, ?_⟩
-    show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
+    change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
       (TopCat.Presheaf.germ S.X₁.obj W x hxW v) = _
     rw [TopCat.Presheaf.stalkFunctor_map_germ_apply, hv]
     exact TopCat.Presheaf.germ_res_apply S.X₂.obj fWU x hxW _
@@ -213,9 +213,9 @@ theorem subsingleton_zExt_of_isRegular_standard (X : Scheme.{u}) [IsNoetherian X
     have h := Stacks.Topology.coheight_le_of_topologicalKrullDim_le hd.le x
     exact_mod_cast h
   have hne : ∀ x : X, Order.coheight x ≠ ⊤ := fun x =>
-    ne_top_of_le_ne_top (ENat.coe_ne_top d) (hle x)
+    ne_top_of_le_ne_top (ENat.natCast_ne_top d) (hle x)
   have hcoh : ∀ x : X, ((Order.coheight x).toNat : ℕ∞) = Order.coheight x := fun x =>
-    ENat.coe_toNat (hne x)
+    ENat.natCast_toNat (hne x)
   choose V hxV hV using fun x : X =>
     exists_nbhd_subsingleton_zExt hX F hF x (Order.coheight x).toNat (hcoh x).ge
   -- the cohomology sheaves of `C` have no cohomology above `d` minus their degree
@@ -233,7 +233,7 @@ theorem subsingleton_zExt_of_isRegular_standard (X : Scheme.{u}) [IsNoetherian X
     have hstalkM : ∀ y : X, y ∉ S →
         IsZero ((AlgebraicGeometry.SheafOfModules.stalkFunctor X.ringCatSheaf y).obj Hj) := by
       intro y hy
-      simp only [S, Set.mem_compl_iff, not_not, Set.mem_iUnion, Set.mem_setOf_eq] at hy
+      simp only [S, Set.mem_compl_iff, not_not, Set.mem_iUnion, Set.mem_ofPred_eq] at hy
       obtain ⟨x, hx, hyx⟩ := hy
       have hz := isZero_stalkFunctor_homology_of_locally_exactAt C j y
         (fun W => IsAffineOpen W ∧ W ≤ V x)
@@ -251,7 +251,7 @@ theorem subsingleton_zExt_of_isRegular_standard (X : Scheme.{u}) [IsNoetherian X
       have hall : ∀ y : X, y ∉ S := by
         intro y hyS
         refine hyS (Set.mem_iUnion₂.mpr ⟨y, ?_, hxV y⟩)
-        show ((Order.coheight y).toNat : ℤ) < j
+        change ((Order.coheight y).toNat : ℤ) < j
         have : (Order.coheight y).toNat ≤ d := by exact_mod_cast (hcoh y).le.trans (hle y)
         omega
       have hT : IsZero ((AlgebraicGeometry.SheafOfModules.toTopSheaf X.ringCatSheaf).obj Hj) :=
@@ -268,7 +268,7 @@ theorem subsingleton_zExt_of_isRegular_standard (X : Scheme.{u}) [IsNoetherian X
           hs (Set.mem_iUnion₂.mpr ⟨s, h, hxV s⟩)
         have h1 : (j.toNat : ℕ∞) ≤ ((Order.coheight s).toNat : ℕ∞) := by
           exact_mod_cast (show j.toNat ≤ (Order.coheight s).toNat by omega)
-        exact h1.trans (ENat.coe_toNat_le_self _)
+        exact h1.trans (ENat.natCast_toNat_le_self _)
       exact
         Stacks.CohomologyVanishing.isZero_rightDerived_moduleGlobalSections_of_forall_stalk_isZero
           X S hS hdim (by omega) Hj hstalk

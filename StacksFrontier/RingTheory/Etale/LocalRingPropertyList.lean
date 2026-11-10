@@ -126,11 +126,11 @@ theorem flat_formallyUnramified_essFiniteType_localRingHom_of_etale
   have hfu : Algebra.FormallyUnramified (Localization.AtPrime p) (Localization.AtPrime q) :=
     Algebra.FormallyUnramified.localization_base p.primeCompl
   refine ⟨?_, ?_, ?_⟩
-  · simpa only [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq] using
+  · simpa only [Localization.AtPrime.algebraMap_eq] using
       RingHom.flat_algebraMap_iff.mpr hflat
-  · simpa only [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq] using
+  · simpa only [Localization.AtPrime.algebraMap_eq] using
       RingHom.formallyUnramified_algebraMap.mpr hfu
-  · simpa only [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq] using
+  · simpa only [Localization.AtPrime.algebraMap_eq] using
       RingHom.essFiniteType_algebraMap.mpr hft
 
 /-- Existential statements over propositions `α ↔ β` are equivalent when the predicates are. -/

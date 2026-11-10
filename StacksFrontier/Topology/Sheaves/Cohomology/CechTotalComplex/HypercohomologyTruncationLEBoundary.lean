@@ -153,7 +153,7 @@ theorem truncLECochainTo_d_top (a : ℤ) {p : ℕ}
         0 := by
     rw [(isZero_truncLESections_X K (show a < a + 1 by omega)).eq_of_tgt
       (((Stacks.Cech.Refinement.sectionsComplex O).obj (truncLEPlus O K a).obj).d a (a + 1)) 0]
-    show ((CategoryTheory.cechComplexFunctor (coverObject U hU)).map (0 : _ ⟶ _)).f p = 0
+    change ((CategoryTheory.cechComplexFunctor (coverObject U hU)).map (0 : _ ⟶ _)).f p = 0
     rw [Functor.map_zero]
     rfl
   unfold truncLECochainTo

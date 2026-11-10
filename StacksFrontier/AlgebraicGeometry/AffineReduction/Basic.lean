@@ -204,7 +204,7 @@ theorem isSmallColimit_limMap [Nonempty I] (hc : IsLimit c)
       have : ((Spec.map (CommRingCat.ofHom (g i₀)) ≫ (haff i₀).fromSpec)).base x
           ∈ Set.range (haff i₀).fromSpec := ⟨_, rfl⟩
       rwa [(haff i₀).range_fromSpec] at this
-    show m.base x ∈ ((f ⁻¹ᵁ V : c.pt.Opens) : Set c.pt)
+    change m.base x ∈ ((f ⁻¹ᵁ V : c.pt.Opens) : Set c.pt)
     rwa [limPreimage_eq hf V i₀]
   refine ⟨(Spec.preimage (IsOpenImmersion.lift hW.fromSpec m hrange)).hom, fun i x ↦ ?_⟩
   have hl : IsOpenImmersion.lift hW.fromSpec m hrange ≫ hW.fromSpec = m :=
@@ -330,7 +330,7 @@ theorem exists_isFinite [IsDirectedOrder I] [Nonempty I] [CompactSpace S]
     exact Set.subset_iUnion_of_subset ⟨U, hU⟩ le_rfl
   · intro U
     have hkU : jU U.1 ≤ k := hk _ (Finset.mem_insert_of_mem (Finset.mem_image_of_mem _ U.2))
-    show IsIntegralHom (p k ∣_ ((U.1 : S.Opens)))
+    change IsIntegralHom (p k ∣_ ((U.1 : S.Opens)))
     have : IsAffine ((U.1 : S.Opens)).toScheme := U.1.2
     have hA : IsAffineOpen (p k ⁻¹ᵁ ((U.1 : S.Opens))) :=
       have := haffHom k; U.1.2.preimage (p k)

@@ -158,9 +158,12 @@ def totalComplexMapRight
     {A A' : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ}
     (a : A ⟶ A')
     (B : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ) :
-    (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B) ⟶
-      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A', B) :=
-  (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map (a ×ₘ 𝟙 B)
+    (totalComplexPair
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B) ⟶
+      (totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A', B) :=
+  (totalComplexPair
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map (a ×ₘ 𝟙 B)
 
 /-- **The total tensor complex of an identity and a cochain map in the second variable**, pinned;
 the companion of `totalComplexMapRight`. -/
@@ -168,9 +171,12 @@ def totalComplexMapLeft
     (A : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ)
     {B B' : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ}
     (b : B ⟶ B') :
-    (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B) ⟶
-      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B') :=
-  (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map (𝟙 A ×ₘ b)
+    (totalComplexPair
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B) ⟶
+      (totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (A, B') :=
+  (totalComplexPair
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).map (𝟙 A ×ₘ b)
 
 /-- `Stacks.Cohomology.DerivedPullbackTensor.totalComplexMapRight` is the right whiskering of the
 monoidal structure on complexes.  This is not `rfl`: `totalComplexPair` is built from
@@ -185,7 +191,8 @@ theorem totalComplexMapRight_eq_whiskerRight
     totalComplexMapRight Z a B = a ▷ B :=
   HomologicalComplex.hom_ext _ _ fun n =>
     (congrArg (fun φ => HomologicalComplex.Hom.f φ n)
-        (totalComplexPair_map (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) a (𝟙 B))).trans
+        (totalComplexPair_map
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) a (𝟙 B))).trans
       (HomologicalComplex.Monoidal.whiskerRight_f a B n).symm
 
 /-- `Stacks.Cohomology.DerivedPullbackTensor.totalComplexMapLeft` is the left whiskering of the
@@ -197,7 +204,8 @@ theorem totalComplexMapLeft_eq_whiskerLeft
     totalComplexMapLeft Z A b = A ◁ b :=
   HomologicalComplex.hom_ext _ _ fun n =>
     (congrArg (fun φ => HomologicalComplex.Hom.f φ n)
-        (totalComplexPair_map (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) (𝟙 A) b)).trans
+        (totalComplexPair_map
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf) (𝟙 A) b)).trans
       (HomologicalComplex.Monoidal.whiskerLeft_f A b n).symm
 
 /-- **The associator of total tensor complexes**, with its source and target written through
@@ -211,9 +219,11 @@ this definition pays for the identification **once**. -/
 def complexAssociatorPair
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ) :
     (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L), M) ⟶
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L), M) ⟶
       (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj
-        (K, (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, M)) :=
+        (K, (totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, M)) :=
   (α_ K L M).hom
 
 /-- `Stacks.Cohomology.DerivedPullbackTensor.complexAssociatorPair` is the associator of the
@@ -233,7 +243,8 @@ theorem kFlat_totalComplexPair
     (hK : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Z K)
     (hL : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Z L) :
     AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Z
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) :=
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) :=
   kFlat_tensorComplex Z K L hK hL
 
 end TotalComplexMaps
@@ -352,7 +363,8 @@ def comparisonPair
           (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf)).obj
         (DerivedCategory.Q.obj K, DerivedCategory.Q.obj L) ⟶
       DerivedCategory.Q.obj
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) :=
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) :=
   canonicalComparisonHom Z.sheaf K L hK hL
 
 /-- `Stacks.Cohomology.DerivedPullbackTensor.comparisonPair` *is* the comparison of Tag 06YU at
@@ -428,7 +440,8 @@ def UncurriedComparisonAssociator
           (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf)).map
         (comparisonPair Z K L hK hL ×ₘ 𝟙 (DerivedCategory.Q.obj M)) ≫
       comparisonPair Z
-          ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) M
+          ((totalComplexPair
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L)) M
           (kFlat_totalComplexPair Z K L hK hL) hM ≫
         DerivedCategory.Q.map (complexAssociatorPair Z K L M) =
     canonicalAssociatorHom Z.sheaf (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L)
@@ -437,7 +450,8 @@ def UncurriedComparisonAssociator
             (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Z.sheaf)).map
           (𝟙 (DerivedCategory.Q.obj K) ×ₘ comparisonPair Z L M hL hM) ≫
         comparisonPair Z K
-          ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, M)) hK
+          ((totalComplexPair
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, M)) hK
           (kFlat_totalComplexPair Z L M hL hM)
 
 /-- **The associativity clause of Tag 0FPT, uncurried.**  This is
@@ -518,7 +532,8 @@ coherence separately is what keeps each declaration inside the heartbeat budget.
 theorem pullbackTensorComplexIso_associator_lhs
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     (pullbackTensorComplexNatIso f).hom.app
-          ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L), M) ≫
+          ((totalComplexPair
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L), M) ≫
         totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
             ((pullbackComplex f).obj M) ≫
           complexAssociatorPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
@@ -536,7 +551,8 @@ theorem pullbackTensorComplexIso_associator_rhs
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     (pullbackComplex f).map (complexAssociatorPair Y K L M) ≫
         (pullbackTensorComplexNatIso f).hom.app
-            (K, (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+            (K, (totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
               (L, M)) ≫
           totalComplexMapLeft X ((pullbackComplex f).obj K)
             ((pullbackTensorComplexNatIso f).hom.app (L, M)) =
@@ -554,14 +570,16 @@ nothing below mentions `⊗`. -/
 theorem pullbackTensorComplexIso_associator_pair
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     (pullbackTensorComplexNatIso f).hom.app
-          ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L), M) ≫
+          ((totalComplexPair
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L), M) ≫
         totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
             ((pullbackComplex f).obj M) ≫
           complexAssociatorPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
             ((pullbackComplex f).obj M) =
       (pullbackComplex f).map (complexAssociatorPair Y K L M) ≫
         (pullbackTensorComplexNatIso f).hom.app
-            (K, (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+            (K, (totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
               (L, M)) ≫
           totalComplexMapLeft X ((pullbackComplex f).obj K)
             ((pullbackTensorComplexNatIso f).hom.app (L, M)) :=
@@ -576,7 +594,8 @@ theorem pullbackTensorComplexIso_associator_pair_Q
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     DerivedCategory.Q.map
           ((pullbackTensorComplexNatIso f).hom.app
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L),
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L),
               M)) ≫
         DerivedCategory.Q.map
             (totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
@@ -587,7 +606,8 @@ theorem pullbackTensorComplexIso_associator_pair_Q
       DerivedCategory.Q.map ((pullbackComplex f).map (complexAssociatorPair Y K L M)) ≫
         DerivedCategory.Q.map
             ((pullbackTensorComplexNatIso f).hom.app
-              (K, (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+              (K, (totalComplexPair
+                (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
                 (L, M))) ≫
           DerivedCategory.Q.map
             (totalComplexMapLeft X ((pullbackComplex f).obj K)
@@ -617,7 +637,8 @@ triple tensor product that the diagram chase asks for. -/
 theorem pullbackTensorModel_assoc_pair
     (K L M : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     (pullbackTensorModel f
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
           DerivedCategory.Q.map
             (totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
               ((pullbackComplex f).obj M))) ≫
@@ -627,7 +648,8 @@ theorem pullbackTensorModel_assoc_pair
       (derivedPullback f).map
           (DerivedCategory.Q.map (complexAssociatorPair Y K L M)) ≫
         (pullbackTensorModel f K
-              ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+              ((totalComplexPair
+                (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
                 (L, M)) ≫
           DerivedCategory.Q.map
             (totalComplexMapLeft X ((pullbackComplex f).obj K)
@@ -651,7 +673,8 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair
               (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf)).map
             ((derivedPullbackNatTrans f).app K ×ₘ (derivedPullbackNatTrans f).app L) ≫
           comparisonPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
-            (kFlat_modulePullback_unconditional f K hK) (kFlat_modulePullback_unconditional f L hL) =
+            (kFlat_modulePullback_unconditional f K hK)
+            (kFlat_modulePullback_unconditional f L hL) =
       (derivedPullback f).map (comparisonPair Y K L hK hL) ≫ pullbackTensorModel f K L :=
   derivedPullbackTensorIso_hom_app_comp_canonicalComparisonHom f K L hK hL
 
@@ -665,24 +688,29 @@ def ModelIdentificationLeft
     (hM : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Y M) : Prop :=
     (derivedPullbackTensorIso f).hom.app
           (DerivedCategory.Q.obj
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)),
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)),
               DerivedCategory.Q.obj M) ≫
         (Functor.uncurry.obj
               (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf)).map
             (pullbackTensorModel f K L ×ₘ (derivedPullbackNatTrans f).app M) ≫
           comparisonPair X
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
               ((pullbackComplex f).obj K, (pullbackComplex f).obj L))
             ((pullbackComplex f).obj M)
             (kFlat_totalComplexPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
-              (kFlat_modulePullback_unconditional f K hK) (kFlat_modulePullback_unconditional f L hL))
+              (kFlat_modulePullback_unconditional f K hK)
+              (kFlat_modulePullback_unconditional f L hL))
             (kFlat_modulePullback_unconditional f M hM) =
       (derivedPullback f).map
           (comparisonPair Y
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
             (kFlat_totalComplexPair Y K L hK hL) hM) ≫
         (pullbackTensorModel f
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
           DerivedCategory.Q.map
             (totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
               ((pullbackComplex f).obj M)))
@@ -703,11 +731,13 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair_left
     (Functor.uncurry.obj (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf))
     (derivedPullbackTensorIso f).hom
     (derivedPullbackTensorIso_hom_app_comp_comparisonPair f
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
       (kFlat_totalComplexPair Y K L hK hL) hM)
     (comparisonPair_naturality_right X ((pullbackTensorComplexNatIso f).hom.app (K, L))
       (kFlat_modulePullback_unconditional f
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L))
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L))
         (kFlat_totalComplexPair Y K L hK hL))
       (kFlat_totalComplexPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
         (kFlat_modulePullback_unconditional f K hK) (kFlat_modulePullback_unconditional f L hL))
@@ -724,23 +754,28 @@ def ModelIdentificationRight
     (derivedPullbackTensorIso f).hom.app
           (DerivedCategory.Q.obj K,
             DerivedCategory.Q.obj
-              ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+              ((totalComplexPair
+                (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
                 (L, M))) ≫
         (Functor.uncurry.obj
               (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf)).map
             ((derivedPullbackNatTrans f).app K ×ₘ pullbackTensorModel f L M) ≫
           comparisonPair X ((pullbackComplex f).obj K)
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
               ((pullbackComplex f).obj L, (pullbackComplex f).obj M))
             (kFlat_modulePullback_unconditional f K hK)
             (kFlat_totalComplexPair X ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
-              (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM)) =
+              (kFlat_modulePullback_unconditional f L hL)
+              (kFlat_modulePullback_unconditional f M hM)) =
       (derivedPullback f).map
           (comparisonPair Y K
-            ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
+            ((totalComplexPair
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
             (kFlat_totalComplexPair Y L M hL hM)) ≫
         (pullbackTensorModel f K
-              ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
+              ((totalComplexPair
+                (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj
                 (L, M)) ≫
           DerivedCategory.Q.map
             (totalComplexMapLeft X ((pullbackComplex f).obj K)
@@ -760,16 +795,20 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonPair_right
     (Functor.uncurry.obj (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf))
     (derivedPullbackTensorIso f).hom
     (derivedPullbackTensorIso_hom_app_comp_comparisonPair f K
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
       (kFlat_totalComplexPair Y L M hL hM))
     (comparisonPair_naturality_left X ((pullbackTensorComplexNatIso f).hom.app (L, M))
       (kFlat_modulePullback_unconditional f K hK)
       (kFlat_modulePullback_unconditional f
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M))
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M))
         (kFlat_totalComplexPair Y L M hL hM))
       (kFlat_totalComplexPair X ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
         (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM)))
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The composite the associativity chase cancels is an isomorphism.**  It is the pair of
 derived pullbacks of the last two factors, tensored, followed by the comparison of Tag 06YU: each
 factor is invertible on K-flat complexes, so the composite is, and in particular it is a
@@ -793,7 +832,8 @@ theorem isIso_modelCorner
             ((pullbackComplex f).obj L, (pullbackComplex f).obj M))
           (kFlat_modulePullback_unconditional f K hK)
           (kFlat_totalComplexPair X ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
-            (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM))) := by
+            (kFlat_modulePullback_unconditional f L hL)
+            (kFlat_modulePullback_unconditional f M hM))) := by
   have hKx := kFlat_modulePullback_unconditional f K hK
   have hLx := kFlat_modulePullback_unconditional f L hL
   have hMx := kFlat_modulePullback_unconditional f M hM
@@ -816,6 +856,8 @@ theorem isIso_modelCorner
       hKx (kFlat_totalComplexPair X ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
         hLx hMx))
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The composite the associativity chase cancels is a monomorphism.  It is an isomorphism
 (`isIso_modelCorner`); stating the consequence in its own declaration is what keeps the instance
 search off the diagram chase, where the morphism it would have to be found for is still half
@@ -839,8 +881,9 @@ theorem mono_modelCorner
             ((pullbackComplex f).obj L, (pullbackComplex f).obj M))
           (kFlat_modulePullback_unconditional f K hK)
           (kFlat_totalComplexPair X ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
-            (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM))) := by
-  haveI := isIso_modelCorner f K L M hK hL hM
+            (kFlat_modulePullback_unconditional f L hL)
+            (kFlat_modulePullback_unconditional f M hM))) := by
+  have := isIso_modelCorner f K L M hK hL hM
   infer_instance
 
 /-- **The comparison of Tag 079U carries the associativity constraint of Tag 0FPT on `D(𝒪_Y)` to
@@ -941,10 +984,12 @@ def AssocLaws
     ((derivedPullbackNatTrans f).app M)
     (comparisonPair Y K L hK hL) (comparisonPair Y L M hL hM)
     (comparisonPair Y
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
       (kFlat_totalComplexPair Y K L hK hL) hM)
     (comparisonPair Y K
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
       (kFlat_totalComplexPair Y L M hL hM))
     (DerivedCategory.Q.map (complexAssociatorPair Y K L M))
     (comparisonPair X ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
@@ -979,7 +1024,8 @@ theorem assocModelLaws
     AssocLaws f K L M hK hL hM :=
   ⟨canonicalComparison_associator_uncurried Y K L M hK hL hM,
     canonicalComparison_associator_uncurried X ((pullbackComplex f).obj K)
-      ((pullbackComplex f).obj L) ((pullbackComplex f).obj M) (kFlat_modulePullback_unconditional f K hK)
+      ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)
+      (kFlat_modulePullback_unconditional f K hK)
       (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM),
     canonicalAssociatorHom_naturality X ((derivedPullbackNatTrans f).app K)
       ((derivedPullbackNatTrans f).app L) ((derivedPullbackNatTrans f).app M)⟩
@@ -1028,7 +1074,8 @@ def AssocTripleLeft
     (derivedPullbackTensorIso f).hom
     ((derivedPullbackNatTrans f).app M)
     (comparisonPair Y
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M
       (kFlat_totalComplexPair Y K L hK hL) hM)
     (comparisonPair X
       ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
@@ -1039,7 +1086,8 @@ def AssocTripleLeft
       (kFlat_modulePullback_unconditional f M hM))
     (pullbackTensorModel f K L)
     (pullbackTensorModel f
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
       DerivedCategory.Q.map
         (totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
           ((pullbackComplex f).obj M)))
@@ -1068,7 +1116,8 @@ def AssocTripleRight
     (derivedPullbackTensorIso f).hom
     ((derivedPullbackNatTrans f).app K)
     (comparisonPair Y K
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) hK
       (kFlat_totalComplexPair Y L M hL hM))
     (comparisonPair X ((pullbackComplex f).obj K)
       ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
@@ -1078,7 +1127,8 @@ def AssocTripleRight
         (kFlat_modulePullback_unconditional f L hL) (kFlat_modulePullback_unconditional f M hM)))
     (pullbackTensorModel f L M)
     (pullbackTensorModel f K
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) ≫
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) ≫
       DerivedCategory.Q.map
         (totalComplexMapLeft X ((pullbackComplex f).obj K)
           ((pullbackTensorComplexNatIso f).hom.app (L, M))))
@@ -1104,12 +1154,14 @@ def AssocLink
     (DerivedCategory.Q.map (complexAssociatorPair X ((pullbackComplex f).obj K)
       ((pullbackComplex f).obj L) ((pullbackComplex f).obj M)))
     (pullbackTensorModel f
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) M ≫
       DerivedCategory.Q.map
         (totalComplexMapRight X ((pullbackTensorComplexNatIso f).hom.app (K, L))
           ((pullbackComplex f).obj M)))
     (pullbackTensorModel f K
-        ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) ≫
+        ((totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (L, M)) ≫
       DerivedCategory.Q.map
         (totalComplexMapLeft X ((pullbackComplex f).obj K)
           ((pullbackTensorComplexNatIso f).hom.app (L, M))))

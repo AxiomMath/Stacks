@@ -144,7 +144,7 @@ private theorem sectionTower_transition_apply (U : S.X.affineOpens)
           (x.1 (n + 2)) = x.1 (n + 1) := by
         exact (S.sectionTransition_succ_apply U n _).symm.trans (x.2 (n + 1))
       rw [hfactor, Functor.map_comp, Scheme.Modules.Hom.comp_app]
-      show ((S.system.map (homOfLE h).op).app U.1).hom
+      change ((S.system.map (homOfLE h).op).app U.1).hom
         (((S.system.map (homOfLE (Nat.le_succ n)).op).app U.1).hom (x.1 (n + 2))) = _
       rwa [hstep]
 
@@ -243,7 +243,7 @@ private theorem sectionLimitIso_hom_proj (U : S.X.affineOpens) (n : ℕ) :
   set p := preservesLimitIso (S.sectionFunctor U) S.system with hp
   set i := IsLimit.conePointUniqueUpToIso (S.sectionLimitCone_isLimit U) (limit.isLimit D)
     with hi
-  show (i.hom ≫ p.symm.hom) ≫ (S.sectionFunctor U).map (limit.π S.system (op n)) = _
+  change (i.hom ≫ p.symm.hom) ≫ (S.sectionFunctor U).map (limit.π S.system (op n)) = _
   have hpπ : p.hom ≫ limit.π D (op n) =
       (S.sectionFunctor U).map (limit.π S.system (op n)) :=
     preservesLimitIso_hom_π (S.sectionFunctor U) S.system (op n)

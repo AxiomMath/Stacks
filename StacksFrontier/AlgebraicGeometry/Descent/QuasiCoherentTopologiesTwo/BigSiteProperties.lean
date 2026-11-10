@@ -117,7 +117,8 @@ namespace BigFppfOver
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 -- The big `τ`-site of `S` as a ringed site is `AlgebraicGeometry.BigFppfOver.baseRingedSite`,
--- imported from `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.BaseRingedSiteHomGeneral`.
+-- imported from
+-- `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.BaseRingedSiteHomGeneral`.
 
 /-- **Stacks 0GNC, part (5).**  The tensor product of two quasi-coherent `𝒪`-modules on the big
 `τ`-site of a scheme `S` is quasi-coherent, for each of the five topologies.

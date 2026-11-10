@@ -389,10 +389,8 @@ and `M_f` is a finitely presented `S_f`-module. -/
 of `R_f`, `S_f` and `M_f`, and `Algebra.isFinitePresentationFreeAway_iff` moves the conclusion to
 any other models. See the module docstring.",
   ega "IV 6.9.2" "more general",
-  sga "1 IV 6.7"
-  "more general",
-  ega "IV 8.9.4.1",
   sga "1 IV 6.7" "more general",
+  ega "IV 8.9.4.1",
   ega "IV 11.4.6" "special case",
   ega "IV 6.11.9" "more general"]
 public theorem exists_ne_zero_isFinitePresentationFreeAway

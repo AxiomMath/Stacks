@@ -375,7 +375,7 @@ private lemma exists_closedImmersion_vanishingIdeal_closure {X : Scheme.{u}}
         (Closeds.closure ({y} : Set X))).subschemeι := by
   let Y' := Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({y} : Set X))
   have hyZ : Closeds.closure ({y} : Set X) ≤ Z.support := by
-    show ((Closeds.closure ({y} : Set X) : Closeds X) : Set X) ≤ Z.support
+    change ((Closeds.closure ({y} : Set X) : Closeds X) : Set X) ≤ Z.support
     refine closure_minimal (Set.singleton_subset_iff.mpr ?_) Z.support.isClosed
     rw [← Z.range_subschemeι]
     exact ⟨z, hzy⟩
@@ -462,7 +462,7 @@ private lemma eq_of_specializes_of_triplet_isGenericPoint
       _ = (Scheme.Pullback.Triplet.ofPoint w).SpecTensorTo
           (Scheme.Pullback.SpecOfPoint w) := by
             congr 1
-            show ((Spec.map eT.inv ≫ Spec.map eT.hom)
+            change ((Spec.map eT.inv ≫ Spec.map eT.hom)
               (Scheme.Pullback.SpecOfPoint w)) = _
             rw [← Spec.map_comp]
             simp [eT]
@@ -499,7 +499,7 @@ private lemma localFibreDim_eq_of_closedImmersion_over_affine
   let nF : qP.fiber s ⟶ qQ.fiber s :=
     Limits.pullback.map qP k qQ k n (𝟙 _) (𝟙 _) (by simpa using hn.symm) (by simp)
   have hnF_fst : nF ≫ qQ.fiberι s = qP.fiberι s ≫ n := by
-    show Limits.pullback.lift (Limits.pullback.fst qP k ≫ n)
+    change Limits.pullback.lift (Limits.pullback.fst qP k ≫ n)
         (Limits.pullback.snd qP k) _ ≫ Limits.pullback.fst qQ k =
         Limits.pullback.fst qP k ≫ n
     exact Limits.pullback.lift_fst _ _ _
@@ -550,7 +550,7 @@ private lemma closure_asFiber_mem_irreducibleComponents_of_isGenericPoint_tensor
     (htensor : Scheme.Pullback.SpecOfPoint (j z) ∈
       genericPoints (Spec (Scheme.Pullback.Triplet.ofPoint (j z)).tensor)) :
     closure ({qW.asFiber z} : Set (qW.fiber (qW z))) ∈ irreducibleComponents (qW.fiber (qW z)) := by
-  show qW.asFiber z ∈ genericPoints (qW.fiber (qW z))
+  change qW.asFiber z ∈ genericPoints (qW.fiber (qW z))
   refine (mem_genericPoints_iff_forall_specializes_eq _).2 fun a ha => ?_
   have ha' : qW.fiberι (qW z) a ⤳ z := by
     simpa using ha.map (qW.fiberι (qW z)).continuous
@@ -801,7 +801,7 @@ private theorem topologicalKrullDimAt_fiber_eq_of_valuation_baseChange
         qY hn _ ξ hξ s x hx (ι.isEmbedding.injective <| by
           simpa only [Scheme.Hom.comp_apply, hjx, hpx] using
             congrArg (fun k : W ⟶ X => k (n (qY.fiberι _ ξ))) hw.symm) x' hjx (by
-          show closure ({Scheme.Pullback.SpecOfPoint x'} :
+          change closure ({Scheme.Pullback.SpecOfPoint x'} :
               Set (Spec (Scheme.Pullback.Triplet.ofPoint x').tensor)) ∈
             irreducibleComponents (Spec (Scheme.Pullback.Triplet.ofPoint x').tensor)
           rwa [hxP.def])
@@ -926,7 +926,7 @@ theorem topologicalKrullDimAt_fiber_eq_fiber_of_flat
   have : IsIntegral Y'.subscheme := hYint
   have hgeneric' : q y' = genericPoint (Spec (.of A)) := by
     dsimp [y']
-    show (((j ≫ q).fiberι (genericPoint (Spec (.of A))) ≫ (j ≫ q)) η) = _
+    change (((j ≫ q).fiberι (genericPoint (Spec (.of A))) ≫ (j ≫ q)) η) = _
     rw [Scheme.Hom.fiber_fac]
     simp
     rfl

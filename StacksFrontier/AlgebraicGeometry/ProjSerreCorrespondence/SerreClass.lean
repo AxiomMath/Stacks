@@ -141,6 +141,7 @@ public theorem injective_of_mono_finite {X Y : FiniteGradedModules.{u, v, w} �
   simp only [finiteKerι, kerι] at h₂
   exact h₂
 
+omit [IsNoetherianRing S] in
 /-- An epimorphism of finitely generated graded modules is surjective on carriers. -/
 public theorem surjective_of_epi_finite {X Y : FiniteGradedModules.{u, v, w} 𝒮} (f : X ⟶ Y)
     [Epi f] : Function.Surjective f.hom.toLinearMap := by

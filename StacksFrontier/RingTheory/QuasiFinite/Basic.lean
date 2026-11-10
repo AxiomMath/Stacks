@@ -94,7 +94,7 @@ over a field is a field.  This avoids identifying `κ(q̄)` with `κ(𝔮)`.
 
 Condition (3) is compared with condition (1) inside `Spec S` rather than through condition (3)
 of Lemma 00PJ, whose `g` is an element of the fibre ring: producing a `g` in `S` instead is
-Mathlib's `Ideal.exists_not_mem_forall_mem_of_ne_of_liesOver`, for a ring map quasi-finite at
+Mathlib's `Ideal.exists_notMem_forall_mem_of_ne_of_liesOver`, for a ring map quasi-finite at
 `𝔮`, and `Algebra.QuasiFiniteAt.of_isOpen_singleton_fiber` is condition (1), read in the fibre
 over the image of `𝔮` rather than over `𝔭` (`isOpen_singleton_fiber_congr`).
 
@@ -191,7 +191,7 @@ section
 variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
   (𝔭 : Ideal R) [𝔭.IsPrime] (𝔮 : Ideal S) [𝔮.IsPrime] [𝔮.LiesOver 𝔭]
   [Algebra (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
-  [Localization.AtPrime.IsLiesOverAlgebra 𝔭 𝔮]
+  [IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
 
 /-- The point of the fibre of `Spec S → Spec R` over `𝔭` given by a prime `𝔮` lying over `𝔭`. -/
 private abbrev fiberPoint :
@@ -230,7 +230,7 @@ private lemma one_tmul_mem_qbar_iff (s : S) :
   simp [RingHom.mem_ker, Ideal.algebraMap_residueField_eq_zero]
 
 omit [𝔮.IsPrime] [𝔮.LiesOver 𝔭] [Algebra (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
-  [Localization.AtPrime.IsLiesOverAlgebra 𝔭 𝔮] in
+  [IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)] in
 /-- An element of `R ∖ 𝔭` is invertible in the fibre `κ(𝔭) ⊗_R T`, being invertible already in
 the field `κ(𝔭)`. -/
 private lemma isUnit_algebraMap_of_notMem (T : Type*) [CommRing T] [Algebra R T] {r : R}
@@ -310,7 +310,7 @@ private lemma isOpen_singleton_fiber_congr {P P' : PrimeSpectrum R} (h : P = P')
   subst h; rfl
 
 omit [Algebra (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
-  [Localization.AtPrime.IsLiesOverAlgebra 𝔭 𝔮] in
+  [IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)] in
 /-- Conditions (1) and (3) of the source, compared inside `Spec S`: `𝔮` is isolated in its
 fibre exactly when some basic open `D(g)` meets the fibre in `𝔮` alone. -/
 private lemma isOpen_singleton_fiberPoint_iff [Algebra.FiniteType R S] :
@@ -323,7 +323,7 @@ private lemma isOpen_singleton_fiberPoint_iff [Algebra.FiniteType R S] :
           (P' := PrimeSpectrum.comap (algebraMap R S) ⟨𝔮, ‹_›⟩)
           (PrimeSpectrum.ext (𝔮.over_def 𝔭)) ⟨𝔮, ‹_›⟩
           (PrimeSpectrum.ext (𝔮.over_def 𝔭).symm)).mp hopen)
-    obtain ⟨g, hg, H⟩ := Ideal.exists_not_mem_forall_mem_of_ne_of_liesOver 𝔭 𝔮
+    obtain ⟨g, hg, H⟩ := Ideal.exists_notMem_forall_mem_of_ne_of_liesOver 𝔭 𝔮
     refine ⟨g, hg, Set.eq_singleton_iff_unique_mem.mpr
       ⟨⟨⟨inferInstance, inferInstance⟩, hg⟩, ?_⟩⟩
     rintro q' ⟨⟨hq'p, hq'o⟩, hgq'⟩
@@ -353,7 +353,7 @@ let `F = Spec (κ(𝔭) ⊗_R S)` be the fibre over `𝔭` and let `q̄ ∈ F` b
 public theorem solution {R S : Type*} [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.FiniteType R S] (𝔭 : Ideal R) [𝔭.IsPrime] (𝔮 : Ideal S) [𝔮.IsPrime]
     [𝔮.LiesOver 𝔭] [Algebra (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
-    [Localization.AtPrime.IsLiesOverAlgebra 𝔭 𝔮] :
+    [IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)] :
     List.TFAE
       [IsOpen (X := PrimeSpectrum.comap (algebraMap R S) ⁻¹' {(⟨𝔭, ‹_›⟩ : PrimeSpectrum R)})
           {⟨⟨𝔮, ‹_›⟩, PrimeSpectrum.ext (𝔮.over_def 𝔭).symm⟩},
@@ -433,7 +433,7 @@ where the quotient `S_𝔮/𝔭S_𝔮` is one only after inverting `R ∖ 𝔭`.
 space at a point is `topologicalKrullDimAt`, the project's form of Stacks 0055 (4), and the
 dimension of a ring is `ringKrullDim`. The extension `κ(𝔮)/κ(𝔭)` is between Mathlib's
 `Ideal.ResidueField`s, whose `κ(𝔭)`-algebra structure is the canonical one by
-`Localization.AtPrime.IsLiesOverAlgebra`.
+the `IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)` hypothesis.
 
 The localization at `𝔮` is the concrete `Localization.AtPrime 𝔮` rather than an abstract
 `Sq` with `IsLocalization.AtPrime Sq 𝔮`, as Lemma 00PJ's form has it. Nothing is lost: the two
@@ -461,8 +461,8 @@ isolated while `S_𝔮/𝔭S_𝔮 = k(x)` is not finite over `k`), and `𝔮.Lie
 `q̄` in `F` and makes `κ(𝔮)` an extension of `κ(𝔭)`. (2) The scalars and base are the source's:
 finiteness in (2) and (6) is over `κ(𝔭)`, the localization is at `𝔮` over `S`, and the fibre is
 taken over `𝔭` along `R → κ(𝔭)`. (3) The canonical maps are pinned: `q̄` is `𝔮` in the fibre,
-`𝔭.Fiber` pins the base change along `R → κ(𝔭)`, and `IsLiesOverAlgebra 𝔭 𝔮` pins the
-inclusion `κ(𝔭) → κ(𝔮)` as `Localization.localRingHom` of `algebraMap R S`. (4) The
+`𝔭.Fiber` pins the base change along `R → κ(𝔭)`, and the `IsScalarTower R R_𝔭 S_𝔮` hypothesis
+pins the inclusion `κ(𝔭) → κ(𝔮)` as `Localization.localRingHom` of `algebraMap R S`. (4) The
 instantiation is not degenerate: for `R = ℤ`, `S = ℤ[x]/(x² - 2)`, `𝔭 = (5)` and `𝔮` the prime
 over `5` all six hold, with `g = 1`, `S_𝔮/𝔭S_𝔮 = κ(𝔮) = 𝔽₂₅` and `F` a point; for `R = ℤ`,
 `S = ℤ[x]`, `𝔭 = (5)` and `𝔮 = (5, x)` all six fail, `F = Spec 𝔽₅[x]` having no isolated point
@@ -492,7 +492,7 @@ is `𝔮` itself; `S_𝔮/𝔭S_𝔮` is `κ(𝔭) ⊗_R S_𝔮`, i.e. `𝔭.Fib
 public theorem isOpen_singleton_fiber_tfae_of_finiteType {R S : Type*} [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.FiniteType R S] (𝔭 : Ideal R) [𝔭.IsPrime] (𝔮 : Ideal S) [𝔮.IsPrime]
     [𝔮.LiesOver 𝔭] [Algebra (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)]
-    [Localization.AtPrime.IsLiesOverAlgebra 𝔭 𝔮] :
+    [IsScalarTower R (Localization.AtPrime 𝔭) (Localization.AtPrime 𝔮)] :
     List.TFAE
       [IsOpen (X := PrimeSpectrum.comap (algebraMap R S) ⁻¹' {(⟨𝔭, ‹_›⟩ : PrimeSpectrum R)})
           {⟨⟨𝔮, ‹_›⟩, PrimeSpectrum.ext (𝔮.over_def 𝔭).symm⟩},
@@ -809,8 +809,7 @@ theorem changeBaseTensorMap_surjective (A B D N : Type*)
     Function.Surjective (changeBaseTensorMap A B D N) := by
   rw [← LinearMap.range_eq_top, eq_top_iff]
   rintro x -
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul m n => exact ⟨m ⊗ₜ n, by simp [changeBaseTensorMap]⟩
   | add x y hx hy => exact add_mem hx hy
 

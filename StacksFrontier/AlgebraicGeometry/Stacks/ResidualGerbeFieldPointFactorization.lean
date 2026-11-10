@@ -18,9 +18,9 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismEvery
 the residual gerbe `𝒵_x` of `𝒳` at `x` exists. Let `f : Spec K ⟶ 𝒳` be a 1-morphism with `K` a
 field in the equivalence class of `x`. Then `f` factors through the inclusion `𝒵_x ⟶ 𝒳`.
 
-The proof is the source's, rearranged so that its hard half is the already-formalized **Stacks 06MQ**
-rather than a second run of that lemma's argument. The source forms `T = Spec K ×_𝒳 𝒵_x`, notes
-that it is nonempty by **Stacks 04XH** and that `T ⟶ Spec K` is a monomorphism because
+The proof is the source's, rearranged so that its hard half is the already-formalized **Stacks
+06MQ** rather than a second run of that lemma's argument. The source forms `T = Spec K ×_𝒳 𝒵_x`,
+notes that it is nonempty by **Stacks 04XH** and that `T ⟶ Spec K` is a monomorphism because
 `𝒵_x ⟶ 𝒳` is, and concludes `T = Spec K` by **Stacks 06MG**. Here the same `T` is formed as the
 canonical 2-fibre product of algebraic stacks; its projection to the algebraic stack of `Spec K`
 is a monomorphism by **Stacks 04ZX**, and the algebraic stack of `Spec K` *is* covered by the

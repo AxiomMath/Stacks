@@ -104,7 +104,7 @@ theorem FieldValuedPoint.mem_obj_reducedClosedSubspace_iff_class_mem
         (fun Y : Scheme.{u} => IsReduced Y) := by
       refine hasEtaleLocalProperty_of_representable B S hS _ _ (p.siteObject B S hS W)
         (Iso.refl _) ?_
-      show IsReduced (Spec (.of p.carrier))
+      change IsReduced (Spec (.of p.carrier))
       infer_instance
     obtain ⟨g, hg⟩ := (exists_lift_reducedClosedSubspace_iff_pointsMap_range_subset B S hS W hW
       Z hZ (isAlgebraicSpace_yoneda B S hS _) hred (yonedaEquiv.symm p.value)).2 (by

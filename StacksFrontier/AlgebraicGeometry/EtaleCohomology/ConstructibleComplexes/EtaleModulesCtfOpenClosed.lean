@@ -119,7 +119,7 @@ public theorem isConstructibleFlatModuleSheaf_of_openClosed {X U Z : B.Scheme}
     (exists_stratification_top_of_constructible_immersion_cover B X _ hPIso hPPull F T k
       (fun b => by cases b <;> assumption) (fun b => ?_) ?_ (fun b => ?_))
   · cases b
-    · show Topology.IsConstructible (Set.range (B.inclusion.map i).base)
+    · change Topology.IsConstructible (Set.range (B.inclusion.map i).base)
       rw [← compl_compl (Set.range (B.inclusion.map i).base), ← hij]
       exact hjc.compl
     · exact hjc
@@ -254,7 +254,7 @@ public theorem IsConstructibleFlatEtaleModule.directImage {G : EtaleModules.{u, 
   · exact hG.of_iso B Z Λ
       (asIso ((etaleModuleInverseImageAdj.{u, r} Λ (B.inclusion.map i)).counit.app G)).symm
 
-omit hjc in
+omit [CompactSpace X.obj] [IsClosedImmersion (B.inclusion.map i)] hjc hij in
 /-- The image of a quasi-compact open immersion into a quasi-separated scheme is constructible. -/
 public theorem isConstructible_range_of_compactSpace [CompactSpace U.obj] :
     Topology.IsConstructible (Set.range (B.inclusion.map j).base) :=
@@ -275,7 +275,7 @@ public theorem IsCtf.extensionByZero [CompactSpace U.obj]
   have : QuasiSeparatedSpace U.obj :=
     quasiSeparatedSpace_of_quasiSeparated (B.inclusion.map j)
   exact IsCtf.map B Λ _ (fun G hG => hG.extensionByZero B Λ j i
-    (isConstructible_range_of_compactSpace B j i hij) hij) hC
+    (isConstructible_range_of_compactSpace B j) hij) hC
 
 /-- **Direct image along a closed immersion preserves `D_ctf`, on complexes.** For a closed
 immersion `i : Z ⟶ X` into a quasi-compact and quasi-separated scheme, with open complement the

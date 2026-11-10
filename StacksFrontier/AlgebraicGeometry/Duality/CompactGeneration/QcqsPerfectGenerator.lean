@@ -226,7 +226,7 @@ theorem isPerfect_of_isCompactObject_spec (R : CommRingCat.{u})
     (StacksDraft.Perfect.AnyModel.isPerfect_iff_isCompactObject_max.{u, u} M).2 hM
   have hbdd : {i : ℤ | ¬ IsZero (P.X i)}.Finite := by
     refine (Set.finite_Icc a b).subset fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     exact ⟨not_lt.1 fun h => hi (P.isZero_of_isStrictlyGE a i h),
       not_lt.1 fun h => hi (P.isZero_of_isStrictlyLE b i h)⟩
   have hsp := Stacks.AffineTilde.isStrictlyPerfect_tildeComplex_of_projective P hbdd

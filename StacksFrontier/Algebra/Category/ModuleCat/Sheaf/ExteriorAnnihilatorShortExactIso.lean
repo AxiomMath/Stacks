@@ -607,12 +607,12 @@ theorem detSummandComparison_ι_unit_wedge
       wedgeSec A V (n + m) (Fin.append (fun i => f.val.app V (s i)) l) := by
   cases m with
   | zero =>
-      show (annTensorAnnHomZero A' A A'' f g hfg hS n ≫
+      change (annTensorAnnHomZero A' A A'' f g hfg hS n ≫
         (A.exteriorAnnihilator (n + 0)).ι).val.app V _ = _
       rw [annTensorAnnHomZero_ι A' A A'' f g hfg hS n]
       exact annTensorExteriorHomZero_unit_wedge A' A A'' f g n V w s hw z l hz
   | succ k =>
-      show (annTensorAnnHom A' A A'' f g hfg hS n k ≫
+      change (annTensorAnnHom A' A A'' f g hfg hS n k ≫
         (A.exteriorAnnihilator (n + (k + 1))).ι).val.app V _ = _
       rw [annTensorAnnHom_ι A' A A'' f g hfg hS n k]
       exact annTensorExteriorHom_unit_wedge A' A A'' f g hfg hS n k V w s hw z l hz

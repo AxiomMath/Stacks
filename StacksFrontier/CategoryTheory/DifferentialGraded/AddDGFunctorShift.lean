@@ -284,7 +284,7 @@ theorem shiftInv_comp_shiftHom (n : ℤ) (x : A.Obj) :
     B.compCocycle (F.shiftInv SA SB n x) (F.shiftHom SA SB n x) =
       ⟨B.id (F.obj ((SA.shiftFunctor n).obj x)), B.d_id _⟩ := by
   refine Subtype.ext (eq_of_heq ?_)
-  show HEq (B.comp _ (B.comp _ (F.map (SA.counit n x)) (SB.unit n (F.obj x)))
+  change HEq (B.comp _ (B.comp _ (F.map (SA.counit n x)) (SB.unit n (F.obj x)))
     (SB.toShift n _ _ 0 (F.map (SA.unit n x)))) _
   refine (assoc_heq _ _ (show (0 + n) + 0 = 0 + n by omega) (show -n + (0 + n) = 0 by omega)
     _ _ _).trans ?_
@@ -297,7 +297,7 @@ theorem shiftHom_comp_shiftInv (n : ℤ) (x : A.Obj) :
     B.compCocycle (F.shiftHom SA SB n x) (F.shiftInv SA SB n x) =
       ⟨B.id ((SB.shiftFunctor n).obj (F.obj x)), B.d_id _⟩ := by
   refine Subtype.ext (eq_of_heq ?_)
-  show HEq (B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n x)))
+  change HEq (B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n x)))
     (B.comp _ (F.map (SA.counit n x)) (SB.unit n (F.obj x)))) _
   refine (assoc_heq (show 0 + -n = 0 + -n from rfl) (show (0 + -n) + (0 + n) = 0 by omega)
     _ _ _ _ _).symm.trans ?_
@@ -322,7 +322,7 @@ theorem shiftHom_comp_shiftInv (n : ℤ) (x : A.Obj) :
 theorem shiftHom_naturality (n : ℤ) {x y : A.Obj} {k : ℤ} (f : A.Hom x y k) :
     B.comp (zero_add k) (F.shiftHom SA SB n y).1 (F.map ((SA.shiftFunctor n).map f)) =
       B.comp (add_zero k) ((SB.shiftFunctor n).map (F.map f)) (F.shiftHom SA SB n x).1 := by
-  show B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n y))) _ =
+  change B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n y))) _ =
     B.comp _ _ (SB.toShift n _ _ 0 (F.map (SA.unit n x)))
   have e₁ := SB.toShiftAxiomBIso.toShift_comp_right n (F.map (SA.unit n y))
     (F.map ((SA.shiftFunctor n).map f))
@@ -349,7 +349,7 @@ theorem shiftHom_naturality (n : ℤ) {x y : A.Obj} {k : ℤ} (f : A.Hom x y k) 
 theorem shiftHom_toShift (n : ℤ) (x y : A.Obj) (k : ℤ) (f : A.Hom x y (k + n)) :
     B.comp (zero_add k) (F.shiftHom SA SB n y).1 (F.map (SA.toShift n x y k f)) =
       SB.toShift n (F.obj x) (F.obj y) k (F.map f) := by
-  show B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n y))) _ = _
+  change B.comp _ (SB.toShift n _ _ 0 (F.map (SA.unit n y))) _ = _
   have e := SB.toShiftAxiomBIso.toShift_comp_right n (F.map (SA.unit n y))
     (F.map (SA.toShift n x y k f))
   rw [← F.map_comp] at e
@@ -402,7 +402,7 @@ variable {SA SB}
 /-- For coherent canonical morphisms, the comparison for the shift by `0` is the identity. -/
 theorem shiftHom_zero_heq (hA : SA.UnitCoherent) (hB : SB.UnitCoherent) (x : A.Obj) :
     HEq (F.shiftHom SA SB 0 x).1 (B.id (F.obj x)) := by
-  show HEq (SB.toShift 0 _ _ 0 (F.map (SA.unit 0 x))) _
+  change HEq (SB.toShift 0 _ _ 0 (F.map (SA.unit 0 x))) _
   have h₁ : HEq (F.map (SA.unit 0 x)) (SB.unit 0 (F.obj x)) :=
     ((F.map_heq (SA.zero_obj x) rfl (by omega) (hA.zero x)).trans
       (heq_of_eq (F.map_id x))).trans (hB.zero (F.obj x)).symm
@@ -510,12 +510,12 @@ theorem kIso_add (hA : SA.IsStrictKShift) (hB : SB.IsStrictKShift)
     Functor.congr_obj (SA.kShift_functor a) x
   have h : F.onK.obj ((SA.shiftFunctor (a + b)).onK.obj x) =
       F.onK.obj ((SA.shiftFunctor b).onK.obj ((SA.shiftFunctor a).onK.obj x)) := by
-    show F.obj ((SA.shiftFunctor (a + b)).obj x) =
+    change F.obj ((SA.shiftFunctor (a + b)).obj x) =
       F.obj ((SA.shiftFunctor b).obj ((SA.shiftFunctor a).obj x))
     rw [add_comm a b]; exact congrArg F.obj (SA.add_obj b a x)
   have h' : (SB.shiftFunctor (a + b)).onK.obj (F.onK.obj x) =
       (SB.shiftFunctor b).onK.obj ((SB.shiftFunctor a).onK.obj (F.onK.obj x)) := by
-    show (SB.shiftFunctor (a + b)).obj (F.obj x) =
+    change (SB.shiftFunctor (a + b)).obj (F.obj x) =
       (SB.shiftFunctor b).obj ((SB.shiftFunctor a).obj (F.obj x))
     rw [add_comm a b]; exact SB.add_obj b a _
   have hk := (conj_eqToHom_iff_heq (hF.kHom (a + b) x)

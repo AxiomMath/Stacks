@@ -167,7 +167,7 @@ theorem quasiIso_mooreAbSheafCochain_copowerMap_prodPullbackIndex (G : Cᵒᵖ �
       (Functor.copowerMap b (𝟙 (prodPullbackIndex G)))) := by
   have hb' : QuasiIso (((presheafToSheaf J AddCommGrpCat.{u}).mapHomologicalComplex
       (ComplexShape.up ℤ)).map ((mooreAbPresheafCochain (C := C)).map b)) := hb
-  show QuasiIso (((presheafToSheaf J AddCommGrpCat.{u}).mapHomologicalComplex
+  change QuasiIso (((presheafToSheaf J AddCommGrpCat.{u}).mapHomologicalComplex
     (ComplexShape.up ℤ)).map ((mooreAbPresheafCochain (C := C)).map
       (Functor.copowerMap b (𝟙 (prodPullbackIndex G)))))
   have hcop := Stacks.quasiIso_mapHomologicalComplex_presheafToSheaf_copowerFunctor J G

@@ -126,7 +126,7 @@ theorem exists_isAffine_chart (𝒳 : AlgebraicStacks.{u, w} B S hS)
     rw [AlgebraicStacks.pointsMap_comp, Function.comp_apply]
     congr 1
     apply (pointsHomeomorphScheme B S hS W).injective
-    show pointsHomeomorphScheme B S hS W
+    change pointsHomeomorphScheme B S hS W
         (pointsMap B S hS (schemeFibredCategory B S hS U).val
           (schemeFibredCategory B S hS U).property (schemeFibredCategory B S hS W).property
           (schemeFibredCategoryMap B S hS i).hom p') = _
@@ -162,7 +162,7 @@ theorem pointSet_imageSubstack :
 /-- Every object in the image of the chart lies in the image substack. -/
 theorem imageSubstack_property (z : (schemeStack.{u, w} B S hS U).val.val.obj) :
     (imageSubstack f hflat hlfp).property (f.hom.hom.toFunctor.obj z) := by
-  show (openSubstackOfPoints 𝒳 _ (isOpen_range_pointsMap f hflat hlfp)).property _
+  change (openSubstackOfPoints 𝒳 _ (isOpen_range_pointsMap f hflat hlfp)).property _
   rw [openSubstackOfPoints_property]
   exact (pointsWithin_obj_iff 𝒳 f.hom.hom _ z).2 fun r _ => ⟨_, rfl⟩
 
@@ -256,7 +256,7 @@ theorem isSurjective_imageChart : IsSurjective B S hS (imageChart f hflat hlfp) 
   obtain ⟨p₀, hp₀⟩ := exists_pointsMap_restrictHom_top.{u, w} p
   refine ⟨p₀, ?_⟩
   apply pointsMap_injective_of_fullyFaithful B S hS (imageSubstack f hflat hlfp).inclusion
-  show AlgebraicStacks.pointsMap B S hS (imageSubstack f hflat hlfp).inclusion
+  change AlgebraicStacks.pointsMap B S hS (imageSubstack f hflat hlfp).inclusion
       (AlgebraicStacks.pointsMap B S hS (imageChart f hflat hlfp) p₀) =
     AlgebraicStacks.pointsMap B S hS (imageSubstack f hflat hlfp).inclusion y
   rw [← Function.comp_apply (f := AlgebraicStacks.pointsMap B S hS
@@ -301,7 +301,7 @@ theorem isRepresentable_objectPairs_pointGroupoid (Rsp : AlgebraicSpaces B S hS)
   let G := SelfIntersection.pointGroupoid B S hS U f Rsp eR
   obtain ⟨a, ha⟩ : ∃ a, yoneda.map a = G.objectsToBase.hom :=
     ⟨yoneda.preimage _, yoneda.map_preimage _⟩
-  show (Limits.pullback G.objectsToBase.hom G.objectsToBase.hom).IsRepresentable
+  change (Limits.pullback G.objectsToBase.hom G.objectsToBase.hom).IsRepresentable
   have := isRepresentable_pullback_yoneda_map a a
   exact CategoryTheory.isRepresentable_of_natIso _ (Limits.pullback.congrHom ha ha)
 

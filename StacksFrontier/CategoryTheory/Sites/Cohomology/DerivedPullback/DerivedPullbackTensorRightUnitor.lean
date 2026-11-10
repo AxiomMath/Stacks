@@ -256,7 +256,7 @@ lemma ι_totalSingleIso_hom (K : CochainComplex A ℤ) (M : B) (n : ℤ) :
     rw [← HomologicalComplex.comp_f, Iso.inv_hom_id, HomologicalComplex.id_f]
   refine (Category.assoc _ _ _).symm.trans ?_
   exact (congrArg (fun z => z ≫ (totalSingleIso F K M).hom.f n)
-    (totalSingleIso_inv_f F K M n)).symm.trans (hih.trans (Iso.map_inv_hom_id _ _).symm)
+    (totalSingleIso_inv_f F K M n)).symm.trans (hih.trans (Iso.inv_hom_id_map _ _).symm)
 
 end TotalSingle
 
@@ -285,6 +285,11 @@ def tensorUnitRight (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSh
         (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf R)) ≅ A :=
   (Stacks.SheafOfModules.sheafTensorUnitNatIso R).app A
 
+omit [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor R).obj M).Additive]
+  [∀ (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor R)
+      (ComplexShape.up ℤ)] in
 /-- The termwise unit law `(p ↦ K^p ⊗_𝒪 𝒪) ≅ K` in a single degree is the unit law of the tensor
 product there. -/
 private lemma rowComplexUnitIso_hom_f
@@ -436,6 +441,21 @@ def pullbackUnitComplexMap :
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
         (ComplexShape.up ℤ) 0).map (pullbackUnitComparison f)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)] in
 /-- In degree zero the unit comparison on complexes is the ordinary comparison
 `f^*𝒪_D ⟶ 𝒪_C`. -/
 lemma pullbackUnitComplexMap_f_zero :
@@ -492,8 +512,20 @@ def ιPullSummand
 
 variable (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
--- The kernel check of the `rw` below exceeds the default heartbeats under Lean v4.35.0.
 set_option maxHeartbeats 1000000 in
+-- The kernel check of the `rw` below exceeds the default heartbeats under Lean v4.35.0.
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor X.O).obj M).Additive]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)] in
 /-- **The module-level right-unitor coherence, read at the module of degree `n` of a complex.**
 This is `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` at `A = K^n`, with the
 comparison of Stacks 03EL spelled at the degrees of the pullback complexes, as
@@ -511,6 +543,15 @@ lemma rightUnitorCoherence_deg
   rw [pullbackToposTensorMapDeg_eq]
   exact pullbackToposRightUnitorCoherence f hmos (K.X n)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
+  [∀ (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor Y.O).obj M).Additive]
+  [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)] in
 /-- The second and third factors of the left-hand side of the right-unitor coherence on
 complexes, on the summand of bidegree `(n, 0)`. -/
 private lemma ι_rightUnitor_lhs
@@ -606,7 +647,7 @@ private lemma rightUnitor_degree
     (ι_rightUnitor_lhs f K n)).trans ?_
   refine (congrArg (fun z => f.pullbackTopos.map (tensorUnitRight Y.O (K.X n)).inv ≫ z)
     (rightUnitorCoherence_deg f hmos K n)).trans ?_
-  exact Iso.map_inv_hom_id _ _
+  exact Iso.inv_hom_id_map _ _
 
 /-- **The right-unitor coherence of the comparison of total tensor complexes.** The comparison
 `f^*Tot(K ⊗_{𝒪_D} 𝒪_D[0]) ≅ Tot(f^*K ⊗_{𝒪_C} f^*(𝒪_D[0]))`, followed by the unit comparison in
@@ -628,7 +669,7 @@ theorem pullbackToposTensorTotalIso_rightUnitor
           (mapBifunctorUnitIso X.O ((pullbackComplex f).obj K)).hom =
       (pullbackComplex f).map (mapBifunctorUnitIso Y.O K).hom := by
   refine (cancel_epi ((pullbackComplex f).map (mapBifunctorUnitIso Y.O K).inv)).1 ?_
-  rw [Iso.map_inv_hom_id]
+  rw [Iso.inv_hom_id_map]
   refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, HomologicalComplex.comp_f,
     HomologicalComplex.id_f, CategoryTheory.Functor.mapHomologicalComplex_map_f]

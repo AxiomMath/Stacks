@@ -200,7 +200,7 @@ theorem dualityAddEquiv_naturality (n : ℤ) {N N' : ModuleCat.{u} A} (g : N ⟶
   let c := H.map ((hullData q ω hω).2.2.2.2.2 n).some.hom ≫
     (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{u} (Sq q))
       (hullDeg q ω hω - n)).hom.app (hullE q ω hω)
-  show (H.map (ι.map (G.map (a ≫ ψ))) ≫ c).hom =
+  change (H.map (ι.map (G.map (a ≫ ψ))) ≫ c).hom =
     (H.map (ι.map (G.map ψ)) ≫ c).hom ∘ₗ (H.map (ι.map (G.map a))).hom
   rw [G.map_comp, ι.map_comp, H.map_comp, Category.assoc]
   rfl
@@ -255,7 +255,7 @@ theorem extAddEquiv_naturality (hω' : ∃ b : ℤ, ω.IsGE b) (n : ℤ) {N N' :
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map g)
       (Dualizing.isPseudoCoherent_singleFunctor_obj N')
       (Dualizing.isPseudoCoherent_singleFunctor_obj N) hω' n
-  show (e N).inv (ULift.down
+  change (e N).inv (ULift.down
       (((StacksDraft.DerivedHom.ExtComparison.extCohomologyComparisonIso.{u, u} (Sq q)
         (omegaSq q ω) n).hom.app (op (srcSq q N))).hom (a ≫ ψ))) =
     ((ModuleCat.extendScalars.{u, u, u} (algebraMap A (Sq q))).map
@@ -302,7 +302,7 @@ theorem extendScalarsTensorIso_naturality {P P' : ModuleCat.{u} A} (φ : P ⟶ P
       (Dualizing.extendScalarsTensorIso.{u, u} (Sq q) P).hom ≫
         ModuleCat.ofHom (φ.hom.baseChange (Sq q)) := by
   ext m
-  show (Dualizing.extendScalarsTensorIso.{u, u} (Sq q) P').hom
+  change (Dualizing.extendScalarsTensorIso.{u, u} (Sq q) P').hom
       ((1 : Sq q) ⊗ₜ[A, algebraMap A (Sq q)] φ.hom m) =
     φ.hom.baseChange (Sq q) ((Dualizing.extendScalarsTensorIso.{u, u} (Sq q) P).hom
       ((1 : Sq q) ⊗ₜ[A, algebraMap A (Sq q)] m))
@@ -323,7 +323,7 @@ theorem matlisTensorAddEquiv_naturality (hω' : ∃ b : ℤ, ω.IsGE b) (n : ℤ
     (φ : locSq q (hullDeg q ω hω - n) N' →ₗ[Sq q] hullE q ω hω) :
     matlisTensorAddEquiv q ω hω hω' n N (φ ∘ₗ (locSqMap q (hullDeg q ω hω - n) g).hom) =
       ((extOmega ω n).map g.op).hom.lTensor (Sq q) (matlisTensorAddEquiv q ω hω hω' n N' φ) := by
-  show (Dualizing.extendScalarsTensorIso.{u, u} (Sq q) _).hom.hom
+  change (Dualizing.extendScalarsTensorIso.{u, u} (Sq q) _).hom.hom
       (matlisExtAddEquiv q ω hω hω' n N (φ ∘ₗ (locSqMap q (hullDeg q ω hω - n) g).hom)) =
     ((extOmega ω n).map g.op).hom.lTensor (Sq q)
       ((Dualizing.extendScalarsTensorIso.{u, u} (Sq q) _).hom.hom

@@ -77,7 +77,7 @@ theorem ker_appTop_eq_map_ker_of_isPullback {T T' Z' Zx : Scheme.{u}}
     have hinj : Function.Injective e.hom.appTop.hom := by
       have : IsIso e.hom := Iso.isIso_hom e
       have : IsIso (Scheme.Hom.appTop e.hom) := by
-        show IsIso (Scheme.Γ.map e.hom.op)
+        change IsIso (Scheme.Γ.map e.hom.op)
         infer_instance
       exact (ConcreteCategory.bijective_of_isIso (Scheme.Hom.appTop e.hom)).1
     have hsndz : (pullback.snd ι p').appTop.hom z = 0 := by
@@ -101,7 +101,7 @@ theorem ker_appTop_eq_map_ker_of_isPullback {T T' Z' Zx : Scheme.{u}}
           have hr : eR.symm (ι.appTop.hom r) =
               Ideal.Quotient.mk (RingHom.ker ι.appTop.hom) r := by
             rw [← heRmk r, eR.symm_apply_apply]
-          show eR.symm (r • x) = r • eR.symm x
+          change eR.symm (r • x) = r • eR.symm x
           rw [Algebra.smul_def, Algebra.smul_def, map_mul]
           exact congrArg (fun w => w * eR.symm x) hr }
     have hmem : z ∈ RingHom.ker ι.appTop.hom • (⊤ : Submodule Γ(T', ⊤) Γ(Z', ⊤)) := by
@@ -109,7 +109,7 @@ theorem ker_appTop_eq_map_ker_of_isPullback {T T' Z' Zx : Scheme.{u}}
             (RingHom.ker ι.appTop.hom)) (χ.rTensor Γ(Z', ⊤)
             ((1 : Γ(T, ⊤)) ⊗ₜ[Γ(T', ⊤)] z)) = Submodule.Quotient.mk z := by
         have h1 : χ (1 : Γ(T, ⊤)) = 1 := by
-          show eR.symm (1 : Γ(T, ⊤)) = 1
+          change eR.symm (1 : Γ(T, ⊤)) = 1
           rw [← map_one eR, eR.symm_apply_apply]
         rw [LinearMap.rTensor_tmul, h1]
         exact TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul _ z
@@ -121,7 +121,7 @@ theorem ker_appTop_eq_map_ker_of_isPullback {T T' Z' Zx : Scheme.{u}}
   · rw [Ideal.map_le_iff_le_comap]
     intro c hc
     have hc0 : ι.appTop.hom c = 0 := hc
-    show α.appTop.hom (p'.appTop.hom c) = 0
+    change α.appTop.hom (p'.appTop.hom c) = 0
     rw [appTop_comp_apply_of_isPullback hα c, hc0, map_zero]
 
 /-- Let `ι : T ⟶ T'` be a first-order thickening with `T'` affine, let `p' : Z' ⟶ T'` be finite

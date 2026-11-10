@@ -36,7 +36,8 @@ The hypotheses added to those of [Stacks, Tag 05IG] — a local base, projectivi
 and maximality of `𝔮` in `Ass_S(N / 𝔭N)` — are exactly what the source's étale-local reduction
 installs before its last paragraph.  That reduction, which rests on the structure theorem
 [Stacks, Tag 05ID], is carried out in
-`StacksFrontier.RingTheory.Ideal.WeaklyAssociatedPrime.EtaleLocalizationReduction`, and the statement
+`StacksFrontier.RingTheory.Ideal.WeaklyAssociatedPrime.EtaleLocalizationReduction`, and the
+statement
 below is the `⟸` half it feeds.  Nothing here therefore carries a `@[stacks 05IG]` attribute;  the
 tag is `Stacks.WeaklyAssociatedPrimes.tensorFibreFormula05IG`.
 

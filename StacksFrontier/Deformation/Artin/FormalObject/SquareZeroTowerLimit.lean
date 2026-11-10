@@ -109,7 +109,7 @@ public theorem contains_limit : B.Contains (Spec (.of (limit f))) :=
 
 /-- The map from `R` to `lim Rₙ`, `r ↦ (β₀ r, β₁ r, …)`. -/
 public def limitBaseMap : Λ.ring →+* limit f :=
-  (Pi.ringHom β).codRestrict (limit f) fun l n => by
+  (RingHom.pi β).codRestrict (limit f) fun l n => by
     change f n (β (n + 1) l) = β n l
     rw [← RingHom.comp_apply, hβ]
 

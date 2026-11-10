@@ -257,7 +257,7 @@ theorem tensor_three_chase {C : Type*} [Category C] [MonoidalCategory C] {P₀ P
     (f : Q₂ ⟶ Q₃) (p : Q₀ ⟶ R) (k : R ⟶ Q₃) (h₁ : a ≫ c ≫ e = ε) (h₂ : b ≫ d ≫ f = p ≫ k) :
     (tensor C).map (a ×ₘ b) ≫ (tensor C).map (c ×ₘ d) ≫ (tensor C).map (e ×ₘ f) =
       (tensor C).map (ε ×ₘ p) ≫ P₃ ◁ k := by
-  show (a ⊗ₘ b) ≫ (c ⊗ₘ d) ≫ (e ⊗ₘ f) = (ε ⊗ₘ p) ≫ P₃ ◁ k
+  change (a ⊗ₘ b) ≫ (c ⊗ₘ d) ≫ (e ⊗ₘ f) = (ε ⊗ₘ p) ≫ P₃ ◁ k
   rw [tensorHom_comp_tensorHom, tensorHom_comp_tensorHom, h₁, h₂, MonoidalCategory.tensorHom_def,
     MonoidalCategory.tensorHom_def,
     whiskerLeft_comp]
@@ -597,7 +597,7 @@ theorem tensorPullComparison_naturality {A₁ A₂ : quasiCoherentDerivedCategor
         (comparison X).functor.map
           (((ProjectionFormulaMonoidal.standardTensorBifunctor X).map
             ((comparison X).inverse.map α.hom)).app ((pull f).obj D)) := by
-      show (comparison X).functor.map
+      change (comparison X).functor.map
         (((ProjectionFormulaMonoidal.standardTensorBifunctor X).map
           ((comparison X).inverse.map α.hom)).app ((pull f).obj D) ≫
           ((ProjectionFormulaMonoidal.standardTensorBifunctor X).obj
@@ -612,7 +612,7 @@ theorem tensorPullComparison_naturality {A₁ A₂ : quasiCoherentDerivedCategor
         (@MonoidalCategory.tensor _ _ (Scheme.Modules.canonicalDerivedMonoidal X)).map
           ((comparison X).functor.map ((comparison X).inverse.map α.hom) ×ₘ
             𝟙 ((comparison X).functor.obj ((pull f).obj D))) := by
-      show (@MonoidalCategory.tensor _ _ (Scheme.Modules.canonicalDerivedMonoidal X)).map
+      change (@MonoidalCategory.tensor _ _ (Scheme.Modules.canonicalDerivedMonoidal X)).map
           ((comparison X).functor.map ((comparison X).inverse.map α.hom) ×ₘ
             (comparison X).functor.map (𝟙 _)) = _
       rw [CategoryTheory.Functor.map_id]
@@ -646,7 +646,7 @@ theorem tensorPullComparison_naturality {A₁ A₂ : quasiCoherentDerivedCategor
           (A₂, (quasiCoherentDerivedPullback' f).obj (toQCoh ⟨D, hD⟩))) =
         (((quasiCoherentDerivedTensor X).obj ((quasiCoherentDerivedPullback' f).obj
           (toQCoh ⟨D, hD⟩))).map α).hom := by
-      show (((quasiCoherentDerivedTensor X).map (𝟙 _)).app A₁ ≫
+      change (((quasiCoherentDerivedTensor X).map (𝟙 _)).app A₁ ≫
         ((quasiCoherentDerivedTensor X).obj _).map α).hom = _
       rw [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp]
       rfl

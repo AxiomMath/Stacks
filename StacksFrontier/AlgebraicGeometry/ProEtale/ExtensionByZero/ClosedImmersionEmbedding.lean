@@ -106,7 +106,7 @@ theorem isIso_map_lift_mapCone {A : Type u₁} [Category.{v₁} A] {D : Type u�
       (IsLimit.conePointUniqueUpToIso h2 h1).hom := by
     refine h1.hom_ext fun j => ?_
     rw [IsLimit.conePointUniqueUpToIso_hom_comp]
-    show G.map ((limit.isLimit (K ⋙ F)).lift (F.mapCone c)) ≫
+    change G.map ((limit.isLimit (K ⋙ F)).lift (F.mapCone c)) ≫
       G.map ((limit.cone (K ⋙ F)).π.app j) = _
     rw [← Functor.map_comp, (limit.isLimit (K ⋙ F)).fac]
     rfl

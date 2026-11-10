@@ -120,7 +120,8 @@ into a statement about the maps on sections, in
   morphisms (`Stacks.TensorSheafDedup.tensorSheaf_eq` and `…tensorSheafMap_eq_sheafifyMap`, both
   `rfl`). No whiskering bridge is used:
   `Stacks.SheafOfModules.TensorPower.tensorSheafMap_id_left_eq_whiskerLeft` (the site-level form;
-  a ringed-space form of the same name exists in `Stacks.TensorSheafSpellingIso`) and `AlgebraicGeometry.tensorSheafMap_id_left_eq` are both about the
+  a ringed-space form of the same name exists in `Stacks.TensorSheafSpellingIso`) and
+  `AlgebraicGeometry.tensorSheafMap_id_left_eq` are both about the
   *right*-hand slot and neither enters.
 * The one comparison that is **not** `rfl` is the left-slot one:
   `(tensorFactorMap f).app M = tensorSheafMap f (𝟙 M)`, i.e. `f ▷ M` against `f ⊗ₘ 𝟙 M` at the

@@ -126,7 +126,7 @@ theorem modulePullbackReindex_eq_descentTransport_of_hom
     (hι : ι.inv = spaceBaseHomReindex Γ φ hφ N hN ρ M hM α τ ha hb hcoc hunit θ)
     (hb' : Γ.source ≫ ρ = τ ≫ b) :
     modulePullbackReindex τ α = descentTransport ρ φ ι ha hb' hφ := by
-  have hT := eq_comp_of_comp_eq (ι.map_hom_inv_id (F := modulePullback B S hS Γ.target))
+  have hT := eq_comp_of_comp_eq (ι.hom_inv_id_map (F := modulePullback B S hS Γ.target))
     (hι ▸ spaceBaseHomReindex_comm Γ φ hφ N hN ρ M hM α τ ha hb hcoc hunit θ)
   have hF := (modulePullbackFlatten_transitionOfReindex Γ ρ M α τ ha hb).symm.trans
     ((congrArg (fun z => modulePullbackFlatten ρ z) hT).trans

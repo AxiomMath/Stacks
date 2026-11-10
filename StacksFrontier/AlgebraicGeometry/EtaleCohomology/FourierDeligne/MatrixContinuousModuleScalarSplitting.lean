@@ -165,7 +165,7 @@ theorem matrixContinuousModuleHom_comp {σ : G →* GL (Fin m) Λ} {σ' : G →*
       matrixContinuousModuleHom Λ hσ hσ'' (A' * A) (fun g => by
         rw [Matrix.mul_assoc, hA g, ← Matrix.mul_assoc, hA' g, Matrix.mul_assoc]) :=
   finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
-    show A' *ᵥ (A *ᵥ x.down) = (A' * A) *ᵥ x.down
+    change A' *ᵥ (A *ᵥ x.down) = (A' * A) *ᵥ x.down
     rw [Matrix.mulVec_mulVec])
 
 /-- **The intertwiner `c • 1` is multiplication by `c`.** -/
@@ -175,7 +175,7 @@ theorem matrixContinuousModuleHom_smul_one {σ : G →* GL (Fin m) Λ}
     matrixContinuousModuleHom Λ hσ hσ (c • 1) hA =
       finiteTypeContinuousModuleSMul Λ (matrixContinuousModule.{u + 1, u + 1} Λ σ hσ) c :=
   finiteTypeContinuousModule_hom_ext_apply fun x => ULift.ext (by
-    show (c • 1 : Matrix (Fin m) (Fin m) Λ) *ᵥ x.down = c • x.down
+    change (c • 1 : Matrix (Fin m) (Fin m) Λ) *ᵥ x.down = c • x.down
     rw [Matrix.smul_mulVec, Matrix.one_mulVec])
 
 /-- **Equal representations have isomorphic matrix modules** (the identity of `Λ^m`). -/
@@ -275,7 +275,7 @@ theorem matrixContinuousModuleBasisHom_comp_coordHom
       if i = j then 𝟙 _ else 0 := by
   apply finiteTypeContinuousModule_hom_ext_apply fun x => ?_
   refine ULift.ext (funext fun t => ?_)
-  show π j (ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) = _
+  change π j (ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) = _
   rw [h₁, h₂]
   split_ifs
   · rw [mul_one]
@@ -294,7 +294,6 @@ theorem sum_matrixContinuousModuleCoordHom_comp_basisHom
   refine ULift.ext (funext fun t => ?_)
   exact (ulift_fin_down_sum_apply _ _ t).trans (h₃ _)
 
-include h₁ in
 /-- **Multiplication by `o ∈ Λ''` is the matrix `(π_k(o β_i))_{ki}`**: `ι_i ≫ (o • -) =
 Σ_k π_k(o β_i) • ι_k`. -/
 theorem matrixContinuousModuleBasisHom_comp_mulHom
@@ -314,7 +313,7 @@ theorem matrixContinuousModuleBasisHom_comp_mulHom
     rfl
   refine Eq.trans ?_ (ulift_fin_down_sum_apply _ _ t).symm
   rw [Finset.sum_congr rfl fun k _ => hk k, ← Finset.sum_mul, h₃]
-  show o * (ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) = _
+  change o * (ρ ((show ULift.{u + 1} (Fin m → Λ) from x).down t) * β i) = _
   ring
 
 end Splitting

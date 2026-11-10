@@ -110,7 +110,7 @@ def moduleBaseChange :
     pushforwardModules f ⋙ g.toModulesHom.pullbackModules ⟶
       g'.toModulesHom.pullbackModules ⋙ pushforwardModules f' :=
   (mateEquiv (pullbackAdjPushforwardModules f) (pullbackAdjPushforwardModules f')
-    (squarePullbackIso s).hom).natTrans
+    (squarePullbackIso s).hom)
 
 
 omit [HasSheafify Y.J AddCommGrpCat] [Y.J.WEqualsLocallyBijective AddCommGrpCat]
@@ -191,6 +191,8 @@ theorem moduleBaseChangeComplex_comp_counit
     moduleBaseChangeComplex_f]
   exact pullback_moduleBaseChange_comp_counit s (I.X n)
 
+omit [HasSheafify X'.J (Type u)] [HasSheafify X.J (Type u)] [HasSheafify Y'.J (Type u)]
+  [HasSheafify Y.J (Type u)] in
 /-- The defining property of the module base change map, on the class of a complex in the
 homotopy category. -/
 theorem pullbackMapHomotopy_moduleBaseChangeComplex_comp_counit
@@ -301,6 +303,7 @@ private theorem chase_three_aux {𝒞 𝒟 ℋ : Type*} [Category 𝒞] [Categor
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hFPI,
     reassoc_of% hc, ← Q.map_comp, hm, Q.map_comp]
 
+omit [HasSheafify X.J (Type u)] in
 /-- The adjunct under `L(f')^* ⊣ Rf'_*` of the right-hand side of `derivedBaseChange_fac`. -/
 theorem derivedBaseChange_adjunct_right
     (I : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ) :

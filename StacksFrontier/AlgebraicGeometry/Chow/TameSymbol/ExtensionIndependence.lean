@@ -42,8 +42,8 @@ and that computation mentions neither `B` nor `B'`.
 All the instance data that the tower `A ⊆ B ⊆ C` needs is derived here from the finiteness of
 `A → B` and `A → B'` and from the two non-associated-prime hypotheses; nothing is assumed. The
 `B'`-side fibre hypotheses come from the `_right` corollaries of
-`StacksFrontier.AlgebraicGeometry.Chow.TameSymbol.TorsionCommonRefinement` — reusing the `B`-side ones
-with the roles of `B` and `B'` exchanged would name a different ring, namely
+`StacksFrontier.AlgebraicGeometry.Chow.TameSymbol.TorsionCommonRefinement` — reusing the `B`-side
+ones with the roles of `B` and `B'` exchanged would name a different ring, namely
 `TorsionCommonRefinement A B' B`.
 
 ## References

@@ -219,8 +219,7 @@ differential component, so `(D ⊕ Ω) ⊗_D M` is `M ⊕ (Ω ⊗_D M)`. -/
 public theorem firstOrderTensor_eq_add (z : firstOrderExtension D Omega ⊗[D] M) :
     z = (1 : firstOrderExtension D Omega) ⊗ₜ[D] firstOrderReduction D Omega M z +
       firstOrderInclusion D Omega M (firstOrderDifferentialPart D Omega M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       have h : a.fst • (1 : firstOrderExtension D Omega) +
           (TrivSqZeroExt.inr a.snd : firstOrderExtension D Omega) = a := by
@@ -333,8 +332,7 @@ the square-zero relation kills the differential term. -/
 public theorem firstOrderP₁_smul_firstOrderInclusion (f : D) (z : Omega ⊗[D] M) :
     firstOrderP₁ A D g Omega d f • firstOrderInclusion D Omega M z =
       firstOrderInclusion D Omega M (f • z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero, smul_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul omega m =>
       have hm : firstOrderP₁ A D g Omega d f *
           (TrivSqZeroExt.inr omega : firstOrderExtension D Omega) =
@@ -385,7 +383,7 @@ again. -/
 public theorem FirstOrderComparison.ofConnection_connection
     (nabla : FirstOrderConnection D Omega (derivationFun A D g Omega d) M) (m : M) :
     (FirstOrderComparison.ofConnection A D g Omega d M nabla).connection m = nabla m := by
-  show firstOrderDifferentialPart D Omega M
+  change firstOrderDifferentialPart D Omega M
       (FirstOrderComparison.ofConnection A D g Omega d M nabla m) = nabla m
   rw [FirstOrderComparison.ofConnection_apply, _root_.map_add,
     firstOrderDifferentialPart_tmul, firstOrderDifferentialPart_firstOrderInclusion,

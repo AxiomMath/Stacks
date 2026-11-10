@@ -85,7 +85,7 @@ private theorem relative_etale_uliftYoneda_of_isIso
   have : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- A Noetherian affine presentation of the target of a representable affine morphism which is

@@ -205,7 +205,7 @@ theorem ComparisonAssociative.comp (hα : ComparisonAssociative A B α aA aB)
   have nat₂ := bifunctor_comparison_naturality B B' β (𝟙 (L₁.obj X)) (α.app (Y, Z))
   rw [L₂.map_id] at nat₁ nat₂
   dsimp only [Functor.comp_obj, Functor.prod_obj] at nat₁ nat₂
-  show (L₂.map (α.app (A.obj (X, Y), Z)) ≫ β.app (L₁.obj (A.obj (X, Y)), L₁.obj Z)) ≫
+  change (L₂.map (α.app (A.obj (X, Y), Z)) ≫ β.app (L₁.obj (A.obj (X, Y)), L₁.obj Z)) ≫
       B'.map ((L₂.map (α.app (X, Y)) ≫ β.app (L₁.obj X, L₁.obj Y)) ×ₘ
         𝟙 (L₂.obj (L₁.obj Z))) ≫ aB' (L₂.obj (L₁.obj X)) (L₂.obj (L₁.obj Y)) (L₂.obj (L₁.obj Z)) =
     L₂.map (L₁.map (aA X Y Z)) ≫ (L₂.map (α.app (X, A.obj (Y, Z))) ≫

@@ -134,7 +134,7 @@ theorem isPullback_fromPreimage {C : Type u} [Category.{v} C] {F G : C ⥤ Type 
     have h := ConcreteCategory.congr_hom
       (congr_app (Limits.pullback.condition (f := W.ι) (g := p)) T) z
     simp only [NatTrans.comp_app, ConcreteCategory.comp_apply] at h
-    show p.app T _ ∈ W.obj T
+    change p.app T _ ∈ W.obj T
     rw [← h]
     exact ((Limits.pullback.fst W.ι p).app T z).2
   refine IsPullback.of_iso_pullback hsq
@@ -304,7 +304,7 @@ theorem subschemePoints_eq_range :
       (factors_iff_exists_comp B S hS i e he _).1 ((mem_subschemePoints_iff B S hS f).1 hf)
     refine ⟨Over.homMk (⟨g⟩ : T.unop.left ⟶ V.left) ?_, ?_⟩
     · ext
-      show g ≫ V.hom.hom = T.unop.hom.hom
+      change g ≫ V.hom.hom = T.unop.hom.hom
       rw [← hwi, ← Category.assoc, hg]
       exact congrArg (fun m => m.hom) (Over.w f)
     · apply Over.OverMorphism.ext
@@ -350,7 +350,7 @@ theorem sieve_generate_singleton_mem_topology_of_fppfPrecoverage {T' T : B.Schem
       Scheme.fppfPrecoverage (B.inclusion.obj T)) :
     Sieve.generate (Presieve.singleton q) ∈ B.topology T := by
   have hE : IsFppfCovering (⟨T, PreZeroHypercover.singleton q⟩ : Covering B.Schemes) := by
-    show (PreZeroHypercover.singleton q).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton q).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj T)
     simpa only [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton] using hq
   obtain ⟨E', hE', hEquiv⟩ := B.fppf_has_representative _ hE
@@ -722,7 +722,7 @@ theorem presheaf_invariantSubspace_of_isLocalAtTarget
     property_snd_of_isPullback B S hS hrep h₂
       ((property_toScheme_map_iff_of_presentation B S hS i e hei P).2 hPZ)
   refine MorphismProperty.relative_of_snd hrep (fun a g => ?_)
-  show P ((BigFppfOver.toScheme B S hS).map (hrep.snd g))
+  change P ((BigFppfOver.toScheme B S hS).map (hrep.snd g))
   have hqs : Surjective ((BigFppfOver.toScheme B S hS).map (hs.rep.snd g)) :=
     hs.property_snd g
   have hqe : Etale ((BigFppfOver.toScheme B S hS).map (hs.rep.snd g)) := he.property_snd g
@@ -848,7 +848,7 @@ theorem exists_invariantSubspace_eq (hX : IsAlgebraicSpace B S hS X)
           (hs.rep.snd (yonedaEquiv.symm x)) (hs.property_snd _) (he.property_snd _))
       rintro V k ⟨Y, a, b, hb, hfac⟩
       cases hb
-      show X.map k.op x ∈ W.obj (op V)
+      change X.map k.op x ∈ W.obj (op V)
       rw [← hfac, op_comp, Functor.map_comp_apply]
       exact W.map a.op hα
     · rw [subschemePoints_mk_snd B S hS φ hW.2.rep, Subfunctor.preimage_obj, Set.mem_preimage,

@@ -184,14 +184,14 @@ theorem mono_piComparison_rightDerivedPlus_one [HasExactLimitsOfShape (Discrete 
   have hSγ : S.g ≫ γ = q := by simp [S, γ]
   let Φ : Rupper ⟶ Rlower := ComposableArrows.homMk₃ α₀ α₁ α₂ α₃
     (by
-      show R0.map S.g ≫ (R0.map γ ≫ piComparison R0 (fun i => cokernel (ι i))) =
+      change R0.map S.g ≫ (R0.map γ ≫ piComparison R0 (fun i => cokernel (ι i))) =
         piComparison R0 J ≫ Tlim.f
       rw [hTf, ← Category.assoc, ← Functor.map_comp, hSγ]
       simpa [q] using
         (DerivedProducts.piComparison_naturality R0 J (fun i => cokernel (ι i))
           (fun i => cokernel.π (ι i))).symm)
     (by
-      show DerivedIndexing.canonicalδ G hS 0 ≫ piComparison R1 F =
+      change DerivedIndexing.canonicalδ G hS 0 ≫ piComparison R1 F =
         (R0.map γ ≫ piComparison R0 (fun i => cokernel (ι i))) ≫ Tlim.g
       rw [hTg]
       apply Limits.Pi.hom_ext
@@ -218,19 +218,19 @@ theorem mono_piComparison_rightDerivedPlus_one [HasExactLimitsOfShape (Discrete 
             rw [Category.assoc, hproj, ← Category.assoc, Category.assoc (R0.map γ),
               Limits.piComparison_comp_π, ← Functor.map_comp, hψi])
     (by
-      show R1.map S.f ≫ piComparison R1 J =
+      change R1.map S.f ≫ piComparison R1 J =
         piComparison R1 F ≫ Limits.Pi.map (fun i => R1.map (ι i))
       exact (DerivedProducts.piComparison_naturality R1 F J ι).symm)
   have hupperZero : Rupper.map' 0 2 = 0 := by
-    show R0.map S.g ≫ DerivedIndexing.canonicalδ G hS 0 = 0
+    change R0.map S.g ≫ DerivedIndexing.canonicalδ G hS 0 = 0
     exact Classical.choose (hleft hS 0)
   have hupperExact :
       (ComposableArrows.mk₂ (Rupper.map' 1 2) (Rupper.map' 2 3)).Exact := by
-    show (ComposableArrows.mk₂ (DerivedIndexing.canonicalδ G hS 0) (R1.map S.f)).Exact
+    change (ComposableArrows.mk₂ (DerivedIndexing.canonicalδ G hS 0) (R1.map S.f)).Exact
     exact (Classical.choose_spec (hright hS 0)).exact_toComposableArrows
   have hlowerExact :
       (ComposableArrows.mk₂ (Rlower.map' 0 1) (Rlower.map' 1 2)).Exact := by
-    show (ComposableArrows.mk₂ Tlim.f Tlim.g).Exact
+    change (ComposableArrows.mk₂ Tlim.f Tlim.g).Exact
     exact hTlim.exact_toComposableArrows
   have hα₀ : Epi (ComposableArrows.app' Φ 0) := by
     dsimp [Φ, α₀]

@@ -79,7 +79,7 @@ theorem isWeaklyRegular_quotient_ofFn_X_inl (χ : B ≃+* MvPolynomial (Fin e �
     have h2 : quotientEquivQuotientMvPolynomial (σ := Fin e ⊕ σ) I (X (Sum.inl j)) =
         Ideal.Quotient.mk (I.map C) (X (Sum.inl j)) := by
       simp [quotientEquivQuotientMvPolynomial]
-    show _ = (quotientEquivQuotientMvPolynomial I).symm
+    change _ = (quotientEquivQuotientMvPolynomial I).symm
       (Ideal.quotientEquiv J (I.map C) χ hJχ.symm (Ideal.Quotient.mk J _))
     rw [h1, ← h2, AlgEquiv.symm_apply_apply]
   -- weak regularity in `B / J`, as a ring and then over `B`

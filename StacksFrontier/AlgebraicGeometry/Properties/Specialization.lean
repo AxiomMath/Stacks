@@ -72,7 +72,7 @@ lemma coheight_lt_top_of_isLocallyNoetherian (S : Scheme) [IsLocallyNoetherian S
 lemma coheight_lt_coheight_of_specializes (S : Scheme) [IsLocallyNoetherian S]
     {x y : S} (hxy : x ⤳ y) (hne : x ≠ y) : Order.coheight x < Order.coheight y := by
   have hyx : y < x := by
-    show y ≤ x ∧ ¬ x ≤ y
+    change y ≤ x ∧ ¬ x ≤ y
     exact ⟨Scheme.le_iff_specializes.mpr hxy, fun hrev => hne
       (hxy.antisymm (Scheme.le_iff_specializes.mp hrev)).eq⟩
   exact Order.coheight_strictAnti hyx (coheight_lt_top_of_isLocallyNoetherian S x)

@@ -164,13 +164,13 @@ private theorem exists_finset_global_adjoin_residue_eq_section {k Λ : Type*} [F
     intro c hc
     refine IntermediateField.subset_adjoin k U ⟨sv c ^ p ^ n, ?_, ?_⟩
     · exact Finset.mem_coe.mpr (Finset.mem_union_left _ (Finset.mem_image_of_mem _ hc))
-    · show residue B (q (sv c ^ p ^ n)) = α c ^ p ^ n
+    · change residue B (q (sv c ^ p ^ n)) = α c ^ p ^ n
       rw [key1 c, hsec]
   have hmem2 : ∀ c ∈ T, c * α c ^ p ^ n ∈ IntermediateField.adjoin k U := by
     intro c hc
     refine IntermediateField.subset_adjoin k U ⟨av c * sv c ^ (p ^ n - 1), ?_, ?_⟩
     · exact Finset.mem_coe.mpr (Finset.mem_union_right _ (Finset.mem_image_of_mem _ hc))
-    · show residue B (q (av c * sv c ^ (p ^ n - 1))) = c * α c ^ p ^ n
+    · change residue B (q (av c * sv c ^ (p ^ n - 1))) = c * α c ^ p ^ n
       rw [key2 c, hsec]
   refine ⟨S, ?_, ?_⟩
   · -- the ratio of the two residues is `c`, so every generator of `F₁` is recovered
@@ -560,11 +560,11 @@ private theorem exists_factorization_of_global_stage
     refine mem_subalgebra_of_isLocalization 𝔭 A
       ((Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))).comp g)
       hmaxA (fun f => ?_) (fun f hf => ?_) y
-    · show Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+    · change Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
         (g (algebraMap (MvPolynomial (Fin m) k) _ f)) ∈ A
       rw [hg f, ← algebraMap_primePowerQuotient]
       exact hφA f
-    · show IsUnit (Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+    · change IsUnit (Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
         (g (algebraMap (MvPolynomial (Fin m) k) _ f)))
       rw [hg f, ← algebraMap_primePowerQuotient]
       exact isUnit_algebraMap_primePowerQuotient 𝔮 n fun hmem => hf (Ideal.mem_comap.mpr hmem)
@@ -627,7 +627,7 @@ private theorem exists_factorization_of_global_stage
         = residue (primePowerQuotient 𝔮 n) (Ideal.Quotient.mk
           (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n)) (g y)) := by
       rw [heF]
-      show residue (primePowerQuotient 𝔮 n)
+      change residue (primePowerQuotient 𝔮 n)
           (algebraMap (primePowerQuotient 𝔭 n) (primePowerQuotient 𝔮 n)
             (Ideal.Quotient.mk _ y)) = _
       rw [halgRB, hug y]

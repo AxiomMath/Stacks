@@ -170,7 +170,7 @@ theorem henselization_preserves_filtered_colimits
   let Ic : Ideal c.pt := ⨆ k, Ideal.map (c.ι.app k).hom (I k)
   have hηc (k : K) : ηc.comp (c.ι.app k).hom =
       (ch.ι.app k).hom.comp (η.app k).hom := by
-    show (c.ι.app k ≫ hc.desc (Cocone.mk ch.pt (η ≫ ch.ι))).hom = _
+    change (c.ι.app k ≫ hc.desc (Cocone.mk ch.pt (η ≫ ch.ι))).hom = _
     exact congrArg CommRingCat.Hom.hom (hc.fac (Cocone.mk ch.pt (η ≫ ch.ι)) k)
   have hideal : Ideal.map ηc Ic =
       (⨆ k, (Ideal.map ((ch.ι.app k).hom.comp (η.app k).hom) (I k) : Ideal ch.pt)) := by
@@ -251,7 +251,7 @@ private lemma zeroLocus_map_eq_of_zeroLocus_eq
     PrimeSpectrum.zeroLocus (I.map f : Set B) =
       PrimeSpectrum.zeroLocus (J.map f : Set B) := by
   ext p
-  show I.map f ≤ p.asIdeal ↔ J.map f ≤ p.asIdeal
+  change I.map f ≤ p.asIdeal ↔ J.map f ≤ p.asIdeal
   rw [Ideal.map_le_iff_le_comap, Ideal.map_le_iff_le_comap]
   exact Set.ext_iff.mp h ⟨Ideal.comap f p.asIdeal, inferInstance⟩
 
@@ -402,19 +402,19 @@ theorem henselization_tensorProduct_bijective_of_isIntegral
         fun x hx ↦ hiAI (Ideal.mem_map_of_mem _ hx)
       obtain ⟨q, hq, huniqA⟩ := hAh_univ T inferInstance K hTK
         (iA.comp (algebraMap A Ah)) hbase
-      show k ((φ.comp iA) a) = iA a
+      change k ((φ.comp iA) a) = iA a
       rw [hφiA]
       exact DFunLike.congr_fun
         ((huniqA _ ⟨hkgA, hkgI⟩).trans (huniqA _ ⟨rfl, hiAI⟩).symm) a
     · apply RingHom.ext
       intro b
-      show k ((φ.comp iB) b) = iB b
+      change k ((φ.comp iB) b) = iB b
       rw [hφiB]
       exact DFunLike.congr_fun hk.1 b
   have hφk : φ.comp k = RingHom.id Bh := by
     have hφK : K ≤ (J.map (algebraMap B Bh)).comap φ := by
       rw [← Ideal.map_le_iff_le_comap]
-      show (J.map iB).map φ ≤ J.map (algebraMap B Bh)
+      change (J.map iB).map φ ≤ J.map (algebraMap B Bh)
       rw [Ideal.map_map, hφiB]
     let U := ULift.{max u v, v} Bh
     let up : Bh →+* U := ULift.ringEquiv.symm.toRingHom
@@ -434,7 +434,7 @@ theorem henselization_tensorProduct_bijective_of_isIntegral
         congr 1
         apply RingHom.ext
         intro b
-        show φ ((k.comp (algebraMap B Bh)) b) = algebraMap B Bh b
+        change φ ((k.comp (algebraMap B Bh)) b) = algebraMap B Bh b
         rw [hk.1]
         exact DFunLike.congr_fun hφiB b
       · intro x hx
@@ -468,7 +468,7 @@ private theorem henselianPair_quotient {R : Type u} [CommRing R] {J : Ideal R}
       InducesBijectionOnIdempotents (J.map (algebraMap R S)) :=
     ((henselianPair_tfae.{u,u} R J).out 1 4).mp h
   rw [Ideal.map_map]
-  show InducesBijectionOnIdempotents (J.map (algebraMap R B))
+  change InducesBijectionOnIdempotents (J.map (algebraMap R B))
   exact hb B
 
 private theorem lift_completeOrthogonalIdempotents {R : Type u} [CommRing R]
@@ -486,14 +486,14 @@ private theorem lift_completeOrthogonalIdempotents {R : Type u} [CommRing R]
     have hij' : idemMap J ⟨(e i).val * (e j).val, (e i).property.mul (e j).property⟩ =
         idemMap J ⟨0, IsIdempotentElem.zero⟩ := by
       apply Subtype.ext
-      show Ideal.Quotient.mk J ((e i).val * (e j).val) = Ideal.Quotient.mk J 0
+      change Ideal.Quotient.mk J ((e i).val * (e j).val) = Ideal.Quotient.mk J 0
       rw [map_mul, heq, heq, hd.ortho hij, map_zero]
     exact congrArg Subtype.val (hi hij')
   refine ⟨fun i => (e i).val, ⟨hortho, ?_⟩, heq⟩
   have heq' : idemMap J ⟨∑ i, (e i).val, hortho.isIdempotentElem_sum⟩ =
       idemMap J ⟨1, IsIdempotentElem.one⟩ := by
     apply Subtype.ext
-    show Ideal.Quotient.mk J (∑ i, (e i).val) = Ideal.Quotient.mk J 1
+    change Ideal.Quotient.mk J (∑ i, (e i).val) = Ideal.Quotient.mk J 1
     simp only [map_sum, heq, hd.complete, map_one]
   exact congrArg Subtype.val (hi heq')
 
@@ -607,7 +607,7 @@ theorem henselization_iInf_equiv_pi {ι : Type} [Finite ι] [Nonempty ι]
     ring
   have hKb (i) : K i ≤ RingHom.ker (b i) := by
     rw [Ideal.span_le, Set.singleton_subset_iff]
-    show b i (1 - e i) = 0
+    change b i (1 - e i) = 0
     simp only [map_sub, map_one, hbe, sub_self]
   let d : ∀ i, C i →+* Ahi i := fun i =>
     Ideal.Quotient.lift (K i) (b i) (fun x hx => hKb i hx)
@@ -624,19 +624,19 @@ theorem henselization_iInf_equiv_pi {ι : Type} [Finite ι] [Nonempty ι]
   have hrgbase : (r.comp g).comp algebraMap_h = algebraMap_h := by
     ext x
     apply E.injective
-    show (fun i => q i (r (g (algebraMap_h x)))) = fun i => q i (algebraMap_h x)
+    change (fun i => q i (r (g (algebraMap_h x)))) = fun i => q i (algebraMap_h x)
     funext i
     rw [hqr]
-    show c i (b i (algebraMap_h x)) = q i (algebraMap_h x)
+    change c i (b i (algebraMap_h x)) = q i (algebraMap_h x)
     have hbx : b i (algebraMap_h x) = algebraMap_i i x := DFunLike.congr_fun (hb i).1.1 x
     rw [hbx]
     exact DFunLike.congr_fun (hc i).1.1 x
   have hrg : r.comp g = RingHom.id Ah := eq_id_of_comp_eq _ _ hAh.1 hAh.2 _ hrgbase
   have hgr (x : ∀ i, Ahi i) : g (r x) = x := by
     funext i
-    show b i (r x) = x i
+    change b i (r x) = x i
     rw [← hdq]
-    show d i (q i (r x)) = x i
+    change d i (q i (r x)) = x i
     rw [hqr]
     exact DFunLike.congr_fun (hdc i) (x i)
   have hg : Function.Bijective g :=

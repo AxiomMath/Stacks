@@ -88,7 +88,7 @@ private theorem algHom_mem_map_of_mem_smul_top
   have hle : I • (⊤ : Submodule R A) ≤
       Submodule.comap ε.toLinearMap ((I.map (algebraMap R S)).restrictScalars R) := by
     refine Submodule.smul_le.mpr fun r hr a _ => ?_
-    show ε (r • a) ∈ I.map (algebraMap R S)
+    change ε (r • a) ∈ I.map (algebraMap R S)
     rw [Algebra.smul_def, map_mul, ε.commutes]
     exact Ideal.mul_mem_right (ε a) _ (Ideal.mem_map_of_mem (algebraMap R S) hr)
   exact hle hx

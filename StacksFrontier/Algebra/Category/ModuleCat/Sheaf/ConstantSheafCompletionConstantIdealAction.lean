@@ -117,7 +117,7 @@ theorem smul_sheafOfModulesOfConstantRing_eq_zero (G : Sheaf J (ModuleCat.{w} R)
     (congrArg (fun k : (constantRingPresheaf C R ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj U ⟶
         (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.obj (op V) => k.hom r)
       ((associatedRingMap J a).naturality h.op)).symm
-  show (sheafOfModulesOfConstantRing J (associatedRingMap J a) G).val.map h.op
+  change (sheafOfModulesOfConstantRing J (associatedRingMap J a) G).val.map h.op
       (((associatedRingMap J a).app U).hom r • y) =
     (sheafOfModulesOfConstantRing J (associatedRingMap J a) G).val.map h.op 0
   rw [map_zero, PresheafOfModules.map_smul, ← hxv, hnat]
@@ -203,7 +203,7 @@ theorem sheafOfModulesOfConstantRingMap_smul_id_comp_eq_zero (F : Sheaf J (Modul
     sheafOfModulesOfConstantRingMap J (associatedRingMap J a) (r • 𝟙 F) ≫ g = 0 := by
   refine (PresheafOfModules.sheafificationHomEquiv (associatedRingMap J a)).injective
     (PresheafOfModules.hom_ext fun W => ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
-  show (g.val.app W) ((sheafOfModulesOfConstantRingMap J (associatedRingMap J a)
+  change (g.val.app W) ((sheafOfModulesOfConstantRingMap J (associatedRingMap J a)
       (r • 𝟙 F)).val.app W
       ((moduleSheafificationUnit J a (ofConstantRingPresheaf F.obj)).app W s)) = 0
   refine Eq.trans (congrArg (fun z => (g.val.app W) z) ?_) (h W s)

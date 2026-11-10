@@ -188,7 +188,7 @@ theorem isIso_of_bijective_restrictDerivation (f : X' ⟶ X) (p : X ⟶ Y) (p' :
     (sheafOfDifferentials B S hS p))).surjective (𝟙 _)
   have hd' : c ≫ d = 𝟙 _ := hd
   refine ⟨d, hd', (hpre (sheafOfDifferentials B S hS p')).injective ?_⟩
-  show c ≫ d ≫ c = c ≫ 𝟙 _
+  change c ≫ d ≫ c = c ≫ 𝟙 _
   rw [← Category.assoc, hd', Category.id_comp, Category.comp_id]
 
 end AlgebraicGeometry.Space

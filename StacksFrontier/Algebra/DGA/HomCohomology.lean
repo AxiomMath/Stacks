@@ -607,7 +607,7 @@ private theorem d_one (A : DGA R) : A.d 1 = 0 := by
 /-- The unit `1 : A` has degree `-k` in `A[k]`. -/
 private theorem one_mem_shift_grading (A : DGA R) (k : ℤ) :
     (1 : A.carrier) ∈ ((A.toDGModule).shift k).grading (-k) := by
-  show (1 : A.carrier) ∈ A.grading (-k + k)
+  change (1 : A.carrier) ∈ A.grading (-k + k)
   rw [neg_add_cancel]
   exact SetLike.one_mem_graded A.grading
 
@@ -616,7 +616,7 @@ private theorem map_eq_op_smul_map_one (M : DGModule A) (k : ℤ)
     (f : Hom ((A.toDGModule).shift k) M) (y : A.carrier) :
     f.toFun y = MulOpposite.op y • f.toFun (1 : A.carrier) := by
   have hact : ((A.toDGModule).shift k).act (1 : A.carrier) y = y := by
-    show MulOpposite.op y • (1 : A.carrier) = y
+    change MulOpposite.op y • (1 : A.carrier) = y
     rw [op_smul_eq_mul, one_mul]
   have hml := f.map_act (1 : A.carrier) y
   rw [hact] at hml
@@ -668,7 +668,7 @@ theorem homEval_mem (M : DGModule A) (k : ℤ) (f : Hom ((A.toDGModule).shift k)
     f.toFun (1 : A.carrier) ∈ M.cocyclesM (-k) := by
   refine ⟨?_, ?_⟩
   · exact f.map_grading (-k) (1 : A.carrier) (one_mem_shift_grading A k)
-  · show f.toFun (1 : A.carrier) ∈ LinearMap.ker M.d
+  · change f.toFun (1 : A.carrier) ∈ LinearMap.ker M.d
     rw [LinearMap.mem_ker, ← f.map_d (1 : A.carrier)]
     have hd1 : ((A.toDGModule).shift k).d (1 : A.carrier) = k.negOnePow • A.d (1 : A.carrier) := rfl
     rw [hd1, d_one, smul_zero, map_zero]
@@ -692,12 +692,12 @@ theorem hom_shift_equiv_cocycles (M : DGModule A) (k : ℤ) :
     { toFun := fun f => ⟨f.toFun (1 : A.carrier), homEval_mem M k f⟩
       map_add' := fun f g => by
         apply Subtype.ext
-        show (f + g).toFun (1 : A.carrier) = f.toFun (1 : A.carrier) + g.toFun (1 : A.carrier)
+        change (f + g).toFun (1 : A.carrier) = f.toFun (1 : A.carrier) + g.toFun (1 : A.carrier)
         rw [Hom.add_toFun]
         rfl
       map_smul' := fun r f => by
         apply Subtype.ext
-        show (r • f).toFun (1 : A.carrier) = r • f.toFun (1 : A.carrier)
+        change (r • f).toFun (1 : A.carrier) = r • f.toFun (1 : A.carrier)
         rw [Hom.smul_toFun]
         rfl }
   let bwd : ↥(M.cocyclesM (-k)) →ₗ[R] Hom ((A.toDGModule).shift k) M :=
@@ -706,21 +706,21 @@ theorem hom_shift_equiv_cocycles (M : DGModule A) (k : ℤ) :
         apply Hom.ext
         intro x
         let y : A.carrier := x
-        show (M.homOfCocycle k (m + m')).toFun y = (M.homOfCocycle k m + M.homOfCocycle k
+        change (M.homOfCocycle k (m + m')).toFun y = (M.homOfCocycle k m + M.homOfCocycle k
             m').toFun y
         rw [Hom.add_toFun, homOfCocycle_toFun, LinearMap.add_apply, homOfCocycle_toFun,
             homOfCocycle_toFun]
-        show MulOpposite.op y • ((m : M.carrier) + (m' : M.carrier))
+        change MulOpposite.op y • ((m : M.carrier) + (m' : M.carrier))
             = MulOpposite.op y • (m : M.carrier) + MulOpposite.op y • (m' : M.carrier)
         rw [smul_add]
       map_smul' := fun r m => by
         apply Hom.ext
         intro x
         let y : A.carrier := x
-        show (M.homOfCocycle k (r • m)).toFun y = ((RingHom.id R) r • M.homOfCocycle k m).toFun y
+        change (M.homOfCocycle k (r • m)).toFun y = ((RingHom.id R) r • M.homOfCocycle k m).toFun y
         rw [Hom.smul_toFun, homOfCocycle_toFun, LinearMap.smul_apply, homOfCocycle_toFun,
             RingHom.id_apply]
-        show MulOpposite.op y • (r • (m : M.carrier))
+        change MulOpposite.op y • (r • (m : M.carrier))
             = r • (MulOpposite.op y • (m : M.carrier))
         rw [smul_comm] }
   have left_inv : Function.LeftInverse bwd fwd := by
@@ -728,13 +728,13 @@ theorem hom_shift_equiv_cocycles (M : DGModule A) (k : ℤ) :
     apply Hom.ext
     intro x
     let y : A.carrier := x
-    show (M.homOfCocycle k (fwd f)).toFun y = f.toFun y
+    change (M.homOfCocycle k (fwd f)).toFun y = f.toFun y
     rw [homOfCocycle_toFun]
     exact (map_eq_op_smul_map_one M k f y).symm
   have right_inv : Function.RightInverse bwd fwd := by
     intro m
     apply Subtype.ext
-    show (M.homOfCocycle k m).toFun (1 : A.carrier) = (m : M.carrier)
+    change (M.homOfCocycle k m).toFun (1 : A.carrier) = (m : M.carrier)
     rw [homOfCocycle_toFun, MulOpposite.op_one, one_smul]
   let e : Hom ((A.toDGModule).shift k) M ≃ₗ[R] ↥(M.cocyclesM (-k)) :=
     { fwd with
@@ -783,7 +783,7 @@ theorem homotopyClasses_shift_equiv_cohomology (M : DGModule A) (k : ℤ) :
       refine ⟨M.actRightMap w, ?_, ?_, ?_⟩
       · intro x a
         let y : A.carrier := x
-        show M.actRightMap w (MulOpposite.op a • y) = M.act (M.actRightMap w y) a
+        change M.actRightMap w (MulOpposite.op a • y) = M.act (M.actRightMap w y) a
         simp only [actRightMap_apply, act]
         show MulOpposite.op (MulOpposite.op a • y) • w
             = MulOpposite.op a • (MulOpposite.op y • w)
@@ -793,7 +793,7 @@ theorem homotopyClasses_shift_equiv_cohomology (M : DGModule A) (k : ℤ) :
         rwa [show -k - 1 + (n + k) = n - 1 by ring] at this
       · intro x
         let y : A.carrier := x
-        show f.toFun y = M.d (M.actRightMap w y) + M.actRightMap w (((A.toDGModule).shift k).d y)
+        change f.toFun y = M.d (M.actRightMap w y) + M.actRightMap w (((A.toDGModule).shift k).d y)
         have hdef : ((A.toDGModule).shift k).d y = k.negOnePow • A.d y := rfl
         rw [hdef]
         simp only [actRightMap_apply]
@@ -813,7 +813,7 @@ theorem homotopyClasses_shift_equiv_cohomology (M : DGModule A) (k : ℤ) :
           = k.negOnePow • A.d (1 : A.carrier) := rfl
       have hf1 := hf (1 : A.carrier)
       rw [hd1, d_one, smul_zero, map_zero, add_zero] at hf1
-      show M.d (h (1 : A.carrier)) = (e₁ f : M.carrier)
+      change M.d (h (1 : A.carrier)) = (e₁ f : M.carrier)
       rw [he₁ f, hf1]
   have hmap : Submodule.map (e₁ : Hom ((A.toDGModule).shift k) M →ₗ[R] ↥(M.cocyclesM
       (-k))) S = Q := by
@@ -829,7 +829,7 @@ theorem homotopyClasses_shift_equiv_cohomology (M : DGModule A) (k : ℤ) :
       e (Submodule.Quotient.mk f)
         = Submodule.Quotient.mk (⟨f.toFun (1 : A.carrier), hf⟩ : ↥(M.cocyclesM (-k))) := by
     intro f hf
-    show Submodule.Quotient.mk (e₁ f) = _
+    change Submodule.Quotient.mk (e₁ f) = _
     congr 1
     exact Subtype.ext (he₁ f)
   refine ⟨e, h₁, fun N g eN heN f => ?_⟩

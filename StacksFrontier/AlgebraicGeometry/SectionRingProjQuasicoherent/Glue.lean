@@ -446,7 +446,7 @@ theorem gluedComparison_naturality {G : X.Modules} (φ : F ⟶ G) :
       gluedComparison L hL F ≫ φ := by
   refine Stacks.BasisRestriction.moduleSheafHom_ext_onBasis _ _
     (fun c : GoodChart L hL => nvOpen L c.1.val) (isBasis_goodChart L hL) _ _ fun c => ?_
-  show ((Scheme.Modules.restrictFunctor (projHomOfIsAmple L hL)).map
+  change ((Scheme.Modules.restrictFunctor (projHomOfIsAmple L hL)).map
       ((tildeFunctor L).map φ)).val.app _ ≫ (gluedComparison L hL G).val.app _ =
     (gluedComparison L hL F).val.app _ ≫ φ.val.app _
   rw [gluedComparison_app, gluedComparison_app]

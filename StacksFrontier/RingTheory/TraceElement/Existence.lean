@@ -78,14 +78,14 @@ theorem isTraceElement_of_dualFamily (F : FiniteOpenFactorization.{u, v, w} A B)
   have : Module.Finite A₁ C := hfinite
   have : Module.Flat A₁ C := flat_of_prodRingEquiv e.toRingEquiv (by
     intro a
-    show (e (algebraMap A₁ (A₁ ⊗[A] B) a)).1 = algebraMap A₁ C a
+    change (e (algebraMap A₁ (A₁ ⊗[A] B) a)).1 = algebraMap A₁ C a
     rw [e.commutes]
     rfl)
   have := projective_of_finite_flat A₁ C
   refine ⟨inferInstance, ?_⟩
   have : IsScalarTower A₁ F₁.middle C := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
-    show algebraMap A₁ C a =
+    change algebraMap A₁ C a =
       (e (algebraMap F₁.middle (A₁ ⊗[A] B) (algebraMap A₁ F₁.middle a))).1
     rw [← IsScalarTower.algebraMap_apply, e.commutes]
     rfl
@@ -98,17 +98,16 @@ theorem isTraceElement_of_dualFamily (F : FiniteOpenFactorization.{u, v, w} A B)
   have hbc (r : F₁.middle) :
       ∑ i, (f i).baseChange A₁ r • ((1 : A₁) ⊗ₜ[A] b i) =
         algebraMap F₁.middle (A₁ ⊗[A] B) r := by
-    show ∑ i, (f i).baseChange A₁ r • ((1 : A₁) ⊗ₜ[A] b i) =
+    change ∑ i, (f i).baseChange A₁ r • ((1 : A₁) ⊗ₜ[A] b i) =
       (Algebra.TensorProduct.map (AlgHom.id A A₁) (IsScalarTower.toAlgHom A F.middle B)) r
-    induction r using TensorProduct.induction_on with
-    | zero => simp
+    induction r using TensorProduct.inductionOn with
     | add r s hr hs => simp [map_add, add_smul, Finset.sum_add_distrib, hr, hs]
     | tmul a r =>
       simpa [TensorProduct.tmul_sum, TensorProduct.tmul_smul, TensorProduct.smul_tmul'] using
         congrArg (fun z : B => a ⊗ₜ[A] z) (h r)
   have hc (r : F₁.middle) :
       ∑ i, (f i).baseChange A₁ r • (e ((1 : A₁) ⊗ₜ[A] b i)).1 = algebraMap F₁.middle C r := by
-    show ∑ i, (f i).baseChange A₁ r • (e ((1 : A₁) ⊗ₜ[A] b i)).1 =
+    change ∑ i, (f i).baseChange A₁ r • (e ((1 : A₁) ⊗ₜ[A] b i)).1 =
       (e (algebraMap F₁.middle (A₁ ⊗[A] B) r)).1
     simpa only [map_sum, map_smul, Prod.fst_sum, Prod.smul_fst] using
       congrArg (fun z => (e z).1) (hbc r)
@@ -165,7 +164,7 @@ theorem exists_not_isTraceElement_zero :
             finite_middle := inferInstance
             isOpenEmbedding_comap := ?_
             awayMap_bijective := ?_ }, ?_⟩
-  · show Topology.IsOpenEmbedding (fun q : PrimeSpectrum (ℤ × ℤ) => q)
+  · change Topology.IsOpenEmbedding (fun q : PrimeSpectrum (ℤ × ℤ) => q)
     exact ⟨.id, IsOpenMap.id.isOpen_range⟩
   · intro g _
     constructor

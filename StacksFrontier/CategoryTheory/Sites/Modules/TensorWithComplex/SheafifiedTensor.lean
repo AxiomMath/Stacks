@@ -7,7 +7,8 @@ import all StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex.Section
 /-!
 # The sheafified tensor complex
 
-Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the overview).
+Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the
+overview).
 This file shows that the sectionwise evaluation of the regular module is an isomorphism after
 sheafification, sheafifies the sectionwise tensor complex, makes it functorial on cochains of
 differential graded modules, and builds the evaluation maps used for the tensor-Hom adjunction.

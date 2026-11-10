@@ -42,7 +42,8 @@ Noetherianity of `X` is used.
 
 ## Implementation notes
 
-The internal Hom is `internalHom` of `StacksFrontier.Algebra.Category.ModuleCat.Presheaf.InternalHom`,
+The internal Hom is `internalHom` of
+`StacksFrontier.Algebra.Category.ModuleCat.Presheaf.InternalHom`,
   whose value at `U` is
 literally the module of morphisms `F|_U ⟶ 𝒪_U` over the slice site `Over U`; the sheaf
 condition is `internalHom_isSheaf`.  Consequently `dualPairing` is `t.app (op W)` applied to a
@@ -225,7 +226,7 @@ public theorem dualSheaf_section_eq_zero [IsIntegral X] (F : X.Modules) {U : X.O
   have key : X.presheaf.map (homOfLE hV'W₀).op a *
       X.presheaf.map (homOfLE hV'V).op (dualPairing F t W x) = 0 := by
     rw [← hpair]
-    show dualPairing F (a • (dualSheaf F).presheaf.map (homOfLE hW₀U).op t)
+    change dualPairing F (a • (dualSheaf F).presheaf.map (homOfLE hW₀U).op t)
         (Over.mk (homOfLE hV'W₀)) (F.presheaf.map (homOfLE hV'V).op x) = 0
     rw [hat]
     rfl

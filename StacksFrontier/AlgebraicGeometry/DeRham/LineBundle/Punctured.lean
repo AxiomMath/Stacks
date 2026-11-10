@@ -102,7 +102,7 @@ def degreeZeroComponent (X : Cᵒᵖ) : A.Total X →+ ((P 0).obj X : Type w) :=
 @[simp]
 lemma degreeZeroComponent_incl_self (X : Cᵒᵖ) (x : (P 0).obj X) :
     A.degreeZeroComponent X (A.incl 0 x) = x := by
-  show DirectSum.component (R.obj X) ℤ (fun i => ((P i).obj X : Type w)) 0
+  change DirectSum.component (R.obj X) ℤ (fun i => ((P i).obj X : Type w)) 0
     (DirectSum.of (fun i => ((P i).obj X : Type w)) 0 x) = x
   rw [← DirectSum.lof_eq_of (R.obj X), DirectSum.component.of]
   simp
@@ -111,7 +111,7 @@ lemma degreeZeroComponent_incl_self (X : Cᵒᵖ) (x : (P 0).obj X) :
 @[simp]
 lemma degreeZeroComponent_incl_of_ne {i : ℤ} (hi : i ≠ 0) (X : Cᵒᵖ) (x : (P i).obj X) :
     A.degreeZeroComponent X (A.incl i x) = 0 := by
-  show DirectSum.component (R.obj X) ℤ (fun i => ((P i).obj X : Type w)) 0
+  change DirectSum.component (R.obj X) ℤ (fun i => ((P i).obj X : Type w)) 0
     (DirectSum.of (fun i => ((P i).obj X : Type w)) i x) = 0
   rw [← DirectSum.lof_eq_of (R.obj X), DirectSum.component.of, dite_eq_right_iff.mpr]
   intro h
@@ -284,7 +284,7 @@ lemma pieceZeroAugmentation_naturality {U V : (Opens X)ᵒᵖ} (f : U ⟶ V)
     (x : (A.piece 0).val.obj U) :
     pieceZeroAugmentation A e V (Stacks.sectionRestrict (A.piece 0).val f x) =
       X.ringCatSheaf.obj.map f (pieceZeroAugmentation A e U x) := by
-  show e.hom.val.app V ((A.piece 0).val.map f x) =
+  change e.hom.val.app V ((A.piece 0).val.map f x) =
     (SheafOfModules.unit X.ringCatSheaf).val.map f (e.hom.val.app U x)
   exact PresheafOfModules.naturality_apply e.hom.val f x
 

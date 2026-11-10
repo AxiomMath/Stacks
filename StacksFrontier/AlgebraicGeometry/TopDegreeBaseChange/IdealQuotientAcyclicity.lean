@@ -230,7 +230,7 @@ theorem exists_mem_baseMaximalIdeal_mem_basicOpen {X : Scheme.{u}} (f : X ⟶ Sp
   have _ : (f.base x).asIdeal.IsPrime := (f.base x).2
   have hlt : (f.base x).asIdeal < IsLocalRing.maximalIdeal A :=
     lt_of_le_of_ne (IsLocalRing.le_maximalIdeal_of_isPrime _) fun h => hx (PrimeSpectrum.ext h)
-  obtain ⟨a, ham, hax⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a, ham, hax⟩ := IsConcreteLE.exists_of_lt hlt
   refine ⟨((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop) a, Ideal.mem_map_of_mem _ ham, ?_⟩
   have h1 : X.basicOpen (f.appTop ((Scheme.ΓSpecIso (.of A)).inv a)) =
       f ⁻¹ᵁ ((Spec (.of A)).basicOpen ((Scheme.ΓSpecIso (.of A)).inv a)) :=

@@ -69,7 +69,7 @@ to the small étale site, which has them. -/
 instance smallEtaleModelRingedSite_hasBinaryProducts :
     HasBinaryProducts (smallEtaleModelRingedSite B S hS F hF).C := by
   change HasBinaryProducts (SmallEtaleModel B S hS F)
-  haveI := (smallEtaleModelEquivalence B S hS F).isEquivalence_functor
+  have := (smallEtaleModelEquivalence B S hS F).isEquivalence_functor
   exact Adjunction.hasLimitsOfShape_of_equivalence (smallEtaleModelEquivalence B S hS F).functor
 
 /-- Sheaves of modules on the equi-universe model of the small étale ringed site of `F`. -/

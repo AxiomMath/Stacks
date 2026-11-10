@@ -206,7 +206,7 @@ private theorem isFiniteTypeLocallyConstantModuleSheaf_of_constantModel_over
       IsFiniteTypeLocallyConstantModuleSheaf.{u, u, u} (J.over U) Λ (F.over U)) :
     IsFiniteTypeLocallyConstantModuleSheaf.{u, u, u} J Λ F := by
   refine isFiniteTypeLocallyConstantModuleSheaf_of_local J Λ _ fun X => ?_
-  obtain ⟨T, e, I, V, f, hcov, hmodel⟩ := exists_cover_constantComplex_representation J Λ X K hK
+  obtain ⟨T, ⟨e⟩, I, V, f, hcov, hmodel⟩ := exists_cover_constantComplex_representation J Λ X K hK
   refine ⟨I, V, f, hcov, fun j => ?_⟩
   obtain ⟨P, a, b, hz, hfg, ⟨eP⟩⟩ := hmodel j
   exact h (V j) P b ((CochainComplex.isStrictlyLE_iff P b).2 fun n hn =>

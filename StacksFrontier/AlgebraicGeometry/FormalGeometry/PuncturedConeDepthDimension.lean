@@ -91,7 +91,7 @@ private theorem intCast_add_one_lt_add_one {s : ℤ} {x : EInt} (h : (s : EInt) 
   | bot => exact absurd h (by simp)
   | top =>
     rw [show ((⊤ : EInt)) + ((1 : ℤ) : EInt) = (⊤ : EInt) from rfl]
-    show (WithBot.some (WithTop.some (s + 1))) < (WithBot.some (⊤ : WithTop ℤ))
+    change (WithBot.some (WithTop.some (s + 1))) < (WithBot.some (⊤ : WithTop ℤ))
     exact WithBot.coe_lt_coe.2 (WithTop.coe_lt_top _)
   | coe y =>
     rw [← Stacks.Chow.coe_add_coe_eq_coe_add]

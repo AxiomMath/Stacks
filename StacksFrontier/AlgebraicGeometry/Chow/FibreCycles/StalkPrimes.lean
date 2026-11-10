@@ -277,7 +277,7 @@ theorem isLocalization_stalk_of_specializes {ξ η : X} (h : η ⤳ ξ)
     exact Ideal.comap_mono (IsLocalRing.le_maximalIdeal q.2.ne_top)
   have : IsScalarTower Γ(X, (U : X.Opens)) (X.presheaf.stalk ξ) (X.presheaf.stalk η) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show (X.presheaf.germ (U : X.Opens) η hηU).hom =
+    change (X.presheaf.germ (U : X.Opens) η hηU).hom =
       (X.presheaf.stalkSpecializes h).hom.comp (X.presheaf.germ (U : X.Opens) ξ hξU).hom
     rw [← CommRingCat.hom_comp, X.presheaf.germ_stalkSpecializes hξU h]
   have := IsLocalization.isLocalization_of_submonoid_le
@@ -288,7 +288,7 @@ theorem isLocalization_stalk_of_specializes {ξ η : X} (h : η ⤳ ξ)
     (Submonoid.map (algebraMap Γ(X, (U : X.Opens)) (X.presheaf.stalk ξ))
       (U.2.primeIdealOf ⟨η, hηU⟩).asIdeal.primeCompl) q.asIdeal.primeCompl ?_ ?_
   · rintro x ⟨r, hr, rfl⟩
-    show (X.presheaf.germ (U : X.Opens) ξ hξU).hom r ∉ q.asIdeal
+    change (X.presheaf.germ (U : X.Opens) ξ hξU).hom r ∉ q.asIdeal
     exact fun hmem => hr (hcomap ▸ (Ideal.mem_comap.mpr hmem))
   · intro a ha
     obtain ⟨⟨r, s⟩, hrs⟩ :=

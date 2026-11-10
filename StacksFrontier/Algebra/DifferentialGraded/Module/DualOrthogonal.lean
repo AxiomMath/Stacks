@@ -187,14 +187,14 @@ private theorem charProj_apply (nu : CharacterModule N.M) (q : ℤ) (z : N.M) :
 `f(x)(a) = λ(x a)`. This is the one direction of Stacks 09K4 that the null-homotopy needs. -/
 private theorem dualVal_apply_eq (f : N ⟶ shift (dualRegularModule A) k) (x : N.M) (a : A.A) :
     dualVal (f.toFun x) a = dualHomChar k f (op a • x) := by
-  show dualVal (f.toFun x) a = dualVal (f.toFun (op a • x)) (1 : A.A)
+  change dualVal (f.toFun x) a = dualVal (f.toFun (op a • x)) (1 : A.A)
   rw [show f.toFun (op a • x) = op a • f.toFun x from f.map_smul x a, dualVal_smul,
     MulOpposite.unop_op, mul_one]
 
 /-- The character of a homomorphism into a shift of the dual kills every coboundary of `N`. -/
 private theorem dualHomChar_d (f : N ⟶ shift (dualRegularModule A) k) (x : N.M) :
     dualHomChar k f (N.d x) = 0 := by
-  show dualVal (f.toFun (N.d x)) (1 : A.A) = 0
+  change dualVal (f.toFun (N.d x)) (1 : A.A) = 0
   rw [show f.toFun (N.d x) = (shift (dualRegularModule A) k).d (f.toFun x) from
     LinearMap.congr_fun f.map_d x, shift_d, LinearMap.smul_apply, Units.smul_def,
     dualVal_zsmul, dualVal_d, signedDiff_one, map_zero, smul_zero]
@@ -203,7 +203,7 @@ private theorem dualHomChar_d (f : N ⟶ shift (dualRegularModule A) k) (x : N.M
 other than `-k`, because the image character is then supported away from `A^0`. -/
 private theorem dualHomChar_eq_zero_of_mem (f : N ⟶ shift (dualRegularModule A) k) {n : ℤ}
     {x : N.M} (hx : x ∈ N.grading n) (hn : n ≠ -k) : dualHomChar k f x = 0 := by
-  show dualVal (f.toFun x) (1 : A.A) = 0
+  change dualVal (f.toFun x) (1 : A.A) = 0
   have hmem : f.toFun x ∈ (dualRegularModule A).grading (n + k) := f.map_grading n x hx
   exact mem_dualGrading_iff.mp hmem 0 (by omega) (1 : A.A) (SetLike.one_mem_graded A.grading)
 
@@ -243,7 +243,7 @@ private theorem exists_primitive (hN : N.toCochainComplex.Acyclic)
   have hvanish :
       CharacterModule.dual (R := R) (LinearMap.ker N.d).subtype (dualHomChar k f) = 0 := by
     refine CharacterModule.ext _ fun z => ?_
-    show dualHomChar k f (z : N.M) = 0
+    change dualHomChar k f (z : N.M) = 0
     exact dualHomChar_eq_zero_of_d_eq_zero k hN f z.2
   obtain ⟨nu, hnu⟩ :=
     (CharacterModule.dual_exact (R := R) (LinearMap.ker N.d).subtype N.d hexact

@@ -379,8 +379,8 @@ def braidingIso (Z : RingedTopos.{u, u, u}) [HasSheafify Z.J AddCommGrpCat.{u}]
   haveI : ∀ P, IsIso
       ((Stacks.SheafOfModules.DerivedMonoidal.canonicalBraidingNatTrans Z.O).app P) :=
     fun P => by
-      letI := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal Z.O
-      letI := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric Z.O
+      let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedMonoidal Z.O
+      let := Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric Z.O
       exact inferInstanceAs (IsIso (β_ P.1 P.2).hom)
   haveI := NatIso.isIso_of_isIso_app
     (Stacks.SheafOfModules.DerivedMonoidal.canonicalBraidingNatTrans Z.O)

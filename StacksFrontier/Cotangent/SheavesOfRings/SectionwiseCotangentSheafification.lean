@@ -215,7 +215,7 @@ theorem existsUnique_resolutionDerivation (n : ℕ) (M : targetModules J B)
     ((SheafOfModules.restrictScalars (resolutionAugmentationRing J f (op ⦋n⦌))).obj M).isSheaf
     (fun {_} => d.d)
     (fun {U} x y => by
-      show d.d (x * y) =
+      change d.d (x * y) =
         (resolutionAugmentation J f (op ⦋n⦌)).hom.app U
             (((sectionsResolutionComparison J f (op ⦋n⦌)).app U).hom x) •
           (show M.val.obj U from d.d y) +

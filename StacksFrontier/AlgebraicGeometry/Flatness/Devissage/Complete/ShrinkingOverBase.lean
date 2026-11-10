@@ -46,12 +46,12 @@ lemma opensRange_eq_preimage_of_isPullback {A B C D : Scheme.{u}} {p : A ⟶ B} 
     {q : B ⟶ D} {j : C ⟶ D} (hsq : IsPullback p q' q j) [IsOpenImmersion j]
     [IsOpenImmersion p] : p.opensRange = q ⁻¹ᵁ j.opensRange := by
   apply TopologicalSpace.Opens.ext
-  show Set.range (p : A → B) = (q : B → D) ⁻¹' Set.range (j : C → D)
+  change Set.range (p : A → B) = (q : B → D) ⁻¹' Set.range (j : C → D)
   calc
     Set.range (p : A → B) = Set.range (hsq.isoPullback.hom ≫ Limits.pullback.fst q j) := by
       rw [hsq.isoPullback_hom_fst]
     _ = Set.range (Limits.pullback.fst q j) := by
-      show Set.range ((Limits.pullback.fst q j) ∘ hsq.isoPullback.hom) = _
+      change Set.range ((Limits.pullback.fst q j) ∘ hsq.isoPullback.hom) = _
       rw [Set.range_comp, Set.range_eq_univ.mpr hsq.isoPullback.hom.surjective, Set.image_univ]
     _ = (q : B → D) ⁻¹' Set.range (j : C → D) := Scheme.Pullback.range_fst q j
 

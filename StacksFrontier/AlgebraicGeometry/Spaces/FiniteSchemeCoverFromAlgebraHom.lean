@@ -113,7 +113,7 @@ private theorem mem_range_appTop_smallBaseChangeOverMap {X : AlgebraicSpaces B S
   obtain ⟨c, hc⟩ := hx
   refine ⟨(pushforwardAlgebraSectionsIso B S hS Z hZ W).hom c, ?_⟩
   rw [← pushforwardRingMap_app_eq B S hS g hY hZ W]
-  show (pushforwardAlgebraSectionsIso B S hS Y hY W).hom
+  change (pushforwardAlgebraSectionsIso B S hS Y hY W).hom
     ((pushforwardRingMap B S hS g).hom.app (op W) ((pushforwardAlgebraSectionsIso B S hS Z hZ W).inv
       ((pushforwardAlgebraSectionsIso B S hS Z hZ W).hom c))) = x
   rw [Iso.hom_inv_id_apply, hc]
@@ -190,7 +190,7 @@ theorem exists_ideal_fg_finite_le_ker_of_isIntegral {R A C : Type u} [CommRing R
   · exact ⟨zs.image fun z => Polynomial.eval₂ f z (P z), by rw [Finset.coe_image]⟩
   · refine Ideal.span_le.2 ?_
     rintro _ ⟨z, -, rfl⟩
-    show h (Polynomial.eval₂ f z (P z)) = 0
+    change h (Polynomial.eval₂ f z (P z)) = 0
     rw [Polynomial.hom_eval₂]
     exact hPeval z
 
@@ -412,7 +412,7 @@ theorem exists_finiteSchemeCover_of_algebraHom (hZ : B.Contains (⊤_ Scheme.{u}
     rintro W _ ⟨c, rfl⟩
     refine ⟨(e.inv.right.hom.app W) c, ?_⟩
     rw [← pushforwardAlgebraMap_right, hgalg]
-    show (φ.right.hom.app W) ((e.hom.right.hom.app W) ((e.inv.right.hom.app W) c)) = _
+    change (φ.right.hom.app W) ((e.hom.right.hom.app W) ((e.inv.right.hom.app W) c)) = _
     rw [hinvhom]
   have hPalgfp : (pushforwardAlgebra B S hS P.obj).IsFinitePresentation := by
     intro W hW
@@ -483,7 +483,7 @@ theorem exists_finiteSchemeCover_of_algebraHom (hZ : B.Contains (⊤_ Scheme.{u}
   let C : ClosedSubspaces B S hS P.obj.left.1 := schemeTheoreticImage B S hS gY P.obj.left.2
   have hCpts : Set.range (pointsMap B S hS C.1.toFunctor C.1.ι) =
       Set.range (pointsMap B S hS _ gY) := by
-    show Set.range (pointsMap B S hS (schemeTheoreticImageSubfunctor B S hS gY).toFunctor
+    change Set.range (pointsMap B S hS (schemeTheoreticImageSubfunctor B S hS gY).toFunctor
       (schemeTheoreticImageSubfunctor B S hS gY).ι) = _
     rw [range_pointsMap_ι_schemeTheoreticImage_eq_closure_of_isQuasiCompact B S hS gY Ya.2
       P.obj.left.2 hgqc]
@@ -497,11 +497,11 @@ theorem exists_finiteSchemeCover_of_algebraHom (hZ : B.Contains (⊤_ Scheme.{u}
     obtain ⟨y, rfl⟩ := hc
     obtain ⟨k, w, hwk, hwy⟩ := hqcov y
     have hmw : (T.map m).base w ∈ O k := by
-      show w ∈ T.map m ⁻¹ᵁ O k
+      change w ∈ T.map m ⁻¹ᵁ O k
       rwa [hO k]
     obtain ⟨z, hz⟩ := exists_points_openSub_of_mem B S hS _ (O k) hmw
     refine Set.mem_iUnion.2 ⟨k, z, ?_⟩
-    show pointsMap B S hS _ (yoneda.map (openSubHom _ (O k)) ≫ hPrep.fst p) z = _
+    change pointsMap B S hS _ (yoneda.map (openSubHom _ (O k)) ≫ hPrep.fst p) z = _
     rw [pointsMap_comp_apply, hz, ← schemePointsHomeomorph_symm_naturality,
       ← pointsMap_comp_apply, ← sqV.w, pointsMap_comp_apply]
     exact congrArg _ hwy
@@ -535,7 +535,7 @@ theorem exists_finiteSchemeCover_of_algebraHom (hZ : B.Contains (⊤_ Scheme.{u}
   have hφs : IsEtale B S hS (hPrep.fst (u₀ ≫ U.ι)) :=
     isEtale_fst_of_isEtale B S hS _ P.obj.left.2 X.2 hPrep _ hu₀U
   have hCU : C.1.preimage (hPrep.fst (u₀ ≫ U.ι)) = Subfunctor.range (yoneda.map ms) := by
-    show (schemeTheoreticImageSubfunctor B S hS gY).preimage _ = _
+    change (schemeTheoreticImageSubfunctor B S hS gY).preimage _ = _
     rw [preimage_schemeTheoreticImageSubfunctor_eq B S hS gY _ (yoneda.map ms) Ya.2 P.obj.left.2
       (isAlgebraicSpace_yoneda B S hS _) hgqc hφs (range_pullback_snd_eq_of_isPullback B S hS sqU)]
     exact schemeTheoreticImageSubfunctor_eq_range_of_isClosedImmersion B S hS _

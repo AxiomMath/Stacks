@@ -280,7 +280,7 @@ theorem exists_lift_invariant_of_isFiniteOrderThickening
     hKs hKt hL (Scheme.Hom.flat_appTop _) (Scheme.Hom.flat_appTop _) hnil P1 P2 a
   refine ⟨b, hπ, fun W r₁ r₂ hr => ?_⟩
   obtain ⟨h, hh₁, hh₂⟩ := exists_comp_eq_of_isPullback_yoneda B S hS hpb r₁ r₂ hr
-  show ((BigFppfOver.toScheme B S hS).map r₁).appTop.hom b =
+  change ((BigFppfOver.toScheme B S hS).map r₁).appTop.hom b =
     ((BigFppfOver.toScheme B S hS).map r₂).appTop.hom b
   rw [← hh₁, ← hh₂, appTop_hom_comp, appTop_hom_comp, RingHom.comp_apply, RingHom.comp_apply,
     hst]

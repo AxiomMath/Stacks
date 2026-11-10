@@ -15,8 +15,8 @@ points by `AlgebraicGeometry.Stack.AlgebraicStacks.pointsMap` of
 `AlgebraicGeometry.Stack.fibreProjection`, and the subspace contributes the *image* of its point
 set under `AlgebraicGeometry.Stack.spacePointMap`. Whereas
 `Stack.exists_openSubspace_isFlat_isLocallyOfFinitePresentation_zeroLocus_of_isRegular`,
-the `@[stacks 06MD]` declaration, reads it at the level of **algebraic spaces**: the point is a point of
-an algebraic space `Fsp` representing `F`, the projection is
+the `@[stacks 06MD]` declaration, reads it at the level of **algebraic spaces**: the point is a
+point of an algebraic space `Fsp` representing `F`, the projection is
 `AlgebraicGeometry.Stack.fibreSpaceProjection`, and membership is in
 `Set.range (AlgebraicGeometry.Space.pointsMap V.ι)` with no image taken.
 
@@ -70,8 +70,8 @@ slice is
 `StacksFrontier.AlgebraicGeometry.Spaces.FibreSliceChartZeroScheme`, read at the chart by
 `StacksFrontier.AlgebraicGeometry.Stacks.ChartSliceUnramifiedFieldPoint` and carried to the fibre
 hypothesis of Stacks 06N2 by
-`StacksFrontier.AlgebraicGeometry.Stacks.SliceFibreSubspaceComparison`; and the assembly is complete,
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional` of
+`StacksFrontier.AlgebraicGeometry.Stacks.SliceFibreSubspaceComparison`; and the assembly is
+complete, `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional` of
 `StacksFrontier.AlgebraicGeometry.Stacks.AbsolutelyDMEtaleChartAssembly` stating Stacks 06N3 with no
 hypothesis at all.
 

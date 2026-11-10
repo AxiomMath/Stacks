@@ -87,7 +87,7 @@ theorem conj_transpose_gram {n R : Type*} [Fintype n] [DecidableEq n] [CommRing 
   have hT : (GL.transpose P₁)⁻¹.val = (P₁⁻¹).valᵀ := rfl
   rw [hY]
   simp only [_root_.mul_inv_rev, Units.val_mul, hT]
-  show (P₂⁻¹).val * ((G⁻¹).val * (P₁⁻¹).valᵀ) * (P₁.valᵀ * X * (P₁⁻¹).valᵀ) *
+  change (P₂⁻¹).val * ((G⁻¹).val * (P₁⁻¹).valᵀ) * (P₁.valᵀ * X * (P₁⁻¹).valᵀ) *
       (P₁.valᵀ * G.val * P₂.val) = _
   simp only [Matrix.mul_assoc]
   rw [← Matrix.mul_assoc (P₁⁻¹).valᵀ P₁.valᵀ, hP, Matrix.one_mul,
@@ -129,7 +129,7 @@ theorem restrictScalarsTraceGram_mul_restrictScalarsRep_contragredient
     (g : EtaleFundamentalGroup X.1 x) :
     restrictScalarsTraceGram b m * (restrictScalarsRep b (contragredient σ) g).val =
       ((restrictScalarsRep b σ g⁻¹).val)ᵀ * restrictScalarsTraceGram b m := by
-  show restrictScalarsTraceGram b m * restrictScalarsMatrix b ((σ g)⁻¹).valᵀ =
+  change restrictScalarsTraceGram b m * restrictScalarsMatrix b ((σ g)⁻¹).valᵀ =
     (restrictScalarsMatrix b (σ g⁻¹).val)ᵀ * restrictScalarsTraceGram b m
   rw [restrictScalarsTraceGram_mul_transpose, map_inv]
 
@@ -137,7 +137,7 @@ theorem restrictScalarsTraceGram_mul_restrictScalarsRep_contragredient
 theorem restrictScalarsTraceGram_mul_restrictScalarsScalarAlgHom (e : E) :
     restrictScalarsTraceGram b m * restrictScalarsScalarAlgHom b m e =
       (restrictScalarsScalarAlgHom b m e)ᵀ * restrictScalarsTraceGram b m := by
-  show restrictScalarsTraceGram b m * restrictScalarsMatrix b (Matrix.scalar (Fin m) e) =
+  change restrictScalarsTraceGram b m * restrictScalarsMatrix b (Matrix.scalar (Fin m) e) =
     (restrictScalarsMatrix b (Matrix.scalar (Fin m) e))ᵀ * restrictScalarsTraceGram b m
   have h : (Matrix.scalar (Fin m) e)ᵀ = Matrix.scalar (Fin m) e := by
     rw [Matrix.scalar_apply, Matrix.diagonal_transpose]
@@ -204,7 +204,7 @@ theorem exists_restrictScalarsRepDualCoefficientSheaf_isogeny :
       ← RingHom.mapMatrix_apply, hP _ hσ, hT, conj_transpose_gram]
     exact restrictScalarsTraceGram_mul_restrictScalarsRep_contragredient B X ℓ x E b σ g
   · have he : (o₁ : E) = (o₂ : E) := ho
-    show (GL.transpose P₁ * G * P₂)⁻¹.val *
+    change (GL.transpose P₁ * G * P₂)⁻¹.val *
         (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (conjIntegralLift P₁ _ o₁)ᵀ *
         (GL.transpose P₁ * G * P₂).val = _
     rw [RingHom.mapMatrix_apply, Matrix.transpose_map, ← RingHom.mapMatrix_apply,
@@ -231,10 +231,9 @@ variable {B : BigEtaleSite.{u}} {X : B.Scheme} {ℓ : ℕ} [Fact ℓ.Prime]
   [IsNoetherian X.1]
   {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O]
   (F F' : LAdicSheaf.CoefficientSheaf B X ℓ O)
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar] (i i' : ℤ)
-  (E : Type) [Field E] [Algebra ℚ_[ℓ] E] [Algebra O E]
+  (E : Type) [Field E] [Algebra O E]
   [IsLocalization (Submonoid.powers (ℓ : O)) E]
 
 /-- **A pairing balanced for the actions of `O` is balanced for the actions of `E = O[1/ℓ]`.** -/
@@ -381,7 +380,7 @@ theorem LAdicSheaf.isRoot_div_charpoly_restrictScalarsRep_contragredient
   have := hperf
   have hB₁p : B₁.IsPerfPair := LinearMap.IsPerfPair.congr (p := Bp) (LinearEquiv.refl ℚ_[ℓ] _)
     c.symm B₁ (LinearMap.ext₂ fun v w => by
-      show B₁ ((LinearEquiv.refl ℚ_[ℓ] _).symm v) (c.symm.symm w) = Bp v w
+      change B₁ ((LinearEquiv.refl ℚ_[ℓ] _).symm v) (c.symm.symm w) = Bp v w
       rw [hB₁]
       exact congrArg (Bp v) (c.symm_apply_apply w))
   have : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f

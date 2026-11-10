@@ -133,7 +133,7 @@ theorem hasCoherentWitnessOnIntegralSubspaces_hasTwistedEulerPolynomialAlong
   let Y : AlgebraicSpaces B (Spec (.of k)) hk :=
     ⟨yoneda.obj V, isAlgebraicSpace_yoneda B (Spec (.of k)) hk V⟩
   have hV : IsAffine ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj V) := by
-    show IsAffine (Spec (.of k))
+    change IsAffine (Spec (.of k))
     infer_instance
   let Ws := closedSubfunctorSpace B (Spec (.of k)) hk hW
   let j := closedSubfunctorι B (Spec (.of k)) hk hW
@@ -160,7 +160,7 @@ theorem hasCoherentWitnessOnIntegralSubspaces_hasTwistedEulerPolynomialAlong
     rw [Functor.map_preimage]
     exact isProper_comp B (Spec (.of k)) hk Ps.2 Ws.2 Y.2 ρ _ hρp hWp
   have : IsLocallyNoetherian ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj V) := by
-    show IsLocallyNoetherian (Spec (.of k))
+    change IsLocallyNoetherian (Spec (.of k))
     infer_instance
   have hPln : IsLocallyNoetherian ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj P) :=
     LocallyOfFiniteType.isLocallyNoetherian ((BigFppfOver.toScheme B (Spec (.of k)) hk).map wP)

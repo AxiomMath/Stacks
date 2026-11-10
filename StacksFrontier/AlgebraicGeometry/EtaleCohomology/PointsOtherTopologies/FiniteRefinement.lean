@@ -79,7 +79,7 @@ theorem finite_refinement_saturate {C : Type u₁} [Category.{v₁, u₁} C]
         (fun i => ihlocal (hEle (E.f i) (E.sieve₀_f i)))
       let G := E.bind F
       have hGfin : Finite G.I₀ := by
-        show Finite (Σ i : E.I₀, (F i).I₀); infer_instance
+        change Finite (Σ i : E.I₀, (F i).I₀); infer_instance
       have hGcov : G.sieve₀ ∈ K.toGrothendieck X := by
         have hEq : Sieve.generate (Presieve.bindOfArrows E.X E.f
             (fun i => (F i).presieve₀)) = G.sieve₀ := by
@@ -89,7 +89,7 @@ theorem finite_refinement_saturate {C : Type u₁} [Category.{v₁, u₁} C]
         rw [PreZeroHypercover.sieve₀, Sieve.generate_le_iff]
         intro Z g hg
         rcases hg with ⟨p⟩
-        show R ((F p.1).f p.2 ≫ E.f p.1)
+        change R ((F p.1).f p.2 ≫ E.f p.1)
         simpa [Sieve.pullback_apply] using
           hFle p.1 ((F p.1).f p.2) ((F p.1).sieve₀_f p.2)
       exact ⟨G, hGfin, hGle, hGcov⟩
@@ -113,7 +113,7 @@ theorem Precoverage.hasConservativeFamily_toGrothendieck_of_finite
     let F := E.reindex (Fintype.equivFin E.I₀).symm
     have hReindex : F.sieve₀ = E.sieve₀ := congrArg Sieve.generate (E.presieve₀_reindex _)
     refine ⟨F.I₀, ?_, F.X, F.f, ?_, ?_⟩
-    · show Finite (Fin (Fintype.card E.I₀)); infer_instance
+    · change Finite (Fin (Fintype.card E.I₀)); infer_instance
     · simpa [hReindex] using hLe
     · simpa [hReindex] using hCover
   exact GrothendieckTopology.HasConservativeFamily.of_hasEnoughPoints _

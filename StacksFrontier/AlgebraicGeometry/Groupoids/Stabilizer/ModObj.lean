@@ -107,8 +107,8 @@ lemma mapModObj_leftSMul {C D : Type*} [Category.{v} C] [CartesianMonoidalCatego
     Functor.Monoidal.μ_of_cartesianMonoidalCategory F M X
   apply CartesianMonoidalCategory.hom_ext
   · rw [ModObj.leftSMul_fst]
-    show (modObj F M' hone hmul).smul = _
-    show (Functor.LaxMonoidal.μ F M X ≫ F.map γ[M, X]) = _
+    change (modObj F M' hone hmul).smul = _
+    change (Functor.LaxMonoidal.μ F M X ≫ F.map γ[M, X]) = _
     rw [hμ]
     simp only [Category.assoc, prodComparisonIso_hom,
       CartesianMonoidalCategory.prodComparison_fst, ModObj.leftSMul_fst,

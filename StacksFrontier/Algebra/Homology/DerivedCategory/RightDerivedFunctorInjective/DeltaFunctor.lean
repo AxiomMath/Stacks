@@ -423,7 +423,7 @@ private theorem existsUnique_of_effaceable (E G : DeltaFunctor 𝒜 ℬ) (Mo : �
     induction m with
     | zero => exact h0
     | succ n ih =>
-      show t' (n + 1) = step E G n (Mo n) (uu n) (hmono n) (hzero n)
+      change t' (n + 1) = step E G n (Mo n) (uu n) (hmono n) (hzero n)
         (Nat.rec (motive := fun n => E.obj n ⟶ G.obj n) t₀
           (fun n tn => step E G n (Mo n) (uu n) (hmono n) (hzero n) tn) n)
       rw [← ih]

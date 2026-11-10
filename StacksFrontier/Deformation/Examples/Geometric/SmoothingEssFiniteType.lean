@@ -168,7 +168,7 @@ private theorem relative_gci_fiber_dimension
     rw [RingHom.finitePresentation_algebraMap]
     infer_instance
   have hft : RingHom.FiniteType (CommRingCat.ofHom (algebraMap R C)).hom := by
-    show (algebraMap R C).FiniteType
+    change (algebraMap R C).FiniteType
     rw [RingHom.finiteType_algebraMap]
     infer_instance
   let : LocallyOfFiniteType f :=
@@ -226,7 +226,7 @@ private theorem fittingIdeal_kaehler_eq_top_of_smooth_dim
         _ = ringKrullDim T := PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim T
         _ ≤ (d : WithBot ℕ∞) := hdim
     have hsmAt : Algebra.IsSmoothAt K m := by
-      show Algebra.FormallySmooth K (Localization.AtPrime m)
+      change Algebra.FormallySmooth K (Localization.AtPrime m)
       infer_instance
     have hfinrank :
         (Module.finrank m.ResidueField
@@ -379,13 +379,13 @@ private theorem exists_localized_special_fiber
     intro r s z
     refine Quotient.inductionOn z ?_
     intro b
-    show Ideal.Quotient.mk JB ((r • s) • b) =
+    change Ideal.Quotient.mk JB ((r • s) • b) =
       Ideal.Quotient.mk JB (r • s • b)
     rw [IsScalarTower.smul_assoc]
   let : IsScalarTower k' (Q ⧸ I) (B ⧸ JB) := by
     apply IsScalarTower.of_algebraMap_eq'
     ext z
-    show algebraMap (Q ⧸ I) (B ⧸ JB)
+    change algebraMap (Q ⧸ I) (B ⧸ JB)
         (algebraMap Q (Q ⧸ I) (algebraMap k' Q z)) =
       algebraMap (Q ⧸ I) (B ⧸ JB) (algebraMap k' (Q ⧸ I) z)
     rw [← IsScalarTower.algebraMap_apply k' Q (Q ⧸ I) z]
@@ -546,7 +546,7 @@ private theorem fittingIdeal_kaehler_genericFiber_eq_top
   let : IsScalarTower R' (LaurentSeries K) κQ := by
     apply IsScalarTower.of_algebraMap_eq'
     ext r
-    show algebraMap R' κQ r = eκ.symm (algebraMap R' (LaurentSeries K) r)
+    change algebraMap R' κQ r = eκ.symm (algebraMap R' (LaurentSeries K) r)
     exact (eκ.symm_apply_apply _).symm.trans (congrArg eκ.symm (eκ.commutes r))
   let : CommSemiring (LaurentSeries K) :=
     (inferInstance : CommRing (LaurentSeries K)).toCommSemiring
@@ -561,7 +561,7 @@ private theorem fittingIdeal_kaehler_genericFiber_eq_top
   have : Algebra.Smooth (LaurentSeries K) T := Algebra.Smooth.of_equiv eGeneric.symm
   have hBaseMaps : algebraMap κQ T = (algebraMap (LaurentSeries K) T).comp eκ.toRingHom := by
     refine RingHom.ext fun x => ?_
-    show algebraMap κQ T x = algebraMap (LaurentSeries K) T (eκ x)
+    change algebraMap κQ T x = algebraMap (LaurentSeries K) T (eκ x)
     rw [IsScalarTower.algebraMap_apply (LaurentSeries K) κQ T (eκ x),
       show algebraMap (LaurentSeries K) κQ (eκ x) = x from eκ.symm_apply_apply x]
   exact fittingIdeal_kaehler_eq_top_of_smooth_of_baseRingEquiv eκ.toRingEquiv hBaseMaps d hdim
@@ -592,7 +592,7 @@ private theorem exists_pow_X_mem_fittingIdeal_of_smooth_genericFiber
       (isRegular_iff_ne_zero.mpr PowerSeries.X_ne_zero)
   have hMX : MX ≤ nonZeroDivisors Q := by
     apply Submonoid.powers_le.mpr
-    show (algebraMap R' Q PowerSeries.X) ∈ nonZeroDivisorsLeft Q ∧
+    change (algebraMap R' Q PowerSeries.X) ∈ nonZeroDivisorsLeft Q ∧
       (algebraMap R' Q PowerSeries.X) ∈ nonZeroDivisorsRight Q
     exact ⟨(isRegular_iff.mp hXreg).1.mem_nonZeroDivisorsLeft,
       (isRegular_iff.mp hXreg).2.mem_nonZeroDivisorsRight⟩
@@ -608,7 +608,7 @@ private theorem exists_pow_X_mem_fittingIdeal_of_smooth_genericFiber
       ((isLocalizedModule_iff_isBaseChange MX T (KaehlerDifferential.map R' R' Q T)).mp
         (omega_localization_total R' Q MX T)).equiv
   have : Monoid.FG MX := by
-    show Monoid.FG (Submonoid.powers (algebraMap R' Q PowerSeries.X))
+    change Monoid.FG (Submonoid.powers (algebraMap R' Q PowerSeries.X))
     exact Monoid.powers_fg (algebraMap R' Q PowerSeries.X)
   have : Algebra.FiniteType Q T := IsLocalization.finiteType_of_monoid_fg (M := MX) (S := T)
   have : Algebra.FiniteType R' T := Algebra.FiniteType.trans (S := Q) inferInstance inferInstance
@@ -662,7 +662,7 @@ private theorem exists_powerSeries_of_powerSeries_ulift
     rfl
   have : IsScalarTower k (PowerSeries k) B := by
     refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a => ?_)
-    show algebraMap k' B (ULift.up a) = algebraMap R' B (ePS (PowerSeries.C a))
+    change algebraMap k' B (ULift.up a) = algebraMap R' B (ePS (PowerSeries.C a))
     rw [powerSeriesULiftEquiv_C]
     exact hk' _
   have hXbase : algebraMap (PowerSeries k) R' PowerSeries.X = PowerSeries.X :=

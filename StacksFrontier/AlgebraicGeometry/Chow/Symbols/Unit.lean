@@ -69,11 +69,11 @@ theorem moduleSymbol_unit_left
   let qψ : Q →ₗ[A] Q := periodicQuotientPsi φ ψ hcommRange
   have he : (LinearEquiv.smulOfUnit (M := Q) u : Q →ₗ[A] Q) = qφ := by
     refine Submodule.linearMap_qext _ (LinearMap.ext fun m => ?_)
-    show (u : A) • (Submodule.Quotient.mk m : Q) = (Submodule.Quotient.mk (φ m) : Q)
+    change (u : A) • (Submodule.Quotient.mk m : Q) = (Submodule.Quotient.mk (φ m) : Q)
     simp [φ, LinearMap.lsmul_apply]
   have hqψ : qψ = 0 := by
     refine Submodule.linearMap_qext _ (LinearMap.ext fun m => ?_)
-    show Submodule.Quotient.mk (ψ m) = 0
+    change Submodule.Quotient.mk (ψ m) = 0
     rw [Submodule.Quotient.mk_eq_zero, hrange]
     exact ⟨m, rfl⟩
   have hperiodic : periodicDeterminant qφ qψ
@@ -91,17 +91,17 @@ theorem moduleSymbol_unit_left
     have hdimDetX : Module.finrank (IsLocalRing.ResidueField A)
         (determinant A ↑X.of.obj) = 1 :=
       (F.objIso X).toLinearEquiv.finrank_eq.symm.trans (F.toFunctor.obj X).of.property
-    show (LinearEquiv.det (F.mapLinearEquiv f) : IsLocalRing.ResidueField A) = _
+    change (LinearEquiv.det (F.mapLinearEquiv f) : IsLocalRing.ResidueField A) = _
     rw [LinearEquiv.coe_det, show (F.mapLinearEquiv f :
       determinant A Q →ₗ[IsLocalRing.ResidueField A] determinant A Q) =
       (IsLocalRing.residue A u ^ moduleLength A Q) • LinearMap.id from
       LinearMap.ext (determinantFunctor_map_unit_smul X u f fun _ => rfl), LinearMap.det_smul]
     simp [hdimDetX]
-  show (periodicDeterminant qφ qψ (exact_mul_left_right (u : A) b hb)
+  change (periodicDeterminant qφ qψ (exact_mul_left_right (u : A) b hb)
     (exact_mul_right_left (u : A) b (Units.isSMulRegular M u)) hM :
       IsLocalRing.ResidueField A) = _
   rw [hperiodic, hdet]
-  show IsLocalRing.residue A u ^ moduleLength A (M ⧸ LinearMap.range (φ ∘ₗ ψ)) = _
+  change IsLocalRing.residue A u ^ moduleLength A (M ⧸ LinearMap.range (φ ∘ₗ ψ)) = _
   rw [hrange]
 
 /-- **Stacks Project, Tag 02Q2.** For a one-dimensional Noetherian local ring, the exponent in

@@ -172,7 +172,7 @@ theorem exists_isPseudoCoherent_extAddEquiv_of_tower (hY : IsQuasiCompactSpace B
     obtain ⟨p, q, hT, hp⟩ := hcolim
     intro n
     have h1 := congrArg (fun φ => Sigma.ι L.obj n ≫ φ) (comp_distTriang_mor_zero₁₂ _ hT)
-    simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero, ← Category.assoc, Sigma.ι_desc,
+    simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero, ← Category.assoc, Sigma.ι_comp_desc,
       Preadditive.sub_comp] at h1
     rw [← hp, ← hp]
     simp only [Category.assoc] at h1
@@ -186,7 +186,7 @@ theorem exists_isPseudoCoherent_extAddEquiv_of_tower (hY : IsQuasiCompactSpace B
   -- Step 6: the isomorphisms, read through the stage `n(i)`.
   let N : ℤ → ℕ := fun i => (i - a + 2).toNat
   have hN : ∀ i : ℤ, i ≤ (N i : ℤ) + a - 2 := fun i => by
-    show i ≤ ((i - a + 2).toNat : ℤ) + a - 2
+    change i ≤ ((i - a + 2).toNat : ℤ) + a - 2
     omega
   let Φ : ∀ (F : Modules.{u, u} B S hS Y.1 Y.2) (_ : F.IsQuasicoherentOnSite) (i : ℤ),
       (Linf ⟶ ((DerivedCategory.singleFunctor _ 0).obj F)⟦i⟧) ≃+ (E ⟶ (M.obj F)⟦i⟧) :=
@@ -206,7 +206,7 @@ theorem exists_isPseudoCoherent_extAddEquiv_of_tower (hY : IsQuasiCompactSpace B
         (hbE (N i) F hF i (by have := hN i; omega))).apply_symm_apply _
     | succ k ih =>
       apply (hbtE (N i + k) F hF i (by have := hN i; omega)).1
-      show tE.map _ ≫ cE (N i + k + 1) ≫ Φ F hF i e =
+      change tE.map _ ≫ cE (N i + k + 1) ≫ Φ F hF i e =
         tE.map _ ≫ Ψ (N i + k + 1) F hF i (ι (N i + k + 1) ≫ e)
       rw [← Category.assoc, hcEcomp, ih, ← hΨtrans, ← Category.assoc, hιcomp]
   have hchar' : ∀ (F : Modules.{u, u} B S hS Y.1 Y.2) (hF : F.IsQuasicoherentOnSite) (i : ℤ)
@@ -218,13 +218,13 @@ theorem exists_isPseudoCoherent_extAddEquiv_of_tower (hY : IsQuasiCompactSpace B
   refine ⟨Linf, hpc, Φ, ?_, ?_⟩
   · intro F F' hF hF' q i e
     apply (hbE (N i) F' hF' i (by have := hN i; omega)).1
-    show cE (N i) ≫ Φ F' hF' i _ = cE (N i) ≫ Φ F hF i e ≫ _
+    change cE (N i) ≫ Φ F' hF' i _ = cE (N i) ≫ Φ F hF i e ≫ _
     rw [hchar' F' hF' i _ (N i) le_rfl, ← Category.assoc (cE (N i)),
       hchar' F hF i e (N i) le_rfl, ← hΨnat, Category.assoc]
   · intro T hT h₁ h₂ h₃ i e
     let n := max (N i) (N (i + 1))
     apply (hbE n T.X₁ h₁ (i + 1) (by have := hN (i + 1); omega)).1
-    show cE n ≫ Φ T.X₁ h₁ (i + 1) _ = cE n ≫ _
+    change cE n ≫ Φ T.X₁ h₁ (i + 1) _ = cE n ≫ _
     rw [hchar' T.X₁ h₁ (i + 1) _ n (le_max_right _ _)]
     rw [comp_shiftedHom_comp, hΨδ, comp_shiftedHom_comp, hchar' T.X₃ h₃ i e n (le_max_left _ _)]
 

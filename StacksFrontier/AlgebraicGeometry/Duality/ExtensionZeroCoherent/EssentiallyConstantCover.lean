@@ -154,13 +154,13 @@ private lemma isEssentiallyConstantPro_derivedCoverMiddle [IsLocallyNoetherian Y
   let inl : G' ⋙ DA ⟶ G' ⋙ Q :=
     { app n := biprod.inl
       naturality n m f := by
-        show DA.map (G'.map f) ≫ biprod.inl =
+        change DA.map (G'.map f) ≫ biprod.inl =
           biprod.inl ≫ biprod.map (DA.map (G'.map f)) (DB.map (G'.map f))
         simp }
   let snd : G' ⋙ Q ⟶ G' ⋙ DB :=
     { app n := biprod.snd
       naturality n m f := by
-        show biprod.map (DA.map (G'.map f)) (DB.map (G'.map f)) ≫ biprod.snd =
+        change biprod.map (DA.map (G'.map f)) (DB.map (G'.map f)) ≫ biprod.snd =
           biprod.snd ≫ DB.map (G'.map f)
         simp }
   exact isEssentiallyConstantPro_of_split inl snd
@@ -213,7 +213,7 @@ public theorem isEssentiallyConstantPro_of_cover [IsLocallyNoetherian Y]
   let a : DAB ⟶ Q :=
     { app E := biprod.lift (iA.app E) (iB.app E)
       naturality E E' f := by
-        show DAB.map f ≫ biprod.lift (iA.app E') (iB.app E') =
+        change DAB.map f ≫ biprod.lift (iA.app E') (iB.app E') =
           biprod.lift (iA.app E) (iB.app E) ≫ biprod.map (DA.map f) (DB.map f)
         refine biprod.hom_ext _ _ ?_ ?_
         · simp only [Category.assoc, biprod.lift_fst, biprod.lift_map]
@@ -223,7 +223,7 @@ public theorem isEssentiallyConstantPro_of_cover [IsLocallyNoetherian Y]
   let b : Q ⟶ 𝟭 _ :=
     { app E := biprod.desc (cA.app E) (cB.app E)
       naturality E E' f := by
-        show biprod.map (DA.map f) (DB.map f) ≫ biprod.desc (cA.app E') (cB.app E') =
+        change biprod.map (DA.map f) (DB.map f) ≫ biprod.desc (cA.app E') (cB.app E') =
           biprod.desc (cA.app E) (cB.app E) ≫ f
         refine biprod.hom_ext' _ _ ?_ ?_
         · simp only [biprod.inl_map_assoc, biprod.inl_desc_assoc, biprod.inl_desc]

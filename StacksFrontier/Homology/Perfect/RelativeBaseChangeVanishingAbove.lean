@@ -71,7 +71,7 @@ theorem exists_pow_smul_eq_zero_of_restrictScalars {P B : Type u} [CommRing P] [
   have h1 := congrArg e.hom.hom hr
   rw [map_zero, LinearMap.map_smul] at h1
   have h2 : e.hom.hom (e.inv.hom x) = x := by
-    show (e.inv ≫ e.hom).hom x = x
+    change (e.inv ≫ e.hom).hom x = x
     rw [e.inv_hom_id]
     rfl
   rw [h2] at h1
@@ -140,7 +140,7 @@ theorem exists_forall_pow_smul_eq_zero_of_isRelativelyPseudoCoherent {R B R₀ :
   -- The prime of `P₀` over `p`.
   have hfsurj : Function.Surjective f := MvPolynomial.map_surjective π hπ
   have hker : RingHom.ker f ≤ p.comap α.toRingHom := by
-    show RingHom.ker (MvPolynomial.map π) ≤ _
+    change RingHom.ker (MvPolynomial.map π) ≤ _
     rw [MvPolynomial.ker_map, Ideal.map_le_iff_le_comap]
     intro a ha
     have := hp ha

@@ -194,7 +194,7 @@ theorem sectionsRestrict_comp_app {U V W : C} (u : U ⟶ V) (v : V ⟶ W)
       (sectionsRestrict O v).app M ≫
         (ModuleCat.restrictScalars (O.obj.map v.op).hom).map ((sectionsRestrict O u).app M) := by
   ext m
-  show M.val.map (u ≫ v).op m = M.val.map u.op (M.val.map v.op m)
+  change M.val.map (u ≫ v).op m = M.val.map u.op (M.val.map v.op m)
   rw [op_comp, PresheafOfModules.map_comp]
   rfl
 
@@ -444,7 +444,7 @@ theorem isIso_derivedSectionsBaseChange_of_covering
     obtain ⟨k, η, hη⟩ := hsurj (L.map a ξ)
     obtain ⟨ζ, hζ, -⟩ := Scheme.Pullback.exists_preimage_pullback ξ η hη.symm
     refine ⟨k, (hsq k).isoPullback.inv ζ, ?_⟩
-    show ((hsq k).isoPullback.inv ≫ L.map (pullback.fst a (E'.f k))) ζ = ξ
+    change ((hsq k).isoPullback.inv ≫ L.map (pullback.fst a (E'.f k))) ζ = ξ
     rwa [IsPullback.isoPullback_inv_fst]
   exact isIso_of_isIso_dBaseChange_map.{u, u + 1}
     (ambientRingStructureSheaf_mul_comm B S hS 𝒳 x.obj)

@@ -81,9 +81,9 @@ private theorem exists_mem_multicrossProjection_ker_not (k : Type u) [Field k]
     dsimp [f]
     split_ifs <;> simp [PowerSeries.constantCoeff_X]
   refine ⟨⟨f, hf⟩, ?_, ?_⟩
-  · show f j = 0
+  · change f j = 0
     simp [f, hij.symm]
-  · show f i ≠ 0
+  · change f i ≠ 0
     simp [f]
 
 /-- The minimal primes of the multicross ring are the kernels of the branch projections. -/
@@ -106,7 +106,7 @@ private theorem minimalPrimes_multicross_eq_range_projectionKernel
       simpa [P, multicrossProjection] using hxmap
     · exact bot_le
   have hminimal (i : Fin n) : P i ∈ minimalPrimes ↥(multicross k n) := by
-    show (⊥ : Ideal ↥(multicross k n)).IsMinimalPrime (P i)
+    change (⊥ : Ideal ↥(multicross k n)).IsMinimalPrime (P i)
     refine ⟨⟨hprime i, bot_le⟩, ?_⟩
     intro q hq hqi
     have hle : Finset.univ.inf P ≤ q := by rw [hinf]; exact bot_le
@@ -235,15 +235,15 @@ private theorem multicrossNormalizationEquiv_apply_algebraMap
     ((algebraMap Q T).comp (Ideal.Quotient.mk (p : Ideal ↥M))).toAlgebra
   let eQ := multicrossMinimalPrimeQuotientEquiv k n p
   let eC := IsIntegralClosure.equiv Q T (FractionRing Q) Q
-  show eQ (eC (algebraMap ↥M T m)) = m.1 i
+  change eQ (eC (algebraMap ↥M T m)) = m.1 i
   have hmap : algebraMap ↥M T m =
       algebraMap Q T (Ideal.Quotient.mk (p : Ideal ↥M) m) := rfl
   rw [hmap, eC.commutes]
-  show eQ ((Ideal.Quotient.mk (p : Ideal ↥M)) m) = m.1 i
+  change eQ ((Ideal.Quotient.mk (p : Ideal ↥M)) m) = m.1 i
   let j := (multicrossMinimalPrimesEquiv k n).symm p
   have hi : (p : Ideal ↥M) = RingHom.ker (multicrossProjection k n j) :=
     (congrArg Subtype.val ((multicrossMinimalPrimesEquiv k n).apply_symm_apply p)).symm
-  show (multicrossQuotientEquiv k n j)
+  change (multicrossQuotientEquiv k n j)
     ((Ideal.quotEquivOfEq hi) ((Ideal.Quotient.mk (p : Ideal ↥M)) m)) = m.1 i
   rw [Ideal.quotEquivOfEq_mk]
   rw [show (multicrossQuotientEquiv k n j)
@@ -252,7 +252,7 @@ private theorem multicrossNormalizationEquiv_apply_algebraMap
     RingHom.quotientKerEquivOfSurjective_apply_mk
       (multicrossProjection_surjective k n j) m]
   have hj : j = i := by simp [j, p]
-  show multicrossProjection k n j m = m.1 i
+  change multicrossProjection k n j m = m.1 i
   rw [hj]
   rfl
 
@@ -293,7 +293,7 @@ private theorem deltaInvariant_multicross_eq_length_productQuotient
         (P ⧸ LinearMap.range (Algebra.linearMap ↥M P)) := Submodule.Quotient.equiv
     (LinearMap.range (Algebra.linearMap ↥M C))
     (LinearMap.range (Algebra.linearMap ↥M P)) e.toLinearEquiv hmap
-  show Module.length ↥M (C ⧸ LinearMap.range (Algebra.linearMap ↥M C)) =
+  change Module.length ↥M (C ⧸ LinearMap.range (Algebra.linearMap ↥M C)) =
     Module.length ↥M (P ⧸ LinearMap.range (Algebra.linearMap ↥M P))
   let : AddCommGroup C := (inferInstance : CommRing C).toAddCommGroup
   exact eQ.length_eq
@@ -399,7 +399,7 @@ private theorem length_multicross_product_quotient (k : Type u) [Field k]
         simp
       map_smul' := by
         intro a p
-        show d.range.mkQ (c (a • p)) = d.range.mkQ (ρ a • c p)
+        change d.range.mkQ (c (a • p)) = d.range.mkQ (ρ a • c p)
         exact congrArg d.range.mkQ (c.map_smul a p) }
   have hsurj : Function.Surjective q := by
     intro y

@@ -86,7 +86,7 @@ theorem bijective_tmul_apply_one {R : Type*} [CommRing R] {K : Type*} [AddCommGr
       (TensorProduct.congr (LinearEquiv.refl R K) ψ) : K → K ⊗[R] M) =
       fun a : K ↦ a ⊗ₜ[R] ψ 1 := by
     funext a
-    show (TensorProduct.congr (LinearEquiv.refl R K) ψ)
+    change (TensorProduct.congr (LinearEquiv.refl R K) ψ)
       ((TensorProduct.rid R K).symm a) = _
     rw [TensorProduct.rid_symm_apply, TensorProduct.congr_tmul]
     rfl

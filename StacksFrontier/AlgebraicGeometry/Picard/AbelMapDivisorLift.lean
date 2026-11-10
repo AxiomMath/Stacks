@@ -77,7 +77,7 @@ theorem zeroScheme_hom_app {X : Scheme.{u}} {M N : X.Modules}
       map_add' := map_add _
       map_smul' := fun r x => Scheme.Modules.Hom.app_smul e.inv r x }
   have hsec : sN = f sM := by
-    show (N.val.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom
+    change (N.val.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom
         ((e.hom.val.app (op ⊤)).hom s) =
       (e.hom.val.app (op U.1)).hom
         ((M.val.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom s)
@@ -85,16 +85,16 @@ theorem zeroScheme_hom_app {X : Scheme.{u}} {M N : X.Modules}
       (homOfLE (show U.1 ≤ ⊤ from le_top)).op s).symm
   have hleft : fInv.comp f = LinearMap.id := by
     ext x
-    show (e.inv.app U.1).hom ((e.hom.app U.1).hom x) = x
+    change (e.inv.app U.1).hom ((e.hom.app U.1).hom x) = x
     exact congrArg (fun q : M ⟶ M => (q.app U.1).hom x) (Iso.hom_inv_id e)
   refine le_antisymm (Ideal.span_le.mpr ?_) (Ideal.span_le.mpr ?_)
   · rintro a ⟨φ, rfl⟩
     exact Ideal.subset_span ⟨φ.comp f, congrArg φ hsec⟩
   · rintro a ⟨φ, rfl⟩
     refine Ideal.subset_span ⟨φ.comp fInv, ?_⟩
-    show φ sM = φ (fInv sN)
+    change φ sM = φ (fInv sN)
     rw [hsec]
-    show φ sM = φ ((fInv.comp f) sM)
+    change φ sM = φ ((fInv.comp f) sM)
     rw [hleft]
     rfl
 
@@ -163,7 +163,7 @@ theorem pullbackGlobalSections_ne_zero_of_comp {Y Y' Z W : Scheme.{u}} (g : Y' �
   change Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).inv.app L) ⊤
     (Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).hom.app L) ⊤ _) = _ at h3
   rw [← h3]
-  show Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).inv.app L) ⊤
+  change Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).inv.app L) ⊤
     (((Scheme.Modules.pullbackComp a g).hom.app L).app ⊤ _) = 0
   rw [h2, map_zero]
 
@@ -182,7 +182,7 @@ theorem exists_pullbackGlobalSections_eq {A A' : Type u} [CommRing A] [CommRing 
   obtain ⟨s, hs⟩ := exists_pullbackSections_eq φ f f' g hsq U F hU hUaff hφ hd
     (((Scheme.Modules.pullback g).obj F).presheaf.map (eqToHom e).op s₀)
   refine ⟨s, ?_⟩
-  show ((Scheme.Modules.pullback g).obj F).presheaf.map (eqToHom e.symm).op
+  change ((Scheme.Modules.pullback g).obj F).presheaf.map (eqToHom e.symm).op
     (Stacks.Cech.pullbackSections g F ⊤ s) = s₀
   rw [hs, ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp,
     Subsingleton.elim (eqToHom e.symm ≫ eqToHom e) (𝟙 _), op_id,
@@ -195,6 +195,7 @@ section Core
 variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   [IsCurve k f] [GeometricallyIrreducible f] [Smooth f] [IsProper f]
 
+omit [IsCurve k f] [IsProper f] in
 /-- The base change of the curve to a field is integral. -/
 theorem isIntegral_pullback_of_field {K : Type u} [Field K] (b : Spec (.of K) ⟶ Spec (.of k)) :
     IsIntegral (pullback f b) := by
@@ -206,6 +207,7 @@ theorem isIntegral_pullback_of_field {K : Type u} [Field K] (b : Spec (.of K) �
     exact IsPullback.of_hasPullback _ _
   exact isIntegral_of_isPullback f _ _ hZ
 
+omit [IsCurve k f] [IsProper f] in
 /-- The fibres of the base change of the curve to an affine scheme are integral. -/
 theorem isIntegral_fiber {A : Type u} [CommRing A] (a : Spec (.of A) ⟶ Spec (.of k))
     (t : Spec (.of A)) : IsIntegral ((pullback.snd f a).fiber t) := by
@@ -244,6 +246,7 @@ private theorem exists_isAffineOpen_cover_pullback :
   refine ⟨fun i => pullback.fst f a ⁻¹ᵁ UX i, ?_, fun i => (hUXaff i).preimage _⟩
   simp only [← Scheme.Hom.preimage_iSup, ← hUX, Scheme.Hom.preimage_top]
 
+omit [IsProper f] in
 /-- **A lift of the canonical section of `𝒪(D₀)` is nonzero on every fibre of `X_A ⟶ Spec A`.** -/
 private theorem pullbackGlobalSections_fiberι_ne_zero (hφ : Function.Surjective φ)
     (hφ2 : RingHom.ker φ ^ 2 = ⊥) {d : ℕ} (L : (pullback f a).Modules)

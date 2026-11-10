@@ -173,7 +173,7 @@ theorem column_eq_of_isGoodBelow {G : E → C}
           else z β α)
         α fun _ => 𝟙 (G α) := by
   rw [column_eq]
-  exact dif_pos h
+  exact dite_eq_left h
 
 /-- **The recursion is the identity on the diagonal**, at a stage below which it has gone
 well. -/
@@ -193,7 +193,7 @@ theorem column_of_lt_of_isGoodBelow {G : E → C}
     (hβ' : β ≤ α) :
     column z hstep α β hβ' =
       (hstep α (fun γ (_ : γ < α) => column z hstep γ) h).choose β hβ := by
-  rw [column_eq_of_isGoodBelow z hstep h, Function.update_of_ne hβ.ne, dif_pos hβ]
+  rw [column_eq_of_isGoodBelow z hstep h, Function.update_of_ne hβ.ne, dite_eq_left hβ]
 
 /-- **The recursion produces a strictly transitive system with the property `P`.** This is the
 transfinite induction that supplies, at each stage, the hypothesis the step obligation was stated

@@ -9,7 +9,8 @@ public import
 /-!
 # The bidegree projections and the splitting `d = d_rel + d_base` of the de Rham differential
 
-Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`, whose
+Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`,
+whose
 module docstring explains the construction.  This file contains the projection onto one summand of
 a direct sum decomposition (`Crystalline.DividedPowerPolynomial.conjugateSummandProjection`), the
 bidegree projections `πᵢ` of the divided power forms of `P = B⟨x_w⟩`
@@ -64,9 +65,9 @@ theorem conjugateSummandProjection_of_lof (e : X ≃ₗ[R] DirectSum iota M) (i 
     (b : M j) (hx : e x = DirectSum.lof R iota M j b) :
     conjugateSummandProjection e i x = if i = j then x else 0 := by
   rcases eq_or_ne i j with rfl | hij
-  · rw [if_pos rfl, conjugateSummandProjection_apply, hx,
+  · rw [ite_eq_left rfl, conjugateSummandProjection_apply, hx,
       DirectSum.lof_eq_of R iota M i b, DirectSum.of_eq_same, ← hx, e.symm_apply_apply]
-  · rw [if_neg hij, conjugateSummandProjection_apply, hx,
+  · rw [ite_eq_right hij, conjugateSummandProjection_apply, hx,
       DirectSum.lof_eq_of R iota M j b, DirectSum.of_eq_of_ne j i b hij, map_zero, map_zero]
 
 /-- A summand projection is an idempotent. -/
@@ -74,14 +75,14 @@ theorem conjugateSummandProjection_idem (e : X ≃ₗ[R] DirectSum iota M) (i : 
     conjugateSummandProjection e i (conjugateSummandProjection e i x) =
       conjugateSummandProjection e i x :=
   Eq.trans (conjugateSummandProjection_of_lof e i i (conjugateSummandProjection e i x) (e x i)
-    (apply_conjugateSummandProjection e i x)) (if_pos rfl)
+    (apply_conjugateSummandProjection e i x)) (ite_eq_left rfl)
 
 /-- Two different summand projections compose to zero. -/
 theorem conjugateSummandProjection_comp_eq_zero (e : X ≃ₗ[R] DirectSum iota M) {i j : iota}
     (hij : i ≠ j) (x : X) :
     conjugateSummandProjection e i (conjugateSummandProjection e j x) = 0 :=
   Eq.trans (conjugateSummandProjection_of_lof e i j (conjugateSummandProjection e j x) (e x j)
-    (apply_conjugateSummandProjection e j x)) (if_neg hij)
+    (apply_conjugateSummandProjection e j x)) (ite_eq_right hij)
 
 end DirectSumProjection
 
@@ -110,6 +111,7 @@ theorem formsAntidiagonalProjection_decompositionGenerator (n : ℕ)
   conjugateSummandProjection_of_lof (dividedPowerPolynomialFormsEquiv A B W n) kl ⟨(i, j), hij⟩ _
     _ (dividedPowerPolynomialFormsEquiv_decompositionGenerator A B W i j n hij L J omega)
 
+omit [LinearOrder W] in
 /-- The summand projection is an idempotent. -/
 theorem formsAntidiagonalProjection_idem (n : ℕ) (kl : {ij : ℕ × ℕ // ij.1 + ij.2 = n})
     (x : dividedPowerPolynomialForms A B W n) :
@@ -117,6 +119,7 @@ theorem formsAntidiagonalProjection_idem (n : ℕ) (kl : {ij : ℕ × ℕ // ij.
       formsAntidiagonalProjection A B W n kl x :=
   conjugateSummandProjection_idem (dividedPowerPolynomialFormsEquiv A B W n) kl x
 
+omit [LinearOrder W] in
 /-- Two different summand projections compose to zero. -/
 theorem formsAntidiagonalProjection_comp_eq_zero (n : ℕ)
     {kl kl' : {ij : ℕ × ℕ // ij.1 + ij.2 = n}} (hne : kl ≠ kl')
@@ -134,16 +137,18 @@ def formsBidegreeProjection (n i : ℕ) :
     formsAntidiagonalProjection A B W n ⟨(i, n - i), Nat.add_sub_cancel' h⟩
   else 0
 
+omit [LinearOrder W] in
 /-- The coefficient-degree projection, in terms of the summand projection. -/
 theorem formsBidegreeProjection_of_le {n i : ℕ} (hi : i ≤ n) :
     formsBidegreeProjection A B W n i =
       formsAntidiagonalProjection A B W n ⟨(i, n - i), Nat.add_sub_cancel' hi⟩ :=
-  dif_pos hi
+  dite_eq_left hi
 
+omit [LinearOrder W] in
 /-- Above the exterior degree there is no summand to project onto. -/
 theorem formsBidegreeProjection_of_lt {n i : ℕ} (hi : n < i) :
     formsBidegreeProjection A B W n i = 0 :=
-  dif_neg (Nat.not_le.2 hi)
+  dite_eq_right (Nat.not_le.2 hi)
 
 /-- **The coefficient-degree projection on a generator of the decomposition.** -/
 theorem formsBidegreeProjection_decompositionGenerator (n l i j : ℕ) (hij : i + j = n)
@@ -157,12 +162,13 @@ theorem formsBidegreeProjection_decompositionGenerator (n l i j : ℕ) (hij : i 
     by_cases hli : l = i
     · subst hli
       obtain rfl : j = n - l := by omega
-      rw [if_pos rfl, if_pos rfl]
-    · refine Eq.trans (if_neg fun h ↦ hli ?_) (if_neg hli).symm
+      rw [ite_eq_left rfl, ite_eq_left rfl]
+    · refine Eq.trans (ite_eq_right fun h ↦ hli ?_) (ite_eq_right hli).symm
       exact congrArg (fun z : {ij : ℕ × ℕ // ij.1 + ij.2 = n} ↦ z.1.1) h
   · rw [formsBidegreeProjection_of_lt A B W (Nat.not_le.1 hl), LinearMap.zero_apply,
-      if_neg fun h : l = i ↦ hl (by omega)]
+      ite_eq_right fun h : l = i ↦ hl (by omega)]
 
+omit [LinearOrder W] in
 /-- Two different coefficient-degree projections compose to zero. -/
 theorem formsBidegreeProjection_comp_eq_zero (n : ℕ) {l i : ℕ} (hne : l ≠ i)
     (x : dividedPowerPolynomialForms A B W n) :
@@ -175,6 +181,7 @@ theorem formsBidegreeProjection_comp_eq_zero (n : ℕ) {l i : ℕ} (hne : l ≠ 
     · rw [formsBidegreeProjection_of_lt A B W (Nat.not_le.1 hi), LinearMap.zero_apply, map_zero]
   · rw [formsBidegreeProjection_of_lt A B W (Nat.not_le.1 hl), LinearMap.zero_apply]
 
+omit [LinearOrder W] in
 /-- The coefficient-degree projection is an idempotent. -/
 theorem formsBidegreeProjection_idem (n i : ℕ) (x : dividedPowerPolynomialForms A B W n) :
     formsBidegreeProjection A B W n i (formsBidegreeProjection A B W n i x) =
@@ -199,9 +206,9 @@ theorem formsBidegreeProjection_sum (n : ℕ) (x : dividedPowerPolynomialForms A
     refine Eq.trans (Finset.sum_eq_single_of_mem i
       (Finset.mem_range.2 (by omega)) (fun l _ hl ↦ ?_)) ?_
     · exact Eq.trans (formsBidegreeProjection_decompositionGenerator A B W n l i j hij L J omega)
-        (if_neg hl)
+        (ite_eq_right hl)
     · exact Eq.trans (formsBidegreeProjection_decompositionGenerator A B W n i i j hij L J omega)
-        (if_pos rfl)
+        (ite_eq_left rfl)
   simpa only [LinearMap.sum_apply, LinearMap.coe_restrictScalars, LinearMap.id_coe, id_eq]
     using DFunLike.congr_fun key x
 
@@ -238,10 +245,10 @@ theorem formsBidegreeProjection_relativeSectorMapDeg_of_ne (K : W →₀ ℕ) (l
     formsBidegreeProjection A B W n l (relativeSectorMapDeg A B W K i j n hn x) = 0 := by
   refine eq_zero_of_sectorExteriorBasis A B W K i j n hn
     (formsBidegreeProjection A B W n l).toAddMonoidHom (fun I omega ↦ ?_) x
-  show formsBidegreeProjection A B W n l (relativeSectorMapDeg A B W K i j n hn
+  change formsBidegreeProjection A B W n l (relativeSectorMapDeg A B W K i j n hn
     (sectorExteriorBasis B W K j I ⊗ₜ[(B : Type uB)] omega)) = 0
   rw [relativeSectorMapDeg_sectorExteriorBasis_eq_decompositionGenerator,
-    formsBidegreeProjection_decompositionGenerator, if_neg hli]
+    formsBidegreeProjection_decompositionGenerator, ite_eq_right hli]
 
 /-- **The projection in coefficient degree `i` keeps the image of a sector in bidegree
 `(i, j)`.** -/
@@ -257,10 +264,10 @@ theorem formsBidegreeProjection_relativeSectorMapDeg_self (K : W →₀ ℕ) (i 
           (sectorExteriorBasis B W K j I ⊗ₜ[(B : Type uB)] omega)) = 0 := by
     intro I omega
     rw [AddMonoidHom.sub_apply, AddMonoidHom.id_apply, sub_eq_zero]
-    show formsBidegreeProjection A B W n i (relativeSectorMapDeg A B W K i j n hn
+    change formsBidegreeProjection A B W n i (relativeSectorMapDeg A B W K i j n hn
       (sectorExteriorBasis B W K j I ⊗ₜ[(B : Type uB)] omega)) = _
     rw [relativeSectorMapDeg_sectorExteriorBasis_eq_decompositionGenerator,
-      formsBidegreeProjection_decompositionGenerator, if_pos rfl]
+      formsBidegreeProjection_decompositionGenerator, ite_eq_left rfl]
   have h := eq_zero_of_sectorExteriorBasis A B W K i j n hn
     ((formsBidegreeProjection A B W n i).toAddMonoidHom -
       AddMonoidHom.id (dividedPowerPolynomialForms A B W n)) key x
@@ -300,14 +307,14 @@ theorem formsBidegreeProjection_dividedPowerDeRham_eq_zero (n : ℕ) {l i : ℕ}
     rw [formsBidegreeProjection_decompositionGenerator]
     by_cases hii : i = i'
     · subst hii
-      rw [if_pos rfl, dividedPowerDeRhamLinearMap_apply,
+      rw [ite_eq_left rfl, dividedPowerDeRhamLinearMap_apply,
         ← relativeSectorMapDeg_sectorExteriorBasis A B W i j' n hij' L J omega,
         relativeSectorMapDeg_dividedPowerDeRham, map_add,
         formsBidegreeProjection_relativeSectorMapDeg_of_ne A B W
           (L + finsetMultiIndex J.val) l (i + 1) j' (n + 1) (by omega) hl',
         formsBidegreeProjection_relativeSectorMapDeg_of_ne A B W
           (L + finsetMultiIndex J.val) l i (j' + 1) (n + 1) (by omega) hl, add_zero]
-    · rw [if_neg hii, map_zero, map_zero]
+    · rw [ite_eq_right hii, map_zero, map_zero]
   simpa only [LinearMap.zero_apply, LinearMap.comp_apply, LinearMap.coe_restrictScalars,
     dividedPowerDeRhamLinearMap_apply] using DFunLike.congr_fun key x
 
@@ -362,6 +369,7 @@ def formsBaseDifferential (n : ℕ) :
           (setIndexedDividedPowerPolynomialDividedPowers B W) n) ∘ₗ
         ((formsBidegreeProjection A B W n i).restrictScalars A))
 
+omit [LinearOrder W] in
 /-- The relative part, as a sum of projected differentials. -/
 theorem formsRelDifferentialAux_apply (n : ℕ) (x : dividedPowerPolynomialForms A B W n) :
     formsRelDifferentialAux A B W n x =
@@ -371,6 +379,7 @@ theorem formsRelDifferentialAux_apply (n : ℕ) (x : dividedPowerPolynomialForms
   simp only [formsRelDifferentialAux, LinearMap.sum_apply, LinearMap.comp_apply,
     LinearMap.coe_restrictScalars, dividedPowerDeRhamLinearMap_apply]
 
+omit [LinearOrder W] in
 /-- The base part, as a sum of projected differentials. -/
 theorem formsBaseDifferential_apply (n : ℕ) (x : dividedPowerPolynomialForms A B W n) :
     formsBaseDifferential A B W n x =
@@ -398,6 +407,7 @@ theorem dividedPowerDeRham_eq_formsRelDifferential_add (n : ℕ)
       (setIndexedDividedPowerPolynomialDividedPowers B W) n)
       (fun i ↦ formsBidegreeProjection A B W n i x) (Finset.range (n + 1))
 
+omit [LinearOrder W] in
 /-- The de Rham differential of `0`, as an equation about the unbundled differential. -/
 theorem dividedPowerDeRham_polynomial_zero (n : ℕ) :
     dividedPowerDeRham (setIndexedDividedPowerPolynomialDividedPowers B W) n
@@ -405,6 +415,7 @@ theorem dividedPowerDeRham_polynomial_zero (n : ℕ) :
   map_zero (dividedPowerDeRhamLinearMap (A := A)
     (setIndexedDividedPowerPolynomialDividedPowers B W) n)
 
+omit [LinearOrder W] in
 /-- The de Rham differential is additive, as an equation about the unbundled differential. -/
 theorem dividedPowerDeRham_polynomial_add (n : ℕ)
     (x y : dividedPowerPolynomialForms A B W n) :
@@ -414,6 +425,7 @@ theorem dividedPowerDeRham_polynomial_add (n : ℕ)
   map_add (dividedPowerDeRhamLinearMap (A := A)
     (setIndexedDividedPowerPolynomialDividedPowers B W) n) x y
 
+omit [LinearOrder W] in
 /-- Only the summand of index `i` survives in a sum of projected differentials of the
 projection `πᵢ x`, by the orthogonality of the projections. -/
 private theorem sum_formsBidegreeProjection_dividedPowerDeRham_projection (n i : ℕ) (c : ℕ → ℕ)
@@ -434,6 +446,7 @@ private theorem sum_formsBidegreeProjection_dividedPowerDeRham_projection (n i :
     simp only [LinearMap.zero_apply, map_zero, dividedPowerDeRham_polynomial_zero,
       Finset.sum_const_zero]
 
+omit [LinearOrder W] in
 /-- **On a form of coefficient degree `i` the relative part of the differential is the single
 component `πᵢ ∘ d`**: the other summands of the sum defining it are killed by the orthogonality
 of the projections. -/
@@ -446,6 +459,7 @@ theorem formsRelDifferentialAux_formsBidegreeProjection (n i : ℕ)
   (formsRelDifferentialAux_apply A B W n _).trans
     (sum_formsBidegreeProjection_dividedPowerDeRham_projection A B W n i id x)
 
+omit [LinearOrder W] in
 /-- **On a form of coefficient degree `i` the base part of the differential is the single component
 `π_{i+1} ∘ d`.** -/
 theorem formsBaseDifferential_formsBidegreeProjection (n i : ℕ)
@@ -457,6 +471,7 @@ theorem formsBaseDifferential_formsBidegreeProjection (n i : ℕ)
   (formsBaseDifferential_apply A B W n _).trans
     (sum_formsBidegreeProjection_dividedPowerDeRham_projection A B W n i (· + 1) x)
 
+omit [LinearOrder W] in
 /-- **The base part of the differential strictly raises the coefficient degree.**  This is the
 `hprojbase` hypothesis of `Crystalline.CompletedDeRham.exists_twistedHomotopyEquiv`. -/
 theorem formsBidegreeProjection_formsBaseDifferential_eq_zero (n : ℕ) {l i : ℕ} (hli : l ≤ i)
@@ -529,9 +544,9 @@ theorem formsRelDifferentialAux_decompositionGenerator (i j n : ℕ) (hij : i + 
   rw [formsRelDifferentialAux_apply]
   refine Eq.trans (Finset.sum_eq_single_of_mem i (Finset.mem_range.2 (by omega))
     (fun m _ hm ↦ ?_)) ?_
-  · rw [formsBidegreeProjection_decompositionGenerator, if_neg hm,
+  · rw [formsBidegreeProjection_decompositionGenerator, ite_eq_right hm,
       dividedPowerDeRham_polynomial_zero, map_zero]
-  · rw [formsBidegreeProjection_decompositionGenerator, if_pos rfl,
+  · rw [formsBidegreeProjection_decompositionGenerator, ite_eq_left rfl,
       ← relativeSectorMapDeg_sectorExteriorBasis A B W i j n hij L J omega,
       relativeSectorMapDeg_dividedPowerDeRham, map_add,
       formsBidegreeProjection_relativeSectorMapDeg_of_ne A B W
@@ -625,8 +640,8 @@ theorem formsBidegreeProjection_relativeFormsHomotopy_decompositionGenerator (n 
     obtain rfl : i = n + 1 := by omega
     rw [relativeFormsHomotopy_decompositionGenerator_zero A B W n hij L J omega, map_zero]
     by_cases h : l = n + 1
-    · rw [if_pos h]
-    · rw [if_neg h]
+    · rw [ite_eq_left h]
+    · rw [ite_eq_right h]
   | succ j =>
     obtain rfl : i + j = n := by omega
     rw [← relativeSectorMapDeg_sectorExteriorBasis A B W i (j + 1) (i + j + 1) hij L J omega,
@@ -634,8 +649,8 @@ theorem formsBidegreeProjection_relativeFormsHomotopy_decompositionGenerator (n 
         (i + j) rfl]
     by_cases h : l = i
     · subst h
-      rw [if_pos rfl, formsBidegreeProjection_relativeSectorMapDeg_self]
-    · rw [if_neg h, formsBidegreeProjection_relativeSectorMapDeg_of_ne A B W
+      rw [ite_eq_left rfl, formsBidegreeProjection_relativeSectorMapDeg_self]
+    · rw [ite_eq_right h, formsBidegreeProjection_relativeSectorMapDeg_of_ne A B W
         (L + finsetMultiIndex J.val) l i j (i + j) rfl h]
 
 /-- **The relative homotopy `h` preserves the coefficient degree**: it commutes with every
@@ -655,8 +670,8 @@ theorem relativeFormsHomotopy_formsBidegreeProjection (n i : ℕ)
     rw [formsBidegreeProjection_decompositionGenerator,
       formsBidegreeProjection_relativeFormsHomotopy_decompositionGenerator]
     by_cases hii : i = i'
-    · rw [if_pos hii, if_pos hii]
-    · rw [if_neg hii, if_neg hii, map_zero]
+    · rw [ite_eq_left hii, ite_eq_left hii]
+    · rw [ite_eq_right hii, ite_eq_right hii, map_zero]
   simpa only [LinearMap.comp_apply, LinearMap.coe_restrictScalars] using
     DFunLike.congr_fun key x
 

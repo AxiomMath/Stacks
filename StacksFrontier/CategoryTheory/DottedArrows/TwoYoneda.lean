@@ -104,7 +104,7 @@ theorem nonempty_dottedArrow_of_unitHom (hj : j.hom.toFunctor = Over.map r)
   apply BasedNatTrans.ext
   apply NatTrans.ext
   funext z
-  show γ.hom.app z = β.app ((Over.map r).obj z) ≫ 𝟙 _ ≫ f.hom.map (α.app z)
+  change γ.hom.app z = β.app ((Over.map r).obj z) ≫ 𝟙 _ ≫ f.hom.map (α.app z)
   exact (he z).trans (congrArg (fun t => β.app ((Over.map r).obj z) ≫ t)
     (Category.id_comp (f.hom.map (α.app z))).symm)
 

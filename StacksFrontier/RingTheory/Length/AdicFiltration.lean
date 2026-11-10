@@ -94,7 +94,7 @@ theorem submoduleOf_smul (I : Ideal R) (P : Submodule R M) :
     (I • P).submoduleOf P = I • (⊤ : Submodule R ↥P) := by
   have h : Submodule.map P.subtype (I • (⊤ : Submodule R ↥P)) = I • P := by
     rw [Submodule.map_smul'', Submodule.map_subtype_top]
-  show Submodule.comap P.subtype (I • P) = _
+  change Submodule.comap P.subtype (I • P) = _
   rw [← h, Submodule.comap_map_eq_of_injective (Submodule.injective_subtype P)]
 
 /-- The `I`-adic filtration is decreasing. -/

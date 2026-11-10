@@ -128,14 +128,14 @@ theorem baseChange_closed_of_lfp_closed {X S : Scheme.{u}} (f : X ⟶ S)
         _ = specx ≫ q := hd
   let xV := m (genericPoint (Spec ((pullback f g).residueField x)))
   have hpx : p xV = x := by
-    show (m ≫ p) (genericPoint (Spec ((pullback f g).residueField x))) = x
+    change (m ≫ p) (genericPoint (Spec ((pullback f g).residueField x))) = x
     rw [hmp, Scheme.fromSpecResidueField_apply]
   have hmsnd : m ≫ pullback.snd f (V.1.ι ≫ g) = d := by
     dsimp [m]
     exact pullback.lift_snd _ _ _
   have hlocal : (pullback.snd f (V.1.ι ≫ g)) xV = ⟨q x, hqxV⟩ := by
     apply Subtype.ext
-    show V.1.ι ((pullback.snd f (V.1.ι ≫ g)) xV) = q x
+    change V.1.ι ((pullback.snd f (V.1.ι ≫ g)) xV) = q x
     calc
       V.1.ι ((pullback.snd f (V.1.ι ≫ g)) xV) =
           ((m ≫ pullback.snd f (V.1.ι ≫ g)) ≫ V.1.ι)
@@ -148,7 +148,7 @@ theorem baseChange_closed_of_lfp_closed {X S : Scheme.{u}} (f : X ⟶ S)
         exact congrArg q (Scheme.fromSpecResidueField_apply _ _)
   have hxSupport : p xV ∈ I.support := by
     rw [hpx]
-    show x ∈ ((Scheme.IdealSheafData.vanishingIdeal Z).support : Set ↑(pullback f g))
+    change x ∈ ((Scheme.IdealSheafData.vanishingIdeal Z).support : Set ↑(pullback f g))
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact subset_closure (Set.mem_singleton x)
   have hxq : q' xV ∈ I'.support := by
@@ -303,7 +303,7 @@ theorem exists_closedImmersion_affineSpace_of_lfp
   let φ := (g.appTop).hom
   let : Algebra (↑(Γ(V, ⊤))) (↑(Γ(T, ⊤))) := φ.toAlgebra
   have hfp : φ.FinitePresentation := by
-    show (g.appTop).hom.FinitePresentation
+    change (g.appTop).hom.FinitePresentation
     rw [Scheme.Hom.appTop, ← Scheme.Hom.appLE_eq_app]
     exact g.finitePresentation_appLE (isAffineOpen_top V) (isAffineOpen_top T) (by simp)
   have hft : φ.FiniteType := RingHom.FiniteType.of_finitePresentation hfp
@@ -326,7 +326,7 @@ theorem exists_closedImmersion_affineSpace_of_lfp
       AffineSpace.map (ULift.{u} (Fin n)) V.isoSpec.inv
   let : IsClosedImmersion (Spec.map η) := IsClosedImmersion.spec_of_surjective η hp'
   let : IsIso (AffineSpace.map (ULift.{u} (Fin n)) V.isoSpec.inv) := by
-    show IsIso ((AffineSpace.functor.obj (Opposite.op (ULift.{u} (Fin n)))).map V.isoSpec.inv)
+    change IsIso ((AffineSpace.functor.obj (Opposite.op (ULift.{u} (Fin n)))).map V.isoSpec.inv)
     infer_instance
   have hi : IsClosedImmersion i := by
     dsimp [i]
@@ -359,7 +359,7 @@ theorem exists_closedImmersion_affineSpace_of_lfp
       _ = g := by
             have hphi : CommRingCat.ofHom φ = g.appTop := by ext; rfl
             rw [hphi]
-            show T.toSpecΓ ≫ Spec.map g.appTop ≫ V.isoSpec.inv = g
+            change T.toSpecΓ ≫ Spec.map g.appTop ≫ V.isoSpec.inv = g
             calc
               T.toSpecΓ ≫ Spec.map g.appTop ≫ V.isoSpec.inv =
                   (T.toSpecΓ ≫ Spec.map g.appTop) ≫ V.isoSpec.inv := by simp only [Category.assoc]

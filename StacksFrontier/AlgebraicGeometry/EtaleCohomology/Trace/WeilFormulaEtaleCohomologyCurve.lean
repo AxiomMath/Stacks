@@ -55,7 +55,7 @@ formula `V(φ) = 1 - Tr_J(φ^*) + deg φ` ([Stacks, Tag 03U1],
 @[stacks 03U3]
 theorem sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection
     {k : Type u} [Field k] [IsAlgClosed k] {C : Scheme.{u}} (f : C ⟶ Spec (.of k))
-    [IsCurve k f] [Smooth f] [IsProper f] (φ : C ⟶ C) (w : φ ≫ f = f) (hφ : φ ≠ 𝟙 C)
+    [IsCurve k f] [Smooth f] [IsProper f] (φ : C ⟶ C) (w : φ ≫ f = f)
     (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : k)) (n : ℕ) :
     (∀ i : ℕ, Module.Free (ZMod (ℓ ^ n))
         (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} C (ZMod (ℓ ^ n))) i) ∧
@@ -67,6 +67,6 @@ theorem sum_trace_etaleConstantCohomologyPullback_eq_fixedPointIntersection
         ZMod (ℓ ^ n)) := by
   refine ⟨module_free_finite_sheafH_etaleConstantSheaf f ℓ n hℓ, ?_⟩
   rw [sum_trace_etaleConstantCohomologyPullback_eq_toZModPow f φ w ℓ n hℓ,
-    ← CurveGraph.fixedPointIntersection_eq f _ φ w hφ ℓ hℓ, map_intCast]
+    ← CurveGraph.fixedPointIntersection_eq f _ φ w ℓ hℓ, map_intCast]
 
 end Stacks.EtaleCohomology

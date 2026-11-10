@@ -221,8 +221,7 @@ theorem canonicalRationalIntersectionProduct_rationalChowCap {W : Scheme.{u}}
           (rationalFundamentalClass (fieldChowSituation k) sW)) y =
       rationalChowCap (fieldChowSituation k) (fieldGysinSystem k) sW p c y := by
   rw [rationalFundamentalClass_eq_of_relativeDimension k sW hN]
-  induction c using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  induction c using TensorProduct.inductionOn with
   | add c c' hc hc' => simp only [map_add, LinearMap.add_apply, hc, hc']
   | tmul r c =>
     rw [rationalChowCap_of_tmul, mul_one, chowCohomologyCap_fundamentalChowClass]

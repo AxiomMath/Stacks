@@ -112,7 +112,7 @@ theorem disjoint_basicOpen_support_of_mem_radical {X : Scheme.{u}} (a : Γ(X, �
   have hnot := (Scheme.mem_zeroLocus_iff X (U := ⊤) (I : Set Γ(X, ⊤)) x).mp hz (a ^ n) hn
   have hunit := (X.mem_basicOpen_top a x).mp hx
   refine hnot ((X.mem_basicOpen_top (a ^ n) x).mpr ?_)
-  show IsUnit ((X.presheaf.germ ⊤ x (by trivial)).hom (a ^ n))
+  change IsUnit ((X.presheaf.germ ⊤ x (by trivial)).hom (a ^ n))
   simpa only [map_pow] using hunit.pow n
 
 /-- Conversely, on an affine scheme, if the basic open of `a` misses the closed subscheme cut out
@@ -122,7 +122,7 @@ theorem mem_radical_of_disjoint_basicOpen_support {X : Scheme.{u}} [IsAffine X] 
     a ∈ (I.ideal ⟨⊤, isAffineOpen_top X⟩).radical := by
   have hle : I.support ≤ (Scheme.IdealSheafData.ofIdealTop (Ideal.span {a})).support := by
     intro x hx
-    show x ∈ ((Scheme.IdealSheafData.ofIdealTop (Ideal.span {a})).support : Set X)
+    change x ∈ ((Scheme.IdealSheafData.ofIdealTop (Ideal.span {a})).support : Set X)
     rw [Scheme.IdealSheafData.coe_support_ofIdealTop, Scheme.zeroLocus_span]
     refine (Scheme.mem_zeroLocus_iff X _ x).mpr fun b hb ↦ ?_
     rcases hb with rfl
@@ -159,7 +159,7 @@ theorem idealSheaf_factorization_on_basicOpen {X Y : Scheme.{u}} [IsAffine X] [I
   let ε := IsLocalization.algEquiv (Submonoid.powers g) (Localization.Away g) Γ(W, ⊤)
   refine ⟨K.map ε.toRingHom, hK.map _, ?_⟩
   rw [idealSheaf_comap_ofIdealTop, idealSheaf_comap_ofIdealTop]
-  show (Scheme.IdealSheafData.equivOfIsAffine (X := W)).symm _ =
+  change (Scheme.IdealSheafData.equivOfIsAffine (X := W)).symm _ =
     (Scheme.IdealSheafData.equivOfIsAffine (X := W)).symm _ *
       (Scheme.IdealSheafData.equivOfIsAffine (X := W)).symm _
   rw [← map_mul]
@@ -399,7 +399,7 @@ theorem exists_affine_etale_locallyDvd_center {S T : Scheme.{u}} [IsAffine S] [I
     isCompact_and_isOpen_iff_finite_and_eq_biUnion_basicOpen.mp ⟨hU, U.isOpen⟩
   have hle (a : Γ(S, ⊤)) (ha : a ∈ hs.toFinset) : S.basicOpen a ≤ U := by
     intro x hx
-    show x ∈ (U : Set S)
+    change x ∈ (U : Set S)
     rw [hUs]
     exact Set.mem_iUnion₂.mpr ⟨a, hs.mem_toFinset.mp ha, hx⟩
   obtain ⟨I, hI, hIdisj, hIL⟩ := exists_affine_etale_locallyDvd_center_finite_basicOpens e
@@ -520,7 +520,7 @@ theorem exists_center_on_affine_open {S : Scheme.{u}} [QuasiSeparatedSpace S] (V
   rw [Scheme.IdealSheafData.support_comap]
   refine Set.disjoint_left.mpr fun t htU htI ↦ ?_
   refine Set.disjoint_left.mp (hadm i).2 ?_ htI
-  show (((e i ⁻¹ᵁ V).ι ≫ e i).base t) ∈ (U : Set S)
+  change (((e i ⁻¹ᵁ V).ι ≫ e i).base t) ∈ (U : Set S)
   rw [← morphismRestrict_ι]
   exact htU
 

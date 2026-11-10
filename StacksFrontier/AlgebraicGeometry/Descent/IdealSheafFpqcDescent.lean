@@ -52,7 +52,7 @@ theorem comap_eq_bot_iff_exists {X Y : Scheme.{u}} (I : Y.IdealSheafData) (f : X
       rw [Category.assoc, ← pullback.condition, IsIso.inv_hom_id_assoc]⟩
   · rintro ⟨g, rfl⟩
     rw [comap_comp, show I.comap I.subschemeι = ⊥ from ?_, comap_bot]
-    show (pullback.fst I.subschemeι I.subschemeι).ker = ⊥
+    change (pullback.fst I.subschemeι I.subschemeι).ker = ⊥
     have := isIso_fst_of_mono I.subschemeι
     exact Scheme.Hom.ker_eq_bot_of_isIso _
 

@@ -186,12 +186,10 @@ def extSelfAlgebraModelIso :
   inv := (extSelfAlgebraModelComparison Rc K I κ hbdd hterm D ε).inverse.toHom
   hom_inv_id := by
     refine SheafOfModules.GradedAlgebra.Hom.ext fun n => ?_
-    simpa using IsIso.hom_inv_id
-      ((extSelfAlgebraModelComparison Rc K I κ hbdd hterm D ε).app n)
+    simp
   inv_hom_id := by
     refine SheafOfModules.GradedAlgebra.Hom.ext fun n => ?_
-    simpa using IsIso.inv_hom_id
-      ((extSelfAlgebraModelComparison Rc K I κ hbdd hterm D ε).app n)
+    simp
 
 /-- **The K-injective model is an exterior algebra on its degree-one piece as soon as the Koszul
 model is.** The universal property moves along the inverse of the descended model comparison by

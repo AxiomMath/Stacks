@@ -156,8 +156,7 @@ theorem termMap_formsEndo (hε : ∀ ω, oneFormsMap f hf (ε ω) = ε' (oneForm
   rw [termMap_apply, formsEndo_apply, formsEndo_apply, termMap_apply]
   obtain ⟨y, rfl⟩ := (RestrictScalars.addEquiv A (B : Type u) _).symm.surjective x
   rw [AddEquiv.apply_symm_apply]
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add y z hy hz => simp only [map_add, hy, hz]
   | tmul m ω =>
     rw [LinearMap.lTensor_tmul, tensorMap_tmul, tensorMap_tmul, LinearMap.lTensor_tmul,

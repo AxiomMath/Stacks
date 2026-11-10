@@ -141,9 +141,9 @@ private theorem homotopySetoid_eq_boundaries_leftRel (x y : A.Obj) :
     A.homotopySetoid x y = QuotientAddGroup.leftRel (homotopyBoundaries A x y) := by
   apply Setoid.ext
   intro f g
-  show A.Homotopic f g ↔ QuotientAddGroup.leftRel (homotopyBoundaries A x y) f g
+  change A.Homotopic f g ↔ QuotientAddGroup.leftRel (homotopyBoundaries A x y) f g
   rw [QuotientAddGroup.leftRel_apply]
-  show (∃ h : A.Hom x y (-1), f.1 - g.1 =
+  change (∃ h : A.Hom x y (-1), f.1 - g.1 =
       A.d' (show (-1 : ℤ) + 1 = 0 by omega) h) ↔
     -f + g ∈ homotopyBoundaries A x y
   constructor
@@ -151,7 +151,7 @@ private theorem homotopySetoid_eq_boundaries_leftRel (x y : A.Obj) :
     convert (homotopyBoundaries A x y).neg_mem (show f - g ∈ _ from ⟨h, hh⟩) using 1
     abel
   · intro hmem
-    show f - g ∈ homotopyBoundaries A x y
+    change f - g ∈ homotopyBoundaries A x y
     convert (homotopyBoundaries A x y).neg_mem hmem using 1
     abel
 
@@ -186,7 +186,7 @@ private theorem homotopyClass_mk_add (x y : A.K)
       homotopyBoundaries A (x : A.Obj) (y : A.Obj)) := inferInstance
   let : AddCommGroup (A.HomotopyClass (x : A.Obj) (y : A.Obj)) := e.addCommGroup
   apply e.injective
-  show QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj)) f +
+  change QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj)) f +
       QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj)) g =
     QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj)) (f + g)
   exact ((QuotientAddGroup.mk' _).map_add f g).symm
@@ -203,7 +203,7 @@ private theorem homotopyClass_mk_neg (x y : A.K)
       homotopyBoundaries A (x : A.Obj) (y : A.Obj)) := inferInstance
   let : AddCommGroup (A.HomotopyClass (x : A.Obj) (y : A.Obj)) := e.addCommGroup
   apply e.injective
-  show QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj))
+  change QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj))
       ((cocycleNeg A (x : A.Obj) (y : A.Obj)).neg f) =
     -QuotientAddGroup.mk' (homotopyBoundaries A (x : A.Obj) (y : A.Obj)) f
   exact map_neg _ _
@@ -343,7 +343,7 @@ public theorem homotopyShiftAdditiveIso (n : ℤ) :
       rw [homotopyClass_mk_add (A := A) X Y f g]
       dsimp only [DGFunctor.mapHomotopyClass]
       simp only [Quotient.map_mk]
-      show Quotient.mk (A.homotopySetoid (F.obj X) (F.obj Y))
+      change Quotient.mk (A.homotopySetoid (F.obj X) (F.obj Y))
           (F.mapCocycle (f + g)) =
         (Quotient.mk (A.homotopySetoid (F.obj X) (F.obj Y)) (F.mapCocycle f) :
           A.HomotopyClass (F.obj X) (F.obj Y)) +
@@ -395,7 +395,7 @@ private theorem negativeCone_distinguished {x y : A.Obj} (f : A.Cocycle x y) :
   let : Preadditive A.K := homotopyPreadditive A
   let : Category A.K := instCategoryK A
   let : Category A.Obj := by
-    show Category A.K
+    change Category A.K
     exact instCategoryK A
   let : HasShift A.K ℤ := S.shift.kShift
   obtain ⟨y', z, E, π, s, hπα, hπs, hsπ⟩ :=
@@ -405,14 +405,14 @@ private theorem negativeCone_distinguished {x y : A.Obj} (f : A.Cocycle x y) :
   let qπ : (y' : A.K) ⟶ (y : A.K) := Quotient.mk (A.homotopySetoid y' y) π
   let qs : (y : A.K) ⟶ (y' : A.K) := Quotient.mk (A.homotopySetoid y y') s
   have hπsK : A.compK qπ qs = Quotient.mk (A.homotopySetoid y y) ⟨A.id y, A.d_id y⟩ := by
-    show Quotient.mk (A.homotopySetoid y y) (A.compCocycle π s) = _
+    change Quotient.mk (A.homotopySetoid y y) (A.compCocycle π s) = _
     rw [hπs]
   have hsπK : A.compK qs qπ = Quotient.mk (A.homotopySetoid y' y') ⟨A.id y', A.d_id y'⟩ := by
     exact Quotient.sound hsπ
   have hqπ : IsIso qπ := ⟨⟨qs, hsπK, hπsK⟩⟩
   have hφ₁' : IsIso φ.hom₁ := by
     rw [hφ₁]
-    show IsIso (𝟙 (x : A.K))
+    change IsIso (𝟙 (x : A.K))
     infer_instance
   have hφ₂' : IsIso φ.hom₂ := by
     rw [hφ₂]
@@ -439,7 +439,7 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
       (show A.K from (S.shift.shiftFunctor 1).obj x) :=
     congrArg (fun F : A.K ⥤ A.K => F.obj x) (S.shift.kShift_functor 1)
   let e₃ : T.rotate.obj₃ ≅ U.obj₃ := by
-    show (shiftFunctor A.K (1 : ℤ)).obj (show A.K from x) ≅
+    change (shiftFunctor A.K (1 : ℤ)).obj (show A.K from x) ≅
       (show A.K from (S.shift.shiftFunctor 1).obj x)
     exact {
       hom := -(eqToHom hx)
@@ -452,7 +452,7 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
         rfl }
   have he : T.rotate ≅ U := by
     refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _) e₃ ?_ ?_ ?_
-    · show A.compK
+    · change A.compK
         (Quotient.mk _ (⟨A.id (S.cone f), A.d_id _⟩ : A.Cocycle _ _))
         (Quotient.mk _ E.a) =
         A.compK (Quotient.mk _ E.a)
@@ -472,12 +472,12 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
         homotopyClass_mk_neg A (show A.K from S.cone f)
           (show A.K from (S.shift.shiftFunctor 1).obj x) E.b
       have ht : T.rotate.mor₂ = (-q) ≫ eqToHom hx.symm := by
-        show (Quotient.mk _ (⟨-E.b.1, _⟩ : A.Cocycle _ _)) ≫
+        change (Quotient.mk _ (⟨-E.b.1, _⟩ : A.Cocycle _ _)) ≫
           eqToHom hx.symm = _
         rw [hbneg]
       have hu : U.mor₂ = q := rfl
       rw [ht, hu]
-      show ((-q) ≫ eqToHom hx.symm) ≫ (-(eqToHom hx)) =
+      change ((-q) ≫ eqToHom hx.symm) ≫ (-(eqToHom hx)) =
         (𝟙 _) ≫ q
       calc
         ((-q) ≫ eqToHom hx.symm) ≫ (-(eqToHom hx)) =
@@ -489,7 +489,7 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
             rw [eqToHom_trans]
             rfl
           rw [hcomp]
-          show -(A.compK
+          change -(A.compK
             (Quotient.mk _ (⟨A.id _, A.d_id _⟩ : A.Cocycle _ _)) (-q)) = q
           have hid : A.compK
               (Quotient.mk _ (⟨A.id _, A.d_id _⟩ : A.Cocycle _ _)) (-q) = -q := by
@@ -504,7 +504,7 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
           (show A.K from (S.shift.shiftFunctor 1).obj y) :=
         congrArg (fun F : A.K ⥤ A.K => F.obj y) (S.shift.kShift_functor 1)
       have hcon : U.mor₃ = G.map qf ≫ eqToHom hy.symm := by
-        show (Quotient.mk _ (S.shift.connectingCocycle E)) ≫
+        change (Quotient.mk _ (S.shift.connectingCocycle E)) ≫
           eqToHom hy.symm =
           (Quotient.mk _ ((S.shift.shiftFunctor 1).mapCocycle f)) ≫
             eqToHom hy.symm
@@ -517,13 +517,13 @@ private theorem negativeCone_rotate_distinguished {x y : A.Obj}
         let h₂ : (shiftFunctor A.K (1 : ℤ)).obj (show A.K from y) =
             G.obj (show A.K from y) :=
           congrArg (fun F : A.K ⥤ A.K => F.obj y) (S.shift.kShift_functor 1)
-        show eqToHom h₁.symm ≫ (shiftFunctor A.K (1 : ℤ)).map qf =
+        change eqToHom h₁.symm ≫ (shiftFunctor A.K (1 : ℤ)).map qf =
           G.map qf ≫ eqToHom h₂.symm
         rw [Functor.congr_hom (S.shift.kShift_functor (1 : ℤ)) qf]
         simp [G]
       have ht : T.rotate.mor₃ = -((shiftFunctor A.K (1 : ℤ)).map qf) := rfl
       rw [ht, hcon, hmap.symm]
-      show (-(shiftFunctor A.K (1 : ℤ)).map qf) ≫
+      change (-(shiftFunctor A.K (1 : ℤ)).map qf) ≫
           (shiftFunctor A.K (1 : ℤ)).map (𝟙 _) =
         (-(eqToHom hx)) ≫
           (eqToHom hx.symm ≫ (shiftFunctor A.K (1 : ℤ)).map qf)
@@ -696,12 +696,12 @@ private theorem exists_cone_identification (hS : S.shift.RoundTripCoherent)
         A.comp (by omega : (0 : ℤ) + 0 = 0) ((Sh.toShift 1 z₁ x 0) δ') q.1 := by
       simpa using hcomp
     rw [hcomp']
-    show A.comp (by omega : (0 : ℤ) + 0 = 0)
+    change A.comp (by omega : (0 : ℤ) + 0 = 0)
         ((Sh.toShift 1 z₁ x 0) δ') q.1 = (Sh.toShift 1 z x 0) δ
     rw [show (Sh.toShift 1 z₁ x 0) δ' =
         (Sh.shiftFunctor 1).map f.1 by
           exact congrArg Subtype.val (S.cone_connecting f)]
-    show A.comp (by omega : (0 : ℤ) + 0 = 0)
+    change A.comp (by omega : (0 : ℤ) + 0 = 0)
         ((Sh.shiftFunctor 1).map f.1) q.1 =
       (Sh.toShift 1 z x 0) δ
     have hval := congrArg (fun h : (show A.Comp from z) ⟶
@@ -865,23 +865,23 @@ private theorem rotate_negativeCone_iso_associated (hS : S.shift.RoundTripCohere
       ((S.shift.shiftFunctor 1).obj x))
       ((S.shift.shiftFunctor 1).mapCocycle (S.shift.shiftedConnecting E))
   have hkvu : kv ≫ ku = 𝟙 (show A.K from (S.cone (S.shift.shiftedConnecting E))) := by
-    show Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) (S.cone
+    change Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) (S.cone
       (S.shift.shiftedConnecting E))) (A.compCocycle u v) =
       Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) (S.cone
         (S.shift.shiftedConnecting E))) ⟨A.id (S.cone (S.shift.shiftedConnecting
         E)), A.d_id (S.cone (S.shift.shiftedConnecting E))⟩
     rw [huv]
   have hkuv : ku ≫ kv = 𝟙 (show A.K from y) := by
-    show Quotient.mk (A.homotopySetoid y y) (A.compCocycle v u) =
+    change Quotient.mk (A.homotopySetoid y y) (A.compCocycle v u) =
       Quotient.mk (A.homotopySetoid y y) ⟨A.id y, A.d_id y⟩
     rw [hvu]
   have hkqq : kq ≫ kqinv = 𝟙 (show A.K from z) := by
-    show Quotient.mk (A.homotopySetoid z z) (A.compCocycle qinv q) =
+    change Quotient.mk (A.homotopySetoid z z) (A.compCocycle qinv q) =
       Quotient.mk (A.homotopySetoid z z) ⟨A.id z, A.d_id z⟩
     rw [hqq]
   have hkqq' : kqinv ≫ kq = 𝟙 (show A.K from ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor
     (-1)).obj z))) := by
-    show Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor
+    change Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor
       (-1)).obj z)) ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj z)))
       (A.compCocycle q qinv) =
       Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj
@@ -890,18 +890,18 @@ private theorem rotate_negativeCone_iso_associated (hS : S.shift.RoundTripCohere
         ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj z))⟩
     rw [hqq']
   have hkva : kFa ≫ kv = kEa := by
-    show Quotient.mk (A.homotopySetoid x y) (A.compCocycle v (S.coneSequence
+    change Quotient.mk (A.homotopySetoid x y) (A.compCocycle v (S.coneSequence
       (S.shift.shiftedConnecting E)).a) =
       Quotient.mk (A.homotopySetoid x y) E.a
     rw [hva]
   have hkvb : kv ≫ kEb = kFb ≫ kqinv := by
-    show Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) z)
+    change Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) z)
       (A.compCocycle E.b v) =
       Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E)) z)
         (A.compCocycle qinv (S.coneSequence (S.shift.shiftedConnecting E)).b)
     rw [hvb]
   have hkmf : kqinv ≫ kg = kmf := by
-    show Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor
+    change Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor
       (-1)).obj z)) ((S.shift.shiftFunctor 1).obj x))
         (A.compCocycle (S.shift.connectingCocycle E) qinv) =
       Quotient.mk (A.homotopySetoid ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj
@@ -930,7 +930,7 @@ private theorem rotate_negativeCone_iso_associated (hS : S.shift.RoundTripCohere
           ← Category.assoc (eqToHom hw.symm) (eqToHom hw) kqinv,
           eqToHom_trans, eqToHom_refl, Category.id_comp, hkqq] }
   refine ⟨Pretriangulated.Triangle.isoMk _ _ i₁ i₂ i₃ ?_ ?_ ?_⟩
-  · show kFa ≫ (-kv) = (-(𝟙 (show A.K from x))) ≫ kEa
+  · change kFa ≫ (-kv) = (-(𝟙 (show A.K from x))) ≫ kEa
     rw [comp_neg, neg_comp, Category.id_comp, hkva]
   · have hcancel : ∀ m : (show A.K from (S.cone (S.shift.shiftedConnecting E))) ⟶ (show
       A.K from ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj z))),
@@ -949,7 +949,7 @@ private theorem rotate_negativeCone_iso_associated (hS : S.shift.RoundTripCohere
     have h1 : A.compCocycle qinv (-((S.coneSequence (S.shift.shiftedConnecting E)).b)) =
         -(A.compCocycle qinv ((S.coneSequence (S.shift.shiftedConnecting E)).b)) :=
           Subtype.ext hneg
-    show ((Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E))
+    change ((Quotient.mk (A.homotopySetoid (S.cone (S.shift.shiftedConnecting E))
       ((S.shift.shiftFunctor 1).obj ((S.shift.shiftFunctor (-1)).obj z)))
         (-((S.coneSequence (S.shift.shiftedConnecting E)).b) : A.Cocycle (S.cone
           (S.shift.shiftedConnecting E)) ((S.shift.shiftFunctor 1).obj
@@ -971,7 +971,7 @@ private theorem rotate_negativeCone_iso_associated (hS : S.shift.RoundTripCohere
       hx1.symm := by
       rw [Functor.congr_hom (S.shift.kShift_functor (1 : ℤ)) kf]
       rfl
-    show (-((CategoryTheory.shiftFunctor A.K (1 : ℤ)).map kf)) ≫
+    change (-((CategoryTheory.shiftFunctor A.K (1 : ℤ)).map kf)) ≫
         (CategoryTheory.shiftFunctor A.K (1 : ℤ)).map (-(𝟙 (show A.K from x))) =
       (eqToHom hw ≫ kqinv) ≫ kg ≫ eqToHom hx1.symm
     rw [hi1, comp_neg, neg_comp, neg_neg, Category.comp_id, hshiftf, ← hkmf,
@@ -1345,12 +1345,12 @@ public theorem homotopyCategory_isTriangulatedIso (hS : S.shift.RoundTripCoheren
   let T₂ := S.shift.associatedKTriangle E₂
   let T₄ := S.shift.associatedKTriangle E₄
   have h₁₂' : u₁₂' ≫ e₂.hom = e₁.hom ≫ T₁.mor₁ := by
-    show u₁₂' ≫ e₂.hom = e₁.hom ≫ Quotient.mk _ E₁.a
+    change u₁₂' ≫ e₂.hom = e₁.hom ≫ Quotient.mk _ E₁.a
     rw [hE₁, ← hc₁₂]
     exact transport_across_iso e₁.symm e₂.symm (A.compToK.map (g 0))
       (A.compToK.map (f 0)) (hcommK 0)
   have h₂₃' : u₂₃' ≫ e₃.hom = e₂.hom ≫ T₃.mor₁ := by
-    show u₂₃' ≫ e₃.hom = e₂.hom ≫ Quotient.mk _ E₃.a
+    change u₂₃' ≫ e₃.hom = e₂.hom ≫ Quotient.mk _ E₃.a
     rw [hE₃, ← hc₂₃]
     exact transport_across_iso e₂.symm e₃.symm (A.compToK.map (g 1))
       (A.compToK.map (f 1)) (hcommK 1)

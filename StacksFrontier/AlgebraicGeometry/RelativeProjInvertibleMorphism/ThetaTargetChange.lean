@@ -12,8 +12,8 @@ Let `hs : Y' ⟶ Y` be a morphism of schemes, `𝒜` a quasi-coherent graded `�
 `χ : f₀^*𝒜₁ ⟶ ⨁_d ℒ^{⊗ d}` a map of graded algebras.  Reading `χ` through `Φ` and through the
 identification `f₀^*(hs^*𝒜) = (hs ∘ f₀)^*𝒜` of [Stacks, Tag 01NT] gives a map
 `ζ : (hs ∘ f₀)^*𝒜 ⟶ ⨁_d ℒ^{⊗ d}` (`…RelativeProjInvertibleMorphism.changeTarget`), and
-`StacksFrontier/AlgebraicGeometry/RelativeProjInvertibleMorphism/TargetChange.lean` compares the opens
-and the morphisms of [Stacks, Tag 01O9] for `ζ` and `χ`.  This file compares the maps `θ` of
+`StacksFrontier/AlgebraicGeometry/RelativeProjInvertibleMorphism/TargetChange.lean` compares the
+opens and the morphisms of [Stacks, Tag 01O9] for `ζ` and `χ`.  This file compares the maps `θ` of
 Tag 01O9 (`…RelativeProjInvertibleMorphism.theta_changeTarget`), from the following data:
 
 * `U(ζ) = U(χ)` and `r_ζ = (U(ζ) ⊆ U(χ)) ≫ r_χ ≫ pc` for the comparison morphism

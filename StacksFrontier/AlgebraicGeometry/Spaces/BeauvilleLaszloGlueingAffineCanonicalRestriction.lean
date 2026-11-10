@@ -66,7 +66,8 @@ fields, so no coherence condition has to be verified, and the `functorIso` field
 `CategoryTheory.ObjectProperty.liftCompιIso`, because the forward functor is literally the lift
 of the gluing functor. Faithfulness is Stacks 0F9S; fullness and essential surjectivity are in
 `StacksFrontier/AlgebraicGeometry/Spaces/BeauvilleLaszloGlueingAffineCanonicalFull.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/BeauvilleLaszloGlueingAffineCanonicalEssSurj.lean`, where the
+`StacksFrontier/AlgebraicGeometry/Spaces/BeauvilleLaszloGlueingAffineCanonicalEssSurj.lean`, where
+the
 Beauville--Laszlo theorem for algebras enters.
 
 ## References

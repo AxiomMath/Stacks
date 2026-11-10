@@ -99,7 +99,7 @@ theorem tensorSectionHom_app (F N : SheafOfModules.{w} (structureSheaf O hO))
     (σ : SheafOfModules.unit (structureSheaf O hO) ⟶ N) (U : Cᵒᵖ) (x : F.val.obj U) :
     (Stacks.InverseSection.tensorSectionHom O hO F N σ).val.app U x =
       tensorSectionsAt O hO U F N x (σ.val.app U (1 : O.obj U)) := by
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
         (F))).map σ).val.app U
     ((Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso O hO F).inv.val.app U x) = _
@@ -115,7 +115,7 @@ theorem tensorSectionHom_app (F N : SheafOfModules.{w} (structureSheaf O hO))
     refine (congrArg
       (fun y => (Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso O hO F).inv.val.app U y)
       hh).symm.trans ?_
-    show (((Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso O hO F).hom ≫
+    change (((Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso O hO F).hom ≫
       (Stacks.SheafOfModules.tensorLeftFunctorObjUnitIso O hO F).inv).val.app U
       (tensorSectionsAt O hO U F (SheafOfModules.unit (structureSheaf O hO)) x
         (1 : O.obj U))) = _
@@ -183,7 +183,7 @@ theorem sectionPowerAction_comp_actionHom
   apply PresheafOfModules.hom_ext
   intro U
   ext x
-  show (twistActionHom O hO L F n j s).val.app U
+  change (twistActionHom O hO L F n j s).val.app U
     ((sectionPowerAction O hO L F j t).val.app U x) = _
   rw [sectionPowerAction_app, twistActionHom_pure, sectionPowerAction_app, tensorPowerMulHom_apply]
 
@@ -216,16 +216,16 @@ theorem sectionPowerSucc_app_one (s : L.sections) (n : ℤ)
     (sectionPowerSucc O hO L s n t).val.app U (1 : O.obj U) =
       tensorPowerMulSectionAt O hO U L n 1 (t.val.app U (1 : O.obj U))
         ((TensorPower.tensorPowerOneIso O hO L).inv.val.app U (s.eval U)) := by
-  show (TensorPower.tensorPowerSuccIso O hO L n).hom.val.app U
+  change (TensorPower.tensorPowerSuccIso O hO L n).hom.val.app U
       ((Stacks.InverseSection.tensorSectionHom O hO (TensorPower.tensorPower O hO L n) L
         (L.unitHomEquiv.symm s)).val.app U (t.val.app U (1 : O.obj U))) = _
   rw [tensorSectionHom_app, sheafUnitHomEquiv_symm_app_one]
-  show _ = ((TensorPower.coherentMulIso O hO L n 1).hom.val.app U)
+  change _ = ((TensorPower.coherentMulIso O hO L n 1).hom.val.app U)
     (tensorSectionsAt O hO U (TensorPower.tensorPower O hO L n)
       (TensorPower.tensorPower O hO L 1) (t.val.app U (1 : O.obj U))
       ((TensorPower.tensorPowerOneIso O hO L).inv.val.app U (s.eval U)))
   rw [TensorPower.coherentMulIso_one_right]
-  show _ = (TensorPower.tensorPowerSuccIso O hO L n).hom.val.app U
+  change _ = (TensorPower.tensorPowerSuccIso O hO L n).hom.val.app U
     ((Invertible.tensorProductIso O hO (Iso.refl (TensorPower.tensorPower O hO L n))
       (TensorPower.tensorPowerOneIso O hO L)).hom.val.app U
       (tensorSectionsAt O hO U _ _ (t.val.app U (1 : O.obj U))
@@ -233,7 +233,7 @@ theorem sectionPowerSucc_app_one (s : L.sections) (n : ℤ)
   rw [tensorSections_tensorProductIsoAt]
   congr 2
   symm
-  show ((TensorPower.tensorPowerOneIso O hO L).inv ≫
+  change ((TensorPower.tensorPowerOneIso O hO L).inv ≫
     (TensorPower.tensorPowerOneIso O hO L).hom).val.app U (s.eval U) = _
   rw [Iso.inv_hom_id]
   rfl

@@ -41,7 +41,8 @@ in.
   `(f ∣_ V)_*(M|_{f⁻¹V})`. No hypothesis on `f` or on `V`.
 * `Stacks.AlgebraicGeometry.TopDegreeBaseChange.modulePushforwardMorphismRestrictIso` —
   [Stacks, Tag 01E5] undervied at Mathlib's restricted morphism `f ∣_ V`: the
-  isomorphism `Stacks.Cohomology.HigherDirectImage.modulePushforwardRestrictIso`, whose restricted morphism is
+  isomorphism `Stacks.Cohomology.HigherDirectImage.modulePushforwardRestrictIso`, whose
+  restricted morphism is
   the ringed-space one, transported along
   `…SchemeHigherDirectImage.toShHom_morphismRestrict`. Nothing is re-proved; the transport is an
   `eqToIso`, which is why it has a name at all — a definitional identity does not serve.
@@ -82,7 +83,8 @@ ring maps by `…TopDegreeBaseChange.app_comp_topIso_inv_hom`, so the passage is
 `restrictScalarsSquareIso` — the functorial form of `restrictScalarsSquareObjIso`, which that
 file states at an object because that is all its consumer needed.
 
-*The two routes are equal, and how the heartbeat budget is met.* `rfl` on the two assembled natural transformations, `rfl` on their components at a module, `rfl` on the
+*The two routes are equal, and how the heartbeat budget is met.* `rfl` on the two assembled
+natural transformations, `rfl` on their components at a module, `rfl` on the
 components of their inverses and `ext M x; rfl` each exhaust the 200,000-heartbeat budget at
 `whnf` or at `isDefEq`. The proof is **not** a shuffle at variables
 (`…DerivedSectionsLeray.lerayCompositeComparison_restrictSource`'s `glue_two_naturalities`), and

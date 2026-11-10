@@ -114,9 +114,9 @@ theorem exists_pow_eq_one_of_forall_conj_invariant {Γ : Type*} [Group Γ] [Topo
     ∃ m : ℕ, 0 < m ∧ ∀ h ∈ H, χ h ^ m = 1 := by
   set U : Subgroup Γ := (discSubgroup ℓ K).comap χ
   have hUopen : IsOpen (U : Set Γ) := by
-    show IsOpen {g : Γ | ‖(χ g : K) - 1‖ < (ℓ : ℝ)⁻¹}
+    change IsOpen {g : Γ | ‖(χ g : K) - 1‖ < (ℓ : ℝ)⁻¹}
     exact isOpen_lt (continuous_norm.comp (hχ.sub continuous_const)) continuous_const
-  have : (discSubgroup ℓ K).Normal := Subgroup.normal_of_comm _
+  have : (discSubgroup ℓ K).Normal := Subgroup.normal_of_isMulCommutative _
   have : U.Normal := Subgroup.Normal.comap inferInstance χ
   have : Finite (Γ ⧸ U) := Subgroup.quotient_finite_of_isOpen U hUopen
   have : U.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient

@@ -110,7 +110,7 @@ public theorem bijective_etaleCohomologyPullback_iff_of_iso (i : Y ⟶ X)
     intro Z A B e T
     refine Function.bijective_iff_has_inverse.mpr
       ⟨fun z => z.comp (Ext.mk₀ e.inv) (add_zero q), fun z => ?_, fun z => ?_⟩ <;>
-      simp [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
+      simp [Ext.mk₀_comp_mk₀]
   have h : (etaleCohomologyPullback i (𝟙 ((smallEtalePullbackAb i).obj F')) q : _ → _) ∘
         (fun z : Sheaf.H.{u + 1} F q => z.comp (Ext.mk₀ β.hom) (add_zero q)) =
       (fun z => z.comp (Ext.mk₀ ((smallEtalePullbackAb i).mapIso β).hom) (add_zero q)) ∘

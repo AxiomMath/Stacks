@@ -119,7 +119,7 @@ def picardRepresentative (X : RingedSpace.{u, u}) (x : ofRingedSpace X) :
 theorem classOf_picardRepresentative (X : RingedSpace.{u, u}) (x : ofRingedSpace X) :
     picardClass X.presheaf (structureIsSheaf X) (picardRepresentative X x).obj
       (picardRepresentative X x).property = x := by
-  show (picardGroupData X.presheaf (structureIsSheaf X)).classEquiv
+  change (picardGroupData X.presheaf (structureIsSheaf X)).classEquiv
     (toSkeleton (C := InvertibleModules X.presheaf (structureIsSheaf X))
       ((fromSkeleton (InvertibleModules X.presheaf (structureIsSheaf X))).obj
         ((picardGroupData X.presheaf (structureIsSheaf X)).classEquiv.symm x))) = x

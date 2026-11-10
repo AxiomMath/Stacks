@@ -392,7 +392,7 @@ private theorem precomp_aux {C D E : Type*} [Category C] [Category D] [Category 
     simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom] at h
     rw [← h, Iso.hom_inv_id_assoc]
   have hG1 : i₁.inv ≫ κ₁.hom = j.hom ≫ Rm.map i.inv := by
-    rw [Iso.inv_comp_eq, ← reassoc_of% G1, Iso.map_hom_inv_id, Category.comp_id]
+    rw [Iso.inv_comp_eq, ← reassoc_of% G1, Iso.hom_inv_id_map, Category.comp_id]
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.map_comp, Category.assoc,
     hm]
   rw [reassoc_of% G3, ← reassoc_of% G2, reassoc_of% hG1]
@@ -461,7 +461,7 @@ private theorem precompE_aux {C D : Type*} [Category C] [Category D] (Rm : D ⥤
     simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom] at h
     have h' : jG.inv = Rm.map γ.hom ≫ mlN.hom ≫ τ'.hom ≫ γ₁.inv := by
       rw [reassoc_of% h, Iso.hom_inv_id, Category.comp_id]
-    rw [h', Iso.map_inv_hom_id_assoc]
+    rw [h', Iso.inv_hom_id_map_assoc]
   have h4 : w.hom ≫ c₁.hom = lcq.hom ≫ τ'.hom := by
     simpa only [Iso.trans_hom] using congrArg Iso.hom H4
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Functor.mapIso_hom, Category.assoc,
@@ -638,7 +638,7 @@ theorem chartSquareIso_postcomp (hc₁ : 𝓜.ComparisonCompatTarget 𝓜' c) (q
         (ObjectProperty.isoMk _ (c q) :
           quasicoherentPullbackObj B S hS q.g (𝓜.qcohObj q.V) ≅ 𝓜'.qcohObj q.W) := by
     refine Iso.ext (ObjectProperty.hom_ext _ ?_)
-    show (c (q.postcomp k)).hom =
+    change (c (q.postcomp k)).hom =
       (Scheme.Modules.pullbackComp ((BigFppfOver.toScheme B S hS).map q.g)
           (chartSchemeMap k)).inv.app (𝓜.M V₀) ≫
         (Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map q.g)).map (𝓜.τ k).hom ≫
@@ -673,7 +673,7 @@ theorem chartSquareIso_precomp (hc₂ : 𝓜.ComparisonCompatSource 𝓜' c) (q 
           quasicoherentPullbackObj B S hS q.g (𝓜.qcohObj q.V) ≅ 𝓜'.qcohObj q.W) ≪≫
         𝓜'.qcohTransition l := by
     refine Iso.ext (ObjectProperty.hom_ext _ ?_)
-    show (Scheme.Modules.pullbackComp (chartSchemeMap l)
+    change (Scheme.Modules.pullbackComp (chartSchemeMap l)
           ((BigFppfOver.toScheme B S hS).map q.g)).hom.app (𝓜.M q.V) ≫ (c (q.precomp l)).hom =
       (Scheme.Modules.pullback (chartSchemeMap l)).map (c q).hom ≫ (𝓜'.τ l).hom
     rw [hc₂ q l]

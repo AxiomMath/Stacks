@@ -69,6 +69,7 @@ theorem chowPushforwardOfIso_eq_chowPush {A B : Scheme.{u}} (sA : A ⟶ C.S)
     chowPushforwardOfIso C sA sB w hw k = chowPush C sA sB w hw k :=
   rfl
 
+omit [LocallyOfFiniteType f] [IsProper b] [LocallyOfFiniteType g] in
 /-- The base change of `i_∞` composed with the projection to `W` is the projection to `W_∞`
 followed by `i_∞`, read on the zero-scheme model of `W_∞ ×_X T`. -/
 theorem testInfinityIso_comp_fst_comp_inclusion :
@@ -167,7 +168,7 @@ variable [IsIso (pullback.snd b (projectiveLineAffineChart f))]
 abbrev zeroSectionTest : T ⟶ pullback (modificationProjection f b) g :=
   modificationSectionAtZeroBaseChange f b inferInstance (modificationSectionAtZero_comp f b) g
 
-omit [IsProper b] in
+omit [LocallyOfFiniteType f] [IsProper b] [LocallyOfFiniteType g] in
 /-- The base change `T ⟶ W ×_X T` of the section at zero, followed by the projection to `W`, is
 `g` followed by the section at zero `i_0 : X ⟶ W`. -/
 theorem zeroSectionTest_comp_fst :
@@ -196,7 +197,7 @@ theorem chowPush_onChow_of_isLift {k : ℤ} {α : chowGroup C (g ≫ f) k}
     eqMp_chowGroupDegreeEquiv C _ (sub_zero k).symm (sub_zero k)] at hform
   refine Eq.trans ?_ hform
   rw [chowPushforwardOfIso_eq_chowPush]
-  show _ = chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _)
+  change _ = chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _)
   rw [chowPush_comp C _ _ _ _ _ _ rfl]
   · exact chowPush_congr C _ _ (testInfinityIso_comp_modificationInfinityBaseChange C f b g).symm
       _ _ _ _
@@ -262,7 +263,7 @@ theorem properChowPushforward_infinityGysin_idRule
               (x.idRule C _ (gysinSystemOfInvertible C)
                 (pullback.fst (modificationProjection f b) g) (k + 1) β)))) := by
     rw [infinityGysin_apply, chowPushforwardOfIso_eq_chowPush]
-    show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
+    change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
     rw [chowPush_comp C _ _ _ _ _ _ rfl, chowPush_comp C _ _ _ _ _ _ rfl]
     · exact chowPush_congr C _ _ hD.symm _ _ _ _
     all_goals first

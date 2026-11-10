@@ -33,7 +33,8 @@ The comparison functor is `Stacks.SheafOfModules.sliceEquiv`, the *equivalence*
 `Stacks.SheafOfModules.sliceEquivUnitIso` (it matches the two structure sheaves).
 
 That is exactly the data which `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/`
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GlobalTypesUnderComparison.lean` — Descent, Lemma 05VG for the global properties of Modules on
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GlobalTypesUnderComparison.lean` — Descent,
+Lemma 05VG for the global properties of Modules on
 Sites, Definition 03DE — asks for: a full, faithful, coproduct-preserving functor carrying the
 structure sheaf to the structure sheaf.  Its
 `Stacks.Sheaves.GlobalTypeComparison.generatingSectionsMap` and `.generatingSectionsOfMap` move a

@@ -132,7 +132,7 @@ theorem obj_f_pr₁ {i j : C.ι} {V : BigFppfOver B S hS} (x : (C.X i j).val.val
       (⟨V, Discrete.mk (n ≫ C.s i j)⟩ : (fibredCategory B S hS (yoneda.obj (C.M i))).val.obj) := by
   have c := congrArg (fun G => G.hom.obj x) (C.φ_comp_s i j)
   refine c.symm.trans ?_
-  show (associatedMap B S hS (yoneda.map (C.s i j))).1.hom.obj ((C.φ i j).hom.hom.obj x) = _
+  change (associatedMap B S hS (yoneda.map (C.s i j))).1.hom.obj ((C.φ i j).hom.hom.obj x) = _
   rw [hx]
   exact associatedMap_obj B S hS _ _
 
@@ -146,7 +146,7 @@ theorem obj_f_pr₂ {i j : C.ι} {V : BigFppfOver B S hS} (x : (C.X i j).val.val
       (⟨V, Discrete.mk (n ≫ C.t i j)⟩ : (fibredCategory B S hS (yoneda.obj (C.M j))).val.obj) := by
   have c := congrArg (fun G => G.hom.obj x) (C.φ_comp_t i j)
   refine c.symm.trans ?_
-  show (associatedMap B S hS (yoneda.map (C.t i j))).1.hom.obj ((C.φ i j).hom.hom.obj x) = _
+  change (associatedMap B S hS (yoneda.map (C.t i j))).1.hom.obj ((C.φ i j).hom.hom.obj x) = _
   rw [hx]
   exact associatedMap_obj B S hS _ _
 

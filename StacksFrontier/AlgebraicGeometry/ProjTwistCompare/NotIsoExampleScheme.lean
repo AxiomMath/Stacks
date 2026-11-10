@@ -177,7 +177,7 @@ theorem psiGamma_eq : psiGamma R = ((eB R).comp (psi R)).comp (eAinv R) := by
   obtain ⟨x, rfl⟩ := (globalSectionsRingEquiv (R := CommRingCat.of R) (gradA R)).surjective z
   refine (sectionHom_globalSectionsRingEquiv (R := CommRingCat.of R) (gradA R) (gradB R)
     (psiAlg R) (psiAlg_mem R) x).trans ?_
-  show _ = globalSectionsRingEquiv (R := CommRingCat.of R) (gradB R) (psi R
+  change _ = globalSectionsRingEquiv (R := CommRingCat.of R) (gradB R) (psi R
     ((globalSectionsRingEquiv (R := CommRingCat.of R) (gradA R)).symm
       (globalSectionsRingEquiv (R := CommRingCat.of R) (gradA R) x)))
   rw [RingEquiv.symm_apply_apply]
@@ -252,7 +252,9 @@ variable [Nontrivial R]
 
 /-- **The comparison map `θ₁ : r_ψ^*𝒪(1) ⟶ 𝒪(1)` of Stacks 07ZG for `ψ : A~ ⟶ B~` on `Spec R` is
 not an isomorphism**, although `ψ` is surjective in every degree (`epi_sheafHom_app`). -/
-@[stacks 085H "(3), second half: the maps θ are not isomorphisms in general, even if A → B is surjective: A = R[x,y]/(x²) with deg x = 1, deg y = 2, B = A/(x) on Spec R, θ₁ is not an iso"]
+@[stacks 085H "(3), second half: the maps θ are not isomorphisms in general, even if \
+  A → B is surjective: A = R[x,y]/(x²) with deg x = 1, deg y = 2, B = A/(x) on Spec R, \
+  θ₁ is not an iso"]
 theorem not_isIso_relativeTwistMap :
     ¬ IsIso (relativeTwistMap (sheafHom R) ((1 : ℕ) : ℤ)) := by
   intro h
@@ -273,11 +275,11 @@ theorem not_isIso_relativeTwistMap :
   let a : (sheafGradedAlgebra (R := CommRingCat.of R) (gradA R)).grading ⊤ 1 :=
     ⟨e (xA R), (eA R).map_mem (xA_mem R)⟩
   have ha : psiGamma R a = 0 := by
-    show psiGamma R (eA R (xA R)) = 0
+    change psiGamma R (eA R (xA R)) = 0
     rw [psiGamma_eq]
-    show eB R (psi R (eAinv R (eA R (xA R)))) = 0
+    change eB R (psi R (eAinv R (eA R (xA R)))) = 0
     rw [← GradedRingHom.comp_apply (eAinv R) (eA R), eAinv_comp_eA]
-    show eB R (psi R (xA R)) = 0
+    change eB R (psi R (xA R)) = 0
     rw [psi_xA, map_zero]
   obtain ⟨pt⟩ : Nonempty (PrimeSpectrum (HomogeneousLocalization.Away (gradB R)
     (psi R (yA R)))) := inferInstance

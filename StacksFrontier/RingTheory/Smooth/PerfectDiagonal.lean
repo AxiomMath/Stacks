@@ -116,8 +116,7 @@ private theorem exists_eq_one_tmul
     (hsurj : Function.Surjective (algebraMap P κ))
     (N : Type w) [AddCommGroup N] [Module P N] (y : κ ⊗[P] N) :
     ∃ x : N, y = (1 : κ) ⊗ₜ[P] x := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul c x =>
     obtain ⟨a, rfl⟩ := hsurj c
     exact ⟨a • x, by rw [← TensorProduct.smul_tmul, Algebra.algebraMap_eq_smul_one]⟩
@@ -143,7 +142,7 @@ private theorem one_tmul_eq_zero_iff_mem_ker_smul_top
     (TensorProduct.congr eκ.symm.toLinearEquiv (LinearEquiv.refl P N)).trans
       (TensorProduct.quotTensorEquivQuotSMul N a)
   have he (y : N) : e (1 ⊗ₜ[P] y) = Submodule.Quotient.mk y := by
-    show TensorProduct.quotTensorEquivQuotSMul N a (eκ.symm (1 : κ) ⊗ₜ[P] y) = _
+    change TensorProduct.quotTensorEquivQuotSMul N a (eκ.symm (1 : κ) ⊗ₜ[P] y) = _
     rw [heκone]
     exact TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul _ _
   rw [← e.map_eq_zero_iff, he, Submodule.Quotient.mk_eq_zero]
@@ -188,7 +187,7 @@ private theorem one_tmul_sub_tmul_one_mem_maximalIdeal_mul_add_sq
       rw [show algebraMap P (TensorProduct A P P) = l.toRingHom from rfl]
       exact Ideal.mul_mem_mul (Ideal.mem_map_of_mem l.toRingHom ha) y.2
     simpa only [Submodule.coe_smul_of_tower, Algebra.smul_def] using hmul
-  show δ ∈ (mR * H : Submodule (TensorProduct A P P) (TensorProduct A P P)) ⊔
+  change δ ∈ (mR * H : Submodule (TensorProduct A P P) (TensorProduct A P P)) ⊔
     (H ^ 2 : Submodule (TensorProduct A P P) (TensorProduct A P P))
   convert Submodule.add_mem_sup hxmul ((H ^ 2).neg_mem hxsub) using 1; abel
 
@@ -508,7 +507,7 @@ private noncomputable def multiplicationIdeal : Ideal (PresentationLocalization 
 
 private theorem diagonalIdeal_le_multiplicationIdeal :
     diagonalIdeal A B P ≤ multiplicationIdeal A B P := fun x hx => by
-  show diagonalMultiplication A B (presentationDiagonalLocalized A B P x) = 0
+  change diagonalMultiplication A B (presentationDiagonalLocalized A B P x) = 0
   rw [show presentationDiagonalLocalized A B P x = 0 from hx, map_zero]
 
 /-- Injectivity of `I/𝔪I → J/𝔪J`, the conclusion Rodicio's theorem (Stacks 09PV) supplies for
@@ -549,8 +548,7 @@ omit [IsLocalRing B] in
 private theorem lmul'_presentationDiagonal (z : TensorProduct A P P) :
     (Algebra.TensorProduct.lmul' (R := A) (S := B)) (presentationDiagonal A B P z) =
       algebraMap P B ((Algebra.TensorProduct.lmul' (R := A) (S := P)) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [presentationDiagonal]
+  induction z using TensorProduct.inductionOn with
   | tmul a b => exact (map_mul (algebraMap P B) a b).symm
   | add z z' hz hz' => simp [hz, hz']
 
@@ -566,7 +564,7 @@ private theorem surjective_residueDiagonalRingHom
     (hg : Function.Surjective (algebraMap P B)) :
     Function.Surjective (residueDiagonalRingHom A B P) := by
   refine (IsLocalRing.residue_surjective (R := B)).comp (hg.comp fun p => ⟨p ⊗ₜ[A] (1 : P), ?_⟩)
-  show (Algebra.TensorProduct.lmul' (R := A) (S := P)) (p ⊗ₜ[A] (1 : P)) = p
+  change (Algebra.TensorProduct.lmul' (R := A) (S := P)) (p ⊗ₜ[A] (1 : P)) = p
   simp
 
 private theorem isUnit_residueDiagonalRingHom
@@ -658,7 +656,7 @@ private theorem conormalInjective_of_hasProjectiveDimensionLT_diagonal
   have hμ : Function.Surjective μ := by
     intro b
     refine ⟨b ⊗ₜ[A] (1 : B), ?_⟩
-    show Algebra.TensorProduct.lmul' (R := A) (S := B) (b ⊗ₜ[A] (1 : B)) = b
+    change Algebra.TensorProduct.lmul' (R := A) (S := B) (b ⊗ₜ[A] (1 : B)) = b
     simp
   have hunitq : ∀ x : q.primeCompl, IsUnit (μ x.1) := fun x =>
     IsLocalRing.notMem_maximalIdeal.mp x.2
@@ -693,7 +691,7 @@ private theorem conormalInjective_of_hasProjectiveDimensionLT_diagonal
   have hθ : eJ.toRingEquiv.toRingHom.comp θ = μq.toRingHom := by
     ext t
     obtain ⟨x, rfl⟩ := hfQ t
-    show eJ (Ideal.Quotient.factor hIJ (eI.symm (fQ x))) = μq (fQ x)
+    change eJ (Ideal.Quotient.factor hIJ (eI.symm (fQ x))) = μq (fQ x)
     rw [Ideal.quotientKerAlgEquivOfSurjective_symm_apply, Ideal.Quotient.factor_mk,
       Ideal.quotientKerAlgEquivOfSurjective_mk]
     rfl
@@ -706,7 +704,7 @@ private theorem conormalInjective_of_hasProjectiveDimensionLT_diagonal
       right_inv := eJ.right_inv
       map_add' := eJ.map_add
       map_smul' t x := by
-        show eJ (θ t * x) = μq.toRingHom t * eJ x
+        change eJ (θ t * x) = μq.toRingHom t * eJ x
         calc eJ (θ t * x) = eJ (θ t) * eJ x := map_mul eJ.toRingEquiv.toRingHom (θ t) x
           _ = μq.toRingHom t * eJ x := by rw [hθ_apply] }
   have hpdT := exists_hasProjectiveDimensionLT_diagonal_localization A B hpd
@@ -781,10 +779,10 @@ private theorem relationMemConormal_of_conormalInjective
   have : IsLocalHom (algebraMap P B) := IsLocalHom.of_surjective _ hg
   have hmRle : mR ≤ m := by
     refine Ideal.map_le_iff_le_comap.mpr fun a ha => ?_
-    show μ (f (l.toRingHom a)) ∈ IsLocalRing.maximalIdeal B
+    change μ (f (l.toRingHom a)) ∈ IsLocalRing.maximalIdeal B
     rw [lmul'_presentationDiagonal A B P (l.toRingHom a),
       show (Algebra.TensorProduct.lmul' (R := A) (S := P)) (l.toRingHom a) = a by
-        show (Algebra.TensorProduct.lmul' (R := A) (S := P)) (a ⊗ₜ[A] (1 : P)) = a
+        change (Algebra.TensorProduct.lmul' (R := A) (S := P)) (a ⊗ₜ[A] (1 : P)) = a
         simp]
     exact map_nonunit (algebraMap P B) a ha
   have hmQ : Ideal.map ρ mR ≤ IsLocalRing.maximalIdeal Q := by
@@ -794,7 +792,7 @@ private theorem relationMemConormal_of_conormalInjective
     diagonalMultiplication_comp_algebraMap A B
   have hνρ (z : R) :
       νq (ρ z) = algebraMap P B ((Algebra.TensorProduct.lmul' (R := A) (S := P)) z) := by
-    show diagonalMultiplication A B
+    change diagonalMultiplication A B
       (Localization.localRingHom m q f.toRingHom rfl (algebraMap R Q z)) = _
     rw [Localization.localRingHom_to_map m q f.toRingHom rfl,
       show diagonalMultiplication A B (algebraMap T Tq (f.toRingHom z)) = μ (f z) from
@@ -802,11 +800,11 @@ private theorem relationMemConormal_of_conormalInjective
     exact lmul'_presentationDiagonal A B P z
   have hHle : Ideal.map ρ H ≤ J := by
     refine Ideal.map_le_iff_le_comap.mpr ?_
-    show KaehlerDifferential.ideal A P ≤ Ideal.comap ρ J
+    change KaehlerDifferential.ideal A P ≤ Ideal.comap ρ J
     rw [← KaehlerDifferential.span_range_eq_ideal A P]
     refine Ideal.span_le.mpr ?_
     rintro _ ⟨a, rfl⟩
-    show νq (ρ ((1 : P) ⊗ₜ[A] a - a ⊗ₜ[A] (1 : P))) = 0
+    change νq (ρ ((1 : P) ⊗ₜ[A] a - a ⊗ₜ[A] (1 : P))) = 0
     rw [hνρ, show (Algebra.TensorProduct.lmul' (R := A) (S := P))
       ((1 : P) ⊗ₜ[A] a - a ⊗ₜ[A] (1 : P)) = 0 by simp, map_zero]
   have hJproper : J ≠ ⊤ := RingHom.ker_ne_top (presentationMultiplication A B P).toRingHom
@@ -860,8 +858,7 @@ private theorem exists_residueConormalComparison
   let ψ : U →ₐ[A] T := Algebra.TensorProduct.map (AlgHom.id A B) g
   have hφψ : ψ.toRingHom.comp φ.toRingHom = f.toRingHom := by
     refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       simp only [RingHom.comp_apply]
       rfl
@@ -874,8 +871,7 @@ private theorem exists_residueConormalComparison
     ((rB.restrictScalars A).comp g) fun b x => Commute.all _ _
   have hτ : τ = (rB.restrictScalars A).comp ((μ.restrictScalars A).comp ψ) := by
     refine AlgHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b x => exact (map_mul rB b (g x)).symm
     | add x y hx hy => simp [hx, hy]
   let rightInclU : P →ₐ[A] U := Algebra.TensorProduct.includeRight
@@ -883,13 +879,13 @@ private theorem exists_residueConormalComparison
   let : Module P U := Algebra.toModule
   let : SMul P U := (Module.toDistribMulAction (R := P) (M := U)).toSMul
   let : IsScalarTower A P U := IsScalarTower.of_algebraMap_eq' (RingHom.ext fun a => by
-    show algebraMap A U a = rightInclU (algebraMap A P a)
+    change algebraMap A U a = rightInclU (algebraMap A P a)
     exact (rightInclU.commutes a).symm)
   let M := kB ⊗[P] Kker
   let : SMulCommClass P kB kB := ⟨fun x y z => by simp only [Algebra.smul_def]; ac_rfl⟩
   let : Module kB M := TensorProduct.leftModule
   have hτalgP (x : P) : τ (algebraMap P U x) = algebraMap P kB x := by
-    show τ ((1 : B) ⊗ₜ[A] x) = _
+    change τ ((1 : B) ⊗ₜ[A] x) = _
     rw [show τ ((1 : B) ⊗ₜ[A] x) = rB 1 * rB (g x) from
       Algebra.TensorProduct.lift_tmul _ _ _ _ _, map_one, one_mul,
       IsScalarTower.algebraMap_apply P B kB x]
@@ -901,21 +897,21 @@ private theorem exists_residueConormalComparison
   let : SMul U M := (Module.toDistribMulAction (R := U) (M := M)).toSMul
   let : IsScalarTower P U kB := ⟨fun x u z => by
     simp only [Algebra.smul_def]
-    show τ.toRingHom (x • u) * z = algebraMap P kB x * (τ.toRingHom u * z)
+    change τ.toRingHom (x • u) * z = algebraMap P kB x * (τ.toRingHom u * z)
     rw [show τ.toRingHom (x • u) = algebraMap P kB x * τ.toRingHom u from hτsmul x u]
     ac_rfl⟩
   let : IsScalarTower U kB M :=
     IsScalarTower.of_algebraMap_smul (R := U) (A := kB) (M := M) fun x y => rfl
   let : SMulCommClass P U U := ⟨fun x y z => by
-    show algebraMap P U x * (y * z) = y * (algebraMap P U x * z)
+    change algebraMap P U x * (y * z) = y * (algebraMap P U x * z)
     ring⟩
   have hPU : IsScalarTower P U M := ⟨fun x u z => by
-    show τ (x • u) • z = x • (τ u • z)
+    change τ (x • u) • z = x • (τ u • z)
     rw [hτsmul, mul_smul]
     exact IsScalarTower.algebraMap_smul kB x (τ u • z)⟩
   let : IsScalarTower P U M := hPU
   let : SMulCommClass U U M := ⟨fun x y z => by
-    show τ x • (τ y • z) = τ y • (τ x • z)
+    change τ x • (τ y • z) = τ y • (τ x • z)
     rw [← mul_smul, ← mul_smul, mul_comm (τ x) (τ y)]⟩
   let : IsScalarTower U U M :=
     IsScalarTower.of_algebraMap_smul (R := U) (A := U) (M := M) fun x z => rfl
@@ -931,13 +927,13 @@ private theorem exists_residueConormalComparison
   have hwτφ : τ.toRingHom.comp φ.toRingHom = residueDiagonalRingHom A B P := by
     rw [residueDiagonalRingHom_eq A B P]
     refine RingHom.ext fun z => ?_
-    show τ (φ z) = algebraMap B kB (μ (f z))
+    change τ (φ z) = algebraMap B kB (μ (f z))
     rw [hτ]
-    show algebraMap B kB (μ (ψ (φ z))) = algebraMap B kB (μ (f z))
+    change algebraMap B kB (μ (ψ (φ z))) = algebraMap B kB (μ (f z))
     rw [show ψ (φ z) = f z from congrArg (fun w : R →+* T => w z) hφψ]
   let : IsScalarTower R U M :=
     IsScalarTower.of_algebraMap_smul (R := R) (A := U) (M := M) fun r z => by
-      show τ (φ r) • z = (residueDiagonalRingHom A B P) r • z
+      change τ (φ r) • z = (residueDiagonalRingHom A B P) r • z
       rw [show τ (φ r) = residueDiagonalRingHom A B P r from
         congrArg (fun w : R →+* kB => w r) hwτφ]
   let : Module R (RingHom.ker ψ.toRingHom) :=
@@ -956,30 +952,30 @@ private theorem exists_residueConormalComparison
   let kK : Kker := ⟨k, k.property⟩
   let uδ : U := (1 : B) ⊗ₜ[A] (k : P)
   have huδ : ψ uδ = 0 := by
-    show Algebra.TensorProduct.map (AlgHom.id A B) g ((1 : B) ⊗ₜ[A] (k : P)) = 0
+    change Algebra.TensorProduct.map (AlgHom.id A B) g ((1 : B) ⊗ₜ[A] (k : P)) = 0
     rw [Algebra.TensorProduct.map_tmul]
-    show (1 : B) ⊗ₜ[A] algebraMap P B (k : P) = 0
+    change (1 : B) ⊗ₜ[A] algebraMap P B (k : P) = 0
     rw [hk0]
     simp
   have hkerMapy : kerMap y = (⟨uδ, huδ⟩ : RingHom.ker ψ.toRingHom) := by
     refine Subtype.ext ?_
     rw [hkerMap y, hy]
-    show Algebra.TensorProduct.map g (AlgHom.id A P)
+    change Algebra.TensorProduct.map g (AlgHom.id A P)
       ((1 : P) ⊗ₜ[A] (k : P) - (k : P) ⊗ₜ[A] (1 : P)) = uδ
     rw [map_sub, Algebra.TensorProduct.map_tmul, Algebra.TensorProduct.map_tmul]
-    show (algebraMap P B (1 : P)) ⊗ₜ[A] (k : P) -
+    change (algebraMap P B (1 : P)) ⊗ₜ[A] (k : P) -
       (algebraMap P B (k : P)) ⊗ₜ[A] (1 : P) = uδ
     rw [hk0]
     simp [uδ]
   have hEquiv : eKer.symm ((1 : U) ⊗ₜ[P] kK) = (⟨uδ, huδ⟩ : RingHom.ker ψ.toRingHom) := by
     refine Subtype.ext ?_
-    show (eKer.symm ((1 : U) ⊗ₜ[P] kK) : U) = uδ
+    change (eKer.symm ((1 : U) ⊗ₜ[P] kK) : U) = uδ
     rw [show (1 : U) = ((1 : B) ⊗ₜ[A] (1 : P)) from rfl,
       Algebra.kerTensorProductMapIdToAlgHomEquiv_symm_apply]
     simp [uδ, kK]
   have hlast : lTensor ((1 : U) ⊗ₜ[P] kK) = (1 : kB) ⊗ₜ[P] k := by
     rw [LinearMap.liftBaseChange_tmul]
-    show (1 : U) • lK kK = (1 : kB) ⊗ₜ[P] k
+    change (1 : U) • lK kK = (1 : kB) ⊗ₜ[P] k
     calc (1 : U) • lK kK = lK kK := one_smul _ _
       _ = (1 : kB) ⊗ₜ[P] k := rfl
   calc ((l0.restrictScalars R).comp kerMap) y = l0 (kerMap y) := rfl
@@ -1028,17 +1024,17 @@ private theorem one_tmul_eq_zero_of_relationMemConormal
   let : IsScalarTower R kB M :=
     IsScalarTower.of_algebraMap_smul (R := R) (A := kB) (M := M) fun x y => rfl
   let : IsScalarTower R R M := ⟨fun x y z => by
-    show w (x * y) • z = w x • (w y • z)
+    change w (x * y) • z = w x • (w y • z)
     rw [map_mul, mul_smul]⟩
   let : SMulCommClass R R M := ⟨fun x y z => by
-    show w x • (w y • z) = w y • (w x • z)
+    change w x • (w y • z) = w y • (w x • z)
     rw [← mul_smul, ← mul_smul, mul_comm]⟩
   let : Algebra R (Module.End R M) := Module.End.instAlgebra R R M
   let : Module Q M := Module.compHom M wQ
   let : SMul Q M := (Module.toDistribMulAction (R := Q) (M := M)).toSMul
   let : IsScalarTower R Q M :=
     IsScalarTower.of_algebraMap_smul (R := R) (A := Q) (M := M) fun r z => by
-      show wQ (algebraMap R Q r) • z = w r • z
+      change wQ (algebraMap R Q r) • z = w r • z
       rw [show wQ (algebraMap R Q r) = w r from congrArg (fun u : R →+* kB => u r) hwQ_comp]
   have hf : Function.Surjective f :=
     Algebra.TensorProduct.map_surjective (IsScalarTower.toAlgHom A P B)
@@ -1053,7 +1049,7 @@ private theorem one_tmul_eq_zero_of_relationMemConormal
     (hmap.symm ▸ Submonoid.le_comap_map m.primeCompl)
   have hlocf : (presentationDiagonalLocalized A B P).toRingHom = locf := by
     refine IsLocalization.ringHom_ext m.primeCompl (RingHom.ext fun x => ?_)
-    show presentationDiagonalLocalized A B P (algebraMap R Q x) = locf (algebraMap R Q x)
+    change presentationDiagonalLocalized A B P (algebraMap R Q x) = locf (algebraMap R Q x)
     have h1 : presentationDiagonalLocalized A B P (algebraMap R Q x) = algebraMap T Tq (f x) :=
       Localization.localRingHom_to_map m q f.toRingHom rfl x
     have h2 : locf (algebraMap R Q x) = algebraMap T Tq (f x) :=
@@ -1080,7 +1076,7 @@ private theorem one_tmul_eq_zero_of_relationMemConormal
   have hwQker : RingHom.ker wQ = IsLocalRing.maximalIdeal Q :=
     IsLocalRing.ker_eq_maximalIdeal wQ hwQsurj
   have hmax : ∀ r ∈ IsLocalRing.maximalIdeal Q, ∀ z : M, r • z = 0 := fun r hr z => by
-    show wQ r • z = 0
+    change wQ r • z = 0
     rw [show wQ r = 0 from RingHom.mem_ker.mp (hwQker ▸ hr), zero_smul]
   let δ : R := (1 : P) ⊗ₜ[A] (k : P) - (k : P) ⊗ₜ[A] (1 : P)
   have hδker : δ ∈ RingHom.ker f.toRingHom :=
@@ -1293,10 +1289,9 @@ private theorem diagonal_isLocalization_of_isLocalization
       simp [f₂, RingHom.algebraMap_toAlgebra])
   let : IsScalarTower (B ⊗[A] B) (C ⊗[A] B) (C ⊗[A] C) := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b₁ b₂ =>
-      show f (b₁ ⊗ₜ[A] b₂) = f₂ (f₁ (b₁ ⊗ₜ[A] b₂))
+      change f (b₁ ⊗ₜ[A] b₂) = f₂ (f₁ (b₁ ⊗ₜ[A] b₂))
       simp [f, f₁, f₂]
     | add x y hx hy => simp [hx, hy]
   refine ⟨IsLocalization.localizationLocalizationSubmodule
@@ -1347,8 +1342,7 @@ private theorem exists_hasProjectiveDimensionLT_diagonal_of_isLocalization
   let : SMul T C := Algebra.toSMul
   let : IsScalarTower T V C := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b₁ b₂ =>
       change algebraMap B C (b₁ * b₂) =
         (Algebra.TensorProduct.lmul' (R := Aₚ) (S := C)) (g (f (b₁ ⊗ₜ[A] b₂)))
@@ -1399,7 +1393,7 @@ public theorem smooth_of_flat_of_hasProjectiveDimensionLT_diagonal
   let : Algebra Aₚ C := Localization.AtPrime.algebraOfLiesOver p q
   let : IsScalarTower A Aₚ C := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq,
+    rw [Localization.AtPrime.algebraMap_eq,
       Localization.localRingHom_to_map p q (algebraMap A B) Ideal.LiesOver.over a]
     rfl
   have : Module.Flat Aₚ C :=

@@ -134,7 +134,7 @@ lemma exists_eqToHom_modulePlusIso_f {K : CochainComplex
       (_root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A)) ℕ} (n : ℕ) :
     ∃ h, ((CochainComplex.Plus.ι (AbelianSheaf X.carrier)).map (modulePlusIso K).hom).f (n : ℤ) =
       eqToHom h := by
-  show ∃ h, (HomologicalComplex.mapHomologicalComplexExtendIso
+  change ∃ h, (HomologicalComplex.mapHomologicalComplexExtendIso
     (_root_.SheafOfModules.toSheaf (underlyingRingSheaf A)) K embeddingUpNat).hom.f (n : ℤ) = _
   rw [HomologicalComplex.mapHomologicalComplexExtendIso_hom_f _ _ embeddingUpNat (i := n)
     (i' := (n : ℤ)) rfl]
@@ -150,7 +150,7 @@ an `eqToHom`. -/
 lemma exists_eqToHom_gradedPiecePlusIso_f (k : ℕ) :
     ∃ h, ((CochainComplex.Plus.ι (AbelianSheaf X.carrier)).map (gradedPiecePlusIso B D k).hom).f
       (k : ℤ) = eqToHom h := by
-  show ∃ h, (gradedPieceComplexHom B D k).f (k : ℤ) = _
+  change ∃ h, (gradedPieceComplexHom B D k).f (k : ℤ) = _
   rw [gradedPieceComplexHom_f]
   refine exists_eqToHom_comp ?_ (exists_eqToHom_comp ?_ (exists_eqToHom_comp ?_ ?_))
   · exact exists_eqToHom_extendXIso_hom
@@ -291,7 +291,7 @@ theorem gradedPiecePlusShift_comm (a : ℕ) :
   · refine exists_eqToHom_comp (exists_eqToHom_gradedPiecePlusIso_f B D a)
       (exists_eqToHom_comp ⟨_, singleFunctors_shiftIso_inv_app_f _ _ _ _ _ _
         ((HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) (a : ℤ) _).trans (by
-          show _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
+          change _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
             ((deRhamAbelianComplexInt B D).X (a : ℤ))).X ((a : ℤ) + -(a : ℤ))
           rw [add_neg_cancel]
           exact (HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) 0 _).symm))⟩ ?_)

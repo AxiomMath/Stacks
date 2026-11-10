@@ -104,7 +104,7 @@ theorem isOpen_relativelyAmpleLocus : IsOpen (relativelyAmpleLocus f L) := by
       IsOpenSubspace B S hS W ∧ IsRelativelyAmpleOver f L W},
         Set.range (pointsMap B S hS W.1.toFunctor W.1.ι) := by
     ext y
-    simp only [relativelyAmpleLocus, Set.mem_setOf_eq, Set.mem_iUnion, Subtype.exists,
+    simp only [relativelyAmpleLocus, Set.mem_ofPred_eq, Set.mem_iUnion, Subtype.exists,
       exists_prop]
     exact ⟨fun ⟨W, hW, hamp, hy⟩ => ⟨W, ⟨hW, hamp⟩, hy⟩,
       fun ⟨W, ⟨hW, hamp⟩, hy⟩ => ⟨W, hW, hamp, hy⟩⟩
@@ -305,7 +305,7 @@ theorem isRelativelyAmpleOver_image_of_isRelativelyAmpleAlong
     (hL : Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS X.1)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).property L)
     {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    (hZ : IsAlgebraicSpace B S hS Z) {b : Z ⟶ Y.1} (hb : IsEtale B S hS b)
+    {b : Z ⟶ Y.1} (hb : IsEtale B S hS b)
     {W : Subfunctor Z} (hW : IsOpenSubspace B S hS W) (h : IsRelativelyAmpleAlong f L b W) :
     IsRelativelyAmpleOver f L (openSubspaceOfPoints B S hS Y.1
       (Set.range (pointsMap B S hS W.toFunctor (W.ι ≫ b)))) := by
@@ -394,8 +394,7 @@ theorem mem_relativelyAmpleLocus_of_ampleNearFieldPointsOfAffines
   obtain ⟨W, hW, hrW, hWamp⟩ := hA U hU b hb r' _ _ hsq₂ hamp₂
   refine ⟨_, isOpenSubspace_openSubspaceOfPoints_range_comp_of_isEtale
       (isAlgebraicSpace_yoneda B S hS U) Y.2 hb hW,
-    isRelativelyAmpleOver_image_of_isRelativelyAmpleAlong hdesc hL
-      (isAlgebraicSpace_yoneda B S hS U) hb hW hWamp, ?_⟩
+    isRelativelyAmpleOver_image_of_isRelativelyAmpleAlong hdesc hL hb hW hWamp, ?_⟩
   rw [range_pointsMap_ι_openSubspaceOfPoints]
   obtain ⟨w', hw'⟩ := hrW
   refine ⟨w', ?_⟩

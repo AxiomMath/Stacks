@@ -63,7 +63,7 @@ variable {C : Type*} [Category* C] {D : Type*} [Category* D]
 /-- The mate `G ⋙ L' ⟶ L ⋙ H` of an isomorphism `R ⋙ G ≅ H ⋙ R'` between the composites of the
 right adjoints of two adjunctions `L ⊣ R` and `L' ⊣ R'`. -/
 def mateOfRightIso (e : R ⋙ G ≅ H ⋙ R') : G ⋙ L' ⟶ L ⋙ H :=
-  ((mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ e.hom)).natTrans
+  (mateEquiv adj adj').symm (TwoSquare.mk _ _ _ _ e.hom)
 
 /-- **The mate relates the transposes.** For `g : X ⟶ R Y`, the component at `X` of the mate of
 `e`, followed by `H` of the transpose `L X ⟶ Y` of `g`, is the transpose along `L' ⊣ R'` of
@@ -76,7 +76,7 @@ theorem mateOfRightIso_app_comp_map_homEquiv_symm (e : R ⋙ G ≅ H ⋙ R') {X 
   have hn := (mateOfRightIso adj adj' e).naturality g
   simp only [Functor.comp_map] at hn
   simp only [Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc]
-  show _ = L'.map (G.map g) ≫ L'.map (e.hom.app Y) ≫ adj'.counit.app (H.obj Y)
+  change _ = L'.map (G.map g) ≫ L'.map (e.hom.app Y) ≫ adj'.counit.app (H.obj Y)
   change L'.map (e.hom.app Y) ≫ adj'.counit.app (H.obj Y) =
     (mateOfRightIso adj adj' e).app (R.obj Y) ≫ H.map (adj.counit.app Y) at h
   rw [h, ← Category.assoc, ← Category.assoc, hn]
@@ -102,10 +102,10 @@ theorem isIso_mateOfRightIso (e : R ⋙ G ≅ H ⋙ R') (hG : G.FullyFaithful)
     have hk := mateOfRightIso_app_comp_map_homEquiv_symm adj adj' e
       (adj.homEquiv _ _ (hH.homEquiv.symm (x ≫ ε.inv)))
     rw [Equiv.symm_apply_apply] at hk
-    show (adj'.homEquiv (G.obj X) (H.obj Z)).symm
+    change (adj'.homEquiv (G.obj X) (H.obj Z)).symm
       (G.map (adj.homEquiv _ _ (hH.homEquiv.symm (x ≫ ε.inv))) ≫ e.hom.app Z) ≫ ε.hom = _
     rw [← hk, Category.assoc]
-    show _ ≫ H.map (hH.preimage (x ≫ ε.inv)) ≫ ε.hom = _
+    change _ ≫ H.map (hH.preimage (x ≫ ε.inv)) ≫ ε.hom = _
     rw [hH.map_preimage, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have hfun : (fun x : (L ⋙ H).obj X ⟶ T => (mateOfRightIso adj adj' e).app X ≫ x) = eq :=
     funext fun x => (heq x).symm

@@ -82,7 +82,7 @@ private theorem faithfullyFlat_pi_of_prime_lifts {R : Type*} [CommRing R] {ι : 
   · intro p
     obtain ⟨i, q, hq⟩ := hlift p
     refine ⟨PrimeSpectrum.comap (Pi.evalRingHom S i) q, ?_⟩
-    show PrimeSpectrum.comap ((Pi.evalRingHom S i).comp (algebraMap R (∀ i, S i))) q = p
+    change PrimeSpectrum.comap ((Pi.evalRingHom S i).comp (algebraMap R (∀ i, S i))) q = p
     rw [show (Pi.evalRingHom S i).comp (algebraMap R (∀ i, S i)) = algebraMap R (S i) from
       RingHom.ext fun _ => rfl]
     exact hq
@@ -132,18 +132,17 @@ private theorem projective_tensorProduct_pi {R : Type*} [CommRing R] {ι : Type*
     (TensorProduct.comm R T M).trans ((TensorProduct.piRight R R M S).trans
       (LinearEquiv.piCongrRight fun i => TensorProduct.comm R M (S i)))
   have hsmul (a : T) (x : T ⊗[R] M) : e (a • x) = a • e x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [e]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul s m =>
       ext i
-      show TensorProduct.comm R M (S i)
+      change TensorProduct.comm R M (S i)
           (TensorProduct.piRight R R M S (m ⊗ₜ[R] (a * s)) i) =
         algebraMap T (S i) a • TensorProduct.comm R M (S i)
           (TensorProduct.piRight R R M S (m ⊗ₜ[R] s) i)
       simp only [TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul,
         TensorProduct.comm_tmul]
-      show (a i * s i) ⊗ₜ[R] m = (algebraMap T (S i) a * s i) ⊗ₜ[R] m
+      change (a i * s i) ⊗ₜ[R] m = (algebraMap T (S i) a * s i) ⊗ₜ[R] m
       rw [show algebraMap T (S i) a = a i from rfl]
   let eT : (T ⊗[R] M) ≃ₗ[T] (∀ i, S i ⊗[R] M) := { e with map_smul' := hsmul }
   have : Module.Projective T (∀ i, S i ⊗[R] M) :=
@@ -163,7 +162,7 @@ private lemma affineRefinement_prime_lifts {X : Scheme.{u}} {I : Type v}
   intro p
   let p' : ↥(Spec Γ(X, U)) := p
   have hxU : hU.fromSpec p' ∈ U := by
-    show hU.fromSpec p' ∈ (U : Set X)
+    change hU.fromSpec p' ∈ (U : Set X)
     rw [← hU.range_fromSpec]
     exact ⟨p', rfl⟩
   have hxcover : hU.fromSpec p' ∈ ⋃ j, f (idx j) '' (V j : Set (X' (idx j))) := by
@@ -181,7 +180,7 @@ private lemma affineRefinement_prime_lifts {X : Scheme.{u}} {I : Type v}
           (IsAffineOpen.SpecMap_appLE_fromSpec (f (idx j)) hU (hV j) (hVU j))
       _ = hU.fromSpec.base p := by rwa [hq]
   refine ⟨j, q, ?_⟩
-  show (Spec.map α) q = p
+  change (Spec.map α) q = p
   rw [Spec.map_apply]
   exact hU.fromSpec.isOpenEmbedding.injective hpoint
 
@@ -201,7 +200,7 @@ theorem isLocallyProjective_of_pullback_fpqc {X : Scheme.{u}} (F : X.Modules)
   obtain ⟨n, idx, V, hVaff, hcover⟩ := fpqc_affine_refinement X' f hfpqc U hU
   have hVU (j : Fin n) : V j ≤ (f (idx j)) ⁻¹ᵁ U := by
     intro x hx
-    show f (idx j) x ∈ (U : Set X)
+    change f (idx j) x ∈ (U : Set X)
     rw [← hcover]
     exact Set.mem_iUnion.mpr ⟨j, x, hx, rfl⟩
   let S : Fin n → Type u := fun j => Γ(X' (idx j), V j)
@@ -228,7 +227,7 @@ theorem isLocallyProjective_of_pullback_fpqc {X : Scheme.{u}} (F : X.Modules)
         (hVaff j) (hVU j)).symm.toLinearEquiv
   have : Module.Projective (∀ j, S j) ((∀ j, S j) ⊗[R] M) :=
     projective_tensorProduct_pi S M hcomponents
-  show Module.Projective Γ(X, U) Γ(F, U)
+  change Module.Projective Γ(X, U) Γ(F, U)
   exact Module.Projective.of_projective_tensorProduct (∀ j, S j)
 
 end AlgebraicGeometry

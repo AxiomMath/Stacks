@@ -118,7 +118,7 @@ theorem basicOpen_psi_le {d e : ℕ} (hf : f ∈ 𝒜 d) (hd : 0 < d) (hg : g �
     (hfg : ProjectiveSpectrum.basicOpen 𝒜 g ≤ ProjectiveSpectrum.basicOpen 𝒜 f) :
     ProjectiveSpectrum.basicOpen (grading 𝒜) (psi 𝒜 g) ≤
       ProjectiveSpectrum.basicOpen (grading 𝒜) (psi 𝒜 f) := by
-  show AlgebraicGeometry.Proj.basicOpen (grading 𝒜) (psi 𝒜 g) ≤
+  change AlgebraicGeometry.Proj.basicOpen (grading 𝒜) (psi 𝒜 g) ≤
     AlgebraicGeometry.Proj.basicOpen (grading 𝒜) (psi 𝒜 f)
   rw [← pi_preimage_basicOpen 𝒜 f d hf hd, ← pi_preimage_basicOpen 𝒜 g e hg he]
   exact fun x hx => hfg hx

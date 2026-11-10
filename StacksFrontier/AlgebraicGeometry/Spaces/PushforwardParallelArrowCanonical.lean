@@ -884,7 +884,7 @@ theorem coreParallelArrow_eq :
     coreParallelArrow B S hS τ hτ θ hθ' hc f G =
       parallelSectionsArrow B S hS τ hτ θ hc f G := by
   refine Sheaf.hom_ext_sections (fun V x ↦ ?_)
-  show ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj G).obj.map
+  change ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj G).obj.map
         (Quiver.Hom.op ((spacesEtalePostcomp B S hS (θ ≫ τ) hc).map
             ((spacesBaseChange_comp B S hS (θ ≫ τ) f).inv.app V.unop)))
       (((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj G).obj.map
@@ -946,7 +946,7 @@ theorem factorizationUnitArrow_eq :
             ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj G))) ≫
         (spacesSetBaseChange B S hS θ).map
           ((spacesEtaleExtensionRestrictionIso B S hS (θ ≫ τ) hc).app G).inv := by
-  show ((spacesEtalePostcompSheafAdjunction B S hS (Type u) θ hθ').unit.app
+  change ((spacesEtalePostcompSheafAdjunction B S hS (Type u) θ hθ').unit.app
         ((smallEtaleComparisonRestriction B S hS U).asEquivalence.inverse.obj
           ((smallEtaleSetRestriction B S hS τ hτ).obj G))) ≫
       (spacesSetBaseChange B S hS θ).map
@@ -981,7 +981,7 @@ theorem factorizationSpacesArrow_eq :
               ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj G)))) ≫
         (spacesSetBaseChange B S hS (θ ≫ τ)).map
           ((spacesEtaleExtensionRestrictionIso B S hS (θ ≫ τ) hc).app G).inv := by
-  show (spacesSetBaseChange B S hS τ).map (factorizationUnitArrow B S hS τ hτ θ hθ' hc G) ≫
+  change (spacesSetBaseChange B S hS τ).map (factorizationUnitArrow B S hS τ hτ θ hθ' hc G) ≫
       ((spacesBaseChange_pushforward_compTypeU B S hS θ τ).hom.app
         ((smallEtaleComparisonRestriction B S hS R).asEquivalence.inverse.obj
           ((smallEtaleSetRestriction B S hS (θ ≫ τ) hc).obj G))) = _
@@ -1023,7 +1023,7 @@ theorem chartParallelSpacesArrow_eq :
         coreParallelArrow B S hS τ hτ θ hθ' hc f G ≫
         (spacesSetBaseChange B S hS ((θ ≫ τ) ≫ f)).map
           ((spacesEtaleExtensionRestrictionIso B S hS (θ ≫ τ) hc).app G).inv := by
-  show ((spacesBaseChange_pushforward_compTypeU B S hS τ f).inv.app
+  change ((spacesBaseChange_pushforward_compTypeU B S hS τ f).inv.app
         ((smallEtaleComparisonRestriction B S hS U).asEquivalence.inverse.obj
           ((smallEtaleSetRestriction B S hS τ hτ).obj G))) ≫
       (spacesSetBaseChange B S hS f).map (factorizationSpacesArrow B S hS τ hτ θ hθ' hc G) ≫

@@ -292,14 +292,14 @@ private theorem basis_quotient_of_flat_of_nilpotent {A : Type u} {B : Type v}
       _ = Ideal.Quotient.mk JB (x i) := hb i
       _ = eBl (Ideal.Quotient.mk IB
           (Ideal.Quotient.mk (I.map f) (x i))) := by
-            show _ = eB (Ideal.Quotient.mk IB
+            change _ = eB (Ideal.Quotient.mk IB
               (Ideal.Quotient.mk (I.map f) (x i)))
-            show _ = (DoubleQuot.quotQuotEquivQuotOfLE
+            change _ = (DoubleQuot.quotQuotEquivQuotOfLE
               (Ideal.map_mono hIJ))
                 ((Ideal.quotEquivOfEq hIB)
                   (Ideal.Quotient.mk IB (Ideal.Quotient.mk (I.map f) (x i))))
             rw [Ideal.quotEquivOfEq_mk]
-            show (Ideal.Quotient.mk JB) (x i) =
+            change (Ideal.Quotient.mk JB) (x i) =
               (DoubleQuot.quotQuotEquivQuotOfLE (Ideal.map_mono hIJ))
                 (DoubleQuot.quotQuotMk (I.map f) JB (x i))
             exact (DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk (x i)
@@ -487,7 +487,7 @@ private theorem isFormallySmooth_adic_of_formallyEtale (A B : Type u) [CommRing 
   let := (maximalIdeal B).adicTopology
   let : IsTopologicalRing B := (maximalIdeal B).ringFilterBasis.isTopologicalRing
   let : IsLinearTopology B B := (maximalIdeal B).isLinearTopology
-  show IsFormallySmooth (algebraMap A B)
+  change IsFormallySmooth (algebraMap A B)
   apply (isFormallySmooth_of_formallySmooth_and_isAdic_and_iff_discrete _).1
   · exact ⟨maximalIdeal B, rfl⟩
   · exact RingHom.FormallySmooth.toAlgebra <|
@@ -590,12 +590,12 @@ public lemma isReduced_of_ind_etale {R S : Type u} [CommRing R] [CommRing S]
   have hW : IsReduced W.right := Algebra.isReduced_of_smooth R W.right
   let y : W.right := a.right.hom (AdjoinRoot.root p)
   have hyn : y ^ n = 0 := by
-    show a.right.hom (AdjoinRoot.root p) ^ n = 0
+    change a.right.hom (AdjoinRoot.root p) ^ n = 0
     rw [← map_pow, show (AdjoinRoot.root p) ^ n = 0 by
       simpa [p] using AdjoinRoot.eval₂_root p, map_zero]
   have hy : y = 0 := IsReduced.eq_zero y ⟨n, hyn⟩
   have hbx : b.right.hom y = x := by
-    show b.right.hom (a.right.hom (AdjoinRoot.root p)) = x
+    change b.right.hom (a.right.hom (AdjoinRoot.root p)) = x
     have hcomp := congrArg (fun f : P ⟶ Λ => f.right.hom (AdjoinRoot.root p)) hab
     change b.right.hom (a.right.hom (AdjoinRoot.root p)) = g (AdjoinRoot.root p) at hcomp
     exact hcomp.trans (AdjoinRoot.liftAlgHom_root (p := p) (Algebra.ofId R S) x _)
@@ -627,7 +627,7 @@ private lemma faithfullyFlat_of_etale_factor
       (IsLocalRing.maximalIdeal S).comap b.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show b (algebraMap R W r) ∈ IsLocalRing.maximalIdeal S
+    change b (algebraMap R W r) ∈ IsLocalRing.maximalIdeal S
     rw [b.commutes r]
     exact IsLocalRing.map_maximalIdeal_le (algebraMap R S)
       (Ideal.mem_map_of_mem (algebraMap R S) hr)

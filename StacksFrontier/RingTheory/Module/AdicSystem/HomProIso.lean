@@ -281,7 +281,7 @@ theorem exists_comp_eq_of_surjective {P : Type*} [AddCommGroup P] [Module A P]
     ∃ f : M →ₗ[A] N, ∀ x, f (π x) = l x := by
   refine ⟨(Submodule.liftQ _ l hl).comp (π.quotKerEquivOfSurjective hπ).symm.toLinearMap,
     fun x => ?_⟩
-  show Submodule.liftQ _ l hl ((π.quotKerEquivOfSurjective hπ).symm (π x)) = l x
+  change Submodule.liftQ _ l hl ((π.quotKerEquivOfSurjective hπ).symm (π x)) = l x
   rw [LinearMap.quotKerEquivOfSurjective_symm_apply]
   rfl
 
@@ -337,7 +337,7 @@ theorem exists_comparison_eq_targetTransition (I : Ideal A) :
   rw [targetTransition_apply, hgy, comparison_mk_apply, hf y]
   refine (Submodule.Quotient.eq _).2 ?_
   have hdiff : l y - l₀ y = l₁ y := by rw [← hsum]; simp
-  show l y - l₀ y ∈ I ^ n • (⊤ : Submodule A N)
+  change l y - l₀ y ∈ I ^ n • (⊤ : Submodule A N)
   rw [hdiff]
   exact Submodule.smul_top_le_comap_smul_top (I ^ n) (LinearMap.applyₗ y) hl₁
 

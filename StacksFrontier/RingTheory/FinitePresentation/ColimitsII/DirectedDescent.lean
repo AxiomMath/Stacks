@@ -262,7 +262,7 @@ theorem Algebra.IsRelativeGlobalCompleteIntersection.exists_stage_of_directed
         Ideal.map_le_iff_le_comap.mp hle
       rw [hZ] at h1
       apply h1
-      show Algebra.relativeDimensionAt (A μ) (Ideal.comap (σ μ) m) + c ≤ n
+      change Algebra.relativeDimensionAt (A μ) (Ideal.comap (σ μ) m) + c ≤ n
       rw [← htrS μ ⟨m, hm.isPrime⟩]
       exact hcol m
     obtain ⟨ν, hμν, hJ₁⟩ := exists_map_eq_top_of_directed b σ hσ hσs hσz J hJ
@@ -316,7 +316,7 @@ theorem Algebra.IsRelativeGlobalCompleteIntersection.exists_stage_of_directed
     have h1 := DFunLike.congr_fun hχA x
     have h2 := DFunLike.congr_fun (hab i₁ i₂ hi₁₂) (a j i₁ hji₁ x)
     simp only [RingHom.comp_apply] at h1 h2 ⊢
-    show b i₁ i₂ hi₁₂ (χ₁ (algebraMap (A j) T x)) = _
+    change b i₁ i₂ hi₁₂ (χ₁ (algebraMap (A j) T x)) = _
     rw [h1, h2, DirectedSystem.map_map' (fun i j h => a i j h)]
   obtain ⟨μ, hμ, hmodel⟩ := exists_isStageModel a b hab ρ σ hρ hσ hρσ hσs hσz hρs hρz hpush hfp
     T rfl (hji₁.trans hi₁₂) χ₂ hχS₂ hχA₂
@@ -330,7 +330,7 @@ theorem Algebra.IsRelativeGlobalCompleteIntersection.exists_stage_of_directed
       have h1 := DFunLike.congr_fun hχA₂ x
       have h2 := DFunLike.congr_fun (hab i₂ μ hμ) (a j i₂ (hji₁.trans hi₁₂) x)
       simp only [RingHom.comp_apply] at h1 h2
-      show _ = b i₂ μ hμ (χ₂ (algebraMap (A j) T x))
+      change _ = b i₂ μ hμ (χ₂ (algebraMap (A j) T x))
       rw [h1, h2, DirectedSystem.map_map' (fun i j h => a i j h)]
       rfl
   have : Algebra.IsPushout (A j) (A μ) T (B μ) := hmodel
@@ -499,7 +499,7 @@ theorem Algebra.IsRelativeGlobalCompleteIntersection.exists_stage_away_of_direct
     rw [IsLocalization.map_mk']
     congr 1
     apply Subtype.ext
-    show σ j (gg ⟨j, hj⟩ ^ m) = σ i₁ g ^ m
+    change σ j (gg ⟨j, hj⟩ ^ m) = σ i₁ g ^ m
     rw [map_pow, hσg ⟨j, hj⟩]
   have hσz' (j : Tail i₁) (x : Localization.Away (gg j)) (hx : σ' j x = 0) :
       ∃ (k : Tail i₁) (h : j ≤ k), b' j k h x = 0 := by

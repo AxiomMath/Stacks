@@ -192,7 +192,7 @@ theorem localizedModificationClass_eq_supportedOfLocallyConstant (n : LocallyCon
       rintro w ⟨v, rfl⟩
       left
       rw [Scheme.Opens.range_ι]
-      show n (π (pullback.fst π i₁ v)) = 0
+      change n (π (pullback.fst π i₁ v)) = 0
       rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
       exact (pullback.snd π i₁ v).2
   exact hext.eq_closedCoverExtension hcover hva
@@ -231,7 +231,7 @@ theorem localizedModificationClass_ofLocallyConstant_eq (n : LocallyConstant X �
   have hrange : Set.range (pullback.fst b (projectiveLineAffineChart f)) ⊆ Set.range U.ι := by
     rintro w hw
     rw [Scheme.Opens.range_ι]
-    show d w = 0
+    change d w = 0
     exact sub_eq_zero.2 (hm w hw)
   have hι : IsIso (pullback.snd U.ι (pullback.fst b (projectiveLineAffineChart f))) := by
     rw [← (IsOpenImmersion.isPullback_lift_id _ U.ι hrange).isoPullback_inv_snd,

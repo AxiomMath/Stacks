@@ -185,8 +185,7 @@ theorem isInvertible_iff_monoidalIsInvertible
 
 section Flat
 
-variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  (O : Sheaf J CommRingCat.{w})
+variable (O : Sheaf J CommRingCat.{w})
   (hO : Presheaf.IsSheaf J (TensorSheafification.structureRingPresheaf O.obj))
 
 attribute [local instance] monoidalCategoryPresheafOfModules symmetricCategoryPresheafOfModules
@@ -194,6 +193,7 @@ attribute [local instance] monoidalCategoryPresheafOfModules symmetricCategoryPr
 /-- The tensor functors `G ↦ (G ⊗_O L)^#` and `G ↦ (L ⊗_O G)^#` are isomorphic, through the
 braiding of the symmetric monoidal structure on presheaves of modules. -/
 noncomputable def sheafTensorRightIsoTensorLeftFunctor
+    [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
     (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O.obj hO)) :
     (Stacks.SheafOfModules.Tensor.sheafTensor O).flip.obj L ≅
       (Stacks.SheafOfModules.Tensor.sheafTensor O).obj L :=
@@ -205,14 +205,14 @@ noncomputable def sheafTensorRightIsoTensorLeftFunctor
 /-- An invertible sheaf of modules on a ringed site is flat. -/
 @[stacks 0B8N "(a), the flatness half"]
 theorem isFlat_of_isInvertible_ringedSite
+    [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
     (L : SheafOfModules.{w} (TensorSheafification.structureSheaf O.obj hO))
     (hL : IsInvertible O.obj hO L) :
     IsFlat (O := O) L := by
-  have : ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj L).IsEquivalence :=
+  have : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).obj L).IsEquivalence :=
     (isInvertible_iff_tensorLeftFunctor_isEquivalence _ _ L).mp hL
   exact (exactFunctor _ _).prop_of_iso (sheafTensorRightIsoTensorLeftFunctor O hO L).symm
-    ((exactFunctor_iff _).mpr ⟨Limits.PreservesLimitsOfSize.preservesFiniteLimits.{0, 0} _,
-      Limits.PreservesColimitsOfSize.preservesFiniteColimits.{0, 0} _⟩)
+    ((exactFunctor_iff _).mpr ⟨inferInstance, inferInstance⟩)
 
 end Flat
 

@@ -234,12 +234,12 @@ theorem exists_sliceLiftEquivalence :
   have htop := Functor.inheritedTopology_overForget_comp 𝒳.val.val.p
     ((B.topology).over (B.obj hS)) y.obj
   refine ⟨CategoryTheory.Equivalence.mk (sliceLift B S hS y) G η.symm ε, rfl, ?_, ?_⟩
-  · show (sliceLift B S hS y).IsContinuous _ _
+  · change (sliceLift B S hS y).IsContinuous _ _
     rw [← htop]
     exact ((Functor.isFibredOneMorphism_of_isFiberedInGroupoids hq
       (sliceLift_comp_forget_comp_p B S hS y)).isContinuous_and_isCocontinuous_inheritedTopology
       _).1
-  · show G.IsContinuous _ _
+  · change G.IsContinuous _ _
     rw [← htop]
     exact ((Functor.isFibredOneMorphism_of_isFiberedInGroupoids hT hG
       ).isContinuous_and_isCocontinuous_inheritedTopology _).1

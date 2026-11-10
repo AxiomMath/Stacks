@@ -496,6 +496,7 @@ variable {X : RingedSite.{u, v, w}} [HasWeakSheafify X.J AddCommGrpCat.{w}]
 def generatorVal (i : Fin r) (U : X.Cᵒᵖ) : (generatedIdealSheaf f).obj U :=
   ⟨globalSectionVal (f i) U, globalSectionVal_mem_generatedIdealSheaf f i U⟩
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The underlying section of `𝒪` of `generatorVal f i U` is the value of `f i` over `U`. -/
 @[simp]
 theorem generatorVal_coe (i : Fin r) (U : X.Cᵒᵖ) :
@@ -506,6 +507,7 @@ def generatorSection (i : Fin r) : (generatedIdealSheaf f).toSheafOfModules.sect
   PresheafOfModules.sectionsMk (generatorVal f i)
     fun _ _ g ↦ Subtype.ext (globalSectionVal_map (f i) g)
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The value over `U` of the global section `generatorSection f i` is `generatorVal f i U`. -/
 theorem generatorSection_val (i : Fin r) (U : X.Cᵒᵖ) :
     (generatorSection f i).val U = generatorVal f i U := rfl

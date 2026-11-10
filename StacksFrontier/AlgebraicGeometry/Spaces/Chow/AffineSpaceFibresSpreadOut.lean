@@ -256,7 +256,7 @@ theorem isFinitePresentationColimit_residueCone
     have : Mono ((affineNhdsSystem B S hS T t).map e) := by
       have hoi : AlgebraicGeometry.IsOpenImmersion
           ((BigFppfOver.toScheme B S hS).map ((affineNhdsSystem B S hS T t).map e)) := by
-        show AlgebraicGeometry.IsOpenImmersion (Scheme.homOfLE _
+        change AlgebraicGeometry.IsOpenImmersion (Scheme.homOfLE _
           (leOfHom ((affineOpenNhds _ t).ι.map e)))
         infer_instance
       have hm : Mono ((BigFppfOver.toScheme B S hS).map ((affineNhdsSystem B S hS T t).map e)) :=
@@ -342,10 +342,9 @@ theorem isFinitePresentation_of_isQuasiCompact (sX : X ⟶ D.space) (hX : D.IsGo
 /-- The projection of a represented affine space over an affine object of the site is of finite
 presentation. -/
 theorem isFinitePresentation_yoneda_map_affineSpaceProj (r : ℕ)
-    (V : BigFppfOver D.site D.base D.base_mem)
-    (hV : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj V)) :
+    (V : BigFppfOver D.site D.base D.base_mem) :
     IsFinitePresentation D.site D.base D.base_mem
-      (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V hV)) :=
+      (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V)) :=
   ⟨(holdsOnEveryEtaleChart_yoneda_map_iff D.site D.base D.base_mem
       LocallyOfFinitePresentation.isEtaleLocalOnSourceAndTarget _).2
       (inferInstanceAs (LocallyOfFinitePresentation (𝔸(ULift.{u} (Fin r);
@@ -385,10 +384,8 @@ private theorem isPullback_yoneda_map_comp_inv {X Y : (BigFppfOver B S hS)ᵒᵖ
 
 /-- Affine space over a morphism of affine objects of the site: the morphism
 `𝐀^r_V ⟶ 𝐀^r_W` over `φ : V ⟶ W`, as a morphism of the site. -/
-def affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W)
-    (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V))
-    (hW : IsAffine ((BigFppfOver.toScheme B S hS).obj W)) :
-    BigFppfOver.affineSpace B S hS r V hV ⟶ BigFppfOver.affineSpace B S hS r W hW :=
+def affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W) :
+    BigFppfOver.affineSpace B S hS r V ⟶ BigFppfOver.affineSpace B S hS r W :=
   BigFppfOver.homMk B S hS _ _ (AffineSpace.map (ULift.{u} (Fin r))
     ((BigFppfOver.toScheme B S hS).map φ)) (by
       have h1 : (BigFppfOver.toScheme B S hS).map φ ≫ B.inclusion.map W.hom =
@@ -401,25 +398,21 @@ def affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W)
 
 /-- The morphism of schemes underlying `AlgebraicGeometry.Space.affineSpaceMap` is the induced
 morphism of affine spaces. -/
-theorem toScheme_map_affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W)
-    (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V))
-    (hW : IsAffine ((BigFppfOver.toScheme B S hS).obj W)) :
-    (BigFppfOver.toScheme B S hS).map (affineSpaceMap B S hS r φ hV hW) =
+theorem toScheme_map_affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W) :
+    (BigFppfOver.toScheme B S hS).map (affineSpaceMap B S hS r φ) =
       AffineSpace.map (ULift.{u} (Fin r)) ((BigFppfOver.toScheme B S hS).map φ) :=
   rfl
 
 /-- Affine space over a morphism of affine objects of the site is cartesian over that morphism. -/
-theorem isPullback_affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W)
-    (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V))
-    (hW : IsAffine ((BigFppfOver.toScheme B S hS).obj W)) :
-    IsPullback (affineSpaceMap B S hS r φ hV hW) (BigFppfOver.affineSpaceProj B S hS r V hV)
-      (BigFppfOver.affineSpaceProj B S hS r W hW) φ :=
+theorem isPullback_affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V ⟶ W) :
+    IsPullback (affineSpaceMap B S hS r φ) (BigFppfOver.affineSpaceProj B S hS r V)
+      (BigFppfOver.affineSpaceProj B S hS r W) φ :=
   IsPullback.of_map (BigFppfOver.toScheme B S hS)
     (BigFppfOver.map_toScheme_injective B S hS
-      (((BigFppfOver.toScheme B S hS).map_comp (affineSpaceMap B S hS r φ hV hW)
-          (BigFppfOver.affineSpaceProj B S hS r W hW)).trans
+      (((BigFppfOver.toScheme B S hS).map_comp (affineSpaceMap B S hS r φ)
+          (BigFppfOver.affineSpaceProj B S hS r W)).trans
         ((AffineSpace.map_over (n := ULift.{u} (Fin r)) ((BigFppfOver.toScheme B S hS).map φ)).trans
-          ((BigFppfOver.toScheme B S hS).map_comp (BigFppfOver.affineSpaceProj B S hS r V hV)
+          ((BigFppfOver.toScheme B S hS).map_comp (BigFppfOver.affineSpaceProj B S hS r V)
             φ).symm)))
     (AffineSpace.isPullback_map (n := ULift.{u} (Fin r)) ((BigFppfOver.toScheme B S hS).map φ))
 
@@ -428,14 +421,14 @@ theorem isPullback_affineSpaceMap (r : ℕ) {V W : BigFppfOver B S hS} (φ : V �
 `P ≅ Q`. -/
 private theorem exists_isPullback_affineSpaceProj_of_iso (r : ℕ)
     {Tf Q P V : BigFppfOver B S hS}
-    (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V)) (b : Tf ⟶ Q) (g : P ⟶ Q) [IsIso g]
+    (b : Tf ⟶ Q) (g : P ⟶ Q) [IsIso g]
     (φ : P ⟶ V)
     (e : (BigFppfOver.toScheme B S hS).obj Tf ≅
       𝔸(ULift.{u} (Fin r); (BigFppfOver.toScheme B S hS).obj Q))
     (he : e.hom ≫ 𝔸(ULift.{u} (Fin r); (BigFppfOver.toScheme B S hS).obj Q) ↘
         (BigFppfOver.toScheme B S hS).obj Q = (BigFppfOver.toScheme B S hS).map b) :
-    ∃ ψ : Tf ⟶ BigFppfOver.affineSpace B S hS r V hV,
-      IsPullback ψ (b ≫ inv g) (BigFppfOver.affineSpaceProj B S hS r V hV) φ := by
+    ∃ ψ : Tf ⟶ BigFppfOver.affineSpace B S hS r V,
+      IsPullback ψ (b ≫ inv g) (BigFppfOver.affineSpaceProj B S hS r V) φ := by
   obtain ⟨ψs, hψsdef⟩ : ∃ ψs : (BigFppfOver.toScheme B S hS).obj Tf ⟶
       𝔸(ULift.{u} (Fin r); (BigFppfOver.toScheme B S hS).obj V),
       ψs = e.hom ≫ AffineSpace.map (ULift.{u} (Fin r))
@@ -458,7 +451,7 @@ private theorem exists_isPullback_affineSpaceProj_of_iso (r : ℕ)
       simp
     · simp
     · simp
-  let ψ : Tf ⟶ BigFppfOver.affineSpace B S hS r V hV :=
+  let ψ : Tf ⟶ BigFppfOver.affineSpace B S hS r V :=
     Over.homMk (ObjectProperty.homMk ψs) (ObjectProperty.hom_ext _
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ B.inclusion.map V.hom) hψs₁).trans
         ((B.inclusion.map_comp _ _).symm.trans (congrArg B.inclusion.map
@@ -466,7 +459,7 @@ private theorem exists_isPullback_affineSpaceProj_of_iso (r : ℕ)
   exact ⟨ψ, IsPullback.of_map (BigFppfOver.toScheme B S hS)
     (BigFppfOver.map_toScheme_injective B S hS
       ((((BigFppfOver.toScheme B S hS).map_comp ψ
-        (BigFppfOver.affineSpaceProj B S hS r V hV)).trans hψsq.w).trans
+        (BigFppfOver.affineSpaceProj B S hS r V)).trans hψsq.w).trans
         ((BigFppfOver.toScheme B S hS).map_comp (b ≫ inv g) φ).symm)) hψsq⟩
 
 end AffineSpace
@@ -497,11 +490,10 @@ def baseChangeFinitePresentation (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY : Y
 
 /-- Affine `r`-space over an affine object `V` of the site, as an algebraic space of finite
 presentation over `V`. -/
-def affineSpaceFinitePresentation (r : ℕ) (V : BigFppfOver D.site D.base D.base_mem)
-    (hV : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj V)) :
+def affineSpaceFinitePresentation (r : ℕ) (V : BigFppfOver D.site D.base D.base_mem) :
     FinitePresentationSpacesOver D.site D.base D.base_mem V :=
-  ⟨Over.mk (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V hV)),
-    isAlgebraicSpace_yoneda _ _ _ _, isFinitePresentation_yoneda_map_affineSpaceProj D r V hV⟩
+  ⟨Over.mk (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V)),
+    isAlgebraicSpace_yoneda _ _ _ _, isFinitePresentation_yoneda_map_affineSpaceProj D r V⟩
 
 end Objects
 
@@ -519,19 +511,19 @@ private theorem nonempty_baseChange_iso_affineSpaceFinitePresentation (sX : X �
     (hX : D.IsGood sX) (sY : Y ⟶ D.space) (hY : D.IsGood sY) (f : X ⟶ Y) (hbase : f ≫ sY = sX)
     (r : ℕ) (hqc : IsQuasiCompact D.site D.base D.base_mem f)
     {Tf P V : BigFppfOver D.site D.base D.base_mem}
-    (hV : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj V)) (p : P ⟶ V)
+    (p : P ⟶ V)
     (j₀ : yoneda.obj V ⟶ Y) {a : yoneda.obj Tf ⟶ X} {b : Tf ⟶ P}
     (hpb : IsPullback a (yoneda.map b) f (yoneda.map p ≫ j₀))
-    {ψ : Tf ⟶ BigFppfOver.affineSpace D.site D.base D.base_mem r V hV}
-    (hψ : IsPullback ψ b (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V hV) p) :
+    {ψ : Tf ⟶ BigFppfOver.affineSpace D.site D.base D.base_mem r V}
+    (hψ : IsPullback ψ b (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V) p) :
     Nonempty ((FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem p).obj
         (baseChangeFinitePresentation D sX hX sY hY f hbase hqc j₀) ≅
       (FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem p).obj
-        (affineSpaceFinitePresentation D r V hV)) := by
+        (affineSpaceFinitePresentation D r V)) := by
   have hLX := (IsPullback.of_hasPullback (pullback.snd f j₀) (yoneda.map p)).paste_horiz
     (IsPullback.of_hasPullback f j₀)
   have hLA := IsPullback.of_hasPullback
-    (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V hV)) (yoneda.map p)
+    (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r V)) (yoneda.map p)
   set isoX := hLX.isoIsPullback _ _ hpb
   set isoA := (hψ.map yoneda).isoIsPullback _ _ hLA
   have hθ : (isoX ≪≫ isoA).hom ≫ pullback.snd _ _ = pullback.snd _ _ := by
@@ -545,21 +537,21 @@ private theorem exists_isPullback_affineSpaceProj_of_baseChange_iso (sX : X ⟶ 
     (hX : D.IsGood sX) (sY : Y ⟶ D.space) (hY : D.IsGood sY) (f : X ⟶ Y) (hbase : f ≫ sY = sX)
     (r : ℕ) (hqc : IsQuasiCompact D.site D.base D.base_mem f)
     {V W : BigFppfOver D.site D.base D.base_mem}
-    (hV : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj V))
-    (hW : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj W)) (e' : W ⟶ V)
+    (e' : W ⟶ V)
     (j₀ : yoneda.obj V ⟶ Y)
     (Θ' : (FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem e').obj
         (baseChangeFinitePresentation D sX hX sY hY f hbase hqc j₀) ≅
       (FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem e').obj
-        (affineSpaceFinitePresentation D r V hV)) :
-    ∃ jX : yoneda.obj (BigFppfOver.affineSpace D.site D.base D.base_mem r W hW) ⟶ X,
-      IsPullback jX (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r W hW)) f
+        (affineSpaceFinitePresentation D r V)) :
+    ∃ jX : yoneda.obj (BigFppfOver.affineSpace D.site D.base D.base_mem r W) ⟶ X,
+      IsPullback jX (yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r W)) f
         (yoneda.map e' ≫ j₀) := by
-  have hAsq := (isPullback_affineSpaceMap D.site D.base D.base_mem r e' hW hV).map yoneda
-  obtain ⟨isoL, hisoL⟩ : ∃ isoL : yoneda.obj (BigFppfOver.affineSpace D.site D.base D.base_mem r W
-      hW) ≅ pullback (pullback.snd f j₀) (yoneda.map e'),
+  have hAsq := (isPullback_affineSpaceMap D.site D.base D.base_mem r e').map yoneda
+  obtain ⟨isoL, hisoL⟩ : ∃ isoL :
+      yoneda.obj (BigFppfOver.affineSpace D.site D.base D.base_mem r W) ≅
+        pullback (pullback.snd f j₀) (yoneda.map e'),
       isoL.hom ≫ pullback.snd _ _ =
-        yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r W hW) :=
+        yoneda.map (BigFppfOver.affineSpaceProj D.site D.base D.base_mem r W) :=
     ⟨hAsq.isoIsPullback _ _ (IsPullback.of_hasPullback _ _) ≪≫
       (ObjectProperty.ι _ ⋙ Over.forget _).mapIso Θ'.symm,
       (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Over.w Θ'.inv.hom)).trans
@@ -579,8 +571,7 @@ private theorem exists_isPullback_isAffineSpaceBundle_of_baseChange_iso
     (hqc : IsQuasiCompact D.site D.base D.base_mem f) {T : BigFppfOver D.site D.base D.base_mem}
     (t : (BigFppfOver.toScheme D.site D.base D.base_mem).obj T)
     {i jj : AffineOpenNhds ((BigFppfOver.toScheme D.site D.base D.base_mem).obj T) t}
-    (hV : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj
-      ((affineNhdsSystem D.site D.base D.base_mem T t).obj i))) (e' : jj ⟶ i)
+    (e' : jj ⟶ i)
     (j₀ : yoneda.obj ((affineNhdsSystem D.site D.base D.base_mem T t).obj i) ⟶ Y)
     (hj₀ : IsOpenImmersion D.site D.base D.base_mem j₀)
     (Θ' : (FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem
@@ -588,7 +579,7 @@ private theorem exists_isPullback_isAffineSpaceBundle_of_baseChange_iso
         (baseChangeFinitePresentation D sX hX sY hY f hbase hqc j₀) ≅
       (FinitePresentationSpacesOver.baseChange D.site D.base D.base_mem
         ((affineNhdsSystem D.site D.base D.base_mem T t).map e')).obj
-        (affineSpaceFinitePresentation D r _ hV)) :
+        (affineSpaceFinitePresentation D r _)) :
     ∃ (V A : BigFppfOver D.site D.base D.base_mem) (jY : yoneda.obj V ⟶ Y)
       (jX : yoneda.obj A ⟶ X) (g : A ⟶ V),
       IsOpenImmersion D.site D.base D.base_mem jY ∧
@@ -600,10 +591,8 @@ private theorem exists_isPullback_isAffineSpaceBundle_of_baseChange_iso
           ((BigFppfOver.toScheme D.site D.base D.base_mem).map g) r ∧
         Stacks.Chow.IsAffineSpaceBundle
           ((BigFppfOver.toScheme D.site D.base D.base_mem).map g) r := by
-  have hVaff : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj
-      ((affineNhdsSystem D.site D.base D.base_mem T t).obj jj)) := jj.property
   obtain ⟨jX, hjX⟩ := exists_isPullback_affineSpaceProj_of_baseChange_iso D sX hX sY hY f hbase r
-    hqc hV hVaff ((affineNhdsSystem D.site D.base D.base_mem T t).map e') j₀ Θ'
+    hqc ((affineNhdsSystem D.site D.base D.base_mem T t).map e') j₀ Θ'
   have hιe : IsOpenImmersion D.site D.base D.base_mem
       (yoneda.map ((affineNhdsSystem D.site D.base D.base_mem T t).map e')) :=
     isOpenImmersion_yoneda_map_of_isOpenImmersion_map D.site D.base D.base_mem
@@ -611,9 +600,9 @@ private theorem exists_isPullback_isAffineSpaceBundle_of_baseChange_iso
         (Scheme.homOfLE ((BigFppfOver.toScheme D.site D.base D.base_mem).obj T)
           (leOfHom ((affineOpenNhds _ t).ι.map e')))))
   exact ⟨(affineNhdsSystem D.site D.base D.base_mem T t).obj jj,
-    BigFppfOver.affineSpace D.site D.base D.base_mem r _ hVaff,
+    BigFppfOver.affineSpace D.site D.base D.base_mem r _,
     yoneda.map ((affineNhdsSystem D.site D.base D.base_mem T t).map e') ≫ j₀, jX,
-    BigFppfOver.affineSpaceProj D.site D.base D.base_mem r _ hVaff,
+    BigFppfOver.affineSpaceProj D.site D.base D.base_mem r _,
     isOpenImmersion_comp D.site D.base D.base_mem _ _ hιe hj₀,
     ⟨_, Set.mem_range_self ((schemePointsHomeomorph D.site D.base D.base_mem
       ((affineNhdsSystem D.site D.base D.base_mem T t).obj jj)).symm ⟨t, jj.obj.2⟩)⟩,
@@ -654,9 +643,6 @@ theorem exists_isPullback_isAffineSpaceBundle_of_isIntegralSpace
   have hcol := isFinitePresentationColimit_residueCone D.site D.base D.base_mem T t ht
   let i₀ : AffineOpenNhds ((BigFppfOver.toScheme D.site D.base D.base_mem).obj T) t :=
     ⟨⟨⊤, Set.mem_univ t⟩, isAffineOpen_top _⟩
-  have hV₀ : IsAffine ((BigFppfOver.toScheme D.site D.base D.base_mem).obj
-      ((affineNhdsSystem D.site D.base D.base_mem T t).obj i₀)) :=
-    isAffineOpen_top ((BigFppfOver.toScheme D.site D.base D.base_mem).obj T)
   obtain ⟨j₀, hj₀def⟩ :
       ∃ j₀ : yoneda.obj ((affineNhdsSystem D.site D.base D.base_mem T t).obj i₀) ⟶ Y,
       j₀ = yoneda.map (opensObjectι D.site D.base D.base_mem T i₀.obj.1) ≫ j := ⟨_, rfl⟩
@@ -670,7 +656,7 @@ theorem exists_isPullback_isAffineSpaceBundle_of_isIntegralSpace
     D.site D.base D.base_mem hY.1 (D.isDecentSpace_of_isGood sY hY) T j
     (mono_of_isOpenImmersion D.site D.base D.base_mem j hj) t η hηdef.symm
   have : IsIso g := isIso_of_isIso_toScheme_map D.site D.base D.base_mem g (by
-    show IsIso (D.site.inclusion.map g.left)
+    change IsIso (D.site.inclusion.map g.left)
     rw [hgspec]
     have : IsIso (CommRingCat.ofHom φ.toRingHom) :=
       (ConcreteCategory.isIso_iff_bijective _).2 φ.bijective
@@ -684,15 +670,15 @@ theorem exists_isPullback_isAffineSpaceBundle_of_isIntegralSpace
       exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ j)
         ((yoneda.map_comp _ _).symm.trans (congrArg yoneda.map
           (residueToAffineNhds_comp_opensObjectι D.site D.base D.base_mem T t i₀)))))
-  obtain ⟨ψ, hψ⟩ := exists_isPullback_affineSpaceProj_of_iso D.site D.base D.base_mem r hV₀ b g
+  obtain ⟨ψ, hψ⟩ := exists_isPullback_affineSpaceProj_of_iso D.site D.base D.base_mem r b g
     (residueToAffineNhds D.site D.base D.base_mem T t i₀) e he
   obtain ⟨Θ⟩ := nonempty_baseChange_iso_affineSpaceFinitePresentation D sX hX sY hY f hbase r hqc
-    hV₀ (residueToAffineNhds D.site D.base D.base_mem T t i₀) j₀ hpbT hψ
+    (residueToAffineNhds D.site D.base D.base_mem T t i₀) j₀ hpbT hψ
   obtain ⟨jj, e', Θ', -⟩ := hcol.essIso i₀
     (baseChangeFinitePresentation D sX hX sY hY f hbase hqc j₀)
-    (affineSpaceFinitePresentation D r _ hV₀) Θ
+    (affineSpaceFinitePresentation D r _) Θ
   exact exists_isPullback_isAffineSpaceBundle_of_baseChange_iso D sX hX sY hY f hbase r hqc t
-    hV₀ e' j₀ hj₀ Θ'
+    e' j₀ hj₀ Θ'
 
 end SpreadOut
 

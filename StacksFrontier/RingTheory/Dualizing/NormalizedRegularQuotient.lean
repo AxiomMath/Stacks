@@ -150,7 +150,7 @@ private lemma coextendCounitComplex_smul_zero
     (I : CochainComplex (ModuleCat.{max v u} A) ℤ) :
     coextendCounitComplex.{u, v} q I ≫ (f • 𝟙 I) = 0 := by
   ext n x
-  show f • (ModuleCat.CoextendScalars.equiv q (I.X n) x)
+  change f • (ModuleCat.CoextendScalars.equiv q (I.X n) x)
     (show (ModuleCat.restrictScalars q).obj (ModuleCat.of B B) from (1 : B)) = 0
   rw [← coextend_linearMap_apply_eq_smul_apply_one.{u, v}]
   convert map_zero (ModuleCat.CoextendScalars.equiv q (I.X n) x)
@@ -234,9 +234,9 @@ private lemma coextendCounitComplex_range_of_smul_eq_zero
     Submodule.liftQ (Ideal.span {f}) g hker
   let x := (ModuleCat.CoextendScalars.equiv q (I.X n)).symm gbar
   refine ⟨x, ?_⟩
-  show gbar (show (ModuleCat.restrictScalars q).obj
+  change gbar (show (ModuleCat.restrictScalars q).obj
     (ModuleCat.of (A ⧸ Ideal.span {f}) (A ⧸ Ideal.span {f})) from (1 : A ⧸ Ideal.span {f})) = y
-  show (Submodule.liftQ (Ideal.span {f}) g hker)
+  change (Submodule.liftQ (Ideal.span {f}) g hker)
     (Submodule.Quotient.mk (1 : A)) = y
   rw [Submodule.liftQ_apply]
   simp [g]
@@ -256,10 +256,10 @@ private lemma coextendShortComplex_shortExact
   apply ModuleCat.shortComplex_shortExact
   · refine fun y => ⟨coextendCounitComplex_range_of_smul_eq_zero.{u, v} f I n y, ?_⟩
     rintro ⟨x, rfl⟩
-    show f • (coextendCounitComplex.{u, v} q I).f n x = 0
+    change f • (coextendCounitComplex.{u, v} q I).f n x = 0
     exact congrArg (fun g : _ ⟶ I => g.f n x) (coextendCounitComplex_smul_zero.{u, v} q f hfq I)
   · exact coextendCounitComplex_injective.{u, v} q Ideal.Quotient.mk_surjective I n
-  · show Function.Surjective (fun x : I.X n => f • x)
+  · change Function.Surjective (fun x : I.X n => f • x)
     have _ : Module.Injective A (I.X n) :=
       (Module.injective_iff_injective_object A (I.X n)).mpr (hI n)
     exact smul_surjective_of_injective.{u, v} f hf
@@ -307,7 +307,7 @@ theorem exists_distinguishedTriangle_nonZeroDivisor
   let e₂ : T.obj₂ ≅ K := e.symm
   let e₃ : T.obj₃ ≅ K := e.symm
   have hg : e₂.inv ≫ T.mor₂ ≫ e₃.hom = f • 𝟙 K := by
-    show e.hom ≫ DerivedCategory.Q.map (f • 𝟙 I) ≫ e.inv = f • 𝟙 K
+    change e.hom ≫ DerivedCategory.Q.map (f • 𝟙 I) ≫ e.inv = f • 𝟙 K
     rw [Functor.map_smul, DerivedCategory.Q.map_id]
     simp [CategoryTheory.Linear.smul_comp, CategoryTheory.Linear.comp_smul]
   refine ⟨a₁.hom ≫ T.mor₁ ≫ e₂.hom,

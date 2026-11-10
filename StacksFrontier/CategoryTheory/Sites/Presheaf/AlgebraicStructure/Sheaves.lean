@@ -158,8 +158,8 @@ private lemma mateEquiv_symm_eq_of_unit (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ 
     (α : TwoSquare G L₁ L₂ H)
     (h :
       ∀ X : C₁,
-        G.map (adj₁.unit.app X) ≫ β.natTrans.app (L₁.obj X) =
-          adj₂.unit.app (G.obj X) ≫ R₂.map (α.natTrans.app X)) :
+        G.map (adj₁.unit.app X) ≫ β.app (L₁.obj X) =
+          adj₂.unit.app (G.obj X) ≫ R₂.map (α.app X)) :
     (mateEquiv adj₁ adj₂).symm β = α := by
   ext X
   exact (adj₂.homEquiv _ _).injective ((unit_mateEquiv_symm adj₁ adj₂ β X).symm.trans (h X))
@@ -177,34 +177,34 @@ private lemma mateEquiv_symm_eq_whisker (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁
   refine mateEquiv_symm_eq_of_unit adj₁ adj₂ β _ fun X => ?_
   have hβ :
     G.map (R₁.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) ≫
-        β.natTrans.app (L₁.obj X) =
-      β.natTrans.app (L₁'.obj X) ≫
+        β.app (L₁.obj X) =
+      β.app (L₁'.obj X) ≫
         R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) :=
-    β.natTrans.naturality _
+    β.naturality _
   calc
-    G.map (adj₁.unit.app X) ≫ β.natTrans.app (L₁.obj X) =
+    G.map (adj₁.unit.app X) ≫ β.app (L₁.obj X) =
         G.map (adj₁'.unit.app X ≫ R₁.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) ≫
-          β.natTrans.app (L₁.obj X) :=
+          β.app (L₁.obj X) :=
       by rw [Adjunction.unit_leftAdjointUniq_hom_app]
     _ =
         G.map (adj₁'.unit.app X) ≫
           G.map (R₁.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) ≫
-          β.natTrans.app (L₁.obj X) :=
+          β.app (L₁.obj X) :=
       by rw [G.map_comp, Category.assoc]
     _ =
         G.map (adj₁'.unit.app X) ≫
-          β.natTrans.app (L₁'.obj X) ≫
+          β.app (L₁'.obj X) ≫
           R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) :=
       by rw [hβ]
     _ =
-        (adj₂'.unit.app (G.obj X) ≫ R₂.map (((mateEquiv adj₁' adj₂').symm β).natTrans.app X)) ≫
+        (adj₂'.unit.app (G.obj X) ≫ R₂.map (((mateEquiv adj₁' adj₂').symm β).app X)) ≫
           R₂.map (H.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) :=
       by rw [Category.assoc, reassoc_of% (unit_mateEquiv_symm adj₁' adj₂' β X)]
     _ =
         adj₂.unit.app (G.obj X) ≫
           R₂.map
             ((Adjunction.leftAdjointUniq adj₂ adj₂').hom.app (G.obj X) ≫
-              ((mateEquiv adj₁' adj₂').symm β).natTrans.app X ≫
+              ((mateEquiv adj₁' adj₂').symm β).app X ≫
               H.map ((Adjunction.leftAdjointUniq adj₁' adj₁).hom.app X)) :=
       by
       rw [R₂.map_comp, R₂.map_comp, ← Category.assoc, Adjunction.unit_leftAdjointUniq_hom_app, ←
@@ -213,13 +213,13 @@ private lemma mateEquiv_symm_eq_whisker (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁
 /-- Invertibility of a mate does not depend on the choice of the two left adjoints. -/
 private lemma isIso_mateEquiv_symm_natTrans (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂)
-    (h : IsIso ((mateEquiv adj₁' adj₂').symm β).natTrans) :
-    IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans := by
+    (h : IsIso ((mateEquiv adj₁' adj₂').symm β)) :
+    IsIso ((mateEquiv adj₁ adj₂).symm β) := by
   rw [mateEquiv_symm_eq_whisker adj₁ adj₁' adj₂ adj₂' β]
   change
     IsIso
       (whiskerLeft G (Adjunction.leftAdjointUniq adj₂ adj₂').hom ≫
-        ((mateEquiv adj₁' adj₂').symm β).natTrans ≫
+        ((mateEquiv adj₁' adj₂').symm β) ≫
         whiskerRight (Adjunction.leftAdjointUniq adj₁' adj₁).hom H)
   infer_instance
 
@@ -412,7 +412,7 @@ public theorem isIso_mateEquiv_sheafAdjunctionContinuous {C : Type u} [SmallCate
     IsIso
       ((mateEquiv (u.sheafAdjunctionContinuous A J K) (u.sheafAdjunctionContinuous B J K)).symm
           (TwoSquare.mk (u.sheafPushforwardContinuous A J K) (sheafCompose K s) (sheafCompose J s)
-            (u.sheafPushforwardContinuous B J K) (𝟙 _))).natTrans := by
+            (u.sheafPushforwardContinuous B J K) (𝟙 _))) := by
   refine
     isIso_mateEquiv_symm_natTrans _ (sheafPullbackConstruction.sheafAdjunctionContinuous u A J K) _
       (sheafPullbackConstruction.sheafAdjunctionContinuous u B J K) _ ?_

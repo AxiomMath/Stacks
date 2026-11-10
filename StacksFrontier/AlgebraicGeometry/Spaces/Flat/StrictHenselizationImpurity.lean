@@ -35,14 +35,14 @@ Stacks 0CV9. Inside the size-bounded site the limit-descent route needs a cardin
 `AlgebraicGeometry.Space.SiteLimitBound`. The source's own bookkeeping, by the cofinality of the
 cutoff, is not available for this system, and its transition morphisms are not monomorphisms.
 What it does satisfy is the third package of that clause: the bounded family
-`AlgebraicGeometry.EtaleNeighborhoodBounded` of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/HenselianRings/StrictHenselizationBoundedIndex.lean`
+`AlgebraicGeometry.EtaleNeighborhoodBounded` of the module
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.HenselianRings.StrictHenselizationBoundedIndex`
 has fewer members than the cutoff, its morphism types and its stages are bounded by one cardinal
 below the cutoff, and it is initial among the étale neighbourhoods, so the strict henselization
 is still its limit.
 
-The realization of `Y^{sh}` is given as in the statement of Stacks 0CVB: a test scheme `T`, a morphism
-`ψ : T ⟶ V` of the site, and an isomorphism of the scheme underlying `T` with
+The realization of `Y^{sh}` is given as in the statement of Stacks 0CVB: a test scheme `T`,
+a morphism `ψ : T ⟶ V` of the site, and an isomorphism of the scheme underlying `T` with
 `AlgebraicGeometry.strictHenselization` under which `ψ` is
 `AlgebraicGeometry.strictHenselizationToBase`. The field of the geometric point is asked to be
 small for the site, as it is for the geometric point a geometric point of `Y` induces on a chart.

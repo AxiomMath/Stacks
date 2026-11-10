@@ -357,8 +357,6 @@ theorem neighborhoodTotalFractionRingToGeneric_chartFractionMap
     (U : ElementaryEtaleNeighborhood B S hS X hX (ZX.genericPoint B S hS X))
     (V : ElementaryEtaleNeighborhood B S hS Y hY (ZY.genericPoint B S hS Y))
     [IsAffine U.scheme.left.1] [IsAffine V.scheme.left.1]
-    (hCofX : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (ZX.genericPoint B S hS X)))
-    (hCofY : IsCofiltered (ElementaryEtaleNeighborhood B S hS Y hY (ZY.genericPoint B S hS Y)))
     (j : U.scheme ⟶ V.scheme)
     (hj : (Γ(V.scheme.left.1, ⊤))⁰ ≤
       ((Γ(U.scheme.left.1, ⊤))⁰).comap (chartGlobalSectionsRestrict B S hS j))
@@ -371,10 +369,10 @@ theorem neighborhoodTotalFractionRingToGeneric_chartFractionMap
         ZX.neighborhoodSectionsToGenericHenselianLocalRing B S hS hX hdecX U
           (chartGlobalSectionsRestrict B S hS j a))
     (x : FractionRing Γ(V.scheme.left.1, ⊤)) :
-    ZX.neighborhoodTotalFractionRingToGeneric B S hS hX hdecX U hCofX
+    ZX.neighborhoodTotalFractionRingToGeneric B S hS hX hdecX U
         (chartFractionMap B S hS j hj x) =
       IsLocalization.map (ZX.genericTotalFractionRing B S hS hX hdecX) φ hφ
-        (ZY.neighborhoodTotalFractionRingToGeneric B S hS hY hdecY V hCofY x) := by
+        (ZY.neighborhoodTotalFractionRingToGeneric B S hS hY hdecY V x) := by
   obtain ⟨⟨a, b⟩, rfl⟩ := IsLocalization.mk'_surjective (Γ(V.scheme.left.1, ⊤))⁰ x
   simp only [PrimeDivisor.neighborhoodTotalFractionRingToGeneric, chartFractionMap,
     IsLocalization.map_mk']
@@ -422,16 +420,12 @@ theorem toGenericTotalFractionRing_rationalFunctionMap_of_chartSquare
   have := ZX.isLocallyNoetherian_chart B S hS hX hNX U
   have := ZY.isReduced_chart B S hS hY hintY V
   have := ZY.isLocallyNoetherian_chart B S hS hY hNY V
-  have hCofX := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (ZX.genericPoint B S hS X) ⟨U⟩
-  have hCofY := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS Y hY
-    (ZY.genericPoint B S hS Y) ⟨V⟩
-  rw [← ZX.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdecX hintX hNX U hCofX,
-    ← ZY.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hY hdecY hintY hNY V hCofY,
+  rw [← ZX.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdecX hintX hNX U,
+    ← ZY.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hY hdecY hintY hNY V,
     rationalFunctionsToTotalFractionRing_rationalFunctionMap B S hS hX hY hintX hintY f hgen
       U.toSpace U.etale_toSpace V.toSpace V.etale_toSpace j hsq hj g,
     neighborhoodTotalFractionRingToGeneric_chartFractionMap B S hS hX hY hdecX hdecY ZX ZY U V
-      hCofX hCofY j hj φ hφ hcompat]
+      j hj φ hφ hcompat]
 
 /-- The germ at a point of a global section moves along a morphism of schemes by restriction of
 global sections, read through the identification of the stalks at the point and at its

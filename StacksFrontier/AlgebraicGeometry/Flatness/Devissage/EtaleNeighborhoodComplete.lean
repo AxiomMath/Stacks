@@ -221,7 +221,7 @@ theorem exists_etaleNeighborhood_completeDevissageAt_of_etaleNeighborhood (f : X
     SheafOfModules.isFiniteType_of_iso e hf₂
   refine ⟨U.comp U', V.comp T', k', hU.comp hU', hV.comp hT', ?_, hpt', hk', hq₃, hf₃,
     ⟨@CompleteDevissageAt.ofModuleIso _ _ _ _ _ hk' hq₂ hf₂ hq₃ hf₃ _ hD.some e.symm⟩⟩
-  show (U'.toBase ≫ U.toBase) ≫ f = k' ≫ V'.toBase ≫ V.toBase
+  change (U'.toBase ≫ U.toBase) ≫ f = k' ≫ V'.toBase ≫ V.toBase
   calc
     (U'.toBase ≫ U.toBase) ≫ f = U'.toBase ≫ k ≫ V.toBase := by
       rw [Category.assoc, hsq]

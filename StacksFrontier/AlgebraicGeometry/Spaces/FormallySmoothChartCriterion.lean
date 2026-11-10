@@ -267,15 +267,10 @@ theorem holdsOnEveryEtaleChart_formallySmoothScheme' {f : X ⟶ Y} (hf : Formall
         (holdsOnEveryEtaleChart_formallySmoothAffineLocally hf U V a b h ha hb hsq)
         ⟨V₀, hV₀⟩ ⟨W, hW⟩ e
 
-/-- `holdsOnEveryEtaleChart_formallySmoothScheme'` in its original signature, whose further
-hypotheses it does not need. -/
-theorem holdsOnEveryEtaleChart_formallySmoothScheme
-    (h0D0F : ∀ {X' Y' : Scheme.{u}} (g : X' ⟶ Y'),
-      Stacks.Smooth.FormallySmoothAffineLocally g → Stacks.Smooth.FormallySmoothScheme g)
-    {f : X ⟶ Y} (hf : FormallySmooth f) :
-    HoldsOnEveryEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f := by
-  clear h0D0F
-  exact holdsOnEveryEtaleChart_formallySmoothScheme' hf
+/-- `holdsOnEveryEtaleChart_formallySmoothScheme'` under its original name. -/
+theorem holdsOnEveryEtaleChart_formallySmoothScheme {f : X ⟶ Y} (hf : FormallySmooth f) :
+    HoldsOnEveryEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f :=
+  holdsOnEveryEtaleChart_formallySmoothScheme' hf
 
 /-- **Stacks 061K, the implication (1) ⟹ (3).** A formally smooth morphism of algebraic spaces
 over `S` admits a commuting square of étale scheme charts whose chart of the source is
@@ -290,16 +285,12 @@ theorem holdsOnSurjectiveEtaleChart_formallySmoothScheme'
   holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart _ hX hY
     (holdsOnEveryEtaleChart_formallySmoothScheme' hf)
 
-/-- `holdsOnSurjectiveEtaleChart_formallySmoothScheme'` in its original signature, whose further
-hypotheses it does not need. -/
+/-- `holdsOnSurjectiveEtaleChart_formallySmoothScheme'` under its original name. -/
 theorem holdsOnSurjectiveEtaleChart_formallySmoothScheme
-    (h0D0F : ∀ {X' Y' : Scheme.{u}} (g : X' ⟶ Y'),
-      Stacks.Smooth.FormallySmoothAffineLocally g → Stacks.Smooth.FormallySmoothScheme g)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) {f : X ⟶ Y}
     (hf : FormallySmooth f) :
-    HoldsOnSurjectiveEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f := by
-  clear h0D0F
-  exact holdsOnSurjectiveEtaleChart_formallySmoothScheme' hX hY hf
+    HoldsOnSurjectiveEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f :=
+  holdsOnSurjectiveEtaleChart_formallySmoothScheme' hX hY hf
 
 end AlgebraicGeometry.Space
 

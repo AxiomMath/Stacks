@@ -323,7 +323,7 @@ theorem derealize_spec [F.IsRepresentable] {Y : Over S} (hY : C.Contains Y.left)
     (f : F ⟶ yoneda.obj (schemeSiteObject C hS hY)) :
     yoneda.map (schemeSiteMap C hS (contains_representingScheme C hS F) hY
         (derealize C hS F hY f)) = (representingSchemeIso C hS F).inv ≫ f := by
-  show yoneda.map (yoneda.preimage ((representingSchemeIso C hS F).inv ≫ f)) = _
+  change yoneda.map (yoneda.preimage ((representingSchemeIso C hS F).inv ≫ f)) = _
   exact yoneda.map_preimage _
 
 /-- An étale morphism out of an algebraic space identified with a represented presheaf is étale
@@ -360,9 +360,9 @@ theorem isPullback_comp_iso {𝒞 : Type*} [Category 𝒞] {W W' Z Z' Y P : 𝒞
     simp only [Category.assoc] at hc ⊢
     exact hc
   refine ⟨h.lift (s.fst ≫ i.hom) (s.snd ≫ j.hom) hs, ?_, ?_, ?_⟩
-  · show h.lift (s.fst ≫ i.hom) (s.snd ≫ j.hom) hs ≫ l ≫ i.inv = s.fst
+  · change h.lift (s.fst ≫ i.hom) (s.snd ≫ j.hom) hs ≫ l ≫ i.inv = s.fst
     rw [← Category.assoc, h.lift_fst, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  · show h.lift (s.fst ≫ i.hom) (s.snd ≫ j.hom) hs ≫ r ≫ j.inv = s.snd
+  · change h.lift (s.fst ≫ i.hom) (s.snd ≫ j.hom) hs ≫ r ≫ j.inv = s.snd
     rw [← Category.assoc, h.lift_snd, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   · intro m hm₁ hm₂
     replace hm₁ : m ≫ l ≫ i.inv = s.fst := hm₁
@@ -472,7 +472,7 @@ theorem restrictionCompositionData_underlying_eq (G : GroupoidInAlgebraicSpaces 
   ext T z
   have hfst' := congrArg (fun k => k z) (NatTrans.congr_app hfst T)
   have hsnd' := congrArg (fun k => k z) (NatTrans.congr_app hsnd T)
-  show (restrictionCompositionData G g).underlying.hom.app T z =
+  change (restrictionCompositionData G g).underlying.hom.app T z =
     (restrictionUnderlyingLift G g ≫ G.comp).hom.app T z
   rw [restrictionCompositionData_underlying_comp_app]
   refine congrArg ((G.comp.hom.app T)) (Space.pullback_app_ext C hS _ _ T _ _ ?_ ?_)

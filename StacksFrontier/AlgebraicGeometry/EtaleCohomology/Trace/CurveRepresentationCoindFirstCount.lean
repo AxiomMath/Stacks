@@ -82,7 +82,7 @@ theorem exists_cover_rightDerived_coindTrivial_linearEquiv :
   have : Etale g.hom := inferInstanceAs (Etale W.hom)
   let t : GeometricPoint Vb.1 := ⟨y.residueField, w.1⟩
   have hy : t.map g.hom = y := by
-    show (⟨y.residueField, w.1 ≫ W.hom⟩ : GeometricPoint U.1) = y
+    change (⟨y.residueField, w.1 ≫ W.hom⟩ : GeometricPoint U.1) = y
     rw [w.2]
   let cc := curveCoverCompactification q jC g.hom
   have := cc.isCurve

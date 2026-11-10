@@ -123,7 +123,7 @@ theorem mapHomotopyCategoryCompIso_hom_app_comp_factors {F : V ⥤ W} {G : W ⥤
         (G.mapHomotopyCategoryFactors c).hom.app ((F.mapHomologicalComplex c).obj K) ≫
         (HomotopyCategory.quotient W' c).map
           ((Functor.mapHomologicalComplexCompIso e c).hom.app K) := by
-  show (HomotopyCategory.quotient W' c).map
+  change (HomotopyCategory.quotient W' c).map
         ((Functor.mapHomologicalComplexCompIso e c).hom.app K) ≫
       (HomotopyCategory.quotient W' c).map (𝟙 ((H.mapHomologicalComplex c).obj K)) =
     (HomotopyCategory.quotient W' c).map

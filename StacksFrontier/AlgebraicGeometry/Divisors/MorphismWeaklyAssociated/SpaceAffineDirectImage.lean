@@ -116,7 +116,7 @@ private theorem exists_representedSpaceMap_weaklyAssociatedPoints_transport
       exact congrArg (fun k => pointsMap B S hS (yoneda.obj W') k w) hesnd
     have hinv : ∀ x : points B S hS X.1,
         pointsMap B S hS (yoneda.obj W') ψ.hom (pointsMap B S hS X.1 e.inv x) = x := fun x => by
-      show pointsMap B S hS (yoneda.obj W') e.hom (pointsMap B S hS X.1 e.inv x) = x
+      change pointsMap B S hS (yoneda.obj W') e.hom (pointsMap B S hS X.1 e.inv x) = x
       rw [← pointsMap_comp_apply, e.inv_hom_id, pointsMap_id, id_eq]
     refine Set.ext fun t => ⟨?_, ?_⟩
     · rintro ⟨x, hx, rfl⟩

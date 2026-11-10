@@ -122,7 +122,7 @@ theorem ιMapBifunctor_singleTensorToSingle_f (F G : Mod R) :
   have hnat := ((Stacks.SheafOfModules.Tensor.sheafTensor R).map
     (HomologicalComplex.singleObjXSelf (up ℤ) 0 F).hom).naturality
       (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom
-  show HomologicalComplex.singleRightι (Stacks.SheafOfModules.Tensor.sheafTensor R)
+  change HomologicalComplex.singleRightι (Stacks.SheafOfModules.Tensor.sheafTensor R)
       (singleComplex F) G 0 ≫
       (HomologicalComplex.mapBifunctorSingleRightXIso (Stacks.SheafOfModules.Tensor.sheafTensor R)
         (singleComplex F) G 0).hom ≫
@@ -203,12 +203,12 @@ theorem ιMapBifunctor_singleTensorToSinglePlus (μ : ((sheafTensor X.sheaf).obj
         ((sheafTensor X.sheaf).obj F).map (HomologicalComplex.singleObjXSelf (up ℤ) 0 G).hom ≫
           μ ≫ (HomologicalComplex.singleObjXSelf (up ℤ) 0 W).inv := by
   have h := ιMapBifunctor_singleTensorToSingle_f (R := X.sheaf) F G
-  show HomologicalComplex.ιMapBifunctor (singleComplex F) (singleComplex G)
+  change HomologicalComplex.ιMapBifunctor (singleComplex F) (singleComplex G)
       (sheafTensor X.sheaf) (up ℤ) 0 0 0 (by simp) ≫
       ((singleTensorToSingle (R := X.sheaf) F G).f 0 ≫
         ((CochainComplex.singleFunctor _ 0).map μ).f 0) = _
   rw [← Category.assoc, h]
-  show (_ ≫ _ ≫ _) ≫ ((HomologicalComplex.single _ (up ℤ) 0).map μ).f 0 = _
+  change (_ ≫ _ ≫ _) ≫ ((HomologicalComplex.single _ (up ℤ) 0).map μ).f 0 = _
   rw [HomologicalComplex.single_map_f_self]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]
   rfl
@@ -227,7 +227,7 @@ theorem sheafTensorPairingOf_comp_singleTensorToSinglePlus
       singlePairing (bilinearPairing β) := by
   refine Stacks.Cech.LinearCupProduct.ComplexPairing.ext' fun a b n hn => ?_
   rw [Stacks.Cech.LinearCupProduct.ComplexPairing.comp_μ]
-  show (Stacks.Cech.SheafTensorPairing.sheafTensorPairing X.sheaf ⊤
+  change (Stacks.Cech.SheafTensorPairing.sheafTensorPairing X.sheaf ⊤
       ((singlePlus X.sheaf F 0).1.X a) ((singlePlus X.sheaf G 0).1.X b) ≫
       (Stacks.Cech.ModuleCupProduct.sectionsFunctor X.sheaf ⊤).map
         (HomologicalComplex.ιMapBifunctor (singlePlus X.sheaf F 0).1 (singlePlus X.sheaf G 0).1

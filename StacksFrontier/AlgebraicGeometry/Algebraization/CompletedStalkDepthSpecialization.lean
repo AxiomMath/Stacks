@@ -670,7 +670,7 @@ private theorem semilinear_of_adicCompletion
     intro u x
     have h1 : (u : S) • x = algebraMap S (AdicCompletion Is S) u * x := (Algebra.smul_def _ _)
     have h2 : f u • e x = algebraMap C (AdicCompletion K C) (f u) * e x := Algebra.smul_def _ _
-    show e (u • x) = f u • e x
+    change e (u • x) = f u • e x
     rw [h1, h2, map_mul, he]
   have h1 : φ.toAddMonoidHom ((a - algebraMap S (AdicCompletion Is S) t) • m) ∈
       ((Is ^ n).map f) • (⊤ : Submodule C M₂) :=
@@ -1010,7 +1010,7 @@ public theorem completedStalkDepth_add_ringKrullDim_succ_eq_of_specializes
     intro t x
     have hψ := semilinear_of_localization q.asIdeal.primeCompl f hf ψ.toLinearMap t x
     rw [hφdef]
-    show adicCompletionModuleCongr hKRB _ (ψ (t • x)) =
+    change adicCompletionModuleCongr hKRB _ (ψ (t • x)) =
       f t • adicCompletionModuleCongr hKRB _ (ψ x)
     rw [show ψ (t • x) = f t • ψ x from hψ, adicCompletionModuleCongr_smul]
   -- the ring isomorphism is compatible with `𝒪_{X,y} ⟶ C` as well

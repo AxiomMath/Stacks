@@ -143,9 +143,9 @@ theorem exists_ringHom_to_algClosed_of_finite_local_algebra
   let ψκ : kS →ₐ[κ] k := IsAlgClosed.lift
   refine ⟨ψκ.toRingHom.comp (residue S), ?_⟩
   ext x
-  show ψκ (residue S (algebraMap R S x)) = φ x
+  change ψκ (residue S (algebraMap R S x)) = φ x
   rw [← ResidueField.map_residue (algebraMap R S) x]
-  show ψκ (algebraMap κ kS (residue R x)) = φ x
+  change ψκ (algebraMap κ kS (residue R x)) = φ x
   have hcomp := congrArg (fun h : κ →+* k => h (residue R x)) (AlgHom.comp_algebraMap ψκ)
   exact hcomp.trans (ResidueField.lift_residue_apply φ x)
 
@@ -163,7 +163,7 @@ theorem isLocalHom_of_ringHom_to_field_of_finite_local_algebra
     simpa using fun hu => hx ((isUnit_map_iff φ x).mp hu)
   have hcomap : (RingHom.ker ψ).comap (algebraMap R S) = maximalIdeal R := by
     ext x
-    show (ψ.comp (algebraMap R S)) x = 0 ↔ x ∈ maximalIdeal R
+    change (ψ.comp (algebraMap R S)) x = 0 ↔ x ∈ maximalIdeal R
     rw [hψ, ← RingHom.mem_ker, hkerφ]
   let : (RingHom.ker ψ).IsPrime := RingHom.ker_isPrime ψ
   let : Algebra.IsIntegral R S := Algebra.IsIntegral.of_finite R S
@@ -195,7 +195,7 @@ theorem unique_ringHom_to_algClosed_of_finite_local_algebra
       (ResidueField.lift χ).comp (ResidueField.map (algebraMap R S)) = fκ := by
     ext x
     obtain ⟨r, rfl⟩ := residue_surjective x
-    show ResidueField.lift χ (ResidueField.map (algebraMap R S) (residue R r)) =
+    change ResidueField.lift χ (ResidueField.map (algebraMap R S) (residue R r)) =
       fκ (residue R r)
     rw [ResidueField.map_residue, ResidueField.lift_residue_apply]
     calc
@@ -206,7 +206,7 @@ theorem unique_ringHom_to_algClosed_of_finite_local_algebra
   let lift (χ : S →+* k) [IsLocalHom χ] (hχ : χ.comp (algebraMap R S) = φ) : kS →ₐ[κ] k :=
     { toRingHom := ResidueField.lift χ
       commutes' := fun r => by
-        show ResidueField.lift χ (ResidueField.map (algebraMap R S) r) = fκ r
+        change ResidueField.lift χ (ResidueField.map (algebraMap R S) r) = fκ r
         exact congrArg (fun h : κ →+* k => h r) (hlift χ hχ) }
   ext x
   have h := congrArg (fun h : kS →ₐ[κ] k => h (residue S x))
@@ -241,7 +241,7 @@ theorem existsUnique_factor_ringHom_pi
     exact (Ideal.ne_top_iff_one _).mp q.2.ne_top he
   have he_one : ψ e = 1 := by
     have hee : e * e = e := by
-      show Pi.single i (1 : B i) * Pi.single i 1 = Pi.single i 1
+      change Pi.single i (1 : B i) * Pi.single i 1 = Pi.single i 1
       rw [← Pi.single_mul, mul_one]
     have hz : ψ e * (ψ e - 1) = 0 := by rw [mul_sub, ← map_mul, hee, mul_one, sub_self]
     exact sub_eq_zero.mp ((mul_eq_zero.mp hz).resolve_left he_ne)
@@ -259,12 +259,12 @@ theorem existsUnique_factor_ringHom_pi
       map_add' := fun a b => by rw [Pi.single_add, map_add] }
   have hβ : β.comp (algebraMap R (B i)) = φ := by
     ext r
-    show ψ (Pi.single i (algebraMap R (∀ j, B j) r i)) = φ r
+    change ψ (Pi.single i (algebraMap R (∀ j, B j) r i)) = φ r
     rw [hmul, map_mul, he_one, one_mul]
     exact congrArg (fun h : R →+* k => h r) hψ
   have hfactor : ψ = β.comp (Pi.evalRingHom B i) := by
     refine RingHom.ext fun a => ?_
-    show ψ a = ψ (Pi.single i (a i))
+    change ψ a = ψ (Pi.single i (a i))
     rw [hmul, map_mul, he_one, one_mul]
   refine ⟨⟨i, β⟩, ⟨hβ, hfactor⟩, ?_⟩
   rintro ⟨j, γ⟩ ⟨hγ, hγfactor⟩
@@ -274,7 +274,7 @@ theorem existsUnique_factor_ringHom_pi
   have hp' : PrimeSpectrum.sigmaToPi B ⟨j, q'⟩ = p := by
     apply PrimeSpectrum.ext
     rw [PrimeSpectrum.sigmaToPi_apply, PrimeSpectrum.comap_asIdeal]
-    show (RingHom.ker γ).comap (Pi.evalRingHom B j) = RingHom.ker ψ
+    change (RingHom.ker γ).comap (Pi.evalRingHom B j) = RingHom.ker ψ
     rw [hγfactor]
     rfl
   obtain rfl : i = j :=

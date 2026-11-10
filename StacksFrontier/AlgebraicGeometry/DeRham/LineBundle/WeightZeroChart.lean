@@ -85,7 +85,6 @@ theorem formsSectionsIso_hom_deRhamComplex_d (p : ℕ)
   rw [h]
   exact (formsSectionsIso f hU hV e (p + 1)).inv_hom_id_apply _
 
-include hU hV in
 /-- The algebraic de Rham differential of `Γ(S, V) → Γ(X, U)` is `deRhamDifferential`. -/
 theorem ringDeRhamComplex_d_apply (p : ℕ)
     (x : ⋀[Γ(X, U)]^p ↥(CommRingCat.KaehlerDifferential (f.appLE V U e))) :
@@ -93,7 +92,7 @@ theorem ringDeRhamComplex_d_apply (p : ℕ)
     ((AffineDifferentialsIso.ringDeRhamComplex (f.appLE V U e)).d p (p + 1)).hom x =
       deRhamDifferential (A := Γ(S, V)) (B := Γ(X, U)) p x := by
   let := (f.appLE V U e).hom.toAlgebra
-  show ((KaehlerDifferential.deRhamComplex Γ(S, V) Γ(X, U)).d p (p + 1)).hom x = _
+  change ((KaehlerDifferential.deRhamComplex Γ(S, V) Γ(X, U)).d p (p + 1)).hom x = _
   rw [KaehlerDifferential.deRhamComplex_d]
   rfl
 
@@ -320,7 +319,7 @@ attribute [local instance] Situation.AffineChart.algebraRA algebraRB algebraAB
 /-- The algebras `Γ(S, V) → Γ(X, U) → Γ(L^⋆, π⁻¹U)` form a scalar tower. -/
 theorem isScalarTower : IsScalarTower c.R c.A c.B :=
   IsScalarTower.of_algebraMap_eq fun r => by
-    show ((D.laurentSpectrumToBase ≫ D.f).appLE c.V.1 _ c.preimage_le).hom r =
+    change ((D.laurentSpectrumToBase ≫ D.f).appLE c.V.1 _ c.preimage_le).hom r =
       (D.laurentSpectrumToBase.app c.U.1).hom ((D.f.appLE c.V.1 c.U.1 c.le).hom r)
     rw [Scheme.Hom.app_eq_appLE, ← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE]
 
@@ -480,7 +479,7 @@ theorem laurentFunction_mem_grading (n : ℤ) (x : (D.laurentAlgebra.piece n).va
     D.laurentFunction n c.U x ∈ c.grading n := by
   obtain ⟨q, hq, hqx⟩ := c.chart.exists_mem_grade_hom_eq c.U.2 n x
   refine ⟨q, hq, ?_⟩
-  show c.chart.sectionsRingEquiv q = D.laurentFunction n c.U x
+  change c.chart.sectionsRingEquiv q = D.laurentFunction n c.U x
   rw [Situation.LaurentChart.sectionsRingEquiv_apply, hqx]
   rfl
 
@@ -491,7 +490,7 @@ theorem exists_laurentFunction_of_mem_grading {n : ℤ} {b : c.B} (hb : b ∈ c.
   obtain ⟨q, hq, rfl⟩ := hb
   obtain ⟨x, hx⟩ := c.chart.exists_hom_eq_of_mem_grade hq
   refine ⟨x, ?_⟩
-  show D.laurentFunction n c.U x = c.chart.sectionsRingEquiv q
+  change D.laurentFunction n c.U x = c.chart.sectionsRingEquiv q
   rw [Situation.LaurentChart.sectionsRingEquiv_apply, hx]
   rfl
 
@@ -657,7 +656,7 @@ theorem exists_isHomogeneous_formsLF_eq (p : ℕ) (degree : Fin (p + 1) → ℤ)
         refine Fin.lastCases ?_ (fun l => ?_) k
         · rw [Fin.snoc_last, Fin.succ_last]
           exact hx
-        · rw [Fin.snoc_castSucc, ← Fin.castSucc_fin_succ]
+        · rw [Fin.snoc_castSucc, ← Fin.castSucc_succ]
 
 /-- **The identification carries the sections of `Ω^p_{L^⋆/S, n}` over `U` into the degree-`n`
 component.** -/
@@ -773,7 +772,7 @@ theorem formsLF_gradedDiff (p : ℕ) (ω : Γ(D.gradedAmbient p, c.U.1)) :
     (D.laurentSpectrumToBase ≫ D.f) c.isAffineOpen_preimage c.V.2 c.preimage_le p
     (D.secG p c.U.1 ω)
   have h2 := Stacks.AlgebraicGeometry.AffineOpenDeRham.ringDeRhamComplex_d_apply
-    (D.laurentSpectrumToBase ≫ D.f) c.isAffineOpen_preimage c.V.2 c.preimage_le p
+    (D.laurentSpectrumToBase ≫ D.f) c.preimage_le p
     ((c.formsL p).hom (D.secG p c.U.1 ω))
   exact (congrArg (c.toΩB (p + 1)) h).trans h2
 
@@ -784,7 +783,7 @@ theorem formsXF_dX (p : ℕ) (α : Γ(Scheme.Hom.relativeDifferentialForms D.f (
   have h := Stacks.AlgebraicGeometry.AffineOpenDeRham.formsSectionsIso_hom_deRhamComplex_d
     D.f c.U.2 c.V.2 c.le p α
   have h2 := Stacks.AlgebraicGeometry.AffineOpenDeRham.ringDeRhamComplex_d_apply
-    D.f c.U.2 c.V.2 c.le p ((c.formsX p).hom α)
+    D.f c.le p ((c.formsX p).hom α)
   rw [h, h2]
   rfl
 
@@ -808,7 +807,7 @@ of its Laurent chart.** -/
 theorem unit_val :
     D.secR _ (c.unit : D.laurentSpectrum.sheaf.obj.obj (op (D.laurentSpectrumToBase ⁻¹ᵁ c.U.1))) =
       D.laurentFunction 1 c.U c.chart.gen := by
-  show c.equiv (LaurentDeRham.weightOneUnit (1 : c.Aˣ) : LaurentPolynomial c.A) = _
+  change c.equiv (LaurentDeRham.weightOneUnit (1 : c.Aˣ) : LaurentPolynomial c.A) = _
   rw [LaurentDeRham.weightOneUnit_val, Units.val_one, map_one, one_mul, equiv_apply,
     Situation.LaurentChart.sectionsRingEquiv_apply, Situation.LaurentChart.hom_T, zpow_one]
   rfl

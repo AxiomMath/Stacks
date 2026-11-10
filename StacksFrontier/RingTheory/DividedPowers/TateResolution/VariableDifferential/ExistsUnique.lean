@@ -137,7 +137,7 @@ private theorem evenPolynomialDifferential_dpow_monomial
           let P := E (a ^ (n - 1)) * E (dA a)
           have hcomm : (n : EvenVariableAlgebra A) * P = P * n :=
             (Nat.cast_commute n P).eq
-          show (E (a ^ (n - 1)) * E (dA a)) *
+          change (E (a ^ (n - 1)) * E (dA a)) *
             (n * δ.dpow n T) = (n * (E (a ^ (n - 1)) * E (dA a))) * δ.dpow n T
           calc
             (E (a ^ (n - 1)) * E (dA a)) * (n * δ.dpow n T) =
@@ -207,7 +207,7 @@ private theorem evenPolynomialDifferential_compatible_homogeneous
     · subst i
       have haPos : a ∈ positiveEvenPart 𝒜 :=
         Submodule.mem_iSup_of_mem e (by simpa using hagrad)
-      show D (δ.dpow n (EvenVariableAlgebra.coeffEmbedding a)) = _
+      change D (δ.dpow n (EvenVariableAlgebra.coeffEmbedding a)) = _
       calc
         D (δ.dpow n (EvenVariableAlgebra.coeffEmbedding a)) =
             EvenVariableAlgebra.coeffEmbedding

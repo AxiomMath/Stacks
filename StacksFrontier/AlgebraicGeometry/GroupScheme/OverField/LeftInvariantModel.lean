@@ -124,7 +124,7 @@ theorem exists_localRationalAction_of_functionFieldAction [IsAlgClosed k] [IsInt
       IsOpenImmersion.lift_fac, Scheme.Opens.fromSpecStalkOfMem_ι_assoc]
     exact (Scheme.Opens.fromSpecStalkOfMem_ι_assoc _ _ _ _).symm
   have key : Lpm.fromSpecStalkOfMem hθD = Rpm.fromSpecStalkOfMem hθD := by
-    show D''.fromSpecStalkOfMem θ hθD ≫ L = D''.fromSpecStalkOfMem θ hθD ≫ R
+    change D''.fromSpecStalkOfMem θ hθD ≫ L = D''.fromSpecStalkOfMem θ hθD ≫ R
     rw [← Category.assoc, k1, Category.assoc, hφF, hLI, ← Category.assoc, ← k2,
       Category.assoc]
   obtain ⟨W, hW, hWl, hWr, e⟩ :=

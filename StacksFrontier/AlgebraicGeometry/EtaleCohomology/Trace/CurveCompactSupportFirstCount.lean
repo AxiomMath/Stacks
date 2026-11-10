@@ -230,7 +230,7 @@ theorem finite_and_natCard_mul_le_of_cone [Finite V]
       induction x using QuotientAddGroup.induction_on with
       | H p =>
         have hp := (mem_coneCycles n ψ).1 p.2
-        show n • (QuotientAddGroup.mk (p : Q × A).2 : A ⧸ ψ.range) = 0
+        change n • (QuotientAddGroup.mk (p : Q × A).2 : A ⧸ ψ.range) = 0
         rw [← QuotientAddGroup.mk_nsmul, ← hp, QuotientAddGroup.eq_zero_iff]
         exact ⟨_, rfl⟩
     · induction y using QuotientAddGroup.induction_on with
@@ -251,7 +251,7 @@ theorem finite_and_natCard_mul_le_of_cone [Finite V]
         exact sub_self _
       obtain ⟨u, hu⟩ := (hθ _).1 hk
       refine ⟨QuotientAddGroup.mk u, ?_⟩
-      show β u = _
+      change β u = _
       refine (QuotientAddGroup.eq_iff_sub_mem).2 ⟨-q', Subtype.ext ?_⟩
       ext <;> simp [hu, hq']
   have hSρ : S.map red ≤ ρ.range := by
@@ -390,7 +390,7 @@ theorem natCard_sheafH_etaleConstantSheaf_le_pow_of_zmod
   obtain ⟨ι, hι, m, hm, h1, h2⟩ :=
     exists_prod_natCard_sheafH_etaleConstantSheaf_of_nsmul_eq_zero X q k N A hN
   rw [h1, h2]
-  exact Finset.prod_le_prod' fun i _ => h _ (hm i)
+  exact Finset.prod_le_prod fun i _ => h _ (hm i)
 
 /-- `#A^k ≤ #Hᵠ(X, A_X)` for every finite group `A` killed by `N`, from the cyclic case. -/
 theorem pow_le_natCard_sheafH_etaleConstantSheaf_of_zmod
@@ -400,7 +400,7 @@ theorem pow_le_natCard_sheafH_etaleConstantSheaf_of_zmod
   obtain ⟨ι, hι, m, hm, h1, h2⟩ :=
     exists_prod_natCard_sheafH_etaleConstantSheaf_of_nsmul_eq_zero X q k N A hN
   rw [h1, h2]
-  exact Finset.prod_le_prod' fun i _ => h _ (hm i)
+  exact Finset.prod_le_prod fun i _ => h _ (hm i)
 
 /-- `Hᵠ(X, A_X)` is finite for every finite group `A` killed by `N`, from the cyclic case. -/
 theorem finite_sheafH_etaleConstantSheaf_of_zmod
@@ -427,7 +427,7 @@ theorem natCard_sheafH_zero_etaleConstantSheaf_zmod {X : Scheme.{u}} (gX : X ⟶
     [IsIntegral X] {m : ℕ} (hm : IsUnit (m : K)) :
     Nat.card (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} X (ZMod m)) 0) = m := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hm
-  have hm0 := ne_zero_of_isUnit_natCast gX hm
+  have hm0 := ne_zero_of_isUnit_natCast hm
   rw [← Nat.card_congr (Equiv.ofBijective _ (etaleConstantClass_bijective gX hζ hm0)),
     Nat.card_zmod]
 
@@ -437,7 +437,7 @@ theorem natCard_sheafH_one_etaleConstantSheaf_zmod_of_isProper {X : Scheme.{u}}
     (f : X ⟶ Spec (.of K)) [IsCurve K f] [Smooth f] [IsProper f] {m : ℕ} (hm : IsUnit (m : K)) :
     Nat.card (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} X (ZMod m)) 1) = m ^ (2 * genus f) := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hm
-  have hm0 := ne_zero_of_isUnit_natCast f hm
+  have hm0 := ne_zero_of_isUnit_natCast hm
   have : IsProjectiveVariety K f := (isProjectiveVariety_iff_isProjectiveMorphism K f).2
     (isProjectiveMorphism_of_isProper_of_isCurve K f)
   rw [Nat.card_congr (sheafHRootsOfUnityConstantAddEquiv f hζ hm0 1).toEquiv,
@@ -471,7 +471,7 @@ theorem finite_rootsOfUnity_and_natCard_le_pow_natCard (Z : Scheme.{u}) [IsReduc
   calc Nat.card (rootsOfUnity m Γ(Z, ⊤))
       ≤ Nat.card (Π z : Z, rootsOfUnity m (Z.residueField z)) := Nat.card_le_card_of_injective φ hφ
     _ = ∏ z, Nat.card (rootsOfUnity m (Z.residueField z)) := Nat.card_pi
-    _ ≤ ∏ _z : Z, m := Finset.prod_le_prod' fun z _ => card_rootsOfUnity _ _
+    _ ≤ ∏ _z : Z, m := Finset.prod_le_prod fun z _ => card_rootsOfUnity _ _
     _ = m ^ Nat.card Z := by rw [Finset.prod_const, Finset.card_univ, Nat.card_eq_fintype_card]
 
 /-- **`#H⁰(Z, ℤ/m) ≤ m^{#Z}`** on a finite reduced scheme over an algebraically closed field in
@@ -480,7 +480,7 @@ theorem natCard_sheafH_zero_etaleConstantSheaf_zmod_le_of_finite {Z : Scheme.{u}
     (gZ : Z ⟶ Spec (.of K)) [IsReduced Z] [Finite Z] {m : ℕ} (hm : IsUnit (m : K)) :
     Nat.card (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} Z (ZMod m)) 0) ≤ m ^ Nat.card Z := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hm
-  have hm0 := ne_zero_of_isUnit_natCast gZ hm
+  have hm0 := ne_zero_of_isUnit_natCast hm
   have : NeZero m := ⟨hm0⟩
   obtain ⟨hfin, hcard⟩ := finite_rootsOfUnity_and_natCard_le_pow_natCard Z m
   exact (Nat.card_le_card_of_injective _ (h0EtaleConstantToRootsOfUnity_injective gZ hζ hm0)).trans
@@ -492,7 +492,7 @@ theorem finite_sheafH_zero_etaleConstantSheaf_zmod_of_finite {Z : Scheme.{u}}
     (gZ : Z ⟶ Spec (.of K)) [IsReduced Z] [Finite Z] {m : ℕ} (hm : IsUnit (m : K)) :
     Finite (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} Z (ZMod m)) 0) := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hm
-  have hm0 := ne_zero_of_isUnit_natCast gZ hm
+  have hm0 := ne_zero_of_isUnit_natCast hm
   have : NeZero m := ⟨hm0⟩
   obtain ⟨hfin, -⟩ := finite_rootsOfUnity_and_natCard_le_pow_natCard Z m
   exact Finite.of_injective _ (h0EtaleConstantToRootsOfUnity_injective gZ hζ hm0)
@@ -533,7 +533,7 @@ theorem finite_and_natCard_sheafH_one_rootsOfUnitySheaf
           (nsmulAddMonoidHom n : Sheaf.H.{u + 1} (multiplicativeSheaf.{u, 0} X) 0 →+ _).range) *
         Nat.card (AddSubgroup.torsionBy (Sheaf.H.{u + 1} (multiplicativeSheaf.{u, 0} X) 1)
           (n : ℤ)) := by
-  have hn0 := ne_zero_of_isUnit_natCast gX hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have hX := isUnit_natCast_globalSections X n gX hn
   set δ := kummerδ.{u + 1, u, 0} X hn0 hX 0
   set ι := Sheaf.H.map.{u + 1} (rootsOfUnityι.{u, 0} X n) 1
@@ -625,7 +625,7 @@ theorem surjective_boundaryReduction [Finite (BoundaryPoints jD)] (n : ℕ) [NeZ
     rintro ⟨z, rfl⟩
     exact z.2 hy
   refine ⟨⟨d, hd⟩, funext fun z => ?_⟩
-  show (((d z.1 : ℤ)) : ZMod n) = v z
+  change (((d z.1 : ℤ)) : ZMod n) = v z
   rw [show d z.1 = _ from Finsupp.mapDomain_apply_of_injective Subtype.val_injective _ z,
     Finsupp.coe_equivFunOnFinite_symm]
   simp
@@ -721,7 +721,7 @@ theorem closedPointDivisorOfUnit_germ_eq_zero (a : (Γ(D, ⊤))ˣ) :
   have hg : algebraMap (D.presheaf.stalk x.1) D.functionField
       (D.presheaf.germ ⊤ x.1 trivial (a : Γ(D, ⊤))) =
         D.presheaf.germ ⊤ (genericPoint D) trivial (a : Γ(D, ⊤)) := by
-    show (D.presheaf.stalkSpecializes _).hom (D.presheaf.germ ⊤ x.1 trivial (a : Γ(D, ⊤))) = _
+    change (D.presheaf.stalkSpecializes _).hom (D.presheaf.germ ⊤ x.1 trivial (a : Γ(D, ⊤))) = _
     rw [← CommRingCat.comp_apply]
     exact congrArg (fun f => (ConcreteCategory.hom f) (a : Γ(D, ⊤)))
       (TopCat.Presheaf.germ_stalkSpecializes D.presheaf (U := ⊤) (y := x.1) trivial
@@ -830,7 +830,7 @@ variable {K : Type u} [Field K] [IsAlgClosed K] {D Db : Scheme.{u}}
   (jD : D ⟶ Db) [IsOpenImmersion jD]
 
 include q qb in
-omit [Smooth q] in
+omit [IsAlgClosed K] [Smooth q] in
 /-- **A curve open in a curve has finite complement.** -/
 theorem finite_compl_range_of_isCurve : ((Set.range jD.base)ᶜ).Finite := by
   obtain ⟨_, _, _, _⟩ :=
@@ -842,7 +842,7 @@ theorem finite_compl_range_of_isCurve : ((Set.range jD.base)ᶜ).Finite := by
   exact Set.eq_univ_iff_forall.1 h (jD.base x) ⟨x, rfl⟩
 
 include q qb in
-omit [Smooth q] in
+omit [IsAlgClosed K] [Smooth q] in
 /-- A curve `Db` has only finitely many closed points outside the open subscheme `D`. -/
 theorem finite_boundaryPoints : Finite (BoundaryPoints jD) := by
   have := (finite_compl_range_of_isCurve q qb jD).to_subtype
@@ -892,14 +892,14 @@ theorem pow_le_natCard_sheafH_one_etaleConstantSheaf_zmod_of_isOpenImmersion {n 
     n ^ (2 * genus qb + (Nat.card (BoundaryPoints jD) - 1)) ≤
       Nat.card (Sheaf.H.{u + 1} (etaleConstantSheaf.{u, 0} D (ZMod n)) 1) := by
   classical
-  have hn0 := ne_zero_of_isUnit_natCast q hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have : NeZero n := ⟨hn0⟩
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
   obtain ⟨_, _, _, _⟩ :=
     isNormal_isLocallyNoetherian_noetherianSpace_quasiSeparatedSpace_of_isCurve q
   obtain ⟨_, _, _, _⟩ :=
     isNormal_isLocallyNoetherian_noetherianSpace_quasiSeparatedSpace_of_isCurve qb
-  have : IsDominant jD := isDominant_of_isOpenImmersion_of_isCurve q qb jD
+  have : IsDominant jD := isDominant_of_isOpenImmersion_of_isCurve jD
   have := finite_boundaryPoints q qb jD
   set ψ := boundaryClassMap q qb jD
   set S := (nsmulAddMonoidHom n : closedPointClassGroup Db →+ _).range.comap ψ

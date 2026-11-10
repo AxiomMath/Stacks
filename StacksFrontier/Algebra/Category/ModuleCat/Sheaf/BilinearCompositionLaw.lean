@@ -62,7 +62,8 @@ needed and the law is an equality of morphisms rather than of bijections.
 spelled geometrically, as `f⁻¹` applied to the underlying sheaf of sets of a module, while the
 intermediate modules of a two-stage transport are spelled as inverse images of sheaves of
 modules; the two agree only at default transparency, as the implementation notes of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.BilinearValueFormulas` record. Keeping the statement
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.BilinearValueFormulas` record. Keeping the
+statement
 at the geometric spelling, which is the one the bijection's own type uses, is what keeps that
 seam out of it.
 

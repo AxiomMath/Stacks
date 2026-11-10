@@ -130,6 +130,9 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (ℓ : ℕ) [Fact
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 
+omit [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
 /-- **The unit of `f⁻¹ ⊣ f_*` at level `n`, read on Mathlib's site**: the unit of the bounded
 sites for a sheaf `G` of `ℤ/ℓⁿ⁺¹`-modules on `Y`, read as a map of sheaves of `ℤ_ℓ`-modules on
 Mathlib's site of `Y` and followed by the comparison of direct images, is the unit of Mathlib's
@@ -205,7 +208,7 @@ theorem levelAdjunctPadicStalkMap_id_apply (F : LAdicSheaf.{u, u + 1} B Y ℓ) (
         (𝟙 (AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F)) n j x
       have e3 := sheafEquivCompSheafFiberIso_inv_germ_naturality s g j x
       have e4 := padicLevelStalkFiberMap_germ s F n j x
-      show (levelAdjunctPadicStalkMap f s F _ _ n).hom _ =
+      change (levelAdjunctPadicStalkMap f s F _ _ n).hom _ =
         (Φ.map _).hom ((Φ.map _).hom ((padicLevelStalkFiberMap s F n).hom _))
       have hid : (LAdicSheaf.levelAdjunction f n).homEquiv _ _
           ((𝟙 (AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F) :
@@ -234,9 +237,9 @@ theorem levelUnitStalkMap_eq_zero_imp (F : LAdicSheaf.{u, u + 1} B Y ℓ) (n : �
       (𝟙 (AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F)) n).hom w = 0 := by
     have hw' : (levelAdjunctStalkMap f s F _ (𝟙 _) n).hom w = 0 := by
       rwa [levelAdjunctStalkMap_id]
-    show ((preservesColimitIso (ModuleCat.restrictScalars.{u + 1}
+    change ((preservesColimitIso (ModuleCat.restrictScalars.{u + 1}
         (PadicInt.toZModPow (p := ℓ) (n + 1)))
-      ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B Y.1 Y.2 s)).op ⋙
         ((LAdicSheaf.levelPushforward f n).obj
           ((AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImage f F).level n)).obj)).hom ≫
       (directImageStalkBridge f s ℓ).hom.app (LAdicSheaf.padicLevel B X ℓ

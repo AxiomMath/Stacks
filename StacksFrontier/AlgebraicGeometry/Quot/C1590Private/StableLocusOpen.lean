@@ -115,7 +115,7 @@ theorem exists_isOpen_hasStableFibresAt_of_isAffine (hω : HasNodalRelativeDuali
   let ρ : ∀ u' : T.obj U, (residueFieldValuedPoint U u').siteObject ⟶ U := fun u' =>
     (residueFieldValuedPoint U u').value
   have hQ : ∀ u' x, T.map (Q u').value x = T.map φ u' := fun u' x => by
-    show T.map φ ((T.obj U).fromSpecResidueField u' x) = _
+    change T.map φ ((T.obj U).fromSpecResidueField u' x) = _
     exact congrArg _ ((T.obj U).fromSpecResidueField_apply u' x)
   have hval : ∀ u', yonedaEquiv.symm (Q u').value = yoneda.map (ρ u' ≫ φ) := fun u' => by
     ext W f
@@ -269,7 +269,7 @@ theorem stableFibres_iff_range_subset {F G : CurveFamily B hZ}
         (residueFieldValuedPoint F.base x).value
         (IsLocalRing.closedPoint (residueFieldValuedPoint F.base x).carrier) = x :=
       ((BigFppfOver.toScheme B integerBase hZ).obj F.base).fromSpecResidueField_apply x _
-    show HasStableFibresAt G ((BigFppfOver.toScheme B integerBase hZ).map a.baseMap x)
+    change HasStableFibresAt G ((BigFppfOver.toScheme B integerBase hZ).map a.baseMap x)
     exact hasStableFibresAt_of_isStableCurveOver hG
       ((BigFppfOver.toScheme B integerBase hZ).map a.baseMap x)
       (Space.FieldValuedPoint.map B integerBase hZ _ (schemeSpaceMap a.baseMap).hom

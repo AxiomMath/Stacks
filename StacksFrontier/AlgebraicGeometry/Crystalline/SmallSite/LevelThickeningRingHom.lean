@@ -197,10 +197,10 @@ def crysFirstOrderSectionsBasis {K : Type uI} (A : Thickening S)
     Prod.ext ((Module.Basis.prod_apply_inl_fst _ c x).trans
         (Module.Basis.singleton_apply Unit (crysSheafRing S A) x))
       (Module.Basis.prod_apply_inl_snd _ c x)
-  show crysFirstOrderSectionsEquiv A
+  change crysFirstOrderSectionsEquiv A
       (((Module.Basis.singleton Unit (crysSheafRing S A)).prod c) (Sum.inl x)) = 1
   rw [h]
-  show crysSheafRingMap (firstOrderThickeningSiteP₀ S A) 1 +
+  change crysSheafRingMap (firstOrderThickeningSiteP₀ S A) 1 +
     firstOrderThickeningDiffSection A 0 = 1
   rw [map_one, firstOrderThickeningDiffSection_zero, add_zero]
 
@@ -212,10 +212,10 @@ the differentials. -/
   have h : ((Module.Basis.singleton Unit (crysSheafRing S A)).prod c) (Sum.inr i) =
       ((0 : crysSheafRing S A), c i) :=
     Prod.ext (Module.Basis.prod_apply_inr_fst _ c i) (Module.Basis.prod_apply_inr_snd _ c i)
-  show crysFirstOrderSectionsEquiv A
+  change crysFirstOrderSectionsEquiv A
       (((Module.Basis.singleton Unit (crysSheafRing S A)).prod c) (Sum.inr i)) = _
   rw [h]
-  show crysSheafRingMap (firstOrderThickeningSiteP₀ S A) 0 +
+  change crysSheafRingMap (firstOrderThickeningSiteP₀ S A) 0 +
     firstOrderThickeningDiffSection A (c i) = _
   rw [map_zero, zero_add]
 
@@ -487,9 +487,9 @@ end LevelForms07JG
 theorem firstOrderExtensionBasis_inl {ι : Type uI} (b : Module.Basis ι (D : Type u) Omega)
     (x : Unit) : firstOrderExtensionBasis b (Sum.inl x) = 1 := by
   refine TrivSqZeroExt.ext ?_ ?_
-  · show (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inl x)).1 = _
+  · change (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inl x)).1 = _
     rw [Module.Basis.prod_apply_inl_fst, Module.Basis.singleton_apply, TrivSqZeroExt.fst_one]
-  · show (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inl x)).2 = _
+  · change (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inl x)).2 = _
     rw [Module.Basis.prod_apply_inl_snd, TrivSqZeroExt.snd_one]
 
 /-- The remaining members of `Crystalline.firstOrderExtensionBasis` are the square-zero
@@ -497,9 +497,9 @@ inclusions of the basis of `Ω`. -/
 theorem firstOrderExtensionBasis_inr {ι : Type uI} (b : Module.Basis ι (D : Type u) Omega)
     (i : ι) : firstOrderExtensionBasis b (Sum.inr i) = TrivSqZeroExt.inr (b i) := by
   refine TrivSqZeroExt.ext ?_ ?_
-  · show (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inr i)).1 = _
+  · change (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inr i)).1 = _
     rw [Module.Basis.prod_apply_inr_fst, TrivSqZeroExt.fst_inr]
-  · show (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inr i)).2 = _
+  · change (((Module.Basis.singleton Unit (D : Type u)).prod b) (Sum.inr i)).2 = _
     rw [Module.Basis.prod_apply_inr_snd, TrivSqZeroExt.snd_inr]
 
 end SmallSite

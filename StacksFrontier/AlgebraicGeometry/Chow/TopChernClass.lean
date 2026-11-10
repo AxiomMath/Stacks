@@ -77,11 +77,11 @@ internally.
 
 Stacks 02S1 and Stacks 02S2 along the legs of a cartesian square are theorems, not hypotheses, of
 the identification of Stacks 0FDZ: see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceAssembly`. What it still carries are the
-three Gysin compatibilities of a `Stacks.Chow.GysinSystem`, exactly as the library's form of that tag
-does; they are `Prop`s, so substituting the genuine statements recovers the tag verbatim. Only the
-declarations that use the identification carry them: the top Chern class itself and its degreewise
-description need none.
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceAssembly`. What it still carries are
+the three Gysin compatibilities of a `Stacks.Chow.GysinSystem`, exactly as the library's form of
+that tag does; they are `Prop`s, so substituting the genuine statements recovers the tag verbatim.
+Only the declarations that use the identification carry them: the top Chern class itself and its
+degreewise description need none.
 
 ## References
 

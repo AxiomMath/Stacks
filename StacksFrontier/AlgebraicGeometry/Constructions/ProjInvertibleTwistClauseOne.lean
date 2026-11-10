@@ -149,6 +149,8 @@ include tw h𝓛
 
 /-! ### A degree-one element is trivializing wherever its comparison is defined -/
 
+omit [CommRing A] [CommRing B] [Algebra R A] [Algebra R B]
+  [GradedAlgebra 𝒜] [GradedAlgebra ℬ] tw in
 /-- **A degree-one element is a sum of a trivializing family's elements with coefficients its
 own values under their functionals.** For `∑ μ_i m_i = 1` and any `ℓ ∈ 𝓛 1` the symmetry
 `μ x • y = μ y • x` gives `ℓ = ∑ μ_i(ℓ) • m_i`. -/
@@ -197,11 +199,11 @@ theorem exists_dual_notMem [Module.Invertible R ↥(𝓛 1)] (hℓ : ℓ ∈ �
           ℓ ^ e * ((p.1 ⟨ℓ, hℓ⟩) • (p.2 : T)) := by
       intro p
       rw [Submodule.coe_smul]
-      show (p.1 ⟨ℓ, hℓ⟩) • (ℓ ^ e * (p.2 : T)) = _
+      change (p.1 ⟨ℓ, hℓ⟩) • (ℓ ^ e * (p.2 : T)) = _
       rw [Algebra.smul_def, Algebra.smul_def]
       ring
     rw [Finset.sum_congr rfl fun p _ => hterm p, ← Finset.mul_sum,
-      tw.sum_dual_smul_eq h𝓛 hℓ s hs, pow_succ]
+      sum_dual_smul_eq h𝓛 hℓ s hs, pow_succ]
   refine hfq ?_
   rw [tw.twistHomOf_apply_of_mem h𝓛 hℓ hf, hL]
   have hexp : (tw.piece (e + 1) (⟨f, hf⟩ ⊗ₜ[R]

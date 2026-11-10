@@ -335,7 +335,7 @@ private theorem shortComplex_quasiIso_of_criterion
       commf' := by ext v; exact Subtype.ext (hcommf v).symm
       commπ := by ext x; rfl }
   rw [γ.quasiIso_iff, ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (Submodule.mapQ _ _ φKmap hφKrange)
+  change Function.Bijective (Submodule.mapQ _ _ φKmap hφKrange)
   refine mapQ_bijective _ _ (fun y => ?_) (fun x hx => ?_)
   · obtain ⟨x, hx, w, hw⟩ := hsurj (y : T.X₂) y.2
     exact ⟨⟨x, hx⟩, ⟨w, Subtype.ext hw⟩⟩

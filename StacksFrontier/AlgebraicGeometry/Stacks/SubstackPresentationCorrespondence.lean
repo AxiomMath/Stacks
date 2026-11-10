@@ -147,7 +147,7 @@ theorem presentationSubfunctor_preimage {T : BigFppfOver B S hS} (x : F.obj (op 
     (presentationSubfunctor hP v).preimage (yonedaEquiv.symm x) =
       objSubfunctor hP ⟨v.obj ⟨T, Discrete.mk x⟩, v.w_obj _⟩ := by
   ext T' t
-  show P (v.obj ⟨T'.unop, Discrete.mk (F.map t.op x)⟩) ↔ _
+  change P (v.obj ⟨T'.unop, Discrete.mk (F.map t.op x)⟩) ↔ _
   exact (mem_objSubfunctor_iff hP _ t (v.map (fibredCategoryRestrictHom t x))).symm
 
 /-- **From `Q`-substacks to `Q`-subspaces.** If `P` cuts out a `Q`-substack of `𝒳` and `F` is
@@ -259,7 +259,7 @@ theorem presentationSubfunctor_preimage_target {P : ObjectProperty 𝒳.val.val.
     Functor.isHomLift_map_of_comp_eq hE (𝟙 T.unop) ((pointwiseToQuotientStack G).map g)
   have := 𝒳.val.property.isStronglyCartesian_homLift (𝟙 T.unop) ζ
   have : IsIso ζ := Functor.IsStronglyCartesian.isIso_of_base_isIso 𝒳.val.val.p (𝟙 T.unop) ζ
-  show P (E.obj ((pointwiseToQuotientStack G).obj ⟨T.unop, G.target.hom.app T r⟩)) ↔
+  change P (E.obj ((pointwiseToQuotientStack G).obj ⟨T.unop, G.target.hom.app T r⟩)) ↔
     P (E.obj ((pointwiseToQuotientStack G).obj ⟨T.unop, G.source.hom.app T r⟩))
   exact ⟨hP ζ, P.prop_of_iso (asIso ζ)⟩
 
@@ -283,7 +283,7 @@ theorem presentationSubfunctor_presentationProperty (Z : Subfunctor G.objects.ob
   have hs' : G.source.hom.app (op y.base) r = G.objects.obj.map ψ.base.op x := hs
   have ht' : G.target.hom.app (op y.base) r = y.fiber.as := ht
   have h₁ : r ∈ (Z.preimage G.source.hom).obj (op y.base) := by
-    show G.source.hom.app _ r ∈ Z.obj _
+    change G.source.hom.app _ r ∈ Z.obj _
     rw [hs']
     exact Z.map ψ.base.op hx
   rw [← ht']

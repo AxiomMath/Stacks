@@ -106,7 +106,7 @@ theorem cotangentSpaceMapOfSquare_tmul_D_X (s : S) (t : S) :
     (selfHomOfSquare (R := R) (S := S) (R' := R') (S' := S')).toExtensionHom s _).trans ?_
   congr 1
   refine congrArg (KaehlerDifferential.D R' (Generators.self R' S').toExtension.Ring) ?_
-  exact (selfHomOfSquare_toAlgHom fR fS h (MvPolynomial.X t)).trans
+  exact (selfHomOfSquare_toAlgHom fR fS (MvPolynomial.X t)).trans
     (selfRingHomOfSquare_X fR fS t)
 
 end Stacks.NaiveCotangent
@@ -397,7 +397,7 @@ theorem chartTensorHom_comm :
     (chartSectionsTensorHom_homEquiv B S hS f d _ (chartConormalSection B S hS f d)
       (chartConormalSection_smul B S hS f d))).symm
   refine ModuleCat.hom_ext (LinearMap.ext fun m => PresheafOfModules.sections_ext _ _ fun U => ?_)
-  show (chartCS B S hS f).X₂.val.map U.unop.hom.op
+  change (chartCS B S hS f).X₂.val.map U.unop.hom.op
       (chartTensorSection B S hS f d ((nlModD (chartCanonicalGenerators B S hS f d)).hom
         (ULift.down m))) =
     (chartCS B S hS f).f.val.app (op U.unop.left)

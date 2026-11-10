@@ -137,7 +137,7 @@ private theorem isConnected_preimage_zeroLocus_of_irreducibleSpace (A : Type u) 
         PrimeSpectrum.zeroLocus (I : Set A)
       = PrimeSpectrum.zeroLocus ((I.map (algebraMap A B) : Ideal B) : Set B) := by
     rw [← hφ]
-    show PrimeSpectrum.comap φ.hom ⁻¹' _ = _
+    change PrimeSpectrum.comap φ.hom ⁻¹' _ = _
     rw [PrimeSpectrum.preimage_comap_zeroLocus, halg, Ideal.map,
       PrimeSpectrum.zeroLocus_span]
   have hbase : _root_.IsConnected

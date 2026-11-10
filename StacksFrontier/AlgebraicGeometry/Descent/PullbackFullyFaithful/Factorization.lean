@@ -193,7 +193,7 @@ def pullbackIdObjIso (V : Over X) : V ≅ (Over.pullback (𝟙 X)).obj V :=
 /-- The identification `pullbackIdObjIso` followed by the first projection is the identity. -/
 lemma pullbackIdObjIso_hom_left_fst (V : Over X) :
     (pullbackIdObjIso V).hom.left ≫ pullback.fst V.hom (𝟙 X) = 𝟙 V.left := by
-  simp [pullbackIdObjIso, Over.pullbackId, pullback.lift_fst]
+  simp [pullbackIdObjIso, Over.pullbackId]
 
 /-- The pullback functor of the identity square: the identity functor on descent data. -/
 def identityPullbackFunctor (a : X ⟶ S) :

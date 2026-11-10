@@ -161,7 +161,7 @@ public theorem isCoherent_homology_obj_truncLE {W : Scheme.{u}}
   by_cases hic : i ≤ c
   · have : IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
         ((DerivedCategory.TStructure.t.truncLEι c).app K)) := by
-      show IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
+      change IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
         ((DerivedCategory.TStructure.t.truncLTι (c + 1)).app K))
       exact DerivedCategory.isIso_homologyMap_truncLTι_app (c + 1) i (by omega) K
     exact AlgebraicGeometry.isCoherent_of_moduleIso
@@ -202,7 +202,7 @@ public theorem isZero_homology_truncLE_of_band_vanishing {W : Scheme.{u}} (m n :
   by_cases hic : i ≤ -(m : ℤ) - 1
   · have : IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
         ((DerivedCategory.TStructure.t.truncLEι (-(m : ℤ) - 1)).app K)) := by
-      show IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
+      change IsIso ((DerivedCategory.homologyFunctor W.Modules i).map
         ((DerivedCategory.TStructure.t.truncLTι (-(m : ℤ) - 1 + 1)).app K))
       exact DerivedCategory.isIso_homologyMap_truncLTι_app (-(m : ℤ) - 1 + 1) i (by omega) K
     refine (hK i ?_).of_iso (asIso ((DerivedCategory.homologyFunctor W.Modules i).map

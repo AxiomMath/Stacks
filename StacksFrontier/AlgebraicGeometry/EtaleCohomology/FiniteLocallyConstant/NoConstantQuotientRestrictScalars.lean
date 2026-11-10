@@ -121,7 +121,7 @@ theorem eq_zero_of_hasNoConstantSimpleQuotient_restrictScalars {Λ₀ Λ : Type}
       ((constantSheaf J (ModuleCat.{u + 1} Λ₀)).obj E₀).obj.obj (op W) := f.hom.toAddMonoidHom
   have hfK : ∀ y ∈ K, f y = 0 := fun y hy =>
     map_eq_zero_of_mem_span_sub (V := N.obj.obj (op W)) fA τ hf hy
-  show f = 0
+  change f = 0
   by_contra hne'
   have hKtop : K ≠ ⊤ := by
     intro hK
@@ -139,13 +139,13 @@ theorem eq_zero_of_hasNoConstantSimpleQuotient_restrictScalars {Λ₀ Λ : Type}
     intro g
     rw [constantSheaf_map_eq_id_of_irreducibleSpace E (G.actHom g), Category.comp_id]
     refine ModuleCat.hom_ext (LinearMap.ext fun s => ?_)
-    show constantSheafUnitApp E W (P.mkQ (τ g s)) = constantSheafUnitApp E W (P.mkQ s)
+    change constantSheafUnitApp E W (P.mkQ (τ g s)) = constantSheafUnitApp E W (P.mkQ s)
     congr 1
     rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq]
     exact hKP (Submodule.subset_span ⟨g, s, rfl⟩)
   obtain ⟨ψ, hψ⟩ := G.exists_hom_app_cover_eq e f' hf'
   have hψ0 := hNQ E hE ψ
-  obtain ⟨y, -, hy⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.2 hP.1)
+  obtain ⟨y, -, hy⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.2 hP.1)
   have hb := Scheme.bijective_toSheafify_const_app_of_irreducibleSpace Λ E W
   have h1 : f' y = 0 := by
     have : f' = 0 := by rw [← hψ, hψ0]; rfl

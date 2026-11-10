@@ -73,7 +73,7 @@ theorem mem_nonvanishingOpen_of_stalkOrd_eq_zero {x : X} [IsDomain (X.presheaf.s
 theorem nonvanishingOpen_smul_of_isUnit {c : Γ(X, ⊤)} (hc : IsUnit c) (t : Γ(M, ⊤)) :
     nonvanishingOpen X M (c • t) = nonvanishingOpen X M t := by
   ext x
-  show x ∈ Stacks.Ample.nonvanishingLocus M (c • t) ↔ x ∈ Stacks.Ample.nonvanishingLocus M t
+  change x ∈ Stacks.Ample.nonvanishingLocus M (c • t) ↔ x ∈ Stacks.Ample.nonvanishingLocus M t
   rw [Stacks.SectionProduct.mem_nonvanishingLocus_iff_generates,
     Stacks.SectionProduct.mem_nonvanishingLocus_iff_generates, Stacks.ModuleStalk.Γgerm_smul]
   have hu : IsUnit ((X.presheaf.Γgerm x).hom c) := hc.map _
@@ -131,7 +131,7 @@ theorem appTop_div_eq_zero {Y : Scheme.{u}} (u w : Γ(M, ⊤))
     div_smul u le_rfl _
   have hU : (⊤ : Y.Opens) ≤ (σ₁ ≫ (nonvanishingOpen X M u).ι) ⁻¹ᵁ (nonvanishingOpen X M u) := by
     intro y _
-    show (σ₁ ≫ (nonvanishingOpen X M u).ι) y ∈ (nonvanishingOpen X M u)
+    change (σ₁ ≫ (nonvanishingOpen X M u).ι) y ∈ (nonvanishingOpen X M u)
     rw [Scheme.Hom.comp_apply]
     exact (σ₁ y).2
   have h1 := congrArg
@@ -148,12 +148,12 @@ theorem appTop_div_eq_zero {Y : Scheme.{u}} (u w : Γ(M, ⊤))
   have hnv : (⊤ : Y.Opens) ≤ nonvanishingOpen Y
       ((Scheme.Modules.pullback (σ₁ ≫ (nonvanishingOpen X M u).ι)).obj M) Pu := by
     intro y _
-    show y ∈ Stacks.Ample.nonvanishingLocus _ Pu
+    change y ∈ Stacks.Ample.nonvanishingLocus _ Pu
     rw [hPu, Stacks.AlgebraicGeometry.ProjChartRatioPullback.pullbackSectionHom_top]
     refine (Stacks.NonvanishingPullback.mem_nonvanishingLocus_pullback_iff
       (σ₁ ≫ (nonvanishingOpen X M u).ι) M u y).mpr (hU (show y ∈ (⊤ : Y.Opens) from trivial))
   have hres : resT (⊤ : Y.Opens) Pu = Pu := by
-    show ((Scheme.Modules.pullback (σ₁ ≫ (nonvanishingOpen X M u).ι)).obj M).presheaf.map
+    change ((Scheme.Modules.pullback (σ₁ ≫ (nonvanishingOpen X M u).ι)).obj M).presheaf.map
       (homOfLE le_top).op Pu = Pu
     rw [show (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op = 𝟙 _ from rfl,
       CategoryTheory.Functor.map_id]
@@ -287,7 +287,7 @@ theorem restrictSection_cube_zeroSection (g : T ⟶ S) :
     E.restrictSection g 3 (cube E.zeroSheaf E.zeroSection) =
       cube (E.pullback g).zeroSheaf (E.pullback g).zeroSection := by
   rw [cube, sq, cube, sq]
-  show E.restrictSection g ((1 + 1) + 1) _ = _
+  change E.restrictSection g ((1 + 1) + 1) _ = _
   rw [restrictSection_mulSections, restrictSection_mulSections, restrictSection_zeroSection]
 
 /-- **The nonvanishing open of `s³` of a restricted family is the preimage of that of `s³`.** -/
@@ -305,7 +305,7 @@ theorem pullSection_zero_zeroSection :
   unfold zeroSection
   refine (Stacks.AlgebraicGeometry.ProjChartRatioPullback.pullSection_twistOneSection _ _ _).trans
     ?_
-  show twistOneSection _ (pullbackSectionHom E.zero (invertibleSheaf' E.zeroDivisor) ⊤ ⊤ _
+  change twistOneSection _ (pullbackSectionHom E.zero (invertibleSheaf' E.zeroDivisor) ⊤ ⊤ _
     ((canonicalSection' E.zeroDivisor).val (op ⊤))) = 0
   rw [Stacks.Divisors.pullbackSectionHom_canonicalSection_eq_zero E.zeroDivisor E.zero le_rfl]
   exact map_zero _
@@ -347,7 +347,7 @@ theorem pullbackSectionHom_zero_cube :
     pullbackSectionHom E.zero (natTensorPow E.zeroSheaf 3) ⊤ ⊤ (by simp)
       (cube E.zeroSheaf E.zeroSection) = 0 := by
   rw [cube, sq]
-  show pullbackSectionHom E.zero (natTensorPow E.zeroSheaf ((1 + 1) + 1)) ⊤ ⊤ _ _ = 0
+  change pullbackSectionHom E.zero (natTensorPow E.zeroSheaf ((1 + 1) + 1)) ⊤ ⊤ _ _ = 0
   exact E.pullbackSectionHom_zero_mulSections_eq_zero _ _
     (Or.inr (pullSection_zero_zeroSection E))
 
@@ -360,7 +360,7 @@ theorem SpecMap_algebraMap_residueField_closedPoint {A : Type u} [CommRing A] (p
     [p.IsPrime] :
     ((Spec.map (CommRingCat.ofHom (algebraMap A p.ResidueField)))
       (IsLocalRing.closedPoint p.ResidueField)).asIdeal = p := by
-  show Ideal.comap (algebraMap A p.ResidueField)
+  change Ideal.comap (algebraMap A p.ResidueField)
     (IsLocalRing.maximalIdeal p.ResidueField) = p
   rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot,
     Ideal.ker_algebraMap_residueField]
@@ -520,7 +520,7 @@ theorem exists_zero_lift_nvCover {A : Type u} [CommRing A] (E : PointedFamily (S
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨t, rfl⟩
     refine (nonvanishingOpen_smul_restrictSection E g v y).ge ?_
-    show Limits.pullback.fst E.map g ((E.pullback g).zero t) ∈ N
+    change Limits.pullback.fst E.map g ((E.pullback g).zero t) ∈ N
     rw [hzero]
     exact hle₂ (htop.ge (show t ∈ (⊤ : (Spec (CommRingCat.of B)).Opens) from trivial))
   · refine GenusOne.appTop_chartRatio_eq_zero _ 1 0 _ ?_

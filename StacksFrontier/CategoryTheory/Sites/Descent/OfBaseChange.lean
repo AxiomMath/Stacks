@@ -667,13 +667,13 @@ theorem isEquivalence_toDescentData_of_baseChange_unconditional
           ⟨pullback.lift _ _ (by rw [pullback.lift_snd, pullback.lift_fst]),
             pullback.lift_fst _ _ _, pullback.lift_snd _ _ _⟩
         have hℓ₁ : ℓ ≫ tripleProj₁ g j k l = z₁ := by
-          show ℓ ≫ (pullback.fst _ _ ≫ pullback.fst (g j) (g k)) = z₁
+          change ℓ ≫ (pullback.fst _ _ ≫ pullback.fst (g j) (g k)) = z₁
           rw [← Category.assoc, hℓa, pullback.lift_fst]
         have hℓ₂ : ℓ ≫ tripleProj₂ g j k l = z₂ := by
-          show ℓ ≫ (pullback.fst _ _ ≫ pullback.snd (g j) (g k)) = z₂
+          change ℓ ≫ (pullback.fst _ _ ≫ pullback.snd (g j) (g k)) = z₂
           rw [← Category.assoc, hℓa, pullback.lift_snd]
         have hℓ₃ : ℓ ≫ tripleProj₃ g j k l = z₃ := by
-          show ℓ ≫ (pullback.snd _ _ ≫ pullback.snd (g k) (g l)) = z₃
+          change ℓ ≫ (pullback.snd _ _ ≫ pullback.snd (g k) (g l)) = z₃
           rw [← Category.assoc, hℓb, pullback.lift_snd]
         have e₁₃ : pullback.lift (f := g j) (g := g l) z₁ z₃ (hz₁.trans hz₃.symm) =
             ℓ ≫ w₁₃ j k l := by

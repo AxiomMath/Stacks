@@ -132,7 +132,7 @@ theorem eq_top_of_isMinimalResolution_of_relativeDualizingModule_iso (A : Type u
   have hdimX : topologicalKrullDim X = 2 := by
     have : IsLocallyNoetherian (Spec (.of A)) := isLocallyNoetherian_Spec.mpr inferInstance
     rw [IsBirational.topologicalKrullDim_eq_of_isClosedMap hfr.1.isBirational f.isClosedMap]
-    show topologicalKrullDim (PrimeSpectrum A) = 2
+    change topologicalKrullDim (PrimeSpectrum A) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   have hidx : (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ)) = -2 := by
     rw [hdimX]

@@ -437,7 +437,7 @@ private lemma flatExp_eq_one_of_eval_eq_zero {R S : Type*} [CommRing R] [CommRin
   have hrel : ∑ i : s, p i.1 * f i.1.1 = 0 := by
     change (∑ i ∈ p.support, p i * f i.1) = 0 at hp
     exact (Finset.sum_attach p.support (fun i : I ↦ p i * f i.1)).trans hp
-  show (∏ i ∈ p.support, flatTerm γ f i.1 (p i)) = 1
+  change (∏ i ∈ p.support, flatTerm γ f i.1 (p i)) = 1
   exact (Finset.prod_attach p.support (fun i : I ↦ flatTerm γ f i.1 (p i))).symm.trans
     (flatTerm_product_eq_one_of_relation γ f hf
       (fun i : s ↦ i.1.1) (fun i ↦ i.1.2) (fun i : s ↦ p i.1) hrel)
@@ -707,7 +707,7 @@ public theorem DividedPowerRing.dividedPowers_extends_of_map_eq_bot_or_isPrincip
     (h : (A.ideal.map f = ⊥) ∨ A.ideal.IsPrincipal ∨ f.Flat) :
     Extends A.dividedPowers f := by
   rcases h with hzero | hprincipal | hflat
-  · show ∃ δ : _root_.DividedPowers (A.ideal.map f),
+  · change ∃ δ : _root_.DividedPowers (A.ideal.map f),
       _root_.DividedPowers.IsDPMorphism A.dividedPowers δ f
     rw [hzero]
     have hvanish {x : A} (hx : x ∈ A.ideal) : f x = 0 :=
@@ -733,7 +733,7 @@ public theorem DividedPowerRing.dividedPowers_extends_of_map_eq_bot_or_isPrincip
       exact Ideal.mem_map_of_mem f hx
     · intro n s hs
       rcases Set.mem_singleton_iff.mp hs with rfl
-      show f (A.dividedPowers.dpow n x) = principalDpow A.dividedPowers f hI n (f x)
+      change f (A.dividedPowers.dpow n x) = principalDpow A.dividedPowers f hI n (f x)
       simpa using (principalDpow_mul_generator A.dividedPowers f hI hx n 1).symm
   · obtain ⟨δ, hδ⟩ := flatDividedPowers_exists A.dividedPowers f hflat
     refine ⟨δ, ⟨le_refl _, ?_⟩⟩

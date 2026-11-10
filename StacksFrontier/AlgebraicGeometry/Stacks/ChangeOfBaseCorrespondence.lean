@@ -270,7 +270,7 @@ lemma isAlgebraicStack_of_pair_aux {X₀ : Type (u + 1)}
   subst hw
   refine (isAlgebraicStack_changeBase_iff.{u, w} B S S' hS hS' g
     ⟨X₀, instX, A ⋙ Over.iteratedSliceForward (Over.mk g)⟩).1 ?_
-  show IsAlgebraicStack.{u, w} B S' hS'
+  change IsAlgebraicStack.{u, w} B S' hS'
     ⟨X₀, instX, (A ⋙ Over.iteratedSliceForward (Over.mk g)) ⋙ Over.map g⟩
   rw [Over.comp_iteratedSliceForward_comp_map]
   exact hq

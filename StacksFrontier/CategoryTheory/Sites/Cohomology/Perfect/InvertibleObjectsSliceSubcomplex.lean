@@ -61,10 +61,7 @@ namespace AlgebraicGeometry.RingedSite.InvertibleDerived
 
 attribute [local instance] Abelian.hasFiniteBiproducts
 
-variable {X : RingedSite.{u, u, u}} [HasSheafify X.J AddCommGrpCat.{u}]
-  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [∀ W : X.C, HasSheafify (X.J.over W) AddCommGrpCat.{u}]
-  [∀ W : X.C, (X.J.over W).WEqualsLocallyBijective AddCommGrpCat.{u}]
+variable {X : RingedSite.{u, u, u}}
 
 section Terminal
 
@@ -75,7 +72,7 @@ theorem unitHomOfTerminal_comp {F G : Mod (X.over W).O} (s : F.val.obj (op (Over
     (φ : F ⟶ G) :
     unitHomOfTerminal F s ≫ φ = unitHomOfTerminal G (φ.val.app _ s) :=
   unitHom_ext_of_terminal (by
-    show φ.val.app _ ((unitHomOfTerminal F s).val.app _
+    change φ.val.app _ ((unitHomOfTerminal F s).val.app _
       (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over W).O).obj.obj
         (op (Over.mk (𝟙 W)))))) = _
     rw [unitHomOfTerminal_val_app, unitHomOfTerminal_val_app])
@@ -132,7 +129,10 @@ end GlobalApproximation
 
 section Generators
 
-variable {W : X.C} (L : Complexes (X.over W).O) {κ : Type} [Fintype κ] (deg : κ → ℤ)
+variable [∀ W : X.C, HasSheafify (X.J.over W) AddCommGrpCat.{u}]
+  [∀ W : X.C, (X.J.over W).WEqualsLocallyBijective AddCommGrpCat.{u}]
+
+variable {W : X.C} (L : Complexes (X.over W).O) {κ : Type} (deg : κ → ℤ)
   (a : ∀ i, (L.X (deg i)).val.obj (op (Over.mk (𝟙 W))))
 
 /-- The indices of the generators in degree `n`: the `aᵢ` of degree `n` and the `d(aᵢ)` of
@@ -166,24 +166,24 @@ def genShift (n : ℤ) :
 /-- The map `genMap` sends the basis element indexed by `j` to the section `genSec j`. -/
 theorem ιFree_genMap (n : ℤ) (j : GenIdx deg n) :
     SheafOfModules.ιFree j ≫ genMap L deg a n = unitHomOfTerminal _ (genSec L deg a n j) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The maps `genMap` intertwine `genShift` with the differential of `ℒ`. -/
 theorem genShift_genMap (n : ℤ) :
     genShift deg n ≫ genMap L deg a (n + 1) = genMap L deg a n ≫ L.d n (n + 1) := by
   refine Sigma.hom_ext _ _ fun j => ?_
-  show (SheafOfModules.ιFree j ≫ genShift deg n) ≫ _ =
+  change (SheafOfModules.ιFree j ≫ genShift deg n) ≫ _ =
     (SheafOfModules.ιFree j ≫ genMap L deg a n) ≫ _
   rw [ιFree_genMap, unitHomOfTerminal_comp]
   obtain ⟨j | j⟩ := j
-  · rw [show SheafOfModules.ιFree _ ≫ genShift deg n = _ from Sigma.ι_desc _ _, ιFree_genMap]
+  · rw [show SheafOfModules.ιFree _ ≫ genShift deg n = _ from Sigma.ι_comp_desc _ _, ιFree_genMap]
     refine congrArg _ ?_
-    show ((L.d (deg j.1) (deg j.1 + 1)) ≫ (L.XIsoOfEq _).hom).val.app _ (a j.1) =
+    change ((L.d (deg j.1) (deg j.1 + 1)) ≫ (L.XIsoOfEq _).hom).val.app _ (a j.1) =
       ((L.XIsoOfEq j.2).hom ≫ L.d n (n + 1)).val.app _ (a j.1)
     rw [L.d_comp_XIsoOfEq_hom, L.XIsoOfEq_hom_comp_d]
-  · rw [show SheafOfModules.ιFree _ ≫ genShift deg n = 0 from Sigma.ι_desc _ _, zero_comp]
+  · rw [show SheafOfModules.ιFree _ ≫ genShift deg n = 0 from Sigma.ι_comp_desc _ _, zero_comp]
     refine (unitHomOfTerminal_zero _).symm.trans (congrArg _ ?_)
-    show (0 : (L.X (deg j.1) ⟶ L.X (n + 1))).val.app _ (a j.1) =
+    change (0 : (L.X (deg j.1) ⟶ L.X (n + 1))).val.app _ (a j.1) =
       ((L.d (deg j.1) (deg j.1 + 1) ≫ (L.XIsoOfEq j.2).hom) ≫ L.d n (n + 1)).val.app _ (a j.1)
     rw [Category.assoc, L.XIsoOfEq_hom_comp_d, HomologicalComplex.d_comp_d]
 
@@ -206,8 +206,7 @@ def genLift (n : ℤ) : genSrc deg (E := E) n ⟶ genSrc deg (E := E) (n + 1) :=
 theorem genLift_genTot (n : ℤ) :
     genLift deg (E := E) n ≫ genTot deg a e (n + 1) = genTot deg a e n ≫ L.d n (n + 1) := by
   refine biprod.hom_ext' _ _ ?_ ?_
-  · simp only [genLift, genTot, biprod.inl_map_assoc, biprod.inl_desc, biprod.inl_desc_assoc,
-      Category.assoc]
+  · simp only [genLift, genTot, biprod.inl_map_assoc, biprod.inl_desc, biprod.inl_desc_assoc]
     exact genShift_genMap L deg a n
   · simp only [genLift, genTot, biprod.inr_map_assoc, biprod.inr_desc, biprod.inr_desc_assoc]
     exact (e.comm n (n + 1)).symm
@@ -234,12 +233,12 @@ theorem exists_lift_sliceGenSubcomplex (i : κ) :
       ((SheafOfModules.ιFree (⟨Sum.inl ⟨i, rfl⟩⟩ : GenIdx deg (deg i))).val.app _
         (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over W).O).obj.obj
           (op (Over.mk (𝟙 W)))))))) ?_
-  show ((SheafOfModules.ιFree _ ≫ biprod.inl ≫ genTot deg a e (deg i)).val.app _
+  change ((SheafOfModules.ιFree _ ≫ biprod.inl ≫ genTot deg a e (deg i)).val.app _
     (1 : ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over W).O).obj.obj
       (op (Over.mk (𝟙 W)))))) = a i
   rw [show biprod.inl ≫ genTot deg a e (deg i) = genMap L deg a (deg i) from biprod.inl_desc _ _,
     ιFree_genMap, unitHomOfTerminal_val_app]
-  show ((L.XIsoOfEq rfl).hom).val.app _ (a i) = a i
+  change ((L.XIsoOfEq rfl).hom).val.app _ (a i) = a i
   rw [L.XIsoOfEq_rfl]
   rfl
 
@@ -252,7 +251,7 @@ theorem isIso_sliceGenSubcomplexι_f (n : ℤ) (hn : IsIso (e.f n)) :
       infer_instance
     exact epi_of_epi biprod.inr _
   have : Epi (image.ι (genTot deg a e n)) := epi_of_epi_fac (image.fac (genTot deg a e n))
-  show IsIso (image.ι (genTot deg a e n))
+  change IsIso (image.ι (genTot deg a e n))
   exact isIso_of_mono_of_epi _
 
 /-- **In each degree the subcomplex is a quotient of its generating family.** -/
@@ -261,10 +260,11 @@ theorem exists_epi_sliceGenSubcomplex_X (n : ℤ) :
   Stacks.Sites.ExtensionByZero.exists_epi_image (genSrc deg (E := E)) (genTot deg a e) n
 
 /-- A free module on a finite type is a direct summand of a finite free module. -/
-theorem isDirectSummandOfFiniteFree_free {W : X.C} (I : Type u) [Fintype I] :
+theorem isDirectSummandOfFiniteFree_free {W : X.C} (I : Type u) [Finite I] :
     IsDirectSummandOfFiniteFree (Stacks.SheafOfModules.Tensor.ringSheaf (X.over W).O)
       (SheafOfModules.free (R := Stacks.SheafOfModules.Tensor.ringSheaf (X.over W).O) I) := by
   rw [isDirectSummandOfFiniteFree_iff_free]
+  let := Fintype.ofFinite I
   let eq : I ≃ ULift.{u} (Fin (Fintype.card I)) :=
     (Fintype.equivFin I).trans Equiv.ulift.symm
   let e := (SheafOfModules.freeFunctor
@@ -276,7 +276,7 @@ vanishes below `m`, that `ℰ ⟶ ℒ` is invertible in every degree `≥ m`, th
 some degree and that its terms in degrees `≥ m` are direct summands of finite free modules. Then
 the subcomplex generated by `ℰ` and the `aᵢ` is `(m - 1)`-pseudo-coherent. -/
 theorem isPseudoCoherentFrom_sliceGenSubcomplex {W : X.C} {L : Complexes (X.over W).O}
-    {κ : Type} [Fintype κ] (deg : κ → ℤ) (a : ∀ i, (L.X (deg i)).val.obj (op (Over.mk (𝟙 W))))
+    {κ : Type} [Finite κ] (deg : κ → ℤ) (a : ∀ i, (L.X (deg i)).val.obj (op (Over.mk (𝟙 W))))
     {E : Complexes (X.over W).O} (e : E ⟶ L) (m : ℤ) (hE0 : ∀ i, i < m → IsZero (E.X i))
     (he : ∀ i, m ≤ i → IsIso (e.f i))
     (hfree : ∀ i, m ≤ i →
@@ -312,7 +312,7 @@ theorem isPseudoCoherentFrom_sliceGenSubcomplex {W : X.C} {L : Complexes (X.over
   have hbdd : {i : ℤ | ¬ IsZero ((K.stupidTrunc
       (ComplexShape.embeddingUpIntGE (m - 1))).X i)}.Finite := by
     refine (Set.finite_Icc (m - 1) (max b (m - 1))).subset fun i hi => ?_
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     simp only [Set.mem_Icc]
     refine ⟨?_, ?_⟩
     · by_contra h

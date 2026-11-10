@@ -196,12 +196,12 @@ theorem exists_common_refinement (U V : EtaleNeighborhood B S hS F hF x) :
         (V.toBase.app (Opposite.op x.val.siteObject))).inv
       ⟨⟨U.point, V.point⟩, by rw [U.point_comp, V.point_comp]⟩)
   have hpU_point : pU.hom.app (Opposite.op x.val.siteObject) point = U.point := by
-    show (pullback.fst U.toBase V.toBase).app (Opposite.op x.val.siteObject) point = _
+    change (pullback.fst U.toBase V.toBase).app (Opposite.op x.val.siteObject) point = _
     dsimp only [point]
     rw [← CategoryTheory.comp_apply, pullbackObjIso_inv_comp_fst]
     simp
   have hpV_point : pV.hom.app (Opposite.op x.val.siteObject) point = V.point := by
-    show (pullback.snd U.toBase V.toBase).app (Opposite.op x.val.siteObject) point = _
+    change (pullback.snd U.toBase V.toBase).app (Opposite.op x.val.siteObject) point = _
     dsimp only [point]
     rw [← CategoryTheory.comp_apply, pullbackObjIso_inv_comp_snd]
     simp
@@ -213,7 +213,7 @@ theorem exists_common_refinement (U V : EtaleNeighborhood B S hS F hF x) :
         (isEtale_of_isPullback B S hS pU pV f g hpb U.etale_toBase) V.etale_toBase
       point := point
       point_comp := by
-        show V.toBase.app (Opposite.op x.val.siteObject)
+        change V.toBase.app (Opposite.op x.val.siteObject)
           (pV.hom.app (Opposite.op x.val.siteObject) point) = x.val.value
         rw [hpV_point, V.point_comp] }
   refine ⟨W, ⟨⟨pU.hom, ?_, ?_⟩, ⟨pV.hom, rfl, ?_⟩⟩⟩
@@ -270,9 +270,9 @@ theorem exists_equalizing_refinement {U V : EtaleNeighborhood B S hS F hF x} (h�
   have hδ₂ : δ.hom ≫ t₂.hom = 𝟙 V.space := pullback.lift_snd _ _ _
   have hpointCone : pU ≫ m.hom = pV ≫ δ.hom := by
     apply pullback.hom_ext
-    · show pU ≫ m.hom ≫ t₁.hom = pV ≫ δ.hom ≫ t₁.hom
+    · change pU ≫ m.hom ≫ t₁.hom = pV ≫ δ.hom ≫ t₁.hom
       simp only [hmt₁, hδ₁, Category.comp_id, hpU]
-    · show pU ≫ m.hom ≫ t₂.hom = pV ≫ δ.hom ≫ t₂.hom
+    · change pU ≫ m.hom ≫ t₂.hom = pV ≫ δ.hom ≫ t₂.hom
       simp only [hmt₂, hδ₂, Category.comp_id, hpU]
   let pW : yoneda.obj A ⟶ W₀.obj := pullback.lift pU pV hpointCone
   have hpW₁ : pW ≫ w₁.hom = pU := pullback.lift_fst _ _ _
@@ -292,7 +292,7 @@ theorem exists_equalizing_refinement {U V : EtaleNeighborhood B S hS F hF x} (h�
       etale_toBase := hw₂base
       point := yonedaEquiv (X := A) (F := W₀.obj) pW
       point_comp := by
-        show (w₂.hom ≫ V.toBase).app (Opposite.op A)
+        change (w₂.hom ≫ V.toBase).app (Opposite.op A)
           (yonedaEquiv (X := A) (F := W₀.obj) pW) = x.val.value
         calc
           (w₂.hom ≫ V.toBase).app (Opposite.op A)
@@ -307,7 +307,7 @@ theorem exists_equalizing_refinement {U V : EtaleNeighborhood B S hS F hF x} (h�
   · calc
       w₁.hom ≫ U.toBase = w₁.hom ≫ (h₁.hom ≫ V.toBase) := by rw [← h₁.over]
       _ = w₂.hom ≫ V.toBase := by rw [← Category.assoc, hw₁h₁]
-  · show w₁.hom.app (Opposite.op A) (yonedaEquiv (X := A) (F := W₀.obj) pW) = U.point
+  · change w₁.hom.app (Opposite.op A) (yonedaEquiv (X := A) (F := W₀.obj) pW) = U.point
     rw [← yonedaEquiv_comp pW w₁.hom, hpW₁]
     exact Equiv.apply_symm_apply _ _
   · exact Hom.ext (hw₁h₁.trans hw₁h₂.symm)
@@ -358,7 +358,7 @@ theorem exists_smallEtaleNeighborhood_refinement (U : EtaleNeighborhood B S hS F
               U.etale_toBase V atlas hatlas_etale⟩
             point := pointV
             point_comp := ?_ }, ⟨{ hom := atlas, over := rfl, point_comp := hpointV }⟩⟩
-  show U.toBase.app (Opposite.op P) (atlas.app (Opposite.op P) pointV) = x.val.value
+  change U.toBase.app (Opposite.op P) (atlas.app (Opposite.op P) pointV) = x.val.value
   rw [hpointV]
   exact U.point_comp
 
@@ -475,7 +475,7 @@ theorem exists_lift_to_etaleCovering (B : BigFppfSite.{u}) (S : Scheme.{u})
     simpa [xbarU, uval, FieldValuedPoint.siteObject] using hvalue
   have hUiToXPoint : uiToX.app (Opposite.op x.val.siteObject) uiBar = x.val.value := by
     rw [← hfg]
-    show U.toBase.app (Opposite.op x.val.siteObject)
+    change U.toBase.app (Opposite.op x.val.siteObject)
       (f.app (Opposite.op x.val.siteObject) uiBar) = x.val.value
     exact hvalueAtX ▸ U.point_comp
   exact ⟨i, uiBar, hUiToXPoint, ⟨f, hfg, hvalueAtX⟩, rfl⟩

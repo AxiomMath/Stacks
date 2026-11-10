@@ -126,7 +126,7 @@ section Step
 open Stacks.Koszul.Truncation
 
 variable {Y : Scheme.{u}} [QuasiSeparatedSpace Y] [CompactSpace Y]
-  {U : Scheme.{u}} [CompactSpace U] [QuasiSeparatedSpace U] (jU : U ⟶ Y) [IsOpenImmersion jU]
+  {U : Scheme.{u}} [CompactSpace U] (jU : U ⟶ Y) [IsOpenImmersion jU]
   {A : Type u} [CommRing A] (jV : Spec (CommRingCat.of A) ⟶ Y) [IsOpenImmersion jV]
   {r : ℕ} (f : Fin r → A) (iU : (openComplement f).toScheme ⟶ U) [IsOpenImmersion iU]
   (hsq : IsPullback iU (openComplement f).ι jU jV)

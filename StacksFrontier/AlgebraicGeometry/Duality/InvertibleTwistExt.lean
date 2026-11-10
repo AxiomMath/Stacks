@@ -44,7 +44,8 @@ and composing the two, `Ext^i_{𝒪_X}(ℒ^{⊗ -1}, 𝒢) ≅ Ext^i_{𝒪_X}(�
 `Stacks.SheafOfModules.TensorSheafification.tensorSheaf` and the inverse power is
 `Stacks.SheafOfModules.Invertible.tensorPower`, which at a scheme is
 `Stacks.SheafOfModules.Invertible.tensorPowerModule ℒ (-1)`. That is the pair the consumers in
-`StacksFrontier/AlgebraicGeometry/Curves/VanishingResults/` use — `StacksFrontier/AlgebraicGeometry/Curves/VanishingResults/DualizingTwist.lean` states
+`StacksFrontier/AlgebraicGeometry/Curves/VanishingResults/` use —
+`StacksFrontier/AlgebraicGeometry/Curves/VanishingResults/DualizingTwist.lean` states
 [Stacks, Tag 0B62] with exactly these two symbols — and no other spelling appears in a statement
 here. The library carries several parallel tensor-power constructions;
 `Stacks.SheafOfModules.TensorPower.tensorPower` is the one the multiplication isomorphisms of

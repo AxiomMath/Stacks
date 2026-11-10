@@ -96,7 +96,7 @@ theorem shift_congr_hom {T₁ T₂ P R : BigFppfOver B S hS}
     {f g : (baseChange B S hS e₁).obj Xo ⟶ (baseChange B S hS e₂).obj Yo}
     (h : (baseChange B S hS c).map f = (baseChange B S hS c).map g) :
     shift B S hS Xo Yo c h₁ h₂ f = shift B S hS Xo Yo c h₁ h₂ g := by
-  show (baseChangeFactorIso B S hS h₁).hom.app Xo ≫ (baseChange B S hS c).map f ≫
+  change (baseChangeFactorIso B S hS h₁).hom.app Xo ≫ (baseChange B S hS c).map f ≫
       (baseChangeFactorIso B S hS h₂).inv.app Yo =
     (baseChangeFactorIso B S hS h₁).hom.app Xo ≫ (baseChange B S hS c).map g ≫
       (baseChangeFactorIso B S hS h₂).inv.app Yo
@@ -138,7 +138,7 @@ theorem shift_id {T₁ P R : BigFppfOver B S hS}
   have hmap : (baseChange B S hS c).map (𝟙 ((baseChange B S hS e₁).obj Xo)) =
       𝟙 ((baseChange B S hS e₁ ⋙ baseChange B S hS c).obj Xo) :=
     CategoryTheory.Functor.map_id _ _
-  show (baseChangeFactorIso B S hS h₁).hom.app Xo ≫
+  change (baseChangeFactorIso B S hS h₁).hom.app Xo ≫
       (baseChange B S hS c).map (𝟙 ((baseChange B S hS e₁).obj Xo)) ≫
         (baseChangeFactorIso B S hS h₁).inv.app Xo = 𝟙 ((baseChange B S hS d₁).obj Xo)
   rw [hmap, Category.id_comp, Iso.hom_inv_id_app]
@@ -428,7 +428,7 @@ theorem rel_compRepAt {r₁ r₂ : Rep X Y} {r'₁ r'₂ : Rep Y W} (h : Rel r�
     rw [← hC₂, ← hq', ← Category.assoc, i₄, Category.assoc]
   refine ⟨n, e ≫ F ≫ E₁, e ≫ F ≫ E₂, (e ≫ G ≫ T) ≫ a, (e ≫ G ≫ T') ≫ b',
     hsrc₁, htgt₁, hsrc₂, htgt₂, ?_⟩
-  show push X W A₁ C₁ (e ≫ F ≫ E₁) hsrc₁ htgt₁
+  change push X W A₁ C₁ (e ≫ F ≫ E₁) hsrc₁ htgt₁
       (push X Y r₁.toSrc r₁.toTgt p₁ hA₁ hM₁ r₁.hom ≫
         push Y W r'₁.toSrc r'₁.toTgt q₁ hM₁' hC₁ r'₁.hom) =
     push X W A₂ C₂ (e ≫ F ≫ E₂) hsrc₂ htgt₂
@@ -504,7 +504,7 @@ theorem rel_comp_id (r : Rep X Y) : Rel (compRep r (idRep Y)) r := by
         (Category.comp_id _) (Category.comp_id _) =
       r.pushTo (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) := by
     refine Rep.mk_eq_mk ?_
-    show push X Y r.toSrc r.toTgt (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) r.hom ≫
+    change push X Y r.toSrc r.toTgt (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) r.hom ≫
         push Y Y (𝟙 Y.idx) (𝟙 Y.idx) r.toTgt (Category.comp_id _) (Category.comp_id _)
           (𝟙 ((baseChange B S hS (Z.map (𝟙 Y.idx))).obj Y.obj)) =
       push X Y r.toSrc r.toTgt (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) r.hom
@@ -520,7 +520,7 @@ theorem rel_id_comp (r : Rep X Y) : Rel (compRep (idRep X) r) r := by
         (Category.id_comp _) (Category.id_comp _) =
       r.pushTo (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) := by
     refine Rep.mk_eq_mk ?_
-    show push X X (𝟙 X.idx) (𝟙 X.idx) r.toSrc (Category.comp_id _) (Category.comp_id _)
+    change push X X (𝟙 X.idx) (𝟙 X.idx) r.toSrc (Category.comp_id _) (Category.comp_id _)
           (𝟙 ((baseChange B S hS (Z.map (𝟙 X.idx))).obj X.obj)) ≫
         push X Y r.toSrc r.toTgt (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) r.hom =
       push X Y r.toSrc r.toTgt (𝟙 r.idx) (Category.id_comp _) (Category.id_comp _) r.hom
@@ -564,7 +564,7 @@ theorem rel_assoc (r : Rep X Y) (r' : Rep Y W) (r'' : Rep W V) :
       compRepAt r (compRepAt r' r'' q s rfl rfl w₂.symm rfl) p (𝟙 n) rfl w₁
         (Category.id_comp _) (Category.id_comp _) := by
     refine Rep.mk_eq_mk ?_
-    show push X W (p ≫ r.toSrc) (q ≫ r'.toTgt) (𝟙 n) (Category.id_comp _) (Category.id_comp _)
+    change push X W (p ≫ r.toSrc) (q ≫ r'.toTgt) (𝟙 n) (Category.id_comp _) (Category.id_comp _)
           (push X Y r.toSrc r.toTgt p rfl w₁ r.hom ≫
             push Y W r'.toSrc r'.toTgt q rfl rfl r'.hom) ≫
         push W V r''.toSrc r''.toTgt s w₂.symm rfl r''.hom =

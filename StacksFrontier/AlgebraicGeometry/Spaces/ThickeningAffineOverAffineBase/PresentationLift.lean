@@ -184,7 +184,7 @@ theorem exists_iso_yoneda_of_presentationLift
     (IsScalarTower.toAlgHom (affineBaseRing B S hS T) (MvPolynomial F (affineBaseRing B S hS T))
       (Algebra.LocalizedQuotient.ring g m hm))
   have hψ : Etale ((BigFppfOver.toScheme B S hS).map ψ) := by
-    show Etale (X := Spec (CommRingCat.of (Algebra.LocalizedQuotient.ring g m hm)))
+    change Etale (X := Spec (CommRingCat.of (Algebra.LocalizedQuotient.ring g m hm)))
       (Y := Spec (CommRingCat.of (MvPolynomial F (affineBaseRing B S hS T))))
       (Spec.map (CommRingCat.ofHom
         (IsScalarTower.toAlgHom (affineBaseRing B S hS T)
@@ -232,7 +232,7 @@ theorem exists_iso_yoneda_of_presentationLift
     apply hom_ext_specOverAffineBase B S hS
     rw [Functor.map_comp, Scheme.Hom.comp_appTop, hψapp, hβapp, hωY]
     ext x
-    show θ' ((Scheme.ΓSpecIso (CommRingCat.of (Algebra.LocalizedQuotient.ring g m hm))).hom
+    change θ' ((Scheme.ΓSpecIso (CommRingCat.of (Algebra.LocalizedQuotient.ring g m hm))).hom
       ((Scheme.ΓSpecIso (CommRingCat.of (Algebra.LocalizedQuotient.ring g m hm))).inv
       (algebraMap _ (Algebra.LocalizedQuotient.ring g m hm) ((Scheme.ΓSpecIso _).hom x)))) =
       θ ((Scheme.ΓSpecIso _).hom x)
@@ -326,12 +326,12 @@ theorem exists_iso_yoneda_of_presentationLift
       Γ((BigFppfOver.toScheme B S hS).obj O₀, ⊤) (Algebra.LocalizedQuotient.ring g m hm)).of_iso
       (Iso.refl _) (Iso.refl _) (Iso.refl _) e₄ rfl rfl ?_ ?_
     · ext x
-      show Algebra.LocalizedQuotient.tensorLift g m hm P₀ hrel' hmap (x ⊗ₜ 1) = _
+      change Algebra.LocalizedQuotient.tensorLift g m hm P₀ hrel' hmap (x ⊗ₜ 1) = _
       simp only [Algebra.LocalizedQuotient.tensorLift, Algebra.TensorProduct.lift_tmul, map_one,
         mul_one, Iso.refl_hom, Category.id_comp, Algebra.ofId_apply]
       exact congrArg (fun k ↦ k x) hc₀
     · ext x
-      show Algebra.LocalizedQuotient.tensorLift g m hm P₀ hrel' hmap (1 ⊗ₜ x) = _
+      change Algebra.LocalizedQuotient.tensorLift g m hm P₀ hrel' hmap (1 ⊗ₜ x) = _
       simp only [Algebra.LocalizedQuotient.tensorLift, Algebra.TensorProduct.lift_tmul, map_one,
         one_mul, Iso.refl_hom, Category.id_comp, CommRingCat.hom_ofHom]
       exact congrArg (fun k ↦ k x) htoAlg
@@ -361,7 +361,7 @@ theorem exists_iso_yoneda_of_presentationLift
     pullback.lift_snd _ _ _
   have hiso : IsIso (thinComparison B S hS w φ ψ β hβ x₀ ι₀ c₀ hsq₀) :=
     isIso_of_isPushout_appTop B S hS a₀ ψ _ (by rwa [hκf, hκs])
-  have hV := isAffineSpace_pullback_of_isIso_thin B S hS hX w hws hwe φ ψ β hβ x₀ ι₀ c₀ hsq₀ hx₀
+  have hV := isAffineSpace_pullback_of_isIso_thin B S hS hX w hwe φ ψ β hβ x₀ ι₀ c₀ hsq₀ hx₀
     hiso
   exact exists_iso_yoneda_of_etalePresentation B S hS hX φ ψ w hws β hβ hV
 

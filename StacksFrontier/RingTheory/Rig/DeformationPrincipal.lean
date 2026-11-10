@@ -204,7 +204,7 @@ public theorem quotQuotEquivQuotSup_quotEquivOfEq_mk {C : Type*} [CommRing C] (T
       Ideal.Quotient.factor (le_sup_left : T ≤ T ⊔ K) z := by
   obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
   rw [Ideal.quotEquivOfEq_mk]
-  show DoubleQuot.quotQuotEquivQuotSup T K (DoubleQuot.quotQuotMk T K z) = _
+  change DoubleQuot.quotQuotEquivQuotSup T K (DoubleQuot.quotQuotMk T K z) = _
   rw [DoubleQuot.quotQuotEquivQuotSup_quotQuotMk, Ideal.Quotient.factor_mk]
 
 /-- Extending an ideal of `A` to a quotient `C ⧸ T` is extending it to `C` and then mapping it

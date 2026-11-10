@@ -44,6 +44,7 @@ variable {A : CommRingCat.{u}} [IsLocalRing A] {σ : A ⧸ maximalIdeal A →+* 
 abbrev box (U : X.Opens) (V : (trivialDef σ f).Opens) : (graphSpace σ f).Opens :=
   pullback.fst f (trivialMap σ f) ⁻¹ᵁ U ⊓ pullback.snd f (trivialMap σ f) ⁻¹ᵁ V
 
+omit [IsSeparated f] in
 /-- If `specialIncl f ⁻¹ᵁ U ≤ trivialIncl hσ f ⁻¹ᵁ V`, the inverse image of the box `box f U V`
 under the graph is `specialIncl f ⁻¹ᵁ U`. -/
 theorem graph_preimage_box_of_le {U : X.Opens} {V : (trivialDef σ f).Opens}
@@ -53,6 +54,7 @@ theorem graph_preimage_box_of_le {U : X.Opens} {V : (trivialDef σ f).Opens}
   simp only [box, Scheme.Hom.preimage_inf, ← Scheme.Hom.comp_preimage, graph_fst, graph_snd]
   exact ⟨fun h => h.1, fun h => ⟨h, hUV h⟩⟩
 
+omit [IsSeparated f] in
 /-- If `trivialIncl hσ f ⁻¹ᵁ V ≤ specialIncl f ⁻¹ᵁ U`, the inverse image of the box `box f U V`
 under the graph is `trivialIncl hσ f ⁻¹ᵁ V`. -/
 theorem graph_preimage_box_of_ge {U : X.Opens} {V : (trivialDef σ f).Opens}
@@ -88,6 +90,7 @@ theorem graphNbhdSnd_preimage {U : X.Opens} {V : (trivialDef σ f).Opens}
   exact apply_mem_of_range_of_le (graph hσ f) _ _ (by rwa [graph_fst, graph_snd])
     (range_graphNbhdι_subset hσ f N hN ⟨w, rfl⟩) hw
 
+omit [IsSeparated f] in
 /-- **The box of two affine opens is a pushout of rings**:
 `Γ(W, U ×_A V) = Γ(X, U) ⊗_A Γ(X', V)`. -/
 theorem isPushout_box {U : X.Opens} (hU : IsAffineOpen U) {V : (trivialDef σ f).Opens}
@@ -99,6 +102,7 @@ theorem isPushout_box {U : X.Opens} (hU : IsAffineOpen U) {V : (trivialDef σ f)
     (UX := U) le_top le_top (UY := box f U V) rfl).1
     (isIso_pushoutSection_of_isAffineOpen _ le_top le_top rfl (isAffineOpen_top _) hV hU)
 
+omit [IsSeparated f] in
 /-- The box `box f U V` of two affine opens is an affine open of `W`. -/
 theorem isAffineOpen_box {U : X.Opens} (hU : IsAffineOpen U) {V : (trivialDef σ f).Opens}
     (hV : IsAffineOpen V) : IsAffineOpen (box f U V) :=

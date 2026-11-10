@@ -83,7 +83,8 @@ and is supplied here from `f` being quasi-compact and quasi-separated and `F` qu
 are written with `(DerivedCategory.singleFunctor X.Modules 0).obj F`, the spelling
 [Stacks, Tag 01XJ] and the base-change files use, while the functors of sections and their
 derived functors are written at the `structureSheafRing` spelling they are stated in; the crossing
-happens in argument position only, as it does in `StacksFrontier/AlgebraicGeometry/QuasiCoherent/Coherator/AffinePushforwardBounds.lean`.
+happens in argument position only, as it does in
+`StacksFrontier/AlgebraicGeometry/QuasiCoherent/Coherator/AffinePushforwardBounds.lean`.
 
 ## References
 

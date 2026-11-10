@@ -211,7 +211,7 @@ public theorem symEval_algebraMap (lam : R →ₐ[k] k) (r : R) :
 /-- The evaluation undoes the inclusion `x ↦ 1 ⊗ x` of `Sym_k(V)`. -/
 public theorem symEval_symBaseChangeGraded (lam : R →ₐ[k] k) (x : SymmetricAlgebra k V) :
     symEval lam (Stacks.ProjectiveSpaceBaseChange.symBaseChangeGraded k R V x) = x := by
-  show tensorEval lam ((SymPow.symAlgBaseChangeEquiv (A := k) R V).symm
+  change tensorEval lam ((SymPow.symAlgBaseChangeEquiv (A := k) R V).symm
     (SymPow.symAlgBaseChangeEquiv (A := k) R V ((1 : R) ⊗ₜ[k] x))) = x
   rw [AlgEquiv.symm_apply_apply, tensorEval_tmul, _root_.map_one, _root_.map_one, one_mul]
 
@@ -284,7 +284,7 @@ public theorem pointSection_comp_toSpec (lam : R →ₐ[k] k) :
     ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
   congr 3
   refine RingHom.ext fun r => Subtype.ext ?_
-  show symEval lam (algebraMap R (SymmetricAlgebra R (R ⊗[k] V)) r) =
+  change symEval lam (algebraMap R (SymmetricAlgebra R (R ⊗[k] V)) r) =
     algebraMap k (SymmetricAlgebra k V) (lam r)
   exact symEval_algebraMap lam r
 
@@ -301,7 +301,7 @@ public theorem symEval_symAlgMap (lam : R →ₐ[k] k) (G : R ⊗[k] V →ₗ[R]
       (SymPow.symAlgMap (R := k) (specializeEnd lam G)).comp (tensorEval lam) := by
     refine Algebra.TensorProduct.ext ?_ ?_
     · ext r
-      show tensorEval lam (e.symm (SymPow.symAlgMap G (e (r ⊗ₜ[k] 1)))) =
+      change tensorEval lam (e.symm (SymPow.symAlgMap G (e (r ⊗ₜ[k] 1)))) =
         SymPow.symAlgMap (R := k) (specializeEnd lam G) (tensorEval lam (r ⊗ₜ[k] 1))
       have h1 : e (r ⊗ₜ[k] (1 : SymmetricAlgebra k V)) =
           algebraMap R (SymmetricAlgebra R (R ⊗[k] V)) r := by
@@ -310,7 +310,7 @@ public theorem symEval_symAlgMap (lam : R →ₐ[k] k) (G : R ⊗[k] V →ₗ[R]
       rw [h1, AlgHom.commutes, AlgEquiv.commutes, Algebra.TensorProduct.algebraMap_apply,
         Algebra.algebraMap_self, RingHom.id_apply, tensorEval_tmul, mul_one, AlgHom.commutes]
     · refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun v => ?_)
-      show tensorEval lam (e.symm (SymPow.symAlgMap G (e (1 ⊗ₜ[k] SymmetricAlgebra.ι k V v)))) =
+      change tensorEval lam (e.symm (SymPow.symAlgMap G (e (1 ⊗ₜ[k] SymmetricAlgebra.ι k V v)))) =
         SymPow.symAlgMap (R := k) (specializeEnd lam G)
           (tensorEval lam (1 ⊗ₜ[k] SymmetricAlgebra.ι k V v))
       have h1 : e ((1 : R) ⊗ₜ[k] SymmetricAlgebra.ι k V v) =
@@ -318,7 +318,7 @@ public theorem symEval_symAlgMap (lam : R →ₐ[k] k) (G : R ⊗[k] V →ₗ[R]
         rw [he, SymPow.symAlgBaseChangeEquiv_apply, SymPow.symAlgBaseChangeHom_tmul,
           _root_.map_one, one_mul, SymmetricAlgebra.lift_ι_apply, SymPow.toSymBaseChange_apply]
       rw [h1, SymPow.symAlgMap_ι]
-      show symEval lam (SymmetricAlgebra.ι R (R ⊗[k] V) (G (1 ⊗ₜ[k] v))) = _
+      change symEval lam (SymmetricAlgebra.ι R (R ⊗[k] V) (G (1 ⊗ₜ[k] v))) = _
       rw [symEval_ι, tensorEval_tmul, _root_.map_one, _root_.map_one, one_mul,
         SymPow.symAlgMap_ι, specializeEnd_apply]
   have := DFunLike.congr_fun key y

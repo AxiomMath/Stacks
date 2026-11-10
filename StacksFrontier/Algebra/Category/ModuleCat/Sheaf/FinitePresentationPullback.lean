@@ -86,7 +86,7 @@ lemma preimage_opens_cover {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
       (fun i ↦ (Opens.map f.hom.base).obj (V i)) := by
   rw [Opens.coversTop_iff] at hV ⊢
   change (iSup V) = ⊤ at hV
-  show (iSup (fun i ↦ (Opens.map f.hom.base).obj (V i))) = ⊤
+  change (iSup (fun i ↦ (Opens.map f.hom.base).obj (V i))) = ⊤
   calc
     iSup (fun i ↦ (Opens.map f.hom.base).obj (V i)) =
         (Opens.map f.hom.base).obj (iSup V) := (Opens.map_iSup _ _).symm
@@ -342,7 +342,7 @@ private theorem pullback_over_presentation_isFinite {X Y : RingedSpace.{u, u}}
       exact (Presentation.IsFinite.isFiniteType_generators (p := P)).finite
     · rw [Presentation.map_relations_I]
       exact (Presentation.IsFinite.isFiniteType_relations (p := P)).finite
-  show (Presentation.ofIsIso ((pullbackOverFunctorIso f V).app G).hom
+  change (Presentation.ofIsIso ((pullbackOverFunctorIso f V).app G).hom
     (pullbackPresentation (overStructureSheafHom f V) P)).IsFinite
   -- explicit, since instance search cannot unify the `Presentation.ofIsIso` arguments
   exact @instIsFiniteOfIsIso _ _ _ _ _ _ _ _ _ _ _ this

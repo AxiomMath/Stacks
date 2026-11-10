@@ -195,7 +195,7 @@ public theorem toPushforwardOverPullback_comp (f : V ⟶ U) (g : W ⟶ V) :
           (J.over U) (J.over V)).map (Sheaf.toPushforwardOverPullback R g) := by
   ext : 2
   funext Z
-  show R.obj.map (pullback.fst Z.unop.hom (g ≫ f)).op ≫
+  change R.obj.map (pullback.fst Z.unop.hom (g ≫ f)).op ≫
       R.obj.map ((Over.pullbackComp g f).inv.app Z.unop).left.op =
     R.obj.map (pullback.fst Z.unop.hom f).op ≫
       R.obj.map (pullback.fst (pullback.snd Z.unop.hom f) g).op
@@ -222,7 +222,7 @@ public theorem overPullbackComp_eq (f : V ⟶ U) (g : W ⟶ V) :
         (M.val.map (((Over.mapPullbackAdj g).comp
           (Over.mapPullbackAdj f)).unit.app Z.unop).op) x := by
     intro M Z x
-    show (M.val.presheaf.map ((Over.pullback g).map
+    change (M.val.presheaf.map ((Over.pullback g).map
           ((Over.mapPullbackAdj f).unit.app ((Over.map g).obj Z.unop))).op ≫
         M.val.presheaf.map ((Over.mapPullbackAdj g).unit.app Z.unop).op) x =
       M.val.presheaf.map (((Over.mapPullbackAdj g).comp

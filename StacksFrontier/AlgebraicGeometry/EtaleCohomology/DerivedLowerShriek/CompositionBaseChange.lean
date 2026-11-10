@@ -134,7 +134,7 @@ theorem etaleModuleDerivedExtensionByZeroDirectImageIsoOfIsProper_restrict
   have hβ : (etaleModuleDerivedExtensionByZeroDirectImageIsoOfIsProper Λ fb i b f' sq).hom.app N =
       inv (M.app N) := by
     have : IsIso M := NatIso.isIso_of_isIso_app _
-    show (inv M).app N = _
+    change (inv M).app N = _
     exact NatIso.isIso_inv_app _ _
   have hM : M.app N = (etaleModuleDerivedExtensionByZero.{u, 0} Λ i).map (E.hom.app N) ≫
       adj.counit.app ((etaleModuleDerivedDirectImage.{u, 0} Λ fb).obj
@@ -160,7 +160,7 @@ theorem etaleModuleDerivedExtensionByZeroDirectImageIsoOfIsProper_restrict
   rw [hβ, Functor.map_inv, IsIso.inv_comp_eq, hD, Category.assoc, Category.assoc]
   refine Eq.trans ?_ (whisker_eq _ (whisker_eq _
     (etaleModuleDerivedDirectImageIsoRestrictionOfIsProper_inv_app Λ fb i b f' sq N)))
-  show (etaleModuleDerivedRestrictionIsoInverseImagePlus Λ i).inv.app _ ≫
+  change (etaleModuleDerivedRestrictionIsoInverseImagePlus Λ i).inv.app _ ≫
     (etaleModuleDerivedExtensionByZeroCompRestrictionIso Λ i).hom.app _ = _
   refine whisker_eq _ ?_
   rw [← cancel_epi (adj.unit.app ((etaleModuleDerivedDirectImage.{u, 0} Λ f').obj N.obj)),

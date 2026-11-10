@@ -180,7 +180,7 @@ theorem minorIdeal_d_trivialBoundedComplex (j i : ℤ) (b : ℕ) :
       simp
     · rw [minorIdeal_eq_bot_of_card_lt _ _ (Or.inr (by simp [trivialBoundedComplex]))]
       simp
-  · rw [if_neg hij, if_neg (by omega)]
+  · rw [ite_eq_right hij, ite_eq_right (by omega)]
     refine minorIdeal_eq_bot_of_card_lt _ _ ?_
     by_cases h : i = j + 1
     · exact Or.inl (by simp [trivialBoundedComplex, show i + 1 ≠ j by omega,
@@ -251,7 +251,7 @@ theorem fittingMinorIdeal_eq_of_derivedIso (M N : BoundedComplex A)
   let := hp
   have hterms (C : BoundedComplex A) (j : ℤ) :
       Module.Finite A (C.toCochainComplex.X j) ∧ Projective (C.toCochainComplex.X j) := by
-    show Module.Finite A (Fin (C.rank j) → A) ∧
+    change Module.Finite A (Fin (C.rank j) → A) ∧
       Projective (ModuleCat.of A (Fin (C.rank j) → A))
     constructor <;> infer_instance
   obtain ⟨g, hg, P, Q, ⟨a, da, ⟨eP⟩⟩, ⟨b, db, ⟨eQ⟩⟩, ⟨e⟩⟩ :=

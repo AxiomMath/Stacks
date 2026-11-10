@@ -9,7 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.LevelSectio
 # The functor of [Stacks, Tag 07JG] out of the crystals, with no finiteness of the coordinates
 
 `Crystalline.GlobalCrystallineSituation.SmallSite.LevelComparison07JG` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFirstOrderCrystal.lean` is the datum the functor of
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFirstOrderCrystal.lean` is the datum the functor
+of
 [Stacks, Lemma 60.17.3, Tag 07JG] was built from, and it carries the comparison datum of a crystal
 on the limit module `M = lim_e Γ(T_e, ℱ)` over the *uncompleted* base change.  Every producer of
 such a datum from the levels therefore passed through the interchange
@@ -275,7 +276,7 @@ theorem horizontal {F G : QuasiCoherentCrystal S} (psi : F ⟶ G) (m : L.section
       AdicCompletion.map (DividedPowers.pAdicIdeal (A := (D : Type u)) p)
         (TensorProduct.map (L.sectionsMap psi)
           (LinearMap.id (R := (D : Type u)) (M := Omega))) ((C.obj F).nabla m) := by
-  show AdicCompletion.map (DividedPowers.pAdicIdeal (A := (D : Type u)) p)
+  change AdicCompletion.map (DividedPowers.pAdicIdeal (A := (D : Type u)) p)
       (firstOrderDifferentialComm D Omega (L.sections G))
       (C.comparison G (L.sectionsMap psi m)) = _
   rw [C.comparison_naturality psi m, AdicCompletion.map_comp_apply,

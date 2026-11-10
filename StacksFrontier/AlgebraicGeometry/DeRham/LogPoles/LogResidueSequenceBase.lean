@@ -18,7 +18,8 @@ short exact sequence
 and the proof of Tag 0FUQ takes the boundary map `δ : Ω^•_{Y/S} ⟶ Ω^•_{X/S}[2]` of its translate
 in `D(X, f^{-1}𝒪_S)`. `StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.LogResidueSequence` has the
 sequence in sheaves of abelian groups and
-`StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.DeRhamComplexLogPoles` the middle term as a complex
+`StacksFrontier.AlgebraicGeometry.DeRham.LogPoles.DeRhamComplexLogPoles` the middle term as a
+complex
 of sheaves of `f^{-1}𝒪_S`-modules (Tag 0FUA). This file supplies the rest in that category: the
 de Rham complex of the divisor read on `X`, the restriction of forms, the residue, and the
 sequence, unshifted and shifted.
@@ -172,7 +173,7 @@ theorem logResidueBaseF_comm (n : ℕ) :
     refine (SheafOfModules.toSheaf (baseRingSheaf f)).map_injective ?_
     rw [hR, ← h, Functor.map_comp, toSheaf_map_logResidueBaseF_succ]
     have hd : CochainComplex.desuspendD (divisorDeRhamBase f I) (p + 1) = -divisorDBase f I p := by
-      show -(divisorDeRhamBase f I).d p (p + 1) = _
+      change -(divisorDeRhamBase f I).d p (p + 1) = _
       rw [divisorDeRhamBase_d]
       rfl
     rw [hd]
@@ -210,7 +211,7 @@ theorem deRhamComplexLogPolesInclusion_comp_logResidueBaseMap :
         (logInclusionMap_comp_logResidueMap f I hI hlog)
       simp only [HomologicalComplex.comp_f, HomologicalComplex.zero_f] at h
       exact h
-    show (toBaseModules f).map (logPolesFormsInclusion f I (p + 1)) ≫
+    change (toBaseModules f).map (logPolesFormsInclusion f I (p + 1)) ≫
       (toBaseModules f).map (logResHom f I hI hlog p) = 0
     rw [← Functor.map_comp, h0, Functor.map_zero]
 

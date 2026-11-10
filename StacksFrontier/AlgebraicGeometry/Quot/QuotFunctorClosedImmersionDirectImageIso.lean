@@ -71,7 +71,9 @@ theorem directImageBaseChange_eq (T : SchemesOver D.base) :
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search unfolds the base-change and pushforward functors
 set_option maxHeartbeats 1600000 in
+-- the closing `rfl` unfolds the base-change and pushforward functors
 /-- Over a test scheme the morphism of Stacks 0DP1 sends a quotient to the kernel of the
 projection of `G_T` onto its direct image. -/
 theorem directImageQuotFunctorMap_app (H : D.PushforwardIsCoherent) (T : SchemesOver D.base)

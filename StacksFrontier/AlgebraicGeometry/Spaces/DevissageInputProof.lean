@@ -98,11 +98,11 @@ private theorem isCompact_range_pointsMap_inter_preimage
     constructor
     · rintro ⟨⟨z, rfl⟩, hz⟩
       refine ⟨z, ?_, rfl⟩
-      show (BigFppfOver.toScheme B S hS).map h (pointsToScheme B S hS Y' z) ∈ W
+      change (BigFppfOver.toScheme B S hS).map h (pointsToScheme B S hS Y' z) ∈ W
       rwa [← pointsToScheme_pointsMap_yoneda, ← hs, pointsMap_comp_apply]
     · rintro ⟨z, hz, rfl⟩
       refine ⟨⟨z, rfl⟩, ?_⟩
-      show pointsToScheme B S hS A (pointsMap B S hS _ π (pointsMap B S hS _ s z)) ∈ W
+      change pointsToScheme B S hS A (pointsMap B S hS _ π (pointsMap B S hS _ s z)) ∈ W
       rwa [← pointsMap_comp_apply, hs, pointsToScheme_pointsMap_yoneda]
   rw [hset]
   exact (((schemePointsHomeomorph B S hS Y').isCompact_preimage).2
@@ -169,7 +169,7 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
       (isEtale_of_presheaf_etale B S hS hbAE) ((pointsEquivScheme B S hS A).symm a₀) hya
       (p := pX) (q := πA) sqA hξ
       (by
-        show pointsToScheme B S hS A (pointsMap B S hS _ πAh ξ) ⤳ _
+        change pointsToScheme B S hS A (pointsMap B S hS _ πAh ξ) ⤳ _
         rw [show pointsToScheme B S hS A ((pointsEquivScheme B S hS A).symm a₀) = a₀ from
           (pointsEquivScheme B S hS A).apply_symm_apply a₀]
         exact hgen)
@@ -249,7 +249,7 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
       (pointsEquivScheme B S hS A).symm a₀ := by
     refine injective_pointsToScheme B S hS A ?_
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map ιA
+    change (BigFppfOver.toScheme B S hS).map ιA
       ((pointsEquivScheme B S hS A') ((pointsEquivScheme B S hS A').symm a₀')) =
       (pointsEquivScheme B S hS A) ((pointsEquivScheme B S hS A).symm a₀)
     rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply, hιA]
@@ -283,7 +283,7 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
         (by rw [Functor.map_comp]; exact Etale.etale_comp _ _) U.property) hgh₁
   refine ⟨A', b, hA'aff, isEtale_of_presheaf_etale B S hS hbE,
     ⟨(pointsEquivScheme B S hS A').symm a₀', by
-      show pointsMap B S hS (yoneda.obj A') (yoneda.map ιA ≫ (yoneda.map q ≫ b₀)) _ = y
+      change pointsMap B S hS (yoneda.obj A') (yoneda.map ιA ≫ (yoneda.map q ≫ b₀)) _ = y
       rwa [pointsMap_comp_apply, hιa₀]⟩,
     Y'', g,
     isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS g _
@@ -297,7 +297,7 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
     intro ξ' hξ'
     let ψ : (D.baseChangeTargetSpace b).obj ⟶ (D.baseChangeTargetSpace bA).obj :=
       pullback.lift pX' (π' ≫ yoneda.map ιA) (by
-        show pX' ≫ D.f.hom = (π' ≫ yoneda.map ιA) ≫ (yoneda.map q ≫ b₀)
+        change pX' ≫ D.f.hom = (π' ≫ yoneda.map ιA) ≫ (yoneda.map q ≫ b₀)
         rw [Category.assoc]; exact sq'.w)
     have hψ₁ : ψ ≫ pX.hom = pX' := pullback.lift_fst _ _ _
     have hψ₂ : ψ ≫ πAh = π' ≫ yoneda.map ιA := pullback.lift_snd _ _ _
@@ -327,7 +327,7 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
       rw [hAh, ← pointsToScheme_pointsMap_yoneda, ← hsA₂, pointsMap_comp_apply, hd, hψa]
     have hdmem : pointsToScheme B S hS Y' d ∈ jY := by
       have : pointsToScheme B S hS Y' d ∈ Ah ⁻¹ᵁ jA := by
-        show Ah (pointsToScheme B S hS Y' d) ∈ jA
+        change Ah (pointsToScheme B S hS Y' d) ∈ jA
         rw [hdA]
         exact hmemjA a
       rwa [Scheme.preimage_basicOpen_top] at this
@@ -341,12 +341,12 @@ theorem hasAffineFlatChartEtaleLocallyOnBase_of_isPureRelative
       rfl
     have hghψ : gh ≫ ψ = yoneda.map ιY ≫ sA := by
       apply pullback.hom_ext
-      · show (gh ≫ ψ) ≫ pX.hom = (yoneda.map ιY ≫ sA) ≫ pX.hom
+      · change (gh ≫ ψ) ≫ pX.hom = (yoneda.map ιY ≫ sA) ≫ pX.hom
         rw [Category.assoc, hψ₁, hgh₁, Category.assoc, hsA₁, Functor.map_comp, Category.assoc]
-      · show (gh ≫ ψ) ≫ πAh = (yoneda.map ιY ≫ sA) ≫ πAh
+      · change (gh ≫ ψ) ≫ πAh = (yoneda.map ιY ≫ sA) ≫ πAh
         rw [Category.assoc, hψ₂, ← Category.assoc, hgh₂, Category.assoc, hsA₂, h2]
     refine ⟨d'', ?_⟩
-    show pointsMap B S hS _ gh d'' = ξ'
+    change pointsMap B S hS _ gh d'' = ξ'
     refine eq_of_pointsMap_eq_of_isPullback_of_isIso_residueFieldMap B S hS sqψ a ?_ ?_ rfl
     · rw [← pointsMap_comp_apply, hghψ, pointsMap_comp_apply, hιYd, hd]
     · rw [← pointsMap_comp_apply, hgh₂, pointsToScheme_pointsMap_yoneda, hd''pt]

@@ -33,7 +33,7 @@ All in the namespace `Stacks.AlgebraicGeometry.NodalFamilyCohomology`.
 
 The rank is computed on the Čech model of `isFiniteLocallyFree_cohomology_one_of_specTarget`:
 near a prime `p` of `A`, `H¹` of the model is free of rank `dim_{κ(p)} H¹(X_p, 𝒪)`, see
-`StacksFrontier/AlgebraicGeometry/Quot/StableReduction/FamilyCriterion/FirstDirectImageRankCech.lean`.
+`StacksFrontier.AlgebraicGeometry.Quot.StableReduction.FamilyCriterion.FirstDirectImageRankCech`.
 The genus of the fibre over the field-valued point `Spec κ(p) ⟶ Spec A` is the genus of the
 scheme-theoretic fibre at the image point, by invariance of the genus under extension of the
 ground field (`genus_eq_of_isPullback_of_forall_genus`).

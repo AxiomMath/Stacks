@@ -21,8 +21,10 @@ This file relates them. The main result is the implication (3) ⟹ (1) of Stacks
 The translation between the two renderings is built up in the files imported here: the dictionary
 between arbitrary cartesian lifts and the chosen pullbacks
 (`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/Dictionary.lean`), condition (2)
-(`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/IsomSheaf.lean`), and the descent data of a covering family and their reading relative to the
-generated sieve (`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/DescentDatum.lean`, `StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/ToSieve.lean`).
+(`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/IsomSheaf.lean`), and the descent data of a
+covering family and their reading relative to the generated sieve
+(`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/DescentDatum.lean`,
+`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/ToSieve.lean`).
 
 ## Implementation notes
 

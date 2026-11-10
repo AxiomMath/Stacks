@@ -124,12 +124,12 @@ theorem generalLinearTwoPowerPoint_generalLinearTwoPowerPointGL
         (generalLinearTwoPowerCoordinateRing k m) (MvPolynomial.C r) =
         algebraMap k (generalLinearTwoPowerCoordinateRing k m) r := by
       rw [← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply]
-    show generalLinearTwoPowerPoint k m (generalLinearTwoPowerPointGL k m φ)
+    change generalLinearTwoPowerPoint k m (generalLinearTwoPowerPointGL k m φ)
         (algebraMap _ _ (MvPolynomial.C r)) = φ (algebraMap _ _ (MvPolynomial.C r))
     rw [hC]
     exact (RingHom.congr_fun (generalLinearTwoPowerPoint_comp_algebraMap k m
       (generalLinearTwoPowerPointGL k m φ)) r).trans (RingHom.congr_fun hφ r).symm
-  · show generalLinearTwoPowerPoint k m (generalLinearTwoPowerPointGL k m φ)
+  · change generalLinearTwoPowerPoint k m (generalLinearTwoPowerPointGL k m φ)
         (algebraMap _ _ (MvPolynomial.X p)) = φ (algebraMap _ _ (MvPolynomial.X p))
     rw [generalLinearTwoPowerPoint_algebraMap, genericTwoPowerEval_X,
       generalLinearTwoPowerPointGL_coe]
@@ -187,7 +187,7 @@ theorem exists_eq_generalLinearTwoPowerSitePoint
   obtain ⟨M, hM⟩ := exists_eq_generalLinearTwoPowerPoint k m γ.hom hret
   refine ⟨M, Over.OverMorphism.ext ?_⟩
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (generalLinearTwoPowerPoint k m M)) = ξ.left.hom
+  change Spec.map (CommRingCat.ofHom (generalLinearTwoPowerPoint k m M)) = ξ.left.hom
   rwa [hM, CommRingCat.ofHom_hom]
 
 /-- **Every rational point of the functor of points of `(GL₂)^m` is the `k`-point named by an

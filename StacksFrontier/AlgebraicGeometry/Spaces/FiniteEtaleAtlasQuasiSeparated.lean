@@ -35,7 +35,7 @@ theorem BigFppfSite.contains_terminal (B : BigFppfSite.{u}) : B.Contains (⊤_ S
       (⊤_ Scheme.{u}).size = (Spec (.of (ULift.{u} ℤ))).size := Scheme.size_congr e
       _ = max Cardinal.aleph0 (Cardinal.mk (ULift.{u} ℤ)) := Scheme.size_Spec _
       _ = Cardinal.aleph0 := by simp
-  show (⊤_ Scheme.{u}).size < B.cutoff
+  change (⊤_ Scheme.{u}).size < B.cutoff
   rw [htop]
   exact B.aleph0_lt_cutoff
 

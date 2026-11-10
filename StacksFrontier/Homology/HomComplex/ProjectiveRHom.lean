@@ -167,7 +167,7 @@ private lemma homCxMap_eq_precomp_postcomp {R : Type u} [CommRing R]
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P' L L' f g n z).v p q hpq =
+  change (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P' L L' f g n z).v p q hpq =
     (((Cochain.ofHom f).comp z (zero_add n)).comp (Cochain.ofHom g) (add_zero n)).v p q hpq
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v]
   simp only [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v,
@@ -184,7 +184,7 @@ private lemma homCxMap_id_left {R : Type u} [CommRing R]
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P L L' (𝟙 P) g n z).v p q hpq =
+  change (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P L L' (𝟙 P) g n z).v p q hpq =
     (z.comp (Cochain.ofHom g) (add_zero n)).v p q hpq
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v]
   simp only [Cochain.comp_zero_cochain_v, Cochain.ofHom_v,
@@ -218,10 +218,10 @@ private lemma Q_homCxMap_eq {R : Type u} [CommRing R]
       DerivedCategory.Q.map (Stacks.HomComplex.TensorHomComparison.HomCxMap P P L L' (𝟙 P) g) := by
   let F := homTargetFunctor P ⋙ DerivedCategory.Q (C := ModuleCat R)
   let e := Localization.fac F (homTargetFunctor_inverts P) DerivedCategory.Q
-  show F.map f = F.map g
+  change F.map f = F.map g
   apply (cancel_epi (e.hom.app L)).1
   rw [← e.hom.naturality f, ← e.hom.naturality g]
-  show (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
+  change (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
       (DerivedCategory.Q.map f) ≫ _ =
     (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
       (DerivedCategory.Q.map g) ≫ _
@@ -328,7 +328,7 @@ private lemma comparisonIso_naturality {R : Type u} [CommRing R]
     rw [← Functor.map_comp, ← Functor.map_comp]
     congr 1
     refine Prod.ext (by simp) ?_
-    show DerivedCategory.Q.map g ≫ DerivedCategory.Q.map s.ι =
+    change DerivedCategory.Q.map g ≫ DerivedCategory.Q.map s.ι =
       DerivedCategory.Q.map r.ι ≫ DerivedCategory.Q.map k
     simpa only [← Functor.map_comp] using hsq.symm
   have := homCxMap_quasiIso P' s.ι

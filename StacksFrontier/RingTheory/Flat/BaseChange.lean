@@ -84,8 +84,8 @@ is flat over `R'` and `R → R'` is flat.
 
 *The two flatness lemmas are missing from Mathlib.* `Module.Flat.tensorProduct_of_flat_left` and
 `Module.Flat.of_tensorProduct_of_faithfullyFlat`, both in
-`StacksFrontier.RingTheory.Flat.TowerLTensor`, concern flatness over a base `A` that is *not* the ring
-the base change is taken along; Mathlib's `Module.Flat.baseChange` and
+`StacksFrontier.RingTheory.Flat.TowerLTensor`, concern flatness over a base `A` that is *not* the
+ring the base change is taken along; Mathlib's `Module.Flat.baseChange` and
 `Module.Flat.of_flat_tensorProduct` move the base along with the module, and
 `Module.Flat.of_isLocalizedModule` localizes at a submonoid of the base rather than of a ring
 acting over it. Their proofs are Mathlib's proof of `Module.Flat.trans` with the naturality of

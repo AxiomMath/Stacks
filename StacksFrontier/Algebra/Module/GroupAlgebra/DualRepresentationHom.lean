@@ -82,7 +82,7 @@ omit [Fintype H] in
 /-- The basis element `a h` of `A[H]` acts on `N^∨` by `(a h · φ)(y) = a φ(ρ(h⁻¹) y)`. -/
 lemma single_smul_dualRep (h : H) (a : A) (φ : DualRep ρ) (y : N) :
     DualRep.equiv ρ (single h a • φ) y = a * DualRep.equiv ρ φ (ρ h⁻¹ y) := by
-  show (MonoidAlgebra.lift A (Module.End A (Module.Dual A N)) H (dualRepAction ρ)
+  change (MonoidAlgebra.lift A (Module.End A (Module.Dual A N)) H (dualRepAction ρ)
     (single h a)) φ y = _
   rw [MonoidAlgebra.lift_single]
   rfl
@@ -110,7 +110,7 @@ def dualRepHom (y : N) : DualRep ρ →ₗ[MonoidAlgebra A H] MonoidAlgebra A H 
 lemma dualRepHom_coeff (y : N) (φ : DualRep ρ) (h : H) :
     (dualRepHom ρ y φ).coeff h = DualRep.equiv ρ φ (ρ h y) := by
   classical
-  show (∑ g : H, single g (DualRep.equiv ρ φ (ρ g y))).coeff h = _
+  change (∑ g : H, single g (DualRep.equiv ρ φ (ρ g y))).coeff h = _
   simp [MonoidAlgebra.coeff_sum, MonoidAlgebra.coeff_single, Finsupp.single_apply]
 
 omit [Fintype H] in
@@ -134,7 +134,7 @@ theorem bijective_dualRepHom (heval : Function.Bijective (Module.Dual.eval A N))
       { toFun := fun φ => (f ((DualRep.equiv ρ).symm φ)).coeff 1
         map_add' := fun φ φ' => by simp
         map_smul' := fun a φ => by
-          show (f (a • (DualRep.equiv ρ).symm φ)).coeff 1 = a • (f _).coeff 1
+          change (f (a • (DualRep.equiv ρ).symm φ)).coeff 1 = a • (f _).coeff 1
           rw [smul_dualRep_eq_single_one_smul, map_smul, smul_eq_mul, coeff_single_mul_apply]
           simp }
     obtain ⟨y, hy⟩ := heval.2 g

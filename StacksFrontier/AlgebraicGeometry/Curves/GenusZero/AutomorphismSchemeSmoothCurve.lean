@@ -77,7 +77,7 @@ theorem nonempty_iso_projectiveLineOver_of_genus_eq_zero (hg : genus f = 0) :
   obtain ⟨e, he⟩ := ((projectiveLine_tfae f).out 6 1).mp
     (by exact ⟨GenusOne.isIso_globalSections_of_isAlgClosed f, hg, L, hL, hdeg⟩)
   refine ⟨Over.isoMk (e ≪≫ (projectiveLineIsoProj k).symm) ?_⟩
-  show (e.hom ≫ (projectiveLineIsoProj k).inv) ≫ (projectiveLine k ↘ Spec (.of k)) = f
+  change (e.hom ≫ (projectiveLineIsoProj k).inv) ≫ (projectiveLine k ↘ Spec (.of k)) = f
   rw [← projectiveLineIsoProj_hom_comp_projToSpecCoeff, Category.assoc, Iso.inv_hom_id_assoc, he]
 
 /-- **Stacks Project, Tag 0DSV**, genus zero. **The automorphism group scheme of a smooth proper

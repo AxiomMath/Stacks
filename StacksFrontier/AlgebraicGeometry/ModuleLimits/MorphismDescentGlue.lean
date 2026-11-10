@@ -229,7 +229,7 @@ theorem canStep_canMerge_of_canStep_eq_canSplit
   have cocG := canHom_comp t s g m p q hts hsg hmg htp G
   simp only [canMerge, Functor.map_comp, Category.assoc]
   rw [cocG, reassoc_of% h, canHom_comp_canSplit, ← reassoc_of% cocF,
-    ← canIso_hom s g p hsg F, Iso.map_inv_hom_id_assoc]
+    ← canIso_hom s g p hsg F, Iso.inv_hom_id_map_assoc]
 
 end Chain
 

@@ -128,7 +128,7 @@ private lemma alternatingCofaceMapComplex_preservesFiniteLimits
   intro J _ _
   apply HomologicalComplex.preservesLimitsOfShape_of_eval
   intro n
-  show PreservesLimitsOfShape J ((evaluation SimplexCategory A).obj (SimplexCategory.mk n))
+  change PreservesLimitsOfShape J ((evaluation SimplexCategory A).obj (SimplexCategory.mk n))
   infer_instance
 
 private lemma cechComplexFunctor_preservesFiniteLimits
@@ -320,7 +320,7 @@ public theorem sheafCohomology_isZero_of_cechCohomology_isZero_of_enoughInjectiv
           have hepi : Epi ((SC.map (HomologicalComplex.eval _ _ m)).g) := by
             let W := fun i : Fin (m + 1) → E.1.I₀ =>
               (∏ᶜ fun a ↦ Over.mk (E.1.f (i a))).left
-            show Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
+            change Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
               ((sheafToPresheaf J (AddCommGrpCat.{max v w})).map S.g).app (op (W i)))
             apply epi_piMap_of_surjective.{w, v}
             intro i
@@ -331,7 +331,7 @@ public theorem sheafCohomology_isZero_of_cechCohomology_isZero_of_enoughInjectiv
             infer_instance
           let : Mono ((S.map Eval).f) := Functor.map_mono Eval S.f
           let : Mono ((SC.map (HomologicalComplex.eval _ _ m)).f) := by
-            show Mono ((HomologicalComplex.eval _ _ m).map SC.f)
+            change Mono ((HomologicalComplex.eval _ _ m).map SC.f)
             exact Functor.map_mono (HomologicalComplex.eval _ _ m) SC.f
           let : Epi ((S.map Eval).g) := hepi
           have hPres : PreservesLimit (parallelPair S.g 0) Eval := inferInstance
@@ -383,7 +383,7 @@ public theorem sheafCohomology_isZero_of_cechCohomology_isZero_of_enoughInjectiv
         have hlift : eI.symm i ≫ S.g = Ext.addEquiv₀ q := eQ.injective hcompat
         have hq : q = Ext.mk₀ (eI.symm i ≫ S.g) := by
           simpa using congrArg (Ext.mk₀ (X := P) (Y := S.X₃)) hlift.symm
-        show q.comp hS.extClass (zero_add 1) = 0
+        change q.comp hS.extClass (zero_add 1) = 0
         rw [hq, ← Ext.mk₀_comp_mk₀_assoc]
         simp
       · have hnpos : 0 < n := Nat.pos_of_ne_zero hn0
@@ -394,11 +394,11 @@ public theorem sheafCohomology_isZero_of_cechCohomology_isZero_of_enoughInjectiv
           obtain ⟨q, hq⟩ := hext z
           let zRaw : Ext P G (n + 1) := z
           have hQsub : Subsingleton (Ext P Q n) := by
-            show Subsingleton (Q.H' n V)
+            change Subsingleton (Q.H' n V)
             exact AddCommGrpCat.subsingleton_of_isZero hQ'
           have hq0 : q = 0 := hQsub.elim _ _
           rw [hq0] at hq
-          show zRaw = 0
+          change zRaw = 0
           simpa only [Ext.zero_comp] using hq.symm
         exact AddCommGrpCat.isZero_of_subsingleton _
   exact main p hp F hCech U hU

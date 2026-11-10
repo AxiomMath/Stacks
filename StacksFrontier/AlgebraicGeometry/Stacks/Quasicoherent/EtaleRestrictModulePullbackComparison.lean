@@ -121,7 +121,7 @@ theorem isIso_restrictionPushforwardComparison_app_comp_map_unit
   let eX : Px.obj xNW ≅ Ix.obj NW := ePx.counitIso.app (Ix.obj NW)
   let eY : Py.obj yW ≅ Iy.obj W := ePy.counitIso.app (Iy.obj W)
   have hz : Py.obj z = (Over.map jB).obj (Px.obj xNW) := by
-    show Over.mk ((p.map (xNW.hom ≫ φ)).left) =
+    change Over.mk ((p.map (xNW.hom ≫ φ)).left) =
       (Over.map jB).obj (Over.mk ((p.map xNW.hom).left))
     apply congrArg Over.mk
     simp [jB, Functor.map_comp]
@@ -173,7 +173,7 @@ theorem isIso_restrictionPushforwardComparison_app_comp_map_unit
             exact hc'
   let delta := beta ≫ alpha
   rw [restrictionPushforwardComparison_app B E h S hS p hp φ G W alpha hAlpha hCompat]
-  show IsIso (G.map alpha.op ≫ G.map beta.op)
+  change IsIso (G.map alpha.op ≫ G.map beta.op)
   have hdelta : IsIso delta := by
     have hscheme : IsIso ((p.map delta).left) := by
       have hBeta : (p.map beta).left ≫ eX.hom.left =
@@ -191,7 +191,7 @@ theorem isIso_restrictionPushforwardComparison_app_comp_map_unit
           exact Category.comp_id _
         rw [← Category.assoc, htransport]
         have ht' := congrArg (fun g => (Iy.map g).left) ht
-        show (Iy.map (M.map (siteAdj.unit.app T) ≫ siteAdj.counit.app W)).left =
+        change (Iy.map (M.map (siteAdj.unit.app T) ≫ siteAdj.counit.app W)).left =
           (Iy.map (𝟙 W)).left
         exact ht'
       have hd : (p.map delta).left = (p.map beta).left ≫ (p.map alpha).left :=

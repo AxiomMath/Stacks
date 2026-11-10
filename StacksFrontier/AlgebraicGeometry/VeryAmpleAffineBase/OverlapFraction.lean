@@ -35,7 +35,8 @@ with `g := y_i g_j` from the start, and then `D₊(g) ⊆ D₊(y_i)` holds by
 ## The comparison of the two charts is already available
 
 The restriction maps of `Proj` between standard opens — the comparison of
-`AlgebraicGeometry.Proj.awayToSection 𝒜 g` with `AlgebraicGeometry.Proj.awayToSection 𝒜 y_i` — are already in the library: `ProjectiveSpectrum.degreeZeroRingMap` is the map `A₍f₎ ⟶ A₍h₎` attached to
+`AlgebraicGeometry.Proj.awayToSection 𝒜 g` with `AlgebraicGeometry.Proj.awayToSection 𝒜 y_i` — are
+already in the library: `ProjectiveSpectrum.degreeZeroRingMap` is the map `A₍f₎ ⟶ A₍h₎` attached to
 `D₊(h) ⊆ D₊(f)`, `ProjectiveSpectrum.awayToSection_degreeZeroRingMap` identifies it with the
 restriction map of the structure sheaf of `Proj`, and
 `ProjectiveSpectrum.isLocalizationAway_degreeZeroRingMap` says that `A₍h₎` is the localization of

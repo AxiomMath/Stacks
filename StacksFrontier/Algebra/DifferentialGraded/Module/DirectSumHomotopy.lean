@@ -100,7 +100,7 @@ theorem leftOrthogonal_acyclic_of_directSum
             map_grading := ?_
             homotopy_eq := ?_ }⟩
   · intro n t ht
-    show Hsum (ev.symm t) ∈ N.grading (n - 1)
+    change Hsum (ev.symm t) ∈ N.grading (n - 1)
     have hcomp : ∀ j, (ev.symm t) j ∈ (X j).grading n :=
       hgr n (ev.symm t) (by rw [ev.apply_symm_apply]; exact ht)
     rw [← DirectSum.sum_support_of (ev.symm t), map_sum]
@@ -120,7 +120,7 @@ theorem leftOrthogonal_acyclic_of_directSum
         simp only [map_add, hz, hw]
         abel
     intro t
-    show f.toFun t - (0 : T ⟶ N).toFun t
+    change f.toFun t - (0 : T ⟶ N).toFun t
       = N.d (Hsum (ev.symm t)) + Hsum (ev.symm (T.d t))
     simp only [Hom.hom_zero_toFun, LinearMap.zero_apply, sub_zero]
     rw [show t = ev (ev.symm t) from (ev.apply_symm_apply t).symm, hd,

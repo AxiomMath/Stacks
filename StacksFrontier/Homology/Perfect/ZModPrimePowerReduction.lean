@@ -69,8 +69,7 @@ theorem flat_of_isPowExact {M : Type*} [AddCommGroup M] [Module (ZMod (p ^ m)) M
   have hgen : ∀ t : TensorProduct (ZMod (p ^ m)) (Ideal.span {g}) M,
       ∃ x : M, t = (⟨g, hg⟩ : Ideal.span {g}) ⊗ₜ x := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [TensorProduct.tmul_zero]⟩
+    induction t using TensorProduct.inductionOn with
     | tmul i x =>
       obtain ⟨r, hr⟩ := Ideal.mem_span_singleton'.1 i.2
       refine ⟨r • x, ?_⟩
@@ -97,7 +96,7 @@ theorem flat_of_isPowExact {M : Type*} [AddCommGroup M] [Module (ZMod (p ^ m)) M
       _ = _ := by rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ m)), smul_comm, Nat.cast_pow]
   have hzero : (p ^ (m - a) : ZMod (p ^ m)) • (⟨g, hg⟩ : Ideal.span {g}) = 0 := by
     ext
-    show (p : ZMod (p ^ m)) ^ (m - a) * g = 0
+    change (p : ZMod (p ^ m)) ^ (m - a) * g = 0
     rw [hgu, ← mul_assoc, ← pow_add, Nat.sub_add_cancel ha]
     have : ((p : ZMod (p ^ m)) ^ m) = 0 := by exact_mod_cast ZMod.natCast_self (p ^ m)
     rw [this, zero_mul]
@@ -238,9 +237,9 @@ theorem torsionShortComplex_shortExact (hJ : ∀ i, IsPowExact p m (J.X i)) {c :
     intro x
     obtain ⟨y, hy⟩ := hJ i 1 (by omega) x.1 x.2
     refine ⟨⟨p ^ (m - 1 - c) • y, ?_⟩, Subtype.ext ?_⟩
-    · show p ^ (c + 1) • p ^ (m - 1 - c) • y = 0
+    · change p ^ (c + 1) • p ^ (m - 1 - c) • y = 0
       rw [smul_smul, ← pow_add, show c + 1 + (m - 1 - c) = m by omega, pow_nsmul_eq_zero]
-    · show p ^ c • p ^ (m - 1 - c) • y = x.1
+    · change p ^ c • p ^ (m - 1 - c) • y = x.1
       rw [smul_smul, ← pow_add, show c + (m - 1 - c) = m - 1 by omega, hy]
 
 /-- `J[p^m] = J`. -/
@@ -303,7 +302,7 @@ lemma finite_X₂_of_exact {R : Type*} [CommRing R] [IsNoetherianRing R]
   have hex : Function.Exact S.f.hom S.g.hom.rangeRestrict := by
     intro y
     have h := hS.moduleCat_range_eq_ker
-    show S.g.hom.rangeRestrict y = 0 ↔ y ∈ Set.range S.f.hom
+    change S.g.hom.rangeRestrict y = 0 ↔ y ∈ Set.range S.f.hom
     rw [← LinearMap.coe_range, h]
     exact ⟨fun h' => congrArg Subtype.val h', fun h' => Subtype.ext h'⟩
   have := h₁
@@ -352,14 +351,14 @@ theorem isPowExact_ker_d (hJ : ∀ i, IsPowExact p m (J.X i)) (b k : ℤ) (hk : 
     exact x.2
   obtain ⟨z, hz⟩ := (exactAt_iff_mem' _ b k (k + 1) hk rfl).1 (hb (m - a) (Nat.sub_le m a))
     ⟨_, hdy⟩ (Subtype.ext (by
-      show J.d k (k + 1) (J.d b k y) = 0
+      change J.d k (k + 1) (J.d b k y) = 0
       rw [← ModuleCat.comp_apply, J.d_comp_d]
       rfl))
   have hz' : J.d b k z.1 = J.d b k y := congrArg Subtype.val hz
   refine ⟨⟨y - z.1, ?_⟩, Subtype.ext ?_⟩
-  · show J.d b k (y - z.1) = 0
+  · change J.d b k (y - z.1) = 0
     rw [map_sub, hz', sub_self]
-  · show p ^ (m - a) • (y - z.1) = x.1
+  · change p ^ (m - a) • (y - z.1) = x.1
     have hz0 : p ^ (m - a) • z.1 = 0 := z.2
     rw [smul_sub, hz0, sub_zero, hy]
 

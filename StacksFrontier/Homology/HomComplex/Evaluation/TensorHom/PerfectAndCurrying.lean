@@ -73,7 +73,6 @@ attribute [local instance] HasDerivedCategory.standard
 universe u v w w'
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 namespace Stacks.DerivedTensorHomDiagonal
 
@@ -87,6 +86,8 @@ section PerfectComplexes
 
 set_option backward.isDefEq.respectTransparency false
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- The explicit tensor–Hom diagonal is the transpose of evaluation after associating. -/
 private theorem theta_eq_tensorHomStrength (K L M : CochainComplex (ModuleCat R) ℤ) :
     Stacks.HomComplex.TensorHomComparison.theta K L M = tensorHomStrength (chainTensorHomAdjunction
@@ -95,11 +96,13 @@ private theorem theta_eq_tensorHomStrength (K L M : CochainComplex (ModuleCat R)
   rw [transpose_theta]
   dsimp only [tensorHomStrength]
   rw [chainTensorHomAdjunction, Adjunction.mkOfHomEquiv_homEquiv]
-  show _ = chainTensorHomEquiv _ _ _ ((chainTensorHomEquiv _ _ _).symm
+  change _ = chainTensorHomEquiv _ _ _ ((chainTensorHomEquiv _ _ _).symm
     ((α_ K (HomComplexR R M L) M).hom ≫
       K ◁ chainTensorHomEquiv (HomComplexR R M L) M L (𝟙 _)))
   rw [Equiv.apply_symm_apply]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- A bounded finite-projective complex has a bounded projective left dual. -/
 private theorem exists_exactPairing_of_perfect (K : CochainComplex (ModuleCat R) ℤ) (a b : ℤ)
     [K.IsStrictlyGE a] [K.IsStrictlyLE b]
@@ -112,6 +115,8 @@ private theorem exists_exactPairing_of_perfect (K : CochainComplex (ModuleCat R)
     (CochainComplex.LeftDual.exactPairing_iff_bounded_finiteProjective R).1 K N p
   exact ⟨N, p, ⟨d, hNd⟩, fun i ↦ (hN i).2⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- A bounded finite-projective Hom source makes the chain diagonal invertible. -/
 private theorem isIso_theta_of_perfect_source
     (K L M : CochainComplex (ModuleCat R) ℤ) (a b : ℤ)
@@ -123,6 +128,8 @@ private theorem isIso_theta_of_perfect_source
   rw [theta_eq_tensorHomStrength]
   exact isIso_tensorHomStrength_of_source_dual (N := N) (chainTensorHomAdjunction M) K L
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- A bounded finite-projective tensor factor makes the chain diagonal invertible. -/
 private theorem isIso_theta_of_perfect_tensor
     (K L M : CochainComplex (ModuleCat R) ℤ) (a b : ℤ)
@@ -134,6 +141,8 @@ private theorem isIso_theta_of_perfect_tensor
   rw [theta_eq_tensorHomStrength]
   exact isIso_tensorHomStrength_of_tensor_dual (N := N) (chainTensorHomAdjunction M) L
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Tensoring a K-injective complex by a bounded finite-projective complex preserves
 K-injectivity. -/
 private theorem isKInjective_tensor_of_perfect
@@ -153,6 +162,8 @@ private theorem isKInjective_tensor_of_perfect
     ((tensorRightAdjunction N K).rightAdjointUniq (chainTensorHomAdjunction N)).app I
   exact CochainComplex.isKInjective_of_iso e.symm
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Every derived object has a K-flat representative. -/
 private theorem exists_kFlat_model [HasDerivedCategory (ModuleCat R)]
     (X : DerivedCategory (ModuleCat R)) :
@@ -163,6 +174,8 @@ private theorem exists_kFlat_model [HasDerivedCategory (ModuleCat R)]
   exact ⟨E, hE, ⟨(asIso (DerivedCategory.Q.map f) ≪≫
     DerivedCategory.Q.objObjPreimageIso X).symm⟩⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Perfectness of the Hom source makes the canonical derived diagonal invertible. -/
 private theorem isIso_diagonal_of_perfect_source
     (K L M : DerivedCategory (ModuleCat R)) (hM : StacksDraft.Perfect.IsPerfect M) :
@@ -178,6 +191,8 @@ private theorem isIso_diagonal_of_perfect_source
   have := isIso_diagonal_of_projective_quasiIso_theta E F P b hE
   exact isIso_diagonal_of_iso eK (DerivedCategory.Q.objObjPreimageIso L).symm eM
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- A chain isomorphism computes the derived diagonal on K-flat source representatives
 and K-injective target representatives. -/
 private theorem isIso_diagonal_of_injective_theta
@@ -213,6 +228,8 @@ private theorem isIso_diagonal_of_injective_theta
       (𝟙 (Opposite.op (DerivedCategory.Q.obj M)),
         e.hom ≫ DerivedCategory.Q.map (𝟙 (K ⊗ I)))))
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Perfectness of the tensor factor makes the canonical derived diagonal invertible. -/
 private theorem isIso_diagonal_of_perfect_tensor
     (K L M : DerivedCategory (ModuleCat R)) (hK : StacksDraft.Perfect.IsPerfect K) :
@@ -248,6 +265,8 @@ demanded only relative to `A`. -/
 
 section RelativeKFlat
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Extension of scalars along a ring map preserves a strict lower bound on a complex, being
 applied degreewise by an additive functor. -/
 public theorem isStrictlyGE_extendScalars {A : Type u} [CommRing A]
@@ -256,6 +275,8 @@ public theorem isStrictlyGE_extendScalars {A : Type u} [CommRing A]
   inferInstanceAs (CochainComplex.IsStrictlyGE
     (((ModuleCat.extendScalars φ).mapHomologicalComplex (ComplexShape.up ℤ)).obj P) a)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- The canonical derived tensor--Hom diagonal `K ⊗ᴸ RHom(M, L) ⟶ RHom(M, K ⊗ᴸ L)` is an
 isomorphism when `M` is pseudo-coherent, `L` is bounded below, and the tensor factor `K` is the
 base change along a ring map `φ : A →+* R` of a complex of `A`-modules that is bounded below and
@@ -299,6 +320,8 @@ public theorem isIso_derivedTensorHomDiagonal_of_relativeKFlat
 
 end RelativeKFlat
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- **Stacks 0ATK.** The canonical derived tensor--Hom diagonal
 `K ⊗ᴸ RHom(M, L) ⟶ RHom(M, K ⊗ᴸ L)` is an isomorphism if `M` is perfect, if `K` is perfect, or
 if `M` is pseudo-coherent, `L` is bounded below and `K` has Tor amplitude in `[a, ∞]`. -/
@@ -351,6 +374,8 @@ variable {R : Type u} [CommRing R]
 
 /-! #### The chain-level coherence -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma uncurry_uncurry {X K L M : CochainComplex (ModuleCat R) ℤ}
     (g : X ⟶ HomComplexR R K (HomComplexR R L M)) :
     uncurry (uncurry g) =
@@ -359,7 +384,7 @@ private lemma uncurry_uncurry {X K L M : CochainComplex (ModuleCat R) ℤ}
   apply GradedObject.Monoidal.tensorObj₃'_ext
   intro p q r h
   rw [GradedObject.Monoidal.ιTensorObj₃'_eq _ _ _ p q r n h (p + q) rfl]
-  show (ιTensorObj X K p q (p + q) rfl ▷ L.X r) ≫
+  change (ιTensorObj X K p q (p + q) rfl ▷ L.X r) ≫
       ιTensorObj (X ⊗ K) L (p + q) r n h ≫ (uncurry (uncurry g)).f n =
     (ιTensorObj X K p q (p + q) rfl ▷ L.X r) ≫
       ιTensorObj (X ⊗ K) L (p + q) r n h ≫
@@ -370,11 +395,10 @@ private lemma uncurry_uncurry {X K L M : CochainComplex (ModuleCat R) ℤ}
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro z y
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => simpa [TensorProduct.add_tmul] using congrArg₂ (· + ·) ha hb
   | tmul x κ =>
-    show (uncurry (uncurry g)).f n
+    change (uncurry (uncurry g)).f n
         ((ιTensorObj (X ⊗ K) L (p + q) r n h).hom
           ((ιTensorObj X K p q (p + q) rfl).hom (x ⊗ₜ[R] κ) ⊗ₜ[R] y)) =
       (uncurry (g ≫ (Stacks.HomComplex.Currying.curryIso K L M).hom)).f n
@@ -386,6 +410,8 @@ private lemma uncurry_uncurry {X K L M : CochainComplex (ModuleCat R) ℤ}
 
 variable [HasDerivedCategory (ModuleCat R)]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Currying transposed through the adjunction at the test object `X`. -/
 private def CurryingLawFor {X K L M : DerivedCategory (ModuleCat R)}
     (χ : X ⟶ (adjunction R).hom.obj (Opposite.op K,
@@ -396,11 +422,15 @@ private def CurryingLawFor {X K L M : DerivedCategory (ModuleCat R)}
       (adjunction R).homEquiv X ((adjunction R).tensor.obj (K, L)) M
         (χ ≫ (curryingIso K L M).hom)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- The currying law at every test object. -/
 private def CurryingLawAt (X K L M : DerivedCategory (ModuleCat R)) : Prop :=
   ∀ χ : X ⟶ (adjunction R).hom.obj (Opposite.op K,
     (adjunction R).hom.obj (Opposite.op L, M)), CurryingLawFor χ
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma CurryingLawFor.comp {X X' K L M : DerivedCategory (ModuleCat R)} (f : X ⟶ X')
     {χ : X' ⟶ (adjunction R).hom.obj (Opposite.op K,
       (adjunction R).hom.obj (Opposite.op L, M))}
@@ -415,12 +445,16 @@ private lemma CurryingLawFor.comp {X X' K L M : DerivedCategory (ModuleCat R)} (
     h, ← Category.assoc, (adjunction R).tensorAssoc_naturality,
     (adjunction R).tensor_map_id, Category.assoc]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma CurryingLawAt.ofIsoTest {X X' K L M : DerivedCategory (ModuleCat R)}
     (e : X ≅ X') (h : CurryingLawAt X' K L M) : CurryingLawAt X K L M := by
   intro χ
   have h' := (h (e.inv ≫ χ)).comp e.hom
   simpa only [← Category.assoc, e.hom_inv_id, Category.id_comp] using h'
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma CurryingLawAt.ofIsoFirst {X K K' L M : DerivedCategory (ModuleCat R)}
     (e : K ≅ K') (h : CurryingLawAt X K' L M) : CurryingLawAt X K L M := by
   intro χ
@@ -441,6 +475,8 @@ private lemma CurryingLawAt.ofIsoFirst {X K K' L M : DerivedCategory (ModuleCat 
   simp only [Functor.mapIso_hom, Iso.prod_hom, Iso.refl_hom, Iso.symm_hom, Prod.mkHom]
   rw [h', (adjunction R).tensorAssoc_naturality_assoc]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma CurryingLawAt.ofIsoSecond {X K L L' M : DerivedCategory (ModuleCat R)}
     (e : L ≅ L') (h : CurryingLawAt X K L' M) : CurryingLawAt X K L M := by
   intro χ
@@ -465,6 +501,8 @@ private lemma CurryingLawAt.ofIsoSecond {X K L L' M : DerivedCategory (ModuleCat
   rw [h', ← (adjunction R).tensor_map_id X K,
     (adjunction R).tensorAssoc_naturality_assoc]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma CurryingLawAt.ofIsoTarget {X K L M M' : DerivedCategory (ModuleCat R)}
     (e : M ≅ M') (h : CurryingLawAt X K L M') : CurryingLawAt X K L M := by
   intro χ
@@ -485,6 +523,8 @@ private lemma CurryingLawAt.ofIsoTarget {X K L M M' : DerivedCategory (ModuleCat
 
 /-! #### Two cancellations of the internal-Hom bifunctor on a pair -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma hom_map_op_comp' {A A' : DerivedCategory (ModuleCat R)} (ε : A ≅ A')
     (N : DerivedCategory (ModuleCat R)) :
     (adjunction R).hom.map (show (Opposite.op A, N) ⟶ (Opposite.op A', N) from
@@ -496,6 +536,8 @@ private lemma hom_map_op_comp' {A A' : DerivedCategory (ModuleCat R)} (ε : A �
   simp only [Prod.mkHom, prod_comp, ← op_comp, Iso.hom_inv_id, op_id, Category.comp_id]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma hom_map_snd_comp (A : DerivedCategory (ModuleCat R))
     {N N' : DerivedCategory (ModuleCat R)} (ε : N ≅ N') :
     (adjunction R).hom.map (show (Opposite.op A, N) ⟶ (Opposite.op A, N') from
@@ -509,6 +551,8 @@ private lemma hom_map_snd_comp (A : DerivedCategory (ModuleCat R))
 
 /-! #### The law on representatives -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma curryingLawAt_models (X K L M : CochainComplex (ModuleCat R) ℤ)
     (hX : X.KFlat) (hK : K.KFlat) (hL : L.KFlat) [M.IsKInjective] :
     CurryingLawAt (DerivedCategory.Q.obj X) (DerivedCategory.Q.obj K)
@@ -658,6 +702,8 @@ private lemma curryingLawAt_models (X K L M : CochainComplex (ModuleCat R) ℤ)
 
 /-! #### The law in general -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 private lemma curryingLawAt_all (X K L M : DerivedCategory (ModuleCat R)) :
     CurryingLawAt X K L M := by
   obtain ⟨E, hE, ⟨eX⟩⟩ := Stacks.DerivedTensorHomDiagonal.exists_kFlat_model X
@@ -674,6 +720,8 @@ private lemma curryingLawAt_all (X K L M : DerivedCategory (ModuleCat R)) :
 
 /-! #### Currying as a transpose -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- **The currying law of Tag 0A65 at an arbitrary test object.** Postcomposing a map
 `X ⟶ RHom(K, RHom(L, M))` with the currying isomorphism `RHom(K, RHom(L, M)) ≅ RHom(K ⊗ᴸ L, M)`
 is the same as transposing twice through the derived tensor--Hom adjunction and then
@@ -689,6 +737,8 @@ public theorem comp_curryingIso_hom (X K L M : DerivedCategory (ModuleCat R))
 
 /-! #### Transposing composition -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- was file-wide: instance search over derived categories of complexes of modules
 /-- Composition of derived internal Homs uncurries to evaluating twice: the transpose of
 `RHom(L, M) ⊗ᴸ RHom(K, L) ⟶ RHom(K, M)` through the fixed derived tensor--Hom adjunction is
 tensor associativity followed by evaluation on the inner factor and then on the outer one. -/

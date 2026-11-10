@@ -374,8 +374,8 @@ structural morphism of `A₁`. -/
 theorem Match.map_hom_comp_baseIso {A : SchemesOver C.D.Y} {A₁ : SchemesOver C.D₁.Y}
     (m : C.Match A A₁) :
     (Λg).map A.hom.hom ≫ C.baseIso.hom = m.testIso.hom ≫ A₁.hom.hom := by
-  rw [← Iso.cancel_iso_hom_right _ _ C.eY', Category.assoc, Category.assoc, baseIso_hom_comp, map_toPoint,
-    Match.testIso_hom, Category.assoc, ← targetPoint_spec,
+  rw [← Iso.cancel_iso_hom_right _ _ C.eY', Category.assoc, Category.assoc, baseIso_hom_comp,
+    map_toPoint, Match.testIso_hom, Category.assoc, ← targetPoint_spec,
     ← ObjectProperty.FullSubcategory.comp_hom,
     ← CategoryTheory.Functor.map_comp, m.w, representedIso_hom_comp_pointHom]
 

@@ -124,7 +124,7 @@ theorem kerModule_smul (hπ : Function.Surjective π) (h2 : RingHom.ker π ^ 2 =
     letI := kerModule hπ h2
     π x • y = x • y := by
   let := kerQuotModule h2
-  show ((RingHom.quotientKerEquivOfSurjective hπ).symm (π x)) • y = x • y
+  change ((RingHom.quotientKerEquivOfSurjective hπ).symm (π x)) • y = x • y
   have h : (RingHom.quotientKerEquivOfSurjective hπ).symm (π x) = Ideal.Quotient.mk _ x := by
     rw [RingEquiv.symm_apply_eq]; rfl
   rw [h]; rfl
@@ -145,7 +145,7 @@ theorem kerModuleOfRingHom_smul {B : Type u} [CommRing B] (hπ : Function.Surjec
     letI := kerModuleOfRingHom hπ h2 β
     b • y = x • y := by
   let := kerModule hπ h2
-  show β b • y = x • y
+  change β b • y = x • y
   rw [← hx, kerModule_smul hπ h2]
 
 /-- **A basis of the conormal module over the quotient trivialises it over the ring.** Let
@@ -323,16 +323,16 @@ theorem existsUnique_linearMap_comp_pullbackD_of_module {X S T : Scheme.{u}} (f 
   obtain ⟨θ', hθ', huniq'⟩ :=
     existsUnique_linearMap_comp_pullbackD f a N hV hW hWV hUW (eB.compDer δ)
   refine ⟨e.symm.toLinearMap ∘ₗ θ', fun b ↦ ?_, fun θ hθ ↦ ?_⟩
-  · show e.symm (θ' (pullbackD f a W hUW b)) = δ b
+  · change e.symm (θ' (pullbackD f a W hUW b)) = δ b
     rw [hθ' b]
     exact e.symm_apply_apply (δ b)
   · have hθe : e.toLinearMap ∘ₗ θ = θ' := huniq' _ fun b ↦ by
-      show e (θ (pullbackD f a W hUW b)) = eB (δ b)
+      change e (θ (pullbackD f a W hUW b)) = eB (δ b)
       rw [hθ b]; rfl
     refine LinearMap.ext fun y ↦ ?_
     have h := LinearMap.congr_fun hθe y
     change e (θ y) = θ' y at h
-    show θ y = e.symm (θ' y)
+    change θ y = e.symm (θ' y)
     rw [← h, e.symm_apply_apply]
 
 /-! ### The ring-level presentation of an affine first-order thickening -/

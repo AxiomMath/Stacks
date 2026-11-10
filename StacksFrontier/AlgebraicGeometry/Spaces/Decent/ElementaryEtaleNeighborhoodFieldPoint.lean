@@ -92,7 +92,7 @@ theorem pointedResidueFieldMap_comp {V W : BigFppfOver B S hS} (f : V ⟶ W)
       residueFieldMap B S hS V v hv ≫ f := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show Spec.map ((W.left.1.residueFieldCongr hf).inv ≫ f.left.1.residueFieldMap v) ≫
+  change Spec.map ((W.left.1.residueFieldCongr hf).inv ≫ f.left.1.residueFieldMap v) ≫
     W.left.1.fromSpecResidueField w = V.left.1.fromSpecResidueField v ≫ f.left.1
   rw [Spec.map_comp, Category.assoc]
   simp

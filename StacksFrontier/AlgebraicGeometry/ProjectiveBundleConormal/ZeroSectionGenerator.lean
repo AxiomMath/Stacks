@@ -38,8 +38,8 @@ only useful together with a description of where those generators go.
 `Stacks.ClosedImmersion.AffineConormal.tildeConormal_hom_unit_toOpen`, carried one leg further,
 and here it is not a convenience but the only thing that works.
 
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.AffineGenerator` records that restating its
-generator formula at the augmentation is beyond the kernel, because
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.AffineGenerator` records that
+restating its generator formula at the augmentation is beyond the kernel, because
 `Stacks.ProjectiveBundleConormal.augIdealModule` is `ModuleCat.of _ (augIdeal A K)` where the
 generic statement produces `ModuleCat.of _ (RingHom.ker (augRingHom A K).hom)`. **That obstruction
 is reproduced here, and located.** Building the second leg on

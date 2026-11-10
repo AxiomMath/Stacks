@@ -138,7 +138,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_pushforward_firstChernCap_
         exact right_ne_zero_of_mul hne (finsum_eq_zero_of_forall_eq_zero fun Z =>
           not_not.1 (not_exists.1 hall Z))
       refine ⟨(W, Z), ?_, rfl⟩
-      show α.1 W * (firstChernComponentCycle D sX hX k chernX W).1 Z *
+      change α.1 W * (firstChernComponentCycle D sX hX k chernX W).1 Z *
         properCycleMult D sX hX sY hY p Z T ≠ 0
       rw [mul_assoc]
       exact mul_ne_zero (left_ne_zero_of_mul hne) hZ
@@ -154,11 +154,11 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_pushforward_firstChernCap_
         unfold properCycleMult
         rw [ite_eq_left rfl]
       refine ⟨(W, W' W), ?_, rfl⟩
-      show α.1 W * properCycleMult D sX hX sY hY p W (W' W) *
+      change α.1 W * properCycleMult D sX hX sY hY p W (W' W) *
         (firstChernComponentCycle D sY hY k chernY (W' W)).1 T ≠ 0
       rw [hmult, mul_assoc]
       exact hne
-    show (properCyclePushforward D sX hX sY hY hpB hp.2.1.2 k
+    change (properCyclePushforward D sX hX sY hY hpB hp.2.1.2 k
         (firstChernCapCycleMap D sX hX k chernX α)).1 T -
       (firstChernCapCycleMap D sY hY k chernY
         (properCyclePushforward D sX hX sY hY hpB hp.2.1.2 (k + 1) α)).1 T = _

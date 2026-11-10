@@ -108,7 +108,7 @@ theorem schemeFactorMapHomotopyIso_hom_app_quotient (f : X ⟶ Y) (g : Y ⟶ Z) 
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj N) =
       (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map ((NatTrans.mapHomologicalComplex
         (schemeFactorModulePullbackIso f g k h).hom (ComplexShape.up ℤ)).app N) := by
-  show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
     ((Functor.mapHomologicalComplexCompIso (schemeFactorModulePullbackIso f g k h)
       (ComplexShape.up ℤ)).hom.app N) = _
   congr 1

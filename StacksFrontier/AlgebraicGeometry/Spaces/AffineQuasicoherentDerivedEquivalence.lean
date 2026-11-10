@@ -350,7 +350,7 @@ theorem exists_retract_sigma_of_finite_projective {R : Type u} [CommRing R]
     conv_rhs => rw [hv]
     rw [map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [← ModuleCat.comp_apply, Sigma.ι_desc, map_smul]
+    rw [← ModuleCat.comp_apply, Sigma.ι_comp_desc, map_smul]
     simp
   have : Projective M := M.projective_of_categoryTheory_projective
   exact ⟨n, Projective.factorThru (𝟙 M) t, t, Projective.factorThru_comp _ _⟩
@@ -500,7 +500,7 @@ theorem bijective_representedAffineDerivedAssociated_map_single (q : ℤ)
       (isTerminalChartOfIso U (Iso.refl _)) (isAffineChart_representedAffineFinalChart B S hS U) q
       _ (qcohDerived_representedAffineDerivedAssociated_obj B S hS U M)
       (a₁ := i.inv ≫ a) (a₂ := i.inv ≫ b) (by
-        show (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ a) =
+        change (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ a) =
           (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ b)
         rw [Functor.map_comp, Functor.map_comp, hab'])
     exact (cancel_epi i.inv).mp this

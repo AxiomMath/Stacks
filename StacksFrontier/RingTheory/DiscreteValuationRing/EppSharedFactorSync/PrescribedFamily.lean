@@ -293,17 +293,17 @@ private theorem exists_factorMembers_of_layer (d : EppMember K₂)
     (fun j x => reducedTensorFactorsEquiv_left d.K d.L K₁ D₁.L₁ E
       D₁.eL₁ e D₁.eL₁_right he D₁.eL₁_left x j)
   · intro a
-    show algebraMap d.A K₂ a = algebraMap K₁ K₂ (algebraMap d.A K₁ a)
+    change algebraMap d.A K₂ a = algebraMap K₁ K₂ (algebraMap d.A K₁ a)
     exact IsScalarTower.algebraMap_apply d.A K₁ K₂ a
   · intro j b
     rw [← IsScalarTower.algebraMap_apply d.B d.L (E j),
       ← IsScalarTower.algebraMap_apply d.B (S j) (E j)]
   · intro j a
     apply Subtype.ext
-    show algebraMap d.B (E j) (algebraMap d.A d.B a) =
+    change algebraMap d.B (E j) (algebraMap d.A d.B a) =
       ((mapIntegralClosureOfTower d.A d.B K₁ (E j)) (algebraMap d.A R a) : E j)
     rw [mapIntegralClosureOfTower_apply]
-    show algebraMap d.B (E j) (algebraMap d.A d.B a) =
+    change algebraMap d.B (E j) (algebraMap d.A d.B a) =
       algebraMap K₁ (E j) (algebraMap d.A K₁ a)
     rw [← IsScalarTower.algebraMap_apply d.A d.B (E j),
       ← IsScalarTower.algebraMap_apply d.A K₁ (E j)]
@@ -558,12 +558,12 @@ abbrev PrimeDegreeSolvable (p : ℕ) [Fact p.Prime] : Prop :=
     [CharP (IsLocalRing.ResidueField A) p] [ExpChar (IsLocalRing.ResidueField B) p]
     [PerfectField (IsLocalRing.ResidueField A)]
     [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
-    (hweak : IsWeaklyUnramified A B)
-    [Module.Finite L M]
-    (hepp : EppCondition A B p)
-    (hterminal : IsPurelyInseparable L M ∧ Module.finrank L M = p ∨
-      IsGalois L M ∧ (Module.finrank L M).Prime),
+    [IsAdicComplete (IsLocalRing.maximalIdeal B) B],
+    IsWeaklyUnramified A B →
+    ∀ [Module.Finite L M],
+    EppCondition A B p →
+    (IsPurelyInseparable L M ∧ Module.finrank L M = p ∨
+      IsGalois L M ∧ (Module.finrank L M).Prime) →
     ∃ (K₂ : Type u) (_ : Field K₂) (_ : Algebra K K₂) (_ : Algebra A K₂)
       (_ : IsScalarTower A K K₂) (_ : Module.Finite K K₂),
       ∃ D : IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M K₂,
@@ -589,11 +589,11 @@ abbrev WildPrimeDegreeSolvable (p : ℕ) [Fact p.Prime] : Prop :=
     [CharP (IsLocalRing.ResidueField A) p] [ExpChar (IsLocalRing.ResidueField B) p]
     [PerfectField (IsLocalRing.ResidueField A)]
     [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
-    (hweak : IsWeaklyUnramified A B)
-    [Module.Finite L M] [IsGalois L M]
-    (hepp : EppCondition A B p)
-    (hdegree : Module.finrank L M = p),
+    [IsAdicComplete (IsLocalRing.maximalIdeal B) B],
+    IsWeaklyUnramified A B →
+    ∀ [Module.Finite L M] [IsGalois L M],
+    EppCondition A B p →
+    Module.finrank L M = p →
     ∃ (K₂ : Type u) (_ : Field K₂) (_ : Algebra K K₂) (_ : Algebra A K₂)
       (_ : IsScalarTower A K K₂) (_ : Module.Finite K K₂),
       ∃ D : IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M K₂,

@@ -40,8 +40,8 @@ diagrams: `τ` is invertible precisely when its whiskering by the comparison equ
 ## Implementation notes
 
 This is the coefficient-free form of the two statements of
-`StacksFrontier.Homology.Devissage.CompactGenerationOfDiagramsAnyModel`, which are its instances at a
-category of diagrams with the free diagrams on the representables as the family; the generating
+`StacksFrontier.Homology.Devissage.CompactGenerationOfDiagramsAnyModel`, which are its instances at
+a category of diagrams with the free diagrams on the representables as the family; the generating
 family there is supplied by `CategoryTheory.Presheaf.isSeparating`,
 `Stacks.CategoryHomology.freeYonedaProjective` and
 `CategoryTheory.Presheaf.isCompactObject_freeYoneda`. The other instance is a category of

@@ -154,7 +154,7 @@ public theorem reduction_eq_zero_of_eps_mul_eq_zero (aug : D →ₐ[k] k) (σ : 
       map_add' := fun a b => by rw [map_add, add_mul]
       map_smul' := fun d c => by
         rw [hsmul, map_mul]
-        show _ = d * (algebraMap k D c * ε)
+        change _ = d * (algebraMap k D c * ε)
         conv_rhs => rw [← hD d]
         rw [add_mul,
           show (σ d • ε) * (algebraMap k D c * ε)
@@ -163,7 +163,7 @@ public theorem reduction_eq_zero_of_eps_mul_eq_zero (aug : D →ₐ[k] k) (σ : 
   have hι : Function.Injective ι := by
     intro a b hab
     have h : ∀ c : k, σ (ι c) = c := fun c => by
-      show σ (algebraMap k D c * ε) = c
+      change σ (algebraMap k D c * ε) = c
       rw [← Algebra.smul_def, map_smul, hσε, smul_eq_mul, mul_one]
     rw [← h a, ← h b, hab]
   have hinjT : Function.Injective (LinearMap.rTensor Q ι) :=
@@ -179,7 +179,7 @@ public theorem reduction_eq_zero_of_eps_mul_eq_zero (aug : D →ₐ[k] k) (σ : 
     apply hinjT
     rw [map_zero, LinearMap.rTensor_tmul]
     have h1 : ι (1 : k) = ε := by
-      show algebraMap k D 1 * ε = ε
+      change algebraMap k D 1 * ε = ε
       rw [map_one, one_mul]
     rw [h1]
     apply (TensorProduct.lid D Q).injective
@@ -187,7 +187,7 @@ public theorem reduction_eq_zero_of_eps_mul_eq_zero (aug : D →ₐ[k] k) (σ : 
   have := congrArg ψ hzero
   rw [map_zero] at this
   rw [← this]
-  show π q = ψ' ((1 : k) ⊗ₜ[D] πD q)
+  change π q = ψ' ((1 : k) ⊗ₜ[D] πD q)
   rw [Algebra.TensorProduct.lift_tmul]
   simp [πD]
 
@@ -354,7 +354,7 @@ public theorem isPushout_trivialDeformation (P : Type w) [CommRing P] [Algebra k
       ?_ ?_ ?_)
   · intro s
     refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
-    show s.inl.hom ((1 : (Aε : Type w)) ⊗ₜ[k]
+    change s.inl.hom ((1 : (Aε : Type w)) ⊗ₜ[k]
       (trivialDeformationReduction (residueAugmentation hsec) x)) = s.inl.hom x
     induction x using TensorProduct.inductionOn with
     | tmul d p =>
@@ -428,7 +428,7 @@ private theorem exists_eq_eps_mul_of_isPushout
       conv_lhs => rw [← hD d]
       rw [map_add, Algebra.smul_def, map_mul]
       rfl
-    show Ideal.Quotient.mk _ (algebraMap (Aε : Type w) Q d) =
+    change Ideal.Quotient.mk _ (algebraMap (Aε : Type w) Q d) =
       Ideal.Quotient.mk _
         (algebraMap (Aε : Type w) Q (algebraMap k Aε (residueAugmentation hsec d)))
     rw [hd, map_add, Ideal.Quotient.eq_zero_iff_mem.2
@@ -470,7 +470,7 @@ public theorem exists_algEquiv_tensor_of_formallySmooth [Algebra.FormallySmooth 
     exact congr($(hcart.w).hom d)
   have hπk : ∀ c : k, π (algebraMap k Q c) = algebraMap k P c := by
     intro c
-    show π (algebraMap (Aε : Type w) Q (algebraMap k Aε c)) = algebraMap k P c
+    change π (algebraMap (Aε : Type w) Q (algebraMap k Aε c)) = algebraMap k P c
     rw [haug, residueAugmentation_algebraMap hsec c]
   have hsurj : Function.Surjective π := by
     have h1 := CommRingCat.closure_range_union_range_eq_top_of_isPushout hcart
@@ -500,11 +500,11 @@ private theorem isPushout_of_algEquiv {R A B : Type w} [CommRing R] [CommRing A]
   · exact φ.commutes r
   · intro s
     refine CommRingCat.hom_ext (RingHom.ext fun x => ?_)
-    show s.inl.hom (φ.symm (φ x)) = s.inl.hom x
+    change s.inl.hom (φ.symm (φ x)) = s.inl.hom x
     rw [φ.symm_apply_apply]
   · intro s
     refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-    show s.inl.hom (φ.symm (algebraMap R B r)) = s.inr.hom r
+    change s.inl.hom (φ.symm (algebraMap R B r)) = s.inr.hom r
     rw [show φ.symm (algebraMap R B r) = algebraMap R A r from φ.symm.commutes r]
     exact congr($(s.condition).hom r)
   · intro s m hm _
@@ -564,7 +564,7 @@ public theorem nonempty_iso_trivialRingDeformation [Algebra.FormallySmooth k P]
   let eF := trivialFlatAlgebraIsoOfAlgEquiv Z.left φ
   have hwtri : eF.hom ≫ Z.hom = trivialFlatAlgebraHom (P := P) hsec := by
     refine FlatAlgebraCategory.Hom.ext ?_ (CommRingCat.hom_ext (RingHom.ext fun x => hφ x))
-    show 𝟙 _ ≫ Z.hom.base = residueAugmentationHom (P := P) hsec
+    change 𝟙 _ ≫ Z.hom.base = residueAugmentationHom (P := P) hsec
     exact (Category.id_comp _).trans hbase
   have hw : eF.inv ≫ trivialFlatAlgebraHom (P := P) hsec = Z.hom := by
     rw [← hwtri]
@@ -665,7 +665,7 @@ private theorem artinianDualNumbersEps_sq :
 
 private theorem artinianDualNumbersSnd_eps :
     artinianDualNumbersSnd (Λ := Λ) (k := k) (artinianDualNumbersEps (Λ := Λ) (k := k)) = 1 := by
-  show TrivSqZeroExt.snd (dualNumbersEquiv.{u, w, w} (Λ := Λ) (k := k)
+  change TrivSqZeroExt.snd (dualNumbersEquiv.{u, w, w} (Λ := Λ) (k := k)
     (dualNumbersUp.{u, w, w} (Λ := Λ) (k := k) DualNumber.eps)) = 1
   rw [dualNumbersEquiv_dualNumbersUp]
   rfl
@@ -688,7 +688,7 @@ private theorem artinianDualNumbers_decomp
   rw [map_add, hres, algebraMap_artinianDualNumbers, dualNumbersEquiv_dualNumbersUp,
     Algebra.smul_def, map_mul, algebraMap_artinianDualNumbers,
     dualNumbersEquiv_dualNumbersUp, artinianDualNumbersEps, dualNumbersEquiv_dualNumbersUp]
-  show TrivSqZeroExt.inl (TrivSqZeroExt.fst (dualNumbersEquiv.{u, w, w} a)) +
+  change TrivSqZeroExt.inl (TrivSqZeroExt.fst (dualNumbersEquiv.{u, w, w} a)) +
       TrivSqZeroExt.inl (TrivSqZeroExt.snd (dualNumbersEquiv.{u, w, w} a)) *
         TrivSqZeroExt.inr (1 : k) = dualNumbersEquiv.{u, w, w} a
   rw [TrivSqZeroExt.inl_mul_inr, smul_eq_mul, mul_one]

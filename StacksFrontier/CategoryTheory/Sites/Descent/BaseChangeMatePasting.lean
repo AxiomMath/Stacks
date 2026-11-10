@@ -152,12 +152,12 @@ the outer square, along the composite `e ≫ g`, is the base-change `2`-cell of 
 pulled back along `e`, followed by the base-change `2`-cell of the left square, read through the
 composition constraints of `F` along `e ≫ g` and `j ≫ i`. -/
 theorem mateEquiv_commSqTwoSquare_paste_horiz_app (M : F.obj (.mk (op X))) :
-    (mateEquiv af af'' (commSqTwoSquare F w)).natTrans.app M =
+    (mateEquiv af af'' (commSqTwoSquare F w)).app M =
       (F.mapComp' g.op.toLoc e.op.toLoc (e ≫ g).op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).hom.toNatTrans.app (Rf.obj M) ≫
         (F.map e.op.toLoc).toFunctor.map
-            ((mateEquiv af af' (commSqTwoSquare F w₁)).natTrans.app M) ≫
-          (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans.app
+            ((mateEquiv af af' (commSqTwoSquare F w₁)).app M) ≫
+          (mateEquiv af' af'' (commSqTwoSquare F w₂)).app
               ((F.map i.op.toLoc).toFunctor.obj M) ≫
             Rf''.map ((F.mapComp' i.op.toLoc j.op.toLoc (j ≫ i).op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).inv.toNatTrans.app
@@ -168,7 +168,7 @@ theorem mateEquiv_commSqTwoSquare_paste_horiz_app (M : F.obj (.mk (op X))) :
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).hom.toNatTrans).whiskerBottom
         (F.mapComp' i.op.toLoc j.op.toLoc (j ≫ i).op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).inv.toNatTrans := by
-    refine TwoSquare.ext _ _ fun W => ?_
+    refine NatTrans.ext (funext fun W => ?_)
     simp only [TwoSquare.whiskerBottom_app, TwoSquare.whiskerTop_app,
       TwoSquare.hComp_app, Category.assoc]
     exact isoMapOfCommSq_paste_horiz_app F i f' f g j f'' e w₁ w₂ w W
@@ -179,7 +179,7 @@ theorem mateEquiv_commSqTwoSquare_paste_horiz_app (M : F.obj (.mk (op X))) :
       mateEquiv adj₁ adj₂ ((S.whiskerTop φ).whiskerBottom ψ) =
         ((mateEquiv adj₁ adj₂ S).whiskerRight φ).whiskerLeft ψ := by
     intro A B A' B' _ _ _ _ L₁ R₁ L₂ R₂ adj₁ adj₂ G G' H H' S φ ψ
-    refine TwoSquare.ext _ _ fun d => ?_
+    refine NatTrans.ext (funext fun d => ?_)
     simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
       TwoSquare.whiskerRight, mateEquiv]
   rw [hc, hm af af'', mateEquiv_vcomp af af' af'']
@@ -188,10 +188,10 @@ theorem mateEquiv_commSqTwoSquare_paste_horiz_app (M : F.obj (.mk (op X))) :
 /-- The outer base-change `2`-cell of a horizontal pasting is invertible at `M` iff the pasted
 middle composite is. -/
 private theorem isIso_mateEquiv_commSqTwoSquare_paste_horiz_app_iff (M : F.obj (.mk (op X))) :
-    IsIso ((mateEquiv af af'' (commSqTwoSquare F w)).natTrans.app M) ↔
+    IsIso ((mateEquiv af af'' (commSqTwoSquare F w)).app M) ↔
       IsIso ((F.map e.op.toLoc).toFunctor.map
-          ((mateEquiv af af' (commSqTwoSquare F w₁)).natTrans.app M) ≫
-        (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans.app
+          ((mateEquiv af af' (commSqTwoSquare F w₁)).app M) ≫
+        (mateEquiv af' af'' (commSqTwoSquare F w₂)).app
           ((F.map i.op.toLoc).toFunctor.obj M)) := by
   rw [mateEquiv_commSqTwoSquare_paste_horiz_app F i f' f g j f'' e w₁ w₂ w af af' af'' M]
   have := ((Cat.Hom.toNatIso (F.mapComp' g.op.toLoc e.op.toLoc
@@ -203,14 +203,14 @@ private theorem isIso_mateEquiv_commSqTwoSquare_paste_horiz_app_iff (M : F.obj (
 /-- **The outer square of two horizontally pasted squares has invertible base-change `2`-cell**
 as soon as the two squares have. -/
 theorem isIso_mateEquiv_commSqTwoSquare_paste_horiz
-    (h₁ : IsIso (mateEquiv af af' (commSqTwoSquare F w₁)).natTrans)
-    (h₂ : IsIso (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans) :
-    IsIso (mateEquiv af af'' (commSqTwoSquare F w)).natTrans := by
+    (h₁ : IsIso (mateEquiv af af' (commSqTwoSquare F w₁)))
+    (h₂ : IsIso (mateEquiv af' af'' (commSqTwoSquare F w₂))) :
+    IsIso (mateEquiv af af'' (commSqTwoSquare F w)) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro M
   rw [isIso_mateEquiv_commSqTwoSquare_paste_horiz_app_iff F i f' f g j f'' e w₁ w₂ w af af' af'']
-  have := NatIso.isIso_app_of_isIso (mateEquiv af af' (commSqTwoSquare F w₁)).natTrans M
-  have := NatIso.isIso_app_of_isIso (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans
+  have := NatIso.isIso_app_of_isIso (mateEquiv af af' (commSqTwoSquare F w₁)) M
+  have := NatIso.isIso_app_of_isIso (mateEquiv af' af'' (commSqTwoSquare F w₂))
     ((F.map i.op.toLoc).toFunctor.obj M)
   infer_instance
 
@@ -218,15 +218,15 @@ theorem isIso_mateEquiv_commSqTwoSquare_paste_horiz
 second square have invertible base-change `2`-cells, then the inverse image along `e` of the
 `2`-cell of the first square is invertible. -/
 theorem isIso_whiskerRight_mateEquiv_commSqTwoSquare_of_paste_horiz
-    (hout : IsIso (mateEquiv af af'' (commSqTwoSquare F w)).natTrans)
-    (h₂ : IsIso (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans) :
-    IsIso (Functor.whiskerRight (mateEquiv af af' (commSqTwoSquare F w₁)).natTrans
+    (hout : IsIso (mateEquiv af af'' (commSqTwoSquare F w)))
+    (h₂ : IsIso (mateEquiv af' af'' (commSqTwoSquare F w₂))) :
+    IsIso (Functor.whiskerRight (mateEquiv af af' (commSqTwoSquare F w₁))
       (F.map e.op.toLoc).toFunctor) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro M
   have hx := (isIso_mateEquiv_commSqTwoSquare_paste_horiz_app_iff F i f' f g j f'' e w₁ w₂ w af
     af' af'' M).1 (NatIso.isIso_app_of_isIso _ M)
-  have := NatIso.isIso_app_of_isIso (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans
+  have := NatIso.isIso_app_of_isIso (mateEquiv af' af'' (commSqTwoSquare F w₂))
     ((F.map i.op.toLoc).toFunctor.obj M)
   rwa [isIso_comp_right_iff] at hx
 
@@ -234,15 +234,15 @@ theorem isIso_whiskerRight_mateEquiv_commSqTwoSquare_of_paste_horiz
 first square have invertible base-change `2`-cells, then the `2`-cell of the second square is
 invertible after precomposition with the inverse image along `i`. -/
 theorem isIso_whiskerLeft_mateEquiv_commSqTwoSquare_of_paste_horiz
-    (hout : IsIso (mateEquiv af af'' (commSqTwoSquare F w)).natTrans)
-    (h₁ : IsIso (mateEquiv af af' (commSqTwoSquare F w₁)).natTrans) :
+    (hout : IsIso (mateEquiv af af'' (commSqTwoSquare F w)))
+    (h₁ : IsIso (mateEquiv af af' (commSqTwoSquare F w₁))) :
     IsIso (Functor.whiskerLeft (F.map i.op.toLoc).toFunctor
-      (mateEquiv af' af'' (commSqTwoSquare F w₂)).natTrans) := by
+      (mateEquiv af' af'' (commSqTwoSquare F w₂))) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro M
   have hx := (isIso_mateEquiv_commSqTwoSquare_paste_horiz_app_iff F i f' f g j f'' e w₁ w₂ w af
     af' af'' M).1 (NatIso.isIso_app_of_isIso _ M)
-  have := NatIso.isIso_app_of_isIso (mateEquiv af af' (commSqTwoSquare F w₁)).natTrans M
+  have := NatIso.isIso_app_of_isIso (mateEquiv af af' (commSqTwoSquare F w₁)) M
   rwa [isIso_comp_left_iff] at hx
 
 end PasteHoriz
@@ -270,12 +270,12 @@ read through the conjugates of the composition constraints of `F` along `h ≫ f
 `h' ≫ f'`, which compare the direct images along the composites with the composites of the
 direct images. -/
 theorem mateEquiv_commSqTwoSquare_paste_vert_app (M : F.obj (.mk (op X₁))) :
-    (mateEquiv ahf ahf' (commSqTwoSquare F w₂)).natTrans.app M =
+    (mateEquiv ahf ahf' (commSqTwoSquare F w₂)).app M =
       (F.map g.op.toLoc).toFunctor.map ((conjugateEquiv ahf (af.comp ah)
           (F.mapComp' f.op.toLoc h.op.toLoc (h ≫ f).op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).inv.toNatTrans).app M) ≫
-        (mateEquiv af af' (commSqTwoSquare F w)).natTrans.app (Rh.obj M) ≫
-          Rf'.map ((mateEquiv ah ah' (commSqTwoSquare F w₁)).natTrans.app M) ≫
+        (mateEquiv af af' (commSqTwoSquare F w)).app (Rh.obj M) ≫
+          Rf'.map ((mateEquiv ah ah' (commSqTwoSquare F w₁)).app M) ≫
             (conjugateEquiv (af'.comp ah') ahf'
               (F.mapComp' f'.op.toLoc h'.op.toLoc (h' ≫ f').op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).hom.toNatTrans).app
@@ -286,7 +286,7 @@ theorem mateEquiv_commSqTwoSquare_paste_vert_app (M : F.obj (.mk (op X₁))) :
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).hom.toNatTrans).whiskerLeft
         (F.mapComp' f.op.toLoc h.op.toLoc (h ≫ f).op.toLoc
           (by rw [← Quiver.Hom.comp_toLoc, ← op_comp])).inv.toNatTrans := by
-    refine TwoSquare.ext _ _ fun W => ?_
+    refine NatTrans.ext (funext fun W => ?_)
     simp only [TwoSquare.whiskerLeft_app, TwoSquare.whiskerRight_app,
       TwoSquare.vComp_app, Category.assoc]
     exact isoMapOfCommSq_paste_vert_app F i f' f g i₁ h' h w w₁ w₂ W
@@ -299,11 +299,11 @@ pasted squares has invertible base-change `2`-cell, then so is, at every object 
 the `2`-cell of the lower square at `R_h M` followed by the direct image along `f'` of the
 `2`-cell of the upper square at `M`. -/
 theorem isIso_mateEquiv_commSqTwoSquare_comp_of_paste_vert
-    (hout : IsIso (mateEquiv ahf ahf' (commSqTwoSquare F w₂)).natTrans)
+    (hout : IsIso (mateEquiv ahf ahf' (commSqTwoSquare F w₂)))
     (M : F.obj (.mk (op X₁))) :
-    IsIso ((mateEquiv af af' (commSqTwoSquare F w)).natTrans.app (Rh.obj M) ≫
-      Rf'.map ((mateEquiv ah ah' (commSqTwoSquare F w₁)).natTrans.app M)) := by
-  have hx := NatIso.isIso_app_of_isIso (mateEquiv ahf ahf' (commSqTwoSquare F w₂)).natTrans M
+    IsIso ((mateEquiv af af' (commSqTwoSquare F w)).app (Rh.obj M) ≫
+      Rf'.map ((mateEquiv ah ah' (commSqTwoSquare F w₁)).app M)) := by
+  have hx := NatIso.isIso_app_of_isIso (mateEquiv ahf ahf' (commSqTwoSquare F w₂)) M
   rw [mateEquiv_commSqTwoSquare_paste_vert_app F i f' f g i₁ h' h w w₁ w₂ af af' ah ah' ahf ahf'
     M] at hx
   have : IsIso (F.mapComp' f.op.toLoc h.op.toLoc (h ≫ f).op.toLoc
@@ -352,9 +352,9 @@ theorem isIso_app_of_isIso_descentUnit [HasEqualizers (F.obj (.mk (.op Y)))]
     [PreservesLimitsOfShape WalkingParallelPair Φ]
     [PreservesLimitsOfShape WalkingParallelPair Ψ]
     (hcol₁ : ∀ M, IsIso (a.app (R.obj M) ≫
-      Ψ.map ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app M)))
+      Ψ.map ((mateEquiv af aq (commSqTwoSquare F hw)).app M)))
     (hcol₂ : ∀ N, IsIso (a.app (T.obj N) ≫
-      Ψ.map ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N)))
+      Ψ.map ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N)))
     (N : F.obj (.mk (.op Y)))
     (hY : IsIso ((singletonDescentAdjunction F f XX af af₁).unit.app N))
     (hV : IsIso ((singletonDescentAdjunction F P.p₂ QQ aq aq₁).unit.app
@@ -373,10 +373,10 @@ theorem isIso_app_of_isIso_descentUnit [HasEqualizers (F.obj (.mk (.op Y)))]
   let N₀ := (F.map XX.p₁.op.toLoc).toFunctor.obj (D.obj ())
   let ε := (Cat.Hom.toNatIso (F.isoMapOfCommSq (CommSq.mk hs₁).op.toLoc)).app (D.obj ())
   let β₀ : (F.map g.op.toLoc).toFunctor.obj (R.obj (D.obj ())) ⟶ Rq.obj (D'.obj ()) :=
-    (mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ())
+    (mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ())
   let γ₀ : (F.map g.op.toLoc).toFunctor.obj (T.obj N₀) ⟶
       Tq.obj ((F.map QQ.p₁.op.toLoc).toFunctor.obj (D'.obj ())) :=
-    (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N₀ ≫ Tq.map ε.hom
+    (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N₀ ≫ Tq.map ε.hom
   have h₁ : (F.map g.op.toLoc).toFunctor.map r₁ ≫ γ₀ = β₀ ≫ r₁' :=
     reconstructionFirst_baseChange F f g P XX QQ hw j hj hs₁ af af₁ aq aq₁ D
   have h₂ : (F.map g.op.toLoc).toFunctor.map r₂ ≫ γ₀ = β₀ ≫ r₂' :=
@@ -421,7 +421,7 @@ theorem isIso_app_of_isIso_descentUnit [HasEqualizers (F.obj (.mk (.op Y)))]
   have hN : IsIso (a.app (T.obj N₀) ≫ Ψ.map γ₀) := by
     have h := hcol₂ N₀
     have heq : a.app (T.obj N₀) ≫ Ψ.map γ₀ = (a.app (T.obj N₀) ≫
-        Ψ.map ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N₀)) ≫
+        Ψ.map ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N₀)) ≫
           Ψ.map (Tq.map ε.hom) := by
       simp only [γ₀, Functor.map_comp, Category.assoc]
       rfl

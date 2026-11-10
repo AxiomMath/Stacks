@@ -79,14 +79,14 @@ private theorem oneStep_invariant (P : PathConstruction j) (φ : U.left ⟶ X)
     (P.firstInclusion i ≫ (P.pathRelation 0).target).left ≫ φ =
       (P.firstInclusion i ≫ (P.pathRelation 0).source).left ≫ φ := by
   fin_cases i
-  · show (P.firstInclusion 0 ≫ (P.pathRelation 0).target).left ≫ φ =
+  · change (P.firstInclusion 0 ≫ (P.pathRelation 0).target).left ≫ φ =
       (P.firstInclusion 0 ≫ (P.pathRelation 0).source).left ≫ φ
     rw [P.firstInclusion_zero_target, P.firstInclusion_zero_source]
     exact hφ
-  · show (P.firstInclusion 1 ≫ (P.pathRelation 0).target).left ≫ φ =
+  · change (P.firstInclusion 1 ≫ (P.pathRelation 0).target).left ≫ φ =
       (P.firstInclusion 1 ≫ (P.pathRelation 0).source).left ≫ φ
     rw [P.firstInclusion_one_target, P.firstInclusion_one_source]
-  · show (P.firstInclusion 2 ≫ (P.pathRelation 0).target).left ≫ φ =
+  · change (P.firstInclusion 2 ≫ (P.pathRelation 0).target).left ≫ φ =
       (P.firstInclusion 2 ≫ (P.pathRelation 0).source).left ≫ φ
     rw [P.firstInclusion_two_target, P.firstInclusion_two_source]
     exact hφ.symm

@@ -133,10 +133,10 @@ theorem homPresheafMap_projection {G G' : glueingData D} (ε : G ⟶ G') :
 theorem toHomPresheaf_projection (T : spacesOverX D) :
     toHomPresheaf D T ≫ homPresheafProjection D _ = T.obj.hom := by
   refine NatTrans.ext (funext fun W => ConcreteCategory.hom_ext _ _ fun t => ?_)
-  show yonedaEquiv ((equivShrink _).symm (equivShrink _
+  change yonedaEquiv ((equivShrink _).symm (equivShrink _
     (glueSectionsOfSpace D T (yonedaEquiv.symm t)))).1 = T.obj.hom.app W t
   rw [Equiv.symm_apply_apply]
-  show yonedaEquiv (yonedaEquiv.symm t ≫ T.obj.hom) = _
+  change yonedaEquiv (yonedaEquiv.symm t ≫ T.obj.hom) = _
   rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
 /-- **The restriction functor of Stacks 0AF3 is full on morphisms from an affine scheme to a
@@ -174,7 +174,7 @@ theorem exists_iso_homPresheaf_of_affineBaseEssSurj (hA : AffineBaseEssSurj B S 
     ∃ e : T.obj.left ≅ homPresheaf D G, e.hom ≫ homPresheafProjection D G = T.obj.hom := by
   have := isIso_toHomPresheaf_of_affineBaseEssSurj D hA T hT
   refine ⟨asIso (toHomPresheaf D T) ≪≫ homPresheafMapIso D ε, ?_⟩
-  show (toHomPresheaf D T ≫ homPresheafMap D ε.hom) ≫ _ = _
+  change (toHomPresheaf D T ≫ homPresheafMap D ε.hom) ≫ _ = _
   rw [Category.assoc, homPresheafMap_projection, toHomPresheaf_projection]
 
 /-- **Over an affine base the sheaf of glueing-data morphisms into a triple with affine legs is

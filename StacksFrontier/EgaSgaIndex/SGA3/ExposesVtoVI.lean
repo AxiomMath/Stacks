@@ -101,8 +101,9 @@ import Mathlib.LinearAlgebra.Determinant
 import Mathlib.LinearAlgebra.Dual.Defs
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
-import Mathlib.NumberTheory.RamificationInertia.Basic
 import Mathlib.NumberTheory.RamificationInertia.Galois
+import Mathlib.NumberTheory.RamificationInertia.Inertia
+import Mathlib.NumberTheory.RamificationInertia.Ramification
 import Mathlib.RingTheory.Adjoin.FG
 import Mathlib.RingTheory.AdjoinRoot
 import Mathlib.RingTheory.Artinian.Defs
@@ -216,7 +217,7 @@ add_to_sga "3 V 4.1" "more general" Ideal.IntegralClosure.comap_lt_comap
 add_to_sga "3 V 4.1" "more general" Ideal.IsIntegral.comap_lt_comap
 add_to_sga "3 V 4.1" "more general" Ideal.IsIntegral.mem_minimalPrimes_map_under
 add_to_sga "3 V 4.1" "more general" Ideal.IsIntegralClosure.comap_le_comap
-add_to_sga "3 V 4.1" "special case" Ideal.card_primesOverFinset_le_finrank
+add_to_sga "3 V 4.1" "special case" Ideal.sum_ramification_inertia_eq_finrank
 add_to_sga "3 V 4.1" "more general" Ideal.comap_lt_comap_of_integral_mem_sdiff
 add_to_sga "3 V 4.1" "more general" Ideal.subset_union_prime
 add_to_sga "3 V 4.1" "more general" Ideal.subset_union_prime_finite
@@ -247,8 +248,13 @@ add_to_sga "3 V 4.1.3" "more general"
 add_to_sga "3 V 4.1.3" "partial" AlgebraicGeometry.IsClosedImmersion.hasAffineProperty
 add_to_sga "3 V 4.1.3" "more general" AlgebraicGeometry.IsClosedImmersion.iff_isFinite_and_mono
 add_to_sga "3 V 4.1.3" "more general" AlgebraicGeometry.IsClosedImmersion.iff_isProper_and_mono
-add_to_sga "3 V 4.1.3" "partial"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrier" ++
+      "CommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_sga "3 V 4.1.3" "partial" $decl:ident))
 add_to_sga "3 V 4.1.3" "partial" AlgebraicGeometry.isFinite_iff
 add_to_sga "3 V 4.1.3" "more general" CategoryTheory.Limits.pullback.instIsIsoDiagonalOfMono
 add_to_sga "3 V 4.1.3" "more general" CategoryTheory.Limits.pullback.isIso_diagonal_iff
@@ -467,8 +473,9 @@ add_to_sga "3 VIB 2.1.2" "partial"
   AlgebraicGeometry.descendsAlong_universallyOpen_surjective_inf_flat_inf_quasicompact
 add_to_sga "3 VIB 2.1.2" "partial"
   AlgebraicGeometry.instDescendsAlongSchemeEtaleMinMorphismPropertySurjectiveFlatQuasiCompact
+open AlgebraicGeometry in
 add_to_sga "3 VIB 2.1.2" "partial"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "3 VIB 2.1.2" "partial"
   AlgebraicGeometry.instDescendsAlongSchemeSmoothMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "3 VIB 2.1.2" "special case" RingHom.Etale.isStableUnderBaseChange
@@ -620,8 +627,14 @@ add_to_sga "3 VIB 10.0" "more general" AlgebraicGeometry.Scheme.preservesColimit
 add_to_sga "3 VIB 10.0" "(i)" AlgebraicGeometry.exists_appTop_π_eq_of_isLimit
 add_to_sga "3 VIB 10.0" "(ii), special case" AlgebraicGeometry.exists_isAffineOpen_preimage_eq
 add_to_sga "3 VIB 10.0" "(ii), special case" AlgebraicGeometry.exists_preimage_eq
-add_to_sga "3 VIB 10.0" "(i), special case"
-  AlgebraicGeometry.instPreservesLimitSchemeOppositeCommRingCatRightOpΓOfIsAffineHomMapOfCompactSpaceOfQuasiSeparatedSpaceCarrierCarrierObj
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_sga`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instPreservesLimitSchemeOppositeCommRingCatRightOpΓOfIsAffineHomMap" ++
+      "OfCompactSpaceOfQuasiSeparatedSpaceCarrierCarrierObj"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_sga "3 VIB 10.0" "(i), special case" $decl:ident))
 add_to_sga "3 VIB 10.0" "(i), special case" AlgebraicGeometry.nonempty_isColimit_Γ_mapCocone
 add_to_sga "3 VIB 10.0" "(i)" RingHom.EssFiniteType.exists_eq_comp_ι_app_of_isColimit
 add_to_sga "3 VIB 10.1" "étaleness, special case" Algebra.Etale.baseChange
@@ -659,8 +672,9 @@ add_to_sga "3 VIB 10.1" "special case" RingHom.surjective_isStableUnderBaseChang
 add_to_sga "3 VIB 10.8" "partial"
   AlgebraicGeometry.Flat.surjective_descendsAlong_surjective_inf_flat_inf_quasicompact
 add_to_sga "3 VIB 10.8" AlgebraicGeometry.Scheme.Hom.singleton_mem_fppfPrecoverage
+open AlgebraicGeometry in
 add_to_sga "3 VIB 10.8" "partial"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeLocallyOfFinitePresentationMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "3 VIB 10.8" "affine case" RingHom.FinitePresentation.codescendsAlong_faithfullyFlat
 add_to_sga "3 VIB 10.10" "more general" Algebra.EssFiniteType.isNoetherianRing
 add_to_sga "3 VIB 10.10" "partial" AlgebraicGeometry.instFieldCarrierFunctionField

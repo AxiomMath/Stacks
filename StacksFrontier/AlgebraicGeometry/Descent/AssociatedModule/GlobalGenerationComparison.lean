@@ -200,7 +200,9 @@ variable [Φ.PreservesZeroMorphisms] [P.ι.PreservesZeroMorphisms]
 /-- `Φ` preserves colimits indexed by small categories in the lowest universe. -/
 local instance : PreservesColimitsOfSize.{0, 0} Φ := preservesColimitsOfSize_shrink _
 
-omit [Φ.PreservesEpimorphisms] [P.ι.PreservesEpimorphisms] in
+omit [HasWeakSheafify J₁ AddCommGrpCat.{w}] [J₁.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasWeakSheafify J₂ AddCommGrpCat.{w}] [J₂.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [PreservesColimitsOfSize.{w, w} Φ] [Φ.PreservesEpimorphisms] [P.ι.PreservesEpimorphisms] in
 include hff in
 /-- **A cokernel presentation of `Φ.obj F` by images of objects of `P` pulls back.**  Given
 objects `X`, `Y`, `F` with the property `P` and a cokernel cofork of `b : P₀ ⟶ Φ.obj F` with
@@ -215,6 +217,7 @@ theorem exists_isColimit_cokernelCofork_of_isColimit_map
       Nonempty (IsColimit (CokernelCofork.ofπ b' hab')) := by
   have := hff.full
   have := hff.faithful
+  have hrefl : ReflectsColimitsOfSize.{0, 0} (P.ι ⋙ Φ) := fullyFaithful_reflectsColimits _
   have hab' : (hff.preimage (X := ⟨_, hY⟩) (Y := ⟨_, hX⟩) (eQ.hom ≫ a ≫ eP.inv)) ≫
       (hff.preimage (X := ⟨_, hX⟩) (Y := ⟨F, hF⟩) (eP.hom ≫ b)) = 0 :=
     hff.map_injective (by simp [hab, hff.map_preimage, -Functor.comp_map])
@@ -229,8 +232,11 @@ theorem exists_isColimit_cokernelCofork_of_isColimit_map
       (by simp [-Functor.comp_map])
       (by simp [hff.map_preimage, -Functor.comp_map])
   exact ⟨_, _, _, ⟨isColimitCoforkMapOfIsColimit' P.ι hab'
-    (isColimitOfReflects (P.ι ⋙ Φ) ((isColimitMapCoconeCoforkEquiv' (P.ι ⋙ Φ) hab').symm l))⟩⟩
+    (@isColimitOfReflects _ _ _ _ _ _ _ (P.ι ⋙ Φ) _
+      ((isColimitMapCoconeCoforkEquiv' (P.ι ⋙ Φ) hab').symm l)
+      hrefl.reflectsColimitsOfShape.reflectsColimit)⟩⟩
 
+omit [Φ.PreservesEpimorphisms] [P.ι.PreservesEpimorphisms] in
 include hff hfree u in
 /-- **Descent, Lemma 05VG for Modules on Sites, Definition 03DE (6), at a comparison functor
 fully faithful on `P` alone.**  A module with the property `P` has a global presentation if and
@@ -259,6 +265,8 @@ theorem isPresentedByGlobalSections_iff {F : SheafOfModules.{w} R₁} (hF : P F)
     exact ⟨I, K, _, _, _, _, ⟨SheafOfModules.isColimitFreeCofan I⟩,
       ⟨SheafOfModules.isColimitFreeCofan K⟩, a', b', hab', hc'⟩
 
+omit [HasWeakSheafify J₂ AddCommGrpCat.{w}] [J₂.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [Φ.PreservesEpimorphisms] [P.ι.PreservesEpimorphisms] in
 include hff hfree u in
 /-- **Descent, Lemma 05VG for Modules on Sites, Definition 03DE (7), at a comparison functor
 fully faithful on `P` alone.**  A module with the property `P` has a finite global presentation

@@ -86,7 +86,7 @@ theorem exists_iso_unit_unit {a : A ⟶ B} {b : B ⟶ C} {B' : Scheme.{u}} {a' :
         (Scheme.Modules.pullbackPushforwardAdjunction (a'' ≫ b'')).unit.app M ≫
           (E a'' b'').hom := by
     intro B'' a'' b''
-    show _ = _ ≫ (Scheme.Modules.pushforward (a'' ≫ b'')).map
+    change _ = _ ≫ (Scheme.Modules.pushforward (a'' ≫ b'')).map
         ((Scheme.Modules.pullbackComp a'' b'').inv.app M) ≫
       (Scheme.Modules.pushforwardComp a'' b'').inv.app _
     rw [← Category.assoc, ← unit_comp_unit, Category.assoc, Category.assoc]
@@ -210,7 +210,7 @@ theorem jointlyInjective_quoMap_one {ι : Type*} {F A : ι → Scheme.{u}} (j : 
         (Scheme.Modules.pushforward s).map ((Scheme.Modules.pushforward (a i)).map
           ((Scheme.Modules.pullback (a i)).map τ.hom)) := by
     rw [hψ, Category.assoc, ← Functor.map_comp, ← hu]
-    show α.hom ≫ (Scheme.Modules.pushforward s).map τ.hom ≫ _ = α.hom ≫ _
+    change α.hom ≫ (Scheme.Modules.pushforward s).map τ.hom ≫ _ = α.hom ≫ _
     exact congrArg (α.hom ≫ ·) ((Scheme.Modules.pushforward s).map_comp _ _).symm
   have := congrArg (fun t => ((H X 1).map t).hom c) hcomp
   simp only [Functor.map_comp, ModuleCat.hom_comp, LinearMap.comp_apply, hc i, map_zero] at this

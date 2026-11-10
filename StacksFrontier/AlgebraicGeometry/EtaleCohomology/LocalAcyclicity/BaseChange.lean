@@ -149,8 +149,7 @@ public theorem of_bijective_tensorProduct_lift
       Algebra.TensorProduct.lift (IsScalarTower.toAlgHom R Sa Sb)
         (IsScalarTower.toAlgHom R Ra Sb) (fun _ _ => .all _ _) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => simp [hψ, Algebra.ofId_apply]
     | add u v hu hv => rw [map_add, map_add, hu, hv]
   have hbij : Function.Bijective ψ := by

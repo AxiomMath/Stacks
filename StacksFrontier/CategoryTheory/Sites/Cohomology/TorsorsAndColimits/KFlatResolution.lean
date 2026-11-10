@@ -141,7 +141,7 @@ theorem exists_kFlatResolution
       have h₁ : Epi ((L.toTruncation n).f i) := L.epi_f n i
       have h₂ : IsIso ((G.ιTruncLE ((n : ℤ) + 1)).f i) :=
         Stacks.SheafOfModules.isIso_ιTruncLE_f_of_lt _ _ _ hle
-      show Epi ((L.toTruncation n).f i ≫ (G.ιTruncLE ((n : ℤ) + 1)).f i)
+      change Epi ((L.toTruncation n).f i ≫ (G.ιTruncLE ((n : ℤ) + 1)).f i)
       infer_instance
     have hcomp : (colimit.ι L.system n).f i ≫ L.colimitComparison.f i = q.f i := by
       simpa [q] using congrArg (fun g => HomologicalComplex.Hom.f g i)

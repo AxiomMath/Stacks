@@ -143,7 +143,7 @@ theorem isAffineOpen_of_isAffineOpen_preimage [AlgebraicGeometry.IsReduced X]
   refine Set.eq_univ_of_forall fun y => Set.mem_iUnion.mpr ?_
   obtain ⟨i, z, hz⟩ := Set.mem_iUnion.mp (hcov y.2)
   refine ⟨i, ⟨z, ?_⟩, Subtype.ext ?_⟩
-  · show (f i) z ∈ U
+  · change (f i) z ∈ U
     rw [hz]; exact y.2
   · exact (morphismRestrict_base_coe (f i) U _).trans hz
 

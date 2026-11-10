@@ -136,7 +136,7 @@ namespace CategoryTheory.SemiRepresentable
 attribute [local instance] GrothendieckTopology.hasSheafify_addCommGrpCat
 
 variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
-  [J.WEqualsLocallyBijective (Type u)] {M N : FormalCoproduct.{u} C} (f : M ⟶ N)
+  {M N : FormalCoproduct.{u} C} (f : M ⟶ N)
 
 /-- **`freeSheafPushforwardIso` is natural in the semi-representable object, on the `hom` of the
 three commutations.** This is

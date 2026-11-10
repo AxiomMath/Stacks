@@ -197,7 +197,7 @@ theorem completionSubspaceComparison_comp_completionSheafInclusion
         completionSheafInclusion B S hS X.1 (subspacePoints B S hS Z) =
       completionSubspaceToAmbient B S hS X Z := by
   apply Sheaf.hom_ext
-  show (BigFppfOver.topology B S hS).sheafifyMap _ ≫
+  change (BigFppfOver.topology B S hS).sheafifyMap _ ≫
       (BigFppfOver.topology B S hS).sheafifyMap _ =
     (BigFppfOver.topology B S hS).sheafifyMap _
   rw [← GrothendieckTopology.sheafifyMap_comp]
@@ -503,7 +503,7 @@ theorem isIso_completionSubspaceComparison (X : AlgebraicSpaces B S hS) (Z : Sub
         t₀.1.down t₀.2
     refine ⟨⟨_, (completionSubspaceSubfunctor B S hS X Z).map lift.op hmemA⟩, ?_⟩
     apply Subtype.ext
-    show (X.1 ⋙ uliftFunctor.{u + 1}).map lift.op
+    change (X.1 ⋙ uliftFunctor.{u + 1}).map lift.op
       ((X.1 ⋙ uliftFunctor.{u + 1}).map map₀.op s.1) = _
     rw [← Functor.map_comp_apply, ← op_comp, hfac]
     rfl

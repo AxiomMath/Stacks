@@ -302,12 +302,12 @@ theorem isRegularZeroSchemeSequence_bundleRestrictedSection (C : ChowSituation.{
       n - ((m + 1 + 1 : ℕ) : ℤ) := by
     have h := relativeDimension_comp_le_of_relativeDimension C q (bundleProj E) (m + 1)
       (Stacks.Chow.relativeDimension_bundleProj E (m + 1)) x
-    show relativeDimension C.dimensionFunction q (bundleProj E x) = _
+    change relativeDimension C.dimensionFunction q (bundleProj E x) = _
     push_cast at h hδy_le ⊢
     omega
   obtain ⟨W, hW⟩ := isGenericPoint_component_of_relativeDimension_eq C q Z.subschemeι hZ y hδy
   have hygen : y ∈ genericPoints Z.subscheme := by
-    show closure {y} ∈ irreducibleComponents Z.subscheme
+    change closure {y} ∈ irreducibleComponents Z.subscheme
     rw [hW.def]; exact W.2
   obtain ⟨rs, hlen, hrs, hspan⟩ := hreg ⟨y, hygen⟩ hδy
   rw [ker_stalkMap_subschemeι_eq_stalk] at hspan
@@ -356,7 +356,7 @@ theorem schemeDeltaDimension_bundle_le (C : ChowSituation.{u}) (q : X ⟶ C.S)
         (Stacks.Chow.relativeDimension_bundleProj E (m + 1)) z
       have h2 := relativeDimension_le_of_schemeDeltaDimension_le C q (𝟙 X) (k := n)
         (by simpa using hX) (bundleProj E z)
-      show relativeDimension C.dimensionFunction (bundleProj E ≫ q) z ≤ _
+      change relativeDimension C.dimensionFunction (bundleProj E ≫ q) z ≤ _
       change relativeDimension C.dimensionFunction q (bundleProj E z) ≤ n at h2
       omega
   rwa [schemeDeltaDimension_congr C (Category.id_comp (bundleProj E ≫ q))] at h
@@ -422,12 +422,12 @@ theorem schemeDeltaDimension_bundleHyperplane_le (C : ChowSituation.{u}) (q : X 
   set x := (bundleHyperplane E s).subschemeι z
   by_cases hx : bundleProj E x ∈ (RegularSectionSequence.zeroScheme X E s).support
   · have h := relativeDimension_bundle_le_of_mem_support E C q m s n hZ x hx
-    show relativeDimension C.dimensionFunction (bundleProj E ≫ q) x ≤ _
+    change relativeDimension C.dimensionFunction (bundleProj E ≫ q) x ≤ _
     push_cast; omega
   · obtain ⟨a, ha, -, ham⟩ := exists_isSMulRegular_of_not_mem_support_bundleHyperplane E s z hx
     have h := relativeDimension_lt_of_isSMulRegular C (bundleProj E ≫ q)
       (schemeDeltaDimension_bundle_le E C q m n hX) x a ha ham
-    show relativeDimension C.dimensionFunction (bundleProj E ≫ q) x ≤ _
+    change relativeDimension C.dimensionFunction (bundleProj E ≫ q) x ≤ _
     omega
 
 /-- **The regular-sequence hypothesis for the hyperplane, at rank one.** At every generic point

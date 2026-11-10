@@ -536,7 +536,7 @@ private lemma minusTwoGraph_spanning_path (T : NumericalType)
     exists_neighbor_of_connected T I hcard hconnected i hi
   let y : {i // i ∈ I} := ⟨j, hj⟩
   have hxy : (minusTwoGraph T I).Adj x y := by
-    show i ≠ j ∧ T.intersection i j ≠ 0
+    change i ≠ j ∧ T.intersection i j ≠ 0
     exact ⟨hji.symm, he⟩
   let q := hxy.toWalk
   have hq : q.IsPath := hxy.isPath_toWalk
@@ -584,7 +584,7 @@ private lemma fin_ordering_of_spanning_walk (T : NumericalType)
     · simpa [f] using hn
   refine ⟨f, hinj, hrange, ?_⟩
   intro r s hrs
-  show (minusTwoGraph T I).Adj (p.getVert r.val) (p.getVert s.val)
+  change (minusTwoGraph T I).Adj (p.getVert r.val) (p.getVert s.val)
   rw [hrs]
   apply p.adj_getVert_succ
   have hslt : r.val + 1 < I.card := by rw [← hrs]; exact s.isLt

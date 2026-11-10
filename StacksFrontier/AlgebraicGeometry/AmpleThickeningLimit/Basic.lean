@@ -41,7 +41,8 @@ is the spelling of the tagged statement and is what `Stacks.AmpleLocallyClosed.p
 
 No other ampleness predicate is used: one defined through a nonvanishing locus of Tag 01CY whose
 openness is left as an unproved placeholder would put `sorryAx` into `#print axioms` of any proof
-stated with it, however complete the proof. `StacksFrontier/AlgebraicGeometry/Inputs/Basic.lean` records the same
+stated with it, however complete the proof. `StacksFrontier/AlgebraicGeometry/Inputs/Basic.lean`
+records the same
 substitution for [Stacks, Tag 09MS] and checks the binder order of the tagged statement against it.
 
 ## The topological hypothesis
@@ -68,7 +69,8 @@ label:
   limit argument removes from [Stacks, Tag 09MS], and that argument is not carried out here.
 * `hlift : Stacks.AmpleClosedImmersion.SectionsLiftAfterPower i L`, the cohomological lift, which
   is the one input the converse of [Stacks, Tag 09MS] still owes in this repository.
-  `StacksFrontier/AlgebraicGeometry/AmpleSurjectiveThickening/Basic.lean` discharges the other input,
+  `StacksFrontier/AlgebraicGeometry/AmpleSurjectiveThickening/Basic.lean` discharges the other
+  input,
   Chevalley's criterion, outright.
 
 So the converse clause below is **weaker than the source**, and it carries no tag attribute: the

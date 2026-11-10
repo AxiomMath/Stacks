@@ -51,7 +51,7 @@ theorem BigFppfOver.exists_restrict_hom {c U V O : BigFppfOver B S hS} (k : c �
     rw [hw uU, hw (uc ≫ k), ← Category.assoc, hg₀]
   · apply Functor.map_injective (F := BigFppfOver.toScheme B S hS)
     rw [Functor.map_comp]
-    show B.inclusion.map (B.inclusion.preimage _) ≫ (BigFppfOver.toScheme B S hS).map uU = _
+    change B.inclusion.map (B.inclusion.preimage _) ≫ (BigFppfOver.toScheme B S hS).map uU = _
     rw [B.inclusion.map_preimage]
     exact hg₀
 
@@ -70,7 +70,7 @@ private theorem BigFppfOver.map_of_sigmaDesc {P : MorphismProperty Scheme.{u}} [
   have key : e.hom ≫ (BigFppfOver.toScheme B S hS).map f =
       Sigma.desc fun j ↦ (BigFppfOver.toScheme B S hS).map (p j) := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [← Category.assoc, he j, Sigma.ι_desc, ← Functor.map_comp, hp j]
+    rw [← Category.assoc, he j, Sigma.ι_comp_desc, ← Functor.map_comp, hp j]
   rw [← key] at h
   exact (MorphismProperty.cancel_left_of_respectsIso P e.hom _).mp h
 

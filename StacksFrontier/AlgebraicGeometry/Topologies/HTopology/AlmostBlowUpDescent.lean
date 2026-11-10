@@ -211,11 +211,11 @@ private noncomputable def boolCoproductIso {C : Type v} [Category.{u, v} C]
     cases i with
     | false =>
         symm
-        rw [← Category.assoc, Sigma.ι_desc, Limits.coprod.inl_desc]
+        rw [← Category.assoc, Sigma.ι_comp_desc, Limits.coprod.inl_desc]
         simp
     | true =>
         symm
-        rw [← Category.assoc, Sigma.ι_desc, Limits.coprod.inr_desc]
+        rw [← Category.assoc, Sigma.ι_comp_desc, Limits.coprod.inr_desc]
         simp
   inv_hom_id := by
     apply Limits.coprod.hom_ext
@@ -230,7 +230,7 @@ private noncomputable def boolCoproductIso {C : Type v} [Category.{u, v} C]
                 | false => (Limits.coprod.inl : Y false ⟶ Y false ⨿ Y true)
                 | true => (Limits.coprod.inr : Y true ⟶ Y false ⨿ Y true)) := by
               rw [Limits.coprod.inl_desc]
-        _ = Limits.coprod.inl := by rw [Sigma.ι_desc]
+        _ = Limits.coprod.inl := by rw [Sigma.ι_comp_desc]
         _ = Limits.coprod.inl ≫ 𝟙 (Y false ⨿ Y true) := by simp
     · calc
         _ = (Limits.coprod.inr ≫
@@ -243,7 +243,7 @@ private noncomputable def boolCoproductIso {C : Type v} [Category.{u, v} C]
                 | false => (Limits.coprod.inl : Y false ⟶ Y false ⨿ Y true)
                 | true => (Limits.coprod.inr : Y true ⟶ Y false ⨿ Y true)) := by
               rw [Limits.coprod.inr_desc]
-        _ = Limits.coprod.inr := by rw [Sigma.ι_desc]
+        _ = Limits.coprod.inr := by rw [Sigma.ι_comp_desc]
         _ = Limits.coprod.inr ≫ 𝟙 (Y false ⨿ Y true) := by simp
 
 /-- The morphism out of a disjoint union induced by a family of morphisms locally of finite
@@ -287,14 +287,14 @@ private theorem isHCovering_bool_of_range_union
             _ = Sigma.ι Y false ≫ (eY.hom ≫ Limits.coprod.desc (f false) (f true)) := by
               rw [← Category.assoc]
               dsimp [eY, boolCoproductIso]
-              rw [Sigma.ι_desc, Limits.coprod.inl_desc]
+              rw [Sigma.ι_comp_desc, Limits.coprod.inl_desc]
       | true =>
           calc
             Sigma.ι Y true ≫ q = f true := by simp [q]
             _ = Sigma.ι Y true ≫ (eY.hom ≫ Limits.coprod.desc (f false) (f true)) := by
               rw [← Category.assoc]
               dsimp [eY, boolCoproductIso]
-              rw [Sigma.ι_desc, Limits.coprod.inr_desc]
+              rw [Sigma.ι_comp_desc, Limits.coprod.inr_desc]
     let : IsProper (f false) := hproper false
     let : IsProper (f true) := hproper true
     rw [hfactor]
@@ -383,7 +383,7 @@ private theorem range_diagonal_of_isIso_restrict
           rw [Category.assoc, pullback.diagonal_snd, Category.comp_id]
   intro x
   have hbase₁ : f (pullback.fst f f x.1) ∈ U := by
-    show (pullback.fst f f ≫ f) x.1 ∈ U
+    change (pullback.fst f f ≫ f) x.1 ∈ U
     exact x.2
   have hbase₂ : f (pullback.snd f f x.1) ∈ U := by
     have heq := congrArg (fun k : pullback f f ⟶ Y => k x.1) pullback.condition
@@ -409,7 +409,7 @@ private theorem range_diagonal_of_isIso_restrict
         rw [hdiag]
         rfl
       _ = a t := by
-        show a ((pullback.diagonal g) v) = a t
+        change a ((pullback.diagonal g) v) = a t
         rw [hv]
       _ = x.1 := ht
   exact heq
@@ -542,13 +542,13 @@ private theorem isHCovering_pair_of_exceptional_pullbacks
     infer_instance
   have hrangeR : Set.range r = m ⁻¹' I.support := by
     rw [← hT.isoPullback_hom_snd]
-    show Set.range ((pullback.snd z m) ∘ hT.isoPullback.hom) = _
+    change Set.range ((pullback.snd z m) ∘ hT.isoPullback.hom) = _
     rw [Set.range_comp,
       Set.range_eq_univ.mpr
         (ConcreteCategory.bijective_of_isIso hT.isoPullback.hom.base).surjective,
       Set.image_univ, Scheme.Pullback.range_snd, hrangeZ]
   have hbase : hP.isoPullback.hom ≫ pullback.fst b b ≫ b = m := by
-    show (hP.isoPullback.hom ≫ pullback.fst b b) ≫ b = m
+    change (hP.isoPullback.hom ≫ pullback.fst b b) ≫ b = m
     rw [hP.isoPullback_hom_fst, hm]
   have hrange : Set.range r ∪ Set.range d = Set.univ := by
     apply Set.eq_univ_iff_forall.mpr
@@ -557,7 +557,7 @@ private theorem isHCovering_pair_of_exceptional_pullbacks
     · exact Or.inl (by rw [hrangeR]; exact hx)
     · right
       have hx' : (pullback.fst b b ≫ b) (hP.isoPullback.hom x) ∉ I.support := by
-        show (hP.isoPullback.hom ≫ pullback.fst b b ≫ b) x ∉ I.support
+        change (hP.isoPullback.hom ≫ pullback.fst b b ≫ b) x ∉ I.support
         rw [hbase]
         exact hx
       let U : X.Opens := ⟨I.supportᶜ, I.support.isClosed.isOpen_compl⟩
@@ -638,7 +638,7 @@ private theorem compatible_sections_of_two_coverings
       F.map (pullback.snd b b).op sX' := by
     let q₁ := F.map (pullback.fst b b).op sX'
     let q₂ := F.map (pullback.snd b b).op sX'
-    have hRinj := (Presieve.isSheafFor_ofArrows_iff_bijective_toCompabible
+    have hRinj := (Presieve.isSheafFor_ofArrows_iff_bijective_toCompatible
       (P := F) (X := rX) (π := rf)).mp hR |>.1
     have hcomp :
         Presieve.Arrows.toCompatible F rf q₁ =
@@ -647,14 +647,14 @@ private theorem compatible_sections_of_two_coverings
       funext i
       cases i with
       | false =>
-          show F.map r.op q₁ = F.map r.op q₂
+          change F.map r.op q₁ = F.map r.op q₂
           dsimp [q₁, q₂]
           rw [presheaf_map_comp_apply r (pullback.fst b b) sX',
             presheaf_map_comp_apply r (pullback.snd b b) sX', hr₁, hr₂]
           rw [← presheaf_map_comp_apply, ← hMatch, presheaf_map_comp_apply, he,
             ← presheaf_map_comp_apply, hMatch, presheaf_map_comp_apply]
       | true =>
-          show F.map d.op q₁ = F.map d.op q₂
+          change F.map d.op q₁ = F.map d.op q₂
           dsimp [q₁, q₂]
           rw [presheaf_map_comp_apply d (pullback.fst b b) sX',
             presheaf_map_comp_apply d (pullback.snd b b) sX', hd₁, hd₂]
@@ -674,7 +674,7 @@ private theorem compatible_sections_of_two_coverings
         let k := hSquare.lift g₁ g₂ h
         have hk₁ : k ≫ e = g₁ := hSquare.lift_fst _ _ _
         have hk₂ : k ≫ p = g₂ := hSquare.lift_snd _ _ _
-        show F.map g₁.op sZ = F.map g₂.op sX'
+        change F.map g₁.op sZ = F.map g₂.op sX'
         rw [← hk₁, ← hk₂, ← presheaf_map_comp_apply, hMatch, presheaf_map_comp_apply]
     | true =>
       cases j with
@@ -684,7 +684,7 @@ private theorem compatible_sections_of_two_coverings
         let k := hSquare.lift g₂ g₁ h.symm
         have hk₁ : k ≫ e = g₂ := hSquare.lift_fst _ _ _
         have hk₂ : k ≫ p = g₁ := hSquare.lift_snd _ _ _
-        show F.map g₁.op sX' = F.map g₂.op sZ
+        change F.map g₁.op sX' = F.map g₂.op sZ
         rw [← hk₁, ← hk₂, ← presheaf_map_comp_apply, ← hMatch, presheaf_map_comp_apply]
       | true =>
         intro Y g₁ g₂ h
@@ -692,7 +692,7 @@ private theorem compatible_sections_of_two_coverings
         let k := pullback.lift g₁ g₂ h
         have hk₁ : k ≫ pullback.fst b b = g₁ := pullback.lift_fst _ _ _
         have hk₂ : k ≫ pullback.snd b b = g₂ := pullback.lift_snd _ _ _
-        show F.map g₁.op sX' = F.map g₂.op sX'
+        change F.map g₁.op sX' = F.map g₂.op sX'
         rw [← hk₁, ← hk₂, ← presheaf_map_comp_apply, hBB, presheaf_map_comp_apply]
   obtain ⟨sX, hsX, huniq⟩ := (Presieve.isSheafFor_arrows_iff
     (P := F) (π := f)).mp hQ s hcompat
@@ -785,7 +785,7 @@ private theorem bigAffineH_isSheafFor_of_standardH
   let α' : E.I₀ → I := toRange
   let eover (k : E.I₀) : E.X k ≅ D.X (α' k) := by
     let eB : (u.obj (E.X k)).left ≅ (u.obj (D.X (α' k))).left := by
-      show E'.X k ≅ Q.X (α k)
+      change E'.X k ≅ Q.X (α k)
       exact B.inclusion.preimageIso (e k)
     have hmap : B.inclusion.map eB.hom = (e k).hom := by
       dsimp [eB]
@@ -793,17 +793,17 @@ private theorem bigAffineH_isSheafFor_of_standardH
     have hbase : eB.hom ≫ (u.obj (D.X (α' k))).hom =
         (u.obj (E.X k)).hom := by
       apply B.inclusion.map_injective
-      show B.inclusion.map eB.hom ≫
+      change B.inclusion.map eB.hom ≫
           B.inclusion.map ((u.obj (D.X (α' k))).hom) =
         B.inclusion.map ((u.obj (E.X k)).hom)
       rw [hmap]
-      show (e k).hom ≫ B.inclusion.map (Q.f (α k) ≫ X'.hom) =
+      change (e k).hom ≫ B.inclusion.map (Q.f (α k) ≫ X'.hom) =
         B.inclusion.map (u.obj (E.X k)).hom
       rw [Functor.map_comp]
-      show ((e k).hom ≫ (Q.map B.inclusion).f (α k)) ≫
+      change ((e k).hom ≫ (Q.map B.inclusion).f (α k)) ≫
         B.inclusion.map X'.hom = _
       rw [he k]
-      show B.inclusion.map (u.map (E.f k)).left ≫ B.inclusion.map X'.hom = _
+      change B.inclusion.map (u.map (E.f k)).left ≫ B.inclusion.map X'.hom = _
       rw [← Functor.map_comp, Over.w]
     let eO : u.obj (E.X k) ≅ u.obj (D.X (α' k)) := Over.isoMk eB hbase
     exact u.preimageIso eO
@@ -813,9 +813,9 @@ private theorem bigAffineH_isSheafFor_of_standardH
       Functor.map_preimage]
     apply K.map_injective
     apply B.inclusion.map_injective
-    show B.inclusion.map ((B.inclusion.preimageIso (e k)).hom ≫ Q.f (α k)) =
+    change B.inclusion.map ((B.inclusion.preimageIso (e k)).hom ≫ Q.f (α k)) =
       B.inclusion.map (u.map (E.f k)).left
-    show B.inclusion.map (B.inclusion.preimage (e k).hom) ≫
+    change B.inclusion.map (B.inclusion.preimage (e k).hom) ≫
       B.inclusion.map (Q.f (α k)) = _
     rw [B.inclusion.map_preimage (e k).hom]
     exact he k

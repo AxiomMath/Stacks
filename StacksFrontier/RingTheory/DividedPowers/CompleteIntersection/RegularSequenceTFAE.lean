@@ -374,7 +374,7 @@ private theorem exists_hasProjectiveDimensionLE_quotient_of_eventualTor
       right_inv := fun _ => rfl
       map_add' := fun _ _ => rfl
       map_smul' := fun a x => by
-        show (Ideal.Quotient.factor hIJ)
+        change (Ideal.Quotient.factor hIJ)
             (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S)) a) * (show S ⧸ J from x) =
           fAC a * (show S ⧸ J from x)
         exact congrArg (fun y : S ⧸ J => y * (show S ⧸ J from x))

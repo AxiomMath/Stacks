@@ -226,7 +226,7 @@ theorem exists_etaleCover_lifts (x : 𝒳.val.val.obj) :
         (PresheafOfCategories.sliceElementsEquivalenceOver _)
         (ChartBaseChange.chartMap (C.map i) (objHom x) (eK i)) (Over.mk l) rfl).symm.trans ?_
       rw [← hfU i]
-      show (PresheafOfCategories.sectionOfObj
+      change (PresheafOfCategories.sectionOfObj
         (PresheafOfCategories.sliceElementsEquivalenceOver (W i)) (Over.mk l) rfl) ≫ fU i = _
       rw [ChartBaseChange.sectionOfObj_sliceElementsEquivalenceOver']
       simp
@@ -362,7 +362,7 @@ theorem moduliMap_injective_geometricPoints (k : Type u) [Field k] [IsAlgClosed 
       ((moduliMap hC).hom.hom.map m)
       (by have := hm; exact Functor.isHomLift_map_of_comp_eq (moduliMap hC).hom.hom.w (𝟙 V) m)
     refine e₁.symm.trans ((congrArg (fun G => G.hom.obj y) (map_comp_moduliMap hC j)).trans ?_)
-    show (associatedMap B S hS (u hC j)).1.hom.obj ((C.f j).hom.hom.obj y) = _
+    change (associatedMap B S hS (u hC j)).1.hom.obj ((C.f j).hom.hom.obj y) = _
     rw [hn, u_obj]
   have hM := (himg a y₁ x₁ n₁ m₁ hm₁ hn₁).symm.trans (h.trans (himg b y₂ x₂ n₂ m₂ hm₂ hn₂))
   have hel : (u hC a).app (op V) n₁ = (u hC b).app (op V) n₂ := by

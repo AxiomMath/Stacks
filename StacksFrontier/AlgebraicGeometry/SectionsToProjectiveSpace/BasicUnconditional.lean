@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.AmpleProjectiveImmersion.Basic
 /-!
 # BasicUnconditional
 
-Stronger forms of declarations of `StacksFrontier.AlgebraicGeometry.SectionsToProjectiveSpace.Basic`,
+Stronger forms of declarations of
+`StacksFrontier.AlgebraicGeometry.SectionsToProjectiveSpace.Basic`,
 stated as separate declarations beside the ones there: over more general coefficient universes, or
 with inputs that are carried there as hypotheses discharged, together with the new results built
 on them.
@@ -75,7 +76,7 @@ theorem exists_hom_of_cover_general (hA : HasPullbackNaturality.{u}) (hB : HasUn
   refine ⟨(X.openCoverOfIsOpenCover U hU).glueMorphisms
     (fun i => toProjectiveSpaceAtUniverse (t i) (ht i)) ?_, ?_⟩
   · intro i j
-    show pullback.fst (U i).ι (U j).ι ≫ toProjectiveSpaceAtUniverse (t i) (ht i) =
+    change pullback.fst (U i).ι (U j).ι ≫ toProjectiveSpaceAtUniverse (t i) (ht i) =
       pullback.snd (U i).ι (U j).ι ≫ toProjectiveSpaceAtUniverse (t j) (ht j)
     rw [← cancel_epi (isPullback_opens_inf (U i) (U j)).isoPullback.hom, ← Category.assoc,
       ← Category.assoc, (isPullback_opens_inf (U i) (U j)).isoPullback_hom_fst,

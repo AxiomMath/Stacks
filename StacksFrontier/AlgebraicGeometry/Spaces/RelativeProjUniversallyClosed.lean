@@ -61,6 +61,7 @@ namespace AlgebraicGeometry.Space
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves of sets times out at the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_RelativeProjUniversallyClosed

@@ -127,7 +127,7 @@ private lemma exists_inf_isUnit_left_mem_jacobson_right {K : Type u} [Field K]
     have hUnitA : (uA : K) = 1 + (tA : K) :=
       congrArg (fun z : A => (z : K)) huA.unit_spec
     have hmul : (rB : K) * (uA : K) = 1 := by
-      show (tB : K) * (uBInv : K) * (uA : K) = 1
+      change (tB : K) * (uBInv : K) * (uA : K) = 1
       rw [hUnitA]
       calc
         (tB : K) * (uBInv : K) * (1 + (tA : K)) = (uBInv : K) * (1 + (tB : K)) := by
@@ -225,7 +225,7 @@ private lemma isLocalizationAway_inf_left {K : Type u} [Field K]
   obtain ⟨n, q, hq⟩ := exists_pow_mul_mem_inf_of_jacobson A B hB r hrB z
   refine ⟨n, q, Subtype.ext ?_⟩
   rw [hmap]
-  show (z : K) * (r : K) ^ n = (q : K)
+  change (z : K) * (r : K) ^ n = (q : K)
   exact (mul_comm _ _).trans hq.symm
 
 private lemma isLocalizationAway_inf_right {K : Type u} [Field K]
@@ -247,7 +247,7 @@ private lemma isLocalizationAway_inf_right {K : Type u} [Field K]
   let q' : (A ⊓ B : Subring K) := ⟨(q : K), (inf_comm B A).le q.2⟩
   refine ⟨n, q', Subtype.ext ?_⟩
   rw [hmap]
-  show (z : K) * (s : K) ^ n = (q : K)
+  change (z : K) * (s : K) ^ n = (q : K)
   exact (mul_comm _ _).trans hq.symm
 
 private lemma isUnit_inf_of_isUnit_inclusions {K : Type u} [Field K]
@@ -337,15 +337,15 @@ public theorem range_specMap_inf_left_union_right
   have _ : IsLocalization.Away r A := isLocalizationAway_inf_left A B rfl hB r hrA hrB
   have _ : IsLocalization.Away s B := isLocalizationAway_inf_right A B rfl hA s hsB hsA
   have hsumA : IsUnit ((Subring.inclusion (inf_le_left : A ⊓ B ≤ A)) (r + s)) := by
-    show IsUnit ((Subring.inclusion (inf_le_left : A ⊓ B ≤ A) r) +
+    change IsUnit ((Subring.inclusion (inf_le_left : A ⊓ B ≤ A) r) +
       (Subring.inclusion (inf_le_left : A ⊓ B ≤ A) s))
     exact Ring.isUnit_add_of_isUnit_of_mem_jacobson hrA hsA
   have hsumB : IsUnit ((Subring.inclusion (inf_le_right : A ⊓ B ≤ B)) (r + s)) := by
-    show IsUnit ((Subring.inclusion (inf_le_right : A ⊓ B ≤ B) r) +
+    change IsUnit ((Subring.inclusion (inf_le_right : A ⊓ B ≤ B) r) +
       (Subring.inclusion (inf_le_right : A ⊓ B ≤ B) s))
     simpa [add_comm] using Ring.isUnit_add_of_isUnit_of_mem_jacobson hsB hrB
   have hsumR := isUnit_inf_of_isUnit_inclusions A B (r + s) hsumA hsumB
-  show Set.range (PrimeSpectrum.comap
+  change Set.range (PrimeSpectrum.comap
       (algebraMap (A ⊓ B : Subring K) A)) ∪
     Set.range (PrimeSpectrum.comap
       (algebraMap (A ⊓ B : Subring K) B)) = Set.univ
@@ -383,7 +383,7 @@ public theorem intersectionTensorProductTo_bijective
       (IsFractionRing.injective B K) fun z ↦ by
         obtain ⟨n, y, hy⟩ := Ring.exists_algebraMap_eq_pow_mul rB hrB z
         refine ⟨n, y, ?_⟩
-        show (z : K) * (r : K) ^ n = (y : K)
+        change (z : K) * (r : K) ^ n = (y : K)
         exact (mul_comm _ _).trans hy.symm
   let T : Type _ := TensorProduct R A B
   let _ : Algebra B T := Algebra.TensorProduct.rightAlgebra
@@ -396,10 +396,10 @@ public theorem intersectionTensorProductTo_bijective
   have he : eTotal.toRingHom = intersectionTensorProductTo A B := by
     apply IsLocalization.ringHom_ext (Submonoid.powers rB)
     ext b
-    show eTotal (algebraMap B T b) =
+    change eTotal (algebraMap B T b) =
       intersectionTensorProductTo A B (algebraMap B T b)
     rw [eTotal.commutes]
-    show algebraMap B K b =
+    change algebraMap B K b =
       Algebra.TensorProduct.productMap
         (IsScalarTower.toAlgHom R A K)
         (IsScalarTower.toAlgHom R B K) ((1 : A) ⊗ₜ[R] b)

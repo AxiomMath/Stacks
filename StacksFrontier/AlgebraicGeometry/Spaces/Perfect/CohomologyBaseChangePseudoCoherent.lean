@@ -102,12 +102,12 @@ theorem DerivedCategory.approximatesFrom_Q_map_ιStupidTruncGE {C : Type*} [Cate
   · refine ((MorphismProperty.epimorphisms C).arrow_mk_iso_iff (key c)).2 ?_
     have e₂ :
         IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) c).map ι).τ₂ := by
-      show IsIso (ι.f c)
+      change IsIso (ι.f c)
       rw [StacksDraft.StupidTruncation.ιStupidTruncGE_f K c c le_rfl]
       infer_instance
     have e₃ :
         IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) c).map ι).τ₃ := by
-      show IsIso (ι.f ((ComplexShape.up ℤ).next c))
+      change IsIso (ι.f ((ComplexShape.up ℤ).next c))
       rw [CochainComplex.next,
         StacksDraft.StupidTruncation.ιStupidTruncGE_f K c (c + 1) (by omega)]
       infer_instance

@@ -124,8 +124,7 @@ theorem bijective_restrictionBaseChange_of_uliftForPresentation
     (restrictionBaseChange.{u, v, r, m} N.val f).hom ∘ₗ e.toLinearMap
   have key : L₁ = L₂ := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul b x =>
       refine Eq.trans ?_ (restrictionBaseChange_tmul N.val f b (ULift.down x)).symm
@@ -172,7 +171,7 @@ abbrev affineEtaleChartRings : (AffineEtale B S hS F)ᵒᵖ ⥤ CommRingCat.{u} 
 /-- The chart rings are flat along every morphism of the affine étale site. -/
 theorem flat_affineEtaleChartRings_map {U V : AffineEtale B S hS F} (f : U ⟶ V) :
     ((affineEtaleChartRings B S hS F).map f.op).hom.Flat := by
-  show (((AffineEtale.toScheme B S hS F).map f).appTop).hom.Flat
+  change (((AffineEtale.toScheme B S hS F).map f).appTop).hom.Flat
   exact HasRingHomProperty.appTop (P := @Flat) _ (AffineEtale.flat_toScheme_map B S hS F f)
 
 /-- A finite flat covering family of affine étale charts is faithfully flat on chart rings. -/
@@ -182,7 +181,7 @@ theorem faithfullyFlat_pi_affineEtaleChartRings {U : AffineEtale B S hS F}
     (hflat : ∀ i, Flat ((AffineEtale.toScheme B S hS F).map (g i))) :
     (RingHom.pi
       (fun i => ((affineEtaleChartRings B S hS F).map (g i).op).hom)).FaithfullyFlat := by
-  show (RingHom.pi
+  change (RingHom.pi
     (fun i => (((AffineEtale.toScheme B S hS F).map (g i)).appTop).hom)).FaithfullyFlat
   exact AlgebraicGeometry.Scheme.faithfullyFlat_pi_appTop
     (fun i => (AffineEtale.toScheme B S hS F).obj (V i))
@@ -197,7 +196,7 @@ theorem isPushout_affineEtaleChartRings
       ((affineEtaleChartRings B S hS F).map b.op)
       ((affineEtaleChartRings B S hS F).map fst.op)
       ((affineEtaleChartRings B S hS F).map snd.op) := by
-  show IsPushout (((AffineEtale.toScheme B S hS F).map a).appTop)
+  change IsPushout (((AffineEtale.toScheme B S hS F).map a).appTop)
     (((AffineEtale.toScheme B S hS F).map b).appTop)
     (((AffineEtale.toScheme B S hS F).map fst).appTop)
     (((AffineEtale.toScheme B S hS F).map snd).appTop)
@@ -223,7 +222,7 @@ theorem isPushout_affineEtaleChartRings_over (U : AffineEtale B S hS F)
     AffineEtale.isAffine_toScheme B S hS F Y.left
   have _ : IsAffine ((Over.forget U ⋙ AffineEtale.toScheme B S hS F).obj Z) :=
     AffineEtale.isAffine_toScheme B S hS F Z.left
-  show IsPushout (((Over.forget U ⋙ AffineEtale.toScheme B S hS F).map a).appTop)
+  change IsPushout (((Over.forget U ⋙ AffineEtale.toScheme B S hS F).map a).appTop)
     (((Over.forget U ⋙ AffineEtale.toScheme B S hS F).map b).appTop)
     (((Over.forget U ⋙ AffineEtale.toScheme B S hS F).map fst).appTop)
     (((Over.forget U ⋙ AffineEtale.toScheme B S hS F).map snd).appTop)
@@ -432,8 +431,7 @@ theorem sectionsBaseChange_apply_eq_restrictionBaseChange (G : Modules.{u, max u
       restrictionBaseChange.{u + 1, u, u, m} (R := structurePresheaf B S hS F) G.val f.op z := by
   have _ := chartAlgebra (hF := hF) f
   have _ := chartSectionsModule G f
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add _ x y).symm
   | tmul b x =>

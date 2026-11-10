@@ -94,9 +94,9 @@ omit [HasWeakSheafify J CommRingCat] [HasWeakSheafify J AddCommGrpCat]
 /-- Restriction of sections of `ℰ` is the identity on the identity of the site. -/
 theorem pairSectionMap_id (U : Cᵒᵖ) (p : D.PairSection U) : D.pairSectionMap (𝟙 U) p = p := by
   refine Subtype.ext (Prod.ext ?_ ?_)
-  · show D.front.O'.obj.map (𝟙 U) p.1.1 = p.1.1
+  · change D.front.O'.obj.map (𝟙 U) p.1.1 = p.1.1
     simp
-  · show D.back.O'.obj.map (𝟙 U) p.1.2 = p.1.2
+  · change D.back.O'.obj.map (𝟙 U) p.1.2 = p.1.2
     simp
 
 omit [HasWeakSheafify J CommRingCat] [HasWeakSheafify J AddCommGrpCat]
@@ -106,10 +106,10 @@ omit [HasWeakSheafify J CommRingCat] [HasWeakSheafify J AddCommGrpCat]
 theorem pairSectionMap_comp {U V W : Cᵒᵖ} (h : U ⟶ V) (k : V ⟶ W) (p : D.PairSection U) :
     D.pairSectionMap (h ≫ k) p = D.pairSectionMap k (D.pairSectionMap h p) := by
   refine Subtype.ext (Prod.ext ?_ ?_)
-  · show D.front.O'.obj.map (h ≫ k) p.1.1 =
+  · change D.front.O'.obj.map (h ≫ k) p.1.1 =
       D.front.O'.obj.map k (D.front.O'.obj.map h p.1.1)
     simp
-  · show D.back.O'.obj.map (h ≫ k) p.1.2 =
+  · change D.back.O'.obj.map (h ≫ k) p.1.2 =
       D.back.O'.obj.map k (D.back.O'.obj.map h p.1.2)
     simp
 
@@ -145,6 +145,11 @@ def pairAlpha : pairPresheaf D ⟶ underlyingPresheaf J D.front.O :=
     ((sheafToPresheaf J CommRingCat.{max u v w}).map D.front.reduction)
     (forget CommRingCat.{max u v w})
 
+omit [HasWeakSheafify J CommRingCat.{max u v w}] [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- On sections, `α` sends a pair `(x, y)` to the reduction of `x` in `𝒪_{X₁}`. -/
 @[simp]
 theorem pairAlpha_app (U : Cᵒᵖ) (p : D.PairSection U) :
@@ -177,6 +182,11 @@ instance isLocallySurjective_pairAlpha : Presheaf.IsLocallySurjective J (pairAlp
         ← op_comp]
       rfl
 
+omit [HasWeakSheafify J CommRingCat.{max u v w}] [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The second projection followed by the reduction of the back layer is `α` followed by the
 comparison `g`: this is exactly the defining condition of the fibre product `ℰ`. -/
 theorem pairSnd_comp_reduction :
@@ -230,6 +240,11 @@ instance isLocallySurjective_reducedPresentation :
   isLocallySurjective_freeAlgebraSheafDesc J D.front.OB D.front.O (pairPresheaf D)
     D.front.f (pairAlpha D)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **`a` is over the presentation `α`.** The algebra map `a : 𝒪_{S'₁}[ℰ] ⟶ 𝒪_{X'₁}` followed by
 the reduction of the front layer is the presentation with thickened coefficients. On
 coefficients this is the commutativity of the front square, and on the generators it is the
@@ -252,6 +267,11 @@ theorem frontAlgebra_comp_reduction :
         D.front.f' (pairFst D)]
     rfl
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **`b` is over the presentation `α` followed by the comparison `g`.** The algebra map
 `b : 𝒪_{S'₁}[ℰ] ⟶ 𝒪_{X'₂}` followed by the reduction of the back layer is the presentation with
 thickened coefficients followed by `g`. On coefficients this combines the commutativity of the
@@ -284,6 +304,11 @@ theorem backAlgebra_comp_reduction :
 abbrev thickIdeal (X : Cᵒᵖ) : Ideal ((freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :=
   kernelIdeal (thickenedPresentation D).hom X
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The presentation with thickened coefficients, evaluated through `a` and then reduced, is the
 presentation itself: the section form of `frontAlgebra_comp_reduction`. -/
 theorem reduction_frontAlgebra_apply (X : Cᵒᵖ)
@@ -293,6 +318,11 @@ theorem reduction_frontAlgebra_apply (X : Cᵒᵖ)
   congrArg (fun k : freeAlgebraSheaf J D.front.OB' (pairPresheaf D) ⟶ D.front.O =>
     k.hom.app X x) (frontAlgebra_comp_reduction D)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The presentation with thickened coefficients, evaluated through `b` and then reduced, is the
 presentation followed by the comparison `g`: the section form of
 `backAlgebra_comp_reduction`. -/
@@ -311,6 +341,11 @@ def frontIdealSection (X : Cᵒᵖ) (x : D.thickIdeal X) : D.front.G.val.obj X :
   (D.front.exists_incl ((frontAlgebra D).hom.app X x.1)
     ((reduction_frontAlgebra_apply D X x.1).trans (RingHom.mem_ker.mp x.2))).choose
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The inclusion of `𝒢₁` into `𝒪_{X'₁}` sends `frontIdealSection D X x` to `a(x)`. -/
 theorem incl_frontIdealSection (X : Cᵒᵖ) (x : D.thickIdeal X) :
     D.front.incl (frontIdealSection D X x) = (frontAlgebra D).hom.app X x.1 :=
@@ -323,12 +358,22 @@ def backIdealSection (X : Cᵒᵖ) (x : D.thickIdeal X) : D.back.G.val.obj X :=
   (D.back.exists_incl ((backAlgebra D).hom.app X x.1) (by
     rw [reduction_backAlgebra_apply, RingHom.mem_ker.mp x.2, map_zero])).choose
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The inclusion of `𝒢₂` into `𝒪_{X'₂}` sends `backIdealSection D X x` to `b(x)`. -/
 theorem incl_backIdealSection (X : Cᵒᵖ) (x : D.thickIdeal X) :
     D.back.incl (backIdealSection D X x) = (backAlgebra D).hom.app X x.1 :=
   (D.back.exists_incl ((backAlgebra D).hom.app X x.1) (by
     rw [reduction_backAlgebra_apply, RingHom.mem_ker.mp x.2, map_zero])).choose_spec
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `frontIdealSection` sends `0` to `0`. -/
 theorem frontIdealSection_zero (X : Cᵒᵖ) :
     frontIdealSection D X 0 = 0 := by
@@ -336,6 +381,11 @@ theorem frontIdealSection_zero (X : Cᵒᵖ) :
   rw [incl_frontIdealSection, D.front.incl_zero]
   exact map_zero ((frontAlgebra D).hom.app X).hom
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `frontIdealSection` is additive. -/
 theorem frontIdealSection_add (X : Cᵒᵖ) (x y : D.thickIdeal X) :
     frontIdealSection D X (x + y) = frontIdealSection D X x + frontIdealSection D X y := by
@@ -343,6 +393,11 @@ theorem frontIdealSection_add (X : Cᵒᵖ) (x y : D.thickIdeal X) :
   rw [incl_frontIdealSection, D.front.incl_add, incl_frontIdealSection, incl_frontIdealSection]
   exact map_add ((frontAlgebra D).hom.app X).hom x.1 y.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `frontIdealSection` sends `r • x` to the image of `r` in `𝒪_{X₁}` acting on the section
 attached to `x`. -/
 theorem frontIdealSection_smul (X : Cᵒᵖ)
@@ -354,6 +409,11 @@ theorem frontIdealSection_smul (X : Cᵒᵖ)
     incl_frontIdealSection]
   exact map_mul ((frontAlgebra D).hom.app X).hom r x.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `frontIdealSection` commutes with restriction along a morphism `f : X ⟶ Y`. -/
 theorem frontIdealSection_map {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : D.thickIdeal X) :
     frontIdealSection D Y
@@ -364,6 +424,11 @@ theorem frontIdealSection_map {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : D.thickIdeal X)
   rw [incl_frontIdealSection, D.front.incl_naturality, incl_frontIdealSection]
   exact sheafHom_naturality_apply J (frontAlgebra D) f x.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `backIdealSection` sends `0` to `0`. -/
 theorem backIdealSection_zero (X : Cᵒᵖ) :
     backIdealSection D X 0 = 0 := by
@@ -371,6 +436,11 @@ theorem backIdealSection_zero (X : Cᵒᵖ) :
   rw [incl_backIdealSection, D.back.incl_zero]
   exact map_zero ((backAlgebra D).hom.app X).hom
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `backIdealSection` is additive. -/
 theorem backIdealSection_add (X : Cᵒᵖ) (x y : D.thickIdeal X) :
     backIdealSection D X (x + y) = backIdealSection D X x + backIdealSection D X y := by
@@ -378,6 +448,11 @@ theorem backIdealSection_add (X : Cᵒᵖ) (x y : D.thickIdeal X) :
   rw [incl_backIdealSection, D.back.incl_add, incl_backIdealSection, incl_backIdealSection]
   exact map_add ((backAlgebra D).hom.app X).hom x.1 y.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `backIdealSection` sends `r • x` to the image of `r` in `𝒪_{X₂}` under the presentation
 followed by `g`, acting on the section attached to `x`. -/
 theorem backIdealSection_smul (X : Cᵒᵖ)
@@ -390,6 +465,11 @@ theorem backIdealSection_smul (X : Cᵒᵖ)
     incl_backIdealSection]
   exact map_mul ((backAlgebra D).hom.app X).hom r x.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `backIdealSection` commutes with restriction along a morphism `f : X ⟶ Y`. -/
 theorem backIdealSection_map {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : D.thickIdeal X) :
     backIdealSection D Y
@@ -436,6 +516,11 @@ def backRestriction : IdealRestriction (thickenedPresentation D) (pushedIdeal D)
 
 /-! ### The two restriction data agree on `𝒥₁·𝒪_{S'₁}[ℰ]` -/
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The front algebra map on a coefficient.** `a` sends the generator attached to a section
 `j` of `𝒪_{B'₁}` to `f'₁(j)`, by the defining property of the presentation. -/
 theorem frontAlgebra_app_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.obj X) :
@@ -446,6 +531,11 @@ theorem frontAlgebra_app_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.obj X
     (freeAlgebraSheafCoefficientMap_comp_desc J D.front.OB' D.front.O' (pairPresheaf D)
       D.front.f' (pairFst D))
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The back algebra map on a coefficient.** `b` sends the same generator to
 `f'₂(gB'(j))`, the comparison `gB'` of thickened bases intervening. -/
 theorem backAlgebra_app_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.obj X) :
@@ -456,6 +546,11 @@ theorem backAlgebra_app_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.obj X)
     (freeAlgebraSheafCoefficientMap_comp_desc J D.front.OB' D.back.O' (pairPresheaf D)
       (D.gB' ≫ D.back.f') (pairSnd D))
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The two restriction data agree on a coefficient of `𝒥₁`.** This is the source's assertion
 that `a` and `b` agree on `𝒥₁·𝒪_{S'₁}[ℰ]` as maps into `𝒢₂`, at a generator: the section
 `a(j) = f'₁(j)` lies in `𝒢₁` exactly because `j` is killed by the base reduction — the
@@ -474,11 +569,16 @@ theorem frontRestriction_app_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.o
   have hfront : D.front.f'.hom.app X j = D.front.incl (frontIdealSection D X ⟨_, h⟩) := by
     rw [incl_frontIdealSection, ha]
   refine D.back.incl_injective ?_
-  show D.back.incl (D.nuSection (frontIdealSection D X ⟨_, h⟩)) =
+  change D.back.incl (D.nuSection (frontIdealSection D X ⟨_, h⟩)) =
     D.back.incl (backIdealSection D X ⟨_, h⟩)
   rw [incl_backIdealSection, hb, D.nu_base X j (frontIdealSection D X ⟨_, h⟩) hj hfront]
   rfl
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The two restriction data of Step 1 agree on the whole of `𝒥₁·𝒪_{S'₁}[ℰ]`.** The
 generators are `frontRestriction_app_coefficientMap`, and a restriction datum is additive and
 linear over `𝒪_{S'₁}[ℰ]` acting through the presentation, so the agreement spreads over the
@@ -488,7 +588,7 @@ theorem frontRestriction_eq_backRestriction (X : Cᵒᵖ) (x : D.thickIdeal X)
     (hx : (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) ∈
       coefficientKernelIdeal J D.front.baseReduction (pairPresheaf D) X) :
     (frontRestriction D).app X x = (backRestriction D).app X x := by
-  have hle := coefficientKernelIdeal_le_restrictedPresentationIdeal.{v, u, max u v w, max u v w}
+  have hle := coefficientKernelIdeal_le_restrictedPresentationIdeal.{v, u, max u v w}
     J D.front.baseReduction (pairPresheaf D) D.front.f (pairAlpha D) X
   suffices hsuf : ∀ (y : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X),
       y ∈ coefficientKernelIdeal J D.front.baseReduction (pairPresheaf D) X →

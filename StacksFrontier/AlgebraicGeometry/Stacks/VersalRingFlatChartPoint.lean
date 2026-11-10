@@ -220,7 +220,7 @@ theorem exists_closedFibre_hom_of_smoothObject_completedLocalRing (D : VersalSit
     rw [hres, ← hE, hφ, ← Category.assoc, ← Spec.map_comp]
     congr 2
     ext z
-    show φ (E.symm (E z)) = φ z
+    change φ (E.symm (E z)) = φ z
     rw [RingEquiv.symm_apply_apply]
   have hw : Spec.map ψ ≫ (Spec.map (CommRingCat.ofHom
       (algebraMap Λ (ResidueField ξ.base.R))) ≫ iΛ) =
@@ -245,7 +245,7 @@ theorem exists_closedFibre_hom_of_smoothObject_completedLocalRing (D : VersalSit
     apply (Over.post D.B.inclusion).map_injective
     apply Over.OverMorphism.ext
     rw [Functor.map_comp, Over.comp_left, hb']
-    show b'.left ≫ (q.map lam).left = (q.map τ).left
+    change b'.left ≫ (q.map lam).left = (q.map τ).left
     apply (cancel_epi (eqToHom (congrArg Over.left hxₗ).symm)).1
     apply (cancel_mono (eqToHom (congrArg Over.left hx))).1
     calc eqToHom (congrArg Over.left hxₗ).symm ≫ (b'.left ≫ (q.map lam).left) ≫
@@ -283,7 +283,7 @@ theorem exists_closedFibre_hom_of_smoothObject_completedLocalRing (D : VersalSit
     have : Algebra.FiniteType (ResidueField ξ.base.R) l := hft
     exact finite_of_finite_type_of_isJacobsonRing (ResidueField ξ.base.R) l
   refine ⟨inferInstance, htower, hfin, η', ?_⟩
-  show eqToHom (congrArg Over.left hxₗ).symm ≫ ((Over.post D.B.inclusion).map
+  change eqToHom (congrArg Over.left hxₗ).symm ≫ ((Over.post D.B.inclusion).map
       (D.𝒳.val.val.p.map η')).left ≫ eqToHom (congrArg Over.left (ξ.basePoint Λ iΛ hΛ)) = _
   rw [hη', hb', hb'left]
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp,
@@ -512,7 +512,7 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
     (X := u₀.left.left) (Y := U₁.left)
     (IsOpenImmersion.lift V'.ι (D.B.inclusion.map u₀.hom.left) hrange)) (by
       apply ObjectProperty.hom_ext
-      show IsOpenImmersion.lift V'.ι (D.B.inclusion.map u₀.hom.left) hrange ≫
+      change IsOpenImmersion.lift V'.ι (D.B.inclusion.map u₀.hom.left) hrange ≫
         (V'.ι ≫ D.B.inclusion.map V.hom) = D.B.inclusion.map u₀.left.hom
       rw [← Category.assoc, IsOpenImmersion.lift_fac, ← Functor.map_comp, Over.w])
   have ht₀ : t₀ ≫ j = u₀.hom := by
@@ -525,7 +525,7 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
   have hx'sm : smoothObject.{u, w} D.B D.S D.hS D.𝒳 x' := by
     have hj : smoothObject.{u, w} D.B D.S D.hS (schemeStack.{u, w} D.B D.S D.hS V) (Over.mk j) := by
       rw [smoothObject_schemeStack_iff]
-      show Smooth V'.ι
+      change Smooth V'.ι
       infer_instance
     exact LisseEtale.smoothObject_map.{u, w} D.B D.S D.hS g hgsm ⟨Over.mk j, hj⟩
   set U := q.obj x' with hUdef
@@ -533,12 +533,12 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
   have hUeq : U = (Over.post D.B.inclusion).obj U₁ := congrArg (Over.post D.B.inclusion).obj hU₁
   -- the chart `U` is affine, of finite type and Noetherian
   have hlft : LocallyOfFiniteType ((Over.post D.B.inclusion).obj U₁).hom := by
-    show LocallyOfFiniteType (V'.ι ≫ D.B.inclusion.map V.hom)
+    change LocallyOfFiniteType (V'.ι ≫ D.B.inclusion.map V.hom)
     infer_instance
   have : IsNoetherianRing Γ(D.B.inclusion.obj V.left, V') :=
     IsLocallyNoetherian.component_noetherian ⟨V', hV'⟩
   have hnoeth : TopologicalSpace.NoetherianSpace ((Over.post D.B.inclusion).obj U₁).left := by
-    show TopologicalSpace.NoetherianSpace V'
+    change TopologicalSpace.NoetherianSpace V'
     exact noetherianSpace_of_isAffineOpen V' hV'
   have : LocallyOfFiniteType U.hom := by rwa [hUeq]
   have : TopologicalSpace.NoetherianSpace U.left := by rwa [hUeq]
@@ -565,7 +565,7 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
     simp only [Over.mk_hom] at h₂
     refine ⟨(Spec.map (CommRingCat.ofHom (algebraMap Λ l))).base (closedPoint l), ?_⟩
     rw [Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply, hu₀']
-    show (Spec.map (CommRingCat.ofHom (algebraMap Λ l)) ≫ iΛ).base (closedPoint l) =
+    change (Spec.map (CommRingCat.ofHom (algebraMap Λ l)) ≫ iΛ).base (closedPoint l) =
       (Deformation.Artin.schemeMap q hxₗ rfl τ ≫ U.hom).base (closedPoint l)
     rw [h₂]
   obtain ⟨xR, ξ, hξ, alg, hΛ, he, hflat, ⟨r, hr⟩, rest⟩ :=
@@ -575,7 +575,7 @@ theorem exists_chartPoint_closedFibre_completedLocalRing (D : VersalSituation.{u
     hflat, ⟨x', hx'sm, r, hr⟩, rest⟩
   have ha' : a = eqToHom (congrArg Over.left hxₗ).symm ≫ (q.map τ).left := by
     rw [ha]
-    show eqToHom _ ≫ (q.map τ).left ≫ eqToHom _ = _
+    change eqToHom _ ≫ (q.map τ).left ≫ eqToHom _ = _
     rw [eqToHom_refl, Category.comp_id]
   rw [hu₀', ha']
   exact apply_eq_of_eq_spec_field (congrArg Over.left hxₗ) (q.map τ).left t

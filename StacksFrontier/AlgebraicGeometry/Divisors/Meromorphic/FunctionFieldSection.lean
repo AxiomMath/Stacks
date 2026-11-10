@@ -95,7 +95,7 @@ theorem functionFieldToTotalQuotientSheaf_germ (U : X.Opens) (s : X.presheaf.obj
         (X.presheaf.germ U (genericPoint X) h s) =
       (toTotalQuotientSheaf X.sheaf).hom.app (op U) s := by
   have he := (totalQuotientSheafIsoConstant X).property U s h
-  show (totalQuotientSheafIsoConstant X).val.inv.hom.app (op U)
+  change (totalQuotientSheafIsoConstant X).val.inv.hom.app (op U)
       ((toSheafify (Opens.grothendieckTopology X)
         ((Functor.const (Opens X)ᵒᵖ).obj X.functionField)).app (op U)
           (X.presheaf.germ U (genericPoint X) h s)) = _
@@ -182,7 +182,7 @@ theorem isRegularMeromorphicSection_meromorphicSectionOfFunctionField (g : X.fun
       (meromorphicSectionOfFunctionField X g) =
       (unitIsoOfFunctionFieldUnit X g).hom ≫ (unitIsoMeromorphicSectionSheafUnit X).hom :=
     Equiv.symm_apply_apply _ _
-  show Mono ((meromorphicSectionSheaf X.sheaf
+  change Mono ((meromorphicSectionSheaf X.sheaf
     (SheafOfModules.unit X.ringCatSheaf)).unitHomEquiv.symm
       (meromorphicSectionOfFunctionField X g))
   rw [h]

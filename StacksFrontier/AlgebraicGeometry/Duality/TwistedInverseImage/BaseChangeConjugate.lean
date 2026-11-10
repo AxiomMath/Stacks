@@ -91,9 +91,9 @@ unit of `L(g')^* ⊣ Rg'_*`, the comparison `w`, and the counit of `Lg^* ⊣ Rg_
 is quasi-compact and quasi-separated and `X` and `Y'` are Tor independent over `Y`. By
 `isIso_twistedInverseImagePushforwardBaseChange_iff`, Tag 0A9K at this model is equivalent to
 Tag 08IB at this model; the results below take the conclusion of Tag 08IB as a hypothesis, so
-neither tag is registered here. When `g` is an open immersion, `IsIso ξ` is proved in
-`StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/TwistedInverseImageRestrictionBaseChange.lean`
-from [Stacks, Tag 08FE].
+neither tag is registered here. When `g` is an open immersion, `IsIso ξ` is proved in the file
+`TwistedInverseImageRestrictionBaseChange.lean` of the directory
+`StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/` from [Stacks, Tag 08FE].
 
 ## References
 

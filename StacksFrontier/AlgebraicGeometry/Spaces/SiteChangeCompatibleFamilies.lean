@@ -99,7 +99,7 @@ theorem existsUnique_hom_of_compatible_siteChange [IsNoetherianRing R] [IsAdicCo
   have key : ∀ d : M ⟶ N, (∀ n, d ≫ u n = c n) ↔ (∀ n, Ψ.map d ≫ p n = a n) := by
     intro d
     refine ⟨fun hd n => ?_, fun hd n => ?_⟩
-    · show Ψ.map d ≫ p n = Ψ.map (c n) ≫ (κ n).hom
+    · change Ψ.map d ≫ p n = Ψ.map (c n) ≫ (κ n).hom
       rw [← hd n, Functor.map_comp_assoc, hκ n]
     · refine hΨ.map_injective ?_
       rw [Functor.map_comp, hu n, reassoc_of% (hd n)]

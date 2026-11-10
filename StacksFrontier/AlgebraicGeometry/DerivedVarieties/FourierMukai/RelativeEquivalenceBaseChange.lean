@@ -374,8 +374,7 @@ private def convolutionBaseChangeIso (h08IB : DerivedBaseChangeIsIsoOnQuasicoher
       fourierMukaiPr23 (pullback.snd f s) (pullback.snd g s) (pullback.snd f s) ≫
         fourierMukaiBaseChangeMap g f s := by
     apply pullback.hom_ext <;>
-      simp [fourierMukaiPr23, fourierMukaiBaseChangeMap_eq, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [fourierMukaiPr23, fourierMukaiBaseChangeMap_eq]
   refine dbaseChangeIso h08IB hA1 htor hM ≪≫
     (dpush (fourierMukaiPr13 (pullback.snd f s) (pullback.snd g s)
       (pullback.snd f s))).mapIso ?_

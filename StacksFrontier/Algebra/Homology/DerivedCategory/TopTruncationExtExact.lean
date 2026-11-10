@@ -84,13 +84,13 @@ theorem isCompatibleOf_extClass {S : ShortComplex A} (hS : S.ShortExact) :
   have key := Stacks.Triangulated.mor₃_comp_shift_map_eq_of_isLE DerivedCategory.TStructure.t n
     hT hT' (topProj _ n (hΦ S.X₁)) ((-n).negOnePow • topProj _ n (hΦ S.X₂))
     (topProj _ n (hΦ S.X₃)) (by
-      show Φ.map ((DerivedCategory.Plus.singleFunctor A' 0).map (F.map S.f)) ≫
+      change Φ.map ((DerivedCategory.Plus.singleFunctor A' 0).map (F.map S.f)) ≫
           ((-n).negOnePow • topProj _ n (hΦ S.X₂)) = topProj _ n (hΦ S.X₁) ≫
         ((-n).negOnePow • ((DerivedCategory.singleFunctor B 0).map
           ((topHomologyOf F Φ n).map S.f))⟦-n⟧')
       rw [Linear.comp_units_smul, Linear.comp_units_smul, comp_topProj n (hΦ _) (hΦ _)]
       rfl) (by
-      show Φ.map ((DerivedCategory.Plus.singleFunctor A' 0).map (F.map S.g)) ≫
+      change Φ.map ((DerivedCategory.Plus.singleFunctor A' 0).map (F.map S.g)) ≫
           topProj _ n (hΦ S.X₃) = ((-n).negOnePow • topProj _ n (hΦ S.X₂)) ≫
         ((-n).negOnePow • ((DerivedCategory.singleFunctor B 0).map
           ((topHomologyOf F Φ n).map S.g))⟦-n⟧')

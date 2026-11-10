@@ -69,8 +69,8 @@ but only the former is reducible, so a morphism built from a tensor product and 
 transparency at which `rw` matches and typeclass synthesis fires. Every step that would need
 such a match is therefore routed through a lemma stated over clean variables in an abstract
 category — `isIso_of_eq`, `epi_of_eq`, `epi_comp_of_epi`, `isIso_comp_of_isIso`,
-`CategoryTheory.Functor.isIso_map_of_isIso`, `epi_of_isIso`, `isIso_of_epi_fac`, `isoOfEpiMonoFac` — and applied in
-term mode.
+`CategoryTheory.Functor.isIso_map_of_isIso`, `epi_of_isIso`, `isIso_of_epi_fac`, `isoOfEpiMonoFac`
+— and applied in term mode.
 
 ## References
 
@@ -207,8 +207,16 @@ end Clean
 factor commutes with applying a map in the second. -/
 theorem tensorSheafMap_id_comm {Y : RingedSpace.{u, u}}
     {A B C E : SheafOfModules.{u} (structureSheafRing Y)} (φ : A ⟶ B) (ψ : C ⟶ E) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((φ, (𝟙 C)) : (_, _) ⟶ (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map (((𝟙 B), ψ) : (_, _) ⟶ (_, _))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map (((𝟙 A), ψ) : (_, _) ⟶ (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((φ, (𝟙 E)) : (_, _) ⟶ (_, _))) := by
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((φ, (𝟙 C)) : (_, _) ⟶
+        (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map (((𝟙 B), ψ) : (_, _) ⟶
+        (_, _))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map (((𝟙 A), ψ) : (_, _) ⟶
+          (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨Y.presheaf, Y.IsSheaf⟩ : Sheaf (JX Y) CommRingCat.{u}))).map ((φ, (𝟙 E)) : (_, _) ⟶
+          (_, _))) := by
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
 
@@ -225,8 +233,13 @@ theorem baseIdealTensorComparison_eq (D : MorphismOfThickenings.{u})
 theorem baseIdealTensorComparison_naturality (D : MorphismOfThickenings.{u})
     {F G : SheafOfModules.{u} (structureSheafRing D.X)} (e : F ⟶ G) :
     baseIdealTensorComparison D F ≫
-        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map (((𝟙 ((modulePullback D.i).obj D.idealI)), e) : (_, _) ⟶ (_, _))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map (((𝟙 ((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ))), e) : (_, _) ⟶ (_, _))) ≫
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map
+            (((𝟙 ((modulePullback D.i).obj D.idealI)), e) : (_, _) ⟶ (_, _))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map
+          (((𝟙 ((modulePullback D.f).obj ((modulePullback D.t).obj D.idealJ))), e) : (_, _) ⟶
+          (_, _))) ≫
         baseIdealTensorComparison D G :=
   tensorSheafMap_id_comm D.baseToSourceIdeal e
 
@@ -260,7 +273,10 @@ theorem epi_extensionTensorComparison (hi : IsThickening i)
       (extensionTensorIso i hi F).hom).symm
     (epi_comp_of_epi _ _
       (epi_unit_app_of_isThickening i hi
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (((modulePushforward i).obj F)))))
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).obj
+            ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj
+            (((modulePushforward i).obj F)))))
       (epi_of_isIso _
         ((modulePushforward i).mapIso (extensionTensorIso i hi F)).isIso_hom))
 
@@ -280,9 +296,13 @@ variable (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureShe
 the tensor of the surjection of the extension, the comparison of **Stacks 08L4** and the direct
 image of the canonical map of **Stacks 08L4**. -/
 noncomputable def extensionIdealPairing :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (E.Z.left)) ⟶
+    (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf
+        (JX X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj
+        (E.Z.left)) ⟶
       (modulePushforward i).obj K :=
-  ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u}))).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), E.g) : (_, _) ⟶ (_, _))) ≫
+  ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u}))).map
+      (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), E.g) : (_, _) ⟶ (_, _))) ≫
     extensionTensorComparison i F ≫
       (modulePushforward i).map (firstOrderExtensionAction i F K hi E).val
 
@@ -298,11 +318,17 @@ and the canonical map of **Stacks 08L4**. -/
 theorem extensionIdealPairing_eq :
     extensionIdealPairing i hi F K E =
       (modulePullbackPushforwardAdjunction i).unit.app
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (E.Z.left))) ≫
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+              (⟨X'.presheaf, X'.IsSheaf⟩ : Sheaf (JX X') CommRingCat.{u})).obj
+              ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (E.Z.left))) ≫
         (modulePushforward i).map
             ((Stacks.RingedSpace.comparisonBifunctorIso i).hom.app
                 (AlgebraicGeometry.SheafOfModules.idealSheaf i, E.Z.left) ≫
-              ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map (((𝟙 (idealSheafPullback i)), (((modulePullbackPushforwardAdjunction i).homEquiv E.Z.left F).symm E.g)) : (_, _) ⟶ (_, _)))) ≫
+              ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+                  (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
+                  (((𝟙 (idealSheafPullback i)),
+                  (((modulePullbackPushforwardAdjunction i).homEquiv E.Z.left F).symm E.g)) : (_, _)
+                  ⟶ (_, _)))) ≫
         (modulePushforward i).map (firstOrderExtensionAction i F K hi E).val :=
   (Category.assoc _ _ _).symm.trans <|
     (congrArg (· ≫ (modulePushforward i).map (firstOrderExtensionAction i F K hi E).val)
@@ -401,11 +427,15 @@ theorem isIso_restrictedIdealAction_of_isIso_action (D : MorphismOfThickenings.{
     (AlgebraicGeometry.SheafOfModules.idealSheaf D.i, E.Z.left)) := inferInstance
   have hunit : IsIso ((modulePullback D.i).map
       ((modulePullbackPushforwardAdjunction D.i).unit.app
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf D.i))).obj (E.Z.left))))) :=
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+            ((AlgebraicGeometry.SheafOfModules.idealSheaf D.i))).obj (E.Z.left))))) :=
     isIso_of_isIso_comp_right _
       ((modulePullbackPushforwardAdjunction D.i).counit.app
         ((modulePullback D.i).obj
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf D.i))).obj (E.Z.left)))))
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+              (⟨D.X'.presheaf, D.X'.IsSheaf⟩ : Sheaf (JX D.X') CommRingCat.{u})).obj
+              ((AlgebraicGeometry.SheafOfModules.idealSheaf D.i))).obj (E.Z.left)))))
       (isIso_counit_app D.i D.i_isThickening _)
       (isIso_of_eq
         ((modulePullbackPushforwardAdjunction D.i).left_triangle_components _).symm
@@ -414,7 +444,11 @@ theorem isIso_restrictedIdealAction_of_isIso_action (D : MorphismOfThickenings.{
       ((modulePushforward D.i).map
           ((Stacks.RingedSpace.comparisonBifunctorIso D.i).hom.app
               (AlgebraicGeometry.SheafOfModules.idealSheaf D.i, E.Z.left) ≫
-            ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map (((𝟙 (idealSheafPullback D.i)), (((modulePullbackPushforwardAdjunction D.i).homEquiv E.Z.left F).symm E.g)) : (_, _) ⟶ (_, _)))) ≫
+            ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+                (⟨D.X.presheaf, D.X.IsSheaf⟩ : Sheaf (JX D.X) CommRingCat.{u}))).map
+                (((𝟙 (idealSheafPullback D.i)),
+                (((modulePullbackPushforwardAdjunction D.i).homEquiv E.Z.left F).symm E.g)) : (_, _)
+                ⟶ (_, _)))) ≫
         (modulePushforward D.i).map (firstOrderExtensionAction D.i F K hi E).val)) :=
     CategoryTheory.Functor.isIso_map_of_isIso (modulePullback D.i) _
       (isIso_comp_of_isIso _ _
@@ -428,7 +462,8 @@ theorem isIso_restrictedIdealAction_of_isIso_action (D : MorphismOfThickenings.{
       (extensionIdealPairing_eq D.i hi F K E) hunit htail
   exact isIso_of_eq (restrictedIdealAction_eq D E.Z.left).symm
     (isIso_map_of_eq_comp (modulePullback D.i) (extensionIdealPairing D.i hi F K E) e.hom
-      hpair'.symm hpairing (CategoryTheory.Functor.isIso_map_of_isIso (modulePullback D.i) _ e.isIso_hom))
+      hpair'.symm hpairing (CategoryTheory.Functor.isIso_map_of_isIso
+          (modulePullback D.i) _ e.isIso_hom))
 
 /-- **The second map of Stacks 08LI, read before the Stacks 01CD comparison, is an isomorphism
 for an extension whose canonical map is invertible.** -/

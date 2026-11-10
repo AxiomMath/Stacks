@@ -48,8 +48,6 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.GrothendieckTopology Op
 
 universe u
 
-set_option synthInstance.maxHeartbeats 400000
-
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
@@ -60,6 +58,8 @@ open SimplicialSpacesEtaleSite ExtensionByZeroStalk
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- **The homomorphism of structure-sheaf stalks of a flat morphism is faithfully flat**:
 transported to the étale local rings it is the homomorphism of Stacks 04NG, which is faithfully
 flat by Stacks 03MK. -/
@@ -79,6 +79,8 @@ theorem faithfullyFlat_spacesEtaleStalkPullbackRingMap (hf : IsFlat B S hS f.hom
   exact ((RingHom.FaithfullyFlat.of_bijective eY.bijective).comp hcomp).comp
     (RingHom.FaithfullyFlat.of_bijective eX.symm.bijective)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- **The images of the geometric points of `X` are a conservative family of points of the
 spaces-étale site of `Y`** when `f : X ⟶ Y` is surjective. A point of an object `V` étale over
 `Y` lifts to the base change `V ×_Y X` (Stacks 03MH), whose points are images of geometric
@@ -122,6 +124,8 @@ theorem isConservativeFamilyOfPoints_sitePoint_geometricPointMap
   rintro W g ⟨Z, k, h, ⟨i⟩, rfl⟩
   exact R.downward_closed i.2.2 k
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- A composite `A ⋙ F` with `F` preserving zero morphisms carries an object which `A` sends to
 zero to zero. Stated for the composite, so that it applies to a composite functor appearing in
 the type of a natural isomorphism without restating its factors. -/
@@ -130,6 +134,8 @@ theorem _root_.CategoryTheory.Functor.isZero_comp_obj_of_isZero {C D E : Type*} 
     (hF : F.PreservesZeroMorphisms) {G : C} (h : IsZero (A.obj G)) : IsZero ((A ⋙ F).obj G) :=
   F.map_isZero h
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- A module whose faithfully flat extension of scalars is zero is zero. -/
 theorem isZero_of_extendScalars_obj_isZero_of_faithfullyFlat {R T : Type u} [CommRing R]
     [CommRing T] {φ : R →+* T} (hφ : φ.FaithfullyFlat) (M : ModuleCat.{u} R)
@@ -138,6 +144,8 @@ theorem isZero_of_extendScalars_obj_isZero_of_faithfullyFlat {R T : Type u} [Com
   exact not_nontrivial_iff_subsingleton.1 fun _ =>
     not_nontrivial_iff_subsingleton.2 hM (nontrivial_extendScalars_of_faithfullyFlat hφ M)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- At a point `f ∘ x̄`, the stalk of an `𝒪_Y`-module `G` vanishes as soon as the stalk of
 `f^*G` at `x̄` does: by Stacks 05V5 the latter is the extension of scalars of the former along a
 faithfully flat homomorphism. -/
@@ -157,6 +165,8 @@ theorem isZero_sheafModuleFiberOfCommRing_geometricPointMap (hf : IsFlat B S hS 
   exact isZero_of_extendScalars_obj_isZero_of_faithfullyFlat
     (faithfullyFlat_spacesEtaleStalkPullbackRingMap f hf x) _ h₁
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- **Pullback along a flat surjective morphism reflects zero objects** on the spaces-étale
 sites: at a point `f ∘ x̄` the stalk of `G` becomes, after the faithfully flat extension of
 scalars of Stacks 05V5, the stalk of `f^*G` at `x̄`, and these points form a conservative
@@ -182,6 +192,8 @@ theorem isZero_of_isZero_spacesEtalePullbackModules_obj (hf : IsFlat B S hS f.ho
   have : Mono (0 : G ⟶ G) := (ShortComplex.exact_iff_mono _ rfl).1 hT
   exact IsZero.of_mono_zero G G
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- **Pullback along a flat surjective morphism reflects monomorphisms** on the spaces-étale
 sites: it is left exact and reflects zero objects. -/
 theorem reflectsMonomorphisms_spacesEtalePullbackModules (hf : IsFlat B S hS f.hom)
@@ -193,6 +205,8 @@ theorem reflectsMonomorphisms_spacesEtalePullbackModules (hf : IsFlat B S hS f.h
   exact Functor.reflectsMonomorphisms_of_preservesFiniteLimits_of_reflectsZeroObjects _
     (isZero_of_isZero_spacesEtalePullbackModules_obj f hf hs)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- the file-wide instance-search budget this file was written with
 /-- **The unit `G ⟶ f_*f^*G` is a monomorphism** for a flat surjective morphism `f` on the
 spaces-étale sites: `f^*` of it is split by the counit, and `f^*` reflects monomorphisms. -/
 theorem mono_spacesEtalePullbackAdjunction_unit_app (hf : IsFlat B S hS f.hom)

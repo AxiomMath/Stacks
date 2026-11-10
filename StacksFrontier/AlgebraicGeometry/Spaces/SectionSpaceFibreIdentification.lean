@@ -190,7 +190,7 @@ theorem sectionSpaceEquiv_yonedaEquiv_symm {T T' : BigFppfOver B U hU}
     sectionSpaceEquiv B U hU Z T' W₂ w₂
         ((yonedaEquiv.symm ((sectionSpaceEquiv B U hU Z T W₂ w₂).symm σ)).app (op T') x) =
       SectionsOver.restrict x σ := by
-  show sectionSpaceEquiv B U hU Z T' W₂ w₂ ((sectionSpace B U hU Z W₂ w₂).map x.op
+  change sectionSpaceEquiv B U hU Z T' W₂ w₂ ((sectionSpace B U hU Z W₂ w₂).map x.op
       ((sectionSpaceEquiv B U hU Z T W₂ w₂).symm σ)) = _
   rw [sectionSpaceEquiv_restrict, Equiv.apply_symm_apply]
 
@@ -254,7 +254,7 @@ theorem BaseChangeSections.restrict_comp {g : W₁ ⟶ W₂} {T : BigFppfOver B 
     BaseChangeSections.restrict (y' ≫ y) p =
       BaseChangeSections.restrict y' (BaseChangeSections.restrict y p) :=
   Subtype.ext (Prod.ext (Category.assoc _ _ _) (by
-    show prod.map (yoneda.map (y' ≫ y)) (𝟙 (yoneda.obj Z)) ≫ p.1.2 =
+    change prod.map (yoneda.map (y' ≫ y)) (𝟙 (yoneda.obj Z)) ≫ p.1.2 =
       prod.map (yoneda.map y') (𝟙 (yoneda.obj Z)) ≫
         prod.map (yoneda.map y) (𝟙 (yoneda.obj Z)) ≫ p.1.2
     rw [prod_map_yoneda_comp, Category.assoc]))
@@ -441,7 +441,7 @@ theorem BaseChangeSections.restrict_ofSectionsOver {g : W₁ ⟶ W₂} (hg : g �
     BaseChangeSections.restrict y (BaseChangeSections.ofSectionsOver hg σ x s hs) =
       BaseChangeSections.ofSectionsOver hg σ (y ≫ x) (SectionsOver.restrict y s) hs' := by
   refine Subtype.ext (Prod.ext rfl ?_)
-  show prod.map (yoneda.map y) (𝟙 (yoneda.obj Z)) ≫
+  change prod.map (yoneda.map y) (𝟙 (yoneda.obj Z)) ≫
       pullback.lift (prod.map (yoneda.map x) (𝟙 (yoneda.obj Z))) s.1
         (SectionsOver.comp_eq_of_pushforward_eq hg hs) =
     pullback.lift (prod.map (yoneda.map (y ≫ x)) (𝟙 (yoneda.obj Z)))
@@ -560,11 +560,11 @@ theorem baseChangeSectionLift_comp_toSectionSpace {g : W₁ ⟶ W₂} (hg : g �
   refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun ξ => ?_)
   obtain ⟨T'⟩ := T₀
   apply (sectionSpaceEquiv B U hU Z T' W₁ w₁).injective
-  show sectionSpaceEquiv B U hU Z T' W₁ w₁
+  change sectionSpaceEquiv B U hU Z T' W₁ w₁
       ((baseChangeSectionToSectionSpace hg σ).app (op T')
         ((baseChangeSectionLift hg σ a b hab).app (op T') ξ)) = _
   rw [sectionSpaceEquiv_baseChangeSectionToSectionSpace]
-  show BaseChangeSections.toSectionsOver hg
+  change BaseChangeSections.toSectionsOver hg
       (baseChangeSectionPresheafEquiv g σ T' ((baseChangeSectionPresheafEquiv g σ T').symm
         (BaseChangeSections.ofSectionsOver hg σ (b.app (op T') ξ)
           (sectionSpaceEquiv B U hU Z T' W₁ w₁ (a.app (op T') ξ)) (hab T' ξ)))) = _
@@ -581,7 +581,7 @@ theorem baseChangeSectionLift_comp_base {g : W₁ ⟶ W₂} (hg : g ≫ w₂ = w
     baseChangeSectionLift hg σ a b hab ≫ baseChangeSectionBase g σ = b := by
   refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun ξ => ?_)
   obtain ⟨T'⟩ := T₀
-  show (baseChangeSectionPresheafEquiv g σ T' ((baseChangeSectionPresheafEquiv g σ T').symm
+  change (baseChangeSectionPresheafEquiv g σ T' ((baseChangeSectionPresheafEquiv g σ T').symm
       (BaseChangeSections.ofSectionsOver hg σ (b.app (op T') ξ)
         (sectionSpaceEquiv B U hU Z T' W₁ w₁ (a.app (op T') ξ)) (hab T' ξ)))).1.1 = _
   rw [Equiv.apply_symm_apply, BaseChangeSections.ofSectionsOver_base]
@@ -601,7 +601,7 @@ theorem isPullback_baseChangeSectionPresheaf {g : W₁ ⟶ W₂} (hg : g ≫ w�
   · refine NatTrans.ext (funext fun T₀ => ConcreteCategory.hom_ext _ _ fun s => ?_)
     obtain ⟨T'⟩ := T₀
     apply (sectionSpaceEquiv B U hU Z T' W₂ w₂).injective
-    show sectionSpaceEquiv B U hU Z T' W₂ w₂ ((sectionSpaceMap hg).app (op T')
+    change sectionSpaceEquiv B U hU Z T' W₂ w₂ ((sectionSpaceMap hg).app (op T')
         ((baseChangeSectionToSectionSpace hg σ).app (op T') s)) =
       sectionSpaceEquiv B U hU Z T' W₂ w₂
         ((yonedaEquiv.symm ((sectionSpaceEquiv B U hU Z T W₂ w₂).symm σ)).app (op T')

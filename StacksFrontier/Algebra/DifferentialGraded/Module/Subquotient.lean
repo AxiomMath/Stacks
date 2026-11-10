@@ -258,7 +258,7 @@ def Hom.cokernelπ (f : Hom M N) : N ⟶ f.cokernelObj where
 /-- `f` followed by the cokernel projection is zero. -/
 theorem Hom.comp_cokernelπ (f : Hom M N) : f ≫ f.cokernelπ = 0 := by
   refine Hom.ext (LinearMap.ext fun x => ?_)
-  show Submodule.Quotient.mk (p := f.range) (f.toFun x) = 0
+  change Submodule.Quotient.mk (p := f.range) (f.toFun x) = 0
   rw [Submodule.Quotient.mk_eq_zero]
   exact ⟨x, rfl⟩
 

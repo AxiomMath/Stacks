@@ -187,8 +187,7 @@ theorem canonicalSymHom_app_one_apply (U : S.Opens) (a : Γ(A.piece 1, U)) :
       (Scheme.Modules.Hom.app (Scheme.Modules.symmetricAlgebraGen S (A.piece 1)) U a) = a := by
   have h := congrArg (fun f : A.piece 1 ⟶ A.piece 1 => (Scheme.Modules.Hom.app f U) a)
     (symmetricAlgebraGen_comp_canonicalSymHom_app_one A)
-  simp only [Scheme.Modules.Hom.comp_app, Scheme.Modules.Hom.id_app,
-    CategoryTheory.comp_apply, CategoryTheory.id_apply] at h
+  simp only [Scheme.Modules.Hom.id_app, CategoryTheory.id_apply] at h
   exact h
 
 /-! ### Surjectivity in positive degrees -/

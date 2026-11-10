@@ -188,7 +188,7 @@ abelian at the universe of the structure rings: the site is essentially small th
 theorem isGrothendieckAbelian_modules_ringUniverse :
     IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   exact SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
 
@@ -318,6 +318,7 @@ private theorem isLE_rightDerived_obj_of_bounded (N : ℕ)
   exact DerivedCategory.TStructure.t.isLE_of_le _ (b + ((N : ℤ) - 1))
     (b + (N : ℤ) - 1) (by omega)
 
+omit [PreservesLimitsOfShape (Discrete ℕ) F] in
 include F α in
 /-- **The Mittag-Leffler condition on the cohomology of the tower.** Let `(RF, α)` be a right
 derived functor of `F` and suppose the higher right derived functors `R^pF` vanish on

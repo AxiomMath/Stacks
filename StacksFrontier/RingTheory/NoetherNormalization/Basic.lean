@@ -110,7 +110,7 @@ theorem ringKrullDim_eq_of_injective_isIntegral
   · refine Order.krullDim_le_of_strictMono (PrimeSpectrum.comap f) fun x y hxy => ?_
     rw [← PrimeSpectrum.asIdeal_lt_asIdeal] at hxy ⊢
     have : x.asIdeal.IsPrime := x.isPrime
-    exact Ideal.IsIntegral.comap_lt_comap hxy
+    exact Ideal.IsIntegral.under_lt_under hxy
 
 /-- Global Noether normalization (Stacks tag 00OY): a nonzero finite type algebra `T` over
 a field `k` admits `d : ℕ` and an injective finite `k`-algebra map
@@ -148,7 +148,7 @@ theorem noether_normalization_global
     have : Algebra.IsIntegral (MvPolynomial (Fin s) k) T := ⟨hψint⟩
     have : Algebra.FiniteType (MvPolynomial (Fin s) k) T :=
       Algebra.FiniteType.of_restrictScalars_finiteType k (MvPolynomial (Fin s) k) T
-    show Module.Finite (MvPolynomial (Fin s) k) T
+    change Module.Finite (MvPolynomial (Fin s) k) T
     exact Algebra.IsIntegral.finite
 
 /-- The local dimension at a prime is attained: for a finite type `k`-algebra `S` and a
@@ -477,7 +477,7 @@ theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
       Polynomial (MvPolynomial (Fin n) R) :=
     (finSuccEquiv R n).toAlgHom.comp (subst n e) with hΨ
   have hΨX0 : Ψ (X 0) = Polynomial.X := by
-    show (finSuccEquiv R n) (subst n e (X 0 : MvPolynomial (Fin (n + 1)) R))
+    change (finSuccEquiv R n) (subst n e (X 0 : MvPolynomial (Fin (n + 1)) R))
         = Polynomial.X
     rw [subst_X_zero]
     exact finSuccEquiv_X_zero
@@ -485,7 +485,7 @@ theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
       Ψ (X j.succ) = Polynomial.C (MvPolynomial.X j) + Polynomial.X ^ (e j.succ) := by
     intro j
     have hne : (j.succ : Fin (n + 1)) ≠ 0 := Fin.succ_ne_zero j
-    show (finSuccEquiv R n) (subst n e (X j.succ))
+    change (finSuccEquiv R n) (subst n e (X j.succ))
         = Polynomial.C (MvPolynomial.X j) + Polynomial.X ^ (e j.succ)
     rw [subst_X_ne_zero n e j.succ hne, map_add, map_pow,
       finSuccEquiv_X_succ, finSuccEquiv_X_zero]

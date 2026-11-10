@@ -360,7 +360,8 @@ def nonvanishingLocus [∀ x : X.carrier, IsLocalRing (ringStalk X x)]
       (⊤ : Submodule (ringStalk X x) (grpStalk X L.val x))}
 
 variable {L N : SheafOfModules.{u} (structureSheafRing X)}
-  (ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf, (X).IsSheaf⟩).obj L).obj N ≅
+  (ψ : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf,
+      (X).IsSheaf⟩).obj L).obj N ≅
     SheafOfModules.unit (structureSheafRing X))
 
 /-- The pairing `L(W) × N(W) → O_X(W)` obtained from a trivialization `ψ : L ⊗ N ≅ O_X`. -/
@@ -373,7 +374,8 @@ lemma tensorPairing_res {V W : Opens X.carrier} (i : V ⟶ W)
     (a : L.val.obj (op W)) (b : N.val.obj (op W)) :
     (SheafOfModules.unit (structureSheafRing X)).val.map i.op (tensorPairing ψ W a b)
       = tensorPairing ψ V (L.val.map i.op a) (N.val.map i.op b) := by
-  have h1 : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf, (X).IsSheaf⟩).obj L).obj N).val.map
+  have h1 : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf,
+      (X).IsSheaf⟩).obj L).obj N).val.map
       i.op
         (toTensorSheafSection X L N (op W) (a ⊗ₜ[X.presheaf.obj (op W)] b))
       = toTensorSheafSection X L N (op V)
@@ -400,7 +402,8 @@ lemma stalkPairing_germ (x : X.carrier) (W : Opens X.carrier) (hxW : x ∈ W)
   have h : (tensorStalkIso X x L N).symm
       (grpGerm X L.val x W hxW a ⊗ₜ[ringStalk X x] grpGerm X N.val x W hxW b)
       = grpGerm X
-        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf, (X).IsSheaf⟩).obj L).obj N).val
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨(X).presheaf,
+            (X).IsSheaf⟩).obj L).obj N).val
         x W hxW
         (toTensorSheafSection X L N (op W) (a ⊗ₜ[X.presheaf.obj (op W)] b)) := by
     rw [LinearEquiv.symm_apply_eq]

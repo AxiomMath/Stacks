@@ -522,7 +522,7 @@ private lemma conjugationOnPointsOf_natural {d : ℕ} [NeZero d] (rep : Represen
       f ≫ conjugationOnPointsOf rep laws U g x := by
   apply rep.equiv T |>.injective
   simp only [conjugationOnPointsOf, Equiv.apply_symm_apply]
-  show conjugationAction laws (g.map f.appTop.hom) (rep.equiv T (f ≫ x)) =
+  change conjugationAction laws (g.map f.appTop.hom) (rep.equiv T (f ≫ x)) =
     rep.equiv T (f ≫ conjugationOnPointsOf rep laws U g x)
   rw [← rep.naturality f x, ← rep.naturality f (conjugationOnPointsOf rep laws U g x)]
   simp only [conjugationOnPointsOf, Equiv.apply_symm_apply]
@@ -1107,11 +1107,11 @@ public theorem presheaf_actionGroupoid
   refine ⟨canonicalActionGroupoid B d, pointGroupoidNaturalIso (representation.{u} d) F, ?_⟩
   constructor
   · intro T x
-    show (pointGroupoidIso (representation.{u} d)
+    change (pointGroupoidIso (representation.{u} d)
       (conjugationPreservesAlgebraLaws_aux (d := d)) F T).hom.obj x = _
     rfl
   · intro T x y e
-    show ((freePointArrowEquiv (representation.{u} d)
+    change ((freePointArrowEquiv (representation.{u} d)
       (conjugationPreservesAlgebraLaws_aux (d := d)) F T x y e).1).1 = _
     exact freePointArrowEquiv_matrix _ _ _ _ _ _ _
 

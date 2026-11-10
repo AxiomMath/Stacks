@@ -16,7 +16,8 @@ of sheaves of modules. At a point `x` the stalk of `⋀ⁿ(F)` is the exterior p
 map `δⱼ` induces on stalks under that identification: it is **contraction by the `j`-th coordinate
 functional of `(O_x)ʳ`**, that is, by `LinearMap.proj j`.
 
-Nothing new is proved. `StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.CoordinateContractionChainData`
+Nothing new is proved.
+`StacksFrontier.AlgebraicGeometry.Koszul.Sheaf.CoordinateContractionChainData`
 exhibits `δⱼ` as the differential of the Koszul chain complex of the `j`-th coordinate projection
 `F ⟶ O♯`, and the stalk identification of the differential of a Koszul chain complex is
 `Stacks.RegularSequence.exteriorKoszulStalkEquiv_stalkLin`: it is the ring-level Koszul

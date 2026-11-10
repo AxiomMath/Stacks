@@ -62,7 +62,8 @@ universe t w v u w' v' u'
 -- Mathlib's instance deriving `HasBinaryProduct (G.obj X) (G.obj Y)` from a preserved
 -- product sends the search for `ringSheaf R ⨯ ringSheaf R` into `Sheaf J RingCat`, where it
 -- times out.
-attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+attribute [-instance]
+  CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
 
 /-! ### The local-unit map under a functor to types preserving finite products -/
 

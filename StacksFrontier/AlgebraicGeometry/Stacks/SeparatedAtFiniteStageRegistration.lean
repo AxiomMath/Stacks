@@ -13,7 +13,8 @@ limit is separated, then so is `Y_i ×_{Y₀} 𝒳₀ ⟶ Y_i` for all sufficien
 satisfies the chapter's standing convention of Section 70.2 (tag 07SD),
 `AlgebraicGeometry.Space.SiteContainsBaseChangeLimits`, the convention under which Stacks 0851
 and Stacks 07SQ are registered as well; without it the statement fails in this bounded site
-(`StacksFrontier/AlgebraicGeometry/Spaces/DescendingProperties/SiteConventionCounterexample.lean`). This file only registers the tag.
+(`StacksFrontier/AlgebraicGeometry/Spaces/DescendingProperties/SiteConventionCounterexample.lean`).
+This file only registers the tag.
 
 ## References
 

@@ -145,7 +145,7 @@ turns composition into composition, so the only step is `CategoryTheory.conjugat
 `adjc`. Stated at variables of abstract adjunctions, where it costs nothing; a consumer
 instantiates `adjc` at the derived adjunction along the square's common composite. -/
 theorem derivedPushforwardComparisonSquare_eq_conjugateEquiv_comp (adjc : Lc ⊣ Rc) :
-    (derivedPushforwardComparisonSquare adjf adjf' adjg adjg' eg ef).natTrans =
+    (derivedPushforwardComparisonSquare adjf adjf' adjg adjg' eg ef) =
       conjugateEquiv (adjf.comp adjg') adjc ef.inv ≫
         conjugateEquiv adjc (adjg.comp adjf') eg.hom :=
   (derivedPushforwardComparisonSquare_eq_conjugateEquiv adjf adjf' adjg adjg' eg ef).trans
@@ -243,7 +243,7 @@ theorem derivedPushforwardComparisonSquare_natTrans_eq_compIso :
     (Mate.derivedPushforwardComparisonSquare (derivedAdjunction f) (derivedAdjunction f')
         (derivedAdjunction g) (derivedAdjunction g')
         (derivedPullbackCompIsoLeft g' f' f g sq)
-        (derivedPullbackCompIsoCanonical g' f)).natTrans =
+        (derivedPullbackCompIsoCanonical g' f)) =
       (derivedPushforwardCompIso g' f).hom ≫
         eqToHom (congrArg (fun k : X' ⟶ S => derivedPushforward k) sq) ≫
           (derivedPushforwardCompIso f' g).inv :=

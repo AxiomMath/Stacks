@@ -142,8 +142,7 @@ theorem exists_situation_of_cube
   have kCA : ∀ x, kC (s.AtoC x) = σA x := fun x ↦ (congrArg kC (hAC x)).trans (hkC2 x)
   have hDtoC : ∀ z, kC (s.DtoC z) = eD (kD z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul d x =>
       have hmul : (d ⊗ₜ[base.fibreProduct] x : s.D) = s.toD d * s.BtoD x := by
         rw [htD, hBD, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -154,8 +153,7 @@ theorem exists_situation_of_cube
     | add z w hz hw => simp only [map_add, hz, hw]
   have hC'toC : ∀ z, kC (s.C'toC z) = eC' (kC' z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul d x =>
       have hmul : (d ⊗ₜ[base.fibreProduct] x : s.C') = s.toC' d * s.A'toC' x := by
         rw [htC', hA'C', Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]

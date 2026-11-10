@@ -208,7 +208,7 @@ theorem isIso_legEval_of_baseChange
     let y₁ := hpb.lift (yonedaEquiv.symm x₁) k hk.symm
     let y₂ := hpb.lift (yonedaEquiv.symm x₂) k (by rw [hk, hb])
     have hy : y₁ = y₂ := by
-      haveI : Mono (legEval j' ((Over.pullback gJ).obj M) leg' hleg') := IsIso.mono_of_iso _
+      have : Mono (legEval j' ((Over.pullback gJ).obj M) leg' hleg') := IsIso.mono_of_iso _
       rw [← cancel_mono (legEval j' ((Over.pullback gJ).obj M) leg' hleg')]
       refine pullback.hom_ext ?_ ?_
       · rw [Category.assoc, Category.assoc,

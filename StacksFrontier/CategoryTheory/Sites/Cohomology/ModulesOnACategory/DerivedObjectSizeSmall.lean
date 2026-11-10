@@ -150,7 +150,7 @@ theorem exists_epi_sectionBoundObject (T : Type (max u v r w))
       (Sigma.desc (fun p : C × T => pick p.1 (sec p.1 p.2))) X)).symm.trans ?_
   exact congrArg (fun (t : freeRepresentableModule.{w} O X.unop ⟶ M) =>
     (ConcreteCategory.hom (t.app X)) (freeRepresentableModuleGen.{w} O X.unop))
-    (Sigma.ι_desc (fun p : C × T => pick p.1 (sec p.1 p.2)) (X.unop, e X.unop y)) |>.trans hval
+    (Sigma.ι_comp_desc (fun p : C × T => pick p.1 (sec p.1 p.2)) (X.unop, e X.unop y)) |>.trans hval
 
 /-! ### Quotients of a fixed module are classified by its subobjects -/
 

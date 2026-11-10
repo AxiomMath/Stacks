@@ -100,7 +100,8 @@ across *that* is over budget — where retyping it across the **single** pushfor
 `SheafOfModules.openSubspaceTensorBifunctorIso_inv_comp_map_mulSheaf` is the three legs above
 composed inside `SheafOfModules.eq_tensorSheafDesc_of_unit_eq`, with
 `mulSheaf_openSubspaceAlg_eq_tensorSheafDesc_pushforward` closing the morphism level, for
-151,225 heartbeats. The composition is within budget; what it needs is the sheaf of commutative rings of the extensionality supplied as
+151,225 heartbeats. The composition is within budget; what it needs is the sheaf of commutative
+rings of the extensionality supplied as
 `(Osharp := (restrictToOpen X U).sheaf)`. Left to be inferred, the application does not reach
 the budget at all — instance synthesis fails outright for
 `(Opens.grothendieckTopology ↥(restrictToOpen X U).carrier).WEqualsLocallyBijective

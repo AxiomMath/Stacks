@@ -120,10 +120,10 @@ theorem trace_eq_trace_add_trace_of_exact (k : Type u) [Field k] {V W Q : Type*}
     congr 1
     ext u
     rw [LinearMap.coe_restrict_apply]
-    show φV (u : V) = ((eW (φW (eW.symm u)) : U) : V)
+    change φV (u : V) = ((eW (φW (eW.symm u)) : U) : V)
     rw [heW, ← hiφ (eW.symm u), ← heW (eW.symm u), eW.apply_symm_apply]
   have hmk (y : V) : eQ (Submodule.Quotient.mk y : V ⧸ U) = p y := by
-    show p.quotKerEquivOfSurjective hp
+    change p.quotKerEquivOfSurjective hp
       (Submodule.quotEquivOfEq U (LinearMap.ker p) hkerp.symm
         (Submodule.Quotient.mk y)) = p y
     rw [Submodule.quotEquivOfEq_mk U (LinearMap.ker p) hkerp.symm y,
@@ -132,7 +132,7 @@ theorem trace_eq_trace_add_trace_of_exact (k : Type u) [Field k] {V W Q : Type*}
     rw [← LinearMap.trace_conj' φQ eQ.symm]
     congr 1
     ext y
-    show U.mapQ U φV hU (Submodule.Quotient.mk y) =
+    change U.mapQ U φV hU (Submodule.Quotient.mk y) =
       eQ.symm (φQ (eQ (Submodule.Quotient.mk y)))
     rw [Submodule.mapQ_apply, hmk, hpφ y, ← hmk (φV y), eQ.symm_apply_apply]
   rw [trace_eq_trace_restrict_add_trace_mapQ k V U φV hU, hW, hQ]
@@ -197,10 +197,10 @@ private theorem trace_lsmul_eq_length_mul_trace_residue (k : Type u) (A : Type v
       have hconj : (eI.restrictScalars k).conj φQ =
           (Algebra.lmul k (ResidueField A) (IsLocalRing.residue A a)).restrictScalars k := by
         ext x
-        show eI (a • eI.symm x) = (IsLocalRing.residue A a) * x
+        change eI (a • eI.symm x) = (IsLocalRing.residue A a) * x
         rw [eI.map_smul]
         simp only [eI.apply_symm_apply]
-        show (algebraMap A (ResidueField A) a) * x = (IsLocalRing.residue A a) * x
+        change (algebraMap A (ResidueField A) a) * x = (IsLocalRing.residue A a) * x
         rw [IsLocalRing.ResidueField.algebraMap_eq]
       rw [← LinearMap.trace_conj' φQ (eI.restrictScalars k), hconj,
         show LinearMap.trace k (ResidueField A)
@@ -236,11 +236,11 @@ theorem trace_eq_length_mul_trace_residue (k : Type u) (A : Type v) [Field k] [C
     let : SMul k A := (Module.compHom A (algebraMap k A)).toSMul
     let : IsScalarTower k A A := by
       refine ⟨fun c x y ↦ ?_⟩
-      show (algebraMap k A c * x) * y = algebraMap k A c * (x * y)
+      change (algebraMap k A c * x) * y = algebraMap k A c * (x * y)
       exact mul_assoc _ _ _
     exact (LinearMap.lsmul A A a).restrictScalars k
   rw [Algebra.trace_apply (R := k) (S := A) a]
-  show @LinearMap.trace k _ A _ module₀ (Algebra.lmul k A a) = _
+  change @LinearMap.trace k _ A _ module₀ (Algebra.lmul k A a) = _
   calc
     @LinearMap.trace k _ A _ module₀ (Algebra.lmul k A a) =
         @LinearMap.trace k _ A _ module₁ φ₁ :=
@@ -271,11 +271,11 @@ theorem trace_ne_zero_iff_isTraceElement_ne_zero (k : Type u) (A : Type v) [Fiel
     isTraceElement_unique G ((isTraceElement_congr F G τ).mp hτ)
       (isTraceElement_finiteFlatTraceElement k A)
   have he : e (finiteFlatTraceElement k A) = Algebra.trace k A := by
-    show e (dualizingModule.tmul G
+    change e (dualizingModule.tmul G
       ((finiteProjectiveTrace k A).comp (Algebra.lmul k A).toLinearMap) 1) = _
     rw [finiteProjectiveTrace_eq_trace k A]
     ext a
-    show (TensorProduct.rid A (Module.Dual k A)
+    change (TensorProduct.rid A (Module.Dual k A)
       (((LinearMap.trace k A).comp (Algebra.lmul k A).toLinearMap) ⊗ₜ[A] (1 : A))) a = _
     rw [TensorProduct.rid_tmul]
     simp only [one_smul, LinearMap.comp_apply]
@@ -283,7 +283,7 @@ theorem trace_ne_zero_iff_isTraceElement_ne_zero (k : Type u) (A : Type v) [Fiel
   let E : dualizingModule F ≃+ Module.Dual k A :=
     (dualizingModuleEquiv F G).toAddEquiv.trans e
   have hE : E τ = Algebra.trace k A := by
-    show e (dualizingModuleEquiv F G τ) = _
+    change e (dualizingModuleEquiv F G τ) = _
     rw [hunique, he]
   rw [← hE]
   exact map_ne_zero_iff E E.injective

@@ -144,7 +144,7 @@ public theorem geometricGenus_eq_sum_of_isClopen_cover {k : Type u} [Field k] {X
         by_contra hne
         obtain ⟨x, hx⟩ := D.2.1.1
         have hx' : (f i).base x ∈ (f i').base '' (D' : Set (A i')) := by
-          show (f i).base x ∈ (j ⟨i', D'⟩ : Set X)
+          change (f i).base x ∈ (j ⟨i', D'⟩ : Set X)
           rw [← h]
           exact ⟨x, hx, rfl⟩
         exact Set.disjoint_left.mp (hdisj hne) ⟨x, rfl⟩ (Set.image_subset_range _ _ hx')

@@ -179,9 +179,9 @@ theorem satisfiesRS_flatSchemeFamilyProjection :
       fun t m' h₁ h₂ => (hlift t).choose_spec.2 m' ⟨h₁, h₂⟩
   · refine ⟨Limits.IsLimit.ofIsoLimit hbp.isLimit
       (Limits.PullbackCone.ext (Iso.refl _) ?_ ?_)⟩
-    · show q₁ = 𝟙 _ ≫ q₁
+    · change q₁ = 𝟙 _ ≫ q₁
       simp
-    · show q₂ = 𝟙 _ ≫ q₂
+    · change q₂ = 𝟙 _ ≫ q₂
       simp
 
 end Deformation.Examples

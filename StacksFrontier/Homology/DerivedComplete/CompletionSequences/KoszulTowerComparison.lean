@@ -29,7 +29,7 @@ variable {C : Type*} [Category C] {P : ObjectProperty C}
 
 /-- **Composition with the unit of a reflection is bijective** onto maps into an object of the
 reflective subcategory. -/
-private lemma unit_comp_bijective (X Y : C) (hY : P Y) :
+lemma unit_comp_bijective (X Y : C) (hY : P Y) :
     Function.Bijective (fun g : (L ⋙ P.ι).obj X ⟶ Y ↦ adj.unit.app X ≫ g) := by
   have h : (fun g : (L ⋙ P.ι).obj X ⟶ Y ↦ adj.unit.app X ≫ g) =
       (adj.homEquiv X ⟨Y, hY⟩) ∘ (P.fullyFaithfulι.homEquiv (X := L.obj X) (Y := ⟨Y, hY⟩)).symm :=
@@ -268,7 +268,7 @@ private lemma coefficientDifferential_empty (f : A)
   dsimp only [LinearMap.proj, LinearMap.coe_mk, AddHom.coe_mk]
   simp only [Fintype.sum_unique]
   simp only [Finset.card_empty, Int.cast_ofNat_Int, CharP.cast_eq_zero, add_zero,
-    Finset.filter_empty, pow_zero, mul_one, Finset.insert_empty, map_add, map_smul,
+    Finset.filter_empty, pow_zero, mul_one, Finset.insert_empty,
     Category.assoc, ComplexShape.up_Rel, HomologicalComplex.eqToHom_comp_d, Fin.isValue,
     eqToHom_refl, Category.comp_id, comp_smul, Units.smul_def, ← Int.cast_smul_eq_zsmul A,
     Int.coe_negOnePow, smul_smul, ModuleCat.hom_add, ModuleCat.hom_comp,
@@ -276,7 +276,7 @@ private lemma coefficientDifferential_empty (f : A)
     LinearMap.coe_mk, AddHom.coe_mk, Function.comp_apply, Function.eval]
   rw [LinearMap.map_add, LinearMap.map_smul]
   congr 1
-  · show (C.d (t + 0) (t + 1 + 0) ≫ eqToHom _) (x ∅) =
+  · change (C.d (t + 0) (t + 1 + 0) ≫ eqToHom _) (x ∅) =
       (C.d (t + 0) (t + 1)) (x ∅)
     rw [HomologicalComplex.d_comp_eqToHom C (by dsimp; omega) (by dsimp; omega)]
   · rw [← ModuleCat.comp_apply, eqToHom_trans]
@@ -384,7 +384,7 @@ private lemma coefficientTransition_singleton (f : A)
   intro x
   dsimp [coefficientKoszulTransitionTerm, coefficientSingleton, coefficientEval, LinearMap.proj]
   simp only [Fin.isValue, Finset.prod_const]
-  show (f ^ (m - n)) ^ 1 • x {0} = f ^ (m - n) • x {0}
+  change (f ^ (m - n)) ^ 1 • x {0} = f ^ (m - n) • x {0}
   rw [pow_one]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -403,7 +403,7 @@ private lemma coefficientUnit_singleton
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show ((coefficientKoszulUnitTerm (r := 1) C t).hom x) {0} = 0
+  change ((coefficientKoszulUnitTerm (r := 1) C t).hom x) {0} = 0
   simp [coefficientKoszulUnitTerm]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -426,7 +426,7 @@ private lemma principalStageIso_transition (f : A)
   · simp only [Category.assoc, principalConeMapTerm_singleton, coefficientTransition_singleton,
       comp_units_smul, comp_smul]
     rw [mappingCone.map_f_fst_v]
-    show (t + 1).negOnePow •
+    change (t + 1).negOnePow •
         ((mappingCone.fst (f ^ (n + 2) • 𝟙 C)).1.v t (t + 1) rfl ≫
           (f • 𝟙 (C.X (t + 1)))) = _
     rw [comp_smul, Category.comp_id]
@@ -485,11 +485,11 @@ private lemma principalMilnorIso_unit (f : A)
       naturality n := coefficientKoszulAugmentation_transition _ C (n + 1) n (Nat.le_succ n) }
   have h := CountableMilnorTower.TowerAugmentation.augmentationMap_naturality
     a b (𝟙 C) (principalTowerIso f C).hom (fun n => by
-      show 𝟙 C ≫ (coefficientKoszulAugmentation (fun _ : Fin 1 => f) n).app C =
+      change 𝟙 C ≫ (coefficientKoszulAugmentation (fun _ : Fin 1 => f) n).app C =
         mappingCone.inr (f ^ (n + 1) • 𝟙 C) ≫ (principalStageIso f C n).hom
       rw [Category.id_comp]
       exact (principalStageIso_unit f C n).symm)
-  show DerivedCategory.Q.map _ ≫ DerivedCategory.Q.map _ = DerivedCategory.Q.map _
+  change DerivedCategory.Q.map _ ≫ DerivedCategory.Q.map _ = DerivedCategory.Q.map _
   rw [← Functor.map_comp]
   apply congrArg DerivedCategory.Q.map
   have ha : a.augmentationMap = principalCompletionUnit A f C := rfl

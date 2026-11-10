@@ -194,13 +194,7 @@ theorem ProjectiveBundleFormulaHolds.of_iso {E E' : Modules.{u, u} D.site D.base
     ProjectiveBundleFormulaHolds D sX hX E' n hr' :=
   ⟨BundleTopPowerIdentity.of_iso D sX hX _ _ _ _ _ rfl _ rfl n _ _ _ _ _ _ _ _ _ _ φ
       (by rw [← Category.assoc, hφπ]) hφπ e h.1,
-    BundleFormulaSurjective.of_iso D sX hX _ _ _ _ _ rfl _ rfl n _ _
-      (@isProper_projectiveBundleProj D.site D.base D.base_mem X E
-        (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr)
-        hr.isFiniteLocallyFreeOnSite) _ _
-      (@isProper_projectiveBundleProj D.site D.base D.base_mem X E'
-        (isQuasicoherentOnSite_of_isFiniteLocallyFreeOfRank X.2 hr') hr'.isFiniteLocallyFreeOnSite)
-      _ _ _ _ φ
+    BundleFormulaSurjective.of_iso D sX hX _ _ _ _ _ rfl _ rfl n _ _ _ _ _ _ _ _ φ
       (by rw [← Category.assoc, hφπ]) hφπ e h.2⟩
 
 end Formula

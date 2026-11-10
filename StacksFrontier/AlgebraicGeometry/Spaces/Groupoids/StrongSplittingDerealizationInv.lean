@@ -266,7 +266,7 @@ theorem splittingInverseHom_comp_mapArrows :
       yoneda.map (schemeSiteMap C hS hRA hR
         (AlgebraicGeometry.restrictionArrowsToArrows G p ≫ G.inverse)) := by
     rw [← yoneda.map_comp, ← schemeSiteMap_comp, restrictionInverse_comp_arrowsToArrows]
-  show (yoneda.map (schemeSiteMap C hS hRA hRA (restrictionInverse G p)) ≫
+  change (yoneda.map (schemeSiteMap C hS hRA hRA (restrictionInverse G p)) ≫
       (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom) ≫
       Rs.hom.toGroupoidHom.mapArrows = _
   refine (Category.assoc _ _ _).trans ?_

@@ -151,9 +151,9 @@ theorem exists_compatible_etale_charts
       _ = y' ≫ g.hom := rfl
   let c := pullback.lift x y' hxy
   have hCeqX : c ≫ pullback.fst f.hom g.hom = x := by
-    simpa [c] using pullback.lift_fst x y' hxy
+    simp [c]
   have hCeqY : c ≫ pullback.snd f.hom g.hom = y' := by
-    simpa [c] using pullback.lift_snd x y' hxy
+    simp [c]
   let d := b ≫ pullback.snd v g.hom
   let W := pullback (pullback.snd f.hom g.hom) d
   have hYonPB : IsPullback (yoneda.map pV') (yoneda.map pU) (yoneda.map q) (yoneda.map p) :=

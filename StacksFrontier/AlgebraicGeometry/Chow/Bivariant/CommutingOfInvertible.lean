@@ -81,7 +81,7 @@ theorem chowPushforwardOfIso_chowGroupDegreeEquiv_eq_iff (C : ChowSituation.{u})
         chowGroupDegreeEquiv C sQ hbc y ↔
       x = chowGroupDegreeEquiv C sP hba (chowPushforwardOfIso C sQ sP e' he' b y) := by
   subst hac hbc
-  show chowPushforwardOfIso C sP sQ e he _ x = y ↔ x = chowPushforwardOfIso C sQ sP e' he' _ y
+  change chowPushforwardOfIso C sP sQ e he _ x = y ↔ x = chowPushforwardOfIso C sQ sP e' he' _ y
   constructor
   · rintro rfl
     rw [chowPushforwardOfIso_comp_apply,

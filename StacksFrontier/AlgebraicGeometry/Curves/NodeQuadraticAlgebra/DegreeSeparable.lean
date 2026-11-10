@@ -64,9 +64,9 @@ theorem exists_nodalQuadraticRelation_nonzero (hA : IsNodalAlgebra k A) :
     LinearEquiv.transvection (f := e.coord ⟨1⟩) (v := -e ⟨0⟩) (by simp)
   let e' := e.map t
   refine ⟨x, y - x, e', a + b + c, b + 2 * c, c, ?_, ?_, ?_, ?_, ?_⟩
-  · show t (e ⟨0⟩) = _
+  · change t (e ⟨0⟩) = _
     simpa [t, LinearMap.transvection.apply] using hx
-  · show t (e ⟨1⟩) = _
+  · change t (e ⟨1⟩) = _
     rw [map_sub, ← hx, ← hy]
     simp [t, LinearMap.transvection.apply, sub_eq_add_neg]
   · simpa [ha0, hc0] using hb

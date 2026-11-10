@@ -99,7 +99,7 @@ theorem comap_completionMap_specIdealSheaf (S : AlgebraizationSituation.{u}) :
         (Scheme.ΓSpecIso (.of (completedSituation S).A)).inv.hom) := by
   rw [Stacks.LocalCohomology.specIdealSheaf, Stacks.AlgebraicGeometry.comap_ofIdealTop,
     Ideal.map_map]
-  show Scheme.IdealSheafData.ofIdealTop (S.I.map (((Scheme.ΓSpecIso (.of S.A)).inv ≫
+  change Scheme.IdealSheafData.ofIdealTop (S.I.map (((Scheme.ΓSpecIso (.of S.A)).inv ≫
     (completionMap S).appTop).hom)) = Scheme.IdealSheafData.ofIdealTop
       ((S.I.map (algebraMap S.A (AdicCompletion S.I S.A))).map
         (Scheme.ΓSpecIso (.of (AdicCompletion S.I S.A))).inv.hom)
@@ -151,7 +151,7 @@ private theorem isIso_completedBlowup_restrict_compl_support (S : Algebraization
     refine ((Scheme.Hom.image_le_image_iff Uh.ι _ _).mpr hV).trans ?_
     rw [Scheme.Hom.image_preimage_eq_opensRange_inf]
     exact inf_le_right
-  show IsIso ((bh ∣_ Uh) ∣_ J.support.compl)
+  change IsIso ((bh ∣_ Uh) ∣_ J.support.compl)
   rw [← MorphismProperty.isomorphisms.iff,
     (MorphismProperty.isomorphisms Scheme).arrow_mk_iso_iff
       (morphismRestrictRestrict bh Uh J.support.compl)]
@@ -208,7 +208,7 @@ theorem extendsToX_of_blowup_extension (S : AlgebraizationSituation.{u})
     (ObjectProperty.ι _).mapIso ((completionFunctor (pullback b c) E).objObjPreimageIso Gh)
   -- the comparison morphism `Û' ⟶ U'`
   have hq : U'h ≤ p ⁻¹ᵁ situationBlowUpU S := by
-    show bh ⁻¹ᵁ c ⁻¹ᵁ S.U ≤ p ⁻¹ᵁ b ⁻¹ᵁ S.U
+    change bh ⁻¹ᵁ c ⁻¹ᵁ S.U ≤ p ⁻¹ᵁ b ⁻¹ᵁ S.U
     rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, hpb]
   let q : U'h.toScheme ⟶ (situationBlowUpU S).toScheme := p.resLE _ _ hq
   have hq' : q ≫ (situationBlowUpU S).ι = U'h.ι ≫ p := Scheme.Hom.resLE_comp_ι _ _

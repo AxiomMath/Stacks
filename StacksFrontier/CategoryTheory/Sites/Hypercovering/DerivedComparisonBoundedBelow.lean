@@ -412,7 +412,7 @@ lemma isIso_hypercoverAug_app (hK : IsHypercovering J K)
       ((hypercoverAugPlus J U K hK).app
         ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj ⟨_, hW⟩)) := by
     rw [HomotopyCategory.Plus.quasiIso_iff]
-    show HomotopyCategory.quasiIso _ _
+    change HomotopyCategory.quasiIso _ _
       ((HomotopyCategory.quotient AddCommGrpCat.{max u v w} (up ℤ)).map
         ((hypercoverAugCochain J U K hK).app
           (((InjectiveObject.ι _).mapHomologicalComplex (up ℤ)).obj L)))

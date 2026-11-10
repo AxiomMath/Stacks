@@ -117,7 +117,7 @@ def globalDatumIsoEquiv :
         (I.inv.app n y)⟩
   left_inv γ := Subtype.ext (globalDatumHomEquiv.symm_apply_apply γ.1)
   right_inv I := GradedMulDatum.Iso.ext (by
-    simp only [GradedMulDatum.Iso.ofBijective_hom]
+    simp only
     exact globalDatumHomEquiv.apply_symm_apply I.hom)
 
 /-- In degree `n`, the isomorphism `globalDatumIsoEquiv γ` is the map of global sections of

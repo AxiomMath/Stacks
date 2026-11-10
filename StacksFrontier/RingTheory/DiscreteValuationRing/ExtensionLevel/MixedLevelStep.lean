@@ -48,7 +48,7 @@ private theorem exists_isWeakSolution_of_tensor_closure
   let : Algebra A₁ C₁ := g.toAlgebra
   have : IsScalarTower A A₁ C₁ := IsScalarTower.of_algebraMap_eq fun a => by
     apply Subtype.ext
-    show algebraMap A T a = (g (algebraMap A A₁ a) : T)
+    change algebraMap A T a = (g (algebraMap A A₁ a) : T)
     rw [hg]
     exact ((Algebra.TensorProduct.includeRight : E →ₐ[K] T).restrictScalars A).commutes a |>.symm
   let eT : T ≃ₐ[K] (T ⧸ nilradical T) :=
@@ -100,7 +100,7 @@ private theorem exists_integralClosure_pi_algEquiv
     let y : I → R := fun i => IsIntegralClosure.mk' R (e (x : T) i) (hxi i)
     refine ⟨y, ?_⟩
     apply Subtype.ext
-    show e.symm (fun i => algebraMap R F (y i)) = (x : T)
+    change e.symm (fun i => algebraMap R F (y i)) = (x : T)
     have hy : (fun i => algebraMap R F (y i)) = e (x : T) := by
       funext i
       exact IsIntegralClosure.algebraMap_mk' R _ _
@@ -195,14 +195,14 @@ theorem exists_isWeakSolution_of_tensor_embedding
   let : Algebra F T := ι.toRingHom.toAlgebra
   have : IsScalarTower K F T := IsScalarTower.of_algHom ι
   have : IsScalarTower B F T := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap B M b ⊗ₜ[K] (1 : E) = ι (algebraMap B L b ⊗ₜ[K] (1 : E))
+    change algebraMap B M b ⊗ₜ[K] (1 : E) = ι (algebraMap B L b ⊗ₜ[K] (1 : E))
     rw [hι, ← IsScalarTower.algebraMap_apply B L M]
   have : Algebra.IsIntegral B C := by
     let : Algebra M F := φ.toAlgebra
     let : Algebra C F := ((algebraMap M F).comp (algebraMap C M)).toAlgebra
     have : IsScalarTower C M F := IsScalarTower.of_algebraMap_eq' rfl
     have : IsScalarTower B C F := IsScalarTower.of_algebraMap_eq fun b => by
-      show algebraMap B L b ⊗ₜ[K] (1 : E) = φ (algebraMap C M (algebraMap B C b))
+      change algebraMap B L b ⊗ₜ[K] (1 : E) = φ (algebraMap C M (algebraMap B C b))
       rw [← IsScalarTower.algebraMap_apply B C M,
         IsScalarTower.algebraMap_apply B L M, φ.commutes]
       rfl
@@ -214,13 +214,13 @@ theorem exists_isWeakSolution_of_tensor_embedding
   let g : A₁ →+* C₁ := eC.toRingHom.comp (RingHom.pi fun _ : I => f')
   have hg (a : A₁) : (g a : T) =
       (Algebra.TensorProduct.includeRight : E →ₐ[K] T) a := by
-    show (eC (fun _ : I => f' a) : T) = _
+    change (eC (fun _ : I => f' a) : T) = _
     rw [heC]
-    show e.symm (fun _ : I => (f' a : F)) = _
+    change e.symm (fun _ : I => (f' a : F)) = _
     simp_rw [hfsquare a]
-    show e.symm (algebraMap F (I → F) (Algebra.TensorProduct.includeRight (a : E))) = _
+    change e.symm (algebraMap F (I → F) (Algebra.TensorProduct.includeRight (a : E))) = _
     rw [e.symm.commutes]
-    show ι ((1 : L) ⊗ₜ[K] (a : E)) = (1 : M) ⊗ₜ[K] (a : E)
+    change ι ((1 : L) ⊗ₜ[K] (a : E)) = (1 : M) ⊗ₜ[K] (a : E)
     rw [hι, map_one]
   let : Algebra A₁ B₁ := f'.toAlgebra
   let : Algebra A₁ C₁ := g.toAlgebra
@@ -336,7 +336,7 @@ theorem cyclotomic_properties_map
     let R := MvPolynomial (Fin 2) B
     have h := aeval_cyclotomic_add f P hP.2.2.2
       (MvPolynomial.X 0 : R) (MvPolynomial.X 1 : R)
-    show funcEq ((algebraMap A B).comp f) (P.map (algebraMap A B))
+    change funcEq ((algebraMap A B).comp f) (P.map (algebraMap A B))
     simpa only [funcEq, wElt_comp, Polynomial.aeval_map_algebraMap, map_pow,
       ← IsScalarTower.algebraMap_apply A B (MvPolynomial (Fin 2) B)] using h
 
@@ -418,7 +418,7 @@ theorem exists_isWeakSolution_of_unramified_normalization
   have hι (l : L) (a : E) : ι (l ⊗ₜ[K] a) = algebraMap L M l ⊗ₜ[K] a :=
     Algebra.TensorProduct.map_tmul (IsScalarTower.toAlgHom K L M) (AlgHom.id K E) l a
   have : IsScalarTower L F T := IsScalarTower.of_algebraMap_eq fun l => by
-    show algebraMap L M l ⊗ₜ[K] (1 : E) = ι (l ⊗ₜ[K] (1 : E))
+    change algebraMap L M l ⊗ₜ[K] (1 : E) = ι (l ⊗ₜ[K] (1 : E))
     exact (hι l 1).symm
   have : IsScalarTower B F T := IsScalarTower.of_algebraMap_eq fun b => by
     rw [IsScalarTower.algebraMap_apply B L T, IsScalarTower.algebraMap_apply L F T,
@@ -444,9 +444,9 @@ theorem exists_isWeakSolution_of_unramified_normalization
   let g : A₁ →+* C₁ := eC.toRingHom.comp ((algebraMap B₁ R).comp f')
   have hg (a : A₁) : (g a : T) =
       (Algebra.TensorProduct.includeRight : E →ₐ[K] T) a := by
-    show algebraMap F T (f' a : F) = _
+    change algebraMap F T (f' a : F) = _
     rw [hfsquare a]
-    show ι ((1 : L) ⊗ₜ[K] (a : E)) = (1 : M) ⊗ₜ[K] (a : E)
+    change ι ((1 : L) ⊗ₜ[K] (a : E)) = (1 : M) ⊗ₜ[K] (a : E)
     rw [hι, map_one]
   have hmapR : (IsLocalRing.maximalIdeal A₁).map ((algebraMap B₁ R).comp f') =
       IsLocalRing.maximalIdeal R := by

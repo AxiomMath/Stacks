@@ -60,7 +60,7 @@ theorem shiftCohomologyIso_eq_shiftHomologyIsoU
       (Stacks.Cohomology.RealizationShift.shiftHomologyIsoU
         (DerivedCategory.Q ⋙ baseSections S) N n a a' h).hom := by
   refine congrArg (· ≫ _) ?_
-  show (DerivedCategory.homologyFunctor _ a).map ((baseSections S).map
+  change (DerivedCategory.homologyFunctor _ a).map ((baseSections S).map
       ((DerivedCategory.Q.commShiftIso n).hom.app N) ≫
         ((baseSections S).commShiftIso n).hom.app (DerivedCategory.Q.obj N)) = _
   exact congrArg (DerivedCategory.homologyFunctor _ a).map
@@ -324,7 +324,7 @@ lemma gradedPieceCup_step₂ (a b : ℕ) (n m i j : ℤ) (hi : -(a : ℤ) + n = 
 
 /-- Naturality of the shift identification `shiftCohomologyIsoR` by `-a` with respect to
 `mapBifunctorShift₂Iso` followed by the `-b`-shifted multiplication `hodgeSingleWedge B D a b`. -/
-lemma gradedPieceCup_step₃ (a b : ℕ) (n m i j : ℤ) (hi : -(a : ℤ) + n = i) (hj : -(b : ℤ) + m = j) :
+lemma gradedPieceCup_step₃ (a b : ℕ) (n m i : ℤ) (hi : -(a : ℤ) + n = i) :
     cohomologyModuleMap (n + m) ((CategoryTheory.shiftFunctor
       (CochainComplex (_root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A)) ℤ) (-(a : ℤ))).map
@@ -368,7 +368,7 @@ lemma gradedPieceCup_step₃ (a b : ℕ) (n m i j : ℤ) (hi : -(a : ℤ) + n = 
 
 /-- Naturality of the shift identification `shiftCohomologyIsoR` by `-b` with respect to the
 multiplication `hodgeSingleWedge B D a b`. -/
-lemma gradedPieceCup_step₄ (a b : ℕ) (n m i j : ℤ) (hi : -(a : ℤ) + n = i) (hj : -(b : ℤ) + m = j) :
+lemma gradedPieceCup_step₄ (a b : ℕ) (m i j : ℤ) (hj : -(b : ℤ) + m = j) :
     cohomologyModuleMap (i + m) ((CategoryTheory.shiftFunctor
       (CochainComplex (_root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A)) ℤ) (-(b : ℤ))).map
@@ -412,7 +412,7 @@ lemma gradedPieceCup_step₅ (a b : ℕ) (n m : ℤ)
 
 /-- The cup product followed by `mapBifunctorShift₁Iso` and the shift identification by `-a` is the
 cup product after applying the shift identification by `-a` to the first class. -/
-lemma gradedPieceCup_step₆ (a b : ℕ) (n m i j : ℤ) (hi : -(a : ℤ) + n = i) (hj : -(b : ℤ) + m = j)
+lemma gradedPieceCup_step₆ (a b : ℕ) (n m i : ℤ) (hi : -(a : ℤ) + n = i)
     (ξ : (ModuleCat.of (baseRing (baseRingedSpace A)) (baseRing (baseRingedSpace A))) ⟶
     cohomologyModule (moduleDerived (A := A) (deRhamGradedPiece B D a)) n)
     (η : (ModuleCat.of (baseRing (baseRingedSpace A)) (baseRing (baseRingedSpace A))) ⟶
@@ -527,8 +527,8 @@ theorem canonicalPairingModule_gradedPieceWedge (a b : ℕ) (n m i j : ℤ) (hi 
         canonicalPairingModule (hodgeSingleWedge B D a b) i j) :=
   gradedPiece_paste _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     (gradedPieceCup_step₁ B D a b n m) (gradedPieceCup_step₂ B D a b n m i j hi hj)
-    (gradedPieceCup_step₃ B D a b n m i j hi hj) (gradedPieceCup_step₄ B D a b n m i j hi hj)
-    (gradedPieceCup_step₅ B D a b n m ξ η) (gradedPieceCup_step₆ B D a b n m i j hi hj ξ η)
+    (gradedPieceCup_step₃ B D a b n m i hi) (gradedPieceCup_step₄ B D a b m i j hj)
+    (gradedPieceCup_step₅ B D a b n m ξ η) (gradedPieceCup_step₆ B D a b n m i hi ξ η)
     (gradedPieceCup_step₇ B D a b n m i j hi hj ξ η) _ _ _
     (canonicalPairingModule_eq _ _ _) (canonicalPairingModule_eq _ _ _)
     (gradedPieceModuleShiftIso_hom B D (a + b) _ _ _)
@@ -554,7 +554,7 @@ theorem canonicalPairingModule_gradedPieceWedge_apply (a b : ℕ) (n m i j : ℤ
         ((λ_ (ModuleCat.of (baseRing (baseRingedSpace A))
           (baseRing (baseRingedSpace A)))).inv.hom 1)
         = f.hom x ⊗ₜ g.hom y := fun x y f g => by
-    show f.hom (LinearMap.toSpanSingleton _ _ x 1) ⊗ₜ g.hom
+    change f.hom (LinearMap.toSpanSingleton _ _ x 1) ⊗ₜ g.hom
       (LinearMap.toSpanSingleton _ _ y 1) = _
     simp
   have e₁ : ∀ {M N : ModuleCat.{u} (baseRing (baseRingedSpace A))} (x : M) (y : N),

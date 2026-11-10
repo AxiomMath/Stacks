@@ -53,6 +53,7 @@ attribute [local instance] etaleModulePullback_additive
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasPullbacks` instance for presheaves on the big fppf site needs a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ApproximationQcqsRestrict :
@@ -197,7 +198,7 @@ theorem isPerfect_of_forall_isPerfect_etaleRestrict {ι : Type*} (Y : ι → Alg
     CostructuredArrow.w m''.hom
   let gx : Wx ⟶ U := ObjectProperty.homMk (CostructuredArrow.homMk
     ((SmallEtale.toOver B S hS (Y i).1).map m'' ≫ p) (by
-      show yoneda.map (_ ≫ p) ≫ U.1.hom = W''.1.hom ≫ (f i).hom
+      change yoneda.map (_ ≫ p) ≫ U.1.hom = W''.1.hom ≫ (f i).hom
       rw [Functor.map_comp, Category.assoc, hp, ← Category.assoc, hm''w]))
   have hc : chartToSpace B S hS (Y i) W'' ≫ f i = chartToSpace B S hS X Wx := rfl
   refine ⟨Wx, gx, Sieve.le_generate R _ _ ?_, ?_⟩
@@ -206,7 +207,7 @@ theorem isPerfect_of_forall_isPerfect_etaleRestrict {ι : Type*} (Y : ι → Alg
         (f i)).app E ≪≫ (smallEtaleDerivedModulePullbackCongr B S hS hc).app E)
   · refine ⟨(BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS (Y i).1).map m') w',
       ?_⟩
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS (Y i).1).map m'' ≫ p) _ = _
     rw [← hw, ← hw', Functor.map_comp, Functor.map_comp, Functor.map_comp,
       Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
@@ -238,11 +239,11 @@ theorem range_union_range_eds :
       rwa [hZsupport]
     obtain ⟨y, hy⟩ : ∃ y, pointsMap B S hS _ (Z.fromPreimage fV) y = z :=
       ⟨pointsMap B S hS _ (inv (Z.fromPreimage fV)) z, by
-        show (pointsMap B S hS _ (Z.fromPreimage fV) ∘ pointsMap B S hS _
+        change (pointsMap B S hS _ (Z.fromPreimage fV) ∘ pointsMap B S hS _
           (inv (Z.fromPreimage fV))) z = z
         rw [← pointsMap_comp, IsIso.inv_hom_id, pointsMap_id, id]⟩
     refine Or.inr ⟨pointsMap B S hS (Z.preimage fV).toFunctor (Z.preimage fV).ι y, ?_⟩
-    show (pointsMap B S hS V fV ∘ pointsMap B S hS (Z.preimage fV).toFunctor
+    change (pointsMap B S hS V fV ∘ pointsMap B S hS (Z.preimage fV).toFunctor
       (Z.preimage fV).ι) y = x
     rw [← pointsMap_comp, ← Subfunctor.fromPreimage_ι Z fV, pointsMap_comp]
     exact (congrArg _ hy).trans hz
@@ -283,6 +284,7 @@ private theorem isZero_cokernel_of_epi_eds {F G : Modules.{u, u} B S hS W.1 W.2}
         (isEtale_edsEtaleHom B S hS hsq)) φ)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the kernels and cokernels that `etaleModulePullback` preserves
 /-- **Isomorphisms of modules are detected on an elementary distinguished square.** -/
 theorem isIso_of_eds {F G : Modules.{u, u} B S hS W.1 W.2} (φ : F ⟶ G)
     (hU : IsIso ((etaleModulePullback.{u, u} B S hS (edsOpenHom B S hS hsq)
@@ -295,9 +297,9 @@ theorem isIso_of_eds {F G : Modules.{u, u} B S hS W.1 W.2} (φ : F ⟶ G)
     (isEtale_edsEtaleHom B S hS hsq)
   have hK : IsZero (kernel φ) := by
     refine isZero_of_isZero_restrict_eds B S hS hsq _ ?_ ?_
-    · haveI : Mono (LU.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hU
+    · have : Mono (LU.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hU
       exact (isZero_kernel_of_mono (LU.map φ)).of_iso (PreservesKernel.iso LU φ)
-    · haveI : Mono (LV.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hV
+    · have : Mono (LV.map φ) := @IsIso.mono_of_iso _ _ _ _ _ hV
       exact (isZero_kernel_of_mono (LV.map φ)).of_iso (PreservesKernel.iso LV φ)
   have : Mono φ := Preadditive.mono_of_isZero_kernel _ hK
   have : Epi φ := Preadditive.epi_of_isZero_cokernel _ (isZero_cokernel_of_epi_eds B S hS hsq φ

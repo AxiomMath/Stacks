@@ -86,9 +86,11 @@ def idx (x : SystemLift I) : I := (x : I × ℕ).1
 /-- The level underlying an element of `SystemLift I`. -/
 def lvl (x : SystemLift I) : ℕ := (x : I × ℕ).2
 
+omit [Preorder I] in
 /-- The index of `mk i n` is `i`. -/
 @[simp] lemma idx_mk (i : I) (n : ℕ) : (mk i n).idx = i := rfl
 
+omit [Preorder I] in
 /-- The level of `mk i n` is `n`. -/
 @[simp] lemma lvl_mk (i : I) (n : ℕ) : (mk i n).lvl = n := rfl
 
@@ -147,11 +149,11 @@ def map {x y : SystemLift I} (h : x ≤ y) : A (Opposite.op x.idx) ⟶ A (Opposi
 /-- Along `x ≤ y` with `x.lvl < y.lvl`, `map A T` is the transition map of the system. -/
 lemma map_of_lt {x y : SystemLift I} (h : x ≤ y) (hlt : x.lvl < y.lvl) :
     map A T h = tr A T (idx_le_idx h) :=
-  dif_pos hlt
+  dite_eq_left hlt
 
 /-- Along `x ≤ x`, `map A T` is the identity. -/
 lemma map_self (x : SystemLift I) : map A T (le_refl x) = 𝟙 _ := by
-  rw [map, dif_neg (lt_irrefl _)]
+  rw [map, dite_eq_right (lt_irrefl _)]
   rfl
 
 include hT in
@@ -236,7 +238,7 @@ lemma ι_app_compatible (s : Cocone (functor A T hT)) {i j : Iᵒᵖ} (a : i ⟶
   have e : mk j.unop 0 ≤ mk i.unop 1 := mk_le_mk (leOfHom a.unop) Nat.zero_lt_one
   have h := s.w (homOfLE e)
   rw [functor_map, map_of_lt A T e Nat.zero_lt_one] at h
-  show T a ≫ s.ι.app (mk i.unop 0) = s.ι.app (mk j.unop 0)
+  change T a ≫ s.ι.app (mk i.unop 0) = s.ι.app (mk j.unop 0)
   rwa [← ι_app_eq hT s i.unop 1]
 
 /-- **The colimits of a system are the colimits of the attached functor.** -/
@@ -248,7 +250,7 @@ theorem isSystemColimit_iff {B : 𝒞} (ψ : ∀ i, A i ⟶ B)
                       uniq := fun s m hm => h.hom_ext hψ fun i =>
                         (hm (mk i.unop 0)).trans (h.fac _ (ι_app_compatible hT s) i).symm }⟩,
     fun ⟨hc⟩ G τ hτ => ?_⟩
-  · show ψ (Opposite.op x.idx) ≫ _ = _
+  · change ψ (Opposite.op x.idx) ≫ _ = _
     rw [h.fac]
     exact (ι_app_eq hT s x.idx x.lvl).symm
   · let s : Cocone (functor A T hT) := cocone hT τ hτ
@@ -299,6 +301,7 @@ theorem exists_eq_zero (h : IsSystemColimit A T B ψ) {i : Iᵒᵖ} (x : A i) (h
   rw [map_zero] at hfg
   exact ⟨_, _, SystemLift.map_tr_apply_eq_zero (𝟭 _) (leOfHom f) (z := x) hfg⟩
 
+omit [Nonempty I] [UnivLE.{w, v}] in
 include hT hψ in
 /-- If every element of a stage which maps to zero under `ψ` dies under a transition map, then a
 compatible family `τ` agrees on any two elements of stages with the same image under `ψ`. -/
@@ -317,6 +320,7 @@ theorem apply_eq_apply_of_forall_exists
     ← hT, ← hT] at hk
   rw [← hτ (b ≫ a), ← hτ (b ≫ a'), ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hk]
 
+omit [Nonempty I] [UnivLE.{w, v}] in
 include hT hψ in
 /-- **The elementwise characterization of colimits of systems of abelian groups**: a compatible
 family of maps is a colimit of the system as soon as every element of the target comes from a
@@ -346,7 +350,7 @@ theorem of_forall_exists (hsurj : ∀ b : B, ∃ (i : Iᵒᵖ) (x : A i), ψ i x
   · ext y
     exact hwd (hx _)
   · ext b
-    show χ' b = τ (i b) (x b)
+    change χ' b = τ (i b) (x b)
     conv_lhs => rw [← hx b]
     rw [← ConcreteCategory.comp_apply, hχ']
 
@@ -425,7 +429,7 @@ theorem of_subsingleton [UnivLE.{w, v}] {A : Iᵒᵖ → AddCommGrpCat.{v}}
     (hT : ∀ {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k), T (a ≫ b) = T b ≫ T a)
     {B : AddCommGrpCat.{v}} {ψ : ∀ i, A i ⟶ B} (hψ : ∀ {i j : Iᵒᵖ} (a : i ⟶ j), T a ≫ ψ i = ψ j)
     [∀ i, Subsingleton (A i)] [Subsingleton B] : IsSystemColimit A T B ψ :=
-  of_forall_exists hT hψ (fun b => ⟨Classical.arbitrary _, 0, Subsingleton.elim _ _⟩)
+  of_forall_exists hT hψ (fun b => ⟨Classical.arbitrary _, 0, Subsingleton.elim _ b⟩)
     (fun i _ _ => ⟨i, 𝟙 i, Subsingleton.elim _ _⟩)
 
 end IsSystemColimit

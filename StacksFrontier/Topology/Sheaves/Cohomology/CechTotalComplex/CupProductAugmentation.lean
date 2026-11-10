@@ -303,7 +303,7 @@ private theorem naiveCupProduct_cechCupProduct_summand (D : ComplexPairing.{u} R
   subst hab
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, ← Category.assoc,
     ι_mapBifunctorMap_cechAugmentationTotal, Category.assoc]
-  show _ ≫ ιTensorSource W R K L 0 0 a b (a + b) _ ≫ cechCupProductDegree W R D (a + b) = _
+  change _ ≫ ιTensorSource W R K L 0 0 a b (a + b) _ ≫ cechCupProductDegree W R D (a + b) = _
   rw [ιTensorSource_cechCupProductDegree, cechCupProductSummand_eq]
   simp only [Nat.cast_zero, mul_zero, Int.negOnePow_zero, Units.val_one, one_smul]
   rw [cechAugmentation_ιPairingTarget, naiveCupProduct_f,

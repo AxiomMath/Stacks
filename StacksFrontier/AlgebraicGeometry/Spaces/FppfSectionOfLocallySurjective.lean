@@ -69,13 +69,13 @@ public lemma exists_coproduct_of_contains
   have hι (i : I) : B.inclusion.map (ιp i) = Sigma.ι X i := B.inclusion.map_preimage _
   have hw (i : I) : ιp i ≫ vmap = (U i).hom := by
     apply B.inclusion.map_injective
-    rw [Functor.map_comp, hι, hv, Sigma.ι_desc]
+    rw [Functor.map_comp, hι, hv, Sigma.ι_comp_desc]
   let j : ∀ i, U i ⟶ V := fun i => Over.homMk (ιp i) (hw i)
   let m (c : Cofan U) : Vobj ⟶ c.pt.left :=
     B.inclusion.preimage (Sigma.desc (fun i => B.inclusion.map (c.inj i).left))
   have hm (c : Cofan U) (i : I) : Sigma.ι X i ≫ B.inclusion.map (m c) =
       B.inclusion.map (c.inj i).left := by
-    simp only [m, Functor.map_preimage, Sigma.ι_desc]
+    simp only [m, Functor.map_preimage, Sigma.ι_comp_desc]
   refine ⟨V, j, ⟨Cofan.IsColimit.mk _ (fun c => ?_) ?_ ?_⟩, Iso.refl _, ?_⟩
   · refine Over.homMk (m c) ?_
     apply B.inclusion.map_injective
@@ -83,7 +83,7 @@ public lemma exists_coproduct_of_contains
     intro i
     rw [Functor.map_comp, ← Category.assoc, hm, ← Functor.map_comp, Over.w]
     change _ = _ ≫ B.inclusion.map vmap
-    rw [hv, Sigma.ι_desc]
+    rw [hv, Sigma.ι_comp_desc]
   · intro c i
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
@@ -132,11 +132,11 @@ public lemma coproduct_cover
         obtain ⟨t, rfl⟩ := e.hom.homeomorph.surjective t
         obtain ⟨⟨i, x⟩, rfl⟩ := (sigmaMk A).surjective t
         refine ⟨ULift.up i, x, ?_⟩
-        show T.map (j i) x = _
+        change T.map (j i) x = _
         rw [← he i, Scheme.Hom.comp_apply, sigmaMk_mk]
         rfl
       · intro i
-        show Flat (T.map (j i.down)) ∧ LocallyOfFinitePresentation (T.map (j i.down))
+        change Flat (T.map (j i.down)) ∧ LocallyOfFinitePresentation (T.map (j i.down))
         rw [← he i.down]
         constructor <;> infer_instance
     have hEq : E.sieve₀ = Sieve.ofArrows X j := by
@@ -203,7 +203,7 @@ public theorem exists_fppf_section
     let b' : (Wi i).left ⟶ E.X k := 𝒞.inclusion.preimage b
     have hb' : b' ≫ E.f k = (wi i).left := by
       apply 𝒞.inclusion.map_injective
-      show 𝒞.inclusion.map (b' ≫ E.f k) =
+      change 𝒞.inclusion.map (b' ≫ E.f k) =
         𝒞.inclusion.map
           (𝒞.inclusion.preimage (X := (Wi i).left) (Y := U.left) (W.f i))
       rw [Functor.map_comp, Functor.map_preimage]
@@ -240,13 +240,13 @@ public theorem exists_fppf_section
     apply yonedaEquiv.injective
     apply hjcol.hom_ext
     rintro ⟨i⟩
-    show (yoneda.obj U).map (j i).op (yonedaEquiv (s ≫ a)) =
+    change (yoneda.obj U).map (j i).op (yonedaEquiv (s ≫ a)) =
       (yoneda.obj U).map (j i).op (yonedaEquiv (yoneda.map f))
     rw [yonedaEquiv_naturality, yonedaEquiv_naturality, ← Category.assoc, hs, ← Functor.map_comp,
       hjf, yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]
     simpa using hsi i
   have hef : e.hom ≫ Ts.map f = Sigma.desc W.f := Sigma.hom_ext _ _ fun i => by
-    rw [← Category.assoc, he, ← Functor.map_comp, hjf, hwi, Sigma.ι_desc]
+    rw [← Category.assoc, he, ← Functor.map_comp, hjf, hwi, Sigma.ι_comp_desc]
   have : ∀ i, Flat (W.f i) := W.flat
   have : ∀ i, LocallyOfFinitePresentation (W.f i) := W.lfp
   let : IsZariskiLocalAtSource (@LocallyOfFinitePresentation.{u}) :=
@@ -266,7 +266,7 @@ public theorem exists_fppf_section
       (@LocallyOfFinitePresentation.{u}) e.hom _).mp hlfp, ⟨fun x => ?_⟩⟩
   obtain ⟨i, y, hy⟩ := W.jointly_surjective x
   refine ⟨Ts.map (j i) y, ?_⟩
-  show (Ts.map (j i) ≫ Ts.map f) y = x
+  change (Ts.map (j i) ≫ Ts.map f) y = x
   rwa [← Functor.map_comp, hjf, hwi]
 
 

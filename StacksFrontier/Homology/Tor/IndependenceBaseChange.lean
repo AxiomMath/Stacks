@@ -158,8 +158,7 @@ private theorem bijective_tensorProduct_baseChange
       (TensorProduct.comm A M (A ⊗[R] B)).restrictScalars R
   have he : ∀ x, φ x = e x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m => simpa [e] using hφ b m
     | add x y hx hy => simp [hx, hy]
   exact (show (φ : B ⊗[R] M → (A ⊗[R] B) ⊗[A] M) = e from funext he) ▸ e.bijective

@@ -101,7 +101,7 @@ private theorem globalSections_algebraMap_comp
     (((Scheme.ΓSpecIso (.of R)).inv ≫ (B.inclusion.map V.hom).appTop).hom) =
     ((B.inclusion.map q.left).appTop.hom).comp
       (((Scheme.ΓSpecIso (.of R)).inv ≫ (B.inclusion.map W.hom).appTop).hom) := by
-  show ((B.inclusion.map V.hom).appTop.hom).comp
+  change ((B.inclusion.map V.hom).appTop.hom).comp
       (Scheme.ΓSpecIso (.of R)).inv.hom =
     ((B.inclusion.map q.left).appTop.hom).comp
       (((B.inclusion.map W.hom).appTop.hom).comp
@@ -182,7 +182,7 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
   have he' : e'' = BeauvilleLaszlo.tensorAwayDifference A' f := by
     apply LinearMap.ext
     rintro ⟨x, y⟩
-    show b' x - c' y =
+    change b' x - c' y =
       BeauvilleLaszlo.baseChangeToAway A' f x -
         BeauvilleLaszlo.localizedBaseChangeToAway A' f y
     rfl
@@ -201,8 +201,7 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
   let E1 := e1.trans (eX.prodCongr eY)
   have hbase_d (x : TensorProduct A A' A) :
       E1 (d.baseChange A' x) = d' (e0 x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul a a' =>
         simp [E1, d, d', e0, e1, eX, eY, LinearMap.baseChange,
@@ -230,12 +229,11 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
     exact LinearMap.congr_fun hmap x
   have hbase_e (x : TensorProduct A A' (X × Y)) :
       e2 (e.baseChange A' x) = e' (E1 x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul a xy =>
         rcases xy with ⟨x, y⟩
-        show e2 (a ⊗ₜ[A] (b x - c y)) =
+        change e2 (a ⊗ₜ[A] (b x - c y)) =
           b' (eX (a ⊗ₜ[A] x)) - c' (eY (a ⊗ₜ[A] y))
         rw [TensorProduct.tmul_sub, map_sub]
         have hb' := hb (a ⊗ₜ[A] x)
@@ -263,7 +261,7 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
         (LinearMap.exact_zero_iff_injective (TensorProduct A A' Unit)
           (d.lTensor A')).1 (by simpa using hzero')
       have hinjBase : Function.Injective (d.baseChange A') := by
-        simpa only [LinearMap.baseChange_eq_ltensor] using hinj'
+        simpa only [LinearMap.baseChange_eq_lTensor] using hinj'
       have hpre : e0.symm x = e0.symm y := by
         apply hinjBase
         apply E1.injective
@@ -279,15 +277,15 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
     · have hex' : Function.Exact (d.lTensor A') (e.lTensor A') :=
         Module.Flat.lTensor_exact A' hexactA
       have hexBase : Function.Exact (d.baseChange A') (e.baseChange A') := by
-        simpa only [LinearMap.baseChange_eq_ltensor] using hex'
+        simpa only [LinearMap.baseChange_eq_lTensor] using hex'
       exact (Function.Exact.iff_of_ladder_linearEquiv hbase_d' hbase_e').mpr hexBase
     · have hsurj' : Function.Surjective (e.lTensor A') := LinearMap.lTensor_surjective A' hsurjA
       have hsurjBase : Function.Surjective (e.baseChange A') := by
-        simpa only [LinearMap.baseChange_eq_ltensor] using hsurj'
+        simpa only [LinearMap.baseChange_eq_lTensor] using hsurj'
       intro z
       obtain ⟨x, hx⟩ := hsurjBase (e2.symm z)
       refine ⟨E1 x, ?_⟩
-      show e' (E1 x) = z
+      change e' (E1 x) = z
       calc
         e' (E1 x) = e2 (e.baseChange A' x) := (hbase_e _).symm
         _ = e2 (e2.symm z) := by rw [hx]
@@ -297,15 +295,15 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
     intro hA'
     rcases hA' with ⟨hinj', hexact', hsurj'⟩
     have hinjD' : Function.Injective d' := by
-      show Function.Injective d''
+      change Function.Injective d''
       rw [hd']
       exact hinj'
     have hexactD' : Function.Exact d' e' := by
-      show Function.Exact d'' e''
+      change Function.Exact d'' e''
       rw [hd', he']
       exact hexact'
     have hsurjE' : Function.Surjective e' := by
-      show Function.Surjective e''
+      change Function.Surjective e''
       rw [he']
       exact hsurj'
     have hinjBase : Function.Injective (d.baseChange A') := by
@@ -317,13 +315,13 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
         _ = E1 (d.baseChange A' y) := congrArg E1 hxy
         _ = d' (e0 y) := hbase_d y
     have hinjTensor : Function.Injective (d.lTensor A') := by
-      simpa only [LinearMap.baseChange_eq_ltensor] using hinjBase
+      simpa only [LinearMap.baseChange_eq_lTensor] using hinjBase
     have hinjA : Function.Injective d :=
       (Module.FaithfullyFlat.lTensor_injective_iff_injective A A' d).1 hinjTensor
     have hexBase : Function.Exact (d.baseChange A') (e.baseChange A') :=
       (Function.Exact.iff_of_ladder_linearEquiv hbase_d' hbase_e').mp hexactD'
     have hexTensor : Function.Exact (d.lTensor A') (e.lTensor A') := by
-      simpa only [LinearMap.baseChange_eq_ltensor] using hexBase
+      simpa only [LinearMap.baseChange_eq_lTensor] using hexBase
     have hexactA : Function.Exact d e :=
       (Module.FaithfullyFlat.lTensor_exact_iff_exact A A' d e).1 hexTensor
     have hsurjBase : Function.Surjective (e.baseChange A') := by
@@ -336,7 +334,7 @@ private theorem isGlueableFor_baseChange_of_flat_algebra
         _ = e' w := congrArg e' (E1.apply_symm_apply w)
         _ = e2 z := hw
     have hsurjTensor : Function.Surjective (e.lTensor A') := by
-      simpa only [LinearMap.baseChange_eq_ltensor] using hsurjBase
+      simpa only [LinearMap.baseChange_eq_lTensor] using hsurjBase
     have hsurjA : Function.Surjective e :=
       (Module.FaithfullyFlat.lTensor_surjective_iff_surjective A A' e).1 hsurjTensor
     exact ⟨hinjA, hexactA, hsurjA⟩
@@ -547,8 +545,7 @@ private theorem isGlueableFor_pi_iff
   have hb (x : TensorProduct R (∀ i, M i) S) (i : I) :
       (eZ (BeauvilleLaszlo.baseChangeToAway (∀ i, M i) f x)) i =
         BeauvilleLaszlo.baseChangeToAway (M i) f (eX x i) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul m s =>
       simp [eZ, eX, TensorProduct.piLeft, TensorProduct.piRight,
@@ -556,8 +553,7 @@ private theorem isGlueableFor_pi_iff
   have hc (x : TensorProduct R (∀ i, M i) (Localization.Away f)) (i : I) :
       (eZ (BeauvilleLaszlo.localizedBaseChangeToAway (∀ i, M i) f x)) i =
         BeauvilleLaszlo.localizedBaseChangeToAway (M i) f (eY x i) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul m s =>
       simp [eZ, eY, TensorProduct.piLeft, TensorProduct.piRight,
@@ -567,7 +563,7 @@ private theorem isGlueableFor_pi_iff
       eZ (e x) = eπ (e1 x) := by
     rcases x with ⟨x, y⟩
     ext i
-    show eZ (BeauvilleLaszlo.baseChangeToAway (∀ i, M i) f x -
+    change eZ (BeauvilleLaszlo.baseChangeToAway (∀ i, M i) f x -
         BeauvilleLaszlo.localizedBaseChangeToAway (∀ i, M i) f y) i =
       BeauvilleLaszlo.tensorAwayDifference (M i) f (eX x i, eY y i)
     rw [map_sub, Pi.sub_apply, hb x i, hc y i]
@@ -592,7 +588,7 @@ private theorem isGlueableFor_pi_iff
         _ = dπ y := hd y
   have hE_iff : Function.Exact d e ↔ Function.Exact dπ eπ :=
     (Function.Exact.iff_of_ladder_linearEquiv hd' he').symm
-  show (Function.Injective d ∧ Function.Exact d e ∧ Function.Surjective e) ↔
+  change (Function.Injective d ∧ Function.Exact d e ∧ Function.Surjective e) ↔
       ∀ i, (Function.Injective (eS i) ∧ Function.Exact (eS i) (eT i) ∧
         Function.Surjective (eT i))
   constructor
@@ -698,7 +694,7 @@ private lemma sigma_global_sections_bijective {ι : Type u} (Y : ι → Scheme.{
     have hh : f.appTop ≫ (f.appIso ⊤).inv =
         T.presheaf.map (homOfLE (le_top : O i ≤ ⊤)).op := by
       convert f.app_appIso_inv ⊤ using 1 <;> rfl
-    show f.appTop.hom s = (f.appIso ⊤).hom
+    change f.appTop.hom s = (f.appIso ⊤).hom
       (T.presheaf.map (homOfLE (le_top : O i ≤ ⊤)).op s)
     rw [← hh]
     simp
@@ -794,7 +790,7 @@ private theorem etale_map_of_isEtale_yoneda_map
     apply (MorphismProperty.relative_map_iff (F := yoneda)
       (P := MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B S hS))).2
-    show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 V))
+    change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 V))
     infer_instance
   simpa using h V (𝟙 (yoneda.obj V)) hid
 
@@ -833,7 +829,7 @@ theorem exists_etaleCovering_iff_isGlueable
     let : HasBinaryProducts (BigFppfOver B (Spec (.of R)) hX) :=
       hasBinaryProducts_of_hasTerminal_and_pullbacks _
     have hPshPb : HasPullbacks ((BigFppfOver B (Spec (.of R)) hX)ᵒᵖ ⥤ Type u) := by
-      set_option synthInstance.maxHeartbeats 400000 in infer_instance
+      infer_instance
     have hPshPb' : ∀ {X₁ X₂ X₃ : (BigFppfOver B (Spec (.of R)) hX)ᵒᵖ ⥤ Type u}
         (f₁ : X₁ ⟶ X₃) (f₂ : X₂ ⟶ X₃), HasLimit (cospan f₁ f₂) :=
       fun _ _ => HasLimitsOfShape.has_limit _
@@ -883,9 +879,9 @@ theorem exists_etaleCovering_iff_isGlueable
       refine ⟨W, 𝟙 (yoneda.obj W), ?_, ?_, ?_⟩
       · let : IsAffine (G.obj W) := hWaff
         exact Scheme.compactSpace_of_isAffine (G.obj W)
-      · show Qsurj.presheaf (yoneda.map (𝟙 W))
+      · change Qsurj.presheaf (yoneda.map (𝟙 W))
         apply (MorphismProperty.relative_map_iff (F := yoneda) (P := Qsurj)).2
-        show Surjective (G.map (𝟙 W))
+        change Surjective (G.map (𝟙 W))
         infer_instance
       · intro U φ hφ
         simpa using hφ
@@ -933,7 +929,7 @@ theorem exists_etaleCovering_iff_isGlueable
     let YI (i : I') : Scheme.{u} := G.obj (chart (sel i))
     let A : Scheme.{u} := ∐ YI
     have hAsmall : A.size < B.cutoff := by
-      show (∐ YI).size < B.cutoff
+      change (∐ YI).size < B.cutoff
       have hI : Cardinal.mk I' ≤ Cardinal.aleph0 := Cardinal.mk_le_aleph0
       exact Scheme.size_sigmaObj_lt B.aleph0_lt_cutoff B.aleph0_lt_cutoff_cof
         hI YI (fun i => (chart (sel i)).left.property)
@@ -941,7 +937,7 @@ theorem exists_etaleCovering_iff_isGlueable
       Limits.Sigma.desc (fun i : I' => G.map (qChart (sel i)))
     have hSigma (i : I') :
         Limits.Sigma.ι YI i ≫ a = G.map (qChart (sel i)) :=
-      Limits.Sigma.ι_desc _ _
+      Limits.Sigma.ι_comp_desc _ _
     let aSite : B.obj hAsmall ⟶ W.left := B.inclusion.preimage
       (show B.inclusion.obj (B.obj hAsmall) ⟶ B.inclusion.obj W.left from a)
     let V : BigFppfOver B (Spec (.of R)) hX := Over.mk (aSite ≫ W.hom)
@@ -961,20 +957,20 @@ theorem exists_etaleCovering_iff_isGlueable
         (Limits.Sigma.ι YI i ≫ a) ≫ B.inclusion.map W.hom =
             G.map (qChart (sel i)) ≫ B.inclusion.map W.hom := by rw [hSigma]
         _ = B.inclusion.map (chart (sel i)).hom := by
-          show B.inclusion.map (qChart (sel i)).left ≫ B.inclusion.map W.hom = _
+          change B.inclusion.map (qChart (sel i)).left ≫ B.inclusion.map W.hom = _
           rw [← B.inclusion.map_comp, (qChart (sel i)).w]
     let hvi (i : I') : chart (sel i) ⟶ V := Over.homMk (viArrow i) (hviFac i)
     have hmapvi (i : I') : B.inclusion.map (hvi i).left = Sigma.ι YI i := by
-      show B.inclusion.map (viArrow i) = Sigma.ι YI i
+      change B.inclusion.map (viArrow i) = Sigma.ι YI i
       dsimp [viArrow]
       exact B.inclusion.map_preimage _
     have hvi_comp (i : I') : hvi i ≫ q = qChart (sel i) := by
       apply Over.OverMorphism.ext
       apply B.inclusion.map_injective
-      show B.inclusion.map ((hvi i).left ≫ aSite) =
+      change B.inclusion.map ((hvi i).left ≫ aSite) =
         B.inclusion.map (qChart (sel i)).left
       rw [B.inclusion.map_comp, hmapvi i, hmapq']
-      show Limits.Sigma.ι YI i ≫ a = B.inclusion.map (qChart (sel i)).left
+      change Limits.Sigma.ι YI i ≫ a = B.inclusion.map (qChart (sel i)).left
       exact hSigma i
     have hβsurj : Function.Surjective
         (pointsMap B (Spec (.of R)) hX (yoneda.obj V) (yoneda.map q)) := by
@@ -1035,7 +1031,7 @@ theorem exists_etaleCovering_iff_isGlueable
         let : HasRingHomProperty @Flat RingHom.Flat := inferInstance
         let : IsZariskiLocalAtSource @Flat :=
           HasRingHomProperty.instIsZariskiLocalAtSource (P := @Flat)
-        show Flat (Sigma.desc (fun i : I' => G.map (qChart (sel i))))
+        change Flat (Sigma.desc (fun i : I' => G.map (qChart (sel i))))
         exact IsZariskiLocalAtSource.sigmaDesc (P := @Flat) hcompFlat
       rw [hmapq]
       exact hdesc
@@ -1085,7 +1081,7 @@ theorem exists_etaleCovering_iff_isGlueable
       ext r i
       rw [RingHom.algebraMap_toAlgebra, RingHom.pi_apply,
         RingHom.comp_apply]
-      show (algebraMap R (Ai i)) r =
+      change (algebraMap R (Ai i)) r =
         (Sigma.ι YI i).appTop.hom (algebraMap R Γ(G.obj V, ⊤) r)
       simpa only [RingHom.algebraMap_toAlgebra, CommRingCat.hom_comp,
         RingHom.comp_apply] using
@@ -1107,7 +1103,7 @@ theorem exists_etaleCovering_iff_isGlueable
     have hProd : BeauvilleLaszlo.IsGlueableFor (S := R') (∀ i : I', Ai i) f :=
       (isGlueableFor_pi_iff (R := R) (S := R') (I := I') (M := Ai) f).2 hlocalProd
     have hVGlue : IsGlueableGlobalSections g f B hX V := by
-      show BeauvilleLaszlo.IsGlueableFor (S := R') Γ(G.obj V, ⊤) f
+      change BeauvilleLaszlo.IsGlueableFor (S := R') Γ(G.obj V, ⊤) f
       exact (@isGlueableFor_iff_of_faithfullyFlat_algebra
         R R' (Γ(G.obj V, ⊤)) (∀ i : I', Ai i)
         inferInstance inferInstance inferInstance inferInstance inferInstance

@@ -108,7 +108,7 @@ theorem existsUnique_smul_eq_of_fibres (s : Γ(L, ⊤))
   have hfree := Module.injective_smul_of_fibres _ hspan
     (finrank_residueField_tensor_ker_eq_one fX U hU hUaff gT fT hT L h1 h0)
   refine hfree ?_
-  show b • _ = a • _
+  change b • _ = a • _
   exact (hcoc b).symm.trans ((congrArg _ hb.symm).trans ha.symm)
 
 include hU hUaff hT h1 h0 in
@@ -125,8 +125,7 @@ theorem exists_section_tmul_ne_zero (y : PrimeSpectrum A) :
   obtain ⟨m, hm⟩ : ∃ m : M, (1 : y.asIdeal.ResidueField) ⊗ₜ[A] m ≠ 0 := by
     by_contra! hall
     have hz : ∀ z : y.asIdeal.ResidueField ⊗[A] M, z = 0 := fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => rfl
+      induction z using TensorProduct.inductionOn with
       | tmul c n =>
         rw [← mul_one c, ← smul_eq_mul, ← TensorProduct.smul_tmul', hall n, smul_zero]
       | add x y hx hy => rw [hx, hy, add_zero]

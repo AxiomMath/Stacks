@@ -155,7 +155,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     IsLocalization.primeSpectrumOrderIso S₀ B
   have hQmap (v : MaximalSpectrum B) :
       ((eLoc v.toPrimeSpectrum).1.asIdeal).map (algebraMap B₀ B) = v.asIdeal := by
-    show (Ideal.under B₀ v.asIdeal).map (algebraMap B₀ B) = v.asIdeal
+    change (Ideal.under B₀ v.asIdeal).map (algebraMap B₀ B) = v.asIdeal
     exact IsLocalization.map_under S₀ B v.asIdeal
   have hQdisj (Q : PrimeSpectrum B₀) (hQP : Q.comap φ = P) :
       Disjoint (S₀ : Set B₀) Q.asIdeal := by
@@ -181,7 +181,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
         rw [← hPmap]
         apply Ideal.map_le_iff_le_comap.mpr
         intro a ha
-        show algebraMap A B (algebraMap A₀ A a) ∈ Q'
+        change algebraMap A B (algebraMap A₀ A a) ∈ Q'
         have haQ : φ a ∈ Q.asIdeal := by
           have hmem : a ∈ (Q.comap φ).asIdeal := by rw [hQP]; exact ha
           exact Ideal.mem_comap.mp hmem
@@ -192,7 +192,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
       rw [← hEq]
       exact IsLocalRing.maximalIdeal.isMaximal A
     have _ : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
-    show Q'.IsMaximal
+    change Q'.IsMaximal
     exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) Q' hJmax
   let _ : Ring.KrullDimLE 1 A := AlgebraicGeometry.krullDimLE_of_coheight_le hy.le
   have hpreimageW : Nonempty (g ⁻¹ᵁ W) := by
@@ -209,7 +209,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
   have hS0 : S₀ ≤ nonZeroDivisors B₀ :=
     map_le_nonZeroDivisors_of_injective φ hφinj P.asIdeal.primeCompl_le_nonZeroDivisors
   have hABinj : Function.Injective φAB := by
-    show Function.Injective (IsLocalization.lift hunit : A →+* B)
+    change Function.Injective (IsLocalization.lift hunit : A →+* B)
     rw [IsLocalization.lift_injective_iff]
     refine fun a b => ⟨fun hab => ?_, fun hab => ?_⟩
     · obtain rfl := IsLocalization.injective A P.asIdeal.primeCompl_le_nonZeroDivisors hab
@@ -233,11 +233,11 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
       IsLocalization.AtPrime.under_maximalIdeal A P.asIdeal
     apply PrimeSpectrum.ext
     ext a
-    show φ a ∈ Q.asIdeal ↔ a ∈ P.asIdeal
+    change φ a ∈ Q.asIdeal ↔ a ∈ P.asIdeal
     rw [← hunder]
-    show algebraMap B₀ B (φ a) ∈ v.asIdeal ↔ a ∈ P.asIdeal
+    change algebraMap B₀ B (φ a) ∈ v.asIdeal ↔ a ∈ P.asIdeal
     rw [hABeval a]
-    show algebraMap A₀ A a ∈ v.asIdeal.comap (algebraMap A B) ↔
+    change algebraMap A₀ A a ∈ v.asIdeal.comap (algebraMap A B) ↔
       a ∈ P.asIdeal
     rw [hcomap v, ← hPcontract, Ideal.mem_under]
   let pA : PrimeSpectrum A :=
@@ -267,7 +267,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
         IsScalarTower.algebraMap_apply (R := B₀) (S := X.presheaf.stalk x₀.1)
           (A := X.functionField) b
       _ = (X.germToFunctionField (g ⁻¹ᵁ W)).hom b := by
-        show algebraMap (X.presheaf.stalk x₀.1) X.functionField
+        change algebraMap (X.presheaf.stalk x₀.1) X.functionField
           (X.presheaf.germ (g ⁻¹ᵁ W) x₀.1 x₀.2 b) = _
         exact Scheme.algebraMap_germ_eq_germToFunctionField
           (X := X) (U := g ⁻¹ᵁ W) (x := x₀) x₀.property b
@@ -293,7 +293,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     have hAB : algebraMap A B a = algebraMap A B b :=
       IsFractionRing.injective B X.functionField hB
     exact hABinj (show φAB a = φAB b by
-      show algebraMap A B a = algebraMap A B b
+      change algebraMap A B a = algebraMap A B b
       exact hAB)
   let _ : FaithfulSMul A X.functionField :=
     (faithfulSMul_iff_algebraMap_injective A X.functionField).mpr hAtoLinj
@@ -306,7 +306,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     ext a
     have hAK : algebraMap A Y.functionField (algebraMap A₀ A a) =
         (Y.germToFunctionField W).hom a := by
-      show algebraMap (Y.presheaf.stalk y) Y.functionField
+      change algebraMap (Y.presheaf.stalk y) Y.functionField
           ((Y.presheaf.germ W y yW.property).hom a) = _
       exact Scheme.algebraMap_germ_eq_germToFunctionField
         (X := Y) (U := W) (x := yW) yW.property a
@@ -366,7 +366,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
       v.asIdeal.primeCompl (Localization.AtPrime v.asIdeal) X.functionField
   let fiberPoint : {x : X // g.base x = y} → g ⁻¹ᵁ W := fun x =>
     ⟨x.1, by
-      show g.base x.1 ∈ W
+      change g.base x.1 ∈ W
       rw [x.2]
       exact hyW⟩
   let fiberPrime : {x : X // g.base x = y} → PrimeSpectrum B₀ :=
@@ -383,7 +383,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
       have h' : (fiberPrime x).comap φ =
           hW.primeIdealOf ⟨g.base (fiberPoint x).1, (fiberPoint x).property⟩ := by
         simpa only [fiberPrime, Scheme.Hom.appLE_eq_app] using h
-      show (fiberPrime x).comap φ = P
+      change (fiberPrime x).comap φ = P
       rw [h', hpoint]
     exact ⟨(eLoc.symm ⟨Q, hQdisj Q hQP⟩).asIdeal, hfiberMax Q hQP⟩
   let specPoint : MaximalSpectrum B → Spec B₀ :=
@@ -393,7 +393,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     have hQP : Q.comap φ = P := hQcontract v
     have hSpecMap : Spec.map (g.appLE W (g ⁻¹ᵁ W) le_rfl) Q = P := by
       apply PrimeSpectrum.ext
-      show (Q.comap (CommRingCat.Hom.hom
+      change (Q.comap (CommRingCat.Hom.hom
         (g.appLE W (g ⁻¹ᵁ W) le_rfl))).asIdeal = P.asIdeal
       rw [Scheme.Hom.appLE_eq_app]
       exact congrArg PrimeSpectrum.asIdeal hQP
@@ -420,12 +420,12 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     dsimp only [hfiberFromMax, hfiberToMax]
     unfold specPoint
     rw [hmaxToPrime, eLoc.apply_symm_apply]
-    show hU.fromSpec (fiberPrime x) = x.1
+    change hU.fromSpec (fiberPrime x) = x.1
     dsimp [fiberPrime]
     rw [hU.fromSpec_primeIdealOf]
   let xWof : MaximalSpectrum B → ↥(g ⁻¹ᵁ W) := fun v => hU.isoSpec.inv (specPoint v)
   have hQpoint (v : MaximalSpectrum B) : hU.primeIdealOf (xWof v) = specPoint v := by
-    show hU.isoSpec.hom (hU.isoSpec.inv (specPoint v)) = specPoint v
+    change hU.isoSpec.hom (hU.isoSpec.inv (specPoint v)) = specPoint v
     rw [← Scheme.Hom.comp_apply, hU.isoSpec.inv_hom_id]
     rfl
   have hfiberRight (v : MaximalSpectrum B) :
@@ -442,7 +442,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
         eLoc v.toPrimeSpectrum :=
       Subtype.ext hQ
     have hloc := congrArg eLoc.symm hspec
-    show (eLoc.symm
+    change (eLoc.symm
         ⟨fiberPrime (hfiberFromMax v),
           hQdisj (fiberPrime (hfiberFromMax v)) (by
             rw [hQ]
@@ -551,10 +551,10 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
             algebraMap B₀ Sx (φ a) =
                 g.stalkMap xW.1
                   ((Y.presheaf.germ W (g.base xW.1) xW.property).hom a) := by
-              show (X.presheaf.germ (g ⁻¹ᵁ W) xW.1 xW.property).hom ((g.app W).hom a) = _
+              change (X.presheaf.germ (g ⁻¹ᵁ W) xW.1 xW.property).hom ((g.app W).hom a) = _
               exact hgerm.symm
             _ = gMap (algebraMap A₀ A a) := by
-              show g.stalkMap xW.1
+              change g.stalkMap xW.1
                   ((Y.presheaf.germ W (g.base xW.1) xW.property).hom a) =
                 g.stalkMap xW.1
                   ((eqToHom (congrArg Y.presheaf.stalk hgy.symm)).hom
@@ -582,7 +582,7 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
           (X.residue xW.1).hom (eB (algebraMap B Rv b)) :=
         congrArg (IsLocalRing.ResidueField.mapEquiv eB.toRingEquiv)
           (IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk v.asIdeal Rv b)
-      show (g.residueFieldMap xW.1).hom
+      change (g.residueFieldMap xW.1).hom
           (eK (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A) a)) =
         eL (algebraMap (A ⧸ IsLocalRing.maximalIdeal A) (B ⧸ v.asIdeal)
           (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A) a))
@@ -604,10 +604,10 @@ theorem finsum_ord_mul_residueDegree_of_isFinite {X Y : Scheme.{u}} [IsIntegral 
     (Algebra.norm_ne_zero_iff.mpr hf)).symm
   let efiber : MaximalSpectrum B ≃ {x : X // g.base x = y} :=
     ⟨hfiberFromMax, hfiberToMax, hfiberRight, hfiberLeft⟩
-  show (∑ᶠ x ∈ {x : X | g.base x = y},
+  change (∑ᶠ x ∈ {x : X | g.base x = y},
       Scheme.ord f x * (g.residueDegree x : ℤ)) = _
   rw [← finsum_set_coe_eq_finsum_mem]
-  show (∑ᶠ x : {x : X // g.base x = y},
+  change (∑ᶠ x : {x : X // g.base x = y},
     Scheme.ord f x.1 * (g.residueDegree x.1 : ℤ)) = _
   calc
     _ = ∑ᶠ v : MaximalSpectrum B, Scheme.ord f (hfiberFromMax v).1 *
@@ -650,7 +650,7 @@ theorem finsum_ord_mul_residueDegree_of_coheight_eq_one {X Y : Scheme.{u}} [IsIn
   have hpgen : p.base (genericPoint X) = genericPoint Y :=
     ((tfae_isDominant_of_isIntegral p).out 1 2).mp (inferInstance : IsDominant p)
   have hgenX : genericPoint X ∈ p ⁻¹ᵁ V := by
-    show p.base (genericPoint X) ∈ V
+    change p.base (genericPoint X) ∈ V
     rw [hpgen]
     exact (genericPoint_spec Y).mem_open_set_iff V.isOpen |>.mpr
       ⟨y, ⟨Set.mem_univ _, hyV⟩⟩
@@ -664,7 +664,7 @@ theorem finsum_ord_mul_residueDegree_of_coheight_eq_one {X Y : Scheme.{u}} [IsIn
   let _ : IsDominant iY := hdom iY
   let _ : IsDominant g := by
     have : IsDominant (g ≫ iY) := by
-      show IsDominant ((p ∣_ V) ≫ V.ι)
+      change IsDominant ((p ∣_ V) ≫ V.ι)
       rw [morphismRestrict_ι]
       infer_instance
     exact IsDominant.of_comp_of_isOpenImmersion g iY
@@ -699,7 +699,7 @@ theorem finsum_ord_mul_residueDegree_of_coheight_eq_one {X Y : Scheme.{u}} [IsIn
           Ebase.toRingHom =
         Esrc.toRingHom.comp (algebraMap Y.functionField X.functionField) := by
     ext a
-    show dominantFunctionFieldMap g (dominantFunctionFieldMap iY a) =
+    change dominantFunctionFieldMap g (dominantFunctionFieldMap iY a) =
       dominantFunctionFieldMap iX (algebraMap Y.functionField X.functionField a)
     rw [halg]
     symm
@@ -728,17 +728,17 @@ theorem finsum_ord_mul_residueDegree_of_coheight_eq_one {X Y : Scheme.{u}} [IsIn
     let e : {x : (p ⁻¹ᵁ V).toScheme // g.base x = yV} ≃ {x : X // p.base x = y} :=
       { toFun := fun x => ⟨iX.base x.1, (hfibiff x.1).mp x.2⟩
         invFun := fun x => ⟨⟨x.1, by
-            show p.base x.1 ∈ V
+            change p.base x.1 ∈ V
             rw [x.2]
             exact hyV⟩,
           (hfibiff _).mpr x.2⟩
         left_inv := fun x => Subtype.ext (Subtype.ext rfl)
         right_inv := fun x => Subtype.ext rfl }
-    show (∑ᶠ x ∈ {x : X | p.base x = y}, X.ord f x * (p.residueDegree x : ℤ)) =
+    change (∑ᶠ x ∈ {x : X | p.base x = y}, X.ord f x * (p.residueDegree x : ℤ)) =
       ∑ᶠ x ∈ {x : (p ⁻¹ᵁ V).toScheme | g.base x = yV},
         (p ⁻¹ᵁ V).toScheme.ord z x * (g.residueDegree x : ℤ)
     rw [← finsum_set_coe_eq_finsum_mem, ← finsum_set_coe_eq_finsum_mem]
-    show (∑ᶠ x : {x : X // p.base x = y}, X.ord f x.1 * (p.residueDegree x.1 : ℤ)) =
+    change (∑ᶠ x : {x : X // p.base x = y}, X.ord f x.1 * (p.residueDegree x.1 : ℤ)) =
       ∑ᶠ x : {x : (p ⁻¹ᵁ V).toScheme // g.base x = yV},
         (p ⁻¹ᵁ V).toScheme.ord z x.1 * (g.residueDegree x.1 : ℤ)
     rw [← finsum_comp_equiv e]
@@ -813,7 +813,7 @@ theorem properPushforward_principalDivisorCycle (C : ChowSituation.{u}) {X Y : S
   let _ : Algebra Y.functionField X.functionField := (dominantFunctionFieldMap p).toAlgebra
   have halg : algebraMap Y.functionField X.functionField = dominantFunctionFieldMap p :=
     RingHom.algebraMap_toAlgebra _
-  show properPushforward C sX sY p hp (n - 1) (principalDivisorCycle C sX hnX f) =
+  change properPushforward C sX sY p hp (n - 1) (principalDivisorCycle C sX hnX f) =
     principalDivisorCycle C sY hnY (Algebra.norm Y.functionField f)
   let _ : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian sX
   let _ : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian sY

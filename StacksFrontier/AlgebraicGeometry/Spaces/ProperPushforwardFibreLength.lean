@@ -205,13 +205,13 @@ theorem geometricLength_modulePushforward_toNat_eq_finsum {Z Y : AlgebraicSpaces
   have h5 : ∑ᶠ x ∈ sU, T (Qof x) =
       ∑ᶠ z ∈ fib, (degZ z : ℕ∞) * geometricLength B S hS Z (γ z) G := by
     refine finsum_mem_eq_of_bijOn (chartSchemeToPoints B S hS Z.1 d.U)
-      (bijOn_chartSchemeToPoints_fibre B S hS hZdec hYdec g d hd η e he huniq hmono)
+      (bijOn_chartSchemeToPoints_fibre B S hS g d hd η e he huniq hmono)
       (fun x hx => ?_)
     have hdeg := primeResidueDegree_chartPrime_eq_finrank B S hS hZdec hYdec g d hd η e he huniq
       hmono x hx
     have hlen := geometricLength_eq_length_localizedModule_chartPrimeAt B S hS Z G
       (γ (chartSchemeToPoints B S hS Z.1 d.U x)) d.U hUaff x (hγ _).symm
-    show (Stacks.Length.primeResidueDegree (chartDiagramPullback B S hS g d).hom
+    change (Stacks.Length.primeResidueDegree (chartDiagramPullback B S hS g d).hom
         (chartPrimeAt B S hS Y.2 d.V e) (chartPrimeAt B S hS Z.2 d.U x) : ℕ∞) * _ = _
     rw [hdeg, hlen]
   have hmain : geometricLength B S hS Y ybar ((modulePushforward B S hS g).obj G) =

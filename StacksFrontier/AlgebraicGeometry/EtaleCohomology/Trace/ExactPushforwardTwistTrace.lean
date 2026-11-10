@@ -71,7 +71,7 @@ theorem exists_twist_lift_of_injectiveResolution (K : CochainComplex.Plus C)
     (CategoryTheory.inv (DerivedCategory.Q.map ψ.hom) ≫
       DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom)
   refine ⟨T, ψ, hq, hinj, ObjectProperty.homMk g, DerivedCategory.Plus.ι.map_injective ?_⟩
-  show DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
+  change DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
     DerivedCategory.Q.map (ψ.hom ≫ g)
   rw [DerivedCategory.Q.map_comp ψ.hom g, hg, IsIso.hom_inv_id_assoc]
 
@@ -185,7 +185,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_map_eq (K' : CochainComplex.Plus C'
         DerivedCategory.Q.map (ψ ≫ g).hom := DerivedCategory.Plus.ι.congr_map hg
     have h₁ := Q_map_mapHomologicalComplex_eq G h₀
     have hn := NatTrans.mapHomologicalComplex_naturality (c := ComplexShape.up ℤ) ρ ψ.hom
-    show DerivedCategory.Q.map (((G.mapHomologicalComplex _).map τ'.hom ≫
+    change DerivedCategory.Q.map (((G.mapHomologicalComplex _).map τ'.hom ≫
         (NatTrans.mapHomologicalComplex ρ _).app K'.obj) ≫
           ((G ⋙ P).mapHomologicalComplex _).map ψ.hom) =
       DerivedCategory.Q.map ((G.mapHomologicalComplex _).map ψ.hom ≫
@@ -204,7 +204,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_map_eq (K' : CochainComplex.Plus C'
   ext n : 1
   have h₁ := hθ (T.obj.X n)
   have h₂ := γ.hom.naturality (g.hom.f n)
-  show F₂.map (F₁.map (G.map (g.hom.f n) ≫ ρ.app (T.obj.X n)) ≫
+  change F₂.map (F₁.map (G.map (g.hom.f n) ≫ ρ.app (T.obj.X n)) ≫
       θ.hom.app (G.obj (T.obj.X n))) ≫ F₂.map (γ.hom.app (T.obj.X n)) =
     F₂.map (γ.hom.app (T.obj.X n)) ≫ F₂.map (F₁'.map (g.hom.f n) ≫ θ'.hom.app (T.obj.X n))
   rw [← F₂.map_comp, ← F₂.map_comp]

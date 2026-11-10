@@ -88,7 +88,7 @@ private theorem unitStalkLEquiv_germ {X : TopCat.{u}} (R : TopCat.Presheaf RingC
       ((OpenNhds.inclusion x).op ⋙ R)
   let addE : ToType (TopCat.Presheaf.stalk (PresheafOfModules.unit R).presheaf x) ≃+
       ToType (R.stalk x) := pIso.symm.addCommGroupIsoToAddEquiv
-  show addE (TopCat.Presheaf.germ (PresheafOfModules.unit R).presheaf U x hx s) = _
+  change addE (TopCat.Presheaf.germ (PresheafOfModules.unit R).presheaf U x hx s) = _
   have h := ι_preservesColimitIso_inv (forget₂ RingCat.{u} AddCommGrpCat.{u})
     ((OpenNhds.inclusion x).op ⋙ R) (op ⟨U, hx⟩)
   let s' : ToType (R.obj (op U)) := s
@@ -145,7 +145,7 @@ private theorem commStalkAddEquiv_germ {X : TopCat.{u}}
       ((ConcreteCategory.hom (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
         (R ⋙ forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat) U x hx)) r) =
       (ConcreteCategory.hom (R.germ U x hx)) r at h'
-  show (ConcreteCategory.hom pIso.hom) ((ConcreteCategory.hom (R.germ U x hx)) r) =
+  change (ConcreteCategory.hom pIso.hom) ((ConcreteCategory.hom (R.germ U x hx)) r) =
     (ConcreteCategory.hom (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
       (R ⋙ forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat) U x hx)) r
   simpa using congrArg (ConcreteCategory.hom pIso.hom) h'.symm
@@ -178,7 +178,7 @@ private theorem stalkModuleFunctor_preservesParallelPairColimits (X : Scheme.{u}
   let : PreservesColimitsOfSize.{0, 0} E.functor := preservesColimitsOfSize_shrink E.functor
   have hF : PreservesColimitsOfShape WalkingParallelPair F := inferInstance
   have hE : PreservesColimitsOfShape WalkingParallelPair E.functor := inferInstance
-  show PreservesColimitsOfShape WalkingParallelPair (F ⋙ E.functor)
+  change PreservesColimitsOfShape WalkingParallelPair (F ⋙ E.functor)
   exact @comp_preservesColimitsOfShape _ _ _ _ _ _ _ _ _ _ _ _
 
 /-- The additive stalk of the unit presheaf of modules is the local ring, `𝒪_{X,x}`-linearly. -/
@@ -457,7 +457,7 @@ public theorem normalizationQuotientStalk_linearEquiv_quotient_range
     intro M N f g
     apply ModuleCat.hom_ext
     ext z
-    show (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+    change (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
         ((PresheafOfModules.toPresheaf (OXModule.ringSheaf X.toRingedSpace).obj).map
           (f.val + g.val)))) z =
       (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
@@ -474,7 +474,7 @@ public theorem normalizationQuotientStalk_linearEquiv_quotient_range
   have : F.Additive := by
     refine ⟨?_⟩
     intro M N f g
-    show E.functor.map (F₀.map (f + g)) =
+    change E.functor.map (F₀.map (f + g)) =
       E.functor.map (F₀.map f) + E.functor.map (F₀.map g)
     exact (congrArg E.functor.map (Functor.map_add F₀)).trans (Functor.map_add E.functor)
   have : F.PreservesZeroMorphisms := inferInstance
@@ -500,12 +500,12 @@ public theorem normalizationQuotientStalk_linearEquiv_quotient_range
     have hxt : x ∈ (⊤ : Opens X) := by trivial
     let z := TopCat.Presheaf.germ P ⊤ x hxt s
     have hz : es z = (1 : A) := by
-      show unitStalkLinearEquiv X x z = 1
+      change unitStalkLinearEquiv X x z = 1
       rw [show unitStalkLinearEquiv X x z = _ from
         commStalkRingEquiv_unitStalkLEquiv_germ X.presheaf x ⊤ hxt s]
       exact map_one _
     have hsrc : es.symm (1 : A) = z := es.symm_apply_eq.mpr hz.symm
-    show et ((F.map f).hom (es.symm (1 : A))) = algebraMap A A' 1
+    change et ((F.map f).hom (es.symm (1 : A))) = algebraMap A A' 1
     rw [hsrc]
     have hmap : (F.map f).hom z =
         TopCat.Presheaf.germ
@@ -513,7 +513,7 @@ public theorem normalizationQuotientStalk_linearEquiv_quotient_range
             (Scheme.Hom.toRingCatSheafHom ν)).obj
               (SheafOfModules.unit Xnorm.ringCatSheaf)).val.presheaf
           ⊤ x hxt (((Scheme.Hom.toRingCatSheafHom ν).hom.app (op ⊤)).hom s) := by
-      show (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+      change (ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
         ((Scheme.Modules.toPresheaf X).map f))) z = _
       dsimp only [z]
       exact TopCat.Presheaf.stalkFunctor_map_germ_apply ⊤ x hxt
@@ -533,7 +533,7 @@ public theorem normalizationQuotientStalk_linearEquiv_quotient_range
   have hrange : (LinearMap.range (F.map f).hom).map et.toLinearMap =
       LinearMap.range g := by
     rw [← LinearMap.range_comp]
-    show LinearMap.range (et.toLinearMap.comp (F.map f).hom) =
+    change LinearMap.range (et.toLinearMap.comp (F.map f).hom) =
       LinearMap.range (et.toLinearMap.comp ((F.map f).hom.comp es.symm.toLinearMap))
     rw [← LinearMap.comp_assoc,
       LinearMap.range_comp_of_range_eq_top _ es.symm.range]

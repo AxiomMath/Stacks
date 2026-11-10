@@ -56,6 +56,7 @@ variable {T : DerivedExtensionOfScalars f}
   (R : DerivedReduction T idealTensor)
   {K₀ : DerivedCategory.Minus (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))}
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The automorphism `1 + t` of a lift, written out: the identity plus the transpose of
 `α ≫ t ≫ α⁻¹` followed by the inclusion of the ideal part. -/
 theorem comparisonHom_hom_eq (L : DerivedLift T K₀)
@@ -64,6 +65,7 @@ theorem comparisonHom_hom_eq (L : DerivedLift T K₀)
       R.adjunction.homEquiv L.K.obj _ (L.identification.hom ≫ Multiplicative.toAdd t ≫
         idealTensor.map L.identification.inv) ≫ R.idealInclusion L.K.obj := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The automorphism `1 + t` is transported along isomorphisms of lifts.** If the inclusion of
 the ideal part is natural along `e : L₁ ⟶ L₂`, an isomorphism of lifts of `K₀`, then
 `e⁻¹ ∘ (1 + t) ∘ e = 1 + t`. -/
@@ -82,7 +84,7 @@ theorem comparisonHom_hom_conj_of_isomorphic (L₁ L₂ : DerivedLift T K₀)
         idealTensor.map L₁.identification.inv) ≫ idealTensor.map (T.baseChange.map e.hom) =
       L₂.identification.hom ≫ Multiplicative.toAdd t ≫ idealTensor.map L₂.identification.inv := by
     rw [hid₁, ← hid₁']
-    simp only [Category.assoc, Functor.map_comp, ← Functor.map_comp_assoc, Iso.map_inv_hom_id,
+    simp only [Category.assoc, Functor.map_comp, ← Functor.map_comp_assoc, Iso.inv_hom_id_map,
       Category.id_comp]
   have hs : e.inv ≫ R.adjunction.homEquiv L₁.K.obj _ (L₁.identification.hom ≫
         Multiplicative.toAdd t ≫ idealTensor.map L₁.identification.inv) ≫
@@ -118,6 +120,7 @@ variable {T : DerivedExtensionOfScalars f} {T' : DerivedExtensionOfScalars f'}
   (B : DerivedReductionBaseChange R R')
   {K₀ : DerivedCategory.Minus (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))}
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The base change of the automorphism `1 + t` of a lift is `1 + (t ≫ u)`.** Let `β ⊣ G` be
 an adjunction `D(O) ⇄ D(O')` with the functor of the base change `B` as left adjoint,
 `ρ : G ∘ (restriction along f') ≅ restriction along f`, such that the transpose along `f` of

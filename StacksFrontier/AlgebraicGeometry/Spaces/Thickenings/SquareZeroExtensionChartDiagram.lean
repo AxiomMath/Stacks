@@ -207,7 +207,7 @@ theorem etale_chartSpec_map_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶
   have halg : RingHom.Etale (E.A.obj.map h.op).hom :=
     SquareZeroExtension.algebraEtale_app_of_isAffine B S hS E h hU hV
       (RingHom.algebraMap_toAlgebra _)
-  show Etale (Spec.map (E.A.obj.map h.op))
+  change Etale (Spec.map (E.A.obj.map h.op))
   exact (HasRingHomProperty.Spec_iff (P := @Etale)).mpr halg
 
 /-- **The reduction of a square-zero extension, read on the chart diagrams**: the natural
@@ -232,7 +232,7 @@ a surjection of rings is a closed immersion. -/
 theorem isClosedImmersion_reductionChartSpec_app_of_isAffine (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
     _root_.AlgebraicGeometry.IsClosedImmersion ((reductionChartSpec B S hS E).app U) := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion (Spec.map (E.π.hom.app (op U)))
+  change _root_.AlgebraicGeometry.IsClosedImmersion (Spec.map (E.π.hom.app (op U)))
   exact _root_.AlgebraicGeometry.IsClosedImmersion.spec_of_surjective _
     (SquareZeroExtension.surjective_π_app_of_isAffine B S hS E U hU)
 
@@ -280,10 +280,10 @@ theorem isFirstOrderThickening_chartThickening_of_isAffine (U : SmallEtale B S h
   obtain ⟨hclosed, hker⟩ := isFirstOrderThickening_reductionChartSpec_app_of_isAffine B S hS E U hU
   have := hclosed
   refine ⟨?_, ?_⟩
-  · show _root_.AlgebraicGeometry.IsClosedImmersion
+  · change _root_.AlgebraicGeometry.IsClosedImmersion
       ((structureSheafChartSpecIso B S hS X U hU).hom ≫ (reductionChartSpec B S hS E).app U)
     exact _root_.AlgebraicGeometry.IsClosedImmersion.comp _ _
-  · show ((structureSheafChartSpecIso B S hS X U hU).hom ≫
+  · change ((structureSheafChartSpecIso B S hS X U hU).hom ≫
       (reductionChartSpec B S hS E).app U).ker ^ 2 = ⊥
     rw [Scheme.Hom.ker_comp_of_isIso]
     exact hker
@@ -316,7 +316,7 @@ theorem reductionChartSpec_comp_chartSpecToBase :
       (smallEtaleRingedToposHom B S hS f).fSharpInverseImage.hom :=
     congrArg (fun α : inverseImageStructureCommRingSheaf B S hS f ⟶
       (smallEtaleRingedTopos B S hS X).O => α.hom) E.toBase_π
-  show Functor.whiskerRight (NatTrans.rightOp E.π.hom) Scheme.Spec ≫
+  change Functor.whiskerRight (NatTrans.rightOp E.π.hom) Scheme.Spec ≫
       Functor.whiskerRight (NatTrans.rightOp E.toBase.hom) Scheme.Spec = _
   rw [← Functor.whiskerRight_comp, ← NatTrans.rightOp_comp, h]
   rfl

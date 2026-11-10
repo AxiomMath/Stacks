@@ -129,7 +129,7 @@ private noncomputable def pointOfPrime {X : Scheme.{u}} {U : X.Opens} (hU : IsAf
 private theorem primeIdealOf_pointOfPrime {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineOpen U)
     (p : PrimeSpectrum Γ(X, U)) :
     hU.primeIdealOf (pointOfPrime hU p) = p := by
-  show (hU.isoSpec.inv ≫ hU.isoSpec.hom) p = p
+  change (hU.isoSpec.inv ≫ hU.isoSpec.hom) p = p
   rw [hU.isoSpec.inv_hom_id]
   rfl
 

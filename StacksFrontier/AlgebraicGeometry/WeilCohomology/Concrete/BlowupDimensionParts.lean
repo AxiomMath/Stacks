@@ -198,6 +198,7 @@ theorem relativeDimension_centrePart (d : ℕ) :
     (relativeDimension_partBase X.obj.hom d)
     (coheight_clopenRestrict i _ (isClopen_dimPart X d) hr)
 
+omit [IsClosedImmersion i.hom.left] in
 include hr in
 /-- If `Z ∩ X_d` is nonempty then `r ≤ d`. -/
 theorem le_of_mem_centrePart {d : ℕ} {z : Z.obj.left} (hz : i.hom.left z ∈ dimPart X.obj.hom d) :
@@ -312,7 +313,7 @@ theorem relativeDimension_exceptionalProj_of_codimension (hr0 : 0 < r) :
             WithBot ℕ∞) := by
           exact_mod_cast h
         rw [add_top] at h'
-        exact ENat.coe_ne_top _ (WithBot.coe_injective h')
+        exact ENat.natCast_ne_top _ (WithBot.coe_injective h')
       | coe m => exact ⟨m, rfl⟩
   rw [hm] at h ⊢
   have h' : a = b + m := by exact_mod_cast h

@@ -50,7 +50,7 @@ variable {K : Type*} [Field K]
 
 section Equalizer
 
-variable {J : Type*} [Fintype J] [DecidableEq J] {G : Type*} [AddCommGroup G] [Module K G]
+variable {J : Type*} [Finite J] {G : Type*} [AddCommGroup G] [Module K G]
   {B₁ : J → Type*} [∀ b, AddCommGroup (B₁ b)] [∀ b, Module K (B₁ b)]
   {B₂ : J → J → Type*} [∀ b b', AddCommGroup (B₂ b b')] [∀ b b', Module K (B₂ b b')]
   (incl : ∀ b, G →ₗ[K] B₁ b) (s₀ : ∀ b b', B₁ b →ₗ[K] B₂ b b')
@@ -65,7 +65,7 @@ def eqIncl : G →ₗ[K] ∀ b, B₁ b := LinearMap.pi incl
 
 variable {incl s₀ s₁}
 
-omit [Fintype J] [DecidableEq J] in
+omit [Finite J] in
 /-- If the restriction maps agree on global sections and every compatible family comes from a
 global section, then `eqIncl incl` and `eqDiff s₀ s₁` form an exact sequence. -/
 theorem exact_eqIncl_eqDiff (hcompat : ∀ b b', s₀ b b' ∘ₗ incl b = s₁ b b' ∘ₗ incl b')
@@ -84,7 +84,7 @@ theorem exact_eqIncl_eqDiff (hcompat : ∀ b b', s₀ b b' ∘ₗ incl b = s₁ 
 
 variable (H : Type*) [AddCommGroup H] [Module K H]
 
-omit [Fintype J] [DecidableEq J] in
+omit [Finite J] in
 /-- Under `TensorProduct.piRightHom`, the component at `p` of `lTensor H (eqDiff s₀ s₁) x` is the
 difference of the restrictions of the components of `x` at `p.1` and `p.2`. -/
 theorem piRight_lTensor_eqDiff (x : H ⊗[K] (∀ b, B₁ b)) (p : J × J) :
@@ -92,20 +92,18 @@ theorem piRight_lTensor_eqDiff (x : H ⊗[K] (∀ b, B₁ b)) (p : J × J) :
         (lTensor H (eqDiff s₀ s₁) x) p =
       lTensor H (s₀ p.1 p.2) (TensorProduct.piRightHom K K H B₁ x p.1) -
         lTensor H (s₁ p.1 p.2) (TensorProduct.piRightHom K K H B₁ x p.2) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul h g => simp [eqDiff, tmul_sub]
   | add x y hx hy =>
     simp only [map_add, Pi.add_apply, hx, hy]
     abel
 
-omit [Fintype J] [DecidableEq J] in
+omit [Finite J] in
 /-- Under `TensorProduct.piRightHom`, the component at `b` of `lTensor H (eqIncl incl) θ` is
 `lTensor H (incl b) θ`. -/
 theorem piRight_lTensor_eqIncl (θ : H ⊗[K] G) (b : J) :
     TensorProduct.piRightHom K K H B₁ (lTensor H (eqIncl incl) θ) b = lTensor H (incl b) θ := by
-  induction θ using TensorProduct.induction_on with
-  | zero => simp
+  induction θ using TensorProduct.inductionOn with
   | tmul h g => simp [eqIncl]
   | add x y hx hy => simp only [map_add, Pi.add_apply, hx, hy]
 
@@ -119,6 +117,8 @@ theorem exists_lTensor_eq_of_equalizer
     (h : ∀ b, H ⊗[K] B₁ b)
     (hh : ∀ b b', lTensor H (s₀ b b') (h b) = lTensor H (s₁ b b') (h b')) :
     ∃ θ : H ⊗[K] G, ∀ b, h b = lTensor H (incl b) θ := by
+  classical
+  have := Fintype.ofFinite J
   have hex := Module.Flat.lTensor_exact H (exact_eqIncl_eqDiff hcompat heq)
   set x := (TensorProduct.piRight K K H B₁).symm h
   have hxh : ∀ b, TensorProduct.piRightHom K K H B₁ x b = h b := fun b => by
@@ -150,8 +150,7 @@ with applying `rTensor N f` and `TensorProduct.lid`, then `g`. -/
 theorem lid_rTensor_lTensor_apply (f : M →ₗ[K] K) (g : N →ₗ[K] Q) (x : M ⊗[K] N) :
     TensorProduct.lid K Q (rTensor Q f (lTensor M g x)) =
       g (TensorProduct.lid K N (rTensor N f x)) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -161,7 +160,7 @@ section Main
 
 variable {C₀ C₁ C₂ : Type*} [AddCommGroup C₀] [Module K C₀] [AddCommGroup C₁] [Module K C₁]
   [AddCommGroup C₂] [Module K C₂] {dX₀ : C₀ →ₗ[K] C₁} {dX₁ : C₁ →ₗ[K] C₂}
-  {J : Type*} [Fintype J] [DecidableEq J] {G : Type*} [AddCommGroup G] [Module K G]
+  {J : Type*} [Finite J] {G : Type*} [AddCommGroup G] [Module K G]
   {B₁ : J → Type*} [∀ b, AddCommGroup (B₁ b)] [∀ b, Module K (B₁ b)]
   {B₂ : J → J → Type*} [∀ b b', AddCommGroup (B₂ b b')] [∀ b b', Module K (B₂ b b')]
   {incl : ∀ b, G →ₗ[K] B₁ b} {s₀ : ∀ b b', B₁ b →ₗ[K] B₂ b b'}
@@ -244,7 +243,7 @@ private theorem rTensor_mkQ_eq_zero_of_rTensor_subtype_eq (hdd : dX₁ ∘ₗ dX
   rw [rTensor_subtype_injective M (h.trans (rTensor_subtype_rTensor_dCod hdd M e).symm),
     rTensor_mkQ_rTensor_dCod]
 
-omit [Fintype J] [DecidableEq J] in
+omit [Finite J] in
 /-- The classes in `H1 hdd ⊗ B₁ b` of the `C₁ ⊗ B₁` part of a total cocycle are compatible on
 overlaps. -/
 private theorem lTensor_rTensor_mkQ_eq (hdd : dX₁ ∘ₗ dX₀ = 0) {c₁₀ : ∀ b, C₁ ⊗[K] B₁ b}

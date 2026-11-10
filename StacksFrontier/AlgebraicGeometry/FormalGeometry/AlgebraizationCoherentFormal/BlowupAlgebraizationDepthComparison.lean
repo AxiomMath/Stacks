@@ -277,7 +277,7 @@ theorem BlowupChartPoint.fromSpec_comap :
       S.U.ι (blowupRestrict S y') := by
   have h := congrArg (fun f => f c.Q) c.chart_comp_blowUpToBase
   refine Eq.trans h.symm ?_
-  show situationBlowUpToBase S (c.chart c.Q) = _
+  change situationBlowUpToBase S (c.chart c.Q) = _
   rw [c.hQ]
   exact blowUpToBase_ι_apply S y'
 
@@ -481,7 +481,7 @@ theorem trdeg_residueField_specMap {R R' : CommRingCat.{u}} (θ : R ⟶ R')
     (congrArg (Spec.stalkIso R' Q).hom.hom h2).symm.trans
       (Iso.inv_hom_id_apply (Spec.stalkIso R' Q) _)
   have := Localization.isLocalHom_localRingHom (Q.asIdeal.comap θ.hom) Q.asIdeal θ.hom rfl
-  show eL (((Spec.map θ).residueFieldMap x).hom (((Spec R).residue _).hom s)) =
+  change eL (((Spec.map θ).residueFieldMap x).hom (((Spec R).residue _).hom s)) =
     Ideal.ResidueField.map (Q.asIdeal.comap θ.hom) Q.asIdeal θ.hom rfl (eK _)
   rw [h1]
   exact (congrArg (IsLocalRing.residue (Localization.AtPrime Q.asIdeal)) h3).trans
@@ -568,7 +568,7 @@ theorem depth_dim_distance_combine {D₀ D D₀' D' t δ δ' : ℕ∞} {m₀ m m
   | coe mm =>
   change ((a : ℤ) : EInt) + ((mm : ℤ) : EInt) ≤ ((a' : ℤ) : EInt) + ((k' : ℤ) : EInt) +
     ((k : ℤ) : EInt) at h₁
-  show ((a : ℤ) : EInt) + ((mm : ℤ) : EInt) + ((j : ℤ) : EInt) ≤
+  change ((a : ℤ) : EInt) + ((mm : ℤ) : EInt) + ((j : ℤ) : EInt) ≤
     ((a' : ℤ) : EInt) + ((k' : ℤ) : EInt) + ((n' : ℤ) : EInt) + ((e : ℤ) : EInt)
   simp only [eint_coe_add, WithBotTop.coe_le_coe] at h₁ ⊢
   omega
@@ -612,7 +612,7 @@ theorem topologicalKrullDim_fiber_exceptionalToY_le_pred (d : ℤ)
   | top => exact absurd h (not_lt.mpr (WithBot.coe_le_coe.mpr le_top))
   | coe k =>
   have hk : k < d.toNat := by exact_mod_cast h
-  exact WithBot.coe_le_coe.mpr (ENat.coe_le_coe.mpr (show k ≤ d.toNat - 1 by omega))
+  exact WithBot.coe_le_coe.mpr (ENat.natCast_le_natCast.mpr (show k ≤ d.toNat - 1 by omega))
 
 /-- **`Y` is universally catenary** when `A` has a dualizing complex ([Stacks, Tag 0AWY] and
 [Stacks, Tag 0A80]). -/
@@ -686,7 +686,7 @@ theorem BlowupChartPoint.finite_baseModule
   | add x y _ _ hx hy => exact add_mem hx hy
   | smul r x _ hx =>
     have h : r • x = (c.baseCompletionEquiv r) • x := by
-      show r • x = c.baseCompletionEquiv.symm (c.baseCompletionEquiv r) • x
+      change r • x = c.baseCompletionEquiv.symm (c.baseCompletionEquiv r) • x
       rw [RingEquiv.symm_apply_apply]
     rw [h]
     exact Submodule.smul_mem _ _ hx
@@ -781,7 +781,7 @@ theorem BlowupChartPoint.completedStalkDepth_basePrime
           (completedStalk (idealOnOpen S) F (blowupRestrict S y'))) :=
   LocalizedModule.depth_atPrime_comap_eq_of_ringEquiv c.baseCompletionEquiv (AddEquiv.refl _)
     (fun r m => by
-      show r • m = c.baseCompletionEquiv.symm (c.baseCompletionEquiv r) • m
+      change r • m = c.baseCompletionEquiv.symm (c.baseCompletionEquiv r) • m
       rw [RingEquiv.symm_apply_apply]) _
 
 /-- The dimension of `𝒪_{X,y}^∧` modulo the prime under `P'`. -/
@@ -883,7 +883,7 @@ theorem exists_depthAddDimAddDistance_le_blowup_of_comparison (S : Algebraizatio
     c.not_completedLocalIdeal_le_basePrime P' hP'not, ?_, ?_⟩
   · have h1 := congrArg (fun f => f e') (exceptionalToY_Yι S)
     refine Eq.trans ?_ h1.symm
-    show _ = situationBlowUpToBase S (situationExceptionalι S e')
+    change _ = situationBlowUpToBase S (situationExceptionalι S e')
     rw [he']
     exact (blowUpToBase_ι_apply S y').symm
   · have hA1 := depth_add_ringKrullDim_le_blowupChart hdual₀ c.ha

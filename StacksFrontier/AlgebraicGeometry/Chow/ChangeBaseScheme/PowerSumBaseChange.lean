@@ -195,7 +195,7 @@ theorem baseChangeCompatible_powerSumOfFiniteLocallyFree (p : ℕ) :
   have hres' := res_powerSumOfFiniteLocallyFree_of_rank B.baseChange (pullback.snd sX B.g) F'
     (m r) (hm r) r.down p
   rw [baseChangeChowPullback_chowGroupRestrict B sX (U r).ι (k - q)]
-  show baseChangeChowPullback B ((U r).ι ≫ sX) (k - q)
+  change baseChangeChowPullback B ((U r).ι ≫ sX) (k - q)
       (chowGroupRestrict B.base sX ((U r).ι ≫ sX) (U r).ι rfl (k - q)
         ((powerSumOfFiniteLocallyFree B.base sX F p).capFamily k q α)) ≍
     chowGroupRestrict B.baseChange (pullback.snd sX B.g) (pullback.snd ((U r).ι ≫ sX) B.g) (m r)

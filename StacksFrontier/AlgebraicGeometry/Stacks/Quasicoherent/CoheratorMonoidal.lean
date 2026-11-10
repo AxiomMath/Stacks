@@ -171,6 +171,7 @@ theorem isIso_moduleRestriction_map_of_isParasitic {M N : Stack.fppfModules B S 
   exact isIso_of_mono_of_epi _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesKernel`/`PreservesCokernel` of `FlatFppf.moduleRestriction`
 /-- A map of `𝒪_𝒳`-modules which restricts to an isomorphism on the flat-fppf site has parasitic
 kernel. -/
 theorem isParasitic_kernel_of_isIso_moduleRestriction_map {M N : Stack.fppfModules B S hS 𝒳}
@@ -181,6 +182,7 @@ theorem isParasitic_kernel_of_isIso_moduleRestriction_map {M N : Stack.fppfModul
       (PreservesKernel.iso (FlatFppf.moduleRestriction B S hS 𝒳) φ))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesKernel`/`PreservesCokernel` of `FlatFppf.moduleRestriction`
 /-- A map of `𝒪_𝒳`-modules which restricts to an isomorphism on the flat-fppf site has parasitic
 cokernel. -/
 theorem isParasitic_cokernel_of_isIso_moduleRestriction_map {M N : Stack.fppfModules B S hS 𝒳}

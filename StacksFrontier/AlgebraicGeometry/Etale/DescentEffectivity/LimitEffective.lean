@@ -258,14 +258,14 @@ theorem exists_good_stageModel [IsCofiltered I] [EssentiallySmall.{u} I]
   · have h₁ := hEt₁
     have h₂ : Etale ((Over.pullback (𝒳.map m₂)).obj
         ((Over.pullback (𝒳.map m₁)).obj V)).hom := by
-      show Etale (pullback.snd ((Over.pullback (𝒳.map m₁)).obj V).hom (𝒳.map m₂))
+      change Etale (pullback.snd ((Over.pullback (𝒳.map m₁)).obj V).hom (𝒳.map m₂))
       infer_instance
-    show Etale (pullback.snd ((Over.pullback (𝒳.map m₂)).obj
+    change Etale (pullback.snd ((Over.pullback (𝒳.map m₂)).obj
       ((Over.pullback (𝒳.map m₁)).obj V)).hom (𝒳.map m₃))
     infer_instance
   · exact (LimitFPObjectDescent.finitePresentation_overPullback _ _ hV₂).2.1
   · have h₁ := hSep₂
-    show IsSeparated (pullback.snd ((Over.pullback (𝒳.map m₂)).obj
+    change IsSeparated (pullback.snd ((Over.pullback (𝒳.map m₂)).obj
       ((Over.pullback (𝒳.map m₁)).obj V)).hom (𝒳.map m₃))
     infer_instance
 

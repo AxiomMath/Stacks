@@ -196,8 +196,8 @@ section Count
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
 variable (B : BigEtaleSite.{u}) (U : B.Scheme) [ConnectedSpace U.1]
-  {k : Type u} [Field k] [Fintype k] (f : U.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [IsCurve k f] [Smooth f]
+  {k : Type u} [Field k] [Finite k] (f : U.1 ⟶ Spec (.of k))
+  [LocallyOfFiniteType f] [QuasiCompact f] [IsCurve k f] [Smooth f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar] (m : ℕ) [NeZero m] (p : ℕ) [Fact p.Prime] [CharP k p]
 
@@ -214,7 +214,7 @@ theorem finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_
     (hM : ∀ s ∈ N, M.obj.obj.obj.ρ s = 1) (V₀ : FiniteEtaleOver U.1)
     (hV₀ : ∀ v : (finiteEtaleFiberFunctor z).obj V₀,
       MulAction.stabilizer (EtaleFundamentalGroup U.1 z) v = N)
-    (L : Type u) [Field L] [Fintype L] [Algebra k L] [Module.Finite k L] [Algebra L kbar]
+    (L : Type u) [Field L] [Finite L] [Algebra k L] [Module.Finite k L] [Algebra L kbar]
     [IsScalarTower k L kbar] {Vs : Scheme.{u}} [ConnectedSpace Vs]
     (ι : Vs ⟶ pullback V₀.hom (pullback.fst f (specAlgebraMap k L))) [IsOpenImmersion ι]
     [IsClosedImmersion ι]
@@ -233,6 +233,7 @@ theorem finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_
           (etaleFundamentalGroupMap f z).toMonoidHom.ker.subtype)) := by
   subst hy
   classical
+  let : Fintype L := Fintype.ofFinite L
   -- the base change `W = U ×_k L`
   let s := specAlgebraMap k L
   have : IsFinite s := (IsFinite.SpecMap_iff _).2 ((RingHom.finite_algebraMap).2 inferInstance)
@@ -356,7 +357,6 @@ theorem finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_
   -- a finite extension `L` of `k` over which `V₀` has a rational point
   obtain ⟨L, _, _, _, σ₀, hσ₀⟩ := AlgebraicGeometry.exists_fieldExtension_section f V₀
   have : Finite L := Module.finite_of_finite k
-  let : Fintype L := Fintype.ofFinite L
   let ψ : L →ₐ[k] kbar := IsAlgClosed.lift
   let : Algebra L kbar := ψ.toRingHom.toAlgebra
   have : IsScalarTower k L kbar := IsScalarTower.of_algebraMap_eq fun c => (ψ.commutes c).symm
@@ -434,7 +434,7 @@ section Levels
 attribute [local instance] HasDerivedCategory.standard
 
 variable (B : BigEtaleSite.{u}) (U : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime] [ConnectedSpace U.1]
-  {k : Type u} [Field k] [Fintype k] (f : U.1 ⟶ Spec (.of k))
+  {k : Type u} [Field k] [Finite k] (f : U.1 ⟶ Spec (.of k))
   [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [SmoothOfRelativeDimension 1 f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosure k kbar]

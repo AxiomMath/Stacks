@@ -142,7 +142,7 @@ theorem transport_kummerFlagClass [NeZero N] (e : ℕ) : ∀ {d : ℕ} (D : Fin 
         (kummerFlagClass hζ hN fU D) =
       kummerFlagClassPow hζ hN fU' e D'
   | 0, D, D', gV, hV, gW, hW, _, _ => by
-    show transport (etaleModuleInverseImage.{u, 0} (ZMod N) g)
+    change transport (etaleModuleInverseImage.{u, 0} (ZMod N) g)
       (constantInverseImageIso (ZMod N) g).hom (constantInverseImageIso (ZMod N) g).inv 0
         (Ext.mk₀ (𝟙 (unitSheaf (X := U) N))) = Ext.mk₀ (𝟙 (unitSheaf (X := U') N))
     rw [transport_apply, sandwich_apply, Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀,

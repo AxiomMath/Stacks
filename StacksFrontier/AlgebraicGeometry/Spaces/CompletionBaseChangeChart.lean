@@ -168,7 +168,7 @@ private theorem toScheme_map_preimage_completionBaseMap :
       Spec.map (CommRingCat.ofHom
         (algebraMap A (AdicCompletion (IsLocalRing.maximalIdeal A) A))) := by
   rw [preimage_completionBaseMap A B hA hAc]
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj hAc) (Y := B.obj hA)
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj hAc) (Y := B.obj hA)
     (Spec.map (CommRingCat.ofHom
       (algebraMap A (AdicCompletion (IsLocalRing.maximalIdeal A) A))))) = _
   rw [Functor.map_preimage]

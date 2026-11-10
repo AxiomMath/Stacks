@@ -85,9 +85,9 @@ variable (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, max v w, w}
   (h𝓕 : IsPredeformationCategory.{u, v, w} 𝓕.p)
   (h𝓖 : IsPredeformationCategory.{u, v, w} 𝓖.p)
   (hS2𝓕 : SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
   (hS2𝓖 : SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
 
 /-- The value of the linear lift at a coordinate module has the isomorphism classes over the
 square-zero extension by that module as underlying set. -/
@@ -148,7 +148,7 @@ public theorem associatedTangentLiftFun_naturality {M N : FGModuleCat.{max v w} 
         (cast (associatedTangentLift_carrier.{u, v, w} 𝓕 h𝓕 hS2𝓕 M) z)))
   rw [cast_symm_cancel] at hG
   refine (Equiv.cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 N)).injective ?_
-  show cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 N)
+  change cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 N)
       (cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 N).symm _) =
     cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 N) _
   rw [cast_symm_cancel, hG]
@@ -185,7 +185,7 @@ public theorem associatedTangentLiftMap_classOf (M : FGModuleCat.{max v w} k)
       cast (associatedTangentLift_carrier.{u, v, w} 𝓖 h𝓖 hS2𝓖 M).symm
         (classOf 𝓖 h𝓖.cofibered
           ((fiberFunctor φ ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)).obj x)) := by
-  show cast _ (mapIsomorphismClasses h𝓕.cofibered h𝓖.cofibered φ _ (cast _ (cast _ _))) = _
+  change cast _ (mapIsomorphismClasses h𝓕.cofibered h𝓖.cofibered φ _ (cast _ (cast _ _))) = _
   rw [cast_symm_cancel, mapIsomorphismClasses_classOf]
 
 /-! ### The zero of the tangent-space lift -/
@@ -277,7 +277,7 @@ public theorem inducedInfinitesimalLinearMapOfEq_spec (Φ : F ⥤ G) {x₀ : F}
   refine ⟨comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)),
     comparisonPushforward_isHomLift Φ P Q _,
     inclusion_comp_comparisonPushforward Φ P Q _, fun a => ?_⟩
-  show (localizedTangentEquivKernel Q
+  change (localizedTangentEquivKernel Q
     (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.asIso.hom.val ≫ _ = _
   rw [inducedInfinitesimalLinearMap_apply Φ P Q hp hq a]
   rw [Category.assoc, Category.assoc, comparisonPushforwardInv_comp, Category.comp_id]
@@ -586,7 +586,7 @@ public noncomputable def boundaryFun
     (hpreW : IsPredeformationCategory.{u, v, w}
       (BasedCategory.ofFunctor
         (TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g)).p)
-    (hS2W : SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    (hS2W : SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor
         (TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g)) hpreW.cofibered)))
     (M : FGModuleCat.{max v w} k)

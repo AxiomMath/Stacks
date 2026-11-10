@@ -250,11 +250,11 @@ public theorem stageIdeal_le_topologicalNilradical
     (UniformSpace.Completion.coeRingHom : (A ⊗[C] B) →+* T).comp
       (Algebra.TensorProduct.includeRight : B →ₐ[C] A ⊗[C] B).toRingHom
   have hφA : Continuous φA := by
-    show Continuous (fun a : A => ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T))
+    change Continuous (fun a : A => ((a ⊗ₜ[C] (1 : B) : A ⊗[C] B) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[C] B)).comp
       (TopologicalRing.continuous_tmul_const (R := C) (M := A) (N := B) (1 : B))
   have hφB : Continuous φB := by
-    show Continuous (fun b : B => (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T))
+    change Continuous (fun b : B => (((1 : A) ⊗ₜ[C] b : A ⊗[C] B) : T))
     exact (UniformSpace.Completion.continuous_coe (A ⊗[C] B)).comp
       (TopologicalRing.continuous_const_tmul (R := C) (M := A) (N := B) (1 : A))
   intro x hx

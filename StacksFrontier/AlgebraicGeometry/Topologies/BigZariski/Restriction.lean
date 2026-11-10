@@ -174,7 +174,7 @@ public theorem bigZariskiSheafRestriction_sectionEquiv_naturality
       (((((bigZariskiSheafRestriction.{u, v} B S hS).map α).app T).1.app (op ⊤)) s) =
     α.1.app (op T)
       (bigZariskiSheafRestriction_sectionEquiv B S hS F T s) := by
-  show (canonicalSmallTopSectionsIso B S hS G T).hom
+  change (canonicalSmallTopSectionsIso B S hS G T).hom
       (((canonicalSmallSheafFunctor B S hS T).map α).1.app (op ⊤) s) =
     α.1.app (op T) ((canonicalSmallTopSectionsIso B S hS F T).hom s)
   exact (congrArg (fun k => k s) (canonicalSmallTopSectionsIso_naturality B S hS α T)).symm
@@ -184,7 +184,7 @@ private theorem canonicalSmallTopRepresentativeIso_hom_left (T : BigZariskiOver 
     (canonicalSmallTopRepresentativeIso B S hS T).hom.left =
       (smallOpenObject B S hS T ⊤).obj.hom :=
   B.inclusion.map_injective (by
-    show B.inclusion.map (B.inclusion.preimage
+    change B.inclusion.map (B.inclusion.preimage
       (B.inclusion.map (smallOpenObject B S hS T ⊤).obj.hom)) = _
     rw [B.inclusion.map_preimage])
 
@@ -211,7 +211,7 @@ private theorem canonicalSmallTopRepresentativeIso_inv_comp_smallSiteArrow_comp_
   have hfac : a.left ≫ Y.obj.hom = X.obj.hom ≫ f.left :=
     B.inclusion.map_injective (smallSiteArrow_fac B S hS f X Y hXY)
   apply Over.OverMorphism.ext
-  show eX.inv.left ≫ a.left ≫ eY.hom.left = f.left
+  change eX.inv.left ≫ a.left ≫ eY.hom.left = f.left
   rw [hy, hfac, ← Category.assoc, hxinv]
   simp
 
@@ -235,7 +235,7 @@ public theorem bigZariskiSheafRestriction_pullback_sections
   let ftop := (B.inclusion.map f.left).base
   let η := (TopCat.Sheaf.inverseImagePushforwardAdjunction.{u, v} ftop).unit.app
     (canonicalSmallSheaf B S hS F T)
-  show CategoryTheory.Iso.toEquiv (canonicalSmallTopSectionsIso B S hS F T')
+  change CategoryTheory.Iso.toEquiv (canonicalSmallTopSectionsIso B S hS F T')
       ((TopCat.Sheaf.inverseImageSectionFamilyHom ftop (canonicalSmallSheaf B S hS F T)
         (canonicalSmallSheaf B S hS F T')
         (canonicalSmallPullbackFamily B S hS F f)).1.app (op ⊤)

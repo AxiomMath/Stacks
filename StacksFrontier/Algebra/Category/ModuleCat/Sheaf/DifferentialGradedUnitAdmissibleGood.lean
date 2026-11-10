@@ -141,7 +141,7 @@ theorem splitDesc_eq :
   rw [δ_v (-1) 0 (by omega) _ p p (add_zero p) (p + -1) (p + 1) (by omega) rfl, Cochain.ofHom_v,
     shiftFunctor_obj_d', hM, smul_zero, zero_comp, smul_zero, add_zero, splitDescCochain_v,
     HomologicalComplex.comp_f]
-  show _ = (splS S σ (p + -1) ≫ S.X₂.d (p + -1) p ≫ splR S σ p) ≫ S.f.f p
+  change _ = (splS S σ (p + -1) ≫ S.X₂.d (p + -1) p ≫ splR S σ p) ≫ S.f.f p
   rw [HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Category.id_comp]
   simpa only [Category.assoc] using (split_retract_d S σ hM p).symm
 
@@ -173,7 +173,7 @@ theorem splitLift_eq :
   rw [Cochain.add_v, δ_v 0 1 (by omega) _ p (p + 1) hpq p (p + 1) (by omega) rfl,
     Cochain.ofHoms_v, Cochain.ofHoms_v, Cochain.comp_zero_cochain_v, Cochain.ofHom_v,
     splitLiftCocycle_v, Cochain.zero_v]
-  show splR S σ p ≫ S.X₁.d p (p + 1) + (1 : ℤ).negOnePow • S.X₂.d p (p + 1) ≫ splR S σ (p + 1) +
+  change splR S σ p ≫ S.X₁.d p (p + 1) + (1 : ℤ).negOnePow • S.X₂.d p (p + 1) ≫ splR S σ (p + 1) +
     (S.g.f p ≫ (S.X₃.XIsoOfEq _).hom) ≫ splS S σ (p + 1 + -1) ≫ S.X₂.d (p + 1 + -1) (p + 1) ≫
       splR S σ (p + 1) = 0
   have hnat : ∀ {x y : ℤ} (h : x = y),

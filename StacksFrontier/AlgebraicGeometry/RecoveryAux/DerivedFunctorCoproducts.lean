@@ -174,7 +174,7 @@ private lemma isIso_alpha_of_rightAcyclic_terms
     exact ⟨Injective.under X, Injective.ι X, inferInstance, rightAcyclic_of_injective F _⟩
   have hn (X : A) : IsZero ((DerivedCategory.Plus.homologyFunctor B n).obj
       (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X))) := by
-    show IsZero ((F.rightDerivedPlus (n : ℤ)).obj X)
+    change IsZero ((F.rightDerivedPlus (n : ℤ)).obj X)
     exact (hvanish X).of_iso (CategoryTheory.rightDerivedPlusObjIso F X n)
   have h := Functor.hasRightDerivedFunctor_of_isZero_rightDerived
     F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith F.rightAcyclic
@@ -324,10 +324,10 @@ private lemma preservesColimit_of_resolved_family
     rw [heq]
     infer_instance
   have hHmap : IsIso ((Q ⋙ H).map (Limits.Sigma.map p)) := by
-    show IsIso (H.map (Q.map (Limits.Sigma.map p)))
+    change IsIso (H.map (Q.map (Limits.Sigma.map p)))
     infer_instance
   have hHi (i : I) : IsIso ((Q ⋙ H).map (p i)) := by
-    show IsIso (H.map (Q.map (p i)))
+    change IsIso (H.map (Q.map (p i)))
     infer_instance
   let e : Discrete.functor X ⋙ (Q ⋙ H) ≅ Discrete.functor Y ⋙ (Q ⋙ H) :=
     Discrete.natIso fun ⟨i⟩ => asIso ((Q ⋙ H).map (p i))
@@ -341,7 +341,7 @@ private lemma preservesColimit_of_resolved_family
     Cocone.ext (asIso ((Q ⋙ H).map (Limits.Sigma.map p))) (by
       intro j
       simp only [Cocone.precompose_obj_ι]
-      show (Q ⋙ H).map (Sigma.ι X j.as) ≫ (Q ⋙ H).map (Limits.Sigma.map p) =
+      change (Q ⋙ H).map (Sigma.ι X j.as) ≫ (Q ⋙ H).map (Limits.Sigma.map p) =
         (Q ⋙ H).map (p j.as) ≫ (Q ⋙ H).map (Sigma.ι Y j.as)
       rw [← Functor.map_comp, ← Functor.map_comp, Sigma.ι_map])
   exact preservesColimit_of_preserves_colimit_cocone (coproductIsCoproduct X)

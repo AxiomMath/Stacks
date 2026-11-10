@@ -161,7 +161,7 @@ theorem compForwardUnit_apply (x : X.M) :
     (compForwardUnit ψ₁ ψ₂ κ h X).toFun x =
       (tensorPure (regular ψ₂) ((tensorCompFunctor (regular ψ₁)).obj X)).toLinearMap
         ((tensorPure (regular ψ₁) X).toLinearMap x (1 : B.A)) (1 : C.A) := by
-  show (unitHom ψ₂ _).toFun ((unitHom ψ₁ X).toFun x) = _
+  change (unitHom ψ₂ _).toFun ((unitHom ψ₁ X).toFun x) = _
   exact (congrArg (unitHom ψ₂ _).toFun (unitHom_apply ψ₁ X x)).trans (unitHom_apply ψ₂ _ _)
 
 /-- **The comparison `X ⊗_A C ⟶ (X ⊗_A B) ⊗_B C`**, `x ⊗ c ↦ (x ⊗ 1) ⊗ c`. -/

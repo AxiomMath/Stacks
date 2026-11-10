@@ -88,19 +88,19 @@ def homotopyTwoSquare (α : TwoSquare E' Lf Lf' E) :
       (Lf.mapHomotopyCategory (ComplexShape.up ℤ)) (Lf'.mapHomotopyCategory (ComplexShape.up ℤ))
       (E.mapHomotopyCategory (ComplexShape.up ℤ)) :=
   (Functor.mapHomotopyCategoryCompIso (Iso.refl (E' ⋙ Lf')) (ComplexShape.up ℤ)).hom ≫
-    NatTrans.mapHomotopyCategory α.natTrans (ComplexShape.up ℤ) ≫
+    NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ) ≫
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (Lf ⋙ E)) (ComplexShape.up ℤ)).inv
 
 /-- The degreewise 2-square of an invertible 2-square is invertible. -/
-instance isIso_homotopyTwoSquare (α : TwoSquare E' Lf Lf' E) [IsIso α.natTrans] :
-    IsIso (homotopyTwoSquare α).natTrans := by
-  have : IsIso (NatTrans.mapHomotopyCategory α.natTrans (ComplexShape.up ℤ)) :=
-    ⟨NatTrans.mapHomotopyCategory (inv α.natTrans) (ComplexShape.up ℤ), by
+instance isIso_homotopyTwoSquare (α : TwoSquare E' Lf Lf' E) [IsIso α] :
+    IsIso (homotopyTwoSquare α) := by
+  have : IsIso (NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)) :=
+    ⟨NatTrans.mapHomotopyCategory (inv α) (ComplexShape.up ℤ), by
       rw [← NatTrans.mapHomotopyCategory_comp, IsIso.hom_inv_id,
         NatTrans.mapHomotopyCategory_id], by
       rw [← NatTrans.mapHomotopyCategory_comp, IsIso.inv_hom_id,
         NatTrans.mapHomotopyCategory_id]⟩
-  dsimp only [homotopyTwoSquare, TwoSquare.natTrans]
+  dsimp only [homotopyTwoSquare]
   infer_instance
 
 /-- **The derived 2-square of a 2-square of exact functors.** A 2-square
@@ -118,32 +118,32 @@ def derivedTwoSquare (α : TwoSquare E' Lf Lf' E) :
     (E'.mapDerivedCategory ⋙ Lf'.mapDerivedCategory)
     (Lf.mapDerivedCategory ⋙ E.mapDerivedCategory)
     ((Functor.associator _ _ _).inv ≫
-      Functor.whiskerRight (homotopyTwoSquare α).natTrans DerivedCategory.Qh ≫
+      Functor.whiskerRight (homotopyTwoSquare α) DerivedCategory.Qh ≫
       (Functor.associator _ _ _).hom)
 
 /-- **The component of the derived 2-square at an object represented by a complex**: the
 degreewise 2-square, conjugated by the exactness comparisons of the four functors. -/
 theorem derivedTwoSquare_app_Qh (α : TwoSquare E' Lf Lf' E)
     (X : HomotopyCategory B (ComplexShape.up ℤ)) :
-    (derivedTwoSquare α).natTrans.app (DerivedCategory.Qh.obj X) =
+    (derivedTwoSquare α).app (DerivedCategory.Qh.obj X) =
       Lf'.mapDerivedCategory.map (E'.mapDerivedCategoryFactorsh.hom.app X) ≫
         Lf'.mapDerivedCategoryFactorsh.hom.app
           ((E'.mapHomotopyCategory (ComplexShape.up ℤ)).obj X) ≫
-        DerivedCategory.Qh.map ((homotopyTwoSquare α).natTrans.app X) ≫
+        DerivedCategory.Qh.map ((homotopyTwoSquare α).app X) ≫
         E.mapDerivedCategoryFactorsh.inv.app
           ((Lf.mapHomotopyCategory (ComplexShape.up ℤ)).obj X) ≫
         E.mapDerivedCategory.map (Lf.mapDerivedCategoryFactorsh.inv.app X) := by
   simp [derivedTwoSquare, Localization.liftNatTrans_app, Localization.Lifting.iso]
 
 /-- The derived 2-square of an invertible 2-square is invertible. -/
-instance isIso_derivedTwoSquare (α : TwoSquare E' Lf Lf' E) [IsIso α.natTrans] :
-    IsIso (derivedTwoSquare α).natTrans := by
+instance isIso_derivedTwoSquare (α : TwoSquare E' Lf Lf' E) [IsIso α] :
+    IsIso (derivedTwoSquare α) := by
   let τ : E'.mapHomotopyCategory (ComplexShape.up ℤ) ⋙
       (Lf'.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh) ⟶
       Lf.mapHomotopyCategory (ComplexShape.up ℤ) ⋙
         (E.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh) :=
     (Functor.associator _ _ _).inv ≫
-      Functor.whiskerRight (homotopyTwoSquare α).natTrans DerivedCategory.Qh ≫
+      Functor.whiskerRight (homotopyTwoSquare α) DerivedCategory.Qh ≫
       (Functor.associator _ _ _).hom
   have : IsIso τ := by dsimp only [τ]; infer_instance
   exact (Localization.liftNatIso DerivedCategory.Qh
@@ -164,7 +164,7 @@ theorem derivedTwoSquare_eq_pullbackComparison {K : B ⥤ A'} [K.Additive]
         (Functor.mapDerivedCategoryCompIsoOfIso c₁).symm
         (Functor.mapDerivedCategoryCompIsoOfIso c₂).symm := by
   have hh : ∀ X : HomotopyCategory B (ComplexShape.up ℤ),
-      (homotopyTwoSquare (TwoSquare.mk _ _ _ _ (c₁.hom ≫ c₂.inv))).natTrans.app X =
+      (homotopyTwoSquare (TwoSquare.mk _ _ _ _ (c₁.hom ≫ c₂.inv))).app X =
         (Functor.mapHomotopyCategoryCompIso c₁ (ComplexShape.up ℤ)).hom.app X ≫
           (Functor.mapHomotopyCategoryCompIso c₂ (ComplexShape.up ℤ)).inv.app X := by
     rintro ⟨X⟩
@@ -212,25 +212,25 @@ it is `CategoryTheory.mateEquiv_counit`. -/
 theorem homotopy_mateEquiv_counit (K : HomotopyCategory A (ComplexShape.up ℤ)) :
     (Lf'.mapHomotopyCategory (ComplexShape.up ℤ)).map
         (((Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ E')) (ComplexShape.up ℤ)).hom ≫
-          NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α).natTrans (ComplexShape.up ℤ) ≫
+          NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α) (ComplexShape.up ℤ) ≫
           (Functor.mapHomotopyCategoryCompIso (Iso.refl (E ⋙ F'))
             (ComplexShape.up ℤ)).inv).app K) ≫
       (Adjunction.mapHomotopyCategoryAdjunction adjf' (ComplexShape.up ℤ)).counit.app
         ((E.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) =
-    (homotopyTwoSquare α).natTrans.app ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
+    (homotopyTwoSquare α).app ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
       (E.mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((Adjunction.mapHomotopyCategoryAdjunction adjf (ComplexShape.up ℤ)).counit.app K) := by
   obtain ⟨K⟩ := K
   have h : (Lf'.mapHomologicalComplex (ComplexShape.up ℤ)).map
         (((Functor.mapHomologicalComplexCompIso (Iso.refl (F ⋙ E')) (ComplexShape.up ℤ)).hom ≫
-          NatTrans.mapHomologicalComplex (mateEquiv adjf adjf' α).natTrans
+          NatTrans.mapHomologicalComplex (mateEquiv adjf adjf' α)
             (ComplexShape.up ℤ) ≫
           (Functor.mapHomologicalComplexCompIso (Iso.refl (E ⋙ F'))
             (ComplexShape.up ℤ)).inv).app K) ≫
       (Adjunction.mapHomologicalComplexAdjunction adjf' (ComplexShape.up ℤ)).counit.app
         ((E.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) =
       ((Functor.mapHomologicalComplexCompIso (Iso.refl (E' ⋙ Lf')) (ComplexShape.up ℤ)).hom ≫
-          NatTrans.mapHomologicalComplex α.natTrans (ComplexShape.up ℤ) ≫
+          NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ) ≫
           (Functor.mapHomologicalComplexCompIso (Iso.refl (Lf ⋙ E))
             (ComplexShape.up ℤ)).inv).app
           ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ≫
@@ -265,7 +265,7 @@ theorem mateEquiv_derivedTwoSquare_fac (K : HomotopyCategory A (ComplexShape.up 
     E'.mapDerivedCategoryFactorsh.hom.app ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
         DerivedCategory.Qh.map
           (((Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ E')) (ComplexShape.up ℤ)).hom ≫
-            NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α).natTrans (ComplexShape.up ℤ) ≫
+            NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α) (ComplexShape.up ℤ) ≫
             (Functor.mapHomotopyCategoryCompIso (Iso.refl (E ⋙ F'))
               (ComplexShape.up ℤ)).inv).app K) ≫
         β'.app ((E.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
@@ -273,7 +273,7 @@ theorem mateEquiv_derivedTwoSquare_fac (K : HomotopyCategory A (ComplexShape.up 
       E'.mapDerivedCategory.map (β.app K) ≫
         (mateEquiv (Stacks.DerivedFunctor.derivedAdjunction adjf RF β hA)
           (Stacks.DerivedFunctor.derivedAdjunction adjf' RF' β' hA')
-          (derivedTwoSquare α)).natTrans.app (DerivedCategory.Qh.obj K) := by
+          (derivedTwoSquare α)).app (DerivedCategory.Qh.obj K) := by
   -- the two maps land in `RF'`; compare their transposes across `Lf' ⊣ RF'`
   apply ((Stacks.DerivedFunctor.derivedAdjunction adjf' RF' β' hA').homEquiv _ _).symm.injective
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit,
@@ -281,7 +281,7 @@ theorem mateEquiv_derivedTwoSquare_fac (K : HomotopyCategory A (ComplexShape.up 
   dsimp only [Functor.comp_obj]
   rw [mateEquiv_counit]
   -- the right-hand side
-  have hnat := (derivedTwoSquare α).natTrans.naturality (β.app K)
+  have hnat := (derivedTwoSquare α).naturality (β.app K)
   simp only [Functor.comp_map, Functor.comp_obj] at hnat
   have hcounit := Stacks.DerivedFunctor.derivedAdjunction_counit_app adjf RF β hA K
   have hE := E.mapDerivedCategoryFactorsh.inv.naturality
@@ -297,7 +297,7 @@ theorem mateEquiv_derivedTwoSquare_fac (K : HomotopyCategory A (ComplexShape.up 
     ((E.mapHomotopyCategory (ComplexShape.up ℤ)).obj K)
   have hL := Lf'.mapDerivedCategoryFactorsh.hom.naturality
     (((Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ E')) (ComplexShape.up ℤ)).hom ≫
-      NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α).natTrans (ComplexShape.up ℤ) ≫
+      NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α) (ComplexShape.up ℤ) ≫
       (Functor.mapHomotopyCategoryCompIso (Iso.refl (E ⋙ F'))
         (ComplexShape.up ℤ)).inv).app K)
   simp only [Functor.comp_map, Functor.comp_obj] at hL
@@ -326,13 +326,13 @@ adjunctions `Lf ⊣ F` and `Lf' ⊣ F'` with exact left adjoints and a 2-square
 `RF ⋙ E' ⟶ E ⋙ RF'` of the mate of `α` is the mate, under the derived adjunctions
 `Lf ⊣ RF` and `Lf' ⊣ RF'`, of the derived 2-square of `α`. -/
 theorem derivedSquare_mateEquiv :
-    derivedSquare (mateEquiv adjf adjf' α).natTrans =
+    derivedSquare (mateEquiv adjf adjf' α) =
       (mateEquiv
         (Stacks.DerivedFunctor.derivedAdjunction adjf (totalRightDerived F)
           (totalRightDerivedUnit F) hA)
         (Stacks.DerivedFunctor.derivedAdjunction adjf' (totalRightDerived F')
           (totalRightDerivedUnit F') hA')
-        (derivedTwoSquare α)).natTrans := by
+        (derivedTwoSquare α)) := by
   have := isRightDerivedFunctor_totalRightDerived_comp
     (F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh) E'.mapDerivedCategory
   refine Functor.rightDerived_ext (totalRightDerived F ⋙ E'.mapDerivedCategory)
@@ -342,11 +342,11 @@ theorem derivedSquare_mateEquiv :
   ext K
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app]
   rw [totalRightDerivedCompUnit_app, derivedSquare_fac_app]
-  have hβ : (derivedSquareBeta (mateEquiv adjf adjf' α).natTrans).app K =
+  have hβ : (derivedSquareBeta (mateEquiv adjf adjf' α)).app K =
       E'.mapDerivedCategoryFactorsh.hom.app ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
         DerivedCategory.Qh.map
           (((Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ E')) (ComplexShape.up ℤ)).hom ≫
-            NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α).natTrans (ComplexShape.up ℤ) ≫
+            NatTrans.mapHomotopyCategory (mateEquiv adjf adjf' α) (ComplexShape.up ℤ) ≫
             (Functor.mapHomotopyCategoryCompIso (Iso.refl (E ⋙ F'))
               (ComplexShape.up ℤ)).inv).app K) ≫
         (totalRightDerivedUnit F').app ((E.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
@@ -563,7 +563,7 @@ under the derived adjunctions `Lf ⊣ RF` and `Lf' ⊣ RF'` (read along `Q_h` by
 This is `Stacks.Homology.DerivedSquare.derivedSquare_mateEquiv` for right derived functors along
 `Q`, such as the unbounded derived direct images of sheaves of modules. -/
 theorem cochainDerivedSquare_mateEquiv :
-    cochainDerivedSquare αR αR' (mateEquiv adjf adjf' α).natTrans =
+    cochainDerivedSquare αR αR' (mateEquiv adjf adjf' α) =
       haveI := Stacks.DerivedAdjunction.homotopyUnitOfComplex_isRightDerivedFunctor F RF αR
       haveI := Stacks.DerivedAdjunction.homotopyUnitOfComplex_isRightDerivedFunctor F' RF' αR'
       (mateEquiv
@@ -571,7 +571,7 @@ theorem cochainDerivedSquare_mateEquiv :
           (Stacks.DerivedAdjunction.homotopyUnitOfComplex F RF αR) hA)
         (Stacks.DerivedFunctor.derivedAdjunction adjf' RF'
           (Stacks.DerivedAdjunction.homotopyUnitOfComplex F' RF' αR') hA')
-        (derivedTwoSquare α)).natTrans := by
+        (derivedTwoSquare α)) := by
   have := Stacks.DerivedAdjunction.homotopyUnitOfComplex_isRightDerivedFunctor F RF αR
   have := Stacks.DerivedAdjunction.homotopyUnitOfComplex_isRightDerivedFunctor F' RF' αR'
   refine Functor.rightDerived_ext (RF ⋙ E'.mapDerivedCategory) (cochainDerivedSquareUnit αR)

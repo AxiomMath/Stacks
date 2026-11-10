@@ -237,7 +237,7 @@ private noncomputable instance globalSectionsLinear :
 lemma actionLinear_zero (M N : DifferentialGradedModule.{u, v, w} A) (n : ℤ) :
     IsActionLinear A (0 : Cochain M.complex N.complex n) := by
   intro p q m hpq U x a
-  show HEq (0 : (N.complex.X (q + m)).val.obj U)
+  change HEq (0 : (N.complex.X (q + m)).val.obj U)
     (((N.mul q m).app U) (0 : (N.complex.X q).val.obj U) a)
   simp
 
@@ -267,7 +267,7 @@ private lemma actionLinear_smul {M N : DifferentialGradedModule.{u, v, w} A} {n 
     (hf : IsActionLinear A f) : IsActionLinear A (r • f) := by
   intro p q m hpq U x a
   apply heq_of_eq
-  show (f.v (p + m) (q + m) (by omega)).val.app U
+  change (f.v (p + m) (q + m) (by omega)).val.app U
       (globalSectionsMap (X := X) U r • (M.mul p m).app U x a) =
     (N.mul q m).app U ((f.v p q hpq).val.app U
       (globalSectionsMap (X := X) U r • x)) a
@@ -287,7 +287,7 @@ lemma sheaf_hom_app_zsmul {S T : SheafOfModules.{w} (Stacks.SheafOfModules.Tenso
     (SheafOfModules.forget.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).map_zsmul
   rw [hv]
   have heval : (r • f.val).app U = r • f.val.app U := by
-    show (PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj U).map
+    change (PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj U).map
       (r • f.val) = _
     rw [Functor.map_zsmul]
     rfl
@@ -657,9 +657,9 @@ private lemma moduleMap_closed (D : DGCategoryData.{u, v, w} A)
     D.category.d (moduleMap A D f) = 0 := by
   apply underlyingCochain_injective A D
   rw [underlyingCochain_zero]
-  show (D.homs M N (0 + 1) ▸ D.category.d (moduleMap A D f)).val = 0
+  change (D.homs M N (0 + 1) ▸ D.category.d (moduleMap A D f)).val = 0
   rw [eq_of_heq (D.differential M N 0 (moduleMap A D f))]
-  show δ 0 1 (underlyingCochain A D (moduleMap A D f)) = 0
+  change δ 0 1 (underlyingCochain A D (moduleMap A D f)) = 0
   rw [underlyingCochain_moduleMap, δ_ofHom]
 
 private lemma moduleMap_comp (D : DGCategoryData.{u, v, w} A)
@@ -835,14 +835,14 @@ private lemma biprodBiproductData (D : DGCategoryData.{u, v, w} A)
     inr_snd := hjq
     fst_inl_add_snd_inr := ?_ }⟩
   apply biprod_hom_ext A D
-  · show D.category.comp rfl (D.category.comp rfl i p + D.category.comp rfl j q) i = _
+  · change D.category.comp rfl (D.category.comp rfl i p + D.category.comp rfl j q) i = _
     rw [D.category.comp_add_left,
       ← D.category.assoc rfl rfl rfl rfl,
       ← D.category.assoc rfl rfl rfl rfl, hip, hiq,
       D.category.comp_id, D.category.comp_zero_right]
     simp only [add_zero, D.category.id_comp]
     rfl
-  · show D.category.comp rfl (D.category.comp rfl i p + D.category.comp rfl j q) j = _
+  · change D.category.comp rfl (D.category.comp rfl i p + D.category.comp rfl j q) j = _
     rw [D.category.comp_add_left,
       ← D.category.assoc rfl rfl rfl rfl,
       ← D.category.assoc rfl rfl rfl rfl, hjp, hjq,

@@ -70,7 +70,7 @@ def baseChangeBil (m : P →ₗ[R] Q →ₗ[R] S) :
 @[simp]
 theorem baseChangeBil_tmul (m : P →ₗ[R] Q →ₗ[R] S) (a b : A) (x : P) (y : Q) :
     baseChangeBil A m (a ⊗ₜ[R] x) (b ⊗ₜ[R] y) = (a * b) ⊗ₜ[R] m x y := by
-  show (a • (LinearMap.baseChangeHom R A Q S (m x))) (b ⊗ₜ[R] y) = _
+  change (a • (LinearMap.baseChangeHom R A Q S (m x))) (b ⊗ₜ[R] y) = _
   rw [LinearMap.smul_apply, LinearMap.baseChangeHom_apply, LinearMap.baseChange_tmul,
     TensorProduct.smul_tmul', smul_eq_mul]
 
@@ -90,8 +90,7 @@ def tensorCongr {p q : Submodule R T} (h : p = q) : A ⊗[R] p ≃ₗ[R] A ⊗[R
 /-- The identification of the base change of a submodule with itself is the identity. -/
 theorem tensorCongr_self (p : Submodule R T) (h : p = p) (z : A ⊗[R] p) :
     tensorCongr (A := A) h z = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a w =>
       exact TensorProduct.congr_tmul _ _ a w
   | add z w hz hw => rw [map_add, hz, hw]
@@ -142,7 +141,7 @@ theorem mul_mem_gradedPiece (i j : ℤ) {x y : SymmetricAlgebra R M}
     x * y ∈ gradedPiece (R := R) M (i + j) := by
   match i, j with
   | .ofNat a, .ofNat b =>
-      show x * y ∈ SymPow.symmetricPower (a + b) R M
+      change x * y ∈ SymPow.symmetricPower (a + b) R M
       rw [SymPow.symmetricPower, pow_add]
       exact Submodule.mul_mem_mul hx hy
   | .ofNat _, .negSucc _ => simp [show y = 0 from hy]
@@ -176,7 +175,7 @@ theorem oneG_coe : ((oneG (R := R) M : gradedPiece (R := R) M 0) : SymmetricAlge
 /-- A degree-one generator of the symmetric algebra lies in the degree-one graded piece. -/
 theorem ι_mem_gradedPiece_one (m : M) :
     SymmetricAlgebra.ι R M m ∈ gradedPiece (R := R) M 1 := by
-  show SymmetricAlgebra.ι R M m ∈ SymPow.symmetricPower 1 R M
+  change SymmetricAlgebra.ι R M m ∈ SymPow.symmetricPower 1 R M
   rw [SymPow.symmetricPower, pow_one]
   exact ⟨m, rfl⟩
 

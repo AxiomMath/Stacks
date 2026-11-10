@@ -112,7 +112,7 @@ private theorem acyclic_of_baseChangeFunctor_acyclic
     (CategoryTheory.ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).1 (h i)
   change Function.Exact ((K.sc i).f.hom.baseChange A)
     ((K.sc i).g.hom.baseChange A) at hi
-  simpa only [LinearMap.baseChange_eq_ltensor] using hi
+  simpa only [LinearMap.baseChange_eq_lTensor] using hi
 
 /-- A cochain complex of modules over a ring is exact once its base change along a faithfully
 flat algebra is isomorphic to an exact complex. -/
@@ -234,7 +234,7 @@ private theorem widePushoutMapIso_head
     F.map (CategoryTheory.Limits.WidePushout.head arrows) ≫
       (widePushoutMapIso F arrows).hom =
         CategoryTheory.Limits.WidePushout.head (fun j => F.map (arrows j)) := by
-  simp [widePushoutMapIso, CategoryTheory.Limits.HasColimit.isoOfNatIso_ι_hom,
+  simp [widePushoutMapIso,
     CategoryTheory.Limits.WidePushoutShape.diagramIsoWideSpan]
 
 private theorem widePushoutMapIso_ι
@@ -249,7 +249,7 @@ private theorem widePushoutMapIso_ι
     F.map (CategoryTheory.Limits.WidePushout.ι arrows j) ≫
       (widePushoutMapIso F arrows).hom =
         CategoryTheory.Limits.WidePushout.ι (fun j => F.map (arrows j)) j := by
-  simp [widePushoutMapIso, CategoryTheory.Limits.HasColimit.isoOfNatIso_ι_hom,
+  simp [widePushoutMapIso,
     CategoryTheory.Limits.WidePushoutShape.diagramIsoWideSpan]
 
 private theorem widePushoutMap_hom_ext
@@ -1049,8 +1049,7 @@ private theorem coefficientBaseChangeEquivObj_natural
   change g = h
   apply TensorProduct.AlgebraTensorModule.ext
   intro a y
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.tmul_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
     dsimp [g, h]
     change (coefficientBaseChangeEquivObj R A M C)
@@ -1166,8 +1165,7 @@ private theorem amitsurAugmentationBaseChange_left_compat
         (amitsurAugmentationBaseChangeIso R A M).hom.left := by
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
     cases m with
     | up m =>

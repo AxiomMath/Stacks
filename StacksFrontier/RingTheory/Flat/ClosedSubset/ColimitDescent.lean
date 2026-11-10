@@ -176,7 +176,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
         (algebraMap (A j) (B' j)).comp (a i j h) := by
     intro i j h
     refine RingHom.ext fun z => (eB j).injective ?_
-    show eB j (b' h (algebraMap (A i) (B' i) z)) =
+    change eB j (b' h (algebraMap (A i) (B' i) z)) =
       eB j (algebraMap (A j) (B' j) (a i j h z))
     rw [hb', hgBe, hgBe]
     exact (RingHom.congr_fun (hg i j h) z).symm
@@ -193,7 +193,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
       (algebraMap L T').comp (ρ i) := by
     intro i
     refine RingHom.ext fun z => eT.injective ?_
-    show eT (σ' i (algebraMap (A i) (B' i) z)) = eT (algebraMap L T' (ρ i z))
+    change eT (σ' i (algebraMap (A i) (B' i) z)) = eT (algebraMap L T' (ρ i z))
     rw [hs', hgBe, ← heTL, eTL.commutes]
     exact (RingHom.congr_fun (hσg i) z).symm
   have hfpB' : ∀ i, Algebra.FinitePresentation (A i) (B' i) := by
@@ -213,7 +213,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
       IsScalarTower.of_algebraMap_smul fun _ _ => rfl
     have hstB : IsScalarTower (A i) (B i) (B j) :=
       IsScalarTower.of_algebraMap_smul fun z y => by
-        show b h (g i z) * y = g j (a i j h z) * y
+        change b h (g i z) * y = g j (a i j h z) * y
         exact congrArg (fun t : B j => t * y)
           (by simpa using (RingHom.congr_fun (hg i j h) z).symm)
     have hP : Algebra.IsPushout (A i) (A j) (B i) (B j) := hpush i j h
@@ -232,7 +232,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
         etens (s ⊗ₜ[A i] x) =
           (eBA j).symm (algebraMap (B i) (B j) (eBA i s) * algebraMap (A j) (B j) x) := by
       intro s x
-      show (eBA j).symm ((Algebra.IsPushout.equiv (A i) (B i) (A j) (B j))
+      change (eBA j).symm ((Algebra.IsPushout.equiv (A i) (B i) (A j) (B j))
         ((Algebra.TensorProduct.congr (eBA i) AlgEquiv.refl) (s ⊗ₜ[A i] x))) = _
       rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul,
         Algebra.IsPushout.equiv_tmul]
@@ -240,7 +240,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
     let e : (B' i ⊗[A i] A j) ≃ₐ[A j] B' j :=
       AlgEquiv.ofRingEquiv (f := etens) (by
         intro x
-        show etens ((1 : B' i) ⊗ₜ[A i] x) = algebraMap (A j) (B' j) x
+        change etens ((1 : B' i) ⊗ₜ[A i] x) = algebraMap (A j) (B' j) x
         rw [hetens]
         simp only [map_one, one_mul]
         exact (eBA j).symm.commutes x)
@@ -248,7 +248,7 @@ theorem Module.Flat.eventually_flat_tensorProduct_of_isDirectedColimit
       refine Algebra.IsPushout.of_equiv (R := A i) (R' := A j) (S := B' i)
         (S' := B' i ⊗[A i] A j) e ?_
       refine RingHom.ext fun s => ?_
-      show etens (s ⊗ₜ[A i] (1 : A j)) = b' h s
+      change etens (s ⊗ₜ[A i] (1 : A j)) = b' h s
       rw [hetens]
       simp only [map_one, mul_one]
       rfl
@@ -354,7 +354,7 @@ theorem Module.Flat.eventually_flat_localizationAway_tensorProduct
       Algebra.FinitePresentation.tensorProduct_right
     have ha : (g i).toAlgebra = (inferInstance : Algebra (A i) (Localization.Away (z i))) :=
       Algebra.algebra_ext _ _ fun _ => rfl
-    show @Algebra.FinitePresentation (A i) (Localization.Away (z i)) _ _ (g i).toAlgebra
+    change @Algebra.FinitePresentation (A i) (Localization.Away (z i)) _ _ (g i).toAlgebra
     rw [ha]
     exact Algebra.FinitePresentation.trans (A i) (S ⊗[R] A i) _
   have hσg : ∀ i, (algebraMap L (Localization.Away y)).comp (ρ i).toRingHom =
@@ -658,13 +658,13 @@ theorem Module.exists_flatAlongZeroLocus_baseChange_of_colimit
     fun _ _ h => Ideal.map_includeRight_le_of_map_le (A.map (homOfLE h)).hom (I _) (I _) (hI h)
   let K : Ideal (S ⊗[R] A.obj i₀) := Ideal.span (Set.range y)
   have hspan : Ideal.map (σ i₀).toRingHom K = Ideal.span (G : Set (S ⊗[R] L)) := by
-    show Ideal.map (σ i₀).toRingHom (Ideal.span (Set.range y)) = _
+    change Ideal.map (σ i₀).toRingHom (Ideal.span (Set.range y)) = _
     rw [Ideal.map_span]
     congr 1
     ext t
     constructor
     · rintro ⟨_, ⟨c, rfl⟩, rfl⟩
-      show σ i₀ (y c) ∈ (G : Set (S ⊗[R] L))
+      change σ i₀ (y c) ∈ (G : Set (S ⊗[R] L))
       rw [show σ i₀ (y c) = c.1 from hy c]
       exact c.2
     · intro ht
@@ -679,7 +679,7 @@ theorem Module.exists_flatAlongZeroLocus_baseChange_of_colimit
         ((S ⊗[R] A.obj l) ⊗[S] M)) := by
     intro c
     apply Module.Flat.exists_ge_flat_localizationAway_tensorProduct M hc i₀ (y c)
-    show Module.Flat L (LocalizedModule.Away (σ i₀ (y c)) ((S ⊗[R] L) ⊗[S] M))
+    change Module.Flat L (LocalizedModule.Away (σ i₀ (y c)) ((S ⊗[R] L) ⊗[S] M))
     rw [show σ i₀ (y c) = c.1 from hy c]
     exact hGflat c.1 c.2
   choose k hik hk using hdesc

@@ -129,7 +129,7 @@ public theorem etaleResidueFieldToGeometricField_separableClosureEquiv
   have h1 : etaleResidueFieldSeparableClosureEquiv B S hS s u =
       residue ↥(etaleLocalRing B S hS s)
         (etaleLocalRingEquivStrictHenselization B S hS s a) := by
-    show ResidueField.mapEquiv (etaleLocalRingEquivStrictHenselization B S hS s)
+    change ResidueField.mapEquiv (etaleLocalRingEquivStrictHenselization B S hS s)
       ((geometricHenselizationTower S s).strictHenselizationResidueEquiv u) = _
     rw [← ha]
     exact ResidueField.map_residue

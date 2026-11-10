@@ -178,7 +178,7 @@ theorem bijective_restrictRelativeDerivation_of_isPullback (h : IsPullback f p' 
       (relativeDifferentials p) C).bijective.comp ⟨fun θ₁ θ₂ hθ ↦ ?_, fun c ↦ ?_⟩)
   · exact (cancel_epi (relativeDifferentialsMap f p p' g h.w)).1 hθ
   · refine ⟨inv (relativeDifferentialsMap f p p' g h.w) ≫ c, ?_⟩
-    show relativeDifferentialsMap f p p' g h.w ≫
+    change relativeDifferentialsMap f p p' g h.w ≫
       inv (relativeDifferentialsMap f p p' g h.w) ≫ c = c
     rw [← Category.assoc, IsIso.hom_inv_id, Category.id_comp]
 

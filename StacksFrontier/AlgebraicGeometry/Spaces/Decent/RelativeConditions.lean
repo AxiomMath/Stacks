@@ -139,6 +139,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_decentRelativeConditions
@@ -152,8 +153,8 @@ private instance (priority := high) hasPullback_presheaf_decentRelativeCondition
   HasLimitsOfShape.has_limit _
 
 /- The private instances above are invisible to the public statements below (module system), where
-`HasPullback` on presheaves times out at the default budget. -/
-set_option synthInstance.maxHeartbeats 400000
+`HasPullback` on presheaves times out at the default budget; each declaration below
+raises the instance-search budget. -/
 
 /-! ### Invariance of the absolute conditions under an isomorphism -/
 
@@ -161,6 +162,8 @@ section Isomorphism
 
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Postcomposing a quasi-compact morphism with an isomorphism leaves it quasi-compact: the
 composite is a base change of the morphism along the inverse isomorphism. -/
 private theorem isQuasiCompact_comp_iso {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
@@ -168,6 +171,8 @@ private theorem isQuasiCompact_comp_iso {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
   have sq : IsPullback (𝟙 X) (f ≫ e.hom) f e.inv := IsPullback.of_horiz_isIso ⟨by simp⟩
   isQuasiCompact_of_isPullback B S hS sq hf
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Condition (4) of Stacks 03JV travels along an isomorphism of presheaves: the image of a
 quasi-compact monomorphic field-valued representative under an isomorphism is one. -/
 private theorem hasQuasiCompactMonomorphicFieldRepresentative_pointsMap_of_iso (e : X ≅ Y)
@@ -183,6 +188,8 @@ private theorem hasQuasiCompactMonomorphicFieldRepresentative_pointsMap_of_iso (
   · rw [fieldMorphism_map]
     exact isQuasiCompact_comp_iso B S hS _ e hqc
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Decency of an algebraic space is invariant under isomorphism: every point of the target of
 an isomorphism is the image of a point of its source, and a quasi-compact monomorphic
 field-valued representative of the latter composes with the isomorphism to one of the
@@ -193,6 +200,8 @@ theorem isDecentSpace_of_iso (e : X ≅ Y) (hX : IsDecentSpace B S hS X) :
   obtain ⟨x, rfl⟩ := pointsMap_surjective_of_isIso B S hS e.hom y
   exact hasQuasiCompactMonomorphicFieldRepresentative_pointsMap_of_iso B S hS e (hX x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Finiteness of a relation fibre is unaffected by composing the chart with an isomorphism of
 the ambient presheaf: the two self-intersections are identified by the induced isomorphism of
 pullbacks, compatibly with both projections. -/
@@ -203,10 +212,10 @@ private theorem hasFiniteRelationFiber_comp_iso (e : X ≅ Y) (U : BigFppfOver B
   have : IsIso (pullback.mapDesc φ φ e.hom) := inferInstance
   have hmapfst : pullback.mapDesc φ φ e.hom ≫ pullback.fst (φ ≫ e.hom) (φ ≫ e.hom) =
       pullback.fst φ φ := by
-    simp [pullback.mapDesc, pullback.map, pullback.lift_fst]
+    simp [pullback.mapDesc, pullback.map]
   have hmapsnd : pullback.mapDesc φ φ e.hom ≫ pullback.snd (φ ≫ e.hom) (φ ≫ e.hom) =
       pullback.snd φ φ := by
-    simp [pullback.mapDesc, pullback.map, pullback.lift_snd]
+    simp [pullback.mapDesc, pullback.map]
   simp only [HasFiniteRelationFiber] at h ⊢
   refine Set.Finite.subset (h.image (pointsMap B S hS (pullback φ φ) (pullback.mapDesc φ φ e.hom)))
     fun z hz ↦ ?_
@@ -214,6 +223,8 @@ private theorem hasFiniteRelationFiber_comp_iso (e : X ≅ Y) (U : BigFppfOver B
   simp only [Set.mem_ofPred_eq, ← pointsMap_comp_apply, hmapfst, hmapsnd] at hz
   exact ⟨r, hz, rfl⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Condition (1) of Stacks 03JU travels along an isomorphism of presheaves: an étale chart
 with a finite relation fibre above a point gives one above the image point, after composition
 with the isomorphism. -/
@@ -226,6 +237,8 @@ private theorem hasFiniteRelationFiberAt_pointsMap_of_iso (e : X ≅ Y)
   · rw [pointsMap_comp_apply, ha]
   · rw [pointsMap_comp_apply, hb]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Property `(β)` of Stacks 03JX is invariant under isomorphism: every point of the target of
 an isomorphism is the image of a point of its source, and an étale chart with a finite relation
 fibre above the latter gives one above the former. -/
@@ -236,6 +249,8 @@ theorem hasFiniteRelationFibersAtEveryPoint_of_iso (e : X ≅ Y)
   obtain ⟨x, rfl⟩ := pointsMap_surjective_of_isIso B S hS e.hom y
   exact hasFiniteRelationFiberAt_pointsMap_of_iso B S hS e (hX x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Postcomposing a chart with universally bounded fibres with an isomorphism of the ambient
 presheaf leaves its fibres universally bounded, with the same bound: the field-valued points of
 the two presheaves correspond, and so do the fibres above them. -/
@@ -249,6 +264,8 @@ private theorem hasUniversallyBoundedFibers_comp_iso (e : X ≅ Y) (U : BigFppfO
   exact ⟨V, p, i, r, hr, hrank, hpb.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e
     (by simp) (by simp) (by simp) (by simp)⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- Reasonableness of an algebraic space is invariant under isomorphism: an affine étale chart
 of the target of an isomorphism composes with the inverse isomorphism to one of its source,
 with the same fibres. -/
@@ -270,6 +287,8 @@ section BaseChange
 
 variable {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03L0, property `(β)`.** Property `(β)` of a morphism of algebraic spaces over `S`
 is preserved by arbitrary base change: a base change of the base change of `f : X ⟶ Y` along
 `g : Y' ⟶ Y` is a base change of `f`. -/
@@ -279,6 +298,8 @@ theorem hasPropertyBeta_baseChange (f : X ⟶ Y) (g : Y' ⟶ Y)
   hasFiniteRelationFibersAtEveryPoint_of_iso B S hS
     (pullbackRightPullbackFstIso g f h).symm (hf T (h ≫ g))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03L0, decent.** Decency of a morphism of algebraic spaces over `S` is preserved
 by arbitrary base change: a base change of the base change of `f : X ⟶ Y` along `g : Y' ⟶ Y`
 is a base change of `f`. -/
@@ -287,6 +308,8 @@ theorem isDecent_baseChange (f : X ⟶ Y) (g : Y' ⟶ Y) (hf : IsDecent B S hS f
     IsDecent B S hS (pullback.fst g f) := fun T h =>
   isDecentSpace_of_iso B S hS (pullbackRightPullbackFstIso g f h).symm (hf T (h ≫ g))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03L0, reasonable.** Reasonableness of a morphism of algebraic spaces over `S` is
 preserved by arbitrary base change: a base change of the base change of `f : X ⟶ Y` along
 `g : Y' ⟶ Y` is a base change of `f`. -/
@@ -303,6 +326,8 @@ section SourceAndTarget
 
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- The projection to the source of a base change of a morphism of algebraic spaces over `S`
 along a morphism from a representable presheaf is representable, because that morphism into an
 algebraic space is. -/
@@ -314,6 +339,8 @@ private theorem relativelyRepresentable_pullback_snd_of_isAlgebraicSpace
   exact MorphismProperty.of_isPullback (IsPullback.of_hasPullback g f)
     (Functor.relativelyRepresentable.of_diag hY.diagonal_representable g)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- A base change of a morphism of algebraic spaces along a morphism from a representable
 presheaf is an algebraic space. -/
 private theorem isAlgebraicSpace_pullback_yoneda {T : BigFppfOver B S hS}
@@ -321,6 +348,8 @@ private theorem isAlgebraicSpace_pullback_yoneda {T : BigFppfOver B S hS}
     (hY : IsAlgebraicSpace B S hS Y) : IsAlgebraicSpace B S hS (pullback g f) :=
   isAlgebraicSpace_pullback B S hS g f (isAlgebraicSpace_yoneda B S hS T) hX hY
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABX, the decent case in the form of condition (4) of Stacks 03JU.** Let
 `f : X ⟶ Y` be a morphism of presheaves on the big fppf site over `S` with `Y` an algebraic
 space. If every point of `X` is the class of a field-valued point presenting it by a
@@ -336,6 +365,8 @@ theorem hasMonomorphicFieldRepresentative_pullback_of_source
   hasMonomorphicFieldRepresentative_of_relativelyRepresentable B S hS (pullback.snd g f)
     (relativelyRepresentable_pullback_snd_of_isAlgebraicSpace B S hS hY f T g) hmono w
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABX, the case `(β)`.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over
 `S`. If every point of `X` is the class of a field-valued point presenting it by a
 monomorphism — condition (4) of Stacks 03JU — then `f` has property `(β)` of Stacks 03JX. -/
@@ -349,6 +380,8 @@ theorem hasPropertyBeta_of_hasMonomorphicFieldRepresentative
     (pullback.snd g f)
     (relativelyRepresentable_pullback_snd_of_isAlgebraicSpace B S hS hY f T g) hmono
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03JU, conditions (1) and (4).** For a point of an algebraic space over `S`,
 finiteness of one relation fibre in some étale chart is equivalent to having a monomorphic
 field-valued representative. -/
@@ -361,6 +394,8 @@ theorem hasFiniteRelationFiberAt_iff_hasMonomorphicFieldRepresentative
       (hasEtaleQuasiCompactFieldRepresentative_iff_hasMonomorphicFieldRepresentative
         B S hS hX x))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABX, the case `(β)`.** A morphism of algebraic spaces over `S` whose source has
 property `(β)` of Stacks 03JX has property `(β)`.
 
@@ -374,6 +409,8 @@ theorem hasPropertyBeta_of_hasFiniteRelationFibersAtEveryPoint
   hasPropertyBeta_of_hasMonomorphicFieldRepresentative B S hS hX hY f fun x ↦
     (hasFiniteRelationFiberAt_iff_hasMonomorphicFieldRepresentative B S hS hX x).mp (hXβ x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABX, the reasonable case.** A morphism of algebraic spaces over `S` whose source
 is a reasonable algebraic space is a reasonable morphism.
 
@@ -389,6 +426,8 @@ theorem isReasonable_of_isReasonableSpace_source (hX : IsAlgebraicSpace B S hS X
     (pullback.snd g f)
     (relativelyRepresentable_pullback_snd_of_isAlgebraicSpace B S hS hY f T g) hXr
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABY, the case `(β)` in the form of condition (4) of Stacks 03JU.** Let
 `f : X ⟶ Y` be a morphism of presheaves on the big fppf site over `S`. If every point of `Y`
 is the class of a field-valued point presenting it by a monomorphism, and if the same holds at
@@ -437,6 +476,8 @@ section Composition
 
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 0ABY, the case `(β)`.** If a morphism of algebraic spaces over `S` has property
 `(β)` and its target has property `(β)`, then so does its source.
 
@@ -456,6 +497,8 @@ theorem hasFiniteRelationFibersAtEveryPoint_of_hasPropertyBeta
         (isAlgebraicSpace_pullback_yoneda B S hS g f hX hY)
         w).mp (hf T g w)) x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03L1, property `(β)`.** Property `(β)` of a morphism of algebraic spaces over `S`
 is preserved by composition.
 
@@ -475,6 +518,8 @@ theorem hasPropertyBeta_comp (hX : IsAlgebraicSpace B S hS X)
       (pullback.fst (pullback.snd k g) f) (hg T k)
       (hasPropertyBeta_baseChange B S hS f (pullback.snd k g) hf))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` on presheaves over the big fppf site times out at the default budget here
 /-- **Stacks 03L1, decent.** Decency of a morphism of algebraic spaces over `S` is preserved by
 composition.
 

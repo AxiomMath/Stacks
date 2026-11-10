@@ -79,7 +79,7 @@ theorem exists_toNat_residueTrdeg_eq_of_relativeDimension {X Y : Scheme.{u}} (f 
     rw [ringKrullDim_stalk_eq_coheight]
     exact_mod_cast Order.coheight_eq_zero.mpr hmax
   have hq : LocallyOfFiniteType (f.fiberToSpecResidueField (f.base x)) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f.base x)))
+    change LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField (f.base x)))
     infer_instance
   have hrelx := hrel (f.base x) ⟨f.asFiber x⟩
   have hAt := @topologicalKrullDimAt_eq_of_equidimensional _ _ (f.fiber (f.base x))
@@ -114,7 +114,7 @@ theorem schemeDeltaDimension_le_sub_of_surjective_of_relativeDimension (C : Chow
       rw [hbase, htr, hx] at hstep
       have hle := relativeDimension_le_of_schemeDeltaDimension_le C sX (𝟙 X) hX' x
       change relativeDimension C.dimensionFunction sX x ≤ n at hle
-      show relativeDimension C.dimensionFunction sY y ≤ n - r
+      change relativeDimension C.dimensionFunction sY y ≤ n - r
       omega
   exact (congr _ _ (Category.id_comp sY)).symm.trans_le hY
 

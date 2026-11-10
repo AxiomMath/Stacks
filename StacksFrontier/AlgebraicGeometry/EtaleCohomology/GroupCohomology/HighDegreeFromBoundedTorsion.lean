@@ -205,7 +205,7 @@ theorem rightDerived_map_zsmul_id [HasInjectiveResolutions B] (F : B ⥤ D) [F.A
       HomologicalComplex.homologyMap (m • 𝟙 X) n =
         m • 𝟙 ((HomologicalComplex.homologyFunctor D (ComplexShape.up ℕ) n).obj X) := by
     intro X
-    show (HomologicalComplex.homologyFunctor D (ComplexShape.up ℕ) n).map (m • 𝟙 X) = _
+    change (HomologicalComplex.homologyFunctor D (ComplexShape.up ℕ) n).map (m • 𝟙 X) = _
     rw [CategoryTheory.Functor.map_zsmul, CategoryTheory.Functor.map_id]
   rw [F.rightDerived_map_eq n (m • 𝟙 M) (m • 𝟙 P.cocomplex) hw]
   simp [hadd]
@@ -320,7 +320,7 @@ theorem isZero_continuousGroupCohomology_of_three_le_of_annihilated
   have hma : (m : ℤ) • a = 0 := hinj (by rw [map_zsmul, map_zero]; exact hm)
   apply (AddCommGrpCat.mono_iff_injective _).mp
     (hmono (m : ℤ) (mem_nonZeroDivisors_iff_ne_zero.mp m.2))
-  show (m : ℤ) • a = (m : ℤ) • 0
+  change (m : ℤ) • a = (m : ℤ) • 0
   rwa [smul_zero]
 
 end Stacks.GroupCohomology

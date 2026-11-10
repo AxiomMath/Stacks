@@ -157,7 +157,7 @@ theorem isEmpty_algHom_of_artinSchreierWitt_cocycle (R : Type*) [CommRing R] [Is
     have hs' : Ideal.Quotient.mk 𝔮 (φ s) = 0 := hs
     exact hdisj _ (hST s h0) (Ideal.Quotient.eq_zero_iff_mem.1 hs')
   have : IsScalarTower R S D := IsScalarTower.of_algebraMap_eq fun r ↦ by
-    show Ideal.Quotient.mk 𝔮 (algebraMap R T r) = Ideal.Quotient.mk 𝔮 (φ (algebraMap R S r))
+    change Ideal.Quotient.mk 𝔮 (algebraMap R T r) = Ideal.Quotient.mk 𝔮 (φ (algebraMap R S r))
     rw [φ.commutes]
   have : Module.Finite R D :=
     Module.Finite.of_surjective (Ideal.Quotient.mkₐ R 𝔮).toLinearMap Ideal.Quotient.mk_surjective

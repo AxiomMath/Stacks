@@ -164,7 +164,7 @@ theorem isLocalCompleteIntersection_tensorProduct {R A B : Type u} [CommRing R] 
   have : IsScalarTower T (T ⊗[R] A) (T ⊗[R] B) := .of_algebraMap_eq fun t =>
     ((Algebra.TensorProduct.map (AlgHom.id T T) (IsScalarTower.toAlgHom R A B)).commutes t).symm
   have : IsScalarTower A (T ⊗[R] A) (T ⊗[R] B) := .of_algebraMap_eq fun a => by
-    show (1 : T) ⊗ₜ[R] (algebraMap A B a) =
+    change (1 : T) ⊗ₜ[R] (algebraMap A B a) =
       Algebra.TensorProduct.map (AlgHom.id T T) (IsScalarTower.toAlgHom R A B) (1 ⊗ₜ[R] a)
     simp
   have : IsScalarTower R (T ⊗[R] A) (T ⊗[R] B) := .of_algebraMap_eq fun r => by

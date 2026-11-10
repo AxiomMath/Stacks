@@ -176,10 +176,10 @@ private theorem surjective_verticalAutMap_quotientStackMap_realization
   apply Subtype.ext
   apply Aut.ext
   apply Iso.ext
-  show (Stack.quotientStackMap Φ).toFunctor.map m.1 = β.1.asIso.hom
+  change (Stack.quotientStackMap Φ).toFunctor.map m.1 = β.1.asIso.hom
   rw [Stack.quotientStackMap_map_pointwiseToQuotientStackFiber, hr,
     congrArg Subtype.val (hFH.map_preimage n)]
-  show α.inv.app X ≫ (α.hom.app X ≫ β.1.asIso.hom ≫ α.inv.app X) ≫ α.hom.app X = _
+  change α.inv.app X ≫ (α.hom.app X ≫ β.1.asIso.hom ≫ α.inv.app X) ≫ α.hom.app X = _
   have aux : ∀ {𝒞 : Type (u + 1)} [Category.{u + 1} 𝒞] {P Q : 𝒞} (i : P ≅ Q) (c : Q ⟶ Q),
       i.inv ≫ (i.hom ≫ c ≫ i.inv) ≫ i.hom = c := fun _ _ => by simp
   exact aux (α.app X) β.1.asIso.hom

@@ -65,8 +65,8 @@ Stacks 03CF has three further assertions, none of which follows from the above:
   obtains it at the very end of the proof from the description of `(f')^{-1}` plus Stacks 03EE.
 * the description of `(f')^{-1}` under the identifications of Stacks 00Y1.  This is clause (c).
   It is *not* circular, contrary to an earlier note here: see
-  `StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`, where it is proved.  Stacks does
-  derive exactness of `(f')^{-1}` from (c), but the obligation reduces via
+  `StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`, where it is proved.  Stacks
+  does derive exactness of `(f')^{-1}` from (c), but the obligation reduces via
   `Over.comp_hom_of_terminal` to a single equation at the terminal object, and under 03EF's
   hypotheses the ingredient that equation needs is available independently of (c).
 
@@ -99,7 +99,8 @@ Clause (a) of Stacks 03CF, that `f'` is a morphism of sites, is
 `Functor.isMorphismOfSites_overPost_of_isMorphismOfSites` in
 `StacksFrontier/CategoryTheory/Sites/SlicePost/MorphismOfSitesGeneral.lean`, in the generality of
 03CF.  Clauses (b) and (c) are proved in
-`StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`, also in 03CF's own generality. -/
+`StacksFrontier/CategoryTheory/Sites/SliceTopos/InverseImage.lean`, also in 03CF's own generality.
+-/
 @[stacks 03CF "Clause (d): the identity `f'_* j_U^{-1} = j_V^{-1} f_*`, for sheaves valued in any
   category; also the last sentence of 03EF. Clause (a) is in
   Sites/SlicePost/MorphismOfSitesGeneral.lean and clauses (b) and (c) are in

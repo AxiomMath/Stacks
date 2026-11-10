@@ -354,9 +354,9 @@ public theorem exists_etaleNeighborhood_disjoint_closed_decomposition_of_finite_
   let E (a : (Σ i, Fin (m i))) : Q a ≅ pullback (V a).ι k :=
     (eQ a).symm ≪≫ asIso (morphismMap a)
   have hE_fst (a : (Σ i, Fin (m i))) : (E a).hom ≫ pullback.fst (V a).ι k = l a := by
-    simp [E, l, morphismMap, pullback.map, Category.assoc, pullback.lift_fst]
+    simp [E, l, morphismMap, pullback.map, Category.assoc]
   have hE_snd (a : (Σ i, Fin (m i))) : (E a).hom ≫ pullback.snd (V a).ι k = q a := by
-    simp [E, q, morphismMap, pullback.map, Category.assoc, pullback.lift_snd]
+    simp [E, q, morphismMap, pullback.map, Category.assoc]
   have hsq (a : (Σ i, Fin (m i))) : IsPullback (l a) (q a) (V a).ι k := by
     refine IsPullback.of_iso_pullback (i := E a) ⟨?_⟩ (hE_fst a) (hE_snd a)
     calc

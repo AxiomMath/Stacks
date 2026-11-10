@@ -86,7 +86,7 @@ theorem upperShriekCompIsoAtModel_change_inner {X Y Z : FTS S} {f : X ⟶ Y} {g 
       upperShriekCompIsoAtModel k j i ≪≫ isoWhiskerLeft (upperShriekPlusAtModel i)
         (compactificationUpperShriekIso f j j') := by
   have hb : basePlusIsoAPI i i = Iso.refl _ := by
-    show liftIsoOf _ _ _ (compactificationUpperShriekIso g i i) = _
+    change liftIsoOf _ _ _ (compactificationUpperShriekIso g i i) = _
     rw [compactificationUpperShriekIso_refl]
     exact liftIsoOf_refl _ _
   have n := upperShriekCompIsoAtModel_naturality k k j j' i i

@@ -134,7 +134,7 @@ theorem exists_tensorPow_hom_comp_ne_zero {Z H : X.Modules} [Z.IsQuasicoherent]
     (SheafOfModules.Hom.val f).app (op ⊤) (1 : X.ringCatSheaf.obj.obj (op ⊤))) h2'
   have h4 := Stacks.AlgebraicGeometry.ExtUnit.unitHomAddEquiv_app_one X M τ
   refine Eq.trans ?_ h3
-  show _ = (π ▷ A).val.app (op ⊤) (ψ₀.val.app (op ⊤) (1 : X.ringCatSheaf.obj.obj (op ⊤)))
+  change _ = (π ▷ A).val.app (op ⊤) (ψ₀.val.app (op ⊤) (1 : X.ringCatSheaf.obj.obj (op ⊤)))
   exact congrArg _ h4.symm
 
 end Stacks.AmpleNonvanishing

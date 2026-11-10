@@ -93,7 +93,7 @@ theorem isHomeomorph_pointsLimitComparison (hSize : #I < B.cutoff.ord.cof)
   have hind : pointTopology B S hS (limit D) =
       TopologicalSpace.induced (pointsLimitComparison B S hS D) inferInstance := by
     rw [pointTopology_limit B S hS D hSize hHomSize hD hAffine]
-    show _ = TopologicalSpace.induced (pointsLimitComparison B S hS D)
+    change _ = TopologicalSpace.induced (pointsLimitComparison B S hS D)
       (TopologicalSpace.induced Subtype.val Pi.topologicalSpace)
     rw [induced_compose, induced_to_pi]
     rfl

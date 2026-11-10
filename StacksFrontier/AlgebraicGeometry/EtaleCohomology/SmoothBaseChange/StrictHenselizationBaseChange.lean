@@ -138,7 +138,7 @@ theorem isIso_baseChangeStrictHenselizationMap :
       (hσ ▸ geometricPointToStrictHenselization_comp B S hS s)
   have hθ : IsIso (strictHenselizationToBase B _ hS₁ σ) := by
     refine isIso_strictHenselizationToBase_of_strictlyHenselian B _ hS₁ σ ?_
-    show σ.hom default = _
+    change σ.hom default = _
     rw [hσ]
     exact geometricPointToStrictHenselization_base_default B S hS s
   have hsq : strictHenselizationSquareMap B hS₁ hS π σ =

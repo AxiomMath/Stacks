@@ -134,7 +134,7 @@ def kFlatModelHom (M : DerivedCategory (Modules R)) :
 
 /-- `kFlatModel R M` is K-flat. -/
 theorem kFlatModel_kFlat (M : DerivedCategory (Modules R)) :
-    Stacks.SheafOfModules.KFlat.KFlat R (kFlatModel R M) :=
+    Stacks.SheafOfModules.KFlat R (kFlatModel R M) :=
   (exists_kFlat_quasiIso R (DerivedCategory.Q.objPreimage M)).choose_spec.choose_spec.1
 
 /-- `kFlatModelHom R M` is a quasi-isomorphism. -/
@@ -279,8 +279,8 @@ complex is `j_!(Tot(G ⊗_{O_U} K|_U))` by `tensorComplexExtensionIso`, and exte
 reflects exactness (Stacks 0E8G), so `Tot(G ⊗_{O_U} K|_U)` is acyclic as well. -/
 @[stacks 0E8K]
 theorem kFlat_restrictionComplex (Q : CochainComplex (Modules X.O) ℤ)
-    (hQ : Stacks.SheafOfModules.KFlat.KFlat X.O Q) :
-    Stacks.SheafOfModules.KFlat.KFlat (X.O.over U) ((restrictionComplex X U).obj Q) := by
+    (hQ : Stacks.SheafOfModules.KFlat X.O Q) :
+    Stacks.SheafOfModules.KFlat (X.O.over U) ((restrictionComplex X U).obj Q) := by
   intro P hP
   have hext : ((extensionComplex X U).obj
       (((tensorComplex (X.O.over U)).obj P).obj ((restrictionComplex X U).obj Q))).Acyclic :=
@@ -309,8 +309,8 @@ computes the derived tensor product on `C`, a K-flat left factor computes it on 
 two ordinary total complexes are identified by `tensorComplexExtensionIso`. -/
 def derivedTensorOfKFlat (P : CochainComplex (Modules (X.O.over U)) ℤ)
     (Q : CochainComplex (Modules X.O) ℤ)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat (X.O.over U) P)
-    (hQ : Stacks.SheafOfModules.KFlat.KFlat X.O Q) :
+    (hP : Stacks.SheafOfModules.KFlat (X.O.over U) P)
+    (hQ : Stacks.SheafOfModules.KFlat X.O Q) :
     ((baseDerivedTensor X).tensor.obj
           (DerivedCategory.Q.obj ((extensionComplex X U).obj P))).obj
         (DerivedCategory.Q.obj Q) ≅
@@ -328,8 +328,8 @@ def derivedTensorOfKFlat (P : CochainComplex (Modules (X.O.over U)) ℤ)
 each side: `derivedTensorOfKFlat` transported along the two presenting isomorphisms. -/
 def derivedTensorOfKFlatModels
     (P : CochainComplex (Modules (X.O.over U)) ℤ) (Q : CochainComplex (Modules X.O) ℤ)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat (X.O.over U) P)
-    (hQ : Stacks.SheafOfModules.KFlat.KFlat X.O Q)
+    (hP : Stacks.SheafOfModules.KFlat (X.O.over U) P)
+    (hQ : Stacks.SheafOfModules.KFlat X.O Q)
     {L : DerivedCategory (Modules (X.O.over U))} (eL : DerivedCategory.Q.obj P ≅ L)
     {K : DerivedCategory (Modules X.O)} (eK : DerivedCategory.Q.obj Q ≅ K) :
     ((baseDerivedTensor X).tensor.obj ((extension X U).mapDerivedCategory.obj L)).obj K ≅

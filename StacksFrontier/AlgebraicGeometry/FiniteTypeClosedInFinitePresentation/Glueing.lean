@@ -204,14 +204,14 @@ theorem isClosedImmersion_pullback_lift_of_generators {V W U Z : Scheme.{u}} [Is
     { toRingHom := (pullback.lift a b hab).appTop.hom
       commutes' := by
         intro r
-        show (pullback.lift a b hab ≫ pullback.snd w u).appTop.hom r =
+        change (pullback.lift a b hab ≫ pullback.snd w u).appTop.hom r =
           algebraMap Γ(U, ⊤) Γ(V, ⊤) r
         rw [pullback.lift_snd, hb] }
   refine IsClosedImmersion.of_surjective_of_isAffine _
     (surjective_of_range_generators_subset_range ψ P fun i ↦ ?_)
   obtain ⟨z, hz⟩ := hgen i
   refine ⟨(pullback.fst w u).appTop.hom z, ?_⟩
-  show (pullback.lift a b hab ≫ pullback.fst w u).appTop.hom z = _
+  change (pullback.lift a b hab ≫ pullback.fst w u).appTop.hom z = _
   rw [pullback.lift_fst]
   exact hz
 
@@ -222,7 +222,7 @@ theorem opensRange_pullback_map_ι {Y S Z : Scheme.{u}} (g : Y ⟶ Z) (h : S ⟶
     (pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) (by simp) (by simp)).opensRange =
       pullback.fst g h ⁻¹ᵁ W ⊓ pullback.snd g h ⁻¹ᵁ U := by
   refine TopologicalSpace.Opens.ext ?_
-  show Set.range (pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) _ _).base = _
+  change Set.range (pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) _ _).base = _
   rw [Scheme.Pullback.range_map,
     show Set.range W.ι.base = (W : Set Y) from Scheme.Opens.range_ι _,
     show Set.range U.ι.base = (U : Set S) from Scheme.Opens.range_ι _]
@@ -240,7 +240,7 @@ theorem isClosedImmersion_resLE_of_isClosedImmersion_pullback_lift {X Y S Z : Sc
       (q ⁻¹ᵁ (pullback.fst g h ⁻¹ᵁ W ⊓ pullback.snd g h ⁻¹ᵁ U)) le_rfl) := by
   let t := pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) (by simp) (by simp)
   have : IsOpenImmersion t := by
-    show IsOpenImmersion (pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) _ _)
+    change IsOpenImmersion (pullback.map (W.ι ≫ g) (U.ι ≫ h) g h W.ι U.ι (𝟙 _) _ _)
     infer_instance
   let e := t.isoOpensRange ≪≫ (pullback g h).isoOfEq (opensRange_pullback_map_ι g h W U)
   have hfst : t ≫ pullback.fst g h = pullback.fst _ _ ≫ W.ι := pullback.lift_fst _ _ _
@@ -275,7 +275,7 @@ theorem isImmersion_pullback_lift_of_generators {X Y S Z : Scheme.{u}} [IsAffine
     IsImmersion (pullback.lift p f hpf) := by
   let O (j : t) := pullback.fst g h ⁻¹ᵁ W j ⊓ pullback.snd g h ⁻¹ᵁ U j
   have hpreV (j : t) : pullback.lift p f hpf ⁻¹ᵁ O j = V j := by
-    show pullback.lift p f hpf ⁻¹ᵁ (pullback.fst g h ⁻¹ᵁ W j) ⊓
+    change pullback.lift p f hpf ⁻¹ᵁ (pullback.fst g h ⁻¹ᵁ W j) ⊓
       pullback.lift p f hpf ⁻¹ᵁ (pullback.snd g h ⁻¹ᵁ U j) = V j
     rw [← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, pullback.lift_fst,
       pullback.lift_snd, hV j]
@@ -386,7 +386,7 @@ theorem exists_finitePresentation_isImmersion_of_isLimit [IsCofiltered I] (D : I
   let Wk (j : s) : (D.obj k.left).Opens := D.map k.hom ⁻¹ᵁ W j
   have hWkaff (j : s) : IsAffine (Wk j : Scheme) := (hW j).1.preimage (D.map k.hom)
   have hWlim (j : s) : c.π.app k.left ⁻¹ᵁ Wk j = Vlim j := by
-    show c.π.app k.left ⁻¹ᵁ (D.map k.hom ⁻¹ᵁ W j) = c.π.app i ⁻¹ᵁ W j
+    change c.π.app k.left ⁻¹ᵁ (D.map k.hom ⁻¹ᵁ W j) = c.π.app i ⁻¹ᵁ W j
     rw [← Scheme.Hom.comp_preimage, c.w]
   have hcov (x : c.pt) : ∃ j, x ∈ Vlim j :=
     TopologicalSpace.Opens.mem_iSup.mp (hcover.iSup_eq_top.ge trivial)

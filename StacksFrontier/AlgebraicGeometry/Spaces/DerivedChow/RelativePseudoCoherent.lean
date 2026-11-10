@@ -99,7 +99,7 @@ theorem isRelativelyPseudoCoherent_of_isPseudoCoherent_derivedSections_tensor
   have : Algebra.FiniteType RV RU :=
     HasRingHomProperty.appTop (@LocallyOfFiniteType) (Q.map g) inferInstance
   let M := chartDerivedSections B _ hA X.1 X.2 U ⟨K, hK⟩
-  show _root_.PseudoCoherence.IsRelativelyPseudoCoherentFrom (R := RV) M m
+  change _root_.PseudoCoherence.IsRelativelyPseudoCoherentFrom (R := RV) M m
   by_cases hE : IsEmpty (Q.obj U₀)
   · have : Subsingleton RU := inferInstanceAs (Subsingleton Γ(Q.obj U₀, ⊤))
     intro n f _

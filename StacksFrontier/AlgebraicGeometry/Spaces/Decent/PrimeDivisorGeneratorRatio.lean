@@ -390,9 +390,7 @@ theorem PrimeDivisor.genericStalkSectionsToHenselian_mem_nonZeroDivisors
       (↥(Z.genericHenselianLocalRing B S hS hX hdec))⁰ := by
   have : IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec) :=
     henselianLocalRing_isLocalRing B S hS X hX (Z.genericPoint B S hS X) hdec
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (Z.genericPoint B S hS X) ⟨Z.genericChart B S hS hX hdec⟩
-  exact stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z hCof
+  exact stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS hX hdec Z
     (Z.genericChart B S hS hX hdec) (mem_nonZeroDivisors_ΓSpecIso_hom hy)
 
 include hInt hN in

@@ -136,8 +136,7 @@ theorem subring_eq_top_of_isPullback {W X Y Z : Scheme.{u}}
     rw [← CommRingCat.comp_apply, hχ, CommRingCat.id_apply]
   rw [← hz]
   clear hz
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
       rw [show a ⊗ₜ[(Γ(Z, ⊤) : Type u)] b
           = (a ⊗ₜ[(Γ(Z, ⊤) : Type u)] (1 : (Γ(Y, ⊤) : Type u)))

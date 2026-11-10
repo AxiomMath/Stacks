@@ -290,8 +290,11 @@ public def LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIntegralIso (
       kbar F G e i)
 
 include φ φb hφb sq e in
+omit [Fintype k] [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- `Hⁱ_c(Y_k̄, G ⊗ ℚ_ℓ)` is finite dimensional when `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` is. -/
-public theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_integral
+public theorem
+    LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_integral
     (i : ℤ) [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ fX jX kbar F i)] :
     FiniteDimensional ℚ_[ℓ]
@@ -301,8 +304,11 @@ public theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedC
       sq kbar F G e i).symm.toLinearEquiv
 
 include φ φb hφb sq e in
+omit [Fintype k] [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` is finite dimensional when `Hⁱ_c(Y_k̄, G ⊗ ℚ_ℓ)` is. -/
-public theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_integral'
+public theorem
+    LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_integral'
     (i : ℤ) [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B Y ℓ fY jY kbar G i)] :
     FiniteDimensional ℚ_[ℓ]
@@ -313,6 +319,8 @@ public theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedC
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- The isomorphism of inverse systems intertwines the geometric Frobenius of `Y` and of `X`. -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemIntegralIso_hom_frobenius
     (i : ℤ) :
@@ -369,6 +377,8 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemIntegralIso
     Iso.symm_hom, Category.assoc]
   rw [reassoc_of% hY, reassoc_of% hmid, hX]
 
+omit [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- **The isomorphism `Hⁱ_c(Y_k̄, G ⊗ ℚ_ℓ) ≅ Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` carries `π_Y^*` to `π_X^*`.** -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIntegralIso_hom_frobenius
     (i : ℤ) :
@@ -385,6 +395,8 @@ public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIntegralI
   exact h
 
 include φ φb hφb sq e in
+omit [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- **The geometric Frobenius endomorphisms of `Hⁱ_c(Y_k̄, G ⊗ ℚ_ℓ)` and `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` have
 the same characteristic polynomial.** -/
 public theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_of_integral
@@ -408,9 +420,14 @@ public theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_
   rw [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearMap.comp_apply]
   exact h.trans (congrArg _ (E.toLinearEquiv.apply_symm_apply v))
 
+namespace LAdicSheaf
+
 include φ φb hφb sq e in
+omit [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fY] [QuasiCompact fY] [IsSeparated fY] in
 /-- **The weight bound on `Hⁱ_c(Y_k̄, G ⊗ ℚ_ℓ)` is the weight bound on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`.** -/
-public theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_iff_of_integral
+public theorem
+    isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_iff_of_integral
     (i : ℤ) [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B Y ℓ fY jY kbar G i)]
     [FiniteDimensional ℚ_[ℓ]
@@ -425,6 +442,8 @@ public theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompact
   unfold IsCharpolyNormMixedOfWeightLE
   rw [LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_of_integral B ℓ fX jX fY
     jY φ φb hφb sq kbar F G e p q hcard i]
+
+end LAdicSheaf
 
 end LAdic
 

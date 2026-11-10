@@ -37,8 +37,8 @@ of the two index types, and `SheafOfModules.Presentation.ofIsIso` changes neithe
   of finite presentation on the small étale site of `S`**, in the rendering of Stacks 03DL(7) by
   universal properties: this is the base's
   `AlgebraicGeometry.SmallEtale.isFinitePresentationOnSite_associatedModule` of
-  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallSiteSheafHomComparison.lean`, whose
-  hypothesis is finite presentation on the small Zariski site; Mathlib's rendering of the
+  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallSiteSheafHomComparison.lean`,
+  whose hypothesis is finite presentation on the small Zariski site; Mathlib's rendering of the
   hypothesis is converted to it by
   `SheafOfModules.isFinitePresentationOnSite_of_isFinitePresentation`.
 * `AlgebraicGeometry.Space.isFinitePresentationOnSite_representedAssociatedModule`: **the

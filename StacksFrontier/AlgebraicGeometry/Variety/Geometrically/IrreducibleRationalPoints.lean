@@ -80,7 +80,7 @@ private lemma baseChange_fiber_unique
   have hpoint :
       Spec.map (Scheme.Pullback.Triplet.tensorCongr hTyTz).inv (e y).2 = (e z).2 := by
     let : Unique (PrimeSpectrum (Tz.tensor : Type u)) := inferInstance
-    show PrimeSpectrum.comap _ _ = _
+    change PrimeSpectrum.comap _ _ = _
     exact Subsingleton.elim _ _
   exact e.injective (Scheme.Pullback.carrierEquiv_eq_iff.mpr ⟨hTyTz, hpoint⟩)
 

@@ -115,7 +115,7 @@ theorem sum_pieceIdem {W : Scheme.{u}} (g : W ⟶ S) (x : Γ(W, ⊤)) :
   have h1 := Lagrange.sum_basis (s := nthRootsFinset n (1 : k)) (v := id) (Set.injOn_id _)
     ⟨1, (mem_nthRootsFinset (Nat.pos_of_ne_zero (NeZero.ne n)) (1 : k)).2 (one_pow n)⟩
   have h2 := congrArg (fun P : k[X] => P.eval₂ (baseRingMap f g) x) h1
-  simp only [eval₂_finset_sum, eval₂_one] at h2
+  simp only [eval₂_finsetSum, eval₂_one] at h2
   set F : k → Γ(W, ⊤) := fun j =>
     (Lagrange.basis (nthRootsFinset n (1 : k)) id j).eval₂ (baseRingMap f g) x with hF
   have h3 : ∑ j ∈ nthRootsFinset n (1 : k), F j = ∑ a : ZMod n, F (ζ ^ a.val) := by
@@ -186,7 +186,7 @@ theorem preimage_piece_eq_top {V W : Scheme.{u}} (g : W ⟶ S) (x : Γ(W, ⊤)) 
     (a : ZMod n) (hxa : h.appTop.hom x = baseRingMap f (h ≫ g) (ζ ^ a.val)) :
     h ⁻¹ᵁ piece f ζ g x a = ⊤ := by
   rw [Scheme.preimage_basicOpen_top, pieceIdem_comp, hxa, pieceIdem_baseRingMap f hζ,
-    if_pos rfl, Scheme.basicOpen_one]
+    ite_eq_left rfl, Scheme.basicOpen_one]
 
 /-- If `x` pulls back to `ζ ^ a` along `h`, then `h` factors through the piece `{x = ζ ^ a}`. -/
 theorem range_subset_piece {V W : Scheme.{u}} (g : W ⟶ S) (x : Γ(W, ⊤)) (h : V ⟶ W)
@@ -315,7 +315,7 @@ omit [NeZero n] in
 theorem ι_torsorComparison {p : T ⟶ S} (hτp : ∀ a, τ a ≫ p = p) (a : ZMod n) :
     Sigma.ι (fun _ : ZMod n => T) a ≫ torsorComparison τ hτp =
       pullback.lift (𝟙 T) (τ a) (by rw [Category.id_comp, hτp a]) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 omit [NeZero n] in
 /-- In a `ℤ/n`-torsor, `τ_a ∘ s = τ_b ∘ s` forces `a = b` unless the source is empty. -/
@@ -531,14 +531,14 @@ theorem exists_rootSMul_eq {p : T ⟶ S} (hfree : IsFreeTranslation τ)
     𝒰.ι_glueMorphisms (fun a => (O a).ι ≫ g ≫ (constRootSection f hζ a).left) hcompat
   have hmw : mL ≫ R.hom = g := by
     refine 𝒰.hom_ext _ _ fun (a : ZMod n) => ?_
-    show (O a).ι ≫ mL ≫ R.hom = (O a).ι ≫ g
+    change (O a).ι ≫ mL ≫ R.hom = (O a).ι ≫ g
     rw [reassoc_of% (hmL a), Over.w]
     exact congrArg ((O a).ι ≫ ·) (Category.comp_id g)
   let m : Over.mk g ⟶ R := Over.homMk mL hmw
   let x0 : Γ(W, ⊤)ˣ := (E _ m).1
   have hx0 : x0 ^ n = 1 := (E _ m).2
   refine ⟨x0, hx0, 𝒰.hom_ext _ _ fun (a : ZMod n) => ?_⟩
-  show (O a).ι ≫ _ = (O a).ι ≫ t
+  change (O a).ι ≫ _ = (O a).ι ≫ t
   have hlp : ((O a).ι ≫ g) ≫ 𝟙 S = (O a).ι ≫ g := Category.comp_id _
   have e1 := rootsOfUnityEtaleOverHomEquiv_map_left S n hnS
     (Over.homMk (U := Over.mk ((O a).ι ≫ g)) (V := Over.mk g) (O a).ι rfl) m
@@ -547,7 +547,7 @@ theorem exists_rootSMul_eq {p : T ⟶ S} (hfree : IsFreeTranslation τ)
     (Over.homMk (U := Over.mk ((O a).ι ≫ g)) (V := Over.mk (𝟙 S)) ((O a).ι ≫ g) hlp)
     (constRootSection f hζ a)
     (Over.homMk (U := Over.mk ((O a).ι ≫ g)) (V := Over.mk g) (O a).ι rfl ≫ m) (by
-      show (O a).ι ≫ mL = ((O a).ι ≫ g) ≫ (constRootSection f hζ a).left
+      change (O a).ι ≫ mL = ((O a).ι ≫ g) ≫ (constRootSection f hζ a).left
       rw [hmL, Category.assoc])
   have e3 := congrArg Units.val (e1.symm.trans e2)
   simp only [Units.coe_map] at e3
@@ -555,7 +555,7 @@ theorem exists_rootSMul_eq {p : T ⟶ S} (hfree : IsFreeTranslation τ)
       baseRingMap f ((O a).ι ≫ g) (ζ ^ a.val) := by
     refine e3.trans ?_
     rw [constRootSection, Equiv.apply_symm_apply, coe_constRoot]
-    show ((O a).ι ≫ g).appTop.hom (baseRingMap f (𝟙 S) (ζ ^ a.val)) = _
+    change ((O a).ι ≫ g).appTop.hom (baseRingMap f (𝟙 S) (ζ ^ a.val)) = _
     rw [baseRingMap_comp_apply, hlp]
   rw [comp_rootSMul_of_eq f hζ τ g _ _ s (O a).ι a hxa, hOa a]
 
@@ -569,7 +569,7 @@ theorem rootSMul_injective (hfree : IsFreeTranslation τ) {W : Scheme.{u}} (g : 
     fun ab => ?_
   obtain ⟨a, b⟩ := ab
   set Q := piece f ζ g (x : Γ(W, ⊤)) a ⊓ piece f ζ g (y : Γ(W, ⊤)) b
-  show Q.ι.appTop.hom (x : Γ(W, ⊤)) = Q.ι.appTop.hom (y : Γ(W, ⊤))
+  change Q.ι.appTop.hom (x : Γ(W, ⊤)) = Q.ι.appTop.hom (y : Γ(W, ⊤))
   obtain ⟨e1, e2⟩ := appTop_ι_piece_inf_piece f hζ g _ _ (coe_pow_eq_one hx)
     (coe_pow_eq_one hy) a b
   by_cases hab : a = b
@@ -644,7 +644,7 @@ theorem rootSMul_mul {W : Scheme.{u}} (g : W ⟶ S) (x y : Γ(W, ⊤)) (hx : x ^
     fun ab => ?_
   obtain ⟨a, b⟩ := ab
   set Q := piece f ζ g x a ⊓ piece f ζ g y b
-  show Q.ι ≫ _ = Q.ι ≫ _
+  change Q.ι ≫ _ = Q.ι ≫ _
   obtain ⟨e1, e2⟩ := appTop_ι_piece_inf_piece f hζ g x y hx hy a b
   have e3 : Q.ι.appTop.hom (x * y) = baseRingMap f (Q.ι ≫ g) (ζ ^ (b + a).val) := by
     rw [map_mul, e1, e2, pow_val_add hζ, map_mul, mul_comm]
@@ -684,7 +684,7 @@ theorem sectionRoot_mul (U : S.Etaleᵒᵖ)
     (m m' : (abelianSheafAsGroupSheaf (rootsOfUnitySheaf.{u, 0} S n)).presheaf.obj U) :
     (sectionRoot U (m * m')).1 = (sectionRoot U m).1 * (sectionRoot U m').1 := by
   refine ofUnit_injective.{u, 0} ?_
-  show _ = ofUnit.{u, 0} (sectionRoot U m).1 + ofUnit.{u, 0} (sectionRoot U m').1
+  change _ = ofUnit.{u, 0} (sectionRoot U m).1 + ofUnit.{u, 0} (sectionRoot U m').1
   rw [sectionRoot, sectionRoot, sectionRoot, ← rootsOfUnityι_app_eq_ofUnit,
     ← rootsOfUnityι_app_eq_ofUnit, ← rootsOfUnityι_app_eq_ofUnit, ← map_add]
   rfl

@@ -103,9 +103,9 @@ theorem tateLineCoordinates_smulOfUnit (c : L ≃ₗ[F] F) (u : Fˣ) (n : ℤ) (
         (c.symm.dualMap.trans (LinearMap.ringLmapEquivSelf F F F)).trans
           (LinearEquiv.smulOfUnit u⁻¹) := by
       refine LinearEquiv.ext fun l ↦ ?_
-      show l ((c.trans (LinearEquiv.smulOfUnit u)).symm 1) = ((u⁻¹ : Fˣ) : F) * l (c.symm 1)
+      change l ((c.trans (LinearEquiv.smulOfUnit u)).symm 1) = ((u⁻¹ : Fˣ) : F) * l (c.symm 1)
       rw [hsymm, map_smul, smul_eq_mul]
-    show tensorPowerCoordinates ((c.trans (LinearEquiv.smulOfUnit u)).symm.dualMap.trans
+    change tensorPowerCoordinates ((c.trans (LinearEquiv.smulOfUnit u)).symm.dualMap.trans
       (LinearMap.ringLmapEquivSelf F F F)) (m + 1) x = _
     rw [hdual, tensorPowerCoordinates_smulOfUnit]
     simp [tateLineCoordinates, zpow_negSucc, inv_pow]
@@ -120,8 +120,7 @@ theorem tateTwistCoordinates_tateTwistCongr (e : L ≃ₗ[F] L') (φ : U ≃ₗ[
     (c' : L' ≃ₗ[F] F) (n : ℤ) (x : tateTwist F L U n) :
     tateTwistCoordinates c' n (tateTwistCongr e φ n x) =
       φ (tateTwistCoordinates (e.trans c') n x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul u l =>
     rw [tateTwistCongr_tmul, tateTwistCoordinates_tmul, tateTwistCoordinates_tmul,
       tateLineCoordinates_tateLineCongr, map_smul]
@@ -132,8 +131,7 @@ theorem tateTwistCoordinates_smulOfUnit (c : L ≃ₗ[F] F) (u : Fˣ) (n : ℤ)
     (x : tateTwist F L U n) :
     tateTwistCoordinates (c.trans (LinearEquiv.smulOfUnit u)) n x =
       ((u ^ n : Fˣ) : F) • tateTwistCoordinates c n x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul v l =>
     rw [tateTwistCoordinates_tmul, tateTwistCoordinates_tmul, tateLineCoordinates_smulOfUnit,
       mul_smul]
@@ -181,8 +179,7 @@ theorem gradeEquiv_cup (X : (SmoothProjectiveScheme k).FullSubcategory) (i j n :
 theorem twEquiv_pullTw {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f : X ⟶ Y) (n m : ℤ)
     (a : W.Tw Y n m) :
     e.twEquiv X n m (W.pullTw f n m a) = W'.pullTw f n m (e.twEquiv Y n m a) := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | tmul a l =>
     rw [pullTw, pullTw, tateTwistMap, tateTwistMap, TensorProduct.map_tmul, twEquiv, twEquiv,
       tateTwistCongr_tmul, tateTwistCongr_tmul, TensorProduct.map_tmul, gradeEquiv_pullDeg]
@@ -227,8 +224,7 @@ theorem twEquiv_pushforward (htr : e.PreservesTrace) (hA : W.PerfectPairing)
 theorem equiv_kunnethMap (X Y : (SmoothProjectiveScheme k).FullSubcategory) (x : W.H X ⊗[F] W.H Y) :
     e.equiv _ (W.kunnethMap X Y x) =
       W'.kunnethMap X Y (TensorProduct.map (e.equiv X).toLinearMap (e.equiv Y).toLinearMap x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     simp only [kunnethMap_tmul, map_mul, e.equiv_pull, TensorProduct.map_tmul,
       AlgEquiv.toLinearMap_apply]

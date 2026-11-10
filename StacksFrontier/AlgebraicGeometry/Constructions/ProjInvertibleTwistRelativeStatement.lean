@@ -183,7 +183,7 @@ theorem relativeTag02NC :
     --    `𝒜_n(V) ⊗_{Γ(S,V)} ℒ^{⊗ n}(V) ⟶ ℬ_n(V)` is bijective, and the pure tensors span
     (∀ (V : S.Opens) (hV : IsAffineOpen V) (n : ℤ),
         Function.Bijective (twistPieceSectionsEquiv L 𝒜 hV n)) ∧
-      (∀ (V : S.Opens) (hV : IsAffineOpen V) (n : ℤ),
+      (∀ V : S.Opens, IsAffineOpen V → ∀ n : ℤ,
         Submodule.span Γ(S, V)
             (Set.range fun p : Γ(𝒜.piece n, V) × Γ(tpMod L n, V) =>
               gammaTmul (𝒜.piece n) (tpMod L n) V p.1 p.2) = ⊤) ∧

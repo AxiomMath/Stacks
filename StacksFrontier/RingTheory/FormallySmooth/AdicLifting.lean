@@ -81,7 +81,7 @@ private theorem exists_formallySmooth_lift
   have hcomm' : ψ'.comp f = (Ideal.Quotient.mk L).comp g := by
     ext r
     apply e.injective
-    show e (e.symm (ψ (f r))) = e (Ideal.Quotient.mk L (g r))
+    change e (e.symm (ψ (f r))) = e (Ideal.Quotient.mk L (g r))
     rw [RingEquiv.apply_symm_apply, he_mk]
     exact DFunLike.congr_fun hcomm r
   obtain ⟨φ, hφc, hφf, hφq⟩ := hfs E L hker g hg ψ' hψ' hcomm'
@@ -263,13 +263,13 @@ private theorem exists_diagonal_lift
   let P := RingHom.pullback u v
   let pair : S →+* P := RingHom.codRestrict (RingHom.prod φ ψ₁) P (by
     intro s
-    show u (φ s) = v (ψ₁ s)
+    change u (φ s) = v (ψ₁ s)
     exact congrArg (fun q : S →+* C => q s) hcompat)
   let q : E →+* P := RingHom.codRestrict (RingHom.prod a b) P (by
     intro x
-    show u (a x) = v (b x)
+    change u (a x) = v (b x)
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.factor hK₀C₀
+    change Ideal.Quotient.factor hK₀C₀
         (Ideal.Quotient.factor hK₁K₀ (Ideal.Quotient.mk K₁ x)) =
       Ideal.Quotient.factor hC₁C₀
         (Ideal.Quotient.factor hK₁C₁ (Ideal.Quotient.mk K₁ x))
@@ -298,10 +298,10 @@ private theorem exists_diagonal_lift
       exact (Ideal.Quotient.mk_eq_mk_iff_sub_mem x₀ y₀).mp hxy₀
     obtain ⟨x₁, hx₁, y₁, hy₁, hxy₁⟩ := Submodule.mem_sup.mp hmem
     refine ⟨Ideal.Quotient.mk K₁ (x₀ - x₁), Subtype.ext (Prod.ext ?_ ?_)⟩
-    · show Ideal.Quotient.mk K₀ (x₀ - x₁) = Ideal.Quotient.mk K₀ x₀
+    · change Ideal.Quotient.mk K₀ (x₀ - x₁) = Ideal.Quotient.mk K₀ x₀
       rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem]
       simpa using K₀.neg_mem hx₁
-    · show Ideal.Quotient.mk C₁ (x₀ - x₁) = Ideal.Quotient.mk C₁ y₀
+    · change Ideal.Quotient.mk C₁ (x₀ - x₁) = Ideal.Quotient.mk C₁ y₀
       rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem, ← eq_sub_iff_add_eq.mp hxy₁]
       convert hy₁ using 1
       abel
@@ -318,11 +318,11 @@ private theorem exists_diagonal_lift
     eq_bot_iff.mpr ((pow_le_pow_left' hkerle 2).trans hkerA.le)
   have hcommStep : pair.comp f = q.comp gE := by
     refine RingHom.ext fun r => Subtype.ext (Prod.ext ?_ ?_)
-    · show φ (f r) = Ideal.Quotient.factor hK₁K₀
+    · change φ (f r) = Ideal.Quotient.factor hK₁K₀
         (Ideal.Quotient.mk K₁ (g r))
       rw [Ideal.Quotient.factor_mk]
       exact congrArg (fun k : R →+* B₀ => k r) hφf
-    · show ψ₁ (f r) = Ideal.Quotient.factor hK₁C₁
+    · change ψ₁ (f r) = Ideal.Quotient.factor hK₁C₁
         (Ideal.Quotient.mk K₁ (g r))
       rw [Ideal.Quotient.factor_mk]
       exact congrArg (fun k : R →+* B₁ => k r) hψ₁f
@@ -423,7 +423,7 @@ private theorem exists_initial_power_lift
     have hφKf : φK.comp f = (Ideal.Quotient.mk K).comp g := by
       exact factor_comp_comp_eq_mk_comp f g _ hψCf
     have hφKC : (Ideal.Quotient.factor hKC).comp φK = ψC := by
-      show (Ideal.Quotient.factor hKC).comp
+      change (Ideal.Quotient.factor hKC).comp
         ((Ideal.Quotient.factor hCK).comp ψC) = ψC
       rw [← RingHom.comp_assoc, Ideal.Quotient.factor_comp]
       have heq : hCK.trans hKC = le_rfl := Subsingleton.elim _ _
@@ -477,11 +477,11 @@ private theorem exists_initial_lift_at_power
   let φ' : S →+* A ⧸ (J ^ t ⊔ I) :=
     (Ideal.Quotient.factor hOldNew).comp φ
   refine ⟨φ', ?_, ?_, ?_⟩
-  · show Continuous ((Ideal.Quotient.factor hOldNew).comp φ)
+  · change Continuous ((Ideal.Quotient.factor hOldNew).comp φ)
     exact (continuous_factor_quotient_adic_discrete
       (J ^ (t - 1 + 1) ⊔ I) (J ^ t ⊔ I) hOldNew).comp hφc
   · exact factor_comp_comp_eq_mk_comp f g _ hφf
-  · show (Ideal.Quotient.factor (pow_sup_le_sup J I ht)).comp
+  · change (Ideal.Quotient.factor (pow_sup_le_sup J I ht)).comp
       ((Ideal.Quotient.factor hOldNew).comp φ) = _
     rw [← RingHom.comp_assoc, Ideal.Quotient.factor_comp]
     exact hφψ
@@ -557,7 +557,7 @@ theorem exists_continuous_lift_of_isAdic
       (Ideal.Quotient.factor (hGridC 0)).comp hφ₀grid =
         (Ideal.Quotient.factor (hJC 0)).comp ψ := by
     have htoC1 : J ⊔ I ≤ quotientIdeal J I 1 := by simp [quotientIdeal]
-    show (Ideal.Quotient.factor (hGridC 0)).comp
+    change (Ideal.Quotient.factor (hGridC 0)).comp
       ((Ideal.Quotient.factor hbaseToGrid).comp φ₀) = _
     have h := congrArg (Ideal.Quotient.factor htoC1).comp hφ₀ψ
     rw [← RingHom.comp_assoc, ← RingHom.comp_assoc, Ideal.Quotient.factor_comp,
@@ -592,7 +592,7 @@ theorem exists_continuous_lift_of_isAdic
   have hseqPrev (k : ℕ) :
       (Ideal.Quotient.factor (hGridMono (k + 1))).comp (seq (k + 1)).1 =
         (seq k).1 := by
-    show (Ideal.Quotient.factor (hGridMono (k + 1))).comp
+    change (Ideal.Quotient.factor (hGridMono (k + 1))).comp
         (step k (seq k)).1 = (seq k).1
     rw [← hstepPrev k (seq k)]
     exact (step k (seq k)).2.2.down.2.2.2
@@ -606,7 +606,7 @@ theorem exists_continuous_lift_of_isAdic
     intro k
     have hpow : I ^ (k + 2) ≤ I ^ (k + 1) :=
       Ideal.pow_le_pow_right (Nat.le_succ (k + 1))
-    show (Ideal.Quotient.factor hpow).comp (qmap (k + 1)) = qmap k
+    change (Ideal.Quotient.factor hpow).comp (qmap (k + 1)) = qmap k
     dsimp only [qmap]
     rw [← hseqPrev k, ← RingHom.comp_assoc, ← RingHom.comp_assoc, Ideal.Quotient.factor_comp,
       Ideal.Quotient.factor_comp]
@@ -664,7 +664,7 @@ theorem exists_continuous_lift_of_isAdic
   have hmapr : Ideal.map φ (n ^ r) ≤ J ⊔ I := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show φ x ∈ J ⊔ I
+    change φ x ∈ J ⊔ I
     have hx₀ : x ∈ n ^ r₀ := hrpow hx
     obtain ⟨i, hi, hψxi⟩ := hr₀ hx₀
     have hdiff : φ x - i ∈ J := (Ideal.Quotient.mk_eq_mk_iff_sub_mem (φ x) i).1

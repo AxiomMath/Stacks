@@ -74,7 +74,7 @@ theorem isReduced_stalk_identity_of_smoothModel (k : Type u) [Field k] [CharZero
   let π₁ := translatedQuotient Γ g W π
   have hπ₁ : π₁ ≫ X.hom = W₁.ι ≫ Γ.hom := translatedQuotient_over Γ g W X π hπ
   have : QuasiCompact π₁ := by
-    show QuasiCompact ((leftTranslation Γ g).left ∣_ W ≫ π)
+    change QuasiCompact ((leftTranslation Γ g).left ∣_ W ≫ π)
     infer_instance
   have heW₁ : identityPoint k L.carrier ∈ W₁ := by
     convert unit_mem_translatedOpen Γ g W p hg using 2

@@ -213,7 +213,7 @@ private theorem flat_ulift {R : Type u} [CommRing R] {M : Type w}
   have hFlat : Module.Flat A R := (RingHom.flat_algebraMap_iff).mp
     (RingHom.Flat.of_bijective ULift.ringEquiv.bijective)
   let hTower : IsScalarTower A R M := ⟨fun x r m => by
-    show (x.down * r) • m = x.down • r • m
+    change (x.down * r) • m = x.down • r • m
     rw [mul_smul]⟩
   have h : Module.Flat A M :=
     @Module.Flat.trans A R M inferInstance inferInstance hAlg inferInstance
@@ -524,22 +524,20 @@ private lemma general_criteria :
         uliftTensorSemilinear.toAddEquiv
       have hd (x) : e₂ (d.lTensor (ULift.{max u v} M) x) =
           toTensorBaseChanges M f (e₁ x) := by
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [map_zero]
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => simp only [map_add, hx, hy]
         | tmul m r =>
-          show (m.down ⊗ₜ[R] algebraMap R S r.down,
+          change (m.down ⊗ₜ[R] algebraMap R S r.down,
               m.down ⊗ₜ[R] algebraMap R (Localization.Away f) r.down) =
             ((r.down • m.down) ⊗ₜ[R] (1 : S),
               (r.down • m.down) ⊗ₜ[R] (1 : Localization.Away f))
           simp only [TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
       have he (x) : e₃ (e.lTensor (ULift.{max u v} M) x) =
           tensorAwayDifference M f (e₂ x) := by
-        induction x using TensorProduct.induction_on with
-        | zero => simp only [map_zero]
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => simp only [map_add, hx, hy]
         | tmul m s =>
-          show m.down ⊗ₜ[R]
+          change m.down ⊗ₜ[R]
               (algebraMap S (Localization.Away (algebraMap R S f)) s.down.1 -
                 Localization.awayMap (algebraMap R S) f s.down.2) =
             m.down ⊗ₜ[R] algebraMap S (Localization.Away (algebraMap R S f)) s.down.1 -

@@ -62,7 +62,7 @@ private lemma mem_propQCPrecoverage_ofArrows_iff (P : MorphismProperty Scheme.{u
     Presieve.ofArrows X f ∈ Scheme.propQCPrecoverage P T ↔
       (Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T ∧
         ((∀ x : T, ∃ i, x ∈ Set.range (f i)) ∧ ∀ i, P (f i))) := by
-  show (Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T ∧
+  change (Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T ∧
     Presieve.ofArrows X f ∈ Scheme.precoverage P T) ↔ _
   rw [Scheme.ofArrows_mem_precoverage_iff]
 

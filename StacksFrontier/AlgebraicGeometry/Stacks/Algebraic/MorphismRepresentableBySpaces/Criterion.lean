@@ -192,7 +192,7 @@ private theorem fst_fiber_isThin_of_faithful
   have ha : u₀.a = v₀.a := by
     have hu := IsHomLift.fac' p (𝟙 V) u₀
     have hv := IsHomLift.fac' p (𝟙 V) v₀
-    show u₀.a = v₀.a
+    change u₀.a = v₀.a
     simpa [p] using hu.trans hv.symm
   let xP : pA.Fiber (pT.obj V) :=
     ⟨A.1.y, A.1.hy.trans (A.1.hx.symm.trans (congrArg pT.obj A.2))⟩
@@ -218,7 +218,7 @@ private theorem fst_fiber_isThin_of_faithful
   have hb : u.1.b = v.1.b := by
     have h := congrArg (Fiber.fiberInclusion.map) hφ
     simp only [φu, φv] at h
-    show u₀.b = v₀.b
+    change u₀.b = v₀.b
     exact h
   exact Subtype.ext (TwoFibreProductOver.Hom.ext' ha hb)
 
@@ -591,7 +591,7 @@ private theorem inducedFiberFunctor_faithful_of_isRepresentableByAlgebraicSpaces
       rw [Category.id_comp, eqToHom_trans, eqToHom_map]
     let : 𝒴.val.p.IsHomLift (𝟙 U)
         (Fiber.fiberInclusion.map (c.objIdIso y).hom) := (c.objIdIso y).hom.2
-    show 𝒴.val.p.IsHomLift (𝟙 U)
+    change 𝒴.val.p.IsHomLift (𝟙 U)
       (eqToHom hGv ≫ Fiber.fiberInclusion.map (c.objIdIso y).hom)
     exact IsHomLift.comp_of_lift_id 𝒴.val.p U _ _
   exact fiberHom_injective_of_fst_isFiberedInSetoids

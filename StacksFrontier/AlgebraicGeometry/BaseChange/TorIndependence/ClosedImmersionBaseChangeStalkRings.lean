@@ -97,8 +97,7 @@ theorem isIso_unit_app_restrictScalars_of_surjective {R S : Type u} [CommRing R]
       ((ModuleCat.extendRestrictScalarsAdj ι).right_triangle_components M)).mono
   rw [ConcreteCategory.isIso_iff_bijective]
   refine ⟨(ModuleCat.mono_iff_injective _).1 hmono, fun x => ?_⟩
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨r, rfl⟩ := hι s
     let : Module R S := Module.compHom S ι

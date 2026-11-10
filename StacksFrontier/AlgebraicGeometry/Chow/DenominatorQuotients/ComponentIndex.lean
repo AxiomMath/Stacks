@@ -93,8 +93,8 @@ local ring, and this is `Stacks.Chow.bijOn_fromSpecStalk_minimalPrimes` at the z
 whose support is all of `X`. No hypothesis on `X`.
 
 This is the re-indexing the right-hand side of the coefficient identity of
-`StacksFrontier.AlgebraicGeometry.Chow.DenominatorQuotients.MultiplicityDifference` needs in order to
-become the component sum of part (4) of [Stacks, Tag 02SW]. -/
+`StacksFrontier.AlgebraicGeometry.Chow.DenominatorQuotients.MultiplicityDifference` needs in order
+to become the component sum of part (4) of [Stacks, Tag 02SW]. -/
 @[ega "I 7.2.8.1" "more general", ega "IV 5.1.12" "special case"]
 theorem bijOn_fromSpecStalk_minimalPrimes_bot (ξ : X) :
     Set.BijOn ⇑(X.fromSpecStalk ξ)

@@ -81,7 +81,7 @@ noncomputable def associatedPresheafAugmentationOver {X : C} :
       associatedPresheafFunctorOver, FormalCoproduct.eval, Functor.comp_map, Over.forget_map,
       colimit.ι_desc_assoc, Discrete.functor_obj_eq_as, Cofan.mk_pt, Cofan.mk_ι_app,
       Category.assoc, Functor.const_obj_map, Category.comp_id, colimit.ι_desc]
-    rw [Sigma.ι_desc, ← Functor.map_comp, Over.w]
+    rw [Sigma.ι_comp_desc, ← Functor.map_comp, Over.w]
 
 /-- The simplicial presheaf associated to `K`, together with its canonical augmentation to the
 representable presheaf of `X`. -/
@@ -136,10 +136,11 @@ private lemma formalEvalι_app_equiv {X : C} (T : FormalCoproduct.{w} (Over X))
       _ = (Sigma.ι (fun j : T.I ↦ (uliftYoneda.{max u w}.obj ((T.obj j).left)).obj Y) i) ≫
           e₃.hom := by rw [← Category.assoc, ι_comp_sigmaObjIso_hom]
       _ = _ := Types.coproductIso_ι_comp_hom _ i
-  show e₃.toEquiv (e₂.toEquiv (e₁.toEquiv
+  change e₃.toEquiv (e₂.toEquiv (e₁.toEquiv
     ((SectionsOver.formalEvalι T i).app Y (ULift.up.{max u w, v} g)))) = _
   simp only [Iso.toEquiv_apply]
-  convert congrArg (fun q => q (ULift.up.{max u w, v} g)) hcompAll using 1 <;> rfl
+  convert congrArg (fun q => q (ULift.up.{max u w, v} g)) hcompAll using 1
+  rfl
 
 /-- Every section of the presheaf of a formal coproduct is an injection of a representable
 section. -/
@@ -180,7 +181,7 @@ private lemma formalEval_map_app_equiv {X : C}
             (SectionsOver.formalEvalι T (f.f i)).app Y)) (ULift.up.{max u w, v} g) =
         (SectionsOver.formalEvalι T (f.f i)).app Y
           (ULift.up.{max u w, v} (g ≫ (f.φ i).left)) := by
-      show ((SectionsOver.formalEvalι T (f.f i)).app Y)
+      change ((SectionsOver.formalEvalι T (f.f i)).app Y)
           (((uliftYoneda.map ((Over.forget X).map (f.φ i))).app Y)
             (ULift.up.{max u w, v} g)) = _
       rw [uliftYoneda_map_app]
@@ -314,7 +315,7 @@ private lemma associatedPresheafAugmentationOver_formalEvalι {X : C}
       ((SectionsOver.formalEvalι T i).app Y (ULift.up g)) = ULift.up (g ≫ (T.obj i).hom) := by
   have h := congrArg (fun η => η.app Y) (formalEvalι_comp_augmentation T i)
   rw [NatTrans.comp_app] at h
-  show (ConcreteCategory.hom ((SectionsOver.formalEvalι T i).app Y ≫
+  change (ConcreteCategory.hom ((SectionsOver.formalEvalι T i).app Y ≫
       ((associatedPresheafAugmentationOver (X := X)).app T).app Y)) (ULift.up g) = _
   rw [h, uliftYoneda_map_app]
 
@@ -418,7 +419,7 @@ private theorem matchingShape_isConnected (n m : ℕ) (hn : 1 ≤ n) :
     (ObjectProperty.homMk (SimplexCategory.const (SimplexCategory.mk 0)
       q.right.unop.obj ⟨0, by omega⟩)).op (by
       apply Quiver.Hom.unop_inj
-      show (SimplexCategory.const (SimplexCategory.mk 0) q.right.unop.obj ⟨0, by omega⟩ ≫
+      change (SimplexCategory.const (SimplexCategory.mk 0) q.right.unop.obj ⟨0, by omega⟩ ≫
           q.hom.unop) =
         SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk m)
           (q.hom.unop ⟨0, by omega⟩)
@@ -433,7 +434,7 @@ private theorem matchingShape_isConnected (n m : ℕ) (hn : 1 ≤ n) :
       (ObjectProperty.homMk (SimplexCategory.const (SimplexCategory.mk 0)
         (SimplexCategory.mk 1) ⟨1, by decide⟩)).op (by
         apply Quiver.Hom.unop_inj
-        show (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 1)
+        change (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 1)
           ⟨1, by decide⟩ ≫ edgeHom z) =
           SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk m) z
         rw [SimplexCategory.const_comp]
@@ -442,7 +443,7 @@ private theorem matchingShape_isConnected (n m : ℕ) (hn : 1 ≤ n) :
       (ObjectProperty.homMk (SimplexCategory.const (SimplexCategory.mk 0)
         (SimplexCategory.mk 1) ⟨0, by decide⟩)).op (by
         apply Quiver.Hom.unop_inj
-        show (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 1)
+        change (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 1)
           ⟨0, by decide⟩ ≫ edgeHom z) =
           SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk m) ⟨0, by omega⟩
         rw [SimplexCategory.const_comp]
@@ -503,7 +504,7 @@ private lemma matchingComparison_comp_π {X : C} (n m : ℕ)
   let x := Opposite.op (SimplexCategory.mk m)
   let eP := L.ranObjObjIsoLimit (T ⋙ associatedPresheafFunctorOver (X := X)) x
   dsimp [matchingComparison]
-  show (limit.lift (StructuredArrow.proj x L ⋙ T ⋙ associatedPresheafFunctorOver (X := X)) ?c ≫
+  change (limit.lift (StructuredArrow.proj x L ⋙ T ⋙ associatedPresheafFunctorOver (X := X)) ?c ≫
     eP.inv) ≫ eP.hom ≫ limit.π _ d = _
   simp only [Category.assoc, Iso.inv_hom_id_assoc, limit.lift_π]
 
@@ -524,7 +525,7 @@ private lemma coskUnit_comp_projection {A : Type t} [Category.{s} A]
       (L.ran.obj (L ⋙ K)).map d.hom = K.map d.hom ≫ η.app (L.obj d.right) :=
     (η.naturality d.hom).symm
   rw [Functor.ranObjObjIsoLimit_hom_π]
-  show η.app _ ≫ (L.ran.obj (L ⋙ K)).map d.hom ≫
+  change η.app _ ≫ (L.ran.obj (L ⋙ K)).map d.hom ≫
     (L.ranCounit.app (L ⋙ K)).app d.right = _
   rw [← Category.assoc, hn, Category.assoc]
   exact (congrArg (K.map d.hom ≫ ·)
@@ -655,7 +656,7 @@ private lemma matchingComparison_pointwise_surjective {X : C} (n m : ℕ)
     exact limit.lift_π cone d
   have hcompareπ_app := congrArg
     (fun η => (ConcreteCategory.hom (η.app Y)) gen) hcompareπ
-  show ((limit.π (D' ⋙ (evaluation Cᵒᵖ (Type (max u v w))).obj Y) d)
+  change ((limit.π (D' ⋙ (evaluation Cᵒᵖ (Type (max u v w))).obj Y) d)
       ((limitObjIsoLimitCompEvaluation D' Y).hom
         ((eP.hom.app Y) ((matchingComparison n m K).app Y
           (((associatedPresheafFunctorOver (X := X)).map h).app Y gen))))) =
@@ -734,9 +735,9 @@ private lemma zeroMatchingLift_projection {X : C}
   have hh : (limit.lift D (zeroMatchingConePresheaf K S p) ≫ e.inv) ≫ e.hom ≫ limit.π D d =
       (zeroMatchingConePresheaf K S p).π.app d := by
     simp only [Category.assoc, Iso.inv_hom_id_assoc, limit.lift_π]
-  show (limit.lift D (zeroMatchingConePresheaf K S p) ≫ e.inv) ≫ e.hom ≫ limit.π D d = _
+  change (limit.lift D (zeroMatchingConePresheaf K S p) ≫ e.inv) ≫ e.hom ≫ limit.π D d = _
   refine hh.trans ?_
-  show p ((SimplexCategory.δ i) 0) ≫
+  change p ((SimplexCategory.δ i) 0) ≫
     K.map (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 0) 0).op = _
   have h : SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk 0) 0 = 𝟙 _ :=
     Subsingleton.elim _ _
@@ -858,7 +859,7 @@ theorem locallySurjective_augmentation_of_isHypercovering
         (Opposite.op (SimplexCategory.mk 0))) := by
   let T : FormalCoproduct.{w} (Over X) := ⊤_ (FormalCoproduct.{w} (Over X))
   let f : K.obj (Opposite.op (SimplexCategory.mk 0)) ⟶ T := terminal.from _
-  show Presheaf.IsLocallySurjective J.toGrothendieck
+  change Presheaf.IsLocallySurjective J.toGrothendieck
       ((associatedPresheafAugmentationOver (X := X)).app
         (K.obj (Opposite.op (SimplexCategory.mk 0))))
   have hnat : (associatedPresheafFunctorOver (X := X)).map f ≫
@@ -901,7 +902,7 @@ theorem locallySurjective_higherMatchingMap_of_isHypercovering
         (associatedAugmentedSimplicialPresheafOver K).left).app
           (Opposite.op (SimplexCategory.mk (n + 1)))) := by
   let := matchingShape_isConnected n (n + 1) hn
-  show Presheaf.IsLocallySurjective J.toGrothendieck
+  change Presheaf.IsLocallySurjective J.toGrothendieck
     (((SimplicialObject.coskAdj n).unit.app (SectionsOver.associatedSimplicialPresheaf K)).app _)
   rw [← matchingComparison_unit n (n + 1) K]
   exact locallySurjective_comp_of_pointwiseSurjective_right J _ _

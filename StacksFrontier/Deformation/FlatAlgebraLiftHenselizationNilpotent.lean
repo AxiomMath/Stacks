@@ -192,8 +192,7 @@ theorem exists_flat_quotient_henselization
   have hghsurj : Function.Surjective gh := by
     intro z
     obtain ⟨t, rfl⟩ := hbij.2 z
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul q y =>
         obtain ⟨p, rfl⟩ := hπ y
         refine ⟨q * algebraMap P' Q' p, ?_⟩

@@ -989,7 +989,7 @@ theorem isAffineSpace_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S
   let A'' := τ.hom.eqLocus σ.hom
   let eqZ := aZ.hom.eqLocus bZ.hom
   have hgA_mem : ∀ y, gA y ∈ eqZ := fun y ↦ by
-    show (gA ≫ aZ) y = (gA ≫ bZ) y
+    change (gA ≫ aZ) y = (gA ≫ bZ) y
     rw [hpoZ.w]
   let gA' : Γ(sT, ⊤) →+* eqZ := gA.hom.codRestrict eqZ hgA_mem
   have hgA'bij : Function.Bijective gA' := by
@@ -999,7 +999,7 @@ theorem isAffineSpace_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S
       exact ⟨y, Subtype.ext hy⟩
   let eA : Γ(sT, ⊤) ≃+* eqZ := RingEquiv.ofBijective gA' hgA'bij
   have hpB_mem : ∀ x : A'', pB x ∈ eqZ := fun x ↦ by
-    show (pB ≫ aZ) x = (pB ≫ bZ) x
+    change (pB ≫ aZ) x = (pB ≫ bZ) x
     rw [hτ, hσ]
     exact congrArg pC.hom x.2
   let κ : A'' →+* Γ(sT, ⊤) :=
@@ -1045,7 +1045,7 @@ theorem isAffineSpace_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S
     have := surjective_thickeningTerminalChart_from B S hS hG.1 e V hu's
     have hnat := Scheme.isoSpec_hom_naturality ((BigFppfOver.toScheme B S hS).map gU.hom.left)
     have : Surjective (sU.isoSpec.hom ≫ Spec.map gA) := by
-      show Surjective (sU.isoSpec.hom ≫ Spec.map
+      change Surjective (sU.isoSpec.hom ≫ Spec.map
         ((BigFppfOver.toScheme B S hS).map gU.hom.left).appTop)
       rw [hnat]
       infer_instance
@@ -1066,8 +1066,7 @@ theorem isAffineSpace_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S
         (firstOrderThickeningSubspace B S hS hG)).toSheafOfModules t y) ∈
           (RingHom.ker (algebraMap Γ(sV, ⊤) Γ(sU, ⊤))).map (algebraMap Γ(sV, ⊤) Γ(sP, ⊤)) := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => exact zero_mem _
+      induction y using TensorProduct.inductionOn with
       | tmul c j =>
         refine Ideal.mul_mem_left _ c (Ideal.mem_map_of_mem _ ?_)
         have hj : Subtype.val j ∈ definingIdealAt B S hS X
@@ -1092,11 +1091,11 @@ theorem isAffineSpace_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S
     refine (CommRingCat.isPushout_tensorProduct A'' Γ(sV, ⊤) Γ(sV, ⊤)).of_iso (Iso.refl _)
       (Iso.refl _) (Iso.refl _) φe rfl rfl ?_ ?_
     · ext b
-      show φ (b ⊗ₜ 1) = τ b
+      change φ (b ⊗ₜ 1) = τ b
       rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
       rfl
     · ext b
-      show φ (1 ⊗ₜ b) = σ b
+      change φ (1 ⊗ₜ b) = σ b
       rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
       rfl
   have hEt : Etale (Spec.map (CommRingCat.ofHom A''.subtype)) :=

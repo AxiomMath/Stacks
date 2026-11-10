@@ -132,7 +132,7 @@ theorem exists_finite_isQuasiCompactSpace_cover_of_cover {Y' : (BigFppfOver B S 
   have hk : vs k = i := by
     simp only [vs, Nat.min_eq_left hk1, Fin.eta, k, Equiv.symm_apply_apply]
   refine Set.mem_iUnion.2 ⟨⟨k, by omega⟩, ?_⟩
-  show _ ∈ Set.range (Space.pointsMap B S hS (N (vs k)).toFunctor (N (vs k)).ι)
+  change _ ∈ Set.range (Space.pointsMap B S hS (N (vs k)).toFunctor (N (vs k)).ι)
   rw [hk]
   exact hyi
 

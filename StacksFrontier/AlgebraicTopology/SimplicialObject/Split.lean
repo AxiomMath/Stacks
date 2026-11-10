@@ -854,7 +854,7 @@ theorem normalizedMoore_factors_arrow_comp_δ_last (U : SimplicialObject C) (n :
       rw [normalizedMoore]
       exact Subobject.top_factors _
   | succ n =>
-      show (Finset.univ.inf (fun i : Fin (n + 1) =>
+      change (Finset.univ.inf (fun i : Fin (n + 1) =>
           kernelSubobject (U.δ i.castSucc))).Factors
         ((Finset.univ.inf (fun j : Fin (n + 2) =>
           kernelSubobject (U.δ j.castSucc))).arrow ≫ U.δ (Fin.last (n + 2)))

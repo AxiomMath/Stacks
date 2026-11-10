@@ -53,7 +53,8 @@ The ring `A[T]/(T² - f²)` and the nonreduced completion are the general `p`-th
 `StacksFrontier.RingTheory.Nagata.PthRoot`, used here at `p = 2`; only the construction of the
 embedding `e` and of the square root in the completion of `A` is specific to this file.
 
-`StacksFrontier.RingTheory.AnalyticallyUnramified.Examples` gives a different witness, valid whenever
+`StacksFrontier.RingTheory.AnalyticallyUnramified.Examples` gives a different witness, valid
+whenever
 `[k : k^p] = ∞`: the ring of power series whose coefficients generate a finite extension of `k^p`.
 That family is stated for an arbitrary such `k`, so it is not by itself an existence statement;
 this file's countable-field construction needs no hypothesis on `k` beyond countability and so
@@ -169,7 +170,7 @@ private theorem valuation_dvr {K : Type*} [Field K] (e : K →+* LaurentSeries k
   let v : Valuation K ℤᵐ⁰ := (Valued.v : Valuation (LaurentSeries k) ℤᵐ⁰).comap e
   have hvx : v x = exp (-1 : ℤ) := comap_valuation_eq_exp_neg_one k e x hx
   have : v.IsNontrivial := ⟨x, by simp [hvx], by simp [hvx]⟩
-  show IsDiscreteValuationRing v.valuationSubring
+  change IsDiscreteValuationRing v.valuationSubring
   infer_instance
 
 /-- In that valuation ring, valuation at most `exp (-n)` means membership in the `n`-th power of
@@ -188,10 +189,10 @@ private theorem valuation_mem_pow {K : Type*} [Field K] (e : K →+* LaurentSeri
     rw [Valuation.IsUniformizer, Valuation.IsRankOneDiscrete.generator_eq_exp_neg_one_of_mem_range
       (show exp (-1 : ℤ) ∈ Set.range v from ⟨x, hvx⟩)]
     exact hvx
-  show z ∈ maximalIdeal v.valuationSubring ^ n
+  change z ∈ maximalIdeal v.valuationSubring ^ n
   rw [hπ.is_generator, Ideal.span_singleton_pow, Ideal.mem_span_singleton,
     (Valuation.valuationSubring.integers v).dvd_iff_le]
-  show v (z : K) ≤ v (x ^ n)
+  change v (z : K) ≤ v (x ^ n)
   rw [map_pow, hvx, ← exp_nsmul]
   simpa only [v, Valuation.comap_apply, nsmul_eq_mul, mul_neg, mul_one] using hz
 
@@ -217,13 +218,13 @@ private theorem completion_root_of_embedding
   have hφ (q : k[X]) : e (φ q) = ((q : PowerSeries k) : LaurentSeries k) :=
     eval₂RingHom_eq_coe k e r x hx hr q
   let seq : ℕ → A := fun n => ⟨φ (f.trunc n), by
-    show Valued.v (e (φ (f.trunc n))) ≤ 1
+    change Valued.v (e (φ (f.trunc n))) ≤ 1
     rw [hφ]
     exact valuation_powerSeries_le_one k _⟩
   have hseq (n : ℕ) : e (seq n : K) = ((f.trunc n : PowerSeries k) : LaurentSeries k) :=
     hφ _
   let a₀ : A := ⟨a, by
-    show Valued.v (e a) ≤ 1
+    change Valued.v (e a) ≤ 1
     rw [ha, ← PowerSeries.coe_pow]
     exact valuation_powerSeries_le_one k _⟩
   have hcauchy : ∀ {m n : ℕ}, m ≤ n →
@@ -231,20 +232,20 @@ private theorem completion_root_of_embedding
     intro m n hmn
     rw [SModEq.sub_mem, Ideal.smul_eq_mul, Ideal.mul_top]
     apply valuation_mem_pow k e x hx
-    show Valued.v (e ((seq m : K) - (seq n : K))) ≤ _
+    change Valued.v (e ((seq m : K) - (seq n : K))) ≤ _
     rw [map_sub, hseq, hseq]
     exact valuation_coe_sub_le k _ _ m fun i hi => by
       simp [PowerSeries.coeff_trunc, hi, hi.trans_le hmn]
   let α := AdicCompletion.mk (maximalIdeal A) A ⟨seq, hcauchy⟩
   refine ⟨a₀, rfl, α, ?_⟩
   refine AdicCompletion.ext_evalₐ fun n => ?_
-  show AdicCompletion.evalₐ (maximalIdeal A) n (α ^ 2) =
+  change AdicCompletion.evalₐ (maximalIdeal A) n (α ^ 2) =
     AdicCompletion.evalₐ (maximalIdeal A) n (AdicCompletion.of (maximalIdeal A) A a₀)
   rw [map_pow, AdicCompletion.evalₐ_of]
-  show (Ideal.Quotient.mk ((maximalIdeal A) ^ n) (seq n)) ^ 2 = _
+  change (Ideal.Quotient.mk ((maximalIdeal A) ^ n) (seq n)) ^ 2 = _
   rw [← map_pow, Ideal.Quotient.eq]
   apply valuation_mem_pow k e x hx
-  show Valued.v (e ((seq n : K) ^ 2 - a)) ≤ _
+  change Valued.v (e ((seq n : K) ^ 2 - a)) ≤ _
   rw [map_sub, map_pow, ha, hseq, ← sub_pow_char, map_pow]
   have hb := valuation_coe_sub_le k (f.trunc n) f n fun i hi => by
     simp [PowerSeries.coeff_trunc, hi]
@@ -285,7 +286,7 @@ private theorem dvr_square_root_of_embedding
   have hy' : e y = (f : LaurentSeries k) := by
     refine sub_eq_zero.mp (IsNilpotent.eq_zero ⟨2, ?_⟩)
     rw [sub_pow_char, ← map_pow, hy]
-    show e (a₀ : K) - (f : LaurentSeries k) ^ 2 = 0
+    change e (a₀ : K) - (f : LaurentSeries k) ^ 2 = 0
     rw [ha₀, ha, sub_self]
   exact hf ⟨y, hy'⟩
 
@@ -354,13 +355,13 @@ theorem exists_charTwo_isDiscreteValuationRing_sq_in_adicCompletion_not_in_fract
   let x : S := algebraMap F S RatFunc.X
   let a : S := ⟨(RatFunc.X : L) ^ 2, IntermediateField.subset_adjoin F _ (by simp)⟩
   have hx : e x = (PowerSeries.X : PowerSeries k) := by
-    show j (algebraMap F L RatFunc.X) = _
+    change j (algebraMap F L RatFunc.X) = _
     rw [j.commutes]
     simpa only [PowerSeries.coe_X] using (RatFunc.coe_X (F := k))
   have hr (c : k) : e (r c) = algebraMap k (LaurentSeries k) c := by
-    show j (algebraMap F L (algebraMap k F c)) = _
+    change j (algebraMap F L (algebraMap k F c)) = _
     rw [j.commutes, RatFunc.algebraMap_eq_C, ← RatFunc.algebraMap_C]
-    show IsFractionRing.lift
+    change IsFractionRing.lift
       (FaithfulSMul.algebraMap_injective k[X] (LaurentSeries k))
       (algebraMap k[X] F (Polynomial.C c)) = _
     rw [IsFractionRing.lift_algebraMap]

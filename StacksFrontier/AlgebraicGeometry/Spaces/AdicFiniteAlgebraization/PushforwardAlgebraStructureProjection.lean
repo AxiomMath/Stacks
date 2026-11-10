@@ -54,7 +54,7 @@ theorem ker_unitToUnderlyingModule_pushforwardAlgebra (f : Y ⟶ X) :
   ext a
   refine (SheafOfModules.Submodule.mem_ker
     (AlgebraSheaf.unitToUnderlyingModule (pushforwardAlgebra B S hS (Over.mk f))) U a).trans ?_
-  show (pushforwardAlgebra B S hS (Over.mk f)).algebraMap U a = 0 ↔ _
+  change (pushforwardAlgebra B S hS (Over.mk f)).algebraMap U a = 0 ↔ _
   have h := pushforwardAlgebra_algebraMap_eq_structureSharp_app B S hS f U a
   exact ⟨fun ha => RingHom.mem_ker.2 (h.symm.trans ha), fun ha => h.trans (RingHom.mem_ker.1 ha)⟩
 

@@ -91,8 +91,7 @@ theorem multT_comp_mk :
 
 /-- `mulT0` is `B`-linear: `mulT0 (c • z) = c * mulT0 z`. -/
 theorem mulT0_smul (c : B) (z : B ⊗[R] N) : mulT0 N B (c • z) = c * mulT0 N B z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     simp [mulT0]
@@ -137,8 +136,7 @@ theorem exists_multT_eq (y : B) (hy : y ∈ N.map (algebraMap R B)) :
 /-- The values of `multT` lie in `N B`. -/
 theorem multT_mem (z : (B ⧸ N.map (algebraMap R B)) ⊗[R] N) :
     multT N hN B z ∈ N.map (algebraMap R B) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
     simp only [multT, TensorProduct.lift.tmul, multQ_mk, Algebra.smul_def]
@@ -204,8 +202,7 @@ theorem theta_naturality {B' : Type*} [CommRing B'] [Algebra R B'] (β : B →�
     (L : X →ₐ[R] B ⧸ N.map (algebraMap R B)) (L' : X →ₐ[R] B' ⧸ N.map (algebraMap R B'))
     (h : (redMap N β).comp L = L') (z : X ⊗[R] N) :
     β (theta N hN L z) = theta N hN L' z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x n =>
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (L x)
     rw [theta_tmul N hN L x n b hb, theta_tmul N hN L' x n (β b)
@@ -216,8 +213,7 @@ theorem theta_naturality {B' : Type*} [CommRing B'] [Algebra R B'] (β : B →�
 theorem theta_comp {X' : Type*} [CommRing X'] [Algebra R X'] (γ : X →ₐ[R] X')
     (L : X' →ₐ[R] B ⧸ N.map (algebraMap R B)) (z : X ⊗[R] N) :
     theta N hN (L.comp γ) z = theta N hN L (γ.toLinearMap.rTensor N z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x n => simp [theta]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 

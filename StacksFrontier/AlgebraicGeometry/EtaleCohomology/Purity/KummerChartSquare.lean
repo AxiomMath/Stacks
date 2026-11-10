@@ -181,7 +181,7 @@ theorem isIso_higherBaseChangeMapAb_one_rootsOfUnity_of_charts {k' : Type u} [Fi
   have : IsIso (rootsOfUnityInverseImageComparison.{u, 0} e n) :=
     isIso_rootsOfUnityInverseImageComparison e n hNT
   have : IsIso (kummerSequencePullbackMap e n).τ₁ := by
-    show IsIso (((smallEtalePullbackAbIsoEtaleAbelianInverseImage e).hom.app _) ≫
+    change IsIso (((smallEtalePullbackAbIsoEtaleAbelianInverseImage e).hom.app _) ≫
       rootsOfUnityInverseImageComparison.{u, 0} e n)
     infer_instance
   unfold kummerBaseChangeMap at hK
@@ -234,7 +234,7 @@ theorem isIso_higherBaseChangeMapAb_one_constantSheaf_of_charts {k' K : Type u} 
       (constantSheaf (smallEtaleTopology T) Ab.{u + 1}).obj
         (AddCommGrpCat.of (ULift.{u + 1} (ZMod n))) :=
     (rootsOfUnityConstantIso pK hζn hn.ne').symm
-  show IsIso ((higherBaseChangeMapAb f' g h e w (0 + 1)).app
+  change IsIso ((higherBaseChangeMapAb f' g h e w (0 + 1)).app
     ((constantSheaf (smallEtaleTopology T) Ab.{u + 1}).obj
       (AddCommGrpCat.of (ULift.{u + 1} (ZMod n)))))
   exact isIso_app_of_iso_of_isIso (higherBaseChangeMapAb f' g h e w (0 + 1)) c hμ

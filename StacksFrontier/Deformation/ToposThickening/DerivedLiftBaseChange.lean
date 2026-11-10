@@ -63,7 +63,6 @@ universe d d' d₀ v' u u'
 namespace Deformation.ComplexLift
 
 variable {C : Type u'} [Category.{v'} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
 section Difference
@@ -236,7 +235,6 @@ def DerivedLift.baseChange (L : DerivedLift T K₀) : DerivedLift T' K₀ where
   K := ⟨B.functor.obj L.K.obj, B.minus L.K⟩
   identification := B.baseChangeIso.app L.K.obj ≪≫ L.identification
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Base change preserves isomorphy of lifts. -/
 theorem DerivedLift.Isomorphic.baseChange {L₁ L₂ : DerivedLift T K₀}
     (h : DerivedLift.Isomorphic L₁ L₂) :
@@ -246,7 +244,7 @@ theorem DerivedLift.Isomorphic.baseChange {L₁ L₂ : DerivedLift T K₀}
   have hn : T'.baseChange.map (B.functor.map e.hom) ≫ B.baseChangeIso.hom.app L₂.K.obj =
       B.baseChangeIso.hom.app L₁.K.obj ≫ T.baseChange.map e.hom :=
     B.baseChangeIso.hom.naturality e.hom
-  show T'.baseChange.map (B.functor.map e.hom) ≫ B.baseChangeIso.hom.app L₂.K.obj ≫
+  change T'.baseChange.map (B.functor.map e.hom) ≫ B.baseChangeIso.hom.app L₂.K.obj ≫
       L₂.identification.hom = B.baseChangeIso.hom.app L₁.K.obj ≫ L₁.identification.hom
   rw [← he, reassoc_of% hn]
 

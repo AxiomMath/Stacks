@@ -90,7 +90,7 @@ theorem algebraicCycle_map_relativeDimension_apply_image {Z X : Scheme.{u}} (sZ 
   have hweight : (AlgebraicCycle.mapCoeff i (relativeDimension C.dimensionFunction sZ)
       (relativeDimension C.dimensionFunction sX) z : ℤ) = 1 := by
     simp [AlgebraicCycle.mapCoeff, hdim, residueDegree_eq_one_of_isClosedImmersion]
-  show (∑ᶠ w ∈ i.base ⁻¹' {i.base z}, c w *
+  change (∑ᶠ w ∈ i.base ⁻¹' {i.base z}, c w *
     (AlgebraicCycle.mapCoeff i (relativeDimension C.dimensionFunction sZ)
       (relativeDimension C.dimensionFunction sX) w : ℤ)) = c z
   rw [hfibre, finsum_mem_singleton, hweight, mul_one]
@@ -186,7 +186,7 @@ theorem exists_idealSheafData_of_support_subset {X : Scheme.{u}} (sX : X ⟶ C.S
   have htoim : f.toImage ≫ f.ker.subschemeι = f := Scheme.Hom.toImage_imageι f
   set φ : f.ker.subscheme ≅ W.subscheme := (asIso f.toImage).symm
   have hφ : φ.hom ≫ W.subschemeι = f.ker.subschemeι ≫ I.subschemeι := by
-    show inv f.toImage ≫ W.subschemeι = f.ker.subschemeι ≫ I.subschemeι
+    change inv f.toImage ≫ W.subschemeι = f.ker.subschemeι ≫ I.subschemeι
     exact (IsIso.inv_comp_eq f.toImage).mpr (by rw [← Category.assoc, htoim, hf])
   have hφs : φ.hom ≫ (W.subschemeι ≫ sX) = f.ker.subschemeι ≫ I.subschemeι ≫ sX := by
     rw [← Category.assoc, hφ, Category.assoc]
@@ -280,7 +280,7 @@ theorem exists_rationallyEquivalentToZero_summandsToUnion (I J : X.IdealSheafDat
         (fun j ↦ principalDivisorPushforward C sX (W j.1) (hW j.1) (g j.1))
         (fun j ↦ support_principalDivisorPushforward_subset C sX (W j.1) (hW j.1) (g j.1)) x
     rw [hαL x, hαR x, hcoeff x]
-    show ((∑ᶠ j : {j // P j}, _) + ∑ᶠ j : {j // ¬ P j}, _) = ∑ᶠ j : K, _
+    change ((∑ᶠ j : {j // P j}, _) + ∑ᶠ j : {j // ¬ P j}, _) = ∑ᶠ j : K, _
     rw [← finsum_sum_elim _ _ (hfin _) (hfin _), ← finsum_comp_equiv (Equiv.sumCompl P)]
     exact finsum_congr fun j ↦ by cases j with | inl j => rfl | inr j => rfl
   refine ⟨cyclePullbackAlongClosedImmersion C (I.subschemeι ≫ sX) sX I.subschemeι rfl k αL,
@@ -340,12 +340,12 @@ theorem intersectionToSummandsChow_mk (c : CycleGroup C ((I ⊔ J).subschemeι �
         QuotientAddGroup.mk' (rationalEquivalences C (J.subschemeι ≫ sX) k)
           (intersectionToSummands C sX I J k c).2) := by
   refine Prod.ext ?_ ?_
-  · show chowPushforwardOfIsClosedImmersion C ((I ⊔ J).subschemeι ≫ sX) (I.subschemeι ≫ sX)
+  · change chowPushforwardOfIsClosedImmersion C ((I ⊔ J).subschemeι ≫ sX) (I.subschemeι ≫ sX)
       (inclusion (le_sup_left : I ≤ I ⊔ J))
       (inclusion_subschemeι_assoc (le_sup_left : I ≤ I ⊔ J) sX) k
       (QuotientAddGroup.mk' _ c) = _
     rw [chowPushforwardOfIsClosedImmersion_mk, intersectionToSummands_apply_fst]
-  · show -chowPushforwardOfIsClosedImmersion C ((I ⊔ J).subschemeι ≫ sX) (J.subschemeι ≫ sX)
+  · change -chowPushforwardOfIsClosedImmersion C ((I ⊔ J).subschemeι ≫ sX) (J.subschemeι ≫ sX)
       (inclusion (le_sup_right : J ≤ I ⊔ J))
       (inclusion_subschemeι_assoc (le_sup_right : J ≤ I ⊔ J) sX) k
       (QuotientAddGroup.mk' _ c) = _
@@ -360,7 +360,7 @@ theorem summandsToUnionChow_mk (a : CycleGroup C (I.subschemeι ≫ sX) k)
         (QuotientAddGroup.mk' (rationalEquivalences C (I.subschemeι ≫ sX) k) a,
           QuotientAddGroup.mk' (rationalEquivalences C (J.subschemeι ≫ sX) k) b) =
       QuotientAddGroup.mk' (rationalEquivalences C sX k) (summandsToUnion C sX I J k (a, b)) := by
-  show chowPushforwardOfIsClosedImmersion C (I.subschemeι ≫ sX) sX I.subschemeι rfl k
+  change chowPushforwardOfIsClosedImmersion C (I.subschemeι ≫ sX) sX I.subschemeι rfl k
       (QuotientAddGroup.mk' _ a) +
     chowPushforwardOfIsClosedImmersion C (J.subschemeι ≫ sX) sX J.subschemeι rfl k
       (QuotientAddGroup.mk' _ b) = _
@@ -375,7 +375,7 @@ theorem summandsToUnionChow_intersectionToSummandsChow
     summandsToUnionChow C sX I J k (intersectionToSummandsChow C sX I J k c) = 0 := by
   obtain ⟨c, rfl⟩ := QuotientAddGroup.mk'_surjective _ c
   rw [intersectionToSummandsChow_mk, summandsToUnionChow_mk]
-  show QuotientAddGroup.mk' (rationalEquivalences C sX k)
+  change QuotientAddGroup.mk' (rationalEquivalences C sX k)
     (summandsToUnion C sX I J k (intersectionToSummands C sX I J k c)) = 0
   rw [summandsToUnion_intersectionToSummands, map_zero]
 

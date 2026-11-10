@@ -153,7 +153,7 @@ public theorem projectedSubmoduleRangeMap_mk {R M N₁ N₂ : Type*} [CommRing R
         (quotientComapSubtypeEquivRange p₁ K (Submodule.Quotient.mk x)) =
       quotientComapSubtypeEquivRange p₂ K (Submodule.Quotient.mk x) := by
   refine Subtype.ext ?_
-  show t ((quotientComapSubtypeEquivRange p₁ K (Submodule.Quotient.mk x) :
+  change t ((quotientComapSubtypeEquivRange p₁ K (Submodule.Quotient.mk x) :
       LinearMap.range (p₁.comp K.subtype)) : N₁) =
     ((quotientComapSubtypeEquivRange p₂ K (Submodule.Quotient.mk x) :
       LinearMap.range (p₂.comp K.subtype)) : N₂)
@@ -309,10 +309,10 @@ public theorem exists_affineKernelImageProjection_eq (Y : Scheme.{u}) [IsAffine 
     congrArg ModuleCat.Hom.hom (show affineLevelProjection Y J F l ≫
         (globalSectionsSystem F).map (homOfLE ((Nat.le_add_right m c).trans h)).op =
         affineLevelProjection Y J F m by simp [affineLevelProjection, Category.assoc])
-  show Submodule.map t (LinearMap.ker a) = _
+  change Submodule.map t (LinearMap.ker a) = _
   rw [Stacks.AdicCompletion.map_ker_eq_map_comap_ker (f.restrictScalars Γ(Y, ⊤)) p q a t
     (affineLevelProjection_surjective Y J F l) hsquare, hproj]
-  show Submodule.map _ (Submodule.comap (f.restrictScalars Γ(Y, ⊤))
+  change Submodule.map _ (Submodule.comap (f.restrictScalars Γ(Y, ⊤))
     (LinearMap.ker (affineLevelProjection Y J G l).hom)) = _
   rw [affineLevelProjection_ker]
   exact hc (m + 1) (l + 1) (by omega) _ (affineLevelProjection_ker Y J F m).ge

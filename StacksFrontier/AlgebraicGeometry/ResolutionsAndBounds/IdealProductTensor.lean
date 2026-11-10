@@ -178,7 +178,7 @@ theorem obj_idealPow_mul_affineOpen (K K' : X.IdealSheafData) (n : ℕ) (V : X.a
     (idealPowerMultiple (K * K') n (structureModule X)).toSubmodule.obj (op V.1) =
       K.ideal V ^ n * K'.ideal V ^ n := by
   refine (obj_idealPow_affineOpen (K * K') n V).trans ?_
-  show (K.ideal V * K'.ideal V) ^ n = _
+  change (K.ideal V * K'.ideal V) ^ n = _
   exact mul_pow _ _ n
 
 /-! ### Multiplication of sections of two powers of ideal sheaves -/

@@ -134,7 +134,7 @@ lemma stalkMul_grpGerm (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
     (U : Opens X.carrier) (hp : p ∈ U) (x : A.val.obj (op U)) (y : B.val.obj (op U)) :
     stalkMul β p (grpGerm X A.val p U hp x) (grpGerm X B.val p U hp y) =
       grpGerm X C.val p U hp (β.app (op U) x y) := by
-  show stalkMapL X _ _ (ofBilinearSheaf β).val p ((tensorStalkEquiv p A B).symm _) = _
+  change stalkMapL X _ _ (ofBilinearSheaf β).val p ((tensorStalkEquiv p A B).symm _) = _
   rw [(LinearEquiv.symm_apply_eq _).2 (tensorStalkEquiv_germ p A B U hp x y).symm]
   exact (Stacks.SheafOfModules.stalkMapL_germ X (ofBilinearSheaf β).val p U hp _).trans
     (congrArg _ (ofBilinearSheaf_unit_tmul β (op U) x y))
@@ -143,7 +143,7 @@ lemma stalkMul_grpGerm (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
 lemma stalkMul_add_left (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
     (m m' : grpStalk X A.val p) (n : grpStalk X B.val p) :
     stalkMul β p (m + m') n = stalkMul β p m n + stalkMul β p m' n := by
-  show stalkBilin β p ((m + m') ⊗ₜ[ringStalk X p] n) =
+  change stalkBilin β p ((m + m') ⊗ₜ[ringStalk X p] n) =
     stalkBilin β p (m ⊗ₜ[ringStalk X p] n) + stalkBilin β p (m' ⊗ₜ[ringStalk X p] n)
   rw [TensorProduct.add_tmul, map_add]
 
@@ -151,7 +151,7 @@ lemma stalkMul_add_left (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
 lemma stalkMul_add_right (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
     (m : grpStalk X A.val p) (n n' : grpStalk X B.val p) :
     stalkMul β p m (n + n') = stalkMul β p m n + stalkMul β p m n' := by
-  show stalkBilin β p (m ⊗ₜ[ringStalk X p] (n + n')) =
+  change stalkBilin β p (m ⊗ₜ[ringStalk X p] (n + n')) =
     stalkBilin β p (m ⊗ₜ[ringStalk X p] n) + stalkBilin β p (m ⊗ₜ[ringStalk X p] n')
   rw [TensorProduct.tmul_add, map_add]
 
@@ -159,7 +159,7 @@ lemma stalkMul_add_right (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
 lemma stalkMul_smul_left (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
     (r : ringStalk X p) (m : grpStalk X A.val p) (n : grpStalk X B.val p) :
     stalkMul β p (r • m) n = r • stalkMul β p m n := by
-  show stalkBilin β p ((r • m) ⊗ₜ[ringStalk X p] n) = r • stalkBilin β p (m ⊗ₜ[ringStalk X p] n)
+  change stalkBilin β p ((r • m) ⊗ₜ[ringStalk X p] n) = r • stalkBilin β p (m ⊗ₜ[ringStalk X p] n)
   exact (congrArg (stalkBilin β p) (TensorProduct.smul_tmul' r m n).symm).trans
     (map_smul _ _ _)
 
@@ -167,7 +167,7 @@ lemma stalkMul_smul_left (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
 lemma stalkMul_smul_right (β : SheafOfModules.BilinearMap A B C) (p : X.carrier)
     (r : ringStalk X p) (m : grpStalk X A.val p) (n : grpStalk X B.val p) :
     stalkMul β p m (r • n) = r • stalkMul β p m n := by
-  show stalkBilin β p (m ⊗ₜ[ringStalk X p] (r • n)) = r • stalkBilin β p (m ⊗ₜ[ringStalk X p] n)
+  change stalkBilin β p (m ⊗ₜ[ringStalk X p] (r • n)) = r • stalkBilin β p (m ⊗ₜ[ringStalk X p] n)
   exact (congrArg (stalkBilin β p) (TensorProduct.tmul_smul r m n)).trans (map_smul _ _ _)
 
 /-- Multiplication by a fixed germ on the right, as a linear map. -/

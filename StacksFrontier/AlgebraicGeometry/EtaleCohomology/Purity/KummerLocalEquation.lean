@@ -168,7 +168,7 @@ theorem origin_appTop_eq_zero_iff (a : Γ(affineLine k, ⊤)) :
     (origin k).appTop a = 0 ↔ MvPolynomial.constantCoeff (globalSectionsEquiv k a) = 0 := by
   have key : (Scheme.ΓSpecIso (.of k)).hom ((origin k).appTop a) =
       MvPolynomial.constantCoeff (globalSectionsEquiv k a) := by
-    show ((Spec.map (CommRingCat.ofHom (MvPolynomial.constantCoeff :
+    change ((Spec.map (CommRingCat.ofHom (MvPolynomial.constantCoeff :
         MvPolynomial (ULift.{u} (Fin 1)) k →+* k))).appTop ≫ (Scheme.ΓSpecIso (.of k)).hom)
         ((AffineSpace.SpecIso (ULift.{u} (Fin 1)) (.of k)).inv.appTop a) = _
     rw [Scheme.ΓSpecIso_naturality]
@@ -190,7 +190,7 @@ theorem ker_origin_ideal_top :
   have := isClosedImmersion_origin k
   rw [Scheme.Hom.ker_apply]
   ext a
-  show (origin k).appTop a = 0 ↔ _
+  change (origin k).appTop a = 0 ↔ _
   rw [origin_appTop_eq_zero_iff, ← RingHom.mem_ker, ker_constantCoeff_eq_span,
     ← globalSectionsEquiv_coordinate, Ideal.mem_span_singleton', Ideal.mem_span_singleton']
   constructor

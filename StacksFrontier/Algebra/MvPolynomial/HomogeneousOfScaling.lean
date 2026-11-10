@@ -79,7 +79,7 @@ theorem isHomogeneous_of_eval_intCast_mul [Finite σ] {P : MvPolynomial σ ℚ} 
         have : (fun i => ((m * c i : ℤ) : ℚ)) = (m : ℚ) • fun i => (c i : ℚ) :=
           _root_.funext fun i => by simp
         rw [this, (homogeneousComponent_isHomogeneous e P).eval_smul']
-      simp only [Q, Polynomial.eval_sub, Polynomial.eval_finset_sum, Polynomial.eval_mul,
+      simp only [Q, Polynomial.eval_sub, Polynomial.eval_finsetSum, Polynomial.eval_mul,
         Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X]
       rw [sub_eq_zero, mul_comm (eval _ P), ← h m c, h1]
       exact sum_congr rfl fun e _ => mul_comm _ _
@@ -90,10 +90,10 @@ theorem isHomogeneous_of_eval_intCast_mul [Finite σ] {P : MvPolynomial σ ℚ} 
       simp [hQ m]
     by_cases hdT : d ∈ range (T + 1)
     · have hc := congrArg (fun F => Polynomial.coeff F d) hQ0
-      simp only [Q, Polynomial.coeff_sub, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul,
+      simp only [Q, Polynomial.coeff_sub, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul,
         Polynomial.coeff_X_pow, Polynomial.coeff_zero] at hc
       rw [sum_eq_single d (fun e _ he => by simp [Ne.symm he]) (fun h' => absurd hdT h'),
-        if_pos rfl, if_neg hd, mul_zero, sub_zero, mul_one] at hc
+        ite_eq_left rfl, ite_eq_right hd, mul_zero, sub_zero, mul_one] at hc
       exact hc
     · rw [hout d hdT]
       simp

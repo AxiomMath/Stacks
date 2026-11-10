@@ -179,7 +179,7 @@ lemma opModuleHomComplexPostcomp_comp {G G' G'' : CochainComplex 𝒜 ℤ} (h : 
     opModuleHomComplexPostcomp ρ (h ≫ h') =
       opModuleHomComplexPostcomp ρ h ≫ opModuleHomComplexPostcomp ρ h' := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
-  show (toCochain z).comp (Cochain.ofHom (h ≫ h')) (add_zero n)
+  change (toCochain z).comp (Cochain.ofHom (h ≫ h')) (add_zero n)
       = ((toCochain z).comp (Cochain.ofHom h) (add_zero n)).comp (Cochain.ofHom h') (add_zero n)
   rw [Cochain.ofHom_comp]
   exact (Cochain.comp_assoc _ (Cochain.ofHom h) (Cochain.ofHom h') (add_zero n) (zero_add 0)
@@ -213,11 +213,12 @@ lemma opModuleHomComplexPrecomp_f_apply {F' : CochainComplex 𝒜 ℤ} (ρ' : R 
 
 /-- Pre- and postcomposition commute. -/
 lemma opModuleHomComplexPrecomp_postcomp {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F')
-    (g : F' ⟶ F) (hg : ∀ r : R, (ρ' r).asHom ≫ g = g ≫ (ρ r).asHom) {G' : CochainComplex 𝒜 ℤ} (h : G ⟶ G') :
+    (g : F' ⟶ F) (hg : ∀ r : R, (ρ' r).asHom ≫ g = g ≫ (ρ r).asHom) {G' : CochainComplex 𝒜 ℤ}
+    (h : G ⟶ G') :
     opModuleHomComplexPrecomp ρ G ρ' g hg ≫ opModuleHomComplexPostcomp ρ' h =
       opModuleHomComplexPostcomp ρ h ≫ opModuleHomComplexPrecomp ρ G' ρ' g hg := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
-  show ((Cochain.ofHom g).comp (toCochain z) (zero_add n)).comp (Cochain.ofHom h) (add_zero n) =
+  change ((Cochain.ofHom g).comp (toCochain z) (zero_add n)).comp (Cochain.ofHom h) (add_zero n) =
     (Cochain.ofHom g).comp ((toCochain z).comp (Cochain.ofHom h) (add_zero n)) (zero_add n)
   exact Cochain.comp_assoc _ _ _ (zero_add n) (add_zero n) (by omega)
 
@@ -310,12 +311,14 @@ end Homotopy
 section PrecompHomotopy
 
 variable {F' : CochainComplex 𝒜 ℤ} (ρ' : R →+* End F') {g₁ g₂ : F' ⟶ F}
-  (hg₁ : ∀ r : R, (ρ' r).asHom ≫ g₁ = g₁ ≫ (ρ r).asHom) (hg₂ : ∀ r : R, (ρ' r).asHom ≫ g₂ = g₂ ≫ (ρ r).asHom)
+  (hg₁ : ∀ r : R, (ρ' r).asHom ≫ g₁ = g₁ ≫ (ρ r).asHom)
+  (hg₂ : ∀ r : R, (ρ' r).asHom ≫ g₂ = g₂ ≫ (ρ r).asHom)
 
 /-- An equivariant homotopy `h` commutes with the actions, as a cochain of degree `-1`. -/
 lemma ofHomotopy_comp_ofHom_eq {H : Homotopy g₁ g₂}
     (hH : ∀ (r : R) (p q : ℤ) (hpq : p + -1 = q),
-      (ρ' r).asHom.f p ≫ (Cochain.ofHomotopy H).v p q hpq = (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).asHom.f q)
+      (ρ' r).asHom.f p ≫ (Cochain.ofHomotopy H).v p q hpq =
+        (Cochain.ofHomotopy H).v p q hpq ≫ (ρ r).asHom.f q)
     (r : R) :
     (Cochain.ofHomotopy H).comp (Cochain.ofHom (ρ r).asHom) (add_zero (-1)) =
       (Cochain.ofHom (ρ' r).asHom).comp (Cochain.ofHomotopy H) (zero_add (-1)) := by
@@ -427,7 +430,7 @@ lemma opModuleHomComplexMap_postcomp {G' : CochainComplex 𝒜 ℤ} (h : G ⟶ G
         opModuleHomComplexPostcomp (mapAction ρ Φ) ((Φ.mapHomologicalComplex _).map h) =
       opModuleHomComplexPostcomp ρ h ≫ opModuleHomComplexMap ρ G' Φ := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
-  show ((toCochain (ρ := ρ) (G := G) z).map Φ).comp
+  change ((toCochain (ρ := ρ) (G := G) z).map Φ).comp
       (Cochain.ofHom ((Φ.mapHomologicalComplex _).map h)) (add_zero n) =
     ((toCochain (ρ := ρ) (G := G) z).comp (Cochain.ofHom h) (add_zero n)).map Φ
   rw [Cochain.map_comp, Cochain.map_ofHom]

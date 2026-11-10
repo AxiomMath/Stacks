@@ -183,7 +183,7 @@ theorem exists_isOpenImmersion_incidence (v : Fin c → Γ(L, ⊤)) (w₀ : Γ(L
       · rw [Category.assoc, AffineSpace.homOfVector_over, ← Category.assoc, hφ, Category.assoc,
           Category.assoc, Category.assoc, Category.assoc, pullback.condition]
       · intro i
-        show φ.appTop (f.appTop _) = (O.ι ≫ I.subschemeι ≫ pr₂).appTop _
+        change φ.appTop (f.appTop _) = (O.ι ≫ I.subschemeι ≫ pr₂).appTop _
         rw [← hcoord i, AffineSpace.homOfVector_appTop_coord]
   have h3 : φ ≫ Γ'' = 𝟙 _ := by
     rw [← cancel_mono (O.ι ≫ I.subschemeι), Category.assoc, reassoc_of% hΓ'', hΓ', h2,

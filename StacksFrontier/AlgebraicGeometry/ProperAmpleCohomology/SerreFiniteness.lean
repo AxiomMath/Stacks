@@ -121,7 +121,7 @@ theorem actMap_eq_mulMap {L : C} {k m : ℕ} (t : twistSections (natTensorPow L 
         (twistPow_natTensorPow L k (m + n)).symm) := by
   induction n with
   | zero =>
-      show t = (t ≫ eqToHom (twistPow_natTensorPow L k m)) ≫
+      change t = (t ≫ eqToHom (twistPow_natTensorPow L k m)) ≫
         eqToHom (twistPow_natTensorPow L k m).symm
       simp
   | succ n ih =>
@@ -244,7 +244,7 @@ theorem ringHomFiniteType_of_gen {X : Scheme.{u}} {R : Type u} [CommRing R] (L :
       ∃ a : Fin r → powSections L n, u = ∑ j, mul (s j) (a j)) :
     letI := Stacks.SectionRingGeometric.schemeSectionCommRing X L
     RingHom.FiniteType ((sectionRingZeroHom X L).comp φ) := by
-  show RingHom.FiniteType ((sectionRingZeroHom X L).comp φ)
+  change RingHom.FiniteType ((sectionRingZeroHom X L).comp φ)
   classical
   let : Algebra R (sectionRing L) := ((sectionRingZeroHom X L).comp φ).toAlgebra
   have halg : ∀ a : R, algebraMap R (sectionRing L) a = sectionRingZeroHom X L (φ a) :=
@@ -390,7 +390,7 @@ theorem ringHomFiniteType_sectionRing {X : Scheme.{u}} {R : Type u} [CommRing R]
     RingHom.FiniteType
       ((sectionRingZeroHom X L).comp
         (Stacks.AlgebraicGeometry.GradedProperCohomology.specAlgebraRingHom R f)) := by
-  show RingHom.FiniteType ((sectionRingZeroHom X L).comp (specAlgebraRingHom R f))
+  change RingHom.FiniteType ((sectionRingZeroHom X L).comp (specAlgebraRingHom R f))
   classical
   have := isLocallyNoetherian_of_isProper f
   have hcoh : ∀ q : ℕ, (natTensorPow L q).IsCoherent := by

@@ -154,7 +154,7 @@ the base agree. -/
 public theorem res_comp_sectionHom {U V : S.Opens} (h : U ≤ V) :
     (B.res h).comp (ψ.sectionHom V) = (ψ.sectionHom U).comp (A.res h) := by
   refine GradedRingHom.ext fun x => ?_
-  show (B.resRingHom h) (ψ.sectionRingHom V x) = ψ.sectionRingHom U (A.resRingHom h x)
+  change (B.resRingHom h) (ψ.sectionRingHom V x) = ψ.sectionRingHom U (A.resRingHom h x)
   induction x using DirectSum.induction_on with
   | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | of n y =>

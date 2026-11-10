@@ -19,7 +19,8 @@ faithfully flat, and let `L` be an invertible `𝒪_X`-module whose pullback to 
 
 is an isomorphism.  The two invertibility clauses are proved in
 `StacksFrontier/AlgebraicGeometry/PicardBaseChange/Sections.lean` and
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`.  This file proves the multiplication clause.
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InverseSections.lean`.  This file proves the
+multiplication clause.
 
 The proof is the source's: the multiplication is surjective after pulling back to `X_B`,
 because there `L` is trivial, and surjectivity descends along the faithfully flat ring map
@@ -62,15 +63,17 @@ below:
 
 **Where the tag sits.** The multiplication below is
 `Stacks.SheafOfModules.Invertible.globalSectionsMulNegOne`
-(`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairing.lean`), built from the braiding, `tensorPowerOneIso` and
+(`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairing.lean`), built from the braiding,
+`tensorPowerOneIso` and
 one step of the defining integer iteration of Tag 01CU.  That composite **is** Tag 01CU's
 coherent multiplication `mulIso 1 (-1)`:
 `Stacks.SheafOfModules.Invertible.tensorPowerCoherence_mulIso_one_negOne`
-(`StacksFrontier/AlgebraicGeometry/TensorPowerCoherence/NegOne.lean`) proves the equality, the `TensorPowerCoherence`
+(`StacksFrontier/AlgebraicGeometry/TensorPowerCoherence/NegOne.lean`) proves the equality, the
+`TensorPowerCoherence`
 structure of Tag 01CU now being part of the development.  The `@[stacks 0CDX]` attribute for
 this clause is therefore carried by the transcription written with the coherent multiplication,
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/CoherentMul.lean`, which follows from the theorem below by that
-equality; no attribute is attached here only so that the clause has one site.
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/CoherentMul.lean`, which follows from the theorem
+below by that equality; no attribute is attached here only so that the clause has one site.
 
 **The pairing is bundled as a linear map, not as a bilinear function.** The scalars of the
 tensor product of two modules of sections are spelled
@@ -78,8 +81,8 @@ tensor product of two modules of sections are spelled
 pattern wants a bare `CommSemiring`, so `rw [TensorProduct.add_tmul]` does not fire on a goal
 about the product of two sections.  Assembling the product as a composition of two linear maps
 ascribed at the `Γ(Y, ⊤)` spelling — the discipline of
-`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairingLinear.lean` — makes bilinearity a consequence of the
-construction, and the transfer lemma then takes the bundled map.
+`StacksFrontier/AlgebraicGeometry/PicardBaseChange/InversePairingLinear.lean` — makes bilinearity a
+consequence of the construction, and the transfer lemma then takes the bundled map.
 
 **Equations between morphisms of sheaves are read on sections in term mode.** The ringed-space
 spellings of the pullback functor, of the tensor product and of the structure sheaf are
@@ -266,9 +269,9 @@ theorem exists_toSheafify_tmul_eq
     tensorProductIso O hO eA (Iso.refl B) ≪≫ tensorProductLeftUnitor O hO B with hψ
   refine ⟨Hom.app eA.inv.val U (unitOne U), Hom.app ψ.hom.val U z,
     Stacks.SheafOfModules.isoValApp_injective ψ U ?_⟩
-  show Hom.app ψ.hom.val U _ = Hom.app ψ.hom.val U z
+  change Hom.app ψ.hom.val U _ = Hom.app ψ.hom.val U z
   rw [hψ]
-  show Hom.app (tensorProductLeftUnitor O hO B).hom.val U
+  change Hom.app (tensorProductLeftUnitor O hO B).hom.val U
       (Hom.app (tensorProductIso O hO eA (Iso.refl B)).hom.val U _) = _
   rw [toSheafify_tensorProductIso O hO eA (Iso.refl B) U (Hom.app eA.inv.val U (unitOne U))]
   have h1 : Hom.app eA.hom.val U (Hom.app eA.inv.val U (unitOne U)) = unitOne U :=
@@ -320,7 +323,7 @@ theorem pullbackUnitIso_hom_pullbackUnitSections (r : Γ(X, ⊤)) :
         (pullbackUnitSections p (SheafOfModules.unit X.ringCatSheaf) ⊤ r) =
       (p.app ⊤).hom r := by
   have : (SheafOfModules.pushforward.{u} p.toRingCatSheafHom).IsRightAdjoint := by
-    show (Scheme.Modules.pushforward p).IsRightAdjoint
+    change (Scheme.Modules.pushforward p).IsRightAdjoint
     infer_instance
   have h := SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit
     (φ := p.toRingCatSheafHom)

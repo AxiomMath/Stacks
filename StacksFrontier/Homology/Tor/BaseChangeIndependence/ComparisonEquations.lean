@@ -199,7 +199,7 @@ theorem derivedBaseChangeComparison_fst_app_eq_unit_comp_counit
     L_g L_h alpha_g alpha_h M 1 m
   rw [map_one] at hR
   refine Eq.trans ?_ hR.symm
-  show (ModuleCat.extendScalars.{uA, uAp, max v uR uA uRp uAp} h).map
+  change (ModuleCat.extendScalars.{uA, uAp, max v uR uA uRp uAp} h).map
       ((ModuleCat.extendRestrictScalarsAdj.{max v uR uA uRp uAp, uR, uA} f).counit.app M)
         (mu ((ModuleCat.extendRestrictScalarsAdj.{max v uR uA uRp uAp, uRp, uAp} i).unit.app
           ((ModuleCat.extendScalars.{uR, uRp, max v uR uA uRp uAp} g).obj
@@ -213,6 +213,8 @@ theorem derivedBaseChangeComparison_fst_app_eq_unit_comp_counit
   rw [hmu m]
   exact congrArg (fun y => (1 : A') ⊗ₜ[A,h] y) hc
 
+omit [(ModuleCat.extendScalars.{uR, uRp, max v uR uA uRp uAp} g).IsLeftAdjoint]
+  [(ModuleCat.extendScalars.{uA, uAp, max v uR uA uRp uAp} h).IsLeftAdjoint] in
 /-- **The counit compatibility of the derived base-change comparison, at an object.** Composing
 the comparison at `K` with the counit of derived extension of scalars along `A → A'`, restricted
 along `R' → A'`, is the same as the counit of derived extension of scalars along `R → R'` at the
@@ -256,6 +258,8 @@ theorem derivedBaseChangeComparison_snd_app_comp_counit
     Functor.comp_obj, Category.comp_id, Category.id_comp] at hfac
   exact hfac
 
+omit [(ModuleCat.extendScalars.{uR, uRp, max v uR uA uRp uAp} g).IsLeftAdjoint]
+  [(ModuleCat.extendScalars.{uA, uAp, max v uR uA uRp uAp} h).IsLeftAdjoint] in
 /-- **The derived base-change comparison, computed.** Wherever the counit of derived extension of
 scalars along `A → A'` is invertible — which it is at every K-flat complex — the counit
 compatibility determines the comparison outright. -/
@@ -279,6 +283,8 @@ theorem derivedBaseChangeComparison_snd_app_eq
   rw [IsIso.eq_comp_inv]
   exact derivedBaseChangeComparison_snd_app_comp_counit f g h i sq L_g L_h alpha_g alpha_h K
 
+omit [(ModuleCat.extendScalars.{uR, uRp, max v uR uA uRp uAp} g).IsLeftAdjoint]
+  [(ModuleCat.extendScalars.{uA, uAp, max v uR uA uRp uAp} h).IsLeftAdjoint] in
 /-- **The derived base-change comparison is the unique solution of its counit equation.** A
 transformation from derived base change over `R` to derived base change over `A` that satisfies
 the counit compatibility of `derivedBaseChangeComparison_snd_app_comp_counit` at every K-flat

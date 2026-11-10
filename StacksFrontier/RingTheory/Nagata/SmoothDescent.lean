@@ -48,8 +48,9 @@ Three steps of the source's route are private lemmas here.
   residue fields at the minimal primes (Lemmas 02LX, 00EU and 030C) by N-1 for `B` itself, which
   is what the argument consumes and which Lemma 03GH supplies from `B` being Nagata and reduced.
 * `isReduced_of_smooth_of_isNoetherianRing` is the Noetherian case of Lemma 033B, which is all the
-  tagged statement needs, `A` being of finite type over the Noetherian ring `R`. It is proved from the local
-  structure of a smooth ring map rather than from the source's route through regularity: by
+  tagged statement needs, `A` being of finite type over the Noetherian ring `R`. It is proved from
+  the local structure of a smooth ring map rather than from the source's route through
+  regularity: by
   `Algebra.IsSmoothAt.exists_isStandardEtale_mvPolynomial` every prime of `B` has a neighbourhood
   `B_f` which is étale over a polynomial ring `A[x_1, …, x_n]`, and `isReduced_of_etale` — the
   general statement that an étale algebra over a reduced Noetherian ring is reduced, obtained by
@@ -189,11 +190,10 @@ private theorem isN1_of_faithfullyFlat_of_isN1 (A B : Type u) [CommRing A] [IsDo
   let ν : B ⊗[A] ↥A' →ₗ[B] B ⊗[A] FractionRing A :=
     LinearMap.baseChange B (Subalgebra.val A').toLinearMap
   have hν : Function.Injective ν := by
-    simp [ν, LinearMap.baseChange_eq_ltensor]
+    simp [ν, LinearMap.baseChange_eq_lTensor]
   have hmem : ∀ z : B ⊗[A] ↥A', ψ (ν z) ∈ integralClosure B (FractionRing B) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b a =>
         have ha : IsIntegral B (ι (a : FractionRing A)) :=
           (IsIntegral.map ι a.2).tower_top

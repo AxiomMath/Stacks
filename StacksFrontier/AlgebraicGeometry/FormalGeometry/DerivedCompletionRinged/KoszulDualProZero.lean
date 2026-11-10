@@ -2,9 +2,9 @@ module
 
 public import StacksFrontier.Algebra.Homology.SingleTopCohomologyComparison
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDualCoefficientComplex
+StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDualCoefficientComplex
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulHomologyProZeroScheme
+StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulHomologyProZeroScheme
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -84,15 +84,17 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] {r : �
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
   (ℱ : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The one-step transition of the dual Koszul tower is the downward Koszul transition.** At
 the factor indexed by `S` both are multiplication by `∏_{i ∉ S} f_i`. -/
 theorem koszulDualComplexOnMap_eq (m : ℕ) :
     koszulDualComplexOnMap X f ℱ m = koszulPowerComplexOnDown X f ℱ (Nat.le_succ m) := by
   refine congrArg AlternatingCech.map (NatTrans.ext (funext fun S => ?_))
-  show koszulScalarOn X f (fun i => if i ∈ Sᶜ then 1 else 0) ℱ =
+  change koszulScalarOn X f (fun i => if i ∈ Sᶜ then 1 else 0) ℱ =
     koszulScalarOn X f (downExp (m + 1) m S) ℱ
   exact koszulScalarOn_congr X f (fun i => by simp [downExp, Finset.mem_compl]) ℱ
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition of the dual Koszul tower along `n ≤ n + k`. -/
 theorem koszulDualSystemOn_map_add (n k : ℕ) :
     (koszulDualSystemOn X f ℱ).map (homOfLE (Nat.le_add_right n k)).op =
@@ -110,6 +112,7 @@ theorem koszulDualSystemOn_map_add (n k : ℕ) :
         koszulDualComplexOnMap_eq, ih]
       exact koszulPowerComplexOnDown_comp X f ℱ _ _
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The dual Koszul tower is the inverse system of the downward Koszul transitions.** -/
 theorem koszulDualSystemOn_map_down {m n : ℕ} (hnm : n ≤ m) :
     (koszulDualSystemOn X f ℱ).map (homOfLE hnm).op =
@@ -134,6 +137,8 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
   (ℱ : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The terms of the Koszul complex with coefficients above the top degree are zero: there is no
 subset of `Fin r` of cardinality larger than `r`, so the indexing product is empty. -/
 theorem isZero_X_koszulPowerComplexOn_gt (n : ℕ) {p : ℤ} (hp : (r : ℤ) < p) :
@@ -145,6 +150,8 @@ theorem isZero_X_koszulPowerComplexOn_gt (n : ℕ) {p : ℤ} (hp : (r : ℤ) < p
 theorem next_top_eq : (ComplexShape.up ℤ).next (r : ℤ) = (r : ℤ) + 1 :=
   ComplexShape.next_eq' _ (show (r : ℤ) + 1 = (r : ℤ) + 1 from rfl)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The differential out of the top degree vanishes. -/
 theorem koszulPowerComplexOn_d_at_top_eq_zero (n : ℕ) :
     (koszulPowerComplexOn X f ℱ n).d (r : ℤ) ((r : ℤ) + 1) = 0 :=
@@ -160,13 +167,14 @@ def koszulTopSingleSystem :
   koszulDualSystemOn X f ℱ ⋙ HomologicalComplex.homologyFunctor _ _ (r : ℤ) ⋙
     HomologicalComplex.single _ _ (r : ℤ)
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- The transition of `koszulTopSingleSystem` from level `m + 1` to level `m` is the map induced
 on cohomology in degree `r` by `koszulDualComplexOnMap`, placed in degree `r`. -/
 theorem koszulTopSingleSystem_map_succ (m : ℕ) :
     (koszulTopSingleSystem X f ℱ).map (homOfLE (Nat.le_add_right m 1)).op =
       (HomologicalComplex.single _ _ (r : ℤ)).map
         (HomologicalComplex.homologyMap (koszulDualComplexOnMap X f ℱ m) (r : ℤ)) := by
-  show (HomologicalComplex.single _ _ (r : ℤ)).map
+  change (HomologicalComplex.single _ _ (r : ℤ)).map
       (HomologicalComplex.homologyMap
         ((koszulDualSystemOn X f ℱ).map (homOfLE (Nat.le_add_right m 1)).op) (r : ℤ)) = _
   rw [koszulDualSystemOn_map_succ]
@@ -187,6 +195,7 @@ def koszulToTopSingle : koszulDualSystemOn X f ℱ ⟶ koszulTopSingleSystem X f
         (koszulPowerComplexOn_d_at_top_eq_zero X f ℱ (m + 1))
         (koszulPowerComplexOn_d_at_top_eq_zero X f ℱ m))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- At level `m`, `koszulToTopSingle` is the comparison
 `HomologicalComplex.toSingleTopCohomology` of the Koszul complex with its top cohomology. -/
 theorem koszulToTopSingle_app (m : ℕ) :
@@ -195,6 +204,7 @@ theorem koszulToTopSingle_app (m : ℕ) :
         (next_top_eq (r := r)) (koszulPowerComplexOn_d_at_top_eq_zero X f ℱ m) :=
   rfl
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison is an isomorphism on cohomology in the top degree**, at every level. This is
 the hypothesis of [Stacks, Tag 0G3D] at that degree, and it needs no refinement of the index. -/
 theorem isIso_homologyMap_koszulToTopSingle (m : ℕ) :
@@ -224,6 +234,7 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
   (ℱ : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The cohomology sheaves of the tower of the Koszul formula of [Stacks, Tag 0A0E] are
 pro-zero away from the degree carrying the quotient, on a ringed site with a flat Noetherian
 model uniform over a basis.**

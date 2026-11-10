@@ -67,8 +67,7 @@ variable {S : Type u} [CommRing S] (J : Ideal S) {M : Type u} [AddCommGroup M] [
 `S/J`. -/
 theorem quotientMk_smul (r : S) (t : (S ⧸ J) ⊗[S] M) :
     (Ideal.Quotient.mk J r) • t = r • t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b m => rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul']; congr 1
   | add y z hy hz => rw [smul_add, smul_add, hy, hz]
 
@@ -141,9 +140,8 @@ theorem germTensorₛₗ_map {U V : Opens X} (i : V ⟶ U) (hV : x ∈ V)
     (t : (tensorPresheafOverSource φ a).obj (op U)) :
     germTensorₛₗ φ a x V hV ((tensorPresheafOverSource φ a).map i.op t) =
       germTensorₛₗ φ a x U (i.le hV) t := by
-  show germTensorₛₗ φ a x V hV (tensorMapₛₗ φ a i.op t) = _
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  change germTensorₛₗ φ a x V hV (tensorMapₛₗ φ a i.op t) = _
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       rw [tensorMapₛₗ, TensorProduct.map_tmul, germTensorₛₗ, germTensorₛₗ, TensorProduct.map_tmul,
         TensorProduct.map_tmul]
@@ -151,7 +149,7 @@ theorem germTensorₛₗ_map {U V : Opens X} (i : V ⟶ U) (hV : x ∈ V)
         (ω : ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
           (differentialsPresheaf a).presheaf x)) => q ⊗ₜ[ToType (A.stalk x)] ω) ?_ ?_
       · obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-        show Ideal.Quotient.mk _ ((A.germ V x hV).hom ((A.map i.op).hom b)) =
+        change Ideal.Quotient.mk _ ((A.germ V x hV).hom ((A.map i.op).hom b)) =
           Ideal.Quotient.mk _ ((A.germ U x (i.le hV)).hom b)
         exact congrArg (Ideal.Quotient.mk (stalkKernelIdeal φ x))
           (TopCat.Presheaf.germ_res_apply A i x hV b)
@@ -599,7 +597,7 @@ theorem tensorDifferentialsSheafStalkLinearEquiv_germ_tensorDifferential
   have hE := tensorSheafStalkSheafifyLinearEquiv_germ R A B a φ x U hx
     ((1 : A.obj.obj (op U) ⧸ kernelIdeal φ.hom (op U)) ⊗ₜ[A.obj.obj (op U)]
       CommRingCat.KaehlerDifferential.d (f := a.hom.app (op U)) f)
-  show tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x
+  change tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x
     ((tensorSheafStalkSheafifyLinearEquiv R A B a φ x).symm _) = _
   refine Eq.trans (congrArg (tensorPresheafStalkKaehlerLinearEquiv φ.hom a.hom x)
     ((LinearEquiv.symm_apply_eq _).mpr hE.symm)) ?_

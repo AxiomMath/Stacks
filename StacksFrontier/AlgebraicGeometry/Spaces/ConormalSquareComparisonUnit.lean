@@ -121,7 +121,8 @@ checks in 0.2 s.  Two facts explain this:
   constructor never appears on the chain, and the bisection below concerns a
   statement the tag does not need.
 * **With that spelling the assembly is still a kernel timeout if it goes through
-  `AlgebraicGeometry.Space.structureUnitModule`.**  Declaration by declaration: `rfl` between the two spellings of a single
+  `AlgebraicGeometry.Space.structureUnitModule`.**  Declaration by declaration: `rfl` between the
+  two spellings of a single
   morphism,
   `(modulePullbackCompIso B S hS f i').inv.app (structureUnitModule B S hS X')` and
   `(modulePullbackCompIso B S hS f i').inv.app

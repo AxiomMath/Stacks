@@ -932,7 +932,7 @@ public theorem squareComparison_localized_of_compat
   ext P
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_inv_app, Category.id_comp, Category.assoc, Functor.comp_obj]
-  show (localizedSquareDomainIso.{u, w} SR a a₂ b₂ hloc).hom.app
+  change (localizedSquareDomainIso.{u, w} SR a a₂ b₂ hloc).hom.app
         (DerivedCategory.Q.obj P) ≫
       (squareComparison.{u, w} a₂ b₂ c₂ d hsq).app (DerivedCategory.Q.obj P) ≫
       (ModuleCat.restrictScalars.{u} d).mapDerivedCategory.map

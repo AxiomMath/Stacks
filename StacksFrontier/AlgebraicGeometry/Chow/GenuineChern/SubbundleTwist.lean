@@ -86,7 +86,7 @@ theorem bundleEmbedding_chart (x' : X) :
         ((Scheme.Modules.symmetricAlgebraGen X Q).val.app (op U) z)) ?_
     refine Eq.trans ?_ (congrArg (Q.val.map (homOfLE (le_rfl : U ≤ (𝟙 X) ⁻¹ᵁ U)).op)
       (homEquiv_pullbackId_comp_apply g U x)).symm
-    show _ = Q.presheaf.map (𝟙 (op U)) _
+    change _ = Q.presheaf.map (𝟙 (op U)) _
     rw [CategoryTheory.Functor.map_id]
     rfl
 

@@ -117,7 +117,7 @@ private theorem gradedScalar_val (c : k)
     show gradedScalar k V c = degreeZeroRingToGlobalSections (symmetricGrading k V)
       (algebraMap k (SymPow.symmetricPower 0 k V) c) from rfl,
     degreeZeroRingToGlobalSections_stalk]
-  show Localization.mk
+  change Localization.mk
       ((algebraMap k (SymPow.symmetricPower 0 k V) c : SymPow.symmetricPower 0 k V) :
         SymmetricAlgebra k V)
       (1 : x.asHomogeneousIdeal.toIdeal.primeCompl) = _
@@ -207,7 +207,7 @@ private theorem degreeSection_ι_smul (c : k) (v : V) :
   refine congrArg (degreeZeroToGlobalSections (symmetricGrading k V)
     (ProjectiveSpectrum.Proj.twistGrading (symmetricGrading k V) ((1 : ℕ) : ℤ)))
     (Subtype.ext ?_)
-  show SymmetricAlgebra.ι k V (c • v) =
+  change SymmetricAlgebra.ι k V (c • v) =
     ((algebraMap k (SymPow.symmetricPower 0 k V) c : SymPow.symmetricPower 0 k V) :
       SymmetricAlgebra k V) * SymmetricAlgebra.ι k V v
   rw [SetLike.GradeZero.coe_algebraMap (symmetricGrading k V) c, map_smul, Algebra.smul_def]

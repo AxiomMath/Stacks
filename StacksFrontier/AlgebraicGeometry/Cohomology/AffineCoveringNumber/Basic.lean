@@ -154,7 +154,7 @@ private lemma isZero_hgroup_bot (F : X.Modules) [F.IsQuasicoherent] (n : ℕ) :
   cases n with
   | zero =>
     have hlex : PreservesFiniteLimits (secF X.ringCatSheaf (⊥ : X.Opens)) := by
-      show PreservesFiniteLimits (SheafOfModules.evaluation X.ringCatSheaf (op (⊥ : X.Opens)) ⋙
+      change PreservesFiniteLimits (SheafOfModules.evaluation X.ringCatSheaf (op (⊥ : X.Opens)) ⋙
         forget₂ (ModuleCat.{u} (X.ringCatSheaf.obj.obj (op (⊥ : X.Opens)))) AddCommGrpCat.{u})
       infer_instance
     have hterm : IsTerminal
@@ -216,7 +216,7 @@ private lemma isZero_cohomologyPresheaf_of_finset_affine_cover_aux {ι : Type v}
       ((SheafOfModules.toSheaf X.ringCatSheaf).obj F) (n - 1) n (by omega)).exact 2)
         |>.isZero_of_both_isZero hIcoh ((biprod_isZero_iff _ _).2 ⟨hA, hBcoh⟩)
     rw [Finset.sup_insert, sup_comm]
-    show IsZero (((SheafOfModules.toSheaf X.ringCatSheaf).obj F).H'.{u, u, u} n
+    change IsZero (((SheafOfModules.toSheaf X.ringCatSheaf).obj F).H'.{u, u, u} n
       (Opens.mayerVietorisSquare (I.sup V) (V a)).X₄)
     simpa [ComposableArrows.Precomp.obj, ComposableArrows.obj',
       ComposableArrows.mk₄, ComposableArrows.mk₃, ComposableArrows.mk₂] using hz

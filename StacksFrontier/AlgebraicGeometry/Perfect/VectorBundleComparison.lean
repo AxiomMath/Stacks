@@ -161,7 +161,7 @@ omit [HasDerivedCategory.{d}
 its only possibly nonzero term is flat, so Tag 06YQ applies. -/
 theorem kFlat_single_of_isFiniteLocallyFree (M : X.Modules)
     (hM : IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
-    Stacks.SheafOfModules.KFlat.KFlat X.toRingedSpace.sheaf
+    Stacks.SheafOfModules.KFlat X.toRingedSpace.sheaf
       ((CochainComplex.singleFunctor X.Modules 0).obj M) := by
   refine Stacks.SheafOfModules.kFlat_of_boundedAbove_of_flat (R := X.toRingedSpace.sheaf) _
     ⟨0, inferInstanceAs (CochainComplex.IsStrictlyLE
@@ -388,7 +388,7 @@ theorem existsUnique_comparisonRingHom :
   · intro M hM h
     exact comparisonAddHom_classOf X M hM h
   · intro g hg
-    refine RingHom.coe_addMonoidHom_injective (VectorBundleKZero.addHom_ext fun M hM => ?_)
+    refine RingHom.toAddMonoidHom_injective (VectorBundleKZero.addHom_ext fun M hM => ?_)
     exact (hg M hM (isPerfect_singleFunctor_of_isFiniteLocallyFree X M hM)).trans
       (comparisonAddHom_classOf X M hM
         (isPerfect_singleFunctor_of_isFiniteLocallyFree X M hM)).symm

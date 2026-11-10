@@ -120,7 +120,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_eq_of_quasiIso_map {K : CochainComp
   ext n : 1
   have h₁ := hθ (T'.obj.X n)
   have h₂ := γ.hom.naturality (g'.hom.f n)
-  show F₂.map (F₁.map (G.map (g'.hom.f n) ≫ ρ.app (T'.obj.X n)) ≫
+  change F₂.map (F₁.map (G.map (g'.hom.f n) ≫ ρ.app (T'.obj.X n)) ≫
       θ.hom.app (G.obj (T'.obj.X n))) ≫ F₂.map (γ.hom.app (T'.obj.X n)) =
     F₂.map (γ.hom.app (T'.obj.X n)) ≫ F₂.map (F₁'.map (g'.hom.f n) ≫ θ'.hom.app (T'.obj.X n))
   rw [← F₂.map_comp, ← F₂.map_comp]

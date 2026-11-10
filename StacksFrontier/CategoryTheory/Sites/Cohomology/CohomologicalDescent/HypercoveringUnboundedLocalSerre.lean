@@ -51,7 +51,8 @@ of each face map. That is weaker than flatness of the face transitions, which is
 assumes, so no generality is lost.
 
 **The abelian structure, the sheafification instances and the exactness of `g_n^*`** are the
-local instances of `StacksFrontier/CategoryTheory/Sites/Simplicial/CartesianWeakSerreModules.lean`, reused here by name rather than restated:
+local instances of `StacksFrontier/CategoryTheory/Sites/Simplicial/CartesianWeakSerreModules.lean`,
+reused here by name rather than restated:
 the total site and each component are small at the site universe, which is what makes abelian
 sheaves on them sheafifiable, and restriction to a component is exact by Stacks 04BD (2).
 

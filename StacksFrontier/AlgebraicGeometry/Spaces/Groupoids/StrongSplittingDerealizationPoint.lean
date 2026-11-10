@@ -74,7 +74,7 @@ theorem isIso_residueFieldMap_base_closedPoint {X Y : Scheme.{u}} (f : X ⟶ Y) 
       ⟨y, CommRingCat.ofHom (RingHom.id (Y.residueField y))⟩ := by
     apply (Scheme.SpecToEquivOfField (Y.residueField y) Y).symm.injective
     rw [(Scheme.SpecToEquivOfField (Y.residueField y) Y).symm_apply_apply]
-    show Y.fromSpecResidueField y =
+    change Y.fromSpecResidueField y =
       Spec.map (𝟙 (.of (Y.residueField y))) ≫ Y.fromSpecResidueField y
     rw [Spec.map_id, Category.id_comp]
   have hcomp := congrArg (Scheme.SpecToEquivOfField (Y.residueField y) Y) hw
@@ -205,7 +205,7 @@ separated. -/
 theorem isSeparated_derealize (hφ : IsSeparated C S hS φ) :
     AlgebraicGeometry.IsSeparated q.left := by
   refine (isSeparated_schemeSpaceMap_iff C hS hY hU q).1 ?_
-  show IsSeparated C S hS (yoneda.map (schemeSiteMap C hS hY hU q))
+  change IsSeparated C S hS (yoneda.map (schemeSiteMap C hS hY hU q))
   rw [← he]
   exact isSeparated_comp C S hS e.hom φ (isSeparated_of_isIso C S hS e.hom) hφ
 

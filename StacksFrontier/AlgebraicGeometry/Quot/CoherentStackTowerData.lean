@@ -156,7 +156,7 @@ theorem baseProjection_specLimitIso_hom (n : ℕ) :
     rw [Iso.inv_comp_eq, ← Category.assoc, ← τ.hbT n, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
   rw [h1]
-  show Spec.map (limit.π τ.ringSystem (op n)) ≫ inv (Spec.map τ.limitIso.hom) ≫ τ.eT.inv = _
+  change Spec.map (limit.π τ.ringSystem (op n)) ≫ inv (Spec.map τ.limitIso.hom) ≫ τ.eT.inv = _
   rw [← τ.limitIso_hom_π n, Spec.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
 
 /-- The transitions of the affine bases are the transitions of the test schemes. -/
@@ -195,10 +195,10 @@ theorem baseObjectIso_hom_testMap (n : ℕ) :
             Over.mk τ.baseMor) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show (τ.e n).inv ≫ (τ.b n).left.left.hom ≫ τ.specLimitIso.inv =
+  change (τ.e n).inv ≫ (τ.b n).left.left.hom ≫ τ.specLimitIso.inv =
     GrothendieckExistence.baseProjection τ.ringSystem n
   rw [← Category.assoc]
-  show (τ.e n).inv ≫ (BigFppfOver.toScheme B S hS).map (τ.b n).left ≫ τ.specLimitIso.inv = _
+  change (τ.e n).inv ≫ (BigFppfOver.toScheme B S hS).map (τ.b n).left ≫ τ.specLimitIso.inv = _
   rw [← Category.assoc, ← τ.baseProjection_specLimitIso_hom, Category.assoc, Iso.hom_inv_id,
     Category.comp_id]
 
@@ -323,7 +323,7 @@ theorem relocalize_baseSpaceTransition_comp (n : ℕ) :
     (baseObjectTransition τ.ringSystem B τ.contains_limitBase τ.contains_baseAt n)
   simp only [Functor.comp_map, Functor.comp_obj] at hn
   simp only [basePresheafIso, Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom]
-  show (OverShriek.relocalizePresheafFunctor τ.baseMor).map (yoneda.map
+  change (OverShriek.relocalizePresheafFunctor τ.baseMor).map (yoneda.map
       (baseObjectTransition τ.ringSystem B τ.contains_limitBase τ.contains_baseAt n)) ≫ _ ≫ _ = _
   rw [reassoc_of% hn, ← Functor.map_comp, ← baseObjectIso_hom_transition, Functor.map_comp,
     Category.assoc]

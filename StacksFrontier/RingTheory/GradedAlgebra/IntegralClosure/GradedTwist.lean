@@ -179,7 +179,7 @@ theorem exists_gradedTwist :
   refine ⟨(gradedTwistAux 𝒮).comp (DirectSum.decomposeRingEquiv 𝒮).toRingHom, ?_, ?_⟩
   · intro s i
     rw [RingHom.comp_apply]
-    show (gradedTwistAux 𝒮 (DirectSum.decompose 𝒮 s)).coeff (i : ℤ) = _
+    change (gradedTwistAux 𝒮 (DirectSum.decompose 𝒮 s)).coeff (i : ℤ) = _
     rw [gradedTwistAux_coeff, GradedRing.proj_apply]
     simp only [Nat.cast_inj]
     rw [Finset.sum_ite_eq (DFinsupp.support ((DirectSum.decompose 𝒮) s)) i
@@ -191,7 +191,7 @@ theorem exists_gradedTwist :
       rw [h]; simp
   · intro s n hn
     rw [RingHom.comp_apply]
-    show (gradedTwistAux 𝒮 (DirectSum.decompose 𝒮 s)).coeff n = 0
+    change (gradedTwistAux 𝒮 (DirectSum.decompose 𝒮 s)).coeff n = 0
     rw [gradedTwistAux_coeff]
     apply Finset.sum_eq_zero
     intro i hi

@@ -145,7 +145,7 @@ theorem isZero_rightDerived_one_tensorPushforwardUnit (E : X.IdealSheafData) (k 
         ((modulePushforward E.subschemeι.toLRSHom.toShHom).obj
           (𝟙_ (_root_.SheafOfModules.{u}
             (Stacks.SheafOfModules.Tensor.ringSheaf E.subscheme.sheaf)))))) := by
-  show IsZero (((moduleGlobalSections X).rightDerived 1).obj
+  change IsZero (((moduleGlobalSections X).rightDerived 1).obj
     (MonoidalCategory.tensorObj (C := _root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) M
       ((modulePushforward E.subschemeι.toLRSHom.toShHom).obj

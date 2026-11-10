@@ -145,7 +145,7 @@ theorem exists_fourierTransform_isogeny_of_coefficientExtension_of_intertwiners 
       (comp_comp_eq_mul_nsmul_of_isogeny _ _ _ _ hfg₀ hfg₁) hfg₂,
     comp_comp_eq_mul_nsmul_of_isogeny _ _ _ _ hgf₂
       (comp_comp_eq_mul_nsmul_of_isogeny _ _ _ _ hgf₁ hgf₀)⟩
-  show ∑ x, ρ (ψ x) = 0
+  change ∑ x, ρ (ψ x) = 0
   rw [← map_sum, hψ, map_zero]
 
 include hS in

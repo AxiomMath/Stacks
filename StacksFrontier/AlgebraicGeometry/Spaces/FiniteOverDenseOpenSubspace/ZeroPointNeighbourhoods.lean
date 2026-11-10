@@ -154,7 +154,7 @@ lemma exists_open_nhds_unique_generic
       isClosed_of_mem_irreducibleComponents Z hZ.1
   let V : TopologicalSpace.Opens P := ⟨sᶜ, hs.isOpen_compl⟩
   refine ⟨V, ?_, ?_⟩
-  · show (η : P) ∉ s
+  · change (η : P) ∉ s
     intro h
     obtain ⟨Z, hZ, hηZ⟩ := h
     have hsub : closure ({(η : P)} : Set P) ⊆ Z :=
@@ -265,7 +265,7 @@ lemma finite_fiber_over_zero_point
   have hmem : x ∈ (pointsMap B S hS X f) ⁻¹'
       {y : points B S hS Y |
         localRingDimension B S hS y = 0} := by
-    show localRingDimension B S hS
+    change localRingDimension B S hS
       (pointsMap B S hS X f x) = 0
     rw [hx]
     exact hy
@@ -628,7 +628,7 @@ private theorem preimageIso_hom_ι
     {C : Type v} [Category.{w} C] {F : Cᵒᵖ ⥤ Type u}
     {U V : Subfunctor F} (h : U ≤ V) :
     (preimageIso_of_le h).hom ≫ U.ι = (U.preimage V.ι).ι ≫ V.ι := by
-  show U.fromPreimage V.ι ≫ U.ι = (U.preimage V.ι).ι ≫ V.ι
+  change U.fromPreimage V.ι ≫ U.ι = (U.preimage V.ι).ι ≫ V.ι
   exact Subfunctor.fromPreimage_ι U V.ι
 
 lemma exists_dense_open_isFinite_of_finite_open_neighborhoods
@@ -684,7 +684,7 @@ lemma exists_dense_open_isFinite_of_finite_open_neighborhoods
     intro y hy
     let i : Fin n := en ⟨y, hy⟩
     have hyi : y ∈ (e (Udata i) : Set (points B S hS Y)) := by
-      show y ∈ (e (Udata i)).1
+      change y ∈ (e (Udata i)).1
       rw [openSubspacesOrderIso_apply
         B S hS Y hY (Udata i)]
       simpa [i] using hUpt i
@@ -694,7 +694,7 @@ lemma exists_dense_open_isFinite_of_finite_open_neighborhoods
     exact (codimensionZeroPoints_dense B S hS hY).mono hzero
   let T (i : Fin n) : Subfunctor V.toFunctor := (U i).preimage V.ι
   have hTV (i : Fin n) : U i ≤ V := by
-    show (Udata i).1 ≤ Vdata.1
+    change (Udata i).1 ≤ Vdata.1
     apply (e.le_iff_le).mp
     rw [hEv]
     exact le_iSup (fun i : Fin n => e (Udata i)) i

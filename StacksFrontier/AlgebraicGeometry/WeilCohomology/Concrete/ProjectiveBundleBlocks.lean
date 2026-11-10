@@ -122,6 +122,7 @@ variable (k : Type u) [Field k] {X Y : Scheme.{u}}
   (sX : X ⟶ (fieldChowSituation k).S) (sY : Y ⟶ (fieldChowSituation k).S)
   [Smooth sX] [IsSeparated sX] [Smooth sY] [IsSeparated sY] [QuasiCompact sY]
 
+omit [IsSeparated sY] in
 /-- **The blocks of the graph correspondence**: the `(d, e)` component of `[Γ_f] ∈ Corr⁰(X, Y)` is
 the class of `Γ_f ∩ (X_d × Y_e)`. -/
 theorem graphCorr_apply_apply (f : Y ⟶ X) (hf : f ≫ sX = sY) (d e : ℕ) :
@@ -274,7 +275,7 @@ theorem projectiveBundleCorr_apply (i : ℕ) (d : ℕ) :
           (SmoothProjectiveScheme.bundleProj X E n).hom.left
           (Over.w (SmoothProjectiveScheme.bundleProj X E n).hom) d (d + n))) := by
   ext e
-  show blockTwistCap k X.obj.hom (projectiveBundle X E n).obj.hom
+  change blockTwistCap k X.obj.hom (projectiveBundle X E n).obj.hom
       (projectiveBundleTwist X E n) i d e (by omega : (i : ℤ) = 0 + i)
       (graphCorr k X.obj.hom (projectiveBundle X E n).obj.hom
         (SmoothProjectiveScheme.bundleProj X E n).hom.left
@@ -340,8 +341,7 @@ theorem composition_blockTwistCap_graphBlock (f d i : ℕ) (r : ℤ)
             (SmoothProjectiveScheme.bundleProj X E n).hom.left
             (Over.w (SmoothProjectiveScheme.bundleProj X E n).hom) d (d + n))) =
       projectiveBundleBlockMap X E n f d i r x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, LinearMap.add_apply, ha, hb, map_add]
   | tmul q y =>
     simp only [graphBlock, blockTwistCap, LinearMap.baseChange_tmul, projectiveBundleBlockMap,

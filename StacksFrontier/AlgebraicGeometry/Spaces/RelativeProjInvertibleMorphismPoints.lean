@@ -182,8 +182,9 @@ theorem map_comp_invertiblePoint {T T' : BigFppfOver B S hS} (g : T' ⟶ T) (ρ 
 functors the source's proof builds: on a test scheme `ρ : T ⟶ X` of `U(ψ)` it is
 `invertiblePoint`, and its naturality is the naturality of the identification
 `X ×_Y Proj_Y(𝒜) = Proj_X(f^*𝒜)`. -/
-@[stacks 0D2Z "variant: the morphism r_{L,psi} : U(psi) -> Proj_Y(A) for a presentation of Proj_Y(A) \
-by its base changes to the scheme points of Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+@[stacks 0D2Z "variant: the morphism r_{L,psi} : U(psi) -> Proj_Y(A) for a presentation of \
+Proj_Y(A) by its base changes to the scheme points of Y; \
+the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 def invertibleMorphism :
     (subspaceOfOpens B S hS X (toGradedPowerMap ψ).coveringOpen).toFunctor ⟶ Proj where
   app U := ↾fun a => yonedaEquiv (d.invertiblePoint ψ a.1 a.2).1
@@ -195,13 +196,14 @@ def invertibleMorphism :
 /-- **`r_{ℒ,ψ}` is a morphism over `Y`**, as [Stacks, Tag 0D2Z] asserts: `π ∘ r_{ℒ,ψ}` is the
 restriction of `f` to `U(ψ)`. -/
 @[stacks 0D2Z "variant: r_{L,psi} lies over Y, for a presentation of Proj_Y(A) by its base \
-changes to the scheme points of Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+changes to the scheme points of Y; \
+the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem invertibleMorphism_comp_π :
     d.invertibleMorphism ψ ≫ π
       = (subspaceOfOpens B S hS X (toGradedPowerMap ψ).coveringOpen).ι ≫ f := by
   ext U a
   obtain ⟨ρ, hρ⟩ := a
-  show π.app U (yonedaEquiv (d.invertiblePoint ψ ρ hρ).1) = f.app U ρ
+  change π.app U (yonedaEquiv (d.invertiblePoint ψ ρ hρ).1) = f.app U ρ
   rw [← yonedaEquiv_comp, (d.invertiblePoint ψ ρ hρ).2, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
 
 /-- The factorisation through `U(ψ) ⊆ X` of a test scheme `W ⟶ X` lying in `U(ψ)`. -/
@@ -272,7 +274,8 @@ def quadruplePoint {W : BigFppfOver B S hS} (w : W ⟶ X) {k : ℕ} (hk : 0 < k)
 `r_{ℒ,ψ}` is the morphism `W ⟶ Proj_Y(𝒜)` which the construction of the relative Proj attaches to
 the quadruple `(k, W ⟶ Y, ℒ^{⊗ k}|_W, ψ|_W)`. -/
 @[stacks 0D2Z "variant: clause (2)(b), for a presentation of Proj_Y(A) by \
-its base changes to the scheme points of Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+its base changes to the scheme points of Y; \
+the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem locusFactor_invertibleMorphism_of_epi {W : BigFppfOver B S hS} (w : W ⟶ X) {k : ℕ}
     (hk : 0 < k) [Epi ((ψ.pullback ((BigFppfOver.toScheme B S hS).map w)).app (k : ℤ))] :
     d.locusFactor ψ w (d.mem_subspaceOfOpens_of_epi ψ w hk) ≫ d.invertibleMorphism ψ
@@ -288,7 +291,8 @@ theorem locusFactor_invertibleMorphism_of_epi {W : BigFppfOver B S hS} (w : W �
 every test scheme `W ⟶ X` over which `ψ` is surjective in some positive degree, is the morphism
 attached to the quadruple of clause (2)(b), is `r_{ℒ,ψ}`. -/
 @[stacks 0D2Z "variant: the characterization of r_{L,psi} by clause (2)(b), for a presentation \
-of Proj_Y(A) by its base changes to the scheme points of Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+of Proj_Y(A) by its base changes to the scheme points of Y; \
+the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem eq_invertibleMorphism
     (Φ : (subspaceOfOpens B S hS X (toGradedPowerMap ψ).coveringOpen).toFunctor ⟶ Proj)
     (hΦπ : Φ ≫ π = (subspaceOfOpens B S hS X (toGradedPowerMap ψ).coveringOpen).ι ≫ f)
@@ -308,13 +312,13 @@ theorem eq_invertibleMorphism
   let O : PositiveSection (d.algebra X f) → ((BigFppfOver.toScheme B S hS).obj T).Opens :=
     fun p => (BigFppfOver.toScheme B S hS).map ρ ⁻¹ᵁ (toGradedPowerMap ψ).openOfPositiveSection p
   have hO : IsOpenCover O := by
-    show ⨆ p, O p = ⊤
+    change ⨆ p, O p = ⊤
     rw [← Scheme.Hom.preimage_iSup]
     exact d.preimage_coveringOpen_eq_top_of_mem ψ ρ hρ
   refine Scheme.Cover.hom_ext
     (((BigFppfOver.toScheme B S hS).obj T).openCoverOfIsOpenCover O hO) _ _
     fun (p : PositiveSection (d.algebra X f)) => ?_
-  show (O p).ι ≫ _ = (O p).ι ≫ _
+  change (O p).ι ≫ _ = (O p).ι ≫ _
   let Tp := openSiteObject B S hS T (O p)
   let ιp : Tp ⟶ T := openSiteObjectHom B S hS T (O p)
   have hιp : (BigFppfOver.toScheme B S hS).map ιp = (O p).ι := map_openSiteObjectHom B S hS T (O p)
@@ -353,7 +357,8 @@ Consider the square with `Y' = X`, `g = f : Y' ⟶ Y`, a scheme `g' : X' ⟶ X` 
 `Proj_X(f^*𝒜) = X ×_Y Proj_Y(𝒜)`: on every test scheme `t : T ⟶ X'` of `U(ψ')`, the point
 `(f' ∘ t, r_{ℒ,ψ}(g' ∘ t))` of `X ×_Y Proj_Y(𝒜)` is `r_{ℒ',ψ'} ∘ t`. -/
 @[stacks 0D2Z "variant: clause (3) for the morphism, for the squares in which \
-Y' -> Y is the scheme point f : X -> Y; the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
+Y' -> Y is the scheme point f : X -> Y; \
+the tag is AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 theorem invertibleMorphism_baseChange {X' T : BigFppfOver B S hS} (g' : X' ⟶ X) (t : T ⟶ X')
     (ht : t ≫ g' ∈ (subspaceOfOpens B S hS X (toGradedPowerMap ψ).coveringOpen).obj (op T)) :
     (d.pointEquivProjOver X f (t ≫ g')

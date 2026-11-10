@@ -195,8 +195,7 @@ private theorem maximalIdeal_pow_smul_top_le_range_tensor [IsLocalRing A] {n n' 
   rw [pow_add] at hr
   refine Submodule.mul_induction_on hr ?_ ?_
   · intro a ha b hb
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨α, hα⟩ := smul_mem_range_of_mem_maximalIdeal_pow hB ha x
       obtain ⟨β, hβ⟩ := smul_mem_range_of_mem_maximalIdeal_pow hB' hb y

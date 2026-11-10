@@ -148,11 +148,11 @@ theorem map_eq_of_pullbackComparison_vpaste
 theorem inv_twoSquare_app_eq_of_vpaste
     (hpc : PullbackComparisonVPaste eg ef eh ek ego efo cL cL')
     (hR : CounitCompatible adjf adjh adjo cL cR) (hR' : CounitCompatible adjf' adjh' adjo' cL' cR')
-    [IsIso (twoSquare adjf adjf' eg ef).natTrans] [IsIso (twoSquare adjh adjh' eh ek).natTrans]
-    [IsIso (twoSquare adjo adjo' ego efo).natTrans] (M : U) :
-    (inv (twoSquare adjo adjo' ego efo).natTrans).app M =
-      cR'.inv.app (Lk.obj M) ≫ Rf'.map ((inv (twoSquare adjh adjh' eh ek).natTrans).app M) ≫
-        (inv (twoSquare adjf adjf' eg ef).natTrans).app (Rh.obj M) ≫ Lg.map (cR.hom.app M) := by
+    [IsIso (twoSquare adjf adjf' eg ef)] [IsIso (twoSquare adjh adjh' eh ek)]
+    [IsIso (twoSquare adjo adjo' ego efo)] (M : U) :
+    (inv (twoSquare adjo adjo' ego efo)).app M =
+      cR'.inv.app (Lk.obj M) ≫ Rf'.map ((inv (twoSquare adjh adjh' eh ek)).app M) ≫
+        (inv (twoSquare adjf adjf' eg ef)).app (Rh.obj M) ≫ Lg.map (cR.hom.app M) := by
   simp only [NatIso.isIso_inv_app]
   apply IsIso.inv_eq_of_hom_inv_id
   change map adjo adjo' ego efo M ≫ _ = _
@@ -168,8 +168,8 @@ variable {a : S ⥤ T} {b : T ⥤ U} {c : S ⥤ U} {a' : S' ⥤ T'} {b' : T' ⥤
   {Rg : S' ⥤ S} {Rg' : T' ⥤ T} {Rk : U' ⥤ U} (adjg : Lg ⊣ Rg) (adjg' : Lg' ⊣ Rg')
   (adjk : Lk ⊣ Rk)
 
-variable [IsIso (twoSquare adjf adjf' eg ef).natTrans] [IsIso (twoSquare adjh adjh' eh ek).natTrans]
-  [IsIso (twoSquare adjo adjo' ego efo).natTrans]
+variable [IsIso (twoSquare adjf adjf' eg ef)] [IsIso (twoSquare adjh adjh' eh ek)]
+  [IsIso (twoSquare adjo adjo' ego efo)]
 
 /-- The inverse base change map of the outer square followed by the counit of `c` is the vertical
 pasting of the inner inverse base change maps followed by the counits of `b` and `a`. -/
@@ -177,14 +177,14 @@ theorem inv_twoSquare_app_comp_map_counit_of_vpaste
     (hpc : PullbackComparisonVPaste eg ef eh ek ego efo cL cL')
     (hR : CounitCompatible adjf adjh adjo cL cR) (hR' : CounitCompatible adjf' adjh' adjo' cL' cR')
     (hA : CounitCompatible adjb adja adjc cR cA) (K : S) :
-    (inv (twoSquare adjo adjo' ego efo).natTrans).app (c.obj K) ≫ Lg.map (adjc.counit.app K) =
+    (inv (twoSquare adjo adjo' ego efo)).app (c.obj K) ≫ Lg.map (adjc.counit.app K) =
       Ro'.map (Lk.map (cA.inv.app K)) ≫ cR'.inv.app (Lk.obj (b.obj (a.obj K))) ≫
-        Rf'.map ((inv (twoSquare adjh adjh' eh ek).natTrans).app (b.obj (a.obj K))) ≫
-        (inv (twoSquare adjf adjf' eg ef).natTrans).app (Rh.obj (b.obj (a.obj K))) ≫
+        Rf'.map ((inv (twoSquare adjh adjh' eh ek)).app (b.obj (a.obj K))) ≫
+        (inv (twoSquare adjf adjf' eg ef)).app (Rh.obj (b.obj (a.obj K))) ≫
         Lg.map (Rf.map (adjb.counit.app (a.obj K))) ≫ Lg.map (adja.counit.app K) := by
   have hv := inv_twoSquare_app_eq_of_vpaste adjf adjh adjo adjf' adjh' adjo' eg ef eh ek ego efo
     cL cL' cR cR' hpc hR hR' (b.obj (a.obj K))
-  have nbc := (inv (twoSquare adjo adjo' ego efo).natTrans).naturality (cA.inv.app K)
+  have nbc := (inv (twoSquare adjo adjo' ego efo)).naturality (cA.inv.app K)
   simp only [Functor.comp_map] at nbc
   rw [counit_app_eq_of_counitCompatible adjb adja adjc cR cA hA K]
   simp only [Functor.map_comp]
@@ -203,10 +203,10 @@ theorem rightAdjointBaseChange_app_eq_of_vpaste
     haveI := isIso_rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
     haveI := isIso_rightAdjointSquare adjh adjh' adjg' adjk eh ek adjb adjb'
     haveI := isIso_rightAdjointSquare adjo adjo' adjg adjk ego efo adjc adjc'
-    (rightAdjointBaseChange adjo adjo' adjg adjk ego efo adjc adjc').natTrans.app K =
+    (rightAdjointBaseChange adjo adjo' adjg adjk ego efo adjc adjc').app K =
       Lk.map (cA.inv.app K) ≫
-        (rightAdjointBaseChange adjh adjh' adjg' adjk eh ek adjb adjb').natTrans.app (a.obj K) ≫
-        b'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans.app K) ≫
+        (rightAdjointBaseChange adjh adjh' adjg' adjk eh ek adjb adjb').app (a.obj K) ≫
+        b'.map ((rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').app K) ≫
         cA'.hom.app (Lg.obj K) := by
   have := isIso_rightAdjointSquare adjf adjf' adjg adjg' eg ef adja adja'
   have := isIso_rightAdjointSquare adjh adjh' adjg' adjk eh ek adjb adjb'
@@ -214,25 +214,25 @@ theorem rightAdjointBaseChange_app_eq_of_vpaste
   apply (adjc'.homEquiv _ _).symm.injective
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit,
     map_rightAdjointBaseChange_comp_counit]
-  set β₁ := (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja').natTrans
-  set β₂ := (rightAdjointBaseChange adjh adjh' adjg' adjk eh ek adjb adjb').natTrans
+  set β₁ := (rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja adja')
+  set β₂ := (rightAdjointBaseChange adjh adjh' adjg' adjk eh ek adjb adjb')
   have hβ₁ : Rf'.map (β₁.app K) ≫ adja'.counit.app (Lg.obj K) =
-      (inv (twoSquare adjf adjf' eg ef).natTrans).app (a.obj K) ≫ Lg.map (adja.counit.app K) :=
+      (inv (twoSquare adjf adjf' eg ef)).app (a.obj K) ≫ Lg.map (adja.counit.app K) :=
     map_rightAdjointBaseChange_comp_counit adjf adjf' adjg adjg' eg ef adja adja' K
   have hβ₂ : Rh'.map (β₂.app (a.obj K)) ≫ adjb'.counit.app (Lg'.obj (a.obj K)) =
-      (inv (twoSquare adjh adjh' eh ek).natTrans).app (b.obj (a.obj K)) ≫
+      (inv (twoSquare adjh adjh' eh ek)).app (b.obj (a.obj K)) ≫
         Lg'.map (adjb.counit.app (a.obj K)) :=
     map_rightAdjointBaseChange_comp_counit adjh adjh' adjg' adjk eh ek adjb adjb' (a.obj K)
   have hA'K := counitCompatible_app adjb' adja' adjc' cR' cA' hA' (Lg.obj K)
-  have nbc₁ := (inv (twoSquare adjf adjf' eg ef).natTrans).naturality (adjb.counit.app (a.obj K))
+  have nbc₁ := (inv (twoSquare adjf adjf' eg ef)).naturality (adjb.counit.app (a.obj K))
   have nε := adjb'.counit.naturality (β₁.app K)
   have ncR := cR'.inv.naturality (β₂.app (a.obj K) ≫ b'.map (β₁.app K))
   simp only [Functor.comp_map, Functor.id_map, Functor.comp_obj] at nbc₁ nε ncR
-  calc (inv (twoSquare adjo adjo' ego efo).natTrans).app (c.obj K) ≫
+  calc (inv (twoSquare adjo adjo' ego efo)).app (c.obj K) ≫
         Lg.map (adjc.counit.app K)
       = Ro'.map (Lk.map (cA.inv.app K)) ≫ cR'.inv.app (Lk.obj (b.obj (a.obj K))) ≫
-          Rf'.map ((inv (twoSquare adjh adjh' eh ek).natTrans).app (b.obj (a.obj K))) ≫
-          (inv (twoSquare adjf adjf' eg ef).natTrans).app (Rh.obj (b.obj (a.obj K))) ≫
+          Rf'.map ((inv (twoSquare adjh adjh' eh ek)).app (b.obj (a.obj K))) ≫
+          (inv (twoSquare adjf adjf' eg ef)).app (Rh.obj (b.obj (a.obj K))) ≫
           Lg.map (Rf.map (adjb.counit.app (a.obj K))) ≫ Lg.map (adja.counit.app K) :=
         inv_twoSquare_app_comp_map_counit_of_vpaste adjf adjh adjo adjf' adjh' adjo' eg ef eh ek
           ego efo cL cL' cR cR' adja adjb adjc cA hpc hR hR' hA K

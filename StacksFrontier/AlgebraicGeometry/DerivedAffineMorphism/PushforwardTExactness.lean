@@ -99,7 +99,7 @@ theorem isZero_of_isZero_pushforward_of_isAffineHom (f : W ⟶ Y) [IsAffineHom f
     rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Opens.opensRange_ι]
   refine TopDegreeBaseChange.isZero_of_isZero_sections_of_isAffine _
     (ModuleCat.isZero_iff_subsingleton.mpr ?_)
-  show Subsingleton (M.val.obj (op ((f ⁻¹ᵁ U w).ι ''ᵁ (⊤ : (f ⁻¹ᵁ U w : Scheme).Opens))))
+  change Subsingleton (M.val.obj (op ((f ⁻¹ᵁ U w).ι ''ᵁ (⊤ : (f ⁻¹ᵁ U w : Scheme).Opens))))
   rw [himg]
   exact (ModuleCat.isZero_iff_subsingleton.mp hsec :)
 

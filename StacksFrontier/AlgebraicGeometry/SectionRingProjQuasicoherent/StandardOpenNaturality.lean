@@ -115,7 +115,8 @@ is not; neither is naturality.
   (`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/OpenRestrictionShrink.lean`) — and
   `Stacks.TwistedSections.openDivision_gsmul_changeGenerator` — the change of generator over a
   common open, for a relation `y · a = bᴺ` in the section ring
-  (`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionGeneratorChange.lean`). The record said that the divisions
+  (`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionGeneratorChange.lean`). The
+  record said that the divisions
   at two sections are related by nothing and that the shrink is available only on the *iterated*
   slice site over `(X_a, X_b)`, whereas the local map at `b` lives on the slice site over `X_b`,
   with nothing identifying the two restrictions as monoidal functors. The second half of that is
@@ -250,7 +251,7 @@ theorem localizationLiftSections_mapDegreeZeroLocalization {F G : X.Modules} (φ
           (localizationLiftOverOpen F L a V hV z) :=
     Stacks.TwistedSections.localizationLiftOfMonoidal_mapDegreeZeroLocalization
       (schemeOpenRestriction X V) a φ z
-  show schemeOpenUnitHomAddEquiv V G (localizationLiftOverOpen G L a V hV _) = _
+  change schemeOpenUnitHomAddEquiv V G (localizationLiftOverOpen G L a V hV _) = _
   rw [hlift, schemeOpenUnitHomAddEquiv_twistSectionsMap]
   rfl
 

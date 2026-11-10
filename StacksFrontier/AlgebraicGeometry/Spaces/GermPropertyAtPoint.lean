@@ -186,11 +186,11 @@ theorem chart_germ_property_iff (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.C
   let wV := FieldValuedPoint.map B S hS (yoneda.obj W) (yoneda.map mV) w
   have hdomU : FieldValuedPoint.Dominates B S hS (yoneda.obj U) wU p := by
     refine ⟨i, ?_⟩
-    show p'.value = (yoneda.map mU).app _ t
+    change p'.value = (yoneda.map mU).app _ t
     simpa [p', w, wU, FieldValuedPoint.map, FieldValuedPoint.siteObject] using htmU.symm
   have hdomV : FieldValuedPoint.Dominates B S hS (yoneda.obj V) wV q := by
     refine ⟨j, ?_⟩
-    show q'.value = (yoneda.map mV).app _ t
+    change q'.value = (yoneda.map mV).app _ t
     simpa [q', w, wV, mV, FieldValuedPoint.map, FieldValuedPoint.siteObject] using htsnd.symm
   have hEtU : Etale (T.map mU) :=
     hb.property a (yoneda.map mV) mU (by simpa [mV, hmU] using hpb.flip)

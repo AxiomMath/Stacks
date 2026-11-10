@@ -90,7 +90,7 @@ the dual numbers have the cardinality of `k × k`. -/
 theorem contains_spec_dualNumber (hk : B.Contains (Spec (.of k))) :
     B.Contains (Spec (.of (DualNumber k))) :=
   Scheme.size_Spec_lt_of_mk_le_max B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit hk (by
-    show Cardinal.mk (k × k) ≤ _
+    change Cardinal.mk (k × k) ≤ _
     rw [Cardinal.mk_prod, Cardinal.lift_id]
     exact (Cardinal.mul_le_max _ _).trans (by simp [le_total]))
 
@@ -201,7 +201,7 @@ theorem faithfullyFlat_dualNumberStalkRingHom
     (dualNumberSchemeIso B S hS k hk b).hom.appTop.hom.comp
       (Scheme.ΓSpecIso (CommRingCat.of (DualNumber k))).inv.hom
   have : IsIso (dualNumberSchemeIso B S hS k hk b).hom.appTop := by
-    show IsIso (𝟙 _)
+    change IsIso (𝟙 _)
     infer_instance
   have hγ : Function.Bijective γ :=
     (ConcreteCategory.bijective_of_isIso (dualNumberSchemeIso B S hS k hk b).hom.appTop).comp

@@ -14,8 +14,9 @@ public import StacksFrontier.RingTheory.Dualizing.RelativeUniquenessDuality
 adjunctions of [stacks 0A63], of a comparison `m` of the two internal-Hom bifunctors.
 
 Two obligations of this chapter are waiting on *one* coherence of `μ`, recorded as prose in the
-module documentation of `StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation`
-and of `StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorComparisonTranspose`: the
+module documentation of
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation` and of
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorComparisonTranspose`: the
 associativity of `μ`, equivalently the compatibility of the change-of-rings isomorphism of
 [stacks 0E1W] with the currying isomorphism of [stacks 0A65].  This file makes that prose into
 theorems.
@@ -492,8 +493,8 @@ over the target ring.
 
 At derived base change this is the compatibility of the change-of-rings isomorphism of
 [stacks 0E1W] with currying, which the module documentation of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation` names as the residue of
-the second input of [stacks 0E2H]. -/
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation` names as the residue
+of the second input of [stacks 0E2H]. -/
 def HomMateCurryCompat (Y Z N : DerivedCategory (ModuleCat.{v} R)) : Prop :=
   homMateCurryLhs d d' a m Y Z N = homMateCurryRhs d d' a m Y Z N
 
@@ -866,8 +867,8 @@ Since the morphism of [stacks 0E1X] is derived Hom of the unit of [stacks 0GMT] 
 change-of-rings isomorphism of [stacks 0E1W]
 (`Stacks.DerivedHom.ExtensionOfScalars.derivedHomBaseChange_homEquiv`), and the unit is natural,
 this is the compatibility of [stacks 0E1W] with currying that the module documentation of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation` names as the residue of
-the second input of [stacks 0E2H]. -/
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaEvaluation` names as the residue
+of the second input of [stacks 0E2H]. -/
 def DerivedHomBaseChangeCurryCompat
     (Y Z N : DerivedCategory (ModuleCat.{max uR uA uM} R)) : Prop :=
   F.map (homCurryIso (derivedHomAdjunctionOverRing.{uR, max uR uA uM,

@@ -214,7 +214,7 @@ variable {X S S' : RingedSpace.{u, u}} {t : S ⟶ S'} {ht : IsFirstOrderThickeni
 /-- A section of `𝒪_{S'}` killed by `t^♯` is killed by the comorphism of `f ∘ t`. -/
 theorem comp_c_app_eq_zero (V : (Opens S'.carrier)ᵒᵖ) (s : S'.presheaf.obj V)
     (hs : (t.hom.c.app V).hom s = 0) : ((f ≫ t).hom.c.app V).hom s = 0 := by
-  show (f.hom.c.app _).hom ((t.hom.c.app V).hom s) = 0
+  change (f.hom.c.app _).hom ((t.hom.c.app V).hom s) = 0
   rw [hs, map_zero]
 
 /-- **The restriction datum of the first extension of a pair, at the coefficient section of a

@@ -182,7 +182,7 @@ lemma finTot_obj₃ (T : Triangle C) (hT : T ∈ distTriang C) {A : C} (h₂ : F
       exact ⟨g, hg.symm⟩
     · rintro ⟨g, rfl⟩
       apply Subtype.ext
-      show (g ≫ T.mor₂) ≫ T.mor₃ = 0
+      change (g ≫ T.mor₂) ≫ T.mor₃ = 0
       rw [Category.assoc, comp_distTriang_mor_zero₂₃ T hT, comp_zero]
   · refine (h₂.2.union h₁.2).subset fun n hn => ?_
     by_contra hnot

@@ -51,7 +51,7 @@ public lemma exists_affine_etale_model_of_isLimit (hc : IsLimit c)
     IsCofiltered.of_equivalence (AsSmall.equiv : Iᵒᵖ ≌ AsSmall.{max u v} Iᵒᵖ)
   have {j k : AsSmall.{max u v} Iᵒᵖ} (a : j ⟶ k) :
       IsAffineHom ((E ⋙ D).map a) := by
-    show IsAffineHom (D.map (E.map a))
+    change IsAffineHom (D.map (E.map a))
     infer_instance
   have : Etale ((Over.pullback ((c.whisker E).π.app (AsSmall.up.obj i))).obj Aᵢ).hom :=
     show Etale ((Over.pullback (c.π.app i)).obj Aᵢ).hom from inferInstance
@@ -63,7 +63,7 @@ public lemma exists_affine_etale_model_of_isLimit (hc : IsLimit c)
   let a : E.obj j.left ⟶ i := E.map j.hom
   let Aⱼ := (Over.pullback (D.map a)).obj Aᵢ
   refine ⟨E.obj j.left, Aⱼ, ?_, hj, ?_⟩
-  · show IsAffine (pullback Aᵢ.hom (D.map a))
+  · change IsAffine (pullback Aᵢ.hom (D.map a))
     exact isAffine_of_isAffineHom (pullback.fst Aᵢ.hom (D.map a))
   · exact ⟨e ≪≫ eqToIso (congrArg (fun f => (Over.pullback f).obj Aᵢ)
       (c.w a).symm) ≪≫ (Over.pullbackComp (c.π.app (E.obj j.left)) (D.map a)).app Aᵢ⟩
@@ -187,7 +187,7 @@ private lemma modelLimitMap_fst {i : Iᵒᵖ}
         (modelLimitMap D c B hD hX f) ≫ modelLimitFst D c B hD hX A' =
       modelLimitFst D c B hD hX A ≫
         (AlgebraicGeometry.SmallAffineEtale.toScheme B (D.obj i) (hD i)).map f.hom := by
-  show ((affineEtaleToOver B c.pt hX).map
+  change ((affineEtaleToOver B c.pt hX).map
     (modelLimitMap D c B hD hX f)).left ≫ _ = _
   unfold modelLimitMap
   rw [Functor.map_preimage]
@@ -308,7 +308,7 @@ private lemma modelRestrictMap_fst {i j : Iᵒᵖ} (a : i ⟶ j)
           modelTransitionFst D c B hD hX a A' =
       modelTransitionFst D c B hD hX a A ≫
         (AlgebraicGeometry.SmallAffineEtale.toScheme B (D.obj j) (hD j)).map f.hom := by
-  show ((affineEtaleToOver B (D.obj i) (hD i)).map
+  change ((affineEtaleToOver B (D.obj i) (hD i)).map
     (modelRestrictMap D c B hD hX a f).hom).left ≫ _ = _
   unfold modelRestrictMap
   dsimp only [InducedCategory.homMk]
@@ -507,12 +507,12 @@ private lemma modelEvaluationEssSurj (hc : IsLimit c) (i : Iᵒᵖ) :
         (modelAtSelf D c B hD hX hc i A)) ≅ F.obj A :=
       Over.isoMk φ (by
           dsimp only [φ, asIso_hom, F, affineEtaleToOver, Functor.comp_obj, Over.post_obj]
-          show pullback.fst _ _ ≫ affineEtaleStructureMorphism D B hD i A =
+          change pullback.fst _ _ ≫ affineEtaleStructureMorphism D B hD i A =
             affineEtaleStructureMorphism D B hD i
               ((modelAtSelf D c B hD hX hc i A).eval D c B hD hX)
           dsimp only [affineEtaleStructureMorphism, AffineEtaleModelAt.eval]
           rw [affineEtaleBaseChangeObject_structureMap]
-          show pullback.fst _ _ ≫ affineEtaleStructureMorphism D B hD i A =
+          change pullback.fst _ _ ≫ affineEtaleStructureMorphism D B hD i A =
             pullback.snd (affineEtaleStructureMorphism D B hD i A) (D.map (𝟙 i))
           exact (pullback.condition (f := affineEtaleStructureMorphism D B hD i A)
             (g := D.map (𝟙 i))).trans (by
@@ -556,7 +556,7 @@ omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 private lemma smallModelRestrict_comp {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k) :
     smallModelRestrict D c B hD hX (a ≫ b) =
       smallModelRestrict D c B hD hX b ⋙ smallModelRestrict D c B hD hX a := by
-  show AsSmall.down ⋙ modelRestrict D c B hD hX (a ≫ b) ⋙ AsSmall.up =
+  change AsSmall.down ⋙ modelRestrict D c B hD hX (a ≫ b) ⋙ AsSmall.up =
     AsSmall.down ⋙ (modelRestrict D c B hD hX b ⋙ modelRestrict D c B hD hX a) ⋙ AsSmall.up
   rw [modelRestrict_comp]
 
@@ -564,7 +564,7 @@ omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 private lemma smallModelRestrict_toLimit {i j : Iᵒᵖ} (a : i ⟶ j) :
     smallModelRestrict D c B hD hX a ⋙ smallModelToLimit D c B hD hX i =
       smallModelToLimit D c B hD hX j := by
-  show AsSmall.down ⋙ (modelRestrict D c B hD hX a ⋙ modelToLimit D c B hD hX i) = _
+  change AsSmall.down ⋙ (modelRestrict D c B hD hX a ⋙ modelToLimit D c B hD hX i) = _
   rw [modelRestrict_toLimit]
   rfl
 
@@ -636,7 +636,7 @@ private lemma smallModelRestrict_preservesPullbacks (hc : IsLimit c) {i j : Iᵒ
   let G := smallModelToOver D c B hD hX hc i
   let F := smallModelToOver D c B hD hX hc j
   have : PreservesLimitsOfShape WalkingCospan (F ⋙ Over.forget (D.obj j)) := by
-    show PreservesLimitsOfShape WalkingCospan
+    change PreservesLimitsOfShape WalkingCospan
       ((smallModelEquiv D c B hD hX hc j).functor ⋙
         AlgebraicGeometry.SmallAffineEtale.toScheme B (D.obj j) (hD j))
     infer_instance

@@ -67,7 +67,7 @@ theorem leibnizHom_comp_eq_zero_of_formallyUnramified {R A Bb : CommRingCat.{u}}
   let : Module A M := Module.compHom M k.hom
   refine leibnizHom_eq_zero_of_formallyUnramified q hq (δ.comp k.hom.toAddMonoidHom)
     (fun x y => ?_) hvanish a
-  show δ (k (x * y)) = k x • δ (k y) + k y • δ (k x)
+  change δ (k (x * y)) = k x • δ (k y) + k y • δ (k x)
   rw [map_mul]
   exact hmul _ _
 
@@ -181,7 +181,7 @@ theorem representedEpsilonGlueValue_eq_seed (Z : ((BigFppfOver.toScheme B S hS).
       (op ((representedEpsilonFunctor B S hS U).obj Z)))) :
     representedEpsilonGlueValue B S hS φ T D₀ ((representedEpsilonFunctor B S hS U).obj Z) x =
       representedEpsilonDerivationSeed B S hS φ T D₀ Z x := by
-  refine representedEpsilonSheaf_ext B S hS T (generate_affineChart_le_mem B S hS φ (𝟙 _)) _ _ ?_
+  refine representedEpsilonSheaf_ext B S hS T (generate_affineChart_le_mem B S hS (𝟙 _)) _ _ ?_
   rintro Y g ⟨Y', h, g', ⟨hY', Z₂, hZ₂, hle, ⟨j₂⟩⟩, rfl⟩
   have hw : g' = j₂ ≫ (representedEpsilonFunctor B S hS U).map (homOfLE hle) :=
     Subsingleton.elim _ _

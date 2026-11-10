@@ -129,7 +129,7 @@ private theorem Pairs.exists_away (A : Pairs R I) (g : (A.left.obj : Type u))
       (CommAlgCat.ofHom (IsScalarTower.toAlgHom R (A.left.obj : Type u)
         (Localization.Away g))))
       (CommAlgCat.hom_ext (AlgHom.ext haug)), ?_⟩
-  show IsUnit ((IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g)) g)
+  change IsUnit ((IsScalarTower.toAlgHom R (A.left.obj : Type u) (Localization.Away g)) g)
   exact IsLocalization.map_units (M := Submonoid.powers g) (Localization.Away g)
     ⟨g, Submonoid.mem_powers g⟩
 
@@ -306,10 +306,10 @@ private theorem Pairs.exists_annihilator (A : Pairs R I)
   let J : Ideal S := I.map (algebraMap R S)
   let q : S →ₐ[R] S ⧸ J := Ideal.Quotient.mkₐ R J
   have hJ : J ≤ RingHom.ker A.hom.hom.toRingHom := by
-    show I.map (algebraMap R S) ≤ RingHom.ker A.hom.hom.toRingHom
+    change I.map (algebraMap R S) ≤ RingHom.ker A.hom.hom.toRingHom
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show A.hom.hom (algebraMap R S r) = 0
+    change A.hom.hom (algebraMap R S r) = 0
     convert (A.hom.hom.commutes r).trans ((Ideal.Quotient.eq_zero_iff_mem).2 hr) using 1
     rfl
   let αbar : S ⧸ J →ₐ[R] R ⧸ I :=
@@ -372,7 +372,7 @@ private theorem ker_aug :
     exact Stacks.Henselization.EtaleColimit.mem_map_of_algHom R (stageHom R I C) hy
   · rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show aug R I (algebraMap R (henselization R I : Type u) r) = 0
+    change aug R I (algebraMap R (henselization R I : Type u) r) = 0
     rw [aug_algebraMap]
     exact (Ideal.Quotient.eq_zero_iff_mem).2 hr
 
@@ -420,7 +420,7 @@ private theorem Pairs.exists_map_to_henselian {B : Type v} [CommRing B] [Algebra
   let σ : B ⊗[R] S →ₐ[B] B ⧸ J :=
     { σR.toRingHom with
       commutes' := fun b => by
-        show σR (b ⊗ₜ[R] 1) = Ideal.Quotient.mk J b
+        change σR (b ⊗ₜ[R] 1) = Ideal.Quotient.mk J b
         simp [σR, q, Algebra.TensorProduct.lift_tmul] }
   have hE : Algebra.Etale B (B ⊗[R] S) := Algebra.Etale.baseChange R S B
   have hLift := ((henselianPair_tfae B J).out 1 2).mp hB
@@ -440,7 +440,7 @@ private theorem stage_sub_mem (A : Pairs R I) (y : (A.left.obj : Type u)) :
   obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (A.hom.hom y)
   refine ⟨r, hr.symm, ?_⟩
   rw [← ker_aug R I, RingHom.mem_ker]
-  show aug R I (stageHom R I A y - algebraMap R (henselization R I : Type u) r) = 0
+  change aug R I (stageHom R I A y - algebraMap R (henselization R I : Type u) r) = 0
   rw [map_sub, aug_stageHom, aug_algebraMap, ← hr, sub_self]
 
 /-- A map out of the colimit into a pair has its reduction on every stage fixed by the
@@ -457,14 +457,14 @@ private theorem map_stage_reduction {B : Type v} [CommRing B] [Algebra R B]
     have hm := Stacks.Henselization.EtaleColimit.mem_map_of_algHom R g hmem
     exact (Ideal.map_le_iff_le_comap.mpr hIJ) (by
       simpa only [map_sub, g.commutes] using hm)
-  show Ideal.Quotient.mk J (g (stageHom R I A y)) =
+  change Ideal.Quotient.mk J (g (stageHom R I A y)) =
     (Ideal.quotientMapₐ J (Algebra.ofId R B) hIJ) (A.hom.hom y)
   let β : R ⧸ I →ₐ[R] B ⧸ J :=
     Ideal.quotientMapₐ J (Algebra.ofId R B) hIJ
-  show Ideal.Quotient.mk J (g (stageHom R I A y)) = β (A.hom.hom y)
+  change Ideal.Quotient.mk J (g (stageHom R I A y)) = β (A.hom.hom y)
   rw [hr]
   have hb : β (Ideal.Quotient.mk I r) = Ideal.Quotient.mk J (algebraMap R B r) := by
-    convert β.commutes r using 1 <;> rfl
+    convert β.commutes r using 1
   rw [hb]
   apply sub_eq_zero.mp
   rw [← map_sub]

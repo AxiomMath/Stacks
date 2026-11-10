@@ -87,7 +87,7 @@ public theorem mapHomotopyCategoryCompIso_trans_mapHomotopyCategoryIso {C : Type
       Functor.mapHomotopyCategoryCompIso (e₁ ≪≫ e₂) c := by
   refine Iso.ext (NatTrans.ext (funext fun K => ?_))
   rcases K with ⟨K⟩
-  show (HomotopyCategory.quotient C c).map
+  change (HomotopyCategory.quotient C c).map
       ((Functor.mapHomologicalComplexCompIso e₁ c).hom.app K) ≫
       (HomotopyCategory.quotient C c).map ((NatTrans.mapHomologicalComplex e₂.hom c).app K) =
     (HomotopyCategory.quotient C c).map

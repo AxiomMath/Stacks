@@ -65,7 +65,7 @@ theorem codimension_closureSingleton_eq_zero {A : Type*} [TopologicalSpace A] [Q
   by_cases hne : ζ = z
   · subst hne
     intro x hx
-    show x ∈ closure {ζ}
+    change x ∈ closure {ζ}
     rw [hζ]
     exact hx
   · have := d.strictAnti_specializes hspec hne
@@ -233,7 +233,7 @@ theorem deltaDimensionSubspace_vanishingLocus_le_of_isRegularSection
       (Set.mem_univ t)
   have hne : D.deltaValue sX t ≠ k + 1 := fun h =>
     notMem_vanishingLocus_of_deltaValue_eq D sX hX L hL s hs hdim t h ht
-  show D.deltaValue sX t ≤ k
+  change D.deltaValue sX t ≤ k
   omega
 
 /-- **The inverse image of a closed subspace along a locally quasi-finite morphism does not raise
@@ -254,7 +254,7 @@ theorem deltaDimensionSubspace_preimage_le_of_isLocallyQuasiFinite
   refine (deltaDimensionClosed_le_coe_iff D (j ≫ sY) hT _ _ k).2 fun t ht => ?_
   rw [subspacePointSet_preimage D.site D.base D.base_mem j Z] at ht
   have hcomp := D.deltaValue_comp_of_isLocallyQuasiFinite hT.1 hY.1 j sY hj hY.2.2 t
-  show D.deltaValue (j ≫ sY) t ≤ k
+  change D.deltaValue (j ≫ sY) t ≤ k
   rw [hcomp]
   exact (deltaDimensionClosed_le_coe_iff D sY hY _ _ k).1 hd _ ht
 

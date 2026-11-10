@@ -156,6 +156,8 @@ variable {C : Type u} [Category.{v} C] [HasBinaryProducts C]
   [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
   [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The sections of a transition map.**  Over `W`, the morphism
 `j_{V,*} j_V^{-1} F ⟶ j_{V',*} j_{V'}^{-1} F` of `Stacks.CechSite.SheafLevel.restriction` is `F`
 applied to `Limits.prod.map f (𝟙 W) : V' ⨯ W ⟶ V ⨯ W`.
@@ -223,6 +225,8 @@ noncomputable def complexFunctorSectionsIso (hX : IsTerminal X) (F : SheafOfModu
     ((Stacks.CechSiteChange.cechComplexFunctorSiteIso (A := AddCommGrpCat.{w})
       (Over.forget X) (fun i ↦ Over.mk (E.f i))).app _).symm
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The sections over `W` of the sheaf-level Čech complex are exact in every positive degree**,
 as soon as `W` admits a morphism `q` to a member of the family and the target of the family is
 terminal.
@@ -247,7 +251,8 @@ variable [HasFiniteProducts C] {X : C} (E : PreZeroHypercover.{w} X)
   [∀ W : C, HasFiniteProducts (Over W)]
   [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-omit [HasFiniteProducts (Over X)] in
+omit [HasFiniteProducts (Over X)] [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The sheaf-level Čech complex of a family covering a terminal object is exact in every
 positive degree.**
 
@@ -303,6 +308,8 @@ theorem isSheaf_prodRestriction (F : SheafOfModules.{w} R) (W : C) :
     Presheaf.IsSheaf J ((Over.star W ⋙ Over.forget W).op ⋙ F.val.presheaf) :=
   ((directImage R W).obj F).isSheaf
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The sections of the augmentation at one object.**  Over `W`, the unit
 `F ⟶ j_{V,*} j_V^{-1} F` is `F` applied to the second projection `V ⨯ W ⟶ W`.  This is
 `Stacks.CechSite.SheafLevel.augmentationAt_apply` as an equality of morphisms of abelian
@@ -313,6 +320,8 @@ theorem sectionsOver_map_augmentationAt (F : SheafOfModules.{w} R) (V W : C) :
   ext x
   exact augmentationAt_apply R F V (op W) x
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The sections of the augmentation at `V` are a split monomorphism once `W` maps to `V`.**
 A morphism `s : W ⟶ V` retracts `F(W) ⟶ F(V ⨯ W)`, the retraction being `F` applied to
 `Limits.prod.lift s (𝟙 W)`, because `prod.lift s (𝟙 W) ≫ prod.snd = 𝟙 W`. -/
@@ -342,7 +351,8 @@ noncomputable def degreeZeroDiagonal (hX : IsTerminal X) {W : C} {i₀ : E.I₀}
   (Pi.lift (fun _ : Fin 1 ↦
     (Over.homMk q (hX.hom_ext _ _) : Over.mk (hX.from W) ⟶ Over.mk (E.f i₀)))).left
 
-omit [HasFiniteProducts C] in
+omit [HasFiniteProducts C] [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The augmentation of the sheaf-level Čech complex is injective on sections over an object
 mapping to a member of the family.**  Composing the sections over `W` of the augmentation with
 the `i₀`-th projection and then restricting along the diagonal
@@ -385,7 +395,8 @@ section Mono
 
 variable [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-omit [HasFiniteProducts C] in
+omit [HasFiniteProducts C] [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+    [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The augmentation of the sheaf-level Čech complex of a family covering a terminal object is
 a monomorphism.**
 

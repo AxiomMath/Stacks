@@ -118,7 +118,7 @@ theorem surjective_fibreMap_iff [Module.Finite R K₁] (p : PrimeSpectrum R) :
     lTensor_exact κ (LinearMap.exact_map_mkQ_range δ) (Submodule.mkQ_surjective _)
   have hq : Function.Surjective (q.lTensor κ) :=
     LinearMap.lTensor_surjective κ (Submodule.mkQ_surjective _)
-  rw [show ⇑(fibreMap δ p) = ⇑(δ.lTensor κ) from LinearMap.baseChange_eq_ltensor δ]
+  rw [show ⇑(fibreMap δ p) = ⇑(δ.lTensor κ) from LinearMap.baseChange_eq_lTensor δ]
   refine ⟨fun hs => ⟨fun a b => ?_⟩, fun _ y => (hex y).mp (Subsingleton.elim _ _)⟩
   obtain ⟨a, rfl⟩ := hq a
   obtain ⟨b, rfl⟩ := hq b
@@ -162,7 +162,7 @@ theorem isOpen_setOf_surjective_fibreMap_and_finrank_ker_eq [Module.Finite R K�
       {p | Function.Surjective (fibreMap δ p)} ∩
         {p | (Module.rankAtStalk K₀ p : ℤ) - Module.rankAtStalk K₁ p = r} := by
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_inter_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_inter_iff]
     refine and_congr_right fun hs => ?_
     rw [← finrank_ker_fibreMap_of_surjective δ p hs, Nat.cast_inj]
   rw [this]

@@ -86,8 +86,8 @@ theorem morphismsDescendUnderConvention : MorphismsDescendUnderConvention B S hS
 /-- **Stacks 07SK, faithfulness, under the convention of Section 70.2**, in the form
 `AlgebraicGeometry.Space.EqualitiesDescendUnderConvention`. -/
 theorem equalitiesDescendUnderConvention : EqualitiesDescendUnderConvention B S hS hZ :=
-  fun _ _ _ D hD hA hQc hQs hconv i Yᵢ Zᵢ hY hZ' hYfp hZfp f g hfg =>
-    eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits B S hS hZ D hD hA hQc hQs
+  fun _ _ _ D hD hA hQc _ hconv i Yᵢ Zᵢ hY hZ' hYfp hZfp f g hfg =>
+    eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits B S hS D hD hA hQc
       hconv i Yᵢ Zᵢ hY hZ' hYfp hZfp f g hfg
 
 variable {B S hS hZ} in

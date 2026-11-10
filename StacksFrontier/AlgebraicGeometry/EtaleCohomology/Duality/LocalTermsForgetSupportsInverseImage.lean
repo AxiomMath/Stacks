@@ -194,7 +194,7 @@ theorem mapUnit_bounds_of_forgetSupports
     have hc : R.map e.hom ≫ inv η ≫ c = ι.inv.app M := by
       simp only [c, IsIso.inv_hom_id_assoc, ← R.map_comp_assoc, Iso.hom_inv_id, R.map_id,
         Category.id_comp]
-    show (Ext.mk₀ (Functor.LaxMonoidal.ε Φ)).comp (a.mapExactFunctor Φ) (zero_add n) =
+    change (Ext.mk₀ (Functor.LaxMonoidal.ε Φ)).comp (a.mapExactFunctor Φ) (zero_add n) =
       (Ext.mk₀ d).comp ((fg (a.comp (Ext.mk₀ e.hom) (add_zero n))).comp (Ext.mk₀ c) (add_zero n))
         (zero_add n)
     rw [show fg (a.comp (Ext.mk₀ e.hom) (add_zero n)) =

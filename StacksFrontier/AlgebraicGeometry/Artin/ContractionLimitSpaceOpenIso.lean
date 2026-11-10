@@ -240,7 +240,7 @@ theorem exists_stage_existsUnique_lift_of_isLimit
   have hcov : Sieve.ofArrows Tf pf ∈ BigFppfOver.topology B S hS W := by
     refine BigFppfOver.sieve_ofArrows_mem_topology_of_jointlySurjective B S hS Tf W pf
       (fun f => ?_) (fun y => ?_)
-    · show AlgebraicGeometry.IsOpenImmersion (T.map (pullback.fst φ (ι f)))
+    · change AlgebraicGeometry.IsOpenImmersion (T.map (pullback.fst φ (ι f)))
       rw [← PreservesPullback.iso_hom_fst T φ (ι f)]
       have := hιo f
       infer_instance
@@ -248,7 +248,7 @@ theorem exists_stage_existsUnique_lift_of_isLimit
         intro hy
         let w := (schemePointsHomeomorph B S hS W).symm y
         apply ht ⟨w, rfl⟩
-        show pointsMap B S hS _ (yoneda.map φ) w ∈ Z
+        change pointsMap B S hS _ (yoneda.map φ) w ∈ Z
         rwa [hI, pointsToScheme_pointsMap_yoneda, ← schemePointsHomeomorph_apply,
           Homeomorph.apply_symm_apply]
       have hy2 : T.map φ y ∉ X.zeroLocus ((gens : Set Γ(X, ⊤))) := by

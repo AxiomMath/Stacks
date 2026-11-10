@@ -81,7 +81,7 @@ theorem homogeneousProd_localMap_eq_localMap_pow {i : Z ⟶ X} [IsImmersion i]
   | zero =>
     exact (D.localMap_one U hU (chartIdealPowGen i U hf 0) (by simp)).symm
   | succ n ih =>
-    show (D.algebra.mul (n : ℤ) 1).app (op (i ⁻¹ᵁ U.1))
+    change (D.algebra.mul (n : ℤ) 1).app (op (i ⁻¹ᵁ U.1))
         (D.algebra.toPresheafGradedAlgebra.homogeneousProd (op (i ⁻¹ᵁ U.1)) n
           (fun _ => D.localMap U hU 1 (chartIdealPowGen i U hf 1)))
         (D.localMap U hU 1 (chartIdealPowGen i U hf 1)) = _

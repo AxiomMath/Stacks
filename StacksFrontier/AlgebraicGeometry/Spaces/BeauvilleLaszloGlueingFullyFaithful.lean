@@ -167,7 +167,7 @@ private theorem baseChange_isPullback (B : BigFppfSite.{u}) (S T : Scheme.{u})
     let F := baseChange B S T hS hT g
     IsPullback (F.map p) (F.map q) (F.map a) (F.map b) := by
   let F := baseChange B S T hS hT g
-  show IsPullback (F.map p) (F.map q) (F.map a) (F.map b)
+  change IsPullback (F.map p) (F.map q) (F.map a) (F.map b)
   apply IsPullback.of_map (ObjectProperty.ι (IsAlgebraicSpace B S hS))
     (by simpa only [F.map_comp] using F.congr_map sq.w)
   exact (sq.map (ObjectProperty.ι (IsAlgebraicSpace B T hT))).map
@@ -214,19 +214,19 @@ private theorem exists_restrict_representable_pullback {C : Type*} [Category.{u}
     simp [e, q', H]
   have hp' (V : Over S) (k : V ⟶ W') :
       p'.app (op V) k = p.app (op (H.obj V)) (H.map k ≫ e.hom) := by
-    show F.map (H.map k).op (F.map e.hom.op (p.app (op W) (𝟙 W))) = _
+    change F.map (H.map k).op (F.map e.hom.op (p.app (op W) (𝟙 W))) = _
     simpa using (p.naturality_apply (H.map k ≫ e.hom).op (𝟙 W)).symm
   have ha (V : Over S) (k : V ⟶ A) :
       (yonedaEquiv.symm (yonedaEquiv (F := L.obj G) a) :
           yoneda.obj (H.obj A) ⟶ G).app (op (H.obj V)) (H.map k) = a.app (op V) k := by
-    show G.map (H.map k).op (a.app (op A) (𝟙 A)) = _
+    change G.map (H.map k).op (a.app (op A) (𝟙 A)) = _
     simpa using (a.naturality_apply k.op (𝟙 A)).symm
   refine ⟨W', p', q', IsPullback.of_forall_isPullback_app ?_, hq⟩
   intro V
   apply (Types.isPullback_iff _ _ _ _).mpr
   refine ⟨?_, ?_, ?_⟩
   · ext k
-    show f.app (op (H.obj V.unop)) (p'.app V k) = a.app V (k ≫ q')
+    change f.app (op (H.obj V.unop)) (p'.app V k) = a.app V (k ≫ q')
     rw [hp']
     have hw := congrArg (fun n : yoneda.obj W ⟶ G ↦
       n.app (op (H.obj V.unop)) (H.map k ≫ e.hom)) sq.w
@@ -240,7 +240,7 @@ private theorem exists_restrict_representable_pullback {C : Type*} [Category.{u}
     rw [hp', hp'] at hk
     have h' : H.map k ≫ e.hom = H.map l ≫ e.hom := by
       apply Types.ext_of_isPullback (sq.app (op (H.obj V.unop))) hk
-      show (H.map k ≫ e.hom) ≫ q = (H.map l ≫ e.hom) ≫ q
+      change (H.map k ≫ e.hom) ≫ q = (H.map l ≫ e.hom) ≫ q
       rw [Category.assoc, Category.assoc, he, ← H.map_comp, ← H.map_comp]
       exact H.congr_map hkl.2
     apply Over.OverMorphism.ext
@@ -253,7 +253,7 @@ private theorem exists_restrict_representable_pullback {C : Type*} [Category.{u}
       (sq.app (op (H.obj V.unop))) x (H.map k) hx'
     change l ≫ q = H.map k at hlq
     let l' : V.unop ⟶ W' := Over.homMk l.left (by
-      show l.left ≫ q.left ≫ A.hom = V.unop.hom
+      change l.left ≫ q.left ≫ A.hom = V.unop.hom
       have hleft : l.left ≫ q.left = k.left := congrArg (fun t ↦ t.left) hlq
       rw [← Category.assoc, hleft]
       exact k.w)
@@ -367,7 +367,7 @@ private theorem etalePresheaf_of_isEtale_yoneda (B : BigFppfSite.{u}) (S : Schem
   intro A a
   refine ⟨A, a, 𝟙 _, ?_, ?_⟩
   · simpa using (IsPullback.of_id_snd (f := a))
-  · show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 A))
+  · change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 A))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
 
@@ -566,7 +566,7 @@ private theorem exists_restricted_cover_point (B : BigFppfSite.{u}) (S T : Schem
       dsimp [px, fieldPointToBase] at a ha
       let s : Spec (.of r.carrier) ⟶ S := a.left.hom ≫ p.toBase
       have hs : s ≫ g.hom = r.toBase := by
-        show (a.left.hom ≫ p.toBase) ≫ g.hom = r.toBase
+        change (a.left.hom ≫ p.toBase) ≫ g.hom = r.toBase
         rw [Category.assoc]
         exact congrArg (fun x ↦ x.hom) a.w
       let e : (Over.map g).obj (Over.mk (⟨s⟩ : B.obj r.contained ⟶ B.obj hS)) ≅
@@ -590,7 +590,7 @@ private theorem exists_restricted_cover_point (B : BigFppfSite.{u}) (S T : Schem
           (AlgebraicGeometry.Space.FieldValuedPoint.map B S hS _
             ((OverShriek.relocalizeRestrict g).map (f i)) qs).value = rs.value := by
         change F.map b.op ((f i).app (op q.siteObject) q.value) = r.value at hb
-        show (f i).app _ ((X i).map e.hom.op ((X i).map b.op q.value)) =
+        change (f i).app _ ((X i).map e.hom.op ((X i).map b.op q.value)) =
           F.map e.hom.op r.value
         calc
           (f i).app _ ((X i).map e.hom.op ((X i).map b.op q.value)) =
@@ -606,7 +606,7 @@ private theorem exists_restricted_cover_point (B : BigFppfSite.{u}) (S T : Schem
         apply (AlgebraicGeometry.Space.FieldValuedPoint.class_eq_class_iff B S hS _ _ _).mpr
         refine ⟨rs, ?_, AlgebraicGeometry.Space.FieldValuedPoint.dominates_refl B S hS _ rs⟩
         refine ⟨𝟙 rs.siteObject, ?_⟩
-        show ((OverShriek.relocalizeRestrict g).obj F).map (𝟙 _)
+        change ((OverShriek.relocalizeRestrict g).obj F).map (𝟙 _)
           (AlgebraicGeometry.Space.FieldValuedPoint.map B S hS _
             ((OverShriek.relocalizeRestrict g).map (f i)) qs).value = rs.value
         rw [((OverShriek.relocalizeRestrict g).obj F).map_id]
@@ -614,11 +614,11 @@ private theorem exists_restricted_cover_point (B : BigFppfSite.{u}) (S T : Schem
       have hdom : AlgebraicGeometry.Space.FieldValuedPoint.Dominates B S hS _ rs p := by
         let m : rs.siteObject ⟶ p.siteObject := Over.homMk a.left rfl
         refine ⟨m, ?_⟩
-        show F.map ((Over.map g).map m).op p.value = rs.value
+        change F.map ((Over.map g).map m).op p.value = rs.value
         have hem : e.hom ≫ a = (Over.map g).map m := by
           apply Over.OverMorphism.ext
           rfl
-        show F.map ((Over.map g).map m).op p.value = F.map e.hom.op r.value
+        change F.map ((Over.map g).map m).op p.value = F.map e.hom.op r.value
         calc
           F.map ((Over.map g).map m).op p.value = F.map (e.hom ≫ a).op p.value :=
             congrArg (fun k ↦ F.map k.op p.value) hem.symm
@@ -696,7 +696,7 @@ private theorem exists_component_cover_point (B : BigFppfSite.{u}) (S T : Scheme
       _ = AlgebraicGeometry.Space.pointsMap B S hS _ (e.inv.app Z).hom z' :=
         congrArg (AlgebraicGeometry.Space.pointsMap B S hS _ (e.inv.app Z).hom) ha'
       _ = z := by
-        show AlgebraicGeometry.Space.pointsMap B S hS _ (e.inv.app Z).hom
+        change AlgebraicGeometry.Space.pointsMap B S hS _ (e.inv.app Z).hom
           (AlgebraicGeometry.Space.pointsMap B S hS _ (e.hom.app Z).hom z) = z
         rw [← pointsMap_apply_comp_space]
         rw [e.hom_inv_id_app Z]
@@ -712,7 +712,7 @@ private theorem exists_component_cover_point (B : BigFppfSite.{u}) (S T : Scheme
     AlgebraicGeometry.Space.pointsMap B S hS _ (O.map (F.map (l j))).hom w =
         AlgebraicGeometry.Space.pointsMap B S hS _
           (O.map ((el j).inv ≫ F.map (l j))).hom d := by
-      show AlgebraicGeometry.Space.pointsMap B S hS _ (O.map (F.map (l j))).hom
+      change AlgebraicGeometry.Space.pointsMap B S hS _ (O.map (F.map (l j))).hom
           (AlgebraicGeometry.Space.pointsMap B S hS _ (O.map (el j).inv).hom d) = _
       rw [← pointsMap_apply_comp_space, ← O.map_comp]
     _ = AlgebraicGeometry.Space.pointsMap B S hS _ (O.map (q j)).hom d := by rw [hmap]
@@ -757,7 +757,7 @@ private theorem exists_global_cover_point_of_component (B : BigFppfSite.{u}) (S 
         rw [pointsMap_apply_comp_space, hw]
         rfl
       _ = v := by
-        show AlgebraicGeometry.Space.pointsMap B S hS _ (e.hom.app V).hom
+        change AlgebraicGeometry.Space.pointsMap B S hS _ (e.hom.app V).hom
           (AlgebraicGeometry.Space.pointsMap B S hS _ (e.inv.app V).hom v) = v
         rw [← pointsMap_apply_comp_space, e.inv_hom_id_app]
         exact pointsMap_apply_id B S hS _ v
@@ -776,7 +776,7 @@ private theorem existsUnique_lift_of_quotientEquiv {R R' A : Type*} [CommRing R]
     (a : R →+* A) (ha : a f = 0) : ∃! b : R' →+* A, b.comp g = a := by
   let a₀ : R ⧸ Ideal.span {f} →+* A :=
     Ideal.Quotient.lift _ a (by
-      show Ideal.span {f} ≤ RingHom.ker a
+      change Ideal.span {f} ≤ RingHom.ker a
       rw [Ideal.span_le]
       intro x hx
       obtain rfl := Set.mem_singleton_iff.mp hx
@@ -784,7 +784,7 @@ private theorem existsUnique_lift_of_quotientEquiv {R R' A : Type*} [CommRing R]
   let b : R' →+* A := (a₀.comp e.symm.toRingHom).comp (Ideal.Quotient.mk _)
   have hb : b.comp g = a := by
     ext r
-    show a₀ (e.symm (Ideal.Quotient.mk _ (g r))) = a r
+    change a₀ (e.symm (Ideal.Quotient.mk _ (g r))) = a r
     rw [← he r, e.symm_apply_apply]
     rfl
   refine ⟨b, hb, ?_⟩
@@ -794,7 +794,7 @@ private theorem existsUnique_lift_of_quotientEquiv {R R' A : Type*} [CommRing R]
     exact h.trans ha
   let c₀ : R' ⧸ Ideal.span {g f} →+* A :=
     Ideal.Quotient.lift _ c (by
-      show Ideal.span {g f} ≤ RingHom.ker c
+      change Ideal.span {g f} ≤ RingHom.ker c
       rw [Ideal.span_le]
       intro x hx
       obtain rfl := Set.mem_singleton_iff.mp hx
@@ -802,7 +802,7 @@ private theorem existsUnique_lift_of_quotientEquiv {R R' A : Type*} [CommRing R]
   have hce : c₀.comp e.toRingHom = a₀ := by
     apply Ideal.Quotient.ringHom_ext
     ext r
-    show c₀ (e (Ideal.Quotient.mk _ r)) = a r
+    change c₀ (e (Ideal.Quotient.mk _ r)) = a r
     rw [he]
     exact RingHom.congr_fun hc r
   ext r
@@ -859,7 +859,7 @@ private theorem exists_glueingData_pullback (B : BigFppfSite.{u}) (U' U X' : Sch
             simp only [L, pullback.map, pullback.lift_fst, Functor.id_map] }
       right := pullback.fst _ _
       w := by
-        show pullback.fst a.hom.left.left b.hom.left.left ≫ D.obj.hom =
+        change pullback.fst a.hom.left.left b.hom.left.left ≫ D.obj.hom =
           tX ≫ M.map (pullback.fst a.hom.right b.hom.right)
         dsimp only [tX]
         rw [Category.assoc, PreservesPullback.iso_inv_fst M]
@@ -874,7 +874,7 @@ private theorem exists_glueingData_pullback (B : BigFppfSite.{u}) (U' U X' : Sch
             simp only [L, pullback.map, pullback.lift_snd, Functor.id_map] }
       right := pullback.snd _ _
       w := by
-        show pullback.snd a.hom.left.left b.hom.left.left ≫ E.obj.hom =
+        change pullback.snd a.hom.left.left b.hom.left.left ≫ E.obj.hom =
           tX ≫ M.map (pullback.snd a.hom.right b.hom.right)
         dsimp only [tX]
         rw [Category.assoc, PreservesPullback.iso_inv_snd M]
@@ -964,7 +964,7 @@ private theorem baseChange_hom_ext_of_fpqcCovering (B : BigFppfSite.{u}) (S T : 
     let vj := (V (ix j)).obj.map (e j).hom.op (yonedaEquiv (l j))
     have hv : ((F.map (p (ix j))).hom.app (op (W j))) vj =
         (F.obj Y).obj.map (r j).op x := by
-      show (p (ix j)).hom.app (op (H.obj (W j)))
+      change (p (ix j)).hom.app (op (H.obj (W j)))
         ((V (ix j)).obj.map (e j).hom.op (yonedaEquiv (l j))) =
         Y.obj.map (H.map (r j)).op x
       rw [NatTrans.naturality_apply, he]
@@ -1299,7 +1299,7 @@ theorem beauvilleLaszloGlueingSpaces_map_surjective_of_isGlueable_of_affineDiago
         let e : Arrow.mk (O.map (F.map (qL j))).hom ≅ Arrow.mk (O.map (dV j)).hom :=
           Arrow.isoMk ((ObjectProperty.ι _).mapIso (O.mapIso (eL j))) (Iso.refl _)
             (by
-              show (O.map (eL j).hom).hom ≫ (O.map (dV j)).hom =
+              change (O.map (eL j).hom).hom ≫ (O.map (dV j)).hom =
                 (O.map (F.map (qL j))).hom ≫ 𝟙 _
               rw [Category.comp_id]
               simpa only [O.map_comp, ObjectProperty.FullSubcategory.comp_hom] using
@@ -1340,7 +1340,7 @@ theorem beauvilleLaszloGlueingSpaces_map_surjective_of_isGlueable_of_affineDiago
       rcases hfactor a with ⟨c, hc⟩ | ⟨c, hc⟩
       · let s : Spec (.of pt.carrier) ⟶ U := Spec.map (CommRingCat.ofHom c)
         have hs : s ≫ jU.hom = pt.toBase := by
-          show Spec.map (CommRingCat.ofHom c) ≫
+          change Spec.map (CommRingCat.ofHom c) ≫
             Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away f))) = pt.toBase
           rw [← Spec.map_comp, ← Spec.map_preimage pt.toBase]
           congr 1
@@ -1353,7 +1353,7 @@ theorem beauvilleLaszloGlueingSpaces_map_surjective_of_isGlueable_of_affineDiago
         exact Set.mem_iUnion.mpr ⟨j, Set.mem_range.mpr ⟨w, hw.trans hv⟩⟩
       · let s : Spec (.of pt.carrier) ⟶ X' := Spec.map (CommRingCat.ofHom c)
         have hs : s ≫ jX'.hom = pt.toBase := by
-          show Spec.map (CommRingCat.ofHom c) ≫ Spec.map (CommRingCat.ofHom g) = pt.toBase
+          change Spec.map (CommRingCat.ofHom c) ≫ Spec.map (CommRingCat.ofHom g) = pt.toBase
           rw [← Spec.map_comp, ← Spec.map_preimage pt.toBase]
           congr 1
           exact congrArg CommRingCat.ofHom hc

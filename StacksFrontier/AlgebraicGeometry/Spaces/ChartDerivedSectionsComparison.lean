@@ -168,9 +168,9 @@ theorem chartDerivedSectionsComparison_fac
 /-- **`RΓ(U, -) ≅ RΓ(h_U, u^*(-))`**: the comparison `chartDerivedSectionsComparison` is an
 isomorphism. -/
 instance isIso_chartDerivedSectionsComparison : IsIso (chartDerivedSectionsComparison X U) := by
-  haveI := isGrothendieckAbelian_modules B S hS X.1 X.2
+  have := isGrothendieckAbelian_modules B S hS X.1 X.2
   let T := (SmallEtale.toOver B S hS X.1).obj U
-  haveI := isGrothendieckAbelian_modules B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)
+  have := isGrothendieckAbelian_modules B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)
   suffices h : ∀ K, IsIso ((chartDerivedSectionsComparison X U).app K) from
     NatIso.isIso_of_isIso_app _
   intro K
@@ -179,20 +179,20 @@ instance isIso_chartDerivedSectionsComparison : IsIso (chartDerivedSectionsCompa
   refine (NatTrans.isIso_app_iff_of_iso _ e).mp ?_
   have hJ := isKInjective_etaleModulePullback_of_isEtale B S hS (representedChartToSpace X U)
     (isEtale_representedChartToSpace X U) I hI
-  haveI h₁ := Stacks.Cohomology.UnboundedComplexes.isIso_app_of_isKInjective
+  have h₁ := Stacks.Cohomology.UnboundedComplexes.isIso_app_of_isKInjective
     (Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.homotopySections.{u + 1, u, u, u}
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O) U)
     DerivedCategory.Qh
     (Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.derivedSections
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O) U)
     (Functor.totalRightDerivedUnit _ _ _) I hI
-  haveI h₂ := Stacks.Cohomology.UnboundedComplexes.isIso_app_of_isKInjective
+  have h₂ := Stacks.Cohomology.UnboundedComplexes.isIso_app_of_isKInjective
     ((representedAffineSections B S hS T).mapHomotopyCategory (ComplexShape.up ℤ) ⋙
       DerivedCategory.Qh) DerivedCategory.Qh (representedAffineDerivedSections B S hS T)
     (Functor.totalRightDerivedUnit _ _ _) _ hJ
-  haveI : IsIso ((chartSectionsHomotopyUnit X U).app
+  have : IsIso ((chartSectionsHomotopyUnit X U).app
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)) := h₂
-  haveI : IsIso ((chartSectionsHomotopyComparison X U).app
+  have : IsIso ((chartSectionsHomotopyComparison X U).app
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)) :=
     IsIso.comp_isIso' (Iso.isIso_inv ((chartSectionsHomotopySelfChartIso X U).app _))
       (IsIso.comp_isIso' (Iso.isIso_hom ((chartSectionsHomotopySelfChartMap X U).app _))

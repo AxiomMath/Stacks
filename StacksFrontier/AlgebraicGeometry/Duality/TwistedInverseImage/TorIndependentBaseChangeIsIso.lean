@@ -182,7 +182,7 @@ theorem isIso_quasiCoherentDerivedBaseChange_app_of_isIso (w : g' ≫ f = f' ≫
       K.obj)] :
     IsIso ((quasiCoherentDerivedBaseChange g' f' f g hpushg' hpushf hpushf' hpushg
       (isQuasicoherent_homology_derivedPullback' g) (isQuasicoherent_homology_derivedPullback' g')
-      w).natTrans.app K) := by
+      w).app K) := by
   rw [quasiCoherentDerivedBaseChange_eq_twoSquare]
   have e := ObjectProperty.map_restrictFullyFaithful_hom (derivedAdjunction f)
     (derivedAdjunction f') (isQuasicoherent_homology_derivedPullback' f) hpushf
@@ -204,10 +204,10 @@ theorem isIso_quasiCoherentDerivedBaseChange_natTrans (sq : IsPullback g' f' f g
     [QuasiCompact f] [QuasiSeparated f] (hTor : TorIndependent f g) :
     IsIso (quasiCoherentDerivedBaseChange g' f' f g hpushg' hpushf hpushf' hpushg
       (isQuasicoherent_homology_derivedPullback' g) (isQuasicoherent_homology_derivedPullback' g')
-      sq.w).natTrans := by
+      sq.w) := by
   have : ∀ K, IsIso ((quasiCoherentDerivedBaseChange g' f' f g hpushg' hpushf hpushf' hpushg
       (isQuasicoherent_homology_derivedPullback' g) (isQuasicoherent_homology_derivedPullback' g')
-      sq.w).natTrans.app K) := fun K => by
+      sq.w).app K) := fun K => by
     have := isIso_quasiCoherentDerivedBaseChange sq hTor K
     exact isIso_quasiCoherentDerivedBaseChange_app_of_isIso hpushg' hpushf hpushf' hpushg sq.w K
   exact NatIso.isIso_of_isIso_app _

@@ -14,7 +14,8 @@ on universally injective module maps.
 
 ## Definitions
 
-* **Universally injective map.** Imported from `StacksFrontier.RingTheory.Flat.UniversallyInjective`:
+* **Universally injective map.** Imported from
+  `StacksFrontier.RingTheory.Flat.UniversallyInjective`:
   a map `f : M → N` is *universally injective* if for every `R`-module `Q` the
   induced map `f ⊗ id_Q : M ⊗ Q → N ⊗ Q` is injective.  In Lean `f ⊗ id_Q` is
   `LinearMap.rTensor Q f`.
@@ -189,8 +190,7 @@ theorem rTensor_map_eq (f : (i j : ι) → i ≤ j → G i →ₗ[R] G j)
       = (TensorProduct.directLimitLeft f' Q).symm
           (Module.DirectLimit.map (fun i => (g i).rTensor Q) hgQ z) := by
   obtain ⟨i, w, rfl⟩ := DirectLimit.exists_of z
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x q => simp [DirectLimit.map_apply_of]
   | add a b ha hb => simp only [map_add, ha, hb]
 

@@ -211,7 +211,7 @@ theorem schemeTangentSpaceEquivOfAddTorsor_classOf (r : Setoid (TangentSolution 
       (BasedCategory.ofFunctor (schemeDeformationCategoryProjection (Λ := Λ) (k := k) X))
       (schemeDeformation_cofibered X) x
     exact congrArg (fiberClassesEquivSolutionClasses maximalIdeal_tangentBase_sq_eq_bot r hr) h
-  show (Equiv.vaddConst (trivialSolutionClass X r)).symm
+  change (Equiv.vaddConst (trivialSolutionClass X r)).symm
     (schemeTangentSpaceEquivSolutionClasses X r hr _) = _
   rw [hc]
   rfl
@@ -308,7 +308,7 @@ theorem schemeTangentSpaceEquivExt_classOf
     X.hom.toLRSHom.toShHom (SchemeDeformationCategory.pulledIdeal tangentBase X) (𝟙 _)))
   have h := schemeTangentSpaceEquivOfAddTorsor_classOf X isomorphicSetoid (fun _ _ => Iff.rfl)
     solutionClassesAddTorsor x
-  show tangentExtCoefficientsAddEquiv (Λ := Λ) X (Scheme.extOneNaiveCotangentAddEquiv X.hom _
+  change tangentExtCoefficientsAddEquiv (Λ := Λ) X (Scheme.extOneNaiveCotangentAddEquiv X.hom _
     (schemeTangentSpaceEquivOfAddTorsor X isomorphicSetoid (fun _ _ => Iff.rfl)
       solutionClassesAddTorsor _)) = _
   rw [h]

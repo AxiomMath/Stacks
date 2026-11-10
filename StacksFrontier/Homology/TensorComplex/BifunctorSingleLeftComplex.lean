@@ -199,7 +199,7 @@ theorem singleLeftIsoMapBifunctor_hom_naturality_left (ψ : M ⟶ N) :
         singleLeftι F N K i := by
     rw [singleLeftι, ι_mapBifunctorMap]
     simp [singleLeftι]
-  show (singleLeftXIso F M K i).inv ≫
+  change (singleLeftXIso F M K i).inv ≫
       (mapBifunctorMap ((CochainComplex.singleFunctor C₁ 0).map ψ) (𝟙 K) F
         (ComplexShape.up ℤ)).f i =
     (F.map ψ).app (K.X i) ≫ (singleLeftXIso F N K i).inv

@@ -359,13 +359,13 @@ theorem exists_vertical_iso_toIsoClassElements (p : 𝒮 ⥤ 𝒞) [hp : p.IsFib
       _root_.CategoryTheory.Functor.map_id_apply]
   refine ⟨r.1, ⟨⟨eqToHom r.2, hα⟩, ⟨eqToHom r.2.symm, hβ⟩, ?_, ?_⟩, ?_⟩
   · refine IsoClassElements.hom_ext ?_
-    show eqToHom r.2 ≫ eqToHom r.2.symm = 𝟙 (p.obj r.1)
+    change eqToHom r.2 ≫ eqToHom r.2.symm = 𝟙 (p.obj r.1)
     simp
   · refine IsoClassElements.hom_ext ?_
-    show eqToHom r.2.symm ≫ eqToHom r.2 = 𝟙 Y.base
+    change eqToHom r.2.symm ≫ eqToHom r.2 = 𝟙 Y.base
     simp
   · refine IsHomLift.of_fac' (isoClassElementsProj p) (𝟙 Y.base) _ r.2 rfl ?_
-    show eqToHom r.2 = eqToHom r.2 ≫ 𝟙 Y.base ≫ eqToHom (rfl : Y.base = Y.base)
+    change eqToHom r.2 = eqToHom r.2 ≫ 𝟙 Y.base ≫ eqToHom (rfl : Y.base = Y.base)
     simp
 
 /-- `CategoryTheory.Functor.toIsoClassElements` is an equivalence in the 2-category of fibred

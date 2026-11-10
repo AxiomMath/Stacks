@@ -153,7 +153,7 @@ theorem IsFiniteLocallyFreeOfRank.of_isPullback_of_isClosedImmersion_of_surjecti
     {U U' V V' : Scheme.{u}} {j : U ⟶ U'} {ψ : U ⟶ V} {ψ' : U' ⟶ V'} {i : V ⟶ V'}
     (sq : IsPullback j ψ ψ' i) [IsClosedImmersion i] [Surjective i] [IsFinite ψ'] [Flat ψ']
     {d : ℕ} (h : IsFiniteLocallyFreeOfRank ψ d) : IsFiniteLocallyFreeOfRank ψ' d := by
-  show IsFiniteLocallyFreeOfRank.property d ψ'
+  change IsFiniteLocallyFreeOfRank.property d ψ'
   refine IsZariskiLocalAtTarget.of_openCover V'.affineCover fun k => ?_
   let ι := V'.affineCover.f k
   let jk : pullback ψ (pullback.fst i ι) ⟶ pullback ψ' ι :=

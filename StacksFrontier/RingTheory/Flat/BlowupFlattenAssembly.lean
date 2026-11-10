@@ -20,8 +20,8 @@ the proof, whose earlier steps are in
   strict transform with a quotient of a finite free module),
 * `StacksFrontier.RingTheory.Flat.BlowupStrictTransformAlg` (clause (4) for a polynomial algebra,
   given the relation submodule), and
-* `StacksFrontier.RingTheory.Flat.BlowupFiniteTypeReduction` (the ring theory of the reduction from a
-  finite type algebra to a polynomial one).
+* `StacksFrontier.RingTheory.Flat.BlowupFiniteTypeReduction` (the ring theory of the reduction from
+  a finite type algebra to a polynomial one).
 
 The argument runs as follows.  Fix a surjection `π : R[x_1, …, x_n]ʳ → M` and let `Z_B` denote,
 for a commutative `R`-algebra `B`, the base change to `B[x_1, …, x_n]ʳ` of `ker π`.  Over the
@@ -128,7 +128,7 @@ action of the base ring: it carries the `B`-action on `B[x_1, …, x_n]ʳ` to th
 theorem vecMap_smul_base (φ : B →+* D) (b : B) (v : Fin r → MvPolynomial (Fin n) B) :
     vecMap n r φ (b • v) = φ b • vecMap n r φ v := by
   funext i
-  show MvPolynomial.map φ (b • v i) = φ b • MvPolynomial.map φ (v i)
+  change MvPolynomial.map φ (b • v i) = φ b • MvPolynomial.map φ (v i)
   rw [MvPolynomial.smul_eq_C_mul, MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.map_C]
 
 /-- The `B`-action on `B[x_1, …, x_n]ʳ` is the restriction of the action of the polynomial
@@ -487,10 +487,10 @@ theorem chartBlowupToVal_algebraMap (hdom : Dominates R A) (c : AdmissibleChart 
     chartBlowupToVal c (algebraMap R (Blowup c.I c.a) t) = algebraMap R (valRing A) t := by
   let _ := hdom.algebra
   refine Subtype.ext ?_
-  show ((AdmissibleChart.blowupRingEquiv c (algebraMap R (Blowup c.I c.a) t) : chartRing c) : K)
+  change ((AdmissibleChart.blowupRingEquiv c (algebraMap R (Blowup c.I c.a) t) : chartRing c) : K)
     = algebraMap R K t
   rw [AdmissibleChart.blowupRingEquiv]
-  show ((blowupEquivAffineBlowupImage' (K := K) c.a_ne_zero
+  change ((blowupEquivAffineBlowupImage' (K := K) c.a_ne_zero
     (algebraMap R (Blowup c.I c.a) t) : affineBlowupImageAlg c.I c.a c.ha) : K) = algebraMap R K t
   rw [AlgEquiv.commutes]
   rfl
@@ -670,7 +670,7 @@ theorem exists_chart_relations (hdom : Dominates R A) (hm : IsLocalRing.maximalI
     rw [vecMap_vecMap,
       show (chartBlowupToVal c).comp ((AdmissibleChart.blowupRingEquiv c).symm.toRingHom) =
         chartToVal c from RingHom.ext fun y => by
-          show chartToVal c ((AdmissibleChart.blowupRingEquiv c)
+          change chartToVal c ((AdmissibleChart.blowupRingEquiv c)
             ((AdmissibleChart.blowupRingEquiv c).symm y)) = chartToVal c y
           rw [RingEquiv.apply_symm_apply],
       show relGen hc k₀ j = vecMap n r (chartMap c₀ c hc) (k₀ j) from rfl, vecMap_vecMap,
@@ -777,8 +777,7 @@ theorem baseChangeAlgHom_smul (c : Blowup I a) (t : TensorProduct R (Blowup I a)
 theorem baseChangeAlgHom_surjective (hf : Function.Surjective (algebraMap P S)) :
     Function.Surjective (baseChangeAlgHom I a P S) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b s =>
     obtain ⟨p, rfl⟩ := hf s
     exact ⟨b ⊗ₜ[R] p, baseChangeAlgHom_tmul I a P S b p⟩
@@ -844,12 +843,10 @@ the structure map.** -/
 theorem baseChange_smul_eq_mul (t : TensorProduct R (Blowup I a) P)
     (z : TensorProduct R (Blowup I a) S) :
     t • z = baseChangeAlgHom I a P S t * z := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [zero_smul, map_zero, zero_mul]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [add_smul, ht, ht', map_add, add_mul]
   | tmul b p =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, mul_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [smul_add, hz, hz', mul_add]
     | tmul c s =>
       rw [strictTransform.baseChange_smul_tmul, baseChangeAlgHom_tmul,
@@ -863,12 +860,10 @@ variable (M : Type*) [AddCommGroup M] [Module R M] [Module P M] [Module S M]
 theorem baseChange_smul_eq_baseChange_smul (t : TensorProduct R (Blowup I a) P)
     (z : TensorProduct R (Blowup I a) M) :
     t • z = baseChangeAlgHom I a P S t • z := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [zero_smul, map_zero, zero_smul]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [add_smul, ht, ht', map_add, add_smul]
   | tmul b p =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [smul_add, hz, hz', smul_add]
     | tmul c x =>
       rw [strictTransform.baseChange_smul_tmul, baseChangeAlgHom_tmul,
@@ -882,7 +877,7 @@ theorem isScalarTower_strictTransform :
   IsScalarTower.of_algebraMap_smul fun τ x => by
     obtain ⟨t, rfl⟩ := strictTransformAlg.mk_surjective I a P τ
     obtain ⟨z, rfl⟩ := strictTransform.mkQ_surjective I a M x
-    show strictTransformAlgMap I a P S (strictTransformAlg.mk I a P t) • _ = _
+    change strictTransformAlgMap I a P S (strictTransformAlg.mk I a P t) • _ = _
     rw [strictTransformAlgMap_mk, strictTransformAlg.mk_smul, strictTransformAlg.mk_smul,
       strictTransform.smul_mkQ, strictTransform.smul_mkQ,
       baseChange_smul_eq_baseChange_smul I a P S M t z]
@@ -906,12 +901,10 @@ theorem prodRight_baseChange_smul (t : TensorProduct R (Blowup I a) P)
     TensorProduct.prodRight R (Blowup I a) (Blowup I a) X Y (t • z) =
       (t • (TensorProduct.prodRight R (Blowup I a) (Blowup I a) X Y z).1,
         t • (TensorProduct.prodRight R (Blowup I a) (Blowup I a) X Y z).2) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp [Prod.ext_iff]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [add_smul, map_add, ht, ht']; simp [add_smul]
   | tmul b p =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp [Prod.ext_iff]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [smul_add, map_add, hz, hz']; simp [smul_add]
     | tmul c xy =>
       obtain ⟨x, y⟩ := xy
@@ -1061,7 +1054,7 @@ theorem stacks053I (hdom : Dominates R A) (hm : IsLocalRing.maximalIdeal R ≠ �
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R (MvPolynomial (Fin n) R) M :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show algebraMap (MvPolynomial (Fin n) R) S
+      change algebraMap (MvPolynomial (Fin n) R) S
         (algebraMap R (MvPolynomial (Fin n) R) r) • x = r • x
       rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have : Module.Finite (MvPolynomial (Fin n) R) S :=

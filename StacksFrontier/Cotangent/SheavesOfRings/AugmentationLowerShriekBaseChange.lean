@@ -104,12 +104,16 @@ commutative rings together with the sheaf condition on the underlying presheaf o
 definitionally `(Stacks.Cohomology.ringedTopos _ _).ringSheaf` and
 `Stacks.SimplicialModules.projectionRingSheaf`. -/
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The sheaf condition on the presheaf of rings underlying `A_•` on `Δ × C`. -/
 theorem augSrcIsSheaf : Presheaf.IsSheaf (projectionTopology C J)
     (ringPresheaf (simplicialCommRingSheaf J A).obj) :=
   ((sheafCompose (projectionTopology C J)
     (forget₂ CommRingCat.{u} RingCat.{u})).obj (simplicialCommRingSheaf J A)).property
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- The sheaf condition on the presheaf of rings underlying `π^{-1}O` on `Δ × C`. -/
 theorem augTgtIsSheaf : Presheaf.IsSheaf (projectionTopology C J)
     (ringPresheaf (projectionCommRing J O).obj) :=
@@ -447,6 +451,8 @@ instance isIso_augMooreTgtC_map_augSheafifyComparison
   rw [augSheafifyComparison, Functor.map_comp]
   infer_instance
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The sheafification square respects the base-change units.**  For a map `w` of complexes out
 of the sheafified `L^•`, the presheaf-level base-change unit followed by the comparison and by
 the sheaf-level adjoint of `w` is the sheafification unit followed by `w`. -/
@@ -470,7 +476,7 @@ lemma unit_comp_augSheafifyComparison
       fun n => Adjunction.comp_unit_app _ _ _).symm) (h1.trans (HomologicalComplex.hom_ext _ _
       fun n => Adjunction.comp_unit_app _ _ _))
   rw [Functor.map_comp, ← Category.assoc, hstep]
-  show ((augSrcSheafifyAdjC J (A := A)).unit.app L ≫ (augSrcForgetC J (A := A)).map
+  change ((augSrcSheafifyAdjC J (A := A)).unit.app L ≫ (augSrcForgetC J (A := A)).map
         ((augExtendRestrictAdjC J ε).unit.app ((augSrcSheafifyC J (A := A)).obj L))) ≫
       (augSrcForgetC J (A := A)).map ((augPushforwardC J ε).map
         (((augExtendRestrictAdjC J ε).homEquiv _ Z).symm w)) = _
@@ -496,6 +502,8 @@ instance augSrcRingUnit_isLocallySurjective :
     Presheaf.IsLocallySurjective (projectionTopology C J) (augSrcRingUnit J (A := A)) :=
   Presheaf.isLocallySurjective_of_surjective _ _ fun _ x => ⟨x, rfl⟩
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The sheafification of a standard cover is a flat sheaf of `A_•`-modules.**  Its sections
 are flat (`PresheafOfModules.flat_obj_of_isStdCover`), so it is a flat presheaf of modules
 ([Stacks, Tag 03ES]), and the sheaf associated to a flat presheaf of modules is flat
@@ -578,6 +586,8 @@ instance preservesHomology_augSrcSheafify :
 
 /-! ### The base-change triangle at the module level -/
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The base-change triangle at the module level.**  The presheaf-level base-change unit,
 followed by the comparison with the sheaf-level base change and by the sheaf-level adjoint of the
 transpose of the resolution, is the resolution itself. -/
@@ -600,6 +610,8 @@ lemma unit_comp_augSheafifyComparison_comp_adjoint
 
 /-! ### The transpose of the resolution -/
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The transpose of a resolution of `ε_* X^•` is a quasi-isomorphism after sheafification.**
 Sheafification of presheaves of modules is exact, and its counit at a complex of sheaves of
 modules is invertible, so the adjoint `L^•_♯ ⟶ ε_* X^•` of a quasi-isomorphism

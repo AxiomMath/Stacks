@@ -9,7 +9,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.Fla
 [Stacks, Tag 070G] says that if `v ⊣ u` with `v` exact, then `u`, applied degreewise, carries
 K-injective complexes to K-injective complexes. The repository has that statement, as
 `rightAdjoint_preserves_isKInjective`, in the module
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.FlatPushforwardPreservesKInjectives`,
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.FlatPushforwardPreservesKInjectives`
 but phrased with the local predicate `IsKInjectiveHomotopyCategory` -- every morphism *in the
 homotopy category* out of an acyclic complex is zero -- rather than with Mathlib's class
 `CochainComplex.IsKInjective`, which asks that every *chain map* out of an acyclic complex be

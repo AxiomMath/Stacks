@@ -106,18 +106,18 @@ variable {A : Type u} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A}
 /-- For a Noetherian local ring `A`, a nonzerodivisor `f` in the maximal ideal and an invertible
 triple `L`, the geometric input `Stacks.Algebraization.HasHilbertInductionStep` of the induction
 step holds. -/
-public theorem hasHilbertInductionStep (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+public theorem hasHilbertInductionStep (hf : f ∈ maximalIdeal A)
     (L : CoherentTriple A f) (hL : IsInvertibleTriple L) :
-    HasHilbertInductionStep hf hreg L hL := by
+    HasHilbertInductionStep L hL := by
   let := isLocalRing_quotient_span hf
   let := hL.invertible_F
   let := hL.invertible_F₀
   let := isInvertibleModule_tensorPowScheme
     (Stacks.Divisors.puncturedSpectrum A).toScheme L.F 0
-  intro T _hsupp
+  rintro T -
   refine
-    Exists.elim (Stacks.SectionProduct.exists_tensorSheaf_iso_unit L.F) fun _N hN =>
-    Exists.elim (Stacks.SectionProduct.exists_tensorSheaf_iso_unit L.F₀) fun _N₀ hN₀ =>
+    Exists.elim (Stacks.SectionProduct.exists_tensorSheaf_iso_unit L.F) fun N hN =>
+    Exists.elim (Stacks.SectionProduct.exists_tensorSheaf_iso_unit L.F₀) fun N₀ hN₀ =>
     Exists.elim (exists_sectionPair_nonvanishing_on_associatedPoints_depthFree hf hL T)
       fun x h₁ => Exists.elim h₁ fun x₀ h₂ => ?_
   obtain ⟨hx, hsupp⟩ := h₂
@@ -157,7 +157,7 @@ public theorem hasHilbertInductionStep (hf : f ∈ maximalIdeal A) (hreg : IsReg
     u, v, isZero_cokernel_of_epi (𝟙 T.F), T.shortExact_closedPointReduction hf, hseq,
     hdrop.1, hdrop.2,
     fun hdim hG => CoherentTriple.eulerCharacteristic_eq_zero_of_shortExact_twistZ_quotientTriple
-      hf hreg T hL (hseq 0) hdim hG⟩
+      hf T hL (hseq 0) hdim hG⟩
 
 /-! ### The Hilbert polynomial -/
 
@@ -169,26 +169,25 @@ coherent triple. For every coherent triple `T = (F, F₀, α)` there is a polyno
 and `deg P ≤ dim(Supp F)`, the dimension being truncated at `0`. -/
 @[stacks 0F27]
 public theorem exists_polynomial_natDegree_le_dim_supp (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) (L : CoherentTriple A f) (hL : IsInvertibleTriple L)
-    (T : CoherentTriple A f) :
+    (L : CoherentTriple A f) (hL : IsInvertibleTriple L) (T : CoherentTriple A f) :
     ∃ P : Polynomial ℚ,
       (P.natDegree : WithBot ℕ∞) ≤ max 0 (topologicalKrullDim ↥(SheafOfModules.supp T.F)) ∧
-        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) :=
-  exists_polynomial_natDegree_le_dim_supp_of_hasInductionStep hf hreg L hL
-    (hasHilbertInductionStep hf hreg L hL) T
+        ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) :=
+  exists_polynomial_natDegree_le_dim_supp_of_hasInductionStep hf L hL
+    (hasHilbertInductionStep hf L hL) T
 
 /-- Let `A` be a Noetherian local ring, `f ∈ 𝔪` a nonzerodivisor, and `L` an invertible coherent
 triple. For every coherent triple `T = (F, F₀, α)` with `dim(Supp F) ≤ d` for a natural number `d`,
 there is a polynomial `P ∈ ℚ[t]` of degree at most `d` with `χ(T ⊗ L^{⊗ n}) = P(n)` for every
 `n ∈ ℤ`. -/
 public theorem exists_polynomial_eulerCharacteristic_twistZ (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) (L : CoherentTriple A f) (hL : IsInvertibleTriple L) (d : ℕ)
+    (L : CoherentTriple A f) (hL : IsInvertibleTriple L) (d : ℕ)
     (T : CoherentTriple A f)
     (hT : topologicalKrullDim ↥(SheafOfModules.supp T.F) ≤ ((d : ℕ) : WithBot ℕ∞)) :
     ∃ P : Polynomial ℚ, P.natDegree ≤ d ∧
-      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) :=
-  exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep hf hreg L hL
-    (hasHilbertInductionStep hf hreg L hL) d T hT
+      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) :=
+  exists_polynomial_eulerCharacteristic_twistZ_of_hasInductionStep hf L hL
+    (hasHilbertInductionStep hf L hL) d T hT
 
 end Stacks.Algebraization
 

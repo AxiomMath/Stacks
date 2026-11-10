@@ -332,7 +332,7 @@ theorem proj_of (n d : ℕ) (y : T.piece d) :
 theorem proj_mem (n : ℕ) {d : ℕ} {x : T.Lim} (hx : x ∈ T.limGrading d) :
     T.proj n x ∈ T.𝒜 n d := by
   obtain ⟨y, rfl⟩ := hx
-  show T.proj n (DirectSum.of (fun d => T.piece d) d y) ∈ _
+  change T.proj n (DirectSum.of (fun d => T.piece d) d y) ∈ _
   rw [proj_of]
   exact (y.2 n).1
 

@@ -146,7 +146,7 @@ theorem isTorsionBySet_powQuot :
   intro x a
   induction x using Submodule.Quotient.induction_on with
   | H y =>
-    show (Submodule.Quotient.mk ((a : A) • y) : powQuot I q n) = 0
+    change (Submodule.Quotient.mk ((a : A) • y) : powQuot I q n) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     simp only [powSub, Submodule.mem_comap, Submodule.coe_subtype, SetLike.val_smul,
       smul_eq_mul]

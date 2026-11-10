@@ -307,7 +307,7 @@ theorem completedVirtualNormalGysinClassOfOpen_comp
     completedVirtualNormalGysinClassOfOpen_eq_completedVirtualNormalGysinClass C _ _ j₁] at hR
   -- the restriction of the left-hand side
   have hL :=
-    completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClassOfOpen
+    completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClass
     C sZ sX (i ≫ j) (comp_comp_structureMorphism_eq hi hj) W iW hW g (i₁ ≫ j₁)
     (pullback.fst i (pullback.fst j g)) sqP (pullback.fst i (pullback.fst j g) ≫ sZ)
     (comp_comp_structureMorphism_eq hi₁ hj₁) D.bundleZX (i₁ ≫ j₁).coborderRange

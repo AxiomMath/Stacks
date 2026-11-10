@@ -230,7 +230,7 @@ private theorem pullback_generate_mem_topology (hP : Presheaf.IsSheaf (topology 
   let s₀ : P.obj (op (u.obj U)) := η.app _ (u.lanSection F (𝟙 _) t)
   have hφs₀ : x q hq = P.map φ.op s₀ := by
     rw [hxq]
-    show _ = P.map φ.op (η.app _ (u.lanSection F (𝟙 _) t))
+    change _ = P.map φ.op (η.app _ (u.lanSection F (𝟙 _) t))
     rw [← NatTrans.naturality_apply η, Functor.lanSection_map, Category.comp_id]
   let T : BigProetaleOver B S hS := Over.mk (𝟙 (⟨S, hS⟩ : B.Scheme))
   let hT : IsTerminal T := Over.mkIdTerminal
@@ -323,7 +323,7 @@ private theorem pullback_generate_mem_topology (hP : Presheaf.IsSheaf (topology 
       _ = x (k' ≫ k ≫ g i) _ := Presieve.FamilyOfElements.congr_arrow x harr _ _
   have hgwe : ∀ i, WeaklyEtale (K.map (g i)) := fun i ↦ by
     have := hwe i
-    show WeaklyEtale (h i ≫ K.map prX)
+    change WeaklyEtale (h i ≫ K.map prX)
     infer_instance
   have hrange : ∀ i, Set.range (K.map (fst i ≫ oC i)) = (O i : Set (K.obj W)) := fun i ↦ by
     have hcomp : ⇑(K.map (fst i ≫ oC i)) = (O i).ι ∘ K.map (fst i) := by
@@ -341,7 +341,7 @@ private theorem pullback_generate_mem_topology (hP : Presheaf.IsSheaf (topology 
       (fun i ↦ ?_) (fun V y hy ↦ ?_)
     · have := hfstwe i
       rw [K.map_comp]
-      show WeaklyEtale (K.map (fst i) ≫ (O i).ι)
+      change WeaklyEtale (K.map (fst i) ≫ (O i).ι)
       infer_instance
     · have := hW'aff i
       infer_instance

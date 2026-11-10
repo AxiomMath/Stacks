@@ -116,7 +116,7 @@ theorem moduleSiteRestrict_siteι_siteP₀ (A : Thickening S) (s : M.val.obj (op
 theorem moduleSiteRestrict_siteι_firstOrderSectionsMap (A : Thickening S)
     (x : M.val.obj (op A) × (crysDiffSections A ⊗[crysSheafRing S A] M.val.obj (op A))) :
     moduleSiteRestrict M (firstOrderThickeningSiteι S A) (firstOrderSectionsMap M A x) = x.1 := by
-  show moduleSiteRestrict M (firstOrderThickeningSiteι S A)
+  change moduleSiteRestrict M (firstOrderThickeningSiteι S A)
       (moduleSiteRestrict M (firstOrderThickeningSiteP₀ S A) x.1 + diffAction M A x.2) = _
   rw [map_add, moduleSiteRestrict_siteι_siteP₀, moduleSiteRestrict_siteι_diffAction, add_zero]
 

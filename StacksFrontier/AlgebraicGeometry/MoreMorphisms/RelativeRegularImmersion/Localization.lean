@@ -76,7 +76,7 @@ private lemma map_algEquiv_map_algebraMap (M N : Type*) [CommRing M] [CommRing N
         (J.map (algebraMap A M)) = J.map (algebraMap A N) := by
   rw [Ideal.map_map]
   refine congrArg (fun φ : A →+* N => Ideal.map φ J) (RingHom.ext fun z => ?_)
-  show (IsLocalization.algEquiv q.primeCompl M N) (algebraMap A M z) = algebraMap A N z
+  change (IsLocalization.algEquiv q.primeCompl M N) (algebraMap A M z) = algebraMap A N z
   rw [IsScalarTower.algebraMap_apply A B M, IsScalarTower.algebraMap_apply A B N]
   exact (IsLocalization.algEquiv q.primeCompl M N).commutes _
 
@@ -118,7 +118,7 @@ theorem exists_mem_isRegular_fibre_atPrime {r : ℕ} (I : Ideal B) (d : Fin r �
     refine isRegular_of_forall₂_unit_mul (forall₂_unit_mul_ofFn
       (fun i => Ideal.Quotient.mk P (d i)) (fun i => algebraMap B (O ⧸ P) (c i))
       (fun i => (Units.map (Ideal.Quotient.mk P).toMonoidHom) (u i)) fun i => ?_) hreg
-    show Ideal.Quotient.mk P (algebraMap B O (c i)) = _
+    change Ideal.Quotient.mk P (algebraMap B O (c i)) = _
     rw [hcu i]
     rfl
   have hKP : P = Ideal.map (IsLocalization.algEquiv q.primeCompl L O).toRingEquiv.toRingHom K :=

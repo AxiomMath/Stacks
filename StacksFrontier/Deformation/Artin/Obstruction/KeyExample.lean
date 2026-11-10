@@ -147,7 +147,7 @@ theorem presentation_val (i : Fin n) :
 `(presentation J).toExtension.Cotangent` is the source's `J/J²`. -/
 theorem presentation_ker : (presentation J).ker = J := by
   rw [Algebra.Generators.ker_eq_ker_aeval_val]
-  show RingHom.ker (MvPolynomial.aeval (R := Λ) (S₁ := MvPolynomial (Fin n) Λ ⧸ J)
+  change RingHom.ker (MvPolynomial.aeval (R := Λ) (S₁ := MvPolynomial (Fin n) Λ ⧸ J)
     fun i => Ideal.Quotient.mk J (MvPolynomial.X i)) = J
   rw [aeval_mk_X_eq_mkₐ]
   exact Ideal.mk_ker
@@ -554,7 +554,7 @@ theorem hasLift_of_obsClass_eq_zero (l : t.Lift) (h : obsClass l = 0) : HasLift 
     have h2 : l'.hom.subToKer l.hom (MvPolynomial.X i) = -(ε i) := by
       refine Subtype.ext ?_
       rw [Lift.coe_hom_subToKer_X l' l i]
-      show l.val i - ((ε i).1 : t.thick) - l.val i = -((ε i).1 : t.thick)
+      change l.val i - ((ε i).1 : t.thick) - l.val i = -((ε i).1 : t.thick)
       ring
     have h3 : Algebra.Extension.Cotangent.mk (-(ε i)) =
         -(δ (P.cotangentSpaceBasis i)) := by

@@ -68,7 +68,7 @@ theorem sum_awayMk_degreeOne_mul {f : S} (hf : f ∈ 𝒮 1) {k n m : ℕ} (l c 
   simp only [← hval, HomogeneousLocalization.val_mul, Away.val_mk, Localization.mk_mul]
   rw [← Localization.mk_sum, h, Localization.mk_eq_mk_iff]
   refine Localization.r_of_eq ?_
-  show f ^ n * (f ^ (k + 1) * a) = f ^ 1 * f ^ (k + n) * a
+  change f ^ n * (f ^ (k + 1) * a) = f ^ 1 * f ^ (k + n) * a
   ring
 
 /-- **The kernel of `Proj ψ` on a standard chart, for a kernel generated in degree one.** If the
@@ -113,7 +113,7 @@ theorem ker_app_projMap_basicOpen_eq_span (ψ : 𝒮 →+*ᵍ ℬ)
     exact Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨⟨l i, hlL i⟩, rfl⟩)
   · rintro _ ⟨⟨l, hl⟩, rfl⟩
     have hl' : l ∈ 𝒮 (1 • 1) := by simpa using hL hl
-    show Stacks.ProjectiveSpace.degreeOneChartFraction 𝒮 hf (hL hl) ∈ _
+    change Stacks.ProjectiveSpace.degreeOneChartFraction 𝒮 hf (hL hl) ∈ _
     rw [hchart l (hL hl) hl']
     refine (Stacks.ProjQuotientChartIdeal.awayToSection_mem_ker_app_projMap_iff
       ψ hψ hf Nat.one_pos _).2 ?_

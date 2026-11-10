@@ -171,7 +171,7 @@ every open. -/
 lemma transitionMap_id_app (P : (SimplicialOpen X)ᵒᵖ ⥤ A)
     (n : SimplexCategoryᵒᵖ) (V : (Opens (X.obj n))ᵒᵖ) :
     HEq ((transitionMap P (𝟙 n)).app V) (𝟙 ((componentPresheaf P n).obj V)) := by
-  show HEq
+  change HEq
     (P.map (transitionHom (𝟙 n) V.unop).op) (𝟙 _)
   let U : Opens (X.obj n) := V.unop
   let W : Opens (X.obj n) := (Opens.map (X.map (𝟙 n))).obj U
@@ -190,7 +190,7 @@ lemma transitionMap_comp_app (P : (SimplicialOpen X)ᵒᵖ ⥤ A)
     (V : (Opens (X.obj n))ᵒᵖ) :
     HEq (((transitionMap P φ).compPresheaf (transitionMap P ψ)).app V)
       ((transitionMap P (φ ≫ ψ)).app V) := by
-  show HEq
+  change HEq
     (P.map (transitionHom ψ V.unop).op ≫
       P.map (transitionHom φ ((Opens.map (X.map ψ)).obj V.unop)).op)
     (P.map (transitionHom (φ ≫ ψ) V.unop).op)
@@ -206,7 +206,7 @@ lemma transitionMap_comp_app (P : (SimplicialOpen X)ᵒᵖ ⥤ A)
   let c : (⟨l, W⟩ : SimplicialOpen X) ⟶ ⟨n, U⟩ := transitionHom (φ ≫ ψ) U
   have h : eqToHom hobj ≫ k = c := by
     apply SimplicialOpen.Hom.ext
-    show ((eqToHom hobj).base ≫ φ) ≫ ψ = φ ≫ ψ
+    change ((eqToHom hobj).base ≫ φ) ≫ ψ = φ ≫ ψ
     rw [eqToHom_base_self hobj]
     simp
   have hmap := congrArg (fun f => P.map f.op) h
@@ -218,7 +218,7 @@ lemma transitionMap_comp_app (P : (SimplicialOpen X)ᵒᵖ ⥤ A)
     simpa only [op_comp, Functor.map_comp, eqToHom_op, eqToHom_map] using hmap
   have htransition : HEq (P.map k.op) (P.map c.op) :=
     (comp_eqToHom_heq_iff _ _ eP).mp (heq_of_eq hmap')
-  show HEq
+  change HEq
     (P.map (transitionHom ψ U).op ≫ P.map (transitionHom φ W₁).op)
     (P.map (transitionHom (φ ≫ ψ) U).op)
   have hk : P.map k.op =
@@ -290,7 +290,7 @@ private lemma systemRestriction_transitionHom (S : SimplicialSheafSystem X A)
     systemRestriction S (SimplicialSheafSystem.transitionHom φ V) =
       (S.transition φ).app (op V) := by
   let F := (TopCat.Sheaf.forget A (X.obj n)).obj (S.component n)
-  show (S.transition φ).app (op V) ≫ F.map (𝟙 _) = (S.transition φ).app (op V)
+  change (S.transition φ).app (op V) ≫ F.map (𝟙 _) = (S.transition φ).app (op V)
   rw [F.map_id, Category.comp_id]
 
 private lemma systemRestriction_extracted (F : Sheaf (SimplicialOpen.grothendieckTopology X) A)
@@ -303,9 +303,9 @@ private lemma systemRestriction_extracted (F : Sheaf (SimplicialOpen.grothendiec
     homOfLE (SimplicialOpen.Hom.le f)
   have hfactor : G.map a ≫ SimplicialSheafSystem.transitionHom f.base V.toOpens = f := by
     apply SimplicialOpen.Hom.ext
-    show 𝟙 U.degree ≫ f.base = f.base
+    change 𝟙 U.degree ≫ f.base = f.base
     simp
-  show P.map (SimplicialSheafSystem.transitionHom f.base V.toOpens).op ≫
+  change P.map (SimplicialSheafSystem.transitionHom f.base V.toOpens).op ≫
     P.map (G.map a).op = P.map f.op
   dsimp [G, levelFunctor, SimplicialSheafSystem.transitionHom] at hfactor ⊢
   rw [← P.map_comp, ← op_comp]
@@ -357,7 +357,7 @@ private lemma levelwise_factorization {U V : SimplicialOpen X} (f : V ⟶ U)
       cases e
       apply SimplicialOpen.Hom.ext
       have hb : f.base = 𝟙 ud := by simpa using he
-      show 𝟙 ud ≫ f.base = 𝟙 ud
+      change 𝟙 ud ≫ f.base = 𝟙 ud
       rw [hb]
       simp
 
@@ -398,7 +398,7 @@ private lemma systemRestriction_id (S : SimplicialSheafSystem X A)
   have hmap : F.map (eqToHom e.symm).op =
       eqToHom (congrArg (fun U : Opens (X.obj n) => F.obj (op U)) e) := by
     simp only [eqToHom_op, eqToHom_map]
-  show (S.transition (SimplicialOpen.Hom.id ⟨n, V⟩).base).app (op V) ≫
+  change (S.transition (SimplicialOpen.Hom.id ⟨n, V⟩).base).app (op V) ≫
       F.map (eqToHom e.symm).op = 𝟙 (F.obj (op V))
   rw [hmap]
   exact hcast
@@ -420,7 +420,7 @@ private lemma systemRestriction_levelwise (S : SimplicialSheafSystem X A)
 private lemma systemRestriction_comp (S : SimplicialSheafSystem X A)
     {U V W : SimplicialOpen X} (f : U ⟶ V) (g : V ⟶ W) :
     systemRestriction S g ≫ systemRestriction S f = systemRestriction S (f ≫ g) := by
-  show ((S.transition g.base).app (op W.toOpens) ≫
+  change ((S.transition g.base).app (op W.toOpens) ≫
       ((TopCat.Sheaf.forget A (X.obj V.degree)).obj (S.component V.degree)).map
         (homOfLE (SimplicialOpen.Hom.le g)).op) ≫
       ((S.transition f.base).app (op V.toOpens) ≫
@@ -615,7 +615,7 @@ private lemma systemPresheaf_isSheafFor_levelwise (S : SimplicialSheafSystem X A
   · intro i
     have hobjI : P.obj (op (L.obj (opens i))) = F.obj (op (opens i)) := rfl
     cases hobjI
-    show t ≫ P.map (f i).op = x i
+    change t ≫ P.map (f i).op = x i
     have : IsIso (P.map (iso i).hom.op) := Functor.map_isIso P (iso i).hom.op
     apply (cancel_mono (P.map (iso i).hom.op)).mp
     have h₁ :
@@ -628,7 +628,7 @@ private lemma systemPresheaf_isSheafFor_levelwise (S : SimplicialSheafSystem X A
     intro i
     have hobjI : P.obj (op (L.obj (opens i))) = F.obj (op (opens i)) := rfl
     cases hobjI
-    show t' ≫ F.map (inc i).op = y i
+    change t' ≫ F.map (inc i).op = y i
     have h₁ : t' ≫ F.map (inc i).op =
         t' ≫ (P.map (f i).op ≫ P.map (iso i).hom.op) :=
       congrArg (fun g => t' ≫ g) (hfactorMap i)
@@ -644,7 +644,7 @@ private lemma systemPresheaf_isSheaf (S : SimplicialSheafSystem X A) :
     Presheaf.IsSheaf (SimplicialOpen.grothendieckTopology X) (systemPresheaf S) := by
   let := SimplicialOpen.precoverage_hasPullbacks X
   let := SimplicialOpen.precoverage_isStableUnderBaseChange X
-  show ∀ E : A, Presieve.IsSheaf (SimplicialOpen.precoverage X).toGrothendieck
+  change ∀ E : A, Presieve.IsSheaf (SimplicialOpen.precoverage X).toGrothendieck
     (systemPresheaf S ⋙ coyoneda.obj (op E))
   intro E
   rw [Precoverage.isSheaf_toGrothendieck_iff_of_isStableUnderBaseChange]

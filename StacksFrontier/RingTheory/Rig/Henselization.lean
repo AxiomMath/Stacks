@@ -136,7 +136,7 @@ private theorem exists_etale_stage
   let gB : B →ₐ[A] E :=
     { toRingHom := g0.toRingHom.comp ((eT.symm.toAlgHom.toRingHom).comp incl.toRingHom)
       commutes' := fun a => by
-        show g0 (eT.symm (incl (algebraMap A B a))) = algebraMap A E a
+        change g0 (eT.symm (incl (algebraMap A B a))) = algebraMap A E a
         rw [incl.commutes, IsScalarTower.algebraMap_apply A C (C ⊗[A] B),
           eT.symm.commutes, g0.commutes]
         exact (IsScalarTower.algebraMap_apply A C E a).symm }
@@ -174,7 +174,7 @@ public theorem quotientMap_away_bijective_of_section {C : Type*} [CommRing C] (J
         = Ideal.Quotient.mk (J.map (algebraMap C (Localization.Away h))) := by
       refine IsLocalization.ringHom_ext (Submonoid.powers h) ?_
       ext a
-      show Ideal.quotientMap (J.map (algebraMap C (Localization.Away h)))
+      change Ideal.quotientMap (J.map (algebraMap C (Localization.Away h)))
             (algebraMap C (Localization.Away h)) Ideal.le_comap_map
             (gS (algebraMap E (Localization.Away h) a))
           = Ideal.Quotient.mk _ (algebraMap E (Localization.Away h) a)
@@ -226,14 +226,14 @@ private theorem exists_localization_quotient_iso
     RingEquiv.ofBijective _ hquot
   have hqe (c : C) : qe (Ideal.Quotient.mk J c)
       = Ideal.Quotient.mk (J.map (algebraMap C H)) (algebraMap C H c) := by
-    show Ideal.quotientMap (J.map (algebraMap C H)) (algebraMap C H) Ideal.le_comap_map
+    change Ideal.quotientMap (J.map (algebraMap C H)) (algebraMap C H) Ideal.le_comap_map
         (Ideal.Quotient.mk J c) = _
     exact Ideal.quotientMap_mk ..
   let σ : E →ₐ[C] C ⧸ J :=
     { toRingHom := qe.symm.toRingHom.comp
         ((Ideal.Quotient.mk (J.map (algebraMap C H))).comp k0.toRingHom)
       commutes' := fun c => by
-        show qe.symm (Ideal.Quotient.mk (J.map (algebraMap C H)) (k0 (algebraMap C E c)))
+        change qe.symm (Ideal.Quotient.mk (J.map (algebraMap C H)) (k0 (algebraMap C E c)))
             = Ideal.Quotient.mk J c
         rw [k0.commutes, ← hqe, qe.symm_apply_apply] }
   have hσ (a : E) : qe (σ a) = Ideal.Quotient.mk (J.map (algebraMap C H)) (k0 a) :=
@@ -310,7 +310,7 @@ private theorem exists_etale_factorization_aux
       ((IsScalarTower.toAlgHom A E (Localization.Away h)).comp gB),
     k0'.comp uL.toAlgHom, quotientMap_bijective_of_algEquiv J uL.symm hbij', ?_⟩
   ext b
-  show k0' (uL (uL.symm (algebraMap E (Localization.Away h) (gB b)))) = f b
+  change k0' (uL (uL.symm (algebraMap E (Localization.Away h) (gB b)))) = f b
   rw [uL.apply_symm_apply]
   exact (AlgHom.congr_fun hkk (gB b)).trans (AlgHom.congr_fun hgk b)
 

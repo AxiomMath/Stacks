@@ -510,7 +510,7 @@ theorem ofEvalHom_comp_mk {n : ℕ} (x : Fin n → A) :
 the `y j`. This is what makes `ofEval x y` a pair *over* `(A, span (eval x ∘ y))`. -/
 theorem map_ideal_ofEvalHom {n m : ℕ} (x : Fin n → A) (y : Fin m → presentationRing.{u} n) :
     (ofEval x y).ideal.map (ofEvalHom x) = Ideal.span (Set.range fun j => eval x (y j)) := by
-  show ((Ideal.span (Set.range y)).map
+  change ((Ideal.span (Set.range y)).map
     (Ideal.Quotient.mk (RingHom.ker (eval x)))).map (ofEvalHom x) = _
   rw [Ideal.map_map, ofEvalHom_comp_mk, Ideal.map_span, ← Set.range_comp]
   rfl

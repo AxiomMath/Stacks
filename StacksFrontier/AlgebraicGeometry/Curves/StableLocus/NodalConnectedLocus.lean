@@ -108,7 +108,7 @@ theorem exists_opens_isAtWorstNodal_restrict_and_forall_mem_iff {Z T : Scheme.{u
   let U : T.Opens := ⟨(π '' (N : Set Z)ᶜ)ᶜ, hclosed.isOpen_compl⟩
   have hU : ∀ t : T, t ∈ U ↔ ∀ z : Z, π z = t → z ∈ N := by
     intro t
-    show t ∈ (π '' (N : Set Z)ᶜ)ᶜ ↔ _
+    change t ∈ (π '' (N : Set Z)ᶜ)ᶜ ↔ _
     simp only [Set.mem_compl_iff, Set.mem_image, not_exists, not_and]
     exact ⟨fun h z hz => by_contra fun hn => h z hn hz, fun h z hn hz => hn (h z hz)⟩
   refine ⟨U, ?_, fun K _ V y q fV sq => ?_⟩
@@ -147,7 +147,7 @@ theorem exists_isPullback_fiberToSpecResidueField {Z T V : Scheme.{u}} (π : Z �
   let a : V ⟶ π.fiber t := hF.lift q (fV ≫ Spec.map φ) (by rw [Category.assoc, hy, sq.w])
   have ha : a ≫ π.fiberι t = q := hF.lift_fst _ _ _
   refine ⟨φ, a, hy, ha, IsPullback.of_right ?_ (hF.lift_snd _ _ _) hF⟩
-  show IsPullback (a ≫ π.fiberι t) fV π (Spec.map φ ≫ T.fromSpecResidueField t)
+  change IsPullback (a ≫ π.fiberι t) fV π (Spec.map φ ≫ T.fromSpecResidueField t)
   rwa [ha, hy]
 
 /-- **Geometric connectedness is unchanged by extension of the ground field**, for a base change
@@ -210,7 +210,7 @@ theorem exists_opens_geometricallyConnected_restrict_and_forall_mem_iff {Z T : S
       (y (IsLocalRing.closedPoint K) ∈ U ↔ GeometricallyConnected fV) := by
     intro K _ V y q fV sq
     obtain ⟨φ, a, -, -, ha⟩ := exists_isPullback_fiberToSpecResidueField π sq
-    show numGeometricConnectedComponents π _ = 1 ↔ _
+    change numGeometricConnectedComponents π _ = 1 ↔ _
     rw [← geometricallyConnected_iff_numGeometricConnectedComponents_eq_one]
     exact geometricallyConnected_iff_of_isPullback_specMap φ _ ha
   refine ⟨U, ⟨fun K _ y' Z' fst snd sq' => ?_⟩, key⟩

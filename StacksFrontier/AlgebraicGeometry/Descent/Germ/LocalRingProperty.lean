@@ -58,7 +58,7 @@ theorem GermOfScheme.isEtaleLocal_stalk_property (P : (R : Type u) → [CommRing
   intro X S f hf
   obtain ⟨r, hr, hEtale⟩ := hf
   subst f
-  show P (S.scheme.presheaf.stalk S.point) ↔ P (X.scheme.presheaf.stalk X.point)
+  change P (S.scheme.presheaf.stalk S.point) ↔ P (X.scheme.presheaf.stalk X.point)
   let xR : r.source := ⟨X.point, r.mem_source⟩
   obtain ⟨U, hU, hxU, V, hV, hUV, hAffineEtale⟩ :=
     (etale_iff_forall_etaleAt r.hom).mp hEtale xR
@@ -68,7 +68,7 @@ theorem GermOfScheme.isEtaleLocal_stalk_property (P : (R : Type u) → [CommRing
   let p : Ideal Γ(S.scheme, V) := (hV.primeIdealOf y).asIdeal
   let q : Ideal Γ(r.source.toScheme, U) := (hU.primeIdealOf x).asIdeal
   have hpq : q.comap (r.hom.appLE V U hUV).hom = p := by
-    show ((hU.primeIdealOf x).asIdeal).comap (r.hom.appLE V U hUV).hom =
+    change ((hU.primeIdealOf x).asIdeal).comap (r.hom.appLE V U hUV).hom =
       (hV.primeIdealOf y).asIdeal
     simpa [xR, x, y, p, q, r.map_point] using congrArg PrimeSpectrum.asIdeal
       (IsAffineOpen.comap_primeIdealOf_appLE V hV U hU hUV hxU)

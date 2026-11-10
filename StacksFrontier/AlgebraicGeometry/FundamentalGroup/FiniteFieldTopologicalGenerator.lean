@@ -61,7 +61,7 @@ theorem eq_top_of_frobenius_mem (K L : Type*) [Field K] [Fintype K] [Field L] [A
     intro ⟨x, hx⟩
     have h1 : ρ x = τ x := by
       simpa only [hrestr] using congrArg (fun φ : Gal(E/K) => (φ ⟨x, hx⟩ : L)) hρ
-    show (ρ⁻¹ * τ) x = x
+    change (ρ⁻¹ * τ) x = x
     rw [AlgEquiv.mul_apply, ← h1]
     exact ρ.symm_apply_apply x
   have hρU : ρ ∈ U := U.pow_mem hF _
@@ -138,7 +138,7 @@ theorem exists_forall_openSubgroup_eq_top_of_finite (k kbar : Type u) [Field k] 
       (Spec (.of k)) ((x.map (pullback.fst f
         (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))).map f))) := by
     rw [← hquot.isOpen_preimage]
-    show IsOpen (φ.toMonoidHom ⁻¹' _)
+    change IsOpen (φ.toMonoidHom ⁻¹' _)
     rw [hpre]
     exact H.isOpen
   have htop := hγ ⟨H.toSubgroup.map φ.toMonoidHom, hopen⟩ ⟨σ, hσH, hσ⟩

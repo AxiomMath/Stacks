@@ -485,7 +485,7 @@ public theorem tripleFst_hom :
 public theorem tripleSnd_hom :
     tripleSnd B W₁ W₂ W₃ ≫ (smallEtaleOverlapObj B W₂ W₃).obj.hom =
       (smallEtaleTripleObj B W₁ W₂ W₃).obj.hom := by
-  show tripleSnd B W₁ W₂ W₃ ≫ pullback.fst W₂.obj.hom W₃.obj.hom ≫ W₂.obj.hom =
+  change tripleSnd B W₁ W₂ W₃ ≫ pullback.fst W₂.obj.hom W₃.obj.hom ≫ W₂.obj.hom =
     tripleFst B W₁ W₂ W₃ ≫ pullback.fst W₁.obj.hom W₂.obj.hom ≫ W₁.obj.hom
   rw [← Category.assoc, ← tripleFst_snd, Category.assoc, ← pullback.condition]
 
@@ -503,7 +503,7 @@ public abbrev tripleFstThd :
 public theorem tripleFstThd_hom :
     tripleFstThd B W₁ W₂ W₃ ≫ (smallEtaleOverlapObj B W₁ W₃).obj.hom =
       (smallEtaleTripleObj B W₁ W₂ W₃).obj.hom := by
-  show tripleFstThd B W₁ W₂ W₃ ≫ pullback.fst W₁.obj.hom W₃.obj.hom ≫ W₁.obj.hom = _
+  change tripleFstThd B W₁ W₂ W₃ ≫ pullback.fst W₁.obj.hom W₃.obj.hom ≫ W₁.obj.hom = _
   rw [← Category.assoc, pullback.lift_fst, Category.assoc]
   rfl
 
@@ -762,7 +762,7 @@ public theorem exists_stage_transitions (hc : IsLimit c)
     (systemStageHom B (memberSystem B Dg j (smallEtaleOverlapObj B (W n) (W m))) hJ₀₁)
     (τ₀ n m)
   refine ⟨J₁.1, J₁.2, τ₁, fun n m l => ?_, fun n m => ?_⟩
-  · show smallEtaleConstantTransport B A _ (smallEtaleConstantTransport B A _ (τ₀ n m).hom) ≫
+  · change smallEtaleConstantTransport B A _ (smallEtaleConstantTransport B A _ (τ₀ n m).hom) ≫
       smallEtaleConstantTransport B A _ (smallEtaleConstantTransport B A _ (τ₀ m l).hom) =
       smallEtaleConstantTransport B A _ (smallEtaleConstantTransport B A _ (τ₀ n l).hom)
     iterate 3 rw [smallEtaleConstantTransport_square _ _ _ _
@@ -884,6 +884,7 @@ public theorem nonempty_iso_of_trivializations {S : B.Scheme} {K : Type*}
     rw [Functor.map_comp, hψ, hψ', CategoryTheory.Functor.map_id]
     simp
 
+omit [HasLimitsOfSize.{u + 1, u + 1} A] in
 /-- The transition between two restricted trivializations, written out. -/
 public theorem smallEtaleTrivializationRestrict_inv_hom_eq_trans {S X₁ X₂ O : B.Scheme}
     {F : Sheaf (SmallEtale.topology B S.obj S.property) A} {f₁ : X₁ ⟶ S} {f₂ : X₂ ⟶ S}

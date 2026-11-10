@@ -143,10 +143,10 @@ private theorem not_forall_sum_mul_sub_ite_mem_maximalIdeal [IsLocalRing R] {n :
     simp only [B, D]
     by_cases hik : i = k
     · subst hik
-      simp only [if_true, map_sub, map_mul, map_sum, map_one, sub_eq_zero] at hk
-      simpa only [if_true] using hk
-    · simp only [hik, if_false, map_mul, map_sum, sub_zero] at hk
-      rwa [if_neg (Ne.symm hik)]
+      simp only [ite_true, map_sub, map_mul, map_sum, map_one, sub_eq_zero] at hk
+      simpa only [ite_true] using hk
+    · simp only [hik, ite_false, map_mul, map_sum, sub_zero] at hk
+      rwa [ite_eq_right (Ne.symm hik)]
   have hrank := Matrix.rank_mul_le_left B D
   rw [hBD, Matrix.rank_one] at hrank
   have hw' := Matrix.rank_le_width B
@@ -196,7 +196,7 @@ theorem exists_isUnit_coeff_of_ofList_eq_span_insert [IsLocalRing R] {n : ℕ}
       simp_rw [← hd, Finset.smul_sum, smul_eq_mul, Finset.sum_mul, mul_assoc]
       exact Finset.sum_comm
     have e3 : ∑ i : Fin (n + 1), (if i = k then (1 : R) else 0) * f i = f k := by
-      simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     calc ∑ i, (a k * w i + ∑ j, b k j * d j i - (if i = k then 1 else 0)) * f i
         = ∑ i, (a k * (w i * f i) + (∑ j, b k j * d j i) * f i -
             (if i = k then (1 : R) else 0) * f i) :=

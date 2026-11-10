@@ -134,7 +134,7 @@ theorem pAdicDirectSum_not_isDerivedComplete (p : ℕ) [Fact p.Prime]
     ⟨n + 1, Nat.succ_pos n⟩ 1
   obtain ⟨a, ha⟩ := (hrec _ hp).2 y
   have hs : ((a 0).support.card : ENat) < ENat.card ℕ+ := by simp
-  obtain ⟨i, hi⟩ := Finset.exists_not_mem_of_card_lt_enatCard hs
+  obtain ⟨i, hi⟩ := Finset.exists_notMem_of_card_lt_enatCard hs
   have hcoord : ∀ n, a n i - (p : PadicInt p) * a (n + 1) i =
       if n + 1 = i.val then 1 else 0 := by
     intro n
@@ -142,7 +142,7 @@ theorem pAdicDirectSum_not_isDerivedComplete (p : ℕ) [Fact p.Prime]
     change a n - (p : PadicInt p) • a (n + 1) = y n at hn
     have h := congrArg (fun z : D => z i) hn
     have hyi : y n i = if n + 1 = i.val then 1 else 0 := by
-      show (DirectSum.of (fun _ : ℕ+ => PadicInt p)
+      change (DirectSum.of (fun _ : ℕ+ => PadicInt p)
         (⟨n + 1, Nat.succ_pos n⟩ : ℕ+) (1 : PadicInt p)) i = _
       exact directSum_basis_eval p ⟨n + 1, Nat.succ_pos n⟩ i
     change a n i - ((p : PadicInt p) • a (n + 1)) i = y n i at h

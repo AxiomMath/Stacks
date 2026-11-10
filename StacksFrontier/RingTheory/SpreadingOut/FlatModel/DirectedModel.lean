@@ -34,12 +34,12 @@ variable {K P : Type*} [CommRing K] [AddCommGroup P] [Module K P]
   (g : ∀ j, G j →ₐ[K] R) (hg : ∀ j k (h : j ≤ k) x, g k (f j k h x) = g j x)
   (hs : ∀ r, ∃ j x, g j x = r)
 
+omit [Nonempty J] in
 include hg hs in
 /-- Every element of `R ⊗[K] P` comes from some `G j ⊗[K] P`. -/
 theorem TensorProduct.exists_rTensor_eq_of_directed (z : R ⊗[K] P) :
     ∃ j x, LinearMap.rTensor P (g j).toLinearMap x = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨Classical.arbitrary J, 0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul r p =>
     obtain ⟨j, x, hx⟩ := hs r
     exact ⟨j, x ⊗ₜ p, by rw [LinearMap.rTensor_tmul, AlgHom.toLinearMap_apply, hx]⟩
@@ -53,6 +53,7 @@ theorem TensorProduct.exists_rTensor_eq_of_directed (z : R ⊗[K] P) :
       LinearMap.rTensor P (f k l hkl).toLinearMap y, ?_⟩
     rw [map_add, ← LinearMap.rTensor_comp_apply, ← LinearMap.rTensor_comp_apply, hc, hc]
 
+omit [Nonempty J] in
 include hg hs in
 /-- **Base change to the colimit of a cartesian system.** Let `R` be the directed colimit of
 `K`-algebras `G j` and `Y` the directed colimit of abelian groups `Q j`, and suppose that each
@@ -114,8 +115,7 @@ theorem Algebra.TensorProduct.lTensor_bijective_of_isPushout [Algebra A S] [Alge
   have e : ⇑(Algebra.IsPushout.equiv A R B S) ∘ ⇑(Algebra.TensorProduct.lTensor (S := R) R u) =
       ⇑(Algebra.IsPushout.equiv A R C S) := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r y => simp [Algebra.IsPushout.equiv_tmul, hu]
     | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
   rw [← Function.Bijective.of_comp_iff' (Algebra.IsPushout.equiv A R B S).bijective, e]
@@ -154,11 +154,9 @@ theorem LinearMap.baseChange_liftBaseChange_bijective (ψ : P →ₗ[T] N) {f : 
   have e : ⇑hg.equiv ∘ ⇑(LinearMap.baseChange S (ψ.liftBaseChange B)) =
       ⇑((TensorProduct.AlgebraTensorModule.cancelBaseChange T B S S P).trans hf.equiv) := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul c q => simp [IsBaseChange.equiv_tmul, ← hψ, TensorProduct.smul_tmul']
       | add y z hy hz =>
         simp only [Function.comp_apply, TensorProduct.tmul_add, map_add] at hy hz ⊢
@@ -290,14 +288,12 @@ theorem isPushout_colimit
     · exact exists_tail_rep (exists_ge_rep a ρ hρ hρs i r)
     · exact exists_tail_rep (exists_ge_rep b σ hσ hσs i s)
     · exact exists_tail_zero hσz j x hx
-    · induction x using TensorProduct.induction_on with
-      | zero => simp
+    · induction x using TensorProduct.inductionOn with
       | tmul x y =>
         simp [Algebra.IsPushout.equiv_tmul, RingHom.algebraMap_toAlgebra, f, hab',
           DirectedSystem.map_map' (fun i j h => b i j h)]
       | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
-    · induction x using TensorProduct.induction_on with
-      | zero => simp
+    · induction x using TensorProduct.inductionOn with
       | tmul x y =>
         simp [Algebra.IsPushout.equiv_tmul, RingHom.algebraMap_toAlgebra, c, g, hB, hσ, hρσ']
       | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
@@ -372,13 +368,11 @@ theorem isBaseChange_colimit
       obtain ⟨k, hik, hjk⟩ := exists_ge_ge i j
       exact ⟨⟨k, hik⟩, n j k hjk x, hν j k hjk x⟩
     · exact exists_tail_zero hνz j x hx
-    · induction x using TensorProduct.induction_on with
-      | zero => simp
+    · induction x using TensorProduct.inductionOn with
       | tmul x y =>
         simp [IsBaseChange.equiv_tmul, f, DirectedSystem.map_map' (fun i j h => n i j h)]
       | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
-    · induction x using TensorProduct.induction_on with
-      | zero => simp
+    · induction x using TensorProduct.inductionOn with
       | tmul x y => simp [IsBaseChange.equiv_tmul, c, g, legLinear, hν]
       | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
   exact IsBaseChange.of_equiv (LinearEquiv.ofBijective c hbij) fun x =>
@@ -609,8 +603,7 @@ theorem exists_isStageModel
     (Algebra.IsPushout.comp_iff (A i₀) (A i₁) T (A i₁ ⊗[A i₀] T)).mp inferInstance
   have hu (y : A i₁ ⊗[A i₀] T) :
       algebraMap (B i₁) S (u y) = algebraMap (A i₁ ⊗[A i₀] T) S y := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul x t =>
       have ht := DFunLike.congr_fun hχS t
       simp only [RingHom.comp_apply] at ht

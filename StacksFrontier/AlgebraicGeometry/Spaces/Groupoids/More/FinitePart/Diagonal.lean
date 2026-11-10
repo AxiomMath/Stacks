@@ -258,7 +258,7 @@ private theorem openSubspaces_eq_of_same_pointImage
   let e := openSubspacesOrderIso B S hS M hM
   have he : e ⟨U, hU⟩ = e ⟨V, hV⟩ := by
     refine SetLike.ext fun x => ?_
-    show x ∈ (openSubspacesOrderIso B S hS M hM ⟨U, hU⟩).1 ↔
+    change x ∈ (openSubspacesOrderIso B S hS M hM ⟨U, hU⟩).1 ↔
       x ∈ (openSubspacesOrderIso B S hS M hM ⟨V, hV⟩).1
     rw [openSubspacesOrderIso_apply B S hS M hM ⟨U, hU⟩,
       openSubspacesOrderIso_apply B S hS M hM ⟨V, hV⟩, hpoints]
@@ -285,7 +285,7 @@ private theorem contains_toScheme_opens
     (T : AlgebraicGeometry.BigFppfOver B S hS)
     (V : Scheme.Opens ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj T)) :
     B.Contains V.toScheme := by
-  show V.toScheme.size < B.cutoff
+  change V.toScheme.size < B.cutoff
   exact (Scheme.size_coe_opens_le _ V).trans_lt T.left.2
 
 private noncomputable def siteObjectOfSchemeOpen
@@ -318,7 +318,7 @@ private theorem siteObjectOfSchemeOpen_inclusion_map
       (siteObjectOfSchemeOpen_inclusion B S hS T V) = V.ι := by
   have hV := contains_toScheme_opens B S hS T V
   let vhom : B.inclusion.obj (B.obj hV) ⟶ B.inclusion.obj T.left := V.ι
-  show B.inclusion.map (B.inclusion.preimage vhom) = vhom
+  change B.inclusion.map (B.inclusion.preimage vhom) = vhom
   exact B.inclusion.map_preimage vhom
 
 private theorem exists_siteMap_factor_schemeOpen
@@ -342,7 +342,7 @@ private theorem exists_siteMap_factor_schemeOpen
     exact IsOpenImmersion.lift_fac V.ι g hrange'
   let k : T' ⟶ siteObjectOfSchemeOpen B S hS T V :=
     Over.homMk l' (by
-      show l' ≫ (m ≫ T.hom) = T'.hom
+      change l' ≫ (m ≫ T.hom) = T'.hom
       rw [← Category.assoc, hleft]
       exact h.w)
   refine ⟨k, ?_⟩
@@ -573,7 +573,7 @@ private theorem pointMap_not_in_finite_difference_image
     rw [himage]
     exact hwP
   have hwQ : w ∈ Set.range (pointsMap B S hS q'.subspace.toFunctor q'.subspace.ι) := by
-    show w ∈ Set.range (pointsMap B S hS qSub'.toFunctor qSub'.ι)
+    change w ∈ Set.range (pointsMap B S hS qSub'.toFunctor qSub'.ι)
     exact hsub ▸ hwP'
   rw [himage'', Set.mem_preimage, hw] at hwQ
   exact hv hwQ
@@ -833,7 +833,7 @@ private theorem exists_lift_of_diagonal_app_eq
   have hsecond : (yoneda.map i).app T' x₁ = x₃ := hki
   refine ⟨x₁, ?_, hsecond⟩
   rw [← yonedaEquiv_symm_naturality_left i fin.toFunctor ξ]
-  show (ConcreteCategory.hom ((yonedaEquiv.symm ξ).app T'))
+  change (ConcreteCategory.hom ((yonedaEquiv.symm ξ).app T'))
     ((ConcreteCategory.hom ((yoneda.map i).app T')) x₁) = x₂
   rw [hsecond]
   calc
@@ -848,6 +848,7 @@ private instance (priority := high) hasPullback_baseMap_finitePartDiagonal
   hasPullback_presheaf_finitePartDiagonal B S hS _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is expensive in this proof
 /-- **Stacks 04PK, the relative diagonal.** For a morphism `f : X ⟶ Y` of algebraic spaces
 over `S`, the diagonal `(X/Y)_fin ⟶ (X/Y)_fin ×_Y (X/Y)_fin` is representable by schemes and
 an open immersion. -/
@@ -861,7 +862,7 @@ theorem isOpenImmersion_diagonal_finiteOpenSubspacePresheaf
   let a := (finiteOpenSubspacePresheaf B S hS f).baseMap
   let Q : MorphismProperty Scheme.{u} := @AlgebraicGeometry.IsOpenImmersion.{u}
   let P := MorphismProperty.inverseImage Q (AlgebraicGeometry.BigFppfOver.toScheme B S hS)
-  show P.presheaf (pullback.diagonal a)
+  change P.presheaf (pullback.diagonal a)
   apply MorphismProperty.relative.of_exists (P := P) (F := yoneda)
   intro T g
   let fin := finiteOpenSubspacePresheaf B S hS f

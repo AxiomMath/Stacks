@@ -296,7 +296,7 @@ private lemma isPullback_biprodObjLift {A J I : FilteredObject 𝒜 ℤᵒᵖ} (
     (hg : IsPullback (g.natTrans.app i) (A.filtration.ι.app i) (I.filtration.ι.app i) g.hom) :
     IsPullback ((biprodObjLift f g).natTrans.app i) (A.filtration.ι.app i)
       ((biprodObj J I).filtration.ι.app i) (biprodObjLift f g).hom := by
-  show IsPullback (biprod.lift (f.natTrans.app i) (g.natTrans.app i)) (A.filtration.ι.app i)
+  change IsPullback (biprod.lift (f.natTrans.app i) (g.natTrans.app i)) (A.filtration.ι.app i)
     (biprod.map (J.filtration.ι.app i) (I.filtration.ι.app i)) (biprod.lift f.hom g.hom)
   have key : ∀ s : PullbackCone (biprod.map (J.filtration.ι.app i) (I.filtration.ι.app i))
       (biprod.lift f.hom g.hom),
@@ -365,7 +365,7 @@ private lemma exists_biprodInjective [EnoughInjectives 𝒜] (n : ℕ) :
           I'.filtration.obj (op (a + 1)) ⟶ _) = 0 :=
         (hJzero (a + 1) le_rfl).eq_of_tgt _ _
       have hw : (biprodObj J I').filtration.ι.app (op (a + 1)) ≫ biprod.fst = 0 := by
-        show biprod.map (J.filtration.ι.app (op (a + 1)))
+        change biprod.map (J.filtration.ι.app (op (a + 1)))
           (I'.filtration.ι.app (op (a + 1))) ≫ biprod.fst = 0
         rw [biprod.map_fst, hzfst, zero_comp]
       refine isPullback_of_factorsThru _ _ _ _ biprod.fst

@@ -169,7 +169,7 @@ theorem hom_isoFormalSpectrumOfStageNatIso_comp
         (colimitIsoFormalSpectrumOfCompletion f hR.1 E).hom) ≫ formalSpectrumMap hR c =
       (isoColimitStageBaseChange D v hR.1).inv ≫ v := by
     refine colimit.hom_ext fun J ↦ ?_
-    rw [Category.assoc, HasColimit.isoOfNatIso_ι_hom_assoc,
+    rw [Category.assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
       ι_colimitIsoFormalSpectrumOfCompletion_hom_assoc]
     refine (congrArg _ (formalSpectrumMap_spec hR c (OrderDual.ofDual J)
       (kerProjectionIdeal f (OrderDual.ofDual J))
@@ -276,7 +276,7 @@ theorem specMap_system_B_map {J K : WeakIdeals R} (g : J ⟶ K) :
     Spec.map ((system D hX Y).B.map g.op) =
       ((schemeDiagram D hX Y).obj J).isoSpec.inv ≫ (schemeDiagram D hX Y).map g ≫
         ((schemeDiagram D hX Y).obj K).isoSpec.hom := by
-  show Spec.map ((schemeDiagram D hX Y).map g).appTop = _
+  change Spec.map ((schemeDiagram D hX Y).map g).appTop = _
   have h := congrArg (fun k ↦ ((schemeDiagram D hX Y).obj J).isoSpec.inv ≫ k)
     (Scheme.toSpecΓ_naturality ((schemeDiagram D hX Y).map g))
   simpa only [Category.assoc, ← Scheme.isoSpec_hom, Iso.inv_hom_id_assoc] using h.symm

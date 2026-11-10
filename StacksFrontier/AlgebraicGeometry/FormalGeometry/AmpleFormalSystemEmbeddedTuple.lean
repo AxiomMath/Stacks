@@ -110,7 +110,7 @@ public theorem exists_generatingTuple_isClosedImmersion_of_isAmple {X S : Scheme
       (projectiveSpaceOver.toIntegralAtUniverse N S)).app (twistingSheafAtUniverse.{u} N)
   refine ⟨N, (transportTuple (tautological g) β).coord,
     (transportTuple (tautological g) β).generates, ?_⟩
-  show IsClosedImmersion (liftOver f (tupleHom (transportTuple (tautological g) β)))
+  change IsClosedImmersion (liftOver f (tupleHom (transportTuple (tautological g) β)))
   rw [tupleHom_congr (isomorphic_transportTuple (tautological g) β), tupleHom_tautological, hg,
     liftOver_eq f ψ hover]
   exact isClosedImmersion_of_isImmersion_over (f := f) ψ hψ hover

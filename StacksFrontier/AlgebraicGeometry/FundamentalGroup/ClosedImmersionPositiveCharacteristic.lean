@@ -92,7 +92,7 @@ private theorem app_eq_self_of_finiteEtaleBaseChange {Z X : Scheme.{u}} [Connect
     (y : finiteEtaleFiber z ((finiteEtaleBaseChange i).obj U)) :
     (σ.asIso.app ((finiteEtaleBaseChange i).obj U)).hom y = y := by
   apply (finiteEtaleFiberProjectionEquiv i z U).injective
-  show finiteEtaleFiberProjection i z U
+  change finiteEtaleFiberProjection i z U
       ((σ.asIso.app ((finiteEtaleBaseChange i).obj U)).hom y) = _
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection i z U σ y, hσ]
   rfl

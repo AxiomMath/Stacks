@@ -261,7 +261,7 @@ private lemma exists_dense_partialMap_fixed_image {X Y : Scheme.{u}} [IsIntegral
   refine ⟨U, hU, h₂, fun x ↦ ?_⟩
   have hx := congrArg (fun a : U.toScheme ⟶ Y ↦ a x) hh
   change (X.homOfLE h₁ ≫ (f.toPartialMap.comp r).hom) x = (X.homOfLE h₂ ≫ r.hom ≫ g) x at hx
-  show (X.homOfLE h₂ ≫ r.hom ≫ g) x = _
+  change (X.homOfLE h₂ ≫ r.hom ≫ g) x = _
   rw [← hx]
   have hmor : (f.toPartialMap.domain.ι.isoImage (f.toPartialMap.hom ⁻¹ᵁ r.domain)).inv ≫
       (f.toPartialMap.hom ∣_ r.domain) ≫ r.domain.ι =
@@ -272,7 +272,7 @@ private lemma exists_dense_partialMap_fixed_image {X Y : Scheme.{u}} [IsIntegral
       f.toPartialMap.hom ∣_ r.domain) ((X.homOfLE h₁) x) = (X.homOfLE h₂) x := by
     apply Subtype.ext
     refine (congrArg (fun m ↦ m ((X.homOfLE h₁) x)) hmor).trans ?_
-    show f (((X.homOfLE h₁) x).1) = ((X.homOfLE h₂) x).1
+    change f (((X.homOfLE h₁) x).1) = ((X.homOfLE h₂) x).1
     rw [Scheme.homOfLE_apply, Scheme.homOfLE_apply]
     exact hpoints _
   rw [Scheme.PartialMap.comp_hom]
@@ -309,7 +309,7 @@ theorem finite_moved_points_of_rational_intertwining (k : Type u) [Field k] {X Y
   have : IsDominant l := inferInstanceAs (IsDominant (r.restrict U hU hle).hom)
   have : LocallyOfFiniteType (l ≫ Y ↘ Spec (.of k)) := by
     rw [comp_over]
-    show LocallyOfFiniteType (U.ι ≫ X ↘ Spec (.of k))
+    change LocallyOfFiniteType (U.ι ≫ X ↘ Spec (.of k))
     infer_instance
   have : LocallyOfFiniteType l := locallyOfFiniteType_of_comp l (Y ↘ Spec (.of k))
   apply (finite_compl_range_of_dominant_curve hY l).subset

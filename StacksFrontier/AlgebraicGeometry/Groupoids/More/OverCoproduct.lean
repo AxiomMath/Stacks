@@ -84,7 +84,7 @@ lemma sigmaOver_hom (U : ι → Over S) :
 
 /-- The `i`-th injection into the coproduct of a family of schemes over `S`. -/
 noncomputable def sigmaOverι (U : ι → Over S) (i : ι) : U i ⟶ sigmaOver U :=
-  Over.homMk (Sigma.ι (fun i => (U i).left) i) (Sigma.ι_desc _ _)
+  Over.homMk (Sigma.ι (fun i => (U i).left) i) (Sigma.ι_comp_desc _ _)
 
 /-- The underlying morphism of `sigmaOverι U i` is the `i`-th coproduct injection of schemes. -/
 @[simp]
@@ -172,7 +172,7 @@ theorem nonempty_isColimit_cofanMk_of_isPullback_sigmaDesc
     Nonempty (IsColimit (Cofan.mk A k)) := by
   have hpb : ∀ i, IsPullback (k i) (a' i) a (Sigma.ι X i) := fun i => by
     refine IsPullback.of_right ?_ (hk i) hA.flip
-    rw [hk' i, Sigma.ι_desc]
+    rw [hk' i, Sigma.ι_comp_desc]
     exact (hA' i).flip
   have hoi : ∀ i, IsOpenImmersion (k i) := fun i =>
     MorphismProperty.of_isPullback (P := @IsOpenImmersion) (hpb i).flip inferInstance

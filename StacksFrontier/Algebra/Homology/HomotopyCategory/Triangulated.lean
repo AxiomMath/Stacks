@@ -5,7 +5,7 @@ public import Mathlib.Algebra.Homology.HomotopyCategory.Plus
 public import Mathlib.Algebra.Homology.HomotopyCategory.Shift
 public import Mathlib.CategoryTheory.Triangulated.Basic
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksFrontier.Algebra.Homology.HomotopyCategory.DegreewiseSplit
 public import StacksFrontier.Algebra.Homology.HomotopyCategory.Minus
 
@@ -614,7 +614,7 @@ public theorem exists_trianglehOfDegreewiseSplit_of_distinguished
   refine ⟨twist φ, twistι φ, twistπ φ, twistι_comp_twistπ φ, twistSplitting φ, ?_⟩
   have hmor₃ :
       (trianglehOfDegreewiseSplit (twistShortComplex φ) (twistSplitting φ)).mor₃ = c := by
-    show (HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).map
+    change (HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).map
         (homOfDegreewiseSplit (twistShortComplex φ) (twistSplitting φ)) ≫
       ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).commShiftIso (1 : ℤ)).hom.app A = c
     rw [homOfDegreewiseSplit_twistSplitting, hφ]
@@ -1072,7 +1072,7 @@ theorem octInj_delta {Acx Bcx Ccx : Cpx A}
     (α : TermwiseSplitInj Acx Bcx) (β : TermwiseSplitInj Bcx Ccx) :
     (tsesOfSplitInj α).delta = octInj α β ≫ (tsesOfSplitInj (splitInj_comp α β)).delta := by
   ext n
-  show α.incl n ≫ Bcx.d n (n + 1) ≫ α.retr (n + 1)
+  change α.incl n ≫ Bcx.d n (n + 1) ≫ α.retr (n + 1)
     = Limits.biprod.inl ≫ ((splitInj_comp α β).incl n ≫ Ccx.d n (n + 1) ≫
         (β.retr (n + 1) ≫ α.retr (n + 1)))
   simp only [splitInj_comp, Limits.biprod.inl_desc_assoc, Category.assoc]
@@ -1083,7 +1083,7 @@ theorem projHom_octInj {Acx Bcx Ccx : Cpx A}
     (α : TermwiseSplitInj Acx Bcx) (β : TermwiseSplitInj Bcx Ccx) :
     projHom α ≫ octInj α β = β.hom ≫ projHom (splitInj_comp α β) := by
   ext n
-  show α.proj n ≫ Limits.biprod.inl
+  change α.proj n ≫ Limits.biprod.inl
     = β.hom.f n ≫ Limits.biprod.lift (β.retr n ≫ α.proj n) (β.proj n)
   refine Limits.biprod.hom_ext _ _ ?_ ?_
   · simp only [Category.assoc, Limits.biprod.inl_fst, Category.comp_id, Limits.biprod.lift_fst]
@@ -1096,7 +1096,7 @@ theorem projHom_octProj {Acx Bcx Ccx : Cpx A}
     (α : TermwiseSplitInj Acx Bcx) (β : TermwiseSplitInj Bcx Ccx) :
     projHom (splitInj_comp α β) ≫ octProj α β = projHom β := by
   ext n
-  show Limits.biprod.lift (β.retr n ≫ α.proj n) (β.proj n) ≫ Limits.biprod.snd = β.proj n
+  change Limits.biprod.lift (β.retr n ≫ α.proj n) (β.proj n) ≫ Limits.biprod.snd = β.proj n
   simp only [Limits.biprod.lift_snd]
 
 /-- Strict chain identity (TR4(i)): `octTSES.delta = delta_β ≫ shift (projHom α)`. -/
@@ -1105,7 +1105,7 @@ theorem octTSES_delta {Acx Bcx Ccx : Cpx A}
     (octTSES α β).delta
       = (tsesOfSplitInj β).delta ≫ (CochainComplex.shiftFunctor A 1).map (projHom α) := by
   ext n
-  show Limits.biprod.inr ≫ ((splitInj_comp α β).incl n ≫ Ccx.d n (n + 1) ≫
+  change Limits.biprod.inr ≫ ((splitInj_comp α β).incl n ≫ Ccx.d n (n + 1) ≫
       (splitInj_comp α β).proj (n + 1)) ≫ Limits.biprod.fst
     = (β.incl n ≫ Ccx.d n (n + 1) ≫ β.retr (n + 1)) ≫ α.proj (n + 1)
   simp only [splitInj_comp, Limits.biprod.inr_desc_assoc, Category.assoc,

@@ -85,7 +85,7 @@ public theorem exists_isAlmostBlowUpSquare_closedImmersion_to_both
   let fOver : c.pt ⟶ Over.mk (pullback.fst b₁ b₂) :=
     Over.homMk fPB (by
       change fPB ≫ pullback.fst b₁ b₂ = K.subschemeι
-      simpa [fPB] using pullback.lift_fst K.subschemeι f₂ hf₂.symm)
+      simp [fPB])
   have hCompactStage (J : C) : CompactSpace J.val.subscheme :=
     (quasiCompact_iff_compactSpace J.val.subschemeι).mp inferInstance
   have hQSStage (J : C) : QuasiSeparatedSpace J.val.subscheme :=

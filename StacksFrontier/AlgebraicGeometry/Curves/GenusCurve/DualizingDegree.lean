@@ -94,11 +94,11 @@ theorem eq_univ_of_isClosed_of_mem_genericPoints {Z : Type*} [TopologicalSpace Z
     [NoetherianSpace Z] [QuasiSober Z] [T0Space Z] [ConnectedSpace Z] {x : Z}
     (hx : IsClosed ({x} : Set Z)) (hg : x ∈ genericPoints Z) : ({x} : Set Z) = Set.univ := by
   have hcomp : ({x} : Set Z) ∈ irreducibleComponents Z := by
-    rwa [genericPoints, Set.mem_setOf_eq, hx.closure_eq] at hg
+    rwa [genericPoints, Set.mem_ofPred_eq, hx.closure_eq] at hg
   have hopen : IsOpen ({x} : Set Z) := by
     have heq : ({x} : Set Z)ᶜ = ⋃ C ∈ irreducibleComponents Z \ {({x} : Set Z)}, C := by
       ext y
-      simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_diff,
+      simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_sdiff,
         exists_prop]
       constructor
       · intro hyx
@@ -108,7 +108,7 @@ theorem eq_univ_of_isClosed_of_mem_genericPoints {Z : Type*} [TopologicalSpace Z
       · rintro ⟨C, ⟨hC, hCx⟩, hyC⟩ rfl
         exact hCx (hcomp.eq_of_subset hC.1 (Set.singleton_subset_iff.mpr hyC)).symm
     rw [← isClosed_compl_iff, heq]
-    exact ((NoetherianSpace.finite_irreducibleComponents).subset Set.diff_subset).isClosed_biUnion
+    exact ((NoetherianSpace.finite_irreducibleComponents).subset Set.sdiff_subset).isClosed_biUnion
       fun C hC => isClosed_of_mem_irreducibleComponents C hC.1
   exact (isClopen_iff.mp ⟨hx, hopen⟩).resolve_left (Set.singleton_nonempty x).ne_empty
 
@@ -178,7 +178,7 @@ theorem isInvertible_homology_neg_one_of_isGorenstein (k : Type u) [Field k] {X 
     let e₂ := ((((Stacks.ModuleSkyscraper.modulesStalkFunctor X x).mapDerivedCategoryHomologyIso
       (-1)).app ω).symm ≪≫ e).toLinearEquiv
     exact ⟨AffineOfModuleCategory.stalkLinearEquivOverRingCatStalk M x
-      (e₂.trans (Finsupp.LinearEquiv.finsuppUnique _ _ (ULift.{u} (Fin 1))).symm)⟩
+      (e₂.trans (Finsupp.uniqueLinearEquiv _ _ (default : ULift.{u} (Fin 1))).symm)⟩
   exact Stacks.ModuleDescent.isInvertible_of_isFiniteLocallyFreeOfRank_one X M hlf
 
 /-- **An invertible module with `h⁰ = g` and `h¹ = 1` has degree `2g - 2`**, on a proper scheme of

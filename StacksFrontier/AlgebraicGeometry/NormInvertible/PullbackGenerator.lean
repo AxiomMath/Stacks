@@ -325,7 +325,7 @@ theorem generatorRatioUnit_pullbackGenerator (f : X ⟶ Y) (L : Y.Modules)
         (pullbackGenerator f L hL U s) (pullbackGenerator f L hL U t) =
       Units.map (f.app U).hom.toMonoidHom (generatorRatioUnit L U s t) := by
   refine generatorRatioUnit_eq _ _ _ _ _ ?_
-  show Stacks.RingedSpace.pullbackUnit f.toLRSHom.toShHom L (op U) t.val = _
+  change Stacks.RingedSpace.pullbackUnit f.toLRSHom.toShHom L (op U) t.val = _
   rw [generatorRatio_spec L U s t]
   exact Stacks.RingedSpace.pullbackUnit_smul f.toLRSHom.toShHom L (op U)
     (generatorRatio L U s t) s.val

@@ -114,7 +114,7 @@ def locallyAnnihilatedSubgroup (hP : ∃ n, P n) (hmul : ∀ m n, P m → P n �
     AddSubgroup (Q.obj (op U)) where
   carrier := {x | annihilatorSieve P Q x ∈ J U}
   zero_mem' := by
-    rw [Set.mem_setOf_eq, annihilatorSieve_zero hP]
+    rw [Set.mem_ofPred_eq, annihilatorSieve_zero hP]
     exact J.top_mem U
   add_mem' hx hy := J.superset_covering (annihilatorSieve_add hmul _ _)
     (J.intersection_covering hx hy)

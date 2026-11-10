@@ -196,7 +196,7 @@ theorem isPrincipalDivisorCycleOfGood_cycleGroupClosedPushforward_of_iso
   funext T
   obtain ⟨T₀, rfl⟩ := IntegralClosedSubspace.surjective_pushforward_of_iso D.site D.base
     D.base_mem hX.1 hY.1 hintX.isDecentSpace hintY.isDecentSpace e T
-  show cycleClosedPushforward D hY.1 hX.1 (isDecentSpace_of_isGood D sY hY)
+  change cycleClosedPushforward D hY.1 hX.1 (isDecentSpace_of_isGood D sY hY)
       (isClosedImmersion_of_isIso D.site D.base D.base_mem e.hom) c.1 _ = _
   rw [cycleClosedPushforward_apply_pushforward, congrFun heq T₀]
   have hcodeq := codimension_integralClosedSubspaceSupport_pushforward_of_iso D.site D.base
@@ -204,11 +204,11 @@ theorem isPrincipalDivisorCycleOfGood_cycleGroupClosedPushforward_of_iso
   by_cases hcod : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hX.1 T₀) = 1
   · have hcod' := hcodeq.trans hcod
-    simp only [principalDivisorCycleCoefficients, dif_pos hcod, dif_pos hcod']
+    simp only [principalDivisorCycleCoefficients, dite_eq_left hcod, dite_eq_left hcod']
     exact hkey _ _ (IntegralClosedSubspace.toPrimeDivisor_equivOfIso D.site D.base D.base_mem
       hX.1 hY.1 hintX.isDecentSpace hintY.isDecentSpace e T₀ hcod hcod') _ _
   · have hcod' := hcodeq ▸ hcod
-    simp only [principalDivisorCycleCoefficients, dif_neg hcod, dif_neg hcod']
+    simp only [principalDivisorCycleCoefficients, dite_eq_right hcod, dite_eq_right hcod']
 
 include hintX hintY in
 /-- **A principal divisor is carried by an isomorphism of good integral spaces.**  For

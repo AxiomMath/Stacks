@@ -199,7 +199,7 @@ private lemma cancel_sheaf_comparison {C D E : Type*}
     (Sheaf.composeAndSheafify J L).map
         (inv ((sheafificationAdjunction J D).counit.app F)) ≫
       (presheafToSheafCompComposeAndSheafifyIso J L).hom.app F.obj = 𝟙 _ := by
-  show (presheafToSheaf J E).map (Functor.whiskerRight
+  change (presheafToSheaf J E).map (Functor.whiskerRight
     (inv ((sheafificationAdjunction J D).counit.app F)).hom L) ≫ _ = _
   rw [counit_inv_hom, ← presheafToSheafCompComposeAndSheafifyIso_inv_app J L F.obj]
   exact (presheafToSheafCompComposeAndSheafifyIso J L).inv_hom_id_app F.obj
@@ -401,7 +401,7 @@ private theorem canonicalRestrictionComparison_eq_map
       (presheafToSheafCompComposeAndSheafifyIso J (ModuleCat.extendScalars r)).hom.app P =
       𝟙 _ :=
     cancel_sheaf_comparison J (ModuleCat.extendScalars r) (G.restrictScalars B X ℓ n)
-  show (Sheaf.composeAndSheafify J (ModuleCat.extendScalars r)).map
+  change (Sheaf.composeAndSheafify J (ModuleCat.extendScalars r)).map
       (inv ((sheafificationAdjunction J _).counit.app (G.restrictScalars B X ℓ n))) ≫
     (presheafToSheafCompComposeAndSheafifyIso J (ModuleCat.extendScalars r)).hom.app P ≫
     (presheafToSheaf J _).map τ = _
@@ -448,7 +448,7 @@ private theorem canonicalReductionComparison_inv
     clear_value r
     subst r
     rfl
-  show b'.hom ≫ _ = _
+  change b'.hom ≫ _ = _
   rw [hb]
   rfl
 
@@ -611,7 +611,7 @@ private theorem reductionTailSequence_eventuallyConstant
           exact reductionStep_isIso B X ℓ G t k (N + d) (by omega) hc
             heventually (by omega)
         have hstep' : IsIso (R.map (homOfLE (show d ≤ d + 1 by omega)).op) := by
-          show IsIso ((reductionTailSequence B X ℓ G t k N hk).map
+          change IsIso ((reductionTailSequence B X ℓ G t k N hk).map
             (homOfLE (show d ≤ d + 1 by omega)).op)
           dsimp [reductionTailSequence]
           have hhom : homOfLE (show d ≤ d + 1 by omega) =
@@ -675,7 +675,7 @@ private theorem reductionTailSequence_obj_eq
     (k N : ℕ) (hkN : k ≤ N) (d n : ℕ) (hnd : N + d = n) :
     (reductionTailSequence B X ℓ G t k N hkN).obj (Opposite.op d) =
       FiniteLevelSheaf.reduceTo B X ℓ n k (by omega) (G n) := by
-  show FiniteLevelSheaf.reduceTo B X ℓ (N + d) k (by omega) (G (N + d)) = _
+  change FiniteLevelSheaf.reduceTo B X ℓ (N + d) k (by omega) (G (N + d)) = _
   exact reduceTo_congrIndex B X ℓ G hnd k (by omega) (by omega)
 
 /-- The isomorphism between the stable value of the reduction sequence at level `k` and the
@@ -876,7 +876,7 @@ private theorem canonicalReductionTransition_natural_reductionStep
     rw [canonicalRestrictionComparison_eq_map]
     exact (SU.map_comp _ _).symm
   rw [canonicalReductionComparison_inv, canonicalReductionComparison_inv, stepT, stepU]
-  show (SU.map βP ≫ α.inv.app ((G (n + 1)).obj ⋙ ModuleCat.extendScalars a')) ≫
+  change (SU.map βP ≫ α.inv.app ((G (n + 1)).obj ⋙ ModuleCat.extendScalars a')) ≫
       (Sheaf.composeAndSheafify J (ModuleCat.extendScalars b)).map (ST.map ρT) =
     SU.map ρU ≫ (SU.map βQ ≫ α.inv.app ((G n).obj ⋙ ModuleCat.extendScalars a))
   have hnat := α.inv.naturality ρT
@@ -961,7 +961,7 @@ private theorem reductionPath_isIso
     IsIso (reductionPath B X ℓ G t k M hkM d) := by
   induction d with
   | zero =>
-      show IsIso (𝟙 _)
+      change IsIso (𝟙 _)
       infer_instance
   | succ d ih =>
       have hcmp := canonicalRestrictionComparison_isIso B X ℓ (M + d) k (by omega)
@@ -1003,7 +1003,7 @@ private theorem stableReductionIso_natural_path
   | succ r ih =>
       have hs := stableReductionIso_natural B X ℓ G t heventually k N (M + r)
         (d + r) (d + r + 1) (by omega) (by omega) (by omega) hN hkN (by omega)
-      show (stableReductionIso B X ℓ G t heventually k N (M + r + 1) (d + r + 1)
+      change (stableReductionIso B X ℓ G t heventually k N (M + r + 1) (d + r + 1)
           (by omega) (by omega) (by omega) hkN hN).hom ≫
         (reductionStep B X ℓ G t k (M + r) (by omega) ≫
           reductionPath B X ℓ G t k M (by omega) r) =
@@ -1105,7 +1105,7 @@ public theorem exists_lAdicSheaf_of_eventuallyConstant_reductions
   }
   refine ⟨F, N, e, ?_, ?_⟩
   · intro k n hn h
-    show (e k (n + 1) (by omega) (by omega)).hom ≫
+    change (e k (n + 1) (by omega) (by omega)).hom ≫
       reductionStep B X ℓ G t k n h = (e k n hn h).hom
     dsimp only [e]
     exact stableReductionIso_natural B X ℓ G t heventually k (N k) n
@@ -1130,7 +1130,7 @@ public theorem exists_lAdicSheaf_of_eventuallyConstant_reductions
     have : IsIso p := reductionPath_isIso B X ℓ G t heventually k M d
       (le_trans (hN₁ k) (le_max_left _ _)) (by omega)
     apply (cancel_mono (R.map p)).mp
-    show (tr k ≫ R.map (e k (M + d) _ _).hom) ≫ R.map p =
+    change (tr k ≫ R.map (e k (M + d) _ _).hom) ≫ R.map p =
       ((e (k + 1) (M + d) _ _).hom ≫
         FiniteLevelSheaf.canonicalReductionTransition B X ℓ (M + d) k h
           (G (M + d))) ≫ R.map p

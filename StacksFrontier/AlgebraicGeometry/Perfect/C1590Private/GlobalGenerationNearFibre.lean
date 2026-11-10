@@ -151,7 +151,7 @@ end FreeSections
 theorem pullbackSectionHom_top_apply {Y Z : Scheme.{u}} (h : Y ⟶ Z) (L : Z.Modules)
     (hle : (⊤ : Y.Opens) ≤ h ⁻¹ᵁ ⊤) (s : Γ(L, ⊤)) :
     pullbackSectionHom h L ⊤ ⊤ hle s = pullbackGlobalSections h L s := by
-  show ((Scheme.Modules.pullback h).obj L).presheaf.map (homOfLE hle).op _ =
+  change ((Scheme.Modules.pullback h).obj L).presheaf.map (homOfLE hle).op _ =
     ((Scheme.Modules.pullback h).obj L).presheaf.map (eqToHom (by simp)).op _
   congr 2
 
@@ -294,7 +294,7 @@ theorem exists_away_nonempty_generatingSections [_root_.IsReduced A] [IsProper f
     intro K _ φ ψ hψ x
     obtain rfl : x = IsLocalRing.closedPoint K := Subsingleton.elim _ _
     ext1
-    show Ideal.comap α (Ideal.comap ψ (IsLocalRing.maximalIdeal K)) = RingHom.ker φ
+    change Ideal.comap α (Ideal.comap ψ (IsLocalRing.maximalIdeal K)) = RingHom.ker φ
     rw [Ideal.comap_comap, hψ, IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
   set W : Set Xg := ⋃ i, Stacks.Ample.nonvanishingLocus Fg (e i)
   have hW : IsOpen W := isOpen_iUnion fun i =>

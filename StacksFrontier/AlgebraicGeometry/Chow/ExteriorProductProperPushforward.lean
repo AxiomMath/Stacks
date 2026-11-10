@@ -154,10 +154,6 @@ theorem chowExteriorProduct_properChowPushforward_fundamentalChowClass (C : Chow
     (hd : relativeDimension C.dimensionFunction sX (genericPoint X) = (d : ℤ))
     (hfp : FlatPullbackDescends C) (hpp : ProperPushforwardDescends C)
     (hRG : ProperPushforwardFlatPullbackBaseChange C) (m : ℤ)
-    (hright : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sX sY m)
-    (hleft : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sY sX (d : ℤ))
-    (hright' : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sX sY' m)
-    (hleft' : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sY' sX (d : ℤ))
     (γ : chowGroup C sY' m) :
     chowExteriorProduct C hδ sX sY (d : ℤ) m
         (TensorProduct.tmul ℤ (fundamentalChowClass C sX (d : ℤ))
@@ -178,10 +174,10 @@ theorem chowExteriorProduct_properChowPushforward_fundamentalChowClass (C : Chow
         (pullback.snd sX sZ) pullback.condition.symm d (hrel Z sZ) m :=
     hfp _ sZ _ _ d (hrel Z sZ) m
   have hbase := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct C hδ sX sY d
-    (hrel Y sY) hd m hright hleft (hfac Y sY)
+    (hrel Y sY) hd m (hfac Y sY)
     (properChowPushforward C sY' sY h hh m (hpp sY' sY h hh m) γ)
   have hbase' := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct C hδ sX sY' d
-    (hrel Y' sY') hd m hright' hleft' (hfac Y' sY') γ
+    (hrel Y' sY') hd m (hfac Y' sY') γ
   have hppmd (n : ℤ) := hpp (pullback.fst sX sY' ≫ sX) (pullback.fst sX sY ≫ sX)
     (exteriorProductSndMap sX sY sY' h hh)
     (exteriorProductSndMap_comp_structureMorphism sX sY sY' h hh) n

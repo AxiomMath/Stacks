@@ -141,7 +141,7 @@ theorem _root_.ModuleCat.ExtendScalars.map_smul_id_comp_objSelfIso_hom {R S : Ty
         (ModuleCat.ExtendScalars.objSelfIso f).hom =
       (ModuleCat.ExtendScalars.objSelfIso f).hom ≫ (f y • 𝟙 (ModuleCat.of S S)) := by
   ext x
-  show (ModuleCat.ExtendScalars.objSelfIso f).hom ((1 : S) ⊗ₜ[R,f] (y • x)) =
+  change (ModuleCat.ExtendScalars.objSelfIso f).hom ((1 : S) ⊗ₜ[R,f] (y • x)) =
     f y • (ModuleCat.ExtendScalars.objSelfIso f).hom ((1 : S) ⊗ₜ[R,f] x)
   rw [ModuleCat.ExtendScalars.objSelfIso_hom_tmul, ModuleCat.ExtendScalars.objSelfIso_hom_tmul,
     smul_eq_mul, smul_eq_mul, map_mul]
@@ -176,7 +176,7 @@ theorem homFromSelfOfElement_one {R : Type u} [CommRing R] (M : ModuleCat.{u} R)
 theorem homFromSelfOfElement_comp {R : Type u} [CommRing R] {M N : ModuleCat.{u} R} (z : M)
     (f : M ⟶ N) : homFromSelfOfElement M z ≫ f = homFromSelfOfElement N (f.hom z) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun r ↦ ?_)
-  show f.hom (r • z) = r • f.hom z
+  change f.hom (r • z) = r • f.hom z
   exact map_smul f.hom r z
 
 /-- **Maps out of a left adjoint applied to a module are determined by its elements**: two maps
@@ -209,7 +209,7 @@ theorem _root_.Stacks.Smooth.kerModule_isScalarTower :
   let := Stacks.Smooth.kerModule hπ h2
   refine ⟨fun r' s k ↦ ?_⟩
   rw [Algebra.smul_def, mul_smul]
-  show π r' • (s • k) = r' • (s • k)
+  change π r' • (s • k) = r' • (s • k)
   exact Stacks.Smooth.kerModule_smul hπ h2 r' (s • k)
 
 /-- **`R ⊗_{R'} J ≅ J` for the square-zero kernel `J` of a surjection `R' ⟶ R`**, as
@@ -243,7 +243,7 @@ def _root_.ModuleCat.extendScalarsKerIso :
     { toFun := fun k ↦ (1 : R) ⊗ₜ[R'] k
       map_add' := fun k k' ↦ TensorProduct.tmul_add _ _ _
       map_smul' := hg }
-  refine (LinearEquiv.ofLinear L g ?_ ?_).toModuleIso
+  refine (LinearEquiv.ofLinearMap L g ?_ ?_).toModuleIso
   · refine LinearMap.ext fun k ↦ ?_
     change L ((1 : R) ⊗ₜ[R'] k) = k
     rw [TensorProduct.AlgebraTensorModule.lift_tmul]
@@ -276,7 +276,7 @@ theorem _root_.ModuleCat.extendScalars_homFromSelfOfElement_kerIso (k : RingHom.
         (@ModuleCat.of R _ (RingHom.ker π) _ (Stacks.Smooth.kerModule hπ h2)) k := by
   let := Stacks.Smooth.kerModule hπ h2
   refine ModuleCat.hom_ext (LinearMap.ext fun r ↦ ?_)
-  show (ModuleCat.extendScalarsKerIso π hπ h2).hom.hom
+  change (ModuleCat.extendScalarsKerIso π hπ h2).hom.hom
       ((ModuleCat.extendScalars π).map (homFromSelfOfElement (ModuleCat.of R' (RingHom.ker π)) k)
         (r ⊗ₜ[R',π] (1 : R'))) = r • k
   rw [ModuleCat.ExtendScalars.map_tmul, homFromSelfOfElement_one]
@@ -372,9 +372,9 @@ theorem generic_section_comp_iso {R' R : Type u} [CommRing R'] [CommRing R] (ρ 
   have hn := P.hom.naturality κ
   simp only [Functor.comp_map] at hn
   simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom, Category.assoc, Functor.map_comp,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
   rw [reassoc_of% hn, hP']
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc, Iso.hom_inv_id_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc, Iso.hom_inv_id_assoc]
   rw [← FU.map_comp, ← FU.map_comp, hθ]
 
 end GenericSection
@@ -599,7 +599,7 @@ theorem map_smul_affineThickeningIdealSections
     (representedAffineAssociatedFullyFaithful B S hS U').map_preimage _
   have hsmul : φ = φ.hom 1 • 𝟙 M := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-    show φ.hom x = φ.hom 1 • x
+    change φ.hom x = φ.hom 1 • x
     have : φ.hom x = x • φ.hom 1 := by
       rw [← φ.hom.map_smul, smul_eq_mul, mul_one]
     rw [this, smul_eq_mul, smul_eq_mul, mul_comm]
@@ -834,7 +834,7 @@ theorem representedThickeningIdealGenerator_comp_incl
         𝟙 (ModuleCat.of Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)
           Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-    show ((x • a : RingHom.ker (representedAffineCommRingCatHom B S hS h).hom) :
+    change ((x • a : RingHom.ker (representedAffineCommRingCatHom B S hS h).hom) :
       Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) =
         (a : Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) • x
     rw [Submodule.coe_smul, smul_eq_mul, smul_eq_mul, mul_comm]
@@ -1122,7 +1122,7 @@ theorem thickeningIdealMap_id :
     let := Stacks.Smooth.kerModule (Stacks.Smooth.surjective_appTop_of_isFirstOrderThickening hh₁)
       (Stacks.Smooth.ker_appTop_sq_eq_bot hh₁)
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ Subtype.ext ?_)
-    show (Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map (𝟙 U'₁))).hom x = x
+    change (Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map (𝟙 U'₁))).hom x = x
     rw [CategoryTheory.Functor.map_id, Scheme.Hom.id_appTop]
     rfl
   unfold thickeningIdealMap
@@ -1143,7 +1143,7 @@ theorem thickeningIdealMap_comp :
     let := Stacks.Smooth.kerModule (Stacks.Smooth.surjective_appTop_of_isFirstOrderThickening hh₃)
       (Stacks.Smooth.ker_appTop_sq_eq_bot hh₃)
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ Subtype.ext ?_)
-    show (Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map (g' ≫ g))).hom x =
+    change (Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map (g' ≫ g))).hom x =
       (Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map g')).hom
         ((Scheme.Hom.appTop ((BigFppfOver.toScheme B S hS).map g)).hom x)
     rw [CategoryTheory.Functor.map_comp, Scheme.Hom.comp_appTop]

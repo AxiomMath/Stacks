@@ -425,7 +425,7 @@ public def completedDirectImageRestrictIso :
         (properPushforwardCoherent (f ∣_ U) (restrictCoherentModules (f ⁻¹ᵁ U).ι F))).obj :=
   NatIso.ofComponents (fun n => completedDirectImageRestrictIsoApp f U J F n.unop) <| by
     intro i j g
-    haveI hepi : Epi ((Scheme.Modules.restrictFunctor U.ι).map
+    have hepi : Epi ((Scheme.Modules.restrictFunctor U.ι).map
         (completionProjection Y J (properPushforwardCoherent f F) i.unop)) :=
       letI := Stacks.Coherent.epi_completionProjection J (properPushforwardCoherent f F) i.unop
       (Scheme.Modules.restrictFunctor U.ι).map_epi _

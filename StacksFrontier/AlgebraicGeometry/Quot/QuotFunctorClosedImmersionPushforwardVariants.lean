@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Quot.QuotFunctorPushforwardSupple
 # Variants of the Quot functor results for pushforward along a closed immersion
 
 The declarations below extend
-`StacksFrontier.AlgebraicGeometry.Quot.QuotFunctorClosedImmersionPushforward` and are kept in a module
+`StacksFrontier.AlgebraicGeometry.Quot.QuotFunctorClosedImmersionPushforward` and are kept in a
+module
 of their own so that that module stays unchanged. A primed name `X'` is a variant of the declaration
 `X` there.
 

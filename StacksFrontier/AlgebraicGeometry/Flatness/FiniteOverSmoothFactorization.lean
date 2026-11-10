@@ -54,11 +54,11 @@ theorem purelyTranscendental_of_ringEquiv_base {k k' K : Type*} [Field k] [Field
   let _ := h
   obtain ⟨s, hind, hgen⟩ := PurelyTranscendental.exists_basis k K
   refine ⟨s, ?_, ?_⟩
-  · show AlgebraicIndependent k' (fun i : s ↦ (i : K))
+  · change AlgebraicIndependent k' (fun i : s ↦ (i : K))
     refine algebraicIndependent_iff.2 fun p hp => ?_
     have hmap : MvPolynomial.aeval (fun i : s ↦ (i : K))
         (MvPolynomial.map e.toRingHom p) = 0 := by
-      show MvPolynomial.eval₂ (algebraMap k K) (fun i : s ↦ (i : K))
+      change MvPolynomial.eval₂ (algebraMap k K) (fun i : s ↦ (i : K))
         (MvPolynomial.map e.toRingHom p) = 0
       calc
         _ = MvPolynomial.eval₂ ((algebraMap k K).comp e.toRingHom)

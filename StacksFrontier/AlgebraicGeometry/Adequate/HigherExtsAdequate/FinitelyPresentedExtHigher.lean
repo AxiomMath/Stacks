@@ -79,6 +79,7 @@ private instance projective_finiteFreeModule (k : ℕ) :
     Module.Projective A (finiteFreeModule.{t} A k) :=
   inferInstanceAs (Module.Projective A (ULift.{t, u} (Fin k → A)))
 
+set_option linter.checkUnivs false in
 /-- The finite free module of rank `n` at two universe annotations that produce the same
 universe of carriers. -/
 noncomputable def finiteFreeModuleUliftIso (n : ℕ) :
@@ -179,8 +180,7 @@ lemma tensorUnitDualEquiv_naturality {N₀ : Type (max u v)} [AddCommGroup N₀]
     [Algebra A C] (f : B →ₐ[A] C) (t : TensorProduct A B (ULift.{max u v w} A)) :
     tensorUnitDualEquiv ε C (TensorProduct.map f.toLinearMap LinearMap.id t) =
       f.toLinearMap.comp (tensorUnitDualEquiv ε B t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
     ext n
     rw [TensorProduct.map_tmul, LinearMap.comp_apply, tensorUnitDualEquiv_tmul,
@@ -203,14 +203,14 @@ lemma projective_of_linearEquiv_dual {N₀ : Type (max u v)} [AddCommGroup N₀]
       (e X.unop.unop).symm).toModuleIso) ?_) inferInstance
   intro X Y f
   ext t
-  show (e Y.unop.unop).symm (tensorUnitDualEquiv ε Y.unop.unop
+  change (e Y.unop.unop).symm (tensorUnitDualEquiv ε Y.unop.unop
       ((moduleExtension.{max u v w, v} A Q).map f t)) =
     F.map f ((e X.unop.unop).symm (tensorUnitDualEquiv ε X.unop.unop t))
   apply (e Y.unop.unop).injective
   rw [LinearEquiv.apply_symm_apply]
   have h := he X.unop.unop Y.unop.unop f.unop.unop
     ((e X.unop.unop).symm (tensorUnitDualEquiv ε X.unop.unop t))
-  show _ = e Y.unop.unop (F.map f _)
+  change _ = e Y.unop.unop (F.map f _)
   refine Eq.trans ?_ h.symm
   rw [LinearEquiv.apply_symm_apply]
   exact tensorUnitDualEquiv_naturality ε f.unop.unop.hom t

@@ -110,6 +110,7 @@ private theorem square_paste {C : Type*} [Category* C] {a b c a' b' c' : C} (x :
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
 set_option maxHeartbeats 800000 in
+-- one long proof assembling the three inputs over many local instances and derived categories
 /-- **The local invariants inject into `H¹_c`** (Weil II 1.8, `H⁰_loc ⊆ H¹_c`), from
 `H⁰_c(W_k̄, j_* G) = 0` on an affine curve, the embedding of the stalk at a closed point of the
 complement into `H⁰_c(W_k̄, i_* i⁻¹ -)`, and the identification of the stalks of `j_*` of the
@@ -150,8 +151,8 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
   have := compactSpace_etaleFundamentalGroup V.1 x
   let ρ₀ := integralModel (restrictScalarsRep b τ) hτ
   have hρ₀ : Continuous ρ₀ := continuous_integralModel (restrictScalarsRep b τ) hτ
-  obtain ⟨ε, hεi, hεs, hεt, hεM, hεF, hεI⟩ := h46 B V ℓ k (jW ≫ fW) j kbar p q hcard hℓp W fW eW
-    heW jW rfl y hyc hyV hy L Ω A eA hA P Fr hFrD hFr (m * d) ρ₀ hρ₀
+  obtain ⟨ε, hεi, hεs, hεt, hεM, hεF, hεI⟩ := h46 B V ℓ k (jW ≫ fW) kbar p hℓp W fW eW
+    heW jW rfl y hyc hyV hy L Ω A eA hA P Fr hFr (m * d) ρ₀ hρ₀
   let F := restrictScalarsRepCoefficientSheaf B V x b τ hτ
   let ℱ := F.toLAdicSheaf
   let Seq := (SmallEtale.sheafEquiv B V.1 V.2 (ModuleCat.{u + 1} ℤ_[ℓ])).functor
@@ -206,7 +207,7 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
   -- the levels `Ψₙ : (j_* ℱₙ)_ȳ ⟶ H¹_c(V_k̄, ℱₙ)`
   have hΨi : ∀ N, Function.Injective (Ψ N).hom := by
     intro N
-    show Function.Injective (SC N ≫ (cI N).hom).hom
+    change Function.Injective (SC N ≫ (cI N).hom).hom
     rw [ModuleCat.hom_comp, LinearMap.coe_comp]
     exact ((ModuleCat.mono_iff_injective (cI N).hom).1 inferInstance).comp
       (injective_stalkConnecting ℤ_[ℓ] fW jWb kbar p q hcard jW (closedComplementι jW) hij y s
@@ -227,11 +228,11 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
   let Irat : Submodule ℚ_[ℓ] (Fin (m * d) → ℚ_[ℓ]) :=
     { carrier := {z | ∀ σ ∈ Inr, ρq σ *ᵥ z = z}
       add_mem' := fun {a b} ha hb σ hσ => by
-        show ρq σ *ᵥ (a + b) = a + b
+        change ρq σ *ᵥ (a + b) = a + b
         rw [Matrix.mulVec_add, ha σ hσ, hb σ hσ]
       zero_mem' := fun σ _ => Matrix.mulVec_zero _
       smul_mem' := fun c z hz σ hσ => by
-        show ρq σ *ᵥ (c • z) = c • z
+        change ρq σ *ᵥ (c • z) = c • z
         rw [Matrix.mulVec_smul, hz σ hσ] }
   have hI : ∀ v ∈ integralSubmodule Irat, ∀ N,
       (fun i => PadicInt.toZModPow (N + 1) (v i)) ∈ Set.range (ε N) := fun v hv =>
@@ -270,7 +271,7 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
     let Mo := conjIntegralLift Pc (restrictScalarsScalarAlgHom b m) o
     have hΦo : ((Φ (algebraMap O E o • z) : Irat) : Fin (m * d) → ℚ_[ℓ]) =
         Mo.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) *ᵥ ((Φ z : Irat) : Fin (m * d) → ℚ_[ℓ]) := by
-      show conjRestrictScalarsCoords b Pc ((algebraMap O E o) • (z : Fin m → E)) = _
+      change conjRestrictScalarsCoords b Pc ((algebraMap O E o) • (z : Fin m → E)) = _
       rw [← scalar_mulVec_eq_smul]
       exact conjRestrictScalarsCoords_mulVec b Pc _ _
         (mapMatrix_conjIntegralLift Pc (restrictScalarsScalarAlgHom b m) o).symm _
@@ -279,7 +280,7 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
     have hM : ∀ g, Mo * (ρ₀ g).val = (ρ₀ g).val * Mo := fun g =>
       conjIntegralLift_mul_integralModel B V x (restrictScalarsRep b τ) hτ
         (restrictScalarsScalarAlgHom b m) (restrictScalarsScalarAlgHom_commute b τ) o g
-    show Jrat (Φ (algebraMap O E o • z)) = _
+    change Jrat (Φ (algebraMap O E o • z)) = _
     rw [show Φ (algebraMap O E o • z) = ⟨_, hz⟩ from Subtype.ext hΦo]
     refine (rationalLift_mulVec H Jint Mo
       (LAdicSheaf.geometricCompactlySupportedCohomologyMap (jW ≫ fW) j kbar (F.act o).asHom 1)
@@ -347,7 +348,7 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
         ℤ_[ℓ] (jW ≫ fW) kbar lW j p q hcard (G N) _ (hpos N) (hkill N) 1)).symm
     have h3 := LinearMap.congr_fun (Module.End.commute_pow_left_of_commute h2 dy)
       ((SC N).hom w)
-    show (cI N).hom.hom ((SC N).hom _) = _
+    change (cI N).hom.hom ((SC N).hom _) = _
     exact (congrArg (cI N).hom.hom (LinearMap.congr_fun h1 w)).trans h3.symm
   have hFrob : ∀ (z : Irat) (hz : ρq g₀ *ᵥ (z : Fin (m * d) → ℚ_[ℓ]) ∈ Irat),
       Jrat ⟨_, hz⟩ = ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
@@ -370,13 +371,13 @@ public theorem curveLocalInvariantsInjectionInput_of_inputs
         (map_inv_mem_normalizer_map_inertia A (V.1.residueField (genericPoint V.1)) L P
           (galoisToFundamentalGroup V.1 L Ω).toMonoidHom Fr hFrD)) z) : Irat) :
         Fin (m * d) → ℚ_[ℓ]) = ρq g₀ *ᵥ ((Φ z : Irat) : Fin (m * d) → ℚ_[ℓ]) := by
-    show conjRestrictScalarsCoords b Pc ((τ g₀ : GL (Fin m) E).val *ᵥ (z : Fin m → E)) = _
+    change conjRestrictScalarsCoords b Pc ((τ g₀ : GL (Fin m) E).val *ᵥ (z : Fin m → E)) = _
     exact conjRestrictScalarsCoords_mulVec b Pc _ _ (hconj g₀) _
   have hz : ρq g₀ *ᵥ ((Φ z : Irat) : Fin (m * d) → ℚ_[ℓ]) ∈ Irat := hΦT ▸ (Φ _).2
-  show Jrat (Φ _) = _
+  change Jrat (Φ _) = _
   rw [show Φ _ = ⟨_, hz⟩ from Subtype.ext hΦT, hFrob (Φ z) hz, LinearMap.comp_apply,
     Module.End.pow_apply]
-  show extendScalarsEndRingHom H (Frob.hom ^ dy) (Jrat (Φ z)) = _
+  change extendScalarsEndRingHom H (Frob.hom ^ dy) (Jrat (Φ z)) = _
   rw [map_pow, Module.End.pow_apply]
   rfl
 

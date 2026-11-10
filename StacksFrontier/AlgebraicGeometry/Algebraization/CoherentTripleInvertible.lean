@@ -129,7 +129,7 @@ theorem bijective_pullbackGlobalSections_of_isIso_unit {X Y : Scheme.{u}} (g : X
     (F : Y.Modules) [IsIso ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F)] :
     Function.Bijective (pullbackGlobalSections g F) := by
   have h : IsIso (((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F).app ⊤) := by
-    show IsIso (((Scheme.Modules.toPresheaf Y).map
+    change IsIso (((Scheme.Modules.toPresheaf Y).map
       ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app F)).app (.op ⊤))
     infer_instance
   have hb := (ConcreteCategory.isIso_iff_bijective _).mp h
@@ -155,7 +155,7 @@ private theorem puncturedClosedImmersion_appTop (A : Type u) [CommRing A] [IsLoc
     (f : A) (a : A) :
     (puncturedClosedFibreRestriction A f).appTop.hom (puncturedScalars A a) =
       puncturedClosedFibreScalars A f a := by
-  show (((puncturedClosedFibreRestriction A f ≫
+  change (((puncturedClosedFibreRestriction A f ≫
       (Stacks.Divisors.puncturedSpectrum A).ι).appTop.hom).comp
       (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom) a =
     ((((puncturedClosedFibre A f).ι ≫ closedImmersion A f).appTop.hom).comp
@@ -401,7 +401,7 @@ private theorem exists_preparedExtension_pushforward (A : Type u) [CommRing A] [
   refine ⟨⟨G, (isCoherent_isReflexive_pushforward_puncturedSpectrum A T.F hd2).1, ?_, e, a₀, ?_⟩,
     rfl⟩
   · intro V
-    show IsSMulRegular Γ(T.F, U.ι ⁻¹ᵁ V)
+    change IsSMulRegular Γ(T.F, U.ι ⁻¹ᵁ V)
       (U.ι.app V ((baseScheme A).presheaf.map (homOfLE le_top).op
         ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f)))
     have heq : U.ι.app V ((baseScheme A).presheaf.map (homOfLE le_top).op
@@ -410,7 +410,7 @@ private theorem exists_preparedExtension_pushforward (A : Type u) [CommRing A] [
         ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f)
     rw [heq]
     exact T.torsionFree (U.ι ⁻¹ᵁ V)
-  · show c ≫ (Scheme.Modules.pullbackComp k U.ι).inv.app G ≫
+  · change c ≫ (Scheme.Modules.pullbackComp k U.ι).inv.app G ≫
         (Scheme.Modules.pullback k).map e.hom ≫ T.alpha.hom =
       (Scheme.Modules.pullbackComp j₀ i).inv.app G ≫ (Scheme.Modules.pullback j₀).map a₀
     rw [ha₀]
@@ -424,8 +424,7 @@ private theorem one_tmul_surjective {R S : Type u} [CommRing R] [CommRing S]
     Function.Surjective (fun m : M => (1 : S) ⊗ₜ[R, q] m) := by
   let := q.toAlgebra
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨r, rfl⟩ := hq s
     refine ⟨r • m, ?_⟩
@@ -453,7 +452,7 @@ private theorem surjective_pullbackGlobalSections_specMap (R S : CommRingCat.{u}
     obtain ⟨m, rfl⟩ := one_tmul_surjective q.hom hq M z
     refine ⟨tilde.toOpen M ⊤ m, ?_⟩
     apply (ConcreteCategory.bijective_of_isIso (c.hom.app ⊤)).injective
-    show c.hom.app ⊤ _ = c.hom.app ⊤ s
+    change c.hom.app ⊤ _ = c.hom.app ⊤ s
     refine (congrArg (fun y => c.hom.app ⊤ y)
       (AlgebraicGeometry.SectionsEqualizer.pullbackGlobalSections_unit (Spec.map q) (tilde M)
         (tilde.toOpen M ⊤ m))).trans ?_
@@ -769,7 +768,7 @@ theorem finiteLength_cokernel_globalSectionsMap (A : Type u) [CommRing A] [IsLoc
   have hρ : Function.Surjective (closedFibreRestriction A f T.F₀) :=
     (bijective_pullbackGlobalSections_of_isIso_unit
       (puncturedClosedFibre A f).ι T.F₀).surjective
-  obtain ⟨P⟩ := nonempty_preparedExtension A f hf hreg T
+  obtain ⟨P⟩ := nonempty_preparedExtension A f T
   have : P.F'.IsCoherent := P.coherent
   have : P.F'.IsQuasicoherent := isQuasicoherent_of_isCoherent P.F'
   let π := (LinearMap.range (globalSectionsMap A f T)).mkQ
@@ -777,7 +776,7 @@ theorem finiteLength_cokernel_globalSectionsMap (A : Type u) [CommRing A] [IsLoc
   have hψ : P.closedFibreMap ≫ ψ = 0 := by
     ext x
     obtain ⟨s, rfl⟩ := surjective_pullbackGlobalSections_closedImmersion A f P.F' x
-    show π (closedFibreRestriction A f T.F₀ (P.alpha₀'.app ⊤
+    change π (closedFibreRestriction A f T.F₀ (P.alpha₀'.app ⊤
       (pullbackGlobalSections (closedImmersion A f) P.F' s))) = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr ⟨P.alpha'.hom.app ⊤
       (pullbackGlobalSections (Stacks.Divisors.puncturedSpectrum A).ι P.F' s),

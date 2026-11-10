@@ -104,8 +104,8 @@ and `R`; the public statements instantiate `k := R`. Nothing is lost by the gene
 nothing is gained either: it is a device for naming both structures at once. In particular no
 `ULift` of the base ring is needed — the hypothesis and the conclusion speak only of `R`.
 
-**The projective module, not the conormal module.** Tag 08SI as stated in the library concludes with the
-conormal module `I/I²` of the augmentation, about which nothing says it is projective; the proof
+**The projective module, not the conormal module.** Tag 08SI as stated in the library concludes with
+the conormal module `I/I²` of the augmentation, about which nothing says it is projective; the proof
 of Tag 08SI goes through `L_{A/B} ≅ (L_{B/A} ⊗^𝐋_B A)[1]` and the first vertex *is* a projective
 module in degree `0`, by Tag 08QH and the projectivity of `Ω[B⁄A]`. Derived extension of scalars
 is applied to that vertex here, so

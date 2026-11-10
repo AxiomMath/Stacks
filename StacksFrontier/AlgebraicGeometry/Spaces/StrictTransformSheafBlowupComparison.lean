@@ -576,7 +576,8 @@ theorem exists_strictTransformSheafIso_modulePushforward_of_isBlowupAlong
       preservesEpimorphisms_modulePushforward_of_isClosedImmersion B S hS i hi
     have hαepi : Epi α := by
       rw [hα]
-      exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((modulePullbackCompIso B S hS i (strictTransformPullbackToSource B S hS f b)).app F))) inferInstance
+      exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((modulePullbackCompIso B S hS i
+        (strictTransformPullbackToSource B S hS f b)).app F))) inferInstance
     rw [hq]
     have := hunit
     have := hpe
@@ -598,7 +599,8 @@ theorem exists_strictTransformSheafIso_modulePushforward_of_isBlowupAlong
       rw [hα, Functor.map_comp]
       have := hπiso
       exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _
-        (Iso.isIso_hom ((modulePullback B S hS σ).mapIso ((modulePullbackCompIso B S hS i (strictTransformPullbackToSource B S hS f b)).app F))))
+        (Iso.isIso_hom ((modulePullback B S hS σ).mapIso ((modulePullbackCompIso B S hS i
+          (strictTransformPullbackToSource B S hS f b)).app F))))
         (IsIso.mono_of_iso _)
     -- Hence so is the inverse image of `q` along `σ ≫ i`, by the triangle identity and the
     -- comparison of inverse images along a composite.

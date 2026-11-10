@@ -189,7 +189,7 @@ private theorem existsUnique_localFibreSection
       rw [Category.assoc, Category.assoc, hlocSpec, hlocSpec, ← Category.assoc,
         ← Category.assoc, ← yoneda.map_comp, ← yoneda.map_comp, hcomm]
     have hcompat := hg (yoneda.obj P) _ _ _ _ hbase
-    show Gl.map e₁.op (x k₁ h₁) = Gl.map e₂.op (x k₂ h₂)
+    change Gl.map e₁.op (x k₁ h₁) = Gl.map e₂.op (x k₂ h₂)
     simp only [x, yonedaEquiv_naturality]
     exact congrArg yonedaEquiv (by simpa only [Category.assoc] using hcompat)
   obtain ⟨z, hz, hzu⟩ := hGl' R hR x hx
@@ -268,7 +268,7 @@ public theorem existsUnique_desc_of_fibreCompatible
         intro W₁ W₂ q
         apply ConcreteCategory.ext
         ext y
-        show sect W₂.unop (F.left.map q y) = Gl.map q (sect W₁.unop y)
+        change sect W₂.unop (F.left.map q y) = Gl.map q (sect W₁.unop y)
         have hsymm : yonedaEquiv.symm (F.left.map q y) =
             yoneda.map q.unop ≫ yonedaEquiv.symm y := by
           apply yonedaEquiv.injective
@@ -283,7 +283,7 @@ public theorem existsUnique_desc_of_fibreCompatible
   have hη : ∀ i, pullback.fst F.hom (f i) ≫ η = g i := by
     intro i
     refine hext _ _ fun W c ↦ ?_
-    show sect W ((pullback.fst F.hom (f i)).app (op W) c) = (g i).app (op W) c
+    change sect W ((pullback.fst F.hom (f i)).app (op W) c) = (g i).app (op W) c
     have hb : yonedaEquiv.symm c ≫ pullback.fst F.hom (f i) =
         yonedaEquiv.symm ((pullback.fst F.hom (f i)).app (op W) c) := by
       apply yonedaEquiv.injective
@@ -384,7 +384,7 @@ public theorem existsUnique_hom_map_fibreDescentFunctor
       (φ.hom i).left ≫ pullback.fst G.obj.hom (f i) := fun i ↦ by rw [hc i]; rfl
   have hg : FibreCompatible f F.obj (fun i ↦ c i ≫ pullback.fst G.obj.hom (f i)) := by
     intro Q i j a b hab
-    show a ≫ c i ≫ pullback.fst G.obj.hom (f i) = b ≫ c j ≫ pullback.fst G.obj.hom (f j)
+    change a ≫ c i ≫ pullback.fst G.obj.hom (f i) = b ≫ c j ≫ pullback.fst G.obj.hom (f j)
     rw [hc i, hc j]
     exact descentHom_comp_fst_eq f hT hX φ a b hab
   obtain ⟨d, hd, hdu⟩ := existsUnique_desc_of_fibreCompatible f F.obj hcov G.property.1
@@ -407,7 +407,7 @@ public theorem existsUnique_hom_map_fibreDescentFunctor
     exact (heu (d ≫ G.obj.hom) hbase).trans (heu F.obj.hom fun _ ↦ rfl).symm
   refine ⟨ObjectProperty.homMk (Over.homMk d hdT), ?_, ?_⟩
   · refine DescentData.Hom.ext (funext fun i ↦ ?_)
-    show fibreComponentMap f (Over.homMk d hdT) i = φ.hom i
+    change fibreComponentMap f (Over.homMk d hdT) i = φ.hom i
     apply Over.OverMorphism.ext
     apply pullback.hom_ext
     · rw [fibreComponentMap_left_fst]

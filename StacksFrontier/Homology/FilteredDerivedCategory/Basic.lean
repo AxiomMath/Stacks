@@ -889,7 +889,7 @@ lemma isTriangulated_inverseImage_ι {C : Type*} [Category* C] [HasZeroObject C]
     exact ⟨⟨Z, h _ hQ⟩, IsZero.of_full_of_faithful_of_isZero P.ι _ hZ, hQ⟩
   isStableUnderShiftBy n := ⟨fun X hX => by
     have e : P.ι.obj (X⟦n⟧) = (P.ι.obj X)⟦n⟧ := by with_unfolding_all rfl
-    show Q (P.ι.obj (X⟦n⟧))
+    change Q (P.ι.obj (X⟦n⟧))
     rw [e]
     exact Q.le_shift n _ hX⟩
   toIsTriangulatedClosed₂ := ⟨fun T hT h₁ h₃ => by

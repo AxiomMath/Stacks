@@ -207,7 +207,8 @@ noncomputable def Hom.localizedSourceEquivalence :
 the corner, the inverse image of the localized morphism of sites of Stacks 04J0 is
 `Over.post f^{-1}`, the inverse image of the localized morphism of topoi of Stacks 04H1.
 
-Stacks 04IU is formalized as the single equation that is its content — that the canonical isomorphism
+Stacks 04IU is formalized as the single equation that is its content — that the canonical
+isomorphism
 `j_{U!}(f')^{-1} ≅ f^{-1}j_{V!}` of the proof of Stacks 03CF respects the structure maps to
 `h_U^#` — and `CategoryTheory.Over.natIsoOfForgetIso` turns that equation, with the naturality
 the underlying isomorphism already carries, into the isomorphism of functors. -/

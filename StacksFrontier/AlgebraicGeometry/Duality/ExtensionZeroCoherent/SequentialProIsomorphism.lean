@@ -74,7 +74,7 @@ universe v v' u u'
 public lemma tr_comp {D : Type u} [Category.{v} D] (F : ℕᵒᵖ ⥤ D) {a b c : ℕ}
     (h₁ : b ≤ a) (h₂ : c ≤ b) :
     InverseSequence.tr F h₁ ≫ InverseSequence.tr F h₂ = InverseSequence.tr F (h₂.trans h₁) := by
-  show F.map (homOfLE h₁).op ≫ F.map (homOfLE h₂).op = _
+  change F.map (homOfLE h₁).op ≫ F.map (homOfLE h₂).op = _
   rw [← F.map_comp]
   congr 1
 
@@ -224,7 +224,7 @@ public lemma SequentialRep.comp_represents {F G H : ℕᵒᵖ ⥤ 𝒟} (r : Seq
     (θ : seqHomColim H ⟶ seqHomColim G) (hr : r.Represents η) (hs : s.Represents θ) :
     (r.comp s).Represents (θ ≫ η) := by
   intro n
-  show η.app _ (θ.app _ (seqStage H (𝟙 _))) = _
+  change η.app _ (θ.app _ (seqStage H (𝟙 _))) = _
   rw [hs n]
   exact transformation_seqStage η (r.component (s.index n)) (hr (s.index n)) (s.component n)
 
@@ -455,7 +455,7 @@ public lemma isEssentiallyConstantPro_of_proIso_const {𝒞 : Type u} [Category.
                 subst hf
                 simpa [InverseSequence.tr] using e.ψnat h } }
   refine ⟨c, op (e.α 0), e.φ 0, ?_, ?_⟩
-  · show e.ψ (e.α 0) ≫ e.φ 0 = 𝟙 A
+  · change e.ψ (e.α 0) ≫ e.φ 0 = 𝟙 A
     simpa [InverseSequence.tr] using e.φψ 0
   · intro j
     cases j with
@@ -465,7 +465,7 @@ public lemma isEssentiallyConstantPro_of_proIso_const {𝒞 : Type u} [Category.
       refine ⟨op (e.α (e.β n)), (homOfLE hii).op, (homOfLE hni).op, ?_⟩
       have hφ : InverseSequence.tr F hii ≫ e.φ 0 = e.φ (e.β n) := by
         simpa [InverseSequence.tr] using e.φnat (m := 0) (m' := e.β n) (Nat.zero_le _)
-      show InverseSequence.tr F hni = InverseSequence.tr F hii ≫ e.φ 0 ≫ e.ψ n
+      change InverseSequence.tr F hni = InverseSequence.tr F hii ≫ e.φ 0 ≫ e.ψ n
       rw [reassoc_of% hφ, e.ψφ n]
 
 end CategoryTheory.Pro

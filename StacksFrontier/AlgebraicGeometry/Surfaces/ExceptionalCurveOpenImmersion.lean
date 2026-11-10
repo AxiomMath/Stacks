@@ -87,7 +87,7 @@ theorem isIso_comapSubschemeHom (h : (D.support : Set X) ⊆ Set.range j.base) :
   refine ⟨(D.comapIso j).inv.base w, ?_⟩
   have hw : (D.comapIso j).hom.base ((D.comapIso j).inv.base w) = w := by
     rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]; rfl
-  show (pullback.snd j D.subschemeι).base ((D.comapIso j).hom.base
+  change (pullback.snd j D.subschemeι).base ((D.comapIso j).hom.base
     ((D.comapIso j).inv.base w)) = _
   rw [hw]
 
@@ -162,7 +162,7 @@ private theorem pullbackClass_comap_eq [Stacks.Divisors.IsEffectiveCartierDiviso
       ← Category.assoc (D.comapSubschemeIso j h).inv, ← comapSubschemeIso_hom j D h,
       Iso.inv_hom_id, Category.id_comp]
   rw [← schemePullbackClass_picardClass j D]
-  show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
+  change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
       (Stacks.Picard.schemePullbackClass j _)) =
     Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _)
   rw [Stacks.Picard.schemePullbackClass_comp, Stacks.Picard.schemePullbackClass_comp,

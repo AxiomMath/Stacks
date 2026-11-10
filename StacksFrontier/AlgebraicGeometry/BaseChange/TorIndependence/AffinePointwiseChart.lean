@@ -160,7 +160,7 @@ theorem isIso_comp_specMap_of_isQuasicoherent (h : IsPushout a b c d)
         (ComplexShape.up ℤ)).map g) ≫ inv (DerivedCategory.Q.map ((T'.mapHomologicalComplex
           (ComplexShape.up ℤ)).map s))) ≫ fac.inv.app N₁ = fac.hom.app _ ≫ φ₃ ≫ fac.inv.app N₁ := by
       rw [← hβ']
-      show _ = F.map β
+      change _ = F.map β
       rw [hβ, CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_inv, ← hinvs]
       simp only [Category.assoc]
       rw [reassoc_of% (T'.mapDerivedCategoryFactors_hom_naturality g)]

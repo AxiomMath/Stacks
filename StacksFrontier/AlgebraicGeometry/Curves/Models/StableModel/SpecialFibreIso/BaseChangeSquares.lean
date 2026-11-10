@@ -53,7 +53,7 @@ theorem isIso_unitToPushforwardUnit_of_isIso {X Y : Scheme.{u}} (e : X ⟶ Y) [I
     IsIso (Scheme.Modules.unitToPushforwardUnit e) := by
   apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
   intro U
-  show IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
+  change IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
   infer_instance
 
 /-- **Surjectivity of `𝒪 ⟶ f_*𝒪` survives precomposition with an isomorphism.** The comparison

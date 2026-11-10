@@ -111,7 +111,7 @@ theorem epi_of_epi_over_coversTop {C : Type u} [Category.{u} C] {J : Grothendiec
         congrArg (fun q ↦ (_root_.SheafOfModules.overFunctor R (X i)).map q) e
     let F' := PresheafOfModules.toPresheaf (R.over (X i)).obj
     have hi' := congrArg (fun q ↦ (F'.map q.val).app (Opposite.op (Over.mk k))) hi
-    show (F.map g.val).app W ≫ (F.obj Q.val).map A.f.op =
+    change (F.map g.val).app W ≫ (F.obj Q.val).map A.f.op =
       (F.map h.val).app W ≫ (F.obj Q.val).map A.f.op
     rw [← (F.map g.val).naturality A.f.op, ← (F.map h.val).naturality A.f.op]
     exact congrArg (fun q ↦ (F.obj N.val).map A.f.op ≫ q) hi'
@@ -365,7 +365,7 @@ theorem restrict_structureMap_eq
   let k : H.obj W ⟶ (Opens.map jV.hom.base).obj ((Opens.map f.hom.base).obj A) :=
     homOfLE (by
       intro z hz
-      show f.hom.base (jV.hom.base z) ∈ A
+      change f.hom.base (jV.hom.base z) ∈ A
       have hb := congrArg (fun q : Z.restrict V.isOpenEmbedding ⟶ X => q.hom.base z) hfac
       change f.hom.base (jV.hom.base z) = jU.hom.base (g.hom.base z) at hb
       rw [hb]
@@ -632,7 +632,7 @@ theorem localGeneratorsData_over_open_of_restriction
     ⟨fun _ _ => rfl⟩
   have : PreservesLimit (parallelPair αf 0)
       (SheafOfModules.overFunctor (structureSheafRing X) U) := by
-    show PreservesLimit _ (SheafOfModules.pushforward.{u} (𝟙 ((structureSheafRing X).over U)))
+    change PreservesLimit _ (SheafOfModules.pushforward.{u} (𝟙 ((structureSheafRing X).over U)))
     infer_instance
   let D₀ := Stacks.AlgebraicGeometry.DerivedPushforward.localGeneratorsDataOfIso.{u, u, u} D
     eker.symm
@@ -678,7 +678,7 @@ theorem closedImmersion_of_precomp_iso
       ext x
       have hx : e.hom.hom.base (e.inv.hom.base x) = x :=
         congrArg (fun k : B ⟶ B => k.hom.base x) e.inv_hom_id
-      show g.hom.base (e.hom.hom.base (e.inv.hom.base x)) = g.hom.base x
+      change g.hom.base (e.hom.hom.base (e.inv.hom.base x)) = g.hom.base x
       rw [hx]
     rw [← heq]
     exact hclosed.comp he

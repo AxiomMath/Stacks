@@ -79,7 +79,7 @@ private lemma append_left_mem_spanBefore
     g j ∈ spanBefore (R := R)
       (fun k : Fin ell ↦ Fin.append g f (Fin.cast h k)) (Fin.cast h.symm a) := by
   refine Submodule.subset_span ⟨Fin.cast h.symm (Fin.castAdd m j), ?_, ?_⟩
-  · show (Fin.cast h.symm (Fin.castAdd m j)).val < (Fin.cast h.symm a).val
+  · change (Fin.cast h.symm (Fin.castAdd m j)).val < (Fin.cast h.symm a).val
     simpa only [Fin.val_cast, Fin.val_castAdd] using hj
   · simp
 
@@ -92,7 +92,7 @@ private lemma append_right_mem_spanBefore
     f j ∈ spanBefore (R := R)
       (fun k : Fin ell ↦ Fin.append g f (Fin.cast h k)) (Fin.cast h.symm a) := by
   refine Submodule.subset_span ⟨Fin.cast h.symm (Fin.natAdd n j), ?_, ?_⟩
-  · show (Fin.cast h.symm (Fin.natAdd n j)).val < (Fin.cast h.symm a).val
+  · change (Fin.cast h.symm (Fin.natAdd n j)).val < (Fin.cast h.symm a).val
     simpa only [Fin.val_cast, Fin.val_natAdd] using hj
   · simp
 
@@ -195,7 +195,7 @@ private lemma append_right_spanBefore
     rw [← hip.linearMap_ker_eq, LinearMap.mem_ker, map_sub, hpy, map_smul, hf a, sub_self]
   obtain ⟨z, hzi⟩ := LinearMap.mem_range.mp hrange
   have hiz : i z ∈ T := append_kernel_mem_spanBefore h i e he f b z
-  show r • f a ∈ T
+  change r • f a ∈ T
   rw [show r • f a = y + i z by rw [hzi]; abel]
   exact T.add_mem hy hiz
 
@@ -799,7 +799,7 @@ private lemma mk_single_eq_smul_symbol
     {R : Type u} [CommRing R] [IsLocalRing R] {M : Type x} [AddCommGroup M] [Module R M]
     (e : AdmissibleSequence R M) (c : IsLocalRing.ResidueField R) :
     (Submodule.Quotient.mk (Finsupp.single e c) : determinant R M) = c • symbol e := by
-  show Submodule.Quotient.mk (Finsupp.single e c) =
+  change Submodule.Quotient.mk (Finsupp.single e c) =
     c • Submodule.Quotient.mk (Finsupp.single e 1)
   rw [show Finsupp.single e c = c • Finsupp.single e (1 : IsLocalRing.ResidueField R) by simp]
   rfl
@@ -827,8 +827,7 @@ private lemma eq_of_symbol_tensors
   classical
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp [hz, hz']
   | tmul a b =>
     induction a using Submodule.Quotient.induction_on with

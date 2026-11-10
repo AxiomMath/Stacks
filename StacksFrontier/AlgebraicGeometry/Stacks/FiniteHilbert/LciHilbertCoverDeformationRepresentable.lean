@@ -118,7 +118,7 @@ theorem exists_coverDeformation_of_siteDeformation (B : BigFppfSite.{u}) (S : Sc
       (ObjectProperty.homMk pZ' : B.obj hZs ⟶ U'.left) ≫ U'.hom = Z.hom := by
     refine B.inclusion.map_injective ?_
     rw [B.inclusion.map_comp, B.inclusion.map_comp]
-    show iZ ≫ pZ' ≫ B.inclusion.map U'.hom = B.inclusion.map Z.hom
+    change iZ ≫ pZ' ≫ B.inclusion.map U'.hom = B.inclusion.map Z.hom
     calc iZ ≫ pZ' ≫ B.inclusion.map U'.hom
         = (iZ ≫ pZ') ≫ B.inclusion.map U'.hom := by rw [Category.assoc]
       _ = (B.inclusion.map q.left ≫ B.inclusion.map i.left) ≫ B.inclusion.map U'.hom := by
@@ -134,7 +134,7 @@ theorem exists_coverDeformation_of_siteDeformation (B : BigFppfSite.{u}) (S : Sc
     refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
     simp only [Over.comp_left]
     rw [B.inclusion.map_comp, B.inclusion.map_comp]
-    show iZ ≫ pZ' = B.inclusion.map q.left ≫ B.inclusion.map i.left
+    change iZ ≫ pZ' = B.inclusion.map q.left ≫ B.inclusion.map i.left
     exact hpbZ.w
   have hgpb : IsPullback
       (Over.homMk (ObjectProperty.homMk iZ) hgw :
@@ -153,7 +153,7 @@ theorem exists_coverDeformation_of_siteDeformation (B : BigFppfSite.{u}) (S : Sc
   refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
   simp only [Over.comp_left, Over.map_map_left]
   rw [B.inclusion.map_comp, B.inclusion.map_comp]
-  show iZ ≫ fZ' = B.inclusion.map fs.left ≫ B.inclusion.map κ.left
+  change iZ ≫ fZ' = B.inclusion.map fs.left ≫ B.inclusion.map κ.left
   exact hcomp
 
 /-! ### The deformation problem for a representable presheaf -/

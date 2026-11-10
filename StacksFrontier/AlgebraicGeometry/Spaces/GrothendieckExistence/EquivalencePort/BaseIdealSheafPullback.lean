@@ -59,7 +59,7 @@ theorem C1573.chartIdealPullbackHom_baseChartHom {X X' : AlgebraicSpaces B (Spec
     chartIdealPullbackHom B (Spec (.of A)) hA π hπ Q (specBaseChartHom X.1 X.2 Q a) =
       specBaseChartHom X'.1 X'.2 ((smallBaseChange B (Spec (.of A)) hA π hπ).obj Q) a := by
   have hw := Over.w (hπ.snd Q.1.hom)
-  show (Scheme.Γ.map (B.inclusion.map (hπ.snd Q.1.hom).left).op)
+  change (Scheme.Γ.map (B.inclusion.map (hπ.snd Q.1.hom).left).op)
       (((Scheme.ΓSpecIso (.of A)).inv ≫
         Scheme.Γ.map ((B.inclusion.map
           ((SmallEtale.toOver B (Spec (.of A)) hA X.1).obj Q).hom).op)).hom a) =
@@ -90,12 +90,12 @@ theorem C1573.inverseImageIdeal_baseIdealSheaf {X X' : AlgebraicSpaces B (Spec (
     have h2 := chartIdeal_baseIdealSubmodule_of_isAffine (hX := X.2) I Q hQ
     have h3 := chartIdeal_baseIdealSubmodule_of_isAffine (hX := X'.2) I T₁ hT₁
     refine h1.trans (Eq.trans ?_ h3.symm)
-    show Ideal.map (chartSectionsRestrict B (Spec (.of A)) hA X' v)
+    change Ideal.map (chartSectionsRestrict B (Spec (.of A)) hA X' v)
       (Ideal.map (chartIdealPullbackHom B (Spec (.of A)) hA π hπ Q)
         (chartIdeal B (Spec (.of A)) hA X (baseIdealSubmodule X.1 X.2 I) Q)) = _
     refine Stacks.Ideal.C1573.map_map_map_of_comp (specBaseChartHom X.1 X.2 Q) _ _
       (specBaseChartHom X'.1 X'.2 T₁) (fun a => ?_) I h2
-    show chartSectionsRestrict B (Spec (.of A)) hA X' v
+    change chartSectionsRestrict B (Spec (.of A)) hA X' v
       (chartIdealPullbackHom B (Spec (.of A)) hA π hπ Q (specBaseChartHom X.1 X.2 Q a)) =
         specBaseChartHom X'.1 X'.2 T₁ a
     rw [chartIdealPullbackHom_baseChartHom, chartSectionsRestrict_baseChartHom]

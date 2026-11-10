@@ -84,12 +84,12 @@ private lemma ker_localRingHom_of_surjective
       cases hpq
       rfl
     rw [hp]
-    show Submonoid.map f (Submonoid.comap f q.primeCompl) = q.primeCompl
+    change Submonoid.map f (Submonoid.comap f q.primeCompl) = q.primeCompl
     exact Submonoid.map_comap_eq_of_surjective (f := f) hf q.primeCompl
   have : IsLocalization (Submonoid.map f p.primeCompl) (Localization.AtPrime q) := by
     rw [hmap]
     infer_instance
-  show RingHom.ker (IsLocalization.map (Localization.AtPrime q) f
+  change RingHom.ker (IsLocalization.map (Localization.AtPrime q) f
     (Localization.le_comap_primeCompl_iff.mpr (ge_of_eq hpq))) = _
   exact IsLocalization.ker_map (Localization.AtPrime q) f hmap
 
@@ -135,7 +135,7 @@ private lemma ker_stalkMap_eq_map
     ker_localRingHom_of_surjective a ha p q hpq, hka]
   let eL := (asIso e.hom.left).commRingCatIsoToRingEquiv
   apply (Ideal.relIsoOfBijective e.hom.left.hom eL.bijective).symm.injective
-  show Ideal.map e.hom.left.hom (Ideal.comap e.hom.left.hom _) =
+  change Ideal.map e.hom.left.hom (Ideal.comap e.hom.left.hom _) =
     Ideal.map e.hom.left.hom _
   rw [Ideal.map_comap_of_surjective e.hom.left.hom eL.surjective, Ideal.map_map]
   congr 1
@@ -286,11 +286,11 @@ private theorem flat_quotient_of_flat_tensor
             (Algebra.TensorProduct.includeRight (A := S) (R := R) (B := R ⧸ I)).toRingHom := by
       apply RingHom.ext
       intro x
-      show 1 ⊗ₜ[R] eQ x = eTensor (1 ⊗ₜ[R] x)
+      change 1 ⊗ₜ[R] eQ x = eTensor (1 ⊗ₜ[R] x)
       exact (Algebra.TensorProduct.map_tmul
         (AlgEquiv.refl : S ≃ₐ[S] S).toAlgHom eQ.toAlgHom 1 x).symm
     apply (RingHom.Flat.comp_iff_of_bijective_left eTensor.bijective).mp
-    show RingHom.Flat (eTensor.toRingEquiv.toRingHom.comp
+    change RingHom.Flat (eTensor.toRingEquiv.toRingHom.comp
       (Algebra.TensorProduct.includeRight (A := S) (R := R) (B := R ⧸ I)).toRingHom)
     rw [← hcomp]
     exact RingHom.Flat.comp (RingHom.Flat.of_bijective eQ.bijective) hflat
@@ -300,7 +300,7 @@ private theorem flat_quotient_of_flat_tensor
     convert RingHom.Flat.comp hright0 (RingHom.Flat.of_bijective e.bijective) using 1
     apply RingHom.ext
     intro r
-    show r ⊗ₜ[R] 1 = e (1 ⊗ₜ[R] r)
+    change r ⊗ₜ[R] 1 = e (1 ⊗ₜ[R] r)
     exact (Algebra.TensorProduct.comm_tmul R (1 : S) r).symm
   exact (Module.Flat.equiv_iff
     ((TensorProduct.quotTensorEquivQuotSMul S I).extendScalarsOfSurjective
@@ -357,7 +357,7 @@ private theorem flat_stalkMap_of_flat_idealPower_pullbacks
   let : Algebra R A := (f.stalkMap x).hom.toAlgebra
   let q := eqToHom (congrArg S.presheaf.stalk h) ≫ g.stalkMap z
   let I := RingHom.ker q.hom
-  show Module.Flat R A
+  change Module.Flat R A
   apply flat_ringHom_of_flat_quotient_pow_local I
   · rw [Ideal.map_le_iff_le_comap]
     exact (IsLocalRing.le_maximalIdeal (RingHom.ker_ne_top q.hom)).trans_eq
@@ -389,17 +389,17 @@ theorem isFlatAt_of_flat_infinitesimalNeighbourhoods
   have hf : f' ≫ e.hom = f := by simp [f']
   have h : f' x = i.liftCoborder z := by
     apply e.hom.isOpenEmbedding.injective
-    show (f' ≫ e.hom) x = (i.liftCoborder ≫ e.hom) z
+    change (f' ≫ e.hom) x = (i.liftCoborder ≫ e.hom) z
     rw [hf]
-    show f x = (i.liftCoborder ≫ i.coborderRange.ι) z
+    change f x = (i.liftCoborder ≫ i.coborderRange.ι) z
     rw [Scheme.Hom.liftCoborder_ι]
     exact hz.symm
   have hflat' (n : ℕ) :
       Flat (pullback.snd f' (i.liftCoborder.ker ^ (n + 1)).subschemeι) :=
     flat_pullback_snd_of_targetIso f e _ (hflat n)
-  show (f.stalkMap x).hom.Flat
+  change (f.stalkMap x).hom.Flat
   rw [← hf, Scheme.Hom.stalkMap_comp]
-  show ((f'.stalkMap x).hom.comp (e.hom.stalkMap (f' x)).hom).Flat
+  change ((f'.stalkMap x).hom.comp (e.hom.stalkMap (f' x)).hom).Flat
   exact RingHom.Flat.comp
     (RingHom.Flat.of_bijective
       (asIso (e.hom.stalkMap (f' x))).commRingCatIsoToRingEquiv.bijective)

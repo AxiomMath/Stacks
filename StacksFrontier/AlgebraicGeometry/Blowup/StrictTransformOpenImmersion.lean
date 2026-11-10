@@ -140,7 +140,7 @@ public theorem preimage_compl_support_eq_compl_support_exceptionalIdeal (I : S.I
   refine TopologicalSpace.Opens.ext ?_
   have h : ((exceptionalIdeal I).support : Set (blowUp I)) =
       (blowUpToBase I).base ⁻¹' (I.support : Set S) := by
-    show ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
+    change ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
     rw [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage]
   rw [show (((exceptionalIdeal I).support.compl : (blowUp I).Opens) : Set (blowUp I)) =
       ((exceptionalIdeal I).support : Set (blowUp I))ᶜ from rfl, h, Scheme.Hom.coe_preimage,
@@ -315,7 +315,7 @@ public theorem exists_flat_strictTransformToBlowUp_support_eq_compl (f : X ⟶ S
     finitePresentation_mul_subschemeι I J hIfp hJft
   -- the support of the composite centre is the whole complement of `U`
   have hIsubJ : I.supportSet ⊆ J.supportSet := fun x hx ↦ by
-    show x ∈ (J.support : Set S)
+    change x ∈ (J.support : Set S)
     rw [hJsupp]
     exact Set.disjoint_right.mp hIdisj hx
   have hKsuppJ : (I * J).supportSet = J.supportSet := by
@@ -339,7 +339,7 @@ public theorem exists_flat_strictTransformToBlowUp_support_eq_compl (f : X ⟶ S
   have hrFlat : MorphismProperty.RespectsIso @Flat :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   refine ⟨I * J, hKfp, ?_, ?_⟩
-  · show (I * J).supportSet = (U : Set S)ᶜ
+  · change (I * J).supportSet = (U : Set S)ᶜ
     rw [hKsuppJ]
     exact hJsupp
   · rw [← MorphismProperty.cancel_left_of_respectsIso (P := @Flat) g.hom

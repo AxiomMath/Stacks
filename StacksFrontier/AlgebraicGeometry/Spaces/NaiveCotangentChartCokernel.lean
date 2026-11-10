@@ -176,8 +176,7 @@ theorem chartKaehlerTensorToLocal_ofLocal (U : Over d.U)
     chartKaehlerTensorToLocal B S hS f d U (chartKaehlerTensorOfLocal B S hS f d U t) = t := by
   let := chartDiagramAlgebraInst B S hS f d
   let := chartDiagramRestrictAlgebra B S hS f d U
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s ω => rfl
   | add a b ha hb => simp only [map_add, ha, hb]
 

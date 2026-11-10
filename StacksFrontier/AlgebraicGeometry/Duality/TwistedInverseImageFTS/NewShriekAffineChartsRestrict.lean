@@ -176,11 +176,11 @@ variable (c : ∀ {X Y : Scheme.{u}} (f : X ⟶ Y), IsShriekable f → Compactif
 def normalizationStdIso (e : 𝒦X.complex ≅ (UpperShriek.shriekOf c f hf).obj 𝒦Y.complex) :
     haveI := hq.source_noetherian
     UpperShriekDuality.upperShriekDualizing (ftsHomSelf hf) (c f hf)
-        (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y) ≅ stdComplex c 𝒦X :=
+        (isDualizing_stdComplex c hωS 𝒦Y) ≅ stdComplex c 𝒦X :=
   haveI := hq.source_noetherian
   (comparison X).inverse.mapIso
     ((ObjectProperty.ι _).mapIso ((upperShriek (ftsHomSelf hf) (c f hf)).mapIso
-        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))) ≪≫
+        (dualizingQCohIso c 𝒦Y (isDualizing_stdComplex c hωS 𝒦Y))) ≪≫
       (ObjectProperty.ι _).mapIso ((ObjectProperty.ι _).mapIso e.symm))
 
 end Generic
@@ -209,7 +209,7 @@ def affineIsoOfIso (V : X.affineOpens)
     upperShriekStructureSheafZerothIsoOfIso
       (ftsHomSelf (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2))
       (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2))
-      (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
+      (isDualizing_stdComplex c hωS 𝒦Y)
       (normalizationStdIso c hωS (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2)
         (𝒦X.restrict V.1) 𝒦Y e)) ≪≫
     upperShriekStructureSheafZerothIso F (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2))
@@ -293,7 +293,7 @@ theorem isBoundedBelow_dualizingQCoh :
     haveI := hq.source_noetherian
     DerivedCategoryB.IsBoundedBelow (UpperShriekDuality.dualizingQCoh (S := Y)
       (Y := ftsOf (𝟙 Y) (isSeparatedFiniteType_id Y))
-      (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)).obj :=
+      (isDualizing_stdComplex c hωS 𝒦Y)).obj :=
   have := hq.source_noetherian
   DerivedCategoryB.isBoundedBelow_of_iso (X := 𝒦Y.complex.obj.obj)
     (Y := (comparison Y).functor.obj ((comparison Y).inverse.obj 𝒦Y.complex.obj.obj))
@@ -306,7 +306,7 @@ abbrev affineNormalizationAt (V : X.affineOpens)
     haveI := hq.source_noetherian
     ∀ F : OpenFiniteFactorization (affineHom (hp := hp) (hq := hq) hpe V),
     UpperShriekDuality.upperShriekDualizing (affineHom (hp := hp) (hq := hq) hpe V)
-        F.compactification (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y) ≅
+        F.compactification (isDualizing_stdComplex c hωS 𝒦Y) ≅
       stdComplex c (𝒦X.restrict V.1) :=
   haveI := hq.source_noetherian
   fun F => (upperShriekDualizingPlusIso _ _ F.compactification _
@@ -324,13 +324,13 @@ theorem affineIsoOfIso_eq (V : X.affineOpens)
     affineIsoOfIso c 𝒦X 𝒦Y hpe hωS V e F =
       newShriekStructureSheafZerothRestrictIso c f 𝒦X 𝒦Y V.1 ≪≫
         upperShriekStructureSheafZerothIsoOfIso _ F.compactification
-          (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
+          (isDualizing_stdComplex c hωS 𝒦Y)
           (affineNormalizationAt c 𝒦X 𝒦Y hpe hωS V e F) ≪≫
         upperShriekStructureSheafZerothIso F F.compactification := by
   have := hq.source_noetherian
   intro F
   have hA := upperShriekStructureSheafZerothIsoOfIso_trans_upperShriekStructureSheafZerothIso
-    (affineHom (hp := hp) (hq := hq) hpe V) (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y) F
+    (affineHom (hp := hp) (hq := hq) hpe V) (isDualizing_stdComplex c hωS 𝒦Y) F
     (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2)) F.compactification
     (isBoundedBelow_dualizingQCoh (hp := hp) c 𝒦Y hωS)
     (affineNormalizationAt c 𝒦X 𝒦Y hpe hωS V e F)
@@ -339,7 +339,7 @@ theorem affineIsoOfIso_eq (V : X.affineOpens)
   exact congrArg (fun x => upperShriekStructureSheafZerothIsoOfIso
       (affineHom (hp := hp) (hq := hq) hpe V)
       (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2))
-      (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y) x ≪≫
+      (isDualizing_stdComplex c hωS 𝒦Y) x ≪≫
         upperShriekStructureSheafZerothIso F
           (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe V.2)))
     (Iso.self_symm_id_assoc _ _).symm

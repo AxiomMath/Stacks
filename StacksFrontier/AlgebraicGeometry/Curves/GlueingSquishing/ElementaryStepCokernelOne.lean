@@ -75,7 +75,7 @@ theorem finrank_cohomologyOverField_zero_cokernel_eq_one_of_isGlueingTwoPoints
     intro U hU
     have hbase := congrArg (fun g : Spec (.of k) ⟶ X => g.base (IsLocalRing.closedPoint k)) hab
     change f.base (a.base _) = f.base (b.base _) at hbase
-    show f.base (b.base _) ∈ U
+    change f.base (b.base _) ∈ U
     rw [← hbase]
     exact hU
   have hxB : ∀ (U : X.Opens), (a ≫ f).base (IsLocalRing.closedPoint k) ∈ U →
@@ -92,7 +92,7 @@ theorem finrank_cohomologyOverField_zero_cokernel_eq_one_of_isGlueingTwoPoints
         AlgebraicGeometry.sectionAt b (f ⁻¹ᵁ U) (hmemB U hU) s +
           AlgebraicGeometry.sectionAt b (f ⁻¹ᵁ U) (hmemB U hU) t :=
       map_add (AlgebraicGeometry.sectionAtHom b (f ⁻¹ᵁ U) (hmemB U hU)) s t
-    show AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ U) hU (s + t) -
+    change AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ U) hU (s + t) -
       AlgebraicGeometry.sectionAt b (f ⁻¹ᵁ U) (hmemB U hU) (s + t) = _
     rw [hA, hB]
     ring
@@ -115,7 +115,7 @@ theorem finrank_cohomologyOverField_zero_cokernel_eq_one_of_isGlueingTwoPoints
       fun y z => map_mul (AlgebraicGeometry.sectionAtHom b (f ⁻¹ᵁ U) (hmemB U hU)) y z
     have hca := AlgebraicGeometry.sectionAt_constHom a ha (f ⁻¹ᵁ U) hU (by simp) c
     have hcb := AlgebraicGeometry.sectionAt_constHom b hb (f ⁻¹ᵁ U) (hmemB U hU) (by simp) c
-    show AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ U) hU _ -
+    change AlgebraicGeometry.sectionAt a (f ⁻¹ᵁ U) hU _ -
       AlgebraicGeometry.sectionAt b (f ⁻¹ᵁ U) (hmemB U hU) _ = _
     rw [hmula, hmulb, hca, hcb]
     ring
@@ -195,7 +195,7 @@ theorem finrank_cohomologyOverField_zero_cokernel_eq_one_of_isSquishingTangentVe
           Stacks.SquishSheafSequence.sectionsToDualNumber θ (f ⁻¹ᵁ U) hU s :=
       map_mul _ _ _
     have hc := sectionsToDualNumber_constHom θ hθ (f ⁻¹ᵁ U) hU (by simp) c
-    show (Stacks.SquishSheafSequence.sectionsToDualNumber θ (f ⁻¹ᵁ U) hU
+    change (Stacks.SquishSheafSequence.sectionsToDualNumber θ (f ⁻¹ᵁ U) hU
       (constHom X' (f ⁻¹ᵁ U) (by simp) c * s)).snd = _
     rw [hmul, hc, TrivSqZeroExt.algebraMap_eq_inl, TrivSqZeroExt.snd_mul,
       TrivSqZeroExt.fst_inl, TrivSqZeroExt.snd_inl, smul_zero, add_zero, smul_eq_mul]

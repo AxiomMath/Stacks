@@ -66,7 +66,7 @@ abbrev ConormalChart (i : Z ⟶ X) [IsImmersion i] :=
 theorem coborderRange_eq_top (i : Z ⟶ X) [IsClosedImmersion i] : i.coborderRange = ⊤ := by
   ext x
   refine ⟨fun _ => trivial, fun _ => ?_⟩
-  show x ∈ coborder (Set.range i.base)
+  change x ∈ coborder (Set.range i.base)
   rw [IsClosed.coborder_eq i.isClosedEmbedding.isClosed_range]
   trivial
 

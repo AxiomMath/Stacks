@@ -90,7 +90,7 @@ theorem homog_witness
     (J : HomogeneousIdeal 𝒜) (hJ : J ≤ HomogeneousIdeal.irrelevant 𝒜)
     (q : HomogeneousIdeal 𝒜) (hJq : ¬ J ≤ q) :
     ∃ y : S, y ∈ J.toIdeal ∧ (∃ e : ℕ, 1 ≤ e ∧ y ∈ 𝒜 e) ∧ y ∉ q.toIdeal := by
-  obtain ⟨x, hxJ, hxq⟩ := SetLike.not_le_iff_exists.mp hJq
+  obtain ⟨x, hxJ, hxq⟩ := IsConcreteLE.not_le_iff_exists.mp hJq
   obtain ⟨j, hj⟩ : ∃ j, ((DirectSum.decompose 𝒜 x j : 𝒜 j) : S) ∉ q.toIdeal := by
     by_contra! h
     exact hxq ((Ideal.IsHomogeneous.mem_iff 𝒜 q.isHomogeneous).mpr h)
@@ -136,7 +136,7 @@ theorem cross_witness {ι : Type*} (p : ι → HomogeneousIdeal 𝒜)
   let Q : HomogeneousIdeal 𝒜 := ⟨∏ i ∈ s.erase k, (p i).toIdeal, hprodhom _⟩
   let K : HomogeneousIdeal 𝒜 := I * Q
   have hKtoIdeal : K.toIdeal = I.toIdeal * (∏ i ∈ s.erase k, (p i).toIdeal) := by
-    show (I * Q).toIdeal = _
+    change (I * Q).toIdeal = _
     rw [HomogeneousIdeal.toIdeal_mul]
   have hKI : K.toIdeal ≤ I.toIdeal := by
     rw [hKtoIdeal]

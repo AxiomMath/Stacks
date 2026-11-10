@@ -317,11 +317,11 @@ theorem isElementaryDistinguishedSquare_openRestriction (B : BigFppfSite.{u})
             dsimp only [sW]
             rw [hsU, hrangeComp, ← hsV]
   have hU'W' : U' ≤ W' := by
-    show uo ≤ wo
+    change uo ≤ wo
     apply eW.le_iff_le.mp
     have hwo : eW wo = sW := eW.apply_symm_apply sW
     rw [hwo]
-    show sU.1 ⊆ sW.1
+    change sU.1 ⊆ sW.1
     exact fun _ hx => Or.inl hx
   -- `V' ⟶ W` lands in `W'`, so it factors through it.
   have hpoints : Set.range (pointsMap B S hS V'.toFunctor (V'.ι ≫ f)) ⊆
@@ -349,7 +349,7 @@ theorem isElementaryDistinguishedSquare_openRestriction (B : BigFppfSite.{u})
       hpre.flip hsq.isEtale
   have hle : V' ≤ W'.preimage f := by
     intro A x hx
-    show f.app A x ∈ W'.obj A
+    change f.app A x ∈ W'.obj A
     have heq := congrArg (fun k : V'.toFunctor ⟶ W => k.app A ⟨x, hx⟩) hf'
     change (W'.ι.app A) (f'.app A ⟨x, hx⟩) = f.app A x at heq
     rw [← heq]
@@ -632,11 +632,11 @@ private theorem disjoint_range_pointsMap_relocalizeOfRestricted (B : BigFppfSite
   let t' : A' ⟶ A := Over.homMk t.left rfl
   have hp : ψ ≫ g = p.siteObject.hom := p.value.2
   let e : (Over.map g).obj A' ⟶ r.siteObject := Over.homMk (𝟙 _) (by
-    show (𝟙 _) ≫ r.siteObject.hom = (t.left ≫ ψ) ≫ g
+    change (𝟙 _) ≫ r.siteObject.hom = (t.left ≫ ψ) ≫ g
     rw [Category.id_comp, Category.assoc, hp]
     exact t.w.symm)
   let i : p.siteObject ⟶ (Over.map g).obj A := Over.homMk (𝟙 _) (by
-    show (𝟙 _) ≫ ψ ≫ g = p.siteObject.hom
+    change (𝟙 _) ≫ ψ ≫ g = p.siteObject.hom
     simpa using hp)
   have hti : e ≫ t ≫ i = (Over.map g).map t' := Over.OverMorphism.ext (by simp [e, i, t'])
   let r' : FieldValuedPoint B S' hS' F :=
@@ -793,7 +793,7 @@ theorem isElementaryDistinguishedSquare_relocalizeRestrict (B : BigFppfSite.{u})
       _ = T'.ι := OverShriek.relocalizeToRestricted_relocalizeOfRestricted g T'.ι
   have hTiso : IsIso (T.fromPreimage f) := h.isIsoOverComplement
   have hTriso : IsIso (Tr.fromPreimage ((OverShriek.relocalizeRestrict g).map f)) := by
-    show IsIso ((OverShriek.relocalizeRestrict g).map (T.fromPreimage f))
+    change IsIso ((OverShriek.relocalizeRestrict g).map (T.fromPreimage f))
     infer_instance
   exact ⟨hVres, hU'open,
     isEtale_relocalizeRestrict B S S' hS hS' g h.isAlgebraicSpace hW f h.isEtale, hc,

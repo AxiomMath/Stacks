@@ -166,12 +166,12 @@ theorem exact_of_exact_sections {E F G : Y.Modules} (f : E ⟶ F) (g : F ⟶ G) 
       have e := congr($(g.mapPresheaf.naturality (homOfLE (hVW'.trans i₁.le)).op) s)
       have hW'' : G.presheaf.map i₁.op (g.app W s) = G.presheaf.map i₂.op 0 := hW'
       refine e.trans ?_
-      show G.presheaf.map (homOfLE (hVW'.trans i₁.le)).op (g.app W s) = 0
+      change G.presheaf.map (homOfLE (hVW'.trans i₁.le)).op (g.app W s) = 0
       rw [← res_comp G (homOfLE hVW') i₁ (homOfLE (hVW'.trans i₁.le)), hW'', map_zero, map_zero]
     obtain ⟨t, ht⟩ := h ⟨V, hV⟩ _ hgs
     refine ⟨(TopCat.Presheaf.germ E.val.presheaf V x hxV).hom t, ?_⟩
     refine (AlgebraicGeometry.SheafOfModules.stalkMap_germ _ x f V hxV t).trans ?_
-    show (TopCat.Presheaf.germ F.val.presheaf V x hxV).hom (f.app V t) = _
+    change (TopCat.Presheaf.germ F.val.presheaf V x hxV).hom (f.app V t) = _
     rw [ht]
     exact TopCat.Presheaf.germ_res_apply _ _ _ _ _
   exact hS
@@ -320,7 +320,7 @@ lemma chartEquiv_chartSection (U V : Y.affineOpens) (hV : IsBasicIn (U : Y.Opens
   have hα : IsBaseChange Γ(Y, V) (semilinearToLinear _ (chartSectionₛₗ U (T.obj U) hV.le)) :=
     isBaseChangeAlong_chartSectionₛₗ_of_isBasicIn U (T.obj U) hV
   have hβ : IsBaseChange Γ(Y, V) (semilinearToLinear _ (T.map hV.le)) := T.isBaseChange hV.le
-  show hβ.equiv (hα.equiv.symm (semilinearToLinear _ (chartSectionₛₗ U (T.obj U) hV.le) m)) = _
+  change hβ.equiv (hα.equiv.symm (semilinearToLinear _ (chartSectionₛₗ U (T.obj U) hV.le) m)) = _
   rw [hα.equiv_symm_apply, hβ.equiv_tmul, one_smul]
   rfl
 
@@ -338,7 +338,7 @@ lemma chartEquiv_res (U V W : Y.affineOpens) (hV : IsBasicIn (U : Y.Opens) V)
     isBaseChangeAlong_chartSectionₛₗ_of_isBasicIn U (T.obj U) hV
   induction s using hα.inductionOn with
   | tmul m =>
-    show T.chartEquiv U W hW (chartSection U (T.obj U) W m) =
+    change T.chartEquiv U W hW (chartSection U (T.obj U) W m) =
       T.map hWV (T.chartEquiv U V hV (chartSection U (T.obj U) V m))
     rw [chartEquiv_chartSection, chartEquiv_chartSection, T.map_comp]
   | smul a n ih =>
@@ -453,7 +453,7 @@ lemma sectionsEquiv_res_of_isBasicIn {U V : Y.affineOpens} (hV : IsBasicIn (U : 
         (T.sheafChartEquiv U hV.le (T.sheaf.presheaf.map (homOfLE hV.le).op s)) := by
     rw [show (le_rfl : (V : Y.Opens) ≤ V) = (isBasicIn_self (V : Y.Opens)).le from rfl, h1]
     simp only [chartTrans, LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply]
-  show T.chartEquiv V V (isBasicIn_self _)
+  change T.chartEquiv V V (isBasicIn_self _)
       (T.sheafChartEquiv V le_rfl (T.sheaf.presheaf.map (homOfLE hV.le).op s)) = _
   rw [h2, show hV.le = hV.le.trans (le_rfl : (U : Y.Opens) ≤ U) from rfl,
     T.sheafChartEquiv_res U le_rfl hV.le s, T.chartEquiv_res U U V (isBasicIn_self _) hV hV.le]
@@ -557,7 +557,7 @@ lemma sheafMapApp_compatible (f : T ⟶ T') :
       (fun U : Y.affineOpens => (U : Y.Opens)) (sheafMapApp f) := by
   intro U V (h : (V : Y.Opens) ≤ U) (s : Γ(T.sheaf, (U : Y.Opens)))
   apply (T'.sectionsEquiv V).injective
-  show T'.sectionsEquiv V ((T'.sectionsEquiv V).symm (f.app V (T.sectionsEquiv V
+  change T'.sectionsEquiv V ((T'.sectionsEquiv V).symm (f.app V (T.sectionsEquiv V
       (T.sheaf.presheaf.map (homOfLE h).op s)))) =
     T'.sectionsEquiv V (T'.sheaf.presheaf.map (homOfLE h).op
       ((T'.sectionsEquiv U).symm (f.app U (T.sectionsEquiv U s))))
@@ -577,9 +577,9 @@ theorem sectionsEquiv_sheafMap_app (f : T ⟶ T') (U : Y.affineOpens) (s : Γ(T.
   have h := Stacks.BasisRestriction.moduleSheafHomOfSectionHomOnBasis_app T.sheaf T'.sheaf
     (fun U : Y.affineOpens => (U : Y.Opens)) (sheafMapApp f) isBasis_range_affineOpens
     (sheafMapApp_compatible f) U
-  show T'.sectionsEquiv U ((sheafMap f).val.app (op (U : Y.Opens)) s) = _
+  change T'.sectionsEquiv U ((sheafMap f).val.app (op (U : Y.Opens)) s) = _
   rw [show (sheafMap f).val.app (op (U : Y.Opens)) = sheafMapApp f U from h]
-  show T'.sectionsEquiv U ((T'.sectionsEquiv U).symm _) = _
+  change T'.sectionsEquiv U ((T'.sectionsEquiv U).symm _) = _
   rw [LinearEquiv.apply_symm_apply]
   rfl
 
@@ -600,7 +600,7 @@ lemma sheafMap_id : sheafMap (𝟙 T) = 𝟙 T.sheaf :=
 lemma sheafMap_comp (f : T ⟶ T') (g : T' ⟶ T'') :
     sheafMap (f ≫ g) = sheafMap f ≫ sheafMap g :=
   T.sheaf_hom_ext fun U s => by
-    show _ = (sheafMap g).app U ((sheafMap f).app U s)
+    change _ = (sheafMap g).app U ((sheafMap f).app U s)
     rw [sheafMap_app, sheafMap_app, sheafMap_app, comp_app, LinearEquiv.apply_symm_apply]
 
 variable (Y) in
@@ -629,7 +629,7 @@ lemma sheafMap_comp_eq_zero (f : T₁ ⟶ T₂) (g : T₂ ⟶ T₃)
     sheafMap f ≫ sheafMap g = 0 :=
   T₁.sheaf_hom_ext fun U s => by
     apply (T₃.sectionsEquiv U).injective
-    show T₃.sectionsEquiv U ((sheafMap g).app U ((sheafMap f).app U s)) =
+    change T₃.sectionsEquiv U ((sheafMap g).app U ((sheafMap f).app U s)) =
       T₃.sectionsEquiv U 0
     rw [sectionsEquiv_sheafMap_app, sectionsEquiv_sheafMap_app, hfg, map_zero]
 
@@ -762,7 +762,7 @@ def ofQuasicoherentIso (F : Y.Modules) [F.IsQuasicoherent] : (ofQuasicoherent F)
 lemma ofQuasicoherentIso_hom_app (F : Y.Modules) [F.IsQuasicoherent] (U : Y.affineOpens)
     (s : Γ((ofQuasicoherent F).sheaf, U)) :
     (ofQuasicoherentIso F).hom.app U s = (ofQuasicoherent F).sectionsEquiv U s := by
-  show (ofQuasicoherentIso F).hom.val.app (op (U : Y.Opens)) s = _
+  change (ofQuasicoherentIso F).hom.val.app (op (U : Y.Opens)) s = _
   rw [show (ofQuasicoherentIso F).hom.val.app (op (U : Y.Opens)) = _ from
     Stacks.BasisRestriction.moduleSheafIsoOfSectionIsoOnBasis_hom_app (𝒪 := Y.ringCatSheaf)
       (ofQuasicoherent F).sheaf F (fun U : Y.affineOpens => (U : Y.Opens))

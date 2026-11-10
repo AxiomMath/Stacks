@@ -16,8 +16,8 @@ This is the small-site form of
 `StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.QuasicoherentCrystal`, and it is not a
 consequence of it: a sheaf of modules on `Cris(X/S)` is in general not the restriction of one on
 `CRIS(X/S)`, so the argument is repeated here, as it is in
-`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.RestrictOverCrystal` for the computation on a
-localised site.  The source's opening reduction "it suffices to prove (a) and (b) Zariski locally"
+`StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.RestrictOverCrystal` for the computation on
+a localised site.  The source's opening reduction "it suffices to prove (a) and (b) Zariski locally"
 is carried out: quasi-coherence gives, around every point of `T'`, an open `V` on whose
 restriction `(U' ∩ V, V, δ'|_V)` the module has a global presentation, the restrictions of `f` over
 those opens cover `T`, and over each of them the source's computation applies on the localised site

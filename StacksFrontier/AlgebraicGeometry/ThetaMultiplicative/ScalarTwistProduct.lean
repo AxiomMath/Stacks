@@ -87,7 +87,7 @@ public theorem localizedModule_map_mul_eq_mkOne_mul (P : Submonoid S) (c : S)
   induction v using LocalizedModule.induction_on with
   | _ m t =>
     rw [LocalizedModule.map_mk]
-    show _ = Localization.mk c (1 : P) * Localization.mk m t
+    change _ = Localization.mk c (1 : P) * Localization.mk m t
     rw [Localization.mk_mul]
     exact congrArg (Localization.mk ((LinearMap.mul S S c) m)) (one_mul t).symm
 
@@ -106,7 +106,7 @@ public theorem twistScalarSheafMap_app_eq_absoluteTwistProduct (i : ℕ) (n : �
     ((twistScalarSheafMap 𝒮 i n ((i : ℤ) + n) rfl a).val.app (op V)).hom s =
       absoluteTwistProduct 𝒮 (i : ℤ) n V (degreeSectionOn 𝒮 i a.2 V) s := by
   refine Subtype.ext (funext fun x => ?_)
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S (a : S)) (s.1 x) = _
   refine Eq.trans (localizedModule_map_mul_eq_mkOne_mul _ (a : S) (s.1 x)) ?_
   refine Eq.trans ?_ (absoluteTwistProduct_apply 𝒮 (i : ℤ) n V

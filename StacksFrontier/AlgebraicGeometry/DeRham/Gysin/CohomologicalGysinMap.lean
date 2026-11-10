@@ -252,7 +252,7 @@ theorem isZero_localCohomologySheafOfComplex_of_neg
       ((DerivedCategory.Plus.singleFunctor
         (_root_.SheafOfModules.{u} (structureSheafRing X)) 0).obj F) 0
       (by
-        show ((DerivedCategory.singleFunctor
+        change ((DerivedCategory.singleFunctor
           (_root_.SheafOfModules.{u} (structureSheafRing X)) 0).obj F).IsGE 0
         infer_instance)
   have := CategoryTheory.Functor.isGE_rightDerivedFunctorPlus_obj

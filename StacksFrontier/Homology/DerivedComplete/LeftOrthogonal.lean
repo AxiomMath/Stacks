@@ -92,7 +92,7 @@ theorem eq_zero_of_isDerivedCompleteAt_of_distTriang {E M M' : D} {f : A}
   refine eq_zero_of_isDerivedCompleteAt_of_bijective' hE hu ⟨fun φ₁ φ₂ h => ?_, fun ψ => ?_⟩ φ
   · rw [← sub_eq_zero]
     obtain ⟨χ, hχ⟩ := Triangle.yoneda_exact₂ _ hT (φ₁ - φ₂) (by
-      show u ≫ (φ₁ - φ₂) = 0
+      change u ≫ (φ₁ - φ₂) = 0
       rw [Preadditive.comp_sub]
       exact sub_eq_zero.2 h)
     rw [hχ, h₃ χ, comp_zero]

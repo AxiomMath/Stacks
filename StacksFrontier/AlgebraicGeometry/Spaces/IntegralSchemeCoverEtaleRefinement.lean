@@ -56,6 +56,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimit` instance search for presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance (priority := high) hasPullback_presheaf_integralSchemeCoverEtaleRefinement
@@ -159,7 +160,7 @@ theorem exists_etale_chart_over
       P.obj P.property W w).mp hwSur
     have hqSur : IsSurjective B S hS (yoneda.map q) := by
       rw [hq]
-      show Function.Surjective (pointsMap B S hS (yoneda.obj W) (w ≫ π))
+      change Function.Surjective (pointsMap B S hS (yoneda.obj W) (w ≫ π))
       rw [pointsMap_comp B S hS (yoneda.obj W) w π]
       exact hsur.comp hwSur'
     have hr := (presheafSurjective_iff_isSurjective_yoneda B S hS
@@ -268,7 +269,7 @@ theorem exists_finite_surjective_refinement_over
       refine ⟨Over.homMk (B.inclusion.preimage (t c)) ?_, ?_⟩
       · show (B.inclusion.preimage (t c) : (Vobj c).left ⟶ W.left) ≫ W.hom = (Vobj c).hom
         rw [← q.w]
-        show _ = (B.inclusion.preimage (V c).ι : B.obj (hVc c) ⟶ B.obj hS') ≫ r₀ ≫ Y.hom
+        change _ = (B.inclusion.preimage (V c).ι : B.obj (hVc c) ⟶ B.obj hS') ≫ r₀ ≫ Y.hom
         rw [← Category.assoc, hb₀, Category.assoc]
       · exact Over.OverMorphism.ext hb₀
     choose b hb using hbb

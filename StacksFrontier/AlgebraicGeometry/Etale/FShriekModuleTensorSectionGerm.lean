@@ -41,8 +41,8 @@ attribute [local instance] moduleSheafMonoidal
 
 /-- `Λ`-modules in the coefficient universe of the small étale site have limits indexed by the
 universe of the schemes. -/
-@[instance_reducible]
-public def hasLimitsOfSizeModuleCatSmall : HasLimitsOfSize.{u, u} (ModuleCat.{max (u + 1) v} Λ) :=
+public theorem hasLimitsOfSizeModuleCatSmall :
+    HasLimitsOfSize.{u, u} (ModuleCat.{max (u + 1) v} Λ) :=
   ModuleCat.hasLimitsOfSize.{u, u, max (u + 1) v, max (u + 1) v}
 
 attribute [local instance] hasLimitsOfSizeModuleCatSmall

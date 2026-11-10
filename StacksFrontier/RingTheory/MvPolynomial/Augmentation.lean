@@ -196,7 +196,7 @@ theorem isPushout_aeval_augmentation (h : Function.Surjective (algebraMap R T))
     apply Ideal.span_le.mpr
     rintro _ ⟨i, rfl⟩
     apply RingHom.mem_ker.mpr
-    show f i ⊗ₜ[P] (1 : k) = 0
+    change f i ⊗ₜ[P] (1 : k) = 0
     simpa using tmul_one (MvPolynomial.X i)
   let inverse : T →ₐ[R] tensor := (Algebra.ofId R T).liftOfSurjective h inclusion hker
   let coefficientMap : k →ₐ[P] T := IsScalarTower.toAlgHom P k T
@@ -209,14 +209,14 @@ theorem isPushout_aeval_augmentation (h : Function.Surjective (algebraMap R T))
   have hleft : comparison.comp inverse = AlgHom.id R T := by
     refine AlgHom.ext fun value => ?_
     obtain ⟨preimage, rfl⟩ := h value
-    show comparison (inverse ((Algebra.ofId R T) preimage)) = _
+    change comparison (inverse ((Algebra.ofId R T) preimage)) = _
     simp [inverse, comparison, inclusion]
   have hright : inverse.comp comparison = AlgHom.id R tensor := by
     refine Algebra.TensorProduct.ext (Subsingleton.elim _ _) ?_
     ext c
-    show inverse (comparison ((1 : R) ⊗ₜ[P] c)) = (1 : R) ⊗ₜ[P] c
+    change inverse (comparison ((1 : R) ⊗ₜ[P] c)) = (1 : R) ⊗ₜ[P] c
     rw [comparison_one_tmul, IsScalarTower.algebraMap_apply k R T, inverse.commutes]
-    show (algebraMap k R c) ⊗ₜ[P] (1 : k) = (1 : R) ⊗ₜ[P] c
+    change (algebraMap k R c) ⊗ₜ[P] (1 : k) = (1 : R) ⊗ₜ[P] c
     simpa using tmul_one (MvPolynomial.C c)
   exact Algebra.IsPushout.of_equiv (AlgEquiv.ofAlgHom comparison inverse hleft hright) (by
     ext c
@@ -248,7 +248,7 @@ theorem torIndependent_aeval_augmentation {r : ℕ} (f : Fin r → R)
       (MvPolynomial.ker_aeval_zero k r) ?_)
   · intro c
     exact ⟨MvPolynomial.C c, MvPolynomial.aeval_C _ _⟩
-  · show Koszul.IsKoszulRegular fun i => MvPolynomial.aeval f (MvPolynomial.X i : P)
+  · change Koszul.IsKoszulRegular fun i => MvPolynomial.aeval f (MvPolynomial.X i : P)
     simpa using hf
 
 end MvPolynomial

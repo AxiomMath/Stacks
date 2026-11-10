@@ -163,7 +163,7 @@ public theorem omegaColimStalkAddEquiv_smul (s : Stacks.KaehlerDifferential.Coli
           hjm y) :=
     (Stacks.KaehlerDifferential.Colimit.ofΩ_omegaTrans (trans O₁) (trans O₂) (isCompatible φ x) hjm
       y).symm
-  show omegaColimStalkAddEquiv φ x
+  change omegaColimStalkAddEquiv φ x
         ((Ring.DirectLimit.of _ _ i c : Stacks.KaehlerDifferential.Colimit.Sinf (trans O₂ (x := x)))
           •
           Stacks.KaehlerDifferential.Colimit.ofΩ (trans O₁) (trans O₂) (isCompatible φ x) j y) =

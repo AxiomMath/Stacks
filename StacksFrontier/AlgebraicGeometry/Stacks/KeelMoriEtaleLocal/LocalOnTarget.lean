@@ -175,7 +175,7 @@ theorem isEtale_and_isSeparated_pullback_snd_of_wellNighAffinePiece
       ⟨yoneda.obj Mj, isAlgebraicSpace_yoneda B S hS Mj⟩ :=
     ObjectProperty.homMk (pullback.snd g.hom bj.hom)
   have h1 : f''.hom ≫ (associatedMap B S hS (e.hom ≫ pr₂).hom).1 = P.snd.hom ≫ fj.hom := by
-    show f''.hom ≫ (associatedMap B S hS (e.hom.hom ≫ pullback.snd g.hom bj.hom)).1 = _
+    change f''.hom ≫ (associatedMap B S hS (e.hom.hom ≫ pullback.snd g.hom bj.hom)).1 = _
     rwa [associatedMap_comp, ← Category.assoc, he]
   have huniq := (hf''c ⟨yoneda.obj Mj, isAlgebraicSpace_yoneda B S hS Mj⟩
     (P.snd.hom ≫ fj.hom)).unique (y₁ := e.hom ≫ pr₂) (y₂ := sM) ⟨eqToIso h1⟩ ⟨eqToIso hcomm''⟩

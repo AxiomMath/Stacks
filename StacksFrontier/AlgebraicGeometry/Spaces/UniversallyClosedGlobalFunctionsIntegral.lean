@@ -208,7 +208,7 @@ theorem liftToYoneda_comp_yoneda_map {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
         (BigFppfOver.toScheme B S hS).map (q.app U w)) :
     liftToYoneda B S hS π₀ z q hq ≫ yoneda.map z = q := by
   ext U w
-  show (liftToYoneda B S hS π₀ z q hq).app U w ≫ z = q.app U w
+  change (liftToYoneda B S hS π₀ z q hq).app U w ≫ z = q.app U w
   refine (BigFppfOver.toScheme B S hS).map_injective ?_
   rw [Functor.map_comp, toScheme_map_liftToYoneda_app]
   exact hq U w
@@ -334,7 +334,7 @@ theorem denseRange_base_specMapOfGlobalHom {Pz : Scheme.{u}} [IsAffine Pz] {C : 
   have hfun : ((Pz.toSpecΓ ≫ Spec.map (CommRingCat.ofHom χ)).base : Pz → _) =
       (Spec.map (CommRingCat.ofHom χ)).base ∘ Pz.toSpecΓ.base :=
     funext fun x => Scheme.Hom.comp_apply _ _ x
-  show Dense (Set.range ((Pz.toSpecΓ ≫ Spec.map (CommRingCat.ofHom χ)).base : Pz → _))
+  change Dense (Set.range ((Pz.toSpecΓ ≫ Spec.map (CommRingCat.ofHom χ)).base : Pz → _))
   rw [hfun, Set.range_comp, hsurj.range_eq, Set.image_univ]
   exact hd
 

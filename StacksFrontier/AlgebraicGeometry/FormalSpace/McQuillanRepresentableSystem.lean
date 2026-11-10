@@ -174,7 +174,7 @@ theorem ker_map (hker : ∀ m : M, p m = 0 ↔ m ∈ (RingHom.ker α) • (⊤ :
     intro a ha
     refine RingHom.mem_ker.mpr ((map_eq_zero_iff α p hp).mpr ⟨?_, ?_⟩)
     · exact RingHom.mem_ker.mp ha
-    · show p 0 = 0
+    · change p 0 = 0
       exact p.map_zero
 
 /-- The kernel of a transition of trivial square-zero extensions is square-zero as soon as the
@@ -200,9 +200,9 @@ theorem ker_map_mul_self (hker : ∀ m : M, p m = 0 ↔ m ∈ (RingHom.ker α) �
   · have hprod : x.fst * y.fst ∈ RingHom.ker α * RingHom.ker α :=
       Ideal.mul_mem_mul hxf' hyf'
     rw [hsq, Submodule.mem_bot] at hprod
-    show x.fst * y.fst = (0 : TrivSqZeroExt A M).fst
+    change x.fst * y.fst = (0 : TrivSqZeroExt A M).fst
     rw [hprod, TrivSqZeroExt.fst_zero]
-  · show x.fst • y.snd + MulOpposite.op y.fst • x.snd = (0 : TrivSqZeroExt A M).snd
+  · change x.fst • y.snd + MulOpposite.op y.fst • x.snd = (0 : TrivSqZeroExt A M).snd
     rw [op_smul_eq_smul, hzero hxf' hys', hzero hyf' hxs', add_zero, TrivSqZeroExt.snd_zero]
 
 omit [AddCommGroup M] [Module A M] [Module Aᵐᵒᵖ M] [IsCentralScalar A M] in

@@ -109,7 +109,7 @@ theorem chartIdeal_eq_pow_of_forall_isAffine_hom
       (∀ i, chartRing B S hS X.1 X.2 (z i)) := hffΓ
   refine Ideal.eq_of_forall_map_eq (D := fun i => chartRing B S hS X.1 X.2 (z i)) fun i => ?_
   obtain ⟨_, ⟨e⟩⟩ := hzmem i
-  show Ideal.map (chartRestrict (hF := X.2) (φ i)) (chartIdeal B S hS X K A) =
+  change Ideal.map (chartRestrict (hF := X.2) (φ i)) (chartIdeal B S hS X K A) =
     Ideal.map (chartRestrict (hF := X.2) (φ i)) (chartIdeal B S hS X I A ^ n)
   rw [chartIdeal_map_of_isCartesianOnAffineCharts B S hS X K hK hA (hzaff i) (φ i), Ideal.map_pow,
     chartIdeal_map_of_isCartesianOnAffineCharts B S hS X I hI hA (hzaff i) (φ i)]
@@ -172,7 +172,7 @@ theorem exists_ker_eq_ker_sq (Z : ClosedSubspaces B S hS X.1) :
   have hker := (Scheme.IdealSheafData.ker_subschemeι_app (idealSheafDataOfChart B S hS X
     (definingIdealSheaf B S hS X Z) hI A) ⟨⊤, hT⟩).symm.trans
     (ker_appTop_subschemeι_idealSheafDataOfChart B S hS X _ hI A hA)
-  show definingIdealAt B S hS X ⟨_, hNc⟩ (op A) = _
+  change definingIdealAt B S hS X ⟨_, hNc⟩ (op A) = _
   rw [definingIdealAt_nthOrderInfinitesimalNeighbourhood B S hS hs he hJ 1 hNc A m,
     Stacks.IdealSheaf.comap_pow, comap_idealSheafDataOfChart]
   refine (Scheme.IdealSheafData.ker_subschemeι_app _ ⟨⊤, hT⟩).trans ?_

@@ -61,7 +61,7 @@ to the re-seated one, is the inverse of `reseatIso`. -/
 lemma reseatMonoidalInverse_μ (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) (X Y : C) :
     @Functor.LaxMonoidal.μ C _ MC C _ (reseat e ε) (𝟭 C)
       (reseatMonoidalInverse e ε).toLaxMonoidal X Y = (reseatIso e X Y).inv := by
-  show 𝟙 _ ≫ ((reseatIso e X Y).inv ≫ (𝟙 X ⊗ₘ 𝟙 Y)) = _
+  change 𝟙 _ ≫ ((reseatIso e X Y).inv ≫ (𝟙 X ⊗ₘ 𝟙 Y)) = _
   exact (Category.id_comp _).trans ((congrArg _ (id_tensorHom_id X Y)).trans (Category.comp_id _))
 
 /-- The oplax tensorator of `reseatMonoidalInverse` is `reseatIso`. -/
@@ -93,7 +93,7 @@ lemma Functor.monoidalReseat_μ (F : C ⥤ D) [F.Monoidal] (e : curriedTensor C 
         (Functor.monoidalReseat F e ε e' ε').toLaxMonoidal X Y =
       (reseatIso e' (F.obj X) (F.obj Y)).inv ≫ Functor.LaxMonoidal.μ F X Y ≫
         F.map (reseatIso e X Y).hom := by
-  show (@Functor.LaxMonoidal.μ D _ MD D _ (reseat e' ε') (𝟭 D)
+  change (@Functor.LaxMonoidal.μ D _ MD D _ (reseat e' ε') (𝟭 D)
       (reseatMonoidalInverse e' ε').toLaxMonoidal (F.obj X) (F.obj Y) ≫
     Functor.LaxMonoidal.μ F X Y) ≫ F.map (reseatIso e X Y).hom = _
   rw [reseatMonoidalInverse_μ, Category.assoc]

@@ -44,11 +44,11 @@ def sigmaIso {I : Type u} (K K' : I → AddCommGrpCat.{u}) (m : (∐ K) ⟶ (∐
   inv := Sigma.desc fun i => (φ i).inv ≫ Sigma.ι K i
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, h i, Category.assoc, Sigma.ι_desc, ← Category.assoc,
+    rw [← Category.assoc, h i, Category.assoc, Sigma.ι_comp_desc, ← Category.assoc,
       Iso.hom_inv_id, Category.id_comp, Category.comp_id]
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc, h i, ← Category.assoc,
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, h i, ← Category.assoc,
       Iso.inv_hom_id, Category.id_comp, Category.comp_id]
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

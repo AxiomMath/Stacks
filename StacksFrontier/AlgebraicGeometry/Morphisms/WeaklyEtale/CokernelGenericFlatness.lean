@@ -144,7 +144,7 @@ private theorem rTensor_injective_localizationAway
     (g : A) (l : V →ₗ[A] W) [IsLocalizedModule (Submonoid.powers g) l]
     (hg : IsSMulRegular (V ⊗[R] X) g) :
     Function.Injective ((l.restrictScalars R).rTensor X) := by
-  show Function.Injective (TensorProduct.AlgebraTensorModule.rTensor R X l)
+  change Function.Injective (TensorProduct.AlgebraTensorModule.rTensor R X l)
   apply (IsLocalizedModule.injective_iff_isRegular (Submonoid.powers g) _).mpr
   rintro ⟨a, ⟨n, rfl⟩⟩
   exact hg.pow n
@@ -201,7 +201,7 @@ private theorem exists_finite_free_lift
   refine ⟨_, inferInstance, ψ', j, k, s, ?_, ?_⟩
   · apply LinearMap.ext
     intro v
-    show Finsupp.subtypeDomain _ (b.repr (b.repr.symm (Finsupp.mapDomain Subtype.val v))) = v
+    change Finsupp.subtypeDomain _ (b.repr (b.repr.symm (Finsupp.mapDomain Subtype.val v))) = v
     rw [LinearEquiv.apply_symm_apply]
     ext i
     exact Finsupp.mapDomain_apply_of_injective Subtype.val_injective v i
@@ -212,13 +212,13 @@ private theorem exists_finite_free_lift
     simp only [l, LinearMap.comp_apply, LinearMap.smul_apply,
       LinearMap.restrictScalars_apply, LinearEquiv.coe_coe, Submonoid.smul_def] at hsm
     simp only [LinearMap.comp_apply, LinearMap.smul_apply, Submonoid.smul_def]
-    show _ = (b.repr.toLinearMap.restrictScalars A) ((s : A) • φ m)
+    change _ = (b.repr.toLinearMap.restrictScalars A) ((s : A) • φ m)
     rw [map_smul]
-    show _ = (s : A) • b.repr (φ m)
+    change _ = (s : A) • b.repr (φ m)
     rw [← hsm]
     simp only [j, ψ', LinearMap.comp_apply, LinearMap.restrictScalars_apply,
       LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, Finsupp.lmapDomain_apply]
-    show Finsupp.mapDomain Subtype.val
+    change Finsupp.mapDomain Subtype.val
       (Finsupp.mapRange _ (map_zero _) (Finsupp.subtypeDomain _ (ψ m))) =
       Finsupp.mapRange _ (map_zero _) (ψ m)
     rw [Finsupp.mapDomain_mapRange _ _ _ _ (map_add _)]
@@ -275,8 +275,7 @@ private theorem exists_rTensor_injective_of_free_localization
     have he : (d.restrictScalars R).rTensor X = g • (LinearMap.id : F ⊗[R] X →ₗ[R] F ⊗[R] X) := by
       apply LinearMap.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a x => simp [d, TensorProduct.smul_tmul']
       | add a b ha hb => simp only [map_add, ha, hb]
     rw [he] at hinjd
@@ -491,9 +490,9 @@ private theorem genericallyFlat_quotient_domain
       smul_mem' := by
         intro a x hx
         obtain ⟨b, hb⟩ := a.property
-        show (a : B) * x ∈ P
+        change (a : B) * x ∈ P
         rw [← hb]
-        show algebraMap A B b * x ∈ P
+        change algebraMap A B b * x ∈ P
         simpa only [Algebra.smul_def] using P.smul_mem b hx }
   have : Module.Finite A P' := show Module.Finite A P from inferInstance
   have : Module.Finite D P' := Module.Finite.of_restrictScalars_finite A D P'

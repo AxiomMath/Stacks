@@ -74,8 +74,7 @@ theorem gradedHom_tmul (n : ℤ) (c : F') (a : 𝔇.grade X n) :
 /-- `gradedHom` takes values in the degree-`n` piece `(H')^n(X_{k'})`. -/
 theorem gradedHom_mem (n : ℤ) (x : F' ⊗[F] 𝔇.grade X n) :
     B.gradedHom X n x ∈ 𝔇'.grade ((fieldBaseChange k k').obj X) n := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c a =>
     rw [gradedHom_tmul]
     exact Submodule.smul_mem _ _ (B.cohHom_mem_grade X a.2)
@@ -90,8 +89,7 @@ theorem gradedHom_injective (n : ℤ) : Function.Injective (B.gradedHom X n) :=
 theorem gradedHom_lTensor_gradedProj (n : ℤ) (x : F' ⊗[F] 𝔇.H X) :
     B.gradedHom X n ((𝔇.projGrade X n).baseChange F' x) =
       𝔇'.projGrade ((fieldBaseChange k k').obj X) n (B.cohEquiv X x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c a =>
     rw [LinearMap.baseChange_tmul, gradedHom_tmul, cohHom_gradedProj]
     rw [TensorProduct.tmul_eq_smul_one_tmul c a, map_smul, map_smul, ← cohHom_apply]

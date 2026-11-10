@@ -185,7 +185,8 @@ section Descent
 
 variable (Z : ClosedSubspaces B S hS X.1)
   (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
+  (D : PresheafOfModulesOfCommRing.Derivation'
+    ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
     (structureSharpInverseImage B S hS b).hom)
   (hvanish : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (x : (definingIdealSheaf B S hS X Z).toSheafOfModules.val.obj U), D.d x.1 = 0)
@@ -377,7 +378,8 @@ The witness is `AlgebraicGeometry.Space.conormalDescendedDerivation` and the ide
 `AlgebraicGeometry.Space.conormalPushforwardDerivation_conormalDescendedDerivation`. -/
 theorem exists_conormalPushforwardDerivation_eq
     (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-    (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
       (structureSharpInverseImage B S hS b).hom)
     (hvanish : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (x : (definingIdealSheaf B S hS X Z).toSheafOfModules.val.obj U), D.d x.1 = 0) :

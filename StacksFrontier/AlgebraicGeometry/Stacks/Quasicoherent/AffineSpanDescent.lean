@@ -115,8 +115,7 @@ theorem mem_span_range_restrictₛₗ
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   obtain ⟨t, rfl⟩ := (bijective_liftBaseChange_of_eq_restriction F hF k hy hz
     (restrictionLinear F k) fun _ => rfl).2 x
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul c m =>
     rw [LinearMap.liftBaseChange_tmul]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, rfl⟩)

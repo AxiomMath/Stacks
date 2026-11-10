@@ -211,7 +211,7 @@ lemma length_le_of_forall_fg_submodule_le
     intro p
     have hstep : ∀ i : Fin p.length, p (i.castSucc) < p (i.succ) := fun i => p.step i
     have hw : ∀ i : Fin p.length, ∃ x ∈ p (i.succ), x ∉ p (i.castSucc) :=
-      fun i => SetLike.exists_of_lt (hstep i)
+      fun i => IsConcreteLE.exists_of_lt (hstep i)
     choose w hwmem hwnmem using hw
     set N : Submodule R M := Submodule.span R (Set.range w) with hN
     have hNfg : N.FG := Submodule.fg_span (Set.finite_range w)
@@ -758,7 +758,7 @@ theorem krull_akizuki
     fg_of_isFiniteLength_subring R hlen _
   -- Glue: `I ⊓ ker(mkQ) = J` is principal (FG), and the image is FG, so `I` is FG.
   have hJ'fg : J'.FG := by
-    show (Ideal.span {algebraMap R A x}).FG
+    change (Ideal.span {algebraMap R A x}).FG
     exact Submodule.fg_span (Set.finite_singleton _)
   have hk : (I' ⊓ LinearMap.ker J'.mkQ).FG := by
     rw [Submodule.ker_mkQ, inf_of_le_right hJI']

@@ -92,7 +92,7 @@ public theorem exists_nonempty_opens_flat_relativeDimension {U V : Scheme.{u}} [
   obtain ⟨V₀ : V.Opens, hV₀, hxV₀, -⟩ :=
     Opens.isBasis_iff_nbhd.mp V.isBasis_affineOpens (Opens.mem_top (genericPoint V))
   have hxU : genericPoint U ∈ h ⁻¹ᵁ V₀ := by
-    show h (genericPoint U) ∈ V₀
+    change h (genericPoint U) ∈ V₀
     rwa [hdom]
   obtain ⟨U₀ : U.Opens, hU₀, hxU₀, hU₀le⟩ :=
     Opens.isBasis_iff_nbhd.mp U.isBasis_affineOpens hxU

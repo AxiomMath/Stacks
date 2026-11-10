@@ -96,7 +96,7 @@ abbrev inverseImageCoefficientTwoSquare :=
 abbrev inverseImageCoefficientApp (L : EtaleModules.{u, 0} R Y) :
     (etaleModuleInverseImage.{u, 0} S g).obj ((etaleModuleCoefficient Gf Y).obj L) ⟶
       (etaleModuleCoefficient Gf Y').obj ((etaleModuleInverseImage.{u, 0} R g).obj L) :=
-  (inverseImageCoefficientTwoSquare Gf g).natTrans.app L
+  (inverseImageCoefficientTwoSquare Gf g).app L
 
 omit [∀ X : Scheme.{u}, X.smallEtaleTopology.PreservesSheafification Gf]
   [∀ (X Y : Scheme.{u}) (g : X ⟶ Y), Gf.PreservesLeftKanExtensions (smallEtaleBaseChange g).op] in

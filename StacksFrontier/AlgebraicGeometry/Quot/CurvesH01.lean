@@ -151,7 +151,7 @@ theorem CurveFamily.fiberDimension_eq_of_hom {X Y : CurveFamily B hZ} (φ : Y �
   unfold Space.fiberDimension
   congr 1
   ext d
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro h x hx
     obtain ⟨w, hw, hwy⟩ := Space.exists_points_of_isPullback B integerBase hZ sq x y hx
@@ -407,7 +407,7 @@ theorem CurveFamily.isCohenMacaulayDimOneFamily_of_base_eq_spec (Y : CurveFamily
   have sq : IsPullback E.hom (schemeSpaceMap h) Y.toBase (schemeSpaceMap (𝟙 Y.base)) := by
     rw [hid]
     refine IsPullback.of_horiz_isIso ⟨ObjectProperty.hom_ext _ ?_⟩
-    show e.hom ≫ Y.toBase.hom = yoneda.map h ≫ 𝟙 _
+    change e.hom ≫ Y.toBase.hom = yoneda.map h ≫ 𝟙 _
     rw [Category.comp_id]
     exact (Functor.map_preimage yoneda _).symm
   let Y' := Y.ofIsPullback B hZ (𝟙 Y.base) E.hom (schemeSpaceMap h) sq
@@ -447,7 +447,7 @@ theorem CurveFamily.exists_hom_isCohenMacaulayDimOneFamily_of_field (X : CurveFa
       (q.class B integerBase hZ _) = Space.pointsMap B integerBase hZ _ X.toBase.hom x := by
     refine Eq.trans ?_ hp
     refine congrArg (Quot.mk _) ?_
-    show Space.FieldValuedPoint.mk p.carrier p.contained p.toBase (𝟙 K ≫ v) = p
+    change Space.FieldValuedPoint.mk p.carrier p.contained p.toBase (𝟙 K ≫ v) = p
     rw [Category.id_comp]
   obtain ⟨w, hw, -⟩ := Space.exists_points_of_isPullback B integerBase hZ
     (AlgebraicSpaces.isPullback_hom B integerBase hZ hfib) x _ hq.symm
@@ -590,7 +590,7 @@ theorem fiberDimension_iso_comp {W X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
   unfold fiberDimension
   congr 1
   ext d
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro h x hx
     obtain ⟨n, hn, hle⟩ := h (pointsMap B S hS X e.inv x)
@@ -626,6 +626,7 @@ end Space
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasPullbacks_presheaf_curvesH01 :
@@ -833,7 +834,7 @@ theorem hasBijectiveGlobalFunctionsOnFieldFibres_curveFamilyOfSchemeMorphism
       AlgebraicSpaces.fiberProduct B integerBase hZ (schemeSpaceMap g) (schemeSpaceMap v) ⟶
         schemeSpace p.siteObject) = e.hom ≫ schemeSpaceMap (pullback.snd g v) :=
     (IsPullback.isoIsPullback_hom_snd _ _ _ _).symm
-  show Function.Bijective (Space.globalFunctionsMap B integerBase hZ
+  change Function.Bijective (Space.globalFunctionsMap B integerBase hZ
     (ObjectProperty.homMk (pullback.snd (schemeSpaceMap g).hom (schemeSpaceMap v).hom) :
       AlgebraicSpaces.fiberProduct B integerBase hZ (schemeSpaceMap g) (schemeSpaceMap v) ⟶
         schemeSpace p.siteObject))

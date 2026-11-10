@@ -84,7 +84,7 @@ variable (p : Ideal A) [p.IsPrime]
 /-- The multiplicative set of homogeneous elements of `A` outside the prime `p`. -/
 def homogeneousCompl : Submonoid A where
   carrier := {a | a ∉ p ∧ SetLike.IsHomogeneousElem 𝒜 a}
-  mul_mem' {a b} ha hb :=
+  mul_mem' ha hb :=
     ⟨fun h => (Ideal.IsPrime.mem_or_mem inferInstance h).elim ha.1 hb.1, ha.2.mul hb.2⟩
   one_mem' := ⟨(Ideal.ne_top_iff_one p).mp (Ideal.IsPrime.ne_top inferInstance),
     SetLike.isHomogeneousElem_one 𝒜⟩
@@ -133,15 +133,18 @@ abbrev coreIdeal : Ideal A := (Ideal.homogeneousCore 𝒜 p).toIdeal
 instance coreIdeal_isPrime : (coreIdeal 𝒜 p).IsPrime :=
   Ideal.IsPrime.homogeneousCore inferInstance
 
+omit [p.IsPrime] in
 /-- The homogeneous core is a homogeneous ideal. -/
 theorem coreIdeal_isHomogeneous : (coreIdeal 𝒜 p).IsHomogeneous 𝒜 :=
   (Ideal.homogeneousCore 𝒜 p).isHomogeneous
 
+omit [p.IsPrime] in
 /-- The homogeneous core of `p` is contained in `p`. -/
 theorem coreIdeal_le : coreIdeal 𝒜 p ≤ p := Ideal.toIdeal_homogeneousCore_le 𝒜 p
 
 variable {𝒜 p}
 
+omit [p.IsPrime] in
 /-- A homogeneous element lies in `p` exactly when it lies in its homogeneous core. -/
 theorem mem_coreIdeal_iff_of_mem {a : A} {i : ℕ} (ha : a ∈ 𝒜 i) : a ∈ coreIdeal 𝒜 p ↔ a ∈ p :=
   ⟨fun h => coreIdeal_le 𝒜 p h,
@@ -161,7 +164,7 @@ abbrev HomogeneousFractions := Localization (homogeneousCompl 𝒜 p)
 /-- The homogeneous elements outside `p` lie outside its homogeneous core. -/
 theorem homogeneousCompl_le_comap :
     homogeneousCompl 𝒜 p ≤ (coreIdeal 𝒜 p).primeCompl.comap (GradedRingHom.id 𝒜) :=
-  fun a ha h => ha.1 (coreIdeal_le 𝒜 p h)
+  fun a (ha : a ∈ homogeneousCompl 𝒜 p) h => ha.1 (coreIdeal_le 𝒜 p h)
 
 /-- **The degree-zero local ring is the homogeneous localization at the homogeneous core.** -/
 def degreeZeroLocalEquiv :
@@ -243,12 +246,12 @@ theorem exists_common_denominator_degreeZeroLocal (s : Finset ℕ) (c : ℕ → 
       fun n => if n = a then w.num * d else w.den * h n, SetLike.mul_mem_graded w.den.2 hd, ?_⟩
     intro n hn
     rcases Finset.mem_insert.mp hn with rfl | hn'
-    · simp only [if_pos rfl]
+    · simp only
       refine ⟨SetLike.mul_mem_graded w.num.2 hd, ?_⟩
       rw [← hw, HomogeneousLocalization.val_mk]
       exact Localization.mk_eq_mk_iff.mpr (Localization.r_iff_exists.mpr ⟨1, by simp; ring⟩)
     · have hne : n ≠ a := fun h' => ha (h' ▸ hn')
-      simp only [if_neg hne]
+      simp only [ite_eq_right hne]
       obtain ⟨hhn, hcn⟩ := hh n hn'
       refine ⟨SetLike.mul_mem_graded w.den.2 hhn, ?_⟩
       rw [hcn]
@@ -273,8 +276,8 @@ private theorem proj_sum_eq_of_mem {s : Finset ℕ} {g : ℕ → A} {m n : ℕ}
     (hg : ∀ k ∈ s, g k ∈ 𝒜 (m + k)) (hn : n ∈ s) :
     GradedRing.proj 𝒜 (m + n) (∑ k ∈ s, g k) = g n := by
   rw [map_sum, Finset.sum_eq_single n (fun k hk hkn => by
-      rw [gradedRingProj_of_mem (hg k hk), if_neg (by omega)]) (fun h' => absurd hn h'),
-    gradedRingProj_of_mem (hg n hn), if_pos rfl]
+      rw [gradedRingProj_of_mem (hg k hk), ite_eq_right (by omega)]) (fun h' => absurd hn h'),
+    gradedRingProj_of_mem (hg n hn), ite_eq_left rfl]
 
 end Fractions
 
@@ -324,7 +327,7 @@ def polynomialOfGraded : A →+* (DegreeZeroLocal 𝒜 p)[X] :=
         rw [pow_zero, mul_one, ← C_1]
         congr 1
         rw [HomogeneousLocalization.ext_iff_val, val_fracPow, HomogeneousLocalization.val_one]
-        simp [Localization.mk_one])
+        simp)
       (fun {i j} a b => by
         change C (fracPow hf hfp (i + j) ⟨(a : A) * b, SetLike.mul_mem_graded a.2 b.2⟩) *
             X ^ (i + j) = (C (fracPow hf hfp i a) * X ^ i) * (C (fracPow hf hfp j b) * X ^ j)
@@ -480,7 +483,7 @@ theorem evalFractions_injective : Function.Injective (evalFractions 𝒜 p f) :=
   rw [HomogeneousLocalization.ext_iff_val, (hh n hn).2, HomogeneousLocalization.val_zero,
     Localization.mk_eq_mk', IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨v * f ^ n, (homogeneousCompl 𝒜 p).mul_mem hv (pow_mem_homogeneousCompl hf hfp n)⟩, ?_⟩
-  show v * f ^ n * h n = 0
+  change v * f ^ n * h n = 0
   rw [mul_assoc, mul_comm (f ^ n), hcomp]
 
 end Evaluation
@@ -502,7 +505,7 @@ variable {𝒜 p} {f : A} (hf : f ∈ 𝒜 1) (hfp : f ∉ p)
 /-- The polynomial of an element outside `p` lies outside the prime `polynomialPrime 𝒜 p f`. -/
 private theorem polynomialOfGraded_mem_primeCompl {u : A} (hu : u ∈ p.primeCompl) :
     polynomialOfGraded hf hfp u ∈ (polynomialPrime 𝒜 p f).primeCompl := by
-  show evalAtPrime 𝒜 p f (polynomialOfGraded hf hfp u) ∉ maximalIdeal _
+  change evalAtPrime 𝒜 p f (polynomialOfGraded hf hfp u) ∉ maximalIdeal _
   rw [evalAtPrime_polynomialOfGraded, IsLocalization.AtPrime.to_map_mem_maximal_iff _ p]
   exact hu
 
@@ -547,7 +550,6 @@ theorem isLocalization_evalAtPrime :
     obtain ⟨c, hc⟩ := exists_mul_eq_zero_of_evalAtPrime_eq_zero hf hfp _ h0
     exact ⟨c, by rw [mul_sub, sub_eq_zero] at hc; exact hc⟩
 
-include hf hfp in
 /-- The structure map `A_{(p)} → A_p` factors as `A_{(p)} → A_{(p)}[X] → A_p`. -/
 theorem degreeZeroToAtPrime_eq_comp :
     degreeZeroToAtPrime 𝒜 p = (evalAtPrime 𝒜 p f).comp Polynomial.C :=
@@ -557,7 +559,7 @@ include hf hfp in
 /-- **The structure map `A_{(p)} → A_p` is flat**: it is a polynomial extension followed by a
 localization. -/
 theorem flat_degreeZeroToAtPrime : (degreeZeroToAtPrime 𝒜 p).Flat := by
-  have hcomp := degreeZeroToAtPrime_eq_comp hf hfp
+  have hcomp := degreeZeroToAtPrime_eq_comp (𝒜 := 𝒜) (p := p) (f := f)
   rw [hcomp]
   refine RingHom.Flat.comp ?_ ?_
   · exact (RingHom.flat_algebraMap_iff (R := DegreeZeroLocal 𝒜 p)
@@ -669,7 +671,7 @@ theorem one_le_depth_quotient_coreIdeal (hne : p ≠ coreIdeal 𝒜 p) :
     IsLocalization.isPrime_of_isPrime_disjoint p.primeCompl _ _ inferInstance hdisj
   have hxJ : algebraMap A (Localization.AtPrime p) a ∉ J := by
     intro h
-    have := IsLocalization.comap_map_of_isPrime_disjoint p.primeCompl (Localization.AtPrime p)
+    have := IsLocalization.under_map_of_isPrime_disjoint p.primeCompl (Localization.AtPrime p)
       (I := coreIdeal 𝒜 p) inferInstance hdisj
     exact haP (this ▸ (show a ∈ Ideal.under A J from h))
   have hreg : IsSMulRegular (Localization.AtPrime p ⧸ J)
@@ -750,7 +752,7 @@ theorem isMaximal_of_irrelevant_le [IsArtinianRing (𝒜 0)] (q : Ideal A) [q.Is
     intro y
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
     refine ⟨decompose 𝒜 a 0, ?_⟩
-    show Ideal.Quotient.mk q (decompose 𝒜 a 0 : A) = Ideal.Quotient.mk q a
+    change Ideal.Quotient.mk q (decompose 𝒜 a 0 : A) = Ideal.Quotient.mk q a
     rw [Ideal.Quotient.eq]
     refine hq ((HomogeneousIdeal.mem_irrelevant_iff 𝒜 _).mpr ?_)
     rw [map_sub, GradedRing.proj_apply, GradedRing.proj_apply, decompose_coe, of_eq_same,
@@ -852,7 +854,7 @@ def degreeZeroAlgebraMap (x : Submonoid A) : k →+* HomogeneousLocalization �
 /-- The value of the scalar `c / 1` is the image of `c`. -/
 theorem val_degreeZeroAlgebraMap (x : Submonoid A) (c : k) :
     (degreeZeroAlgebraMap 𝒜 hk x c).val = algebraMap A (Localization x) (algebraMap k A c) := by
-  show (HomogeneousLocalization.mk _).val = _
+  change (HomogeneousLocalization.mk _).val = _
   rw [HomogeneousLocalization.val_mk]
   exact Localization.mk_one_eq_algebraMap _
 
@@ -878,12 +880,12 @@ theorem coreToAtPrime_degreeZeroAlgebraMap (c : k) :
       (degreeZeroAlgebraMap 𝒜 hk (coreIdeal 𝒜 p).primeCompl c) =
       degreeZeroAlgebraMap 𝒜 hk (homogeneousCompl 𝒜 p) c := by
     rw [RingEquiv.symm_apply_eq, HomogeneousLocalization.ext_iff_val]
-    show _ = (HomogeneousLocalization.map (GradedRingHom.id 𝒜)
+    change _ = (HomogeneousLocalization.map (GradedRingHom.id 𝒜)
       (homogeneousCompl_le_comap 𝒜 p) (HomogeneousLocalization.mk _)).val
     rw [HomogeneousLocalization.map_mk]
     rfl
   rw [coreToAtPrime, RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, he]
-  show degreeZeroToAtPrime 𝒜 p (degreeZeroFraction (hk c) SetLike.GradedOne.one_mem
+  change degreeZeroToAtPrime 𝒜 p (degreeZeroFraction (hk c) SetLike.GradedOne.one_mem
     (homogeneousCompl 𝒜 p).one_mem) = _
   rw [degreeZeroToAtPrime_fraction, IsScalarTower.algebraMap_apply k A (Localization.AtPrime p)]
   exact IsLocalization.mk'_one _ _

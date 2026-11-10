@@ -133,7 +133,7 @@ theorem isProper_isFlat_isFinitePresentation_spaceToLimitBase {U : SchemesOver D
     IsProper B S hS (L.spaceToLimitBase u) ∧ IsFlat B S hS (L.spaceToLimitBase u) ∧
       IsFinitePresentation B S hS (L.spaceToLimitBase u) := by
   let e := yoneda.mapIso (@asIso _ _ _ _ u.left hU ≪≫ L.limitTestSchemeIso)
-  show IsProper B S hS ((D.projection U).hom ≫ e.hom) ∧
+  change IsProper B S hS ((D.projection U).hom ≫ e.hom) ∧
     IsFlat B S hS ((D.projection U).hom ≫ e.hom) ∧
     IsFinitePresentation B S hS ((D.projection U).hom ≫ e.hom)
   refine (@isProper_isFlat_isFinitePresentation_comp_isIso_iff B S hS _ _ _ (D.projection U).hom
@@ -177,11 +177,11 @@ theorem e_hom_baseProjection (n : ℕ) :
     L.isLimit.conePointUniqueUpToIso_hom_comp (limit.isLimit _) (op n)
   rw [limitBaseIso, Iso.trans_hom, ← Category.assoc, L.toLimit_e, Category.assoc]
   congr 1
-  show Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp]
   congr 1
   rw [← hπ, ← Category.assoc]
-  show _ = (L.limitRingIso.inv ≫ L.limitRingIso.hom) ≫ _
+  change _ = (L.limitRingIso.inv ≫ L.limitRingIso.hom) ≫ _
   rw [Iso.inv_hom_id, Category.id_comp]
 
 /-- **The transitions are the maps induced by the rings**, read on the chosen levels. -/
@@ -240,7 +240,7 @@ theorem relocalize_yonedaMap_baseObjectProjection (n : ℕ) :
   rw [Iso.symm_hom, Iso.eq_inv_comp]
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show (L.e n).hom ≫ baseProjection L.R n ≫ L.limitBaseIso.inv = _
+  change (L.e n).hom ≫ baseProjection L.R n ≫ L.limitBaseIso.inv = _
   rw [← Category.assoc, e_hom_baseProjection, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   rfl
 
@@ -258,7 +258,7 @@ theorem relocalize_yonedaMap_baseObjectTransition (n : ℕ) :
   rw [Iso.symm_hom, Iso.symm_hom, Iso.eq_inv_comp]
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show (L.e n).hom ≫ baseTransition L.R n ≫ (L.e (n + 1)).inv = _
+  change (L.e n).hom ≫ baseTransition L.R n ≫ (L.e (n + 1)).inv = _
   rw [← Category.assoc, e_hom_baseTransition, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   rfl
 

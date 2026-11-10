@@ -137,8 +137,7 @@ theorem Module.exists_linearMap_residueField_ne_zero {N : Type*} [AddCommGroup N
   refine ⟨(φ.restrictScalars R).comp (TensorProduct.mk R p.ResidueField N 1), fun h0 => hφ ?_⟩
   have key : ∀ y, φ y = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a n =>
       have := LinearMap.congr_fun h0 n
       simp only [LinearMap.coe_comp, Function.comp_apply, mk_apply, LinearMap.coe_restrictScalars,
@@ -151,8 +150,7 @@ theorem Module.exists_linearMap_residueField_ne_zero {N : Type*} [AddCommGroup N
 theorem TensorProduct.smul_eq_zero_of_mem_annihilator {A N : Type*} [AddCommGroup A] [Module R A]
     [AddCommGroup N] [Module R N] {g : R} (hg : g ∈ Module.annihilator R N) (t : A ⊗[R] N) :
     g • t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a n => rw [← tmul_smul, Module.mem_annihilator.mp hg, tmul_zero]
   | add u v hu hv => rw [smul_add, hu, hv, add_zero]
 
@@ -186,7 +184,7 @@ theorem TensorProduct.exists_notMem_smul_eq_zero_of_basis {A : Type*} [CommRing 
   have : Module.Free R A := Module.Free.of_basis b
   have hinj : Function.Injective (N.subtype.baseChange A) := by
     have := Module.Flat.lTensor_preserves_injective_linearMap (M := A) _ N.injective_subtype
-    rwa [← LinearMap.baseChange_eq_ltensor] at this
+    rwa [← LinearMap.baseChange_eq_lTensor] at this
   have hGyN : G • yN = 0 := hinj (by rw [map_smul, hyN, hy, map_zero])
   have : Module.Finite R N := Module.Finite.span_finset R _
   by_cases hann : Module.annihilator R N ≤ p
@@ -230,8 +228,7 @@ theorem TensorProduct.exists_notMem_smul_eq_zero_of_flat {A T : Type*} [CommRing
   let φ : (A ⊗[R] M) →ₗ[A] (A ⊗[R] M) := G • LinearMap.id
   have hφ : ∀ t : T ⊗[A] (A ⊗[R] M), φ.lTensor T t = algebraMap A T G • t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a x =>
       simp only [LinearMap.lTensor_tmul, φ, LinearMap.smul_apply, LinearMap.id_apply,
         algebraMap_smul, smul_tmul', ← smul_tmul]
@@ -243,8 +240,7 @@ theorem TensorProduct.exists_notMem_smul_eq_zero_of_flat {A T : Type*} [CommRing
   have key : ∀ u : T ⊗[A] (LinearMap.ker φ), ∃ g ∉ p,
       g • ((LinearMap.ker φ).subtype.lTensor T u) = 0 := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => exact ⟨1, (Ideal.ne_top_iff_one _).mp ‹p.IsPrime›.ne_top, by simp⟩
+    induction u using TensorProduct.inductionOn with
     | tmul t k =>
       obtain ⟨g, hgp, hg⟩ := TensorProduct.exists_notMem_smul_eq_zero_of_basis b p hG
         (y := (k : A ⊗[R] M))
@@ -370,8 +366,7 @@ theorem Algebra.TensorProduct.map_residueField_ne_zero_of_notMem {k R L : Type*}
       (IsScalarTower.toAlgHom k R p.ResidueField) (AlgHom.id k L) G) i =
       algebraMap R p.ResidueField (B.repr G i) := by
     intro G i
-    induction G using TensorProduct.induction_on with
-    | zero => simp
+    induction G using TensorProduct.inductionOn with
     | tmul r l =>
       simp only [Algebra.TensorProduct.map_tmul, IsScalarTower.coe_toAlgHom', AlgHom.coe_id,
         id_eq, Bκ, B, Algebra.TensorProduct.basis_repr_tmul, Finsupp.smul_apply,
@@ -401,15 +396,13 @@ theorem Algebra.TensorProduct.eq_zero_of_smul_eq_zero_residueField {k R L : Type
       (Algebra.TensorProduct.cancelBaseChange k R p.ResidueField p.ResidueField L).toRingEquiv
   have hΨ : ∀ G : R ⊗[k] L, Ψ (G ⊗ₜ 1) = φ G := by
     intro G
-    induction G using TensorProduct.induction_on with
-    | zero => simp
+    induction G using TensorProduct.inductionOn with
     | tmul r l => simp [Ψ, φ, Algebra.smul_def]
     | add x y hx hy => rw [add_tmul, map_add, hx, hy, map_add]
   have h1 : φ G * Ψ x = 0 := by
     have e : G • x = (G ⊗ₜ[R] (1 : p.ResidueField)) * x := by
       clear hx
-      induction x using TensorProduct.induction_on with
-      | zero => rw [smul_zero, mul_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul a c => rw [smul_tmul', Algebra.TensorProduct.tmul_mul_tmul, one_mul, smul_eq_mul]
       | add u v hu hv => rw [smul_add, mul_add, hu, hv]
     rw [← hΨ, ← map_mul, ← e, hx, map_zero]
@@ -436,8 +429,7 @@ private theorem baseChangeVal_comp_of_le {E E' : IntermediateField L K} (h : E �
 /-- Every element of `R ⊗[k] K` comes from `R ⊗[k] E` for some finite `E / L`. -/
 private theorem exists_finiteDimensional_mem_range [Algebra.IsAlgebraic L K] (t : R ⊗[k] K) :
     ∃ E : IntermediateField L K, FiniteDimensional L E ∧ t ∈ (baseChangeVal R E).range := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, inferInstance, Subalgebra.zero_mem _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul r c =>
     refine ⟨IntermediateField.adjoin L {c},
       IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral c),
@@ -455,8 +447,7 @@ private theorem exists_finiteDimensional_mem_range [Algebra.IsAlgebraic L K] (t 
 private theorem exists_finiteDimensional_mem_range_rTensor [Algebra.IsAlgebraic L K]
     (z : (R ⊗[k] K) ⊗[R] M) : ∃ E : IntermediateField L K, FiniteDimensional L E ∧
       z ∈ LinearMap.range (LinearMap.rTensor M (baseChangeVal R E).toLinearMap) := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, inferInstance, Submodule.zero_mem _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t m =>
     obtain ⟨E, hE, x, rfl⟩ := exists_finiteDimensional_mem_range (R := R) (L := L) t
     exact ⟨E, hE, x ⊗ₜ m, rfl⟩
@@ -485,8 +476,7 @@ theorem IsWeaklyAssociatedPrime.comap_of_flat_rTensor {R M T S : Type*} [CommRin
   let e := AlgebraTensorModule.cancelBaseChange R T S S M
   have he : ∀ x, e (1 ⊗ₜ x) = LinearMap.rTensor M (IsScalarTower.toAlgHom R T S).toLinearMap x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [tmul_zero, map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul t m => simp [e, Algebra.smul_def]
     | add x y hx hy => rw [tmul_add, map_add, hx, hy, map_add]
   rwa [← annihilator_span_singleton_equiv e, he]

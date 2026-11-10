@@ -274,7 +274,7 @@ theorem exists_cechSpectralSequence {I : Type u} (U : I → Opens X) (hU : ⊤ =
           (cechCartanEilenbergBicomplex U Lb) =
         ((Stacks.Cohomology.CechSpectral.totalSpectralSequence₂Functor AddCommGrpCat.{u}).obj
           (cechCartanEilenbergBicomplex U Lb)).shiftStart (by omega : (0 : ℤ) ≤ 2) := by
-      show (Stacks.Cohomology.CechSpectral.restrictR₀ (by omega : (0 : ℤ) ≤ 2)).obj
+      change (Stacks.Cohomology.CechSpectral.restrictR₀ (by omega : (0 : ℤ) ≤ 2)).obj
         ((HomologicalComplex₂.spectralSequence₂Functor AddCommGrpCat.{u}).obj
           (cechCartanEilenbergBicomplex U Lb)) = _
       rw [HomologicalComplex₂.spectralSequence₂Functor_obj]

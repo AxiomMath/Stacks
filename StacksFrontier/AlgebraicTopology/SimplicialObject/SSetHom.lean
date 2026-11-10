@@ -183,14 +183,14 @@ instance instCountableCategoryElements (U : SSet.{0}) [∀ n, Finite (U.obj n)] 
   refine ⟨Countable.of_equiv (Σ n : SimplexCategoryᵒᵖ, U.obj n)
     ⟨fun p => .mk p.2, fun x => ⟨x.obj, x.val⟩, fun _ => rfl, fun _ => rfl⟩, ?_⟩
   intro x y
-  have := hHomOp ((CategoryOfElements.π U).obj x) ((CategoryOfElements.π U).obj y)
+  have := hHomOp ((Functor.Elements.π U).obj x) ((Functor.Elements.π U).obj y)
   exact Function.Injective.countable (f := fun f : x ⟶ y => f.hom)
     fun _ _ h => Functor.Elements.Hom.ext h
 
 /-- The diagram `U.Elements ⥤ C` sending `⟨n, u⟩` to `V_n` and a morphism lying over
 `f : n ⟶ n'` to `V(f)`. -/
 noncomputable abbrev simpHomDiagram (U : SSet.{0}) (V : SimplicialObject C) : U.Elements ⥤ C :=
-  CategoryOfElements.π U ⋙ V
+  Functor.Elements.π U ⋙ V
 
 /-- The limit of `simpHomDiagram U V`, which exists because `U.Elements` is a countable category
 and `C` has countable limits. -/
@@ -238,7 +238,7 @@ noncomputable def simpHomFamilyEquiv
               (fun (_ : U.obj n) => ((SimplicialObject.const C).obj X).obj n) u
               ≫ ((prodConstSSet U).obj X).map f
             = Sigma.ι (fun (_ : U.obj n') => X) (U.map f u) from
-          prodConstSSet_ι_map U X f u, Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc]
+          prodConstSSet_ι_map U X f u, Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc]
         have h := s.leg_comp (Functor.Elements.homMk (x := U.elementsMk n u)
           (y := U.elementsMk n' (U.map f u)) f rfl)
         exact h.symm }
@@ -251,9 +251,9 @@ noncomputable def simpHomFamilyEquiv
           Sigma.ι (fun (_ : U.obj q.obj) => X) q.val ≫ θ.app q.obj
         rw [Category.assoc, ← θ.naturality f.hom, ← Category.assoc, prodConstSSet_ι_map,
           f.map_val] }
-  left_inv s := SimpHomConeFamily.ext (funext fun p => Sigma.ι_desc _ _)
+  left_inv s := SimpHomConeFamily.ext (funext fun p => Sigma.ι_comp_desc _ _)
   right_inv θ :=
-    SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => Sigma.ι_desc _ _
+    SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => Sigma.ι_comp_desc _ _
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The bijection assembled from `simpHomLimitEquiv` and `simpHomFamilyEquiv` is natural in `X`:
@@ -269,9 +269,9 @@ theorem simpHomEquiv_naturality
   rw [simpHomFromSSet_map]
   refine SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => ?_
   dsimp only [simpHomFamilyEquiv, simpHomLimitEquiv, Equiv.coe_fn_mk, NatTrans.comp_app]
-  rw [← Category.assoc, Sigma.ι_desc]
+  rw [← Category.assoc, Sigma.ι_comp_desc]
   dsimp only [Functor.comp_map, prodSSetFunctor]
-  rw [Functor.ι_copowerMap_app, Category.assoc (((const C).map α).app n), Sigma.ι_desc]
+  rw [Functor.ι_copowerMap_app, Category.assoc (((const C).map α).app n), Sigma.ι_comp_desc]
   simp
 
 /-- The object `simpHomRepObj U V` represents `simpHomFromSSet U V`. -/
@@ -311,9 +311,9 @@ with finite limits. Then every diagram indexed by the category `U.Elements` of s
 subcategory of `U.Elements` whenever every simplex of dimension `≥ d` is degenerate.
 
 For a simplicial object `V` of `C` this makes the functor `Cᵒᵖ ⥤ Set`,
-`X ↦ Mor_{Simp(C)}(X × U, V)`, representable by `limit (CategoryOfElements.π U ⋙ V)`, since a
+`X ↦ Mor_{Simp(C)}(X × U, V)`, representable by `limit (Functor.Elements.π U ⋙ V)`, since a
 morphism `X × U ⟶ V` of simplicial objects is exactly a cone with vertex `X` over
-`CategoryOfElements.π U ⋙ V : U.Elements ⥤ C`, `(n, u) ↦ V_n`.
+`Functor.Elements.π U ⋙ V : U.Elements ⥤ C`, `(n, u) ↦ V_n`.
 
 ### Main results
 
@@ -595,7 +595,7 @@ variable {C : Type u} [Category.{v} C] [HasFiniteLimits C]
 /-- The diagram of simplices of `A` in `C` attached to a simplicial object `V`, sending an
 `m`-simplex of `A` to `V_m`. -/
 private abbrev diag (V : SimplicialObject C) (A : SSet.{v}) : A.Elements ⥤ C :=
-  CategoryOfElements.π A ⋙ V
+  Functor.Elements.π A ⋙ V
 
 section
 
@@ -681,7 +681,7 @@ variable (V : SimplicialObject C)
 /-- Restriction of `limObj V` along a morphism of simplicial sets. -/
 private noncomputable def limRestr {A B : SSet.{v}} [A.Finite] [B.Finite] (f : A ⟶ B) :
     limObj V B ⟶ limObj V A :=
-  limit.pre (diag V B) (CategoryOfElements.map f)
+  limit.pre (diag V B) (NatTrans.mapElements f)
 
 /-- The projection of `limRestr V f` at an `m`-simplex `a` of `A` is the projection of
 `limObj V B` at `f(a)`. -/

@@ -152,7 +152,7 @@ theorem representableByHom_comp_induced {A B : SSet.{v'}} {K : SimplicialObject 
   have hstep : (homPresheaf K B).map (representableByHom hB hB').op
       (hB'.homEquiv (𝟙 MB')) = hB.homEquiv (𝟙 MB) := by
     rw [← hB'.homEquiv_comp, Category.comp_id, homEquiv_representableByHom hB hB']
-  show i ≫ (homPresheaf K B).map (representableByHom hB hB').op
+  change i ≫ (homPresheaf K B).map (representableByHom hB hB').op
     (hB'.homEquiv (𝟙 MB')) = _
   rw [hstep]
 
@@ -210,12 +210,12 @@ theorem isCoveringOver_delta (hK : IsHypercovering J K) (n : ℕ) (i : Fin (n + 
   have hface : hA.homEquiv.symm (U.ι ≫ hB.homEquiv (𝟙 (K.obj (op ⦋n + 1⦌)))) = K.δ i := by
     apply hA.homEquiv.injective
     rw [Equiv.apply_symm_apply]
-    show U.ι ≫ (SSet.yonedaEquiv
+    change U.ι ≫ (SSet.yonedaEquiv
         (X := K ⋙ coyoneda.obj (op (K.obj (op ⦋n + 1⦌)))) (n := ⦋n + 1⦌)).symm
           (𝟙 (K.obj (op ⦋n + 1⦌))) =
       (transportHomPresheaf e.symm K (representableByStdSimplex K n)).homEquiv (K.δ i)
     rw [transportHomPresheaf_homEquiv]
-    show _ = e.inv ≫ (SSet.yonedaEquiv
+    change _ = e.inv ≫ (SSet.yonedaEquiv
       (X := K ⋙ coyoneda.obj (op (K.obj (op ⦋n + 1⦌)))) (n := ⦋n⦌)).symm (K.δ i)
     rw [← stdSimplexDelta_comp_yonedaEquiv_symm_id K n i,
       show (SSet.stdSimplex.δ i : (Δ[n] : SSet.{max w v}) ⟶ Δ[n + 1]) = e.hom ≫ U.ι from

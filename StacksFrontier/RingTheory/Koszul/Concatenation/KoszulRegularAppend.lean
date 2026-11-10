@@ -97,7 +97,7 @@ private theorem koszul_isZero_X_of_lt {A : Type*} [CommRing A] {r : ℕ} (f : Fi
   have : Subsingleton (⋀[A]^i (Fin r → A)) :=
     exteriorPower.subsingleton_of_span_eq_top_of_card_lt
       (Pi.basisFun A (Fin r)) (Pi.basisFun A (Fin r)).span_eq i (by simpa using hi)
-  show IsZero (ModuleCat.of A (⋀[A]^i (Fin r → A)))
+  change IsZero (ModuleCat.of A (⋀[A]^i (Fin r → A)))
   exact ModuleCat.isZero_iff_subsingleton.mpr inferInstance
 
 /-! ### Reversing a bounded chain bicomplex
@@ -254,7 +254,7 @@ private theorem reverseDoubleXIso_inv_d₁
   simp only [comp_f, id_f] at hout
   erw [← Category.assoc _ _ (((reverseColumns Z b).d p p').f (b - q) ≫ _), hout,
     Category.id_comp]
-  show ((Z.X p).extendXIso (ComplexShape.embeddingUpIntLE b) rfl).inv ≫
+  change ((Z.X p).extendXIso (ComplexShape.embeddingUpIntLE b) rfl).inv ≫
       (extendMap (Z.d p p') (ComplexShape.embeddingUpIntLE b)).f (b - q) ≫ _ = _
   erw [extendMap_f (Z.d p p') (ComplexShape.embeddingUpIntLE b) (i := q) rfl]
   simp
@@ -267,10 +267,10 @@ private theorem reverseDoubleXIso_inv_d₂
         ((reverseDouble Z b).X (-(p : ℤ))).d (b - q) (b - q') =
       (Z.X p).d q q' ≫ (reverseDoubleXIso Z b p q' rfl rfl).inv := by
   simp only [reverseDoubleXIso, Iso.trans_inv, Functor.mapIso_inv, eval_map, Category.assoc]
-  show _ ≫ ((reverseColumns Z b).extendXIso ComplexShape.embeddingDownNat rfl).inv.f _ ≫
+  change _ ≫ ((reverseColumns Z b).extendXIso ComplexShape.embeddingDownNat rfl).inv.f _ ≫
       ((reverseDouble Z b).X (-(p : ℤ))).d _ _ = _
   erw [HomologicalComplex.Hom.comm]
-  show _ ≫ ((Z.X p).extend (ComplexShape.embeddingUpIntLE b)).d _ _ ≫ _ = _
+  change _ ≫ ((Z.X p).extend (ComplexShape.embeddingUpIntLE b)).d _ _ ≫ _ = _
   erw [extend_d_eq (Z.X p) (ComplexShape.embeddingUpIntLE b) (i := q) (j := q') rfl rfl]
   simp
 
@@ -289,12 +289,12 @@ private theorem reverseTotalMap_d₁
     simp
   | succ p =>
     have hp : (ComplexShape.up ℤ).Rel (-((p + 1 : ℕ) : ℤ)) (-(p : ℤ)) := by
-      show -((p + 1 : ℕ) : ℤ) + 1 = -(p : ℤ)
+      change -((p + 1 : ℕ) : ℤ) + 1 = -(p : ℤ)
       omega
     rw [HomologicalComplex₂.d₁_eq _ _ hp _ _ (by change _ + _ = _; omega),
       HomologicalComplex₂.d₁_eq Z _ (show (ComplexShape.down ℕ).Rel (p + 1) p from rfl)
         q n (by change p + q = n; omega)]
-    show _ ≫ ((1 : ℤˣ) • _) = ((1 : ℤˣ) • _) ≫ _
+    change _ ≫ ((1 : ℤˣ) • _) = ((1 : ℤˣ) • _) ≫ _
     simp only [one_smul]
     rw [← Category.assoc, reverseDoubleXIso_inv_d₁, Category.assoc, Category.assoc,
       ι_reverseTotalMap Z b p q n (by omega)]
@@ -315,7 +315,7 @@ private theorem reverseTotalMap_d₂
     simp
   | succ q =>
     have hq : (ComplexShape.up ℤ).Rel (b - ((q + 1 : ℕ) : ℤ)) (b - q) := by
-      show b - ((q + 1 : ℕ) : ℤ) + 1 = b - q
+      change b - ((q + 1 : ℕ) : ℤ) + 1 = b - q
       omega
     rw [HomologicalComplex₂.d₂_eq _ _ _ hq _ (by change _ + _ = _; omega),
       HomologicalComplex₂.d₂_eq Z _ p
@@ -324,7 +324,7 @@ private theorem reverseTotalMap_d₂
         (ComplexShape.up ℤ) (-(p : ℤ), b - ((q + 1 : ℕ) : ℤ)) =
         ComplexShape.ε₂ (ComplexShape.down ℕ) (ComplexShape.down ℕ)
           (ComplexShape.down ℕ) (p, q + 1) := by
-      show (-(p : ℤ)).negOnePow = (-1 : ℤˣ) ^ p
+      change (-(p : ℤ)).negOnePow = (-1 : ℤˣ) ^ p
       rw [Int.negOnePow_neg]
       exact Units.ext (Int.coe_negOnePow_natCast p)
     rw [hs, Linear.comp_units_smul, Linear.units_smul_comp]
@@ -512,16 +512,12 @@ private theorem koszul_regularOn_of_baseChange_regular {A S : Type*}
     (TensorProduct.comm A _ _).trans ((β k).restrictScalars A)
   have he (k : ℕ) (x : (⋀[A]^k (Fin n → A))) (s : S) :
       e k (x ⊗ₜ[A] s) = s • β k (1 ⊗ₜ[A] x) := by
-    show β k (s ⊗ₜ[A] x) = _
+    change β k (s ⊗ₜ[A] x) = _
     rw [← map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
   have comm (k : ℕ) (x : ((⋀[A]^(k + 1) (Fin n → A)) ⊗[A] S)) :
       e k (LinearMap.rTensor S (Koszul.d (Koszul.seqDual f) k) x) =
         Koszul.d (Koszul.seqDual (fun j => algebraMap A S (f j))) k (e (k + 1) x) := by
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero (LinearMap.rTensor S (Koszul.d (Koszul.seqDual f) k)),
-        show e k 0 = 0 from (e k).map_zero, show e (k + 1) 0 = 0 from (e (k + 1)).map_zero,
-        map_zero (Koszul.d (Koszul.seqDual (fun j => algebraMap A S (f j))) k)]
+    induction x using TensorProduct.inductionOn with
     | tmul x s =>
       rw [LinearMap.rTensor_tmul, he, he, map_smul,
         KoszulC.d_baseChange_comm f β hβ k x]
@@ -542,7 +538,7 @@ private theorem koszul_regularOn_of_baseChange_regular {A S : Type*}
   change LinearMap.range
       (Koszul.d (Koszul.seqDual (fun j => algebraMap A S (f j))) (k + 1)) =
     LinearMap.ker (Koszul.d (Koszul.seqDual (fun j => algebraMap A S (f j))) k) at hex
-  show LinearMap.range (LinearMap.rTensor S (Koszul.d (Koszul.seqDual f) (k + 1))) =
+  change LinearMap.range (LinearMap.rTensor S (Koszul.d (Koszul.seqDual f) (k + 1))) =
     LinearMap.ker (LinearMap.rTensor S (Koszul.d (Koszul.seqDual f) k))
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
@@ -692,7 +688,7 @@ private theorem koszul_tensor_exactAt {A : Type u} [CommRing A] {n m : ℕ}
     have : Module.Flat A ((Koszul.seqComplex g).X p) := inferInstance
     have := koszulAugmentation_quasiIso f hf
     have : (tensorLeft ((Koszul.seqComplex g).X p)).PreservesHomology := inferInstance
-    show QuasiIso (((tensorLeft ((Koszul.seqComplex g).X p)).mapHomologicalComplex
+    change QuasiIso (((tensorLeft ((Koszul.seqComplex g).X p)).mapHomologicalComplex
       (.down ℕ)).map (Koszul.koszulAugmentation f))
     infer_instance
   rw [HomologicalComplex.exactAt_iff_isZero_homology]

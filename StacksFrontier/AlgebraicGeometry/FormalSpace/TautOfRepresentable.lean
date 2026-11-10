@@ -114,7 +114,7 @@ private theorem exists_weakIdeal_classifying_stage_baseChange
     obtain ⟨s, hs⟩ := F.map_surjective t
     refine ideal_le_of_stage_factorization B S hS hC.1 E K (OrderDual.ofDual J)
       (s ≫ e.hom) ?_
-    show F.map (s ≫ e.hom) ≫ formalSpectrumInclusion E J =
+    change F.map (s ≫ e.hom) ≫ formalSpectrumInclusion E J =
       formalSpectrumInclusion E (OrderDual.toDual K)
     refine Eq.trans (F.map_comp_assoc s e.hom (formalSpectrumInclusion E J)) ?_
     refine Eq.trans (congrArg (fun z ↦ F.map s ≫ z) he) ?_
@@ -169,7 +169,7 @@ theorem isTaut_of_isWeakIdealOfDefinition_closure_map
     (hwid : ∀ I : { I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I },
       TopologicalRing.IsWeakIdealOfDefinition (Ideal.closure (I.1.map φ))) :
     RingHom.IsTaut φ := by
-  rw [RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition φ hφ hA hC]
+  rw [RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition φ hφ hA]
   refine ⟨fun I hI ↦ hwid ⟨I, hI⟩, ?_⟩
   refine (TopologicalRing.hasBasis_nhds_zero_isWeakIdealOfDefinition hC).to_hasBasis
     (fun K hK ↦ ?_) (fun I hI ↦ ⟨Ideal.closure (I.map φ), hwid ⟨I, hI⟩, subset_rfl⟩)

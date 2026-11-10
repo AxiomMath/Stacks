@@ -150,7 +150,7 @@ structure sheaf of the open subscheme is the restriction of the structure sheaf 
 so no change of rings intervenes on either side. -/
 theorem restrictFunctor_eq_moduleRestriction (X : Scheme.{u}) (V : X.Opens) :
     Scheme.Modules.restrictFunctor V.ι = moduleRestriction X.toRingedSpace V := by
-  show Scheme.Modules.restrictFunctor V.ι = restMod (asRingSheafedSpace X.toRingedSpace) V
+  change Scheme.Modules.restrictFunctor V.ι = restMod (asRingSheafedSpace X.toRingedSpace) V
   unfold Scheme.Modules.restrictFunctor restMod
   congr 1
   ext U
@@ -165,13 +165,13 @@ theorem toShHom_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) (V : Y.Opens) 
     (f ∣_ V).toLRSHom.toShHom = restrictedMorphism f.toLRSHom.toShHom V := by
   have hmono : Mono (openSubspaceInclusion Y.toRingedSpace V) := by
     apply (SheafedSpace.forgetToPresheafedSpace (C := CommRingCat)).mono_of_mono_map
-    show Mono ((Y.toRingedSpace.toPresheafedSpace).ofRestrict V.isOpenEmbedding)
+    change Mono ((Y.toRingedSpace.toPresheafedSpace).ofRestrict V.isOpenEmbedding)
     infer_instance
   apply (cancel_mono (openSubspaceInclusion Y.toRingedSpace V)).mp
-  show ((f ∣_ V) ≫ V.ι).toLRSHom.toShHom =
+  change ((f ∣_ V) ≫ V.ι).toLRSHom.toShHom =
     restrictedMorphism f.toLRSHom.toShHom V ≫ openSubspaceInclusion Y.toRingedSpace V
   rw [morphismRestrict_ι]
-  show openSubspaceInclusion X.toRingedSpace (preimageOpen f.toLRSHom.toShHom V) ≫
+  change openSubspaceInclusion X.toRingedSpace (preimageOpen f.toLRSHom.toShHom V) ≫
       f.toLRSHom.toShHom =
     restrictedMorphism f.toLRSHom.toShHom V ≫ openSubspaceInclusion Y.toRingedSpace V
   exact restrictedMorphism_comp_openSubspaceInclusion f.toLRSHom.toShHom V
@@ -188,7 +188,7 @@ theorem higherDirectImageRestrictIso_source {X Y : Scheme.{u}} (f : X ⟶ Y) (V 
       moduleRestriction X.toRingedSpace (preimageOpen f.toLRSHom.toShHom V) ⋙
         (modulePushforward (restrictedMorphism f.toLRSHom.toShHom V)).rightDerived p := by
   rw [restrictFunctor_eq_moduleRestriction X (f ⁻¹ᵁ V)]
-  show moduleRestriction X.toRingedSpace (f ⁻¹ᵁ V) ⋙
+  change moduleRestriction X.toRingedSpace (f ⁻¹ᵁ V) ⋙
       (modulePushforward (f ∣_ V).toLRSHom.toShHom).rightDerived p = _
   rw [toShHom_morphismRestrict f V]
   rfl

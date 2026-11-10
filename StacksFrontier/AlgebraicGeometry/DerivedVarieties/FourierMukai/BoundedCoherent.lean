@@ -118,7 +118,7 @@ reduced induced closed subscheme on such a subset maps to the source by a closed
 which is proper, and a composition of proper morphisms is proper. -/
 theorem isProperOver_of_isProper {Z W : Scheme.{u}} (p : Z ⟶ W) [IsProper p] (T : Closeds Z) :
     IsProperOver p T := by
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ p)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ p)
   infer_instance
 
 /-! ### The Fourier-Mukai setting -/

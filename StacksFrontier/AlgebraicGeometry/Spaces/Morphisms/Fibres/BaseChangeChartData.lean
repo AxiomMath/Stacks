@@ -274,7 +274,7 @@ public theorem BaseChangeChartData.sourcePoint_chartSource
     C.chartSource.sourcePoint B S hS =
       (BigFppfOver.toScheme B S hS).map (pullback.fst C.p C.q)
         (C.chartPull.sourcePoint B S hS) := by
-  show (BigFppfOver.toScheme B S hS).map (C.t.value ≫ pullback.fst C.p C.q) _ = _
+  change (BigFppfOver.toScheme B S hS).map (C.t.value ≫ pullback.fst C.p C.q) _ = _
   rw [Functor.map_comp]
   rfl
 
@@ -286,7 +286,7 @@ public theorem BaseChangeChartData.sourcePoint_chartBase
     C.chartBase.sourcePoint B S hS =
       (BigFppfOver.toScheme B S hS).map (pullback.snd C.p C.q)
         (C.chartPull.sourcePoint B S hS) := by
-  show (BigFppfOver.toScheme B S hS).map (C.t.value ≫ pullback.snd C.p C.q) _ = _
+  change (BigFppfOver.toScheme B S hS).map (C.t.value ≫ pullback.snd C.p C.q) _ = _
   rw [Functor.map_comp]
   rfl
 

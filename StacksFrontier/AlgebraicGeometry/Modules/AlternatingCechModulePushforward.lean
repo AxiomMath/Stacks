@@ -82,7 +82,7 @@ theorem cochainPushforward_cechD (p : ℕ)
       cochainPushforward g U U' hU' M (p + 1)
         (CechCochains.cechD U (pushforwardModule g M).presheaf p s) := by
   funext i
-  show (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
       CechCochains.restr M.presheaf (CechCochains.inter_le_omit U' i j)
         (CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' (i ∘ j.succAbove))
           (s (i ∘ j.succAbove)))) =
@@ -102,10 +102,10 @@ theorem cochainPushforward_isAlternating (p : ℕ)
     (hs : CechCochains.IsAlternating U (pushforwardModule g M).presheaf s) :
     CechCochains.IsAlternating U' M.presheaf (cochainPushforward g U U' hU' M p s) := by
   refine ⟨fun i hi ↦ ?_, fun i a b hab ↦ ?_⟩
-  · show CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' i) (s i) = 0
+  · change CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' i) (s i) = 0
     rw [hs.1 i hi]
     exact map_zero _
-  · show CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' (i ∘ Equiv.swap a b))
+  · change CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' (i ∘ Equiv.swap a b))
         (s (i ∘ Equiv.swap a b)) =
       -CechCochains.permIso U' M.presheaf i (Equiv.swap a b)
         (CechCochains.restr M.presheaf (inter_le_opensMap g U U' hU' i) (s i))

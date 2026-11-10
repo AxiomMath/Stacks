@@ -114,11 +114,10 @@ private lemma relation_coefficient_mem
     simp [c, x, e, Pi.single_apply]
   rw [← hcx, ← hz]
   clear hz hx
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simpa only [map_add] using Submodule.add_mem _ hz hw
   | tmul z m =>
-    show (e (Koszul.d (Koszul.seqDual f) 1 z)) i • m ∈ _
+    change (e (Koszul.d (Koszul.seqDual f) 1 z)) i • m ∈ _
     apply Submodule.smul_mem_smul
     · apply coordinate_mem_of_mem_relSpan i I hI
       rw [← Koszul.map_range_d_one]
@@ -188,7 +187,7 @@ private lemma isH1RegularOn_update_pow
       simp [g, e]
     · have he : e j ≠ Fin.last r := by simpa [e, Equiv.swap_apply_eq_iff] using hj
       rw [Function.update_of_ne hj]
-      show f j = Fin.snoc (Fin.init g) _ (e j)
+      change f j = Fin.snoc (Fin.init g) _ (e j)
       have hlt : (e j).val < r := Fin.val_lt_last he
       simp [Fin.snoc, hlt, Fin.init, g, e]
 

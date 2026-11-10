@@ -68,7 +68,7 @@ theorem siteActionRelationInclusion_comp_source (g : G) :
   change (Over.forget S).map (Sigma.ι (fun _ : G ↦ underlyingOver B hS V) g) ≫
       (Over.forget S).map (Sigma.desc fun _ : G ↦ 𝟙 (underlyingOver B hS V)) =
     (Over.forget S).map (𝟙 (underlyingOver B hS V))
-  rw [← Functor.map_comp, Sigma.ι_desc]
+  rw [← Functor.map_comp, Sigma.ι_comp_desc]
 
 /-- The target map of the graph relation of a group action, restricted to the summand indexed
 by `g`, is the automorphism that `g` acts by. -/
@@ -80,7 +80,7 @@ theorem toScheme_map_siteActionRelationInclusion_comp_target
   rw [Functor.map_comp]
   change (Sigma.ι (fun _ : G ↦ underlyingOver B hS V) g).left ≫
     (actionRelationTarget (underlyingOver B hS V) G a).left = (a g).asIso.hom.left
-  rw [← Over.comp_left, actionRelationTarget, Sigma.ι_desc]
+  rw [← Over.comp_left, actionRelationTarget, Sigma.ι_comp_desc]
 
 end AlgebraicGeometry.Space
 

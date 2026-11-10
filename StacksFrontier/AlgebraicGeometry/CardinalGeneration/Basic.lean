@@ -166,7 +166,7 @@ public theorem isIso_of_mono_of_locallySurjective {M N : X.Modules} (f : M ⟶ N
   refine ⟨w, ?_⟩
   apply (asSheaf N).eq_of_locally_eq' V U (fun i => homOfLE (hVU i)) hcover
   intro i
-  show N.presheaf.map (homOfLE (hVU i)).op (f.app U w) =
+  change N.presheaf.map (homOfLE (hVU i)).op (f.app U w) =
     N.presheaf.map (homOfLE (hVU i)).op s
   rw [← app_map, hw' i, hts i]
 

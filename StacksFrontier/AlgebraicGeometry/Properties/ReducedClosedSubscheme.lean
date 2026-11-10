@@ -75,7 +75,7 @@ theorem eq_vanishingIdeal_of_isReduced_subscheme {X : Scheme.{u}}
   rw [← hT, vanishingIdeal_support]
   apply Scheme.IdealSheafData.ext
   funext U
-  show I.ideal U = (I.ideal U).radical
+  change I.ideal U = (I.ideal U).radical
   let V : I.subscheme.Opens := I.subschemeι ⁻¹ᵁ U.1
   have hVaff : IsAffineOpen V := IsAffineOpen.preimage U.2 I.subschemeι
   have : IsReduced (V : Scheme) := isReduced_of_isOpenImmersion V.ι
@@ -98,7 +98,7 @@ theorem exists_lift_subschemeι_iff_range_subset_support {X Y : Scheme.{u}}
       Set.range f ⊆ (I.support : Set X) := by
   constructor
   · rintro ⟨g, rfl⟩ y ⟨x, rfl⟩
-    show I.subschemeι (g x) ∈ (I.support : Set X)
+    change I.subschemeι (g x) ∈ (I.support : Set X)
     rw [← I.range_subschemeι]
     exact ⟨g x, rfl⟩
   · intro h

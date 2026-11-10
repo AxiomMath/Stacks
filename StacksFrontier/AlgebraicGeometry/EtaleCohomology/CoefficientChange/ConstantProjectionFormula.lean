@@ -306,7 +306,7 @@ theorem isKInjective_totalComplex_single (K : CochainComplex (EtaleModules.{u, r
       ((etaleModuleConstantSheafFunctor.{u, r} Λ X).obj S) ≅ K :=
     HomologicalComplex.Hom.isoOfComponents (fun p => whiskerLeftIso (K.X p) eS ≪≫ ρ_ (K.X p))
       (fun p p' _ => by
-        show (K.X p ◁ eS.hom ≫ (ρ_ (K.X p)).hom) ≫ K.d p p' =
+        change (K.X p ◁ eS.hom ≫ (ρ_ (K.X p)).hom) ≫ K.d p p' =
           (K.d p p' ▷ (etaleModuleConstantSheafFunctor.{u, r} Λ X).obj S) ≫
             (K.X p' ◁ eS.hom ≫ (ρ_ (K.X p')).hom)
         rw [Category.assoc, ← whisker_exchange_assoc, rightUnitor_naturality])

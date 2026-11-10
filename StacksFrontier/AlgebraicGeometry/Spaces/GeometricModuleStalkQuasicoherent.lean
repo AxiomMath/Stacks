@@ -160,13 +160,12 @@ theorem geometricModuleStalkTensorMap_rTensor (w : letI := chartAlgebra (hF := X
       geometricModuleStalkGerm B S hS X x G M (sectionsBaseChange G f.hom w) := by
   let := chartAlgebra (hF := X.2) f.hom
   let := etaleLocalRingChartAlgebra X x N
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => simp only [map_add, hw, hw']
   | tmul b s =>
     rw [LinearMap.rTensor_tmul, geometricModuleStalkTensorMap_tmul, chartBaseChange_tmul,
       geometricModuleStalkGerm_smul, chartRestrictLinear_apply]
-    show etaleLocalRingGerm B S hS X.1 x (op M) b • _ = _
+    change etaleLocalRingGerm B S hS X.1 x (op M) b • _ = _
     rw [geometricModuleStalkGerm_map B S hS X x G f s]
 
 /-- Restriction of regular functions along `g : M' ⟶ M`, linear over the functions on `N` for
@@ -200,8 +199,7 @@ theorem sectionsBaseChange_rTensor_chartRestrictLinearOver {M' : SmallEtaleNeigh
       G.val.map g.hom.op (sectionsBaseChange G f.hom w) := by
   let := chartAlgebra (hF := X.2) f.hom
   let := chartAlgebra (hF := X.2) (g ≫ f).hom
-  induction w using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
     rw [map_add, map_add, hw, hw', map_add]
     exact (map_add (ConcreteCategory.hom (G.val.map g.hom.op)) _ _).symm
@@ -269,8 +267,7 @@ theorem exists_isAffine_mem_range_rTensor (N : SmallEtaleNeighborhood x)
     obtain ⟨M', g, hM'⟩ := exists_smallEtaleNeighborhoodHom_isAffine B S hS X x M
     exact ⟨M', g ≫ f, hM', hmono f g z hz⟩
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨N, 𝟙 N, Submodule.zero_mem _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a s =>
     obtain ⟨N', r, rfl⟩ := exists_etaleLocalRingGerm_eq X x a
     obtain ⟨M, f, f', -⟩ := IsCofilteredOrEmpty.cone_objs N N'

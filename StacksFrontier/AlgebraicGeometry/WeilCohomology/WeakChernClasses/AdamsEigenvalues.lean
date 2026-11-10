@@ -139,13 +139,13 @@ theorem coeff_secondAdams (X : C) (α : VectorBundleKZero (S.obj X)) (n : ℕ) :
         ((ch X).toAddMonoidHom.comp (ψ² X).toAddMonoidHom) =
       (2 ^ n : ℕ) • (PowerSeries.coeff n).toAddMonoidHom.comp (ch X).toAddMonoidHom := by
     refine VectorBundleKZero.addHom_ext fun E hE => ?_
-    show PowerSeries.coeff n (ch X ((ψ² X) (VectorBundleKZero.classOf (S.obj X) E))) =
+    change PowerSeries.coeff n (ch X ((ψ² X) (VectorBundleKZero.classOf (S.obj X) E))) =
       (2 ^ n : ℕ) • PowerSeries.coeff n (ch X (VectorBundleKZero.classOf (S.obj X) E))
     have hE' := (Stacks.FiniteLocallyFree.isFiniteLocallyFree_iff_algebraicGeometry E).mp hE
     obtain ⟨ι, -, P, p, r, -, hrank, hinj⟩ := 𝔚.exists_clopenRankPieces X E hE'
     refine hinj (funext fun i => ?_)
     obtain ⟨h1, h2⟩ := pull_coeff_secondAdams hpull (p i) (VectorBundleKZero.classOf (S.obj X) E) n
-    show 𝔚.pull (p i) _ = 𝔚.pull (p i) _
+    change 𝔚.pull (p i) _ = 𝔚.pull (p i) _
     rw [h1, h2, VectorBundleKZero.pullbackRingHom_classOf (S.map (p i)) E hE]
     exact coeff_secondAdams_classOf_rank hpull hinv (P i) _ (r i) (hrank i) n
   exact DFunLike.congr_fun hhom α

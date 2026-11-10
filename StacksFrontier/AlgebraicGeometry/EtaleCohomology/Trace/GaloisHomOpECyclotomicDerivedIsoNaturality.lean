@@ -234,6 +234,8 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   [HasDerivedCategory.{w₄} (ModuleCat.{u + 1} Λᵐᵒᵖ)]
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the large naturality term `hE`, whose `rfl` arguments unify big derived-category
+-- expressions
 /-- **Naturality in `M` of `E = Γ^Gal(X̄, ℋom^•_ℤ(I_M, K)) ≅ RΓ^Gal(X, ℋom_ℤ(ℱ_M, ℱ_μ))`**: for
 `π : N ⟶ M` and a morphism `φ : I_N ⟶ I_M` of injective resolutions of `(j_! ℱ_N)[0]`,
 `(j_! ℱ_M)[0]` over `(j_! ℱ_π)[0]`, the isomorphisms

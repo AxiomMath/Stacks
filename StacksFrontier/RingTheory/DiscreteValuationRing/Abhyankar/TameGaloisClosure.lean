@@ -112,7 +112,7 @@ private theorem isTamelyRamified_of_tensorProduct_surjective
     _ _ m.primeCompl (nonZeroDivisors C) m.primeCompl_le_nonZeroDivisors
   let : Algebra B F := ((algebraMap L F).comp (algebraMap B L)).toAlgebra
   let : IsScalarTower B L F := IsScalarTower.of_algebraMap_eq fun _ => rfl
-  show Stacks.KummerExtension.IsTamelyRamified B L F
+  change Stacks.KummerExtension.IsTamelyRamified B L F
   obtain ⟨hfin, _, _, _, n, ms, hmax, hms, hlies, hdvr, _⟩ :=
     integralClosure_finite_dedekind_and_degree_eq_sum_ramification_inertia A K L
   obtain ⟨i, hi, _⟩ := (hms m).mp hm
@@ -136,7 +136,7 @@ private theorem isTamelyRamified_of_tensorProduct_surjective
       exact (algebraMap K L).injective.comp (IsFractionRing.injective A K)
     have hlocal : IsLocalHom (algebraMap A B) := by
       apply ((IsLocalRing.local_hom_TFAE (algebraMap A B)).out 1 5).mpr
-      show (IsLocalRing.maximalIdeal B).under A = IsLocalRing.maximalIdeal A
+      change (IsLocalRing.maximalIdeal B).under A = IsLocalRing.maximalIdeal A
       rw [← Ideal.under_under (B := C), IsLocalization.AtPrime.under_maximalIdeal B m]
       exact (Ideal.LiesOver.over (P := m) (p := IsLocalRing.maximalIdeal A)).symm
     exact
@@ -181,7 +181,7 @@ theorem isTamelyRamified_sup
     { g'.toRingHom with
       commutes' := fun z => by
         apply Subtype.ext
-        show g (algebraMap L (L ⊗[K] M) z) = (z : Ω)
+        change g (algebraMap L (L ⊗[K] M) z) = (z : Ω)
         simp [g] }
   have hf : Function.Surjective f := by
     rintro ⟨z, hz⟩
@@ -281,7 +281,7 @@ theorem exists_isGalois_and_common_extension_isTamelyRamifiedWithRespectTo
     have hfinite (g : L →ₐ[K] Ω) : FiniteDimensional K g.fieldRange :=
       g.toLinearMap.finiteDimensional_range
     have hM₀ : Stacks.KummerExtension.IsTamelyRamified A K M₀ := by
-      show Stacks.KummerExtension.IsTamelyRamified A K
+      change Stacks.KummerExtension.IsTamelyRamified A K
         (⨆ g : L →ₐ[K] Ω, g.fieldRange : IntermediateField K Ω)
       apply isTamelyRamified_iSup A K Ω
       exact fun g => isTamelyRamified_fieldRange A K L Ω g hL

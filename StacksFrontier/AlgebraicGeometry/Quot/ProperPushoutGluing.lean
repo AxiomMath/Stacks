@@ -130,13 +130,13 @@ def sliceOverlapNatIso :
     apply (isPullback_pullbackSndPullbackSnd_right i f g h hc W).hom_ext
     · simp only [Functor.comp_map, Over.comp_left, Category.assoc,
         sliceOverlapIso_hom_left_comp_fst]
-      simp [Over.pullback, pullback.lift_fst_assoc, Category.assoc]
+      simp [Over.pullback, Category.assoc]
       simpa only [Category.assoc] using
         (congrArg (fun q => q ≫ k.left) (sliceOverlapIso_hom_left_comp_fst i f g h hc Z)).symm
     · simp only [Functor.comp_map, Over.comp_left, Category.assoc,
         sliceOverlapIso_hom_left_comp_snd]
       simp [Over.pullback]
-      simp only [pullback.lift_snd, sliceOverlapIso_hom_left_comp_snd])
+      simp only [sliceOverlapIso_hom_left_comp_snd])
 
 end Square
 

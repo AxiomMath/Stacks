@@ -186,7 +186,7 @@ private theorem leg_app_str {s : Cocone (diag R M)} (a : Idx R M) (r : R) :
   change (s.ι.app a).hom ((trans R M o a hoa)
     (algebraMap R (Localization.Away (o : R)) r)) =
     (s.ι.app o).hom (algebraMap R (Localization.Away (o : R)) r) at hr
-  show (s.ι.app a).hom (algebraMap R (Localization.Away (a : R)) r) =
+  change (s.ι.app a).hom (algebraMap R (Localization.Away (a : R)) r) =
     (s.ι.app o).hom (algebraMap R (Localization.Away (o : R)) r)
   rw [← trans_algebraMap R M o a hoa r]
   exact hr
@@ -271,7 +271,7 @@ public lemma exists_etale_pushout_of_localization
   let r : R := j
   let t : Localization.Away r →+* L := (c.ι.app j).hom
   have ht (y : R) : t (algebraMap R (Localization.Away r) y) = algebraMap R L y := by
-    show e (LocalizationAwayCocone.leg R M j (algebraMap R (Localization.Away r) y)) = _
+    change e (LocalizationAwayCocone.leg R M j (algebraMap R (Localization.Away r) y)) = _
     rw [LocalizationAwayCocone.leg_algebraMap, e.commutes]
   have hunits : (Submonoid.powers r).map (algebraMap R L) ≤ IsUnit.submonoid L := by
     rintro _ ⟨_, ⟨n, rfl⟩, rfl⟩
@@ -364,7 +364,7 @@ private lemma exists_etale_fiber_pullback
       IsPullback b t (g ≫ f) (S.fromSpecResidueField s) := by
   let x : X := f.fiberι s (p v)
   have hx : f x = s := by
-    show f (f.fiberι s (p v)) = s
+    change f (f.fiberι s (p v)) = s
     rw [← Scheme.Hom.comp_apply, f.fiber_fac]
     simp
   obtain ⟨SA, hSA, hsA, _⟩ := exists_isAffineOpen_mem_and_subset (X := S)
@@ -396,7 +396,7 @@ private lemma exists_etale_fiber_pullback
     IsAffineOpen.SpecMap_appLE_fromSpec f hSA hXB hBA
   have hq : Spec.map (l ≫ q) ≫ hSA.fromSpec = S.fromSpecResidueField s := by
     rw [Spec.map_comp, Category.assoc]
-    show Spec.map (S.residue s) ≫ hSA.fromSpecStalk hsA = _
+    change Spec.map (S.residue s) ≫ hSA.fromSpecStalk hsA = _
     rw [hSA.fromSpecStalk_eq_fromSpecStalk hsA]
     rfl
   have hF : IsPullback α β (hXB.fromSpec ≫ f) (S.fromSpecResidueField s) := by
@@ -414,7 +414,7 @@ private lemma exists_etale_fiber_pullback
   have : IsOpenImmersion k :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback hk inferInstance
   obtain ⟨xB, hxB'⟩ : ∃ xB, hXB.fromSpec xB = x := by
-    show x ∈ Set.range hXB.fromSpec
+    change x ∈ Set.range hXB.fromSpec
     rw [hXB.range_fromSpec]
     exact hxB
   obtain ⟨z, hzB, hzx⟩ := Scheme.exists_preimage_of_isPullback hk xB (p v) hxB'
@@ -484,14 +484,14 @@ public theorem exists_etaleNeighborhood_fiber_openImmersion
   have hright : e.inv ≫ b = (U.toBase ≫ f).fiberι (f x) :=
     hpb.isoPullback_inv_fst
   refine ⟨U, u, p, h, ?_, ?_, inferInstance, ?_, rfl, ?_, inferInstance⟩
-  · show (U.toBase ≫ f).fiberι (f x) (e.hom w) = b w
+  · change (U.toBase ≫ f).fiberι (f x) (e.hom w) = b w
     rw [← Scheme.Hom.comp_apply, hleft]
-  · show (e.inv ≫ j ≫ V.toBase) ≫ f.fiberι (f x) = _
+  · change (e.inv ≫ j ≫ V.toBase) ≫ f.fiberι (f x) = _
     rw [Category.assoc, Category.assoc, ← hb, ← Category.assoc, hright]
-  · show (e.inv ≫ j ≫ V.toBase) (e.hom w) = _
+  · change (e.inv ≫ j ≫ V.toBase) (e.hom w) = _
     rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id_assoc]
     simp only [Scheme.Hom.comp_apply, hw, V.map_point]
-  · show (e.inv ≫ j) (e.hom w) = _
+  · change (e.inv ≫ j) (e.hom w) = _
     rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id_assoc]
     exact hw
 

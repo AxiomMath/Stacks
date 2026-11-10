@@ -244,7 +244,7 @@ theorem systemLeg_compat {F : AbelianSheafSystem.{v, u, max u v w, max u v w} D}
   let := D.continuous a
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom,
     NatTrans.comp_app, NatTrans.comp_app]
-  show (ι j).app V = _
+  change (ι j).app V = _
   rw [hc, colimitPushforwardCompIso, sheafPushforwardContinuousComp'_hom_app_app, eqToHom_map]
   rfl
 
@@ -310,7 +310,7 @@ theorem ψ_id (A : Over i) :
 theorem ψ_comp {A B E : Over i} (f : A ⟶ B) (g : B ⟶ E) :
     (abelianSheafPullbackCompIso.{v, u, max u v w, max u v w} D f.left g.left).inv.app
         (𝒜.obj E) ≫ (pb.{v, u, w} D f.left).map (𝒜.ψ g) ≫ 𝒜.ψ f = 𝒜.ψ (f ≫ g) := by
-  show _ = ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D (f.left ≫ g.left)).homEquiv
+  change _ = ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D (f.left ≫ g.left)).homEquiv
     _ _).symm (𝒜.φ (f ≫ g))
   apply (abelianSheafAdjunction.{v, u, max u v w, max u v w} D (f.left ≫ g.left)).homEquiv _ _
     |>.injective
@@ -318,7 +318,7 @@ theorem ψ_comp {A B E : Over i} (f : A ⟶ B) (g : B ⟶ E) :
   dsimp only [abelianSheafPullbackCompIso]
   rw [Adjunction.homEquiv_leftAdjointUniq_inv_app_comp, Adjunction.homEquiv_ofNatIsoRight_apply,
     Adjunction.comp_homEquiv]
-  show ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D g.left).homEquiv _ _)
+  change ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D g.left).homEquiv _ _)
     (((abelianSheafAdjunction.{v, u, max u v w, max u v w} D f.left).homEquiv _ _)
       ((pb.{v, u, w} D f.left).map (𝒜.ψ g) ≫ 𝒜.ψ f)) ≫
       (abelianSheafPushforwardCompIso.{v, u, max u v w, max u v w} D f.left g.left).hom.app
@@ -366,7 +366,7 @@ theorem leg_map {A B : Over i} (f : A ⟶ B) :
   change _ ≫ _ ≫ 𝒜.legInv A = 𝒜.legInv B at h
   rw [leg, leg, map, eq_comm, IsIso.inv_comp_eq, ← h]
   simp only [Category.assoc, IsIso.hom_inv_id_assoc]
-  show _ = _ ≫ (colimitPullback.{v, u, w} D uC K A.left).map (𝒜.ψ f) ≫
+  change _ = _ ≫ (colimitPullback.{v, u, w} D uC K A.left).map (𝒜.ψ f) ≫
     (colimitPullback.{v, u, w} D uC K A.left).map (inv (𝒜.ψ f))
   rw [← Functor.map_comp, IsIso.hom_inv_id, CategoryTheory.Functor.map_id, Category.comp_id]
 
@@ -441,7 +441,7 @@ theorem extTransition_comp {A B E : Over i} (f : A ⟶ B) (g : B ⟶ E)
   simp only [extTransition_apply, extConj_mapExactFunctor]
   rw [← ext_mapExactFunctor_comp_functor (pb.{v, u, w} D g.left) (pb.{v, u, w} D f.left),
     extConj_extConj]
-  show extConj (𝒜.map (f ≫ g)) (F.map (f.left ≫ g.left))
+  change extConj (𝒜.map (f ≫ g)) (F.map (f.left ≫ g.left))
     (x.mapExactFunctor (pb.{v, u, w} D (f.left ≫ g.left))) = _
   rw [ext_mapExactFunctor_of_iso' (pb.{v, u, w} D g.left ⋙ pb.{v, u, w} D f.left)
     (pb.{v, u, w} D (f.left ≫ g.left))
@@ -753,7 +753,7 @@ theorem exists_transition_eq_zero {n : ℕ} {F : AbelianSheafSystem.{v, u, max u
     preservesFilteredColimitsOfSize_of_univLE.{max u v w, max u v w} _
   obtain ⟨E, f, g, h⟩ := Concrete.isColimit_exists_of_rep_eq _ (i := op A) (j := op A) hc x 0
     (by
-      show extLeg 𝒜 F _ n A x = extLeg 𝒜 F _ n A 0
+      change extLeg 𝒜 F _ n A x = extLeg 𝒜 F _ n A 0
       rw [hx, map_zero])
   refine ⟨E, f, ?_⟩
   change extTransition 𝒜 F n f.unop x = extTransition 𝒜 F n g.unop 0 at h
@@ -816,7 +816,7 @@ theorem nonempty_isColimit_succ_of_shortExact (n : ℕ)
   · obtain ⟨z, hz⟩ := Ext.covariant_sequence_exact₁ 𝒜.top hS' y (hvan _) rfl
     obtain ⟨A, zA, rfl⟩ := exists_leg_eq hcQ z
     refine ⟨op A, zA.comp (hS A.left).extClass rfl, ?_⟩
-    show extLeg 𝒜 F _ (n + 1) A _ = y
+    change extLeg 𝒜 F _ (n + 1) A _ = y
     rw [extLeg_delta n ιF π w hS ψ ϖ w' hS' hψ hϖ A zA, hz]
   · change extLeg 𝒜 F _ (n + 1) A.unop x = 0 at hx
     have := hinjI A.unop.left
@@ -934,7 +934,7 @@ theorem overTransition_id (A : Over i) :
   ext V : 2
   rw [overPushforwardIso_inv_app_app]
   let := D.continuous A.hom
-  show _ = ((abelianSheafPushforwardIdIso.{v, u, max u v w, max u v w} D A.left).hom.app
+  change _ = ((abelianSheafPushforwardIdIso.{v, u, max u v w, max u v w} D A.left).hom.app
     Z).hom.app _
   rw [abelianSheafPushforwardIdIso_hom_app_hom_app, eqToHom_map]
 

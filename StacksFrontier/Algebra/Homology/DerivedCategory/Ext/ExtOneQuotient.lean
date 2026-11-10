@@ -57,7 +57,7 @@ theorem ker_extClassComp :
     exact Function.Bijective.injective (mk₀_bijective S.X₁ Y) this
   · rintro f ⟨ψ, rfl⟩
     rw [LinearMap.mem_ker, extClassComp_apply]
-    show hS.extClass.comp (mk₀ (S.f ≫ ψ)) (add_zero 1) = 0
+    change hS.extClass.comp (mk₀ (S.f ≫ ψ)) (add_zero 1) = 0
     rw [← mk₀_comp_mk₀]
     exact hS.extClass_comp_assoc (mk₀ ψ)
 

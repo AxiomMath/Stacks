@@ -74,13 +74,14 @@ The inverse-image comparison is the adjunction mate of the direct-image one, by
 direct image `AlgebraicGeometry.RingedToposHom.pushforwardModules` that this file's comparison is
 stated for.  It is written out rather than given a name of its own for a morphism of algebraic
 spaces: `AlgebraicGeometry.Space.modulePullbackAdjunction`
-(`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullback.lean`) is the same adjunction with
-the *four-field* development's direct image as its right adjoint, and a second name for the
+(`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullback.lean`) is the same adjunction
+with the *four-field* development's direct image as its right adjoint, and a second name for the
 two-field form would be duplication of a general result already stated at the right generality.
 
 The module universe is the universe `u` of the structure rings, not a free one, for the reason
 recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/ModuleDirectImage.lean`: the direct image of modules applies
+`StacksFrontier/AlgebraicGeometry/Spaces/ModuleDirectImage.lean`: the direct image of modules
+applies
 the direct image of sheaves of *sets* to the sheaf underlying the module, and on the small étale
 site of an algebraic space that direct image is available only at `Type u`.
 

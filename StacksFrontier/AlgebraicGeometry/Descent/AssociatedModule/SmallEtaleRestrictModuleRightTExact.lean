@@ -57,7 +57,7 @@ long exact sequence of the triangle `τ_{< i}E ⟶ E ⟶ τ_{≥ i}E`
 
 The unbounded case of obligations (iii) and (ii) — the statements written out in the module
 documentation of
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleRestrictModuleHomologyEdge.lean`
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleRestrictModuleHomologyEdge`
 — is not proved here, and the boundedness hypothesis below is exactly where the gap sits:
 `τ_{< i}E` is bounded above by `i - 1` for every `E`, but it is unbounded *below* unless `E` is,
 and `Stacks.SmallDerivedCategory.isLE_obj_of_isGE` is a dévissage over a finite range.
@@ -113,7 +113,7 @@ on which the product functor is exact; what the library does not yet have is tha
 anything but a family of modules in a single degree (Stacks 0BKY, in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedLimit/InverseLimitOfAcyclicTower.lean`).  The
 full diagnosis, with the shapes the library does have, is in the module documentation of
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleRestrictModuleHomologyEdge.lean`.
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleRestrictModuleHomologyEdge`.
 Because of this, the boundedness hypotheses of the results below are *not* removable yet, and
 they are also what pins them to a free `CategoryTheory.HasDerivedCategory.{w}`: the
 Tag 0D6S above is at the standard derived category only.

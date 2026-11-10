@@ -186,7 +186,7 @@ lemma normalized_π_ofProjectiveResolution (K : ProjectiveResolution X) :
       AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex _ = 𝟙 _ :=
     (AlgebraicTopology.DoldKan.splitMonoInclusionOfMooreComplexMap
       (Abelian.DoldKan.Γ.obj K.complex)).id
-  show inclusionOfMooreComplexMap (Abelian.DoldKan.Γ.obj K.complex) ≫
+  change inclusionOfMooreComplexMap (Abelian.DoldKan.Γ.obj K.complex) ≫
     AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex _ ≫
       DoldKan.counit K.complex ≫ K.π = _
   rw [← Category.assoc, h]
@@ -208,7 +208,7 @@ lemma map_comp_ε_eq (P : SimplicialProjectiveResolution X) (i : SimplexCategory
     have e₂ : h₂ = SimplexCategory.δ 0 ≫ SimplexCategory.mkOfLe a b hab := by
       ext x
       fin_cases x
-      simp [hb, SimplexCategory.mkOfLe, SimplexCategory.δ, Fin.succAbove]
+      simp [hb, SimplexCategory.mkOfLe, SimplexCategory.δ]
       rfl
     rw [e₁, e₂, op_comp, op_comp, P.obj.map_comp, P.obj.map_comp, Category.assoc,
       Category.assoc]

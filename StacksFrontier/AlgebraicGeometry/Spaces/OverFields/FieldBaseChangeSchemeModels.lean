@@ -79,11 +79,11 @@ theorem exists_finitePresentation_model_of_isRepresentable_baseChange_affine
     (hbase : ((OverShriek.relocalizeRestrict (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom (algebraMap k A))) : B.obj hA ⟶ B.obj hk)).obj
         F).IsRepresentable) :
-    ∃ (B' : BigFppfSite.{u}) (h : IsContained (τ := .fppf) B B') (hk' : B'.Contains (Spec (.of k)))
-      (hA' : B'.Contains (Spec (.of A)))
-      (G : (BigFppfOver B' (Spec (.of k)) hk')ᵒᵖ ⥤ Type u)
-      (hG : IsAlgebraicSpace B' (Spec (.of k)) hk' G)
-      (f : G ⟶ yoneda.obj (Over.mk (𝟙 (B'.obj hk')))),
+    ∃ (B' : BigFppfSite.{u}), IsContained (τ := .fppf) B B' ∧
+      ∃ (hk' : B'.Contains (Spec (.of k))) (hA' : B'.Contains (Spec (.of A)))
+      (G : (BigFppfOver B' (Spec (.of k)) hk')ᵒᵖ ⥤ Type u),
+      IsAlgebraicSpace B' (Spec (.of k)) hk' G ∧
+      ∃ (f : G ⟶ yoneda.obj (Over.mk (𝟙 (B'.obj hk')))),
       IsFinitePresentation B' (Spec (.of k)) hk' f ∧
       ((OverShriek.relocalizeRestrict (ObjectProperty.homMk
         (Spec.map (CommRingCat.ofHom (algebraMap k A))) : B'.obj hA' ⟶ B'.obj hk')).obj

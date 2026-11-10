@@ -70,7 +70,7 @@ end Transport
 theorem comp_map_map_hom_eq {X Y Z : Scheme.{u}} (φ : Y ⟶ Z) (h : X ⟶ Y) (sbar : GeometricPoint X)
     {α : sbar.source ≅ sbar.source} (hαt : α.hom ≫ sbar.hom = sbar.hom) :
     α.hom ≫ ((sbar.map h).map φ).hom = ((sbar.map h).map φ).hom := by
-  show α.hom ≫ (sbar.hom ≫ h) ≫ φ = (sbar.hom ≫ h) ≫ φ
+  change α.hom ≫ (sbar.hom ≫ h) ≫ φ = (sbar.hom ≫ h) ≫ φ
   rw [← Category.assoc, ← Category.assoc, hαt]
 
 /-- The Galois module in the coefficient category of continuous group cohomology and the module
@@ -231,7 +231,7 @@ theorem exists_levelPullbackGaloisModule_addEquiv
       ((smallEtalePointHom V.1 b).sheafFiber.app
         ((SmallEtale.sheafEquiv B V.1 V.2 (ModuleCat.{u + 1} Λ)).functor.obj L0)))
     (by
-      show _ ≫ (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map
+      change _ ≫ (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map
           ((sheafEquivCompSheafFiberIso.{u, u + 1, 0} B V Λ w).inv.app L0) =
         (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map
           ((sheafEquivCompSheafFiberIso.{u, u + 1, 0} B V Λ w).inv.app L0) ≫ _

@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.CompactSupportGroupHomologyNotProjectiveLine
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.CompactSupportGroupHomologyNotProjectiveLine
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.GeometricRepresentationEffaceable
 
 /-!

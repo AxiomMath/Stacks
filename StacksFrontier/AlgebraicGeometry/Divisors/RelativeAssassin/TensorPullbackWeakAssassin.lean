@@ -60,7 +60,7 @@ theorem iUnion_image_fiberι_inter_preimage {X S : Scheme.{u}} (f : X ⟶ S)
     (⋃ s ∈ A, f.fiberι s '' P s) =
       {x | x ∈ (⋃ s : S, f.fiberι s '' P s) ∧ f x ∈ A} := by
   ext x
-  simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨s, hsA, y, hy, rfl⟩
     exact ⟨⟨s, y, hy, rfl⟩, by rwa [apply_fiberι f s y]⟩

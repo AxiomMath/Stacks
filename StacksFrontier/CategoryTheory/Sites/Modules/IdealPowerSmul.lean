@@ -35,8 +35,7 @@ universe u₁ v₁ u
 
 namespace Stacks.Sites
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
 
 /-- The sections of the structure sheaf over an object, read as a sheaf of not necessarily
 commutative rings, form a commutative ring. -/
@@ -51,7 +50,7 @@ theorem idealSmul_top (I : IdealSubsheaf O) : idealSmul I (⊤ : IdealSubsheaf O
     (Stacks.SheafOfModules.sheafifySubmodule_le
       (presheafIdealSmul_le I fun Y a ha m _ => ?_))
     (_root_.SheafOfModules.Submodule.le_iff.2 fun Y a ha => ?_)
-  · show a * (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj Y from m) ∈
+  · change a * (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj Y from m) ∈
       sectionIdeal I Y
     rw [mul_comm]
     exact Ideal.mul_mem_left _ _ ha

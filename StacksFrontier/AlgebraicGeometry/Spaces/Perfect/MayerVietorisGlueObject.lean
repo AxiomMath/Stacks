@@ -230,7 +230,7 @@ theorem isIso_of_isIso_map_of_bijective_comp_on_kernel {C : Type u₁} [Category
   obtain ⟨a', ha'⟩ := (hg K hK).2 a
   have hid : 𝟙 K = 0 := by
     rw [ha, ← ha', Category.assoc]
-    show a' ≫ (g ≫ b) = 0
+    change a' ≫ (g ≫ b) = 0
     have hgb : g ≫ b = 0 := comp_distTriang_mor_zero₁₂ _ hT
     rw [hgb, comp_zero]
   exact (T.isZero₃_iff_isIso₁ hT).mp ((IsZero.iff_id_eq_zero K).mpr hid)
@@ -409,7 +409,7 @@ theorem isIso_map_unit_of_kernel_le {C : Type u₁} [Category.{v₁} C] {D : Typ
   obtain ⟨Z, b, δ, hT⟩ := distinguished_cocone_triangle (adj.unit.app A)
   have hL : IsZero (L.obj Z) :=
     (L.mapTriangle.obj _).isZero₃_of_isIso₁ (L.map_distinguished _ hT) (by
-      show IsIso (L.map (adj.unit.app A))
+      change IsIso (L.map (adj.unit.app A))
       assumption)
   exact ((F.mapTriangle.obj _).isZero₃_iff_isIso₁ (F.map_distinguished _ hT)).mp (hF Z hL)
 
@@ -507,7 +507,7 @@ theorem exists_glue_of_restrictionData
     rw [heq] at h
     exact h
   have hf : IsIso f := by
-    show IsIso (rU.map u ≫ adjU.counit.app A)
+    change IsIso (rU.map u ≫ adjU.counit.app A)
     infer_instance
   refine ⟨hf, ?_⟩
   have hgP : IsIso (rVP.map g) := by

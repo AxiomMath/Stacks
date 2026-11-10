@@ -110,7 +110,7 @@ theorem map_pow_smul_neighborhood (F : Modules.{u, u} B S hS X.1 X.2)
         (show F.val.obj (op M'.chart) from F.val.map e.hom.op s) := by
   refine (PresheafOfModules.map_smul F.val e.hom.op _ s).trans ?_
   congr 1
-  show chartRestrict (hF := X.2) e.hom ((chartRestrict (hF := X.2) d.hom a) ^ k) = _
+  change chartRestrict (hF := X.2) e.hom ((chartRestrict (hF := X.2) d.hom a) ^ k) = _
   rw [map_pow, show (e ≫ d).hom = e.hom ≫ d.hom from rfl, chartRestrict_comp]
   rfl
 
@@ -241,7 +241,7 @@ theorem cechGlueingElementary_geometricModuleStalk (F : Modules.{u, u} B S hS X.
     fun i => chartRestrict (hF := X.2) (e₂ ≫ e₁).hom (g i)
   have hG' : ∀ i, chartRestrict (hF := X.2) e₂.hom (G i) = G' i := by
     intro i
-    show chartRestrict (hF := X.2) e₂.hom (chartRestrict (hF := X.2) e₁.hom (g i)) =
+    change chartRestrict (hF := X.2) e₂.hom (chartRestrict (hF := X.2) e₁.hom (g i)) =
       chartRestrict (hF := X.2) (e₂.hom ≫ e₁.hom) (g i)
     rw [chartRestrict_comp]
     rfl

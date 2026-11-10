@@ -216,6 +216,7 @@ theorem isAffineHom_of_isAffineHom_relocalizeChart
 variable (hZ : B.Contains (⊤_ Scheme.{u}))
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for terminal objects and pullbacks of presheaves on the big fppf site
 /-- A morphism from an affine object of the big fppf site of `S` to a presheaf whose absolute
 diagonal, in the sense of Stacks 03BS, is affine is affine. -/
 @[stacks 08GB "part (3)", ega "II 1.6.3"]
@@ -233,7 +234,7 @@ theorem isAffineHom_of_affine_source_of_isAffineHom_diag
       (⊤_ (BigFppfOver B (⊤_ Scheme.{u}) hZ))) := by
     have h0 : IsAffine ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).obj
         (Over.mk (𝟙 (B.obj hZ)))) := by
-      show IsAffine (⊤_ Scheme.{u})
+      change IsAffine (⊤_ Scheme.{u})
       infer_instance
     exact _root_.AlgebraicGeometry.IsAffine.of_isIso
       ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map
@@ -248,7 +249,6 @@ theorem isAffineHom_of_affine_source_of_isAffineHom_diag
     exact isAffineHom_comp_iso _ hΔ
   have hXT : IsAffineHom B (⊤_ Scheme.{u}) hZ
       (relocalizeChart B S (⊤_ Scheme.{u}) hS hZ m f ≫ terminal.from F) := by
-    set_option synthInstance.maxHeartbeats 200000 in
     have hstruct : relocalizeChart B S (⊤_ Scheme.{u}) hS hZ m f ≫ terminal.from F
         = yoneda.map (terminal.from VZ)
           ≫ (terminalIsTerminal.uniqueUpToIso (isTerminal_yoneda_obj_terminal _)).inv :=

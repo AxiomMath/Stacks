@@ -12,7 +12,8 @@ public import StacksFrontier.CategoryTheory.Limits.VanKampenCoproducts
 /-!
 # The clopen decomposition of a scheme by a section of a coproduct of sheaves: the refined forms
 
-Strengthened forms of declarations of `StacksFrontier.AlgebraicGeometry.Spaces.FiniteCoproductSpace`,
+Strengthened forms of declarations of
+`StacksFrontier.AlgebraicGeometry.Spaces.FiniteCoproductSpace`,
 and the declarations that belong with them. A declaration of that module whose statement is
 strengthened keeps its original statement there; its strengthened form lives here under a
 primed name.

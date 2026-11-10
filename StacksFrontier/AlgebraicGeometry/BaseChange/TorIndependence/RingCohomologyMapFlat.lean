@@ -212,8 +212,7 @@ theorem baseChangeTensorRingMap_comp_algebraMap_right :
 /-- For the tensor square itself, `A ⊗_R R' → A ⊗_R R'` is the identity. -/
 theorem baseChangeTensorRingMap_tensor_apply (t : A ⊗[R] R') :
     baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A ⊗[R] R') t = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact map_zero _
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, hx, hy]
   | tmul a r =>
     rw [baseChangeTensorRingMap_tmul]
@@ -239,8 +238,8 @@ theorem isIso_ringBaseChangeCohomologyMap_of_flat_of_flat_tensor [Module.Flat R 
         (algebraMap A A')).functor.obj Y) (𝟙 _) n) := by
   let C := A ⊗[R] R'
   let σ := baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')
-  letI : Algebra C A' := σ.toAlgebra
-  letI := baseChangeCohomologyModule (R := R) (R' := R') Y n
+  let : Algebra C A' := σ.toAlgebra
+  let := baseChangeCohomologyModule (R := R) (R' := R') Y n
   let h₀ : A →+* C := algebraMap A C
   let i₀ : R' →+* C := algebraMap R' C
   let T₀ := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} h₀
@@ -253,10 +252,10 @@ theorem isIso_ringBaseChangeCohomologyMap_of_flat_of_flat_tensor [Module.Flat R 
   let HσZ := (DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).obj
     ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
       σ).functor.obj Z)
-  letI : Module C H' := Module.compHom _ σ
-  letI : IsScalarTower C A' H' := IsScalarTower.of_compHom _ _ _
-  letI : Module C HσZ := Module.compHom _ σ
-  letI : IsScalarTower C A' HσZ := IsScalarTower.of_compHom _ _ _
+  let : Module C H' := Module.compHom _ σ
+  let : IsScalarTower C A' H' := IsScalarTower.of_compHom _ _ _
+  let : Module C HσZ := Module.compHom _ σ
+  let : IsScalarTower C A' HσZ := IsScalarTower.of_compHom _ _ _
   -- the comparison of the tensor square
   let c₀ := (ringHomSquareComparison (algebraMap R A) (algebraMap R R') h₀ i₀
     tensorSquare_comm).app Y
@@ -273,7 +272,7 @@ theorem isIso_ringBaseChangeCohomologyMap_of_flat_of_flat_tensor [Module.Flat R 
       ((squareDerivedComparison (R := R) (A := A) (R' := R') (A' := C)).app Y)
       (((ModuleCat.restrictScalars.{u} i₀).mapDerivedCategoryHomologyIso n).hom.app Z)).symm
   have hc₀ : IsIso c₀ := by
-    haveI := isIso_ringHomSquareComparison_tensor (R := R) (A := A) (R' := R')
+    have := isIso_ringHomSquareComparison_tensor (R := R) (A := A) (R' := R')
     exact inferInstance
   have hbij : Function.Bijective e₀.hom := ConcreteCategory.bijective_of_isIso e₀
   have hlin : ∀ (t : C) (m : H), e₀.hom (t • m) = t • (show HZ from e₀.hom m) := by

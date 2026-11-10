@@ -69,6 +69,7 @@ variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) (E : BigEtaleSpaceSite S)
   (h : T.schemeSite = E.fppfSite) {X Y : T.Spaces} (f : Y ⟶ X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf pushforward along `Over.map f` on the big fppf site is expensive
 /-- The direct image `f_{big,fppf,*}` of abelian sheaves on the big fppf sites, as the right
 adjoint attached to cocontinuity of `Over.map f`. -/
 abbrev fppfAbelianPushforward :
@@ -78,6 +79,7 @@ abbrev fppfAbelianPushforward :
     (BigFppfSpaceOver.topology T Y) (BigFppfSpaceOver.topology T X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf categories on the big fppf and étale sites is expensive
 /-- **The big square of Stacks 0DGI on abelian sheaves**:
 `ε_{X,*} ∘ f_{big,fppf,*} = f_{big,étale,*} ∘ ε_{Y,*}`. -/
 def fppfToBigEtale_comp_fppfAbelianPushforwardIso :
@@ -308,7 +310,7 @@ def fppfToSmallEtaleDerivedBaseChange :
     (Stacks.ComparingTopologies.derivedPlusAdjunction (fppfToSmallEtaleAbelianAdjunction T E h Y))
     (Stacks.ComparingTopologies.derivedPlusAdjunction
       (fppfToSmallEtaleAbelianAdjunction T E h X))).symm
-    (TwoSquare.mk _ _ _ _ (fppfToSmallEtale_rightDerivedPushforwardIso T E h f).hom)).natTrans
+    (TwoSquare.mk _ _ _ _ (fppfToSmallEtale_rightDerivedPushforwardIso T E h f).hom))
 
 /-- **Stacks 0DGK, granted the scheme case.** For a finite morphism `f : Y ⟶ X` of algebraic
 spaces the base change map `a_X⁻¹(Rf_{small,*}K) ⟶ Rf_{big,fppf,*}(a_Y⁻¹K)` is an isomorphism for
@@ -318,7 +320,7 @@ theorem isIso_fppfToSmallEtaleDerivedBaseChange_of
     (hf : Space.IsFinite T.schemeSite S T.scheme_mem f.hom) :
     IsIso (fppfToSmallEtaleDerivedBaseChange T E h f) := by
   have : IsIso (TwoSquare.mk _ _ _ _
-      (fppfToSmallEtale_rightDerivedPushforwardIso T E h f).hom).natTrans :=
+      (fppfToSmallEtale_rightDerivedPushforwardIso T E h f).hom) :=
     inferInstanceAs (IsIso (fppfToSmallEtale_rightDerivedPushforwardIso T E h f).hom)
   have : ∀ K, IsIso ((fppfToSmallEtaleDerivedBaseChange T E h f).app K) := fun K ↦
     Stacks.ComparingTopologies.isIso_mateEquiv_symm_app _ _ _

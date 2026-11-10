@@ -140,7 +140,7 @@ theorem LAdicSheaf.exists_addEquiv_level_frobenius (F : LAdicSheaf B X ℓ) (i n
   have hB : ((compactSupportFrobeniusSingleIsoExt (ZMod (ℓ ^ (n + 1))) f j kbar K i).inv).hom
       (e₃ y) = y := e₃.symm_apply_apply y
   rw [hB] at h₃
-  show e₃ (e₂.hom.hom (e₁.hom.hom _)) = _
+  change e₃ (e₂.hom.hom (e₁.hom.hom _)) = _
   rw [h₁]
   exact (congrArg (fun z => e₃ z) (h₂' (e₁.hom.hom x))).trans h₃
 

@@ -78,7 +78,7 @@ public theorem residue_comp_algebraMap_surjective {R S : Type*} [CommRing R] [Co
       = IsLocalization.mk' S a b * algebraMap R S ((b : R) * c) := by
     rw [map_mul, map_mul, ← mul_assoc, IsLocalization.mk'_spec]
   refine ⟨a * c, ?_⟩
-  show IsLocalRing.residue S (algebraMap R S (a * c))
+  change IsLocalRing.residue S (algebraMap R S (a * c))
       = IsLocalRing.residue S (IsLocalization.mk' S a b)
   rw [h2, map_mul, h1, mul_one]
 

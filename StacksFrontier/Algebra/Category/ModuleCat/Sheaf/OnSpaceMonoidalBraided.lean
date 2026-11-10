@@ -148,7 +148,7 @@ is an identity. -/
 theorem sheafModuleUnitIso_eq : sheafModuleUnitIso X =
     Stacks.SheafOfModules.sheafifyUnitIso X.presheaf (structureSheafRing X).property := by
   apply Iso.ext
-  show (sheafModuleSheafification X).map (eqToHom rfl) ≫ _ = _
+  change (sheafModuleSheafification X).map (eqToHom rfl) ≫ _ = _
   rw [eqToHom_refl, CategoryTheory.Functor.map_id]
   exact Category.id_comp _
 

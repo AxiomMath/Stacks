@@ -94,14 +94,14 @@ theorem isDPMorphism_sectionsDPRingMap {T T' : Thickening S} (k : T ⟶ T') :
 theorem sectionsDPRingMap_id (T : Thickening S) :
     sectionsDPRingMap (𝟙 T) = AlgHom.id _ _ := by
   ext b
-  show (𝟙 T : T ⟶ T).targetHom.hom.appTop b = b
+  change (𝟙 T : T ⟶ T).targetHom.hom.appTop b = b
   rfl
 
 /-- `sectionsDPRingMap` is contravariantly functorial. -/
 theorem sectionsDPRingMap_comp {T T' T'' : Thickening S} (k : T ⟶ T') (k' : T' ⟶ T'') :
     sectionsDPRingMap (k ≫ k') = (sectionsDPRingMap k).comp (sectionsDPRingMap k') := by
   ext b
-  show (k ≫ k').targetHom.hom.appTop b = k.targetHom.hom.appTop (k'.targetHom.hom.appTop b)
+  change (k ≫ k').targetHom.hom.appTop b = k.targetHom.hom.appTop (k'.targetHom.hom.appTop b)
   rfl
 
 variable (S)

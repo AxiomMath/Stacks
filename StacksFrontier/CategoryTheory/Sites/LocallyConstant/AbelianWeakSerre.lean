@@ -125,7 +125,7 @@ theorem mapComposableArrows_exact {D E : Type*} [Category* D] [Category* E]
     {n : ℕ} (S : ComposableArrows D n) (hS : S.Exact) :
     ((T.mapComposableArrows n).obj S).Exact where
   zero i hi := by
-    show T.map (S.map' i (i + 1)) ≫ T.map (S.map' (i + 1) (i + 2)) = 0
+    change T.map (S.map' i (i + 1)) ≫ T.map (S.map' (i + 1) (i + 2)) = 0
     simpa only [CategoryTheory.Functor.map_comp, Functor.map_zero] using
       congrArg T.map (hS.toIsComplex.zero i hi)
   exact i hi := (hS.exact i hi).map T
@@ -334,7 +334,7 @@ theorem nsmul_id_zero_overPullback_of_hom (F : Sheaf J AddCommGrpCat.{max u v w}
   have : (J.overMapPullback AddCommGrpCat.{max u v w} f).Additive :=
     Functor.additive_of_preserves_binary_products _
   apply nsmul_id_zero_of_iso ((Stacks.SheafMapGluing.overPullbackOverMapPullbackIso J f).app F) n
-  show n • 𝟙 ((J.overMapPullback AddCommGrpCat.{max u v w} f).obj
+  change n • 𝟙 ((J.overMapPullback AddCommGrpCat.{max u v w} f).obj
     ((J.overPullback AddCommGrpCat.{max u v w} Y).obj F)) = 0
   exact nsmul_id_zero_map (J.overMapPullback AddCommGrpCat.{max u v w} f) n h
 
@@ -410,7 +410,7 @@ theorem isFiniteLocallyConstant_zero :
   constructor
   intro U
   refine ⟨PUnit, (fun _ : PUnit => U), (fun _ => 𝟙 U), ?_, fun _ => ?_⟩
-  · show Sieve.generate (Presieve.ofArrows (fun _ : PUnit => U)
+  · change Sieve.generate (Presieve.ofArrows (fun _ : PUnit => U)
       (fun _ => 𝟙 U)) ∈ J U
     rw [Presieve.ofArrows_of_unique, Sieve.generate_of_singleton_isSplitEpi]
     exact J.top_mem U

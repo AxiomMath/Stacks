@@ -116,13 +116,13 @@ theorem surjective_rightStabilizerLocus [GeometricallyIrreducible G.hom] (h : T 
   have hsa : (snd G T).left a = t := ha₂
   let b := (rightShear h).inv.left a
   have hb : (rightShear h).hom.left b = a := by
-    show ((rightShear h).inv ≫ (rightShear h).hom).left a = a
+    change ((rightShear h).inv ≫ (rightShear h).hom).left a = a
     rw [Iso.inv_hom_id]
     rfl
   have hρb : (rightTranslate h).left b = u := by
     rw [← rightShear_hom_fst, Over.comp_left, Scheme.Hom.comp_apply, hb, hfa]
   have hsb : (snd G T).left b = t := by
-    show ((rightShear h).inv ≫ snd G T).left a = t
+    change ((rightShear h).inv ≫ snd G T).left a = t
     rw [rightShear_inv_snd, hsa]
   obtain ⟨w, hwt, hwA, hwB⟩ := hirr.2 _ _ ((fst G T).left ⁻¹ᵁ U).isOpen
     ((rightTranslate h).left ⁻¹ᵁ U).isOpen ⟨a, hsa, show (fst G T).left a ∈ U from hfa ▸ hu⟩
@@ -169,7 +169,7 @@ theorem eq_one_of_forall_rightStabilises [GeometricallyIrreducible G.hom] (h : T
     exact mul_eq_left.mp (hw.trans h2).symm
   have : Surjective (W.ι ≫ (snd G T).left) := surjective_rightStabilizerLocus h hne
   have : Flat (snd G T).left := by
-    show Flat (pullback.snd G.hom T.hom)
+    change Flat (pullback.snd G.hom T.hom)
     infer_instance
   have : Epi ((Over.forget _).map (w ≫ snd G T)) :=
     Flat.epi_of_flat_of_surjective (W.ι ≫ (snd G T).left)

@@ -240,7 +240,7 @@ public theorem resolutionAlgebra_hasVariableMappingProperty :
     (fun n j => t ⟨n, j⟩) (fun n j => ht ⟨n, j⟩)
   refine ⟨F.hom.toRingHom, fun p => ?_, fun j => hF2 j.1 j.2, F.map_grade, F.map_dpow⟩
   refine (hF1 ((resolutionCoefficientEquiv R S σ).symm p)).trans ?_
-  show f (resolutionCoefficientEquiv R S σ ((resolutionCoefficientEquiv R S σ).symm p)) = f p
+  change f (resolutionCoefficientEquiv R S σ ((resolutionCoefficientEquiv R S σ).symm p)) = f p
   rw [AlgEquiv.apply_symm_apply]
 
 /-- The resolution has degree-zero coefficients and homogeneous variables. -/
@@ -313,7 +313,7 @@ public theorem resolutionAugmentation_positive {n : ℕ} (hn : n ≠ 0)
 public theorem resolutionAugmentation_coefficient (p : MvPolynomial σ R) :
     (resolutionAugmentation φ).hom (resolutionCoefficient φ p) = φ p := by
   refine (resolutionAugmentation_base φ ((resolutionCoefficientEquiv R S σ).symm p)).trans ?_
-  show φ (resolutionCoefficientEquiv R S σ ((resolutionCoefficientEquiv R S σ).symm p)) = φ p
+  change φ (resolutionCoefficientEquiv R S σ ((resolutionCoefficientEquiv R S σ).symm p)) = φ p
   rw [AlgEquiv.apply_symm_apply]
 
 /-- **The augmentation kills the boundary of every variable.** For a variable of degree one the

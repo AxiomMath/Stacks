@@ -176,7 +176,7 @@ private lemma obstructionPolynomialFunctional_monomial (n : ℕ) :
     obstructionPolynomialFunctional
       (MvPolynomial.monomial (obstructionExponent n) (1 : ℚ)) = 1 := by
   classical
-  show (Finsupp.linearCombination ℚ _)
+  change (Finsupp.linearCombination ℚ _)
     (Finsupp.single (obstructionExponent n) (1 : ℚ)) = 1
   rw [Finsupp.linearCombination_single]
   simp
@@ -188,7 +188,7 @@ private lemma obstructionPolynomialFunctional_eq_zero_of_mem_ideal
     obstructionPolynomialFunctional p = 0 := by
   classical
   rw [obstructionIdeal, MvPolynomial.mem_ideal_span_monomial_image] at hp
-  show (Finsupp.linearCombination ℚ _)
+  change (Finsupp.linearCombination ℚ _)
     (AddMonoidAlgebra.coeff p) = 0
   rw [Finsupp.linearCombination_apply, Finsupp.sum]
   refine Finset.sum_eq_zero fun e he => ?_
@@ -236,7 +236,7 @@ private lemma obstructionCharacter_apply (n : ℕ) :
       (Ideal.Quotient.mk obstructionIdeal
         (MvPolynomial.monomial (obstructionExponent n) (1 : ℚ))) =
       (1 / 2 : ℚ) := by
-  show (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : ℚ)))
+  change (QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : ℚ)))
     (halfRational
       ((Submodule.liftQ obstructionIdealQ obstructionPolynomialFunctional
           obstructionPolynomialFunctional_ker)
@@ -270,7 +270,7 @@ private lemma obstructionVariable_pow_mul_eq_zero (i j : witnessIndex) (n : ℕ)
 private lemma obstructionVariable_square (n : ℕ) (b : Bool) :
     obstructionVariable (Sum.inr (n, b)) ^ 2 = 0 := by
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
-  show MvPolynomial.X (Sum.inr (n, b)) ^ 2 ∈ obstructionIdeal
+  change MvPolynomial.X (Sum.inr (n, b)) ^ 2 ∈ obstructionIdeal
   rw [MvPolynomial.X_pow_eq_monomial]
   apply Ideal.subset_span
   cases b
@@ -293,7 +293,7 @@ private lemma reducedPolynomialMap_surjective :
   intro z
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective z
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective a
-  show (Ideal.Quotient.mk (nilradical obstructionRing))
+  change (Ideal.Quotient.mk (nilradical obstructionRing))
     (Ideal.Quotient.mk obstructionIdeal p) ∈ reducedPolynomialMap.range
   induction p using MvPolynomial.induction_on with
   | C a => exact ⟨MvPolynomial.C a, by simp [reducedPolynomialMap]⟩
@@ -511,10 +511,10 @@ private lemma cech_surjective_of_isZero_firstCohomology
   let d := G.map (P.cocomplex.d 0 1)
   let e := G.map (P.cocomplex.d 1 2)
   have hηd : η ≫ d = 0 := by
-    show G.map (P.ι.f 0) ≫ G.map (P.cocomplex.d 0 1) = 0
+    change G.map (P.ι.f 0) ≫ G.map (P.cocomplex.d 0 1) = 0
     rw [← G.map_comp, P.ι_f_zero_comp_complex_d, G.map_zero]
   have hde : d ≫ e = 0 := by
-    show G.map (P.cocomplex.d 0 1) ≫ G.map (P.cocomplex.d 1 2) = 0
+    change G.map (P.cocomplex.d 0 1) ≫ G.map (P.cocomplex.d 1 2) = 0
     rw [← G.map_comp, P.cocomplex.d_comp_d, G.map_zero]
   obtain ⟨a, ha⟩ := Stacks.Cohomology.InjectiveRestriction.injective_restriction_surjective
     R (P.cocomplex.X 0) (show U ⊓ V ≤ U from inf_le_left) (η.hom.app (op (U ⊓ V)) s)
@@ -563,7 +563,7 @@ private lemma cech_surjective_of_isZero_firstCohomology
   change η.hom.app (op V) b' = -tV at hb'
   refine ⟨a', b', ?_⟩
   have hinj : Function.Injective (η.hom.app (op (U ⊓ V))) := by
-    show Function.Injective ((secF R (U ⊓ V)).map (P.ι.f 0))
+    change Function.Injective ((secF R (U ⊓ V)).map (P.ι.f 0))
     exact (AddCommGrpCat.mono_iff_injective _).mp inferInstance
   have hres : (G.obj (P.cocomplex.X 0)).obj.map (homOfLE
       (show U ⊓ V ≤ U from inf_le_left)).op tU =
@@ -652,7 +652,7 @@ theorem exists_injective_tilde_nonzero_firstCohomology :
   let b : ℕ → A := fun n => ULift.up (obstructionVariable (witnessW n))
   let c : I := obstructionCharacter.comp ULift.ringEquiv.toAddMonoidHom
   have htop : NoetherianSpace (Spec A) := by
-    show NoetherianSpace (PrimeSpectrum R)
+    change NoetherianSpace (PrimeSpectrum R)
     exact (TopologicalSpace.noetherianSpace_iff_of_homeomorph
       (PrimeSpectrum.homeomorphOfRingEquiv
         (ULift.ringEquiv : R ≃+* obstructionRing)).symm).mp obstructionRing_noetherianSpace

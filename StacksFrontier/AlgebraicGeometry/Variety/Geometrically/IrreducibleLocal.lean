@@ -71,7 +71,7 @@ private lemma isGeometricallyIrreducible_sections_iff (k : Type u) [Field k]
   let : MorphismProperty.RespectsIso (@GeometricallyIrreducible) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   have heq : Spec.map (CommRingCat.ofHom (algebraMap k Γ(X, U))) = hU.fromSpec ≫ f := by
-    show Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
+    change Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
       f.appLE ⊤ U (by simp)) = hU.fromSpec ≫ f
     rw [← IsAffineOpen.SpecMap_appLE_fromSpec f (isAffineOpen_top _) hU (by simp), Spec.map_comp,
       IsAffineOpen.fromSpec_top]

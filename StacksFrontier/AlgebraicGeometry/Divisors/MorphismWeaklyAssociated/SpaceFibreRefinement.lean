@@ -88,7 +88,7 @@ theorem surjective_toScheme_map_siteObject {p q : FieldValuedPoint B S hS F}
     Surjective ((BigFppfOver.toScheme B S hS).map κ) := by
   have := subsingleton_toScheme_siteObject B S hS F p
   have hne : Nonempty ((BigFppfOver.toScheme B S hS).obj q.siteObject) := by
-    show Nonempty ↥(Spec (CommRingCat.of q.carrier))
+    change Nonempty ↥(Spec (CommRingCat.of q.carrier))
     infer_instance
   exact ⟨fun _ ↦ ⟨hne.some, Subsingleton.elim _ _⟩⟩
 
@@ -179,7 +179,7 @@ theorem exists_fieldValuedPoint_refining (g : Y' ⟶ Y) (p : FieldValuedPoint B 
     (FieldValuedPoint.map B S hS (pullback g.hom (fieldMorphism B S hS Y.1 p))
       (pullback.snd g.hom (fieldMorphism B S hS Y.1 p)) ρ).siteHom, ?_, ?_⟩
   · rw [← pointsMap_class]
-    show pointsMap B S hS (pullback g.hom (fieldMorphism B S hS Y.1 p))
+    change pointsMap B S hS (pullback g.hom (fieldMorphism B S hS Y.1 p))
       (fibreAtFieldValuedPointProjection B S hS g p).hom (Quot.mk _ ρ) = y'
     rw [hρ]
     exact hη

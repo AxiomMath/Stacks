@@ -406,7 +406,7 @@ the component of `natRestrictMap f hE hE'` at `pq` is the component of `f` at
 lemma natRestrictMap_pageXIso_naturality (pq : ℕ × ℕ) (r : ℤ) (hr : r₀ ≤ r) :
     ((natRestrictMap f hE hE').hom r hr).f pq ≫ (natRestrict_pageXIso E' hE' pq r hr).hom =
       (natRestrict_pageXIso E hE pq r hr).hom ≫ (f.hom r hr).f (natEmb pq) := by
-  show ((natRestrictMap f hE hE').hom r hr).f pq ≫ 𝟙 _ =
+  change ((natRestrictMap f hE hE').hom r hr).f pq ≫ 𝟙 _ =
     𝟙 _ ≫ (f.hom r hr).f (natEmb pq)
   rw [Category.comp_id, Category.id_comp]
   rfl

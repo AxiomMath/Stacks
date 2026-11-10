@@ -155,7 +155,7 @@ abelian-group-valued presheaves becomes an isomorphism after sheafification exac
 locally bijective. -/
 instance simplicialProductTopology_wEqualsLocallyBijective :
     (projectionTopology C J).WEqualsLocallyBijective AddCommGrpCat.{u} := by
-  letI : ((equivSmallModel.{u} (SimplexCategory × C)).inverse.inducedTopology
+  let : ((equivSmallModel.{u} (SimplexCategory × C)).inverse.inducedTopology
       (projectionTopology C J)).WEqualsLocallyBijective AddCommGrpCat.{u} :=
     inferInstance
   exact GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{u, _, u, _, u}

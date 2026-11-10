@@ -88,16 +88,16 @@ public abbrev moduleDirectImage :
 /-- The cocone of germs at a lift `x`, over the étale neighbourhoods of `y`. -/
 public def finitePushforwardModuleStalkCocone
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom}) :
-    Cocone ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+    Cocone ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
       (moduleDirectImage B f Λ G).obj) where
   pt := etaleStalk (A := ModuleCat.{u + 1} Λ) B X.1 X.property
     (geometricPointLift (B.inclusion.map f) y x) G.obj
   ι :=
-    { app := fun U => colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    { app := fun U => colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
           (op (liftedEtaleNeighborhood B f y x U.unop))
       naturality := fun _ _ g =>
-        (colimit.w ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+        (colimit.w ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
           (liftedEtaleNeighborhoodMap B f y x g.unop).op).trans (Category.comp_id _).symm }
 
@@ -116,10 +116,10 @@ public def finitePushforwardModuleStalkComponent
 public theorem finitePushforwardModuleStalkComponent_germ
     (x : {g : y.source ⟶ X.1 // g ≫ B.inclusion.map f = y.hom})
     (U : (geometricPointFiber B Y.1 Y.property y).Elements) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
         (moduleDirectImage B f Λ G).obj) (op U) ≫
         finitePushforwardModuleStalkComponent B f y Λ G x =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property
         (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
         (op (liftedEtaleNeighborhood B f y x U)) :=
   colimit.ι_desc _ _
@@ -146,8 +146,8 @@ public theorem etaleStalkForgetIso_germ {S : Scheme.{u}} (hS : B.Contains S)
     (s : GeometricPoint S) (P : (SmallEtale B S hS)ᵒᵖ ⥤ ModuleCat.{u + 1} Λ)
     (U : (geometricPointFiber B S hS s).Elements) (t : P.obj (op U.1)) :
     (etaleStalkForgetIso B Λ hS s P).hom
-        ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) (op U)).hom t) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) (op U)).hom t) =
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (P ⋙ forget (ModuleCat.{u + 1} Λ))) (op U) t := by
   have := preservesFilteredColimitsOfSize_forget_moduleCatMax.{u, 0} Λ
   have h := (geometricPointSitePoint B S hS s).toPresheafFiber_presheafFiberCompIso_hom_app
@@ -197,7 +197,7 @@ public theorem finitePushforwardModuleStalkComponent_bijective [IsFinite (B.incl
       (fun w x => (eX x).inv (w x)) ∘ finitePushforwardStalkToProduct B f y
         (underlyingTypeSheaf B Λ G) ∘ eY.hom := by
     funext z x
-    show _ = (eX x).inv (finitePushforwardStalkToProduct B f y (underlyingTypeSheaf B Λ G)
+    change _ = (eX x).inv (finitePushforwardStalkToProduct B f y (underlyingTypeSheaf B Λ G)
       (eY.hom z) x)
     rw [finitePushforwardStalkToProduct_etaleStalkForgetIso]
     exact ((eX x).toEquiv.symm_apply_apply _).symm
@@ -233,18 +233,18 @@ public theorem liftedEtaleNeighborhood_neighborhoodFunctor
   let := hasPullbacks_bigEtaleSite B
   let := preservesPullbacks_bigEtaleSiteInclusion B
   refine Functor.Elements.ext _ _ (by rfl) ?_
-  simp only [eqToHom_refl, Functor.map_id, types_id_apply]
+  simp only
   refine Subtype.ext ?_
   apply ((IsPullback.of_hasPullback
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion).hom_ext
   · refine (liftedEtaleNeighborhood_point_fst B f y x
       ((neighborhoodFunctor B Y.1 Y.property a).obj U)).trans ?_
-    show a.hom ≫ U.2.1 = (a.hom ≫ (liftedEtaleNeighborhood B f y' x' U).2.1) ≫ _
+    change a.hom ≫ U.2.1 = (a.hom ≫ (liftedEtaleNeighborhood B f y' x' U).2.1) ≫ _
     exact (congrArg (a.hom ≫ ·) (liftedEtaleNeighborhood_point_fst B f y' x' U).symm).trans
       (Category.assoc _ _ _).symm
   · refine (liftedEtaleNeighborhood B f y x
       ((neighborhoodFunctor B Y.1 Y.property a).obj U)).2.2.trans ?_
-    show x.1 = (a.hom ≫ (liftedEtaleNeighborhood B f y' x' U).2.1) ≫ _
+    change x.1 = (a.hom ≫ (liftedEtaleNeighborhood B f y' x' U).2.1) ≫ _
     exact h.symm.trans ((congrArg (a.hom ≫ ·) (liftedEtaleNeighborhood B f y' x' U).2.2.symm).trans
       (Category.assoc _ _ _).symm)
 
@@ -261,9 +261,9 @@ public theorem geometricPointStalkMap_comp_finitePushforwardModuleStalkComponent
       (geometricPointStalkMap B X.1 X.property (GeometricLifts.homOfComm B f a x x' h)
         (ModuleCat.{u + 1} Λ)).app G.obj := by
   refine colimit.hom_ext fun U => ?_
-  have hA := colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+  have hA := colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
     (moduleDirectImage B f Λ G).obj) (neighborhoodFunctor B Y.1 Y.property a).op U
-  have hB := colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+  have hB := colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x))).op ⋙ G.obj)
     (neighborhoodFunctor B X.1 X.property (GeometricLifts.homOfComm B f a x x' h)).op
     (op (liftedEtaleNeighborhood B f y' x' U.unop))

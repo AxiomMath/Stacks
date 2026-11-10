@@ -399,7 +399,7 @@ theorem tateReduction_eq_zero_iff (n : ℕ) (x : tateModule M ℓ) :
       (pow_smul_seq_add x m n)
   · rintro ⟨y, -, rfl⟩
     refine Subtype.ext ?_
-    show (toZModPow n ((ℓ : ℤ_[ℓ]) ^ n)).val • (y : ℕ → M) n = 0
+    change (toZModPow n ((ℓ : ℤ_[ℓ]) ^ n)).val • (y : ℕ → M) n = 0
     rw [toZModPow_pow_self, ZMod.val_zero, zero_nsmul]
 
 /-- The kernel of the reduction `T_ℓ M → M[ℓ^n]`, as a `ℤ`-submodule, is `ℓ^n T_ℓ M`. -/
@@ -523,7 +523,7 @@ theorem tateLevelCombination_bijective {E : Fin r → tateModule M ℓ}
   obtain ⟨c, hc⟩ :=
     exists_eq_sum_of_pow_smul_eq_zero E h1 n y (AddSubgroup.torsionBy.nsmul_iff.1 hy)
   refine ⟨fun i => (c i : ZMod (ℓ ^ n)), Subtype.ext ?_⟩
-  show ∑ i, ((c i : ZMod (ℓ ^ n))).val • (E i : ℕ → M) n = y
+  change ∑ i, ((c i : ZMod (ℓ ^ n))).val • (E i : ℕ → M) n = y
   rw [hc]
   exact Finset.sum_congr rfl fun i _ =>
     nsmul_eq_nsmul_of_natCast_eq (pow_smul_seq (E i) n) (ZMod.natCast_zmod_val _)
@@ -570,7 +570,7 @@ private theorem exists_eq_sum_seq_one_of_tateReduction_eq {E : Fin r → tateMod
   have := congrArg (fun v => ((e₁.symm v : AddSubgroup.torsionBy M _) : M)) hv
   simp only [AddEquiv.symm_apply_apply, map_sum, map_nsmul] at this
   refine this.trans ?_
-  simp only [AddSubgroup.val_finset_sum, AddSubgroup.coe_nsmul, ← hE, coe_tateReduction]
+  simp only [AddSubgroup.val_finsetSum, AddSubgroup.coe_nsmul, ← hE, coe_tateReduction]
 
 /-- **The Tate module is free.** Let `M` be an `ℓ`-divisible abelian group with
 `M[ℓ^n] ≅ (ℤ/ℓ^n)^r` for every `n`. Then `T_ℓ M ≅ ℤ_ℓ^r`. -/
@@ -749,7 +749,7 @@ theorem toZModPow_trace_tateModuleMap [Module.Free ℤ_[ℓ] (tateModule M ℓ)]
         (fun j => toZModPow n (b.repr (tateModuleMap ℓ f (b i)) j)) := by
     rw [← apply_tateReduction_linearCombination, Fintype.linearCombination_apply,
       ← Finset.sum_congr rfl fun j _ => rfl, b.sum_repr]
-    show g (B i) = _
+    change g (B i) = _
     rw [tateReductionBasis_apply, hg, ← tateReduction_tateModuleMap]
   rw [hgB, tateReductionBasis_repr_linearCombination]
 

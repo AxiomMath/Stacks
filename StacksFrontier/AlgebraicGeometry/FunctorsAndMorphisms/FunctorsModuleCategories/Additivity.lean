@@ -152,7 +152,7 @@ public lemma extension_preserves_discrete_coproducts
       intro S T h
       -- `liftToFinsetObj` is built from `HasColimit.getColimitCocone`, which is not exposed, so
       -- the objects of the square have to be named in the coproduct form the lemmas expect.
-      show @Eq ((∐ fun x : S => E.functor.obj (K.obj x.val)) ⟶
+      change @Eq ((∐ fun x : S => E.functor.obj (K.obj x.val)) ⟶
           E.functor.obj (∐ fun x : T => K.obj x.val))
         ((Sigma.desc fun y : S => Sigma.ι (fun x : T => E.functor.obj (K.obj x.val))
             ⟨y.1, h.down.down y.2⟩) ≫
@@ -161,8 +161,8 @@ public lemma extension_preserves_discrete_coproducts
           E.functor.map (Sigma.desc fun y : S => Sigma.ι (fun x : T => K.obj x.val)
             ⟨y.1, h.down.down y.2⟩))
       ext j
-      rw [Sigma.ι_desc_assoc, ι_comp_sigmaComparison, ι_comp_sigmaComparison_assoc,
-        ← E.functor.map_comp, Sigma.ι_desc])).symm
+      rw [Sigma.ι_comp_desc_assoc, ι_comp_sigmaComparison, ι_comp_sigmaComparison_assoc,
+        ← E.functor.map_comp, Sigma.ι_comp_desc])).symm
     let csrc := CoproductsFromFiniteFiltered.finiteSubcoproductsCocone f
     have : PreservesColimitsOfShape (Finset (Discrete J)) E.functor :=
       PreservesFilteredColimitsOfSize.preserves_filtered_colimits (Finset (Discrete J))
@@ -183,7 +183,7 @@ public lemma extension_preserves_discrete_coproducts
       intro j
       have hleg : colimit.ι D' {j} ≫ e.inv = cD.ι.app {j} :=
         IsColimit.comp_coconePointUniqueUpToIso_inv hcD (colimit.isColimit D') {j}
-      show (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
+      change (Sigma.ι (fun x : ({j} : Finset (Discrete J)) => K'.obj x.val)
           ⟨j, Finset.mem_singleton_self j⟩ ≫ colimit.ι D' {j}) ≫ e.inv =
         E.functor.map (Sigma.ι f j.as)
       refine (Category.assoc _ _ _).trans ((congrArg _ hleg).trans ?_)
@@ -195,7 +195,7 @@ public lemma extension_preserves_discrete_coproducts
       refine (ι_comp_sigmaComparison_assoc E.functor
         (fun x : ({j} : Finset (Discrete J)) => f x.val.as) _ _).trans ?_
       refine (E.functor.map_comp _ _).symm.trans ?_
-      exact congrArg E.functor.map (Sigma.ι_desc _ _)
+      exact congrArg E.functor.map (Sigma.ι_comp_desc _ _)
     exact Limits.preservesColimit_of_preserves_colimit_cocone
       (coproductIsCoproduct f) hmap
   exact Limits.preservesColimitsOfShape_of_discrete E.functor

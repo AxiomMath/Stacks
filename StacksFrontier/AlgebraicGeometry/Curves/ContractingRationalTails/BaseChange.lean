@@ -154,7 +154,7 @@ theorem exists_isIso_Γevaluation_of_isIso_inclusion_comp {Y : Scheme.{u}} (C : 
       rfl).trans ?_
     congr 1
     ext1
-    show (ID.support : Set Y) = {C.subschemeι (iD pt)}
+    change (ID.support : Set Y) = {C.subschemeι (iD pt)}
     rw [hsupp, hxy]
   have : IsIso f'.appTop :=
     IsIso.of_isIso_comp_left (Scheme.ΓSpecIso (.of k')).inv f'.appTop

@@ -77,7 +77,7 @@ theorem multiplicativeDirectImageComparison_comp :
   ext V s
   obtain ⟨x, rfl⟩ := ofUnit_surjective (X := X) (U := V.unop) s
   have hfst := smallEtaleBaseChangeComp'_inv_fst b a ba hba V.unop
-  show ofUnit.{u, v} (Units.map
+  change ofUnit.{u, v} (Units.map
       (pullback.fst ((smallEtaleBaseChange a).obj V.unop).hom b).appTop.hom.toMonoidHom
       (Units.map (pullback.fst V.unop.hom a).appTop.hom.toMonoidHom x)) =
     ((etaleAbelianDirectImageCompIso'.{u, v} b a ba hba).inv.app

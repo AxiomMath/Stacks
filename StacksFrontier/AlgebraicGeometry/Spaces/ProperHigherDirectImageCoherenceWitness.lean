@@ -93,7 +93,7 @@ theorem hasCoherentWitnessOnIntegralSubspaces_of_isProper_of_isAffine (T : BigFp
         rintro _ ⟨z, rfl⟩
         obtain ⟨z', rfl⟩ := hps z
         refine hsupp ⟨z', ?_⟩
-        show pointsMap B S hS _ (p ≫ Z.ι) z' = _
+        change pointsMap B S hS _ (p ≫ Z.ι) z' = _
         rw [pointsMap_comp]
         rfl)
     exact Subfunctor.le_of_comp_eq_ι g hg

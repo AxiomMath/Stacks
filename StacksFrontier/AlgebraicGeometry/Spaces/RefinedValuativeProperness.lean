@@ -177,7 +177,7 @@ image `Z` of `T' ⟶ X'`, that is, condition (4) of Stacks 0208 for `Z ⟶ Spec 
 private theorem genericDiscreteValuativeCriterion_schemeImageObjι_comp
     (A : CommRingCat.{u}) (hA : B.Contains (Spec A)) (a : Spec A ⟶ S)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
-    (hU : IsAlgebraicSpace B S hS U) (f : X ⟶ Y) (h : U ⟶ X)
+    (f : X ⟶ Y) (h : U ⟶ X)
     (φ : yoneda.obj (siteObject B S hS hA a) ⟶ Y)
     {X' T' : BigFppfOver B S hS} (ψ : X' ⟶ siteObject B S hS hA a)
     (p : yoneda.obj X' ⟶ pullback φ f) (hp : IsProper B S hS p)
@@ -215,10 +215,10 @@ private theorem genericDiscreteValuativeCriterion_schemeImageObjι_comp
     isProper_comp' B S hS (yoneda.map ι) p hX' hXT
       (isProper_yoneda_map B S hS ι inferInstance) hp
   have hτZdom : _root_.AlgebraicGeometry.IsDominant (G.map τZ) := by
-    show _root_.AlgebraicGeometry.IsDominant (G.map τ₀).toImage
+    change _root_.AlgebraicGeometry.IsDominant (G.map τ₀).toImage
     infer_instance
   have hτZQC : QuasiCompact (G.map τZ) := by
-    show QuasiCompact (G.map τ₀).toImage
+    change QuasiCompact (G.map τ₀).toImage
     infer_instance
   have hτZLFT : LocallyOfFiniteType (G.map τZ) := by
     have : LocallyOfFiniteType (G.map τZ ≫ G.map ι) := by
@@ -274,7 +274,7 @@ private theorem genericDiscreteValuativeCriterion_schemeImageObjι_comp
     Over.homMk (ObjectProperty.homMk ((G.obj Zobj).fromSpecResidueField (F x)) :
       B.obj hKη ⟶ Zobj.left) (by
       apply ObjectProperty.hom_ext
-      show (G.obj Zobj).fromSpecResidueField (F x) ≫ B.inclusion.map Zobj.hom =
+      change (G.obj Zobj).fromSpecResidueField (F x) ≫ B.inclusion.map Zobj.hom =
         Spec.map (CommRingCat.ofHom (algebraMap A' ((G.obj Zobj).residueField (F x)))) ≫
           i₂ ≫ B.inclusion.map Tobj.hom
       rw [hZhom, ← Category.assoc, sq.w, Category.assoc]
@@ -307,7 +307,7 @@ private theorem genericDiscreteValuativeCriterion_schemeImageObjι_comp
     Over.homMk (ObjectProperty.homMk ((G.obj T').fromSpecResidueField x) :
       B.obj hKx ⟶ T'.left) (by
       apply ObjectProperty.hom_ext
-      show (G.obj T').fromSpecResidueField x ≫ B.inclusion.map T'.hom =
+      change (G.obj T').fromSpecResidueField x ≫ B.inclusion.map T'.hom =
         Spec.map (CommRingCat.ofHom (algebraMap R' ((G.obj T').residueField x))) ≫
           Spec.map (CommRingCat.ofHom φA) ≫ i₂ ≫ B.inclusion.map Tobj.hom
       rw [hT'hom, G.map_comp]
@@ -315,11 +315,11 @@ private theorem genericDiscreteValuativeCriterion_schemeImageObjι_comp
       rw [reassoc_of% hw])
   have hgenE : e.square.generic = yoneda.map (uKx ≫ τZ) := by
     rw [e.generic_comm]
-    show yoneda.map e.genericOver ≫ yoneda.map uK = _
+    change yoneda.map e.genericOver ≫ yoneda.map uK = _
     rw [← yoneda.map_comp]
     congr 1
     apply BigFppfOver.map_toScheme_injective B S hS
-    show Spec.map (CommRingCat.ofHom (F.residueFieldMap x).hom) ≫
+    change Spec.map (CommRingCat.ofHom (F.residueFieldMap x).hom) ≫
         (G.obj Zobj).fromSpecResidueField (F x) = (G.obj T').fromSpecResidueField x ≫ G.map τZ
     rw [hFτ]
     rfl
@@ -490,7 +490,7 @@ private theorem universallyClosed_pullback_fst_of_denseRange
     simp only [p', Category.assoc, hpψ, yoneda.map_comp]
   have hχ : _root_.AlgebraicGeometry.IsProper (G.map (ι ≫ ψ)) :=
     isProper_of_genericDiscreteValuativeCriterion _
-      (genericDiscreteValuativeCriterion_schemeImageObjι_comp A hA a hX hY hU f h φ ψ p hp hpψ t
+      (genericDiscreteValuativeCriterion_schemeImageObjι_comp A hA a hX hY f h φ ψ p hp hpψ t
         τ₀ hτ₀ hvaluative)
   -- surjectivity of `Z ⟶ X_A`
   refine universallyClosed_of_isSurjective_comp B S hS hZ hXT hT p' (pullback.fst φ f) ?_

@@ -82,7 +82,7 @@ theorem polynomial_ring_normal (R : Type*) [CommRing R] (hR : IsNormalRing R) :
       (q.primeCompl.map (algebraMap (Polynomial R) (Polynomial (Localization.AtPrime p))))
       (Localization.AtPrime q) :=
     IsLocalization.isLocalization_of_submonoid_le _ _ M q.primeCompl hMN
-  have : Nontrivial (Localization.AtPrime q) := nontrivial_of_invariantBasisNumber _
+  have : Nontrivial (Localization.AtPrime q) := inferInstance
   have hle : q.primeCompl.map (algebraMap (Polynomial R) (Polynomial (Localization.AtPrime p)))
       ≤ nonZeroDivisors (Polynomial (Localization.AtPrime p)) := by
     rintro y ⟨x, hxN, rfl⟩

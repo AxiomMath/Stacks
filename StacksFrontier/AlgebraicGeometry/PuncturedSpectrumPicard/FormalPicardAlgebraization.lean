@@ -167,10 +167,10 @@ theorem exists_compatible_idealPowerStages [IsNoetherianRing A]
           d n := by
   obtain ⟨c, hc0, hc⟩ := exists_isCompatiblePullback_puncturedClosedFibre A f hf hreg hvanish3 c₀
   refine ⟨fun n => schemePullbackClass (inv (stageHom A f n)) (c n), ?_, fun n => ?_⟩
-  · show schemePullbackClass (inv (stageHom A f 0)) (c 0) = _
+  · change schemePullbackClass (inv (stageHom A f 0)) (c 0) = _
     rw [hc0, schemePullbackClass_comp]
     rfl
-  · show schemePullbackClass _ (schemePullbackClass (inv (stageHom A f (n + 1))) (c (n + 1))) =
+  · change schemePullbackClass _ (schemePullbackClass (inv (stageHom A f (n + 1))) (c (n + 1))) =
       schemePullbackClass (inv (stageHom A f n)) (c n)
     have hsq : idealPowerStageSucc (puncturedPrincipalIdeal A f) n ≫
         inv (stageHom A f (n + 1)) =

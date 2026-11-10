@@ -99,6 +99,7 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   (hG : 𝒞.Contains (constantGroupScheme G S).X.left)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_absGrpQuotConstData :
@@ -110,6 +111,7 @@ local instance (priority := high) hasPullback_presheaf_absGrpQuotConstData
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site goes deep
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance (priority := high) hasLimitsOfShapeDiscrete_presheaf_absGrpQuotConstData
@@ -404,7 +406,7 @@ theorem actHomF_left_app (Z : Over (baseS 𝒞 S hS)) (m : Z ⟶ (ptsGS F r).obj
 /-- The section of `F` underlying the unit point of `ptsGS F r` is `1`. -/
 theorem ptSecF_one (Z : Over (baseS 𝒞 S hS)) (T : BigFppfOver 𝒞 S hS) (z : Z.left.obj (op T)) :
     ptSecF F r (1 : Z ⟶ (ptsGS F r).obj.X) T z = 1 := by
-  show (overProdFstHomMulEquiv (baseS 𝒞 S hS) (F ⋙ forget GrpCat) Z 1).app (op T) z = 1
+  change (overProdFstHomMulEquiv (baseS 𝒞 S hS) (F ⋙ forget GrpCat) Z 1).app (op T) z = 1
   rw [map_one]
   rfl
 
@@ -449,12 +451,12 @@ theorem ptsModObj_smulSection (hone : ∀ V (x : P.obj (op V)), act V 1 x = x)
   refine (yonedaEquiv_comp _ _).trans ?_
   refine (actHomF_left_app F r P act hnat _ _ _ V _).trans ?_
   congr 1
-  · show yonedaEquiv ((smulSectionLift (ptsGS F r).obj.X (overBaseS P) gs y h ≫
+  · change yonedaEquiv ((smulSectionLift (ptsGS F r).obj.X (overBaseS P) gs y h ≫
       pullback.fst (ptsGS F r).obj.X.hom (overBaseS P).hom) ≫ prod.snd) = _
     rw [smulSectionLift_fst]
     exact (yonedaEquiv_comp (yonedaEquiv.symm gs) prod.snd).trans
       (congrArg _ (Equiv.apply_symm_apply _ _))
-  · show yonedaEquiv (smulSectionLift (ptsGS F r).obj.X (overBaseS P) gs y h ≫
+  · change yonedaEquiv (smulSectionLift (ptsGS F r).obj.X (overBaseS P) gs y h ≫
       pullback.snd (ptsGS F r).obj.X.hom (overBaseS P).hom) = _
     rw [smulSectionLift_snd, Equiv.apply_symm_apply]
 

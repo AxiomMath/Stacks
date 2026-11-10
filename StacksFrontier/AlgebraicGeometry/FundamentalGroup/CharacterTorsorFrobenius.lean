@@ -174,7 +174,7 @@ theorem frobSection_comp {U W : S.Etale} (g : W ⟶ U)
     D.frobSection π σ hσπ W (g ≫ s) =
       (Stacks.EtaleCohomology.smallEtaleBaseChange σ).map g ≫ D.frobSection π σ hσπ U s := by
   apply MorphismProperty.Over.Hom.ext
-  show pullback.lift _ _ _ = ((Stacks.EtaleCohomology.smallEtaleBaseChange σ).map g).left ≫
+  change pullback.lift _ _ _ = ((Stacks.EtaleCohomology.smallEtaleBaseChange σ).map g).left ≫
     pullback.lift _ _ _
   have e1 : ((Stacks.EtaleCohomology.smallEtaleBaseChange σ).map g).left ≫
       pullback.fst U.hom σ = pullback.fst W.hom σ ≫ g.left :=

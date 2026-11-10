@@ -277,7 +277,7 @@ theorem kernelDiagramInclusion_app {A : J ⥤ C} (a : A ⟶ (Functor.const J).ob
 theorem kernelDiagramInclusion_comp {A : J ⥤ C} (a : A ⟶ (Functor.const J).obj (kernel p)) :
     kernelDiagramInclusion p a ≫ (Functor.const J).map p = 0 := by
   refine NatTrans.ext (funext fun j => ?_)
-  show (a.app j ≫ kernel.ι p) ≫ p = 0
+  change (a.app j ≫ kernel.ι p) ≫ p = 0
   rw [Category.assoc, kernel.condition, comp_zero]
 
 /-- The cocone on the quotient system with vertex `M`, whose leg at `j` is induced by `p`. -/

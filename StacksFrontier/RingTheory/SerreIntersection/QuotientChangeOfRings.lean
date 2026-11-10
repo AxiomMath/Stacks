@@ -44,7 +44,7 @@ def quotientLinearEquiv : T ≃ₗ[S] S ⧸ Ideal.span {f} :=
 
 /-- `quotientLinearEquiv` sends `1` to `1`. -/
 theorem quotientLinearEquiv_one : quotientLinearEquiv hT hf (1 : T) = 1 := by
-  show (Ideal.quotientEquivAlgOfEq S
+  change (Ideal.quotientEquivAlgOfEq S
     (show RingHom.ker (Algebra.ofId S T) = Ideal.span {f} from hf))
       ((Ideal.quotientKerAlgEquivOfSurjective (f := Algebra.ofId S T) hT).symm 1) = 1
   rw [map_one, map_one]
@@ -81,7 +81,7 @@ theorem baseChange_subtype_injective {X : Type u} [AddCommGroup X] [Module S X]
     Submodule.mem_smul_pointwise_iff_exists] at h2
   obtain ⟨v, -, hv⟩ := h2
   have hvK : v ∈ K := (Submodule.Quotient.mk_eq_zero _).mp <| hK (by
-    show f • Submodule.Quotient.mk v = f • 0
+    change f • Submodule.Quotient.mk v = f • 0
     rw [smul_zero, ← Submodule.Quotient.mk_smul, hv, Submodule.Quotient.mk_eq_zero]
     exact k.2)
   rw [LinearEquiv.map_eq_zero_iff, Submodule.Quotient.mk_eq_zero,
@@ -127,16 +127,14 @@ theorem baseChangeTensorEquiv_naturality {X X' : Type u} [AddCommGroup X] [Modul
         (LinearMap.rTensor M (LinearMap.baseChange T g)) z) =
       LinearMap.rTensor M g (baseChangeTensorEquiv (T := T) M X z) := by
   obtain ⟨z, rfl⟩ : ∃ z' : (T ⊗[S] X) ⊗[T] M, Twist.mk _ z' = z := ⟨z, rfl⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [Twist.mk_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [← Twist.mk_add, map_add, map_add, map_add, hx, hy, map_add]
   | tmul y m =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, Twist.mk_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb =>
       rw [TensorProduct.add_tmul, ← Twist.mk_add, map_add, map_add, map_add, ha, hb, map_add]
     | tmul t x =>
-      show baseChangeTensorEquiv (T := T) M X' (Twist.mk _ ((t ⊗ₜ[S] g x) ⊗ₜ[T] m)) = _
+      change baseChangeTensorEquiv (T := T) M X' (Twist.mk _ ((t ⊗ₜ[S] g x) ⊗ₜ[T] m)) = _
       rw [baseChangeTensorEquiv_tmul, baseChangeTensorEquiv_tmul, LinearMap.rTensor_tmul]
 
 /-- The kernel of `K ⊗_S M → X ⊗_S M` for a submodule `K ⊆ X` is that of
@@ -164,7 +162,7 @@ theorem exact_baseChange_cover {N : Type u} [AddCommGroup N] [Module S N] {j : �
     (p : (Fin j → S) →ₗ[S] N) (hp : Function.Surjective p) :
     Function.Exact (LinearMap.baseChange T (LinearMap.ker p).subtype)
       (LinearMap.baseChange T p) := by
-  rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
   exact lTensor_exact T (LinearMap.exact_subtype_ker_map p) hp
 
 /-- The reduction modulo `f` of a finite free cover, a short exact sequence when `f` is a
@@ -187,8 +185,8 @@ theorem coverSCReduce_shortExact {N : Type u} [AddCommGroup N] [Module S N] {j :
   · change f • a = f • b at hab
     let e := p.quotKerEquivOfSurjective hp
     exact e.injective (hN (show f • e a = f • e b by rw [← map_smul, ← map_smul, hab]))
-  · show Function.Surjective (LinearMap.baseChange T p)
-    rw [LinearMap.baseChange_eq_ltensor]
+  · change Function.Surjective (LinearMap.baseChange T p)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective _ hp
 
 /-- The `T`-module `T ⊗_S S^j` is projective. -/

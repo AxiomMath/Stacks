@@ -93,7 +93,7 @@ theorem rightOrthogonal_acyclic_iff (M : DifferentialGradedModule A) :
     obtain ⟨N⟩ := Y
     induction f using Quot.inductionOn with
     | _ g =>
-      show (toHomotopyCategory A).map g = 0
+      change (toHomotopyCategory A).map g = 0
       rw [← (toHomotopyCategory A).map_zero N M]
       exact (CategoryTheory.Quotient.functor_map_eq_iff (homotopyRel A) g 0).2 (h N hY g)
 

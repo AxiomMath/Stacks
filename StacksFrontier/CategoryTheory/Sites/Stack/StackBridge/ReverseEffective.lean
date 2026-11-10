@@ -65,8 +65,8 @@ universe of the type of arrows of a sieve on an object of `𝒞` — so it is un
 ## Tagging
 
 Nothing here carries a `@[stacks]` attribute, for the reason recorded in the module docstring of
-`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/Reverse.lean`: `@[stacks 02ZJ]` is attached to
-`CategoryTheory.Functor.stackInGroupoids_tfae`, whose clause (1) is a sieve-phrased rendering of
+`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/Reverse.lean`: `@[stacks 02ZJ]` is attached
+to `CategoryTheory.Functor.stackInGroupoids_tfae`, whose clause (1) is a sieve-phrased rendering of
 Stacks 02ZI rather than `CategoryTheory.Functor.IsStackInGroupoids`, and the implication proved
 here carries two extra hypotheses — fibre products in the base, and the index universe
 `max u₁ v₁` — so it is a bridge rather than the tagged statement.

@@ -85,7 +85,7 @@ theorem map_rootOn_pullbackFst_of_comp (V : Y.Etale) :
     rw [Stacks.Kummer.structMap, Stacks.Kummer.structMap, ← CommRingCat.hom_comp]
     congr 1
     rw [Category.assoc, Category.assoc, ← Scheme.Hom.comp_appTop]
-    show _ ≫ gY.appTop ≫ (pullback.fst V.hom π ≫ V.hom).appTop =
+    change _ ≫ gY.appTop ≫ (pullback.fst V.hom π ≫ V.hom).appTop =
       _ ≫ gX.appTop ≫ (pullback.snd V.hom π).appTop
     rw [pullback.condition, Scheme.Hom.comp_appTop, ← Category.assoc gY.appTop,
       ← Scheme.Hom.comp_appTop, hπ]
@@ -114,12 +114,12 @@ theorem inverseImage_rootsOfUnityConstantHom_comp_comparison :
   rw [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
     ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app, ← Category.assoc,
     ← Category.assoc, constantSheafSection_comp_homEquiv_constantIso.{u, 0} π]
-  show (toSheafify Y.smallEtaleTopology _ ≫ (Stacks.Kummer.rootSheafHom gY hζ hn).hom).app _ ≫
+  change (toSheafify Y.smallEtaleTopology _ ≫ (Stacks.Kummer.rootSheafHom gY hζ hn).hom).app _ ≫
       _ = (toSheafify X.smallEtaleTopology _ ≫ (Stacks.Kummer.rootSheafHom gX hζ hn).hom).app _
   rw [Stacks.Kummer.toSheafify_rootSheafHom, Stacks.Kummer.toSheafify_rootSheafHom]
   ext ⟨m⟩
   obtain ⟨z, rfl⟩ := ZMod.intCast_surjective m
-  show (multiplicativeDirectImageComparison.{u, 0} π).hom.app (op (etaleSiteTerminal Y))
+  change (multiplicativeDirectImageComparison.{u, 0} π).hom.app (op (etaleSiteTerminal Y))
       (Stacks.Kummer.rootHom gY hζ hn _ (z : ZMod n)) =
     Stacks.Kummer.rootHom gX hζ hn _ (z : ZMod n)
   rw [Stacks.Kummer.rootHom_intCast, Stacks.Kummer.rootHom_intCast, map_zsmul,
@@ -145,7 +145,7 @@ theorem nsmul_sheafH_etaleConstantSheaf_eq_zero (n q : ℕ)
   have h3 : n • Ext.mk₀ (𝟙 (etaleConstantSheaf.{u, 0} X (ZMod n))) = 0 := by
     rw [← Ext.addEquiv₀_symm_apply, ← map_nsmul, h2, map_zero]
   rw [← Ext.comp_mk₀_id x]
-  show n • x.precomp _ (add_zero q) (Ext.mk₀ (𝟙 _)) = 0
+  change n • x.precomp _ (add_zero q) (Ext.mk₀ (𝟙 _)) = 0
   rw [← map_nsmul, h3, map_zero]
 
 /-- The étale cohomology `H^q(X, ℤ/n)` of the constant sheaf `ℤ/n` is a `ℤ/n`-module: it is
@@ -191,7 +191,7 @@ theorem sheafHMap_rootsOfUnityConstantHom_etaleCohomologyMapTo (q : ℕ)
       rootsOfUnityPullbackMap.{u, 0, u + 1} π n q
         (Sheaf.H.map (Stacks.Kummer.rootsOfUnityConstantHom gY hζ hn) q x) := by
   rw [rootsOfUnityPullbackMap_apply, Stacks.Kummer.etaleCohomologyRestrictionMap_sheafHMap]
-  show Sheaf.H.map _ q (Sheaf.H.map _ q (etaleCohomologyRestrictionMap.{u, 0, u + 1} π _ q x)) = _
+  change Sheaf.H.map _ q (Sheaf.H.map _ q (etaleCohomologyRestrictionMap.{u, 0, u + 1} π _ q x)) = _
   rw [← Sheaf.H.map_comp_apply, ← Sheaf.H.map_comp_apply,
     inverseImage_rootsOfUnityConstantHom_comp_comparison gX gY π hπ hζ hn]
 
@@ -230,7 +230,7 @@ theorem equiv₀_etaleCohomologyMapTo_multiplicativeInverseImageComparison
     ((Stacks.Kummer.multiplicativeInverseImageComparison.{u, 0} π).hom.app _),
     (Stacks.Kummer.multiplicativeInverseImageComparison.{u, 0} π).hom.naturality h.op,
     ConcreteCategory.comp_apply]
-  show (Stacks.Kummer.multiplicativeSheaf.{u, 0} X).obj.map h.op
+  change (Stacks.Kummer.multiplicativeSheaf.{u, 0} X).obj.map h.op
       ((Stacks.Kummer.multiplicativeInverseImageComparison.{u, 0} π).hom.app
         (op ((smallEtaleBaseChange π).obj (Scheme.Etale.mk (𝟙 Y))))
         (((etaleAbelianInverseImageDirectImageAdj.{u, 0} π).unit.app
@@ -243,7 +243,7 @@ theorem equiv₀_etaleCohomologyMapTo_multiplicativeInverseImageComparison
   apply Units.ext
   have hh : h.left ≫ pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π = π :=
     comp_pullbackFst_id_eq_of_comp_pullbackSnd π h.left (MorphismProperty.Over.w h)
-  show (h.left ≫ pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom (a : Γ(Y, ⊤)) =
+  change (h.left ≫ pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom (a : Γ(Y, ⊤)) =
     π.appTop.hom (a : Γ(Y, ⊤))
   rw [hh]
   rfl
@@ -263,7 +263,7 @@ theorem trace_toZModLinearMap_eq_of_addEquiv {n : ℕ} {M N : Type*} [AddCommGro
   have hE : g.toZModLinearMap n = E.conj (f.toZModLinearMap n) := by
     ext x
     obtain ⟨y, rfl⟩ := e.surjective x
-    show g (e y) = e (f (E.symm (e y)))
+    change g (e y) = e (f (E.symm (e y)))
     rw [show E.symm (e y) = y from E.symm_apply_apply y, h]
   rw [hE, LinearMap.trace_conj']
 
@@ -341,7 +341,7 @@ theorem etaleConstantCohomologyPullback_etaleConstantClass {Y : Scheme.{u}}
     (M : Type) [AddCommGroup M] (m : M) :
     etaleConstantCohomologyPullback π M 0 (etaleConstantClass Y M m) =
       etaleConstantClass X M m := by
-  show ((Ext.mk₀ _).comp ((Ext.mk₀ _).mapExactFunctor (etaleAbelianInverseImage.{u, 0} π))
+  change ((Ext.mk₀ _).comp ((Ext.mk₀ _).mapExactFunctor (etaleAbelianInverseImage.{u, 0} π))
     (zero_add 0)).comp (Ext.mk₀ _) (add_zero 0) = Ext.mk₀ _
   rw [Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀, Ext.mk₀_comp_mk₀]
   congr 1
@@ -360,7 +360,7 @@ theorem equiv₀_mk₀ {F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}}
     Sheaf.H.equiv₀ F (etaleMkIdIsTerminal X) (Ext.mk₀ θ) =
       ((constantSheafAdj _ _ (etaleMkIdIsTerminal X)).homEquiv _ _ θ) (ULift.up 1) := by
   simp only [Sheaf.H.equiv₀, AddEquiv.trans_apply, Ext.addEquiv₀, AddEquiv.coe_mk,
-    Equiv.coe_fn_mk, Adjunction.homAddEquiv_apply]
+    Adjunction.homAddEquiv_apply]
   have h : Ext.homEquiv₀ (Ext.mk₀ θ) = θ := Ext.homEquiv₀.apply_symm_apply θ
   rw [h]
   rfl
@@ -496,7 +496,7 @@ in it. -/
 theorem exists_isPrimitiveRoot_of_isUnit [IsAlgClosed k] {n : ℕ} (hn : IsUnit (n : k)) :
     ∃ ζ : k, IsPrimitiveRoot ζ n := by
   have : NeZero (n : k) := ⟨hn.ne_zero⟩
-  exact HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  exact HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
 
 /-- The cast of `ℓ ^ m` is a unit in a ring in which `ℓ` is. -/
 private theorem isUnit_natCast_pow {R : Type*} [Semiring R] (ℓ m : ℕ) (hℓ : IsUnit (ℓ : R)) :
@@ -511,7 +511,7 @@ theorem trace_etaleConstantCohomologyPullback_zero [IsIntegral C] {n : ℕ} (hn 
     LinearMap.trace (ZMod n) _ ((etaleConstantCohomologyPullback φ (ZMod n) 0).toZModLinearMap n) =
       1 := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   let e := AddEquiv.ofBijective (etaleConstantClass C (ZMod n))
     (etaleConstantClass_bijective f hζ hn0)
   rw [trace_toZModLinearMap_eq_of_addEquiv e.symm _ ((1 : ℤ) • AddMonoidHom.id (ZMod n)) ?_,
@@ -519,7 +519,7 @@ theorem trace_etaleConstantCohomologyPullback_zero [IsIntegral C] {n : ℕ} (hn 
   intro x
   obtain ⟨m, rfl⟩ := e.surjective x
   rw [one_zsmul, AddMonoidHom.id_apply]
-  show e.symm (etaleConstantCohomologyPullback φ (ZMod n) 0 (etaleConstantClass C (ZMod n) m)) =
+  change e.symm (etaleConstantCohomologyPullback φ (ZMod n) 0 (etaleConstantClass C (ZMod n) m)) =
     e.symm (e m)
   rw [etaleConstantCohomologyPullback_etaleConstantClass]
   rfl
@@ -537,7 +537,7 @@ theorem trace_etaleConstantCohomologyPullback_one (ℓ m : ℕ) [NeZero ℓ]
       picardTorsionTrace C (Stacks.Picard.schemePullbackClassHom φ) ℓ m := by
   have hn := isUnit_natCast_pow ℓ m hℓ
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have hX := isUnit_natCast_globalSections C (ℓ ^ m) f hn
   have hsurj := surjective_sheafH_map_powMap_zero.{u + 1, u, 0} C (n := ℓ ^ m)
     (exists_pow_eq_globalUnit C (ℓ ^ m) f (Nat.pos_of_ne_zero hn0))
@@ -547,7 +547,7 @@ theorem trace_etaleConstantCohomologyPullback_one (ℓ m : ℕ) [NeZero ℓ]
   rw [picardTorsionTrace]
   refine trace_toZModLinearMap_eq_of_addEquiv E _ _ fun x => Subtype.ext ?_
   rw [Stacks.Picard.torsionByRestrict_apply]
-  show ((h1RootsOfUnityAddEquivPicardTorsion.{u + 1, 0, u} C (ℓ ^ m) hn0 hX hsurj
+  change ((h1RootsOfUnityAddEquivPicardTorsion.{u + 1, 0, u} C (ℓ ^ m) hn0 hX hsurj
       (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 1
         (etaleConstantCohomologyPullback φ (ZMod (ℓ ^ m)) 1 x)) : Stacks.Picard.ofScheme C)) =
     Stacks.Picard.schemePullbackClassHom φ
@@ -567,14 +567,14 @@ theorem trace_etaleConstantCohomologyPullback_two {n : ℕ} (hn : IsUnit (n : k)
     LinearMap.trace (ZMod n) _ ((etaleConstantCohomologyPullback φ (ZMod n) 2).toZModLinearMap n) =
       (AlgebraicGeometry.CurveGraph.curveMapDegree f φ w : ZMod n) := by
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have hdim : topologicalKrullDim C ≤ 1 := (IsCurve.topologicalKrullDim_eq_one (f := f)).le
   let E := (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 2).trans (smoothProperCurveTrace f hn)
   rw [trace_toZModLinearMap_eq_of_addEquiv E _
     ((AlgebraicGeometry.CurveGraph.curveMapDegree f φ w : ℤ) • AddMonoidHom.id (ZMod n)) ?_,
     trace_zsmul_id_zmod, Int.cast_natCast]
   intro x
-  show smoothProperCurveTrace f hn (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 2
+  change smoothProperCurveTrace f hn (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 2
       (etaleConstantCohomologyPullback φ (ZMod n) 2 x)) =
     (AlgebraicGeometry.CurveGraph.curveMapDegree f φ w : ℤ) •
       smoothProperCurveTrace f hn (sheafHRootsOfUnityConstantAddEquiv f hζ hn0 2 x)
@@ -627,7 +627,7 @@ theorem module_free_finite_sheafH_etaleConstantSheaf (ℓ m : ℕ) [Fact ℓ.Pri
   have : NeZero ℓ := ⟨(Fact.out : ℓ.Prime).ne_zero⟩
   have hn := isUnit_natCast_pow ℓ m hℓ
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isUnit hn
-  have hn0 := ne_zero_of_isUnit_natCast f hn
+  have hn0 := ne_zero_of_isUnit_natCast hn
   have hdim : topologicalKrullDim C ≤ 1 := (IsCurve.topologicalKrullDim_eq_one (f := f)).le
   match i with
   | 0 =>

@@ -54,8 +54,7 @@ include hA in
 lemma bc_surjective : Function.Surjective (bc A' A N) := by
   intro x
   rw [← AlgHom.mem_range]
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a n =>
     obtain ⟨a', rfl⟩ := hA a
     refine ⟨a' • n, ?_⟩
@@ -142,8 +141,7 @@ include hA in
 lemma π₂_surjective : Function.Surjective (π₂ A' A B') := by
   intro x
   rw [← AlgHom.mem_range]
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul b c =>
     obtain ⟨b', rfl⟩ := bc_surjective A' A hA B' b
     obtain ⟨c', rfl⟩ := bc_surjective A' A hA B' c
@@ -201,8 +199,7 @@ include hA in
 lemma π₃_surjective : Function.Surjective (π₃ A' A B') := by
   intro x
   rw [← AlgHom.mem_range]
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul b y =>
     obtain ⟨b', rfl⟩ := bc_surjective A' A hA B' b
     obtain ⟨y', rfl⟩ := π₂_surjective A' A hA B' y

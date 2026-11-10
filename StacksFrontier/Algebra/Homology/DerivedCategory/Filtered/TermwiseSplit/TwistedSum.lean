@@ -223,7 +223,7 @@ private theorem exists_twistStep {C I J : FilteredObject (CochainComplex 𝒜 �
         (hIfin ((0 : ℤ) + 1 + 1)) (fun p => hIinj p ((0 : ℤ) + 1 + 1))
         (d ≫ evalD I ((0 : ℤ) + 1)) hd
       refine ⟨ψ, hψ, ?_⟩
-      show (evalD J ((0 : ℤ)) ≫ ψ ≫ evalD I ((0 : ℤ) + 1 + 1)).hom = 0
+      change (evalD J ((0 : ℤ)) ≫ ψ ≫ evalD I ((0 : ℤ) + 1 + 1)).hom = 0
       rw [← Category.assoc, hψ, Category.assoc]
       exact comp_evalD_comp_evalD_hom I ((0 : ℤ) + 1) d
   | k + 1 =>
@@ -235,7 +235,7 @@ private theorem exists_twistStep {C I J : FilteredObject (CochainComplex 𝒜 �
         (X := evalFil I ((k : ℤ) + 1 + 1 + 1))
         (φ := d ≫ evalD I (((k + 1 : ℕ) : ℤ) + 1)) hd
       refine ⟨ψ, hψ, ?_⟩
-      show (evalD J ((k : ℤ) + 1) ≫ ψ ≫ evalD I ((k : ℤ) + 1 + 1 + 1)).hom = 0
+      change (evalD J ((k : ℤ) + 1) ≫ ψ ≫ evalD I ((k : ℤ) + 1 + 1 + 1)).hom = 0
       rw [← Category.assoc, hψ, Category.assoc]
       exact comp_evalD_comp_evalD_hom I ((k : ℤ) + 1 + 1) d
 
@@ -322,7 +322,7 @@ private theorem exists_twist {A B C I J : FilteredObject (CochainComplex 𝒜 �
   have hA1 : IsZero (A.X.X (0 + 1)) := A.X.isZero_of_isStrictlyLE 0 (0 + 1) (by norm_num)
   have hab : ((evalFunctor 0).map α ≫ b ≫ evalD I 0).hom = 0 := by
     have h1 : α.hom.f 0 ≫ b.hom = a.hom.f 0 := congrArg (fun f => FilteredObject.Hom.hom f) hb
-    show α.hom.f 0 ≫ b.hom ≫ I.X.d 0 (0 + 1) = 0
+    change α.hom.f 0 ≫ b.hom ≫ I.X.d 0 (0 + 1) = 0
     rw [← Category.assoc, h1, a.hom.comm 0 (0 + 1), hA1.eq_of_tgt (A.X.d 0 (0 + 1)) 0, zero_comp]
   -- the descent `b̄ : C ⟶ I^1` of `b ≫ d_I^0` along the cokernel `β`
   obtain ⟨bbar, hbbar, -⟩ := existsUnique_comp_eq_of_shortExact_gradedPiece α β hgr hcomp
@@ -333,13 +333,13 @@ private theorem exists_twist {A B C I J : FilteredObject (CochainComplex 𝒜 �
   have hbbar2 : (bbar ≫ evalD I ((0 : ℤ) + 1)).hom = 0 := by
     have hg : ((evalFunctor 0).map α ≫
         (evalFunctor 0).map β ≫ bbar ≫ evalD I ((0 : ℤ) + 1)).hom = 0 := by
-      show α.hom.f 0 ≫ ((evalFunctor 0).map β ≫ bbar ≫ evalD I ((0 : ℤ) + 1)).hom = 0
+      change α.hom.f 0 ≫ ((evalFunctor 0).map β ≫ bbar ≫ evalD I ((0 : ℤ) + 1)).hom = 0
       rw [hkey, comp_zero]
     obtain ⟨h, -, huniq⟩ := existsUnique_comp_eq_of_shortExact_gradedPiece α β hgr hcomp hA hB hC 0
       ((evalFunctor 0).map β ≫ bbar ≫ evalD I ((0 : ℤ) + 1)) hg
     have h1 := huniq (bbar ≫ evalD I ((0 : ℤ) + 1)) rfl
     have h2 := huniq 0 (FilteredObject.hom_ext (by
-      show β.hom.f 0 ≫ (0 : evalFil C 0 ⟶ evalFil I ((0 : ℤ) + 1 + 1)).hom =
+      change β.hom.f 0 ≫ (0 : evalFil C 0 ⟶ evalFil I ((0 : ℤ) + 1 + 1)).hom =
         ((evalFunctor 0).map β ≫ bbar ≫ evalD I ((0 : ℤ) + 1)).hom
       rw [zero_hom, comp_zero, hkey]))
     rw [h1, ← h2, zero_hom]
@@ -348,7 +348,7 @@ private theorem exists_twist {A B C I J : FilteredObject (CochainComplex 𝒜 �
   obtain ⟨d₀, hd₀⟩ := factors_of_isFilteredInjective bbar ((evalFunctor 0).map c)
     ⟨hIfin' ((0 : ℤ) + 1), fun p => hIinj p ((0 : ℤ) + 1)⟩
   have hcond : TwistCond c 0 d₀ := by
-    show ((evalFunctor 0).map c ≫ d₀ ≫ evalD I ((0 : ℤ) + 1)).hom = 0
+    change ((evalFunctor 0).map c ≫ d₀ ≫ evalD I ((0 : ℤ) + 1)).hom = 0
     rw [← Category.assoc, hd₀]
     exact hbbar2
   -- and the induction
@@ -358,7 +358,7 @@ private theorem exists_twist {A B C I J : FilteredObject (CochainComplex 𝒜 �
     fun k d hd => ⟨_, Classical.choose_spec
       (exists_twistStep c hc hC hJfin hIfin' hIinj k d hd)⟩
   refine ⟨⟨twistFamily c step d₀ hcond, twistFamily_comm c step d₀ hcond⟩, b, hb, ?_⟩
-  show b ≫ evalD I 0 = (evalFunctor 0).map β ≫ (evalFunctor 0).map c ≫ d₀
+  change b ≫ evalD I 0 = (evalFunctor 0).map β ≫ (evalFunctor 0).map c ≫ d₀
   rw [hd₀, hbbar]
 
 /-! ### Assembling a twist into a filtered complex -/
@@ -488,7 +488,7 @@ private noncomputable def twistedSumStepMap (t : Twist I J) {i j : ℤᵒᵖ} (f
 private lemma twistedSumStepMap_comp_ι (t : Twist I J) {i j : ℤᵒᵖ} (f : i ⟶ j) :
     twistedSumStepMap t f ≫ twistedSumStepι t j = twistedSumStepι t i := by
   ext n
-  show biprod.map ((I.filtration.diagram.map f).f n) ((J.filtration.diagram.map f).f n) ≫
+  change biprod.map ((I.filtration.diagram.map f).f n) ((J.filtration.diagram.map f).f n) ≫
       biprod.map ((I.filtration.ι.app j).f n) ((J.filtration.ι.app j).f n)
     = biprod.map ((I.filtration.ι.app i).f n) ((J.filtration.ι.app i).f n)
   rw [biprod_map_comp_map, diagram_map_f_comp_ι_app_f I f, diagram_map_f_comp_ι_app_f J f]

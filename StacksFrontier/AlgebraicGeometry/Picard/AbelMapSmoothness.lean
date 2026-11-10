@@ -125,8 +125,8 @@ carries `[IsAlgClosed k]`: algebraic closedness is consumed there through the `k
 closed point, in the twisting-down step `AlgebraicGeometry.HasPointTwistDown` names. Weakening it
 to `IsSepClosed k` means generalising
 `StacksFrontier/AlgebraicGeometry/Curves/PrescribedLowCohomology.lean` and
-`StacksFrontier/AlgebraicGeometry/Curves/LargeDegreeVanishing.lean` in place, which is not done here.
-The restriction bears on step 2 alone; step 4, which is what carries the tag attribute, has no
+`StacksFrontier/AlgebraicGeometry/Curves/LargeDegreeVanishing.lean` in place, which is not done
+here. The restriction bears on step 2 alone; step 4, which is what carries the tag attribute, has no
 hypothesis on `k` and none on `X`.
 
 In the other direction the hypotheses on `X` are weaker than the tag's: `X` need not be smooth or

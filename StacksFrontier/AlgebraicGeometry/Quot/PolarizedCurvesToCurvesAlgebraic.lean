@@ -15,7 +15,8 @@ the universe `u` of the schemes. The categories `AlgebraicGeometry.curvesFibered
 `AlgebraicGeometry.polarizedCurvesFiberedCategory` have morphisms in `Type (u + 1)`, so neither is
 an object of it. Their hom sets are `u`-small, however, and shrinking them gives models with
 `u`-small homs that are equivalent over the site. For the stack of curves that is
-`AlgebraicGeometry.curvesSmall` (`StacksFrontier.AlgebraicGeometry.Quot.CurvesSmallModel`). This file
+`AlgebraicGeometry.curvesSmall` (`StacksFrontier.AlgebraicGeometry.Quot.CurvesSmallModel`). This
+file
 builds the model `AlgebraicGeometry.polarizedCurvesSmall` of the stack of polarized curves, and
 the projection `AlgebraicGeometry.polarizedCurvesSmallToCurvesSmall` between the two models.
 
@@ -48,7 +49,8 @@ library.
 
 Second, Stacks 0DQ0 asserts that `PolarizedCurves ⟶ 𝒞urves` is smooth *and* surjective, and only
 the surjectivity clause is proved here. The smooth clause is
-`StacksFrontier.AlgebraicGeometry.Quot.CurveFamilyIsSmoothLocallyPolarized`, which still rests on the
+`StacksFrontier.AlgebraicGeometry.Quot.CurveFamilyIsSmoothLocallyPolarized`, which still rests on
+the
 chain **Stacks 09DS** → **Stacks 0D04** → **Stacks 0DPJ** together with **Stacks 0D3D**, which
 are not yet proved here. So the 0DQ0 registration is withheld for both reasons, and will go on a
 covering set whose two pieces are the two clauses.

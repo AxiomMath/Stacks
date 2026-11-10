@@ -469,7 +469,7 @@ theorem baseChange_flatPullback_chow
   ext z
   simp only [AddMonoidHom.comp_apply]
   rw [castAddMonoidHom_apply hidx]
-  show cast (congrArg (fun n ↦ chowGroup B.baseChange (pullback.snd sY B.g) n) hidx)
+  change cast (congrArg (fun n ↦ chowGroup B.baseChange (pullback.snd sY B.g) n) hidx)
       (QuotientAddGroup.mk ((baseChangeCyclePullback B sY (k + (r : ℤ)))
         (flatPullback B.base sY sX f hbase r hf k z))) =
     QuotientAddGroup.mk ((flatPullback B.baseChange (pullback.snd sY B.g)

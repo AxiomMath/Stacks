@@ -238,7 +238,7 @@ multiple of the universal differential. -/
 public theorem dividedPowerDifferential_algebraMap_mul (a : A) (b : B) :
     dividedPowerDifferential (A := A) delta (algebraMap A B a * b) =
       algebraMap A B a • dividedPowerDifferential (A := A) delta b := by
-  show (dividedPowerDifferentialRelations (A := A) delta).mkQ
+  change (dividedPowerDifferentialRelations (A := A) delta).mkQ
       (KaehlerDifferential.D A B (algebraMap A B a * b)) = _
   calc
     _ = (dividedPowerDifferentialRelations (A := A) delta).mkQ
@@ -247,7 +247,7 @@ public theorem dividedPowerDifferential_algebraMap_mul (a : A) (b : B) :
             rw [← Algebra.smul_def]
             exact (KaehlerDifferential.D A B).map_smul a b
     _ = a • dividedPowerDifferential (A := A) delta b := by
-          show a • (dividedPowerDifferentialRelations (A := A) delta).mkQ
+          change a • (dividedPowerDifferentialRelations (A := A) delta).mkQ
             (KaehlerDifferential.D A B b) = _
           rfl
     _ = algebraMap A B a • dividedPowerDifferential (A := A) delta b := by
@@ -445,13 +445,13 @@ public theorem differentialsQuotientEquiv_mk
   apply DFunLike.congr_fun (differentials_hom_ext (J := _) (delta := delta) (Ideal.Quotient.mk K)
     (E.toAddMonoidHom.comp (K • (⊤ : Submodule B _)).mkQ.toAddMonoidHom) _ ?_ ?_ ?_) x
   · intro b x
-    show E (Submodule.Quotient.mk (b • x)) = _
+    change E (Submodule.Quotient.mk (b • x)) = _
     rw [Submodule.Quotient.mk_smul, E.map_smul]
     exact (IsScalarTower.algebraMap_smul (B ⧸ K) b _).symm
   · intro b x
     exact mapDifferentialsOfDPMorphism_smul (A := A) (J := J) (delta := delta) _ _ _ b x
   · intro b
-    show E _ = _
+    change E _ = _
     exact ((differentialsQuotientEquiv (A := A) J delta K hK hd).property b).trans
       (mapDifferentialsOfDPMorphism_d (A := A) (J := J) (delta := delta)
         _ (Ideal.Quotient.mkₐ A K) _ b).symm

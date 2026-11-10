@@ -230,7 +230,7 @@ theorem equationsClosedSet_appTop (m : X' ⟶ X) {c : ℕ} (f : Fin c → Γ(X, 
       m ⁻¹ᵁ (⨆ j, X.basicOpen (f j) : X.Opens) := by
     rw [Scheme.Hom.preimage_iSup]
     exact iSup_congr fun j => (Scheme.preimage_basicOpen m (f j)).symm
-  show ((⨆ j, X'.basicOpen (m.appTop (f j)) : X'.Opens) : Set X')ᶜ =
+  change ((⨆ j, X'.basicOpen (m.appTop (f j)) : X'.Opens) : Set X')ᶜ =
     m ⁻¹' ((⨆ j, X.basicOpen (f j) : X.Opens) : Set X)ᶜ
   rw [hsup, Set.preimage_compl]
   rfl

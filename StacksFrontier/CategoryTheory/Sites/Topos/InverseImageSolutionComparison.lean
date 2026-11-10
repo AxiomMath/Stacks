@@ -93,6 +93,8 @@ variable (c : Γ →+* (𝟙_ (Sheaf K (Type w')) ⟶ Stacks.underlyingRingSheaf
   (hc' : ∀ r, c' r = c₁ r ≫ PolynomialSystem.underlyingMap α)
   (P : ν → MvPolynomial κ Γ)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})] in
 include hc₁ hc' in
 /-- **The inverse image of a sheaf of solutions solves the pushed-forward system.** If the
 coordinates of `H` solve `P` over `𝒪` downstairs — that is, if they equalize the two legs of the
@@ -116,6 +118,9 @@ variable {t : Limits.Fork (CommRingObj.evalSystemHom (Stacks.underlyingRingSheaf
     (CommRingObj.zeroSystemHom (Stacks.underlyingRingSheaf J O') κ ν)} (ht : IsLimit t)
   (hι : ι ≫ CommRingObj.evalSystemHom (Stacks.underlyingRingSheaf K O) c κ P =
     ι ≫ CommRingObj.zeroSystemHom (Stacks.underlyingRingSheaf K O) κ ν)
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
 
 include hc₁ hc' hι in
 /-- **The comparison morphism from the inverse image of a sheaf of solutions.** Let the

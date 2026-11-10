@@ -173,7 +173,7 @@ theorem isRelativelyAmple_pullbackModule_of_isAffineHom {X P V : Scheme.{u}} (g 
       (isPullback_morphismRestrict g (p ⁻¹ᵁ W)).flip inferInstance
   have key := Stacks.AmplePullback.isAmple_modulePullback_of_isAffineHom
     (g ∣_ (p ⁻¹ᵁ W)) (pullbackModule (p ⁻¹ᵁ W).ι M) (h.2 W hW)
-  show Stacks.Ample.IsAmple (g ⁻¹ᵁ (p ⁻¹ᵁ W)).toScheme
+  change Stacks.Ample.IsAmple (g ⁻¹ᵁ (p ⁻¹ᵁ W)).toScheme
     (pullbackModule (g ⁻¹ᵁ (p ⁻¹ᵁ W)).ι (pullbackModule g M))
   refine (Stacks.RelativeVeryAmple.isAmple_congr _ _ ?_).mp key
   exact (Stacks.RelativeAmpleBaseChange.pullbackModuleCompIso (g ∣_ (p ⁻¹ᵁ W)) (p ⁻¹ᵁ W).ι M).symm

@@ -92,10 +92,10 @@ theorem iteratedChernCapOnChow_replicate_succ_heq {P : Scheme.{u}} (sP : P ⟶ C
     (y : chowGroup C sP (d + 1 + ((List.replicate n O).length : ℤ))) (hxy : x ≍ y) :
     iteratedChernCapOnChow C sP (List.replicate (n + 1) O) d x =
       O.capOnChow C sP d (iteratedChernCapOnChow C sP (List.replicate n O) (d + 1) y) := by
-  show chowGroupDegreeCast C sP _ ((O.capOnChow C sP d).comp
+  change chowGroupDegreeCast C sP _ ((O.capOnChow C sP d).comp
     (iteratedChernCapOnChow C sP (List.replicate n O) (d + 1))) x = _
   rw [chowGroupDegreeCast_apply]
-  show O.capOnChow C sP d (iteratedChernCapOnChow C sP (List.replicate n O) (d + 1) _) = _
+  change O.capOnChow C sP d (iteratedChernCapOnChow C sP (List.replicate n O) (d + 1) _) = _
   congr 2
   exact chowGroup_eq_of_heq C sP ((chowGroupCast_heq C sP _ x).trans hxy)
 
@@ -114,7 +114,7 @@ theorem iteratedChernCapOnChow_replicate_zero_heq {P : Scheme.{u}} (sP : P ⟶ C
     [LocallyOfFiniteType sP] (O : ChernCapOperator C sP) (d : ℤ)
     (x : chowGroup C sP (d + ((List.replicate 0 O).length : ℤ))) :
     iteratedChernCapOnChow C sP (List.replicate 0 O) d x ≍ x := by
-  show chowGroupDegreeCast C sP _ (AddMonoidHom.id _) x ≍ x
+  change chowGroupDegreeCast C sP _ (AddMonoidHom.id _) x ≍ x
   rw [chowGroupDegreeCast_apply]
   exact chowGroupCast_heq C sP _ x
 

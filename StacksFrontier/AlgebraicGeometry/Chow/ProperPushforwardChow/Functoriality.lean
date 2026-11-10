@@ -98,7 +98,7 @@ theorem relativeDimension_comp_eq_add_trdeg {X Y S : Scheme.{u}} (δ : Dimension
   have hnatZ := congrArg (fun n : ℕ ↦ (n : ℤ)) ((Cardinal.toNat_add hfinS hfinf).symm.trans
     (congrArg Cardinal.toNat (trdeg_add_eq (S.residueField (s.base (f.base x)))
       (Y.residueField (f.base x)) (A := X.residueField x))))
-  show (δ (s.base (f.base x)) +
+  change (δ (s.base (f.base x)) +
       (Cardinal.toNat (Algebra.trdeg (S.residueField (s.base (f.base x)))
         (X.residueField x)) : ℤ)) =
     δ (s.base (f.base x)) +
@@ -149,7 +149,7 @@ theorem residueDegree_comp_of_trdeg_eq_zero {X Y Z : Scheme.{u}} (f : X ⟶ Y)
     Algebra.finite_of_essFiniteType_of_isAlgebraic
   let _ : Module.Finite (Z.residueField (g.base (f.base x))) (Y.residueField (f.base x)) :=
     Algebra.finite_of_essFiniteType_of_isAlgebraic
-  show Module.finrank (Z.residueField (g.base (f.base x))) (X.residueField x) =
+  change Module.finrank (Z.residueField (g.base (f.base x))) (X.residueField x) =
     Module.finrank (Y.residueField (f.base x)) (X.residueField x) *
       Module.finrank (Z.residueField (g.base (f.base x))) (Y.residueField (f.base x))
   rw [← Module.finrank_mul_finrank (Z.residueField (g.base (f.base x)))
@@ -227,7 +227,7 @@ theorem locallyFinsupp_map_comp_of_weight_mul {X Y Z : Scheme.{u}} (f : X ⟶ Y)
     refine finsum_mem_eq_sum_of_subset (fun x ↦ c x * wf x) (fun x hx ↦
       (hfib y).mem_toFinset.mpr ⟨hx.1, ?_, (mul_ne_zero_iff.mp hx.2).1⟩)
       (fun x hx ↦ ((hfib y).mem_toFinset.mp hx).1)
-    show g.base (f.base x) = z
+    change g.base (f.base x) = z
     rw [show f.base x = y from hx.1]
     exact hIU hy
   have hFin : (g.base ⁻¹' {z}) ∩ F.support ⊆ (hI.toFinset : Finset Y) := by
@@ -241,14 +241,14 @@ theorem locallyFinsupp_map_comp_of_weight_mul {X Y Z : Scheme.{u}} (f : X ⟶ Y)
   have hGout : ((hK.toFinset : Finset X) : Set X) ⊆ (g.base ∘ f.base) ⁻¹' {z} := by
     rw [hK.coe_toFinset]
     exact fun x hx ↦ hx.1
-  show (∑ᶠ y ∈ g.base ⁻¹' {z}, F y) = ∑ᶠ x ∈ (g.base ∘ f.base) ⁻¹' {z}, c x * wfg x
+  change (∑ᶠ y ∈ g.base ⁻¹' {z}, F y) = ∑ᶠ x ∈ (g.base ∘ f.base) ⁻¹' {z}, c x * wfg x
   rw [finsum_mem_eq_sum_of_subset F hFin hFout,
     finsum_mem_eq_sum_of_subset (fun x : X ↦ c x * wfg x) hGin hGout]
   calc ∑ y ∈ hI.toFinset, F y
       = ∑ y ∈ hI.toFinset, ∑ x ∈ (hfib y).toFinset, c x * wf x * wg y := by
         refine Finset.sum_congr rfl fun y hy ↦ ?_
         rw [hFdef]
-        show (∑ᶠ x ∈ f.base ⁻¹' {y}, c x * wf x) * wg y = _
+        change (∑ᶠ x ∈ f.base ⁻¹' {y}, c x * wf x) * wg y = _
         rw [hinner y (by simpa using hy), Finset.sum_mul]
     _ = ∑ x ∈ hK.toFinset, c x * wf x * wg (f.base x) := by
         rw [← Finset.sum_fiberwise_of_maps_to (s := hK.toFinset) (t := hI.toFinset)
@@ -299,7 +299,7 @@ theorem properPushforward_comp (C : ChowSituation.{u}) {X Y Z : Scheme.{u}} (sX 
     refine finsum_mem_congr rfl fun x _ ↦ ?_
     by_cases hdim : wx x = wz (g.base (f.base x)) <;>
       simp [AlgebraicCycle.mapCoeff, hwfg, hdim]
-  show AlgebraicCycle.map g wy wz (AlgebraicCycle.map f wx wy c.1) z =
+  change AlgebraicCycle.map g wy wz (AlgebraicCycle.map f wx wy c.1) z =
     AlgebraicCycle.map (f ≫ g) wx wz c.1 z
   rw [hmapf, hmapg, hmapfg]
   exact congrArg (fun d : AlgebraicCycle Z ℤ ↦ d z)

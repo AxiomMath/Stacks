@@ -220,7 +220,7 @@ theorem preservesColimit_derivedModulePushforward (f : X ⟶ Y)
       sigmaComparison Gj (fun i => R.obj (E i)) ≫ Gj.map (sigmaComparison R E) := by
     refine Sigma.hom_ext _ _ fun i => ?_
     rw [ι_comp_sigmaComparison]
-    show Gj.map (R.map (Sigma.ι E i)) = Sigma.ι (fun b => Gj.obj (R.obj (E b))) i ≫ _
+    change Gj.map (R.map (Sigma.ι E i)) = Sigma.ι (fun b => Gj.obj (R.obj (E b))) i ≫ _
     rw [ι_comp_sigmaComparison_assoc, ← Gj.map_comp, ι_comp_sigmaComparison]
   have h₁ : IsIso (sigmaComparison (R ⋙ Gj) E) := inferInstance
   have h₂ : IsIso (sigmaComparison Gj fun i => R.obj (E i)) := inferInstance

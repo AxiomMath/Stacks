@@ -17,7 +17,8 @@ identity: a triple `(V, U', φ)` is recovered from its glued algebraic space `V'
 base change, `V = V' ×_{Y'} Y` and `U' = V' ×_{Y'} X'`.
 
 The source reduces this along the cubes of étale charts of
-`StacksFrontier.AlgebraicGeometry.Spaces.Pushouts.ThickeningAffineGluingChartFiniteOrder` to the last
+`StacksFrontier.AlgebraicGeometry.Spaces.Pushouts.ThickeningAffineGluingChartFiniteOrder` to the
+last
 assertion of [Stacks Project, Tag 07RV] for schemes,
 `AlgebraicGeometry.ThickeningAffinePushoutSituation.isPullback_of_isPushout_of_isPullback`; the
 cartesian square of charts descends along the surjective étale chart of `V'` by
@@ -77,9 +78,8 @@ theorem isPullback_charts :
   have : _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map D.fT) :=
     MorphismProperty.of_isPullback D.isPullback_f.flip inferInstance
   obtain ⟨h₁, h₂⟩ := ThickeningAffinePushoutSituation.isPullback_of_isPushout_of_isPullback
-    D.isPushout_base D.isThickening_i D.isPushout_glued
-    (Stacks.Thickenings.isThickening_of_isPullback D.isPullback_i D.isThickening_i)
-    D.isPullback_i D.isPullback_f D.map_inU'_comp_hom D.map_inV_comp_hom
+    D.isPushout_base D.isThickening_i D.isPushout_glued D.isPullback_i D.isPullback_f
+    D.map_inU'_comp_hom D.map_inV_comp_hom
   exact ⟨isPullback_yoneda_of_isPullback_toScheme h₁, isPullback_yoneda_of_isPullback_toScheme h₂⟩
 
 /-- Descent of a cartesian square along the surjective étale chart `sqG.chartSrc`, given the

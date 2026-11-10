@@ -575,7 +575,7 @@ theorem siteIso_inv_comp_relocalize :
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   have r : (D.projection τ.T ≫ τ.limitTargetIso.hom).hom ≫ τ.limitTargetMap =
       τ.toBase.hom := by
-    show ((D.projection τ.T).hom ≫ (yoneda.map τ.testIso.inv ≫ inv τ.limitTargetMap)) ≫
+    change ((D.projection τ.T).hom ≫ (yoneda.map τ.testIso.inv ≫ inv τ.limitTargetMap)) ≫
       τ.limitTargetMap = _
     exact (Category.assoc _ _ _).trans (congrArg ((D.projection τ.T).hom ≫ ·) h3)
   exact l.trans r.symm

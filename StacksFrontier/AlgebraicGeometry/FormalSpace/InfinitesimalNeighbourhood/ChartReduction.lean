@@ -140,7 +140,7 @@ theorem mem_range_nilStage_of_mapsTo_reduction (hA : IsWeaklyAdmissible A)
     hasEtaleLocalPropertyULift_isReduced_of_isEtale_over_isReduced B S hS Uc hcred
       (pullback a f.hom) (hfrep Uc a) (pullback.fst a f.hom) (hfet Uc a)
   have hpt : a.app (op T1) u = f.hom.app (op T1) ((formalSpectrum D).obj.map h1.op s) := by
-    show i.hom.app _ (c.app _ u) = _
+    change i.hom.app _ (c.app _ u) = _
     rw [hu, NatTrans.naturality_apply i.hom, hr, NatTrans.naturality_apply f.hom]
   have hsq := (IsPullback.of_hasPullback a f.hom).map
     ((evaluation (BigFppfOver B S hS)ᵒᵖ (Type (u + 1))).obj (op T1))
@@ -157,7 +157,7 @@ theorem mem_range_nilStage_of_mapsTo_reduction (hA : IsWeaklyAdmissible A)
     ULift.ext (Category.comp_id w)
   have h3 : (pullback.snd a f.hom).app (op T2) (e.app (op T2) (ULift.up w)) =
       (formalSpectrum D).obj.map w.op σ := by
-    show (e ≫ pullback.snd a f.hom).app (op T2) (ULift.up w) = _
+    change (e ≫ pullback.snd a f.hom).app (op T2) (ULift.up w) = _
     exact (congrArg _ hw.symm).trans (NatTrans.naturality_apply _ w.op _)
   have key : (formalSpectrum D).obj.map (h2 ≫ h1).op s =
       (formalSpectrum D).obj.map w.op σ := by
@@ -176,7 +176,7 @@ theorem mem_range_nilStage_of_mapsTo_reduction (hA : IsWeaklyAdmissible A)
 theorem isReduced_stageObj_nilWeakIdeal (hA : IsWeaklyAdmissible A)
     (D : QuotientSystem B S hS A) :
     IsReduced ((BigFppfOver.toScheme B S hS).obj (D.stageObj (nilWeakIdeal hA))) := by
-  show IsReduced (Spec (.of (A ⧸ topologicalNilradical A)))
+  change IsReduced (Spec (.of (A ⧸ topologicalNilradical A)))
   have : _root_.IsReduced (A ⧸ topologicalNilradical A) :=
     (Ideal.isRadical_iff_quotient_reduced _).mp
       (TopologicalRing.topologicalNilradical_isRadical (B := A))
@@ -203,7 +203,7 @@ theorem exists_mapsTo_reduction_of_mem_range_nilStage (hA : IsWeaklyAdmissible A
   refine ⟨g.hom.app _ ((sheafificationIso U).inv.hom.app _ y), ?_⟩
   refine (congrArg (fun φ : U ⟶ W => φ.hom.app (op T)
     ((sheafificationIso U).inv.hom.app _ y)) hg).trans ?_
-  show ((sheafificationIso U).inv ≫ (sheafificationIso U).hom ≫ stageIncl D N ≫ f).hom.app
+  change ((sheafificationIso U).inv ≫ (sheafificationIso U).hom ≫ stageIncl D N ≫ f).hom.app
     (op T) y = _
   rw [Iso.inv_hom_id_assoc]
   rfl

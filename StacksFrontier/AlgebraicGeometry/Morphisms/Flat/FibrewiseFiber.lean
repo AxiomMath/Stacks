@@ -422,8 +422,7 @@ private theorem flat_quotient_smul_top_of_fiber {X Y S : Scheme.{u}} (f : X ⟶ 
   let eT₀ : (A ⧸ K) ⊗[A] M ≃ₗ[A] M ⧸ (K • (⊤ : Submodule A M)) :=
     TensorProduct.quotTensorEquivQuotSMul M K
   have hdom (a : A) (t : (A ⧸ K) ⊗[A] M) : (Ideal.Quotient.mk K a) • t = a • t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul c m =>
       simp only [TensorProduct.smul_tmul']
       congr 1

@@ -35,7 +35,7 @@ theorem map_comp_mapTower {P : Type*} [AddCommGroup P] [Module R P] [Module A P]
     (map n g).restrictScalars R ∘ₗ mapTower (S := A) n f =
       mapTower (S := A) n (g.restrictScalars R ∘ₗ f) := by
   refine linearMap_ext (AlternatingMap.ext fun v ↦ ?_)
-  show map n g (mapTower (S := A) n f (ιMulti R n v)) =
+  change map n g (mapTower (S := A) n f (ιMulti R n v)) =
     mapTower (S := A) n (g.restrictScalars R ∘ₗ f) (ιMulti R n v)
   rw [mapTower_ιMulti, map_apply_ιMulti, mapTower_ιMulti]
   rfl
@@ -46,7 +46,7 @@ theorem mapTower_comp_map {M' : Type*} [AddCommGroup M'] [Module R M'] (g : M' �
     (f : M →ₗ[R] N) (n : ℕ) :
     mapTower (S := A) n f ∘ₗ map n g = mapTower (S := A) n (f ∘ₗ g) := by
   refine linearMap_ext (AlternatingMap.ext fun v ↦ ?_)
-  show mapTower (S := A) n f (map n g (ιMulti R n v)) =
+  change mapTower (S := A) n f (map n g (ιMulti R n v)) =
     mapTower (S := A) n (f ∘ₗ g) (ιMulti R n v)
   rw [map_apply_ιMulti, mapTower_ιMulti, mapTower_ιMulti]
   rfl

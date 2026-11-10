@@ -414,7 +414,7 @@ public theorem isPerfect_of_isPerfectComplex_zeroDifferential (M : DerivedModule
     preservesColimitsOfShape_discrete_shrink.{u} _ _
   refine ⟨CochainComplex.zeroDifferentialComplex fun n => (D.toOXMod n).obj (H n),
     hyp D H hinv, ⟨?_⟩⟩
-  show (DerivedCategory.Q (C := Mod X.sheaf)).obj
+  change (DerivedCategory.Q (C := Mod X.sheaf)).obj
       (CochainComplex.zeroDifferentialComplex fun n => (D.toOXMod n).obj (H n)) ≅ M
   exact (CochainComplex.derivedCoproductIso
     (fun n : ℤ => (D.toOXMod n).obj (H n))).symm ≪≫ e.symm
@@ -511,7 +511,8 @@ degree — the degree being allowed to vary with the member of the covering. -/
 @[stacks 0FPG "clause (3) as a condition on M: that there is an open covering X = ⋃ U_i and for \
 each i an integer n_i with M|_{U_i} represented by an invertible 𝒪_{U_i}-module placed in degree \
 n_i. The source's condition that every stalk 𝒪_{X,x} is a local ring belongs to the equivalence \
-of (3) with the other clauses, which is hasInvertibleModuleDecomposition_iff_hasLocalInvertibleDegree"]
+of (3) with the other clauses, which is \
+hasInvertibleModuleDecomposition_iff_hasLocalInvertibleDegree"]
 public def HasLocalInvertibleDegree (M : DerivedModules X.sheaf) : Prop :=
   ∃ E : CochainComplex (Mod X.sheaf) ℤ,
     IsLocallyInvertibleModuleComplex E ∧ Nonempty (DerivedCategory.Q.obj E ≅ M)
@@ -551,11 +552,11 @@ public def oneFactorFamily : ℤ → Sheaf K CommRingCat.{w} :=
   fun n => if n = 0 then R else zeroRingSheaf K
 
 /-- In degree zero the one-factor family is `R` itself. -/
-public theorem oneFactorFamily_zero : oneFactorFamily R 0 = R := if_pos rfl
+public theorem oneFactorFamily_zero : oneFactorFamily R 0 = R := ite_eq_left rfl
 
 /-- Away from degree zero the one-factor family is the zero sheaf of rings. -/
 public theorem oneFactorFamily_of_ne {n : ℤ} (h : n ≠ 0) :
-    oneFactorFamily R n = zeroRingSheaf K := if_neg h
+    oneFactorFamily R n = zeroRingSheaf K := ite_eq_right h
 
 /-- Away from degree zero the one-factor family has no sections beyond zero. This is the local
 finiteness of the decomposition, read on the rings of sections. -/

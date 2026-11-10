@@ -59,6 +59,7 @@ variable {Y' Y T' T : Scheme.{u}} (q : Y' ⟶ Y) (g : Y ⟶ T) (g' : Y' ⟶ T') 
   (M' : Y'.Modules) [Stacks.Ample.IsInvertibleModule Y' M']
   (ε : (Scheme.Modules.pullback q).obj M ≅ M') (e : ℕ) (he : 0 < e)
 
+omit [QuasiCompact g] [QuasiSeparated g] [QuasiCompact g'] [QuasiSeparated g'] in
 /-- On global sections, the map of tail truncations into the direct image is the degreewise map
 `tailMapApp` of the homomorphism of global section rings. -/
 theorem tailPushApp_app_top (n : ℤ)

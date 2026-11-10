@@ -79,13 +79,13 @@ theorem nonempty_algEquiv_inertiaInvariants_of_indEtale [HenselianLocalRing H]
   obtain ⟨Φ, -⟩ := IsLocalRing.IsHenselization.exists_algEquiv_of_residueFieldEquiv
     (R := A) (A := H) (B := inertiaInvariants A K L q) (K := ResidueField H) hH hR.ind_etale
     (RingEquiv.refl _) e.toRingEquiv (fun r => by
-      show residue H (algebraMap A H r) = e.symm (residue _ (algebraMap A _ r))
+      change residue H (algebraMap A H r) = e.symm (residue _ (algebraMap A _ r))
       rw [← ResidueField.algebraMap_residue, ← ResidueField.algebraMap_residue, ← e.commutes,
         AlgEquiv.symm_apply_apply])
   exact ⟨Φ⟩
 
-omit [IsLocalRing A] [IsSepClosed L] [q.LiesOver (maximalIdeal A)] [IsLocalRing H]
-  [IsLocalHom (algebraMap A H)] in
+omit [IsIntegrallyClosed A] [IsLocalRing A] [IsSepClosed L] [q.LiesOver (maximalIdeal A)]
+  [IsLocalRing H] [IsLocalHom (algebraMap A H)] in
 /-- **A fraction field of a strict henselization of `A` embeds into `L` with image the inertia
 field `L^I`**, extending a given `A`-isomorphism `H ≃ (B_q)^I`. -/
 theorem exists_ringHom_fractionRing_range_eq_inertiaFixedField
@@ -97,7 +97,7 @@ theorem exists_ringHom_fractionRing_range_eq_inertiaFixedField
   let e : Ksh ≃+* inertiaFixedField A K L q :=
     IsFractionRing.ringEquivOfRingEquiv (A := H) (B := inertiaInvariants A K L q) Φ.toRingEquiv
   refine ⟨(inertiaFixedField A K L q).val.toRingHom.comp e.toRingHom, fun h => ?_, ?_⟩
-  · show ((e (algebraMap H Ksh h) : inertiaFixedField A K L q) : L) = _
+  · change ((e (algebraMap H Ksh h) : inertiaFixedField A K L q) : L) = _
     rw [IsFractionRing.ringEquivOfRingEquiv_algebraMap]
     exact coe_algebraMap_inertiaFixedField A K L q _
   · ext z
@@ -113,7 +113,7 @@ section Frobenius
 
 variable (q : Ideal (integralClosure A L)) [q.IsPrime]
 
-omit [IsLocalRing A] in
+omit [IsDomain A] [IsIntegrallyClosed A] [IsLocalRing A] in
 /-- **An arithmetic Frobenius at `q` raises to the `Q`-th power on the residue field of `B_q`.**
 If `σ` stabilizes `q` and `σ b - b ^ Q ∈ q` for every `b ∈ B`, then for `x = b / s` in `B_q`,
 `(σ x - x ^ Q) · σ s · s ^ Q = (σ b - b ^ Q) s ^ Q + b ^ Q (s ^ Q - σ s)` has numerator in `q`
@@ -135,7 +135,7 @@ theorem residue_localizedSubringEquivOfStabilizes (σ : Gal(L/K)) (hσ : σ • 
   have hbsQ : (x : L) ^ Q * (s : L) ^ Q = (b : L) ^ Q := by rw [← mul_pow, hbs]
   linear_combination ((s : L) ^ Q) * hσbs - (σ (s : L)) * hbsQ
 
-omit [IsLocalRing A] in
+omit [IsIntegrallyClosed A] [IsLocalRing A] in
 /-- **The Frobenius on a strict henselization, read in `B_q`** (Stacks 04GU, uniqueness). Let
 `Φ : H → B_q` be an `A`-algebra map from a henselian local ind-étale `A`-algebra, local, and `θ`
 a local `A`-endomorphism of `H` whose residue map is inverse to the `Q`-th power map. For an
@@ -162,9 +162,9 @@ theorem galAction_comp_comp_eq_of_residue_pow [IsSepClosed L] (H : Type u) [Comm
   have hres₁ : (residue (localizedSubring q)).comp (f₁ : H →+* localizedSubring q) =
       φ.comp (residue H) := by
     ext z
-    show residue _ (localizedSubringEquivOfStabilizes A K L q hσ (Φ (θ z))) = φ (residue H z)
+    change residue _ (localizedSubringEquivOfStabilizes A K L q hσ (Φ (θ z))) = φ (residue H z)
     rw [residue_localizedSubringEquivOfStabilizes A K L q σ hσ Q hFr]
-    show residue _ ((Φ : H →+* localizedSubring q) (θ z)) ^ Q = _
+    change residue _ ((Φ : H →+* localizedSubring q) (θ z)) ^ Q = _
     rw [← ResidueField.map_residue, ← map_pow, hθ]
   have hφ : φ.comp ((residue H).comp (algebraMap A H)) =
       (residue (localizedSubring q)).comp (algebraMap A (localizedSubring q)) := by
@@ -201,7 +201,7 @@ instance isLocalHom_inertiaInvariantsToLocalizedSubring :
   · change (↑(v⁻¹) : localizedSubring q) * (z : localizedSubring q) = 1
     rw [← hv, Units.inv_mul]
 
-omit [IsLocalRing A] in
+omit [IsIntegrallyClosed A] [IsLocalRing A] in
 /-- **The Frobenius on a strict henselization, read in `(B_q)^I`.** For an `A`-isomorphism
 `Φ : H ≃ (B_q)^I`, a local `A`-endomorphism `θ` of `H` with residue map inverse to the `Q`-th
 power map, and an arithmetic Frobenius `σ` at `q`, `σ ∘ Φ ∘ θ = Φ` inside `L`. -/

@@ -50,7 +50,7 @@ omit [LinearOrder E] in
 lemma coeffFinsuppMap_single_one (e : E) :
     coeffFinsuppMap A E (Finsupp.single e 1) =
       Finsupp.single e (1 : MvPolynomial E (MvPolynomial E A)) := by
-  show Finsupp.mapRange
+  change Finsupp.mapRange
       (algebraMap (MvPolynomial E A) (MvPolynomial E (MvPolynomial E A))) (map_zero _)
       (Finsupp.single e 1) = _
   rw [Finsupp.mapRange_single, map_one]
@@ -167,7 +167,7 @@ lemma tmul_tmul_eq_zero_of_mem_diagShift_smul_top
   let F : (relKoszulTerm A E V j) →ₗ[MvPolynomial E A]
       (X ⊗[MvPolynomial E A] (relKoszulTerm A E V j)) :=
     (TensorProduct.mk (MvPolynomial E A) X (relKoszulTerm A E V j)) x
-  show F (toRelKoszulTerm A E V j (η ⊗ₜ[MvPolynomial E A] v)) = 0
+  change F (toRelKoszulTerm A E V j (η ⊗ₜ[MvPolynomial E A] v)) = 0
   have hF : ∀ z : relKoszulTerm A E V j, F z = x ⊗ₜ[MvPolynomial E A] z := fun _ => rfl
   have hgen : ∀ r ∈ (Ideal.span (Set.range fun e : E => diagShift A E (MvPolynomial.X e))),
       ∀ n : ⋀[MvPolynomial E (MvPolynomial E A)]^j (E →₀ MvPolynomial E (MvPolynomial E A)),
@@ -177,7 +177,7 @@ lemma tmul_tmul_eq_zero_of_mem_diagShift_smul_top
     | mem y hy =>
       obtain ⟨e, rfl⟩ := hy
       intro n
-      show F (toRelKoszulTerm A E V j
+      change F (toRelKoszulTerm A E V j
         ((diagShift A E (MvPolynomial.X e) • n) ⊗ₜ[MvPolynomial E A] v)) = 0
       rw [show ((diagShift A E (MvPolynomial.X e) • n) ⊗ₜ[MvPolynomial E A] v :
             relKoszulType A E V j) =
@@ -278,17 +278,17 @@ theorem exists_relKoszulCompareDegree (j : ℕ) :
   rw [LinearEquiv.trans_apply, LinearEquiv.symm_apply_eq]
   refine Finsupp.ext fun i => ?_
   have hΩ : Ω (x ⊗ₜ (ω ⊗ₜ v)) i = x ⊗ₜ (bT.repr ω i • v) := by
-    show (TensorProduct.finsuppRight A A X V {s : Finset E // s.card = j})
+    change (TensorProduct.finsuppRight A A X V {s : Finset E // s.card = j})
         (LinearEquiv.lTensor X (cT.restrictScalars A) (x ⊗ₜ (ω ⊗ₜ v))) i = _
     rw [LinearEquiv.lTensor_tmul, TensorProduct.finsuppRight_apply_tmul_apply]
     congr 1
-    show (TensorProduct.finsuppScalarLeft (MvPolynomial E A) V {s : Finset E // s.card = j})
+    change (TensorProduct.finsuppScalarLeft (MvPolynomial E A) V {s : Finset E // s.card = j})
       (LinearEquiv.rTensor V bT.repr (ω ⊗ₜ v)) i = _
     rw [LinearEquiv.rTensor_tmul, TensorProduct.finsuppScalarLeft_apply_tmul_apply]
   have hΨ : (Ψ.restrictScalars A)
       (x ⊗ₜ (toRelKoszulTerm A E V j ((koszulBaseChange A E j ω) ⊗ₜ v))) i =
       x ⊗ₜ (bT.repr ω i • v) := by
-    show (Finsupp.mapRange.linearEquiv
+    change (Finsupp.mapRange.linearEquiv
         (TensorProduct.AlgebraTensorModule.cancelBaseChange A (MvPolynomial E A)
           (MvPolynomial E A) X V))
         ((TensorProduct.finsuppRight (MvPolynomial E A) (MvPolynomial E A) X
@@ -297,7 +297,7 @@ theorem exists_relKoszulCompareDegree (j : ℕ) :
             (x ⊗ₜ (toRelKoszulTerm A E V j ((koszulBaseChange A E j ω) ⊗ₜ v))))) i = _
     rw [Finsupp.mapRange.linearEquiv_apply, Finsupp.mapRange_apply, LinearEquiv.lTensor_tmul,
       TensorProduct.finsuppRight_apply_tmul_apply]
-    show TensorProduct.AlgebraTensorModule.cancelBaseChange A (MvPolynomial E A)
+    change TensorProduct.AlgebraTensorModule.cancelBaseChange A (MvPolynomial E A)
         (MvPolynomial E A) X V (x ⊗ₜ (ec ((koszulBaseChange A E j ω) ⊗ₜ v) i)) = _
     rw [hcoord' ω v i, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul]
   rw [hΩ, hΨ]
@@ -338,7 +338,7 @@ lemma relKoszulCompareEquiv_chain
     refine Koszul.d_mem_smul_top
       (Ideal.span (Set.range fun e : E => diagShift A E (MvPolynomial.X e)))
       (diagShiftVariableDual A E) (fun w => ?_) j (koszulBaseChange A E (j + 1) ω)
-    show (Finsupp.linearCombination _ fun e => diagShift A E (MvPolynomial.X e)) w ∈ _
+    change (Finsupp.linearCombination _ fun e => diagShift A E (MvPolynomial.X e)) w ∈ _
     rw [Finsupp.linearCombination_apply]
     exact Submodule.sum_mem _ fun e _ =>
       Submodule.smul_mem _ _ (Ideal.subset_span ⟨e, rfl⟩)
@@ -375,8 +375,7 @@ lemma relKoszulCompareEquiv_chain_tmul
       - relKoszulCompareEquiv A E V X j
         (LinearMap.lTensor X
           (((Koszul.d (variableKoszulDual A E) j).rTensor V).restrictScalars A) (x ⊗ₜ w)) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.tmul_zero, map_zero, neg_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul ω v =>
     simp only [LinearMap.lTensor_tmul, LinearMap.coe_restrictScalars, LinearMap.rTensor_tmul]
     exact relKoszulCompareEquiv_chain A E V X hX j x ω v
@@ -396,8 +395,7 @@ lemma relKoszulCompareEquiv_chain_apply
       - relKoszulCompareEquiv A E V X j
         (LinearMap.lTensor X
           (((Koszul.d (variableKoszulDual A E) j).rTensor V).restrictScalars A) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, neg_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x w => exact relKoszulCompareEquiv_chain_tmul A E V X hX j x w
   | add a b ha hb =>
     simp only [map_add, neg_add]
@@ -416,8 +414,7 @@ lemma relKoszulCompareEquiv_naturality_tmul
         (LinearMap.lTensor X
           ((TensorProduct.map (LinearMap.id (R := MvPolynomial E A)) f).restrictScalars A)
           (x ⊗ₜ w)) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.tmul_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul ω v =>
     have hd : (((ModuleCat.restrictScalars (diagShift A E)).map
           (ModuleCat.ofHom (relKoszulMapTerm A E f j))).hom)
@@ -451,8 +448,7 @@ lemma relKoszulCompareEquiv_naturality_apply
       relKoszulCompareEquiv A E V' X j
         (LinearMap.lTensor X
           ((TensorProduct.map (LinearMap.id (R := MvPolynomial E A)) f).restrictScalars A) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x w => exact relKoszulCompareEquiv_naturality_tmul A E V X V' f j x w
   | add a b ha hb =>
     simp only [map_add]

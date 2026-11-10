@@ -202,7 +202,7 @@ public lemma quasiIso_of_isColimit_of_quasiIso_truncLE
     refine hHc.hom_ext (fun n => ?_)
     rw [IsColimit.comp_coconePointUniqueUpToIso_hom]
     exact (H.map_comp _ _).symm
-  show IsIso (H.map α)
+  change IsIso (H.map α)
   rw [heq]
   infer_instance
 

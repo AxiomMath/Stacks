@@ -134,7 +134,7 @@ private theorem aux_span_iff_det {K : Type*} [Field K] {n : ℕ} (v : Fin n → 
         exact h.span_eq_top_of_card_eq_finrank hcard
   rw [hli]
   have hrow : LinearIndependent K v ↔ LinearIndependent K (Matrix.of v).row := Iff.rfl
-  rw [hrow, Matrix.linearIndependent_rows_iff_isUnit, Matrix.isUnit_iff_isUnit_det,
+  rw [hrow, Matrix.linearIndependent_row_iff_isUnit, Matrix.isUnit_iff_isUnit_det,
     isUnit_iff_ne_zero]
 
 open MvPolynomial Matrix in
@@ -443,7 +443,7 @@ private theorem exists_gens_mod_jacobson_pi
       map_smul' := by
         intro c p
         obtain ⟨s, rfl⟩ := hsurj c
-        show (TensorProduct.quotTensorEquivQuotSMul M J) ((algebraMap S Sbar s) • p)
+        change (TensorProduct.quotTensorEquivQuotSMul M J) ((algebraMap S Sbar s) • p)
           = (algebraMap S Sbar s) • (TensorProduct.quotTensorEquivQuotSMul M J) p
         rw [algebraMap_smul, algebraMap_smul, map_smul] } with heqT
   set bMbar : Module.Basis (Fin n) Sbar Mbar := B.map eqT with hbMbar
@@ -512,7 +512,7 @@ private theorem exists_gens_mod_jacobson_pi
     apply Finset.sum_congr rfl
     intro j _
     rw [map_smulₛₗ]
-    show (e (Submodule.Quotient.mk (algebraMap R S (r a j)))) i • (Φ (π (x j))) i = _
+    change (e (Submodule.Quotient.mk (algebraMap R S (r a j)))) i • (Φ (π (x j))) i = _
     rw [he i (r a j), hr a j]
   rw [Submodule.map_span]
   have hrange_v : ⇑π '' Set.range v = Set.range (fun a => π (v a)) := by

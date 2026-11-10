@@ -116,7 +116,7 @@ theorem zmodToQuotient_comp_smul (i : quotientBasisIndex Λ ℓ) :
         (quotientBasisLift Λ ℓ i • 𝟙 (quotientModule Λ ℓ)) =
       (zmodBasisCofan (quotientBasis Λ ℓ)).inj i := by
   ext k
-  show quotientBasisLift Λ ℓ i • (k.down.val • (1 : Λ ⧸ Ideal.span {(ℓ : Λ)})) =
+  change quotientBasisLift Λ ℓ i • (k.down.val • (1 : Λ ⧸ Ideal.span {(ℓ : Λ)})) =
     k.down.val • quotientBasis Λ ℓ i
   rw [smul_comm (quotientBasisLift Λ ℓ i) k.down.val]
   congr 1

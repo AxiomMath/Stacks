@@ -41,9 +41,9 @@ theorem homComponent_succ_mul_of_isHomogeneous_one {h : TotalChowClass C sY}
     (hh : h.IsHomogeneous 1) (w : TotalChowClass C sY) (n : ℕ) :
     homComponent (n + 1) (h * w) = h * homComponent n w := by
   rw [homComponent_mul, Finset.sum_eq_single n]
-  · rw [show n + 1 - n = 1 by omega, hh.homComponent_eq_ite, if_pos rfl]
+  · rw [show n + 1 - n = 1 by omega, hh.homComponent_eq_ite, ite_eq_left rfl]
   · intro j hj hjn
-    rw [hh.homComponent_eq_ite, if_neg (by have := mem_range.1 hj; omega), zero_mul]
+    rw [hh.homComponent_eq_ite, ite_eq_right (by have := mem_range.1 hj; omega), zero_mul]
   · intro hn
     exact absurd (mem_range.2 (by omega)) hn
 
@@ -52,16 +52,17 @@ theorem homComponent_succ_mul_of_isHomogeneous_one_right {h : TotalChowClass C s
     (hh : h.IsHomogeneous 1) (w : TotalChowClass C sY) (n : ℕ) :
     homComponent (n + 1) (w * h) = homComponent n w * h := by
   rw [homComponent_mul, Finset.sum_eq_single 1]
-  · rw [show n + 1 - 1 = n by omega, hh.homComponent_eq_ite, if_pos rfl]
+  · rw [show n + 1 - 1 = n by omega, hh.homComponent_eq_ite, ite_eq_left rfl]
   · intro j _ hj1
-    rw [hh.homComponent_eq_ite, if_neg hj1, mul_zero]
+    rw [hh.homComponent_eq_ite, ite_eq_right hj1, mul_zero]
   · intro hn
     exact absurd (mem_range.2 (by omega)) hn
 
 /-- A product with a class of degree one on the left has no component of degree zero. -/
 theorem homComponent_zero_mul_of_isHomogeneous_one {h : TotalChowClass C sY}
     (hh : h.IsHomogeneous 1) (w : TotalChowClass C sY) : homComponent 0 (h * w) = 0 := by
-  rw [homComponent_mul, Finset.sum_range_one, hh.homComponent_eq_ite, if_neg (by omega), zero_mul]
+  rw [homComponent_mul, Finset.sum_range_one, hh.homComponent_eq_ite,
+    ite_eq_right (by omega), zero_mul]
 
 /-- **Dividing by `1 + h`.** If `h` has degree one and `v = (1 + h) u`, then
 `u_n = ∑_{j ≤ n} (-1)^j h^j v_{n-j}`. -/

@@ -352,7 +352,7 @@ theorem fibreComplAtInfinity_eq_preimage (ℐ : X.IdealSheafData) :
     fibreComplAtInfinity ℐ =
       blowupAtInfinityToLine ℐ ⁻¹ᵁ (lineInfinityDivisor X).support.compl := by
   refine TopologicalSpace.Opens.ext ?_
-  show ((fibreIdealAtInfinity ℐ).support : Set (blowupAtInfinity ℐ))ᶜ =
+  change ((fibreIdealAtInfinity ℐ).support : Set (blowupAtInfinity ℐ))ᶜ =
     (blowupAtInfinityToLine ℐ).base ⁻¹' ((lineInfinityDivisor X).support : Set _)ᶜ
   rw [fibreIdealAtInfinity, Scheme.IdealSheafData.support_comap]
   rfl

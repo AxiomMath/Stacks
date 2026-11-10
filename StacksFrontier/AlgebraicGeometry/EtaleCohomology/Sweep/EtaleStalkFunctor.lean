@@ -104,7 +104,7 @@ def etaleStalkGerm (F : smallEtaleTopos.{u, max u v} B S hS)
     (U : (geometricPointFiber B S hS s).Elements)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)) :
     (etaleStalkFunctor.{u, v} B S hS s).obj F :=
-  colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (sheafToPresheaf _ _).obj F) (op U) t
 
 /-- A morphism of sheaves on the small étale site carries the germ at `s` of a section to the
@@ -115,8 +115,8 @@ theorem etaleStalkFunctor_map_etaleStalkGerm
     (etaleStalkFunctor.{u, u + 1} B S hS s).map α
         (etaleStalkGerm.{u, u + 1} B S hS s F U t) =
       etaleStalkGerm.{u, u + 1} B S hS s G U (α.hom.app (op U.1) t) := by
-  change (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) (op U) ≫
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+  change (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) (op U) ≫
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B S hS s)).op α.hom)) t = _
   rw [colimit.ι_map]
   rfl
@@ -128,7 +128,7 @@ theorem exists_etaleStalkGerm_eq (F : smallEtaleTopos.{u, u + 1} B S hS)
     ∃ (U : (geometricPointFiber B S hS s).Elements) (t : F.obj.obj (op U.1)),
       etaleStalkGerm.{u, u + 1} B S hS s F U t = z := by
   obtain ⟨V, t, ht⟩ := Types.jointly_surjective'
-    (F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) z
+    (F := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) z
   exact ⟨V.unop, t, ht⟩
 
 end AlgebraicGeometry

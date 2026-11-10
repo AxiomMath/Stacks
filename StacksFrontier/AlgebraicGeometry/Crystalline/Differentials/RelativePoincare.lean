@@ -141,11 +141,11 @@ public theorem oneVariableDifferentialsEquiv_coefficient (b : B) :
         (algebraMap (B : Type u) (oneVariableDividedPowerPolynomial B) b)) =
       (1 ⊗ₜ[B] dividedPowerDifferential (A := A) B.dividedPowers b, 0) := by
   have h := (dividedPowerDifferentialsDividedPowerPolynomialEquiv (A := A) B Unit).2.1 b
-  show (LinearEquiv.prodCongr (LinearEquiv.refl _ _) _)
+  change (LinearEquiv.prodCongr (LinearEquiv.refl _ _) _)
     ((dividedPowerDifferentialsDividedPowerPolynomialEquiv (A := A) B Unit).1 _) = _
   rw [h]
   refine Prod.ext rfl ?_
-  show Finsupp.uniqueLinearEquiv (oneVariableDividedPowerPolynomial B)
+  change Finsupp.uniqueLinearEquiv (oneVariableDividedPowerPolynomial B)
     (oneVariableDividedPowerPolynomial B) () 0 = 0
   rw [map_zero]
 
@@ -155,11 +155,11 @@ public theorem oneVariableDifferentialsEquiv_variable :
     oneVariableDifferentialsEquiv A B (dividedPowerDifferential (A := A)
         (oneVariableDividedPowers B) (oneVariableVariable B)) = (0, 1) := by
   have h := (dividedPowerDifferentialsDividedPowerPolynomialEquiv (A := A) B Unit).2.2 ()
-  show (LinearEquiv.prodCongr (LinearEquiv.refl _ _) _)
+  change (LinearEquiv.prodCongr (LinearEquiv.refl _ _) _)
     ((dividedPowerDifferentialsDividedPowerPolynomialEquiv (A := A) B Unit).1 _) = _
   rw [h]
   refine Prod.ext rfl ?_
-  show Finsupp.uniqueLinearEquiv (oneVariableDividedPowerPolynomial B)
+  change Finsupp.uniqueLinearEquiv (oneVariableDividedPowerPolynomial B)
     (oneVariableDividedPowerPolynomial B) () (Finsupp.single () 1) = 1
   simp
 
@@ -211,7 +211,7 @@ public theorem dividedPowerPolynomialOneFormComparison_dividedPowerDifferential 
         (dividedPowerDifferential (A := A) B.dividedPowers b) =
       dividedPowerDifferential (A := A) (oneVariableDividedPowers B)
         (algebraMap (B : Type u) (oneVariableDividedPowerPolynomial B) b) := by
-  show (oneVariableDifferentialsEquiv A B).symm _ = _
+  change (oneVariableDifferentialsEquiv A B).symm _ = _
   rw [← oneVariableDifferentialsEquiv_coefficient A B b, LinearEquiv.symm_apply_apply]
 
 /-- **The divided power polynomial extension is `dz`-decomposed.**  Assumption (2) of
@@ -269,7 +269,7 @@ public theorem oneVariableCoefficient_universallyInjective :
       Algebra.linearMap (B : Type u) (oneVariableDividedPowerPolynomial B) =
       LinearMap.id := by
     refine LinearMap.ext fun b => ?_
-    show dividedPowerPolynomialAugmentation (B : Type u) Unit
+    change dividedPowerPolynomialAugmentation (B : Type u) Unit
       (algebraMap (B : Type u) (oneVariableDividedPowerPolynomial B) b) = b
     rw [AlgHom.commutes]
     rfl
@@ -434,14 +434,14 @@ public theorem oneVariablePartialZ_dpow_succ (n : ℕ) :
     oneVariablePartialZ A B
         ((oneVariableDividedPowers B).dpow (n + 1) (oneVariableVariable B)) =
       (oneVariableDividedPowers B).dpow n (oneVariableVariable B) := by
-  show (dividedPowerPolynomialDzDecomposition A B).partialZ _ = _
+  change (dividedPowerPolynomialDzDecomposition A B).partialZ _ = _
   rw [oneVariablePartialZ_eq, oneVariableDifferentialsEquiv_dpow_succ]
 
 /-- `∂_z(1) = 0`. -/
 public theorem oneVariablePartialZ_dpow_zero :
     oneVariablePartialZ A B
       ((oneVariableDividedPowers B).dpow 0 (oneVariableVariable B)) = 0 := by
-  show (dividedPowerPolynomialDzDecomposition A B).partialZ _ = _
+  change (dividedPowerPolynomialDzDecomposition A B).partialZ _ = _
   rw [oneVariablePartialZ_eq, oneVariableDifferentialsEquiv_dpow_zero]
   rfl
 
@@ -523,7 +523,7 @@ private noncomputable def oneVariableDOneDefect :
 private theorem oneVariableDOneDefect_eq_zero : oneVariableDOneDefect A B = 0 := by
   refine (oneVariableMonomialBasis B).ext fun n => ?_
   rw [oneVariableMonomialBasis_apply, LinearMap.zero_apply]
-  show TensorProduct.map (oneVariableTheta B) _
+  change TensorProduct.map (oneVariableTheta B) _
       ((dividedPowerPolynomialDzDecomposition A B).dOne _) -
     (dividedPowerPolynomialDzDecomposition A B).dOne (oneVariableTheta B _) = 0
   rw [oneVariableDOne_dpow, map_zero, oneVariableTheta_dpow, oneVariableDOne_dpow, sub_zero]
@@ -740,7 +740,7 @@ public theorem oneVariableOneFormComparison_compatible (b : (B : Type u)) :
 /-- **Assumption (1) of Section 60.25 at `a = 1`.**  The differential of `1` vanishes. -/
 public theorem oneVariableBase_targetD_one :
     SourceDeRham.targetD (oneVariableBaseProjection A B) (1 : (B : Type u)) = 0 := by
-  show (dividedPowerDifferentialRelations (A := A) B.dividedPowers).mkQ
+  change (dividedPowerDifferentialRelations (A := A) B.dividedPowers).mkQ
     (KaehlerDifferential.D A (B : Type u) 1) = 0
   rw [Derivation.map_one_eq_zero, map_zero]
 

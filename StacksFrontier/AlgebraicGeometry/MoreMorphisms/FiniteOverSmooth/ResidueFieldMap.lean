@@ -154,7 +154,7 @@ theorem pullback_point_ext_of_isIso_residueFieldMap {X Y S : Scheme.{u}} (f : X 
     ⟨fun a b ↦ (Spec.map T.tensorInl).homeomorph.injective (Subsingleton.elim _ _)⟩
   refine Scheme.Pullback.carrierEquiv.injective (Scheme.Pullback.carrierEquiv_eq_iff.mpr
     ⟨Scheme.Pullback.Triplet.ext hx hy, ?_⟩)
-  show @Eq (Spec T.tensor) _ _
+  change @Eq (Spec T.tensor) _ _
   exact Subsingleton.elim _ _
 
 /-- A point of a fibre product is determined by its two images, in the form in which the two

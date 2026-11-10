@@ -330,7 +330,7 @@ theorem isPseudoCoherentFromOnEtaleSquare_of_forall_derivedSections
   let rmap : openChartObject B S hS U Ux ⟶ openChartObject B S hS V Vx :=
     Over.homMk ⟨(T.map g).resLE Vx Ux hUxV⟩ (by
       apply ObjectProperty.hom_ext
-      show (T.map g).resLE Vx Ux hUxV ≫ (Vx.ι ≫ V.hom.hom) = Ux.ι ≫ U.hom.hom
+      change (T.map g).resLE Vx Ux hUxV ≫ (Vx.ι ≫ V.hom.hom) = Ux.ι ≫ U.hom.hom
       rw [← Category.assoc, Scheme.Hom.resLE_comp_ι]
       exact congrArg (fun φ ↦ Ux.ι ≫ φ) (congrArg (fun φ ↦ φ.hom) g.w))
   have hsquare : rmap ≫ tIncl = sIncl ≫ g := by

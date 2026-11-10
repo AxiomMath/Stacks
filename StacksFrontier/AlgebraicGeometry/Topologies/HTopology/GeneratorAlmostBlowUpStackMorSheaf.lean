@@ -192,10 +192,10 @@ public theorem exists_morAgree_of_almostBlowUpSquare
     (fun | ⟨false⟩ => Over.w z | ⟨true⟩ => Over.w b)
     (sieve_ofArrows_pair_mem_topology b.left z.left Id hb hZ) ?_⟩
   rintro ⟨_ | _⟩
-  · show MorAgree ψ Z.hom
+  · change MorAgree ψ Z.hom
       (Functor.baseChangeFiberMor M z.left Z.hom (Over.w z) Z.hom (Over.w z))
     rwa [hMz]
-  · show MorAgree ψ X'.hom
+  · change MorAgree ψ X'.hom
       (Functor.baseChangeFiberMor M b.left X'.hom (Over.w b) X'.hom (Over.w b))
     rwa [hMb]
 

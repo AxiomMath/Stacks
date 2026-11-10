@@ -87,13 +87,13 @@ term. -/
 theorem stupidTruncLESplitting_r_self (p p' : ℤ) (hp : p' + 1 = p) :
     (stupidTruncLESplitting K p p' hp p).r =
       @inv _ _ _ _ ((stupidTruncLEι K p).f p) (isIso_stupidTruncLEι_f_self K p) := by
-  simp only [stupidTruncLESplitting, dif_pos rfl, ShortComplex.Splitting.ofIsIsoOfIsZero]
+  simp only [stupidTruncLESplitting, dite_eq_left rfl, ShortComplex.Splitting.ofIsIsoOfIsZero]
   rfl
 
 /-- In degree `p` the section of the canonical splitting vanishes. -/
 theorem stupidTruncLESplitting_s_self (p p' : ℤ) (hp : p' + 1 = p) :
     (stupidTruncLESplitting K p p' hp p).s = 0 := by
-  simp only [stupidTruncLESplitting, dif_pos rfl, ShortComplex.Splitting.ofIsIsoOfIsZero]
+  simp only [stupidTruncLESplitting, dite_eq_left rfl, ShortComplex.Splitting.ofIsIsoOfIsZero]
 
 /-- Away from degree `p` the section of the canonical splitting inverts the comparison of
 truncations. -/
@@ -101,13 +101,13 @@ theorem stupidTruncLESplitting_s_of_ne (p p' : ℤ) (hp : p' + 1 = p) (n : ℤ) 
     (stupidTruncLESplitting K p p' hp n).s =
       @inv _ _ _ _ ((stupidTruncLEMapLE K (show p' ≤ p by omega)).f n)
         (isIso_stupidTruncLEMapLE_f_of_ne K p p' hp n hn) := by
-  simp only [stupidTruncLESplitting, dif_neg hn, ShortComplex.Splitting.ofIsZeroOfIsIso]
+  simp only [stupidTruncLESplitting, dite_eq_right hn, ShortComplex.Splitting.ofIsZeroOfIsIso]
   rfl
 
 /-- Away from degree `p` the retraction of the canonical splitting vanishes. -/
 theorem stupidTruncLESplitting_r_of_ne (p p' : ℤ) (hp : p' + 1 = p) (n : ℤ) (hn : n ≠ p) :
     (stupidTruncLESplitting K p p' hp n).r = 0 := by
-  simp only [stupidTruncLESplitting, dif_neg hn, ShortComplex.Splitting.ofIsZeroOfIsIso]
+  simp only [stupidTruncLESplitting, dite_eq_right hn, ShortComplex.Splitting.ofIsZeroOfIsIso]
 
 end Splitting
 

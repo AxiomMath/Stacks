@@ -135,7 +135,7 @@ theorem nonempty_artinSchreierLevelSheaf_basePoint_iso (x x' : GeometricPoint (S
   have h := (torsorCover k A g).character_etaleFundamentalGroupMulEquiv t p p'
     (etaleFundamentalGroupBasePointHom t σ)
   rw [etaleFundamentalGroupMulEquiv_basePointHom] at h
-  show ((artinSchreierCharacter k A g ψ x p (etaleFundamentalGroupBasePointHom t σ) : Λˣ) : Λ) •
+  change ((artinSchreierCharacter k A g ψ x p (etaleFundamentalGroupBasePointHom t σ) : Λˣ) : Λ) •
       v = ((artinSchreierCharacter k A g ψ x' p' σ : Λˣ) : Λ) • v
   rw [artinSchreierCharacter_apply, artinSchreierCharacter_apply, h]
 

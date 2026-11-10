@@ -95,7 +95,7 @@ theorem isGeometricallyConnected_fibreOverFieldValuedPoint (f : X ⟶ Y)
         B.obj hS)) ⟶ p.siteObject).op p.value }
   have hXp : IsAlgebraicSpace B (Spec (.of p.carrier)) p.contained
       (fiberOverField B S hS f p) := fiberOverField_isAlgebraicSpace B S hS hX hY f p
-  show IsGeometricallyConnected B p.carrier p.contained (fiberOverField B S hS f p)
+  change IsGeometricallyConnected B p.carrier p.contained (fiberOverField B S hS f p)
   rw [isGeometricallyConnected_iff_relocalizeRestrict B p.carrier K p.contained hK _ hXp,
     isGeometricallyConnected_iff_connectedSpace_of_isSepClosed B K hK _
       (isAlgebraicSpace_relocalizeRestrict B (Spec (.of K)) (Spec (.of p.carrier)) hK
@@ -132,7 +132,7 @@ theorem isProper_toYonedaId_fibreOverFieldValuedPoint (f : X ⟶ Y)
       (toYonedaId B (Spec (.of p.carrier)) p.contained (fibreOverFieldValuedPoint B S hS f p)) := by
   have hXp : IsAlgebraicSpace B (Spec (.of p.carrier)) p.contained
       (fiberOverField B S hS f p) := fiberOverField_isAlgebraicSpace B S hS hX hY f p
-  show IsProper B (Spec (.of p.carrier)) p.contained
+  change IsProper B (Spec (.of p.carrier)) p.contained
     (toYonedaId B (Spec (.of p.carrier)) p.contained (fiberOverField B S hS f p))
   rw [← isProper_relocalizeToYoneda_iff B (Spec (.of p.carrier)) S p.contained hS
       p.siteObject.hom _ hXp, ← extendFiberOverFieldIso_hom_snd,

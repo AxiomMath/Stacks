@@ -95,7 +95,7 @@ theorem cechFormalCoproductMap_φ_comp_π
         (i : (cechFormalCoproduct E β).I) ≫
         Pi.π (fun a ↦ Over.mk (E.f (i (r a)))) b =
       Pi.π (fun a ↦ Over.mk (E.f (i a))) (r b) := by
-  show Pi.lift (fun a ↦ Pi.π (fun b ↦ Over.mk (E.f (i b))) (r a)) ≫
+  change Pi.lift (fun a ↦ Pi.π (fun b ↦ Over.mk (E.f (i b))) (r a)) ≫
       Pi.π (fun a ↦ Over.mk (E.f (i (r a)))) b = _
   exact Pi.lift_comp_π _ _
 
@@ -211,7 +211,7 @@ theorem evalOpMapCompPi
     ((FormalCoproduct.evalOp D A).obj P).map g.op ≫
         Pi.π (fun j : X.I ↦ P.obj (op (X.obj j))) i =
       Pi.π (fun j : Y.I ↦ P.obj (op (Y.obj j))) (g.f i) ≫ P.map (g.φ i).op := by
-  show (Pi.lift (fun i : X.I ↦
+  change (Pi.lift (fun i : X.I ↦
     Pi.π (fun j : Y.I ↦ P.obj (op (Y.obj j))) (g.f i) ≫ P.map (g.φ i).op) ≫
       Pi.π (fun j : X.I ↦ P.obj (op (X.obj j))) i) = _
   rw [Pi.lift_comp_π]
@@ -258,7 +258,7 @@ theorem cechComplexMapDegree_comp_π_formal
         Pi.π (fun j : ToType (SimplexCategory.mk n) → G.I₀ ↦
           F.obj (op ((∏ᶜ (fun a ↦ Over.mk (G.f (j a)))).left)))
           (φ.s₀ ∘ i) ≫ F.map (cechProductMap E G φ n i).op := by
-  show (Pi.lift (fun i : ToType (SimplexCategory.mk n) → E.I₀ ↦
+  change (Pi.lift (fun i : ToType (SimplexCategory.mk n) → E.I₀ ↦
     Pi.π (fun j : ToType (SimplexCategory.mk n) → G.I₀ ↦
       F.obj (op ((∏ᶜ (fun a ↦ Over.mk (G.f (j a)))).left))) (φ.s₀ ∘ i) ≫
       F.map (cechProductMap E G φ n i).op) ≫
@@ -358,7 +358,7 @@ theorem cechComplexMapDegree_comm
     (F : Cᵒᵖ ⥤ A) (n : ℕ) :
     cechComplexMapDegree E G φ F n ≫ (cechComplex E F).d n (n + 1) =
       (cechComplex G F).d n (n + 1) ≫ cechComplexMapDegree E G φ F (n + 1) := by
-  show cechComplexMapDegree E G φ F n ≫
+  change cechComplexMapDegree E G φ F n ≫
       (AlgebraicTopology.AlternatingCofaceMapComplex.obj
         ((FormalCoproduct.cosimplicialObjectFunctor.{w} (cechSimplicialObject E)).obj
           ((Over.forget U).op ⋙ F))).d n (n + 1) =
@@ -407,7 +407,7 @@ theorem cechComplexMap_f_Pi_π
       Pi.π (fun j : Fin (n + 1) → G.I₀ ↦
           F.obj (op ((∏ᶜ (fun a ↦ Over.mk (G.f (j a)))).left))) (φ.s₀ ∘ i) ≫
         F.map (cechProductMap E G φ n i).op := by
-  show cechComplexMapDegree E G φ F n ≫
+  change cechComplexMapDegree E G φ F n ≫
       Pi.π (fun i : Fin (n + 1) → E.I₀ ↦
         F.obj (op ((∏ᶜ (fun a ↦ Over.mk (E.f (i a)))).left))) i = _
   simpa [cechSimplicialObject, cechFormalCoproduct,

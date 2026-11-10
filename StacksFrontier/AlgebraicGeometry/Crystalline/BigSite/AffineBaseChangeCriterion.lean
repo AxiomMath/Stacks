@@ -224,24 +224,21 @@ theorem isBaseChange_ambientRestrictₗ_of_bijective {D : A.thickening.target.sc
     AddEquiv.refl _
   have hρ : ∀ (b : crysSheafRing S (A.restrictOpen U)) (t : ringAlong k),
       ρ (b • t) = σ b • ρ t := fun b t ↦ by
-    show restrictOpenSectionsRingEquiv A D (crysSheafRingMap k b * siteRingAlong k t) =
+    change restrictOpenSectionsRingEquiv A D (crysSheafRingMap k b * siteRingAlong k t) =
       A.thickening.target.scheme.presheaf.map (homOfLE hDU).op (σ b) *
         restrictOpenSectionsRingEquiv A D t
     rw [map_mul, restrictOpenSectionsRingEquiv_restrictOpenLE]
     rfl
   have hτ : ∀ (b : crysSheafRing S (A.restrictOpen U))
       (m : M.val.obj (op (A.restrictOpen U))), τ (b • m) = σ b • τ m := fun b m ↦ by
-    show b • m = (restrictOpenSectionsRingEquiv A U).symm (σ b) • m
+    change b • m = (restrictOpenSectionsRingEquiv A U).symm (σ b) • m
     rw [RingEquiv.symm_apply_apply]
   let Ψ := Stacks.TensorProduct.transportEquiv σ ρ τ hρ hτ
   let L := (restrictₗ (ambientSchemeModules M A) hDU).liftBaseChange
     Γ(A.thickening.target.scheme, D)
   have hsq : ∀ z, L (Ψ z) = extensionSectionsMapAlong M k z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        rw [map_zero, map_zero, map_zero]
-        rfl
+    induction z using TensorProduct.inductionOn with
     | tmul t m =>
         rw [Stacks.TensorProduct.transportEquiv_tmul, LinearMap.liftBaseChange_tmul,
           extensionSectionsMapAlong_tmul, smul_ambientSchemeModules]

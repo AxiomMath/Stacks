@@ -229,6 +229,7 @@ public theorem continuous_restrictScalarsRep_tensorPowerRepresentation {a : ℕ}
     exact continuous_const
   | succ k ih => exact continuous_restrictScalarsRep_kroneckerRepresentation b ih hτ
 
+omit [IsTopologicalRing F] in
 /-- **`Res_b E[G/O]` is continuous** for an open subgroup `O`: the permutation matrices are
 locally constant. -/
 public theorem continuous_restrictScalarsRep_permMatrixRepresentation (O : Subgroup G)
@@ -407,11 +408,11 @@ public theorem norm_le_rpow_pow_of_weakInertiaBound (φ : Gal(L/K) →* G) {E : 
           ((χ (φ σ) : GL (Fin (a ^ k * Nat.card (G ⧸ O))) ℂ) :
             Matrix (Fin (a ^ k * Nat.card (G ⧸ O))) (Fin (a ^ k * Nat.card (G ⧸ O))) ℂ) *ᵥ z = z}
         add_mem' := fun hx hy σ hσ => by
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [Matrix.mulVec_add, hx σ hσ, hy σ hσ]
         zero_mem' := fun σ _ => Matrix.mulVec_zero _
         smul_mem' := fun t z hz σ hσ => by
-          simp only [Set.mem_setOf_eq] at hz ⊢
+          simp only [Set.mem_ofPred_eq] at hz ⊢
           rw [Matrix.mulVec_smul, hz σ hσ] }
     have hZ : ∀ z ∈ Z, A' *ᵥ z ∈ Z := by
       intro z hz σ hσ

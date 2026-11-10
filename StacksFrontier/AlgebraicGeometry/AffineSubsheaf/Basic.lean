@@ -165,7 +165,7 @@ theorem obj_spanRestrictSubsheaf_eq_top [F.IsQuasicoherent] (A : Set Γ(F, ⊤))
     (spanRestrictSubsheaf F A).toSubmodule.obj (op Z) = ⊤ := by
   rw [eq_top_iff]
   intro s _
-  show IsLocallyIn F (spanRestrictFamily F A) s
+  change IsLocallyIn F (spanRestrictFamily F A) s
   intro V h
   rw [hA V (h.trans hZ)]
   exact Submodule.mem_top

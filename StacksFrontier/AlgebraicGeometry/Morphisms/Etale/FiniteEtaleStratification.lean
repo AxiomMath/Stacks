@@ -205,7 +205,7 @@ private theorem exists_finite_openCover_separated_restrictions
   refine ⟨𝒰, inferInstance, ?_, ?_⟩
   · intro i
     let l := B.idx i.1
-    show IsAffine (B.X l)
+    change IsAffine (B.X l)
     exact Scheme.isAffine_affineOpenCover _ A l
   · intro i
     let l := B.idx i.1
@@ -278,7 +278,7 @@ private theorem exists_common_intersection_immersion
       let Z' := pullback k (j a)
       let k' : Z' ⟶ X := pullback.fst k (j a) ≫ k
       refine ⟨Z', k', inferInstance, ?_, ?_⟩
-      · show Set.range (pullback.fst k (j a) ≫ k).base = _
+      · change Set.range (pullback.fst k (j a) ≫ k).base = _
         rw [Scheme.Pullback.range_fst_comp, hr, hrange a]
         ext x
         simp only [Set.mem_inter_iff, Set.mem_iInter]

@@ -139,7 +139,7 @@ private lemma iso_unique_of_local (A B : D.Realization)
   apply Iso.ext
   refine hom_ext_of_chart_pullbacks _ _ fun i => ?_
   apply (cancel_epi (A.localIso i).hom).1
-  show (A.localIso i).hom ≫
+  change (A.localIso i).hom ≫
       (Scheme.Modules.pullback (colimit.ι d.functor i)).map e.hom =
     (A.localIso i).hom ≫
       (Scheme.Modules.pullback (colimit.ι d.functor i)).map e'.hom

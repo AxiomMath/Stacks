@@ -79,10 +79,10 @@ theorem nonempty_over_iso_blowUpToBase :
     rw [hU, Ideal.map_map, hφψ, Ideal.map_id]
   have hI : Ideal.map e.inv.hom K = ℐ.ideal U := hU.symm
   have hκ : (Stacks.RelativeProj.isAffineOpen U).isoSpec.inv ≫ U.1.ι = Spec.map e.inv := by
-    show (isAffineOpen_top (Spec (CommRingCat.of R))).fromSpec = Spec.map e.inv
+    change (isAffineOpen_top (Spec (CommRingCat.of R))).fromSpec = Spec.map e.inv
     rw [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv]
   have hιiso : IsIso U.1.ι := by
-    show IsIso (Scheme.topIso _).hom
+    change IsIso (Scheme.topIso _).hom
     infer_instance
   have hchart := Stacks.Blowup.isPullback_blowUpChart ℐ U
   have hchartIso : IsIso (Stacks.Blowup.blowUpChart ℐ U) :=

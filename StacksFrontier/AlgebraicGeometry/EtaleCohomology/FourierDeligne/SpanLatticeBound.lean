@@ -41,7 +41,7 @@ namespace Stacks.EtaleCohomology
 section Lattice
 
 variable {O : Type*} (E : Type*) [CommRing O] [IsDomain O] [Field E] [Algebra O E]
-  [IsFractionRing O E] {ι : Type*} [Fintype ι] [DecidableEq ι]
+  [IsFractionRing O E] {ι : Type*}
 
 /-- A scalar multiple `c • w` lies in a submodule of `J → B` once `c` times each standard basis
 vector does. -/
@@ -80,10 +80,10 @@ private theorem mulVec_map_mem_of_mem_span {J A B : Type*} [Fintype J] [CommRing
       rw [this, Matrix.smul_mulVec]
       exact S.smul_mem _ (hX v hv)
 
-omit [Fintype ι] in
 /-- A submodule of `ι → O` whose image spans `ι → E` contains a nonzero multiple of each standard
 basis vector. -/
-private theorem exists_ne_zero_smul_single_mem_of_span_eq_top (N : Submodule O (ι → O))
+private theorem exists_ne_zero_smul_single_mem_of_span_eq_top [DecidableEq ι]
+    (N : Submodule O (ι → O))
     (hN : Submodule.span E ((fun v : ι → O => algebraMap O E ∘ v) '' N) = ⊤) (i : ι) :
     ∃ d : O, d ≠ 0 ∧ d • (Pi.single i 1 : ι → O) ∈ N := by
   classical
@@ -119,9 +119,11 @@ private theorem exists_ne_zero_smul_single_mem_of_span_eq_top (N : Submodule O (
 
 /-- **A submodule of `ι → O` whose image spans `ι → E` contains `d • (ι → O)`** for a nonzero
 `d ∈ O`. -/
-theorem exists_ne_zero_smul_mem_of_span_eq_top (N : Submodule O (ι → O))
+theorem exists_ne_zero_smul_mem_of_span_eq_top [Finite ι] (N : Submodule O (ι → O))
     (hN : Submodule.span E ((fun v : ι → O => algebraMap O E ∘ v) '' N) = ⊤) :
     ∃ d : O, d ≠ 0 ∧ ∀ v : ι → O, d • v ∈ N := by
+  classical
+  have := Fintype.ofFinite ι
   -- each standard basis vector, up to a nonzero scalar, lies in `N`
   choose d hd hdN using exists_ne_zero_smul_single_mem_of_span_eq_top E N hN
   refine ⟨∏ i, d i, Finset.prod_ne_zero_iff.2 fun i _ => hd i, fun v => ?_⟩
@@ -195,7 +197,7 @@ private theorem finrank_end_le_finrank_span_of_span_toLin'_map_eq_top (M : A →
       have h2 : M a = ∑ i, b.repr ⟨M a, hx⟩ i • (b i : Matrix ι ι E) := by
         simpa only [Submodule.coe_sum, Submodule.coe_smul] using
           (congrArg Subtype.val (b.sum_repr ⟨M a, hx⟩)).symm
-      show Θ (Ψ (M a)) = _
+      change Θ (Ψ (M a)) = _
       conv_lhs => rw [h2]
       rw [map_sum, map_sum]
       refine Finset.sum_congr rfl fun i _ => ?_
@@ -233,13 +235,14 @@ theorem span_range_eq_top_of_forall_mulVec_map_mem (M : A → Matrix ι ι E)
     _ ≤ _ := finrank_end_le_finrank_span_of_span_toLin'_map_eq_top M
         (span_range_toLin'_map_eq_top M hmul hone hirr)
 
-omit [IsAlgClosed K] in
+omit [IsAlgClosed K] [DecidableEq ι] in
 /-- **A family of matrices spanning `M_ι(E)` is irreducible over every extension**: the matrices
 over `E` whose images stabilize a subspace `W ⊆ K^ι` form an `E`-subspace, which contains the
 family, hence all matrix units, and a subspace stable under the matrix units is `0` or `K^ι`. -/
 theorem eq_bot_or_eq_top_of_span_range_eq_top (M : A → Matrix ι ι E)
     (hspan : Submodule.span E (Set.range M) = ⊤) (W : Submodule K (ι → K))
     (hW : ∀ a, ∀ v ∈ W, (M a).map (algebraMap E K) *ᵥ v ∈ W) : W = ⊥ ∨ W = ⊤ := by
+  classical
   have hT : ∀ X : Matrix ι ι E, ∀ v ∈ W, X.map (algebraMap E K) *ᵥ v ∈ W := fun X =>
     mulVec_map_mem_of_mem_span _ W (by rintro _ ⟨a, rfl⟩; exact hW a) (hspan ▸ Submodule.mem_top)
   have hunit : ∀ i j, ∀ v ∈ W, v j • (Pi.single i 1 : ι → K) ∈ W := fun i j v hv => by
@@ -258,7 +261,6 @@ end Absolute
 section Stable
 
 variable {O R : Type*} [CommRing O] [CommRing R] [Algebra O R] {ι : Type*} [Fintype ι]
-  [DecidableEq ι]
 
 /-- **A submodule stable under matrices whose `O`-span contains `d • M_ι(O)`** contains, with a
 vector `v`, all of `d · vⱼ · R^ι` for every coordinate `vⱼ`. -/
@@ -266,6 +268,7 @@ theorem smul_mem_of_forall_matrix_mem (S₀ : Set (Matrix ι ι O)) (d : O)
     (hd : ∀ M : Matrix ι ι O, d • M ∈ Submodule.span O S₀) (S : Submodule R (ι → R))
     (hS : ∀ M ∈ S₀, ∀ v ∈ S, M.map (algebraMap O R) *ᵥ v ∈ S) {v : ι → R} (hv : v ∈ S) (j : ι)
     (w : ι → R) : (algebraMap O R d * v j) • w ∈ S := by
+  classical
   refine smul_mem_of_forall_smul_single_mem S _ (fun i => ?_) w
   simpa [Matrix.single_mulVec_eq] using
     mulVec_map_mem_of_mem_span S₀ S hS (hd (Matrix.single i j 1)) v hv

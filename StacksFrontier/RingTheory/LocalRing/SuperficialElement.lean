@@ -229,7 +229,7 @@ private theorem exists_mem_pow_of_mono_mem_sat :
   obtain ⟨c, -, hc⟩ := Submodule.mem_span_finset.mp hsat
   have hcoeff := congrArg (fun f : Rees A => (f : A[X]).coeff n) hc
   simp only [coe_mono, coeff_monomial_same] at hcoeff
-  rw [← hcoeff, AddSubmonoidClass.coe_finset_sum, finset_sum_coeff]
+  rw [← hcoeff, AddSubmonoidClass.coe_finsetSum, finsetSum_coeff]
   refine Ideal.sum_mem _ fun g hg => ?_
   rw [smul_eq_mul, MulMemClass.coe_mul, coeff_mul]
   refine Ideal.sum_mem _ fun p hp => ?_
@@ -378,7 +378,7 @@ theorem length_quotient_span_singleton_sup_add_length_quotient_pow {b : A}
       Module.length A (A ⧸ maximalIdeal A ^ (n + 1)) := by
   let f : A ⧸ maximalIdeal A ^ n →ₗ[A] A ⧸ maximalIdeal A ^ (n + 1) :=
     Submodule.mapQ _ _ (LinearMap.mulLeft A b) fun r hr => by
-      show b * r ∈ maximalIdeal A ^ (n + 1)
+      change b * r ∈ maximalIdeal A ^ (n + 1)
       rw [pow_succ']
       exact Ideal.mul_mem_mul hb hr
   let g : A ⧸ maximalIdeal A ^ (n + 1) →ₗ[A] A ⧸ (Ideal.span {b} ⊔ maximalIdeal A ^ (n + 1)) :=

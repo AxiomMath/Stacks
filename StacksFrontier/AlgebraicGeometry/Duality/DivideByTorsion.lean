@@ -135,7 +135,7 @@ theorem supportLocalCohomology_isZero_of_isIPowerTorsion
     Dualizing.isIso_localCohomologyAdjunction_counit A I hI ⟨X, hprop⟩
   have e : P.ι.obj ((Dualizing.localCohomologyFunctor A I hI).obj X) ≅ X :=
     @asIso _ _ _ _ ((Dualizing.localCohomologyAdjunction A I hI).counit.app X) hiso
-  show IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
+  change IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
     (P.ι.obj ((Dualizing.localCohomologyFunctor A I hI).obj X)))
   refine IsZero.of_iso ?_
     ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).mapIso e)
@@ -287,7 +287,7 @@ theorem supportLocalCohomology_zero_iso_torsion
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1
     exact h1.trans (hcomp x)
   · refine ModuleCat.hom_ext (LinearMap.ext fun y => Subtype.ext ?_)
-    show (supportLocalCohomologyToModule.{u, v} A I hI M).hom (α.hom y) = (y : M)
+    change (supportLocalCohomologyToModule.{u, v} A I hI M).hom (α.hom y) = (y : M)
     have h1 := congrArg (fun k : N ⟶ M => k.hom y) hαc
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1
     rw [h1, hincl]

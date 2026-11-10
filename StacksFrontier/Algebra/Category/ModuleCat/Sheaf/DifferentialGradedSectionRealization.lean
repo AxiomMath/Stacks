@@ -56,7 +56,6 @@ attribute [local instance] GradedAlgebra.sectionsGOne GradedAlgebra.sectionsGMul
   GradedAlgebra.sectionsGRing Stacks.uliftIntAlgebra
 
 variable {C : Type u} [Category.{v} C]
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{t}}
 
 namespace DifferentialGradedAlgebra
@@ -171,7 +170,7 @@ theorem sectionAlgebra_d_sectionScalar (U : Cᵒᵖ)
   have h1 : (A.complex.d 0 (0 + 1)).val.app U (A.one.eval U) = 0 :=
     DirectSum.of_injective (β := A.toGradedAlgebra.sectionsPiece U) (0 + 1)
       (h0.trans (map_zero _).symm)
-  show (A.sectionAlgebra U).d
+  change (A.sectionAlgebra U).d
     (DirectSum.of (A.toGradedAlgebra.sectionsPiece U) 0 (r • A.one.eval U)) = 0
   rw [sectionAlgebra_d_of, map_smul, h1, smul_zero, map_zero]
   rfl
@@ -382,7 +381,7 @@ theorem restrictPiece_smul {U V : Cᵒᵖ} (a : V ⟶ U) (n : ℤ)
     X.restrictPiece a n (r • x) =
       (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.map a r • X.restrictPiece a n x := by
   refine Subtype.ext ?_
-  show X.restrFun a (A.sectionScalarOp V r • (x : (X.obj V).M)) =
+  change X.restrFun a (A.sectionScalarOp V r • (x : (X.obj V).M)) =
     A.sectionScalarOp U _ • X.restrFun a x
   refine (X.restrFun_smul a (A.sectionScalar V r) x).trans ?_
   rw [A.sectionRestriction_sectionScalar]

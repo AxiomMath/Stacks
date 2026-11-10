@@ -119,9 +119,9 @@ private theorem two_mem_image_genericPoint_specZModTwo :
     (2 : ℤ) ∈ ((Spec.map (CommRingCat.ofHom (algebraMap ℤ (ZMod 2))))
       (genericPoint (Spec (CommRingCat.of (ZMod 2))))).asIdeal := by
   rw [genericPoint_eq_bot_of_affine]
-  show (2 : ℤ) ∈ (PrimeSpectrum.comap (algebraMap ℤ (ZMod 2)) ⊥).asIdeal
+  change (2 : ℤ) ∈ (PrimeSpectrum.comap (algebraMap ℤ (ZMod 2)) ⊥).asIdeal
   rw [PrimeSpectrum.comap_asIdeal]
-  show ((2 : ℤ) : ZMod 2) ∈ (⊥ : Ideal (ZMod 2))
+  change ((2 : ℤ) : ZMod 2) ∈ (⊥ : Ideal (ZMod 2))
   simpa using (by decide : ((2 : ℤ) : ZMod 2) = 0)
 
 private instance : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap ℤ (ZMod 2)))) := by

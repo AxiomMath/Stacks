@@ -56,6 +56,7 @@ namespace RelativeProjSituation
 variable (s : RelativeProjSituation.{u, m})
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for separatedness of the chart's relative Proj (`infer_instance` in `hmap`)
 /-- **Stacks 084E.** In Situation 0849 the structure morphism `π : Proj_X(𝒜) ⟶ X` of the
 relative homogeneous spectrum is separated.
 

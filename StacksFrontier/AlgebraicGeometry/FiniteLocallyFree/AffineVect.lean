@@ -113,7 +113,7 @@ theorem finiteProjectiveProperty_extendScalars (φ : R ⟶ S) (L : FinProj R) :
   let _ : Module.Finite R L.obj := L.property.1
   let _ : Module.Projective R L.obj := L.property.2
   let _ : Algebra R S := φ.hom.toAlgebra
-  show Module.Finite S (TensorProduct R S L.obj) ∧ Module.Projective S (TensorProduct R S L.obj)
+  change Module.Finite S (TensorProduct R S L.obj) ∧ Module.Projective S (TensorProduct R S L.obj)
   exact ⟨inferInstance, inferInstance⟩
 
 namespace FinProj

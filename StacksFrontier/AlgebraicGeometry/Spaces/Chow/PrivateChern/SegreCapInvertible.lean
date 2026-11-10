@@ -60,15 +60,15 @@ theorem segreCapOfModule_succ_of_isInvertibleModule
   have e1 : P.twistCap = firstChernCapChow.{u, u + 1} D P.toBase P.isGood
       (pullbackLine D P.toBase P.isGood sX hX P.proj L) hπL :=
     firstChernCapChow_congr_iso D P.toBase P.isGood _ _ _ hπL e
-  show P.segreCap (n + 1) = (P.segreCap n).comp (firstChernCapChow.{u, u + 1} D sX hX L hL)
+  change P.segreCap (n + 1) = (P.segreCap n).comp (firstChernCapChow.{u, u + 1} D sX hX L hL)
   refine AddMonoidHom.ext fun α => ?_
   have e2 := flatPullbackChow_firstChernCapChow D P.toBase P.isGood sX hX P.proj P.proj_comp 0
     P.isFlat P.hasRelativeDimension L hL α
-  show P.pushforwardChow ((P.twistCap ^ (0 + (n + 1))) (P.pullbackChow α)) =
+  change P.pushforwardChow ((P.twistCap ^ (0 + (n + 1))) (P.pullbackChow α)) =
     P.pushforwardChow ((P.twistCap ^ (0 + n))
       (P.pullbackChow (firstChernCapChow.{u, u + 1} D sX hX L hL α)))
   rw [show 0 + (n + 1) = 0 + n + 1 by omega, pow_succ]
-  show P.pushforwardChow ((P.twistCap ^ (0 + n)) (P.twistCap (P.pullbackChow α))) = _
+  change P.pushforwardChow ((P.twistCap ^ (0 + n)) (P.twistCap (P.pullbackChow α))) = _
   rw [e1]
   exact congrArg _ (congrArg _ e2.symm)
 

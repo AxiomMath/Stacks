@@ -127,7 +127,7 @@ theorem sectionsFunctor_map_fSharpRing (W : SmallEtale B S hS X.1)
     (a : (invSections g W).obj (ringSheaf (ringO Y))) :
     (sectionsFunctor _ (op W)).map (fSharpRing g) a =
       (g.fSharpInverseImage.hom.app (op W)).hom a := by
-  show g.fSharpSet.hom.app (op W) a = _
+  change g.fSharpSet.hom.app (op W) a = _
   rw [← g.forgetRing_map_fSharpInverseImage_eq_fSharpSet]
   rfl
 

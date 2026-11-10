@@ -70,7 +70,7 @@ theorem mem_dimPart_of_relativeDimension {S W Y : Scheme.{u}} (sY : Y ⟶ S) [Sm
       IsPullback.of_horiz_isIso ⟨by
         rw [Category.comp_id, ← Category.assoc, Scheme.Hom.isoOpensRange_inv_comp]⟩
     exact RelativeDimension.of_isPullback sq h
-  show y ∈ relativeDimensionOpen _ _ d
+  change y ∈ relativeDimensionOpen _ _ d
   rw [mem_relativeDimensionOpen]
   have h1 := topologicalKrullDimAt_fiber_eq_of_relativeDimension sY j.opensRange d hU y hy
   have h2 := relativeDimensionFunction_apply sY (fun s ↦ isCohenMacaulay_fiber_of_smooth sY s) y

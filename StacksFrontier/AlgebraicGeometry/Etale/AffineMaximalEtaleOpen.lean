@@ -119,7 +119,7 @@ private theorem exists_nhd_isAffineOpen_preimage_of_affine_stalk_preimage
   have hpre : c.π.app i₀ ⁻¹ᵁ U = X.fromSpecStalk x ⁻¹ᵁ V := by
     rw [← Scheme.Hom.comp_preimage, hcomp]
   have : IsAffine (opensCone D c i₀ U).pt := by
-    show IsAffineOpen (c.π.app i₀ ⁻¹ᵁ U)
+    change IsAffineOpen (c.π.app i₀ ⁻¹ᵁ U)
     rwa [hpre]
   have : ∀ {i j} (f : i ⟶ j), IsAffineHom (D.map f) := by
     intro i j f
@@ -388,7 +388,7 @@ private theorem complementZeroLocus_vanishingIdeal_compl
       (PrimeSpectrum.vanishingIdeal (U : Set (Spec (.of A)))ᶜ : Set A))ᶜ,
       (PrimeSpectrum.isClosed_zeroLocus _).isOpen_compl⟩ : (Spec (.of A)).Opens) = U := by
   apply SetLike.coe_injective
-  show (PrimeSpectrum.zeroLocus
+  change (PrimeSpectrum.zeroLocus
     (PrimeSpectrum.vanishingIdeal (U : Set (Spec (.of A)))ᶜ : Set A))ᶜ =
       (U : Set (Spec (.of A)))
   have h : PrimeSpectrum.zeroLocus
@@ -498,7 +498,7 @@ private theorem formallyUnramified_stalkMap_of_etaleAt
   have hh := FormallyUnramified.stalkMap (U.ι ≫ f) xU
   have heq : (U.ι ≫ f).stalkMap xU ≫ inv (U.ι.stalkMap xU) = f.stalkMap x := by
     rw [Scheme.Hom.stalkMap_comp]
-    show (f.stalkMap x ≫ U.ι.stalkMap xU) ≫ inv (U.ι.stalkMap xU) = f.stalkMap x
+    change (f.stalkMap x ≫ U.ι.stalkMap xU) ≫ inv (U.ι.stalkMap xU) = f.stalkMap x
     exact (Category.assoc _ _ _).trans ((congrArg (fun k => f.stalkMap x ≫ k)
       (IsIso.hom_inv_id (U.ι.stalkMap xU))).trans (Category.comp_id _))
   have hcomp : ((U.ι ≫ f).stalkMap xU ≫ inv (U.ι.stalkMap xU)).hom.FormallyUnramified := by
@@ -549,7 +549,7 @@ private theorem isAffineHom_punctured_target_of_affine_open_restriction
     intro z hz
     have heq := congrArg (fun k : V.toScheme ⟶ Spec (.of A) => k ⟨z, hz⟩) hg
     change P.ι (g ⟨z, hz⟩) = f z at heq
-    show f z ∈ P
+    change f z ∈ P
     rw [← heq]
     exact (g ⟨z, hz⟩).2
   let e := Scheme.Opens.isoOfLE hVU
@@ -588,7 +588,7 @@ private theorem finite_etale_points_over
     ext z
     exact ⟨fun _ => trivial, fun _ => Scheme.Hom.mem_quasiFiniteLocus.mpr (hqf z)⟩
   have : NoetherianSpace V.toScheme := by
-    show NoetherianSpace (V : Set X)
+    change NoetherianSpace (V : Set X)
     infer_instance
   have : QuasiCompact fV := inferInstance
   have hfinite := Scheme.Hom.finite_preimage_singleton fV y
@@ -723,13 +723,13 @@ private theorem exists_isAffineOpen_isIntegral_mem
   let z : Σ i, Z i := (sigmaMk Z).symm (e.hom x)
   let j : Z z.1 ⟶ X := Sigma.ι Z z.1 ≫ e.inv
   have hj : j z.2 = x := by
-    show (Sigma.ι Z z.1 ≫ e.inv) z.2 = x
+    change (Sigma.ι Z z.1 ≫ e.inv) z.2 = x
     rw [Scheme.Hom.comp_apply]
     have hz : Sigma.ι Z z.1 z.2 = e.hom x := by
       rw [← sigmaMk_mk]
       exact (sigmaMk Z).apply_symm_apply (e.hom x)
     rw [hz]
-    show (e.hom ≫ e.inv) x = x
+    change (e.hom ≫ e.inv) x = x
     rw [e.hom_inv_id]
     rfl
   have : IsOpenImmersion j := by dsimp [j]; infer_instance
@@ -818,7 +818,7 @@ private theorem one_le_ringKrullDim_quotient_of_nonmaximal_prime
   apply Order.one_le_krullDim_iff.mpr
   have hpm : p ≤ IsLocalRing.closedPoint A := le_top
   refine ⟨⟨p, hp⟩, ⟨IsLocalRing.closedPoint A, hp.trans hpm⟩, ?_⟩
-  show p < IsLocalRing.closedPoint A
+  change p < IsLocalRing.closedPoint A
   exact lt_top_iff_ne_top.mpr hne
 
 private theorem vanishingIdeal_compl_map_eq_bot_of_generic_not_mem
@@ -1225,7 +1225,7 @@ private theorem cohomologicalDimension_le_sub_one_maximalEtaleOpen
   let B := Localization.AtPrime p.asIdeal
   let J := I.map (algebraMap C B)
   let hJ : J.FG := (Ideal.fg_of_isNoetherianRing I).map (algebraMap C B)
-  show Stacks.LocalCohomology.cohomologicalDimension B J hJ ≤ (d : ℤ) - 1
+  change Stacks.LocalCohomology.cohomologicalDimension B J hJ ≤ (d : ℤ) - 1
   let e := (Spec.stalkIso (CommRingCat.of C) p).commRingCatIsoToRingEquiv
   have : IsDomain ((Spec (.of C)).presheaf.stalk p) :=
     IsNormal.stalk_isDomain (X := Spec (.of C)) p
@@ -1234,7 +1234,7 @@ private theorem cohomologicalDimension_le_sub_one_maximalEtaleOpen
   · have hUI : complementZeroLocus C I = U := complementZeroLocus_vanishingIdeal_compl C U
     have hp' : p ∈ complementZeroLocus C I := by rwa [hUI]
     have hnot : ¬ I ≤ p.asIdeal := hp'
-    obtain ⟨a, ha, han⟩ := SetLike.not_le_iff_exists.mp hnot
+    obtain ⟨a, ha, han⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
     have htop : J = ⊤ := Ideal.eq_top_of_isUnit_mem J
       (Ideal.mem_map_of_mem _ ha) (IsLocalization.map_units B (⟨a, han⟩ : p.asIdeal.primeCompl))
     have hzero : Stacks.LocalCohomology.cohomologicalDimension B J hJ ≤ 0 :=
@@ -1358,7 +1358,7 @@ private theorem isAffineOpen_fromSpecStalk_preimage_of_isAffineHom_baseChange
   rw [← Scheme.Hom.comp_preimage, hafst] at ha
   have heq : Spec.map (W.ι.stalkMap xW) ⁻¹ᵁ (X.fromSpecStalk x ⁻¹ᵁ V) =
       W.toScheme.fromSpecStalk xW ⁻¹ᵁ (W.ι ⁻¹ᵁ V) := by
-    show (Spec.map (W.ι.stalkMap xW) ≫ X.fromSpecStalk (W.ι xW)) ⁻¹ᵁ V =
+    change (Spec.map (W.ι.stalkMap xW) ≫ X.fromSpecStalk (W.ι xW)) ⁻¹ᵁ V =
       (W.toScheme.fromSpecStalk xW ≫ W.ι) ⁻¹ᵁ V
     rw [Scheme.SpecMap_stalkMap_fromSpecStalk]
   have hpre : IsAffineOpen (Spec.map (W.ι.stalkMap xW) ⁻¹ᵁ (X.fromSpecStalk x ⁻¹ᵁ V)) := by

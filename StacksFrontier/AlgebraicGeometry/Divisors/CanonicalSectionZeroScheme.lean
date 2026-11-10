@@ -82,7 +82,8 @@ attribute sits; Tag 0C4U's covering set is not complete. What Tag 0C4U still nee
 file is an
 isomorphism `f^*ℐ_D ≅ ℐ_{f^{-1}D}` of ideal sheaves for a morphism along which the divisor pulls
 back (`Stacks.Divisors.IsPullbackDefined`,
-`StacksFrontier/AlgebraicGeometry/DivisorFlatPullback/Basic.lean:110`); the affine-local input for it
+`StacksFrontier/AlgebraicGeometry/DivisorFlatPullback/Basic.lean:110`);
+the affine-local input for it
 is `Stacks.IdealSheaf.ideal_comap_appLE` in the same file, at line 80.
 
 ## References

@@ -486,16 +486,7 @@ private lemma sum_endEval_endPresheaf_app_tmul (b : FiniteDualBasis 𝒪 h𝒪 F
     (∑ i, endEval 𝒪 h𝒪 (((endPresheaf 𝒪 h𝒪 F).app (op U)).hom t) (b.e i)
       ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U)] b.lam i)
         = t := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) Finset.sum_const_zero
-    refine Eq.trans (congrArg
-      (· ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U)] b.lam
-        i)
-      ((congrArg (fun z => endEval 𝒪 h𝒪 z (b.e i))
-          (map_zero ((endPresheaf 𝒪 h𝒪 F).app (op U)).hom)).trans
-        (endEval_zero 𝒪 h𝒪 (b.e i)))) ?_
-    exact TensorProduct.zero_tmul _ _
+  induction t using TensorProduct.inductionOn with
   | tmul f l =>
     have hev : ∀ i, endEval 𝒪 h𝒪 (((endPresheaf 𝒪 h𝒪 F).app (op U)).hom
         (f ⊗ₜ[(Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf 𝒪).obj (op U)] l))
@@ -735,7 +726,7 @@ theorem coevaluation_comp_tensorDualToEndomorphism
     (b : ∀ k, FiniteDualBasis 𝒪 h𝒪 F (X k) (I k)) :
     coevaluation 𝒪 h𝒪 F hX b ≫ tensorDualToEndomorphism 𝒪 h𝒪 F =
       identityEndomorphism 𝒪 h𝒪 F := by
-  show (identityEndomorphism 𝒪 h𝒪 F ≫ inv (tensorDualToEndomorphism 𝒪 h𝒪 F)
+  change (identityEndomorphism 𝒪 h𝒪 F ≫ inv (tensorDualToEndomorphism 𝒪 h𝒪 F)
     (I := isIso_tensorDualToEndomorphism 𝒪 h𝒪 (F := F) hX b)) ≫
       tensorDualToEndomorphism 𝒪 h𝒪 F = _
   exact (Category.assoc _ _ _).trans

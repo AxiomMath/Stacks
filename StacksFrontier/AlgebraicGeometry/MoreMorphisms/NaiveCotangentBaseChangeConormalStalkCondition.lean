@@ -190,8 +190,7 @@ theorem isLocallySurjective_pullback_map {T T' : TopCat.{u}} (f : T' ⟶ T)
     (Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f G x).hom).1
   have := congrArg (fun φ => φ.hom
     ((Stacks.SheafifyStalk.stalkSheafPullbackIso CommRingCat.{u} f F x).inv s)) e
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, ← CommRingCat.comp_apply,
-    Iso.inv_hom_id, CommRingCat.id_apply] at this
+  simp only at this
   refine this.trans (Eq.trans ?_ hs)
   exact congrArg _ (Iso.inv_hom_id_apply _ s)
 
@@ -210,6 +209,7 @@ instance isLocallySurjective_pullback_map_presentation :
       ((TopCat.Sheaf.pullback CommRingCat.{u} g'.hom.base).map π₁).hom :=
   isLocallySurjective_pullback_map g'.hom.base π₁
 
+omit [Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier) π₁.hom] in
 /-- The unit `A₁ ⟶ g'_*g'⁻¹A₁` is compatible with the presentation `π₁` and its inverse
 image. -/
 theorem unit_comp_pushforward_pullback_map :
@@ -559,6 +559,7 @@ def presentationRingMap (hip : i' ≫ p = g' ≫ i) (w : g' ≫ (i ≫ h) = (i' 
         (underlyingPresheaf (Opens.grothendieckTopology X'.toRingedSpace.carrier)
           (inverseImageMiddleRing (ringedSpaceHom i')))))
 
+omit [IsImmersion i] [IsImmersion i'] in
 /-- **The morphism of polynomial presentations lies over the structure map of `g'`.** -/
 theorem presentationRingMap_comp_presentation (hip : i' ≫ p = g' ≫ i)
     (w : g' ≫ (i ≫ h) = (i' ≫ h') ≫ g) :
@@ -675,6 +676,7 @@ def presentationRingComparison (hip : i' ≫ p = g' ≫ i) (w : g' ≫ (i ≫ h)
   ((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} g'.base).homEquiv _ _).symm
     (presentationRingMap i h i' h' g' p g hip w)
 
+omit [IsImmersion i] [IsImmersion i'] in
 /-- The morphism of polynomial presentations `presentationRingComparison` lies over the
 structure map `g'⁻¹𝒪_X ⟶ 𝒪_{X'}`. -/
 theorem presentationRingComparison_comp (hip : i' ≫ p = g' ≫ i)
@@ -688,6 +690,7 @@ theorem presentationRingComparison_comp (hip : i' ≫ p = g' ≫ i)
     (presentationRingMap_comp_presentation i h i' h' g' p g hip w)).trans
     (congrArg (fun t => _ ≫ t) (homEquiv_inverseImageStructureMap (ringedSpaceHom g')).symm)
 
+omit [IsImmersion i] [IsImmersion i'] in
 /-- `presentationRingComparison` is `baseRingTowerComparison` on coefficients: it commutes with
 the coefficient maps `R ⟶ R[A]` and `R' ⟶ R'[A']`. -/
 theorem baseRingTowerComparison_comp_coefficientMap (hip : i' ≫ p = g' ≫ i)
@@ -848,7 +851,7 @@ theorem map_conormalClassX {K L : CochainComplex (_root_.SheafOfModules.{u}
       conormalClass.{u, u, u, u} _ R' A' B a' φ' U t) :
     m.val.app U (conormalClassX a φ eK U s) = conormalClassX a' φ' eL U t := by
   subst hm
-  show (eqToHom eL.symm).val.app U (c.val.app U ((eqToHom eK).val.app U _)) = _
+  change (eqToHom eL.symm).val.app U (c.val.app U ((eqToHom eK).val.app U _)) = _
   rw [eqToHom_val_app_conormalClassX, hc]
   rfl
 
@@ -905,6 +908,7 @@ abbrev evaluationRingMap :=
     (towerGenerators (inverseImageMiddleRing (ringedSpaceHom i)) X.toRingedSpace.sheaf
       (ringedSpaceStructureMap (ringedSpaceHom i)))
 
+omit [IsImmersion i] in
 /-- `evaluationRingMap` followed by the canonical presentation `R[𝒪_X] ⟶ 𝒪_X` is
 `towerPresentation`. -/
 theorem evaluationRingMap_comp_canonicalPresentation :
@@ -917,6 +921,7 @@ theorem evaluationRingMap_comp_canonicalPresentation :
   (congrArg (fun t => evaluationRingMap i h ≫ t) (presentation_id _ _ _ _).symm).trans
     (freeAlgebraMap_comp_presentation.{u, u, u} _ _ _ _ _ _ _ _ _ (Category.comp_id _))
 
+omit [IsImmersion i] in
 /-- `evaluationRingMap` carries the kernel ideal of `towerPresentation` into the kernel ideal of
 the canonical presentation. -/
 theorem evaluationRingMap_mem_kernelIdeal (U : (Opens X.carrier)ᵒᵖ)

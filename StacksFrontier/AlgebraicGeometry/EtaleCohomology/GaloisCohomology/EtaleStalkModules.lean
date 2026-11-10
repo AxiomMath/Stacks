@@ -154,7 +154,7 @@ theorem abelianEtaleStalkFunctor_map_germ
         (ConcreteCategory.hom (((sheafToPresheaf _ _).map φ).app (op U.1)) t) :=
   ConcreteCategory.congr_hom
     (Limits.ι_colimMap (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B S hS s)).op
+      (Functor.Elements.π (geometricPointFiber B S hS s)).op
       ((sheafToPresheaf (SmallEtale.topology B S hS) AddCommGrpCat.{max u v}).map φ)) (op U)) t
 
 end Germ
@@ -190,7 +190,7 @@ def etaleGlobalSectionsNatTrans :
   naturality {F F'} φ := by
     ext t
     apply Subtype.ext
-    show etaleGlobalSectionAbelianGerm.{u, v} B K hK sbar F'
+    change etaleGlobalSectionAbelianGerm.{u, v} B K hK sbar F'
         (ConcreteCategory.hom
           (((sheafToPresheaf _ _).map φ).app (op (SmallEtale.final B (Spec (.of K)) hK))) t) =
       ConcreteCategory.hom

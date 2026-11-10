@@ -144,7 +144,7 @@ theorem schemeDeformationCategoryProjection_cofiberedInGroupoids
     (X : Over (Spec (.of k))) :
     IsCofiberedInGroupoids (schemeDeformationCategoryProjection (Λ := Λ) (k := k) X) := by
   let p := schemeDeformationCategoryProjection (Λ := Λ) (k := k) X
-  show (p.op).IsFiberedInGroupoids
+  change (p.op).IsFiberedInGroupoids
   refine ⟨?_, ?_⟩
   · intro V U f x hx
     cases hx

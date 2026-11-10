@@ -52,7 +52,7 @@ theorem chowClassCanonical_firstChernCapPowCycleMap_congr_iso
   | succ s ih =>
     intro m α
     simp only [firstChernCapPowCycleMap, AddMonoidHom.coe_comp, Function.comp_apply]
-    show canonicalFirstChernCapCanonical.{u + 1} D sX hX M hM m _ =
+    change canonicalFirstChernCapCanonical.{u + 1} D sX hX M hM m _ =
       canonicalFirstChernCapCanonical.{u + 1} D sX hX M' hM' m _
     rw [← canonicalFirstChernCapCanonical_congr_iso hX M M' hM hM' e,
       ← canonicalFirstChernCapCanonicalChowMap_chowClassCanonical,

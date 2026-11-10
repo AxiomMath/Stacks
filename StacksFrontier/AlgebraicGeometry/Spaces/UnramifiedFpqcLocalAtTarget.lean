@@ -86,7 +86,7 @@ private theorem unramified_of_affine_baseChanges
   let Vi : BigFppfOver B S hS := Over.mk (j0 ≫ V.hom)
   let j : Vi ⟶ V := Over.homMk j0
   have hj : q.map j = C.f i := by
-    show B.inclusion.map j0 = C.f i
+    change B.inclusion.map j0 = C.f i
     exact B.inclusion.map_preimage _
   have hViAffine : IsAffine (q.obj Vi) := Scheme.isAffine_affineCover (q.obj V) i
   let W := pullback h j
@@ -126,7 +126,7 @@ private theorem unramified_of_affine_baseChanges
     simpa using hpE W (𝟙 _) (presheaf_etale_id B S hS W)
   have hsP : P (q.map s) := (hf ⟨Vi, hViAffine⟩ g) W Vi p (𝟙 _) s hpRel
     (presheaf_etale_id B S hS Vi) (by
-      show yoneda.map s ≫ 𝟙 (yoneda.obj Vi) = p ≫ (pullback.snd f g).hom
+      change yoneda.map s ≫ 𝟙 (yoneda.obj Vi) = p ≫ (pullback.snd f g).hom
       rw [Category.comp_id]
       exact (sq.lift_snd ai (yoneda.map s) hc).symm)
   exact unramified_pullbackSnd_of_isPullback hs hsP
@@ -163,9 +163,9 @@ private theorem unramified_chartBaseChange
   have sqh := AlgebraicSpaces.isPullback_hom B S hS sq
   let pp : yoneda.obj W ⟶ X'.obj :=
     sqh.lift (yoneda.map r ≫ p) (yoneda.map s) (by
-      show yoneda.map r ≫ (p ≫ f.hom) = yoneda.map s ≫ yoneda.map k
+      change yoneda.map r ≫ (p ≫ f.hom) = yoneda.map s ≫ yoneda.map k
       rw [← hh]
-      show yoneda.map r ≫ yoneda.map h = yoneda.map s ≫ yoneda.map k
+      change yoneda.map r ≫ yoneda.map h = yoneda.map s ≫ yoneda.map k
       dsimp [r, s, W]
       simpa only [Functor.map_comp] using
         congrArg yoneda.map (pullback.condition : r ≫ h = s ≫ k))
@@ -196,7 +196,7 @@ private theorem unramified_chartBaseChange
   have hbEtale := presheaf_etale_id B S hS V'
   have hW : AlgebraicGeometry.Unramified (q.map s) := by
     apply hf W V' pp (𝟙 _) s hppEtale hbEtale
-    show yoneda.map s ≫ (𝟙 (yoneda.obj V')) = pp ≫ (pullback.snd f g').hom
+    change yoneda.map s ≫ (𝟙 (yoneda.obj V')) = pp ≫ (pullback.snd f g').hom
     simpa only [schemeSpace, Category.comp_id] using pp_snd.symm
   exact unramified_pullbackSnd_of_isPullback ((IsPullback.of_hasPullback h k).map q) hW
 

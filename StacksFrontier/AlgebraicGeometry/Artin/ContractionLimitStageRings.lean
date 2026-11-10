@@ -73,10 +73,10 @@ theorem evalAt_pullbackRingHom {T V : BigFppfOver B S hS} {X : AlgebraicSpaces B
     evalAt h (pullbackRingHom B V f a) = ((BigFppfOver.toScheme B S hS).map ρ).appTop a := by
   have h1 := congrArg (fun φ => φ a) (globalSectionsRingHomSite_comp_pullbackRingHom V h f)
   simp only [RingHom.comp_apply] at h1
-  show (globalSectionsRingHomSite B S hS h (pullbackRingHom B V f a)).1
+  change (globalSectionsRingHomSite B S hS h (pullbackRingHom B V f a)).1
     (op (idEtaleChart B S hS T)) = _
   rw [h1, hρ]
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     (yoneda.preimage (𝟙 _ ≫ yoneda.map ρ))).op).hom a = _
   rw [Category.id_comp, Functor.preimage_map]
   rfl
@@ -90,7 +90,7 @@ theorem evalAt_comp {T T' : BigFppfOver B S hS} {X : AlgebraicSpaces B S hS} (τ
       ((BigFppfOver.toScheme B S hS).map τ).appTop (evalAt h e) := by
   let d : ChartDiagram B S hS (schemeSpace T').1 (schemeSpace T).1 (schemeSpaceMap τ).hom :=
     ⟨idEtaleChart B S hS T', idEtaleChart B S hS T, τ, by
-      show 𝟙 _ ≫ yoneda.map τ = yoneda.map τ ≫ 𝟙 _
+      change 𝟙 _ ≫ yoneda.map τ = yoneda.map τ ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id]⟩
   have h1 : globalSectionsRingHomSite B S hS (schemeSpaceMap τ ≫ h) e =
       globalSectionsRingHomSite B S hS (schemeSpaceMap τ)
@@ -109,10 +109,10 @@ theorem evalAt_chart {X : AlgebraicSpaces B S hS} (U : Space.SmallEtale B S hS X
   let d : ChartDiagram B S hS (schemeSpace U.1.left).1 X.1
       (ObjectProperty.homMk U.1.hom : schemeSpace U.1.left ⟶ X).hom :=
     ⟨idEtaleChart B S hS U.1.left, U, 𝟙 _, by
-      show 𝟙 _ ≫ U.1.hom = yoneda.map (𝟙 _) ≫ U.1.hom
+      change 𝟙 _ ≫ U.1.hom = yoneda.map (𝟙 _) ≫ U.1.hom
       rw [Category.id_comp, CategoryTheory.Functor.map_id, Category.id_comp]⟩
   refine (globalSectionsRingHomSite_val_chartDiagram B S hS _ e d).trans ?_
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 U.1.left)).op).hom (e.1 (op U)) =
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 U.1.left)).op).hom (e.1 (op U)) =
     e.1 (op U)
   rw [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -128,7 +128,7 @@ theorem evalAt_eq_zero_of_eq_comp {T T' : BigFppfOver B S hS} {X : AlgebraicSpac
 
 /-- The inclusion of an open subscheme lands in the open. -/
 theorem ι_mem (Y : Scheme.{u}) (O : Y.Opens) (z : O.toScheme) : O.ι z ∈ O := by
-  show O.ι z ∈ (O : Set Y)
+  change O.ι z ∈ (O : Set Y)
   rw [← Scheme.Opens.range_ι O]
   exact ⟨z, rfl⟩
 
@@ -341,17 +341,17 @@ theorem exists_pow_mul_eq_zero_of_evalAt_eq_zero (hX : IsQuasiCompactSpace B S h
       exact mem_range_ι_of_mem _ _ _ hz)
   let Ug := openChart B S hS X.1 Uc O
   have hcomp : Ug.1.hom ≫ f.hom = yoneda.map (τ ≫ ιg) := by
-    show (yoneda.map (openSubHom D.U O) ≫ D.f) ≫ f.hom = _
+    change (yoneda.map (openSubHom D.U O) ≫ D.f) ≫ f.hom = _
     rw [hτ, Functor.map_comp, Category.assoc, hρ]
     rfl
   have hUg : (ObjectProperty.homMk Ug.1.hom : schemeSpace Ug.1.left ⟶ X) =
       schemeSpaceMap τ ≫ σ := by
     apply ObjectProperty.hom_ext
     refine eq_of_comp_eq V hiso ?_ ?_
-    · show Ug.1.hom ≫ f.hom = yoneda.map τ ≫ σ.hom ≫ f.hom
+    · change Ug.1.hom ≫ f.hom = yoneda.map τ ≫ σ.hom ≫ f.hom
       rw [hcomp, Functor.map_comp]
       exact congrArg (yoneda.map τ ≫ ·) (congrArg (fun m => m.hom) hσ).symm
-    · show ∀ p, pointsMap B S hS _ (Ug.1.hom ≫ f.hom) p ∈ Zᶜ
+    · change ∀ p, pointsMap B S hS _ (Ug.1.hom ≫ f.hom) p ∈ Zᶜ
       rw [hcomp]
       exact pointsMap_comp_openSubHom_mem_compl V hZI hg τ
   have h2 : chartRestrict (hF := X.2) (openChartInclusion B S hS X.1 Uc O)
@@ -361,7 +361,7 @@ theorem exists_pow_mul_eq_zero_of_evalAt_eq_zero (hX : IsQuasiCompactSpace B S h
   rw [chartRestrict_openChartInclusion B S hS X.2 Uc O] at h2
   obtain ⟨n, hn⟩ := exists_pow_mul_eq_zero_of_appTop_ι_eq_zero _ r _ h2
   refine ⟨n, globalFunctionsChartRestriction_injective B S hS X D ?_⟩
-  show globalSectionEval _ (op Uc) (pullbackRingHom B V f g ^ n * e) =
+  change globalSectionEval _ (op Uc) (pullbackRingHom B V f g ^ n * e) =
     globalSectionEval _ (op Uc) 0
   exact ((globalSectionEval _ (op Uc)).map_mul _ _).trans
     ((congrArg (· * globalSectionEval _ (op Uc) e)

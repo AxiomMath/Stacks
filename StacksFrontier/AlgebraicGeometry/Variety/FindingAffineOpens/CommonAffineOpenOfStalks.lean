@@ -152,7 +152,7 @@ theorem ker_stalkMap_le_nilradical_of_genericPoints {Y Z : Scheme.{u}} (φ : Y �
   obtain ⟨p', hp'⟩ : η ∈ Set.range (Y.fromSpecStalk y) := by
     rwa [Scheme.range_fromSpecStalk]
   refine ⟨p', ?_⟩
-  show (Spec.map (φ.stalkMap y)) p' = pz
+  change (Spec.map (φ.stalkMap y)) p' = pz
   apply (Z.fromSpecStalk (φ y)).isEmbedding.injective
   rw [fromSpecStalk_specMap_stalkMap, hp', hηθ]
 
@@ -228,7 +228,7 @@ private theorem isIso_stalkMap_reductionMap {T X : Scheme.{u}} (f : T ⟶ X)
   have hmaps : β' ≫ δ = α ≫ γ :=
     stalkSpecializes_comp_stalkMap_comp_of_comp_eq hfac x₀ hpoint
   have : IsIso α := by
-    show IsIso (f.stalkMap (rT x₀))
+    change IsIso (f.stalkMap (rT x₀))
     rwa [hx₀]
   have hβ' : Function.Surjective β' := by
     intro z
@@ -368,7 +368,7 @@ private theorem exists_isAffineOpen_containing_image_of_isDominant_comp {T Z X :
     Stacks.AmpleCluster.exists_affineOpen_containing_finite_of_immersion_affine V.ι
       (Set.finite_range s)
   refine ⟨(V.ι ≫ g) ''ᵁ W, hW.image_of_isOpenImmersion (V.ι ≫ g), fun k => ?_⟩
-  show (V.ι ≫ g) (s k) ∈ (V.ι ≫ g) ''ᵁ W
+  change (V.ι ≫ g) (s k) ∈ (V.ι ≫ g) ''ᵁ W
   exact Set.mem_image_of_mem (V.ι ≫ g) (hEW ⟨k, rfl⟩)
 
 /-- **[Stacks, Tag 09NI] for reduced schemes.** A finite family of points on a reduced affine
@@ -398,7 +398,7 @@ theorem isAffineOpen_image_reductionHomeo {X : Scheme.{u}} {U₀ : X.reduction.O
   let U : X.Opens := ⟨eX '' (U₀ : Set X.reduction), eX.isOpenMap _ U₀.2⟩
   have hpre : rX ⁻¹ᵁ U = U₀ := by
     ext z
-    show rX z ∈ eX '' (U₀ : Set X.reduction) ↔ z ∈ U₀
+    change rX z ∈ eX '' (U₀ : Set X.reduction) ↔ z ∈ U₀
     refine ⟨?_, fun hz => ⟨z, hz, rfl⟩⟩
     rintro ⟨w, hw, hzw⟩
     simpa [eX.injective (show eX z = eX w from hzw.symm)] using hw

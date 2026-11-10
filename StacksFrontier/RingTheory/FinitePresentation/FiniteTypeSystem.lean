@@ -180,8 +180,7 @@ theorem ringToRing_tmul (i : Index R₀) (r : Base R₀ i) (s : S₀) :
 /-- The maps `S_λ → S` are compatible with the transition maps. -/
 theorem ring_cocone {i j : Index R₀} (h : i ≤ j) (x : Ring R₀ S₀ i) :
     ringToRing R₀ S₀ (S := S) j (ringMap R₀ S₀ h x) = ringToRing R₀ S₀ (S := S) i x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r s => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 
@@ -222,8 +221,7 @@ theorem ring_colimit [Algebra.FiniteType ℤ R₀] [Algebra.IsPushout R₀ R S�
       e (Stacks.FinitePresentation.ColimitDescent.canonMod
           (fun j => IsScalarTower.toAlgHom R₀ (Base R₀ j) R) S₀ i x) =
         ringToRing R₀ S₀ (S := S) i x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r s =>
       simp [e, Stacks.FinitePresentation.ColimitDescent.canonMod_tmul, Algebra.IsPushout.equiv_tmul,
         ← IsScalarTower.algebraMap_apply]

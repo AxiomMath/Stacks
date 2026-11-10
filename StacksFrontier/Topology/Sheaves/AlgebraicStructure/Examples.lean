@@ -760,7 +760,7 @@ lemma fcolimit_lie_mk_eq (x y : Σ j, (F.obj j).carrier) (k : J)
       fcolimitMk F k ⁅(F.map f).hom x.snd, (F.map g).hom y.snd⁆ := by
   obtain ⟨j₁, x⟩ := x
   obtain ⟨j₂, y⟩ := y
-  show fcolimitBracketRepr F ⟨j₁, x⟩ ⟨j₂, y⟩ = _
+  change fcolimitBracketRepr F ⟨j₁, x⟩ ⟨j₂, y⟩ = _
   exact fcolimitBracketRepr_eq_atUB F ⟨j₁, x⟩ ⟨j₂, y⟩ f g
 
 /-- Convenience: bracket of two mk's at the same index. -/

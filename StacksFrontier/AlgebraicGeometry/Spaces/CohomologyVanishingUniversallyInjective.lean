@@ -49,7 +49,8 @@ quasi-separated.  The statement is therefore deduced from the general
 `AlgebraicGeometry.Space.universallyInjective_of_surjective_pullbackToGlobalFunctions`, which is
 stated over an arbitrary base for any morphism to an affine object of the site inducing a
 surjection on global functions, in
-`StacksFrontier/AlgebraicGeometry/Spaces/RightExactGlobalSectionsSeparated.lean`.  Of the computation
+`StacksFrontier/AlgebraicGeometry/Spaces/RightExactGlobalSectionsSeparated.lean`.  Of the
+computation
 `Γ(X_K, 𝒪) = K` only the surjectivity of `K ⟶ Γ(X_K, 𝒪)` is used.
 
 *How Stacks 07V0 enters.*  The cohomology hypothesis of Stacks 07UY is used through right

@@ -138,7 +138,7 @@ theorem exists_etale_algebra_of_etaleSystem (JB : IdealBasis R I)
     ((P.algebraMap i₀).comp (Ideal.Quotient.mk (JB.ideal i₀))).toAlgebra
   have : IsScalarTower R (R ⧸ JB.ideal i₀) (P.B.obj (op i₀)) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show (P.algebraMap i₀) (Ideal.Quotient.mk (JB.ideal i₀) x) = _
+      change (P.algebraMap i₀) (Ideal.Quotient.mk (JB.ideal i₀) x) = _
       rw [Ideal.Quotient.algebraMap_eq]
       rfl
   obtain ⟨A, _, _, hAet, ψ, hψs, hψk⟩ :=

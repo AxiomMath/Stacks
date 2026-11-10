@@ -141,7 +141,7 @@ private lemma isNilpotent_ker_levelCast {ℓ : ℕ} [Fact ℓ.Prime] (n : ℕ) :
     exact h
   obtain ⟨a, ha⟩ := hval x hx
   obtain ⟨b, hb⟩ := hval y hy
-  show x * y = 0
+  change x * y = 0
   rw [← ZMod.natCast_zmod_val x, ← ZMod.natCast_zmod_val y, ← Nat.cast_mul]
   apply (ZMod.natCast_eq_zero_iff _ _).mpr
   rw [ha, hb]
@@ -162,7 +162,7 @@ private lemma isZero_of_isZero_extendScalars
   let eLin : (R ⧸ RingHom.ker f) ≃ₗ[R] S :=
     eRing.toAddEquiv.toLinearEquiv fun r x => by
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show f (r * x) = f r * f x
+      change f (r * x) = f r * f x
       exact map_mul f r x
   let : Module R ((ModuleCat.extendScalars f).obj M : Type _) := Module.compHom _ f
   have : IsScalarTower R S ((ModuleCat.extendScalars f).obj M : Type _) :=

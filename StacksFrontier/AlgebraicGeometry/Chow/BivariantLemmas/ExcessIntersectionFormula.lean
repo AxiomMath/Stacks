@@ -153,6 +153,7 @@ instance {i : Z ⟶ X} {g : Y ⟶ X} {i' : Z' ⟶ Y} {g' : Z' ⟶ Z} (sq : IsPul
   unfold subschemeIdentityTestIso
   infer_instance
 
+omit [LocallyOfFiniteType sX] in
 /-- The identification `Z' ≅ Z ×_X Y` of a cartesian square is one over the base. -/
 theorem isoPullback_hom_comp_structureMorphism {i : Z ⟶ X} {g : Y ⟶ X} {i' : Z' ⟶ Y}
     {g' : Z' ⟶ Z} (sq : IsPullback i' g' g i) (hi : i ≫ sX = sZ) (sZ' : Z' ⟶ C.S)
@@ -161,6 +162,7 @@ theorem isoPullback_hom_comp_structureMorphism {i : Z ⟶ X} {g : Y ⟶ X} {i' :
   subst hi hi'
   simp [sq.w_assoc]
 
+omit [LocallyOfFiniteType sX] in
 /-- The identification `Z' ×_Y Y ≅ Z ×_X Y` is one over the base. -/
 theorem subschemeIdentityTestIso_comp_structureMorphism {i : Z ⟶ X} {g : Y ⟶ X} {i' : Z' ⟶ Y}
     {g' : Z' ⟶ Z} (sq : IsPullback i' g' g i) (hi : i ≫ sX = sZ) (sZ' : Z' ⟶ C.S)

@@ -133,7 +133,7 @@ theorem pullbackUnitIso_pullbackSections_inv_one {T : Scheme.{u}} (h : T ⟶ X) 
     ((Scheme.Modules.pullback h).mapIso e ≪≫ Scheme.Modules.pullbackUnitIso h).hom.app (h ⁻¹ᵁ ⊤)
       (Stacks.Cech.pullbackSections h F ⊤ (e.inv.app ⊤ (1 : Γ(X, ⊤)))) =
         (show Γ(Scheme.unitModule T, h ⁻¹ᵁ ⊤) from (1 : Γ(T, h ⁻¹ᵁ ⊤))) := by
-  show (Scheme.Modules.pullbackUnitIso h).hom.app (h ⁻¹ᵁ ⊤)
+  change (Scheme.Modules.pullbackUnitIso h).hom.app (h ⁻¹ᵁ ⊤)
     (((Scheme.Modules.pullback h).map e.hom).app (h ⁻¹ᵁ ⊤)
       (Stacks.Cech.pullbackSections h F ⊤ (e.inv.app ⊤ (1 : Γ(X, ⊤))))) = _
   refine (congrArg (fun z => (Scheme.Modules.pullbackUnitIso h).hom.app (h ⁻¹ᵁ ⊤) z)
@@ -380,7 +380,7 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
     (L : P.Modules) [L.IsFinitePresentation] (hL : IsFlatOver (r ≫ fX).toLRSHom.toShHom L)
     (e₁ : (Scheme.Modules.pullback j₁).obj L ≅ Scheme.unitModule Y)
     (e₂ : (Scheme.Modules.pullback j₂).obj L ≅ Scheme.unitModule X)
-    {I J : Type u} [Fintype I] [LinearOrder I] [Fintype J] [LinearOrder J]
+    {I J : Type u} [Finite I] [LinearOrder I] [Finite J] [LinearOrder J]
     (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i))
     (haffU : ∀ (m : ℕ) (a : Fin (m + 1) → I), IsAffineOpen (⨅ k, U (a k)))
     (V : J → Y.Opens) (hV : (⊤ : Y.Opens) = ⨆ j, V j) (hVaff : ∀ j, IsAffineOpen (V j))
@@ -410,6 +410,8 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
     (e₀ : (Scheme.Modules.pullback gP).obj L ≅ Scheme.unitModule P₀) :
     ∃ s : Γ(L, ⊤), Stacks.Cech.pullbackSections gP L ⊤ s ≠ 0 := by
   classical
+  have := Fintype.ofFinite I
+  have := Fintype.ofFinite J
   set κ := p.ResidueField
   set χ := algebraMap A κ
   let : LinearOrder (I × J) := inferInstanceAs (LinearOrder (I ×ₗ J))
@@ -438,30 +440,30 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
     obtain ⟨i, hi⟩ := Opens.mem_iSup.1 (hU.le (Set.mem_univ (r x)))
     obtain ⟨j, hj⟩ := Opens.mem_iSup.1 (hV.le (Set.mem_univ (q x)))
     refine Opens.mem_iSup.2 ⟨(i, j), ⟨?_, ?_⟩⟩
-    · show r x ∈ CechCochains.inter U ![i]
+    · change r x ∈ CechCochains.inter U ![i]
       rw [Stacks.Cech.Kunneth.inter_fin1]; exact hi
-    · show q x ∈ CechCochains.inter V ![j]
+    · change q x ∈ CechCochains.inter V ![j]
       rw [Stacks.Cech.Kunneth.inter_fin1]; exact hj
   have hj₁f : j₁ ≫ r ≫ fX = fY := by
     rw [← Category.assoc, hj₁r, Category.assoc, hσ, Category.comp_id]
   have hj₂f : j₂ ≫ r ≫ fX = fX := by rw [← Category.assoc, hj₂r, Category.id_comp]
   have hWU₁ : ∀ b, V b ≤ j₁ ⁻¹ᵁ W (a₀, b) := fun b y hy => by
     refine ⟨?_, ?_⟩
-    · show r (j₁ y) ∈ CechCochains.inter U ![a₀]
+    · change r (j₁ y) ∈ CechCochains.inter U ![a₀]
       rw [Stacks.Cech.Kunneth.inter_fin1, ← Scheme.Hom.comp_apply, hj₁r, Scheme.Hom.comp_apply]
-      show fY y ∈ σ ⁻¹ᵁ U a₀
+      change fY y ∈ σ ⁻¹ᵁ U a₀
       rw [ha₀]; trivial
-    · show q (j₁ y) ∈ CechCochains.inter V ![b]
+    · change q (j₁ y) ∈ CechCochains.inter V ![b]
       rw [Stacks.Cech.Kunneth.inter_fin1, ← Scheme.Hom.comp_apply, hj₁q]
       exact hy
   have hWU₂ : ∀ a, U a ≤ j₂ ⁻¹ᵁ W (a, b₀) := fun a y hy => by
     refine ⟨?_, ?_⟩
-    · show r (j₂ y) ∈ CechCochains.inter U ![a]
+    · change r (j₂ y) ∈ CechCochains.inter U ![a]
       rw [Stacks.Cech.Kunneth.inter_fin1, ← Scheme.Hom.comp_apply, hj₂r]
       exact hy
-    · show q (j₂ y) ∈ CechCochains.inter V ![b₀]
+    · change q (j₂ y) ∈ CechCochains.inter V ![b₀]
       rw [Stacks.Cech.Kunneth.inter_fin1, ← Scheme.Hom.comp_apply, hj₂q, Scheme.Hom.comp_apply]
-      show fX y ∈ τ ⁻¹ᵁ V b₀
+      change fX y ∈ τ ⁻¹ᵁ V b₀
       rw [hb₀]; trivial
   set L₁ := (Scheme.Modules.pullback j₁).obj L
   set L₂ := (Scheme.Modules.pullback j₂).obj L
@@ -519,7 +521,7 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
   have hbox₀ : ∀ {m n : ℕ} (a : Fin m → I) (b : Fin n → J),
       Stacks.Cech.Kunneth.box r₀ q₀ U₀ V₀ a b = gP ⁻¹ᵁ Stacks.Cech.Kunneth.box r q U V a b :=
     fun a b => by
-      show r₀ ⁻¹ᵁ CechCochains.inter U₀ a ⊓ q₀ ⁻¹ᵁ CechCochains.inter V₀ b =
+      change r₀ ⁻¹ᵁ CechCochains.inter U₀ a ⊓ q₀ ⁻¹ᵁ CechCochains.inter V₀ b =
         gP ⁻¹ᵁ (r ⁻¹ᵁ CechCochains.inter U a ⊓ q ⁻¹ᵁ CechCochains.inter V b)
       rw [hinterU, hinterV, ← Scheme.Hom.comp_preimage, ← Scheme.Hom.comp_preimage, hr₀, hq₀,
         Scheme.Hom.comp_preimage, Scheme.Hom.comp_preimage]
@@ -532,10 +534,10 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
       IsAffineOpen (Stacks.Cech.Kunneth.box r₀ q₀ U₀ V₀ a b) :=
     fun m n a b => by rw [hbox₀]; exact (hboxaff m n a b).preimage gP
   have ha₀' : σ₀ ⁻¹ᵁ U₀ a₀ = ⊤ := by
-    show σ₀ ⁻¹ᵁ (gX ⁻¹ᵁ U a₀) = ⊤
+    change σ₀ ⁻¹ᵁ (gX ⁻¹ᵁ U a₀) = ⊤
     rw [← Scheme.Hom.comp_preimage, hσ₀g, Scheme.Hom.comp_preimage, ha₀, Scheme.Hom.preimage_top]
   have hb₀' : τ₀ ⁻¹ᵁ V₀ b₀ = ⊤ := by
-    show τ₀ ⁻¹ᵁ (gY ⁻¹ᵁ V b₀) = ⊤
+    change τ₀ ⁻¹ᵁ (gY ⁻¹ᵁ V b₀) = ⊤
     rw [← Scheme.Hom.comp_preimage, hτ₀g, Scheme.Hom.comp_preimage, hb₀, Scheme.Hom.preimage_top]
   set x₀ := fibreGenerator χ hsqP W hW hWaff L e₀
   obtain ⟨hx₀d, hα⟩ := fibreGenerator_spec χ hsqP W hW hWaff L e₀ hΓP₀
@@ -556,7 +558,7 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
         (1 : κ) ⊗ₜ[A, χ] eE.inv (1 : A)) =
       (show (StacksDraft.Perfect.extendScalarsCx χ D₂).X 0 from
         (1 : κ) ⊗ₜ[A, χ] sectionCochain fX U hU L₂ t₂ (1 : A)) := by
-    show ((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0)) _ = _
+    change ((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0)) _ = _
     rw [ModuleCat.ExtendScalars.map_tmul, sectionModelMap_f_zero_apply]
     rfl
   have h1 : ∀ x : (StacksDraft.Perfect.extendScalarsCx χ C).X 1,
@@ -591,7 +593,7 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
       ((Scheme.Modules.pullback gP).obj L) e₀ Z.1 hZ ht₁ ht₂
     refine ⟨(T 0).inv ⟨e', isAlternating_zero W₀ _ e'⟩, ?_⟩
     apply (ConcreteCategory.bijective_of_isIso (T 1).hom).1
-    show (T (0 + 1)).hom ((StacksDraft.Perfect.extendScalarsCx χ C).d ((0 : ℕ) : ℤ)
+    change (T (0 + 1)).hom ((StacksDraft.Perfect.extendScalarsCx χ C).d ((0 : ℕ) : ℤ)
       ((0 + 1 : ℕ) : ℤ) _) = (T 1).hom x
     rw [fibreTransport_d_apply]
     have hv : (T 0).hom ((T 0).inv ⟨e', isAlternating_zero W₀ _ e'⟩) =
@@ -635,13 +637,13 @@ theorem exists_section_pullback_ne_zero (H : IsPullback r q fX fY)
       (show (StacksDraft.Perfect.extendScalarsCx χ C).X 0 from (1 : κ) ⊗ₜ[A, χ] x) =
       χ a ^ n • (show (StacksDraft.Perfect.extendScalarsCx χ D₁).X 0 from
         (1 : κ) ⊗ₜ[A, χ] Y₁) := by
-    show ((ModuleCat.extendScalars.{u, u, u} χ).map (ρ₁.f 0)) _ = _
+    change ((ModuleCat.extendScalars.{u, u, u} χ).map (ρ₁.f 0)) _ = _
     rw [ModuleCat.ExtendScalars.map_tmul, hρx]
     refine (TensorProduct.smul_tmul (R := A) (a ^ n)
       (show (ModuleCat.restrictScalars.{u} χ).obj (ModuleCat.of κ κ) from (1 : κ)) Y₁).symm.trans ?_
     refine Eq.trans ?_ (ModuleCat.ExtendScalars.smul_tmul χ (χ a ^ n) 1 Y₁).symm
     congr 1
-    show χ (a ^ n) * 1 = χ a ^ n * 1
+    change χ (a ^ n) * 1 = χ a ^ n * 1
     rw [map_pow]
   rw [hx0, map_zero] at himg
   have hna : χ a ^ n ≠ 0 :=

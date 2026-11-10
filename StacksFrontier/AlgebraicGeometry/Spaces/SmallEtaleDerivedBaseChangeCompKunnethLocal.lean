@@ -13,8 +13,8 @@ Let `g' ≫ f = f' ≫ g` be a commutative square of algebraic spaces, `E ∈ D(
 
 (`AlgebraicGeometry.Space.smallEtaleTensorBaseChangeCompMap`) to which Stacks 0DKH over an affine
 `Y'` reduces is invertible as soon as, for every member `u : U ⟶ X` of a covering family of
-étale charts and a fibre product `U' = U ×_X X'`, the map attached to the square `U' ⟶ U` over `Y' ⟶ Y`, to `E|_U`, `K'|_{U'}`
-and the restriction of `φ`, is invertible.
+étale charts and a fibre product `U' = U ×_X X'`, the map attached to the square `U' ⟶ U` over
+`Y' ⟶ Y`, to `E|_U`, `K'|_{U'}` and the restriction of `φ`, is invertible.
 
 ## Main results
 
@@ -55,7 +55,8 @@ variable {X Y : AlgebraicSpaces B S hS}
 theorem smallEtaleDerivedModulePullbackCongr_hom_app {p q : X ⟶ Y} (e : p = q)
     (M : DerivedCategory (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y))) :
     (smallEtaleDerivedModulePullbackCongr B S hS e).hom.app M =
-      (transportNatTrans (congrArg (fun f ↦ smallEtaleDerivedModulePullback B S hS f) e)).app M := by
+      (transportNatTrans
+        (congrArg (fun f ↦ smallEtaleDerivedModulePullback B S hS f) e)).app M := by
   subst e
   simp [smallEtaleDerivedModulePullbackCongr]
 
@@ -221,8 +222,8 @@ theorem isIso_smallEtaleTensorBaseChangeCompMap_of_coversTop (w : g' ≫ f = f' 
         ((smallEtaleDerivedModulePullback B S hS (chartToSpace B S hS X (V i))).obj E)
         ((smallEtaleDerivedModulePullback B S hS (q i)).obj K')
         (((smallEtaleDerivedModulePullbackCompIso B S hS (p i) (chartToSpace B S hS X (V i))).hom ≫
-            (smallEtaleDerivedModulePullbackSquareIso B S hS g' (chartToSpace B S hS X (V i)) (p i) (q i)
-              (sq i).w).inv).app E ≫
+            (smallEtaleDerivedModulePullbackSquareIso B S hS g' (chartToSpace B S hS X (V i))
+              (p i) (q i) (sq i).w).inv).app E ≫
           (smallEtaleDerivedModulePullback B S hS (q i)).map φ))) :
     IsIso (smallEtaleTensorBaseChangeCompMap B S hS f g f' g' w E K' φ) := by
   refine isIso_of_isIso_smallEtaleDerivedModulePullback_chartToSpace B S hS hV _ fun i => ?_

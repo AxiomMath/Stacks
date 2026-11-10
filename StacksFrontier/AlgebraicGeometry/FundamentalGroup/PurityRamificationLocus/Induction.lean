@@ -108,7 +108,7 @@ theorem finite_residueField_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z
         CommRingCat.of (X.residueField x) => φ.hom a) (Scheme.residueFieldMap_comp f g x)
   let _ : Module.Finite (Z.residueField (g (f x))) (Y.residueField (f x)) := hg
   let _ : Module.Finite (Y.residueField (f x)) (X.residueField x) := hf
-  show Module.Finite (Z.residueField (g (f x))) (X.residueField x)
+  change Module.Finite (Z.residueField (g (f x))) (X.residueField x)
   exact Module.Finite.trans (Y.residueField (f x)) (X.residueField x)
 
 /-- If the residue field extension of a composite is finite, so is that of the second factor at
@@ -323,7 +323,7 @@ theorem etaleAt_of_etaleAt_codimensionOne_over_excellent
       have hdnds : dn ≤ ds := by exact_mod_cast hle
       omega
     have hpoint : (n ≫ j₂) x₃ = x₀ := by
-      show j₂ (n x₃) = _
+      change j₂ (n x₃) = _
       rw [hx₃, hx₂]
     have he₃ : EtaleAt (n ≫ f₂) x₃ := by
       refine ih dn hdnd hC (n ≫ f₂) x₃ hn₃
@@ -331,7 +331,7 @@ theorem etaleAt_of_etaleAt_codimensionOne_over_excellent
       intro w hw hdw
       refine etaleAt_normalization_pullback_codimensionOne f₀ q
         (isRegularLocalRing_stalk_spec C) hcomponents x₃ hdim₃ ?_ w hw hdw
-      show ∀ y : (pullback f g : Scheme.{u}), y ⤳ (n ≫ j₂) x₃ →
+      change ∀ y : (pullback f g : Scheme.{u}), y ⤳ (n ≫ j₂) x₃ →
         y ≠ (n ≫ j₂) x₃ → EtaleAt f₀ y
       rw [hpoint]
       exact hpunctured₀

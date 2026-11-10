@@ -68,7 +68,7 @@ def toTensorHom (A B : Complexes R) :
 
 /-- On two K-flat complexes the canonical map is the K-flat comparison. -/
 theorem toTensorHom_eq_canonicalComparisonHom (A B : Complexes R)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat R A) (hB : Stacks.SheafOfModules.KFlat.KFlat R B) :
+    (hA : Stacks.SheafOfModules.KFlat R A) (hB : Stacks.SheafOfModules.KFlat R B) :
     toTensorHom R A B = canonicalComparisonHom R A B hA hB := by
   rw [toTensorHom, canonicalComparisonHom,
     (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R).toTensor_eq_comparisonRight

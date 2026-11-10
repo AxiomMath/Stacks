@@ -194,7 +194,7 @@ instance compactSpace_schemeAt (n : ℕ) : CompactSpace (schemeAt S.system S.X n
 /-- The affine base at level `n` lies over the affine base at level `n + 1`. -/
 theorem baseProjection_eq (n : ℕ) :
     baseProjection S.system n = baseTransition S.system n ≫ baseProjection S.system (n + 1) := by
-  show Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, limit.w]
 
 /-- The transition `Spec Aₙ ⟶ Spec Aₙ₊₁` of affine bases is surjective: its ring map is surjective

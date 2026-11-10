@@ -56,7 +56,7 @@ neighbourhood `V` of `f ∘ x` and one, `N`, of `x`, the base change of the char
 chart of `N` is a small étale neighbourhood `U` of `x` lying over both, compatibly with `f`. -/
 theorem exists_smallEtaleNeighborhood_lift (f : F ⟶ G) {x : GeometricPoint B S hS F}
     (N : SmallEtaleNeighborhood x) (V : SmallEtaleNeighborhood (geometricPointMap f x)) :
-    ∃ (U : SmallEtaleNeighborhood x) (h : U ⟶ N) (g : U.chart.obj.left ⟶ V.chart.obj.left),
+    ∃ (U : SmallEtaleNeighborhood x) (_ : U ⟶ N) (g : U.chart.obj.left ⟶ V.chart.obj.left),
       U.chart.obj.hom ≫ f = yoneda.map g ≫ V.chart.obj.hom ∧ U.point ≫ g = V.point := by
   set q : yoneda.obj N.chart.obj.left ⟶ G := N.chart.obj.hom ≫ f with hq
   set s : V.chart.property.rep.pullback q ⟶ N.chart.obj.left := V.chart.property.rep.snd q
@@ -73,7 +73,7 @@ theorem exists_smallEtaleNeighborhood_lift (f : F ⟶ G) {x : GeometricPoint B S
   have hbase : yoneda.map pointV ≫ V.chart.obj.hom = yoneda.map N.point ≫ q := by
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_yoneda_map]
-    show V.chart.obj.hom.app (Opposite.op x.val.siteObject) V.point =
+    change V.chart.obj.hom.app (Opposite.op x.val.siteObject) V.point =
       f.app (Opposite.op x.val.siteObject)
         (N.chart.obj.hom.app (Opposite.op x.val.siteObject) N.point)
     rw [N.point_comp]
@@ -100,7 +100,7 @@ theorem exists_smallEtaleNeighborhood_lift (f : F ⟶ G) {x : GeometricPoint B S
       point := pointR
       point_comp := hpc }
   refine ⟨U, ⟨ObjectProperty.homMk (CostructuredArrow.homMk s rfl), hrs⟩, g, ?_, hrg⟩
-  show (yoneda.map s ≫ N.chart.obj.hom) ≫ f = yoneda.map g ≫ V.chart.obj.hom
+  change (yoneda.map s ≫ N.chart.obj.hom) ≫ f = yoneda.map g ≫ V.chart.obj.hom
   rw [Category.assoc, ← hq, ← sq.w, hg]
 
 /-- **Stacks 04NG on germs.**  Along a commuting diagram of pointed charts over `f`, the
@@ -163,7 +163,6 @@ attribute [local instance] pointTopology in
 `Z` is the zero locus of the `gᵢ`, then every point of the basic-open chart `D(gᵢ)` lies in the
 open complement of `Z`. -/
 theorem range_pointsMap_openChart_basicOpen_subset (Z : Subfunctor F)
-    (hZ : IsClosedSubspace B S hS Z)
     (V : SmallEtale B S hS F) {ι : Type*} (g : ι → Γ(chartScheme V, ⊤))
     (hg : chartPointsMap V ⁻¹' Set.range (pointsMap B S hS Z.toFunctor Z.ι) =
       (chartScheme V).zeroLocus (U := ⊤) (Set.range g)) (i : ι) :

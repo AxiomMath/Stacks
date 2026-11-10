@@ -224,7 +224,7 @@ public def LaumonFourierFamilyConjugateWildInput : Prop :=
     (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
     [IsAlgClosure k kbar]
     [ConnectedSpace ↥(Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
-    (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n) (_ : ℓ ≠ p)
+    (p n : ℕ) [Fact p.Prime] [CharP k p], Fintype.card k = p ^ n → ∀ (_ : ℓ ≠ p)
     (x : GeometricPoint U.1)
     (E : Type) [Field E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E] {d : ℕ}
     (b : Module.Basis (Fin d) ℚ_[ℓ] E) {m : ℕ} (σ : EtaleFundamentalGroup U.1 x →* GL (Fin m) E)
@@ -233,7 +233,7 @@ public def LaumonFourierFamilyConjugateWildInput : Prop :=
       (∀ g, ∀ v ∈ W, (σ g).val.map (algebraMap E K) *ᵥ v ∈ W) → W = ⊥ ∨ W = ⊤) →
     LaumonStablyAbsIrr k e x σ → (∃ ζ : E, IsPrimitiveRoot ζ p) →
     ∀ (ι' : E →+* ℂ) (β : ℤ)
-    [hV : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f
+    [FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f
           j kbar
           (LAdicSheaf.representationSheaf B U x (restrictScalarsRep b σ) hσ) 1)],
     (∀ (y : closedPoints U.1) (z : ℂ),

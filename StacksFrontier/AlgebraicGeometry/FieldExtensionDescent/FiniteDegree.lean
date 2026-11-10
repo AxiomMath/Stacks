@@ -77,7 +77,7 @@ public theorem isFiniteLocallyFreeOfRank_SpecMap_algebraMap (k A : Type u) [Fiel
   let e : A ≃ₗ[k] ↑Γ(Spec (CommRingCat.of A), ⊤) :=
     { ((Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv).symm.toAddEquiv with
       map_smul' := fun r x => by
-        show (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (r • x) =
+        change (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (r • x) =
           r • (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom x
         rw [Algebra.smul_def, Algebra.smul_def, map_mul, hcomm] }
   exact (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff _ _).mpr ⟨inferInstance,

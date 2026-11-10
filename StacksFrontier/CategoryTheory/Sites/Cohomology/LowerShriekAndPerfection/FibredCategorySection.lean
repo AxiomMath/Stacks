@@ -157,7 +157,7 @@ private lemma map_left_comp_cartesianLiftFunctor_base {X : Over U} {V : Over (s.
       congr 1
       exact Over.w ((cartesianLiftFunctor_base s U).hom.app V)
     _ = s.p.map (g.left ≫ ((cartesianLiftFunctor s U).obj V).hom) := by
-      show s.p.map g.left ≫ s.p.map ((cartesianLiftFunctor s U).obj V).hom = _
+      change s.p.map g.left ≫ s.p.map ((cartesianLiftFunctor s U).obj V).hom = _
       rw [← s.p.map_comp]
     _ = s.p.map X.hom := by rw [Over.w g]
 
@@ -191,7 +191,7 @@ private lemma cartesianLiftFunctor_lift_comp {X : Over U} {V V' : Over (s.p.obj 
     exact (Over.w f).symm
   have : s.p.IsHomLift g.left ((cartesianLiftFunctor s U).map g).left := by
     dsimp [cartesianLiftFunctor]
-    show s.p.IsHomLift g.left
+    change s.p.IsHomLift g.left
       (IsStronglyCartesian.map s.p V'.hom (c.map V'.hom x)
         (show V.hom = g.left ≫ V'.hom from (Over.w g).symm) (c.map V.hom x))
     infer_instance
@@ -247,7 +247,7 @@ is `p` of the identity followed by the comparison, so the two agree. -/
 private lemma cartesianLiftFunctor_adj_counit :
     (cartesianLiftFunctor_adj s U).counit = (cartesianLiftFunctor_base s U).hom := by
   ext V
-  show s.p.map (𝟙 _) ≫ _ = _
+  change s.p.map (𝟙 _) ≫ _ = _
   simp
 
 private lemma projectionSliceCocontinuous :
@@ -312,11 +312,11 @@ private lemma cartesianLiftFunctor_unit_isIso (X : Over U)
     (IsCartesian.domainUniqueUpToIso s.p (s.p.map X.hom) Y.hom X.hom)
     (IsCartesian.fac s.p (s.p.map X.hom) Y.hom X.hom)
   have : s.p.IsHomLift (𝟙 (s.p.obj X.left)) e.hom.left := by
-    show s.p.IsHomLift _ (IsCartesian.map s.p (s.p.map X.hom) Y.hom X.hom)
+    change s.p.IsHomLift _ (IsCartesian.map s.p (s.p.map X.hom) Y.hom X.hom)
     infer_instance
   have he : (cartesianLiftFunctor_adj s U).unit.app X = e.hom := by
     apply Over.OverMorphism.ext
-    show IsStronglyCartesian.map s.p (s.p.map X.hom) Y.hom
+    change IsStronglyCartesian.map s.p (s.p.map X.hom) Y.hom
       (g := 𝟙 _) (f' := s.p.map X.hom) (Category.id_comp _).symm X.hom = _
     exact (IsStronglyCartesian.map_uniq s.p (s.p.map X.hom) Y.hom
       (g := 𝟙 _) (f' := s.p.map X.hom) (Category.id_comp _).symm X.hom
@@ -381,7 +381,7 @@ private lemma cartesianSectionCocontinuous :
     rw [show adj.unit.app (v.obj V) ≫ v.map (adj.counit.app V) = 𝟙 _ from
       adj.right_triangle_components V]
     exact congrArg (fun k => v.map a ≫ inv (adj.unit.app X) ≫ k) (Category.comp_id b)
-  show S (v.map f)
+  change S (v.map f)
   rw [hfactor]
   simpa only [Category.assoc] using
     S.downward_closed (hRS _ _ hb) (v.map a ≫ inv (adj.unit.app X))

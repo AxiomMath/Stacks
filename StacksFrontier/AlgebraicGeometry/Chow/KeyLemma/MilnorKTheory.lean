@@ -114,7 +114,7 @@ private lemma milnorKSteinbergIdeal_isHomogeneous (k : Type u) [Field k]
       by_cases h : n = 2
       · subst n
         rw [DirectSum.decompose_of_mem_same (milnorKTensorGrading k) hx₂]
-        show x ∈ TwoSidedIdeal.span (milnorKSteinbergRelations k)
+        change x ∈ TwoSidedIdeal.span (milnorKSteinbergRelations k)
         exact TwoSidedIdeal.subset_span hx
       · rw [DirectSum.decompose_of_mem_ne (milnorKTensorGrading k) hx₂ (Ne.symm h)]
         exact (milnorKSteinbergIdeal k).zero_mem
@@ -176,12 +176,12 @@ lemma milnorKGrading_isInternal (k : Type u) [Field k] :
     apply DirectSum.ext
     intro n
     apply Subtype.ext
-    show (milnorKSteinbergIdeal k).ringCon.mk' (w n : MilnorKTensorAlgebra k) = 0
+    change (milnorKSteinbergIdeal k).ringCon.mk' (w n : MilnorKTensorAlgebra k) = 0
     rw [← TwoSidedIdeal.mem_ker, TwoSidedIdeal.ker_ringCon_mk',
       ← DFunLike.congr_fun ((DirectSum.decompose (milnorKTensorGrading k)).right_inv w) n]
     apply milnorKSteinbergIdeal_isHomogeneous k
     rw [← TwoSidedIdeal.ker_ringCon_mk' (milnorKSteinbergIdeal k), TwoSidedIdeal.mem_ker]
-    show (milnorKSteinbergIdeal k).ringCon.mk'
+    change (milnorKSteinbergIdeal k).ringCon.mk'
       ((DirectSum.coeAddMonoidHom (milnorKTensorGrading k)) w) = 0
     rw [← milnorK_recompose_map, hw]
     simp [hz]

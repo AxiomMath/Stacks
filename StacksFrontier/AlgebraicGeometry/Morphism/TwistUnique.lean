@@ -215,7 +215,7 @@ theorem ι_image_relativeMapHom_preimage_le {A B : SheafGradedAlgebra S}
     ((relativeProj A).chart V hV).isOpenEmbedding.injective (hr.symm.trans hzy.symm)
   have hw : w ∈ mapHom (A.grading V) (B.grading V) (ψ.sectionHom V) ⁻¹ᵁ
       AlgebraicGeometry.Proj.basicOpen (A.grading V) g := by
-    show mapHom (A.grading V) (B.grading V) (ψ.sectionHom V) w ∈
+    change mapHom (A.grading V) (B.grading V) (ψ.sectionHom V) w ∈
       AlgebraicGeometry.Proj.basicOpen (A.grading V) g
     rwa [hmz]
   rw [mapHom_preimage_basicOpen _ _ _ g e hg he] at hw
@@ -459,7 +459,7 @@ theorem MapsPsi.eq {θ₁ θ₂ : SheafOfModules.GradedAlgebra.Hom
       rwa [Stacks.AlgebraicGeometry.RelativeProjTwistGlue.chart_image_top]
     obtain ⟨z, -, hz⟩ := hx
     have hzO : z ∈ (relativeProj A).chart V hV ⁻¹ᵁ O := by
-      show (relativeProj A).chart V hV z ∈ O
+      change (relativeProj A).chart V hV z ∈ O
       rwa [show (relativeProj A).chart V hV z = relativeMapHom ψ y from hz]
     obtain ⟨d, f, hd, hf, hzf, hfO⟩ :=
       Stacks.AlgebraicGeometry.ProjShared.exists_basicOpen_homogeneous_le (A.grading V) hzO

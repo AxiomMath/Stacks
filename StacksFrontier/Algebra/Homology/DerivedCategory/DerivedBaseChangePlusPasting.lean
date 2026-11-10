@@ -91,6 +91,7 @@ abbrev hmap (α : F ⋙ G ⟶ G' ⋙ F') (K : HomotopyCategory.Plus A) :
       F'.mapHomotopyCategoryPlus.obj (G'.mapHomotopyCategoryPlus.obj K) :=
   (Functor.mapHomotopyCategoryPlusNatTrans α).app K
 
+omit [EnoughInjectives A] in
 /-- The components of `derivedBaseChangePlusAux`, with the identity comparisons dropped. -/
 theorem derivedBaseChangePlusAux_app' (α : F ⋙ G ⟶ G' ⋙ F') (K : HomotopyCategory.Plus A) :
     (derivedBaseChangePlusAux F F' G G' α).app K =
@@ -134,7 +135,7 @@ lemma mapHomotopyCategoryPlus_natIso_square (e : F ≅ F₀) (e' : F' ≅ F₀')
       hmap G G' α K ≫
         (Functor.mapHomotopyCategoryPlusNatIso e').hom.app (G'.mapHomotopyCategoryPlus.obj K) := by
   apply (HomotopyCategory.Plus.ι B').map_injective
-  show (NatTrans.mapHomotopyCategory (Functor.whiskerRight e.hom G) (ComplexShape.up ℤ)).app
+  change (NatTrans.mapHomotopyCategory (Functor.whiskerRight e.hom G) (ComplexShape.up ℤ)).app
       K.obj ≫ (NatTrans.mapHomotopyCategory α₀ (ComplexShape.up ℤ)).app K.obj =
     (NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)).app K.obj ≫
       (NatTrans.mapHomotopyCategory (Functor.whiskerLeft G' e'.hom) (ComplexShape.up ℤ)).app
@@ -230,13 +231,13 @@ lemma hmap_pasteV (α₁ : F₁ ⋙ GB ⟶ GA ⋙ F₁') (α₂ : F₂ ⋙ GC �
       hmap GC GB α₂ (F₁.mapHomotopyCategoryPlus.obj K) ≫
         F₂'.mapHomotopyCategoryPlus.map (hmap GB GA α₁ K) := by
   apply (HomotopyCategory.Plus.ι C').map_injective
-  show (NatTrans.mapHomotopyCategory (pasteV α₁ α₂) (ComplexShape.up ℤ)).app K.obj =
+  change (NatTrans.mapHomotopyCategory (pasteV α₁ α₂) (ComplexShape.up ℤ)).app K.obj =
     (NatTrans.mapHomotopyCategory α₂ (ComplexShape.up ℤ)).app
         ((F₁.mapHomotopyCategory (ComplexShape.up ℤ)).obj K.obj) ≫
       (F₂'.mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomotopyCategory α₁ (ComplexShape.up ℤ)).app K.obj)
   obtain ⟨K₀⟩ := K.obj
-  show (HomotopyCategory.quotient C' (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient C' (ComplexShape.up ℤ)).map
       ((NatTrans.mapHomologicalComplex (pasteV α₁ α₂) (ComplexShape.up ℤ)).app K₀) =
     (HomotopyCategory.quotient C' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex α₂ (ComplexShape.up ℤ)).app
@@ -400,7 +401,7 @@ theorem derivedBaseChangePlus_comp_derivedBaseChangePlusIso_hom (e : α ⋙ F' �
         𝟙 _ := by
     have : hmap β α e.inv K ≫ (Functor.mapHomotopyCategoryPlusNatIso e).hom.app K = 𝟙 _ := by
       apply (HomotopyCategory.Plus.ι B').map_injective
-      show (NatTrans.mapHomotopyCategory e.inv (ComplexShape.up ℤ)).app K.obj ≫
+      change (NatTrans.mapHomotopyCategory e.inv (ComplexShape.up ℤ)).app K.obj ≫
         (NatTrans.mapHomotopyCategory e.hom (ComplexShape.up ℤ)).app K.obj = 𝟙 _
       rw [← NatTrans.comp_app, ← NatTrans.mapHomotopyCategory_comp, Iso.inv_hom_id,
         NatTrans.mapHomotopyCategory_id]

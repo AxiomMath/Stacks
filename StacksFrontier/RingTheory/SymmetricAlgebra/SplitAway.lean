@@ -77,7 +77,7 @@ theorem ι_mem_grading_smul (m : M) : ι A M m ∈ grading A M (1 • 1) :=
 theorem algebraMap_mem_grading_smul (r : A) :
     algebraMap A (SymmetricAlgebra A M) r ∈ grading A M (0 • 1) := by
   refine mem_grading_nsmul ?_
-  show algebraMap A (SymmetricAlgebra A M) r ∈ SymPow.symmetricPower 0 A M
+  change algebraMap A (SymmetricAlgebra A M) r ∈ SymPow.symmetricPower 0 A M
   rw [SymPow.symmetricPower, pow_zero, Submodule.one_eq_range]
   exact ⟨r, rfl⟩
 
@@ -248,7 +248,7 @@ theorem awayToChart_mk (hps : p s = 1) (n : ℕ) (a : SymmetricAlgebra A M)
     awayToChart p s hps (Away.mk (grading A M) (ι_mem_grading_one s) n a ha) =
       setOne p s hps a := by
   rw [awayToChart, RingHom.comp_apply]
-  show Localization.awayLift _ _ _
+  change Localization.awayLift _ _ _
     (Away.mk (grading A M) (ι_mem_grading_one s) n a ha).val = _
   rw [Away.val_mk, Localization.awayLift_mk (setOne p s hps).toRingHom (ι A M s) a 1
       (by rw [mul_one]; exact setOne_ι_self p s hps) n, one_pow, mul_one]
@@ -415,7 +415,7 @@ theorem algebraMapInv_comp_setOne (hps : p s = 1) :
     (algebraMapInv (R := A) (M := LinearMap.ker p)).comp (setOne p s hps) =
       SymmetricAlgebra.lift p := by
   refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_)
-  show algebraMapInv (setOne p s hps (ι A M m)) = SymmetricAlgebra.lift p (ι A M m)
+  change algebraMapInv (setOne p s hps (ι A M m)) = SymmetricAlgebra.lift p (ι A M m)
   rw [setOne_ι, map_add, algebraMapInv_ι, AlgHom.commutes]
   simp [SymmetricAlgebra.lift_ι_apply]
 

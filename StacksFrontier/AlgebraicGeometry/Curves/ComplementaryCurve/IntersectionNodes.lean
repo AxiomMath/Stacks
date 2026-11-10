@@ -242,7 +242,7 @@ theorem isNode_of_mem_intersection_complementaryCurve
   intro U y
   let x := (I ⊔ U.ι.ker).subschemeι.base y
   have hx : x ∈ (I ⊔ U.ι.ker).support := by
-    show x ∈ ((I ⊔ U.ι.ker).support : Set X)
+    change x ∈ ((I ⊔ U.ι.ker).support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨y, rfl⟩
   have hx_inter : x ∈ I.support ⊓ U.ι.ker.support := by

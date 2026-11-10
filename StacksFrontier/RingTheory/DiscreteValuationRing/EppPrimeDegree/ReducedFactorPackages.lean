@@ -128,11 +128,11 @@ theorem isWeaklyUnramified_integralClosure_factor_of_perfectResidue
     { __ := (D.eL₁.trans decomp).toRingEquiv
       commutes' l := by
         ext i
-        show decomp (D.eL₁ (algebraMap L D.L₁ l)) i = algebraMap L (E i) l
+        change decomp (D.eL₁ (algebraMap L D.L₁ l)) i = algebraMap L (E i) l
         rw [D.eL₁_left, hleft] }
   have he : ∀ i x, e (algebraMap K₁ D.L₁ x) i = algebraMap K₁ (E i) x := by
     intro i x
-    show decomp (D.eL₁ (algebraMap K₁ D.L₁ x)) i = algebraMap K₁ (E i) x
+    change decomp (D.eL₁ (algebraMap K₁ D.L₁ x)) i = algebraMap K₁ (E i) x
     rw [D.eL₁_right, hright]
   let R₀ := integralClosure A K₁
   obtain ⟨hR₀, hAR₀, hR₀fin, hR₀complete, hR₀frac⟩ :=
@@ -162,10 +162,10 @@ theorem isWeaklyUnramified_integralClosure_factor_of_perfectResidue
     eR.toRingEquiv (RingEquiv.refl S)
   · intro r
     apply Subtype.ext
-    show algebraMap K₁ (E i) (r : K₁) =
+    change algebraMap K₁ (E i) (r : K₁) =
       algebraMap K₁ (E i) (algebraMap R K₁ (eR r))
     rw [IsIntegralClosure.algebraMap_equiv]
-    show algebraMap K₁ (E i) (r : K₁) =
+    change algebraMap K₁ (E i) (r : K₁) =
       algebraMap K₁ (E i) ((integralClosure A K₁).subtype r)
     rfl
   · exact hweak₀
@@ -281,8 +281,7 @@ private theorem surjective_tensorProduct_lift_of_surjective
       (IsScalarTower.toAlgHom L M F) (fun _ _ => .all _ _) : (E ⊗[L] M) →ₐ[E] F) := by
   intro x
   obtain ⟨t, rfl⟩ := hphisurj x
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by rw [map_zero, map_zero]⟩
+  induction t using TensorProduct.inductionOn with
   | tmul m k =>
       refine ⟨algebraMap K E k ⊗ₜ[L] m, ?_⟩
       simp [mul_comm, hphi]
@@ -429,7 +428,7 @@ theorem cyclotomicFiniteLevelFactorPackage_of_matching_reducedFactors
   · refine ⟨hfinEF, Or.inr ⟨hdegreeP, hgalEF, hdegreeP, algebraMap L E xi, zF,
       hgenF, hzF, algebraMap B S a, ?_, ?_⟩⟩
     · exact map_nonunit (algebraMap B S) a ha
-    · show algebraMap S E (algebraMap B S a) =
+    · change algebraMap S E (algebraMap B S a) =
         algebraMap S E (wElt fS) ^ p * algebraMap L E xi
       have hw : wElt fS = algebraMap B S (wElt f) := by
         simp only [fS, wElt, zetaA, RingHom.comp_apply, map_sub, map_one]

@@ -75,6 +75,7 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme}
   (pres : StandardPresentationOver ((SmallEtale.toScheme B Y.obj Y.property).obj V)
     (schemeStructureHom B Y.obj Y.property V) P)
 
+omit [IsAffine Y.obj] in
 include hf in
 /-- **The coefficient maps of the two solution sets agree, in the spelling the subtypes use.**
 Clause (i) of the third identification of step (3) of [Stacks Project, Tag 04I6]
@@ -117,7 +118,7 @@ theorem bijective_etaleLocalSolutionMap (hg : g.IsLocallyRinged) :
     have hb : b.1 ∈ {c | MvPolynomial.IsSolution P
         ((etaleLocalRingHomOfSheafFiberIso B g x y e).comp
           (etaleCoefficientGerm B Y.obj Y.property y)) c} := by
-      rw [Set.mem_setOf_eq,
+      rw [Set.mem_ofPred_eq,
         etaleLocalRingHomOfSheafFiberIso_comp_etaleCoefficientGerm_schemeHom B g x y e f hf]
       exact b.2
     obtain ⟨a, ha, hfa⟩ := hbij.2.2 hb

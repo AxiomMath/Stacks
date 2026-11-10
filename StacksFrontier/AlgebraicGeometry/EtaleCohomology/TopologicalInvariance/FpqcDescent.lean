@@ -318,7 +318,7 @@ lemma uCoordOfPullbackIso_shift {Z : Scheme.{u}} (τ : Z ⟶ T) (x : Z ⟶ X) (�
   exact (uCoordOfPullbackIso_congr f w t p ε rfl hu.symm h' h'').trans
     (uCoordOfPullbackIso_tCoord f w t p ε h1 _ _ _ h'')
 
-include h1 h2 in
+include h1 in
 /-- **Acting twice is acting once.** This is the cocycle condition for the gluing isomorphism of
 the descent datum of `T`. -/
 lemma shift_shift {Z : Scheme.{u}} (τ : Z ⟶ T) (x : Z ⟶ X) (ω ω' : Z ⟶ W)
@@ -534,7 +534,7 @@ private lemma comp_shift_eq_of_shift {Z Z' : Scheme.{u}} (h1 : ε.hom ≫ pullba
   have hω' : (m ≫ ω) ≫ w = (m ≫ x) ≫ f := by rw [hmω, hmx]; exact hac
   rw [comp_shift f w t p ε h1 m τ x ω hτ hω hτ' hω']
   exact (shift_congr f w t p ε h1 hmτ hmx hmω hτ' hω' hs hac).trans
-    ((shift_shift f w t p ε h1 h2 a b c _ ha hc hac hs).trans
+    ((shift_shift f w t p ε h1 a b c _ ha hc hac hs).trans
       (shift_self f w t p ε h1 h2 a b ha hac))
 
 include h1 h2 in
@@ -755,7 +755,7 @@ lemma actPullbackLaw_gluing [UniversalHomeomorphism f] [Etale w] [Etale t] :
         = shift f w t p ε h1 (pullback.fst (yY ≫ w) f ≫ vV) (pullback.snd (yY ≫ w) f)
             (pullback.fst (yY ≫ w) f ≫ yY)
             (hτ (DescentDatum.tripleV_comp (Over.mk t))) hωy :=
-        shift_shift f w t p ε h1 h2 _ _ _ _ _ _ _ _
+        shift_shift f w t p ε h1 _ _ _ _ _ _ _ _
       refine Eq.trans ?_ hmid
       exact shift_congr f w t p ε h1 hinner rfl rfl _ _ _ _
   intro Z v x y hv hw hvx

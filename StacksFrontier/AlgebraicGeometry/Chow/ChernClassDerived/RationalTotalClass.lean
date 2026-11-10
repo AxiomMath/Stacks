@@ -270,12 +270,10 @@ theorem rationalComponent_mul_rationalTruncate (x y : ℚ ⊗[ℤ] TotalChowClas
     (hk : k ≤ m) :
     rationalComponent k (rationalTruncate m x * rationalTruncate m y) =
       rationalComponent k (x * y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, zero_mul, zero_mul]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add, add_mul, add_mul, map_add, map_add, hx, hx']
   | tmul r c =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, mul_zero, mul_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [map_add, mul_add, mul_add, map_add, map_add, hy, hy']
     | tmul r' d =>
       rw [rationalTruncate_tmul, rationalTruncate_tmul, Algebra.TensorProduct.tmul_mul_tmul,

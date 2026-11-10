@@ -90,9 +90,9 @@ carries the whole Tor-dimension half, and hence [Stacks, Tag 0B6G] itself, as
 *The localisation of the goal, joined to [Stacks, Tag 08FE].* The reduction of the whole
 Tor-dimension half to the affine opens of `S` is
 `locallyHasFiniteTorDimension_derivedPushforward_of_forall_affineOpen` in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PerfectMorphism/TorDimensionOpenBase.lean`: `Rf_*E` is
-of locally finite Tor dimension as soon as `R(f|_V)_*(E|_{f^{-1}V})` has finite Tor dimension on
-`V` for every affine open `V ⊆ S`, with nothing assumed beyond what
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PerfectMorphism/TorDimensionOpenBase.lean`:
+`Rf_*E` is of locally finite Tor dimension as soon as `R(f|_V)_*(E|_{f^{-1}V})` has finite Tor
+dimension on `V` for every affine open `V ⊆ S`, with nothing assumed beyond what
 `AlgebraicGeometry.derivedPushforwardModules` is stated under. It joins the affine-locality of the
 predicate (`locallyHasFiniteTorDimension_of_forall_affineOpen` below) to [Stacks, Tag 08FE] in the
 scheme spelling (`AlgebraicGeometry.schemeDerivedPushforwardRestrictOpenIso` and
@@ -222,7 +222,7 @@ theorem isPseudoCoherent_derivedPushforward_of_isPerfect [IsNoetherian S]
       ((derivedPushforwardModules f).obj E) := by
   obtain ⟨hcoh, a, b, hGE, hLE⟩ := isCoherent_homology_and_bounds_of_isPerfect f E hE
   have hproper : ∀ T : Closeds X, IsProperOver f T := fun T => by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
     infer_instance
   exact isPseudoCoherent_derivedPushforward_of_isProperOver_supp f E hcoh
     (fun _ => hproper _)
@@ -290,8 +290,9 @@ open of the base, which is what the Mayer--Vietoris induction over a finite affi
 `f^{-1}V` together with the affine base case
 `AlgebraicGeometry.hasFiniteTorDimension_schemeDerivedPushforward_specMap` is for. -/
 -- No `@[stacks 0B6G]` here either: `htor'` is a mathematical input, carried as a hypothesis. It is
--- proved in `StacksFrontier/AlgebraicGeometry/MoreMorphisms/PerfectMorphism/MayerVietorisTorDimension.lean`, as
--- `...hasFiniteTorDimension_derivedPushforward_affineOpen`, and this theorem fed with it is the
+-- proved in
+-- `StacksFrontier/AlgebraicGeometry/MoreMorphisms/PerfectMorphism/MayerVietorisTorDimension.lean`,
+-- as `...hasFiniteTorDimension_derivedPushforward_affineOpen`, and this theorem fed with it is the
 -- unconditional `...isPerfect_derivedPushforward_of_isPerfect` registered there.
 theorem isPerfect_derivedPushforward_of_isPerfect_of_forall_affineOpen
     [IsNoetherian S] [AlgebraicGeometry.Perfect f] [IsProper f] (E : DerivedCategory X.Modules)

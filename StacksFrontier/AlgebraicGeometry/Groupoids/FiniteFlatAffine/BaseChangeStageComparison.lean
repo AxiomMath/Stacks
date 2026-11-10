@@ -40,8 +40,8 @@ the invariant ring.
 
 The identification on coordinate rings is checked on the two edges of the cocartesian square
 presenting `A' ⊗[C] C₁`, as in
-`StacksFrontier.AlgebraicGeometry.Groupoids.FiniteFlatAffine.BaseChangeArrowBridge`, and with the same
-reassociation lemmas `AlgebraicGeometry.GroupoidScheme.comp_assoc_left` and
+`StacksFrontier.AlgebraicGeometry.Groupoids.FiniteFlatAffine.BaseChangeArrowBridge`, and with the
+same reassociation lemmas `AlgebraicGeometry.GroupoidScheme.comp_assoc_left` and
 `AlgebraicGeometry.GroupoidScheme.comp_assoc_left₂`: on the `A'` edge the computation is that the
 comparison lies over `U'`, and on the `C₁` edge that it lies over `Spec h`.
 

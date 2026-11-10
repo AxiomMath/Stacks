@@ -102,11 +102,11 @@ many quasi-compact opens `N` on which they are isomorphic cover `g⁻¹(V')`, an
 the two sections glue after an `N`-admissible blowup (`exists_glued_section_of_iso`), leaving `n`
 sections, to which the induction hypothesis applies. -/
 theorem hasSectionCovers_of_sections_of_isGerbeOver :
-    ∀ (n : ℕ) {Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    (hY' : IsAlgebraicSpace B S hS Y') (_ : Space.IsQuasiCompactSpace B S hS Y')
+    ∀ (n : ℕ) {Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u},
+    IsAlgebraicSpace B S hS Y' → ∀ (_ : Space.IsQuasiCompactSpace B S hS Y')
     (_ : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y') (p : Y' ⟶ Y)
-    (_ : Space.IsProper B S hS p) (V' U₀ : Subfunctor Y') (hV' : Space.IsOpenSubspace B S hS V')
-    (_ : Space.IsQuasiCompactSpace B S hS V'.toFunctor) (_ : V' ≤ V.preimage p)
+    (_ : Space.IsProper B S hS p) (V' U₀ : Subfunctor Y'), Space.IsOpenSubspace B S hS V' →
+    ∀ (_ : Space.IsQuasiCompactSpace B S hS V'.toFunctor) (_ : V' ≤ V.preimage p)
     (hU₀ : Space.IsOpenSubspace B S hS U₀)
     (_ : Space.IsQuasiCompactSpace B S hS U₀.toFunctor) (_ : U₀ ≤ W.preimage p) (_ : V' ≤ U₀)
     (x₀ : algebraicSpaceStack.{u, w} B S hS U₀.toFunctor hU₀.1 ⟶ 𝒳)
@@ -136,7 +136,7 @@ theorem hasSectionCovers_of_sections_of_isGerbeOver :
     refine HasSectionCovers.of_section hY' p hp x₀ ex₀ ?_
     rintro _ ⟨_, ⟨v, rfl⟩, rfl⟩
     refine ⟨Space.pointsMap B S hS _ (Subfunctor.homOfLe hVU₀) v, ?_⟩
-    show Space.pointsMap B S hS _ ((W.preimage p).ι ≫ p) _ = _
+    change Space.pointsMap B S hS _ ((W.preimage p).ι ≫ p) _ = _
     refine (Space.pointsMap_comp_apply B S hS _ _ _).symm.trans ?_
     refine Eq.trans ?_ (Space.pointsMap_comp_apply B S hS _ _ _)
     rw [← Category.assoc, Subfunctor.homOfLe_ι]
@@ -330,7 +330,7 @@ theorem hasSectionCovers_of_sections_of_isGerbeOver :
     rintro _ ⟨v, hv, rfl⟩
     obtain ⟨y₀, hy₀⟩ := hgs v
     have hy₀K : y₀ ∈ K := by
-      show y₀ ∈ Set.range (Space.pointsMap B S hS (V'.preimage g).toFunctor (V'.preimage g).ι)
+      change y₀ ∈ Set.range (Space.pointsMap B S hS (V'.preimage g).toFunctor (V'.preimage g).ι)
       rw [Space.range_pointsMap_preimage_ι, Set.mem_preimage, hy₀]
       exact hv
     obtain ⟨k, hk, hk'⟩ := Set.mem_iUnion₂.1 (ht hy₀K)
@@ -351,11 +351,11 @@ is `hasSectionCovers_of_sections_of_isGerbeOver`, and by the `|V'| ∖ |U i|`, w
 points of `V'` on the reduced closed complement `Y_i` of `U i` (Stacks 03IQ), over which the
 other `n` sections cover the inverse image of `W`. -/
 theorem hasSectionCovers_of_sections_of_isGerbeOver_cover :
-    ∀ (n : ℕ) {Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    (hY' : IsAlgebraicSpace B S hS Y') (_ : Space.IsQuasiCompactSpace B S hS Y')
+    ∀ (n : ℕ) {Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u},
+    IsAlgebraicSpace B S hS Y' → ∀ (_ : Space.IsQuasiCompactSpace B S hS Y')
     (_ : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y') (p : Y' ⟶ Y)
-    (_ : Space.IsProper B S hS p) (V' : Subfunctor Y') (hV' : Space.IsOpenSubspace B S hS V')
-    (_ : Space.IsQuasiCompactSpace B S hS V'.toFunctor) (_ : V' ≤ V.preimage p)
+    (_ : Space.IsProper B S hS p) (V' : Subfunctor Y'), Space.IsOpenSubspace B S hS V' →
+    ∀ (_ : Space.IsQuasiCompactSpace B S hS V'.toFunctor) (_ : V' ≤ V.preimage p)
     (_ : V' ≤ W.preimage p)
     (U : Fin n → Subfunctor Y') (hU : ∀ i, Space.IsOpenSubspace B S hS (U i))
     (_ : ∀ i, Space.IsQuasiCompactSpace B S hS (U i).toFunctor) (_ : ∀ i, U i ≤ W.preimage p)

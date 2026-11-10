@@ -180,7 +180,7 @@ lemma isRestrictionOf_pullbackRestriction {Ux Uy V W : 𝒞} {x : p.Fiber Ux} {y
         IsPreFibered.pullbackMap (pullbackFiber p x fx).2 g) ≫ Fiber.fiberInclusion.map ψ := by
     rw [← Category.assoc, ← Fiber.fiberInclusion.map_comp, hfib, Fiber.fiberInclusion.map_comp,
       Category.assoc, pullbackFiberHom_fac, Category.assoc]
-  show _ ≫ Restriction.compTo p g fy hmy (pullbackRestriction y fy) (pullbackRestriction y my) =
+  change _ ≫ Restriction.compTo p g fy hmy (pullbackRestriction y fy) (pullbackRestriction y my) =
     Restriction.compTo p g fx hmx (pullbackRestriction x fx) (pullbackRestriction x mx) ≫ _
   rwa [compTo_pullbackRestriction, compTo_pullbackRestriction]
 
@@ -228,7 +228,7 @@ lemma baseChangeFiberMor_eq_of_comparison {S : 𝒞} {x y : p.Fiber S} {V W Z : 
         pullbackFiberHom ψ' ε' := by
     rwa [pullbackFiberCompIso'_hom_comp_inv p x fx fy ε ε' q h₁ h₂ heq,
       pullbackFiberCompIso'_hom_comp_inv p y fx fy ε ε' q h₁ h₂ heq]
-  show (pullbackFiberCompIso' x fx ε q h₁).inv ≫ pullbackFiberHom ψ ε ≫
+  change (pullbackFiberCompIso' x fx ε q h₁).inv ≫ pullbackFiberHom ψ ε ≫
       (pullbackFiberCompIso' y fx ε q h₁).hom =
     (pullbackFiberCompIso' x fy ε' q h₂).inv ≫ pullbackFiberHom ψ' ε' ≫
       (pullbackFiberCompIso' y fy ε' q h₂).hom

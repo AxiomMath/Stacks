@@ -104,7 +104,7 @@ theorem smallLocalizationFunctor_map_exact (S : Submonoid A) [Small.{v} S]
     (T : ShortComplex (ModuleCat.{v} A)) (hT : T.Exact) :
     (T.map (smallLocalizationFunctor S)).Exact := by
   rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
-  show Function.Exact
+  change Function.Exact
     (IsLocalizedModule.map S (smallLocalizationMk S T.X₁) (smallLocalizationMk S T.X₂) T.f.hom)
     (IsLocalizedModule.map S (smallLocalizationMk S T.X₂) (smallLocalizationMk S T.X₃) T.g.hom)
   exact IsLocalizedModule.map_exact S _ _ _ T.f.hom T.g.hom hT
@@ -195,7 +195,7 @@ theorem isZero_smallLocalization_smallLocalization (S T : Submonoid A) [Small.{v
   obtain ⟨⟨m, t⟩, rfl⟩ := IsLocalizedModule.mk'_surjective T (smallLocalizationMk T M) x
   obtain ⟨s, hs⟩ := h m
   refine ⟨s, ?_⟩
-  show (s : A) • IsLocalizedModule.mk' (smallLocalizationMk T M) m t = 0
+  change (s : A) • IsLocalizedModule.mk' (smallLocalizationMk T M) m t = 0
   change (s : A) • m = 0 at hs
   rw [← IsLocalizedModule.mk'_smul, hs, IsLocalizedModule.mk'_zero]
 
@@ -271,7 +271,7 @@ theorem derivedPowerTorsionProperty_iff_isZero_mapDerivedCategory (I : Ideal A) 
     derivedPowerTorsionProperty A I hI X ↔
       ∀ f ∈ s,
         IsZero ((smallLocalizationFunctor (Submonoid.powers f)).mapDerivedCategory.obj X) := by
-  show (∀ i, IsIPowerTorsion A
+  change (∀ i, IsIPowerTorsion A
     ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).obj X) I) ↔ _
   simp only [← hs, isIPowerTorsion_iff_isZero_smallLocalization,
     isZero_mapDerivedCategory_smallLocalization_iff]

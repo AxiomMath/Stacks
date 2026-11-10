@@ -176,7 +176,7 @@ theorem representsHilbertFunctorOfRank_of_representableBy {S : Scheme.{u}} (X : 
     exact ⟨Over.homMk k₀ hb,
       totalSigma_snd_eq (F := hilbertFunctorOfRank X d) ((hmap (Over.homMk k₀ hb)).symm.trans hk)⟩
   · intro A' A m k
-    show (baseChange X (m ≫ k) t).ideal =
+    change (baseChange X (m ≫ k) t).ideal =
       (baseChange X k t).ideal.comap (familyBaseChangeMap X m)
     rw [baseChange_comp, baseChange_ideal]
 

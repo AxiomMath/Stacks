@@ -84,7 +84,7 @@ instance isClosedImmersion_ι : IsClosedImmersion S.ι :=
 /-- **The underlying set of a scheme structure on `Z` is `Z`.** -/
 @[simp]
 theorem range_ι : Set.range S.ι = (Z : Set X) := by
-  show Set.range S.ideal.subschemeι = (Z : Set X)
+  change Set.range S.ideal.subschemeι = (Z : Set X)
   rw [IdealSheafData.range_subschemeι, S.support_eq]
 
 end SchemeStructure
@@ -124,7 +124,7 @@ theorem SchemeStructure.eq_reducedInduced {X : Scheme.{u}} {Z : Closeds X}
 @[ega "I 5.1.3" "partial"]
 theorem reduction_eq_reducedInduced_top (X : Scheme.{u}) :
     X.reduction = (reducedInduced (⊤ : Closeds X)).toScheme := by
-  show X.nilradical.subscheme = (IdealSheafData.vanishingIdeal (⊤ : Closeds X)).subscheme
+  change X.nilradical.subscheme = (IdealSheafData.vanishingIdeal (⊤ : Closeds X)).subscheme
   rw [IdealSheafData.vanishingIdeal_top]
 
 end AlgebraicGeometry.Scheme

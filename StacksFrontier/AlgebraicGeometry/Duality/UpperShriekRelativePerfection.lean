@@ -54,8 +54,9 @@ and `D^b_Coh(𝒪_X)` is turned into pseudo-coherence by [Stacks, Tag 08E8],
 [Stacks, Tag 0DI0] and the source obtains it from [Stacks, Tag 0BZW] (1)(b), that `ω_{A/R}` has
 finite Tor dimension over `R`. That ring-level statement *is* in this library, with nothing
 carried:
-`Dualizing.PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap`
-of `StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingFiniteTorDimension`. What is
+`relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap` (in the namespace
+`Dualizing.PolynomialPresentation`) of
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingFiniteTorDimension`. What is
 absent is the affine-locality assembly which would carry it from a chart to
 `AlgebraicGeometry.RingedSpace.LocallyHasFiniteTorDimension`; the absence of that assembly is
 recorded in the implementation notes of
@@ -175,7 +176,8 @@ cohomology is pseudo-coherent by Tag 08E8. -/
   assertion that O_X -> R SheafHom(f^! O_Y, f^! O_Y) is an isomorphism. Both rest on Stacks \
   0BZW, whose parts (1)(a), (1)(b) and (1)(c) are all proved in this repository at the level of \
   rings -- (1)(b) as \
-  Dualizing.PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap \
+  relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap (in the namespace \
+  Dualizing.PolynomialPresentation) \
   and (1)(c) as Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule -- \
   but what is absent is the affine-locality assembly for Tor dimension that Stacks 0DI2 would \
   need, and there is no map O_X -> R SheafHom(K, K) on a scheme in this repository at all, so \

@@ -70,7 +70,7 @@ theorem isSchemeTheoreticallyDominant_of_flat_of_surjective {W T : Scheme.{u}} (
         (Flat.stalkMap p w) (p.toLRSHom.prop w)
     exact ‹RingHom.FaithfullyFlat _›.injective
   apply hinj
-  show p.stalkMap w (T.presheaf.germ U (p w) ht s) =
+  change p.stalkMap w (T.presheaf.germ U (p w) ht s) =
     p.stalkMap w (T.presheaf.germ U (p w) ht s')
   rw [Scheme.Hom.germ_stalkMap_apply, Scheme.Hom.germ_stalkMap_apply, hss']
 
@@ -92,7 +92,7 @@ theorem exists_isAffine_flat_surjective (W₀ : Scheme.{u}) [CompactSpace W₀] 
     infer_instance
   refine ⟨∐ 𝒰.X, inferInstance, Sigma.desc 𝒰.f, inferInstance, ⟨fun x => ?_⟩⟩
   obtain ⟨i, y, rfl⟩ := 𝒰.exists_eq x
-  exact ⟨Sigma.ι 𝒰.X i y, by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+  exact ⟨Sigma.ι 𝒰.X i y, by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 open Stacks.Flatness in
 /-- If some finite-presentation enlargement of the closed subscheme cut out by a closed immersion
@@ -132,7 +132,7 @@ theorem exists_stage_comp_eq {Y P W G Z : Scheme.{u}} [IsAffine Y] [IsAffine W] 
   have hc : IsLimit c := isLimitOfPreserves F (isLimit_finitePresentationCone_of_isAffine f)
   have : ∀ J, IsAffine (D.obj J) := fun J => by
     have : IsAffine J.unop.1.subscheme := isAffine_of_isAffineHom J.unop.1.subschemeι
-    show IsAffine (pullback J.unop.1.subschemeι w)
+    change IsAffine (pullback J.unop.1.subschemeι w)
     exact isAffine_of_isAffineHom (pullback.snd J.unop.1.subschemeι w)
   have hDmap : ∀ {J J'} (e : J ⟶ J'), IsAffineHom (D.map e) := fun e => inferInstance
   let t : D ⟶ (Functor.const _).obj G :=
@@ -143,7 +143,7 @@ theorem exists_stage_comp_eq {Y P W G Z : Scheme.{u}} [IsAffine Y] [IsAffine W] 
   have hct : c.π ≫ t = (Functor.const _).map (a ≫ i) := by
     ext J
     rw [NatTrans.comp_app, Functor.const_map_app]
-    show ((Over.pullback w).map ((finitePresentationCone f (le_refl f.ker)).π.app J)).left ≫
+    change ((Over.pullback w).map ((finitePresentationCone f (le_refl f.ker)).π.app J)).left ≫
       pullback.snd J.unop.1.subschemeι w ≫ ζ = a ≫ i
     rw [ha]
     exact Over.w_assoc
@@ -181,7 +181,7 @@ theorem surjective_pullback_fst_of_surjective {L G X : Scheme.{u}} (ι : L ⟶ G
   refine ⟨fun u => ?_⟩
   obtain ⟨l, hl⟩ := ι.surjective u.1
   have hlU : l ∈ ι ⁻¹ᵁ U := by
-    show ι l ∈ U
+    change ι l ∈ U
     rw [hl]
     exact hU'U u.2
   let l₁ : (ι ⁻¹ᵁ U).toScheme := ⟨l, hlU⟩
@@ -235,7 +235,7 @@ theorem locallyOfFinitePresentation_restrict_of_inv_mul_factors (k : Type u) [Fi
   let := Hom.group (X := TE) (G := G.X)
   let := Hom.group (X := TE) (G := L.carrier.X)
   let bh : TE ⟶ L.carrier.X := Over.homMk (b ≫ iZ) (by
-    show (b ≫ iZ) ≫ L.carrier.X.hom = pullback.snd J.1.subschemeι w ≫ σ
+    change (b ≫ iZ) ≫ L.carrier.X.hom = pullback.snd J.1.subschemeι w ≫ σ
     rw [← Over.w L.ι.hom.hom, ← hζG]
     simpa only [Category.assoc] using congrArg (· ≫ G.X.hom) hb)
   have hb' : (shE ≫ x)⁻¹ * ((shE ≫ y) ≫ L.ι.hom.hom) = bh ≫ L.ι.hom.hom := by
@@ -303,7 +303,7 @@ theorem locallyOfFinitePresentation_restrict_of_isAffineOpen (k : Type u) [Field
   have hx'ι : x' ≫ V.ι ≫ iL = pullback.snd f w ≫ w ≫ U'.ι := by
     simp only [x', Category.assoc, Scheme.homOfLE_ι_assoc, ← hfι, pullback.condition_assoc]
   let xh : T' ⟶ L.carrier.X := Over.homMk (x' ≫ V.ι) (by
-    show (x' ≫ V.ι) ≫ L.carrier.X.hom = pullback.snd f w ≫ w ≫ U'.ι ≫ G.X.hom
+    change (x' ≫ V.ι) ≫ L.carrier.X.hom = pullback.snd f w ≫ w ≫ U'.ι ≫ G.X.hom
     rw [← Over.w L.ι.hom.hom, Category.assoc, reassoc_of% hx'ι])
   let yh : T' ⟶ L.carrier.X := sh ≫ yW
   have hπeq : x' ≫ π = (pullback.snd f w ≫ yW') ≫ π := by

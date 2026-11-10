@@ -298,8 +298,8 @@ theorem isIso_openNeighbourhoodComparison_of_depthAddDim_gt
         (zeroSchemeTowerIdeal_succ_le X L s) F 0))
     (hc : Hrestrict X.ringCatSheaf (le_top : V ≤ ⊤) 0 F ≫ c = zeroSchemeComparison X L s F 0) :
     IsIso c := by
-  haveI := hV.isIso_Hrestrict
-  haveI := hin.isIso_zeroSchemeComparison (fun x hx => by simpa using hdepth x hx) 0 Nat.one_pos
+  have := hV.isIso_Hrestrict
+  have := hin.isIso_zeroSchemeComparison (fun x hx => by simpa using hdepth x hx) 0 Nat.one_pos
   have hcc : c = inv (Hrestrict X.ringCatSheaf (le_top : V ≤ ⊤) 0 F) ≫
       zeroSchemeComparison X L s F 0 := by
     rw [← hc, IsIso.inv_hom_id_assoc]

@@ -49,7 +49,7 @@ theorem firstChernClassPiece_picardClass (X : (SmoothProjectiveScheme k).FullSub
         (Stacks.RingedSpace.structureIsSheaf ((toScheme k).obj X).toRingedSpace) L hL) =
       AlgebraicGeometry.SheafOfModules.deRhamCohomologyFirstChernClass
         (X := ((toScheme k).obj X).toRingedSpace) (algebras X) (differential X) L hL := by
-  show (AlgebraicGeometry.SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology
+  change (AlgebraicGeometry.SheafOfModules.deRhamCohomologyAbelianIsoDeRhamCohomology
       (algebras X) (differential X) 2).hom.hom
     (AlgebraicGeometry.SheafOfModules.deRhamFirstChernClassAbelian (algebras X) (differential X)
       (Stacks.GluePicard.picardModelAddEquiv _ _)) = _
@@ -73,7 +73,7 @@ theorem pullbackPiece_firstChernClassPiece (f : X ⟶ Y)
     (square_w f) 2
   let z := AlgebraicGeometry.SheafOfModules.deRhamFirstChernClassAbelian (algebras Y)
     (differential Y) (Stacks.GluePicard.picardModelAddEquiv _ c)
-  show eX.hom.hom (P.hom (eY.inv.hom (eY.hom.hom z))) = eX.hom.hom _
+  change eX.hom.hom (P.hom (eY.inv.hom (eY.hom.hom z))) = eX.hom.hom _
   rw [Iso.hom_inv_id_apply]
   exact congrArg eX.hom.hom h.symm
 
@@ -90,13 +90,13 @@ theorem schemePullbackClassHom_picardClassOf (f : X ⟶ Y) (L : ((toScheme k).ob
 pullbacks, `f^*c₁^{dR}(ℒ) = c₁^{dR}(f^*ℒ)` (Lemma 0FMD, as in Section 0FWC). -/
 theorem pullbackAxiom : (deRhamFirstChernClassData k).PullbackAxiom := by
   intro X Y f L hL
-  show tateTwistMap (pullback f).toLinearMap 1 (firstChernClass Y _) = firstChernClass X _
+  change tateTwistMap (pullback f).toLinearMap 1 (firstChernClass Y _) = firstChernClass X _
   apply (untwist (cohomology X) 1).injective
   have e1 : ∀ x, untwist (cohomology X) 1 (tateTwistMap (pullback f).toLinearMap 1 x) =
       pullback f (untwist (cohomology Y) 1 x) := fun x =>
     tateTwistCoordinates_map _ _ _ _
   rw [e1]
-  show pullback f (untwist _ 1 ((untwist _ 1).symm (DirectSum.of (piece Y) 2 _))) =
+  change pullback f (untwist _ 1 ((untwist _ 1).symm (DirectSum.of (piece Y) 2 _))) =
     untwist _ 1 ((untwist _ 1).symm (DirectSum.of (piece X) 2 _))
   rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply, pullback_of,
     pullbackPiece_firstChernClassPiece, schemePullbackClassHom_picardClassOf]

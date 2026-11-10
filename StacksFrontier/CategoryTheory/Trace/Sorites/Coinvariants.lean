@@ -408,7 +408,7 @@ private lemma monoidAlgebraAugmentationRingHom_single (g : G) (r : Λ) :
 omit [Group G] in
 private lemma monoidAlgebraAugmentation_single (g : G) (r : Λ) :
     monoidAlgebraAugmentation (Λ := Λ) (G := G) (MonoidAlgebra.single g r) = r := by
-  show (Finsupp.single g r).sum (fun _ t => t) = r
+  change (Finsupp.single g r).sum (fun _ t => t) = r
   simp
 
 /-- Scalar multiplication on a monoid algebra is left multiplication by a constant. -/
@@ -489,7 +489,7 @@ lemma coinvariants_module_finite
     intro q _
     obtain ⟨p, rfl⟩ := (Submodule.mkQ_surjective (coinvariantsKer σ)) q
     have hp : p ∈ Submodule.span Λ[G] (s : Set P) := hs ▸ Submodule.mem_top
-    show coinvariantsMk σ p ∈ T
+    change coinvariantsMk σ p ∈ T
     apply Submodule.span_induction
       (p := fun x _ => coinvariantsMk σ x ∈ T)
       (mem := by
@@ -506,7 +506,7 @@ lemma coinvariants_module_finite
         rw [coinvariants_groupRing_smul]
         exact T.smul_mem (monoidAlgebraAugmentation (Λ := Λ) (G := G) a) h)
       hp
-  show Module.Finite Λ (coinvariants σ)
+  change Module.Finite Λ (coinvariants σ)
   apply Module.Finite.of_fg_top
   rw [← hT]
   exact ⟨U, rfl⟩
@@ -555,7 +555,7 @@ lemma coinvariants_module_projective
       map_smul' := by
         intro a p
         rw [coinvariants_groupRing_smul σ a p]
-        show monoidAlgebraAugmentation (Λ := Λ) (G := G) a •
+        change monoidAlgebraAugmentation (Λ := Λ) (G := G) a •
           coinvariantsMk σ p =
             monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G) a •
               coinvariantsMk σ p
@@ -565,7 +565,7 @@ lemma coinvariants_module_projective
       map_add' := f.map_add
       map_smul' := by
         intro a m
-        show f (monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G) a • m) = _
+        change f (monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G) a • m) = _
         exact f.map_smul _ _ }
   obtain ⟨h, hh⟩ := Module.projective_lifting_property f₀ g₀ hf
   let hΛ : P →ₗ[Λ] M :=
@@ -578,7 +578,7 @@ lemma coinvariants_module_projective
             rw [representationScalar_smul]
           _ = (MonoidAlgebra.single 1 r : Λ[G]) • h p := h.map_smul _ _
           _ = r • h p := by
-            show monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G)
+            change monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G)
               (MonoidAlgebra.single 1 r) • h p = r • h p
             rw [monoidAlgebraAugmentationRingHom_single] }
   have hcompat : ∀ g p, hΛ (σ g p) = hΛ p := by
@@ -588,7 +588,7 @@ lemma coinvariants_module_projective
         rw [representationGroup_smul]
       _ = (MonoidAlgebra.of Λ G g : Λ[G]) • hΛ p := h.map_smul _ _
       _ = hΛ p := by
-        show monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G)
+        change monoidAlgebraAugmentationRingHom (Λ := Λ) (G := G)
           (MonoidAlgebra.of Λ G g) • hΛ p = hΛ p
         rw [MonoidAlgebra.of_apply, monoidAlgebraAugmentationRingHom_single, one_smul]
   let hbar := coinvariantsLift σ hΛ hcompat
@@ -596,7 +596,7 @@ lemma coinvariants_module_projective
   apply LinearMap.ext
   intro q
   obtain ⟨p, rfl⟩ := (Submodule.mkQ_surjective (coinvariantsKer σ)) q
-  show f (h p) = coinvariantsMk σ p
+  change f (h p) = coinvariantsMk σ p
   exact congrArg (fun k : P →ₗ[Λ[G]] coinvariants σ => k p) hh
 
 omit [Group G] in
@@ -649,7 +649,7 @@ private lemma exists_equivariant_coordinates [Fintype G]
   refine ⟨n, b, c, ?_, ?_⟩
   · intro g x j
     have h := congrFun (i.map_smul (MonoidAlgebra.single g 1) x) j
-    show i (σ g x) j = MonoidAlgebra.single g 1 * i x j
+    change i (σ g x) j = MonoidAlgebra.single g 1 * i x j
     simpa only [hs, one_smul, Pi.smul_apply, smul_eq_mul] using h
   · intro x
     have hx := congrArg p (standardBasisVector_decomp Λ[G] (Fin n) (i x))
@@ -700,7 +700,7 @@ private lemma subgroup_trace_coordinates [Fintype G]
         | of h =>
           ext z l
           simp only [MonoidAlgebra.of_apply, hs, one_smul]
-          show (cosetCoefficients H z.2.out (c (σ h p) z.1)).coeff l =
+          change (cosetCoefficients H z.2.out (c (σ h p) z.1)).coeff l =
             (MonoidAlgebra.single h 1 * cosetCoefficients H z.2.out (c p z.1)).coeff l
           simp [cosetCoefficients_coeff, hc, mul_assoc]
         | add a a' ha ha' =>
@@ -711,7 +711,7 @@ private lemma subgroup_trace_coordinates [Fintype G]
             Finsupp.add_apply] using congrArg₂ (· + ·) h1 h2
         | smul r a ha =>
           rw [smul_eq_single_one_mul, mul_smul, hs, OneMemClass.coe_one, map_one]
-          show (fun z : κ => cosetCoefficients H z.2.out (c (r • (a • p)) z.1)) = _
+          change (fun z : κ => cosetCoefficients H z.2.out (c (r • (a • p)) z.1)) = _
           rw [map_smul]
           ext z h
           have hh := congrArg (fun v : κ → Λ[H] => (v z).coeff h) ha
@@ -723,9 +723,9 @@ private lemma subgroup_trace_coordinates [Fintype G]
     Fintype.linearCombination Λ[H] (fun z : κ => σ z.2.out (b z.1))
   have hpi : p.comp i = LinearMap.id := by
     ext x
-    show (∑ z : κ, cosetCoefficients H z.2.out (c x z.1) • σ z.2.out (b z.1)) = x
+    change (∑ z : κ, cosetCoefficients H z.2.out (c x z.1) • σ z.2.out (b z.1)) = x
     simp only [module_smul_sum τ hs, cosetCoefficients_coeff]
-    show (∑ z : κ, ∑ h : H, (c x z.1).coeff ((h : G) * z.2.out) •
+    change (∑ z : κ, ∑ h : H, (c x z.1).coeff ((h : G) * z.2.out) •
       σ h (σ z.2.out (b z.1))) = x
     rw [Fintype.sum_prod_type]
     have hact (h : H) (k : G) (y : P) : σ h (σ k y) = σ ((h : G) * k) y := by
@@ -746,7 +746,7 @@ private lemma subgroup_trace_coordinates [Fintype G]
   have hp : p (standardBasisVector Λ[H] κ (j, q)) = σ q.out (b j) := by
     simp only [p, standardBasisVector, Fintype.linearCombination_apply_single, one_smul]
   rw [hp]
-  show (cosetCoefficients H q.out (c (f (σ q.out (b j))) j)).coeff 1 = _
+  change (cosetCoefficients H q.out (c (f (σ q.out (b j))) j)).coeff 1 = _
   rw [cosetCoefficients_coeff, OneMemClass.coe_one, one_mul]
 
 omit [Group G] in
@@ -772,7 +772,7 @@ private lemma coinvariants_trace_coordinates [Fintype G]
   have ha : ∀ g p, a (σ g p) = a p := by
     intro g x
     ext j
-    show monoidAlgebraAugmentation (c (σ g x) j) = monoidAlgebraAugmentation (c x j)
+    change monoidAlgebraAugmentation (c (σ g x) j) = monoidAlgebraAugmentation (c x j)
     rw [hc, ← monoidAlgebraAugmentationRingHom_apply,
       map_mul, monoidAlgebraAugmentationRingHom_single, one_mul,
       monoidAlgebraAugmentationRingHom_apply]
@@ -782,7 +782,7 @@ private lemma coinvariants_trace_coordinates [Fintype G]
     apply LinearMap.ext
     intro q
     obtain ⟨x, rfl⟩ := (coinvariantsKer σ).mkQ_surjective q
-    show (∑ j, monoidAlgebraAugmentation (c x j) • coinvariantsMk σ (b j)) = coinvariantsMk σ x
+    change (∑ j, monoidAlgebraAugmentation (c x j) • coinvariantsMk σ (b j)) = coinvariantsMk σ x
     simp_rw [augmentation_eq_sum, Finset.sum_smul]
     have h := congrArg (coinvariantsMk σ) (hb x)
     simpa only [map_sum, map_smul, coinvariantsMk_group_action] using h
@@ -793,7 +793,7 @@ private lemma coinvariants_trace_coordinates [Fintype G]
   intro j _
   simp only [LinearMap.comp_apply, p, standardBasisVector,
     Fintype.linearCombination_apply_single, one_smul, hf]
-  show monoidAlgebraAugmentation (c (T (b j)) j) = _
+  change monoidAlgebraAugmentation (c (T (b j)) j) = _
   exact augmentation_eq_sum _
 
 private def conjugate (E : MonoidExtensionByNat G Γ) (k : G) (γ : Γ) : Γ :=
@@ -812,7 +812,7 @@ private lemma degree_conjugate (E : MonoidExtensionByNat G Γ) (k : G) (γ : Γ)
 
 private lemma conjugate_fixed_iff (E : MonoidExtensionByNat G Γ) (k : G) (γ : Γ) :
     conjugate E k γ = γ ↔ k ∈ centralizer E.inclusion γ := by
-  show E.inclusion k⁻¹ * γ * E.inclusion k = γ ↔
+  change E.inclusion k⁻¹ * γ * E.inclusion k = γ ↔
     E.inclusion k * γ = γ * E.inclusion k
   constructor
   · intro h
@@ -886,7 +886,7 @@ private lemma conjugacy_representatives_bijective (E : MonoidExtensionByNat G Γ
     obtain ⟨δ, ⟨hδ, g, hg⟩, _⟩ := hS.2 γ.val γ.property
     refine ⟨⟨⟨δ, hδ⟩, Quotient.mk _ g⟩, ?_⟩
     apply Subtype.ext
-    show conjugate E g δ = γ.val
+    change conjugate E g δ = γ.val
     have hδ' : δ = conjugate E g⁻¹ γ.val := by simpa [conjugate] using hg
     rw [hδ', conjugate_comp, inv_mul_cancel, conjugate_one]
 
@@ -960,14 +960,14 @@ lemma trace_degreeOne_on_coinvariants [Finite G] (E : MonoidExtensionByNat G Γ)
     have hs (h : H) (r : Λ) (x : P) :
         (MonoidAlgebra.single h r : Λ[H]) • x = r • σ h x :=
       Representation.single_smul_asModuleNC τ r h x
-    show groupTrace Λ H P (MonoidExtensionByNat.centralizerEndomorphism E ρ γ).val = _
+    change groupTrace Λ H P (MonoidExtensionByNat.centralizerEndomorphism E ρ γ).val = _
     refine (subgroup_trace_coordinates σ b c hc hb H hs
       (MonoidExtensionByNat.centralizerEndomorphism E ρ γ).val).trans ?_
     congr 1
     rw [Finset.sum_comm]
     apply Finset.sum_congr rfl
     intro q _
-    show (∑ j, (c ((MonoidExtensionByNat.centralizerEndomorphism E ρ γ).val
+    change (∑ j, (c ((MonoidExtensionByNat.centralizerEndomorphism E ρ γ).val
       (σ q.out (b j))) j).coeff q.out) = _
     apply Finset.sum_congr rfl
     intro j _
@@ -976,7 +976,7 @@ lemma trace_degreeOne_on_coinvariants [Finite G] (E : MonoidExtensionByNat G Γ)
         σ q.out⁻¹ (ρ γ (σ q.out (b j))) := by
       simp only [conjugate, map_mul, Module.End.mul_apply]
       rfl
-    show (c (ρ γ (σ q.out (b j))) j).coeff q.out =
+    change (c (ρ γ (σ q.out (b j))) j).coeff q.out =
       (c (ρ (conjugate E q.out γ) (b j)) j).coeff 1
     rw [hact, hc]
     simp
@@ -990,7 +990,7 @@ lemma trace_degreeOne_on_coinvariants [Finite G] (E : MonoidExtensionByNat G Γ)
     apply Finset.sum_congr rfl
     intro j _
     rw [map_mul, Module.End.mul_apply]
-    show (c (σ g (ρ t (b j))) j).coeff 1 = _
+    change (c (σ g (ρ t (b j))) j).coeff 1 = _
     rw [hc]
     simp
   have hsum : (∑ g, F (E.inclusion g * t)) =
@@ -1002,7 +1002,7 @@ lemma trace_degreeOne_on_coinvariants [Finite G] (E : MonoidExtensionByNat G Γ)
     exact Equiv.sum_comp (Equiv.inv G) (fun g => (c (ρ t (b j)) j).coeff g)
   have hSt : IsConjugacyClassRepresentatives E (E.degree t) S := by rwa [ht]
   have hclasses := sum_conjugacy_classes E t S hSt F
-  show projectiveModuleTrace Λ (coinvariants σ)
+  change projectiveModuleTrace Λ (coinvariants σ)
       ((coinvariantRepresentation E ρ).val (.ofAdd 1)) = _
   rw [hcoin]
   simp_rw [hcentral]

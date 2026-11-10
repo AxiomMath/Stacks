@@ -193,7 +193,7 @@ truncated maps `σ^{≥ -i}φ`. -/
 noncomputable def stupidTruncTowerFunctor :
     CochainComplex C ℤ ⥤ (ℤ ⥤ CochainComplex C ℤ) where
   obj K := stupidTruncTower K
-  map {K L} φ :=
+  map φ :=
     { app i := stupidTruncMap φ (embeddingUpIntGE (-i))
       naturality _ _ f := stupidTruncGEMapLE_naturality φ (neg_le_neg (leOfHom f)) }
   map_id K := NatTrans.ext (funext fun i ↦ stupidTruncMap_id K (embeddingUpIntGE (-i)))

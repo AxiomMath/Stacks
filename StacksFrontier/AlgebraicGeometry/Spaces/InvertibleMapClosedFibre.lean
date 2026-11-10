@@ -104,7 +104,7 @@ theorem isIso_of_epi_of_isInvertibleModule {Z : AlgebraicSpaces B S hS}
     intro a b hab
     apply eM.injective
     apply hinj
-    show eL (ψ (eM.symm (eM a))) = eL (ψ (eM.symm (eM b)))
+    change eL (ψ (eM.symm (eM a))) = eL (ψ (eM.symm (eM b)))
     rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_apply]
     exact congrArg eL hab
   exact isIso_of_mono_of_epi φ
@@ -209,7 +209,7 @@ theorem isIso_of_isIso_modulePullback_closedPoint (R : Type u) [CommRing R] [IsL
   refine isIso_of_isIso_modulePullback_of_isPullback f hf _ f₀ j sq ?_ hM hL s hs
   refine exists_pointsMap_yoneda_mem_of_isClosed _ fun W hW ⟨w, hw⟩ => ?_
   refine ⟨IsLocalRing.closedPoint (IsLocalRing.ResidueField R), ?_⟩
-  show Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) _ ∈ W
+  change Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) _ ∈ W
   have : IsLocalHom (CommRingCat.ofHom (IsLocalRing.residue R)).hom :=
     inferInstanceAs (IsLocalHom (IsLocalRing.residue R))
   rw [Spec_closedPoint]

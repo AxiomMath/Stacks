@@ -904,7 +904,7 @@ theorem tensorComparisonCompatibilityOf_of_iso
     TensorComparisonCompatibilityOf hTor baseChangeR comparisonR baseChangeA comparisonA
       Ff alphaf Fi alphai pf pf' Y := by
   replace h : _ = _ := h
-  show _ = _
+  change _ = _
   -- naturality of the lax structure map in its first variable
   have hmu := derivedTensorBaseChange_naturality.{uR, uRp, max v uA}
     (algebraMap R R') baseChangeR comparisonR e.hom

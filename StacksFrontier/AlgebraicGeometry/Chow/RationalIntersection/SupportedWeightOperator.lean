@@ -270,8 +270,7 @@ def supportedCoherentKZeroRat : Closeds X ⥤ ModuleCat.{u + 1} ℚ where
   map f := ModuleCat.ofHom ((supportedCoherentKZeroMap (leOfHom f)).toIntLinearMap.baseChange ℚ)
   map_id Z := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul q a =>
       simp only [ModuleCat.hom_ofHom, ModuleCat.hom_id, LinearMap.id_apply,
         LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap, supportedCoherentKZeroMap_refl,
@@ -279,8 +278,7 @@ def supportedCoherentKZeroRat : Closeds X ⥤ ModuleCat.{u + 1} ℚ where
     | add x y hx hy => simp only [map_add, hx, hy]
   map_comp f g := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul q a =>
       simp only [ModuleCat.hom_ofHom, ModuleCat.hom_comp, LinearMap.comp_apply,
         LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap]
@@ -300,8 +298,7 @@ theorem subsingleton_supportedCoherentKZeroRat_bot :
     Subsingleton ((supportedCoherentKZeroRat X).obj ⊥) := by
   have := subsingleton_supportedCoherentKZero_bot (X := X)
   have h : ∀ x : ℚ ⊗[ℤ] supportedCoherentKZero (⊥ : Closeds X), x = 0 := fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul q a => rw [Subsingleton.elim a 0, TensorProduct.tmul_zero]
     | add x y hx hy => rw [hx, hy, add_zero]
   exact ⟨fun x y => (h x).trans (h y).symm⟩
@@ -324,10 +321,7 @@ theorem supportedCoherentKZeroRatToCoherent_map {Z' Z : Closeds X} (f : Z' ⟶ Z
     (x : (supportedCoherentKZeroRat X).obj Z') :
     supportedCoherentKZeroRatToCoherent Z (((supportedCoherentKZeroRat X).map f).hom x) =
       supportedCoherentKZeroRatToCoherent Z' x := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (supportedCoherentKZeroRatToCoherent Z) (map_zero _)).trans
-      ((map_zero _).trans (map_zero _).symm)
+  induction x using TensorProduct.inductionOn with
   | tmul q a =>
     exact congrArg (q ⊗ₜ[ℤ] ·)
       (DFunLike.congr_fun (supportedCoherentKZeroToCoherentKZero_comp_map (leOfHom f)) a)

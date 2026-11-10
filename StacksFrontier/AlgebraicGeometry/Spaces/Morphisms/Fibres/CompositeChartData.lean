@@ -238,7 +238,7 @@ public theorem exists_compositeChartData
       (presheafProperty_comp B S hS _ a₀ m ha₀E (presheafProperty_of_isPullback B S hS _ hm hb₀E))
   have hac : ac ≫ pullback.snd (f ≫ g) c = yoneda.map (α ≫ β) := by
     simp [ac, e, m, hα, hβ, Functor.map_comp, Category.assoc,
-      pullbackRightPullbackFstIso_hom_snd, pullback.lift_snd_assoc]
+      pullbackRightPullbackFstIso_hom_snd]
   obtain ⟨z, hz⟩ := (presheafSurjective_iff_isSurjective_yoneda B S hS X hX U a).mp haS x
   obtain ⟨p, rfl⟩ := Quot.exists_rep z
   refine ⟨{ U := U, V := V, W := W, a := a, b := b, c := c, α := α, β := β

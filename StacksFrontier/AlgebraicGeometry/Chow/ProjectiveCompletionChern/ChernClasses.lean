@@ -134,7 +134,7 @@ theorem perfectChernClass_zeroSecObject_eq_zero (t : ℕ) (ht0 : 0 < t) (ht : t 
     (kernelModule 𝒞) (koszulMap 𝒞) r ht0 ht
   rw [← perfectChernClass_zeroSecObject 𝒞 r C sX] at h
   have h' := congrArg (fun c : TotalChowClass C (proj 𝒞 ≫ sX) => c t) h
-  rw [TotalChowClass.homComponent_apply, if_pos rfl] at h'
+  rw [TotalChowClass.homComponent_apply, ite_eq_left rfl] at h'
   exact h'
 
 /-- **The top Chern class of `i_* 𝒪_X`**: `c_r(i_* 𝒪_X) = -(r - 1)! c_r(𝒦)` for `r ≥ 1`. -/

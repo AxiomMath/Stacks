@@ -115,7 +115,7 @@ theorem etaleLocalRingSpecFunctionsEquiv_appTop
         (((BigFppfOver.toScheme B S hS).map (etaleLocalRingSpecToChart (y := y) hY)).appTop a) =
       etaleLocalRingGerm B S hS Y.1 y (op (affineEtaleNeighborhood Y y)) a := by
   rw [etaleLocalRingSpecFunctionsEquiv_def]
-  show etaleLocalRingModelEquiv Y y ((Scheme.ΓSpecIso (.of (etaleLocalRingModel Y y))).hom
+  change etaleLocalRingModelEquiv Y y ((Scheme.ΓSpecIso (.of (etaleLocalRingModel Y y))).hom
     ((etaleLocalRingSpecToChartScheme Y y).appTop a)) = _
   rw [etaleLocalRingSpecToChartScheme_appTop, ← CommRingCat.comp_apply, Iso.inv_hom_id,
     CommRingCat.id_apply, etaleLocalRingModelEquiv_germ]
@@ -126,8 +126,7 @@ theorem _root_.AlgEquiv.rTensor_smul {K R R' M : Type*} [CommRing K] [CommRing R
     [Algebra K R] [Algebra K R'] [AddCommGroup M] [Module K M] (θ : R ≃ₐ[K] R') (r : R)
     (z : R ⊗[K] M) :
     θ.toLinearEquiv.rTensor M (r • z) = θ r • θ.toLinearEquiv.rTensor M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [smul_add, map_add, hz, hw, map_add, smul_add]
   | tmul s m =>
     rw [TensorProduct.smul_tmul', LinearEquiv.rTensor_tmul, LinearEquiv.rTensor_tmul,

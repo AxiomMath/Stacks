@@ -74,16 +74,14 @@ private theorem flat_of_pure_extension
     have hh : Function.Injective (fun x : S ⊗[R] I ↦ e ((1 : A) ⊗ₜ[S] x)) :=
       e.injective.comp fun x y ↦ hpure x y
     have heq (x : S ⊗[R] I) : e ((1 : A) ⊗ₜ[S] x) = uI x := by
-      induction x using TensorProduct.induction_on with
-      | zero => simp [uI]
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp only [tmul_add, map_add, hx, hy]
       | tmul s i => simp [e, uI, Algebra.smul_def,
           TensorProduct.AlgebraTensorModule.cancelBaseChange]
     simpa only [heq] using hh
   have hsq (x : S ⊗[R] I) :
       uP ((LinearMap.lTensor S I.subtype) x) = (LinearMap.lTensor A I.subtype) (uI x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [uI, uP]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s i => simp [uI, uP]
   intro x y hxy
@@ -146,7 +144,7 @@ theorem flat_of_comp_of_fppf_refinement
   have hfactor : σ = ρ.comp β := by
     have hs := Scheme.Hom.stalkMap_congr_hom (k ≫ f) (𝒰.f i) (φ.w₀ i) x
     rw [Scheme.Hom.stalkMap_comp] at hs
-    show (e.hom ≫ (𝒰.f i).stalkMap x).hom = _
+    change (e.hom ≫ (𝒰.f i).stalkMap x).hom = _
     exact congrArg CommRingCat.Hom.hom hs.symm
   let _ : Algebra C B := α.toAlgebra
   let _ : Algebra B A := β.toAlgebra
@@ -158,7 +156,7 @@ theorem flat_of_comp_of_fppf_refinement
   have : Module.Flat C A := RingHom.flat_algebraMap_iff.mp (Flat.stalkMap (f ≫ g) (k x))
   have hflatσ : σ.Flat := by
     have : Flat (𝒰.f i) := (hdata.2 i).1
-    show ((𝒰.f i).stalkMap x).hom.comp e.hom.hom |>.Flat
+    change ((𝒰.f i).stalkMap x).hom.comp e.hom.hom |>.Flat
     exact (RingHom.Flat.comp_iff_of_bijective_right
       ((ConcreteCategory.isIso_iff_bijective _).mp inferInstance)).mpr (Flat.stalkMap (𝒰.f i) x)
   have : Module.Flat B D := RingHom.flat_algebraMap_iff.mp hflatσ
@@ -169,7 +167,7 @@ theorem flat_of_comp_of_fppf_refinement
       (a b : M), (1 : A) ⊗ₜ[B] a = (1 : A) ⊗ₜ[B] b → a = b := by
     intro M _ _ a b hab
     exact pure_of_faithfullyFlat_factor (S := B) (A := A) (D := D) M hab
-  show α.Flat
+  change α.Flat
   exact RingHom.flat_algebraMap_iff.mpr (flat_of_pure_extension (R := C) (S := B) (A := A) hpure)
 
 end Flat
@@ -233,7 +231,7 @@ theorem locallyOfFiniteType_of_comp_of_fppf_refinement
       (RingHom.pi (fun i => (t i ≫ f.resLE V'.1 (U i).1 (hU i)).appTop.hom)).comp
         q.appTop.hom := by
     ext x i
-    show ((t i ≫ (f ≫ g).resLE W'.1 (U i).1 (hUW i)).appTop.hom) x =
+    change ((t i ≫ (f ≫ g).resLE W'.1 (U i).1 (hUW i)).appTop.hom) x =
       ((t i ≫ f.resLE V'.1 (U i).1 (hU i)).appTop.hom) ((q.appTop.hom) x)
     simp only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.comp_apply]
     exact congrArg _ (resLE_comp_appTop_hom_apply f g (hU i) hVW (hUW i) x)
@@ -279,7 +277,7 @@ theorem locallyOfFinitePresentation_of_comp_of_fppf_refinement
     (RingHom.FiniteType.of_finitePresentation (hCAeq ▸ hCA))
   have hBB'eq : bToB' = aToB'.comp bToA := by
     ext x i
-    show (t i ≫ f.resLE V.1 (U i).1 (hU i)).appTop.hom x =
+    change (t i ≫ f.resLE V.1 (U i).1 (hU i)).appTop.hom x =
       (t i).appTop.hom ((f.resLE V.1 (U i).1 (hU i)).appTop.hom x)
     exact RingHom.congr_fun (hcomp i) x
   refine (RingHom.finitePresentation_respectsIso.arrow_mk_iso_iff

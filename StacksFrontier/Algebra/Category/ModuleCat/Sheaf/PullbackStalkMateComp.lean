@@ -114,7 +114,7 @@ is a composite of four morphisms. -/
 theorem whiskerBottom_whiskerTop_hComp_app (w : TwoSquare T L R B) (w' : TwoSquare T' R R' B')
     (α : T₀ ⟶ T ⋙ T') (β : B ⋙ B' ⟶ B₀) (M : E₁) :
     (((w ≫ₕ w').whiskerTop α).whiskerBottom β).app M =
-      R'.map (α.app M) ≫ w'.natTrans.app (T.obj M) ≫ B'.map (w.natTrans.app M) ≫
+      R'.map (α.app M) ≫ w'.app (T.obj M) ≫ B'.map (w.app M) ≫
         β.app (L.obj M) := by
   simp [TwoSquare.whiskerBottom_app, TwoSquare.whiskerTop_app, TwoSquare.hComp_app]
 
@@ -262,7 +262,7 @@ theorem pullbackStalkIso_comp_app (N : Z.Modules) :
         (modulesStalkFunctor X x).map ((Scheme.Modules.pullbackComp f g).hom.app N) := by
   simpa only [TwoSquare.whiskerRight_app, TwoSquare.whiskerLeft_app, TwoSquare.vComp_app,
     Category.assoc] using
-    congrArg (fun w ↦ TwoSquare.natTrans w |>.app N) (pullbackStalkIso_comp f g x)
+    congrArg (fun w ↦ NatTrans.app w N) (pullbackStalkIso_comp f g x)
 
 /-- The stalk formula is compatible with composition, as an equality of isomorphisms of functors:
 the two-step stalk computation of `g^* ⋙ f^*` is the one-step computation for `f ≫ g`, read through

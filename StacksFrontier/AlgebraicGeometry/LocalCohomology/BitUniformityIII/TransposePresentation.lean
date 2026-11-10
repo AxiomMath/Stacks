@@ -113,7 +113,7 @@ theorem isIProjective_of_linearEquiv {J : Ideal R} {M N : Type*} [AddCommGroup M
 /-- The dual of the standard free module `R^{⊕r}`, identified with `R^{⊕r}` by evaluation on the
 standard basis. -/
 def finDualEquiv (r : ℕ) : Module.Dual R (Fin r → R) ≃ₗ[R] (Fin r → R) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     { toFun := fun μ j => μ (Pi.single j 1)
       map_add' := fun _ _ => rfl
       map_smul' := fun _ _ => rfl }
@@ -138,7 +138,7 @@ def finDualEquiv (r : ℕ) : Module.Dual R (Fin r → R) ≃ₗ[R] (Fin r → R)
 /-- The functional attached to `v ∈ R^{⊕r}` sends `w` to `∑ⱼ vⱼ wⱼ`. -/
 @[simp] theorem finDualEquiv_symm_apply (r : ℕ) (v w : Fin r → R) :
     (finDualEquiv r).symm v w = ∑ j, v j * w j := by
-  show (∑ j, v j • LinearMap.proj (R := R) (φ := fun _ : Fin r => R) j) w = _
+  change (∑ j, v j • LinearMap.proj (R := R) (φ := fun _ : Fin r => R) j) w = _
   rw [LinearMap.sum_apply]
   rfl
 
@@ -245,7 +245,7 @@ theorem isANCModule_cokerC : IsANCModule I n c (ModuleCat.of (A ⧸ I ^ n) P.cok
     (isIProjective_cokernel_dualMap (Ideal.map (Ideal.Quotient.mk (I ^ n)) (I ^ c)) P.d P.π
       P.surjective_π P.range_d M.2.2)
     (Submodule.Quotient.equiv _ _ (finDualEquiv P.r₁) ?_)
-  show _ = LinearMap.range ((finDualEquiv (R := A ⧸ I ^ n) P.r₁).toLinearMap ∘ₗ P.d.dualMap ∘ₗ
+  change _ = LinearMap.range ((finDualEquiv (R := A ⧸ I ^ n) P.r₁).toLinearMap ∘ₗ P.d.dualMap ∘ₗ
     (finDualEquiv (R := A ⧸ I ^ n) P.r₀).symm.toLinearMap)
   rw [LinearMap.range_comp, LinearMap.range_comp,
     LinearMap.range_eq_top.mpr (finDualEquiv (R := A ⧸ I ^ n) P.r₀).symm.surjective,

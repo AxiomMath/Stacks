@@ -181,7 +181,7 @@ private theorem ker_transitionLinear (n : ℕ) :
     LinearMap.ker (X.transitionLinear n) = I ^ (n + 1) • (⊤ : Submodule A (X.B (n + 1))) := by
   ext x
   rw [LinearMap.mem_ker, mem_smul_top_pow_iff, algebraMap_B, ← Ideal.map_pow]
-  show X.transition n x = 0 ↔ _
+  change X.transition n x = 0 ↔ _
   rw [← RingHom.mem_ker, X.transition_ker n]
   exact Iff.rfl
 
@@ -508,14 +508,14 @@ public theorem toLimitQuotients_surjective : Function.Surjective B.toLimitQuotie
     | 0, _, _ => simp
     | i + 1, j + 1, hmn =>
       have h : b i - b j = -(b j - b i) := by ring
-      show b i - b j ∈ B.adicIdeal ^ (i + 1)
+      change b i - b j ∈ B.adicIdeal ^ (i + 1)
       rw [h]
       exact neg_mem (hstep i j (by omega))
   obtain ⟨L, hL⟩ := B.isAdicallyComplete.toIsPrecomplete.prec hcauchy
   refine ⟨L, ((adicQuotientFunctor A I).obj B).limit_ext fun n => ?_⟩
   have hLn := hL (n + 1)
   rw [SModEq.sub_mem, Ideal.smul_eq_mul, Ideal.mul_top] at hLn
-  show Ideal.Quotient.mk (B.adicIdeal ^ (n + 1)) L =
+  change Ideal.Quotient.mk (B.adicIdeal ^ (n + 1)) L =
     ((adicQuotientFunctor A I).obj B).limitVal g n
   rw [← hb n, eq_comm, ← sub_eq_zero, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
   exact hLn

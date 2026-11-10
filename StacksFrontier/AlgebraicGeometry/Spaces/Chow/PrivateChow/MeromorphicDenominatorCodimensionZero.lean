@@ -14,7 +14,9 @@ ring at a point over `ξ` are units.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.geometricLength_meromorphicQuotients_eq_zero_of_localRingDimension_eq_zero`.
+In the namespace `AlgebraicGeometry.Space`:
+
+* `geometricLength_meromorphicQuotients_eq_zero_of_localRingDimension_eq_zero`.
 -/
 
 @[expose] public section
@@ -94,7 +96,7 @@ theorem geometricLength_meromorphicQuotients_eq_zero_of_localRingDimension_eq_ze
   rw [hu, hx] at hdim
   have : Ring.KrullDimLE 0 ((chartScheme V).presheaf.stalk v) :=
     Ring.krullDimLE_iff.mpr (by
-      show ringKrullDim (((BigFppfOver.toScheme B S hS).obj V.obj.left).presheaf.stalk v) ≤ _
+      change ringKrullDim (((BigFppfOver.toScheme B S hS).obj V.obj.left).presheaf.stalk v) ≤ _
       rw [← hdim]; exact_mod_cast le_rfl)
   have : IsArtinianRing ((chartScheme V).presheaf.stalk v) :=
     IsNoetherianRing.isArtinianRing_of_krullDimLE_zero

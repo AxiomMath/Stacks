@@ -91,7 +91,7 @@ theorem tensorCompFunctorRestrictRightIso_hom_pure {B C S : DifferentialGradedAl
   · rw [MulOpposite.op_one]
     exact @one_smul (MulOpposite S.A) _ _
       (((tensorCompFunctor N).obj M).rmodule.toDistribMulAction.toMulAction) _
-  show (tensorRegularRightIso ψ ((tensorCompFunctor N).obj M)).hom.toFun
+  change (tensorRegularRightIso ψ ((tensorCompFunctor N).obj M)).hom.toFun
     ((assocForward N (regularRight ψ) M).toFun
       ((tensorHomOfBimoduleHom (compTensorRegularRightIso ψ N).inv M).toFun
         (((tensorDGFunctor (Bimodule.restrictRight ψ N)).pure M).toLinearMap x y))) = _
@@ -287,7 +287,7 @@ theorem flipRestrictedRegularIso_hom_pure (ψ φ : A.Hom C)
       (((q * p).negOnePow : ℤ) : R) •
         ((tensorDGFunctor (Bimodule.regular φ)).pure N).toLinearMap y
           ((opposite R C).equiv x) := by
-  show ((tensorCompFunctorRestrictRightIso (baseHom C) (Bimodule.regular φ)).hom.app N).toFun
+  change ((tensorCompFunctorRestrictRightIso (baseHom C) (Bimodule.regular φ)).hom.app N).toFun
     ((tensorHomOfBimoduleHom (unflipRestrictedRegularIso ψ φ hψφ).hom N).toFun
       ((tensorUnflipIso N (restrictedRegularOpp ψ)).hom.toFun
         (((tensorDGFunctor (flip N)).pure (restrictedRegularOpp ψ)).toLinearMap x y))) = _
@@ -315,7 +315,7 @@ theorem flipRestrictedRegularSelfIso_hom_pure (ι : C.Hom C) (hι : ∀ c, ι.to
     (flipRestrictedRegularSelfIso ι hι N₀).hom.toFun
         (((tensorDGFunctor (flip N₀)).pure (restrictedRegularOpp ι)).toLinearMap x y) =
       (((q * p).negOnePow : ℤ) : R) • (MulOpposite.op ((opposite R C).equiv x) • y) := by
-  show (tensorRegularRightIso (baseHom C) N₀).hom.toFun
+  change (tensorRegularRightIso (baseHom C) N₀).hom.toFun
     ((tensorHomOfBimoduleHom (unflipRestrictedRegularIso ι (idHom C)
       (fun c => (hι c).trans rfl)).hom N₀).toFun
       ((tensorUnflipIso N₀ (restrictedRegularOpp ι)).hom.toFun
@@ -376,7 +376,7 @@ theorem flipTensor_comp_selfIso :
               (MulOpposite.op ((opposite R C).equiv (x : (restrictedRegularOpp ψ).M)))
               (g.toFun (y : N.M)) := by
         refine Eq.trans ?_ h3
-        show (flipRestrictedRegularSelfIso ι hι N₀).hom.toFun
+        change (flipRestrictedRegularSelfIso ι hι N₀).hom.toFun
           (((tensorCompNatTransOfSemilinear (oppHom φ) (flip N) (flip N₀) k).app
             (restrictedRegularOpp ι)).toFun (((tensorCompFunctor (flip N)).map v).toFun
               (((tensorDGFunctor (flip N)).pure (restrictedRegularOpp ψ)).toLinearMap
@@ -395,7 +395,7 @@ theorem flipTensor_comp_selfIso :
             @HSMul.hSMul C.Aᵐᵒᵖ N₀.M N₀.M _
               (MulOpposite.op ((opposite R C).equiv (x : (restrictedRegularOpp ψ).M)))
               (g.toFun (y : N.M)) := by
-        show (plainTranspose φ g).toFun ((flipRestrictedRegularIso ψ φ hψφ N).hom.toFun
+        change (plainTranspose φ g).toFun ((flipRestrictedRegularIso ψ φ hψφ N).hom.toFun
           (((tensorDGFunctor (flip N)).pure (restrictedRegularOpp ψ)).toLinearMap
             (x : (restrictedRegularOpp ψ).M) (y : N.M))) = _
         refine (congrArg (plainTranspose φ g).toFun h4).trans ?_

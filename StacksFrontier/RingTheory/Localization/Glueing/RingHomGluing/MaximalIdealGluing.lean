@@ -68,7 +68,7 @@ private theorem kernel_isIPowerTorsion {R S : Type*} [CommRing R] [CommRing S]
   refine ⟨n + 1, Nat.zero_lt_succ n, ?_⟩
   intro a ha
   apply Subtype.ext
-  show a * x.1 = 0
+  change a * x.1 = 0
   exact hn a (Ideal.pow_le_pow_right n.le_succ ha) x.1 x.2
 
 private theorem cokernel_isIPowerTorsion {R S : Type*} [CommRing R] [CommRing S]
@@ -252,7 +252,7 @@ private theorem pi_ringHom_finite {ι : Type*} [Finite ι]
     intro r x
     funext i
     rfl
-  show Module.Finite (∀ i, R i) (∀ i, S i)
+  change Module.Finite (∀ i, R i) (∀ i, S i)
   exact hmod ▸ (inferInstance : @Module.Finite (∀ i, R i) (∀ i, S i) _ _
     (Pi.module ι S (∀ i, R i)))
 
@@ -282,7 +282,7 @@ private theorem replaceGenericAlphaAlgEquiv_mk
       LocalizedModule.mkLinearMap U T (q x) :=
     LocalizedModule.map_mk U q.toLinearMap x 1
   rw [← hmap]
-  show (canonicalAlphaAlgEquiv (S := S) f B i)
+  change (canonicalAlphaAlgEquiv (S := S) f B i)
       ((AlgEquiv.ofBijective (localizedAlgHomMap U q) (hq i)).symm
         (localizedAlgHomMap U q (LocalizedModule.mkLinearMap U (S ⊗[R] B) x))) = _
   have hcancel :
@@ -353,7 +353,7 @@ private theorem map_pi_eq_pi_map {R : Type*} [CommRing R]
     Ideal.map (RingHom.pi f) J = Ideal.pi (fun i ↦ Ideal.map (f i) J) := by
   apply (Ideal.piOrderIso).injective
   funext i
-  show Ideal.map (Pi.evalRingHom S i) (Ideal.map (RingHom.pi f) J) =
+  change Ideal.map (Pi.evalRingHom S i) (Ideal.map (RingHom.pi f) J) =
     Ideal.map (Pi.evalRingHom S i) (Ideal.pi fun i ↦ Ideal.map (f i) J)
   rw [Ideal.map_map, Ideal.map_evalRingHom_pi]
   rfl
@@ -457,7 +457,7 @@ private theorem quotientMap_inf_bijective
     simp only [e, RingEquiv.trans_apply, RingEquiv.apply_symm_apply,
       Ideal.quotEquivOfEq_mk, quotientPiEquiv_apply_mk,
       RingEquiv.piCongrRight_apply]
-    show quotientMaximalEquivLocalizationQuotient m i
+    change quotientMaximalEquivLocalizationQuotient m i
       ((quotientInfEquivPiQuotient m hm) (Ideal.Quotient.mk J x) i) =
       Ideal.Quotient.mk (K i) ((a x) i)
     have hcrt : (quotientInfEquivPiQuotient m hm
@@ -585,6 +585,7 @@ private noncomputable def piAlgEquivComponent
     simp)
 
 set_option maxHeartbeats 800000 in
+-- many local `Algebra`/`Module` instances on pi types, `ULift`s and tensor products
 /-- Ring maps over the localizations at finitely many pairwise distinct maximal ideals glue to
 one global ring map. The map has kernel and cokernel killed by powers of the
 intersection, and it inherits finiteness, injectivity, or surjectivity when all the local maps
@@ -614,7 +615,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
   have hq : Function.Bijective (Ideal.quotientMap
       ((⨅ i, m i).map (algebraMap A S)) (algebraMap A S)
       Ideal.le_comap_map) := by
-    show Function.Bijective (Ideal.quotientMap
+    change Function.Bijective (Ideal.quotientMap
       ((⨅ i, m i).map (RingHom.pi
         (fun i ↦ algebraMap A (Localization.AtPrime (m i)))))
       (RingHom.pi (fun i ↦ algebraMap A (Localization.AtPrime (m i))))
@@ -655,7 +656,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
       rw [← ht]
       exact Ideal.subset_span ⟨j, rfl⟩
     have hsj : a (t j) ∈ (⨅ i, m i).map (algebraMap A S) := by
-      show (algebraMap A S) (t j) ∈ _
+      change (algebraMap A S) (t j) ∈ _
       exact Ideal.mem_map_of_mem _ htj
     exact localizedMap_bijective_of_torsion _ (Algebra.linearMap S T)
       hkerLin hcokerT _ hsj
@@ -727,7 +728,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
   let E'' : S ⊗[A] D ≃ₐ[A] T :=
     AlgEquiv.ofRingEquiv (f := E'.toRingEquiv) (by
       intro x
-      show E' (algebraMap S (S ⊗[A] D) (a x)) = algebraMap S T (a x)
+      change E' (algebraMap S (S ⊗[A] D) (a x)) = algebraMap S T (a x)
       exact E'.commutes (a x))
   let H : (∀ i, Localization.AtPrime (m i) ⊗[A] D) ≃ₐ[A] T :=
     P.symm.trans E''
@@ -752,10 +753,10 @@ theorem exists_ringHom_inducing_at_maximal_ideal
   have hH_single (i : I) :
       H (Pi.single i (1 : Localization.AtPrime (m i) ⊗[A] D)) =
         Pi.single i (1 : B i) := by
-    show E' (P.symm _) = _
+    change E' (P.symm _) = _
     rw [hP_single]
     ext j
-    show (E ((Pi.single i (1 : Localization.AtPrime (m i)) : S) ⊗ₜ[A]
+    change (E ((Pi.single i (1 : Localization.AtPrime (m i)) : S) ⊗ₜ[A]
       (1 : D))).down j = Pi.single i (1 : B i) j
     rw [hE_i]
     by_cases hj : j = i
@@ -766,7 +767,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
     piAlgEquivComponent H hH_single i
   have hC_pure (i : I) (l : Localization.AtPrime (m i)) (d : D) :
       C i (l ⊗ₜ[A] d) = f i l * p i d := by
-    show (E (P.symm (Pi.single i (l ⊗ₜ[A] d)))).down i = _
+    change (E (P.symm (Pi.single i (l ⊗ₜ[A] d)))).down i = _
     rw [hP_pure, hE_i]
     simp
   have hp_apply (i : I) (x : A) :
@@ -784,7 +785,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
   have hgfinite : (∀ i, (f i).Finite) → g.Finite := by
     intro hf
     have : Module.Finite A D := hDfinite hf
-    show (algebraMap A D).Finite
+    change (algebraMap A D).Finite
     exact RingHom.finite_algebraMap.mpr inferInstance
   have hploc (i : I) :
       (Submonoid.map g (m i).primeCompl).IsLocalizationMap (p i) := by
@@ -795,18 +796,18 @@ theorem exists_ringHom_inducing_at_maximal_ideal
     let C' : (Localization.AtPrime (m i) ⊗[A] D) ≃ₐ[Localization.AtPrime (m i)] B i :=
       AlgEquiv.ofRingEquiv (f := (C i).toRingEquiv) (by
         intro l
-        show C i (l ⊗ₜ[A] (1 : D)) = f i l
+        change C i (l ⊗ₜ[A] (1 : D)) = f i l
         rw [hC_pure, map_one, mul_one])
     have he (d : D) : C' (1 ⊗ₜ[A] d) = algebraMap D (B i) d := by
-      show C i (1 ⊗ₜ[A] d) = p i d
+      change C i (1 ⊗ₜ[A] d) = p i d
       rw [hC_pure, map_one, one_mul]
-    show (Submonoid.map (algebraMap A D) (m i).primeCompl).IsLocalizationMap
+    change (Submonoid.map (algebraMap A D) (m i).primeCompl).IsLocalizationMap
       (algebraMap D (B i))
     exact localizationMap_of_tensorAlgEquiv (m i).primeCompl C' he
   have hlocal_val (i : Fin r) (x : A) :
       canonicalLocalMk t (ModuleCat.of A (ULift.{max u v w, u} A)) i
         (ULift.up x) = (g x).1.2 i := by
-    show (canonicalLocalAlgHom t (ULift.{max u v w, u} A) i)
+    change (canonicalLocalAlgHom t (ULift.{max u v w, u} A) i)
       ((ULift.algEquiv (R := A)).symm x) =
         algebraMap A (awayLocalPiece
           t (ULift.{max u v w, u} A) i) x
@@ -831,7 +832,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
       apply Subtype.ext
       apply Prod.ext
       · apply eB.injective
-        show eB (1 ⊗ₜ[A] ULift.up x) = eB (1 ⊗ₜ[A] ULift.up y)
+        change eB (1 ⊗ₜ[A] ULift.up x) = eB (1 ⊗ₜ[A] ULift.up y)
         simpa only [heB_one] using h₁
       · exact funext fun i ↦ (hlocal_val i x).trans ((h₂ i).trans (hlocal_val i y).symm)
     exact ULift.up_injective (hunit_bijective.1 hcan)
@@ -862,10 +863,10 @@ theorem exists_ringHom_inducing_at_maximal_ideal
           (ULift.{max u v w, u} A) j :=
       (eB.symm s, d.1.2)
     have hqz : q z.1 = d.1.1 := by
-      show (Algebra.ofId S T₀) (eB (eB.symm s)) = d.1.1
+      change (Algebra.ofId S T₀) (eB (eB.symm s)) = d.1.1
       rw [eB.apply_symm_apply]
       apply ULift.down_injective
-      show F s = d.1.1.down
+      change F s = d.1.1.down
       exact hs
     have hz : z ∈ compatibleSections.{u, max u w, max u v w}
         S t (localizationComparisons t)
@@ -888,7 +889,7 @@ theorem exists_ringHom_inducing_at_maximal_ideal
     apply Subtype.ext
     apply Prod.ext
     · apply ULift.down_injective
-      show F (a x) = d.1.1.down
+      change F (a x) = d.1.1.down
       rw [hax]
       exact hs
     · funext j

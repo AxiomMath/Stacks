@@ -133,7 +133,7 @@ lemma ι_trightCochain_map
       (g.f i ▷ N.X j) ≫ GradedObject.Monoidal.ιTensorObj L.X N.X i j n h := by
   have h0 : HomologicalComplex.ιTensorObj K N i j n h ≫ ((TrightCochain N).map g).f n =
       (g.f i ▷ N.X j) ≫ HomologicalComplex.ιTensorObj L N i j n h := by
-    show HomologicalComplex.ιMapBifunctor K N (curriedTensor C) (.up ℤ) i j n h ≫
+    change HomologicalComplex.ιMapBifunctor K N (curriedTensor C) (.up ℤ) i j n h ≫
       (HomologicalComplex.mapBifunctorMap g (𝟙 N) (curriedTensor C) (.up ℤ)).f n = _
     rw [HomologicalComplex.ι_mapBifunctorMap]
     simp

@@ -188,8 +188,7 @@ theorem exists_fg_mem_comoduleSubmodule (hF : F.IsQuasicoherentOnSite)
       (restrictionLinear F pr₂).liftBaseChange (objRing B S hS p w) t ∈
         Submodule.span (objRing B S hS p w) (Set.range (restrictionLinear F pr₂)) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul c m =>
       rw [LinearMap.liftBaseChange_tmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨m, rfl⟩)

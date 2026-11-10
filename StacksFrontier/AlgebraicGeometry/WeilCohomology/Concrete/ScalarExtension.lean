@@ -221,17 +221,20 @@ def productHom : prod (ofOver k π hπ) (spec k k'') ⟶ prod (spec k k') (spec 
       pullback.fst _ _ ≫ π ≫ specStructure k k'
     rw [productMap_fst_assoc]))
 
+omit [Algebra k' k''] [IsScalarTower k k' k''] in
 /-- The underlying morphism of `productHom k π hπ` is `productMap k k'' π`. -/
 @[simp]
 theorem productHom_hom_left :
     (productHom k π hπ (k'' := k'')).hom.left = productMap k k'' π :=
   rfl
 
+omit [Algebra k' k''] [IsScalarTower k k' k''] in
 /-- The first component of `π × id` is `π` on the first factor. -/
 theorem productHom_fst :
     productHom k π hπ (k'' := k'') ≫ fst _ _ = fst _ _ ≫ toSpec k π hπ :=
   hom_ext_left (productMap_fst k k'' π)
 
+omit [Algebra k' k''] [IsScalarTower k k' k''] in
 /-- The second component of `π × id` is the second projection. -/
 theorem productHom_snd :
     productHom k π hπ (k'' := k'') ≫ snd _ _ = snd _ _ :=
@@ -647,15 +650,15 @@ theorem bijective_scalarExtensionMap_of (hB : W.KunnethIsomorphism) :
     rfl
   refine bijective_scalarExtensionHom_of_idempotent (W.pullBaseChangeFst π hπ) kunneth ?_ z ?_ ?_
   · intro a b
-    show W.pull (comparison k π hπ) (W.kunnethH0 _ _ (a ⊗ₜ b)) = _
+    change W.pull (comparison k π hπ) (W.kunnethH0 _ _ (a ⊗ₜ b)) = _
     rw [kunnethH0_tmul, map_mul, ← W.pull_apply_comp, ← W.pull_apply_comp, comparison_fst,
       comparison_snd]
     rfl
   · exact Subtype.ext ((AlgHom.congr_fun hmul z).trans hε.1)
-  · show W.restrictPair (BinaryCofan.mk (comparison k π hπ (k'' := k''))
+  · change W.restrictPair (BinaryCofan.mk (comparison k π hπ (k'' := k''))
       (baseChangeComplementι k π hπ)) (W.kunnethH0 _ _ _) = _
     rw [← AlgHom.comp_apply (W.kunnethH0 (ofOver k π hπ) (spec k k'')), hact]
-    show (W.pull (comparison k π hπ) (W.pull (productHom k π hπ) (κT z)),
+    change (W.pull (comparison k π hπ) (W.pull (productHom k π hπ) (κT z)),
       W.pull (baseChangeComplementι k π hπ) (W.pull (productHom k π hπ) (κT z))) = _
     rw [← W.pull_apply_comp, ← W.pull_apply_comp, comparison_productHom,
       ← complementHom_graphComplementι, W.pull_apply_comp, W.pull_apply_comp]

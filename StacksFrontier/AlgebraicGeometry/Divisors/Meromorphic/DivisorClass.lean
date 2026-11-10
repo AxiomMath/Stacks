@@ -60,7 +60,7 @@ theorem weilDivisorClassOfInvertibleSheaf_eq (s : MeromorphicSection X.sheaf L)
         weilDivisorClassGroup X) := by
   set s' := (exists_isRegularMeromorphicSection_of_isIntegral X L).choose
   set hs' := (exists_isRegularMeromorphicSection_of_isIntegral X L).choose_spec
-  show ((weilDivisorOfMeromorphicSection X L s' hs' : WeilDivisor X) :
+  change ((weilDivisorOfMeromorphicSection X L s' hs' : WeilDivisor X) :
     weilDivisorClassGroup X) = _
   refine QuotientAddGroup.eq.mpr ((mem_principalWeilDivisors_iff X _).2
     ⟨meromorphicSectionRatio X L s s' hs hs', ?_⟩)

@@ -96,8 +96,7 @@ private theorem evaluation_coevaluationContraction (R : Type u) (M : Type v) (N 
     ε (coevaluationContraction R M N t f) m =
       f (dualTensorHom R M M
         (TensorProduct.map ε LinearMap.id (TensorProduct.comm R M N t)) m) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m' n => simp [mul_comm]
   | add x y hx hy => simp_all
 
@@ -158,8 +157,7 @@ private theorem lift_whiskerRight_associator_inv_tmul_aux {R M N : Type u} [Comm
           (n ⊗ₜ[R] x)) =
       1 ⊗ₜ[R] coevaluationContraction R M N x (ε n) := by
   subst hev
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n' =>
       change (ε n m) ⊗ₜ[R] n' =
         1 ⊗ₜ[R] coevaluationContraction R M N (m ⊗ₜ[R] n') (ε n)
@@ -182,8 +180,7 @@ private theorem lift_whiskerLeft_associator_hom_tmul_aux {R M N : Type u} [CommR
       (dualTensorHom R M M
         (TensorProduct.map ε LinearMap.id (TensorProduct.comm R M N x)) m) ⊗ₜ[R] (1 : R) := by
   subst hev
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m' n =>
       change m' ⊗ₜ[R] (ε n m) = _
       simp only [TensorProduct.comm_tmul, TensorProduct.map_tmul, LinearMap.id_apply,
@@ -235,7 +232,7 @@ private lemma triangle_N (n : N) :
     (ExactPairing.coevaluation_evaluation
       (ModuleCat.of R M) (ModuleCat.of R N))
   simp only [ModuleCat.comp_apply] at h
-  show (TensorProduct.lid R N)
+  change (TensorProduct.lid R N)
     (TensorProduct.map (pairingToDual R M N n) LinearMap.id t) = n
   rw [ModuleCat.MonoidalCategory.whiskerLeft_apply,
     ModuleCat.MonoidalCategory.rightUnitor_hom_apply,
@@ -378,7 +375,7 @@ theorem finiteProjectiveExactPairing_coevaluation_one (R M : Type u) [CommRing R
     [AddCommGroup M] [Module R M] [Module.Finite R M] [Module.Projective R M] :
     (@ExactPairing.coevaluation _ _ _ _ _ (finiteProjectiveExactPairing R M)).hom 1 =
       TensorProduct.comm R _ _ (identityTensor R M) := by
-  show (1 : R) • (TensorProduct.comm R _ _ (identityTensor R M)) = _
+  change (1 : R) • (TensorProduct.comm R _ _ (identityTensor R M)) = _
   exact one_smul R _
 
 /-- The entire evaluation map is the canonical contraction. -/
@@ -401,7 +398,7 @@ theorem finiteProjectiveExactPairing_linearDualToLeftDual (R M : Type u) [CommRi
     letI := finiteProjectiveExactPairing R M
     linearDualToLeftDual R M (Module.Dual R M) = LinearMap.id := by
   let := finiteProjectiveExactPairing R M
-  show coevaluationContraction R M (Module.Dual R M)
+  change coevaluationContraction R M (Module.Dual R M)
     ((η_ (ModuleCat.of R M) (ModuleCat.of R (Module.Dual R M))).hom 1) = LinearMap.id
   rw [finiteProjectiveExactPairing_coevaluation_one]
   exact LinearMap.ext (coevaluationContraction_identityTensor R M)

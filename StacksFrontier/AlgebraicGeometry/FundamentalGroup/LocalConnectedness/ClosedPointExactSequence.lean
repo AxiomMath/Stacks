@@ -4,7 +4,7 @@ public import StacksCore.Tactic.StacksAttribute
 public import
   StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.FinitelyManyClosedPoints
 public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
+StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumExactSequence
 public import StacksFrontier.AlgebraicGeometry.GlueingNearClosedPoints.Properties
 
 /-!

@@ -176,7 +176,7 @@ theorem prodAlgEquiv_symm_tmul (x : ExteriorAlgebra R M) (y : ExteriorAlgebra R 
         (GradedTensorProduct.tmul R x y : gradedTensorProd R M N)
       = (ExteriorAlgebra.map (LinearMap.inl R M N)) x
           * (ExteriorAlgebra.map (LinearMap.inr R M N)) y := by
-  show gradedTensorProdToProd (GradedTensorProduct.tmul R x y : gradedTensorProd R M N) = _
+  change gradedTensorProdToProd (GradedTensorProduct.tmul R x y : gradedTensorProd R M N) = _
   rw [gradedTensorProdToProd]
   exact GradedTensorProduct.lift_tmul _ _ _ _ _ _ _
 
@@ -283,8 +283,7 @@ theorem prodDecomposition_symm_blockIncl_mem (n : ℕ)
           (fun pq => TensorProduct R (⋀[R]^pq.1.1 M) (⋀[R]^pq.1.2 N)) pq t))
       ∈ (⋀[R]^n (M × N)) := by
   obtain ⟨⟨p, q⟩, h⟩ := pq
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, map_add, map_add]
       exact Submodule.add_mem _ hx hy

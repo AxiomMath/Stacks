@@ -173,7 +173,7 @@ theorem isIso_derivedBaseChangeMapAt (sq : IsPullback i' g f i) [IsClosedImmersi
     IsIso (derivedBaseChangeMapAt sq K) :=
   have := isIso_derivedBaseChangeSquare_of_kFlatEq sq htor hst
   NatIso.isIso_app_of_isIso (derivedBaseChangeSquare g.toLRSHom.toShHom i'.toLRSHom.toShHom
-    i.toLRSHom.toShHom f.toLRSHom.toShHom (comp_toShHom_of_isPullback sq)).natTrans _
+    i.toLRSHom.toShHom f.toLRSHom.toShHom (comp_toShHom_of_isPullback sq)) _
 
 /-! ### The base-change map of Stacks 0E2K -/
 

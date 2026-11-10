@@ -123,7 +123,10 @@ theorem weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
     [F.IsQuasicoherent] [F.IsFiniteType] [G.IsQuasicoherent]
     (hF : IsFlatOver f.toLRSHom.toShHom F) :
     weaklyAssociatedPoints
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf, ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G)))) =
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf,
+              ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+          (((Scheme.Modules.pullback f).obj G)))) =
       ⋃ s ∈ weaklyAssociatedPoints G,
         f.fiberι s '' associatedPoints ((Scheme.Modules.pullback (f.fiberι s)).obj F) := by
   rw [iUnion_fiberι_associatedPoints_eq]
@@ -141,7 +144,10 @@ theorem weaklyAssociatedPoints_tensorPullback_eq_of_formula
     [F.IsQuasicoherent] [F.IsFiniteType] [G.IsQuasicoherent]
     (hF : IsFlatOver f.toLRSHom.toShHom F) :
     weaklyAssociatedPoints
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf, ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G)))) =
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf,
+              ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+          (((Scheme.Modules.pullback f).obj G)))) =
       ⋃ s ∈ weaklyAssociatedPoints G,
         f.fiberι s '' associatedPoints ((Scheme.Modules.pullback (f.fiberι s)).obj F) :=
   weaklyAssociatedPoints_tensorPullback_eq_of_localFormula
@@ -167,7 +173,10 @@ theorem weaklyAssociatedPoints_tensorPullback_subset
     (hF : IsFlatOver f.toLRSHom.toShHom F)
     (hfg : ∀ s : S, (IsLocalRing.maximalIdeal (S.presheaf.stalk s)).FG) :
     weaklyAssociatedPoints
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf, ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G)))) ⊆
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf,
+              ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+          (((Scheme.Modules.pullback f).obj G)))) ⊆
       ⋃ s ∈ weaklyAssociatedPoints G,
         f.fiberι s '' associatedPoints ((Scheme.Modules.pullback (f.fiberι s)).obj F) := by
   rw [iUnion_fiberι_associatedPoints_eq]

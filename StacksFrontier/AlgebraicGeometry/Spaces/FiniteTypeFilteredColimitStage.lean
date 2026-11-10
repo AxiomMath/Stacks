@@ -120,7 +120,7 @@ theorem exists_stage_of_isFiniteType_of_isQuasiCompactSpace
   refine ⟨k, fun Z x => ?_⟩
   have : Mono (c.ι.app k) := hc.mono_ι_app_of_isFiltered k
   let N := ImageSubsheaf.monoRangeSubmodule (c.ι.app k)
-  show m.val.app Z x ∈ N.obj Z
+  change m.val.app Z x ∈ N.obj Z
   refine N.isSheaf _ ?_
   refine J.transitive (hcovTop Z.unop) _ fun Y g hg => ?_
   obtain ⟨p, ⟨h⟩⟩ := (Sieve.mem_ofObjects_iff _ g).1 hg

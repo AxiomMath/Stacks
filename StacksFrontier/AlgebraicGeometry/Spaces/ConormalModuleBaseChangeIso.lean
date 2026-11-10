@@ -81,7 +81,7 @@ theorem isIso_of_coyoneda_corepresentableBy {C : Type*} [Category C] {Y Z : C}
       (congrArg e.homEquiv (Category.id_comp φ))).trans h
   have h2 : φ ≫ e.homEquiv (𝟙 Z) = 𝟙 Z := by
     refine e.homEquiv.injective (Eq.trans (e.homEquiv_comp (e.homEquiv (𝟙 Z)) φ) ?_)
-    show e.homEquiv φ ≫ e.homEquiv (𝟙 Z) = e.homEquiv (𝟙 Z)
+    change e.homEquiv φ ≫ e.homEquiv (𝟙 Z) = e.homEquiv (𝟙 Z)
     rw [h, Category.id_comp]
   exact ⟨e.homEquiv (𝟙 Z), h2, h1⟩
 

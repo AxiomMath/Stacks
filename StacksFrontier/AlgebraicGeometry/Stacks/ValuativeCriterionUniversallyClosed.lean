@@ -169,7 +169,7 @@ theorem exists_point_of_valuativeSquare (f : 𝒳 ⟶ 𝒴)
     pointsMap B S hS _ _ 𝒳.val.property d.a.hom pc, ?_, ?_, ?_⟩
   · rw [schemePoint_naturality, hpc,
       schemeMapOfFunctor_eq_of_toFunctor_eq B S hS e.a.hom e.specialOver e.a_canonical]
-    show (B.inclusion).map e.specialOver.left _ = _
+    change (B.inclusion).map e.specialOver.left _ = _
     rw [e.specialOver_left]
     exact AlgebraicGeometry.Spec_closedPoint
   · rw [pointsMap_comp, pointsMap_comp]

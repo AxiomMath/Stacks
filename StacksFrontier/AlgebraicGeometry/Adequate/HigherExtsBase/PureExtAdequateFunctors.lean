@@ -75,7 +75,7 @@ public theorem exact_moduleExtensionAdequate_map {X Y Z : ModuleCat.{u} A} (f : 
     (ShortComplex.mk _ _ w).Exact := by
   have hfg0 : f ≫ g = 0 := ModuleCat.hom_ext hfg.linearMap_comp_eq_zero
   let S0 : ShortComplex (ModuleCat.{u} A) := ShortComplex.mk f g hfg0
-  show (S0.map (moduleExtensionAdequate A)).Exact
+  change (S0.map (moduleExtensionAdequate A)).Exact
   have : (adequate.{u, u, u} A).ι.PreservesHomology :=
     ⟨(adequate.{u, u, u} A).preservesKernels_ι, (adequate.{u, u, u} A).preservesCokernels_ι⟩
   rw [← ShortComplex.exact_map_iff_of_faithful _ (adequate.{u, u, u} A).ι,

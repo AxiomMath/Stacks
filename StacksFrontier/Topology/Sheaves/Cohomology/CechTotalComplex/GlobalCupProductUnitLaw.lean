@@ -109,8 +109,11 @@ theorem unitLeftAction_f (M : CochainComplex (SheafOfModules.{u} (ringSheaf.{u, 
       (HomologicalComplex.singleLeftXIso (sheafTensor.{u, u, u, u, u} S.sheaf)
           (SheafOfModules.unit (ringSheaf.{u, u, u} S.sheaf)) M i).hom ≫
         (sheafTensorUnitLeft S).app (M.X i) := by
-  simp [unitLeftAction, HomologicalComplex.mapBifunctorSingleLeftIso,
-    HomologicalComplex.singleLeftIsoMapBifunctor, HomologicalComplex.Hom.isoOfComponents]
+  simp only [unitLeftAction, HomologicalComplex.mapBifunctorSingleLeftIso,
+    HomologicalComplex.singleLeftIsoMapBifunctor, HomologicalComplex.Hom.isoOfComponents,
+    Functor.mapHomologicalComplex_obj_X, SheafOfModules.Tensor.sheafTensor_obj_obj, Iso.symm_mk,
+    HomologicalComplex.comp_f, Functor.id_obj, NatTrans.mapHomologicalComplex_app_f,
+    Functor.mapHomologicalComplexIdIso_hom_app_f]
   exact congrArg (fun t => _ ≫ t) (Category.comp_id _)
 
 /-- **The action of `𝒪_S[0]` is natural** in the complex acted on. -/

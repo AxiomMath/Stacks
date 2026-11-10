@@ -393,8 +393,6 @@ into the product. That left adjoint is exact. -/
 
 section ComponentInclusion
 
-open scoped Classical
-
 variable (X : RingedSite.{u, u, u}) (K : FormalCoproduct.{u} X.C)
 
 /-- The componentwise restriction of part (2) is the family of the restrictions to the
@@ -425,6 +423,7 @@ noncomputable def componentRestrIsoEval (j : K.I) :
       (CategoryTheory.Sigma.incl (C := fun l : K.I => Over (K.obj l)) k)
       (familyLocalizationRingSheaf X K)) j
 
+open Classical in
 /-- Concentration at `j`, followed by the decomposition of part (2) read backwards, is left
 adjoint to restriction to the `j`-th component. -/
 noncomputable def componentInclLowerShriekAdjunction (j : K.I) :
@@ -440,6 +439,7 @@ noncomputable def componentInclLowerShriekAdjunction (j : K.I) :
     (componentwiseModuleRestrictionEquivalence X K).symm.toAdjunction).ofNatIsoRight
       (componentRestrIsoEval X K j)
 
+open Classical in
 /-- **Stacks 0D9U, part (2).** The lower shriek of the inclusion of the `j`-th component is
 concentration at `j` read through the decomposition of part (2). -/
 noncomputable def familyComponentInclLowerShriek_iso (j : K.I) :
@@ -457,6 +457,7 @@ noncomputable def familyComponentInclLowerShriek_iso (j : K.I) :
 which is exact, followed by an equivalence. -/
 theorem familyComponentInclLowerShriek_exact (j : K.I) :
     exactFunctor _ _ (familyComponentInclLowerShriek X K j) := by
+  classical
   have hconc : PreservesFiniteLimits
       (concentrate
         (B := fun k =>
@@ -535,7 +536,7 @@ sheaves of rings, obtained from
 theorem familyRelocalizationRingSheaf_eq :
     familyRelocalizationRingSheaf X f = familyLocalizationRingSheaf X K := by
   apply CategoryTheory.ObjectProperty.FullSubcategory.ext
-  show ((familyRelocalizationSites X f).relocalizationFunctor ⋙
+  change ((familyRelocalizationSites X f).relocalizationFunctor ⋙
       (familyLocalizationSites X L).localizationFunctor).op ⋙
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj =
     (familyLocalizationSites X K).localizationFunctor.op ⋙

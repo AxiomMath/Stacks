@@ -17,7 +17,8 @@ along a coprojection,
 
 and every one of them stalls at the same place: the formula is available only when the factor is
 *perfect* — `Dualizing.nonempty_derivedHom_tensor_includeLeft_isPerfect_iso` of
-`StacksFrontier.RingTheory.Dualizing.RelativeUniquenessMixedPerfectFactor` — and a relative dualizing
+`StacksFrontier.RingTheory.Dualizing.RelativeUniquenessMixedPerfectFactor` — and a relative
+dualizing
 complex is not.  In full generality the formula is false: it is equivalent to `A` being a perfect
 module over `B`, hence to `R → A` being a local complete intersection, which [stacks 0E2D] does
 not assume.
@@ -72,7 +73,8 @@ and no projection formula, in any slot, will produce it: a composition law of th
 `Δ^! ∘ p^! ≅ id` returns the factor `p^!` was applied to, which is the one that is *not* the
 relative dualizing complex of `p`.  That accounting is the one already recorded in the module
 documentation of
-`StacksFrontier.RingTheory.Dualizing.RelativeUniquenessDiagonalComposition`; what is new here is that
+`StacksFrontier.RingTheory.Dualizing.RelativeUniquenessDiagonalComposition`; what is new here is
+that
 the first half of the pair is now a theorem rather than a hypothesis, so the asymmetry is visible
 in the statements and not only in the prose.
 

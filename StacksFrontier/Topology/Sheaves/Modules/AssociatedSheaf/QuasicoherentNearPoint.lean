@@ -114,8 +114,8 @@ private lemma presheaf_coproduct_image_eq_sum {C : Type u} [Category.{u} C]
   refine ⟨t, a, ?_⟩
   rw [ha, map_sum]
   refine Finset.sum_congr rfl fun i _ ↦ ?_
-  show ((Sigma.ι A i).app W ≫ (Sigma.desc f).app W) (a i) = _
-  rw [← NatTrans.comp_app, Sigma.ι_desc]
+  change ((Sigma.ι A i).app W ≫ (Sigma.desc f).app W) (a i) = _
+  rw [← NatTrans.comp_app, Sigma.ι_comp_desc]
 
 section Projections
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
@@ -280,7 +280,7 @@ private theorem compact_free_section_truncation
   let gU : U ⟶ V := homOfLE (hUK.trans hKV)
   let r := F.val.presheaf.map ((Over.homMk gU : Over.mk gU ⟶ Over.mk (𝟙 V)).op) s
   refine ⟨T', ?_⟩
-  show p.app (op (Over.mk gU)) r = r
+  change p.app (op (Over.mk gU)) r = r
   let S := Presheaf.equalizerSieve (p.app (op (Over.mk gU)) r) r
   apply F.isSheaf.isSeparated _ S ?_ _ _ (fun Y f hf ↦ hf)
   refine (GrothendieckTopology.mem_over_iff _ _).mpr fun y hy ↦ ?_
@@ -291,7 +291,7 @@ private theorem compact_free_section_truncation
   let b' : Over.mk (b ≫ gU) ⟶ Over.mk gU := Over.homMk b
   let a'' : Over.mk (b ≫ gU) ⟶ Over.mk (g k) := Over.homMk a'
   refine ⟨Z, b, (Sieve.overEquiv_iff _ _).mpr ?_, ⟨hy, hyk⟩⟩
-  show F.val.presheaf.map b'.op (p.app (op (Over.mk gU)) r) =
+  change F.val.presheaf.map b'.op (p.app (op (Over.mk gU)) r) =
     F.val.presheaf.map b'.op r
   have hres : F.val.presheaf.map b'.op r = F.val.presheaf.map a''.op
       (F.val.presheaf.map ((Over.homMk (g k) : Over.mk (g k) ⟶ Over.mk (𝟙 V)).op) s) := by
@@ -315,7 +315,7 @@ private theorem compact_free_hom_truncation
     (f.val.app (op (Over.mk (𝟙 V))) (1 : R.obj.obj (op V)))
   refine ⟨t, ?_⟩
   apply unit_hom_ext_of_app_terminal (Over.mk (𝟙 U)) Over.mkIdTerminal
-  show (freeTruncation (R.over V) t).val.app (op (Over.mk g))
+  change (freeTruncation (R.over V) t).val.app (op (Over.mk g))
     (f.val.app (op (Over.mk g)) (1 : R.obj.obj (op U))) =
       f.val.app (op (Over.mk g)) (1 : R.obj.obj (op U))
   have hn := PresheafOfModules.naturality_apply f.val
@@ -476,7 +476,7 @@ public lemma exists_open_associatedSheaf_iso (X : RingedSpace.{u, u}) (x : X)
   have hAc : PreservesColimitsOfSize.{u, u} A :=
     restrictOver_preservesColimitsOfSize (structureSheafRing X) hUV
   have hL : PreservesColimitsOfSize.{u, u} L := by
-    show PreservesColimitsOfSize.{u, u} (A ⋙ E)
+    change PreservesColimitsOfSize.{u, u} (A ⋙ E)
     infer_instance
   have hAdd : L.Additive := ⟨rfl⟩
   let η : SheafOfModules.unit (structureSheafRing Y) ≅

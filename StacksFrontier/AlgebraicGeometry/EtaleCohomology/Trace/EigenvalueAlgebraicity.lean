@@ -107,7 +107,7 @@ public theorem exists_ringHom_complex_eq_of_transcendental {L : Type} [Field L] 
     rw [AlgEquiv.apply_symm_apply]
     apply Subtype.ext
     simp [AlgebraicIndependent.aevalEquiv]
-  show MvPolynomial.aeval v (hB.1.aevalEquiv.symm ⟨a, hamem⟩) = z
+  change MvPolynomial.aeval v (hB.1.aevalEquiv.symm ⟨a, hamem⟩) = z
   rw [h2, MvPolynomial.aeval_X]
   simp [v, hea]
 

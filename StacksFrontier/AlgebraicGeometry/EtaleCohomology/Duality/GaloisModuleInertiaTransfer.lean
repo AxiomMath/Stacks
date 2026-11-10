@@ -58,7 +58,7 @@ theorem galoisInvariants_and_cocycles_killed_of_inertia {G : Type u} [Group G]
       (hγ.comp (fun z => Θ z)).comp_continuous ψ.symm.continuous
     have hcc : ∀ σ τ : I, c (σ * τ) = (PadicInt.toZModPow (n + 1)).mapMatrix
         (ρ σ : Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ c τ + c σ := fun σ τ => by
-      show Θ (γ (ψ.symm (σ * τ))) = _ *ᵥ Θ (γ (ψ.symm τ)) + Θ (γ (ψ.symm σ))
+      change Θ (γ (ψ.symm (σ * τ))) = _ *ᵥ Θ (γ (ψ.symm τ)) + Θ (γ (ψ.symm σ))
       rw [hψs, hcocy, map_add, hΘ, Homeomorph.apply_symm_apply]
     obtain ⟨m, hm⟩ := hcoc c hc hcc
     refine ⟨Θ.symm m, fun g => ?_⟩

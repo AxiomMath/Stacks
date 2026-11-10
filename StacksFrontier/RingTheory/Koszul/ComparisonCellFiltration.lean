@@ -196,7 +196,7 @@ theorem coeff_evenPolynomialDifferential_monomial (𝒜 : ℕ → Submodule R A)
   rw [evenPolynomialDifferential_monomial]
   rcases Nat.eq_zero_or_pos k with hk | hk
   · subst hk
-    rw [if_pos rfl, add_zero]
+    rw [ite_eq_left rfl, add_zero]
     rcases Nat.eq_zero_or_pos n with hn | hn
     · subst hn
       rw [hsame, hsame, hne 0 1 a (by omega)]
@@ -204,7 +204,7 @@ theorem coeff_evenPolynomialDifferential_monomial (𝒜 : ℕ → Submodule R A)
     · rw [hne 0 n (dA a) (by omega), hne 0 n a (by omega), hne 0 (n + 1) a (by omega)]
       simp
   · obtain ⟨j, rfl⟩ : ∃ j : ℕ, k = j + 1 := ⟨k - 1, by omega⟩
-    rw [if_neg (Nat.succ_ne_zero j), Nat.add_sub_cancel, EvenVariableAlgebra.coeff_add,
+    rw [ite_eq_right (Nat.succ_ne_zero j), Nat.add_sub_cancel, EvenVariableAlgebra.coeff_add,
       Finsupp.add_apply]
     by_cases hn : j + 1 = n
     · subst hn

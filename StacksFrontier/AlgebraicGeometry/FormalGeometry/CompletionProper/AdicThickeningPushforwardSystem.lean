@@ -224,6 +224,7 @@ public theorem isCoherent_adicPushforwardObj (S : AdicCoherentModuleSystem A I f
   have := S.isCoherent n
   isCoherent_pushforward_of_isClosedImmersion (pullback.fst f (adicThickeningι A I n)) (S.obj n)
 
+omit [IsLocallyNoetherian X] in
 /-- The direct image of the `n`-th term is annihilated by `𝓘 ⁿ⁺¹`. -/
 public theorem idealPowerMultiple_adicPushforwardObj (S : AdicCoherentModuleSystem A I f)
     (n : ℕ) :
@@ -246,6 +247,7 @@ public def adicPushforwardPullbackIso (S : AdicCoherentModuleSystem A I f) (n : 
           (S.obj (n + 1))) ≪≫
       S.transitionIso n)
 
+omit [IsLocallyNoetherian X] in
 /-- `AlgebraicGeometry.adicPushforwardPullbackIso` written out. -/
 public theorem adicPushforwardPullbackIso_hom (S : AdicCoherentModuleSystem A I f) (n : ℕ) :
     (adicPushforwardPullbackIso A I f S n).hom =
@@ -268,6 +270,7 @@ public def adicPushforwardTransition (S : AdicCoherentModuleSystem A I f) (n : �
     (Scheme.Modules.pushforward (pullback.fst f (adicThickeningι A I n))).map
       (S.transitionIso n).hom
 
+omit [IsLocallyNoetherian X] in
 /-- **The normalization of the transition of the direct image system.** -/
 public theorem unit_comp_map_adicPushforwardPullbackIso (S : AdicCoherentModuleSystem A I f)
     (n : ℕ) :
@@ -327,6 +330,7 @@ public theorem isCoherentAdicSystem_adicPushforwardSystemFunctor
   exact (unit_comp_map_adicPushforwardPullbackIso A I f S n).trans
     (Functor.ofOpSequence_map_homOfLE_succ _ n).symm
 
+omit [IsLocallyNoetherian X] in
 /-- **The support of the first direct image is proper over `Spec A`.** -/
 public theorem hasProperSupport_adicPushforwardObj_zero (S : AdicCoherentModuleSystem A I f) :
     HasProperSupport f (adicPushforwardObj A I f S 0) := by
@@ -342,7 +346,7 @@ public theorem hasProperSupport_adicPushforwardObj_zero (S : AdicCoherentModuleS
   · refine isProperOver_closedImage (pullback.fst f (adicThickeningι A I 0)) f W ?_
     have h1 : IsProper ((Scheme.IdealSheafData.vanishingIdeal W).subschemeι ≫
       pullback.snd f (adicThickeningι A I 0)) := hWproper
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal W).subschemeι ≫
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal W).subschemeι ≫
       pullback.fst f (adicThickeningι A I 0) ≫ f)
     rw [pullback.condition, ← Category.assoc]
     infer_instance

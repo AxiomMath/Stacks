@@ -298,7 +298,7 @@ theorem boxSheafHomMapTargetNaturality : BoxSheafHomMapTargetNaturality k X Y :=
   fun K K' M M' φ ψ =>
     Stacks.Cohomology.DerivedKunnethExt.boxSheafHomMap_naturality_target
       (pullback.fst X.hom Y.hom).toLRSHom.toShHom (pullback.snd X.hom Y.hom).toLRSHom.toShHom
-      K M φ ψ
+      K M (K'' := K') (M'' := M') φ ψ
 
 /-- **The unit case of the pure-tensor law**: the class of the identity of `K ⊠ M` is the image
 of `[𝟙_K] ⊗ [𝟙_M]`. -/
@@ -386,7 +386,8 @@ theorem transposeClassHom_injective (V : Over (Spec (.of k)))
     (N N' : DerivedCategory V.left.Modules)
     (v : structureSheafObj k V ⟶ structureSheafObj k V) [IsIso v] :
     Function.Injective (transposeClassHom k V N N' v) := fun a b hab =>
-  homTranspose_injective k V N N' ((cancel_epi v).1 ((degreeZeroClassAddEquiv k V _).injective hab))
+  homTranspose_injective k V N N' (a₁ := a) (a₂ := b)
+    ((cancel_epi v).1 ((degreeZeroClassAddEquiv k V _).injective hab))
 
 /-! ### The relaxed pure-tensor law: classes of transposes -/
 

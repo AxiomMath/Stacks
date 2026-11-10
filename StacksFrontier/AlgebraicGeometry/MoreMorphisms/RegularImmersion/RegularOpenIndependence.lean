@@ -137,7 +137,7 @@ theorem isRegularImmersion_iff_of_open {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmer
     exact IsOpenImmersion.of_comp f i.coborderRange.ι
   have hf : j ≫ f = i.liftCoborder := closedFactor_comp_resLE_eq_liftCoborder i U j hij
   have : IsClosedImmersion (j ≫ f) := hf ▸ inferInstance
-  show IsRegularIdealSheaf _ (definingIdealOfHom i.liftCoborder) ↔ _
+  change IsRegularIdealSheaf _ (definingIdealOfHom i.liftCoborder) ↔ _
   rw [← hf]
   exact isRegularIdealSheaf_comp_open_iff j f
 

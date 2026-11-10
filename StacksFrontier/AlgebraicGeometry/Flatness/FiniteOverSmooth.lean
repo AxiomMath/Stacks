@@ -266,7 +266,7 @@ private lemma residueEmbedding_injective (P : Ideal A) [P.IsPrime] (s : Set σ) 
 private lemma residueEmbedding_quotientOutsideEquiv (P : Ideal A) [P.IsPrime] (s : Set σ)
     (z : MvPolynomial σ A ⧸ (Ideal.map C P ⊔ Ideal.span (X '' s))) :
     residueEmbedding P s (quotientOutsideEquiv P s z) = algebraMap _ _ z := by
-  show algebraMap _ _ ((quotientOutsideEquiv P s).symm (quotientOutsideEquiv P s z)) = _
+  change algebraMap _ _ ((quotientOutsideEquiv P s).symm (quotientOutsideEquiv P s z)) = _
   rw [RingEquiv.symm_apply_apply]
 
 private lemma residueEmbedding_C (P : Ideal A) [P.IsPrime] (s : Set σ) (a : A) :

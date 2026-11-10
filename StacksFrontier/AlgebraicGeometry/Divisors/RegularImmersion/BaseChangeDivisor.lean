@@ -192,11 +192,11 @@ theorem isEffectiveCartierDivisor_comap_pullback {X S S' : Scheme.{u}}
   let _ : IsAffine V.1.toScheme := V.2
   let _ : IsAffine U.1.toScheme := U.2
   let Waff : Y.affineOpens := ⟨W, by
-    show IsAffine W.toScheme
+    change IsAffine W.toScheme
     let _ : IsAffineHom (g.resLE V.1 V'.1 hV'V) := inferInstance
     exact IsAffine.of_isPullback hPB.flip⟩
   have hxW : x ∈ W := by
-    show pullback.fst g f x ∈ V'.1 ∧ pullback.snd g f x ∈ U.1
+    change pullback.fst g f x ∈ V'.1 ∧ pullback.snd g f x ∈ U.1
     exact ⟨hsV', hxU⟩
   have hWU : W ≤ p ⁻¹ᵁ U.1 := fun y hy => hy.2
   let a' : Γ(Y, W) := (p.appLE U Waff hWU).hom aU
@@ -262,13 +262,13 @@ theorem isEffectiveCartierDivisor_comap_pullback {X S S' : Scheme.{u}}
         CategoryTheory.IsPushout.inl_isoIsPushout_hom
           (h := hTensorPush) (h' := hPush)
       have hIso' := congrArg CommRingCat.Hom.hom hIso
-      show (CommRingCat.Hom.hom
+      change (CommRingCat.Hom.hom
           (hTensorPush.isoIsPushout B Γ(S', V'.1) hPush).hom).comp
           (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := B)) = rBtoD
       simpa only [CommRingCat.hom_comp, CommRingCat.hom_ofHom] using hIso'
     have hePush : ePush (Algebra.TensorProduct.includeLeft
         (R := A) (S := A) (A := B) (B := Γ(S', V'.1)) aU) = a' := by
-      show ePush.toRingHom
+      change ePush.toRingHom
           ((Algebra.TensorProduct.includeLeftRingHom (R := A) (A := B)) aU) = _
       exact congrArg (fun k : B →+* Γ(Y, W) => k aU) hMap
     rwa [hePush] at hImage

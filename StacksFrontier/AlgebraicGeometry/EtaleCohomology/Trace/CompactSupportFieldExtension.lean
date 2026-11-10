@@ -111,6 +111,7 @@ private lemma map_comp_map_eq {C D : Type*} [Category* C] [Category* D] (G : C �
     (h : a ≫ b = c ≫ d) : G.map a ≫ G.map b = G.map c ≫ G.map d := by
   rw [← G.map_comp, h, G.map_comp]
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The identification `RΓ_c(X'_{k̄}, g⁻¹ K) ≅ RΓ_c(X_{k̄}, K)` is natural in `K`.** -/
 theorem compactSupportFieldExtensionIso_hom_naturality
     {K L : CochainComplex.Plus (EtaleModules.{u, r} Λ X)} (φ : K ⟶ L) :
@@ -154,6 +155,7 @@ variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u
   [Fintype k'] (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP k' p]
   (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The Frobenius of `X ×_k k'` is the power of the Frobenius of `X`.**  If `k'` has
 `q ^ (m + 1)` elements, the identification `RΓ_c(X'_{k̄}, g⁻¹ K) ≅ RΓ_c(X_{k̄}, K)` carries the
 canonical Frobenius action of `X' = X ×_k k'` over `k'` to the `(m + 1)`-st power of the canonical
@@ -167,7 +169,8 @@ theorem compactSupportFieldExtensionIso_comm (m : ℕ)
           (pullback.fst f (specAlgebraMap k k'))).mapCochainComplexPlus.obj K) ≫
       (compactSupportFieldExtensionIso Λ f j k' kbar K).hom =
     (compactSupportFieldExtensionIso Λ f j k' kbar K).hom ≫
-      ((End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) ^ (m + 1)).asHom := by
+      ((End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) ^
+        (m + 1)).asHom := by
   have h₁ := frobeniusRestrictionCohomologyEndo_naturality (Λ := Λ)
     (extensionOver (Over.mk j.toBase) k') kbar p (q * (m + 1)) hcard'
     (compactificationFieldBaseChangeExtensionByZeroComplexIso Λ f j k' K).hom

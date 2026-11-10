@@ -270,7 +270,7 @@ theorem hasDualizingModelOn_opensRange {Z : Scheme.{u}} [IsLocallyNoetherian Z]
   have hψ : Spec.map ψ = E.inv := Spec.map_preimage _
   have : IsIso ψ := by
     have : IsIso (Scheme.Spec.map ψ.op) := by
-      show IsIso (Spec.map ψ)
+      change IsIso (Spec.map ψ)
       rw [hψ]
       infer_instance
     have : IsIso ψ.op := isIso_of_reflects_iso ψ.op Scheme.Spec
@@ -320,8 +320,8 @@ def totalDerivedExtensionScalarsModelIso {A A' : Type u} [CommRing A] [CommRing 
         (totalDerivedExtensionScalars.{u, u, u} φ).functor.obj M) ≅
       (totalDerivedExtensionScalars.{u, u, u} φ).functor.obj
           ((Stacks.Injectives.grothendieckModelEquiv (ModuleCat.{u} A)).functor.obj M) :=
-  letI std := HasDerivedCategory.standard (ModuleCat.{u} A)
-  letI std' := HasDerivedCategory.standard (ModuleCat.{u} A')
+  letI := HasDerivedCategory.standard (ModuleCat.{u} A)
+  letI := HasDerivedCategory.standard (ModuleCat.{u} A')
   let T₁ := totalDerivedExtensionScalars.{u, u, u} φ
   (StacksDraft.DerivedModel.leftDerivedModelIso
     (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ))

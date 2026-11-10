@@ -198,7 +198,7 @@ theorem naiveCotangentCokernelDerivation_d (X : Cᵒᵖ) (b : B.obj.obj X) :
       (freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B))
       (canonicalPresentation J A B a) X (variableSection J A B X b)))
       (eqToHom_π_naiveCotangentCokernelIso_hom.{v, u, w, z} J A B a)).trans ?_
-    show (eqToIso (congrArg (fun φ ↦ moduleOfDifferentialsOfSite.{v, u, w, z} A B φ)
+    change (eqToIso (congrArg (fun φ ↦ moduleOfDifferentialsOfSite.{v, u, w, z} A B φ)
           (Stacks.Sites.FreeAlgebra.canonicalPresentation_comp_coefficientMap J A B a))).hom.val.app
         X ((Stacks.Sites.Conormal.imageDifferentialsIso.{v, u, w, z} J A
           (freeAlgebraSheaf J A (underlyingPresheaf J B)) B
@@ -214,7 +214,7 @@ theorem naiveCotangentCokernelDerivation_d (X : Cᵒᵖ) (b : B.obj.obj X) :
       eqToIso_moduleOfDifferentialsOfSite_universalDerivationOfSite_d J A B
         (Stacks.Sites.FreeAlgebra.canonicalPresentation_comp_coefficientMap J A B a),
       canonicalPresentation_variableSection]
-  show (naiveCotangentCokernelIso.{v, u, w, z} J A B a).inv.val.app X
+  change (naiveCotangentCokernelIso.{v, u, w, z} J A B a).inv.val.app X
     ((universalDerivationOfSite.{v, u, w, z} A B a).d b) = _
   rw [← h]
   exact congrArg (fun m => m.val.app X
@@ -243,7 +243,8 @@ variable {C₀ : Type u₀} [Category.{v₀} C₀] (J₀ : GrothendieckTopology 
   (β : B₀ ⟶ (F.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj B)
   (hsq : a₀ ≫ β = ψ ≫ (F.sheafPushforwardContinuous CommRingCat.{w} J₀ J).map a)
 
-omit [HasSheafify J AddCommGrpCat.{max w u₀ v₀ u v z}]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [HasSheafify J AddCommGrpCat.{max w u₀ v₀ u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u₀ v₀ u v z}]
   [HasSheafify J₀ AddCommGrpCat.{max w u₀ v₀ u v z}]
   [J₀.WEqualsLocallyBijective AddCommGrpCat.{max w u₀ v₀ u v z}] in
@@ -269,7 +270,7 @@ theorem naiveCotangentComplexPushforwardSquareMap_f_zero_variableDifferential (X
     exact h
   rw [naiveCotangentComplexPushforwardSquareMap_f_zero]
   refine (eqToHom_comp_val_app_eqToHom_symm _ _ X _).trans ?_
-  show (eqToHom (naiveCotangentComplex_X_zero.{v, u, w, max u₀ v₀ z} J A B a).symm).val.app
+  change (eqToHom (naiveCotangentComplex_X_zero.{v, u, w, max u₀ v₀ z} J A B a).symm).val.app
     (Opposite.op (F.obj X.unop))
     ((conormalPushforwardTensorMap.{v₀, u₀, v, u, w, z} J₀ J F A B a).val.app X
     ((naiveCotangentTensorMapOfSquare.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀ _ _ _ ψ β hsq).val.app X
@@ -325,7 +326,7 @@ theorem naiveCotangentCokernelDerivation_postcomp_pushforward
       derivationPushforwardOfSquare.{v₀, u₀, v, u, w, z} J A B a J₀ F A₀ B₀ a₀ ψ β hsq
         ((naiveCotangentCokernelDerivation.{v, u, w, max u₀ v₀ z} J A B a).postcomp h.val) := by
   ext X x
-  show (κ ≫ (_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
+  change (κ ≫ (_root_.SheafOfModules.pushforward.{max w u₀ v₀ u v z}
       (pushforwardRingHomOfSquare J₀ J F B B₀ β)).map h).val.app X
       ((naiveCotangentCokernelDerivation.{v₀, u₀, w, max u v z} J₀ A₀ B₀ a₀).d x) =
     h.val.app (Opposite.op (F.obj X.unop))

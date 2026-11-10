@@ -512,8 +512,7 @@ noncomputable def SquareZeroCorrection.baseChange {S' S : Type u} [CommRing S'] 
         (LinearMap.baseChange S' (L.d i j).hom +
           LinearMap.baseChange S' (c.ε i j).hom)) = 0 := by
       refine LinearMap.ext fun w => ?_
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul s y =>
           simp only [LinearMap.comp_apply, LinearMap.add_apply, LinearMap.baseChange_tmul,
             ← TensorProduct.tmul_add, hcx y, TensorProduct.tmul_zero, LinearMap.zero_apply]

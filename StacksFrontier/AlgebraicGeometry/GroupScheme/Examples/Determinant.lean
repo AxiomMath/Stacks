@@ -102,7 +102,7 @@ private lemma generalLinearRepresentability_symm_appTop (n : ℕ) {X : Over (Spe
           (((generalLinearOverRepresentableByOverIntegers n).homEquiv' (X := X)).symm z)).appTop =
       CommRingCat.ofHom
         (localizedPolynomialHomOfGeneralLinear n (Scheme.Γ.obj (op X.left)) z) := by
-  show (Scheme.ΓSpecIso (.of (generalLinearCoordinateRing.{0} n))).inv ≫
+  change (Scheme.ΓSpecIso (.of (generalLinearCoordinateRing.{0} n))).inv ≫
       (ΓSpec.adjunction.homEquiv X.left
         (op (CommRingCat.of (generalLinearCoordinateRing.{0} n)))
         (CommRingCat.ofHom
@@ -143,7 +143,7 @@ private lemma specMap_counit_apply_single_one :
         (CommRingCat.of (LaurentPolynomial ℤ))).inv) (AddMonoidAlgebra.single 1 1)) = 1 := by
   have hc : (Bialgebra.counitAlgHom ℤ (LaurentPolynomial ℤ)).toRingHom
       (AddMonoidAlgebra.single 1 1) = 1 := by
-    show Coalgebra.counit (R := ℤ) (A := LaurentPolynomial ℤ) (LaurentPolynomial.T 1) = 1
+    change Coalgebra.counit (R := ℤ) (A := LaurentPolynomial ℤ) (LaurentPolynomial.T 1) = 1
     simp
   rw [Scheme.specMap_appTop_ΓSpecIso_inv_apply, CommRingCat.hom_ofHom, hc, map_one]
 
@@ -178,7 +178,7 @@ private lemma eq_specMap_schemeHomRingHomEquiv (n : ℕ)
   apply ext_to_Spec
   rw [Scheme.Γ_map_op]
   trans gcat
-  · show (Scheme.ΓSpecIso (.of (generalLinearCoordinateRing.{0} n))).inv ≫ h.appTop = gcat
+  · change (Scheme.ΓSpecIso (.of (generalLinearCoordinateRing.{0} n))).inv ≫ h.appTop = gcat
     have hh : ΓSpec.adjunction.homEquiv (Spec (.of (generalLinearTensorSquareOverIntegers n)))
         (op (CommRingCat.of (generalLinearCoordinateRing.{0} n))) gcat.op = h := by
       rw [show gcat.op = (ΓSpec.adjunction.homEquiv
@@ -223,7 +223,7 @@ private lemma generalLinearOverIntegers_homEquiv'_of_left_eq_specMap (n : ℕ)
       localizedPolynomialHomEquiv n
         (Scheme.Γ.obj (op (Spec (.of (generalLinearTensorSquareOverIntegers n)))))
         ((Scheme.ΓSpecIso (.of (generalLinearTensorSquareOverIntegers n))).inv.hom.comp ψ) := by
-  show localizedPolynomialHomEquiv n _ (schemeHomRingHomEquiv n f.left) = _
+  change localizedPolynomialHomEquiv n _ (schemeHomRingHomEquiv n f.left) = _
   rw [hf]
   exact congrArg (localizedPolynomialHomEquiv n
     (Scheme.Γ.obj (op (Spec (.of (generalLinearTensorSquareOverIntegers n))))))
@@ -330,7 +330,7 @@ theorem generalLinearSchemeGrpObjOverIntegers_mul (n : ℕ) :
           (Scheme.Γ.obj (op (Spec (.of (generalLinearTensorSquareOverIntegers n)))))) i j))
     (generalLinearOverIntegers_homEquiv'_comp_mul n k)
   rw [hα, hfst, hsnd] at hval
-  show iso.hom.hom
+  change iso.hom.hom
     (g (algebraMap (MvPolynomial (Fin n × Fin n) (ULift.{0} ℤ))
       (generalLinearCoordinateRing.{0} n) (MvPolynomial.X (i, j)))) = _
   exact hval.trans (generalLinearTensorSquareOverIntegers_mul_entry n i j)
@@ -375,7 +375,7 @@ private lemma determinant_mul_coordinate_hom (n : ℕ)
   let C : Matrix (Fin n) (Fin n) B := inclR.mapMatrix X
   have hmat : φ.mapMatrix X = A * C := by
     ext i j
-    show m (algebraMap P R (MvPolynomial.X (i, j))) =
+    change m (algebraMap P R (MvPolynomial.X (i, j))) =
       ∑ k : Fin n, inclL (MvPolynomial.X (i, k)) * inclR (MvPolynomial.X (k, j))
     exact (hentry i j).trans (Finset.sum_congr rfl fun k _ =>
       (includeLeft_mul_includeRight (R := ℤ) (algebraMap P R (MvPolynomial.X (i, k)))
@@ -427,7 +427,7 @@ lemma determinantOverIntegers_one_left (n : ℕ) :
           (determinantCoordinateRingHom n (LaurentPolynomial.T 1)))
       (generalLinearRepresentability_symm_appTop n
         (X := 𝟙_ (Over (Spec (.of ℤ)))) (z := 1))
-    show (CommRingCat.Hom.hom (Scheme.Hom.appTop (generalLinearUnitSection n)))
+    change (CommRingCat.Hom.hom (Scheme.Hom.appTop (generalLinearUnitSection n)))
         ((CommRingCat.Hom.hom (Scheme.Hom.appTop
             (Spec.map (CommRingCat.ofHom (determinantCoordinateRingHom n)))))
           ((CommRingCat.Hom.hom (Scheme.ΓSpecIso (.of (LaurentPolynomial ℤ))).inv)
@@ -440,13 +440,13 @@ lemma determinantOverIntegers_one_left (n : ℕ) :
     rw [specMap_counit_apply_single_one, Scheme.specMap_appTop_ΓSpecIso_inv_apply,
       CommRingCat.hom_ofHom]
     apply hpoint.trans
-    show localizedPolynomialHomOfGeneralLinear n _ 1
+    change localizedPolynomialHomOfGeneralLinear n _ 1
       (determinantCoordinateRingHom n (LaurentPolynomial.T 1)) = 1
     rw [determinantCoordinateRingHom_T]
     simp only [localizedPolynomialHomOfGeneralLinear, polynomialEvalOfGeneralLinear,
       algebraMap_int_eq, RingEquiv.toRingHom_eq_coe, Units.val_one,
       IsLocalization.Away.lift_eq, MvPolynomial.coe_eval₂Hom, generalLinearDeterminant_eval]
-    show Matrix.det
+    change Matrix.det
       (1 : Matrix (Fin n) (Fin n) (Scheme.Γ.obj (op (Spec (.of ℤ))))) = 1
     exact Matrix.det_one
 
@@ -476,7 +476,7 @@ private lemma pullbackSpecIso_inv_comp_determinantOverIntegersTensorLeft (n : �
         (determinantCoordinateAlgHom n)).toRingHom) := by
   rw [← Iso.eq_comp_inv]
   apply pullback.hom_ext
-  · show ((pullbackSpecIso ℤ (generalLinearCoordinateRing.{0} n)
+  · change ((pullbackSpecIso ℤ (generalLinearCoordinateRing.{0} n)
           (generalLinearCoordinateRing.{0} n)).inv ≫
         (determinantOverIntegersHom n ⊗ₘ determinantOverIntegersHom n).left) ≫
       pullback.fst _ _ = _
@@ -484,7 +484,7 @@ private lemma pullbackSpecIso_inv_comp_determinantOverIntegersTensorLeft (n : �
     rw [Over.tensorHom_left_fst]
     simp only [Over.mk_hom]
     rw [pullbackSpecIso_inv_fst_assoc, pullbackSpecIso_inv_fst]
-    show Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom :
+    change Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom :
       generalLinearCoordinateRing.{0} n →+*
         generalLinearTensorSquareOverIntegers n)) ≫
       Spec.map (CommRingCat.ofHom (determinantCoordinateRingHom n)) = _
@@ -492,7 +492,7 @@ private lemma pullbackSpecIso_inv_comp_determinantOverIntegersTensorLeft (n : �
     exact congrArg Spec.map (CommRingCat.hom_ext
       (Algebra.TensorProduct.map_comp_includeLeftRingHom (determinantCoordinateAlgHom n)
         (determinantCoordinateAlgHom n)).symm)
-  · show ((pullbackSpecIso ℤ (generalLinearCoordinateRing.{0} n)
+  · change ((pullbackSpecIso ℤ (generalLinearCoordinateRing.{0} n)
           (generalLinearCoordinateRing.{0} n)).inv ≫
         (determinantOverIntegersHom n ⊗ₘ determinantOverIntegersHom n).left) ≫
       pullback.snd _ _ = _
@@ -500,7 +500,7 @@ private lemma pullbackSpecIso_inv_comp_determinantOverIntegersTensorLeft (n : �
     rw [Over.tensorHom_left_snd]
     simp only [Over.mk_hom]
     rw [pullbackSpecIso_inv_snd_assoc, pullbackSpecIso_inv_snd]
-    show Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom :
+    change Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom :
       generalLinearCoordinateRing.{0} n →+*
         generalLinearTensorSquareOverIntegers n)) ≫
       Spec.map (CommRingCat.ofHom (determinantCoordinateRingHom n)) = _
@@ -536,10 +536,10 @@ lemma determinantOverIntegers_mul_left (n : ℕ) :
   apply CommRingCat.hom_ext
   ext
   · simp
-  · show m (g (LaurentPolynomial.T 1)) =
+  · change m (g (LaurentPolynomial.T 1)) =
       t (Coalgebra.comul (R := ℤ) (LaurentPolynomial.T 1))
     rw [LaurentPolynomial.comul_T, Algebra.TensorProduct.map_tmul]
-    show m (determinantCoordinateRingHom n (LaurentPolynomial.T 1)) =
+    change m (determinantCoordinateRingHom n (LaurentPolynomial.T 1)) =
       @TensorProduct.tmul ℤ CommRing.toCommSemiring
         (generalLinearCoordinateRing.{0} n) (generalLinearCoordinateRing.{0} n)
         CommRing.toCommSemiring.toAddCommMonoid CommRing.toCommSemiring.toAddCommMonoid

@@ -56,10 +56,10 @@ theorem rightStabilizerLocus_le_preimage (φ : T' ⟶ T) (h : T ⟶ G) (U : G.le
       (stabilizerBaseChange φ).left ⁻¹ᵁ rightStabilizerLocus h U := by
   intro x hx
   refine ⟨?_, ?_⟩
-  · show ((stabilizerBaseChange φ ≫ fst G T).left) x ∈ U
+  · change ((stabilizerBaseChange φ ≫ fst G T).left) x ∈ U
     rw [stabilizerBaseChange_fst]
     exact hx.1
-  · show ((stabilizerBaseChange φ ≫ rightTranslate h).left) x ∈ U
+  · change ((stabilizerBaseChange φ ≫ rightTranslate h).left) x ∈ U
     rw [stabilizerBaseChange_rightTranslate]
     exact hx.2
 

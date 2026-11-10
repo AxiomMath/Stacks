@@ -196,7 +196,7 @@ theorem extFilteredHomMap_id
     extFilteredHomMap K (𝟙 M) = 𝟙 (extFilteredHom K M) := by
   apply FilteredObject.hom_ext
   dsimp only [extFilteredHomMap, filteredHomMap]
-  show Stacks.Cohomology.Locality.precompCM
+  change Stacks.Cohomology.Locality.precompCM
     (((ShrinkHoms.equivalence.{w} A).mapHomologicalComplex (ComplexShape.up ℤ)).functor.map
       (𝟙 M.X)) = 𝟙 _
   rw [CategoryTheory.Functor.map_id]
@@ -210,7 +210,7 @@ theorem extFilteredHomMap_comp
     extFilteredHomMap K (f ≫ g) = extFilteredHomMap K g ≫ extFilteredHomMap K f := by
   apply FilteredObject.hom_ext
   dsimp only [extFilteredHomMap, filteredHomMap]
-  show Stacks.Cohomology.Locality.precompCM
+  change Stacks.Cohomology.Locality.precompCM
     (((ShrinkHoms.equivalence.{w} A).mapHomologicalComplex (ComplexShape.up ℤ)).functor.map
       (f.hom ≫ g.hom)) = _
   rw [Functor.map_comp, ← precompCM_comp]
@@ -314,7 +314,7 @@ theorem extSpectralSequence_map_id
     extSpectralSequence_map K (𝟙 M) = 𝟙 (extSpectralSequence K M).1 := by
   apply SpectralSequence.hom_ext
   intro r hr
-  show (CochainComplex.filteredSpectralSequenceMap (extFilteredHomMap K (𝟙 M))).hom
+  change (CochainComplex.filteredSpectralSequenceMap (extFilteredHomMap K (𝟙 M))).hom
     r (by omega) = 𝟙 _
   rw [extFilteredHomMap_id, CochainComplex.filteredSpectralSequenceMap_id]
   rfl
@@ -328,7 +328,7 @@ theorem extSpectralSequence_map_comp
       extSpectralSequence_map K f := by
   apply SpectralSequence.hom_ext
   intro r hr
-  show (CochainComplex.filteredSpectralSequenceMap (extFilteredHomMap K (f ≫ g))).hom
+  change (CochainComplex.filteredSpectralSequenceMap (extFilteredHomMap K (f ≫ g))).hom
     r (by omega) = _
   rw [extFilteredHomMap_comp, CochainComplex.filteredSpectralSequenceMap_comp]
   rfl

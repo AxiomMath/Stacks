@@ -49,7 +49,7 @@ private theorem exists_maximalIdeal_pow_smul_cotangent_eq_bot_of_mul_eq_bot
       have := Ideal.mul_mem_mul z.property hx
       rw [hmul, Ideal.mem_bot] at this
       simpa only [mul_comm] using this
-    show x * (z : R) ∈ I ^ 2
+    change x * (z : R) ∈ I ^ 2
     rw [hz]
     exact Ideal.zero_mem _
   have hrad : maximalIdeal R ≤ (Module.annihilator R I.Cotangent).radical := by

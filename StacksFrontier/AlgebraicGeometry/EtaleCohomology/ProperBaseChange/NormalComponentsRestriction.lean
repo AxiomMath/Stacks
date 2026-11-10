@@ -146,7 +146,7 @@ theorem surjective_etaleCohomologyRestrictionMap_constant_zmod_of_normal
     refine Set.mem_iUnion.2 ⟨σ.symm i, z, ?_⟩
     simp only [g, Scheme.Hom.comp_apply]
     rw [hz]
-    show (e.hom ≫ e.inv ≫ ν).base x = _
+    change (e.hom ≫ e.inv ≫ ν).base x = _
     rw [e.hom_inv_id_assoc]
   let A := (constantSheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1}).obj
     (AddCommGrpCat.of (ULift.{u + 1} (ZMod ℓ)))

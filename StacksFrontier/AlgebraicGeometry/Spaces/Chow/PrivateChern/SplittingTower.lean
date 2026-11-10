@@ -139,7 +139,7 @@ theorem exists_preimageComponent_id_eq_iff
       simpa only [hcomp, Set.mem_singleton_iff] using C.2
     refine injective_integralClosedSubspaceSupport D.site D.base D.base_mem hX.1
       (TopologicalSpace.IrreducibleCloseds.ext ?_)
-    show subspacePointSet D.site D.base D.base_mem X
+    change subspacePointSet D.site D.base D.base_mem X
         (Z.preimageComponent D.site D.base D.base_mem (𝟙 X) hX.1
           (D.isDecentSpace_of_isGood sX hX) hX.1 C).subspace =
       subspacePointSet D.site D.base D.base_mem X Z.subspace
@@ -229,14 +229,14 @@ theorem exists_preimageComponent_eq_iff_of_isIso (j : U ⟶ X) [IsIso j]
   · rintro ⟨C, rfl⟩
     refine injective_integralClosedSubspaceSupport D.site D.base D.base_mem hX.1
       (TopologicalSpace.IrreducibleCloseds.ext ?_)
-    show subspacePointSet D.site D.base D.base_mem X _ =
+    change subspacePointSet D.site D.base D.base_mem X _ =
       subspacePointSet D.site D.base D.base_mem X Z.subspace
     rw [hcl, hsupp C, Set.image_preimage_eq _ φ.surjective]
   · intro h
     refine ⟨⟨Set.univ, hcomp ▸ Set.mem_singleton _⟩, ?_⟩
     refine injective_integralClosedSubspaceSupport D.site D.base D.base_mem hU.1
       (TopologicalSpace.IrreducibleCloseds.ext ?_)
-    show subspacePointSet D.site D.base D.base_mem U _ =
+    change subspacePointSet D.site D.base D.base_mem U _ =
       subspacePointSet D.site D.base D.base_mem U T.subspace
     rw [hsupp, ← h, hcl, Set.preimage_image_eq _ φ.injective]
 

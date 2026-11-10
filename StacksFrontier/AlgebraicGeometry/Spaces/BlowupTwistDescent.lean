@@ -132,7 +132,7 @@ def transportedQuasicoherentModule (Y : QuasicoherentModule B S hS G)
   restrictedQuasicoherentModule Y E e.hom
     ((modulePullback B S hS G.target).map e.hom ≫ Y.alpha ≫
       (modulePullback B S hS G.source).map e.inv)
-    (by simp only [Category.assoc, Iso.map_inv_hom_id, Category.comp_id])
+    (by simp only [Category.assoc, Iso.inv_hom_id_map, Category.comp_id])
     (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom ((modulePullback B S hS _).mapIso e)))
     (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom ((modulePullback B S hS _).mapIso e)))
 
@@ -144,13 +144,13 @@ def transportedQuasicoherentModuleIso (Y : QuasicoherentModule B S hS G)
     change ((modulePullback B S hS G.target).map e.hom ≫ Y.alpha ≫
       (modulePullback B S hS G.source).map e.inv) ≫ (modulePullback B S hS G.source).map e.hom =
         _
-    simp only [Category.assoc, Iso.map_inv_hom_id, Category.comp_id]
+    simp only [Category.assoc, Iso.inv_hom_id_map, Category.comp_id]
     rfl⟩
   inv := ⟨e.inv, by
     change _ = (modulePullback B S hS G.target).map e.inv ≫
       ((modulePullback B S hS G.target).map e.hom ≫ Y.alpha ≫
         (modulePullback B S hS G.source).map e.inv)
-    simp only [Iso.map_inv_hom_id_assoc]
+    simp only [Iso.inv_hom_id_map_assoc]
     rfl⟩
   hom_inv_id := QuasicoherentModule.Hom.ext e.hom_inv_id
   inv_hom_id := QuasicoherentModule.Hom.ext e.inv_hom_id
@@ -208,9 +208,13 @@ def blowUpChartTwistOneIsoIdealSheaf :
             (reesGlueingData (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
               P hcU hcR heq).chart)).toLRSHom.toShHom :=
   (RingedSpaceModuleAdjunction.modulePullback
-      (Stacks.Blowup.reesSituationBlowUpIso (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)).hom.toLRSHom.toShHom).mapIso
-      (AlgebraicGeometry.twistOneIsoExceptionalIdealModule (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)) ≪≫
-    (Stacks.Conormal.AffineCotangent.SourceTransport.idealSheafIsoPullbackOfSquare ((BigFppfOver.toScheme B S hS).map
+      (Stacks.Blowup.reesSituationBlowUpIso
+        (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
+          P)).hom.toLRSHom.toShHom).mapIso
+      (AlgebraicGeometry.twistOneIsoExceptionalIdealModule
+        (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)) ≪≫
+    (Stacks.Conormal.AffineCotangent.SourceTransport.idealSheafIsoPullbackOfSquare
+      ((BigFppfOver.toScheme B S hS).map
           ((exceptionalDivisor Z P hcU hcR heq).2.2.rep.snd
             (reesGlueingData (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
               P hcU hcR heq).chart))
@@ -219,11 +223,14 @@ def blowUpChartTwistOneIsoIdealSheaf :
             (reesGlueingData (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
               P hcU hcR heq).chart))
           (isClosedImmersion_exceptionalDivisor_snd_chart Z P hcU hcR heq)
-          (Stacks.Blowup.reesSituationBlowUpIso (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)) ≪≫
+          (Stacks.Blowup.reesSituationBlowUpIso
+            (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)) ≪≫
         eqToIso (congrArg Scheme.IdealSheafData.subscheme
           (comap_ker_rep_snd_chart_exceptionalDivisor Z P hcU hcR heq)))
-      (AlgebraicGeometry.exceptionalIdeal (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)).subschemeι
-      (Stacks.Blowup.reesSituationBlowUpIso (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P))
+      (AlgebraicGeometry.exceptionalIdeal
+        (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P)).subschemeι
+      (Stacks.Blowup.reesSituationBlowUpIso
+        (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P))
       (comp_eq_trans_eqToIso_subschemeι
         (comap_ker_rep_snd_chart_exceptionalDivisor Z P hcU hcR heq) _ _ _
         (@closedImmersionIsoComapSubscheme_hom_comp _ _ _ ((BigFppfOver.toScheme B S hS).map
@@ -231,7 +238,9 @@ def blowUpChartTwistOneIsoIdealSheaf :
             (reesGlueingData (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
               P hcU hcR heq).chart))
           (isClosedImmersion_exceptionalDivisor_snd_chart Z P hcU hcR heq)
-          (Stacks.Blowup.reesSituationBlowUpIso (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z) P))).symm)).symm
+          (Stacks.Blowup.reesSituationBlowUpIso
+            (reesChartIdeal (centreIdeal Z) (isCartesianOnAffineCharts_centreIdeal Z)
+              P))).symm)).symm
 
 
 /-- The presentation of the blowup `X'` by `P_R ⇉ P_U`. -/

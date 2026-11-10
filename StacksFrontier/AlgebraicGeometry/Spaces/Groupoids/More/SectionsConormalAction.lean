@@ -157,7 +157,7 @@ theorem conormalMap_congr_lower {X X' : AlgebraicSpaces C S hS}
 private theorem mono_subspaceInclusion (X : AlgebraicSpaces C S hS)
     (Z : ClosedSubspaces C S hS X.1) : Mono (subspaceInclusion C S hS X Z) := by
   apply (ObjectProperty.ι _).mono_of_mono_map
-  show Mono Z.1.ι
+  change Mono Z.1.ι
   infer_instance
 
 /-- **The conormal map of the identity square is an isomorphism.**  It is the canonical
@@ -453,7 +453,7 @@ theorem conormalMap_sectionTarget_eq_conormalMap_id (δ : Section G)
   have hdrange : Subfunctor.range (i ≫ δ.1).hom ≤ U₀.1.preimage G.source.hom := by
     intro T point hpoint
     obtain ⟨x, rfl⟩ := hpoint
-    show G.source.hom.app T ((i ≫ δ.1).hom.app T x) ∈ U₀.1.obj T
+    change G.source.hom.app T ((i ≫ δ.1).hom.app T x) ∈ U₀.1.obj T
     have hcast : G.source.hom.app T ((i ≫ δ.1).hom.app T x) = x.val := hps T x.val
     rw [hcast]
     exact x.property

@@ -77,9 +77,9 @@ repository does not have, in the same way as for every other tag in
 `StacksDraft.AlgebraicGeometry.Chow.ChernClassHigher`:
 
 * The Chern class cap products themselves are the parameter `Stacks.Chow.HigherChernCapRule`,
-  standing in for Stacks 0B7G, which is not formalized, and the bivariant class of Stacks 0B7H is built from
-  it by carrying the three naturality axioms `hproper`, `hflat`, `hgysin` of Stacks 0B76 together
-  with the isomorphism case `hiso` of Stacks 02TA. These are the hypotheses
+  standing in for Stacks 0B7G, which is not formalized, and the bivariant class of Stacks 0B7H is
+  built from it by carrying the three naturality axioms `hproper`, `hflat`, `hgysin` of Stacks 0B76
+  together with the isomorphism case `hiso` of Stacks 02TA. These are the hypotheses
   `Stacks.Chow.chernClassBivariant` is *defined* with; nothing below adds to them.
 * `Stacks.Chow.ChowCohomology` has a multiplication only granted `hiso`, so the same hypothesis
   is what makes the ring `A^*(X)` exist at all.

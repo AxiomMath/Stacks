@@ -126,11 +126,11 @@ def openProductLevelsInclusion : openProductLevels D π ιU k y ⟶ productLevel
     (pullback.snd _ _) ((Category.assoc _ _ _).trans pullback.condition)
   naturality i j a := by
     refine pullback.hom_ext ?_ ?_
-    · simp only [Category.assoc, baseChangeDiagram_map_fst, pullback.lift_fst,
-        pullback.lift_fst_assoc, baseChangeDiagram_map_fst_assoc]
+    · simp only [Category.assoc, pullback.lift_fst,
+        pullback.lift_fst_assoc]
       congr 1
       exact (openLevelsInclusion D π ιU).naturality a
-    · simp only [Category.assoc, baseChangeDiagram_map_snd, pullback.lift_snd]
+    · simp only [Category.assoc, pullback.lift_snd]
 
 /-- `h_i` followed by `q_i : X_i ×_{B₀} Y ⟶ X_i` equals `p_i` followed by `j_i : U_i ⟶ X_i`. -/
 @[reassoc (attr := simp)]
@@ -240,7 +240,7 @@ theorem isIso_higherBaseChangeMapAb_limit_of_levels [QuasiCompact ιU] [QuasiSep
   have hX : IsLimit (Cone.mk P' pX) :=
     isLimitBaseChangeProjection D _ y f' r hP
       (fun i => by
-        show p.app i ≫ π.app i ≫ k = x' ≫ k
+        change p.app i ≫ π.app i ≫ k = x' ≫ k
         rw [← Category.assoc, hx' i]) hp
   have hpT : ∀ i, pT.app i ≫ (openLevelsInclusion D π ιU).app i ≫ π.app i ≫ k = jU ≫ x' ≫ k :=
     fun i => by
@@ -270,13 +270,13 @@ theorem isIso_higherBaseChangeMapAb_limit_of_levels [QuasiCompact ιU] [QuasiSep
   have hhL : ∀ i : Iᵒᵖ, h' ≫ pX.app i = pY.app i ≫ (openProductLevelsInclusion D π ιU k y).app i :=
     fun i => by
       refine pullback.hom_ext ?_ ?_
-      · show (h' ≫ pX.app i) ≫ (productLevelsProjection D π k y).app i =
+      · change (h' ≫ pX.app i) ≫ (productLevelsProjection D π k y).app i =
           (pY.app i ≫ (openProductLevelsInclusion D π ιU k y).app i) ≫
             (productLevelsProjection D π k y).app i
         simp only [Category.assoc]
         rw [← hfL i, openProductLevelsInclusion_app_fst, reassoc_of% hh', hgL i,
           reassoc_of% (heL i)]
-      · show (h' ≫ pX.app i) ≫ (baseChangeStructureMap D _ y).app i =
+      · change (h' ≫ pX.app i) ≫ (baseChangeStructureMap D _ y).app i =
           (pY.app i ≫ (openProductLevelsInclusion D π ιU k y).app i) ≫
             (baseChangeStructureMap D _ y).app i
         have hXs : pX.app i ≫ (baseChangeStructureMap D _ y).app i = r :=
@@ -392,9 +392,9 @@ def factorOpenProductLevelsInclusion :
     (pullback.condition.trans (Category.assoc _ _ _).symm)
   naturality i j a := by
     refine pullback.hom_ext ?_ ?_
-    · simp only [Category.assoc, baseChangeDiagram_map_fst, pullback.lift_fst,
+    · simp only [Category.assoc, pullback.lift_fst,
         pullback.lift_fst_assoc]
-    · simp only [Category.assoc, baseChangeDiagram_map_snd, pullback.lift_snd,
+    · simp only [Category.assoc, pullback.lift_snd,
         pullback.lift_snd_assoc]
 
 /-- The map `Y_i ×_{B₀} U ⟶ Y_i ×_{B₀} X` commutes with the projections to `Y_i`. -/
@@ -475,7 +475,7 @@ theorem isIso_higherBaseChangeMapAb_limit_of_factorLevels [QuasiCompact ιU]
       hL ≫ pX.app i = pY.app i ≫ (factorOpenProductLevelsInclusion D π ιU k).app i :=
     fun i => by
       refine pullback.hom_ext ?_ ?_
-      · show (hL ≫ pX.app i) ≫ (baseChangeHorizontal D π k).app i =
+      · change (hL ≫ pX.app i) ≫ (baseChangeHorizontal D π k).app i =
           (pY.app i ≫ (factorOpenProductLevelsInclusion D π ιU k).app i) ≫
             (baseChangeHorizontal D π k).app i
         have hXh : pX.app i ≫ (baseChangeHorizontal D π k).app i = fP ≫ p.app i :=
@@ -484,7 +484,7 @@ theorem isIso_higherBaseChangeMapAb_limit_of_factorLevels [QuasiCompact ιU]
           baseChangeProjection_comp_horizontal D π (ιU ≫ k) p eQ rQ hwY i
         simp only [Category.assoc]
         rw [hXh, factorOpenProductLevelsInclusion_app_fst, hYh, reassoc_of% hhL]
-      · show (hL ≫ pX.app i) ≫ (factorProductLevelsProjection D π k).app i =
+      · change (hL ≫ pX.app i) ≫ (factorProductLevelsProjection D π k).app i =
           (pY.app i ≫ (factorOpenProductLevelsInclusion D π ιU k).app i) ≫
             (factorProductLevelsProjection D π k).app i
         have hXs : pX.app i ≫ (factorProductLevelsProjection D π k).app i = rP :=

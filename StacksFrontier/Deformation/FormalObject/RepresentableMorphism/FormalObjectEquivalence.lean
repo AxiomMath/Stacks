@@ -57,13 +57,13 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 
 @[expose] public section
 
+set_option maxHeartbeats 1600000 in
 -- Resource bound, not a logical one: the quotient-level coherences of the equivalence
 -- compose five isomorphisms of based functors, whose `whnf` cost exceeds the default budget.
 -- Without it, elaboration reports `(deterministic) timeout at `whnf`` at the declaration header and
 -- inside the `transition_comm` field.  Splitting the field proofs into separate
 -- declarations does not help: each of them alone is already larger than the default
 -- 200000-heartbeat budget.
-set_option maxHeartbeats 1600000 in
 /-- Morphisms from the restriction of the functor represented by `R` to a category
 cofibered in groupoids are canonically equivalent to formal objects over `R`. -/
 @[stacks 06SK]

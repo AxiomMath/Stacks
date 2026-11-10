@@ -106,7 +106,7 @@ def topSection {n : ℤ} (d : Cochain P I n) : ((Tc P J).X n).val.obj (op (top A
 lemma sectionsIso_hom_topSection {n : ℤ} (d : Cochain P I n) :
     (((RingedSite.sheafHomComplex (Xs A B hX) (Fc P) J).sectionsIso (top A B hX)).hom.f n)
       (topSection ι d) = topCochain ι d := by
-  show ((((RingedSite.sheafHomComplex (Xs A B hX) (Fc P) J).sectionsIso (top A B hX)).inv.f n) ≫
+  change ((((RingedSite.sheafHomComplex (Xs A B hX) (Fc P) J).sectionsIso (top A B hX)).inv.f n) ≫
     (((RingedSite.sheafHomComplex (Xs A B hX) (Fc P) J).sectionsIso (top A B hX)).hom.f n))
       (topCochain ι d) = _
   rw [← HomologicalComplex.comp_f, Iso.inv_hom_id]
@@ -181,7 +181,7 @@ lemma topSection_δ {n m : ℤ} (d : Cochain P I n) :
   apply (ConcreteCategory.bijective_of_isIso (e.hom.f m)).1
   have h := congrArg (fun g => g (topSection ι d)) (congrArg ConcreteCategory.hom (e.hom.comm n m))
   refine h.symm.trans ?_
-  show ((CochainComplex.HomComplex _ _).d n m) (e.hom.f n (topSection ι d)) = _
+  change ((CochainComplex.HomComplex _ _).d n m) (e.hom.f n (topSection ι d)) = _
   rw [sectionsIso_hom_topSection, sectionsIso_hom_topSection, topCochain_δ]
   rfl
 
@@ -260,7 +260,7 @@ lemma phiN_app_top (n : ℤ) (d : Cochain P I n) :
       (((epsTAdj A B hX).homEquiv _ _).apply_symm_apply (sigmaMap ι n))
     rw [Adjunction.homEquiv_unit] at this
     exact this.trans (sigmaMap_apply ι n d)
-  show Shrink.addEquiv (α := ((Tc P J).X n).val.obj (op (top A B hX)))
+  change Shrink.addEquiv (α := ((Tc P J).X n).val.obj (op (top A B hX)))
     ((phiSmall ι n).val.app (op (top A B hX))
     (unitSection A B hX ((Dc P I).X n) d)) = _
   rw [h, AddEquiv.apply_symm_apply]

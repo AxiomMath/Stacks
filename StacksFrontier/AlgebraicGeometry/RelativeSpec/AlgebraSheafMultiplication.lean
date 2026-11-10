@@ -272,10 +272,7 @@ def mulNat (A : AlgebraSheaf X) :
         ((PresheafOfModules.tensorObj (O := X.presheaf)
           (underlyingPresheaf A) (underlyingPresheaf A)).restrictₛₗ f t)
       = ((underlyingPresheaf A).map f).hom (mulTensorLift A U t)
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        simp only [map_zero]
-        rfl
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
         rw [PresheafOfModules.tensorObj_restrictₛₗ_tmul]
         exact (mulSection_naturality A f x y).symm

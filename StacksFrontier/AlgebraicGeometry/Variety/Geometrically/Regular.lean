@@ -98,7 +98,7 @@ private theorem isLocalHom_of_comp_of_exists_pow
   apply (isUnit_pow_iff hn.ne').mp
   rw [ha]
   exact i.isUnit_map ((isUnit_map_iff (φ.comp i) a).mp (by
-    show IsUnit (φ (i a))
+    change IsUnit (φ (i a))
     rw [← ha, map_pow]
     exact hunit.pow n))
 
@@ -151,10 +151,10 @@ private lemma exists_tensorProduct_equiv_isLocalization_pullbackStalk
     (stalkMap_spec_comp_algebraMap y (f x) h).symm
   let z : PrimeSpectrum k := f x
   have locR : IsLocalization.AtPrime R z.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) z.asIdeal
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z) z.asIdeal
     infer_instance
   have locB : IsLocalization.AtPrime B y.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) y.asIdeal
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk y) y.asIdeal
     infer_instance
   have hr : Function.Bijective (algebraMap k R) :=
     Field.localization_map_bijective (M := z.asIdeal.primeCompl) (by simp)
@@ -300,7 +300,7 @@ public lemma geometricallyRegularAt_tfae
   tfae_have 1 → 2 := fun h K _ _ _ _ x' hx => h K x' hx
   tfae_have 2 → 3 := by
     intro h
-    show Algebra.IsGeometricallyRegular k A
+    change Algebra.IsGeometricallyRegular k A
     exact ⟨(Algebra.forall_isRegularRing_tensorProduct_essFiniteType_iff_finite_isPurelyInseparable
       k A).mpr fun K _ _ _ _ => isRegularRing_tensorProduct_of_regularPullbackStalks f x (h K)⟩
   tfae_have 3 → 1 := by

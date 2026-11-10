@@ -96,10 +96,11 @@ to the zero ideal on a proper integral closed subscheme gives `P` for a direct i
 zero object, but `P` is an arbitrary predicate on modules, not an isomorphism-invariant one, and
 transporting it to the terminal object is exactly what needs `hzero` together with (1).
 
-**Clause (4)(c) asks only for a quasi-coherent subsheaf, as the source does.** The statement attached to the tag and
-the library's own restatement in `StacksFrontier/AlgebraicGeometry/HigherRank/Basic.lean` both demand
-that the subsheaf `G'` inside `J·G` be coherent, which is a stronger demand on the user of the
-criterion and so a weaker theorem. Coherence is not needed as a hypothesis: `G'` is a submodule
+**Clause (4)(c) asks only for a quasi-coherent subsheaf, as the source does.** The statement
+attached to the tag and the library's own restatement in
+`StacksFrontier/AlgebraicGeometry/HigherRank/Basic.lean` both demand that the subsheaf `G'` inside
+`J·G` be coherent, which is a stronger demand on the user of the criterion and so a weaker theorem.
+Coherence is not needed as a hypothesis: `G'` is a submodule
 of the coherent `G` on a Noetherian scheme, so
 `Stacks.AlgebraicGeometry.CoherentSubquotients.isCoherent_of_mono` derives it from quasi-coherence.
 `hasIrreducibleHigherRankCriterion` therefore has to weaken its input before applying the theorem
@@ -148,13 +149,13 @@ private lemma subsheaf_le_idealPowerMultiple {X : Scheme.{u}} {M : X.Modules}
     H ≤ Stacks.Algebraization.idealPowerMultiple I n M := by
   apply Stacks.Algebraization.submodule_le_of_affine
   intro U
-  apply SetLike.le_def.mpr
+  apply IsConcreteLE.le_iff.mpr
   intro s hs
   have hgen : I.ideal U ^ n • (⊤ : Submodule Γ(X, U.1) Γ(M, U.1)) ≤
       (Stacks.Algebraization.idealPowerMultiple I n M).toSubmodule.obj (op U.1) :=
     (Stacks.Algebraization.idealPowerMultiple_le_iff I n M
       (Stacks.Algebraization.idealPowerMultiple I n M)).mp le_rfl U
-  exact SetLike.le_def.mp hgen (h U ⟨s, hs⟩)
+  exact IsConcreteLE.le_iff.mp hgen (h U ⟨s, hs⟩)
 
 private alias idealPowerMultiple_le_comap := Stacks.Coherent.idealPowerMultiple_le_comap
 
@@ -215,7 +216,7 @@ private lemma stalk_surjective_of_comp {X : Scheme.{u}}
     have : (TopCat.Sheaf.forget Ab (TopCat.of X)).ReflectsMonomorphisms :=
       Functor.reflectsMonomorphisms_of_faithful _
     apply (TopCat.Sheaf.forget Ab (TopCat.of X)).mono_of_mono_map
-    show Mono ((Scheme.Modules.toPresheaf X).map g)
+    change Mono ((Scheme.Modules.toPresheaf X).map g)
     infer_instance
   have hg : Mono (T.map g) :=
     (TopCat.Presheaf.mono_iff_stalk_mono
@@ -224,7 +225,7 @@ private lemma stalk_surjective_of_comp {X : Scheme.{u}}
   intro b
   obtain ⟨a, ha⟩ := h ((T.map g).hom b)
   refine ⟨a, hinj ?_⟩
-  show (T.map f ≫ T.map g).hom a = (T.map g).hom b
+  change (T.map f ≫ T.map g).hom a = (T.map g).hom b
   rwa [← T.map_comp]
 
 /-- The target of an epimorphism is supported inside the support of its source. -/
@@ -323,7 +324,7 @@ private lemma submodule_bot_obj {X : Scheme.{u}} (F : X.Modules) (U : (Opens X)�
     (show (⊥ : F.Submodule) ≤
       _root_.Stacks.AlgebraicGeometry.RegularIdealSheaf.kernelSubmodule (𝟙 F) from bot_le)
   exact (h U).trans (by
-    show LinearMap.ker (LinearMap.id) ≤ ⊥
+    change LinearMap.ker (LinearMap.id) ≤ ⊥
     simp)
 
 private lemma comp_eq_zero_of_le_idealPowerMultiple {X : Scheme.{u}}
@@ -350,7 +351,7 @@ private lemma exists_submodule_iso_of_mono {X : Scheme.{u}} {F G : X.Modules}
     let l : A ⟶ H.toSheafOfModules :=
       ⟨{ app := fun U => ModuleCat.ofHom
            ((g.val.app U).hom.codRestrict (H.toSubmodule.obj U) (fun s => by
-             show (q.val.app U).hom ((g.val.app U).hom s) = 0
+             change (q.val.app U).hom ((g.val.app U).hom s) = 0
              exact congrArg (fun k : A ⟶ cokernel f => (k.val.app U).hom s) hg))
          naturality := by
            intro U V k
@@ -366,7 +367,7 @@ private lemma isIso_unitToPushforward_of_isIso {Z X : Scheme.{u}} (e : Z ⟶ X)
     [IsIso e] : IsIso (SheafOfModules.unitToPushforwardObjUnit e.toRingCatSheafHom) := by
   apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
   intro U
-  show IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
+  change IsIso (((forget₂ CommRingCat RingCat) ⋙ forget₂ RingCat Ab).map (e.app U))
   infer_instance
 
 /-- A quasi-coherent ideal of the structure sheaf of a scheme of finite type over a locally
@@ -693,7 +694,7 @@ private theorem property_of_generic_mono {X : Scheme.{u}} [IsNoetherian X]
     cases n with
     | zero => exact fun h => h
     | succ n =>
-      show ξ ∉ (J.support : Set X)
+      change ξ ∉ (J.support : Set X)
       rw [hJs]
       exact hf
   obtain ⟨H, hHq, hHJ, hHξ, hHP⟩ := hGJ (J ^ n) hJn
@@ -801,9 +802,9 @@ private lemma map_sigma_isIso {C D : Type*} [Category C] [Category D]
     apply colimit.hom_ext
     intro j
     simp only [Iso.inv_hom_id_assoc,
-      ι_preservesColimitIso_inv_assoc, HasColimit.isoOfNatIso_ι_hom_assoc,
+      ι_preservesColimitIso_inv_assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
       ι_preservesColimitIso_inv]
-    show T.map (Sigma.ι F j.as) ≫ T.map (Limits.Sigma.map f) =
+    change T.map (Sigma.ι F j.as) ≫ T.map (Limits.Sigma.map f) =
       T.map (f j.as) ≫ T.map (Sigma.ι G j.as)
     rw [← T.map_comp, ← T.map_comp, Sigma.ι_map]
   rw [h]
@@ -965,7 +966,7 @@ private theorem property_of_ideal_of_generic_coproduct
   have : (TopCat.Presheaf.stalkFunctor Ab.{u} ξ).Additive :=
     Functor.additive_of_preservesBinaryBiproducts _
   have hSψ : IsIso (S.map ψ) := by
-    show IsIso ((TopCat.Presheaf.stalkFunctor Ab (i (genericPoint Z))).map
+    change IsIso ((TopCat.Presheaf.stalkFunctor Ab (i (genericPoint Z))).map
       (Scheme.Modules.Hom.mapPresheaf ψ))
     infer_instance
   have hSL : IsIso ((L ⋙ S).map a) := haL

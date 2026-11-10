@@ -267,7 +267,7 @@ theorem toSymChart_dehomSplit (e : M ≃ₗ[A] K × A) {s : M} (hs : e s = (0, 1
     toSymChart e s (dehomSplit e x) = toSymChartFull s x := by
   have key : (toSymChart e s).comp (dehomSplit e) = toSymChartFull s := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_)
-    show toSymChart e s (dehomSplit e (SymmetricAlgebra.ι A M m)) =
+    change toSymChart e s (dehomSplit e (SymmetricAlgebra.ι A M m)) =
       toSymChartFull s (SymmetricAlgebra.ι A M m)
     rw [dehomSplit_ι, map_add, toSymChart_ι, AlgHom.commutes, toSymChartFull_ι]
     conv_rhs => rw [← eq_add_smul_of_split e hs m]

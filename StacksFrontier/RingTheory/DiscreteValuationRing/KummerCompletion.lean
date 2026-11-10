@@ -155,7 +155,7 @@ theorem exists_ringEquiv_adicCompletion_A1
     rw [show (algebraMap A (AdicCompletion (maximalIdeal (A1 K π n)) (A1 K π n))) x
       = algebraMap (A1 K π n) _ (algebraMap A (A1 K π n) x) from rfl, AlgEquiv.commutes]
     rfl
-  simp only [RingEquiv.coe_trans, Function.comp_apply, AlgEquiv.coe_ringEquiv, h1]
+  simp only [RingEquiv.coe_trans, Function.comp_apply, AlgEquiv.coe_toRingEquiv, h1]
   rw [show (algebraMap A (A1 K π n ⊗[A] AdicCompletion (maximalIdeal A) A)) x
     = algebraMap A _ x from rfl, AlgEquiv.commutes, AlgEquiv.commutes]
   rw [show (algebraMap A (AdicCompletion (maximalIdeal A) A ⊗[A] A' π n)) x

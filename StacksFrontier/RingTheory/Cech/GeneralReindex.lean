@@ -15,7 +15,8 @@ components of `C^•(f; M)` indexed by the images `α(V)` gives a map of complex
 `C^•(f; M) ⟶ C^•(g; M)`.
 
 Two things have to be dealt with that do not arise for the restriction map of
-`StacksFrontier/RingTheory/Cech/Reindex.lean`, where `α` is an order embedding and the entries agree.
+`StacksFrontier/RingTheory/Cech/Reindex.lean`, where `α` is an order embedding and the entries
+agree.
 First, `α` need not be monotone, so the `V`-component carries the sign of the permutation that
 sorts the images; it is `Cech.invSign`, the parity of the number of inversions of `α` on `V`.
 Second, `α` need not be injective, so `α(V)` may have fewer than `#V` elements and there is no
@@ -628,7 +629,7 @@ def genTerm (p : ℕ) : cechTerm f M p →ₗ[R] cechTerm g M p :=
         invSign α V.1 •
           locLift f g α hα M (V.1.image α) V.1 Finset.Subset.rfl (x ⟨V.1.image α, h⟩)
       else 0 := by
-  show (if h : (V.1.image α).card = p then
+  change (if h : (V.1.image α).card = p then
       invSign α V.1 • (locLift f g α hα M (V.1.image α) V.1 Finset.Subset.rfl).comp
         (DirectSum.component R (Idx r p) (fun U => cechMod f M U.1) ⟨V.1.image α, h⟩)
       else 0) x = _
@@ -669,7 +670,7 @@ surviving summands of the differential cancel in pairs, by the degenerate sign i
 theorem genTerm_comm (p : ℕ) (x : cechTerm f M p) :
     genTerm f g α hα M (p + 1) (cechD f M p x) = cechD g M p (genTerm f g α hα M p x) := by
   refine DirectSum.ext_component R fun T => ?_
-  show genTerm f g α hα M (p + 1) (cechD f M p x) T
+  change genTerm f g α hα M (p + 1) (cechD f M p x) T
     = cechD g M p (genTerm f g α hα M p x) T
   have hecard : ∀ k : T.1, (T.1.erase k.1).card = p := fun k => by
     rw [Finset.card_erase_of_mem k.2, T.2]
@@ -821,7 +822,7 @@ theorem genTerm_comp {t : ℕ} (h : Fin t → R) (β : Fin t → Fin s)
     (hαβ : ∀ k : Fin t, ∃ n : ℕ, f (α (β k)) ∣ h k ^ n) (p : ℕ) :
     (genTerm g h β hβ M p).comp (genTerm f g α hα M p) = genTerm f h (α ∘ β) hαβ M p := by
   refine LinearMap.ext fun x => DirectSum.ext_component R fun W => ?_
-  show genTerm g h β hβ M p (genTerm f g α hα M p x) W = genTerm f h (α ∘ β) hαβ M p x W
+  change genTerm g h β hβ M p (genTerm f g α hα M p x) W = genTerm f h (α ∘ β) hαβ M p x W
   have himage : (W.1.image β).image α = W.1.image (α ∘ β) := Finset.image_image
   rw [genTerm_apply, genTerm_apply]
   by_cases hW : (W.1.image β).card = p
@@ -875,7 +876,7 @@ theorem locLift_id (hf : ∀ j : Fin r, ∃ n : ℕ, f (id j) ∣ f j ^ n) (U : 
 theorem genTerm_id (hf : ∀ j : Fin r, ∃ n : ℕ, f (id j) ∣ f j ^ n) (p : ℕ) :
     genTerm f f id hf M p = LinearMap.id := by
   refine LinearMap.ext fun x => DirectSum.ext_component R fun V => ?_
-  show genTerm f f id hf M p x V = x V
+  change genTerm f f id hf M p x V = x V
   have himage : V.1.image (id : Fin r → Fin r) = V.1 := Finset.image_id
   have hcard : (V.1.image (id : Fin r → Fin r)).card = p := by rw [himage]; exact V.2
   rw [genTerm_apply, dite_eq_left hcard,

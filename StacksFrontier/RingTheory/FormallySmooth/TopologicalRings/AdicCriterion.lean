@@ -149,7 +149,7 @@ public theorem formallySmoothTop_of_formallySmooth_of_isAdic.{u, v, w}
   let gbarAlg : S →ₐ[R] A ⧸ J :=
     { gbar with
       commutes' := fun r => by
-        show gbar (φ r) = Ideal.Quotient.mk J (f r)
+        change gbar (φ r) = Ideal.Quotient.mk J (f r)
         exact DFunLike.congr_fun hcomm r }
   let : Algebra.FormallySmooth R S := hφ
   obtain ⟨g, hg⟩ := Algebra.FormallySmooth.exists_lift J ⟨2, hJ⟩ gbarAlg

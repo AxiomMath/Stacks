@@ -63,7 +63,7 @@ theorem etale_fgSubalgebra (i : FGSubalgebra k K) :
 /-- The structure morphism `Spec A ⟶ Spec k` of a stage is étale. -/
 instance etale_specDiagram_hom (i : (FGSubalgebra k K)ᵒᵖ) :
     Etale ((specDiagram k K).obj i).hom := by
-  haveI := etale_fgSubalgebra k K i.unop
+  have := etale_fgSubalgebra k K i.unop
   change Etale (Spec.map (CommRingCat.ofHom (algebraMap k (i.unop : Subalgebra k K))))
   rw [HasRingHomProperty.Spec_iff (P := @Etale)]
   exact RingHom.etale_algebraMap.2 inferInstance
@@ -117,17 +117,20 @@ def stageFst {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSubalgebra k K)�
     (𝔇 π).obj i ⟶ ((specDiagram k K).obj i).left :=
   pullback.fst ((specDiagram k K).obj i).hom π
 
+omit [Algebra.IsSeparable k K] in
 /-- The stage `X_A` is the fibre product of `Spec A ⟶ Spec k` and `Y ⟶ Spec k`. -/
 theorem isPullback_stage {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSubalgebra k K)ᵒᵖ) :
     IsPullback (stageFst k K π i) (stageSnd k K π i) ((specDiagram k K).obj i).hom π :=
   IsPullback.of_hasPullback _ _
 
+omit [Algebra.IsSeparable k K] in
 /-- The transition morphisms of the stages commute with the projections to `Y`. -/
 @[reassoc]
 theorem map_stageSnd {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) {i i' : (FGSubalgebra k K)ᵒᵖ}
     (a : i ⟶ i') : (𝔇 π).map a ≫ stageSnd k K π i' = stageSnd k K π i :=
   Over.w ((Over.pullback π).map ((specDiagram k K).map a))
 
+omit [Algebra.IsSeparable k K] in
 /-- The transition morphisms of the stages commute with the projections to the `Spec A`. -/
 @[reassoc]
 theorem map_stageFst {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) {i i' : (FGSubalgebra k K)ᵒᵖ}
@@ -144,20 +147,21 @@ def stageMap : 𝔇 (j ≫ πX) ⟶ 𝔇 πX where
   naturality i i' a := by
     refine (isPullback_stage k K πX i').hom_ext ?_ ?_
     · simp only [Category.assoc, IsPullback.lift_fst, map_stageFst, IsPullback.lift_fst_assoc]
+    · simp only [Category.assoc, IsPullback.lift_snd, map_stageSnd, map_stageSnd_assoc]
 
-    · simp only [Category.assoc, IsPullback.lift_snd, map_stageSnd, IsPullback.lift_snd_assoc,
-        map_stageSnd_assoc]
-
+omit [Algebra.IsSeparable k K] in
 /-- The morphism `T_A ⟶ X_A` commutes with the projections to `Spec A`. -/
 theorem stageMap_fst (i : (FGSubalgebra k K)ᵒᵖ) :
     (stageMap k K πX j).app i ≫ stageFst k K πX i = stageFst k K (j ≫ πX) i :=
   IsPullback.lift_fst _ _ _ _
 
+omit [Algebra.IsSeparable k K] in
 /-- The morphism `T_A ⟶ X_A` followed by `X_A ⟶ X` is `T_A ⟶ T` followed by `j`. -/
 theorem stageMap_snd (i : (FGSubalgebra k K)ᵒᵖ) :
     (stageMap k K πX j).app i ≫ stageSnd k K πX i = stageSnd k K (j ≫ πX) i ≫ j :=
   IsPullback.lift_snd _ _ _ _
 
+omit [Algebra.IsSeparable k K] in
 /-- **A stage of `j` is a base change of `j`.** -/
 theorem isPullback_stageMap (i : (FGSubalgebra k K)ᵒᵖ) :
     IsPullback ((stageMap k K πX j).app i) (stageSnd k K (j ≫ πX) i) (stageSnd k K πX i) j := by
@@ -166,6 +170,7 @@ theorem isPullback_stageMap (i : (FGSubalgebra k K)ᵒᵖ) :
   rw [stageMap_fst]
   exact isPullback_stage k K (j ≫ πX) i
 
+omit [Algebra.IsSeparable k K] in
 /-- For a transition `A ⊆ A'`, the square formed by `T_{A'} ⟶ X_{A'}`, `T_A ⟶ X_A` and the
 transition morphisms is cartesian. -/
 theorem isPullback_stageMap_transition {i i' : (FGSubalgebra k K)ᵒᵖ} (a : i ⟶ i') :
@@ -186,7 +191,7 @@ instance etale_stageSnd {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSubal
 /-- Each transition morphism `X_{A'} ⟶ X_A` of the stages is étale. -/
 instance etale_baseChangeDiagram_map {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k))
     {i i' : (FGSubalgebra k K)ᵒᵖ} (a : i ⟶ i') : Etale ((𝔇 π).map a) := by
-  haveI : Etale ((𝔇 π).map a ≫ stageSnd k K π i') := by
+  have : Etale ((𝔇 π).map a ≫ stageSnd k K π i') := by
     rw [map_stageSnd]
     infer_instance
   exact Etale.of_comp _ (stageSnd k K π i')
@@ -282,6 +287,7 @@ variable {X T : Scheme.{u}} (πX : X ⟶ Spec (.of k)) (j : T ⟶ X)
 local notation "𝔇" => FieldExtensionDescent.baseChangeDiagram k K
 local notation "𝔏" => FieldExtensionDescent.baseChangeLimitCone k K
 
+omit [Algebra.IsSeparable k K] in
 /-- The projections of the limit `X_K` to the stages lie over `X`. -/
 theorem cone_π_stageSnd {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSubalgebra k K)ᵒᵖ) :
     (𝔏 π).cone.π.app i ≫ stageSnd k K π i =
@@ -289,6 +295,7 @@ theorem cone_π_stageSnd {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSuba
         (𝔏 π).cone.pt ⟶ Y) :=
   Over.w (((Over.pullback π).mapCone (specLimitCone k K).cone).π.app i)
 
+omit [Algebra.IsSeparable k K] in
 /-- The limit of the stages of `j` is the base change of `j` to `K`. -/
 theorem limitMorphism_stageMap :
     LimitHigherDirectImage.limitMorphism (stageMap k K πX j) (𝔏 (j ≫ πX)).cone (𝔏 πX).cone
@@ -329,6 +336,7 @@ instance (i : (FGSubalgebra k K)ᵒᵖ) : QuasiCompact ((stageMap k K πX j).app
 instance (i : (FGSubalgebra k K)ᵒᵖ) : QuasiSeparated ((stageMap k K πX j).app i) :=
   MorphismProperty.of_isPullback (isPullback_stageMap k K πX j i).flip inferInstance
 
+omit [Algebra.IsSeparable k K] in
 /-- The projections of the limit `X_K` to the stages lie over `X`, with the source of the
 composite spelled as the apex of the cone. -/
 theorem cone_π_stageSnd' {Y : Scheme.{u}} (π : Y ⟶ Spec (.of k)) (i : (FGSubalgebra k K)ᵒᵖ) :

@@ -49,7 +49,7 @@ theorem kerCotangentHom_smul (r : R) (x : ↥(RingHom.ker φ ^ 1)) :
     rw [RingEquiv.symm_apply_eq]
     rfl
   rw [LinearMap.map_smul]
-  show _ = (RingHom.quotientKerEquivOfSurjective hφ).symm (φ r) •
+  change _ = (RingHom.quotientKerEquivOfSurjective hφ).symm (φ r) •
     (kerCotangentHom φ x : (RingHom.ker φ).Cotangent)
   rw [h, algebraMap_smul]
 

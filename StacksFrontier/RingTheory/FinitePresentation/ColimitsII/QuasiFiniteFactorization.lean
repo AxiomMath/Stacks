@@ -240,7 +240,7 @@ theorem RingTheory.Sequence.IsRegular.map_quotient_maximalIdeal_localization {R 
       Ideal.Quotient.mk _ (algebraMap S (Localization.AtPrime q) a) := by
     intro a
     rw [IsScalarTower.algebraMap_apply S (S ⧸ I) (Localization.AtPrime qb)]
-    simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv,
+    simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
       AlgEquiv.commutes]
     rfl
   refine (AddEquiv.isRegular_congr (e := e.toAddEquiv) ?_).mp hreg
@@ -295,7 +295,7 @@ theorem Module.Flat.localizedModule_quotient_ofList {R S : Type*} [CommRing R] [
   have hT : J.map (algebraMap S (Localization.AtPrime q)) =
       Ideal.ofList (as.map (algebraMap S (Localization.AtPrime q))) := Ideal.map_ofList _ _
   have : Module.Flat (Localization.AtPrime (q.under R)) T := by
-    show Module.Flat _ (Localization.AtPrime q ⧸ J.map _)
+    change Module.Flat _ (Localization.AtPrime q ⧸ J.map _)
     rwa [hT]
   have : IsScalarTower R (S ⧸ J) T := .of_algebraMap_eq fun r => by
     rw [IsScalarTower.algebraMap_apply R S (S ⧸ J), IsScalarTower.algebraMap_apply R S T]
@@ -463,7 +463,7 @@ theorem Algebra.exists_quasiFinite_flat_finitePresentation_mem_range {R S : Type
       · refine Ideal.map_le_iff_le_comap.mpr ?_
         exact (congrArg PrimeSpectrum.asIdeal (hqp.trans hQ'p.symm)).le
       · intro x hx
-        show Ideal.Quotient.mk J x ∈ Q.asIdeal
+        change Ideal.Quotient.mk J x ∈ Q.asIdeal
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
         exact Q.asIdeal.zero_mem
       · rw [← hq''c]; exact Ideal.comap_mono (f := Ideal.Quotient.mk J) hle

@@ -128,7 +128,7 @@ private lemma map₂HomologicalComplexReg_map_map
     ((F.map₂HomologicalComplexReg c₁ c₂ c).map k).app L ≫
         ((F.map₂HomologicalComplexReg c₁ c₂ c).obj K').map l =
       HomologicalComplex.mapBifunctorMapReg k l F c := by
-  show HomologicalComplex.mapBifunctorMap k (𝟙 L) F c ≫
+  change HomologicalComplex.mapBifunctorMap k (𝟙 L) F c ≫
     HomologicalComplex.mapBifunctorMap (𝟙 K') l F c = HomologicalComplex.mapBifunctorMap k l F c
   dsimp only [HomologicalComplex.mapBifunctorMap]
   rw [((F.mapBifunctorHomologicalComplex c₁ c₂).obj K').map_id,
@@ -469,11 +469,11 @@ lemma model_currying_natural (a b : homTensorModels X)
   have hfs : f ≫ s = t := by
     rw [hsdef, htdef]
     ext
-    · show DerivedCategory.Q.map sk ≫ f.1.unop = DerivedCategory.Q.map gk
+    · change DerivedCategory.Q.map sk ≫ f.1.unop = DerivedCategory.Q.map gk
       simp only [hk, IsIso.hom_inv_id_assoc]
-    · show DerivedCategory.Q.map (qL ≫ sl) ≫ f.2.1.unop = DerivedCategory.Q.map (qL ≫ gl)
+    · change DerivedCategory.Q.map (qL ≫ sl) ≫ f.2.1.unop = DerivedCategory.Q.map (qL ≫ gl)
       simp only [hl, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
-    · show f.2.2 ≫ DerivedCategory.Q.map (si ≫ (kInjectiveAugmentation X).app I₀) =
+    · change f.2.2 ≫ DerivedCategory.Q.map (si ≫ (kInjectiveAugmentation X).app I₀) =
         DerivedCategory.Q.map (gi ≫ (kInjectiveAugmentation X).app I₀)
       simp only [hi, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.inv_hom_id_assoc]
   have nat : ∀ (c : homTensorModels X) (k : K₀ ⟶ c.1) (l : LF ⟶ c.2.1.1)

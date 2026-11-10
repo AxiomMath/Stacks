@@ -75,7 +75,7 @@ theorem ofQuot_kerOf {A : BigFppfOver B S hS} (z : M.presheaf.obj (op A)) :
 theorem kerOf_injective {A : BigFppfOver B S hS} {z w : M.presheaf.obj (op A)}
     (h : (D.kerOf ι M z).1 = (D.kerOf ι M w).1) : z = w := by
   apply M.iso_hom_app_injective (op A)
-  show M.iso.hom.app (op A) ⟨z⟩ = M.iso.hom.app (op A) ⟨w⟩
+  change M.iso.hom.app (op A) ⟨z⟩ = M.iso.hom.app (op A) ⟨w⟩
   rw [← D.ofQuot_kerOf ι M z, ← D.ofQuot_kerOf ι M w, Subtype.ext h]
 
 include hY in
@@ -236,7 +236,7 @@ theorem kerAt_le_of_sqClass_eq (V : FGModuleCat.{u} k)
     ObjectProperty.prop_kernel (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u} _) qz
       (D.isQuasicoherentOnSite_baseChangeModule _) (D.kerAt_mem ι M toS hk V z).1.1.1
   have hφ : R.map (kernel.ι qz) ≫ (D.elemLift ι M toS hk hF z₀ V z hz).g = 0 := by
-    show R.map (kernel.ι qz) ≫ R.map qz = 0
+    change R.map (kernel.ι qz) ≫ R.map qz = 0
     rw [← Functor.map_comp, kernel.condition, Functor.map_zero]
   have h0 := ModuleDeformation.CopowerQuotientLift.comp_g_eq_zero_of_difference_eq _ _ _ _ _ h
     (R.map (kernel.ι qz)) hφ

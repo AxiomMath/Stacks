@@ -14,8 +14,8 @@ Let `(S, δ)` be the base situation of chapter 42 and `p : X ⟶ S` locally of f
 `⨁'_{δ(x) = k + 2} K₂ᴹ(κ(x)) ⟶ ⨁'_{δ(x) = k + 1} K₁ᴹ(κ(x)) ⟶ ⨁'_{δ(x) = k} K₀ᴹ(κ(x))`
 
 and asserts that they form a complex. The second differential is the divisor differential
-`Stacks.Chow.pointwiseDivisorDifferential` of Stacks 0GU3, already in the library. This file builds the
-first group and the first differential.
+`Stacks.Chow.pointwiseDivisorDifferential` of Stacks 0GU3, already in the library. This file builds
+the first group and the first differential.
 
 The first differential is the one the tag describes as sending a family `ξ = ∑ₓ αₓ` to the family
 whose coefficient at `x'` is
@@ -52,8 +52,8 @@ identification transports the target.
 * **Nothing here asserts Stacks 0GUA**, and nothing here asserts that the three groups form a
   complex. The composite of the first differential with the divisor differential of Stacks 0GU3
   is not computed; in particular the first higher Chow group of Stacks 0GUA, which is the
-  homology of that complex in the middle, is not defined. What is constructed here is the first chain
-  group, the first differential, and the two finiteness statements which make the differential
+  homology of that complex in the middle, is not defined. What is constructed here is the first
+  chain group, the first differential, and the two finiteness statements which make the differential
   well defined.
 
 ## Main definitions
@@ -193,7 +193,7 @@ theorem pointClosureMilnorBoundary_eq_zero_of_stalkMilnorBoundary_eq_zero (x : X
     pointClosureMilnorBoundary C p x h hdim α = 0 := by
   let _ : IsLocallyNoetherian (integralComponentAt x).subscheme :=
     LocallyOfFiniteType.isLocallyNoetherian ((integralComponentAt x).subschemeι ≫ p)
-  show milnorKOneTransport (pointClosureResidueFieldEquiv x h)
+  change milnorKOneTransport (pointClosureResidueFieldEquiv x h)
     (stalkMilnorBoundary (pointClosureFunctionFieldEquiv x) (pointClosurePoint x h) hdim α) = 0
   rw [hα, map_zero]
 
@@ -374,7 +374,7 @@ theorem finite_pointwiseMilnorBoundaryTerm_ne_zero (k : ℤ) (ξ : PointwiseKTwo
     have hdim := ringKrullDim_pointClosureStalk_eq_one_of_relativeDimension_sub_eq_one C p hspec
       (by rw [(mem_pointsOfDimension C p).mp x.2, (mem_pointsOfDimension C p).mp x'.2]; ring)
     refine ⟨⟨pointClosurePoint x.1 hmem, hdim⟩, ⟨?_, ?_⟩, subschemeι_pointClosurePoint x.1 hmem⟩
-    · show (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
+    · change (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
       rw [subschemeι_pointClosurePoint x.1 hmem]
       exact hx'U
     · intro hzero

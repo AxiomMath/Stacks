@@ -98,7 +98,7 @@ theorem Scheme.ker_SpecMap {R T : CommRingCat.{u}} (φ : R ⟶ T) :
   rw [Scheme.ker_of_isAffine]
   congr 1
   rw [← RingHom.ker_equiv_comp _ (Scheme.ΓSpecIso T).commRingCatIsoToRingEquiv]
-  show RingHom.ker (((Spec.map φ).appTop ≫ (Scheme.ΓSpecIso T).hom).hom) = _
+  change RingHom.ker (((Spec.map φ).appTop ≫ (Scheme.ΓSpecIso T).hom).hom) = _
   rw [Scheme.ΓSpecIso_naturality]
   rw [CommRingCat.hom_comp, ← RingHom.comap_ker]
   exact (Ideal.map_comap_of_equiv
@@ -135,7 +135,7 @@ theorem exists_comapIso_of_isPullback_of_factorization {X Y B B' : Scheme.{u}} (
     isIso_pullback_snd_of_factorization h D.subschemeι
       (hp.lift (c ≫ g) D.subschemeι hw) (hp.lift_snd _ _ _)
   refine ⟨D.comapIso h ≪≫ asIso (pullback.snd h D.subschemeι), ?_⟩
-  show ((D.comapIso h).hom ≫ pullback.snd h D.subschemeι) ≫ D.subschemeι = _
+  change ((D.comapIso h).hom ≫ pullback.snd h D.subschemeι) ≫ D.subschemeι = _
   rw [Category.assoc, ← pullback.condition, Scheme.IdealSheafData.comapIso_hom_fst_assoc]
 
 namespace IdealSheafData
@@ -229,7 +229,7 @@ theorem exists_factor_fromSpecStalk_of_vanishingIdeal_singleton {X : Scheme.{u}}
   let : IsClosedImmersion i := (isClosed_singleton_iff_isClosedImmersion (x := x)).mp hx
   rw [vanishingIdeal_singleton_eq_ker x hx]
   refine ⟨inv i.toImage ≫ Spec.map (X.residue x), ?_⟩
-  show inv i.toImage ≫ i = i.imageι
+  change inv i.toImage ≫ i = i.imageι
   calc
     inv i.toImage ≫ i = inv i.toImage ≫ (i.toImage ≫ i.imageι) :=
       congrArg (inv i.toImage ≫ ·) i.toImage_imageι.symm
@@ -256,7 +256,7 @@ theorem vanishingIdeal_singleton_ideal {X : Scheme.{u}} (x : X) (hx : IsClosed (
   have : IsOpenImmersion U.2.fromSpec := U.2.isOpenImmersion_fromSpec
   have hpre : U.2.fromSpec.base ⁻¹' ({x} : Set X) = {U.2.primeIdealOf ⟨x, hxU⟩} := by
     ext p
-    show U.2.fromSpec.base p = x ↔ p = U.2.primeIdealOf ⟨x, hxU⟩
+    change U.2.fromSpec.base p = x ↔ p = U.2.primeIdealOf ⟨x, hxU⟩
     constructor
     · intro hp
       apply U.2.fromSpec.isOpenEmbedding.injective
@@ -296,7 +296,7 @@ theorem isIso_stalkMap_of_flat_preimmersion {X Y : Scheme.{u}} (f : X ⟶ Y) [Fl
     (Flat.iff_flat_stalkMap f).mp ‹Flat f› x
   have : IsLocalHom
       (algebraMap (Y.presheaf.stalk (f x)) (X.presheaf.stalk x)) := by
-    show IsLocalHom (f.stalkMap x).hom
+    change IsLocalHom (f.stalkMap x).hom
     infer_instance
   have : Module.FaithfullyFlat (Y.presheaf.stalk (f x)) (X.presheaf.stalk x) :=
     Module.FaithfullyFlat.of_flat_of_isLocalHom

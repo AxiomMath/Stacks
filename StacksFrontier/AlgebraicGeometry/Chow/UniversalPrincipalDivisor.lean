@@ -159,7 +159,7 @@ def lineConstantSection (S : Scheme.{u})
 theorem lineConstantSection_comp (S : Scheme.{u})
     (e : (⊤_ Scheme.{u}) ⟶ projectiveLine (ULift.{u} ℤ)) :
     lineConstantSection S e ≫ (relativeProjectiveLine S ↘ S) = 𝟙 S := by
-  show lineConstantSection S e ≫ pullback.fst _ _ = _
+  change lineConstantSection S e ≫ pullback.fst _ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- The zero section `S ⟶ ℙ¹_S`. -/
@@ -236,7 +236,7 @@ def affineChart (S : Scheme.{u}) : affineLineOver S ⟶ relativeProjectiveLine S
 @[simp]
 theorem affineChart_comp (S : Scheme.{u}) :
     affineChart S ≫ (relativeProjectiveLine S ↘ S) = pullback.fst _ _ := by
-  show affineChart S ≫ pullback.fst _ _ = _
+  change affineChart S ≫ pullback.fst _ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- The affine chart is the base change of the chart `𝔸¹_ℤ ⟶ ℙ¹_ℤ` along the projection of
@@ -505,7 +505,7 @@ abbrev GraphPreimageDense {X S : Scheme.{u}} (sX : X ⟶ S) (U : X.Opens) (s : �
 /-- The graph is a section of `p` over `U`. -/
 theorem graphInclusion_comp_graphProjection {X S : Scheme.{u}} (sX : X ⟶ S) (U : X.Opens)
     (s : Γ(X, U)) : graphInclusion sX U s ≫ graphProjection sX U s = U.ι := by
-  show (sectionGraph sX U s).toImage ≫
+  change (sectionGraph sX U s).toImage ≫
       ((sectionGraph sX U s).imageι ≫ pullback.fst sX (relativeProjectiveLine S ↘ S)) = U.ι
   rw [← Category.assoc, Scheme.Hom.toImage_imageι, sectionGraph, pullback.lift_fst]
 
@@ -515,7 +515,7 @@ proper over `X`. -/
 @[stacks 02RQ "part (1): properness of the projection"]
 theorem graphProjection_isProper {X S : Scheme.{u}} (sX : X ⟶ S) (U : X.Opens)
     (s : Γ(X, U)) : IsProper (graphProjection sX U s) := by
-  show IsProper (graphClosureι sX U s ≫ pullback.fst sX (relativeProjectiveLine S ↘ S))
+  change IsProper (graphClosureι sX U s ≫ pullback.fst sX (relativeProjectiveLine S ↘ S))
   infer_instance
 
 /-! ### Part (2): the projection is an isomorphism over `U` -/

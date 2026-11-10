@@ -117,7 +117,7 @@ public theorem schemeSizeBelow_closedUnderTerminal (κ : Cardinal.{u}) (hκ : �
   have ht : IsTerminal (limit F) :=
     (isLimitEquivIsTerminalOfIsEmpty Scheme (J := Discrete.{0} PEmpty) (F := F)
       (limit.cone F)) (limit.isLimit F)
-  show (limit F).size < κ
+  change (limit F).size < κ
   rw [Scheme.size_congr (ht.uniqueUpToIso terminalIsTerminal)]
   exact schemeTerminal_size_lt κ hκ
 
@@ -286,7 +286,7 @@ private theorem inclusion_cocontinuous_of_refinement {τ : CoveringTopology}
     e'.map_injective (by
       rw [Functor.map_comp, hg]
       exact (Category.assoc _ _ _).trans ((Category.id_comp _).trans (φ.w₀ i)))
-  show R.arrows (F.map (V.f i))
+  change R.arrows (F.map (V.f i))
   rw [← hfactor]
   exact R.downward_closed (hER _ _ ⟨j⟩) g
 
@@ -332,7 +332,7 @@ public theorem inclusion_isCocontinuous {τ : CoveringTopology}
       let U : (B.inclusion.obj X).OpenCover := {
         __ := U0
         mem₀ := by
-          show U0.presieve₀ ∈ Scheme.zariskiPretopology (B.inclusion.obj X)
+          change U0.presieve₀ ∈ Scheme.zariskiPretopology (B.inclusion.obj X)
           exact hE.1 }
       obtain ⟨V, hV, hEquiv⟩ :=
         BigZariskiSite.exists_isCovering_tautologicallyEquivalent_openCover B X U
@@ -360,7 +360,7 @@ public theorem inclusion_isCocontinuous {τ : CoveringTopology}
         change E.presieve₀ ∈ Scheme.fppfPrecoverage.comap
           (schemeBelowInclusion (cutoff .fppf B')) ((inclusion hSize).obj X) at hh
         rw [Precoverage.mem_comap_iff] at hh
-        show (E.map (siteInclusion .fppf B')).presieve₀ ∈
+        change (E.map (siteInclusion .fppf B')).presieve₀ ∈
           Scheme.fppfPrecoverage ((siteInclusion .fppf B').obj ((inclusion hSize).obj X))
         rwa [PreZeroHypercover.presieve₀_map]
       obtain ⟨V, hV, hRef⟩ :=
@@ -476,7 +476,7 @@ public theorem inclusionOver_isCocontinuous {τ : CoveringTopology}
   let K := siteTopology τ B'
   let : F.IsCocontinuous J K := inclusion_isCocontinuous B B' h
   rw [overTopology_eq_over B S hS, overTopology_eq_over B' S (largerContains h hS)]
-  show (Over.post (X := base B S hS) F).IsCocontinuous
+  change (Over.post (X := base B S hS) F).IsCocontinuous
     ((siteTopology τ B).over (base B S hS))
     ((siteTopology τ B').over (F.obj (base B S hS)))
   infer_instance
@@ -492,7 +492,7 @@ public theorem inclusionOver_isMorphismOfSites {τ : CoveringTopology}
   let : PreservesFiniteLimits (inclusion (Classical.choose h)) :=
     inclusion_preservesFiniteLimits B B' h
   let : PreservesFiniteLimits (inclusionOver h S hS) := by
-    show PreservesFiniteLimits (Over.post (X := base B S hS) (inclusion (Classical.choose h)))
+    change PreservesFiniteLimits (Over.post (X := base B S hS) (inclusion (Classical.choose h)))
     infer_instance
   refine isMorphismOfSites_of_coverPreserving _ _ _ ?_
   rw [overTopology_eq_over, overTopology_eq_over]
@@ -505,7 +505,7 @@ public theorem inclusionOver_preservesFiniteLimits {τ : CoveringTopology}
     PreservesFiniteLimits (inclusionOver h S hS) := by
   let F := inclusion (Classical.choose h)
   let : PreservesFiniteLimits F := inclusion_preservesFiniteLimits B B' h
-  show PreservesFiniteLimits (Over.post (X := base B S hS) F)
+  change PreservesFiniteLimits (Over.post (X := base B S hS) F)
   infer_instance
 
 /-- A pair of morphisms of topoi induced by a continuous and cocontinuous functor, together

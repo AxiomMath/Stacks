@@ -323,7 +323,7 @@ theorem mono_openSubspaceShriekCounit (M : Modules.{u, u} B S hS Y.1 Y.2) :
     Y.2).jointlyReflectMonomorphisms AddCommGrpCat.{u}).mono_iff _).2 fun Φ ↦ ?_
   obtain ⟨Φ, hΦ⟩ := Φ
   obtain ⟨x, rfl⟩ := (ObjectProperty.ofObj_iff _ Φ).1 hΦ
-  show Mono ((etaleSitePoint B S hS Y.1 x Y.2).sheafFiber.map
+  change Mono ((etaleSitePoint B S hS Y.1 x Y.2).sheafFiber.map
     ((SheafOfModules.toSheaf (etaleRingSheaf B S hS Y)).map
       ((openSubspaceShriekAdjunction B S hS V hV).counit.app M)))
   have hiff := nonempty_geometricPointLift_ι_iff_mem_range_pointsMap B S hS Y.2 V hV x

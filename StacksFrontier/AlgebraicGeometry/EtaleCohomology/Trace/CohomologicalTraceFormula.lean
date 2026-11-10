@@ -132,7 +132,7 @@ theorem hasPerfectStalks_extensionByZero {U X : Scheme.{u}} (j : U ⟶ X) [IsOpe
     rw [IsZero.iff_id_eq_zero]
     ext n : 1
     refine IsZero.eq_of_src ?_ _ _
-    show IsZero (((Scheme.pointSmallEtale s.hom).sheafFiber (A := ModuleCat.{u + 1} Λ)).obj
+    change IsZero (((Scheme.pointSmallEtale s.hom).sheafFiber (A := ModuleCat.{u + 1} Λ)).obj
       ((etaleModuleExtensionByZero.{u, 0} Λ j).obj (K.obj.X n)))
     have hd : Disjoint (Set.range s.hom.base) (Set.range j.base) := by
       rw [Set.disjoint_left]

@@ -264,7 +264,7 @@ public theorem mem_map_mkQ_powerPart
     obtain ⟨x, hx⟩ := hx
     obtain ⟨y, hy⟩ := hy
     refine ⟨x + y, ?_⟩
-    show T.mkQ (x.1 + y.1) = _
+    change T.mkQ (x.1 + y.1) = _
     rw [map_add, hx, hy]
 
 /-- A linear map sends the ideal multiple `J M` into the ideal multiple `J N`. -/
@@ -323,7 +323,7 @@ public theorem torsion_quotient_lift
     z ∈ Submodule.torsionBySet A M (↑(I ^ (c + d)) : Set A) := by
   rw [Submodule.mem_torsionBySet_iff] at hz ⊢
   intro ⟨t, ht⟩
-  show t • z = 0
+  change t • z = 0
   refine (Submodule.mem_bot A).mp
     (smul_mem_of_mul_smul_mem ⊥ c d z (fun a ha b hb => ?_) t ht)
   rw [Submodule.mem_bot]
@@ -345,7 +345,7 @@ public theorem quotientTransitionOfLE_eq_zero_of_torsion
   induction z using Submodule.Quotient.induction_on with
   | H z =>
     have h := torsion_quotient_lift (I := I) c d z hz
-    show (torsionPart G n (c + d)).mkQ z = 0
+    change (torsionPart G n (c + d)).mkQ z = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr h
 
 /-- The transition between torsion quotients sends the class of `x` to the class of `x`. -/
@@ -516,7 +516,7 @@ public theorem canonicalCompositeMap_apply_lift
       ⟨k y, LinearMap.mem_range_self k y⟩ :=
     Subtype.ext hy
   simp only [canonicalCompositeMap, LinearMap.comp_apply, harg]
-  show ((LinearMap.ker k).liftQ
+  change ((LinearMap.ker k).liftQ
       (compositeTargetMap s n (le_trans (Nat.le_add_left s.delay r.delay) h)
         r.delay) _)
       (k.quotKerEquivRange.symm ⟨k y, LinearMap.mem_range_self k y⟩) =
@@ -707,7 +707,7 @@ private theorem representativeComp_succ_map_eq
         ((Nat.le_add_left s.delay r.delay).trans (Nat.le_succ (r.delay + s.delay)))
         (s.map n (le_trans (Nat.le_add_left s.delay r.delay) hbase) z) := by
   have hy₀ : y₀ = ⟨y, HomRepresentative.powerPart_succ_le E n _ y.2⟩ := Subtype.ext hy
-  show quotientTransitionOfLE G n (Nat.le_succ (r.delay + s.delay))
+  change quotientTransitionOfLE G n (Nat.le_succ (r.delay + s.delay))
     (canonicalCompositeMap r s n hbase ⟨y, _⟩) = _
   rw [← hy₀, canonicalCompositeMap_apply_lift r s n hbase y₀ z hz]
   exact quotientTransitionOfLE_comp G n
@@ -742,7 +742,7 @@ public theorem representativeComp_succ_left
   have hleftlift : r.succ.map n
       (le_trans (Nat.le_add_right (r.delay + 1) s.delay) hl) x₁ =
       (torsionPart F n (r.delay + 1)).mkQ z.1 := by
-    show quotientTransitionOfLE F n (Nat.le_succ r.delay)
+    change quotientTransitionOfLE F n (Nat.le_succ r.delay)
       (r.map n _ x₀) = _
     rw [hxy₁, hz]
     exact quotientTransitionOfLE_mkQ F n (Nat.le_succ r.delay) z.1
@@ -851,7 +851,7 @@ public theorem representativeComp_assoc
           (Nat.le_add_left (s.delay + t.delay) r.delay))
         (t.map n (le_trans (Nat.le_add_left t.delay s.delay) hst) w) := by
     rw [hright]
-    show quotientTransitionOfLE H n (Nat.le_add_left (s.delay + t.delay) r.delay)
+    change quotientTransitionOfLE H n (Nat.le_add_left (s.delay + t.delay) r.delay)
       (canonicalCompositeMap s t n hst v) = _
     rw [hcompST]
     exact quotientTransitionOfLE_comp H n
@@ -1195,7 +1195,7 @@ private theorem exists_inverse_component (r : HomRepresentative E F) (d : ℕ)
     f.range hmem
   refine ⟨t.comp q, fun x => LinearMap.mem_range.mp (hmem x), fun x y hy => ?_⟩
   have he : q x = ⟨f y, LinearMap.mem_range_self f y⟩ := Subtype.ext hy.symm
-  show t (q x) = g y
+  change t (q x) = g y
   rw [he, ht]
 
 private theorem composite_eq_identity_of_inverse_components
@@ -1233,11 +1233,11 @@ private theorem composite_eq_identity_of_inverse_components
     have hyw : y - w ∈ LinearMap.ker
         ((torsionPart E n s.delay).mkQ.comp (powerPart E n r.delay).subtype) := by
       rw [LinearMap.mem_ker]
-      show (torsionPart E n s.delay).mkQ (y.1 - w.1) = 0
+      change (torsionPart E n s.delay).mkQ (y.1 - w.1) = 0
       rw [map_sub, ← hsy, ← hsw, sub_self]
     have hdiff := composite_kernel_le r n hrn s.delay hyw
     rw [LinearMap.mem_ker, LinearMap.comp_apply, map_sub, map_sub, sub_eq_zero] at hdiff
-    show canonicalCompositeMap s r n hn x = _
+    change canonicalCompositeMap s r n hn x = _
     rw [canonicalCompositeMap_apply_lift s r n hn x y hy, hdiff, hw]
     rfl
 
@@ -1279,7 +1279,7 @@ public theorem kernel_torsion_of_composite_eq_identity
   intro n hn hr z ⟨t, ht⟩
   apply Subtype.ext
   apply Subtype.ext
-  show t • (z.1 : underlying E n) = 0
+  change t • (z.1 : underlying E n) = 0
   refine (Submodule.mem_bot A).mp
     (smul_mem_of_mul_smul_mem ⊥ d d z.1.1 (fun a ha b hb => ?_) t ht)
   rw [Submodule.mem_bot]
@@ -1288,7 +1288,7 @@ public theorem kernel_torsion_of_composite_eq_identity
   have hx : r.map n hr
       ⟨x, powerPart_antitone E n ((Nat.le_add_right _ _).trans hd) x.2⟩ =
       (torsionPart F n r.delay).mkQ (0 : underlying F n) := by
-    show r.map n hr (b • z.1) = _
+    change r.map n hr (b • z.1) = _
     rw [map_smul, (LinearMap.mem_ker.mp z.2), smul_zero, map_zero]
   have he := hm n hn x 0 hx
   simp only [map_zero] at he
@@ -1308,7 +1308,7 @@ public theorem smul_eq_of_quotientTransition_eq
     have hzx : z - x ∈ torsionPart E n d := (Submodule.Quotient.eq _).mp h
     have he := (Submodule.mem_torsionBySet_iff _ _).mp hzx ⟨a, ha⟩
     rw [smul_sub, sub_eq_zero] at he
-    show a • (torsionPart E n c).mkQ z = _
+    change a • (torsionPart E n c).mkQ z = _
     rw [← map_smul, he]
 
 /-- If the composite of two representatives is the identity, the cokernel of the first is
@@ -1339,7 +1339,7 @@ public theorem cokernel_torsion_of_composite_eq_identity
       ((Nat.le_add_left _ _).trans hd) (r.map n hr y) x.1 he a ha
     refine ⟨a • y, ?_⟩
     rw [map_smul, hae]
-    show (torsionPart F n r.delay).mkQ (a • (b • z)) =
+    change (torsionPart F n r.delay).mkQ (a • (b • z)) =
       (a * b) • (torsionPart F n r.delay).mkQ z
     rw [mul_smul, map_smul, map_smul]
 
@@ -1396,7 +1396,7 @@ public theorem exists_inverse_of_eventually_torsion (r : HomRepresentative E F)
           r.map n (hrd.trans hn) y = (torsionPart F n r.delay).mkQ x.1 →
             s x = (torsionPart E n d).mkQ y.1 := by
     have hNn : N ≤ n := by
-      show (N : ℕ) ≤ (n : ℕ)
+      change (N : ℕ) ≤ (n : ℕ)
       dsimp [d] at hn
       omega
     obtain ⟨hk, hq⟩ := hN n hNn (hrd.trans hn)
@@ -1421,7 +1421,7 @@ public theorem isIso_homOfRepresentative_iff (r : HomRepresentative E F) :
             ((underlying F n ⧸ torsionPart F n r.delay) ⧸
               LinearMap.range (r.map n h)) (↑(I ^ c') : Set A) := by
   let := (AdicModuleSystem.delayedCategory (A := A) (I := I)).toCategory
-  show IsIso (show E ⟶ F from homOfRepresentative r) ↔ _
+  change IsIso (show E ⟶ F from homOfRepresentative r) ↔ _
   constructor
   · intro hi
     obtain ⟨s, hs₁, hs₂⟩ := hi.out

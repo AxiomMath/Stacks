@@ -85,7 +85,7 @@ lemma cechDegreeZeroRestriction_d (X : TopCat.{u})
     CechCochains.cechD V F 0 (cechDegreeZeroRestriction X F V hV x) = 0 := by
   classical
   funext τ
-  show (∑ k : Fin 2, (-1 : ℤ) ^ (k : ℕ) •
+  change (∑ k : Fin 2, (-1 : ℤ) ^ (k : ℕ) •
       CechCochains.restr F (CechCochains.inter_le_omit V τ k)
         ((cechDegreeZeroRestriction X F V hV x) (τ ∘ k.succAbove))) = 0
   have hle (k : Fin 2) : CechCochains.inter V (τ ∘ k.succAbove) ≤ U := by

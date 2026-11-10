@@ -380,9 +380,9 @@ public lemma affineIndEtaleLiftRawOver_size
   let C := (indEtaleQuotientLift Γ(X.obj, ⊤) d.1).obj V'
   have hV : Cardinal.mk V'.obj.right ≤ V.obj.obj.left.obj.size := by
     let : IsAffine V.obj.obj.left.obj := V.property.1
-    show Cardinal.mk Γ(V.obj.obj.left.obj, ⊤) ≤ V.obj.obj.left.obj.size
+    change Cardinal.mk Γ(V.obj.obj.left.obj, ⊤) ≤ V.obj.obj.left.obj.size
     exact section_ring_le_size_of_affine V.obj.obj.left.obj
-  show (Spec (CommRingCat.of C.obj.right)).size < B.cutoff
+  change (Spec (CommRingCat.of C.obj.right)).size < B.cutoff
   exact liftedSpec_size_lt_cutoff B d.1 V' X.property
     V.obj.obj.left.property (section_ring_le_size_of_affine X.obj) hV
 
@@ -407,7 +407,7 @@ private lemma affineIndEtaleLiftRawOver_weaklyEtale
     Algebra.weaklyEtale_of_ind_etale (StacksDraft.indEtale_iff.mpr hindAlg)
   have hweakSpec : WeaklyEtale (Spec.map C.obj.hom) :=
     (weaklyEtale_specMap_iff C.obj.hom).2 hweakAlg
-  show WeaklyEtale (Scheme.Spec.map C.obj.hom.op ≫ X.obj.isoSpec.inv)
+  change WeaklyEtale (Scheme.Spec.map C.obj.hom.op ≫ X.obj.isoSpec.inv)
   have : IsIso X.obj.isoSpec.inv := inferInstance
   let : WeaklyEtale (Spec.map C.obj.hom) := hweakSpec
   have : WeaklyEtale (Scheme.Spec.map C.obj.hom.op) := by simpa using hweakSpec
@@ -427,7 +427,7 @@ private lemma affineIndEtaleLiftRawOver_indEtale
   let eA := Scheme.ΓSpecIso (CommRingCat.of Γ(X.obj, ⊤))
   let eC := Scheme.ΓSpecIso (CommRingCat.of C.obj.right)
   have hspec : X.obj.isoSpec.hom.appTop = eA.hom := by
-    show X.obj.toSpecΓ.appTop = eA.hom
+    change X.obj.toSpecΓ.appTop = eA.hom
     rw [Scheme.toSpecΓ_appTop]
     rfl
   have hbase : X.obj.isoSpec.inv.appTop = eA.inv := by
@@ -442,7 +442,7 @@ private lemma affineIndEtaleLiftRawOver_indEtale
         exact eA.inv_hom_id.symm
   have hraw : ((affineIndEtaleLiftRawOver B i).obj V).hom.appTop =
       X.obj.isoSpec.inv.appTop ≫ (Spec.map C.obj.hom).appTop := by
-    show (Spec.map C.obj.hom ≫ X.obj.isoSpec.inv).appTop = _
+    change (Spec.map C.obj.hom ≫ X.obj.isoSpec.inv).appTop = _
     rw [Scheme.Hom.comp_appTop]
   have hmaps : (Spec.map C.obj.hom).appTop =
       (Scheme.Spec.map C.obj.hom.op).appTop := rfl
@@ -495,13 +495,13 @@ private lemma spec_size_le_proetaleBound {R : Type u} [CommRing R]
     {κ : Cardinal.{u}} (hκ : Cardinal.aleph0 ≤ κ) (hR : Cardinal.mk R ≤ κ) :
     (Scheme.Spec.obj (Opposite.op (CommRingCat.of R))).size ≤
       Cardinal.proetaleBound κ := by
-  show (Spec (CommRingCat.of R)).size ≤ Cardinal.proetaleBound κ
+  change (Spec (CommRingCat.of R)).size ≤ Cardinal.proetaleBound κ
   rw [Scheme.size_Spec]
   apply max_le
   · have hpow : κ ≤ κ ^ Cardinal.aleph0 :=
       Cardinal.self_le_power κ Cardinal.one_le_aleph0
     have hκpow : κ ^ Cardinal.aleph0 ≤ Cardinal.proetaleBound κ := by
-      show κ ^ Cardinal.aleph0 ≤
+      change κ ^ Cardinal.aleph0 ≤
         max (κ ^ ((2 : Cardinal.{u}) ^ ((2 : Cardinal.{u}) ^ ((2 : Cardinal.{u}) ^ κ))))
           (max (κ ^ Cardinal.aleph0) (Order.succ κ))
       exact (le_max_left _ _).trans (le_max_right _ _)
@@ -744,7 +744,7 @@ private lemma quotientLiftCounit_isPushout
   let b : CommRingCat.of A ⟶ CommRingCat.of (A ⧸ I) :=
     CommRingCat.ofHom (Ideal.Quotient.mk I)
   let t := quotientLiftCounitRingMap I adj V
-  show IsPushout C.obj.hom b t V.obj.hom
+  change IsPushout C.obj.hom b t V.obj.hom
   let ε := (adj.counit.app V).hom
   obtain ⟨e⟩ := indEtaleQuotientLift_baseChangeIso A I
   have : IsIso adj.counit := adj.isIso_counit_of_iso e
@@ -821,7 +821,7 @@ private lemma quotientLiftCounitRingMap_surjective_and_ker_le
       inferInstance inferInstance inferInstance C.obj.right V.obj.right
       inferInstance inferInstance inferInstance inferInstance inferInstance inferInstance
       hScalarC hScalarR hpushAlg c
-    show e (1 ⊗ₜ[A] c) = algebraMap C.obj.right V.obj.right c
+    change e (1 ⊗ₜ[A] c) = algebraMap C.obj.right V.obj.right c
     simpa [e] using (congrArg e hs).symm
   refine ⟨fun v => ?_, fun c hc => ?_⟩
   · obtain ⟨x, rfl⟩ := e.surjective v
@@ -843,7 +843,7 @@ private lemma quotientLiftCounitRingMap_surjective_and_ker_le
       exact hchar.mp hinc
     have hmap : algebraMap A C.obj.right = C.obj.hom.hom := rfl
     have hcI' : c ∈ I.map C.obj.hom.hom := by
-      show c ∈ (I.map C.obj.hom.hom).restrictScalars A
+      change c ∈ (I.map C.obj.hom.hom).restrictScalars A
       simpa only [Ideal.smul_top_eq_map, hmap] using hcI
     exact hcI'
 
@@ -863,7 +863,7 @@ private lemma quotientLiftCounit_spec_isPullback
   let b : CommRingCat.of A ⟶ CommRingCat.of (A ⧸ I) :=
     CommRingCat.ofHom (Ideal.Quotient.mk I)
   let t := quotientLiftCounitRingMap I adj V
-  show IsPullback (Scheme.Spec.map t.op) (Scheme.Spec.map V.obj.hom.op)
+  change IsPullback (Scheme.Spec.map t.op) (Scheme.Spec.map V.obj.hom.op)
     (Scheme.Spec.map C.obj.hom.op) (Scheme.Spec.map b.op)
   exact isPullback_SpecMap_of_isPushout
     C.obj.hom b t V.obj.hom (quotientLiftCounit_isPushout I adj V)
@@ -1002,8 +1002,8 @@ private lemma affineIndEtaleBaseChange_coverPreserving :
   obtain ⟨E, rfl, hE⟩ := hR
   rw [← PreZeroHypercover.sieve₀_map]
   apply Precoverage.generate_mem_toGrothendieck
-  show (E.map F).presieve₀ ∈ AffineIndEtaleProetale.precoverage B Z (F.obj U)
-  show ∃ E' : PreZeroHypercover.{u + 1} (F.obj U),
+  change (E.map F).presieve₀ ∈ AffineIndEtaleProetale.precoverage B Z (F.obj U)
+  change ∃ E' : PreZeroHypercover.{u + 1} (F.obj U),
     (E.map F).presieve₀ = E'.presieve₀ ∧
       AffineIndEtaleProetale.IsCovering B Z ⟨F.obj U, E'⟩
   refine ⟨E.map F, rfl, ?_⟩
@@ -1043,7 +1043,7 @@ public lemma affineIndEtaleGlobalSections_full
   constructor
   intro U V h
   let : IsAffine (B.inclusion.obj S) := by
-    show IsAffine S.obj
+    change IsAffine S.obj
     infer_instance
   let U0 := (AffineIndEtaleProetale.inclusion B S).obj U
   let V0 := (AffineIndEtaleProetale.inclusion B S).obj V
@@ -1051,16 +1051,16 @@ public lemma affineIndEtaleGlobalSections_full
   let V1 := (SmallProetale.inclusion B S.obj S.property).obj V0
   let q : Γ(V1.left.obj, ⊤) →+* Γ(U1.left.obj, ⊤) := h.unop.hom.right.hom
   let : IsAffine (B.inclusion.obj U1.left) := by
-    show IsAffine (B.inclusion.obj U.obj.obj.left)
+    change IsAffine (B.inclusion.obj U.obj.obj.left)
     exact U.property.1
   let : IsAffine (B.inclusion.obj V1.left) := by
-    show IsAffine (B.inclusion.obj V.obj.obj.left)
+    change IsAffine (B.inclusion.obj V.obj.obj.left)
     exact V.property.1
   let : IsAffine U1.left.obj := by
-    show IsAffine U.obj.obj.left.obj
+    change IsAffine U.obj.obj.left.obj
     exact U.property.1
   let : IsAffine V1.left.obj := by
-    show IsAffine V.obj.obj.left.obj
+    change IsAffine V.obj.obj.left.obj
     exact V.property.1
   let p : B.inclusion.obj U1.left ⟶ B.inclusion.obj V1.left :=
     affineHomOfRingHom q
@@ -1068,14 +1068,14 @@ public lemma affineIndEtaleGlobalSections_full
   have hbase : q.comp (B.inclusion.map V1.hom).appTop.hom =
       (B.inclusion.map U1.hom).appTop.hom := by
     have hh := congrArg CommRingCat.Hom.hom (Under.w h.unop.hom)
-    show q.comp (B.inclusion.map V1.hom).appTop.hom =
+    change q.comp (B.inclusion.map V1.hom).appTop.hom =
       (B.inclusion.map U1.hom).appTop.hom
     exact hh
   have htop : (p ≫ B.inclusion.map V1.hom).appTop =
       (B.inclusion.map U1.hom).appTop := by
     rw [Scheme.Hom.comp_appTop]
     have hh := congrArg CommRingCat.ofHom hbase
-    show CommRingCat.ofHom (Scheme.Hom.appTop (B.inclusion.map V1.hom)).hom ≫
+    change CommRingCat.ofHom (Scheme.Hom.appTop (B.inclusion.map V1.hom)).hom ≫
       CommRingCat.ofHom p.appTop.hom =
       CommRingCat.ofHom (Scheme.Hom.appTop (B.inclusion.map U1.hom)).hom
     rw [hp]
@@ -1094,11 +1094,11 @@ public lemma affineIndEtaleGlobalSections_full
   apply ObjectProperty.hom_ext
   apply Under.UnderMorphism.ext
   apply CommRingCat.hom_ext
-  show (B.inclusion.map
+  change (B.inclusion.map
     (((SmallProetale.inclusion B S.obj S.property).map
       ((AffineIndEtaleProetale.inclusion B S).map g)).left)).appTop.hom = q
   rw [Functor.map_preimage, Functor.map_preimage]
-  show (B.inclusion.map pB).appTop.hom = q
+  change (B.inclusion.map pB).appTop.hom = q
   rw [B.inclusion.map_preimage, hp]
 
 /-- Reading an object of the affine ind-étale site as an ind-étale algebra is faithful: a
@@ -1119,13 +1119,13 @@ public lemma affineIndEtaleGlobalSections_faithful
   let fS := B.inclusion.map ((Over.forget S).map f₁)
   let gS := B.inclusion.map ((Over.forget S).map g₁)
   let : IsAffine (B.inclusion.obj ((Over.forget S).obj U1)) := by
-    show IsAffine (B.inclusion.obj U.obj.obj.left)
+    change IsAffine (B.inclusion.obj U.obj.obj.left)
     exact U.property.1
   let : IsAffine (B.inclusion.obj ((Over.forget S).obj V1)) := by
-    show IsAffine (B.inclusion.obj V.obj.obj.left)
+    change IsAffine (B.inclusion.obj V.obj.obj.left)
     exact V.property.1
   have hfgTop : fS.appTop = gS.appTop := by
-    show (B.inclusion.map f₁.left).appTop = (B.inclusion.map g₁.left).appTop
+    change (B.inclusion.map f₁.left).appTop = (B.inclusion.map g₁.left).appTop
     change (affineIndEtaleGlobalSections B S).map f = (affineIndEtaleGlobalSections B S).map g at h
     exact congrArg (fun q => q.unop.hom.right) h
   have hfg : (B.inclusion.obj ((Over.forget S).obj U1)).isoSpec.inv ≫ fS =
@@ -1237,7 +1237,7 @@ public lemma affineIndEtalePullback_globalSections_isPushout
   let : IsAffine (B.inclusion.obj X) := ‹IsAffine X.obj›
   let : IsAffine (B.inclusion.obj Z) := ‹IsAffine Z.obj›
   let : IsAffine (B.inclusion.obj U1.left) := by
-    show IsAffine (B.inclusion.obj U.obj.obj.left)
+    change IsAffine (B.inclusion.obj U.obj.obj.left)
     exact U.property.1
   have hpbB := IsPullback.of_hasPullback U1.hom i
   have hpb : IsPullback (B.inclusion.map (pullback.fst U1.hom i))
@@ -1788,7 +1788,7 @@ public theorem affineIndEtaleLift_adj_baseChange :
             (affineIndEtaleBaseChange B i).map g := by
         apply hRZrb.map_injective
         simp only [hRZrb.map_preimage, Functor.map_comp]
-      show (RZ ⋙ rb).map (hRZrb.preimage
+      change (RZ ⋙ rb).map (hRZrb.preimage
           ((ringAdjOp.homEquiv (rb.obj (RZ.obj V)) (RX.obj U)
               (α.hom.app V ≫ RX.map f) ≫ β.hom.app U) ≫
             (RZ ⋙ rb).map ((affineIndEtaleBaseChange B i).map g))) =
@@ -1826,7 +1826,7 @@ public theorem closedFiberInclusion_isPullback
     dsimp [V1, V0, rebaseIndEtaleAlongIso, affineIndEtaleGlobalSections]
     exact S.isoSpec.symm
   let e₂ : Scheme.Spec.obj (Opposite.op (CommRingCat.of C.obj.right)) ≅ T := by
-    show Scheme.Spec.obj (Opposite.op (CommRingCat.of C.obj.right)) ≅
+    change Scheme.Spec.obj (Opposite.op (CommRingCat.of C.obj.right)) ≅
       Scheme.Spec.obj (Opposite.op (CommRingCat.of C.obj.right))
     exact Iso.refl _
   let e₃ : Scheme.Spec.obj (Opposite.op (CommRingCat.of (Γ(X.obj, ⊤) ⧸ d.1))) ≅ Z.obj :=
@@ -1834,7 +1834,7 @@ public theorem closedFiberInclusion_isPullback
   let e₄ : Scheme.Spec.obj (Opposite.op (CommRingCat.of Γ(X.obj, ⊤))) ≅ X.obj :=
     X.obj.isoSpec.symm
   apply h.of_iso e₁ e₂ e₃ e₄
-  · show Scheme.Spec.map t.op ≫ 𝟙 _ =
+  · change Scheme.Spec.map t.op ≫ 𝟙 _ =
       S.isoSpec.inv ≫ S.isoSpec.hom ≫ Scheme.Spec.map t.op
     simp
   · dsimp [e₁, e₃]
@@ -1862,7 +1862,7 @@ public theorem closedFiberInclusion_isPullback
       _ = S.isoSpec.inv ≫ (Over.hom V.obj.obj).hom := by
         simpa [S] using Scheme.isoSpec_inv_naturality (B.inclusion.map V.obj.obj.hom)
   · let Y : B.Scheme := ((affineIndEtaleLift B i).obj V).obj.obj.left
-    show Scheme.Spec.map C.obj.hom.op ≫ X.obj.isoSpec.inv =
+    change Scheme.Spec.map C.obj.hom.op ≫ X.obj.isoSpec.inv =
       B.inclusion.map (B.inclusion.preimage (show
         B.inclusion.obj Y ⟶ B.inclusion.obj X from
           Scheme.Spec.map C.obj.hom.op ≫ X.obj.isoSpec.inv))
@@ -1875,7 +1875,7 @@ public theorem closedFiberInclusion_isPullback
       (B.inclusion.map i)).2
     have hRing : f ≫ d.2.inv = CommRingCat.ofHom (Ideal.Quotient.mk d.1) := by
       ext x
-      show (RingHom.quotientKerEquivOfSurjective
+      change (RingHom.quotientKerEquivOfSurjective
         (f := f.hom) hsurj).symm (f.hom x) =
           Ideal.Quotient.mk (RingHom.ker f.hom) x
       exact RingHom.quotientKerEquivOfSurjective_symm_apply hsurj x
@@ -1963,7 +1963,7 @@ public theorem affineIndEtaleLift_baseChangeIso :
   have hmap (U : AffineIndEtaleProetale B Z) :
       T.map (affineIndEtaleLiftBaseChangeIsoComponent B i U).hom =
         (eBase U ≪≫ (eOver U).symm).hom := by
-    show T.map (T.preimage ((eBase U ≪≫ (eOver U).symm).hom)) = _
+    change T.map (T.preimage ((eBase U ≪≫ (eOver U).symm).hom)) = _
     exact T.map_preimage _
   have hnatC : Over.Hom.left f.hom.hom ≫
         B.inclusion.preimage ((closedFiberInclusion B i).app W) =
@@ -2017,7 +2017,7 @@ public theorem affineIndEtaleLift_baseChangeIso :
         _ = (Over.Hom.left (eOver V).inv ≫ Over.Hom.left f.hom.hom) ≫
             Over.hom W.obj.obj := by rw [← Category.assoc]
   apply T.map_injective
-  show T.map ((affineIndEtaleBaseChange B i).map ((affineIndEtaleLift B i).map f) ≫
+  change T.map ((affineIndEtaleBaseChange B i).map ((affineIndEtaleLift B i).map f) ≫
       (affineIndEtaleLiftBaseChangeIsoComponent B i W).hom) =
     T.map ((affineIndEtaleLiftBaseChangeIsoComponent B i V).hom ≫ f)
   rw [Functor.map_comp, Functor.map_comp]
@@ -2106,14 +2106,14 @@ public theorem exists_specialization_closedFiber
     ⟨q.asIdeal.map t.hom, Ideal.map_isPrime_of_surjective hsurj hker⟩
   refine ⟨eS.inv.base zP, ?_⟩
   have himage : ((closedFiberInclusion B i).app V).base (eS.inv.base zP) = q := by
-    show (Scheme.Spec.map t.op).base ((eS.inv ≫ eS.hom).base zP) = q
+    change (Scheme.Spec.map t.op).base ((eS.inv ≫ eS.hom).base zP) = q
     rw [eS.inv_hom_id]
     simp only [Scheme.Hom.id_base]
     apply PrimeSpectrum.ext
     simp only [Scheme.Spec_map]
-    show (q.asIdeal.map t.hom).comap t.hom = q.asIdeal
+    change (q.asIdeal.map t.hom).comap t.hom = q.asIdeal
     rw [Ideal.comap_map_of_surjective t.hom hsurj]
-    show q.asIdeal ⊔ RingHom.ker t.hom = q.asIdeal
+    change q.asIdeal ⊔ RingHom.ker t.hom = q.asIdeal
     exact sup_eq_left.mpr hker
   rw [himage]
   have hxq' : xP ≤ q := (PrimeSpectrum.asIdeal_le_asIdeal xP q).mp hxq
@@ -2181,10 +2181,10 @@ public theorem affineIndEtaleLift_isCovering
               ηV.base ((FZ.map (E.2.f j)).base y) := by
           exact h'.symm
         have hyF : (FZ.map (E.2.f j)) y = z := by
-          show ((PreZeroHypercover.map FZ E.2).f j) y = z
+          change ((PreZeroHypercover.map FZ E.2).f j) y = z
           simpa only [PreZeroHypercover.map_f] using hy
         rw [hyF] at hpoint'
-        show (FX.map ((affineIndEtaleLift B i).map (E.2.f j))).base (ηW.base y) = ηV.base z
+        change (FX.map ((affineIndEtaleLift B i).map (E.2.f j))).base (ηW.base y) = ηV.base z
         exact hpoint'
       have hrel : x ⤳ (Elift.f j).base (ηW.base y) := by
         rw [hpoint]
@@ -2214,7 +2214,7 @@ public theorem affineIndEtaleLift_isCovering
     have : Scheme.JointlySurjective (Scheme.precoverage weaklyEtaleProperty) :=
       inferInstance
     have : QuasiCompactCover Elift := by
-      show QuasiCompactCover hCover.toPreZeroHypercover
+      change QuasiCompactCover hCover.toPreZeroHypercover
       exact AlgebraicGeometry.QuasiCompactCover.of_finite (𝒰 := hCover)
     have hLift' : hCover.toPreZeroHypercover.presieve₀ ∈
         (Scheme.qcPrecoverage ⊓ Scheme.precoverage weaklyEtaleProperty) Y := by
@@ -2223,10 +2223,10 @@ public theorem affineIndEtaleLift_isCovering
         infer_instance
       · exact hCover.mem₀
     have hLift : hCover.toPreZeroHypercover.presieve₀ ∈ Scheme.proetalePrecoverage Y := by
-      show hCover.toPreZeroHypercover.presieve₀ ∈
+      change hCover.toPreZeroHypercover.presieve₀ ∈
         Scheme.propQCPrecoverage weaklyEtaleProperty Y
       simpa only [Scheme.propQCPrecoverage] using hLift'
-    show SmallProetale.IsCovering B X.obj X.property
+    change SmallProetale.IsCovering B X.obj X.property
       ⟨(AffineIndEtaleProetale.inclusion B X).obj ((affineIndEtaleLift B i).obj E.1),
         (E.2.map (affineIndEtaleLift B i)).map (AffineIndEtaleProetale.inclusion B X)⟩ ∧
       Finite E.2.I₀
@@ -2234,7 +2234,7 @@ public theorem affineIndEtaleLift_isCovering
     · apply (B.covering_iff _).2
       constructor
       · rw [B.isProetaleCovering_iff]
-        show hCover.toPreZeroHypercover.presieve₀ ∈ Scheme.proetalePrecoverage Y
+        change hCover.toPreZeroHypercover.presieve₀ ∈ Scheme.proetalePrecoverage Y
         exact hLift
       · exact (B.covering_iff _).mp hEcov |>.2
     · exact hE.2

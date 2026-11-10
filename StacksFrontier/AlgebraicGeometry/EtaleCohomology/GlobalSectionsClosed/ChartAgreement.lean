@@ -329,7 +329,7 @@ public theorem agree_pullback_ofHom {j : α} (H : Y ⟶ (W j).left)
     {φ' : Y' ⟶ X} (h₁ : ψ ≫ φ = φ') (h₂ : (ψ ≫ H) ≫ ((W j).hom : (W j).left ⟶ X) = φ')
     (y : Y') : (((ofHom H hH).pullback ψ).ofEq h₁).Agree F s (ofHom (ψ ≫ H) h₂) y := by
   refine agree_ofHom (((ofHom H hH).pullback ψ).ofEq h₁) (ψ ≫ H) h₂ ?_ trivial
-  show ψ.resLE ⊤ (ψ ⁻¹ᵁ ⊤) le_rfl ≫ (⊤ : Y.Opens).ι ≫ H = (ψ ⁻¹ᵁ ⊤).ι ≫ ψ ≫ H
+  change ψ.resLE ⊤ (ψ ⁻¹ᵁ ⊤) le_rfl ≫ (⊤ : Y.Opens).ι ≫ H = (ψ ⁻¹ᵁ ⊤).ι ≫ ψ ≫ H
   rw [Scheme.Hom.resLE_comp_ι_assoc]
 
 end EtaleChart

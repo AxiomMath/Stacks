@@ -83,7 +83,7 @@ public theorem partialDerivative_polynomialAlgHom (i : σ) (p : MvPolynomial σ 
       polynomialAlgHom I σ (MvPolynomial.pderiv i p) := by
   apply Subtype.ext
   funext n
-  show MvPolynomial.pderiv i (MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) p) =
+  change MvPolynomial.pderiv i (MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) p) =
     MvPolynomial.map (Ideal.Quotient.mk (I ^ n)) (MvPolynomial.pderiv i p)
   exact MvPolynomial.pderiv_map
 
@@ -242,7 +242,7 @@ end Newton
 section RankComparison
 
 variable {R : Type*} [CommRing R] {N N₀ : Type*} [AddCommGroup N] [Module R N]
-  [AddCommGroup N₀] [Module R N₀] {κ : Type*} [Fintype κ] [DecidableEq κ]
+  [AddCommGroup N₀] [Module R N₀] {κ : Type*} [Fintype κ]
 
 /-- **Comparing two modules which are free of the same rank up to a scalar.**
 
@@ -522,7 +522,7 @@ public theorem exists_degreeZero_maps (P Q : CompletedPolynomialPresentation I B
     refine ⟨((KQ.degreeZeroIso.inv ≫ e.homotopyInvHomId.hom 0 (-1) ≫
       KQ.degreeNegOneIso.hom).hom (ULift.up w)).down, ?_⟩
     have h' := congrArg ULift.down h
-    show _ = (a.hom (b.hom (ULift.up w))).down - w
+    change _ = (a.hom (b.hom (ULift.up w))).down - w
     rw [hab, eq_sub_iff_add_eq]
     exact h'.symm
 
@@ -700,19 +700,19 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
     fun p ↦ completedPresentationMap_algebraMap I _ p
   have hΘρ : ∀ p, Θ (algebraMap (MvPolynomial (Fin (t + r)) A)
       (completedPolynomialAlgebra I (t + r)) p) = ρ p := fun p ↦ by
-    show φ (PT.toAlgHom _) = _
+    change φ (PT.toAlgHom _) = _
     rw [hPTalg]
     rfl
   have hρC : ∀ a : A, ρ (MvPolynomial.C a) = algebraMap A B.carrier a := by
     intro a
-    show φ (algebraMap C T.carrier (algebraMap _ C (MvPolynomial.C a))) = _
+    change φ (algebraMap C T.carrier (algebraMap _ C (MvPolynomial.C a))) = _
     rw [show (MvPolynomial.C a : MvPolynomial (Fin (t + r)) A) =
         algebraMap A (MvPolynomial (Fin (t + r)) A) a from rfl,
       ← IsScalarTower.algebraMap_apply A (MvPolynomial (Fin (t + r)) A) C a,
       ← IsScalarTower.algebraMap_apply A C T.carrier a, AlgHom.commutes]
   have hρrel : ∀ j, ρ (rel j) = 0 := by
     intro j
-    show φ (algebraMap C T.carrier (algebraMap _ C (rel j))) = 0
+    change φ (algebraMap C T.carrier (algebraMap _ C (rel j))) = 0
     rw [hrelC, map_zero, map_zero]
   -- the relations of `C`, read in the presentation through `C^∧`
   let F : Fin (t + m) → completedPolynomialAlgebra I (t + r) := fun j ↦
@@ -720,14 +720,14 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
   have hPTF : ∀ j, PT.toAlgHom (F j) = 0 :=
     toAlgHom_multiJacobianRelations_eq_zero hm f' agen c₁
   have hFker : ∀ j, (show P'.extension.Ring from F j) ∈ P'.extension.ker := fun j ↦ by
-    show φ (PT.toAlgHom (F j)) = 0
+    change φ (PT.toAlgHom (F j)) = 0
     rw [hPTF, map_zero]
   let u : Fin (t + m) → (Fin (t + r) → B.carrier) := fun j ↦
     K'.differential (Algebra.Extension.Cotangent.mk (P := P'.extension) ⟨_, hFker j⟩)
   have hu_apply : ∀ j i, u j i = ρ (MvPolynomial.pderiv i (rel j)) := by
     intro j i
     refine (congrFun (K'.differential_mk ⟨_, hFker j⟩) i).trans ?_
-    show Θ (K'.partialDeriv i (algebraMap _ _ (rel j))) = _
+    change Θ (K'.partialDeriv i (algebraMap _ _ (rel j))) = _
     rw [K'.partialDeriv_polynomial, hΘρ]
   -- `δ = Δ'` and `ζₖ = zₖ` in `B`, with `δζₖ = aₖ^{c₁}`
   let δ := ρ (rename (Fin.natAdd t) (jacobian hm f').det)
@@ -762,7 +762,7 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
           (Matrix.of fun i j : Fin m ↦ K.partialDeriv (Fin.castLE hm i) (f j)) := by
       ext i j
       exact congrFun (K.differential_mk ⟨(f j).1, (f j).2⟩) _
-    show (cramerBlock hk₀ u₀).det ∣ _
+    change (cramerBlock hk₀ u₀).det ∣ _
     rw [h1, ← RingHom.map_det]
     exact hjacobian
   obtain ⟨cb, hcb⟩ := exists_pow_adicIdeal_le_span_of_le_radical B (P.toAlgHom b) hvanish
@@ -802,7 +802,7 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
         {(Δ₀ * P.toAlgHom b * Δ₀ * δ ^ (t + 1)) ^ Fintype.card (Fin (r - m)) *
           δ ^ (t + 1)} := by
       refine hcG ?_
-      show _ ∈ (I.map (algebraMap A B.carrier)) ^ cG
+      change _ ∈ (I.map (algebraMap A B.carrier)) ^ cG
       rw [← Ideal.map_pow]
       exact Ideal.mem_map_of_mem _ ha
     obtain ⟨y, hy⟩ := Ideal.mem_span_singleton'.mp hmem
@@ -823,7 +823,7 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
     let g' : completedPolynomialAlgebra I (t + r) :=
       algebraMap A _ a * g - ∑ j, γ' j * F j
     have hg'ker : (show P'.extension.Ring from g') ∈ P'.extension.ker := by
-      show Θ g' = 0
+      change Θ g' = 0
       have hΘg : Θ g = 0 := hy
       simp only [g', map_sub, map_mul, map_sum, AlgHom.commutes, hΘg, mul_zero, zero_sub]
       rw [neg_eq_zero]
@@ -877,7 +877,7 @@ public theorem exists_pow_smul_cotangent_eq_bot_of_jacobianChart
       fun a ↦ PT.toAlgHom.commutes a
     have hval : ψT (show P'.extension.Ring from x') =
         algebraMap A T.carrier (a' * a) * PT.toAlgHom g₀ := by
-      show πT (algebraMap A _ a' * (algebraMap A _ a * g - ∑ j, γ' j * F j)) = _
+      change πT (algebraMap A _ a' * (algebraMap A _ a * g - ∑ j, γ' j * F j)) = _
       simp only [map_mul, map_sub, map_sum, hπF, hπA, mul_zero, Finset.sum_const_zero,
         sub_zero, ← mul_assoc]
       rfl
@@ -1160,7 +1160,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_of_jacobianChart
           (Ideal.span (Set.range FR)).comap (eR.symm : _ →+* _) := by
       rw [Ideal.map_le_iff_le_comap, Ideal.span_le]
       rintro _ ⟨j, rfl⟩
-      show eR.symm (algebraMap _ _ (rel j)) ∈ Ideal.span (Set.range FR)
+      change eR.symm (algebraMap _ _ (rel j)) ∈ Ideal.span (Set.range FR)
       rw [← adicCompletionAlgEquiv_polynomialAlgHom, AlgEquiv.symm_apply_apply]
       exact Ideal.subset_span ⟨j, rfl⟩
     exact hφh0 _ (hle hx')
@@ -1172,7 +1172,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_of_jacobianChart
     have hy : PT.restrictedToAlgHom y =
         PT.quotientEquiv (Ideal.Quotient.mk PT.ideal (eR y)) := rfl
     rw [hy]
-    show Ideal.Quotient.liftₐ PT.ideal φR hvan
+    change Ideal.Quotient.liftₐ PT.ideal φR hvan
       (PT.quotientEquiv.symm (PT.quotientEquiv (Ideal.Quotient.mk PT.ideal (eR y)))) = φh y
     rw [AlgEquiv.symm_apply_apply]
     exact congrArg φh (eR.symm_apply_apply y)
@@ -1187,7 +1187,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_of_jacobianChart
     have h1 : ψh' y - z ∈ (I.map (algebraMap A B.carrier)) ^ n :=
       Ideal.Quotient.eq.mp ((hψhred y).trans hw)
     refine ⟨PT.restrictedToAlgHom y, Ideal.Quotient.eq.mpr ?_⟩
-    show φT (PT.restrictedToAlgHom y) - z ∈ _
+    change φT (PT.restrictedToAlgHom y) - z ∈ _
     rw [hfac y, show φh y - z = (φh y - ψh' y) + (ψh' y - z) by ring]
     exact add_mem (Ideal.pow_le_self hne (hφhd y)) (Ideal.pow_le_self (by omega) h1)
   have hTcomplete : IsAdicComplete (I.map (algebraMap A T.carrier)) T.carrier :=

@@ -97,9 +97,9 @@ theorem hasChowBlowupDiagram_of_isFiniteType_of_isSeparated
     (hft : IsFiniteType B S hS f) (hsep : IsSeparated B S hS f) :
     HasChowBlowupDiagram B S hS hX f U hU n i :=
   hasChowBlowupDiagram_of_commonAdmissibleBlowup B S hS B.contains_terminal
-    (fun f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hUsep hX₁ft hX₁sep hX₂ft hX₂sep =>
+    (fun f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft _ hX₁ft hX₁sep hX₂ft hX₂sep =>
       exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion B.contains_terminal
-        f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hUsep hX₁ft hX₁sep hX₂ft hX₂sep
+        f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hX₁ft hX₁sep hX₂ft hX₂sep
         (fun g hX' hY' hg hY'qc hY'qs =>
           exists_integralFiniteSystem_of_isFinite B S hS g hX' hY' hg hY'qc hY'qs)
         (fun g hX' hY' hgft hgsep hY'qc hY'qs =>

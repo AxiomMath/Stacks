@@ -244,7 +244,7 @@ private lemma isIso_homSingleComparison (R F : A) :
     intro n
     cases n with
     | zero =>
-      show IsIso (𝟙 _)
+      change IsIso (𝟙 _)
       infer_instance
     | succ n =>
       apply IsZero.isIso
@@ -336,7 +336,7 @@ private lemma quasiIso_injectiveSectionsComparison
     QuasiIso ((injectiveSectionsComparison J U K hK).app F) := by
   have := quasiIso_freeHypercoverAugmentation J U K hK
   have h₀ := quasiIso_homCochainMap (freeHypercoverAugmentation J U K hK) F
-  show QuasiIso ((homCochainMap (freeHypercoverAugmentation J U K hK)).app F ≫
+  change QuasiIso ((homCochainMap (freeHypercoverAugmentation J U K hK)).app F ≫
     (homFreeAbelianSheafComplexFunctorIsoHypercoverCochain J U K).hom.app F)
   have h₁ : QuasiIso
       ((homFreeAbelianSheafComplexFunctorIsoHypercoverCochain J U K).hom.app F) :=
@@ -523,7 +523,7 @@ private lemma exact_hypercoverDegree
   have : PreservesFiniteColimits
       (hypercoverCochainIntFunctor J U K ⋙
         HomologicalComplex.eval _ (up ℤ) n) := preservesFiniteColimits_of_natIso e.symm
-  show PreservesFiniteLimits _ ∧ PreservesFiniteColimits _
+  change PreservesFiniteLimits _ ∧ PreservesFiniteColimits _
   exact ⟨inferInstance, inferInstance⟩
 
 /-- The double complex obtained by applying the alternating hypercover cochain
@@ -862,7 +862,7 @@ private lemma sectionsDegreeIso_comm_map (G : GrothendieckTopology C)
     SectionsOver.sectionsEquiv_sectionsDegreeIso G L F n _
   have hn := SectionsOver.sectionsEquiv_naturality G (ρ.app (op ⦋n⦌)) F
     (ConcreteCategory.hom (SectionsOver.sectionsDegreeIso G K F n).hom z) k
-  show ConcreteCategory.hom
+  change ConcreteCategory.hom
       (Pi.π (fun l ↦ F.obj.obj (op ((L.obj (op ⦋n⦌)).obj l).left)) k)
       ((SectionsOver.sectionsEquiv G (L.obj (op ⦋n⦌)) F).toFun
         (SectionsOver.freeAbelianSheafMap G (ρ.app (op ⦋n⦌)) ≫
@@ -908,7 +908,7 @@ private lemma freeHypercoverComplexMap_comp_augmentation
         (associatedAugmentedSimplicialPresheafOver.{w} K) =
       SimplicialObject.Augmented.freeAbelianSheafAugZero J.toGrothendieck
         (associatedAugmentedSimplicialPresheafOver.{w} L) := by
-    show (Presheaf.freeAbelianSheaf J.toGrothendieck).map
+    change (Presheaf.freeAbelianSheaf J.toGrothendieck).map
           ((associatedPresheafFunctorOver.{w} (X := U)).map (ρ.app (op ⦋0⦌))) ≫
         (Presheaf.freeAbelianSheaf J.toGrothendieck).map
           (associatedPresheafAugmentationOver.{w}.app (K.obj (op ⦋0⦌))) = _
@@ -919,7 +919,7 @@ private lemma freeHypercoverComplexMap_comp_augmentation
     exact h
   apply (ChainComplex.toSingle₀Equiv (freeHypercoverComplex J U L) _).injective
   apply Subtype.ext
-  show (freeHypercoverComplexMap J U ρ ≫ freeHypercoverAugmentation J U K hK).f 0 =
+  change (freeHypercoverComplexMap J U ρ ≫ freeHypercoverAugmentation J U K hK).f 0 =
     (freeHypercoverAugmentation J U L hL).f 0
   rwa [HomologicalComplex.comp_f, freeHypercoverAugmentation_f_zero,
     freeHypercoverAugmentation_f_zero]

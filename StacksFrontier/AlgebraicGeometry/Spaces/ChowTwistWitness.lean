@@ -177,7 +177,7 @@ theorem isZero_rightDerived_modulePushforward_of_isZero_chart {X Y : AlgebraicSp
     (A : SmallEtale B S hS Y.1) (hA : IsAffine (chartScheme A))
     (hsurj : (MorphismProperty.inverseImage (@AlgebraicGeometry.Surjective.{u})
       (BigFppfOver.toScheme B S hS)).presheaf A.1.hom)
-    (M : Modules.{u, u} B S hS X.1 X.2) (hM : M.IsQuasicoherentOnSite) (q : ℕ) (hq : 0 < q)
+    (M : Modules.{u, u} B S hS X.1 X.2) (hM : M.IsQuasicoherentOnSite) (q : ℕ)
     (h : IsZero (((SheafOfModules.evaluation
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS
           (chartSpace B S hS X ((smallBaseChange B S hS ρ hρ).obj A)).1
@@ -383,7 +383,7 @@ theorem exists_forall_isZero_rightDerived_modulePushforward_representedTensorPow
   have := hasInjectiveResolutions_modules B S hS (yoneda.obj W) (isAlgebraicSpace_yoneda B S hS W)
   exact isZero_rightDerived_modulePushforward_of_isZero_chart B S hS ρ' hρrep hρp.2.1.2
     (isQuasiSeparated_of_isSeparated B S hS hρp.1) A hA hAsurj _
-    ((representedQuasicoherentSchemeEquivalence B S hS W).functor.obj ⟨_, hFqc⟩).property q hq
+    ((representedQuasicoherentSchemeEquivalence B S hS W).functor.obj ⟨_, hFqc⟩).property q
     (isZero_rightDerived_evaluation_etaleModulePullback_of_isZero_hgroup B S hS W _ hFqc T₂
       q hq ((hm₂ d hd q hq).of_iso ((Hfunctor (chartScheme T₂).ringCatSheaf ⊤ q).mapIso
         (Stacks.RelativeVeryAmple.pullbackTensorPowModuleIso r₂ L d))))

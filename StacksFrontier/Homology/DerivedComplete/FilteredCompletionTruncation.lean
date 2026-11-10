@@ -12,9 +12,9 @@ public import StacksFrontier.Algebra.Homology.SpectralSequence.FilteredComplex.C
 Let `I` be a finitely generated ideal of a commutative ring `A`. The canonical truncation
 (Postnikov) filtration `F^pC = τ^{≤-p}C` of a representative of an object `K` of `D(A)` is finite
 in each degree, so the derived-completion spectral sequence of
-`StacksFrontier.Homology.DerivedComplete.FilteredCompletionSpectralSequence` applied to it is bounded
-and converges. Its first page consists of the derived completions of the cohomology modules of
-`K`; after the reindexing `p = -j`, `q = i + 2j` and a shift of the page number by one it becomes
+`StacksFrontier.Homology.DerivedComplete.FilteredCompletionSpectralSequence` applied to it is
+bounded and converges. Its first page consists of the derived completions of the cohomology modules
+of `K`; after the reindexing `p = -j`, `q = i + 2j` and a shift of the page number by one it becomes
 the spectral sequence with `E₂^{i,j} ≅ H^i(H^j(K)^∧)` converging to `H^{i+j}(K^∧)`.
 
 ## Main definitions
@@ -165,7 +165,7 @@ theorem isIso_ιTruncLE_f (complex : CochainComplex (ModuleCat.{v} A) ℤ) {m n 
       Int.natAbs_eq_zero]
     omega
   have : IsIso ((complex.op.πTruncGE e.op).f n) := by
-    show IsIso ((e.op.liftExtend _ _).f n)
+    change IsIso ((e.op.liftExtend _ _).f n)
     rw [e.op.isIso_liftExtend_f_iff _ _ hi]
     exact complex.op.isIso_restrictionToTruncGE' e.op _ hb
   exact inferInstanceAs (IsIso ((complex.op.πTruncGE e.op).f n).unop)
@@ -267,7 +267,7 @@ theorem postnikovGraded (complex : CochainComplex (ModuleCat.{v} A) ℤ) (index 
         (complex.homology (-index)))⟦index⟧) := by
   let G := cokernel (truncLEInclusion complex
     (show -(index + 1) ≤ -index by omega))
-  show Nonempty (DerivedCategory.Q.obj G ≅ _)
+  change Nonempty (DerivedCategory.Q.obj G ≅ _)
   have hG : ∀ n, n ≠ -index → IsZero (G.homology n) := fun n hn ↦
     isZero_homology_truncLEQuotient complex (show -(index + 1) + 1 = -index by omega) hn
   have : G.IsGE (-index) := by
@@ -443,7 +443,7 @@ private theorem finite_diagonal_of_reindex
     dsimp at hab
     omega)).subset
   intro i hi
-  show ¬ IsZero ((S.page 1).X (i - n, n - (i - n)))
+  change ¬ IsZero ((S.page 1).X (i - n, n - (i - n)))
   intro hs
   apply hi
   apply hs.of_iso
@@ -464,7 +464,7 @@ private theorem le_of_isZero_cokernel {X : C} {U V : Subobject X}
   have : IsIso j := isIso_of_mono_of_epi j
   apply Subobject.le_of_comm (inv j)
   rw [← Subobject.ofLE_arrow h]
-  show inv j ≫ (j ≫ V.arrow) = V.arrow
+  change inv j ≫ (j ≫ V.arrow) = V.arrow
   simp
 
 private theorem cycles_le_boundaries_of_isZero (M : Filtered C)
@@ -529,7 +529,7 @@ private theorem cycleNumerator_eq_succ_of_isZero (M : Filtered C)
     apply le_trans _ le_sup_left
     apply le_inf
     · apply (Subobject.exists_le_iff_le_pullback _ _ _).2
-      show F _ _ ⊓ _ ≤ _
+      change F _ _ ⊓ _ ≤ _
       rw [show n - 1 + 1 = n by omega, show p - r + 1 + (r - 1) = p by omega]
       exact inf_le_right
     · exact Subobject.exists_le_pullback_of_comp_eq_zero (M.X.d_comp_d _ _ _) _ _
@@ -618,7 +618,7 @@ private theorem pageObject_iso_normalized (M : Filtered C)
     · exact Subobject.exists_le_pullback_of_comp_eq_zero (M.X.d_comp_d _ _ _) _ _
   have hW : W ⊓ Z ≤ D := by
     apply le_trans _ le_sup_left
-    show F (p + 1) n ⊓ (F p n ⊓ _) ≤ F (p + 1) n ⊓ _
+    change F (p + 1) n ⊓ (F p n ⊓ _) ≤ F (p + 1) n ⊓ _
     rw [← inf_assoc, inf_eq_left.2 (filtrationSubobject_antitone M _ _ n (by omega)),
       show p + 1 + (r - 1) = p + r by omega]
   have hDW : D ⊔ W =
@@ -748,7 +748,7 @@ private theorem exists_stable_page (M : Filtered C)
   refine ⟨Filtered.pageIso M r p q (by omega) ≪≫
     e ≪≫ cokernelOfLEIso inf_le_right inf_le_right ?_ hn⟩
   rw [show p - r + 1 = p - (r - 1) by omega]
-  show (B (r - 1) ⊓ N r) = _
+  change (B (r - 1) ⊓ N r) = _
   rw [hb, hn]
 
 end Convergence
@@ -862,7 +862,7 @@ theorem exists_spectralSequence_derivedCompletion_homology
       (DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).obj
         ((completion ⋙ P.ι).obj ((DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).obj
           ((DerivedCategory.homologyFunctor (ModuleCat.{v} A) j).obj K))) := by
-    show (S.page 1).X (-j, i + 2 * j) ≅ _
+    change (S.page 1).X (-j, i + 2 * j) ≅ _
     simpa only [DerivedCategory.shift_homologyFunctor, neg_neg,
       show 2 * -j + (i + 2 * j) = i by omega] using e₁ (-j) (i + 2 * j)
   let reindex (r i j : ℤ) (hr : 2 ≤ r) :
@@ -893,10 +893,10 @@ theorem exists_spectralSequence_derivedCompletion_homology
     refine ⟨r₀ + 1, by omega, fun r hr => ?_⟩
     obtain ⟨ho, hi, ⟨e⟩⟩ := h (r - 1) (by omega)
     refine ⟨?_, ?_, ?_⟩
-    · show (S.page (r - 1) (by omega)).d (-j, i + 2 * j)
+    · change (S.page (r - 1) (by omega)).d (-j, i + 2 * j)
         (-(j - r + 1), (i + r) + 2 * (j - r + 1)) = 0
       rwa [reindex_target]
-    · show (S.page (r - 1) (by omega)).d (-(j + r - 1), (i - r) + 2 * (j + r - 1))
+    · change (S.page (r - 1) (by omega)).d (-(j + r - 1), (i - r) + 2 * (j + r - 1))
         (-j, i + 2 * j) = 0
       rwa [reindex_source]
     · let gr (n : ℤ) := cokernel (Subobject.ofLE

@@ -217,7 +217,7 @@ theorem isLeftDerivedFunctor_squareCounitLeftTransported :
       open Stacks.Cohomology.DerivedPullbackCompositionOfToposHom in
       have h₂ := isIso_derivedPullbackComparison_app_isKFlat f' _
         (Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom.isKFlat_pullbackMapHomotopy g K hK)
-      show IsIso ((squareCounitLeft (g := g) (f' := f')).app K ≫
+      change IsIso ((squareCounitLeft (g := g) (f' := f')).app K ≫
         DerivedCategory.Qh.map ((squarePullbackHomotopyIso s).hom.app K))
       rw [squareCounitLeft_app]
       infer_instance)

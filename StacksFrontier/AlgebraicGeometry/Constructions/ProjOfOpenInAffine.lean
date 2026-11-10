@@ -151,7 +151,7 @@ private theorem openProjAlgebra_homogeneous (U : (Spec (.of A)).Opens)
         (MvPolynomial.isHomogeneous_C (Fin 1) a)⟩
     · exact ⟨n, openProj_monomial_mem_homogeneousSubmodule f n⟩
   intro n p hp
-  show ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin 1) A) p n :
+  change ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin 1) A) p n :
     MvPolynomial.homogeneousSubmodule (Fin 1) A n) : MvPolynomial (Fin 1) A) ∈
       openProjAlgebra U
   rw [openProjAlgebra_mem_iff]
@@ -435,7 +435,7 @@ private theorem openProjChartCoeff_mul_inv (U : (Spec (.of A)).Opens)
             Algebra.subset_adjoin ⟨2, f, hf, rfl⟩⟩ : openProjAlgebra U) =
         (openProjChartGen U f hf) ^ 2 := by
     apply Subtype.ext
-    show MvPolynomial.C f * MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 2) f =
+    change MvPolynomial.C f * MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 2) f =
       MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f ^ 2
     rw [← MvPolynomial.C_mul_X_pow_eq_monomial, ← MvPolynomial.C_mul_X_eq_monomial]
     ring
@@ -496,7 +496,7 @@ private theorem openProjChartEval_lift (U : (Spec (.of A)).Opens)
   let := openProjGradedRing U
   apply IsLocalization.ringHom_ext (Submonoid.powers f)
   ext a
-  show openProjChartEval U f hf
+  change openProjChartEval U f hf
       (openProjChartLift U f hf (algebraMap A (Localization.Away f) a)) =
     algebraMap A (Localization.Away f) a
   rw [openProjChartLift, IsLocalization.Away.lift_eq]
@@ -561,7 +561,7 @@ private theorem openProjChartLift_mk (U : (Spec (.of A)).Opens)
         (openProjChartGen_mem U f hf) n y (by simpa using hy) := by
   let := openProjGradedRing U
   have hshape := openProj_homogeneous_shape y.val n (by
-    show y.val ∈ MvPolynomial.homogeneousSubmodule (Fin 1) A n
+    change y.val ∈ MvPolynomial.homogeneousSubmodule (Fin 1) A n
     exact hy)
   let c := y.val.coeff (Finsupp.single 0 n)
   let z : openProjAlgebra U := ⟨
@@ -590,7 +590,7 @@ private theorem openProjChartLift_mk (U : (Spec (.of A)).Opens)
   use 1
   simp only [OneMemClass.coe_one, one_mul, Submonoid.coe_mul]
   apply Subtype.ext
-  show (MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f) ^ n *
+  change (MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f) ^ n *
       (MvPolynomial.C c * (MvPolynomial.monomial (Finsupp.single 0 2) f) ^ n) =
     (MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f ^ 2) ^ n *
       MvPolynomial.monomial (Finsupp.single 0 n) c
@@ -680,7 +680,7 @@ private theorem openProjStructureMap_chart (U : (Spec (.of A)).Opens)
       (algebraMap A (Localization.Away f) a) =
         openProjChartLift U f hf (algebraMap A (Localization.Away f) a) := by
     apply (openProjChartRingEquiv U f hf).injective
-    show openProjChartEval U f hf
+    change openProjChartEval U f hf
         ((openProjChartRingEquiv U f hf).symm (algebraMap A (Localization.Away f) a)) =
       openProjChartEval U f hf
         (openProjChartLift U f hf (algebraMap A (Localization.Away f) a))
@@ -694,7 +694,7 @@ private theorem openProjStructureMap_chart (U : (Spec (.of A)).Opens)
       _ = openProjChartEval U f hf
           (openProjChartLift U f hf (algebraMap A (Localization.Away f) a)) :=
         (DFunLike.congr_fun (openProjChartEval_lift U f hf) _).symm
-  show (openProjChartCoeffMap U f hf a).val =
+  change (openProjChartCoeffMap U f hf a).val =
     ((openProjChartRingEquiv U f hf).symm
       (algebraMap A (Localization.Away f) a)).val
   exact congrArg HomogeneousLocalization.val <| calc
@@ -745,7 +745,7 @@ private theorem openProj_exists_positive_chart (U : (Spec (.of A)).Opens)
   have hy : y ∈ openProjGrading U i.1.1 := i.2.property
   refine ⟨i.1.1, i.1.2, y, hy, ?_⟩
   have hx : x ∈ (Proj.awayι (openProjGrading U) y hy i.1.2).opensRange := by
-    show ∃ z' : (Proj.affineOpenCover (openProjGrading U)).openCover.X i,
+    change ∃ z' : (Proj.affineOpenCover (openProjGrading U)).openCover.X i,
       (Proj.awayι (openProjGrading U) y hy i.1.2) z' = x
     exact ⟨z, hz⟩
   rw [Proj.opensRange_awayι] at hx
@@ -816,7 +816,7 @@ private theorem openProj_positive_chart_coeff (U : (Spec (.of A)).Opens)
   have hf : f ∈ openProjIdeal U :=
     openProj_positive_coeff_mem U y.val y.property he
   have hshape := openProj_homogeneous_shape y.val n (by
-    show y.val ∈ MvPolynomial.homogeneousSubmodule (Fin 1) A n
+    change y.val ∈ MvPolynomial.homogeneousSubmodule (Fin 1) A n
     exact hy)
   exact ⟨hf, hshape⟩
 
@@ -888,14 +888,14 @@ private theorem openProj_exists_chartData (U : (Spec (.of A)).Opens)
   have hconstFactor : y * y = algebraMap A (openProjAlgebra U) f * zEven := by
     apply Subtype.ext
     dsimp [zEven, zEvenPoly]
-    show y.val * y.val = MvPolynomial.C f *
+    change y.val * y.val = MvPolynomial.C f *
       MvPolynomial.monomial (Finsupp.single (0 : Fin 1) (2 * n)) f
     rw [hshape]
     simpa only [pow_two] using openProj_monomial_sq_const f n
   have hchartFactor : y * y = openProjChartGen U f hf * zOdd := by
     apply Subtype.ext
     dsimp [zOdd, zOddPoly]
-    show y.val * y.val = MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f *
+    change y.val * y.val = MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f *
       MvPolynomial.monomial (Finsupp.single (0 : Fin 1) (2 * n - 1)) f
     rw [hshape]
     simpa only [pow_two] using openProj_monomial_sq f n hn
@@ -940,7 +940,7 @@ public theorem openProjStructureMap_injective (U : (Spec (.of A)).Opens) :
         openProjChartGen U f hf * v := by
       apply Subtype.ext
       dsimp [v, vPoly]
-      show MvPolynomial.C f * z.val =
+      change MvPolynomial.C f * z.val =
         MvPolynomial.monomial (Finsupp.single (0 : Fin 1) 1) f *
           MvPolynomial.monomial (Finsupp.single (0 : Fin 1) (n - 1)) g
       rw [hzshape]
@@ -1047,7 +1047,7 @@ public theorem projOpenIso_hom_comp (U : (Spec (.of A)).Opens) :
         (projOpenIso U).hom ≫ U.ι := by
   let := openProjGradedRing U
   let := openProjStructureMap_isOpenImmersion U
-  show openProjStructureMap U = (projOpenIso U).hom ≫ U.ι
+  change openProjStructureMap U = (projOpenIso U).hom ≫ U.ι
   exact (IsOpenImmersion.isoOfRangeEq_hom_fac (openProjStructureMap U) U.ι (by
     rw [openProjStructureMap_range, Scheme.Opens.range_ι])).symm
 

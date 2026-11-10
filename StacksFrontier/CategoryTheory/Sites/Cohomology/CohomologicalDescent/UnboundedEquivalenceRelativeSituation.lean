@@ -442,7 +442,8 @@ theorem derivedCategoryB_derivedPullback_obj_relative :
   exact derivedCategoryB_derivedPullback_obj_of_exact f.toRingedToposSiteHom A A' hA
 
 include hf hA hEquiv basisCover vanishing basisCover' vanishing' in
-omit [A'.IsWeakSerreClass] in
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
+  [A'.IsWeakSerreClass] in
 /-- **The truncation comparison of Tag 0D6W, in the form the equivalence consumes.** For `K` in
 `D_𝒜(𝒪)` the canonical map `Hʲ(Rf_*K) ⟶ Hʲ(Rf_*(τ_{≥ -n}K))` is invertible whenever `j ≥ -n`.
 
@@ -486,6 +487,7 @@ theorem isIso_homology_derivedPushforward_truncGEπ_relative
       K hK n j (by omega)
 
 include hf hA hEquiv basisCover vanishing basisCover' vanishing' in
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
 /-- **Stacks 0D7W**, the assertion that derived pushforward restricts. Under the hypotheses of
 the source — `f` flat, `f^*` inducing an equivalence `𝒜' ⟶ 𝒜`, the unit `ℱ' ⟶ Rf_*f^*ℱ'`
 invertible on `𝒜'`, the source satisfying the Olsson--Laszlo hypothesis of Tag 0D6R and `f`
@@ -557,6 +559,7 @@ def derivedPullbackEquivalenceUnboundedRelative
         isIso_derivedCounit_app_singleFunctor_obj_of_exact f.toRingedToposSiteHom A A' hA hEquiv
           hUnit _ (hK.2 q))
 
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
 /-- **Stacks 0D7W**, the identification of the forward functor of the equivalence with the
 restriction of the derived pullback. -/
 @[stacks 0D7W "forward functor"]
@@ -584,6 +587,7 @@ theorem derivedPullbackEquivalenceUnboundedRelative_functor
           K.property) :=
   rfl
 
+omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
 /-- **Stacks 0D7W**, the identification of the quasi-inverse of the equivalence with the
 restriction of the derived pushforward. -/
 @[stacks 0D7W "quasi-inverse"]

@@ -149,7 +149,7 @@ theorem pullbackTensorStep2to6_symm_val_app_unit_tmul
   have h6 : (pullbackTensorStep6 f F G N).symm k =
       (pullbackTensorStep6 f F G (pullbackTensorTarget f F G)).symm
         (𝟙 (pullbackTensorTarget f F G)) ≫ k := by
-    show _ ≫ k = (_ ≫ 𝟙 _) ≫ k
+    change _ ≫ k = (_ ≫ 𝟙 _) ≫ k
     exact congrArg (fun m ↦ m ≫ k) (Category.comp_id _).symm
   have h5 : (pullbackTensorStep5 f F G N).symm ((pullbackTensorStep6 f F G N).symm k) =
       pullbackTensorBottomHom f F G ≫

@@ -453,7 +453,7 @@ public theorem exists_residueFieldEquiv_adjoin_of_monic_lift.{u, v}
   have hgmonic : g.Monic := hf.map _
   have hm : Polynomial.map (algebraMap (R ⧸ p) K) g = minpoly K β := by
     rw [hg_def, Polynomial.map_map]
-    show f.map (algebraMap R K) = _
+    change f.map (algebraMap R K) = _
     rw [hfm]
   have hβ : IsIntegral K β := Algebra.IsIntegral.isIntegral β
   have hirr : Irreducible (Polynomial.map (algebraMap (R ⧸ p) K) g) := by
@@ -803,7 +803,7 @@ private theorem hasColimit_of_directed {I : Type w} [Preorder I] [IsDirected I (
       ι :=
         { app := leg
           naturality := fun i j f => Hom.ext' (by
-            show (s j).comp ((D.map f).ψ) = (RingHom.id ub.carrier).comp (s i)
+            change (s j).comp ((D.map f).ψ) = (RingHom.id ub.carrier).comp (s i)
             rw [RingHom.id_comp]
             exact hcoc i j (leOfHom f)) } }
   have key : ∀ sc : Cocone D, ∃ m : Hom ub sc.pt, ∀ i, m.ψ.comp (s i) = (sc.ι.app i).ψ := by

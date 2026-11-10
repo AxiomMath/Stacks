@@ -99,7 +99,7 @@ theorem pointEquivOver_comp {Z Z' T : BigFppfOver s.site s.base s.containsBase}
     (Category.assoc _ _ _).trans ((congrArg (σ.1 ≫ ·) (s.isPullback_projComparison z h).1.w).trans
       ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ h) σ.2)))
   have key : s.relativeProjPoints.pointEquivOver Z z (h' ≫ h) ξ = ⟨_, hw⟩ := by
-    refine (Equiv.apply_eq_iff_eq_symm_apply _).2 (Subtype.ext ?_)
+    refine (Equiv.eq_symm_apply _).1 (Subtype.ext ?_)
     exact ((congrArg (· ≫ s.relativeProjPoints.fibreToSpace Z z)
       (Functor.map_comp yoneda σ.1 (s.quadrupleRestriction.projComparison
         s.shrink.contains_relativeProj_pointAlgebra z h))).trans
@@ -681,7 +681,8 @@ such that:
    `U(ψ') = g'^{-1}(U(ψ))`; `r_{ℒ',ψ'}` is the base change of `r_{ℒ,ψ}` through
    `Proj_{Y'}(g^*𝒜) = Y' ×_Y Proj_Y(𝒜)`; and `θ'` is the pullback of `θ` along
    `j : U(ψ') ⟶ U(ψ)`. -/
-@[stacks 0D2Z "variant: X a scheme; the whole lemma, in Situation 0849 with Proj_Y(A) the relative Proj of Stacks 084B \
+@[stacks 0D2Z "variant: X a scheme; the whole lemma, in Situation 0849 \
+with Proj_Y(A) the relative Proj of Stacks 084B \
 and X a scheme over the algebraic space Y: the morphism r_{L,psi} : U(psi) -> Proj_Y(A) over Y; \
 theta : r^*((+)_d O(d)) -> (+)_d L^d|_{U(psi)} a unital multiplicative map; clause (1) for every \
 scheme V -> Y (in particular every etale one) and every scheme over V x_Y X; clauses (2)(a) and \

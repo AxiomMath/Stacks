@@ -88,6 +88,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FiniteMorphismLimitPresentation :
@@ -166,7 +167,7 @@ private theorem mono_hom_left_hom {Y : AlgebraicSpaces B S hS}
   set b' : W' ⟶ X := ObjectProperty.homMk (Over.homMk b) with hb'
   have he : a' = b' := by
     refine (cancel_mono g).mp (affineOver_hom_ext ?_)
-    show pullback.fst k k ≫ k = pullback.snd k k ≫ k
+    change pullback.fst k k ≫ k = pullback.snd k k ≫ k
     exact pullback.condition
   have he' : pullback.fst k k = pullback.snd k k :=
     congrArg (fun t : W' ⟶ X => t.hom.left.hom) he
@@ -242,7 +243,7 @@ private theorem exists_lift_of_isTerminal {Y : AlgebraicSpaces B S hS}
     simp only [hr]
     have h2 : a.app i ≫ (affineOverToOver B S hS Y).map (D.map (hi₀.from i)) = a.app i₀ := by
       have h1 := a.naturality (hi₀.from i)
-      simp only [Functor.const_obj_map, Category.id_comp, Functor.comp_map] at h1
+      simp only [Functor.const_obj_map, Functor.comp_map] at h1
       exact h1.symm
     have h3 := congrArg (fun t => t.left) h2
     rw [Over.comp_left] at h3
@@ -282,12 +283,12 @@ private theorem exists_lift_of_isTerminal {Y : AlgebraicSpaces B S hS}
         (by apply ObjectProperty.hom_ext; exact hbY i))
       naturality := fun i j g => by
         refine affineOver_hom_ext ?_
-        show b j = b i ≫ (D.map g).hom.left.hom
+        change b j = b i ≫ (D.map g).hom.left.hom
         have := hmono j
         apply (cancel_mono (r j)).mp
         rw [hbr j, Category.assoc]
         have hrj : (D.map g).hom.left.hom ≫ r j = r i := by
-          show (D.map g ≫ D.map (hi₀.from j)).hom.left.hom = r i
+          change (D.map g ≫ D.map (hi₀.from j)).hom.left.hom = r i
           rw [← D.map_comp, hi₀.hom_ext (g ≫ hi₀.from j) (hi₀.from i)]
         rw [hrj, hbr i] } with hb'
   set L : W ⟶ c.pt := hc.lift (Cone.mk W b') with hL
@@ -300,13 +301,13 @@ private theorem exists_lift_of_isTerminal {Y : AlgebraicSpaces B S hS}
     rw [Category.assoc, hbr i, hpι]
     exact (ha i).symm
   refine ⟨Over.homMk (p ≫ L.hom.left.hom) ?_, fun i => ?_⟩
-  · show (p ≫ L.hom.left.hom) ≫ (c.pt).obj.hom.hom = q
+  · change (p ≫ L.hom.left.hom) ≫ (c.pt).obj.hom.hom = q
     have hw : L.hom.left.hom ≫ (c.pt).obj.hom.hom = M.ι ≫ (D.obj i₀).obj.hom.hom :=
       affineOver_hom_left_hom_comp L
     rw [Category.assoc, hw, ← Category.assoc, hpι]
     exact Over.w (a.app i₀)
   · apply Over.OverMorphism.ext
-    show (p ≫ L.hom.left.hom) ≫ (c.π.app i).hom.left.hom = (a.app i).left
+    change (p ≫ L.hom.left.hom) ≫ (c.π.app i).hom.left.hom = (a.app i).left
     have hl : L.hom.left.hom ≫ (c.π.app i).hom.left.hom = b i :=
       congrArg (fun t : W ⟶ D.obj i => t.hom.left.hom) (hc.fac (Cone.mk W b') i)
     rw [Category.assoc, hl]
@@ -386,7 +387,7 @@ private theorem isLimit_affineOverToOver_of_isTerminal {Y : AlgebraicSpaces B S 
       (G := (D.obj i).obj.left.obj) l.left (c.π.app i).hom.left.hom
     exact h2.symm.trans h3
   refine ⟨yonedaEquiv l.left, fun i => ?_, fun y hy => ?_⟩
-  · show ((c.π.app i).hom.left.hom.app (op U)) (yonedaEquiv l.left) = s i
+  · change ((c.π.app i).hom.left.hom.app (op U)) (yonedaEquiv l.left) = s i
     exact hx' i
   · have hy' : ∀ i : J, ((c.π.app i).hom.left.hom.app (op U)) y = s i := fun i => hy i
     have hm : Mono ((c.π.app i₀).hom.left.hom.app (op U)) := inferInstance

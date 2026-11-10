@@ -58,7 +58,7 @@ private theorem contains_specAlgebraicClosure_residueField {X : Scheme.{u}}
 big étale site attached to that site: the two have the same size cutoff. -/
 private theorem bigEtaleSiteOfFppfSite_contains_chartScheme (U : SmallEtale B S hS F) :
     (bigEtaleSiteOfFppfSite B).Contains (chartScheme U) := by
-  show ((BigFppfOver.toScheme B S hS).obj U.obj.left).size < B.cutoff
+  change ((BigFppfOver.toScheme B S hS).obj U.obj.left).size < B.cutoff
   exact U.obj.left.left.property
 
 /-- The étale local ring of an algebraic space at a geometric point is a regular local ring exactly
@@ -127,7 +127,7 @@ theorem isRegular_iff_etaleLocalRings_regular (B : BigFppfSite.{u}) (S : Scheme.
       (isRegularLocalRing_etaleLocalRing_iff_chart hF V hXnoeth).mp (hall x)
     have hpoint : (chartGeometricPoint V).hom
         (closedPoint (chartGeometricPoint V).residueField) = y := by
-      show (B.inclusion.map a) (closedPoint s.residueField) = y
+      change (B.inclusion.map a) (closedPoint s.residueField) = y
       rw [B.inclusion.map_preimage,
         Subsingleton.elim (closedPoint s.residueField) (default : s.source)]
       exact GeometricPoint.ofPoint_liesOver ((BigFppfOver.toScheme B S hS).obj U) y

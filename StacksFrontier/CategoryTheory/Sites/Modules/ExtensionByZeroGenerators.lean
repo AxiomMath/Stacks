@@ -106,7 +106,7 @@ noncomputable def overSections (M : SheafOfModules.{u} O) (U : C) (s : M.val.obj
 from. -/
 lemma overSections_eval_id (M : SheafOfModules.{u} O) (U : C) (s : M.val.obj (op U)) :
     (overSections O M U s).val (op (Over.mk (𝟙 U))) = s := by
-  show M.val.map (𝟙 U).op s = s
+  change M.val.map (𝟙 U).op s = s
   exact (M.val.congr_map_apply op_id s).trans
     (CategoryTheory.congr_fun (M.val.map_id (op U)) s)
 
@@ -291,7 +291,7 @@ lemma epi_fromGenerators_val (M : SheafOfModules.{u} O) : Epi (fromGenerators O 
   change ((Sigma.ι (generatorFamily O M) ⟨V, x⟩ ≫ fromGenerators O M).val.app (op V))
     (extensionByZeroGen O V) = x
   rw [show Sigma.ι (generatorFamily O M) ⟨V, x⟩ ≫ fromGenerators O M =
-    fromExtensionByZero O M V x from Sigma.ι_desc _ _]
+    fromExtensionByZero O M V x from Sigma.ι_comp_desc _ _]
   exact fromExtensionByZero_val_app_gen O M V x
 
 /-- The canonical map `fromGenerators O M` onto `M` from the direct sum of its generators is an

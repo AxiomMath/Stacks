@@ -432,7 +432,7 @@ theorem quasiIso_sheafifiedCechRestrict_oneFamily (hr : 0 < r) (hle : r ≤ s) :
     rw [span_range_restrictGlobalSections_oneFamily X (lt_of_lt_of_le hr hle) V,
       span_range_restrictGlobalSections_oneFamily X hr V]
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **And it is a map over `𝒪`.** -/
 theorem sheafifiedCechRestrict_oneFamily_comp_augmentation (hle : r ≤ s) :
     sheafifiedCechRestrict X (oneFamily X r) (oneFamily X s) (oneFamilyEmbedding hle)

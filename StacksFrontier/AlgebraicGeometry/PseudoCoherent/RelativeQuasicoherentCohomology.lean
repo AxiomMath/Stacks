@@ -124,7 +124,7 @@ public theorem isQuasicoherentDerived_of_isPseudoCoherent {X S : Scheme.{u}} (f 
     [LocallyOfFiniteType f] (E : DerivedCategory X.Modules) (hE : f.IsPseudoCoherent E) :
     DerivedCategoryB.derivedCategoryB
       (_root_.SheafOfModules.isQuasicoherent X.ringCatSheaf) E := by
-  show ∀ i : ℤ, ((DerivedCategory.homologyFunctor X.Modules i).obj E).IsQuasicoherent
+  change ∀ i : ℤ, ((DerivedCategory.homologyFunctor X.Modules i).obj E).IsQuasicoherent
   intro i
   exact isQuasicoherent_homology_of_isPseudoCoherentFrom f E (i - 1) i (hE (i - 1)) (by omega)
 

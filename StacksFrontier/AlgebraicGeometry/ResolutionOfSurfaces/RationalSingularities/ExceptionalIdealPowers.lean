@@ -36,8 +36,8 @@ The vanishing `H¹(X, 𝓘ⁿ) = 0` follows the source's own route: `𝓘ⁿ = �
 global sections, namely by the `n`-fold products of a set of generators of `𝔪`, and a globally
 generated quasi-coherent module on `X` has vanishing first cohomology by clause (2) of
 [Stacks, Tag 0B4X]. This file supplies the generation of the powers; the conclusion itself is
-`AlgebraicGeometry.RationalSingularitySituation.isZero_firstCohomology_exceptionalIdealPow_unconditional`
-of `ExceptionalIdealPowersExtra.lean`.
+`isZero_firstCohomology_exceptionalIdealPow_unconditional`, in the namespace
+`AlgebraicGeometry.RationalSingularitySituation` of `ExceptionalIdealPowersExtra.lean`.
 
 The other conclusion, `H⁰(X, 𝓘ⁿ) = 𝔪ⁿ`, again follows the source's own route, under the
 source's own additional hypothesis for it — that `E = X_s` is an effective Cartier
@@ -48,8 +48,8 @@ reassociation `ℱ ⊗ 𝓘ⁿ ≅ (ℱ ⊗ 𝓘) ⊗ 𝓘ⁿ⁻¹`, so it has v
 `0 ⟶ ℱ ⊗ 𝓘ⁿ ⟶ (𝓘ⁿ)^{⊕μ+1} ⟶ 𝓘ⁿ⁺¹ ⟶ 0` then makes every global section of `𝓘ⁿ⁺¹` a combination
 of the generators with coefficients in `H⁰(X, 𝓘ⁿ)`, and the induction runs. This file supplies
 the long-exact-sequence step and the case `n = 1`; the conclusion itself is
-`AlgebraicGeometry.RationalSingularitySituation.idealSheafGlobalSections_exceptionalIdealPow_unconditional`
-of `ExceptionalIdealPowersExtra.lean`.
+`idealSheafGlobalSections_exceptionalIdealPow_unconditional`, in the namespace
+`AlgebraicGeometry.RationalSingularitySituation` of `ExceptionalIdealPowersExtra.lean`.
 
 ## Main results
 
@@ -270,7 +270,7 @@ theorem idealSheafGlobalSections_ker {Y : Scheme.{u}} (f : X ⟶ Y) [IsClosedImm
     idealSheafGlobalSections f.ker = RingHom.ker f.appTop.hom := by
   have : IsIso f.toImage := inferInstance
   have : IsIso f.toImage.appTop := by
-    show IsIso (f.toImage.c.app (Opposite.op ⊤))
+    change IsIso (f.toImage.c.app (Opposite.op ⊤))
     infer_instance
   have hinj : Function.Injective f.toImage.appTop :=
     (ConcreteCategory.bijective_of_isIso f.toImage.appTop).1
@@ -320,10 +320,14 @@ private theorem mem_span_range_of_isColimit {R : Type u} [Ring R] {ι : Type u}
 
 /-- Every global section of `𝒪_X ⊗ ℐ_J` is `1 ⊗ m` for a global section `m` of `ℐ_J`. -/
 private theorem exists_one_tmul_eq (J : X.IdealSheafData)
-    (x : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))).obj ((idealSheafOfModules J)))).val.obj (Opposite.op (⊤ : X.Opens))) :
+    (x : ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj
+        ((SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))).obj
+        ((idealSheafOfModules J)))).val.obj (Opposite.op (⊤ : X.Opens))) :
     ∃ m : (idealSheafOfModules J).val.obj (Opposite.op (⊤ : X.Opens)),
       toTensorSheafSection X.toRingedSpace
-          (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) (idealSheafOfModules J)
+          (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf))
+          (idealSheafOfModules J)
           (Opposite.op (⊤ : X.Opens))
           ((1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj
             (Opposite.op (⊤ : X.Opens))) ⊗ₜ m) = x := by
@@ -347,7 +351,9 @@ theorem idealSheafGlobalSections_mul [CompactSpace X] (I J : X.IdealSheafData)
     (hJ : IsEffectiveCartierDivisor J)
     (g : (idealSheafOfModules I).GeneratingSections)
     (hH : IsZero (((moduleGlobalSections X).rightDerived 1).obj
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj ((idealSheafOfModules J)))))) :
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj
+        ((idealSheafOfModules J)))))) :
     idealSheafGlobalSections (I * J) =
       idealSheafGlobalSections I * idealSheafGlobalSections J := by
   have hinv : AlgebraicGeometry.SheafOfModules.IsInvertible X.presheaf
@@ -523,7 +529,9 @@ theorem idealSheafGlobalSections_mul [CompactSpace X] (I J : X.IdealSheafData)
 quasi-coherent module. -/
 theorem isQuasicoherent_kernelTensorIdeal (I K : X.IdealSheafData)
     (g : (idealSheafOfModules I).GeneratingSections) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj ((idealSheafOfModules K)))).IsQuasicoherent := by
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj
+      ((idealSheafOfModules K)))).IsQuasicoherent := by
   have hI : (idealSheafOfModules I).IsQuasicoherent := isQuasicoherent_idealSheafOfModules I
   have hK : (idealSheafOfModules K).IsQuasicoherent := isQuasicoherent_idealSheafOfModules K
   have hfree : (SheafOfModules.free
@@ -539,7 +547,10 @@ only one comparison of the two constructions is involved, so unlike the associat
 transport along a proved equality. -/
 noncomputable def tensorSheafIsoRight
     {M N N' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)} (e : N ≅ N') :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (M)).obj (N)) ≅ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (M)).obj (N')) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (M)).obj (N)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (M)).obj (N')) :=
   Stacks.SheafOfModules.Invertible.tensorProductIso X.presheaf
     (_root_.Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).property (Iso.refl M) e
 
@@ -552,7 +563,9 @@ divisor whose ideal sheaf is generated by global sections. The case `n = 0` is
 noncomputable def kernelTensorIdealPowGeneratingSections (I : X.IdealSheafData)
     (hI : IsEffectiveCartierDivisor I) (g : (idealSheafOfModules I).GeneratingSections)
     (n : ℕ) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj ((idealSheafOfModules (I ^ (n + 1)))))).GeneratingSections := by
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj ((kernel g.π))).obj
+      ((idealSheafOfModules (I ^ (n + 1)))))).GeneratingSections := by
   have hloc : ∀ z : X.toRingedSpace.carrier, IsLocalRing (ringStalk X.toRingedSpace z) :=
     fun z => X.isLocalRing z
   have hinv : Stacks.SheafOfModules.IsInvertible X.presheaf
@@ -680,12 +693,12 @@ theorem isIso_globalFunctions :
   have hΓ : IsIso ((Scheme.ΓSpecIso (S.base.residueField (genericPoint S.base))).inv ≫
       (S.f.fiberToSpecResidueField (genericPoint S.base)).appTop) := by
     have : IsIso (S.f.fiberToSpecResidueField (genericPoint S.base)).appTop := by
-      show IsIso ((S.f.fiberToSpecResidueField (genericPoint S.base)).c.app (Opposite.op ⊤))
+      change IsIso ((S.f.fiberToSpecResidueField (genericPoint S.base)).c.app (Opposite.op ⊤))
       infer_instance
     infer_instance
   have hc : IsIso S.f.c := Stacks.SteinFactorization.isIso_c_of_isNormal S.f S.map_genericPoints hΓ
   have : IsIso S.f.appTop := by
-    show IsIso (S.f.c.app (Opposite.op ⊤))
+    change IsIso (S.f.c.app (Opposite.op ⊤))
     infer_instance
   infer_instance
 
@@ -714,14 +727,14 @@ private theorem fromSpecResidueField_appTop_eq_zero_iff (a : S.A) :
     (S.base.fromSpecResidueField S.closedPoint).appTop
         ((Scheme.ΓSpecIso (.of S.A)).inv a) = 0 ↔ a ∈ S.maximalIdeal := by
   rw [← basicOpen_eq_bot_iff, ← Scheme.preimage_basicOpen_top, basicOpen_eq_of_affine]
-  show (S.base.fromSpecResidueField S.closedPoint ⁻¹ᵁ PrimeSpectrum.basicOpen a) = ⊥ ↔
+  change (S.base.fromSpecResidueField S.closedPoint ⁻¹ᵁ PrimeSpectrum.basicOpen a) = ⊥ ↔
     a ∈ S.maximalIdeal
   constructor
   · intro h
     by_contra hna
     have hm : (default : Spec (S.base.residueField S.closedPoint)) ∈
         (S.base.fromSpecResidueField S.closedPoint ⁻¹ᵁ PrimeSpectrum.basicOpen a) := by
-      show S.base.fromSpecResidueField S.closedPoint
+      change S.base.fromSpecResidueField S.closedPoint
         (default : Spec (S.base.residueField S.closedPoint)) ∈ PrimeSpectrum.basicOpen a
       rw [Scheme.fromSpecResidueField_apply]
       exact hna
@@ -730,7 +743,7 @@ private theorem fromSpecResidueField_appTop_eq_zero_iff (a : S.A) :
   · intro h
     apply TopologicalSpace.Opens.ext
     ext x
-    show (S.base.fromSpecResidueField S.closedPoint) x ∈ PrimeSpectrum.basicOpen a ↔ False
+    change (S.base.fromSpecResidueField S.closedPoint) x ∈ PrimeSpectrum.basicOpen a ↔ False
     rw [Scheme.fromSpecResidueField_apply]
     exact iff_false_intro (not_not.mpr h)
 
@@ -748,10 +761,10 @@ theorem mem_idealSheafGlobalSections_exceptionalIdeal_iff (a : S.A) :
     (isClosed_singleton_iff_isClosedImmersion (X := S.base) (x := S.closedPoint)).1
       (IsLocalRing.isClosed_singleton_closedPoint S.A)
   have : IsClosedImmersion (S.f.fiberι S.closedPoint) := by
-    show IsClosedImmersion (pullback.fst _ _); infer_instance
+    change IsClosedImmersion (pullback.fst _ _); infer_instance
   have : Surjective S.f := S.surjective_f
   have : Surjective (S.f.fiberToSpecResidueField S.closedPoint) := by
-    show Surjective (pullback.snd _ _); infer_instance
+    change Surjective (pullback.snd _ _); infer_instance
   have : IsSchemeTheoreticallyDominant (S.f.fiberToSpecResidueField S.closedPoint) :=
     IsSchemeTheoreticallyDominant.of_isDominant _
   have hinj : Function.Injective (S.f.fiberToSpecResidueField S.closedPoint).appTop :=
@@ -768,7 +781,7 @@ theorem mem_idealSheafGlobalSections_exceptionalIdeal_iff (a : S.A) :
     congrArg (fun q : Γ(S.base, ⊤) ⟶ Γ(S.f.fiber S.closedPoint, ⊤) =>
       q ((Scheme.ΓSpecIso (.of S.A)).inv a)) hfac
   rw [idealSheafGlobalSections_ker (S.f.fiberι S.closedPoint), RingHom.mem_ker]
-  show (S.f.fiberι S.closedPoint).appTop
+  change (S.f.fiberι S.closedPoint).appTop
     (S.f.appTop ((Scheme.ΓSpecIso (.of S.A)).inv a)) = 0 ↔ a ∈ S.maximalIdeal
   rw [key, map_eq_zero_iff _ hinj]
   exact S.fromSpecResidueField_appTop_eq_zero_iff a

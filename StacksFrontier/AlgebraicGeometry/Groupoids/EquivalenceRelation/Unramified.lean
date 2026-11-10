@@ -64,7 +64,7 @@ private theorem diagonal_surjective_of_field_injective
   let r₁ : Over.mk p ⟶ X := Over.homMk (g ≫ pullback.fst f.left f.left)
     (by simp [p])
   let r₂ : Over.mk p ⟶ X := Over.homMk (g ≫ pullback.snd f.left f.left) (by
-    show (g ≫ pullback.snd f.left f.left) ≫ X.hom =
+    change (g ≫ pullback.snd f.left f.left) ≫ X.hom =
       g ≫ pullback.fst f.left f.left ≫ X.hom
     rw [← Over.w f]
     simpa using
@@ -78,7 +78,7 @@ private theorem diagonal_surjective_of_field_injective
     · simp
     · simpa [pullback.diagonal_snd] using hlegs.symm
   refine ⟨(g ≫ pullback.fst f.left f.left) default, ?_⟩
-  show ((g ≫ pullback.fst f.left f.left) ≫ pullback.diagonal f.left) default = q
+  change ((g ≫ pullback.fst f.left f.left) ≫ pullback.diagonal f.left) default = q
   rw [← hg, Scheme.Hom.comp_apply]
   exact P.fromSpecResidueField_apply q _
 

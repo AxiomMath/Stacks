@@ -142,7 +142,7 @@ theorem fiberFunctorTransportIso_hom_app (f : X ⟶ Y) {x y : GeometricPoint X}
     (p : finiteEtaleFiber x ((finiteEtaleBaseChange f).obj V)) :
     (fiberFunctorTransportIso f t).hom.app V (finiteEtaleFiberProjection f x V p)
       = finiteEtaleFiberProjection f y V (t.hom.app _ p) := by
-  show finiteEtaleFiberProjection f y V
+  change finiteEtaleFiberProjection f y V
     (t.hom.app _ ((finiteEtaleFiberProjectionEquiv f x V).symm
       ((finiteEtaleFiberProjectionEquiv f x V) p))) = _
   rw [Equiv.symm_apply_apply]
@@ -163,7 +163,7 @@ theorem etaleFundamentalGroupMulEquiv_transportIso [ConnectedSpace X] [Connected
   ext q
   obtain ⟨q, rfl⟩ := (asIso ((fiberFunctorTransportIso f t).hom.app V)).toEquiv.surjective q
   obtain ⟨q, rfl⟩ := (finiteEtaleFiberProjectionEquiv f x V).surjective q
-  show ((etaleFundamentalGroupMulEquiv (fiberFunctorTransportIso f t)
+  change ((etaleFundamentalGroupMulEquiv (fiberFunctorTransportIso f t)
       (etaleFundamentalGroupMap f x σ)).asIso.app V).hom
       ((fiberFunctorTransportIso f t).hom.app V (finiteEtaleFiberProjection f x V q))
     = ((etaleFundamentalGroupMap f y (etaleFundamentalGroupMulEquiv t σ)).asIso.app V).hom
@@ -230,7 +230,7 @@ private theorem exists_algHom_pi_of_isSepClosed
     ⟨(algebraMap k (A j)).injective, IsSepClosed.algebraMap_surjective k (A j)⟩
   let e : k ≃ₐ[k] A j := AlgEquiv.ofBijective (Algebra.ofId k (A j)) hbij
   refine ⟨e.symm.toAlgHom.comp (Pi.evalAlgHom k A j), fun a ↦ ?_⟩
-  show algebraMap k L (e.symm (a j)) = g a
+  change algebraMap k L (e.symm (a j)) = g a
   have hfac : g a = g (Pi.single j (a j)) := by
     rw [← hmul, map_mul, hj, mul_one]
   rw [hfac]
@@ -276,7 +276,7 @@ private theorem existsUnique_algHom_of_etale
     (g'.restrictScalars R).comp Algebra.TensorProduct.includeRight
   have hψ' (a : A) : δ (ψ' a) = ψ a :=
     (hg' (1 ⊗ₜ[R] a)).trans <| by
-      show algebraMap (ResidueField B) L 1 * ψ a = ψ a
+      change algebraMap (ResidueField B) L 1 * ψ a = ψ a
       rw [map_one, one_mul]
   obtain ⟨f, hf, hu⟩ := HenselianLocalRing.existsUnique_algHom_residue_of_etale ψ'
   refine ⟨f, fun a ↦ by rw [hf, hψ'], fun f' hf' ↦
@@ -305,20 +305,20 @@ private theorem existsUnique_algHom_of_indEtale
           naturality := by
             intro i j m
             refine CommAlgCat.hom_ext (huniq i _ fun a ↦ ?_)
-            show δ (residue B (fs j ((pres.diag.map m).hom a))) = ψ ((pres.ι.app i).hom a)
+            change δ (residue B (fs j ((pres.diag.map m).hom a))) = ψ ((pres.ι.app i).hom a)
             rw [hfs j]
             exact congrArg ψ (ConcreteCategory.congr_hom (pres.w m) a) } }
   let f : A →ₐ[R] B := (pres.isColimit.desc c).hom
   let δ' : B →ₐ[R] L := δ.comp (IsScalarTower.toAlgHom R B (ResidueField B))
   have fac : CommAlgCat.ofHom (δ'.comp f) = CommAlgCat.ofHom ψ := by
     refine pres.isColimit.hom_ext fun j ↦ ?_
-    show pres.ι.app j ≫ (pres.isColimit.desc c ≫ CommAlgCat.ofHom δ') = _
+    change pres.ι.app j ≫ (pres.isColimit.desc c ≫ CommAlgCat.ofHom δ') = _
     rw [← Category.assoc, pres.isColimit.fac]
     ext a
     exact hfs j a
   refine ⟨f, fun a ↦ ConcreteCategory.congr_hom fac a, fun f' hf' ↦ ?_⟩
   refine CommAlgCat.hom_ext_iff.mp (pres.isColimit.hom_ext fun j ↦ ?_)
-  show pres.ι.app j ≫ CommAlgCat.ofHom f' = pres.ι.app j ≫ pres.isColimit.desc c
+  change pres.ι.app j ≫ CommAlgCat.ofHom f' = pres.ι.app j ≫ pres.isColimit.desc c
   rw [pres.isColimit.fac]
   exact CommAlgCat.hom_ext (huniq j _ fun a ↦ hf' ((pres.ι.app j).hom a))
 
@@ -381,7 +381,7 @@ private theorem exists_comp_eq_of_indEtale {S : Scheme.{u}} (z : S) (A B K : Typ
       c ≫ Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk z) A)) ≫
         S.fromSpecStalk z = g ∧ p ≫ c = q := by
   have hb : g (closedPoint B) ⤳ z := by
-    show g (closedPoint B) ∈ {y : S | y ⤳ z}
+    change g (closedPoint B) ∈ {y : S | y ⤳ z}
     rw [← S.range_fromSpecStalk]
     refine ⟨(q ≫ Spec.map (CommRingCat.ofHom
       (algebraMap (S.presheaf.stalk z) A))) (closedPoint K), ?_⟩
@@ -409,7 +409,7 @@ private theorem exists_comp_eq_of_indEtale {S : Scheme.{u}} (z : S) (A B K : Typ
   have hcomm : (Spec.preimage q).hom.comp (algebraMap (S.presheaf.stalk z) A)
       = (Spec.preimage p).hom.comp r.hom := by
     refine CommRingCat.hom_ext_iff.mp (Spec.map_injective ?_)
-    show Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk z) A) ≫ Spec.preimage q)
+    change Spec.map (CommRingCat.ofHom (algebraMap (S.presheaf.stalk z) A) ≫ Spec.preimage q)
       = Spec.map (r ≫ Spec.preimage p)
     rw [Spec.map_comp, Spec.map_comp, Spec.map_preimage, Spec.map_preimage]
     refine (cancel_mono (S.fromSpecStalk z)).mp ?_
@@ -420,7 +420,7 @@ private theorem exists_comp_eq_of_indEtale {S : Scheme.{u}} (z : S) (A B K : Typ
   obtain ⟨c, hc, -⟩ := existsUnique_algHom_of_indEtale hind δ ψ
   refine ⟨Spec.map (CommRingCat.ofHom c.toRingHom), ?_, ?_⟩
   · rw [← Spec.map_comp_assoc]
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
       (c.toRingHom.comp (algebraMap (S.presheaf.stalk z) A))) ≫ S.fromSpecStalk z = g
     have he : c.toRingHom.comp (algebraMap (S.presheaf.stalk z) A) = r.hom := by
       ext x

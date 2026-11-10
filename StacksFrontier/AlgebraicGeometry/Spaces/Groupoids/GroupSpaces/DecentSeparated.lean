@@ -257,7 +257,7 @@ private theorem isClosedImmersion_fieldMorphism_of_section (C : BigFppfSite.{u})
       Over.homMk (ObjectProperty.homMk
         (V : ((BigFppfOver.toScheme C S hS).obj U).Opens).ι) rfl
     have hvEt : Etale ((BigFppfOver.toScheme C S hS).map v) := by
-      show Etale (V : ((BigFppfOver.toScheme C S hS).obj U).Opens).ι
+      change Etale (V : ((BigFppfOver.toScheme C S hS).obj U).Opens).ι
       infer_instance
     have haV : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme C S hS)).presheaf (yoneda.map v ≫ a) :=

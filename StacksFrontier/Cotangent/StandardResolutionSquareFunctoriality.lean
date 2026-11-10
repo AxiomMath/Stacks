@@ -136,7 +136,7 @@ theorem squareCotangentTermMap_D (sq : AlgebraSquare.{u, v, w} A A' B B')
   have : IsScalarTower A P P' := IsScalarTower.of_algebraMap_eq fun a =>
     (standardResolutionSquareMap_algebraMap sq n a).symm
   have : SMulCommClass A' P P' := ⟨fun a' q x => by simp only [Algebra.smul_def, mul_left_comm]⟩
-  show (1 : B') ⊗ₜ[P'] (KaehlerDifferential.map A A' P P'
+  change (1 : B') ⊗ₜ[P'] (KaehlerDifferential.map A A' P P'
     (KaehlerDifferential.D A P p)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -148,7 +148,7 @@ theorem squareCotangentTermMap_naturality (sq : AlgebraSquare.{u, v, w} A A' B B
       squareCotangentTermMap.{u, v, w} sq i ≫
         (ModuleCat.restrictScalars sq.map).map (cotangentMap.{w, max u v} A' B' g) := by
   refine cotangentTerm_hom_ext.{u, max w v} A B i _ _ fun p => ?_
-  show squareCotangentTermMap.{u, v, w} sq j
+  change squareCotangentTermMap.{u, v, w} sq j
       (cotangentMap.{u, max w v} A B g (cotangentTermDifferential.{u, max w v} A B i p)) =
     (ModuleCat.restrictScalars sq.map).map (cotangentMap.{w, max u v} A' B' g)
       (squareCotangentTermMap.{u, v, w} sq i (cotangentTermDifferential.{u, max w v} A B i p))
@@ -227,7 +227,7 @@ theorem squareCotangentComplexMap_differential (sq : AlgebraSquare.{u, v, w} A A
       cotangentTermDifferential.{w, max u v} A' B' (op ⦋n⦌)
         (standardResolutionSquareMap.{u, v, w} sq (op ⦋n⦌) p) := by
   rw [squareCotangentComplexMap_f]
-  show (cotangentComplex_degreeIso.{w, max u v} A' B' n).hom
+  change (cotangentComplex_degreeIso.{w, max u v} A' B' n).hom
       ((cotangentComplex_degreeIso.{w, max u v} A' B' n).inv
         (squareCotangentTermMap.{u, v, w} sq (op ⦋n⦌)
           ((cotangentComplex_degreeIso.{u, max w v} A B n).hom

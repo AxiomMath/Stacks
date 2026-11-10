@@ -63,7 +63,7 @@ private theorem exists_notMem_smul_mem_of_notMem_support_quotient {M : Type*} [A
     (h : (⟨p, inferInstance⟩ : PrimeSpectrum A) ∉ Module.support A (M ⧸ L)) :
     ∃ u ∉ p, ∀ x : M, u • x ∈ L := by
   rw [Module.mem_support_iff_of_finite] at h
-  obtain ⟨u, hu, hup⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨u, hu, hup⟩ := IsConcreteLE.not_le_iff_exists.mp h
   refine ⟨u, hup, fun x => ?_⟩
   have := Module.mem_annihilator.mp hu (Submodule.Quotient.mk x)
   rwa [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero] at this
@@ -244,8 +244,7 @@ theorem exists_basis_residueField_cotangent [Algebra.Smooth R B] [Algebra.Smooth
   have hv : Submodule.span q.ResidueField (Set.range v) = ⊤ := by
     rw [eq_top_iff]
     rintro x -
-    induction x using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => exact Submodule.add_mem _ hx hy
     | tmul a m =>
       obtain ⟨j, hj, rfl⟩ := toCotangent_mk_surjective I π m

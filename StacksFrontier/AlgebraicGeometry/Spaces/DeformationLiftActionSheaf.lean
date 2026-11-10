@@ -115,7 +115,7 @@ theorem toSpaces_map_thickeningPreimage_map_comp_subspaceInclusion {U' V' : Spac
           (preimageSubspace C S hS ((SpacesEtale.inclusion C S hS X').obj W').hom ⟨G, hG.1⟩) :=
     fun W' ↦ IsPullback.isoIsPullback_hom_fst _ _ _ _
   have hn := (thickeningProjection C S hS hG).naturality k
-  show (SpacesEtale.toSpaces C S hS (IsThickening.space C S hS hG)).map
+  change (SpacesEtale.toSpaces C S hS (IsThickening.space C S hS hG)).map
       ((thickeningPreimageIso C S hS hG V').hom ≫ (thickeningBaseChange C S hS hG).map k ≫
         (thickeningPreimageIso C S hS hG U').inv) ≫ _ = _
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, ← hf U',

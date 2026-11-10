@@ -343,7 +343,7 @@ theorem exists_isPrime_comap_eq_of_isRigSurjective (I : Ideal A)
       have hmem : r z ∈ I.map r := Ideal.mem_map_of_mem r hz
       rw [hbot] at hmem
       exact Ideal.mem_bot.mp hmem
-    show algebraMap A L z ∈ q
+    change algebraMap A L z ∈ q
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     apply hbinj
     rw [map_zero]
@@ -378,7 +378,7 @@ theorem exists_isPrime_comap_eq_of_isRigSurjective (I : Ideal A)
         (formalSpectrumMap hAweak pe)
     clear hk
     refine (huniq fg ?_).trans (huniq pe rfl).symm
-    show formalSpectrumMap hAweak fg = formalSpectrumMap hAweak pe
+    change formalSpectrumMap hAweak fg = formalSpectrumMap hAweak pe
     rw [← formalSpectrumMap_comp hAweak hCweak f g fg hfg,
       ← formalSpectrumMap_comp hAweak hRweak p e pe hpe, hg]
     exact hy
@@ -448,7 +448,7 @@ theorem isRigSurjective_formalSpectrumMap_iff_faithfullyFlat (I : Ideal A)
   have hn'comap : n'.comap (Ideal.Quotient.mk (I.map (algebraMap A C))) = n := by
     exact Ideal.comap_map_mk hIn
   refine ⟨⟨n', hn'⟩, PrimeSpectrum.ext ?_⟩
-  show n'.comap φ = x.asIdeal
+  change n'.comap φ = x.asIdeal
   rw [← hmap]
   refine Ideal.comap_injective_of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective ?_
   rw [Ideal.comap_map_mk hIm, Ideal.comap_comap,

@@ -104,7 +104,7 @@ private theorem koszulRegular_map_of_ker_eq_jid {R S : Type u} [CommRing R] [Com
       (RingHom.quotientKerEquivOfSurjective hφ)
       (Ideal.Quotient.mk (Jid f) (g b))) = fun b => φ (g b) := by
     funext b
-    show (RingHom.quotientKerEquivOfSurjective hφ)
+    change (RingHom.quotientKerEquivOfSurjective hφ)
       ((Ideal.quotEquivOfEq hker) (Ideal.Quotient.mk (Jid f) (g b))) = φ (g b)
     rw [Ideal.quotEquivOfEq_mk]
     exact RingHom.quotientKerEquivOfSurjective_apply_mk hφ (g b)
@@ -441,7 +441,7 @@ private theorem isKoszulRegularImmersion_of_exists_tail (i : Z ⟶ Y) [IsImmersi
     have hpt : i.coborderRange.ι (i.liftCoborder z) = i z := by
       rw [← Scheme.Hom.comp_apply, i.liftCoborder_ι]
     have hxO : i.liftCoborder z ∈ i.coborderRange.ι ⁻¹ᵁ T := by
-      show i.coborderRange.ι (i.liftCoborder z) ∈ T
+      change i.coborderRange.ι (i.liftCoborder z) ∈ T
       rw [hpt]
       exact hyT
     have hgenO := isGeneratedByOn_restriction i.coborderRange.ι (definingIdealOfHom i) T tail hgen

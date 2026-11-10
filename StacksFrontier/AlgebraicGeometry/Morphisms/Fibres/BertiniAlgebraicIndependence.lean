@@ -139,7 +139,7 @@ private lemma ringKrullDim_le_fiber_add_quotient
   have hI : topologicalKrullDim I.subscheme = ringKrullDim (A ⧸ RingHom.ker f) := by
     have hrange : Set.range I.subschemeι = PrimeSpectrum.zeroLocus (RingHom.ker f : Set A) := by
       rw [I.range_subschemeι]
-      show closure (Set.range (PrimeSpectrum.comap f.toRingHom)) = _
+      change closure (Set.range (PrimeSpectrum.comap f.toRingHom)) = _
       exact PrimeSpectrum.closure_range_comap _
     exact ((I.subschemeι.isEmbedding.toHomeomorph.trans
       (Homeomorph.setCongr hrange)).isHomeomorph.topologicalKrullDim_eq _).trans
@@ -161,7 +161,7 @@ private lemma comap_aeval_eq_ker_eval_iff
         (algebraMap k (B ⧸ q)).comp (MvPolynomial.eval a) :=
       MvPolynomial.ringHom_ext (fun r ↦ by simp) fun i ↦ by
         simpa [Ideal.Quotient.eq, sub_eq_zero] using Ideal.Quotient.eq_zero_iff_mem.mpr (h i)
-    show q.comap f.toRingHom = _
+    change q.comap f.toRingHom = _
     rw [← Ideal.mk_ker (I := q), RingHom.comap_ker, hcomp,
       RingHom.ker_comp_of_injective _ (algebraMap k (B ⧸ q)).injective]
 
@@ -210,10 +210,10 @@ private lemma genericLinearMap_fiber
   have hev : MvPolynomial.eval a (∑ l, MvPolynomial.C (g l) * MvPolynomial.X l) = g i := by
     simp [a, map_sum, Pi.single_apply, Finset.sum_ite_eq', mul_ite]
   ext q
-  show PrimeSpectrum.comap f.toRingHom q =
+  change PrimeSpectrum.comap f.toRingHom q =
     PrimeSpectrum.comap (MvPolynomial.eval s) ⊥ ↔ _
   rw [PrimeSpectrum.ext_iff]
-  show q.asIdeal.comap f = RingHom.ker (MvPolynomial.eval s) ↔ _
+  change q.asIdeal.comap f = RingHom.ker (MvPolynomial.eval s) ↔ _
   rw [comap_aeval_eq_ker_eval_iff]
   refine ⟨fun h ↦ ?_, ?_⟩
   · have hX (l : Fin n) : MvPolynomial.X l - MvPolynomial.C (a l) ∈ q.asIdeal := by
@@ -222,17 +222,17 @@ private lemma genericLinearMap_fiber
     let p := PrimeSpectrum.comap MvPolynomial.C q
     have hpq : PrimeSpectrum.comap (MvPolynomial.eval a) p = q := PrimeSpectrum.ext hq
     refine ⟨p, ?_, hpq⟩
-    show Ideal.span {g i, g j} ≤ p.asIdeal
+    change Ideal.span {g i, g j} ≤ p.asIdeal
     rw [Ideal.span_le]
     rintro z (rfl | rfl)
     · have hm : (∑ l, MvPolynomial.C (g l) * MvPolynomial.X l) ∈ q.asIdeal := by
         simpa [f, genericLinearMap, s] using h (.inr 0)
       rw [← hq] at hm
-      show MvPolynomial.C (g i) ∈ q.asIdeal
+      change MvPolynomial.C (g i) ∈ q.asIdeal
       simpa only [Ideal.mem_comap, hev] using hm
     · exact (by simpa [f, genericLinearMap, s] using h (.inr 1) : MvPolynomial.C (g j) ∈ q.asIdeal)
   · rintro ⟨p, hp, rfl⟩ b
-    show MvPolynomial.eval a (f (MvPolynomial.X b) - algebraMap k _ (s b)) ∈ p.asIdeal
+    change MvPolynomial.eval a (f (MvPolynomial.X b) - algebraMap k _ (s b)) ∈ p.asIdeal
     cases b with
     | inl l => simp [f, genericLinearMap, s, ha]
     | inr b =>
@@ -281,7 +281,7 @@ private lemma genericLinearMap_injective
       PrimeSpectrum.comap E '' PrimeSpectrum.zeroLocus (I : Set A) :=
     genericLinearMap_fiber k g i j
   have hxy : PrimeSpectrum.comap f.toRingHom x = y := by
-    show x ∈ PrimeSpectrum.comap f.toRingHom ⁻¹' {y}
+    change x ∈ PrimeSpectrum.comap f.toRingHom ⁻¹' {y}
     exact hfiber ▸ ⟨p, hp.1.2, rfl⟩
   have hemb := PrimeSpectrum.isEmbedding_comap_of_surjective _ _ hE
   have hfiber' : PrimeSpectrum.comap f.toRingHom ⁻¹'
@@ -297,10 +297,9 @@ private lemma genericLinearMap_injective
     exact h.symm
   have : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing k A
   have hB : ringKrullDim B = ringKrullDim A + n := by
-    simp [B, MvPolynomial.ringKrullDim_of_isNoetherianRing]
+    simp [B]
   have hR : ringKrullDim R = (n + 2 : ℕ) := by
-    simp [R, MvPolynomial.ringKrullDim_of_isNoetherianRing,
-      ringKrullDim_eq_zero_of_field, Nat.card_eq_fintype_card]
+    simp [R, ringKrullDim_eq_zero_of_field, Nat.card_eq_fintype_card]
   have hdim := ringKrullDim_le_fiber_add_quotient k R B f x
   rw [hlocal, hB] at hdim
   apply (RingHom.injective_iff_ker_eq_bot f.toRingHom).mpr
@@ -358,13 +357,13 @@ public theorem exists_algebraicIndependent_linearCombinations
   let p' := PrimeSpectrum.comap e.toRingHom ⟨p, ‹p.IsPrime›⟩
   have hI : (Ideal.span {g i, g j}).comap e.toRingHom =
       Ideal.span {g' i, g' j} := by
-    show (Ideal.span {g i, g j}).comap e.toRingEquiv = _
+    change (Ideal.span {g i, g j}).comap e.toRingEquiv = _
     rw [← Ideal.map_symm e.toRingEquiv, Ideal.map_span]
     simp only [Set.image_pair]; rfl
   have hp' : p'.asIdeal ∈ (Ideal.span {g' i, g' j}).minimalPrimes :=
     hI ▸ Ideal.minimalPrimes_comap_of_surjective e.surjective hp
   have hdim' : ringKrullDim (A' ⧸ p'.asIdeal) + 2 = ringKrullDim A' := by
-    show ringKrullDim (A' ⧸ p.comap e.toRingHom) + 2 = ringKrullDim A'
+    change ringKrullDim (A' ⧸ p.comap e.toRingHom) + 2 = ringKrullDim A'
     rwa [ringKrullDim_quotient_comap e.toRingHom e.surjective p,
       ringKrullDim_eq_of_ringEquiv e.toRingEquiv]
   have hinj' := genericLinearMap_injective k A' g' i j p' hp' hdim'

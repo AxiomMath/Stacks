@@ -158,7 +158,7 @@ theorem exists_mem_nonvanishingLocus_of_spec {A : CommRingCat.{u}} (L : (Spec A)
   have hunitg : IsUnit (ringGerm (Spec A).toRingedSpace y ⊤ (Opens.mem_top y)
       ((Scheme.ΓSpecIso A).inv g)) := by
     rw [isUnit_ringGerm_iff_mem_basicOpen]
-    show y ∈ (Spec A).basicOpen ((Scheme.ΓSpecIso A).inv g)
+    change y ∈ (Spec A).basicOpen ((Scheme.ΓSpecIso A).inv g)
     rw [basicOpen_eq_of_affine, hg]
     exact hyV
   have hunit : IsUnit (ringGerm (Spec A).toRingedSpace y ⊤ (Opens.mem_top y)

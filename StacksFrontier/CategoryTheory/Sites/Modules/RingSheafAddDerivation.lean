@@ -135,7 +135,7 @@ theorem add_comp_eq {P : Sheaf J CommRingCat.{w}} (q : A ⟶ P)
     (hδ : ∀ (U : Cᵒᵖ) (x : R.obj.obj U), (q.hom.app U).hom (δ.toFun U x) = 0) :
     δ.add ≫ q = f ≫ q := by
   refine sheaf_hom_ext_apply fun U x => ?_
-  show (q.hom.app U).hom ((δ.add.hom.app U).hom x) = (q.hom.app U).hom ((f.hom.app U).hom x)
+  change (q.hom.app U).hom ((δ.add.hom.app U).hom x) = (q.hom.app U).hom ((f.hom.app U).hom x)
   rw [δ.add_apply U x, map_add, hδ U x, add_zero]
 
 /-- If `δ` vanishes on the image of `g : R₀ ⟶ R` then `g ≫ (f + δ) = g ≫ f`. -/
@@ -143,7 +143,7 @@ theorem precomp_add_eq {R₀ : Sheaf J CommRingCat.{w}} (g : R₀ ⟶ R)
     (hδ : ∀ (U : Cᵒᵖ) (t : R₀.obj.obj U), δ.toFun U (g.hom.app U t) = 0) :
     g ≫ δ.add = g ≫ f := by
   refine sheaf_hom_ext_apply fun U t => ?_
-  show (δ.add.hom.app U).hom (g.hom.app U t) = (f.hom.app U).hom (g.hom.app U t)
+  change (δ.add.hom.app U).hom (g.hom.app U t) = (f.hom.app U).hom (g.hom.app U t)
   rw [δ.add_apply U _, hδ U t, add_zero]
 
 /-- Two derivations agreeing on every section are equal. -/

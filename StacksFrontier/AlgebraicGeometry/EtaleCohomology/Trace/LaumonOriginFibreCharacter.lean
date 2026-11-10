@@ -88,7 +88,7 @@ public theorem exists_lift_cover_of_appTop_eq_zero {Y : Scheme.{u}} (i : Y ⟶ S
   have hψ : CommRingCat.ofHom (algebraMap A (Ring k g)) ≫ CommRingCat.ofHom ψ = iΓ := by
     ext a
     exact AdjoinRoot.lift_of hp
-  show Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom ψ) ≫
+  change Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom ψ) ≫
     Spec.map (CommRingCat.ofHom (algebraMap A (Ring k g))) = i
   rw [← Spec.map_comp, hψ, Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc,
     toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
@@ -199,7 +199,7 @@ public theorem artinSchreierCharacter_laumonFibre_eq_one {E : Type} [CommRing E]
     exact h.symm.trans (T.baseChange_character_eq_one_of_lift i.hom s hs yb p' γ)
   apply Units.ext
   rw [Stacks.ArtinSchreier.artinSchreierCharacter_apply]
-  show ψ' (-Multiplicative.toAdd (T.character z p₀ _)) = 1
+  change ψ' (-Multiplicative.toAdd (T.character z p₀ _)) = 1
   rw [h1, h2, toAdd_one, neg_zero, AddChar.map_zero_eq_one]
 
 end Origin

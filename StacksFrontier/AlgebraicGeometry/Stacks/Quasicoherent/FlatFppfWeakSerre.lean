@@ -191,7 +191,7 @@ theorem coversAreCovering_flatLfp :
   refine Precoverage.generate_mem_toGrothendieck
     ⟨fun _ q _ => Functor.IsFiberedInGroupoids.isStronglyCartesian 𝒳.val.isFiberedInGroupoids q, ?_⟩
   rw [GrothendieckTopology.mem_toPrecoverage_iff, Presieve.map_ofArrows]
-  show Sieve.ofArrows _ _ ∈ _
+  change Sieve.ofArrows _ _ ∈ _
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   refine BigFppfSite.ofArrows_mem_topology B _ _ _
     ((Scheme.ofArrows_mem_precoverage_iff _).mpr ⟨fun z => ?_, fun i => hg.mem i⟩)

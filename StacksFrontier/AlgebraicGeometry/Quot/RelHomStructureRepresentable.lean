@@ -493,7 +493,7 @@ theorem testStructureEndEquiv_sum_map_comp (T : SchemesOver ((schemeSpaceFunctor
       ∑ j, ((BigFppfOver.toScheme B S hS).map (testMap T)).appTop (presentationCoeff V c i j) *
         testStructureEndEquiv V T (β' j) := by
   refine (map_sum (testStructureEndAddEquiv V T) _ _).trans (Finset.sum_congr rfl fun j _ => ?_)
-  show testStructureEndEquiv V T _ = _
+  change testStructureEndEquiv V T _ = _
   rw [testStructureEndEquiv_comp, testStructureEndEquiv_map]
   rfl
 
@@ -507,7 +507,7 @@ theorem presentationValues_rel (hpres : IsDegreeZeroPresentation B S hS L e c)
       presentationValues e T β j = 0 := by
   have := smallEtaleDerivedPullbackData_pull_additive (B := B) (S := S) (hS := hS)
     ((schemesOverCone ((schemeSpaceFunctor B S hS).obj V)).leg T)
-  show ∑ j, _ * testStructureEndEquiv V T (((smallEtaleDerivedPullbackData B S hS).pull
+  change ∑ j, _ * testStructureEndEquiv V T (((smallEtaleDerivedPullbackData B S hS).pull
     ((schemesOverCone ((schemeSpaceFunctor B S hS).obj V)).leg T)).map (e j) ≫ β) = 0
   rw [← testStructureEndEquiv_sum_map_comp]
   have h0 : ∑ j, ((smallEtaleDerivedPullbackData B S hS).pull
@@ -568,7 +568,7 @@ theorem presentationValues_relHomMap {T T' : SchemesOver ((schemeSpaceFunctor B 
         (schemesOverCone ((schemeSpaceFunctor B S hS).obj V)) _ _ g β) =
       fun j => ((BigFppfOver.toScheme B S hS).map g.left).appTop (presentationValues e T β j) := by
   funext j
-  show testStructureEndEquiv V T' (_ ≫ _) = _
+  change testStructureEndEquiv V T' (_ ≫ _) = _
   rw [← PullbackData.relHomMap_map_comp, testStructureEndEquiv_relHomMap]
   rfl
 

@@ -73,7 +73,7 @@ theorem C1573.contains_relativeProj_reesSituation_of_contains_of_isLocallyNoethe
     AlgebraicGeometry.isProper_blowUpToBase I
   have hb : B.Contains (AlgebraicGeometry.blowUp I) :=
     Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact (AlgebraicGeometry.blowUpToBase I) hY
-  show (Stacks.Blowup.reesSituation I).relativeProj.size < B.cutoff
+  change (Stacks.Blowup.reesSituation I).relativeProj.size < B.cutoff
   rw [Scheme.size_congr (Stacks.Blowup.reesSituationBlowUpIso I)]
   exact hb
 

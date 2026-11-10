@@ -66,7 +66,7 @@ abbrev strictHenselizationSectionsMap :
 directed system of neighbourhoods. -/
 abbrev strictHenselizationSectionsCocone (F : Sheaf (smallEtaleTopology X) Ab.{u + 1}) :
     Cocone ((etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).op ⋙
-      (CategoryOfElements.π (Scheme.pointSmallEtale s.hom).fiber).op ⋙
+      (Functor.Elements.π (Scheme.pointSmallEtale s.hom).fiber).op ⋙
         ((smallEtalePushforwardAb f).obj F).obj) :=
   (((Scheme.pointSmallEtale s.hom).presheafFiberCocone
       ((smallEtalePushforwardAb f).obj F).obj).whisker

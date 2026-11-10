@@ -151,7 +151,7 @@ theorem hasFiniteDimensionalTangentSpaces_coherentCFG_of_liftClassInjection
     have h1 := hc₂ f z b hpb
     have h2 := D.squareZeroLiftClassMap_pullback hY i₀ hk x₀ hxo
       ((Deformation.Artin.fgSiteModule B hk).map f) (c V z) b hpb
-    show T V' (D.squareZeroLiftClassMap hY i₀ hk x₀ hxo _ (c V' ((Deformation.isomorphismClasses
+    change T V' (D.squareZeroLiftClassMap hY i₀ hk x₀ hxo _ (c V' ((Deformation.isomorphismClasses
       (BasedCategory.ofFunctor Dd.projection) hD.predeformation.cofibered).map
         ((Deformation.artinianSquareZeroExtensionFunctor Λ k).map f) z))) = G.map f (t V z)
     rw [h1, h2]

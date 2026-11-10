@@ -260,7 +260,7 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
 /-- `f⁻¹ (k • φ) = k • f⁻¹ φ` for ℓ-adic sheaves. -/
 theorem LAdicSheaf.inverseImageMap_nsmul {F G : LAdicSheaf.{u, u + 1} B U ℓ} (k : ℕ) (φ : F ⟶ G) :
     LAdicSheaf.inverseImageMap jU (k • φ) = k • LAdicSheaf.inverseImageMap jU φ := by
-  show (LAdicSheaf.inverseImageFunctor jU).map (k • φ) = k • (LAdicSheaf.inverseImageFunctor
+  change (LAdicSheaf.inverseImageFunctor jU).map (k • φ) = k • (LAdicSheaf.inverseImageFunctor
       jU).map φ
   exact (LAdicSheaf.inverseImageFunctor jU).map_nsmul
 
@@ -530,8 +530,8 @@ theorem LAdicSheaf.mono_whiskerRight_padicTowerHigherDirectImageShriekIso_stable
   exact NatTrans.mono_of_mono_app _
 
 include hcond' in
-omit [LocallyOfFiniteType (B.inclusion.map g')] [QuasiCompact (B.inclusion.map g')]
-  [IsSeparated (B.inclusion.map g')] in
+omit [AlgebraicGeometry.IsNoetherian V.obj] [LocallyOfFiniteType (B.inclusion.map g')]
+  [QuasiCompact (B.inclusion.map g')] [IsSeparated (B.inclusion.map g')] in
 /-- The inclusion `stableImageι` of the stable image of the tower `lowerShriekTowerLES` for
 `g'` and the restriction of `K` along `jU` is a monomorphism of towers. -/
 theorem LAdicSheaf.mono_lowerShriekTowerLES_stableImageι :

@@ -261,7 +261,7 @@ def baseChangeComparison :
     (Over.pullback q).obj ((Over.pullback p).obj X) ≅ (Over.pullback r).obj X :=
   Over.isoMk (pullbackLeftPullbackSndIso X.hom p q ≪≫ pullback.congrHom rfl h) (by
     dsimp
-    simp [pullback.congrHom_hom, pullback.lift_snd, pullbackLeftPullbackSndIso_hom_snd])
+    simp [pullback.congrHom_hom, pullbackLeftPullbackSndIso_hom_snd])
 
 /-- `AlgebraicGeometry.Scheme.baseChangeComparison` is the identity on the `X`-component. Since
 a morphism of schemes over `S'` into a base change of `X` is determined by its composition with
@@ -271,7 +271,7 @@ theorem baseChangeComparison_hom_left_fst :
     (baseChangeComparison p q r h X).hom.left ≫ pullback.fst X.hom r =
       pullback.fst ((Over.pullback p).obj X).hom q ≫ pullback.fst X.hom p := by
   dsimp [baseChangeComparison]
-  simp [pullback.congrHom_hom, pullback.lift_fst, pullbackLeftPullbackSndIso_hom_fst]
+  simp [pullback.congrHom_hom, pullbackLeftPullbackSndIso_hom_fst]
 
 end Comparison
 
@@ -333,7 +333,7 @@ theorem eventually_eq_of_baseChange_eq_of_locallyOfFiniteType
       exact h.symm.trans (hj.trans h')
     simpa [pullback.lift_fst] using
       congrArg (fun k => (pullbackSymmetry X.hom (D.map j.hom)).hom ≫ k) hj'
-  · simp [pullback.lift_snd]
+  · simp
 
 /-- **Stacks Project, Tag 01ZM, part (3).** Two morphisms between schemes of finite presentation
 at one stage of a cofiltered inverse system of quasi-compact and quasi-separated schemes with

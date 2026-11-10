@@ -57,8 +57,7 @@ def abelianSheafSmallEtale (X : Scheme.{u}) :
 
 /-- Sheafification of abelian presheaves on Mathlib's small étale site, with coefficients one
 universe above the scheme universe; restated for the same reason as `abelianSheafSmallEtale`. -/
-@[instance_reducible]
-def hasSheafifySmallEtale (X : Scheme.{u}) :
+theorem hasSheafifySmallEtale (X : Scheme.{u}) :
     HasSheafify X.smallEtaleTopology Ab.{u + 1} :=
   inferInstance
 
@@ -104,7 +103,7 @@ theorem etaleCohomologyRestrictionMap_restrict {X Y Z : Scheme.{u}} (a : Y ⟶ X
         (κ.symm.app Zx ≪≫
           (etaleAbelianInverseImageConstantIso.{u, 0} ba).app (AddCommGrpCat.of (ULift ℤ))).inv :=
       congrArg Iso.inv (Iso.ext hc)
-    simp only [Iso.trans_inv, Functor.mapIso_inv, Iso.symm_inv] at e
+    simp only [Iso.trans_inv, Functor.mapIso_inv] at e
     rw [← Category.assoc, e, Category.assoc]
     simp
   simp only [etaleCohomologyRestrictionMap_apply]
@@ -179,6 +178,8 @@ def densePushforwardIso :
   let := Functor.isContinuous_comp v ι' J J' Y.smallEtaleTopology
   Functor.sheafPushforwardContinuousIso τ.symm Ab.{u + 1} _ _
 
+omit [HasExt.{u + 1} (Sheaf X.smallEtaleTopology Ab.{u + 1})]
+  [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology Ab.{u + 1})] in
 /-- The components of `densePushforwardIso`: restriction along `τ`. -/
 theorem densePushforwardIso_hom_app_hom_app (M : Sheaf Y.smallEtaleTopology Ab.{u + 1})
     (W : Cᵒᵖ) :
@@ -195,6 +196,8 @@ def denseComplexComponent {I : CochainComplex (Sheaf X.smallEtaleTopology Ab.{u 
   ((ι.sheafPushforwardContinuous Ab.{u + 1} J _).map (ζ.f n) ≫
     (densePushforwardIso h J ι J' ι' v τ).hom.app (K.X n)).hom
 
+omit [HasExt.{u + 1} (Sheaf X.smallEtaleTopology Ab.{u + 1})]
+  [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology Ab.{u + 1})] in
 /-- The components `denseComplexComponent` commute with the differentials of the restricted
 complexes. -/
 theorem denseComplexComponent_comm {I : CochainComplex (Sheaf X.smallEtaleTopology Ab.{u + 1}) ℕ}
@@ -325,6 +328,8 @@ theorem toRightDerivedZero_mapInjRes {𝒜 ℬ 𝒞 : Type*} [Category 𝒜] [Ca
       (((L ⋙ G).mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex)).hom ≫
         (I.isoRightDerivedObj (L ⋙ G) 0).inv) h'))
 
+omit [HasExt.{u + 1} (Sheaf X.smallEtaleTopology Ab.{u + 1})]
+  [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology Ab.{u + 1})] in
 open Stacks.WeakSites.ColimitSiteCohomology in
 /-- **A cochain map into a direct image computes a cohomology map on the dense subsites.** Given
 injective resolutions `I` of `P` and `K` of `Q` and a cochain map `ζ : I ⟶ h_*K` extending
@@ -433,8 +438,13 @@ theorem denseCohomologyIso_conj_succ (V : C) (hT : IsTerminal (ι.obj V))
     have hk := ((χ₀ ≫ g').f k).hom.naturality (τ.hom.app V).op
     simp only [HomologicalComplex.comp_f, ObjectProperty.FullSubcategory.comp_hom,
       NatTrans.comp_app] at hk
-    simp [sectionsComplexMap, denseComplexComponent, etaleAdjunctComplex, sectionsRestriction,
-      densePushforwardIso_hom_app_hom_app]
+    simp only [Functor.mapHomologicalComplex_obj_X, Functor.flip_obj_obj, ObjectProperty.ι_obj,
+      sectionsComplexMap, denseComplexComponent, Functor.comp_obj, etaleAdjunctComplex,
+      HomologicalComplex.comp_f, Functor.map_comp, Category.assoc,
+      ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
+      Functor.sheafPushforwardContinuous_map_hom_app, densePushforwardIso_hom_app_hom_app,
+      sectionsRestriction, Functor.id_obj, Functor.op_obj, NatTrans.mapHomologicalComplex_app_f,
+      Functor.mapHomologicalComplex_map_f, Functor.flip_obj_map, ObjectProperty.ι_map]
     exact (congrArg (_ ≫ ·) ((Category.assoc _ _ _).symm.trans hk.symm)).trans
       (Category.assoc _ _ _).symm
   rw [← hcm] at key
@@ -445,6 +455,7 @@ theorem denseCohomologyIso_conj_succ (V : C) (hT : IsTerminal (ι.obj V))
   exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Iso.inv_hom_id _)).trans
     (Category.comp_id _))
 
+omit [v.IsContinuous J J'] in
 /-- **Restriction on étale cohomology, read on dense subsites, in degree zero**: after the
 degree-zero comparison `Γ(V, -) ⟶ R⁰Γ(V, -)` it is restriction of sections along `τ`. -/
 theorem denseCohomologyIso_zero_comm (V : C) (hT : IsTerminal (ι.obj V))
@@ -754,6 +765,7 @@ def levelCoconeIso (p : ℕ) (A : Over (bottom D c B hD hX hc)) :
       (levelObj_isTerminal A) (levelInverseImage G A.left) p ≪≫
     ((levelCocone G p).objIso A).symm
 
+omit [HasExt.{u + 1} (Sheaf c.pt.smallEtaleTopology Ab.{u + 1})] in
 /-- **The transition maps of the cohomology diagram of Stacks 09YP are restriction on étale
 cohomology**, read through `levelCoconeIso`. -/
 theorem levelCocone_map (p : ℕ) {A A' : Over (bottom D c B hD hX hc)} (f : A ⟶ A') :
@@ -864,7 +876,7 @@ theorem exists_extRestrictionMap_levelComparison_eq_zero (p : ℕ) (A : Over (bo
     preservesFilteredColimitsOfSize_shrink.{u, u + 1, u, u + 1} _
   have h0 : (levelCocone G p).cocone.ι.app (op A) ((levelCoconeIso G p A).hom y) =
       (levelCocone G p).cocone.ι.app (op A) 0 := by
-    show (levelCocone G p).leg.app (op A) _ = (levelCocone G p).leg.app (op A) 0
+    change (levelCocone G p).leg.app (op A) _ = (levelCocone G p).leg.app (op A) 0
     rw [levelCocone_leg_apply, hy, map_zero, map_zero]
   obtain ⟨k, f, g, hfg⟩ := Concrete.isColimit_exists_of_rep_eq _ (levelCocone_isColimit G p) _ _ h0
   refine ⟨k.unop, f.unop, ?_⟩

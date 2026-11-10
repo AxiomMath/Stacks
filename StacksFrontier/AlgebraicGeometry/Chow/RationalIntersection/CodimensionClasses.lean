@@ -116,7 +116,7 @@ theorem codimensionToRationalChow_mem_codimensionChowSubmodule [CompactSpace X] 
   obtain ⟨hle, hdim⟩ := ringKrullDim_stalk_of_mem_dimPart sX hy
   have h0 := relativeDimension_fieldChowSituation_nonneg k sX ((dimPart sX d).ι.base t)
   rw [hδ] at hle hdim h0
-  rw [Set.mem_setOf_eq, hdim]
+  rw [Set.mem_ofPred_eq, hdim]
   congr 1
   omega
 

@@ -53,21 +53,21 @@ variable {C : Type uC} [Category.{vC} C] {P Q : C ⥤ Type uP}
 canonical map from the sections at an element to the canonical map at the transported element. -/
 public lemma ι_presheafColimIsoOfNatIsoOfCoefficients_hom (e : P ≅ Q) (F : Cᵒᵖ ⥤ A)
     (X : P.Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π P).op ⋙ F) X ≫
+    colimit.ι ((Functor.Elements.π P).op ⋙ F) X ≫
         (presheafColimIsoOfNatIsoOfCoefficients (A := A) e).hom.app F =
-      colimit.ι ((CategoryOfElements.π Q).op ⋙ F)
-        (op ((CategoryOfElements.map e.hom).obj X.unop)) :=
+      colimit.ι ((Functor.Elements.π Q).op ⋙ F)
+        (op ((NatTrans.mapElements e.hom).obj X.unop)) :=
   Functor.Final.ι_colimitIso_hom (equivalenceOfNatIso e).op.functor
-    ((CategoryOfElements.π Q).op ⋙ F) X
+    ((Functor.Elements.π Q).op ⋙ F) X
 
 /-- The invariance of the elements-colimit stalk functor on sheaves sends the germ of a section
 at an element to its germ at the transported element. -/
 public lemma ι_sheafColimIsoOfNatIsoOfCoefficients_hom (J : GrothendieckTopology C) (e : P ≅ Q)
     (F : Sheaf J A) (V : P.Elements) :
-    colimit.ι ((CategoryOfElements.π P).op ⋙ F.obj) (op V) ≫
+    colimit.ι ((Functor.Elements.π P).op ⋙ F.obj) (op V) ≫
         (sheafColimIsoOfNatIsoOfCoefficients (A := A) J e).hom.app F =
-      colimit.ι ((CategoryOfElements.π Q).op ⋙ F.obj)
-        (op ((CategoryOfElements.map e.hom).obj V)) :=
+      colimit.ι ((Functor.Elements.π Q).op ⋙ F.obj)
+        (op ((NatTrans.mapElements e.hom).obj V)) :=
   ι_presheafColimIsoOfNatIsoOfCoefficients_hom e F.obj (op V)
 
 end CategoryTheory.CategoryOfElements
@@ -110,12 +110,12 @@ public theorem smallEtalePullbackSheafFiberIso_germ
     (ha : U.2.1 ≫ (SmallEtale.toScheme B T.obj T.property).map a ≫
       B.inclusion.map (pullback.fst V.1.obj.hom f) = V.2.1) :
     pullbackSectionAlongHom B f A F V.1 U.1 a ≫
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B T.obj T.property x)).op ⋙
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B T.obj T.property x)).op ⋙
             (((smallEtaleBaseChange B f).sheafPullback A
               (SmallEtale.topology B S.obj S.property)
               (SmallEtale.topology B T.obj T.property)).obj F).obj) (op U) ≫
           (smallEtalePullbackSheafFiberIso B f x A).hom.app F =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.obj S.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S.obj S.property
         (x.map (B.inclusion.map f)))).op ⋙ F.obj) (op V) := by
   let J := SmallEtale.topology B S.obj S.property
   let K := SmallEtale.topology B T.obj T.property
@@ -185,12 +185,12 @@ public theorem etaleStalkSmallEtalePullObjIso_germ
     (ha : U.2.1 ≫ (SmallEtale.toScheme B T.obj T.property).map a ≫
       B.inclusion.map (pullback.fst V.1.obj.hom f) = V.2.1) :
     pullbackSectionAlongHom B f A F V.1 U.1 a ≫
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B T.obj T.property x)).op ⋙
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B T.obj T.property x)).op ⋙
             (((smallEtaleBaseChange B f).sheafPullback A
               (SmallEtale.topology B S.obj S.property)
               (SmallEtale.topology B T.obj T.property)).obj F).obj) (op U) ≫
           (etaleStalkSmallEtalePullObjIso B f x A F).hom =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.obj S.property
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S.obj S.property
         (x.map (B.inclusion.map f)))).op ⋙ F.obj) (op V) :=
   smallEtalePullbackSheafFiberIso_germ B f x A F U V a ha
 

@@ -155,19 +155,19 @@ theorem pullback_coverPreserving {X Y : SimplicialObject TopCat.{u}} (f : Y ⟶ 
       obtain ⟨e, he⟩ := hR.1 V g hg
       let y' := Y.map (eqToHom e.symm) yu
       have hy' : f.app V.degree y' = x := by
-        show f.app V.degree (Y.map (eqToHom e.symm) yu) = x
+        change f.app V.degree (Y.map (eqToHom e.symm) yu) = x
         have hn := congrArg (fun k => k yu) (f.naturality (eqToHom e.symm))
         change f.app V.degree (Y.map (eqToHom e.symm) yu) =
           X.map (eqToHom e.symm) (f.app U.degree yu) at hn
         rw [← heq, he] at hn
         simpa using hn
       refine ⟨(pullback f).obj V, (pullback f).map g, .of hg, y', ?_, ?_⟩
-      · show f.app V.degree y' ∈ V.toOpens
+      · change f.app V.degree y' ∈ V.toOpens
         rw [hy']
         exact hx
-      · show Y.map g.base y' = yu
+      · change Y.map g.base y' = yu
         rw [he]
-        show Y.map (eqToHom e) (Y.map (eqToHom e.symm) yu) = yu
+        change Y.map (eqToHom e) (Y.map (eqToHom e.symm) yu) = yu
         rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
         simp
   · exact (R.map_le_functorPushforward (pullback f)).trans

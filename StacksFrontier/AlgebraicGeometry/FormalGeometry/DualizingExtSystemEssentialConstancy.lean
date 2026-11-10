@@ -97,10 +97,10 @@ public theorem localizedModuleFunctor_map_symm_shrink {R : Type u} [CommRing R] 
   have hF : F₁ = F₂ := by
     refine IsLocalizedModule.linearMap_ext T (LocalizedModule.mkLinearMap T X)
       (Y.localizedModuleMkLinearMap T) (LinearMap.ext fun m => ?_)
-    show IsLocalizedModule.map T (X.localizedModuleMkLinearMap T)
+    change IsLocalizedModule.map T (X.localizedModuleMkLinearMap T)
         (Y.localizedModuleMkLinearMap T) g.hom (X.localizedModuleMkLinearMap T m) = _
     rw [IsLocalizedModule.map_apply]
-    show _ = (Shrink.linearEquiv R (LocalizedModule T Y)).symm
+    change _ = (Shrink.linearEquiv R (LocalizedModule T Y)).symm
       (LocalizedModule.map T g.hom (LocalizedModule.mk m 1))
     rw [LocalizedModule.map_mk]
     rfl
@@ -156,7 +156,7 @@ public theorem map_comap_chartRing_eq (hq : chartIdeal S f ≤ q.asIdeal) :
     rw [algebraMap_chartRing_apply]
     exact (IsLocalization.map_units (Localization.Away f) t).map _
   have ha : a ∈ P.asIdeal := by
-    show algebraMap S.A (chartRing S f) a ∈ q.asIdeal
+    change algebraMap S.A (chartRing S f) a ∈ q.asIdeal
     rw [← hat']
     exact q.asIdeal.mul_mem_right _ hrq
   have hr' : algebraMap (Localization.Away f) (chartRing S f) r ∈
@@ -225,12 +225,12 @@ public theorem comap_pointStructureMap_eq (hq : chartIdeal S f ≤ q.asIdeal) :
   have : IsNoetherianRing (Localization.AtPrime q.asIdeal) :=
     IsLocalization.isNoetherianRing q.asIdeal.primeCompl _ inferInstance
   have hJ := map_chartIdeal_le_maximalIdeal_atPrime q hq
-  show ((((maximalIdeal (pointCompletion (chartIdeal S f) q)).comap
+  change ((((maximalIdeal (pointCompletion (chartIdeal S f) q)).comap
     (algebraMap (Localization.AtPrime q.asIdeal) (pointCompletion (chartIdeal S f) q))).comap
       (algebraMap (chartRing S f) (Localization.AtPrime q.asIdeal))).comap
         (algebraMap S.A (chartRing S f))) = _
   rw [comap_maximalIdeal_adicCompletion _ hJ]
-  show ((maximalIdeal (Localization.AtPrime q.asIdeal)).under (chartRing S f)).comap _ = _
+  change ((maximalIdeal (Localization.AtPrime q.asIdeal)).under (chartRing S f)).comap _ = _
   rw [Localization.AtPrime.under_maximalIdeal (I := q.asIdeal)]
   rfl
 
@@ -318,8 +318,8 @@ public theorem chartPrimeKernelCondition [IsLocalRing S.A]
     have h1 := distanceToZ_le_ringKrullDim_quotient S hmax.symm (pointOfPrime S P hPa) z hyz
     rw [he] at h1
     have h2 : S.distanceToZ z ≤ (e : ℕ∞) := by exact_mod_cast h1
-    have h3 := ENat.toNat_le_toNat h2 (ENat.coe_ne_top e)
-    rw [ENat.toNat_coe] at h3
+    have h3 := ENat.toNat_le_toNat h2 (ENat.natCast_ne_top e)
+    rw [ENat.toNat_natCast] at h3
     exact_mod_cast h3
   have hj : i - e ≤ Bs.s := by
     rw [hBs]

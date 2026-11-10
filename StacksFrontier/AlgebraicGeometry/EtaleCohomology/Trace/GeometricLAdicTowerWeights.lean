@@ -96,6 +96,7 @@ public def LAdicSheaf.padicTowerCohomologyIso (F : LAdicSheaf B X ℓ) (i : ℤ)
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The identification of the tower cohomology with the inverse system of `F` carries the
 canonical Frobenius of the tower to `π_X^*` on the inverse system. -/
 public theorem LAdicSheaf.padicTowerCohomologyIso_hom_frobenius (F : LAdicSheaf B X ℓ) (i : ℤ) :
@@ -108,6 +109,7 @@ public theorem LAdicSheaf.padicTowerCohomologyIso_hom_frobenius (F : LAdicSheaf 
   ext n : 2
   rfl
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The weight bound on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` is the weight bound on the rational limit of the
 tower of levels**, for the canonical geometric Frobenius on both. -/
 public theorem

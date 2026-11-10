@@ -58,7 +58,7 @@ theorem extensionByZeroPairing_whisker {A₁ A₂ B₁ B₂ : EtaleModules.{u, 0
         (etaleModuleExtensionByZero.{u, 0} (ZMod N) j).map b ≫ extensionByZeroPairing N j p₁ := by
   let := etaleModuleExtensionByZeroOplaxMonoidal (ZMod N) j
   let L := etaleModuleExtensionByZero.{u, 0} (ZMod N) j
-  show L.map a ▷ L.obj B₂ ≫ inv (δ L A₂ B₂) ≫ L.map p₂ ≫ η L =
+  change L.map a ▷ L.obj B₂ ≫ inv (δ L A₂ B₂) ≫ L.map p₂ ≫ η L =
     L.obj A₁ ◁ L.map b ≫ inv (δ L A₁ B₁) ≫ L.map p₁ ≫ η L
   rw [← cancel_epi (δ L A₁ B₂), δ_natural_left_assoc, δ_natural_right_assoc,
     IsIso.hom_inv_id_assoc, IsIso.hom_inv_id_assoc, ← L.map_comp_assoc, ← L.map_comp_assoc, h]
@@ -76,7 +76,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
       (SmallEtale.topology B S.1 S.property)
       (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
   [IsNoetherian X.1] (n : ℕ)
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
+  {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f))
 
 /-- **Adjoint morphisms of the levels of `ℱ_{ρ₀}` and `ℱ_{ρ₀^∨}` are adjoint for the coefficient

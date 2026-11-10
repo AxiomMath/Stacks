@@ -311,7 +311,7 @@ theorem coproductMapTriangleHom_comm₃_app (j : J) :
             R.map (Sigma.desc fun j ↦ (T j).mor₃ ≫ (Sigma.ι (fun j ↦ (T j).obj₁) j)⟦(1 : ℤ)⟧') ≫
               (R.commShiftIso (1 : ℤ)).hom.app (∐ fun j ↦ (T j).obj₁) := by
   rw [Category.assoc, shift_ι_comp_shift_sigmaComparison, ι_comp_sigmaComparison_assoc,
-    ← R.map_comp_assoc, Sigma.ι_desc, R.map_comp]
+    ← R.map_comp_assoc, Sigma.ι_comp_desc, R.map_comp]
   simp only [Category.assoc]
   rw [R.commShiftIso_hom_naturality]
 
@@ -336,7 +336,7 @@ def coproductMapTriangleHom :
             R.map (Sigma.desc fun j ↦ (T j).mor₃ ≫
               (Sigma.ι (fun j ↦ (T j).obj₁) j)⟦(1 : ℤ)⟧') ≫
               (R.commShiftIso (1 : ℤ)).hom.app (∐ fun j ↦ (T j).obj₁)
-      rw [← Category.assoc, Sigma.ι_desc]
+      rw [← Category.assoc, Sigma.ι_comp_desc]
       exact coproductMapTriangleHom_comm₃_app R T j)
 
 omit [HasCoproduct fun j ↦ (T j).obj₁] [HasCoproduct fun j ↦ (T j).obj₂]

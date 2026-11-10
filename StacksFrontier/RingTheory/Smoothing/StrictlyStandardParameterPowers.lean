@@ -105,7 +105,7 @@ private lemma algebraMap_mvPolynomial_C_parameterPowerAlgebra (k K : Type*) [Com
     [CommRing K] [Algebra k K] (d N : ℕ) {t : ℕ} (c : Fin t → K) (r : k) :
     algebraMap (MvPolynomial (Fin d) k) (parameterPowerAlgebra K d N c) (C r) =
       Ideal.Quotient.mk (parameterPowerIdeal d N c) (C (algebraMap k K r)) := by
-  show parameterPowerBaseHom k d N c (C r) = _
+  change parameterPowerBaseHom k d N c (C r) = _
   rw [parameterPowerBaseHom_C, IsScalarTower.algebraMap_apply k
     (MvPolynomial (Fin d ⊕ Fin d × Fin t) K) (parameterPowerAlgebra K d N c)]
   simp [MvPolynomial.algebraMap_eq, IsScalarTower.algebraMap_apply k K
@@ -273,16 +273,16 @@ lemma fwd_bwd (d N : ℕ) {t : ℕ} (c : Fin t → K) (j₀ : Fin t) (hj : IsUni
     (fwd d N c j₀ hj).comp (bwd d N c j₀) = AlgHom.id K (MvPolynomial (Vars d j₀) K) := by
   refine MvPolynomial.algHom_ext fun v => ?_
   obtain ⟨i, j⟩ | i := v
-  · show fwd d N c j₀ hj (bwd d N c j₀ (X (Sum.inl (i, j)))) = X (Sum.inl (i, j))
+  · change fwd d N c j₀ hj (bwd d N c j₀ (X (Sum.inl (i, j)))) = X (Sum.inl (i, j))
     rw [bwd_X_inl, fwd_mk, fwdHom_X, subst_inr_of_ne d N c j₀ i j.2]
-  · show fwd d N c j₀ hj (bwd d N c j₀ (X (Sum.inr i))) = X (Sum.inr i)
+  · change fwd d N c j₀ hj (bwd d N c j₀ (X (Sum.inr i))) = X (Sum.inr i)
     rw [bwd_X_inr, fwd_mk, fwdHom_X, subst_inl]
 
 /-- `bwd` is a left inverse of `fwd`. -/
 lemma bwd_fwd (d N : ℕ) {t : ℕ} (c : Fin t → K) (j₀ : Fin t) (hj : IsUnit (c j₀)) :
     (bwd d N c j₀).comp (fwd d N c j₀ hj) = AlgHom.id K (parameterPowerAlgebra K d N c) := by
   refine Ideal.Quotient.algHom_ext _ (MvPolynomial.algHom_ext fun v => ?_)
-  show bwd d N c j₀ (fwd d N c j₀ hj (Ideal.Quotient.mk _ (X v))) = Ideal.Quotient.mk _ (X v)
+  change bwd d N c j₀ (fwd d N c j₀ hj (Ideal.Quotient.mk _ (X v))) = Ideal.Quotient.mk _ (X v)
   rw [fwd_mk, fwdHom_X]
   obtain i | ⟨i, j⟩ := v
   · rw [subst_inl, bwd_X_inr]
@@ -363,10 +363,10 @@ theorem smooth_parameterPowerAlgebra_of_isUnit (k : Type u) (K : Type v) [CommRi
           (MvPolynomial (Fin d × {j : Fin t // j ≠ j₀}) (MvPolynomial (Fin d) K))).comp
           (MvPolynomial.mapAlgHom (σ := Fin d) (Algebra.ofId k K)) := by
       refine MvPolynomial.algHom_ext fun i => ?_
-      show E₁ (parameterPowerBaseHom k d N c (MvPolynomial.X i)) = _
+      change E₁ (parameterPowerBaseHom k d N c (MvPolynomial.X i)) = _
       rw [parameterPowerBaseHom_X]
-      show E₀ (Ideal.Quotient.mk (parameterPowerIdeal d N c) (MvPolynomial.X (Sum.inl i))) = _
-      show MvPolynomial.sumAlgEquiv K (Fin d × {j : Fin t // j ≠ j₀}) (Fin d)
+      change E₀ (Ideal.Quotient.mk (parameterPowerIdeal d N c) (MvPolynomial.X (Sum.inl i))) = _
+      change MvPolynomial.sumAlgEquiv K (Fin d × {j : Fin t // j ≠ j₀}) (Fin d)
         (elimEquiv d N c j₀ hj
           (Ideal.Quotient.mk (parameterPowerIdeal d N c) (MvPolynomial.X (Sum.inl i)))) = _
       rw [elimEquiv_apply, fwd_mk, fwdHom_X, subst_inl, MvPolynomial.sumAlgEquiv_X_inr]
@@ -421,7 +421,7 @@ theorem smooth_parameterPowerAlgebra_localizationAway_coeff (k : Type u) (A : Ty
       = X (Sum.inl i) ^ (2 * N) -
           ∑ j, C (algebraMap A (Localization.Away (a j₀)) (a j)) * X (Sum.inr (i, j)) := by
     intro i
-    show MvPolynomial.map (algebraMap A (Localization.Away (a j₀))) _ = _
+    change MvPolynomial.map (algebraMap A (Localization.Away (a j₀))) _ = _
     simp
   have hidealeq : (parameterPowerIdeal d N a).map
         (algebraMap (MvPolynomial (Fin d ⊕ Fin d × Fin t) A)
@@ -461,22 +461,22 @@ theorem smooth_parameterPowerAlgebra_localizationAway_coeff (k : Type u) (A : Ty
           (parameterPowerAlgebra (Localization.Away (a j₀)) d N
             (fun j => algebraMap A (Localization.Away (a j₀)) (a j))) := by
       refine MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_)
-      · show e2 (e1 (algebraMap (MvPolynomial (Fin d) k) _ (C r))) = _
+      · change e2 (e1 (algebraMap (MvPolynomial (Fin d) k) _ (C r))) = _
         rw [IsScalarTower.algebraMap_apply (MvPolynomial (Fin d) k)
             (parameterPowerAlgebra A d N a)
             (Localization.Away (algebraMap A (parameterPowerAlgebra A d N a) (a j₀)))]
         rw [algebraMap_mvPolynomial_C_parameterPowerAlgebra k A d N a r]
         rw [e1.commutes, hqmap, MvPolynomial.map_C, Ideal.quotEquivOfEq_mk]
-        show _ = algebraMap (MvPolynomial (Fin d) k) _ (C r)
+        change _ = algebraMap (MvPolynomial (Fin d) k) _ (C r)
         rw [algebraMap_mvPolynomial_C_parameterPowerAlgebra k (Localization.Away (a j₀)) d N _ r]
         rw [IsScalarTower.algebraMap_apply k A (Localization.Away (a j₀))]
-      · show e2 (e1 (algebraMap (MvPolynomial (Fin d) k) _ (X i))) = _
+      · change e2 (e1 (algebraMap (MvPolynomial (Fin d) k) _ (X i))) = _
         rw [IsScalarTower.algebraMap_apply (MvPolynomial (Fin d) k)
             (parameterPowerAlgebra A d N a)
             (Localization.Away (algebraMap A (parameterPowerAlgebra A d N a) (a j₀))),
           algebraMap_mvPolynomial_parameterPowerAlgebra_X, e1.commutes, hqmap,
           MvPolynomial.map_X, Ideal.quotEquivOfEq_mk]
-        show _ = algebraMap (MvPolynomial (Fin d) k) _ (X i)
+        change _ = algebraMap (MvPolynomial (Fin d) k) _ (X i)
         rw [algebraMap_mvPolynomial_parameterPowerAlgebra_X]
     exact fun p => congrArg (fun f => f p) key
   refine smooth_of_ringEquiv (R := MvPolynomial (Fin d) k)

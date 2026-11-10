@@ -37,7 +37,7 @@ theorem moduleInjective_presheafFiber (P : Cᵒᵖ ⥤ ModuleCat.{max u' w} R)
     Module.Injective R ((Φ.presheafFiber (A := ModuleCat.{max u' w} R)).obj P) := by
   have :
       PreservesFilteredColimitsOfSize.{max u' w, max u' w} (forget (ModuleCat.{max u' w} R)) := by
-    show PreservesFilteredColimitsOfSize.{max u' w, max u' w}
+    change PreservesFilteredColimitsOfSize.{max u' w, max u' w}
       (forget₂ (ModuleCat.{max u' w} R) AddCommGrpCat.{max u' w} ⋙ forget AddCommGrpCat.{max u' w})
     infer_instance
   exact ModuleCat.FiniteFilteredColimit.injective_pt _ (Φ.isColimitPresheafFiberCocone P)

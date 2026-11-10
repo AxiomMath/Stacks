@@ -191,7 +191,7 @@ theorem isIso_toAbsoluteWeakNormalization_iff_isAbsolutelyWeaklyNormalRing
   let T := absoluteWeakNormalizationCandidate_isTerminal A
   let X : AbsoluteWeakNormalizationCategory A := ⟨CommAlgCat.of A B, huniv⟩
   let f := T.from X
-  show IsIso f ↔ IsAbsolutelyWeaklyNormalRing B
+  change IsIso f ↔ IsAbsolutelyWeaklyNormalRing B
   refine ⟨fun _ => isAbsolutelyWeaklyNormalRing_of_isTerminal A X
     (IsTerminal.ofIso T (asIso f).symm), fun hB => ?_⟩
   · let R := absoluteWeakNormalizationCandidate A

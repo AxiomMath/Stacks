@@ -94,7 +94,7 @@ include hρ hτ in
 `p ⊗ m ↦ ρ p ⊗ τ m`. -/
 def transport : P₁ ⊗[R₁] M₁ →+ P₂ ⊗[R₂] M₂ :=
   TensorProduct.liftAddHom (transportAux ρ τ) fun r p m ↦ by
-    show ρ (r • p) ⊗ₜ τ m = ρ p ⊗ₜ τ (r • m)
+    change ρ (r • p) ⊗ₜ τ m = ρ p ⊗ₜ τ (r • m)
     rw [hρ, hτ, TensorProduct.smul_tmul]
 
 /-- `Stacks.TensorProduct.transport` on a pure tensor. -/
@@ -117,14 +117,12 @@ def transportEquiv : P₁ ⊗[R₁] M₁ ≃+ P₂ ⊗[R₂] M₂ where
     (symm_smul_of_smul σ τ hτ)
   map_add' := map_add _
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul p m => rw [transport_tmul, transport_tmul, AddEquiv.symm_apply_apply,
         AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul p m => rw [transport_tmul, transport_tmul, AddEquiv.apply_symm_apply,
         AddEquiv.apply_symm_apply]
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
@@ -221,7 +219,7 @@ def crysBaseChangeAux {A B : CrystallineThickening S} (k : A ⟶ B) :
     (fun t ↦ AddMonoidHom.mk' (fun s ↦ siteRingAlong k.hom t • crysRestrict F k s)
       fun s s' ↦ by rw [map_add, smul_add])
     fun t t' ↦ AddMonoidHom.ext fun s ↦ by
-      show siteRingAlong k.hom (t + t') • crysRestrict F k s =
+      change siteRingAlong k.hom (t + t') • crysRestrict F k s =
         siteRingAlong k.hom t • crysRestrict F k s + siteRingAlong k.hom t' • crysRestrict F k s
       rw [siteRingAlong_add, add_smul]
 
@@ -229,7 +227,7 @@ def crysBaseChangeAux {A B : CrystallineThickening S} (k : A ⟶ B) :
 def crysBaseChangeAddHom {A B : CrystallineThickening S} (k : A ⟶ B) :
     ringAlong k.hom ⊗[crysSheafRing S B.obj] F.val.obj (op B) →+ F.val.obj (op A) :=
   TensorProduct.liftAddHom (crysBaseChangeAux F k) fun b t s ↦ by
-    show siteRingAlong k.hom (b • t) • crysRestrict F k s =
+    change siteRingAlong k.hom (b • t) • crysRestrict F k s =
       siteRingAlong k.hom t • crysRestrict F k (b • s)
     rw [siteRingAlong_smul, show crysRestrict F k (b • s) =
       crysSheafRingMap k.hom b • crysRestrict F k s from crysSiteRestrict_smul F k b s,
@@ -254,8 +252,7 @@ def crysBaseChange {A B : CrystallineThickening S} (k : A ⟶ B) :
   toFun := crysBaseChangeAddHom F k
   map_add' := map_add _
   map_smul' c z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [TensorProduct.smul_tmul', crysBaseChangeAddHom_tmul, crysBaseChangeAddHom_tmul,
           RingHom.id_apply]
@@ -330,6 +327,8 @@ def crysAmbientChain :
     ((affineBaseChangeTopHomAbstract k.hom (moduleRestrictionSheaf F B)).comp
       (crysCrossModule F k))
 
+omit [IsAffine A.obj.thickening.target.scheme] [IsAffine B.obj.thickening.target.scheme]
+  [(ambientSchemeOf B.obj (moduleRestrictionSheaf F B)).IsQuasicoherent] in
 /-- The change of spelling, on a pure tensor, in the spelling of the extension of scalars. -/
 theorem crysCrossModule_tmul (t : ringAlong k.hom) (s : F.val.obj (op B)) :
     crysCrossModule F k (t ⊗ₜ s) =
@@ -371,8 +370,7 @@ of the ambient scheme.** -/
 theorem crysAmbientChain_apply
     (z : ringAlong k.hom ⊗[crysSheafRing S B.obj] F.val.obj (op B)) :
     crysAmbientChain F k z = crysSectionTopHom F A (crysBaseChange F k z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [crysAmbientChain_tmul, crysBaseChange_tmul, crysSectionTopHom_apply,
         crysSectionTop_smul_of_affine, fmapTopSection_crysSectionTop]
@@ -493,24 +491,21 @@ theorem isBaseChange_restrictₗ_of_bijective {D : A.obj.thickening.target.schem
     AddEquiv.refl _
   have hρ : ∀ (b : crysSheafRing S (A.restrictOpen U).obj) (t : ringAlong k.hom),
       ρ (b • t) = σ b • ρ t := fun b t ↦ by
-    show crysSectionsRingEquiv A D (crysSheafRingMap k.hom b * siteRingAlong k.hom t) =
+    change crysSectionsRingEquiv A D (crysSheafRingMap k.hom b * siteRingAlong k.hom t) =
       A.obj.thickening.target.scheme.presheaf.map (homOfLE hDU).op (σ b) *
         crysSectionsRingEquiv A D t
     rw [map_mul, crysSectionsRingEquiv_restrictOpenLE]
     rfl
   have hτ : ∀ (b : crysSheafRing S (A.restrictOpen U).obj)
       (m : F.val.obj (op (A.restrictOpen U))), τ (b • m) = σ b • τ m := fun b m ↦ by
-    show b • m = (crysSectionsRingEquiv A U).symm (σ b) • m
+    change b • m = (crysSectionsRingEquiv A U).symm (σ b) • m
     rw [RingEquiv.symm_apply_apply]
   let Ψ := Stacks.TensorProduct.transportEquiv σ ρ τ hρ hτ
   let L := (restrictₗ (crysAmbientSchemeModules F A) hDU).liftBaseChange
     Γ(A.obj.thickening.target.scheme, D)
   have hsq : ∀ z, L (Ψ z) = crysBaseChange F k z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        rw [map_zero, map_zero, map_zero]
-        rfl
+    induction z using TensorProduct.inductionOn with
     | tmul t m =>
         rw [Stacks.TensorProduct.transportEquiv_tmul, LinearMap.liftBaseChange_tmul,
           crysBaseChange_tmul, smul_crysAmbientSchemeModules]

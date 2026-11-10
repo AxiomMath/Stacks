@@ -104,9 +104,9 @@ so that no motive has to be checked at reducible transparency.
 ## What is not done
 
 No `@[stacks]` attribute is attached: this is infrastructure, and nothing here is an assertion of
-a Stacks tag. Naturality of the bridge in its *second* variable is not stated, only in the first, which
-is what the consumer needs; and no statement here says that the section comparison is injective or
-surjective over any particular open.
+a Stacks tag. Naturality of the bridge in its *second* variable is not stated, only in the first,
+which is what the consumer needs; and no statement here says that the section comparison is
+injective or surjective over any particular open.
 -/
 
 @[expose] public noncomputable section

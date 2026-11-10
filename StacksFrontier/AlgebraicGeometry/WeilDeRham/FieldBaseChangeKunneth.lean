@@ -96,8 +96,7 @@ theorem kunnethMap_fieldBaseChange {X Y P : (SmoothProjectiveScheme k).FullSubca
         (AlgebraTensorModule.distribBaseChange F F' (𝔇.H X) (𝔇.H Y) (1 ⊗ₜ v))) =
     B.cohEquiv P (1 ⊗ₜ TensorProduct.lift ((LinearMap.mul F (𝔇.H P)).compl₁₂
       (𝔇.pull p).toLinearMap (𝔇.pull q).toLinearMap) v) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
   | tmul a b =>
     rw [AlgebraTensorModule.distribBaseChange_tmul]

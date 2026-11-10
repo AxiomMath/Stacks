@@ -83,6 +83,7 @@ variable {ι : Type*} {A B : ι → Type*} [∀ i, AddCommGroup (A i)] [∀ i, M
   [∀ i, Module R (A i)] [∀ i, IsScalarTower k R (A i)] [∀ i, AddCommGroup (B i)]
   [∀ i, Module k (B i)]
 
+omit [∀ i, Module R (A i)] [∀ i, IsScalarTower k R (A i)] in
 /-- If one member `c i₀` of the family is the action `R × V → V` up to identifications, the
 pairing `t ∘ c i₀` is perfect exactly when `smulPairing t` is. -/
 theorem isPerfPair_smulPairing_of_compr₂ (c : ∀ i, A i →ₗ[k] B i →ₗ[k] V) {i₀ : ι}

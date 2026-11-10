@@ -99,7 +99,7 @@ theorem smul_mem_spanGerms {x : X} (r : ((TopCat.Presheaf.stalk O.obj x : RingCa
     {t : ((TopCat.Presheaf.stalk F.val.presheaf x : AddCommGrpCat) : Type u)}
     (ht : t ∈ spanGerms F s x) : r • t ∈ spanGerms F s x := by
   obtain ⟨W, hx, b, rfl, hb⟩ := ht
-  obtain ⟨U, hxU, ρ, rfl⟩ := TopCat.Presheaf.germ_exist O.obj r
+  obtain ⟨U, hxU, ρ, rfl⟩ := TopCat.Presheaf.exists_germ_eq O.obj r
   have hxx : x ∈ U ⊓ W := ⟨hxU, hx⟩
   refine ⟨U ⊓ W, hxx, (O.obj.map (homOfLE inf_le_left).op ρ) • sres inf_le_right b, ?_,
       _root_.Submodule.smul_mem _ _ (res_mem_sectionSpan _ hb)⟩
@@ -239,7 +239,7 @@ theorem pulledIdealSections_eval_top (m : M) :
   have h₂ := (sourceIdealBaseSection_eq pY yε m).trans
     ((sourceSolution pY yε).toMorphismOfThickenings.pushforwardComparison_val_app _ (op ⊤) _)
   refine Eq.trans ?_ (h₂.trans (map_self_eq _ _ _)).symm
-  show ((pulledIdealCoefficientIso (Λ := Λ) M (Over.mk pY)).inv.val.app (op ⊤)).hom
+  change ((pulledIdealCoefficientIso (Λ := Λ) M (Over.mk pY)).inv.val.app (op ⊤)).hom
     ((coefficientSections (Over.mk pY).hom M m).eval (op ⊤)) = _
   rwa [coefficientSections_eval_top]
 

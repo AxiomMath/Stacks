@@ -247,7 +247,7 @@ theorem isPureAlong_pullback_ι_of_isPureAlong_chart
     exact hξ₁
   -- the lifted point lies over `t'`
   have hσξ' : (m ≫ pullback.snd f D.g) ξ' = D.t' := by
-    show pullback.snd f D.g (m ξ') = D.t'
+    change pullback.snd f D.g (m ξ') = D.t'
     rw [hξ'm, apply_eq_of_comp_eq hjsnd]
     exact D.xi_liesOver
   -- purity of the chart's module: the closure of the lifted point meets the fibre
@@ -389,7 +389,7 @@ private theorem exists_opens_mem_avoiding_finite {Z : Type u} [TopologicalSpace 
     let V : TopologicalSpace.Opens Z :=
       ⟨{z | z ∉ closure ({a} : Set Z)}, isOpen_compl_iff.mpr isClosed_closure⟩
     have hxV : x ∈ V := by
-      show x ∉ closure ({a} : Set Z)
+      change x ∉ closure ({a} : Set Z)
       intro hxcl
       exact hbadt a (by simp) (specializes_iff_mem_closure.mpr hxcl)
     refine ⟨U ⊓ V, ⟨hxU, hxV⟩, ?_⟩
@@ -397,7 +397,7 @@ private theorem exists_opens_mem_avoiding_finite {Z : Type u} [TopologicalSpace 
     simp only [Set.mem_insert_iff] at hy
     rcases hy with hya | hy
     · subst y
-      show ¬ (a ∈ U ∧ a ∈ V)
+      change ¬ (a ∈ U ∧ a ∈ V)
       intro hmem
       exact hmem.2 (subset_closure (Set.mem_singleton a))
     · exact fun hmem => havoid y hy hmem.1
@@ -567,14 +567,14 @@ private theorem projective_sections_image_of_isOpenImmersion {Y X S : Scheme.{u}
     { (e₁.symm ≪≫ e₂).addCommGroupIsoToAddEquiv with
       map_smul' := by
         intro r m
-        show (E.hom.app ⊤) (e₁.inv ((q.appLE ⊤ (i ''ᵁ ⊤) (by simp)).hom r • m)) =
+        change (E.hom.app ⊤) (e₁.inv ((q.appLE ⊤ (i ''ᵁ ⊤) (by simp)).hom r • m)) =
           (i ≫ q).appTop.hom r • (E.hom.app ⊤) (e₁.inv m)
         rw [Scheme.Modules.smul_restrictAppIso_inv_apply, Scheme.Modules.Hom.app_smul]
         congr 1
         have hc := Scheme.Hom.appLE_comp_appLE i q ⊤ (i ''ᵁ ⊤) ⊤
           (by simp) (i.preimage_image_eq ⊤).ge
         rw [Scheme.Hom.appIso_hom']
-        show ((q.appLE ⊤ (i ''ᵁ ⊤) (by simp)) ≫
+        change ((q.appLE ⊤ (i ''ᵁ ⊤) (by simp)) ≫
           i.appLE (i ''ᵁ ⊤) ⊤ (i.preimage_image_eq ⊤).ge).hom r = _
         rw [hc]
         exact congrArg (fun α : Γ(S, ⊤) ⟶ Γ(Y, ⊤) => α.hom r)
@@ -830,12 +830,12 @@ private theorem exists_openImmersion_projective_sections_of_affine {X1 S1 : Sche
     (⟨xLift, hxU1⟩ : U1.toScheme) (⟨A.point, htV⟩ : V.toScheme) hxLiftSnd
   refine ⟨N, hN, inferInstance, (pullback f2 V.ι : Scheme.{u}), inferInstance, κ,
     inferInstance, w, ?_, ?_, ?_⟩
-  · show (κ ≫ pullback.fst f1 N.toBase) w = x1
+  · change (κ ≫ pullback.fst f1 N.toBase) w = x1
     rw [hκfst]
-    show fst1 (U1.ι (a2 w)) = x1
+    change fst1 (U1.ι (a2 w)) = x1
     rw [hwa]
     exact hxLiftFst
-  · show (κ ≫ pullback.snd f1 N.toBase) w = N.point
+  · change (κ ≫ pullback.snd f1 N.toBase) w = N.point
     rw [hκsnd]
     exact hwq
   · rw [hκsnd]
@@ -981,9 +981,9 @@ theorem exists_affineOpen_projective_sections_of_chart
     rw [Category.assoc, hf0ι]
     simp only [Category.assoc]
   have hn : (N0.toBase ≫ Sopen.ι) N0.point = f x := by
-    show Sopen.ι (N0.toBase N0.point) = f x
+    change Sopen.ι (N0.toBase N0.point) = f x
     rw [N0.map_point]
-    show (f1 ≫ Sopen.ι) x1 = f x
+    change (f1 ≫ Sopen.ι) x1 = f x
     rw [hj0]
     rfl
   let N : EtaleNeighborhood S (f x) :=
@@ -1009,13 +1009,13 @@ theorem exists_affineOpen_projective_sections_of_chart
   have hksnd : k ≫ pullback.snd f N.toBase = κ ≫ bz := by
     simp only [show k = κ ≫ kz from rfl, Category.assoc, hkzs]
   have hkx : pullback.fst f N.toBase (k w) = x := by
-    show (k ≫ pullback.fst f N.toBase) w = x
+    change (k ≫ pullback.fst f N.toBase) w = x
     rw [← hkfst]
-    show Xopen.ι (i (az (κ w))) = x
+    change Xopen.ι (i (az (κ w))) = x
     rw [hκx]
     rfl
   have hkt : pullback.snd f N.toBase (k w) = N.point := by
-    show (k ≫ pullback.snd f N.toBase) w = N.point
+    change (k ≫ pullback.snd f N.toBase) w = N.point
     rw [hksnd]
     exact hκt
   refine ⟨N, hN, inferInstance, k w, hkx, hkt, k ''ᵁ (⊤ : W.Opens),

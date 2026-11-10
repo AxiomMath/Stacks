@@ -7,7 +7,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 # The base change of a semilinear map, and the comparison of [Stacks, Tag 07JH] as a map
 
 `Crystalline.IsTwistedTaylorComparison` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TwistedTaylorComparison.lean` carries its comparison as
+`StacksFrontier/AlgebraicGeometry/Crystalline/TwistedTaylorComparison.lean` carries its comparison
+as
 an `f`-**semilinear** map `T : M →ₛₗ[f] B ⊗_D M`.  The source's comparison is not a semilinear map
 out of `M` but a `B`-linear map
 
@@ -57,8 +58,8 @@ it may itself be `TwistedScalars g ⊗_D M`, and that is what makes the cocycle 
 * `Crystalline.semilinearBaseChange_comp` — **the composition law**, `(c ∘ T)~ = c ∘ T~`.  With
   `N := TwistedScalars g ⊗_D M` this says the composite of the base changes of two comparisons is
   the base change of a third, which is what it means to state the cocycle of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` as an identity between maps rather
-  than between sums.
+  `StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` as an identity between maps
+  rather than between sums.
 * `Crystalline.eq_of_balanced` — **the defect of the untwisted base change, proved**: if
   `b ⊗ m ↦ b · T m` is `D`-balanced for a second ring homomorphism `g` in place of `f`, and some
   `T m` has no nonzero annihilator, then `f = g`.  So the type synonym is not a convenience; the
@@ -79,10 +80,10 @@ Nothing here is about crystals; the subject is a base change of modules.
 *stating* it as an identity of maps: with `Crystalline.semilinearBaseChange` a comparison is a
 `B`-linear map and `Crystalline.semilinearBaseChange_comp` composes two of them.  Proving the
 identity still needs the convergence facts of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` together with uniqueness of the sum
-of a Taylor series, which `Crystalline.hasTaylorSum_unique` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorHausdorff.lean` supplies from `p ^ N = 0`; and the
-predicate `Crystalline.IsTwistedTaylorComparison` fixes the target of its comparison at
+`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` together with uniqueness of the
+sum of a Taylor series, which `Crystalline.hasTaylorSum_unique` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorHausdorff.lean` supplies from `p ^ N = 0`; and
+the predicate `Crystalline.IsTwistedTaylorComparison` fixes the target of its comparison at
 `B ⊗_D M` for the structure map, so relating three *distinct* divided power maps needs that target
 generalised to `TwistedScalars h ⊗_D M`.  That generalisation is now a change of type and nothing
 more, which it was not before this module.
@@ -202,8 +203,7 @@ noncomputable def semilinearBaseChange (T : M →ₛₗ[f] N) :
       rw [mul_smul, smul_comm])
   map_add' := map_add _
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c m =>
         rw [TensorProduct.smul_tmul']
         change (b • c).val • T m = b • (c.val • T m)
@@ -230,7 +230,7 @@ theorem tmul_eq_smul_one_tmul (b : TwistedScalars f) (m : M) :
     b ⊗ₜ[D] m = b.val • ((1 : TwistedScalars f) ⊗ₜ[D] m) := by
   rw [TensorProduct.smul_tmul']
   congr 1
-  show b = b.val • (1 : TwistedScalars f)
+  change b = b.val • (1 : TwistedScalars f)
   exact (mul_one b.val).symm
 
 /-- **Two `B`-linear maps out of the twisted tensor product agreeing on the generators `1 ⊗ m` are
@@ -240,8 +240,7 @@ theorem baseChange_ext {c c' : TwistedScalars f ⊗[D] M →ₗ[B] N}
     (h : ∀ m : M, c ((1 : TwistedScalars f) ⊗ₜ[D] m) = c' ((1 : TwistedScalars f) ⊗ₜ[D] m)) :
     c = c' := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rw [tmul_eq_smul_one_tmul, map_smul, map_smul, h m]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -258,7 +257,8 @@ theorem semilinearBaseChange_unique (T : M →ₛₗ[f] N)
 /-- **The composition law of the base change**: `(c ∘ T)~ = c ∘ T~` for a `B`-linear `c`.
 
 This is what makes the cocycle of
-`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` expressible as an identity of maps.
+`StacksFrontier/AlgebraicGeometry/Crystalline/TaylorCocycle.lean` expressible as an identity of
+maps.
 Taking `N` to be `TwistedScalars g ⊗_D M` and `c` to be the base change of a second comparison, the
 right-hand side is the composite `c_{g,h} ∘ c_{f,g}` of two comparisons and the left-hand side is
 the base change of a single semilinear map, so the composite is again a comparison in the sense of

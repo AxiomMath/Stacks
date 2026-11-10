@@ -98,13 +98,14 @@ theorem isSplitOver_of_isGaloisCover {S : Scheme.{u}} [ConnectedSpace Y] [Connec
   choose τ hτ using fun b : ι => hA.2.2.2 (s.map y) c₀ b
   have hw : ∀ b : ι, (τ b).asIso.hom.left ≫ A.hom = A.hom := fun b => Over.w (τ b).asIso.hom
   let sec : ι → (S ⟶ ((finiteEtaleBaseChange y).obj A).left) := fun b =>
-    pullback.lift (σ₀ ≫ (τ b).asIso.hom.left) (𝟙 S) (by rw [Category.assoc, hw b, hσ₀, Category.id_comp])
+    pullback.lift (σ₀ ≫ (τ b).asIso.hom.left) (𝟙 S)
+      (by rw [Category.assoc, hw b, hσ₀, Category.id_comp])
   have hsec₁ : ∀ b, sec b ≫ finiteEtaleBaseChangeProj y A = σ₀ ≫ (τ b).asIso.hom.left := fun b =>
     pullback.lift_fst _ _ _
   let φ : splitCover S ι ⟶ (finiteEtaleBaseChange y).obj A :=
     MorphismProperty.Over.homMk (Sigma.desc sec) (Sigma.hom_ext _ _ fun b =>
-      (Sigma.ι_desc_assoc sec b _).trans ((pullback.lift_snd _ _ _).trans
-        (Sigma.ι_desc (fun _ : ι => 𝟙 S) b).symm))
+      (Sigma.ι_comp_desc_assoc sec b _).trans ((pullback.lift_snd _ _ _).trans
+        (Sigma.ι_comp_desc (fun _ : ι => 𝟙 S) b).symm))
   let e := finiteEtaleFiberProjectionEquiv y s A
   have hfun : ⇑((finiteEtaleFiberFunctor s).map φ) = e.symm ∘ splitCoverFiberEquiv s ι := by
     funext z
@@ -113,7 +114,7 @@ theorem isSplitOver_of_isGaloisCover {S : Scheme.{u}} [ConnectedSpace Y] [Connec
     refine Subtype.ext ?_
     change ((s.hom ≫ Sigma.ι (fun _ : ι => S) b) ≫ Sigma.desc sec) ≫
       finiteEtaleBaseChangeProj y A = b.1
-    simp only [Category.assoc, Sigma.ι_desc_assoc, hsec₁]
+    simp only [Category.assoc, Sigma.ι_comp_desc_assoc, hsec₁]
     exact (Category.assoc _ _ _).symm.trans (hτ b)
   have := isIso_of_bijective_finiteEtaleFiberFunctor_map s φ (by
     rw [hfun]

@@ -159,18 +159,18 @@ public theorem isIso_extendScalarsCompTranspose
   have key : Tm ≫ (ModuleCat.restrictScalars g).map Ti = adjg.unit.app E₁ := by
     apply ModuleCat.ExtendScalars.hom_ext (f := f)
     intro x
-    show Ti.hom (Tm.hom ((adjf.unit.app M).hom x))
+    change Ti.hom (Tm.hom ((adjf.unit.app M).hom x))
       = (adjg.unit.app E₁).hom ((adjf.unit.app M).hom x)
     rw [F2 x, F3 x]
   refine ⟨Ti, ?_, ?_⟩
   · apply ModuleCat.ExtendScalars.hom_ext (f := g)
     intro y
-    show Ti.hom (Th.hom ((adjg.unit.app E₁).hom y)) = (adjg.unit.app E₁).hom y
+    change Ti.hom (Th.hom ((adjg.unit.app E₁).hom y)) = (adjg.unit.app E₁).hom y
     rw [F1 y]
     exact congrArg (fun k => ModuleCat.Hom.hom k y) key
   · apply ModuleCat.ExtendScalars.hom_ext (f := gf)
     intro x
-    show Th.hom (Ti.hom ((adjgf.unit.app M).hom x)) = (adjgf.unit.app M).hom x
+    change Th.hom (Ti.hom ((adjgf.unit.app M).hom x)) = (adjgf.unit.app M).hom x
     rw [F3 x]
     exact (F1 _).trans (F2 x)
 
@@ -222,7 +222,7 @@ public lemma cechRingMap_comp_cechLeg {n m : SimplexCategory} (β : n ⟶ m)
       cechLegHom R A m (β.toOrderHom i) :=
     Arrow.cechι_comp_map β i
   refine RingHom.ext fun x => ?_
-  show (cechLegHom R A n i ≫ (cechCosimplicialAlgebra R A).map β).hom x =
+  change (cechLegHom R A n i ≫ (cechCosimplicialAlgebra R A).map β).hom x =
     (cechLegHom R A m (β.toOrderHom i)).hom x
   rw [h]
 
@@ -240,7 +240,7 @@ public lemma cechLeg_algebraMap (n : SimplexCategory) (i : Fin (n.len + 1)) (r :
       WidePushout.head
         (fun _ : Fin (n.len + 1) => (AlgebraicTopology.algebraMapArrow R A).hom) :=
     Arrow.hom_comp_cechι n i
-  show ((AlgebraicTopology.algebraMapArrow R A).hom ≫ cechLegHom R A n i).hom (ULift.up r) =
+  change ((AlgebraicTopology.algebraMapArrow R A).hom ≫ cechLegHom R A n i).hom (ULift.up r) =
     (WidePushout.head
       (fun _ : Fin (n.len + 1) => (AlgebraicTopology.algebraMapArrow R A).hom)).hom (ULift.up r)
   rw [h]
@@ -310,7 +310,7 @@ private theorem cechDegreeMap_id
     (D : DescentData.{u, v, w} R A)
     (n : SimplexCategory) (i : Fin (n.len + 1)) :
     cechDegreeMap R A (𝟙 D) n i = 𝟙 (cechDegreeObj R A D.module n i) := by
-  show (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A (𝟙 D)) = _
+  change (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A (𝟙 D)) = _
   rw [liftedModuleMap_id]
   exact (ModuleCat.extendScalars (cechLeg R A n i)).map_id _
 
@@ -318,7 +318,7 @@ private theorem cechDegreeMap_comp
     {D E F : DescentData.{u, v, w} R A}
     (g : D ⟶ E) (h : E ⟶ F) (n : SimplexCategory) (i : Fin (n.len + 1)) :
     cechDegreeMap R A (g ≫ h) n i = cechDegreeMap R A g n i ≫ cechDegreeMap R A h n i := by
-  show (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A (g ≫ h)) = _
+  change (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A (g ≫ h)) = _
   rw [liftedModuleMap_comp, Functor.map_comp]
   rfl
 
@@ -359,7 +359,7 @@ private theorem cechGen_map
     (n : SimplexCategory) (i : Fin (n.len + 1)) (x : liftedModule A D.module) :
     (cechDegreeMap R A g n i).hom ((cechGen R A D.module n i).hom x) =
       (cechGen R A E.module n i).hom ((liftedModuleMap R A g).hom x) := by
-  show (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A g)
+  change (ModuleCat.extendScalars (cechLeg R A n i)).map (liftedModuleMap R A g)
       ((ModuleCat.extendRestrictScalarsAdj (cechLeg R A n i)).unit.app
         (liftedModule A D.module) x) =
     (ModuleCat.extendRestrictScalarsAdj (cechLeg R A n i)).unit.app
@@ -511,7 +511,7 @@ private theorem transitionGen₂_tmul
     transitionGen₂ D n i j k ((a ⊗ₜ[R] b) ⊗ₜ[R] x) =
       (cechLeg R A n i (ULift.up a) * cechLeg R A n j (ULift.up b)) •
         cechGenerator R A D.module n k x := by
-  show cechLeg R A n i (ULift.up a) •
+  change cechLeg R A n i (ULift.up a) •
     transitionGen D n j k (b ⊗ₜ[R] x) = _
   rw [transitionGen_tmul, smul_smul]
 
@@ -576,7 +576,7 @@ public lemma transitionBase_smul (D : DescentData.{u, v, w} R A)
         ((x : restrictModule R A D.module) ⊗ₜ[R] (1 : A)) := by
     rw [sourceTensor_smul_tmul, mul_one]
     rfl
-  show transitionGen D n i j (D.transition
+  change transitionGen D n i j (D.transition
       ((a • x : restrictModule R A D.module) ⊗ₜ[R] (1 : A))) =
     cechLeg R A n i (ULift.up a) • transitionGen D n i j
       (D.transition ((x : restrictModule R A D.module) ⊗ₜ[R] (1 : A)))
@@ -645,7 +645,7 @@ private theorem transitionBaseReverse_smul
     simp [mul_one]
     rfl
   dsimp [transitionBaseReverse]
-  show transitionGen D n i i
+  change transitionGen D n i i
       ((TensorProduct.comm R (restrictModule R A D.module) A)
         (D.transition.symm (1 ⊗ₜ[R] (a • x)))) = _
   rw [h1, D.transition.symm.map_smul, tensorComm_smul_right,
@@ -657,7 +657,7 @@ private theorem transitionBase_map
     (x : restrictModule R A D.module) :
     (cechDegreeMap R A g n j).hom (transitionBase D n i j x) =
       transitionBase E n i j (restrictHom R A g.hom x) := by
-  show (cechDegreeMap R A g n j).hom
+  change (cechDegreeMap R A g n j).hom
       (transitionGen D n i j
         (D.transitionRestrictScalars R A (x ⊗ₜ[R] (1 : A)))) =
     transitionGen E n i j
@@ -726,7 +726,7 @@ private theorem transitionGen₂_transition12
               (a ⊗ₜ[R] D.transition (x ⊗ₜ[R] (1 : A))) := by
         simp [transition12]
       rw [htr, transitionGen₂_outer_tmul]
-      show cechLeg R A n i (ULift.up a) • transitionBase D n j k x =
+      change cechLeg R A n i (ULift.up a) • transitionBase D n j k x =
         (cechTransitionMap D n j k).hom
           (cechLeg R A n i (ULift.up a) • cechGenerator R A D.module n j x)
       rw [map_smul]
@@ -744,7 +744,7 @@ private theorem transitionGen₂_transition02
           ((x ⊗ₜ[R] (1 : A)) ⊗ₜ[R] (1 : A))) =
       transitionBase D n i k x := by
   simp only [transition02, LinearMap.comp_apply]
-  show transitionGen₂ D n i j k
+  change transitionGen₂ D n i j k
       ((TensorProduct.rightComm R A (restrictModule R A D.module) A)
         (D.transition (x ⊗ₜ[R] (1 : A)) ⊗ₜ[R] (1 : A))) = _
   exact transitionGen₂_rightComm_one D n i j k
@@ -766,7 +766,7 @@ private theorem transitionBase_cocycle
     ((transition02 R A D.module D.transition)
       ((x ⊗ₜ[R] (1 : A)) ⊗ₜ[R] (1 : A))) at h
   rw [transitionGen₂_transition02] at h
-  show (cechTransitionMap D n j k).hom
+  change (cechTransitionMap D n j k).hom
     (transitionGen D n i j (D.transition (x ⊗ₜ[R] (1 : A)))) =
     transitionGen D n i k (D.transition (x ⊗ₜ[R] (1 : A)))
   exact h
@@ -832,7 +832,7 @@ private theorem cechTransitionMap_comp
     cechTransitionMap D n i j ≫ cechTransitionMap D n j k =
       cechTransitionMap D n i k := by
   apply ModuleCat.ExtendScalars.hom_ext (f := cechLeg R A n i); intro x
-  show (cechTransitionMap D n j k).hom
+  change (cechTransitionMap D n j k).hom
       ((cechTransitionMap D n i j).hom
         ((1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A, cechLeg R A n i] x)) =
     (cechTransitionMap D n i k).hom
@@ -847,15 +847,15 @@ private theorem cechTransitionMap_self
   have hinv : cechTransitionMap D n i i ≫ cechTransitionMapReverse D n i = 𝟙 _ := by
     apply ModuleCat.ExtendScalars.hom_ext (f := cechLeg R A n i)
     intro x
-    show (cechTransitionMapReverse D n i).hom
+    change (cechTransitionMapReverse D n i).hom
         ((cechTransitionMap D n i i).hom
           ((1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A, cechLeg R A n i] x)) =
       (1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A, cechLeg R A n i] x
     rw [cechTransitionMap_one_tmul]
-    show (cechTransitionMapReverse D n i).hom
+    change (cechTransitionMapReverse D n i).hom
       (transitionGen D n i i (D.transition (x.down ⊗ₜ[R] (1 : A)))) = _
     rw [cechTransitionMapReverse_transitionGen, D.transition.symm_apply_apply]
-    show transitionGen D n i i
+    change transitionGen D n i i
       ((1 : A) ⊗ₜ[R] (x.down : restrictModule R A D.module)) = _
     rw [transitionGen_tmul D n i i 1 x.down,
       show cechLeg R A n i (ULift.up (1 : A)) = 1 from map_one _, one_smul]
@@ -870,7 +870,7 @@ private theorem cechTransitionMap_natural
     cechDegreeMap R A g n i ≫ cechTransitionMap E n i j =
       cechTransitionMap D n i j ≫ cechDegreeMap R A g n j := by
   apply ModuleCat.ExtendScalars.hom_ext (f := cechLeg R A n i); intro x
-  show (cechTransitionMap E n i j).hom
+  change (cechTransitionMap E n i j).hom
       ((cechDegreeMap R A g n i).hom
         ((1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A, cechLeg R A n i] x)) =
     (cechDegreeMap R A g n j).hom
@@ -908,7 +908,7 @@ private theorem cechSemilinearMap_natural
         (ModuleCat.restrictScalars (cechRingMap R A β)).map
           (cechDegreeMap R A g m (β.toOrderHom i)) := by
   apply ModuleCat.ExtendScalars.hom_ext (f := cechLeg R A n i); intro x
-  show (cechSemilinearMap R A E.module β i).hom
+  change (cechSemilinearMap R A E.module β i).hom
       ((cechDegreeMap R A g n i).hom
         ((1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A, cechLeg R A n i] x)) =
     ((ModuleCat.restrictScalars (cechRingMap R A β)).map
@@ -941,7 +941,7 @@ private theorem transitionGen_natural (D : DescentData.{u, v, w} R A)
       rw [transitionGen_tmul, transitionGen_tmul]
       change (cechSemilinearMap R A D.module β j).hom (_ • _) = _
       rw [map_smul]
-      show cechRingMap R A β (cechLeg R A n i (ULift.up a)) •
+      change cechRingMap R A β (cechLeg R A n i (ULift.up a)) •
         (cechSemilinearMap R A D.module β j).hom (cechGenerator R A D.module n j x) = _
       rw [hg, show cechRingMap R A β (cechLeg R A n i (ULift.up a)) =
         cechLeg R A m (β.toOrderHom i) (ULift.up a) from
@@ -977,7 +977,7 @@ private theorem cechStructureMap_one_tmul
         ((1 : (cechCosimplicialAlgebra R A).obj n) ⊗ₜ[ULift.{u} A,
           cechLeg R A n (Fin.last n.len)] x) =
       transitionBase D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len) x.down := by
-  show (cechTransitionMap D m _ _).hom
+  change (cechTransitionMap D m _ _).hom
     ((cechSemilinearMap R A D.module β _).hom _) = _
   rw [cechSemilinearMap_one_tmul]
   exact cechTransitionMap_one_tmul D m _ _ x
@@ -988,7 +988,7 @@ private theorem cechStructureMap_transitionBase
     (x : restrictModule R A D.module) :
     (cechStructureMap D β).hom (transitionBase D n i (Fin.last n.len) x) =
       transitionBase D m (β.toOrderHom i) (Fin.last m.len) x := by
-  show (cechTransitionMap D m _ _).hom
+  change (cechTransitionMap D m _ _).hom
     ((cechSemilinearMap R A D.module β _).hom
       (transitionGen D n i _ (D.transition (x ⊗ₜ[R] (1 : A))))) = _
   rw [transitionGen_natural]
@@ -1105,10 +1105,10 @@ public theorem exists_descentCosimplicialModuleFunctor :
       IsDescentCosimplicialModuleFunctor R A F := by
   refine ⟨cechModuleFunctor, (fun _ _ => rfl), ?_, ?_⟩
   · intro D n m β
-    show cechStructureMap D β = 𝟙 _ ≫ cechStructureMap D β ≫ 𝟙 _
+    change cechStructureMap D β = 𝟙 _ ≫ cechStructureMap D β ≫ 𝟙 _
     simp only [Category.id_comp, Category.comp_id]
   · intro D E g n
-    show cechDegreeMap R A g n (Fin.last n.len) =
+    change cechDegreeMap R A g n (Fin.last n.len) =
       𝟙 _ ≫ cechDegreeMap R A g n (Fin.last n.len) ≫ 𝟙 _
     simp only [Category.id_comp, Category.comp_id]
 
@@ -1190,7 +1190,7 @@ public theorem cartesian_descentCosimplicialModuleFunctor_obj
           (eqToHom (descentCosimplicialModuleFunctor_obj R A D m).symm) := by
     rw [descentCosimplicialModuleFunctor_map R A D β, eqToHom_map]
     rfl
-  show IsIso (((ModuleCat.extendRestrictScalarsAdj (cechRingMap R A β)).homEquiv _ _).symm
+  change IsIso (((ModuleCat.extendRestrictScalarsAdj (cechRingMap R A β)).homEquiv _ _).symm
     (((descentCosimplicialModuleFunctor R A).obj D).map β.op.op))
   rw [h1, Adjunction.homEquiv_naturality_left_symm,
     Adjunction.homEquiv_naturality_right_symm, Adjunction.homEquiv_naturality_right_symm]

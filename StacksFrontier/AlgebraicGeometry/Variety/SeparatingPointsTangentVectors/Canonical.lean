@@ -21,7 +21,7 @@ identification of the pulled-back twist nor finite-dimensionality of `V` is a hy
 
 ## Main results
 
-* `AlgebraicGeometry.isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of_separatesClosedPoints_of_separatesTangentVectors`:
+* `isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of_separates`:
   **[Stacks, Tag 0E8S](https://stacks.math.columbia.edu/tag/0E8S)**, under the source's
   hypotheses and with nothing assumed.
 * `AlgebraicGeometry.generatesStalks_id_of_separatesClosedPoints`: separation of closed points
@@ -115,7 +115,7 @@ theorem generatesStalks_of_forall_isClosed_exists_mem_nonvanishingLocus {k : Typ
     [IsInvertibleModule X L] {ι : Type u} (t : ι → Γ(L, ⊤))
     (h : ∀ x : X, IsClosed ({x} : Set X) → ∃ i, x ∈ Stacks.Ample.nonvanishingLocus L (t i)) :
     GeneratesStalks t := by
-  letI : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace p
+  let : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace p
   refine generatesStalks_of_forall_exists_mem_nonvanishingLocus L t fun z => ?_
   by_contra hz
   push Not at hz
@@ -124,7 +124,7 @@ theorem generatesStalks_of_forall_isClosed_exists_mem_nonvanishingLocus {k : Typ
     rw [hZ, show {w : X | ∀ i, w ∉ Stacks.Ample.nonvanishingLocus L (t i)} =
       (⋃ i, Stacks.Ample.nonvanishingLocus L (t i))ᶜ by
       ext w
-      simp only [Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_iUnion, not_exists]]
+      simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_iUnion, not_exists]]
     exact isClosed_compl_iff.mpr (isOpen_iUnion fun i =>
       Stacks.NonvanishingOpen.isOpen_nonvanishingLocus X L (t i))
   have hempty : Z ∩ closedPoints X = ∅ := by
@@ -145,7 +145,7 @@ theorem exists_mem_nonvanishingLocus_of_mem_span {k : Type u} [Field k] {X : Sch
     letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
     σ ∈ Submodule.span k (Set.range t) →
       ∃ i, z ∈ Stacks.Ample.nonvanishingLocus L (t i) := by
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
   intro hσ
   by_contra hno
   push Not at hno
@@ -158,7 +158,7 @@ theorem exists_mem_nonvanishingLocus_of_mem_span {k : Type u} [Field k] {X : Sch
     intro τ hτ
     induction hτ using Submodule.span_induction with
     | mem y hy => obtain ⟨i, rfl⟩ := hy; exact hvanish i
-    | zero => simpa using Submodule.zero_mem _
+    | zero => simp
     | add a b _ _ ha hb => simpa only [map_add] using Submodule.add_mem _ ha hb
     | smul c a _ ha =>
       rw [show (c • a : Γ(L, ⊤)) = baseRingMap p c • a from rfl, Stacks.ModuleStalk.Γgerm_smul]
@@ -173,7 +173,7 @@ theorem generatesStalks_fin_of_mem_span {k : Type u} [Field k] {X : Scheme.{u}}
     (t : Fin m → Γ(L, ⊤)) {ι : Type u} (ψ : ι → Γ(L, ⊤)) (hgen : GeneratesStalks ψ) :
     letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
     (∀ i, ψ i ∈ Submodule.span k (Set.range t)) → GeneratesStalks t := by
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
   intro hspan
   rw [← generatesStalks_ulift_iff]
   refine generatesStalks_of_forall_exists_mem_nonvanishingLocus L _ fun z => ?_
@@ -228,7 +228,7 @@ theorem exists_mem_nonvanishingLocus_of_isClosed_of_separatesClosedPoints {k : T
     ∃ s : Γ(L, ⊤), x ∈ Stacks.Ample.nonvanishingLocus L s := by
   by_cases hsub : Subsingleton X
   · exact exists_mem_nonvanishingLocus_of_subsingleton L x
-  · letI : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace p
+  · let : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace p
     obtain ⟨y, hy, hyx⟩ := exists_isClosed_singleton_ne hsub x hx
     obtain ⟨i, hi⟩ := exists_mem_nonvanishingLocus_of_separatesClosedPoints hpoints x y hx hy hyx
     exact ⟨ψ i, hi⟩
@@ -276,8 +276,8 @@ theorem exists_fin_basis_generatesStalks_of_generatesStalks_id {k : Type u} [Fie
     ∃ (n : ℕ) (t : Fin (n + 1) → Γ(L, ⊤)),
       GeneratesStalks t ∧ ∀ σ : Γ(L, ⊤), σ ∈ Submodule.span k (Set.range t) := by
   classical
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
-  haveI : Module.Finite k Γ(L, ⊤) := moduleFinite_sections_of_isProper p L
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  have : Module.Finite k Γ(L, ⊤) := moduleFinite_sections_of_isProper p L
   let b := Module.finBasis k Γ(L, ⊤)
   have hspan : ∀ σ : Γ(L, ⊤), σ ∈ Submodule.span k (Set.range (Fin.lastCases 0 fun j => b j :
       Fin (Module.finrank k Γ(L, ⊤) + 1) → Γ(L, ⊤))) := fun σ => by
@@ -299,8 +299,8 @@ theorem exists_eq_pullbackSectionTop_of_mem_span {k : Type u} [Field k] {X P : S
     letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
     ∀ σ ∈ Submodule.span k (Set.range t),
       ∃ u : Γ(M, ⊤), θ.hom.app ⊤ (pullbackSectionTop φ M u) = σ := by
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
-  letI : Module k Γ(M, ⊤) := Module.compHom _ (baseRingMap q)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(M, ⊤) := Module.compHom _ (baseRingMap q)
   have hΦsmul : ∀ (c : k) (u : Γ(M, ⊤)),
       θ.hom.app ⊤ (pullbackSectionTop φ M (c • u)) =
         c • θ.hom.app ⊤ (pullbackSectionTop φ M u) := by
@@ -354,7 +354,7 @@ theorem exists_iso_projectiveSpaceTwistingSheaf_toProjectiveSpaceOver {X S : Sch
           (pullbackSectionTop (projectiveSpaceOver.toIntegralAtUniverse n S)
             (twistingSheafAtUniverse.{u} n) (coordGlobalSection.{u} n i))) = s i := by
   obtain ⟨α, hiso, hα⟩ := exists_iso_twistingSheafAtUniverse_toProjectiveSpaceAtUniverse s hs
-  letI := hiso
+  let := hiso
   set φ := toProjectiveSpaceOver s hs f with hφdef
   set q := projectiveSpaceOver.toIntegralAtUniverse n S with hqdef
   have hsnd : φ ≫ q = toProjectiveSpaceAtUniverse s hs := toProjectiveSpaceOver_snd s hs f
@@ -413,9 +413,9 @@ theorem isClosedImmersion_toProjectiveSpaceOver_of_separates (p : X ⟶ Spec (.o
     (hpoints : SeparatesClosedPoints ψ) (htangent : SeparatesTangentVectors p ψ) :
     IsClosedImmersion (toProjectiveSpaceOver s hs p) := by
   classical
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
   obtain ⟨θ, hθ⟩ := exists_iso_projectiveSpaceTwistingSheaf_toProjectiveSpaceOver s hs p
-  haveI : IsProper (Stacks.Tag01VT.projectiveSpaceHom n (Spec (.of k))) :=
+  have : IsProper (Stacks.Tag01VT.projectiveSpaceHom n (Spec (.of k))) :=
     projectiveSpaceOver_isProper n (Spec (.of k))
   have hover : toProjectiveSpaceOver s hs p ≫ Stacks.Tag01VT.projectiveSpaceHom n
       (Spec (.of k)) = p := toProjectiveSpaceOver_fst s hs p
@@ -464,9 +464,9 @@ theorem isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of
       ∀ (n : ℕ) (b : Module.Basis (Fin (n + 1)) k V)
         (hb : GeneratesStalks fun i => ((b i : V) : Γ(L, ⊤))),
         IsClosedImmersion (toProjectiveSpaceOfModule b (fun i => ((b i : V) : Γ(L, ⊤))) hb p) := by
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
   intro V hpoints htangent
-  haveI : Module.Finite k Γ(L, ⊤) := moduleFinite_sections_of_isProper p L
+  have : Module.Finite k Γ(L, ⊤) := moduleFinite_sections_of_isProper p L
   have hgenid : GeneratesStalks (id : Γ(L, ⊤) → Γ(L, ⊤)) :=
     generatesStalks_id_of_separatesClosedPoints p L hpoints
   have hpointsId : SeparatesClosedPoints (id : Γ(L, ⊤) → Γ(L, ⊤)) :=
@@ -477,7 +477,7 @@ theorem isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of
   · obtain ⟨m, t, hgen, hspan⟩ :=
       exists_fin_basis_generatesStalks_of_generatesStalks_id p L hgenid
     obtain ⟨θ, hθ⟩ := exists_iso_projectiveSpaceTwistingSheaf_toProjectiveSpaceOver t hgen p
-    haveI : IsClosedImmersion (toProjectiveSpaceOver t hgen p) :=
+    have : IsClosedImmersion (toProjectiveSpaceOver t hgen p) :=
       isClosedImmersion_toProjectiveSpaceOver_of_separates p t hgen
         (ψ := (id : Γ(L, ⊤) → Γ(L, ⊤))) hspan hpointsId htangentId
     exact Stacks.AmpleRelativeFiniteType.isRelativelyVeryAmple_of_hasImmersionTwistOver
@@ -489,7 +489,7 @@ theorem isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of
     have hVspan : ∀ v : V, (v : Γ(L, ⊤)) ∈
         Submodule.span k (Set.range fun i => ((b i : V) : Γ(L, ⊤))) :=
       mem_span_range_coe_basis V b
-    haveI : IsClosedImmersion
+    have : IsClosedImmersion
         (toProjectiveSpaceOver (fun i => ((b i : V) : Γ(L, ⊤))) hb p) :=
       isClosedImmersion_toProjectiveSpaceOver_of_separates p _ hb
         (ψ := fun v : V => (v : Γ(L, ⊤))) hVspan hpoints htangent
@@ -509,16 +509,16 @@ theorem isClosedImmersion_toProjectiveSpaceOfModule_of_separates (p : X ⟶ Spec
     [IsProper p] (L : X.Modules) [IsInvertibleModule X L] :
     letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
     ∀ (V : Submodule k Γ(L, ⊤))
-      (hpoints : SeparatesClosedPoints (fun v : V => (v : Γ(L, ⊤))))
-      (htangent : SeparatesTangentVectors p (fun v : V => (v : Γ(L, ⊤))))
-      (hX : ∀ x : X, IsClosed ({x} : Set X) → ∃ y : X, IsClosed ({y} : Set X) ∧ y ≠ x)
+      (hpoints : SeparatesClosedPoints (fun v : V => (v : Γ(L, ⊤)))),
+      SeparatesTangentVectors p (fun v : V => (v : Γ(L, ⊤))) →
+      ∀ (hX : ∀ x : X, IsClosed ({x} : Set X) → ∃ y : X, IsClosed ({y} : Set X) ∧ y ≠ x)
       (n : ℕ) (b : Module.Basis (Fin (n + 1)) k V),
       IsClosedImmersion (toProjectiveSpaceOfModule b (fun i => ((b i : V) : Γ(L, ⊤)))
         (generatesStalks_fin_of_mem_span p L (fun i => ((b i : V) : Γ(L, ⊤)))
           (fun v : V => (v : Γ(L, ⊤)))
           (generatesStalks_of_separatesClosedPoints p L hpoints hX)
           (mem_span_range_coe_basis V b)) p) := by
-  letI : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
+  let : Module k Γ(L, ⊤) := Module.compHom _ (baseRingMap p)
   intro V hpoints htangent hX n b
   exact (isRelativelyVeryAmple_and_isClosedImmersion_toProjectiveSpaceOfModule_of_separates p L V
     hpoints htangent).2.2.2 n b _

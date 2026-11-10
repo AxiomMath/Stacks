@@ -100,7 +100,7 @@ public theorem surjective_indexMap (ψ : 𝒜 →+*ᵍ ℬ) (U : (AlgebraicGeome
   have hyU : y ∈ mapHom 𝒜 ℬ ψ ⁻¹ᵁ U := show (mapHom 𝒜 ℬ ψ).base y ∈ U from hy ▸ hx
   refine ⟨⟨(y.1 : AlgebraicGeometry.Proj ℬ), mem_image_of_mem 𝒜 ℬ ψ y hyU⟩, ?_⟩
   refine Subtype.ext ?_
-  show basePoint 𝒜 ℬ ψ (liftPt 𝒜 ℬ ψ _) = x
+  change basePoint 𝒜 ℬ ψ (liftPt 𝒜 ℬ ψ _) = x
   have hlift : liftPt 𝒜 ℬ ψ
       (⟨(y.1 : AlgebraicGeometry.Proj ℬ), mem_image_of_mem 𝒜 ℬ ψ y hyU⟩ :
         ↑((mapDomain 𝒜 ℬ ψ).ι ''ᵁ (mapHom 𝒜 ℬ ψ ⁻¹ᵁ U))) = y := Subtype.ext rfl
@@ -188,7 +188,7 @@ public theorem exists_fractionSection_eq (ψ : 𝒜 →+*ᵍ ℬ) (hlift : Fract
   refine Eq.trans ?_ (heq ⟨(z.1 : AlgebraicGeometry.Proj ℬ), hzV₀⟩).symm
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
   simp only [one_smul]
-  show s₀ • ψ β = ψ c • b
+  change s₀ • ψ β = ψ c • b
   rw [smul_eq_mul, smul_eq_mul]
   exact hfrac
 

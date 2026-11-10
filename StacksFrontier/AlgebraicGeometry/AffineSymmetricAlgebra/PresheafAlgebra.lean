@@ -104,11 +104,9 @@ theorem mulSec_naturality {U V : ((Spec R).Opens)ᵒᵖ} (f : U ⟶ V) (i j : �
     (y : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M j) :
     pieceRestrict M f (i + j) (mulSec M U i j x y) =
       mulSec M V i j (pieceRestrict M f i x) (pieceRestrict M f j y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
           rw [mulSec_tmul, pieceRestrict_tmul, pieceRestrict_tmul, pieceRestrict_tmul,
             mulSec_tmul]
@@ -171,14 +169,11 @@ theorem mulSec_assoc (U : ((Spec R).Opens)ᵒᵖ) (i j k : ℤ)
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg (gradedPiece (R := R) M) (add_assoc i j k))
         (mulSec M U (i + j) k (mulSec M U i j x y) z) =
       mulSec M U i (j + k) x (mulSec M U j k y z) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
-          induction z using TensorProduct.induction_on with
-          | zero => simp
+          induction z using TensorProduct.inductionOn with
           | tmul c z =>
               rw [mulSec_tmul, mulSec_tmul, mulSec_tmul, mulSec_tmul, tensorCongr_tmul]
               exact tmul_eq_tmul_of_coe_eq M (_root_.mul_assoc a b c)
@@ -198,8 +193,7 @@ theorem mulSec_one_mul (U : ((Spec R).Opens)ᵒᵖ) (i : ℤ)
     (x : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M i) :
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg (gradedPiece (R := R) M) (zero_add i))
         (mulSec M U 0 i ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] oneG (R := R) M) x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
       rw [mulSec_tmul, tensorCongr_tmul]
       exact tmul_eq_tmul_of_coe_eq M (_root_.one_mul a) (_root_.one_mul (x : SymmetricAlgebra R M))
@@ -212,8 +206,7 @@ theorem mulSec_mul_one (U : ((Spec R).Opens)ᵒᵖ) (i : ℤ)
     (x : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M i) :
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg (gradedPiece (R := R) M) (add_zero i))
         (mulSec M U i 0 x ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] oneG (R := R) M)) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
       rw [mulSec_tmul, tensorCongr_tmul]
       exact tmul_eq_tmul_of_coe_eq M (_root_.mul_one a) (_root_.mul_one (x : SymmetricAlgebra R M))
@@ -238,11 +231,9 @@ def presheafAlgebra : Stacks.GradedAlgebra (piecePresheaf M) where
 theorem mulSec_comm_one (U : ((Spec R).Opens)ᵒᵖ)
     (p q : Γ(Spec R, U.unop) ⊗[R] gradedPiece (R := R) M 1) :
     mulSec M U 1 1 p q = mulSec M U 1 1 q p := by
-  induction p using TensorProduct.induction_on with
-  | zero => simp
+  induction p using TensorProduct.inductionOn with
   | tmul a x =>
-      induction q using TensorProduct.induction_on with
-      | zero => simp
+      induction q using TensorProduct.inductionOn with
       | tmul b y =>
           rw [mulSec_tmul, mulSec_tmul, mul_comm a b, symMulₗ_comm_one]
       | add q q' hq hq' =>

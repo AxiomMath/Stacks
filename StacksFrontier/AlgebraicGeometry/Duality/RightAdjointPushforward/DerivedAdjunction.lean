@@ -39,8 +39,8 @@ comparison maps to the underived functors.
 functor exists by the K-injective resolutions of Tag 079P, and restriction of scalars is exact,
 so `CategoryTheory.Functor.mapDerivedCategory` is its derived extension. Tag 0BV0 with nothing
 assumed beyond the morphism `f` is therefore
-`AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf`, in
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/ConstructedDerivedAdjunction.lean`,
+`AlgebraicGeometry.derivedRestriction_adj_derivedHomSheaf`, in the module
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.ConstructedDerivedAdjunction`,
 which carries the tag with no caveat. The theorem below is the reduction those constructions are
 fed into, and it is kept in the general form because the conclusion then depends on no choice of
 model for either derived functor.

@@ -181,10 +181,10 @@ theorem towerShift_commute (ξ υ : ∀ i, H i →+ H (i + 1))
     match i with
     | 0 => rfl
     | 1 =>
-        show ξ 0 ((towerShift υ • e) 0) = υ 0 ((towerShift ξ • e) 0)
+        change ξ 0 ((towerShift υ • e) 0) = υ 0 ((towerShift ξ • e) 0)
         simp only [towerShift_apply_zero, map_zero]
     | (n + 2) =>
-        show ξ (n + 1) ((towerShift υ • e) (n + 1)) = υ (n + 1) ((towerShift ξ • e) (n + 1))
+        change ξ (n + 1) ((towerShift υ • e) (n + 1)) = υ (n + 1) ((towerShift ξ • e) (n + 1))
         simp only [towerShift_apply_succ]
         exact DFunLike.congr_fun (h n) (e n)
   exact key

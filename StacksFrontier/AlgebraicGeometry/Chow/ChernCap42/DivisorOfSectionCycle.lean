@@ -336,10 +336,10 @@ theorem pullbackGlobalSections_ne_zero_of_isIso [IsIntegral X] (L : X.Modules)
     (Stacks.Divisors.pullbackSection_eq_zero_iff_factorsThrough_zeroScheme X L s f).mp h
   refine genericPoint_notMem_range_subschemeι_zeroScheme L s hs
     ⟨g.base ((inv f).base (genericPoint X)), ?_⟩
-  show (g ≫ (Stacks.Divisors.zeroScheme X L s).subschemeι).base
+  change (g ≫ (Stacks.Divisors.zeroScheme X L s).subschemeι).base
     ((inv f).base (genericPoint X)) = genericPoint X
   rw [hg]
-  show (inv f ≫ f).base (genericPoint X) = genericPoint X
+  change (inv f ≫ f).base (genericPoint X) = genericPoint X
   simp
 
 /-- The closed immersion of a closed subscheme is carried to that of an equal closed subscheme by

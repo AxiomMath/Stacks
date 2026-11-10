@@ -159,7 +159,7 @@ theorem isFlatOverAtGeometricPoint_chartDirectImage_iff (i : Z ⟶ X)
       surjective_geometricStalkPushforwardMap B S hS i hi zbar G⟩
   have hsmul : ∀ (c : Rt) (z : N), e (c • z) = c • e z := by
     intro c z
-    show Φ (β c • z) = γ c • Φ z
+    change Φ (β c • z) = γ c • Φ z
     refine Eq.trans (geometricStalkPushforwardMap_smul B S hS i hi zbar G (β c) z) ?_
     exact congrArg (fun r => r • Φ z) (RingHom.congr_fun hαγ c).symm
   exact Module.Flat.equiv_iff (e.toLinearEquiv hsmul)

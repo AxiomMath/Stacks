@@ -50,7 +50,26 @@ universe v u
 namespace Stacks.SignedMateDual
 
 variable {C : Type u} [Category.{v} C] [MonoidalCategory C] [Preadditive C]
-  [MonoidalPreadditive C]
+
+/-- PROVED NEGATION of the unsigned variant: if the differential of `L` were BOTH the signed and
+the unsigned mate of the differential of `K`, then in every odd degree that mate would be
+2-torsion.  So the Koszul sign in `CochainComplex.IsSignedMateDual` is not removable: dropping it
+changes the hypothesis, and in a 2-torsion-free category the two are incompatible unless the
+differential's mate vanishes. -/
+theorem two_torsion_of_signed_and_unsigned (K L : CochainComplex C ℤ)
+    (p : ∀ n : ℤ, ExactPairing (K.X n) (L.X (-n)))
+    (hd : CochainComplex.IsSignedMateDual K L p)
+    (hd' : ∀ n : ℤ, L.d (-(n + 1)) (-n) =
+      CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)))
+    (n : ℤ) (hn : Odd n) :
+    CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)) +
+      CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)) = 0 := by
+  have h := (hd n).symm.trans (hd' n)
+  rw [Int.negOnePow_odd n hn, Units.neg_smul, one_smul] at h
+  nth_rw 1 [← h]
+  exact neg_add_cancel _
+
+variable [MonoidalPreadditive C]
 
 /-- A tensor product with a zero factor on the right is a zero object. -/
 lemma isZero_tensor_of_isZero_right (X Y : C) (h : IsZero Y) : IsZero (X ⊗ Y) :=
@@ -74,7 +93,6 @@ variable [HasZeroObject C]
   [∀ (X₁ X₂ X₃ : GradedObject ℤ C), GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃]
   [∀ X₁ : C, PreservesColimit (Functor.empty.{0} C) ((curriedTensor C).obj X₁)]
   [∀ X₂ : C, PreservesColimit (Functor.empty.{0} C) ((curriedTensor C).flip.obj X₂)]
-  [∀ (X₁ X₂ X₃ X₄ : GradedObject ℤ C), GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄]
 
 /-- The unit complex `𝟙_[0]`, which is the witness below. -/
 noncomputable abbrev unitComplex : CochainComplex C ℤ := 𝟙_ (CochainComplex C ℤ)
@@ -108,17 +126,6 @@ lemma isZero_unitComplex_X (m : ℤ) (hm : m ∉ ({0} : Finset ℤ)) :
     IsZero ((unitComplex (C := C)).X m) :=
   HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 (𝟙_ C) m (by simpa using hm)
 
-/-- **Every binder of `CochainComplex.exactPairingOfSignedMateDual` is inhabited at once.**
-`K = L = 𝟙_[0]`, the degreewise duals are the unit pairing in degree zero and the zero pairing
-elsewhere, the bound is `{0}`, and the signed-transpose condition holds because every differential
-of the unit complex is zero.  The conclusion is a genuine left dual in the monoidal category of
-complexes. -/
-@[instance_reducible]
-noncomputable def exactPairingUnitComplex :
-    ExactPairing (unitComplex (C := C)) (unitComplex (C := C)) :=
-  CochainComplex.exactPairingOfSignedMateDual (unitComplex (C := C)) (unitComplex (C := C))
-    unitPairing {0} isZero_unitComplex_X isSignedMateDual_unitPairing
-
 /-- **The witness is degenerate exactly when the monoidal unit of `C` is a zero object.**  So the
 hypotheses of `CochainComplex.exactPairingOfSignedMateDual` are met by a pairing of nonzero
 objects whenever `C` has a nonzero unit, and the theorem is not vacuous. -/
@@ -141,25 +148,20 @@ theorem unitPairing_zero :
       exactPairingCongr
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (𝟙_ C))
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (𝟙_ C)) := by
-  rw [unitPairing, dif_pos rfl]
+  rw [unitPairing, dite_eq_left rfl]
 
-/-- PROVED NEGATION of the unsigned variant: if the differential of `L` were BOTH the signed and
-the unsigned mate of the differential of `K`, then in every odd degree that mate would be
-2-torsion.  So the Koszul sign in `CochainComplex.IsSignedMateDual` is not removable: dropping it
-changes the hypothesis, and in a 2-torsion-free category the two are incompatible unless the
-differential's mate vanishes. -/
-theorem two_torsion_of_signed_and_unsigned (K L : CochainComplex C ℤ)
-    (p : ∀ n : ℤ, ExactPairing (K.X n) (L.X (-n)))
-    (hd : CochainComplex.IsSignedMateDual K L p)
-    (hd' : ∀ n : ℤ, L.d (-(n + 1)) (-n) =
-      CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)))
-    (n : ℤ) (hn : Odd n) :
-    CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)) +
-      CategoryTheory.ExactPairing.mate (p n) (p (n + 1)) (K.d n (n + 1)) = 0 := by
-  have h := (hd n).symm.trans (hd' n)
-  rw [Int.negOnePow_odd n hn, Units.neg_smul, one_smul] at h
-  nth_rw 1 [← h]
-  exact neg_add_cancel _
+variable [∀ (X₁ X₂ X₃ X₄ : GradedObject ℤ C), GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄]
+
+/-- **Every binder of `CochainComplex.exactPairingOfSignedMateDual` is inhabited at once.**
+`K = L = 𝟙_[0]`, the degreewise duals are the unit pairing in degree zero and the zero pairing
+elsewhere, the bound is `{0}`, and the signed-transpose condition holds because every differential
+of the unit complex is zero.  The conclusion is a genuine left dual in the monoidal category of
+complexes. -/
+@[instance_reducible]
+noncomputable def exactPairingUnitComplex :
+    ExactPairing (unitComplex (C := C)) (unitComplex (C := C)) :=
+  CochainComplex.exactPairingOfSignedMateDual (unitComplex (C := C)) (unitComplex (C := C))
+    unitPairing {0} isZero_unitComplex_X isSignedMateDual_unitPairing
 
 end Stacks.SignedMateDual
 

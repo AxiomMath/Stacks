@@ -96,8 +96,8 @@ multiplier's own homogeneous section no longer has to be assumed fixed:
 `α k (degreeSection 𝒜 k (a * g)) = degreeSection 𝒜 k (a * g)`, and the version here asks only for
 the second, because the hypothesis already keeps the left factor untouched.
 
-The degree arithmetic is routed through the free integer index exactly as in the existing rigidity files:
-`Stacks.AlgebraicGeometry.RelativeTwistRigidity.app_eq_self_of_values_mkOne'` takes
+The degree arithmetic is routed through the free integer index exactly as in the existing rigidity
+files: `Stacks.AlgebraicGeometry.RelativeTwistRigidity.app_eq_self_of_values_mkOne'` takes
 `(N : ℤ) = m` as a hypothesis and substitutes into `m`, rather than rewriting the index of a
 dependent type.
 

@@ -80,7 +80,7 @@ theorem fSharpSet_toposCompositeComparisonOfTwoIso
         (Y := RingedSite.ringedTopos Y) (Z := RingedSite.ringedTopos Z) ψ φ) χ) :
     fSharpSetComp φ.toModulesHom ψ.toModulesHom ≫
       (toposCompositeComparisonOfTwoIso φ ψ χ t).hom.app _ = fSharpSet χ.toModulesHom := by
-  show fSharpSetComp φ.toModulesHom ψ.toModulesHom ≫
+  change fSharpSetComp φ.toModulesHom ψ.toModulesHom ≫
     ((RingedToposHom.toModulesHomPushforwardIso φ ψ).hom.app _ ≫ t.e.hom.app _) = _
   exact (Category.assoc _ _ _).symm.trans <| (congrArg (fun m ↦ m ≫ t.e.hom.app _)
     (RingedToposHom.fSharpSetComp_toModulesHomPushforwardIso φ ψ)).trans t.commutes

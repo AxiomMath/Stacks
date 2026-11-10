@@ -105,7 +105,7 @@ theorem natDegree_monicOfCoeffs_le {d : ℕ} (c : Fin d → R) :
 /-- The coefficient of `X ^ n` in `∑ i, c i * X ^ i` is `c n` if `n < d` and `0` otherwise. -/
 private theorem coeff_sum_C_mul_X_pow {d : ℕ} (c : Fin d → R) (n : ℕ) :
     (∑ i : Fin d, C (c i) * X ^ (i : ℕ)).coeff n = if h : n < d then c ⟨n, h⟩ else 0 := by
-  simp only [finset_sum_coeff, coeff_C_mul_X_pow]
+  simp only [finsetSum_coeff, coeff_C_mul_X_pow]
   split_ifs with hn
   · rw [Finset.sum_eq_single ⟨n, hn⟩]
     · simp
@@ -118,7 +118,7 @@ private theorem coeff_sum_C_mul_X_pow {d : ℕ} (c : Fin d → R) (n : ℕ) :
 /-- For `i < d`, the coefficient of `X ^ i` in `monicOfCoeffs c` is `c i`. -/
 theorem coeff_monicOfCoeffs {d : ℕ} (c : Fin d → R) (i : Fin d) :
     (monicOfCoeffs c).coeff i = c i := by
-  rw [monicOfCoeffs, coeff_add, coeff_X_pow, if_neg (Nat.ne_of_lt i.2), zero_add,
+  rw [monicOfCoeffs, coeff_add, coeff_X_pow, ite_eq_right (Nat.ne_of_lt i.2), zero_add,
     coeff_sum_C_mul_X_pow]
   simp
 
@@ -173,7 +173,7 @@ theorem bijective_linearCombination_of_isFiniteLocallyFreeOfRank (J : Ideal R[X]
       (mulXQuotient J)
     have hξ (m : R[X] ⧸ J) :
         ξ (LocalizedModule.mk m 1) = LocalizedModule.mk (Ideal.Quotient.mk J X * m) 1 := by
-      show IsLocalizedModule.map S (LocalizedModule.mkLinearMap S (R[X] ⧸ J))
+      change IsLocalizedModule.map S (LocalizedModule.mkLinearMap S (R[X] ⧸ J))
         (LocalizedModule.mkLinearMap S (R[X] ⧸ J)) (mulXQuotient J)
           (LocalizedModule.mkLinearMap S _ m) = _
       rw [IsLocalizedModule.map_apply]
@@ -195,9 +195,9 @@ theorem bijective_linearCombination_of_isFiniteLocallyFreeOfRank (J : Ideal R[X]
       rw [Submodule.span_le]
       rintro _ ⟨j, rfl⟩
       refine ⟨LocalizedModule.mk (Pi.single j 1) 1, ?_⟩
-      show _ = (ξ ^ (j : ℕ)) m₀
+      change _ = (ξ ^ (j : ℕ)) m₀
       rw [hξpow, mul_one]
-      show IsLocalizedModule.map S (LocalizedModule.mkLinearMap S (Fin d → R))
+      change IsLocalizedModule.map S (LocalizedModule.mkLinearMap S (Fin d → R))
         (LocalizedModule.mkLinearMap S (R[X] ⧸ J)) (lowDegreeClasses J d)
           (LocalizedModule.mkLinearMap S _ (Pi.single j 1)) = _
       rw [IsLocalizedModule.map_apply, Fintype.linearCombination_apply_single, one_smul]

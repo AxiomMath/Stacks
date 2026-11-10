@@ -693,7 +693,7 @@ lemma Kcomp_f_stable (j : ℤ) (s t : ℕ) (hs : fst d K D j ≤ s) (hst : s ≤
   | succ t ih =>
     rcases Nat.lt_or_ge s (t + 1) with hlt | hge
     · have hst' : s ≤ t := by omega
-      show (Kcomp d K D t ≫ D.tr t).f j = _
+      change (Kcomp d K D t ≫ D.tr t).f j = _
       rw [HomologicalComplex.comp_f, ih hst', seqIso_succ d K D j s t hs hst']
       simp only [Iso.trans_hom, Category.assoc, stepIso_hom]
     · obtain rfl : s = t + 1 := by omega
@@ -777,15 +777,15 @@ theorem gmap_quasiIso : QuasiIso (gmap d K D) := by
         (scIso d K D j s hsm1 hsm hsp1).hom := by
     apply ShortComplex.hom_ext
     · rw [ShortComplex.comp_τ₁]
-      show gf d K D (j - 1) = (Kcomp d K D s).f (j - 1) ≫ _
+      change gf d K D (j - 1) = (Kcomp d K D s).f (j - 1) ≫ _
       rw [gf_eq d K D (j - 1) s hsm1]
       rfl
     · rw [ShortComplex.comp_τ₂]
-      show gf d K D j = (Kcomp d K D s).f j ≫ _
+      change gf d K D j = (Kcomp d K D s).f j ≫ _
       rw [gf_eq d K D j s hsm]
       rfl
     · rw [ShortComplex.comp_τ₃]
-      show gf d K D (j + 1) = (Kcomp d K D s).f (j + 1) ≫ _
+      change gf d K D (j + 1) = (Kcomp d K D s).f (j + 1) ≫ _
       rw [gf_eq d K D (j + 1) s hsp1]
       rfl
   rw [hfact]

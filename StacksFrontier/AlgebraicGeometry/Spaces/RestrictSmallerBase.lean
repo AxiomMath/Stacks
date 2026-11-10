@@ -110,7 +110,7 @@ theorem restrictYonedaEquiv_symm_app_apply {V : Over X} {G : (Over Y)ᵒᵖ ⥤ 
     (α : yoneda.obj ((Over.map g).obj V) ⟶ G) (T : Over X) (k : T ⟶ V) :
     ((restrictYonedaEquiv g V G).symm α).app (op T) k =
       α.app (op ((Over.map g).obj T)) ((Over.map g).map k) := by
-  show G.map ((Over.map g).map k).op (yonedaEquiv α) = _
+  change G.map ((Over.map g).map k).op (yonedaEquiv α) = _
   rw [yonedaEquiv_naturality]
   simp [yonedaEquiv]
 
@@ -205,7 +205,7 @@ theorem isPullback_restrictReindex {A G : (Over Y)ᵒᵖ ⥤ Type v} (h : A ⟶ 
   rw [Limits.Types.isPullback_iff]
   refine ⟨?_, fun k k' hkk' => ?_, fun α m hα => ?_⟩
   · ext k
-    show ((relocalizeRestrict g).map h).app T
+    change ((relocalizeRestrict g).map h).app T
         (((restrictYonedaEquiv g (restrictReindex g s) A).symm
           (yoneda.map (restrictReindexIso g s).hom ≫ fs)).app T k) =
       t.app T ((yoneda.map (restrictReindexSnd g s)).app T k)
@@ -231,7 +231,7 @@ theorem isPullback_restrictReindex {A G : (Over Y)ᵒᵖ ⥤ Type v} (h : A ⟶ 
     have hnleft : n.left ≫ s.left = m.left := by
       simpa using congrArg (·.left) hn₂
     have hk : n.left ≫ (restrictReindex g s).hom = (unop T).hom := by
-      show n.left ≫ s.left ≫ V.hom = (unop T).hom
+      change n.left ≫ s.left ≫ V.hom = (unop T).hom
       rw [← Category.assoc, hnleft]
       exact Over.w m
     refine ⟨Over.homMk n.left hk, ?_, ?_⟩
@@ -242,7 +242,7 @@ theorem isPullback_restrictReindex {A G : (Over Y)ᵒᵖ ⥤ Type v} (h : A ⟶ 
           exact Category.comp_id n.left)
       rw [hp, hn]
       exact hn₁
-    · show (Over.homMk n.left hk : unop T ⟶ restrictReindex g s) ≫ restrictReindexSnd g s = m
+    · change (Over.homMk n.left hk : unop T ⟶ restrictReindex g s) ≫ restrictReindexSnd g s = m
       exact Over.OverMorphism.ext (by rwa [Over.comp_left])
 
 end Reindex
@@ -307,12 +307,12 @@ theorem restrictYonedaUnit_eq (V : Over X) :
       yoneda.map ((Over.mapPullbackAdj g).unit.app V) ≫
         (restrictYonedaIso g ((Over.map g).obj V)).hom := by
   ext T k
-  show ((restrictYonedaEquiv g V (yoneda.obj ((Over.map g).obj V))).symm
+  change ((restrictYonedaEquiv g V (yoneda.obj ((Over.map g).obj V))).symm
       (𝟙 (yoneda.obj ((Over.map g).obj V)))).app T k =
     (restrictYonedaIso g ((Over.map g).obj V)).hom.app T
       (k ≫ (Over.mapPullbackAdj g).unit.app V)
   rw [restrictYonedaEquiv_symm_app_apply]
-  show (Over.map g).map k =
+  change (Over.map g).map k =
     ((Over.mapPullbackAdj g).homEquiv (unop T) ((Over.map g).obj V)).symm
       (k ≫ (Over.mapPullbackAdj g).unit.app V)
   rw [(Over.mapPullbackAdj g).homEquiv_naturality_left_symm]
@@ -330,7 +330,7 @@ theorem restrictYonedaIso_naturality {X' Y' : Over Y} (k : X' ⟶ Y') :
     yoneda.map ((Over.pullback g).map k) ≫ (restrictYonedaIso g Y').hom =
       (restrictYonedaIso g X').hom ≫ (relocalizeRestrict g).map (yoneda.map k) := by
   ext T t
-  show ((Over.mapPullbackAdj g).homEquiv (unop T) Y').symm (t ≫ (Over.pullback g).map k) =
+  change ((Over.mapPullbackAdj g).homEquiv (unop T) Y').symm (t ≫ (Over.pullback g).map k) =
     ((Over.mapPullbackAdj g).homEquiv (unop T) X').symm t ≫ k
   exact (Over.mapPullbackAdj g).homEquiv_naturality_right_symm t k
 
@@ -370,7 +370,7 @@ theorem eq_restrictYonedaUnit_comp {V : Over X} {G : (Over Y)ᵒᵖ ⥤ Type v}
         (𝟙 (yoneda.obj ((Over.map g).obj V))) ≫
       (relocalizeRestrict g).map (restrictYonedaEquiv g V G t) := by
   ext T k
-  show t.app T k =
+  change t.app T k =
     ((relocalizeRestrict g).map (restrictYonedaEquiv g V G t)).app T
       (((restrictYonedaEquiv g V (yoneda.obj ((Over.map g).obj V))).symm
         (𝟙 (yoneda.obj ((Over.map g).obj V)))).app T k)

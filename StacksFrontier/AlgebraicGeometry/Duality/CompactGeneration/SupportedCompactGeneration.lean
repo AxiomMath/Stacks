@@ -594,7 +594,7 @@ theorem exists_distTriang_comp_eq_zero {c K : Stacks.Duality.quasiCoherentDerive
         kerProp (restrictedDerivedRestrict j) := by
       rw [triangEnvelope_le_iff, singleton_le_iff]
       have := adj.leftAdjoint_preservesColimits
-      show IsZero ((restrictedDerivedRestrict j).obj _)
+      change IsZero ((restrictedDerivedRestrict j).obj _)
       refine IsZero.of_iso ?_ (PreservesCoproduct.iso (restrictedDerivedRestrict j) _)
       rw [IsZero.iff_id_eq_zero]
       refine Sigma.hom_ext _ _ fun i => ?_

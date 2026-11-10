@@ -83,7 +83,7 @@ public theorem bijective_heckeFamily_inv_smul (hd : IsHeckeDataAt v π lam g₀ 
         · rw [_root_.mul_inv_rev, mul_smul, smul_lattice, smul_lattice, smul_lattice,
             standard_lattice, h₁]
           exact (isHeckeSublattice_translate_iff _).2
-            (isHeckeSublattice_heckeSublattice k hd.isUniformizer hd.isResidueSystem j)⟩ :
+            (isHeckeSublattice_heckeSublattice k hd.isUniformizer j)⟩ :
         {Λ' : AdelicLattice K 2 // IsHeckeNeighbour v (x⁻¹ • standard K 2) Λ'}) := by
   have hloc := bijective_heckeSublattice_translate k hd.isUniformizer hd.isResidueSystem
     (glAt K 2 v x⁻¹)
@@ -104,7 +104,7 @@ public theorem bijective_heckeFamily_inv_smul (hd : IsHeckeDataAt v π lam g₀ 
     · subst hw
       rw [hv]
       exact congrArg Subtype.val hj
-    · show ((heckeFamily g₀ g j * x)⁻¹ • standard K 2).lattice w = Λ'.1.lattice w
+    · change ((heckeFamily g₀ g j * x)⁻¹ • standard K 2).lattice w = Λ'.1.lattice w
       rw [Λ'.2.1 w hw, _root_.mul_inv_rev, mul_smul, smul_lattice, smul_lattice, smul_lattice,
         standard_lattice, (glAt_heckeFamily_inv k hd j).2 w hw, translate_one]
 

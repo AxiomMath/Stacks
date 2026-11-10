@@ -126,7 +126,7 @@ theorem length_self_eq_length_mul_of_tensor_flat {A R C R' : Type v} [CommRing A
       { toFun := φ
         map_add' := map_add φ
         map_smul' := fun a t => by
-          show φ (a • t) = a • φ t
+          change φ (a • t) = a • φ t
           rw [Algebra.smul_def, Algebra.smul_def, map_mul, ← hφ a]
           rfl } hbij
   rw [← Module.length_eq_of_surjective (S := R) (R := R') (M := R') hR', ← e.length_eq,
@@ -255,7 +255,7 @@ theorem IntegralClosedSubspace.genericPoint_mem_genericPoints
     W.genericPoint D.site D.base D.base_mem ∈
       genericPoints (points D.site D.base D.base_mem W.subspace.toFunctor) := by
   let := W.irreducibleSpace_points D.site D.base D.base_mem
-  show closure {W.genericPoint D.site D.base D.base_mem} ∈ irreducibleComponents _
+  change closure {W.genericPoint D.site D.base D.base_mem} ∈ irreducibleComponents _
   rw [W.closure_singleton_genericPoint D.site D.base D.base_mem]
   exact ⟨IrreducibleSpace.isIrreducible_univ _, fun _ _ _ => Set.subset_univ _⟩
 
@@ -608,7 +608,7 @@ theorem flatPullback_closedSubspaceCycle_preimage (sX : X ⟶ D.space) (hX : D.I
   have hYdec := D.isDecentSpace_of_isGood sY hY
   have hZcl := isClosed_subspacePointSet_of_isClosedSubspace D hY.1 Z hZ
   refine Subtype.ext (funext fun T => ?_)
-  show (closedSubspaceCycle D sX hX (Z.preimage f) hZ' (k + (r : ℤ)) _).1 T =
+  change (closedSubspaceCycle D sX hX (Z.preimage f) hZ' (k + (r : ℤ)) _).1 T =
     ∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem Y,
       (closedSubspaceCycle D sY hY Z hZ k hZk).1 W *
         flatPullbackMult D sX hX sY hY f hbase r hflat hr W T
@@ -774,7 +774,7 @@ theorem flatPullback_associatedCycle_modulePullback (sX : X ⟶ D.space) (hX : D
   have hYdec := D.isDecentSpace_of_isGood sY hY
   have hScl := isClosed_moduleSupport D.site D.base D.base_mem hY.1 F
   refine Subtype.ext (funext fun T => ?_)
-  show ∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem Y,
+  change ∑ᶠ W : IntegralClosedSubspace D.site D.base D.base_mem Y,
       (associatedCycle D sY hY F k γY hγY hFk).1 W *
         flatPullbackMult D sX hX sY hY f hbase r hflat hr W T = _
   rw [associatedCycle_apply]

@@ -312,7 +312,7 @@ theorem isCoveringOver_unique_iff_singleton {X : C}
     have hkj : k = j := Subsingleton.elim _ _
     subst k
     rw [Presieve.ofArrows_of_unique]
-    show Presieve.singleton ((f.φ default).left ≫
+    change Presieve.singleton ((f.φ default).left ≫
       eqToHom (congrArg (fun k ↦ (B.obj k).left) (Subsingleton.elim _ j))) ∈
       J (B.obj j).left
     convert h using 1

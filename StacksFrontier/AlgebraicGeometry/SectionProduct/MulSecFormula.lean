@@ -20,8 +20,8 @@ The "What is not done" of `StacksFrontier/AlgebraicGeometry/TensorSectionNonvani
 names exactly the two missing inputs — *"naturality of `toTensorSection` in its second variable,
 and the formula for it against the right unitor at `G = 𝟙_ X.Modules`"* — and the "Why this does
 not need a formula for the monoidal comparison" of
-`StacksFrontier/AlgebraicGeometry/SectionProduct/BijStalk.lean` records the same two. Both are proved
-here, at the generality of an arbitrary ringed site, and then composed on a scheme.
+`StacksFrontier/AlgebraicGeometry/SectionProduct/BijStalk.lean` records the same two. Both are
+proved here, at the generality of an arbitrary ringed site, and then composed on a scheme.
 
 ## Main definitions
 
@@ -91,16 +91,16 @@ monoidal structure being a localization with `ε = Iso.refl`; and for the same r
 ## What is not done
 
 No `@[stacks]` attribute is attached: this is infrastructure, and nothing here is an assertion of
-a tagged statement. The comparison is still not claimed to be injective or surjective over any particular
-open — `mulSec_eq_tensorSection` identifies two maps, it does not say that either is onto
+a tagged statement. The comparison is still not claimed to be injective or surjective over any
+particular open — `mulSec_eq_tensorSection` identifies two maps, it does not say that either is onto
 `Γ(F ⊗ G, U)`.
 
 **Multiplication by a *local* trivialising section is not shown to be surjective on sections over
 a fixed open**, and that — not either of the two facts proved here — is what generalising
 `Stacks.Tag0C6KZeroSchemeAnnihilation.ker_annihilates` to a non-invertible source needs. The
 missing statement is `(F ⊗ G)|_U ≅ F|_U ⊗ G|_U`, recorded as unproved and "not cheap" in the "What
-is not done" of `StacksFrontier/AlgebraicGeometry/SectionTensorFormula/Scheme.lean`, equivalently the
-monoidal structure on `SheafOfModules.overFunctor` recorded in
+is not done" of `StacksFrontier/AlgebraicGeometry/SectionTensorFormula/Scheme.lean`, equivalently
+the monoidal structure on `SheafOfModules.overFunctor` recorded in
 `StacksFrontier/AlgebraicGeometry/TwistTensor/Basic.lean`.
 -/
 

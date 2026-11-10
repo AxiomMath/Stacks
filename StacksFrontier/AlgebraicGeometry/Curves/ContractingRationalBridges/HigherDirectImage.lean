@@ -135,7 +135,7 @@ theorem base_const_of_isContractionOfRationalBridge
   obtain ⟨-, a, b, -, -, hbc⟩ := hc
   rw [hbc]
   have : Unique (PrimeSpectrum (Γ(C.subscheme, ⊤) : Type u)) := PrimeSpectrum.instUnique
-  show b.base (C.subscheme.toSpecΓ.base u) = b.base (C.subscheme.toSpecΓ.base v)
+  change b.base (C.subscheme.toSpecΓ.base u) = b.base (C.subscheme.toSpecΓ.base v)
   congr 1
   exact Subsingleton.elim (α := PrimeSpectrum (Γ(C.subscheme, ⊤) : Type u)) _ _
 

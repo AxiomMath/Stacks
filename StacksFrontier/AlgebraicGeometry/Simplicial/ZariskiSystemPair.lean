@@ -40,7 +40,7 @@ theorem cartesianModuleSystem_trans_systemModule (N : (zariskiModuleFamily X).Ca
     ((cartesianModuleSystem X (systemModule N) (isCartesianModule_systemModule N)).trans φ).hom ≫
         (systemModuleComponentIso N n).hom =
       ((zariskiModuleFamily X).map φ).map (systemModuleComponentIso N m).hom ≫ (N.trans φ).hom := by
-  show componentModuleTransition X φ.op (systemModule N) ≫ _ = _
+  change componentModuleTransition X φ.op (systemModule N) ≫ _ = _
   rw [componentModuleTransition_systemModule, Category.assoc, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]
 

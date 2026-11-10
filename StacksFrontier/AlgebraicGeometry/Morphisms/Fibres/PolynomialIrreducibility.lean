@@ -128,7 +128,7 @@ private lemma coeff_genericPolynomial
     (s : Finset (ι →₀ ℕ)) (i : β) (d : s) :
     (genericPolynomial R s i).coeff d.val = X (i, d) := by
   classical
-  simp [genericPolynomial, coeff_sum, coeff_monomial]
+  simp [genericPolynomial, coeff_monomial]
 
 private lemma map_genericPolynomial
     {R S ι β : Type*} [CommSemiring R] [CommSemiring S]
@@ -333,7 +333,8 @@ theorem exists_away_irreducible_map
   rw [map_mul] at hψ
   obtain ⟨hψf, hψd⟩ := mul_ne_zero_iff.mp hψ
   have hcoeff : (P.map ψ).coeff d ≠ 0 := by simpa only [coeff_map] using hψd
-  have hzero : P.map ψ ≠ 0 := fun h => hcoeff (by rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
+  have hzero : P.map ψ ≠ 0 :=
+    fun h => hcoeff (by rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
   refine ⟨not_isUnit_of_coeff_ne_zero hd hcoeff, fun q r hqr => ?_⟩
   obtain ⟨hq, hr⟩ := mul_ne_zero_iff.mp (hqr ▸ hzero : q * r ≠ 0)
   have hdegree : q.totalDegree + r.totalDegree ≤ P.totalDegree := by

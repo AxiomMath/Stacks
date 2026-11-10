@@ -30,7 +30,8 @@ public import StacksFrontier.Cotangent.CohomologyPresheaf.SiteSectionsComparison
 public import StacksFrontier.Homology.DerivedIndexing.Basic
 public import StacksFrontier.CategoryTheory.Sites.InverseSystem.CohomologyOfColimitOfFiniteSites.AbelianSystemsAndSections
 
-/-! # Cohomology of a colimit of sites with finite coverings: morphism of sites and descent (Stacks 0A35, 0EXJ)
+/-! # Cohomology of a colimit of sites with finite coverings: morphism of sites and descent
+(Stacks 0A35, 0EXJ)
 
 The second of the four files on the cohomology of a colimit of sites with finite coverings
 (see `CohomologyOfColimitOfFiniteSites.AbelianSystemsAndSections`). It shows that the functors
@@ -1634,7 +1635,7 @@ private theorem hGOver {i : D.I}
     intro p q a
     refine Sheaf.hom_ext (NatTrans.ext (funext fun V => ConcreteCategory.hom_ext _ _ fun x => ?_))
     obtain ⟨V⟩ := V
-    show (g p).app (op V) x = _
+    change (g p).app (op V) x = _
     rw [hg a V x, ← comp'_hom_app_app (hu a.left) (D.J p.left) (D.J q.left) K.toGrothendieck]
     rfl
   -- the adjoint of `g p`, a map `F ⟶ u_{i,*}H` independent of the level `p`
@@ -1940,7 +1941,7 @@ private theorem preservesFiniteLimits_sections_of_hK (n : D.I) (W : D.C n)
       (fun {j} a => ⇑((sectionsTheta D u hu K a W).app F))
       (by
         intro j a
-        show ⇑(((sectionsNat (hu a) (D.J n) (D.J j) K.toGrothendieck).app F).hom.app (op W)) = _
+        change ⇑(((sectionsNat (hu a) (D.J n) (D.J j) K.toGrothendieck).app F).hom.app (op W)) = _
         rw [sectionsNat_app, homEquiv_symm_unit_eq_unitFac])
   refine
     preservesFiniteLimits_of_jointlySurjective _

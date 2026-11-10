@@ -55,7 +55,7 @@ theorem adicFiniteType_adicCompletion_of_adicFiniteType {R : Type v} [CommRing R
   let : Algebra (AdicCompletion I A) R := φ.toAlgebra
   let : Algebra A R := ψ.toAlgebra
   have hmap1 : I.map (algebraMap A R) = I'.map (algebraMap _ R) := by
-    show I.map ψ = I'.map φ
+    change I.map ψ = I'.map φ
     rw [hI', Ideal.map_map]
   refine ⟨by rwa [← hmap1], ?_⟩
   rw [← RingHom.finiteType_algebraMap]
@@ -86,7 +86,7 @@ theorem isRigEtaleOver_adicCompletion_of_isRigEtaleOver {R : Type v} [CommRing R
   let : Algebra A R := ψ.toAlgebra
   have hmap : ∀ n : ℕ, (I ^ n).map (algebraMap A R) = (I' ^ n).map (algebraMap _ R) := by
     intro n
-    show (I ^ n).map ψ = (I' ^ n).map φ
+    change (I ^ n).map ψ = (I' ^ n).map φ
     rw [hI', ← Ideal.map_pow, Ideal.map_map]
   obtain ⟨hc', hf'⟩ := adicFiniteType_adicCompletion_of_adicFiniteType φ hc hf
   refine ⟨hc', hf', ?_⟩
@@ -107,7 +107,7 @@ theorem isRigEtaleOver_adicCompletion_of_isRigEtaleOver {R : Type v} [CommRing R
   have hIn : (I ^ n).map α = I' ^ n := by rw [hI', Ideal.map_pow]
   let β' : A ⧸ I ^ n ≃+* AdicCompletion I A ⧸ I' ^ n := β.trans (Ideal.quotEquivOfEq hIn)
   have hβ' : ∀ x : A, β' (Ideal.Quotient.mk _ x) = Ideal.Quotient.mk _ (α x) := fun x ↦ by
-    show Ideal.quotEquivOfEq hIn (β (Ideal.Quotient.mk _ x)) = _
+    change Ideal.quotEquivOfEq hIn (β (Ideal.Quotient.mk _ x)) = _
     rw [hβ, Ideal.quotEquivOfEq_mk]
   have he : ∀ r : AdicCompletion I A ⧸ I' ^ n,
       e.symm (algebraMap (AdicCompletion I A ⧸ I' ^ n) (R ⧸ (I' ^ n).map (algebraMap _ R)) r) =

@@ -95,7 +95,7 @@ theorem hasTorAmplitude_schemeDerivedPushforward_tildeSingle_of_flat {R S : Comm
           (((HomologicalComplex.single (ModuleCat.{u} S) (ComplexShape.up ℤ) 0).obj M).X i)) :=
         Functor.map_isZero _ (HomologicalComplex.isZero_single_obj_X _ _ _ _ hi)
       have := (ModuleCat.isZero_iff_subsingleton.1 hz)
-      show Module.Flat R ((ModuleCat.restrictScalars φ.hom).obj
+      change Module.Flat R ((ModuleCat.restrictScalars φ.hom).obj
           (((HomologicalComplex.single (ModuleCat.{u} S) (ComplexShape.up ℤ) 0).obj M).X i))
       infer_instance
   · infer_instance

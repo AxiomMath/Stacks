@@ -76,7 +76,7 @@ theorem exists_singleton_fppf_lift
   let L := Functor.TwoYoneda.liftFunctor 𝒴.val.p h𝒴 V y₀
   let q : BigFppfOver B V.left.1 V.left.2 ⥤ 𝒴.val.obj := Over.iteratedSliceBackward V ⋙ L
   have hq : q ⋙ 𝒴.val.p = Over.map V.hom := by
-    show (Over.iteratedSliceBackward V ⋙ L) ⋙ 𝒴.val.p = Over.map V.hom
+    change (Over.iteratedSliceBackward V ⋙ L) ⋙ 𝒴.val.p = Over.map V.hom
     rw [Functor.assoc, Functor.TwoYoneda.liftFunctor_w]
     exact Over.iteratedSliceBackward_forget V
   obtain ⟨W₀, j, hjcover, sec, hsec⟩ :=

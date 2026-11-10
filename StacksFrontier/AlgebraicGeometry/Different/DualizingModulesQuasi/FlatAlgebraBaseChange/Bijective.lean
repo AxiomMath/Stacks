@@ -74,8 +74,7 @@ private theorem lTensor_bijective_of_bijective
       (e.toLinearMap.baseChange T).restrictScalars R := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp [hz, hz']
     | tmul t m => simp [LinearMap.lTensor_tmul, LinearMap.baseChange_tmul, e]
   rw [he]
@@ -97,21 +96,19 @@ private theorem lTensor_bijective_of_lTensor
   let fUT : T ⊗[U] (U ⊗[R] M) →ₗ[T] T ⊗[U] (U ⊗[R] N) :=
     TensorProduct.AlgebraTensorModule.lTensor T T fU
   have hU : Function.Bijective fU := by
-    show Function.Bijective (LinearMap.lTensor U f)
+    change Function.Bijective (LinearMap.lTensor U f)
     exact h
   have hT : Function.Bijective fUT :=
     lTensor_bijective_of_bijective fU hU
   have hcomm : fT.comp eM.toLinearMap = eN.toLinearMap.comp fUT := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [fT, fUT]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, LinearMap.comp_apply, hz, hz']
     | tmul t m =>
-      induction m using TensorProduct.induction_on with
-      | zero => simp [fT, fUT]
+      induction m using TensorProduct.inductionOn with
       | add m m' hm hm' =>
-        simpa only [TensorProduct.tmul_add, map_add, hm, hm']
+        simp only [TensorProduct.tmul_add, map_add, hm, hm']
       | tmul u m =>
         simp [fT, fUT, fU, eM, eN,
           TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -159,9 +156,8 @@ private theorem towerTargetRingEquiv_include
       (Algebra.TensorProduct.includeRight : B₁ →ₐ[A] A' ⊗[A] B₁).toRingHom := by
   apply RingHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp [towerTargetRingEquiv]
-  | add z z' hz hz' => simp only [RingHom.comp_apply, map_add, hz, hz']
+  induction z using TensorProduct.inductionOn with
+  | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul a b => rfl
 
 section
@@ -182,8 +178,7 @@ private def tensorMapAlong (σ : R →+* S)
       map_add' := g.map_add
       map_smul' := by
         intro t z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy => simp only [smul_add, map_add, hx, hy]
         | tmul a m => rfl }
 
@@ -234,18 +229,15 @@ private theorem tensorMapAlong_bijective_iff
       g.baseChange T := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul t z =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
       | tmul s m =>
-        show (s • t) ⊗ₜ[S] f m = t ⊗ₜ[S] g (s ⊗ₜ[R] m)
+        change (s • t) ⊗ₜ[S] f m = t ⊗ₜ[S] g (s ⊗ₜ[R] m)
         rw [TensorProduct.tmul_eq_smul_one_tmul s m, map_smul, hfg]
         exact TensorProduct.smul_tmul _ _ _
-
   rw [← he, LinearMap.coe_comp]
   exact (Function.Bijective.of_comp_iff _ e.bijective).symm
 end
@@ -325,7 +317,6 @@ private noncomputable def baseChangeTowerTo
     h e.1 ?_
   intro b m
   induction m using dualizingModule.induction_on with
-  | zero => simp
   | tmul φ c =>
     change e.1 (b • dualizingModule.tmul F₁₂ φ c) =
       (Algebra.TensorProduct.cancelBaseChange A A₁ A₂ A₂ B b) •
@@ -357,11 +348,10 @@ private theorem baseChangeTo_tower_bijective_iff
       baseChangeTo F A₂ T h₂ := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul t m =>
-      show t ⊗ₜ[A₂ ⊗[A] B]
+      change t ⊗ₜ[A₂ ⊗[A] B]
         (dualizingModule.baseChangeTowerEquiv F A₁ A₂).1
           (dualizingModule.baseChange
             (FiniteOpenFactorization.baseChange F A₁) A₂
@@ -425,7 +415,7 @@ private theorem targetAwayBaseChangeAlgEquiv_one_tmul
     targetAwayBaseChangeRingEquiv F A₁ e (1 ⊗ₜ[A] algebraMap B (Localization.Away e) b) =
       algebraMap (A₁ ⊗[A] B) (Localization.Away (1 ⊗ₜ[A] e : A₁ ⊗[A] B))
         (1 ⊗ₜ[A] b) := by
-  show IsLocalization.Away.tensorProductEquivTMulRight A A₁ e
+  change IsLocalization.Away.tensorProductEquivTMulRight A A₁ e
     (Localization.Away e) (1 ⊗ₜ[A] algebraMap B (Localization.Away e) b) = _
   rw [IsLocalization.Away.tensorProductEquivTMulRight_tmul]
 
@@ -508,26 +498,24 @@ private theorem baseChangeTo_bijective_of_targetAway
   have hc : b.toLinearMap.comp f = c.toLinearMap.comp (g.comp a.toLinearMap) := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul t m =>
       induction m using dualizingModule.induction_on with
-      | zero => simp
       | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
       | tmul φ d =>
         have ha := targetAwayTo_tmul F e T t φ d
         have hb := targetAwayTo_tmul F₁ (1 ⊗ₜ[A] e) T t
           (Module.Dual.baseChange A₁ φ) (1 ⊗ₜ[A] d)
         have hr := targetAwayBaseChangeAlgEquiv_one_tmul F A₁ e d
-        show targetAwayTo F₁ (1 ⊗ₜ[A] e) T
+        change targetAwayTo F₁ (1 ⊗ₜ[A] e) T
             (t ⊗ₜ[A₁ ⊗[A] B] dualizingModule.tmul F₁
               (Module.Dual.baseChange A₁ φ) (1 ⊗ₜ[A] d)) =
           targetAwayBaseChangeTo F A₁ T e hE
             (baseChangeTo G A₁ T hD (targetAwayTo F e T
               (t ⊗ₜ[B] dualizingModule.tmul F φ d)))
         rw [ha, hb]
-        show _ = t ⊗ₜ[Localization.Away (1 ⊗ₜ[A] e : A₁ ⊗[A] B)]
+        change _ = t ⊗ₜ[Localization.Away (1 ⊗ₜ[A] e : A₁ ⊗[A] B)]
           dualizingModule.tmul
             (targetAwayFactorization (FiniteOpenFactorization.baseChange F A₁)
               (1 ⊗ₜ[A] e)) (Module.Dual.baseChange A₁ φ)
@@ -536,7 +524,7 @@ private theorem baseChangeTo_bijective_of_targetAway
         rw [hr]
   have hg : Function.Bijective g := baseChangeTo_bijective G A₁ T hD hf
   refine (Function.Bijective.of_comp_iff' b.bijective f).mp ?_
-  show Function.Bijective (b.toLinearMap.comp f)
+  change Function.Bijective (b.toLinearMap.comp f)
   rw [hc]
   exact c.bijective.comp (hg.comp a.bijective)
 
@@ -563,7 +551,7 @@ theorem baseChangeLinearMap_bijective
   let f : M →ₗ[B₁] N := baseChangeLinearMap F A₁
   have : Algebra.FiniteType A B :=
     (finiteType_quasiFinite_of_finiteOpenFactorization F).1
-  show Function.Bijective f
+  change Function.Bijective f
   refine linearMap_bijective_of_localizations (R := B₁) (M := M) (N := N) f ?_
   intro q
   let qB : Ideal B := q.asIdeal.comap (algebraMap B B₁)
@@ -574,7 +562,7 @@ theorem baseChangeLinearMap_bijective
   have hqLie : q.asIdeal.LiesOver p := by
     refine ⟨?_⟩
     ext a
-    show algebraMap B B₁ (algebraMap A B a) ∈ q.asIdeal ↔
+    change algebraMap B B₁ (algebraMap A B a) ∈ q.asIdeal ↔
       algebraMap A B₁ a ∈ q.asIdeal
     rw [IsScalarTower.algebraMap_apply A B B₁ a]
   have hqf : Algebra.QuasiFiniteAt A qB :=
@@ -628,7 +616,7 @@ theorem baseChangeLinearMap_bijective
     Module.finitePresentation_of_finite A F.middle
   let : Module.Finite A₁ F₁.middle := F₁.finite_middle
   let : Module.FinitePresentation A₁ F₁.middle := by
-    show Module.FinitePresentation A₁ (A₁ ⊗[A] F.middle)
+    change Module.FinitePresentation A₁ (A₁ ⊗[A] F.middle)
     infer_instance
   let : Module.Finite A' F'.middle := F'.finite_middle
   let : Module.FinitePresentation A' F'.middle :=
@@ -661,15 +649,15 @@ theorem baseChangeLinearMap_bijective
   have h'₂ (b : B') : algebraMap B'₂ U₂ (1 ⊗ₜ[A'] b) = algebraMap B' U₂ b := rfl
   have hc₁₂ (b : B₁₂) : algebraMap B₂ U₂ (cB₁₂ b) = algebraMap B₁₂ U₂ b := rfl
   have hc'₂ (b : B'₂) : algebraMap B₂ U₂ (cB'₂ b) = algebraMap B'₂ U₂ b := by
-    show algebraMap B'₂ U₂ (cB'₂.symm (cB'₂ b)) = _
+    change algebraMap B'₂ U₂ (cB'₂.symm (cB'₂ b)) = _
     rw [AlgEquiv.symm_apply_apply]
   have h₂ (b : B) : algebraMap B₂ U₂ (1 ⊗ₜ[A] b) = algebraMap B U₂ b := by
-    show algebraMap B₂ U₂ (1 ⊗ₜ[A] b) =
+    change algebraMap B₂ U₂ (1 ⊗ₜ[A] b) =
       algebraMap B₂ U₂ (cB₁₂ (1 ⊗ₜ[A₁] (1 ⊗ₜ[A] b)))
     simp only [cB₁₂, Algebra.TensorProduct.cancelBaseChange_tmul, one_smul]
   have h' (b : B) : algebraMap B' U₂ (1 ⊗ₜ[A] b) = algebraMap B U₂ b := by
     rw [← h₂]
-    show algebraMap B'₂ U₂ (1 ⊗ₜ[A'] (1 ⊗ₜ[A] b)) =
+    change algebraMap B'₂ U₂ (1 ⊗ₜ[A'] (1 ⊗ₜ[A] b)) =
       algebraMap B'₂ U₂ (cB'₂.symm (1 ⊗ₜ[A] b))
     rw [Algebra.TensorProduct.cancelBaseChange_symm_tmul]
   have hD (d : D) : algebraMap D₂ U₂ (1 ⊗ₜ[A'] d) = algebraMap D U₂ d := rfl
@@ -681,7 +669,7 @@ theorem baseChangeLinearMap_bijective
   let : IsScalarTower B' D U₂ := by
     apply IsScalarTower.of_algebraMap_eq
     intro b
-    show algebraMap B'₂ U₂ (1 ⊗ₜ[A'] b) =
+    change algebraMap B'₂ U₂ (1 ⊗ₜ[A'] b) =
       eD (1 ⊗ₜ[A'] algebraMap B' D b)
     exact (targetAwayBaseChangeAlgEquiv_one_tmul F' A₂ e b).symm
   have hlocal : Function.Bijective (baseChangeTo F' A₂ U₂ h'₂) :=
@@ -696,11 +684,10 @@ theorem baseChangeLinearMap_bijective
   let ρ : B'₂ ≃+* S' := cB'₂.toRingEquiv.trans
     (towerTargetRingEquiv (A := A) (A₁ := A₁) (A' := A') (B := B))
   have hρe : ρ e₂ = Algebra.TensorProduct.map (AlgHom.id A A') j e := by
-    show towerTargetRingEquiv (A := A) (A₁ := A₁) (A' := A') (B := B)
+    change towerTargetRingEquiv (A := A) (A₁ := A₁) (A' := A') (B := B)
       (Algebra.TensorProduct.cancelBaseChange A A' A₂ A₂ B (1 ⊗ₜ[A'] e)) = _
     generalize e = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [towerTargetRingEquiv]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       calc
         _ = towerTargetRingEquiv (A := A) (A₁ := A₁) (A' := A') (B := B)
@@ -731,7 +718,7 @@ theorem baseChangeLinearMap_bijective
     IsScalarTower.of_compHom B₁ (Localization.AtPrime q.asIdeal) T
   have hB₁U₂T (b : B₁) :
       algebraMap B₁ T b = algebraMap U₂ T (algebraMap B₁ U₂ b) := by
-    show qToT (algebraMap B₁ (Localization.AtPrime q.asIdeal) b) =
+    change qToT (algebraMap B₁ (Localization.AtPrime q.asIdeal) b) =
       awayMapToAtPrime e₂ (ρ : B'₂ →+* S') Q' havoid
         (algebraMap B'₂ (Localization.Away e₂)
           (cB'₂.symm (cB₁₂ (1 ⊗ₜ[A₁] b))))
@@ -739,14 +726,13 @@ theorem baseChangeLinearMap_bijective
       awayMapToAtPrime_algebraMap e₂ (ρ : B'₂ →+* S') Q' havoid
         (cB'₂.symm (cB₁₂ (1 ⊗ₜ[A₁] b)))]
     congr 1
-    show f' b = towerTargetRingEquiv (cB'₂ (cB'₂.symm (cB₁₂ (1 ⊗ₜ[A₁] b))))
+    change f' b = towerTargetRingEquiv (cB'₂ (cB'₂.symm (cB₁₂ (1 ⊗ₜ[A₁] b))))
     rw [AlgEquiv.apply_symm_apply]
     have hb : cB₁₂ (1 ⊗ₜ[A₁] b) =
         Algebra.TensorProduct.map
           (Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := A₁) (B := A'))
           (AlgHom.id A B) b := by
-      induction b using TensorProduct.induction_on with
-      | zero => simp
+      induction b using TensorProduct.inductionOn with
       | add b c hb hc => simp only [TensorProduct.tmul_add, map_add, hb, hc]
       | tmul a b =>
         simp only [cB₁₂, Algebra.TensorProduct.cancelBaseChange_tmul,

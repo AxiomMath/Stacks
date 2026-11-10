@@ -278,10 +278,10 @@ def zariskiReadingInverseTensorIso (U : BigFppfOver B S hS)
 /-- `zariskiReadingTensorIso_hom_eq` through the named comparisons and the Zariski reading
 isomorphism of `AlgebraicGeometry.Space.representedReindexEquivalenceTopos`, as a term whose type
 fixes the spelling. -/
-def zariskiReadingTensorIsoHomEqAux (U : BigFppfOver B S hS)
+theorem zariskiReadingTensorIsoHomEqAux (U : BigFppfOver B S hS)
     (P Q : Modules.{u, u} B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U))
-    (hP : P.IsQuasicoherentOnSite) (hQ : Q.IsQuasicoherentOnSite) :=
-  fun ha hb hc hd he => (eq_comp_comp_comp_comp_of_eq
+    (hP : P.IsQuasicoherentOnSite) (hQ : Q.IsQuasicoherentOnSite) :
+    type_of% (fun ha hb hc hd he => (eq_comp_comp_comp_comp_of_eq
     (zariskiReadingTensorIso_hom_eq U P Q hP hQ) ha hb hc hd he :
     (zariskiReadingTensorIso U P Q hP hQ).hom =
       (zariskiReadingIsoTopos U).inv.app _ ≫
@@ -294,7 +294,9 @@ def zariskiReadingTensorIsoHomEqAux (U : BigFppfOver B S hS)
               ((zariskiReadingIsoTopos U).hom.app P)).app _ ≫
             ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
                   ((BigFppfOver.toScheme B S hS).obj U).zariskiRingedSite.toRingedTopos.O).obj
-                _).map ((zariskiReadingIsoTopos U).hom.app Q))
+                _).map ((zariskiReadingIsoTopos U).hom.app Q))) :=
+  fun ha hb hc hd he => eq_comp_comp_comp_comp_of_eq
+    (zariskiReadingTensorIso_hom_eq U P Q hP hQ) ha hb hc hd he
 
 /-- A factor of `AlgebraicGeometry.Space.zariskiReadingTensorIso_hom_eq_topos`. -/
 theorem zariskiReadingTensorIsoHomEq_1 (U : BigFppfOver B S hS)
@@ -618,7 +620,82 @@ change of the Zariski reading along `h`, with the readings through
 restriction comparisons of Stacks 03DX and Stacks 03EL for small étale base change: a term whose
 type is the implication from the eleven squares to the monoidality square, with the spelling of
 every square fixed. -/
-def zariskiReadingTensorSquareAux :=
+theorem zariskiReadingTensorSquareAux : type_of% (
+  Functor.tensor_baseChange_of_restriction_at (𝒵 := ((BigFppfOver.toScheme B S hS).obj T).Modules)
+    (𝒵' := ((BigFppfOver.toScheme B S hS).obj T').Modules) (i𝒵 := Scheme.Modules.instCategory)
+    (i𝒵' := Scheme.Modules.instCategory)
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+        (structureSheaf B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)))
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+        (structureSheaf B S hS (yoneda.obj T') (isAlgebraicSpace_yoneda B S hS T')))
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+        (_root_.AlgebraicGeometry.smallEtaleRingedSite
+          (associatedBigEtaleSite B) T.left.obj T.left.property).toRingedTopos.O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+        (_root_.AlgebraicGeometry.smallEtaleRingedSite
+          (associatedBigEtaleSite B) T'.left.obj T'.left.property).toRingedTopos.O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        ((BigFppfOver.toScheme B S hS).obj T).zariskiRingedSite.toRingedTopos.O)
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        ((BigFppfOver.toScheme B S hS).obj T').zariskiRingedSite.toRingedTopos.O)
+      (representedReindexEquivalenceTopos T).inverse (representedReindexEquivalenceTopos T').inverse
+      (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+        ((BigFppfOver.toScheme B S hS).obj T) T.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+        ((BigFppfOver.toScheme B S hS).obj T') T'.left.property)
+    (zariskiReadingFunctor T) (zariskiReadingFunctor T')
+      (Scheme.Modules.pullback ((BigFppfOver.toScheme B S hS).map h))
+      (smallEtaleRingedSiteHom
+        (associatedBigEtaleSite B) h.left).toRingedToposSiteHom.pullbackToposGeneral
+      (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)).pullbackModules
+    (fun X => (zariskiReadingIsoTopos T).app X) (fun X => (zariskiReadingIsoTopos T').app X)
+    N M (fun X => (zariskiReadingPullbackHom h).app X)
+    (fun X => Adjunction.equivalenceMateApp (representedReindexEquivalenceTopos T)
+        (representedReindexEquivalenceTopos T')
+      (representedSquareFactorizationIso B S hS h (relativelyRepresentable_yoneda_map B S hS h)).hom
+        X)
+    ((zariskiReadingRestrictPullbackIso h _
+          (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN))).hom
+    ((zariskiReadingRestrictPullbackIso h _
+          (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM))).hom
+    ((zariskiReadingRestrictPullbackIso h _
+          (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T _
+      (isQuasicoherentOnSite_sheafTensor_yoneda N M hN hM)))).hom
+    ((zariskiReadingRestrictPullbackIso h _
+          (_root_.AlgebraicGeometry.SmallEtale.isQuasicoherentOnSite_sheafTensor
+            (associatedBigEtaleSite B)
+        T.left.obj T.left.property _ _
+        (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)
+        (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM)))).hom
+    (zariskiReadingInverseTensorIso T N M).hom
+    ((zariskiReadingRestrictTensorIso T N M hN hM).hom)
+    (zariskiReadingTensorIso T N M hN hM).hom
+    (zariskiReadingSpaceTensorIso h N M).hom
+    (zariskiReadingInverseTensorIso T'
+        ((smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)).pullbackModules.obj
+          N)
+        ((smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)).pullbackModules.obj
+          M)).hom
+    (zariskiReadingRestrictPullbackTensorIso h _ _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM)).hom
+    (zariskiReadingRestrictTensorIso T'
+        ((smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)).pullbackModules.obj
+          N)
+        ((smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)).pullbackModules.obj
+          M)
+      (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+        (representedSpaceMap B S hS h) N hN)
+      (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+        (representedSpaceMap B S hS h) M hM)).hom
+    (zariskiReadingTensorIso T' _ _
+      (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+        (representedSpaceMap B S hS h) N hN)
+      (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS
+        (representedSpaceMap B S hS h) M hM)).hom
+    (fun X Y => (Stacks.RingedSpace.comparisonBifunctorIso
+      ((BigFppfOver.toScheme B S hS).map h).toLRSHom.toShHom).hom.app (X, Y))
+    (zariskiReadingEtaleBaseChangeTensorIso h _ _).hom) :=
   Functor.tensor_baseChange_of_restriction_at (𝒵 := ((BigFppfOver.toScheme B S hS).obj T).Modules)
     (𝒵' := ((BigFppfOver.toScheme B S hS).obj T').Modules) (i𝒵 := Scheme.Modules.instCategory)
     (i𝒵' := Scheme.Modules.instCategory)

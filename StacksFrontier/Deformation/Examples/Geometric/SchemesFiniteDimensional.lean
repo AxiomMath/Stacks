@@ -116,13 +116,13 @@ finite dimensional over k"]
 theorem finiteDimensional_schemeTangentSpace [IsProper X.hom] :
     letI : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
       ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
       ⟨schlessingerConditionS2_schemeDeformation X⟩
     FiniteDimensional k (schemeTangentSpace (Λ := Λ) (k := k) X) := by
   let : Fact (IsPredeformationCategory (schemeDeformationBased (Λ := Λ) X).p) :=
     ⟨(isDeformationCategory_schemeDeformationCategoryProjection (Λ := Λ) X).predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (schemeDeformationBased (Λ := Λ) X) (schemeDeformation_cofibered X)))) :=
     ⟨schlessingerConditionS2_schemeDeformation X⟩
   let := schemeTangentExtStdModule X (structureSheafModules X.left)

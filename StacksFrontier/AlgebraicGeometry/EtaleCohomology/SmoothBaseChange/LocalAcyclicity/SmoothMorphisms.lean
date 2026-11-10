@@ -84,19 +84,18 @@ theorem isIso_strictHenselizationToBase_strictHenselizationBaseChangePoint {X S 
     IsIso (strictHenselizationToBase B _ (contains_strictHenselization B S hS (x.map f))
       ((strictHenselizationBaseChangePoint B hS f x).map (pullback.snd _ _))) := by
   refine isIso_strictHenselizationToBase_of_strictlyHenselian B _ _ _ ?_
-  show (pullback.lift x.hom (geometricPointToStrictHenselization B S hS (x.map f)) _ ≫
+  change (pullback.lift x.hom (geometricPointToStrictHenselization B S hS (x.map f)) _ ≫
     pullback.snd _ _) default = _
   rw [pullback.lift_snd]
   exact geometricPointToStrictHenselization_base_default B S hS (x.map f)
 
 /-- **A smooth morphism is locally acyclic**, given the inputs `h0EYS`, `h0EZR`, `h0EZS`,
-`h0F08`, `h03SC2`, `h03SC6`, `h0BMA` and `h0EYD` of the smooth base change theorem
+`h0F08`, `h03SC2`, `h03SC6` and `h0EYD` of the smooth base change theorem
 `Stacks.EtaleCohomology.SmoothBaseChange.isIso_higherBaseChangeMapAb_of_smooth`. -/
 theorem isLocallyAcyclic_of_smooth
     (h0EYS : FlatReducedFibresBaseChange.{u}) (h0EZR : EtaleLocalHigherBaseChange.{u})
     (h0EZS : HigherBaseChangePaste.{u}) (h0F08 : FirstFailureNormalization.{u})
     (h03SC2 : AffineCurveCohomologyVanishing.{u}) (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -112,7 +111,7 @@ theorem isLocallyAcyclic_of_smooth
   have := isIso_baseChangeStrictHenselizationMap B hS f x
   have := isIso_strictHenselizationToBase_strictHenselizationBaseChangePoint hS f x
   have h₁ := isLocallyAcyclicAt_of_smooth_of_isIso_strictHenselizationToBase h0EYS h0EZR h0EZS
-    h0F08 h03SC2 h03SC6 h0BMA h0EYD hX₁ hS₁ (pullback.snd f π) x₁ n hn
+    h0F08 h03SC2 h03SC6 h0EYD hX₁ hS₁ (pullback.snd f π) x₁ n hn
     (isUnit_intCast_globalSections_strictHenselization B hS (x.map f) hn hchar)
   have h₂ : IsLocallyAcyclicAt B hX₁ hS₁ (pullback.snd f π)
       ((smallEtaleDerivedPullbackAb (pullback.fst f π)).obj (smallEtaleConstantZModComplex X n))
@@ -131,14 +130,13 @@ smooth base change theorem (Stacks 0EYU). Let `f : X ⟶ S` be a smooth morphism
 morphism `S' ⟶ S` and every big étale site containing `X ×_S S'` and `S'`, the base change
 `X ×_S S' ⟶ S'` of `f` is locally acyclic there.
 
-The arguments `h0EYS`, `h0EZR`, `h0EZS`, `h0F08`, `h03SC2`, `h03SC6`, `h0BMA` and `h0EYD` are
+The arguments `h0EYS`, `h0EZR`, `h0EZS`, `h0F08`, `h03SC2`, `h03SC6` and `h0EYD` are
 those of the smooth base change theorem
 `Stacks.EtaleCohomology.SmoothBaseChange.isIso_higherBaseChangeMapAb_of_smooth`. -/
 theorem isUniversallyLocallyAcyclic_of_smooth
     (h0EYS : FlatReducedFibresBaseChange.{u}) (h0EZR : EtaleLocalHigherBaseChange.{u})
     (h0EZS : HigherBaseChangePaste.{u}) (h0F08 : FirstFailureNormalization.{u})
     (h03SC2 : AffineCurveCohomologyVanishing.{u}) (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -146,7 +144,7 @@ theorem isUniversallyLocallyAcyclic_of_smooth
     {X S : Scheme.{u}} (f : X ⟶ S) [Smooth f] :
     IsUniversallyLocallyAcyclic f :=
   fun _ g _ hX' hS' =>
-    isLocallyAcyclic_of_smooth h0EYS h0EZR h0EZS h0F08 h03SC2 h03SC6 h0BMA h0EYD hX' hS'
+    isLocallyAcyclic_of_smooth h0EYS h0EZR h0EZS h0F08 h03SC2 h03SC6 h0EYD hX' hS'
       (pullback.snd f g)
 
 end Stacks.EtaleCohomology.SmoothBaseChange

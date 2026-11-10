@@ -473,8 +473,8 @@ theorem section'_comp_genericFibreMap (b : R) :
     section' K (algebraMap R K b) ≫ genericFibreMap (R := R) (K := K) =
       Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ section' R b := by
   refine (lift_comp_genericFibreMap (𝟙 _) _).trans (pullback.hom_ext ?_ ?_)
-  · simp [pullback.lift_fst]
-  · simp [pullback.lift_snd, SpecMap_comp_intPoint]
+  · simp
+  · simp [SpecMap_comp_intPoint]
 
 omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] in
 /-- The image of a uniformizer in the fraction field is nonzero. -/

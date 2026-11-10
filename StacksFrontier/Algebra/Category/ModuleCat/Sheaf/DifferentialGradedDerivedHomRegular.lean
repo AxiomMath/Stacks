@@ -100,7 +100,7 @@ def regularOne (A : DifferentialGradedAlgebra.{t, a} R) :
 /-- The unit is a closed global section of the regular module. -/
 theorem regularOne_closed (A : DifferentialGradedAlgebra.{t, a} R) (U : Cᵒᵖ) :
     ((regularModule A).complex.d 0 (0 + 1)).val.app U ((regularOne A).eval U) = 0 := by
-  show ((regularModule A).complex.d 0 1).val.app U ((regularOne A).eval U) = 0
+  change ((regularModule A).complex.d 0 1).val.app U ((regularOne A).eval U) = 0
   exact A.one_closed U
 
 /-- The closed global sections of a right differential graded module in degree `n`: the global

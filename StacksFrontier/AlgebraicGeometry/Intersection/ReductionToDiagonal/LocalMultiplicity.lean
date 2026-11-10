@@ -174,12 +174,10 @@ def exteriorQuotMap : (A ⊗[k] A) →ₐ[k] (A ⧸ I) ⊗[k] (A ⧸ J) :=
 quotient map.** -/
 theorem exteriorModule_smul_eq_mul (r : A ⊗[k] A) (x : (A ⧸ I) ⊗[k] (A ⧸ J)) :
     r • x = exteriorQuotMap I J r * x := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add r₁ r₂ h₁ h₂ => rw [add_smul, h₁, h₂, map_add, add_mul]
   | tmul a b =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x₁ x₂ h₁ h₂ => rw [smul_add, h₁, h₂, mul_add]
     | tmul m n =>
       rw [exteriorModule_smul_tmul, exteriorQuotMap, Algebra.TensorProduct.map_tmul,
@@ -213,8 +211,7 @@ def exteriorQuotRingEquiv :
 /-- The isomorphism of `exteriorQuotRingEquiv` is the one induced by the quotient map. -/
 theorem exteriorQuotRingEquiv_exteriorQuotMap (r : A ⊗[k] A) :
     exteriorQuotRingEquiv I J (exteriorQuotMap I J r) = Ideal.Quotient.mk _ r := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
+  induction r using TensorProduct.inductionOn with
   | add r₁ r₂ h₁ h₂ => rw [map_add, map_add, h₁, h₂, map_add]
   | tmul a b =>
     rw [exteriorQuotMap, Algebra.TensorProduct.map_tmul]

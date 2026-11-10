@@ -158,7 +158,7 @@ theorem twistedUnit_app (k : Y ⟶ T) (p : Y ⟶ X) (F : X.Modules) (b : Γ(T, �
     letI := baseModule k ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
     (twistedUnit k p F b).app U x = b • pullbackUnitSections p F U x := by
   let := baseModule k ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
-  show Y.presheaf.map (isTerminalTop.from (p ⁻¹ᵁ U)).op
+  change Y.presheaf.map (isTerminalTop.from (p ⁻¹ᵁ U)).op
       ((k.appLE ⊤ ⊤ (le_preimage_top k ⊤)).hom b) • pullbackUnitSections p F U x =
     (k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b • pullbackUnitSections p F U x
   rw [← appLE_top_apply_eq_map]
@@ -227,9 +227,9 @@ theorem sectionsBaseChangeEquiv_symm_smul (U : X.Opens) (r : Γ(X, U))
   induction z with
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, sectionsBaseChangeEquiv_tmul, sectionsBaseChangeEquiv_tmul]
-    show (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
+    change (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
     rw [pullbackUnitSections_smul p F U r x]
-    show (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
+    change (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         pullbackUnitSections p F U x) =
       (k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         ((p.app U).hom r • pullbackUnitSections p F U x)
@@ -293,7 +293,7 @@ theorem traceSections_apply_tmul (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[�
   let := baseAlgebra q
   let := baseModule iX F U
   let := baseModule k ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
-  show TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
+  change TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
     ((sectionsBaseChangeEquiv H F U).symm (b • pullbackUnitSections p F U x))) = _
   rw [← sectionsBaseChangeEquiv_tmul H F U b x, LinearEquiv.symm_apply_apply,
     LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
@@ -341,7 +341,7 @@ theorem twistedUnit_comp_trace (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(
   ext U x
   let := baseModule iX F U
   refine (trace_app_twistedUnit_app H F f b U x).trans ?_
-  show (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
+  change (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
     X.presheaf.map (isTerminalTop.from U).op ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b)) • x
   rw [appLE_top_apply_eq_map]
 
@@ -359,7 +359,7 @@ theorem sum_trace_comp_twistedUnit {m : ℕ} (e : Fin m → Γ(T, ⊤))
   let := baseTower H ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
   rw [sum_app_apply]
   obtain ⟨z, hz⟩ := (sectionsBaseChangeEquiv H F U).surjective (pushforwardSection y)
-  show ∑ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U (pushforwardSection y)) =
+  change ∑ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U (pushforwardSection y)) =
     pushforwardSection y
   rw [← hz]
   clear hz
@@ -370,10 +370,10 @@ theorem sum_trace_comp_twistedUnit {m : ℕ} (e : Fin m → Γ(T, ⊤))
         (b • pullbackUnitSections p F U x)) = (f j b • e j) • pullbackUnitSections p F U x := by
       intro j
       rw [twistedUnit_app]
-      show e j • pullbackUnitSections p F U (traceSections H F (f j) U
+      change e j • pullbackUnitSections p F U (traceSections H F (f j) U
         (b • pullbackUnitSections p F U x)) = _
       rw [traceSections_apply_tmul]
-      show e j • sectionsBaseChangeHom iX p F U (f j b • x) = _
+      change e j • sectionsBaseChangeHom iX p F U (f j b • x) = _
       rw [map_smul, smul_comm, smul_assoc]
       rfl
     have h2 : ∑ j, (f j b • e j) • pullbackUnitSections p F U x =
@@ -387,7 +387,7 @@ theorem sum_trace_comp_twistedUnit {m : ℕ} (e : Fin m → Γ(T, ⊤))
       sectionsBaseChangeEquiv H F U z
     let y₂ : Γ((Scheme.Modules.pushforward p).obj ((Scheme.Modules.pullback p).obj F), U) :=
       sectionsBaseChangeEquiv H F U w
-    show ∑ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U (y₁ + y₂)) = y₁ + y₂
+    change ∑ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U (y₁ + y₂)) = y₁ + y₂
     simp only [map_add, Finset.sum_add_distrib]
     exact congrArg₂ (· + ·) hz' hw'
 

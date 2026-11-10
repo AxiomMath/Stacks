@@ -88,7 +88,7 @@ private theorem exists_pow_smul_app_eq_zero_of_isAffineOpen (F G : X.Modules)
   have hcomp : (restrictₗ G hle).comp (appₗ α U)
       = (restrictₗ G hle).comp (0 : Γ(F, U) →ₗ[Γ(X, U)] Γ(G, U)) := by
     ext x
-    show G.presheaf.map (homOfLE hle).op (α.app U x) = _
+    change G.presheaf.map (homOfLE hle).op (α.app U x) = _
     rw [← app_naturality α hle x, hα (X.basicOpen gU) hbo _]
     simp
   obtain ⟨s, hs⟩ := Module.Finite.exists_smul_of_comp_eq_of_isLocalizedModule

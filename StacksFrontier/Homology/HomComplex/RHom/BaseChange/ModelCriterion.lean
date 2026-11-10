@@ -93,7 +93,7 @@ private lemma uncurry_tensor_theta
     uncurry ((P ◁ t) ≫ Stacks.HomComplex.TensorHomComparison.theta P I K ≫
       Stacks.HomComplex.TensorHomMap.postcomp R K (P ⊗ I) J q) =
       (α_ P Z K).hom ≫ (P ◁ uncurry t) ≫ q := by
-  show Stacks.DerivedTensorHomDiagonal.chainTensorHomEquiv _ _ _ _ = _
+  change Stacks.DerivedTensorHomDiagonal.chainTensorHomEquiv _ _ _ _ = _
   rw [chainTensorHomEquiv_naturality_left, chainTensorHomEquiv_naturality_right,
     transpose_theta]
   simp only [Category.assoc]
@@ -126,7 +126,7 @@ private lemma tensor_hom_action_localized
   change _ = Stacks.DerivedTensorHomDiagonal.chainTensorHomEquiv _ _ _ (aZ ≫ s) at hs'
   rw [chainTensorHomEquiv_naturality_left] at hs'
   change (α_ B Z K).hom ≫ B ◁ uncurry s ≫ aL = (aZ ▷ K) ≫ uncurry s at hs'
-  show DerivedCategory.Q.map ((α_ P Z K).hom ≫
+  change DerivedCategory.Q.map ((α_ P Z K).hom ≫
       P ◁ Stacks.DerivedTensorHomDiagonal.chainTensorHomEquiv _ _ _
         (s ≫ Stacks.HomComplex.TensorHomMap.postcomp R K L I q) ≫ q') =
     DerivedCategory.Q.map (Stacks.DerivedTensorHomDiagonal.chainTensorHomEquiv _ _ _
@@ -135,7 +135,7 @@ private lemma tensor_hom_action_localized
     chainTensorHomEquiv_naturality_left,
     chainTensorHomEquiv_naturality_left,
     chainTensorHomEquiv_naturality_right]
-  show DerivedCategory.Q.map ((α_ P Z K).hom ≫ P ◁ (uncurry s ≫ q) ≫ q') =
+  change DerivedCategory.Q.map ((α_ P Z K).hom ≫ P ◁ (uncurry s ≫ q) ≫ q') =
     DerivedCategory.Q.map (((p ▷ Z) ▷ K) ≫ (aZ ▷ K) ≫ uncurry s ≫ q)
   calc
     _ = DerivedCategory.Q.map ((α_ P Z K).hom ≫ P ◁ uncurry s) ≫
@@ -176,13 +176,13 @@ private lemma homComplexScalarAdjunction_counit
   intro p q hpq
   apply ModuleCat.ExtendScalars.hom_ext
   intro x
-  show (((Stacks.HomComplex.TensorHomMap.postcomp A _ _ J
+  change (((Stacks.HomComplex.TensorHomMap.postcomp A _ _ J
       (((ModuleCat.extendRestrictScalarsAdj f).mapHomologicalComplex (.up ℤ)).counit.app J)).f n
         ((homComplexBaseChange f K ((CochainComplex.restrictScalarsLarge f).obj J)).f n
           ((ModuleCat.extendScalars f).map ((homComplexScalarAdjunction f K J).f n)
             ((1 : A) ⊗ₜ[R,f] z)))).v p q hpq) ((1 : A) ⊗ₜ[R,f] x) = _
   rw [ModuleCat.ExtendScalars.map_tmul]
-  show ((((homComplexBaseChange f K ((CochainComplex.restrictScalarsLarge f).obj J)).f n
+  change ((((homComplexBaseChange f K ((CochainComplex.restrictScalarsLarge f).obj J)).f n
       ((1 : A) ⊗ₜ[R,f] ((homComplexScalarAdjunction f K J).f n z))).comp
         (Cochain.ofHom (((ModuleCat.extendRestrictScalarsAdj f).mapHomologicalComplex (.up
           ℤ)).counit.app J))
@@ -190,7 +190,7 @@ private lemma homComplexScalarAdjunction_counit
   rw [Cochain.comp_zero_cochain_v, ModuleCat.comp_apply, homComplexBaseChange_f_tmul_v,
     homComplexScalarAdjunction_f_apply]
   simp only [Cochain.ofHom_v, mul_one]
-  show (ModuleCat.extendRestrictScalarsAdj f).counit.app (J.X q)
+  change (ModuleCat.extendRestrictScalarsAdj f).counit.app (J.X q)
       ((1 : A) ⊗ₜ[R,f] (z.v p q hpq) ((1 : A) ⊗ₜ[R,f] x)) =
     (((ModuleCat.extendRestrictScalarsAdj f).counit.app
       ((HomComplexR A ((CochainComplex.extendScalarsLarge f).obj K) J).X n)
@@ -249,7 +249,7 @@ private lemma homComplexChangeOfRingsMap_postcomp
   intro z
   apply Cochain.ext
   intro p r hpr
-  show ((Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K J I q).f n z).v p r hpr =
+  change ((Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K J I q).f n z).v p r hpr =
     ((((homComplexScalarAdjunction f K J).f n z).comp (Cochain.ofHom q) (add_zero n)).v p r hpr)
   rw [Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap_f_apply, Cochain.comp_zero_cochain_v,
     homComplexScalarAdjunction_f_apply]
@@ -422,7 +422,7 @@ private lemma extensionRestrictionResolutionIso_action
   let a := scalarAdjunctionWithUnitComparison f F α
   let adj := (ModuleCat.extendRestrictScalarsAdj f).mapHomologicalComplex (.up ℤ)
   have hc := counit_fac_of_unit_fac adj α β a.1 a.2 J
-  show (extensionRestrictionResolutionIso f F α P hP p (Uc.obj J)).inv ≫
+  change (extensionRestrictionResolutionIso f F α P hP p (Uc.obj J)).inv ≫
       U.map (F.map (β.inv.app J)) ≫ U.map (a.1.counit.app (DerivedCategory.Q.obj J)) ≫
         β.hom.app J = _
   rw [← hc, Functor.map_comp, Functor.map_comp]
@@ -464,6 +464,9 @@ variable (F : DerivedCategory (ModuleCat.{max uR uA uM} R) ⥤
     [F.IsLeftDerivedFunctor α
       (HomologicalComplex.quasiIso (ModuleCat.{max uR uA uM} R) (ComplexShape.up ℤ))]
     (K M : DerivedCategory (ModuleCat.{max uR uA uM} R))
+omit [(ModuleCat.extendScalars.{uR, uA, max uR uA uM} f).IsLeftAdjoint]
+  [(ModuleCat.restrictScalars.{max uR uA uM, uR, uA} f).IsRightAdjoint]
+  [(ModuleCat.restrictScalars.{max uR uA uM, uR, uA} f).IsLeftAdjoint] in
 /-- Scalar equivalences transport the canonical base-change criterion to the model rings. -/
 private lemma isIso_derivedHomBaseChange_iff_model :
     let a := CochainComplex.DerivedExtensionScalars.derivedExtensionScalarsAdjunction.{uR, uA, uM} f
@@ -582,7 +585,7 @@ private lemma isIso_derivedHomBaseChange_iff_model :
   let src := (a.homEquiv _ _).symm (H.map (a.unit.app M) ≫ e.app (F.obj M))
   let tgt := (a'.homEquiv _ _).symm
     (H'.map (a'.unit.app (E.functor.obj M)) ≫ e'.app (T.B.obj (E.functor.obj M)))
-  show IsIso src ↔ IsIso tgt
+  change IsIso src ↔ IsIso tgt
   have hi := Iff.of_eq (congrArg (fun z => IsIso z) h)
   simp only [isIso_comp_left_iff, isIso_comp_right_iff] at hi
   exact (isIso_iff_of_reflects_iso src S.functor).symm.trans hi.symm

@@ -104,7 +104,7 @@ theorem isConstructibleEtaleComplex_derivedDirectImage_of_nsmul_eq_zero_of_pos_o
       (ModuleCat.of Λ (M ⧸ K)) fun x ↦ ?_
     obtain ⟨y, rfl⟩ := K.mkQ_surjective x
     rw [← map_nsmul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-    show (ℓ : ℕ) • (m' • y) = 0
+    change (ℓ : ℕ) • (m' • y) = 0
     rw [← mul_nsmul', ← hm', hM]
 
 end Stacks.EtaleCohomology.FiniteCoefficients

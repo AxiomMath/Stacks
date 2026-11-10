@@ -212,7 +212,7 @@ the class of arrows it determines. -/
 @[stacks 0FT6 "ker(Q) = Ac"]
 theorem toDerivedCategory_kernel_eq_acyclic :
     (toDerivedCategory.{u, v, w} A).kernel = acyclic.{u, v, w} A := by
-  show (quasiIsomorphisms A).Q.kernel = acyclic.{u, v, w} A
+  change (quasiIsomorphisms A).Q.kernel = acyclic.{u, v, w} A
   rw [← acyclic_trW_eq_quasiIsomorphisms A]
   exact ObjectProperty.isLeast_trW_kernel_and_kernel_eq_self.2
     (acyclic.{u, v, w} A) (acyclic.{u, v, w} A).trW.Q

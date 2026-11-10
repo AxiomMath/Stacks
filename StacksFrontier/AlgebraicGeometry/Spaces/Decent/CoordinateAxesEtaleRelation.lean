@@ -71,12 +71,12 @@ private lemma origin_comp_swap (S : CoordinateAxesQuotientSetup.{u}) :
 private lemma coordinateSwap_fixes_origin (S : CoordinateAxesQuotientSetup.{u}) :
     coordinateSwap S (origin S) = origin S := by
   apply PrimeSpectrum.ext
-  show Ideal.comap ((swapRingEquiv S).toRingEquiv) (origin S).asIdeal =
+  change Ideal.comap ((swapRingEquiv S).toRingEquiv) (origin S).asIdeal =
     (origin S).asIdeal
-  show Ideal.comap ((swapRingEquiv S).toRingEquiv.toRingHom)
+  change Ideal.comap ((swapRingEquiv S).toRingEquiv.toRingHom)
       (RingHom.ker (originRingMap S)) = RingHom.ker (originRingMap S)
   ext a
-  show (originRingMap S) ((swapRingEquiv S).toRingEquiv a) = 0 ↔
+  change (originRingMap S) ((swapRingEquiv S).toRingEquiv a) = 0 ↔
     (originRingMap S) a = 0
   have h := congrArg (fun f : NodalRing S.k →+* S.k => f a) (origin_comp_swap S)
   simpa [RingHom.comp_apply] using congrArg (fun x => x = (0 : S.k)) h
@@ -219,7 +219,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
       (pullback.condition : a ≫ relationRight S = b ≫ relationLeft S)).symm.trans hd_right
   have ht₁_left : t₁ ≫ relationLeft S = dπ ≫ a ≫ relationLeft S := by
     apply BinaryCofan.IsColimit.hom_ext hc₀
-    · show (pullback.fst q coprod.inl ≫ t₁) ≫ relationLeft S =
+    · change (pullback.fst q coprod.inl ≫ t₁) ≫ relationLeft S =
         (pullback.fst q coprod.inl ≫ dπ ≫ a) ≫ relationLeft S
       rw [ht₁_fac₀]
       calc
@@ -229,7 +229,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
         _ = pullback.fst q coprod.inl ≫ dπ ≫ a ≫ relationLeft S := by
           simpa only [Category.assoc] using congrArg
             (fun f => pullback.fst q coprod.inl ≫ f) hd_left.symm
-    · show (pullback.fst q coprod.inr ≫ t₁) ≫ relationLeft S =
+    · change (pullback.fst q coprod.inr ≫ t₁) ≫ relationLeft S =
         (pullback.fst q coprod.inr ≫ dπ ≫ a) ≫ relationLeft S
       rw [ht₁_fac₁]
       calc
@@ -242,7 +242,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
             (fun f => pullback.fst q coprod.inr ≫ f) hd_left.symm
   have ht₁_right : t₁ ≫ relationRight S = dπ ≫ b ≫ relationRight S := by
     apply BinaryCofan.IsColimit.hom_ext hc₀
-    · show (pullback.fst q coprod.inl ≫ t₁) ≫ relationRight S =
+    · change (pullback.fst q coprod.inl ≫ t₁) ≫ relationRight S =
         (pullback.fst q coprod.inl ≫ dπ ≫ b) ≫ relationRight S
       rw [ht₁_fac₀]
       let m := pullback.fst q coprod.inl
@@ -250,7 +250,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
       have hq : m ≫ (dπ ≫ b) = n ≫ coprod.inl := by
         dsimp [m, n, q]
         exact pullback.condition
-      show (m ≫ dι ≫ coprod.inr) ≫ relationRight S =
+      change (m ≫ dι ≫ coprod.inr) ≫ relationRight S =
         (m ≫ dπ ≫ b) ≫ relationRight S
       calc
         (m ≫ dι ≫ coprod.inr) ≫ relationRight S =
@@ -265,7 +265,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
         _ = m ≫ dπ ≫ b ≫ relationRight S := by
           simpa only [Category.assoc] using
             (congrArg (fun f => f ≫ relationRight S) hq).symm
-    · show (pullback.fst q coprod.inr ≫ t₁) ≫ relationRight S =
+    · change (pullback.fst q coprod.inr ≫ t₁) ≫ relationRight S =
         (pullback.fst q coprod.inr ≫ dπ ≫ b) ≫ relationRight S
       rw [ht₁_fac₁]
       let m := pullback.fst q coprod.inr
@@ -273,7 +273,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
       have hq : m ≫ (dπ ≫ b) = n ≫ coprod.inr := by
         dsimp [m, n, q]
         exact pullback.condition
-      show (m ≫ dι ≫ (puncturedCoordinateAxes S).ι ≫ coprod.inl) ≫
+      change (m ≫ dι ≫ (puncturedCoordinateAxes S).ι ≫ coprod.inl) ≫
           relationRight S = (m ≫ dπ ≫ b) ≫ relationRight S
       calc
         (m ≫ dι ≫ (puncturedCoordinateAxes S).ι ≫ coprod.inl) ≫ relationRight S =
@@ -299,23 +299,23 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
           simpa only [Category.assoc] using
             (congrArg (fun f => f ≫ relationRight S) hq).symm
   have ht_left : t ≫ relationLeft S = c.fst ≫ relationLeft S := by
-    show t ≫ relationLeft S = a ≫ relationLeft S
+    change t ≫ relationLeft S = a ≫ relationLeft S
     apply BinaryCofan.IsColimit.hom_ext hc₁
-    · show (pullback.fst a coprod.inl ≫ t) ≫ relationLeft S =
+    · change (pullback.fst a coprod.inl ≫ t) ≫ relationLeft S =
         (pullback.fst a coprod.inl ≫ a) ≫ relationLeft S
       rw [ht_fac₀]
       exact ht₀_left
-    · show (pullback.fst a coprod.inr ≫ t) ≫ relationLeft S =
+    · change (pullback.fst a coprod.inr ≫ t) ≫ relationLeft S =
         (pullback.fst a coprod.inr ≫ a) ≫ relationLeft S
       rw [ht_fac₁]
       exact ht₁_left
   have ht_right : t ≫ relationRight S = c.snd ≫ relationRight S := by
-    show t ≫ relationRight S = b ≫ relationRight S
+    change t ≫ relationRight S = b ≫ relationRight S
     apply BinaryCofan.IsColimit.hom_ext hc₁
-    · show (pullback.fst a coprod.inl ≫ t) ≫ relationRight S =
+    · change (pullback.fst a coprod.inl ≫ t) ≫ relationRight S =
         (pullback.fst a coprod.inl ≫ b) ≫ relationRight S
       rw [ht_fac₀]
-    · show (pullback.fst a coprod.inr ≫ t) ≫ relationRight S =
+    · change (pullback.fst a coprod.inr ≫ t) ≫ relationRight S =
         (pullback.fst a coprod.inr ≫ b) ≫ relationRight S
       rw [ht_fac₁]
       exact ht₁_right
@@ -325,7 +325,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
       rw [← Category.assoc, coprod.inl_desc, relationLeft_inl', relationRight_inl']
     · dsimp [s]
       rw [← Category.assoc, coprod.inr_desc]
-      show swapPunctured S ≫ ((coprod.inr : _ ⟶ relationScheme S) ≫ relationLeft S) =
+      change swapPunctured S ≫ ((coprod.inr : _ ⟶ relationScheme S) ≫ relationLeft S) =
         (coprod.inr : _ ⟶ relationScheme S) ≫ relationRight S
       rw [relationLeft_inr', swapPunctured_comp_ι, relationRight_inr']
   have hsym₂ : s ≫ relationRight S = relationLeft S := by
@@ -334,7 +334,7 @@ private theorem relation_maps_equivalence (S : CoordinateAxesQuotientSetup.{u}) 
       rw [← Category.assoc, coprod.inl_desc, relationRight_inl', relationLeft_inl']
     · dsimp [s]
       rw [← Category.assoc, coprod.inr_desc]
-      show swapPunctured S ≫ ((coprod.inr : _ ⟶ relationScheme S) ≫ relationRight S) =
+      change swapPunctured S ≫ ((coprod.inr : _ ⟶ relationScheme S) ≫ relationRight S) =
         (coprod.inr : _ ⟶ relationScheme S) ≫ relationLeft S
       rw [relationRight_inr']
       calc
@@ -448,7 +448,7 @@ private theorem relationOver_maps_equivalence (S : CoordinateAxesQuotientSetup.{
           (by simpa [p₂, relationRightOver, Category.assoc] using
             congrArg Over.Hom.left h₂)
       r := Over.homMk e.r (by
-        show e.r ≫ (relationLeft S ≫ baseMap S) = baseMap S
+        change e.r ≫ (relationLeft S ≫ baseMap S) = baseMap S
         rw [← Category.assoc, e.reflexivity₁, Category.id_comp])
       reflexivity₁ := by
         ext
@@ -457,7 +457,7 @@ private theorem relationOver_maps_equivalence (S : CoordinateAxesQuotientSetup.{
         ext
         simp [relationRightOver]
       s := Over.homMk e.s (by
-        show e.s ≫ (relationLeft S ≫ baseMap S) = relationLeft S ≫ baseMap S
+        change e.s ≫ (relationLeft S ≫ baseMap S) = relationLeft S ≫ baseMap S
         rw [← Category.assoc, e.symmetry₁]
         exact relationRight_comp_baseMap S)
       symmetry₁ := by
@@ -471,11 +471,11 @@ private theorem relationOver_maps_equivalence (S : CoordinateAxesQuotientSetup.{
       t := Over.homMk (q ≫ e.t) htOver
       transitivity₁ := by
         ext
-        show (q ≫ e.t) ≫ relationLeft S = c.fst.left ≫ relationLeft S
+        change (q ≫ e.t) ≫ relationLeft S = c.fst.left ≫ relationLeft S
         exact ht₁
       transitivity₂ := by
         ext
-        show (q ≫ e.t) ≫ relationRight S = c.snd.left ≫ relationRight S
+        change (q ≫ e.t) ≫ relationRight S = c.snd.left ≫ relationRight S
         exact ht₂ }
 
 /-- A morphism out of a binary coproduct is étale when both components are; this is

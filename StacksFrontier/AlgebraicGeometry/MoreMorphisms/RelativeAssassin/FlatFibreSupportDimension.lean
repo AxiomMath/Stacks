@@ -132,7 +132,7 @@ private theorem exists_le_primeIdealOf_mem_support
     apply hV.fromSpec.isOpenEmbedding.isInducing.specializes_iff.mp
     simpa [pη, hV.fromSpec_primeIdealOf] using hηx
   have hbase : pη ⤳ suppMap (R := A) (S := B) (N := N) ⟨q', hq'⟩ := by
-    show pη ⤳ PrimeSpectrum.comap φ q'
+    change pη ⤳ PrimeSpectrum.comap φ q'
     rwa [hq'p]
   have : Module.Flat A N := hcrit U hU V hV hVU
   have : Module.Finite B N := moduleFinite_sections F ⟨U, hU⟩
@@ -141,7 +141,7 @@ private theorem exists_le_primeIdealOf_mem_support
   refine ⟨qsub.1, qsub.2, (PrimeSpectrum.le_iff_specializes _ _).mpr
     ((subtype_specializes_iff qsub ⟨q', hq'⟩).mp hqsub), ?_⟩
   change PrimeSpectrum.comap (algebraMap A B) qsub.1 = pη at hqmap
-  show PrimeSpectrum.comap φ qsub.1 = pη
+  change PrimeSpectrum.comap φ qsub.1 = pη
   simpa [A, B, RingHom.algebraMap_toAlgebra φ] using hqmap
 
 /-- **Going down for the support of a flat module.** For a quasi-coherent module of finite type
@@ -296,7 +296,7 @@ private theorem exists_topologicalKrullDim_fiber_closure
       apply le_of_eq
       apply congrArg Scheme.IdealSheafData.vanishingIdeal
       apply Closeds.ext
-      show closure ({f z} : Set S) = closure (f '' closure ({z} : Set X))
+      change closure ({f z} : Set S) = closure (f '' closure ({z} : Set X))
       exact ((closure_image_closure f.continuous).trans (by simp)).symm)
   let g : Y.subscheme ⟶ S := Y.subschemeι ≫ f
   have hcomp : h ≫ T.subschemeι = g := by
@@ -320,7 +320,7 @@ private theorem exists_topologicalKrullDim_fiber_closure
   rw [← hYsupport, ← Y.range_subschemeι] at hw
   obtain ⟨q, hq⟩ := hw
   have hqv : g q = v := by
-    show f (Y.subschemeι q) = v
+    change f (Y.subschemeι q) = v
     rwa [hq]
   let qv : g.fiber v := (g.fiberHomeo v).symm ⟨q, hqv⟩
   calc
@@ -378,7 +378,7 @@ private theorem topologicalKrullDim_le_fiber_closure {X S : Scheme.{u}} (f : X �
   rw [← Y.range_subschemeι] at hYmem
   obtain ⟨qY, hqY⟩ := hYmem
   have hqYbase : g qY = s := by
-    show f (Y.subschemeι qY) = s
+    change f (Y.subschemeι qY) = s
     rw [hqY]
     exact fiberι_point_maps_to_base f s (e p)
   exact ⟨(g.fiberHomeo s).symm ⟨qY, hqYbase⟩, by simp [hqY]⟩

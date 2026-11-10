@@ -173,7 +173,7 @@ theorem universalHomeomorphism_specMap_tensorProduct_includeLeft
     calc
       q = (asIso i).inv ≫ (i ≫ q) := by simp
       _ = (asIso i).inv ≫ p := by rw [hcomp]
-  show UniversalHomeomorphism q
+  change UniversalHomeomorphism q
   rw [hq]
   exact hasTwoOutOfThreeProperty_universalHomeomorphism.comp_mem _ _
     (universalHomeomorphism_of_isIso _)

@@ -86,7 +86,7 @@ past the degree of `p`. -/
 theorem coeff_aeval_divXLinear_apply (p m : k[X]) {N : ℕ} (hN : p.natDegree < N) (i : ℕ) :
     ((aeval (divXLinear k) p) m).coeff i =
       ∑ j ∈ Finset.range N, p.coeff j * m.coeff (i + j) := by
-  rw [aeval_eq_sum_range' hN, LinearMap.sum_apply, finset_sum_coeff]
+  rw [aeval_eq_sum_range' hN, LinearMap.sum_apply, finsetSum_coeff]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [LinearMap.smul_apply, coeff_smul, coeff_divXLinear_pow_apply, smul_eq_mul]
 
@@ -97,9 +97,9 @@ theorem coeff_aeval_divXLinear_X_pow (p : k[X]) (n i : ℕ) (hi : i ≤ n) :
   rw [coeff_aeval_divXLinear_apply p _ (N := max p.natDegree n + 1)
     (Nat.lt_succ_of_le (le_max_left _ _))]
   rw [Finset.sum_eq_single i]
-  · rw [coeff_X_pow, if_pos (by omega), mul_one]
+  · rw [coeff_X_pow, ite_eq_left (by omega), mul_one]
   · intro j _ hj
-    rw [coeff_X_pow, if_neg (by omega), mul_zero]
+    rw [coeff_X_pow, ite_eq_right (by omega), mul_zero]
   · intro h
     rw [Finset.mem_range, not_lt] at h
     rw [coeff_eq_zero_of_natDegree_lt (by omega), zero_mul]
@@ -113,16 +113,16 @@ theorem aeval_divXLinear_reflect_X_pow (m : k[X]) {n : ℕ} (hm : m.natDegree �
   rw [coeff_aeval_divXLinear_apply _ _ hq]
   by_cases hi : i ≤ n
   · rw [Finset.sum_eq_single (n - i)]
-    · rw [coeff_X_pow, if_pos (by omega), mul_one, coeff_reflect, revAt_le (by omega)]
+    · rw [coeff_X_pow, ite_eq_left (by omega), mul_one, coeff_reflect, revAt_le (by omega)]
       congr 1
       omega
     · intro j _ hj
-      rw [coeff_X_pow, if_neg (by omega), mul_zero]
+      rw [coeff_X_pow, ite_eq_right (by omega), mul_zero]
     · intro h
       exact absurd (Finset.mem_range.2 (by omega)) h
   · rw [coeff_eq_zero_of_natDegree_lt (by omega)]
     refine Finset.sum_eq_zero fun j _ => ?_
-    rw [coeff_X_pow, if_neg (by omega), mul_zero]
+    rw [coeff_X_pow, ite_eq_right (by omega), mul_zero]
 
 /-- `divX` undoes multiplication by `X`. -/
 theorem divXLinear_pow_X_pow_mul (j : ℕ) (f : k[X]) :
@@ -169,7 +169,7 @@ theorem x_pow (n : ℕ) : x k ^ n = TrivSqZeroExt.inl (X ^ n) := by
 theorem x_mul_e_succ (n : ℕ) : x k * e k (n + 1) = e k n := by
   rw [x, e, e, TrivSqZeroExt.inl_mul_inr, Module.AEval'.X_smul_of]
   congr 2
-  rw [divXLinear_apply, divX_X_pow, if_neg (by omega)]
+  rw [divXLinear_apply, divX_X_pow, ite_eq_right (by omega)]
   rfl
 
 /-- `x^{n+1} eₙ = 0`. -/
@@ -177,7 +177,7 @@ theorem x_pow_mul_e (n : ℕ) : x k ^ (n + 1) * e k n = 0 := by
   rw [x_pow, e, TrivSqZeroExt.inl_mul_inr, Module.AEval'.X_pow_smul_of]
   rw [show (divXLinear k ^ (n + 1)) • (X ^ n : k[X]) = 0 by
     ext i
-    rw [Module.End.smul_def, coeff_divXLinear_pow_apply, coeff_X_pow, if_neg (by omega),
+    rw [Module.End.smul_def, coeff_divXLinear_pow_apply, coeff_X_pow, ite_eq_right (by omega),
       coeff_zero]]
   simp
 

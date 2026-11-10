@@ -81,10 +81,10 @@ theorem exists_etale_isFinite_of_pullbackSquareReverse {S X X' : Scheme.{u}} (a 
     ∃ R : E.Descended, Etale R.base.hom ∧ IsFinite R.base.hom := by
   refine ⟨ofPullbackSquareReverse a a' p q hp hq E Q, ?_, ?_⟩
   · have := hE
-    show Etale (pullback.snd Q.base.hom (𝟙 S))
+    change Etale (pullback.snd Q.base.hom (𝟙 S))
     infer_instance
   · have := hF
-    show IsFinite (pullback.snd Q.base.hom (𝟙 S))
+    change IsFinite (pullback.snd Q.base.hom (𝟙 S))
     infer_instance
 
 /-- Transport of a descended scheme, with étaleness and finiteness of its structure morphism,
@@ -154,7 +154,7 @@ theorem exists_isAffineOpen_descended_isFinite_etale_reducedInducedInclusion {T 
         (isLocallyClosed_inter_compl W₁ U₀) (Set.inter_subset_inter_left _ hW₂W₁))
         |>.ofDatumIso (DescentDatum.changeCompDatumIso _ _ D))
       (by
-        show Etale (pullback.snd Q₁.base.hom _)
+        change Etale (pullback.snd Q₁.base.hom _)
         infer_instance)
       hfin
   exact DescentDatum.Descended.exists_changeDatum_of_eq D

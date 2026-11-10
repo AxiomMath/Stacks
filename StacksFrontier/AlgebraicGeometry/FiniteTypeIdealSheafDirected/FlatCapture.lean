@@ -80,7 +80,7 @@ theorem comap_inf_of_flat (q : T ⟶ Y) [Flat q] (I J : Y.IdealSheafData) :
         (q ⁻¹ᵁ U).isOpen
     exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨(⟨U, hU⟩, ⟨V, hV⟩), hVU⟩, hxV⟩
   · rintro ⟨⟨U, V⟩, h⟩
-    show (I.comap q).ideal V ⊓ (J.comap q).ideal V ≤ ((I ⊓ J).comap q).ideal V
+    change (I.comap q).ideal V ⊓ (J.comap q).ideal V ≤ ((I ⊓ J).comap q).ideal V
     rw [Stacks.IdealSheaf.ideal_comap_appLE I q U V h,
       Stacks.IdealSheaf.ideal_comap_appLE J q U V h,
       Stacks.IdealSheaf.ideal_comap_appLE (I ⊓ J) q U V h]

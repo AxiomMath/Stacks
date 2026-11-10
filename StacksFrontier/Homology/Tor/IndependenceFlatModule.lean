@@ -104,7 +104,7 @@ public theorem isIso_comparison_of_kFlat_restrictScalars
     let : Module R N := Module.compHom N (algebraMap R A)
     let : IsScalarTower R A N := ⟨fun r a m => by
       rw [Algebra.smul_def]
-      show ((algebraMap R A r) * a) • m = (algebraMap R A r) • a • m
+      change ((algebraMap R A r) * a) • m = (algebraMap R A r) • a • m
       exact mul_smul _ _ _⟩
     let eB : (ModuleCat.restrictScalars (algebraMap R B)).obj (ModuleCat.of B B) ≃ₗ[R] B :=
       { AddEquiv.refl B with
@@ -120,10 +120,10 @@ public theorem isIso_comparison_of_kFlat_restrictScalars
     have hψ : Function.Bijective ψ := by
       apply bijective_tensorProduct_baseChange
       intro b m
-      show w (cmp.1.app N (v.symm (b ⊗ₜ[R] m))) = ((1 : A) ⊗ₜ[R] b) ⊗ₜ[A] m
-      show w (cmp.1.app N (b ⊗ₜ[R,algebraMap R B] m)) = _
+      change w (cmp.1.app N (v.symm (b ⊗ₜ[R] m))) = ((1 : A) ⊗ₜ[R] b) ⊗ₜ[A] m
+      change w (cmp.1.app N (b ⊗ₜ[R,algebraMap R B] m)) = _
       rw [cmp.2.2.1]
-      show (Algebra.IsPushout.equiv R A B T).symm (algebraMap B T b) ⊗ₜ[A] m = _
+      change (Algebra.IsPushout.equiv R A B T).symm (algebraMap B T b) ⊗ₜ[A] m = _
       rw [Algebra.IsPushout.equiv_symm_algebraMap_right]
     exact (v.symm.bijective.of_comp_iff _).mp ((w.bijective.of_comp_iff' _).mp hψ)
   have hcmp1 : IsIso cmp.1 := NatIso.isIso_of_isIso_app cmp.1
@@ -137,7 +137,7 @@ public theorem isIso_comparison_of_kFlat_restrictScalars
   have heq := @derivedBaseChangeComparison_snd_app_comp_counit.{u, u, u, u, u, u + 1, u + 1,
       u + 1, u + 1}
     R A B T _ _ _ _ _ _ _ _
-    (algebraMap R A) (algebraMap R B) (algebraMap A T) (algebraMap B T) _ _
+    (algebraMap R A) (algebraMap R B) (algebraMap A T) (algebraMap B T)
     sq Dbase.functor Dtop.functor Dbase.comparison Dtop.comparison
     Dbase.isLeftDerived Dtop.isLeftDerived KM
   have hfactR : IsIso ((ModuleCat.restrictScalars
@@ -246,11 +246,11 @@ public theorem quasiIso_extendScalars_of_flat_of_flat
   have hi : IsIso (DerivedCategory.Q.map
       ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map q) ≫
       (DerivedCategory.Q.mapIso (ec.app _)).hom) := by
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map q) ≫ DerivedCategory.Q.map
         (ec.hom.app _))
     rw [← Functor.map_comp, hnat, Functor.map_comp]
-    show IsIso (DerivedCategory.Q.map (ec.hom.app K) ≫
+    change IsIso (DerivedCategory.Q.map (ec.hom.app K) ≫
       DerivedCategory.Q.map ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map
         ((E.mapHomologicalComplex (ComplexShape.up ℤ)).map q)))
     infer_instance

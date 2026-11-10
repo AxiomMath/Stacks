@@ -74,7 +74,8 @@ a closed immersion, that both objects lie over the whole of `X` — spelled out 
 two structure maps, which is what cuts out the subcategory `𝒞` of [Stacks, Tag 07JK] — and that
 `T'` is affine.  **No hypothesis stands in for a missing result**: in particular the
 quasi-coherence of the kernel, which the module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineCohomology.lean` lists as available and
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineCohomology.lean` lists as available
+and
 which the writer of `FMapSurjectivity.lean` reported as absent, is *proved* here, as
 `isQuasicoherent_kernel_fmapModuleRestriction`, from two results that were indeed already in the
 library: `Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel` and
@@ -195,7 +196,7 @@ theorem sectionsIso_inv_restrictionFMap_apply (W : B.obj.thickening.target.schem
         ((CrystallineThickening.sectionsIso B W).inv.hom r) =
       (CrystallineThickening.sectionsIso A (g.hom.targetHom.hom ⁻¹ᵁ W)).inv.hom
         ((g.hom.targetHom.hom.app W).hom r) := by
-  show ((Thickening.restrictOpenMap g.hom W).targetHom.hom.appTop).hom (W.topIso.inv.hom r) =
+  change ((Thickening.restrictOpenMap g.hom W).targetHom.hom.appTop).hom (W.topIso.inv.hom r) =
     ((g.hom.targetHom.hom ⁻¹ᵁ W).topIso.inv).hom ((g.hom.targetHom.hom.app W).hom r)
   rw [Thickening.restrictOpenMap_targetHom]
   exact morphismRestrict_appTop_topIso_apply _ _ _

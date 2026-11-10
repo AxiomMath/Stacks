@@ -90,7 +90,7 @@ theorem chartSquare_comm (U : Over d.U)
         (inverseImageStructureSheaf B S hS f) (smallEtaleRingedTopos B S hS X).O
         (structureSharpInverseImage B S hS f) (op U.left))
         (chartDiagramRestrictBase B S hS f d U r) := by
-  show chartDiagramRestrictO B S hS f d U (chartDiagramRingHom B S hS f d r) =
+  change chartDiagramRestrictO B S hS f d U (chartDiagramRingHom B S hS f d r) =
     (structureSharpInverseImage B S hS f).hom.app (op U.left)
       ((inverseImageStructureSheaf B S hS f).obj.map U.hom.op
         (inverseImageChartUnitRingHom B S hS f d r))
@@ -163,7 +163,7 @@ theorem chartDiagramRestrictO_naturality {U₁ U₂ : Over d.U} (g : U₂ ⟶ U�
     (a : ToType ((smallEtaleRingedTopos B S hS X).O.obj.obj (op d.U))) :
     (smallEtaleRingedTopos B S hS X).O.obj.map g.left.op (chartDiagramRestrictO B S hS f d U₁ a) =
       chartDiagramRestrictO B S hS f d U₂ a := by
-  show ((smallEtaleRingedTopos B S hS X).O.obj.map U₁.hom.op ≫
+  change ((smallEtaleRingedTopos B S hS X).O.obj.map U₁.hom.op ≫
     (smallEtaleRingedTopos B S hS X).O.obj.map g.left.op) a = _
   rw [← Functor.map_comp, ← op_comp, Over.w g]
 
@@ -173,7 +173,7 @@ theorem chartDiagramRestrictBase_naturality {U₁ U₂ : Over d.U} (g : U₂ ⟶
     (inverseImageStructureSheaf B S hS f).obj.map g.left.op
         (chartDiagramRestrictBase B S hS f d U₁ r) =
       chartDiagramRestrictBase B S hS f d U₂ r := by
-  show ((inverseImageStructureSheaf B S hS f).obj.map U₁.hom.op ≫
+  change ((inverseImageStructureSheaf B S hS f).obj.map U₁.hom.op ≫
     (inverseImageStructureSheaf B S hS f).obj.map g.left.op) _ = _
   rw [← Functor.map_comp, ← op_comp, Over.w g]
   rfl
@@ -231,8 +231,7 @@ theorem chartH1Tensor_restrict {U₁ U₂ : Over d.U} (g : U₂ ⟶ U₁)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U₁.left)
   let := Stacks.SheafOfModules.algebraSections _ (inverseImageStructureSheaf B S hS f)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U₂.left)
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [Point.restrictTensor_tmul, chartH1Tensor_tmul, chartH1Tensor_tmul]
     refine (Stacks.NaiveCotangent.h1CotangentMapOfSquare_smul _ _ _ s _).trans ?_
@@ -271,7 +270,7 @@ theorem chartStalkSquare_comm
     (r : ToType ((smallEtaleRingedTopos B S hS Y).O.obj.obj (op d.V))) :
     chartStalkGerm B S hS f d p (@algebraMap _ _ _ _ (chartDiagramAlgebraInst B S hS f d) r) =
       @algebraMap _ _ _ _ (chartStalkAlgebra B S hS f d p) (chartBaseStalkGerm B S hS f d p r) := by
-  show _ = ((chartStalkPoint B S hS f d p).presheafFiber.map (chartSharp B S hS f d))
+  change _ = ((chartStalkPoint B S hS f d p).presheafFiber.map (chartSharp B S hS f d))
     ((chartStalkPoint B S hS f d p).toPresheafFiber _ (chartStalkPointTop B S hS f d p)
       (chartBasePresheaf B S hS f d) (inverseImageChartUnitRingHom B S hS f d r))
   rw [Point.toPresheafFiber_naturality_apply]
@@ -399,8 +398,7 @@ theorem chartGermH1_chartH1Tensor (U : Over d.U) (q : (chartStalkPoint B S hS f 
   let := chartStalkAlgebra B S hS f d p
   let := Stacks.SheafOfModules.algebraSections _ (inverseImageStructureSheaf B S hS f)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U.left)
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [chartH1Tensor_tmul, Point.germTensor_tmul, chartStalkH1BaseChange_tmul]
     refine (Stacks.NaiveCotangent.h1CotangentMapOfSquare_smul _ _ _ s _).trans ?_
@@ -435,8 +433,7 @@ theorem chartStalkH1BaseChange_bijective
     (chartBaseStalk_ind_etale B S hS f d p hW) (chartStalk_ind_etale B S hS f d p hU)
   convert hbij using 1
   funext t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [chartStalkH1BaseChange_tmul, LinearMap.liftBaseChange_tmul,
       Stacks.NaiveCotangent.h1Cotangent_map_eq_h1CotangentMapOfSquare]

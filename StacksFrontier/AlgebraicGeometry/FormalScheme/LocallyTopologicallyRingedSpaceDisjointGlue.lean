@@ -78,7 +78,7 @@ theorem range_disjointGluePiece_subset (i : ι) :
       Set.range (Y.ofRestrict (iSup V)).toHom.base := by
   rintro _ ⟨p, rfl⟩
   refine ⟨p.1, ?_⟩
-  show _ = (σ i).toHom.base _
+  change _ = (σ i).toHom.base _
   rw [hσ]
   rfl
 

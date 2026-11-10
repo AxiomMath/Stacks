@@ -64,7 +64,7 @@ theorem cotangentToChart_differential (U : X.Opens) (n : SimplexCategory)
           (ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n))) := by
   let := ((evaluation.{u, u + 1} Λ X structureMap).app
     (op (resolutionChart Λ X structureMap U n))).hom.toAlgebra
-  show chartSectionsUp Λ X structureMap U n 1 ⊗ₜ[resolutionChartRing Λ X structureMap U n]
+  change chartSectionsUp Λ X structureMap U n 1 ⊗ₜ[resolutionChartRing Λ X structureMap U n]
       (ULift.up (resolutionToChartDifferentials Λ X structureMap U n
         (KaehlerDifferential.D Λ _ q)) :
           ULift.{u + 1} (resolutionChartDifferentials Λ X structureMap U n)) = _
@@ -186,7 +186,7 @@ theorem chartStructureRing_map_chartScalarUp (U : X.Opens) {m n : SimplexCategor
         (((standardResolutionChart Λ X structureMap).obj U).map θ).op
         (chartScalarUp Λ X structureMap U n b) =
       chartScalarUp Λ X structureMap U m b := by
-  show ULift.up ((X.presheaf.map (homOfLE (le_refl U)).op) b) = ULift.up b
+  change ULift.up ((X.presheaf.map (homOfLE (le_refl U)).op) b) = ULift.up b
   rw [Subsingleton.elim (homOfLE (le_refl U)) (𝟙 U), op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -222,7 +222,7 @@ theorem cotangentToChart_cotangentMap (U : X.Opens) {m n : SimplexCategory} (θ 
         (cotangentToChart_smul Λ X structureMap U n b x)).trans ?_
       refine (((chartBaseChangePresheaf Λ X structureMap).map
         (((standardResolutionChart Λ X structureMap).obj U).map θ).op).hom.map_smul _ _).trans ?_
-      show (chartStructureRing Λ X structureMap).obj.map
+      change (chartStructureRing Λ X structureMap).obj.map
           (((standardResolutionChart Λ X structureMap).obj U).map θ).op
           (chartScalarUp Λ X structureMap U n b) •
         (show (chartBaseChangePresheaf Λ X structureMap).obj
@@ -303,7 +303,7 @@ theorem pointRingMap_app_apply (V : X.Opens) (n : SimplexCategory)
     (pointRingMap (fibredCategorySituation Λ X structureMap)
       (standardResolutionChart_comp_whiskeringRight Λ X structureMap)
       (ringSheaf (liftedStructureSheaf.{u, u} X)).obj n).app (op V) r = r := by
-  show (ringSheaf (liftedStructureSheaf.{u, u} X)).obj.map (eqToHom (rfl : V = V)).op r = r
+  change (ringSheaf (liftedStructureSheaf.{u, u} X)).obj.map (eqToHom (rfl : V = V)).op r = r
   rw [eqToHom_refl, op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -344,12 +344,12 @@ theorem bijective_cotangentChartComponentLinearMap (V : X.Opens) (n : ℕ) :
     ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ (sectionCotangentAlgebra Λ X structureMap V)
       n).inv (chartToCotangent Λ X structureMap V ⦋n⦌ y)), fun x => ?_, fun y => ?_⟩
   · refine ULift.ext ?_
-    show (CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).inv
+    change (CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).inv
       (chartToCotangent Λ X structureMap V ⦋n⦌ (cotangentToChart Λ X structureMap V ⦋n⦌
         ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).hom x.down))) = x.down
     rw [chartToCotangent_cotangentToChart]
     exact Iso.hom_inv_id_apply _ _
-  · show cotangentToChart Λ X structureMap V ⦋n⦌
+  · change cotangentToChart Λ X structureMap V ⦋n⦌
       ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).hom
         ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ _ n).inv
           (chartToCotangent Λ X structureMap V ⦋n⦌ y))) = y

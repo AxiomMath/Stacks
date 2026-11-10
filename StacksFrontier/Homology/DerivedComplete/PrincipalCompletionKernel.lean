@@ -76,11 +76,11 @@ private lemma eq_zero_of_smul_succ
       zero_mem' := by simp
       add_mem' := by
         intro z w hz hw n
-        show z n + w n = f • (z (n + 1) + w (n + 1))
+        change z n + w n = f • (z (n + 1) + w (n + 1))
         rw [hz n, hw n, smul_add]
       smul_mem' := by
         intro a z hz n
-        show a • z n = f • (a • z (n + 1))
+        change a • z n = f • (a • z (n + 1))
         rw [hz n, smul_comm a f] }
   let ev (n : ℕ) : ModuleCat.of A S ⟶ ModuleCat.of A M :=
     ModuleCat.ofHom
@@ -110,7 +110,7 @@ private lemma eq_zero_of_smul_succ
     rw [hq, zero_comp]
   have hvzero : v 0 = 0 := by
     rw [← Pi.lift_comp_π v 0]
-    show q ≫ Pi.π (fun _ : ℕ => K) 0 = 0
+    change q ≫ Pi.π (fun _ : ℕ => K) 0 = 0
     rw [hqzero, zero_comp]
   have hevzero : ev 0 = 0 := by
     apply (DerivedCategory.singleFunctor (ModuleCat.{v} A) 0).map_injective

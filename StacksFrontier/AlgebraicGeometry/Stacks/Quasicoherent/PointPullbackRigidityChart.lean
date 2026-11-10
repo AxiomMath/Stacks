@@ -90,7 +90,7 @@ theorem cancel_of_isTerminal_costructuredArrow {𝒰 𝒳 : AlgebraicStacks.{u, 
     have h₂ : p.IsHomLift (e i ≫ p.map φ₂) (α i ≫ φ₁) := by
       rw [hα₁₂ i]
       infer_instance
-    show (k ≫ e i) ≫ p.map φ₁ = (k ≫ e i) ≫ p.map φ₂
+    change (k ≫ e i) ≫ p.map φ₁ = (k ≫ e i) ≫ p.map φ₂
     rw [Category.assoc, Category.assoc]
     exact congrArg (k ≫ ·) ((@IsHomLift.fac _ _ _ _ p _ _ _ _ _ _ h₁).trans
       (@IsHomLift.fac _ _ _ _ p _ _ _ _ _ _ h₂).symm)

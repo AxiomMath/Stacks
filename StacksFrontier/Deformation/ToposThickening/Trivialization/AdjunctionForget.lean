@@ -155,7 +155,7 @@ of `f⁻¹ ⊣ f_*`. -/
 lemma commRingImageAdjunction_unit_forget (O : Sheaf K CommRingCat.{ww'}) :
     (sheafCompose K (forget CommRingCat.{ww'})).map ((commRingImageAdjunction f).unit.app O) =
       f.adj.unit.app ((sheafCompose K (forget CommRingCat.{ww'})).obj O) := by
-  show (sheafCompose K (forget RingCat.{ww'})).map
+  change (sheafCompose K (forget RingCat.{ww'})).map
       ((Stacks.forgetCommRingSheaf K).map ((commRingImageAdjunction f).unit.app O)) = _
   rw [commRingImageAdjunction_unit_forgetCommRing]
   exact Stacks.Sheaves.RingedToposModules.ringSheafMap_ringUnit f
@@ -167,7 +167,7 @@ counit of `f⁻¹ ⊣ f_*`. -/
 lemma commRingImageAdjunction_counit_forget (O : Sheaf J CommRingCat.{ww}) :
     (sheafCompose J (forget CommRingCat.{ww})).map ((commRingImageAdjunction f).counit.app O) =
       f.adj.counit.app ((sheafCompose J (forget CommRingCat.{ww})).obj O) := by
-  show (sheafCompose J (forget RingCat.{ww})).map
+  change (sheafCompose J (forget RingCat.{ww})).map
       ((Stacks.forgetCommRingSheaf J).map ((commRingImageAdjunction f).counit.app O)) = _
   rw [commRingImageAdjunction_counit_forgetCommRing]
   exact ringSheafMap_ringCounit f (SheafOfModules.Tensor.ringSheaf O)
@@ -217,10 +217,9 @@ variable {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', u', w'}}
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
 
 /-- **The adjunctness of the two forms of the structure map**, described in the module
-documentation of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RingedToposHom.lean`. On underlying
-sheaves of
-sets, the inverse-image form `f⁻¹O_D ⟶ O_C` of the structure map of a morphism of ringed topoi
-is the adjunct, under `f⁻¹ ⊣ f_*` for sheaves of sets, of the direct-image form. -/
+documentation of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RingedToposHom.lean`. On
+underlying sheaves of sets, the inverse-image form `f⁻¹O_D ⟶ O_C` of the structure map of a morphism
+of ringed topoi is the adjunct, under `f⁻¹ ⊣ f_*` for sheaves of sets, of the direct-image form. -/
 lemma fSharpInverseImage_forget (f : RingedToposHom X Y) :
     X.forgetRing.map f.fSharpInverseImage =
       f.toToposHom.inverseImage.map (Y.forgetRing.map f.fSharp) ≫

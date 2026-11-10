@@ -133,7 +133,7 @@ theorem componentLowerShriekMap_comp_degIso_hom (m : ℕ) :
         (componentRestrictionAbInverseImageIso S D K a G ⦋m⦌).hom := by
   let := isIso_componentLowerShriekMap S ((totalInverseImageAb S D K a).obj G)
     (isCartesianAbSheaf_totalInverseImageAb S D K a G) ⦋m⦌
-  show componentLowerShriekMap S ((totalInverseImageAb S D K a).obj G) ⦋m⦌ ≫
+  change componentLowerShriekMap S ((totalInverseImageAb S D K a).obj G) ⦋m⦌ ≫
       CategoryTheory.inv (componentLowerShriekMap S
         ((totalInverseImageAb S D K a).obj G) ⦋m⦌) ≫
       (componentLowerShriekAb S ⦋m⦌).map

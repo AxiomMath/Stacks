@@ -173,7 +173,7 @@ theorem tensorIntersectionIso_hom_tensorEmbedding :
         tensorEmbedding sX sX' sY sY' a a' hqA hqA' =
       pullback.fst _ _ ≫ pullback.fst (tensorPr₁₃ sX sX' sY sY') a := by
   rw [← Iso.eq_inv_comp]
-  show _ = tensorIntersectionInv sX sX' sY sY' a a' hqA hqA' ≫ _ ≫ _
+  change _ = tensorIntersectionInv sX sX' sY sY' a a' hqA hqA' ≫ _ ≫ _
   rw [tensorIntersectionInv, pullback.lift_fst_assoc, pullback.lift_fst]
 
 /-- `A ×_k A'` is a closed subscheme of `(X × X') × (Y × Y')` when `A ⊆ X × Y` and

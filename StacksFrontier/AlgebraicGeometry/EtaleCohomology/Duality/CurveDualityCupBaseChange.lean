@@ -127,7 +127,7 @@ def curveDualityUnitBaseChangeIso (w : g' ≫ f = f' ≫ g) :
 variable [NeZero ℓ]
 
 /-- `ℤ/ℓ`, `ℓ ≥ 1`, is a torsion ring. -/
-theorem isTorsion_zmod : AddMonoid.IsTorsion (ZMod ℓ) :=
+theorem isTorsion_zmod : IsAddTorsion (ZMod ℓ) :=
   fun x => isOfFinAddOrder_of_finite x
 
 /-- **`g⁻¹K ≅ K'` by proper base change**: the base change map at `E`

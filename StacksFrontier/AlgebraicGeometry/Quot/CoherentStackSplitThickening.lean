@@ -224,7 +224,7 @@ theorem ker_chartDiagramRestrict_split (U : SmallEtale B S hS (D.space T₀).1)
   · rintro ⟨v, rfl⟩
     exact ⟨ι₀ v, ⟨v, rfl⟩, rfl⟩
 
-include hT₀ hT₁ h₁ h₂ h₃ h₄ in
+include hT₀ hT₁ h₂ h₃ h₄ in
 /-- **`X_{T₁}` is a split square-zero thickening of `X_{T₀}`.** -/
 theorem isSplitThickeningBy :
     IsSplitThickeningBy B S hS (D.relativeMap π) (D.splitRep π) (D.relativeMap β)
@@ -236,11 +236,11 @@ theorem isSplitThickeningBy :
     chartDiagramRestrict_retractionChartDiagram_smallBaseChangeSharp B S hS _ _ _ _ U a⟩
   ker_eq U hU := D.ker_chartDiagramRestrict_split π β hβπ M ι₀ hT₀ hT₁ h₂ U hU
   mul_eq_zero v w := by
-    show pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ v) *
+    change pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ v) *
       pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ w) = 0
     rw [← map_mul, h₃, map_zero]
   map_smul c v := by
-    show pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ (c • v)) =
+    change pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ (c • v)) =
       pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁)
         ((siteΓ π.left).hom (ε c)) *
       pullbackToGlobalFunctions B S hS (D.space T₁) T₁.left (D.projection T₁) (ι₀ v)

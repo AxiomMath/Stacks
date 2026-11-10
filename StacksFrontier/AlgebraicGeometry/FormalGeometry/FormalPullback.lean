@@ -669,8 +669,7 @@ public theorem module_completion_pullback {R : Type u} [CommRing R] [IsNoetheria
   have hcomp : φ.comp eM.toLinearMap = LinearMap.baseChange (AdicCompletion J R) ψ := by
     refine LinearMap.ext fun y => ?_
     refine eN.injective ?_
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul s m =>
       have h1 : φ (eM (s ⊗ₜ[R] m)) = eN.symm (AdicCompletion.map J ψ (eM (s ⊗ₜ[R] m))) := rfl
       rw [LinearMap.comp_apply, LinearEquiv.coe_coe, h1, eN.apply_symm_apply, heMtmul,

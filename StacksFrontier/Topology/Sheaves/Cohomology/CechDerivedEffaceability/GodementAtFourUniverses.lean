@@ -202,7 +202,7 @@ theorem god_map_apply {V V' : (Opens X)ᵒᵖ} (f : V ⟶ V') (x : (god.{u, r, s
 /-- Restriction along the identity inclusion is the identity on sections. -/
 theorem map_le_rfl_apply {V : Opens X} (x : M.obj (op V)) :
     M.map (homOfLE (le_refl V)).op x = x := by
-  show M.map (𝟙 (op V)) x = x
+  change M.map (𝟙 (op V)) x = x
   rw [M.map_id]
   rfl
 
@@ -347,7 +347,7 @@ theorem godOver_smul_apply {m : ℕ} (x : Fin m → ι) (r : R.obj (op U))
     (y : (godOver.{u, r, max s w} R U M).obj (op (inter (fam U obj le) x)))
     (W : {W : Opens X // W ≤ cechOpen U obj le x}) :
     (r • y) W = resRing R (W.2.trans (cechOpen_le_U U obj le x)) r • y W := by
-  show resRing R W.2 (resRing R (cechOpen_le_U U obj le x) r) • y W = _
+  change resRing R W.2 (resRing R (cechOpen_le_U U obj le x) r) • y W = _
   rw [resRing_resRing]
 
 /-- The section over `W` of the component at the tuple `x` of a degree-`q` Čech cochain of the
@@ -588,7 +588,7 @@ theorem homotopyMap_id (p : ℕ) :
     cechVal_d R U obj le M (p + 1) z W (Fin.cons (coverIdx obj W hex) y)
       (le_cechOpen_cons U obj le _ y hWt hW),
     e1, hsplit, Finset.sum_neg_distrib]
-  show _ = cechVal R U obj le M z W y
+  change _ = cechVal R U obj le M z W y
   abel
 
 /-- **The Čech complex of the Godement presheaf is exact in every positive degree.** -/

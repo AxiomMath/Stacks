@@ -247,7 +247,7 @@ theorem surjective_algebraMap_quotient_of_surjective_chartPoint
   refine ⟨r, ?_⟩
   simp only [RingHom.coe_comp, Function.comp_apply]
   rw [Ideal.Quotient.eq, ← hcomap, Ideal.mem_comap, map_sub]
-  show πQ _ - πQ b ∈ _
+  change πQ _ - πQ b ∈ _
   rw [← hP]
   have h1 : MvPolynomial.C (residue A r) - P ∈
       (M.map πQ).comap (chartPresentation S hx) := by

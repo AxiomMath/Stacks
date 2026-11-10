@@ -620,8 +620,7 @@ lemma simplicialTensor_homology_zero
   apply (alternatingFaceMap_homology_zero_iff _).mpr
   have hsurj := (alternatingFaceMap_homology_zero_iff M).mp hM
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul x y =>
       obtain ⟨z, hz⟩ := hsurj x
       refine ⟨z ⊗ₜ[B] N.σ (0 : Fin 1) y, ?_⟩

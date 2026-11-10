@@ -122,8 +122,8 @@ def productCoproductIsoOfFiniteSupport
   · apply Sigma.hom_ext
     intro i
     by_cases hi : i ∈ s
-    · simp only [f, g, Preadditive.comp_sum, Sigma.ι_desc_assoc,
-        Pi.lift_π_assoc, Category.comp_id]
+    · simp only [f, g, Preadditive.comp_sum, Sigma.ι_comp_desc_assoc,
+        Pi.lift_comp_π_assoc, Category.comp_id]
       rw [Finset.sum_eq_single i]
       · simp
       · intro j hj hji
@@ -393,11 +393,11 @@ public lemma strictlyPerfectHomDegreeIso_hom_comp_desc
         (isZero_internalHomSheaf_notMem_negSupport X E F hE n)).hom ≫ Sigma.desc g =
       ∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
         Pi.π (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i ≫ g i := by
-    show (∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
+    change (∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
         Pi.π (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i ≫
           Sigma.ι (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i) ≫
       Sigma.desc g = _
-    simp only [Preadditive.sum_comp, Category.assoc, Sigma.ι_desc]
+    simp only [Preadditive.sum_comp, Category.assoc, Sigma.ι_comp_desc]
   unfold strictlyPerfectHomDegreeIso
   rw [Iso.trans_hom, Category.assoc, hsum, Preadditive.comp_sum]
   rw [Finset.sum_eq_single q₀ (fun i _ hi => ?_) (fun hq₀ => ?_), ← Category.assoc]

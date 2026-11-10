@@ -145,7 +145,7 @@ theorem nonempty_isLimit_fork_of_sections {C : Type u'} [Category.{v'} C]
     reflectsLimit_of_reflectsIsomorphisms _ _
   refine ⟨isLimitOfReflects G (evaluationJointlyReflectsLimits _ fun V => ?_)⟩
   let E := G ⋙ (CategoryTheory.evaluation Cᵒᵖ (Type u)).obj V
-  show IsLimit (E.mapCone (Fork.ofι e h))
+  change IsLimit (E.mapCone (Fork.ofι e h))
   exact (isLimitMapConeForkEquiv E h).symm <|
     Classical.choice ((Types.type_equalizer_iff_unique _ _).2 (hsections V))
 

@@ -100,7 +100,7 @@ private lemma homotopy_exists_comp_eq_and_Q_map {K L I : CochainComplex A ℤ}
   let c := Homotopy.nullHomotopicMap lift
   let β := β₀ - c
   have hfac : α ≫ β = γ := by
-    show α ≫ (β₀ - Homotopy.nullHomotopicMap lift) = γ
+    change α ≫ (β₀ - Homotopy.nullHomotopicMap lift) = γ
     rw [Preadditive.comp_sub, Homotopy.comp_nullHomotopicMap]
     have hlift : (fun i j => α.f i ≫ lift i j) = h.hom := by
       funext i j
@@ -301,7 +301,7 @@ private lemma negativeDelta_spec (F : ℤᵒᵖ ⥤ DerivedCategory A) (n : ℕ)
   let D := negativeTower F n
   let T := negativeFactorization n D
   let : QuasiIso T.right := monoFactorization_right_quasiIso T
-  show DerivedCategory.Q.map T.left = _
+  change DerivedCategory.Q.map T.left = _
   apply (cancel_mono (DerivedCategory.Q.map T.right)).1
   rw [← DerivedCategory.Q.map_comp, T.fac, negativeTransition_spec]
   simp [D, negativeTower, T, Category.assoc]
@@ -536,7 +536,7 @@ private lemma modelTransition_spec (F : ℤᵒᵖ ⥤ DerivedCategory A) (i : �
         F.map (opHomOfLE (show i ≤ i + 1 by omega)) ≫ (modelIsoAt F i).inv := by
   cases i with
   | ofNat n =>
-      show DerivedCategory.Q.map (rawTransition F n) =
+      change DerivedCategory.Q.map (rawTransition F n) =
         (modelIsoAt F ((n : ℤ) + 1)).hom ≫
           F.map (opHomOfLE (show (n : ℤ) ≤ (n : ℤ) + 1 by omega)) ≫
             (modelIsoAt F (n : ℤ)).inv
@@ -545,18 +545,18 @@ private lemma modelTransition_spec (F : ℤᵒᵖ ⥤ DerivedCategory A) (i : �
   | negSucc n =>
       cases n with
       | zero =>
-          show DerivedCategory.Q.map (negativeDelta F 0) = _
+          change DerivedCategory.Q.map (negativeDelta F 0) = _
           let T := negativeFactorization 0 (negativeTower F 0)
           let : QuasiIso T.right := monoFactorization_right_quasiIso T
           let : IsIso (DerivedCategory.Q.map T.right) :=
             (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 inferInstance
-          show DerivedCategory.Q.map (negativeDelta F 0) =
+          change DerivedCategory.Q.map (negativeDelta F 0) =
             (negativeTower F 0).iso.hom ≫
               F.map (opHomOfLE (show -1 ≤ 0 by omega)) ≫
                 (negativeTower F 1).iso.inv
           simpa only [negativeTower] using negativeDelta_spec F 0
       | succ n =>
-          show DerivedCategory.Q.map (negativeDelta F (n + 1)) =
+          change DerivedCategory.Q.map (negativeDelta F (n + 1)) =
             (negativeTower F (n + 1)).iso.hom ≫
               F.map (opHomOfLE (show Int.negSucc (n + 1) ≤ Int.negSucc (n + 1) + 1 by omega)) ≫
                 (negativeTower F (n + 2)).iso.inv
@@ -572,18 +572,18 @@ private lemma modelMapToEAt_transition (E : DerivedCategory A)
     modelTransition F i ≫ modelMapToEAt E F φ e i = modelMapToEAt E F φ e (i + 1) := by
   cases i with
   | ofNat n =>
-      show rawTransition F n ≫ (positiveMapToEData E F φ e n).1 =
+      change rawTransition F n ≫ (positiveMapToEData E F φ e n).1 =
         (positiveMapToEData E F φ e (n + 1)).1
       rfl
   | negSucc n =>
       cases n with
       | zero =>
-          show negativeDelta F 0 ≫ (negativeMapToEData E F φ e 1).1 =
+          change negativeDelta F 0 ≫ (negativeMapToEData E F φ e 1).1 =
             (positiveMapToEData E F φ e 0).1
           rw [negativeMapToEData_transition]
           rfl
       | succ n =>
-          show negativeDelta F (n + 1) ≫
+          change negativeDelta F (n + 1) ≫
             (negativeMapToEData E F φ e (n + 2)).1 =
             (negativeMapToEData E F φ e (n + 1)).1
           exact negativeMapToEData_transition E F φ e (n + 1)
@@ -832,7 +832,7 @@ private lemma transitionStep_comp_stepEmbedding (E : DerivedCategory A)
    | none =>
       rw [Category.assoc, stepEmbedding_component E F φ e i ambientNone,
         stepEmbedding_component E F φ e j ambientNone]
-      show transitionStep F i j hij ≫
+      change transitionStep F i j hij ≫
           (Pi.π (stepFactor F i) (stepNone i) ≫ modelMapToEAt E F φ e i) =
         Pi.π (stepFactor F j) (stepNone j) ≫ modelMapToEAt E F φ e j
       rw [← Category.assoc, transitionStep_component, Category.assoc]
@@ -969,7 +969,7 @@ private lemma stepProductIso_naturality (F : ℤᵒᵖ ⥤ DerivedCategory A)
       (stepProductIso F i.unop).hom ≫ F.map f := by
   let h := leOfHom f.unop
   have hf : opHomOfLE h = f := Subsingleton.elim _ _
-  show DerivedCategory.Q.map (transitionStep F j.unop i.unop h) ≫
+  change DerivedCategory.Q.map (transitionStep F j.unop i.unop h) ≫
       (DerivedCategory.Q.map (Pi.π (stepFactor F j.unop) (stepNone j.unop)) ≫
         (modelIsoAt F j.unop).hom) =
     (DerivedCategory.Q.map (Pi.π (stepFactor F i.unop) (stepNone i.unop)) ≫
@@ -1006,7 +1006,7 @@ theorem exists_filteredComplex_representation
       intro i j f
       exact stepProductIso_naturality F f)
   refine ⟨K, eK, η, fun i => ?_⟩
-  show DerivedCategory.Q.map (stepEmbedding E F φ e i.unop) ≫
+  change DerivedCategory.Q.map (stepEmbedding E F φ e i.unop) ≫
       (DerivedCategory.Q.map (Pi.π (ambientFactor F I) ambientNone) ≫ e.hom) =
     (DerivedCategory.Q.map (Pi.π (stepFactor F i.unop) (stepNone i.unop)) ≫
       (modelIsoAt F i.unop).hom) ≫ φ.app i

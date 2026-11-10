@@ -1,7 +1,7 @@
 module
 
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.ConditionallyCompleteLattice.Basic
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.WithBotTop
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.IntegralGoodSpace
@@ -141,7 +141,7 @@ theorem deltaDimensionIrreducible_eq_of_isGenericPoint (f : X ⟶ D.space) (hf :
     t0Space_points_of_isDecentSpace D.site D.base D.base_mem hf.1 (isDecentSpace_of_isGood D f hf)
   have hxe : x = T.isIrreducible.genericPoint :=
     hx.eq (T.isIrreducible.isGenericPoint_genericPoint T.isClosed)
-  show inducedDimensionValue D.site D.base D.base_mem D.delta f
+  change inducedDimensionValue D.site D.base D.base_mem D.delta f
     T.isIrreducible.genericPoint = _
   rw [hxe]
 
@@ -173,7 +173,7 @@ theorem deltaDimensionClosed_eq_deltaDimensionIrreducible (f : X ⟶ D.space) (h
         (isClosed_of_mem_irreducibleComponents _ W.2)).def.trans hWuniv
     rw [deltaDimensionIrreducible_eq_of_isGenericPoint D f hf T
       (isGenericPoint_val_of_isGenericPoint_univ T.isClosed hgen)]
-  show (⨆ W : irreducibleComponents (T : Set (points D.site D.base D.base_mem X)),
+  change (⨆ W : irreducibleComponents (T : Set (points D.site D.base D.base_mem X)),
     (inducedDimensionValue D.site D.base D.base_mem D.delta f W.2.1.genericPoint.1 : EInt)) = _
   exact (iSup_congr key).trans iSup_const
 

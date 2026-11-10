@@ -103,7 +103,7 @@ private lemma isClopen_closure_image_comap {A : Type u} [CommRing A] (r : A)
   have hc : IsClopen (PrimeSpectrum.basicOpen a : Set (PrimeSpectrum A)) :=
     PrimeSpectrum.isClopen_iff.mpr ⟨a, ha, rfl⟩
   rwa [closure_image_of_preimage _ (denseRange_comap_away hr) hc (by
-    show (PrimeSpectrum.basicOpen (algebraMap A (Localization.Away r) a) :
+    change (PrimeSpectrum.basicOpen (algebraMap A (Localization.Away r) a) :
       Set (PrimeSpectrum (Localization.Away r))) = _
     rw [hea])]
 
@@ -142,7 +142,7 @@ private lemma basicOpen_uniformizer {R : Type u} [CommRing R] [IsDomain R]
     (PrimeSpectrum.basicOpen π : Set (PrimeSpectrum R)) =
       {⟨⊥, inferInstance⟩} := by
   ext x
-  show π ∉ x.asIdeal ↔ x = ⟨⊥, inferInstance⟩
+  change π ∉ x.asIdeal ↔ x = ⟨⊥, inferInstance⟩
   constructor
   · intro hx
     apply PrimeSpectrum.ext
@@ -191,7 +191,7 @@ private lemma affine_generic_closure
     simpa [Algebra.smul_def] using ha
   have : IsReduced ((Spec.map (CommRingCat.ofHom (algebraMap R ↥A))).fiber
       (IsLocalRing.closedPoint R)) := by
-    show IsReduced ((Spec.map φ).fiber _); rw [hφ]
+    change IsReduced ((Spec.map φ).fiber _); rw [hφ]
     exact isReduced_fiber_comp j f _
   have : _root_.IsReduced (↥A ⧸ Ideal.span {algebraMap R ↥A π}) :=
     reduced_quotient_of_reduced_fiber π hπ.maximalIdeal_eq
@@ -201,7 +201,7 @@ private lemma affine_generic_closure
   have hgj : Set.range g = j ⁻¹' U := by
     rw [PrimeSpectrum.localization_away_comap_range ↥B (algebraMap R ↥A π)]
     dsimp only [U]; rw [← Set.preimage_comp]
-    show _ = (j ≫ f) ⁻¹' _
+    change _ = (j ≫ f) ⁻¹' _
     rw [← hφ]
     refine Eq.trans ?_
       (congrArg (Set.preimage ⇑(Spec.map φ)) (coe_basicOpen_uniformizer hπ))
@@ -217,7 +217,7 @@ private lemma affine_generic_closure
     ext x; constructor
     · rintro ⟨y, hy, hxy⟩
       have hx : x ∈ j ⁻¹' U := by
-        show j x ∈ U; rw [← hxy]; exact y.property
+        change j x ∈ U; rw [← hxy]; exact y.property
       obtain ⟨z, rfl⟩ := hgj.symm ▸ hx
       refine ⟨z, ?_, rfl⟩
       have : q z = y := Subtype.ext hxy.symm

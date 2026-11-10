@@ -42,13 +42,13 @@ section CondThree
 set_option backward.isDefEq.respectTransparency false
 
 /-- Transport `IsHomLift` along an equality of base morphisms. -/
-private lemma c3_homLift_of_eq {A B : Type*} [Category A] [Category B] (r : A ⥤ B) {W V : B}
+lemma c3_homLift_of_eq {A B : Type*} [Category A] [Category B] (r : A ⥤ B) {W V : B}
     {n m : W ⟶ V} {b₁ b₂ : A} {φ : b₁ ⟶ b₂} (h : r.IsHomLift n φ) (hnm : n = m) :
     r.IsHomLift m φ := by
   subst hnm; exact h
 
 /-- Composite of homlifts, with the base morphism of the composite given up to an equality. -/
-private lemma c3_homLift_comp {A B : Type*} [Category A] [Category B] (r : A ⥤ B) {R S T : B}
+lemma c3_homLift_comp {A B : Type*} [Category A] [Category B] (r : A ⥤ B) {R S T : B}
     (f : R ⟶ S) (g : S ⟶ T) {k : R ⟶ T} {a b c : A} {φ : a ⟶ b} {ψ : b ⟶ c}
     [r.IsHomLift f φ] [r.IsHomLift g ψ] (hk : f ≫ g = k) : r.IsHomLift k (φ ≫ ψ) :=
   c3_homLift_of_eq r (n := f ≫ g) inferInstance hk
@@ -59,7 +59,7 @@ variable (p : 𝒳 ⥤ 𝒞) (q : 𝒴 ⥤ 𝒳) [p.IsFibered] [q.IsFibered] [(q
 `SieveDescentDatum.mapF (isFibredOneMorphism_comp p q) D`, with the comparison isomorphisms
 `mapPbIso` cancelled: the images under `q` of the gluing isomorphisms of `D` intertwine the
 descent morphisms `ζ`. -/
-private lemma c3_zeta_compat {U : 𝒞} {R : Sieve U} (D : SieveDescentDatum (q ⋙ p) R) {b : 𝒳}
+lemma c3_zeta_compat {U : 𝒞} {R : Sieve U} (D : SieveDescentDatum (q ⋙ p) R) {b : 𝒳}
     (ζ : ∀ ⦃V : 𝒞⦄ (f : V ⟶ U) (hf : R f), q.obj (D.obj f hf).1 ⟶ b)
     (hc :
       ∀ ⦃V W Z : 𝒞⦄ ⦃f : V ⟶ U⦄ (hf : R f) ⦃g : W ⟶ U⦄ (hg : R g) (ε : Z ⟶ V) (ε' : Z ⟶ W)
@@ -86,7 +86,7 @@ private lemma c3_zeta_compat {U : 𝒞} {R : Sieve U} (D : SieveDescentDatum (q 
 
 /-- The `q`-image of the chosen `(q ⋙ p)`-cartesian lift of `m` at `x` is `p`-strongly
 cartesian. -/
-private lemma c3_pi_sc {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
+lemma c3_pi_sc {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
     p.IsStronglyCartesian m (q.map (IsPreFibered.pullbackMap x.2 m)) := by
   have h1 : (q ⋙ p).IsStronglyCartesian m (IsPreFibered.pullbackMap x.2 m) := inferInstance
   have := h1
@@ -94,7 +94,7 @@ private lemma c3_pi_sc {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
 
 /-- The chosen `(q ⋙ p)`-cartesian lift of `m` at `x` is `q`-strongly cartesian over its
 `q`-image. -/
-private lemma c3_pi_sc' {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
+lemma c3_pi_sc' {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
     q.IsStronglyCartesian (q.map (IsPreFibered.pullbackMap x.2 m))
       (IsPreFibered.pullbackMap x.2 m) := by
   have h1 : (q ⋙ p).IsStronglyCartesian m (IsPreFibered.pullbackMap x.2 m) := inferInstance
@@ -102,7 +102,7 @@ private lemma c3_pi_sc' {V W : 𝒞} (x : (q ⋙ p).Fiber V) (m : W ⟶ V) :
   exact (comp_cart p q m (IsPreFibered.pullbackMap x.2 m)).2
 
 /-- The cocycle condition of `D`, followed by the chosen cartesian lift at the last arrow. -/
-private lemma c3_cocycle_pm {E : Type*} [Category E] {F : E ⥤ 𝒞} [F.IsFibered] {U : 𝒞}
+lemma c3_cocycle_pm {E : Type*} [Category E] {F : E ⥤ 𝒞} [F.IsFibered] {U : 𝒞}
     {R : Sieve U} (D : SieveDescentDatum F R) {V₁ V₂ V₃ Z : 𝒞} {f₁ : V₁ ⟶ U} (h₁ : R f₁)
     {f₂ : V₂ ⟶ U} (h₂ : R f₂) {f₃ : V₃ ⟶ U} (h₃ : R f₃) (ε₁ : Z ⟶ V₁) (ε₂ : Z ⟶ V₂) (ε₃ : Z ⟶ V₃)
     (h₁₂ : ε₁ ≫ f₁ = ε₂ ≫ f₂) (h₂₃ : ε₂ ≫ f₂ = ε₃ ≫ f₃) (h₁₃ : ε₁ ≫ f₁ = ε₃ ≫ f₃) :
@@ -126,7 +126,7 @@ variable {U : 𝒞} {R : Sieve U} (D : SieveDescentDatum (q ⋙ p) R)
 omit [p.IsFibered] [q.IsFibered] in
 /-- A gluing isomorphism of `D` at one and the same arrow, taken between the chosen pullbacks along
 two *equal* morphisms, is the canonical comparison of those chosen pullbacks. -/
-private lemma c3_iso_self_fac {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε ε' : Z ⟶ V) (hee : ε = ε')
+lemma c3_iso_self_fac {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε ε' : Z ⟶ V) (hee : ε = ε')
     (h : ε ≫ f = ε' ≫ f) :
     Fiber.fiberInclusion.map (D.iso hf hf ε ε' h).hom ≫
         IsPreFibered.pullbackMap (D.obj f hf).2 ε' =
@@ -137,7 +137,7 @@ private lemma c3_iso_self_fac {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε ε' : Z 
 omit [p.IsFibered] [q.IsFibered] in
 /-- Contracting the chosen pullback along an identity, after base change, is the gluing isomorphism
 of `D` at one and the same arrow. -/
-private lemma c3_idIso_comp {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε : Z ⟶ V)
+lemma c3_idIso_comp {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε : Z ⟶ V)
     (h : ε ≫ f = (ε ≫ 𝟙 V) ≫ f) :
     pullbackFiberHom (pullbackFiberIdIso (D.obj f hf)).inv ε ≫
         (pullbackFiberCompIso (D.obj f hf) (𝟙 V) ε).hom =
@@ -150,14 +150,14 @@ private lemma c3_idIso_comp {V Z : 𝒞} {f : V ⟶ U} (hf : R f) (ε : Z ⟶ V)
     pullbackFiberHom_fac_assoc, pullbackFiberIdIso_inv_fac, Category.comp_id]
 
 /-- The reindexing morphism `D.obj f₀ ⟶ D.obj f` attached to a factorization `u ≫ f = f₀`. -/
-private noncomputable def c3_beta {V W : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U}
+noncomputable def c3_beta {V W : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U}
     (hf₀ : R f₀) (huf : u ≫ f = f₀) : (D.obj f₀ hf₀).1 ⟶ (D.obj f hf).1 :=
   Fiber.fiberInclusion.map (pullbackFiberIdIso (D.obj f₀ hf₀)).inv ≫
     Fiber.fiberInclusion.map (D.iso hf₀ hf (𝟙 W) u (by rw [Category.id_comp, huf])).hom ≫
     IsPreFibered.pullbackMap (D.obj f hf).2 u
 
 omit [p.IsFibered] [q.IsFibered] in
-private lemma c3_beta_sc {V W : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U} (hf₀ : R f₀)
+lemma c3_beta_sc {V W : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U} (hf₀ : R f₀)
     (huf : u ≫ f = f₀) : (q ⋙ p).IsStronglyCartesian u (c3_beta p q D hf u hf₀ huf) := by
   have h1 :
     (q ⋙ p).IsStronglyCartesian (𝟙 W)
@@ -178,7 +178,7 @@ omit [p.IsFibered] [q.IsFibered] in
 /-- The reindexing morphism is compatible with every gluing isomorphism of `D`: restricting along
 `ε` and then reindexing is the gluing isomorphism at `(ε, ε ≫ u)` followed by the chosen lift. -/
 @[reassoc]
-private lemma c3_beta_fac {V W Z : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U} (hf₀ : R f₀)
+lemma c3_beta_fac {V W Z : 𝒞} {f : V ⟶ U} (hf : R f) (u : W ⟶ V) {f₀ : W ⟶ U} (hf₀ : R f₀)
     (huf : u ≫ f = f₀) (ε : Z ⟶ W) {e : Z ⟶ V} (he : ε ≫ u = e) (hE : ε ≫ f₀ = e ≫ f) :
     IsPreFibered.pullbackMap (D.obj f₀ hf₀).2 ε ≫ c3_beta p q D hf u hf₀ huf =
       Fiber.fiberInclusion.map (D.iso hf₀ hf ε e hE).hom ≫
@@ -199,7 +199,7 @@ end Beta
 omit [p.IsFibered] [q.IsFibered] [(q ⋙ p).IsFibered] in
 /-- The base morphism of the `q`-image of a `(q ⋙ p)`-homlift, read through the identifications of
 the fibres. -/
-private lemma c3_pmap_homLift {V Z : 𝒞} {b₁ b₂ : 𝒴} (ε : Z ⟶ V) (φ : b₁ ⟶ b₂)
+lemma c3_pmap_homLift {V Z : 𝒞} {b₁ b₂ : 𝒴} (ε : Z ⟶ V) (φ : b₁ ⟶ b₂)
     [(q ⋙ p).IsHomLift ε φ] (hb₁ : (q ⋙ p).obj b₁ = Z) (hb₂ : (q ⋙ p).obj b₂ = V) :
     p.map (q.map φ) ≫ eqToHom hb₂ = eqToHom hb₁ ≫ ε := by
   have h := IsHomLift.fac' (q ⋙ p) ε φ
@@ -219,7 +219,7 @@ variable {a : 𝒳} {R : Sieve (p.obj a)} (D : SieveDescentDatum (q ⋙ p) R)
 
 /-- The compatibility of a family `ζ` of descent morphisms with the gluing isomorphisms of `D`,
 read through `q`. -/
-private def c3_Compat : Prop :=
+def c3_Compat : Prop :=
   ∀ ⦃V W Z : 𝒞⦄ ⦃f : V ⟶ p.obj a⦄ (hf : R f) ⦃g : W ⟶ p.obj a⦄ (hg : R g) (ε : Z ⟶ V) (ε' : Z ⟶ W)
     (heq : ε ≫ f = ε' ≫ g),
     q.map (Fiber.fiberInclusion.map (D.iso hf hg ε ε' heq).hom) ≫
@@ -228,12 +228,12 @@ private def c3_Compat : Prop :=
 
 /-- The canonical factorization of an arrow `h : c ⟶ a` of the transferred sieve through the
 `p`-cartesian descent morphism `ζ (p.map h)`. -/
-private noncomputable def c3_delta {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
+noncomputable def c3_delta {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
     c ⟶ q.obj (D.obj (p.map h) hh).1 :=
   haveI : p.IsCartesian (p.map h) (ζ (p.map h) hh) := hζc (p.map h) hh
   IsStronglyCartesian.map p (p.map h) (ζ (p.map h) hh) (Category.id_comp (p.map h)).symm h
 
-private instance c3_delta_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
+instance c3_delta_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
     p.IsHomLift (𝟙 (p.obj c)) (c3_delta p q D ζ hζc h hh) :=
   haveI : p.IsCartesian (p.map h) (ζ (p.map h) hh) := hζc (p.map h) hh
   IsStronglyCartesian.map_isHomLift p (p.map h) (ζ (p.map h) hh) (Category.id_comp (p.map h)).symm
@@ -241,24 +241,24 @@ private instance c3_delta_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) 
 
 omit [q.IsFibered] in
 @[reassoc]
-private lemma c3_delta_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
+lemma c3_delta_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
     c3_delta p q D ζ hζc h hh ≫ ζ (p.map h) hh = h :=
   have : p.IsCartesian (p.map h) (ζ (p.map h) hh) := hζc (p.map h) hh
   IsStronglyCartesian.fac p (p.map h) (ζ (p.map h) hh) (Category.id_comp (p.map h)).symm h
 
 /-- The object of the fibre of `q` over `c` attached to an arrow `h : c ⟶ a` of the transferred
 sieve: the chosen `q`-pullback of `D.obj (p.map h)` along `c3_delta`. -/
-private noncomputable def c3_obj {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) : q.Fiber c :=
+noncomputable def c3_obj {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) : q.Fiber c :=
   pullbackFiber q (Fiber.mk (rfl : q.obj (D.obj (p.map h) hh).1 = q.obj (D.obj (p.map h) hh).1))
     (c3_delta p q D ζ hζc h hh)
 
 /-- The chosen `q`-cartesian lift exhibiting `c3_obj h hh` as a pullback of `D.obj (p.map h)`. -/
-private noncomputable def c3_nu {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
+noncomputable def c3_nu {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
     (c3_obj p q D ζ hζc h hh).1 ⟶ (D.obj (p.map h) hh).1 :=
   IsPreFibered.pullbackMap (rfl : q.obj (D.obj (p.map h) hh).1 = q.obj (D.obj (p.map h) hh).1)
     (c3_delta p q D ζ hζc h hh)
 
-private instance c3_nu_isCartesian {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
+instance c3_nu_isCartesian {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) :
     q.IsCartesian (c3_delta p q D ζ hζc h hh) (c3_nu p q D ζ hζc h hh) :=
   IsPreFibered.pullbackMap.IsCartesian _ _
 
@@ -271,7 +271,7 @@ morphism of `𝒞` is passed by name, as in `pullbackFiberCompIso'`, so that it 
 written in either of two ways. -/
 
 omit [q.IsFibered] in
-private lemma c3_isHomLift_eps_delta {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_isHomLift_eps_delta {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     p.IsHomLift m (ε ≫ c3_delta p q D ζ hζc h hh) := by
   have h0 : p.IsHomLift (p.map ε ≫ 𝟙 (p.obj c)) (ε ≫ c3_delta p q D ζ hζc h hh) := inferInstance
@@ -279,7 +279,7 @@ private lemma c3_isHomLift_eps_delta {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h))
 
 /-- The comparison in `𝒳` between `d` and the `q`-image of the chosen `(q ⋙ p)`-pullback of
 `D.obj (p.map h)` along `m`. -/
-private noncomputable def c3_sigma {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+noncomputable def c3_sigma {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     d ⟶ q.obj (pullbackFiber (q ⋙ p) (D.obj (p.map h) hh) m).1 :=
   haveI := c3_pi_sc p q (D.obj (p.map h) hh) m
@@ -287,7 +287,7 @@ private noncomputable def c3_sigma {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {
   IsStronglyCartesian.map p m (q.map (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m)) (g :=
     𝟙 (p.obj d)) (Category.id_comp m).symm (ε ≫ c3_delta p q D ζ hζc h hh)
 
-private instance c3_sigma_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+instance c3_sigma_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     p.IsHomLift (𝟙 (p.obj d)) (c3_sigma p q D ζ hζc h hh ε m hm) :=
   haveI := c3_pi_sc p q (D.obj (p.map h) hh) m
@@ -296,7 +296,7 @@ private instance c3_sigma_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) 
     (Category.id_comp m).symm (ε ≫ c3_delta p q D ζ hζc h hh)
 
 @[reassoc]
-private lemma c3_sigma_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_sigma_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     c3_sigma p q D ζ hζc h hh ε m hm ≫ q.map (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m) =
       ε ≫ c3_delta p q D ζ hζc h hh :=
@@ -305,7 +305,7 @@ private lemma c3_sigma_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳
   IsStronglyCartesian.fac p m (q.map (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m))
     (Category.id_comp m).symm (ε ≫ c3_delta p q D ζ hζc h hh)
 
-private lemma c3_sigma_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_sigma_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m)
     (w : d ⟶ q.obj (pullbackFiber (q ⋙ p) (D.obj (p.map h) hh) m).1)
     (hw₁ : p.IsHomLift (𝟙 (p.obj d)) w)
@@ -320,11 +320,11 @@ private lemma c3_sigma_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : �
     (Category.id_comp m).symm (ε ≫ c3_delta p q D ζ hζc h hh) w hw₂
 
 /-- The chosen `q`-cartesian lift of `ε ≫ c3_delta h hh` at `D.obj (p.map h)`. -/
-private noncomputable def c3_rho {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c) :
+noncomputable def c3_rho {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c) :
     (pullbackFiber q (c3_obj p q D ζ hζc h hh) ε).1 ⟶ (D.obj (p.map h) hh).1 :=
   IsPreFibered.pullbackMap (c3_obj p q D ζ hζc h hh).2 ε ≫ c3_nu p q D ζ hζc h hh
 
-private instance c3_rho_isCartesian {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c) :
+instance c3_rho_isCartesian {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c) :
     q.IsCartesian (ε ≫ c3_delta p q D ζ hζc h hh) (c3_rho p q D ζ hζc h hh ε) := by
   have h1 : q.IsCartesian ε (IsPreFibered.pullbackMap (c3_obj p q D ζ hζc h hh).2 ε) :=
     IsPreFibered.pullbackMap.IsCartesian _ _
@@ -336,7 +336,7 @@ private instance c3_rho_isCartesian {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) 
 
 /-- The comparison in `𝒴` from the chosen `q`-pullback of `c3_obj h hh` along `ε` to the chosen
 `(q ⋙ p)`-pullback of `D.obj (p.map h)` along `m`. -/
-private noncomputable def c3_tau {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+noncomputable def c3_tau {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     (pullbackFiber q (c3_obj p q D ζ hζc h hh) ε).1 ⟶
       (pullbackFiber (q ⋙ p) (D.obj (p.map h) hh) m).1 :=
@@ -345,7 +345,7 @@ private noncomputable def c3_tau {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d 
     (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m) (g := c3_sigma p q D ζ hζc h hh ε m hm)
     (c3_sigma_fac p q D ζ hζc h hh ε m hm).symm (c3_rho p q D ζ hζc h hh ε)
 
-private instance c3_tau_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+instance c3_tau_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     q.IsHomLift (c3_sigma p q D ζ hζc h hh ε m hm) (c3_tau p q D ζ hζc h hh ε m hm) :=
   haveI := c3_pi_sc' p q (D.obj (p.map h) hh) m
@@ -354,7 +354,7 @@ private instance c3_tau_isHomLift {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d
     (c3_rho p q D ζ hζc h hh ε)
 
 @[reassoc]
-private lemma c3_tau_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_tau_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     c3_tau p q D ζ hζc h hh ε m hm ≫ IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m =
       c3_rho p q D ζ hζc h hh ε :=
@@ -363,7 +363,7 @@ private lemma c3_tau_fac {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} 
     (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m) (c3_sigma_fac p q D ζ hζc h hh ε m hm).symm
     (c3_rho p q D ζ hζc h hh ε)
 
-private lemma c3_tau_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_tau_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m)
     (w :
       (pullbackFiber q (c3_obj p q D ζ hζc h hh) ε).1 ⟶
@@ -377,7 +377,7 @@ private lemma c3_tau_uniq {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳}
     (IsPreFibered.pullbackMap (D.obj (p.map h) hh).2 m) (c3_sigma_fac p q D ζ hζc h hh ε m hm).symm
     (c3_rho p q D ζ hζc h hh ε) w hw₂
 
-private lemma c3_tau_sc {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
+lemma c3_tau_sc {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (ε : d ⟶ c)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) :
     q.IsStronglyCartesian (c3_sigma p q D ζ hζc h hh ε m hm) (c3_tau p q D ζ hζc h hh ε m hm) := by
   have := c3_pi_sc' p q (D.obj (p.map h) hh) m
@@ -396,7 +396,7 @@ private lemma c3_tau_sc {c : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) {d : 𝒳} (
 
 /-! #### The comparisons `c3_sigma` are intertwined by the gluing isomorphisms of `D` -/
 
-private lemma c3_sigma_glue (hζg : c3_Compat p q D ζ) {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a)
+lemma c3_sigma_glue (hζg : c3_Compat p q D ζ) {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a)
     (hh₁ : R (p.map h₁)) (h₂ : c₂ ⟶ a) (hh₂ : R (p.map h₂)) (ε : d ⟶ c₁) (ε' : d ⟶ c₂)
     (heq : ε ≫ h₁ = ε' ≫ h₂) (m : p.obj d ⟶ p.obj c₁) (hm : p.map ε = m) (m' : p.obj d ⟶ p.obj c₂)
     (hm' : p.map ε' = m') (hcomm : m ≫ p.map h₁ = m' ≫ p.map h₂) :
@@ -446,7 +446,7 @@ variable {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a) (hh₁ : R (p.map h₁)) (h₂
 
 /-- `c3_tau` for `h₁`, followed by the gluing isomorphism of `D`, is `q`-strongly cartesian over
 `c3_sigma` for `h₂`. -/
-private lemma c3_tau_glue_sc (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
+lemma c3_tau_glue_sc (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
     q.IsStronglyCartesian (c3_sigma p q D ζ hζc h₂ hh₂ ε' m' hm')
       (c3_tau p q D ζ hζc h₁ hh₁ ε m hm ≫
         Fiber.fiberInclusion.map (D.iso hh₁ hh₂ m m' hcomm).hom) := by
@@ -471,7 +471,7 @@ private lemma c3_tau_glue_sc (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε
 /-- The gluing isomorphism of the transferred datum: the two chosen `q`-pullbacks both carry a
 `q`-cartesian morphism over `c3_sigma` for `h₂` into the chosen `(q ⋙ p)`-pullback of
 `D.obj (p.map h₂)`. -/
-private noncomputable def c3_gl (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
+noncomputable def c3_gl (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
     pullbackFiber q (c3_obj p q D ζ hζc h₁ hh₁) ε ≅
       pullbackFiber q (c3_obj p q D ζ hζc h₂ hh₂) ε' :=
   haveI := c3_tau_glue_sc p q D ζ hζc h₁ hh₁ h₂ hh₂ ε ε' m hm m' hm' hcomm hζg heq
@@ -481,13 +481,13 @@ private noncomputable def c3_gl (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ =
     (c3_tau p q D ζ hζc h₂ hh₂ ε' m' hm') inferInstance inferInstance
 
 @[reassoc]
-private lemma c3_gl_fac (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
+lemma c3_gl_fac (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂) :
     Fiber.fiberInclusion.map (c3_gl p q D ζ hζc h₁ hh₁ h₂ hh₂ ε ε' m hm m' hm' hcomm hζg heq).hom ≫
         c3_tau p q D ζ hζc h₂ hh₂ ε' m' hm' =
       c3_tau p q D ζ hζc h₁ hh₁ ε m hm ≫ Fiber.fiberInclusion.map (D.iso hh₁ hh₂ m m' hcomm).hom :=
   fiberIsoOfCartesian_hom_fac _ _ _ _ _
 
-private lemma c3_gl_uniq (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂)
+lemma c3_gl_uniq (hζg : c3_Compat p q D ζ) (heq : ε ≫ h₁ = ε' ≫ h₂)
     (ψ :
       pullbackFiber q (c3_obj p q D ζ hζc h₁ hh₁) ε ⟶
         pullbackFiber q (c3_obj p q D ζ hζc h₂ hh₂) ε')
@@ -507,7 +507,7 @@ end Glue
 /-! #### Compatibility of the comparisons with iterated chosen pullbacks -/
 
 /-- `c3_sigma` is compatible with contracting an iterated chosen `(q ⋙ p)`-pullback. -/
-private lemma c3_sigma_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) (γ : d' ⟶ d)
+lemma c3_sigma_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) (γ : d' ⟶ d)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) (n : p.obj d' ⟶ p.obj d) (hn : p.map γ = n) :
     c3_sigma p q D ζ hζc h hh (γ ≫ ε) (n ≫ m) (by rw [Functor.map_comp, hm, hn]) ≫
         q.map
@@ -549,14 +549,14 @@ private lemma c3_sigma_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε
   rw [pullbackFiberCompIso_inv_fac, c3_sigma_fac, c3_sigma_fac, Category.assoc]
 
 @[reassoc]
-private lemma c3_rho_eq {c d : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) :
+lemma c3_rho_eq {c d : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) :
     c3_rho p q D ζ hζc h hh ε =
       IsPreFibered.pullbackMap (c3_obj p q D ζ hζc h hh).2 ε ≫ c3_nu p q D ζ hζc h hh :=
   rfl
 
 /-- `c3_tau` is compatible with contracting the iterated chosen pullbacks on both sides. -/
 @[reassoc]
-private lemma c3_tau_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) (γ : d' ⟶ d)
+lemma c3_tau_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε : d ⟶ c) (γ : d' ⟶ d)
     (m : p.obj d ⟶ p.obj c) (hm : p.map ε = m) (n : p.obj d' ⟶ p.obj d) (hn : p.map γ = n) :
     c3_tau p q D ζ hζc h hh (γ ≫ ε) (n ≫ m) (by rw [Functor.map_comp, hm, hn]) ≫
         (Fiber.fiberInclusion.map (pullbackFiberCompIso (D.obj (p.map h) hh) m n).inv ≫
@@ -598,7 +598,7 @@ private lemma c3_tau_comp {c d d' : 𝒳} (h : c ⟶ a) (hh : R (p.map h)) (ε :
     c3_tau_fac, c3_rho_eq]
 
 /-- `c3_gl` does not depend on the names chosen for the base morphisms. -/
-private lemma c3_gl_base_indep {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a) (hh₁ : R (p.map h₁)) (h₂ : c₂ ⟶ a)
+lemma c3_gl_base_indep {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a) (hh₁ : R (p.map h₁)) (h₂ : c₂ ⟶ a)
     (hh₂ : R (p.map h₂)) (ε : d ⟶ c₁) (ε' : d ⟶ c₂) (m m₂ : p.obj d ⟶ p.obj c₁) (hm : p.map ε = m)
     (hm₂ : p.map ε = m₂) (m' m₂' : p.obj d ⟶ p.obj c₂) (hm' : p.map ε' = m')
     (hm₂' : p.map ε' = m₂') (hcomm : m ≫ p.map h₁ = m' ≫ p.map h₂)
@@ -612,7 +612,7 @@ private lemma c3_gl_base_indep {c₁ c₂ d : 𝒳} (h₁ : c₁ ⟶ a) (hh₁ :
   rfl
 
 /-- The descent datum for `q` relative to the transferred sieve `R.functorPullback p` on `a`. -/
-private noncomputable def c3_datum (hζg : c3_Compat p q D ζ) :
+noncomputable def c3_datum (hζg : c3_Compat p q D ζ) :
     SieveDescentDatum q (R.functorPullback p) where
   obj {c} h hh := c3_obj p q D ζ hζc h hh
   iso {c₁ c₂ d} {h₁} hh₁ {h₂} hh₂ ε ε' heq :=
@@ -726,9 +726,9 @@ private noncomputable def c3_datum (hζg : c3_Compat p q D ζ) :
         (c3_sigma p q D ζ hζc h₂ hh₂ (γ ≫ ε') (p.map γ ≫ p.map ε') (p.map_comp γ ε')) ?_
     rw [← D.iso_pullback hh₁ hh₂ (p.map ε) (p.map ε') hcomm (p.map γ)]
     simp only [Functor.map_comp, Category.assoc, pullbackFiberIso_hom]
-    rw [Iso.map_hom_inv_id_assoc, pullbackFiberHom_fac,
+    rw [Iso.hom_inv_id_map_assoc, pullbackFiberHom_fac,
       c3_tau_comp_assoc p q D ζ hζc h₁ hh₁ ε γ (p.map ε) rfl (p.map γ) rfl,
-      c3_tau_comp p q D ζ hζc h₂ hh₂ ε' γ (p.map ε') rfl (p.map γ) rfl, Iso.map_hom_inv_id_assoc,
+      c3_tau_comp p q D ζ hζc h₂ hh₂ ε' γ (p.map ε') rfl (p.map γ) rfl, Iso.hom_inv_id_map_assoc,
       pullbackFiberHom_fac_assoc,
       c3_gl_fac p q D ζ hζc h₁ hh₁ h₂ hh₂ ε ε' (p.map ε) rfl (p.map ε') rfl hcomm hζg heq]
 
@@ -738,7 +738,7 @@ section Final
 
 omit [p.IsFibered] [q.IsFibered] in
 /-- The reindexing morphism intertwines the descent morphisms. -/
-private lemma c3_beta_zeta (hζg : c3_Compat p q D ζ) {V W : 𝒞} {f : V ⟶ p.obj a} (hf : R f)
+lemma c3_beta_zeta (hζg : c3_Compat p q D ζ) {V W : 𝒞} {f : V ⟶ p.obj a} (hf : R f)
     (u : W ⟶ V) {f₀ : W ⟶ p.obj a} (hf₀ : R f₀) (huf : u ≫ f = f₀) :
     q.map (c3_beta p q D hf u hf₀ huf) ≫ ζ f hf = ζ f₀ hf₀ := by
   have hid : (𝟙 W) ≫ f₀ = u ≫ f := by rw [Category.id_comp, huf]
@@ -751,7 +751,7 @@ include hζc in
 omit [q.IsFibered] in
 /-- The image under `p` of the descent morphism `ζ f hf` is `f` precomposed with the canonical
 identification of `p (q (D.obj f hf))` with the source of `f`. -/
-private lemma c3_pmap_zeta {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_pmap_zeta {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     eqToHom (D.obj f hf).2 ≫ f = p.map (ζ f hf) := by
   have := hζc f hf
   rw [IsHomLift.fac' p f (ζ f hf)]
@@ -761,17 +761,17 @@ include hζc in
 omit [q.IsFibered] in
 /-- The image under `p` of `ζ f hf` is again an arrow of `R`, i.e. `ζ f hf` is an arrow of the
 transferred sieve. -/
-private lemma c3_hhf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) : R (p.map (ζ f hf)) :=
+lemma c3_hhf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) : R (p.map (ζ f hf)) :=
   c3_pmap_zeta p q D ζ hζc f hf ▸ R.downward_closed hf (eqToHom (D.obj f hf).2)
 
 /-- The reindexing morphism comparing the object attached to the arrow `ζ f hf` of the transferred
 sieve with `D.obj f hf` itself. -/
-private noncomputable def c3_betaf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+noncomputable def c3_betaf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     (D.obj (p.map (ζ f hf)) (c3_hhf p q D ζ hζc f hf)).1 ⟶ (D.obj f hf).1 :=
   c3_beta p q D hf (eqToHom (D.obj f hf).2) (c3_hhf p q D ζ hζc f hf)
     (c3_pmap_zeta p q D ζ hζc f hf)
 
-private instance c3_betaf_isIso {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+instance c3_betaf_isIso {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     IsIso (c3_betaf p q D ζ hζc f hf) := by
   have h :=
     c3_beta_sc p q D hf (eqToHom (D.obj f hf).2) (c3_hhf p q D ζ hζc f hf)
@@ -781,7 +781,7 @@ private instance c3_betaf_isIso {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
   exact IsStronglyCartesian.isIso_of_base_isIso (q ⋙ p) (eqToHom (D.obj f hf).2) _
 
 omit [q.IsFibered] in
-private lemma c3_homLift_map_betaf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_homLift_map_betaf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     p.IsHomLift (eqToHom (D.obj f hf).2) (q.map (c3_betaf p q D ζ hζc f hf)) := by
   have h :=
     c3_beta_sc p q D hf (eqToHom (D.obj f hf).2) (c3_hhf p q D ζ hζc f hf)
@@ -793,7 +793,7 @@ private lemma c3_homLift_map_betaf {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
 omit [q.IsFibered] in
 /-- The factorization of `ζ f hf` through the descent morphism at `p.map (ζ f hf)` is inverse to
 the `q`-image of the reindexing morphism. -/
-private lemma c3_delta_betaf (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_delta_betaf (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     c3_delta p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf) ≫ q.map (c3_betaf p q D ζ hζc f hf) =
       𝟙 (q.obj (D.obj f hf).1) := by
   have hζf : p.IsCartesian f (ζ f hf) := hζc f hf
@@ -819,12 +819,12 @@ private lemma c3_delta_betaf (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p
 
 /-- The comparison morphism between the object the transferred datum attaches to the arrow `ζ f hf`
 and `D.obj f hf` itself. -/
-private noncomputable def c3_ehom {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+noncomputable def c3_ehom {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     (c3_obj p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)).1 ⟶ (D.obj f hf).1 :=
   c3_nu p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf) ≫ c3_betaf p q D ζ hζc f hf
 
 omit [q.IsFibered] in
-private lemma c3_delta_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_delta_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     IsIso (c3_delta p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)) := by
   have hb : IsIso (q.map (c3_betaf p q D ζ hζc f hf)) := inferInstance
   have h := c3_delta_betaf p q D ζ hζc hζg f hf
@@ -836,7 +836,7 @@ private lemma c3_delta_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p
   rw [he]
   infer_instance
 
-private lemma c3_ehom_homLift (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_ehom_homLift (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     q.IsHomLift (𝟙 (q.obj (D.obj f hf).1)) (c3_ehom p q D ζ hζc f hf) := by
   have hnu := c3_nu_isCartesian p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)
   have := hnu
@@ -848,7 +848,7 @@ private lemma c3_ehom_homLift (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ 
   rw [c3_delta_betaf p q D ζ hζc hζg f hf] at h0
   exact h0
 
-private lemma c3_ehom_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
+lemma c3_ehom_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.obj a) (hf : R f) :
     IsIso (c3_ehom p q D ζ hζc f hf) := by
   have hnu := c3_nu_isCartesian p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)
   have := hnu
@@ -867,7 +867,7 @@ private lemma c3_ehom_isIso (hζg : c3_Compat p q D ζ) {V : 𝒞} (f : V ⟶ p.
 
 /-- The descent morphism of `D` at `f`, obtained from the descent morphism of the transferred datum
 at the arrow `ζ f hf` and the comparison `c3_ehom`. -/
-private noncomputable def c3_zfin (hζg : c3_Compat p q D ζ) {y : 𝒴}
+noncomputable def c3_zfin (hζg : c3_Compat p q D ζ) {y : 𝒴}
     (ξ : ∀ ⦃c : 𝒳⦄ (h : c ⟶ a) (hh : R (p.map h)), (c3_obj p q D ζ hζc h hh).1 ⟶ y) {V : 𝒞}
     (f : V ⟶ p.obj a) (hf : R f) : (D.obj f hf).1 ⟶ y :=
   haveI := c3_ehom_isIso p q D ζ hζc hζg f hf
@@ -876,7 +876,7 @@ private noncomputable def c3_zfin (hζg : c3_Compat p q D ζ) {y : 𝒴}
 include hζc in
 omit [q.IsFibered] in
 /-- The compatibility of base morphisms that `D.iso` needs at the arrow `ζ f hf`. -/
-private lemma c3_hEf {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z ⟶ V) :
+lemma c3_hEf {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z ⟶ V) :
     p.map (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε)) ≫ p.map (ζ f hf) =
       (eqToHom (pullbackFiber (q ⋙ p) (D.obj f hf) ε).2 ≫ ε) ≫ f := by
   rw [← c3_pmap_zeta p q D ζ hζc f hf, ← Category.assoc,
@@ -886,7 +886,7 @@ private lemma c3_hEf {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z ⟶ V) 
 
 /-- The inverse comparison, composed with the chosen `(q ⋙ p)`-cartesian lift, is the chosen
 `q`-cartesian lift followed by `c3_ehom`. -/
-private lemma c3_that_fac {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z ⟶ V) :
+lemma c3_that_fac {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z ⟶ V) :
     (c3_tau p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)
             (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε))
             (p.map (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε))) rfl ≫
@@ -915,7 +915,7 @@ private lemma c3_that_fac {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f) (ε : Z �
   rfl
 
 /-- The base morphism, in `𝒳`, of the inverse comparison is the identity. -/
-private lemma c3_that_base (hζg : c3_Compat p q D ζ) {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
+lemma c3_that_base (hζg : c3_Compat p q D ζ) {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
     (ε : Z ⟶ V) :
     c3_sigma p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf)
           (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε))
@@ -1051,7 +1051,7 @@ private lemma c3_that_base (hζg : c3_Compat p q D ζ) {V Z : 𝒞} (f : V ⟶ p
 
 omit [p.IsFibered] [q.IsFibered] in
 /-- The two descent morphisms of the transferred datum agree over `𝒳`. -/
-private lemma c3_hE (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
+lemma c3_hE (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
     (g : W ⟶ p.obj a) (hg : R g) (ε : Z ⟶ V) (ε' : Z ⟶ W) (heq : ε ≫ f = ε' ≫ g) :
     (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε)) ≫ ζ f hf =
       (q.map
@@ -1063,7 +1063,7 @@ private lemma c3_hE (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj 
 
 omit [p.IsFibered] [q.IsFibered] in
 /-- The corresponding compatibility of base morphisms of `𝒞`. -/
-private lemma c3_hcomm (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
+lemma c3_hcomm (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
     (g : W ⟶ p.obj a) (hg : R g) (ε : Z ⟶ V) (ε' : Z ⟶ W) (heq : ε ≫ f = ε' ≫ g) :
     (p.map (q.map (IsPreFibered.pullbackMap (D.obj f hf).2 ε))) ≫ p.map (ζ f hf) =
       (p.map
@@ -1075,7 +1075,7 @@ private lemma c3_hcomm (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.o
 
 /-- The gluing isomorphism of the transferred datum, followed by the chosen `q`-cartesian lift and
 the comparison `c3_ehom`, is the inverse comparison followed by the gluing isomorphism of `D`. -/
-private lemma c3_chain (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
+lemma c3_chain (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
     (g : W ⟶ p.obj a) (hg : R g) (ε : Z ⟶ V) (ε' : Z ⟶ W) (heq : ε ≫ f = ε' ≫ g) :
     Fiber.fiberInclusion.map
           (c3_gl p q D ζ hζc (ζ f hf) (c3_hhf p q D ζ hζc f hf) (ζ g hg) (c3_hhf p q D ζ hζc g hg)
@@ -1185,7 +1185,7 @@ private lemma c3_chain (hζg : c3_Compat p q D ζ) {V W Z : 𝒞} (f : V ⟶ p.o
   · simp [Functor.map_comp]
 
 /-- The comparison `ω` is inverse to the composite of `c3_tau` with the gluing isomorphisms. -/
-private lemma c3_om_that (hζg : c3_Compat p q D ζ) {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
+lemma c3_om_that (hζg : c3_Compat p q D ζ) {V Z : 𝒞} (f : V ⟶ p.obj a) (hf : R f)
     (ε : Z ⟶ V)
     (ω :
       (pullbackFiber (q ⋙ p) (D.obj f hf) ε).1 ⟶

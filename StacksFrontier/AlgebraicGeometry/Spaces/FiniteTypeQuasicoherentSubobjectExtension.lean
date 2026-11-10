@@ -242,7 +242,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension (j : U ⟶ X)
   -- the legs of the cocone are the subobject inclusions, hence monomorphisms
   have hιmono : ∀ i, Mono (c'.ι.app i) := by
     intro i
-    show Mono (eqv.functor.obj i).obj.arrow
+    change Mono (eqv.functor.obj i).obj.arrow
     infer_instance
   have hDmono : ∀ {i i' : SmallModel.{u} (FiniteTypeQuasicoherentSubobject B S hS X.1 X.2 H)}
       (f : i ⟶ i'), Mono (D'.map f) := by
@@ -275,7 +275,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension (j : U ⟶ X)
   refine ⟨Subobject.mk (c'.ι.app i ≫ p), ?_, ?_, ?_⟩
   · exact SheafOfModules.IsQuasicoherentOnSite.of_iso
       (Subobject.underlyingIso (c'.ι.app i ≫ p)).symm hKq
-  · haveI : Epi (Subobject.underlyingIso (c'.ι.app i ≫ p)).inv := IsIso.epi_of_iso _
+  · have : Epi (Subobject.underlyingIso (c'.ι.app i ≫ p)).inv := IsIso.epi_of_iso _
     exact Stacks.SheafOfModules.isFiniteType_of_epi
       (Subobject.underlyingIso (c'.ι.app i ≫ p)).inv hKf
   · refine ⟨(etaleModulePullback.{u, u} B S hS j hje).mapIso

@@ -287,7 +287,8 @@ variable (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
   [∀ U : C, (J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ U : C, HasSheafify (J.over U) AddCommGrpCat.{w}]
 
-omit [UnivLE.{max v u, w}] in
+omit [UnivLE.{max v u, w}]
+  [∀ U : C, (J.over U).HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Stacks 0GQM.** The tensor product of two quasi-coherent sheaves of modules on a site is
 quasi-coherent.
 

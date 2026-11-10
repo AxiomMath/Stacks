@@ -452,14 +452,14 @@ private theorem subsingleton_ext_of_isIso_comparison
   set D := derivedHomData B C N L with hD
   have h1 : IsIso ((extCohomologyComparisonUnit B C N L D n).app X) := by
     have : IsIso ((extCohomologyFunctor B n).map (D.comparison.app X)) := inferInstance
-    show IsIso ((extCohomologyFunctor B n).map (D.comparison.app X) ≫ _)
+    change IsIso ((extCohomologyFunctor B n).map (D.comparison.app X) ≫ _)
     infer_instance
   have h2 : IsIso ((extComparisonUnit B C N L n).app X) := by
     have hfac := NatTrans.congr_app (extIso_fac B C N L D n) X
     rw [← hfac, NatTrans.comp_app]
     have : IsIso ((Functor.whiskerLeft (quasiIsomorphisms' C).Q
         (extIso B C N L D n).hom).app X) := by
-      show IsIso ((extIso B C N L D n).hom.app ((quasiIsomorphisms' C).Q.obj X))
+      change IsIso ((extIso B C N L D n).hom.app ((quasiIsomorphisms' C).Q.obj X))
       infer_instance
     infer_instance
   exact (Equiv.subsingleton_congr
@@ -543,7 +543,7 @@ private noncomputable def multByTwo : regularModule intBase ⟶ regularModule in
 
 private theorem multByTwo_toFun (x : ℤ) : multByTwo.toFun x = 2 * x := by
   rw [multByTwo, Hom.hom_zsmul_toFun]
-  show (2 : ℤ) • x = 2 * x
+  change (2 : ℤ) • x = 2 * x
   rw [smul_eq_mul]
 
 /-- The Koszul complex `ℤ --2--> ℤ` of the element `2`, as the cone of multiplication by two. -/
@@ -552,7 +552,7 @@ private noncomputable abbrev koszulCone : DifferentialGradedModule.{0, 0, 0} int
 
 private theorem koszulCone_d (x : ℤ × ℤ) : koszulCone.d x = (2 * x.2, 0) := by
   rw [show koszulCone.d x = coneD multByTwo x from rfl, coneD_apply]
-  show ((0 : ℤ) + multByTwo.toFun x.2, -(0 : ℤ)) = _
+  change ((0 : ℤ) + multByTwo.toFun x.2, -(0 : ℤ)) = _
   rw [multByTwo_toFun, zero_add, neg_zero]
 
 private theorem mem_koszulCone_grading (n : ℤ) (x : ℤ × ℤ) :
@@ -625,12 +625,12 @@ private theorem isQuasiIsomorphism_koszulAug : IsQuasiIsomorphism koszulAug := b
       · exact (mem_koszulCone_grading 0 (m, 0)).2
           ⟨by rw [degreeZeroGrading_zero]; trivial, Submodule.zero_mem _⟩
       · rw [koszulCone_d]
-        show ((2 * 0 : ℤ), (0 : ℤ)) = ((0 : ℤ), (0 : ℤ))
+        change ((2 * 0 : ℤ), (0 : ℤ)) = ((0 : ℤ), (0 : ℤ))
         rw [mul_zero]
-      · show (0 : zmodTwoModule.M) = y - koszulAug.toFun (m, 0)
+      · change (0 : zmodTwoModule.M) = y - koszulAug.toFun (m, 0)
         rw [show koszulAug.toFun (m, 0) = y from hm, sub_self]
     · refine ⟨0, Submodule.zero_mem _, map_zero _, 0, Submodule.zero_mem _, ?_⟩
-      show (0 : zmodTwoModule.M) = y - koszulAug.toFun 0
+      change (0 : zmodTwoModule.M) = y - koszulAug.toFun 0
       rw [eq_zero_of_mem_degreeZeroGrading (A := ZMod 2) hn hy, map_zero]
       exact (sub_zero _).symm
   · rintro x hx hdx ⟨z, -, hz⟩
@@ -670,7 +670,7 @@ the target is killed by two. -/
 private theorem multByTwo_comp_eq_zero (k : regularModule intBase ⟶ zmodTwoModule) :
     multByTwo ≫ k = 0 := by
   refine Hom.ext (LinearMap.ext fun x => ?_)
-  show k.toFun (multByTwo.toFun x) = 0
+  change k.toFun (multByTwo.toFun x) = 0
   rw [multByTwo_toFun, two_mul, map_add]
   exact (by decide : ∀ y : ZMod 2, y + y = 0) _
 
@@ -711,7 +711,7 @@ private theorem subsingleton_zmodTwo_dual : Subsingleton (ZMod 2 →ₗ[ℤ] ℤ
     intro h x
     have h2 : (2 : ℤ) • x = 0 := by
       rw [zsmul_eq_mul]
-      show ((2 : ℤ) : ZMod 2) * x = 0
+      change ((2 : ℤ) : ZMod 2) * x = 0
       rw [show ((2 : ℤ) : ZMod 2) = 0 by decide, zero_mul]
     have h3 := congrArg h h2
     rw [map_smul, map_zero, smul_eq_mul] at h3

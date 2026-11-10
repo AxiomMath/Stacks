@@ -222,7 +222,7 @@ theorem contains_spec_gluedRing : B.Contains (Spec (CommRingCat.of (D.gluedRing 
   have hY : Cardinal.mk Γ(VY, ⊤) < B.cutoff :=
     lt_of_le_of_lt (VY.mk_sections_le_two_pow_size ⊤)
       (B.cutoff_isStrongPrelimit DY.U.left.property)
-  show (Spec (CommRingCat.of (D.gluedRing G))).size < B.cutoff
+  change (Spec (CommRingCat.of (D.gluedRing G))).size < B.cutoff
   rw [Scheme.size_Spec]
   refine max_lt B.aleph0_lt_cutoff (lt_of_le_of_lt (Cardinal.mk_le_of_injective hι) ?_)
   rw [Cardinal.mk_prod, Cardinal.lift_id, Cardinal.lift_id]
@@ -255,7 +255,7 @@ omit [IsAffine ((SmallEtale.toOver B S hS D.spaceX.1 ⋙ BigFppfOver.toScheme B 
 theorem affLegVU_comp_affLegUToBase :
     D.affLegVU G ≫ D.affLegUToBase G Z₀ = D.affLegVY G ≫ D.affLegYToBase G Z₀ := by
   apply ObjectProperty.hom_ext
-  show (D.affLegVU G).hom ≫ (D.affLegUHom G).hom ≫ D.openImmersion.hom ≫ (asIso Z₀.1.hom).inv =
+  change (D.affLegVU G).hom ≫ (D.affLegUHom G).hom ≫ D.openImmersion.hom ≫ (asIso Z₀.1.hom).inv =
     (D.affLegVY G).hom ≫ (D.affLegYHom G).hom ≫ D.ambientMorphism.hom ≫ (asIso Z₀.1.hom).inv
   have h1 := congrArg (fun k => k.hom) (D.isPullback_affLegVU G).w
   have h2 := congrArg (fun k => k.hom) (D.isPullback_affLegVY G).w
@@ -336,7 +336,7 @@ theorem gluedObjectHom_appTop (r) :
   have key : ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).appTop ≫
       (Scheme.ΓSpecIso (CommRingCat.of (D.gluedRing G))).hom =
       CommRingCat.ofHom (D.gluedRingAlgebraMap G Z₀) := by
-    show (Spec.map (CommRingCat.ofHom (D.gluedRingAlgebraMap G Z₀)) ≫
+    change (Spec.map (CommRingCat.ofHom (D.gluedRingAlgebraMap G Z₀)) ≫
       Zs.isoSpec.inv).appTop ≫ _ = _
     rw [Scheme.Hom.comp_appTop, Category.assoc, Scheme.ΓSpecIso_naturality,
       ← Category.assoc]
@@ -356,12 +356,12 @@ theorem gluedRingToLegU_comp :
         (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).op).hom =
       pullbackToGlobalFunctions B S hS (D.affLegU G) _ (D.affLegUToBase G Z₀) := by
   refine RingHom.ext fun r => ?_
-  show ((Shrink.ringEquiv (D.gluedFunctions G))
+  change ((Shrink.ringEquiv (D.gluedFunctions G))
     ((Scheme.ΓSpecIso (CommRingCat.of (D.gluedRing G))).hom.hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).op).hom
         r))).1.1 = _
   rw [gluedObjectHom_appTop]
-  show ((Shrink.ringEquiv (D.gluedFunctions G)) ((Shrink.ringEquiv (D.gluedFunctions G)).symm
+  change ((Shrink.ringEquiv (D.gluedFunctions G)) ((Shrink.ringEquiv (D.gluedFunctions G)).symm
     (D.gluedFunctionsAlgebraMap G Z₀ r))).1.1 = _
   rw [RingEquiv.apply_symm_apply]
   rfl
@@ -372,12 +372,12 @@ theorem gluedRingToLegY_comp :
         (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).op).hom =
       pullbackToGlobalFunctions B S hS (D.affLegY G) _ (D.affLegYToBase G Z₀) := by
   refine RingHom.ext fun r => ?_
-  show ((Shrink.ringEquiv (D.gluedFunctions G))
+  change ((Shrink.ringEquiv (D.gluedFunctions G))
     ((Scheme.ΓSpecIso (CommRingCat.of (D.gluedRing G))).hom.hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).op).hom
         r))).1.2 = _
   rw [gluedObjectHom_appTop]
-  show ((Shrink.ringEquiv (D.gluedFunctions G)) ((Shrink.ringEquiv (D.gluedFunctions G)).symm
+  change ((Shrink.ringEquiv (D.gluedFunctions G)) ((Shrink.ringEquiv (D.gluedFunctions G)).symm
     (D.gluedFunctionsAlgebraMap G Z₀ r))).1.2 = _
   rw [RingEquiv.apply_symm_apply]
   rfl
@@ -445,7 +445,7 @@ theorem gluedMapU_hom_comp :
   have h : ((D.gluedMapU G Z₀).1 ≫ schemeSpaceMap (D.gluedObjectHom G Z₀)).hom ≫ Z₀.1.hom =
       (D.affLegUToBase G Z₀).hom ≫ Z₀.1.hom := by rw [(D.gluedMapU G Z₀).2]
   refine (Category.assoc _ _ _).symm.trans (h.trans ?_)
-  show ((D.affLegUHom G).hom ≫ D.openImmersion.hom ≫ (asIso Z₀.1.hom).inv) ≫ Z₀.1.hom = _
+  change ((D.affLegUHom G).hom ≫ D.openImmersion.hom ≫ (asIso Z₀.1.hom).inv) ≫ Z₀.1.hom = _
   simp only [Category.assoc, Category.comp_id, asIso_inv, IsIso.inv_hom_id]
   rfl
 
@@ -456,7 +456,7 @@ theorem gluedMapY_hom_comp :
   have h : ((D.gluedMapY G Z₀).1 ≫ schemeSpaceMap (D.gluedObjectHom G Z₀)).hom ≫ Z₀.1.hom =
       (D.affLegYToBase G Z₀).hom ≫ Z₀.1.hom := by rw [(D.gluedMapY G Z₀).2]
   refine (Category.assoc _ _ _).symm.trans (h.trans ?_)
-  show ((D.affLegYHom G).hom ≫ D.ambientMorphism.hom ≫ (asIso Z₀.1.hom).inv) ≫ Z₀.1.hom = _
+  change ((D.affLegYHom G).hom ≫ D.ambientMorphism.hom ≫ (asIso Z₀.1.hom).inv) ≫ Z₀.1.hom = _
   simp only [Category.assoc, Category.comp_id, asIso_inv, IsIso.inv_hom_id]
   rfl
 
@@ -598,7 +598,7 @@ theorem gluedObjectGamma_algebraMap (r) :
     D.gluedObjectGamma G Z₀
         ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (D.gluedObjectHom G Z₀)).op).hom r) =
       D.gluedFunctionsAlgebraMap G Z₀ r := by
-  show Shrink.ringEquiv _ ((Scheme.ΓSpecIso (CommRingCat.of (D.gluedRing G))).hom.hom _) = _
+  change Shrink.ringEquiv _ ((Scheme.ΓSpecIso (CommRingCat.of (D.gluedRing G))).hom.hom _) = _
   rw [gluedObjectHom_appTop]
   exact RingEquiv.apply_symm_apply _ _
 

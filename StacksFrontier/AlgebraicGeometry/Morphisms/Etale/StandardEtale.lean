@@ -82,7 +82,7 @@ public theorem isStandardEtale_iff_exists_specMap_isomorphisms
     rw [← Scheme.isoSpec_hom_naturality]
     simp only [Iso.trans_hom, Category.assoc]
     rw [cancel_epi X.isoSpec.hom]
-    show Spec.map f.appTop = Spec.map p.equivRing.toRingEquiv.toCommRingCatIso.inv ≫
+    change Spec.map f.appTop = Spec.map p.equivRing.toRingEquiv.toCommRingCatIso.inv ≫
       Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤) p.P.Ring))
     rw [← Spec.map_comp]
     congr 1

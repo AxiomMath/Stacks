@@ -103,7 +103,7 @@ theorem rowComplexAdicQuotientIso_naturality (I : Ideal A) {m n : ℕ} (h : m �
   apply TensorProduct.ext'
   intro x y
   obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ y
-  show tensorAdicQuotientEquiv (P.X p) (I ^ m) (x ⊗ₜ[A]
+  change tensorAdicQuotientEquiv (P.X p) (I ^ m) (x ⊗ₜ[A]
       ((AlgebraicGeometry.ProEtale.adicQuotientModuleSystem A I (ModuleCat.of A A)).map
         (homOfLE h).op).hom (Submodule.Quotient.mk r)) =
     ((reductionNatTrans (Ideal.pow_le_pow_right h)).app (P.X p)).hom
@@ -125,7 +125,7 @@ theorem homologyMap_reductionNatTrans_comp_concreteEquiv_symm {J K : Ideal A} (h
           (M.sc i).zero) := by
   ext y
   obtain ⟨x, rfl⟩ := (reducedHomologyConcreteEquiv J M i).surjective y
-  show (reducedHomologyConcreteEquiv K M i).symm
+  change (reducedHomologyConcreteEquiv K M i).symm
       ((HomologicalComplex.homologyMap ((NatTrans.mapHomologicalComplex (reductionNatTrans hJK)
         (ComplexShape.up ℤ)).app M) i).hom (reducedHomologyConcreteEquiv J M i x)) =
     concreteHomologyIdealTransition hJK (M.sc i).f (M.sc i).g (M.sc i).zero

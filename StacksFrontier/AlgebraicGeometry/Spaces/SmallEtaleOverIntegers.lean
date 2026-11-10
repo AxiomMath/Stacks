@@ -119,14 +119,14 @@ theorem yonedaEquiv_relocalizeBaseHom_comp_relocalizeChart
   have hρ : ρ.inv.app (op V)
       (relocalizeBaseHom B S (⊤_ Scheme.{u}) hS hZ (integersMap B S hS hZ) hψ)
       = ⟨⟨ψ, (𝟙 U : U ⟶ U)⟩, hψ⟩ := by
-    show (relocalizedYonedaRepresentableBy B (B.obj hS) (B.obj hZ)
+    change (relocalizedYonedaRepresentableBy B (B.obj hS) (B.obj hZ)
       (integersMap B S hS hZ) U).homEquiv
       (relocalizeBaseHom B S (⊤_ Scheme.{u}) hS hZ (integersMap B S hS hZ) hψ) =
         ⟨⟨ψ, (𝟙 U : U ⟶ U)⟩, hψ⟩
     apply Subtype.ext
     apply Sigma.ext
     · dsimp [relocalizedYonedaRepresentableBy]
-      show 𝟙 V.left ≫ ψ = ψ
+      change 𝟙 V.left ≫ ψ = ψ
       simp
     · dsimp [relocalizedYonedaRepresentableBy]
       exact heq_of_eq (Over.OverMorphism.ext rfl)
@@ -238,10 +238,10 @@ theorem homMk_comp_yonedaEquiv_symm_relocalizeChart {U : BigFppfOver B S hS}
           (integersMap B S hS hZ) a)).1.2 = a := by
   apply yonedaEquiv.injective
   rw [← yonedaEquiv_naturality, Equiv.apply_symm_apply]
-  show X.map _ (a.app _ _) = a.app _ _
+  change X.map _ (a.app _ _) = a.app _ _
   refine (NatTrans.naturality_apply a _ _).symm.trans (congrArg (a.app (op U)) ?_)
   exact Over.OverMorphism.ext (by
-    show 𝟙 U.left ≫ 𝟙 U.left = 𝟙 U.left
+    change 𝟙 U.left ≫ 𝟙 U.left = 𝟙 U.left
     exact Category.comp_id _)
 
 variable (B S hS hZ X) in

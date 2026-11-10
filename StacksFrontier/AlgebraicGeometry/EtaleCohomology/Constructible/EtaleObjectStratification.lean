@@ -71,7 +71,7 @@ public theorem hasFiniteEtaleStratification (B : BigEtaleSite.{u}) (Y : B.Scheme
   · rwa [hmap]
   -- The structure morphism of the base change is the second projection of a fibre product,
   -- hence a pullback of the same cospan as the projection the statement for schemes produces.
-  show IsFinite (B.inclusion.map (pullback.snd U.obj.hom i'))
+  change IsFinite (B.inclusion.map (pullback.snd U.obj.hom i'))
   have hsq : IsPullback (B.inclusion.map (pullback.snd U.obj.hom i'))
       (B.inclusion.map (pullback.fst U.obj.hom i')) (B.inclusion.map i')
       (B.inclusion.map U.obj.hom) :=

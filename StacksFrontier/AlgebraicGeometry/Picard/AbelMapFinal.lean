@@ -100,7 +100,7 @@ theorem existsUnique_abelMap (d : ℕ) (H : BigFppfOver B (Spec (.of k)) hk)
   have h := hγ (𝟙 H)
   rw [Category.id_comp] at h
   refine h.trans ?_
-  show _ = (toPicardFunctor B hX hk f).app (op H) (hH.family (𝟙 _)).picardClass
+  change _ = (toPicardFunctor B hX hk f).app (op H) (hH.family (𝟙 _)).picardClass
   rfl
 
 include σ hσ in

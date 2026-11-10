@@ -322,6 +322,8 @@ private theorem etaleCohomologyMapTo_restriction_comp {X Y Z : Scheme.{u}} (k₁
     ((etaleCohomologyMapTo_comp k₁ k₂ k hk (𝟙 _) w₁ (𝟙 _) (by simpa using hw) p ξ).trans
       (etaleCohomologyMapTo_id k A p ξ))
 
+omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)]
+    [∀ i : Iᵒᵖ, CompactSpace (D.obj i)] [∀ i : Iᵒᵖ, QuasiSeparatedSpace (D.obj i)] in
 /-- The leg of the system of inverse images at a level, on the restriction of a class from the
 base, is the restriction of that class to the limit. -/
 theorem pullbackPresentedSystem_leg_restriction (i : Iᵒᵖ) (p : ℕ)
@@ -332,6 +334,8 @@ theorem pullbackPresentedSystem_leg_restriction (i : Iᵒᵖ) (p : ℕ)
   etaleCohomologyMapTo_restriction_comp (conePi c i) (s i) sc (hsc i)
     (pullbackSystemLeg G s hs sc hsc i) (by simp [pullbackSystemLeg]) p ξ
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)]
+    [∀ i : Iᵒᵖ, CompactSpace (D.obj i)] [∀ i : Iᵒᵖ, QuasiSeparatedSpace (D.obj i)] in
 /-- The transition of the system of inverse images, on the restriction of a class from the base,
 is the restriction of that class to the earlier level. -/
 theorem etaleCohomologyTransition_pullbackSystem_restriction {i j : Iᵒᵖ} (a : i ⟶ j) (p : ℕ)

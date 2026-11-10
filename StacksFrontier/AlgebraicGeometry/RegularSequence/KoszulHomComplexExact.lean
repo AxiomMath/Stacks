@@ -184,7 +184,7 @@ theorem unitStalk_stalkLin_koszulFree (x : X) :
       Fintype.linearCombination ↑(TopCat.Presheaf.stalk Rc.obj x) (fun k =>
         TopCat.Presheaf.germ Rc.obj (⊤ : Opens ↥X) x (Opens.mem_top x) (f k)) := by
   refine LinearMap.pi_ext' fun k => LinearMap.ext_ring ?_
-  show (unitModuleStalkLinearEquiv Rc.obj x) (stalkLin φ.val x
+  change (unitModuleStalkLinearEquiv Rc.obj x) (stalkLin φ.val x
     ((koszulFreeStalkEquiv (Osharp := Rc) (r := r) x).symm (Pi.single k 1))) =
       Fintype.linearCombination ↑(TopCat.Presheaf.stalk Rc.obj x) (fun k =>
         TopCat.Presheaf.germ Rc.obj (⊤ : Opens ↥X) x (Opens.mem_top x) (f k)) (Pi.single k 1)
@@ -229,7 +229,7 @@ theorem isZero_homComplex_X_of_lt (M : StructureSheafModules Rc) {n : ℤ} (hn :
     IsZero ((homComplex Rc K M).X n) := by
   refine IsZero.of_iso ?_ (RingedSite.homDegreeIsoSingle (ringedSite Rc) (cochain Rc K) M n)
   refine RingedSite.internalHomSheaf_isZero_of_isZero (ringedSite Rc) ?_
-  show IsZero (K.chain.X (-(-n)))
+  change IsZero (K.chain.X (-(-n)))
   rw [neg_neg]
   exact IsZero.of_iso (RingedSite.isZero_exteriorPiece_of_card_lt (ringedSite Rc) A
     (ULift.{u} (Fin r)) (Iso.refl _) n (by simpa using hn)) (eqToIso (K.chain_X n))
@@ -254,7 +254,7 @@ theorem quasiIsoAt_homComplexQuotientMap {b : ℕ} (hr : r = b + 1) :
   · exact Functor.map_isZero (AlgebraicGeometry.SheafOfModules.stalkFunctor _ x)
       (isZero_homComplex_X_of_lt Rc φ K (unitMod Rc)
         (n := ((b + 1 : ℕ) : ℤ) + 1) (by omega)) |>.eq_of_tgt _ _
-  · show (AlgebraicGeometry.SheafOfModules.stalkFunctor _ x).map
+  · change (AlgebraicGeometry.SheafOfModules.stalkFunctor _ x).map
       ((homComplex Rc K (koszulQuotient.{u, u, u} φ)).d (b : ℤ) ((b : ℤ) + 1)) = 0
     rw [sheafHomComplex_d_eq_zero K (b : ℤ), Functor.map_zero]
   · exact Functor.map_isZero (AlgebraicGeometry.SheafOfModules.stalkFunctor _ x)
@@ -280,7 +280,7 @@ theorem quasiIsoAt_homComplexQuotientMap {b : ℕ} (hr : r = b + 1) :
     exact KoszulChainData.exists_stalkLin_d_eq_unit Rc K f hφ b x z _ key3.choose_spec
   · rw [ModuleCat.epi_iff_surjective]
     intro z
-    show ∃ y, Stacks.RegularSequence.stalkLin _ x y = z
+    change ∃ y, Stacks.RegularSequence.stalkLin _ x y = z
     obtain ⟨ψ, hψ⟩ := exists_comp_eq_of_surjective (quotientStalkMap_surjective Rc φ x)
       (Koszul.stdBasis (R := ringStalk Rc x) (b + 1) (b + 1))
       (homComplexStalkEquiv Rc K (koszulQuotient.{u, u, u} φ) (b + 1) x z)

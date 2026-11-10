@@ -120,6 +120,7 @@ variable {X : RingedTopos.{v, max u t, max w t s}} {Y : RingedTopos.{v', max u s
     ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O).obj) (ρ : R' →+* R)
   (h : (toposGlobalSectionsRingHom f).comp ψ' = ψ.comp ρ)
 
+set_option linter.checkUnivs false in
 /-- **The comparison `RΓ(D, -) ⟶ ρ_* RΓ(C, Lf^* -)` as a natural transformation**: `RΓ(D, -)`
 of the unit of the derived adjunction `Lf^* ⊣ Rf_*`, followed by the global-sections clause of
 Stacks 0D6H and the compatibility `h` of the ring maps. Its component at `K` is
@@ -156,6 +157,7 @@ theorem isIso_derivedGlobalSectionsSemilinearMap_of_isIso_unit
   unfold derivedGlobalSectionsSemilinearMap
   infer_instance
 
+set_option linter.checkUnivs false in
 include h in
 /-- **`RΓ(D, -) ≅ ρ_* RΓ(C, Lf^* -)` on any class `P` of objects of `D(𝒪_D)` on which the
 derived unit `K ⟶ Rf_*Lf^*K` is invertible.** Its components are
@@ -190,6 +192,7 @@ theorem derivedGlobalSectionsIsoOfIsIsoUnit_hom_app
       derivedGlobalSectionsSemilinearMap.{v, v', u, w, t, s, r, r'} f ψ ψ' ρ h K.obj :=
   rfl
 
+set_option linter.checkUnivs false in
 include h in
 /-- **`RΓ(D, -) ≅ ρ_* RΓ(C, Lf^* -)` on `P` whenever `Lf^*` corestricts to a fully faithful
 functor from `P` to a class `Q` of objects of `D(𝒪_C)` which `Rf_*` carries back into `P`** —

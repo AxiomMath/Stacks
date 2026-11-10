@@ -41,7 +41,7 @@ theorem ΓSpecIso_inv_comp_Γ_map_isoSpec_hom :
     (Scheme.ΓSpecIso Γ(X, V)).inv ≫
         SheafedSpace.Γ.map (hV.isoSpec.hom.toLRSHom.toShHom).op =
       V.topIso.inv := by
-  show (Scheme.ΓSpecIso Γ(X, V)).inv ≫ hV.isoSpec.hom.appTop = V.topIso.inv
+  change (Scheme.ΓSpecIso Γ(X, V)).inv ≫ hV.isoSpec.hom.appTop = V.topIso.inv
   rw [hV.isoSpec_hom_appTop, Iso.inv_hom_id_assoc]
 
 /-- The ring-homomorphism form of `ΓSpecIso_inv_comp_Γ_map_isoSpec_hom`: the scalar map along
@@ -50,7 +50,7 @@ theorem Γ_map_isoSpec_hom_comp_ΓSpecIso_inv_hom :
     (SheafedSpace.Γ.map (hV.isoSpec.hom.toLRSHom.toShHom).op).hom.comp
         (Scheme.ΓSpecIso Γ(X, V)).inv.hom =
       V.topIso.inv.hom := by
-  show ((Scheme.ΓSpecIso Γ(X, V)).inv ≫ hV.isoSpec.hom.appTop).hom = _
+  change ((Scheme.ΓSpecIso Γ(X, V)).inv ≫ hV.isoSpec.hom.appTop).hom = _
   rw [hV.isoSpec_hom_appTop, Iso.inv_hom_id_assoc]
 
 end AlgebraicGeometry.IsAffineOpen

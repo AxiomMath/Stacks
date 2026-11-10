@@ -106,7 +106,7 @@ private theorem comapSubschemeIsoOfKerLE_hom {Q W : Scheme.{u}} (I : Q.IdealShea
     (j : W ⟶ Q) [IsClosedImmersion j] (hI : j.ker ≤ I) :
     (comapSubschemeIsoOfKerLE I j hI).hom ≫ I.subschemeι = (I.comap j).subschemeι ≫ j := by
   have := isIso_pullback_snd_subschemeι_of_ker_le I j hI
-  show ((I.comapIso j).hom ≫ pullback.snd j I.subschemeι) ≫ I.subschemeι = _
+  change ((I.comapIso j).hom ≫ pullback.snd j I.subschemeι) ≫ I.subschemeι = _
   rw [Category.assoc, ← pullback.condition, ← Category.assoc,
     Scheme.IdealSheafData.comapIso_hom_fst]
 
@@ -557,7 +557,7 @@ theorem exteriorProduct_mem_rationalEquivalences_right (C : ChowSituation.{u}) [
           · rw [ite_eq_left hx, exteriorProductCoeff, hz, zero_mul, zero_mul]
           · rw [ite_eq_right hx]
         rw [finsum_eq_zero_of_forall_eq_zero hterm]
-        show exteriorProductCoeff C f g n m α β z = 0
+        change exteriorProductCoeff C f g n m α β z = 0
         rw [exteriorProductCoeff, hz, zero_mul, zero_mul]
       · rw [finsum_eq_single _ (⟨(pullback.fst f g).base z, hz⟩ : α.1.support)]
         · rw [ite_eq_left rfl]

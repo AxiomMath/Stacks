@@ -225,7 +225,7 @@ theorem componentDegree_tensorSheaf_eq_add (k : Type u) [Field k] {X : Scheme.{u
   have hpM : AlgebraicGeometry.SheafOfModules.IsInvertible D.subscheme.presheaf
       D.subscheme.ringCatSheaf.2 ((Scheme.Modules.pullback D.subschemeι).obj M) :=
     isInvertible_restrict D M hM
-  show @invertibleCurveDegree k _ _ g hg hdim _ (isInvertible_restrict D _ hLM) = _
+  change @invertibleCurveDegree k _ _ g hg hdim _ (isInvertible_restrict D _ hLM) = _
   rw [@invertibleCurveDegree_eq_of_iso k _ _ g hg hdim _ _
       (isInvertible_restrict D _ hLM) hT e,
     AlgebraicGeometry.invertibleCurveDegree_tensorSheaf_eq_add k g hdim _ _]

@@ -75,7 +75,7 @@ theorem constIntMap_app_eq_zero {T : TopCat.{u}} {P : (Opens T)ᵒᵖ ⥤ CommRi
     {W : (Opens T)ᵒᵖ} {A : Type*} [AddCommGroup A] (d : (P.obj W) →+ A)
     (hone : d 1 = 0) (a : (constIntPresheaf T).obj W) :
     d ((constIntMap P).app W a) = 0 := by
-  show d (((a.down : ℤ) : P.obj W)) = 0
+  change d (((a.down : ℤ) : P.obj W)) = 0
   rw [show ((a.down : ℤ) : P.obj W) = a.down • (1 : P.obj W) by simp [zsmul_eq_mul],
     AddMonoidHom.map_zsmul, hone, smul_zero]
 

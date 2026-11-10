@@ -195,9 +195,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- `ι` is additive. -/
 instance additive_toSpacesEtaleModules (X : AlgebraicSpaces B S hS) :
     (toSpacesEtaleModules B S hS X).Additive := by
-  haveI : (Stacks.SheafOfModules.CoherentLift.liftModuleFunctor.{u + 1, u, u}
+  have : (Stacks.SheafOfModules.CoherentLift.liftModuleFunctor.{u + 1, u, u}
       (smallEtaleRingedSite B S hS X.1 X.2)).Additive := ⟨rfl⟩
-  haveI : (comparisonModuleEquivalence B S hS X).functor.Additive := ⟨rfl⟩
+  have : (comparisonModuleEquivalence B S hS X).functor.Additive := ⟨rfl⟩
   exact inferInstanceAs ((Stacks.SheafOfModules.CoherentLift.liftModuleFunctor.{u + 1, u, u}
       (smallEtaleRingedSite B S hS X.1 X.2) ⋙
           (comparisonModuleEquivalence B S hS X).inverse).Additive)
@@ -254,7 +254,7 @@ theorem homEquiv_pullbackTopos_iso_restriction_pullbackTopos_hom
     (bigEtaleRingSheaf E X) (inclusionTransition E g) (inclusionFunctorSharp E g)
       (restrictSharp E X) (ringCompatible_inclusionTransition E g)
           ((spacesEtaleRestrictionRingedSiteHom E X).toRingedToposSiteHom.pullbackTopos.obj F)
-  exact (Equiv.apply_eq_iff_eq_symm_apply _).mpr e
+  exact (Equiv.eq_symm_apply _).mp e
 
 end
 
@@ -330,13 +330,13 @@ theorem siteTransition_comp_inclusionFunctorTransition
         ((Space.spacesBaseChange E.fppfSite S E.fppf_mem f).functor.obj W.unop) ≫
       (inclusionTransition E f).app W.unop = (inclusionTransition E (h ≫ f)).app W.unop := by
     apply Over.OverMorphism.ext
-    show ((Space.spacesBaseChange_comp E.fppfSite S E.fppf_mem h f).inv.app W.unop).hom.left ≫
+    change ((Space.spacesBaseChange_comp E.fppfSite S E.fppf_mem h f).inv.app W.unop).hom.left ≫
       (Space.spacesBaseChange E.fppfSite S E.fppf_mem h).projection.app
           ((Space.spacesBaseChange E.fppfSite S E.fppf_mem f).functor.obj W.unop) ≫
         (Space.spacesBaseChange E.fppfSite S E.fppf_mem f).projection.app W.unop =
       (Space.spacesBaseChange E.fppfSite S E.fppf_mem (h ≫ f)).projection.app W.unop
     rw [← e, ← Category.assoc, e2, Category.id_comp]
-  show (M.val.presheaf.map ((inclusionTransition E f).app W.unop).op ≫
+  change (M.val.presheaf.map ((inclusionTransition E f).app W.unop).op ≫
       M.val.presheaf.map ((inclusionFunctorTransition E h f).app
         ((Space.spacesBaseChange E.fppfSite S E.fppf_mem f).functor.obj W.unop)).op ≫
       M.val.presheaf.map ((inclusionFunctor E (h ≫ f)).map
@@ -386,7 +386,7 @@ theorem homEquiv_inclusionPullbackTransition_app
   have e := (Space.spacesEtaleRingedSiteHom E.fppfSite S E.fppf_mem h).siteTransitionPullback_app
       (bigEtaleRingSheaf E X) (inclusionFunctorTransition E h f) (inclusionFunctorSharp E (h ≫ f))
       (inclusionFunctorSharp E f) (ringCompatible_inclusionFunctorTransition E h f) M
-  exact (Equiv.apply_eq_iff_eq_symm_apply _).mpr e
+  exact (Equiv.eq_symm_apply _).mp e
 
 /-- `ψ_{h ≫ f}` after the composition comparison of pullbacks is `h_{small}^*ψ_f` followed by
 `D_{h,f}`. -/
@@ -441,7 +441,7 @@ theorem inclusionPullbackTransition_naturality {M M' : SheafOfModules.{u + 1}
 /-- The transition `inclusionPullbackTransition E h f` is an isomorphism at the structure sheaf. -/
 instance isIso_inclusionPullbackTransition_unit :
     IsIso (inclusionPullbackTransition E h f (SheafOfModules.unit (bigEtaleRingSheaf E X))) := by
-  haveI := isIso_inclusionFunctorTransitionPullback_app_unit E h f
+  have := isIso_inclusionFunctorTransitionPullback_app_unit E h f
   unfold inclusionPullbackTransition
   infer_instance
 
@@ -631,7 +631,7 @@ instance isIso_inclusionPullbackTransition_pullback {X Y Z : E.Spaces} (h : Z �
     (G : SheafOfModules.{u + 1} (spacesEtaleRingSheaf E X)) [G.IsQuasicoherentOnSite] :
     IsIso (inclusionPullbackTransition E h f
       ((spacesEtaleRestrictionRingedSiteHom E X).toRingedToposSiteHom.pullbackTopos.obj G)) := by
-  haveI := isIso_inclusionFunctorTransitionPullback_app_pullback E h f G
+  have := isIso_inclusionFunctorTransitionPullback_app_pullback E h f G
   unfold inclusionPullbackTransition
   infer_instance
 
@@ -643,6 +643,7 @@ attribute [local instance] isQuasicoherentOnSite_unit_modules
 variable {X : E.Spaces} (F : Space.Modules.{u, u} E.fppfSite S E.fppf_mem X.1 X.2)
   [hF : F.IsQuasicoherentOnSite] {Z : E.Spaces}
 
+omit hF in
 /-- The value of `associatedSectionsEquivSpacesEtale` on a morphism. -/
 theorem associatedSectionsEquivSpacesEtale_apply {Y : E.Spaces} (f : Y ⟶ X)
     (α : (Space.modulePullback E.fppfSite S E.fppf_mem f).obj
@@ -746,6 +747,7 @@ theorem spacesEtaleEquivRestriction_conjHom {Y : E.Spaces} (f : Y ⟶ X) (h : Z 
       (spacesEtaleEquivRestriction_apply E F f _)).symm) _))
   exact eq_of_heq (HEq.trans (by heq_congr) (HEq.trans (heq_of_eq key) (by heq_congr)))
 
+omit hF in
 /-- Step C, written out. -/
 theorem restrictionEquivSections_apply {Y : E.Spaces} (f : Y ⟶ X)
     (γ : ((SheafOfModules.pushforward.{u + 1} (inclusionFunctorSharp E f)).obj
@@ -845,11 +847,12 @@ theorem overFinalIso_hom_comp_finalBaseChangeHom (Y : Over X) (h : Z ⟶ Y.left)
           (Space.SpacesEtale.final E.fppfSite S E.fppf_mem Y.left)) =
       m ≫ (overFinalIso E Y).hom := by
   apply Over.OverMorphism.ext
-  show 𝟙 Z ≫ (pullback.lift h (𝟙 Z) _ ≫ pullback.fst _ h) = m.left ≫ 𝟙 _
+  change 𝟙 Z ≫ (pullback.lift h (𝟙 Z) _ ≫ pullback.fst _ h) = m.left ≫ 𝟙 _
   rw [hm, Category.id_comp, Category.comp_id]
   exact pullback.lift_fst _ _ _
 
 
+omit hF in
 /-- Step C carries conjugation by `D_{h,f}` to restriction along `h`. -/
 theorem restrictionEquivSections_transition {Y : E.Spaces} (f : Y ⟶ X) (h : Z ⟶ Y)
     (γ : ((SheafOfModules.pushforward.{u + 1} (inclusionFunctorSharp E f)).obj
@@ -968,7 +971,7 @@ theorem associatedSectionsEquivRestriction_conjHom {Y : E.Spaces} (f : Y ⟶ X) 
       (inclusionFunctorTransition E h f).app
         (Space.SpacesEtale.final E.fppfSite S E.fppf_mem Y) := by
     apply Over.OverMorphism.ext
-    show v.left = pullback.lift h (𝟙 Z) _ ≫ pullback.fst _ h
+    change v.left = pullback.lift h (𝟙 Z) _ ≫ pullback.fst _ h
     rw [hv]
     exact (pullback.lift_fst _ _ _).symm
   subst hv'

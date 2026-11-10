@@ -80,7 +80,7 @@ theorem indEtaleQuotientBaseChange_map_inl {A : Type u} [CommRing A] (I : Ideal 
       Under.Hom.right g.hom ≫
         pushout.inl U.obj.hom (CommRingCat.ofHom (Ideal.Quotient.mk I)) := by
   dsimp [indEtaleQuotientBaseChange]
-  show pushout.inl _ _ ≫ pushout.desc _ _ _ = _
+  change pushout.inl _ _ ≫ pushout.desc _ _ _ = _
   exact pushout.inl_desc _ _ (by
     dsimp [Under.pushout]
     rw [← Category.assoc, Under.w g.hom]
@@ -93,7 +93,7 @@ theorem indEtaleQuotientBaseChange_map_inr {A : Type u} [CommRing A] (I : Ideal 
         Under.Hom.right ((indEtaleQuotientBaseChange A I).map g).hom =
       pushout.inr U.obj.hom (CommRingCat.ofHom (Ideal.Quotient.mk I)) := by
   dsimp [indEtaleQuotientBaseChange]
-  show pushout.inr _ _ ≫ pushout.desc _ _ _ = _
+  change pushout.inr _ _ ≫ pushout.desc _ _ _ = _
   exact pushout.inr_desc _ _ (by
     dsimp [Under.pushout]
     rw [← Category.assoc, Under.w g.hom]

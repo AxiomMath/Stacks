@@ -51,8 +51,6 @@ attribute [local instance] GradedAlgebra.sectionsGOne GradedAlgebra.sectionsGMul
 namespace DifferentialGradedModule.ChaoticExtension
 
 variable {C : Type u} [Category.{u} C] {C' : Type u} [Category.{u} C'] {F : C' ⥤ C}
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   {A : DifferentialGradedAlgebra.{u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
   [∀ U : C, IsCofiltered (StructuredArrow U F)]
@@ -77,6 +75,7 @@ variable (F) in
 abbrev idArrow (U' : C'ᵒᵖ) : StructuredArrow (F.op.obj U').unop F :=
   StructuredArrow.mk (𝟙 (F.obj U'.unop))
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The restriction map of `A` along the identity arrow of `F U'` is the identity. -/
 theorem arrowHom_idArrow (U' : C'ᵒᵖ) (y : (A.sectionAlgebra (F.op.obj U')).A) :
     (arrowHom F A (idArrow F U')).toAlgebraHom y =
@@ -150,6 +149,7 @@ def counitLeg {U : Cᵒᵖ} (b : StructuredArrow U.unop F) :
     term (restrictSystem F Y) b ⟶ Y.obj U :=
   plainTranspose (arrowHom F A b) (counitInner F Y b)
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The leg of the counit at `b : U → F U'` sends `x ⊗ c` to `x|_U · c`. -/
 theorem counitLeg_pure {U : Cᵒᵖ} (b : StructuredArrow U.unop F) (p : ℤ)
     (x : ((restrictSystem F Y).obj (Opposite.op b.right)).grading p)
@@ -161,6 +161,7 @@ theorem counitLeg_pure {U : Cᵒᵖ} (b : StructuredArrow U.unop F) (p : ℤ)
         (x : ((restrictSystem F Y).obj (Opposite.op b.right)).M) :=
   DifferentialGraded.Bimodule.plainTranspose_pure (arrowHom F A b) (counitInner F Y b) p x c
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The legs of the counit are compatible with the transition maps of the diagram over `U/F`. -/
 theorem transition_counitLeg {U : Cᵒᵖ} {b b' : StructuredArrow U.unop F} (g : b' ⟶ b) :
     transition (restrictSystem F Y) g ≫ counitLeg F Y b' = counitLeg F Y b := by
@@ -179,7 +180,7 @@ def counitCocone (U : Cᵒᵖ) : Cocone (diagram (restrictSystem F Y) U) where
   pt := Y.obj U
   ι :=
     { app j := counitLeg F Y j.unop
-      naturality {i j} g := (transition_counitLeg F Y g.unop).trans (Category.comp_id _).symm }
+      naturality _ _ g := (transition_counitLeg F Y g.unop).trans (Category.comp_id _).symm }
 
 /-- **The counit over `U`**: `colim_{U → F U'} Y(F U') ⊗_{A(F U')} A(U) ⟶ Y(U)`. -/
 def counitApp (U : Cᵒᵖ) : (extSystem (restrictSystem F Y)).obj U ⟶ Y.obj U :=
@@ -192,6 +193,7 @@ theorem counitApp_germ {U : Cᵒᵖ} (b : StructuredArrow U.unop F)
   _root_.DifferentialGradedModule.FilteredColimit.desc_germ (diagram _ U) (counitCocone F Y U)
     (Opposite.op b) z
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- For `a : V ⟶ U` and `b : V → F U'`, the leg of the counit at `b` followed by restriction
 along `a` equals restriction of the term at `b` followed by the leg of the counit at the
 composite arrow `U → V → F U'`. -/
@@ -237,6 +239,7 @@ def unitNat : 𝟭 (AlongSystem F A) ⟶ extFunctor F A ⋙ restrictFunctor F A 
   app X := unit X
   naturality _ _ f := AlongSystem.hom_ext fun U' => unitApp_naturality f U'
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The leg of the counit at `b : U → F U'` is natural in the presheaf of section modules `Y`. -/
 theorem counitLeg_naturality {Y Y' : SectionSystem A} (g : Y ⟶ Y') {U : Cᵒᵖ}
     (b : StructuredArrow U.unop F) :
@@ -336,6 +339,7 @@ theorem adjunction_counit_app (Y : SectionSystem A) :
 
 /-! ### The unit is an isomorphism for a fully faithful functor -/
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- A morphism of presheaves of section modules along `F` all of whose components are bijective
 is an isomorphism. -/
 theorem AlongSystem.isIso_of_bijective {X Y : AlongSystem F A} (f : X ⟶ Y)

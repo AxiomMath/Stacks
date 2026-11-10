@@ -322,7 +322,7 @@ theorem abutsTo_descend (habuts : AbutsTo E H) {H' : ℤ → A} (eH : ∀ n, ι.
         rw [key]
         infer_instance
       exact isIso_of_fully_faithful ι _
-    · show descendSubobject ι (eH n) (F n b) (hP n b) = ⊥
+    · change descendSubobject ι (eH n) (F n b) (hP n b) = ⊥
       rw [← Subobject.mk_arrow (descendSubobject ι (eH n) (F n b) (hP n b)),
         Subobject.mk_eq_bot_iff_zero]
       apply ι.map_injective

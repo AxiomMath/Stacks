@@ -80,7 +80,7 @@ public theorem moduleFinite_restrictScalars_of_ringEquiv
     { toFun := id
       map_add' := fun _ _ => rfl
       map_smul' := fun r m => by
-        show r • m = (φ.toRingHom (φ.symm r)) • m
+        change r • m = (φ.toRingHom (φ.symm r)) • m
         rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, RingEquiv.apply_symm_apply] }
     Function.surjective_id
 

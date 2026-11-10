@@ -129,10 +129,10 @@ theorem exists_specialization {R : Type u} [CommRing R] (ι : k →+* R) (z : R)
     (by intro i; split <;> exact hnil _)
   have h0 : F (MvPowerSeries.X 0) =
       (MvPolynomial.X 1 * MvPolynomial.C z : Stacks.CoordinatePlane.planeRing R) := by
-    exact (hFX 0).trans (if_pos rfl)
+    exact (hFX 0).trans (ite_eq_left rfl)
   have h1 : F (MvPowerSeries.X 1) =
       (MvPolynomial.X 0 * MvPolynomial.C z : Stacks.CoordinatePlane.planeRing R) := by
-    exact (hFX 1).trans (if_neg (by decide))
+    exact (hFX 1).trans (ite_eq_right (by decide))
   have hrel : F (relation k) = 0 := by
     rw [relation, map_sub, map_mul, map_mul, ambientX, ambientY, ambientS, ambientT,
       hFC, hFC, h0, h1, MvPolynomial.map_X, MvPolynomial.map_X]

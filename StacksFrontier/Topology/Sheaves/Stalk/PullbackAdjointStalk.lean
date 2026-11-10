@@ -96,7 +96,7 @@ theorem stalkPullbackSheafIso_inv_naturality {H H' : Y.Sheaf (Type u)} (θ : H �
         ((η.app H).hom.app (op V) s) :=
     congrArg (fun (t : H ⟶ (TopCat.Sheaf.pushforward (Type u) f).obj
       ((TopCat.Sheaf.pullback (Type u) f).obj H')) => t.hom.app (op V) s) (η.naturality θ)
-  show (stalkPullbackSheafIso f H' x).inv
+  change (stalkPullbackSheafIso f H' x).inv
       ((TopCat.Presheaf.stalkFunctor (Type u) (f x)).map θ.hom (H.presheaf.germ V (f x) hV s)) =
     (TopCat.Presheaf.stalkFunctor (Type u) x).map ((TopCat.Sheaf.pullback (Type u) f).map θ).hom
       ((stalkPullbackSheafIso f H x).inv (H.presheaf.germ V (f x) hV s))

@@ -107,7 +107,6 @@ of sections of `O` over `A`. -/
 def unitEndValue (ψ : SheafOfModules.unit O ⟶ SheafOfModules.unit O) : O.obj.obj (op A) :=
   ψ.val.app (op A) (1 : O.obj.obj (op A))
 
-include hA in
 /-- Precomposing with an endomorphism of the unit module multiplies the section by the value of
 that endomorphism at `1`. -/
 lemma comp_val_app_one (F : SheafOfModules.{u} O)
@@ -117,9 +116,14 @@ lemma comp_val_app_one (F : SheafOfModules.{u} O)
   have h : ψ.val.app (op A) (1 : O.obj.obj (op A)) =
       unitEndValue (A := A) ψ • (1 : O.obj.obj (op A)) :=
     (mul_one (unitEndValue (A := A) ψ)).symm
-  show φ.val.app (op A) (ψ.val.app (op A) (1 : O.obj.obj (op A))) = _
+  change φ.val.app (op A) (ψ.val.app (op A) (1 : O.obj.obj (op A))) = _
   rw [h]
   exact (φ.val.app (op A)).hom.map_smul _ _
+
+/-- The value at `1` of an endomorphism of the unit module is its image under
+`unitHomEquivOfIsTerminal`. -/
+lemma unitEndValue_eq (ψ : SheafOfModules.unit O ⟶ SheafOfModules.unit O) :
+    unitEndValue (A := A) ψ = unitHomEquivOfIsTerminal hA (SheafOfModules.unit O) ψ := rfl
 
 /-- The sections over an object, at module universe `u`. -/
 abbrev terminalSections (A : C) : SheafOfModules.{u} O ⥤ ModuleCat.{u} (O.obj.obj (op A)) :=
@@ -178,7 +182,8 @@ def scalarRingHom : R →+* O.obj.obj (op A) where
     rw [mul_comm r s, show unitScalarEnd e₀ (s * r) = unitScalarEnd e₀ r ≫ unitScalarEnd e₀ s by
       simp only [unitScalarEnd, scalarEnd_mul, Functor.map_comp, Category.assoc,
         Iso.hom_inv_id_assoc]]
-    exact comp_val_app_one hA _ _ _
+    rw [unitEndValue_eq hA, unitHomEquivOfIsTerminal_apply hA]
+    exact comp_val_app_one (A := A) _ _ _
   map_zero' := by
     have : L.Additive := additive_of_isLeftAdjoint adj
     simp only [unitScalarEnd, scalarEnd_zero, Functor.map_zero, Limits.zero_comp,
@@ -190,16 +195,10 @@ def scalarRingHom : R →+* O.obj.obj (op A) where
       Preadditive.comp_add]
     rfl
 
-/-- The value at `1` of an endomorphism of the unit module is its image under
-`unitHomEquivOfIsTerminal`. -/
-lemma unitEndValue_eq (ψ : SheafOfModules.unit O ⟶ SheafOfModules.unit O) :
-    unitEndValue (A := A) ψ = unitHomEquivOfIsTerminal hA (SheafOfModules.unit O) ψ := rfl
-
 /-- `scalarRingHom` sends `r` to the value at `1` of `unitScalarEnd e₀ r`. -/
 lemma scalarRingHom_apply (r : R) :
     scalarRingHom hA adj e₀ r = unitEndValue (A := A) (unitScalarEnd e₀ r) := rfl
 
-include adj in
 /-- Every endomorphism of the free module of rank one is multiplication by its value at `1`. -/
 lemma scalarEnd_hom_one_eq (f : ModuleCat.of R R ⟶ ModuleCat.of R R) :
     f = scalarEnd (f.hom (1 : R)) := by
@@ -221,7 +220,7 @@ lemma bijective_scalarRingHom [IsIso adj.unit] : Function.Bijective (scalarRingH
     let ψ := (unitHomEquivOfIsTerminal hA (SheafOfModules.unit O)).symm t
     let f := hL.preimage (e₀.hom ≫ ψ ≫ e₀.inv)
     refine ⟨f.hom (1 : R), ?_⟩
-    rw [scalarRingHom_apply, unitScalarEnd, ← scalarEnd_hom_one_eq adj f, unitEndValue_eq hA,
+    rw [scalarRingHom_apply, unitScalarEnd, ← scalarEnd_hom_one_eq f, unitEndValue_eq hA,
       show e₀.inv ≫ L.map f ≫ e₀.hom = ψ by simp [f]]
     exact (unitHomEquivOfIsTerminal hA (SheafOfModules.unit O)).apply_symm_apply t
 
@@ -266,7 +265,7 @@ lemma adjointSectionsEquiv_smul (F : SheafOfModules.{u} O) (r : R) (x : G.obj F)
       unitScalarEnd e₀ r ≫ (e₀.inv ≫ (adj.homEquiv _ _).symm
         (ModuleCat.ofHom (LinearMap.toSpanSingleton R _ x))) := by
     simp [unitScalarEnd]
-  rw [h', comp_val_app_one hA]
+  rw [h', comp_val_app_one (A := A)]
   rfl
 
 /-- `adjointSectionsEquiv` is natural in the module. -/

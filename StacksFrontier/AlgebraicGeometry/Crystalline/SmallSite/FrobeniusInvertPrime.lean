@@ -24,8 +24,8 @@ map
 
 **becomes an isomorphism after inverting `p`**.
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/DerivedTensorBaseChange.lean` built the source
-and the target of that map and wrote down its type, `FrobeniusMap07N5`, and recorded at its
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/DerivedTensorBaseChange.lean` built the
+source and the target of that map and wrote down its type, `FrobeniusMap07N5`, and recorded at its
 lines 175-177 that the conclusion could not be stated at all, "there being no localization of a
 derived category of modules at an element of the ring in this library".
 
@@ -266,7 +266,7 @@ theorem becomesIsoAfterInvertingPrime_of_comp_eq_nsmul
     {X Y : DerivedCategory (ModuleCat.{u + 1} Γ(S.S.scheme, ⊤))} (φ : X ⟶ Y) (ψ : Y ⟶ X) (n : ℕ)
     (hφψ : φ ≫ ψ = (S.p ^ n) • 𝟙 X) (hψφ : ψ ≫ φ = (S.p ^ n) • 𝟙 Y) :
     BecomesIsoAfterInvertingPrime S φ := by
-  show IsIso ((invertPrime S).map φ)
+  change IsIso ((invertPrime S).map φ)
   have key : ∀ {X Y : DerivedCategory (ModuleCat.{u + 1} Γ(S.S.scheme, ⊤))} (φ : X ⟶ Y)
       (ψ : Y ⟶ X), φ ≫ ψ = (S.p ^ n) • 𝟙 X →
       IsSplitMono ((invertPrime S).map φ) ∧ IsSplitEpi ((invertPrime S).map ψ) := by

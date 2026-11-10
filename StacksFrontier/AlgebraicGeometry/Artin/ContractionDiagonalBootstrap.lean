@@ -208,7 +208,7 @@ theorem exists_factors_iff_of_limitPreserving (hVN : IsLocallyNoetherian V.left.
       Category.comp_id]
   refine ⟨(Over.map V.hom).obj b', toV b', ?_, ?_, ?_⟩
   · have h : snd.left = b'.hom := (Category.comp_id _).symm.trans (Over.w snd)
-    show LocallyOfFiniteType (B.inclusion.map b'.hom)
+    change LocallyOfFiniteType (B.inclusion.map b'.hom)
     rw [← h]
     exact hsndlft
   · intro A ψ ψ' hψ
@@ -290,7 +290,7 @@ theorem diagRepresentableOnAffineLfp_contractionFunctor
     LocallyOfFiniteType.isLocallyNoetherian ((BigFppfOver.toScheme B S hS).map e)
   refine ⟨⟨b', hb'⟩, ObjectProperty.homMk e, fun Z ψ ψ' h =>
     ObjectProperty.hom_ext _ (huniq _ _ _ (congrArg (fun k => k.hom) h)), fun Z φ => ?_⟩
-  show mapTriple c φ.hom a = mapTriple c φ.hom b ↔ _
+  change mapTriple c φ.hom a = mapTriple c φ.hom b ↔ _
   rw [← hfac Z.obj Z.property φ.hom]
   exact ⟨fun ⟨ψ, hψ⟩ => ⟨ObjectProperty.homMk ψ, ObjectProperty.hom_ext _ hψ⟩,
     fun ⟨ψ, hψ⟩ => ⟨ψ.hom, congrArg (fun k => k.hom) hψ⟩⟩

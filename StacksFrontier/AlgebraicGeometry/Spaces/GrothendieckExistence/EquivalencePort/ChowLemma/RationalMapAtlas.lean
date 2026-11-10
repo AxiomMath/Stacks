@@ -293,7 +293,7 @@ theorem C1573.preimage_atlasRelationTarget_eq_of_eq_atlasPointSet
       (BigFppfOver.toScheme B S hS).map (atlasRelationSource B S hS hs) ⁻¹ᵁ U₀ := by
   have hw := (isPullback_yoneda_map_atlasRelation B S hS hs).w
   ext x
-  show ((BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hs)).base x ∈
+  change ((BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hs)).base x ∈
       (U₀ : Set _) ↔
     ((BigFppfOver.toScheme B S hS).map (atlasRelationSource B S hS hs)).base x ∈ (U₀ : Set _)
   rw [hU₀, mem_atlasPointSet_map_iff, mem_atlasPointSet_map_iff, hw]
@@ -393,7 +393,7 @@ theorem C1573.isIso_morphismRestrict_of_isPullback_section {T₀ TV V D : BigFpp
         (openSubHom TV ((BigFppfOver.toScheme B S hS).map tV ⁻¹ᵁ U₀))).base := by
     rw [range_toScheme_map_openSubHom]
     rintro _ ⟨x, rfl⟩
-    show ((BigFppfOver.toScheme B S hS).map m₀ ≫ (BigFppfOver.toScheme B S hS).map tV).base x ∈ U₀
+    change ((BigFppfOver.toScheme B S hS).map m₀ ≫ (BigFppfOver.toScheme B S hS).map tV).base x ∈ U₀
     rw [← CategoryTheory.Functor.map_comp, hm₀t]
     have h4 : ((BigFppfOver.toScheme B S hS).map (openSubHom V U₀)).base x ∈ (U₀ : Set _) :=
       (range_toScheme_map_openSubHom V U₀) ▸ Set.mem_range_self x
@@ -452,7 +452,7 @@ theorem C1573.disjoint_subspacePointSet_of_preimage_eq (X : AlgebraicSpaces B S 
   rw [subspacePointSet, range_pointsMap_ι_range, mem_range_pointsMap_yoneda_map_iff, hFm] at hy
   refine hT (pointsToScheme B S hS V y) ?_ ?_
   · rw [mem_atlasPointSet_iff]
-    show pointsMap B S hS (yoneda.obj V) φ
+    change pointsMap B S hS (yoneda.obj V) φ
       ((pointsEquivScheme B S hS V).symm (pointsEquivScheme B S hS V y)) ∈ T
     rw [Equiv.symm_apply_apply]
     exact hxT

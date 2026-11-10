@@ -105,7 +105,7 @@ theorem hrestrict_refl (W : Opens Y) (p : ℕ) (G : SheafOfModules.{u} R) :
     unfold secRestrict
     rw [show (homOfLE (le_refl W)).op = 𝟙 (op W) from rfl, CategoryTheory.Functor.map_id]
     rfl
-  show (NatTrans.rightDerived (secRestrict R (le_refl W)) p).app G = _
+  change (NatTrans.rightDerived (secRestrict R (le_refl W)) p).app G = _
   rw [h, NatTrans.rightDerived_id]
   rfl
 
@@ -221,7 +221,7 @@ theorem numeratorMap_of (n : ℕ) (ξ : gradedPiece X L F p U (n : ℤ)) :
     numeratorMap X L s F p U n (DirectSum.of _ (n : ℤ) ξ) =
       (ConcreteCategory.hom (untwistIso X L s F p U n).inv)
         ((ConcreteCategory.hom (restrictTwist X L s F p U (n : ℤ))) ξ) := by
-  show (ConcreteCategory.hom (untwistIso X L s F p U n).inv)
+  change (ConcreteCategory.hom (untwistIso X L s F p U n).inv)
     ((ConcreteCategory.hom (restrictTwist X L s F p U (n : ℤ)))
       ((DirectSum.of _ (n : ℤ) ξ) (n : ℤ))) = _
   rw [DirectSum.of_eq_same]

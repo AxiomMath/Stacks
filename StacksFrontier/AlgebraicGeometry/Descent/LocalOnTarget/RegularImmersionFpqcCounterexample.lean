@@ -101,7 +101,7 @@ def genericPointSpecInt : PrimeSpectrum ℤ :=
 theorem closedPointsSpecInt_eq_compl :
     closedPointsSpecInt = ({genericPointSpecInt} : Set (PrimeSpectrum ℤ))ᶜ := by
   ext x
-  simp only [closedPointsSpecInt, Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_singleton_iff]
+  simp only [closedPointsSpecInt, Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_singleton_iff]
   exact ⟨fun h hx => h (congrArg PrimeSpectrum.asIdeal hx), fun h hx => h (PrimeSpectrum.ext hx)⟩
 
 /-- The point of `Spec ℤ` given by a prime number. -/

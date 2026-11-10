@@ -426,8 +426,7 @@ private lemma coherence_homotopy (sq : a ⋙ b ≅ c ⋙ d) (ea : a ⋙ q ≅ p)
     mapHomotopyCategoryPlusNatIso_inv_app_hom, mapHomotopyCategoryPlusNatIso_hom_app_hom,
     mapHomotopyCategoryPlusCompIso_inv_app_hom, mapHomotopyCategoryPlusCompIso_hom_app_hom,
     mapHomotopyCategoryPlus_map_hom, mapHomotopyCategoryCompIso_inv_app,
-    mapHomotopyCategoryCompIso_hom_app, mapHomotopyCategoryPlus_obj_obj_as,
-    NatTrans.mapHomotopyCategory_app]
+    mapHomotopyCategoryCompIso_hom_app, mapHomotopyCategoryPlus_obj_obj_as]
   exact congrArg (HomotopyCategory.quotient E (ComplexShape.up ℤ)).map
     (coherence_complex sq ea eb ec ed hcoh K.obj.as)
 

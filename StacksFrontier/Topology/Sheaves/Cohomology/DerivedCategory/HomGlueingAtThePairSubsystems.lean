@@ -223,7 +223,7 @@ theorem hasGluingForHomsOver_opensBelowPair_locallyGivenOfTop
         (opensBelowPair (locallyGivenOfTop X K) U V)
         (opensBelowPair_subset (locallyGivenOfTop X K) U V)) :=
   hasGluingForHomsOver_opensBelowPair_of_covered_mem _ (fun O _ => Set.mem_univ O) U V
-    fun O _ hO => (hchain U V).elim
+    fun _ _ hO => (hchain U V).elim
       (fun h => Or.inr (hO.trans (sup_le h le_rfl)))
       fun h => Or.inl (hO.trans (sup_le le_rfl h))
 

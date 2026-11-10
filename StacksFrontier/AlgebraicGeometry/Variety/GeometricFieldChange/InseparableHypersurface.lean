@@ -116,7 +116,7 @@ theorem hypersurface_isVariety :
   have : Module.Finite (RatFunc (ZMod p)) (hypersurfaceRing p) :=
     Polynomial.Monic.finite_adjoinRoot (hypersurfaceEquation_monic p)
   have : IsFinite (hypersurfaceToBase p) := by
-    show IsFinite (Spec.map (CommRingCat.ofHom
+    change IsFinite (Spec.map (CommRingCat.ofHom
       (algebraMap (RatFunc (ZMod p)) (hypersurfaceRing p))))
     rw [IsFinite.SpecMap_iff]
     exact RingHom.finite_algebraMap.mpr inferInstance
@@ -152,24 +152,24 @@ theorem hypersurface_not_geometricallyReduced :
   let i : Fin pb.dim := ⟨1, by rw [hdim]; omega⟩
   let ell : A →ₗ[k] k := bas.coord i
   have hbas0 : bas ⟨0, by rw [hdim]; omega⟩ = 1 := by
-    show pb.basis ⟨0, by rw [hdim]; omega⟩ = pb.gen ^ (0 : ℕ)
+    change pb.basis ⟨0, by rw [hdim]; omega⟩ = pb.gen ^ (0 : ℕ)
     rw [pb.basis_eq_pow]
   have hbasα : bas i = α := by
-    show pb.basis i = α
+    change pb.basis i = α
     rw [pb.basis_eq_pow]
     simp only [i, pow_one]
     rw [AdjoinRoot.powerBasis'_gen]
   have hell0 : ell 1 = 0 := by
-    show bas.coord i (1 : AdjoinRoot (hypersurfaceEquation p)) = 0
+    change bas.coord i (1 : AdjoinRoot (hypersurfaceEquation p)) = 0
     rw [← hbas0]
     simp [i, Module.Basis.coord]
   have hellα : ell α = 1 := by
-    show bas.coord i (AdjoinRoot.root (hypersurfaceEquation p)) = 1
+    change bas.coord i (AdjoinRoot.root (hypersurfaceEquation p)) = 1
     have hroot : bas i = AdjoinRoot.root (hypersurfaceEquation p) := hbasα
     rw [← hroot]
     simp [i, Module.Basis.coord]
   have hαpow : α ^ p = algebraMap k A RatFunc.X := by
-    show AdjoinRoot.root (hypersurfaceEquation p) ^ p =
+    change AdjoinRoot.root (hypersurfaceEquation p) ^ p =
       algebraMap k (AdjoinRoot (hypersurfaceEquation p)) RatFunc.X
     simp only [AdjoinRoot.root]
     exact AdjoinRoot.mk_eq_mk.mpr <| by simp [hypersurfaceEquation, k]

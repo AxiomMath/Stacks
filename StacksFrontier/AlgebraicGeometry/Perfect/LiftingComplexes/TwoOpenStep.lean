@@ -311,7 +311,7 @@ theorem exists_isPerfect_lift_of_cover_spec {X Y : Scheme.{u}} {A : CommRingCat.
   have hsets : ⇑iU.base ⁻¹' (⇑g.base ⁻¹' T) =
       (Subtype.val ⁻¹' (⇑f.base ⁻¹' T) : Set (f ⁻¹ᵁ g.opensRange).toScheme) := by
     ext z
-    show ⇑g.base (⇑iU.base z) ∈ T ↔ ⇑f.base (⇑(f ⁻¹ᵁ g.opensRange).ι.base z) ∈ T
+    change ⇑g.base (⇑iU.base z) ∈ T ↔ ⇑f.base (⇑(f ⁻¹ᵁ g.opensRange).ι.base z) ∈ T
     rw [hbase z]
   have hP'T : CohomologySupportedOn (f ⁻¹ᵁ g.opensRange).toScheme.ringCatSheaf
       (Subtype.val ⁻¹' (⇑f.base ⁻¹' T)) ((derivedPullback (hom iU)).obj P) := by

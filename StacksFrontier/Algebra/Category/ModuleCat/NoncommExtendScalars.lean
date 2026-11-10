@@ -184,12 +184,11 @@ lemma tmul_smul (b : B) (a : A) (m : M) : tmul f (b * f a) m = tmul f b (a • m
   exact mk_eq_zero_of_mem f M (Submodule.subset_span ⟨b, a, m, rfl⟩)
 
 /-- Every element of `B ⊗[A] M` is built from pure tensors. -/
-lemma induction_on {motive : BaseChange f M → Prop} (x : BaseChange f M) (zero : motive 0)
+lemma induction_on {motive : BaseChange f M → Prop} (x : BaseChange f M)
     (pure : ∀ (b : B) (m : M), motive (tmul f b m))
     (add : ∀ x y, motive x → motive y → motive (x + y)) : motive x := by
   obtain ⟨y, rfl⟩ := mk_surjective f M x
-  induction y using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using zero
+  induction y using TensorProduct.inductionOn with
   | tmul b m => exact pure b m
   | add y z hy hz => simpa only [map_add] using add _ _ hy hz
 
@@ -199,9 +198,7 @@ lemma hom_ext {B' : Type u₃} [Ring B'] {σ : B →+* B'} {N : Type w} [AddComm
     [Module B' N] {g h : BaseChange f M →ₛₗ[σ] N}
     (H : ∀ m : M, g (tmul f 1 m) = h (tmul f 1 m)) : g = h := by
   refine LinearMap.ext fun x =>
-    induction_on f (motive := fun x => g x = h x) x ?_ (fun b m => ?_) (fun y z hy hz => ?_)
-  · show g 0 = h 0
-    rw [map_zero, map_zero]
+    induction_on f (motive := fun x => g x = h x) x (fun b m => ?_) (fun y z hy hz => ?_)
   · show g (tmul f b m) = h (tmul f b m)
     rw [tmul_eq_smul_tmul_one, map_smulₛₗ, map_smulₛₗ, H]
   · show g (y + z) = h (y + z)
@@ -300,8 +297,7 @@ def squareTensorₛₗ (φ : M₁ →ₛₗ[ρ] M₂) : (B₁ ⊗[ℤ] M₁) →
   toFun := squareAddHom (σ := σ) f₂ φ
   map_add' := map_add _
   map_smul' b x := by
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b' m =>
         change tmul f₂ (σ (b * b')) (φ m) = σ b • tmul f₂ (σ b') (φ m)
         rw [map_mul, smul_tmul]

@@ -89,7 +89,8 @@ So two things are still owed, and neither is a proof:
    data.
 
 Those two, together with the hypothesis `hE : E' ≅ g^*E` that
-`StacksFrontier/AlgebraicGeometry/RelativeProjSituation/ProjectiveBundleBaseChange.lean` also records as an addition no tag carries, are why no
+`StacksFrontier/AlgebraicGeometry/RelativeProjSituation/ProjectiveBundleBaseChange.lean` also
+records as an addition no tag carries, are why no
 `@[stacks 0B3V]` attribute is attached here.
 
 **Why the comparison appears as `Iso.inv` in the datum and `Iso.hom` in the statements.** The

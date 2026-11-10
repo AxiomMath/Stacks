@@ -55,15 +55,15 @@ Zariski locally isomorphic over `V₀` (`exists_finite_cover_localIsos`), which 
 isomorphisms on pieces of `V₀` (`hasSectionCoverOver_of_localIsos`); Stacks 0CPI extends them to
 the overlaps (`exists_isos_of_isosOn`), and they glue (`hasSectionCoverOver_of_isos`). -/
 theorem SectionFamily.hasSectionCoverOver_of_le
-    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsAlgebraicSpace B S hS Y)
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y)
-      (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V)
-      (hVqc : Space.IsQuasiCompactSpace B S hS V.toFunctor)
-      {𝒳 : AlgebraicStacks.{u, w} B S hS}
-      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1)
-      (hfs : IsSurjective B S hS f) (hff : AlgebraicStacks.IsFlat B S hS f)
-      (hfl : AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f),
+    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS Y →
+      Space.IsQuasiCompactSpace B S hS Y →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y →
+      ∀ (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V),
+      Space.IsQuasiCompactSpace B S hS V.toFunctor →
+      ∀ {𝒳 : AlgebraicStacks.{u, w} B S hS}
+      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1),
+      IsSurjective B S hS f → AlgebraicStacks.IsFlat B S hS f →
+      AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f →
       ∃ (Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (_ : IsAlgebraicSpace B S hS Y') (g : Y' ⟶ Y),
         Space.IsFinite B S hS g ∧ Space.IsSurjective B S hS g ∧
         ∃ (J : Type u) (W : J → (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -75,14 +75,14 @@ theorem SectionFamily.hasSectionCoverOver_of_le
             Space.pointsMap B S hS Y' g y ∈ Set.range (Space.pointsMap B S hS V.toFunctor V.ι) →
               ∃ j, y ∈ Set.range (Space.pointsMap B S hS (W j) (ι j))) ∧
           ∀ j, Nonempty (x j ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS (hW j) hV.1 (q j)))
-    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS}
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y.1)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1)
-      (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1)
-      (hUqc : Space.IsQuasiCompactSpace B S hS U.1.toFunctor)
-      (hWqc : Space.IsQuasiCompactSpace B S hS W.1.toFunctor)
-      (f : X ⟶ Space.openSubspace B S hS Y W) (hf : Space.IsProper B S hS f.hom)
-      (s : U.1.toFunctor ⟶ X.1) (hs : s ≫ f.hom = Subfunctor.homOfLe hUW),
+    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS},
+      Space.IsQuasiCompactSpace B S hS Y.1 →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1 →
+      ∀ (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1),
+      Space.IsQuasiCompactSpace B S hS U.1.toFunctor →
+      Space.IsQuasiCompactSpace B S hS W.1.toFunctor →
+      ∀ (f : X ⟶ Space.openSubspace B S hS Y W), Space.IsProper B S hS f.hom →
+      ∀ (s : U.1.toFunctor ⟶ X.1), s ≫ f.hom = Subfunctor.homOfLe hUW →
       ∃ (Y' : AlgebraicSpaces B S hS) (b : Y' ⟶ Y), Space.IsAdmissibleBlowup B S hS U b ∧
         ∃ s' : (W.1.preimage b.hom).toFunctor ⟶ X.1, s' ≫ f.hom = W.1.fromPreimage b.hom ∧
           Subfunctor.homOfLe (fun T _ hx => hUW T hx :
@@ -156,15 +156,15 @@ induction on their number (`hasSectionCoverOver_of_sectionFamily_of_step`) reduc
 (d) (`SectionFamily.hasSectionCoverOver_of_le`), and the resulting section cover gives the
 conclusion (`HasSectionCoverOver.hasProperCompactifiableCover`, the last step of the source). -/
 theorem hasProperCompactifiableCover_of_isFlat_of
-    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsAlgebraicSpace B S hS Y)
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y)
-      (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V)
-      (hVqc : Space.IsQuasiCompactSpace B S hS V.toFunctor)
-      {𝒳 : AlgebraicStacks.{u, w} B S hS}
-      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1)
-      (hfs : IsSurjective B S hS f) (hff : AlgebraicStacks.IsFlat B S hS f)
-      (hfl : AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f),
+    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS Y →
+      Space.IsQuasiCompactSpace B S hS Y →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y →
+      ∀ (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V),
+      Space.IsQuasiCompactSpace B S hS V.toFunctor →
+      ∀ {𝒳 : AlgebraicStacks.{u, w} B S hS}
+      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1),
+      IsSurjective B S hS f → AlgebraicStacks.IsFlat B S hS f →
+      AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f →
       ∃ (Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (_ : IsAlgebraicSpace B S hS Y') (g : Y' ⟶ Y),
         Space.IsFinite B S hS g ∧ Space.IsSurjective B S hS g ∧
         ∃ (J : Type u) (W : J → (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -176,14 +176,14 @@ theorem hasProperCompactifiableCover_of_isFlat_of
             Space.pointsMap B S hS Y' g y ∈ Set.range (Space.pointsMap B S hS V.toFunctor V.ι) →
               ∃ j, y ∈ Set.range (Space.pointsMap B S hS (W j) (ι j))) ∧
           ∀ j, Nonempty (x j ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS (hW j) hV.1 (q j)))
-    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS}
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y.1)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1)
-      (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1)
-      (hUqc : Space.IsQuasiCompactSpace B S hS U.1.toFunctor)
-      (hWqc : Space.IsQuasiCompactSpace B S hS W.1.toFunctor)
-      (f : X ⟶ Space.openSubspace B S hS Y W) (hf : Space.IsProper B S hS f.hom)
-      (s : U.1.toFunctor ⟶ X.1) (hs : s ≫ f.hom = Subfunctor.homOfLe hUW),
+    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS},
+      Space.IsQuasiCompactSpace B S hS Y.1 →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1 →
+      ∀ (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1),
+      Space.IsQuasiCompactSpace B S hS U.1.toFunctor →
+      Space.IsQuasiCompactSpace B S hS W.1.toFunctor →
+      ∀ (f : X ⟶ Space.openSubspace B S hS Y W), Space.IsProper B S hS f.hom →
+      ∀ (s : U.1.toFunctor ⟶ X.1), s ≫ f.hom = Subfunctor.homOfLe hUW →
       ∃ (Y' : AlgebraicSpaces B S hS) (b : Y' ⟶ Y), Space.IsAdmissibleBlowup B S hS U b ∧
         ∃ s' : (W.1.preimage b.hom).toFunctor ⟶ X.1, s' ≫ f.hom = W.1.fromPreimage b.hom ∧
           Subfunctor.homOfLe (fun T _ hx => hUW T hx :
@@ -262,15 +262,15 @@ theorem hasProperCompactifiableCover_of_isGerbeOver_of
             IsFinitePresentation B S hS (fullSubcategoryInclusion _ P hP ≫
               (twoFibreProductSquare B S hS
                 (algebraicSpaceStackMap.{u, w} B S hS Y'.2 hY b.hom) f).fst))
-    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsAlgebraicSpace B S hS Y)
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y)
-      (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V)
-      (hVqc : Space.IsQuasiCompactSpace B S hS V.toFunctor)
-      {𝒳 : AlgebraicStacks.{u, w} B S hS}
-      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1)
-      (hfs : IsSurjective B S hS f) (hff : AlgebraicStacks.IsFlat B S hS f)
-      (hfl : AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f),
+    (h0CQ6 : ∀ {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}, IsAlgebraicSpace B S hS Y →
+      Space.IsQuasiCompactSpace B S hS Y →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y →
+      ∀ (V : Subfunctor Y) (hV : Space.IsOpenSubspace B S hS V),
+      Space.IsQuasiCompactSpace B S hS V.toFunctor →
+      ∀ {𝒳 : AlgebraicStacks.{u, w} B S hS}
+      (f : 𝒳 ⟶ algebraicSpaceStack.{u, w} B S hS V.toFunctor hV.1),
+      IsSurjective B S hS f → AlgebraicStacks.IsFlat B S hS f →
+      AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f →
       ∃ (Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (_ : IsAlgebraicSpace B S hS Y') (g : Y' ⟶ Y),
         Space.IsFinite B S hS g ∧ Space.IsSurjective B S hS g ∧
         ∃ (J : Type u) (W : J → (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -282,14 +282,14 @@ theorem hasProperCompactifiableCover_of_isGerbeOver_of
             Space.pointsMap B S hS Y' g y ∈ Set.range (Space.pointsMap B S hS V.toFunctor V.ι) →
               ∃ j, y ∈ Set.range (Space.pointsMap B S hS (W j) (ι j))) ∧
           ∀ j, Nonempty (x j ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS (hW j) hV.1 (q j)))
-    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS}
-      (hYqc : Space.IsQuasiCompactSpace B S hS Y.1)
-      (hYqs : Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1)
-      (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1)
-      (hUqc : Space.IsQuasiCompactSpace B S hS U.1.toFunctor)
-      (hWqc : Space.IsQuasiCompactSpace B S hS W.1.toFunctor)
-      (f : X ⟶ Space.openSubspace B S hS Y W) (hf : Space.IsProper B S hS f.hom)
-      (s : U.1.toFunctor ⟶ X.1) (hs : s ≫ f.hom = Subfunctor.homOfLe hUW),
+    (h0CPI : ∀ {X Y : AlgebraicSpaces B S hS},
+      Space.IsQuasiCompactSpace B S hS Y.1 →
+      Space.IsAbsolutelyQuasiSeparated B S hS B.contains_terminal Y.1 →
+      ∀ (U W : Space.OpenSubspaces B S hS Y.1) (hUW : U.1 ≤ W.1),
+      Space.IsQuasiCompactSpace B S hS U.1.toFunctor →
+      Space.IsQuasiCompactSpace B S hS W.1.toFunctor →
+      ∀ (f : X ⟶ Space.openSubspace B S hS Y W), Space.IsProper B S hS f.hom →
+      ∀ (s : U.1.toFunctor ⟶ X.1), s ≫ f.hom = Subfunctor.homOfLe hUW →
       ∃ (Y' : AlgebraicSpaces B S hS) (b : Y' ⟶ Y), Space.IsAdmissibleBlowup B S hS U b ∧
         ∃ s' : (W.1.preimage b.hom).toFunctor ⟶ X.1, s' ≫ f.hom = W.1.fromPreimage b.hom ∧
           Subfunctor.homOfLe (fun T _ hx => hUW T hx :

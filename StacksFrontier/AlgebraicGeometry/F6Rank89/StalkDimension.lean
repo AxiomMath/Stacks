@@ -119,7 +119,7 @@ theorem ringKrullDim_stalk_subscheme_add_one {X : Scheme.{u}} [IsLocallyNoetheri
   obtain ⟨a, ha, hDa⟩ :=
     exists_isRegular_stalk_eq_span_of_isEffectiveCartierDivisor D hD (i z)
   have hzSupport : i z ∈ D.support := by
-    show i z ∈ (D.support : Set X)
+    change i z ∈ (D.support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact Set.mem_range_self z
   have hna : ¬ IsUnit a := fun hunit ↦
@@ -170,7 +170,7 @@ theorem ringKrullDim_stalk_eq_one_of_integral_curve (C : Scheme.{u}) [IsIntegral
     have hdimZero : topologicalKrullDim C ≤ 0 := by
       rw [topologicalKrullDim, Order.krullDim_nonpos_iff_forall_isMax]
       intro A B _
-      show (B : Set C) ⊆ A
+      change (B : Set C) ⊆ A
       exact fun y _ ↦ Set.eq_univ_iff_forall.mp A.2.nonempty.eq_univ y
     rw [hCdim] at hdimZero
     norm_num at hdimZero

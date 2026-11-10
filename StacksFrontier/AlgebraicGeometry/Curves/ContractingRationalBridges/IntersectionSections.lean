@@ -111,7 +111,7 @@ theorem exists_fin_algEquiv_pi_of_etale
     ((Pi.evalRingHom A i).comp (e.toRingEquiv.toRingHom.comp (algebraMap K L))).toAlgebra
   have hmapA : ∀ (i : ι) (c : K), algebraMap K (A i) c = e (algebraMap K L c) i := fun i c => by
     simp only [algKA, RingHom.algebraMap_toAlgebra, RingHom.comp_apply, Pi.evalRingHom_apply,
-      RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, AlgEquiv.coe_ringEquiv]
+      RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, AlgEquiv.coe_toRingEquiv]
   let eK : L ≃ₐ[K] (∀ i, A i) :=
     { __ := e.toRingEquiv
       commutes' := fun c => funext fun i => (hmapA i c).symm }
@@ -289,7 +289,7 @@ theorem isSeparableExtension_residueField_intersection_bridge
         (bijective_residueFieldMap_of_isClosedImmersion
           (intersectionWithComplementaryCurveIdeal C).subschemeι w)
       commutes' := fun r => by
-        simp only [algX, RingHom.algebraMap_toAlgebra, RingEquiv.coe_ofBijective,
+        simp only [algX, RingHom.algebraMap_toAlgebra,
           CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply, Scheme.Hom.comp_appTop]
         exact Scheme.Γevaluation_naturality_apply
           (intersectionWithComplementaryCurveIdeal C).subschemeι w _ }
@@ -359,6 +359,7 @@ theorem etale_intersectionSections_bridge
   exact Stacks.AlgebraicGeometry.ProperSectionsGeom.etale_globalSections_of_geometricallyReduced k
     ((intersectionWithComplementaryCurveIdeal C).subschemeι ≫ (X ↘ Spec (.of k)))
 
+omit [IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop)] in
 /-- **The global functions on a rational bridge sit inside those on its intersection with the
 closure of its complement as a `k`-subalgebra.** The structure morphism of the intersection over
 `k` factors through the bridge, the intersection being a closed subscheme of it. -/

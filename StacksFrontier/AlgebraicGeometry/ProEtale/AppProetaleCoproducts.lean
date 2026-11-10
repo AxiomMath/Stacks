@@ -89,7 +89,7 @@ theorem sigmaObj_left : (sigmaObj T).obj.left = ∐ fun k ↦ (T k).obj.left := 
 /-- The coproduct injections of the disjoint union. -/
 def sigmaι (k : ι) : T k ⟶ sigmaObj T :=
   ObjectProperty.homMk (MorphismProperty.Over.homMk (Sigma.ι (fun k ↦ (T k).obj.left) k)
-    (Sigma.ι_desc _ k))
+    (Sigma.ι_comp_desc _ k))
 
 /-- The underlying morphism of schemes of the `k`-th injection is the `k`-th coproduct
 injection. -/
@@ -100,9 +100,9 @@ theorem sigmaι_hom_left (k : ι) :
 /-- The morphism out of the disjoint union induced by a family of morphisms. -/
 def sigmaDesc {W : AppProetale S} (g : ∀ k, T k ⟶ W) : sigmaObj T ⟶ W :=
   ObjectProperty.homMk (MorphismProperty.Over.homMk (Sigma.desc fun k ↦ (g k).hom.left)
-    (Sigma.hom_ext _ _ fun k ↦ (Sigma.ι_desc_assoc _ _ _).trans
+    (Sigma.hom_ext _ _ fun k ↦ (Sigma.ι_comp_desc_assoc _ _ _).trans
       ((MorphismProperty.Over.w (g k).hom).trans
-        (Sigma.ι_desc (fun k ↦ (T k).obj.hom) k).symm)))
+        (Sigma.ι_comp_desc (fun k ↦ (T k).obj.hom) k).symm)))
 
 /-- The underlying morphism of schemes of `sigmaDesc T g` is the morphism out of the coproduct
 induced by the underlying morphisms of the `g k`. -/
@@ -114,16 +114,16 @@ theorem sigmaDesc_hom_left {W : AppProetale S} (g : ∀ k, T k ⟶ W) :
 @[reassoc (attr := simp)]
 theorem sigmaι_sigmaDesc {W : AppProetale S} (g : ∀ k, T k ⟶ W) (k : ι) :
     sigmaι T k ≫ sigmaDesc T g = g k :=
-  hom_ext (Sigma.ι_desc _ k)
+  hom_ext (Sigma.ι_comp_desc _ k)
 
 /-- The disjoint union as a cofan. -/
 abbrev sigmaCofan : Cofan T := Cofan.mk (sigmaObj T) (sigmaι T)
 
 /-- **The disjoint union is the coproduct in `S_app`.** -/
 def isColimitSigmaCofan : IsColimit (sigmaCofan T) :=
-  mkCofanColimit _ (fun s ↦ sigmaDesc T s.inj) (fun s k ↦ sigmaι_sigmaDesc T s.inj k)
+  Cofan.IsColimit.mk _ (fun s ↦ sigmaDesc T s.inj) (fun s k ↦ sigmaι_sigmaDesc T s.inj k)
     (fun s m hm ↦ hom_ext (Sigma.hom_ext _ _ fun k ↦ by
-      rw [sigmaDesc_hom_left, Sigma.ι_desc]
+      rw [sigmaDesc_hom_left, Sigma.ι_comp_desc]
       exact congrArg (fun f ↦ f.hom.left) (hm k)))
 
 /-- The coproduct injections of a finite disjoint union generate a covering sieve. -/
@@ -249,7 +249,7 @@ theorem exists_comp_sigmaDesc_eq_id {ι : Type u} [Finite ι] {T : ι → AppPro
   refine exists_comp_eq_id_of_surjective hW _ fun x ↦ ?_
   obtain ⟨k, y, rfl⟩ := hf x
   exact ⟨Sigma.ι (fun k ↦ (T k).obj.left) k y,
-    congrArg (fun g ↦ g y) (Sigma.ι_desc (fun k ↦ (f k).hom.left) k)⟩
+    congrArg (fun g ↦ g y) (Sigma.ι_comp_desc (fun k ↦ (f k).hom.left) k)⟩
 
 end AlgebraicGeometry.ProEtale.AppProetale
 

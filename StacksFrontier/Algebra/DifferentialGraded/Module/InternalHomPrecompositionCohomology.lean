@@ -97,7 +97,7 @@ theorem homOfCocycle_cocyclesEquiv_gradedCocyclesMap_precomp (f : M ⟶ N)
         M.rightModule ⟶ P) := by
   apply DifferentialGradedModule.Hom.ext
   have hval := precompModuleNatTrans_homogeneousEquiv f P 0 (c : _)
-  show ((homPresentation M P).homogeneousEquiv 0
+  change ((homPresentation M P).homogeneousEquiv 0
       (((precompModuleNatTrans f).app P).gradedMap 0 (c : _))).1 = _
   rw [hval]
   rfl
@@ -112,7 +112,7 @@ theorem homCohomologyZeroFunctorIso_precompModuleNatTrans (f : M ⟶ N) :
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   induction z using Submodule.Quotient.induction_on with
   | H c =>
-    show (toHomotopyCategory B).map (homOfCocycle B
+    change (toHomotopyCategory B).map (homOfCocycle B
         ((homPresentation M P).cocyclesEquiv 0
           (gradedCocyclesMap ((precompModuleNatTrans f).app P) 0 c))) =
       (toHomotopyCategory B).map f.rightHom ≫ (toHomotopyCategory B).map

@@ -229,7 +229,7 @@ theorem singleShiftHomAddEquiv_naturality (K : DerivedCategory X.Modules) (m : �
         singleShiftHomAddEquiv K m hge G φ := by
   apply (singleShiftHomAddEquiv K m hge F).symm.injective
   rw [AddEquiv.symm_apply_apply]
-  show u ≫ φ = (homologySingleShiftIso F m).inv ≫
+  change u ≫ φ = (homologySingleShiftIso F m).inv ≫
     (DerivedCategory.homologyFunctor X.Modules (-m)).map
       (((DerivedCategory.singleFunctor X.Modules 0).map u)⟦m⟧' ≫
         singleShiftHomAddEquiv K m hge G φ)
@@ -353,7 +353,7 @@ theorem fullyFaithfulHomAddEquiv_ι_symm_comp {C : Type*} [Category C] [Preaddit
       g ≫ (fullyFaithfulHomAddEquiv P.fullyFaithfulι K L).symm x := by
   apply (fullyFaithfulHomAddEquiv P.fullyFaithfulι K' L).injective
   rw [AddEquiv.apply_symm_apply]
-  show g.hom ≫ x = P.ι.map (g ≫ (fullyFaithfulHomAddEquiv P.fullyFaithfulι K L).symm x)
+  change g.hom ≫ x = P.ι.map (g ≫ (fullyFaithfulHomAddEquiv P.fullyFaithfulι K L).symm x)
   rw [Functor.map_comp]
   congr 1
 
@@ -371,7 +371,7 @@ theorem derivedPushforwardSectionsShiftIso_inv_naturality {K L : quasiCoherentDe
           ((quasiCoherentDerivedPushforward f hpush).map U))⟦m⟧' ≫
         (derivedPushforwardSectionsShiftIso f hpush L m).inv := by
   rw [Iso.inv_comp_eq, ← Category.assoc, Iso.eq_comp_inv]
-  show (derivedGlobalSectionsOver (𝟙 (Spec (CommRingCat.of A)))).map
+  change (derivedGlobalSectionsOver (𝟙 (Spec (CommRingCat.of A)))).map
         ((derivedPushforward f).map (U.hom⟦m⟧')) ≫
       ((derivedGlobalSectionsOver (𝟙 (Spec (CommRingCat.of A)))).map
           (((derivedPushforward f).commShiftIso m).hom.app L.obj) ≫

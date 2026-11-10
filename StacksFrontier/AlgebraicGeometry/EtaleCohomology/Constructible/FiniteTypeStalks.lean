@@ -98,7 +98,7 @@ public theorem isFG_etaleStalk_of_isConstructibleModuleSheaf
     exact ⟨i, z, hz⟩
   set t' := GeometricPoint.ofPoint (s.piece i).obj z with ht'
   have hbase : (t'.map (B.inclusion.map (s.inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
     rw [show t'.hom default = z from GeometricPoint.ofPoint_liesOver (s.piece i).obj z]
     exact hz
   have hfg := isFG_etaleStalk_of_isFiniteTypeLocallyConstantModuleSheaf B (s.piece i).obj

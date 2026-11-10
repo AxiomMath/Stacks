@@ -173,7 +173,7 @@ public theorem prodHomEquivBaseChangeHom_prod_map {S T : Scheme.{u}} (g : T ⟶ 
       = (finiteEtaleBaseChange g).map (prodSelfHomEquiv A B ξ) := by
   refine finiteEtaleOver_hom_ext g ?_
   rw [finiteEtaleBaseChangeProj_naturality]
-  show baseChangeLift B g _ ≫ finiteEtaleBaseChangeProj g B
+  change baseChangeLift B g _ ≫ finiteEtaleBaseChangeProj g B
     = finiteEtaleBaseChangeProj g A ≫ (prodSelfIso A).inv ≫ ξ.left
   rw [baseChangeLift_proj]
   have hfst : (prodLeftIsoBaseChange A g).inv ≫

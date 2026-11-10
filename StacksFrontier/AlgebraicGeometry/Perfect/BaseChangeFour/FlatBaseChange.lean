@@ -60,7 +60,7 @@ lemma torIndependent_pullback_of_flat
   let pS := pullback.snd f s
   let qY := pullback.fst g s
   let qS := pullback.snd g s
-  show ∀ (x' : (pullback f s).carrier) (y' : (pullback g s).carrier)
+  change ∀ (x' : (pullback f s).carrier) (y' : (pullback g s).carrier)
       (h' : pS.base x' = qS.base y'), _
   intro x' y' h'
   let x := pX.base x'
@@ -118,7 +118,7 @@ lemma torIndependent_pullback_of_flat
     exact e.symm
   let fA : A →ₐ[R] A' := AlgHom.mk' (pX.stalkMap x').hom (by
     intro r z
-    show (pX.stalkMap x').hom ((f.stalkMap x).hom r * z) =
+    change (pX.stalkMap x').hom ((f.stalkMap x).hom r * z) =
       ((eqToHom (congrArg S.presheaf.stalk hxbase) ≫ s.stalkMap (pS.base x') ≫
         pS.stalkMap x').hom r) * (pX.stalkMap x').hom z
     rw [map_mul]
@@ -147,7 +147,7 @@ lemma torIndependent_pullback_of_flat
       _ = _ := by rw [reassoc_of% hstalkSquare, eqToHom_trans_assoc, eqToHom_trans_assoc]
   let fB : B →ₐ[R] B' := AlgHom.mk' (qY.stalkMap y').hom (by
     intro r z
-    show (qY.stalkMap y').hom
+    change (qY.stalkMap y').hom
         (((eqToHom (congrArg S.presheaf.stalk hbase) ≫ g.stalkMap y).hom r) * z) =
       ((eqToHom (congrArg S.presheaf.stalk hxbase) ≫ s.stalkMap (pS.base x') ≫
         eqToHom (congrArg S'.presheaf.stalk h') ≫ qS.stalkMap y').hom r) *
@@ -160,7 +160,7 @@ lemma torIndependent_pullback_of_flat
   let ψB := Algebra.TensorProduct.lift (IsScalarTower.toAlgHom R R' B') fB
     (fun _ _ ↦ Commute.all _ _)
   have hRflat : RingHom.Flat (algebraMap R R') := by
-    show ((eqToHom (congrArg S.presheaf.stalk hxbase) ≫
+    change ((eqToHom (congrArg S.presheaf.stalk hxbase) ≫
       s.stalkMap (pS.base x')).hom).Flat
     exact RingHom.Flat.comp
       (.of_bijective (ConcreteCategory.bijective_of_isIso _))
@@ -174,10 +174,10 @@ lemma torIndependent_pullback_of_flat
   have hAflat : RingHom.Flat ψA.toRingHom := by
     have hψA : ψA.toRingHom = φA := by
       apply Algebra.TensorProduct.ringHom_ext
-      · show (ψA.comp Algebra.TensorProduct.includeLeft).toRingHom = _
+      · change (ψA.comp Algebra.TensorProduct.includeLeft).toRingHom = _
         rw [Algebra.TensorProduct.lift_comp_includeLeft, hφAL]
         rfl
-      · show (ψA.comp Algebra.TensorProduct.includeRight).toRingHom = _
+      · change (ψA.comp Algebra.TensorProduct.includeRight).toRingHom = _
         rw [Algebra.TensorProduct.lift_comp_includeRight', hφAR]
         rfl
     rw [hψA]
@@ -206,7 +206,7 @@ lemma torIndependent_pullback_of_flat
   have hbaseTower :
       (algebraMap R B).comp (algebraMap R₁ R) = algebraMap R₁ B := by
     ext z
-    show ((eqToHom (congrArg S.presheaf.stalk hbase.symm) ≫
+    change ((eqToHom (congrArg S.presheaf.stalk hbase.symm) ≫
       (eqToHom (congrArg S.presheaf.stalk hbase) ≫ g.stalkMap y)).hom) z =
       (g.stalkMap y).hom z
     rw [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
@@ -239,7 +239,7 @@ lemma torIndependent_pullback_of_flat
           eqToHom (congrArg S.presheaf.stalk hxbase) ≫
             s.stalkMap (pS.base x') := by
         rw [eqToHom_trans, eqToHom_refl, Category.comp_id]
-      show ((eqToHom (congrArg S'.presheaf.stalk h'.symm)).hom
+      change ((eqToHom (congrArg S'.presheaf.stalk h'.symm)).hom
         (((eqToHom (congrArg S.presheaf.stalk hxbase) ≫
           s.stalkMap (pS.base x') ≫
           eqToHom (congrArg S'.presheaf.stalk h')).hom r))) =
@@ -254,22 +254,22 @@ lemma torIndependent_pullback_of_flat
   have hTBleft : hTB.comp Algebra.TensorProduct.includeLeftRingHom =
       Algebra.TensorProduct.includeRight.toRingHom.comp eS.symm.toRingHom := by
     ext z
-    show eTB'.symm (z ⊗ₜ[R] (1 : B)) = (1 : B) ⊗ₜ[R₁] eS.symm z
+    change eTB'.symm (z ⊗ₜ[R] (1 : B)) = (1 : B) ⊗ₜ[R₁] eS.symm z
     simp [eTB', eTB, Algebra.TensorProduct.equivOfCompatibleSMul,
       Algebra.TensorProduct.mapOfCompatibleSMul_tmul]
   have hTBright : hTB.comp Algebra.TensorProduct.includeRight.toRingHom =
       Algebra.TensorProduct.includeLeftRingHom := by
     ext z
-    show eTB'.symm ((1 : R') ⊗ₜ[R] z) = z ⊗ₜ[R₁] (1 : R₁')
+    change eTB'.symm ((1 : R') ⊗ₜ[R] z) = z ⊗ₜ[R₁] (1 : R₁')
     simp [eTB', eTB, Algebra.TensorProduct.equivOfCompatibleSMul,
       Algebra.TensorProduct.mapOfCompatibleSMul_tmul]
   have hBflat : RingHom.Flat ψB.toRingHom := by
     have hψB : ψB.toRingHom = φB.comp hTB := by
       apply Algebra.TensorProduct.ringHom_ext
-      · show (ψB.comp Algebra.TensorProduct.includeLeft).toRingHom = _
+      · change (ψB.comp Algebra.TensorProduct.includeLeft).toRingHom = _
         rw [Algebra.TensorProduct.lift_comp_includeLeft]
         ext z
-        show (algebraMap R' B') z =
+        change (algebraMap R' B') z =
           φB ((hTB.comp Algebra.TensorProduct.includeLeftRingHom) z)
         have hzTB := congrArg φB (DFunLike.congr_fun hTBleft z)
         change φB ((hTB.comp Algebra.TensorProduct.includeLeftRingHom) z) =
@@ -279,21 +279,21 @@ lemma torIndependent_pullback_of_flat
         change φB (Algebra.TensorProduct.includeRight (eS.symm z)) = _ at hz
         calc
           _ = (qS.stalkMap y').hom (eS.symm z) := by
-            show ((eqToHom (congrArg S'.presheaf.stalk h') ≫
+            change ((eqToHom (congrArg S'.presheaf.stalk h') ≫
               qS.stalkMap y').hom) z = _
             apply congrArg (qS.stalkMap y').hom
             apply eS.injective
             have hp : eS ((eqToHom (congrArg S'.presheaf.stalk h')).hom' z) = z := by
-              show ((eqToHom (congrArg S'.presheaf.stalk h'.symm)).hom'.comp
+              change ((eqToHom (congrArg S'.presheaf.stalk h'.symm)).hom'.comp
                 (eqToHom (congrArg S'.presheaf.stalk h')).hom') z = z
               exact DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp
                 ((eqToIso (congrArg S'.presheaf.stalk h')).hom_inv_id)) z
             rw [hp, eS.apply_symm_apply]
           _ = _ := hz.symm
-      · show (ψB.comp Algebra.TensorProduct.includeRight).toRingHom = _
+      · change (ψB.comp Algebra.TensorProduct.includeRight).toRingHom = _
         rw [Algebra.TensorProduct.lift_comp_includeRight']
         ext z
-        show (fB.toRingHom) z =
+        change (fB.toRingHom) z =
           φB ((hTB.comp Algebra.TensorProduct.includeRight.toRingHom) z)
         have hzTB := congrArg φB (DFunLike.congr_fun hTBright z)
         rw [hzTB]

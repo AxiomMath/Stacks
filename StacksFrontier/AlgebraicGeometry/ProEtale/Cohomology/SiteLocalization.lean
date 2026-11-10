@@ -268,7 +268,7 @@ theorem smallProetaleLocalizationEquivalence_overEquiv_functorPushforward
     Sieve.overEquiv ((smallProetaleLocalizationEquivalence B T Y).functor.obj V)
         (S.functorPushforward (smallProetaleLocalizationEquivalence B T Y).functor) =
       S.functorPushforward (smallProetaleCompose B Y.obj.hom Y.property) := by
-  show (S.functorPushforward (smallProetaleLocalizationEquivalence B T Y).functor
+  change (S.functorPushforward (smallProetaleLocalizationEquivalence B T Y).functor
     ).functorPushforward (Over.forget Y) = _
   rw [← Sieve.functorPushforward_comp]
   rfl
@@ -280,7 +280,7 @@ theorem smallProetaleCompose_functorPullback_functorPushforward
     {V : SmallProetale B Y.obj.left.obj Y.obj.left.property} (S : Sieve V) :
     (S.functorPushforward (smallProetaleCompose B Y.obj.hom Y.property)).functorPullback
       (smallProetaleCompose B Y.obj.hom Y.property) = S := by
-  show (S.functorPushforward ((smallProetaleLocalizationEquivalence B T Y).functor ⋙
+  change (S.functorPushforward ((smallProetaleLocalizationEquivalence B T Y).functor ⋙
       Over.forget Y)).functorPullback
       ((smallProetaleLocalizationEquivalence B T Y).functor ⋙ Over.forget Y) = S
   rw [Sieve.functorPushforward_comp, Sieve.functorPullback_comp,

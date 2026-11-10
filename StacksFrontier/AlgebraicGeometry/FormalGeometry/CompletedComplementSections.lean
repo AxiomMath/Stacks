@@ -125,7 +125,7 @@ theorem isIso_homology_unit_third
       comm₁ := η.naturality T.mor₁
       comm₂ := η.naturality T.mor₂
       comm₃ := by
-        show T.mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (η.app T.obj₁) =
+        change T.mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (η.app T.obj₁) =
           η.app T.obj₃ ≫ F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁
         rw [← Category.assoc, ← η.naturality T.mor₃, Functor.id_map,
           Category.assoc, ← η.shift_app_comm]

@@ -213,7 +213,7 @@ theorem ker_charTwoRegularAugmentation :
       (congrArg Subtype.val (mem_gradedCocycles.1 z.2)) (fun _ => h)
     exact ⟨⟨c, hc⟩, hdc⟩
   · rintro ⟨y, hy⟩
-    show dualNumberAugmentation (ZMod 2) z.1.1 = 0
+    change dualNumberAugmentation (ZMod 2) z.1.1 = 0
     rw [← hy]
     exact dualNumberAugmentation_differential _
 
@@ -254,7 +254,7 @@ theorem charTwoRegularCohomologyEquiv_map_regularLeftMul
       (0, 1) * charTwoRegularCohomologyEquiv z := by
   induction z using Submodule.Quotient.induction_on with
   | H a =>
-    show charTwoRegularCohomologyEquiv (Submodule.Quotient.mk
+    change charTwoRegularCohomologyEquiv (Submodule.Quotient.mk
       (gradedCocyclesMap (regularLeftMul _ Polynomial.X) 0 a)) = _
     rw [charTwoRegularCohomologyEquiv_mk, charTwoRegularCohomologyEquiv_mk]
     exact dualNumberAugmentation_mul_X _

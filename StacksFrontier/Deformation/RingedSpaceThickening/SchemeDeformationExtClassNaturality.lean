@@ -78,6 +78,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
     (ρ.mapCoeff g).app X m = g.val.app X (ρ.app X m) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The descent of a pushed-forward restriction datum is the descent followed by `g`. -/
 theorem conormalDesc_mapCoeff [Presheaf.IsLocallySurjective J φ.hom]
     (ρ : IdealRestriction.{u, u, u, u} φ G) (g : G ⟶ G') :
@@ -192,7 +193,7 @@ theorem extClass_comp_eq_extClass (hu : u ≫ α₂ = α₁)
       ← (naiveCotangentIso f E₂ α₂).hom_inv_id, Category.assoc,
       ← Category.assoc _ _ (naiveCotangentIso f E₂ α₂).inv, hcomp,
       (naiveCotangentIso f E₁ α₁).inv_hom_id_assoc]
-  show ((naiveCotangentIso f E₁ α₁).inv ≫ P₁.presentedExtClass) ≫ _ =
+  change ((naiveCotangentIso f E₁ α₁).inv ≫ P₁.presentedExtClass) ≫ _ =
     (naiveCotangentIso f E₂ α₂).inv ≫ P₂.presentedExtClass
   refine (Category.assoc _ _ _).trans ?_
   refine (congrArg (fun t ↦ (naiveCotangentIso f E₁ α₁).inv ≫ t)

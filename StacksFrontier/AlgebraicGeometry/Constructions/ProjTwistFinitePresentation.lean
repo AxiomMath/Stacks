@@ -120,7 +120,7 @@ public theorem mloc_eq_twistAway
         rw [integerGrading_neg 𝒜 _ (by omega)] at hx'
         simpa using hx'
       subst hz
-      show Localization.mk (0 : A) _ ∈ twistAway 𝒜' f d t
+      change Localization.mk (0 : A) _ ∈ twistAway 𝒜' f d t
       rw [Localization.mk_zero]
       exact Submodule.zero_mem _
   · rintro z ⟨k, e, x, he, hx, rfl⟩
@@ -209,7 +209,7 @@ public theorem finitePresentation_twistSections {d : ℕ} (hd : 0 < d) {f : A} (
         right_inv := fun _ => rfl
         map_add' := fun _ _ => rfl }
       (fun r x => Subtype.ext (by
-        show r.val • (x.1 : MLocAll f (M := A)) = (ε r).val • x.1
+        change r.val • (x.1 : MLocAll f (M := A)) = (ε r).val • x.1
         rw [hval])) hkey
   exact Module.FinitePresentation.of_equiv
     (associatedModuleSheafStandardOpenEquiv 𝒜 (twistGrading 𝒜 t) hf hd).symm
@@ -281,8 +281,7 @@ public theorem isFinitePresentation_twistingSheaf [Algebra.FinitePresentation R 
     Subalgebra.algebraMap_mem _ (⟨c, hc⟩ : 𝒜 0)
   have hall : ∀ y : TensorProduct R₀ R A₀, e y ∈ Algebra.adjoin (𝒜 0) (Set.range F) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul r a =>
         rw [hetmul r a, Algebra.smul_def]
         refine mul_mem (hzero _ (h0 r)) ?_

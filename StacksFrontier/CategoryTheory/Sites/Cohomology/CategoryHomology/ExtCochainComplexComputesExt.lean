@@ -150,7 +150,7 @@ lemma extCochainComplexCyclesZeroIso_naturality (g : G' ⟶ G) (f : F ⟶ F') :
         (HomologicalComplex.cyclesMap (extCochainComplexMap g f) 0 c) =
       (extCochainComplexMap g f).f 0 ((extCochainComplex G F).iCycles 0 c) :=
     ConcreteCategory.congr_hom (HomologicalComplex.cyclesMap_i _ _) c
-  show ((extCochainComplex G' F').iCycles 0
+  change ((extCochainComplex G' F').iCycles 0
       (HomologicalComplex.cyclesMap (extCochainComplexMap g f) 0 c) : extCochain G' F' 0)
       (ComposableArrows.mk₀ U.unop) s = _
   rw [hk]
@@ -278,7 +278,7 @@ lemma extCochainComplexMap_right_comp_zero :
   refine LinearMap.ext fun s ↦ ?_
   have hz := congrArg (fun q : S.X₁ ⟶ S.X₃ ↦ q.app (op (x.obj 0))) S.zero
   change (S.f.app (op (x.obj 0)) ≫ S.g.app (op (x.obj 0))) = 0 at hz
-  show (S.f.app (op (x.obj 0)) ≫ S.g.app (op (x.obj 0))) (φ x s) = 0
+  change (S.f.app (op (x.obj 0)) ≫ S.g.app (op (x.obj 0))) (φ x s) = 0
   rw [hz]
   rfl
 
@@ -293,10 +293,10 @@ lemma extCochainComplexMap_left_comp_zero :
   refine LinearMap.ext fun s ↦ ?_
   have hz := congrArg (fun q : S.X₁ ⟶ S.X₃ ↦ q.app (op (x.obj (Fin.last n)))) S.zero
   change (S.f.app (op (x.obj (Fin.last n))) ≫ S.g.app (op (x.obj (Fin.last n)))) = 0 at hz
-  show φ x ((S.f.app (op (x.obj (Fin.last n))) ≫
+  change φ x ((S.f.app (op (x.obj (Fin.last n))) ≫
     S.g.app (op (x.obj (Fin.last n)))) s) = 0
   rw [hz]
-  show φ x 0 = 0
+  change φ x 0 = 0
   rw [map_zero]
 
 /-- The short complex of cochain complexes attached to a short complex of targets. -/
@@ -390,7 +390,7 @@ lemma stringSpine_precomp {n : ℕ} (x : ComposableArrows C n) {U : C} (f : U �
     stringSpine (x.precomp f) = f ≫ stringSpine x := by
   cases n with
   | zero =>
-    show f = f ≫ x.map (𝟙 (0 : Fin 1))
+    change f = f ≫ x.map (𝟙 (0 : Fin 1))
     rw [x.map_id, Category.comp_id]
   | succ n => rfl
 
@@ -510,11 +510,11 @@ lemma nerve_precomp_face {n : ℕ} (x : ComposableArrows C (n + 1)) {U : C} (f :
     (nerve C).δ i.succ (x.precomp f) =
       ((nerve C).δ i x).precomp (f ≫ x.map (homOfLE (Fin.zero_le (i.succAbove 0)))) := by
   refine ComposableArrows.ext_succ ?_ ?_ ?_
-  · show ComposableArrows.Precomp.obj x U (i.succ.succAbove 0) = U
+  · change ComposableArrows.Precomp.obj x U (i.succ.succAbove 0) = U
     simp
   · refine CategoryTheory.Functor.ext (h_obj := ?_) (h_map := ?_)
     · intro j
-      show ComposableArrows.Precomp.obj x U (i.succ.succAbove j.succ) =
+      change ComposableArrows.Precomp.obj x U (i.succ.succAbove j.succ) =
         x.obj (i.succAbove j)
       simp only [Fin.succ_succAbove_succ]
       rfl
@@ -530,7 +530,7 @@ lemma nerve_precomp_face {n : ℕ} (x : ComposableArrows C (n + 1)) {U : C} (f :
     | zero => rfl
     | succ i =>
       refine heq_of_eq ?_
-      show f = f ≫ x.map (𝟙 (0 : Fin (n + 2)))
+      change f = f ≫ x.map (𝟙 (0 : Fin (n + 2)))
       rw [x.map_id, Category.comp_id]
 
 /-- Restricting along the last vertex of a prepended string. -/
@@ -548,7 +548,7 @@ lemma precomp_first_heq {n : ℕ} (x : ComposableArrows C n) {U : C} (f : U ⟶ 
     (a : Fin (n + 2)) (ha : a = 0) :
     HEq ((𝟙 U) ≫ (x.precomp f).map (homOfLE (Fin.zero_le a))) (𝟙 U) := by
   subst ha
-  show HEq ((𝟙 U) ≫ 𝟙 U) (𝟙 U)
+  change HEq ((𝟙 U) ≫ 𝟙 U) (𝟙 U)
   rw [Category.id_comp]
 
 /-- The contraction undoes the zeroth coface map. -/
@@ -559,7 +559,7 @@ lemma extCochainCoinducedContraction_coface_zero (G F : PresheafOfModules.{max u
   funext x
   refine LinearMap.ext fun s ↦ ?_
   funext U f
-  show (show F.obj (op U) from
+  change (show F.obj (op U) from
     φ x (G.restrictₛₗ (x.map (𝟙 (Fin.last n))).op s) U (𝟙 U ≫ f)) = φ x s U f
   rw [restrictₛₗ_eq_id_apply G _ (x.map_id _), Category.id_comp]
 
@@ -573,11 +573,11 @@ lemma extCochainCoinducedContraction_coface_succ (G F : PresheafOfModules.{max u
   funext x
   refine LinearMap.ext fun s ↦ ?_
   funext U f
-  show (show F.obj (op U) from
+  change (show F.obj (op U) from
     extCochainSimplexMap G (coinducedModule F) (SimplexCategory.δ i.succ) φ
       (x.precomp f) s U (𝟙 U)) = _
   rw [extCochainSimplexMap_apply]
-  show _ = (show F.obj (op U) from
+  change _ = (show F.obj (op U) from
     extCochainSimplexMap G (coinducedModule F) (SimplexCategory.δ i)
       (extCochainCoinducedContraction G F n φ) x s U f)
   rw [extCochainSimplexMap_apply]
@@ -866,7 +866,7 @@ open Stacks.ModulesOnACategory.PullbackPreservesQuasiCoherent in
 /-- The sections of the free module on a representable form a free, hence projective, module. -/
 lemma projective_gen_obj (U V : C) :
     Projective ((gen.{v, m, u, u} O U).obj (op V)) := by
-  show Projective (ModuleCat.of (O.obj (op V))
+  change Projective (ModuleCat.of (O.obj (op V))
     (O.obj (op V) ⊗[ℤ] FreeAbelianGroup (ULift.{max u v m} (V ⟶ U))))
   exact ModuleCat.projective_of_free
     ((Module.Free.chooseBasis ℤ (FreeAbelianGroup (ULift.{max u v m} (V ⟶ U)))).baseChange
@@ -881,7 +881,7 @@ lemma projective_genCoproduct_obj (G : PresheafOfModules.{max u v m} O) (V : C) 
   refine Projective.of_iso
     (PreservesCoproduct.iso (PresheafOfModules.evaluation O (op V))
       (fun j : G.Elements ↦ gen.{v, m, u, u} O j.1.unop)).symm ?_
-  show Projective (∐ fun j : G.Elements ↦ (gen.{v, m, u, u} O j.1.unop).obj (op V))
+  change Projective (∐ fun j : G.Elements ↦ (gen.{v, m, u, u} O j.1.unop).obj (op V))
   infer_instance
 
 open Stacks.ModulesOnACategory.PullbackPreservesQuasiCoherent in
@@ -1145,7 +1145,7 @@ private lemma homAddEquivExtCochainHomologyZero_addEquiv₀_homAddEquiv_symm_mk�
       ((DerivedCategory.singleFunctor (PresheafOfModules.{max u v m} O) 0).map α) =
       (Abelian.Ext.homAddEquiv (Abelian.Ext.mk₀ α) : Abelian.zExt G F 0) :=
     (Abelian.Ext.mk₀_hom α).symm
-  show homAddEquivExtCochainHomologyZero G F (Abelian.Ext.addEquiv₀
+  change homAddEquivExtCochainHomologyZero G F (Abelian.Ext.addEquiv₀
     (Abelian.Ext.homAddEquiv.{_, max u v m}.symm (ShiftedHom.mk₀ (0 : ℤ) rfl
       ((DerivedCategory.singleFunctor _ 0).map α)))) = _
   rw [hh, AddEquiv.symm_apply_apply]
@@ -1163,7 +1163,7 @@ theorem extAddEquivCohomology_of_objectwiseProjective_zero
       homAddEquivExtCochainHomologyZero G F α := by
   let : HasExt.{max u v m} (PresheafOfModules.{max u v m} O) :=
     hasExt_presheafOfModules.{u, v, m}
-  show ((extSourceComparison.{u, v, m} G hG).hom.app 0).app F
+  change ((extSourceComparison.{u, v, m} G hG).hom.app 0).app F
     (Abelian.Ext.homAddEquiv.{_, max u v m}.symm (ShiftedHom.mk₀ (0 : ℤ) rfl
       ((DerivedCategory.singleFunctor _ 0).map α))) = _
   simp only [extSourceComparison, DeltaFunctor.IsUniversal.isoOfIso_hom_app_zero]
@@ -1181,7 +1181,7 @@ theorem extAddEquivCohomology_of_arrowwiseInjective_zero
       homAddEquivExtCochainHomologyZero G F α := by
   let : HasExt.{max u v m} (PresheafOfModules.{max u v m} O) :=
     hasExt_presheafOfModules.{u, v, m}
-  show ((extTargetComparison.{u, v, m} F hF).hom.app 0).app (op G)
+  change ((extTargetComparison.{u, v, m} F hF).hom.app 0).app (op G)
     (Abelian.Ext.homAddEquiv.{_, max u v m}.symm (ShiftedHom.mk₀ (0 : ℤ) rfl
       ((DerivedCategory.singleFunctor _ 0).map α))) = _
   simp only [extTargetComparison, DeltaFunctor.IsUniversal.isoOfIso_hom_app_zero]
@@ -1215,7 +1215,7 @@ theorem extAddEquivCohomology_of_objectwiseProjective_delta
         Abelian.zExt G S.X₁ ((n + 1 : ℕ) : ℤ)) := by
     simp only [Abelian.Ext.homAddEquiv_apply, Abelian.Ext.comp_hom, hS.extClass_hom]
   rw [hc]
-  show ((extSourceComparison.{u, v, m} G hG).hom.app (n + 1)).app S.X₁
+  change ((extSourceComparison.{u, v, m} G hG).hom.app (n + 1)).app S.X₁
       (Abelian.Ext.homAddEquiv.{_, max u v m}.symm
         (Abelian.Ext.homAddEquiv (ξ.comp hS.extClass rfl))) =
     (shortExact_extCochainComplexShortComplexRight G S hG hS).δ n (n + 1) rfl
@@ -1251,7 +1251,7 @@ theorem extAddEquivCohomology_of_arrowwiseInjective_delta
         Abelian.zExt S.X₃ F ((n + 1 : ℕ) : ℤ)) := by
     simp only [Abelian.Ext.homAddEquiv_apply, Abelian.Ext.comp_hom, hS.extClass_hom]
   rw [hc]
-  show ((extTargetComparison.{u, v, m} F hF).hom.app (n + 1)).app (op S.X₃)
+  change ((extTargetComparison.{u, v, m} F hF).hom.app (n + 1)).app (op S.X₃)
       (Abelian.Ext.homAddEquiv.{_, max u v m}.symm
         (Abelian.Ext.homAddEquiv (hS.extClass.comp ξ (by omega)))) =
     (shortExact_extCochainComplexShortComplexLeft F S hF hS).δ n (n + 1) rfl

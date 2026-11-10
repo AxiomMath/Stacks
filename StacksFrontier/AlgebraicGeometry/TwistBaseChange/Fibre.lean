@@ -101,7 +101,7 @@ public theorem bijective_fibreMap (ψ : 𝒜 →+*ᵍ ℬ) (x : ProjectiveSpectr
       rw [IsScalarTower.algebraMap_apply A B
         (Localization.AtPrime y.asHomogeneousIdeal.toIdeal)]
       exact congrArg _ (congrArg (fun φ : A →+* B => φ a) halg)
-  show Function.Bijective
+  change Function.Bijective
     (Localization.localRingHom x.asHomogeneousIdeal.toIdeal y.asHomogeneousIdeal.toIdeal
       (ψ : A →+* B) (congrArg HomogeneousIdeal.toIdeal h))
   rw [he]
@@ -229,7 +229,7 @@ public theorem range_mapHom (ψ : 𝒜 →+*ᵍ ℬ) {g : A} (hg : g ∈ 𝒜 0)
   ext p
   constructor
   · rintro ⟨y, rfl⟩
-    show g ∉ ((mapHom 𝒜 ℬ ψ).base y).asHomogeneousIdeal
+    change g ∉ ((mapHom 𝒜 ℬ ψ).base y).asHomogeneousIdeal
     rw [notMem_mapHom_base_iff 𝒜 ℬ ψ y hg]
     intro hmem
     change ψ g ∈ (y.1 : ProjectiveSpectrum ℬ).asHomogeneousIdeal.toIdeal at hmem

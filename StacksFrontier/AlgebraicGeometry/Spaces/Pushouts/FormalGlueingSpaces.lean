@@ -103,19 +103,23 @@ private instance (priority := high) hasPullbacksAlong_presheaf
     HasPullbacksAlong f :=
   fun h ↦ hasPullback_presheaf h f
 
-set_option synthInstance.maxHeartbeats 400000
-
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- Algebraic spaces over the ambient space `X`. -/
 abbrev spacesOverX (D : FormalGlueingSituation B S hS) :=
   (show ObjectProperty (Over D.X) from
     fun T ↦ IsAlgebraicSpace B S hS T.left).FullSubcategory
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- The category of cartesian formal-glueing diagrams of algebraic spaces. -/
 abbrev glueingData (D : FormalGlueingSituation B S hS) :=
   (show ObjectProperty (Comma (Over.pullback (D.U.fromPreimage D.f)) (Over.pullback D.V.ι)) from
     fun T ↦ IsIso T.hom ∧ IsAlgebraicSpace B S hS T.left.left ∧
       IsAlgebraicSpace B S hS T.right.left).FullSubcategory
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- The canonical identification of the two ways of restricting a space
 over `X` to `V`. -/
 noncomputable def restrictionComparison (D : FormalGlueingSituation B S hS) :
@@ -128,7 +132,10 @@ noncomputable def restrictionComparison (D : FormalGlueingSituation B S hS) :
         rintro g _ _ _ rfl; rfl
       exact key _ _ (Subfunctor.fromPreimage_ι D.U D.f)) ≪≫ Over.pullbackComp D.V.ι D.f
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 set_option maxHeartbeats 2000000 in
+-- `ext <;> simp` on the `map_id`/`map_comp` fields over `Over.pullback` functors
 /-- The presheaf-level diagram obtained by restricting a space over `X`
 to `U` and `Y`. -/
 noncomputable def restrictionDiagram (D : FormalGlueingSituation B S hS) :
@@ -141,6 +148,8 @@ noncomputable def restrictionDiagram (D : FormalGlueingSituation B S hS) :
     map_id T := by ext <;> simp
     map_comp g h := by ext <;> simp }
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- Restriction from algebraic spaces over `X` to their cartesian
 formal-glueing diagrams. The comparison identifies it naturally with
 pullback on each component and the canonical associativity identification
@@ -172,6 +181,8 @@ noncomputable def formalGlueingFunctor (D : FormalGlueingSituation B S hS) :
 
 /-! ### Reflection of isomorphisms -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- Base change along a composite is the composite of the base changes, so invertibility of the
 restriction along the second factor forces invertibility of the restriction along the
 composite. -/
@@ -184,6 +195,8 @@ private theorem isIso_pullback_map_of_comp
   (NatIso.isIso_map_iff (Over.pullbackComp a b) f).2
     (Functor.map_isIso (Over.pullback a) ((Over.pullback b).map f))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- If the second leg of a pullback square is invertible, so is the second projection of the
 chosen pullback. -/
 private theorem isIso_pullback_snd_of_isPullback
@@ -194,6 +207,8 @@ private theorem isIso_pullback_snd_of_isPullback
     infer_instance
   exact IsIso.of_isIso_comp_left h.isoPullback.hom _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- The restriction of `f : P ⟶ Q` over `X` along `g : U ⟶ X`, read as a morphism of `Over U`,
 is the base change of `f.left` along the projection `U ×_X Q ⟶ P`; so if the restriction is
 invertible then so is that base change. -/
@@ -225,6 +240,8 @@ private theorem isIso_pullback_snd_of_over_pullback
       (by simp) (by simp) (by simp) (by simp)
   exact isIso_pullback_snd_of_isPullback hpb'.flip
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- **Stacks 0AF5** for the presheaf-level restriction diagram: a morphism of algebraic spaces
 over `X` whose restrictions to `U` and to `Y` are both invertible is itself invertible.
 
@@ -294,6 +311,8 @@ private theorem restrictionDiagram_reflectsIsomorphisms
   have _ : IsIso f₀ := isIso_of_reflects_iso f₀ (Over.forget D.X)
   exact isIso_of_reflects_iso f (ObjectProperty.ι _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on `BigFppfOver B S hS` (formerly file-level)
 /-- **Stacks 0AF5.** The restriction functor from algebraic spaces over `X` to cartesian
 formal-glueing triples reflects isomorphisms: a morphism over `X` whose restrictions to `U` and
 to `Y` are invertible is itself invertible. -/

@@ -102,7 +102,7 @@ lemma homComplexPostcomp_comp (P : CochainComplex A ℤ) {X Y Z : CochainComplex
   ext n z
   rw [HomologicalComplex.comp_f, AddCommGrpCat.comp_apply]
   change CochainComplex.HomComplex.Cochain P X n at z
-  show ((z.comp (Cochain.ofHom f) (add_zero n)).comp (Cochain.ofHom g) (add_zero n)) =
+  change ((z.comp (Cochain.ofHom f) (add_zero n)).comp (Cochain.ofHom g) (add_zero n)) =
     z.comp (Cochain.ofHom (f ≫ g)) (add_zero n)
   rw [Cochain.ofHom_comp]
   exact Cochain.comp_assoc z (Cochain.ofHom f) (Cochain.ofHom g)
@@ -148,7 +148,7 @@ theorem isIso_homologyMap_homComplexPostcomp (P : CochainComplex A ℤ)
     constructor
     · intro c₁ c₂ he
       refine (hb X).injective (h.injective ?_)
-      show CochainComplex.HomComplex.CohomologyClass.toHom c₁ ≫ _ =
+      change CochainComplex.HomComplex.CohomologyClass.toHom c₁ ≫ _ =
         CochainComplex.HomComplex.CohomologyClass.toHom c₂ ≫ _
       rw [← hcomm, ← hcomm, he]
     · intro c'
@@ -254,7 +254,7 @@ lemma homFilteredMap_comp (P : CochainComplex A ℤ) {J J' J'' : CochainComplex.
     (g : J ⟶ J') (g' : J' ⟶ J'') :
     homFilteredMap P (g ≫ g') = homFilteredMap P g ≫ homFilteredMap P g' := by
   apply FilteredObject.hom_ext
-  show homComplexPostcomp P (g.hom ≫ g'.hom) = _
+  change homComplexPostcomp P (g.hom ≫ g'.hom) = _
   rw [← homComplexPostcomp_comp]
   rfl
 
@@ -456,7 +456,7 @@ truncation filtration. -/
 lemma quasiIso_truncationFiltrationMap_natTrans_app {X Y : CochainComplex A ℤ} (f : X ⟶ Y)
     [QuasiIso f] (p : ℤ) :
     QuasiIso ((CochainComplex.truncationFiltrationMap f).natTrans.app (op p)) := by
-  show QuasiIso (CochainComplex.truncLEMap f (-p))
+  change QuasiIso (CochainComplex.truncLEMap f (-p))
   rw [CochainComplex.quasiIso_truncLEMap_iff]
   intro j _
   exact (quasiIso_iff f).1 inferInstance j

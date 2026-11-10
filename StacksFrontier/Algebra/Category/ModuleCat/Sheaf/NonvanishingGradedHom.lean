@@ -249,7 +249,7 @@ private lemma internalHom_restrict_apply (M N : SheafOfModules.{u}
     (((sheafHomSpace X.toRingedSpace M N).val.map
       V.unop.hom.op a).app (op (Over.mk (𝟙 V.unop.left)))).hom g =
       (a.app V).hom g := by
-  show (a.app (op (Over.mk (𝟙 V.unop.left ≫ V.unop.hom)))).hom g = _
+  change (a.app (op (Over.mk (𝟙 V.unop.left ≫ V.unop.hom)))).hom g = _
   rfl
 
 private lemma curry_apply (A B C : SheafOfModules.{u}
@@ -288,14 +288,14 @@ private lemma curry_naturality_left {A A' B C : SheafOfModules.{u}
   have hA : f.val.app (op V.unop.left) (A'.val.map V.unop.hom.op x) =
       A.val.map V.unop.hom.op (f.val.app U x) :=
     congrArg (fun k => k.hom x) (f.val.naturality V.unop.hom.op)
-  show (((tensorHomEquiv X.toRingedSpace A B C t).val.app U
+  change (((tensorHomEquiv X.toRingedSpace A B C t).val.app U
     (f.val.app U x)).app V).hom g =
       (((tensorHomEquiv X.toRingedSpace A' B C
         (tmap X f (𝟙 B) ≫ t)).val.app U x).app V).hom g
   refine (curry_apply X A B C t (unop U) (f.val.app U x) V g).trans ?_
   refine Eq.trans ?_ (curry_apply X A' B C
     (tmap X f (𝟙 B) ≫ t) (unop U) x V g).symm
-  show t.val.app (op V.unop.left)
+  change t.val.app (op V.unop.left)
       (pure X A B V.unop.left (A.val.map V.unop.hom.op (f.val.app U x)) g) =
     t.val.app (op V.unop.left)
       ((tmap X f (𝟙 B)).val.app (op V.unop.left)
@@ -323,7 +323,7 @@ private lemma interchange_pure (M N P : SheafOfModules.{u}
     (tensorInterchange X M N P).hom.val.app (op U)
       (pure X (tp X M N) P U (pure X M N U m n) p) =
     pure X (tp X M P) N U (pure X M P U m p) n := by
-  show (Invertible.tensorProductAssociator (sectionSiteRing X)
+  change (Invertible.tensorProductAssociator (sectionSiteRing X)
       (sectionSiteSheaf X) M P N).inv.val.app _
     ((tmap X (𝟙 M)
       (Invertible.tensorProductBraiding (sectionSiteRing X)
@@ -389,7 +389,7 @@ private lemma interchange_naturality {M M' N P : SheafOfModules.{u}
         (tmap X f (𝟙 P)) (𝟙 N) := by
   apply tensor_triple_hom_ext X (M := M) (N := N) (P := P)
   intro U m n p
-  show (tensorInterchange X M' N P).hom.val.app (op U)
+  change (tensorInterchange X M' N P).hom.val.app (op U)
       ((tmap X
         (tmap X f (𝟙 N)) (𝟙 P)).val.app (op U) _) =
     (tmap X
@@ -498,7 +498,7 @@ private lemma tensorHomEvaluation_isIso (n : ℤ) : IsIso (tensorHomEvaluation X
     (fun Y => tensorHomEquiv X.toRingedSpace Y F (tp X G P))
     (fun Y => tensorInterchange X Y P F) (tensorHomEvaluation X L F G n) ?_
   intro Y k
-  show tmap X k (𝟙 P) ≫
+  change tmap X k (𝟙 P) ≫
     tensorHomEquiv X.toRingedSpace _ F _
       ((tensorInterchange X _ P F).hom ≫
         tmap X (sheafHomEvaluation X F G) (𝟙 P)) =
@@ -565,7 +565,7 @@ public theorem tensorHomEvaluation_tmul_apply (n : ℤ)
     let P := TensorPower.tensorPower (sectionSiteRing X)
       (sectionSiteSheaf X) L n
     let H := sheafHomSpace X.toRingedSpace F G
-    show (((tensorHomEquiv X.toRingedSpace (tp X H P) F (tp X G P)
+    change (((tensorHomEquiv X.toRingedSpace (tp X H P) F (tp X G P)
       ((tensorInterchange X H P F).hom ≫
         tmap X (sheafHomEvaluation X F G) (𝟙 P))).val.app
       (op U) (pure X H P U a q)).app V).hom g =
@@ -585,7 +585,7 @@ public theorem tensorHomEvaluation_tmul_apply (n : ℤ)
     refine Eq.trans (congrArg (fun y =>
       ((tensorInterchange X H P F).hom ≫ tmap X (sheafHomEvaluation X F G) (𝟙 P)).val.app
         (op V.unop.left) (pure X (tp X H P) F V.unop.left y g)) hr) ?_
-    show (tmap X (sheafHomEvaluation X F G) (𝟙 P)).val.app (op V.unop.left)
+    change (tmap X (sheafHomEvaluation X F G) (𝟙 P)).val.app (op V.unop.left)
         ((tensorInterchange X H P F).hom.val.app (op V.unop.left)
           (pure X (tp X H P) F V.unop.left
             (pure X H P V.unop.left (H.val.map V.unop.hom.op a)
@@ -676,7 +676,7 @@ public theorem gradedHomComparison_of (n : ℤ)
     gradedHomComparison X L F G (DirectSum.of _ n f) =
       DirectSum.of _ n (homToTwistedSection X L F G n f) :=
   by
-    show DirectSum.map (fun i =>
+    change DirectSum.map (fun i =>
       (Equiv.addEquiv (homToTwistedSection X L F G i)).toAddMonoidHom)
       (DirectSum.of _ n f) = _
     rw [DirectSum.map_of]
@@ -795,7 +795,7 @@ public theorem gradedHomGradedSMul_exists :
       (sheafHomSpace X.toRingedSpace F G)
   constructor
   intro i j a b ha hb
-  show (gradedHomComparison X L F G)
+  change (gradedHomComparison X L F G)
     ((gradedHomComparison X L F G).symm (a • (gradedHomComparison X L F G) b)) ∈
       T (i +ᵥ j)
   rw [AddEquiv.apply_symm_apply]
@@ -976,7 +976,7 @@ private lemma mem_degreeZero_iff
           have heq : (m • d : ℕ) +ᵥ (n • (d : ℤ)) = (m + n) • (d : ℤ) := by
             simp only [nsmul_eq_mul]; push_cast; change (m : ℤ) * d + n * d = _; ring
           exact heq ▸ h
-        · show (HomogeneousLocalization.Away.mk 𝒰 hf m b hb).val •
+        · change (HomogeneousLocalization.Away.mk 𝒰 hf m b hb).val •
               LocalizedModule.mk x (⟨f ^ n, by exact ⟨n, rfl⟩⟩ : Submonoid.powers f) = _
           rw [HomogeneousLocalization.Away.val_mk, LocalizedModule.mk_smul_mk]
           congr 1
@@ -1199,7 +1199,7 @@ private lemma homLocalizationComparison_fraction_coe (s : L.sections) (n : ℕ)
         LocalizedModule.mk (S := Submonoid.powers (homogeneousSection X L s))
           (DirectSum.of _ (n : ℤ) (homToTwistedSection X L F G n f))
           ⟨homogeneousSection X L s ^ n, ⟨n, rfl⟩⟩ := by
-  show LocalizedModule.map (Submonoid.powers (homogeneousSection X L s))
+  change LocalizedModule.map (Submonoid.powers (homogeneousSection X L s))
     (gradedHomComparisonLinear X L F G)
     (homFraction X L F G s n f : LocalizedModule.Away
       (homogeneousSection X L s) (gradedHom X L F G)) = _
@@ -1276,7 +1276,7 @@ public theorem of_mem_gradedHomGrading (n : ℤ)
         (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (G)).obj
         ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L n)))) :
     (DirectSum.of _ n f : gradedHom X L F G) ∈ gradedHomGrading X L F G n := by
-  show gradedHomComparison X L F G (DirectSum.of _ n f) ∈
+  change gradedHomComparison X L F G (DirectSum.of _ n f) ∈
     sectionModuleGrading (sectionSiteRing X) (sectionSiteSheaf X) L
       (sheafHomSpace X.toRingedSpace F G) n
   rw [gradedHomComparison_of]

@@ -98,7 +98,7 @@ theorem isZero_homology_map_obj_of_bounded (j : ℤ) :
     have h₁ : IsZero ((DerivedCategory.homologyFunctor D j).obj (G.obj T₀.obj₁)) := by
       have hτGE : T₀.obj₁.IsGE a := by
         have : K.IsGE a := hGE
-        show ((t.truncLE (b - 1)).obj K).IsGE a
+        change ((t.truncLE (b - 1)).obj K).IsGE a
         infer_instance
       refine ih T₀.obj₁ hτGE (t.isLE_truncLE_obj K (b - 1) (a + n) (by omega)) fun q haq hqb => ?_
       exact isZero_homology_single_of_iso G j q
@@ -108,14 +108,14 @@ theorem isZero_homology_map_obj_of_bounded (j : ℤ) :
             (by omega))).symm (hq q haq (by push_cast; omega))
     have h₃ : IsZero ((DerivedCategory.homologyFunctor D j).obj (G.obj T₀.obj₃)) := by
       have : T₀.obj₃.IsGE b := by
-        show ((t.truncGE b).obj K).IsGE b
+        change ((t.truncGE b).obj K).IsGE b
         infer_instance
       have : T₀.obj₃.IsLE b := by
         have : K.IsLE b := by simpa [b, Nat.cast_succ, add_assoc] using hLE
-        show ((t.truncGE b).obj K).IsLE b
+        change ((t.truncGE b).obj K).IsLE b
         infer_instance
       have hIso : IsIso ((DerivedCategory.Plus.homologyFunctor C b).map T₀.mor₂) := by
-        show IsIso ((DerivedCategory.Plus.homologyFunctor C b).map ((t.truncGEπ b).app K))
+        change IsIso ((DerivedCategory.Plus.homologyFunctor C b).map ((t.truncGEπ b).app K))
         simpa [t] using DerivedCategory.Plus.isIso_homologyMap_truncGEπ_app b b le_rfl K
       exact isZero_homology_obj_of_isGE_of_isLE G _ b j
         (isZero_homology_single_of_iso G j b (@asIso _ _ _ _ _ hIso)
@@ -139,21 +139,21 @@ theorem isZero_homology_map_obj_of_isZero_single
   have hT : T ∈ distTriang (DerivedCategory.Plus C) := t.triangleLEGE_distinguished j (j + 1) rfl K
   have h₃ : IsZero ((DerivedCategory.homologyFunctor D j).obj (G.obj T.obj₃)) := by
     have : T.obj₃.IsGE (j + 1) := by
-      show ((t.truncGE (j + 1)).obj K).IsGE _
+      change ((t.truncGE (j + 1)).obj K).IsGE _
       infer_instance
     have := hGE T.obj₃ (j + 1) this
     exact (G.obj T.obj₃).isZero_of_isGE (j + 1) j (by omega)
   have h₁ : IsZero ((DerivedCategory.homologyFunctor D j).obj (G.obj T.obj₁)) := by
     have : K.IsGE (min a j) := t.isGE_of_ge K (min a j) a (min_le_left _ _)
     have hGE₁ : T.obj₁.IsGE (min a j) := by
-      show ((t.truncLE j).obj K).IsGE _
+      change ((t.truncLE j).obj K).IsGE _
       infer_instance
     have hlen : min a j + ((j - min a j).toNat : ℤ) = j := by
       rw [Int.toNat_of_nonneg (sub_nonneg.mpr (min_le_right _ _))]
       omega
     have hLE₁ : T.obj₁.IsLE (min a j + ((j - min a j).toNat : ℤ)) := by
       rw [hlen]
-      show ((t.truncLE j).obj K).IsLE j
+      change ((t.truncLE j).obj K).IsLE j
       infer_instance
     refine isZero_homology_map_obj_of_bounded G j (min a j) _ T.obj₁ hGE₁ hLE₁
       fun q _ hq => ?_
@@ -212,7 +212,7 @@ theorem isZero_rightDerived_comp_obj_of_isZero (X : A) (n : ℕ)
   have hGE : ∀ (L : DerivedCategory.Plus B) (a : ℤ), L.IsGE a → (Gd.obj L).IsGE a := by
     intro L a hL
     have := Functor.isGE_rightDerivedFunctorPlus_obj G L a
-    show (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
+    change (DerivedCategory.Plus.ι.obj (G.rightDerivedFunctorPlus.obj L)).IsGE a
     infer_instance
   have key : IsZero ((DerivedCategory.homologyFunctor E n).obj (Gd.obj K)) := by
     refine isZero_homology_map_obj_of_isZero_single Gd hGE K 0 n fun q hq => ?_

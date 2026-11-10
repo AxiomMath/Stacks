@@ -102,7 +102,7 @@ the Kummer sequence, with the two side conditions of
 def curveKummerCoboundary :
     Sheaf.H.{u + 1} (multiplicativeSheaf.{u, u + 1} X) 1 →+
       Sheaf.H.{u + 1} (rootsOfUnitySheaf.{u, u + 1} X n) 2 :=
-  kummerConnecting.{u, u + 1, u + 1} X (ne_zero_of_isUnit_natCast g hn)
+  kummerConnecting.{u, u + 1, u + 1} X (ne_zero_of_isUnit_natCast hn)
     (isUnit_natCast_globalSections_of_isUnit g hn) 1
 
 /-- **Every class in `H²_étale(X, μ_n)` is a Kummer coboundary** on a smooth curve over an
@@ -113,7 +113,7 @@ theorem exists_curveKummerCoboundary_eq
     ∃ a, curveKummerCoboundary g hn a = x := by
   have := subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve_univ.{u, u + 1, u + 1} g 2 le_rfl
   exact exists_kummerConnecting_eq_of_rootsOfUnityInclusion_eq_zero.{u, u + 1, u + 1} X
-    (ne_zero_of_isUnit_natCast g hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 x
+    (ne_zero_of_isUnit_natCast hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 x
     (Subsingleton.elim _ _)
 
 omit [IsAlgClosed k] [IsCurve k g] [Smooth g] in
@@ -124,9 +124,9 @@ theorem curveKummerCoboundary_eq_zero_iff
     (a : Sheaf.H.{u + 1} (multiplicativeSheaf.{u, u + 1} X) 1) :
     curveKummerCoboundary g hn a = 0 ↔ ∃ z, n • z = a :=
   ⟨exists_nsmul_eq_of_kummerConnecting_eq_zero.{u, u + 1, u + 1} X
-      (ne_zero_of_isUnit_natCast g hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 a,
+      (ne_zero_of_isUnit_natCast hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 a,
     fun ⟨z, hz⟩ => hz ▸ kummerConnecting_nsmul.{u, u + 1, u + 1} X
-      (ne_zero_of_isUnit_natCast g hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 z⟩
+      (ne_zero_of_isUnit_natCast hn) (isUnit_natCast_globalSections_of_isUnit g hn) 1 z⟩
 
 end Coboundary
 
@@ -256,7 +256,7 @@ def sheafHTwoRootsOfUnityAddEquivZMod :
     ((QuotientAddGroup.quotientAddEquivOfEq
         (ker_curveKummerCoboundary_eq_ker_sheafHOneMultiplicativeDegreeMod g hn)).trans
       (QuotientAddGroup.quotientKerEquivOfSurjective (sheafHOneMultiplicativeDegreeMod g n)
-        (surjective_sheafHOneMultiplicativeDegreeMod g (ne_zero_of_isUnit_natCast g hn))))
+        (surjective_sheafHOneMultiplicativeDegreeMod g (ne_zero_of_isUnit_natCast hn))))
 
 /-- **The normalisation of `Stacks.EtaleCohomology.sheafHTwoRootsOfUnityAddEquivZMod`**: the
 coordinate of the Kummer coboundary of a class in `H¹_étale(X, 𝐆_m)` is the degree of that class

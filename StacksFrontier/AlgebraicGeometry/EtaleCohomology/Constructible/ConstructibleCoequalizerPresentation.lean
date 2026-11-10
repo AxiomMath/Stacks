@@ -172,7 +172,7 @@ private theorem smallEtale_coveringSieve_pointwise
       obtain ⟨lifted, hfirst', hsecond'⟩ :=
         Scheme.exists_preimage_of_isPullback hpb preimage point hpreimage
       refine ⟨pullback first arrow, pullback.snd first arrow, ?_, lifted, hsecond'⟩
-      show R (pullback.snd first arrow ≫ arrow)
+      change R (pullback.snd first arrow ≫ arrow)
       rw [← pullback.condition]
       exact R.downward_closed hfirst _
   | transitive U R S hR hlocal ihR ihlocal =>
@@ -209,7 +209,7 @@ private theorem exists_smallEtale_refinement
     ((Scheme.presieve₀_mem_precoverage_iff (selected.map B.inclusion)).mp hselected.1).2
   let V : selected.I₀ → SmallEtale B X.obj X.property := fun index =>
     ⟨Over.mk (selected.f index ≫ U.obj.hom), by
-      show Etale (B.inclusion.map (selected.f index ≫ U.obj.hom))
+      change Etale (B.inclusion.map (selected.f index ≫ U.obj.hom))
       rw [Functor.map_comp]
       have := hetale index
       infer_instance⟩
@@ -248,14 +248,14 @@ private theorem smallEtale_sieve_mem_of_jointlySurjective
   obtain ⟨index⟩ := harrow
   let factor : W index ⟶ V (reindex index) := ObjectProperty.homMk
     (Over.homMk (eqToHom (hobjects index)) (by
-      show eqToHom (hobjects index) ≫ (V (reindex index)).obj.hom = _
+      change eqToHom (hobjects index) ≫ (V (reindex index)).obj.hom = _
       rw [← Over.w (selectedArrows index).hom, harrows index, Category.assoc]
       exact congrArg _ (Over.w (arrows (reindex index)).hom).symm))
   have hfactor : selectedArrows index = factor ≫ arrows (reindex index) := by
     apply (SmallEtale.inclusion B X.obj X.property ⋙
       BigEtaleOver.forget B X.obj X.property).map_injective
     exact harrows index
-  show (Sieve.ofArrows V arrows) (selectedArrows index)
+  change (Sieve.ofArrows V arrows) (selectedArrows index)
   rw [hfactor]
   exact (Sieve.ofArrows V arrows).downward_closed (Sieve.ofArrows_mk _ _ _) factor
 
@@ -321,14 +321,14 @@ private theorem exists_affine_cover_smallEtale
       (family.map B.inclusion)).mpr ⟨fun point => by
         obtain ⟨index, preimage, hpreimage⟩ := cover.exists_eq point
         exact ⟨⟨index⟩, preimage, hpreimage⟩, fun index => by
-        show Etale (cover.f index.down)
+        change Etale (cover.f index.down)
         infer_instance⟩
   obtain ⟨J, V, arrows, reindex, hcover, hobjects, -⟩ :=
     exists_smallEtale_refinement B X U family hfamily
   refine ⟨J, V, arrows, hcover, fun index => ?_⟩
-  show IsAffine (B.inclusion.obj (V index).obj.left)
+  change IsAffine (B.inclusion.obj (V index).obj.left)
   rw [hobjects index]
-  show IsAffine (cover.X (reindex index).down)
+  change IsAffine (cover.X (reindex index).down)
   infer_instance
 
 private theorem exists_affineRepresentable_epi
@@ -352,7 +352,7 @@ private theorem exists_affineRepresentable_epi
   intro G first second hequal
   apply Sheaf.hom_ext
   ext object element
-  show first.hom.app object element = second.hom.app object element
+  change first.hom.app object element = second.hom.app object element
   obtain ⟨indices, V, arrows, hcover, haffine⟩ :=
     exists_affine_cover_smallEtale B X object.unop
   apply (((isSheaf_iff_isSheaf_of_type J G.obj).mp G.property).isSeparated
@@ -365,7 +365,7 @@ private theorem exists_affineRepresentable_epi
     let chosen : I := ⟨⟨V index, haffine index⟩, F.obj.map (arrows index).op element⟩
     have hcomponent := congrArg (fun morphism => Limits.Sigma.ι
       (fun index => (Sheaf.sheafifiedYoneda J).obj (U index)) chosen ≫ morphism) hequal
-    rw [← Category.assoc, ← Category.assoc, Limits.Sigma.ι_desc] at hcomponent
+    rw [← Category.assoc, ← Category.assoc, Limits.Sigma.ι_comp_desc] at hcomponent
     have hsection := congrArg (Sheaf.sectionEquiv J) hcomponent
     simpa only [sections, chosen, Sheaf.sectionEquiv_comp,
       Equiv.apply_symm_apply] using hsection
@@ -458,7 +458,7 @@ private theorem exists_finite_epi_of_jointlyFaithful
         Limits.Sigma.desc fun selected : selection index => sections selected.1 := by
       apply Limits.Sigma.hom_ext
       intro selected
-      simp only [inclusion, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc_assoc]
+      simp only [inclusion, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc_assoc]
     have := hepi index
     have hmap := congrArg (restriction index).map hfactor
     rw [Functor.map_comp] at hmap
@@ -517,7 +517,7 @@ private theorem isQuasiCompact_of_iso
         Limits.Sigma.desc arrows ≫ iso.inv := by
     apply Limits.Sigma.hom_ext
     intro index
-    simp only [Limits.Sigma.ι_desc, Limits.Sigma.ι_desc_assoc]
+    simp only [Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc_assoc]
   have hepiA : Epi (Limits.Sigma.desc fun index => sections index ≫ iso.inv) := by
     rw [hdesc]
     infer_instance
@@ -536,7 +536,7 @@ private theorem isQuasiCompact_of_iso
     inferInstance
   simpa using hepiC
 
-private theorem isQuasiCompact_of_isConstructibleSetSheaf
+theorem isQuasiCompact_of_isConstructibleSetSheaf
     (B : BigEtaleSite.{u}) (X : B.Scheme) [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     (hdesc : Stacks.EtaleCohomology.EtaleDescentForFiniteEtaleRepresentability B)
     (hjf : ∀ {k : ℕ} (Y : Fin k → B.Scheme) (inclusions : ∀ i, Y i ⟶ X),
@@ -593,7 +593,7 @@ private theorem coequalizer_kernelPair_epi_comp_iso
   exact ⟨(colimit.isColimit _).coconePointUniqueUpToIso
     (isCoequalizerEpiComp kernelPairColimit q)⟩
 
-private theorem isConstructibleSetSheaf_sigma_sheafifiedYoneda
+theorem isConstructibleSetSheaf_sigma_sheafifiedYoneda
     (B : BigEtaleSite.{u}) (X : B.Scheme) [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     (hstrat : ∀ U : SmallEtale B X.obj X.property,
       CompactSpace ((SmallEtale.toScheme B X.obj X.property).obj U) →

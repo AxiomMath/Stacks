@@ -62,8 +62,8 @@ degreewise identification
 only at `f.toAlgebra`. Every statement below therefore opens with `letI := f.toAlgebra` and
 quantifies `N` inside it, since the type of `N` mentions
 `DifferentialGradedAlgebra.degreeZero R A`. Nothing is lost: the whole `A`-linear layer in
-`StacksFrontier/Algebra/DifferentialGraded/Module/AbsoluteTensorModuleALinear.lean` is generic in the
-`Algebra R A` instance, so it applies at `f.toAlgebra` with no transport, and
+`StacksFrontier/Algebra/DifferentialGraded/Module/AbsoluteTensorModuleALinear.lean` is generic in
+the `Algebra R A` instance, so it applies at `f.toAlgebra` with no transport, and
 `DifferentialGradedModule.degreeZero_algebraMap_toAlgebra` connects the result back to the ambient
 instance when a consumer needs that.
 

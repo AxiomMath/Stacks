@@ -65,7 +65,7 @@ private lemma cech_map_coord {X S : C} (f : X ⟶ S) {m n : ℕ}
       Opposite.op (SimplexCategory.mk n)) (i : Fin (n + 1)) :
     (Arrow.mk f).cechNerve.map g ≫ cechCoord f n i =
       cechCoord f m (g.unop.toOrderHom i) := by
-  simp [cechCoord, Arrow.cechNerve_map, Arrow.cechNerve_obj, WidePullback.lift_π]
+  simp [cechCoord, Arrow.cechNerve_map, Arrow.cechNerve_obj]
 
 private lemma face_coord {X S : C} (f : X ⟶ S) {Y : SimplicialObject C}
     (π : Y ⟶ (Arrow.mk f).cechNerve) (i : Fin 2) :
@@ -83,7 +83,7 @@ private lemma cech_map_base {X S : C} (f : X ⟶ S) {m n : ℕ}
     (g : (Opposite.op (SimplexCategory.mk m) : SimplexCategoryᵒᵖ) ⟶
       Opposite.op (SimplexCategory.mk n)) :
     (Arrow.mk f).cechNerve.map g ≫ cechBase f n = cechBase f m := by
-  simp [cechBase, Arrow.cechNerve_map, WidePullback.lift_base]
+  simp [cechBase, Arrow.cechNerve_map]
 
 private def triple {W X : C} (x₀ x₁ x₂ : W ⟶ X) : Fin 3 → (W ⟶ X) :=
   Fin.cons (α := fun _ : Fin 3 => W ⟶ X) x₀
@@ -95,11 +95,11 @@ private lemma triple_compat {W X S : C} (f : X ⟶ S) (x₀ x₁ x₂ : W ⟶ X)
     ∀ i : Fin 3, triple x₀ x₁ x₂ i ≫ f = x₀ ≫ f := by
   intro i
   fin_cases i
-  · show x₀ ≫ f = x₀ ≫ f
+  · change x₀ ≫ f = x₀ ≫ f
     rfl
-  · show x₁ ≫ f = x₀ ≫ f
+  · change x₁ ≫ f = x₀ ≫ f
     exact h₁.symm
-  · show x₂ ≫ f = x₀ ≫ f
+  · change x₂ ≫ f = x₀ ≫ f
     exact h₂.symm
 
 private noncomputable def cechTwoSimplex {X S : C} (f : X ⟶ S) {W : C}
@@ -113,10 +113,7 @@ private lemma cechTwoSimplex_coord {X S : C} (f : X ⟶ S) {W : C}
     (i : Fin 3) :
     cechTwoSimplex f x₀ x₁ x₂ h₁ h₂ ≫ cechCoord f 2 i =
       triple x₀ x₁ x₂ i := by
-  simpa [cechTwoSimplex, cechCoord] using
-    (WidePullback.lift_π (fun _ : Fin 3 => f) (x₀ ≫ f)
-      (triple x₀ x₁ x₂)
-      (triple_compat f x₀ x₁ x₂ h₁ h₂) i)
+  simp [cechTwoSimplex, cechCoord]
 
 private lemma cechTwoSimplex_base {X S : C} (f : X ⟶ S) {W : C}
     (x₀ x₁ x₂ : W ⟶ X) (h₁ : x₀ ≫ f = x₁ ≫ f) (h₂ : x₀ ≫ f = x₂ ≫ f) :
@@ -156,7 +153,7 @@ private lemma cechTwoSimplex_face2 {X S : C} (f : X ⟶ S) {W : C}
   let z := cechTwoSimplex f x₀ x₁ x₂ h₁ h₂
   let g : (Opposite.op (SimplexCategory.mk 2) : SimplexCategoryᵒᵖ) ⟶
       Opposite.op (SimplexCategory.mk 1) := (SimplexCategory.δ (2 : Fin 3)).op
-  show z ≫ (Arrow.mk f).cechNerve.map g = e
+  change z ≫ (Arrow.mk f).cechNerve.map g = e
   have hg₀ : g.unop.toOrderHom (0 : Fin 2) = 0 := by decide
   have hg₁ : g.unop.toOrderHom (1 : Fin 2) = 1 := by decide
   apply WidePullback.hom_ext (fun _ : Fin 2 => f)
@@ -165,16 +162,16 @@ private lemma cechTwoSimplex_face2 {X S : C} (f : X ⟶ S) {W : C}
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 0 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 0) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 0
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 0 := by simpa [z, hg₀, cechTwoSimplex_coord, triple] using he₀.symm
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 1 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 1) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 1
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 1 := by simpa [z, hg₁, cechTwoSimplex_coord, triple] using he₁.symm
   · calc
       (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechBase f 1 = z ≫ cechBase f 2 := by
-        simpa [Category.assoc] using post_cech_map_base f g z
+        simp [Category.assoc]
       _ = x₀ ≫ f := cechTwoSimplex_base f x₀ x₁ x₂ h₁ h₂
       _ = e ≫ cechBase f 1 := heb.symm
 
@@ -188,7 +185,7 @@ private lemma cechTwoSimplex_face0 {X S : C} (f : X ⟶ S) {W : C}
   let z := cechTwoSimplex f x₀ x₁ x₂ h₁ h₂
   let g : (Opposite.op (SimplexCategory.mk 2) : SimplexCategoryᵒᵖ) ⟶
       Opposite.op (SimplexCategory.mk 1) := (SimplexCategory.δ (0 : Fin 3)).op
-  show z ≫ (Arrow.mk f).cechNerve.map g = e
+  change z ≫ (Arrow.mk f).cechNerve.map g = e
   have hg₀ : g.unop.toOrderHom (0 : Fin 2) = 1 := by decide
   have hg₁ : g.unop.toOrderHom (1 : Fin 2) = 2 := by decide
   apply WidePullback.hom_ext (fun _ : Fin 2 => f)
@@ -197,12 +194,12 @@ private lemma cechTwoSimplex_face0 {X S : C} (f : X ⟶ S) {W : C}
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 0 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 0) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 0
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 0 := by simpa [z, hg₀, cechTwoSimplex_coord, triple] using he₀.symm
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 1 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 1) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 1
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 1 := by
           rw [hg₁]
           have hz : z ≫ cechCoord f 2 2 = x₂ := by
@@ -213,7 +210,7 @@ private lemma cechTwoSimplex_face0 {X S : C} (f : X ⟶ S) {W : C}
           exact hz.trans he₁.symm
   · calc
       (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechBase f 1 = z ≫ cechBase f 2 := by
-        simpa [Category.assoc] using post_cech_map_base f g z
+        simp [Category.assoc]
       _ = x₀ ≫ f := cechTwoSimplex_base f x₀ x₁ x₂ h₁ h₂
       _ = e ≫ cechBase f 1 := heb.symm
 
@@ -229,20 +226,20 @@ private lemma cechTwoSimplex_face1 {X S : C} (f : X ⟶ S) {W : C}
       Opposite.op (SimplexCategory.mk 1) := (SimplexCategory.δ (1 : Fin 3)).op
   have hg₀ : g.unop.toOrderHom (0 : Fin 2) = 0 := by decide
   have hg₁ : g.unop.toOrderHom (1 : Fin 2) = 2 := by decide
-  show z ≫ (Arrow.mk f).cechNerve.map g = e
+  change z ≫ (Arrow.mk f).cechNerve.map g = e
   apply WidePullback.hom_ext (fun _ : Fin 2 => f)
   · intro i
     fin_cases i
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 0 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 0) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 0
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 0 := by
           simpa [z, hg₀, cechTwoSimplex_coord, triple] using he₀.symm
     · calc
         (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechCoord f 1 1 =
             z ≫ cechCoord f 2 (g.unop.toOrderHom 1) := by
-              simpa [Category.assoc] using post_cech_map_coord f g z 1
+              simp [Category.assoc]
         _ = e ≫ cechCoord f 1 1 := by
           rw [hg₁]
           have hz : z ≫ cechCoord f 2 2 = x₂ := by
@@ -253,7 +250,7 @@ private lemma cechTwoSimplex_face1 {X S : C} (f : X ⟶ S) {W : C}
           exact hz.trans he₁.symm
   · calc
       (z ≫ (Arrow.mk f).cechNerve.map g) ≫ cechBase f 1 = z ≫ cechBase f 2 := by
-        simpa [Category.assoc] using post_cech_map_base f g z
+        simp [Category.assoc]
       _ = x₀ ≫ f := cechTwoSimplex_base f x₀ x₁ x₂ h₁ h₂
       _ = e ≫ cechBase f 1 := heb.symm
 
@@ -488,21 +485,21 @@ private noncomputable def faceMaps_symmetric {X S : C} (f : X ⟶ S)
       e₀ ≫ cechCoord f 1 0 = (v₀ ≫ π₀) ≫ (Arrow.mk f).cechNerve.map gσ ≫
           cechCoord f 1 0 := by simp [e₀, Category.assoc]
       _ = (v₀ ≫ π₀) ≫ cechCoord f 0 (gσ.unop.toOrderHom 0) := by
-        simpa [Category.assoc] using post_cech_map_coord f gσ (v₀ ≫ π₀) 0
+        simp [Category.assoc]
       _ = x₀ := by simpa [hσ₀] using hvcoord
   have he₁ : e₀ ≫ cechCoord f 1 1 = x₀ := by
     calc
       e₀ ≫ cechCoord f 1 1 = (v₀ ≫ π₀) ≫ (Arrow.mk f).cechNerve.map gσ ≫
           cechCoord f 1 1 := by simp [e₀, Category.assoc]
       _ = (v₀ ≫ π₀) ≫ cechCoord f 0 (gσ.unop.toOrderHom 1) := by
-        simpa [Category.assoc] using post_cech_map_coord f gσ (v₀ ≫ π₀) 1
+        simp [Category.assoc]
       _ = x₀ := by simpa [hσ₁] using hvcoord
   have heb : e₀ ≫ cechBase f 1 = x₀ ≫ f := by
     calc
       e₀ ≫ cechBase f 1 = (v₀ ≫ π₀) ≫ (Arrow.mk f).cechNerve.map gσ ≫
           cechBase f 1 := by simp [e₀, Category.assoc]
       _ = (v₀ ≫ π₀) ≫ cechBase f 0 := by
-        simpa [Category.assoc] using post_cech_map_base f gσ (v₀ ≫ π₀)
+        simp [Category.assoc]
       _ = x₀ ≫ f := by
         have hbase0 : cechBase f 0 = cechCoord f 0 0 ≫ f := by
           simp [cechBase, cechCoord]

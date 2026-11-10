@@ -160,7 +160,7 @@ public theorem finiteSupportTensorSectionsHom_scalar
         ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G) (baseChange B f V)
         (modPullbackUnitSection B Λ f G V t) E.1
         (finiteSupport_isLocallyClosed B f V E) a))
-  show colim.map _ ≫ colim.map _ = colim.map _ ≫ colim.map _
+  change colim.map _ ≫ colim.map _ = colim.map _ ≫ colim.map _
   rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp, hΘ]
 
 /-- The projection-formula recipe, transported into the values of `f_{p!}`, commutes with the

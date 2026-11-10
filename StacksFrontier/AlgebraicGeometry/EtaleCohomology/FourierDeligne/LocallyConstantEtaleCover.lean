@@ -67,7 +67,7 @@ theorem isLocallyConstantWith_of_etale_cover (Q : ModuleCat.{u + 1} Λ → Prop)
     obtain ⟨p, w, hw'⟩ := Set.mem_iUnion.1
       ((Scheme.ofArrows_mem_smallEtaleTopology_iff _).1 (hcovW i) ▸ Set.mem_univ z)
     refine Set.mem_iUnion.2 ⟨⟨i, p⟩, w, ?_⟩
-    show ((g i p).left ≫ fst i) w = v
+    change ((g i p).left ≫ fst i) w = v
     rwa [Scheme.Hom.comp_apply, hw']
   · obtain ⟨i, p⟩ := p
     obtain ⟨E, hE, ⟨e⟩⟩ := htriv i p

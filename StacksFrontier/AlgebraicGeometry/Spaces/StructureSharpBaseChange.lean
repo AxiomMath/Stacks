@@ -17,7 +17,8 @@ Y' --g--> Y
 be a cartesian square of algebraic spaces over a scheme `S` contained in a big fppf site `B`,
 with `g` étale.  The two sides of the ordinary statement of Stacks 03LX for the direct image of
 modules are transports of `𝒪_X`-modules along the two composite functors of sheaves of sets
-around the square, and `StacksFrontier/AlgebraicGeometry/Spaces/ModulePushforwardEtaleBaseChange.lean`
+around the square, and
+`StacksFrontier/AlgebraicGeometry/Spaces/ModulePushforwardEtaleBaseChange.lean`
 reduces that statement to a single compatibility of the structure maps of Stacks 03G8: that
 `(f')^♯` corresponds, under the sheaf-of-sets base-change isomorphism of Stacks 03LR, part (1),
 to the étale restriction of `f^♯`.  It carries that compatibility as the named hypothesis

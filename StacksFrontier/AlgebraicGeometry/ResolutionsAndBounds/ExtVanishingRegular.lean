@@ -118,7 +118,7 @@ theorem subsingleton_ext_homology_cx_of_isRegular [IsNoetherian X] (hX : IsRegul
     have h₁ := coheight_le_topologicalKrullDim y
     rw [hd] at h₁
     have h₂ : Order.coheight y ≤ (d : ℕ∞) := by exact_mod_cast h₁
-    obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 (ne_top_of_le_ne_top (ENat.coe_ne_top d) h₂)
+    obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 (ne_top_of_le_ne_top (ENat.natCast_ne_top d) h₂)
     refine ⟨n, by exact_mod_cast hn ▸ h₂, ?_⟩
     rw [ringKrullDim_stalk_eq_coheight, ← hn]
     rfl

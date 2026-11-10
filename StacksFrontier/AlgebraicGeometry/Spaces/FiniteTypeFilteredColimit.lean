@@ -190,7 +190,7 @@ theorem exists_isIso_ι_of_isFiniteType_of_isQuasiCompactSpace
       rw [op_comp]
       exact c.pt.val.map_comp_apply g.op a.op x
     refine ⟨∑ j, coef j • (D.obj k).val.restrictₛₗ (a ≫ h).op (z p.1 p.2 j), ?_⟩
-    show (c.ι.app k).val.app (op Y'')
+    change (c.ι.app k).val.app (op Y'')
         (∑ j, coef j • (D.obj k).val.restrictₛₗ (a ≫ h).op (z p.1 p.2 j)) =
       c.pt.val.map (a ≫ g).op x
     exact ((map_sum ((c.ι.app k).val.app (op Y'')).hom _ _).trans

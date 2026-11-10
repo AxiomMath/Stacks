@@ -153,9 +153,9 @@ public theorem exists_leibniz_extension_of_extend_integralClosure
   refine ⟨AddMonoidHom.mk' (fun z => e.symm (D' (e z))) (fun z w => ?_), fun z w => ?_,
     fun r => ?_⟩
   · rw [map_add, hadd, map_add]
-  · show e.symm (D' (e (z * w))) = z * e.symm (D' (e w)) + w * e.symm (D' (e z))
+  · change e.symm (D' (e (z * w))) = z * e.symm (D' (e w)) + w * e.symm (D' (e z))
     rw [map_mul, hmul, map_add, map_mul, map_mul, e.symm_apply_apply, e.symm_apply_apply]
-  · show e.symm (D' (e (((Scheme.normalization X hfin).app U).hom r)))
+  · change e.symm (D' (e (((Scheme.normalization X hfin).app U).hom r)))
       = ((Scheme.normalization X hfin).app U).hom (d r)
     have hr : ((Scheme.normalization X hfin).app U).hom r
         = algebraMap Γ(X, U)

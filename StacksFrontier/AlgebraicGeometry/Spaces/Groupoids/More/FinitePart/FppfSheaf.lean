@@ -143,18 +143,19 @@ private lemma pullbackBaseMap_isPullback {C : Type u} [Category.{v} C]
   pullback_map_isPullback a b f g _ hb
     (pullbackBaseMap_fst a b f g hb) (pullbackBaseMap_snd a b f g hb)
 
-private def finitePartSchemeBelowPreservesCospan (B : BigFppfSite.{u}) :
+private theorem finitePartSchemeBelowPreservesCospan (B : BigFppfSite.{u}) :
     PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
 
 attribute [local instance] finitePartSchemeBelowPreservesCospan
 
-private def finitePartBigFppfOverHasPullbacks (B : BigFppfSite.{u})
+private theorem finitePartBigFppfOverHasPullbacks (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) :
     HasPullbacks (BigFppfOver B S hS) := inferInstance
 
 attribute [local instance] finitePartBigFppfOverHasPullbacks
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaves on `BigFppfOver B S hS` exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance finitePartPresheafHasPullbacks (B : BigFppfSite.{u})
@@ -162,6 +163,7 @@ local instance finitePartPresheafHasPullbacks (B : BigFppfSite.{u})
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaves on `BigFppfOver B S hS` exceeds the default budget
 /-- Products of presheaves on the big fppf site over `S` indexed by a small type (instance
 search times out without this shortcut). -/
 local instance finitePartPresheafHasLimitsOfShapeDiscrete (B : BigFppfSite.{u})
@@ -179,7 +181,7 @@ private theorem isFlat_schemeSpaceMap_of_flat
     {U V : BigFppfOver B S hS} (g : U ⟶ V)
     (hg : Flat ((BigFppfOver.toScheme B S hS).map g)) :
     IsFlat B S hS (schemeSpaceMap g).hom := by
-  show HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map g)
+  change HoldsOnEveryEtaleChart B S hS (@Flat) (yoneda.map g)
   rw [holdsOnEveryEtaleChart_iff_representable
     B S hS (@Flat) AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget]
   let eU := yoneda.preimage (yoneda.obj U).reprW.hom
@@ -327,7 +329,7 @@ private lemma exists_finite_affine_refinement {X : Scheme.{u}} [CompactSpace X]
     simpa using Scheme.Hom.isOpenMap ((W x).ι ≫ f (i x)) Set.univ isOpen_univ
   have hcover (x : X) : x ∈ Set.range ((W x).ι ≫ f (i x)) := by
     refine ⟨⟨y x, hmem x⟩, ?_⟩
-    show f (i x) ((W x).ι ⟨y x, hmem x⟩) = x
+    change f (i x) ((W x).ι ⟨y x, hmem x⟩) = x
     rw [Scheme.Opens.ι_apply]
     exact hy x
   obtain ⟨s, hs⟩ := isCompact_univ.elim_finite_subcover
@@ -401,7 +403,7 @@ private lemma exists_finite_affine_cover_of_fppf (B : BigFppfSite.{u}) (S : Sche
     exact ⟨ULift.up ⟨x, hxS⟩, y, hy⟩
   · have := (hp (i x.down.1)).1
     have := (hp (i x.down.1)).2
-    show Flat ((W x.down.1).ι ≫ G.map (p (i x.down.1))) ∧
+    change Flat ((W x.down.1).ι ≫ G.map (p (i x.down.1))) ∧
       LocallyOfFinitePresentation ((W x.down.1).ι ≫ G.map (p (i x.down.1)))
     exact ⟨inferInstance, inferInstance⟩
 
@@ -433,7 +435,7 @@ private theorem isFpqcCovering_of_schemeFppfPresieve
   refine ⟨U, hU, hcov, fun j => ?_⟩
   obtain ⟨k, m, hm⟩ := hfac j
   refine ⟨k, yoneda.map (m ≫ overPullbackFst B S hS (E.f k) g), ?_⟩
-  show yoneda.map (m ≫ _) ≫ yoneda.map (E.f k) = yoneda.map _ ≫ yoneda.map g
+  change yoneda.map (m ≫ _) ≫ yoneda.map (E.f k) = yoneda.map _ ≫ yoneda.map g
   rw [hm, ← Functor.map_comp, ← Functor.map_comp, Category.assoc, Category.assoc,
     overPullback_condition]
 
@@ -715,7 +717,7 @@ private lemma pairBaseChange_cover_ext
     Y.property.isSheaf_fpqc (fun i => g i ≫ p.toBase) (by
       intro i j
       apply ObjectProperty.hom_ext
-      show pullback.fst (g i).hom (g j).hom ≫ (g i).hom ≫ p.toBase.hom =
+      change pullback.fst (g i).hom (g j).hom ≫ (g i).hom ≫ p.toBase.hom =
         pullback.snd (g i).hom (g j).hom ≫ (g j).hom ≫ p.toBase.hom
       rw [← Category.assoc, pullback.condition, Category.assoc])
   have hb : p.toBase = q.toBase :=
@@ -882,7 +884,7 @@ private lemma finitePairToNatTrans_spec
     (U : BigFppfOver B S hS) (g : yoneda.obj U ⟶ T.obj) :
     PairBaseChange B S hS f (ObjectProperty.homMk g) p
       (P.sections U ((finitePairToNatTrans B S hS f P p).app (op U) (yonedaEquiv g))) := by
-  show PairBaseChange B S hS f (ObjectProperty.homMk g) p
+  change PairBaseChange B S hS f (ObjectProperty.homMk g) p
     (P.sections U ((P.sections U).symm
       (exists_pairBaseChange B S hS f
         (ObjectProperty.homMk (yonedaEquiv.symm (yonedaEquiv g)) :
@@ -908,7 +910,7 @@ private lemma atlas_isFpqcCovering
       (@Etale.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS)
     have : Q.IsStableUnderComposition := by
       refine ⟨fun j k hj hk => ?_⟩
-      show Etale ((BigFppfOver.toScheme B S hS).map (j ≫ k))
+      change Etale ((BigFppfOver.toScheme B S hS).map (j ≫ k))
       rw [Functor.map_comp]
       have : Etale ((BigFppfOver.toScheme B S hS).map j) := hj
       have : Etale ((BigFppfOver.toScheme B S hS).map k) := hk

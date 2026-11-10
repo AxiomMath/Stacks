@@ -5,8 +5,7 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.GaloisCategory.InertiaKernel
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.NormalFunctionField
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.TopologicalInvarianceFundamental.Basic
-public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.TopologicalInvarianceFundamental.CoverEquivalenceInvariance
+public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.TopologicalInvarianceFundamental.CoverEquivalenceInvariance
 public import StacksFrontier.RingTheory.Henselian.Pair.LocalRing
 public import StacksFrontier.RingTheory.Invariant.DecompositionFixedField
 public import StacksFrontier.RingTheory.Invariant.Primes
@@ -366,12 +365,12 @@ theorem surjective_and_ker_absoluteGaloisToFundamentalGroup
     (hs : GeometricPoint.IsAlgebraic sbar)
     (hgeneric : sbar.hom default = genericPoint X) :
     let _ : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-      normal_maximalEtaleExtension X sbar hs hgeneric
+      normal_maximalEtaleExtension X sbar hs
     Function.Surjective (absoluteGaloisToFundamentalGroup X sbar) ∧
       (absoluteGaloisToFundamentalGroup X sbar).toMonoidHom.ker =
         (maximalEtaleExtension X sbar).fixingSubgroup := by
   let : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-    normal_maximalEtaleExtension X sbar hs hgeneric
+    normal_maximalEtaleExtension X sbar hs
   set e := fundamentalGroupIsoGalMaximalEtaleExtension X sbar hs hgeneric
   have hap := fundamentalGroupIsoGalMaximalEtaleExtension_apply X sbar hs hgeneric
   refine ⟨fun ρ => ?_, ?_⟩
@@ -592,7 +591,7 @@ theorem existsUnique_bottomArrow_square
   set e := QuotientGroup.quotientKerEquivOfSurjective f hsurj
   have key : ∀ σ, QuotientGroup.lift f.ker g hfg (e.symm (f σ)) = g σ := fun σ => by
     rw [← QuotientGroup.kerLift_mk f σ]
-    show QuotientGroup.lift f.ker g hfg (e.symm (e (QuotientGroup.mk σ))) = g σ
+    change QuotientGroup.lift f.ker g hfg (e.symm (e (QuotientGroup.mk σ))) = g σ
     rw [e.symm_apply_apply]
     rfl
   refine ⟨(QuotientGroup.lift f.ker g hfg).comp e.symm.toMonoidHom, key,

@@ -120,12 +120,12 @@ theorem equivalent_iff_weaklyEquivalent_of_locallyOfFiniteType (j : PreRelation 
     refine prod.hom_ext ?_ ?_
     · simp only [Category.assoc, hpairFst]
       refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-      show (r ≫ P.allPathsRelation.target).left.hom = yoneda.map f ≫ y.1
+      change (r ≫ P.allPathsRelation.target).left.hom = yoneda.map f ≫ y.1
       rw [← hy', ← hrt]
       rfl
     · simp only [Category.assoc, hpairSnd]
       refine Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_)
-      show (r ≫ P.allPathsRelation.source).left.hom = yoneda.map f ≫ x.1
+      change (r ≫ P.allPathsRelation.source).left.hom = yoneda.map f ≫ x.1
       rw [← hx', ← hrs]
       rfl
   have hrj : r.left.hom ≫ P.allPathsRelation.left.hom = yoneda.map f ≫ pair.left.hom :=
@@ -158,17 +158,17 @@ theorem equivalent_iff_weaklyEquivalent_of_locallyOfFiniteType (j : PreRelation 
   have hzb : yonedaEquiv.symm w ≫ P.allPaths.hom.hom = yonedaEquiv.symm p.val.value := by
     rw [← over_w_hom P.allPathsRelation, ← Category.assoc, hzj]
     exact over_w_hom pair
-  show y ∈ (presheafPreRelation j).weakOrbit p x
+  change y ∈ (presheafPreRelation j).weakOrbit p x
   rw [← weakOrbit_allPathsRelation P p x, PreRelation.weakOrbit_eq_targets _ hpre p x]
   refine (rel_presheafPreRelation_iff P.allPathsRelation y x).mpr
     ⟨testPointOver ⟨yonedaEquiv.symm w, hzb⟩, Subtype.ext ?_, Subtype.ext ?_⟩
-  · show yonedaEquiv.symm w ≫ P.allPathsRelation.target.left.hom = y.1
+  · change yonedaEquiv.symm w ≫ P.allPathsRelation.target.left.hom = y.1
     rw [show P.allPathsRelation.target.left.hom =
       P.allPathsRelation.left.hom ≫ (prod.fst : U ⨯ U ⟶ U).left.hom from rfl,
       ← Category.assoc, hzj]
     exact congrArg (fun m : representableOver (B := B) p.val.siteObject
       (yonedaEquiv.symm p.val.value) ⟶ U ↦ m.left.hom) hpairFst
-  · show yonedaEquiv.symm w ≫ P.allPathsRelation.source.left.hom = x.1
+  · change yonedaEquiv.symm w ≫ P.allPathsRelation.source.left.hom = x.1
     rw [show P.allPathsRelation.source.left.hom =
       P.allPathsRelation.left.hom ≫ (prod.snd : U ⨯ U ⟶ U).left.hom from rfl,
       ← Category.assoc, hzj]
@@ -252,7 +252,7 @@ theorem isOrbitSpace_iff_geometricPoints_quotient_bijective {X : Over B}
           ((overForgetSpace B).obj X).hom a
       obtain ⟨x, hx⟩ := (hpoints p).1 ⟨yonedaEquiv.symm a, hy⟩
       refine ⟨yonedaEquiv x.1, ?_⟩
-      show yonedaEquiv (x.1 ≫ φ.left.hom) = a
+      change yonedaEquiv (x.1 ≫ φ.left.hom) = a
       rw [hx]
       exact Equiv.apply_symm_apply yonedaEquiv a
 

@@ -94,7 +94,7 @@ theorem isPushout_diagonalQuotient :
     Algebra.IsPushout (A ⊗[R] A) A (B ⊗[R] B) (B ⊗[A] B) := by
   refine Algebra.IsPushout.of_equiv (R := A ⊗[R] A) (R' := A) (S := B ⊗[R] B)
     (diagonalPushoutEquiv R A B) (RingHom.ext fun x => ?_)
-  show diagonalPushoutEquiv R A B ((1 : A) ⊗ₜ[A ⊗[R] A] x) = diagonalQuotient R A B x
+  change diagonalPushoutEquiv R A B ((1 : A) ⊗ₜ[A ⊗[R] A] x) = diagonalQuotient R A B x
   rw [diagonalPushoutEquiv_tmul, map_one, Algebra.TensorProduct.one_def.symm, one_mul]
 
 /-- **`A` and `C` are Tor independent over `D`**, because `C` is flat over `D`. -/

@@ -614,7 +614,7 @@ theorem finite_descent_separablyGenerated
       have hφeq : (K₁.subtype).comp (algebraMap (↥F₁) (↥K₁)) = ι := by
         ext a; rfl
       rw [hφeq]
-      show Polynomial.eval₂ ι γ gpoly = 0
+      change Polynomial.eval₂ ι γ gpoly = 0
       rw [← Polynomial.eval_map, hgpoly]
       rw [hPdef, Polynomial.eval_map, ← Polynomial.aeval_def]
       exact minpoly.aeval (↥F) γ
@@ -631,7 +631,7 @@ theorem finite_descent_separablyGenerated
       { toRingHom := algebraMap (↥K₁) Kp
         commutes' := by
           intro r
-          show ((algebraMap (↥k₁) (↥K₁) r : ↥K₁) : Kp) = algebraMap (↥k₁) Kp r
+          change ((algebraMap (↥k₁) (↥K₁) r : ↥K₁) : Kp) = algebraMap (↥k₁) Kp r
           rw [IsScalarTower.algebraMap_apply (↥k₁) kp Kp]; rfl }
     have hAI_x : AlgebraicIndependent (↥k₁) x := AlgebraicIndependent.of_comp φ hAI_k₁
     rw [hAI_x.isTranscendenceBasis_iff_isAlgebraic]
@@ -711,7 +711,7 @@ theorem exists_purelyInseparable_separablyGenerated_of_expChar
   have hcomm : (algebraMap (↥kpIF) (↥KpIF)).comp (algebraMap k (↥kpIF))
       = (algebraMap K (↥KpIF)).comp (algebraMap k K) := by
     ext y
-    show (algebraMap k (↥kpIF) y : Ω) = algebraMap K Ω (algebraMap k K y)
+    change (algebraMap k (↥kpIF) y : Ω) = algebraMap K Ω (algebraMap k K y)
     rw [← IsScalarTower.algebraMap_apply k K Ω]
     rfl
   have hki : IsPurelyInseparable k (↥kpIF) := inferInstance
@@ -738,7 +738,7 @@ theorem exists_purelyInseparable_separablyGenerated_of_expChar
     obtain ⟨n, a, ha⟩ := hxQ
     refine ⟨n, a, ?_⟩
     apply Subtype.ext
-    show (algebraMap K Ω a) = ((x : ↥KpIF) ^ p ^ n : ↥KpIF).val
+    change (algebraMap K Ω a) = ((x : ↥KpIF) ^ p ^ n : ↥KpIF).val
     rw [ha]; push_cast; rfl
   have hgen : IntermediateField.adjoin K (Set.range (algebraMap (↥kpIF) (↥KpIF))) = ⊤ := by
     set A : IntermediateField K (↥KpIF) :=
@@ -747,18 +747,18 @@ theorem exists_purelyInseparable_separablyGenerated_of_expChar
     have hkB : ∀ x : k, algebraMap k Ω x ∈ B := by
       intro x
       refine ⟨algebraMap K (↥KpIF) (algebraMap k K x), A.algebraMap_mem _, ?_⟩
-      show (algebraMap K Ω (algebraMap k K x)) = algebraMap k Ω x
+      change (algebraMap K Ω (algebraMap k K x)) = algebraMap k Ω x
       rw [← IsScalarTower.algebraMap_apply k K Ω]
     let C : IntermediateField k Ω := B.toIntermediateField hkB
     have hkpC : kpIF ≤ C := by
       intro w hw
-      show w ∈ B
+      change w ∈ B
       exact ⟨algebraMap (↥kpIF) (↥KpIF) ⟨w, hw⟩,
         IntermediateField.subset_adjoin _ _ ⟨⟨w, hw⟩, rfl⟩, hfkp w hw⟩
     have hadjC : IntermediateField.adjoin k (Set.range (algebraMap K Ω)) ≤ C := by
       apply IntermediateField.adjoin_le_iff.mpr
       rintro _ ⟨x, rfl⟩
-      show algebraMap K Ω x ∈ B
+      change algebraMap K Ω x ∈ B
       refine ⟨algebraMap K (↥KpIF) x, A.algebraMap_mem x, hfK x⟩
     have hKpC : KpIF ≤ C := sup_le hkpC hadjC
     rw [eq_top_iff]
@@ -786,7 +786,7 @@ theorem exists_purelyInseparable_separablyGenerated_of_fg
       (IsPurelyInseparable K K' ∧ Module.Finite K K') ∧
       -- (3) `K'/k'` separably generated
       SeparablyGenerated k' K' := by
-  show Stacks04KMConclusion k K
+  change Stacks04KMConclusion k K
   obtain ⟨q, hq⟩ := ExpChar.exists k
   rcases hq with hq1 | hqp
   · have : CharZero k := charZero_of_expChar_one' k

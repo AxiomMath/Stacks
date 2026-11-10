@@ -87,7 +87,7 @@ private theorem coconeComplexFunctor_additive :
     (coconeComplexFunctor.{u, v} (R := R) sq).Additive := by
   constructor
   intro I I' f g
-  show (shiftFunctor (CochainComplex AddCommGrpCat.{v} ℤ) (-1 : ℤ)).map
+  change (shiftFunctor (CochainComplex AddCommGrpCat.{v} ℤ) (-1 : ℤ)).map
       (HomologicalComplex.homotopyCofiber.mapArrowHom _ _ _ (secondMapArrowMap sq (f + g))) = _
   rw [show secondMapArrowMap sq (f + g) =
       secondMapArrowMap sq f + secondMapArrowMap sq g by
@@ -319,7 +319,7 @@ private theorem exists_degreewiseSplit_kInjective_representatives
     Arrow.isoMk (asIso (DerivedCategory.Q.map (q.app K)))
       (asIso (DerivedCategory.Q.map (q.app M))) (by
         symm
-        show DerivedCategory.Q.map f ≫ DerivedCategory.Q.map (q.app M) =
+        change DerivedCategory.Q.map f ≫ DerivedCategory.Q.map (q.app M) =
           DerivedCategory.Q.map (q.app K) ≫ DerivedCategory.Q.map g
         rw [← Functor.map_comp, ← Functor.map_comp]
         exact congrArg DerivedCategory.Q.map (q.naturality f))

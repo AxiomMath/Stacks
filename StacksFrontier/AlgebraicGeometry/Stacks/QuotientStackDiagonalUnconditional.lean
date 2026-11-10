@@ -58,8 +58,8 @@ The four tags whose hypotheses are narrowed here â€” 04TB, 04WZ, 06PJ and 06PL â
 registered where they are stated, and the declarations narrowing them record no further part of
 any of them: each is an existing statement with one of its hypotheses supplied.
 The converse implications of Stacks 06PJ and Stacks 06PL are untouched here; they are not
-blocked by Stacks 06FI at all. As the module docstring of
-`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/Quotient/GroupoidPresentationQuotientAlgebraic.lean`
+blocked by Stacks 06FI at all. As the module docstring of the module
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GroupoidPresentationQuotientAlgebraic`
 records, they are proved, carrying nothing, as
 `AlgebraicGeometry.Stack.exists_restrictionAlong_of_isAlgebraicStack` and
 `AlgebraicGeometry.Stack.isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction`

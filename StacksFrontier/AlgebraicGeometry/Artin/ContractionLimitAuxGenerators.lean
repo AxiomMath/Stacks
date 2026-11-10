@@ -150,7 +150,7 @@ theorem relative_etale_of_isIso {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 
   have h1 : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have h2 : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 variable (B S hS) in

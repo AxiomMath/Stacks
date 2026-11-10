@@ -179,7 +179,8 @@ def pullbackComparisonIso (A B : AlgebraicGeometry.RingedSpace.KFlatDerivedPullb
     (StacksDraft.KFlat.modulePullback f).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj B) ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩).obj
-        ((StacksDraft.KFlat.modulePullback f).obj A)).obj ((StacksDraft.KFlat.modulePullback f).obj B) :=
+        ((StacksDraft.KFlat.modulePullback f).obj A)).obj
+        ((StacksDraft.KFlat.modulePullback f).obj B) :=
   comparisonAppIso f A B
 
 /-- The comparison `f^*𝒪_Y ≅ 𝒪_X`, at the spelling of the tensor product of sheaves of modules. -/
@@ -203,13 +204,17 @@ theorem ι_pullbackTensorComplexIsoOfIsIso_hom'
     (h : ComplexShape.π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q) = n) :
     (StacksDraft.KFlat.modulePullback f).map
           (HomologicalComplex.ιMapBifunctor K L
-            (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩) (ComplexShape.up ℤ) p q n h) ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)
+            (ComplexShape.up ℤ) p q n h) ≫
         (pullbackTensorComplexIsoOfIsIso f K L).hom.f n =
       (pullbackComparisonIso f (K.X p) (L.X q)).hom ≫
         HomologicalComplex.ιMapBifunctor ((pullbackComplex f).obj K) ((pullbackComplex f).obj L)
-          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩) (ComplexShape.up ℤ) p q n h :=
+          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩)
+          (ComplexShape.up ℤ) p q n h :=
   ι_pullbackTensorComplexIsoOfIsIso_hom f K L p q n h
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The left unit coherence of `f^*` on the structure sheaf, in the shape the comparison of total
 complexes consumes. -/
 theorem comparisonAppIso_unit_leftUnitor :
@@ -257,7 +262,8 @@ theorem comparisonAppIso_unit_leftUnitor :
 theorem pullbackComparisonIso_unit :
     (pullbackComparisonIso f (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf))
           (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf))).hom ≫
-        ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩).map (pullbackUnitIso f).hom).app
+        ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩).map
+            (pullbackUnitIso f).hom).app
           ((StacksDraft.KFlat.modulePullback f).obj
             (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf Y.sheaf))) ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩).obj
@@ -272,15 +278,16 @@ theorem pullbackComparisonIso_unit :
 theorem ι_pullbackTensorComplexIsoOfIsIso_shiftedUnit (a b : ℤ) :
     (StacksDraft.KFlat.modulePullback f).map
           (HomologicalComplex.ιMapBifunctor (shiftedUnitComplex Y a) (shiftedUnitComplex Y b)
-            (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩) (ComplexShape.up ℤ) a b (a + b)
-            rfl) ≫
+            (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)
+            (ComplexShape.up ℤ) a b (a + b) rfl) ≫
         (pullbackTensorComplexIsoOfIsIso f (shiftedUnitComplex Y a)
           (shiftedUnitComplex Y b)).hom.f (a + b) =
       (pullbackComparisonIso f ((shiftedUnitComplex Y a).X a)
           ((shiftedUnitComplex Y b).X b)).hom ≫
         HomologicalComplex.ιMapBifunctor ((pullbackComplex f).obj (shiftedUnitComplex Y a))
           ((pullbackComplex f).obj (shiftedUnitComplex Y b))
-          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩) (ComplexShape.up ℤ) a b (a + b) rfl :=
+          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩)
+          (ComplexShape.up ℤ) a b (a + b) rfl :=
   ι_pullbackTensorComplexIsoOfIsIso_hom' f _ _ a b (a + b) rfl
 
 /-- The comparison of total complexes of [Stacks, Tag 01CD] at two shifted structure sheaves,
@@ -289,15 +296,17 @@ theorem pullbackTensorComplexIso_shiftedUnit (a b : ℤ) :
     (pullbackTensorComplexIsoOfIsIso f (shiftedUnitComplex Y a) (shiftedUnitComplex Y b)).hom ≫
         HomologicalComplex.mapBifunctorMap (pullbackShiftedUnitComplexIso f a).hom
           (pullbackShiftedUnitComplexIso f b).hom
-          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩) (ComplexShape.up ℤ) ≫
+          (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩)
+          (ComplexShape.up ℤ) ≫
         (shiftedUnitComplexTensorIso X a b).hom =
       (pullbackComplex f).map (shiftedUnitComplexTensorIso Y a b).hom ≫
         (pullbackShiftedUnitComplexIso f (a + b)).hom := by
-  haveI : (StacksDraft.KFlat.modulePullback f).Additive :=
+  have : (StacksDraft.KFlat.modulePullback f).Additive :=
     StacksDraft.KFlat.modulePullback_additive f
   refine Functor.total_single_single_comp
     (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)
-    (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩) (StacksDraft.KFlat.modulePullback f)
+    (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X).presheaf, (X).IsSheaf⟩)
+    (StacksDraft.KFlat.modulePullback f)
     (pullbackComparisonIso f) ?_ ?_ (pullbackUnitIso f) (unitTensorUnitIso Y) (unitTensorUnitIso X)
     ?_ a b (pullbackTensorComplexIsoOfIsIso f (shiftedUnitComplex Y a)
       (shiftedUnitComplex Y b)).hom ?_
@@ -383,8 +392,8 @@ theorem derivedPullbackShiftedUnitIso_hom_eq (p : ℤ) :
     (derivedPullbackShiftedUnitIso f p).hom =
       (derivedPullbackNatTrans f).app (shiftedUnitComplex Y p) ≫
         DerivedCategory.Q.map (pullbackShiftedUnitComplexIso f p).hom := by
-  letI := derivedPullback_commShift f
-  letI := derivedPullbackNatTrans_commShift f
+  let := derivedPullback_commShift f
+  let := derivedPullbackNatTrans_commShift f
   have h : (derivedPullbackShiftedUnitIso f p).hom =
       (derivedPullback f).map (shiftedUnitShiftIso Y p).inv ≫
         ((derivedPullback f).commShiftIso (-p)).hom.app (shiftedUnitObject Y 0) ≫
@@ -422,8 +431,8 @@ theorem derivedPullbackShiftedUnitIso_comp_shiftedUnitTensorIso (a b : ℤ) :
     dsimp only [modelComparison, Iso.trans_hom, asIso_hom, Iso.symm_hom, asIso_inv]
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   rw [← hc] at hmodel
-  haveI := isIso_toTensor_shiftedUnitComplex Y a b
-  haveI := isIso_toTensor_shiftedUnitComplex X a b
+  have := isIso_toTensor_shiftedUnitComplex Y a b
+  have := isIso_toTensor_shiftedUnitComplex X a b
   dsimp only [rightComparison, leftComparison, NatTrans.comp_app, Functor.whiskerRight_app,
     Functor.whiskerLeft_app, derivedToTensorNatTrans, NatTrans.prod, Functor.prod_obj,
     Functor.uncurry_obj_map, Functor.uncurry_obj_obj, Functor.comp_obj, Functor.comp_map] at hmodel

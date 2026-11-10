@@ -224,7 +224,7 @@ theorem groupoidPullbackTransition_naturality (B : BigFppfSite.{u}) (S : Scheme.
         (modulePullback B S hS (f ≫ G.source)).map φ := by
   simp only [groupoidPullbackTransition, Iso.app_inv, Iso.app_hom, Category.assoc]
   rw [NatTrans.naturality_assoc]
-  show _ ≫ (modulePullback B S hS f).map
+  change _ ≫ (modulePullback B S hS f).map
     ((modulePullback B S hS G.target).map φ) ≫ _ = _
   rw [← Functor.map_comp_assoc, ← hφ, Functor.map_comp]
   simp only [Category.assoc]

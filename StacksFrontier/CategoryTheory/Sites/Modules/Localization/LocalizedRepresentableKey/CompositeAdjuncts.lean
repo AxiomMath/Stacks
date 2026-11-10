@@ -116,7 +116,7 @@ theorem Over.mapIso_counit_app_left {E : Type*} [Category E] {K H : E} (e : K â‰
   simp only [mapIso, Comma.mapRightIso, Comma.mapRightId, Functor.id_obj,
     Comma.mapRight_obj_right, Comma.mapRight_obj_left, Comma.mapRightEq, Comma.mapRightComp,
     Functor.comp_obj, Equivalence.counit, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
-    NatIso.ofComponents'_inv_app, NatIso.ofComponents'_hom_app, Comma.comp_left]
+    NatIso.ofComponents'_inv_app, NatIso.ofComponents'_hom_app]
   exact Eq.trans (Category.id_comp _) (Eq.trans (Category.id_comp _) rfl)
 
 /-- On underlying objects, the comparison `Over.pullbackIsoMap e` of `Over.pullback e.inv` with

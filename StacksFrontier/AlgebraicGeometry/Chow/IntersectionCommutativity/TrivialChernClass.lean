@@ -85,7 +85,7 @@ theorem extendCycleGroup_eq_zero
     R.extendCycleGroup = 0 := by
   ext α y
   rw [extendCycleGroup_apply, ComponentRule.extend_apply]
-  show (∑ᶠ x : X, α.1 x * R.totalize (integralComponentAt x) y) = _
+  change (∑ᶠ x : X, α.1 x * R.totalize (integralComponentAt x) y) = _
   rw [finsum_eq_zero_of_forall_eq_zero fun x ↦ by
     rw [R.totalize_eq_zero hR, Function.locallyFinsuppWithin.coe_zero, Pi.zero_apply, mul_zero]]
   rfl
@@ -122,7 +122,7 @@ theorem firstChernComponentCycle_trivialChernComponentCycleRule (W : X.IdealShea
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show closedSubschemeCyclePushforward C p W 0 x = _
+  change closedSubschemeCyclePushforward C p W 0 x = _
   rw [closedSubschemeCyclePushforward_apply_zero]
   rfl
 

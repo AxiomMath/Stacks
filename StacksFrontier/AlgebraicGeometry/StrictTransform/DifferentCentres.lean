@@ -277,9 +277,7 @@ public theorem mulBaseChangeIso_hom_fst (f : X ⟶ S) (I D : S.IdealSheafData)
       Over.mk (AlgebraicGeometry.blowUpToBase (I * D))) :
     (mulBaseChangeIso f I D e).hom ≫ pullback.fst f (AlgebraicGeometry.blowUpToBase (I * D)) =
       pullback.fst f (AlgebraicGeometry.blowUpToBase I) := by
-  simpa [mulBaseChangeIso, pullback.map] using
-    pullback.lift_fst (pullback.fst f (AlgebraicGeometry.blowUpToBase I))
-      (pullback.snd f (AlgebraicGeometry.blowUpToBase I) ≫ e.hom.left) _
+  simp [mulBaseChangeIso, pullback.map]
 
 /-- `Stacks.StrictTransform.mulBaseChangeIso` carries the projection to the second blowup to the
 projection to the first followed by `e`. -/
@@ -288,9 +286,7 @@ public theorem mulBaseChangeIso_hom_snd (f : X ⟶ S) (I D : S.IdealSheafData)
       Over.mk (AlgebraicGeometry.blowUpToBase (I * D))) :
     (mulBaseChangeIso f I D e).hom ≫ pullback.snd f (AlgebraicGeometry.blowUpToBase (I * D)) =
       pullback.snd f (AlgebraicGeometry.blowUpToBase I) ≫ e.hom.left := by
-  simpa [mulBaseChangeIso, pullback.map] using
-    pullback.lift_snd (pullback.fst f (AlgebraicGeometry.blowUpToBase I))
-      (pullback.snd f (AlgebraicGeometry.blowUpToBase I) ≫ e.hom.left) _
+  simp [mulBaseChangeIso, pullback.map]
 
 /-- The inverse image under `Stacks.StrictTransform.mulBaseChangeIso` of the exceptional
 preimage of the blowup in `I * D` is the exceptional preimage of the blowup in `I` together with

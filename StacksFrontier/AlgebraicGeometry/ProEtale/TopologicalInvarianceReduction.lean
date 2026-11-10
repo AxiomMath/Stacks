@@ -135,7 +135,7 @@ public theorem smallProetalePushforward_isEquivalence_of_isDenseSubsite
       (SmallProetale.topology B T.obj T.property)) :
     (smallProetaleMorphism B T S f).pushforward.IsEquivalence := by
   have := h
-  show ((smallProetaleBaseChange B T S f).sheafPushforwardContinuous
+  change ((smallProetaleBaseChange B T S f).sheafPushforwardContinuous
     (Type (u + 1)) (SmallProetale.topology B S.obj S.property)
     (SmallProetale.topology B T.obj T.property)).IsEquivalence
   infer_instance

@@ -389,7 +389,7 @@ private theorem pullHom_eq_of_pullHom_section_eq
     refine (Stacks.Picard.bijective_pullHom_section' (bcMap f (b₁ ≫ g i₁))
       (bcMap f (b₁ ≫ g i₁)) (bcProj f W) (bcSection f σ hσ W) hsecW (hOiso W)
       L' M' hL' hM' eW _ _ rfl rfl).injective ?_
-    show pullHom _ (bcSection f σ hσ W) _ _ rfl rfl = pullHom _ (bcSection f σ hσ W) _ _ rfl rfl
+    change pullHom _ (bcSection f σ hσ W) _ _ rfl rfl = pullHom _ (bcSection f σ hσ W) _ _ rfl rfl
     rw [pullHom_section_pullHom_bcMap f σ hσ β (g i₁) b₁ _ rfl (ψ i₁) (hψ i₁),
       pullHom_section_pullHom_bcMap f σ hσ β (g i₂) b₂ _ hb.symm (ψ i₂) (hψ i₂)]
   have hl₁ : hpbbc.lift a₁ a₂ (by rw [ha₁, ha₂]) ≫ bcMap f b₁ = a₁ := hpbbc.lift_fst _ _ _

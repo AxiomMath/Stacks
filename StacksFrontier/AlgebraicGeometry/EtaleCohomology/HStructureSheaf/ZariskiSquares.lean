@@ -87,11 +87,11 @@ theorem isPullback_map_of_isSheafFor_pair (F : Cᵒᵖ ⥤ Type w) {X U V W : C}
         rfl
       · obtain ⟨k, rfl, rfl⟩ : ∃ k, k ≫ i' = gc' ∧ k ≫ j' = gc :=
           ⟨h.lift gc' gc hcc'.symm, h.lift_fst _ _ _, h.lift_snd _ _ _⟩
-        show F.map (k ≫ j').op b = F.map (k ≫ i').op a
+        change F.map (k ≫ j').op b = F.map (k ≫ i').op a
         rw [op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hab]
       · obtain ⟨k, rfl, rfl⟩ : ∃ k, k ≫ i' = gc ∧ k ≫ j' = gc' :=
           ⟨h.lift gc gc' hcc', h.lift_fst _ _ _, h.lift_snd _ _ _⟩
-        show F.map (k ≫ i').op a = F.map (k ≫ j').op b
+        change F.map (k ≫ i').op a = F.map (k ≫ j').op b
         rw [op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hab]
       · obtain rfl : gc = gc' := (cancel_mono i).mp hcc'
         rfl)
@@ -190,7 +190,7 @@ theorem isPullback_map_twoOpensSquare (W : BigHOver B S hS)
   have hE : (E.map (BigHOver.toScheme B S hS)).presieve₀ ∈
       Scheme.fppfPrecoverage ((BigHOver.toScheme B S hS).obj W) := by
     refine Scheme.zariskiPrecoverage_le_fppfPrecoverage _ ?_
-    show Presieve.ofArrows _ _ ∈ Scheme.precoverage @IsOpenImmersion _
+    change Presieve.ofArrows _ _ ∈ Scheme.precoverage @IsOpenImmersion _
     rw [Scheme.ofArrows_mem_precoverage_iff]
     refine ⟨fun x ↦ ?_, fun c ↦ ?_⟩
     · have hx : x ∈ V₀ ⊔ V₁ := by
@@ -379,7 +379,7 @@ theorem quasiIso_sections_map_ι'_of_iso_proj (W : BigHOver B S hS) {σ : Type*}
     ((Proj.isAffineOpen_basicOpen 𝒜 g hg one_pos).preimage _) ?_ (fun c ↦ ?_) Rs
   · ext x
     have hx : e.hom x ∈ Proj.basicOpen 𝒜 f ⊔ Proj.basicOpen 𝒜 g := by
-      rw [Proj.basicOpen_sup_basicOpen_eq_top 𝒜 hf hg hspan]
+      rw [Proj.basicOpen_sup_basicOpen_eq_top 𝒜 hspan]
       trivial
     simpa using hx
   · rw [hinf]

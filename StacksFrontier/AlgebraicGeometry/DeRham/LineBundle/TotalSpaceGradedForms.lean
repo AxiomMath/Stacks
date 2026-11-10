@@ -185,7 +185,7 @@ theorem Situation.algebraSheafIncl_smul (U : D.X.Opens) (n : ℤ)
   have h1 : Stacks.GradedAlgebra.structureMap D.symmetricAlgebra.toPresheafGradedAlgebra
         (op U) a * D.symmetricAlgebra.toPresheafGradedAlgebra.incl n y =
       a • D.symmetricAlgebra.toPresheafGradedAlgebra.incl n y := by
-    show a • (1 : D.symmetricAlgebra.toPresheafGradedAlgebra.Total (op U)) * _ = _
+    change a • (1 : D.symmetricAlgebra.toPresheafGradedAlgebra.Total (op U)) * _ = _
     rw [Stacks.GradedAlgebra.smul_mul_eq, one_mul]
   refine (congrArg (Stacks.RelativeSpec.ungradedCommUnit D.X D.symmetricAlgebra
     D.symmetricAlgebra_mul_comm U).hom ?_).trans (map_mul _ _ _)
@@ -198,7 +198,7 @@ theorem Situation.algebraSheaf_hom_eq_incl (U : D.X.Opens) (r : D.X.ringCatSheaf
       D.algebraSheafIncl 0 U (r • D.symmetricAlgebra.one.eval (op U)) := by
   refine congrArg (Stacks.RelativeSpec.ungradedCommUnit D.X D.symmetricAlgebra
     D.symmetricAlgebra_mul_comm U).hom ?_
-  show r • (1 : D.symmetricAlgebra.toPresheafGradedAlgebra.Total (op U)) = _
+  change r • (1 : D.symmetricAlgebra.toPresheafGradedAlgebra.Total (op U)) = _
   rw [Stacks.GradedAlgebra.one_eq_incl, ← Stacks.GradedAlgebra.incl_smul]
   rfl
 

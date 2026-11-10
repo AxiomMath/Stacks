@@ -95,7 +95,7 @@ theorem isIso_rightAdjointBaseChange_app_of_isOpenImmersion_of_flat (sq : IsPull
         (quasiCoherentDerivedPullbackCompIso j' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K) := by
   have : IsOpenImmersion j' := MorphismProperty.of_isPullback sq.flip inferInstance
   have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
   have : CompactSpace V := QuasiCompact.compactSpace_of_compactSpace j

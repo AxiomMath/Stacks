@@ -145,7 +145,7 @@ theorem BecomesIsoAfterInvertingPrime.comp {φ : X ⟶ Y} {ψ : Y ⟶ Z}
     BecomesIsoAfterInvertingPrime S (φ ≫ ψ) := by
   have h₁ : IsIso ((invertPrime S).map φ) := hφ
   have h₂ : IsIso ((invertPrime S).map ψ) := hψ
-  show IsIso ((invertPrime S).map (φ ≫ ψ))
+  change IsIso ((invertPrime S).map (φ ≫ ψ))
   rw [Functor.map_comp]
   infer_instance
 

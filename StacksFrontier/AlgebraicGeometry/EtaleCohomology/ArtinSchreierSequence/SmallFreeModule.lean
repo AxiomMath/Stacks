@@ -92,7 +92,7 @@ theorem sheafOfModules_sum_val_app {R : Sheaf (SmallEtale.topology B S hS) RingC
     {M N : SheafOfModules.{u} R} {κ : Type*} (s : Finset κ) (f : κ → (M ⟶ N))
     (V : (SmallEtale B S hS)ᵒᵖ) (m : M.val.obj V) :
     (∑ i ∈ s, f i).val.app V m = ∑ i ∈ s, (f i).val.app V m := by
-  show ((SheafOfModules.forget R ⋙ PresheafOfModules.evaluation R.obj V).map
+  change ((SheafOfModules.forget R ⋙ PresheafOfModules.evaluation R.obj V).map
     (∑ i ∈ s, f i)).hom m = _
   rw [Functor.map_sum, ModuleCat.hom_sum]
   exact LinearMap.sum_apply s _ m
@@ -160,23 +160,23 @@ theorem unitHomEquiv_symm_comp_smallFreeProj (i j : Fin r) :
   refine PresheafOfModules.sections_ext _ _ fun V => ?_
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl]
-    show (Pi.single (M := fun _ : Fin r => smallRing B S hS V) i 1) i = (1 : smallRing B S hS V)
+    rw [ite_eq_left rfl]
+    change (Pi.single (M := fun _ : Fin r => smallRing B S hS V) i 1) i = (1 : smallRing B S hS V)
     rw [Pi.single_eq_same]
-  · rw [if_neg h]
-    show (Pi.single j 1 : Fin r → smallRing B S hS V) i = (0 : smallRing B S hS V)
+  · rw [ite_eq_right h]
+    change (Pi.single j 1 : Fin r → smallRing B S hS V) i = (0 : smallRing B S hS V)
     rw [Pi.single_eq_of_ne h]
 
 /-- `smallFreeFromFree` followed by `smallFreeToFree` is the identity of the free module. -/
 theorem smallFreeFromFree_comp_toFree :
     smallFreeFromFree (B := B) (hS := hS) (r := r) ≫ smallFreeToFree = 𝟙 _ := by
   refine Cofan.IsColimit.hom_ext (SheafOfModules.isColimitFreeCofan _) _ _ fun j => ?_
-  show SheafOfModules.ιFree j ≫ _ = SheafOfModules.ιFree j ≫ _
+  change SheafOfModules.ιFree j ≫ _ = SheafOfModules.ιFree j ≫ _
   rw [← Category.assoc, ιFree_smallFreeFromFree, smallFreeToFree, Preadditive.comp_sum,
     Category.comp_id]
   simp only [← Category.assoc, unitHomEquiv_symm_comp_smallFreeProj]
-  rw [Finset.sum_eq_single j.down (fun i _ hi => by rw [if_neg hi, zero_comp])
-    (fun h => absurd (Finset.mem_univ _) h), if_pos rfl, Category.id_comp]
+  rw [Finset.sum_eq_single j.down (fun i _ hi => by rw [ite_eq_right hi, zero_comp])
+    (fun h => absurd (Finset.mem_univ _) h), ite_eq_left rfl, Category.id_comp]
 
 /-- `smallFreeToFree` followed by `smallFreeFromFree` is the identity of `Γ(-)^r`. -/
 theorem smallFreeToFree_comp_fromFree :
@@ -185,16 +185,16 @@ theorem smallFreeToFree_comp_fromFree :
   simp only [Category.assoc, ιFree_smallFreeFromFree]
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V =>
     ModuleCat.hom_ext (LinearMap.ext fun b => ?_))
-  show (∑ i : Fin r, smallFreeProj i ≫ (smallFreeModule B S hS r).unitHomEquiv.symm
+  change (∑ i : Fin r, smallFreeProj i ≫ (smallFreeModule B S hS r).unitHomEquiv.symm
     (smallFreeSection i)).val.app V b = b
   rw [sheafOfModules_sum_val_app]
-  show (∑ i : Fin r, (show Fin r → smallRing B S hS V from b) i •
+  change (∑ i : Fin r, (show Fin r → smallRing B S hS V from b) i •
       (Pi.single (M := fun _ : Fin r => smallRing B S hS V) i 1) : Fin r → smallRing B S hS V) =
     (show Fin r → smallRing B S hS V from b)
   funext j
   simp only [Finset.sum_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul, mul_ite, mul_one,
     mul_zero]
-  exact (Finset.sum_ite_eq Finset.univ j _).trans (if_pos (Finset.mem_univ j))
+  exact (Finset.sum_ite_eq Finset.univ j _).trans (ite_eq_left (Finset.mem_univ j))
 
 /-- **`Γ(-)^r` is the free module on `r` generators.** -/
 def smallFreeModuleIso :
@@ -261,7 +261,7 @@ theorem smallFrobMatrix_smul (U : SmallEtale B S hS)
       c ^ p • SheafOfModules.sectionsAddHom (smallFrobMatrix B S hS r hp hpS a) (op U) e := by
   rw [smallFrobMatrix_app, smallFrobMatrix_app]
   funext j
-  show ∑ i, etaleFunction (toEtale (op U)) (a i j) *
+  change ∑ i, etaleFunction (toEtale (op U)) (a i j) *
       ((show Γ((toEtale (op U)).left, ⊤) from c) *
         (show Fin r → Γ((toEtale (op U)).left, ⊤) from e) i) ^ p =
     (show Γ((toEtale (op U)).left, ⊤) from c) ^ p * ∑ i, etaleFunction (toEtale (op U)) (a i j) *
@@ -324,7 +324,7 @@ theorem preservesFiniteLimits_sheafCompose_uliftFunctor :
   let F := sheafCompose (SmallEtale.topology B S hS) AddCommGrpCat.uliftFunctor.{u + 1, u}
   let G := sheafToPresheaf (SmallEtale.topology B S hS) AddCommGrpCat.{u + 1}
   let : PreservesFiniteLimits (F ⋙ G) := by
-    show PreservesFiniteLimits (sheafToPresheaf (SmallEtale.topology B S hS) AddCommGrpCat.{u} ⋙
+    change PreservesFiniteLimits (sheafToPresheaf (SmallEtale.topology B S hS) AddCommGrpCat.{u} ⋙
       (Functor.whiskeringRight _ _ _).obj AddCommGrpCat.uliftFunctor.{u + 1, u})
     infer_instance
   exact preservesFiniteLimits_of_reflects_of_preserves F G

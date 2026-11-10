@@ -143,7 +143,7 @@ theorem isClosed_etaleModule_zeroLocus {Y V : Scheme.{u}} [IsIntegral Y] [IsNorm
   let W'' : Y.Etale := Scheme.Etale.mk (pullback.fst i q.left ≫ i ≫ W.hom)
   let q₀ : W'' ⟶ W₀ := MorphismProperty.Over.homMk (pullback.fst i q.left) rfl trivial
   let s : W'' ⟶ W' := MorphismProperty.Over.homMk (pullback.snd i q.left) (by
-    show pullback.snd i q.left ≫ W'.hom = pullback.fst i q.left ≫ i ≫ W.hom
+    change pullback.snd i q.left ≫ W'.hom = pullback.fst i q.left ≫ i ≫ W.hom
     rw [← MorphismProperty.Over.w q, ← Category.assoc, ← pullback.condition, Category.assoc])
     trivial
   have hq₀ : q₀ ≫ r = s ≫ q := MorphismProperty.Over.Hom.ext pullback.condition
@@ -167,7 +167,7 @@ theorem isClosed_etaleModule_zeroLocus {Y V : Scheme.{u}} [IsIntegral Y] [IsNorm
       exact (pullback.fst (i ≫ W.hom) jV).isOpenEmbedding.irreducibleSpace
     infer_instance
   have hs₀ : M'.obj.map (B.map q₀).op (H.obj.map (ε.app W₀).op h₀) = 0 := by
-    show H.obj.map ((Scheme.Etale.smallEtaleCompose jV).map (B.map q₀)).op
+    change H.obj.map ((Scheme.Etale.smallEtaleCompose jV).map (B.map q₀)).op
       (H.obj.map (ε.app W₀).op h₀) = 0
     exact map_map_eq_zero_of_comp_eq H.obj (ε.naturality q₀) h₀W''
   exact ⟨W₀, r, hwZ, injective_etaleModuleRestrictionDirectImageAdj_unit_app Λ jV H hη W₀
@@ -224,18 +224,18 @@ theorem injective_etaleModuleRestrictionDirectImageAdj_unit_app_inverseImage {X 
       have hcU : c.left ≫ U.hom = ℓ ≫ i := (MorphismProperty.Over.w c).trans hℓ.symm
       let c' : U' ⟶ (Scheme.Etale.smallEtaleCompose i).obj ((smallEtaleBaseChange i).obj U) :=
         MorphismProperty.Over.homMk (pullback.lift c.left ℓ hcU) (by
-          show pullback.lift c.left ℓ hcU ≫ pullback.snd U.hom i ≫ i = U'.hom
+          change pullback.lift c.left ℓ hcU ≫ pullback.snd U.hom i ≫ i = U'.hom
           rw [← Category.assoc, pullback.lift_snd, hℓ]) trivial
       have hfac : c = c' ≫ ε.app U :=
         MorphismProperty.Over.Hom.ext (pullback.lift_fst _ _ _).symm
       rw [hnat, hfac, op_comp, G'.obj.map_comp, ConcreteCategory.comp_apply, ht, map_zero,
         map_zero]
     have : t = Ψ.hom.hom.app (op U) t' := by
-      show t = (Ψ.inv ≫ Ψ.hom).hom.app (op U) t
+      change t = (Ψ.inv ≫ Ψ.hom).hom.app (op U) t
       rw [Ψ.inv_hom_id]
       rfl
     rw [this, ht', map_zero]
-  show Function.Injective (G.obj.map (ε.app U).op)
+  change Function.Injective (G.obj.map (ε.app U).op)
   rw [injective_iff_map_eq_zero]
   exact hres'
 

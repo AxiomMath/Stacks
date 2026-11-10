@@ -63,7 +63,8 @@ available at all: the only lemma about `moduleCohomologyPullbackMap` was its nat
 module (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/CohomologyPullback.lean:66`),
 and the cohomology map of [Stacks, Tag 01FA] it is built from has functoriality in its two *module*
 arguments only — `Stacks.Cohomology.moduleCohomologyMap_comp_left` and `_comp_right`
-(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/FunctorialityOfCohomology.lean:204` and `:217`).
+(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/FunctorialityOfCohomology.lean:204`
+and `:217`).
 
 That functoriality should, however, be *derivable*, because the Leray isomorphism it would rest
 on is present and unconditional: `R(g ∘ f)_* ≅ Rf_* ⋙ Rg_*` is [Stacks, Tag 01F5], proved twice
@@ -97,7 +98,8 @@ composite base on the nose, so that re-indexing transports a *variable* and conj
 
 **What `map_local` (hence `map_id`) still needs, in order.** Of the two cohomology factors of
 the construction, `Stacks.Cohomology.moduleCohomologyPullbackMap_comp`
-(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/CohomologyPullbackAdjoint.lean`) shows they are a single Tag 01FA map,
+(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/CohomologyPullbackAdjoint.lean`)
+shows they are a single Tag 01FA map,
 the one attached to the `f`-map adjoint to the coefficient map, and
 `...moduleCohomologyPullbackMap_comp_id` evaluates that at `f = 𝟙 X` as `Hⁱ(X, η_𝒢 ≫ k)`. Three
 things are left.
@@ -187,7 +189,8 @@ in the morphism, which is still only available for the first factor of Tag 01F9;
 
 What is missing in the composition law is still the step from the Leray isomorphism to the Tag
 01FA map. Unfolding `Stacks.Cohomology.derivedGlobalSectionsMap`
-(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/DerivedGlobalSectionsMap.lean:234`) shows exactly which two laws are
+(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/DerivedGlobalSectionsMap.lean:234`)
+shows exactly which two laws are
 wanted: it is `RΓ(Y, -)` applied to `Stacks.Cohomology.toDerivedPushforward` of [Stacks, Tag
 01F8] followed by `Stacks.Cohomology.derivedGlobalSectionsComparison` of [Stacks, Tag 01EZ], and
 each of those needs an identity law and a composition law *in the morphism*; only their
@@ -198,7 +201,8 @@ the composition law for `derivedGlobalSectionsMap` follows from the naturality o
 `Stacks.Cohomology.singleRightDerivedUnit` in the module together with its multiplicativity in
 the functor, and that is
 `Stacks.Cohomology.singleRightDerivedUnit_comp_rightDerivedFunctorPlusComp_app`
-(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/CohomologyCompositionFunctoriality.lean`):
+(in `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/`,
+file `CohomologyCompositionFunctoriality.lean`):
 
 `(singleRightDerivedUnit (F ⋙ G)).app ℱ ≫ (rightDerivedFunctorPlusComp F G).app ℱ[0] =`
 `  (singleRightDerivedUnit G).app (F.obj ℱ) ≫ RG((singleRightDerivedUnit F).app ℱ)`.
@@ -249,7 +253,8 @@ all of them.
 The hypothesis that law asks for is about the pushforward of sheaves of modules rather than
 about homological algebra, and it holds: `(pushforwardCompIso f g).hom.app ℱ = 𝟙 _` is `rfl`,
 as `Stacks.Cohomology.RelativeMayerVietoris.pushforwardCompIso_hom_app`
-(`StacksFrontier/Topology/Sheaves/Cohomology/RelativeMayerVietoris/PushforwardCompIsoIdentity.lean`).
+(in `StacksFrontier/Topology/Sheaves/Cohomology/RelativeMayerVietoris/`,
+file `PushforwardCompIsoIdentity.lean`).
 
 **Where the chain stops is a heartbeat cost, and it is in the instantiation and not
 in the mathematics.** The three things an assembly still has to get past:
@@ -281,7 +286,8 @@ in the mathematics.** The three things an assembly still has to get past:
 
 Note that the composition law for the comparison this file does use,
 `Stacks.Cohomology.ModuleComparison.rightDerivedCompIso_comp`
-(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeComparisonTransitivity.lean:273`), governs only the layers in
+(in `StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/`,
+file `CompositeComparisonTransitivity.lean`, line 273), governs only the layers in
 which an exact functor is applied after deriving — here the restrictions of scalars. It does not
 reach `moduleCohomologyPullbackMap`, and so does not supply any of the three axioms.
 
@@ -341,7 +347,7 @@ morphisms of
 `cohomologyDeltaFunctor` with the comparison of cohomology upstairs and downstairs. For abelian
 sheaves that compatibility exists — `Stacks.Cohomology.AbelianColimit.H'spacePullback_comp_H'δ`
 (in `StacksFrontier/Topology/Sheaves/Cohomology/SpectralSpaceLimit/`, file
-`StacksFrontier/Topology/Sheaves/Cohomology/SpectralSpaceLimit/PullbackAsAMorphismOfDeltaFunctors.lean`, line 538) is exactly δ-naturality along a
+`PullbackAsAMorphismOfDeltaFunctors.lean`, line 538) is exactly δ-naturality along a
 continuous map — and for module cohomology it now exists along the *direct* image, needing only
 that the pushforward be exact: `Stacks.Cohomology.ModulePushforwardDelta`, instantiated at the
 base-change immersion as
@@ -497,7 +503,8 @@ With `g` a parameter the identity case of *this* map is an instantiation at `�
 `Deformation.Artin.SectionsSheaf.obstructionMapGen_id` — unconditionally, as
 `..obstructionMapGen_id_of_semilinear`. The transport from there back to `obstructionMap`, where
 `g` is the immersion `eqToHom h'`, is `Deformation.Artin.SectionsSheaf.obstructionMapGen_eqToHom`
-in `StacksFrontier/Deformation/Artin/Obstruction/SectionsObstructionMapId.lean`. See item 1 of the "what is not done"
+in `StacksFrontier/Deformation/Artin/Obstruction/SectionsObstructionMapId.lean`. See item 1 of the
+"what is not done"
 above.
 
 Abstracting the two fibre products to opaque schemes is not cosmetic either: with them spelled

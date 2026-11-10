@@ -124,10 +124,10 @@ theorem IsEtaleLocalOnSource.mem_of_family {Z : Subfunctor X} (hZ : IsEtaleLocal
   obtain ⟨i, hi⟩ := hcov (pointsEquivScheme B S hS T y)
   refine ⟨⟨CostructuredArrow.mk (yoneda.map (w i)),
     (BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS _ (w i)).2 (hw i)⟩, ?_, ?_⟩
-  · show y ∈ Set.range (pointsMap B S hS (yoneda.obj (W i)) (yoneda.map (w i)))
+  · change y ∈ Set.range (pointsMap B S hS (yoneda.obj (W i)) (yoneda.map (w i)))
     rw [range_pointsMap_yoneda_map]
     exact ⟨_, hi, (pointsEquivScheme B S hS T).symm_apply_apply y⟩
-  · show X.map (yonedaEquiv (yoneda.map (w i))).op x ∈ _
+  · change X.map (yonedaEquiv (yoneda.map (w i))).op x ∈ _
     rw [yonedaEquiv_yoneda_map]
     exact hmem i
 
@@ -155,7 +155,7 @@ theorem exists_affine_open_family (T : BigFppfOver B S hS) :
     ((iSup_affineOpens_eq_top _).ge (Set.mem_univ p))
   refine ⟨i, ?_⟩
   have := hrange i
-  show p ∈ Set.range ((BigFppfOver.toScheme B S hS).map (π i))
+  change p ∈ Set.range ((BigFppfOver.toScheme B S hS).map (π i))
   rw [this]
   exact hi
 
@@ -262,7 +262,7 @@ theorem isSheaf_of_isCutOutBy (hX : IsAlgebraicSpace B S hS X) {Z : Subfunctor X
   obtain ⟨p, -, hp2⟩ := exists_points_of_isPullback B S hS hsq v y hv
   refine ⟨⟨CostructuredArrow.mk (yoneda.map (hrep.snd xT)),
     (BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS _ _).2 hq⟩, ⟨p, hp2⟩, ?_⟩
-  show X.map (yonedaEquiv (yoneda.map (hrep.snd xT))).op x ∈ _
+  change X.map (yonedaEquiv (yoneda.map (hrep.snd xT))).op x ∈ _
   rw [yonedaEquiv_yoneda_map]
   set f : hrep.pullback xT ⟶ V.1.left := yoneda.preimage (hrep.fst xT) with hf
   have hfq : yoneda.map (hrep.snd xT) ≫ xT = yoneda.map f ≫ V.1.hom := by
@@ -282,7 +282,7 @@ theorem isSheaf_of_isCutOutBy (hX : IsAlgebraicSpace B S hS X) {Z : Subfunctor X
     refine mem_subschemePoints_mk_of_sieve _ f
       ((BigFppfOver.topology B S hS).pullback_stable (hrep.snd xT) hx) ?_
     intro W k hk
-    show k ≫ f ∈ _
+    change k ≫ f ∈ _
     rw [← preimage_eq_subschemePoints_of_isCutOutBy hZ hcut, mem_preimage_iff_map, ← hx' k]
     exact hk
   have := hx' (𝟙 _)
@@ -405,10 +405,10 @@ theorem preimage_eq_subschemePoints_sigma {Z : Subfunctor X} (hZ : IsEtaleLocalO
     obtain ⟨h, hh⟩ := hsk
     rw [mem_subschemePoints_mk_iff]
     refine ⟨h ≫ Sigma.ι _ k, ?_⟩
-    rw [Category.assoc, Sigma.ι_desc, ← Category.assoc, hh, ← Functor.map_comp, hs k]
+    rw [Category.assoc, Sigma.ι_comp_desc, ← Category.assoc, hh, ← Functor.map_comp, hs k]
   · obtain ⟨h, hh⟩ := (mem_subschemePoints_mk_iff _ t).1 ht
     obtain ⟨T', π, s, hπ, hπcov, hs⟩ := exists_restrict_family j hj hcov t
-    show g.app T t ∈ Z.obj T
+    change g.app T t ∈ Z.obj T
     rw [← map_op_yonedaEquiv]
     refine hZ.mem_of_family _ π (fun k => by have := hπ k; infer_instance) hπcov fun k => ?_
     rw [← Functor.map_comp_apply, ← op_comp, ← mem_preimage_iff_map, ← hs k,
@@ -419,7 +419,7 @@ theorem preimage_eq_subschemePoints_sigma {Z : Subfunctor X} (hZ : IsEtaleLocalO
         Sigma.ι (fun i => (BigFppfOver.toScheme B S hS).obj (W i)) k =
         ((BigFppfOver.toScheme B S hS).map (π k) ≫ h) ≫ Limits.Sigma.map f := by
       rw [← cancel_mono (Sigma.desc fun i => (BigFppfOver.toScheme B S hS).map (j i)),
-        Category.assoc, Sigma.ι_desc, Category.assoc, Category.assoc, ← sigmaSubschemeι_eq, hh,
+        Category.assoc, Sigma.ι_comp_desc, Category.assoc, Category.assoc, ← sigmaSubschemeι_eq, hh,
         ← Functor.map_comp, ← Functor.map_comp, hs k]
     exact ⟨hpb.lift _ _ hw, hpb.lift_fst _ _ _⟩
 
@@ -508,7 +508,7 @@ theorem exists_affine_etale_cutOut (_hX : IsAlgebraicSpace B S hS X) {Z : Subfun
     have ho : (BigFppfOver.toScheme B S hS).map o = Scheme.Opens.ι O :=
       toScheme_map_openSubHom B S hS P O
     refine ⟨q, ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map (hrep.snd φ₀))
+    change ((BigFppfOver.toScheme B S hS).map (hrep.snd φ₀))
       (((BigFppfOver.toScheme B S hS).map o) q) = u
     rw [ho]
     refine (congrArg ((BigFppfOver.toScheme B S hS).map (hrep.snd φ₀)) hq).trans ?_

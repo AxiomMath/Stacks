@@ -141,7 +141,7 @@ private theorem residueFieldIso_of_genericStalkMap
   dsimp [e]
   rw [← genericStalkResidueFieldIso_hom X, ← genericStalkResidueFieldIso_hom Y]
   simp only [Iso.hom_inv_id_assoc]
-  show ((eqToHom (congrArg (fun z => S.presheaf.stalk z) h.symm) ≫
+  change ((eqToHom (congrArg (fun z => S.presheaf.stalk z) h.symm) ≫
     sX.stalkMap (genericPoint X)) ≫ mIso.inv) ≫
       (genericStalkResidueFieldIso Y).hom =
     sY.stalkMap (genericPoint Y) ≫ (genericStalkResidueFieldIso Y).hom
@@ -197,7 +197,7 @@ public theorem residueFieldIso_of_birationalOver
   let : X.Over S := ⟨sX⟩
   let : Y.Over S := ⟨sY⟩
   have hOver : g.hom ≫ sY = g.domain.ι ≫ sX := by
-    show p.iso.hom ≫ p.target.ι ≫ sY = p.source.ι ≫ sX
+    change p.iso.hom ≫ p.target.ι ≫ sY = p.source.ι ≫ sX
     exact hXY.partialIso_isOver sX sY
   let : g.IsOver S := ⟨hOver⟩
   let : g.toRationalMap.IsOver S := inferInstance
@@ -211,7 +211,7 @@ public theorem residueFieldIso_of_birationalOver
   let : Nonempty p.target := ⟨⟨genericPoint Y,
     genericPoint_mem_dense_open p.target p.dense_target⟩⟩
   have hz : g.hom z = genericPoint Y := by
-    show p.target.ι (p.iso.hom z) = genericPoint Y
+    change p.target.ι (p.iso.hom z) = genericPoint Y
     have hz' : z = genericPoint p.source.toScheme :=
       Subtype.ext (genericPoint_eq_of_isOpenImmersion p.source.ι).symm
     rw [hz', genericPoint_eq_of_isOpenImmersion p.iso.hom,
@@ -223,7 +223,7 @@ public theorem residueFieldIso_of_birationalOver
   change G.point = g.hom z at hpoint
   change HEq G.stalkMap (g.hom.stalkMap z ≫ (g.domain.stalkIso z).hom) at hstalk
   have : IsOpenImmersion g.hom := by
-    show IsOpenImmersion (p.iso.hom ≫ p.target.ι)
+    change IsOpenImmersion (p.iso.hom ≫ p.target.ι)
     infer_instance
   cases hG : G with
   | mk dpoint dmapsTo dm dlocal dcomm =>

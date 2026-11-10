@@ -406,7 +406,7 @@ theorem derivedGlobalSectionsOver_leray_baseChange_compat
           f'.toLRSHom.toShHom f.toLRSHom.toShHom (Spec.map (CommRingCat.ofHom φ)).toLRSHom.toShHom
           (congrArg (fun k => k.toLRSHom.toShHom) sq))
         (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical g'.toLRSHom.toShHom
-          f.toLRSHom.toShHom)).natTrans M := by
+          f.toLRSHom.toShHom)) M := by
   let g := Spec.map (CommRingCat.ofHom φ)
   have sq' : g'.toLRSHom.toShHom ≫ f.toLRSHom.toShHom =
       f'.toLRSHom.toShHom ≫ g.toLRSHom.toShHom := congrArg (fun k => k.toLRSHom.toShHom) sq
@@ -444,7 +444,7 @@ theorem derivedGlobalSectionsOver_leray_baseChange_compat
       (Stacks.Cohomology.DerivedBaseChange.derivedPullbackCompIsoLeft g'.toLRSHom.toShHom
         f'.toLRSHom.toShHom f.toLRSHom.toShHom g.toLRSHom.toShHom sq')
       (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical g'.toLRSHom.toShHom
-        f.toLRSHom.toShHom)).natTrans
+        f.toLRSHom.toShHom))
     (derivedPushforwardCompIso g'.toLRSHom.toShHom f.toLRSHom.toShHom)
     (derivedPushforwardCompIso f'.toLRSHom.toShHom g.toLRSHom.toShHom)
     (derivedGlobalSectionsOverDerivedPushforwardRestrictScalarsIso (g' ≫ f) (𝟙 _) f' φ hk')
@@ -495,7 +495,7 @@ theorem isIso_homEquiv_symm_of_derivedBaseChangeMap {X' X S' S : RingedSpace.{u,
     (M : DerivedCategory (SheafOfModules.{u} (structureSheafRing X'))) (h : Lg'.obj K ⟶ M)
     (hAB : CategoryTheory.LerayBaseChangeCompat e e' ℓf ℓf' ℓg ℓg'
       (Stacks.Cohomology.DerivedBaseChange.Mate.derivedPushforwardComparisonSquare adjf adjf'
-        adjg adjg' eg ef).natTrans M)
+        adjg adjg' eg ef) M)
     (hD1 : IsIso ((adjφ.homEquiv _ _).symm
       (ΓR.map (adjg.unit.app (Rf.obj K)) ≫ ℓg.hom.app (Lg.obj (Rf.obj K)))))
     (hbc : IsIso (Stacks.Cohomology.DerivedBaseChange.Mate.derivedBaseChangeMap adjf adjf' eg ef K ≫
@@ -504,7 +504,7 @@ theorem isIso_homEquiv_symm_of_derivedBaseChangeMap {X' X S' S : RingedSpace.{u,
       (Γf.map (adjg'.unit.app K ≫ Rg'.map h) ≫ ℓg'.hom.app M)) :=
   CategoryTheory.isIso_homEquiv_symm_of_baseChange adjg' adjg adjφ e e' ℓf ℓf' ℓg ℓg'
     (Stacks.Cohomology.DerivedBaseChange.Mate.derivedPushforwardComparisonSquare adjf adjf'
-      adjg adjg' eg ef).natTrans K M h
+      adjg adjg' eg ef) K M h
     (Stacks.Cohomology.DerivedBaseChange.Mate.derivedBaseChangeMap adjf adjf' eg ef K)
     (Stacks.Cohomology.DerivedBaseChange.Mate.derivedBaseChangeMap_unit_fac adjf adjf' adjg adjg'
       eg ef K) hAB hD1 hbc

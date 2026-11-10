@@ -744,9 +744,9 @@ theorem finite_support_weilDivisor (D : ↥(WeilDivisor B (Spec (.of k)) hk X)) 
   have := compactSpace_points π hiso hinj
   refine ((mem_weilDivisor_iff B (Spec (.of k)) hk X _).1 D.2).finite_nonempty_of_compact.subset ?_
   intro Z hZ
-  rw [Set.mem_setOf_eq] at hZ
+  rw [Set.mem_ofPred_eq] at hZ
   refine ⟨Z.genericPoint B (Spec (.of k)) hk X, ?_⟩
-  rw [if_neg hZ]
+  rw [ite_eq_right hZ]
   have h := (Z.isGenericPoint_genericPoint B (Spec (.of k)) hk X).def
   rw [← h]
   exact subset_closure rfl
@@ -819,14 +819,14 @@ private theorem mem_principalWeilDivisors_of_two_dvd_coefficient
       (c / 2) • divRationalFunction B (Spec (.of k)) hk hX hInt hN
         (coordinatePullbackUnit π hX hInt hiso) := by
     refine Subtype.ext (funext fun W => ?_)
-    simp only [AddSubgroup.coe_add, AddSubgroup.coe_zsmul, AddSubgroup.val_finset_sum,
+    simp only [AddSubgroup.coe_add, AddSubgroup.coe_zsmul, AddSubgroup.val_finsetSum,
       Pi.add_apply, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, divRationalFunction_apply,
       ordRationalFunction_coordinatePullbackUnit π hX hInt hN hiso hinj Z₀ hZ₀ W]
     by_cases hW : W = Z₀
     · subst hW
-      rw [if_pos rfl, Int.ediv_mul_cancel hc]
+      rw [ite_eq_left rfl, Int.ediv_mul_cancel hc]
       ring
-    · rw [if_neg hW, mul_zero, add_zero]
+    · rw [ite_eq_right hW, mul_zero, add_zero]
       have hsum : ∀ Z ∈ T.attach, (D : PrimeDivisor B (Spec (.of k)) hk X → ℤ) Z *
           ordRationalFunction B (Spec (.of k)) hk hX hInt hN (u Z (hT Z Z.2)) W =
             if (Z : PrimeDivisor B (Spec (.of k)) hk X) = W then
@@ -834,8 +834,8 @@ private theorem mem_principalWeilDivisors_of_two_dvd_coefficient
         intro Z _
         rw [hord Z (hT Z Z.2) W hW]
         by_cases hZW : (Z : PrimeDivisor B (Spec (.of k)) hk X) = W
-        · rw [if_pos hZW.symm, if_pos hZW, hZW, mul_one]
-        · rw [if_neg (Ne.symm hZW), if_neg hZW, mul_zero]
+        · rw [ite_eq_left hZW.symm, ite_eq_left hZW, hZW, mul_one]
+        · rw [ite_eq_right (Ne.symm hZW), ite_eq_right hZW, mul_zero]
       rw [Finset.sum_congr rfl hsum, Finset.sum_attach T
         (fun Z => if Z = W then (D : PrimeDivisor B (Spec (.of k)) hk X → ℤ) W else 0),
         Finset.sum_ite_eq']
@@ -900,7 +900,8 @@ theorem eq_of_ordRationalFunction_coordinatePullbackUnit_ne_zero
       (coordinatePullbackUnit π hX hInt hiso) W ≠ 0) : W = Z₀ := by
   classical
   by_contra h
-  rw [ordRationalFunction_coordinatePullbackUnit π hX hInt hN hiso hinj Z₀ hZ₀ W, if_neg h] at hW
+  rw [ordRationalFunction_coordinatePullbackUnit π hX hInt hN hiso hinj Z₀ hZ₀ W,
+    ite_eq_right h] at hW
   exact hW rfl
 
 include hiso hinj hZ₀ in

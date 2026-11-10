@@ -88,7 +88,7 @@ private lemma tensor_cycles_comp_d
     ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl) ≫
       (P ⊗ Q).d (i + j) (i + j + 1) = 0 := by
-  show ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
+  change ((P.iCycles i ⊗ₘ Q.iCycles j) ≫
     HomologicalComplex.ιMapBifunctor P Q (MonoidalCategory.curriedTensor _) (ComplexShape.up ℤ)
       i j (i + j) rfl) ≫
     (HomologicalComplex.mapBifunctor P Q (MonoidalCategory.curriedTensor _)
@@ -150,7 +150,7 @@ private lemma tensor_left_boundary_d
       (P ⊗ Q).d (i + j - 1) (i + j) =
     (P.d (i - 1) i ⊗ₘ Q.iCycles j) ≫
       HomologicalComplex.ιTensorObj P Q i j (i + j) rfl := by
-  show ((𝟙 (P.X (i - 1)) ⊗ₘ Q.iCycles j) ≫
+  change ((𝟙 (P.X (i - 1)) ⊗ₘ Q.iCycles j) ≫
       HomologicalComplex.ιMapBifunctor P Q (MonoidalCategory.curriedTensor _)
         (ComplexShape.up ℤ) (i - 1) j (i + j - 1) (by dsimp; omega)) ≫
     (HomologicalComplex.mapBifunctor P Q (MonoidalCategory.curriedTensor _)
@@ -178,7 +178,7 @@ private lemma tensorCycles_left_boundary
       x ≫ (P ⊗ Q).toCycles (i + j - 1) (i + j) := by
     rw [← cancel_mono ((P ⊗ Q).iCycles (i + j))]
     simp only [Category.assoc, tensorCycles_i, HomologicalComplex.toCycles_i]
-    show (P.toCycles (i - 1) i ⊗ₘ 𝟙 (Q.cycles j)) ≫
+    change (P.toCycles (i - 1) i ⊗ₘ 𝟙 (Q.cycles j)) ≫
       (P.iCycles i ⊗ₘ Q.iCycles j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl =
       x ≫ (P ⊗ Q).d (i + j - 1) (i + j)
@@ -196,7 +196,7 @@ private lemma tensor_right_boundary_d
       ⟨i, j - 1⟩ •
       ((P.iCycles i ⊗ₘ Q.d (j - 1) j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl) := by
-  show ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
+  change ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
       HomologicalComplex.ιMapBifunctor P Q (MonoidalCategory.curriedTensor _)
         (ComplexShape.up ℤ) i (j - 1) (i + j - 1) (by dsimp; omega)) ≫
     (HomologicalComplex.mapBifunctor P Q (MonoidalCategory.curriedTensor _)
@@ -227,7 +227,7 @@ private lemma tensorCycles_right_boundary
       x ≫ (P ⊗ Q).toCycles (i + j - 1) (i + j) := by
     rw [← cancel_mono ((P ⊗ Q).iCycles (i + j))]
     simp only [Category.assoc, tensorCycles_i, HomologicalComplex.toCycles_i]
-    show (𝟙 (P.cycles i) ⊗ₘ Q.toCycles (j - 1) j) ≫
+    change (𝟙 (P.cycles i) ⊗ₘ Q.toCycles (j - 1) j) ≫
       (P.iCycles i ⊗ₘ Q.iCycles j) ≫
         HomologicalComplex.ιTensorObj P Q i j (i + j) rfl =
       (ε • ((P.iCycles i ⊗ₘ 𝟙 (Q.X (j - 1))) ≫
@@ -247,8 +247,8 @@ private lemma coprod_desc_tensorCycles_homologyπ
         (P.cycles i ◁ Q.toCycles (j - 1) j) ≫
       (tensorCycles P Q i j ≫ (P ⊗ Q).homologyπ (i + j)) = 0 := by
   apply Limits.coprod.hom_ext
-  · simp [← tensorHom_id, tensorCycles_left_boundary, Limits.coprod.inl_desc]
-  · simp [← id_tensorHom, tensorCycles_right_boundary, Limits.coprod.inr_desc]
+  · simp [← tensorHom_id, tensorCycles_left_boundary]
+  · simp [← id_tensorHom, tensorCycles_right_boundary]
 
 private noncomputable def tensorHomology
     (P Q : CochainComplex (ModuleCat.{u} R) ℤ) (i j : ℤ) :
@@ -267,7 +267,7 @@ private lemma homologyπ_tensorHomology
     (P.toCycles_comp_homologyπ (i - 1) i)
   let cQ := Limits.CokernelCofork.ofπ (Q.homologyπ j)
     (Q.toCycles_comp_homologyπ (j - 1) j)
-  show (cP.tensor cQ).π ≫
+  change (cP.tensor cQ).π ≫
     (Limits.CokernelCofork.isColimitTensor
       (P.homologyIsCokernel (i - 1) i (by simp))
       (Q.homologyIsCokernel (j - 1) j (by simp))).desc

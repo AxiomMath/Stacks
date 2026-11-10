@@ -94,7 +94,7 @@ theorem isFiniteFree_of_iso {M N : _root_.SheafOfModules.{m} R} (e : M ≅ N)
     _root_.SheafOfModules.IsFiniteFree R N := by
   obtain ⟨n, P, ι, hc, φ, hφ⟩ := h
   refine ⟨n, P, ι, hc, fun U ↦ (φ U).trans (isoSectionsLinearEquiv e U), fun {U V} f x ↦ ?_⟩
-  show isoSectionsLinearEquiv e V (φ V (P.val.map f x)) =
+  change isoSectionsLinearEquiv e V (φ V (P.val.map f x)) =
     N.val.map f (isoSectionsLinearEquiv e U (φ U x))
   rw [isoSectionsLinearEquiv_apply, isoSectionsLinearEquiv_apply, hφ f x]
   exact PresheafOfModules.naturality_apply e.hom.val f _

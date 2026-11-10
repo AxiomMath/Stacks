@@ -49,7 +49,7 @@ theorem isFiniteLocallyFreeOfRank_zero_of_isZero {X : Scheme.{u}} (M : X.Modules
       (SheafOfModules.free (R := X.ringCatSheaf) PEmpty.{u + 1}) 0 := by
     refine ⟨⟨(SheafOfModules.free.generatingSections
       (R := X.ringCatSheaf) PEmpty.{u + 1}).localGeneratorsData, inferInstance, fun _ => ?_⟩⟩
-    show Nonempty (PEmpty.{u + 1} ≃ Fin 0)
+    change Nonempty (PEmpty.{u + 1} ≃ Fin 0)
     exact ⟨Equiv.equivOfIsEmpty _ _⟩
   exact AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.of_iso (hZ.iso hM) hF
 

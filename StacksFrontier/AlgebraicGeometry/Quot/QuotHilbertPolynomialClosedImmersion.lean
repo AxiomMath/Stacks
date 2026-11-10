@@ -301,7 +301,7 @@ theorem isProperAlgebraicSpaceOver_hilbertPolynomialQuot_of_directImage
   have htb : M₁.toBase = M₂.toBase := by
     ext T z
     have hy := types_congr_hom (e.inv_hom_id_app T) (M₂.iso.hom.app T ⟨z⟩)
-    show yonedaEquiv (e.inv.app T (M₂.iso.hom.app T ⟨z⟩)).1.toBase.hom =
+    change yonedaEquiv (e.inv.app T (M₂.iso.hom.app T ⟨z⟩)).1.toBase.hom =
       yonedaEquiv (M₂.iso.hom.app T ⟨z⟩).1.toBase.hom
     rw [← D.directImageHilbertPolynomialQuotIso_hom_app_toBase hπ M P
       (e.inv.app T (M₂.iso.hom.app T ⟨z⟩))]

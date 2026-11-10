@@ -242,14 +242,14 @@ theorem AbutsTo.exists_filtration_of_mem_annihilator {r₀ : ℤ}
       rw [← hb]
       exact hF n hB.le
   refine ⟨fun k => sub (F n (k : ℤ)), ?_, ?_, fun k => ?_⟩
-  · show sub (F n ((0 : ℕ) : ℤ)) = ⊤
+  · change sub (F n ((0 : ℕ) : ℤ)) = ⊤
     rw [Nat.cast_zero, hFtop]
     exact sub_top
-  · show sub (F n ((N : ℕ) : ℤ)) = ⊥
+  · change sub (F n ((N : ℕ) : ℤ)) = ⊥
     rw [hFbot]
     exact sub_bot
   · refine Submodule.smul_le.mpr fun c hcJ y hy => ?_
-    show c • y ∈ sub (F n (((k + 1 : ℕ)) : ℤ))
+    change c • y ∈ sub (F n (((k + 1 : ℕ)) : ℤ))
     rw [Nat.cast_add, Nat.cast_one]
     exact smul_sub_le_of_mem_annihilator_cokernel _ (hannGr (k : ℤ) hcJ) hy
 
@@ -269,12 +269,12 @@ theorem AbutsTo.exists_filtration_of_mem_annihilator_of_iso {r₀ : ℤ}
   obtain ⟨F, h0, hN, hstep⟩ :=
     AbutsTo.exists_filtration_of_mem_annihilator hE hs J n N hvanish hann
   refine ⟨fun k => (F k).map (e.toLinearEquiv : (H n) →ₗ[R] T), ?_, ?_, fun k => ?_⟩
-  · show (F 0).map (e.toLinearEquiv : (H n) →ₗ[R] T) = ⊤
+  · change (F 0).map (e.toLinearEquiv : (H n) →ₗ[R] T) = ⊤
     rw [h0, Submodule.map_top, LinearMap.range_eq_top]
     exact e.toLinearEquiv.surjective
-  · show (F N).map (e.toLinearEquiv : (H n) →ₗ[R] T) = ⊥
+  · change (F N).map (e.toLinearEquiv : (H n) →ₗ[R] T) = ⊥
     rw [hN, Submodule.map_bot]
-  · show J • (F k).map (e.toLinearEquiv : (H n) →ₗ[R] T)
+  · change J • (F k).map (e.toLinearEquiv : (H n) →ₗ[R] T)
       ≤ (F (k + 1)).map (e.toLinearEquiv : (H n) →ₗ[R] T)
     rw [← Submodule.map_smul'']
     exact Submodule.map_mono (hstep k)

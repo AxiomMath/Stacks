@@ -75,10 +75,10 @@ lemma isIso_πTruncGE_f_of_lt
     (n i : ℤ) (hi : n < i) : IsIso ((K.πTruncGE n).f i) := by
   let e := ComplexShape.embeddingUpIntGE n
   have he : e.f (i - n).natAbs = i := by
-    show n + ((i - n).natAbs : ℤ) = i
+    change n + ((i - n).natAbs : ℤ) = i
     rw [Int.natAbs_of_nonneg (by omega)]
     omega
-  show IsIso ((HomologicalComplex.πTruncGE K e).f i)
+  change IsIso ((HomologicalComplex.πTruncGE K e).f i)
   dsimp only [HomologicalComplex.πTruncGE]
   apply (e.isIso_liftExtend_f_iff _ _ he).mpr
   apply K.isIso_restrictionToTruncGE'
@@ -97,7 +97,7 @@ lemma quasiIsoAt_map_πTruncGE
   let f := (F.mapHomologicalComplex (.up ℤ)).map (K.πTruncGE n)
   have hc (j : ℤ) (hj : n < j) : IsIso (f.f j) := by
     have := isIso_πTruncGE_f_of_lt K n j hj
-    show IsIso (F.map ((K.πTruncGE n).f j))
+    change IsIso (F.map ((K.πTruncGE n).f j))
     infer_instance
   rw [quasiIsoAt_iff' _ (i - 1) i (i + 1) (by simp) (by simp)]
   let τ := (HomologicalComplex.shortComplexFunctor' D (.up ℤ) (i - 1) i (i + 1)).map f
@@ -105,7 +105,7 @@ lemma quasiIsoAt_map_πTruncGE
   have : IsIso τ.τ₂ := hc _ (by omega)
   have : IsIso τ.τ₃ := hc _ (by omega)
   have : IsIso τ := ShortComplex.isIso_of_isIso τ
-  show ShortComplex.QuasiIso τ
+  change ShortComplex.QuasiIso τ
   infer_instance
 
 end Truncation
@@ -183,10 +183,10 @@ lemma isIso_derivedUnit_of_quasiIso_map
   have hqf : IsIso (DerivedCategory.Qh.map (q.map f)) :=
     (isIso_Qh_map_quotient_map_iff f).2 inferInstance
   have hFf : IsIso ((F.mapHomotopyCategory (.up ℤ) ⋙ DerivedCategory.Qh).map (q.map f)) := by
-    show IsIso (((q ⋙ F.mapHomotopyCategory (.up ℤ)) ⋙ DerivedCategory.Qh).map f)
+    change IsIso (((q ⋙ F.mapHomotopyCategory (.up ℤ)) ⋙ DerivedCategory.Qh).map f)
     rw [NatIso.isIso_map_iff
       (Functor.isoWhiskerRight (F.mapHomotopyCategoryFactors (.up ℤ)) DerivedCategory.Qh)]
-    show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient D (.up ℤ)).map
+    change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient D (.up ℤ)).map
       ((F.mapHomologicalComplex (.up ℤ)).map f)))
     exact (isIso_Qh_map_quotient_map_iff _).2 inferInstance
   have : IsIso ((DerivedCategory.Qh ⋙ RF).map (q.map f)) := by
@@ -304,9 +304,9 @@ lemma isIso_of_eventually_isIso_homology
     have hka : k ≫ a = H.map p ≫ e.hom := by
       apply Pi.hom_ext
       intro n
-      show (k ≫ Pi.lift (fun n : ℕ ↦ limit.π (F ⋙ H) ⟨n⟩)) ≫ Pi.π _ n = _
+      change (k ≫ Pi.lift (fun n : ℕ ↦ limit.π (F ⋙ H) ⟨n⟩)) ≫ Pi.π _ n = _
       rw [Category.assoc, Pi.lift_comp_π, hk, Category.assoc]
-      show H.map (p ≫ Pi.π _ n) =
+      change H.map (p ≫ Pi.π _ n) =
         H.map p ≫ piComparison H (fun n : ℕ ↦ F.obj ⟨n⟩) ≫ Pi.π _ n
       rw [piComparison_comp_π, H.map_comp]
     have hker := (DerivedCategory.HomologySequence.exact₂ _ hT r).fIsKernel
@@ -347,7 +347,7 @@ lemma isSplitEpi_difference_of_isSplitEpi
   intro n
   rw [Category.assoc, inverseSystemDifference_comp_π, Preadditive.comp_sub,
     Pi.lift_comp_π, ← Category.assoc, Pi.lift_comp_π]
-  show k n - (((k n - Pi.π _ n) ≫ σ n) ≫ F.map (homOfLE (Nat.le_succ n)).op) = _
+  change k n - (((k n - Pi.π _ n) ≫ σ n) ≫ F.map (homOfLE (Nat.le_succ n)).op) = _
   rw [Category.assoc, show σ n ≫ F.map (homOfLE (Nat.le_succ n)).op = 𝟙 _ from
     @IsSplitEpi.id _ _ _ _ _ (ht n), Category.comp_id, sub_sub_cancel, Category.id_comp]
 
@@ -400,12 +400,12 @@ lemma exists_distTriang_limit_of_degreewise_isSplitEpi
       apply Pi.hom_ext
       intro n
       rw [Category.assoc]
-      show Q.map (Pi.lift (fun n : ℕ ↦ limit.π F ⟨n⟩)) ≫
+      change Q.map (Pi.lift (fun n : ℕ ↦ limit.π F ⟨n⟩)) ≫
         e.hom ≫ Pi.π _ n = p ≫ Pi.π _ n
       have he := piComparison_comp_π Q (fun n : ℕ ↦ F.obj ⟨n⟩) n
       change e.hom ≫ Pi.π _ n = Q.map (Pi.π _ n) at he
       rw [he, ← Q.map_comp]
-      show Q.map ((Pi.lift (fun n : ℕ ↦ limit.π F ⟨n⟩)) ≫ Pi.π _ n) = _
+      change Q.map ((Pi.lift (fun n : ℕ ↦ limit.π F ⟨n⟩)) ≫ Pi.π _ n) = _
       rw [Pi.lift_comp_π, Pi.lift_comp_π]
     rw [← hp, Category.assoc, e.hom_inv_id, Category.comp_id]
   have h2 : inverseSystemDifference (F ⋙ Q) ≫ e.inv = e.inv ≫ Q.map S.g := by
@@ -416,7 +416,7 @@ lemma exists_distTriang_limit_of_degreewise_isSplitEpi
   refine isomorphic_distinguished _ hdist _
     (Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ h2 ?_)
   · exact h1.trans (Category.id_comp _).symm
-  · show (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
+  · change (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
         (shiftFunctor (DerivedCategory E) (1 : ℤ)).map
           (𝟙 (DerivedCategory.Q.obj (limit F))) =
       e.inv ≫ DerivedCategory.triangleOfSESδ hS
@@ -442,7 +442,7 @@ lemma quasiIso_limitLift_of_eventually_quasiIsoAt
   · intro i
     obtain ⟨N, hN⟩ := h i
     refine ⟨N, fun n hn ↦ ?_⟩
-    show IsIso
+    change IsIso
       ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor E i).map (c.π.app ⟨n⟩))
     rw [NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors E i)]
     exact (quasiIsoAt_iff_isIso_homologyMap _ _).1 (hN n hn)
@@ -477,7 +477,7 @@ lemma exists_quasiIso_isKInjective_map_quasiIso
   have : PreservesLimitsOfShape ℕᵒᵖ T := by
     apply HomologicalComplex.preservesLimitsOfShape_of_eval
     intro i
-    show PreservesLimitsOfShape ℕᵒᵖ ((HomologicalComplex.eval C (.up ℤ) i) ⋙ F)
+    change PreservesLimitsOfShape ℕᵒᵖ ((HomologicalComplex.eval C (.up ℤ) i) ⋙ F)
     infer_instance
   have : ObjectProperty.ContainsZero (C := C) (fun X ↦ Injective X) :=
     ⟨⟨0, isZero_zero _, inferInstance⟩⟩
@@ -505,7 +505,7 @@ lemma exists_quasiIso_isKInjective_map_quasiIso
         refine (Category.id_comp _).trans ?_
         rw [show tower.map (homOfLE (Nat.le_succ n)).op = g n from
           Functor.ofOpSequence_map_homOfLE_succ g n]
-        show K.πTruncGE (-(n : ℤ)) ≫ f n =
+        change K.πTruncGE (-(n : ℤ)) ≫ f n =
           (K.πTruncGE (-((n + 1 : ℕ) : ℤ)) ≫ f (n + 1)) ≫ g n
         exact (hladder n).symm.trans (Category.assoc _ _ _).symm) }
   have hTf (n : ℕ) : QuasiIso (T.map (f n)) := by
@@ -530,7 +530,7 @@ lemma exists_quasiIso_isKInjective_map_quasiIso
       have : QuasiIsoAt (T.map (K.πTruncGE (-(n : ℤ)))) i :=
         quasiIsoAt_map_πTruncGE F K _ i (by omega)
       have := hTf n
-      show QuasiIsoAt (T.map (K.πTruncGE (-(n : ℤ)) ≫ f n)) i
+      change QuasiIsoAt (T.map (K.πTruncGE (-(n : ℤ)) ≫ f n)) i
       rw [T.map_comp]
       infer_instance
   let γ := limit.lift tower c

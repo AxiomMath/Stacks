@@ -50,7 +50,7 @@ theorem Ideal.map_includeRight_le_of_map_le
   have hcomm : g.toRingHom.comp incT.toRingHom = incU.toRingHom.comp f.toRingHom :=
     congrArg AlgHom.toRingHom
       (Algebra.TensorProduct.map_comp_includeRight (AlgHom.id R S) f)
-  show Ideal.map g.toRingHom (Ideal.map incT.toRingHom I) ≤ Ideal.map incU.toRingHom J
+  change Ideal.map g.toRingHom (Ideal.map incT.toRingHom I) ≤ Ideal.map incU.toRingHom J
   rw [Ideal.map_map, hcomm, ← Ideal.map_map]
   exact Ideal.map_mono hI
 
@@ -344,7 +344,7 @@ theorem AlgHom.isBaseChange_rTensorSemilinear
   let : IsScalarTower S B (C ⊗[S] M) := IsScalarTower.to₁₂₄ S B C _
   apply IsBaseChange.of_equiv (TensorProduct.AlgebraTensorModule.cancelBaseChange S B C C M)
   intro z
-  show (TensorProduct.AlgebraTensorModule.cancelBaseChange S B C C M)
+  change (TensorProduct.AlgebraTensorModule.cancelBaseChange S B C C M)
     (1 ⊗ₜ[B] z) = f.rTensorSemilinear M z
   induction z with
   | tmul b m =>
@@ -463,7 +463,7 @@ theorem Algebra.IsPushout.localizationAway_of_algebraMap_eq
     IsScalarTower.of_algHom ((IsScalarTower.toAlgHom R T U).localizationAwayMap z y h)
   have : IsScalarTower T (Localization.Away z) (Localization.Away y) :=
     IsScalarTower.of_algebraMap_eq fun t => by
-      show algebraMap T (Localization.Away y) t =
+      change algebraMap T (Localization.Away y) t =
         (IsScalarTower.toAlgHom R T U).localizationAwayMap z y h
           (algebraMap T (Localization.Away z) t)
       rw [AlgHom.localizationAwayMap_algebraMap]

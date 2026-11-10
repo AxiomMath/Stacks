@@ -57,7 +57,7 @@ public theorem isPushout_C_mapRingHom_C (k' : Type u) [CommRing k'] :
       (@Algebra.toSMul _ _ _ _ iA) _ := by
     refine @IsScalarTower.of_algebraMap_eq k' (Polynomial k') (Polynomial (Polynomial k')) _ _ _ _
       iA _ fun r => ?_
-    show C (C r) = mapRingHom C (C r)
+    change C (C r) = mapRingHom C (C r)
     simp
   have hS : @IsScalarTower k' (Polynomial k') (Polynomial (Polynomial k')) _
       (@Algebra.toSMul _ _ _ _ iS) _ := by
@@ -78,7 +78,7 @@ public theorem isPushout_C_mapRingHom (k k' : Type u) [CommRing k] [CommRing k']
   let iA : Algebra (Polynomial k) (Polynomial k') := Polynomial.algebra k k'
   have hA : IsScalarTower k (Polynomial k) (Polynomial k') :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show C (algebraMap k k' r) = mapRingHom (algebraMap k k') (C r)
+      change C (algebraMap k k' r) = mapRingHom (algebraMap k k') (C r)
       simp
   exact CommRingCat.isPushout_of_isPushout k k' (Polynomial k) (Polynomial k')
 

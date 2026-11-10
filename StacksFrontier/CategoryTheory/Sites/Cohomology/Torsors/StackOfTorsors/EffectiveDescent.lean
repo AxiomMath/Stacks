@@ -679,7 +679,7 @@ theorem projection_effectiveDescent {U : C} {I : Type s} (V : I → C) (f : ∀ 
         (Category.comp_id (f i)).symm))) ?_
   intro i j
   refine Hom.ext ?_ (funext fun Z => funext fun r => ?_)
-  · show Hom.base (D.φ i j) ≫ Hom.base (D.xrji i j).hom ≫ Hom.base (χ j) =
+  · change Hom.base (D.φ i j) ≫ Hom.base (D.xrji i j).hom ≫ Hom.base (χ j) =
       Hom.base (D.xrij i j).hom ≫ Hom.base (χ i)
     rw [Descent.homBase_phi, Descent.homBase_xrji, Descent.homBase_xrij, hχb i, hχb j]
     simp [(hVij i j).w]
@@ -694,7 +694,7 @@ theorem projection_effectiveDescent {U : C} {I : Type s} (V : I → C) (f : ∀ 
         (r.1 ≫ eqToHom (Descent.base_xrij D i j)) ≫ pr₂ i j := by
       rw [Hom.fst_map, Descent.homBase_glue]
       simp
-    show (χ j).map Z ((D.φ i j ≫ (D.xrji i j).hom).map Z r) =
+    change (χ j).map Z ((D.φ i j ≫ (D.xrji i j).hom).map Z r) =
       (χ i).map Z ((D.xrij i j).hom.map Z r)
     rw [hχmap j Z _, hχmap i Z _]
     refine Descent.total_gluedTorsorObj_ext D hf _ _ ?_ ?_

@@ -80,7 +80,7 @@ theorem nonempty_pullbackBlowUpToBaseOverIso {S T A : Scheme.{u}} (p : A ⟶ S) 
       pullback.snd (blowUpToBase I) (pullback.fst p g) := by
     rw [Iso.inv_comp_eq]
     exact hb.flip.isoPullback_hom_snd.symm
-  show ((pullbackRightPullbackFstIso p g (blowUpToBase I)).inv ≫ hb.flip.isoPullback.inv) ≫
+  change ((pullbackRightPullbackFstIso p g (blowUpToBase I)).inv ≫ hb.flip.isoPullback.inv) ≫
       blowUpToBase (I.comap (pullback.fst p g)) ≫ pullback.snd p g =
     pullback.snd (blowUpToBase I ≫ p) g
   rw [Category.assoc, ← Category.assoc hb.flip.isoPullback.inv, hinv]
@@ -93,7 +93,7 @@ theorem support_comap_vanishingIdeal_singleton_eq_empty {A P : Scheme.{u}} (q : 
     (((Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds A)).comap q).support :
       Set P) = ∅ := by
   rw [Scheme.IdealSheafData.support_comap]
-  show q ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds A)).support :
+  change q ⁻¹' ((Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds A)).support :
     Set A) = ∅
   rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
   exact Set.eq_empty_of_forall_notMem fun z hz => hmiss z hz
@@ -136,7 +136,7 @@ theorem nonempty_blowUpOverIso_of_isIso {X Y T : Scheme.{u}} (f : X ⟶ Y) [IsIs
     (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))
   obtain ⟨c⟩ := nonempty_blowUpOverIso_congr hcomap.symm r
   refine ⟨c ≪≫ Over.isoMk d ?_⟩
-  show d.hom ≫ blowUpToBase (Scheme.IdealSheafData.vanishingIdeal
+  change d.hom ≫ blowUpToBase (Scheme.IdealSheafData.vanishingIdeal
       (⟨{y}, hy⟩ : Closeds Y)) ≫ t =
     blowUpToBase ((Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y)).comap f) ≫ r
   rw [← Category.assoc, hd, Category.assoc, hr]
@@ -146,7 +146,7 @@ theorem nonempty_blowUpOverIso_of_isIso {X Y T : Scheme.{u}} (f : X ⟶ Y) [IsIs
 /-- The underlying morphism of an isomorphism in an over category is an isomorphism. -/
 private theorem isIso_left_of_overIso {T : Scheme.{u}} {X Y : Over T} (e : X ≅ Y) :
     IsIso e.hom.left := by
-  show IsIso ((Over.forget T).map e.hom)
+  change IsIso ((Over.forget T).map e.hom)
   infer_instance
 
 /-- The two projections of a fibre product agree after composing to the base, pointwise. -/
@@ -215,7 +215,7 @@ theorem exists_factorsAsPointBlowups_of_localChain
       have := congrArg (fun k : (pullback A.hom (D.S.fromSpecStalk (D.points i)) ⟶
         D.localScheme i) => k.base z') hw
       rw [← this]
-      show wmap (eAiso.hom z') = _
+      change wmap (eAiso.hom z') = _
       rw [heAz]
       exact Set.mem_singleton_iff.mp hzT
     have hxclosed := isClosed_singleton_pullbackFst_fromSpecStalk A.hom (D.points i)
@@ -351,7 +351,7 @@ private theorem complementOfClosedPoints_indexedPoints
   apply Opens.ext
   apply Set.ext
   intro x
-  show x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
+  change x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
     x ∈ (Set.range D.points)ᶜ
   simp only [Set.mem_iInter, Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_range]
   constructor
@@ -405,7 +405,7 @@ theorem finitePresentation_of_factorsAsPointBlowups
     have : IsIso ((Over.pullback (complementOfClosedPoints D.indexedPoints
         D.indexedPoints_mem_closedPoints).ι).obj A).hom :=
       D.isIso_pullback_hom_of_factorsAsPointBlowups hA _ hmiss
-    show FinitePresentation ((Over.pullback (complementOfClosedPoints D.indexedPoints
+    change FinitePresentation ((Over.pullback (complementOfClosedPoints D.indexedPoints
       D.indexedPoints_mem_closedPoints).ι).obj A).hom
     have : MorphismProperty.ContainsIdentities
         (@FinitePresentation : MorphismProperty Scheme.{u}) :=
@@ -429,7 +429,7 @@ private theorem finitePresentation_hom_of_overIso {T : Scheme.{u}} {X Y : Over T
 /-- The open complement of the distinguished points avoids them. -/
 theorem complement_ι_notMem_range (D : FinitePresentationAwayPointsSituation.{u})
     (t : D.complement.toScheme) : D.complement.ι t ∉ Set.range D.points := by
-  show D.complement.ι t ∈ (D.complement : Set D.S)
+  change D.complement.ι t ∈ (D.complement : Set D.S)
   rw [← Scheme.Opens.range_ι]
   exact ⟨t, rfl⟩
 

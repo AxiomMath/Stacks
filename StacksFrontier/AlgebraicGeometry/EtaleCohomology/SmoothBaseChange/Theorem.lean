@@ -30,7 +30,7 @@ system of schemes is what is used, and it is proved here from Stacks 0H7B and 03
 
 * `Stacks.EtaleCohomology.SmoothBaseChange.isIso_higherBaseChangeMapAb_of_smooth` — the smooth
   base change theorem, from the cited inputs of `CitedStatements.lean` and the Noetherian case of
-  Stacks 0EYJ (`h0BMA`, `h0EYD`); the degree-one vanishing `AffineLineFirstVanishing` is
+  Stacks 0EYJ (`h0EYD`); the degree-one vanishing `AffineLineFirstVanishing` is
   supplied by `affineLineFirstVanishing`, with 0EZJ from
   `AlgebraicGeometry.exists_finiteEtaleGaloisCover_extending_genericFiber`.
 
@@ -72,7 +72,6 @@ theorem isIso_higherBaseChangeMapAb_of_smooth
     (h0EYS : FlatReducedFibresBaseChange.{u}) (h0EZR : EtaleLocalHigherBaseChange.{u})
     (h0EZS : HigherBaseChangePaste.{u}) (h0F08 : FirstFailureNormalization.{u})
     (h03SC2 : AffineCurveCohomologyVanishing.{u}) (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -98,7 +97,7 @@ theorem isIso_higherBaseChangeMapAb_of_smooth
   refine isIso_app_of_isColimit (isColimitTorsionCocone S F hF)
     (higherBaseChangeMapAb f g h e sq.w q) fun k => ?_
   exact isIso_higherBaseChangeMapAb_of_smooth_of_zsmul_eq_zero h0EYS h0EZR h0EZS h0F08 h03SC2
-    h03SC6 h0BMA h0EYD f h e g sq (isUnit_invertibleIndex S k.down) (D.obj k)
+    h03SC6 h0EYD f h e g sq (isUnit_invertibleIndex S k.down) (D.obj k)
     (fun U x => zsmul_kernel_eq_zero F _ (op U) x) q
 
 end Stacks.EtaleCohomology.SmoothBaseChange

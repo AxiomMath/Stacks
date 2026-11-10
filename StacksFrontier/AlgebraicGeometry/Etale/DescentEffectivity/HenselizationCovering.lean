@@ -73,9 +73,9 @@ theorem IsZariskiLocalAtSource.coprodDesc {P : MorphismProperty Scheme.{u}}
     [IsZariskiLocalAtSource P] (h₁ : P g₁) (h₂ : P g₂) : P (coprod.desc g₁ g₂) := by
   refine IsZariskiLocalAtSource.of_openCover (coprodOpenCover.{_, 0} Y₁ Y₂) ?_
   rintro (⟨⟩ | ⟨⟩)
-  · show P (coprod.inl ≫ coprod.desc g₁ g₂)
+  · change P (coprod.inl ≫ coprod.desc g₁ g₂)
     rwa [coprod.inl_desc]
-  · show P (coprod.inr ≫ coprod.desc g₁ g₂)
+  · change P (coprod.inr ≫ coprod.desc g₁ g₂)
     rwa [coprod.inr_desc]
 
 /-- **The morphism out of a binary coproduct described by two flat morphisms is flat.** -/
@@ -226,7 +226,7 @@ theorem exists_isIso_specMap_quotientMk_of_bijective_quotientMap (f : A →+* Ah
     CommRingCat.ofHom (Ideal.quotientMap (I.map f) f Ideal.le_comap_map)
   have _ : IsIso q := (ConcreteCategory.isIso_iff_bijective q).mpr hq
   refine ⟨asIso (Spec.map q), ?_⟩
-  show Spec.map q ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)) = _
+  change Spec.map q ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)) = _
   rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp,
     Ideal.quotientMap_comp_mk Ideal.le_comap_map]
 

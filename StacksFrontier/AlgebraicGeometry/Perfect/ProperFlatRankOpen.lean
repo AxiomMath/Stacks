@@ -259,12 +259,8 @@ Taking `T = U` in the characterising property: for a cartesian square over the i
 `rankOpen f ℱ i r`, the object `Rf_{U,*}ℱ_U` is isomorphic to a finite locally free module of rank
 `r` placed in degree `i`.
 
-The `h0B91open` argument is **retained for interface compatibility and is not used**: the
-base change it stands for is proved, as `openImmersionBaseChangeDerivedPushforward`.
-This declaration carries no `@[stacks]` attribute, so the argument registers nothing — only
-`factorsThrough_rankOpen_iff`, which does carry the tag, is stated without it. -/
+The base change this uses is proved, as `openImmersionBaseChangeDerivedPushforward`. -/
 public theorem exists_isFiniteLocallyFreeOfRank_rankOpen
-    (h0B91open : OpenImmersionBaseChangeDerivedPushforward.{u})
     (f : X ⟶ S) (hf : FinitePresentation f) (hproper : IsProper f)
     (F : X.Modules) (hfp : F.IsFinitePresentation)
     (hflat : IsFlatOver f.toLRSHom.toShHom F) (i : ℤ) (r : ℕ)

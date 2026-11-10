@@ -85,10 +85,10 @@ theorem localStalkRingEquiv_apply
     StructureSheaf.stalkAlgebra A p
   have hM : p.asIdeal.primeCompl = IsUnit.submonoid A := by
     ext b
-    show b ∉ p.asIdeal ↔ IsUnit b
+    change b ∉ p.asIdeal ↔ IsUnit b
     rw [hp, IsLocalRing.mem_maximalIdeal]
     simp [mem_nonunits_iff]
-  show (StructureSheaf.stalkIso A p)
+  change (StructureSheaf.stalkIso A p)
     ((IsLocalization.atUnits A p.asIdeal.primeCompl hM.le).toRingEquiv a) = _
   have hUnit : (IsLocalization.atUnits A p.asIdeal.primeCompl hM.le).toRingEquiv a =
       algebraMap A (Localization.AtPrime p.asIdeal) a := by

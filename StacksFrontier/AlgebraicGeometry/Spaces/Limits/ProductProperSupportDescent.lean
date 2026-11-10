@@ -150,7 +150,7 @@ theorem productSourceAtIso_hom_comp (i : J) (hi : j₀ ≤ i) :
         (productMorphismDescentData hZ T hc X₀ j₀ hqc hqs).sourceAtToSource₀ i hi =
       productSpaceMap X₀ (T.map (homOfLE hi).op) := by
   apply ObjectProperty.hom_ext
-  show (pullbackProdFstIsoProd (yoneda.map (T.map (homOfLE hi).op)) X₀.1).inv ≫
+  change (pullbackProdFstIsoProd (yoneda.map (T.map (homOfLE hi).op)) X₀.1).inv ≫
       pullback.snd (yoneda.map (T.map (homOfLE hi).op))
         (prod.fst : yoneda.obj (T.obj (op j₀)) ⨯ X₀.1 ⟶ _) =
     prod.map (yoneda.map (T.map (homOfLE hi).op)) (𝟙 X₀.1)
@@ -239,7 +239,7 @@ theorem productSourceLimitIso_hom_comp :
         productSpaceMap X₀ (V := c.pt) (c.π.app (op j₀)) =
       (productMorphismDescentData hZ T hc X₀ j₀ hqc hqs).sourceLimitToSource₀ := by
   apply ObjectProperty.hom_ext
-  show ((pullbackProdFstIsoProd (limit.π (T ⋙ yoneda) (op j₀)) X₀.1).hom ≫
+  change ((pullbackProdFstIsoProd (limit.π (T ⋙ yoneda) (op j₀)) X₀.1).hom ≫
       prod.map (productLimitIso T hc).inv (𝟙 X₀.1)) ≫
         prod.map (yoneda.map (c.π.app (op j₀))) (𝟙 X₀.1) =
       pullback.snd (limit.π (T ⋙ yoneda) (op j₀))

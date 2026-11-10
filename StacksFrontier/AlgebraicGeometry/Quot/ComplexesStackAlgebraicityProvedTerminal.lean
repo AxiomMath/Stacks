@@ -144,7 +144,7 @@ theorem isAlgebraicStack_complexes_of_external_of_terminalVersality
                 schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
               letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
               letI : Fact (Deformation.SchlessingerConditionS2
-                (CategoryOfElements.π
+                (Functor.Elements.π
                   (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
               let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
               let T := Deformation.artinianTangentSpace Λ' k F
@@ -221,7 +221,7 @@ theorem isAlgebraicStack_complexes_of_external_of_terminalVersality
       FibreLiftClassPullback (hDer := hDer) hK m hKm)
     {S : Scheme.{u}} (hS : B.Contains S) (D : ComplexesSituation B S hS) :
     Stack.IsAlgebraicStack.{u, z, u + 1, u + 1} B S hS (complexesBasedCategory D) :=
-  isAlgebraicStack_complexes_of_held_of_fibreLiftClassPullback_finiteExt_properInSite_of_terminalVersality
+  isAlgebraicStack_complexes_of_fibreLiftPullback_finiteExt_properInSite_of_terminalVersality
     (h0CXU := h0CXU) hS D
     hnat hpull
     hcomp (fun hS => negativeExtVanishesOfFibres_proved B _ hS)

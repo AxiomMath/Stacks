@@ -65,7 +65,7 @@ theorem isOpen_setOf_character_smul_eq (Λ : Type) [CommRing Λ] (χ : G →* Λ
     ⟨(fun h => g⁻¹ * h) ⁻¹' (χ.ker : Set G), ?_, ?_, ?_⟩
   · intro h hh
     simp only [Set.mem_preimage, SetLike.mem_coe, MonoidHom.mem_ker] at hh
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have : χ h = χ g := by
       rw [show h = g * (g⁻¹ * h) by group, map_mul, hh, mul_one]
     rw [this]

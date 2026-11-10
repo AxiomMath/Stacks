@@ -75,7 +75,7 @@ theorem invertibleCurveDegree_pullback_dualizingSheafOverField_eq_zero_of_isRati
     infer_instance
   have hf : C.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(C.subscheme, ⊤))) =
       fC := by
-    show C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
+    change C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   let : C.subscheme.Over (Spec (.of k)) := ⟨fC⟩

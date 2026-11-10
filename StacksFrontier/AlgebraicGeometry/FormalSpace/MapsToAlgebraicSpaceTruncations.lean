@@ -67,7 +67,7 @@ private lemma isWeakIdealOfDefinition_of_between_maximalIdeal_powers (I : Ideal 
   · exact I.toAddSubgroup.isOpen_of_mem_nhds
       ((maximalIdeal R).hasBasis_nhds_zero_adic.mem_iff.2 ⟨k, trivial, hk⟩)
   · intro x hx
-    show Filter.Tendsto (fun j : ℕ => x ^ j) Filter.atTop (nhds 0)
+    change Filter.Tendsto (fun j : ℕ => x ^ j) Filter.atTop (nhds 0)
     rw [Filter.atTop_basis.tendsto_iff (maximalIdeal R).hasBasis_nhds_zero_adic]
     intro j _
     exact ⟨j, trivial, fun l hl => Ideal.pow_le_pow_right hl (Ideal.pow_mem_pow (h₂ hx) l)⟩
@@ -133,7 +133,7 @@ private lemma exists_formalSpectrum_desc_of_decreasing_cofinal (D : QuotientSyst
       have hcat : homOfLE hk ≫ homOfLE (Nat.le_succ k) =
           homOfLE (hk.trans (Nat.le_succ k)) := Subsingleton.elim _ _
       have hstep : H.map (homOfLE (Nat.le_succ k)) ≫ z (k + 1) = z k := by
-        show G.map (P.map (homOfLE (Nat.le_succ k))) ≫ z (k + 1) = z k
+        change G.map (P.map (homOfLE (Nat.le_succ k))) ≫ z (k + 1) = z k
         rw [show P.map (homOfLE (Nat.le_succ k)) = homOfLE (hI k) from Subsingleton.elim _ _]
         exact hz k
       rw [← hcat, Functor.map_comp, Category.assoc, hstep, ih]
@@ -146,7 +146,7 @@ private lemma exists_formalSpectrum_desc_of_decreasing_cofinal (D : QuotientSyst
             rw [show f = homOfLE (leOfHom f) from Subsingleton.elim _ _]
             simpa using hnat n k (leOfHom f) } }
   refine ⟨(Functor.Final.colimitIso P G).inv ≫ colimit.desc H c, fun n => ?_⟩
-  show colimit.ι G (P.obj n) ≫ (Functor.Final.colimitIso P G).inv ≫ colimit.desc H c = z n
+  change colimit.ι G (P.obj n) ≫ (Functor.Final.colimitIso P G).inv ≫ colimit.desc H c = z n
   rw [← Category.assoc, Functor.Final.ι_colimitIso_inv P G n]
   exact colimit.ι_desc c n
 
@@ -190,7 +190,7 @@ public theorem existsUnique_section_of_compatible_truncations
   let : IsLinearTopology R R := (maximalIdeal R).isLinearTopology
   have : IsAdicComplete (maximalIdeal R) R := hR.isComplete
   have hRS : B.Contains (Spec (.of R)) := by
-    show (Spec (.of R)).size < B.cutoff
+    change (Spec (.of R)).size < B.cutoff
     rw [← Scheme.size_congr eT]
     exact T.left.2
   let p : Spec (.of R) ⟶ S := eT.inv ≫ B.inclusion.map T.hom
@@ -221,7 +221,7 @@ public theorem existsUnique_section_of_compatible_truncations
     intro n
     have hιS : (BigFppfOver.toScheme B S hS).map (ι n) ≫ B.inclusion.map T.hom =
         B.inclusion.map (W n).hom := by
-      show B.inclusion.map ((ι n).left ≫ T.hom) = _
+      change B.inclusion.map ((ι n).left ≫ T.hom) = _
       rw [Over.w]
     rw [← hιS, ← Category.assoc, hιs n, Category.assoc]
   let s : ∀ n, stage n ⟶ W n := fun n =>
@@ -268,7 +268,7 @@ public theorem existsUnique_section_of_compatible_truncations
       refine (congrArg (· ≫ _) (Functor.map_comp _ _ _)).trans ?_
       refine (Category.assoc _ _ _).trans ?_
       refine (congrArg (_ ≫ ·) f₁).trans ?_
-      show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (hJmono n))) ≫
+      change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (hJmono n))) ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (J (n + 1)))) = _
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Ideal.Quotient.factor_comp_mk]
     have e₂ : (BigFppfOver.toScheme B S hS).map (s n ≫ τ n) ≫
@@ -344,7 +344,7 @@ public theorem existsUnique_section_of_compatible_truncations
       obtain ⟨n, hn⟩ := hJ₂ k
       refine ⟨stage n, (BigAffineFppf.inclusion B S hS).map (stageToSpec D hRS p (Jw n) rfl),
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hn)), ?_, ?_⟩
-      · show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hn)) ≫
+      · change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hn)) ≫
           Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (J n))) = _
         rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Ideal.Quotient.factor_comp_mk]
       · rw [hres n]

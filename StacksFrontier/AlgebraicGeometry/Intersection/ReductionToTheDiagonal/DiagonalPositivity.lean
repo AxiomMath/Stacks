@@ -182,7 +182,7 @@ theorem prodIdealQuotHom_tmul (I J : Ideal A) (a b : A) :
     prodIdealQuotHom (R := R) I J (Ideal.Quotient.mk I a ⊗ₜ[R] Ideal.Quotient.mk J b) =
       Ideal.Quotient.mk (prodIdeal (R := R) I J) (a ⊗ₜ[R] b) := by
   rw [prodIdealQuotHom, Algebra.TensorProduct.lift_tmul]
-  show Ideal.Quotient.mk (prodIdeal (R := R) I J) (a ⊗ₜ[R] (1 : A)) *
+  change Ideal.Quotient.mk (prodIdeal (R := R) I J) (a ⊗ₜ[R] (1 : A)) *
       Ideal.Quotient.mk (prodIdeal (R := R) I J) ((1 : A) ⊗ₜ[R] b) = _
   rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 
@@ -302,7 +302,7 @@ private theorem ringKrullDim_quotient_ker_eq {ρ : B →+* C} (hρ : Function.Su
   ringKrullDim_eq_of_ringEquiv (RingHom.quotientKerEquivOfSurjective hρ)
 
 /-- **Clause 4 of the 0B0V assembly: the properness inequality for the diagonal pair.** Let
-`φ : A ⊗_R A → B` admit a surjective retraction `d : B → A` of the multiplication map, and let
+`φ : A ⊗_R A → B` and `d : B → A` be ring maps with `d` surjective, and let
 `ρ : B → C` be a surjective ring map whose kernel contains the image of `I` under `φ ∘
 includeLeft` and of `J` under `φ ∘ includeRight`. If `dim B = n + dim A`,
 `dim C + dim A = dim (A ⧸ I) + dim (A ⧸ J) + n` and `dim A ≤ dim (A ⧸ I) + dim (A ⧸ J)`, then
@@ -316,8 +316,7 @@ the reduction to the diagonal: no cancellation is needed, since the chain
 goes through using only the hypothesis `dim A ≤ dim (A ⧸ I) + dim (A ⧸ J)` and the favourable
 direction `dim C ≤ dim (B ⧸ φ(prodIdeal I J) B)` of `map_prodIdeal_le_ker`. -/
 theorem ringKrullDim_le_add_of_properIntersection_diagonal (φ : (A ⊗[R] A) →+* B) (d : B →+* A)
-    (ρ : B →+* C) (hd : (Algebra.TensorProduct.lmul' R (S := A)).toRingHom = d.comp φ)
-    (hdsurj : Function.Surjective d) (hρsurj : Function.Surjective ρ) (I J : Ideal A)
+    (ρ : B →+* C) (hdsurj : Function.Surjective d) (hρsurj : Function.Surjective ρ) (I J : Ideal A)
     (hI : I ≤ RingHom.ker ((ρ.comp φ).comp Algebra.TensorProduct.includeLeftRingHom))
     (hJ : J ≤ RingHom.ker ((ρ.comp φ).comp
       (Algebra.TensorProduct.includeRight : A →ₐ[R] A ⊗[R] A).toRingHom))
@@ -433,8 +432,6 @@ end Transport
 
 section Geometric
 
-open scoped TensorProduct
-
 /-- **Clause 4 of the 0B0V assembly.** Let `X` be a variety over a field `k`, let
 `ι_V : V ⟶ X`, `ι_W : W ⟶ X` be closed immersions and let `ζ` be a point of the
 scheme-theoretic intersection `V ×_X W`, with images `v` in `V`, `w` in `W` and `ξ` in `X`. If
@@ -476,7 +473,7 @@ theorem ringKrullDim_stalk_le_add_of_properIntersection_diagonal {k : Type u} [F
   have hsnd : pullback.snd f f Δξ = ξ := by
     rw [hΔξ, ← AlgebraicGeometry.Scheme.Hom.comp_apply, pullback.diagonal_snd]; rfl
   let := (f.stalkMap ξ).hom.toAlgebra
-  obtain ⟨φ, hφleft0, hφright0, hφd, M, hM⟩ := diagonal_stalk_isLocalization f ξ
+  obtain ⟨φ, hφleft0, hφright0, -, M, hM⟩ := diagonal_stalk_isLocalization f ξ
   have hφleft : φ.comp Algebra.TensorProduct.includeLeftRingHom =
       ((pullback.fst f f).stalkMap Δξ).hom.comp
         (eqToHom (congrArg X.presheaf.stalk hfst.symm)).hom := by
@@ -487,8 +484,6 @@ theorem ringKrullDim_stalk_le_add_of_properIntersection_diagonal {k : Type u} [F
     rw [hφright0, CommRingCat.hom_comp]
   set d : (pullback f f).presheaf.stalk Δξ →+* X.presheaf.stalk ξ :=
     ((pullback.diagonal f).stalkMap ξ).hom with hdDef
-  have hd : (Algebra.TensorProduct.lmul' _ (S := X.presheaf.stalk ξ)).toRingHom = d.comp φ :=
-    hφd.symm
   have hdsurj : Function.Surjective d := (pullback.diagonal f).stalkMap_surjective ξ
   have hptfst : pullback.fst (iV ≫ f) (iW ≫ f) pt = v := by
     rw [hpt, hv, ← AlgebraicGeometry.Scheme.Hom.comp_apply, interToProd_comp_fst]
@@ -538,7 +533,7 @@ theorem ringKrullDim_stalk_le_add_of_properIntersection_diagonal {k : Type u} [F
       ← hIst, ← hJst]
     exact stalk_sup_comap_diagonal_eq f iV.ker iW.ker ξ
   rw [hstalkeq]
-  refine ringKrullDim_le_add_of_properIntersection_diagonal φ d ρCat.hom hd hdsurj hρsurj
+  refine ringKrullDim_le_add_of_properIntersection_diagonal φ d ρCat.hom hdsurj hρsurj
     (RingHom.ker (iV.stalkMap v).hom)
     (RingHom.ker ((eqToHom (congrArg X.presheaf.stalk hwξ.symm) ≫ iW.stalkMap w).hom))
     hI hJ (n := topologicalKrullDim X) ?_ ?_ ?_

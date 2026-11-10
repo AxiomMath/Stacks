@@ -176,7 +176,7 @@ theorem closedSubschemeCycleCoeff_comp_isClosedImmersion (C : ChowSituation.{u})
       closedSubschemeCycleCoeff C sA i k a := by
   have h := properPushforward_cycleAssociatedToClosedSubscheme_of_isClosedImmersion_comp
     C sA sB j hj i k
-  show (cycleAssociatedToClosedSubscheme C sB (i ≫ j) k).1 (j.base a) =
+  change (cycleAssociatedToClosedSubscheme C sB (i ≫ j) k).1 (j.base a) =
     (cycleAssociatedToClosedSubscheme C sA i k).1 a
   rw [← h]
   exact properPushforward_apply_image_of_isClosedImmersion C sA sB j hj k _ a

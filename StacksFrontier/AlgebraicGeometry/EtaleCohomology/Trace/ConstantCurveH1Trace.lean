@@ -17,13 +17,17 @@ of `k` such that `X_k̄` is a smooth proper curve, and `ℓ` a prime invertible 
 
 * The levels of `M` are `Pic(X_k̄)[ℓⁿ⁺¹]` with `(π_X^*)^m` acting as pullback along `π̄^m`
   (`Stacks.EtaleCohomology.LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy`), so
-  Weil's formula (`Stacks.EtaleCohomology.natCast_natCard_fixedSections_geometricFrobeniusBaseChangePow`)
+  Weil's formula
+  (`Stacks.EtaleCohomology.natCast_natCard_fixedSections_geometricFrobeniusBaseChangePow`)
   and the trace on the limit of the tower
   (`Stacks.EtaleCohomology.TowerLimit.trace_toZModLinearMap_eq_toZModPow_trace`) give
-  `#Fix(π̄^m) = 1 - Tr((π_X^*)^m | M) + q^m` in `ℤ_ℓ`, hence in `ℚ_ℓ` on `V`
-  (`Stacks.EtaleCohomology.LAdicSheaf.natCast_natCard_fixedSections_eq_one_sub_trace_rationalFrobenius_pow_add`).
+  `#Fix(π̄^m) = 1 - Tr((π_X^*)^m | M) + q^m` in `ℤ_ℓ`
+  (`Stacks.EtaleCohomology.LAdicSheaf.natCast_natCard_fixedSections_eq_one_sub_trace_pow_add`),
+  hence in `ℚ_ℓ` on `V`, the trace on `V` being that on `M`
+  (`Stacks.EtaleCohomology.LAdicSheaf.trace_rationalFrobenius_pow_constant_one`).
 * `dim V = 2g`, `g` the genus of `X_k̄`: `#M/ℓM = #Pic(X_k̄)[ℓ] = ℓ^{2g}` by
-  [Stacks, Tag 0C1Z] (`Stacks.EtaleCohomology.LAdicSheaf.finrank_rationalGeometricCompactlySupportedCohomology_constant_one`).
+  [Stacks, Tag 0C1Z] (in the namespace `Stacks.EtaleCohomology`,
+  `LAdicSheaf.finrank_rationalGeometricCompactlySupportedCohomology_constant_one`).
 
 These are the trace identity and the rank used in the proof of [Stacks, Tag 03V8], obtained
 from Weil's formula rather than from the trace formula of Tag 03V2.
@@ -75,9 +79,10 @@ local instance : QuasiSeparatedSpace X.obj :=
   @AlgebraicGeometry.IsLocallyNoetherian.quasiSeparatedSpace X.1
     (inferInstance : AlgebraicGeometry.IsNoetherian X.1).toIsLocallyNoetherian
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The tower `n ↦ H¹(X_k̄, ℤ/ℓⁿ⁺¹)` of a curve looks free**: its transitions are onto with
 kernel `ℓⁿ⁺¹`, and its `ℓᵏ⁺¹`-torsion is divisible by `ℓⁿ⁺¹`. -/
-theorem LAdicSheaf.towerFacts_constant_one (hℓ : IsUnit (ℓ : kbar)) :
+theorem LAdicSheaf.towerFacts_constant_one [Finite k] (hℓ : IsUnit (ℓ : kbar)) :
     (∀ n, Function.Surjective (TowerLimit.tr
       (LAdicSheaf.geometricCompactlySupportedCohomologySystem B X ℓ f
         (CompactificationOf.ofProper f) kbar (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ))
@@ -118,6 +123,7 @@ theorem LAdicSheaf.towerFacts_constant_one (hℓ : IsUnit (ℓ : kbar)) :
       (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) hℓ Φ⟩
 
 include hcard in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- `H¹(X_k̄, ℤ_ℓ)` of a curve is a free `ℤ_ℓ`-module of finite rank. -/
 theorem LAdicSheaf.free_finite_constant_one (hℓ : IsUnit (ℓ : kbar)) :
     Module.Free ℤ_[ℓ] (LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f
@@ -136,7 +142,8 @@ theorem torsionByRestrict_geometricFrobeniusBaseChangePow {k : Type u} [Field k]
     [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q) (c : ℤ) (m : ℕ)
     (y : Submodule.torsionBy ℤ (Stacks.Picard.ofScheme (fieldBaseChange Y kbar)) c) :
     (Stacks.Picard.torsionByRestrict (A := Stacks.Picard.ofScheme (fieldBaseChange Y kbar))
-        (Stacks.Picard.schemePullbackClassHom (geometricFrobeniusBaseChange Y kbar p q hcard)) c)^[m]
+        (Stacks.Picard.schemePullbackClassHom
+          (geometricFrobeniusBaseChange Y kbar p q hcard)) c)^[m]
         y =
       Stacks.Picard.torsionByRestrict (A := Stacks.Picard.ofScheme (fieldBaseChange Y kbar))
         (Stacks.Picard.schemePullbackClassHom (geometricFrobeniusBaseChangePow Y kbar p q hcard m))
@@ -156,6 +163,7 @@ theorem torsionByRestrict_geometricFrobeniusBaseChangePow {k : Type u} [Field k]
 variable [Algebra.IsAlgebraic k kbar]
 
 include hcard in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The Lefschetz identity for the powers of the Frobenius on `H¹(X_k̄, ℤ_ℓ)` of a curve**:
 `#Fix(π̄^m) = 1 - Tr((π_X^*)^m | H¹(X_k̄, ℤ_ℓ)) + q^m` for `m ≥ 1`. Modulo `ℓⁿ⁺¹` this is Weil's
 formula on `Pic(X_k̄)[ℓⁿ⁺¹]`, the level `n` of `H¹(X_k̄, ℤ_ℓ)`. -/
@@ -168,7 +176,7 @@ theorem LAdicSheaf.natCast_natCard_fixedSections_eq_one_sub_trace_pow_add
           ((LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f (CompactificationOf.ofProper f)
             kbar p q hcard (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ)).hom ^ m) +
         (Fintype.card k : ℤ_[ℓ]) ^ m := by
-  haveI : NeZero ℓ := ⟨(Fact.out : ℓ.Prime).ne_zero⟩
+  have : NeZero ℓ := ⟨(Fact.out : ℓ.Prime).ne_zero⟩
   obtain ⟨hsurj, hker, htors⟩ := LAdicSheaf.towerFacts_constant_one B X ℓ f kbar hℓ
   have hkill := fun n => LAdicSheaf.pow_smul_constantLevel_eq_zero B X ℓ f kbar p q hcard 1 n
   have hfin := fun n => LAdicSheaf.finite_constantLevel_one B X ℓ f kbar p q hcard hℓ n
@@ -181,7 +189,8 @@ theorem LAdicSheaf.natCast_natCard_fixedSections_eq_one_sub_trace_pow_add
   rcases n with _ | n
   · exact @Subsingleton.elim (ZMod 1) (ZMod.subsingleton_iff.2 rfl) _ _
   rw [map_zero]
-  obtain ⟨e, he⟩ := LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy B X ℓ f kbar p q hcard hℓ n
+  obtain ⟨e, he⟩ :=
+    LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy B X ℓ f kbar p q hcard hℓ n
   -- `(π_X^*)^m` on the level `n` is pullback along `π̄^m`
   have hπ : ∀ x : ↑(LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f
       (CompactificationOf.ofProper f) kbar (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ)),
@@ -224,6 +233,7 @@ theorem LAdicSheaf.natCast_natCard_fixedSections_eq_one_sub_trace_pow_add
   ring
 
 include hcard in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra.IsAlgebraic k kbar] in
 /-- **The trace of `(π_X^*)^m` on `H¹(X_k̄, ℚ_ℓ)` is that on `H¹(X_k̄, ℤ_ℓ)`**, the latter being
 free of finite rank. -/
 theorem LAdicSheaf.trace_rationalFrobenius_pow_constant_one (hℓ : IsUnit (ℓ : kbar)) (m : ℕ) :
@@ -237,10 +247,12 @@ theorem LAdicSheaf.trace_rationalFrobenius_pow_constant_one (hℓ : IsUnit (ℓ 
   obtain ⟨h1, h2⟩ := LAdicSheaf.free_finite_constant_one B X ℓ f kbar p q hcard hℓ
   change LinearMap.trace ℚ_[ℓ] _
       (((LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f (CompactificationOf.ofProper f)
-        kbar p q hcard (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ)).hom.baseChange ℚ_[ℓ]) ^ m) = _
+        kbar p q hcard (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ)).hom.baseChange ℚ_[ℓ]) ^ m) =
+      _
   rw [← LinearMap.baseChange_pow, LinearMap.trace_baseChange]
 
 include hcard in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra.IsAlgebraic k kbar] in
 /-- **`dim H¹(X_k̄, ℚ_ℓ) = 2g`** for a smooth proper curve `X_k̄` of genus `g`: the rank `r` of
 `H¹(X_k̄, ℤ_ℓ)` satisfies `ℓ^r = #H¹(X_k̄, ℤ/ℓ) = #Pic(X_k̄)[ℓ] = ℓ^{2g}` ([Stacks, Tag 0C1Z]). -/
 theorem LAdicSheaf.finrank_rationalGeometricCompactlySupportedCohomology_constant_one
@@ -248,21 +260,22 @@ theorem LAdicSheaf.finrank_rationalGeometricCompactlySupportedCohomology_constan
     Module.finrank ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f
         (CompactificationOf.ofProper f) kbar (LAdicSheaf.constantSystem B X ℓ) ((1 : ℕ) : ℤ)) =
       2 * genus (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) := by
-  haveI : NeZero ℓ := ⟨(Fact.out : ℓ.Prime).ne_zero⟩
-  haveI : IsProjectiveVariety kbar (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) :=
+  have : NeZero ℓ := ⟨(Fact.out : ℓ.Prime).ne_zero⟩
+  have : IsProjectiveVariety kbar (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) :=
     { isProjective := isProjectiveMorphism_of_isProper_of_isCurve kbar _ }
   obtain ⟨hsurj, hker, htors⟩ := LAdicSheaf.towerFacts_constant_one B X ℓ f kbar hℓ
   have hkill := fun n => LAdicSheaf.pow_smul_constantLevel_eq_zero B X ℓ f kbar p q hcard 1 n
   have hfin := fun n => LAdicSheaf.finite_constantLevel_one B X ℓ f kbar p q hcard hℓ n
   have h0 := TowerLimit.natCard_obj_zero hkill hsurj hker htors hfin
-  obtain ⟨e, -⟩ := LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy B X ℓ f kbar p q hcard hℓ 0
+  obtain ⟨e, -⟩ :=
+    LAdicSheaf.exists_addEquiv_constantLevel_one_torsionBy B X ℓ f kbar p q hcard hℓ 0
   obtain ⟨E⟩ := Stacks.Picard.nonempty_torsionBy_addEquiv_pi_zmod_of_smoothProjectiveCurve kbar
     (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) ℓ (Fact.out : ℓ.Prime).one_lt.le hℓ
   have hP : Nat.card (Submodule.torsionBy ℤ
       (Stacks.Picard.ofScheme (fieldBaseChange (Over.mk f) kbar)) ((ℓ : ℤ) ^ (0 + 1))) =
       ℓ ^ (2 * genus (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))) := by
-    rw [zero_add, pow_one, Nat.card_congr E.toEquiv, Nat.card_fun, Nat.card_zmod, Nat.card_eq_fintype_card,
-      Fintype.card_fin]
+    rw [zero_add, pow_one, Nat.card_congr E.toEquiv, Nat.card_fun, Nat.card_zmod,
+      Nat.card_eq_fintype_card, Fintype.card_fin]
   rw [← Nat.card_congr e.toEquiv] at hP
   obtain ⟨h1, -⟩ := LAdicSheaf.free_finite_constant_one B X ℓ f kbar p q hcard hℓ
   change Module.finrank ℚ_[ℓ] (TensorProduct ℤ_[ℓ] ℚ_[ℓ] _) = _

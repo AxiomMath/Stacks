@@ -86,12 +86,6 @@ section Generic
 variable (R : Type u) [CommRing R] [IsLocalRing R]
   [Algebra ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
     (Z.genericChart B S hS hX hdec).point) R]
-  [IsLocalRing.IsHenselization
-    ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
-      (Z.genericChart B S hS hX hdec).point)
-    (IsLocalRing.ResidueField
-      ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
-        (Z.genericChart B S hS hX hdec).point)) R]
   (hR : B.Contains (Spec (.of R)))
 
 /-- **`c_ξ^*ℒ` is trivial.**  The pullback of an invertible `𝒪_X`-module along the canonical

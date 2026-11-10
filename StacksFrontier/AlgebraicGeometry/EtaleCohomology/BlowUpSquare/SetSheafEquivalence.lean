@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ClosedImmersionsPushforward.SetSheafEssentialImage
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.ClosedImmersionsPushforward.SetSheafEssentialImage
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ProperPushforwardBaseChangeUnconditional
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseChangeUnit
 public import StacksFrontier.CategoryTheory.Limits.Shapes.Pullback.Categorical.RightAdjoint
@@ -129,7 +129,7 @@ defined as a mate along the vertical adjunctions. -/
 theorem mateEquiv_smallEtaleInverseImageCommSqIso_inv :
     (mateEquiv (smallEtaleInverseImageAdjunction.{u, v} g)
         (smallEtaleInverseImageAdjunction.{u, v} h)
-        (TwoSquare.mk _ _ _ _ (smallEtaleInverseImageCommSqIso.{u, v} e h g f w).inv)).natTrans =
+        (TwoSquare.mk _ _ _ _ (smallEtaleInverseImageCommSqIso.{u, v} e h g f w).inv)) =
       smallEtaleSetBaseChange.{u, v} e h g f w := by
   have key : mateEquiv (smallEtaleInverseImageAdjunction.{u, v} e)
       (smallEtaleInverseImageAdjunction.{u, v} f)
@@ -157,7 +157,7 @@ theorem isIso_mateEquiv_smallEtaleInverseImageCommSqIso_inv_of_isProper [IsPrope
     IsIso (mateEquiv (smallEtaleInverseImageAdjunction.{u, 0} g)
         (smallEtaleInverseImageAdjunction.{u, 0} h)
         (TwoSquare.mk _ _ _ _
-          (smallEtaleInverseImageCommSqIso.{u, 0} e h g f sq.w).inv)).natTrans := by
+          (smallEtaleInverseImageCommSqIso.{u, 0} e h g f sq.w).inv)) := by
   rw [mateEquiv_smallEtaleInverseImageCommSqIso_inv]
   exact isIso_smallEtaleSetBaseChange_of_isProper g f e h sq
 
@@ -188,10 +188,10 @@ theorem isIso_of_isIso_smallEtaleInverseImage_of_union {X Y₁ Y₂ : Scheme.{u}
     simp only [Set.mem_iUnion, Set.mem_range]
     rcases hx with ⟨y, rfl⟩ | ⟨y, rfl⟩
     · exact ⟨.inl y, default, by
-        show p₁.base (residueGeometricPoint Y₁ y default) = p₁.base y
+        change p₁.base (residueGeometricPoint Y₁ y default) = p₁.base y
         rw [residueGeometricPoint_apply]⟩
     · exact ⟨.inr y, default, by
-        show p₂.base (residueGeometricPoint Y₂ y default) = p₂.base y
+        change p₂.base (residueGeometricPoint Y₂ y default) = p₂.base y
         rw [residueGeometricPoint_apply]⟩
   · intro t
     cases t with
@@ -216,6 +216,7 @@ private theorem isIso_smallEtaleInverseImageAdjunction_counit {Z X : Scheme.{u}}
 section Gluing
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of sheaves of sets on a small étale site is slow
 /-- Fibre products of sheaves of sets on a small étale site, supplied directly: instance search
 for them times out. -/
 instance hasPullbacks_smallEtaleSheaf_setSheafEquivalence (X : Scheme.{u}) :
@@ -280,12 +281,12 @@ theorem isIso_smallEtaleInverseImage_map_counit_openComplement
   have := isIso_smallEtaleInverseImageAdjunction_counit fU
   have : IsIso ((mateEquiv (smallEtaleInverseImageAdjunction.{u, 0} f)
       (smallEtaleInverseImageAdjunction.{u, 0} fU) (TwoSquare.mk _ _ _ _
-        (smallEtaleInverseImageCommSqIso.{u, 0} _ _ _ _ hsq.w).inv)).natTrans.app d) :=
+        (smallEtaleInverseImageCommSqIso.{u, 0} _ _ _ _ hsq.w).inv)).app d) :=
     NatIso.isIso_app_of_isIso _ _
   have hc : (smallEtaleInverseImage.{u, 0} fU).map ((mateEquiv
       (smallEtaleInverseImageAdjunction.{u, 0} f) (smallEtaleInverseImageAdjunction.{u, 0} fU)
         (TwoSquare.mk _ _ _ _
-          (smallEtaleInverseImageCommSqIso.{u, 0} _ _ _ _ hsq.w).inv)).natTrans.app d) ≫
+          (smallEtaleInverseImageCommSqIso.{u, 0} _ _ _ _ hsq.w).inv)).app d) ≫
         (smallEtaleInverseImageAdjunction.{u, 0} fU).counit.app _ =
       (smallEtaleInverseImageCommSqIso.{u, 0} _ _ _ _ hsq.w).inv.app _ ≫
         (smallEtaleInverseImage.{u, 0} (f ⁻¹ᵁ openComplement i).ι).map

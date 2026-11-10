@@ -152,14 +152,14 @@ theorem hasEnoughObjects_isAffineChartFactorsThroughAffineChart {Y' Y : Algebrai
       refine BigFppfOver.exists_hom_of_comp_eq B S hS
         (show (BigFppfOver.toScheme B S hS).obj (Ea.X x).obj.left ⟶
           (BigFppfOver.toScheme B S hS).obj P from (C x).ι) ?_
-      show (C x).ι ≫ B.inclusion.map P.hom =
+      change (C x).ι ≫ B.inclusion.map P.hom =
         ((C x).ι ≫ (BigFppfOver.toScheme B S hS).map b) ≫ B.inclusion.map T.hom
       rw [Category.assoc, hPoverT]
     obtain ⟨ρ, hρmap⟩ := hρ
     have hm : ∃ m : (Ea.X x).obj.left ⟶ W' x,
         (BigFppfOver.toScheme B S hS).map m = α.resLE (A x) (C x) (hCle x) := by
       refine BigFppfOver.exists_hom_of_comp_eq B S hS _ ?_
-      show α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
+      change α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
         ((C x).ι ≫ (BigFppfOver.toScheme B S hS).map b) ≫ B.inclusion.map T.hom
       rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, hPover, Category.assoc,
         hPoverT]
@@ -198,7 +198,7 @@ theorem hasEnoughObjects_isAffineChartFactorsThroughAffineChart {Y' Y : Algebrai
       obtain ⟨p, hp⟩ := Scheme.Hom.surjective ((BigFppfOver.toScheme B S hS).map b) y
       exact ⟨ULift.up p, ⟨p, hCx p⟩, hp⟩
     · have := hbe
-      show AlgebraicGeometry.Etale ((C i.down).ι ≫ (BigFppfOver.toScheme B S hS).map b)
+      change AlgebraicGeometry.Etale ((C i.down).ι ≫ (BigFppfOver.toScheme B S hS).map b)
       infer_instance
   obtain ⟨V, hV, hEq⟩ :=
     exists_etaleCovering_tautologicallyEquivalent B ((SmallEtale.toSchemes B S hS Y'.obj).obj X)
@@ -219,7 +219,7 @@ theorem hasEnoughObjects_isAffineChartFactorsThroughAffineChart {Y' Y : Algebrai
     have hke : k ≫ fa (β i).down = V.f i := by
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, hmapfa]
-      show B.inclusion.map k ≫ ((C (β i).down).ι ≫ (BigFppfOver.toScheme B S hS).map b) = _
+      change B.inclusion.map k ≫ ((C (β i).down).ι ≫ (BigFppfOver.toScheme B S hS).map b) = _
       rw [show B.inclusion.map k = e.hom from B.inclusion.map_preimage _]
       exact he
     obtain ⟨φ, hφ⟩ := chartFamily_factor B S hS Y'.obj (fun i => V.X i) (fun i => V.f i) hetaleV

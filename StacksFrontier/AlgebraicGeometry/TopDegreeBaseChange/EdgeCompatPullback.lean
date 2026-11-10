@@ -95,8 +95,8 @@ variable {C : Type*} [Category C] [Abelian C] [HasDerivedCategory C]
 of a cochain complex with no terms above `d`. -/
 theorem exists_representative_isStrictlyLE (K : DerivedCategory C) (d : ℤ)
     (hK : TStructure.t.IsLE K d) :
-    ∃ (P : CochainComplex C ℤ)
-      (e : Qh.obj ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj P) ≅ K),
+    ∃ P : CochainComplex C ℤ,
+      Nonempty (Qh.obj ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj P) ≅ K) ∧
       P.IsStrictlyLE d := by
   obtain ⟨Z, hZ⟩ := HomotopyCategory.quotient_obj_surjective (Qh.objPreimage K)
   have e₀ : Qh.obj ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj Z) ≅ K :=
@@ -104,8 +104,8 @@ theorem exists_representative_isStrictlyLE (K : DerivedCategory C) (d : ℤ)
   have hZLE : CochainComplex.IsLE Z d :=
     Stacks.RepresentativeSingle.isLE_of_representative Z d e₀ hK
   exact ⟨CochainComplex.truncLE Z d,
-    @asIso _ _ _ _ _
-      (isIso_Qh_map_quotient_map (CochainComplex.ιTruncLE Z d) inferInstance) ≪≫ e₀,
+    ⟨@asIso _ _ _ _ _
+      (isIso_Qh_map_quotient_map (CochainComplex.ιTruncLE Z d) inferInstance) ≪≫ e₀⟩,
     inferInstance⟩
 
 end Generic
@@ -208,7 +208,7 @@ theorem unit_comp_map_derivedPullbackTopDegreeIsoPullback_inv
       (homologyFunctor (SheafOfModules.{u} (structureSheafRing Y)) d).map
           ((derivedAdjunction h).unit.app K) ≫
         (derivedPushforwardHomologyComparison h d).app ((derivedPullback h).obj K) := by
-  obtain ⟨P, e, hP⟩ := exists_representative_isStrictlyLE K d hK
+  obtain ⟨P, ⟨e⟩, hP⟩ := exists_representative_isStrictlyLE K d hK
   exact unit_comp_map_derivedPullbackTopDegreeIsoPullback_inv_of_representative h K d hK P hP e
 
 end RingedSpaces

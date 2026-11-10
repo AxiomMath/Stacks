@@ -178,7 +178,7 @@ theorem hypercohomologyMap_truncLEι_deRhamZeroClass
         (truncLEπ (inverseImageRingSheaf f) (deRhamPlus f) 0) 0
         ξ := by
   rw [← deRhamBottomIso_hom]
-  show (hypercohomologyMap (inverseImageRingSheaf f) (deRhamBottomIso f).inv 0 ≫
+  change (hypercohomologyMap (inverseImageRingSheaf f) (deRhamBottomIso f).inv 0 ≫
     hypercohomologyMap (inverseImageRingSheaf f) (deRhamBottomIso f).hom 0) _ = _
   rw [← hypercohomologyMap_comp, Iso.inv_hom_id, hypercohomologyMap_id]
   rfl
@@ -219,10 +219,10 @@ theorem deRhamTopEquiv_hypercohomologyMap_ιTruncPlus
       hypercohomologyMap (inverseImageRingSheaf f)
         (truncLEι (inverseImageRingSheaf f) (deRhamPlus f) d) ((d : ℤ) + d)
           (hypercohomologyMap (inverseImageRingSheaf f) (truncPlusπ (deRhamPlus f).obj d) _ w) := by
-    show (hypercohomologyMap _ _ _ ≫ hypercohomologyMap _ _ _) w =
+    change (hypercohomologyMap _ _ _ ≫ hypercohomologyMap _ _ _) w =
       (hypercohomologyMap _ _ _ ≫ hypercohomologyMap _ _ _) w
     rw [← hypercohomologyMap_comp, ← hypercohomologyMap_comp, ιTruncPlus_truncLEπ]
-  show formsTransfer f d d ((LinearEquiv.ofBijective _ hι).symm
+  change formsTransfer f d d ((LinearEquiv.ofBijective _ hι).symm
     (hypercohomologyMap (inverseImageRingSheaf f)
       (truncLEπ (inverseImageRingSheaf f) (deRhamPlus f) d)
       ((d : ℤ) + d) (hypercohomologyMap (inverseImageRingSheaf f)
@@ -258,7 +258,7 @@ theorem deRhamTopEquiv_cup (ξ : hypercohomology (inverseImageRingSheaf f) (deRh
     (cechComputes_singlePlus_X (deRhamPlus f) (cechComputesSheaf_deRhamComplexInt_X f) 0)
     (cechComputes_singlePlus_X (deRhamPlus f) (cechComputesSheaf_deRhamComplexInt_X f) d)
     0 ((d : ℤ) + d) ((d : ℤ) + d) (zero_add _) (deRhamZeroClass f ξ) z
-  show formsTransfer f d d ((LinearEquiv.ofBijective _ hι).symm
+  change formsTransfer f d d ((LinearEquiv.ofBijective _ hι).symm
     (hypercohomologyMap (inverseImageRingSheaf f)
       (truncLEπ (inverseImageRingSheaf f) (deRhamPlus f) d)
       ((d : ℤ) + d) _)) = _
@@ -436,7 +436,7 @@ private theorem isPerfPair_lsmul_compr₂_deRhamTopEquiv_symm
     ((deRhamCupK f 0 ((d : ℤ) + d) ((d : ℤ) + d) (zero_add _)).compr₂ t') αE.symm
     β.symm.toAddEquiv 1 (fun g w => ?_) ht'
   rw [Units.val_one, one_mul]
-  show t' (deRhamCupK f 0 ((d : ℤ) + d) ((d : ℤ) + d) (zero_add _) (αE.symm g)
+  change t' (deRhamCupK f 0 ((d : ℤ) + d) ((d : ℤ) + d) (zero_add _) (αE.symm g)
     (β.symm w)) = t' (β.symm (g • w))
   refine congrArg t' (β.injective ?_)
   rw [LinearEquiv.apply_symm_apply]

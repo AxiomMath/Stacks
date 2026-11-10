@@ -107,7 +107,7 @@ theorem productPointLink_map (q : ValuativeSquare B S hS f)
   dsimp only [productPointLink]
   rw [← Category.assoc A.iso.hom, ← m.w]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
-  show q.y.hom.map _ ≫ q.y.hom.map _ = q.y.hom.map _
+  change q.y.hom.map _ ≫ q.y.hom.map _ = q.y.hom.map _
   rw [← q.y.hom.toFunctor.map_comp]
   exact map_comp_mkIdTerminal_from _ _
 

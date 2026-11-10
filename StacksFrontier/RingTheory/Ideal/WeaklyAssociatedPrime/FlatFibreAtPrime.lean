@@ -195,8 +195,7 @@ theorem tensorCongr_smul {S : Type*} [CommRing S] [Algebra S A] [Algebra S B]
     (e : A ≃ₐ[S] B) {Z : Type*} [AddCommGroup Z] [Module S Z] (a : A) (x : A ⊗[S] Z) :
     TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl S Z) (a • x)
       = e a • TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl S Z) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b n =>
     simp only [TensorProduct.smul_tmul', TensorProduct.congr_tmul, AlgEquiv.toLinearEquiv_apply,
       LinearEquiv.refl_apply, smul_eq_mul, map_mul]
@@ -325,7 +324,7 @@ theorem essentiallyOfFinitePresentation_localization [Algebra.FinitePresentation
   have htow : IsScalarTower S (Localization p.primeCompl ⊗[R] S)
       (Localization (primeComplImage S p)) :=
     IsScalarTower.of_algebraMap_eq fun s => by
-      show _ = φ (1 ⊗ₜ s)
+      change _ = φ (1 ⊗ₜ s)
       simp [φ]
   have : IsScalarTower (Localization p.primeCompl) (Localization p.primeCompl ⊗[R] S)
       (Localization (primeComplImage S p)) :=
@@ -421,7 +420,7 @@ theorem map_fibreAlgEquiv_symm (q : Ideal S) :
     (((q.map (algebraMap S (Localization (primeComplImage S p)))).map
         (Ideal.Quotient.mk (fibreIdeal S p))).map (fibreAlgEquiv p).symm.toRingEquiv)
       = Ideal.map (algebraMap S (p.Fiber S)) q := by
-  show (((q.map (algebraMap S (Localization (primeComplImage S p)))).map
+  change (((q.map (algebraMap S (Localization (primeComplImage S p)))).map
       (Ideal.Quotient.mk (fibreIdeal S p))).map
         (fibreAlgEquiv p).symm.toRingEquiv.toRingHom)
     = Ideal.map (algebraMap S (p.Fiber S)) q

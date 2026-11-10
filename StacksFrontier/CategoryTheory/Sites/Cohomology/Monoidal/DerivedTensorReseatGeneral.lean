@@ -11,7 +11,8 @@ is the structure sheaf in degree zero.
 
 ## Implementation notes
 
-This is the part of `StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.DerivedTensorReseat` that
+This is the part of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.DerivedTensorReseat` that
 does not need `C` to be a `SmallCategory.{u}`, for a site `C : Type c` with `[Category.{u} C]`; the
 statements and proofs are the same, in the namespace
 `Stacks.SheafOfModules.DerivedMonoidalGeneral`. This applies to the small étale ringed site of an

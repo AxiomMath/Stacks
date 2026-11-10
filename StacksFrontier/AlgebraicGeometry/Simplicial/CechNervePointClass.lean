@@ -180,8 +180,8 @@ private lemma isPullback_widePullback_π_one_π_zero {C : Type*} [Category C] {X
       intro j
       fin_cases j <;> simp [fs, h]
     refine ⟨WidePullback.lift (ψ ≫ f) fs hw, ?_, ?_⟩
-    · simpa [fs] using (WidePullback.lift_π (fun _ : Fin 2 => f) (ψ ≫ f) fs hw (1 : Fin 2))
-    · simpa [fs] using (WidePullback.lift_π (fun _ : Fin 2 => f) (ψ ≫ f) fs hw (0 : Fin 2))
+    · simp [fs]
+    · simp [fs]
 
 private theorem quasiCompact_cechNerve_face_one {X S : Scheme.{u}} (f : X ⟶ S)
     [QuasiCompact f] :
@@ -197,8 +197,8 @@ private theorem quasiCompact_cechNerve_face_one {X S : Scheme.{u}} (f : X ⟶ S)
     apply WidePullback.hom_ext
     · intro j
       fin_cases j
-      simp [d, p0, i, hidx, WidePullback.lift_π, Category.assoc]
-    · simp [d, i, p0, WidePullback.lift_base, WidePullback.π_arrow]
+      simp [d, p0, i, hidx, Category.assoc]
+    · simp [d, i, p0, WidePullback.π_arrow]
   have : QuasiCompact p0 :=
     MorphismProperty.of_isPullback (isPullback_widePullback_π_one_π_zero f) inferInstance
   have hip : WidePullback.π (fun _ : Fin 1 => f) 0 ≫ i = 𝟙 Q := by

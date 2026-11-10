@@ -60,9 +60,9 @@ which a consumer reads off the cocone over `(Kᵒᵈ)ᵒᵖ` by taking the index
 
 ## Universe situation
 
-The stages, the rings and the index of pairs are in the single universe `u`, as the fibre-product index
-requires.  The filteredness of the index of pairs is not assumed: it comes from nonemptiness and
-directedness, which `Stacks.StageSubalgebra.nonempty` and `Stacks.StageSubalgebra.isDirected`
+The stages, the rings and the index of pairs are in the single universe `u`, as the fibre-product
+index requires.  The filteredness of the index of pairs is not assumed: it comes from nonemptiness
+and directedness, which `Stacks.StageSubalgebra.nonempty` and `Stacks.StageSubalgebra.isDirected`
 supply from the two hypotheses on the distinguished subalgebras.
 
 ## Transparency gotchas

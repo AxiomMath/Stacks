@@ -154,11 +154,11 @@ def πStupidTruncLESection (i : ℤ) : (K.stupidTrunc (embeddingUpIntLE p)).X i 
 `stupidTruncLEXIso K p i h` of `(σ^{≤p}K)^i` with `K^i`. -/
 theorem πStupidTruncLESection_of_le (i : ℤ) (h : i ≤ p) :
     πStupidTruncLESection K p i = (stupidTruncLEXIso K p i h).hom :=
-  dif_pos h
+  dite_eq_left h
 
 /-- In degrees `i > p`, the section `πStupidTruncLESection K p i` is zero. -/
 theorem πStupidTruncLESection_of_lt (i : ℤ) (h : p < i) : πStupidTruncLESection K p i = 0 :=
-  dif_neg (by omega)
+  dite_eq_right (by omega)
 
 /-- In degrees `i ≤ p`, the projection `K ⟶ σ^{≤p}K` is the inverse of the identification
 `stupidTruncLEXIso K p i h`. -/

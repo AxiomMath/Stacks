@@ -511,9 +511,9 @@ private theorem mapDerivedCategoryCompNatIso_homologyIso_hom_app_Q
   rw [← reassoc_of% N1, mapDerivedCategoryHomologyIso_hom_app_Q G n
     ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)]
   simp only [Category.assoc]
-  erw [Iso.map_inv_hom_id_assoc (H.mapDerivedCategoryFactors.app K)
+  erw [Iso.inv_hom_id_map_assoc (H.mapDerivedCategoryFactors.app K)
       (DerivedCategory.homologyFunctor C₃ n),
-    Iso.map_inv_hom_id_assoc ((DerivedCategory.homologyFunctorFactors C₂ n).app _) G]
+    Iso.inv_hom_id_map_assoc ((DerivedCategory.homologyFunctorFactors C₂ n).app _) G]
   have hnat_e := e.hom.naturality ((DerivedCategory.homologyFunctorFactors C₁ n).inv.app K)
   have hnat_ff := (DerivedCategory.homologyFunctorFactors C₃ n).hom.naturality
     ((Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).hom.app K)

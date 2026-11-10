@@ -133,7 +133,7 @@ private theorem presheaf_surjective_isStableUnderComposition :
     ⟨fun u v hu hv ↦ by
       have h₁ : AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map u) := hu
       have h₂ : AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map v) := hv
-      show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (u ≫ v))
+      change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (u ≫ v))
       rw [Functor.map_comp]
       infer_instance⟩
   MorphismProperty.relative_isStableUnderComposition _
@@ -279,7 +279,7 @@ theorem holdsOnEveryEtaleChart_of_affine_baseChange
     have haS : aS ≫ V.hom.hom = U.hom.hom := congrArg (fun k ↦ k.hom) a.w
     let a' : U' ⟶ V' := Over.homMk (ObjectProperty.homMk (aS ∣_ W.1)) (by
       apply ObjectProperty.hom_ext
-      show (aS ∣_ W.1) ≫ W.1.ι ≫ V.hom.hom = Upre.ι ≫ U.hom.hom
+      change (aS ∣_ W.1) ≫ W.1.ι ≫ V.hom.hom = Upre.ι ≫ U.hom.hom
       rw [morphismRestrict_ι_assoc, haS])
     have hav : a' ≫ v = i ≫ a := by
       apply Over.OverMorphism.ext
@@ -297,12 +297,12 @@ theorem holdsOnEveryEtaleChart_of_affine_baseChange
     have hiEtale : IsEtale B S hS (yoneda.map i) := by
       refine (isEtale_iff_presheaf_of_yoneda B S hS (yoneda.map i)).2
         ((presheaf_yoneda_map_etale_iff B S hS i).2 ?_)
-      show AlgebraicGeometry.Etale Upre.ι
+      change AlgebraicGeometry.Etale Upre.ι
       infer_instance
     have hvEtale : IsEtale B S hS (yoneda.map v) := by
       refine (isEtale_iff_presheaf_of_yoneda B S hS (yoneda.map v)).2
         ((presheaf_yoneda_map_etale_iff B S hS v).2 ?_)
-      show AlgebraicGeometry.Etale W.1.ι
+      change AlgebraicGeometry.Etale W.1.ι
       infer_instance
     have hgEtale : IsEtale B S hS g := isEtale_comp B S hS hvEtale hqEtale
     have hp'Etale : IsEtale B S hS p' :=
@@ -710,7 +710,7 @@ theorem isFlat_iff_forall_isFlatAt (f : X ⟶ Y) :
     have hpoint : c.sourcePoint B S hS = z := schemePointRepresentative_point B S hS U z
     have hflatAt := flatAt_of_isFlat_germ
       ((BigFppfOver.toScheme B S hS).map h) _ (hp _ c)
-    show _root_.AlgebraicGeometry.IsFlatAt
+    change _root_.AlgebraicGeometry.IsFlatAt
       ((BigFppfOver.toScheme B S hS).map h).toLRSHom.toShHom z
     simpa only [hpoint] using hflatAt
 

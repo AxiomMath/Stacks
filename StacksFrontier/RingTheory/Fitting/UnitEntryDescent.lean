@@ -163,7 +163,7 @@ theorem mulVecLin_injective_of_block (hC : Function.Injective C.mulVecLin) :
 theorem mem_range_of_dropFirst_eq_zero {v : Fin (m + 1) → R} (hv : dropFirst m v = 0) :
     v ∈ LinearMap.range C.mulVecLin := by
   refine ⟨Fin.cons (v 0) 0, ?_⟩
-  show C *ᵥ Fin.cons (v 0) 0 = v
+  change C *ᵥ Fin.cons (v 0) 0 = v
   rw [mulVec_of_block C ψ h00 hrow hcol hblock]
   rw [dropFirst_cons, Matrix.mulVec_zero, Fin.cons_zero]
   funext i
@@ -178,7 +178,7 @@ theorem range_le_comap_dropFirst :
       Submodule.comap (dropFirst m) (LinearMap.range ψ.mulVecLin) := by
   rintro _ ⟨w, rfl⟩
   refine ⟨dropFirst m w, ?_⟩
-  show ψ *ᵥ dropFirst m w = dropFirst m (C *ᵥ w)
+  change ψ *ᵥ dropFirst m w = dropFirst m (C *ᵥ w)
   rw [mulVec_of_block C ψ h00 hrow hcol hblock]
   funext p
   rw [dropFirst_apply, Fin.cons_succ]

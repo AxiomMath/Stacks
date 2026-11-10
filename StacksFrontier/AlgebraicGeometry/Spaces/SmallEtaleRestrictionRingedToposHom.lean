@@ -96,7 +96,7 @@ form.**  The `CommRingCat`-valued structure map
 theorem forgetRing_map_structureSharpCommRing (f : U ⟶ V) :
     (smallEtaleRingedTopos B S hS V).forgetRing.map (structureSharpCommRing B S hS f) =
       structureSharpSet B S hS f := by
-  show (sheafCompose (SmallEtale.topology B S hS V.1) (forget RingCat.{u})).map
+  change (sheafCompose (SmallEtale.topology B S hS V.1) (forget RingCat.{u})).map
       ((sheafCompose (SmallEtale.topology B S hS V.1)
         (forget₂ CommRingCat.{u} RingCat.{u})).map (structureSharpCommRing B S hS f)) = _
   rw [map_structureSharpCommRing]

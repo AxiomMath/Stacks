@@ -237,7 +237,7 @@ public theorem isZero_of_isZero_completionFunctor_obj
     (hzero : IsZero ((completionFunctor X I).obj M)) : IsZero M := by
   refine (IsZero.iff_id_eq_zero M).2 ?_
   refine (completionFunctor_map_bijective_of_isPowerAnnihilated M M (Or.inl hM)).1 ?_
-  show (completionFunctor X I).map (𝟙 M) = (completionFunctor X I).map (0 : M ⟶ M)
+  change (completionFunctor X I).map (𝟙 M) = (completionFunctor X I).map (0 : M ⟶ M)
   rw [(completionFunctor X I).map_id, (completionFunctor X I).map_zero]
   exact hzero.eq_of_src _ _
 
@@ -255,11 +255,11 @@ public theorem exists_iso_of_completionFunctor_obj_iso
   obtain ⟨g, hg⟩ := hGF.2 e.inv
   have hfg : f ≫ g = 𝟙 F := by
     refine hFF.1 ?_
-    show (completionFunctor X I).map (f ≫ g) = (completionFunctor X I).map (𝟙 F)
+    change (completionFunctor X I).map (f ≫ g) = (completionFunctor X I).map (𝟙 F)
     simp [hf, hg]
   have hgf : g ≫ f = 𝟙 G := by
     refine hGG.1 ?_
-    show (completionFunctor X I).map (g ≫ f) = (completionFunctor X I).map (𝟙 G)
+    change (completionFunctor X I).map (g ≫ f) = (completionFunctor X I).map (𝟙 G)
     simp [hf, hg]
   let : IsIso f := ⟨g, hfg, hgf⟩
   exact ⟨asIso f, hf⟩
@@ -332,7 +332,7 @@ public theorem completionFunctor_mapExt_injective_of_isPowerAnnihilated
           (completionFunctor_map_bijective_of_isPowerAnnihilated F E (Or.inl hF)).2 s
         refine (extClass_eq_zero_iff_section hS).2 ⟨t, ?_⟩
         refine (completionFunctor_map_bijective_of_isPowerAnnihilated F F (Or.inl hF)).1 ?_
-        show (completionFunctor X I).map (t ≫ p) = (completionFunctor X I).map (𝟙 F)
+        change (completionFunctor X I).map (t ≫ p) = (completionFunctor X I).map (𝟙 F)
         rw [(completionFunctor X I).map_comp, (completionFunctor X I).map_id,
           show (completionFunctor X I).map t = s from ht]
         exact hs
@@ -341,7 +341,7 @@ public theorem completionFunctor_mapExt_injective_of_isPowerAnnihilated
           (completionFunctor_map_bijective_of_isPowerAnnihilated E G (Or.inr hG)).2 r
         refine (extClass_eq_zero_iff_retraction hS).2 ⟨t, ?_⟩
         refine (completionFunctor_map_bijective_of_isPowerAnnihilated G G (Or.inl hG)).1 ?_
-        show (completionFunctor X I).map (i ≫ t) = (completionFunctor X I).map (𝟙 G)
+        change (completionFunctor X I).map (i ≫ t) = (completionFunctor X I).map (𝟙 G)
         rw [(completionFunctor X I).map_comp, (completionFunctor X I).map_id,
           show (completionFunctor X I).map t = r from ht]
         exact hr

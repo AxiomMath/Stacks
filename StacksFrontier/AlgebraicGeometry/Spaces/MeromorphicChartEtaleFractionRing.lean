@@ -99,7 +99,7 @@ theorem chartMeromorphicToEtaleFractionRing_algebraMap {x : GeometricPoint B S h
           (FractionRing (etaleLocalRing B S hS X.1 x : Type (u + 1)))
         (chartLocalRingToEtaleLocalRing B S hS X.1 X.2 V
           ((chartScheme V.chart).presheaf.germ ⊤ (chartPoint B S hS X.1 V) trivial a)) := by
-  show functionFieldToEtaleFractionRing B S hS X.1 X.2 V
+  change functionFieldToEtaleFractionRing B S hS X.1 X.2 V
       (chartMeromorphicFunctionFieldEquiv B S hS X hwa hfin V.chart hV
         (algebraMap ((structurePresheaf B S hS X.1).obj (op V.chart))
           ((meromorphicFunctionSheaf B S hS X.1 X.2).obj.obj (op V.chart)) a)) = _

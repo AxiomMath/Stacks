@@ -105,7 +105,7 @@ theorem chartOpens_eq_openChartFunctor (U : SmallEtale B S hS X) :
     apply CostructuredArrow.hom_ext
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show (chartSchemeForget B S hS (X := X)).map ((chartOpens B S hS U).map i) =
+    change (chartSchemeForget B S hS (X := X)).map ((chartOpens B S hS U).map i) =
       (chartSchemeForget B S hS (X := X)).map
         (eqToHom (chartOpens_obj_eq_openChartFunctor_obj B S hS U O) ≫
           (openChartFunctor B S hS X U).map i ≫

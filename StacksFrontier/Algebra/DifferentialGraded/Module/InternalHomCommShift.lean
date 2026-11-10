@@ -356,11 +356,11 @@ theorem connectingHomogeneous_val (hfg : IsAdmissibleShortExact f g)
     (connectingHomogeneous B c).1 x =
       (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x := by
   refine Eq.trans ?_ ((connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).property x).symm
-  show c.π.toFun (((dgCategory B).d c.s.toHomogeneousMap).1 x) = _
+  change c.π.toFun (((dgCategory B).d c.s.toHomogeneousMap).1 x) = _
   rw [dgCategory_d_val]
   simp only [LinearMap.sub_apply, LinearMap.comp_apply, DifferentialGraded.gradedSign_zero,
     one_smul, map_sub]
-  show c.π.toFun (Y.d (c.s.toFun x)) - c.π.toFun (c.s.toFun (Z.d x)) = _
+  change c.π.toFun (Y.d (c.s.toFun x)) - c.π.toFun (c.s.toFun (Z.d x)) = _
   rw [c.comp_eq_zero, sub_zero]
 
 end Connecting
@@ -396,7 +396,7 @@ theorem homPostcomp_connectingHom_toFun (hfg : IsAdmissibleShortExact f g)
   refine ((connectingHom _ _ _ c'.s c'.π c'.hs c'.hπ c'.hker).property z).trans ?_
   rw [connectingHomogeneous, homPostcompMap_comp, homPostcompMap_d, dgCategory_d_val]
   simp only [DifferentialGraded.gradedSign_zero, one_smul]
-  show c'.π.toFun ((homModulePresentation A B N L Y).module.d (c'.s.toFun z)) =
+  change c'.π.toFun ((homModulePresentation A B N L Y).module.d (c'.s.toFun z)) =
     homPostcompMap A B N L c.π.toHomogeneousMap
       (((homDGFunctor A B N L).obj Y).d
           (((homDGFunctor A B N L).map c.s.toHomogeneousMap).1 z) -

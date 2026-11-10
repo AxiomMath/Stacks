@@ -176,7 +176,7 @@ theorem range_homologyMap_adicCompletionUnit_single_sup_smul_eq_top
   have hkey : H.map ηM ≫ u.hom =
       (sIso.app (ModuleCat.of A M)).hom ≫ ModuleCat.ofHom (AdicCompletion.of I M) := by
     rw [hu]
-    show H.map _ ≫ H.map e'.hom ≫ (sIso.app _).hom = _
+    change H.map _ ≫ H.map e'.hom ≫ (sIso.app _).hom = _
     rw [← Category.assoc, ← H.map_comp, hηM, he']
     exact sIso.hom.naturality (ModuleCat.ofHom (AdicCompletion.of I M))
   have hinv : ModuleCat.ofHom (AdicCompletion.of I M) ≫ u.inv =

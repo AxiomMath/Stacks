@@ -164,7 +164,7 @@ theorem hasImageIn_supportedPoints_iff
           B S hS (yoneda.obj (affineOver B S hS hA f))) ∈ T at hx
     rwa [key, Space.schemePointRepresentative_point] at hx
   · intro h p
-    show Space.pointsToScheme B S hS (affineOver B S hS hA f)
+    change Space.pointsToScheme B S hS (affineOver B S hS hA f)
       ((Space.FieldValuedPoint.map B S hS (yoneda.obj U) (yoneda.map g) p).class
         B S hS (yoneda.obj (affineOver B S hS hA f))) ∈ T
     rw [key]
@@ -302,11 +302,11 @@ theorem isThickening_supportDiagram_map {J K : SupportIndex I} (g : J ⟶ K) :
     Stacks.Thickenings.IsThickening
       ((BigAffineFppf.toScheme B S hS).map ((supportDiagram B S hS hA f I).map g)) := by
   constructor
-  · show IsClosedImmersion
+  · change IsClosedImmersion
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (supportIndex_le g))))
     exact IsClosedImmersion.spec_of_surjective _
       (Ideal.Quotient.factor_surjective (supportIndex_le g))
-  · show Function.Surjective
+  · change Function.Surjective
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (supportIndex_le g))))
     exact surjective_spec_support_factor (J.down.2.trans K.down.2.symm) (supportIndex_le g)
 
@@ -327,7 +327,7 @@ theorem supportedPoints_zeroLocus :
     refine ⟨fun hp q hq ↦ ?_, fun h ↦ h p rfl⟩
     have hcl := congrArg (Space.pointsToScheme B S hS (affineOver B S hS hA f)) hq
     rw [hmem, hmem] at hcl
-    show Space.schemePoint B S hS (affineOver B S hS hA f) q ∈
+    change Space.schemePoint B S hS (affineOver B S hS hA f) q ∈
       PrimeSpectrum.zeroLocus (I : Set A)
     rw [hcl]
     exact hp
@@ -367,7 +367,7 @@ theorem supportStageToAffine_transition {J K : SupportIdeal I} (h : J.1 ≤ K.1)
       supportStageToAffine B S hS hA f I K := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K.1))
   rw [← Spec.map_comp, ofHom_mk_comp_ofHom_factor]
@@ -382,7 +382,7 @@ theorem supportStage_hasImageIn (J : SupportIdeal I) :
       (supportStageToAffine B S hS hA f I J) := by
   rw [hasImageIn_zeroLocusPoints_iff]
   intro x
-  show ∀ a, a ∈ (I : Set A) → Ideal.Quotient.mk J.1 a ∈ x.asIdeal
+  change ∀ a, a ∈ (I : Set A) → Ideal.Quotient.mk J.1 a ∈ x.asIdeal
   intro a ha
   obtain ⟨n, hn⟩ : a ∈ J.1.radical := by
     rw [J.2]
@@ -522,7 +522,7 @@ theorem exists_supportStage_factor (U : BigAffineFppf B S hS)
       Iso.hom_inv_id_assoc]
   let k : U.1 ⟶ (supportStage B S hS hA f I J).1 := Over.homMk (ObjectProperty.homMk κ) (by
     apply ObjectProperty.hom_ext
-    show κ ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫ f =
+    change κ ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) ≫ f =
       B.inclusion.map U.1.hom
     rw [← Category.assoc, hκ]
     exact congrArg (fun t => B.inclusion.map t) g.w)
@@ -627,7 +627,7 @@ private theorem supportSectionLift_map {U V : BigAffineFppf B S hS} (g : U ⟶ V
   obtain ⟨J, k, hk⟩ := exists_supportStage_factor B S hS hA f I V x.1.down x.2
   rw [supportSectionLift_eq B S hS hA f I V x J k hk,
     supportSectionLift_eq B S hS hA f I U _ J (g.hom ≫ k) (by
-      show (g.hom ≫ k) ≫ _ = g.hom ≫ x.1.down
+      change (g.hom ≫ k) ≫ _ = g.hom ≫ x.1.down
       rw [Category.assoc, hk])]
   exact (congrArg (Sheaf.sectionEquiv (BigFppfOver.topology B S hS))
       ((congrArg (fun z => z ≫ colimit.ι (supportSheafDiagram B S hS hA f I) (ULift.up J))
@@ -781,7 +781,7 @@ theorem isIso_supportComparison : IsIso (supportComparison B S hS hA f I) := by
   have hβ (U : BigAffineFppf B S hS) (x : C.toFunctor.obj (Opposite.op U.1)) :
       β.hom.app (Opposite.op U.1) (η.app (Opposite.op U.1) x) =
         supportSectionLift B S hS hA f I U x := by
-    show (η ≫ β.hom).app (Opposite.op U.1) x = _
+    change (η ≫ β.hom).app (Opposite.op U.1) x = _
     rw [hηβ]
     exact congrArg (fun z => z.app (Opposite.op U) x)
       (Functor.IsCoverDense.sheafHom_restrict_eq α₀)
@@ -791,7 +791,7 @@ theorem isIso_supportComparison : IsIso (supportComparison B S hS hA f I) := by
     (zeroLocusCompletion B S hS hA f I).property
   apply (Functor.IsCoverDense.restrictHomEquivHom (G := t)).symm.injective
   ext U x
-  show (supportComparison B S hS hA f I).hom.app (Opposite.op U.unop.1)
+  change (supportComparison B S hS hA f I).hom.app (Opposite.op U.unop.1)
     (β.hom.app (Opposite.op U.unop.1) (η.app (Opposite.op U.unop.1) x)) =
       η.app (Opposite.op U.unop.1) x
   rw [hβ]
@@ -859,7 +859,7 @@ theorem hasSurjectiveSectionProjections_supportDiagram :
           (supportStage B S hS hA f I k.down))) ↦ m (Ideal.Quotient.mk l.down.1 a)) hnat
     have hφ : φ (Ideal.Quotient.mk l.down.1 a) = Ideal.Quotient.mk k.down.1 a :=
       Ideal.Quotient.factor_mk (supportIndex_le g) a
-    show Scheme.Γ.map ((Spec.map φ).op)
+    change Scheme.Γ.map ((Spec.map φ).op)
         ((Scheme.ΓSpecIso (CommRingCat.of (A ⧸ l.down.1))).inv (Ideal.Quotient.mk l.down.1 a)) =
       (Scheme.ΓSpecIso (CommRingCat.of (A ⧸ k.down.1))).inv (Ideal.Quotient.mk k.down.1 a)
     rw [← hφ]

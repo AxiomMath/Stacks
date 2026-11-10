@@ -279,7 +279,7 @@ its inclusion into `P` is a degreewise monomorphism by
 `mono_subcomplexι_f`, and each of its terms is, by construction, the image of a finite sum of
 copies of `j_{W!}O_W`. -/
 theorem exists_sieve_subcomplex (hc : ∀ n, IsColimit (cofanTerm O P U ιP n)) (b L : ℤ)
-    (hb : ∀ n, b < n → IsZero (P.X n)) {V : C} {κ : Type*} [Fintype κ] (deg : κ → ℤ)
+    (hb : ∀ n, b < n → IsZero (P.X n)) {V : C} {κ : Type*} [Finite κ] (deg : κ → ℤ)
     (s : ∀ i, (P.X (deg i)).val.obj (op V)) (hL : ∀ i, L ≤ deg i) :
     ∃ R : Sieve V, R ∈ J V ∧ ∀ ⦃W : C⦄ (f : W ⟶ V), R.arrows f →
       ∃ (S : Finset (MarkedT U W)) (hd : ∀ n, ∀ g ∈ fibT U S n,

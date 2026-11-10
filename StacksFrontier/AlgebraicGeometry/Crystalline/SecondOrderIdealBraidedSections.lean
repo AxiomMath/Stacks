@@ -168,7 +168,7 @@ theorem whiskerLeft_topInrSheaf_comp_secondOrderThickeningProjectionFormulaMap :
       (β_ N (dpSecondExteriorPower T Y f)).hom ≫
         (secondOrderThickeningTopInrSheaf T Y f ▷ N) :=
     BraidedCategory.braiding_naturality_right N (secondOrderThickeningTopInrSheaf T Y f)
-  show (N ◁ secondOrderThickeningTopInrSheaf T Y f) ≫
+  change (N ◁ secondOrderThickeningTopInrSheaf T Y f) ≫
       (β_ N (secondOrderThickeningUnitRestriction T Y f)).hom ≫
         Stacks.AlgebraicGeometry.ProjectionFormula.projectionFormulaMap
             (secondOrderThickeningQ₀Hom T Y f)

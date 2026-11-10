@@ -159,7 +159,7 @@ lemma pushConeHom_comp (c₀ : Cone D.F) {k j i : J} (b : k ⟶ j) (a : j ⟶ i)
       (D.pushCompHom b a).app ((TopCat.Sheaf.pushforward AddCommGrpCat.{u} (c₀.π.app k)).obj X) ≫
         (D.pushFunctor a).map ((pushConeHom c₀ b).app X) ≫ (pushConeHom c₀ a).app X :=
   InducedCategory.Hom.ext (NatTrans.ext (funext fun V => by
-    show X.presheaf.map _ = X.presheaf.map _ ≫ X.presheaf.map _ ≫ X.presheaf.map _
+    change X.presheaf.map _ = X.presheaf.map _ ≫ X.presheaf.map _ ≫ X.presheaf.map _
     rw [← X.presheaf.map_comp, ← X.presheaf.map_comp]
     exact congrArg X.presheaf.map (Subsingleton.elim _ _)))
 
@@ -537,7 +537,7 @@ the `k`-th leg of the germ-model system. -/
 lemma ι_comp_vertexFunctorObjIsoConePtSheaf_hom (c₀ : Cone D.F) (A : D.AbelianSystem) (k : Jᵒᵖ) :
     colimit.ι (A.vertexSystem c₀) k ≫ (A.vertexFunctorObjIsoConePtSheaf c₀).hom =
       (A.vertexSystemObjIsoGermSystemObj c₀ k.unop).hom ≫ colimit.ι (A.germSystem c₀) k :=
-  HasColimit.isoOfNatIso_ι_hom (A.vertexSystemIsoGermSystem c₀) k
+  HasColimit.ι_isoOfNatIso_hom (A.vertexSystemIsoGermSystem c₀) k
 
 /-- Evaluating the pullback-system functor at a stage is the inverse image of the evaluation at
 that stage, on the nose.  This is what carries the exactness of the two factors to the functor. -/

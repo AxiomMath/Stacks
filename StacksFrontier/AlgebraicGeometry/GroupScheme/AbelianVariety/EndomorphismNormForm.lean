@@ -166,7 +166,7 @@ theorem endPolyEval_ofCoeffs (α : G ⟶ G) [IsMonHom α] {m : ℕ} (r : Fin (m 
   have h := map_sum (postcompHomAdd (G := G)) (fun k => aeval (postcompOf α)
     (Polynomial.C (r k) * Polynomial.X ^ (k : ℕ))) Finset.univ
   simp only [Stacks.Polynomial.ofCoeffs, endPolyEval, map_sum]
-  show (postcompHomAdd (∑ k, _)).toMul = _
+  change (postcompHomAdd (∑ k, _)).toMul = _
   rw [h, toMul_sum]
   refine Finset.prod_congr rfl fun k _ => ?_
   rw [map_mul, Polynomial.aeval_C, Algebra.algebraMap_eq_smul_one, smul_one_mul]
@@ -192,7 +192,7 @@ theorem endDegree_zpow_id_eq_pow (c : ℤ) :
     have := hP (fun _ => t)
     simp only [Finset.univ_unique, Fin.default_eq_zero, Finset.prod_singleton] at this
     rw [this, ← Polynomial.coe_aeval_eq_eval]
-    show (Polynomial.aeval (t : ℚ)).comp (MvPolynomial.aeval fun _ => Polynomial.X) P = _
+    change (Polynomial.aeval (t : ℚ)).comp (MvPolynomial.aeval fun _ => Polynomial.X) P = _
     rw [MvPolynomial.comp_aeval]
     simp [MvPolynomial.aeval_eq_eval]
   have hX : F = Polynomial.X ^ (2 * abelianVarietyDimension A) := by
@@ -200,7 +200,7 @@ theorem endDegree_zpow_id_eq_pow (c : ℤ) :
       (f := fun n : ℕ => ((n + 1 : ℕ) : ℚ)) (fun a b h => by simpa using h) fun n => ?_)
     have h := hF (n + 1)
     rw [endDegree_zpow_id A _ (by lia)] at h
-    simp only [Set.mem_setOf_eq, Polynomial.eval_pow, Polynomial.eval_X]
+    simp only [Set.mem_ofPred_eq, Polynomial.eval_pow, Polynomial.eval_X]
     push_cast at h ⊢
     rw [h]
     norm_cast

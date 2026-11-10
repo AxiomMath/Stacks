@@ -148,7 +148,7 @@ lemma rightDerivedForgetCohomologyIso_naturality_open
     ((evaluation (Opens X)ᵒᵖ AddCommGrpCat).map (homOfLE h).op)
   have : GV.PreservesHomology := GV.preservesHomologyOfExact
   have : GU.PreservesHomology := GU.preservesHomologyOfExact
-  show α.app (((SheafOfModules.forget O).rightDerived p).obj F) ≫
+  change α.app (((SheafOfModules.forget O).rightDerived p).obj F) ≫
       (rightDerivedCompIso (SheafOfModules.forget O) GU p).hom.app F =
     (rightDerivedCompIso (SheafOfModules.forget O) GV p).hom.app F ≫
       (NatTrans.rightDerived (Functor.whiskerLeft (SheafOfModules.forget O) α) p).app F
@@ -159,7 +159,7 @@ lemma rightDerivedForgetCohomologyIso_naturality_open
   unfold Functor.rightDerived Functor.rightDerivedToHomotopyCategory
   simp only [Functor.comp_obj]
   unfold HomotopyCategory.homologyFunctor
-  show α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso GU).inv =
+  change α.app (K.sc p).homology ≫ ((K.sc p).mapHomologyIso GU).inv =
     ((K.sc p).mapHomologyIso GV).inv ≫
       ShortComplex.homologyMap ((K.sc p).mapNatTrans α)
   simp only [NatTrans.app_homology, Category.assoc, Iso.hom_inv_id, Category.comp_id]

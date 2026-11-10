@@ -100,7 +100,7 @@ theorem restrictₗ_restrict_top (L : X.Modules) (t : Γ(L, ⊤)) (U : X.affineO
     restrictₗ L (X.basicOpen_le f) (L.presheaf.map (homOfLE (le_top : U.1 ≤ ⊤)).op t) =
       L.presheaf.map (homOfLE (le_top : X.basicOpen f ≤ ⊤)).op t := by
   let := moduleOfLE L (X.basicOpen_le f)
-  show L.presheaf.map (homOfLE (X.basicOpen_le f)).op
+  change L.presheaf.map (homOfLE (X.basicOpen_le f)).op
       (L.presheaf.map (homOfLE (le_top : U.1 ≤ ⊤)).op t) = _
   rw [← L.presheaf.map_comp_apply]
   congr 1

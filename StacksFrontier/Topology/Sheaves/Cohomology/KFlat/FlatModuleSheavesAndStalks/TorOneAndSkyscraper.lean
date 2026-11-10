@@ -303,9 +303,9 @@ theorem horseshoe_augmentation_quasiIso
     have := PA.quasiIso
     have := PC.quasiIso
     have hτ₁ : IsIso (hf0.mapShortComplex.map φ).τ₁ := by
-      show IsIso (HomologicalComplex.homologyMap PA.π 0); infer_instance
+      change IsIso (HomologicalComplex.homologyMap PA.π 0); infer_instance
     have hτ₃ : IsIso (hf0.mapShortComplex.map φ).τ₃ := by
-      show IsIso (HomologicalComplex.homologyMap PC.π 0); infer_instance
+      change IsIso (HomologicalComplex.homologyMap PC.π 0); infer_instance
     exact ShortComplex.HorseshoeAux.shortFive hExact₁ hExact₂ hMonoF hEpiG
       (hf0.mapShortComplex.map φ) hτ₁ hτ₃
   | (n+1) =>
@@ -561,7 +561,7 @@ theorem module_flat_iff_tor1 (R : Type u) [CommRing R] (M : ModuleCat.{u} R) :
     -- left-derived functor is zero.
     set F : ModuleCat.{u} R ⥤ ModuleCat.{u} R :=
       (MonoidalCategory.tensoringLeft (ModuleCat.{u} R)).obj M with hF
-    show IsZero ((F.leftDerived 1).obj N)
+    change IsZero ((F.leftDerived 1).obj N)
     -- general fact: an additive functor that is exact (preserves finite limits and
     -- colimits) has vanishing higher left-derived functors.
     have key : ∀ (n : ℕ) (X : ModuleCat.{u} R), IsZero ((F.leftDerived (n + 1)).obj X) := by
@@ -815,7 +815,7 @@ theorem skyscraperPOM_presheaf_obj_eq (x : X.carrier)
     (N : ModuleCat.{u} (X.presheaf.stalk x)) (W : (TopologicalSpace.Opens X.carrier)ᵒᵖ)
     (h : x ∈ W.unop) :
     (skyscraperPOM x N).presheaf.obj W = AddCommGrpCat.of N := by
-  show (forget₂ (ModuleCat _) AddCommGrpCat).obj (skyscraperObj x N W) = _
+  change (forget₂ (ModuleCat _) AddCommGrpCat).obj (skyscraperObj x N W) = _
   rw [skyscraperObj, dite_eq_left h]
   rfl
 
@@ -827,7 +827,7 @@ theorem skyscraperPOM_presheaf_map_eq (x : X.carrier)
     (skyscraperPOM x N).presheaf.map j =
       eqToHom (skyscraperPOM_presheaf_obj_eq x N W₁ ((leOfHom j.unop) h₂)) ≫
         eqToHom (skyscraperPOM_presheaf_obj_eq x N W₂ h₂).symm := by
-  show (forget₂ (ModuleCat _) AddCommGrpCat).map (skyscraperMap x N j) = _
+  change (forget₂ (ModuleCat _) AddCommGrpCat).map (skyscraperMap x N j) = _
   rw [skyscraperMap, dite_eq_left h₂]
   simp only [ restrictScalarsComp'App_hom_eqToHom,
     ModuleCat.restrictScalarsComp'_hom_app, eqToHom_map, eqToHom_trans]

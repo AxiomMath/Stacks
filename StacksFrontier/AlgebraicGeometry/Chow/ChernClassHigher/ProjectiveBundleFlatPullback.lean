@@ -146,7 +146,7 @@ theorem flatPullback_projectiveBundleChernRelation
     rw [map_zsmul, map_zsmul,
       hcompat k i.val (Nat.lt_succ_iff.mp i.isLt) (c ⟨r - i.val, by omega⟩)]
     rfl
-  show ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
+  change ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
     projectiveBundleChernTerm C sX sPX πX hsPX r hπX hfacX twistX (k + (d : ℤ)) i.val
       (Nat.lt_succ_iff.mp i.isLt)
       (flatPullbackChernFamily C sX sY r f hf d hd hfacf k c ⟨r - i.val, by omega⟩) = 0

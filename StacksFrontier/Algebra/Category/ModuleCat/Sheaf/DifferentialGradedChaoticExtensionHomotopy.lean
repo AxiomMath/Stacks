@@ -126,6 +126,12 @@ abbrev termHomotopy {U : Cᵒᵖ} (b : StructuredArrow U.unop F) :
     _root_.DifferentialGradedModule.Homotopy (termMap f b) (termMap g b) :=
   tensorHomotopy (regular (arrowHom F A b)) (h.app (Opposite.op b.right))
 
+section TermHomotopy
+
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)]
+
 /-- The tensored homotopy at the term `b` sends `x ⊗ c` to `h(x) ⊗ c`. -/
 theorem termHomotopy_pure {U : Cᵒᵖ} (b : StructuredArrow U.unop F)
     (x : (X.obj (Opposite.op b.right)).M) (c : (A.sectionAlgebra U).A) :
@@ -163,12 +169,16 @@ theorem termHomotopy_restrLeg {U V : Cᵒᵖ} (a : V ⟶ U) (b : StructuredArrow
     (restrLeg_pure X a b p x c)).symm
   exact (termHomotopy_pure h (pre F a b) _ _).symm
 
+end TermHomotopy
+
 /-- The extension of a homotopy over `U`. -/
 def extHomotopyApp (U : Cᵒᵖ) :
     _root_.DifferentialGradedModule.Homotopy ((extMap f).app U) ((extMap g).app U) :=
   _root_.DifferentialGradedModule.FilteredColimit.mapHomotopy
     (fun j => termHomotopy h j.unop) fun _ _ φ z => termHomotopy_transition h φ.unop z
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The extension of a homotopy over `U` sends the germ of `w` at `b` to the germ of the tensored
 homotopy applied to `w`. -/
 theorem extHomotopyApp_germ {U : Cᵒᵖ} (b : StructuredArrow U.unop F) (w : (term X b).M) :
@@ -178,6 +188,8 @@ theorem extHomotopyApp_germ {U : Cᵒᵖ} (b : StructuredArrow U.unop F) (w : (t
     (fun j => termHomotopy h j.unop) (fun _ _ φ z => termHomotopy_transition h φ.unop z)
     (Opposite.op b) w
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The extended homotopies commute with restriction along `a : V ⟶ U` on the germ at `b`. -/
 theorem extHomotopyApp_naturality_germ {U V : Cᵒᵖ} (a : V ⟶ U) (b : StructuredArrow V.unop F)
     (w : (term X b).M) :

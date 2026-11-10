@@ -133,7 +133,7 @@ public theorem grade_eq_sup_map (Aᵢ : ℕ → Submodule R A) [GradedAlgebra A�
     · exact Submodule.map_le_iff_le_comap.2 fun a ha => inclusion_mem_grade Aᵢ d m ha
     · rw [Submodule.map_le_iff_le_comap]
       intro a ha
-      show generatorMulLinearMap Aᵢ d a ∈ grade Aᵢ d m
+      change generatorMulLinearMap Aᵢ d a ∈ grade Aᵢ d m
       by_cases hdm : d ≤ m
       · have ha' : a ∈ Aᵢ (m - d) := by
           rwa [ite_eq_left hdm] at ha
@@ -233,7 +233,7 @@ public theorem monomial_image_le_coeffZeroOutside (n : ℕ) (s : Set A) :
       coeffZeroOutside (R := R) {n} := by
   rw [Submodule.span_le]
   rintro x ⟨a, -, rfl⟩ k hk
-  show (monomial n a).coeff k = 0
+  change (monomial n a).coeff k = 0
   rw [coeff_monomial]
   exact Finsupp.single_eq_of_ne (show k ≠ n by simpa using hk)
 
@@ -243,7 +243,7 @@ public theorem disjoint_coeffZeroOutside {i : ℕ} {t : Set ℕ} (hit : i ∉ t)
   rw [Submodule.disjoint_def]
   intro x hx hy
   refine EvenVariableAlgebra.ext (Finsupp.ext fun n => ?_)
-  show x.coeff n = (0 : EvenVariableAlgebra A).coeff n
+  change x.coeff n = (0 : EvenVariableAlgebra A).coeff n
   by_cases hn : n = i
   · subst hn
     rw [hy n hit]
@@ -284,7 +284,7 @@ public theorem grade_eq_iSup_map (𝒜 : ℕ → Submodule R A) (d m : ℕ) :
     exact Submodule.sum_mem _ fun n _ =>
       Submodule.mem_iSup_of_mem n ⟨x.coeff n, (mem_grade_iff 𝒜 d m x).mp hx n, rfl⟩
   · refine iSup_le fun n => Submodule.map_le_iff_le_comap.2 fun a ha => ?_
-    show monomial n a ∈ grade 𝒜 d m
+    change monomial n a ∈ grade 𝒜 d m
     rwa [monomial_mem_grade_iff]
 
 /-- The even step's basis family: the old basis in degree `m - n * d` multiplied by the `n`-th

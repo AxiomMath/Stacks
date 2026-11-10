@@ -74,10 +74,10 @@ theorem preimage_eq_compl_support_exceptionalIdeal {S : Scheme.{u}} (ℐ : S.Ide
     (blowUpToBase ℐ ⁻¹ᵁ U : (blowUp ℐ).Opens) = (exceptionalIdeal ℐ).support.compl := by
   have hs : ∀ y : blowUp ℐ, y ∈ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ)) ↔
       (blowUpToBase ℐ) y ∈ (ℐ.support : Set S) := fun y ↦ by
-    show y ∈ ((ℐ.comap (blowUpToBase ℐ)).support : Set (blowUp ℐ)) ↔ _
+    change y ∈ ((ℐ.comap (blowUpToBase ℐ)).support : Set (blowUp ℐ)) ↔ _
     simp
   refine Opens.ext (Set.ext fun x ↦ ?_)
-  show (blowUpToBase ℐ) x ∈ U ↔ x ∉ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ))
+  change (blowUpToBase ℐ) x ∈ U ↔ x ∉ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ))
   rw [hs x, h]
   simp
 

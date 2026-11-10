@@ -93,8 +93,8 @@ instantiations at derived functors do not ask the kernel to unfold them. -/
 theorem homEquiv_symm_mateEquiv_app {C D E F : Type*} [Category C] [Category D] [Category E]
     [Category F] {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F} {R₂ : F ⥤ E}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare G L₁ L₂ H) (d : D) :
-    (adj₂.homEquiv _ _).symm ((mateEquiv adj₁ adj₂ α).natTrans.app d) =
-      α.natTrans.app (R₁.obj d) ≫ H.map (adj₁.counit.app d) := by
+    (adj₂.homEquiv _ _).symm ((mateEquiv adj₁ adj₂ α).app d) =
+      α.app (R₁.obj d) ≫ H.map (adj₁.counit.app d) := by
   rw [Adjunction.homEquiv_counit, mateEquiv_counit]
 
 attribute [local instance 10000] HasDerivedCategory.standard
@@ -192,7 +192,7 @@ def smallEtaleDerivedBaseChangeMap
         ((smallEtaleDerivedModulePushforward B S hS f).obj K) ⟶
       (smallEtaleDerivedModulePushforward B S hS f').obj
         ((smallEtaleDerivedModulePullback B S hS g').obj K) :=
-  (smallEtaleDerivedBaseChange B S hS f g f' g' w).natTrans.app K
+  (smallEtaleDerivedBaseChange B S hS f g f' g' w).app K
 
 /-- The derived base change transformation is the mate, under `Lf^* ⊣ Rf_*` and
 `Lf'^* ⊣ Rf'_*`, of the comparison `smallEtaleDerivedPullbackSquareIso`. -/
@@ -226,7 +226,7 @@ theorem smallEtaleDerivedBaseChangeMap_naturality
       smallEtaleDerivedBaseChangeMap B S hS f g f' g' w K ≫
         (smallEtaleDerivedModulePushforward B S hS f').map
           ((smallEtaleDerivedModulePullback B S hS g').map a) :=
-  (smallEtaleDerivedBaseChange B S hS f g f' g' w).natTrans.naturality a
+  (smallEtaleDerivedBaseChange B S hS f g f' g' w).naturality a
 
 end AlgebraicGeometry.Space
 

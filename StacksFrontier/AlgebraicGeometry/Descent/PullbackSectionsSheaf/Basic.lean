@@ -140,7 +140,7 @@ private theorem isSheafFor_presheafHom_base (hd : FpqcDescentOfQuasicoherentHoms
   rw [Presieve.isSheafFor_iff_generate] at h
   convert h using 2
   apply (Sieve.overEquiv (Over.mk (𝟙 S))).injective
-  show (Sieve.overEquiv (Over.mk (𝟙 S)))
+  change (Sieve.overEquiv (Over.mk (𝟙 S)))
     ((Sieve.overEquiv (Over.mk (𝟙 S))).symm (Sieve.ofArrows X f)) =
     (Sieve.overEquiv (Over.mk (𝟙 S)))
       (Sieve.ofArrows (fun i => Over.mk (f i)) (fun i => Over.homMk (f i)))
@@ -173,7 +173,7 @@ private theorem isSheafFor_presheafHom (hd : FpqcDescentOfQuasicoherentHoms.{u})
   · rintro X b ⟨Y, c, d, h, fac⟩
     replace fac := (Over.forget _).congr_map fac
     simp at fac
-    show (Sieve.generate R).arrows b.left
+    change (Sieve.generate R).arrows b.left
     simpa [fac] using (Sieve.generate R).downward_closed h d.left
 
 /-- Under `AlgebraicGeometry.FpqcDescentOfQuasicoherentHoms`, the presheaf on the schemes

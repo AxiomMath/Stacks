@@ -226,7 +226,9 @@ omit [X.J.HasSheafCompose (forget RingCat.{0})] [Y.J.HasSheafCompose (forget Rin
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})] in
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **The pullback of a strictly perfect approximation is a derived strictly perfect
 approximation over the image object.** If `K` has a strictly perfect approximation in degrees
 `> m` over `W`, then `Lf^* E` has one in the derived category over `u(W)`.
@@ -306,7 +308,9 @@ omit [X.J.HasSheafCompose (forget RingCat.{0})] [Y.J.HasSheafCompose (forget Rin
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})] in
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **Stacks 08H4.** The derived pullback along a morphism of ringed sites of an
 `m`-pseudo-coherent object of `D(O')` is `m`-pseudo-coherent.
 

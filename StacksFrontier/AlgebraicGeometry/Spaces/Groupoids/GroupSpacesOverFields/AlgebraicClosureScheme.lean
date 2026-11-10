@@ -163,6 +163,7 @@ private theorem groupTranslation_factors_schematicLocus
     (GrpObj.mulRight (A := A.X) p)).hom) hz
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the group-object and cartesian monoidal structures on `Over Y`
 /-- **The schematic locus is translation-invariant on sections.** If some section `q` of a group
 algebraic space over `Y` factors through the schematic locus, then every section `p` does: `p` is
 the right translate of the identity section by `p`, and the identity section is the right
@@ -235,7 +236,7 @@ private theorem exists_large_algClosed_contained
   let K₀ : Type u := FractionRing (MvPolynomial α k)
   have hK₀card : Cardinal.mk K₀ = κplus := by
     have h₁ : Cardinal.mk K₀ = max (max (Cardinal.mk k) (Cardinal.mk α)) ℵ₀ := by
-      show Cardinal.mk (FractionRing (MvPolynomial α k)) = _
+      change Cardinal.mk (FractionRing (MvPolynomial α k)) = _
       rw [Cardinal.mk_fractionRing, MvPolynomial.cardinalMk_eq_max_lift]
       simp only [Cardinal.lift_id]
     rw [h₁, hα, max_eq_right (le_trans hkbound (Order.le_succ bound)),
@@ -247,7 +248,7 @@ private theorem exists_large_algClosed_contained
   have hLle : Cardinal.mk L ≤ Cardinal.mk K₀ :=
     (Algebra.IsAlgebraic.cardinalMk_le_max K₀ L).trans_eq (max_eq_left hK₀inf)
   have hLcontained : B.Contains (Spec (.of L)) := by
-    show (Spec (CommRingCat.of L)).size < B.cutoff
+    change (Spec (CommRingCat.of L)).size < B.cutoff
     rw [AlgebraicGeometry.Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff (hLle.trans_lt (hK₀card.trans_lt hsucclt))
   let : Algebra k L := ((algebraMap K₀ L).comp (algebraMap k K₀)).toAlgebra
@@ -371,7 +372,7 @@ private theorem exists_surjective_pullback_toScheme_prod_extObj (U : BigFppfOver
     · simp only [θ, ψ, Category.assoc, IsPullback.lift_fst, pullback.lift_snd, Category.id_comp]
     · simp only [θ, ψ, Category.assoc, IsPullback.lift_snd, pullback.lift_fst, Category.id_comp]
   have hU : U.hom.hom = sU := by
-    show _ = C.inclusion.map (Over.mkIdTerminal.from U).left
+    change _ = C.inclusion.map (Over.mkIdTerminal.from U).left
     rw [Over.mkIdTerminal_from_left]
     rfl
   refine ⟨ψ, fun t => ⟨θ t, by
@@ -379,10 +380,10 @@ private theorem exists_surjective_pullback_toScheme_prod_extObj (U : BigFppfOver
     rfl⟩, fun a ha => ?_⟩
   let τ : E ⟶ U := Over.homMk ⟨a ≫ pullback.fst f φL⟩ (by
     apply ObjectProperty.hom_ext
-    show (a ≫ pullback.fst f φL) ≫ U.hom.hom = φL ≫ e.inv
+    change (a ≫ pullback.fst f φL) ≫ U.hom.hom = φL ≫ e.inv
     rw [hU, ← cancel_mono e.hom, Category.assoc, Category.assoc, Category.assoc,
       Iso.inv_hom_id, Category.comp_id]
-    show a ≫ pullback.fst f φL ≫ f = φL
+    change a ≫ pullback.fst f φL ≫ f = φL
     rw [pullback.condition, ← Category.assoc, ha, Category.id_comp])
   refine ⟨τ, ?_⟩
   apply hpb.hom_ext
@@ -419,11 +420,11 @@ private theorem pointsMap_symm_eq_class_ptOf_prod_lift {U : BigFppfOver C S hS}
       exact (prod.lift_snd _ _).symm
   have hw : yoneda.map σ = 𝟙 _ ≫ yoneda.map σ := (Category.id_comp _).symm
   rw [← hs, ← ptOf_map, ← pointsMap_class, hw, ← ptOf_map, ← pointsMap_class]
-  show pointsMap C S hS _ qL ((schemePointsHomeomorph C S hS (E ⨯ U)).symm (ψ t)) = _
+  change pointsMap C S hS _ qL ((schemePointsHomeomorph C S hS (E ⨯ U)).symm (ψ t)) = _
   congr 1
   apply (schemePointsHomeomorph C S hS (E ⨯ U)).injective
   rw [Homeomorph.apply_symm_apply]
-  show ψ t = pointsEquivScheme C S hS (E ⨯ U) _
+  change ψ t = pointsEquivScheme C S hS (E ⨯ U) _
   rw [pointsEquivScheme_pointsMap_yoneda C S hS, hτ, Scheme.Hom.comp_apply, hat]
 
 /-- **A point over `L` is schematic exactly when it factors through the schematic locus.** For
@@ -637,7 +638,7 @@ theorem exists_isAlgClosed_isRepresentable_relocalizeRestrict (B : BigFppfSite.{
   let eE : E ≅ Over.mk (specExtensionHom k L B hk hL) :=
     Over.isoMk (Iso.refl _) (by
       apply ObjectProperty.hom_ext
-      show 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (algebraMap k L)) =
+      change 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (algebraMap k L)) =
         Spec.map (CommRingCat.ofHom (algebraMap k L)) ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id])
   exact (isRepresentable_overMap_iff (Over.mk (specExtensionHom k L B hk hL)) G.obj.X.left).2

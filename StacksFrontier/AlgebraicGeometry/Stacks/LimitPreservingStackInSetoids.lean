@@ -238,7 +238,7 @@ private theorem isLocallyOfFinitePresentation_terminal_of_isLimitPreservingOnObj
         { app := fun i => ObjectProperty.homMk (c.π.app i)
           naturality := fun i j a => by
             apply ObjectProperty.hom_ext
-            show c.π.app j = c.π.app i ≫ D.map a
+            change c.π.app j = c.π.app i ≫ D.map a
             exact (c.w a).symm } } hc
 
 /-- **The implication (1) ⟹ (3) of Stacks 07XN.** An algebraic stack over the big fppf site of

@@ -120,7 +120,7 @@ private theorem standardCond2_mul (P : Presentation R A) (x y : A) (c : ℕ) (hc
   obtain ⟨p, hp⟩ := P.exists_isLift x
   obtain ⟨q, hq⟩ := P.exists_isLift y
   refine ⟨q * p, ?_, ?_⟩
-  · show P.lift (q * p) = x * y
+  · change P.lift (q * p) = x * y
     rw [Presentation.lift_mul, show P.lift q = y from hq, show P.lift p = x from hp, mul_comm]
   · rw [mul_assoc]
     exact Ideal.mul_mem_left _ _ (h j p hp)
@@ -169,12 +169,12 @@ variable (P : Presentation R A) (r : ℕ) {c : ℕ}
 
 private theorem addVars_f_castAdd (κ : Fin c) :
     (addVarsPresentation P r w hw).f (Fin.castAdd (P.m + r) κ) = w κ := by
-  show Fin.append w (addVarsRels P r) (Fin.castAdd (P.m + r) κ) = w κ
+  change Fin.append w (addVarsRels P r) (Fin.castAdd (P.m + r) κ) = w κ
   exact Fin.append_left _ _ κ
 
 private theorem addVars_f_natAdd (jj : Fin (P.m + r)) :
     (addVarsPresentation P r w hw).f (Fin.natAdd c jj) = addVarsRels P r jj := by
-  show Fin.append w (addVarsRels P r) (Fin.natAdd c jj) = addVarsRels P r jj
+  change Fin.append w (addVarsRels P r) (Fin.natAdd c jj) = addVarsRels P r jj
   exact Fin.append_right _ _ jj
 
 private theorem addVars_castLE (hcm : c ≤ (addVarsPresentation P r w hw).m) (κ : Fin c) :
@@ -184,27 +184,27 @@ private theorem addVars_jacobianMatrix (hcm : c ≤ (addVarsPresentation P r w h
     (z : Fin (P.n + r)) (κ : Fin c) :
     jacobianMatrix (addVarsPresentation P r w hw) c hcm z κ =
       addVarsHom P r (pderiv z (w κ)) := by
-  show (addVarsPresentation P r w hw).lift
+  change (addVarsPresentation P r w hw).lift
     (pderiv z ((addVarsPresentation P r w hw).f (Fin.castLE hcm κ))) = _
   rw [addVars_castLE, addVars_f_castAdd, addVarsPresentation_lift]
 
 private theorem addVars_jacobianMatrixFull_castAdd (z : Fin (P.n + r)) (κ : Fin c) :
     jacobianMatrixFull (addVarsPresentation P r w hw) z (Fin.castAdd (P.m + r) κ) =
       addVarsHom P r (pderiv z (w κ)) := by
-  show (addVarsPresentation P r w hw).lift
+  change (addVarsPresentation P r w hw).lift
     (pderiv z ((addVarsPresentation P r w hw).f (Fin.castAdd (P.m + r) κ))) = _
   rw [addVars_f_castAdd, addVarsPresentation_lift]
 
 private theorem addVars_jacobianMatrixFull_natAdd (z : Fin (P.n + r)) (jj : Fin (P.m + r)) :
     jacobianMatrixFull (addVarsPresentation P r w hw) z (Fin.natAdd c jj) =
       addVarsHom P r (pderiv z (addVarsRels P r jj)) := by
-  show (addVarsPresentation P r w hw).lift
+  change (addVarsPresentation P r w hw).lift
     (pderiv z ((addVarsPresentation P r w hw).f (Fin.natAdd c jj))) = _
   rw [addVars_f_natAdd, addVarsPresentation_lift]
 
 private theorem addVars_firstRelIdeal (hcm : c ≤ (addVarsPresentation P r w hw).m) :
     (addVarsPresentation P r w hw).firstRelIdeal c hcm = Ideal.span (Set.range w) := by
-  show Ideal.span (Set.range fun κ : Fin c =>
+  change Ideal.span (Set.range fun κ : Fin c =>
     (addVarsPresentation P r w hw).f (Fin.castLE hcm κ)) = _
   refine congrArg Ideal.span (congrArg Set.range (funext fun κ => ?_))
   rw [addVars_castLE, addVars_f_castAdd]
@@ -266,10 +266,10 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
     have e1 : (finAppendEquiv T P₀.n l).symm ((finAppendEquiv T P₀.n l)
         ((f.prodMap LinearMap.id) (Ξ x))) = (f.prodMap LinearMap.id) (Ξ x) :=
       (finAppendEquiv T P₀.n l).symm_apply_apply _
-    show Ξ.symm ((lf.prodMap LinearMap.id) ((finAppendEquiv T P₀.n l).symm
+    change Ξ.symm ((lf.prodMap LinearMap.id) ((finAppendEquiv T P₀.n l).symm
       ((finAppendEquiv T P₀.n l) ((f.prodMap LinearMap.id) (Ξ x))))) = x
     rw [e1]
-    show Ξ.symm (lf (f (Ξ x).1), (Ξ x).2) = x
+    change Ξ.symm (lf (f (Ξ x).1), (Ξ x).2) = x
     rw [hlf]
     exact Ξ.symm_apply_apply x
   have hmemΘ : ∀ (x : C) (y : Fin l → T), Fin.append (f x) y ∈ LinearMap.range Θ := by
@@ -323,16 +323,16 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
     exact addVarsHom_addVarsCombination P₀ l (up κ) (vp κ)
   let P : Presentation R A := addVarsPresentation P₀ l wf hwrel
   have hcn : P₀.n + k ≤ P.n := by
-    show P₀.n + k ≤ P₀.n + l
+    change P₀.n + k ≤ P₀.n + l
     omega
   have hcm : P₀.n + k ≤ P.m := by
-    show P₀.n + k ≤ P₀.n + k + (P₀.m + l)
+    change P₀.n + k ≤ P₀.n + k + (P₀.m + l)
     omega
   have hJacL : ∀ (κ : Fin (P₀.n + k)) (i : Fin P₀.n),
       jacobianMatrix P (P₀.n + k) hcm (Fin.castAdd l i) κ =
         ∑ j : Fin P₀.m, u κ j * jacobianMatrixFull P₀ i j := by
     intro κ i
-    show jacobianMatrix (addVarsPresentation P₀ l wf hwrel) (P₀.n + k) hcm
+    change jacobianMatrix (addVarsPresentation P₀ l wf hwrel) (P₀.n + k) hcm
       (Fin.castAdd l i) κ = _
     rw [addVars_jacobianMatrix, hwf κ, addVarsHom_pderiv_castAdd_addVarsCombination]
     exact Finset.sum_congr rfl fun j _ => by
@@ -341,7 +341,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
   have hJacR : ∀ (κ : Fin (P₀.n + k)) (i : Fin l),
       jacobianMatrix P (P₀.n + k) hcm (Fin.natAdd P₀.n i) κ = v κ i := by
     intro κ i
-    show jacobianMatrix (addVarsPresentation P₀ l wf hwrel) (P₀.n + k) hcm
+    change jacobianMatrix (addVarsPresentation P₀ l wf hwrel) (P₀.n + k) hcm
       (Fin.natAdd P₀.n i) κ = _
     rw [addVars_jacobianMatrix, hwf κ, addVarsHom_pderiv_natAdd_addVarsCombination]
     exact hvp κ i
@@ -349,7 +349,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
       jacobianMatrixFull P z (Fin.castAdd (P₀.m + l) κ) =
         jacobianMatrix P (P₀.n + k) hcm z κ := by
     intro z κ
-    show jacobianMatrixFull (addVarsPresentation P₀ l wf hwrel) z
+    change jacobianMatrixFull (addVarsPresentation P₀ l wf hwrel) z
       (Fin.castAdd (P₀.m + l) κ) =
       jacobianMatrix (addVarsPresentation P₀ l wf hwrel) (P₀.n + k) hcm z κ
     rw [addVars_jacobianMatrixFull_castAdd, addVars_jacobianMatrix]
@@ -357,7 +357,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
       jacobianMatrixFull P z (Fin.natAdd (P₀.n + k) jj) =
         addVarsHom P₀ l (pderiv z (addVarsRels P₀ l jj)) := by
     intro z jj
-    show jacobianMatrixFull (addVarsPresentation P₀ l wf hwrel) z
+    change jacobianMatrixFull (addVarsPresentation P₀ l wf hwrel) z
       (Fin.natAdd (P₀.n + k) jj) = _
     rw [addVars_jacobianMatrixFull_natAdd]
   have hfirst : P.firstRelIdeal (P₀.n + k) hcm = Ideal.span (Set.range wf) :=
@@ -371,13 +371,13 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
     intro κ
     funext z
     rcases fin_eq_castAdd_or_natAdd (n := P₀.n) (r := l) z with ⟨i, rfl⟩ | ⟨i, rfl⟩
-    · show algebraMap A T (jacobianMatrix P (P₀.n + k) hcm (Fin.castAdd l i) κ) = _
+    · change algebraMap A T (jacobianMatrix P (P₀.n + k) hcm (Fin.castAdd l i) κ) = _
       rw [hJacL, hΘ, Pi.smul_apply, Fin.append_left, ← hut κ, htoLin, map_sum, smul_eq_mul,
         Finset.mul_sum]
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [map_mul, hu' κ j, Algebra.smul_def, hbb, Matrix.map_apply]
       ring
-    · show algebraMap A T (jacobianMatrix P (P₀.n + k) hcm (Fin.natAdd P₀.n i) κ) = _
+    · change algebraMap A T (jacobianMatrix P (P₀.n + k) hcm (Fin.natAdd P₀.n i) κ) = _
       rw [hJacR, hΘ, Pi.smul_apply, Fin.append_right, hv' κ i, Algebra.smul_def, hbb,
         smul_eq_mul]
   have hJacT : ∀ x, Matrix.toLin' MT x = (algebraMap A T (a ^ N₁)) • Θ x := by
@@ -393,7 +393,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
     have h1 : Λ ∘ₗ Matrix.toLin' MT =
         LinearMap.lsmul T (Fin (P₀.n + k) → T) (algebraMap A T (a ^ N₁)) := by
       refine LinearMap.ext fun x => ?_
-      show Λ (Matrix.toLin' MT x) = _
+      change Λ (Matrix.toLin' MT x) = _
       rw [hJacT, map_smul, hΛΘ]
       rfl
     rw [← LinearMap.toMatrix'_toLin' MT, ← LinearMap.toMatrix'_comp, h1]
@@ -524,7 +524,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
         exact htoLinSingle _ _
       rw [h4, hcol1 κ]
     rw [Submodule.map_span, ← Set.range_comp]
-    show Submodule.span T (Set.range (fun κ : Fin (P₀.n + k) =>
+    change Submodule.span T (Set.range (fun κ : Fin (P₀.n + k) =>
       ι' (Fall (Pi.single (Fin.castAdd (P₀.m + l) κ) 1)))) = _
     rw [hfun]
     apply le_antisymm
@@ -613,7 +613,7 @@ private theorem exists_presentation_of_isStablyFree [Algebra.FinitePresentation 
       generatorsToExtensionRingEquiv_algebraMap _ p
     rw [generatorsToExtensionRingEquiv_apply] at h1
     rw [h1]
-    show aeval (toAlgebraPresentation P).toGenerators.val p = P.lift p
+    change aeval (toAlgebraPresentation P).toGenerators.val p = P.lift p
     rw [aeval_toAlgebraPresentation]
   have hsmul_dcl : ∀ (p : MvPolynomial (Fin P.n) R) (jj : Fin P.m),
       (P.lift p) • dcl jj = Algebra.Extension.Cotangent.mk (P := E')
@@ -758,7 +758,7 @@ public lemma smooth_localizationAway_awayMap_of_smooth {R B C : Type*} [CommRing
     rw [IsScalarTower.algebraMap_apply R C (Localization.Away (algebraMap B C b)),
       IsScalarTower.algebraMap_apply R B C,
       IsScalarTower.algebraMap_apply R B (Localization.Away b)]
-    show _ = Localization.awayMap (algebraMap B C) b _
+    change _ = Localization.awayMap (algebraMap B C) b _
     simp [Localization.awayMap, IsLocalization.Away.map]
   exact Algebra.Smooth.comp R (Localization.Away b) _
 

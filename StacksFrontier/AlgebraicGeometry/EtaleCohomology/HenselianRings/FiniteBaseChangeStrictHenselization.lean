@@ -129,7 +129,7 @@ public theorem finite_baseChange_strictHenselization_decomposition
     toFun := fun x => ⟨pointChar (pullback.lift x.1 q
       (x.2.trans (geometricPointToStrictHenselization_comp B Y hY s).symm)), by
       apply (pointChar_base_iff _).mp
-      simp [pointChar.symm_apply_apply, pullback.lift_snd, h]⟩
+      simp [pointChar.symm_apply_apply, h]⟩
     invFun := fun ψ => ⟨pointChar.symm ψ.1 ≫ pullback.fst f I, by
       have hbase := (pointChar_base_iff ψ.1).mpr ψ.2
       calc
@@ -142,7 +142,7 @@ public theorem finite_baseChange_strictHenselization_decomposition
     left_inv := by
       rintro ⟨x, hx⟩
       apply Subtype.ext
-      simp [pointChar.symm_apply_apply, pullback.lift_fst]
+      simp [pointChar.symm_apply_apply]
     right_inv := by
       rintro ⟨ψ, hψ⟩
       apply Subtype.ext
@@ -218,7 +218,7 @@ public theorem finite_baseChange_strictHenselization_decomposition
     simpa using componentPoint (indexEquiv.symm ℓ)
   have finalPoint_fst (ℓ : L) :
       pointChar.symm ((liftChar ℓ).val) ≫ pullback.fst f I = ℓ.val := by
-    simpa [liftChar] using congrArg Subtype.val (liftChar.left_inv ℓ)
+    simp [liftChar]
   have finalPoint_snd (ℓ : L) :
       pointChar.symm ((liftChar ℓ).val) ≫ pullback.snd f I = q :=
     (pointChar_base_iff (liftChar ℓ).val).mpr (liftChar ℓ).property

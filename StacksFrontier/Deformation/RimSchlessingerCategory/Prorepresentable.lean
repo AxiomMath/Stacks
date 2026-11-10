@@ -47,7 +47,7 @@ residue-field object to a one-element set. -/
 theorem restrictedCoyoneda_isPredeformationFunctor
     (R : CompleteLocalAlgCat.{u, max v w, w} Λ k) :
     IsPredeformationFunctor (restrictedCoyoneda R) := by
-  show Nonempty (Unique ((restrictedCoyoneda R).obj (residueFieldObject Λ k)))
+  change Nonempty (Unique ((restrictedCoyoneda R).obj (residueFieldObject Λ k)))
   refine ⟨{ default := residuePoint R, uniq := ?_ }⟩
   intro f
   apply CompleteLocalAlgCat.Hom.ext
@@ -128,7 +128,7 @@ theorem restrictedCoyoneda_satisfiesRS
             ArtinianLocalAlgCat.pullbackToResidueField f₁' f₂' (gAlg z) :=
               h.residueEquiv_residue (gAlg z)
           _ = x₁.1.residueEquiv (IsLocalRing.residue x₁.1 (x₁.2.hom z)) := by
-            show x.obj.residueEquiv
+            change x.obj.residueEquiv
                 (IsLocalRing.residue x.obj (f₁'.hom ((gAlg z).val.1))) = _
             have hcoord : (gAlg z).val.1 = x₁.2.hom z := rfl
             rw [hcoord]
@@ -216,10 +216,10 @@ theorem isDeformationFunctor_of_isProrepresentable
     (hF : IsProrepresentable F) :
     IsDeformationFunctor F := by
   obtain ⟨R, ⟨e⟩⟩ := hF
-  show IsPredeformationFunctor F ∧ SatisfiesRS (Functor.Elements.π F)
+  change IsPredeformationFunctor F ∧ SatisfiesRS (Functor.Elements.π F)
   obtain ⟨u⟩ := restrictedCoyoneda_isPredeformationFunctor R
   refine ⟨?_, satisfiesRS_of_natIso e (restrictedCoyoneda_satisfiesRS R)⟩
-  show Nonempty (Unique (F.obj (residueFieldObject Λ k)))
+  change Nonempty (Unique (F.obj (residueFieldObject Λ k)))
   refine ⟨{ default := e.inv.app (residueFieldObject Λ k) u.default, uniq := ?_ }⟩
   intro a
   apply natIso_app_injective e (residueFieldObject Λ k)

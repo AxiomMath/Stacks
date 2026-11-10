@@ -84,7 +84,7 @@ theorem smooth_quotientMap_affineBlowup_of_eq {A : Type u} [CommRing A] {r : ℕ
   subst hI ha
   exact Koszul.smooth_quotientMap_affineBlowup f hf
 
-variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+variable {Z X : Scheme.{u}} (i : Z ⟶ X)
 
 /-- The part of the exceptional divisor `X' ×_X Z` over the affine chart `Spec A[I/a]` of the
 blowing up is the pullback of `Z` along `Spec A[I/a] ⟶ Spec A ⟶ X`. -/
@@ -109,6 +109,8 @@ theorem isPullback_blowUpAffineChart_pullbackSnd (U : X.affineOpens) {a : Γ(X, 
   · rfl
   · rw [Iso.refl_hom, Category.comp_id, Iso.symm_hom, ← hcb, ← hι, Category.assoc]
   · simp
+
+variable [IsClosedImmersion i]
 
 /-- Every point of the exceptional divisor `X' ×_X Z` of the blowing up along a regular closed
 immersion has an open neighbourhood smooth over the centre `Z`. -/

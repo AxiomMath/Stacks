@@ -76,7 +76,7 @@ private lemma finSepDegree_eq_of_baseEquiv
     Field.finSepDegree F E = Field.finSepDegree G E := by
   have hcl (a : F) : algebraMap F (AlgebraicClosure E) a =
       algebraMap G (AlgebraicClosure E) (e a) := by
-    show algebraMap E (AlgebraicClosure E) (algebraMap F E a) =
+    change algebraMap E (AlgebraicClosure E) (algebraMap F E a) =
       algebraMap E (AlgebraicClosure E) (algebraMap G E (e a))
     exact congrArg (algebraMap E (AlgebraicClosure E)) (h a)
   let forward (φ : Field.Emb F E) : Field.Emb G E :=
@@ -130,7 +130,7 @@ private lemma finSepDegree_residueFieldMap_comp_isPreimmersion
     RingEquiv.ofBijective (i.residueFieldMap z).hom ((ConcreteCategory.isIso_iff_bijective _).mp
       (isIso_residueFieldMap_of_isPreimmersion i z))
   refine finSepDegree_eq_of_compatible_fieldEquiv (RingEquiv.refl _) e'.symm fun a => ?_
-  show e'.symm (((i ≫ g).residueFieldMap z).hom a) = (g.residueFieldMap (i z)).hom a
+  change e'.symm (((i ≫ g).residueFieldMap z).hom a) = (g.residueFieldMap (i z)).hom a
   rw [Scheme.residueFieldMap_comp]
   exact e'.symm_apply_apply _
 
@@ -202,7 +202,7 @@ lemma separableDegreeWeightedFiberTerm_hasFiniteSupport
     {X Y : Scheme.{u}} (f : X ⟶ Y) (w : X → ℤ) (y : Y) (hfinite : (f ⁻¹' {y}).Finite) :
     Function.HasFiniteSupport (separableDegreeWeightedFiberTerm f w y) := by
   classical
-  show (Function.support (separableDegreeWeightedFiberTerm f w y)).Finite
+  change (Function.support (separableDegreeWeightedFiberTerm f w y)).Finite
   apply hfinite.subset
   intro x hx
   by_contra hnot

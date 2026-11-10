@@ -110,7 +110,7 @@ public theorem comp_infinitesimalLift (P : Algebra.Generators Λ A ι) {A' : Typ
   obtain ⟨g, rfl⟩ := Ideal.Quotient.mk_surjective y
   have h := P.toExtension.toInfinitesimal.algebraMap_toRingHom g
   rw [Algebra.algebraMap_self, RingHom.id_apply] at h
-  show q (presentationLift P q hq f g) = _
+  change q (presentationLift P q hq f g) = _
   rw [presentationLift_spec P q hq f hqf]
   exact h.symm
 
@@ -419,7 +419,7 @@ public theorem derivedNaiveCotangentComplexIso_hom_comp_cotangentExtensionClass
     intro c
     obtain ⟨x, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective c
     rw [LinearEquiv.symm_apply_eq]
-    show Algebra.Extension.Cotangent.map (liftToThickening P hq ψ hψ hψΛ)
+    change Algebra.Extension.Cotangent.map (liftToThickening P hq ψ hψ hψΛ)
         (Algebra.Extension.Cotangent.mk x) =
       Algebra.Extension.Cotangent.mk (k (Algebra.Extension.Cotangent.mk x))
     rw [Algebra.Extension.Cotangent.map_mk]

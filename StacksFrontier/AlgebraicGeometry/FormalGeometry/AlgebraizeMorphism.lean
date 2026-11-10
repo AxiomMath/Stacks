@@ -120,8 +120,7 @@ public lemma adicBaseChangeMap_comp {Z : Scheme.{u}} {fX : X ⟶ Spec (.of A)}
     adicBaseChangeMap A I (g ≫ h) (by rw [Category.assoc, hh, hg]) n =
       adicBaseChangeMap A I g hg n ≫ adicBaseChangeMap A I h hh n := by
   apply pullback.hom_ext <;>
-    simp [adicBaseChangeMap, Category.assoc, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc]
+    simp [adicBaseChangeMap, Category.assoc]
 
 /-- A map out of the base change of `Y` that is compatible with both projections is a section of
 the base change of `g : X ⟶ Y`. -/
@@ -143,15 +142,14 @@ public lemma adicBaseChangeSucc_adicBaseChangeMap {fX : X ⟶ Spec (.of A)}
     adicBaseChangeSucc A I fX n ≫ adicBaseChangeMap A I g hg (n + 1) =
       adicBaseChangeMap A I g hg n ≫ adicBaseChangeSucc A I fY n := by
   apply pullback.hom_ext <;>
-    simp [adicBaseChangeSucc, adicBaseChangeMap, Category.assoc, pullback.lift_fst,
-      pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp [adicBaseChangeSucc, adicBaseChangeMap, Category.assoc]
 
 /-- The transition map between consecutive adic base changes is cartesian over the transition
 map of the thickenings. -/
 public lemma isPullback_adicBaseChangeSucc (f : X ⟶ Spec (.of A)) (n : ℕ) :
     IsPullback (adicBaseChangeSucc A I f n) (pullback.snd f (adicThickeningι A I n))
       (pullback.snd f (adicThickeningι A I (n + 1))) (adicThickeningSucc A I n) := by
-  apply IsPullback.of_right _ (by simp [adicBaseChangeSucc, pullback.lift_snd])
+  apply IsPullback.of_right _ (by simp [adicBaseChangeSucc])
     (IsPullback.of_hasPullback f (adicThickeningι A I (n + 1)))
   simpa [adicBaseChangeSucc, adicThickeningSucc_ι, pullback.lift_fst] using
     IsPullback.of_hasPullback f (adicThickeningι A I n)

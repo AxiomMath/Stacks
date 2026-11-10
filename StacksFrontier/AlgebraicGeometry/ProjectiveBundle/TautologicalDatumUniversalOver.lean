@@ -198,7 +198,7 @@ theorem pullbackQuotient_overMorphismEquivSection_isEquivalent (D : Tautological
   have n₄ := ((Scheme.Modules.pullbackComp σ (projectiveBundleBaseChange f F F' hF)).hom ≫
     (Scheme.Modules.pullbackCongr hσb).hom).naturality D.univ
   simp only [Functor.comp_map, Functor.id_map, NatTrans.comp_app, Category.assoc] at n₁ n₂ n₃ n₄
-  show ((Scheme.Modules.pullbackId T).inv.app F' ≫
+  change ((Scheme.Modules.pullbackId T).inv.app F' ≫
       (Scheme.Modules.pullbackCongr hσ).inv.app F' ≫
       (Scheme.Modules.pullbackComp σ (projectiveBundleToBase T F')).inv.app F' ≫
       (Scheme.Modules.pullback σ).map ((tautologicalBaseChangeIso f F F' hF).inv ≫

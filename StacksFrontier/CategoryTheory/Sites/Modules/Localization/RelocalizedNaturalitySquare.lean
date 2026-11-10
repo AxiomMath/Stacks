@@ -526,7 +526,8 @@ noncomputable def localizedCompRelocalizationRingedSquare :
 ```
 This is the pasting of `relocalizationSquareTwoIso` for `a ≫ s = s' ≫ f⁻¹b` with
 `localizedCompRelocalizationRingedSquare` along the factorization `f_s = f'_G ∘ j_s`. -/
-@[stacks 04J8 "the final assertion: for `b`, `a`, `s'` with the compatibility square, the induced square of ringed topoi on the slices commutes"]
+@[stacks 04J8 "the final assertion: for `b`, `a`, `s'` with the compatibility square, the \
+  induced square of ringed topoi on the slices commutes"]
 noncomputable def relocalizedNaturalitySquare
     (hs : a ≫ s = s' ≫ f.toToposHom.inverseImage.map b) :
     TwoIso (A := X.localizedRingedTopos F') (B := Y.localizedRingedTopos G)

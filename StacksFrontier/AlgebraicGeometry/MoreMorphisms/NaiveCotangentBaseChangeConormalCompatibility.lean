@@ -379,7 +379,7 @@ theorem pullbackSquareMap_unit_unit {M : X.Modules} {N : X'.Modules}
       (eqToHom (congrArg (fun φ : Z' ⟶ X => φ ⁻¹ᵁ U) hcomm.symm)).op x)) s3) ?_
   refine Eq.trans (PresheafOfModules.naturality_apply ((Scheme.Modules.pullback i').map φ).val
     (eqToHom (congrArg (fun φ : Z' ⟶ X => φ ⁻¹ᵁ U) hcomm.symm) ≫ homOfLE (by
-      show (i' ≫ k) ⁻¹ᵁ U ≤ i' ⁻¹ᵁ (k ⁻¹ᵁ U); exact le_rfl)).op _) ?_
+      change (i' ≫ k) ⁻¹ᵁ U ≤ i' ⁻¹ᵁ (k ⁻¹ᵁ U); exact le_rfl)).op _) ?_
   refine Eq.trans (congrArg _ s5) ?_
   exact congrArg (fun ι : f ⁻¹ᵁ (i ⁻¹ᵁ U) ⟶ i' ⁻¹ᵁ (k ⁻¹ᵁ U) =>
       ((Scheme.Modules.pullback i').obj N).presheaf.map ι.op
@@ -427,13 +427,13 @@ theorem immersionConormalSheafMap_comp_conormalDifferential :
   -- the section of the ideal sheaf of `i'` lying over `k^♯ y`
   have h0 : (structureSheafModuleHom i'.toLRSHom.toShHom).val.app (op (k ⁻¹ᵁ A))
       ((k.app A).hom (Stacks.Conormal.idealSection i A y)) = 0 := by
-    show ((i' ≫ k).app A).hom (Stacks.Conormal.idealSection i A y) = 0
+    change ((i' ≫ k).app A).hom (Stacks.Conormal.idealSection i A y) = 0
     rw [hcomm, Scheme.Hom.comp_app]
     have hy0 := Stacks.Conormal.AffineCotangent.Sections.app_idealSheaf_section_eq_zero i A y
     exact (congrArg (f.app (i ⁻¹ᵁ A)).hom hy0).trans (map_zero _)
   obtain ⟨E, hE⟩ := exists_idealSheaf_section_of_app_eq_zero i'.toLRSHom.toShHom (k ⁻¹ᵁ A) _ h0
   have hC : f ⁻¹ᵁ (i ⁻¹ᵁ A) ≤ i' ⁻¹ᵁ (k ⁻¹ᵁ A) := by
-    show (f ≫ i) ⁻¹ᵁ A ≤ (i' ≫ k) ⁻¹ᵁ A
+    change (f ≫ i) ⁻¹ᵁ A ≤ (i' ≫ k) ⁻¹ᵁ A
     rw [hcomm]
   let h' : (Stacks.Conormal.conormalSheaf i' : Z'.Modules) ⟶ _ :=
     (Stacks.Conormal.DefiningIdealBridge.conormalSheafBridge i').inv ≫ conormalDifferential i' p'

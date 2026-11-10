@@ -92,6 +92,7 @@ lemma isNoetherian_fieldExtensionScheme (k' : Type u) [Field k'] [Algebra k k']
     toCompactSpace :=
       QuasiCompact.compactSpace_of_compactSpace (pullback.snd f (specAlgebraMap k k')) }
 
+omit [IsSeparated f] in
 /-- **The L-function of a `ℚ_ℓ`-sheaf from the trace formula over the finite extensions of the
 base field.**  Let `F` be an ℓ-adic sheaf on a separated scheme `X` of finite type over a finite
 field `k` with `p ^ q` elements, and `k̄` an algebraic closure of `k`.  Suppose the groups

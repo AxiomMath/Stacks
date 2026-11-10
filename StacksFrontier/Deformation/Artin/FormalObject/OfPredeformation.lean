@@ -99,7 +99,7 @@ theorem completeLocalAlg_residuePoint_eq (A : CompleteLocalAlgCat.{u, u, u} Λ k
   congr 2
   apply CommRingCat.hom_ext
   ext a
-  show Ideal.Quotient.mk _ (algebraMap Λ A a) = e₀.symm (algebraMap Λ k a)
+  change Ideal.Quotient.mk _ (algebraMap Λ A a) = e₀.symm (algebraMap Λ k a)
   rw [AlgEquiv.commutes]
   rfl
 
@@ -205,7 +205,7 @@ theorem predeformation_formalObject_level_over
       Over.mk ((completeLocalAlgFormalBase iΛ hfinite ξ.base).truncationToS n) := by
   refine (predeformation_point_over B S hS iΛ p x₀ hx₀ (ξ.level_eq n)).trans ?_
   congr 1
-  show _ = adicThickeningι ξ.base (maximalIdeal ξ.base) n ≫
+  change _ = adicThickeningι ξ.base (maximalIdeal ξ.base) n ≫
     Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base)) ≫ iΛ
   rw [adicThickeningι, ← Category.assoc, ← Spec.map_comp]
   rfl
@@ -354,7 +354,7 @@ theorem FormalObject.ofPredeformationMap_isBaseMap
       (Spec.map (CommRingCat.ofHom f.base.hom.toRingHom)) := by
   let := (predeformationCategory iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀).category
   refine ⟨?_, fun n => ?_⟩
-  · show Spec.map (CommRingCat.ofHom f.base.hom.toRingHom) ≫
+  · change Spec.map (CommRingCat.ofHom f.base.hom.toRingHom) ≫
         Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base)) ≫ iΛ =
       Spec.map (CommRingCat.ofHom (algebraMap Λ ξ'.base)) ≫ iΛ
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]

@@ -131,7 +131,7 @@ theorem firstChernClassCap_integral_cycle (W : X.IdealSheafData) (hW : IsIntegra
     firstChernClassCap C p k chern
         (cycleAssociatedToClosedSubscheme C p W.subschemeι (k + 1)) =
       QuotientAddGroup.mk (firstChernComponentCycle C p k chern W hW hDim) := by
-  show QuotientAddGroup.mk
+  change QuotientAddGroup.mk
     ((firstChernCapRule C p k chern).extendCycleGroup
       (cycleAssociatedToClosedSubscheme C p W.subschemeι (k + 1))) = _
   exact congrArg QuotientAddGroup.mk

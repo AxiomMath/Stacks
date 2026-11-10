@@ -79,7 +79,7 @@ lemma residueFieldEquiv_algebraMap (a : Γ(X, V)) :
       (Localization.AtPrime (hV.primeIdealOf ⟨x, hx⟩).asIdeal)
       ((hV.primeIdealOf ⟨x, hx⟩).asIdeal.ResidueField),
     IsLocalRing.ResidueField.algebraMap_eq]
-  show IsLocalRing.residue _ ((IsLocalization.algEquiv
+  change IsLocalRing.residue _ ((IsLocalization.algEquiv
     (hV.primeIdealOf ⟨x, hx⟩).asIdeal.primeCompl
       (Localization.AtPrime (hV.primeIdealOf ⟨x, hx⟩).asIdeal)
       (X.presheaf.stalk x)) (algebraMap _ _ a)) = _
@@ -134,7 +134,7 @@ lemma Scheme.Hom.evaluation_appLE_apply (f : X ⟶ Y) {U : Y.Opens} {V : X.Opens
     f.residueFieldMap x (Y.evaluation U (f x) hfx a) =
       X.evaluation V x hx (f.appLE U V hVU a) := by
   rw [Scheme.evaluation_naturality_apply]
-  show IsLocalRing.residue _ (X.presheaf.germ (f ⁻¹ᵁ U) x hfx (f.app U a)) =
+  change IsLocalRing.residue _ (X.presheaf.germ (f ⁻¹ᵁ U) x hfx (f.app U a)) =
     IsLocalRing.residue _ (X.presheaf.germ V x hx (f.appLE U V hVU a))
   rw [Scheme.Hom.appLE, CommRingCat.comp_apply, X.presheaf.germ_res_apply]
 
@@ -177,12 +177,12 @@ theorem trdeg_residueField_eq_trdeg_residueField_primeIdealOf (f : X ⟶ Y)
       (Y.residueField (f x)) (X.residueField x) := by
     refine .of_algebraMap_eq fun y => ?_
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show algebraMap (Γ(X, V) ⧸ (hV.primeIdealOf ⟨x, hx⟩).asIdeal) (X.residueField x)
+    change algebraMap (Γ(X, V) ⧸ (hV.primeIdealOf ⟨x, hx⟩).asIdeal) (X.residueField x)
       (algebraMap (Γ(Y, U) ⧸ (hU.primeIdealOf ⟨f x, hVU hx⟩).asIdeal) _
         (Ideal.Quotient.mk _ a)) = _
     rw [Ideal.Quotient.algebraMap_mk_of_liesOver,
       hV.algebraMap_residueFieldQuotientAlgebra_mk]
-    show _ = f.residueFieldMap x (Y.evaluation U (f x) (hVU hx) a)
+    change _ = f.residueFieldMap x (Y.evaluation U (f x) (hVU hx) a)
     rw [f.evaluation_appLE_apply hVU x hx (hVU hx) a]
     rfl
   exact Algebra.trdeg_eq_of_isFractionRing

@@ -76,6 +76,7 @@ private instance (priority := high) hasProducts_smallEtaleHigherDirectImageQuasi
 variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (a : X ⟶ Y)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the products `∏ᶜ` of sheaves of modules in the statement
 /-- The degree-`q` term of the sheaf-level Čech complex of a covering family `E` is the product,
 over the `(q + 1)`-tuples `i` of members of `E`, of the Čech direct images
 `j_{V_i,*} j_{V_i}^{-1} 𝓕` at the iterated fibre products `V_i`. -/

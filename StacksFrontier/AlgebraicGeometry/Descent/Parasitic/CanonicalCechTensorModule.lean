@@ -182,7 +182,7 @@ public theorem cechTensorStructureMap_generator (M : ModuleCat.{w} R)
       (ModuleCat.restrictScalars (cechHead R A n)).map
         (cechTensorStructureMap R A M β)).hom x) = gen.hom x :=
     congrArg (fun f => f.hom x) h
-  show ((cechTensorGenerator R A M n ≫
+  change ((cechTensorGenerator R A M n ≫
       (ModuleCat.restrictScalars (cechHead R A n)).map
         (cechTensorStructureMap R A M β)).hom x) =
     (cechTensorGenerator R A M m).hom x
@@ -209,7 +209,7 @@ public theorem cechRingMap_comp {n m l : SimplexCategory} (β : n ⟶ m) (γ : m
     cechRingMap R A (β ≫ γ) = (cechRingMap R A γ).comp (cechRingMap R A β) := by
   apply RingHom.ext
   intro z
-  show (((cechCosimplicialAlgebra R A).map (β ≫ γ)).hom.toRingHom) z =
+  change (((cechCosimplicialAlgebra R A).map (β ≫ γ)).hom.toRingHom) z =
     ((cechCosimplicialAlgebra R A).map γ).hom.toRingHom
       (((cechCosimplicialAlgebra R A).map β).hom.toRingHom z)
   rw [Functor.map_comp]
@@ -231,7 +231,7 @@ public theorem cechTensorStructureMap_comp
   apply cechTensorMap_ext R A M (β ≫ γ)
   intro x
   rw [cechTensorStructureMap_generator]
-  show _ = ((ModuleCat.restrictScalarsComp' (cechRingMap R A β) (cechRingMap R A γ)
+  change _ = ((ModuleCat.restrictScalarsComp' (cechRingMap R A β) (cechRingMap R A γ)
       (cechRingMap R A (β ≫ γ)) (cechRingMap_comp R A β γ)).inv.app
         (cechTensorDegree R A M l)).hom
       ((cechTensorStructureMap R A M γ).hom
@@ -388,7 +388,7 @@ private theorem cechLast_leg_comp_head (n : SimplexCategory) :
   intro x
   cases x with
   | up r =>
-      show cechLeg R A n (Fin.last n.len)
+      change cechLeg R A n (Fin.last n.len)
           (liftedAlgebraMap R A (ULift.up r)) =
         cechHead R A n (ULift.up r)
       rw [show liftedAlgebraMap R A (ULift.up r) =
@@ -462,7 +462,7 @@ private theorem canonicalDegreeComparison_inv_naturality
   apply ModuleCat.ExtendScalars.hom_ext (f := cechHead R A n)
   intro x
   obtain ⟨x⟩ := x
-  show (cechStructureMap D β).hom
+  change (cechStructureMap D β).hom
       ((canonicalDegreeComparison R A M D e n).inv.hom
         ((cechTensorGenerator R A M n).hom (ULift.up x))) =
     (canonicalDegreeComparison R A M D e m).inv.hom
@@ -471,16 +471,16 @@ private theorem canonicalDegreeComparison_inv_naturality
   rw [canonicalDegreeComparison_inv_generator R A M D e n x,
     cechTensorStructureMap_generator R A M β (ULift.up x),
     canonicalDegreeComparison_inv_generator R A M D e m x]
-  show (cechTransitionMap D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len)).hom
+  change (cechTransitionMap D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len)).hom
       ((cechSemilinearMap R A D.module β (Fin.last n.len)).hom
         (cechGenerator R A D.module n (Fin.last n.len) (e (1 ⊗ₜ[R] x)))) = _
   rw [cechSemilinearMap_generator R A D.module β (Fin.last n.len) (e (1 ⊗ₜ[R] x)),
     cechTransitionMap_generator R A D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len)
       (e (1 ⊗ₜ[R] x))]
-  show transitionGen D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len)
+  change transitionGen D m (β.toOrderHom (Fin.last n.len)) (Fin.last m.len)
     (D.transition (e (1 ⊗ₜ[R] x) ⊗ₜ[R] (1 : A))) = _
   rw [he, transitionGen_tmul]
-  show (cechLeg R A m (β.toOrderHom (Fin.last n.len)))
+  change (cechLeg R A m (β.toOrderHom (Fin.last n.len)))
     (1 : ULift.{u} A) • _ = _
   rw [map_one, one_smul]
 

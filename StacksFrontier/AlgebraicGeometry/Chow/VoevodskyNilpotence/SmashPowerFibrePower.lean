@@ -88,7 +88,7 @@ theorem fibrePowerToSmash_left_comp_smashProjection (n : ℕ) (i : Fin n) :
       exact pullback.lift_snd _ _ _
     | cast i =>
       rw [smashProjection_castSucc]
-      show pullback.lift _ _ _ ≫ pullback.fst _ X.hom ≫ _ = _
+      change pullback.lift _ _ _ ≫ pullback.fst _ X.hom ≫ _ = _
       rw [pullback.lift_fst_assoc, Over.comp_left, Category.assoc, ih, ← Over.comp_left,
         fibrePowerInit, Pi.lift_comp_π]
 
@@ -129,7 +129,7 @@ theorem smashToFibrePower_comp_fibrePowerToSmash (n : ℕ) :
   | succ n ih =>
     ext
     rw [Over.comp_left, Over.id_left]
-    show _ ≫ pullback.lift _ _ _ = _
+    change _ ≫ pullback.lift _ _ _ = _
     refine pullback.hom_ext ?_ ?_
     · rw [Category.assoc, pullback.lift_fst, ← Over.comp_left, ← Category.assoc,
         smashToFibrePower_comp_fibrePowerInit, Category.assoc, ih, Category.comp_id]
@@ -154,7 +154,7 @@ theorem smashFibrePowerIso_hom_left_comp_π (n : ℕ) (i : Fin n) :
         (Pi.π (fun _ : Fin n => X) i).left =
       smashProjection k X.hom x x' hx hx' n i := by
   rw [← Over.comp_left]
-  show (smashToFibrePower k X x x' hx hx' n ≫ _).left = _
+  change (smashToFibrePower k X x x' hx hx' n ≫ _).left = _
   rw [smashToFibrePower_π]
   rfl
 

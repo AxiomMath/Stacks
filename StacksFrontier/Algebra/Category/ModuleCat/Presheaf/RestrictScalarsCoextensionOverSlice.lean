@@ -220,7 +220,7 @@ theorem coextSecDirectIterEquiv_naturality (φ : O ⟶ O') (F : PresheafOfModule
       coextRestrFun (restrictPhi φ U) (restrictToOver U F) g.op
         (coextSecDirectIterEquiv φ F U w ψ) := by
   simp only [coextRestrFun]
-  show (PresheafOfModules.pushforward₀ (Over.iteratedSliceForward w') _).map
+  change (PresheafOfModules.pushforward₀ (Over.iteratedSliceForward w') _).map
       ((overRestrictIso w'.left w.left g.left (O'asOModule φ)).inv ≫
         (overRestrictFunctor w'.left w.left g.left).map ψ ≫
           (overRestrictIso w'.left w.left g.left F).hom) =

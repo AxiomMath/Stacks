@@ -59,7 +59,7 @@ theorem chartRingHom_strHom (r : Γ(X, V)) :
     have h := (AffinePieces.symSectionAlgEquiv (module 𝒞) hV (bundlePieces (module 𝒞))).commutes r
     rw [AffinePieces.algebraMap_sectionRingAlgebra] at h
     exact h
-  show SymPow.symAlgMap (sectionsSplit 𝒞 V).toLinearMap
+  change SymPow.symAlgMap (sectionsSplit 𝒞 V).toLinearMap
     (AffinePieces.symSectionRingEquiv (module 𝒞) hV (bundlePieces (module 𝒞))
       ((symAlg 𝒞).strHom V r)) = _
   rw [h1]
@@ -77,7 +77,7 @@ theorem chartAwayEquiv_fromZeroRingHom (r : Γ(X, V)) :
         algebraMap Γ(X, V) (Stacks.SymAdjoinChart.prodChartRing Γ(X, V) Γ(𝒞, V)) r := by
     refine HomogeneousLocalization.val_injective _ ?_
     rw [Stacks.SymAdjoinChart.val_algebraMap_prodChartRing, ← chartRingHom_strHom 𝒞 hV r]
-    show HomogeneousLocalization.val (HomogeneousLocalization.map (chartGradedHom 𝒞 hV) _
+    change HomogeneousLocalization.val (HomogeneousLocalization.map (chartGradedHom 𝒞 hV) _
       (HomogeneousLocalization.mk ⟨0, ⟨_, (strZeroV 𝒞 hV r).2⟩,
         ⟨1, SetLike.GradedOne.one_mem⟩, Submonoid.one_mem _⟩)) = _
     rw [HomogeneousLocalization.map_mk, HomogeneousLocalization.val_mk]
@@ -119,7 +119,7 @@ theorem chart_comp_proj_appLE
     (chartT 𝒞 V).2 one_pos le_top
   have e3 : (Spec.map (strZeroV 𝒞 hV)).appLE ⊤ ⊤ le_top =
       (Spec.map (strZeroV 𝒞 hV)).appTop := by
-    show (Spec.map (strZeroV 𝒞 hV)).app ⊤ ≫ (Spec _).presheaf.map
+    change (Spec.map (strZeroV 𝒞 hV)).app ⊤ ≫ (Spec _).presheaf.map
       (homOfLE (le_top : (⊤ : (Spec (CommRingCat.of ((symAlg 𝒞).grading V 0))).Opens) ≤
         _)).op = (Spec.map (strZeroV 𝒞 hV)).app ⊤
     rw [show (homOfLE (le_top : (⊤ : (Spec (CommRingCat.of ((symAlg 𝒞).grading V 0))).Opens) ≤
@@ -161,7 +161,7 @@ theorem coordRingEquiv_proj_app (r : Γ(X, V)) :
     rw [chart_comp_proj_appLE 𝒞 hV e]
     exact Iso.hom_inv_id_apply (AlgebraicGeometry.Proj.basicOpenIsoAway _ _ (chartT 𝒞 V).2
       one_pos) _
-  show chartAwayEquiv 𝒞 hV ((AlgebraicGeometry.Proj.basicOpenIsoAway _ _ (chartT 𝒞 V).2
+  change chartAwayEquiv 𝒞 hV ((AlgebraicGeometry.Proj.basicOpenIsoAway _ _ (chartT 𝒞 V).2
     one_pos).inv (((chart 𝒞 V hV).appIso (chartD 𝒞 (V := V))).hom _)) = _
   rw [hM, hA]
   exact chartAwayEquiv_fromZeroRingHom 𝒞 hV r

@@ -106,7 +106,7 @@ theorem ker_rep_snd_eq_idealSheafDataOfChart_kernelIdealSheaf {Z X : AlgebraicSp
       ⟨⊤, hTop⟩ V.1.ι_preimage_self.ge) ?_
     exact congrArg (fun φ => Ideal.map (CommRingCat.Hom.hom φ) _)
       (appLE_ι_top_eq_topIso_inv V.1)
-  show (((BigFppfOver.toScheme B S hS).map (hi.rep.snd A.1.hom)).ker).ideal V =
+  change (((BigFppfOver.toScheme B S hS).map (hi.rep.snd A.1.hom)).ker).ideal V =
     Ideal.map (openChartTopRingHom B S hS X A V.1)
       ((kernelIdealSheaf B S hS i).obj (op (openChart B S hS X.1 A V.1)))
   rw [hsec]

@@ -106,9 +106,7 @@ theorem rTensor_mem_baseChange {A A' : Type*} [CommRing A] [CommRing A'] [Algebr
     (hz : z ∈ P.baseChange A) : LinearMap.rTensor M τ z ∈ P.baseChange A' := by
   rw [← ArtinReesBaseChange.range_subtype_baseChange] at hz
   obtain ⟨y, rfl⟩ := hz
-  induction y using TensorProduct.induction_on with
-  | zero =>
-      simpa only [map_zero] using zero_mem (P.baseChange A')
+  induction y using TensorProduct.inductionOn with
   | tmul a p =>
       rw [LinearMap.baseChange_tmul, LinearMap.rTensor_tmul]
       exact Submodule.tmul_mem_baseChange_of_mem _ p.2

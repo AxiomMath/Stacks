@@ -49,7 +49,7 @@ theorem exists_isCoherent_deRhamComplexPlus_X [IsLocallyNoetherian S] [LocallyOf
   rcases lt_or_ge q 0 with hq | hq
   · have hz : IsZero ((deRhamComplexPlus f).1.X q) :=
       HomologicalComplex.isZero_extend_X _ embeddingUpNat q (fun i => by
-        show ((i : ℕ) : ℤ) ≠ q; omega)
+        change ((i : ℕ) : ℤ) ≠ q; omega)
     exact ⟨0, Stacks.AlgebraicGeometry.CoherentDevissage.isCoherent_of_isZero (isZero_zero _),
       ⟨hz.iso ((pushforward (toInverseImageBase f)).map_isZero (isZero_zero _))⟩⟩
   · obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hq

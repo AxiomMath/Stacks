@@ -163,7 +163,7 @@ theorem extendScalarsComp_tower_apply {a : C →+* D} {b : D →+* E} {φ : C �
         ((1 : E) ⊗ₜ[D, b] ((1 : D) ⊗ₜ[C, a] m)) = (1 : E) ⊗ₜ[C, φ] m := by
   subst h
   simp only [eqToHom_refl, Category.comp_id]
-  show ((ModuleCat.extendScalarsComp a b).inv.app (N.X i)).hom _ = _
+  change ((ModuleCat.extendScalarsComp a b).inv.app (N.X i)).hom _ = _
   exact (congrArg (fun x => ((ModuleCat.extendScalarsComp a b).inv.app (N.X i)).hom x)
     (ModuleCat.extendScalarsComp_hom_app_one_tmul a b (N.X i) m).symm).trans
     (congrArg (fun f => f.hom ((1 : E) ⊗ₜ[C, b.comp a] m))
@@ -459,7 +459,7 @@ theorem isIso_ringBaseChangeCohomologyMap_target (hτ : Function.Bijective (alge
   have hU : IsLocalizedModule.unitsComap (modelRingMap R A R' A'₂ (MvPolynomial R' R)) =
       IsLocalizedModule.unitsComap (modelRingMap R A R' A' (MvPolynomial R' R)) := by
     ext b
-    show IsUnit (modelRingMap R A R' A'₂ (MvPolynomial R' R) b) ↔
+    change IsUnit (modelRingMap R A R' A'₂ (MvPolynomial R' R) b) ↔
       IsUnit (modelRingMap R A R' A' (MvPolynomial R' R) b)
     rw [modelRingMap_apply_of_algebra (R := R) (A := A) (R' := R') (A' := A')
       (R₀ := MvPolynomial R' R) A'₂ b]

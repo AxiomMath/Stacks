@@ -57,7 +57,7 @@ private def overStage : Over X ⥤ SchemesOver Y where
 
 private theorem testPoint_overStage (U : Over X) :
     testPoint ((overStage X y).obj U) = Y.1.map U.hom.op y := by
-  show yonedaEquiv (yoneda.map U.hom ≫ yonedaEquiv.symm y) = _
+  change yonedaEquiv (yoneda.map U.hom ≫ yonedaEquiv.symm y) = _
   rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   rfl
 

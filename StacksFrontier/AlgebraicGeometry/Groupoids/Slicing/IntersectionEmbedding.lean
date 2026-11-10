@@ -111,7 +111,7 @@ private lemma isLocalization_of_filtered_colimit
     have hu := IsLocalization.map_units (R := (F.obj i : Type u))
       (M := (p.comap (colimit.ι F i).hom).primeCompl) S ⟨a, ha⟩
     change IsUnit (f ((colimit.ι F i).hom a)) at hu
-    show IsUnit (f s.1)
+    change IsUnit (f s.1)
     rw [← haR]
     exact hu
   · intro z
@@ -123,9 +123,9 @@ private lemma isLocalization_of_filtered_colimit
       (M := (p.comap (colimit.ι F i).hom).primeCompl) z
     refine ⟨⟨(colimit.ι F i).hom a,
       ⟨(colimit.ι F i).hom s.1, ?_⟩⟩, ?_⟩
-    · show (colimit.ι F i).hom s.1 ∉ p
+    · change (colimit.ι F i).hom s.1 ∉ p
       exact s.2
-    · show z * f ((colimit.ι F i).hom s.1) = f ((colimit.ι F i).hom a)
+    · change z * f ((colimit.ι F i).hom s.1) = f ((colimit.ι F i).hom a)
       change z * (f.comp (colimit.ι F i).hom) s.1 =
         (f.comp (colimit.ι F i).hom) a at hs
       exact hs
@@ -161,7 +161,7 @@ private lemma isLocalization_of_filtered_colimit
       change (colimit.ι F k).hom c.1 ∈ p at hcP
       exact hcP
     · have hc' := congrArg (fun r => (colimit.ι F k).hom r) hc
-      show (colimit.ι F k).hom c.1 * a =
+      change (colimit.ι F k).hom c.1 * a =
         (colimit.ι F k).hom c.1 * b
       rw [← hai, ← hbj, haR, hbR]
       rw [← (colimit.ι F k).hom.map_mul, ← (colimit.ι F k).hom.map_mul]
@@ -188,12 +188,12 @@ private lemma isLocalization_of_ringEquiv_domain
   · intro b
     have hb : e.symm b.1 ∉ P := fun h => b.2 ((hmem b.1).2 h)
     have hu := IsLocalization.map_units (R := A) (M := P.primeCompl) S ⟨e.symm b.1, hb⟩
-    show IsUnit (f (e.symm b.1))
+    change IsUnit (f (e.symm b.1))
     exact hu
   · intro z
     obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.surj (M := P.primeCompl) z
     refine ⟨⟨e a, ⟨e s.1, hQe _ s.2⟩⟩, ?_⟩
-    show z * f (e.symm (e s.1)) = f (e.symm (e a))
+    change z * f (e.symm (e s.1)) = f (e.symm (e a))
     change z * f s.1 = f a at hs
     simpa using hs
   · intro a b hab
@@ -219,15 +219,15 @@ private lemma isLocalization_of_ringEquiv_codomain
   apply (isLocalization_iff M T).2
   refine ⟨?_, ⟨?_, ?_⟩⟩
   · intro a
-    show IsUnit (g a.1)
+    change IsUnit (g a.1)
     rw [hg]
     exact (IsLocalization.map_units (R := R) (M := M) S a).map e.toRingHom
   · intro z
     obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.surj (M := M) (e.symm z)
     refine ⟨⟨a, s⟩, ?_⟩
-    show z * g s.1 = g a
+    change z * g s.1 = g a
     rw [hg]
-    show z * e (algebraMap R S s.1) = e (algebraMap R S a)
+    change z * e (algebraMap R S s.1) = e (algebraMap R S a)
     calc
       z * e (algebraMap R S s.1) = e (e.symm z * algebraMap R S s.1) := by
         simp only [map_mul, e.apply_symm_apply]
@@ -401,7 +401,7 @@ lemma stalkIsoOfPullbackSheaf_inv_germ {Y Z : TopCat.{u}} (g : Z ⟶ Y)
   have h₂ := TopCat.Presheaf.stalkFunctor_map_germ_apply W z hzW η t
   have h₃ := TopCat.Presheaf.stalkFunctor_map_germ_apply W z hzW e.inv
     (η.app (op W) t)
-  show ((TopCat.Presheaf.stalkFunctor CommRingCat z).map e.inv)
+  change ((TopCat.Presheaf.stalkFunctor CommRingCat z).map e.inv)
       (((TopCat.Presheaf.stalkFunctor CommRingCat z).map η)
         ((TopCat.Presheaf.stalkPullbackIso CommRingCat g F.presheaf z).hom
           (F.presheaf.germ V (g z) hz s))) = H.presheaf.germ W z hzW t'
@@ -421,7 +421,7 @@ lemma isIso_ofSubset_stalkMap (Y : LocallyRingedSpace.{u}) (E : Set Y)
     ext s
     have hq := PresheafedSpace.stalkMap_germ (ofSubset Y E) V x hx
     have hg := stalkIsoOfPullbackSheaf_inv_germ i Y.sheaf x V hx s
-    show (Y.presheaf.germ V (i x) hx ≫ (ofSubset Y E).stalkMap x) s = _
+    change (Y.presheaf.germ V (i x) hx ≫ (ofSubset Y E).stalkMap x) s = _
     have hq' : Y.presheaf.germ V (i x) hx ≫ (ofSubset Y E).stalkMap x =
         (ofSubset Y E).c.app (op V) ≫
           (subsetLocallyRingedSpace Y E).presheaf.germ
@@ -534,7 +534,7 @@ private theorem exists_iso_subsetLocallyRingedSpace {Z Y : LocallyRingedSpace.{u
     rw [PresheafedSpace.stalkMap.comp] at hfacStalk
     have hmap : iS.stalkMap (gP.base x) ≫ gS.hom.stalkMap x =
         ePt.hom ≫ f.toHom.stalkMap x := by
-      show PresheafedSpace.Hom.stalkMap (ofSubset Y S)
+      change PresheafedSpace.Hom.stalkMap (ofSubset Y S)
           ((ConcreteCategory.hom (subsetFactorHom S f hfS).base) x) ≫
         PresheafedSpace.Hom.stalkMap (subsetFactorHom S f hfS) x =
           eqToHom (show Y.presheaf.stalk
@@ -592,7 +592,7 @@ private lemma isLocalization_toSpecΓ_stalk {U : Scheme.{u}} [U.IsQuasiAffine]
     StructureSheaf.IsLocalization.to_stalk (R := Γ(U, ⊤)) y
   let : Algebra Γ(U, ⊤) (U.presheaf.stalk x) := (U.presheaf.Γgerm x).hom.toAlgebra
   have hmap : StructureSheaf.toStalk Γ(U, ⊤) y ≫ e.hom = U.presheaf.Γgerm x := by
-    show StructureSheaf.toStalk (U.presheaf.obj (op ⊤)) (U.toSpecΓ.base x) ≫
+    change StructureSheaf.toStalk (U.presheaf.obj (op ⊤)) (U.toSpecΓ.base x) ≫
       U.toSpecΓ.toPshHom.stalkMap x = U.presheaf.Γgerm x
     exact LocallyRingedSpace.toStalk_stalkMap_toΓSpec U.toLocallyRingedSpace x
   let ee : ((Spec.toLocallyRingedSpace.obj (op Γ(U, ⊤))).presheaf.stalk y) ≃ₐ[Γ(U, ⊤)]
@@ -626,7 +626,7 @@ private lemma stageToSubset_germ {X : Scheme.{u}} {J : Type u}
         H.presheaf.germ ((Opens.map f).obj (W j)) z
           (show z ∈ (Opens.map f).obj (W j) from hE j x.2) t := by
     have hres := H.presheaf.germ_res_apply iTop z (by trivial) t
-    show H.presheaf.germ ⊤ z (by trivial) (H.presheaf.map iTop.op t) = _
+    change H.presheaf.germ ⊤ z (by trivial) (H.presheaf.map iTop.op t) = _
     exact hres
   have hpull := stalkIsoOfPullbackSheaf_inv_germ f X.toLocallyRingedSpace.sheaf
     z (W j) (show f z ∈ W j from hE j x.2) r
@@ -663,7 +663,7 @@ private lemma isUnit_Γgerm_stageToSubset_iff {X : Scheme.{u}} {J : Type u} (W :
       X.toLocallyRingedSpace.presheaf.germ ((W j).ι ''ᵁ ⊤) zUpt.1 hxImgU
         ((W j).topIso.inv r) =
       X.toLocallyRingedSpace.presheaf.germ (W j) zUpt.1 (hE j x.2) r := by
-    show X.toLocallyRingedSpace.presheaf.germ ((W j).ι ''ᵁ ⊤) zUpt.1 hxImgU
+    change X.toLocallyRingedSpace.presheaf.germ ((W j).ι ''ᵁ ⊤) zUpt.1 hxImgU
         (X.presheaf.map iTopU.op r) = _
     exact X.presheaf.germ_res_apply iTopU zUpt.1 hxImgU r
   have hgerm := (stageToSubset_germ W E hE j x r).trans (htop.symm.trans hU.symm)
@@ -682,20 +682,20 @@ private lemma Scheme.spec_stageToSubset_base_toΓSpec {X : Scheme.{u}} {J : Type
   let j := i.val
   let z : ↑Z.toTopCat := ⟨x.1, x.2⟩
   let zU : ↑(W j).toScheme.toTopCat := ⟨x.1, hE j x.2⟩
-  show (Scheme.Spec.map (X.stageToSubset W E hE i).op).base (hR ▸ Z.toΓSpec.base z) =
+  change (Scheme.Spec.map (X.stageToSubset W E hE i).op).base (hR ▸ Z.toΓSpec.base z) =
     (W j).toSpecΓ.base zU
   apply PrimeSpectrum.ext
   ext r
-  show r ∈ (PrimeSpectrum.comap (X.stageToSubset W E hE i).hom
+  change r ∈ (PrimeSpectrum.comap (X.stageToSubset W E hE i).hom
       (hR ▸ Z.toΓSpec.base z)).asIdeal ↔ r ∈ ((W j).toSpecΓ.base zU).asIdeal
   rw [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap, ← not_iff_not]
-  show (hR.symm ▸ (X.stageToSubset W E hE i) r) ∉ (Z.toΓSpecFun z).asIdeal ↔
+  change (hR.symm ▸ (X.stageToSubset W E hE i) r) ∉ (Z.toΓSpecFun z).asIdeal ↔
       r ∉ (Ideal.comap (W j).topIso.inv.hom ((W j).toScheme.toΓSpecFun zU).asIdeal)
   simp only []
   rw [LocallyRingedSpace.notMem_prime_iff_unit_in_stalk]
   let rU : LocallyRingedSpace.Γ.obj (op (W j).toScheme.toLocallyRingedSpace) :=
     (W j).topIso.inv r
-  show IsUnit ((Z.presheaf.Γgerm z) (hR.symm ▸ X.stageToSubset W E hE i r)) ↔
+  change IsUnit ((Z.presheaf.Γgerm z) (hR.symm ▸ X.stageToSubset W E hE i r)) ↔
       rU ∉ ((W j).toScheme.toLocallyRingedSpace.toΓSpecFun zU).asIdeal
   rw [LocallyRingedSpace.notMem_prime_iff_unit_in_stalk]
   exact isUnit_Γgerm_stageToSubset_iff W E hE i.val x r
@@ -740,15 +740,15 @@ private lemma spec_map_res_toSpecΓ_base {X : Scheme.{u}} {U V : X.Opens} (h : V
     (isPullback_opens_toSpecΓ h).w
   have hsquare' : (f ≫ U.toSpecΓ).base xS =
       (V.toSpecΓ ≫ Scheme.Spec.map (X.presheaf.map (homOfLE h).op).op).base xS := by
-    show (𝟙 V.toScheme ≫ f ≫ U.toSpecΓ).base xS = _
+    change (𝟙 V.toScheme ≫ f ≫ U.toSpecΓ).base xS = _
     rwa [Category.id_comp] at hsquare
   have hfx : f xS = xU := by
-    show (X.homOfLE h).base xS = _
+    change (X.homOfLE h).base xS = _
     rw [Scheme.homOfLE_base]
     rfl
   calc
     _ = (f ≫ U.toSpecΓ).base xS := by
-          show (V.toSpecΓ ≫ Scheme.Spec.map
+          change (V.toSpecΓ ≫ Scheme.Spec.map
             (X.presheaf.map (homOfLE h).op).op).base xS = _
           exact hsquare'.symm
     _ = U.toSpecΓ.base (f xS) := by
@@ -906,7 +906,7 @@ private lemma isLocalization_stalk_of_stage {X : Scheme.{u}} [IsIndQuasiAffine X
   let : pA.asIdeal.IsPrime := pA.2
   let : qB.asIdeal.IsPrime := qB.2
   have hq : qB.asIdeal = Ideal.comap eAB.symm.toRingHom pA.asIdeal := by
-    show (PrimeSpectrum.comap eAB.symm.toRingHom pA).asIdeal = _
+    change (PrimeSpectrum.comap eAB.symm.toRingHom pA).asIdeal = _
     rw [PrimeSpectrum.comap_asIdeal]
   let gammaA : A →+* Uj.toScheme.presheaf.stalk xj :=
     (Uj.toScheme.presheaf.Γgerm xj).hom
@@ -944,7 +944,7 @@ private lemma isLocalization_stalk_of_stage {X : Scheme.{u}} [IsIndQuasiAffine X
       Iso.inv_hom_id_apply (C := CommRingCat) eZ (eU.hom (gammaB r))
     have hleftE : eZ.commRingCatIsoToRingEquiv (gamma (t.hom r)) =
         eZ.commRingCatIsoToRingEquiv (eS.hom (gammaB r)) := by
-      show eZ.hom (gamma (t.hom r)) = eZ.hom (eS.hom (gammaB r))
+      change eZ.hom (gamma (t.hom r)) = eZ.hom (eS.hom (gammaB r))
       rw [ht r, ← hUloc r, ← hright]
     exact eZ.commRingCatIsoToRingEquiv.injective hleftE
   exact isLocalization_of_ringEquiv_codomain _ gammaB hLocB eS.commRingCatIsoToRingEquiv _ hmap
@@ -985,7 +985,7 @@ private lemma isIso_stalkMap_identityToΓSpec_of_isLocalization (Z : LocallyRing
     isLocalization_of_ringEquiv_domain eR _ (Z.presheaf.Γgerm x).hom hLoc p'.asIdeal hRel
   let : IsLocalization p'.asIdeal.primeCompl
       (((𝟭 LocallyRingedSpace).obj Z).presheaf.stalk x) := by
-    show IsLocalization p'.asIdeal.primeCompl (Z.presheaf.stalk x)
+    change IsLocalization p'.asIdeal.primeCompl (Z.presheaf.stalk x)
     infer_instance
   have hunit :
       ((identityToΓSpec.app Z).stalkMap x).hom.comp (algebraMap R specStalk) =
@@ -1033,7 +1033,7 @@ private theorem isIso_stalkMap_identityToΓSpec_subset {X : Scheme.{u}} [IsIndQu
       ext r
       have hr : rho ((colimit.ι d j).hom r) = (X.stageToSubset W E hEW j).hom r :=
         RingHom.congr_fun hmapj r
-      show rho ((colimit.ι d j).hom r) ∈ p.asIdeal ↔ _
+      change rho ((colimit.ι d j).hom r) ∈ p.asIdeal ↔ _
       rw [hr]
       exact Iff.of_eq (congrArg (fun q ↦ r ∈ q.asIdeal)
         (Scheme.spec_stageToSubset_base_toΓSpec W E hEW j x))
@@ -1041,11 +1041,11 @@ private theorem isIso_stalkMap_identityToΓSpec_subset {X : Scheme.{u}} [IsIndQu
   have hr (r : LocallyRingedSpace.Γ.obj (op Z)) : rho (eΓR.symm r) = r := eΓR.apply_symm_apply r
   have hQ : p.asIdeal = Ideal.comap eΓR.symm.toRingHom pC := by
     ext r
-    show r ∈ p.asIdeal ↔ rho (eΓR.symm r) ∈ p.asIdeal
+    change r ∈ p.asIdeal ↔ rho (eΓR.symm r) ∈ p.asIdeal
     rw [hr]
   have hgamma : fC.comp eΓR.symm.toRingHom = gamma := by
     ext r
-    show gamma (rho (eΓR.symm r)) = gamma r
+    change gamma (rho (eΓR.symm r)) = gamma r
     rw [hr]
   exact isIso_stalkMap_identityToΓSpec_of_isLocalization Z x _ hgamma
     (isLocalization_of_ringEquiv_domain eΓR pC fC hLocC p.asIdeal hQ)
@@ -1232,7 +1232,7 @@ theorem exists_iInter_iso_iInter_in_specΓ
   · let S : Set Y := ⋂ i, (V i : Set Y)
     have hfS (z : Z) : (identityToΓSpec.app Z).base z ∈ S := by
       refine Set.mem_iInter.mpr fun i ↦ ?_
-      show (p i).base (Z.toΓSpec.base z) ∈ Set.range (U i).toSpecΓ.base
+      change (p i).base (Z.toΓSpec.base z) ∈ Set.range (U i).toSpecΓ.base
       rw [hcompat i z]
       exact ⟨⟨z.1, Set.mem_iInter.mp z.2 i⟩, rfl⟩
     have := isOpenImmersion_toSpecΓ_of_isIndQuasiAffine X (U i₀) (hU i₀)

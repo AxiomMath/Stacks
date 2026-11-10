@@ -259,13 +259,13 @@ public theorem bijective_restriction_of_retraction (X : Scheme.{u}) [IsAffine X]
     let p : Γ(X, ⊤) →+* Γ(X, X.basicOpen f) :=
       (X.presheaf.map (homOfLE le_top).op).hom
     have hpr (a : Γ(X, ⊤)) : q (r a) = p a := by
-      show (X.presheaf.map _ ≫ X.presheaf.map _) a = _
+      change (X.presheaf.map _ ≫ X.presheaf.map _) a = _
       rw [← X.presheaf.map_comp]
       rfl
     obtain ⟨n, y, hy⟩ := exists_eq_pow_mul_of_isAffineOpen X ⊤ (isAffineOpen_top X) f (q s)
     change p y = p f ^ n * q s at hy
     have hbasic : X.basicOpen (r f) = X.basicOpen f := by
-      show X.basicOpen ((X.presheaf.map (homOfLE le_top).op) f) = _
+      change X.basicOpen ((X.presheaf.map (homOfLE le_top).op) f) = _
       rw [Scheme.basicOpen_res, inf_eq_right.mpr hfV]
     have hz : TopCat.Presheaf.restrictOpen (r y - r f ^ n * s) (X.basicOpen (r f))
         (X.basicOpen_le (r f)) = 0 := by
@@ -290,7 +290,7 @@ public theorem bijective_restriction_of_retraction (X : Scheme.{u}) [IsAffine X]
       apply (hu.pow n).mul_left_cancel
       simpa [hpy] using hy.symm
     apply X.presheaf.germ_ext (X.basicOpen f) hxf (homOfLE hfV) (homOfLE hfV)
-    show q s = q 0
+    change q s = q 0
     simpa using hqs
   have hgInj : Function.Injective g := by
     intro s t hst
@@ -359,7 +359,7 @@ private theorem ker_specMap_pow {R S T : CommRingCat.{u}} (φ : R ⟶ S) (ψ : R
     (Spec.map ψ).ker = (Spec.map φ).ker ^ n := by
   rw [ker_specMap, ker_specMap, h]
   let e := (Scheme.ΓSpecIso R).symm.commRingCatIsoToRingEquiv
-  show Scheme.IdealSheafData.ofIdealTop ((RingHom.ker φ.hom ^ n).comap e.symm) = _
+  change Scheme.IdealSheafData.ofIdealTop ((RingHom.ker φ.hom ^ n).comap e.symm) = _
   simp only [← Ideal.map_comap_of_equiv, Ideal.map_pow]
   apply Scheme.IdealSheafData.ext_of_isAffine
   simp only [Scheme.IdealSheafData.ofIdealTop_ideal, homOfLE_refl, op_id,
@@ -376,7 +376,7 @@ private theorem ideal_comap_pow_of_isOpenImmersion {X Y : Scheme.{u}} (f : X ⟶
     Scheme.IdealSheafData.ideal_pow, Pi.pow_apply]
   let e := (f.appIso U).commRingCatIsoToRingEquiv
   let J := I.ideal ⟨f ''ᵁ U, U.2.image_of_isOpenImmersion f⟩
-  show (J ^ n).comap e.symm.toRingHom = J.comap e.symm.toRingHom ^ n
+  change (J ^ n).comap e.symm.toRingHom = J.comap e.symm.toRingHom ^ n
   calc
     (J ^ n).comap e.symm.toRingHom = (J ^ n).map e.toRingHom :=
       (Ideal.map_comap_of_equiv e).symm
@@ -466,7 +466,7 @@ private theorem preimage_eq_punctured_of_ker_pow (R A : Type u) [CommRing R] [Is
   have haV : q.base x ∈ V ↔ a ≠ IsLocalRing.closedPoint A := by
     rw [← ha]
     exact Set.ext_iff.mp hV a
-  show q.base x ∈ V ↔ x ≠ IsLocalRing.closedPoint R
+  change q.base x ∈ V ↔ x ≠ IsLocalRing.closedPoint R
   rw [haV, ← hx, ← IsLocalRing.comap_closedPoint c]
   exact not_congr hinj.eq_iff.symm
 

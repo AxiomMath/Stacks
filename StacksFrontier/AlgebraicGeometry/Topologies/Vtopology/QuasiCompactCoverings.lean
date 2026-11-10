@@ -45,9 +45,9 @@ private lemma specMap_genericPoint_of_injective {R S : Type u} [CommRing R] [IsD
     Spec.map (CommRingCat.ofHom e) (genericPoint (Spec (.of S))) =
       genericPoint (Spec (.of R)) := by
   rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
-  show PrimeSpectrum.comap e ⊥ = ⊥
+  change PrimeSpectrum.comap e ⊥ = ⊥
   apply PrimeSpectrum.ext
-  show RingHom.ker e = ⊥
+  change RingHom.ker e = ⊥
   rwa [← RingHom.injective_iff_ker_eq_bot]
 
 /-- A morphism from the spectrum of a local ring whose closed point lies in the range of an open
@@ -126,7 +126,7 @@ private theorem isVCovering_of_valuation_lifting {X Y : Scheme.{u}} (f : X ⟶ Y
       f := fun i ↦ 𝒰.f i ≫ pullback.snd f U.ι }
   refine ⟨F, inferInstance, (fun i => inferInstance), ?_, ?_⟩
   · unfold AlgebraicGeometry.IsStandardVCovering
-    show ∀ (V : Type u) [CommRing V] [IsDomain V] [ValuationRing V]
+    change ∀ (V : Type u) [CommRing V] [IsDomain V] [ValuationRing V]
       (g : Spec (.of V) ⟶ U.toScheme),
       ∃ (W : Type u) (_ : CommRing W) (_ : IsDomain W) (_ : ValuationRing W)
         (e : V →+* W),
@@ -138,7 +138,7 @@ private theorem isVCovering_of_valuation_lifting {X Y : Scheme.{u}} (f : X ⟶ Y
     obtain ⟨i, k', hk'⟩ := exists_lift_openCover_of_isLocalRing 𝒰
       (pullback.lift hX (Spec.map (CommRingCat.ofHom e) ≫ g) (by simpa using hcomm.symm))
     refine ⟨W, inferInstance, inferInstance, inferInstance, e, hext, i, k', ?_⟩
-    show _ = k' ≫ 𝒰.f i ≫ pullback.snd f U.ι
+    change _ = k' ≫ 𝒰.f i ≫ pullback.snd f U.ι
     rw [← Category.assoc, hk', pullback.lift_snd]
   · let E : PreZeroHypercover Y :=
       { I₀ := Unit, X := fun _ ↦ X, f := fun _ ↦ f }
@@ -226,11 +226,11 @@ private theorem valuation_lifting_of_specialization_lifting {X Y : Scheme.{u}} (
   refine ⟨W, inferInstance, inferInstance, inferInstance, e, ?_, h ≫ pullback.snd g f, ?_⟩
   · constructor
     · rw [RingHom.injective_iff_ker_eq_bot]
-      show Ideal.comap e ⊥ = ⊥
+      change Ideal.comap e ⊥ = ⊥
       have hegeneric : Spec.map (CommRingCat.ofHom e)
           (genericPoint (Spec (.of W))) = genericPoint Z := by
         rw [he]
-        show pullback.fst g f (h (genericPoint (Spec (.of W)))) = _
+        change pullback.fst g f (h (genericPoint (Spec (.of W)))) = _
         rw [hgeneric, hw'fst]
       rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine] at hegeneric
       change PrimeSpectrum.comap e ⊥ = (⊥ : PrimeSpectrum V) at hegeneric
@@ -240,7 +240,7 @@ private theorem valuation_lifting_of_specialization_lifting {X Y : Scheme.{u}} (
       have heclosed : Spec.map (CommRingCat.ofHom e) (IsLocalRing.closedPoint W) =
           IsLocalRing.closedPoint V := by
         rw [he]
-        show pullback.fst g f (h (IsLocalRing.closedPoint W)) = _
+        change pullback.fst g f (h (IsLocalRing.closedPoint W)) = _
         rw [hclosed, hwfst]
       exact heclosed
   · rw [he]

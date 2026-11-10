@@ -84,8 +84,8 @@ Write `g` for the transition morphism of `W ⊆ U`, and `φ`, `ψ` for those of 
 `g^*𝒪_U(n) ⟶ 𝒪_W(n)` means composing the unit of the adjunction of `g` with the pushforward of
 it, and the four factors of the cocycle's left-hand side then transpose one at a time by the four
 morphism-level statements of
-`StacksFrontier/AlgebraicGeometry/ChartTransNonNested/TwistSectionOn.lean`: the leading congruence by
-`…PullbackUnit.unit_comp_map_pullbackCongr_inv`, the pseudofunctoriality isomorphism by
+`StacksFrontier/AlgebraicGeometry/ChartTransNonNested/TwistSectionOn.lean`: the leading congruence
+by `…PullbackUnit.unit_comp_map_pullbackCongr_inv`, the pseudofunctoriality isomorphism by
 `…PullbackUnit.unit_comp_map_pullbackComp_inv` together with
 `CategoryTheory.Adjunction.comp_unit_app`, the inverse image of a morphism by naturality of the
 unit, and the last factor by nothing at all. The result is `legTranspose`.

@@ -41,7 +41,7 @@ theorem ker_eq_baseIdealSheaf_of_isPullback {R k : Type u} [CommRing R] [Field k
   let ψs : Spec (.of k) ≅ Spec (.of (R ⧸ RingHom.ker φ₀)) :=
     Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso ψ).op
   have hcomp : Spec.map (CommRingCat.ofHom φ₀) = ψs.hom ≫ q := by
-    show _ = Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ q
+    change _ = Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫ q
     rw [← Spec.map_comp]
     congr 1
   have H : IsPullback s (h ≫ ψs.hom) f q :=

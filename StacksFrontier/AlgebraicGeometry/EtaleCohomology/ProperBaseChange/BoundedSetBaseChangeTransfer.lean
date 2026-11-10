@@ -69,49 +69,49 @@ private theorem isIso_mateEquiv_symm_of_essSurj_cube_eq
     (τ₁ : TwoSquare ΦC L₁ L₁' ΦD) (τ₂ : TwoSquare ΦE L₂ L₂' ΦF)
     (σG : G ⋙ ΦE ⟶ ΦC ⋙ G') (σH : ΦD ⋙ H' ⟶ H ⋙ ΦF)
     (β : TwoSquare R₁ H G R₂) (β' : TwoSquare R₁' H' G' R₂') [ΦC.EssSurj]
-    [IsIso τ₁.natTrans] [IsIso τ₂.natTrans] [IsIso σG] [IsIso σH]
-    (hβ : IsIso ((mateEquiv adj₁ adj₂).symm β).natTrans)
+    [IsIso τ₁] [IsIso τ₂] [IsIso σG] [IsIso σH]
+    (hβ : IsIso ((mateEquiv adj₁ adj₂).symm β))
     (h : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂) :
-    IsIso ((mateEquiv adj₁' adj₂').symm β').natTrans := by
+    IsIso ((mateEquiv adj₁' adj₂').symm β') := by
   -- the transfer of invertibility from the front face of the cube to the back face, with `ΦC`
   -- essentially surjective: the cube identity gives invertibility at the objects `ΦC c`, and
   -- naturality spreads it to the essential image
-  have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans := by
+  have hl : IsIso ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro c
-    have e : ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).natTrans.app c =
-        τ₂.natTrans.app (G.obj c) ≫ ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c) := by
+    have e : ((mateEquiv adj₁ adj₂).symm β ≫ₕ τ₂).app c =
+        τ₂.app (G.obj c) ≫ ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c) := by
       simp [TwoSquare.hComp]
     rw [e]
     infer_instance
   rw [Stacks.CategoryTheory.mateEquiv_symm_hComp_eq adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' h]
     at hl
-  have hw : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans := by
+  have hw : IsIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') := by
     generalize τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β' = w at hl ⊢
-    have e : w.natTrans = inv (Functor.whiskerRight σG L₂') ≫
-        ((Functor.whiskerRight σG L₂' ≫ w.natTrans) ≫ Functor.whiskerLeft L₁ σH) ≫
+    have e : w = inv (Functor.whiskerRight σG L₂') ≫
+        ((Functor.whiskerRight σG L₂' ≫ w) ≫ Functor.whiskerLeft L₁ σH) ≫
           inv (Functor.whiskerLeft L₁ σH) := by
       rw [Category.assoc, Category.assoc, IsIso.hom_inv_id, Category.comp_id,
         IsIso.inv_hom_id_assoc]
     rw [e]
-    have : IsIso ((Functor.whiskerRight σG L₂' ≫ w.natTrans) ≫ Functor.whiskerLeft L₁ σH) := hl
+    have : IsIso ((Functor.whiskerRight σG L₂' ≫ w) ≫ Functor.whiskerLeft L₁ σH) := hl
     infer_instance
   rw [NatTrans.isIso_iff_isIso_app]
   intro d
   obtain ⟨c, ⟨e⟩⟩ : ∃ c, Nonempty (ΦC.obj c ≅ d) :=
     ⟨ΦC.objPreimage d, ⟨ΦC.objObjPreimageIso d⟩⟩
-  have hc : IsIso (((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c)) := by
-    have := NatIso.isIso_app_of_isIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans c
-    have e' : (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').natTrans.app c =
-        ((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c) ≫
-          H'.map (τ₁.natTrans.app c) := by
+  have hc : IsIso (((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c)) := by
+    have := NatIso.isIso_app_of_isIso (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β') c
+    have e' : (τ₁ ≫ₕ (mateEquiv adj₁' adj₂').symm β').app c =
+        ((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c) ≫
+          H'.map (τ₁.app c) := by
       simp [TwoSquare.hComp]
     rw [e'] at this
-    exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.natTrans.app c))
-  have nat := ((mateEquiv adj₁' adj₂').symm β').natTrans.naturality e.hom
-  have h₂ : ((mateEquiv adj₁' adj₂').symm β').natTrans.app d =
-      inv ((G' ⋙ L₂').map e.hom) ≫ ((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c) ≫
+    exact IsIso.of_isIso_comp_right _ (H'.map (τ₁.app c))
+  have nat := ((mateEquiv adj₁' adj₂').symm β').naturality e.hom
+  have h₂ : ((mateEquiv adj₁' adj₂').symm β').app d =
+      inv ((G' ⋙ L₂').map e.hom) ≫ ((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c) ≫
         (L₁' ⋙ H').map e.hom := by
     rw [← nat]
     simp
@@ -132,7 +132,7 @@ public theorem isIso_smallEtaleBaseChangeNatTrans_of_isIso_smallEtaleSetBaseChan
   let adjUg' :=
     Stacks.EtaleCohomology.smallEtaleInverseImageAdjunction.{u, 0} (B.inclusion.map g')
   have hun : IsIso ((mateEquiv adjUg' adjUg).symm
-      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' (g' ≫ f) rfl h.symm)).natTrans := by
+      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' (g' ≫ f) rfl h.symm)) := by
     rw [Stacks.EtaleCohomology.smallEtaleSetBaseChange_eq_mateEquiv_symm
       (B.inclusion.map f) (B.inclusion.map g) (B.inclusion.map g') (B.inclusion.map f')] at hset
     exact hset
@@ -173,14 +173,14 @@ public theorem isIso_mateEquiv_symm_boundedBaseChangeMate_of_isIso_etaleAbelianB
     IsIso ((mateEquiv (B.smallPullbackAdjunction g' AddCommGrpCat.{u + 1})
       (B.smallPullbackAdjunction g AddCommGrpCat.{u + 1})).symm
         (boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl
-          h.symm)).natTrans := by
+          h.symm)) := by
   let adjUg := Stacks.EtaleCohomology.etaleAbelianInverseImageDirectImageAdj.{u, 0}
     (B.inclusion.map g)
   let adjUg' := Stacks.EtaleCohomology.etaleAbelianInverseImageDirectImageAdj.{u, 0}
     (B.inclusion.map g')
   have hun : IsIso ((mateEquiv adjUg' adjUg).symm
       (unboundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl
-        h.symm)).natTrans := by
+        h.symm)) := by
     rw [Stacks.EtaleCohomology.etaleAbelianBaseChange_eq_mateEquiv_symm_directImageCompIso.{u, 0}
       (B.inclusion.map f) (B.inclusion.map g) (B.inclusion.map g') (B.inclusion.map f') _
       (B.inclusion.map (g' ≫ f)) (B.inclusion.map_comp g' f)
@@ -217,7 +217,7 @@ public theorem isIso_mateEquiv_symm_boundedBaseChangeMate_of_isFinite
     [IsFinite (B.inclusion.map f)] (h : g' ≫ f = f' ≫ g) :
     IsIso ((mateEquiv (B.smallPullbackAdjunction g' AddCommGrpCat.{u + 1})
       (B.smallPullbackAdjunction g AddCommGrpCat.{u + 1})).symm
-        (boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl h.symm)).natTrans :=
+        (boundedBaseChangeMate B AddCommGrpCat.{u + 1} f g g' f' (g' ≫ f) rfl h.symm)) :=
   isIso_mateEquiv_symm_boundedBaseChangeMate_of_isIso_etaleAbelianBaseChange B f g g' f' h
     (Stacks.EtaleCohomology.isIso_etaleAbelianBaseChange_of_isFinite B f g g' f' sq)
 

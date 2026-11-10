@@ -145,7 +145,7 @@ variable {C : Type u} [CommRing C] {𝔠 : Ideal C} {b : C} (hb : b ∈ 𝔠)
 theorem chartAwayMap_eq_awayMk' (c : C) :
     chartAwayMap 𝔠 hb c = Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) 0
       ((reesGradingZeroEquiv 𝔠 c : reesGrading 𝔠 0) : reesAlgebra 𝔠)
-      (by simpa using (reesGradingZeroEquiv 𝔠 c).2) := by
+      (by simp) := by
   apply HomogeneousLocalization.val_injective
   rw [chartAwayMap_val, Away.val_mk]
   congr 1
@@ -175,8 +175,8 @@ theorem exists_pow_mul_coeff_eq {n n' : ℕ} {y y' : reesAlgebra 𝔠}
   simp only [Subalgebra.coe_mul, Subalgebra.coe_pow, coe_reesDegOne] at hc'
   rw [coe_eq_monomial_smul hy, coe_eq_monomial_smul hy', monomial_pow, monomial_pow,
     monomial_pow, monomial_mul_monomial, monomial_mul_monomial, monomial_mul_monomial,
-    monomial_mul_monomial, coeff_monomial, coeff_monomial, if_pos (by ring),
-    if_pos (by ring)] at hc'
+    monomial_mul_monomial, coeff_monomial, coeff_monomial, ite_eq_left (by ring),
+    ite_eq_left (by ring)] at hc'
   rwa [pow_add, pow_add, mul_assoc, mul_assoc]
 
 /-- The coefficient of `(b⁽¹⁾)ᵏ y` in degree `n + k`. -/
@@ -185,7 +185,7 @@ theorem coeff_reesDegOne_pow_mul {n k : ℕ} {y : reesAlgebra 𝔠} (hy : y ∈ 
       b ^ k * ((y : C[X])).coeff n := by
   conv_lhs => rw [Subalgebra.coe_mul, Subalgebra.coe_pow, coe_reesDegOne,
     coe_eq_monomial_smul hy, monomial_pow, monomial_mul_monomial, coeff_monomial,
-    if_pos (by ring)]
+    ite_eq_left (by ring)]
 
 /-- Multiplying an element of degree `n` by `(b⁽¹⁾)ᵏ` gives an element of degree `n + k`. -/
 theorem reesDegOne_pow_mul_mem {n k : ℕ} {y : reesAlgebra 𝔠} (hy : y ∈ reesGrading 𝔠 (n • 1)) :
@@ -229,15 +229,15 @@ the chart `D₊(b⁽¹⁾)`. -/
 theorem awayMk_reesMonomial_mem_map {N : ℕ} {c : C} (hc : c ∈ 𝔠 * 𝔠 ^ N) (h : c ∈ 𝔠 ^ N) :
     Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
       (reesMonomial 𝔠 N ⟨c, h⟩ : reesAlgebra 𝔠)
-      (by simpa using (reesMonomial 𝔠 N ⟨c, h⟩).2) ∈ Ideal.map (chartAwayMap 𝔠 hb) 𝔠 := by
+      (by simp) ∈ Ideal.map (chartAwayMap 𝔠 hb) 𝔠 := by
   induction hc using Submodule.mul_induction_on' with
   | mem_mul_mem i hi w hw =>
     have heq : Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
         (reesMonomial 𝔠 N ⟨i * w, h⟩ : reesAlgebra 𝔠)
-        (by simpa using (reesMonomial 𝔠 N ⟨i * w, h⟩).2) =
+        (by simp) =
         chartAwayMap 𝔠 hb i * Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
           (reesMonomial 𝔠 N ⟨w, hw⟩ : reesAlgebra 𝔠)
-          (by simpa using (reesMonomial 𝔠 N ⟨w, hw⟩).2) := by
+          (by simp) := by
       apply HomogeneousLocalization.val_injective
       rw [HomogeneousLocalization.val_mul, chartAwayMap_val, Away.val_mk, Away.val_mk,
         Localization.mk_mul, one_mul]
@@ -252,13 +252,13 @@ theorem awayMk_reesMonomial_mem_map {N : ℕ} {c : C} (hc : c ∈ 𝔠 * 𝔠 ^ 
     have h₂ : c₂ ∈ 𝔠 ^ N := (Ideal.mul_le_right : 𝔠 * 𝔠 ^ N ≤ 𝔠 ^ N) hc₂
     have heq : Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
         (reesMonomial 𝔠 N ⟨c₁ + c₂, h⟩ : reesAlgebra 𝔠)
-        (by simpa using (reesMonomial 𝔠 N ⟨c₁ + c₂, h⟩).2) =
+        (by simp) =
         Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
           (reesMonomial 𝔠 N ⟨c₁, h₁⟩ : reesAlgebra 𝔠)
-          (by simpa using (reesMonomial 𝔠 N ⟨c₁, h₁⟩).2) +
+          (by simp) +
         Away.mk (reesGrading 𝔠) (reesDegOne_mem_reesGrading 𝔠 hb) N
           (reesMonomial 𝔠 N ⟨c₂, h₂⟩ : reesAlgebra 𝔠)
-          (by simpa using (reesMonomial 𝔠 N ⟨c₂, h₂⟩).2) := by
+          (by simp) := by
       apply HomogeneousLocalization.val_injective
       rw [HomogeneousLocalization.val_add, Away.val_mk, Away.val_mk, Away.val_mk,
         Localization.add_mk_self]
@@ -341,7 +341,7 @@ theorem awayMk_mem_map_chartAwayMap_iff {n : ℕ} {y : reesAlgebra 𝔠}
           ext1
           simp [pow_add]
         · rw [Subalgebra.coe_mul, coe_eq_monomial_smul hw', coe_eq_monomial_smul hw,
-            monomial_mul_monomial, coeff_monomial, if_pos rfl,
+            monomial_mul_monomial, coeff_monomial, ite_eq_left rfl,
             show b ^ N * (((w' : C[X])).coeff m' * ((w : C[X])).coeff m) =
               ((w' : C[X])).coeff m' * (b ^ N * ((w : C[X])).coeff m) by ring,
             show m' + m + N + 1 = m' + (m + N + 1) by ring]
@@ -400,6 +400,7 @@ theorem map_ideal_ofIdealTop_map_eq :
 variable {𝔠} {b : C} (hb : b ∈ 𝔠)
 
 set_option maxHeartbeats 400000 in
+-- term-mode transports of ideals between the chart `Spec C[𝔠/b]` and `D₊(b⁽¹⁾)` of the blowup
 /-- **The exceptional divisor on the chart `D₊(b⁽¹⁾)`**: the ideal of `Y = V(𝔠 𝒪_X)` on the
 standard open `D₊(b⁽¹⁾)` of the blowup is the image of `𝔠` in the chart ring
 `C[𝔠/b] = (⨁ₙ 𝔠ⁿ)₍b⁽¹⁾₎`, read in `Γ(X, D₊(b⁽¹⁾))` through Mathlib's `awayToSection`. -/
@@ -601,7 +602,7 @@ theorem surjective_grQuotient : Function.Surjective (grQuotient 𝔠) :=
 theorem isGrQuotient_grQuotient : IsGrQuotient 𝔠 (grQuotient 𝔠) := by
   intro n y hy
   rw [Stacks.HomogeneousIdeal.quotientMk_apply, Ideal.Quotient.eq_zero_iff_mem]
-  show (∀ m, ((y : C[X])).coeff m ∈ 𝔠 ^ (m + 1)) ↔ _
+  change (∀ m, ((y : C[X])).coeff m ∈ 𝔠 ^ (m + 1)) ↔ _
   refine ⟨fun h => h n, fun h m => ?_⟩
   obtain rfl | hm := eq_or_ne m n
   · exact h
@@ -816,7 +817,7 @@ attribute [local instance] modulesMonoidal modulesMonoidal' modulesEnoughInjecti
 
 open Stacks.Blowup
 
-variable {C : Type u} [CommRing C] [IsNoetherianRing C] {𝔠 : Ideal C}
+variable {C : Type u} [CommRing C] {𝔠 : Ideal C}
   {G σ : Type u} [CommRing G] [SetLike σ G] [AddSubgroupClass σ G] {𝒢 : ℕ → σ} [GradedRing 𝒢]
   {π : reesGrading 𝔠 →+*ᵍ 𝒢} (hπs : Function.Surjective π) (hπ : IsGrQuotient 𝔠 π)
 
@@ -870,7 +871,7 @@ theorem bijective_cdivMod_iff (q : ℕ) :
   have hρ0 : ∀ x, ρ x = 0 ↔ (x : C) ∈ 𝔠 ^ (q + 1) := by
     intro x
     have h := hπ q _ (reesGradingEquivPow 𝔠 q x).2
-    rw [coe_reesGradingEquivPow, Polynomial.coeff_monomial, if_pos rfl] at h
+    rw [coe_reesGradingEquivPow, Polynomial.coeff_monomial, ite_eq_left rfl] at h
     rw [← h, Subtype.ext_iff]
     rfl
   -- the comparison of sections
@@ -880,7 +881,7 @@ theorem bijective_cdivMod_iff (q : ℕ) :
     · have := congrArg ((grTwistIso hπs hπ q).inv.val.app (op ⊤)).hom hab
       rwa [← comp_val_app_apply, ← comp_val_app_apply, Iso.hom_inv_id] at this
     · refine ⟨((grTwistIso hπs hπ q).inv.val.app (op ⊤)).hom b, ?_⟩
-      show ((grTwistIso hπs hπ q).hom.val.app (op ⊤)).hom
+      change ((grTwistIso hπs hπ q).hom.val.app (op ⊤)).hom
         (((grTwistIso hπs hπ q).inv.val.app (op ⊤)).hom b) = b
       rw [← comp_val_app_apply, Iso.inv_hom_id]
       rfl
@@ -892,7 +893,8 @@ theorem bijective_cdivMod_iff (q : ℕ) :
     exact ⟨fun h => by rw [h, map_zero]; rfl, fun h => hτ.1 (h.trans (map_zero τ).symm)⟩
   constructor
   · rintro ⟨hinj, hsurj⟩
-    refine ⟨(injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).2 fun y hy => ?_, fun t => ?_⟩
+    refine ⟨(injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).2 fun y hy => ?_,
+      fun t => ?_⟩
     · obtain ⟨x, rfl⟩ := hρs y
       rw [hρ0]
       have h1 : cdivMod 𝔠 0 q (Submodule.Quotient.mk x) = 0 := by
@@ -912,7 +914,8 @@ theorem bijective_cdivMod_iff (q : ℕ) :
     · induction z using Submodule.Quotient.induction_on with
       | H x =>
         rw [cdivMod_mk', thickeningSectionsMod_eq_zero_iff, hT0] at hz
-        have h1 : ρ x = 0 := (injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).1 hinj _ hz
+        have h1 : ρ x = 0 :=
+          (injective_iff_map_eq_zero (degreeSectionAddHom' (𝒢 := 𝒢) q)).1 hinj _ hz
         rw [Submodule.Quotient.mk_eq_zero]
         simpa [powSub] using (hρ0 x).1 h1
     · obtain ⟨u, rfl⟩ := surjective_blowupΓmodToH0 𝔠 (thickeningTwist 𝔠 1 q) w
@@ -959,7 +962,7 @@ theorem exists_fin_succ_span_eq {R : Type*} [CommRing R] [IsNoetherianRing R] (J
     refine le_antisymm (Ideal.span_le.2 ?_) (hy ▸ Ideal.span_mono ?_)
     · rintro a ⟨j, rfl⟩
       refine Fin.lastCases ?_ ?_ j
-      · simpa using Submodule.zero_mem J
+      · simp
       · intro j
         simpa using hy ▸ Ideal.subset_span (Set.mem_range_self (f := y) j)
     · rintro a ⟨j, rfl⟩
@@ -972,13 +975,14 @@ variable {R : Type u} [CommRing R] [IsNoetherianRing R] (𝔞 : Ideal R) {d : �
   (x : Fin (d + 1) → R) (hx : ∀ j, x j ∈ 𝔞) (hspan : 𝔞 = Ideal.span (Set.range x))
   (J : Ideal R)
 
+omit [IsNoetherianRing R] in
 include hx in
 /-- A homogeneous polynomial of degree `m` takes values in `𝔞ᵐ` at a point of `𝔞^{d+1}`. -/
 theorem eval_mem_pow_of_isHomogeneous {p : MvPolynomial (Fin (d + 1)) R} {m : ℕ}
     (hp : p.IsHomogeneous m) : MvPolynomial.eval x p ∈ 𝔞 ^ m := by
   have h := coe_reesPresentation_apply 𝔞 x hx hp
   have hc := (mem_reesAlgebra_iff 𝔞 _).1 (reesPresentation 𝔞 x hx p).2 m
-  rwa [h, Polynomial.coeff_monomial, if_pos rfl] at hc
+  rwa [h, Polynomial.coeff_monomial, ite_eq_left rfl] at hc
 
 /-- The map `R[T₀, …, T_d] ⟶ Gr_𝔞(R ⧸ J)`, `Tⱼ ↦ x̄ⱼ` in degree one. -/
 abbrev grPresentation :
@@ -986,11 +990,13 @@ abbrev grPresentation :
       Stacks.HomogeneousIdeal.quotientGrading (grIdeal (𝔞.map (Ideal.Quotient.mk J))) :=
   (grQuotient (𝔞.map (Ideal.Quotient.mk J))).comp (reesPresentationQuot 𝔞 x hx J)
 
+omit [IsNoetherianRing R] in
 include hspan in
 /-- `grPresentation 𝔞 x hx J` is surjective. -/
 theorem surjective_grPresentation : Function.Surjective (grPresentation 𝔞 x hx J) :=
   (surjective_grQuotient _).comp (surjective_reesPresentationQuot 𝔞 x hx J hspan)
 
+omit [IsNoetherianRing R] in
 /-- **The kernel of `R[T] ⟶ Gr_𝔞(R ⧸ J)` in degree `m`**: `p` dies exactly when
 `p(x) ∈ 𝔞ᵐ⁺¹ + J`. -/
 theorem grPresentation_eq_zero_iff {m : ℕ} {p : MvPolynomial (Fin (d + 1)) R}
@@ -999,13 +1005,14 @@ theorem grPresentation_eq_zero_iff {m : ℕ} {p : MvPolynomial (Fin (d + 1)) R}
   have hmem : reesPresentationQuot 𝔞 x hx J p ∈ reesGrading (𝔞.map (Ideal.Quotient.mk J)) m :=
     (reesPresentationQuot 𝔞 x hx J).map_mem ((MvPolynomial.mem_homogeneousSubmodule _ _).2 hp)
   refine (isGrQuotient_grQuotient _ m _ hmem).trans ?_
-  rw [coe_reesPresentationQuot_apply 𝔞 x hx J hp, Polynomial.coeff_monomial, if_pos rfl,
+  rw [coe_reesPresentationQuot_apply 𝔞 x hx J hp, Polynomial.coeff_monomial, ite_eq_left rfl,
     ← Ideal.map_pow, Ideal.mem_quotient_iff_mem_sup]
 
 /-- The homogeneous ideal of `R[T]` of the forms that vanish in `Gr_𝔞(R ⧸ J)`. -/
 abbrev initialFormIdeal : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (d + 1)) R) :=
   Stacks.GradedKerQuotient.homogeneousKer _ _ (grPresentation 𝔞 x hx J)
 
+omit [IsNoetherianRing R] in
 include hx in
 /-- **Two ideals with the same initial forms give the same homogeneous ideal of `R[T]`.** -/
 theorem initialFormIdeal_eq {J J' : Ideal R} (h : SameInitialForms 𝔞 J J') :
@@ -1031,6 +1038,7 @@ abbrev grQuotientOfPresentation :
   (Stacks.GradedKerQuotient.inv _ _ (grPresentation 𝔞 x hx J)
     (surjective_grPresentation 𝔞 x hx hspan J)).comp (grQuotient _)
 
+omit [IsNoetherianRing R] in
 /-- `grQuotientOfPresentation 𝔞 x hx hspan J` is surjective. -/
 theorem surjective_grQuotientOfPresentation :
     Function.Surjective (grQuotientOfPresentation 𝔞 x hx hspan J) := by
@@ -1040,13 +1048,14 @@ theorem surjective_grQuotientOfPresentation :
   obtain ⟨w, rfl⟩ := surjective_grQuotient _ z
   exact ⟨w, hz⟩
 
+omit [IsNoetherianRing R] in
 /-- `grQuotientOfPresentation 𝔞 x hx hspan J` is the quotient of the Rees algebra onto
 `Gr_𝔞(R ⧸ J)`. -/
 theorem isGrQuotient_grQuotientOfPresentation :
     IsGrQuotient _ (grQuotientOfPresentation 𝔞 x hx hspan J) := by
   intro n y hy
   refine Iff.trans ?_ (isGrQuotient_grQuotient _ n y hy)
-  show (Stacks.GradedKerQuotient.descRingEquiv _ _ (grPresentation 𝔞 x hx J)
+  change (Stacks.GradedKerQuotient.descRingEquiv _ _ (grPresentation 𝔞 x hx J)
     (surjective_grPresentation 𝔞 x hx hspan J)).symm (grQuotient _ y) = 0 ↔ _
   exact map_eq_zero_iff _ (RingEquiv.injective _)
 

@@ -109,6 +109,7 @@ variable {C : Type u} [Category.{v} C] {A : Type*} [Category A]
   [HasProducts.{w} A] [Preadditive A]
   (E : SimplicialObject (Limits.FormalCoproduct.{w} C))
 
+omit [Preadditive A] in
 /-- **The canonical augmentation computed at two different terminal objects differs by the
 restriction along the unique isomorphism between them.**  Only terminality is used:  the unique
 morphism to `T` is the unique morphism to `T'` followed by that isomorphism. -/

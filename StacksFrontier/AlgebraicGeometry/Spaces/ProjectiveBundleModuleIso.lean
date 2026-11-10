@@ -64,7 +64,7 @@ theorem isIso_of_isIso_bigFppfOver_toScheme_map {V W : BigFppfOver B S hS} (a : 
       apply B.inclusion.map_injective
       have hw := congrArg B.inclusion.map (Over.w a)
       rw [Functor.map_comp] at hw
-      show inv ((BigFppfOver.toScheme B S hS).map a) ≫ B.inclusion.map V.hom =
+      change inv ((BigFppfOver.toScheme B S hS).map a) ≫ B.inclusion.map V.hom =
         B.inclusion.map W.hom
       rw [IsIso.inv_comp_eq]
       exact hw.symm)

@@ -90,7 +90,7 @@ theorem exists_minpoly_eq_X_pow_sub_C_of_finrank_eq_prime
     have : Module.finrank F E = 1 := by
       rw [← IntermediateField.finrank_top', ← h, IntermediateField.finrank_bot]
     exact hp.ne_one (hdegree.symm.trans this)
-  obtain ⟨α, -, hα⟩ := SetLike.exists_of_lt (lt_of_le_of_ne bot_le hbot)
+  obtain ⟨α, -, hα⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne bot_le hbot)
   have hαdegree : Module.finrank F F⟮α⟯ = p := by
     have hdvd := Module.finrank_dvd_finrank_right F F⟮α⟯ E
     rw [hdegree] at hdvd
@@ -305,7 +305,7 @@ private theorem isIntegrallyClosedIn_of_isIntegrallyClosed_atMaximal
     let f : R →+* Fm := (algebraMap Rm Fm).comp (algebraMap R Rm)
     have hf (t : M) : IsUnit (f t) := by
       apply isUnit_iff_ne_zero.mpr
-      show algebraMap Rm Fm (algebraMap R Rm t.1) ≠ 0
+      change algebraMap Rm Fm (algebraMap R Rm t.1) ≠ 0
       intro hz
       exact nonZeroDivisors.ne_zero
         (IsLocalization.nonZeroDivisors_le_comap m.primeCompl Rm (hM t.2))
@@ -319,7 +319,7 @@ private theorem isIntegrallyClosedIn_of_isIntegrallyClosed_atMaximal
     refine ⟨y, ?_⟩
     apply IsFractionRing.injective Rm Fm
     rw [map_mul, hy]
-    show f r = f s.1 * g x
+    change f r = f s.1 * g x
     rw [← hg, ← hg, ← map_mul, mul_comm, hrs]
   obtain ⟨y, hy⟩ := Ideal.mem_span_singleton.mp hr
   refine ⟨y, ?_⟩
@@ -448,7 +448,7 @@ private theorem isSeparableExtension_residueField_iff_of_surjective_square
     (residueFieldMapEquivOfSurjective a ha) (residueFieldMapEquivOfSurjective b hb)
   intro x
   obtain ⟨r, rfl⟩ := IsLocalRing.residue_surjective x
-  show IsLocalRing.ResidueField.map b
+  change IsLocalRing.ResidueField.map b
       (IsLocalRing.ResidueField.map (algebraMap R S) (IsLocalRing.residue R r)) =
     IsLocalRing.ResidueField.map (algebraMap R' S')
       (IsLocalRing.ResidueField.map a (IsLocalRing.residue R r))
@@ -546,10 +546,10 @@ private theorem formallySmoothNAdic_of_formallySmoothNAdic_max
   let e : ULift.{w'} A ≃+* A := ULift.ringEquiv
   let J' : Ideal (ULift.{w'} A) := J.map e.symm
   have hJ' : J' ^ 2 = 0 := by
-    show (J.map e.symm) ^ 2 = 0
+    change (J.map e.symm) ^ 2 = 0
     rw [← Ideal.map_pow, hJ, Ideal.zero_eq_bot, Ideal.map_bot]
   let q : (ULift.{w'} A ⧸ J') ≃+* (A ⧸ J) := Ideal.quotientEquiv J' J e (by
-    show J = Ideal.map e (J.map e.symm)
+    change J = Ideal.map e (J.map e.symm)
     exact (Ideal.map_of_equiv (I := J) e.symm).symm)
   obtain ⟨g, hg1, hg2⟩ := h (ULift.{w'} A) J' hJ' (e.symm.toRingHom.comp f)
     (q.symm.toRingHom.comp ψ) (by

@@ -78,7 +78,7 @@ theorem small_sections_of_isFiniteType [EssentiallySmall.{w} C]
     refine J.superset_covering (fun W'' g' hg' ↦ ?_) hS
     obtain ⟨a, ha⟩ := hSgen W'' g' hg'
     refine ⟨⟨d, g' ≫ g₁, a⟩, ?_⟩
-    show ∑ j, a j • ρ (g' ≫ g₁) (s (i₀ d) j) = ρ (g' ≫ g) t
+    change ∑ j, a j • ρ (g' ≫ g₁) (s (i₀ d) j) = ρ (g' ≫ g) t
     rw [hρ g g']
     exact ha
   -- a section is determined by its restrictions into `A` along arrows out of the small model

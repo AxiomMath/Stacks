@@ -122,7 +122,7 @@ theorem isCompatible_of_restrictIso
         (restrictPushforwardLeIso (coe_le_coe h) (mod' W)).inv := by
     rw [Iso.inv_comp_eq, ← Category.assoc, hin, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
-  show (compOfRestrictIso mod θ V W h).hom ≫ pushRes (V.1 : X.Opens) W (α W) =
+  change (compOfRestrictIso mod θ V W h).hom ≫ pushRes (V.1 : X.Opens) W (α W) =
     pushRes (V.1 : X.Opens) V (α V) ≫ (compOfRestrictIso mod' θ' V W h).hom
   dsimp only [compOfRestrictIso]
   simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc]

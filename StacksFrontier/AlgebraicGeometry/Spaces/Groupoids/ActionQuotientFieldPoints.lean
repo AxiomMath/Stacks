@@ -547,7 +547,7 @@ private theorem quotient_image_action_invariant (T : BigFppfOver B S hS)
         (actionRelation (underlyingOver B hS V) G a).target) at h
   simpa only [actionRelation, Stacks.Groupoids.PreRelation.source,
     Stacks.Groupoids.PreRelation.target, prod.lift_fst, prod.lift_snd, actionRelationSource,
-    actionRelationTarget, Sigma.ι_desc, Category.comp_id] using h.symm
+    actionRelationTarget, Sigma.ι_comp_desc, Category.comp_id] using h.symm
 
 /-- The image in the quotient of an equivariant point over an extension field is invariant under
 the automorphisms of the extension. -/
@@ -694,7 +694,7 @@ private theorem actionCopy_source (g : G) :
       (Over.forget S).map (actionRelationSource (underlyingOver B hS V) G) = _
   rw [← (Over.forget S).map_comp]
   exact congrArg Over.Hom.left
-    (Sigma.ι_desc (fun _ : G => 𝟙 (underlyingOver B hS V)) g)
+    (Sigma.ι_comp_desc (fun _ : G => 𝟙 (underlyingOver B hS V)) g)
 
 omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- The target map restricted to the copy indexed by `g` is the action of `g`. -/
@@ -704,7 +704,7 @@ private theorem actionCopy_target (g : G) :
   change (Over.forget S).map (Sigma.ι (fun _ : G => underlyingOver B hS V) g) ≫
       (Over.forget S).map (actionRelationTarget (underlyingOver B hS V) G a) = _
   rw [← (Over.forget S).map_comp]
-  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G => (a g).asIso.hom) g)
+  exact congrArg Over.Hom.left (Sigma.ι_comp_desc (fun g : G => (a g).asIso.hom) g)
 
 omit [Small.{u} G] [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- A group element fixing a field-valued point of `V` together with its residue field is the
@@ -741,8 +741,7 @@ private theorem action_injective_on_fieldPoint
   have hfix : z ≫ (a (h⁻¹ * g)).asIso.hom.left = z := by
     have hcancel : (a h).asIso.hom.left ≫ ((a h)⁻¹).asIso.hom.left = 𝟙 _ := by
       have hh : (a h).asIso.hom ≫ (a h)⁻¹.asIso.hom = 𝟙 _ := (a h).asIso.hom_inv_id
-      simpa using congrArg
-        (fun m : underlyingOver B hS V ⟶ underlyingOver B hS V => m.left) hh
+      simp
     calc
       z ≫ (a (h⁻¹ * g)).asIso.hom.left = (z ≫ (a g).asIso.hom.left) ≫ (a h⁻¹).asIso.hom.left := by
         simp only [map_mul, Aut.mul_asIso]

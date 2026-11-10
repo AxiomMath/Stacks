@@ -89,7 +89,7 @@ theorem height_comap_maximalIdeal_le_add_two {R B : Type u} [CommRing R] [IsNoet
   rw [hQ]
   have hcomp : (Ideal.Quotient.mk Q₀).comp (algebraMap R P₀) = algebraMap R C := rfl
   have : Q.LiesOver p := ⟨by
-    show Ideal.comap (algebraMap R C) Q' = Ideal.comap (algebraMap R P₀) Q
+    change Ideal.comap (algebraMap R C) Q' = Ideal.comap (algebraMap R P₀) Q
     rw [← hcomp, ← Ideal.comap_comap]⟩
   have h1 := height_add_trdeg_residue_eq (R := R) (S := P₀)
     (MvPolynomial.C_injective _ _) hcat p Q
@@ -111,7 +111,7 @@ theorem height_comap_maximalIdeal_le_add_two {R B : Type u} [CommRing R] [IsNoet
       _ = (n + 2 : ℕ∞) + t := by
         rw [← h2]
         ring
-  exact (ENat.add_le_add_iff_right (ENat.coe_ne_top t)).mp hle
+  exact (ENat.add_le_add_iff_right (ENat.natCast_ne_top t)).mp hle
 
 /-- **A two-dimensional local domain of embedding dimension at most three is formally
 unramified as soon as it is so at its non-maximal primes.**  Let `R` be a regular, universally

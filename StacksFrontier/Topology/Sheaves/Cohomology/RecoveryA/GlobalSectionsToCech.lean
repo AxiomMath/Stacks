@@ -124,7 +124,7 @@ lemma globalSectionsCechRestriction_naturality
     f.app (op ⊤) ≫ globalSectionsCechRestriction X U Q n =
       globalSectionsCechRestriction X U P n ≫
         ((CategoryTheory.cechComplexFunctor U).map f).f n := by
-  show f.app (op ⊤) ≫ Pi.lift _ = Pi.lift _ ≫ Limits.Pi.map _
+  change f.app (op ⊤) ≫ Pi.lift _ = Pi.lift _ ≫ Limits.Pi.map _
   apply Pi.hom_ext
   intro i
   simp only [Category.assoc, Pi.lift_comp_π, Pi.map_π, Pi.lift_comp_π_assoc]

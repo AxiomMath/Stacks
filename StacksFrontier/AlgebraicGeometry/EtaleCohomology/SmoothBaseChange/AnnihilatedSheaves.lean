@@ -41,7 +41,6 @@ theorem isIso_higherBaseChangeMapAb_of_smooth_of_zsmul_eq_zero
     (h0EYS : FlatReducedFibresBaseChange.{u}) (h0EZR : EtaleLocalHigherBaseChange.{u})
     (h0EZS : HigherBaseChangePaste.{u}) (h0F08 : FirstFailureNormalization.{u})
     (h03SC2 : AffineCurveCohomologyVanishing.{u}) (h03SC6 : CurveCohomologyAlgClosedInvariance.{u})
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -51,7 +50,7 @@ theorem isIso_higherBaseChangeMapAb_of_smooth_of_zsmul_eq_zero
     (hn : IsUnit (n : Γ(S, ⊤))) (F : Sheaf (smallEtaleTopology T) Ab.{u + 1})
     (hF : ∀ (U : T.Etale) (x : F.obj.obj (op U)), n • x = 0) (q : ℕ) :
     IsIso ((higherBaseChangeMapAb f g h e sq.w q).app F) :=
-  (baseChangeAllDegrees_of_smooth' h0EYS h0EZR h0EZS h0F08 h03SC2 h03SC6 h0BMA h0EYD f
+  (baseChangeAllDegrees_of_smooth' h0EYS h0EZR h0EZS h0F08 h03SC2 h03SC6 h0EYD f
       hn).isIso
     (𝟙 S) (𝟙 X) f (IsPullback.id_horiz f) g h e sq F hF q
 

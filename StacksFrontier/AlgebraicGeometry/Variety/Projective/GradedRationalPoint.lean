@@ -102,7 +102,7 @@ def pointSubmodule (hγ : ∀ (c : k) (v : ↥(𝒜 1)), ((c • v : ↥(𝒜 1)
   add_mem' {a b} ha hb := by
     simpa using q.asHomogeneousIdeal.toIdeal.add_mem ha hb
   smul_mem' c v hv := by
-    simp only [Set.mem_setOf_eq, hγ c v]
+    simp only [Set.mem_ofPred_eq, hγ c v]
     exact q.asHomogeneousIdeal.toIdeal.mul_mem_left _ hv
 
 /-- A degree-one element lies in `pointSubmodule γ hγ q` if and only if it lies in the homogeneous
@@ -172,7 +172,7 @@ private theorem apply_awayFraction_eq_zero_iff {v₀ : A} (hv₀ : v₀ ∈ 𝒜
       awayFraction hv₀ v := by
     apply val_injective
     rw [val_awayFraction]
-    show Localization.mk _ _ = Localization.mk _ _
+    change Localization.mk _ _ = Localization.mk _ _
     simp only [pow_one]
   have hpre : AlgebraicGeometry.Proj.awayι 𝒜 v₀ hv₀ Nat.one_pos ⁻¹ᵁ
         AlgebraicGeometry.Proj.basicOpen 𝒜 (v : A) =
@@ -187,7 +187,7 @@ private theorem apply_awayFraction_eq_zero_iff {v₀ : A} (hv₀ : v₀ ∈ 𝒜
       y ∈ AlgebraicGeometry.Proj.basicOpen 𝒜 (v : A)) hq.symm)
   have h2 : awayFraction hv₀ v ∈ ((Spec.map ψ).base cp).asIdeal ↔
       ψ.hom (awayFraction hv₀ v) = 0 := by
-    show awayFraction hv₀ v ∈ Ideal.comap ψ.hom cp.asIdeal ↔ _
+    change awayFraction hv₀ v ∈ Ideal.comap ψ.hom cp.asIdeal ↔ _
     rw [Ideal.mem_comap, (Ideal.eq_bot_or_top cp.asIdeal).resolve_right cp.isPrime.ne_top,
       Ideal.mem_bot]
   have h4 : (v : A) ∉ q.asHomogeneousIdeal ↔ ψ.hom (awayFraction hv₀ v) ≠ 0 := by
@@ -242,7 +242,7 @@ theorem exists_dual_pointSubmodule_eq_ker
             map_smul' := fun c v => by
               rw [awayFraction_smul γ hv₀ hγ c v, _root_.map_mul, hψk c]
               rfl }, ?_, ?_⟩
-  · show ψ.hom (awayFraction hv₀ ⟨v₀, hv₀⟩) = 1
+  · change ψ.hom (awayFraction hv₀ ⟨v₀, hv₀⟩) = 1
     rw [awayFraction_self hv₀, map_one]
   · ext v
     rw [mem_pointSubmodule_iff, LinearMap.mem_ker]

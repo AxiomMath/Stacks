@@ -197,6 +197,7 @@ namespace CategoryTheory
 variable {C : Type u} [Category.{v} C]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasPullbacks` for the presheaf category exceeds the default instance budget
 /-- Pullbacks of presheaves of types on `C` (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_subterminalRestriction :

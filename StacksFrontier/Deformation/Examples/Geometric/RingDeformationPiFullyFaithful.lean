@@ -65,7 +65,7 @@ namespace Deformation.Examples
 public theorem isIdempotentElem_pi_single_one
     {ι : Type uι} [DecidableEq ι] (R : ι → Type w) [∀ i, CommRing (R i)] (i : ι) :
     IsIdempotentElem (Pi.single i (1 : R i)) := by
-  show Pi.single i (1 : R i) * Pi.single i (1 : R i) = _
+  change Pi.single i (1 : R i) * Pi.single i (1 : R i) = _
   rw [← Pi.single_mul, one_mul]
 
 /-- **The `i`-th projection of a product of rings is the localization away from the idempotent
@@ -77,7 +77,7 @@ public theorem isLocalization_pi_eval
   let : Algebra (∀ j, R j) (R i) := (Pi.evalRingHom R i).toAlgebra
   refine IsLocalization.away_of_isIdempotentElem_of_mul (isIdempotentElem_pi_single_one R i)
     (fun x y => ?_) fun x => ⟨Pi.single i x, Pi.single_eq_same i x⟩
-  show x i = y i ↔ _
+  change x i = y i ↔ _
   rw [← Pi.single_mul_left, ← Pi.single_mul_left, one_mul, one_mul]
   exact ⟨congrArg (Pi.single i), fun h => by simpa using congrFun h i⟩
 
@@ -96,7 +96,7 @@ public theorem exists_piRingHom_of_map_single_one
       map_zero' := by simp
       map_add' x y := by simp [Pi.single_add, map_add] }
   refine ⟨g, fun x i => ?_⟩
-  show f x i = f (Pi.single i (x i)) i
+  change f x i = f (Pi.single i (x i)) i
   have h := congrFun (f.map_mul (Pi.single i 1) x) i
   rw [hf] at h
   simpa only [← Pi.single_mul_left, one_mul, Pi.mul_apply, Pi.single_eq_same] using h.symm
@@ -148,7 +148,7 @@ private theorem piDeformationHom_map_single_one
     (isIdempotentElem_pi_single_one (fun j => (Y.x j).left.fiber) i)
   refine (deformationMorphism_map_comm f _).trans ?_
   funext j
-  show (X.x j).hom.map.hom (Pi.single (M := fun j => (X.x j).left.fiber) i 1 j) =
+  change (X.x j).hom.map.hom (Pi.single (M := fun j => (X.x j).left.fiber) i 1 j) =
     (Y.x j).hom.map.hom (Pi.single (M := fun j => (Y.x j).left.fiber) i 1 j)
   by_cases h : j = i
   · subst j
@@ -160,11 +160,12 @@ private theorem piDeformationHom_map_single_one
 /-- **The square cut out of a morphism of product rings by the `i`-th projections is a pushout
 square**, because the projections are localizations away from corresponding idempotents. -/
 public theorem isPushout_pi_eval
-    {ι : Type w} [DecidableEq ι] (R S : ι → Type w)
+    {ι : Type w} (R S : ι → Type w)
     [∀ i, CommRing (R i)] [∀ i, CommRing (S i)] (g : ∀ i, R i →+* S i) (i : ι) :
     IsPushout (CommRingCat.ofHom (Pi.evalRingHom R i))
       (CommRingCat.ofHom (RingHom.pi fun j => (g j).comp (Pi.evalRingHom R j)))
       (CommRingCat.ofHom (g i)) (CommRingCat.ofHom (Pi.evalRingHom S i)) := by
+  classical
   let f := RingHom.pi fun j => (g j).comp (Pi.evalRingHom R j)
   let : Algebra (∀ j, R j) (R i) := (Pi.evalRingHom R i).toAlgebra
   let : Algebra (∀ j, S j) (S i) := (Pi.evalRingHom S i).toAlgebra
@@ -184,7 +185,7 @@ public theorem isPushout_pi_eval
 /-- **A pushout square whose vertical sides are products of maps restricts to a pushout square in
 each factor**, by pasting on the localization square of `isPushout_pi_eval`. -/
 public theorem isPushout_pi_component
-    {ι : Type w} [DecidableEq ι] {A B : Type w} [CommRing A] [CommRing B]
+    {ι : Type w} {A B : Type w} [CommRing A] [CommRing B]
     {R S : ι → Type w} [∀ i, CommRing (R i)] [∀ i, CommRing (S i)]
     (f : A →+* B) (p : ∀ i, A →+* R i) (q : ∀ i, B →+* S i)
     (g : ∀ i, R i →+* S i)
@@ -240,7 +241,7 @@ private theorem exists_piDeformation_preimage
         (Pi.single (M := fun j => (X.x j).left.fiber) i x)) i
       change (Y.x i).hom.map.hom (q (Pi.single (M := fun j => (X.x j).left.fiber) i x) i) =
         (X.x i).hom.map.hom (Pi.single (M := fun j => (X.x j).left.fiber) i x i) at h
-      show (Y.x i).hom.map.hom (g i x) = (X.x i).hom.map.hom x
+      change (Y.x i).hom.map.hom (g i x) = (X.x i).hom.map.hom x
       simpa only [hg, Pi.single_eq_same] using h
   refine ⟨⟨f.left.base, fun i => Over.homMk (t i) (hspecial i), fun i =>
     IsHomLift.of_fac' _ _ _ (X.hx i) (Y.hx i) rfl⟩, ?_⟩
@@ -279,7 +280,7 @@ public theorem piDeformationFunctor_faithful
   apply Over.OverMorphism.ext
   apply FlatAlgebraCategory.Hom.ext
   · let p := (ringDeformationBasedCategory Λ k (R i)).p
-    show p.map (f.component i) = p.map (g.component i)
+    change p.map (f.component i) = p.map (g.component i)
     have hmap (t : X ⟶ Y) : p.map (t.component i) =
         eqToHom (X.hx i) ≫ t.hbase ≫ eqToHom (Y.hx i).symm :=
       have := t.hcomponent i

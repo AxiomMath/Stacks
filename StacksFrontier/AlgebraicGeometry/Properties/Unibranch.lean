@@ -486,7 +486,7 @@ end AlgebraicGeometry
 public theorem numberOfBranchesOfLocalRing_eq_one_iff (R : Type u) [CommRing R]
     [IsLocalRing R] :
     numberOfBranchesOfLocalRing R = 1 ↔ IsUnibranchRing R := by
-  show _root_.numberOfBranches R (henselizationData R).carrier = 1 ↔ _
+  change _root_.numberOfBranches R (henselizationData R).carrier = 1 ↔ _
   rw [(numberOfBranches_characterizations R (henselizationData R).carrier
     (strictHenselizationData R).carrier
     (SeparableClosure (IsLocalRing.ResidueField R))).2.1]
@@ -497,7 +497,7 @@ unibranch. -/
 public theorem numberOfGeometricBranchesOfLocalRing_eq_one_iff (R : Type u) [CommRing R]
     [IsLocalRing R] :
     numberOfGeometricBranchesOfLocalRing R = 1 ↔ IsGeometricallyUnibranchRing R := by
-  show _root_.numberOfGeometricBranches R (SeparableClosure (IsLocalRing.ResidueField R))
+  change _root_.numberOfGeometricBranches R (SeparableClosure (IsLocalRing.ResidueField R))
     (strictHenselizationData R).carrier = 1 ↔ _
   rw [(numberOfBranches_characterizations R (henselizationData R).carrier
     (strictHenselizationData R).carrier

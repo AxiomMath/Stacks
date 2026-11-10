@@ -186,7 +186,7 @@ theorem exists_upperShriekComp_of_finiteType [IsNoetherianRing R] {a : R →+* A
   obtain ⟨e⟩ := nonempty_upperShriekFunctor_iso.{u, v} (b.comp a) (p.comp q) r
   refine ⟨τ ≫ e.hom, fun K hK => ?_⟩
   have hτK : IsIso (τ.app K) := hτ K hK
-  show IsIso (τ.app K ≫ e.hom.app K)
+  change IsIso (τ.app K ≫ e.hom.app K)
   exact IsIso.comp_isIso' hτK inferInstance
 
 end PolynomialPresentation

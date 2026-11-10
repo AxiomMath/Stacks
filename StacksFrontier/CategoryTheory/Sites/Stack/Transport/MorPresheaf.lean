@@ -106,7 +106,7 @@ lemma morSectionEquiv_naturality {U : 𝒞} (x y : 𝒳.p.Fiber U) {g₁ g₂ : 
       morRestrict 𝒴.p (e.fiberMap x) (e.fiberMap y) h (e.morSectionEquiv x y g₂ m) := by
   refine morRestrict_uniq 𝒴.p (e.fiberMap x) (e.fiberMap y) h
     (e.morSectionEquiv x y g₂ m) _ ?_
-  show ((e.pullbackFiberFunctorIso x g₁.hom).inv ≫
+  change ((e.pullbackFiberFunctorIso x g₁.hom).inv ≫
         e.functor.map (Fiber.fiberInclusion.map (morRestrict 𝒳.p x y h m)) ≫
         (e.pullbackFiberFunctorIso y g₁.hom).hom) ≫
       IsPreFibered.pullbackMap (e.fiberMap y).2 g₁.hom =

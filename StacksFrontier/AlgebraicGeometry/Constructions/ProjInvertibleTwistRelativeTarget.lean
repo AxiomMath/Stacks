@@ -283,7 +283,7 @@ theorem chartPre_hom_app (n : ℤ)
   have h3 : (relativeProj 𝒜).chart (V : S.Opens) V.2.1 ''ᵁ (basisComparison L 𝒜 V ''ᵁ W) ≤
       (basisComparison L 𝒜 V ≫ (relativeProj 𝒜).chart (V : S.Opens) V.2.1) ''ᵁ W :=
     (Scheme.Hom.comp_image _ _ W).ge
-  show ((targetAlgebra L 𝒜).piece n).val.map (homOfLE h3).op
+  change ((targetAlgebra L 𝒜).piece n).val.map (homOfLE h3).op
       (((targetAlgebra L 𝒜).piece n).val.map (homOfLE h2).op
         (((targetAlgebra L 𝒜).piece n).val.map (homOfLE h1).op x)) = _
   exact (congrArg (((targetAlgebra L 𝒜).piece n).val.map (homOfLE h3).op)

@@ -177,7 +177,11 @@ variable {C D : Type u₁} [Category.{v} C] [Category.{v} D]
 
 attribute [local instance] HasDerivedCategory.standard
 
-omit [f.IsCocontinuous J K] in
+omit [f.IsCocontinuous J K] [HasSheafify J AddCommGrpCat.{max u₁ v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u₁ v w}]
+  [HasSheafify K AddCommGrpCat.{max u₁ v w}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{max u₁ v w}]
+  [(SheafOfModules.pushforward.{max u₁ v w} (F := f) (idRingMap J K f O)).IsRightAdjoint] in
 /-- **`Γ(U, g^*(-)) = Γ(u(U), -)`.** The underlying presheaf of a restriction is precomposition
 with `uᵒᵖ`, so sections over `U` of a restricted sheaf of modules are sections over `u(U)`. -/
 theorem restrictionModules_comp_moduleSections :

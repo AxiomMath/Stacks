@@ -434,7 +434,7 @@ theorem differenceDerivationMap_unit_d (hq : b' ≫ q = a' ≫ q) (ca : i ≫ a'
 
 /-! ### The difference kills the defining ideal of the target thickening -/
 
-omit [IsImmersion j] in
+omit [IsClosedImmersion i] [IsImmersion j] in
 /-- **A section of the defining ideal of `j` pulls back into the defining ideal of `i`.** If
 `j^♯ s = 0` then `i^♯ (a')^♯ s = 0`, because both routes around the square `i ≫ a' = a ≫ j`
 agree. -/
@@ -442,7 +442,7 @@ theorem app_app_eq_zero_of_app_eq_zero (ca : i ≫ a' = a ≫ j) (V : Y'.Opens) 
     (hs : (j.app V).hom s = 0) : (i.app (a' ⁻¹ᵁ V)).hom ((a'.app V).hom s) = 0 := by
   rw [← app_square_eq ca V s, hs, map_zero, map_zero]
 
-omit [IsImmersion j] in
+omit [IsClosedImmersion i] [IsImmersion j] in
 /-- The same vanishing after restriction to a smaller open of `X'`. -/
 theorem app_map_app_eq_zero_of_app_eq_zero (ca : i ≫ a' = a ≫ j) (V : Y'.Opens)
     {U : X'.Opens} (hU : U ≤ a' ⁻¹ᵁ V) (s : Γ(Y', V)) (hs : (j.app V).hom s = 0) :
@@ -501,7 +501,7 @@ theorem liftDiffSection_eq_zero_of_conormalSheafMap_eq (hi : i.ker ^ 2 = ⊥)
       (liftPairOpen a' b' V) hL.ge hL _ _,
     Stacks.Conormal.firstOrderImmersionConormalSheafι_conormalClass_of_eq i hi
       (liftPairOpen a' b' V) hL.ge hL _ _] at hι
-  show (a'.appLE V (liftPairOpen a' b' V) hle_a).hom s -
+  change (a'.appLE V (liftPairOpen a' b' V) hle_a).hom s -
     (b'.appLE V (liftPairOpen a' b' V) hle_b).hom s = 0
   rw [Scheme.Hom.appLE, Scheme.Hom.appLE, CommRingCat.comp_apply, CommRingCat.comp_apply, hι,
     sub_self]
@@ -921,7 +921,7 @@ theorem isDerivationAction_differenceDerivationTheta (hi : i.ker ^ 2 = ⊥)
   refine Eq.trans (congrArg
     (fun z ↦ (X'.presheaf.map (homOfLE hLa).op).hom ((a'.app V).hom s) + z)
     (firstOrderImmersionConormalSheafι_liftDifferenceDerivation_d hi hq.symm cb ca V s)) ?_
-  show (X'.presheaf.map (homOfLE hLa).op).hom ((a'.app V).hom s) +
+  change (X'.presheaf.map (homOfLE hLa).op).hom ((a'.app V).hom s) +
       ((b'.appLE V (liftPairOpen b' a' V) hLb).hom s -
         (a'.appLE V (liftPairOpen b' a' V) hLa).hom s) =
     (X'.presheaf.map (homOfLE hLb).op).hom ((b'.app V).hom s)

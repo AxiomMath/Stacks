@@ -142,6 +142,7 @@ abbrev BaseSpaceDimensionSituation.Ambient (D : BaseSpaceDimensionSituation.{u})
   (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf category
 /-- Pullbacks of presheaves on a big fppf category (instance search times out without this
 shortcut). -/
 instance hasPullbacks_bigFppfOver_presheaf (B : BigFppfSite.{u}) (S : Scheme.{u})

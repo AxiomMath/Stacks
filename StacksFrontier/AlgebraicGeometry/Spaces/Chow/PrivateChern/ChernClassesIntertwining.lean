@@ -67,9 +67,9 @@ theorem segreCap_apply_of_compatible (i : ℕ) (α : chowHomology.{u, v} D sX hX
     | succ k ih =>
       intro β
       rw [pow_succ, pow_succ]
-      show g' ((P.twistCap ^ k) (P.twistCap β)) = (P'.twistCap ^ k) (P'.twistCap (g' β))
+      change g' ((P.twistCap ^ k) (P.twistCap β)) = (P'.twistCap ^ k) (P'.twistCap (g' β))
       rw [ih, htwist]
-  show P'.pushforwardChow ((P'.twistCap ^ (d + i)) (P'.pullbackChow (g α))) =
+  change P'.pushforwardChow ((P'.twistCap ^ (d + i)) (P'.pullbackChow (g α))) =
     g (P.pushforwardChow ((P.twistCap ^ (d + i)) (P.pullbackChow α)))
   rw [hpush, hpow, hpull]
 

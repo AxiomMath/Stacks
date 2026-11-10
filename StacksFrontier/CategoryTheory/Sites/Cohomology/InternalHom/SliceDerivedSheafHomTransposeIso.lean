@@ -117,6 +117,11 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
       (ComplexShape.up ℤ)]
   (L M : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
 
+omit [(sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ (K L : CochainComplex (Modules X.O) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (sheafTensor.{u, u, u, u, u} X.O)
+      (ComplexShape.up ℤ)] in
 /-- `Stacks.Cohomology.SliceDerivedSheafHom.sliceCurryEquiv` is the tensor–internal-hom bijection
 of [Stacks, Tag 08J8] over `C/U` at the three objects the mate lives between, on the nose.
 

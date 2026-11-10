@@ -53,7 +53,7 @@ carrying `L(n P₀)` into `L(n P₁)` for every `n`. There is a constant `γ` su
 `q ^ ν = r²` with `r = p ^ e` and `r > γ² + 3γ + 1`, every finite set `S` of closed points other
 than `P₀` at which `σ y ≡ y ^ (r²)` for every regular `y` has
 `∑_{x ∈ S} deg x + 1 ≤ r² + (2γ + 1) r`. -/
-theorem exists_sum_curveDeg_add_one_le_twisted [Fintype k] (pr : ℕ) [Fact pr.Prime] [CharP k pr]
+theorem exists_sum_curveDeg_add_one_le_twisted [Finite k] (pr : ℕ) [Fact pr.Prime] [CharP k pr]
     (P₀ P₁ : CurvePlace X) (hcl : IsClosed ({P₀.1} : Set X)) (hP₀ : curveDeg k p P₀ = 1)
     (hP₁ : curveDeg k p P₁ = 1)
     (hsurj : Function.Surjective fun c : k =>
@@ -65,6 +65,7 @@ theorem exists_sum_curveDeg_add_one_le_twisted [Fintype k] (pr : ℕ) [Fact pr.P
         (∀ P ∈ S, ∀ y : X.functionField, 0 ≤ curveVal hdvr P y →
           ((1 : ℤ) : WithTop ℤ) ≤ curveVal hdvr P (σ y - y ^ (pr ^ e * pr ^ e))) →
         ∑ P ∈ S, curveDeg k p P + 1 ≤ pr ^ e * pr ^ e + (2 * γ + 1) * pr ^ e := by
+  have := Fintype.ofFinite k
   let := functionFieldAlgebra p
   have : CharP X.functionField pr :=
     charP_of_injective_algebraMap (algebraMap k X.functionField).injective pr
@@ -106,7 +107,7 @@ theorem mapsTo_poleSpace_placeMap (s : X ≅ X) (P₀ : CurvePlace X) (n : ℕ) 
   have hPeq : P = placeMap s (placeMap s.symm P) := by
     refine Subtype.ext ?_
     have h := congrArg (fun g : X ⟶ X => g.base P.1) s.inv_hom_id
-    simpa [placeMap] using h.symm
+    simp [placeMap]
   have hne : placeMap s.symm P ≠ P₀ := by
     intro h
     exact hP (hPeq.trans (congrArg (placeMap s) h))
@@ -205,7 +206,7 @@ theorem sum_ncard_twisted_le_card_mul {H X' : Type*} [Group H] [Fintype H] [MulA
   -- every twisted point lies over a fixed point downstairs
   have hmaps : ∀ σ : H, ∀ w, F w = σ • w → ρ w ∈ {x | F' x = x} := by
     intro σ w hw
-    show F' (ρ w) = ρ w
+    change F' (ρ w) = ρ w
     rw [← hρF, hw, hρH]
   have hPfin : (ρ ⁻¹' {x | F' x = x}).Finite := hD.preimage' fun x _ => (hfib x).1
   set P := hPfin.toFinset
@@ -228,7 +229,7 @@ theorem sum_ncard_twisted_le_card_mul {H X' : Type*} [Group H] [Fintype H] [MulA
             ↑(s.filter fun a => ρ a.2 = x) := by
           rintro ⟨σ, w⟩ ha ⟨σ', w'⟩ ha' (hww' : w = w')
           subst hww'
-          simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_sigma, Finset.mem_univ,
+          simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_sigma, Finset.mem_univ,
             true_and, A, Finset.mem_filter, s] at ha ha'
           have h1 : σ⁻¹ * σ' = 1 := by
             refine hfree _ w ?_

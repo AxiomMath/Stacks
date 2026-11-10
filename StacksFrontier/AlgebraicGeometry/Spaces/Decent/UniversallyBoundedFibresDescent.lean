@@ -119,6 +119,7 @@ namespace Space
 /-! ### Descent along a flat surjection -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis over the slices `BigFppfOver B S hS` of the big fppf site is expensive here
 /-- **Stacks 03JP.** Let `X` be an algebraic space over `S`, let `U ⟶ V` be a morphism of
 schemes over `S` and let `V ⟶ X` be a morphism over `S`. If the fibres of the composite
 `U ⟶ X` are universally bounded and `U ⟶ V` is surjective and flat, then the fibres of

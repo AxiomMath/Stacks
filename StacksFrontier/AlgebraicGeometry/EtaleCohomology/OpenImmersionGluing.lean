@@ -187,7 +187,7 @@ theorem etaleSheaf_glue_of_openImmersion (z : ∀ a, G.obj.obj (op (P a)))
     rw [Category.assoc, Category.assoc]; exact hl.symm)
   have eb : f ≫ gb = l ≫ q₂ o := hom_ext_of_mono_left (p (tgt o)) _ _ (by
     rw [Category.assoc, Category.assoc, ← hq, ← hab]; exact hl.symm)
-  show G.obj.map f.op (G.obj.map ga.op (z (src o))) = G.obj.map f.op (G.obj.map gb.op (z (tgt o)))
+  change G.obj.map f.op (G.obj.map ga.op (z (src o))) = G.obj.map f.op (G.obj.map gb.op (z (tgt o)))
   rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
     ← Functor.map_comp, ← op_comp, ← op_comp, ea, eb, op_comp, op_comp, Functor.map_comp,
     Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]

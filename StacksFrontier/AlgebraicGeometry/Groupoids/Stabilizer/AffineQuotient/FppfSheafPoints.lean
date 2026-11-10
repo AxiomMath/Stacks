@@ -126,7 +126,7 @@ public theorem exists_covering_refining_sieve (B : AlgebraicGeometry.BigFppfSite
         B.coverings_isSite.2.1 ⟨X, E⟩ hE (fun i ↦ ⟨E.X i, G i⟩) hG (fun _ ↦ rfl), ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((G i).f j ≫ E.f i)
+      change Q ((G i).f j ≫ E.f i)
       exact hGle i _ _ ⟨j⟩
 
 private theorem inclusion_coverPreserving_fpqc (B : AlgebraicGeometry.BigFppfSite.{u}) :
@@ -215,7 +215,7 @@ theorem points_map_isLocallySurjective_of_fppf
   have hPlfp : LocallyOfFinitePresentation (pullback.snd f.left s.left) := inferInstance
   have hPsurj : Surjective (pullback.snd f.left s.left) := inferInstance
   have hE : E.presieve₀ ∈ Scheme.fppfPrecoverage (B.inclusion.obj X.left) := by
-    show E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
+    change E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
       (B.inclusion.obj X.left)
     rw [Scheme.presieve₀_mem_precoverage_iff]
     exact ⟨fun y ↦ ⟨PUnit.unit, hPsurj.surj y⟩, fun _ ↦ ⟨hPflat, hPlfp⟩⟩
@@ -248,14 +248,14 @@ theorem points_map_isLocallySurjective_of_fppf
       simpa [b, AlgebraicGeometry.BigFppfSite.inclusion,
         AlgebraicGeometry.schemeBelowInclusion] using href0
     have hbOver : b ≫ P.hom = (F.obj W).hom := by
-      show b ≫ (pullback.snd f.left s.left ≫ B.inclusion.map X.hom) =
+      change b ≫ (pullback.snd f.left s.left ≫ B.inclusion.map X.hom) =
         B.inclusion.map (V.f i) ≫ B.inclusion.map X.hom
       exact congrArg (fun g => g ≫ B.inclusion.map X.hom) hbp
     let β : F.obj W ⟶ P := Over.homMk b hbOver
     have hlift : (F.op.whiskerLeft (yoneda.map f)).app (Opposite.op W) (β ≫ p₁) =
         F.map α ≫ s := by
       apply Over.OverMorphism.ext
-      show b ≫ (p₁.left ≫ f.left) =
+      change b ≫ (p₁.left ≫ f.left) =
         B.inclusion.map (V.f i') ≫ s.left
       exact (congrArg (fun g => b ≫ g) pullback.condition).trans
         ((Category.assoc b p₂.left s.left).symm.trans (congrArg (fun g => g ≫ s.left) hbp))

@@ -80,7 +80,7 @@ theorem hasPositiveGenusNoRationalTail_iff_of_isPullback {k K : Type u} [Field k
   set g : Spec (.of K) ⟶ Spec (.of k) := Spec.map (CommRingCat.ofHom (algebraMap k K))
   have h' : IsPullback a w fV g := h
   have hgen : genus w = genus fV := genus_eq_of_isPullback k K φ a w fV h
-  show (1 ≤ genus w ∧ _) ↔ (1 ≤ genus fV ∧ _)
+  change (1 ≤ genus w ∧ _) ↔ (1 ≤ genus fV ∧ _)
   rw [hgen]
   refine and_congr_right fun hg => ?_
   let : V.Over (Spec (.of k)) := ⟨fV⟩
@@ -105,7 +105,7 @@ theorem hasPositiveGenusNoRationalTail_iff_of_isPullback {k K : Type u} [Field k
     (Subsingleton.elim (α := Spec (.of k)) _ _)
   have hmem : y ∈ (C.comap (pullback.fst fV g)).support := by
     rw [Scheme.IdealSheafData.support_comap]
-    show pullback.fst fV g y ∈ (C.support : Set V)
+    change pullback.fst fV g y ∈ (C.support : Set V)
     rw [hy, ← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨c, rfl⟩
   rw [← SetLike.mem_coe, ← Scheme.IdealSheafData.range_subschemeι] at hmem
@@ -243,7 +243,7 @@ theorem semistableFibreLocus_eq_preimage {X Y : CurveFamily B hZ} (φ : X ⟶ Y)
     semistableFibreLocus X =
       (BigFppfOver.toScheme B integerBase hZ).map φ.baseMap ⁻¹' semistableFibreLocus Y := by
   ext x
-  show HasSemistableFibreAt X _ ↔ HasSemistableFibreAt Y _
+  change HasSemistableFibreAt X _ ↔ HasSemistableFibreAt Y _
   refine (CurveFamily.hasFibreSatisfying_map_iff φ _).symm.trans
     (hasSemistableFibreAt_iff_of_schemePoint_eq hY ?_)
   rw [CurveFamily.schemePoint_residueFieldPoint]

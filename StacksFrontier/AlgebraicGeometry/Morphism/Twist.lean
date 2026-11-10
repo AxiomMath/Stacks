@@ -424,7 +424,7 @@ public theorem restrictFunctor_map_eq_of_pullback_map_eq {X Y : Scheme.{u}} (f :
       e.hom.app M ≫ (Scheme.Modules.pullback f).map φ := e.hom.naturality φ
   have hφ' : (Scheme.Modules.restrictFunctor f).map φ' ≫ e.hom.app N =
       e.hom.app M ≫ (Scheme.Modules.pullback f).map φ' := e.hom.naturality φ'
-  haveI : Mono (e.hom.app N) := (inferInstance : Mono (e.app N).hom)
+  have : Mono (e.hom.app N) := (inferInstance : Mono (e.app N).hom)
   refine (cancel_mono (e.hom.app N)).mp (hφ.trans ?_)
   exact (congrArg (fun α => e.hom.app M ≫ α) h).trans hφ'.symm
 

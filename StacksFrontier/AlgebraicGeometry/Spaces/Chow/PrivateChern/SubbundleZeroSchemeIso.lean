@@ -146,7 +146,7 @@ theorem modulePullback_map_subbundleMorphism_eq_zero_of_mem {T : BigFppfOver B S
     (isInvertibleModule_projectiveBundleTwist E hfreeE) _).1
     ⟨ObjectProperty.homMk k, ObjectProperty.hom_ext _ ?_⟩
   apply yonedaEquiv.injective
-  show yonedaEquiv (k ≫ (subbundleZeroScheme hfreeE i hL).1.ι) =
+  change yonedaEquiv (k ≫ (subbundleZeroScheme hfreeE i hL).1.ι) =
     yonedaEquiv (yoneda.map x ≫ (projectiveBundleChartPresentation E hfreeE).toSpace)
   rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, hk]
   rfl
@@ -187,7 +187,7 @@ theorem isLocallySurjective_subbundleZeroSchemeLift (hiq : i ≫ q = 0)
       (projectiveBundleChartPresentation E hfreeE).toSpace.app (op T')
         ((yoneda.map (chartEmbedding hfreeE hfreeF q hq)).app (op T') x') := by
     rw [← NatTrans.comp_app_apply, ← NatTrans.comp_app_apply, hatlas]
-  show (subbundleZeroScheme hfreeE i hL).1.ι.app (op T')
+  change (subbundleZeroScheme hfreeE i hL).1.ι.app (op T')
       (h.hom.app (op T') ((projectiveBundleChartPresentation F hfreeF).toSpace.app (op T') x')) =
     (projectiveBundle E hfreeE).1.map f.op ((subbundleZeroScheme hfreeE i hL).1.ι.app _ z)
   rw [k1, k2, ← hx, ← hx']

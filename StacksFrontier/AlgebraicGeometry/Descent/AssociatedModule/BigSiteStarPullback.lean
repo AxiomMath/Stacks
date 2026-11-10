@@ -129,7 +129,7 @@ public theorem comparisonComp_objStarPullbackIso :
         (objForwardSharp B S hS T) := by
   ext : 2
   funext Z
-  show B.structureSheaf.obj.map
+  change B.structureSheaf.obj.map
         (Quiver.Hom.op (pullback.fst (Over.hom Z.unop) (Over.hom T))) ≫
       B.structureSheaf.obj.map
         (Quiver.Hom.op ((objStarPullbackIso B S hS T).hom.app Z.unop).left) =

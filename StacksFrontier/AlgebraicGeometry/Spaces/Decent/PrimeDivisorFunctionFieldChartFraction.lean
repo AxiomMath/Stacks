@@ -149,7 +149,6 @@ because a meromorphic function is a fraction, the second because the map on tota
 fractions is the localization of that restriction. -/
 theorem PrimeDivisor.genericChartMeromorphicToGeneric_eq_mk'
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCof : IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (m : (meromorphicChartSheaf B S hS X hX).obj.obj (op (Z.genericEtaleChart B S hS hX hdec)))
     (p : chartRing B S hS X hX (Z.genericEtaleChart B S hS hX hdec))
     (q : (chartRing B S hS X hX (Z.genericEtaleChart B S hS hX hdec))⁰)
@@ -161,12 +160,11 @@ theorem PrimeDivisor.genericChartMeromorphicToGeneric_eq_mk'
         ((meromorphicChartSheaf B S hS X hX).obj.obj
           (op (Z.genericEtaleChart B S hS hX hdec))) p) :
     Z.genericChartMeromorphicToGeneric B S hS hX hdec hInt hN m =
-      Z.chartTotalFractionRingToGeneric B S hS hX hdec hCof
+      Z.chartTotalFractionRingToGeneric B S hS hX hdec
         (IsLocalization.mk'
           (FractionRing (chartRing B S hS X hX (Z.genericEtaleChart B S hS hX hdec))) p q) := by
   have hle := Z.nonZeroDivisors_le_comap_chartSectionsToGenericHenselianLocalRing B S hS hX hdec
-    hCof
-  have hmap : Z.chartTotalFractionRingToGeneric B S hS hX hdec hCof
+  have hmap : Z.chartTotalFractionRingToGeneric B S hS hX hdec
       (IsLocalization.mk'
         (FractionRing (chartRing B S hS X hX (Z.genericEtaleChart B S hS hX hdec))) p q) =
       IsLocalization.mk' (Z.genericTotalFractionRing B S hS hX hdec)

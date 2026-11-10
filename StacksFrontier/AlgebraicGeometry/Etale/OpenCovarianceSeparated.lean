@@ -175,7 +175,7 @@ public theorem eq_finiteSupportExtension_of_unit_eq (V : SmallEtale B Y.obj Y.pr
         (openCovarianceSupportObject B f V (imageFiniteSupport B j f V E))
         ((openCovarianceSupportOpen B f V (imageFiniteSupport B j f V E)).ι.base ⁻¹'
           (imageFiniteSupport B j f V E).1) := by
-    show supportSection B X.obj X.property F _ _ ⊆ _
+    change supportSection B X.obj X.property F _ _ ⊆ _
     rw [supportSection_map, openObjectι_map]
     exact Set.preimage_mono hsub
   have hcomp : F.obj.map (covarianceTargetOpenMap B j f V E
@@ -269,7 +269,7 @@ public theorem openCovariancePresheafMap_comp_finiteSupportPushforwardIso :
   obtain ⟨V⟩ := V
   apply finiteSupportPushforwardGenerator_hom_ext B (j ≫ f) ((openRestriction B j).obj F) V
   intro E
-  show finiteSupportPushforwardGenerator B (j ≫ f) ((openRestriction B j).obj F) V E ≫
+  change finiteSupportPushforwardGenerator B (j ≫ f) ((openRestriction B j).obj F) V E ≫
       covariancePresheafApp B j f F V ≫
         ((finiteSupportPushforwardIso.{u, max (u + 1) v} B f).val.hom.app F).app (op V) =
     finiteSupportPushforwardGenerator B (j ≫ f) ((openRestriction B j).obj F) V E ≫

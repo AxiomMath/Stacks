@@ -272,8 +272,7 @@ theorem isIso_restrictionBaseChange_largeUnit
   have h : restrictionBaseChange (largeUnit.{u, v, r, m} R) f =
       ModuleCat.ofHom (largeUnitBaseChangeEquiv.{u, v, r, m} R f).toLinearMap := by
     refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact ((map_add _ z w).trans (congrArg₂ (· + ·) hz hw)).trans (map_add _ z w).symm
     | tmul s x =>

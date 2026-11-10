@@ -46,6 +46,7 @@ attribute [local instance] FlatFppf.hasSheafify_fppf_addCommGrpCat
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasExt` and enough injectives on `fppfModules` is deep
 /-- **Stacks 0775** part (1), for the fppf topology, at the module universe `u` of the schemes.
 Let `𝒳` be an algebraic stack and `ℱ` a parasitic sheaf of `𝒪_𝒳`-modules (**Stacks 0773**).
 Then `H^i(𝒳, ℱ) = 0` for every `i`, where `H^i(𝒳, -)` is

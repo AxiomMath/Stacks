@@ -83,7 +83,7 @@ private theorem inv_sheafPushforwardContinuous_isEquivalence
       (b.inducedTopology K)).IsEquivalence := by
   have : b.asEquivalence.inverse.IsDenseSubsite K (b.inducedTopology K) :=
     inferInstanceAs (b.inv.IsDenseSubsite K (b.inducedTopology K))
-  show (b.asEquivalence.sheafCongr (b.inducedTopology K) K
+  change (b.asEquivalence.sheafCongr (b.inducedTopology K) K
     AddCommGrpCat.{u}).functor.IsEquivalence
   infer_instance
 
@@ -134,7 +134,7 @@ private theorem finiteFree_generatingSections
       s := F.freeHomEquiv e.hom
       epi := by rw [Equiv.symm_apply_apply]; infer_instance }
   refine ⟨q, ?_, ⟨inferInstanceAs (Finite (ULift.{u} (Fin n)))⟩⟩
-  show IsIso (F.freeHomEquiv.symm (F.freeHomEquiv e.hom))
+  change IsIso (F.freeHomEquiv.symm (F.freeHomEquiv e.hom))
   rw [Equiv.symm_apply_apply]; infer_instance
 
 /-- Finite local freeness in the covering-family sense of Stacks 03DL(2) gives finite local

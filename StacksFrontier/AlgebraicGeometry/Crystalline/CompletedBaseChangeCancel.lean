@@ -158,10 +158,9 @@ theorem completionTensorLevelInvQ_adicQuotientMap (k : ℕ)
     completionTensorLevelInvQ p X Ω k
         (adicQuotientMap (completionTensorMap p X Ω) (le_of_eq (Ideal.map_id Ip)) k y) = y := by
   obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective _ y
-  show completionTensorLevelInv p X Ω k (completionTensorMap p X Ω y) =
+  change completionTensorLevelInv p X Ω k (completionTensorMap p X Ω y) =
     (Ip ^ k • (⊤ : Submodule R (X ⊗[R] Ω))).mkQ y
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul x ω =>
     rw [completionTensorMap, TensorProduct.map_tmul, completionTensorLevelInv,
       TensorProduct.lift.tmul]
@@ -176,12 +175,11 @@ theorem bijective_adicQuotientMap_completionTensorMap (k : ℕ) :
   refine ⟨Function.LeftInverse.injective (completionTensorLevelInvQ_adicQuotientMap p X Ω k),
     fun z => ?_⟩
   obtain ⟨z, rfl⟩ := Submodule.mkQ_surjective _ z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul xh ω =>
     obtain ⟨x, hx⟩ := Submodule.mkQ_surjective (Ip ^ k • (⊤ : Submodule R X)) (xh.val k)
     refine ⟨(Ip ^ k • (⊤ : Submodule R (X ⊗[R] Ω))).mkQ (x ⊗ₜ ω), ?_⟩
-    show (Ip ^ k • (⊤ : Submodule R (AdicCompletion Ip X ⊗[R] Ω))).mkQ
+    change (Ip ^ k • (⊤ : Submodule R (AdicCompletion Ip X ⊗[R] Ω))).mkQ
         (AdicCompletion.of Ip X x ⊗ₜ ω) = _
     rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq, ← TensorProduct.sub_tmul]
     obtain ⟨w, hw⟩ := exists_eq_pow_smul_of_val_eq_zero p k (AdicCompletion.of Ip X x - xh)
@@ -245,7 +243,7 @@ theorem completedBaseChangeCancel_of_tmul (d : D') (m : M) (ω : Ω) :
     rw [LinearEquiv.symm_apply_eq]
     exact ((completionTensorEquiv_of (R := D') p (D' ⊗[D] M) Ω ((d ⊗ₜ m) ⊗ₜ ω)).trans
       (congrArg _ (TensorProduct.map_tmul _ _ _ _))).symm
-  show completedTensorCancelBaseChange p D D' Ω M
+  change completedTensorCancelBaseChange p D D' Ω M
     ((completionTensorEquiv (R := D') p (D' ⊗[D] M) Ω).symm _) = _
   rw [h, completedTensorCancelBaseChange_of_tmul]
 
@@ -285,8 +283,7 @@ theorem completedTensor_addMonoidHom_ext (p : ℕ) {R : Type*} [CommRing R] {Ω 
     (h : ∀ (m : M) (ω : Ω), f (toCompletedTensor p R Ω M (m ⊗ₜ ω)) =
       g (toCompletedTensor p R Ω M (m ⊗ₜ ω))) : f = g := by
   refine addMonoidHom_ext_of_forall_of p fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul m ω => exact h m ω
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
 
@@ -363,7 +360,7 @@ theorem completedBaseChangeCancel_smul_wedgeMap (i : ℕ) (c : D') (ω : Om' i)
       (CompletedDeRham.completedLTensor p D M (psi 1))
   have hFG : F = G := by
     refine completedTensor_addMonoidHom_ext p fun m η => ?_
-    show completedBaseChangeCancel p D D' (Om' (i + 1)) M
+    change completedBaseChangeCancel p D D' (Om' (i + 1)) M
         (c • CompletedDeRham.wedgeMap p D' Om' wedge'
           (CompletedConnection.baseChangeCarrier p D D' M) i ω
           (CompletedConnection.baseChangeValues p D D' M (Om 1) (Om' 1)
@@ -410,11 +407,10 @@ theorem completedBaseChangeCancel_differential (i : ℕ)
       ((TensorProduct.mk D' _ (Om' i)).flip ω).toAddMonoidHom)
   suffices hFG' : F' = G' from DFunLike.congr_fun hFG' xh
   refine adicCompletion_addMonoidHom_ext_of_of p fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul c m =>
-    show completedBaseChangeCancel p D D' (Om' (i + 1)) M
+    change completedBaseChangeCancel p D D' (Om' (i + 1)) M
         (CompletedDeRham.differential p D' Om' wedge' deRham'
           (CompletedConnection.baseChangeCarrier p D D' M)
           (CompletedConnection.baseChange p D D' M (Om 1) (Om' 1) d'
@@ -452,7 +448,7 @@ theorem completedBaseChangeCancel_baseChangeTerm (i : ℕ) (z : CompletedTensor 
         (fun j => semilinearOfScalarTower D D' (psi j)) i)
   suffices hF : F = CompletedDeRham.completedLTensor p D M (psi i) from DFunLike.congr_fun hF z
   refine completedTensor_addMonoidHom_ext p fun m ω => ?_
-  show completedBaseChangeCancel p D D' (Om' i) M
+  change completedBaseChangeCancel p D D' (Om' i) M
       (CompletedDeRham.baseChangeTerm p D D' M Om Om'
         (fun j => semilinearOfScalarTower D D' (psi j)) i
         (toCompletedTensor p D (Om i) M (m ⊗ₜ ω))) =

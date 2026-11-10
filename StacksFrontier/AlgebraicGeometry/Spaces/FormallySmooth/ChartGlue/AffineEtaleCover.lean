@@ -44,12 +44,12 @@ lemma sigmaDesc_comp_hom {I : Type u} (V : I → BigFppfOver B S hS)
     {Z : BigFppfOver B S hS} (r : ∀ i, V i ⟶ Z) :
     (Sigma.desc fun i => (BigFppfOver.toScheme B S hS).map (r i)) ≫ B.inclusion.map Z.hom =
       B.inclusion.map (BigFppfOver.sigmaOver B S hS V hsum).hom := by
-  show _ = B.inclusion.map (B.inclusion.preimage (X := B.obj hsum) (Y := B.obj hS)
+  change _ = B.inclusion.map (B.inclusion.preimage (X := B.obj hsum) (Y := B.obj hS)
     (Sigma.desc fun i => B.inclusion.map (V i).hom))
   rw [B.inclusion.map_preimage]
   refine Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
-  show B.inclusion.map (r i).left ≫ B.inclusion.map Z.hom = _
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
+  change B.inclusion.map (r i).left ≫ B.inclusion.map Z.hom = _
   rw [← Functor.map_comp, Over.w]
 
 /-- The morphism out of a coproduct of objects of the site given by a family of morphisms. -/
@@ -74,7 +74,7 @@ lemma sigmaOverInj_sigmaDescOver {I : Type u} (V : I → BigFppfOver B S hS)
     BigFppfOver.sigmaOverInj B S hS V hsum i ≫ sigmaDescOver B S hS V hsum r = r i := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   rw [Functor.map_comp, toScheme_map_sigmaDescOver, BigFppfOver.toScheme_map_sigmaOverInj]
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 /-- **A finite affine étale refinement over a quasi-compact base.** -/
 theorem exists_affine_etale_refinement {Z W T : BigFppfOver B S hS} (wZ : W ⟶ Z) (wT : W ⟶ T)
@@ -110,7 +110,7 @@ theorem exists_affine_etale_refinement {Z W T : BigFppfOver B S hS} (wZ : W ⟶ 
       fun O ↦ (V O).left.property
   have : ∀ O, IsAffine ((BigFppfOver.toScheme B S hS).obj (V O)) := haff
   refine ⟨BigFppfOver.sigmaOver B S hS V hsum, sigmaDescOver B S hS V hsum r, ?_, ?_, ?_⟩
-  · show IsAffine (∐ fun O : s => (BigFppfOver.toScheme B S hS).obj (V O))
+  · change IsAffine (∐ fun O : s => (BigFppfOver.toScheme B S hS).obj (V O))
     infer_instance
   · rw [toScheme_map_sigmaDescOver]
     exact IsZariskiLocalAtSource.sigmaDesc fun O ↦ by
@@ -123,7 +123,7 @@ theorem exists_affine_etale_refinement {Z W T : BigFppfOver B S hS} (wZ : W ⟶ 
       rwa [hrange]
     refine ⟨w, Sigma.ι (fun O : s => (BigFppfOver.toScheme B S hS).obj (V O)) ⟨O, hO⟩ v, rfl, ?_⟩
     rw [toScheme_map_sigmaDescOver, ← hv]
-    have h := Sigma.ι_desc (fun O : s ↦ (BigFppfOver.toScheme B S hS).map (r O)) ⟨O, hO⟩
+    have h := Sigma.ι_comp_desc (fun O : s ↦ (BigFppfOver.toScheme B S hS).map (r O)) ⟨O, hO⟩
     exact (congrArg (fun g ↦ g v) h).symm
 
 /-- The image in schemes of a composite of morphisms with étale images is étale. -/
@@ -163,7 +163,7 @@ theorem exists_affine_etale_cover_through {Z W T : BigFppfOver B S hS} (wZ : W �
     obtain ⟨w, e, hw, he⟩ := hEcov t
     obtain ⟨z, hz₁, -⟩ := Scheme.Pullback.exists_preimage_pullback w e he
     refine ⟨hsq.isoPullback.inv z, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map wT
+    change (BigFppfOver.toScheme B S hS).map wT
       ((BigFppfOver.toScheme B S hS).map (pullback.fst wZ eZ) (hsq.isoPullback.inv z)) = t
     have h1 := congrArg (fun g ↦ g z) hsq.isoPullback_inv_fst
     simp only [Scheme.Hom.comp_apply] at h1

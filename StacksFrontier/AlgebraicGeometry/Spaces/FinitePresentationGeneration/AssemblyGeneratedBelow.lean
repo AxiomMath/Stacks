@@ -124,7 +124,7 @@ theorem exists_isFinitePresentation_family_of_isEtaleLocallyGeneratedBelow
     have hm : Z.val.map (w k l m).op (g.val.app (op (V' k)) (x k l)) = 0 := by
       refine (PresheafOfModules.naturality_apply g.val (w k l m).op (x k l)).symm.trans ?_
       refine (congrArg (g.val.app _) (ht k l m)).symm.trans ?_
-      show (ψ k l m ≫ g).val.app _ (t k l m) = 0
+      change (ψ k l m ≫ g).val.app _ (t k l m) = 0
       rw [hg ⟨k, l, m⟩]
       rfl
     refine (PresheafOfModules.map_comp_apply Z.val (w k l m).op h.op _).trans ?_
@@ -135,9 +135,9 @@ theorem exists_isFinitePresentation_family_of_isEtaleLocallyGeneratedBelow
       funext Y
       have hs := ((σ k).s l).property
         (Over.homMk Y.unop.hom (Category.comp_id _) : Y.unop ⟶ Over.mk (𝟙 (V' k))).op
-      show g.val.app (op Y.unop.left) (((σ k).s l).val Y) = 0
+      change g.val.app (op Y.unop.left) (((σ k).s l).val Y) = 0
       rw [← hs]
-      show g.val.app (op Y.unop.left) (M.val.map Y.unop.hom.op (x k l)) = 0
+      change g.val.app (op Y.unop.left) (M.val.map Y.unop.hom.op (x k l)) = 0
       refine (PresheafOfModules.naturality_apply g.val Y.unop.hom.op (x k l)).trans ?_
       exact (congrArg (Z.val.map Y.unop.hom.op) (h2 k l)).trans (map_zero _)
   exact hom_eq_zero_of_coversTop (Y := V') g hVcov fun k W b =>

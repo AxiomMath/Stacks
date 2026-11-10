@@ -224,7 +224,7 @@ theorem totDTo_totSingle_baseCochain (b : ℕ) (ν : ⋀[A]^b ↑(CommRingCat.Ka
     funext t
     refine (EP.e (b + 1) t).injective ?_
     rw [cochainMap_apply, EP.e_d, Pi.zero_apply, map_zero]
-    show Stacks.KatzOda.dForms (D.ψ t) b
+    change Stacks.KatzOda.dForms (D.ψ t) b
       ((EP.e b t) ((EP.e b t).symm (Stacks.KatzOda.Cech.baseForm D b t ν))) = 0
     rw [AddEquiv.apply_symm_apply, Stacks.KatzOda.Cech.dForms_baseForm, hν]
     exact Stacks.AlgebraicGeometry.AffineOpenDeRham.formsMap_zero _ _ _ _ _
@@ -268,7 +268,7 @@ theorem restrict_cres_last (b r : ℕ) (t : Fin (r + 1) → ι)
           (y (t ∘ fun _ : Fin 1 => Fin.last r))) =
       cres (coverObject U hU) ((sliceDeRhamComplex p).X b) (fun _ : Fin 1 => Fin.last r) t
         (sliceCochain p U hU b 0 y (t ∘ fun _ : Fin 1 => Fin.last r)) := by
-  show (Scheme.Hom.relativeDifferentialForms p (b : ℤ)).presheaf.map _
+  change (Scheme.Hom.relativeDifferentialForms p (b : ℤ)).presheaf.map _
       ((Scheme.Hom.relativeDifferentialForms p (b : ℤ)).presheaf.map
         (interMap U t (fun _ : Fin 1 => Fin.last r)).op (y (t ∘ fun _ : Fin 1 => Fin.last r))) =
     (Scheme.Hom.relativeDifferentialForms p (b : ℤ)).presheaf.map
@@ -325,7 +325,7 @@ theorem sliceTot_mulTot (b : ℕ) (ν : ⋀[Γ(Y, ⊤)]^b ↑(CommRingCat.Kaehle
   · obtain ⟨a, rfl⟩ : ∃ a, c = a + b := ⟨c - b, by omega⟩
     funext t
     refine Eq.trans ?_ (rightMul_apply_of_le _ _ b _ hN _ r (a + b) hj hc t).symm
-    show (interRestrictUp U (fun _ => le_top) ((f ≫ g).sectionsDeRhamComplex.X (a + b)) t).hom
+    change (interRestrictUp U (fun _ => le_top) ((f ≫ g).sectionsDeRhamComplex.X (a + b)) t).hom
       (Stacks.KatzOda.Cech.mulTotAt _ _ b ν hN z r (a + b) hj t) = _
     rw [Stacks.KatzOda.Cech.mulTotAt_eq _ _ b ν hN z r a (a + b) rfl hj (by omega)]
     have key : ∀ (a' : ℕ) (e : a' = a) (h1 : a' + b = a + b) (h2 : (r : ℤ) + a' = m) Y,
@@ -343,7 +343,7 @@ theorem sliceTot_mulTot (b : ℕ) (ν : ⋀[Γ(Y, ⊤)]^b ↑(CommRingCat.Kaehle
     congr 1
     exact restrict_cres_last (f ≫ g) U hU b r t _
   · refine Eq.trans ?_ (rightMul_apply_of_lt _ _ b _ hN _ r c hj (by omega)).symm
-    show (fun t => (interRestrictUp U (fun _ => le_top) ((f ≫ g).sectionsDeRhamComplex.X c)
+    change (fun t => (interRestrictUp U (fun _ => le_top) ((f ≫ g).sectionsDeRhamComplex.X c)
       t).hom (Stacks.KatzOda.Cech.mulTotAt _ _ b ν hN z r c hj t)) = 0
     rw [Stacks.KatzOda.Cech.mulTotAt_of_lt _ _ b ν hN z r c hj (by omega)]
     funext t
@@ -389,7 +389,7 @@ theorem deRhamCup_cechClass [IsAffineHom (pullback.diagonal (terminal.from X))] 
           (by rw [Category.assoc,
             Stacks.CupProduct.cupPair_comp_gamma_comp_d_eq_zero _ _ _ _ m b N h a w ha hw,
             comp_zero]) (1 : SectionRing (ringSheaf (baseSheaf p)) ⊤))) := by
-  show (hIso p N).hom.hom (cup _ _ _ (deRhamPairing p) m b N h
+  change (hIso p N).hom.hom (cup _ _ _ (deRhamPairing p) m b N h
       ((hIso p m).inv.hom ((hIso p m).hom.hom _)) ((hIso p b).inv.hom ((hIso p b).hom.hom _))) = _
   refine congrArg (fun t => (hIso p N).hom.hom t) ?_
   refine (congrArg₂ (cup _ _ _ (deRhamPairing p) m b N h) (Iso.hom_inv_id_apply _ _)

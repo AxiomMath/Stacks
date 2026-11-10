@@ -162,7 +162,7 @@ theorem derivedExtensionScalarsHomologyIso_eq
       (CochainComplex.KFlat.chosenResolution.{u, max v w}
         (DerivedCategory.Q.objPreimage X)).quasiIso
   apply Iso.ext
-  show (DerivedCategory.homologyFunctor (ModuleCat.{max u v w} S) i).map
+  change (DerivedCategory.homologyFunctor (ModuleCat.{max u v w} S) i).map
         ((derivedExtensionScalarsGeneral.{u, max u v w, v} f).functor.map
             (asIso (DerivedCategory.Q.map (CochainComplex.KFlat.chosenResolution.{u, max v w}
               (DerivedCategory.Q.objPreimage X)).π) ≪≫

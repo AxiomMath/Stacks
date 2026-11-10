@@ -300,7 +300,7 @@ theorem mateEquiv_symm_natTrans_app {C D E F : Type*} [Category C] [Category D] 
     [Category F] {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F} {R₂ : F ⥤ E}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare R₁ H G R₂) (c : C) :
     ((mateEquiv adj₁ adj₂).symm α).app c =
-      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.natTrans.app (L₁.obj c)) ≫
+      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.app (L₁.obj c)) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) := by
   simp [mateEquiv]
 

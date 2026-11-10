@@ -95,7 +95,7 @@ theorem torsor_spec {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
   have h2 : (boundaryPresheafSection (abelianComplex i ε w) (oneHom i ε w)).app (op V)
       (ULift.up 1) = oneSection ℓ V := by
     rw [boundaryPresheafSection_oneHom]
-    show (1 : ℤ) • oneSection ℓ V = _
+    change (1 : ℤ) • oneSection ℓ V = _
     rw [one_smul]
   exact p.2.trans h2
 
@@ -119,7 +119,7 @@ theorem map_oneSectionAb {V W : X.Etale} (f : W ⟶ V) :
 
 /-- `ℓ` times the constant section `1` of `ℤ/ℓ` is zero. -/
 theorem nsmul_oneSectionAb_self (V : X.Etale) : ℓ • oneSectionAb (ℓ := ℓ) V = 0 := by
-  show ℓ • oneSection ℓ V = 0
+  change ℓ • oneSection ℓ V = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_self, zero_smul]
 
 /-- The constant sheaf `ℤ/ℓ` of modules underlies the constant abelian sheaf `ℤ/ℓ`. -/
@@ -173,7 +173,7 @@ theorem translation_pow_app (n : ℕ) {V : X.Etale} (p : (torsor i ε w).obj.obj
     rfl
   | succ n ih =>
     rw [pow_succ, End.mul_asHom]
-    show (translation hS ^ n).asHom.hom.app (op V) ((translation hS).asHom.hom.app (op V) p) = _
+    change (translation hS ^ n).asHom.hom.app (op V) ((translation hS).asHom.hom.app (op V) p) = _
     rw [ih, translation_app, ← fiberSheafAct_add, succ_nsmul, add_comm]
 
 /-- **`τ^ℓ = 1`.** -/
@@ -181,7 +181,7 @@ theorem translation_pow_self : translation hS ^ ℓ = 1 := by
   ext : 1
   apply Sheaf.hom_ext
   ext V p
-  show (translation hS ^ ℓ).asHom.hom.app (op V.unop) p = p
+  change (translation hS ^ ℓ).asHom.hom.app (op V.unop) p = p
   rw [translation_pow_app, nsmul_oneSectionAb_self, fiberSheafAct_zero]
 
 section Fibre
@@ -274,12 +274,12 @@ theorem presheafFiber_map_pow_apply (n : ℕ)
       ((Φ.presheafFiber (A := Type (u + 1))).map (translation hS).asHom.hom)^[n] t := by
   induction n generalizing t with
   | zero =>
-    show (Φ.presheafFiber (A := Type (u + 1))).map (𝟙 _) t = t
+    change (Φ.presheafFiber (A := Type (u + 1))).map (𝟙 _) t = t
     rw [CategoryTheory.Functor.map_id]
     rfl
   | succ n ih =>
     rw [pow_succ, End.mul_asHom]
-    show (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS).asHom.hom ≫
+    change (Φ.presheafFiber (A := Type (u + 1))).map ((translation hS).asHom.hom ≫
       (translation hS ^ n).asHom.hom) t = _
     rw [Functor.map_comp, types_comp_apply, ih, Function.iterate_succ_apply]
 
@@ -304,12 +304,12 @@ theorem exists_iterate_eq (t t' : (Φ.presheafFiber (A := Type (u + 1))).obj (to
     ← Φ.toPresheafFiber_w_apply g z, Φ.toPresheafFiber_naturality_apply, ← ha]
   congr 1
   rw [translation_pow_app]
-  show _ = (torsor i ε w).obj.map g.op (fiberSheafAct _ _ (abelianComplex_shortExact hS) a p)
+  change _ = (torsor i ε w).obj.map g.op (fiberSheafAct _ _ (abelianComplex_shortExact hS) a p)
   rw [fiberSheaf_map_fiberSheafAct _ _ (abelianComplex_shortExact hS) g]
   congr 1
-  show _ = (unitSheaf ℓ).obj.map g.op a'
+  change _ = (unitSheaf ℓ).obj.map g.op a'
   rw [hW, map_smul, map_oneSection]
-  show ((m.val : ℕ) • oneSection ℓ W) = m • oneSection ℓ W
+  change ((m.val : ℕ) • oneSection ℓ W) = m • oneSection ℓ W
   rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_zmod_val]
 
 omit [NeZero ℓ] in

@@ -328,7 +328,6 @@ lemma mapExtendHomotopyNatIso_hom_natTrans :
   funext K
   obtain ⟨K, rfl⟩ := HomotopyCategory.quotient_obj_surjective K
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
-    NatTrans.mapHomotopyCategory_app, HomotopyCategory.quotient_obj_as,
     mapExtendHomotopyNatIso_hom_app]
   exact ((HomotopyCategory.quotient B c').map_comp _ _).symm.trans
     ((congrArg (HomotopyCategory.quotient B c').map (mapExtendIso_hom_natTrans α e K)).trans

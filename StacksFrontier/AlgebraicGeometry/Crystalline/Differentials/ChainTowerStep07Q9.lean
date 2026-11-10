@@ -189,7 +189,7 @@ theorem completionFormsMap07Q9_eq_mapAddHom (i : ℕ) :
     (completionFormsMap07Q9 p A hJ hp i).toAddMonoidHom =
       PAdicCompletion.mapAddHom p B _ (completionFormsRaw07Q9 p A hJ hp i).toAddMonoidHom := by
   refine PAdicCompletion.mapAddHom_eq_of_val p B _ _ _ fun n z y hz ↦ ?_
-  show adicQuotientMap (completionFormsRaw07Q9 p A hJ hp i) _ n (z.val n) = _
+  change adicQuotientMap (completionFormsRaw07Q9 p A hJ hp i) _ n (z.val n) = _
   rw [hz]
   rfl
 
@@ -201,7 +201,7 @@ theorem completionFormsRaw07Q9_eq (i : ℕ) :
         ((completionFormsPhi07Q9 p A hJ hp i).comp
           (TensorProduct.lid B _).symm.toLinearMap.toAddMonoidHom) :=
   AddMonoidHom.ext fun y ↦ by
-    show _ = unitTensorEquiv07Q9 p (B := B) _ ((unitTensorEquiv07Q9 p (B := B) _).symm
+    change _ = unitTensorEquiv07Q9 p (B := B) _ ((unitTensorEquiv07Q9 p (B := B) _).symm
       (completionFormsRaw07Q9 p A hJ hp i (TensorProduct.lid B _
         ((TensorProduct.lid B _).symm y))))
     rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]

@@ -175,7 +175,7 @@ lemma globalSectionSpan_le_range_sigmaDesc {T : C} (hT : IsTerminal T)
   have h := congrArg
     (fun φ : uliftForPresentation.{u, v, r, r, t} (unit R) ⟶ N =>
       φ.val.app (op W) (uliftUnitGen.{u, v, r, t} R (op W)))
-    (Sigma.ι_desc (fun j => fromUliftUnit.{u, v, r, t} hT (s j)) i)
+    (Sigma.ι_comp_desc (fun j => fromUliftUnit.{u, v, r, t} hT (s j)) i)
   refine h.trans ?_
   rw [fromUliftUnit_val_app]
   exact ModuleCat.uliftSelfHom_uliftSelfGen.{r, t} _ _

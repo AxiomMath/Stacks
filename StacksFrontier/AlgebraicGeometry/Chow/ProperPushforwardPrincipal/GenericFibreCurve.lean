@@ -228,7 +228,7 @@ theorem range_genericFibreCurveι :
     rw [Scheme.IdealSheafData.range_subschemeι, genericFibreCurve_def,
       coe_support_integralComponentAt, ← isGenericPoint_def.mp
         (isGenericPoint_asFiber_genericPoint p)]
-  show Set.range ((p.fiberι (p.base (genericPoint X))).base ∘
+  change Set.range ((p.fiberι (p.base (genericPoint X))).base ∘
     (genericFibreCurve p).subschemeι.base) = _
   rw [Set.range_comp, hsupp, Set.image_univ, Scheme.Hom.range_fiberι]
 

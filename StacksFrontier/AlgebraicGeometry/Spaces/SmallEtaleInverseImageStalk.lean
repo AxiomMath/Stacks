@@ -84,7 +84,7 @@ private theorem representedSpaceHom_comp (t : BigFppfOver B S hS)
     representedSpaceHom B S hS t W (g.hom.app (Opposite.op t) a) =
       representedSpaceHom B S hS t Z a ≫ g := by
   apply ObjectProperty.hom_ext
-  show yonedaEquiv.symm (g.hom.app (Opposite.op t) a) = yonedaEquiv.symm a ≫ g.hom
+  change yonedaEquiv.symm (g.hom.app (Opposite.op t) a) = yonedaEquiv.symm a ≫ g.hom
   apply yonedaEquiv.injective
   rw [Equiv.apply_symm_apply, yonedaEquiv_comp, Equiv.apply_symm_apply]
 

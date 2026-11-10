@@ -69,7 +69,7 @@ private lemma mem_ofList_right_of_mul_mem
     simpa [v, l, List.get_eq_getElem] using h
   have hd : Finsupp.linearCombination A v d = 0 := by
     simp only [d, map_add, map_smul, Finsupp.linearCombination_single]
-    show (-g) * (c.sum fun i a ↦ a • v i) + x * v last = 0
+    change (-g) * (c.sum fun i a ↦ a • v i) + x * v last = 0
     rw [hc]
     simp [v, l, last]
     ring
@@ -99,7 +99,7 @@ lemma length_quotient_eq_add_of_isIndependent_mul (init : List A) (f g : A)
   let L : Ideal A := Ideal.ofList (init ++ [f])
   have hIK : Ideal.ofList init ≤ K := le_sup_left.trans_eq (Ideal.ofList_append init _).symm
   have hJK : J ≤ Submodule.comap (LinearMap.mulRight A f) K := by
-    show Ideal.ofList (init ++ [g]) ≤
+    change Ideal.ofList (init ++ [g]) ≤
       Submodule.comap (LinearMap.mulRight A f) (Ideal.ofList (init ++ [f * g]))
     rw [Ideal.ofList_append, Ideal.ofList_singleton, Ideal.ofList_append, Ideal.ofList_singleton]
     refine sup_le (fun x hx ↦ Submodule.mem_comap.mpr
@@ -115,7 +115,7 @@ lemma length_quotient_eq_add_of_isIndependent_mul (init : List A) (f g : A)
       (by rwa [mul_comm f x])) hJK
   have hφinj : Function.Injective φ := by
     apply LinearMap.ker_eq_bot.mp
-    show LinearMap.ker (J.mapQ K (LinearMap.mulRight A f) hJK) = ⊥
+    change LinearMap.ker (J.mapQ K (LinearMap.mulRight A f) hJK) = ⊥
     rw [Submodule.ker_mapQ, hker, Submodule.mkQ_map_self]
   have hExact : Function.Exact φ ψ := by
     rw [LinearMap.exact_iff]
@@ -129,7 +129,7 @@ lemma length_quotient_eq_add_of_isIndependent_mul (init : List A) (f g : A)
       obtain ⟨u, hu, v, hv, hav⟩ := Submodule.mem_sup.mp haL
       obtain ⟨b, hb⟩ := Ideal.mem_span_singleton.mp hv
       refine ⟨J.mkQ b, ?_⟩
-      show K.mkQ (b * f) = K.mkQ a
+      change K.mkQ (b * f) = K.mkQ a
       apply (Submodule.Quotient.eq K).mpr
       rw [← hav, hb]
       convert K.neg_mem (hIK hu) using 1

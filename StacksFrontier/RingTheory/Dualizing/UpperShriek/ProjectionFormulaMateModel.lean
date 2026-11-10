@@ -262,7 +262,7 @@ theorem projEvalLeft_app_eq_of_model (φ : A →+* B)
             ((tensorRightDerived.{u, max u v} B (E.functor.obj N)).map t.hom ≫
               (derivedHomAdjunctionOverRing.{u, max u v, max u v + 1} B).evaluation
                 (E.functor.obj N) W) := by
-  show (derivedProjNatIso.{u, max u v} φ E _ adj N).inv.app
+  change (derivedProjNatIso.{u, max u v} φ E _ adj N).inv.app
         ((derivedHomAdjunctionOverRing.{u, max u v, max u v + 1} B).hom.obj
           (Opposite.op (E.functor.obj N), W)) ≫
       (ModuleCat.restrictScalars.{max u v} φ).mapDerivedCategory.map

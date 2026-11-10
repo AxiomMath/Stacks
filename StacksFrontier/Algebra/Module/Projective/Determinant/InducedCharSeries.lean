@@ -162,10 +162,11 @@ public theorem piDiag_apply {ι : Type*} {V : ι → Type*} [∀ i, AddCommGroup
 
 omit [Module.Finite R M] in
 /-- A finite product of projective modules is projective. -/
-public theorem projective_pi {ι : Type*} [Fintype ι] {V : ι → Type*} [∀ i, AddCommGroup (V i)]
+public theorem projective_pi {ι : Type*} [Finite ι] {V : ι → Type*} [∀ i, AddCommGroup (V i)]
     [∀ i, Module R (V i)] [∀ i, Module.Projective R (V i)] :
     Module.Projective R (∀ i, V i) := by
   classical
+  have := Fintype.ofFinite ι
   exact Module.Projective.of_equiv (DFinsupp.linearEquivFunOnFintype (R := R) (M := V))
 
 attribute [local instance] projective_pi
@@ -187,7 +188,7 @@ public theorem det_piDiag : ∀ (ι : Type w) [Fintype ι] (V : ι → Type v) [
       rw [LinearEquiv.conj_apply, LinearEquiv.symm_symm]
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply,
         piDiag_apply]
-      show ψ (e a) ((Equiv.piCongrLeft V e v) (e a)) =
+      change ψ (e a) ((Equiv.piCongrLeft V e v) (e a)) =
         (Equiv.piCongrLeft V e (fun a => ψ (e a) (v a))) (e a)
       rw [Equiv.piCongrLeft_apply_apply, Equiv.piCongrLeft_apply_apply]
     rw [← det_linearEquiv_conj E.symm, hc, h (fun a => V (e a)) fun a => ψ (e a)]

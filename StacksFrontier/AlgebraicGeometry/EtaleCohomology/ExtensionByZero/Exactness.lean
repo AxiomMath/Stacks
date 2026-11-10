@@ -143,7 +143,7 @@ theorem mono_sigmaMap {ι : Type w} {A B : ι → AddCommGrpCat.{max w w'}}
       fun Z : Discrete ι => p Z.as).app Z) := fun ⟨i⟩ => hp i
   have : Mono (Discrete.natTrans (F := Discrete.functor A) (G := Discrete.functor B)
       fun Z : Discrete ι => p Z.as) := NatTrans.mono_of_mono_app _
-  show Mono ((colim (J := Discrete ι) (C := AddCommGrpCat.{max w w'})).map
+  change Mono ((colim (J := Discrete ι) (C := AddCommGrpCat.{max w w'})).map
     (Discrete.natTrans (F := Discrete.functor A) (G := Discrete.functor B)
       fun Z : Discrete ι => p Z.as))
   infer_instance
@@ -155,7 +155,7 @@ private theorem ι_comp_sectionIso_hom
     Limits.Sigma.ι
         (fun ψ : V ⟶ smallEtaleSource j => F.obj (Opposite.op (sourceDescend j ψ))) φ ≫
       (extensionByZeroPresheafSectionIso j F V).hom = extensionByZeroSummandInclusion j F φ :=
-  Limits.Sigma.ι_desc (fun ψ => extensionByZeroSummandInclusion j F ψ) φ
+  Limits.Sigma.ι_comp_desc (fun ψ => extensionByZeroSummandInclusion j F ψ) φ
 
 /-- The direct-sum formula of Stacks Tag 0F4K is natural in the presheaf: the map induced on the
 sections of `j_{p!}` over `V` by a map `α : F ⟶ F'` of presheaves is the coproduct of the

@@ -172,13 +172,13 @@ theorem isFinite_target_of_isFinite_source (G : GroupoidInAlgebraicSpaces C S hS
   obtain ⟨i, hi, -⟩ := Deformation.existsUnique_inverse G.toGroupoidInFunctors
   have hii : i ≫ i = 𝟙 _ := by
     ext T a
-    show i.app T (i.app T a) = a
+    change i.app T (i.app T a) = a
     rw [hi, hi]
     exact inverseArrow_involutive G.toGroupoidInFunctors T a
   let e : G.arrows.obj ≅ G.arrows.obj := ⟨i, i, hii, hii⟩
   have his : e.hom ≫ G.source.hom = G.target.hom := by
     ext T a
-    show G.source.hom.app T (i.app T a) = G.target.hom.app T a
+    change G.source.hom.app T (i.app T a) = G.target.hom.app T a
     exact (congrArg (G.source.hom.app T) (hi T a)).trans
       (inverseArrow_source_target G.toGroupoidInFunctors T a).1
   rw [← his]
@@ -224,17 +224,17 @@ private theorem preserves_comp_of_fullyFaithful {J : Type w} [Category.{v} J]
   classical
   refine arrow_ext_of_fullyFaithful g T (Classical.choice (hg T)) ?_ ?_ ?_
   · rw [functorGroupoid_comp_source G T _ _ _]
-    show (q ≫ G.source).app T _ = (q ≫ G.source).app T _
+    change (q ≫ G.source).app T _ = (q ≫ G.source).app T _
     rw [hs]
-    show p.app T (H.source.app T _) = p.app T (H.source.app T b)
+    change p.app T (H.source.app T _) = p.app T (H.source.app T b)
     rw [functorGroupoid_comp_source H T a b h]
   · rw [functorGroupoid_comp_target G T _ _ _]
-    show (q ≫ G.target).app T _ = (q ≫ G.target).app T _
+    change (q ≫ G.target).app T _ = (q ≫ G.target).app T _
     rw [ht]
-    show p.app T (H.target.app T _) = p.app T (H.target.app T a)
+    change p.app T (H.target.app T _) = p.app T (H.target.app T a)
     rw [functorGroupoid_comp_target H T a b h]
   · rw [← g.map_comp]
-    show (q ≫ g.mapArrows).app T _ = _
+    change (q ≫ g.mapArrows).app T _ = _
     rw [ha, ← f.map_comp]
     have he (r : H.arrows.obj T) : g.mapArrows.app T (q.app T r) = f.mapArrows.app T r :=
       congrArg (fun k => k.app T r) ha
@@ -291,16 +291,16 @@ theorem nonempty_openFiniteSubgroupoid_of_embedding
         (isFinite_target_of_isFinite_source H hf))
   · intro T a
     have he' (x : A.toFunctor.obj T) : q.app T (e.inv.app T x) = x.1 := by
-      show (e.inv ≫ q).app T x = _
+      change (e.inv ≫ q).app T x = _
       rw [← he]
       simp
-    show (e.hom ≫ A.ι).app T _ = _
+    change (e.hom ≫ A.ι).app T _ = _
     rw [he]
     let b := (composableArrowsMap (A.ι ≫ G.source.hom) (A.ι ≫ G.target.hom)
       H.source.hom H.target.hom p.inv e.inv hs' ht').app T a
-    show q.app T (H.toGroupoidInFunctors.compose T b.1.1 b.1.2 b.2) = _
+    change q.app T (H.toGroupoidInFunctors.compose T b.1.1 b.1.2 b.2) = _
     rw [hc]
-    show G.toGroupoidInFunctors.compose T (q.app T (e.inv.app T a.1.1))
+    change G.toGroupoidInFunctors.compose T (q.app T (e.inv.app T a.1.1))
       (q.app T (e.inv.app T a.1.2)) _ = _
     simp only [he']
     rfl
@@ -311,7 +311,7 @@ theorem nonempty_openFiniteSubgroupoid_of_embedding
       (fun a => cmp.app T a) (fun a => (congrArg (fun f => f.app T a) hs').symm)
       (fun a => (congrArg (fun f => f.app T a) ht').symm) ?_⟩
     intro a
-    show (e.hom ≫ e.inv).app T _ = _
+    change (e.hom ≫ e.inv).app T _ = _
     simp only [e.hom_inv_id, NatTrans.id_app]
     rfl
 

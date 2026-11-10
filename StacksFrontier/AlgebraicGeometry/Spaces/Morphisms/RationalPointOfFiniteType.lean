@@ -95,7 +95,7 @@ theorem nonempty_obj_base_of_nonempty_points
     exact MorphismProperty.RespectsIso.postcomp _ hι.hom _ hlft
   -- The target has at most one point, so `f` is surjective on points.
   have hone : Subsingleton (Spec (CommRingCat.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   have _ : Subsingleton ((BigFppfOver.toScheme B S hS).obj T₀) :=
     ⟨fun x y ↦ e.hom.injective (hone.elim _ _)⟩
   have hsub : Subsingleton (points B S hS (yoneda.obj T₀)) :=
@@ -106,7 +106,7 @@ theorem nonempty_obj_base_of_nonempty_points
     exact ⟨x, hsub.elim _ _⟩
   -- Stacks 0487 at `k` itself, with the structure morphism the inverse identification.
   have hk : B.Contains (Spec (.of k)) := by
-    show (Spec (CommRingCat.of k)).size < B.cutoff
+    change (Spec (CommRingCat.of k)).size < B.cutoff
     rw [← Scheme.size_congr e]
     exact hS
   have happ := (isSurjective_iff_surjective_app_isAlgClosed B S hS hX hY f hflft).mp hsurj
@@ -115,7 +115,7 @@ theorem nonempty_obj_base_of_nonempty_points
   -- The object `Spec k ⟶ S` of the site is isomorphic to the base object.
   set m : B.obj hk ⟶ B.obj hS := ⟨e.inv⟩ with hm
   have _ : IsIso (B.inclusion.map m) := by
-    show IsIso e.inv; infer_instance
+    change IsIso e.inv; infer_instance
   have _ : IsIso m := isIso_of_fully_faithful B.inclusion m
   have ei : Over.mk m ≅ T₀ := Over.isoMk (asIso m) (Category.comp_id m)
   exact ⟨X.map ei.inv.op s⟩

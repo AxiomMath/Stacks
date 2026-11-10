@@ -85,7 +85,7 @@ public theorem continuous_ringHom_to_discrete_iff
   constructor
   · intro hf
     have hker : (RingHom.ker f : Set R) ∈ nhds (0 : R) := by
-      show f ⁻¹' {0} ∈ nhds (0 : R)
+      change f ⁻¹' {0} ∈ nhds (0 : R)
       exact hf.continuousAt.preimage_mem_nhds (by simp)
     simpa [SetLike.coe_subset_coe] using I.hasBasis_nhds_zero_adic.mem_iff.mp hker
   · rintro ⟨n, hn⟩
@@ -150,7 +150,7 @@ private theorem continuous_extensionHom_adic
   refine ⟨k, ?_⟩
   rw [← Ideal.map_pow, Ideal.map_le_iff_le_comap]
   intro x hx
-  show Completion.extensionHom f hf x = 0
+  change Completion.extensionHom f hf x = 0
   rw [Completion.extensionHom_coe]
   exact hk hx
 
@@ -163,7 +163,7 @@ private theorem completion_sub_coe_mem_adic_pow
   let : WithIdeal R := ⟨I⟩
   let e := AdicCompletionBridge.adicCompletionRingEquiv I (by rfl : IsAdic I)
   have her (r : R) : e (Completion.coeRingHom r) = AdicCompletion.of I R r := by
-    show e (↑r : Completion R) = AdicCompletion.of I R r
+    change e (↑r : Completion R) = AdicCompletion.of I R r
     exact AdicCompletionBridge.adicCompletionRingEquiv_coe I (by rfl : IsAdic I) r
   have he : e.toRingHom.comp Completion.coeRingHom =
       (algebraMap R (AdicCompletion I R)) :=
@@ -197,7 +197,7 @@ theorem continuous_coeRingHom_adic
   let : WithIdeal R := ⟨I⟩
   refine (continuous_ringHom_adic_iff I (I.map Completion.coeRingHom)
     Completion.coeRingHom).mpr fun n => ⟨n, fun r hr => ?_⟩
-  show Completion.coeRingHom r ∈ (I.map Completion.coeRingHom) ^ n
+  change Completion.coeRingHom r ∈ (I.map Completion.coeRingHom) ^ n
   rw [← Ideal.map_pow]
   exact Ideal.mem_map_of_mem Completion.coeRingHom hr
 
@@ -301,7 +301,7 @@ theorem uniformAdicCompletionMap_comp_algebraMap {R S : Type*} [CommRing R] [Com
   rw [← uniformCompletionRingEquiv_comp_coeRingHom I,
     ← RingHom.comp_assoc, ← uniformCompletionRingEquiv_comp_mapRingHom]
   refine RingHom.ext fun r => ?_
-  show uniformCompletionRingEquiv J
+  change uniformCompletionRingEquiv J
     ((Completion.mapRingHom f hf) (↑r : Completion R)) =
       algebraMap S (AdicCompletion J S) (f r)
   rw [Completion.mapRingHom_coe]
@@ -392,7 +392,7 @@ private theorem formallySmoothTop_target_completion_iff.{u, v, w}
         (⊥ : UniformSpace (A ⧸ K)).toTopologicalSpace barext :=
       continuous_extensionHom_adic J gbar hgbar'
     have hbarext : Continuous barext := by
-      show @Continuous (Completion S) (A ⧸ K) Jhat.adicTopology
+      change @Continuous (Completion S) (A ⧸ K) Jhat.adicTopology
         (topologicalRingQuotientTopology K) barext
       rw [@DiscreteTopology.eq_bot (A ⧸ K)
         (topologicalRingQuotientTopology K) (discrete_ideal_quotient K)]
@@ -421,7 +421,7 @@ private theorem formallySmoothTop_source_completion_iff.{u, v, w}
   let Ihat : Ideal (Completion R) := I.map Completion.coeRingHom
   let : TopologicalSpace (Completion R) := Ihat.adicTopology
   let : IsTopologicalRing (Completion R) := Ihat.nonarchimedean.toIsTopologicalRing
-  show ∀ (F : Completion R →+* T), Continuous F →
+  change ∀ (F : Completion R →+* T), Continuous F →
     (RingHom.FormallySmoothTop.{u} (F.comp Completion.coeRingHom) ↔ RingHom.FormallySmoothTop.{u} F)
   intro F hF
   have hcoe : Continuous (Completion.coeRingHom : R →+* Completion R) :=
@@ -503,7 +503,7 @@ public theorem isFormallySmooth_iff_adicCompletion.{u, v, w}
       (formallySmoothTop_source_completion_iff m hm fhat hfhat :
         RingHom.FormallySmoothTop.{u} (fhat.comp Completion.coeRingHom) ↔
           RingHom.FormallySmoothTop.{u} fhat)
-  show (Continuous f ∧ RingHom.FormallySmoothTop.{u} f ↔
+  change (Continuous f ∧ RingHom.FormallySmoothTop.{u} f ↔
       Continuous toShat ∧ RingHom.FormallySmoothTop.{u} toShat) ∧
     (Continuous toShat ∧ RingHom.FormallySmoothTop.{u} toShat ↔
       Continuous fhat ∧ RingHom.FormallySmoothTop.{u} fhat)

@@ -109,7 +109,7 @@ theorem pointPullbackQuasicoherentDirectImageAddEquiv_unit (M : quasicoherentMod
   have h₁ := congrArg (fun g => ((stackModuleDirectImageSectionsIsoOfIsTerminal B S hS f .fppf
     ht).hom.app (quasicoherentPullbackObj B S hS f M).obj).hom (g.hom m)) hid
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at h₁
-  show ((stackModuleDirectImageSectionsIsoOfIsTerminal B S hS f .fppf ht).hom.app
+  change ((stackModuleDirectImageSectionsIsoOfIsTerminal B S hS f .fppf ht).hom.app
       (quasicoherentPullbackObj B S hS f M).obj).hom
       (((pointPullback B S hS 𝒴 y e).map ((affineQuasicoherentDirectImageIso B S hS f
         hf).hom.app (quasicoherentPullbackObj B S hS f M))).hom
@@ -247,8 +247,7 @@ theorem iSup_range_unit_map_app_eq_top_of_isTerminal {x : 𝒰.val.val.obj}
     (R := (FibredSite.structureSheaf B S hS 𝒰.val.val.p 𝒰.val.isFiberedInGroupoids .fppf).obj)
     N.obj.val k.op
   have hQ : ∀ T, β.hom T ∈ P := fun T => by
-    induction T using TensorProduct.induction_on with
-    | zero => exact (congrArg (· ∈ P) (map_zero β.hom)).mpr (zero_mem P)
+    induction T using TensorProduct.inductionOn with
     | tmul c m =>
       obtain ⟨h, hh⟩ :=
         exists_unit_hom_app_one_eq_map_of_isTerminal B S hS 𝒰 hu₀ (x := x) N m

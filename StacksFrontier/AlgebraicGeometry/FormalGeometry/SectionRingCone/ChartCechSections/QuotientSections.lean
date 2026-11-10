@@ -70,7 +70,7 @@ theorem cechModMap_localizedModuleAwayCongr {R : Type*} [CommRing R] {r : ℕ} (
   subst h
   induction z using LocalizedModule.induction_on with
   | h x u =>
-    show cechModMap f g s (LocalizedModule.mk x u) =
+    change cechModMap f g s (LocalizedModule.mk x u) =
       LocalizedModule.map (Submonoid.powers _) g.hom (LocalizedModule.mk x u)
     rw [cechModMap_mk, LocalizedModule.map_mk]
 
@@ -208,7 +208,7 @@ theorem quotCechCoords_mem_cechCompatible (n : ℕ)
   refine mem_cechCompatible_of_pairs _ _ _ fun a b hab => ?_
   set σa := (exists_quotPi_app_eq L fam s haff m n y a).choose
   set σb := (exists_quotPi_app_eq L fam s haff m n y b).choose
-  show Cech.cechι _ _ _ (cechModMap (famRing L fam) (quotProj L s n) {a}
+  change Cech.cechι _ _ _ (cechModMap (famRing L fam) (quotProj L s n) {a}
       (singletonChart L hL fam a m σa)) =
     Cech.cechι _ _ _ (cechModMap (famRing L fam) (quotProj L s n) {b}
       (singletonChart L hL fam b m σb))
@@ -250,7 +250,7 @@ theorem cechTermOneEquiv_quotCechSection (n : ℕ)
       (natTensorPow L m), ⊤)) (j : Fin r) :
     Stacks.LocalCohomology.cechTermOneEquiv (famRing L fam) _
         (quotCechSection L hL fam s haff m n y).1 j = quotCechCoords L hL fam s haff m n y j := by
-  show Stacks.LocalCohomology.cechTermOneEquiv _ _
+  change Stacks.LocalCohomology.cechTermOneEquiv _ _
       ((Stacks.LocalCohomology.cechTermOneEquiv _ _).symm _) j = _
   rw [LinearEquiv.apply_symm_apply]
 
@@ -264,7 +264,7 @@ theorem quotCechSection_mem_kerDegree (n : ℕ)
         (integerGrading (S := sectionRing L) (grading L)) (sectionDegreeOne L s) (n + 1))
       (m : ℤ) := by
   refine (mem_gradedCechTerm_one_iff _ _ _ _ _ _).2 fun j => ?_
-  show Stacks.LocalCohomology.cechTermOneEquiv _ _ (quotCechSection L hL fam s haff m n y).1 j ∈ _
+  change Stacks.LocalCohomology.cechTermOneEquiv _ _ (quotCechSection L hL fam s haff m n y).1 j ∈ _
   rw [cechTermOneEquiv_quotCechSection]
   exact cechModMap_mem_gradedPiece (𝒜 := grading L) (fam := famRing L fam)
     (hc := fun i => Stacks.ExternalGrading.of_mem_summand 1 (fam i))

@@ -59,6 +59,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {V X A : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found by a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_FibreOverClosedPoint :
@@ -92,7 +93,7 @@ theorem isIso_fromPreimage_fst_of_isIso_fromPreimage (f : V ⟶ X) (a : A ⟶ X)
     have h₂ : (pullback.snd a f).app U y₁.1 = (pullback.snd a f).app U y₂.1 := by
       have : (T.fromPreimage f).app U ⟨_, hsnd y₁⟩ = (T.fromPreimage f).app U ⟨_, hsnd y₂⟩ := by
         apply Subtype.ext
-        show f.app U ((pullback.snd a f).app U y₁.1) = f.app U ((pullback.snd a f).app U y₂.1)
+        change f.app U ((pullback.snd a f).app U y₁.1) = f.app U ((pullback.snd a f).app U y₂.1)
         rw [← hcond, ← hcond, h₁]
       exact congrArg Subtype.val ((hbij U).1 this)
     exact Subtype.ext (pullback_obj_ext a f U _ _ h₁ h₂)
@@ -100,7 +101,7 @@ theorem isIso_fromPreimage_fst_of_isIso_fromPreimage (f : V ⟶ X) (a : A ⟶ X)
     have hw' : f.app U w.1 = a.app U z.1 := congrArg Subtype.val hw
     obtain ⟨y, hy₁, hy₂⟩ := exists_pullback_obj B S hS a f (A := U.unop) z.1 w.1 hw'.symm
     refine ⟨⟨y, ?_⟩, Subtype.ext hy₁⟩
-    show a.app U ((pullback.fst a f).app U y) ∈ T.obj U
+    change a.app U ((pullback.fst a f).app U y) ∈ T.obj U
     rw [hy₁]
     exact z.2
 
@@ -164,7 +165,7 @@ theorem preimageClosedSubspace_closedPointSubspace {T A : AlgebraicSpaces B S hS
   have hWz : Set.range (pointsMap B S hS W.toFunctor W.ι) = {t} := by
     have h := subspacePointSet_preimage B S hS φ.hom Z.1
     simp only [subspacePointSet] at h
-    show Set.range (pointsMap B S hS (Z.1.preimage φ.hom).toFunctor
+    change Set.range (pointsMap B S hS (Z.1.preimage φ.hom).toFunctor
       (Z.1.preimage φ.hom).ι) = _
     rw [h, hZpts, hfib]
   have hsq : IsPullback (Z.1.fromPreimage φ.hom) W.ι Z.1.ι φ.hom :=

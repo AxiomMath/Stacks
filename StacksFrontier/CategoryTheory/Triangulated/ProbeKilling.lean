@@ -83,7 +83,7 @@ theorem exists_eq_comp_mor₁ (n : ℤ) (g : Q ⟶ T.obj₂⟦n⟧) (hg : g ≫ 
     ∃ h : Q ⟶ T.obj₁⟦n⟧, g = h ≫ T.mor₁⟦n⟧' := by
   refine exists_eq_comp_of_eq_comp_smul n.negOnePow ?_
   exact Triangle.coyoneda_exact₂ _ (Triangle.shift_distinguished T hT n) g (by
-    show g ≫ (n.negOnePow • T.mor₂⟦n⟧') = 0
+    change g ≫ (n.negOnePow • T.mor₂⟦n⟧') = 0
     rw [Linear.comp_units_smul, hg, smul_zero])
 
 include hT in
@@ -96,7 +96,7 @@ theorem exists_eq_comp_mor₂ (n n' : ℤ) (hn : n + 1 = n') (g : Q ⟶ T.obj₃
     simpa using hg =≫ (shiftFunctorAdd' C 1 n n' (by omega)).hom.app T.obj₁
   refine exists_eq_comp_of_eq_comp_smul n.negOnePow ?_
   exact Triangle.coyoneda_exact₃ _ (Triangle.shift_distinguished T hT n) g (by
-    show g ≫ (n.negOnePow • (T.mor₃⟦n⟧' ≫ (shiftFunctorComm C 1 n).hom.app T.obj₁)) = 0
+    change g ≫ (n.negOnePow • (T.mor₃⟦n⟧' ≫ (shiftFunctorComm C 1 n).hom.app T.obj₁)) = 0
     rw [Linear.comp_units_smul, ← Category.assoc, hg', zero_comp, smul_zero])
 
 include hT in
@@ -113,7 +113,7 @@ theorem exists_eq_comp_mor₃ (n n' : ℤ) (hn : n + 1 = n') (g : Q ⟶ T.obj₁
     ((shiftFunctorAdd' C 1 n n' (by omega)).hom.naturality T.mor₁).symm
   obtain ⟨h, hh⟩ : ∃ h : Q ⟶ T.obj₃⟦n⟧, g ≫ e.hom = h ≫ (n.negOnePow • T.mor₃⟦n⟧') :=
     Triangle.coyoneda_exact₃ _ hR (g ≫ e.hom) (by
-      show (g ≫ e.hom) ≫ (n.negOnePow • ((-T.mor₁⟦(1 : ℤ)⟧')⟦n⟧' ≫
+      change (g ≫ e.hom) ≫ (n.negOnePow • ((-T.mor₁⟦(1 : ℤ)⟧')⟦n⟧' ≫
         (shiftFunctorComm C 1 n).hom.app T.obj₂)) = 0
       rw [Functor.map_neg, Preadditive.neg_comp, smul_neg, Preadditive.comp_neg,
         Linear.comp_units_smul, Category.assoc, ← Category.assoc e.hom, hnat, Category.assoc,
@@ -287,7 +287,7 @@ theorem finite_family_of_iso {U : C} {W W' : ℤ → C} (m : ℤ) (e : ∀ j, W'
       ⟨f ≫ (e j).hom, by simp [Linear.rightComp]⟩
   · refine (hsupp.preimage (f := fun j => j + m) (fun a _ b _ h => by simpa using h)).subset ?_
     intro j hj
-    show Nontrivial (U ⟶ W (j + m))
+    change Nontrivial (U ⟶ W (j + m))
     exact ((e j).homToEquiv.nontrivial_congr).1 hj
 
 /-- `G (Y[m])[j] ≅ (G Y)[m + j]`. -/
@@ -478,7 +478,7 @@ theorem exists_kill
       rw [p.read_eq_zero_iff] at h1
       apply hP
       rw [IsZero.iff_id_eq_zero, ← ηi.hom_inv_id]
-      show η ≫ ηi.inv = 0
+      change η ≫ ηi.inv = 0
       rw [h1, zero_comp]
     omega
 

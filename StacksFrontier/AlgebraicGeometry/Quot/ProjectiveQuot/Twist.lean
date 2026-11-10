@@ -103,7 +103,7 @@ theorem isFlatOver_twist {S T : Scheme.{u}} (f : projectiveSpaceOver n T ⟶ S) 
       ≃ₗ[S.presheaf.stalk (f.toLRSHom.toShHom.hom.base x)]
       TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf x :=
     { e.toAddEquiv with map_smul' := fun a m => e.map_smul _ m }
-  show Module.Flat (S.presheaf.stalk (f.toLRSHom.toShHom.hom.base x))
+  change Module.Flat (S.presheaf.stalk (f.toLRSHom.toShHom.hom.base x))
     (TopCat.Presheaf.stalk (C := Ab.{u}) (twist d F).val.presheaf x)
   exact Module.Flat.of_linearEquiv e'
 
@@ -178,7 +178,7 @@ theorem twistPullbackIso_hom_naturality {T' T : Scheme.{u}} (g : T' ⟶ T) (d : 
         (Scheme.Modules.pullback (projectiveSpaceOverMap n g)).map (twistMap d φ) := by
     rw [← CategoryTheory.Functor.map_id (Scheme.Modules.pullback (projectiveSpaceOverMap n g))]
     exact nat
-  show _ ≫ (_ ≫ _) = (_ ≫ _) ≫ _
+  change _ ≫ (_ ≫ _) = (_ ≫ _) ≫ _
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ _) (bifunctor_map_comm (Functor.uncurry.obj _) _ _)).trans
       ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) nat').trans (Category.assoc _ _ _).symm)))

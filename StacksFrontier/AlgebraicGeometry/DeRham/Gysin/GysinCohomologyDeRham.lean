@@ -1123,7 +1123,7 @@ abelian sheaves, the local cohomology sheaf acting on `ψ` by
 
 `derivedForget_supportedGysinEdge_square` reduces this to the square on the sources, and that is
 `edgeSourceCompare_square`.  The only hypotheses are the vanishing of [Stacks, Tag 0G8A]. -/
-theorem edgeCommutesWithAbelian : EdgeCommutesWithAbelian hT c := fun F G hF hG ψ =>
+theorem edgeCommutesWithAbelian : EdgeCommutesWithAbelian hT c := fun _ _ hF hG ψ =>
   derivedForget_supportedGysinEdge_square X.toRingedSpace T
     hT
     (c : ℤ) hF hG (forgetSingleMap X.toRingedSpace 0 ψ)

@@ -222,7 +222,7 @@ theorem nonempty_iso_of_code_eq {M N : CochainComplex (_root_.SheafOfModules.{t}
       apply _root_.SheafOfModules.hom_ext
       ext i x
       rw [_root_.SheafOfModules.comp_val_app_apply, _root_.SheafOfModules.comp_val_app_apply]
-      show (N.d n (n + 1)).val.app _ (φ n i.unop x) =
+      change (N.d n (n + 1)).val.app _ (φ n i.unop x) =
         φ (n + 1) i.unop ((M.d n (n + 1)).val.app _ x)
       exact (φ_d n i.unop x).symm)
   exact ⟨(Functor.FullyFaithful.ofFullyFaithful

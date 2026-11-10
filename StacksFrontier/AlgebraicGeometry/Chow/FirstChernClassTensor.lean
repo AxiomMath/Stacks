@@ -163,7 +163,7 @@ theorem ne_zero_of_isCoordinateAt {A : X.Modules} {x : X} (hA : IsTrivializedNea
   obtain ⟨m, hm, hsa⟩ := ha
   intro h0
   refine ha0 ((hm.toGenericStalk hA).injective ?_)
-  show a • toGenericStalk A x m = (0 : X.functionField) • toGenericStalk A x m
+  change a • toGenericStalk A x m = (0 : X.functionField) • toGenericStalk A x m
   rw [zero_smul, ← hsa, h0]
 
 omit [IsLocallyNoetherian X] in
@@ -291,7 +291,7 @@ theorem extendCycleGroup_firstChernCapRule_add
     · rw [IntegralComponentRule.totalize_eq _ W h.1 h.2,
         IntegralComponentRule.totalize_eq _ W h.1 h.2,
         IntegralComponentRule.totalize_eq _ W h.1 h.2]
-      show (properPushforward C (W.subschemeι ≫ p) p W.subschemeι rfl k
+      change (properPushforward C (W.subschemeι ≫ p) p W.subschemeι rfl k
           (chern₁ W h.1 h.2 + chern₂ W h.1 h.2)).1 y = _
       rw [properPushforward_add]
       rfl

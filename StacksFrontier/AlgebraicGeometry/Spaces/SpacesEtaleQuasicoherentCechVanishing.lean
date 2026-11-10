@@ -215,7 +215,7 @@ theorem chartSectionsRestrict_comp {V V' V'' : SmallEtale B S hS Y.obj} (g : V' 
     (h : V'' ⟶ V') (m : chartSections B S hS Y M V) :
     chartSectionsRestrict B S hS Y M h (chartSectionsRestrict B S hS Y M g m) =
       chartSectionsRestrict B S hS Y M (h ≫ g) m := by
-  show ((comparisonCoefficients B S hS Y M).map g.op ≫
+  change ((comparisonCoefficients B S hS Y M).map g.op ≫
     (comparisonCoefficients B S hS Y M).map h.op) m = _
   rw [← (comparisonCoefficients B S hS Y M).map_comp, ← op_comp]
   rfl

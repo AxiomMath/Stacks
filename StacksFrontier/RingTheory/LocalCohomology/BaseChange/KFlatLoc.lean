@@ -61,7 +61,7 @@ def mulSeqCx (a : A) (P : CochainComplex (ModuleCat.{max u w} A) ℤ) :
 /-- The transition map `n ⟶ n + 1` of `mulSeqCx a P` is multiplication by `a`. -/
 lemma mulSeqCx_map_succ (a : A) (P : CochainComplex (ModuleCat.{max u w} A) ℤ) (n : ℕ) :
     (mulSeqCx.{u, w} a P).map (homOfLE (Nat.le_add_right n 1)) = smulHomCx a P := by
-  show smulHomCx (a ^ (n + 1 - n)) P = _
+  change smulHomCx (a ^ (n + 1 - n)) P = _
   rw [Nat.add_sub_cancel_left, pow_one]
 
 /-- Degreewise localization away from `a`, on complexes. -/

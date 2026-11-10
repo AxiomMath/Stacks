@@ -205,7 +205,7 @@ abbrev openSquareBaseChange :=
     (H := openRestrict 𝒮 hS hT g)
     (RingedToposHom.pullbackAdjPushforwardModules (BigSite.ofAmbient 𝒮 S hS).zariskiRingedToposHom)
     (RingedToposHom.pullbackAdjPushforwardModules (BigSite.ofAmbient 𝒮 T hT).zariskiRingedToposHom)
-    (openSquarePullbackHom 𝒮 hS hT g)).natTrans
+    (openSquarePullbackHom 𝒮 hS hT g))
 
 /-- **The restriction of the unit is the unit of the restriction**, up to the two base change
 transformations. -/
@@ -255,8 +255,8 @@ theorem openSquareBaseChange_eq :
 theorem mateEquiv_symm_app {C D E F : Type*} [Category* C] [Category* D] [Category* E]
     [Category* F] {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F}
     {R₂ : F ⥤ E} (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare R₁ H G R₂) (c : C) :
-    ((mateEquiv adj₁ adj₂).symm α).natTrans.app c =
-      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.natTrans.app (L₁.obj c)) ≫
+    ((mateEquiv adj₁ adj₂).symm α).app c =
+      L₂.map (G.map (adj₁.unit.app c)) ≫ L₂.map (α.app (L₁.obj c)) ≫
         adj₂.counit.app (H.obj (L₁.obj c)) := by
   dsimp [mateEquiv]
   simp
@@ -345,7 +345,7 @@ theorem isIso_zariskiOpenPullback_map_unit (M : SheafOfModules.{u}
         ((openRestrictAdjunction 𝒮 hS hT g).unit.app M))) := by
     refine Stacks.AlgebraicGeometry.ModuleNatTransGlue.isIso_of_isIso_app _ fun V ↦ ?_
     have hc := isIso_mapPullbackAdj_counit_app 𝒮 hS hT g (g ''ᵁ V) (g.image_le_opensRange V)
-    show IsIso (M.val.presheaf.map ((Over.mapPullbackAdj (ambientHom 𝒮 hS hT g)).counit.app
+    change IsIso (M.val.presheaf.map ((Over.mapPullbackAdj (ambientHom 𝒮 hS hT g)).counit.app
       ((BigSite.ofAmbient 𝒮 S hS).opensToBig.obj (g ''ᵁ V))).op)
     exact @Functor.map_isIso _ _ _ _ _ _ M.val.presheaf _ (@isIso_op _ _ _ _ _ hc)
   let e := (BigSite.ofAmbient 𝒮 S hS).zariskiRingedSiteHom.pushforwardToposIsoGeneral
@@ -366,7 +366,7 @@ instance isIso_openSquareBaseChange_app (M : SheafOfModules.{u}
     (Stacks.SheafOfModules.Tensor.ringSheaf
       (BigSite.ofAmbient 𝒮 S hS).ringedSite.toRingedTopos.O)) :
     IsIso ((openSquareBaseChange 𝒮 hS hT g).app M) := by
-  have h := congrArg (fun α ↦ α.natTrans.app M) (openSquareBaseChange_eq 𝒮 hS hT g)
+  have h := congrArg (fun α ↦ α.app M) (openSquareBaseChange_eq 𝒮 hS hT g)
   simp only [mateEquiv_symm_app] at h
   rw [show (openSquareBaseChange 𝒮 hS hT g).app M = _ from h]
   have := isIso_zariskiOpenPullback_map_unit 𝒮 hS hT g M

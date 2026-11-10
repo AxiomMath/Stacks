@@ -256,13 +256,13 @@ theorem isZero_succ_of_cover (f : X ⟶ S) (F : X.Modules) {Y : Scheme.{u}} (j :
       ((Scheme.Modules.pullback j).obj F)) := by
   have hcov : Set.range (A.ι.toLRSHom.toShHom).hom.base ∪
       Set.range (B.ι.toLRSHom.toShHom).hom.base = Set.univ := by
-    show Set.range A.ι.base ∪ Set.range B.ι.base = Set.univ
+    change Set.range A.ι.base ∪ Set.range B.ι.base = Set.univ
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     exact congrArg (fun T : Y.Opens => (T : Set Y)) hcover
   have hint : Set.range ((A ⊓ B).ι.toLRSHom.toShHom).hom.base =
       Set.range (A.ι.toLRSHom.toShHom).hom.base ∩
         Set.range (B.ι.toLRSHom.toShHom).hom.base := by
-    show Set.range (A ⊓ B).ι.base = Set.range A.ι.base ∩ Set.range B.ι.base
+    change Set.range (A ⊓ B).ι.base = Set.range A.ι.base ∩ Set.range B.ι.base
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     rfl
   obtain ⟨MV⟩ := relativeMayerVietorisPlus (j ≫ f).toLRSHom.toShHom

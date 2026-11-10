@@ -101,7 +101,7 @@ private theorem rationallyEquivalent_infinityFiber_pointCycle
       (cycleAssociatedToClosedSubscheme C p (infinityFiber p I).subschemeι r)
       (pointCycle C p r a ha) := by
   rw [← cycleAssociatedToClosedSubscheme_integralComponentAt_eq_pointCycle C p a ha, ← hA]
-  show _ - _ ∈ _
+  change _ - _ ∈ _
   have h := (rationalEquivalences C p r).neg_mem (fibreCycles_rationallyEquivalent C p r I
     (relativeDimension_genericPoints_eq_of_zeroFiber_eq_integralComponentAt C p I ha hA h₀)
     h₀ hInf)

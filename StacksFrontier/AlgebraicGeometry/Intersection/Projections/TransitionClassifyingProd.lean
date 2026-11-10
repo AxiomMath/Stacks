@@ -183,6 +183,7 @@ private theorem base_comp_eq_of_comp_eq {A B C D Q : Scheme} (ψ : A ⟶ B) (p :
   rw [this, h, show (ι ≫ s).base x = s.base (ι.base x) from rfl, hx]
   rfl
 
+omit [FiniteDimensional k V] in
 /-- **The source projection of `Ψ` at a `k`-point of the source** is the closed point cut out by
 the functional of the first component. -/
 public theorem tpSource_base_transitionClassifyingToProd
@@ -201,6 +202,7 @@ public theorem tpSource_base_transitionClassifyingToProd
     _ a x hx, transitionSourcePoint_comp_tsSource]
   exact e₁
 
+omit [FiniteDimensional k V] in
 /-- **The target projection of `Ψ` at a `k`-point of the source** is the closed point cut out by
 the functional of the second component. -/
 public theorem tpTarget_base_transitionClassifyingToProd
@@ -219,6 +221,7 @@ public theorem tpTarget_base_transitionClassifyingToProd
     _ a x hx, transitionSourcePoint_comp_tsTarget]
   exact e₂
 
+omit [FiniteDimensional k V] in
 /-- **The parameter projection of `Ψ` at a `k`-point of the source** is the class of the
 endomorphism the parametrisation produces there, by
 `AlgebraicGeometry.ProjectiveSpaceOfModule.transitionClassifying_base_eq`. -/

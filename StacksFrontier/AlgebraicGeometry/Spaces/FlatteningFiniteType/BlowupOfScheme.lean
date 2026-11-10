@@ -78,7 +78,7 @@ theorem exists_eq_closedSubspaceOfIdeal (T : BigFppfOver B S hS)
   obtain ⟨l₂, hl₂⟩ := exists_comp_eq_of_ker_le_of_isClosedImmersion
     (closedSubschemeOverι B S hS T K) j (by rw [hq, hK])
   rw [← hr]
-  show Subfunctor.range (yoneda.map j) =
+  change Subfunctor.range (yoneda.map j) =
     Subfunctor.range (yoneda.map (closedSubschemeOverι B S hS T K))
   refine le_antisymm ?_ ?_
   · rw [← hl₂, Functor.map_comp]
@@ -125,7 +125,7 @@ theorem exists_iso_schemeSpace_blowUpObj_of_isBlowupAlong (V : BigFppfOver B S h
     ∃ e : W' ≅ schemeSpace (blowUpObj V I), e.hom ≫ schemeSpaceMap (blowUpObjHom V I) = b := by
   obtain ⟨e, he⟩ := exists_iso_yoneda_blowUpObj_of_isBlowupAlong V I hI hb
   refine ⟨(ObjectProperty.isoMk _ e).symm, ObjectProperty.hom_ext _ ?_⟩
-  show e.inv ≫ yoneda.map (blowUpObjHom V I) = b.hom
+  change e.inv ≫ yoneda.map (blowUpObjHom V I) = b.hom
   rw [← he]
   exact Iso.inv_hom_id_assoc e _
 

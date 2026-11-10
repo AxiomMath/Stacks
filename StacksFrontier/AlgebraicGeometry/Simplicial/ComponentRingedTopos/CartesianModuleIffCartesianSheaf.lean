@@ -70,7 +70,7 @@ theorem isIso_fiberTransitionModules_iff_cartesianModuleIffCartesianSheaf
           (Stacks.SheafOfModules.Tensor.ringSheaf (S.componentRingedTopos O m).O)).map
             (S.restrictTransitionModulesApp O φ M)) :=
     open RingedToposHom in
-    moduleSheafFunctor_map_pullbackAdjPushforwardModules_homEquiv_symm_ringedToposMorphismAdjunction
+    moduleSheafFunctor_map_pullbackAdjPushforward_homEquiv_symm_ringedToposMorphismAdjunction
       (S.transitionRingedToposHom O φ) _ _ (S.restrictTransitionModulesApp O φ M)
   have hiff : IsIso (((S.transitionRingedToposHom O φ).toToposHom.adj.homEquiv _ _).symm
         ((Sheaf.moduleSheafFunctor

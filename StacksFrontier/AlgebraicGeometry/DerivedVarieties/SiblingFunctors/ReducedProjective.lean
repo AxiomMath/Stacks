@@ -251,7 +251,7 @@ lemma subsingleton_hom_tensorPow {G : SheafOfModules.CoherentModules X.ringCatSh
       b.ι m ≫ p ≫ φ = 0 := by
     intro m φ
     apply Scheme.Modules.eq_zero_of_tensorRightMap_eq_zero (Stacks.Ample.tensorPowModule X L n)
-    show T.map (b.ι m ≫ p ≫ φ) = 0
+    change T.map (b.ι m ≫ p ≫ φ) = 0
     have h := comp_eq_zero_of_cohPiece_none L (c + n) (hj₀ _ hc) (P := cohTwist L G n)
       (cohPiece_cohTwist hG n) (e₁.inv ≫ T.map (b.ι m ≫ p)) (T.map φ ≫ e₂.hom)
     have h' : T.map (b.ι m ≫ p ≫ φ) =
@@ -260,7 +260,7 @@ lemma subsingleton_hom_tensorPow {G : SheafOfModules.CoherentModules X.ringCatSh
         T.map_comp]
     exact h'.trans ((congrArg (fun z => e₁.hom ≫ z ≫ e₂.inv) h).trans (by simp))
   refine ⟨fun φ₁ φ₂ => (cancel_epi p).1 (hb.isColimit.hom_ext fun ⟨m⟩ => ?_)⟩
-  show b.ι m ≫ p ≫ φ₁ = b.ι m ≫ p ≫ φ₂
+  change b.ι m ≫ p ≫ φ₁ = b.ι m ≫ p ≫ φ₂
   rw [hzero, hzero]
 
 include f in
@@ -295,7 +295,7 @@ lemma exists_epi_subsingleton_hom_of_cohPiece_none (hL : Stacks.Ample.IsAmple X 
       (biproduct.uniqueUpToIso _ hb'').symm
   refine ⟨N, ObjectProperty.homMk (eN.hom ≫ p'), ?_, ⟨fun g₁ g₂ => ObjectProperty.hom_ext _ ?_⟩⟩
   · apply (ObjectProperty.ι _).epi_of_epi_map
-    show Epi (eN.hom ≫ p')
+    change Epi (eN.hom ≫ p')
     exact @epi_comp _ _ _ _ _ eN.hom inferInstance p' hp'
   · exact (cancel_mono eN.hom).1 (hb''.isLimit.hom_ext fun _ => hvan.elim _ _)
 

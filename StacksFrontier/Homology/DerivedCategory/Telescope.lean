@@ -63,10 +63,10 @@ public theorem telescopeDifferential_apply_succ (A : Type u) [CommRing A]
   induction x using Finsupp.induction with
   | zero => simp
   | @single_add p a x hp ha ih =>
-      show (telescopeDifferential A f (Finsupp.single p a + x)) (n + 1) = _
+      change (telescopeDifferential A f (Finsupp.single p a + x)) (n + 1) = _
       rw [congrArg (fun z : ℕ →₀ A => z (n + 1))
         ((telescopeDifferential A f).map_add (Finsupp.single p a) x)]
-      show (telescopeDifferential A f (Finsupp.single p a)) (n + 1) +
+      change (telescopeDifferential A f (Finsupp.single p a)) (n + 1) +
         (telescopeDifferential A f x) (n + 1) = _
       rw [ih, telescopeDifferential_single]
       simp only [Finsupp.sub_apply, Finsupp.single_apply]
@@ -249,7 +249,7 @@ public theorem telescopeResolutionAugmentation_quasiIso
     rw [quasiIsoAt_iff' _ (-1) 0 1 (by simp) (by simp)]
     let comparison := (HomologicalComplex.shortComplexFunctor' (ModuleCat ring)
       (ComplexShape.up ℤ) (-1) 0 1).map (telescopeResolutionAugmentation ring element)
-    show ShortComplex.QuasiIso comparison
+    change ShortComplex.QuasiIso comparison
     have source_d : (telescopeResolution ring element).d 0 1 = 0 :=
       HomologicalComplex.double_d_eq_zero₀ _ _ 0 1 (by norm_num)
     have target_in : (((CochainComplex.singleFunctor (ModuleCat ring) 0).obj
@@ -274,18 +274,18 @@ public theorem telescopeResolutionAugmentation_quasiIso
           rw [telescope_range_eq_kernel]
           exact cycle_zero)
       refine ⟨firstIso.inv preimage, ?_⟩
-      show (telescopeResolution ring element).d (-1) 0 (firstIso.inv preimage) = cycle
+      change (telescopeResolution ring element).d (-1) 0 (firstIso.inv preimage) = cycle
       have differential_eq : (telescopeResolution ring element).d (-1) 0 =
           firstIso.hom ≫ ModuleCat.ofHom (telescopeDifferential ring element) ≫ secondIso.inv :=
         HomologicalComplex.double_d _ _ (by omega)
       rw [differential_eq]
-      show secondIso.inv (telescopeDifferential ring element
+      change secondIso.inv (telescopeDifferential ring element
         (firstIso.hom (firstIso.inv preimage))) = cycle
       have cancel_first : firstIso.hom (firstIso.inv preimage) = preimage := by
         exact ConcreteCategory.congr_hom firstIso.inv_hom_id preimage
       rw [cancel_first, preimage_eq]
       exact ConcreteCategory.congr_hom secondIso.hom_inv_id cycle
-    · show Epi ((telescopeResolutionAugmentation ring element).f 0)
+    · change Epi ((telescopeResolutionAugmentation ring element).f 0)
       rw [telescopeResolutionAugmentation, HomologicalComplex.mkHomFromDouble_f₁]
       have : Epi (ModuleCat.ofHom (telescopeAugmentation ring element)) :=
         (ModuleCat.epi_iff_surjective _).2 (telescopeAugmentation_surjective ring element)
@@ -297,12 +297,12 @@ public theorem telescopeResolutionAugmentation_quasiIso
     · subst degree
       rw [HomologicalComplex.exactAt_iff' _ (-2) (-1) 0 (by simp) (by simp)]
       apply (ShortComplex.exact_iff_mono _ ?_).2
-      · show Mono ((telescopeResolution ring element).d (-1) 0)
+      · change Mono ((telescopeResolution ring element).d (-1) 0)
         rw [telescopeResolution, HomologicalComplex.double_d _ _ (by omega)]
         have : Mono (ModuleCat.ofHom (telescopeDifferential ring element)) :=
           (ModuleCat.mono_iff_injective _).2 (telescopeDifferential_injective ring element)
         infer_instance
-      · show (telescopeResolution ring element).d (-2) (-1) = 0
+      · change (telescopeResolution ring element).d (-2) (-1) = 0
         exact HomologicalComplex.double_d_eq_zero₀ _
           (show (ComplexShape.up ℤ).Rel (-1) 0 by simp) (-2) (-1) (by norm_num)
     · exact HomologicalComplex.ExactAt.of_isZero
@@ -335,9 +335,9 @@ public theorem freeHomProductEquiv_precompose_telescope
     freeHomProductEquiv ring target (linear.comp (telescopeDifferential ring element)) index =
       freeHomProductEquiv ring target linear index -
         element • freeHomProductEquiv ring target linear (index + 1) := by
-  show linear (telescopeDifferential ring element (Finsupp.single index 1)) = _
+  change linear (telescopeDifferential ring element (Finsupp.single index 1)) = _
   rw [telescopeDifferential_single, mul_one, map_sub]
-  show _ - linear (Finsupp.single (index + 1) element) =
+  change _ - linear (Finsupp.single (index + 1) element) =
     _ - element • linear (Finsupp.single (index + 1) 1)
   congr 1
   rw [← map_smul]

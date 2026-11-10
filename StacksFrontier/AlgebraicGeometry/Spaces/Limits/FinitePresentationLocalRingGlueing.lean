@@ -175,8 +175,8 @@ theorem pullbackSquareObjIso_factor {Zi Zj U' M' N' : C} {jUi : U' ⟶ Zi} {jMi 
   rw [Over.comp_left, Over.comp_left]
   apply (isPullback_pullback_snd_pullback_snd_pullback_of_comp (f := im) (g := jMj) (k := ez)
     rfl rfl A).hom_ext
-  · simp [pullback.lift_fst_assoc]
-  · simp [pullback.lift_snd]
+  · simp
+  · simp
 
 end CategoryTheory.Over
 
@@ -298,6 +298,8 @@ theorem representsFactor_trans {P Q R T : BigFppfOver B S hS} {a : P ⟶ Q} {b :
   exact ((baseChangeFactorIso B S hS hab).hom.naturality g).symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the base changes and factorisation isomorphisms over the big fppf site
+-- is heavy
 /-- **A morphism found at a later stage of a factorisation represents a given morphism over the
 composite, read through the other factorisation.** The hypotheses are that `hk'` represents `mR`
 over the longer factorisation and that `f₀` base changes to `hk'`. -/

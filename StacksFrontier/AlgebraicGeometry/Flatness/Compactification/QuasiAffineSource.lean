@@ -66,7 +66,7 @@ theorem exists_quasiCompact_compactificationOf_of_isImmersion_isProper
     ∃ j : CompactificationOf (Over.mk (i ≫ p)), QuasiCompact j.immersion := by
   let obj : StructuredArrow (Over.mk (i ≫ p)) (𝟭 (Over S)) :=
     StructuredArrow.mk (Over.homMk i.toImage (by
-      show i.toImage ≫ (i.imageι ≫ p) = i ≫ p
+      change i.toImage ≫ (i.imageι ≫ p) = i ≫ p
       rw [← Category.assoc, Scheme.Hom.toImage_imageι]) :
         Over.mk (i ≫ p) ⟶ Over.mk (i.imageι ≫ p))
   exact ⟨⟨obj, inferInstanceAs (IsOpenImmersion i.toImage),

@@ -44,7 +44,8 @@ the unproved Stacks 03JV, so the hypothesis is carried in the weaker form. The t
 the source, that a quasi-separated and that a locally separated algebraic space is decent, are
 Stacks 03I7 and Stacks 088J and are not part of the statement.
 
-The remaining input of the source proof is proved. `hqc` is quasi-coherence of the restriction of `F` to the *Zariski* site of an
+The remaining input of the source proof is proved. `hqc` is quasi-coherence of the restriction of
+`F` to the *Zariski* site of an
 étale scheme chart, which Stacks 05AQ needs. It was never an extra assumption of the source:
 Stacks 03M0 reads quasi-coherence on an algebraic space off exactly that restriction, so the
 source has it for free. What is needed is its comparison with

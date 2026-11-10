@@ -237,8 +237,7 @@ private theorem isFractionRing_tensorProduct_of_isDiscreteValuationRing
     exact not_isUnit_zero hu
   refine ⟨hunits, ?_, fun h => ⟨1, by simpa using hinj h⟩⟩
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨⟨0, 1⟩, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul l e =>
     obtain ⟨⟨b, d⟩, hb⟩ := IsLocalization.surj (nonZeroDivisors B) l
     obtain ⟨⟨s, t⟩, hs⟩ := IsLocalization.surj (nonZeroDivisors S) e

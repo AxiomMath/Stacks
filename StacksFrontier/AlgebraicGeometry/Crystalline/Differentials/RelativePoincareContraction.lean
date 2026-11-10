@@ -164,6 +164,7 @@ theorem relativeSectorMap_sectorBasis (K : W →₀ ℕ) (i j : ℕ)
         fun k ↦ Set.powersetCard.ofFinEmbEquiv.symm (sectorSubsetDown W K j I) k)
     (image_ofFinEmbEquiv_symm W j (sectorSubsetDown W K j I))
 
+omit [LinearOrder W] in
 /-- The two scalar rings give the same inclusion of a summand. -/
 theorem lof_eq_lof (n : ℕ) (ij : {ij : ℕ × ℕ // ij.1 + ij.2 = n})
     (y : polynomialBidegreeForms A B W ij.1.1 ij.1.2) :
@@ -206,13 +207,13 @@ theorem relativeFormsHomotopy_sectorGenerator (L : W →₀ ℕ) (i j : ℕ)
   refine Eq.trans (congrArg (relativeFormsHomotopy A B W (i + j))
     (dividedPowerPolynomialFormsEquiv_symm_lof_single A B W i (j + 1) L J omega).symm) ?_
   refine Eq.trans (relativeFormsHomotopy_apply_symm_lof A B W (i + j) ⟨(i, j + 1), rfl⟩ _) ?_
-  show relativeFormsHomotopyBidegree A B W i j
+  change relativeFormsHomotopyBidegree A B W i j
       ((polynomialBidegreeFormsMonomialEquiv A B W i (j + 1)).symm
         (Finsupp.single J (Finsupp.single L omega))) = _
   simp only [relativeFormsHomotopyBidegree, LinearMap.coe_comp, Function.comp_apply,
     LinearMap.coe_restrictScalars, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply,
     Finsupp.lsum_single]
-  show (relativeSectorMap A B W (L + finsetMultiIndex J.val) i j)
+  change (relativeSectorMap A B W (L + finsetMultiIndex J.val) i j)
       ((relativeSectorHomotopy A B W (L + finsetMultiIndex J.val) i j)
         ((sectorModuleEquiv A B W (L + finsetMultiIndex J.val) i (j + 1)).symm
           (Finsupp.single (sectorLiftSubset W (L + finsetMultiIndex J.val) (j + 1) J

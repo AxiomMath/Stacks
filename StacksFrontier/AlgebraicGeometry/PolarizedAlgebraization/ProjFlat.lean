@@ -65,7 +65,7 @@ private theorem flat_compHom_of_bijective {R S M : Type u} [CommRing R] [CommRin
   let := Module.compHom M e
   let := e.toAlgebra
   have : IsScalarTower R S M := ⟨fun r s m => by
-    show (e r * s) • m = e r • s • m
+    change (e r * s) • m = e r • s • m
     rw [mul_smul]⟩
   have : Module.Flat R S := RingHom.Flat.of_bijective he
   exact Module.Flat.trans R S M
@@ -99,7 +99,7 @@ private theorem flat_compHomSubmodule {R B : Type u} [CommRing R] [CommRing B] [
       right_inv := fun _ => rfl
       map_add' := fun _ _ => rfl
       map_smul' := fun r x => Subtype.ext (by
-        show ψ r * x.1 = _
+        change ψ r * x.1 = _
         rw [hψ, ← Algebra.smul_def]
         rfl) }
   exact Module.Flat.of_linearEquiv e

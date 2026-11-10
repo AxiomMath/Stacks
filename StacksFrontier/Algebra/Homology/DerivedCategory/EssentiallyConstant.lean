@@ -643,20 +643,20 @@ private lemma exists_iso_biprod_of_natTrans_section {K : Type*} [Category K] {F 
   let ι : Z ⟶ F :=
     { app := ii
       naturality := fun j j' u => by
-        show (ii j ≫ F.map u ≫ ee j') ≫ ii j' = ii j ≫ F.map u
+        change (ii j ≫ F.map u ≫ ee j') ≫ ii j' = ii j ≫ F.map u
         simp only [Category.assoc]
         exact habs u }
   let π : F ⟶ Z :=
     { app := ee
       naturality := fun j j' u => by
-        show F.map u ≫ ee j' = ee j ≫ ii j ≫ F.map u ≫ ee j'
+        change F.map u ≫ ee j' = ee j ≫ ii j ≫ F.map u ≫ ee j'
         rw [← Category.assoc (ee j) (ii j), habs' u] }
   have hιπ : ι ≫ π = 𝟙 Z := by
     ext j
     exact hie j
   have hπι : π ≫ ι = 𝟙 F - R ≫ S := by
     ext j
-    show ee j ≫ ii j = (𝟙 F - R ≫ S).app j
+    change ee j ≫ ii j = (𝟙 F - R ≫ S).app j
     rw [NatTrans.app_sub]
     simpa using hei j
   exact ⟨Z, isoBiprodOfComplement R S ι π hSR hιπ hπι,
@@ -711,23 +711,23 @@ private lemma exists_iso_const_biprod_of_witness [IsCofiltered J] (A : J ⥤ D) 
   let R : F ⟶ G :=
     { app := fun j => A.map j.hom ≫ w.ret
       naturality := fun j j' u => by
-        show A.map u.left ≫ A.map j'.hom ≫ w.ret = (A.map j.hom ≫ w.ret) ≫ 𝟙 X
+        change A.map u.left ≫ A.map j'.hom ≫ w.ret = (A.map j.hom ≫ w.ret) ≫ 𝟙 X
         rw [Category.comp_id, ← Category.assoc, ← A.map_comp, Over.w] }
   let S : G ⟶ F :=
     { app := fun j => w.leg j.left
       naturality := fun j j' u => by
-        show 𝟙 X ≫ w.leg j'.left = w.leg j.left ≫ A.map u.left
+        change 𝟙 X ≫ w.leg j'.left = w.leg j.left ≫ A.map u.left
         rw [Category.id_comp, w.leg_map u.left] }
   have hSR : S ≫ R = 𝟙 G := by
     ext j
-    show w.leg j.left ≫ A.map j.hom ≫ w.ret = 𝟙 X
+    change w.leg j.left ≫ A.map j.hom ≫ w.ret = 𝟙 X
     rw [← Category.assoc, w.leg_map, w.leg_ret]
   obtain ⟨Z, ε, hvan⟩ := exists_iso_biprod_of_natTrans_section R S hSR
   refine ⟨Z, ε, fun j => ?_⟩
   obtain ⟨k, u, v, huv⟩ := w.cofinal j.left
   obtain ⟨m, p, hp⟩ := IsCofilteredOrEmpty.cone_maps (u ≫ j.hom) v
   refine ⟨Over.mk (p ≫ v), Over.homMk (p ≫ u) (by simpa using hp), hvan _ ?_⟩
-  show A.map (p ≫ u) = (A.map (p ≫ v) ≫ w.ret) ≫ 𝟙 X ≫ w.leg j.left
+  change A.map (p ≫ u) = (A.map (p ≫ v) ≫ w.ret) ≫ 𝟙 X ≫ w.leg j.left
   rw [A.map_comp, A.map_comp, huv, Category.id_comp]
   simp only [Category.assoc]
 
@@ -1167,7 +1167,7 @@ private theorem isEssentiallyConstant_op_of_homology [IsCofiltered J] (m : ℕ) 
       fun j => t.triangleLTGE_distinguished _ _
     have h₁ : IsEssentiallyConstantInd
         ((A ⋙ t.triangleLTGE (a + 1)) ⋙ Triangle.π₁).op := by
-      show IsEssentiallyConstantInd (A ⋙ t.truncLT (a + 1)).op
+      change IsEssentiallyConstantInd (A ⋙ t.truncLT (a + 1)).op
       refine isEssentiallyConstant_op_of_isLE_of_isGE _ a
         (fun j => t.isLE_truncLT_obj (A.obj j) (a + 1) a (by omega)) (fun j => ?_) ?_
       · have := hGE j
@@ -1176,7 +1176,7 @@ private theorem isEssentiallyConstant_op_of_homology [IsCofiltered J] (m : ℕ) 
           (NatIso.op (truncLTCompHomologyIso A a (a + 1) (by omega))) (hH a)
     have h₃ : IsEssentiallyConstantInd
         ((A ⋙ t.triangleLTGE (a + 1)) ⋙ Triangle.π₃).op := by
-      show IsEssentiallyConstantInd (A ⋙ t.truncGE (a + 1)).op
+      change IsEssentiallyConstantInd (A ⋙ t.truncGE (a + 1)).op
       refine ih (a + 1) (A ⋙ t.truncGE (a + 1)) (fun i hi j => ?_) (fun i => ?_)
       · rcases hi with hi | hi
         · exact isZero_of_isGE ((t.truncGE (a + 1)).obj (A.obj j)) (a + 1) i hi

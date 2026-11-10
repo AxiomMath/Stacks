@@ -48,10 +48,12 @@ section is `σ : Stacks.Ample.unitModule X ⟶ L` rather than `f : 𝟙_ X.Modul
 is spelled through `Stacks.RelativeVeryAmple.tensorModules`'s bifunctor `.map`
 (`tensorModulesMap`) rather than through the monoidal `◁`. `Stacks.Ample.unitModule X` is only
 *isomorphic* to `𝟙_ X.Modules`
-(`Stacks.Ample.unitModuleIsoTensorUnit`, `StacksFrontier/AlgebraicGeometry/AmpleWire/Basic.lean:315`),
+(`Stacks.Ample.unitModuleIsoTensorUnit`,
+`StacksFrontier/AlgebraicGeometry/AmpleWire/Basic.lean:315`),
 not equal to it, and `tensorModules` is "deliberately" a second bifunctor-spelling from the
 monoidal product
-(`StacksFrontier/AlgebraicGeometry/RelativeVeryAmple/TensorPower.lean`, docstring of `tensorModules`).
+(`StacksFrontier/AlgebraicGeometry/RelativeVeryAmple/TensorPower.lean`,
+docstring of `tensorModules`).
 Transporting the lemmas below across both gaps at once is exactly the kind of elaboration that
 exhausts the heartbeat budget elsewhere in the library, and is not done here; what is proved is the
 `mulRight`/monoidal-unit-section form, with the `n`-dependence resolved, which is as far as Gap B

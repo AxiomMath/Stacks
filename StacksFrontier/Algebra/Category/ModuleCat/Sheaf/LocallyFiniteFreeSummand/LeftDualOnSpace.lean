@@ -161,7 +161,9 @@ theorem coevaluation_locally_sum
   refine ⟨W, hxW, fun U k => ⟨n,
     fun j => (F.val.map k.op).hom (splittingBasisSection X F W n r.r j),
     fun j => ((dualSheaf X F).val.map k.op).hom (splittingDualSection X F W n r.i j), ?_⟩⟩
-  have h := congrArg (fun s => (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj ((dualSheaf X F)))).val.map k.op).hom s)
+  have h := congrArg (fun s =>
+      (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+        ((dualSheaf X F)))).val.map k.op).hom s)
     (coevaluation_apply_eq_sum_of_retract X F hF W n r.i r.r r.retract)
   rw [map_sum] at h
   refine Eq.trans ?_ (h.trans ?_)
@@ -376,7 +378,10 @@ product sheaves. This is `monoidal_tensorHom` with its two `eqToHom`s, which are
 removed. -/
 theorem tensorHom_eq {A A' B B' : SheafOfModules.{u} (structureSheafRing X)}
     (f : A ⟶ A') (g : B ⟶ B') :
-    (f ⊗ₘ g) = ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) :=
+    (f ⊗ₘ g) =
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+        ((f, g) : (_, _) ⟶ (_, _))) :=
   tensor_hom_ext X fun U a b =>
     (tensorHom_tmul X f g U a b).trans
       (tensorSheafMap_app_toTensorSheafSection X A B A' B' f g U.unop a b).symm
@@ -397,8 +402,13 @@ theorem presheafTensorMap_eq_tensorHom
 conditions differ only by proof irrelevance. -/
 theorem tensorSheafMap_eq_site
     {A A' B B' : SheafOfModules.{u} (structureSheafRing X)} (f : A ⟶ A') (g : B ⟶ B') :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) ((structureSheafRing X).property)⟩)).map ((f, g) : (_, _) ⟶ (_, _))) :=
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+      ((f, g) : (_, _) ⟶ (_, _))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf)
+          (forget₂ CommRingCat RingCat) ((structureSheafRing X).property)⟩)).map
+        ((f, g) : (_, _) ⟶ (_, _))) :=
   rfl
 
 /-- The pure tensor of two local sections, in the site-level spelling, is the canonical image
@@ -410,7 +420,9 @@ theorem tensorSection_eq
         (monoidal_tensorObj X) A B V a b = tensorObjTmul X A B V a b := by
   change ((eqToHom (monoidal_tensorObj X A B).symm).val.app V)
       (tensorObjTmul X A B V a b) = _
-  rw [show eqToHom (monoidal_tensorObj X A B).symm = 𝟙 ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (A)).obj (B))) from
+  rw [show eqToHom (monoidal_tensorObj X A B).symm = 𝟙
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (A)).obj (B))) from
     eqToHom_refl _ _]
   rfl
 
@@ -468,11 +480,14 @@ theorem dualSheaf_isLeftDual
       ∃ (hunit : 𝟙_ (SheafOfModules.{u} (structureSheafRing X)) =
           SheafOfModules.unit (structureSheafRing X))
         (htensor : ∀ A B : SheafOfModules.{u} (structureSheafRing X),
-          A ⊗ B = (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (A)).obj (B)))
+          A ⊗ B = (((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (A)).obj (B)))
         (_htensorMap : ∀ {A A' B B' : SheafOfModules.{u} (structureSheafRing X)}
           (f : A ⟶ A') (g : B ⟶ B'),
           eqToHom (htensor A B).symm ≫ (f ⊗ₘ g) ≫ eqToHom (htensor A' B') =
-            ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))))
+            ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+              ((f, g) : (_, _) ⟶ (_, _))))
         (p : ExactPairing F (dualSheaf X F)),
         @ExactPairing.coevaluation _ _ _ _ _ p =
           eqToHom hunit ≫ coevaluation X F hF ≫

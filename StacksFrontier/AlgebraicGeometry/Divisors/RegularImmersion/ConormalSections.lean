@@ -333,7 +333,7 @@ noncomputable def quotientKerLinearEquiv {R S : Type*} [CommRing R] [CommRing S]
 theorem quotientKerLinearEquiv_symm_apply {R S : Type*} [CommRing R] [CommRing S]
     (f : R →+* S) (hf : Function.Surjective f) (r : R) :
     (quotientKerLinearEquiv f hf).symm (f r) = Ideal.Quotient.mk (RingHom.ker f) r := by
-  show (RingHom.quotientKerEquivOfSurjective hf).symm (f r) = _
+  change (RingHom.quotientKerEquivOfSurjective hf).symm (f r) = _
   exact RingHom.quotientKerEquivOfSurjective_symm_apply hf r
 
 /-- Tensoring with a fixed module on the left turns a linear equivalence into one. -/
@@ -416,7 +416,7 @@ theorem pullbackEquiv_tmul {Z X : Scheme.{u}}
   let _ : Algebra R S := φ.toAlgebra
   have hsurj : Function.Surjective φ := app_surjective_of_closedRestriction i V hclosed
   obtain ⟨r, rfl⟩ := hsurj s
-  show (affineSectionsEquiv i V hclosed).equiv n
+  change (affineSectionsEquiv i V hclosed).equiv n
       (tensorPowerQuotientEquiv (Stacks.Conormal.chartIdeal i V) n
         (tensorRightLinearEquiv (M := ↥(Stacks.Conormal.chartIdeal i V ^ n))
           (quotientKerLinearEquiv φ hsurj).symm (a ⊗ₜ[R] φ r))) = _

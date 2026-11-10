@@ -52,7 +52,7 @@ omit [Finite Λ] in
 lemma card_nsmul_tensor (D : BalancedDerivedTensoring.{r, w} Λ) (N : ModuleCat.{w} (MulOpposite Λ))
     (M : ModuleCat.{w} Λ) (x : (D.ordinary.obj N).obj M) : Nat.card Λ • x = 0 := by
   have h := tensor_ext D (Nat.card Λ • 𝟙 ((D.ordinary.obj N).obj M)) 0 (fun n m => by
-    show Nat.card Λ • D.pure N M n m = 0
+    change Nat.card Λ • D.pure N M n m = 0
     have hc : (Nat.card Λ : Λ) = 0 := by rw [← nsmul_one, card_nsmul_eq_zero']
     rw [← map_nsmul, ← Nat.cast_smul_eq_nsmul Λ, hc, zero_smul, map_zero])
   exact congrArg (fun f : (D.ordinary.obj N).obj M ⟶ _ => f x) h
@@ -77,7 +77,7 @@ lemma nsmul_id_twistComplex_X (R : CochainComplex (FiniteFree.{max (u + 1) r} Λ
     Nat.card Λ • 𝟙 ((twistComplex D Y R I).X n) = 0 := by
   let K := ((twist.{u, r} D Y).mapBifunctorHomologicalComplex (ComplexShape.up ℤ)
     (ComplexShape.up ℤ)).obj R |>.obj I
-  show Nat.card Λ • 𝟙 ((K.total (ComplexShape.up ℤ)).X n) = 0
+  change Nat.card Λ • 𝟙 ((K.total (ComplexShape.up ℤ)).X n) = 0
   apply HomologicalComplex₂.total.hom_ext
   intro p q hpq
   have h : Nat.card Λ • 𝟙 ((K.X p).X q) = 0 := nsmul_id_twist.{u, r} D Y (R.X p) (I.X q)

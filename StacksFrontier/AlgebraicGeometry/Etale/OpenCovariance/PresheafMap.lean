@@ -427,7 +427,7 @@ public theorem covariancePresheafMap_naturality
       covariancePresheafMap B j f F ≫ (wholeFiniteSupportPushforward.{u, v} B f).map φ := by
   apply NatTrans.ext
   funext V
-  show ((openFiniteSupportPushforward.{u, v} B j f).map φ).app V ≫
+  change ((openFiniteSupportPushforward.{u, v} B j f).map φ).app V ≫
       covariancePresheafApp B j f G V.unop =
     covariancePresheafApp B j f F V.unop ≫
       ((wholeFiniteSupportPushforward.{u, v} B f).map φ).app V

@@ -82,14 +82,14 @@ private theorem tensorReading_source_inv (hes : es ≫ es' = 𝟙 _)
     (hbs : Ps.map TU.hom ≫ sA.hom ≫ (cMs.hom ⊗ₘ cNs.hom) = cMNs.hom ≫ es ≫ TRs.hom) :
     sA.inv ≫ Ps.map TU.inv = (cMs.hom ⊗ₘ cNs.hom) ≫ TRs.inv ≫ es' ≫ cMNs.inv := by
   rw [← cancel_epi sA.hom, Iso.hom_inv_id_assoc, ← cancel_epi (Ps.map TU.hom),
-    Iso.map_hom_inv_id, reassoc_of% hbs]
+    Iso.hom_inv_id_map, reassoc_of% hbs]
   simp [reassoc_of% hes]
 
 /-- The comparison along the target, solved for Stacks 03EL. -/
 private theorem tensorReading_target
     (hbt : Pt.map TU.hom ≫ tA.hom ≫ (cMt.hom ⊗ₘ cNt.hom) = cMNt.hom ≫ et ≫ TRt.hom) :
     tA.hom ≫ (cMt.hom ⊗ₘ cNt.hom) = Pt.map TU.inv ≫ cMNt.hom ≫ et ≫ TRt.hom := by
-  rw [← hbt, Iso.map_inv_hom_id_assoc]
+  rw [← hbt, Iso.inv_hom_id_map_assoc]
 
 omit [MonoidalCategory CU] [MonoidalCategory CV] in
 /-- Naturality of the chart identification along the source, solved for its inverse. -/

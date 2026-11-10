@@ -333,7 +333,7 @@ theorem pushPullSheafHomIso_naturality :
     pushPullRestrictionTransition J f Jm hJm Jn hJn ≫ (pushPullSheafHomIso J M Jm hJm).hom =
       (pushPullSheafHomIso J N Jn hJn).hom ≫
         SheafHomAdj.sheafHomContraMap (totSheafify J f) := by
-  show pushPullRestrictionTransition J f Jm hJm Jn hJn ≫
+  change pushPullRestrictionTransition J f Jm hJm Jn hJn ≫
       (pushPullProductIso J M Jm hJm).hom ≫
         (localizationPushforwardPullbackNatIsoSheafHom J M).hom =
     ((pushPullProductIso J N Jn hJn).hom ≫

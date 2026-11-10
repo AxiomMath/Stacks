@@ -358,7 +358,7 @@ the zero section. -/
 @[stacks 0FUR "clause (3): Rb_*Ω^a_{L/S} ⟶ i_*Rp_*Ω^a_{P/S} is an isomorphism on cohomology \
 sheaves in every degree q ≥ 1, every a ≥ 0, every n ≥ 1, for the blowup L of X = Spec(A) along \
 Z = Spec(A₀) as in Section 50.16"]
-theorem isIso_homology_coneFormsDerivedComparison (hn : 1 ≤ n) (a q : ℕ) (hq : 1 ≤ q) :
+theorem isIso_homology_coneFormsDerivedComparison (a q : ℕ) (hq : 1 ≤ q) :
     IsIso ((DerivedCategory.homologyFunctor _ (q : ℤ)).map
       (coneFormsDerivedComparison R m n (a : ℤ))) :=
   have := epi_pushforward_coneProjection_coneFormsRestriction (R := R) (m := m) (n := n) a

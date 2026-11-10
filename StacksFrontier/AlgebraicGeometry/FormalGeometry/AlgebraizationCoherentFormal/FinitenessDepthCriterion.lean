@@ -69,7 +69,8 @@ Stacks 0BJY is not a hypothesis: `AffineDepthDimensionCriterion` is proved, in
 `Stacks.Algebraization.affineDepthDimensionCriterion`, from
 `Stacks.LocalCohomologySequence.forall_lt_depth_add_height_iff_forall_isCoherent_rightDerived`
 of
-`StacksFrontier/AlgebraicGeometry/LocalCohomology/PushforwardCoherence/DepthDimensionCriterion.lean`.
+`DepthDimensionCriterion.lean` in
+`StacksFrontier/AlgebraicGeometry/LocalCohomology/PushforwardCoherence/`.
 Of that result's two standing assumptions, universal
 catenarity of `A` is discharged from the dualizing complex by Stacks 0A80, available as
 `Dualizing.isUniversallyCatenary_of_isDualizingComplex` in
@@ -282,7 +283,7 @@ private lemma one_le_height_map_quotient {A : Type*} [CommRing A] {p q : Ideal A
     (1 : ℕ∞) ≤ (q.map (Ideal.Quotient.mk p)).height := by
   have : IsDomain (A ⧸ p) := Ideal.Quotient.isDomain p
   rw [Order.one_le_iff_ne_zero, Ne, Ideal.height_eq_zero_iff_eq_bot]
-  obtain ⟨x, hxq, hxp⟩ := SetLike.exists_of_lt hpq
+  obtain ⟨x, hxq, hxp⟩ := IsConcreteLE.exists_of_lt hpq
   intro hbot
   have hx : Ideal.Quotient.mk p x ∈ q.map (Ideal.Quotient.mk p) :=
     Ideal.mem_map_of_mem _ hxq

@@ -530,7 +530,7 @@ public theorem injective_of_forall_exists_ge_injective
     rw [hnat (homOfLE hij) m,
       show NF.map (homOfLE hij) = NF.map (homOfLE hik) ≫ NF.map (homOfLE hkj) from by
         rw [← NF.map_comp]; rfl]
-    show NF.map (homOfLE hkj) (NF.map (homOfLE hik) (us.app i m)) = 0
+    change NF.map (homOfLE hkj) (NF.map (homOfLE hik) (us.app i m)) = 0
     rw [show NF.map (homOfLE hik) (us.app i m) = NF.map f (us.app i m) from
         congrArg (fun t : i ⟶ k => (NF.map t) (us.app i m)) (Subsingleton.elim _ f),
       hfg, map_zero, map_zero]

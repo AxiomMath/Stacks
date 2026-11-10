@@ -152,7 +152,7 @@ theorem powAdd_assoc (L : C) (n m : ℕ) : ∀ k : ℕ,
         (natTensorPow L n ◁ powAdd L m k) ≫ powAdd L n (m + k) ≫
           powCongr L (Nat.add_assoc n m k).symm
   | 0 => by
-      show (powAdd L n m ▷ 𝟙_ C) ≫ (ρ_ (natTensorPow L (n + m))).hom =
+      change (powAdd L n m ▷ 𝟙_ C) ≫ (ρ_ (natTensorPow L (n + m))).hom =
         (α_ (natTensorPow L n) (natTensorPow L m) (𝟙_ C)).hom ≫
           (natTensorPow L n ◁ (ρ_ (natTensorPow L m)).hom) ≫
             powAdd L n m ≫ 𝟙 (natTensorPow L (n + m))
@@ -161,7 +161,7 @@ theorem powAdd_assoc (L : C) (n m : ℕ) : ∀ k : ℕ,
   | k + 1 => by
       have he : powCongr L (Nat.add_assoc n m (k + 1)).symm =
           powCongr L (Nat.add_assoc n m k).symm ▷ L := (powCongr_whiskerRight L _ _).symm
-      show (powAdd L n m ▷ (natTensorPow L k ⊗ L)) ≫
+      change (powAdd L n m ▷ (natTensorPow L k ⊗ L)) ≫
           (α_ (natTensorPow L (n + m)) (natTensorPow L k) L).inv ≫ (powAdd L (n + m) k ▷ L) =
         (α_ (natTensorPow L n) (natTensorPow L m) (natTensorPow L k ⊗ L)).hom ≫
           (natTensorPow L n ◁ ((α_ (natTensorPow L m) (natTensorPow L k) L).inv ≫
@@ -212,7 +212,7 @@ def powAddIso (L : C) : (n m : ℕ) →
 theorem powAddIso_hom (L : C) : ∀ (n m : ℕ), (powAddIso L n m).hom = powAdd L n m
   | _, 0 => rfl
   | n, m + 1 => by
-      show (α_ (natTensorPow L n) (natTensorPow L m) L).inv ≫
+      change (α_ (natTensorPow L n) (natTensorPow L m) L).inv ≫
         ((powAddIso L n m).hom ▷ L) = powAdd L n (m + 1)
       rw [powAddIso_hom L n m, powAdd_succ]
 

@@ -226,7 +226,7 @@ private theorem exists_isRelativelyEtale_fibredCategory_yoneda_of_isDeligneMumfo
   let aInv : fibredCategory B S hS (yoneda.obj W) ⟶ schemeFibredCategory B S hS W :=
     equivalenceOverInvMap B S hS (yoneda.obj W) eU
   have haInv : Functor.IsEquivalence aInv.hom.toFunctor := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   exact ⟨W, aInv ≫ pres, isRelativelyEtale_of_isEquivalence_comp B S hS aInv pres haInv hpreset,
     isSurjectiveOnObjects_comp_hom B S hS aInv pres

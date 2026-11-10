@@ -38,8 +38,8 @@ is `Stacks.Coherent.restrictDirectImageIso` below.
 
 * `Stacks.Coherent.completionRestrictMorphismRestrictIso` — **the completion of `𝓕` restricted to
   `π ⁻¹ V`, as a system over the ideal sheaf `(𝒥|_V)|_{π ⁻¹ V}` that `π ∣_ V` lives over.** The
-  isomorphism `Stacks.Algebraization.completionRestrictOpenIso` identifies `(𝓕 ^∧)|_{π ⁻¹ V}` with the
-  completion of `𝓕|_{π ⁻¹ V}` along `(π^{-1}𝒥)|_{π ⁻¹ V}`, and
+  isomorphism `Stacks.Algebraization.completionRestrictOpenIso` identifies `(𝓕 ^∧)|_{π ⁻¹ V}` with
+  the completion of `𝓕|_{π ⁻¹ V}` along `(π^{-1}𝒥)|_{π ⁻¹ V}`, and
   `Stacks.Coherent.comap_comap_morphismRestrict` says that ideal sheaf is `(𝒥|_V)|_{π ⁻¹ V}`;
   the transport along that equality is `Stacks.Algebraization.completionCongrIso`.
 * `Stacks.Coherent.restrictDirectImageIso` — **the restriction `β'` of `β`**, as an isomorphism
@@ -430,7 +430,7 @@ section Delta
 variable [𝓕.obj.IsQuasicoherent]
   [((Scheme.Modules.pushforward π).obj 𝓕.obj).IsQuasicoherent]
 
-omit [𝓕.obj.IsQuasicoherent] in
+omit [𝓕.obj.IsQuasicoherent] [AlgebraicGeometry.IsNoetherian (π ⁻¹ᵁ V).toScheme] in
 /-- The level-`n` component of `Stacks.Coherent.completedDirectImageRestrictIso`, read against
 the object formula of Stacks 0880 at the base `V`. -/
 private theorem completedDirectImageRestrictIso_hom_app_comp_eqToHom (n : ℕ) :
@@ -469,6 +469,7 @@ private theorem completedDirectImageRestrictIso_hom_app_comp_eqToHom (n : ℕ) :
     (directImageQuotientRestrictSourceIso π V J (n + 1) 𝓕.obj).hom ≫ z) hid) ?_
   exact Category.comp_id (obj := V.toScheme.Modules) _
 
+omit [AlgebraicGeometry.IsNoetherian (π ⁻¹ᵁ V).toScheme] in
 /-- **The inverse of `Stacks.Coherent.completedDirectImageRestrictIso` carries the restricted `δ`
 to the `δ` of `π ∣_ V`.** -/
 private theorem completedDirectImageRestrictIso_inv_app_comp (n : ℕ) :

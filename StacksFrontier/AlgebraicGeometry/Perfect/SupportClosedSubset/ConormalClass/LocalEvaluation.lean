@@ -47,7 +47,7 @@ variable (V : Y.Opens) (G : Y.Modules)
 theorem push_res_smul (P : Y.Opens) (r : Γ(Y, P)) (n : Γ((push V).obj ((res V).obj G), P)) :
     r • n = (Y.presheaf.map (homOfLE (V.ι.image_preimage_le P)).op r •
       (show Γ(G, V.ι ''ᵁ (V.ι ⁻¹ᵁ P)) from n) : Γ(G, V.ι ''ᵁ (V.ι ⁻¹ᵁ P))) := by
-  show (V.ι.app P r) • (show Γ((res V).obj G, V.ι ⁻¹ᵁ P) from n) = _
+  change (V.ι.app P r) • (show Γ((res V).obj G, V.ι ⁻¹ᵁ P) from n) = _
   refine (restrict_smul G V _ _ _).trans ?_
   congr 1
 

@@ -408,7 +408,6 @@ section Pairings
 
 variable {X : Scheme.{u}} (L : Mods X)
   [Stacks.SheafOfModules.IsInvertible X.presheaf (isSheaf_structureRingPresheaf X) L]
-  [AlgebraicGeometry.SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.2 L]
 
 /-- **`invertibleEvaluation'` in the step maps of the other development of the integer tensor
 powers.** `Stacks.SheafOfModules.Invertible` and `Stacks.SheafOfModules.TensorPower` build their
@@ -490,7 +489,6 @@ attribute [local instance] Stacks.SheafInternalHom.braidedCategory
 
 variable {Y : Scheme.{u}} (f : Y ⟶ X) (L' : Mods Y)
   [Stacks.SheafOfModules.IsInvertible Y.presheaf (isSheaf_structureRingPresheaf Y) L']
-  [AlgebraicGeometry.SheafOfModules.IsInvertible Y.presheaf (isSheaf_structureRingPresheaf Y) L']
 
 /-- **The right pin of Tag 0B3V's inverse-line comparison, at the monoidal structure Tag 01CU's
 trivialisations live over.** `Stacks.ProjBundleInverseBaseChange.inverseQuotientBaseChangeIso`

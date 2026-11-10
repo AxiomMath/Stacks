@@ -168,7 +168,7 @@ public theorem hasFiberLift_openFiberPoint_iff (V : SmallEtale B Y.obj Y.propert
     congrArg (fun m => m.base (default : ↥s.source))
       (fiberPointLift_openBaseChangeHom B j f s V u x).symm
   have hpre := openBaseChangeHom_supportOpen_preimage B j f V E D hD
-  show (fiberPointLift B f s V u (openFiberPoint B j f s x)).base default ∈
+  change (fiberPointLift B f s V u (openFiberPoint B j f s x)).base default ∈
       (finiteSupportOpen B f V D : Set _) ↔
     (fiberPointLift B (j ≫ f) s V u x).base default ∈
       (finiteSupportOpen B (j ≫ f) V E : Set _)
@@ -484,7 +484,7 @@ public def openCovarianceStalkMap :
         ((finiteSupportPushforward.{u, max (u + 1) v} B f
           (fun _ => inferInstance)).val.obj F) :=
   colim.map (Functor.whiskerLeft
-    (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+    (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
     ((openCovariancePresheafMap.{u, v} B j f).val.app F))
 
 /-- On a generator of the stalk the covariance map of Stacks 0F6S is extension by zero of the

@@ -160,7 +160,7 @@ theorem basicOpen_projectiveLineBasicOpenCoordinate (a : Fin 2) :
     (projectiveSpaceAtUniverseTwistingSheaf.{u} 1 1) (Segre.coordinateSection.{u} 1 a.rev) hle
   have hres' := hres.trans (congrArg _ h2)
   rw [projectiveLineBasicOpenCoordinate_eq_divBySection, ← hres', Scheme.basicOpen_res]
-  show _ ⊓ (projectiveSpaceAtUniverse.{u} 1).basicOpen (Stacks.SheafOfModules.divBySection
+  change _ ⊓ (projectiveSpaceAtUniverse.{u} 1).basicOpen (Stacks.SheafOfModules.divBySection
     (X := (projectiveSpaceAtUniverse.{u} 1).toRingedSpace)
     (projectiveSpaceAtUniverseTwistingSheaf.{u} 1 1) (Segre.coordinateSection.{u} 1 a) le_rfl
     ((Segre.coordinateSection.{u} 1 a.rev).eval
@@ -326,7 +326,7 @@ theorem iSup_chartOpen : ⨆ c, chartOpen S c = ⊤ := by
       (Set.mem_univ (proj S _ i x))
     obtain ⟨a, ha⟩ := TopologicalSpace.Opens.mem_iSup.mp h
     refine ⟨a, ?_⟩
-    show _ ∈ Proj.basicOpen _ _
+    change _ ∈ Proj.basicOpen _ _
     exact (Segre.nonvanishingOpen_coordinateSection_eq_basicOpen.{u} 1 a) ▸ ha
   choose c hc using hcov
   exact TopologicalSpace.Opens.mem_iSup.mpr ⟨c, (mem_chartOpen_iff S c x).mpr hc⟩
@@ -361,7 +361,7 @@ theorem rotation_preimage_chartOpen (c : Fin 3 → Fin 2) :
       rw [← rotation_hom_proj S _ i]
       rfl
   ext x
-  show (rotation S (projectiveSpaceAtUniverse.{u} 1)).hom x ∈ chartOpen S c ↔
+  change (rotation S (projectiveSpaceAtUniverse.{u} 1)).hom x ∈ chartOpen S c ↔
     x ∈ chartOpen S (rotateChart c)
   rw [mem_chartOpen_iff, mem_chartOpen_iff]
   refine ⟨fun h j => ?_, fun h i => ?_⟩
@@ -473,9 +473,9 @@ theorem chartMorphism_preimage (c : Fin 3 → Fin 2) :
     ⊤ ≤ chartMorphism R c ⁻¹ᵁ chartOpen _ c := by
   intro x _
   refine (mem_chartOpen_iff _ c _).mpr fun i => ?_
-  show (chartMorphism R c ≫ proj _ _ i) x ∈ _
+  change (chartMorphism R c ≫ proj _ _ i) x ∈ _
   rw [chartMorphism, lift_proj]
-  show _ ∈ ((projectiveLineBasicOpen.{u} (c i) : (projectiveSpaceAtUniverse.{u} 1).Opens) :
+  change _ ∈ ((projectiveLineBasicOpen.{u} (c i) : (projectiveSpaceAtUniverse.{u} 1).Opens) :
     Set (projectiveSpaceAtUniverse.{u} 1))
   rw [← (isAffineOpen_projectiveLineBasicOpen (c i)).range_fromSpec]
   exact ⟨_, rfl⟩
@@ -625,12 +625,12 @@ theorem rotation_appLE_chartRingHom (c : Fin 3 → Fin 2)
       (chartOpen _ (rotateChart c)) e).hom.comp (chartRingHom R c) =
       (chartRingHom R (rotateChart c)).comp (MvPolynomial.rename (R := R) (· + 1)).toRingHom := by
     refine MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_)
-    · show ((rotation (Spec (.of R)) (projectiveSpaceAtUniverse.{u} 1)).hom.appLE
+    · change ((rotation (Spec (.of R)) (projectiveSpaceAtUniverse.{u} 1)).hom.appLE
           (chartOpen _ c) (chartOpen _ (rotateChart c)) e).hom (chartRingHom R c
             (MvPolynomial.C r)) = chartRingHom R (rotateChart c)
               (MvPolynomial.rename (· + 1) (MvPolynomial.C r))
       rw [chartRingHom_C, rotation_appLE_chartScalar, MvPolynomial.rename_C, chartRingHom_C]
-    · show ((rotation (Spec (.of R)) (projectiveSpaceAtUniverse.{u} 1)).hom.appLE
+    · change ((rotation (Spec (.of R)) (projectiveSpaceAtUniverse.{u} 1)).hom.appLE
           (chartOpen _ c) (chartOpen _ (rotateChart c)) e).hom (chartRingHom R c
             (MvPolynomial.X i)) = chartRingHom R (rotateChart c)
               (MvPolynomial.rename (· + 1) (MvPolynomial.X i))

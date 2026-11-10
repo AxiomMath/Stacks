@@ -77,7 +77,7 @@ public theorem smooth_and_isAtWorstNodal_of_isProjectiveLineSpecialFiber {C X : 
         E.inv ≫ projToSpecCoeff (IsLocalRing.ResidueField R) 1 := by
     rw [← hE, Iso.inv_hom_id_assoc]
   have hsm : Smooth S.specialFiberToSpec := by
-    show Smooth (pullback.snd p (Spec.map (CommRingCat.ofHom
+    change Smooth (pullback.snd p (Spec.map (CommRingCat.ofHom
       (algebraMap R (IsLocalRing.ResidueField R)))))
     rw [hsp]
     infer_instance

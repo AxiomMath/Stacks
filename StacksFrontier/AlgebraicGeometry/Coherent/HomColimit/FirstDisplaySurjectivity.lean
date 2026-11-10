@@ -156,7 +156,7 @@ public theorem eq_smul_map_oneSection (I : X.IdealSheafData) (n : ℕ) {V : X.Op
     (hr : (a.1 : Γ(X, V)) = r) :
     a = r • (idealPow I n).presheaf.map (homOfLE hVU).op (oneSection I n) := by
   refine Subtype.ext ?_
-  show (a.1 : Γ(X, V))
+  change (a.1 : Γ(X, V))
     = r * X.presheaf.map (homOfLE hVU).op (1 : Γ(X, (I.support.compl : X.Opens)))
   rwa [map_one, mul_one]
 

@@ -44,7 +44,7 @@ theorem exists_pow_smul_comp_eq_of_projective_localizationAway
   let sA := sB.restrictScalars R
   have hsA : ρ.comp sA = LinearMap.id := by
     ext x
-    show ρB (sB x) = x
+    change ρB (sB x) = x
     exact congrArg (fun q : LocalizedModule.Away f M →ₗ[B] LocalizedModule.Away f M => q x) hsB
   obtain ⟨b, t, hb⟩ := Module.FinitePresentation.exists_lift_of_isLocalizedModule
     S fF (sA.comp fM)
@@ -66,7 +66,7 @@ theorem exists_pow_smul_comp_eq_of_projective_localizationAway
   have hfactor : a.comp b = (t'.1 * t.1) • LinearMap.id := by
     ext x
     have hx := congrArg (fun q : M →ₗ[R] M => q x) ht'
-    show (t'.1 • π) (b x) = ((t'.1 * t.1) • LinearMap.id) x
+    change (t'.1 • π) (b x) = ((t'.1 * t.1) • LinearMap.id) x
     simpa [Submonoid.smul_def, smul_smul] using hx
   have hpow : t'.1 * t.1 ∈ S := S.mul_mem t'.property t.property
   obtain ⟨k, hk⟩ := (Submonoid.mem_powers_iff (t'.1 * t.1) f).mp hpow
@@ -102,7 +102,7 @@ theorem exists_pow_smul_factor_through_baseQuotient
   have hx := LinearMap.congr_fun hab x
   simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.smul_apply, LinearMap.id_coe,
     id_eq] at hx
-  show a (b x) = g ^ k • x
+  change a (b x) = g ^ k • x
   rw [hx, ← map_pow, ← Ideal.Quotient.algebraMap_eq, algebraMap_smul]
 
 /-- **A power of `g` factors through a finite free module over `A ⧸ (f)`**, with the local

@@ -79,7 +79,7 @@ theorem picardClassMap_eq_of_forall {T : s.SchemesOver} (x y : s.picardAt T) {R 
   have key : ∀ z : s.picardAt T, s.picardFunctor.map g.op (s.picardClassMap T z) =
       s.picardClassMap U (s.picardMap g z) := fun z =>
     (ConcreteCategory.congr_hom (s.toPicardFunctor.naturality g.op) z).symm
-  show s.picardFunctor.map g.op (s.picardClassMap T x) =
+  change s.picardFunctor.map g.op (s.picardClassMap T x) =
     s.picardFunctor.map g.op (s.picardClassMap T y)
   rw [key, key, h g hg]
 
@@ -166,7 +166,7 @@ theorem exists_mem_fppfTopology_picardPullback_eq_zero (T : s.SchemesOver)
     (fun t => hγe t.down) (fun t => ⟨ULift.up t, v t, hγv t⟩), ?_⟩
   rintro W _ ⟨Z, w, _, ⟨t⟩, rfl⟩
   rw [CostructuredArrow.comp_left, Functor.map_comp, picardPullback_comp]
-  show picardPullback _ (picardPullback ((schemeSpaceFunctor B S hS).map (γ t.down)) y) = 0
+  change picardPullback _ (picardPullback ((schemeSpaceFunctor B S hS).map (γ t.down)) y) = 0
   rw [hγ0, picardPullback_zero]
 
 /-- **The composite `Pic(T) ⟶ Pic(X_T) ⟶ Pic_{X/B}(T)` of Stacks 0D27 is zero.**  A class

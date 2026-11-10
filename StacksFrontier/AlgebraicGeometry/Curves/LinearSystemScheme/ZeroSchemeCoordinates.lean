@@ -38,7 +38,7 @@ theorem zeroScheme_unit_smul (L : X.Modules)
   have hrU : IsUnit (X.presheaf.map (homOfLE (le_top (a := U.1))).op r) :=
     hr.map (X.presheaf.map (homOfLE (le_top (a := U.1))).op).hom
   ext a
-  simp only [Set.mem_setOf_eq, Scheme.Modules.map_smul]
+  simp only [Set.mem_ofPred_eq, Scheme.Modules.map_smul]
   constructor
   · rintro ⟨φ, rfl⟩
     refine ⟨X.presheaf.map (homOfLE (le_top (a := U.1))).op r • φ, ?_⟩

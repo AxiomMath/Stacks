@@ -103,7 +103,7 @@ private theorem subsingleton_of_injective_smul_of_exists_pow_smul_eq_zero
     | succ k ih =>
       intro x hx
       refine ih x (hinj ?_)
-      show a • a ^ k • x = a • 0
+      change a • a ^ k • x = a • 0
       rw [smul_zero, smul_smul, ← pow_succ']
       exact hx
   refine ⟨fun x y => ?_⟩
@@ -278,14 +278,14 @@ private theorem torPhi_finsupp_exactAt {A : Type u} [CommRing A] (ι S : Type u)
       (TensorProduct.finsuppLeft A A S (Pr.X j) ι).symm.toModuleIso
       (TensorProduct.finsuppLeft A A S (Pr.X k) ι).symm.toModuleIso ?_ ?_
     · apply ModuleCat.hom_ext
-      show LinearMap.lTensor (ι →₀ S) (ModuleCat.Hom.hom (Pr.d i j)) ∘ₗ
+      change LinearMap.lTensor (ι →₀ S) (ModuleCat.Hom.hom (Pr.d i j)) ∘ₗ
           (TensorProduct.finsuppLeft A A S (Pr.X i) ι).symm.toLinearMap
             = (TensorProduct.finsuppLeft A A S (Pr.X j) ι).symm.toLinearMap ∘ₗ
                 Finsupp.mapRange.linearMap
                   (LinearMap.lTensor S (ModuleCat.Hom.hom (Pr.d i j)))
       exact finsuppLeft_lTensor_sq ι S (Pr.X i) (Pr.X j) (ModuleCat.Hom.hom (Pr.d i j))
     · apply ModuleCat.hom_ext
-      show LinearMap.lTensor (ι →₀ S) (ModuleCat.Hom.hom (Pr.d j k)) ∘ₗ
+      change LinearMap.lTensor (ι →₀ S) (ModuleCat.Hom.hom (Pr.d j k)) ∘ₗ
           (TensorProduct.finsuppLeft A A S (Pr.X j) ι).symm.toLinearMap
             = (TensorProduct.finsuppLeft A A S (Pr.X k) ι).symm.toLinearMap ∘ₗ
                 Finsupp.mapRange.linearMap
@@ -343,7 +343,7 @@ private theorem torVanishes_succ_of_smul_top_eq_bot
   have hπ : Function.Surjective πA := by
     intro x
     refine ⟨Finsupp.single x 1, ?_⟩
-    show π (Finsupp.single x 1) = x
+    change π (Finsupp.single x 1) = x
     rw [Finsupp.linearCombination_single]
     simp
   have hPz : I • (⊤ : Submodule A (LinearMap.ker πA)) = ⊥ :=

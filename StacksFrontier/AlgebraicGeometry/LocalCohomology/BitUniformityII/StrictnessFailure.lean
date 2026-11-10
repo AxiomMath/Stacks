@@ -228,7 +228,7 @@ public theorem prod_X_pow_eq_monomial (s : Finset (Fin r)) (k : ℕ) :
   | empty => simp
   | insert a s ha ih =>
       rw [Finset.prod_insert ha, Finset.sum_insert ha, ih, X_pow_eq_monomial,
-        monomial_mul, one_mul]
+        monomial_mul_monomial, one_mul]
 
 /-- An element of `(x₀ⁿ, …, x_{r-1}ⁿ)` has vanishing coefficient at every exponent vector all
 of whose entries are smaller than `n`. -/
@@ -240,7 +240,7 @@ public theorem coeff_eq_zero_of_mem_span_X_pow (n : ℕ) (g : MvPolynomial (Fin 
   refine Finset.sum_eq_zero fun i _ => ?_
   have hnot : ¬ (Finsupp.single i n ≤ d) := fun hle =>
     absurd (Finsupp.single_le_iff.1 hle) (hd i).not_ge
-  rw [X_pow_eq_monomial, coeff_mul_monomial', if_neg hnot]
+  rw [X_pow_eq_monomial, coeff_mul_monomial', ite_eq_right hnot]
 
 /-- The ideal `I = (x₀, …, x_{r-1})` of `ℤ[x₀, …, x_{r-1}]`. -/
 public def monomialIdeal (r : ℕ) : Ideal (MvPolynomial (Fin r) ℤ) :=
@@ -257,7 +257,7 @@ public theorem diagonalMonomial_notMem_span_X_pow (r n : ℕ) (hn : 1 ≤ n) :
   intro hmem
   have h0 := coeff_eq_zero_of_mem_span_X_pow n _ hmem (monomialExponent r (n - 1))
     (fun i => by rw [monomialExponent_apply]; omega)
-  rw [diagonalMonomial, coeff_monomial, if_pos rfl] at h0
+  rw [diagonalMonomial, coeff_monomial, ite_eq_left rfl] at h0
   exact one_ne_zero h0
 
 /-- The diagonal monomial lies in `I^{r(n-1)}`: it is the `(n-1)`-st power of a product of `r`

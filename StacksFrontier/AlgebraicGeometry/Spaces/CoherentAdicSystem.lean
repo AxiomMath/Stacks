@@ -97,7 +97,7 @@ theorem idealPowerMultiple_le_iff (n : ℕ) (M : Modules.{u, u} B S hS F hF) (N 
         chartIdeal B S hS ⟨F, hF⟩ 𝓘 U ^ n • (⊤ : Submodule (chartRing B S hS F hF U)
           (M.val.obj (op U))) ≤ N.toSubmodule.obj (op U) := by
   refine ⟨fun h U => le_trans ?_ (h (op U)), fun h => sInf_le h⟩
-  show _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
+  change _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
       { P : M.Submodule | ∀ V : SmallEtale B S hS F,
         chartIdeal B S hS ⟨F, hF⟩ 𝓘 V ^ n • (⊤ : Submodule (chartRing B S hS F hF V)
           (M.val.obj (op V))) ≤ P.toSubmodule.obj (op V) })).obj (op U)
@@ -215,7 +215,7 @@ theorem isZero_of_sections_eq_zero (M : Modules.{u, u} B S hS F hF)
 theorem restrictₛₗ_id (M : Modules.{u, u} B S hS F hF)
     {X : ((smallEtaleRingedSite B S hS F hF).C)ᵒᵖ} (x : M.val.obj X) :
     M.val.restrictₛₗ (𝟙 X) x = x := by
-  show M.val.presheaf.map (𝟙 X) x = x
+  change M.val.presheaf.map (𝟙 X) x = x
   rw [M.val.presheaf.map_id X]
   rfl
 
@@ -323,7 +323,7 @@ theorem isPowAnnihilated_of_epi (k : ℕ) {M N : Modules.{u, u} B S hS F hF} (φ
     (hM : IsPowAnnihilated B S hS F hF 𝓘 k M) : IsPowAnnihilated B S hS F hF 𝓘 k N := by
   have hz : φ ≫ cokernel.π (powAnnihilator B S hS F hF 𝓘 k N).ι = 0 := by
     ext X y
-    show (cokernel.π (powAnnihilator B S hS F hF 𝓘 k N).ι).val.app X (φ.val.app X y) = 0
+    change (cokernel.π (powAnnihilator B S hS F hF 𝓘 k N).ι).val.app X (φ.val.app X y) = 0
     refine (cokernel_π_app_eq_zero_iff B S hS F hF _ X _).mpr ?_
     intro V g r hr
     have h1 : N.val.restrictₛₗ g (φ.val.app X y)
@@ -359,6 +359,7 @@ theorem isPowAnnihilated_of_mem_idealPowerMultiple (a j k : ℕ)
 /-! ### Surjectivity in `Coh(F, 𝓘)` -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for `Epi` in the category of modules over the big fppf site is slow
 /-- The transition map of a coherent adic system is surjective. -/
 theorem epi_map_le_succ {E : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF}
     (hE : IsCoherentAdicSystem B S hS F hF 𝓘 E) (n : ℕ) :
@@ -398,7 +399,7 @@ theorem epi_app_succ_of_epi_app {E E' : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF
             (cokernel (f.app (op (n + 1))))).ι) = 0 := by
       refine (idealPowerMultiple_ι_comp_eq_zero_iff B S hS F hF 𝓘 (n + 1) _).mpr ?_
       intro U r hr x
-      show (cokernel.π (idealPowerMultiple B S hS F hF 𝓘 (n + 1)
+      change (cokernel.π (idealPowerMultiple B S hS F hF 𝓘 (n + 1)
           (cokernel (f.app (op (n + 1))))).ι).val.app (op U)
         ((cokernel.π (f.app (op (n + 1)))).val.app (op U) (r • x)) = 0
       rw [(((cokernel.π (f.app (op (n + 1))))).val.app (op U)).hom.map_smul r x]
@@ -461,7 +462,7 @@ theorem epi_app_zero_of_epi {E E' : CoherentAdicSystems B S hS F hF 𝓘} (f : E
         cokernel.π (f.hom.app (op 0))
       naturality := by
         intro X Y h
-        show E'.obj.map h ≫ (E'.obj.map _ ≫ cokernel.π (f.hom.app (op 0))) =
+        change E'.obj.map h ≫ (E'.obj.map _ ≫ cokernel.π (f.hom.app (op 0))) =
           (E'.obj.map _ ≫ cokernel.π (f.hom.app (op 0))) ≫ 𝟙 _
         rw [Category.comp_id, ← Category.assoc, ← Functor.map_comp]
         rfl }
@@ -469,7 +470,7 @@ theorem epi_app_zero_of_epi {E E' : CoherentAdicSystems B S hS F hF 𝓘} (f : E
     apply ObjectProperty.hom_ext
     apply NatTrans.ext
     funext X
-    show f.hom.app X ≫ (E'.obj.map _ ≫ cokernel.π (f.hom.app (op 0))) = 0
+    change f.hom.app X ≫ (E'.obj.map _ ≫ cokernel.π (f.hom.app (op 0))) = 0
     rw [← Category.assoc, ← f.hom.naturality, Category.assoc, cokernel.condition, comp_zero]
   have ha : a = 0 := zero_of_epi_comp f hfa
   have hq : cokernel.π (f.hom.app (op 0)) = 0 := by

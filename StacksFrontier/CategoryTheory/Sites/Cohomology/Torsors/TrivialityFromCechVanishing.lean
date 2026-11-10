@@ -41,7 +41,7 @@ usable here directly, with no comparison with the `Ext`-group first cohomology o
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe h a w v u
+universe a w v u
 
 namespace Stacks.Cohomology.Torsors
 
@@ -53,8 +53,6 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {U : C}
   [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
   [HasSheafify J AddCommGrpCat.{max a u v w}]
   [HasSheafify (J.over U) AddCommGrpCat.{max a u v w}]
-  [HasExt.{h} (Sheaf J AddCommGrpCat.{max a u v w})]
-  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{max a u v w})]
 
 /-- **A torsor with a section over every member of a covering family and vanishing first Čech
 cohomology is trivial.**  The isomorphism classes of torsors under `G|_U` with a section over
@@ -74,7 +72,7 @@ theorem isTrivial_of_subsingleton_cechH1 (hE : E.sieve₀ ∈ J U)
   have hclass : (⟨Quotient.mk (torsorSetoid (G.over U)) F, ⟨F, rfl, hs⟩⟩ :
         LocallyTrivialClass E G) =
       ⟨Quotient.mk (torsorSetoid (G.over U)) T, ⟨T, rfl, hTs⟩⟩ :=
-    (locallyTrivialClassEquivCechH1.{h, a, w, v, u} E hE G).injective
+    (locallyTrivialClassEquivCechH1.{a, w, v, u} E hE G).injective
       (@Subsingleton.elim _ hvanish _ _)
   obtain ⟨e, he⟩ := (torsorSetoid (G.over U)).iseqv.symm
     (Quotient.exact (congrArg Subtype.val hclass))

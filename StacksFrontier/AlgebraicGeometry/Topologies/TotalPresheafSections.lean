@@ -86,7 +86,7 @@ public lemma totalMapMk {F : (Over X)ᵒᵖ ⥤ Type v} {A B : Over X} (b : B �
     (t : F.obj (op A)) :
     (totalPresheaf F).map b.left.op (⟨A.hom, t⟩ : (totalPresheaf F).obj (op A.left)) =
       ⟨B.hom, F.map b.op t⟩ := by
-  show (⟨b.left ≫ A.hom,
+  change (⟨b.left ≫ A.hom,
     F.map (Over.homMk b.left rfl : Over.mk (b.left ≫ A.hom) ⟶ Over.mk A.hom).op t⟩ :
       (totalPresheaf F).obj (op B.left)) = ⟨B.hom, F.map b.op t⟩
   exact totalSigmaMkEq t

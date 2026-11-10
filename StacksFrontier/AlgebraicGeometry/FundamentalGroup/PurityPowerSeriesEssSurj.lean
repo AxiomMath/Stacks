@@ -84,7 +84,7 @@ public theorem dense_of_comap_ne_maximalIdeal_mem_of_flat (A B : Type u) [CommRi
   have : q.IsPrime := hq.1.1
   have hqV : (⟨q, this⟩ : PrimeSpectrum B) ∈ V := by
     refine hV₁ _ fun h => notMem_nonZeroDivisors_of_mem_mem_minimalPrimes ?_ hq hCa
-    show algebraMap A B a ∈ q
+    change algebraMap A B a ∈ q
     rw [← Ideal.mem_comap, show q.comap (algebraMap A B) = maximalIdeal A from h]
     exact ha
   exact closure_mono (Set.singleton_subset_iff.2 hqV)
@@ -136,7 +136,7 @@ public theorem exists_isPullback_of_isPullback_restrict {Y G : Scheme.{u}} [IsLo
   have hfinE : IsFinite E.toBase :=
     isFinite_relativeSpectrum_extendedEtaleSituation V.ι W.hom hdV
   have : IsLocallyNoetherian (extendedEtaleSituation V.ι W.hom hdV).base := by
-    show IsLocallyNoetherian Y
+    change IsLocallyNoetherian Y
     infer_instance
   have : IsLocallyNoetherian E.scheme := LocallyOfFiniteType.isLocallyNoetherian E.toBase
   let cW := extendedEtaleCoverMap V.ι W.hom hdV
@@ -239,7 +239,7 @@ public theorem essSurj_finiteEtaleBaseChange_mvPowerSeries (A : Type u) [CommRin
   let V' : Y.Opens := p ⁻¹ᵁ Stacks.puncturedSpectrum A
   have hmemV' (q : Y) : q ∈ V' ↔
       q.asIdeal.comap (MvPowerSeries.C : A →+* B) ≠ maximalIdeal A := by
-    show p q ≠ IsLocalRing.closedPoint A ↔ _
+    change p q ≠ IsLocalRing.closedPoint A ↔ _
     exact not_congr ⟨fun h => congrArg PrimeSpectrum.asIdeal h, fun h => PrimeSpectrum.ext h⟩
   have hVV : V' ≤ V := fun q hq => hV₁ q ((hmemV' q).1 hq)
   have hdepthY : ∀ y : Y, y ∉ V' →
@@ -248,7 +248,7 @@ public theorem essSurj_finiteEtaleBaseChange_mvPowerSeries (A : Type u) [CommRin
     two_le_depth_stalk_of_notMem_mvPowerSeries A d hdepth V' fun q hq => (hmemV' q).2 hq
   let U₀ : X.Opens := s ⁻¹ᵁ V'
   have hmemU₀ (x : X) : x ∈ U₀ ↔ x ≠ IsLocalRing.closedPoint A := by
-    show p (s x) ≠ _ ↔ _
+    change p (s x) ≠ _ ↔ _
     rw [hsp_apply]
   have hU₀ : (U₀ : Set X) = {IsLocalRing.closedPoint A}ᶜ := by
     ext x
@@ -259,7 +259,7 @@ public theorem essSurj_finiteEtaleBaseChange_mvPowerSeries (A : Type u) [CommRin
   have : IsFinite W₀.hom := W₀.prop.1
   have : Etale W₀.hom := W₀.prop.2
   have hle : V' ≤ p ⁻¹ᵁ U₀ := fun y hy => by
-    show p y ∈ U₀
+    change p y ∈ U₀
     rw [hmemU₀]
     exact hy
   let q : V'.toScheme ⟶ U₀.toScheme := p.resLE U₀ V' hle
@@ -327,7 +327,7 @@ public theorem essSurj_finiteEtaleBaseChange_mvPowerSeries (A : Type u) [CommRin
     refine le_trans ?_ (depth_stalk_le_depth_stalk_of_flat gfst y)
     refine extendedEtale_depth_ge_two U₀.ι W₀.hom hdX (gfst y) ?_
     rw [Scheme.Opens.opensRange_ι]
-    show f₀ (gfst y) ∉ U₀
+    change f₀ (gfst y) ∉ U₀
     rw [hfy, hmemU₀, hpy]
     exact fun h => h rfl
   obtain ⟨c, hc⟩ := exists_isPullback_of_isPullback_restrict V V' hVV hdepthY W g
@@ -348,7 +348,7 @@ public theorem essSurj_finiteEtaleBaseChange_mvPowerSeries (A : Type u) [CommRin
   have hPV : P ∈ V := hV₂ P rfl
   have hpP : p P = IsLocalRing.closedPoint A := by
     refine PrimeSpectrum.ext ?_
-    show (Ideal.map (MvPowerSeries.C : A →+* B) (maximalIdeal A)).comap
+    change (Ideal.map (MvPowerSeries.C : A →+* B) (maximalIdeal A)).comap
       (MvPowerSeries.C : A →+* B) = maximalIdeal A
     exact ((maximalIdeal.isMaximal A).eq_of_le (Ideal.IsPrime.comap _).ne_top
       Ideal.le_comap_map).symm

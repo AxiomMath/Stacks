@@ -78,12 +78,12 @@ public theorem formallyEtale_of_etale
     simpa using hh.2
   have hOver : hB ≫ P.hom = T'.hom := by
     conv_lhs => rw [← p.w, ← Category.assoc]
-    show (hB ≫ (BigFppfOver.forget B S hS).map p) ≫ T'.hom = _
+    change (hB ≫ (BigFppfOver.forget B S hS).map p) ≫ T'.hom = _
     rw [hBp]
     simp
   set s : T' ⟶ P := Over.homMk hB hOver with hs
   have hs_map : (BigFppfOver.toScheme B S hS).map s = h := by
-    show B.inclusion.map hB = h
+    change B.inclusion.map hB = h
     rw [hhB, B.inclusion.map_preimage]
   have inj : ∀ {X Y : BigFppfOver B S hS} {u v : X ⟶ Y},
       (BigFppfOver.toScheme B S hS).map u = (BigFppfOver.toScheme B S hS).map v → u = v :=

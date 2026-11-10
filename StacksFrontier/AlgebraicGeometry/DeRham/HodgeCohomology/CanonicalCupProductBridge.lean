@@ -62,7 +62,7 @@ theorem singleMultiplication_exteriorProductComponent (p q : ℕ) :
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
   by_cases hn : n = 0
   · subst hn
-    show (HomologicalComplex.mkHomToSingle (K := HomologicalComplex.mapBifunctor
+    change (HomologicalComplex.mkHomToSingle (K := HomologicalComplex.mapBifunctor
         (singleNat (deRhamTerm B p)) (singleNat (deRhamTerm B q))
         (sheafTensor.{u, u, u, u, u} A) (up ℕ))
         (singleMultiplicationX (exteriorProductComponent B p q))
@@ -77,7 +77,7 @@ theorem singleMultiplication_exteriorProductComponent (p q : ℕ) :
     rw [singleMultiplicationX, HomologicalComplex.ι_mapBifunctorDesc]
     refine Eq.trans ?_ (HomologicalComplex.ι_mapBifunctorDesc
       (fun a b h => hodgeSingleWedgeSummand B D p q a b h) i₁ i₂ h).symm
-    show _ = ((sheafTensor.{u, u, u, u, u} A).obj ((singleNat (deRhamTerm B p)).X i₁)).map
+    change _ = ((sheafTensor.{u, u, u, u, u} A).obj ((singleNat (deRhamTerm B p)).X i₁)).map
         (HomologicalComplex.singleObjXIsoOfEq (up ℕ) 0 (deRhamTerm B q) i₂
           (by change i₁ + i₂ = 0 at h; omega)).hom ≫
       ((sheafTensor.{u, u, u, u, u} A).map

@@ -361,7 +361,7 @@ theorem isIso_of_isIso_pushforward_map_quasicoherentCartesianInl
     (C.transitionRingCompatible_localizedTransition O ψ) W c'
     (C.isIso_pushforward_overMap_map_quasicoherentCartesianInl O fib F c hc) ?hP ?hN
   case hP =>
-    exact RingedSite.isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation_cocontinuousSliceTransition
+    exact RingedSite.isIso_cocontinuousSliceTransitionPullback_app_of_hasGlobalPresentation
       (hv := C.isCocontinuous_transitionFunctor_quasicoherentCartesianInr O ψ)
       (hG := C.isContinuous_componentFunctor_componentRingedSite_localizedTransition O k)
       (hG' := C.isContinuous_componentFunctor_componentRingedSite_localizedTransition O n)

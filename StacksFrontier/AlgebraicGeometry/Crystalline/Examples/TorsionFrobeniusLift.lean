@@ -157,7 +157,7 @@ theorem frobeniusValues_map_relations_le :
       w ∈ completedIdeal p → f q ∈ (completedDividedPowerRing p).ideal :=
     fun q w h hw ↦ h ▸ Ideal.pow_mem_of_mem _ hw p hppos
   refine Ideal.map_le_iff_le_comap.mpr ?_
-  show Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
+  change Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
     polynomialX p * polynomialY p, polynomialY p ^ 2} : Set (polynomial p)) ≤ _
   rw [Ideal.span_le]
   rintro z hz
@@ -237,7 +237,7 @@ theorem not_injective_frobeniusLift_ker_completedDifferential :
   intro hinj
   obtain ⟨a, hane, ha⟩ := exists_ne_zero_ker_completedDifferential_frobeniusLift_eq_zero p
   refine hane (hinj ?_)
-  show frobeniusLift p (completedFormsZeroEquiv p a) =
+  change frobeniusLift p (completedFormsZeroEquiv p a) =
     frobeniusLift p (completedFormsZeroEquiv p 0)
   rw [ha, map_zero]
   exact (map_zero (frobeniusLift p).toRingHom).symm

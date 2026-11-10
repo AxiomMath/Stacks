@@ -59,8 +59,7 @@ theorem mem_smul_top_of_one_tmul_eq_zero (hφ : Function.Surjective (algebraMap 
   have key : ∀ w : I ⊗[C] N, TensorProduct.lid C N ((I.subtype).rTensor N w) ∈
       I • (⊤ : Submodule C N) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul a m =>
       rw [LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
       exact Submodule.smul_mem_smul a.2 Submodule.mem_top
@@ -79,8 +78,7 @@ theorem exists_ker_tmul_eq (hφ : Function.Surjective (algebraMap C B)) (d : M �
   let I := RingHom.ker (algebraMap C B)
   have hgen : ∀ y : B ⊗[C] M, ∃ x : M, (1 : B) ⊗ₜ[C] x = y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction y using TensorProduct.inductionOn with
     | tmul b m =>
       obtain ⟨c, rfl⟩ := hφ b
       exact ⟨c • m, by
@@ -200,7 +198,7 @@ private theorem isCompatible_of_cechD_eq_zero (x : CechCochains.Cochain U ℱ 0)
     simp only [Fin.val_zero, pow_zero, one_smul, Fin.val_one, pow_one, neg_smul,
       map_neg] at h0
     rwa [CechCochains.restr_restr, CechCochains.restr_restr, add_neg_eq_zero] at h0
-  show CechCochains.restr ℱ inf_le_left (x a) = CechCochains.restr ℱ inf_le_right (x b)
+  change CechCochains.restr ℱ inf_le_left (x a) = CechCochains.restr ℱ inf_le_right (x b)
   calc CechCochains.restr ℱ inf_le_left (x a)
       = CechCochains.restr ℱ
           (inf_le_left : CechCochains.inter U a ⊓ CechCochains.inter U b ≤ CechCochains.inter U a)
@@ -243,7 +241,7 @@ theorem cechD_apply_coe {A : Type u} [CommRing A] {Y : Scheme.{u}} (f : Y ⟶ Sp
   have h : (Stacks.Cech.alternatingCechModuleComplex f U F).d 0 1 =
       Stacks.Cech.alternatingCechModuleDiff f U F 0 := by
     simp
-  show ((ModuleCat.Hom.hom ((Stacks.Cech.alternatingCechModuleComplex f U F).d 0 1)) c).1 = _
+  change ((ModuleCat.Hom.hom ((Stacks.Cech.alternatingCechModuleComplex f U F).d 0 1)) c).1 = _
   rw [h]
   rfl
 
@@ -277,7 +275,7 @@ theorem exists_pullbackSections_eq (hφ : Function.Surjective φ)
     have h := LinearMap.congr_fun (baseChangeEquiv_comm φ f f' g hsq U F hUaff) (e₀.symm c₀)
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe] at h
     rw [h, map_zero]
-    show cechD f' U' F' (e₀ (e₀.symm c₀)) = 0
+    change cechD f' U' F' (e₀ (e₀.symm c₀)) = 0
     rwa [LinearEquiv.apply_symm_apply]
   have hφ' : Function.Surjective (algebraMap A A') := hφ
   obtain ⟨x, hx, hxy⟩ := exists_ker_tmul_eq hφ' (cechD f U F) hd _ hy

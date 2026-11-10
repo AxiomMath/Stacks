@@ -92,7 +92,7 @@ theorem epi_freeHomEquiv_symm_mkOver (M : X.Modules) (W : X.Opens) {I : Type u} 
     have h2 := congrArg (fun f : SheafOfModules.unit (X.ringCatSheaf.over W) ⟶ M.over W =>
         f.val.app (op Z) (1 : (X.ringCatSheaf.over W).obj.obj (op Z))) h
     refine h2.trans ?_
-    show (LinearMap.ringLmapEquivSelf ((X.ringCatSheaf.over W).obj.obj (op Z)) ℤ
+    change (LinearMap.ringLmapEquivSelf ((X.ringCatSheaf.over W).obj.obj (op Z)) ℤ
       ((M.over W).val.obj (op Z))).symm ((σ i).val (op Z)) 1 = _
     simp only [Functor.comp_obj, PresheafOfModules.presheaf_obj_coe,
       LinearMap.ringLmapEquivSelf_symm_apply, LinearMap.coe_smulRight, Module.End.one_apply,

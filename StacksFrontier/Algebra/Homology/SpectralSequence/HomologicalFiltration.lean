@@ -302,7 +302,7 @@ public theorem subobjectModule_mk
     {R : Type u} [Ring R] {X Y : ModuleCat.{v} R}
     (f : X ⟶ Y) [Mono f] :
     ModuleCat.subobjectModule Y (Subobject.mk f) = LinearMap.range f.hom := by
-  show LinearMap.range (Subobject.mk f).arrow.hom = _
+  change LinearMap.range (Subobject.mk f).arrow.hom = _
   conv_rhs => rw [← Subobject.underlyingIso_arrow f]
   rw [ModuleCat.hom_comp,
     LinearMap.range_comp_of_range_eq_top _
@@ -313,7 +313,7 @@ public theorem subobjectModule_mk
 theorem subobjectModule_imageSubobject
     {R : Type u} [Ring R] {X Y : ModuleCat.{v} R} (f : X ⟶ Y) :
     ModuleCat.subobjectModule Y (imageSubobject f) = LinearMap.range f.hom := by
-  show LinearMap.range (imageSubobject f).arrow.hom = _
+  change LinearMap.range (imageSubobject f).arrow.hom = _
   conv_rhs => rw [← imageSubobject_arrow_comp f]
   rw [ModuleCat.hom_comp,
     LinearMap.range_comp_of_range_eq_top _
@@ -549,7 +549,7 @@ private theorem homologyπ_eq_zero_iff (X : CochainComplex (ModuleCat.{v} R) ℤ
   · rintro ⟨w, hw⟩
     obtain rfl : z = X.toCycles m' m w :=
       hinj (by rw [hom_apply_eq_of_comp (X.toCycles_i m' m) w, hw])
-    show X.toCycles m' m w ∈ LinearMap.ker (X.homologyπ m).hom
+    change X.toCycles m' m w ∈ LinearMap.ker (X.homologyπ m).hom
     rw [← h]
     exact ⟨w, rfl⟩
 
@@ -577,7 +577,7 @@ private theorem homologyFiltration_eq_top {b n : ℤ} (hb : F.step b n = ⊤) :
 
 private theorem cycleClass_eq_zero_iff (p n : ℤ) (z : F.filteredCycles p n) :
     F.cycleClass p n z = 0 ↔ X.homologyπ (-n) z.1 ∈ F.homologyFiltration (p - 1) n := by
-  show Submodule.mkQ _ _ = 0 ↔ _
+  change Submodule.mkQ _ _ = 0 ↔ _
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, Submodule.mem_comap]
   rfl
 
@@ -587,7 +587,7 @@ private theorem torSpectralSequenceShape_rel (axis : Bool) (r p n : ℤ) :
       (filtrationBidegree axis (p - r) (n - 1)) := by
   cases axis <;>
   · simp only [torSpectralSequenceShape, filtrationBidegree, Bool.false_eq_true, ↓reduceIte]
-    show (_ : ℤ × ℤ) + _ = _
+    change (_ : ℤ × ℤ) + _ = _
     apply Prod.ext <;> dsimp <;> omega
 
 variable {c : ℤ → ComplexShape (ℤ × ℤ)} {s : ℤ} {E : SpectralSequence (ModuleCat.{v} R) c s}
@@ -647,7 +647,7 @@ private theorem cyclesToPageCycles_bijective (r p n : ℤ) (h : F.step (p - r) (
   obtain ⟨z, hz⟩ := exists_iCycles_eq X (-n) (-(n - 1)) (by omega) x
     (pageCycles_eq_of_bot F r p n h x hx)
   refine ⟨⟨z, ?_⟩, Subtype.ext hz⟩
-  show X.iCycles (-n) z ∈ F.step p n
+  change X.iCycles (-n) z ∈ F.step p n
   rw [hz]
   exact hx.1
 
@@ -663,7 +663,7 @@ private theorem mem_pageRelations_iff_of_large (r p n : ℤ) (hbot : F.step (p -
       (by rwa [show p - 1 - (r - 1) = p - r by omega]) y hy
     obtain ⟨yc, hyc⟩ := exists_iCycles_eq X (-n) (-(n - 1)) (by omega) y hdy
     refine ⟨yc, by change X.iCycles (-n) yc ∈ F.step (p - 1) n; rw [hyc]; exact hy.1, ?_⟩
-    show X.homologyπ (-n) yc = X.homologyπ (-n) z.1
+    change X.homologyπ (-n) yc = X.homologyπ (-n) z.1
     rw [← sub_eq_zero, ← map_sub, homologyπ_eq_zero_iff X (-(n + 1)) (-n) (by omega)]
     refine ⟨-w, ?_⟩
     rw [map_sub, hyc, ← hyw, map_neg]
@@ -677,10 +677,10 @@ private theorem mem_pageRelations_iff_of_large (r p n : ℤ) (hbot : F.step (p -
     apply Submodule.mem_sup.mpr
     refine ⟨X.iCycles (-n) yc, ⟨hyc, ?_⟩, X.d (-(n + 1)) (-n) w,
       ⟨w, ⟨by rw [htop]; trivial, ?_⟩, rfl⟩, ?_⟩
-    · show X.d (-n) (-(n - 1)) (X.iCycles (-n) yc) ∈ F.step (p - 1 - (r - 1)) (n - 1)
+    · change X.d (-n) (-(n - 1)) (X.iCycles (-n) yc) ∈ F.step (p - 1 - (r - 1)) (n - 1)
       rw [hom_apply_eq_of_comp (X.iCycles_d (-n) (-(n - 1)))]
       exact zero_mem _
-    · show X.d (-(n + 1)) (-(n + 1 - 1)) w ∈ F.step (p + r - 1 - (r - 1)) (n + 1 - 1)
+    · change X.d (-(n + 1)) (-(n + 1 - 1)) w ∈ F.step (p + r - 1 - (r - 1)) (n + 1 - 1)
       rw [show n + 1 - 1 = n by omega, show p + r - 1 - (r - 1) = p by omega, hw]
       exact Submodule.sub_mem _ z.2 (F.monotone n (show p - 1 ≤ p by omega) hyc)
     · rw [hw]
@@ -702,7 +702,7 @@ private theorem exists_comparison
     ext y
     obtain ⟨z, rfl⟩ := e.surjective y
     rw [S.kernel, LinearMap.mem_ker, Submodule.mem_comap]
-    show X.iCycles (-n) z.1 ∈ F.pageRelations r p n ↔ F.cycleClass p n (e.symm (e z)) = 0
+    change X.iCycles (-n) z.1 ∈ F.pageRelations r p n ↔ F.cycleClass p n (e.symm (e z)) = 0
     rw [LinearEquiv.symm_apply_apply, cycleClass_eq_zero_iff,
       mem_pageRelations_iff_of_large F r p n hbot htop]
   let comp := ((LinearMap.quotKerEquivOfSurjective _ hπ).symm.trans
@@ -710,14 +710,14 @@ private theorem exists_comparison
       (LinearMap.quotKerEquivOfSurjective f hf))).toModuleIso
   refine ⟨comp.hom, inferInstance, ?_⟩
   ext z
-  show comp.hom (S.projection r hr p n (e z)) = F.cycleClass p n z
-  show (LinearMap.quotKerEquivOfSurjective f hf) ((Submodule.quotEquivOfEq _ _ hker)
+  change comp.hom (S.projection r hr p n (e z)) = F.cycleClass p n z
+  change (LinearMap.quotKerEquivOfSurjective f hf) ((Submodule.quotEquivOfEq _ _ hker)
     ((LinearMap.quotKerEquivOfSurjective _ hπ).symm (S.projection r hr p n (e z)))) = _
   rw [show (LinearMap.quotKerEquivOfSurjective _ hπ).symm (S.projection r hr p n (e z)) =
       Submodule.Quotient.mk (e z) from
     (LinearEquiv.symm_apply_eq _).mpr (LinearMap.quotKerEquivOfSurjective_apply_mk _ _ _).symm,
     Submodule.quotEquivOfEq_mk, LinearMap.quotKerEquivOfSurjective_apply_mk]
-  show F.cycleClass p n (e.symm (e z)) = _
+  change F.cycleClass p n (e.symm (e z)) = _
   rw [LinearEquiv.symm_apply_apply]
 
 /-- A filtration which is finite in every chain degree converges. -/
@@ -748,7 +748,7 @@ theorem TorFiltrationData.converges_of_finite
       rwa [show n + 1 - 1 = n by omega, show p + r - r = p by omega] at this
     have hdx : X.d (-(n + 1)) (-n) x ∈ F.pageCycles r p n := by
       refine ⟨hxs, ?_⟩
-      · show X.d (-n) (-(n - 1)) (X.d (-(n + 1)) (-n) x) ∈ F.step (p - r) (n - 1)
+      · change X.d (-n) (-(n - 1)) (X.d (-(n + 1)) (-n) x) ∈ F.step (p - r) (n - 1)
         rw [← ConcreteCategory.comp_apply, HomologicalComplex.d_comp_d]
         exact zero_mem _
     rw [TorFiltrationData.differential' F S r hr (p + r) (n + 1) p n (by omega) (by omega) x hx hdx,
@@ -756,7 +756,7 @@ theorem TorFiltrationData.converges_of_finite
     · rfl
     apply Submodule.mem_sup_right
     refine ⟨x, ⟨by rw [htop]; trivial, ?_⟩, rfl⟩
-    show X.d (-(n + 1)) (-(n + 1 - 1)) x ∈ F.step (p + r - 1 - (r - 1)) (n + 1 - 1)
+    change X.d (-(n + 1)) (-(n + 1 - 1)) x ∈ F.step (p + r - 1 - (r - 1)) (n + 1 - 1)
     rwa [show n + 1 - 1 = n by omega, show p + r - 1 - (r - 1) = p by omega]
   · exact exists_comparison F S r hr p n hbot htop
 end Convergence
@@ -780,7 +780,7 @@ public theorem subobjectModule_exists
       (imageSubobject_le _ (Subobject.imageFactorisation f A).F.e
         (Subobject.imageFactorisation f A).F.fac)
   rw [hA, subobjectModule_imageSubobject]
-  show LinearMap.range (A.arrow ≫ f).hom =
+  change LinearMap.range (A.arrow ≫ f).hom =
     Submodule.map f.hom (LinearMap.range A.arrow.hom)
   rw [ModuleCat.hom_comp, LinearMap.range_comp]
 
@@ -810,7 +810,7 @@ private noncomputable def subobjectIso {M : ModuleCat.{v} R} (P : Subobject M) :
 private theorem subobjectIso_hom_arrow {M : ModuleCat.{v} R} (P : Subobject M)
     (x : ModuleCat.subobjectModule M P) :
     P.arrow ((subobjectIso P).hom x) = x.1 := by
-  show P.arrow.hom ((LinearEquiv.ofInjective P.arrow.hom _).symm x) = x.1
+  change P.arrow.hom ((LinearEquiv.ofInjective P.arrow.hom _).symm x) = x.1
   exact LinearEquiv.ofInjective_symm_apply _ x
 
 private theorem ker_cokernel_π {M N : ModuleCat.{v} R} (f : M ⟶ N) :
@@ -893,11 +893,11 @@ private theorem pageClass_ker (r : ℤ) (hr : 0 ≤ r) (pq : ℤ × ℤ) (n : �
       exact hiso (hx'.trans (map_zero _).symm)
     · intro hx
       have hx' : cokernel.π (den X G r pq.1 n) ((subobjectIso _).hom x) = 0 := hx
-      show (eIso X G hanti r pq.1 pq.2 n hr hn).inv
+      change (eIso X G hanti r pq.1 pq.2 n hr hn).inv
         (cokernel.π (den X G r pq.1 n) ((subobjectIso _).hom x)) = 0
       rw [hx', map_zero]
   rw [hmem, ker_cokernel_π, Submodule.mem_comap]
-  show _ ↔ x.1 ∈ bdySub X G r pq.1 n
+  change _ ↔ x.1 ∈ bdySub X G r pq.1 n
   have hZinj := (ModuleCat.mono_iff_injective (cycles X G r pq.1 n).arrow).mp inferInstance
   constructor
   · rintro ⟨y, hy⟩
@@ -914,7 +914,7 @@ private theorem pageClass_ker (r : ℤ) (hr : 0 ≤ r) (pq : ℤ × ℤ) (n : �
       exact ⟨hx, x.2⟩
     obtain ⟨y, hy⟩ := hmem2
     refine ⟨y, hZinj ?_⟩
-    show (cycles X G r pq.1 n).arrow ((den X G r pq.1 n) y) = _
+    change (cycles X G r pq.1 n).arrow ((den X G r pq.1 n) y) = _
     rw [← ConcreteCategory.comp_apply, Subobject.ofLE_arrow, subobjectIso_hom_arrow]
     exact hy
 
@@ -1103,7 +1103,7 @@ private theorem modelProjection_apply (axis : Bool) (s : ℤ) (hs : 0 ≤ s) (r 
         (reverseBidegree axis (filtrationBidegree axis p n)) (-n)
         (reverseBidegree_filtrationBidegree_sum axis p n)
         ⟨x.1, (modelFiltration_pageCycles_rev X G hanti hd axis r p n).le x.2⟩ := by
-  show (torIndexedSpectralSequence_pageIso (spectralSequence X G hanti) axis s hs r hr
+  change (torIndexedSpectralSequence_pageIso (spectralSequence X G hanti) axis s hs r hr
     (filtrationBidegree axis p n)).hom
       ((torIndexedSpectralSequence_pageIso (spectralSequence X G hanti) axis s hs r hr
         (filtrationBidegree axis p n)).inv _) = _
@@ -1170,9 +1170,9 @@ private theorem pageCycles_succ_d_mem {Y : CochainComplex (ModuleCat.{v} R) ℤ}
   have h2 := hx.2
   change Y.d (-n) (-(n - 1)) x ∈ F.step (p - (r + 1)) (n - 1) at h2
   refine ⟨⟨F.monotone (n - 1) (by omega) h2, ?_⟩, Submodule.mem_sup_left ⟨?_, ?_⟩⟩
-  · show _ ∈ F.step (p - r - r) (n - 1 - 1); rw [hdd]; exact zero_mem _
-  · show _ ∈ F.step (p - r - 1) (n - 1); rwa [show p - r - 1 = p - (r + 1) by omega]
-  · show _ ∈ F.step (p - r - 1 - (r - 1)) (n - 1 - 1); rw [hdd]; exact zero_mem _
+  · change _ ∈ F.step (p - r - r) (n - 1 - 1); rw [hdd]; exact zero_mem _
+  · change _ ∈ F.step (p - r - 1) (n - 1); rwa [show p - r - 1 = p - (r + 1) by omega]
+  · change _ ∈ F.step (p - r - 1 - (r - 1)) (n - 1 - 1); rw [hdd]; exact zero_mem _
 
 private theorem modelProjection_next_cycle (axis : Bool) (s : ℤ) (hs : 0 ≤ s) (r : ℤ)
     (hr : s ≤ r) (p n : ℤ) (x : X.X (-n))

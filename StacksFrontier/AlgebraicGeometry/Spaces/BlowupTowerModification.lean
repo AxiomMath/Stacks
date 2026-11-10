@@ -164,7 +164,7 @@ theorem isIso_pullback_snd_of_isBlowupAlong {X X' : AlgebraicSpaces B S hS}
   have hle : V ≤ (openComplementOfClosedSubspace B S hS X Z).1 := by
     refine le_of_range_pointsMap_ι_subset B S hS
       (openComplementOfClosedSubspace B S hS X Z).2 ?_
-    show subspacePointSet B S hS X.obj V ⊆
+    change subspacePointSet B S hS X.obj V ⊆
       subspacePointSet B S hS X.obj (openComplementOfClosedSubspace B S hS X Z).1
     rw [subspacePointSet_openComplement]
     exact hV
@@ -439,7 +439,7 @@ theorem isModification_of_blowupFactorization {Y : AlgebraicSpaces B S hS} {f : 
   refine ⟨Y.property, ?_⟩
   have hf : F.iso.hom.hom ≫ F.tower.proj.hom = f.hom := by
     rw [← ObjectProperty.FullSubcategory.comp_hom, F.iso_proj]
-  show IsIso (pullback.snd f.hom D.openAwayFromPoints.ι)
+  change IsIso (pullback.snd f.hom D.openAwayFromPoints.ι)
   rw [← hf]
   exact isIso_pullback_snd_comp_of_isIso_left _ _ _
     (F.tower.isIso_pullback_snd_proj D.disjoint_subspacePointSet_openAwayFromPoints

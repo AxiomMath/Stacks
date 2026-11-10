@@ -59,7 +59,8 @@ adjunction `CategoryTheory.OverShriek.relocalizeAdjunction` restricted to sheave
 Only the *forward* functor of the equivalence of Stacks 04SG is here. Its quasi-inverse is
 restriction along `CategoryTheory.Over.map g`. That restriction does preserve algebraic spaces —
 Stacks 03I5 part (1), `AlgebraicGeometry.isAlgebraicSpace_relocalizeRestrict` in
-`StacksFrontier/AlgebraicGeometry/Spaces/RestrictSmallerBase.lean`, proved there directly rather than
+`StacksFrontier/AlgebraicGeometry/Spaces/RestrictSmallerBase.lean`, proved there directly rather
+than
 through Theorem 02WW, which the library does not have — but the unit and counit exhibiting the two
 functors as an equivalence are still not assembled, so the equivalence itself is not yet available.
 The forward functor is what every relative-property statement of Chapters 100 and 101 — Stacks

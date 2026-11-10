@@ -230,7 +230,8 @@ theorem isIso_smallEtaleDerivedBaseChangeComp_of_isIso_chartBaseChangeMap
             (chartBaseChangeSquareMap B S hS f g f' g' sq.w W V q hq)
             (chartBaseChangeInclusion B S hS f V)).hom.app K) := inferInstance
       have h2 : IsIso ((smallEtaleDerivedModulePullbackCongr B S hS
-            (chartBaseChangeSquareMap_inclusion B S hS f g f' g' sq.w W V q hq)).hom.app K) := inferInstance
+            (chartBaseChangeSquareMap_inclusion B S hS f g f' g' sq.w W V q hq)).hom.app K) :=
+        inferInstance
       have h3 : IsIso ((smallEtaleDerivedModulePullbackCompIso B S hS
             (chartBaseChangeInclusion B S hS f' W) g').inv.app K) := inferInstance
       have h4 : IsIso ((smallEtaleDerivedModulePullback B S hS

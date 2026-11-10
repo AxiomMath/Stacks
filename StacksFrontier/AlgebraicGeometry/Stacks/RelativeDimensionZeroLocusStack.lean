@@ -272,7 +272,7 @@ private theorem preimage_setOf_relativeDimensionAt_le
         (algebraicSpaceStack.{u, w} B S hS U hU).val P U eP
         (StacksRepresentableCFG.EquivalenceOver.refl _)
         (twoFibreProductSquareAlgebraicStacks B S hS a f).snd.hom) z)
-  simp only [Set.mem_preimage, Set.mem_setOf_eq]
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq]
   refine ⟨fun hz => ⟨(d₀ : ℕ∞), by rw [hd₀] at hz; exact_mod_cast hz,
     (relativeDimensionAt_eq_iff_hasRelativeDimensionAt_chartBaseChange
       B S hS 𝒳 U hU f V₀ a P hP eP hf z (d₀ : ℕ∞)).mp (by exact_mod_cast hd₀)⟩,

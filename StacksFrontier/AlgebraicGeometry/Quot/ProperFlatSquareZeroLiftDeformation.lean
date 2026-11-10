@@ -185,10 +185,10 @@ theorem Lift.isPullback (y : Lift i x hx) :
     y.baseIso (by simp) (by rw [Iso.refl_hom, Category.id_comp]; rfl)
     (by rw [Iso.refl_hom, Category.id_comp]; rfl) ?_
   apply ObjectProperty.hom_ext
-  show _ = yoneda.map (eqToHom hx) ≫ (rangeSpaceIso B S hS i hi.1).hom.hom ≫
+  change _ = yoneda.map (eqToHom hx) ≫ (rangeSpaceIso B S hS i hi.1).hom.hom ≫
     (subspaceInclusion B S hS ambient (baseSubspace i hi)).hom
   rw [eqToHom_comp_rangeSpaceIso_comp_subspaceInclusion (hi := hi)]
-  show yoneda.map y.arrow.right ≫ yoneda.map (eqToHom y.base_eq) = yoneda.map (eqToHom hx ≫ i)
+  change yoneda.map y.arrow.right ≫ yoneda.map (eqToHom y.base_eq) = yoneda.map (eqToHom hx ≫ i)
   rw [y.arrow_right]
   exact (Functor.map_comp yoneda _ _).symm.trans
     (congrArg yoneda.map (comp_eqToHom_symm_comp_eqToHom _ _ _))
@@ -245,7 +245,7 @@ theorem Lift.base_map {y y' : Lift i x hx} (g : y ⟶ y') :
 theorem Lift.map_comp_structureMap {y y' : Lift i x hx} (g : y ⟶ y') :
     (liftSpaceFunctor i x hx).map g ≫ y'.structureMap = y.structureMap := by
   apply ObjectProperty.hom_ext
-  show g.1.right.hom.hom.left.hom ≫ y'.1.right.obj.obj.hom ≫ yoneda.map (eqToHom y'.base_eq) =
+  change g.1.right.hom.hom.left.hom ≫ y'.1.right.obj.obj.hom ≫ yoneda.map (eqToHom y'.base_eq) =
     y.1.right.obj.obj.hom ≫ yoneda.map (eqToHom y.base_eq)
   rw [← Category.assoc]
   refine (congrArg (· ≫ yoneda.map (eqToHom y'.base_eq)) g.1.right.hom.hom.w).trans ?_
@@ -331,11 +331,11 @@ theorem Lift.nonempty_iso_iff {y y' : Lift i x hx} :
     apply (ObjectProperty.ι _).map_injective
     apply Comma.hom_ext
   · exact congrArg (fun φ => φ.hom.hom) (IsIso.hom_inv_id d)
-  · show eqToHom (y.base_eq.trans y'.base_eq.symm) ≫
+  · change eqToHom (y.base_eq.trans y'.base_eq.symm) ≫
       eqToHom (y'.base_eq.trans y.base_eq.symm) = 𝟙 _
     exact (eqToHom_trans _ _).trans (eqToHom_refl _ _)
   · exact congrArg (fun φ => φ.hom.hom) (IsIso.inv_hom_id d)
-  · show eqToHom (y'.base_eq.trans y.base_eq.symm) ≫
+  · change eqToHom (y'.base_eq.trans y.base_eq.symm) ≫
       eqToHom (y.base_eq.trans y'.base_eq.symm) = 𝟙 _
     exact (eqToHom_trans _ _).trans (eqToHom_refl _ _)
 
@@ -497,7 +497,7 @@ theorem specialMap_comp_subspaceInclusion :
     specialMap i hi x hx ≫ subspaceInclusion B S hS ambient (baseSubspace i hi) =
       commaHomAsSpaceMap x.obj.obj ≫ (schemeSpaceFunctor B S hS).map (eqToHom hx ≫ i) := by
   apply ObjectProperty.hom_ext
-  show x.obj.obj.hom ≫ yoneda.map (eqToHom hx) ≫ (rangeSpaceIso B S hS i hi.1).hom.hom ≫
+  change x.obj.obj.hom ≫ yoneda.map (eqToHom hx) ≫ (rangeSpaceIso B S hS i hi.1).hom.hom ≫
     (subspaceInclusion B S hS ambient (baseSubspace i hi)).hom = x.obj.obj.hom ≫
       yoneda.map (eqToHom hx ≫ i)
   exact congrArg (x.obj.obj.hom ≫ ·) (eqToHom_comp_rangeSpaceIso_comp_subspaceInclusion (hi := hi))

@@ -478,7 +478,7 @@ private theorem nodalPointSet_subset_of_iso (S : Scheme.{u}) (hS : B.Contains S)
     rw [Category.assoc, e.inv_hom_id, Category.comp_id]
   refine Set.mem_iUnion.mpr ⟨⟨W.1.preimage e.inv, hW'⟩, ?_⟩
   refine ⟨Space.pointsMap B S hS W.1.toFunctor (inv (W.1.fromPreimage e.inv)) wx, ?_⟩
-  show Space.pointsMap B S hS (W.1.preimage e.inv).toFunctor (W.1.preimage e.inv).ι
+  change Space.pointsMap B S hS (W.1.preimage e.inv).toFunctor (W.1.preimage e.inv).ι
       (Space.pointsMap B S hS W.1.toFunctor (inv (W.1.fromPreimage e.inv)) wx) =
     Space.pointsMap B S hS X e.hom x
   rw [← hcomp, Space.pointsMap_comp_apply, hkey]
@@ -813,7 +813,7 @@ private theorem curveFamilyBaseIso_naturality
       eqToHom hx.symm ≫ 𝒳.val.val.p.map (E.functor.map (E.inverse.map φ)) := by
     rw [hm']
     simp [Category.assoc]
-  show (E.inverse.map φ).baseMap ≫ eqToHom hz.symm ≫
+  change (E.inverse.map φ).baseMap ≫ eqToHom hz.symm ≫
       𝒳.val.val.p.map (E.counitIso.app z).hom =
     eqToHom hx.symm ≫ 𝒳.val.val.p.map (E.counitIso.app x).hom ≫ 𝒳.val.val.p.map φ
   rw [← Category.assoc, hbase]
@@ -854,7 +854,7 @@ private theorem curveFamilyBaseMap_toTerminal
       (Over.homMk T.hom : (Over.map U.hom).obj T ⟶ U) := by
     cases U
     rfl
-  show (E.inverse.map (y.map t)).baseMap ≫
+  change (E.inverse.map (y.map t)).baseMap ≫
       (curveFamilyBaseIso B hZ 𝒳 E hE (y.obj T₀)).hom ≫ eqToHom h₁ ≫ eqToHom h₂ =
     (curveFamilyBaseIso B hZ 𝒳 E hE (y.obj T)).hom ≫
       eqToHom hT ≫ (Over.homMk T.hom : (Over.map U.hom).obj T ⟶ U)
@@ -991,7 +991,7 @@ private theorem exists_nodal_open_over
   let j' : V ⟶ U := j ≫ β.hom
   let V' : BigFppfOver B U.left.1 U.left.2 := Over.mk j'.left
   have hj' : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j') := by
-    show IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
+    change IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
     rw [Functor.map_comp]
     have : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j) := hj
     infer_instance
@@ -1085,9 +1085,9 @@ private theorem algebraicSpaceMap_open_of_yonedaIso
       B U.left.1 integerBase U.left.2 hZ U.hom ⟨F, hF⟩ W s
     rw [hx] at hs
     apply Over.OverMorphism.ext
-    show (((K.obj ⟨F, hF⟩).1.hom).app W x).left = (d.hom.app W x).left ≫ V.hom
+    change (((K.obj ⟨F, hF⟩).1.hom).app W x).left = (d.hom.app W x).left ≫ V.hom
     rw [hs]
-    show s.1.1 = (d.hom.app W x).left ≫ V.hom
+    change s.1.1 = (d.hom.app W x).left ≫ V.hom
     exact (Over.w (e.hom.app (Opposite.op (Over.mk s.1.1)) s.1.2)).symm
   have hj : Space.IsOpenImmersion B integerBase hZ (yoneda.map j') := by
     let Tf := BigFppfOver.toScheme B integerBase hZ
@@ -1105,7 +1105,7 @@ private theorem algebraicSpaceMap_open_of_yonedaIso
         (@AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B integerBase hZ))
   have : P.RespectsIso := inferInstance
-  show P ((K.obj ⟨F, hF⟩).1.hom)
+  change P ((K.obj ⟨F, hF⟩).1.hom)
   rw [hd]
   exact MorphismProperty.RespectsIso.precomp P d.hom (yoneda.map j') hj
 

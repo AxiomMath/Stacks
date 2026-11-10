@@ -90,7 +90,7 @@ theorem isRegularLocalRing_stalk_of_completion
   have : Flat (Spec.map (CommRingCat.ofHom
       (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R)))) := by
     rw [Flat.SpecMap_iff]
-    show (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R)).Flat
+    change (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R)).Flat
     rw [RingHom.flat_algebraMap_iff]
     infer_instance
   rw [← hy]
@@ -179,7 +179,7 @@ theorem isRegular_pullback_completion_iff
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
   have : IsLocallyNoetherian Y :=
     LocallyOfFiniteType.isLocallyNoetherian (pullback.snd f g)
-  show IsRegular X ↔ IsRegular Y
+  change IsRegular X ↔ IsRegular Y
   refine ⟨fun hX ↦ ?_, fun hY ↦ ?_⟩
   · apply ((isRegular_tfae Y).out 1 3).mpr
     refine ⟨inferInstance, fun y hy ↦ ?_⟩

@@ -194,11 +194,11 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
     inc.comp D.structureMap
   have hικ : κ.comp (algebraMap B B') =
       ι.comp D.algebraMap.toRingHom := by
-    show Algebra.TensorProduct.includeRight.toRingHom.comp (algebraMap B B') =
+    change Algebra.TensorProduct.includeRight.toRingHom.comp (algebraMap B B') =
       Algebra.TensorProduct.includeLeftRingHom.comp (algebraMap B D.object)
     exact Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap.symm
   have hκ : (J.map (algebraMap B B')).map κ ≤ C.ideal := by
-    show (J.map (algebraMap B B')).map κ ≤ D.object.ideal.map ι
+    change (J.map (algebraMap B B')).map κ ≤ D.object.ideal.map ι
     rw [Ideal.map_map, hικ, ← Ideal.map_map]
     exact Ideal.map_mono D.algebraMap.ideal_comp
   let p : IdealPair.Hom (J.map (algebraMap B B')) C.ideal :=
@@ -210,11 +210,11 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
     apply IdealPair.Hom.ext_toRingHom
     apply RingHom.ext
     intro x
-    show κ (algebraMap B B' (f x)) = ι (D.structureMap x)
+    change κ (algebraMap B B' (f x)) = ι (D.structureMap x)
     have hx := congrArg (fun h : B →+* D.object ⊗[B] B' => h (f x)) hικ
     have hstr := congrArg (fun h : A →+* D.object => h x) D.algebraMap_comp
     change D.algebraMap.toRingHom (f x) = D.structureMap.toRingHom x at hstr
-    show κ (algebraMap B B' (f x)) = ι (D.structureMap.toRingHom x)
+    change κ (algebraMap B B' (f x)) = ι (D.structureMap.toRingHom x)
     exact hx.trans (congrArg ι hstr)
   let q : DividedPowers.DPMorphism D'.object.dividedPowers C.dividedPowers :=
     ((D'.homEquiv C a).symm ⟨p, hp⟩).1
@@ -228,7 +228,7 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
   have hrι : r.comp ι = δCanon.toRingHom := by
     apply RingHom.ext
     intro x
-    show r (x ⊗ₜ[B] 1) = δCanon.toRingHom x
+    change r (x ⊗ₜ[B] 1) = δCanon.toRingHom x
     have hx := baseChangeTensorRingHom_tmul f J hJ D rfl D' x 1
     simpa only [r, δCanon, map_one, mul_one] using hx
   have hrDP : δ.IsDPMorphism D'.object.dividedPowers r :=
@@ -247,7 +247,7 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
           rw [baseChangeDPMorphism_comp_structureMap]
         _ = a := hqA
     · rfl
-    · show q.toRingHom.comp
+    · change q.toRingHom.comp
           (δCanon.toRingHom.comp D.algebraMap.toRingHom) =
           ι.comp D.algebraMap.toRingHom
       rw [baseChangeDPMorphism_comp_algebraMap, ← RingHom.comp_assoc, hqB]
@@ -255,7 +255,7 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
   have hrκ : r.comp κ = D'.algebraMap.toRingHom := by
     apply RingHom.ext
     intro y
-    show r (1 ⊗ₜ[B] y) = D'.algebraMap.toRingHom y
+    change r (1 ⊗ₜ[B] y) = D'.algebraMap.toRingHom y
     have hy := baseChangeTensorRingHom_tmul f J hJ D rfl D' 1 y
     simpa only [r, map_one, one_mul] using hy
   have hqr : q.toRingHom.comp r = RingHom.id _ := by
@@ -286,7 +286,7 @@ private theorem dividedPowerEnvelope_baseChange_of_extends
     · rfl
     · apply RingHom.ext
       intro y
-      show r (q.toRingHom (D'.algebraMap.toRingHom y)) =
+      change r (q.toRingHom (D'.algebraMap.toRingHom y)) =
         D'.algebraMap.toRingHom y
       have hqy := congrArg (fun t : B' →+* D.object ⊗[B] B' => t y) hqB
       change q.toRingHom (D'.algebraMap.toRingHom y) = κ y at hqy

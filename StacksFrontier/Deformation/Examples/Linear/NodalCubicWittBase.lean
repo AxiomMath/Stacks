@@ -313,7 +313,7 @@ instance : Nontrivial NCW :=
 
 /-- `NCW` is a Noetherian ring. -/
 theorem isNoetherianRing_NCW : IsNoetherianRing NCW := by
-  show IsNoetherianRing (Polynomial (Polynomial (ZMod 8)) ⧸ Ideal.span {ncwPoly})
+  change IsNoetherianRing (Polynomial (Polynomial (ZMod 8)) ⧸ Ideal.span {ncwPoly})
   infer_instance
 
 /-! ### The reduction to the nodal cubic -/

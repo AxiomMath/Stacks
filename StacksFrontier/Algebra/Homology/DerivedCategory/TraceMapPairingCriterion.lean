@@ -142,13 +142,13 @@ theorem bijective_comp_of_projective_of_injective
     (DerivedCategory.homologyFromSingleAddEquiv P
       ((DerivedCategory.singleFunctor 𝒜 0).obj I) 0).trans (postcompAddEquiv P (σ.app I))
   have hκ : ∀ z, κ z = σ.inv.app P ≫ H.map z ≫ σ.hom.app I := fun z => by
-    show DerivedCategory.homologyFromSingleAddEquiv P _ 0 z ≫ σ.hom.app I = _
+    change DerivedCategory.homologyFromSingleAddEquiv P _ 0 z ≫ σ.hom.app I = _
     rw [DerivedCategory.homologyFromSingleAddEquiv_apply, Category.assoc]
   rw [← Function.Bijective.of_comp_iff' (AddEquiv.addMonoidHomCongrRightEquiv κ).bijective]
   refine (Stacks.HomologicalDuality.bijective_iff_of_comp _ (homCompPairing P I (H.obj Y)) a
     (DerivedCategory.bijective_homologyMap_comp_of_injective Y I 0)
     eY.toAddMonoidHom eY.bijective (fun ψ x => ?_)).2 (hα (H.obj Y))
-  show eY x ≫ (H.map ψ ≫ σ.hom.app I) = κ (x ≫ ψ)
+  change eY x ≫ (H.map ψ ≫ σ.hom.app I) = κ (x ≫ ψ)
   rw [hκ, DerivedCategory.homologyFromSingleAddEquiv_apply, H.map_comp]
   simp only [Category.assoc]
   rfl
@@ -177,7 +177,7 @@ theorem bijective_shiftedHom_comp_of_projective_of_injective
   refine (Stacks.HomologicalDuality.bijective_iff_of_comp _ (homCompPairing P₀ I₀ (Y⟦n⟧)) s hs
     (AddMonoidHom.id _) Function.bijective_id (fun φ x => ?_)).2
       (bijective_comp_of_projective_of_injective P I hα (Y⟦n⟧))
-  show x ≫ φ⟦n⟧' ≫ e.hom = ζ (ShiftedHom.comp (show ShiftedHom P₀ Y n from x) φ hn)
+  change x ≫ φ⟦n⟧' ≫ e.hom = ζ (ShiftedHom.comp (show ShiftedHom P₀ Y n from x) φ hn)
   simp [ζ, e, ShiftedHom.comp, postcompAddEquiv]
 
 end Detection

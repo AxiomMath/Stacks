@@ -378,8 +378,8 @@ from the data Situation 09WE carries, as the paragraph above establishes. So the
 here is the source's clause (7).
 
 The neighbouring clause `09WH__component_injective` is different: its case (A) is not proved
-here at all, and whether `ComponentInjective`/`ComponentKInjective` generalise is open. The two are not
-symmetric — case (A) of clause (7) *is* proved above. -/
+here at all, and whether `ComponentInjective`/`ComponentKInjective` generalise is open. The two are
+not symmetric — case (A) of clause (7) *is* proved above. -/
 @[stacks 09WG "abelian_exact"]
 lemma componentLowerShriek_exactFunctor (S : SimplicialSiteSituation.{u})
     (n : SimplexCategory) :

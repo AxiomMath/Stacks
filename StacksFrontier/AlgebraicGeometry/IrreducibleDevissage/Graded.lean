@@ -249,7 +249,7 @@ theorem smul_top_cokernel_idealPowStep_of_isLocallyNoetherian [IsLocallyNoetheri
   have hsmem : s ∈ I.ideal U ^ n • (⊤ : Submodule Γ(X, U.1) Γ(F, U.1)) :=
     (isLocallyIn_iff_mem F _ (IdealPowerSmul.isCompatible_idealPowFamily I n F) U s).mp hsloc
   have hrsmem : r • s ∈ IdealPowerSmul.idealPowFamily I (n + 1) F U := by
-    show r • s ∈ I.ideal U ^ (n + 1) • (⊤ : Submodule Γ(X, U.1) Γ(F, U.1))
+    change r • s ∈ I.ideal U ^ (n + 1) • (⊤ : Submodule Γ(X, U.1) Γ(F, U.1))
     rw [pow_succ', Submodule.mul_smul]
     exact Submodule.smul_mem_smul hr hsmem
   have hrsloc : IsLocallyIn F (IdealPowerSmul.idealPowFamily I (n + 1) F) (r • s) :=
@@ -266,7 +266,7 @@ theorem smul_top_cokernel_idealPowStep_of_isLocallyNoetherian [IsLocallyNoetheri
     simpa only [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply] using h0
   have hstep : (idealPowStep I F n).app U.1 b = r • a := by
     refine valSection_inj F _ (IdealPowerSmul.isCompatible_idealPowFamily I n F) ?_
-    show (IdealPowerSmul.idealPowSmulHom I n F).app U.1 ((idealPowStep I F n).app U.1 b) =
+    change (IdealPowerSmul.idealPowSmulHom I n F).app U.1 ((idealPowStep I F n).app U.1 b) =
       (IdealPowerSmul.idealPowSmulHom I n F).app U.1 (r • a)
     rw [hcomp, hb, IdealPowerSmul.idealPowSmulHom_app_mkSection I (n + 1) F (r • s) hrsloc,
       Scheme.Modules.Hom.app_smul, hs]

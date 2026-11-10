@@ -1,11 +1,11 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.PastedSquare
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.PastedSquare
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.UnitRestrict
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.UnitRestrict
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.OuterSquare
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.OuterSquare
 
 /-!
 # The source bridge under the `Spec 𝒪_X(U)` corner hypothesis

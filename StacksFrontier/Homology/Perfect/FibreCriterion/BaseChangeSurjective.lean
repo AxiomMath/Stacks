@@ -65,13 +65,13 @@ private lemma surjective_cycles_of_homology_lifts
       (S.moduleCatCyclesIso.hom (f y)) =
       S.moduleCatLeftHomologyData.π (S.moduleCatCyclesIso.hom x) := by
     have heq := congrArg (fun z => S.moduleCatHomologyIso.hom z) hy
-    show (S.moduleCatCyclesIso.hom ≫ S.moduleCatLeftHomologyData.π) (f y) =
+    change (S.moduleCatCyclesIso.hom ≫ S.moduleCatLeftHomologyData.π) (f y) =
       (S.moduleCatCyclesIso.hom ≫ S.moduleCatLeftHomologyData.π) x
     rwa [← S.π_moduleCatCyclesIso_hom]
   have hrange : S.moduleCatCyclesIso.hom (x - f y) ∈
       LinearMap.range S.moduleCatToCycles := by
     apply (Submodule.Quotient.mk_eq_zero _).mp
-    show S.moduleCatLeftHomologyData.π
+    change S.moduleCatLeftHomologyData.π
       (S.moduleCatCyclesIso.hom (x - f y)) = 0
     simp only [map_sub, sub_eq_zero]
     exact hq.symm
@@ -79,10 +79,10 @@ private lemma surjective_cycles_of_homology_lifts
   have hdiff : x - f y = S.toCycles z := by
     apply (ModuleCat.mono_iff_injective S.moduleCatCyclesIso.hom).mp inferInstance
     rw [map_sub]
-    show S.moduleCatCyclesIso.hom x - S.moduleCatCyclesIso.hom (f y) =
+    change S.moduleCatCyclesIso.hom x - S.moduleCatCyclesIso.hom (f y) =
       (S.toCycles ≫ S.moduleCatCyclesIso.hom) z
     rw [S.toCycles_moduleCatCyclesIso_hom]
-    show S.moduleCatCyclesIso.hom.hom x - S.moduleCatCyclesIso.hom.hom (f y) =
+    change S.moduleCatCyclesIso.hom.hom x - S.moduleCatCyclesIso.hom.hom (f y) =
       S.moduleCatToCycles z
     change S.moduleCatToCycles z = S.moduleCatCyclesIso.hom.hom (x - f y) at hz
     rw [map_sub] at hz
@@ -115,7 +115,7 @@ private lemma surjective_baseChange_cycles_of_homology_lifts
   let Pκ : CochainComplex (ModuleCat.{max u v} p.ResidueField) ℤ :=
     residueFieldComplex.{u, v} p P
   have hk : F.map (P.iCycles i) ≫ Pκ.d i (i + 1) = 0 := by
-    show F.map (P.iCycles i) ≫ F.map (P.d i (i + 1)) = 0
+    change F.map (P.iCycles i) ≫ F.map (P.d i (i + 1)) = 0
     rw [← F.map_comp, P.iCycles_d]
     simp
   let m : F.obj (P.cycles i) ⟶ Pκ.cycles i :=
@@ -128,17 +128,17 @@ private lemma surjective_baseChange_cycles_of_homology_lifts
       have hmap : F.map (P.toCycles j i) ≫ m = Pκ.toCycles j i := by
         apply (cancel_mono (Pκ.iCycles i)).mp
         rw [Category.assoc, Pκ.liftCycles_i, Pκ.toCycles_i]
-        show F.map (P.toCycles j i) ≫ F.map (P.iCycles i) = F.map (P.d j i)
+        change F.map (P.toCycles j i) ≫ F.map (P.iCycles i) = F.map (P.d j i)
         rw [← F.map_comp, P.toCycles_i]
       have hto : Pκ.toCycles j i = (Pκ.sc i).toCycles := by
         apply (cancel_mono (Pκ.iCycles i)).mp
         rw [Pκ.toCycles_i]
         exact (Pκ.sc i).toCycles_i.symm
       rw [hto] at hmap
-      show (F.map (P.toCycles j i) ≫ m).hom z = ((Pκ.sc i).toCycles).hom z
+      change (F.map (P.toCycles j i) ≫ m).hom z = ((Pκ.sc i).toCycles).hom z
       exact congrArg (fun q : F.obj (P.X j) ⟶ Pκ.cycles i => q.hom z) hmap
     · intro x
-      show ∃ y, Pκ.homologyπ i (m y) = Pκ.homologyπ i x
+      change ∃ y, Pκ.homologyπ i (m y) = Pκ.homologyπ i x
       obtain ⟨y, hy, hclass⟩ := hbase x
       refine ⟨y, ?_⟩
       have hm : m y = Pκ.cyclesMk (F.map (P.iCycles i) y) (i + 1) (by simp) hy := by
@@ -167,7 +167,7 @@ private lemma baseChange_range_subtype_injective
       using hex m
   have hsurj := LinearMap.lTensor_surjective S d.surjective_rangeRestrict
   have ht := lTensor_exact S hex' d.surjective_rangeRestrict
-  rw [LinearMap.baseChange_eq_ltensor, ← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+  rw [LinearMap.baseChange_eq_lTensor, ← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
   intro x hx
   obtain ⟨y, rfl⟩ := hsurj x
   have hy : d.lTensor S y = 0 := by
@@ -188,15 +188,15 @@ private lemma exists_free_baseChange_of_fiber_injective
     ∃ f : R, f ∉ p ∧ Module.Free (Localization.Away f) (Localization.Away f ⊗[R] W) := by
   let A := Localization.AtPrime p
   have hqA : Function.Surjective (LinearMap.baseChange A q) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective A hq
   have hexA : Function.Exact (LinearMap.baseChange A d) (LinearMap.baseChange A q) := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using lTensor_exact A hex hq
+    simpa only [LinearMap.baseChange_eq_lTensor] using lTensor_exact A hex hq
   have : Module.Free A (A ⊗[R] W) :=
     Module.free_of_lTensor_residueField_injective
       (LinearMap.baseChange A d) (LinearMap.baseChange A q) hqA hexA
       (lTensor_residueField_localization_injective p d
-        (by simpa only [LinearMap.baseChange_eq_ltensor] using hfib))
+        (by simpa only [LinearMap.baseChange_eq_lTensor] using hfib))
   obtain ⟨f, hf, hfree, -⟩ := Module.FinitePresentation.exists_free_localizedModule_powers
     p.primeCompl ((TensorProduct.mk R A W) 1) A
   refine ⟨f, hf, ?_⟩
@@ -243,7 +243,7 @@ private lemma exists_free_localized_opcycles
       refine ⟨y, ?_⟩
       have he : (F.map (P.iCycles i)).hom y = (Pκ.iCycles i).hom z := by
         rw [← hcomm]
-        show (Pκ.iCycles i).hom (m y) = _
+        change (Pκ.iCycles i).hom (m y) = _
         rw [hy]
       exact he.trans (Pκ.i_cyclesMk _ _ _ _)
     · rintro ⟨y, rfl⟩
@@ -256,7 +256,7 @@ private lemma exists_free_localized_opcycles
       Function.Exact (LinearMap.baseChange p.ResidueField (P.iCycles i).hom)
         (LinearMap.baseChange p.ResidueField d)) at hexκ
     rw [toAlgebra_algebraMap] at hexκ
-    simpa only [LinearMap.baseChange_eq_ltensor] using hexκ
+    simpa only [LinearMap.baseChange_eq_lTensor] using hexκ
   have hq : Function.Surjective q :=
     (ModuleCat.epi_iff_surjective (P.pOpcycles (i + 1))).mp inferInstance
   have hdq : Function.Exact d q := exact_d_pOpcycles P i (i + 1) rfl
@@ -476,10 +476,10 @@ private lemma mapDerivedCategory_truncGE_iso (F : C ⥤ D) [F.Additive]
       (t.triangleLEGE_distinguished (n - 1) n (by omega) K))
     (Iso.refl _) (n - 1) n
     (by
-      show ((t'.truncLE (n - 1)).obj (F.mapDerivedCategory.obj K)).IsLE (n - 1)
+      change ((t'.truncLE (n - 1)).obj (F.mapDerivedCategory.obj K)).IsLE (n - 1)
       infer_instance)
     (by
-      show ((t'.truncGE n).obj (F.mapDerivedCategory.obj K)).IsGE n
+      change ((t'.truncGE n).obj (F.mapDerivedCategory.obj K)).IsGE n
       infer_instance) hLE hGE
   exact ⟨CategoryTheory.Pretriangulated.Triangle.π₃.mapIso e⟩
 

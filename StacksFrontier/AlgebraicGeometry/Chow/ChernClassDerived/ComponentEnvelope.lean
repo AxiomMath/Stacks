@@ -174,7 +174,7 @@ theorem exists_isEnvelope_sigma_of_isCompact_irreducibleComponents [IsLocallyNoe
     have h₁ : IsIso ((X.reducedComponentι ⟨Z, hZ⟩).residueFieldMap (g ⟨Z, hZ⟩ v)) :=
       Scheme.Hom.isIso_residueFieldMap_of_surjectiveOnStalks _ _
     refine ⟨⟨Z, hZ⟩, v, ?_, ?_⟩
-    · show X.reducedComponentι ⟨Z, hZ⟩ (g ⟨Z, hZ⟩ v) = x
+    · change X.reducedComponentι ⟨Z, hZ⟩ (g ⟨Z, hZ⟩ v) = x
       rw [hv, hw]
     · rw [Scheme.residueFieldMap_comp]
       exact IsIso.comp_isIso' h₁ hviso

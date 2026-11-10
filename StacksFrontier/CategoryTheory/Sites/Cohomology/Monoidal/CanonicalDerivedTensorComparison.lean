@@ -155,7 +155,7 @@ theorem kFlatQLeft_isLocalization :
 attribute [local instance] kFlatQ_isLocalization kFlatQLeft_isLocalization
 
 /-- K-flatness as a property of cochain complexes of `O`-modules: the class of the complex in
-`K(Mod(O))` is K-flat.  This is `Stacks.SheafOfModules.KFlat.KFlat R`, read off the
+`K(Mod(O))` is K-flat.  This is `Stacks.SheafOfModules.IsKFlat R`, read off the
 bifunctor-generic `CochainComplex.KFlatBifunctor.kFlatComplexes` at the tensor product of
 `O`-modules. -/
 abbrev KFlatComplexes : ObjectProperty (Complexes R) :=
@@ -200,8 +200,8 @@ variable (T : Stacks.DerivedTensor.RingedSite.DerivedTensorProduct R)
 alone, in the monoidal spelling of the total tensor product.  This is the merged naturality
 with an identity in the second variable. -/
 theorem tensorComparison_naturality_left {K K' L : Complexes R} (f : K ⟶ K')
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat.KFlat R K')
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.IsKFlat R K) (hK' : Stacks.SheafOfModules.IsKFlat R K')
+    (hL : Stacks.SheafOfModules.IsKFlat R L) :
     (T.tensor.map (DerivedCategory.Q.map f)).app (DerivedCategory.Q.obj L) ≫
         (T.comparison K' L hK' hL).hom =
       (T.comparison K L hK hL).hom ≫ DerivedCategory.Q.map (f ▷ L) :=
@@ -211,8 +211,8 @@ theorem tensorComparison_naturality_left {K K' L : Complexes R} (f : K ⟶ K')
 /-- Naturality of the K-flat comparison of a derived tensor product in its second variable
 alone, the mirror of `Stacks.SheafOfModules.DerivedMonoidal.tensorComparison_naturality_left`. -/
 theorem tensorComparison_naturality_right (K : Complexes R) {L L' : Complexes R} (g : L ⟶ L')
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L)
-    (hL' : Stacks.SheafOfModules.KFlat.KFlat R L') :
+    (hK : Stacks.SheafOfModules.IsKFlat R K) (hL : Stacks.SheafOfModules.IsKFlat R L)
+    (hL' : Stacks.SheafOfModules.IsKFlat R L') :
     (T.tensor.obj (DerivedCategory.Q.obj K)).map (DerivedCategory.Q.map g) ≫
         (T.comparison K L' hK hL').hom =
       (T.comparison K L hK hL).hom ≫ DerivedCategory.Q.map (K ◁ g) :=
@@ -290,7 +290,7 @@ comparison of `derivedBifunctor` followed by the inverse of the K-flat compariso
 Both sides of a statement about the derived tensor product are therefore expressible through
 either comparison, which is what the comparison is for. -/
 theorem derivedBifunctorTensorIso_hom_app_app (K L : Complexes R)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.IsKFlat R K) (hL : Stacks.SheafOfModules.IsKFlat R L) :
     ((derivedBifunctorTensorIso R T).hom.app (DerivedCategory.Q.obj K)).app
         (DerivedCategory.Q.obj L) =
       (comparisonRight (curriedTensor (Mod R)) K L hL).hom ≫

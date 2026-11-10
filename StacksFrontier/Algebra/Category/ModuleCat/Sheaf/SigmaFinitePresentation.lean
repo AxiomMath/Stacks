@@ -55,7 +55,7 @@ the ambient finite free sheaves of modules is the finite free sheaf of modules o
 union of their index sets; a coproduct of retracts being a retract, the whole coproduct is a
 retract of that one finite free sheaf of modules. -/
 theorem exists_isFinite_presentation_sigma_of_isZero_of_retract_free
-    {ι : Type*} {G : ι → SheafOfModules.{w} R} (p : ι → Prop) [DecidablePred p]
+    {ι : Type*} {G : ι → SheafOfModules.{w} R} (p : ι → Prop)
     (hz : ∀ i, ¬ p i → IsZero (G i))
     {T : Type w} [Finite T] (e : T ≃ Subtype p)
     (K : T → Type w) [∀ t, Finite (K t)]
@@ -64,6 +64,7 @@ theorem exists_isFinite_presentation_sigma_of_isZero_of_retract_free
     [HasCoproduct fun t : T => G (e t).1]
     [HasCoproduct fun t : T => free (R := R) (K t)] :
     ∃ q : (∐ G).Presentation, q.IsFinite := by
+  classical
   let i₁ : (∐ fun j : Subtype p => G j.1) ≅ ∐ G := sigmaSubtypeIsoOfIsZero G p hz
   let i₂ : (∐ fun t : T => G (e t).1) ≅ ∐ fun j : Subtype p => G j.1 :=
     Sigma.whiskerEquiv (f := fun t : T => G (e t).1) (g := fun j : Subtype p => G j.1) e

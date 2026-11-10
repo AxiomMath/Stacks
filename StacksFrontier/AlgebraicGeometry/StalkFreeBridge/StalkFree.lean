@@ -217,7 +217,7 @@ theorem freeAndFinite_stalk_of_isFiniteLocallyFree (M : X.Modules)
 theorem coversTop_subtype_nonempty {T : Type u} [TopologicalSpace T] {ι : Type w}
     (U : ι → Opens T) (hU : (Opens.grothendieckTopology T).CoversTop U) :
     (Opens.grothendieckTopology T).CoversTop (fun i : {i : ι // ∃ x, x ∈ U i} ↦ U i.1) := by
-  refine (Opens.coversTop_iff _ _).2 (IsOpenCover.mk (eq_top_iff.2 (SetLike.le_def.2 ?_)))
+  refine (Opens.coversTop_iff _ _).2 (IsOpenCover.mk (eq_top_iff.2 (IsConcreteLE.le_iff.2 ?_)))
   intro x _
   obtain ⟨i, hi⟩ := exists_mem_of_coversTop U hU x
   exact Opens.mem_iSup.2 ⟨⟨i, ⟨x, hi⟩⟩, hi⟩

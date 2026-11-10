@@ -374,7 +374,7 @@ theorem toScheme_map_smallEtaleBaseChange_comp_baseChangeProj
         ((smallEtaleBaseChange B f).map k)).left ≫ pullback.fst V'.obj.hom f =
       pullback.fst V.obj.hom f ≫
         ((SmallEtale.inclusion B Y.obj Y.property).map k).left := by
-    show ((Over.pullback f).map ((SmallEtale.inclusion B Y.obj Y.property).map k)).left ≫ _ = _
+    change ((Over.pullback f).map ((SmallEtale.inclusion B Y.obj Y.property).map k)).left ≫ _ = _
     exact pullback.lift_fst _ _ _
   exact (B.inclusion.map_comp
       ((SmallEtale.inclusion B X.obj X.property).map

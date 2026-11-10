@@ -214,11 +214,11 @@ theorem isCartesianOnFlatAffineArrows_of_objectStackMap {𝒴 : AlgebraicStacks.
         fun g hg => by have := hg; infer_instance)
       ψ.left hφ (gF.map ψ) hψlift
   have ha : IsAffine (((gF ⋙ 𝒴.val.val.p) ⋙ BigFppfOver.toScheme B S hS).obj z₁) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒴.val.val.p.obj (gF.obj z₁)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒴.val.val.p.obj (gF.obj z₁)))
     rw [e₁]
     exact hx
   have hb : IsAffine (((gF ⋙ 𝒴.val.val.p) ⋙ BigFppfOver.toScheme B S hS).obj z₀) := by
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒴.val.val.p.obj (gF.obj z₀)))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒴.val.val.p.obj (gF.obj z₀)))
     rw [e₀]
     exact hy
   have h₁ := bijective_restrictionBaseChange_of_flat_freeModuleUniverse.{u, u + 1, u, u}

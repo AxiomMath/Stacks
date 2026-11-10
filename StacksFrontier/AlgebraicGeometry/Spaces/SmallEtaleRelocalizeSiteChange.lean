@@ -144,12 +144,12 @@ theorem relocalizeModulesEquivalence_inverse_map_globalSmul (Y : AlgebraicSpaces
       exact Over.OverMorphism.ext rfl
     have h2 : (chartToTarget B W hW f' V.unop).left = V.unop.1.left.hom := by
       simpa using Over.w (chartToTarget B W hW f' V.unop)
-    show ((BigFppfOver.toScheme B S hS).map (chartToTarget B S hS
+    change ((BigFppfOver.toScheme B S hS).map (chartToTarget B S hS
         (relocalizeStructure B W S hW hS h Y)
         ((SmallEtale.relocalize B hW hS h Y.1 Y.2).functor.obj V.unop))).appTop.hom x =
       ((BigFppfOver.toScheme B W hW).map (chartToTarget B W hW f' V.unop)).appTop.hom x
     rw [h1]
-    show ((B.inclusion.map V.unop.1.left.hom).appTop).hom x =
+    change ((B.inclusion.map V.unop.1.left.hom).appTop).hom x =
       ((B.inclusion.map (chartToTarget B W hW f' V.unop).left).appTop).hom x
     rw [h2]
   ext V m
@@ -196,7 +196,7 @@ theorem siteChangeModules_map_globalSmul
         (Stacks.Cohomology.SiteModules.globalSmul _ (targetScalars B S hS π x) N) =
       Stacks.Cohomology.SiteModules.globalSmul _ (targetScalars B W hW f' x)
         ((siteChangeModules B X π).obj N) := by
-  show (relocalizeModulesEquivalence B hW hS h _ _).inverse.map
+  change (relocalizeModulesEquivalence B hW hS h _ _).inverse.map
       ((modulePushforward B S hS (siteChangeIso B X π).inv).map
         (Stacks.Cohomology.SiteModules.globalSmul _ (targetScalars B S hS π x) N)) = _
   conv_lhs => rw [show targetScalars B S hS π x = targetScalars B S hS ((siteChangeIso B X π).inv ≫

@@ -57,8 +57,8 @@ theorem exists_reflTransGen_isProperNormalizedBlowUpOutside_of_singularLocus (V 
       points_injective := fun i j _ => Subsingleton.elim i j
       points_closed := fun _ => hv
       complement_quasiCompact := inferInstance }
-  let : IsLocallyNoetherian Dsit.S := by show IsLocallyNoetherian V; infer_instance
-  let : IsNormal Dsit.S := by show IsNormal V; infer_instance
+  let : IsLocallyNoetherian Dsit.S := by change IsLocallyNoetherian V; infer_instance
+  let : IsNormal Dsit.S := by change IsNormal V; infer_instance
   have hcomponents : ∀ W : Dsit.S.Opens, IsCompact (W : Set Dsit.S) →
       (irreducibleComponents W).Finite := finite_irreducibleComponents_of_isCompact Dsit.S
   have hcompl : ∀ y : V, y ∉ (Dsit.complement : Set V) → y = v := by
@@ -67,7 +67,7 @@ theorem exists_reflTransGen_isProperNormalizedBlowUpOutside_of_singularLocus (V 
     obtain ⟨_, h⟩ := not_not.mp hy
     exact h.symm
   have hnoeth : ∀ i, IsLocallyNoetherian (Dsit.localScheme i) := fun i => by
-    show IsLocallyNoetherian (Spec (.of (Dsit.S.presheaf.stalk (Dsit.points i))))
+    change IsLocallyNoetherian (Spec (.of (Dsit.S.presheaf.stalk (Dsit.points i))))
     exact isLocallyNoetherian_Spec.mpr inferInstance
   have hlocal : ∀ i : Fin Dsit.n, ∃ Z : Over (Dsit.localScheme i),
       Relation.ReflTransGen (IsProperNormalizedBlowUpOutside (Dsit.puncturedLocalScheme i))
@@ -111,7 +111,7 @@ theorem exists_reflTransGen_isProperNormalizedBlowUpOutside_of_singularLocus (V 
     intro i
     let : AlgebraicGeometry.IsProper
         ((Over.pullback (Dsit.S.fromSpecStalk (Dsit.points i))).obj A).hom := by
-      show AlgebraicGeometry.IsProper
+      change AlgebraicGeometry.IsProper
         (Limits.pullback.snd A.hom (Dsit.S.fromSpecStalk (Dsit.points i)))
       infer_instance
     have := hnoeth i

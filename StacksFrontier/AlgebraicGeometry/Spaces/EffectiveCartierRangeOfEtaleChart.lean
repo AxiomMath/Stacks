@@ -150,7 +150,7 @@ theorem isEffectiveCartierDivisor_range_of_etaleChart
     have e3 := congrFun (pointsMap_comp B S hS _ (yoneda.map j) e) (presheafPoint B S hS P v hv)
     simp only [Function.comp_apply, asIso_hom, Subfunctor.toRange_ι] at e1 e2 e3
     rw [e1]
-    show _ = pointsMap B S hS (Subfunctor.range π).toFunctor (Subfunctor.range π).ι
+    change _ = pointsMap B S hS (Subfunctor.range π).toFunctor (Subfunctor.range π).ι
       (pointsMap B S hS (yoneda.obj P) (Subfunctor.toRange π) x')
     rw [← e2]
     conv_rhs => rw [hx', show π = yoneda.map j ≫ e from rfl, e3]
@@ -195,7 +195,7 @@ theorem isEffectiveCartierDivisor_range_of_etaleChart
       exact ⟨hpb.lift s t hsj, hpb.lift_snd _ _ _⟩
     · rintro ⟨s', rfl⟩
       refine ⟨s' ≫ r, ?_⟩
-      show e.app T ((s' ≫ r) ≫ j) = e.app T ((s' ≫ k) ≫ ι)
+      change e.app T ((s' ≫ r) ≫ j) = e.app T ((s' ≫ k) ≫ ι)
       rw [Category.assoc, Category.assoc, hpb.w]
 
 end AlgebraicGeometry.Space

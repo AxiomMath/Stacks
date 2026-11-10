@@ -424,7 +424,7 @@ theorem exists_descended_section_of_chart {T T' : BigFppfOver B S hS} (f : T' �
   have hβ : β.hom ≫ (BigFppfOver.toScheme B S hS).map p =
       (BigFppfOver.toScheme B S hS).map (pullback.fst f w) := by
     rw [hβeq, Category.assoc]
-    show e.hom ≫ α₀.hom ≫ D.over.hom = _
+    change e.hom ≫ α₀.hom ≫ D.over.hom = _
     rw [hα₀]
     exact hPB.isoPullback_hom_fst
   let βS : (pullback f w).left ≅ V.left := B.inclusion.preimageIso β

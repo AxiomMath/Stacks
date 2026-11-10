@@ -64,15 +64,15 @@ category of Artinian local algebras. -/
 def restrictedRepresentable
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
     BasedCategory (ArtinianLocalAlgCat.{u, v, w} Λ k) :=
-  BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R))
+  BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R))
 
 /-- The morphism of restricted representable categories induced contravariantly by a
 morphism of representing complete local algebras. -/
 def restrictedRepresentableMap
     {R S : CompleteLocalAlgCat.{u, v, w} Λ k} (f : R ⟶ S) :
     BasedFunctor (restrictedRepresentable S) (restrictedRepresentable R) where
-  toFunctor := CategoryOfElements.map (restrictedCoyonedaMap f)
-  w := CategoryOfElements.map_π (restrictedCoyonedaMap f)
+  toFunctor := NatTrans.mapElements (restrictedCoyonedaMap f)
+  w := NatTrans.mapElements_comp_π (restrictedCoyonedaMap f)
 
 /-- A morphism `R → S` exhibits `S` as a power series ring over `R` if, for some finite
 number of variables, `S` is isomorphic as an `R`-algebra to the corresponding multivariate

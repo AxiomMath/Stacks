@@ -254,17 +254,17 @@ theorem isLimitPreservingOnObjects_baseChange
       hb := IsHomLift.of_commsq 𝒵.val.p (eqToHom hW.symm) (𝟙 W0.y)
           (W0.hy.trans hW) W0.hy (by simp)
       w := by
-        show Fp.map β ≫ W0.iso.hom = (Fp.map β ≫ W0.iso.hom) ≫ Gq.map (𝟙 W0.y)
+        change Fp.map β ≫ W0.iso.hom = (Fp.map β ≫ W0.iso.hom) ≫ Gq.map (𝟙 W0.y)
         rw [Gq.map_id, Category.comp_id] }
   have hβtotLift : (twoFibreProduct B S hS 𝒳 𝒴 𝒵 p q).val.p.IsHomLift
       (𝟙 ((BigAffineFppf.inclusion B S hS).obj c.pt)) βtot := by
-    show T.IsHomLift (𝟙 c.pt.obj) βtot
+    change T.IsHomLift (𝟙 c.pt.obj) βtot
     apply IsHomLift.of_commsq T (𝟙 c.pt.obj) βtot rfl hW
-    show eqToHom hW.symm ≫ eqToHom hW = eqToHom rfl ≫ 𝟙 c.pt.obj
+    change eqToHom hW.symm ≫ eqToHom hW = eqToHom rfl ≫ 𝟙 c.pt.obj
     simp
   have hβtotIso : IsIso βtot := TwoFibreProductOver.isIso_of_components βtot
   have hδtotLift : T.IsHomLift f' δtot := by
-    show T.IsHomLift (T.map δtot) δtot
+    change T.IsHomLift (T.map δtot) δtot
     exact inferInstance
   have hδtotSC : T.IsStronglyCartesian f' δtot :=
     TwoFibreProductOver.isStronglyCartesian_of_components
@@ -275,7 +275,7 @@ theorem isLimitPreservingOnObjects_baseChange
       f' δtot hδtotLift hδxInc hzmapSC
   refine ⟨i', j, W'fib, WUfib, δtot, βtot, ζ, hδtotSC, hβtotLift, hβtotIso, ?_, ?_⟩
   · exact hζ
-  · show zmap ≫ ζ = (𝟙 W0.y) ≫ δ
+  · change zmap ≫ ζ = (𝟙 W0.y) ≫ δ
     exact hzmapfac.trans (Category.id_comp δ).symm
 
 end BaseChange
@@ -320,7 +320,7 @@ theorem isLimitPreservingOnObjects_comp
       ((CatFiberedInGroupoids.homFunctor q).map γp ≫ γq))
   refine ⟨i₂, j₂ ≫ j₁, x₂, xU, δp, βp,
     (CatFiberedInGroupoids.homFunctor q).map γp ≫ γq, hδp, hβp, hβpIso, hγout, ?_⟩
-  show (CatFiberedInGroupoids.homFunctor q).map
+  change (CatFiberedInGroupoids.homFunctor q).map
       ((CatFiberedInGroupoids.homFunctor p).map δp) ≫
         ((CatFiberedInGroupoids.homFunctor q).map γp ≫ γq) =
       (CatFiberedInGroupoids.homFunctor q).map

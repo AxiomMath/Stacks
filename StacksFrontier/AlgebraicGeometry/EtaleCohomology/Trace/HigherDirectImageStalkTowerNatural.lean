@@ -59,8 +59,8 @@ theorem LAdicSheaf.padicTowerInverseImageIso_hom_naturality {X X' : B.Scheme} [I
 
 section Cohomology
 
-variable {X : B.Scheme} [IsNoetherian X.1] {k : Type u} [Field k] [Fintype k]
-  (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {X : B.Scheme} [IsNoetherian X.1] {k : Type u} [Field k]
+  (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- **The tower cohomology is natural in the sheaf.** -/
@@ -89,7 +89,7 @@ theorem LAdicSheaf.torsionFreeModelMap_comp_fromTorsionFreeModel
   refine LAdicSheaf.Hom.ext _ _ _ fun n => ?_
   apply (underlyingLevelFunctor B X ℓ n).map_injective
   refine (cancel_epi (LAdicSheaf.torsionFreeModelπ F N n)).1 ?_
-  show LAdicSheaf.torsionFreeModelπ F N n ≫ (underlyingLevelFunctor B X ℓ n).map
+  change LAdicSheaf.torsionFreeModelπ F N n ≫ (underlyingLevelFunctor B X ℓ n).map
       ((LAdicSheaf.torsionFreeModelMap φ N).app n ≫ (LAdicSheaf.fromTorsionFreeModel G N).app n) =
     LAdicSheaf.torsionFreeModelπ F N n ≫ (underlyingLevelFunctor B X ℓ n).map
       ((LAdicSheaf.fromTorsionFreeModel F N).app n ≫ φ.app n)

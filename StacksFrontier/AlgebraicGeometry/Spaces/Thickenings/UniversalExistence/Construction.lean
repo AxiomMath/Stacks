@@ -27,7 +27,7 @@ open AlgebraicGeometry.Space
 /-- Data of an algebraic space containing the source as a subfunctor and
 mapping to the target. The specification of a universal thickening is stated
 separately. -/
-private structure ThickeningDatum
+structure ThickeningDatum
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Z X : AlgebraicGeometry.AlgebraicSpaces B S hS} (h : Z ⟶ X) where
   /-- The ambient algebraic space. -/
@@ -57,7 +57,7 @@ private theorem sitePreRelation_source_eq
   dsimp [AlgebraicGeometry.Space.sitePreRelation, Stacks.Groupoids.PreRelation.source]
   rw [Limits.prod.lift_snd]
 
-private theorem exists_universalFirstOrderThickening_with_spec
+theorem exists_universalFirstOrderThickening_with_spec
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {Z X : AlgebraicGeometry.AlgebraicSpaces B S hS} (h : Z ⟶ X)
     (hh : AlgebraicGeometry.Space.FormallyUnramified h.hom) :
@@ -201,7 +201,6 @@ private theorem exists_universalFirstOrderThickening_with_spec
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map K.target)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map s')
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map t')
-      ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map D.chartMap)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map r)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map α)
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map β)
@@ -325,12 +324,12 @@ private theorem exists_universalFirstOrderThickening_with_spec
           isLimit := hFP.isLimit
           t := FOver.map c'
           transitivity₁ := by
-            show FOver.map c' ≫ FOver.map s' =
+            change FOver.map c' ≫ FOver.map s' =
               FOver.map (Limits.pullback.fst t' s') ≫ FOver.map s'
             simpa only [FOver.map_comp, PullbackCone.mk_fst] using
               congrArg FOver.map hc's
           transitivity₂ := by
-            show FOver.map c' ≫ FOver.map t' =
+            change FOver.map c' ≫ FOver.map t' =
               FOver.map (Limits.pullback.snd t' s') ≫ FOver.map t'
             simpa only [FOver.map_comp, PullbackCone.mk_snd] using
               congrArg FOver.map hc't }
@@ -376,7 +375,7 @@ private theorem exists_universalFirstOrderThickening_with_spec
     apply bridge_maps_equal_of_atlas B S hS Z.property X.property.isSheaf
       K.source K.target D.sourceChart K.kernelPair
       D.sourceSurjective D.sourceEtale
-    show D.sourceChart ≫ (gZ ≫ gX) = D.sourceChart ≫ h.hom
+    change D.sourceChart ≫ (gZ ≫ gX) = D.sourceChart ≫ h.hom
     calc
       D.sourceChart ≫ (gZ ≫ gX) =
           (yoneda.map iV ≫ qV') ≫ gX := by
@@ -393,12 +392,12 @@ private theorem exists_universalFirstOrderThickening_with_spec
     infer_instance
   let A : Subobject (Tsite.obj V') := Subobject.mk (Tsite.map iV)
   have hAclosed : _root_.AlgebraicGeometry.IsClosedImmersion A.arrow := by
-    show IsClosedImmersion (Subobject.mk (Tsite.map iV)).arrow
+    change IsClosedImmersion (Subobject.mk (Tsite.map iV)).arrow
     rw [← Subobject.underlyingIso_hom_comp_eq_mk (Tsite.map iV)]
     infer_instance
   have hAsub : (Subobject.pullback (Tsite.map s')).obj A =
       (Subobject.pullback (Tsite.map t')).obj A := by
-    show (Subobject.pullback (Tsite.map s')).obj
+    change (Subobject.pullback (Tsite.map s')).obj
         (Subobject.mk (Tsite.map iV)) =
       (Subobject.pullback (Tsite.map t')).obj
         (Subobject.mk (Tsite.map iV))
@@ -457,7 +456,7 @@ private theorem exists_universalFirstOrderThickening_with_spec
       rw [Subobject.pullback_comp, Subobject.pullback_comp]
       exact congrArg (fun Z : Subobject (Tsite.obj V') =>
         (Subobject.pullback (eqToHom hArr)).obj ((Subobject.pullback f).obj Z)) hUi
-    show (Subobject.pullback G.target.left).obj (Subobject.mk j) =
+    change (Subobject.pullback G.target.left).obj (Subobject.mk j) =
       (Subobject.pullback G.source.left).obj (Subobject.mk j)
     calc (Subobject.pullback G.target.left).obj (Subobject.mk j)
         = (Subobject.pullback (eqToHom hArr ≫ Tsite.map P.target ≫ eqToHom hObj.symm)).obj
@@ -472,7 +471,7 @@ private theorem exists_universalFirstOrderThickening_with_spec
             (Subobject.mk j) := (key _).symm
       _ = (Subobject.pullback G.source.left).obj (Subobject.mk j) := by rw [hgs]
   have hAimmersion : _root_.AlgebraicGeometry.IsImmersion A.arrow := by
-    show _root_.AlgebraicGeometry.IsImmersion (Subobject.mk (Tsite.map iV)).arrow
+    change _root_.AlgebraicGeometry.IsImmersion (Subobject.mk (Tsite.map iV)).arrow
     rw [← Subobject.underlyingIso_hom_comp_eq_mk (Tsite.map iV)]
     have : _root_.AlgebraicGeometry.IsClosedImmersion (Tsite.map iV) := hfirstV.1
     infer_instance
@@ -648,7 +647,7 @@ private theorem exists_universalFirstOrderThickening_with_spec
     AlgebraicGeometry.Space.isEtale_comp B S hS
       (AlgebraicGeometry.Space.isEtale_of_isIso B S hS eV.symm.hom) haVEtale
   have haZVSurj : AlgebraicGeometry.Space.IsSurjective B S hS aZV := by
-    show Function.Surjective (AlgebraicGeometry.Space.pointsMap B S hS
+    change Function.Surjective (AlgebraicGeometry.Space.pointsMap B S hS
       (Subfunctor.range (yoneda.map iV)).toFunctor (eV.inv ≫ aV))
     rw [AlgebraicGeometry.Space.pointsMap_comp B S hS _ eV.inv aV]
     exact haVSurj.comp (AlgebraicGeometry.Space.surjective_pointsMap_of_isIso B S hS eV.symm)
@@ -659,7 +658,7 @@ private theorem exists_universalFirstOrderThickening_with_spec
     exact hVunivX
   refine ⟨{ ambient := Q, source := Y, sourceIso := sourceIso, toBase := gXalg },
     ?_, hYuniv⟩
-  show sourceIso.hom ≫ Y.ι ≫ gX = h.hom
+  change sourceIso.hom ≫ Y.ι ≫ gX = h.hom
   rw [← Category.assoc, hsourceIncl]
   exact congrArg (fun f => f.hom) hgZX
 

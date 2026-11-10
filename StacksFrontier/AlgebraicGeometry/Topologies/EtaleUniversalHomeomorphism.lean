@@ -128,11 +128,11 @@ theorem injective_baseChange_hom_of_surjective (g : S' ⟶ S) [Surjective g]
     calc
       pullback.fst Y.hom g ≫ f.left =
           ((Over.pullback g).map f).left ≫ pullback.fst X.hom g := by
-        simp [Over.pullback_map_left, pullback.lift_fst]
+        simp [Over.pullback_map_left]
       _ = ((Over.pullback g).map h).left ≫ pullback.fst X.hom g := by
         rw [congrArg Over.Hom.left hfh]
       _ = pullback.fst Y.hom g ≫ h.left := by
-        simp [Over.pullback_map_left, pullback.lift_fst]
+        simp [Over.pullback_map_left]
   exact hom_ext_of_surjective (pullback.fst Y.hom g) this.surj X.hom f.left h.left hbase hrestrict
 
 /-- Base change along a universal homeomorphism is injective on morphisms into an étale scheme:
@@ -223,14 +223,14 @@ noncomputable abbrev diagonalDescentComparison :
 étale. -/
 theorem etale_pullbackFst_hom [Etale V.hom] :
     Etale ((Over.pullback (pullback.fst g g)).obj V).hom := by
-  show Etale (pullback.snd V.hom (pullback.fst g g))
+  change Etale (pullback.snd V.hom (pullback.fst g g))
   infer_instance
 
 /-- The base change of a scheme étale over `S'` along the second projection of `S' ×_S S'` is
 étale. -/
 theorem etale_pullbackSnd_hom [Etale V.hom] :
     Etale ((Over.pullback (pullback.snd g g)).obj V).hom := by
-  show Etale (pullback.snd V.hom (pullback.snd g g))
+  change Etale (pullback.snd V.hom (pullback.snd g g))
   infer_instance
 
 variable [UniversalHomeomorphism g] [Etale V.hom]

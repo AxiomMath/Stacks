@@ -66,7 +66,7 @@ theorem ungradedSymSectionsMvPolynomialEquiv_app (s : Γ(X, V)) :
     ungradedSymSectionsMvPolynomialEquiv E hV b
         (((ungradedSymAlgebraSheaf E).hom.hom.app (op V)).hom s) = MvPolynomial.C s := by
   rw [← ungradedSymSectionsRingEquiv_algebraMap E hV s]
-  show (SymmetricAlgebra.equivMvPolynomial b)
+  change (SymmetricAlgebra.equivMvPolynomial b)
       ((ungradedSymSectionsRingEquiv E hV).symm
         (ungradedSymSectionsRingEquiv E hV
           (algebraMap Γ(X, V) (SymmetricAlgebra Γ(X, V) Γ(E, V)) s))) = _

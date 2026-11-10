@@ -66,10 +66,10 @@ theorem isEmpty_preimage_puncturedSpectrum_quotient_maximalIdeal [IsLocalRing A]
       Stacks.puncturedSpectrum A) := by
   refine ⟨fun ⟨x, hx⟩ => hx ?_⟩
   ext1
-  show Ideal.comap (algebraMap A (A ⧸ maximalIdeal A)) x.asIdeal = maximalIdeal A
+  change Ideal.comap (algebraMap A (A ⧸ maximalIdeal A)) x.asIdeal = maximalIdeal A
   refine le_antisymm (le_maximalIdeal (Ideal.IsPrime.comap _ (hK := x.isPrime)).ne_top)
     fun a ha => ?_
-  show algebraMap A (A ⧸ maximalIdeal A) a ∈ x.asIdeal
+  change algebraMap A (A ⧸ maximalIdeal A) a ∈ x.asIdeal
   rw [Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem.mpr ha]
   exact x.asIdeal.zero_mem
 

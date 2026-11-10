@@ -492,7 +492,7 @@ lemma exists_compact_repr (s : D.limSections U 𝒢) {x : D.invLimit} (hx : x �
   refine ⟨⟨W', hW'o⟩, hxW', hW'c, fun z hz ↦ iW.le (hW'W₁ hz).1, ⟨V', hV'o⟩, hV'c,
     fun z hz ↦ (hW'W₁ hz).2, 𝒢.presheaf.map (homOfLE hVle).op t₀, ?_⟩
   intro z hzW hz hzV
-  show s.1 (iW ⟨z, (hW'W₁ hzW).1⟩) = _
+  change s.1 (iW ⟨z, (hW'W₁ hzW).1⟩) = _
   rw [ht₀ ⟨z, (hW'W₁ hzW).1⟩]
   exact congrArg (fun u ↦ (⟨D.projFun i z, u⟩ : GermPullback.Germs 𝒢.presheaf))
     (𝒢.presheaf.germ_res_apply (homOfLE hVle) (D.projFun i z) hzV t₀).symm

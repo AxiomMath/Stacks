@@ -78,7 +78,7 @@ theorem ker_includeLeftRingHom (R B C : Type*) [CommRing R] [CommRing B] [CommRi
     have h := Algebra.TensorProduct.lTensor_ker (A := B) (Algebra.ofId R C) hC
     dsimp [Algebra.ofId] at h
     exact h
-  show RingHom.ker (Algebra.TensorProduct.includeLeft (S := R)).toRingHom = _
+  change RingHom.ker (Algebra.TensorProduct.includeLeft (S := R)).toRingHom = _
   rw [h2, ← RingHom.comap_ker, h3]
   have h4 : (Algebra.TensorProduct.includeLeft (R := R) (S := R) (A := B) (B := R)).toRingHom =
       ((Algebra.TensorProduct.rid R R B).toRingEquiv.symm : B →+* TensorProduct R B R) := by
@@ -106,7 +106,7 @@ theorem ker_comp_includeLeftRingHom_of_isLocalization
     refine IsLocalization.injective P (M := M) fun t ht ↦ ?_
     obtain ⟨b, hb⟩ := Algebra.TensorProduct.includeLeft_surjective R B hC t
     have hu : IsUnit ((φ.comp Algebra.TensorProduct.includeLeftRingHom) b) := by
-      show IsUnit (φ (Algebra.TensorProduct.includeLeft (S := R) b))
+      change IsUnit (φ (Algebra.TensorProduct.includeLeft (S := R) b))
       rw [hb]
       exact IsLocalization.map_units P (⟨t, ht⟩ : M)
     exact hb ▸ ((isUnit_of_map_unit _ b hu).map
@@ -192,7 +192,7 @@ theorem exists_isSystemOfParameters_append_of_flat
     simpa [Ideal.ofList] using hs
   have hgenB : Ideal.ofList (rs.map (algebraMap A B) ++ ts) = maximalIdeal B := by
     rw [Ideal.ofList_append, ← Ideal.map_ofList, hgen]
-    show I ⊔ Ideal.ofList ts = _
+    change I ⊔ Ideal.ofList ts = _
     have heq : Ideal.map q (Ideal.ofList ts) = Ideal.map q (maximalIdeal B) := by
       rw [Ideal.map_ofList, hmap, hspan, hmax]
     have hcm := congrArg (Ideal.comap q) heq
@@ -284,7 +284,7 @@ private theorem pullback_stalk_isSystemOfParameters {X Y : Scheme.{u}} [IsLocall
   · simpa only [List.length_append, List.length_map] using
       hrle.trans (Nat.le_add_right rs.length ts.length)
   · rw [ker_stalkMap_pullback_fst]
-    show Ideal.map (algebraMap A B) (RingHom.ker t.hom) = _
+    change Ideal.map (algebraMap A B) (RingHom.ker t.hom) = _
     rw [hk, Ideal.map_span, Set.image_singleton]
     congr 1
     rw [List.take_append_of_le_length (by simpa using hrle), ← List.map_take, ← map_list_prod]

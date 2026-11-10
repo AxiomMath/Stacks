@@ -34,7 +34,8 @@ finite: a single total degree meets infinitely many columns, so no convergence i
 ## Implementation notes
 
 `Tot_π^n(K)` is the group of dependent functions on the pairs `(p, q) ∈ ℕ × ℤ` with `p + q = n`
-of `StacksFrontier.Algebra.Homology.AbelianGroupComplexResolutions`, so the steps of the filtration are the
+of `StacksFrontier.Algebra.Homology.AbelianGroupComplexResolutions`, so the steps of the filtration
+are the
 subgroups cut out by vanishing in the columns `p < i`, and the graded piece is computed by the
 short exact sequence whose surjection evaluates at the single remaining column.
 
@@ -298,10 +299,10 @@ lemma productTotalColumnShortComplex_shortExact (p : ℕ) (n q : ℤ) (h : (p : 
       · exact x.2 j hlt
       · obtain rfl : j = ⟨(p, q), h⟩ :=
           Subtype.ext (Prod.ext (by exact_mod_cast heq)
-            (by have := j.2; show j.1.2 = q; omega))
+            (by have := j.2; change j.1.2 = q; omega))
         exact hx⟩, rfl⟩
   mono_f := by
-    show Mono (K.productTotalColumnInclusion (p : ℤ) ((p : ℤ) + 1) n (by omega))
+    change Mono (K.productTotalColumnInclusion (p : ℤ) ((p : ℤ) + 1) n (by omega))
     exact mono_of_mono_fac
       (K.productTotalColumnInclusion_comp_subtype (p : ℤ) ((p : ℤ) + 1) n (by omega))
   epi_g := ConcreteCategory.epi_of_surjective _ (K.productTotalColumnProjection_surjective p n q h)

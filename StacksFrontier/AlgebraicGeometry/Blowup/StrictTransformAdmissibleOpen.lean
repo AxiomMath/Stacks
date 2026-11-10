@@ -80,9 +80,9 @@ theorem disjoint_preimage_exceptionalPreimage (U : S.Opens)
       (Stacks.StrictTransform.exceptionalPreimage f (blowUpToBase I) (exceptionalIdeal I)) := by
   have hE : ((exceptionalIdeal I).support : Set (blowUp I)) =
       (blowUpToBase I).base ⁻¹' (I.support : Set S) := by
-    show ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
+    change ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
     rw [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage]
-  show Disjoint ((pullback.snd f (blowUpToBase I)).base ⁻¹'
+  change Disjoint ((pullback.snd f (blowUpToBase I)).base ⁻¹'
       ((blowUpToBase I).base ⁻¹' (U : Set S)))
     ((pullback.snd f (blowUpToBase I)).base ⁻¹'
       ((exceptionalIdeal I).support : Set (blowUp I)))

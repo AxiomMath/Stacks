@@ -116,7 +116,7 @@ theorem regularHomogeneousMul_regularValueAtOne (k : ℤ)
   refine Subtype.ext (LinearMap.ext fun b => ?_)
   have h := f.2.2 b (1 : A.A)
   simp only [MulOpposite.smul_eq_mul_unop, MulOpposite.unop_op, one_mul] at h
-  show (f.1 (1 : A.A)) * b = f.1 b
+  change (f.1 (1 : A.A)) * b = f.1 b
   exact h.symm
 
 /-- The value at the unit of left multiplication by `a` is `a`. -/
@@ -142,7 +142,7 @@ theorem homogeneousMapDifferential_regularHomogeneousMul (k : ℤ) (a : A.gradin
     have hsmul : ((k.negOnePow : ℤ)) • ((a : A.A) * A.d b) =
         gradedSign R k • ((a : A.A) * A.d b) := by
       rw [← Int.cast_smul_eq_zsmul R, intCast_negOnePow]
-    show A.d ((a : A.A) * (b : A.A)) - gradedSign R k • ((a : A.A) * A.d (b : A.A)) = _
+    change A.d ((a : A.A) * (b : A.A)) - gradedSign R k • ((a : A.A) * A.d (b : A.A)) = _
     rw [A.leibniz k m (a : A.A) (b : A.A) a.property b.property, hsmul, add_sub_cancel_right]
   | add x y hx hy => simp only [map_add, mul_add, hx, hy]
 
@@ -151,7 +151,7 @@ theorem homogeneousMapDifferential_regularHomogeneousMul_eq_zero (k : ℤ) (a : 
     homogeneousMapDifferential A (regularHomogeneousMul A k a.1) = 0 := by
   refine Subtype.ext (LinearMap.ext fun b => ?_)
   refine (homogeneousMapDifferential_regularHomogeneousMul A k a.1 b).trans ?_
-  show A.d (a.1 : A.A) * b = (0 : A.A)
+  change A.d (a.1 : A.A) * b = (0 : A.A)
   rw [a.2, zero_mul]
 
 /-- The homomorphism `A ⟶ A[k]` of differential graded modules given by left multiplication by a
@@ -186,13 +186,13 @@ theorem toHomotopyCategory_map_regularCocycleHom_eq_iff (k : ℤ) (a b : A.Cocyc
     rw [homogeneousMapDifferential_val_apply_one] at h
     have h3 : ((regularHomogeneousMul A k a.1).1 - (regularHomogeneousMul A k b.1).1) (1 : A.A) =
         (a.1 : A.A) - b.1 := by
-      show (a.1 : A.A) * 1 - (b.1 : A.A) * 1 = _
+      change (a.1 : A.A) * 1 - (b.1 : A.A) * 1 = _
       rw [mul_one, mul_one]
     exact h3.symm.trans h.symm
   · rintro ⟨c, hc⟩
     refine ⟨regularHomogeneousMul A (k - 1) c, LinearMap.ext fun x => ?_⟩
     refine (homogeneousMapDifferential_regularHomogeneousMul A (k - 1) c x).trans ?_
-    show A.d (c : A.A) * x = (a.1 : A.A) * x - (b.1 : A.A) * x
+    change A.d (c : A.A) * x = (a.1 : A.A) * x - (b.1 : A.A) * x
     rw [← sub_mul, ← hc]
 
 /-- The canonical map from the degree-`k` cohomology of `A` to the morphisms of the homotopy

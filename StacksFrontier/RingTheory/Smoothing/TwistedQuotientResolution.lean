@@ -276,7 +276,7 @@ theorem map_map_span_pow_eq {R T Λ : Type u} [CommRing R] [CommRing T] [CommRin
     IΛ = Ideal.span (Set.range fun i => (δ i * ρ i) ^ e) := by
   rw [hIΛ, hID, hI, Ideal.map_map, Ideal.map_span, ← Set.range_comp]
   refine congrArg Ideal.span (congrArg Set.range (funext fun i => ?_))
-  show fTΛ (fRT (γ i ^ e)) = (δ i * ρ i) ^ e
+  change fTΛ (fRT (γ i ^ e)) = (δ i * ρ i) ^ e
   rw [map_pow, map_pow, hγ i]
 
 /-- The extension to `Λ` of `I = (γ_1^e, …, γ_d^e)` lies in `𝔮` when the images of the `γ_i`

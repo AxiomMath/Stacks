@@ -64,14 +64,14 @@ theorem scaleHom_coord (c : Fˣ) :
 theorem scaleHom_mul (c d : Fˣ) : (scaleHom F c).comp (scaleHom F d) = scaleHom F (c * d) := by
   refine ringHom_ext_ring F (fun a ↦ ?_) ?_
   · simp only [RingHom.comp_apply, scaleHom_C]
-  · simp only [RingHom.comp_apply, scaleHom_coord, map_mul, scaleHom_C, Units.val_mul, C_mul]
+  · simp only [RingHom.comp_apply, scaleHom_coord, map_mul, scaleHom_C, Units.val_mul]
     ring
 
 /-- The map `X ↦ 1 X` is the identity. -/
 theorem scaleHom_one : scaleHom F 1 = RingHom.id _ := by
   refine ringHom_ext_ring F (fun a ↦ ?_) ?_
   · simp only [scaleHom_C, RingHom.id_apply]
-  · simp only [scaleHom_coord, Units.val_one, C_1, map_one, one_mul, RingHom.id_apply]
+  · simp only [scaleHom_coord, Units.val_one, map_one, one_mul, RingHom.id_apply]
 
 /-- The group homomorphism `Fˣ →* RingAut F[X]_X` sending `c` to the automorphism `X ↦ c X`. -/
 def scaleAut : Fˣ →* RingAut (Ring F) where
@@ -155,14 +155,14 @@ theorem coeffAut_mul_scaleAut_mul_inv (σ : RingAut F) (c : Fˣ) :
       scaleAut F (Units.map σ.toRingHom.toMonoidHom c) := by
   rw [mul_inv_eq_iff_eq_mul]
   refine RingEquiv.ext fun z ↦ ?_
-  show coeffHom F σ.toRingHom (scaleHom F c z) =
+  change coeffHom F σ.toRingHom (scaleHom F c z) =
     scaleHom F (Units.map σ.toRingHom.toMonoidHom c) (coeffHom F σ.toRingHom z)
   have h : (coeffHom F σ.toRingHom).comp (scaleHom F c) =
       (scaleHom F (Units.map σ.toRingHom.toMonoidHom c)).comp (coeffHom F σ.toRingHom) := by
     refine ringHom_ext_ring F (fun a ↦ ?_) ?_
     · simp only [RingHom.comp_apply, scaleHom_C, coeffHom_C]
     · simp only [RingHom.comp_apply, scaleHom_coord, map_mul, coeffHom_C, coeffHom_coord,
-        Units.coe_map, MonoidHom.coe_coe]
+        Units.coe_map]
       rfl
   exact RingHom.congr_fun h z
 

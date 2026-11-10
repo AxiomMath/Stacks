@@ -72,9 +72,8 @@ end Congruence
 
 section FixedVectors
 
-variable {ℓ : ℕ} [Fact ℓ.Prime] {n : Type*} [Fintype n] [DecidableEq n]
+variable {ℓ : ℕ} [Fact ℓ.Prime] {n : Type*} [Fintype n]
 
-omit [DecidableEq n] in
 /-- **Fixed vectors over `ℚ_ℓ` from integral ones.**  If every integral vector fixed by `M` is
 fixed by `M'`, then every vector of `ℚ_ℓ ^ n` fixed by `M` is fixed by `M'`: clear denominators. -/
 public theorem mulVec_eq_self_of_forall_integral {M M' : Matrix n n ℤ_[ℓ]}
@@ -107,6 +106,7 @@ homomorphism `ι : K → L` to a field: `B` factors as `C * A`. -/
 public theorem mulVec_map_eq_zero_of_forall_mulVec_eq_zero {K L : Type*} [Field K] [Field L]
     (ι : K →+* L) {A B : Matrix n n K} (h : ∀ v : n → K, A *ᵥ v = 0 → B *ᵥ v = 0)
     (w : n → L) (hw : A.map ι *ᵥ w = 0) : B.map ι *ᵥ w = 0 := by
+  classical
   -- each row of `B` is a linear form vanishing on `ker A`, hence factors through `A`
   have hrow : ∀ i : n, ∃ ψ : (n → K) →ₗ[K] K, ∀ y, ψ (A *ᵥ y) = (B *ᵥ y) i := by
     intro i
@@ -132,6 +132,7 @@ public theorem mulVec_map_eq_self_of_forall_integral {L : Type*} [Field L] (ι :
     {M M' : Matrix n n ℤ_[ℓ]} (h : ∀ v : n → ℤ_[ℓ], M *ᵥ v = v → M' *ᵥ v = v) (w : n → L)
     (hw : M.map (ι.comp (algebraMap ℤ_[ℓ] ℚ_[ℓ])) *ᵥ w = w) :
     M'.map (ι.comp (algebraMap ℤ_[ℓ] ℚ_[ℓ])) *ᵥ w = w := by
+  classical
   have hQ : ∀ v : n → ℚ_[ℓ], (M.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) - 1) *ᵥ v = 0 →
       (M'.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) - 1) *ᵥ v = 0 := fun v hv => by
     rw [Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero] at hv ⊢

@@ -364,7 +364,7 @@ theorem isOpenSubspace_preimage_surjLocus (hf : IsLocallyOfFinitePresentation B 
   obtain ⟨U, hU, hiff⟩ := M.exists_isOpenSubspace_isSurjectiveAt_iff hMf hMG hMproper
   have hEq : (s.surjLocus hc p c).preimage g = U := by
     refine Subfunctor.ext (funext fun T' => Set.ext fun k => ?_)
-    show g.app T' k ∈ (s.surjLocus hc p c).obj T' ↔ k ∈ U.obj T'
+    change g.app T' k ∈ (s.surjLocus hc p c).obj T' ↔ k ∈ U.obj T'
     have hgk : g.app T' k = H.1.map k.op h := by
       rw [hh, map_yonedaEquiv']
       rfl

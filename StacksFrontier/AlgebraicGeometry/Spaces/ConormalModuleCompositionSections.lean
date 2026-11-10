@@ -63,7 +63,8 @@ factors: the expanded statement, written out, is not accepted at the default bud
 of its factors in isolation is.
 
 The cost does not come from the expansion mixing the two spellings `(F ⋙ G).obj M` and
-`F.obj (G.obj M)` of one object inside a single composite: at these inverse images the two spellings of an object are
+`F.obj (G.obj M)` of one object inside a single composite: at these inverse images the two spellings
+of an object are
 `rfl` and instant, so is a composition one of whose ends carries each, and so is transporting an
 equation of morphisms across them.  What is not free is *declaring* the expanded type.  A
 consumer that needs the three factors separately gets them by composing this lemma with

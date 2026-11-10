@@ -81,9 +81,9 @@ def wedgePairing {a b : ℕ} (hab : a + b = n) :
       have h := ExteriorAlgebra.mul_mem_exteriorPower α.2 ω.2
       rwa [hab] at h⟩)
     (fun ω₁ ω₂ α => by rw [← map_add]; congr 1; ext; simp [mul_add])
-    (fun c ω α => by change _ = c • _; rw [← map_smul]; congr 1; ext; simp)
+    (fun c ω α => by rw [← map_smul]; congr 1; ext; simp)
     (fun ω α₁ α₂ => by rw [← map_add]; congr 1; ext; simp [add_mul])
-    (fun c ω α => by change _ = c • _; rw [← map_smul]; congr 1; ext; simp)
+    (fun c ω α => by rw [← map_smul]; congr 1; ext; simp)
 
 /-- The wedge pairing evaluated through the product in the exterior algebra: if `α ∧ ω` is the
 element `y` of the top exterior power, the pairing of `ω` and `α` is `top(y)`. -/

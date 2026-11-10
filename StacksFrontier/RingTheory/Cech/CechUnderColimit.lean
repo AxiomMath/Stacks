@@ -294,7 +294,7 @@ theorem complexAdj_homEquiv_symm_f {K : CochainComplex (ModuleCat.{u} R) ℤ}
     (u : K ⟶ ((ModuleCat.restrictScalars φ).mapHomologicalComplex (ComplexShape.up ℤ)).obj L)
     (i : ℤ) :
     (((complexAdj φ).homEquiv K L).symm u).f i = adjointHom φ (u.f i) := by
-  show (((complexAdj φ).homEquiv _ _).symm u).f i =
+  change (((complexAdj φ).homEquiv _ _).symm u).f i =
     ((ModuleCat.extendRestrictScalarsAdj φ).homEquiv _ _).symm (u.f i)
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
   rfl

@@ -70,12 +70,12 @@ instance of the hypothesis and not a new assumption; this is the same observatio
 crossing.
 
 **Why the associativity juggling is done in an arbitrary category.** As in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelCocycleSystem.lean`, a goal
-mentioning an object of `AlgebraicGeometry.Scheme.Etale` is not type-correct at the transparency
-`rewrite` builds its motive at. Every composite rearrangement below is therefore stated as a lemma
-in an arbitrary category — `comp_eq_of_conjugate`, `assoc_cancel_of_naturality_of_transport`,
-`comp_assoc_substitute`, `whiskerRight_natTransOp_cancel` — and applied by `exact`. No compiler
-option is relaxed.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLevelCocycleSystem.lean`,
+a goal mentioning an object of `AlgebraicGeometry.Scheme.Etale` is not type-correct at the
+transparency `rewrite` builds its motive at. Every composite rearrangement below is therefore stated
+as a lemma in an arbitrary category — `comp_eq_of_conjugate`,
+`assoc_cancel_of_naturality_of_transport`, `comp_assoc_substitute`, `whiskerRight_natTransOp_cancel`
+— and applied by `exact`. No compiler option is relaxed.
 
 **Where the crossing of the target is produced, and why there.** Both restrictions it is made of —
 `Stacks.EtaleCohomology.MayerVietoris.mayerVietorisRestrict` and
@@ -178,7 +178,7 @@ theorem whiskerRight_natTransOp_cancel {𝒞 : Type*} [Category* 𝒞] {𝒟 : T
     (q ≫ Functor.whiskerRight (NatTrans.op α.inv) P) ≫
         Functor.whiskerRight (NatTrans.op α.hom) P = q := by
   ext U
-  show (q.app U ≫ P.map (α.inv.app U.unop).op) ≫ P.map (α.hom.app U.unop).op = q.app U
+  change (q.app U ≫ P.map (α.inv.app U.unop).op) ≫ P.map (α.hom.app U.unop).op = q.app U
   rw [Category.assoc, ← P.map_comp, ← op_comp, Iso.hom_inv_id_app, op_id]
   exact (whisker_eq _ (P.map_id _)).trans (Category.comp_id _)
 
@@ -363,7 +363,7 @@ theorem levelBaseChangeCrossing_transition_hom_app_conjugate {k j : (sys D c B h
       (levelCrossingIso D c B hD hX hc k).inv.app (((sys D c B hD hX hc).u a).obj Y) ≫
         eqToHom (Functor.congr_obj (levelCrossing_transition D c B hD hX hc a) Y) ≫
           (levelCrossingIso D c B hD hX hc j).hom.app Y := by
-  show (levelCrossingIso D c B hD hX hc k).inv.app (((sys D c B hD hX hc).u a).obj Y) ≫
+  change (levelCrossingIso D c B hD hX hc k).inv.app (((sys D c B hD hX hc).u a).obj Y) ≫
       (eqToIso (levelCrossing_transition D c B hD hX hc a)).hom.app Y ≫
         (levelCrossingIso D c B hD hX hc j).hom.app Y = _
   rw [eqToIso.hom, eqToHom_app]
@@ -508,12 +508,9 @@ theorem levelCocycleLeg_compat_app {k j : (sys D c B hD hX hc).I} (a : k ⟶ j)
               𝓕)).obj)).app (op Y) = 𝟙 _ := by
     rw [eqToHom_app]
     exact Stacks.EtaleCohomology.map_op_eqToHom_comp_transport 𝓕.obj _ _
-  simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.op_obj, unop_op,
-    levelCocycleSystem_map, levelCocycleMap_app, levelCocycleLeg_app, eqToHom_app,
+  simp only [NatTrans.comp_app, Functor.op_obj, unop_op, levelCocycleSystem_map,
     Stacks.EtaleCohomology.systemDirShift, ObjectProperty.FullSubcategory.comp_hom,
-    Stacks.EtaleCohomology.AffineLimitCohomology.systemPushforward_map_hom_app,
-    Stacks.EtaleCohomology.AffineLimitCohomology.coneDirectImageCompAb_hom_app_hom_app,
-    Category.assoc]
+    Stacks.EtaleCohomology.AffineLimitCohomology.systemPushforward_map_hom_app]
   exact Stacks.EtaleCohomology.assoc_cancel_of_naturality_of_transport hnat hgeo hid
 
 /-- **The legs of the level presentation are compatible exactly when the family of direct images
@@ -562,7 +559,7 @@ theorem levelCocycleLeg_comp
   refine NatTrans.ext (funext fun U => ?_)
   obtain ⟨Y⟩ := U
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, levelCocycleLeg_app,
-    ObjectProperty.FullSubcategory.comp_hom, Category.assoc]
+    ObjectProperty.FullSubcategory.comp_hom]
   exact whisker_eq _ (χ.hom.naturality ((levelCrossingIso D c B hD hX hc n).hom.app Y).op)
 
 /-- **The legs determine the family of direct images they are built from.** The construction of the

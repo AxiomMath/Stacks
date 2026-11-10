@@ -272,7 +272,7 @@ private theorem ringEquiv_trans_algebraMap {A' M N T : Type u} [CommRing A'] [Al
     (φ : M ≃ₐ[A'] N) (e : N ≃+* T)
     (he : ∀ r : R, e (algebraMap A' N (algebraMap R A' r)) = algebraMap R T r) (r : R) :
     (φ.toRingEquiv.trans e) (algebraMap R M r) = algebraMap R T r := by
-  show e (φ (algebraMap R M r)) = algebraMap R T r
+  change e (φ (algebraMap R M r)) = algebraMap R T r
   rw [algEquiv_algebraMap_base φ r, IsScalarTower.algebraMap_apply R A' N r]
   exact he r
 
@@ -460,7 +460,7 @@ public theorem isRegularRing_nodalChartRing_one (R : Type u) [CommRing R] [IsReg
 /-- **The exponent zero standard nodal model is regular over a regular base.** -/
 public theorem isRegular_nodalModel_zero (R : Type u) [CommRing R] [IsRegularRing R] (π : R) :
     IsRegular (nodalModel R π 0) := by
-  show IsRegular (Spec (CommRingCat.of (nodalChartRing R (π ^ 0))))
+  change IsRegular (Spec (CommRingCat.of (nodalChartRing R (π ^ 0))))
   rw [pow_zero]
   exact @isRegular_spec_of_isRegularRing (nodalChartRing R 1) _
     (isRegularRing_nodalChartRing_one R)

@@ -103,13 +103,13 @@ theorem bundleCompareClause (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBu
         (toScheme k).map f :=
     Stacks.Chow.bundleBaseChangeHom_bundleProj _ _ _ _
   refine ⟨@homMk k _ (@bundle k _ X' _ r hE') (@bundle k _ X E r hE) g₀ ?_, ?_, ?_⟩
-  · show g₀ ≫ Stacks.Chow.bundleProj E ≫ X.obj.hom =
+  · change g₀ ≫ Stacks.Chow.bundleProj E ≫ X.obj.hom =
       Stacks.Chow.bundleProj ((Scheme.Modules.pullback ((toScheme k).map f)).obj E) ≫ X'.obj.hom
     rw [reassoc_of% hg₀]
     exact congrArg (fun φ => Stacks.Chow.bundleProj
       ((Scheme.Modules.pullback ((toScheme k).map f)).obj E) ≫ φ) (w f)
   · exact hom_ext' hg₀
-  · show g₀ ≫ (@bundleObject k _ X E r hE).iso.hom =
+  · change g₀ ≫ (@bundleObject k _ X E r hE).iso.hom =
       (@bundleObject k _ X' _ r hE').iso.hom ≫ g₀
     exact comp_bundleObject_iso_hom g₀
 
@@ -146,10 +146,10 @@ theorem divisorDatumClause (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBun
     Stacks.Chow.GenuineChern.bundleEmbedding_comp_bundleProj _
   let i : @bundle k _ X T.X₃ r hF ⟶ @bundle k _ X T.X₂ (r + 1) hE :=
     @homMk k _ (@bundle k _ X T.X₃ r hF) (@bundle k _ X T.X₂ (r + 1) hE) i₀ (by
-      show i₀ ≫ Stacks.Chow.bundleProj T.X₂ ≫ X.obj.hom = Stacks.Chow.bundleProj T.X₃ ≫ X.obj.hom
+      change i₀ ≫ Stacks.Chow.bundleProj T.X₂ ≫ X.obj.hom = Stacks.Chow.bundleProj T.X₃ ≫ X.obj.hom
       rw [reassoc_of% hi₀])
   refine ⟨i, ⟨hom_ext' hi₀, ?_⟩, ?_⟩
-  · show i₀ ≫ (@bundleObject k _ X T.X₂ (r + 1) hE).iso.hom =
+  · change i₀ ≫ (@bundleObject k _ X T.X₂ (r + 1) hE).iso.hom =
       (@bundleObject k _ X T.X₃ r hF).iso.hom ≫ i₀
     exact comp_bundleObject_iso_hom i₀
   · intro L hLinv hdiv a ha
@@ -163,7 +163,7 @@ theorem divisorDatumClause (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBun
     -- axiom (A4) for the divisor `𝐏(𝓕) ⊂ 𝐏(ℰ)`
     have hA := hA4 (@bundle k _ X T.X₂ (r + 1) hE) (@bundle k _ X T.X₃ r hF) i D hD' e.symm
       (by
-        show e.inv ≫ D.subschemeι = i₀
+        change e.inv ≫ D.subschemeι = i₀
         rw [← he, Iso.inv_hom_id_assoc])
       (a' : 𝔇.H (@bundle k _ X T.X₂ (r + 1) hE))
       (congrArg Subtype.val (show 𝔇.pullA i a' = 0 from ha))
@@ -259,7 +259,7 @@ theorem twistRule_mul {X : (SmoothProjectiveScheme k).FullSubcategory} (φ ψ : 
   apply (𝔇.κ X n).injective
   rw [κ_cupConv, κ_twistRule, PowerSeries.coeff_mul,
     Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, ← Fin.sum_univ_eq_sum_range,
-    AddSubmonoidClass.coe_finset_sum]
+    AddSubmonoidClass.coe_finsetSum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [κ_twistRule, κ_twistRule, MulMemClass.coe_mul]
 
@@ -271,9 +271,9 @@ theorem twistRule_one (X : (SmoothProjectiveScheme k).FullSubcategory) :
   apply (𝔇.κ X n).injective
   rw [κ_twistRule, PowerSeries.coeff_one]
   rcases n with _ | n
-  · rw [if_pos rfl, OneMemClass.coe_one]
+  · rw [ite_eq_left rfl, OneMemClass.coe_one]
     exact (𝔇.κ_unitTw X).symm
-  · rw [if_neg (Nat.succ_ne_zero n), ZeroMemClass.coe_zero, oneConv,
+  · rw [ite_eq_right (Nat.succ_ne_zero n), ZeroMemClass.coe_zero, oneConv,
       Pi.single_eq_of_ne (Nat.succ_ne_zero n), map_zero]
 
 omit [CharZero F] in
@@ -297,7 +297,7 @@ theorem twistRule_exp [CharZero F] (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.Proje
   refine (congrArg (fun z : 𝔇.A X => (z : 𝔇.H X))
     (Weak.coeff_expFirstChernClass (𝔚 := 𝔇.toChernSetup hA1 hA3) X L n)).trans ?_
   rw [expTw, map_smul, κ_twistPow]
-  show ((algebraMap F (𝔇.A X) (algebraMap ℚ F ((n.factorial : ℚ)⁻¹)) *
+  change ((algebraMap F (𝔇.A X) (algebraMap ℚ F ((n.factorial : ℚ)⁻¹)) *
     𝔇.c₁A X L ^ n : 𝔇.A X) : 𝔇.H X) = _
   rw [MulMemClass.coe_mul, SubmonoidClass.coe_pow, coe_c₁A, Algebra.algebraMap_eq_smul_one,
     Subalgebra.coe_smul, OneMemClass.coe_one, smul_one_mul, map_inv₀, map_natCast]
@@ -368,22 +368,22 @@ theorem existsUnique_cohomologicalChernCharacter [CharZero F] (hA1 : 𝔇.Coprod
   refine ⟨fun X α => 𝔇.twistRule (ch₀ X α),
     ⟨fun X α n => ?_, fun X α β => ?_, fun X α β => ?_, fun X => ?_, fun f α n => ?_,
       fun X L hL => ?_⟩, ?_⟩
-  · show 𝔇.twistRule (ch₀ X α) n ∈ _
+  · change 𝔇.twistRule (ch₀ X α) n ∈ _
     rw [mem_range_tateTwistMap_iff, κ_twistRule]
     exact hgr₀ X α n
-  · show 𝔇.twistRule (ch₀ X (α + β)) = _
+  · change 𝔇.twistRule (ch₀ X (α + β)) = _
     rw [map_add]
     exact 𝔇.twistRule_add _ _
-  · show 𝔇.twistRule (ch₀ X (α * β)) = _
+  · change 𝔇.twistRule (ch₀ X (α * β)) = _
     rw [map_mul]
     exact 𝔇.twistRule_mul _ _
-  · show 𝔇.twistRule (ch₀ X 1) = _
+  · change 𝔇.twistRule (ch₀ X 1) = _
     rw [map_one]
     exact 𝔇.twistRule_one X
-  · show 𝔇.twistRule (ch₀ _ (VectorBundleKZero.pullbackRingHom _ α)) n = _
+  · change 𝔇.twistRule (ch₀ _ (VectorBundleKZero.pullbackRingHom _ α)) n = _
     rw [← hpull₀ f α]
     exact 𝔇.twistRule_map f _ n
-  · show 𝔇.twistRule (ch₀ X _) = _
+  · change 𝔇.twistRule (ch₀ X _) = _
     rw [hinv₀ X L hL]
     exact 𝔇.twistRule_exp hA1 hA3 X _
   · rintro ch' ⟨hgr', hadd', hmul', hone', hpull', hinv'⟩

@@ -117,7 +117,7 @@ def sectionRingTotalEquiv :
 theorem sectionRingTotalEquiv_baseMap (r : s.base.ringCatSheaf.obj.obj (op U)) :
     sectionRingTotalEquiv s U (s.sectionRingBaseMap U r) =
       s.algebra.toPresheafGradedAlgebra.structureMap (op U) r := by
-  show sectionRingToTotal s U (s.sectionRingBaseMap U r) = _
+  change sectionRingToTotal s U (s.sectionRingBaseMap U r) = _
   rw [sectionRingBaseMap_eq_of_smul_one s U r,
     sectionRingToTotal_of s U 0 (r • s.algebra.one.eval (op U))]
   exact (s.algebra.toPresheafGradedAlgebra.incl_smul _ r _).trans
@@ -169,7 +169,7 @@ theorem ReesModel.totalSectionsEquiv_algebraMap {s : Situation.{u}}
       s.sectionRingBaseMap U.1 r := by
     rw [← m.sectionHom_sectionRingBaseMap U r]
     exact (m.sectionRingEquiv U).symm_apply_apply _
-  show Stacks.RelativeSpec.totalSectionsRingEquiv s.base s.algebra s.mul_comm U.2
+  change Stacks.RelativeSpec.totalSectionsRingEquiv s.base s.algebra s.mul_comm U.2
       (Situation.sectionRingTotalEquiv s U.1 ((m.sectionRingEquiv U).symm
         ((AlgebraicGeometry.reesSectionRingEquiv J U).symm
           (algebraMap Γ(s.base, U.1) ↥(reesAlgebra (J.ideal U)) r)))) = _

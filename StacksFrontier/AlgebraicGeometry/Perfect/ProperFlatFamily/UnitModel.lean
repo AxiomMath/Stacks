@@ -100,10 +100,10 @@ theorem sectionCochain_comp_d (hcov : (⊤ : X.Opens) ≤ ⨆ i, U i) (F : X.Mod
   have hm : y ∈ LinearMap.ker (Stacks.Cech.alternatingCechModuleD f U F 0) :=
     hr ▸ LinearMap.mem_range_self _ _
   have h := congr($(baseAlternatingCechComplexXIso_inv_comp_d f U hU F 0) y)
-  show (baseAlternatingCechComplex f U hU F).d ((0 : ℕ) : ℤ) ((0 + 1 : ℕ) : ℤ)
+  change (baseAlternatingCechComplex f U hU F).d ((0 : ℕ) : ℤ) ((0 + 1 : ℕ) : ℤ)
     ((baseAlternatingCechComplexXIso f U hU F 0).inv y) = 0
   refine h.trans ?_
-  show (baseAlternatingCechComplexXIso f U hU F (0 + 1)).inv
+  change (baseAlternatingCechComplexXIso f U hU F (0 + 1)).inv
     (Stacks.Cech.alternatingCechModuleD f U F 0 y) = 0
   rw [LinearMap.mem_ker.1 hm]
   exact ((baseAlternatingCechComplexXIso f U hU F (0 + 1)).inv).hom.map_zero

@@ -65,7 +65,7 @@ public theorem coeff_polynomialOfSupportCoeffs
     (polynomialOfSupportCoeffs p c).coeff e =
       if e ∈ p.support then c e else 0 := by
   classical
-  simp [polynomialOfSupportCoeffs, MvPolynomial.coeff_sum, MvPolynomial.coeff_monomial,
+  simp [polynomialOfSupportCoeffs, MvPolynomial.coeff_monomial,
     Finset.sum_ite_eq']
 
 /-- A polynomial over `R'` annihilated by a surjection `q : R' → R` with principal kernel

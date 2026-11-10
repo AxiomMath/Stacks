@@ -315,6 +315,7 @@ variable [Fact (HasEtaleLocalProperty B S hS F (fun V : Scheme.{u} => IsLocallyN
     [PreservesFiniteLimits (completionFunctor B S hS F hF 𝓘 hI)]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the binary products used by `Functor.additive_of_preserves_binary_products`
 /-- The completion functor is additive, being left exact. -/
 private instance additive_completionFunctor : (completionFunctor B S hS F hF 𝓘 hI).Additive :=
     Functor.additive_of_preserves_binary_products _

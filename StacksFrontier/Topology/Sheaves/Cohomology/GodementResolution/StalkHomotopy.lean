@@ -273,21 +273,21 @@ theorem exists_homotopyInverse_godementAugWhiskerRight :
   exact (CategoryTheory.Adjunction.exists_homotopyInverse_whiskered_standardResolution
     adjOpp Z (fun _ => rfl) d s rfl
     (fun n => by
-      show Godement.face dd n 0 = _
+      change Godement.face dd n 0 = _
       rw [Godement.Prep.face_zero]
       simp [dd, Z])
     (fun n j => by
-      show Godement.face dd (n + 1) j.succ = _
+      change Godement.face dd (n + 1) j.succ = _
       rw [Godement.Prep.face_succ]
       simp [d, dd, Z])
     (fun n => by
-      show Godement.degeneracy ss n 0 = _
+      change Godement.degeneracy ss n 0 = _
       rw [Godement.Prep.degeneracy_zero]
       exact eq_id_comp_comp_whiskerRight_id
         (K := Functor.iterate adjOpp.toComonad.toFunctor (n + 1))
         adjOpp.toComonad.toFunctor _)
     (fun n j => by
-      show Godement.degeneracy ss (n + 1) j.succ = _
+      change Godement.degeneracy ss (n + 1) j.succ = _
       rw [Godement.Prep.degeneracy_succ]
       simp [s, ss, Z])
     (godementSimplicial X) (godementSimplicial_left_obj X) (godementSimplicial_right X)
@@ -483,7 +483,7 @@ theorem hasNaturalStalkHomotopy_godementAugmentation (x : X) :
             ((congrArg (T.map ((Q.hom.app (.mk 0)).app F) ≫ ·)
                 (β.hom_inv_id_app ((Q.right.obj (.mk 0)).obj F))).trans
               (Category.comp_id _))))
-    show (jj.hom.app F).f 0 ≫ T.map (((godementAugmentation X).app F).f 0) =
+    change (jj.hom.app F).f 0 ≫ T.map (((godementAugmentation X).app F).f 0) =
       (ee.hom.f 0).app F ≫ (ii.hom.app F).f 0
     refine Eq.trans ?_
       ((congrArg (· ≫ β.inv.app ((Q.right.obj (.mk 0)).obj F)) hee.symm).trans

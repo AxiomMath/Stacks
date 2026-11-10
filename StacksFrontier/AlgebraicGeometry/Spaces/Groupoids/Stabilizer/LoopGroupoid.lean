@@ -167,12 +167,12 @@ theorem sourceTarget_eq_diagonal_of_loop (G : GroupoidInAlgebraicSpaces C S hS B
     refine Types.ext_of_isPullback (IsPullback.of_hasPullback _ _) ?_ ?_
     · rw [pullback_fst_pullbackObjIso_hom_apply _ _ T ((sourceTarget G).hom.app T a),
         pullback_fst_pullbackObjIso_hom_apply _ _ T ((diagonal G).hom.app T x)]
-      show ((sourceTarget G).hom ≫ (objectPairsTarget G).hom).app T a =
+      change ((sourceTarget G).hom ≫ (objectPairsTarget G).hom).app T a =
         ((diagonal G).hom ≫ (objectPairsTarget G).hom).app T x
       rwa [sourceTarget_target_projection, diagonal_target_projection]
     · rw [pullback_snd_pullbackObjIso_hom_apply _ _ T ((sourceTarget G).hom.app T a),
         pullback_snd_pullbackObjIso_hom_apply _ _ T ((diagonal G).hom.app T x)]
-      show ((sourceTarget G).hom ≫ (objectPairsSource G).hom).app T a =
+      change ((sourceTarget G).hom ≫ (objectPairsSource G).hom).app T a =
         ((diagonal G).hom ≫ (objectPairsSource G).hom).app T x
       rwa [sourceTarget_source_projection, diagonal_source_projection]
   exact e.toEquiv.injective he

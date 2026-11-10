@@ -37,8 +37,7 @@ generators with the coordinates of `w` as coefficients. -/
 private theorem liftBaseChange_baseChange_eq_sum (w : B ⊗[A] (Fin n → A)) :
     ρ.liftBaseChange B (f.baseChange B w) =
       ∑ i, TensorProduct.piScalarRight A B B (Fin n) w i • ρ (f (Pi.single i 1)) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, Pi.add_apply, add_smul, Finset.sum_add_distrib, ha, hb]
   | tmul b a =>
     rw [LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul]
@@ -69,8 +68,7 @@ theorem exists_coeffs_of_bijective_liftBaseChange (b : Fin n → B)
   have hg : ∀ z, e (g.baseChange B z) =
       fun i => ∑ j, e' z j * algebraMap A B (g (Pi.single j 1) i) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => ext; simp
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb =>
       ext i
       simp only [map_add, Pi.add_apply, ha, hb, add_mul, Finset.sum_add_distrib]

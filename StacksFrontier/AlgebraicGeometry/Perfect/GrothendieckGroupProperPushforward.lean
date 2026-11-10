@@ -199,8 +199,8 @@ theorem mono_sigmaDesc_ι_succ {C : Type*} [Category C] [HasZeroMorphisms C] (F 
         | 0 => 0
         | k + 1 => Sigma.ι (fun i => F (i + 1)) k
       id := Sigma.hom_ext _ _ fun i => by
-        rw [Sigma.ι_desc_assoc, Category.comp_id]
-        exact Sigma.ι_desc _ _ }
+        rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
+        exact Sigma.ι_comp_desc _ _ }
 
 /-- If the degree `0` term of a family indexed by `ℕ` is zero, the inclusion of the summands of
 positive degree into its coproduct is a split epimorphism. -/
@@ -215,8 +215,8 @@ theorem epi_sigmaDesc_ι_succ {C : Type*} [Category C] [HasZeroMorphisms C] (G :
         cases j with
         | zero => exact hG.eq_of_src _ _
         | succ k =>
-          rw [Sigma.ι_desc_assoc, Category.comp_id]
-          exact Sigma.ι_desc _ _ }
+          rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
+          exact Sigma.ι_comp_desc _ _ }
 
 /-- The sums of two composable families of morphisms compose to zero if each pair does. -/
 private theorem sigmaMap_comp_sigmaMap_eq_zero {C : Type*} [Category C] [HasZeroMorphisms C]
@@ -274,8 +274,8 @@ theorem exact_sigmaDesc_succ_sigmaMap {C : Type*} [Category C] [Abelian C]
   have hs : (Sigma.desc fun i => Sigma.ι X' (i + 1) : ∐ X ⟶ ∐ X') ≫ Limits.Sigma.map d =
       Sigma.desc fun i => c i ≫ Sigma.ι F (i + 1) :=
     Sigma.hom_ext _ _ fun i =>
-      (Sigma.ι_desc_assoc (f := X) (fun i => Sigma.ι X' (i + 1)) i _).trans <|
-        (Sigma.ι_map d (i + 1)).trans (Sigma.ι_desc (fun i => c i ≫ Sigma.ι F (i + 1)) i).symm
+      (Sigma.ι_comp_desc_assoc (f := X) (fun i => Sigma.ι X' (i + 1)) i _).trans <|
+        (Sigma.ι_map d (i + 1)).trans (Sigma.ι_comp_desc (fun i => c i ≫ Sigma.ι F (i + 1)) i).symm
   have hz' := sigmaMap_comp_sigmaMap_eq_zero d b hd
   let ψ : ShortComplex.mk _ _ hz ⟶ ShortComplex.mk _ _ hz' :=
     ShortComplex.homMk (Sigma.desc fun i => Sigma.ι X' (i + 1)) (𝟙 _) (𝟙 _)

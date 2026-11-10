@@ -139,7 +139,7 @@ private lemma tensorProduct_lift_surjective_of_jacobson_inverse
         exact hdiv.symm
       _ = (a : K) * c * (x : K) ^ n := by field_simp [hb0]
   refine ⟨(x ^ n) ⊗ₜ[ℤ] (a * c), ?_⟩
-  show (x : K) ^ n * ((a * c : B) : K) = z
+  change (x : K) ^ n * ((a * c : B) : K) = z
   simpa only [Subring.coe_pow, Subring.coe_mul, mul_comm, mul_left_comm, mul_assoc]
     using hrepr.symm
 
@@ -179,7 +179,7 @@ private lemma isNoetherian_of_openCover
   have hS : (⨆ i, (S i).1 : X.Opens) = ⊤ := by
     apply TopologicalSpace.Opens.ext
     rw [TopologicalSpace.Opens.coe_iSup, TopologicalSpace.Opens.coe_top]
-    show (⋃ i, Set.range (PrimeSpectrum.comap (f i))) = Set.univ
+    change (⋃ i, Set.range (PrimeSpectrum.comap (f i))) = Set.univ
     exact h_cover
   have hX : AlgebraicGeometry.IsNoetherian X :=
     (AlgebraicGeometry.isNoetherian_iff_of_finite_iSup_eq_top hS).mpr fun i => by
@@ -314,7 +314,7 @@ private lemma localRingHom_bijective_of_openImmersion
     intro a
     have he : e.toRingHom (algebraMap A (Localization.AtPrime I) a) =
         algebraMap A (Localization.AtPrime p.asIdeal) a := by
-      show e (algebraMap A (Localization.AtPrime I) a) = _
+      change e (algebraMap A (Localization.AtPrime I) a) = _
       simp [e, Localization.localRingEquiv, Localization.localRingHom_to_map]
     rw [RingHom.comp_apply, he]
     exact Localization.localRingHom_to_map p.asIdeal q.asIdeal f rfl a
@@ -344,7 +344,7 @@ private lemma isFractionRing_of_openImmersion_specMap
   let _ : (⊥ : Ideal A).IsPrime := Ideal.isPrime_bot
   let _ : (⊥ : Ideal B).IsPrime := Ideal.isPrime_bot
   have hbotA : pA.asIdeal = ⊥ := by
-    show Ideal.comap fRing (⊥ : Ideal B) = ⊥
+    change Ideal.comap fRing (⊥ : Ideal B) = ⊥
     exact Ideal.comap_bot_of_injective fRing (Subring.inclusion_injective _)
   let g : Localization.AtPrime pA.asIdeal →+*
       Localization.AtPrime (⊥ : Ideal B) :=
@@ -362,7 +362,7 @@ private lemma isFractionRing_of_openImmersion_specMap
     { toRingHom := g
       commutes' := by
         intro a
-        show g (algebraMap A (Localization.AtPrime pA.asIdeal) a) =
+        change g (algebraMap A (Localization.AtPrime pA.asIdeal) a) =
           algebraMap B (Localization.AtPrime (⊥ : Ideal B)) (fRing a)
         simpa [g] using
           (Localization.localRingHom_to_map pA.asIdeal (⊥ : Ideal B) fRing rfl a) }
@@ -374,7 +374,7 @@ private lemma isFractionRing_of_openImmersion_specMap
     { toRingHom := eBK.toRingEquiv.toRingHom
       commutes' := by
         intro a
-        show eBK (algebraMap B (Localization.AtPrime (⊥ : Ideal B)) (fRing a)) =
+        change eBK (algebraMap B (Localization.AtPrime (⊥ : Ideal B)) (fRing a)) =
           algebraMap A K a
         rw [eBK.commutes, IsScalarTower.algebraMap_apply A B K a]
         rfl }
@@ -434,7 +434,7 @@ private lemma isOpenImmersion_specMap_of_bijective
   let eCat := RingEquiv.toCommRingCatIso e
   have hcat : CommRingCat.ofHom f = eCat.hom := by
     ext x
-    show f x = e x
+    change f x = e x
     exact (RingEquiv.ofBijective_apply f hf x).symm
   have : CategoryTheory.IsIso (CommRingCat.ofHom f) := by
     rw [hcat]

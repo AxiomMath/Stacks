@@ -133,12 +133,14 @@ factor of `thetaSectionPower` in nonnegative degree. And the multiplicativity sq
 comparison family in an **arbitrary** bidegree is already proved, with the whole degree-crossing
 argument written out: `Stacks.AlgebraicGeometry.ThetaMul.theta_mul` and `thetaNat_mul`
 (`StacksFrontier/AlgebraicGeometry/TwistTensor/ThetaMultiplicativity.lean`), with
-`thetaInt_mul_zero` and `thetaInt_mul_natCast` (`StacksFrontier/AlgebraicGeometry/TwistTensor/ThetaIntegerMul.lean`) at the integer
+`thetaInt_mul_zero` and `thetaInt_mul_natCast`
+(`StacksFrontier/AlgebraicGeometry/TwistTensor/ThetaIntegerMul.lean`) at the integer
 spelling, `Stacks.AlgebraicGeometry.ThetaMul.mulSections_eq_tensorPowModuleAddIso`
 (`StacksFrontier/AlgebraicGeometry/TwistTensor/ThetaSectionMul.lean`) on honest global sections, and
 `Stacks.AlgebraicGeometry.ThetaMul.thetaNat_inv_mul` together with
 `twistMulIsoVeronese_hom_tmul_restrictedDegreeSection`
-(`StacksFrontier/AlgebraicGeometry/TwistTensor/UniversalVeroneseSections.lean`) reading it on the sections `a / 1` attached to homogeneous
+(`StacksFrontier/AlgebraicGeometry/TwistTensor/UniversalVeroneseSections.lean`) reading it on the
+sections `a / 1` attached to homogeneous
 elements — which is the template the statements above want.
 
 Those are all stated for the degree-open comparison family

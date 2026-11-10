@@ -215,7 +215,7 @@ public theorem exists_flat_stratification {X S : Scheme.{u}} (f : X ⟶ S)
     quasiSeparatedSpace_baseChangeDiagram_obj D i₀ X₀
   let eX : cY.pt ≅ X := pullbackSymmetry (c.π.app i₀) X₀.hom ≪≫ (Over.forget S).mapIso eX₀.symm
   have heX : eX.hom ≫ f = pullback.fst (c.π.app i₀) X₀.hom := by
-    show ((pullbackSymmetry (c.π.app i₀) X₀.hom).hom ≫ eX₀.inv.left) ≫ f = _
+    change ((pullbackSymmetry (c.π.app i₀) X₀.hom).hom ≫ eX₀.inv.left) ≫ f = _
     rw [Category.assoc,
       show eX₀.inv.left ≫ f = pullback.snd X₀.hom (c.π.app i₀) from Over.w eX₀.inv]
     exact pullbackSymmetry_hom_comp_snd _ _

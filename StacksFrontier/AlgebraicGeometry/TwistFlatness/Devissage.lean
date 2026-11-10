@@ -27,8 +27,8 @@ the degree-one generation that makes the twist an equivalence.
 
 ## Implementation notes
 
-The two statements differ from their originals only in that one clause; everything else, including the
-ambient `CategoryTheory.EnoughInjectives` and `CategoryTheory.HasDerivedCategory` instance
+The two statements differ from their originals only in that one clause; everything else, including
+the ambient `CategoryTheory.EnoughInjectives` and `CategoryTheory.HasDerivedCategory` instance
 binders, is carried through unchanged, because those are what the engine's long-exact-sequence
 discharge needs and they are not available on these sites in the library.
 

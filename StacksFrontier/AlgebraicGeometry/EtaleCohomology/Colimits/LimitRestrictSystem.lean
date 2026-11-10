@@ -30,7 +30,7 @@ namespace Stacks.EtaleCohomology.LimitExt
 
 section Restrict
 
-variable {J : Type u} [Preorder J] [OrderBot J] [IsDirected J (· ≤ ·)]
+variable {J : Type u} [Preorder J] [OrderBot J]
   (E : Jᵒᵖ ⥤ Scheme.{u}) (c : Cone E) {W : Scheme.{u}} (ι : W ⟶ E.obj (op ⊥))
 
 /-- A transition morphism `X_i ⟶ X_{i'}` followed by `X_{i'} ⟶ X_⊥` is the morphism

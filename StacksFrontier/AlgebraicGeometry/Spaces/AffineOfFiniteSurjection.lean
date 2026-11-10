@@ -385,7 +385,7 @@ theorem isAffineSpace_of_isFinite_of_isFinitePresentation_of_isTerminal
     have h2 : eX.inv.left ≫ f ≫ e.hom = pullback.snd X₀.hom (limit.π A.diagram i) := Over.w eX.inv
     simp only [Category.assoc] at h1 ⊢
     rw [h1]
-    show _ = (pullbackSymmetry (limit.π A.diagram i) X₀.hom).hom ≫ eX.inv.left ≫ f ≫ e.hom
+    change _ = (pullbackSymmetry (limit.π A.diagram i) X₀.hom).hom ≫ eX.inv.left ≫ f ≫ e.hom
     rw [h2, pullbackSymmetry_hom_comp_snd]
   have hfinLim : IsFinite B (⊤_ Scheme.{u}) hZ M.mapLimit := by
     rw [hsq]

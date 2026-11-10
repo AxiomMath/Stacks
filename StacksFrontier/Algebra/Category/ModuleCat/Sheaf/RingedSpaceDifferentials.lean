@@ -481,7 +481,7 @@ theorem differentialMap_comp :
   rw [homEquiv_differentialMap, pushforwardDifferentialMap_comp f f' h h' h'' g g' hcomm
       hcomm' hcomm'', homEquiv_eq, Adjunction.homEquiv_naturality_right,
     homEquiv_modulePullbackComparison, Functor.map_comp]
-  show pushforwardDifferentialMap f h h' g hcomm ≫
+  change pushforwardDifferentialMap f h h' g hcomm ≫
       (RingedSpaceModuleAdjunction.modulePushforward f).map
         (pushforwardDifferentialMap f' h' h'' g' hcomm')
     = ((RingedSpaceModuleAdjunction.modulePullbackPushforwardAdjunction f).unit.app

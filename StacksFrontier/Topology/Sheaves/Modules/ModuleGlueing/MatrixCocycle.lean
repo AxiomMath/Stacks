@@ -170,9 +170,10 @@ lemma freeCoord_res {ι : Type u} [DecidableEq ι] {U W : C} (f : W ⟶ U)
   freeCoord_map f.op e i
 
 /-- Restricting a section with prescribed coordinates restricts its coordinates. -/
-lemma res_freeMk {ι : Type u} [Fintype ι] [DecidableEq ι] {U W : C} (f : W ⟶ U)
+lemma res_freeMk {ι : Type u} [Fintype ι] {U W : C} (f : W ⟶ U)
     (c : ι → ToType (S.obj.obj (op U))) :
     res (free (R := S) ι) f (freeMk (op U) c) = freeMk (op W) fun i => resR S f (c i) := by
+  classical
   refine (freeCoordEquiv (op W)).injective (funext fun i => ?_)
   simp only [freeCoordEquiv_apply, freeCoord_res, freeCoord_freeMk]
 

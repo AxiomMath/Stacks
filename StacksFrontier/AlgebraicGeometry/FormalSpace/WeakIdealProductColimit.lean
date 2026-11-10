@@ -65,7 +65,7 @@ theorem final_weakIdealsPiProj (k : K) : (weakIdealsPiProj A hA k).Final := by
       exact (hA i).1.choose_spec
   refine ⟨OrderDual.toDual
     ⟨Ideal.pi I, TopologicalRing.isWeakIdealOfDefinition_idealPi A I hIdef⟩, ?_⟩
-  show (Ideal.pi I).map (Pi.evalRingHom A k) ≤ (OrderDual.ofDual J).1
+  change (Ideal.pi I).map (Pi.evalRingHom A k) ≤ (OrderDual.ofDual J).1
   rw [Ideal.map_evalRingHom_pi, hIk]
 
 end Final

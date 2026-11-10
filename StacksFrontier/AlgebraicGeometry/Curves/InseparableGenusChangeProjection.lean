@@ -214,7 +214,7 @@ theorem mapHom_comp_projToSpecCoeff {m n : ℕ} (ψ : polyGrading R m →+*ᵍ p
 /-- The coordinate projection `Sⱼ ↦ Tⱼ` fixes the constants. -/
 theorem coordProjGradedHom_C (k : Type u) [CommRing k] (r : k) :
     coordProjGradedHom k (MvPolynomial.C r) = MvPolynomial.C r := by
-  show coordProjHom k (MvPolynomial.C r) = MvPolynomial.C r
+  change coordProjHom k (MvPolynomial.C r) = MvPolynomial.C r
   simp [coordProjHom]
 
 /-- **The morphism `f : Z ⟶ 𝐏¹_k` of [Stacks, Tag 0CD1] is a morphism over `Spec k`**, as well as
@@ -274,7 +274,7 @@ theorem lineChartRingEquiv_X (R : Type u) [CommRing R] :
       = Stacks.ProjectiveChart.ratio R 0 1 := by
     rw [Stacks.ProjectiveChart.chartRingEquiv, RingEquiv.trans_apply,
       MvPolynomial.mapEquiv_apply, MvPolynomial.map_X]
-    show Stacks.ProjectiveChart.chartHom R (0 : Fin 2) (MvPolynomial.X (0 : Fin 1)) = _
+    change Stacks.ProjectiveChart.chartHom R (0 : Fin 2) (MvPolynomial.X (0 : Fin 1)) = _
     rw [Stacks.ProjectiveChart.chartHom, MvPolynomial.aeval_X]
     rfl
   rw [lineChartRingEquiv, RingEquiv.trans_apply, h0, h1]

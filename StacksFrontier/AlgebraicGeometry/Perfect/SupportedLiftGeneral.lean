@@ -102,7 +102,7 @@ theorem isCompact_compl_nested (X : Scheme.{u}) (T : Set X)
       Set (X.toRingedSpace.restrict Z.isOpenEmbedding)) :
       Set ((X.toRingedSpace.restrict Z.isOpenEmbedding).restrict
         (nestedOpenOfLE V Z).isOpenEmbedding))ᶜ) := by
-  show IsCompact (((Subtype.val : ↥(nestedOpenOfLE V Z) → ↥Z) ⁻¹'
+  change IsCompact (((Subtype.val : ↥(nestedOpenOfLE V Z) → ↥Z) ⁻¹'
     ((Subtype.val : ↥Z → X.carrier) ⁻¹' T))ᶜ)
   rw [Topology.IsEmbedding.subtypeVal.isCompact_iff]
   have h1 : (Subtype.val : ↥(nestedOpenOfLE V Z) → ↥Z) ''
@@ -114,7 +114,7 @@ theorem isCompact_compl_nested (X : Scheme.{u}) (T : Set X)
     rintro ⟨z, hz, rfl⟩
     exact ⟨hz, z.2⟩
   rw [h1]
-  show IsCompact ((Subtype.val : ↥Z → X.carrier) ⁻¹' (Tᶜ ∩ (V : Set X)))
+  change IsCompact ((Subtype.val : ↥Z → X.carrier) ⁻¹' (Tᶜ ∩ (V : Set X)))
   rw [Topology.IsEmbedding.subtypeVal.isCompact_iff,
     Set.image_preimage_eq_of_subset fun x hx => ⟨⟨x, hVZ hx.2⟩, rfl⟩]
   exact hTc hV V.2
@@ -426,7 +426,7 @@ theorem cohomologySupportedOn_derivedPullback_restrictTop (X : Scheme.{u}) (T : 
   have hset : Stacks.Cohomology.SupportedComplexes.closedSubsetPreimage
       (restrictTopIso X).inv (Subtype.val ⁻¹' T) = T := by
     ext x
-    show Subtype.val ((restrictTopIso X).inv.hom.base x) ∈ T ↔ x ∈ T
+    change Subtype.val ((restrictTopIso X).inv.hom.base x) ∈ T ↔ x ∈ T
     rw [show Subtype.val ((restrictTopIso X).inv.hom.base x) = x from
       congrArg (fun φ : X.toRingedSpace ⟶ X.toRingedSpace => φ.hom.base x)
         (restrictTopIso X).inv_hom_id]

@@ -51,7 +51,7 @@ public theorem exists_minimalVersal_hasBijectiveDifferentialOnDerivationOrbits
     (hfin :
       letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨hpre⟩
       letI : Fact (SchlessingerConditionS2
-          (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
+          (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
         ⟨schlessingerConditionS2_of_isIsomorphismClasses 𝓕 hpre.cofibered hS2 (Or.inl hpre)⟩
       FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
         (isomorphismClasses 𝓕 hpre.cofibered))) :

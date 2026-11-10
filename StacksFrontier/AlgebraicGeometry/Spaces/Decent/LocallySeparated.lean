@@ -147,19 +147,19 @@ private noncomputable def pairGroupoid {S : Scheme.{u}} (U : Over S) :
   target_comp := by simp
   left_identity := by
     intros
-    apply prod.hom_ext <;> simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply prod.hom_ext <;> simp
   right_identity := by
     intros
-    apply prod.hom_ext <;> simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply prod.hom_ext <;> simp
   left_inverse := by
     intros
-    apply prod.hom_ext <;> simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply prod.hom_ext <;> simp
   right_inverse := by
     intros
-    apply prod.hom_ext <;> simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply prod.hom_ext <;> simp
   assoc := by
     intros
-    apply prod.hom_ext <;> simp [pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply prod.hom_ext <;> simp
 
 /-- The relation of a groupoid over a field has closed image as soon as that image is
 locally closed. -/
@@ -181,8 +181,7 @@ private theorem isClosed_range_groupoid_relation
         intros
         dsimp only [pairGroupoid, GroupoidScheme.compose]
         apply prod.hom_ext <;>
-          simp [G.target_comp, G.source_comp, pullback.lift_fst_assoc,
-            pullback.lift_snd_assoc] }
+          simp [G.target_comp, G.source_comp] }
   exact isClosed_range_mapArrows_of_isLocallyClosed (k := k) F rfl hfield rfl h
 
 /-- An immersed equivalence relation on the spectrum of a field is a closed immersion. -/
@@ -468,9 +467,9 @@ private theorem finite_etale_field_of_immersed_relation
     let b : Spec (.of (L ⊗[k] M)) ⟶ R :=
       pullback.lift (b₁ ≫ d i) (b₂ ≫ d l) (by simpa only [Category.assoc] using hb) ≫ c
     have hbs : b ≫ s = b₁ ≫ d i ≫ a := by
-      simp [b, Category.assoc, hcs, pullback.lift_fst_assoc]
+      simp [b, Category.assoc, hcs]
     have hbt : b ≫ t = b₂ ≫ d l ≫ a := by
-      simp [b, Category.assoc, hct, pullback.lift_snd_assoc]
+      simp [b, Category.assoc, hct]
     have hbj : b ≫ j = Spec.map
         (CommRingCat.ofHom (Space.Decent.residuePairMap A k p i l)) := by
       apply (cancel_mono (tensorProductIsoProd A A).hom).mp
@@ -563,6 +562,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] AlgebraicGeometry.preservesPullbacks_bigFppfOverToScheme
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site times out at the default limit
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 private instance (priority := high) hasLimitsOfShape_discrete_presheaf_locallySeparated
@@ -570,6 +570,7 @@ private instance (priority := high) hasLimitsOfShape_discrete_presheaf_locallySe
     HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_locallySeparated

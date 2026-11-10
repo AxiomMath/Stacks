@@ -73,7 +73,7 @@ theorem ModuleHomGlue.pullbackRestrictAlong_comp {T Z Z' Z'' : Scheme.{u}} {M N 
       (Scheme.Modules.pullbackCongr (Category.assoc a b g)).hom.app N =
       (Scheme.Modules.pullback a).map ((Scheme.Modules.pullbackComp b g).hom.app N) ≫
         (Scheme.Modules.pullbackComp a (b ≫ g)).hom.app N := by
-    haveI : Epi ((Scheme.Modules.pullbackCongr (Category.assoc a b g)).inv.app N ≫
+    have : Epi ((Scheme.Modules.pullbackCongr (Category.assoc a b g)).inv.app N ≫
         (Scheme.Modules.pullbackComp (a ≫ b) g).inv.app N ≫
         (Scheme.Modules.pullbackComp a b).inv.app ((Scheme.Modules.pullback g).obj N)) :=
       inferInstanceAs (Epi (((Scheme.Modules.pullbackCongr (Category.assoc a b g)).app N).symm ≪≫

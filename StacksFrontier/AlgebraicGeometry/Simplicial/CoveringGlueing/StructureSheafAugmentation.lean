@@ -266,11 +266,12 @@ theorem pullbackComputesDerivedPushforward_structureSheaf (hK : IsHypercovering 
     RingedToposHom.PullbackComputesDerivedPushforward.{u}
       (structureSheafAugmentation P K OC).totalRingedHom := by
   intro I hI
+  open Stacks.Cohomology.CocontinuousForgetModule in
   have hU := fun (I' : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       ((situation (P.toGrothendieck.over X) K).totalRingedTopos
         (structureSheafAugmentation P K OC).O).O)) ℤ)
       (hI' : I'.IsKInjective) =>
-    @Stacks.Cohomology.CocontinuousForgetModule.abelianPushforwardUnit_isIso_at_underlying_kInjective
+    @abelianPushforwardUnit_isIso_at_underlying_kInjective
       _ _ _ _ (situation (P.toGrothendieck.over X) K).totalTopology (P.toGrothendieck.over X)
       (totalForget K) (totalForget_isCocontinuous (P.toGrothendieck.over X) K) _ _ _
       (Stacks.SheafOfModules.Tensor.ringSheaf

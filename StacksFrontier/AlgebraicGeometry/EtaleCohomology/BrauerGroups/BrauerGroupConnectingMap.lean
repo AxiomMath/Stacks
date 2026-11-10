@@ -299,13 +299,11 @@ private theorem tensorSplitCocycle_mk (A B : Type*) [Ring A] [Ring B]
   have hA := (splitCocycle_mk_iff K Ksep A d hd eA σ U).1 hU
   have hB := (splitCocycle_mk_iff K Ksep B n hn eB σ V).1 hV
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw =>
       simp only [map_add, Matrix.map_add σ (map_add σ), Matrix.mul_add, Matrix.add_mul, hz, hw]
   | tmul x z =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add a b ha hb =>
           simp only [TensorProduct.tmul_add, map_add, Matrix.map_add σ (map_add σ),
             Matrix.mul_add, Matrix.add_mul, ha, hb]
@@ -396,8 +394,7 @@ private theorem pglConnectingMap_matrixSplit (n : ℕ) (hn : 0 < n) :
     intro σ
     apply (splitCocycle_mk_iff K Ksep _ _ _ _ _ _).2
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
         simp only [map_add, Matrix.map_add σ (map_add σ), Matrix.mul_add,
           Matrix.add_mul, hz, hw]

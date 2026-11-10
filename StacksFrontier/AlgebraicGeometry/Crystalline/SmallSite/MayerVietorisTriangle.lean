@@ -78,10 +78,10 @@ three restricted sites — which clause (d) now reduces to the sheaf condition f
 of the final sheaf by `h_{X'}` and `h_{X''}` — and that is not done.
 
 The complex `K` is required to consist of injective sheaves, which is what the general machinery
-of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean` consumes; turning the triangle into one for the *total* right
-derived functors of the three section functors on the unbounded derived category of
-`Ab(Cris(X/S))` would additionally need a functorial K-injective resolution, which that file
-does not provide either.
+of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean` consumes; turning the triangle
+into one for the *total* right derived functors of the three section functors on the unbounded
+derived category of `Ab(Cris(X/S))` would additionally need a functorial K-injective resolution,
+which that file does not provide either.
 
 ## Implementation notes
 
@@ -241,7 +241,8 @@ def openCoverAppComplexIso (A : CrystallineThickening S) (V₁ V₂ : S.X.Opens)
 /-- **The Mayer--Vietoris short complex of section functors of an open covering `X = X' ∪ X''` is
 short exact at every injective abelian sheaf.**  This is
 `openCoverShortComplex_shortExact` transported along `openCoverAppComplexIso`, and it is the
-hypothesis the derived machinery of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean` consumes. -/
+hypothesis the derived machinery of `StacksFrontier/Algebra/Homology/DerivedFunctorLongExact.lean`
+consumes. -/
 theorem shortExact_openCoverAppComplex (A : CrystallineThickening S) {V₁ V₂ : S.X.Opens}
     (hV : V₁ ⊔ V₂ = ⊤) (I : Sheaf (smallTopology S) AddCommGrpCat.{u + 1}) (hI : Injective I) :
     (openCoverAppComplex A V₁ V₂ I).ShortExact :=

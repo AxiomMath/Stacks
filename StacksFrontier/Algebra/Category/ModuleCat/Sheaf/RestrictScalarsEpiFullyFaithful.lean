@@ -156,7 +156,7 @@ theorem isSheaf_of_bijective_pair {P : Cᵒᵖ ⥤ Type w₁} {Q : Cᵒᵖ ⥤ T
     have h₂ : q (op Y) (T.map f.op t) = q (op Y) (x f hf) := by
       rw [hq, htq]; exact (hQ' S hS).valid_glue hxQ f hf
     refine (hbij (op Y)).1 ?_
-    show (p (op Y) (T.map f.op t), q (op Y) (T.map f.op t)) =
+    change (p (op Y) (T.map f.op t), q (op Y) (T.map f.op t)) =
       (p (op Y) (x f hf), q (op Y) (x f hf))
     rw [h₁, h₂]
   refine ⟨t, hamal, fun t' ht' ↦ ?_⟩
@@ -167,7 +167,7 @@ theorem isSheaf_of_bijective_pair {P : Cᵒᵖ ⥤ Type w₁} {Q : Cᵒᵖ ⥤ T
     (hQ' S hS).isSeparatedFor.ext fun Y f hf ↦ by
       rw [← hq, ← hq, ht' f hf, hamal f hf]
   refine (hbij (op X)).1 ?_
-  show (p (op X) t', q (op X) t') = (p (op X) t, q (op X) t)
+  change (p (op X) t', q (op X) t') = (p (op X) t, q (op X) t)
   rw [h₁, h₂]
 
 end PairSheaf
@@ -433,7 +433,7 @@ being the left and right actions of the triangular test ring. -/
 theorem derivSection_mul (X : Cᵒᵖ) (s t : R.obj X) :
     derivSection M₁ M₂ ψ X (s * t) =
       s • derivSection M₁ M₂ ψ X t + MulOpposite.op t • derivSection M₁ M₂ ψ X s := by
-  show _ = derivSection M₁ M₂ ψ X t ≫ sliceSMulHom M₂ X s +
+  change _ = derivSection M₁ M₂ ψ X t ≫ sliceSMulHom M₂ X s +
     sliceSMulHom M₁ X t ≫ derivSection M₁ M₂ ψ X s
   simp only [derivSection, sliceSMulHom_mul, Preadditive.sub_comp, Preadditive.comp_sub,
     Category.assoc]
@@ -524,7 +524,7 @@ noncomputable def restrTriple {X Y : Cᵒᵖ} (i : X ⟶ Y)
 /-- Restricting a generator of the sub-bimodule gives the generator at the restricted triple. -/
 theorem mapAddHom_gen {X Y : Cᵒᵖ} (i : X ⟶ Y) (τ : R.obj X × R.obj X × R.obj X) :
     mapAddHom M₁ M₂ i (gen M₁ M₂ ψ X τ) = gen M₁ M₂ ψ Y (restrTriple i τ) := by
-  show (presheafHom M₁.presheaf M₂.presheaf).map i
+  change (presheafHom M₁.presheaf M₂.presheaf).map i
       (τ.1 • (MulOpposite.op τ.2.2 • derivSection M₁ M₂ ψ X τ.2.1)) = _
   rw [map_smul_presheafHomObj, map_op_smul_presheafHomObj, map_derivSection]
   rfl
@@ -645,7 +645,7 @@ noncomputable def derivSheaf : Subfunctor (presheafHom M₁.presheaf M₂.preshe
 theorem zero_mem_derivSheaf (X : Cᵒᵖ) :
     (0 : (presheafHom M₁.presheaf M₂.presheaf).obj X) ∈ (derivSheaf M₁ M₂ ψ J).obj X := by
   refine J.superset_covering (fun Y f _ ↦ ?_) (J.top_mem X.unop)
-  show (presheafHom M₁.presheaf M₂.presheaf).map f.op 0 ∈ _
+  change (presheafHom M₁.presheaf M₂.presheaf).map f.op 0 ∈ _
   rw [map_zero_presheafHomObj]
   exact zero_mem_derivSubfunctor M₁ M₂ ψ _
 
@@ -654,7 +654,7 @@ theorem add_mem_derivSheaf {X : Cᵒᵖ} {z z' : (presheafHom M₁.presheaf M₂
     (hz : z ∈ (derivSheaf M₁ M₂ ψ J).obj X) (hz' : z' ∈ (derivSheaf M₁ M₂ ψ J).obj X) :
     z + z' ∈ (derivSheaf M₁ M₂ ψ J).obj X := by
   refine J.superset_covering (fun Y f hf ↦ ?_) (J.intersection_covering hz hz')
-  show (presheafHom M₁.presheaf M₂.presheaf).map f.op (z + z') ∈ _
+  change (presheafHom M₁.presheaf M₂.presheaf).map f.op (z + z') ∈ _
   rw [map_add_presheafHomObj]
   exact add_mem_derivSubfunctor M₁ M₂ ψ hf.1 hf.2
 
@@ -662,7 +662,7 @@ theorem add_mem_derivSheaf {X : Cᵒᵖ} {z z' : (presheafHom M₁.presheaf M₂
 theorem neg_mem_derivSheaf {X : Cᵒᵖ} {z : (presheafHom M₁.presheaf M₂.presheaf).obj X}
     (hz : z ∈ (derivSheaf M₁ M₂ ψ J).obj X) : -z ∈ (derivSheaf M₁ M₂ ψ J).obj X := by
   refine J.superset_covering (fun Y f hf ↦ ?_) hz
-  show (presheafHom M₁.presheaf M₂.presheaf).map f.op (-z) ∈ _
+  change (presheafHom M₁.presheaf M₂.presheaf).map f.op (-z) ∈ _
   rw [map_neg_presheafHomObj]
   exact neg_mem_derivSubfunctor M₁ M₂ ψ hf
 
@@ -671,7 +671,7 @@ theorem smul_mem_derivSheaf {X : Cᵒᵖ} (a : R.obj X)
     {z : (presheafHom M₁.presheaf M₂.presheaf).obj X} (hz : z ∈ (derivSheaf M₁ M₂ ψ J).obj X) :
     a • z ∈ (derivSheaf M₁ M₂ ψ J).obj X := by
   refine J.superset_covering (fun Y f hf ↦ ?_) hz
-  show (presheafHom M₁.presheaf M₂.presheaf).map f.op (a • z) ∈ _
+  change (presheafHom M₁.presheaf M₂.presheaf).map f.op (a • z) ∈ _
   rw [map_smul_presheafHomObj]
   exact smul_mem_derivSubfunctor M₁ M₂ ψ _ hf
 
@@ -680,7 +680,7 @@ theorem op_smul_mem_derivSheaf {X : Cᵒᵖ} (b : R.obj X)
     {z : (presheafHom M₁.presheaf M₂.presheaf).obj X} (hz : z ∈ (derivSheaf M₁ M₂ ψ J).obj X) :
     MulOpposite.op b • z ∈ (derivSheaf M₁ M₂ ψ J).obj X := by
   refine J.superset_covering (fun Y f hf ↦ ?_) hz
-  show (presheafHom M₁.presheaf M₂.presheaf).map f.op (MulOpposite.op b • z) ∈ _
+  change (presheafHom M₁.presheaf M₂.presheaf).map f.op (MulOpposite.op b • z) ∈ _
   rw [map_op_smul_presheafHomObj]
   exact op_smul_mem_derivSubfunctor M₁ M₂ ψ _ hf
 
@@ -774,7 +774,7 @@ noncomputable def testRing : Cᵒᵖ ⥤ RingCat.{u} where
 theorem testRing_map_symm {X Y : Cᵒᵖ} (i : X ⟶ Y) (x : testSubring M₁ M₂ ψ J X) :
     (testRing M₁ M₂ ψ J).map i ((Shrink.ringEquiv (testSubring M₁ M₂ ψ J X)).symm x) =
       (Shrink.ringEquiv (testSubring M₁ M₂ ψ J Y)).symm (restrSub M₁ M₂ ψ J i x) := by
-  show (Shrink.ringEquiv _).symm (restrSub M₁ M₂ ψ J i (Shrink.ringEquiv _
+  change (Shrink.ringEquiv _).symm (restrSub M₁ M₂ ψ J i (Shrink.ringEquiv _
     ((Shrink.ringEquiv _).symm x))) = _
   rw [(Shrink.ringEquiv _).apply_symm_apply]
 
@@ -899,7 +899,7 @@ theorem derivSection_app_eq_zero (X : Cᵒᵖ) (r : R.obj.obj X) :
     have hnat : R'.obj.map W.unop.hom.op (α.hom.app X r) =
         α.hom.app (op W.unop.left) (R.obj.map W.unop.hom.op r) := by
       rw [← CategoryTheory.comp_apply, ← CategoryTheory.comp_apply, α.hom.naturality]
-    show (sliceSMulHom G₁.val X (α.hom.app X r)).app W ≫ ψ.app (op W.unop.left) =
+    change (sliceSMulHom G₁.val X (α.hom.app X r)).app W ≫ ψ.app (op W.unop.left) =
       ψ.app (op W.unop.left) ≫ (sliceSMulHom G₂.val X (α.hom.app X r)).app W
     rw [sliceSMulHom_app, sliceSMulHom_app, hnat]
     exact AddCommGrpCat.ext fun m ↦ hψ (op W.unop.left) (R.obj.map W.unop.hom.op r) m
@@ -915,7 +915,7 @@ theorem derivSection_eq_zero_of_epi [Epi α] (X : Cᵒᵖ) (s : R'.obj.obj X) :
         R' ⟶ testSheaf G₁ G₂ ψ) = ObjectProperty.homMk (diagHom G₁.val G₂.val ψ J) := by
     rw [← cancel_epi α]
     refine Sheaf.hom_ext (NatTrans.ext (funext fun Z ↦ RingCat.hom_ext (RingHom.ext fun r ↦ ?_)))
-    show (twistHom G₁.val G₂.val ψ J).app Z (α.hom.app Z r) =
+    change (twistHom G₁.val G₂.val ψ J).app Z (α.hom.app Z r) =
       (diagHom G₁.val G₂.val ψ J).app Z (α.hom.app Z r)
     rw [twistHom_app_apply, diagHom_app_apply]
     exact congrArg _ (Subtype.ext (TrivSqZeroExt.ext rfl

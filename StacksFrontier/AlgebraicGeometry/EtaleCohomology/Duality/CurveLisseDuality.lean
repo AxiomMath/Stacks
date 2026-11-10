@@ -76,7 +76,7 @@ theorem surjective_precomp_of_isDualityPerfect {C : Type*} [Category C] [Abelian
     have := DFunLike.congr_fun hx ((Ext.mk₀ g).comp u (zero_add N))
     rw [Ext.dualityPairing_apply] at this
     rw [this]
-    show φbar (I.mkQ (φ₀ u)) = 0
+    change φbar (I.mkQ (φ₀ u)) = 0
     rw [Submodule.mkQ_apply, (Submodule.Quotient.mk_eq_zero I).2 ⟨u, rfl⟩, map_zero]
   have hx0 : x = 0 := by
     have h1 : x.comp (Ext.mk₀ g) (add_zero 0) = 0 := (hB 0 N (zero_add N)).1 (by rw [hxg, map_zero])

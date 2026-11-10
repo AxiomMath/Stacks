@@ -137,17 +137,17 @@ lemma freeLiftBaseChangeComparison_tmul {fR : R' →+* R}
     IsScalarTower.of_algebraMap_eq fun x => RingHom.congr_fun hcomm x
   have h1 : (TensorProduct.AlgebraTensorModule.cancelBaseChange R' S' S S (L.X n))
       ((1 : S) ⊗ₜ[S'] (s' ⊗ₜ[R'] x)) = fS s' ⊗ₜ[R'] x := by
-    show (s' • (1 : S)) ⊗ₜ[R'] x = fS s' ⊗ₜ[R'] x
+    change (s' • (1 : S)) ⊗ₜ[R'] x = fS s' ⊗ₜ[R'] x
     congr 1
-    show fS s' * (1 : S) = fS s'
+    change fS s' * (1 : S) = fS s'
     rw [mul_one]
-  show TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S)
+  change TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S)
       (freeLiftTermBaseChangeEquiv fR hfR L n)
       ((TensorProduct.AlgebraTensorModule.cancelBaseChange R' R S S (L.X n)).symm
         ((TensorProduct.AlgebraTensorModule.cancelBaseChange R' S' S S (L.X n))
           ((1 : S) ⊗ₜ[S'] (s' ⊗ₜ[R'] x)))) = _
   rw [h1]
-  show TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S)
+  change TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S)
       (freeLiftTermBaseChangeEquiv fR hfR L n)
       ((fS s' : S) ⊗ₜ[R] ((1 : R) ⊗ₜ[R'] x)) = _
   rw [TensorProduct.AlgebraTensorModule.congr_tmul, freeLiftTermBaseChangeEquiv_one_tmul]

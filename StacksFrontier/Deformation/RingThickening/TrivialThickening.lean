@@ -70,7 +70,7 @@ private lemma retraction_section_app (A A' : C ⥤ CommRingCat.{w})
     (split : A ⟶ A') (π : SplitMono split)
     (U : C) (a : A.obj U) :
     (π.retraction.app U) (split.app U a) = a := by
-  show ((split ≫ π.retraction).app U) a = a
+  change ((split ≫ π.retraction).app U) a = a
   simp [π.id]
 
 /-- The map on kernel ideals induced by a morphism in the indexing category. -/

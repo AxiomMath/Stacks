@@ -102,7 +102,7 @@ theorem exists_representable_epi_of_etaleCover (X : FppfSheaf B S hS)
       refine (cancel_epi (Sigma.desc f)).mp (Sigma.hom_ext _ _ fun i ↦ ?_)
       have _ : Epi (b i) := hb i
       refine (cancel_epi (b i)).mp ?_
-      simpa only [Sigma.ι_desc_assoc, Category.assoc] using hgg' i)
+      simpa only [Sigma.ι_comp_desc_assoc, Category.assoc] using hgg' i)
   exact ⟨_, t, ht⟩
 
 /-- A family of epimorphisms `αᵢ : Aᵢ ⟶ Bᵢ` induces an epimorphism `∐ Aᵢ ⟶ ∐ Bᵢ`. -/
@@ -112,7 +112,7 @@ private theorem epi_sigmaDesc_comp_ι {C : Type*} [Category C] {ι : Type*} {A B
   refine ⟨fun w₁ w₂ hw ↦ Sigma.hom_ext _ _ fun i ↦ ?_⟩
   have := hα i
   refine (cancel_epi (α i)).mp ?_
-  simpa only [Sigma.ι_desc_assoc, Category.assoc] using Sigma.ι A i ≫= hw
+  simpa only [Sigma.ι_comp_desc_assoc, Category.assoc] using Sigma.ι A i ≫= hw
 
 /-- If `s` is a colimit cofan over the `βᵢ` and the morphism `∐ βᵢ ⟶ P` induced by a family
 `gᵢ : βᵢ ⟶ P` is an epimorphism, then so is the morphism out of the cone point of `s` that the
@@ -127,7 +127,7 @@ private theorem epi_isColimit_desc_of_epi_sigmaDesc {C : Type*} [Category C] {ι
       IsColimit.comp_coconePointUniqueUpToIso_hom (coproductIsCoproduct β) hs (Discrete.mk i)
     have hfac := hs.fac (Cofan.mk P g) (Discrete.mk i)
     simp only [Cofan.mk_ι_app] at hfac
-    rw [← Category.assoc, hi, hfac, Sigma.ι_desc]
+    rw [← Category.assoc, hi, hfac, Sigma.ι_comp_desc]
   have : Epi (e.hom ≫ hs.desc (Cofan.mk P g)) := by rwa [het]
   exact epi_of_epi e.hom _
 
@@ -145,7 +145,7 @@ private theorem epi_sigmaDesc_iff_epi_isColimit_desc {C : Type*} [Category C] {�
       IsColimit.comp_coconePointUniqueUpToIso_hom (coproductIsCoproduct β) hs (Discrete.mk i)
     have hfac := hs.fac (Cofan.mk P g) (Discrete.mk i)
     simp only [Cofan.mk_ι_app] at hfac
-    rw [← Category.assoc, hi, hfac, Sigma.ι_desc]
+    rw [← Category.assoc, hi, hfac, Sigma.ι_comp_desc]
   rw [het]
   exact ⟨fun h ↦ epi_of_epi e.hom _, fun h ↦ epi_comp _ _⟩
 
@@ -204,7 +204,7 @@ private theorem exists_epi_sigmaDesc_pullback_of_isLocallySurjective {T X : Fppf
       pullback.snd t (f i) ≫ Sigma.ι Xi i) (by rw [(hc i).w]; simp),
       hÊ.lift_fst _ _ _, ?_⟩
     refine IsPullback.of_right ?_ ?_ hÊ
-    · rw [hÊ.lift_fst, Sigma.ι_desc]
+    · rw [hÊ.lift_fst, Sigma.ι_comp_desc]
       exact hc i
     · rw [hÊ.lift_snd]
       simp

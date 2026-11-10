@@ -55,7 +55,8 @@ the universe `u` of the structure rings.
 
 The base-change clause of Stacks 0CZT is `AlgebraicGeometry.Space.etaleFreeLocus_modulePullback_eq`
 of `StacksFrontier/AlgebraicGeometry/Spaces/EtaleFreeLocusBaseChange.lean`. It cannot be moved into
-this module: its proof uses `StacksFrontier/AlgebraicGeometry/Spaces/EtaleFreeLocusPullback.lean` and
+this module: its proof uses `StacksFrontier/AlgebraicGeometry/Spaces/EtaleFreeLocusPullback.lean`
+and
 `StacksFrontier/AlgebraicGeometry/Spaces/GeometricModuleStalkFree.lean`, which both import this one.
 
 ## References

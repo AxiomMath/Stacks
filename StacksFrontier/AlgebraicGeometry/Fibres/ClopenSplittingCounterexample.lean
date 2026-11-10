@@ -84,7 +84,7 @@ private theorem exists_isIdempotentElem_basicOpen_eq_of_top_le_sup {X : Scheme.{
     rintro ⟨i⟩ ⟨j⟩ hij
     cases i <;> cases j
     · exact absurd rfl hij
-    · show V₂ ⊓ V₁ = ⊥
+    · change V₂ ⊓ V₁ = ⊥
       rw [inf_comm]
       exact hdisj
     · exact hdisj

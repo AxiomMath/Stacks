@@ -128,20 +128,23 @@ def cechPresheafComplexNat :
     CochainComplex (PresheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj) ℕ :=
   Stacks.CechPresheaf.cechPresheafComplexNat X.O.obj (cechFamily X f) (cechFamily_map X f)
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The `ℤ`-indexed presheaf of Čech complexes is the `ℕ`-indexed one extended by zero. -/
 theorem cechPresheafComplex_eq_extend :
     cechPresheafComplex X f =
       (cechPresheafComplexNat X f).extend ComplexShape.embeddingUpNat :=
   rfl
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The terms of the `ℕ`-indexed presheaf of Čech complexes. -/
 theorem cechPresheafComplexNat_X (p : ℕ) :
     (cechPresheafComplexNat X f).X p = cechPresheafTerm X f p :=
   rfl
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The differentials of the `ℕ`-indexed presheaf of Čech complexes. -/
 theorem cechPresheafComplexNat_d (p : ℕ) :
     (cechPresheafComplexNat X f).d p (p + 1) = cechPresheafDifferential X f p :=
@@ -157,7 +160,8 @@ def cechSummandProjection (p : ℕ) (S : ExtendedAlternatingCech.Idx r p) :
     cechPresheafTerm X f p ⟶ cechSummandPresheaf X f S.1 :=
   Stacks.CechPresheaf.cechLocProjection X.O.obj (cechFamily X f) (cechFamily_map X f) p S
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The projection onto the summand indexed by `S` is a retraction of the inclusion of it. -/
 theorem cechSummandInclusion_comp_cechSummandProjection_self (p : ℕ)
     (S : ExtendedAlternatingCech.Idx r p) :
@@ -165,7 +169,8 @@ theorem cechSummandInclusion_comp_cechSummandProjection_self (p : ℕ)
   Stacks.CechPresheaf.cechLocInclusion_comp_cechLocProjection_self X.O.obj (cechFamily X f)
     (cechFamily_map X f) p S
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The inclusion of one summand followed by the projection onto a distinct one is zero. -/
 theorem cechSummandInclusion_comp_cechSummandProjection_of_ne (p : ℕ)
     {S T : ExtendedAlternatingCech.Idx r p} (h : S ≠ T) :
@@ -173,7 +178,8 @@ theorem cechSummandInclusion_comp_cechSummandProjection_of_ne (p : ℕ)
   Stacks.CechPresheaf.cechLocInclusion_comp_cechLocProjection_of_ne X.O.obj (cechFamily X f)
     (cechFamily_map X f) p h
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The idempotents cut out by the summands of the degree-`p` term sum to the identity. -/
 theorem sum_cechSummandProjection_comp_cechSummandInclusion (p : ℕ) :
     ∑ S : ExtendedAlternatingCech.Idx r p,
@@ -182,7 +188,8 @@ theorem sum_cechSummandProjection_comp_cechSummandInclusion (p : ℕ) :
   Stacks.CechPresheaf.sum_cechLocProjection_comp_cechLocInclusion X.O.obj (cechFamily X f)
     (cechFamily_map X f) p
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The component formula for the Čech differential of the presheaf of Čech complexes.** -/
 theorem cechPresheafDifferential_comp_cechSummandProjection (p : ℕ)
     (T : ExtendedAlternatingCech.Idx r (p + 1)) :
@@ -226,13 +233,15 @@ def cechTermIncl (p : ℕ) (S : AlternatingCech.Idx r (p : ℤ)) :
     (cechSummandFunctor X f).obj S.1 ⟶ cechPresheafTerm X f p :=
   cechSummandInclusion X f p (cechIdxEquiv p S)
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The projection onto the factor indexed by `S` is a retraction of the inclusion of it. -/
 theorem cechTermIncl_comp_cechTermProj_self (p : ℕ) (S : AlternatingCech.Idx r (p : ℤ)) :
     cechTermIncl X f p S ≫ cechTermProj X f p S = 𝟙 _ :=
   cechSummandInclusion_comp_cechSummandProjection_self X f p (cechIdxEquiv p S)
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The inclusion of one factor followed by the projection onto a distinct one is zero. -/
 theorem cechTermIncl_comp_cechTermProj_of_ne (p : ℕ)
     {S T : AlternatingCech.Idx r (p : ℤ)} (h : S ≠ T) :
@@ -240,7 +249,8 @@ theorem cechTermIncl_comp_cechTermProj_of_ne (p : ℕ)
   cechSummandInclusion_comp_cechSummandProjection_of_ne X f p fun he =>
     h ((cechIdxEquiv p).injective he)
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The idempotents cut out by the factors of the degree-`p` term sum to the identity. -/
 theorem sum_cechTermProj_comp_cechTermIncl (p : ℕ) :
     ∑ S : AlternatingCech.Idx r (p : ℤ), cechTermProj X f p S ≫ cechTermIncl X f p S =
@@ -269,7 +279,8 @@ def cechPresheafTermIsoTerm (p : ℕ) :
     · rw [Category.assoc, cechTermIncl_comp_cechTermProj_of_ne X f p hST, comp_zero]
     · rw [Category.assoc, cechTermIncl_comp_cechTermProj_self, Category.comp_id]
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The component of `cechPresheafTermIsoTerm` at `S` is the projection onto the factor `S`. -/
 @[simp]
 theorem cechPresheafTermIsoTerm_hom_comp_pi (p : ℕ) (S : AlternatingCech.Idx r (p : ℤ)) :
@@ -302,7 +313,8 @@ def cechPresheafTermIsoTermSucc (p : ℕ) :
       AlternatingCech.term (cechSummandFunctor X f) ((p : ℤ) + 1) :=
   cechPresheafTermIsoTerm X f (p + 1)
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The same as `cechPresheafTermIsoTerm_hom_comp_pi`, in degree `p + 1` and at the index type
 the alternating differential out of degree `p` lands in. -/
 theorem cechPresheafTermIsoTermSucc_hom_comp_pi (p : ℕ)
@@ -313,7 +325,8 @@ theorem cechPresheafTermIsoTermSucc_hom_comp_pi (p : ℕ)
       cechTermProj X f (p + 1) (cechIdxSucc p S) :=
   Pi.lift_comp_π _ _
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The component formula for the Čech differential**, in the spelling the alternating
 differential uses: its component at a subset `T` of cardinality `p + 1` is the alternating sum,
 over the elements `k` of `T`, of the projections onto the factors indexed by `T ∖ k` followed by
@@ -328,7 +341,8 @@ theorem cechPresheafDifferential_comp_cechTermProj (p : ℕ)
   exact cechPresheafDifferential_comp_cechSummandProjection X f p
     (cechIdxEquiv (p + 1) (cechIdxSucc p T))
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The identification of the terms carries the Čech differential to the alternating
 differential.** -/
 theorem cechPresheafTermIsoTerm_comp_d (p : ℕ) :
@@ -363,7 +377,8 @@ def cechTermIso (n : ℕ) (p : ℤ) (hnp : (n : ℤ) = p) :
       (AlternatingCech.complex (cechSummandFunctor X f)).X p) :=
   hnp ▸ cechPresheafTermIsoTerm X f n
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- At `p = n`, `cechTermIso` is `cechPresheafTermIsoTerm`. -/
 theorem cechTermIso_self (n : ℕ) :
     cechTermIso X f n (n : ℤ) rfl = cechPresheafTermIsoTerm X f n :=

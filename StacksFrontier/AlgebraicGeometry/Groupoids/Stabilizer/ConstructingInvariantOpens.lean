@@ -105,7 +105,7 @@ theorem source_preimage_eq_target_preimage {E : Set G.objects.left}
   refine Set.Subset.antisymm (fun r hr => hE r hr) (fun r hr => ?_)
   have h := hE (G.inverse.left.base r) (show G.source.left.base (G.inverse.left.base r) ∈ E by
     rw [hinvSource r]; exact hr)
-  show G.source.left.base r ∈ E
+  change G.source.left.base r ∈ E
   rw [← hinvTarget r]
   exact h
 
@@ -123,7 +123,7 @@ theorem subset_target_image_source_preimage (W : Set G.objects.left) :
     W ⊆ G.target.left.base '' (G.source.left.base ⁻¹' W) := by
   intro x hx
   refine ⟨G.identity.left.base x, ?_, ?_⟩
-  · show G.source.left.base (G.identity.left.base x) ∈ W
+  · change G.source.left.base (G.identity.left.base x) ∈ W
     rw [base_comp_apply_eq_of_comp_eq (identity_left_comp_source_left G)]
     exact hx
   · exact base_comp_apply_eq_of_comp_eq (identity_left_comp_target_left G) x

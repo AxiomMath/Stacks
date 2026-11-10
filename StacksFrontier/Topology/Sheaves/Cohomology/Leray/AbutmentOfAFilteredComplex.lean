@@ -70,8 +70,8 @@ is carried, and `isDegreewiseFinite_totalFiltration₁` /
 not needed by a consumer that can supply `htop` and `hbot`.
 
 **The infinity page across the reindexing.**
-`StacksFrontier/Algebra/Homology/SpectralSequence/Convergence.lean` identifies the infinity page of a
-`CohomologicalSpectralSequence C 0`, indexed by `ℤ × ℤ`; `FirstQuadrantAbutment` is about a
+`StacksFrontier/Algebra/Homology/SpectralSequence/Convergence.lean` identifies the infinity page of
+a `CohomologicalSpectralSequence C 0`, indexed by `ℤ × ℤ`; `FirstQuadrantAbutment` is about a
 `CohomologicalSpectralSequenceNat C 2`.  The passage is
 `CategoryTheory.SpectralSequence.natRestrictE₂Shift_pageInfinityIso` of
 `StacksFrontier/Algebra/Homology/SpectralSequence/ConvergenceNat.lean`.
@@ -285,8 +285,8 @@ def natE₂Sequence : E₂CohomologicalSpectralSequenceNat C :=
 include hF hZ hD hE htop hbot in
 /-- **`E_∞^{p,q} ≅ gr^pH^{p+q}(K^•)` for the reindexed spectral sequence.**  The convergence
 identification `CochainComplex.Filtered.pageInfinityIsoGr` of
-`StacksFrontier/Algebra/Homology/SpectralSequence/Convergence.lean`, transported along the start-page
-shift and the first-quadrant reindexing. -/
+`StacksFrontier/Algebra/Homology/SpectralSequence/Convergence.lean`, transported along the
+start-page shift and the first-quadrant reindexing. -/
 def natE₂Sequence_pageInfinityIsoGr (p q : ℕ) :
     (natE₂Sequence K F hF Z hZ D hD E hE htop hbot).pageInfinity (p, q) ≅
       (FilteredObject.gr (p : ℤ)).obj (K.inducedFilteredObject ((p + q : ℕ) : ℤ)) :=

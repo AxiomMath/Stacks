@@ -143,7 +143,7 @@ theorem descendedHomTypeU_source_map
   obtain ⟨V⟩ := V
   refine spacesEtale_section_ext_charts B S hS X (chartBaseChange B S hS f V) H'
     (fun U k ↦ ?_)
-  show H'.obj.map k.op
+  change H'.obj.map k.op
     (φ.hom.app _ (fMapDescendedSectionTypeU B S hS f F G H i ξ V s)) =
       H'.obj.map k.op (fMapDescendedSectionTypeU B S hS f F' G H' i'
         (FMap.compSource B S hS f ξ α.hom) V s)
@@ -399,7 +399,7 @@ theorem isIso_fSharpInverseImage_of_isEtale :
     exact congrArg (fun q ↦ q ≫ Φ.toToposHom.pushforward.map k)
       ((Φ.toToposHom.adj.homEquiv OY OX).apply_symm_apply _)
   refine sheaf_hom_ext_apply fun U s ↦ ?_
-  show ((fMapEquivPushforwardHom_ringUniverse B S hS f T OY).symm
+  change ((fMapEquivPushforwardHom_ringUniverse B S hS f T OY).symm
     (Φ.toToposHom.adj.homEquiv OY T
       ((Φ.toToposHom.adj.homEquiv OY OX).symm
         ((smallEtaleRingedTopos B S hS Y).forgetRing.map Φ.fSharp) ≫ k))).app
@@ -411,9 +411,9 @@ theorem isIso_fSharpInverseImage_of_isEtale :
   refine congrArg (fun t ↦ k.hom.app U t) ?_
   refine (smallEtaleRingedToposHom_chart B S hS f
     (identityChartDiagram B S hS f hf U.unop) s).trans ?_
-  show Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (𝟙 _))) s = s
+  change Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (𝟙 _))) s = s
   rw [(BigFppfOver.toScheme B S hS).map_id]
-  show Scheme.Γ.map (𝟙 _) s = s
+  change Scheme.Γ.map (𝟙 _) s = s
   rw [Scheme.Γ.map_id]
   rfl
 

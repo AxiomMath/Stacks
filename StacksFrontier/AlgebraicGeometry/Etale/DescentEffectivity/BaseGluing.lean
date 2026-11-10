@@ -288,7 +288,7 @@ descended scheme.** -/
 lemma changeComp_proj_comp_map (Q Q' : (D.changeDatum g).Descended) (φ : Q.base ⟶ Q'.base)
     (hφ : Q.proj ≫ φ.left = Q'.proj) (g' : T' ⟶ T) :
     (Q.changeComp g').proj ≫ ((Over.pullback g').map φ).left = (Q'.changeComp g').proj := by
-  show (inv (squareOver (changeCompFunctor f g g') (D.changeDatum (g' ≫ g))) ≫
+  change (inv (squareOver (changeCompFunctor f g g') (D.changeDatum (g' ≫ g))) ≫
       ((changeCompDatumIso g g' D).hom.hom ()).left ≫
         pullbackSquareProj (changePullbackFunctor (pullback.snd f g) g') Q) ≫
       ((Over.pullback g').map φ).left = _

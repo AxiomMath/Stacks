@@ -285,8 +285,7 @@ public theorem le_span_range_sup_adicIdeal_of_completedBaseChange (hI₂ : I₂.
           (completedBaseChangedAlgebra (A₂ := A₂) (I₂ := I₂) B₁) t) ∈
         Submodule.span A₂ (Set.range (algebraMap B₁.carrier B₂.carrier)) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b a =>
         have hprod : (b ⊗ₜ[A₁] a : baseChangedAlgebra (A₂ := A₂) B₁) =
             baseChangedLeft A₂ B₁ b * baseChangedRight A₂ B₁ a := by

@@ -185,11 +185,11 @@ public theorem constructibleFlatLFunction_eq_lFunctionOfConstructibleFlat [IsLoc
     constructibleFlatLFunction, lFunctionOfFiniteProjectiveStalks,
     EulerSystem.coeff_eulerProduct_eq _ (t := (frobeniusMatricesOfConstructibleFlat B X Λ F f
       hF).eulerSystem.support j) (fun x hx => by
-        rwa [EulerSystem.mem_support] at hx ⊢)]
+        rw [EulerSystem.mem_support] at hx ⊢; exact hx)]
   congr 1
   refine Finset.prod_congr rfl fun x _ => ?_
   rw [charPowerSeries_frobeniusStalkEnd_eq_localFactor]
-  show PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
+  change PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
   congr 1
   obtain ⟨_, _⟩ := finite_projective_frobeniusStalkModule B X Λ F x.1
     (finite_etaleModuleStalk_of_isConstructibleFlatModuleSheaf B X Λ F hF _)

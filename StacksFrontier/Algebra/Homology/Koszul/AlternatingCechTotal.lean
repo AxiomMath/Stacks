@@ -226,7 +226,7 @@ theorem isZero_koszulExtension_below {r : ℕ} (f : Fin r → A) (e : ℕ) (i : 
     IsZero (((embeddingDownNat.extendFunctor (ModuleCat.{u} A)).obj
       (koszulIdealComplexPower f e)).X i) := by
   have hdeg : embeddingDownNat.f (Int.toNat (-i)) = i := by
-    show -(Int.toNat (-i) : ℤ) = i
+    change -(Int.toNat (-i) : ℤ) = i
     omega
   have hn : r < Int.toNat (-i) + 1 := by omega
   exact IsZero.of_iso (isZero_koszulIdealComplexPower_of_lt f e (Int.toNat (-i)) hn)
@@ -322,7 +322,7 @@ theorem total_map_homBicomplexMap_comp_totalToHomComplex
   apply AddCommGrpCat.hom_ext
   ext t : 1
   change (K.X (-p) ⟶ M.X q) at t
-  show HomBicomplex.sign p q • Cochain.single (k.f (-p) ≫ t ≫ m.f q) n =
+  change HomBicomplex.sign p q • Cochain.single (k.f (-p) ≫ t ≫ m.f q) n =
     ((Cochain.ofHom k).comp (HomBicomplex.sign p q • Cochain.single t n) (zero_add n)).comp
       (Cochain.ofHom m) (add_zero n)
   rw [Cochain.comp_units_smul, Cochain.units_smul_comp]
@@ -518,7 +518,7 @@ theorem homModuleExtensionIso_naturality
         (koszulHomComplexPrecomp k M ≫ koszulHomComplexMap K' m) embeddingUpNat := by
   apply (embeddingUpNat.homEquiv _ _).injective
   apply Subtype.ext
-  show embeddingUpNat.homRestrict (_ ≫ _) = embeddingUpNat.homRestrict (_ ≫ _)
+  change embeddingUpNat.homRestrict (_ ≫ _) = embeddingUpNat.homRestrict (_ ≫ _)
   have h (L : ChainComplex (ModuleCat.{u} A) ℕ) (N : ModuleCat.{u} A) :
       embeddingUpNat.homRestrict (homModuleExtensionIso L N).hom =
         (homModuleRestrictionIso L N).hom := by
@@ -532,7 +532,7 @@ theorem homModuleExtensionIso_naturality
   ext t : 1
   have hp : embeddingDownNat.f p = -(p : ℤ) := rfl
   change (K.extend embeddingDownNat).X (-(p : ℤ)) ⟶ M at t
-  show ((K'.extendXIso embeddingDownNat (i := p) hp).inv ≫
+  change ((K'.extendXIso embeddingDownNat (i := p) hp).inv ≫
       (HomologicalComplex.extendMap k embeddingDownNat).f (-(p : ℤ)) ≫ t ≫ m).hom =
     m.hom.comp
       (((K.extendXIso embeddingDownNat (i := p) hp).inv ≫ t).hom.comp (k.f p).hom)
@@ -876,7 +876,7 @@ theorem koszulHomBicomplexCoconeLeg_naturality {r : ℕ} (f : Fin r → A)
     koszulHomBicomplexCoconeLeg f M e ≫ (moduleKoszulHomBicomplexFunctor f).map g := by
   apply HomologicalComplex.hom_ext
   intro q
-  show homModuleMap
+  change homModuleMap
       (𝟙 (((koszulIdealComplexSystem f).diagram.obj (op e)).extend embeddingDownNat))
         (g.f q) ≫ (_ ≫ _) =
     (_ ≫ _) ≫ HomologicalComplex.extendMap

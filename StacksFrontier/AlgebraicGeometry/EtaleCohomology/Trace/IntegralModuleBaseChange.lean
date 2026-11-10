@@ -62,7 +62,7 @@ theorem twoSquare_eq_mateEquiv_symm (adjf : Lf ⊣ Rf) (adjf' : Lf' ⊣ Rf') (ad
       (mateEquiv adjg' adjg).symm (TwoSquare.mk _ _ _ _ (df.hom ≫ dg.inv)) := by
   refine (Equiv.eq_symm_apply _).2 ?_
   refine (iterated_mateEquiv_conjugateEquiv adjf adjf' adjg adjg' _).trans ?_
-  show conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') (eg.hom ≫ ef.inv) = df.hom ≫ dg.inv
+  change conjugateEquiv (adjf.comp adjg') (adjg.comp adjf') (eg.hom ≫ ef.inv) = df.hom ≫ dg.inv
   rw [← conjugateEquiv_comp _ adjc, hf, hg]
 
 end Stacks.CategoryTheory.BaseChange
@@ -169,7 +169,7 @@ theorem isIso_etaleModuleBaseChange_of_isIntegralHom (sq : IsPullback i' g' g i)
       (TwoSquare.mk (smallEtalePushforwardAb g') (smallEtalePushforwardAb i')
         (smallEtalePushforwardAb i) (smallEtalePushforwardAb g)
         ((etaleAbelianDirectImageCompIso'.{u, 0} g' i (i' ≫ g) sq.w).hom ≫
-          (etaleAbelianDirectImageCompIso'.{u, 0} i' g (i' ≫ g) rfl).inv))).natTrans := hAb
+          (etaleAbelianDirectImageCompIso'.{u, 0} i' g (i' ≫ g) rfl).inv))) := hAb
   rw [etaleModuleBaseChange_eq_mateEquiv_symm]
   refine Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (etaleModuleInverseImageAdj.{u, 0} Λ g') (etaleModuleInverseImageAdj.{u, 0} Λ g)
@@ -191,7 +191,7 @@ theorem isIso_etaleModuleBaseChange_of_isIntegralHom (sq : IsPullback i' g' g i)
         T.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}) :=
     fun _ => Equiv.apply_symm_apply _ _
   rw [hmate g', hmate g]
-  exact TwoSquare.ext _ _ fun _ => Sheaf.hom_ext (NatTrans.ext (funext fun _ => rfl))
+  exact NatTrans.ext (funext fun _ => Sheaf.hom_ext (NatTrans.ext (funext fun _ => rfl)))
 
 end Integral
 

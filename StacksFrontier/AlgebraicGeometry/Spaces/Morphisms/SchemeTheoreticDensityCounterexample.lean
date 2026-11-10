@@ -77,7 +77,8 @@ namespace Space
 
 /-- Small discrete limits of presheaves on the big fppf site (instance search for them times out
 under Lean v4.35.0). -/
-local instance (priority := high) hasLimitsOfShape_discrete_presheaf_SchemeTheoreticDensityCounterexample
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_SchemeTheoreticDensityCounterexample
     {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U} (J : Type) :
     Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
   Limits.functorCategoryHasLimitsOfShape
@@ -102,7 +103,7 @@ inclusion of the open subscheme. -/
 lemma siteOpenInclusion_map (V : BigFppfOver B S hS)
     (W : ((BigFppfOver.toScheme B S hS).obj V).Opens) :
     (BigFppfOver.toScheme B S hS).map (siteOpenInclusion B S hS V W) = W.ι := by
-  show B.inclusion.map (B.inclusion.preimage
+  change B.inclusion.map (B.inclusion.preimage
     (X := B.obj ((Scheme.size_coe_opens_le _ W).trans_lt V.left.property))
     (Y := V.left) W.ι) = W.ι
   rw [B.inclusion.map_preimage]
@@ -225,6 +226,7 @@ theorem isOpenSubspace_openSubspace :
     (isOpenImmersion_yoneda_siteOpenInclusion B (exampleScheme k) hS _ _)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site in the `rw` chain
 /-- The morphism of the site representing the inverse image of `U` along a scheme chart of `X`
 has that inverse image as its image subfunctor. -/
 private lemma range_yoneda_snd
@@ -236,6 +238,7 @@ private lemma range_yoneda_snd
     Subfunctor.image_top, Subfunctor.range_ι]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `infer_instance` of `Mono` for a map of presheaves on the big fppf site
 /-- The presheaf map of the morphism representing `U ×_X V` is a monomorphism. -/
 private lemma mono_yoneda_snd
     {V : BigFppfOver B (exampleScheme k) hS} (φ : yoneda.obj V ⟶ space k B hS) :
@@ -315,7 +318,7 @@ theorem exists_etale_chart_not_isSchemeTheoreticallyDense :
       ¬ IsSchemeTheoreticallyDense B (exampleScheme k) hS (openSubspace k B hS) := by
   refine ⟨⟨baseObject k B hS, 𝟙 (space k B hS), ?_, ?_, ?_⟩,
     not_isSchemeTheoreticallyDense k B hS⟩
-  · show Function.Surjective (pointsMap B (exampleScheme k) hS _ _)
+  · change Function.Surjective (pointsMap B (exampleScheme k) hS _ _)
     rw [pointsMap_id]
     exact Function.surjective_id
   · exact isEtale_of_presheafEtale B (exampleScheme k) hS _

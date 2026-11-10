@@ -85,6 +85,7 @@ attribute [local instance] hasPullbacks_bigFppfOver preservesPullbacks_bigFppfOv
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_GlueingSpace :
@@ -544,13 +545,13 @@ theorem isEquivalenceRelation_yoneda_glueingRelation :
       CategoryTheory.Functor.map_id]
   · rw [← CategoryTheory.Functor.map_comp, glueingRelationFlip_comp_target]
   · rw [← CategoryTheory.Functor.map_comp, glueingRelationFlip_comp_source]
-  · show yoneda.map (glueingRelationComp B S hS f hf hy c) ≫
+  · change yoneda.map (glueingRelationComp B S hS f hf hy c) ≫
         yoneda.map (glueingRelationTarget B S hS f hf hy c) =
       yoneda.map (glueingRelationFirst B S hS f hf hy c) ≫
         yoneda.map (glueingRelationTarget B S hS f hf hy c)
     rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp,
       glueingRelationComp_comp_target]
-  · show yoneda.map (glueingRelationComp B S hS f hf hy c) ≫
+  · change yoneda.map (glueingRelationComp B S hS f hf hy c) ≫
         yoneda.map (glueingRelationSource B S hS f hf hy c) =
       yoneda.map (glueingRelationSecond B S hS f hf hy c) ≫
         yoneda.map (glueingRelationSource B S hS f hf hy c)
@@ -767,12 +768,12 @@ theorem glueingSpaceFromSource_comp_toBase :
       rw [← Category.assoc, ← Category.assoc, glueingChartSourceMap_comp_fst,
         glueingChartSourceMap_comp_fst])
   refine (huniq _ ?_).trans (huniq f.hom rfl).symm
-  show glueingSourceChart B S hS f hf c ≫
+  change glueingSourceChart B S hS f hf c ≫
       (glueingSpaceFromSource B S hS f hf hy c ≫ glueingSpaceToBase B S hS f hf hy c) =
     glueingSourceChart B S hS f hf c ≫ f.hom
   rw [← Category.assoc, glueingSourceChart_comp_fromSource, Category.assoc,
     glueingSpaceChart_comp_toBase]
-  show yoneda.map (glueingChartSiteInl B S hS f hf hy c.u) ≫
+  change yoneda.map (glueingChartSiteInl B S hS f hf hy c.u) ≫
       (yoneda.map (glueingChartSiteToBase B S hS f hf hy c.u) ≫ c.u) =
     glueingSourceChart B S hS f hf c ≫ f.hom
   rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, glueingChartSiteInl_comp_toBase]
@@ -989,12 +990,12 @@ theorem glueingSpacePoint_comp_toBase :
       rw [← Category.assoc, ← Category.assoc, glueingChartFibreMap_comp_fst,
         glueingChartFibreMap_comp_fst])
   refine (huniq _ ?_).trans (huniq y rfl).symm
-  show glueingFibreChart B S hS hy c ≫
+  change glueingFibreChart B S hS hy c ≫
       (glueingSpacePoint B S hS f hf hy c ≫ glueingSpaceToBase B S hS f hf hy c) =
     glueingFibreChart B S hS hy c ≫ y
   rw [← Category.assoc, glueingFibreChart_comp_point, Category.assoc,
     glueingSpaceChart_comp_toBase]
-  show yoneda.map (glueingChartSiteInr B S hS f hf hy c.u) ≫
+  change yoneda.map (glueingChartSiteInr B S hS f hf hy c.u) ≫
       (yoneda.map (glueingChartSiteToBase B S hS f hf hy c.u) ≫ c.u) =
     glueingFibreChart B S hS hy c ≫ y
   rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, glueingChartSiteInr_comp_toBase]
@@ -1100,7 +1101,7 @@ theorem preimage_range_pointsMap_glueingSpaceToBase :
         (glueingChartFibre_isPullback B S hS hy c.u) Set.univ
   refine (Set.preimage_eq_preimage (isSurjective_glueingSpaceChart B S hS f hf hy c)).mp ?_
   rw [hR, ← Set.preimage_comp, ← pointsMap_comp, glueingSpaceChart_comp_toBase]
-  show pointsMap B S hS (yoneda.obj (glueingRelationBase B S hS f hf hy c))
+  change pointsMap B S hS (yoneda.obj (glueingRelationBase B S hS f hf hy c))
         (yoneda.map (glueingChartSiteToBase B S hS f hf hy c.u) ≫ c.u) ⁻¹'
       Set.range (pointsMap B S hS (yoneda.obj Ky) y) = _
   rw [pointsMap_comp, Set.preimage_comp, hL]

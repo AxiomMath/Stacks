@@ -194,7 +194,7 @@ theorem kerProjectionStageIso_naturality
         (kerProjectionStageIso f E K).hom =
       (kerProjectionStageIso f E J).hom ≫ (extendedQuotientDiagram f).map g := by
   have hle : ((OrderDual.ofDual K).1 : Ideal B) ≤ (OrderDual.ofDual J).1 := leOfHom g
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (kerProjectionIdeal_mono f hle))) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (kerProjectionIdeal_mono f hle))) ≫
         Spec.map (CommRingCat.ofHom
           (quotientKerProjectionRingEquiv f (OrderDual.ofDual K)).symm.toRingHom) =
       Spec.map (CommRingCat.ofHom

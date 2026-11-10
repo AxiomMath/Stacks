@@ -56,7 +56,7 @@ lemma resHom_resHom {W V U : X.Opens} (h : V ≤ W) (h' : U ≤ V) (s : Γ(X, W)
 
 /-- Restriction from an open to itself is the identity. -/
 lemma resHom_self {W : X.Opens} (s : Γ(X, W)) : resHom (le_refl W) s = s := by
-  show (X.presheaf.map (homOfLE (le_refl W)).op).hom s = s
+  change (X.presheaf.map (homOfLE (le_refl W)).op).hom s = s
   rw [show (homOfLE (le_refl W)).op = 𝟙 (op W) from rfl, X.presheaf.map_id]
   rfl
 
@@ -343,7 +343,7 @@ theorem isLocalization_away_denomExt :
         (resHom (X.basicOpen_le r) a) := denomExtRes_algebraMap u hΩ _
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨-, n, rfl⟩
-    show IsUnit (denomExtRes u hΩ (X.basicOpen_le r)
+    change IsUnit (denomExtRes u hΩ (X.basicOpen_le r)
       (algebraMap Γ(X, U) (denomExt u hΩ U) r ^ n))
     rw [map_pow, hx]
     exact ((IsLocalization.map_units Γ(X, X.basicOpen r)
@@ -352,7 +352,7 @@ theorem isLocalization_away_denomExt :
   · intro z
     obtain ⟨n, y, hy⟩ := exists_pow_mul_eq_denomExtRes u hΩ hU r z
     refine ⟨⟨y, ⟨algebraMap Γ(X, U) (denomExt u hΩ U) r ^ n, n, rfl⟩⟩, ?_⟩
-    show z * denomExtRes u hΩ (X.basicOpen_le r)
+    change z * denomExtRes u hΩ (X.basicOpen_le r)
         (algebraMap Γ(X, U) (denomExt u hΩ U) r ^ n)
       = denomExtRes u hΩ (X.basicOpen_le r) y
     rw [map_pow, hx]
@@ -377,7 +377,7 @@ theorem isLocalization_away_denomExt :
       rw [← map_pow, hN, mul_comm]
       exact Ext.ext' ((Ext.fst_mul_algebraMap w _).trans (mul_comm _ _))
         (Ext.snd_mul_algebraMap w _)
-    show (algebraMap Γ(X, U) (denomExt u hΩ U) r ^ N : denomExt u hΩ U) * y
+    change (algebraMap Γ(X, U) (denomExt u hΩ U) r ^ N : denomExt u hΩ U) * y
       = (algebraMap Γ(X, U) (denomExt u hΩ U) r ^ N : denomExt u hΩ U) * y'
     rw [hrN, hrN]
     refine Ext.ext' ?_ (Subtype.ext ?_)
@@ -385,9 +385,9 @@ theorem isLocalization_away_denomExt :
       linear_combination ((c₂ : Γ(X, U)) * c₃) * h₁
     · simp only [Ext.snd_mk, Submodule.coe_smul]
       refine Prod.ext ?_ ?_
-      · show ((c₁ : Γ(X, U)) * c₂ * c₃) * y.snd.1.1 = ((c₁ : Γ(X, U)) * c₂ * c₃) * y'.snd.1.1
+      · change ((c₁ : Γ(X, U)) * c₂ * c₃) * y.snd.1.1 = ((c₁ : Γ(X, U)) * c₂ * c₃) * y'.snd.1.1
         linear_combination ((c₁ : Γ(X, U)) * c₃) * h₂
-      · show ((c₁ : Γ(X, U)) * c₂ * c₃) * y.snd.1.2 = ((c₁ : Γ(X, U)) * c₂ * c₃) * y'.snd.1.2
+      · change ((c₁ : Γ(X, U)) * c₂ * c₃) * y.snd.1.2 = ((c₁ : Γ(X, U)) * c₂ * c₃) * y'.snd.1.2
         linear_combination ((c₁ : Γ(X, U)) * c₂) * h₃
 
 end Localization

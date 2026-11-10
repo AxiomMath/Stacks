@@ -104,7 +104,7 @@ theorem tensorSheafRight_map_comp_idealPowSmulPairing_eq_zero (a : ℕ)
   have h1 := tensorSheafRight_map_tmul B S hS
     (bcPushforward B S hS π hrep (SheafOfModules.idealSheafPow I a).toSheafOfModules)
     ((bcPushforwardFunctor B S hS π hrep).map g) V x y
-  show ((idealPowSmulPairing B S hS π hrep I a Q).val.app V).hom
+  change ((idealPowSmulPairing B S hS π hrep I a Q).val.app V).hom
     ((((((Stacks.SheafOfModules.Tensor.sheafTensor (smallEtaleRingedSite B S hS X.1 X.2).O).obj
       _).map ((bcPushforwardFunctor B S hS π hrep).map g)).val.app V).hom
         (modulesTensorTmul B S hS x y))) = 0

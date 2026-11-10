@@ -61,6 +61,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ClosedSubspaceSquareGlueing :
@@ -190,7 +191,7 @@ theorem mem_of_app_eq_of_isElementaryDistinguishedSquare (hW : IsAlgebraicSpace 
     rintro (_ | _) Y' y η hy hη
     · change (pullback.diagonal f).app (op Y') η = y at hη
       subst hη
-      show (pullback.snd f f).app _ _ ∈ T₂.obj _
+      change (pullback.snd f f).app _ _ ∈ T₂.obj _
       have h1 := congrArg (fun m => m.app (op Y') η) (pullback.diagonal_fst f)
       have h2 := congrArg (fun m => m.app (op Y') η) (pullback.diagonal_snd f)
       simp only [NatTrans.comp_app_apply, NatTrans.id_app, types_id_apply] at h1 h2
@@ -200,7 +201,7 @@ theorem mem_of_app_eq_of_isElementaryDistinguishedSquare (hW : IsAlgebraicSpace 
     · change (pullback.snd U₀.ι (pullback.fst f f ≫ f)).app (op Y') η = y at hη
       subst hη
       change (pullback.fst f f).app _ _ ∈ T₂.obj _ at hy
-      show (pullback.snd f f).app _ _ ∈ T₂.obj _
+      change (pullback.snd f f).app _ _ ∈ T₂.obj _
       have hc1 := congrArg (fun m => m.app (op Y') η)
         (pullback.condition (f := U₀.ι) (g := pullback.fst f f ≫ f))
       have hc2 := congrArg (fun m => m.app (op Y')
@@ -356,12 +357,12 @@ theorem isClosedSubspace_squareGlue (hW : IsAlgebraicSpace B S hS W)
             (IsPullback.of_hasPullback f x) v y hv
           obtain ⟨t, ht⟩ := (surjective_iff_surjective_pointsMap B S hS _ hP A₁ α).1 hαs w
           refine Set.mem_iUnion.2 ⟨⟨true⟩, t, ?_⟩
-          show pointsMap B S hS _ (yoneda.map u₁) t = y
+          change pointsMap B S hS _ (yoneda.map u₁) t = y
           rw [hu₁, pointsMap_comp_apply, ht, hw]
       exact scheme_family_jointly_surjective_of_points B S hS Xf a gf hpts
     have hge : ∀ i, _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (gf i)) :=
       fun | ⟨false⟩ => by
-              show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map u₀)
+              change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map u₀)
               infer_instance
           | ⟨true⟩ => hu₁e
     have hμ : max (max ((BigFppfOver.toScheme B S hS).obj X₀).size

@@ -317,7 +317,7 @@ public theorem hasFlatAlmostBlowUpSquarePair_of_flat {X Y : Scheme.{u}}
   let W : (D.obj j).Opens := D.map v ⁻¹ᵁ W₁
   have hWcpt : IsCompact (W : Set (D.obj j)) := Scheme.Hom.isCompact_preimage (D.map v) hW₁
   have hWV : c.π.app j ⁻¹ᵁ W = V := by
-    show c.π.app j ⁻¹ᵁ (D.map v ⁻¹ᵁ W₁) = V
+    change c.π.app j ⁻¹ᵁ (D.map v ⁻¹ᵁ W₁) = V
     rw [← Scheme.Hom.comp_preimage, c.w v, hW₁V]
   -- `f` is the base change of the model of `f`, hence of its base change to that stage.
   let eL₀ : X ≅ pullback X₀.hom (c.π.app i₀) := (Over.forget Y).mapIso e₀

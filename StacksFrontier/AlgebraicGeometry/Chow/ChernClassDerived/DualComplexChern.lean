@@ -165,11 +165,11 @@ Its two halves, and what the repository already has for each:
   **This half is proved.** Left unitality at the derived level does not need the descent of
   `Stacks.Cohomology.DerivedPullbackTensor.pullbackTensorComplexIso_leftUnitor` along the K-flat
   localization modelled on
-  `Stacks.Cohomology.DerivedProjectionFormula.rightUnitorCoherence_of_kFlat`: the derived tensor product of [Stacks, Tag 0FPT] is
-  symmetric on both spaces (`Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric`)
-  and the comparison of [Stacks, Tag 079U] is already known to be braided, so left unitality is
-  right unitality read across the braiding —
-  `Stacks.CategoryTheory.Monoidal.left_unitality_of_braided` applied to
+  `Stacks.Cohomology.DerivedProjectionFormula.rightUnitorCoherence_of_kFlat`: the derived tensor
+  product of [Stacks, Tag 0FPT] is symmetric on both spaces
+  (`Stacks.SheafOfModules.DerivedMonoidal.canonicalDerivedSymmetric`) and the comparison of [Stacks,
+  Tag 079U] is already known to be braided, so left unitality is right unitality read across the
+  braiding — `Stacks.CategoryTheory.Monoidal.left_unitality_of_braided` applied to
   `Stacks.Cohomology.DerivedPullbackTensor.rightUnitorCoherence_canonical` gives
   `Stacks.Cohomology.DerivedPullbackTensor.derivedPullbackTensorIso_leftUnitor`. The spelling
   bridge between
@@ -388,7 +388,7 @@ theorem totalChernUnit_dualSheaf (F : Y.Modules) (r : ℕ)
         (totalChernUnit C sY F r) := by
   have := Stacks.AlgebraicGeometry.ReflexiveModules.isFiniteLocallyFreeOfRank_dualSheaf F r hF
   refine Units.ext ?_
-  rw [Units.coe_map, val_totalChernUnit, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  rw [Units.coe_map, val_totalChernUnit, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass,
     TotalChowClass.signScaleRingHom_apply, val_totalChernUnit]
   exact totalChern_dualSheaf C sY F r
 
@@ -432,7 +432,7 @@ theorem complexChernFactor_of_termwiseDual (ρ : ℤ → ℕ)
     refine Eq.trans (Units.ext ?_) (totalChernUnit_dualSheaf C sY (P.X (-n)) (ρ (-n)))
     rw [val_totalChernUnit, val_totalChernUnit]
     exact totalChern_congr C sY (e n) rfl
-  show totalChernUnit C sY (P'.X n) (ρ (-n)) ^ ((n.negOnePow : ℤˣ) : ℤ) =
+  change totalChernUnit C sY (P'.X n) (ρ (-n)) ^ ((n.negOnePow : ℤˣ) : ℤ) =
     Units.map (TotalChowClass.signScaleRingHom (C := C) (sY := sY)).toMonoidHom
       (totalChernUnit C sY (P.X (-n)) (ρ (-n)) ^ (((-n).negOnePow : ℤˣ) : ℤ))
   rw [hu, map_zpow, Int.negOnePow_neg]
@@ -494,7 +494,7 @@ theorem complexChernBounded_of_termwiseDual (ρ ρ' : ℤ →₀ ℕ)
       rintro ⟨n, ⟨k, hk, rfl⟩, rfl⟩
       simpa using hk
     · exact fun x y ↦ commute_complexChernFactor C sY P P ρ ρ hP hP x y
-  rw [key, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  rw [key, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass,
     TotalChowClass.signScaleRingHom_apply]
 
 end Bounded

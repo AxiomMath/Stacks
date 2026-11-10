@@ -108,7 +108,7 @@ public theorem etaleResidueFieldSeparableClosureEquiv_residue
     (algebraMap _ (geometricHenselizationTower S s).strictHenselization r)
   have h3 := (etaleLocalRing_strictHenselization_canonical B S hS s
     (geometricHenselizationTower S s)).property.1 r
-  show ResidueField.mapEquiv (etaleLocalRingEquivStrictHenselization B S hS s)
+  change ResidueField.mapEquiv (etaleLocalRingEquivStrictHenselization B S hS s)
     ((geometricHenselizationTower S s).strictHenselizationResidueEquiv _) = _
   rw [h1]
   exact h2.trans (congrArg _ h3)

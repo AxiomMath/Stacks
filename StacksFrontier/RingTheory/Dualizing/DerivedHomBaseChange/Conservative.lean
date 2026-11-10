@@ -120,7 +120,7 @@ theorem mapHomologicalComplexCompHomologyFunctorIso_hom_naturality
         (G.mapHomologicalComplexCompHomologyFunctorIso n).hom.app X =
       (F.mapHomologicalComplexCompHomologyFunctorIso n).hom.app X ≫
         α.app ((HomologicalComplex.homologyFunctor C₁ (ComplexShape.up ℤ) n).obj X) := by
-  show ShortComplex.homologyMap ((X.sc n).mapNatTrans α) ≫
+  change ShortComplex.homologyMap ((X.sc n).mapNatTrans α) ≫
       ((X.sc n).mapHomologyIso G).hom =
     ((X.sc n).mapHomologyIso F).hom ≫ α.app (X.sc n).homology
   rw [ShortComplex.homologyMap_mapNatTrans]

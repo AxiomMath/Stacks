@@ -237,6 +237,7 @@ def closedPointDivisorSheafTopAddEquiv :
         integerSkyscraperTopAddEquiv.{u, v} X x.1)).trans
     (finsuppAddEquivDFinsupp (M := ℤ)).symm
 
+omit [AlgebraicGeometry.IsIntegral X] [IsNormal X] [IsLocallyNoetherian X] in
 /-- The coefficient at `x` of a global divisor is the integer of its `x`-component. -/
 theorem closedPointDivisorSheafTopAddEquiv_apply
     (s : (closedPointDivisorSheaf.{u, v} X).obj.obj (op (Scheme.Etale.mk (𝟙 X))))
@@ -318,6 +319,7 @@ attribute [local instance] isGrothendieckAbelian_sheaf_smallEtale_objectUniverse
 variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
   [IsCurve k g] [Smooth g]
 
+omit [IsAlgClosed k] in
 include g in
 /-- The hypotheses on `X` under which the divisors of a smooth curve are computed above. -/
 theorem isNormal_isLocallyNoetherian_noetherianSpace_quasiSeparatedSpace_of_isCurve :
@@ -328,6 +330,7 @@ theorem isNormal_isLocallyNoetherian_noetherianSpace_quasiSeparatedSpace_of_isCu
   exact ⟨isNormal_of_isCurve_of_smooth g, inferInstance, inferInstance,
     quasiSeparatedSpace_of_quasiSeparated g⟩
 
+omit [IsAlgClosed k] in
 /-- **The kernel of the connecting map is the group of principal divisors.** -/
 theorem map_ker_divisorBoundary
     [IsNormal X] [IsLocallyNoetherian X] [NoetherianSpace X] [QuasiSeparatedSpace X] :

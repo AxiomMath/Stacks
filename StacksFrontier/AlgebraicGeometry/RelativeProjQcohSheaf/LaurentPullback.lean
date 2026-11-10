@@ -640,7 +640,7 @@ theorem pieceIso_reindex {n m : ℤ} (h : n = m) :
     (pullbackFunctor (ringedSpaceHom k)).map (reindexIso L h).hom ≫ (pieceIso k L m).hom =
       (pieceIso k L n).hom ≫ (reindexIso (pullbackModule k L) h).hom := by
   subst h
-  show (pullbackFunctor (ringedSpaceHom k)).map (𝟙 _) ≫ _ = _ ≫ 𝟙 _
+  change (pullbackFunctor (ringedSpaceHom k)).map (𝟙 _) ≫ _ = _ ≫ 𝟙 _
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
 
 /-- The comparison is compatible with reindexing, read backwards. -/
@@ -659,7 +659,7 @@ theorem pieceIso_succIso (n : ℤ) :
         ((pieceIso k L n).hom ▷ pullbackModule k L) ≫
           (succIso (pullbackModule k L) n).hom := by
   rw [pieceIso_succ]
-  show (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫
+  change (pullbackFunctor (ringedSpaceHom k)).map (succIso L n).hom ≫
       (((pullbackFunctor (ringedSpaceHom k)).map (succIso L n).inv ≫
             pullbackTensorComparison (ringedSpaceHom k) ((laurent L).piece n) L) ≫
           ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
@@ -681,7 +681,7 @@ theorem pieceIso_one :
       pullbackTensorComparison (ringedSpaceHom k)
           (𝟙_ (SheafOfModules.{u} (structureRingSheaf T.toRingedSpace))) L ≫
         (pullbackUnitComparison (ringedSpaceHom k) ▷ pullbackModule k L) := by
-  show ((pullbackFunctor (ringedSpaceHom k)).map (𝟙 ((laurent L).piece 0 ⊗ L)) ≫
+  change ((pullbackFunctor (ringedSpaceHom k)).map (𝟙 ((laurent L).piece 0 ⊗ L)) ≫
         pullbackTensorComparison (ringedSpaceHom k) ((laurent L).piece 0) L) ≫
       ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨T'.toRingedSpace.presheaf, T'.toRingedSpace.IsSheaf⟩).flip.obj
@@ -716,7 +716,7 @@ abbrev MulCompat (n m : ℤ) : Prop :=
 first power is the successor comparison, and the comparison is compatible with that
 (`pieceIso_succIso`) and with the identification `L^{⊗ 1} = L` (`pieceIso_oneIso`). -/
 theorem mulCompat_one (n : ℤ) : MulCompat k L n 1 := by
-  show (pullbackFunctor (ringedSpaceHom k)).map (mulIso L n 1).hom ≫ _ = _
+  change (pullbackFunctor (ringedSpaceHom k)).map (mulIso L n 1).hom ≫ _ = _
   rw [mulIso_one_right, mulIso_one_right, CategoryTheory.Functor.map_comp, Category.assoc,
     pieceIso_succIso, ← Category.assoc, pullbackTensorComparison_naturality_right,
     Category.assoc, pieceIso_oneIso]
@@ -738,7 +738,7 @@ theorem pullbackRightUnitorZero
 induction. Multiplication by the zeroth power is the right unitor, and the comparison of Tag
 01CD is compatible with the right unitor. -/
 theorem mulCompat_zero (n : ℤ) : MulCompat k L n 0 := by
-  show (pullbackFunctor (ringedSpaceHom k)).map (mulIso L n 0).hom ≫ _ = _
+  change (pullbackFunctor (ringedSpaceHom k)).map (mulIso L n 0).hom ≫ _ = _
   rw [mulIso_zero_right_eq, mulIso_zero_right_eq, CategoryTheory.Functor.map_comp, Category.assoc,
     pieceIso_reindex_inv, pullbackRightUnitorZero]
   simp only [tensorHom_def', Category.assoc, rightUnitorZero_naturality_assoc]

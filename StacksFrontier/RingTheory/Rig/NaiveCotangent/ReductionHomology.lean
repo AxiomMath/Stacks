@@ -57,8 +57,8 @@ writes it the same way, so `Bₙ` is `B.reductionPow n` on the nose.
 `rfl`, as are `NaiveCotangent.H₀ (NL P')` and the quotient of the degree-`0` term by the
 image of the differential, but the two spellings do not meet inside a rewrite, so
 `annihilator_homology_one_reductionGenerators` and `…_zero_reductionGenerators` restate the
-results of `StacksFrontier/RingTheory/NaiveCotangent/PresentationHomology.lean` in the `NL` spelling by `exact` and the main proof
-rewrites with those.
+results of `StacksFrontier/RingTheory/NaiveCotangent/PresentationHomology.lean` in the `NL` spelling
+by `exact` and the main proof rewrites with those.
 
 *What is still missing for `(3) ⇔ (4)` of Tag 0AJU.*  Exactly one statement: that
 `Rig.CompletedNaiveCotangentComplex.reducedComplex n` — the quotient of `NL^∧_{B/A}` by the

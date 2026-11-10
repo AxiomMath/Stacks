@@ -138,7 +138,7 @@ private theorem exists_residueField_factor {K L : Type u} [Field K] [Field L] {S
   have hcongr : Spec.map (S.residueFieldCongr hpt).inv ≫
       S.fromSpecResidueField (S.SpecToEquivOfField L g).1 =
         S.fromSpecResidueField (S.SpecToEquivOfField K b).1 := by
-    show Spec.map (S.residueFieldCongr hpt.symm).hom ≫ _ = _
+    change Spec.map (S.residueFieldCongr hpt.symm).hom ≫ _ = _
     exact Scheme.residueFieldCongr_fromSpecResidueField hpt.symm
   have hfactor : Spec.map (e ≫ φ) ≫
       S.fromSpecResidueField (S.SpecToEquivOfField L g).1 = g := by
@@ -209,7 +209,7 @@ private theorem exists_closedSubspace_fieldFactor (hX : IsAlgebraicSpace B S hS 
   classical
   have hcarrier : Subsingleton
       ((BigFppfOver.toScheme B S hS).obj (p.siteObject B S hS X)) := by
-    show Subsingleton (Spec (.of p.carrier))
+    change Subsingleton (Spec (.of p.carrier))
     infer_instance
   -- the reduced closed subspace supported on the image point
   let Z : Subfunctor X := reducedClosedSubspace B S hS X hX {p.class B S hS X} hclosed
@@ -227,7 +227,7 @@ private theorem exists_closedSubspace_fieldFactor (hX : IsAlgebraicSpace B S hS 
       (fun V : Scheme.{u} ↦ IsReduced V) := by
     refine (exists_atlas_iff_of_representable B S hS (yoneda.obj p.siteObject)
       (fun V : Scheme.{u} ↦ IsReduced V) p.siteObject (Iso.refl _)).mpr ?_
-    show IsReduced (Spec (.of p.carrier))
+    change IsReduced (Spec (.of p.carrier))
     infer_instance
   have hrange : Set.range (pointsMap B S hS (yoneda.obj p.siteObject)
       (fieldMorphism B S hS X p)) ⊆ Set.range (pointsMap B S hS Z.toFunctor Z.ι) := by

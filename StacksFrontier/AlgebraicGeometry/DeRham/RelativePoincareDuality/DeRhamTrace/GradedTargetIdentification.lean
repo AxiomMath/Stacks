@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedComplexIdentities
+StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedComplexIdentities
 public import StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamPushData
 public import StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingModule
 public import StacksFrontier.AlgebraicGeometry.Duality.CompactGeneration.StandardModel
@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.Tr
 public import
   StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedPerfectOnX
 public import
-  StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedTargetTopInclusion
+StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedTargetTopInclusion
 public import
   StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedTargetCupProduct
 public import

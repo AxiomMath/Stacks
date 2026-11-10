@@ -61,10 +61,10 @@ theorem isPseudoTorsor_ofIso_symm {E : Type*} [Category E] [CartesianMonoidalCat
   have hs : ModObj.leftSMul R' M = (e.hom ▷ M) ≫ ModObj.leftSMul R M := by
     apply CartesianMonoidalCategory.hom_ext
     · simp only [ModObj.leftSMul_fst, Category.assoc]
-      show (e.hom ⊗ₘ 𝟙 M) ≫ γ[R, M] ≫ 𝟙 M = (e.hom ▷ M) ≫ γ[R, M]
+      change (e.hom ⊗ₘ 𝟙 M) ≫ γ[R, M] ≫ 𝟙 M = (e.hom ▷ M) ≫ γ[R, M]
       simp
     · simp
-  show IsIso (ModObj.leftSMul R' M)
+  change IsIso (ModObj.leftSMul R' M)
   rw [hs]
   infer_instance
 
@@ -121,7 +121,7 @@ groups on the group factor. -/
 theorem actionMap_changeGroup (T : TorsorsFor hB G P) (σ : yoneda.obj T.base ⟶ B')
     (e : (fppfPullbackGroup hB' G' T.base σ).obj ≅ (fppfPullbackGroup hB G T.base T.sec).obj) :
     actionMap (changeGroup P T σ e) = (e.hom.hom.hom ▷ T.total).left ≫ actionMap T := by
-  show ((e.hom.hom.hom ⊗ₘ 𝟙 T.total) ≫ γ[T.group, T.total] ≫ 𝟙 T.total).left = _
+  change ((e.hom.hom.hom ⊗ₘ 𝟙 T.total) ≫ γ[T.group, T.total] ≫ 𝟙 T.total).left = _
   simp
 
 /-- A morphism of total spaces lying over a morphism of bases is equivariant for the transported
@@ -290,7 +290,7 @@ theorem groupCompIso_hom_fst_fst {U V : BigFppfOver 𝒞 S hS} (b : yoneda.obj U
         pullback.fst G.obj.X.hom b = pullback.fst G.obj.X.hom (s ≫ b) := by
   have e : (groupCompIso hB G b s).hom.hom.hom.left =
       ((Over.pullbackComp s b).hom.app G.obj.X).left := by
-    show (((Over.pullbackComp s b).hom.app G.obj.X) ≫ 𝟙 _).left = _
+    change (((Over.pullbackComp s b).hom.app G.obj.X) ≫ 𝟙 _).left = _
     rw [Category.comp_id]
   have key : ∀ A : Over B, ((Over.pullbackComp s b).hom.app A).left ≫
       pullback.fst (pullback.snd A.hom b) s ≫ pullback.fst A.hom b =
@@ -299,8 +299,8 @@ theorem groupCompIso_hom_fst_fst {U V : BigFppfOver 𝒞 S hS} (b : yoneda.obj U
     have h := congrArg Over.Hom.left (conjugateEquiv_counit
       (Over.mapPullbackAdj (s ≫ b)) ((Over.mapPullbackAdj s).comp (Over.mapPullbackAdj b))
         (Over.mapComp s b).inv A)
-    simpa [Over.pullbackComp, conjugateIsoEquiv, Adjunction.comp_counit_app,
-      Over.mapPullbackAdj_counit_app, Over.mapComp] using h
+    simp [Over.pullbackComp, conjugateIsoEquiv, Over.mapPullbackAdj_counit_app,
+      Over.mapComp]
   rw [e]
   exact key G.obj.X
 

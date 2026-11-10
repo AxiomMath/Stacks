@@ -88,7 +88,7 @@ theorem exists_away_splitting_and_finiteEtale {R : Type u} [CommRing R] {Y : Sch
   obtain ⟨a, ha, P, b, hPge, hPle, hPfin, hPproj, ⟨hfin, hfree, ⟨e⟩⟩, hinj⟩ :=
     exists_away_splitting p D (Fintype.card I) hS hD
   refine ⟨a, ha, ⟨b, fun {Y'} {g'} {q} hsq => ?_⟩, ?_⟩
-  · exact exists_derivedPushforward_splitting_of_away g U hU hUaff haff a P b hPfin hPproj
+  · exact exists_derivedPushforward_splitting_of_away g U hU hUaff a P b hPfin hPproj
       hfree ⟨e⟩ hsq
   have hsqp := IsPullback.of_hasPullback g
     (Spec.map (CommRingCat.ofHom (algebraMap R p.ResidueField)))

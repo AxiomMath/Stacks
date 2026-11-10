@@ -439,7 +439,7 @@ theorem derivedExtRestrictionEquiv_postcomp
     calc
       _ = (shiftFunctor (DerivedCategory (ModuleCat.{max v uA uk} A)) i).map
             ((DerivedCategory.singleFunctor (ModuleCat.{max v uA uk} A) 0).map (S.map m)) := by
-          rw [Iso.map_inv_hom_id]; exact Category.comp_id _
+          rw [Iso.inv_hom_id_map]; exact Category.comp_id _
       _ = (shiftFunctor (DerivedCategory (ModuleCat.{max v uA uk} A)) i).map
             (e₀.inv ≫ R.map mK ≫ e₀.hom) :=
           congrArg ((shiftFunctor (DerivedCategory (ModuleCat.{max v uA uk} A)) i).map) h₀
@@ -826,7 +826,6 @@ public theorem extIntoFieldEquivDualBaseChangeHomology_restrictScalars
           have hh : e.hom.app Y₀ ≫ uH.hom ≫ uH.inv = e.hom.app Y₀ := by
             simp []
           rw [hh]
-          try simp only [Category.assoc] at hs' ⊢
           dsimp only [Y₀, Functor.comp_obj] at hs' ⊢
           rw [hs']
           simp [Category.assoc]

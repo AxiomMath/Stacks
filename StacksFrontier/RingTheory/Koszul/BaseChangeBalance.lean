@@ -200,8 +200,7 @@ def absBaseBalanceInverse (N : Bimodule A B) :
     absoluteTensorLeft C N.rightModule ⟶ absBaseRelative A B C N where
   toFun := TensorProduct.lift (absBasePureBilinear A B C N)
   map_smul z b := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul c y =>
       rw [absLeft_smul_tmul, TensorProduct.lift.tmul, TensorProduct.lift.tmul]
@@ -221,8 +220,7 @@ def absBaseBalanceInverse (N : Bimodule A B) :
         (absLeftDifferential C N.rightModule z) =
       (absBaseRelative A B C N).d
         (TensorProduct.lift (absBasePureBilinear A B C N) z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c y =>
       induction c using DirectSum.Decomposition.inductionOn C.grading with

@@ -76,8 +76,8 @@ is the one step a consumer phrasing its hypothesis through the inverse-image for
 finite limits (Mathlib), so a limit kernel fork of sheaves of modules is one of modules over
 every object; that is
 `SheafOfModules.injective_val_app_of_isLimit_kernelFork` and
-`SheafOfModules.mem_range_val_app_of_isLimit_kernelFork`, both in the library.  Nothing here re-derives
-them.
+`SheafOfModules.mem_range_val_app_of_isLimit_kernelFork`, both in the library.  Nothing here
+re-derives them.
 
 **Two elaboration facts.**
 

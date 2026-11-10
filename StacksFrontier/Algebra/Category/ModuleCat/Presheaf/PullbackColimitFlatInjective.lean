@@ -88,7 +88,7 @@ lemma colimitPullback_map_app_ι
       (ModuleCat.extendScalars.{r, r, r + 1} (R.map T.hom).hom).map (Hom.app f T.left) ≫
         colimit.ι (diagram F R A' U) T := by
     refine extendScalars_hom_ext _ fun a => ?_
-    show descMap F R (f ≫ toPushforward F R (𝟙 _)) U (germ F R A T 1 a) =
+    change descMap F R (f ≫ toPushforward F R (𝟙 _)) U (germ F R A T 1 a) =
       germ F R A' T 1 (Hom.app f T.left a)
     rw [descMap_germ]
     exact (germ_one_eq_map_unit F R (A := A') T.hom (Hom.app f T.left a)).symm
@@ -108,7 +108,7 @@ lemma diagramMap_extendScalars_map
       diagramMap F R A' χ = diagramMap F R A χ ≫
         (ModuleCat.extendScalars.{r, r, r + 1} (R.map T'.hom).hom).map (Hom.app f T'.left) := by
     refine extendScalars_hom_ext _ fun a => ?_
-    show tmul (R.map T'.hom).hom 1 (A'.map χ.left (Hom.app f T.left a)) =
+    change tmul (R.map T'.hom).hom 1 (A'.map χ.left (Hom.app f T.left a)) =
       tmul (R.map T'.hom).hom 1 (Hom.app f T'.left (A.map χ.left a))
     rw [naturality_apply]
   exact ConcreteCategory.congr_hom key y
@@ -183,18 +183,18 @@ theorem isLocallyInjective_colimitPullback_map_extendScalars_map
   refine J.superset_covering ?_ (hloc U.unop T₁)
   rw [Sieve.generate_le_iff]
   rintro U' g ⟨T', χ', hflat⟩
-  show (L.obj (E.obj K)).map g.op x = (L.obj (E.obj K)).map g.op y
+  change (L.obj (E.obj K)).map g.op x = (L.obj (E.obj K)).map g.op y
   rw [← sub_eq_zero, ← map_sub, ← hxy']
   have h1 := obj_map_ι_mk F R (E.obj K) g.op (V := T₁.left) T₁.hom (T₁.hom ≫ g.op) rfl w₁
-  show (obj F R (E.obj K)).map g.op (colimit.ι (diagram F R (E.obj K) U) T₁ w₁) = 0
+  change (obj F R (E.obj K)).map g.op (colimit.ι (diagram F R (E.obj K) U) T₁ w₁) = 0
   refine h1.trans ?_
   have hα : ∀ a, (R.map g.op).hom ((R.map T₁.hom).hom a) = (R.map (T₁.hom ≫ g.op)).hom a :=
     fun a ↦ by rw [R.map_comp]; rfl
   let w₂ : diagramObj F R (E.obj K) (CostructuredArrow.mk (T₁.hom ≫ g.op)) :=
     baseChangeMap (R.map T₁.hom).hom (R.map (T₁.hom ≫ g.op)).hom (σ := (R.map g.op).hom)
       (ρ := RingHom.id _) hα LinearMap.id w₁
-  show _ = (0 : (obj F R (E.obj K)).obj (op U'))
-  show colimit.ι (diagram F R (E.obj K) (op U')) (CostructuredArrow.mk (T₁.hom ≫ g.op)) w₂ = 0
+  change _ = (0 : (obj F R (E.obj K)).obj (op U'))
+  change colimit.ι (diagram F R (E.obj K) (op U')) (CostructuredArrow.mk (T₁.hom ≫ g.op)) w₂ = 0
   have h2 : colimit.ι (diagram F R (E.obj K) (op U')) (CostructuredArrow.mk (T₁.hom ≫ g.op)) w₂ =
       colimit.ι (diagram F R (E.obj K) (op U')) T' (diagramMap F R (E.obj K) χ' w₂) :=
     (ConcreteCategory.congr_hom (colimit.w (diagram F R (E.obj K) (op U')) χ') w₂).symm

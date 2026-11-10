@@ -147,7 +147,7 @@ public theorem ne_zero_of_mem_primeCompl
     (s : (pt k).asHomogeneousIdeal.toIdeal.primeCompl) : (s : Poly k) ≠ 0 := by
   intro h
   refine s.2 ?_
-  show (s : Poly k) ∈ (⊥ : HomogeneousIdeal (grading k)).toIdeal
+  change (s : Poly k) ∈ (⊥ : HomogeneousIdeal (grading k)).toIdeal
   rw [HomogeneousIdeal.toIdeal_bot, Ideal.mem_bot]
   exact h
 
@@ -201,12 +201,12 @@ a nonzero degree-zero fraction. -/
 public theorem degreeZeroModuleAt_tensorTwist_ne_bot :
     degreeZeroModuleAt (grading k) (tensorTwist k) (pt k) ≠ ⊥ := by
   have hx : xvar k ∈ oddTwist k 1 := by
-    show xvar k ∈ ProjectiveSpectrum.Proj.integerGrading (grading k) ((2 : ℕ) : ℤ)
+    change xvar k ∈ ProjectiveSpectrum.Proj.integerGrading (grading k) ((2 : ℕ) : ℤ)
     rw [ProjectiveSpectrum.Proj.integerGrading_natCast,
       ProjectiveSpectrum.Proj.mem_homogeneousSubmodule]
     exact xvar_mem k
   have h1 : (1 : Poly k) ∈ oddTwist k (-1) := by
-    show (1 : Poly k) ∈ ProjectiveSpectrum.Proj.integerGrading (grading k) ((0 : ℕ) : ℤ)
+    change (1 : Poly k) ∈ ProjectiveSpectrum.Proj.integerGrading (grading k) ((0 : ℕ) : ℤ)
     rw [ProjectiveSpectrum.Proj.integerGrading_natCast,
       ProjectiveSpectrum.Proj.mem_homogeneousSubmodule]
     simpa using SetLike.one_mem_graded (grading k)
@@ -235,8 +235,7 @@ local instance subsingletonTensorProductOfLeft {R : Type*} [CommRing R] {A B : T
     Subsingleton (A ⊗[R] B) := by
   have h : ∀ z : A ⊗[R] B, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul m n => rw [Subsingleton.elim m 0, TensorProduct.zero_tmul]
     | add x y hx hy => rw [hx, hy, add_zero]
   exact ⟨fun a b => by rw [h a, h b]⟩

@@ -74,7 +74,7 @@ theorem stabilizerSMul_left (G : GroupoidInAlgebraicSpaces C S hS B) {T : Over G
     (g • r).left = groupoidCompose G (stabilizerArrowHom G g) r.left
       (stabilizerArrowHom_arrowOverTarget_composable G g r) := by
   obtain ⟨w, hw⟩ := (stabilizerAction G).2 T g r
-  show (lift g r ≫ γ[stabilizer G, arrowsOverTarget G]).left = _
+  change (lift g r ≫ γ[stabilizer G, arrowsOverTarget G]).left = _
   rw [hw]
   rfl
 
@@ -99,7 +99,7 @@ theorem eq_of_groupoidCompose_right (G : GroupoidInAlgebraicSpaces C S hS B)
         groupoidCompose G r (r ≫ groupoidInverse G) wri ≫ G.target.hom := by
       rwa [groupoidCompose_target]
     have hid : identityAfterTarget G r = identityAfterSource G z := by
-      show r ≫ G.target.hom ≫ (identityArrow G).hom =
+      change r ≫ G.target.hom ≫ (identityArrow G).hom =
         z ≫ G.source.hom ≫ (identityArrow G).hom
       rw [← Category.assoc, ← Category.assoc, ← wz]
     calc groupoidCompose G (groupoidCompose G z r wz) (r ≫ groupoidInverse G) (wL z wz)
@@ -136,7 +136,7 @@ theorem eq_of_groupoidCompose_left (G : GroupoidInAlgebraicSpaces C S hS B)
         z ≫ G.target.hom := by
       rwa [groupoidCompose_source]
     have hid : identityAfterSource G x = identityAfterTarget G z := by
-      show x ≫ G.source.hom ≫ (identityArrow G).hom =
+      change x ≫ G.source.hom ≫ (identityArrow G).hom =
         z ≫ G.target.hom ≫ (identityArrow G).hom
       rw [← Category.assoc, ← Category.assoc, wz]
     calc groupoidCompose G (x ≫ groupoidInverse G) (groupoidCompose G x z wz) (wR z wz)

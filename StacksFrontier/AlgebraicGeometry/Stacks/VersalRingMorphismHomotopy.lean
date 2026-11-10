@@ -88,14 +88,14 @@ theorem finiteDimensional_tangentModuleAt_of_tangentSpaceArtinian
     (h𝓕 : IsDeformationCategory.{u, w, w} 𝓕.p)
     (hfin : letI : Fact (IsPredeformationCategory.{u, w, w} (BasedCategory.ofFunctor 𝓕.p).p) :=
         ⟨h𝓕.predeformation⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+      letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor 𝓕.p) h𝓕.predeformation.cofibered))) :=
         ⟨tangentConditionS2.{u, w, w} h𝓕⟩
       FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
         (isomorphismClasses (BasedCategory.ofFunctor 𝓕.p) h𝓕.predeformation.cofibered))) :
     FiniteDimensional k ↥(tangentModuleAt.{u, w, w} 𝓕 h𝓕 (FGModuleCat.of k (ULift.{w} k))) := by
   let : Fact (IsPredeformationCategory.{u, w, w} 𝓕.p) := ⟨h𝓕.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered))) := ⟨tangentConditionS2.{u, w, w} h𝓕⟩
   have : FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
       (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)) := hfin
@@ -272,7 +272,7 @@ private theorem exists_lift_of_realization_hom (hp : p.IsFiberedInGroupoids)
     Over.homMk (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom ((AdicTruncation.functor n).map f).hom.toRingHom))) (by
         apply ObjectProperty.hom_ext
-        show Spec.map (CommRingCat.ofHom ((AdicTruncation.functor n).map f).hom.toRingHom) ≫
+        change Spec.map (CommRingCat.ofHom ((AdicTruncation.functor n).map f).hom.toRingHom) ≫
             adicThickeningι ξ'.base (maximalIdeal ξ'.base) n ≫
               Spec.map (CommRingCat.ofHom (algebraMap Λ ξ'.base)) ≫ iΛ =
           adicThickeningι ξ.base (maximalIdeal ξ.base) n ≫
@@ -362,7 +362,7 @@ private theorem exists_hom_of_lifts (hp : p.IsFiberedInGroupoids)
   have happ_lift : ∀ n, P.projection.IsHomLift ((AdicTruncation.functor n).map f) (app n) := by
     intro n
     apply IsHomLift.of_fac _ _ _ (ξ'.level_eq n) (ξ.level_eq n)
-    show _ = eqToHom _ ≫ (eqToHom _ ≫ (AdicTruncation.functor n).map f ≫ eqToHom _) ≫
+    change _ = eqToHom _ ≫ (eqToHom _ ≫ (AdicTruncation.functor n).map f ≫ eqToHom _) ≫
       eqToHom _
     simp
   refine ⟨{ base := f, app := app, app_lift := happ_lift, naturality := fun n => ?_ }, rfl⟩
@@ -386,7 +386,7 @@ private theorem exists_hom_of_lifts (hp : p.IsFiberedInGroupoids)
         ((AdicTruncation.transitionNat n).app ξ'.base ≫ (AdicTruncation.functor n).map f)
         (app (n + 1) ≫ ξ.transition n)]
   · rw [P.reversed_composition, P.reversed_composition]
-    show ψ n ≫ (P.morphisms _ _ (ξ'.transition n)).arrow =
+    change ψ n ≫ (P.morphisms _ _ (ξ'.transition n)).arrow =
       (P.morphisms _ _ (ξ.transition n)).arrow ≫ ψ (n + 1)
     exact (R'.mono_r hp (n + 1)).right_cancellation _ _ ((Category.assoc _ _ _).trans
       ((congrArg (fun g => ψ n ≫ g) (R'.comp_transition n)).trans ((hψ n).trans

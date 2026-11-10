@@ -63,7 +63,7 @@ theorem isomSpaceOver_isGroupAlgebraicSpace (B : BigFppfSite.{u})
           isomSpaceComp B S hS 𝒳 U y V ((a.left.app V) t) ((b.left.app V) t) := by
   let : GrpObj (isomSpaceOver B S hS 𝒳 U y y) := isomSpaceOverGrpObj B S hS 𝒳 U y
   refine ⟨⟨⟨Grp.mk (isomSpaceOver B S hS 𝒳 U y y), ?_⟩, rfl⟩, ?_⟩
-  · show IsAlgebraicSpace B U.left.1 U.left.2 (isomSpace B S hS 𝒳 U y y)
+  · change IsAlgebraicSpace B U.left.1 U.left.2 (isomSpace B S hS 𝒳 U y y)
     exact isAlgebraicSpace_isomSpace B S hS 𝒳 h𝒳 U y y
   · intro Q a b V t
     exact isomSpaceOverGrpObj_mul B S hS 𝒳 U y Q a b V t

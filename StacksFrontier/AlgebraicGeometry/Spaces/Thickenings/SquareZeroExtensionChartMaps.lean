@@ -81,7 +81,7 @@ theorem thickenedShMap_stalkMap_comp (x : X₁) :
   apply TopCat.Presheaf.stalk_hom_ext
   intro O hxO
   ext a
-  show sheafStalkMap A₁ π₁ x ((thickenedShMap A₁ A₂ f c).hom.stalkMap x
+  change sheafStalkMap A₁ π₁ x ((thickenedShMap A₁ A₂ f c).hom.stalkMap x
       (A₂.presheaf.germ O (f x) hxO a)) =
     f.stalkMap x (sheafStalkMap A₂ π₂ (f x) (A₂.presheaf.germ O (f x) hxO a))
   refine (congrArg (sheafStalkMap A₁ π₁ x)
@@ -161,7 +161,7 @@ theorem realizedShMapTo_stalkMap_comp (x : X₁) :
   apply TopCat.Presheaf.stalk_hom_ext
   intro O hxO
   ext a
-  show sheafStalkMap E₁.A E₁.π x ((realizedShMapTo E₁ f c).hom.stalkMap x
+  change sheafStalkMap E₁.A E₁.π x ((realizedShMapTo E₁ f c).hom.stalkMap x
       (Z.presheaf.germ O (f x) hxO a)) = f.stalkMap x (Z.presheaf.germ O (f x) hxO a)
   refine (congrArg (sheafStalkMap E₁.A E₁.π x)
     (PresheafedSpace.stalkMap_germ_apply (realizedShMapTo E₁ f c).hom O x hxO a)).trans ?_

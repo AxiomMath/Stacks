@@ -65,7 +65,7 @@ theorem exists_isCoverStratified_of_spreadCover (hZ : B.Contains (⊤_ Scheme.{u
   have hCcl : IsClosed (subspacePointSet B S hS X C₀) :=
     isClosed_range_pointsMap_of_isClosedImmersion B S hS hX C₀.ι hC₀.2
   obtain ⟨W', hW', hW'fp, hW's, hC'W'⟩ := hsmall (subspacePointSet B S hS X C₀ \ O)
-    (hCcl.sdiff hO) ⟨Set.diff_subset, fun h => by
+    (hCcl.sdiff hO) ⟨Set.sdiff_subset, fun h => by
       obtain ⟨x, hxO, hxC⟩ := hOC
       exact (h hxC).2 hxO⟩
   have hét' : ∀ t : points B S hS (pullback C₀.ι g),
@@ -91,7 +91,7 @@ theorem exists_isCoverStratified_of_spreadCover (hZ : B.Contains (⊤_ Scheme.{u
       IsFinitePresentation.of_isPullback B S hS hY (isAlgebraicSpace_yoneda B S hS T) hW.1 hX
         sq.flip hgfp, fun y hy => ?_⟩
     rw [← hef]
-    refine IsEtaleAt.comp B S hS hY (isAlgebraicSpace_pullback B S hS _ _ hW.1
+    refine IsEtaleAt.comp B S hS (isAlgebraicSpace_pullback B S hS _ _ hW.1
       (isAlgebraicSpace_yoneda B S hS T) hX) (isEtaleAt_of_isEtale B S hS hY _
         (isEtale_of_iso B S hS e) y) (hWét _ ?_)
     rw [← pointsMap_comp_apply, ← Category.assoc, hef]

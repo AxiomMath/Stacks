@@ -81,7 +81,7 @@ theorem exists_distTriang_singleFunctor_of_isGE_of_isLE (X : DerivedCategory.Plu
   refine isomorphic_distinguished T hT _ ?_
   refine Triangle.isoMk _ _ e₁.symm (Iso.refl _) e₃.symm ?_ ?_ ?_
   · exact Category.comp_id _
-  · show (T.mor₂ ≫ e₃.hom) ≫ e₃.inv = 𝟙 X ≫ T.mor₂
+  · change (T.mor₂ ≫ e₃.hom) ≫ e₃.inv = 𝟙 X ≫ T.mor₂
     rw [Category.assoc, Iso.hom_inv_id, Category.comp_id]
     exact (Category.id_comp _).symm
   · simp only [Triangle.mk_obj₃, Triangle.mk_obj₁, Triangle.mk_mor₃, Iso.symm_hom,

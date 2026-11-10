@@ -164,7 +164,7 @@ lemma augDiff_mem_ker (ε : (R ⊗[A] P) →ₐ[R] R)
     (hε : ∀ (r : R) (p : P), ε (r ⊗ₜ[A] p) = r • α p) (p : P) :
     augDiff α p ∈ RingHom.ker (ε : (R ⊗[A] P) →+* R) := by
   rw [RingHom.mem_ker]
-  show ε (augDiff α p) = 0
+  change ε (augDiff α p) = 0
   rw [augDiff_def, map_sub, hε, hε, map_one, one_smul, smul_eq_mul, mul_one, sub_self]
 
 /-- **The conormal map is natural** in the augmented algebra: a map `g : P → Q` over the
@@ -424,8 +424,7 @@ lemma smallPolynomialAugmentationSymPowToGraded_symMulMap (n : ℕ)
     smallPolynomialAugmentationSymPowToGraded A B κ (n + 1) X
         (SymPow.symMulMap n
           (smallPolynomialAugmentationIdealSqSubmodule A B κ X).subtype t) = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, add_zero]
   | tmul m y =>
     refine (Submodule.Quotient.mk_eq_zero _).2 ?_
@@ -435,7 +434,7 @@ lemma smallPolynomialAugmentationSymPowToGraded_symMulMap (n : ℕ)
     have hy : smallPolynomialAugmentationSymProd A B κ X y ∈
         smallPolynomialAugmentationIdeal A B κ X ^ n :=
       smallPolynomialAugmentationSymProd_mem_pow A B κ X n y.2
-    show smallPolynomialAugmentationSymProd A B κ X
+    change smallPolynomialAugmentationSymProd A B κ X
         (SymmetricAlgebra.ι (B : Type u) _
           ((smallPolynomialAugmentationIdealSqSubmodule A B κ X).subtype m) *
           (y : SymmetricAlgebra (B : Type u) _)) ∈
@@ -548,7 +547,7 @@ lemma smallPolynomialAugmentationSymProd_naturality
       (smallPolynomialAugmentationSymProd A B κ Y).comp
         (SymPow.symAlgMap (smallPolynomialAugmentationIdealPowRestrict A B κ 1 f)) := by
   refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun y => ?_)
-  show ((smallPolynomialQuotientAlgebra A B κ).map f).hom
+  change ((smallPolynomialQuotientAlgebra A B κ).map f).hom
       (smallPolynomialAugmentationSymProd A B κ X (SymmetricAlgebra.ι (B : Type u) _ y)) =
     smallPolynomialAugmentationSymProd A B κ Y
       (SymPow.symAlgMap (smallPolynomialAugmentationIdealPowRestrict A B κ 1 f)
@@ -567,7 +566,7 @@ lemma smallPolynomialAugmentationSymPowToPow_naturality (n : ℕ)
       smallPolynomialAugmentationIdealPowRestrict A B κ n f
         (smallPolynomialAugmentationSymPowToPow A B κ n X x) := by
   refine Subtype.ext ?_
-  show smallPolynomialAugmentationSymProd A B κ Y
+  change smallPolynomialAugmentationSymProd A B κ Y
       (SymPow.symAlgMap (smallPolynomialAugmentationIdealPowRestrict A B κ 1 f)
         (x : SymmetricAlgebra (B : Type u) _)) =
     ((smallPolynomialQuotientAlgebra A B κ).map f).hom
@@ -752,7 +751,7 @@ lemma smallPolynomialConormalClass_mul (X : ((smallBoundedPolynomialSite A B κ)
   rw [← map_smul, ← map_smul, ← map_add]
   refine (Submodule.Quotient.eq _).2 (Submodule.mem_comap.2 ?_)
   rw [Submodule.subtype_apply, coe_smallPolynomialConormalDefect]
-  show smallPolynomialAugmentationDiff A B κ X p *
+  change smallPolynomialAugmentationDiff A B κ X p *
       smallPolynomialAugmentationDiff A B κ X q ∈
     smallPolynomialAugmentationIdeal A B κ X ^ 2
   rw [pow_two]
@@ -965,7 +964,7 @@ lemma map_smallPolynomialAugmentationIdealPowLinearEquiv_step (n : ℕ)
   · rintro _ ⟨x, hx, rfl⟩
     refine Submodule.mem_comap.2 ?_
     rw [Submodule.subtype_apply]
-    show (smallPolynomialAugmentationIdealPowLinearEquiv A B κ n X x :
+    change (smallPolynomialAugmentationIdealPowLinearEquiv A B κ n X x :
         MvPolynomial ↥(X.unop.unop.1) (B : Type u)) ∈
       MvPolynomial.augmentationIdeal (smallSitePoint A B κ X) ^ (n + 1)
     rw [coe_smallPolynomialAugmentationIdealPowLinearEquiv]
@@ -977,7 +976,7 @@ lemma map_smallPolynomialAugmentationIdealPowLinearEquiv_step (n : ℕ)
       (smallPolynomialAugmentationIdealPowLinearEquiv A B κ n X).apply_symm_apply z⟩
     refine Submodule.mem_comap.2 ?_
     rw [Submodule.subtype_apply]
-    show ((smallPolynomialAugmentationIdealPowLinearEquiv A B κ n X).symm z :
+    change ((smallPolynomialAugmentationIdealPowLinearEquiv A B κ n X).symm z :
         ((smallPolynomialQuotientAlgebra A B κ).obj X : Type u)) ∈
       smallPolynomialAugmentationIdeal A B κ X ^ (n + 1)
     rw [smallPolynomialAugmentationIdeal_pow_eq_comap, Ideal.mem_comap,
@@ -1120,7 +1119,7 @@ lemma coe_smallPolynomialAugmentationSymPowToPow_prod_ι (n : ℕ)
         ((smallPolynomialQuotientAlgebra A B κ).obj X : Type u)) =
       ∏ i, (y i : ((smallPolynomialQuotientAlgebra A B κ).obj X : Type u)) := by
   rw [coe_smallPolynomialAugmentationSymPowToPow]
-  show smallPolynomialAugmentationSymProd A B κ X
+  change smallPolynomialAugmentationSymProd A B κ X
       (∏ i, SymmetricAlgebra.ι (B : Type u) _ (y i)) = _
   rw [map_prod]
   exact Finset.prod_congr rfl fun i _ => smallPolynomialAugmentationSymProd_ι A B κ X (y i)
@@ -1150,7 +1149,7 @@ lemma smallPolynomialAugmentationSymMulApp_prod_ι (n : ℕ)
           MvPolynomial.prod_ι_mem_symmetricPower n y⟩ := by
     refine Subtype.ext ?_
     rw [SymPow.symMap_coe]
-    show ∏ i, SymmetricAlgebra.ι (B : Type u)
+    change ∏ i, SymmetricAlgebra.ι (B : Type u)
           (smallPolynomialAugmentationGradedSections A B κ 1 X)
           (smallPolynomialAugmentationGradedOneπ A B κ X (y i)) =
         SymPow.symAlgMap (smallPolynomialAugmentationGradedOneπ A B κ X)

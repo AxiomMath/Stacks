@@ -385,7 +385,7 @@ public theorem exists_stage_smallEtaleModel_parallelPair_of_qcqs (hc : IsLimit c
         B.inclusion.map (pullback.fst W.obj.hom pk) ≫
           (SmallEtale.toScheme B (Dg.obj k).obj (Dg.obj k).property).map g := by
     intro W W' g
-    show B.inclusion.map (((Over.pullback pk).map g.hom).left) ≫
+    change B.inclusion.map (((Over.pullback pk).map g.hom).left) ≫
         B.inclusion.map (pullback.fst W'.obj.hom pk) =
       B.inclusion.map (pullback.fst W.obj.hom pk) ≫ B.inclusion.map g.hom.left
     rw [← B.inclusion.map_comp, ← B.inclusion.map_comp]
@@ -405,7 +405,7 @@ public theorem exists_stage_smallEtaleModel_parallelPair_of_qcqs (hc : IsLimit c
             B.inclusion.map (pullback.fst Uo.obj.hom pk) =
           e₀V.hom ≫ (SmallEtale.toScheme B c.pt hX).map w ≫ κU := by
         rw [hbcfst Vo Uo (mkHom B (Dg.obj k).property (V := Vo) (W := Uo) ws hws)]
-        show B.inclusion.map (pullback.fst Vo.obj.hom pk) ≫ ws =
+        change B.inclusion.map (pullback.fst Vo.obj.hom pk) ≫ ws =
           e₀V.hom ≫ (SmallEtale.toScheme B c.pt hX).map w ≫ κU
         calc B.inclusion.map (pullback.fst Vo.obj.hom pk) ≫ ws
             = (e₀V.hom ≫ κV) ≫ ws := congrArg (· ≫ ws) he₀Vhom.symm

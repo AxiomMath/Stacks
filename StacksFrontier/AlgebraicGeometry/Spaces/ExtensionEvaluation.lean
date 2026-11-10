@@ -157,7 +157,7 @@ theorem isIso_relocalizeOfRestricted
     refine (OverShriek.relocalizeAdjunction g).homEquiv F.obj ShP.obj |>.injective ?_
     rw [(OverShriek.relocalizeAdjunction g).homEquiv_naturality_right,
       (OverShriek.relocalizeAdjunction g).homEquiv_id]
-    show OverShriek.relocalizeToRestricted g
+    change OverShriek.relocalizeToRestricted g
         (OverShriek.relocalizeOfRestricted g β) ≫
           Functor.whiskerLeft (Over.map g).op b.hom = _
     rw [hβ]

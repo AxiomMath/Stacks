@@ -108,7 +108,7 @@ theorem exists_iso_pullback_completionSheafMap
     (sheafToPresheaf J (Type (u + 1)))
   have hcomm : (Space.sheafifiedULiftMap B S hS f).hom ≫ eX.inv = eX'.inv ≫ H.map f := by
     have hn' : H.map f ≫ eX.hom = eX'.hom ≫ (Space.sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (X ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})
@@ -130,14 +130,14 @@ theorem exists_iso_pullback_completionSheafMap
   have hξ : ξ ≫ (Space.completionSheafInclusion B S hS X T).hom ≫ eX.inv = H.map v := by
     have h1 : ξ ≫ (Space.completionSheafInclusion B S hS X T).hom =
         ξ₀ ≫ (Space.completionSubfunctor B S hS X T).ι ≫ eX.hom := by
-      show (ξ₀ ≫ J.toSheafify _) ≫ J.sheafifyMap (Space.completionSubfunctor B S hS X T).ι =
+      change (ξ₀ ≫ J.toSheafify _) ≫ J.sheafifyMap (Space.completionSubfunctor B S hS X T).ι =
         ξ₀ ≫ (Space.completionSubfunctor B S hS X T).ι ≫ J.toSheafify _
       rw [Category.assoc, J.toSheafify_naturality]
     rw [← Category.assoc, h1, Category.assoc, Category.assoc, eX.hom_inv_id]
-    show ξ₀ ≫ (Space.completionSubfunctor B S hS X T).ι = H.map v
+    change ξ₀ ≫ (Space.completionSubfunctor B S hS X T).ι = H.map v
     rw [show ξ₀ = uliftYonedaEquiv.symm x from rfl, uliftYonedaEquiv_symm_comp]
     apply uliftYonedaEquiv.symm_apply_eq.mpr
-    show ULift.up (yonedaEquiv v) = _
+    change ULift.up (yonedaEquiv v) = _
     simp [uliftYonedaEquiv, yonedaEquiv, H]
     rfl
   have hbig := ((IsPullback.of_hasPullback ξ
@@ -340,10 +340,10 @@ theorem isQuasiCompact_ι_openSubspaceOfPoints_of_hasEtaleLocalProperty
       ((MorphismProperty.relative_isStableUnderBaseChange _).of_isPullback
         (IsPullback.of_hasPullback (φ i) (openSubspaceOfPoints B S hS X W).ι).flip hO.2)
   have hVaff : IsAffine ((BigFppfOver.toScheme B S hS).obj V) := by
-    show IsAffine (Spec (A i)); infer_instance
+    change IsAffine (Spec (A i)); infer_instance
   have : IsNoetherianRing (A i) := hAN i
   have hSN : TopologicalSpace.NoetherianSpace ((BigFppfOver.toScheme B S hS).obj V) := by
-    show TopologicalSpace.NoetherianSpace (Spec (A i)); infer_instance
+    change TopologicalSpace.NoetherianSpace (Spec (A i)); infer_instance
   have hVN : TopologicalSpace.NoetherianSpace (points B S hS (yoneda.obj V)) :=
     (schemePointsHomeomorph B S hS V).isEmbedding.isInducing.noetherianSpace
   have hPN : TopologicalSpace.NoetherianSpace (points B S hS
@@ -364,6 +364,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] Space.pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `HasPullbacks` for presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ModificationOutputQuasiCompact :
@@ -643,7 +644,7 @@ theorem eq_of_comp_eq_of_isIso_pullback_snd {X' X : (BigFppfOver B S hS)ᵒᵖ �
     (ha : a ≫ f = k ≫ O.ι) (hb : b ≫ f = k ≫ O.ι) : a = b := by
   have hl : ∀ (c : Z ⟶ X') (hc : c ≫ f = k ≫ O.ι),
       pullback.lift c k hc = k ≫ inv (pullback.snd f O.ι) := fun c hc ↦ by
-    haveI : Mono (pullback.snd f O.ι) := IsIso.mono_of_iso _
+    have : Mono (pullback.snd f O.ι) := IsIso.mono_of_iso _
     rw [← cancel_mono (pullback.snd f O.ι), pullback.lift_snd, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
   rw [← pullback.lift_fst a k ha, ← pullback.lift_fst b k hb, hl a ha, hl b hb]
@@ -717,7 +718,7 @@ theorem unique_lift_of_range_subset {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
     simp only [Category.assoc] at this
     exact this.trans (pullback.lift_fst _ _ _)
   · rw [Category.assoc, pullback.condition, ← Category.assoc]
-    show (l'.map ≫ pullback.snd f q.special) ≫ q.special = q.special
+    change (l'.map ≫ pullback.snd f q.special) ≫ q.special = q.special
     rw [l'.special_comm, Category.id_comp]
   · have h := congrArg (fun l : q'.Lift ↦ l.map ≫ pullback.fst f q.special)
       (huniq.elim (toLift l₁) (toLift l₂))

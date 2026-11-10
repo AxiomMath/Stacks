@@ -111,6 +111,7 @@ instance : IsOpenImmersion (scalarExtensionOpenImmersion k' fbar j) := by
   unfold scalarExtensionOpenImmersion
   infer_instance
 
+omit [IsOpenImmersion j] in
 /-- The base change of `j` commutes with the structure morphisms of `X_{k'}` and `X̄_{k'}` to
 `Spec k'`. -/
 @[reassoc (attr := simp)]
@@ -120,6 +121,7 @@ theorem scalarExtensionOpenImmersion_snd :
       Stacks.ArtinSchreier.scalarExtensionStructure (k' := k') (j ≫ fbar) := by
   simp [scalarExtensionOpenImmersion]
 
+omit [IsOpenImmersion j] in
 /-- The image of `X_{k'} ⟶ X̄_{k'}` is the preimage of the image of `j` under the projection
 `X̄_{k'} ⟶ X̄`. -/
 theorem range_scalarExtensionOpenImmersion :
@@ -169,6 +171,7 @@ theorem existsUnique_scalarExtensionFst_eq_of_isAlgClosed [IsAlgClosed k]
   obtain ⟨b, rfl⟩ := hmem z' hz'
   rw [Subsingleton.elim a b]
 
+omit [IsOpenImmersion j] in
 /-- **The number of punctures is unchanged by extending the algebraically closed ground
 field**: if the complement of `j : X ⟶ X̄` consists of closed points, the complement of its base
 change has the same number of points. -/

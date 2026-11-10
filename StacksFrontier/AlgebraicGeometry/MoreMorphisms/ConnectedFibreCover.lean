@@ -95,7 +95,7 @@ private theorem exists_compact_connected_open_after_separable_closure
   let : Algebra.IsAlgebraic k K := IsSepClosure.separable.isAlgebraic
   have : Surjective (spectrumMap k (SeparableClosure k)) := by
     rw [surjective_iff]
-    show Function.Surjective (PrimeSpectrum.comap (algebraMap k K))
+    change Function.Surjective (PrimeSpectrum.comap (algebraMap k K))
     exact Algebra.IsIntegral.comap_surjective k K
   obtain ⟨xbar, hxbar⟩ :=
     (inferInstance : Surjective (pullback.fst f (spectrumMap k (SeparableClosure k)))).surj x
@@ -143,11 +143,11 @@ private theorem exists_finite_intermediate_open_neighborhood
     AlgebraicGeometry.exists_finite_subextension_descending_isCompact_open X f Vbar hcompact
   let y : ↥(pullback f (spectrumMap k E)) := p xbar
   have hyV : y ∈ V := by
-    show xbar ∈ p ⁻¹ᵁ V
+    change xbar ∈ p ⁻¹ᵁ V
     rw [← hpreimage]
     exact hxVbar
   have hyx : (pullback.fst f (spectrumMap k E)) y = x := by
-    show (p ≫ pullback.fst f (spectrumMap k E)) xbar = x
+    change (p ≫ pullback.fst f (spectrumMap k E)) xbar = x
     rw [hfst]
     exact hxbar
   exact ⟨E, hE, V, y, Vbar, p, hfst, hsnd, hpreimage, hconnected,
@@ -353,7 +353,7 @@ private theorem exists_geometricallyConnected_open_after_etale
   let e' : U.scheme.residueField U.point ≃ₐ[k₁] E :=
     AlgEquiv.ofRingEquiv (f := e.toRingEquiv) (by
       intro a
-      show e (raw.hom a) = (algebraMap k E) (c.inv.hom a)
+      change e (raw.hom a) = (algebraMap k E) (c.inv.hom a)
       calc
         e (raw.hom a) = e (U.residueFieldMap.hom (c.inv.hom a)) := by
           congr 1
@@ -372,7 +372,7 @@ private theorem exists_geometricallyConnected_open_after_etale
     rw [← Spec.map_comp]
     congr 1
     ext a
-    show raw.hom a = e'.symm ((algebraMap k₁ E) a)
+    change raw.hom a = e'.symm ((algebraMap k₁ E) a)
     exact (e'.symm.commutes a).symm
   let fU := pullback.snd f U.toBase
   let q0 := p
@@ -398,10 +398,10 @@ private theorem exists_geometricallyConnected_open_after_etale
   have heChange : eChange.symm.hom ≫ pullback.snd q0 pE0 =
       pullback.snd q1 pE1 := by
     have hSnd : mChange ≫ pullback.snd q1 pE1 = pullback.snd q0 pE0 := by
-      show pullback.map q0 pE0 q1 pE1 eEq.hom (𝟙 _) iBase heqBase heqField ≫
+      change pullback.map q0 pE0 q1 pE1 eEq.hom (𝟙 _) iBase heqBase heqField ≫
         pullback.snd q1 pE1 = _
       exact pullback.lift_snd _ _ _
-    show inv mChange ≫ pullback.snd q0 pE0 = pullback.snd q1 pE1
+    change inv mChange ≫ pullback.snd q0 pE0 = pullback.snd q1 pE1
     calc
       inv mChange ≫ pullback.snd q0 pE0 =
           inv mChange ≫ (mChange ≫ pullback.snd q1 pE1) := by rw [hSnd]
@@ -430,7 +430,7 @@ private theorem exists_geometricallyConnected_open_after_etale
       hFibPB.flip.isoIsPullback_hom_fst _ _ (IsPullback.of_hasPullback q1 pU).flip
     have hFieldSnd : eField.hom ≫ pullback.snd q1 pE1 =
         pullback.snd q1 pU ≫ iField := by
-      show pullback.map q1 pU q1 pE1 (𝟙 _) iField (𝟙 _)
+      change pullback.map q1 pU q1 pE1 (𝟙 _) iField (𝟙 _)
         (by simp) (by simpa using hiField) ≫ pullback.snd q1 pE1 = _
       exact pullback.lift_snd _ _ _
     calc
@@ -449,22 +449,22 @@ private theorem exists_geometricallyConnected_open_after_etale
   let y₁ : qE1 := eChange.hom y
   let yU : fU.fiber U.point := eTotal.inv y₁
   have hy₁ : y₁ ∈ V₁ := by
-    show eChange.inv (eChange.hom y) ∈ V
+    change eChange.inv (eChange.hom y) ∈ V
     simpa using hyV
   have hyU : yU ∈ T := by
-    show eTotal.hom (eTotal.inv y₁) ∈ V₁
+    change eTotal.hom (eTotal.inv y₁) ∈ V₁
     simpa using hy₁
   have hchangeFst : eChange.hom ≫ pullback.fst q1 pE1 =
       pullback.fst q0 pE0 ≫ eEq.hom := by
-    show mChange ≫ pullback.fst q1 pE1 = _
+    change mChange ≫ pullback.fst q1 pE1 = _
     calc
       mChange ≫ pullback.fst q1 pE1 = pullback.fst q0 pE0 ≫ eEq.hom := by
-        show pullback.map q0 pE0 q1 pE1 eEq.hom (𝟙 _) iBase heqBase heqField ≫
+        change pullback.map q0 pE0 q1 pE1 eEq.hom (𝟙 _) iBase heqBase heqField ≫
           pullback.fst q1 pE1 = _
         exact pullback.lift_fst _ _ _
       _ = pullback.fst q0 pE0 ≫ eEq.hom := rfl
   have hField : eField.hom ≫ pullback.fst q1 pE1 = pullback.fst q1 pU := by
-    show pullback.map q1 pU q1 pE1 (𝟙 _) iField (𝟙 _)
+    change pullback.map q1 pU q1 pE1 (𝟙 _) iField (𝟙 _)
       (by simp) (by simpa using hiField) ≫ pullback.fst q1 pE1 = _
     exact pullback.lift_fst _ _ _
   have hfirst : fU.fiberι U.point ≫ pullback.fst f U.toBase =
@@ -492,13 +492,13 @@ private theorem exists_geometricallyConnected_open_after_etale
             congrArg (fun g => g yU) hfirst
       _ = (pullback.fst q1 pE1 ≫ f.fiberι s₁) y₁ := by simp [yU]
       _ = (pullback.fst q0 pE0 ≫ eEq.hom ≫ f.fiberι s₁) y := by
-            show (pullback.fst q1 pE1 ≫ f.fiberι s₁) (eChange.hom y) = _
+            change (pullback.fst q1 pE1 ≫ f.fiberι s₁) (eChange.hom y) = _
             have hh := congrArg (fun t => t ≫ f.fiberι s₁) hchangeFst
             simpa [Category.assoc] using congrArg (fun g => g y) hh
       _ = (pullback.fst q0 pE0 ≫ f.fiberι (f x)) y := by
             rw [fiberIsoOfEq_hom_fiberι f U.map_point.symm]
       _ = x := by
-            show f.fiberι (f x) ((pullback.fst q0 pE0) y) = x
+            change f.fiberι (f x) ((pullback.fst q0 pE0) y) = x
             rw [hyx]
             simp [z, Scheme.Hom.fiberι_asFiber]
   exact ⟨U, T, ⟨yU, hyU, hpoint⟩, hTconn⟩
@@ -517,10 +517,10 @@ private theorem exists_localGoodPiece
   let f₀ := f.resLE U V hVU'
   let x₀ : ↥(V : Set X) := ⟨x, hxV⟩
   have : LocallyOfFinitePresentation f₀ := by
-    show LocallyOfFinitePresentation (f.resLE U V hVU')
+    change LocallyOfFinitePresentation (f.resLE U V hVU')
     infer_instance
   have : Flat f₀ := by
-    show Flat (f.resLE U V hVU')
+    change Flat (f.resLE U V hVU')
     infer_instance
   have : GeometricallyReduced f₀ :=
     geometricallyReduced_comp_of_isOpenImmersion
@@ -605,7 +605,7 @@ private theorem exists_localGoodPiece
       _ = g ≫ h := rfl
   have hPoint : ∃ w : W, j w = x := by
     refine ⟨⟨z, hzW⟩, ?_⟩
-    show Scheme.Opens.ι V ((pullback.fst f₀ U₁.toBase)
+    change Scheme.Opens.ι V ((pullback.fst f₀ U₁.toBase)
       ((pullback.fst f₁ U₂.toBase) z)) = x
     calc
       _ = Scheme.Opens.ι V ((pullback.fst f₀ U₁.toBase)

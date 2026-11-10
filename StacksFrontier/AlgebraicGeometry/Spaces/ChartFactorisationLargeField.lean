@@ -93,7 +93,7 @@ theorem exists_geometricPoint_factorThroughChart_dominates
     hq.property_snd η
   have hsq : IsPullback (hq.rep.fst η) (yoneda.map (hq.rep.snd η)) q η := hq.rep.isPullback η
   let x₀ : ↥((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-    show ↥(Spec (CommRingCat.of p.carrier)); exact IsLocalRing.closedPoint p.carrier
+    change ↥(Spec (CommRingCat.of p.carrier)); exact IsLocalRing.closedPoint p.carrier
   obtain ⟨r, -⟩ := hsurj.surj x₀
   obtain ⟨g⟩ := nonempty_geometricPoint_yoneda B S hS (hq.rep.pullback η) r
   let m : g.val.siteObject ⟶ hq.rep.pullback η := g.val.value

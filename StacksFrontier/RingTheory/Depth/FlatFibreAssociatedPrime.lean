@@ -93,13 +93,13 @@ theorem ringKrullDim_quotient_eq_depth_of_cohenMacaulay {A B : Type*} [CommRing 
       map_maximalIdeal_of_surjective _ Ideal.Quotient.mk_surjective]
     exact Module.depth_self_eq_of_ringEquiv e
   rw [he, ringKrullDim_eq_of_ringEquiv e]
-  show ringKrullDim A = _
+  change ringKrullDim A = _
   have hdepth : Module.depth A (maximalIdeal A) A = Module.depthSup A (maximalIdeal A) A := by
-    rw [Module.depth, if_neg]
+    rw [Module.depth, ite_eq_right]
     · exact (Module.depthSup_eq_iSup _ _).symm
     · simpa using (maximalIdeal.isMaximal A).ne_top
   rw [hdepth]
-  show _ = (Module.depthSup A (maximalIdeal A) A : WithBot ℕ∞)
+  change _ = (Module.depthSup A (maximalIdeal A) A : WithBot ℕ∞)
   change (Module.depthSup A (maximalIdeal A) A : WithBot ℕ∞) = Module.supportDim A A at hcm
   simpa only [Module.supportDim_self_eq_ringKrullDim] using hcm.symm
 
@@ -158,7 +158,7 @@ annihilator of a single element of `M` (Stacks 00LA) exactly when it belongs to
 theorem isAssociatedPrimeStacks_iff_mem_associatedPrimes {R M : Type*} [CommRing R]
     [IsNoetherianRing R] [AddCommGroup M] [Module R M] (p : Ideal R) :
     IsAssociatedPrimeStacks R M p ↔ p ∈ associatedPrimes R M := by
-  show _ ↔ IsAssociatedPrime p M
+  change _ ↔ IsAssociatedPrime p M
   rw [isAssociatedPrime_iff]
   constructor <;> rintro ⟨hp, m, hm⟩ <;> refine ⟨hp, m, ?_⟩
   · ext r
@@ -206,7 +206,7 @@ theorem exists_isAssociatedPrimeStacks_over_of_flat
   have h := (associatedPrimes.tensorProduct_of_flat (R := R) (S := S) (M := M)
     (N := S)).1 (Set.mem_iUnion.mpr ⟨p, Set.mem_iUnion.mpr ⟨hpa, ha⟩⟩)
   exact ⟨q, (isAssociatedPrimeStacks_iff_mem_associatedPrimes q).mpr
-    (isAssociatedPrime_iff.mpr (by simpa only [Set.mem_setOf_eq, eq_comm] using h)),
+    (isAssociatedPrime_iff.mpr (by simpa only [Set.mem_ofPred_eq, eq_comm] using h)),
     hqp, hqq₀.trans_lt hq₀⟩
 
 /-- **A one-dimensional quotient leaves no room between `q` and `𝔪_S`.** If `I ≤ q` with `q`

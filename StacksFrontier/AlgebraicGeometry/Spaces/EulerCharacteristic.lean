@@ -153,7 +153,8 @@ def cohomologyOverBaseMap {M N : Modules.{u, max (u + 1) w} B (Spec (.of A)) hA 
     cohomologyOverBase.{u, w} A B hA X hX M i ⟶ cohomologyOverBase.{u, w} A B hA X hX N i :=
   (ModuleCat.restrictScalars (baseRingHom A B hA X hX)).map
     ((Stacks.Cohomology.SiteModules.globalModuleCohomology.{u + 1, u, u, max (u + 1) w}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map φ)
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map φ)
 
 /-- **`AlgebraicGeometry.Space.cohomologyOverBaseMap` takes the identity to the identity**, since
 both functors it is composed from do. -/
@@ -163,7 +164,8 @@ theorem cohomologyOverBaseMap_id (M : Modules.{u, max (u + 1) w} B (Spec (.of A)
       𝟙 (cohomologyOverBase.{u, w} A B hA X hX M i) :=
   (congrArg (ModuleCat.restrictScalars (baseRingHom A B hA X hX)).map
     ((Stacks.Cohomology.SiteModules.globalModuleCohomology.{u + 1, u, u, max (u + 1) w}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map_id M)).trans
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map_id M)).trans
     ((ModuleCat.restrictScalars (baseRingHom A B hA X hX)).map_id _)
 
 /-- **`AlgebraicGeometry.Space.cohomologyOverBaseMap` takes a composite to the composite**, since
@@ -176,7 +178,8 @@ theorem cohomologyOverBaseMap_comp
         cohomologyOverBaseMap.{u, w} A B hA X hX ψ i :=
   (congrArg (ModuleCat.restrictScalars (baseRingHom A B hA X hX)).map
     ((Stacks.Cohomology.SiteModules.globalModuleCohomology.{u + 1, u, u, max (u + 1) w}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map_comp φ ψ)).trans
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) i).map_comp φ ψ)).trans
     ((ModuleCat.restrictScalars (baseRingHom A B hA X hX)).map_comp _ _)
 
 end Functoriality
@@ -420,7 +423,9 @@ theorem eulerCharacteristic_add_of_shortExact_of_finiteDimensional_of_isZero
 `X` is quasi-compact and quasi-separated, being proper over `Spec k`, so by Stacks 072C there is
 `N` beyond which the cohomology of every coherent module vanishes; below `N` the cohomology of
 `F₁` and `F₃` is finite-dimensional by Stacks 08AS; and the long exact sequence with
-rank-nullity is `AlgebraicGeometry.Space.finsum_alternating_finrank_cohomologyOverBase_add_of_shortExact_of_outer`. -/
+rank-nullity is
+`AlgebraicGeometry.Space.finsum_alternating_finrank_cohomologyOverBase_add_of_shortExact_of_outer`.
+-/
 @[stacks 0DN2]
 theorem eulerCharacteristic_add_of_shortExact_of_outer
     (f : X ⟶ yoneda.obj (baseObject k B hk)) (hf : IsProper B (Spec (.of k)) hk f)

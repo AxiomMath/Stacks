@@ -166,7 +166,7 @@ theorem fourierOffAntidiagonalBaseRingHom_inv :
     rw [fourierOffAntidiagonalBaseRingHom_algebraMap]
     simp [MvPolynomial.rename_X]
   rw [h, ← map_mul]
-  show fourierOffAntidiagonalBaseRingHom k
+  change fourierOffAntidiagonalBaseRingHom k
     (((isUnit_fourierBaseSum k).unit⁻¹ * (isUnit_fourierBaseSum k).unit : AWˣ) : AW) = 1
   rw [inv_mul_cancel, Units.val_one, map_one]
 
@@ -265,7 +265,7 @@ theorem fourierCoordinateChange_comp_algebraMap_polynomial :
   · rw [RingHom.comp_apply, RingHom.comp_apply, Polynomial.algebraMap_def,
       Polynomial.coe_mapRingHom, Polynomial.map_C, fourierCoordinateChange_C,
       fourierOffAntidiagonalBaseRingHom_algebraMap_k]
-    show _ = algebraMap (MvPolynomial (Fin 3) k) B3 (Polynomial.aeval _ (Polynomial.C c))
+    change _ = algebraMap (MvPolynomial (Fin 3) k) B3 (Polynomial.aeval _ (Polynomial.C c))
     rw [Polynomial.aeval_C, ← IsScalarTower.algebraMap_apply]
   · simp only [RingHom.comp_apply, Polynomial.algebraMap_def, Polynomial.coe_mapRingHom,
       Polynomial.map_X, fourierCoordinateChange_X, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
@@ -318,13 +318,13 @@ theorem fourierOffAntidiagonal_coordinate_eq (i : Fin 3) (i' : Fin 2) (hi : ![0,
     Category.assoc, ← Spec.map_comp, ← Spec.map_comp]
   congr 2
   refine CommRingCat.hom_ext (Polynomial.ringHom_ext (fun c => ?_) ?_)
-  · show algebraMap (MvPolynomial (Fin 3) k) B3
+  · change algebraMap (MvPolynomial (Fin 3) k) B3
         (Polynomial.aeval (MvPolynomial.X i) (Polynomial.C c)) =
       fourierOffAntidiagonalBaseRingHom k (Polynomial.aeval (algebraMap (MvPolynomial (Fin 2) k) AW
         (MvPolynomial.X i')) (Polynomial.C c))
     rw [Polynomial.aeval_C, Polynomial.aeval_C, fourierOffAntidiagonalBaseRingHom_algebraMap_k,
       ← IsScalarTower.algebraMap_apply]
-  · show algebraMap (MvPolynomial (Fin 3) k) B3
+  · change algebraMap (MvPolynomial (Fin 3) k) B3
         (Polynomial.aeval (MvPolynomial.X i) Polynomial.X) =
       fourierOffAntidiagonalBaseRingHom k (Polynomial.aeval (algebraMap (MvPolynomial (Fin 2) k) AW
         (MvPolynomial.X i')) Polynomial.X)

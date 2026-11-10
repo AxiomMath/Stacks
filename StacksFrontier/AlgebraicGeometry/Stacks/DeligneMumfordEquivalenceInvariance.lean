@@ -34,7 +34,8 @@ Neither declaration carries a `@[stacks]` attribute. The covering set of Stacks 
 keys at the canonical square — `AlgebraicGeometry.Stack.AlgebraicStacks.isDM_baseChange` and its
 three siblings, all registered — and the arbitrary-square forms are generalisations of those
 statements rather than further assertions of the source, which is why the three other
-arbitrary-square forms are untagged as well. The invariance statement is not an assertion of Stacks 04YW at all;
+arbitrary-square forms are untagged as well. The invariance statement is not an assertion of Stacks
+04YW at all;
 it is the vocabulary the arbitrary-square form is proved through.
 
 `AlgebraicGeometry.Stack.IsDM` lives in the `AlgebraicGeometry.Stack` namespace rather than in

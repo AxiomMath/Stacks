@@ -200,6 +200,7 @@ open MonoidalCategory
 attribute [local instance] Sheaf.monoidalCategory Sheaf.symmetricCategory
   Stacks.ModuleSheaf.derivedMonoidal Stacks.ModuleSheaf.derivedSymmetric
 
+set_option linter.checkUnivs false in
 /-- The quotient `Λ/𝔞`, as a module over itself read over `Λ` by restriction of scalars, is the
 quotient module `Λ/𝔞` of `Λ`. -/
 def restrictScalarsQuotientSelfIso (𝔞 : Ideal Λ) :

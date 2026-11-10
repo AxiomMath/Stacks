@@ -61,8 +61,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1]
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar] (i : ℤ)
   {r₁ r₂ r₃ : ℕ}
 
@@ -194,7 +193,7 @@ theorem integralIntertwinerCohomologyMap_natCast_smul (N : ℕ) (L : Matrix (Fin
   exact (Nat.cast_smul_eq_nsmul ℚ_[ℓ] N _).symm
 
 /-- The map of an integral intertwiner commutes with every `π_X^*`. -/
-theorem integralIntertwinerCohomologyMap_frobenius (p q : ℕ) [Fact p.Prime] [CharP k p]
+theorem integralIntertwinerCohomologyMap_frobenius [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p]
     (hcard : Fintype.card k = p ^ q) (L : Matrix (Fin r₂) (Fin r₁) ℤ_[ℓ])
     (hL : ∀ g, L * (τ₁ g).val = (τ₂ g).val * L)
     (v : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar
@@ -537,7 +536,7 @@ theorem rationalIntertwinerCohomologyMap_sum {ι : Type*} (s : Finset ι)
     rw [ih, Finset.sum_insert ha]
 
 /-- **The map of a rational intertwiner commutes with `π_X^*`.** -/
-theorem rationalIntertwinerCohomologyMap_frobenius (p q : ℕ) [Fact p.Prime] [CharP k p]
+theorem rationalIntertwinerCohomologyMap_frobenius [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p]
     (hcard : Fintype.card k = p ^ q) (A : Matrix (Fin r₂) (Fin r₁) ℚ_[ℓ])
     (hA : ∀ g, A * (ρ₁ g).val = (ρ₂ g).val * A)
     (v : haveI := compactSpace_etaleFundamentalGroup X.1 x

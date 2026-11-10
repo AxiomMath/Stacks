@@ -98,7 +98,7 @@ private theorem isRegular_germ_of_isRegular {X : Scheme.{u}}
   let : IsLocalization.AtPrime (X.presheaf.stalk x) p.asIdeal :=
     U.2.isLocalization_stalk ⟨x, hx⟩
   have hsmul : IsSMulRegular (X.presheaf.stalk x) (φ t) := by
-    show IsSMulRegular (X.presheaf.stalk x) (algebraMap Γ(X, U.1) _ t)
+    change IsSMulRegular (X.presheaf.stalk x) (algebraMap Γ(X, U.1) _ t)
     exact ht.isSMulRegular.of_isLocalization (X.presheaf.stalk x) p.asIdeal.primeCompl
   refine ⟨?_, ?_⟩
   · intro a b hab
@@ -133,7 +133,7 @@ private theorem stalkVanishingIdeal_singleton_eq_maximalIdeal
   have hpre : (hU.fromSpec : Spec (.of Γ(X, U)) ⟶ X) ⁻¹' ({x} : Set X) =
       ({p} : Set (PrimeSpectrum Γ(X, U))) := by
     ext z
-    show hU.fromSpec z = x ↔ z = p
+    change hU.fromSpec z = x ↔ z = p
     constructor
     · intro hz
       exact hU.fromSpec.isOpenEmbedding.injective
@@ -152,7 +152,7 @@ private theorem stalkVanishingIdeal_singleton_eq_maximalIdeal
         (PrimeSpectrum.vanishingIdeal_singleton p))
   rw [IdealSheafData.stalk_eq_map_germ _ x Ua hxU,
     Scheme.IdealSheafData.vanishingIdeal_ideal]
-  show Ideal.map (X.presheaf.germ U x hxU).hom
+  change Ideal.map (X.presheaf.germ U x hxU).hom
       (PrimeSpectrum.vanishingIdeal
         ((hU.fromSpec : Spec (.of Γ(X, U)) ⟶ X) ⁻¹' closure ({x} : Set X))) = _
   rw [hvan]
@@ -164,7 +164,8 @@ private theorem stalkVanishingIdeal_singleton_eq_maximalIdeal
 
 /-- The ideal induced in the local ring at a point by the vanishing ideal of its closure is the
 maximal ideal. -/
-public alias stalk_vanishingIdeal_closure_singleton_eq_maximalIdeal := stalkVanishingIdeal_singleton_eq_maximalIdeal
+public alias stalk_vanishingIdeal_closure_singleton_eq_maximalIdeal :=
+  stalkVanishingIdeal_singleton_eq_maximalIdeal
 
 private lemma pow_not_mem_maximalIdeal_pow_of_regular_generator
     {A B : Type*} [CommRing A] [IsLocalRing A] [CommRing B] [IsLocalRing B]
@@ -354,7 +355,7 @@ private lemma cast_ideal_eq_map_cast {ι : Type*} {R : ι → Type*}
     [∀ i, CommRing (R i)] {i j : ι} (h : i = j) (I : Ideal (R i)) :
     h ▸ I = Ideal.map (RingEquiv.cast (R := R) h).toRingHom I := by
   cases h
-  show I = Ideal.map (RingHom.id _) I
+  change I = Ideal.map (RingHom.id _) I
   exact (Ideal.map_id I).symm
 
 private lemma stalkRingEquivCast_eq_stalkCongr_hom {X : Scheme.{u}} {p q : X}
@@ -384,7 +385,7 @@ private theorem pointToBaseEq (s : PointBlowupSequence.{u}) :
     (n : ℕ) → s.toBase n (s.point n) = s.point 0
   | 0 => rfl
   | n + 1 => by
-      show s.toBase n (s.stepMap n (s.point (n + 1))) = s.point 0
+      change s.toBase n (s.stepMap n (s.point (n + 1))) = s.point 0
       exact (congrArg (s.toBase n) (s.point_step n)).trans (pointToBaseEq s n)
 
 /-- The image of an initial local function in the local ring at stage `n`. -/
@@ -436,7 +437,7 @@ private lemma localStepMap_residueFieldMap_isIso (s : PointBlowupSequence.{u}) (
     (ConcreteCategory.isIso_iff_bijective _).mpr (IsLocalRing.ResidueField.mapEquiv e).bijective
   have hφ := s.residueFieldIso n
   change IsIso (CommRingCat.ofHom (IsLocalRing.ResidueField.map φ)) at hφ
-  show IsIso (CommRingCat.ofHom
+  change IsIso (CommRingCat.ofHom
     (IsLocalRing.ResidueField.map (φ.comp e.toRingHom)))
   rw [IsLocalRing.ResidueField.map_comp]
   exact IsIso.comp_isIso' he hφ
@@ -503,7 +504,7 @@ private lemma localStepMap_stalkImage (s : PointBlowupSequence.{u})
     exact congrArg (fun e => e z) (ringEquivCast_trans
       (R := fun p : s.scheme 0 => (s.scheme 0).presheaf.stalk p) hbase.symm h₂)
   rw [← initialToStage_apply s n x, ← initialToStage_apply s (n + 1) x]
-  show (f₁.comp c₁) ((f₀.comp c₀) x) =
+  change (f₁.comp c₁) ((f₀.comp c₀) x) =
     (((s.toBase (n + 1)).stalkMap (s.point (n + 1))).hom.comp c₃) x
   calc
     (f₁.comp c₁) ((f₀.comp c₀) x) =
@@ -596,9 +597,9 @@ private lemma stalkImage_succ_isRegular (s : PointBlowupSequence.{u})
     rw [s.stepMap_eq n] at ht
     exact ht
   have hsupport : q ∈ (exceptionalIdeal I).supportSet := by
-    show q ∈ (I.comap (blowUpToBase I)).support
+    change q ∈ (I.comap (blowUpToBase I)).support
     rw [Scheme.IdealSheafData.support_comap]
-    show blowUpToBase I q ∈ I.supportSet
+    change blowUpToBase I q ∈ I.supportSet
     rw [hq]
     exact (Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal.mpr
       (show I ≤ I from le_rfl)) (by simp)
@@ -644,7 +645,7 @@ private lemma stalkStageHom_comp_base (s : PointBlowupSequence.{u})
     (by simp [stalkStageHom, Nat.leRecOn_self])
     (fun {j} hj ih => by
       simp only [stalkStageHom, Nat.leRecOn_succ hj]
-      show ((localStepMap s j).comp (stalkStageHom s hj)).comp f =
+      change ((localStepMap s j).comp (stalkStageHom s hj)).comp f =
         (localStepMap s j).comp
           (Nat.leRecOn hj (fun {l} g => (localStepMap s l).comp g) f)
       calc
@@ -748,7 +749,7 @@ private lemma stalkToLimit_succ (s : PointBlowupSequence.{u}) (n : ℕ)
   have hf : (stalkStageDiagram s).map f =
       CommRingCat.ofHom (localStepMap s n) := by
     apply CommRingCat.hom_ext
-    show stalkStageHom s f.down.down = localStepMap s n
+    change stalkStageHom s f.down.down = localStepMap s n
     have hle : f.down.down = Nat.le_succ_of_le (le_refl n) := Subsingleton.elim _ _
     rw [hle, stalkStageHom_succ s (le_refl n), stalkStageHom_self, RingHom.comp_id]
   have hw := (Limits.colimit.cocone (stalkStageDiagram s)).w f
@@ -775,7 +776,7 @@ private lemma stalkToLimit_initialToStage (s : PointBlowupSequence.{u})
       rfl
   | succ n ih =>
       rw [initialToStage_succ_eq]
-      show stalkToLimit s (n + 1)
+      change stalkToLimit s (n + 1)
           (localStepMap s n (initialToStage s n x)) = stalkToLimit s 0 x
       rw [← stalkToLimit_succ, ih]
 
@@ -1088,7 +1089,7 @@ private lemma residueFieldMap_isIso_of_stalkClosedPointTo {X : Scheme.{u}}
         (a.residueFieldMap (IsLocalRing.closedPoint R)).hom :=
     IsLocalRing.ResidueField.map_comp (a.stalkMap p).hom e.hom.hom
   apply (ConcreteCategory.isIso_iff_bijective _).mpr
-  show Function.Bijective (a.residueFieldMap p).hom
+  change Function.Bijective (a.residueFieldMap p).hom
   refine ⟨RingHom.injective _, ?_⟩
   intro y
   obtain ⟨z, hz⟩ := h.2 (IsLocalRing.ResidueField.map e.hom.hom y)
@@ -1143,7 +1144,7 @@ theorem exists_nonsingularFormalArc_of_pointBlowupSequence
   obtain ⟨hCenter, hstalk⟩ := stalkClosedPointTo_transport (s.point 0) (f 0)
   refine ⟨R, hDomain, hDVR, hComplete, lifts 0, hCenter, ?_, ?_, lifts, rfl, ?_, ?_⟩
   · have hf : Function.Bijective (IsLocalRing.ResidueField.map (f 0).hom) := by
-      show Function.Bijective (IsLocalRing.ResidueField.map (c.comp (stalkToLimit s 0)))
+      change Function.Bijective (IsLocalRing.ResidueField.map (c.comp (stalkToLimit s 0)))
       rw [IsLocalRing.ResidueField.map_comp]
       exact (AdicCompletion.residueField_map_bijective_of_fg hfg).comp
         (stalkToLimit_residueFieldMap_bijective s x hx hExceptional)
@@ -1169,12 +1170,12 @@ theorem exists_nonsingularFormalArc_of_pointBlowupSequence
       (s.scheme (n + 1)).fromSpecStalk (s.point (n + 1)) from rfl]
     rw [specMap_fromSpecStalk_comp (s.stepMap n) (s.point (n + 1)) (s.point n)
       (s.point_step n)]
-    show Spec.map _ ≫ _ = Spec.map (f n) ≫ _
+    change Spec.map _ ≫ _ = Spec.map (f n) ≫ _
     congr 2
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro y
-    show c (stalkToLimit s (n + 1)
+    change c (stalkToLimit s (n + 1)
       (((s.stepMap n).stalkMap (s.point (n + 1))).hom
         (((s.scheme n).presheaf.stalkCongr (.of_eq (s.point_step n).symm)).hom.hom y))) =
       c (stalkToLimit s n y)

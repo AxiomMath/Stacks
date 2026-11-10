@@ -9,8 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.DeRham.ExteriorGradedPiece.Relati
 # The graded pieces of the wedge filtration of an exterior power
 
 Let `X` be a topological space, `O♯` a sheaf of commutative rings on it and `iF : F ⟶ H` a
-morphism of sheaves of `O♯`-modules. `StacksFrontier.AlgebraicGeometry.DeRham.ExteriorPowerFiltration`
-filters `⋀ⁿH` by the images
+morphism of sheaves of `O♯`-modules.
+`StacksFrontier.AlgebraicGeometry.DeRham.ExteriorPowerFiltration` filters `⋀ⁿH` by the images
 
 `F^k⋀ⁿH = Im (⋀^kF ⊗_{O♯} ⋀^{n-k}H ⟶ ⋀ⁿH)`
 

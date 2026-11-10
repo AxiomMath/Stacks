@@ -56,7 +56,7 @@ public theorem character_eq_one_of_hom_terminalCover (sec : terminalCover X ⟶ 
   let q := (finiteEtaleFiberFunctor x).map sec pt
   have hq : σ • q = (finiteEtaleFiberFunctor x).map (T.τ 0) q := by
     rw [T.τ_zero, CategoryTheory.Functor.map_id]
-    show σ • q = q
+    change σ • q = q
     refine (ConcreteCategory.congr_hom (σ.asIso.hom.naturality sec) pt).trans ?_
     exact congrArg (fun z => (finiteEtaleFiberFunctor x).map sec z) (Subsingleton.elim _ pt)
   rw [← ofAdd_toAdd (T.character x p₀ σ), T.character_eq_of_smul x p₀ σ q hq]
@@ -178,7 +178,7 @@ theorem nonempty_artinSchreierLevelSheaf_iso_constantSheaf_of_sub_eq (h : A)
   have : ConnectedSpace (specObject A B hX).1 := inferInstanceAs (ConnectedSpace (Spec (.of A)))
   nonempty_lisseEtaleSheaf_iso_constantSheaf_of_trivial B (specObject A B hX) x Λ _ fun σ => by
     refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
-    show ((artinSchreierCharacter k A g ψ x p₀ σ : Λˣ) : Λ) • v = v
+    change ((artinSchreierCharacter k A g ψ x p₀ σ : Λˣ) : Λ) • v = v
     have h1 : artinSchreierCharacter k A g ψ x p₀ σ = 1 := by
       rw [artinSchreierCharacter_eq_one_of_sub_eq k A g Λ ψ h hg x p₀, MonoidHom.one_apply]
     rw [h1, Units.val_one, one_smul]

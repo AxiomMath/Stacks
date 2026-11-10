@@ -660,7 +660,7 @@ theorem flatProperSupportDescends [IsCofiltered I]
         ((D.stageTestSystem E g).obj (F.obj (op a₀))).hom = A₀.T.hom := by
     refine Eq.trans ?_ (CostructuredArrow.w β)
     rw [hβ]
-    show (schemeSpaceFunctor B S hS).map
+    change (schemeSpaceFunctor B S hS).map
         (eqToHom hA₀ ≫ incl.map (c.π.app (F.obj (op a₀)).left)) ≫
           (schemeSpaceFunctor B S hS).map (incl.map (E.map (F.obj (op a₀)).hom)) ≫ g =
       (schemeSpaceFunctor B S hS).map (eqToHom hA₀ ≫ incl.map (c.π.app k.left)) ≫
@@ -670,14 +670,14 @@ theorem flatProperSupportDescends [IsCofiltered I]
   have hγβ : γ ≫ (D.stageTestSystem E g).map e₀ = β := by
     refine CostructuredArrow.hom_ext _ _ ?_
     rw [CostructuredArrow.comp_left, hβ]
-    show (eqToHom hA₀ ≫ incl.map (c.π.app (F.obj (op a₀)).left)) ≫ incl.map (E.map e₀.left) =
+    change (eqToHom hA₀ ≫ incl.map (c.π.app (F.obj (op a₀)).left)) ≫ incl.map (E.map e₀.left) =
       eqToHom hA₀ ≫ incl.map (c.π.app k.left)
     rw [Category.assoc, ← Functor.map_comp, Cone.w]
   let ι := D.stageLimitIso E c g F hc ≪≫ yoneda.mapIso (eqToIso hA₀.symm)
   have h₁ : yoneda.map (eqToHom hA₀.symm) ≫ yoneda.map γ.left =
       (D.stageLimitCone E c g F).π.app (op a₀) := by
     rw [← Functor.map_comp]
-    show yoneda.map (eqToHom hA₀.symm ≫ eqToHom hA₀ ≫ incl.map (c.π.app (F.obj (op a₀)).left)) =
+    change yoneda.map (eqToHom hA₀.symm ≫ eqToHom hA₀ ≫ incl.map (c.π.app (F.obj (op a₀)).left)) =
       yoneda.map (incl.map (c.π.app (F.obj (op a₀)).left))
     rw [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
   have hι : ι.hom ≫ yoneda.map γ.left = limit.π (D.stageSituation E c g F hc hZ a₀).base

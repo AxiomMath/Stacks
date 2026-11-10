@@ -219,7 +219,7 @@ theorem relativeFrobeniusToTwist_isIteratedAlphaPCover_cohomologyBound (d : ℕ)
   refine ⟨hcov, fun G hG i => ?_⟩
   exact zsmul_id_kernel_cokernel_crisModuleCohomologyMap_relativeFrobeniusToTwist_of T hp d i _
     (annihilated_ker_coker_crisModuleCohomologyMap_of_isIteratedAlphaPCover
-      (T.frobeniusTwistSituation hp) (T.relativeFrobeniusToTwist hp) hp (T.p ^ d) hcov.1 hcov.2
+      (T.frobeniusTwistSituation hp) (T.relativeFrobeniusToTwist hp) (T.p ^ d) hcov.1 hcov.2
       G hG i)
 
 end Crystalline.GlobalCrystallineSituation.SmallSite

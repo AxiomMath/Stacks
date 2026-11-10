@@ -716,7 +716,7 @@ public theorem solution {R : Type u} {S : Type v} [CommRing R] [CommRing S]
     (Ideal.quotientEquiv _ _ e2.toRingEquiv (hIeq.trans hmapE.symm))
   -- `R_p → S_q` is a flat local homomorphism of Noetherian local rings
   have : IsLocalHom (algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom _ _ _ Ideal.LiesOver.over
   refine min_le_depth_self_of_flat (hR (q.under R)) ?_
   -- the fibre `S_q / 𝔭 S_q` is the localization of the fibre ring at `Q`

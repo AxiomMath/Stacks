@@ -106,7 +106,7 @@ theorem derivedBidualMap_naturality
   have h2 : (T₁.obj O).map k ≫ φ.app K' = φ.app K ≫
       (T₁.obj (Stacks.SheafOfModules.derivedDual Rc O)).map k := φ.naturality k
   rw [Stacks.SheafOfModules.derivedBidualMap_eq, Stacks.SheafOfModules.derivedBidualMap_eq]
-  show k ≫ (λ_ K').inv ≫ φ.app K' ≫ Stacks.SheafOfModules.derivedSheafHomEvaluation Rc K' O O =
+  change k ≫ (λ_ K').inv ≫ φ.app K' ≫ Stacks.SheafOfModules.derivedSheafHomEvaluation Rc K' O O =
     ((λ_ K).inv ≫ φ.app K ≫ Stacks.SheafOfModules.derivedSheafHomEvaluation Rc K O O) ≫ _
   have e1 : k ≫ (λ_ K').inv ≫ φ.app K' ≫ Stacks.SheafOfModules.derivedSheafHomEvaluation Rc K' O O =
       (λ_ K).inv ≫ ((T₁.obj O).map k ≫ φ.app K' ≫
@@ -172,7 +172,7 @@ theorem derivedTensorIsoSheafHomDual_hom_naturality
     (Stacks.SheafOfModules.canonicalDerivedTensorProduct (Stacks.SheafOfModules.ringedSite Rc))
     (((Stacks.SheafOfModules.derivedSheafHom Rc).map e.op).app
       (RingedSite.derivedStructureSheaf (Stacks.SheafOfModules.ringedSite Rc))) K
-  show ((Stacks.SheafOfModules.derivedTensor Rc).obj K).map e ≫
+  change ((Stacks.SheafOfModules.derivedTensor Rc).obj K).map e ≫
       ((Stacks.SheafOfModules.derivedTensor Rc).obj K).map
         (Stacks.SheafOfModules.derivedBidualMap Rc E') ≫
         Stacks.SheafOfModules.derivedTensorDualToSheafHom Rc _ K =
@@ -222,7 +222,7 @@ theorem schemeDerivedTensorIsoSheafHomDual_hom_naturality (X : Scheme.{u})
           K := by
   have hs := ((derivedTensorSpellingIso X).hom.app K).naturality e
   have ht := derivedTensorIsoSheafHomDual_hom_naturality X.sheaf e hE hE' K
-  show _ ≫ ((derivedTensorSpellingIso X).hom.app K).app E' ≫
+  change _ ≫ ((derivedTensorSpellingIso X).hom.app K).app E' ≫
       (derivedTensorIsoSheafHomDual X.sheaf E' hE').hom.app K =
     (((derivedTensorSpellingIso X).hom.app K).app E ≫
       (derivedTensorIsoSheafHomDual X.sheaf E hE).hom.app K) ≫ _

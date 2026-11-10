@@ -126,7 +126,7 @@ public theorem quotientHomArrow_comp_quotientMorphism_map
   have h : quotientHomArrow G (χ ≫ (quotientMorphism G).map f) =
       (G.evaluationArrowEquiv Q.1 _ _
         ((evaluationMap G f.1).map χ.fiber)).1 := by
-    show (G.evaluationArrowEquiv Q.1 _ _ ((χ ≫ (quotientMorphism G).map f).fiber)).1 = _
+    change (G.evaluationArrowEquiv Q.1 _ _ ((χ ≫ (quotientMorphism G).map f).fiber)).1 = _
     rw [Grothendieck.comp_fiber, quotientMorphism_map_fiber]
     exact evaluationArrowEquiv_eqToHom_comp_eqToHom G Q.1 _ f.2 _
   rw [h, evaluationMap_map_arrow]
@@ -144,7 +144,7 @@ public theorem quotientHomArrow_quotientMorphism_map_comp
         (((evaluationFunctor G).map χ.base).toFunctor.map
           (eqToHom (show ((evaluationFunctor G).map f.1).toFunctor.obj P.2 = Q.2 from f.2)) ≫
             χ.fiber)).1 := by
-    show (G.evaluationArrowEquiv Z.base _ _
+    change (G.evaluationArrowEquiv Z.base _ _
       (((quotientMorphism G).map f ≫ χ).fiber)).1 = _
     rw [Grothendieck.comp_fiber, quotientMorphism_map_fiber]
     exact evaluationArrowEquiv_eqToHom_comp G Z.base _ _
@@ -368,7 +368,7 @@ public theorem isThin_fiber_quotientSelfProduct (G : GroupoidInFunctors.{u, v, w
           (quotientMorphism G)) (𝟙 A) h.1
     rw [h2, Category.id_comp]
   have hfg : (f.1).hbase = (g.1).hbase := by rw [hbase f, hbase g]
-  show f.1 = g.1
+  change f.1 = g.1
   refine TwoFibreProductOver.Hom.ext' ?_ ?_
   · apply Functor.Elements.hom_ext
     have h : (f.1).a.1 ≫ eqToHom (productFstBase G Z'.1) =
@@ -429,7 +429,7 @@ public theorem exists_productHom_of_arrow_eq (G : GroupoidInFunctors.{u, v, w} C
   have hsq' : W.iso.inv ≫ (quotientMorphism G).map a =
       (quotientMorphism G).map b ≫ W'.iso.inv := by
     refine Grothendieck.ext _ _ ?_ ?_
-    · show W.iso.inv.base ≫ (eqToHom (productFstBase G W) ≫ eqToHom hb ≫
+    · change W.iso.inv.base ≫ (eqToHom (productFstBase G W) ≫ eqToHom hb ≫
           eqToHom (productFstBase G W').symm) =
         (eqToHom (productSndBase G W) ≫ eqToHom hb ≫
           eqToHom (productSndBase G W').symm) ≫ W'.iso.inv.base
@@ -438,7 +438,7 @@ public theorem exists_productHom_of_arrow_eq (G : GroupoidInFunctors.{u, v, w} C
     · apply (G.evaluationArrowEquiv ((quotientMorphism G).obj W'.x).base _ _).injective
       apply Subtype.ext
       rw [evaluationArrowEquiv_eqToHom_comp]
-      show quotientHomArrow G (W.iso.inv ≫ (quotientMorphism G).map a) =
+      change quotientHomArrow G (W.iso.inv ≫ (quotientMorphism G).map a) =
         quotientHomArrow G ((quotientMorphism G).map b ≫ W'.iso.inv)
       rw [quotientHomArrow_comp_quotientMorphism_map,
         quotientHomArrow_quotientMorphism_map_comp]
@@ -455,7 +455,7 @@ public theorem exists_productHom_of_arrow_eq (G : GroupoidInFunctors.{u, v, w} C
       eqToHom W.hx.symm ≫
         (quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G)).map a ≫
           eqToHom W'.hx := by
-    show eqToHom (productSndBase G W).symm ≫
+    change eqToHom (productSndBase G W).symm ≫
         (eqToHom (productSndBase G W) ≫ eqToHom hb ≫
           eqToHom (productSndBase G W').symm) ≫ eqToHom (productSndBase G W') =
       eqToHom (productFstBase G W).symm ≫
@@ -463,7 +463,7 @@ public theorem exists_productHom_of_arrow_eq (G : GroupoidInFunctors.{u, v, w} C
           eqToHom (productFstBase G W').symm) ≫ eqToHom (productFstBase G W')
     simp
   refine ⟨TwoFibreProductOver.Hom.mk' a b hbase hsq, ?_⟩
-  show eqToHom (productFstBase G W).symm ≫
+  change eqToHom (productFstBase G W).symm ≫
     (eqToHom (productFstBase G W) ≫ eqToHom hb ≫
       eqToHom (productFstBase G W').symm) ≫ eqToHom (productFstBase G W') = eqToHom hb
   simp
@@ -486,7 +486,7 @@ public theorem full_fiberFunctor_quotientArrows (G : GroupoidInFunctors.{u, v, w
       (Grothendieck.forget (evaluationFunctor G)) (quotientMorphism G)
       (quotientMorphism G)).IsHomLift (𝟙 A) g := by
     refine IsHomLift.of_fac' _ (𝟙 A) g Z.2 Z'.2 ?_
-    show g.hbase = eqToHom Z.2 ≫ 𝟙 A ≫ eqToHom Z'.2.symm
+    change g.hbase = eqToHom Z.2 ≫ 𝟙 A ≫ eqToHom Z'.2.symm
     rw [hg, Category.id_comp, eqToHom_trans]
     rfl
   exact ⟨⟨g, hlift⟩, @Subsingleton.elim _ (elementsFiber_isThin G.arrows A _ _) _ _⟩
@@ -498,7 +498,7 @@ public theorem elementsFiberValue_target_productArrow (G : GroupoidInFunctors.{u
     elementsFiberValue G.objects A
         ⟨(NatTrans.mapElements G.target).obj (G.arrows.elementsMk W.base (productArrow G W)), hW⟩ =
       elementsFiberValue G.objects A ⟨W.x, W.hx.trans hW⟩ := by
-  show G.objects.map (eqToHom hW) (G.target.app W.base (productArrow G W)) =
+  change G.objects.map (eqToHom hW) (G.target.app W.base (productArrow G W)) =
     G.objects.map (eqToHom (W.hx.trans hW)) W.x.2
   rw [productArrow_target, ← G.objects.map_comp_apply]
   exact congrArg (fun f => G.objects.map f ((quotientMorphism G).obj W.x).fiber)
@@ -511,7 +511,7 @@ public theorem elementsFiberValue_source_productArrow (G : GroupoidInFunctors.{u
     elementsFiberValue G.objects A
         ⟨(NatTrans.mapElements G.source).obj (G.arrows.elementsMk W.base (productArrow G W)), hW⟩ =
       elementsFiberValue G.objects A ⟨W.y, W.hy.trans hW⟩ := by
-  show G.objects.map (eqToHom hW) (G.source.app W.base (productArrow G W)) =
+  change G.objects.map (eqToHom hW) (G.source.app W.base (productArrow G W)) =
     G.objects.map (eqToHom (W.hy.trans hW)) W.y.2
   rw [productArrow_source, ← G.objects.map_comp_apply]
   exact congrArg (fun f => G.objects.map f ((quotientMorphism G).obj W.y).fiber)
@@ -572,7 +572,7 @@ public theorem essSurj_fiberFunctor_quotientArrows (G : GroupoidInFunctors.{u, v
       iso := ι.symm
       vertical := hvert }
   have harr : productArrow G W = r := by
-    show G.arrows.map (eqToHom (rfl : A = A)) (quotientHomArrow G ι.hom) = r
+    change G.arrows.map (eqToHom (rfl : A = A)) (quotientHomArrow G ι.hom) = r
     rw [quotientHomArrow_quotientIsoOfArrow, eqToHom_refl, G.arrows.map_id_apply]
   refine ⟨Functor.Fiber.mk (p := TwoFibreProductOver.structureFunctor
       (quotientMorphism G ⋙ Grothendieck.forget (evaluationFunctor G))
@@ -580,7 +580,7 @@ public theorem essSurj_fiberFunctor_quotientArrows (G : GroupoidInFunctors.{u, v
       (Grothendieck.forget (evaluationFunctor G)) (quotientMorphism G)
       (quotientMorphism G)) (a := W) rfl, ?_⟩
   refine elementsFiberIsoOfValueEq G.arrows A _ Z ?_
-  show G.arrows.map (eqToHom (rfl : A = A)) (productArrow G W) = r
+  change G.arrows.map (eqToHom (rfl : A = A)) (productArrow G W) = r
   rw [harr, eqToHom_refl, G.arrows.map_id_apply]
 
 end
@@ -726,7 +726,7 @@ private theorem tangentMapAt_quotientSelfProductTangentEquiv_of_value_eq
           ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)).obj
           ((fiberFunctor (quotientArrowsBasedFunctor G)
             ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj M)).obj X)) := by
-    show tangentMapAt.{u, v, w} _ _ (elementsBasedFunctor σ) M
+    change tangentMapAt.{u, v, w} _ _ (elementsBasedFunctor σ) M
         (tangentMapAt.{u, v, w} _ _ (quotientArrowsBasedFunctor G) M
           (tangentClassAt.{u, v, w} _ _ M X)) = _
     rw [tangentMapAt_tangentClassAt.{u, v, w}, tangentMapAt_tangentClassAt.{u, v, w}]

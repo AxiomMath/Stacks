@@ -61,7 +61,7 @@ theorem exists_etaleNeighborhood_range_subset (W : (geometricPointFiber B S hS s
       Set.range (etaleNeighborhoodStructureMap B S hS s V) ⊆ U ∧ Nonempty (V ⟶ W) := by
   let w : (SmallEtale.toScheme B S hS).obj W.1 ⟶ S := B.inclusion.map W.1.obj.hom
   have hx : W.2.1 (default : s.source) ∈ w ⁻¹ᵁ U := by
-    show (W.2.1 ≫ w) (default : s.source) ∈ U
+    change (W.2.1 ≫ w) (default : s.source) ∈ U
     have h : W.2.1 ≫ w = s.hom := W.2.2
     rw [h, Subsingleton.elim (default : s.source) (closedPoint s.residueField)]
     exact hU
@@ -80,7 +80,7 @@ theorem exists_etaleNeighborhood_range_subset (W : (geometricPointFiber B S hS s
     ⟨Over.mk (ObjectProperty.homMk (j ≫ B.inclusion.map W.1.obj.hom) :
       B.obj (Spec R) hR ⟶ B.obj S hS), hjf⟩
   have hyS : y ≫ B.inclusion.map V.obj.hom = s.hom := by
-    show y ≫ (j ≫ B.inclusion.map W.1.obj.hom) = s.hom
+    change y ≫ (j ≫ B.inclusion.map W.1.obj.hom) = s.hom
     rw [← Category.assoc, hy]
     exact W.2.2
   refine ⟨(geometricPointFiber B S hS s).elementsMk V ⟨y, hyS⟩, ?_, ⟨⟨ObjectProperty.homMk
@@ -116,7 +116,7 @@ theorem range_etaleNeighborhoodStructureMaps_subset
   simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] at h
   rintro _ ⟨z, rfl⟩
   refine ⟨(etaleNeighborhoodDiagram B S hS s).map g z, ?_⟩
-  show _ = ((etaleNeighborhoodStructureMaps B S hS s).app V) z
+  change _ = ((etaleNeighborhoodStructureMaps B S hS s).app V) z
   rw [← h]
   rfl
 
@@ -200,7 +200,7 @@ theorem strictHenselizationOpenCone_π_comp (a : etaleNeighborhoodOpenIndex B S 
         (etaleNeighborhoodOpenStructureMaps B S hS s U).app a =
       strictHenselizationToOpen B S hS s U hU := by
   refine Mono.right_cancellation (f := U.ι) _ _ ?_
-  show ((strictHenselizationOpenCone B S hS s U).π.app a ≫
+  change ((strictHenselizationOpenCone B S hS s U).π.app a ≫
     etaleNeighborhoodToOpen B S hS s U a) ≫ U.ι = _
   rw [Category.assoc, etaleNeighborhoodToOpen_ι]
   exact (strictHenselizationCone_π_comp_hom_eq B S hS s _).trans

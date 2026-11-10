@@ -164,7 +164,7 @@ theorem of_jointlySurjective_flat_locallyOfFinitePresentation
     intro x
     have hpaste := (IsPullback.of_hasPullback (pullback.fst (Sigma.desc q) w)
       (Sigma.ι b x)).paste_horiz (IsPullback.of_hasPullback (Sigma.desc q) w).flip
-    rw [Sigma.ι_desc] at hpaste
+    rw [Sigma.ι_comp_desc] at hpaste
     exact snd_of_isPullback_of_isPullback (IsPullback.of_hasPullback (q x) w).flip hpaste (hQ' x)
   refine MorphismProperty.of_pullback_fst_of_descendsAlong
     (Q := (@Surjective ⊓ @Flat ⊓ @LocallyOfFinitePresentation : MorphismProperty Scheme.{u}))
@@ -360,7 +360,7 @@ theorem presheaf_of_coveringSieve_of_descendsAlong {Q : MorphismProperty Scheme.
     MorphismProperty.RespectsIso.inverseImage _ _
   refine MorphismProperty.relative_of_snd hrep fun a' k ↦ ?_
   obtain ⟨k', rfl⟩ := yoneda.map_surjective k
-  show Q ((BigFppfOver.toScheme B S hS).map (hrep.snd (yoneda.map k')))
+  change Q ((BigFppfOver.toScheme B S hS).map (hrep.snd (yoneda.map k')))
   set v : hrep.pullback (yoneda.map k') ⟶ a' := hrep.snd (yoneda.map k') with hv
   refine of_jointlySurjective_flat_locallyOfFinitePresentation _ fun x ↦ ?_
   obtain ⟨c, r, hr, hrf, hrp, hx⟩ := BigFppfOver.exists_mem_of_mem_topology B S hS

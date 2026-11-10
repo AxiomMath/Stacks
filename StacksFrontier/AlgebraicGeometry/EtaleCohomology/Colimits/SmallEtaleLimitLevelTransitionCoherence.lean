@@ -55,7 +55,7 @@ the right-hand side is `Stacks.EtaleCohomology.smallEtaleBaseChangeComp'_inv_fst
 the transition projection. No new descent argument occurs.
 
 That last lemma is why
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/FrobeniusRestrictionCoherence.lean`
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.FrobeniusRestrictionCoherence`
 is imported: it is the only module carrying the first projection of the *inverse* of the
 base-change comparison for a composite, and restating it here would duplicate it. This module is a
 leaf, so the import costs nothing library-wide.
@@ -69,10 +69,10 @@ the naturality of `coneDirectImageCompAb` — the same identity for both familie
 be moved along any arrow of `Iᵒᵖ`, in particular along the counit of `indexEquiv`.
 
 **Why the computations are split into lemmas stated inside `AlgebraicGeometry.Scheme`.** As in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLimitLevelCrossing.lean`, a goal
-mentioning an object of `AlgebraicGeometry.Scheme.Etale` is not type-correct at the transparency
-`rewrite` builds its motive at, so `Category.assoc` cannot be rewritten with there. Every such
-computation below is stated as a lemma *entirely inside* `AlgebraicGeometry.Scheme`
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLimitLevelCrossing.lean`, a
+goal mentioning an object of `AlgebraicGeometry.Scheme.Etale` is not type-correct at the
+transparency `rewrite` builds its motive at, so `Category.assoc` cannot be rewritten with there.
+Every such computation below is stated as a lemma *entirely inside* `AlgebraicGeometry.Scheme`
 (`levelTransition_naturality_fst`, `levelTransition_naturality_snd`,
 `transitionCoherence_lhs_fst`, `transitionCoherence_rhs_fst`) and the morphisms that would carry
 the morphism property are taken as variables, constrained only by the projection identity they
